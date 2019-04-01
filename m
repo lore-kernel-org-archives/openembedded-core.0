@@ -1,35 +1,52 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id DCE577D190
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f177.google.com (mail-it1-f177.google.com
+	[209.85.166.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 124C16C129
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 19:50:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id 1A8B040BA5;
-	Mon,  1 Apr 2019 19:50:20 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id sR5FL_vyQF3H; Mon,  1 Apr 2019 19:50:20 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-81-231.washdc.fios.verizon.net
-	[100.15.81.231])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id E5B8C407E7;
-	Mon,  1 Apr 2019 19:50:17 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 9F7C016D900; Mon,  1 Apr 2019 15:50:12 -0400 (EDT)
-Date: Mon, 1 Apr 2019 15:50:12 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20190401195012.GE2112@denix.org>
-References: <1553904350-30074-1-git-send-email-denis@denix.org>
-	<CAJTo0LZZ0S0JoTTMFHQeT3CPK26_NY_JLDaHZQ_DJFpiTAF74w@mail.gmail.com>
+	Mon,  1 Apr 2019 20:41:11 +0000 (UTC)
+Received: by mail-it1-f177.google.com with SMTP id y204so1425976itf.3
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Apr 2019 13:41:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=WHMdh2ysR/HsNtxVK6CBmJWZUCdPa+tfvcH7kFGxHF8=;
+	b=SOavu5mXA3ETFxJAn9M+gmAmJlyssP1SWUmO9nWwix1HZwRc3JUswMrO6O5cTP+EAy
+	7WqJBmjZddhJHlJg9b7QaPlReAhmM18TLphZl7+Xe0VKxJUu0PVHbhkEKqq6PD5mO1+O
+	UXf64qv6JHfJA+nc02TYmHwxOi/8yYL9bag2rYQ67pdrihIwE9MEAv3TowZFSyh0Xiu3
+	cP1RRjYbHZNTBWhffXfDFxa2S18lqMXk4KTw9wcglovvSywyJUWqR55BK6tc6MfU4N/3
+	N5MZkW5knchcAHXukYjiNkBUx8Y7kJfSqiWV9LfcqNkCpJoiXVVArEkWdeYfED8VMUpn
+	tEJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=WHMdh2ysR/HsNtxVK6CBmJWZUCdPa+tfvcH7kFGxHF8=;
+	b=H/xJGmxxkYmG7lNZbfwLKw50bhjCX2CRo2/ISreZ4DD/jQ3SnyDGihkkdi3rrhqx8b
+	Z8063OpqNE2ufp1QQ3ojIPMZp4vjjeWV4H1eTZz7CyI4rL3rOeJTqrksqBiS5AJwgVOR
+	GcIHJadMjzr6m5gH0gXze4iucEZtUP0kXA/ycdf92ARpCkjbz18AKSxuUaWgOrljdSaI
+	j9toBIYD1fIRpRhr9LyPh2q4lQEfzaDJGTxpvtbIrmrFG1GgjX5UPbwkoj6IfvLxjb7O
+	rVJbDYAcjJamcp20S5rTGSuwIjgbHQbyO/IyGhQTtT9VFSZgiZiM89+jjjyaqASSb0Z0
+	9Y6Q==
+X-Gm-Message-State: APjAAAWk8+/ZDQBCH5EF8svOiJMbGCDoSaczQ/cdvr0SN4SHUusCoRBR
+	R6Fw+APLHTBVB9UtRs1D1963OhqMTSRONFWolGk=
+X-Google-Smtp-Source: APXvYqyTIHQWVo4qeT/c6CM/UY9IsouUEpBH0CuWnRiIZHktz7kfSNcfgEcr/YVG+3ScEwV00I9dw/MkBb0cG/fXc7A=
+X-Received: by 2002:a02:5341:: with SMTP id n62mr46887634jab.57.1554151272987; 
+	Mon, 01 Apr 2019 13:41:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZZ0S0JoTTMFHQeT3CPK26_NY_JLDaHZQ_DJFpiTAF74w@mail.gmail.com>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: Denys Dmytriyenko <denys@ti.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] weston: upgrade 5.0.0 -> 6.0.0
+References: <20190401160106.22928-1-schnitzeltony@gmail.com>
+	<CANNYZj80ZqNn_6i9_Z0_HYJErcKrymQZmpiVGn_B56Jw3c7acw@mail.gmail.com>
+	<CALbNGRTccK1a5QuZppiAOR1kG5mgMFzSYYg4+uHANRx3o3kCNA@mail.gmail.com>
+	<CANNYZj_=Xwi4P88jqwPbR3xOom-LQkutRY=Vs11UcCpU=WTNtg@mail.gmail.com>
+	<CALbNGRSOVaZWcMAVWn5RenYU40Cujvp1E_Jup7nqGW4kbHk-JA@mail.gmail.com>
+	<CANNYZj-CwkZz0Z=fuE7BBCf-7mDbEd2T+VRR0hO98isGSn97=Q@mail.gmail.com>
+In-Reply-To: <CANNYZj-CwkZz0Z=fuE7BBCf-7mDbEd2T+VRR0hO98isGSn97=Q@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Mon, 1 Apr 2019 22:41:01 +0200
+Message-ID: <CALbNGRR+6bNoxiR0rMXQ0tDZeBi_bOhq=JfTsBDuT8dqwdG_Cg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2 V2] gobject-introspection: auto-enable/-disable gobject-introspection for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,85 +59,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 19:50:19 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Mon, 01 Apr 2019 20:41:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Ah, right, v2 is out.
+On Mon, Apr 1, 2019 at 9:34 PM Alexander Kanavin <alex.kanavin@gmail.com> w=
+rote:
+>
+> On Mon, 1 Apr 2019 at 21:26, Andreas M=C3=BCller <schnitzeltony@gmail.com=
+> wrote:
+> > What about musl? Am not sure that my information is still valid:
+> > Broken qemu or not?
+>
+> musl is fine with qemu.
+>
+Just saw glib-networking failing for 'gnutils' option -> yes this
+option is not available.
 
-On Mon, Apr 01, 2019 at 11:13:27AM +0000, Burton, Ross wrote:
-> WARNING: weston-6.0.0-r0 do_patch:
-> Some of the context lines in patches were ignored. This can lead to
-> incorrectly applied patches.
-> The context lines in the patches can be updated with devtool:
-> 
->     devtool modify <recipe>
->     devtool finish --force-patch-refresh <recipe> <layer_path>
-> 
-> Then the updated patches and the source tree (in devtool's workspace)
-> should be reviewed to make sure the patches apply in the correct place
-> and don't introduce duplicate lines (which can, and does happen
-> when some of the context is ignored). Further information:
-> http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-> Details:
-> Applying patch 0001-make-error-portable.patch
-> patching file configure.ac
-> Hunk #1 succeeded at 126 with fuzz 2 (offset 17 lines).
-> patching file libweston/weston-error.h
-> patching file libweston/weston-launch.c
-> 
-> Now at patch 0001-make-error-portable.patch
-> 
-> Ross
-> 
-> On Sat, 30 Mar 2019 at 00:06, Denys Dmytriyenko <denis@denix.org> wrote:
-> >
-> > From: Denys Dmytriyenko <denys@ti.com>
-> >
-> > Note:
-> > 6.0.0 is the last one to support autotools (needs explicit configure option),
-> > newer versions will only support meson.
-> >
-> > Signed-off-by: Denys Dmytriyenko <denys@ti.com>
-> > ---
-> >  meta/recipes-graphics/wayland/{weston_5.0.0.bb => weston_6.0.0.bb} | 5 +++--
-> >  1 file changed, 3 insertions(+), 2 deletions(-)
-> >  rename meta/recipes-graphics/wayland/{weston_5.0.0.bb => weston_6.0.0.bb} (96%)
-> >
-> > diff --git a/meta/recipes-graphics/wayland/weston_5.0.0.bb b/meta/recipes-graphics/wayland/weston_6.0.0.bb
-> > similarity index 96%
-> > rename from meta/recipes-graphics/wayland/weston_5.0.0.bb
-> > rename to meta/recipes-graphics/wayland/weston_6.0.0.bb
-> > index e517109..fa08dac 100644
-> > --- a/meta/recipes-graphics/wayland/weston_5.0.0.bb
-> > +++ b/meta/recipes-graphics/wayland/weston_6.0.0.bb
-> > @@ -12,8 +12,8 @@ SRC_URI = "https://wayland.freedesktop.org/releases/${BPN}-${PV}.tar.xz \
-> >             file://xwayland.weston-start \
-> >             file://0001-weston-launch-Provide-a-default-version-that-doesn-t.patch \
-> >  "
-> > -SRC_URI[md5sum] = "752a04ce3c65af4884cfac4e57231bdb"
-> > -SRC_URI[sha256sum] = "15a23423bcfa45e31e1dedc0cd524ba71e2930df174fde9c99b71a537c4e4caf"
-> > +SRC_URI[md5sum] = "7c634e262f8a464a076c97fd50ad36b3"
-> > +SRC_URI[sha256sum] = "546323a90607b3bd7f48809ea9d76e64cd09718102f2deca6d95aa59a882e612"
-> >
-> >  UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
-> >
-> > @@ -28,6 +28,7 @@ WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
-> >
-> >  EXTRA_OECONF = "--enable-setuid-install \
-> >                  --disable-rdp-compositor \
-> > +                --enable-autotools \
-> >                  "
-> >  PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
-> >                     ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+The very first I have to do is fixing fallout by unrecognised meson
+options - hurray it seems to work - damn it causes more extra efforts
+:(
+
+Andreas
 
