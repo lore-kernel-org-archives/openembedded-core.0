@@ -1,46 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 253656C102
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 479A47D00B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 11:03:52 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id n78so3513203itb.4
+	Mon,  1 Apr 2019 11:05:40 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id u15so8105706otq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 04:03:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 01 Apr 2019 04:05:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=W6vfn8GJMudRmMR3sq4FqTgZPqreMr2S5Q7tMpu07ls=;
-	b=w9Ucc95SrlyV1UY3YiYXI/Se3OVPbXCjcN+8jwHHCeR3cV7ZXAVbjI2U3n8l6wjt/I
-	5pGSJbDmf8tJVaSl4EfssCkBwvX2pEW3EhAPdip9yY3Qa4jr9+YOtK5gandGw8kxBdK4
-	/GzYTFigR4QjjynMmdKWri2JlLIroDfej/YJ++05w9KydZAaEEB7TOeLxRPLglh/xIBr
-	RLAAkSKbi62y2rsITzYfWW5DlVre6h7QVV3Kz6XuJTbEaT8Y/8N6smx6xLKIRjZMNre5
-	yNbQ8UW7JmMhquyxG8+bgIYB8dNv/QnRz10qmeGzmsWqMX3EK6yE10+cK77clEMSgWy0
-	8oHg==
+	:cc; bh=CAmjVhE6yMJeZOPKfAzswBLp4y8t8Zi7YycnKPk22r4=;
+	b=AE2CVsBeB0/8Tvm+84PTSYXVbHaX1xVH7AnUjzUPzsnZ821YzeqDm3yqdqoaIjCV2N
+	x0sXEWMLwr/abHgfJk8pbw2VXuEjSUewWPWQSRBK8vy8rNHEmqbRzASOL9QbAKWysVU6
+	tBXZ0bwq6mb1hbYt1Mm9/oo2M02GMNN9Y9DbWHYfGRdWHhxDyEYf0v4v8Bf3G21Ogg4I
+	jd3tOkxjyITqyzm+2EjsyAWAjugdOQJ2DklhP2Cr1/nucBelCRClMxpkaQu5uoseu0sy
+	K1Z4l7WLTDNl4iKjwJ4SUo+O08eh9jUCitDbNfcHPVYcWiuFxw5qRD19MNj/JofAkM1i
+	aKsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=W6vfn8GJMudRmMR3sq4FqTgZPqreMr2S5Q7tMpu07ls=;
-	b=jKMLQaqaINVMNha7dRikjxoXI0ylV4t80CVECrTTFLqkDfe0t3JDLJPDYdvC015aAg
-	So9fOK0VqrjrGIzGzrx6LPwDLXKLEFjg0/TDXehoq0W+F+GaS2CrhzLcvIqXo+GspcEz
-	vTSuICi/2HhPDSlbVeEIOs6GavDSQFtBdBml3Qb3L7SGcE1szAIi1Jttk1CsloJpCEIT
-	d188WED8OSMF7qj5a70lJpeACriiP8I5b0sd/ZheXLHemWzMZF5mtiAKPAOki1HvLhDX
-	/YEZ0RbjG7IyoHMisQgyBFZ74nPaGSVOVXUoim7WpAEIIl09G4TcN2arQfaTdSj0cAeD
-	d6hw==
-X-Gm-Message-State: APjAAAXoBH48tWPxcsOI2D4j9UzEv9htTACPyqndlfoPOVri8RLSq+nT
-	dRxlmVDFjVmOXQy8/TB0slnCH0SKZv5nSX/rlKqsiA==
-X-Google-Smtp-Source: APXvYqwYN/d3udLH4AMeGEG7F8/KHwlfvrNvJlmTPgLG18mYMb1R1f3KL1ZSuqVaSMs5Dekf2jJ+Llj8gbmH3XdlWOM=
-X-Received: by 2002:a24:52c5:: with SMTP id
-	d188mr15407854itb.130.1554116634064; 
-	Mon, 01 Apr 2019 04:03:54 -0700 (PDT)
+	bh=CAmjVhE6yMJeZOPKfAzswBLp4y8t8Zi7YycnKPk22r4=;
+	b=AOMzSuyI6laM50MI5H4lfqUBgq+l1ENJQdpeMQOAoAoicE93UgtlryCSJySYHlWLSX
+	N+cJ0H7i+o5h6sdEPwaoZPm07uIO4YzQVXlstZXRzXr4eWipdBw2uxDfy8E7psqF9EpJ
+	WPnBQ3qeKdMOKGct0PB3W7E4ugzD/0+1+lcuzQV5YyX9cL11LPjklOZlAgGYHYhcn0Kl
+	ZBNVBO34NFLfXevA7iMhxC2O1ASGoACZHhH543oxGHpukuFCSgoyVK60btavVzlcbu4U
+	w7a5K7vRQADYjcW7c1qz6p6MUeHvsBDtyTssI4bKmb7/TPWwUfsBiV656fjBUfg3/yJS
+	DagA==
+X-Gm-Message-State: APjAAAX6zBk4wbDMmwhfZIS/Sgj1cDIUFMNY+ZUZY3QPj65bZ/vpHVaf
+	cPiLSoVdRLZn34BtOx6fJDGMABplVIHp0FQEtv8=
+X-Google-Smtp-Source: APXvYqw0Qz4zMmPVu0TsXiTMsoPyxvUNlr4xRaN6ORbmr5semlg41jaOEfMlY3KlP5z3PF7c8xL2gFtotGrO9FOfJj8=
+X-Received: by 2002:a9d:68ce:: with SMTP id i14mr19851114oto.293.1554116741165;
+	Mon, 01 Apr 2019 04:05:41 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190328012606.18550-1-zangrc.fnst@cn.fujitsu.com>
-In-Reply-To: <20190328012606.18550-1-zangrc.fnst@cn.fujitsu.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Apr 2019 11:03:43 +0000
-Message-ID: <CAJTo0LbmYz0v9ce44H65+vxFffiC3wnmGNXB9XoxeR6-v0TnEQ@mail.gmail.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+	<CAJTo0LbmYz0v9ce44H65+vxFffiC3wnmGNXB9XoxeR6-v0TnEQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LbmYz0v9ce44H65+vxFffiC3wnmGNXB9XoxeR6-v0TnEQ@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 1 Apr 2019 13:05:29 +0200
+Message-ID: <CANNYZj_=Pmt-XopUmD1nEUqbOUVC5uVX3h2Q0KUvbYwDo0SK+Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] ethtool:upgrade 4.19 -> 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,69 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 11:03:53 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 11:05:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
- WARNING: ethtool-5.0-r0 do_patch:
-Some of the context lines in patches were ignored. This can lead to
-incorrectly applied patches.
-The context lines in the patches can be updated with devtool:
+On Mon, 1 Apr 2019 at 13:04, Burton, Ross <ross.burton@intel.com> wrote:
+>
+>  WARNING: ethtool-5.0-r0 do_patch:
+> Some of the context lines in patches were ignored. This can lead to
+> incorrectly applied patches.
+> The context lines in the patches can be updated with devtool:
+>
+>     devtool modify <recipe>
+>     devtool finish --force-patch-refresh <recipe> <layer_path>
+>
+> Then the updated patches and the source tree (in devtool's workspace)
+> should be reviewed to make sure the patches apply in the correct place
+> and don't introduce duplicate lines (which can, and does happen
+> when some of the context is ignored). Further information:
+> http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+> Details:
+> Applying patch avoid_parallel_tests.patch
+> patching file configure.ac
+> Hunk #1 succeeded at 2 with fuzz 1.
+>
+> Another patch is already on the list that doesn't have this problem,
+> but please fix all warnings.
+>
+> Ross
 
-    devtool modify <recipe>
-    devtool finish --force-patch-refresh <recipe> <layer_path>
+Generally, do use 'devtool upgrade', as it will automatically refresh
+the patches context for you.
 
-Then the updated patches and the source tree (in devtool's workspace)
-should be reviewed to make sure the patches apply in the correct place
-and don't introduce duplicate lines (which can, and does happen
-when some of the context is ignored). Further information:
-http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-Details:
-Applying patch avoid_parallel_tests.patch
-patching file configure.ac
-Hunk #1 succeeded at 2 with fuzz 1.
-
-Another patch is already on the list that doesn't have this problem,
-but please fix all warnings.
-
-Ross
-
-On Thu, 28 Mar 2019 at 01:25, Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
->
-> Upgrade from ethtool_4.19.bb to ethtool_5.0.bb
->
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-> ---
->  .../ethtool/{ethtool_4.19.bb => ethtool_5.0.bb}               | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->  rename meta/recipes-extended/ethtool/{ethtool_4.19.bb => ethtool_5.0.bb} (88%)
->
-> diff --git a/meta/recipes-extended/ethtool/ethtool_4.19.bb b/meta/recipes-extended/ethtool/ethtool_5.0.bb
-> similarity index 88%
-> rename from meta/recipes-extended/ethtool/ethtool_4.19.bb
-> rename to meta/recipes-extended/ethtool/ethtool_5.0.bb
-> index 74e255c24b..76cdf9c4e7 100644
-> --- a/meta/recipes-extended/ethtool/ethtool_4.19.bb
-> +++ b/meta/recipes-extended/ethtool/ethtool_5.0.bb
-> @@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
->             file://avoid_parallel_tests.patch \
->             "
->
-> -SRC_URI[md5sum] = "a533db1d202724822c4ef297643fac12"
-> -SRC_URI[sha256sum] = "e8e88f5a79c78e542cd84fee60b67dbf29cee63e4760e8d61544fea74c761ad1"
-> +SRC_URI[md5sum] = "8998c9eb7e491b0aec420a807ce52ba6"
-> +SRC_URI[sha256sum] = "cc53a6d4d5643f8993ef20d6b638f88d9035529a9e777e222073c3a5b9237178"
->
->  inherit autotools ptest
->  RDEPENDS_${PN}-ptest += "make"
-> --
-> 2.20.1
->
->
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Alex
 
