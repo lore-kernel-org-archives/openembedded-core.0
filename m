@@ -1,26 +1,26 @@
 Return-Path: <xavier.berger@bio-logic.net>
 Received: from smtp.smtpout.orange.fr (smtp05.smtpout.orange.fr
 	[80.12.242.127])
-	by mail.openembedded.org (Postfix) with ESMTP id 37EB87D0F3
+	by mail.openembedded.org (Postfix) with ESMTP id 4F9CB7D0F5
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  1 Apr 2019 13:57:51 +0000 (UTC)
 Received: from srvmail.bio-logic.net ([176.149.180.241]) by mwinf5d40 with ME
-	id v1qM1z0065Ctoqw031qMJp; Mon, 01 Apr 2019 15:50:21 +0200
+	id v1qM1z0055Ctoqw031qMJr; Mon, 01 Apr 2019 15:50:21 +0200
 X-ME-Helo: srvmail.bio-logic.net
 X-ME-Auth: YmlvLWxvZ2ljQHdhbmFkb28uZnI=
 X-ME-Date: Mon, 01 Apr 2019 15:50:21 +0200
 X-ME-IP: 176.149.180.241
 Received: from ubuntu.bio-logic.loc (unknown [10.100.11.254])
-	by srvmail.bio-logic.net (Postfix) with ESMTP id 5565580478;
+	by srvmail.bio-logic.net (Postfix) with ESMTP id 52D1F80477;
 	Mon,  1 Apr 2019 15:50:21 +0200 (CEST)
 From: Xavier Berger <xavier.berger@bio-logic.net>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 15:50:19 +0200
-Message-Id: <34d09b9cac98f9ab880cb4c2822a1a0b500fdbaa.1554106752.git.xavier.berger@bio-logic.net>
+Date: Mon,  1 Apr 2019 15:50:18 +0200
+Message-Id: <73e2d3ce0431a0a9be0c0abbaad3fe5fab985001.1554106752.git.xavier.berger@bio-logic.net>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1554106752.git.xavier.berger@bio-logic.net>
 References: <cover.1554106752.git.xavier.berger@bio-logic.net>
-Subject: [PATCH 2/2] package_manager: sign DEB package feeds
+Subject: [PATCH 1/2] gpg-sign: Add parameters to gpg signature function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,65 +35,38 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 01 Apr 2019 13:57:51 -0000
 
-Implement debian package repository signature.
-For each Release file created in repository subdirectory, a signature
-Release.gpg is created.
-
-Signature is performed using gpg backend when the following variables
-are set in local.conf:
-PACKAGE_CLASSES += "sign_package_feed"
-PACKAGE_FEED_GPG_NAME = "<Id of GPG key>"
-PACKAGE_FEED_GPG_PASSPHRASE_FILE="<path to password file>"
+output_suffix: If defined, add output_suffix as file name extension.
+use_sha256: If True, use sha256 for gpg as digest algorithm
 
 Signed-off-by: Xavier Berger <xavier.berger@bio-logic.net>
 ---
- meta/lib/oe/package_manager.py | 19 ++++++++++++++++---
- 1 file changed, 16 insertions(+), 3 deletions(-)
+ meta/lib/oe/gpg_sign.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 2835c1d..215d143 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -281,6 +281,7 @@ class DpkgIndexer(Indexer):
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index ccd5aee..212ac3a 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -49,7 +49,7 @@ class LocalSigner(object):
+         for i in range(0, len(files), sign_chunk):
+             subprocess.check_output(shlex.split(cmd + ' '.join(files[i:i+sign_chunk])), stderr=subprocess.STDOUT)
  
-         index_cmds = []
-         deb_dirs_found = False
-+        index_sign_files = set()
-         for arch in arch_list:
-             arch_dir = os.path.join(self.deploy_dir, arch)
-             if not os.path.isdir(arch_dir):
-@@ -290,7 +291,10 @@ class DpkgIndexer(Indexer):
+-    def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True):
++    def detach_sign(self, input_file, keyid, passphrase_file, passphrase=None, armor=True, output_suffix=None, use_sha256=False):
+         """Create a detached signature of a file"""
  
-             cmd += "%s -fcn Packages > Packages.gz;" % gzip
+         if passphrase_file and passphrase:
+@@ -62,6 +62,10 @@ class LocalSigner(object):
+             cmd += ['--homedir', self.gpg_path]
+         if armor:
+             cmd += ['--armor']
++        if output_suffix:
++            cmd += ['-o', input_file + "." + output_suffix]
++        if use_sha256:
++            cmd += ['--digest-algo', "SHA256"]
  
--            with open(os.path.join(arch_dir, "Release"), "w+") as release:
-+            release_file = os.path.join(arch_dir, "Release")
-+            index_sign_files.add(release_file)
-+
-+            with open(release_file, "w+") as release:
-                 release.write("Label: %s\n" % arch)
- 
-             cmd += "PSEUDO_UNLOAD=1 %s release . >> Release" % apt_ftparchive
-@@ -304,8 +308,17 @@ class DpkgIndexer(Indexer):
-             return
- 
-         oe.utils.multiprocess_launch(create_index, index_cmds, self.d)
--        if self.d.getVar('PACKAGE_FEED_SIGN') == '1':
--            raise NotImplementedError('Package feed signing not implementd for dpkg')
-+        if self.d.getVar('PACKAGE_FEED_SIGN', True) == '1':
-+            signer = get_signer(self.d, self.d.getVar('PACKAGE_FEED_GPG_BACKEND', True))
-+        else:
-+            signer = None
-+        if signer:
-+            for f in index_sign_files:
-+                signer.detach_sign(f,
-+                                   self.d.getVar('PACKAGE_FEED_GPG_NAME', True),
-+                                   self.d.getVar('PACKAGE_FEED_GPG_PASSPHRASE_FILE', True),
-+                                   output_suffix="gpg",
-+                                   use_sha256=True)
- 
- 
- 
+         #gpg > 2.1 supports password pipes only through the loopback interface
+         #gpg < 2.1 errors out if given unknown parameters
 -- 
 2.7.4
 
