@@ -1,61 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 09E3772EB7
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 446547D151
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 17:41:00 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id v13so9011611ljk.4
+	Mon,  1 Apr 2019 18:41:13 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id a6so7075737lfl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 10:41:02 -0700 (PDT)
+	Mon, 01 Apr 2019 11:41:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=M3DXmKN0nuls6FXf+tebFQ3j68RHnhoN7vmUSxpXcgE=;
-	b=F3hdZhigTAMatHOeWtNZ8rjBctXzGhpDmbQ5W+AsQn7grn2oGmVw757OvVPLVztaBa
-	YSpAOJyKGZoRqlE5ScjxSYxmtxZWiS7HARecsT6GTkMSQAVPz8naBIiKm1lvWREGY6XO
-	sO87dgR7MLyGN4FaILEbNpsTyOrDpef2CeKP8ra17yseAZaE9hw/tJu6bCCiKEhXvY31
-	/ZmdDV3ewAIdOgKUQAAjLbIs/qvVXpujxgbI3/7ZmQFV113WVPDlFsewKtb3z4TEwxUR
-	MUFeOLcGO6yZUzKNtfcL01PWiil1h/jSw2qA+7aAOCNwVYpFSCuio7kXytp24UDGyt0/
-	0ACQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=GQZ24bYzzfG4QukmBhs9WZrE03MQONxD3zXL43GIH7U=;
+	b=XrPD4T/ZHCFVHPcvBPLVp3Lz0KQDUEu1/+tnkNaub0zxvWEvtSAk6b0TTIJWoyAOgd
+	/kWYVsfurKW52Pbah6vcSoQabrLCENO/Todj47hpkBf6CVPQdtTQMFdReG25sKHheD+X
+	qOurr3Ms+raulFSlzws/wzhYT1z1wQLGisC0xfbt+MDhfOy1pKW0y4fo8W1DBx2AkMnM
+	vf0QsF18agiS/3VtlmxfzvA3dcp06r8YBzattxoU22AD5RyeTuVmmF/QoXQf21xfn6c8
+	yrYRsIMrxT7GCy1boDPDyRLFRyO/0UYGmjhiTAnzmq5UtrbXnP1EXaWhipgo1hh8UsXG
+	pA2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=M3DXmKN0nuls6FXf+tebFQ3j68RHnhoN7vmUSxpXcgE=;
-	b=cPyrpokkZiIY3a7PX36JfShXawrhweb73U7z+iZFzcIF9m6hC6k8i8z4l9oNpGNzjP
-	o3hmdXfiNFtOla8hi/6dvF6NQBtH/3/xnzSKjvn7vVR82y1bUarz8/cpjBSfZjSKc5Wu
-	SZ7opz88u52wCPab2wOyBIc7HgNgtTKeFPreqY2VrYuSOfEMWORFsFp8HzrmMUPNEC8p
-	hlwhBbW5mmaG1UaKCtutAlJC8WRvnhaJfBsGvDAXIzlFCioOa4KGzT+4ybQILY3TY3HR
-	t44+pdtSDPPLqRzlvflBHv+96vN9ZGeHytkU6+jVbhdNRpRwl94vUmlZFOTiiAlFmRG9
-	DqOg==
-X-Gm-Message-State: APjAAAXJaGh/brA00reXiOrTHEesj9cdylHvzMkY/FFYZNQON7YoeP1S
-	Twejhn/YFn5XCbO8RMcL77IjfEw263g=
-X-Google-Smtp-Source: APXvYqya8UUBZD9I3lfvgPSrnHCcZNl9u0LqdScm1r3mqfSPnLR08AbRBao7o9mRU2Ofx/U8UnLzqA==
-X-Received: by 2002:a2e:7215:: with SMTP id n21mr38154893ljc.105.1554140460939;
-	Mon, 01 Apr 2019 10:41:00 -0700 (PDT)
-Received: from [192.168.0.8] (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	x202sm2065069lfd.31.2019.04.01.10.40.59
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=GQZ24bYzzfG4QukmBhs9WZrE03MQONxD3zXL43GIH7U=;
+	b=VIQjEUe/hH7sbPfEhM6+cfIxc870Pfn2FwAOHYnhwWP8s8jeCPIv/zmmGaH0PuUsXp
+	E0L5KXYo4HN25nZd48bZPsQPP9+aEoECrU+39tdfrWqB7CGndtJjK4iwvtTkyk0poBEz
+	z6QSNX+StDdZuTxyeuvAQlpSWL/5PlrVwtY4qQOlJAcEcsm8pUT3lvn20Q5hSDrfjnMp
+	SegkD3iv5UvPTukrIzLmKCWtQ8B8Pf+R89czAx89k/fKI38xQtFb+PH1vxpickWr3C9V
+	/ZJY3hxXYO8QneUmvIwuDI7SwvsloncDvJjDnplKcqPELG6B6VcG2CVryqJ764WYwiSR
+	Z/Ew==
+X-Gm-Message-State: APjAAAXYjRZsFHvfbaUF4fr8DFVlh2TWAhWKyyQqPUKFmRkKPHGjA/Qd
+	0d2ZwZq3HVrrZplSWQIgSf/grbjo5kI=
+X-Google-Smtp-Source: APXvYqwCrkNC07gSowhAuIgOhDhiwqC8nV4MxFnHUTmA181RPcScfqB4XTRSt/qBMuLBC/O+JzySpQ==
+X-Received: by 2002:ac2:5325:: with SMTP id f5mr23501544lfh.77.1554144073695; 
+	Mon, 01 Apr 2019 11:41:13 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id r2sm2309331ljd.16.2019.04.01.11.41.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 10:41:00 -0700 (PDT)
-To: "Burton, Ross" <ross.burton@intel.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20190330224908.2108-1-open.source@oleksandr-kravchuk.com>
-	<25e816bb8ab33d104be3feec92080bda3ee60f99.camel@linuxfoundation.org>
-	<09ee1ada-c90a-c04d-5032-dcd94e7bb864@oleksandr-kravchuk.com>
-	<CANNYZj9rmK_hmgT9gS_tbZpOdMepq_F58=ux_N5F1oY7zwy_KA@mail.gmail.com>
-	<CAJTo0LY-zE3PaRRs0gguBJJtacOBAM716GDWLchgVD-dFpNrQg@mail.gmail.com>
+	Mon, 01 Apr 2019 11:41:12 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Message-ID: <d21b331b-2cec-1cf0-a3b9-ca3493f0d623@oleksandr-kravchuk.com>
-Date: Mon, 1 Apr 2019 19:40:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY-zE3PaRRs0gguBJJtacOBAM716GDWLchgVD-dFpNrQg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ofono: update to 1.28
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Apr 2019 20:41:10 +0200
+Message-Id: <20190401184110.11186-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH v2] cronie: update to 1.5.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,34 +56,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 17:41:02 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 01 Apr 2019 18:41:14 -0000
 
-On 01/04/2019 18:04, Burton, Ross wrote:
-> On Mon, 1 Apr 2019 at 16:58, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->> It does not look like a hard dependency.
->>
->> configure.ac has:
->> AC_ARG_ENABLE([external_ell], AC_HELP_STRING([--enable-external-ell],
->>
->> So you can make it a PACKAGECONFIG option, disabled by default. It's
->> fine to have oe-core packages conditionally depend on things in
->> meta-oe, if the condition defaults to disable.
-> That's not right: that's the toggle between "a system-provided ell" or
-> "you have checked out ell into the source tree".
->
-> https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=8452a7f34907472c5e21c334673afd10df409eef
->
-> We'll need to bring ell.bb into oe-core too.
->
-> Ross
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../cronie/cronie/crond_pam_config.patch         | 16 ++++++++--------
+ .../cronie/{cronie_1.5.2.bb => cronie_1.5.4.bb}  | 10 ++++------
+ 2 files changed, 12 insertions(+), 14 deletions(-)
+ rename meta/recipes-extended/cronie/{cronie_1.5.2.bb => cronie_1.5.4.bb} (89%)
 
-Alright, gents. I am rather new to the project, so just instruct me how
-to proceed here.
-
-Ofono is a great piece of widely-used software that would be nice to
-have up to date.
+diff --git a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+index 6c928165cd..c374790d1d 100644
+--- a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
++++ b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
+@@ -4,19 +4,19 @@ configure files instead.
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+-Index: cronie-1.5.1/pam/crond
+-===================================================================
+---- cronie-1.5.1.orig/pam/crond
+-+++ cronie-1.5.1/pam/crond
++diff --git a/pam/crond b/pam/crond
++index 560529d..95a6457 100644
++--- a/pam/crond
+++++ b/pam/crond
+ @@ -4,8 +4,8 @@
+  #
+  # Although no PAM authentication is called, auth modules
+  # are used for credential setting
+--auth       include    password-auth
++-auth       include    system-auth
+ +auth       include    common-auth
+  account    required   pam_access.so
+--account    include    password-auth
+-+account    include    common-account
++-account    include    system-auth
+++account    include    common-auth
+  session    required   pam_loginuid.so
+--session    include    password-auth
++-session    include    system-auth
+ +session    include    common-session-noninteractive
+diff --git a/meta/recipes-extended/cronie/cronie_1.5.2.bb b/meta/recipes-extended/cronie/cronie_1.5.4.bb
+similarity index 89%
+rename from meta/recipes-extended/cronie/cronie_1.5.2.bb
+rename to meta/recipes-extended/cronie/cronie_1.5.4.bb
+index 3abca7f920..e16b5d49cc 100644
+--- a/meta/recipes-extended/cronie/cronie_1.5.2.bb
++++ b/meta/recipes-extended/cronie/cronie_1.5.4.bb
+@@ -16,17 +16,15 @@ SECTION = "utils"
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/cronie-crond/${BPN}/releases/"
+ 
+-SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}/cronie-${PV}.tar.gz \
++SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}-final/cronie-${PV}.tar.gz \
+            file://crond.init \
+            file://crontab \
+-           file://crond.service \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_SRC_URI}', '', d)}"
++           file://crond.service"
+ 
+-PAM_SRC_URI = "file://crond_pam_config.patch"
+ PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
+ 
+-SRC_URI[md5sum] = "703314f58a49ea136e9966d3937d9bf4"
+-SRC_URI[sha256sum] = "370bf34641691489330e708bd4cdbd779267296a030668a12f77b7e36872fd75"
++SRC_URI[md5sum] = "20233b96997e17a142e1fbe0d7ce8223"
++SRC_URI[sha256sum] = "af8970559cad4262f8ffd7ec72abf682d2dcce04fdfb8f206a71d96566aba882"
+ 
+ inherit autotools update-rc.d useradd systemd
+ 
+-- 
+2.17.1
 
 
