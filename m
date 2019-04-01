@@ -1,45 +1,61 @@
-Return-Path: <mporter@konsulko.com>
-Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
-	[209.85.166.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D81FE7D015
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 09E3772EB7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 16:50:48 +0000 (UTC)
-Received: by mail-it1-f169.google.com with SMTP id u65so163760itc.2
+	Mon,  1 Apr 2019 17:41:00 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id v13so9011611ljk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 09:50:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=from:to:subject:date:message-id;
-	bh=JwOMnORN6va7ck5pQFgn4KkmrNRjl+XPCtBNZRGWlF4=;
-	b=h47I8iTpmVOtXl+Kh18BzootTeEQi3JvbYUFdkPfNSiDsO2j/sPc3+kqB0udOktHGA
-	8MAJeJGo1g0OFXppw2Xc8P8FhEY1HtF9wL0IU2zBEz+0MAuh92AEdYTItf+URCvn+gfS
-	QBRgFVSOjohBqt9xZdDGN4eyk/pEWIPymvWgg=
+	Mon, 01 Apr 2019 10:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=M3DXmKN0nuls6FXf+tebFQ3j68RHnhoN7vmUSxpXcgE=;
+	b=F3hdZhigTAMatHOeWtNZ8rjBctXzGhpDmbQ5W+AsQn7grn2oGmVw757OvVPLVztaBa
+	YSpAOJyKGZoRqlE5ScjxSYxmtxZWiS7HARecsT6GTkMSQAVPz8naBIiKm1lvWREGY6XO
+	sO87dgR7MLyGN4FaILEbNpsTyOrDpef2CeKP8ra17yseAZaE9hw/tJu6bCCiKEhXvY31
+	/ZmdDV3ewAIdOgKUQAAjLbIs/qvVXpujxgbI3/7ZmQFV113WVPDlFsewKtb3z4TEwxUR
+	MUFeOLcGO6yZUzKNtfcL01PWiil1h/jSw2qA+7aAOCNwVYpFSCuio7kXytp24UDGyt0/
+	0ACQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=JwOMnORN6va7ck5pQFgn4KkmrNRjl+XPCtBNZRGWlF4=;
-	b=FUfaEH9JIKMa0Quie/pu1yR7vt+VlTgaFTb86oTO+zf7uYjlVz7X6UwrfABwlHgot3
-	YHPiDPo/zstyYQJOeNtNO1Hw1Tu5b9EzEzgncO9zguZoMc3RnCN4TMi1HE8mSd8NfBJI
-	gXiXbYnYtge0fDxDEdxjyKDCLVPXbzW8YwW+L85x8cwAhnfpcqNlPcNmASa1LAcN1uJI
-	Q4+1RcA2fEYoeyUqYsfySyEnXIabnp1zuoUhgXixOECM84309qDUuZwHjKuu9UTFSPrK
-	kJEF9L+EDoQDAKzPb/OLWTP3nASmpQDBW5q3S6CKqlJC5F+BGgETp9X1GKKtBK3Io2z2
-	WT+w==
-X-Gm-Message-State: APjAAAVeys/1G1/8uMseNvnn71H3XPyH5J1Olg0wgi8EP+lvq9ZOG4Ux
-	/ARkgAWZmTrb/EqT6L+vhu3Mvr4ZBCquXw==
-X-Google-Smtp-Source: APXvYqySMYrGshXDcXZB6qDwdN9BcFUVi30rRI0SmdOtKiAPQUhIoooLhhBO7CykAlvQJr1b6XwjNA==
-X-Received: by 2002:a24:b214:: with SMTP id u20mr361735ite.134.1554137449367; 
-	Mon, 01 Apr 2019 09:50:49 -0700 (PDT)
-Received: from beef.ohporter.com (cpe-173-90-206-207.neo.res.rr.com.
-	[173.90.206.207]) by smtp.gmail.com with ESMTPSA id
-	d143sm5836377itd.44.2019.04.01.09.50.47
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=M3DXmKN0nuls6FXf+tebFQ3j68RHnhoN7vmUSxpXcgE=;
+	b=cPyrpokkZiIY3a7PX36JfShXawrhweb73U7z+iZFzcIF9m6hC6k8i8z4l9oNpGNzjP
+	o3hmdXfiNFtOla8hi/6dvF6NQBtH/3/xnzSKjvn7vVR82y1bUarz8/cpjBSfZjSKc5Wu
+	SZ7opz88u52wCPab2wOyBIc7HgNgtTKeFPreqY2VrYuSOfEMWORFsFp8HzrmMUPNEC8p
+	hlwhBbW5mmaG1UaKCtutAlJC8WRvnhaJfBsGvDAXIzlFCioOa4KGzT+4ybQILY3TY3HR
+	t44+pdtSDPPLqRzlvflBHv+96vN9ZGeHytkU6+jVbhdNRpRwl94vUmlZFOTiiAlFmRG9
+	DqOg==
+X-Gm-Message-State: APjAAAXJaGh/brA00reXiOrTHEesj9cdylHvzMkY/FFYZNQON7YoeP1S
+	Twejhn/YFn5XCbO8RMcL77IjfEw263g=
+X-Google-Smtp-Source: APXvYqya8UUBZD9I3lfvgPSrnHCcZNl9u0LqdScm1r3mqfSPnLR08AbRBao7o9mRU2Ofx/U8UnLzqA==
+X-Received: by 2002:a2e:7215:: with SMTP id n21mr38154893ljc.105.1554140460939;
+	Mon, 01 Apr 2019 10:41:00 -0700 (PDT)
+Received: from [192.168.0.8] (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	x202sm2065069lfd.31.2019.04.01.10.40.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 09:50:47 -0700 (PDT)
-From: Matt Porter <mporter@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 12:50:34 -0400
-Message-Id: <20190401165034.11426-1-mporter@konsulko.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] busybox: fix CONFIG_RFKILL enable logic
+	Mon, 01 Apr 2019 10:41:00 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20190330224908.2108-1-open.source@oleksandr-kravchuk.com>
+	<25e816bb8ab33d104be3feec92080bda3ee60f99.camel@linuxfoundation.org>
+	<09ee1ada-c90a-c04d-5032-dcd94e7bb864@oleksandr-kravchuk.com>
+	<CANNYZj9rmK_hmgT9gS_tbZpOdMepq_F58=ux_N5F1oY7zwy_KA@mail.gmail.com>
+	<CAJTo0LY-zE3PaRRs0gguBJJtacOBAM716GDWLchgVD-dFpNrQg@mail.gmail.com>
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Message-ID: <d21b331b-2cec-1cf0-a3b9-ca3493f0d623@oleksandr-kravchuk.com>
+Date: Mon, 1 Apr 2019 19:40:58 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LY-zE3PaRRs0gguBJJtacOBAM716GDWLchgVD-dFpNrQg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] ofono: update to 1.28
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,32 +68,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 16:50:49 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 17:41:02 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Currently CONFIG_RFKILL is enabled only if both bluetooth *and* wifi
-distro features are present. It should be enabled when either feature
-is present. Fix this by switching to use of bb.utils.contains_any().
+On 01/04/2019 18:04, Burton, Ross wrote:
+> On Mon, 1 Apr 2019 at 16:58, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>> It does not look like a hard dependency.
+>>
+>> configure.ac has:
+>> AC_ARG_ENABLE([external_ell], AC_HELP_STRING([--enable-external-ell],
+>>
+>> So you can make it a PACKAGECONFIG option, disabled by default. It's
+>> fine to have oe-core packages conditionally depend on things in
+>> meta-oe, if the condition defaults to disable.
+> That's not right: that's the toggle between "a system-provided ell" or
+> "you have checked out ell into the source tree".
+>
+> https://git.kernel.org/pub/scm/network/ofono/ofono.git/commit/?id=8452a7f34907472c5e21c334673afd10df409eef
+>
+> We'll need to bring ell.bb into oe-core too.
+>
+> Ross
 
-Signed-off-by: Matt Porter <mporter@konsulko.com>
----
- meta/recipes-core/busybox/busybox.inc | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Alright, gents. I am rather new to the project, so just instruct me how
+to proceed here.
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 24c15e4aee..c9d25ff1ca 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -75,8 +75,7 @@ def features_to_busybox_settings(d):
-     busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'nls', True, False, d), 'CONFIG_LOCALE_SUPPORT', cnf, rem)
-     busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'ipv4', True, False, d), 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
-     busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'ipv6', True, False, d), 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
--    busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'wifi', True, False, d), 'CONFIG_RFKILL', cnf, rem)
--    busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'bluetooth', True, False, d), 'CONFIG_RFKILL', cnf, rem)
-+    busybox_cfg(bb.utils.contains_any('DISTRO_FEATURES', 'bluetooth wifi', True, False, d), 'CONFIG_RFKILL', cnf, rem)
-     return "\n".join(cnf), "\n".join(rem)
- 
- # X, Y = ${@features_to_busybox_settings(d)}
--- 
-2.11.0
+Ofono is a great piece of widely-used software that would be nice to
+have up to date.
 
 
