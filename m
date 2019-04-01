@@ -1,48 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 68F1E7D00E
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F3677D00C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 15:57:42 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id t8so9047194otp.7
+	Mon,  1 Apr 2019 16:01:30 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id p10so12787543wrq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 08:57:43 -0700 (PDT)
+	Mon, 01 Apr 2019 09:01:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=he+4EqDRHdZ6mC+nKEk/O+r77mXLIu2nQl9di0rKkaA=;
-	b=a33idd4520bEWuJXMyPr90z1B0E2dKhYNjKWlcVP/PDkUaiukMGZO5yME8Xy+uEMzr
-	C3YOEIS7BIgti6zziI2l2GKUFAw83NM2zj/6su6MQfPjjRbZy4wESrSiFiGqt2SfoMhP
-	e9zXpS4wf7m+6b5f52JOiMBNq6xlg3G9mOrUU9fXHNOfKHiZs3t382oIEtxQ4tLcQPpx
-	cpYls8kXQ52HN/8ppnerJXkvCOdydevtFnz5Om9oyIJHsNk+MPgWWW6L0yPrdos4LMlf
-	kcx5trWvAFo81Dpw/NyW+8lLJ/CpbguMBfFeUnTqgCau2eJMhrX4i08e5yT9P7yqVBOC
-	9X/A==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y0Tz17hQvGQqEs8qzRGdsXslpxnx4PvTQ2388gV87zM=;
+	b=Q91IH6nOHezAW//jVhtfLV66Rdv8vVoFeFBsqwb3Xod9vXhpXvk6o8xuseUceOhtSo
+	gGF5IePKsB7JUY27Dz1DtSULY7CJatg/i5rWBEokCsWucU+W482Ak9P3BAH5W06zlEh7
+	1M0JlbyS17lB6YMiVxJpHWcamZ0+bf6oIjWwafZparEm8BJbLr1s4Y4V2GVj97CeTO+K
+	rq2n8rF8umIgdYnQ0R6bADi36deu8NgdXtRGfxq0daYli9bP03l8ymkSF2AhDqXkNuqf
+	F4wayzOt8q3f5b0fDECoxBSGBUrmI8MW4aftwHgxy5wnWObZrWChrOZKi5Gn08sTgBJ4
+	DLuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=he+4EqDRHdZ6mC+nKEk/O+r77mXLIu2nQl9di0rKkaA=;
-	b=pqDeFv2iTpmtZMFmdjL9kX0OMjVt/tNeQGS15oYeKeL/Y/Rv7WZJ7kV521Bhozi++7
-	3c2NHsPY2TOnIeLXOOAtRBO2oOyCWS/g0PteyrkloVqfAYTvzbs+/xvYR8ceH28R0XVe
-	oyI8i4fBlbe8WGlA+YiI1jz9qri6hj51yVauIstExKc7cwmHbHbIeTUsj7GCVIJ8wyIN
-	WQrIR6ztTvwiq4chRuzfw0q+c+aj09A/VFz3OBVgG/2S68lJYgjQrWy2mSMH8O3F2inI
-	u5Hc50uv8V//bvUmhfJjeEfuuitF4Y8NmABzDISBWI7pldC8Lionj4Sbgg5Z4L3L8jh8
-	I7EA==
-X-Gm-Message-State: APjAAAUZDMt9JqejXNojgJlJz4LJhJgetUe12XvE63E60uTvlWZNHQZN
-	tIWzL0b69pXUTLYJZ6wvMr3yqBkmYxkjwQmy/D5iucp18Mg=
-X-Google-Smtp-Source: APXvYqxHCjgLs6LkycU10O7mE3U8Q5aa/7zkpU643YJIr/Ob4YMq00FObbnEE9OeL5fz3orFSb59ulW5xGolleMdQZ0=
-X-Received: by 2002:a9d:62ca:: with SMTP id z10mr47093202otk.207.1554134263459;
-	Mon, 01 Apr 2019 08:57:43 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Y0Tz17hQvGQqEs8qzRGdsXslpxnx4PvTQ2388gV87zM=;
+	b=AI31sd+2A/O8AtogPkGX0uTrNjgEwOPu8ux2exIP9eG0E/fxW1/Q3ie0lSyaWCQ8ST
+	juvRnJssua6EN+umOmnF0HvtSc0WNc0rfpVmja++qREGd9BhXGQjZebExlmz5Bg4CLpo
+	BQfbBHFwXcgg3RJgzjY+v2uWJL5jC9Nju6f/Rev87GznZW1YAp83jdcPJUqyxed0Vze3
+	hWI3YjittmyGSfrzWAHTXVP8uZe+MXljrX4pIHfxUpIkstkaxQDlRwnw6fo2qY00L41R
+	W90deAGVrxVlvHBxz21Xaffpjf5cGiKlgfDJf9ntld0EehFUrDMb211+/PR98xoFepx/
+	Ihlw==
+X-Gm-Message-State: APjAAAVtob52342cKlAyY+UJuEosCCafWwUuGH07PYd8Jv8dXCtJ5owz
+	YLkCB/f4LsEveHZLtKKz8mu4JH33
+X-Google-Smtp-Source: APXvYqwYoQRXQXM1HD33L6Uth4hLVx6k2IztevvHEmDq4yftmrg6NWJFYEMam06uxdWmFiVUMp6L4g==
+X-Received: by 2002:adf:afd7:: with SMTP id y23mr40403457wrd.254.1554134490573;
+	Mon, 01 Apr 2019 09:01:30 -0700 (PDT)
+Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
+	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
+	13sm11640680wmf.23.2019.04.01.09.01.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 01 Apr 2019 09:01:29 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Apr 2019 18:01:06 +0200
+Message-Id: <20190401160106.22928-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190330224908.2108-1-open.source@oleksandr-kravchuk.com>
-	<25e816bb8ab33d104be3feec92080bda3ee60f99.camel@linuxfoundation.org>
-	<09ee1ada-c90a-c04d-5032-dcd94e7bb864@oleksandr-kravchuk.com>
-In-Reply-To: <09ee1ada-c90a-c04d-5032-dcd94e7bb864@oleksandr-kravchuk.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 1 Apr 2019 17:57:32 +0200
-Message-ID: <CANNYZj9rmK_hmgT9gS_tbZpOdMepq_F58=ux_N5F1oY7zwy_KA@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ofono: update to 1.28
+Subject: [PATCH 2/2 V2] gobject-introspection: auto-enable/-disable gobject-introspection for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,109 +58,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 15:57:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 01 Apr 2019 16:01:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-It does not look like a hard dependency.
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+---
+V1 -> V2: Introduce GIR_MESON_OPTION as suggested by Alexander Kanavin
+ meta/classes/gobject-introspection.bbclass | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
 
-configure.ac has:
-AC_ARG_ENABLE([external_ell], AC_HELP_STRING([--enable-external-ell],
+diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
+index 4ceb0c68b1..d3c92e0d7a 100644
+--- a/meta/classes/gobject-introspection.bbclass
++++ b/meta/classes/gobject-introspection.bbclass
+@@ -6,14 +6,26 @@
+ # This also sets up autoconf-based recipes to build introspection data (or not),
+ # depending on distro and machine features (see gobject-introspection-data class).
+ inherit python3native gobject-introspection-data
++
++# meson: default option name to enable/disable introspection. This matches most
++# project's configuration. In doubts - check meson_options.txt in project's
++# source path.
++GIR_MESON_OPTION ?= 'introspection'
++
++# Auto enable/disable based on GI_DATA_ENABLED
+ EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
++EXTRA_OEMESON_prepend_class-target = "-D${GIR_MESON_OPTION}=${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'true', 'false', d)} "
+ 
+ # When building native recipes, disable introspection, as it is not necessary,
+ # pulls in additional dependencies, and makes build times longer
+ EXTRA_OECONF_prepend_class-native = "--disable-introspection "
+ EXTRA_OECONF_prepend_class-nativesdk = "--disable-introspection "
++EXTRA_OEMESON_prepend_class-native = "-D${GIR_MESON_OPTION}=False "
++EXTRA_OEMESON_prepend_class-nativesdk = "-D${GIR_MESON_OPTION}=False "
+ 
+-UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
++# Avoid triggering configure QA
++UNKNOWN_CONFIGURE_WHITELIST_append = " ${@["", "--enable-introspection --disable-introspection"][(bb.data.inherits_class('autotools', d))]}"
++UNKNOWN_CONFIGURE_WHITELIST_append = " ${@["", "${GIR_MESON_OPTION}"][(bb.data.inherits_class('meson', d))]}"
+ 
+ # Generating introspection data depends on a combination of native and target
+ # introspection tools, and qemu to run the target tools.
+-- 
+2.20.1
 
-So you can make it a PACKAGECONFIG option, disabled by default. It's
-fine to have oe-core packages conditionally depend on things in
-meta-oe, if the condition defaults to disable.
-
-Alex
-
-On Mon, 1 Apr 2019 at 17:54, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->
-> On 01/04/2019 16:13, Richard Purdie wrote:
-> > On Sat, 2019-03-30 at 23:49 +0100, Oleksandr Kravchuk wrote:
-> >> Deleted patch has been mainstremaed.
-> >>
-> >> Changelog:
-> >> ver 1.28:
-> >> - Fix issue with SIM initialization and Gemalto modems.
-> >>
-> >> ver 1.27:
-> >> - Add support for handling SIMCom based SIM800 modems.
-> >> - Add support for SIM lock state with xmm7xxx modems.
-> >> - Add support for coexistence feature with xmm7xxx modems.
-> >>
-> >> ver 1.26:
-> >> - Fix issue with AT callback handler and GPRS.
-> >> - Fix issue with handling EUTRAN SMS only states.
-> >> - Fix issue with handling MBIM strings on big endian.
-> >> - Fix issue with missing char and SMS national language.
-> >> - Fix issue with unsolicited notifications of +CGAUTH/+CGDCONT.
-> >> - Add support for setting "none" authentication method.
-> >> - Add support for SMS and phonebook with xmm7xxx modems.
-> >> - Add support for voice features and Gemalto modems.
-> >> - Add support for Bengali and Gujrati SMS alphabets.
-> >> - Add support for 8 additional languages for GSM 7 bit
-> >> - Add support for using internal Embedded Linux library.
-> >>
-> >> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com
-> >> ---
-> >>  meta/recipes-connectivity/ofono/ofono.inc     |  7 ++---
-> >>  .../ofono/ofono/use-python3.patch             | 27 ---------------
-> >> ----
-> >>  meta/recipes-connectivity/ofono/ofono_1.25.bb |  9 -------
-> >>  meta/recipes-connectivity/ofono/ofono_1.28.bb |  8 ++++++
-> >>  4 files changed, 12 insertions(+), 39 deletions(-)
-> >>  delete mode 100644 meta/recipes-connectivity/ofono/ofono/use-
-> >> python3.patch
-> >>  delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.25.bb
-> >>  create mode 100644 meta/recipes-connectivity/ofono/ofono_1.28.bb
-> >>
-> >> diff --git a/meta/recipes-connectivity/ofono/ofono.inc
-> >> b/meta/recipes-connectivity/ofono/ofono.inc
-> >> index 0472414b19..37772121f8 100644
-> >> --- a/meta/recipes-connectivity/ofono/ofono.inc
-> >> +++ b/meta/recipes-connectivity/ofono/ofono.inc
-> >> @@ -1,13 +1,14 @@
-> >>  HOMEPAGE = "http://www.ofono.org"
-> >> -SUMMARY  = "open source telephony"
-> >> -DESCRIPTION = "oFono is a stack for mobile telephony devices on
-> >> Linux. oFono supports speaking to telephony devices through specific
-> >> drivers, or with generic AT commands."
-> >> +SUMMARY  = "Open Source Telephony"
-> >> +DESCRIPTION = "oFono is a stack for mobile telephony devices on
-> >> Linux. \
-> >> +oFono supports speaking to telephony devices through specific
-> >> drivers, or with generic AT commands."
-> >>  LICENSE  = "GPLv2"
-> >>  LIC_FILES_CHKSUM =
-> >> "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
-> >>                      file://src/ofono.h;beginline=1;endline=20;md5=3c
-> >> e17d5978ef3445def265b98899c2ee"
-> >>
-> >>  inherit autotools pkgconfig update-rc.d systemd bluetooth gobject-
-> >> introspection-data
-> >>
-> >> -DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info"
-> >> +DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
-> >
-> > ERROR: Nothing PROVIDES 'ell' (but /media/build1/poky/meta/recipes-
-> > connectivity/ofono/ofono_1.28.bb DEPENDS on or otherwise requires it)
-> >
-> > OE-Core doesn't contain ell?
-> >
-> > The new dependency isn't mentioned in the changelog?
-> >
-> > Cheers,
-> >
-> > Richard
->
-> Right, it's part of meta-openembedded. I did not think about this.
->
-> What does the project usually do in this kind of situations, ports
-> dependency to meta-oe or refuses package bump?
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
