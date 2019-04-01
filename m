@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com
-	[209.85.167.52])
-	by mail.openembedded.org (Postfix) with ESMTP id CBBD57D1DB
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com
+	[209.85.208.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 710647D1E0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 22:24:41 +0000 (UTC)
-Received: by mail-lf1-f52.google.com with SMTP id d18so7479795lfn.3
+	Mon,  1 Apr 2019 22:28:42 +0000 (UTC)
+Received: by mail-lj1-f170.google.com with SMTP id r24so9736075ljg.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 15:24:43 -0700 (PDT)
+	Mon, 01 Apr 2019 15:28:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=ufS5NM5W1rgcFoAGLvmH4Xt6o0U+MSOTUXBypi82Wu4=;
-	b=yY+H2RighF07+A4jauEPwbvAuKbC/zlaA5cKtzGRuzkbZBrR0H3KiYkjFV1nPOj3bQ
-	Zow8kQgNBicTwB4Gq4qE6rdWvTUaBjCsJnpnKlas6CrirCkudg7aAUf6hjPcX1+ciJi8
-	jf79l7ZSzF4VHl2GLZz0K4uAdiWlOK97oXxTzFOKVhq6hwWW4DuAOC6RsE1rNUXMasK+
-	I4ygLSyXvGGOX5hUJ2GsKu6TUlhkNCgrA0rOvqdMdynX50l1aIFcEyCHp2faAHwLkuPi
-	tV/p1DqJHodnQGUtM/gvY8YpbIZzoTbgZHfES4lSKE5br67NmZUEp3WxlNVxDJS8uhlc
-	6WAA==
+	bh=TUYxiw/PcoUylQ2dCbZ39VjUuOHwYQMPgnBkDls7TwU=;
+	b=GFYzvbXru3jMGB1dcQZ4nEbqm14kGdhUn02bJfy0UYVgVg4pL/3TsLQd7yeTJ3jXli
+	RMAGcxcvNRy+iEzYgoc9P29razzGOI3xehkiBQDXpwlRRVxKOQrpKd0j2s7DMgnCcZQs
+	gmcPRfXoDvcsgFoRgaiA3bncedq0MG9uXycZR4xqxUVC31E+NyENuTjxo5LQfipZjrP4
+	xoaOiw+nMNi5cyYs1X/v3WfNCG+Sf93/FXf3H/FDB88M9/l3xAVB5xqKoEuUA4xJemDS
+	OIupjWcLlVSVrB/rXI9lW8TcxwIY6D/rPKSVdqId/cgpR7RF87afWCpK7ekGFK3P5U4n
+	lLbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ufS5NM5W1rgcFoAGLvmH4Xt6o0U+MSOTUXBypi82Wu4=;
-	b=jFm6fVm5xeasyTIbWcPvCW83qOSyakegd9jkNQzC2nbKb/Tm/E8w2RULX2gd7YrTLs
-	kB6juxm7AJJjFsoNrVwokjHPOOtS6SsrGePaxzCYhk1opih9jeaepu//b1UnMWDSz/zx
-	KCRxnI366AYOJ08Nwk0B5jEGY7DwQ82lr6BU+JhA+F5rywEcuvDsp5zOh95DludJeINT
-	fUZ1iPBZRS6njl5EG7fbTBYKOWDnrpDwKfFavLAMVuQp56yZ3qbw0VTbmVZ3dyFzQl7J
-	0LTid1Iib3vVy8PyfCnCnE1Qhu5zC2JEVxogYB7gdfYULKw9qMQwzIb7TIoZjZv0//m2
-	CY4A==
-X-Gm-Message-State: APjAAAUqq5UEfsqPHfLa4+g62uovaWStbEIeSolqhOWM2vfGBZpBaTVu
-	6wbqaWHm+Lf+da1nYRS3XTbStj5f2J8=
-X-Google-Smtp-Source: APXvYqyMb5+fG12nL2nfjAj1cV98aoQxHsXthLB1Eoh+njWLcWI2/TS8uwKQc+faHw2EJbIt75/yVw==
-X-Received: by 2002:ac2:5966:: with SMTP id h6mr21675136lfp.86.1554157482082; 
-	Mon, 01 Apr 2019 15:24:42 -0700 (PDT)
+	bh=TUYxiw/PcoUylQ2dCbZ39VjUuOHwYQMPgnBkDls7TwU=;
+	b=cHijY8o+Q2Ipwp5MGpfBAVe8vvWG7H4zPzB2t6eKvDYBsjsE2NdmA9Ea8d92q6VdlW
+	yinr6IQiAVOTeTUBYPOZsAk6n/mg7CvqlyWxV6YS69Ur6bVrnxNpKD+lLNHHdF5rrpU6
+	hkIVLBteFOQ5G31RubibsJZmePAUqAG61TEDOIrbaUvMbF/snoTXWSpqfyo8f70buUZc
+	nOx/GNkPvgnBnuQe4dzMuYdn4mU9qbDzoqd0wpADOkfottyuaTA6CJIZF31cJVItEnEB
+	0tJoiS8KerdExFP5MBbeAbdtieTb8lRGYTfQ5AGs9R4ln7zJzlhgjZ6P1wBK8M3xChoS
+	50WA==
+X-Gm-Message-State: APjAAAV0qTUaBnGox9lXJbpP1c7nqGkgpbCJY2aOYScDPfBR+N2ZEcM2
+	wAmSGRVC/uOeHfen5reW6utdL4nR6J0=
+X-Google-Smtp-Source: APXvYqwlWKPjFDL6b6W5dPLVOFqg/U+zrHzleUikSLQumKFhBNQQpbXRhBVAPwdA5YMB+lJCnntmFA==
+X-Received: by 2002:a2e:3506:: with SMTP id z6mr36218358ljz.72.1554157722786; 
+	Mon, 01 Apr 2019 15:28:42 -0700 (PDT)
 Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	f25sm1636338lfk.69.2019.04.01.15.24.41
+	e20sm2400222ljl.95.2019.04.01.15.28.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 15:24:41 -0700 (PDT)
+	Mon, 01 Apr 2019 15:28:42 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2019 00:24:38 +0200
-Message-Id: <20190401222438.26872-1-open.source@oleksandr-kravchuk.com>
+Date: Tue,  2 Apr 2019 00:28:40 +0200
+Message-Id: <20190401222840.27534-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libcomps: update to 0.1.11
+Subject: [PATCH] createrepo-c: update to 0.12.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 22:24:42 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 22:28:42 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../libcomps/{libcomps_git.bb => libcomps_0.1.11.bb}          | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
- rename meta/recipes-devtools/libcomps/{libcomps_git.bb => libcomps_0.1.11.bb} (92%)
+ .../{createrepo-c_git.bb => createrepo-c_0.12.2.bb}            | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_git.bb => createrepo-c_0.12.2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/libcomps/libcomps_git.bb b/meta/recipes-devtools/libcomps/libcomps_0.1.11.bb
-similarity index 92%
-rename from meta/recipes-devtools/libcomps/libcomps_git.bb
-rename to meta/recipes-devtools/libcomps/libcomps_0.1.11.bb
-index ff6820851f..cf6f46484d 100644
---- a/meta/recipes-devtools/libcomps/libcomps_git.bb
-+++ b/meta/recipes-devtools/libcomps/libcomps_0.1.11.bb
-@@ -9,8 +9,7 @@ SRC_URI = "git://github.com/rpm-software-management/libcomps.git \
-            file://0001-Add-crc32.c-to-sources-list.patch \
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.12.2.bb
+similarity index 94%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.12.2.bb
+index 9aa8d2ae73..c70523dca6 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_git.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.12.2.bb
+@@ -8,8 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
             "
  
--PV = "0.1.10"
--SRCREV = "86a82fcd155c27092340d15a34f5c75c4da88243"
-+SRCREV = "d868a79b76fb980d1371c28124ae07f00d2b63a9"
+-PV = "0.12.1"
+-SRCREV = "7744554ddef7c5be2cd7fbcac49c8b24ce60ef88"
++SRCREV = "5b4c06f6af24633f667da37455281f24a4abd461"
  
  S = "${WORKDIR}/git"
  
-@@ -22,4 +21,3 @@ EXTRA_OECMAKE = " -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -DPYTHON_DESIR
- OECMAKE_SOURCEPATH = "${S}/libcomps"
- 
- BBCLASSEXTEND = "native nativesdk"
--
 -- 
 2.17.1
 
