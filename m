@@ -1,49 +1,50 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EA4E7D151
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E8277D13C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 19:02:06 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id q66so9223824ljq.7
+	Mon,  1 Apr 2019 19:26:22 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id n78so1013120itb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 12:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=jpqyDiJbU+5o4kzXSxuPUPMr4NejxiMMYR1JnmsLgAI=;
-	b=a9e3NftcB17PM0CqB32n3RNAjhyROkmZ5ScZosm5J7cWGdcHMcem+RP3anuqT4SkfZ
-	nmcaGQaARkAf7TKXUtaEJaz1TvsOwtwh8BII1h/t25CQsFWV9UKtbUCoNyNrFtCIYW6v
-	zmWSMsoQWbxuAt4FZaRvJ1wSksYEyrzM92eEpuXtlaIp1XOHtOnL+8DvwocgPOFYi6b0
-	uRBMKGYLyNvO7imztSrvbRFjzJkCJdHW6vSpjAvP+v1p+0dxL0yIwjywcf/cAHCK9GoC
-	JKGJcIz4nQjvK9YimyMEUssVmk1XCnnqv6aun1AE0iKU9pEPBEDNfo+xQW1cgcHn6ANU
-	tgVA==
+	Mon, 01 Apr 2019 12:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=dNQGJuD1FlPO50ymQ14WYkXhVsOdPPVvgYdryE3AL6Y=;
+	b=KJWtfGAcWwr4QkCyufqTe+j0e6o9dyWOeyJco3IBdD2yVCQoh4MCctZCIMgEzkT9rB
+	Wj+CN7HTgAucl/nBqqT3MLFUih4INNK/VIZb/14kbhR+JZgcmI0ma6ToOF9/LqQgxedi
+	F0hzpP8YSi9wigBF8Mk+902I2RejnVh8H3C8JqNls8j7peeKDOVZvD9h+fFbcquy9Txn
+	8SditBx8IjY+5XQdLuk9widUG7QboSRMdRP8UcCqeQyFJLNHXjs5GLhjw3D6rR4StcfW
+	jJrIi9ABIdq5QFDTQpdlxgeyWn5/tyfCST3rlNTgnVIpQp8/St+yNwN18iepBB63CO5Q
+	lt3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=jpqyDiJbU+5o4kzXSxuPUPMr4NejxiMMYR1JnmsLgAI=;
-	b=ixGB/yAZrHj95WVIc6Ibk9TaDGNSgAE3r+moRWssSdloOl/xqik/wBqufAsr+fk1M2
-	4NhUf5cpDLIlPQsoj4xapt62nNBGUih0ZvmWKem2RNZbNNddzyz2Xf9jWu8mzzU42nhv
-	/M6Giuy1U8LNilArd5pIxQ2SjVoNicwhPFtJhlRkRdy5sHl7x4fh2Zlmd+Nfy8QN9e+Q
-	nDhoRsyd018t49DKJgfSN61z1h1mvi+OSEHx+jRHFLBYNqUGN1/xSuIko92C9W9wkKOn
-	2HH30cZRx2fOY/ZzbWdTXSUuPgsQKfVVyWyNLBKB6rwq0FtxyyILZ0pmvItVWO+CduEM
-	YApw==
-X-Gm-Message-State: APjAAAWgwBe467AKQNA6WVLZxkUDvjVcs6+txWWDv19MTfts23LCh3hu
-	twFjhh/iF++S6Ylrw6r6whwJO2dkDOw=
-X-Google-Smtp-Source: APXvYqz7ueB0LuWh3Air1bwR+ePobPlbdJYrCjDIa8xXU+rVjtDPPhN+OMqhdZrVrMxkoBAE73MizQ==
-X-Received: by 2002:a2e:99d2:: with SMTP id l18mr27292843ljj.27.1554145326689; 
-	Mon, 01 Apr 2019 12:02:06 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	b14sm2387815ljf.53.2019.04.01.12.02.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 12:02:06 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 21:02:02 +0200
-Message-Id: <20190401190202.21539-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH v3] cronie: update to 1.5.4
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=dNQGJuD1FlPO50ymQ14WYkXhVsOdPPVvgYdryE3AL6Y=;
+	b=YWGEElGwoIWH1HOMSJwT57RgqIlQCGG00ab9Iemi+aVC4oKAcW7uEbM1yM8qSjZGJW
+	PBzQXtemrvTrrF5MX8TyT70niNBkI3/4W1JvNDxECo7HIa8sM8jCoa4kjJ8i4sbPImDa
+	Yd/1TgYqIWwZ1tGC8iXnlNXumtIu9xYLP4Wwm3b4t8R4haBszo7uI/bEmLqI5yfFZf3d
+	HSLAiFyh+EX3fPbc0whZY5w6mEiQAJH2AQH4B05wP83Ui7b8x3yLiVpO/KcBAcb5hAOc
+	Cm49fh0fEcIBbKvvFYY1rF2ymnpi6FXHZBmOopd1J5Hc/eataNjeIqLhf/7QTI/ewajw
+	Vbrw==
+X-Gm-Message-State: APjAAAWS8q5csmflqqOklLU5e3qdipkhqXR3EvlX/jAkP029YSZKYQ7U
+	cM0heAar8FkBlL/uz78DvxZppHinUCJVM0xKnaI=
+X-Google-Smtp-Source: APXvYqzvodIBLTpY7AAgZTcAiVDVAAQoihg1afuK1ko4H5OYWkXFsCeFrreHSB5KFRkytL/0gwnyjcGBk/1s0pIA8lw=
+X-Received: by 2002:a02:212c:: with SMTP id e44mr1416600jaa.5.1554146783213;
+	Mon, 01 Apr 2019 12:26:23 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190401160106.22928-1-schnitzeltony@gmail.com>
+	<CANNYZj80ZqNn_6i9_Z0_HYJErcKrymQZmpiVGn_B56Jw3c7acw@mail.gmail.com>
+	<CALbNGRTccK1a5QuZppiAOR1kG5mgMFzSYYg4+uHANRx3o3kCNA@mail.gmail.com>
+	<CANNYZj_=Xwi4P88jqwPbR3xOom-LQkutRY=Vs11UcCpU=WTNtg@mail.gmail.com>
+In-Reply-To: <CANNYZj_=Xwi4P88jqwPbR3xOom-LQkutRY=Vs11UcCpU=WTNtg@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Mon, 1 Apr 2019 21:26:11 +0200
+Message-ID: <CALbNGRSOVaZWcMAVWn5RenYU40Cujvp1E_Jup7nqGW4kbHk-JA@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2 V2] gobject-introspection: auto-enable/-disable gobject-introspection for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,75 +57,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 19:02:07 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 19:26:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../cronie/cronie/crond_pam_config.patch         | 16 ++++++++--------
- .../cronie/{cronie_1.5.2.bb => cronie_1.5.4.bb}  |  6 +++---
- 2 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-extended/cronie/{cronie_1.5.2.bb => cronie_1.5.4.bb} (94%)
+On Mon, Apr 1, 2019 at 6:36 PM Alexander Kanavin <alex.kanavin@gmail.com> w=
+rote:
+>
+> On Mon, 1 Apr 2019 at 18:21, Andreas M=C3=BCller <schnitzeltony@gmail.com=
+> wrote:
+>
+> > > I honestly don't remember why the whitelisting was considered a good
+> > > idea, but I think it would be better to drop it altogether? That way
+> > > there will be no silent regressions (when upstream decides to rename
+> > > the option, for example, which does happen).
+> > >
+> > Whitelisting would make sense for for projects where gir is mandatory
+> > and cannot be disabled by configuration - are there any?
+>
+> For autotools, basically no, as they all use the same m4 macro file
+> which allows disabling.
+>
+> For meson or other build systems the answer is also no, because in
+> this case we would have to patch the upstream code to either make gir
+> generation optional (and then 'inherit gobject-introspection'), or
+> disable it altogether (and then don't inherit g-i at all). The reason
+> is that introspection data generation is done through running a target
+> binary, which requires a functional qemu usermode, and for some target
+> MACHINEs qemu won't work (e.g. mips-n32, some flavours of powerpc etc
+> - g-i class determines that and does the right thing to disable
+> introspection automatically).
+What about musl? Am not sure that my information is still valid:
+Broken qemu or not?
+> Here's an example of such patching:
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtool=
+s/libmodulemd/libmodulemd/0002-modulemd-v1-meson.build-do-not-generate-gir-=
+or-gtkdo.patch?id=3Df06d14b2963e9d5145041057c3ad0e48654f1501
+>
+> (newer versions of libmodulemd made g-i optional, and so the current
+> oe-core recipe and its patches reflects that).
+>
+I will prepare follow ups:
 
-diff --git a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
-index 6c928165cd..c374790d1d 100644
---- a/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
-+++ b/meta/recipes-extended/cronie/cronie/crond_pam_config.patch
-@@ -4,19 +4,19 @@ configure files instead.
- Upstream-Status: Pending
- 
- Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
--Index: cronie-1.5.1/pam/crond
--===================================================================
----- cronie-1.5.1.orig/pam/crond
--+++ cronie-1.5.1/pam/crond
-+diff --git a/pam/crond b/pam/crond
-+index 560529d..95a6457 100644
-+--- a/pam/crond
-++++ b/pam/crond
- @@ -4,8 +4,8 @@
-  #
-  # Although no PAM authentication is called, auth modules
-  # are used for credential setting
---auth       include    password-auth
-+-auth       include    system-auth
- +auth       include    common-auth
-  account    required   pam_access.so
---account    include    password-auth
--+account    include    common-account
-+-account    include    system-auth
-++account    include    common-auth
-  session    required   pam_loginuid.so
---session    include    password-auth
-+-session    include    system-auth
- +session    include    common-session-noninteractive
-diff --git a/meta/recipes-extended/cronie/cronie_1.5.2.bb b/meta/recipes-extended/cronie/cronie_1.5.4.bb
-similarity index 94%
-rename from meta/recipes-extended/cronie/cronie_1.5.2.bb
-rename to meta/recipes-extended/cronie/cronie_1.5.4.bb
-index 3abca7f920..d35c6672c4 100644
---- a/meta/recipes-extended/cronie/cronie_1.5.2.bb
-+++ b/meta/recipes-extended/cronie/cronie_1.5.4.bb
-@@ -16,7 +16,7 @@ SECTION = "utils"
- 
- UPSTREAM_CHECK_URI = "https://github.com/cronie-crond/${BPN}/releases/"
- 
--SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}/cronie-${PV}.tar.gz \
-+SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}-final/cronie-${PV}.tar.gz \
-            file://crond.init \
-            file://crontab \
-            file://crond.service \
-@@ -25,8 +25,8 @@ SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}
- PAM_SRC_URI = "file://crond_pam_config.patch"
- PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
- 
--SRC_URI[md5sum] = "703314f58a49ea136e9966d3937d9bf4"
--SRC_URI[sha256sum] = "370bf34641691489330e708bd4cdbd779267296a030668a12f77b7e36872fd75"
-+SRC_URI[md5sum] = "20233b96997e17a142e1fbe0d7ce8223"
-+SRC_URI[sha256sum] = "af8970559cad4262f8ffd7ec72abf682d2dcce04fdfb8f206a71d96566aba882"
- 
- inherit autotools update-rc.d useradd systemd
- 
--- 
-2.17.1
+* remove whitelisting (see what we get)
+* adapt recipes in oe-core
 
+Seems all this is too late for warrier (that was my target - am again
+too late - maybe next time :).
+
+So I think I'll continue with gnome-de for warrier first (with oe-core
+as is). Maybe I get patches landed before doors are shut for
+meta-gnome...
+
+Will come back then
+
+Andreas
 
