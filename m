@@ -1,46 +1,47 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 10D8B7D031
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id F22167D015
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 16:36:40 +0000 (UTC)
-Received: by mail-it1-f170.google.com with SMTP id w15so110932itc.0
+	Mon,  1 Apr 2019 16:36:47 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id e5so9159541otk.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 09:36:42 -0700 (PDT)
+	Mon, 01 Apr 2019 09:36:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=+IFnbx78xjmbE7E4VAicguf/3gqS30fEgQDlagqbdm0=;
-	b=Y0tPeLeMQWz0sPTD/RqQcZm9bdJQIb3Np7tGq+RJfWdbeg8O3I3lZbiwwCtTNm5xfb
-	EhxbY/lEgYvuPtwvEQ2cCrHMY0cYKmPM7csSFv2DcRtf8suhYkQ1TWg5tKObB2FRSlnx
-	j/xfzGcPXChPj4aVUTKlAiRcE0TsU6+ENk64aUrKBEFPueTFz1FO0l5eMJ1q0Zq7sFTS
-	vVejLWNHTmUV884XQL4R3c+KPnOG366/oQSpJUGe2uu+aY96UBiYs5l0kpN5V/L+wgA2
-	SDs8M00flB31Gxmla+KVsyCEr4s/GPRRgDm7q+GHgINIsjQuJ1zywMqCAnQ2jiYTRVh+
-	QRtg==
+	:cc:content-transfer-encoding;
+	bh=ySofe31pWHNaiS/Pdcp3oyIw8XLl/xYKgb+fFa6Eo5M=;
+	b=GquyWTtiWIi1u7xAgTI87h/mioTIvB67LZLfudchokcLtAgGpZ4TG6pOMFZaS2N9Bf
+	hOPIt6s5cqy2k2sGo3RG3gwJfI/sUvSGswCe9x/cgSnfoYNWj0zi/E3iIsWelWF2ODOM
+	pSa4aYcMWlHnyHnQV0mpIaakxBMJQjM6XVdDK31mvpf0YqXi78PcG2aCqp3mDdM1Cgpi
+	IagfTWvBv4crHGsouB3wQTqKFR0Otl4ncd3zpwQPwVJ7lHkw+sFUDzPcPYg3EUNwhQXt
+	RocGOHjKjqTrDhxIh8E1v1+/8TT9pM1O4v8B6/Hgty9nWY3bsdPUIuslB7yd/8ReiK1M
+	8NhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=+IFnbx78xjmbE7E4VAicguf/3gqS30fEgQDlagqbdm0=;
-	b=jj0gw0zcTF/zLCHoDAbTEbQECEkggScpYm3yYrRWPZ2m3LEg0VqXDYffcvehEzwMCf
-	d5dEl+FEtbh0rTEMDufnvyGH97zPjmu90tObU/uquEE3ukPVHaElkyGFlHJ/YHkF7JKy
-	pTsGROLHo1kUy+EJdk9qUB3WEAaUI0tZna1fvjdSg8QFBOYfuEqxE2KtQ2uVX6gKXLzX
-	kg+wvsGIXvCGeEPSj2Y6+O5VPFuiWu7H0kc32JOG8i2Z5wyqAxdv6W7AphEj/dFjORXW
-	B4YlQ7B0z9KhuF/KBlQ1GQmKfUxnki4k1h8QjfSodzSRu0gBmwPaeG08nmFEXEpbVXmL
-	HtSg==
-X-Gm-Message-State: APjAAAXKfKXxwVsIucnBSTE+SVv0fAZy6ftcfe/7KG7CL/fS8Tep7GJF
-	uZgscImev50q9Q7q5IpG/KvmxmrbzpSBHVV/5r8=
-X-Google-Smtp-Source: APXvYqz435HNnwaaiHLjFNa2fbSxGkF7GiTrcEJWUpNWle29t6Ds5kIr3QNBciZ9bgjmF1qcRc4+EyvMZyW4gjDco9g=
-X-Received: by 2002:a24:fc06:: with SMTP id b6mr260791ith.130.1554136602164;
-	Mon, 01 Apr 2019 09:36:42 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=ySofe31pWHNaiS/Pdcp3oyIw8XLl/xYKgb+fFa6Eo5M=;
+	b=gZGShLNLOuOD/JO6yNImyUS35ZEMuSRisVfcd6rkWCNARrMvWieLOzyq5YhiCUZvBc
+	W6NO9PHwtSvxVJ0JEhts90DxG+ZyVJ3P6CTIJF3geHRZDEchCV/Z8b/9NKg1IUwpYjCM
+	yd2eMhbMz3R3U4MwZmFNzV75V3ksKIuGYqiC7Wvf6N0wtUFPVEDkgLY+VtOnuaVaHhRi
+	96uu5TFXdlusJ71kY2J/lhdbl7Q8VUkQkCy2dqmLxIA3n0IxjqJ8mSslHKZwTXIHPCll
+	jSicQd3XXoPY4Bggg2K2c1+/G5KthUk4SJHXC2aDyygRNpPg3QB3rj4PvFjrEzGkTwCC
+	3TgA==
+X-Gm-Message-State: APjAAAW6L/ZjpIkXDz1aCTZr2RrKU2jsDXic5I5/jQmNiFd2lHDkFljh
+	W8uKohDkvjG2aPDEorU1kYo5lH0hQ8ordHk3R3k=
+X-Google-Smtp-Source: APXvYqx+O+j8AB3G/8mcItpGZ5RvgSjDo0Z2FUYHN2XAPlXIt1wnDMZX0nHFP0h7LnQWzek14ADXH+Aa+y7DhaYGlsg=
+X-Received: by 2002:a9d:62c8:: with SMTP id z8mr44914309otk.144.1554136608961; 
+	Mon, 01 Apr 2019 09:36:48 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190401160106.22928-1-schnitzeltony@gmail.com>
 	<CANNYZj80ZqNn_6i9_Z0_HYJErcKrymQZmpiVGn_B56Jw3c7acw@mail.gmail.com>
-	<CANNYZj8cJV07jb5k=KxyLpfyR3WTt=EDDe4gVPUaQDc1O=y-Ww@mail.gmail.com>
-In-Reply-To: <CANNYZj8cJV07jb5k=KxyLpfyR3WTt=EDDe4gVPUaQDc1O=y-Ww@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Mon, 1 Apr 2019 18:36:30 +0200
-Message-ID: <CALbNGRRT_5wAHtD4Nr3BtNysc1k3Sg=Nm67ObO6qx=JS4JLvGQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	<CALbNGRTccK1a5QuZppiAOR1kG5mgMFzSYYg4+uHANRx3o3kCNA@mail.gmail.com>
+In-Reply-To: <CALbNGRTccK1a5QuZppiAOR1kG5mgMFzSYYg4+uHANRx3o3kCNA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 1 Apr 2019 18:36:37 +0200
+Message-ID: <CANNYZj_=Xwi4P88jqwPbR3xOom-LQkutRY=Vs11UcCpU=WTNtg@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2 V2] gobject-introspection: auto-enable/-disable gobject-introspection for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,42 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 16:36:41 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 16:36:48 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 1, 2019 at 6:21 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> On Mon, 1 Apr 2019 at 18:10, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> > Thanks, may I also ask that you go over the recipes in oe-core that
-> > inherit meson, and tweak them to use this option? (there is not a lot,
-> > and some don't use g-i at all).
->
-> The exact list is:
->
-> at-spi2-core
-> libsoup-2.4
-> gdk-pixbuf
-> libmodulemd
-> atk
-> pango
-> libdazzle
-> json-glib
-> clutter-gtk-1.0.inc
->
-> Alex
+On Mon, 1 Apr 2019 at 18:21, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
+wrote:
 
-Thanks :)
+> > I honestly don't remember why the whitelisting was considered a good
+> > idea, but I think it would be better to drop it altogether? That way
+> > there will be no silent regressions (when upstream decides to rename
+> > the option, for example, which does happen).
+> >
+> Whitelisting would make sense for for projects where gir is mandatory
+> and cannot be disabled by configuration - are there any?
 
-I cannot promise when but will take care because I consider it an enhancement.
+For autotools, basically no, as they all use the same m4 macro file
+which allows disabling.
 
-Problem is that I am sitting on growing loads of meta-gnome patches
-and they need review for this either.
+For meson or other build systems the answer is also no, because in
+this case we would have to patch the upstream code to either make gir
+generation optional (and then 'inherit gobject-introspection'), or
+disable it altogether (and then don't inherit g-i at all). The reason
+is that introspection data generation is done through running a target
+binary, which requires a functional qemu usermode, and for some target
+MACHINEs qemu won't work (e.g. mips-n32, some flavours of powerpc etc
+- g-i class determines that and does the right thing to disable
+introspection automatically). Here's an example of such patching:
 
-As collector of DEs I'd love to see gnome again - that should have
-been next step in [1]
+https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/=
+libmodulemd/libmodulemd/0002-modulemd-v1-meson.build-do-not-generate-gir-or=
+-gtkdo.patch?id=3Df06d14b2963e9d5145041057c3ad0e48654f1501
 
-[1] https://github.com/schnitzeltony/meta-openembedded/tree/work-2019-03
+(newer versions of libmodulemd made g-i optional, and so the current
+oe-core recipe and its patches reflects that).
 
-Andreas
+Alex
 
