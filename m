@@ -1,26 +1,51 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id A418779D13
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 511227CFAE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 12:16:58 +0000 (UTC)
-Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x31CGwWd007683
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Mon,  1 Apr 2019 13:52:30 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id h4so12135123wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Apr 2019 14:16:58 +0200
-Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
-	[139.16.117.164])
-	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x31CGw3g032037;
-	Mon, 1 Apr 2019 14:16:58 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id EE17510D47A8;
-	Mon,  1 Apr 2019 14:16:58 +0200 (CEST)
-From: Pascal Bach <pascal.bach@siemens.com>
+	Mon, 01 Apr 2019 06:52:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zfJpvI3cg8a9ITbOSUhtSB+pPaIhq+63Tb4p/p+6pow=;
+	b=gVMUgntiha10WOmhe5wDe82ZpMoyBGlijyBgOvWEDrFbaiIphX4aZQD2gXkeaFvabG
+	Yczqwyunv9IcopGibNcvGaoe4wWJAw0GfjC0MuxGezyV0rC7oXH5poQxxXfcTtYboR30
+	HRjYXVFdVEZnZ3GO1VLaqd02UHmzIsjeswBQ3LLEpXV5ShQUy4FJMyUP8zzm0W/B8D6s
+	cHzvSbsbDKA9F3GyKQ8TgBM4nF+Aj6EEz2671PbNyBxRNwouVuJ6Y+oNvzVbiYsDTISe
+	oymiU3JI4b3DUT9zKxjEcqmx199LBayb4JY491g7fKWrZxoG19yYNeI4KWByYizuiX6n
+	XyMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zfJpvI3cg8a9ITbOSUhtSB+pPaIhq+63Tb4p/p+6pow=;
+	b=D4qyXneqcrH4DCbvILj3/MDKKMbqbjA9CPU28tVJWVOktwXpRpM1kqA36PNGnknEgt
+	FYrAiJ1AJTEx0+G2PylxbiNuRybBQYYByCM88gIDVNDL3foTnkKOMy5bx+rrCmntWuw9
+	UeWBZkz1JBOLQdmKJ43GZXM2HiHIVadEXgHlT7CYz/+3ZAUFQxIIaKIqf4TNKlEy8hpT
+	E2qrD56FDCFUOWqjGbQdFd1XT/+6FXsZPEPLtcXQ/k7b15eIOxA3Y4vwLHUneigQkEz8
+	x9h2NRwOJxDRBl6T/SU97CQS7vFMfngCCWrP3zcZc5kvqZIlXMbljggp97b/dsZbbk3A
+	v31w==
+X-Gm-Message-State: APjAAAXUdkCVd4a9BElzRMl4eEl0NKyRrriYNbZhuO/83EroxFZjaYYP
+	BV+e2/fC5iDXhIluKLxd4bzhvfv5
+X-Google-Smtp-Source: APXvYqykRWH/IOc332wHMTn/67W0GD5q3u0k6mDp6rCBCMj1hCz0jD0cJ7numSEu9NwRnbhrDEXm1A==
+X-Received: by 2002:adf:eb89:: with SMTP id t9mr25232239wrn.109.1554126750764; 
+	Mon, 01 Apr 2019 06:52:30 -0700 (PDT)
+Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
+	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
+	r196sm10421385wmf.22.2019.04.01.06.52.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 01 Apr 2019 06:52:30 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 14:16:54 +0200
-Message-Id: <20190401121654.27469-1-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cmake: 3.14.0 -> 3.14.1
+Date: Mon,  1 Apr 2019 15:52:16 +0200
+Message-Id: <20190401135217.17431-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 1/2] insane.bbclass: Trigger unrecognzed configure option for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,46 +58,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 12:16:59 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 13:52:30 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-The FindFontconfig module added by 3.14.0 accidentally used uppercase
-FONTCONFIG_* variable names that do not match our conventions.
-3.14.1 revises the module to use Fontconfig_* variable names.
-This is incompatible with 3.14.0 but since the module is new in the
-3.14 series usage should not yet be widespread.
+Tested with 'unknown-configure-option' in ERROR_QA:
 
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+For meson (glib-2.0-native):
+1. add 'EXTRA_OEMESON_append = "-Dschnitzel=true -Dwurst=true"'
+   | ERROR: glib-2.0-native-1_2.58.3-r0 do_configure: QA Issue: glib-2.0-native: configure was passed unrecognised options: schnitzel wurst [unknown-configure-option]
+2. add 'UNKNOWN_CONFIGURE_WHITELIST_append=" schnitzel"'
+   | ERROR: glib-2.0-native-1_2.58.3-r0 do_configure: QA Issue: glib-2.0-native: configure was passed unrecognised options: wurst [unknown-configure-option]
+3. change to 'UNKNOWN_CONFIGURE_WHITELIST_append=" schnitzel wurst"'
+   => builds without issues
+
+For autotools (readline-native):
+1. add 'EXTRA_OECONF = "--with-schnitzel --with-wurst"'
+   | ERROR: readline-native-8.0-r0 do_configure: QA Issue: readline-native: configure was passed unrecognised options: --with-wurst --with-schnitzel [unknown-configure-option]
+2. add 'UNKNOWN_CONFIGURE_WHITELIST_append=" --with-schnitzel"'
+   | ERROR: readline-native-8.0-r0 do_configure: QA Issue: readline-native: configure was passed unrecognised options: --with-wurst [unknown-configure-option]
+3. add 'UNKNOWN_CONFIGURE_WHITELIST_append=" --with-schnitzel --with-wurst"'
+   => builds without issues
+
+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- .../cmake/{cmake-native_3.14.0.bb => cmake-native_3.14.1.bb}          | 0
- meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
- meta/recipes-devtools/cmake/{cmake_3.14.0.bb => cmake_3.14.1.bb}      | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.14.0.bb => cmake-native_3.14.1.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.14.0.bb => cmake_3.14.1.bb} (100%)
+ meta/classes/insane.bbclass | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.14.0.bb b/meta/recipes-devtools/cmake/cmake-native_3.14.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.14.0.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.14.1.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index f787851e2d..5b0bce6808 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -18,7 +18,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
- 
--SRC_URI[md5sum] = "7504e4f3e05b59e083f2127e07059d5d"
--SRC_URI[sha256sum] = "aa76ba67b3c2af1946701f847073f4652af5cbd9f141f221c97af99127e75502"
-+SRC_URI[md5sum] = "7efe5394e85c3292ad020b8b70e55669"
-+SRC_URI[sha256sum] = "7321be640406338fc12590609c42b0fae7ea12980855c1be363d25dcd76bb25f"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
-diff --git a/meta/recipes-devtools/cmake/cmake_3.14.0.bb b/meta/recipes-devtools/cmake/cmake_3.14.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.14.0.bb
-rename to meta/recipes-devtools/cmake/cmake_3.14.1.bb
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 37b8bb0032..c8d18c07f5 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1093,12 +1093,16 @@ Rerun configure task after fixing this."""
+     ###########################################################################
+     # Check unrecognised configure options (with a white list)
+     ###########################################################################
+-    if bb.data.inherits_class("autotools", d):
++    if bb.data.inherits_class("autotools", d) or bb.data.inherits_class("meson", d):
+         bb.note("Checking configure output for unrecognised options")
+         try:
+-            flag = "WARNING: unrecognized options:"
+-            log = os.path.join(d.getVar('B'), 'config.log')
+-            output = subprocess.check_output(['grep', '-F', flag, log]).decode("utf-8").replace(', ', ' ')
++            if bb.data.inherits_class("autotools", d):
++                flag = "WARNING: unrecognized options:"
++                log = os.path.join(d.getVar('B'), 'config.log')
++            if bb.data.inherits_class("meson", d):
++                flag = "WARNING: Unknown options:"
++                log = os.path.join(d.getVar('T'), 'log.do_configure')
++            output = subprocess.check_output(['grep', '-F', flag, log]).decode("utf-8").replace(', ', ' ').replace('"', '')
+             options = set()
+             for line in output.splitlines():
+                 options |= set(line.partition(flag)[2].split())
 -- 
-2.11.0
+2.20.1
 
 
