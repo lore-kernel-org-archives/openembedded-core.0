@@ -1,49 +1,45 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id F22167D015
+Return-Path: <mporter@konsulko.com>
+Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
+	[209.85.166.169])
+	by mail.openembedded.org (Postfix) with ESMTP id D81FE7D015
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 16:36:47 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id e5so9159541otk.12
+	Mon,  1 Apr 2019 16:50:48 +0000 (UTC)
+Received: by mail-it1-f169.google.com with SMTP id u65so163760itc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 09:36:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=ySofe31pWHNaiS/Pdcp3oyIw8XLl/xYKgb+fFa6Eo5M=;
-	b=GquyWTtiWIi1u7xAgTI87h/mioTIvB67LZLfudchokcLtAgGpZ4TG6pOMFZaS2N9Bf
-	hOPIt6s5cqy2k2sGo3RG3gwJfI/sUvSGswCe9x/cgSnfoYNWj0zi/E3iIsWelWF2ODOM
-	pSa4aYcMWlHnyHnQV0mpIaakxBMJQjM6XVdDK31mvpf0YqXi78PcG2aCqp3mDdM1Cgpi
-	IagfTWvBv4crHGsouB3wQTqKFR0Otl4ncd3zpwQPwVJ7lHkw+sFUDzPcPYg3EUNwhQXt
-	RocGOHjKjqTrDhxIh8E1v1+/8TT9pM1O4v8B6/Hgty9nWY3bsdPUIuslB7yd/8ReiK1M
-	8NhA==
+	Mon, 01 Apr 2019 09:50:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=from:to:subject:date:message-id;
+	bh=JwOMnORN6va7ck5pQFgn4KkmrNRjl+XPCtBNZRGWlF4=;
+	b=h47I8iTpmVOtXl+Kh18BzootTeEQi3JvbYUFdkPfNSiDsO2j/sPc3+kqB0udOktHGA
+	8MAJeJGo1g0OFXppw2Xc8P8FhEY1HtF9wL0IU2zBEz+0MAuh92AEdYTItf+URCvn+gfS
+	QBRgFVSOjohBqt9xZdDGN4eyk/pEWIPymvWgg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=ySofe31pWHNaiS/Pdcp3oyIw8XLl/xYKgb+fFa6Eo5M=;
-	b=gZGShLNLOuOD/JO6yNImyUS35ZEMuSRisVfcd6rkWCNARrMvWieLOzyq5YhiCUZvBc
-	W6NO9PHwtSvxVJ0JEhts90DxG+ZyVJ3P6CTIJF3geHRZDEchCV/Z8b/9NKg1IUwpYjCM
-	yd2eMhbMz3R3U4MwZmFNzV75V3ksKIuGYqiC7Wvf6N0wtUFPVEDkgLY+VtOnuaVaHhRi
-	96uu5TFXdlusJ71kY2J/lhdbl7Q8VUkQkCy2dqmLxIA3n0IxjqJ8mSslHKZwTXIHPCll
-	jSicQd3XXoPY4Bggg2K2c1+/G5KthUk4SJHXC2aDyygRNpPg3QB3rj4PvFjrEzGkTwCC
-	3TgA==
-X-Gm-Message-State: APjAAAW6L/ZjpIkXDz1aCTZr2RrKU2jsDXic5I5/jQmNiFd2lHDkFljh
-	W8uKohDkvjG2aPDEorU1kYo5lH0hQ8ordHk3R3k=
-X-Google-Smtp-Source: APXvYqx+O+j8AB3G/8mcItpGZ5RvgSjDo0Z2FUYHN2XAPlXIt1wnDMZX0nHFP0h7LnQWzek14ADXH+Aa+y7DhaYGlsg=
-X-Received: by 2002:a9d:62c8:: with SMTP id z8mr44914309otk.144.1554136608961; 
-	Mon, 01 Apr 2019 09:36:48 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190401160106.22928-1-schnitzeltony@gmail.com>
-	<CANNYZj80ZqNn_6i9_Z0_HYJErcKrymQZmpiVGn_B56Jw3c7acw@mail.gmail.com>
-	<CALbNGRTccK1a5QuZppiAOR1kG5mgMFzSYYg4+uHANRx3o3kCNA@mail.gmail.com>
-In-Reply-To: <CALbNGRTccK1a5QuZppiAOR1kG5mgMFzSYYg4+uHANRx3o3kCNA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 1 Apr 2019 18:36:37 +0200
-Message-ID: <CANNYZj_=Xwi4P88jqwPbR3xOom-LQkutRY=Vs11UcCpU=WTNtg@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2 V2] gobject-introspection: auto-enable/-disable gobject-introspection for meson
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=JwOMnORN6va7ck5pQFgn4KkmrNRjl+XPCtBNZRGWlF4=;
+	b=FUfaEH9JIKMa0Quie/pu1yR7vt+VlTgaFTb86oTO+zf7uYjlVz7X6UwrfABwlHgot3
+	YHPiDPo/zstyYQJOeNtNO1Hw1Tu5b9EzEzgncO9zguZoMc3RnCN4TMi1HE8mSd8NfBJI
+	gXiXbYnYtge0fDxDEdxjyKDCLVPXbzW8YwW+L85x8cwAhnfpcqNlPcNmASa1LAcN1uJI
+	Q4+1RcA2fEYoeyUqYsfySyEnXIabnp1zuoUhgXixOECM84309qDUuZwHjKuu9UTFSPrK
+	kJEF9L+EDoQDAKzPb/OLWTP3nASmpQDBW5q3S6CKqlJC5F+BGgETp9X1GKKtBK3Io2z2
+	WT+w==
+X-Gm-Message-State: APjAAAVeys/1G1/8uMseNvnn71H3XPyH5J1Olg0wgi8EP+lvq9ZOG4Ux
+	/ARkgAWZmTrb/EqT6L+vhu3Mvr4ZBCquXw==
+X-Google-Smtp-Source: APXvYqySMYrGshXDcXZB6qDwdN9BcFUVi30rRI0SmdOtKiAPQUhIoooLhhBO7CykAlvQJr1b6XwjNA==
+X-Received: by 2002:a24:b214:: with SMTP id u20mr361735ite.134.1554137449367; 
+	Mon, 01 Apr 2019 09:50:49 -0700 (PDT)
+Received: from beef.ohporter.com (cpe-173-90-206-207.neo.res.rr.com.
+	[173.90.206.207]) by smtp.gmail.com with ESMTPSA id
+	d143sm5836377itd.44.2019.04.01.09.50.47
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 01 Apr 2019 09:50:47 -0700 (PDT)
+From: Matt Porter <mporter@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Apr 2019 12:50:34 -0400
+Message-Id: <20190401165034.11426-1-mporter@konsulko.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] busybox: fix CONFIG_RFKILL enable logic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +52,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 16:36:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 01 Apr 2019 16:50:49 -0000
 
-On Mon, 1 Apr 2019 at 18:21, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
-wrote:
+Currently CONFIG_RFKILL is enabled only if both bluetooth *and* wifi
+distro features are present. It should be enabled when either feature
+is present. Fix this by switching to use of bb.utils.contains_any().
 
-> > I honestly don't remember why the whitelisting was considered a good
-> > idea, but I think it would be better to drop it altogether? That way
-> > there will be no silent regressions (when upstream decides to rename
-> > the option, for example, which does happen).
-> >
-> Whitelisting would make sense for for projects where gir is mandatory
-> and cannot be disabled by configuration - are there any?
+Signed-off-by: Matt Porter <mporter@konsulko.com>
+---
+ meta/recipes-core/busybox/busybox.inc | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-For autotools, basically no, as they all use the same m4 macro file
-which allows disabling.
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index 24c15e4aee..c9d25ff1ca 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -75,8 +75,7 @@ def features_to_busybox_settings(d):
+     busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'nls', True, False, d), 'CONFIG_LOCALE_SUPPORT', cnf, rem)
+     busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'ipv4', True, False, d), 'CONFIG_FEATURE_IFUPDOWN_IPV4', cnf, rem)
+     busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'ipv6', True, False, d), 'CONFIG_FEATURE_IFUPDOWN_IPV6', cnf, rem)
+-    busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'wifi', True, False, d), 'CONFIG_RFKILL', cnf, rem)
+-    busybox_cfg(bb.utils.contains('DISTRO_FEATURES', 'bluetooth', True, False, d), 'CONFIG_RFKILL', cnf, rem)
++    busybox_cfg(bb.utils.contains_any('DISTRO_FEATURES', 'bluetooth wifi', True, False, d), 'CONFIG_RFKILL', cnf, rem)
+     return "\n".join(cnf), "\n".join(rem)
+ 
+ # X, Y = ${@features_to_busybox_settings(d)}
+-- 
+2.11.0
 
-For meson or other build systems the answer is also no, because in
-this case we would have to patch the upstream code to either make gir
-generation optional (and then 'inherit gobject-introspection'), or
-disable it altogether (and then don't inherit g-i at all). The reason
-is that introspection data generation is done through running a target
-binary, which requires a functional qemu usermode, and for some target
-MACHINEs qemu won't work (e.g. mips-n32, some flavours of powerpc etc
-- g-i class determines that and does the right thing to disable
-introspection automatically). Here's an example of such patching:
-
-https://git.yoctoproject.org/cgit/cgit.cgi/poky/tree/meta/recipes-devtools/=
-libmodulemd/libmodulemd/0002-modulemd-v1-meson.build-do-not-generate-gir-or=
--gtkdo.patch?id=3Df06d14b2963e9d5145041057c3ad0e48654f1501
-
-(newer versions of libmodulemd made g-i optional, and so the current
-oe-core recipe and its patches reflects that).
-
-Alex
 
