@@ -1,49 +1,30 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com
-	[209.85.208.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B5D437CF9D
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id EE56B7CF88
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 02:24:45 +0000 (UTC)
-Received: by mail-lj1-f175.google.com with SMTP id q66so6609405ljq.7
+	Mon,  1 Apr 2019 03:16:45 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,295,1549900800"; d="scan'208";a="58170609"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 01 Apr 2019 11:16:45 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id A85454CD451D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 19:24:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=YY81aozfVHn+wye6R/YY05sq7u5ON6f41kaQb6h0ok0=;
-	b=JabOXfvcjknBKbme5uXnhagIxefAlPpMbJwOGDAvIjNtUhSDwTGokF+lga7F9BFnVj
-	J+Kefcv9NOrvHgik2X1jiG1GyOCkHljp/a4rMSil2dwHTBLqlKqUATJx7eUqoCowZHsA
-	GJnqahnwlB2+/CaAFSAusezKz1dgJ2QFYBJ/HQp3DDKTY4j6PDOCtrg59fir3AHTKakU
-	Z/dRUvg4PCmvxmQLrdnmK7Hbf/yMFlHQfpekmx/aBVgWsmFtm/MSUmweRmnGd8hOqYiu
-	EtfX9uI2jc4OjsI38XieoTOnJqXdT3HXCF1weyOrbMjfUBoAM1MJ6g1li+M8IucUNSK6
-	mC1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=YY81aozfVHn+wye6R/YY05sq7u5ON6f41kaQb6h0ok0=;
-	b=MVo7F/KSR8BzMgaCqJ3yZJ64bhTi4PJXmKZ2FFrOGf8KfOndRRldzhr8f91frGt7wA
-	gImt+qznkUyZOoaW5fEuM1D7mQdt0j3uaaqtJmdERZk9W5w8Ax03OLcuWgOU2T6/Aum1
-	KIyhLrjnWYICmBGD4acGjhqv9+ZFxpJzAJM+b7wiW8WGGbsc5Lji+Kk5QQGEr71AgJ4Z
-	YIfWlksSRCvQbF1FPSLNy/jGMMHxHrDjeP2sMNO0HQncv9zuz3kLdQuzDyKmKRKonbPT
-	rgDOxpzYEreaD3PxbGXNF6+WodFDvcplxtG63lno1UMHRhPvwDZEJPnF47Q2VeCk6Fq7
-	Wlzg==
-X-Gm-Message-State: APjAAAXjBYmYX92k0HPZ+75U8pPshrgz5evsKv1CfLLyj5XfWGDTvKGP
-	JYf2XDOB7fjSQgMC0RgpIPgQgjlv+OI=
-X-Google-Smtp-Source: APXvYqz8yxd3Te0m0vHvHCfy2fAv8noryQlAYlCsQx4+ykuCszDqMWaULKwcppGyDul6ZusNwUn+rQ==
-X-Received: by 2002:a2e:9194:: with SMTP id f20mr8852745ljg.10.1554085485723; 
-	Sun, 31 Mar 2019 19:24:45 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	187sm1774905ljj.46.2019.03.31.19.24.44
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 19:24:45 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 04:24:43 +0200
-Message-Id: <20190401022443.16656-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libyaml: update to 0.2.2
+	Mon,  1 Apr 2019 11:16:45 +0800 (CST)
+Received: from localhost.local (10.167.225.84) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 1 Apr 2019 11:16:52 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Apr 2019 11:17:21 +0800
+Message-ID: <20190401031721.12936-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.84]
+X-yoursite-MailScanner-ID: A85454CD451D.A8541
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] libxft:upgrade 2.3.2 -> 2.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 02:24:46 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 03:16:46 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-LICENSE checksum was changed due to copyright year change.
+-Upgrade from libxft_2.3.2.bb to libxft_2.3.3.bb.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- .../libyaml/{libyaml_0.2.1.bb => libyaml_0.2.2.bb}        | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-support/libyaml/{libyaml_0.2.1.bb => libyaml_0.2.2.bb} (62%)
+ .../xorg-lib/{libxft_2.3.2.bb => libxft_2.3.3.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxft_2.3.2.bb => libxft_2.3.3.bb} (88%)
 
-diff --git a/meta/recipes-support/libyaml/libyaml_0.2.1.bb b/meta/recipes-support/libyaml/libyaml_0.2.2.bb
-similarity index 62%
-rename from meta/recipes-support/libyaml/libyaml_0.2.1.bb
-rename to meta/recipes-support/libyaml/libyaml_0.2.2.bb
-index d77891825f..0d9e8bfc5e 100644
---- a/meta/recipes-support/libyaml/libyaml_0.2.1.bb
-+++ b/meta/recipes-support/libyaml/libyaml_0.2.2.bb
-@@ -5,13 +5,13 @@ HOMEPAGE = "http://pyyaml.org/wiki/LibYAML"
- SECTION = "libs/devel"
+diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+index 4565ae2626..65bd9ae494 100644
+--- a/meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+@@ -20,8 +20,8 @@ PROVIDES = "xft"
  
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE;md5=5591701d32590f9fa94f3bfee820b634"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=a76b4c69bfcf82313bbdc0393b04438a"
+ PE = "1"
  
- SRC_URI = "http://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
--SRC_URI[md5sum] = "72724b9736923c517e5a8fc6757ef03d"
--SRC_URI[sha256sum] = "78281145641a080fb32d6e7a87b9c0664d611dcb4d542e90baf731f51cbb59cd"
-+SRC_URI[md5sum] = "2ad4119a57f94739cc39a1b482c81264"
-+SRC_URI[sha256sum] = "46bca77dc8be954686cff21888d6ce10ca4016b360ae1f56962e6882a17aa1fe"
+-SRC_URI[md5sum] = "331b3a2a3a1a78b5b44cfbd43f86fcfe"
+-SRC_URI[sha256sum] = "f5a3c824761df351ca91827ac221090943ef28b248573486050de89f4bfcdc4c"
++SRC_URI[md5sum] = "4a433c24627b4ff60a4dd403a0990796"
++SRC_URI[sha256sum] = "225c68e616dd29dbb27809e45e9eadf18e4d74c50be43020ef20015274529216"
  
--S = "${WORKDIR}/yaml-${PV}"
-+S = "${WORKDIR}/libyaml-${PV}"
- 
- inherit autotools
+ XORG_PN = "libXft"
  
 -- 
-2.17.1
+2.20.1
+
+
 
 
