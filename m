@@ -1,50 +1,50 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com
-	[209.85.208.51])
-	by mail.openembedded.org (Postfix) with ESMTP id C10096C0BE
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 1325E7D19E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 21:30:46 +0000 (UTC)
-Received: by mail-ed1-f51.google.com with SMTP id x10so9667208edh.11
+	Mon,  1 Apr 2019 21:34:14 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id a28so7396201lfo.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 14:30:47 -0700 (PDT)
+	Mon, 01 Apr 2019 14:34:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=EbyTT9deZZ1XAORsfydFhNNBIz+LIxkWDzzabB9gLMc=;
-	b=tKzm0fNZanrzMSTICrt87Fw0Q4VQI9D95BBK/Fz+JLZXxoKRMh7687EABxKmVnZnKz
-	9T2aNBjNQBOso7YN+UBD0GqzVNPmvdbhcOhLP+2vr6ukSmSP3c4HftkhKNGVa1iJp2OG
-	24cmc2Ewdmz0XnSMiOKbPbBSPqIIsS4JoLcYQW3Rgsp5+DtyvAfl32QzrfRDJ89t0mXK
-	eGEE9PaVNjtxo5QucAfRqUNGFtL8popp4hrcsNfE5WYo/NuatycaqpaBxp7ap3Yxhz7v
-	K8eh4WNkYF2o6OJFvm8FIT/NB/YiZbCFeoRfWR+2Lf0BpFUM1fqNQP0uz0fYGOZ+mDcU
-	1L1Q==
+	bh=PQuLcu2AyI3g1/U7WVhyySJhGb6zWy/1vMohVk7a8XI=;
+	b=0DZQJYYrHckJ6B7mmlearZZ5KHFDdmjezJOzUMgBqBNtxZ/lEzawP+KwLrStGvXxy0
+	bqeAovEmh/ATFn9v5iYvyE2y+rlCGor/t3eU6epJPnOG07NmtWRbty4zKN2C7THL9dyb
+	4vigFDzqgSFpR5iti+JCgryXy6YfkAek52warQkuoo+6mXoVhXRpq+CvKlDGrChdZyTi
+	/0/3QSaHUiITMD7TJhKbD8Nvq7kTjFiJlnD2c6TnOH7okTJOxl2mkR414FSqE1McA7pN
+	58D9uaSblR4AZlM/NQ/QitrbuExkwqVdZaSh9jURddHaB5py3FH7LfGe540yxQ7gkBqB
+	Pe5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=EbyTT9deZZ1XAORsfydFhNNBIz+LIxkWDzzabB9gLMc=;
-	b=mFItm/LxSKz7Tr8s83EbPppXJpjcJrpY+/97E8F2W0/82/re98fshVCpwLKRM9CsQr
-	cCBvS7sRH8exBsNcwhfD9LyvpYprqM+ObKklgYYweFqBtCtjYdmEatNF/MJt8NK6hDa9
-	k4rkgPUE9EB4YJVQa7bmvpVX7zyHi/70rzNIKobfVqV2vEWV9c0LEmXZK3j/e0PZ9J8N
-	bj1lYugaMNUqXhW5CjuicMyaFqkOyAYtMwbq51LVBjEpuV3wkLH8EChCEmTdQM0i7pxR
-	IdqynCU9laMp0TL7dv/3svPmKuJbmLuXi1gG50+ZNCCoRnNkSprTHWIUJS1awQtjHh58
-	CQsQ==
-X-Gm-Message-State: APjAAAX9c6O1ofKhBTPZFdrYs4Zu7QxVTz3oj1VffNZxYOx8M4b/Y7r9
-	61C029sG8zi+3CvgizZPYHrIqAEPCOY=
-X-Google-Smtp-Source: APXvYqzQQ7ZKlDKPdmZLeQw6uO70WwwPSBtw6+fhsuFDBkvi7PFeLsXFVzRGiGuRk9v/kxafwezbxw==
-X-Received: by 2002:a17:906:2781:: with SMTP id
-	j1mr37970519ejc.238.1554154246899; 
-	Mon, 01 Apr 2019 14:30:46 -0700 (PDT)
+	bh=PQuLcu2AyI3g1/U7WVhyySJhGb6zWy/1vMohVk7a8XI=;
+	b=mnpPZFeamZiKcZpB4W5twFL7xdg97KWFhPThN97BxqUJNeOevtaU0MAn8VlGMMzqTV
+	4gb2D3qAUS+/KwYA4vLsLWb/FJ9uHad3Dobcc+DaEXndfikusn35SaeGBKs1aM3zGr7s
+	PZT8OGktGlAwu0O7lRwqcpPq76qig4K0nSJaGz+K2/yqPxhMhaiKKVdYx9XG7QfCjksB
+	obpq2rvWM4+RnPCI09m9z2hUOahpIxqNSBnDGwkEzjrXGqU+hFLJVgn2Tx5mem2/fEWE
+	r6kIHUfzK/CPRBkvLchkTc9PB6yljfr/yu5WoIp286rz5bUVowroRr1Ihq1Rcvlt3GBJ
+	HMeg==
+X-Gm-Message-State: APjAAAXlTccILNnTwv9uVVhFfo1gjJh7eX4rf3L5CUPoBquw9lCA2nQ+
+	/lmC5PC5wCBpGIunHUOOMeTtUARA0zo=
+X-Google-Smtp-Source: APXvYqy//3HItqD2N4/f/YnvE92Va0rPNvztTN5goVIgfgt0qsuL49a8ujErE7hfQQVy2ay73GyLFQ==
+X-Received: by 2002:a05:6512:248:: with SMTP id
+	b8mr25783478lfo.140.1554154455350; 
+	Mon, 01 Apr 2019 14:34:15 -0700 (PDT)
 Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	e14sm3505771ede.89.2019.04.01.14.30.45
+	g24sm2128163lfb.49.2019.04.01.14.34.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 14:30:45 -0700 (PDT)
+	Mon, 01 Apr 2019 14:34:14 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 23:30:42 +0200
-Message-Id: <20190401213042.24130-1-open.source@oleksandr-kravchuk.com>
+Date: Mon,  1 Apr 2019 23:34:04 +0200
+Message-Id: <20190401213404.18639-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libxmu: update to 1.1.3
+Subject: [PATCH] libxft: update to 2.3.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 21:30:47 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 21:34:15 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../xorg-lib/{libxmu_1.1.2.bb => libxmu_1.1.3.bb}            | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{libxmu_1.1.2.bb => libxmu_1.1.3.bb} (86%)
+ .../xorg-lib/{libxft_2.3.2.bb => libxft_2.3.3.bb}             | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxft_2.3.2.bb => libxft_2.3.3.bb} (88%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb b/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb
-similarity index 86%
-rename from meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
-rename to meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb
-index 4740c15732..dc3179f53e 100644
---- a/meta/recipes-graphics/xorg-lib/libxmu_1.1.2.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxmu_1.1.3.bb
-@@ -7,7 +7,6 @@ Widgets. A subset of the functions that do not rely on the Athena \
- Widgets (libXaw) or X Toolkit Instrinsics (libXt) are provided in a \
- second library, libXmuu."
+diff --git a/meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+index 4565ae2626..65bd9ae494 100644
+--- a/meta/recipes-graphics/xorg-lib/libxft_2.3.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxft_2.3.3.bb
+@@ -20,8 +20,8 @@ PROVIDES = "xft"
  
--
- require xorg-lib-common.inc
+ PE = "1"
  
- LICENSE = "MIT & MIT-style"
-@@ -28,8 +27,8 @@ FILES_libxmuu = "${libdir}/libXmuu.so.*"
+-SRC_URI[md5sum] = "331b3a2a3a1a78b5b44cfbd43f86fcfe"
+-SRC_URI[sha256sum] = "f5a3c824761df351ca91827ac221090943ef28b248573486050de89f4bfcdc4c"
++SRC_URI[md5sum] = "4a433c24627b4ff60a4dd403a0990796"
++SRC_URI[sha256sum] = "225c68e616dd29dbb27809e45e9eadf18e4d74c50be43020ef20015274529216"
  
- BBCLASSEXTEND = "native"
+ XORG_PN = "libXft"
  
--SRC_URI[md5sum] = "41d92ab627dfa06568076043f3e089e4"
--SRC_URI[sha256sum] = "756edc7c383254eef8b4e1b733c3bf1dc061b523c9f9833ac7058378b8349d0b"
-+SRC_URI[md5sum] = "ac774cff8b493f566088a255dbf91201"
-+SRC_URI[sha256sum] = "9c343225e7c3dc0904f2122b562278da5fed639b1b5e880d25111561bac5b731"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
 -- 
 2.17.1
 
