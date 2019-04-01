@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
-	[209.85.208.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D4D597964F
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com
+	[209.85.208.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DD4357964F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 00:39:41 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id v22so1815784lje.9
+	Mon,  1 Apr 2019 00:42:10 +0000 (UTC)
+Received: by mail-lj1-f172.google.com with SMTP id p14so6484844ljg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 31 Mar 2019 17:39:43 -0700 (PDT)
+	Sun, 31 Mar 2019 17:42:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=U2S0SVFqw44nn7TltW1rl6Jbxqfh5Na0qs8rpNhH2gc=;
-	b=bp28EE6E7Do4y9EqTF6bsbNtreMm8TeKkHBoPTqDBKMsBWKW7noF258a+w87Jvku3n
-	Hp01mNPwAAJ2FXHQgQL4aPxhH5kgA2YL6fvCFYlAKwS2EdEflWIdqpc/esTGixsAxP2E
-	eCpRWGscWRkYuN4weFCHBIciS0Jkzno5OGNOR5qnU+LB48UULNHG2ctFUDPnEBMVJadf
-	6oYQTxboYnMDCJd8Qhh+Fw20TJJXapeepyOCNXjkaIeGCe86qldQzubPl3vsX+8V3w9y
-	dtBQ7KLqc23v/4IPd1/1vWeBw3y+kvDJbgIpV43RJQKBRuHsjiDWyWpag5LxWSAqsKhk
-	a9Yw==
+	bh=U95TAuy0vL0zVOVjD4hmTy0h9sUqBCqOVVTnWCtGvGA=;
+	b=FGdZOd2tTnrtCT8i8o9/rm75t5ZsK997jBNBJmOuKkrRC/DTF0Ge8bIqPqQwrvyw6I
+	JZ/CfURBLN0PVLPRQVzMPLWqqrVx2E1be3vYrEPTEbgjEty82QheqaAPBvfQ9j6XqwC1
+	Pm9tSXuuwsrDdrIg8ZAjfHFP3oYQWxmHLxHjo4zkiZyg9N96V2ZIP667mCe507rT+ij/
+	0o0DsovMr/AfWQ9B7hmgxxCdgTq3rADjp6qU9YIUJecjebUdbL4QMSqGDiiqEdvpKJ9Q
+	0sZfpKqNv2lnmHRRPFFEZgMKfnDF4C9eWHR63xd7M1CJbMdGFyapoYCMNo0TNnHx0YUi
+	oKKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=U2S0SVFqw44nn7TltW1rl6Jbxqfh5Na0qs8rpNhH2gc=;
-	b=Nfc0kh0GdpymvV7dw8vCDqsUeEbJlK4iGi9EHDBwABTpC3MPwtVZ1Qrqs8+GOEY9xx
-	eeZ+Wntg1PiBwDtC3Ry0TtCGULw2dVOJ+LMabN+kzyALA010SzFAI0QhCVgonSUUD8t3
-	TCd7cTk07BYBqBEKT8Ll51lhodmhLxTHChC+6eRHNIcrvpwVo1SwRinTuioc0jbyHp7C
-	Hsg9Y6LzqsesCrb4PSlP8seTY4GsNS55VcT9YU1JiRmhYxJe9iigc+jRHIL7S49Wo1Uo
-	HGh8lAjHVALCdpQrTK7Lw8YFRBnK2OGp33b1tuPrPDaJmbDmKtEWMCR8DX2AzJsKQfSo
-	slCw==
-X-Gm-Message-State: APjAAAUrsLva3iCm1IJ+1q+Wl2hgu0r0hm3k31udXRY8hzxkQWd+AyVG
-	ZPznNZBjYcivfBNkKrQ+CU+4f6tf9uo=
-X-Google-Smtp-Source: APXvYqwaRnG9eMt4UxITNjyD8sW867NtBuHEyvS8FKbD8J/1MH3FHXy3Mfr6dc6WEj1M4z7XWZdujQ==
-X-Received: by 2002:a2e:1311:: with SMTP id 17mr11799025ljt.75.1554079181933; 
-	Sun, 31 Mar 2019 17:39:41 -0700 (PDT)
+	bh=U95TAuy0vL0zVOVjD4hmTy0h9sUqBCqOVVTnWCtGvGA=;
+	b=Lq2QEpTFB/HVdJMjSuggol1ViB2wyiipaY2nyejNpKYn+vgDIZbrOBcxpB9NP/Dwf4
+	edjGa9A9RrubOFugQ7VSy0EcBKmsZX/zB4AGBSnlnSDV5uU/fVogRQAn2r8wrNmNtPpd
+	W+qqFuhpcG+vT0+j6i54Jv4f5dFErtqfPub/NJWSutMyMOYnI/Bj3uK+E+jHfTXQ6taD
+	SDaU5I/fyU+dKaZw+ksl98Y5B5FtjI63A9h2rY7MlVTlWILIg2o6HyWvV+Q/1rBK6jHO
+	fVrR8CXsxY7PHpiwKsb66DJFeZ7G54YgGGNW1jjEvLfG7rvZqfwbZ2LXBRj5PdN9d5vZ
+	L2zA==
+X-Gm-Message-State: APjAAAVsWOpfaPMcvo0BJvVe1gtWDIBEZCoi0+ZyFKvuTmM9RZeoAv+E
+	/av/Y6JOFGDOGloLESIFZS+qkpr7h2U=
+X-Google-Smtp-Source: APXvYqy7QjVdE9scFAqYEyZ7bIxH5sveQeRzQ+WMwGgIlf9+u4qYGKkgIbQvnvzIjT5/8NUOum1btA==
+X-Received: by 2002:a2e:9585:: with SMTP id w5mr16277733ljh.132.1554079331361; 
+	Sun, 31 Mar 2019 17:42:11 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	d17sm1523464lfb.60.2019.03.31.17.39.41
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id d3sm1739998ljc.15.2019.03.31.17.42.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 31 Mar 2019 17:39:41 -0700 (PDT)
+	Sun, 31 Mar 2019 17:42:10 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 02:39:39 +0200
-Message-Id: <20190401003939.22601-1-open.source@oleksandr-kravchuk.com>
+Date: Mon,  1 Apr 2019 02:42:09 +0200
+Message-Id: <20190401004209.30455-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] x11perf: update to 1.6.1
+Subject: [PATCH] libxdmcp: update to 1.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 00:39:43 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 00:42:11 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../xorg-app/{x11perf_1.6.0.bb => x11perf_1.6.1.bb}           | 4 ++--
+ .../xorg-lib/{libxdmcp_1.1.2.bb => libxdmcp_1.1.3.bb}         | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-app/{x11perf_1.6.0.bb => x11perf_1.6.1.bb} (80%)
+ rename meta/recipes-graphics/xorg-lib/{libxdmcp_1.1.2.bb => libxdmcp_1.1.3.bb} (84%)
 
-diff --git a/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb b/meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb
-similarity index 80%
-rename from meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-rename to meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb
-index a06aa269b6..33c0c8a95c 100644
---- a/meta/recipes-graphics/xorg-app/x11perf_1.6.0.bb
-+++ b/meta/recipes-graphics/xorg-app/x11perf_1.6.1.bb
-@@ -19,5 +19,5 @@ do_install_append_class-target () {
+diff --git a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb
+similarity index 84%
+rename from meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb
+rename to meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb
+index 466f3491fd..d43a146fd7 100644
+--- a/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.2.bb
++++ b/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb
+@@ -22,8 +22,8 @@ XORG_PN = "libXdmcp"
  
- FILES_${PN} += "${libdir}/X11/x11perfcomp/*"
+ BBCLASSEXTEND = "native nativesdk"
  
--SRC_URI[md5sum] = "f0b24e4d8beb622a419e8431e1c03cd7"
--SRC_URI[sha256sum] = "e87098dec1947572d70c62697a7b70bde1ab5668237d4660080eade6bc096751"
-+SRC_URI[md5sum] = "e96b56756990c56c24d2d02c2964456b"
-+SRC_URI[sha256sum] = "1c7e0b8ffc2794b4ccf11e04d551823abe0ea47b4f7db0637390db6fbe817c34"
+-SRC_URI[md5sum] = "18aa5c1279b01f9d18e3299969665b2e"
+-SRC_URI[sha256sum] = "81fe09867918fff258296e1e1e159f0dc639cb30d201c53519f25ab73af4e4e2"
++SRC_URI[md5sum] = "115c5c12ecce0e749cd91d999a5fd160"
++SRC_URI[sha256sum] = "20523b44aaa513e17c009e873ad7bbc301507a3224c232610ce2e099011c6529"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[arc4] = "ac_cv_lib_bsd_arc4random_buf=yes,ac_cv_lib_bsd_arc4random_buf=no,libbsd"
 -- 
 2.17.1
 
