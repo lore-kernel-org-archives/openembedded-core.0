@@ -1,49 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BC387D207
-	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 23:22:01 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id k64so2080732itb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 16:22:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=VucYoDGcUGc6B5jpvijskt3NFu9mXvJwmFHjiDikKEk=;
-	b=wEMRg8zbhWdIS50ZjwP+A6It71h7Tuzkm6YPTsMsmhFLOeZ3EEkBmHewPUw8UwWsB1
-	OocXrjAAX4afU2hrw9Mvv63zHk33PwWuNr3A2dl1m05589FIl/0OXw7mWJOar+EHLRMB
-	T+nUhyAAncV7czVfmfz6OvyY6moK3G8sESCrOCsc46aCwkHOOE/P8KurbRODB4zKqnNR
-	6RaaWsT3YSR0FW+u8vP/pRXY91a6HKkFyAixCdu5lNNOLrwjPrmM/p5ZIqvodIGxSXD4
-	OUYm3+Z05X9Aeh6YWv+Cjh452fPKPZC3hAjJDUUZJCsFh2fQ4GBny/iiHWTdW5zNBxfY
-	/O7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=VucYoDGcUGc6B5jpvijskt3NFu9mXvJwmFHjiDikKEk=;
-	b=Cbjqpez2wsnmgcspkRj6tKVv1rJROEL6yquE97XmAw80rdaMRDix4NUORvc9KbZMXV
-	9uVs0behhfezY2vjFS2fZGd/w+U9qbA4xnjq6PrR1LSzgQOls2SYh5P6+mZjgM+TNfV0
-	B4eBCXoiUPJs+P9Z1SoqyHrAxTyMgWTWERY/kQXnF1hmeysfDlXPqBDtEZslRRvLWIAy
-	bFPlSoj8ypP9/3ghx5P7Rl0iZ/jrmttam/qmxjsRnDR3pvGMnpvyblsmZf1Df8CeevF7
-	Rj/rw8JYOapFf+zRm6tZYe/u/YadW4fQmJbLzmnbCghEUDq82G5HT1ENmhDT2sM93dDC
-	ldig==
-X-Gm-Message-State: APjAAAXslUq8CaUUQAGvZrqgQ8ET4bPYXvuQjVgmg5aiT5rN4HqicE0I
-	z9LsPte8FJKb8C1wVAwlCTVnxiPG1fe+Z61EbCMoYhxiuuk=
-X-Google-Smtp-Source: APXvYqye2/1Br9dju019NeDMX4yTqtakDvB1B51piqozdbYq9ahzLPF1FBJEUJwcRbmBn61KGZSEZgNIJFRFdn9cSME=
-X-Received: by 2002:a24:d643:: with SMTP id o64mr1908809itg.148.1554160922413; 
-	Mon, 01 Apr 2019 16:22:02 -0700 (PDT)
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 898D77D209;
+	Mon,  1 Apr 2019 23:41:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x31NfONA025187
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 1 Apr 2019 16:41:24 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 1 Apr 2019 16:41:23 -0700
+To: akuster808 <akuster808@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>, Patches and discussions about the
+	oe-core layer <openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
+References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
+	<b08083fc2f63f6324a652706f8343a0b8defe209.camel@linuxfoundation.org>
+	<a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <6068e963-94c1-7225-2c60-9ae027c74639@windriver.com>
+Date: Mon, 1 Apr 2019 18:41:22 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190401222438.26872-1-open.source@oleksandr-kravchuk.com>
-	<CAJTo0LZ7PSj5_X8t_n2C9sMktpOfYd79q6M69q4b3vpRkih4=Q@mail.gmail.com>
-	<66007396-8ceb-4ce5-7d33-2223c4fcf1dc@oleksandr-kravchuk.com>
-In-Reply-To: <66007396-8ceb-4ce5-7d33-2223c4fcf1dc@oleksandr-kravchuk.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Apr 2019 00:21:50 +0100
-Message-ID: <CAJTo0LbJwtkbOZP-HojkachZ4AA9q+=1cS4hRwp4iy_34RCTjg@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libcomps: update to 0.1.11
+In-Reply-To: <a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
+Subject: Re: Git commit process question.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +62,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 23:22:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 01 Apr 2019 23:41:26 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2 Apr 2019 at 00:18, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
-> I wonder that as well.
->
-> As someone rather new to the YP, I would sensitively like to learn why,
-> so I don't waste your time in the future again, because I have not
-> ignored the warning/error. I have simply not seen one.
+On 4/1/19 6:20 PM, akuster808 wrote:
+> 
+> 
+> On 4/1/19 4:02 PM, Richard Purdie wrote:
+>> On Mon, 2019-04-01 at 15:33 -0700, akuster808 wrote:
+>>> Hello,
+>>>
+>>> I have noticed a large number of git commits with no header
+>>> information being accepted.
+>> Can you be more specific about what "no header information" means? You
+>> mean a shortlog and no full log message?
+> Commits with just a "subject" and signoff. No additional information
 
-This only happens occasionally and we've never managed to get to the
-bottom of it.
+If you can convey the reason for the change in just the subject, that is
+acceptable.. but there is -always- supposed to be a signed-off-by line according
+to our guidelines.
 
-Using the current patch (not a fixed one) can you force it to rebuild libcomps:
+So if you see this, I think we need to step back and figure out where and why
+it's happening and get it resolved in the future.
 
-$ bitbake libcomps -C unpack
+(Places I've seen in the past were one-off mistakes and clearly that -- so it
+wasn't anything that we needed to work on a correction.)
 
-And then mail me the log.do_patch from the work directory?
+--Mark
 
-Also, do you have PATCHRESOLVE set?  Probably best to check that using
-bitbake -e just in case you've a site/distro config setting it:
+> We tend to reference back to how the kernel does things.
+> 
+> https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> These two sections in particular.
+> 
+> 
+>     2) Describe your changes
+> 
+> Describe your problem. Whether your patch is a one-line bug fix or 5000 lines of
+> a new feature, there must be an underlying problem that motivated you to do this
+> work. Convince the reviewer that there is a problem worth fixing and that it
+> makes sense for them to read past the first paragraph.
+> 
+> 
+> along with this section.
+> 
+> 
+>     14) The canonical patch format
+> 
+> This section describes how the patch itself should be formatted. Note that, if
+> you have your patches stored in a |git| repository, proper patch formatting can
+> be had with |git format-patch|. The tools cannot create the necessary text,
+> though, so read the instructions below anyway.
+> 
+> The canonical patch subject line is:
+> 
+> Subject: [PATCH 001/123] subsystem: summary phrase
+> 
+> The canonical patch message body contains the following:
+> 
+>       * A |from| line specifying the patch author, followed by an empty line
+>         (only needed if the person sending the patch is not the author).
+>       * The body of the explanation, line wrapped at 75 columns, which will be
+>         copied to the permanent changelog to describe this patch.
+>       * An empty line.
+>       * The |Signed-off-by:| lines, described above, which will also go in the
+>         changelog.
+>       * A marker line containing simply |---|.
+>       * Any additional comments not suitable for the changelog.
+>       * The actual patch (|diff| output).
+> 
+> 
+>     - Armin
+> 
+>> Cheers,
+>>
+>> Richard
+>>
+> 
+> 
 
-$ bitbake -e | grep PATCHRESOLVE=
-
-Thanks for all the patches, it's much appreciated.  We're deep in
-feature freeze right now but I'm queueing them up for when master
-opens for upgrades again.
-
-Ross
 
