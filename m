@@ -1,49 +1,50 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CDADE6D74B
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AFB337D1A4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 21:37:29 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id 10so7408359lfr.8
+	Mon,  1 Apr 2019 21:48:49 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id v21so9773120edq.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 14:37:31 -0700 (PDT)
+	Mon, 01 Apr 2019 14:48:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=WEnU5Jt2PlfRNlomPDjoZS9PI8UxHXf7VvqqMlX2WLg=;
-	b=WNol6oOEBi+KvsewzlbQ2jVpmGv8Bd4zy0KnaNtnYWov5ohr3WhpQyMosBevU+p9l3
-	S4ciyQky53B6y9pkPhEVQtbceST6EOy6uGUrP+QvwdcVvA+1OhXuK+8MmB5ciZBij8Fn
-	Zpx269uaTYLSYPmO/JTx4wPzGrr3QCWgTJiYk/y7SUoHhTzz63ILEguD27x66pPdpbY6
-	Kmc9vTooXV6PxeFATmen5pqGaXoh/WNhDp80BIPXkAGmg5HE1Ln3Hmf1aqCEhAqOIDuD
-	RxRpGIAvNul2wddKCxPoT08YvpT7OI/h68rJ2xenLPc22M+k2uQ2fGTCY7/VPZGm1tou
-	9Sig==
+	bh=8V/Ygv85UYyLLU+zepU2/hIJOTOhLtpa4p24+4A8ra0=;
+	b=Ms5CRN/xlHZNc0ixWuUG0INm0LkOCxx1J+nGPa1MRn147N/fB+YweeVnlmszboxqT8
+	pRQpOea+OpFxiPfL94RYrkE73s7VdOk9zVa4Ogc6/KUrzHryhE70kpFozeMFN5lQ+DiN
+	t3V/weVe2CW1fZWoQsRZ2vgAQLdcEaY6u+tiCRlxzRztcxhATkK1FpGmTHJC3ddZRrsU
+	tlncbgl47rvtOjb4GNUw+znXDq3WpAyqAzapb2paH4sFtd2rWY00Jdm4IcTXBfns2bLQ
+	MTrCmBGpHOk0q/NarmuId1+rEicDDDa4XiSfCgaTZF/0xNgz/EBm7MPd+diZoOWPO2D+
+	rOMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=WEnU5Jt2PlfRNlomPDjoZS9PI8UxHXf7VvqqMlX2WLg=;
-	b=XJiAnf83n3/GPp9eGx916dhOOsiSfJpv3XJfxxnuE66kFR1yzNh6QktPLf0BCKUBPO
-	xf3npf1dbO5A3lFAa/G2x4RTL7sen0raKRkZRGh9M/kZ5IYOuDcNF+CdWVXkLPDeTcvN
-	HHZ/bf6hmH6U3PKNVIaHrEh1wx/ZQwfreEhVugyoWIn2vejQCGExczLaCIy/t49r0VXZ
-	w5oab26UDe8tIOkFsGOllIMaoioIJB8AS4IyO9Yx9pBthHNT+7/q0Jowc8VhNHGedndu
-	b289zeyp/oXkkzaTKCvM+6KP98iAcRMhScR+6lgtKXCzOzQFE/MgpR++60SNJ7vm+dya
-	BOFw==
-X-Gm-Message-State: APjAAAV6jtWgdifBjtdQzEN07g4MIXLB8G4kQjNPeQebtEG5++m1w/5E
-	v3A3WUdPlS64yMbprnkISHmeyspYD6Y=
-X-Google-Smtp-Source: APXvYqx1zBQyiGDoTiseL5ukUJPntwdfkqLK4sgXbXYK18HMIVBd/yGdmuuM71LKDMCw4AHzYJ7YAw==
-X-Received: by 2002:ac2:4310:: with SMTP id l16mr22592466lfh.58.1554154650228; 
-	Mon, 01 Apr 2019 14:37:30 -0700 (PDT)
+	bh=8V/Ygv85UYyLLU+zepU2/hIJOTOhLtpa4p24+4A8ra0=;
+	b=aXK7rSZKcuSsM6S6JxuiP3MNLqfl2AczoZZVS8w0PlwBXaY71EVfbbzpcnaEYHu6Hx
+	Mg4sGROCCbPKir61tNEn8adq/99yjR3oKiQb40CG5zZ4rDZmauFN1kPoqsBbGHtQgjCt
+	ZaBVHaQAHGbF0erdfX1g+c+W5Lhb9t8qb5XflBGmn3UVvgkn93WD/tGXi9o+eaJXtAQC
+	mToe5sI5M5MV7Xx6SYM91sQYCaoonIoV3x0CFe78WW6jDl1Lx6b3EEqs6aTxIUUUYwuw
+	6vC7eBVCozRJ7uVO1WmD6dVc5ao4UwJl1HGXkatkdiDJrFL7kAJgruJD6ksDZlsKaKL4
+	T0qw==
+X-Gm-Message-State: APjAAAXAEDTFe5twXow0TYNepo56+T8ygFe3F+axYxEqUjj6U1L+oPBP
+	ao7xRCiAtopAiXYykQDvBkh56kOS9LU=
+X-Google-Smtp-Source: APXvYqyIIUtcDTHpiehn/LEj1kI6jbrcMOY+iwLQATlZGrlVRJCUx0oO88ZbyCQQRPdRh5uRvT/v+A==
+X-Received: by 2002:a17:906:1ed7:: with SMTP id
+	m23mr28356399ejj.198.1554155330028; 
+	Mon, 01 Apr 2019 14:48:50 -0700 (PDT)
 Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id u3sm2430110lju.51.2019.04.01.14.37.29
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	f25sm3463801eds.80.2019.04.01.14.48.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 14:37:29 -0700 (PDT)
+	Mon, 01 Apr 2019 14:48:49 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 23:37:27 +0200
-Message-Id: <20190401213727.23667-1-open.source@oleksandr-kravchuk.com>
+Date: Mon,  1 Apr 2019 23:48:46 +0200
+Message-Id: <20190401214846.16380-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] xtrans: update to 1.4.0
+Subject: [PATCH] libatomic-ops: update to 7.6.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +57,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 21:37:30 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 21:48:50 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../xorg-lib/{xtrans_1.3.5.bb => xtrans_1.4.0.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-lib/{xtrans_1.3.5.bb => xtrans_1.4.0.bb} (83%)
+ .../{libatomic-ops_7.6.8.bb => libatomic-ops_7.6.10.bb}     | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.6.8.bb => libatomic-ops_7.6.10.bb} (82%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xtrans_1.3.5.bb b/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb
-similarity index 83%
-rename from meta/recipes-graphics/xorg-lib/xtrans_1.3.5.bb
-rename to meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb
-index 200716fb02..5bf134b5f8 100644
---- a/meta/recipes-graphics/xorg-lib/xtrans_1.3.5.bb
-+++ b/meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb
-@@ -22,5 +22,5 @@ inherit gettext
+diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
+similarity index 82%
+rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
+rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
+index 8292c3b312..a30f38eb73 100644
+--- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
++++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
+@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
+                     "
  
- BBCLASSEXTEND = "native nativesdk"
+-SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases"
  
--SRC_URI[md5sum] = "c5ba432dd1514d858053ffe9f4737dd8"
--SRC_URI[sha256sum] = "adbd3b36932ce4c062cd10f57d78a156ba98d618bdb6f50664da327502bc8301"
-+SRC_URI[md5sum] = "ce2fb8100c6647ee81451ebe388b17ad"
-+SRC_URI[sha256sum] = "377c4491593c417946efcd2c7600d1e62639f7a8bbca391887e2c4679807d773"
+-SRC_URI[md5sum] = "99128f05e3e3f4e0cd39aa23f23bbe0c"
+-SRC_URI[sha256sum] = "1d6a279edf81767e74d2ad2c9fce09459bc65f12c6525a40b0cb3e53c089f665"
++SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
++SRC_URI[md5sum] = "90a78a84d9c28ce11f331c25289bfbd0"
++SRC_URI[sha256sum] = "587edf60817f56daf1e1ab38a4b3c729b8e846ff67b4f62a6157183708f099af"
+ 
+ S = "${WORKDIR}/libatomic_ops-${PV}"
+ 
 -- 
 2.17.1
 
