@@ -1,48 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
-	[209.85.166.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CAD6606B2
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id BEA747D035
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 10:17:49 +0000 (UTC)
-Received: by mail-it1-f169.google.com with SMTP id v8so17035779itf.0
+	Mon,  1 Apr 2019 10:18:50 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id n78so3341393itb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 03:17:50 -0700 (PDT)
+	Mon, 01 Apr 2019 03:18:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HhrxK723S4ObpEPs30MwrUTchH0fNrZFznMGkFDYKKs=;
-	b=ejzOW7y9EB9fmln+oG/Tp2jaBASX0MHbgLKSKEeXnV54DyPPgted3v6X3GeSgzpLnO
-	ngAsLXWmBhuew2snMx9HPDsZX82ScpmzK+Ki3kt24blbxlMkC0g1AXoRvc2VAERk3e2W
-	GoQlY223BsCwZobJpn85Ll7nYfIZkJpJjbEv6YCWI27hhOSn3bXQy0o1SVmUEbdKwWru
-	6DOANY/l606x784Sk2a3c5EypI5HnoBuNZrvJdfWLVWE9UgAtk/SsogiNRTpkWVxDgM1
-	FqTucn2ep/Goj1vebt66+jX2fJrBRWgrIWcdt8Z3izs2igzO0NzN4eZ+mdhFtwTT9vku
-	Jdpw==
+	:cc; bh=VfMNtm5pr9kw0e/yr6QH9r3cY5HE2HNf+Is4l8hnX5w=;
+	b=iad/QMcPmnDZc+YWgD6rr8wf8wmvKlDS3tmBL3Z68VuNGtJZuENZS0NR2/n/iBn4AR
+	x3f9nzNJNU0PITaCC205R4nGOWB8EfuAbAW9pkhp+JrKeOz657w6lhcyuNLvsG52RbJg
+	vNP5GNhoZKZ5GDf/ZdRDPjwIPjf9IuF3ikc4E+NybJ5s+BbqXDDCIIJwyEWPbnQIAvSc
+	JZsszvp97w9MyWkghKC7OEZo7OmrtX6GkpTpF9gDsuh4unr+wCua7vO6tfmFO541E+JA
+	4sY7bEG3FVucYZpNsGXDf1nflemfyGxr/QkHkBq1rlkW4L/aB3XAyr2zRSiTFqiuNSql
+	T7vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=HhrxK723S4ObpEPs30MwrUTchH0fNrZFznMGkFDYKKs=;
-	b=of4O7uGM7RCIdicNXdUZieH9btYPsxh/l5Y33rXqhd4GSCrFz5M54cL4RknOfJ9J3V
-	pcTMrBu+3MZn/JV+kA/67+dMHlbTM4E0SlZfFyAtZ9oBXJI9wHQ8ISrpdV+REIhYS6Q2
-	P7U/hbQjH21PwOgIysl4iUfi6CYYxamqFD7h8ivJXCrXm/9mwTmP6831JaP828qgkSPQ
-	DNhdeo9LSXaZGA/s5+TL/iL4y2eUwLTKG/HsjHGF6ZyzrCI/+etKRbEBr/iIQXHLJOw+
-	5YkAZ/sHI58f4ktX81eBlJvEiuH+Cj0IIyhtdNYHakC8WRhxcgLzsnVqiN9ma1TxRHgd
-	j5yQ==
-X-Gm-Message-State: APjAAAWfprDeCitDHHjNG+LkeWRRPGjb3gZG4dhOKhkmLJRmAsPRQy3E
-	u87Uo5hph5wNIE5kVzYkh//w5SYh00xhA6WJ5A2tTQ==
-X-Google-Smtp-Source: APXvYqyNYnGT0IyF7kqzS6EqxzhmhffUsgv/Ivn7PJNNHlVT07XWDfyYK3W4R3WeU3RJTpUfxest2ptEciAVUYVSIeI=
-X-Received: by 2002:a24:52c5:: with SMTP id
-	d188mr15282217itb.130.1554113870378; 
-	Mon, 01 Apr 2019 03:17:50 -0700 (PDT)
+	bh=VfMNtm5pr9kw0e/yr6QH9r3cY5HE2HNf+Is4l8hnX5w=;
+	b=m9n6v6dJUXnM5/66FM98DnDr+SlkZw2lNTiR/CLsYj3NZK9yyYphwUyWmAhh7ehSTO
+	czP3ukBM6nx6P6p1A4FO9OBqXNxnQ3fotIY0aFRa8hD1JFMDjZ7LLz7+EIe6V9LfDCuS
+	6ZgCO6tg7iJp/AODRkokrao+NHKjVa3Q5o2ouHUHsOGaFnMk3c4LOz72lsNjuMz+yqX1
+	pMGXJJr3TXcknELBln2nVupID/Ae+BBF9f7YnrOnLSKfzuSiS+KKVOHm4oeXBjfBnKxk
+	n14YzwURCPSDHrNukiQtURsClQQet+Q/PpL4RW5lh/XPr9Osc6NREfxse2Sp1bp6+afd
+	l+Cg==
+X-Gm-Message-State: APjAAAUUYyew2+c9L+5OEPOQ63qCPf5d7mZMY5TCtEIQvxSC0xUaGDlS
+	gIqzE1MXZKcHo9r8K7vUnu+U/i74WYiWNxeqTDi2+LRK
+X-Google-Smtp-Source: APXvYqx4w7MSVOGmfrynr57b+ez8bW7bPaxn2xPhmNC683S3SX9/fM33thl8i936vtRKbDbRRlEzgS8LyWUi3mpvmq4=
+X-Received: by 2002:a02:5bc2:: with SMTP id g185mr17536077jab.31.1554113931851;
+	Mon, 01 Apr 2019 03:18:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <1554111881-66088-1-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1554111881-66088-1-git-send-email-changqing.li@windriver.com>
+References: <20190401022443.16656-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190401022443.16656-1-open.source@oleksandr-kravchuk.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Apr 2019 10:17:39 +0000
-Message-ID: <CAJTo0LZ=1YBJQ69jTYVDnz+LFBX9eN3V6LfnK46fxTJUb=nH0g@mail.gmail.com>
-To: Changqing Li <changqing.li@windriver.com>
+Date: Mon, 1 Apr 2019 10:18:40 +0000
+Message-ID: <CAJTo0LYF+JJug0EWtA8wmzKzOf6qZ-wQBu1TMmaS8M+HAtLreA@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] llvm: fix link error for powerpc
+Subject: Re: [PATCH] libyaml: update to 0.2.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,13 +54,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 10:17:49 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 10:18:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 1 Apr 2019 at 10:45, <changqing.li@windriver.com> wrote:
-> +CXXFLAGS_append_class-target = " -mlongcall"
+On Mon, 1 Apr 2019 at 03:24, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+> -S = "${WORKDIR}/yaml-${PV}"
+> +S = "${WORKDIR}/libyaml-${PV}"
 
-If this is ppc-specific shouldn't it have a ppc override?
+That is now the default, so can be removed.
 
 Ross
 
