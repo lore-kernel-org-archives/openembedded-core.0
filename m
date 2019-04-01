@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E9EF07D105
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A5C47D101
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 14:14:01 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id a184so10618686wma.2
+	Mon,  1 Apr 2019 14:17:36 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id h4so12259899wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 07:14:03 -0700 (PDT)
+	Mon, 01 Apr 2019 07:17:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=z4j6uYS/BMr1EEYUdXY/XHUrIO9JmtXLovl+lasbDvg=;
-	b=MZD4tV5r0TFhdv7ujyJdLg8tbt994mGHKVIbWvx94wqmqTzzChwZcBi5QAxzMnHJv0
-	mgX4bRaLsOaEwvzYaJLRpnnpkQouYHPGZTqlPCO6zADBsHMKLg2AjzxG2BrLPJO90XSu
-	QQZv8Sb5texO5MKN/gtpxC/PqiM83GzanwiRM=
+	bh=ivKEErz96b3mBCPasY83UV0slB+6mGzLt6OT2b4tsFA=;
+	b=BwtCujB9weOSwjfbS9wIH8Zh4KVtRRVdqVE25CGJ0jHNSGq5tNqeQHAaV/mwBOBvJA
+	q5cPURoknI6KD6mULN2oQE7nKBXN7vvrgIujz84YddRHJGtecrYdSZwCpyuuv/Dtn6rq
+	jrF7F7yFEmnnL8ATEantDkFwGfTVR16/SO3PQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=z4j6uYS/BMr1EEYUdXY/XHUrIO9JmtXLovl+lasbDvg=;
-	b=nxLIbV4NulaCPPvX25A+JDrGnzFqCZtz83ndSZFxssSjwymcGYynmXoIKxwWuZXeba
-	34EbfzFA7y3YRoY/wKlNbeYi7bgTK2KwZUqk2rtyangmQnCSXZ5Nbz+QQUMj0jhvvcMs
-	le+Zph4zYJIqG9ROn4rDbthrJMZ1QUDHQYF8T1bY9li4m8/4dn56hwQkcdldrB9vueRG
-	oruc2CR86gZM3QBV0xzs0ZLabNbvxzZNIpkbPvFXof66S2jQ/8iFO1BJIWrLgHLvsQw/
-	RhdnTOsbki2mhzIS9qudY0ciP7PI/1YMijlXAiX2/r2DMv2+Te5MdLSsyn+LOFHwD2mP
-	R0zg==
-X-Gm-Message-State: APjAAAXJOMDZqb7uLPKSohhDS+aBdy/8gyugPVUzMmLq347d8gdIU0gk
-	b2kJgvU66g9lIo2FR/fU1hl44CzMXd56Kg==
-X-Google-Smtp-Source: APXvYqzdUem4KxqGkFqELe7OeB2mU9JoRfT6R9y8QMaWIugSWVSePW0DBRWKHmQrdBWwB+PzcGj6kw==
-X-Received: by 2002:a1c:cfcb:: with SMTP id f194mr13067222wmg.51.1554128042722;
-	Mon, 01 Apr 2019 07:14:02 -0700 (PDT)
+	bh=ivKEErz96b3mBCPasY83UV0slB+6mGzLt6OT2b4tsFA=;
+	b=YTna/T7Jom30K2qkVLm2+YlvykJ1YNIisH/QYY9eY3IOyyMjBOq1I4CBE1LqdKTMnk
+	42vn/tXg5kQ2NtahfP63xhza1uojuQlUM7CiKe5E2j42hX/g4aGQYEMeq4nuc5/jvtf5
+	W3veMMjejsgam6V6fhIiFI86m5kndxzV4R7aXDq1k8T5ZHeQ0ut+nQ3PXmMciw2bKO49
+	7gL2uZjOL63I1sFkuoczYvYxBM49MaAilVZbx7ToQUeBej5HmTFLfVoNj3KxGW/yUv5t
+	H1Nn8iKNWoMv26Ce0e6gyM+77qEz6A6zkIgF1qsi7VG5SHB1P6od7oCllWkD8p2UbCnB
+	zULA==
+X-Gm-Message-State: APjAAAVGLEN/uAk+B0PX8biRO9zDd2isX4+m1b6VqVV+4wg8WPSPNZY0
+	MX9xo727v6GuiM66Y0xl3v49Nn+N2Mt44w==
+X-Google-Smtp-Source: APXvYqydGDJEwC2xFyweI8nltrdLWH5SVOJA9kTNY3qiOJL6eAPt5YfWhqrUsn9a4b21yFC560lMng==
+X-Received: by 2002:adf:ee50:: with SMTP id w16mr448398wro.293.1554128257080; 
+	Mon, 01 Apr 2019 07:17:37 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	m6sm13321704wrr.53.2019.04.01.07.14.00
+	f10sm12120072wrs.17.2019.04.01.07.17.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 01 Apr 2019 07:14:01 -0700 (PDT)
-Message-ID: <25e816bb8ab33d104be3feec92080bda3ee60f99.camel@linuxfoundation.org>
+	Mon, 01 Apr 2019 07:17:36 -0700 (PDT)
+Message-ID: <a23f92e9535e3c674a0fd8e7e5563302c222ea0d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Mon, 01 Apr 2019 15:13:59 +0100
-In-Reply-To: <20190330224908.2108-1-open.source@oleksandr-kravchuk.com>
-References: <20190330224908.2108-1-open.source@oleksandr-kravchuk.com>
+Date: Mon, 01 Apr 2019 15:17:35 +0100
+In-Reply-To: <20190331161757.12888-1-open.source@oleksandr-kravchuk.com>
+References: <20190331161757.12888-1-open.source@oleksandr-kravchuk.com>
 User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] ofono: update to 1.28
+Subject: Re: [PATCH] quote: update to 4.05
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,88 +58,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 14:14:03 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 14:17:36 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sat, 2019-03-30 at 23:49 +0100, Oleksandr Kravchuk wrote:
-> Deleted patch has been mainstremaed.
+On Sun, 2019-03-31 at 18:17 +0200, Oleksandr Kravchuk wrote:
+> License checksum from quota.c was removed since according to the
+> project, copyrighted code in question has been replaced with own
+> implementation (see @bcbc0d08e5cd).
 > 
-> Changelog:
-> ver 1.28:
-> - Fix issue with SIM initialization and Gemalto modems.
-> 
-> ver 1.27:
-> - Add support for handling SIMCom based SIM800 modems.
-> - Add support for SIM lock state with xmm7xxx modems.
-> - Add support for coexistence feature with xmm7xxx modems.
-> 
-> ver 1.26:
-> - Fix issue with AT callback handler and GPRS.
-> - Fix issue with handling EUTRAN SMS only states.
-> - Fix issue with handling MBIM strings on big endian.
-> - Fix issue with missing char and SMS national language.
-> - Fix issue with unsolicited notifications of +CGAUTH/+CGDCONT.
-> - Add support for setting "none" authentication method.
-> - Add support for SMS and phonebook with xmm7xxx modems.
-> - Add support for voice features and Gemalto modems.
-> - Add support for Bengali and Gujrati SMS alphabets.
-> - Add support for 8 additional languages for GSM 7 bit
-> - Add support for using internal Embedded Linux library.
+> Removed patch has been upstreamed.
 > 
 > Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com
 > >
 > ---
->  meta/recipes-connectivity/ofono/ofono.inc     |  7 ++---
->  .../ofono/ofono/use-python3.patch             | 27 ---------------
-> ----
->  meta/recipes-connectivity/ofono/ofono_1.25.bb |  9 -------
->  meta/recipes-connectivity/ofono/ofono_1.28.bb |  8 ++++++
->  4 files changed, 12 insertions(+), 39 deletions(-)
->  delete mode 100644 meta/recipes-connectivity/ofono/ofono/use-
-> python3.patch
->  delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.25.bb
->  create mode 100644 meta/recipes-connectivity/ofono/ofono_1.28.bb
-> 
-> diff --git a/meta/recipes-connectivity/ofono/ofono.inc
-> b/meta/recipes-connectivity/ofono/ofono.inc
-> index 0472414b19..37772121f8 100644
-> --- a/meta/recipes-connectivity/ofono/ofono.inc
-> +++ b/meta/recipes-connectivity/ofono/ofono.inc
-> @@ -1,13 +1,14 @@
->  HOMEPAGE = "http://www.ofono.org"
-> -SUMMARY  = "open source telephony"
-> -DESCRIPTION = "oFono is a stack for mobile telephony devices on
-> Linux. oFono supports speaking to telephony devices through specific
-> drivers, or with generic AT commands."
-> +SUMMARY  = "Open Source Telephony"
-> +DESCRIPTION = "oFono is a stack for mobile telephony devices on
-> Linux. \
-> +oFono supports speaking to telephony devices through specific
-> drivers, or with generic AT commands."
->  LICENSE  = "GPLv2"
->  LIC_FILES_CHKSUM =
-> "file://COPYING;md5=eb723b61539feef013de476e68b5c50a \
->                      file://src/ofono.h;beginline=1;endline=20;md5=3c
-> e17d5978ef3445def265b98899c2ee"
->  
->  inherit autotools pkgconfig update-rc.d systemd bluetooth gobject-
-> introspection-data
->  
-> -DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info"
-> +DEPENDS  = "dbus glib-2.0 udev mobile-broadband-provider-info ell"
+>  .../quota/quota/remove_non_posix_types.patch  | 198 ----------------
+> --
+>  .../quota/{quota_4.04.bb => quota_4.05.bb}    |   8 +-
+>  2 files changed, 3 insertions(+), 203 deletions(-)
+>  delete mode 100644 meta/recipes-
+> extended/quota/quota/remove_non_posix_types.patch
+>  rename meta/recipes-extended/quota/{quota_4.04.bb => quota_4.05.bb}
+> (80%)
 
+Typo in the shortlog (quote -> quota) and also:
 
-ERROR: Nothing PROVIDES 'ell' (but /media/build1/poky/meta/recipes-
-connectivity/ofono/ofono_1.28.bb DEPENDS on or otherwise requires it)
+WARNING: quota-4.05-r0 do_patch: 
+Some of the context lines in patches were ignored. This can lead to
+incorrectly applied patches.
+The context lines in the patches can be updated with devtool:
 
-OE-Core doesn't contain ell?
+    devtool modify <recipe>
+    devtool finish --force-patch-refresh <recipe> <layer_path>
 
-The new dependency isn't mentioned in the changelog?
+Then the updated patches and the source tree (in devtool's workspace)
+should be reviewed to make sure the patches apply in the correct place
+and don't introduce duplicate lines (which can, and does happen
+when some of the context is ignored). Further information:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+Details:
+Applying patch fcntl.patch
+patching file quota.h
+Hunk #1 succeeded at 182 (offset 17 lines).
+patching file quotacheck.c
+patching file quotaio.c
+patching file dqblk_v2.h
+Hunk #1 succeeded at 7 with fuzz 2.
+patching file rquota_client.c
+
+Now at patch fcntl.patch
 
 Cheers,
 
 Richard
-
 
 
