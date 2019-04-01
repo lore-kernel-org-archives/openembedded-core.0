@@ -1,50 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AFB337D1A4
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com
+	[209.85.167.53])
+	by mail.openembedded.org (Postfix) with ESMTP id DECCA7D19E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 21:48:49 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id v21so9773120edq.4
+	Mon,  1 Apr 2019 21:54:32 +0000 (UTC)
+Received: by mail-lf1-f53.google.com with SMTP id r25so7410560lfn.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 14:48:50 -0700 (PDT)
+	Mon, 01 Apr 2019 14:54:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=8V/Ygv85UYyLLU+zepU2/hIJOTOhLtpa4p24+4A8ra0=;
-	b=Ms5CRN/xlHZNc0ixWuUG0INm0LkOCxx1J+nGPa1MRn147N/fB+YweeVnlmszboxqT8
-	pRQpOea+OpFxiPfL94RYrkE73s7VdOk9zVa4Ogc6/KUrzHryhE70kpFozeMFN5lQ+DiN
-	t3V/weVe2CW1fZWoQsRZ2vgAQLdcEaY6u+tiCRlxzRztcxhATkK1FpGmTHJC3ddZRrsU
-	tlncbgl47rvtOjb4GNUw+znXDq3WpAyqAzapb2paH4sFtd2rWY00Jdm4IcTXBfns2bLQ
-	MTrCmBGpHOk0q/NarmuId1+rEicDDDa4XiSfCgaTZF/0xNgz/EBm7MPd+diZoOWPO2D+
-	rOMA==
+	bh=Gvxb7711OjzYhUko49Dl+cUwQ660b0fos8z0ELB7pWs=;
+	b=0fxTLrZ7zgiKbeqrUr/xss02meMRx+/nm14rdZUXJ0pMedD3w6b5bv+FbRtwnS3z6y
+	DlRsfvqY5eN7Arl2ODx158OS3i6ngaI7phDL0hNTTZHfhwsRNif+gyy3kIh5bMaD/NZ5
+	4f4Q5tugxgJFcW9FINyD3PtLiUxCtSHqO4a8lgIXRO+v+B6v9/XJMxpVJJuZ6foHOcpS
+	d2DulGgjjTi0YeQwUQps/xxHRM6TAv6Hg6KHI152PFMMieBBeUzrYFINOgRwMHt7+qfO
+	oEUTtXJS5MejRvUTIIVB3WqerYYlIiEz+At5Y3UXmMIoMJNr5StH201GUMnHxFxN3PYh
+	tCMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=8V/Ygv85UYyLLU+zepU2/hIJOTOhLtpa4p24+4A8ra0=;
-	b=aXK7rSZKcuSsM6S6JxuiP3MNLqfl2AczoZZVS8w0PlwBXaY71EVfbbzpcnaEYHu6Hx
-	Mg4sGROCCbPKir61tNEn8adq/99yjR3oKiQb40CG5zZ4rDZmauFN1kPoqsBbGHtQgjCt
-	ZaBVHaQAHGbF0erdfX1g+c+W5Lhb9t8qb5XflBGmn3UVvgkn93WD/tGXi9o+eaJXtAQC
-	mToe5sI5M5MV7Xx6SYM91sQYCaoonIoV3x0CFe78WW6jDl1Lx6b3EEqs6aTxIUUUYwuw
-	6vC7eBVCozRJ7uVO1WmD6dVc5ao4UwJl1HGXkatkdiDJrFL7kAJgruJD6ksDZlsKaKL4
-	T0qw==
-X-Gm-Message-State: APjAAAXAEDTFe5twXow0TYNepo56+T8ygFe3F+axYxEqUjj6U1L+oPBP
-	ao7xRCiAtopAiXYykQDvBkh56kOS9LU=
-X-Google-Smtp-Source: APXvYqyIIUtcDTHpiehn/LEj1kI6jbrcMOY+iwLQATlZGrlVRJCUx0oO88ZbyCQQRPdRh5uRvT/v+A==
-X-Received: by 2002:a17:906:1ed7:: with SMTP id
-	m23mr28356399ejj.198.1554155330028; 
-	Mon, 01 Apr 2019 14:48:50 -0700 (PDT)
+	bh=Gvxb7711OjzYhUko49Dl+cUwQ660b0fos8z0ELB7pWs=;
+	b=RfgPYJ4dPIXBFkyfKiLbYamwybzldrHA7v/TEJ0iDxgOcrMcRQ+l0jfXLWfp9JJyU3
+	P4imC6jmHJ6Po21caIsoabQEPhi4zsITYT46S3/Xzb0xjGHG3UENHNcLvjrW+5AfWRL8
+	HbhRTA2QZ+AjFr9/Eip7sPtH7YMFfsKGqwCmG7nxEZ3+xIeAGJFerHGlWZqvNAGWx8R0
+	qEqgJtm1AwsHO00VyqqUMr74j5Ajwop8bDIB+NFayBF+JFJ/G7OnK6+AzFYM958YzUeP
+	rYShTAjp6iWn+Dl/fbbe8/Gcjy3cFj74cbWdfJVAFsGY6EOWpYYYPbRF3n5/K3qTayOi
+	RaOw==
+X-Gm-Message-State: APjAAAVPljhmtKai/apkTmZfaNBrRgIFjNXZfbK9A0VPNSX/s6GqXKi/
+	TPgfPCJn/AR9H3QLpwSb17kZEbWfot8=
+X-Google-Smtp-Source: APXvYqy1fsYN/6Bgy8T6YGsd9SMO5Fy4DtMWxfKkwA+9cd6mD8r4zFaKuYNZTRlTyFhftZhRnT+HMg==
+X-Received: by 2002:a19:c203:: with SMTP id l3mr7148338lfc.39.1554155673024;
+	Mon, 01 Apr 2019 14:54:33 -0700 (PDT)
 Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	f25sm3463801eds.80.2019.04.01.14.48.49
+	t14sm2389064lji.33.2019.04.01.14.54.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 14:48:49 -0700 (PDT)
+	Mon, 01 Apr 2019 14:54:32 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 23:48:46 +0200
-Message-Id: <20190401214846.16380-1-open.source@oleksandr-kravchuk.com>
+Date: Mon,  1 Apr 2019 23:54:30 +0200
+Message-Id: <20190401215430.26343-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libatomic-ops: update to 7.6.10
+Subject: [PATCH] libxcrypt: update to 4.4.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 21:48:50 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 21:54:33 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../{libatomic-ops_7.6.8.bb => libatomic-ops_7.6.10.bb}     | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libatomic-ops/{libatomic-ops_7.6.8.bb => libatomic-ops_7.6.10.bb} (82%)
+ .../{libxcrypt.bb => libxcrypt_4.4.4.bb}       | 18 ++++++++++--------
+ 1 file changed, 10 insertions(+), 8 deletions(-)
+ rename meta/recipes-core/libxcrypt/{libxcrypt.bb => libxcrypt_4.4.4.bb} (68%)
 
-diff --git a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
-similarity index 82%
-rename from meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
-rename to meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
-index 8292c3b312..a30f38eb73 100644
---- a/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.8.bb
-+++ b/meta/recipes-support/libatomic-ops/libatomic-ops_7.6.10.bb
-@@ -7,11 +7,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://doc/LICENSING.txt;md5=e00dd5c8ac03a14c5ae5225a4525fa2d \
-                     "
+diff --git a/meta/recipes-core/libxcrypt/libxcrypt.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
+similarity index 68%
+rename from meta/recipes-core/libxcrypt/libxcrypt.bb
+rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
+index 3b9af6d739..e3c87b3e02 100644
+--- a/meta/recipes-core/libxcrypt/libxcrypt.bb
++++ b/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
+@@ -4,22 +4,24 @@ HOMEPAGE = "https://github.com/besser82/libxcrypt"
+ SECTION = "libs"
+ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM ?= "file://LICENSING;md5=be275bc7f91642efe7709a8ae7a1433b \
+-      file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
++                     file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c \
+ "
  
--SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "https://github.com/ivmai/libatomic_ops/releases"
+ inherit autotools pkgconfig
  
--SRC_URI[md5sum] = "99128f05e3e3f4e0cd39aa23f23bbe0c"
--SRC_URI[sha256sum] = "1d6a279edf81767e74d2ad2c9fce09459bc65f12c6525a40b0cb3e53c089f665"
-+SRC_URI = "https://github.com/ivmai/libatomic_ops/releases/download/v${PV}/libatomic_ops-${PV}.tar.gz"
-+SRC_URI[md5sum] = "90a78a84d9c28ce11f331c25289bfbd0"
-+SRC_URI[sha256sum] = "587edf60817f56daf1e1ab38a4b3c729b8e846ff67b4f62a6157183708f099af"
+-PV = "4.4.2"
+-# v4.4.2
+-SRCREV ?= "cf6abf18083566ec1612af27982a5160c9e0f137"
+-SRCBRANCH ?= "develop"
++PV = "4.4.4"
  
- S = "${WORKDIR}/libatomic_ops-${PV}"
+-SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH} \
+-           "
++SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
++SRCREV = "3b251d4e1af66aa7697c4ac96c689f996fa90c32"
++SRCBRANCH ?= "develop"
+ 
+ PROVIDES = "virtual/crypt"
+ 
+-FILES_${PN} = "${libdir}/libcrypt*.so.* ${libdir}/libcrypt-*.so ${libdir}/libowcrypt*.so.* ${libdir}/libowcrypt-*.so"
++FILES_${PN} = "${libdir}/libcrypt*.so.* \
++               ${libdir}/libcrypt-*.so \
++               ${libdir}/libowcrypt*.so.* \
++               ${libdir}/libowcrypt-*.so \
++"
+ 
+ S = "${WORKDIR}/git"
  
 -- 
 2.17.1
