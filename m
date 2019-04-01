@@ -1,48 +1,48 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7F2396C102
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 253656C102
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 10:53:24 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id z126so13911131itd.5
+	Mon,  1 Apr 2019 11:03:52 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id n78so3513203itb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 03:53:25 -0700 (PDT)
+	Mon, 01 Apr 2019 04:03:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=qu2smXSwUopZNgyA60csf6OuDFl9LGxqrC7V3jX2m5U=;
-	b=NGBDk8ZsmJ7IJIuGfj+BOyp+vVJmA7dVIHMf++7tswXXQyWoac2yfhecazXesNJPJv
-	zwt/hZeO+Lif/H5GjWaaz3qlmyVYXT29QdENmRnaOpFueEwq7H3Qlr2UJ1ZVAD1s9cLj
-	J05SBjY0/ESfhrZmIe1tMtYXyI1tCebfYOu6m40rJgz7Gm+PwIBdo+2HQRSZq/fMpGcz
-	q2ohLng0cclZTVytBNiXlLZdGHuryE9FCkdwqSw4N77rJAEXTkTcpbFen/MKKxHbrhab
-	kISp+HV1yC5jEOHqFxan6ilKmFoqgChlmS3V5w9hCFrt6BSlqSmLbzVLMaq2QB6syOqu
-	1rWg==
+	:cc; bh=W6vfn8GJMudRmMR3sq4FqTgZPqreMr2S5Q7tMpu07ls=;
+	b=w9Ucc95SrlyV1UY3YiYXI/Se3OVPbXCjcN+8jwHHCeR3cV7ZXAVbjI2U3n8l6wjt/I
+	5pGSJbDmf8tJVaSl4EfssCkBwvX2pEW3EhAPdip9yY3Qa4jr9+YOtK5gandGw8kxBdK4
+	/GzYTFigR4QjjynMmdKWri2JlLIroDfej/YJ++05w9KydZAaEEB7TOeLxRPLglh/xIBr
+	RLAAkSKbi62y2rsITzYfWW5DlVre6h7QVV3Kz6XuJTbEaT8Y/8N6smx6xLKIRjZMNre5
+	yNbQ8UW7JmMhquyxG8+bgIYB8dNv/QnRz10qmeGzmsWqMX3EK6yE10+cK77clEMSgWy0
+	8oHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=qu2smXSwUopZNgyA60csf6OuDFl9LGxqrC7V3jX2m5U=;
-	b=MqH/zTvIAqF60vEVQmFoQJ78/2g+lV791siaVUP3XGH9yRj11u5kcO+qTC9zwbszRj
-	jivbeC/Td/jc0MIxJVrAfpCte/kwW3l46pQF74OkzBCc4G++9rWhKzN3oCnJoyvPYen0
-	R8EfdpGN+Slv6lOfjv6wFO6Rv5UEApYMIZOTYpZxjZ3R9744NjSkUxOO8UE2lxi9euWK
-	ZcCk7W60i0hgh06iwQqExcuDv6HJ9qnZGGlqn5vuS+mBQRlk8gNu50GCrWaJMSWs4t92
-	/1Xkn+ixk0koGfzrKXt9wFSaMVcWqjCBJcn9NIJPTgTcJoi6Ja/rvcrYcSaJX8AIwnIa
-	Mi6w==
-X-Gm-Message-State: APjAAAXmt4LC18Tl/XpM38+emrGBgJRk+OIfFXLDLrfSG1CUdBw7mY8h
-	lbIQ11PxwlXgLFr6Hvl5ucz9r77HSWQP/qDAHtB4Vw==
-X-Google-Smtp-Source: APXvYqxkJ/wd2ism/oStHwkBVcnJXJ7AwA8nG6sGdlGRp/oym0MzmtkarY4+uCtV7t1nSRNZTEbOYR3JWKkyWk5guCw=
+	bh=W6vfn8GJMudRmMR3sq4FqTgZPqreMr2S5Q7tMpu07ls=;
+	b=jKMLQaqaINVMNha7dRikjxoXI0ylV4t80CVECrTTFLqkDfe0t3JDLJPDYdvC015aAg
+	So9fOK0VqrjrGIzGzrx6LPwDLXKLEFjg0/TDXehoq0W+F+GaS2CrhzLcvIqXo+GspcEz
+	vTSuICi/2HhPDSlbVeEIOs6GavDSQFtBdBml3Qb3L7SGcE1szAIi1Jttk1CsloJpCEIT
+	d188WED8OSMF7qj5a70lJpeACriiP8I5b0sd/ZheXLHemWzMZF5mtiAKPAOki1HvLhDX
+	/YEZ0RbjG7IyoHMisQgyBFZ74nPaGSVOVXUoim7WpAEIIl09G4TcN2arQfaTdSj0cAeD
+	d6hw==
+X-Gm-Message-State: APjAAAXoBH48tWPxcsOI2D4j9UzEv9htTACPyqndlfoPOVri8RLSq+nT
+	dRxlmVDFjVmOXQy8/TB0slnCH0SKZv5nSX/rlKqsiA==
+X-Google-Smtp-Source: APXvYqwYN/d3udLH4AMeGEG7F8/KHwlfvrNvJlmTPgLG18mYMb1R1f3KL1ZSuqVaSMs5Dekf2jJ+Llj8gbmH3XdlWOM=
 X-Received: by 2002:a24:52c5:: with SMTP id
-	d188mr15376269itb.130.1554116005491; 
-	Mon, 01 Apr 2019 03:53:25 -0700 (PDT)
+	d188mr15407854itb.130.1554116634064; 
+	Mon, 01 Apr 2019 04:03:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190401022035.10074-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20190401022035.10074-1-open.source@oleksandr-kravchuk.com>
+References: <20190328012606.18550-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190328012606.18550-1-zangrc.fnst@cn.fujitsu.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Apr 2019 10:53:13 +0000
-Message-ID: <CAJTo0LYb5VtcLZYx7QEay+h62nQtPPWQnEyyuersa9cybKptqg@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Date: Mon, 1 Apr 2019 11:03:43 +0000
+Message-ID: <CAJTo0LbmYz0v9ce44H65+vxFffiC3wnmGNXB9XoxeR6-v0TnEQ@mail.gmail.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cronie: update to 1.5.4
+Subject: Re: [PATCH] ethtool:upgrade 4.19 -> 5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,60 +55,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 10:53:24 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 11:03:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-ERROR: cronie-1.5.4-r0 do_patch: Command Error: 'quilt --quiltrc
-/data/poky-tmp/master/work/corei7-64-poky-linux/cronie/1.5.4-r0/recipe-sysroot-native/etc/quiltrc
-push' exited with 0  Output:
-Applying patch crond_pam_config.patch
-patching file pam/crond
-Hunk #1 FAILED at 4.
-1 out of 1 hunk FAILED -- rejects in file pam/crond
-Patch crond_pam_config.patch does not apply (enforce with -f)
+ WARNING: ethtool-5.0-r0 do_patch:
+Some of the context lines in patches were ignored. This can lead to
+incorrectly applied patches.
+The context lines in the patches can be updated with devtool:
 
-Remember to check the recipe for conditional patches/logic and test all paths.
+    devtool modify <recipe>
+    devtool finish --force-patch-refresh <recipe> <layer_path>
+
+Then the updated patches and the source tree (in devtool's workspace)
+should be reviewed to make sure the patches apply in the correct place
+and don't introduce duplicate lines (which can, and does happen
+when some of the context is ignored). Further information:
+http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
+Details:
+Applying patch avoid_parallel_tests.patch
+patching file configure.ac
+Hunk #1 succeeded at 2 with fuzz 1.
+
+Another patch is already on the list that doesn't have this problem,
+but please fix all warnings.
 
 Ross
 
-On Mon, 1 Apr 2019 at 03:21, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
+On Thu, 28 Mar 2019 at 01:25, Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
 >
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> Upgrade from ethtool_4.19.bb to ethtool_5.0.bb
+>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 > ---
->  .../cronie/{cronie_1.5.2.bb => cronie_1.5.4.bb}             | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-extended/cronie/{cronie_1.5.2.bb => cronie_1.5.4.bb} (94%)
+>  .../ethtool/{ethtool_4.19.bb => ethtool_5.0.bb}               | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>  rename meta/recipes-extended/ethtool/{ethtool_4.19.bb => ethtool_5.0.bb} (88%)
 >
-> diff --git a/meta/recipes-extended/cronie/cronie_1.5.2.bb b/meta/recipes-extended/cronie/cronie_1.5.4.bb
-> similarity index 94%
-> rename from meta/recipes-extended/cronie/cronie_1.5.2.bb
-> rename to meta/recipes-extended/cronie/cronie_1.5.4.bb
-> index 3abca7f920..d35c6672c4 100644
-> --- a/meta/recipes-extended/cronie/cronie_1.5.2.bb
-> +++ b/meta/recipes-extended/cronie/cronie_1.5.4.bb
-> @@ -16,7 +16,7 @@ SECTION = "utils"
+> diff --git a/meta/recipes-extended/ethtool/ethtool_4.19.bb b/meta/recipes-extended/ethtool/ethtool_5.0.bb
+> similarity index 88%
+> rename from meta/recipes-extended/ethtool/ethtool_4.19.bb
+> rename to meta/recipes-extended/ethtool/ethtool_5.0.bb
+> index 74e255c24b..76cdf9c4e7 100644
+> --- a/meta/recipes-extended/ethtool/ethtool_4.19.bb
+> +++ b/meta/recipes-extended/ethtool/ethtool_5.0.bb
+> @@ -11,8 +11,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
+>             file://avoid_parallel_tests.patch \
+>             "
 >
->  UPSTREAM_CHECK_URI = "https://github.com/cronie-crond/${BPN}/releases/"
+> -SRC_URI[md5sum] = "a533db1d202724822c4ef297643fac12"
+> -SRC_URI[sha256sum] = "e8e88f5a79c78e542cd84fee60b67dbf29cee63e4760e8d61544fea74c761ad1"
+> +SRC_URI[md5sum] = "8998c9eb7e491b0aec420a807ce52ba6"
+> +SRC_URI[sha256sum] = "cc53a6d4d5643f8993ef20d6b638f88d9035529a9e777e222073c3a5b9237178"
 >
-> -SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}/cronie-${PV}.tar.gz \
-> +SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}-final/cronie-${PV}.tar.gz \
->             file://crond.init \
->             file://crontab \
->             file://crond.service \
-> @@ -25,8 +25,8 @@ SRC_URI = "https://github.com/cronie-crond/cronie/releases/download/cronie-${PV}
->  PAM_SRC_URI = "file://crond_pam_config.patch"
->  PAM_DEPS = "libpam libpam-runtime pam-plugin-access pam-plugin-loginuid"
->
-> -SRC_URI[md5sum] = "703314f58a49ea136e9966d3937d9bf4"
-> -SRC_URI[sha256sum] = "370bf34641691489330e708bd4cdbd779267296a030668a12f77b7e36872fd75"
-> +SRC_URI[md5sum] = "20233b96997e17a142e1fbe0d7ce8223"
-> +SRC_URI[sha256sum] = "af8970559cad4262f8ffd7ec72abf682d2dcce04fdfb8f206a71d96566aba882"
->
->  inherit autotools update-rc.d useradd systemd
->
+>  inherit autotools ptest
+>  RDEPENDS_${PN}-ptest += "make"
 > --
-> 2.17.1
+> 2.20.1
+>
+>
 >
 > --
 > _______________________________________________
