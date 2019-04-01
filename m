@@ -1,48 +1,47 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C1307D06C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+	[209.85.166.41])
+	by mail.openembedded.org (Postfix) with ESMTP id C75327CFFD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 16:21:26 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id c4so8241506ioh.9
+	Mon,  1 Apr 2019 16:32:27 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id v10so8284251iom.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 09:21:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Mon, 01 Apr 2019 09:32:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=TXzU5iPlf2vlo5k1yIBLnKb1yLMkaHtxWdYNrIhAWGI=;
-	b=LZeV+DfGZOiZeWG+oBpSdX1bQw1dVRn/uYVKk9CbxZNXPmrkFRNWE2Hoj5iYSfOn+O
-	73rq1lu0Cet7douFc4mbTOew78OmL45ixdGtQgERMNl6tskTFLqD2NzRRTru+E+2TvOG
-	17uNiso00MwVFQxEhW1d6r6jD51u1fLdnndFbsL5bNhQdwgZUuSVQRRgz1fBwDrR+ROr
-	sN4oC6SZ9VdZbYxEAwgNz8rOFidrqUEb9yfHYYKHz8MEZqmGHvRMAhHYyp7VLftAcYtm
-	JD4Qcl4lOkrVG4gNi4/fm8uHTl9mBO5JWSScxhrPwQ0VgYVwK6I0+uz4dh1KPxibpWUk
-	7ZOQ==
+	:cc; bh=EBuSFHJ9rwnC1+JjBSRFHwMb5NgorfOwh0qBkGN2PNM=;
+	b=Mk6mJoa+YVeARYbaK70yJxuwSj6O1MSCGc542bEQ95pdvkMuHH3TJ9MCMb7A0gcxFm
+	f3pa8pQYw54OhLqz3DHx1uWQDFMACP23adY0wblld1QNUNGS/olbvnySVjHUKXElw/nW
+	3cfdUkOEXwbA/RmYGix5d0xNoWlI9C9V1aFJnseHO796LSvFQI1QgGY90ak9Jv1sy+TD
+	Tm31XES0hvHff2bm7nue0/orpKQ/OYPldvJfrmRGAcoZM3ARca8vogIwLIUjZ1a/O1hE
+	LcuvDBrBUZd5s9wKFVIlK4+4fXlkUv2DjwM4KknjyAgrwKC4OrfcAkdW/vtyCUqTiyd0
+	4kJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=TXzU5iPlf2vlo5k1yIBLnKb1yLMkaHtxWdYNrIhAWGI=;
-	b=GS6Fe/DltQe4SLzlz2SgBGJy/ESDSZ4JPRqLB0/hEzAPgDn4JMeVcwJn8VkwkqN2JB
-	zhMRZPgYsMwEUCIUrTrNj9vyIKbWU6l8tN+ucWs6Dxn2/7bNqDirzLkm1Rqi8Y3edE/Z
-	xyboA6IOw2rcoxoSSTv0fldWOCJSqUyysGkMqvntnM1tD59VAfjXxgmqCmMdxzMf5rBe
-	3tSOH20kEjydb6MNVfHnixSmRn5p8Gr3WuccCqO5Tl+NPFyUw/COUl3ey9Wz5t5ek69A
-	utBBjM+EjQOcfUHyo5KJgae0G392VkRqYtotQ2bjIK/o/i7MrvjL+4e++ajv7e0apWRp
-	S1Bw==
-X-Gm-Message-State: APjAAAWCCJ+2W4t1Z1PJSAQbq0TQ7n9JnDtZaxyOKy8JJshbRKUKqSoV
-	yQDybuH5Or2og77Uw8wUVzM4uCHxb10TFrnVXv4=
-X-Google-Smtp-Source: APXvYqydIvqVLyivY/4R+6bWu1Cuy7M1075AvBtNuy0axFq40/GOMc/P1yROC6tpnIW0dLMAZYW2oMdAYOU0AFrzKDE=
-X-Received: by 2002:a6b:7417:: with SMTP id s23mr2450519iog.2.1554135687340;
-	Mon, 01 Apr 2019 09:21:27 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=EBuSFHJ9rwnC1+JjBSRFHwMb5NgorfOwh0qBkGN2PNM=;
+	b=st+fZbTf4oKm/atcdfVGV0FZtnzcVv4JtJBcBmSgZCfO/OKTaE43b2W73fyuWO2wqx
+	c3a7pCVLtwQEz9at40PaPFQvcczOF8jg9Ip3govzoP61PWVIF0BpIZktflxbbbQYE8Nd
+	nn5mW2EE44RKxj56a2BrX/QoOEVDktcahEpLOcZ/0tlZErnBp0emhNsghiHO3mRqjTaf
+	lbuXUzF2Ix/r6wG8u4YiWf7EY5zEF973uDnDOt2u55eV0dkX6I7Ud9lttMQzRc0kWHy1
+	UlIwKhVNeiZrfHHYsExNcFED3at4CCyuyhuvC9eXrif594UFLTFV3zYhLZFvV+2lyAgn
+	BqtA==
+X-Gm-Message-State: APjAAAW73d66rJVWKSFbGYFAubUreSsP58obGN+MTmQ681QsZAPUuDCx
+	HztaMr9CArMs5NDXPlXmOVTMNCQGR1+8cyLE2LRkYw==
+X-Google-Smtp-Source: APXvYqwjFlgdHo3cgMexq9Hka2CCL0t/tn5+hozc8gocxBanhvcIaj4NoEuxiZ27tGpUmj3+lezA8jhNnruS/vWIZNY=
+X-Received: by 2002:a6b:7112:: with SMTP id q18mr44796839iog.5.1554136348819; 
+	Mon, 01 Apr 2019 09:32:28 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190401160106.22928-1-schnitzeltony@gmail.com>
-	<CANNYZj80ZqNn_6i9_Z0_HYJErcKrymQZmpiVGn_B56Jw3c7acw@mail.gmail.com>
-In-Reply-To: <CANNYZj80ZqNn_6i9_Z0_HYJErcKrymQZmpiVGn_B56Jw3c7acw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Mon, 1 Apr 2019 18:21:15 +0200
-Message-ID: <CALbNGRTccK1a5QuZppiAOR1kG5mgMFzSYYg4+uHANRx3o3kCNA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20190328011405.13868-1-zangrc.fnst@cn.fujitsu.com>
+In-Reply-To: <20190328011405.13868-1-zangrc.fnst@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 1 Apr 2019 17:32:16 +0100
+Message-ID: <CAJTo0LachdBNVnDHErMt3JM26LU-9enzKteKpo_bAPMdsZTP0g@mail.gmail.com>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2 V2] gobject-introspection: auto-enable/-disable gobject-introspection for meson
+Subject: Re: [PATCH] coreutils:upgrade 8.30 -> 8.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,52 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 16:21:26 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 16:32:27 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 1, 2019 at 6:10 PM Alexander Kanavin <alex.kanavin@gmail.com> w=
-rote:
->
-> On Mon, 1 Apr 2019 at 18:01, Andreas M=C3=BCller <schnitzeltony@gmail.com=
-> wrote:
-> > +# Auto enable/disable based on GI_DATA_ENABLED
-> >  EXTRA_OECONF_prepend_class-target =3D "${@bb.utils.contains('GI_DATA_E=
-NABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
-> > +EXTRA_OEMESON_prepend_class-target =3D "-D${GIR_MESON_OPTION}=3D${@bb.=
-utils.contains('GI_DATA_ENABLED', 'True', 'true', 'false', d)} "
->
-> Thanks, may I also ask that you go over the recipes in oe-core that
-> inherit meson, and tweak them to use this option? (there is not a lot,
-> and some don't use g-i at all).
-OK will do - but I'll wait a bit just in case somebody finds reasons
-not to apply this patch.
->
-> >  # When building native recipes, disable introspection, as it is not ne=
-cessary,
-> >  # pulls in additional dependencies, and makes build times longer
-> >  EXTRA_OECONF_prepend_class-native =3D "--disable-introspection "
-> >  EXTRA_OECONF_prepend_class-nativesdk =3D "--disable-introspection "
-> > +EXTRA_OEMESON_prepend_class-native =3D "-D${GIR_MESON_OPTION}=3DFalse =
-"
-> > +EXTRA_OEMESON_prepend_class-nativesdk =3D "-D${GIR_MESON_OPTION}=3DFal=
-se "
-> >
-> > -UNKNOWN_CONFIGURE_WHITELIST_append =3D " --enable-introspection --disa=
-ble-introspection"
-> > +# Avoid triggering configure QA
-> > +UNKNOWN_CONFIGURE_WHITELIST_append =3D " ${@["", "--enable-introspecti=
-on --disable-introspection"][(bb.data.inherits_class('autotools', d))]}"
-> > +UNKNOWN_CONFIGURE_WHITELIST_append =3D " ${@["", "${GIR_MESON_OPTION}"=
-][(bb.data.inherits_class('meson', d))]}"
->
-> I honestly don't remember why the whitelisting was considered a good
-> idea, but I think it would be better to drop it altogether? That way
-> there will be no silent regressions (when upstream decides to rename
-> the option, for example, which does happen).
->
-Whitelisting would make sense for for projects where gir is mandatory
-and cannot be disabled by configuration - are there any?
+Breaks with musl:
 
-And
+| /data/poky-tmp/musl/work/corei7-64-poky-linux-musl/coreutils/8.31-r0/recipe-sysroot-native/usr/bin/x86_64-poky-linux-musl/../../libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/8.3.0/ld:
+lib/libcoreutils.a(strtold.o):/usr/src/debug/coreutils/8.31-r0/build/../coreutils-8.31/lib/strtod.c:305:
+multiple definition of `minus_zero';
+lib/libcoreutils.a(strtod.o):/usr/src/debug/coreutils/8.31-r0/build/../coreutils-8.31/lib/strtod.c:305:
+first defined here
+
+Ross
+
+On Thu, 28 Mar 2019 at 01:14, Zang Ruochen <zangrc.fnst@cn.fujitsu.com> wrote:
+>
+> Upgrade from coreutils_8.30.bb to coreutils_8.31.bb
+> Change the md5 of file://src/ls.c beacuse of the date change in the file
+>
+> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+> ---
+>  .../coreutils/{coreutils_8.30.bb => coreutils_8.31.bb}      | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>  rename meta/recipes-core/coreutils/{coreutils_8.30.bb => coreutils_8.31.bb} (95%)
+>
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> similarity index 95%
+> rename from meta/recipes-core/coreutils/coreutils_8.30.bb
+> rename to meta/recipes-core/coreutils/coreutils_8.31.bb
+> index 8f4ee55712..d171ec93a9 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.30.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> @@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+>  BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+>  LICENSE = "GPLv3+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+> -                    file://src/ls.c;beginline=1;endline=15;md5=dbe356a88b09c29232b083d1ff8ac82a"
+> +                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
+>  DEPENDS = "gmp libcap"
+>  DEPENDS_class-native = ""
+>
+> @@ -20,8 +20,8 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>             file://0001-local.mk-fix-cross-compiling-problem.patch \
+>            "
+>
+> -SRC_URI[md5sum] = "ab06d68949758971fe744db66b572816"
+> -SRC_URI[sha256sum] = "e831b3a86091496cdba720411f9748de81507798f6130adeaef872d206e1b057"
+> +SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
+> +SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
+>
+>  EXTRA_OECONF_class-native = "--without-gmp"
+>  EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+> --
+> 2.20.1
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
