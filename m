@@ -1,47 +1,47 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BEA747D035
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AD933606B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 10:18:50 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id n78so3341393itb.4
+	Mon,  1 Apr 2019 10:31:40 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id b9so7238911iot.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 03:18:52 -0700 (PDT)
+	Mon, 01 Apr 2019 03:31:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=VfMNtm5pr9kw0e/yr6QH9r3cY5HE2HNf+Is4l8hnX5w=;
-	b=iad/QMcPmnDZc+YWgD6rr8wf8wmvKlDS3tmBL3Z68VuNGtJZuENZS0NR2/n/iBn4AR
-	x3f9nzNJNU0PITaCC205R4nGOWB8EfuAbAW9pkhp+JrKeOz657w6lhcyuNLvsG52RbJg
-	vNP5GNhoZKZ5GDf/ZdRDPjwIPjf9IuF3ikc4E+NybJ5s+BbqXDDCIIJwyEWPbnQIAvSc
-	JZsszvp97w9MyWkghKC7OEZo7OmrtX6GkpTpF9gDsuh4unr+wCua7vO6tfmFO541E+JA
-	4sY7bEG3FVucYZpNsGXDf1nflemfyGxr/QkHkBq1rlkW4L/aB3XAyr2zRSiTFqiuNSql
-	T7vA==
+	:cc; bh=nQAYmJ9axARuAWkCBH/2gXi/bmoIMmS++Iek/D8gzCg=;
+	b=XdhUpgIBMKBItu4/HH/ebOW4mell+wGZRgLsIdB1Iodj6u3vdOBMa5MeaweOCzIZQa
+	4WbbDifGWpPNiGZ7MBIHHlGJJYUSJNENVTsfG+o3KhOkrPgLpXXZ5PMj08hfyK0OkWsI
+	osvgWvLMaMun5Ro67LUCwvpqqQZrjiH7e+5rJOe1ZlVx0mkPMEFH37idQ1h6DZD/11g4
+	QUZQ53K/nJLuLnplTy3uZ6GtgEBnQdPdXQdLKmiqV8126cmAvgvR4JWMDyuk1P3wyRno
+	PnbV1oFxqmgs/dYfVf9DhAUKcCwlT4z63XIzwSc5yRwoAyydkPL0s9FfQAkTPoOaD1wq
+	NB8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=VfMNtm5pr9kw0e/yr6QH9r3cY5HE2HNf+Is4l8hnX5w=;
-	b=m9n6v6dJUXnM5/66FM98DnDr+SlkZw2lNTiR/CLsYj3NZK9yyYphwUyWmAhh7ehSTO
-	czP3ukBM6nx6P6p1A4FO9OBqXNxnQ3fotIY0aFRa8hD1JFMDjZ7LLz7+EIe6V9LfDCuS
-	6ZgCO6tg7iJp/AODRkokrao+NHKjVa3Q5o2ouHUHsOGaFnMk3c4LOz72lsNjuMz+yqX1
-	pMGXJJr3TXcknELBln2nVupID/Ae+BBF9f7YnrOnLSKfzuSiS+KKVOHm4oeXBjfBnKxk
-	n14YzwURCPSDHrNukiQtURsClQQet+Q/PpL4RW5lh/XPr9Osc6NREfxse2Sp1bp6+afd
-	l+Cg==
-X-Gm-Message-State: APjAAAUUYyew2+c9L+5OEPOQ63qCPf5d7mZMY5TCtEIQvxSC0xUaGDlS
-	gIqzE1MXZKcHo9r8K7vUnu+U/i74WYiWNxeqTDi2+LRK
-X-Google-Smtp-Source: APXvYqx4w7MSVOGmfrynr57b+ez8bW7bPaxn2xPhmNC683S3SX9/fM33thl8i936vtRKbDbRRlEzgS8LyWUi3mpvmq4=
-X-Received: by 2002:a02:5bc2:: with SMTP id g185mr17536077jab.31.1554113931851;
-	Mon, 01 Apr 2019 03:18:51 -0700 (PDT)
+	bh=nQAYmJ9axARuAWkCBH/2gXi/bmoIMmS++Iek/D8gzCg=;
+	b=ScHBTFmoUyRLmutzWnczoYJK7cg8NDEoFI6t6O/mYjjR5S68CYchuJn7RRxPYNCYr/
+	OrcS0ALbdBOjHOwbt0mlXpfGnbLX7TzsRSlAl9btPUhHhfTz8vvVfCF6CR1bAXR0XrT1
+	KTqZ+htnnQ6rArVxbV0n+75qZ3AT9UthlyymZXcHbjfOEEsL300faH8bVZAtjHMo+TSS
+	eaoHNu7lY2myHeDoldhta+Tsw5CkgIucj9MM9qsYq7jcs6YmEoxjWY+Uco6Lg4XjfT9J
+	2MUm4ZRPxWb+gTcOCbfe45vm5vEA1NoSv6NYrGe9FrbIicFWp5eaccjp/5PhCh0S9Rwj
+	wbAQ==
+X-Gm-Message-State: APjAAAVVVpNSlLP0KldXc72tCXK15WDU0ChtZck5mmvXuW0BNf3627hy
+	Sd7HgO3gCxOsfE1k3SOHZVzi/3EXmN2VRiscxOs/BBpb
+X-Google-Smtp-Source: APXvYqzXIr0TH7sqUohAY4wF+s9q0cCyOLOIF4j21GLxRkntiJNkFmNEr4o2fka0l26f+VrtmjH/YiPUDw9ZWRZIWpY=
+X-Received: by 2002:a5d:8795:: with SMTP id f21mr42378216ion.20.1554114701717; 
+	Mon, 01 Apr 2019 03:31:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190401022443.16656-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20190401022443.16656-1-open.source@oleksandr-kravchuk.com>
+References: <20190331010109.8941-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190331010109.8941-1-open.source@oleksandr-kravchuk.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 1 Apr 2019 10:18:40 +0000
-Message-ID: <CAJTo0LYF+JJug0EWtA8wmzKzOf6qZ-wQBu1TMmaS8M+HAtLreA@mail.gmail.com>
+Date: Mon, 1 Apr 2019 10:31:30 +0000
+Message-ID: <CAJTo0LYRH-ME6XTfsZXCkkth5xGG5AtyT4=_Cf0GWRY7O6qUMw@mail.gmail.com>
 To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libyaml: update to 0.2.2
+Subject: Re: [PATCH] fontconfig: update to 2.13.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,15 +54,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 10:18:51 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 10:31:40 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 1 Apr 2019 at 03:24, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
-> -S = "${WORKDIR}/yaml-${PV}"
-> +S = "${WORKDIR}/libyaml-${PV}"
+Please remember to explain what you're doing.
 
-That is now the default, so can be removed.
+On Sun, 31 Mar 2019 at 02:01, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=7a0449e9bc5370402a94c00204beca3d \
+>                      file://src/fcfreetype.c;endline=45;md5=5d9513e3196a1fbfdfa94051c09dfc84 \
+> -                    file://src/fccache.c;beginline=1367;endline=1382;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
+> +                    file://src/fccache.c;beginline=1671;endline=1686;md5=0326cfeb4a7333dd4dd25fbbc4b9f27f"
+
+Why?
+
+> -DEPENDS = "expat freetype zlib gperf-native"
+> +DEPENDS = "expat freetype zlib gperf-native util-linux"
+
+What is this for?
+
+> -           file://0001-src-fcxml.c-avoid-double-free-of-filename.patch \
+> -           file://0001-src-fccache.c-Fix-define-for-HAVE_POSIX_FADVISE.patch \
+
+As one of these was a backport and the other submitted I guess these
+were merged in this release, but please say so.
+
+> -FILES_${PN} =+ "${datadir}/xml/*"
+> +FILES_${PN} =+ "${datadir}/xml/* ${datadir}/gettext/*"
+
+These files are for development purposes so should be in PN-dev.
+
+> -inherit autotools pkgconfig relative_symlinks
+> +inherit autotools pkgconfig relative_symlinks gettext
+
+What is this inherit for?  The point of the inherit is so that a
+recipe can disable NLS (set USE_NLS='no') so does this work, or is
+there actually a hard requirement on gettext-native (in which case
+don't use the class).
 
 Ross
 
