@@ -1,50 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com
-	[209.85.208.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B1797D19E
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A3CD7D19E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Apr 2019 21:59:51 +0000 (UTC)
-Received: by mail-ed1-f46.google.com with SMTP id q3so9821884edg.0
+	Mon,  1 Apr 2019 22:05:14 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id x61so9776057edc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Apr 2019 14:59:53 -0700 (PDT)
+	Mon, 01 Apr 2019 15:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=W7fVOezNkGI3s8lpAUvTf8bRhg519utG/9F2mNryMS0=;
-	b=pdYZGl88TwrFXheWQqp4K2ACUgDVtLSsEZLMBTghGNZ0SI+yAXb3Yu6p9iZtEkjH9q
-	X1AK/H+7QVRiNVoJEsS2I5tNWD1ZNOZQ0Kk0fb9iSPR8irInc/tKudqppPYIY9+oTimP
-	mOjuYTGUdSys18o3Jo906Eeal+IPH+77wVbrahyULrT9zPq527fzB44IfJljsLSqIJ5B
-	oKlm1El3FG2IoiFR0ub0hd0hy68Z1xeTY9bzvau1JArlDNxFX6rb0c2BO31MmXidAqer
-	MhCHd0IapuVx4bHIhw3oujNtmbRwfjrVnOT33LUA/KuYFAhts9mkXYgTOvGWMRZWhI/u
-	eFIg==
+	bh=etARWtHO5CghOqzSPNo7k546/3GOY1KZK+5zBYAuy0s=;
+	b=xbrKiPhcqekmGPol//B06bAWYcrz5NVF679I7gNJcLezSpDkWTAX35L/G3tpb0ep68
+	ASQD0UF0J9wf3ouozVYipDyIxphBTfZpl5QuD3pb/MPu01Or+EYGFx4U0UynrgCzXGvP
+	z3CG+1EWfYniQwUuNjRhv6IKLtVx+lJxhUvPm09FmDi3sTOQMmrsAWrltlpS8/vXSo9P
+	eRnjmuifP/ppLTs+7Rz7E3NrgO1f6iuL1r4xV82mVTJfrexCgy7mJUQ9sKn8Io+0AOux
+	7Etrqc7x2XCU3rfTOGO0Ec2R4DtsOrWsZX//Pw/47U14n9kVevPfluGS4Pjawr0846aR
+	yz6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=W7fVOezNkGI3s8lpAUvTf8bRhg519utG/9F2mNryMS0=;
-	b=cFg4jzS/YZugXy96NnHqK2tcWZsXJEjPKL2Rgx/7jimuuclaRsXxoVUb4y5BrnrkU4
-	88f0RrEqvHQb882NuKYEVzEsVFUnjiSSPBw5kD+Q/yQ/+BvR60Yg4/MslOiyOVzuQZaH
-	MrnMUhGShFeaFapJbohYnDFxc9VUOAsVzv90x/ztYgbvyI5QIvJhNuxogIEgqe6tEj/p
-	SgI1DaWPDwjt09ZiW0hk0SnepzsCTe3I8ZiYRtamvH78CE3xceJlAXB//ga/d3IG1Um4
-	SVZGXrMQmeWThdgbMMch518ESzTD0lCCUkhpHYDSXDO8tPhVKzqw1e2/DBgehyeYjbah
-	N0xg==
-X-Gm-Message-State: APjAAAVYsLu63wpYrJicYZzfsXBFUjWoqz62CkxOT3C8Fc8OyVqwaO9H
-	IyN7FC9dA8KokATLSeS0d19mLFwuwP4=
-X-Google-Smtp-Source: APXvYqxlOMzrKyT/KgXau54ZPt9UebkGmwYioYuY+otWq13oDeW0hhtpAF58lYbWxaiNSqxHzAJLnA==
-X-Received: by 2002:a17:906:d512:: with SMTP id
-	ge18mr17942615ejb.232.1554155992457; 
-	Mon, 01 Apr 2019 14:59:52 -0700 (PDT)
+	bh=etARWtHO5CghOqzSPNo7k546/3GOY1KZK+5zBYAuy0s=;
+	b=ltOmwMnQ76k7gR233EILGevI39EjLpHTab5xiw6WESOO/jBr88JU2ineS1GFSkL5FE
+	6nNvfnN8mdbopRY0+xep9xhY5ZaZ0+cLzm+X2CnS2NjP+uwggxQJvDjtxWyDHzyIR7/U
+	QY0euuseCc3T/d+LXNCXw3ajzJAvKIi5eSsxftoVo9uVbqSDuo+bdnrR++phhrDix5yE
+	yIzgsCA/LiwFpC/ClqKnyQIcMzpwB8qC/URwfcJfHPl4SPg3ZP5Fs/g5DvRhmaTHrWYX
+	5sbZ+XEi6E4HZYklgwcv34W06ufZMdpHzaXx9XBxQld+63enT9I88hrqNaofr1lNN9mH
+	jm+Q==
+X-Gm-Message-State: APjAAAVR+JAje2HjmfEq30gVOmWSBW3TtJk7+ldAswIc+SFMTilFDtwK
+	ZJUKp7+7NfNm50K7INo9EhS03znQZZs=
+X-Google-Smtp-Source: APXvYqwQbW2d3OLYKjPLnBwMTgyAuhSiI3xZJmRQYszCsQvQiL0T051uRS1kjVXRxz9u3kpMS7QI7g==
+X-Received: by 2002:a50:ac6c:: with SMTP id w41mr46732222edc.228.1554156315546;
+	Mon, 01 Apr 2019 15:05:15 -0700 (PDT)
 Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	z39sm3495343edz.26.2019.04.01.14.59.51
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id m47sm3558113edm.7.2019.04.01.15.05.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Apr 2019 14:59:51 -0700 (PDT)
+	Mon, 01 Apr 2019 15:05:14 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Apr 2019 23:59:49 +0200
-Message-Id: <20190401215949.24633-1-open.source@oleksandr-kravchuk.com>
+Date: Tue,  2 Apr 2019 00:05:03 +0200
+Message-Id: <20190401220503.31034-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] wget: update to 1.20.2
+Subject: [PATCH] libsecret: 0.18.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Apr 2019 21:59:52 -0000
+X-List-Received-Date: Mon, 01 Apr 2019 22:05:15 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-extended/wget/wget_1.20.1.bb | 8 --------
- meta/recipes-extended/wget/wget_1.20.2.bb | 8 ++++++++
- 2 files changed, 8 insertions(+), 8 deletions(-)
- delete mode 100644 meta/recipes-extended/wget/wget_1.20.1.bb
- create mode 100644 meta/recipes-extended/wget/wget_1.20.2.bb
+ .../libsecret/{libsecret_0.18.7.bb => libsecret_0.18.8.bb}    | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-gnome/libsecret/{libsecret_0.18.7.bb => libsecret_0.18.8.bb} (81%)
 
-diff --git a/meta/recipes-extended/wget/wget_1.20.1.bb b/meta/recipes-extended/wget/wget_1.20.1.bb
-deleted file mode 100644
-index d176bd0acd..0000000000
---- a/meta/recipes-extended/wget/wget_1.20.1.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
--           file://0002-improve-reproducibility.patch \
--          "
--
--SRC_URI[md5sum] = "f6ebe9c7b375fc9832fb1b2028271fb7"
--SRC_URI[sha256sum] = "b783b390cb571c837b392857945f5a1f00ec6b043177cc42abb8ee1b542ee1b3"
--
--require wget.inc
-diff --git a/meta/recipes-extended/wget/wget_1.20.2.bb b/meta/recipes-extended/wget/wget_1.20.2.bb
-new file mode 100644
-index 0000000000..cd20785259
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget_1.20.2.bb
-@@ -0,0 +1,8 @@
-+SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-+           file://0002-improve-reproducibility.patch \
-+          "
-+
-+SRC_URI[md5sum] = "2692f6678e93601441306b5c1fc6a77a"
-+SRC_URI[sha256sum] = "7e43b98cb5e10234836ebef6faf24c4d96c0ae7a480e49ff658117cc4793d166"
-+
-+require wget.inc
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.7.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.8.bb
+similarity index 81%
+rename from meta/recipes-gnome/libsecret/libsecret_0.18.7.bb
+rename to meta/recipes-gnome/libsecret/libsecret_0.18.8.bb
+index 0061b88053..544f35346b 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.18.7.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.18.8.bb
+@@ -8,8 +8,8 @@ DEPENDS += "glib-2.0 libgcrypt gettext-native intltool-native"
+ 
+ PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
+ 
+-SRC_URI[archive.md5sum] = "376153ece17081eb5410870e0dc5c031"
+-SRC_URI[archive.sha256sum] = "0d66fe1fc4561b3e046ee281d7c5a703a9baac88a8c4fb42ebc739d31dabd487"
++SRC_URI[archive.md5sum] = "fee403988442f497f3c1dfe7b128869c"
++SRC_URI[archive.sha256sum] = "3bfa889d260e0dbabcf5b9967f2aae12edcd2ddc9adc365de7a5cc840c311d15"
+ 
+ # http://errors.yoctoproject.org/Errors/Details/20228/
+ ARM_INSTRUCTION_SET_armv4 = "arm"
 -- 
 2.17.1
 
