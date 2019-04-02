@@ -1,46 +1,24 @@
-Return-Path: <xavier.berger@bio-logic.net>
-X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 02 Apr 2019 07:43:35 UTC
-Received: from asp.reflexion.net (outbound-mail-211-30.reflexion.net
-	[208.70.211.30])
-	by mail.openembedded.org (Postfix) with ESMTP id 331F06C42C
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 46BAB6C42C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 07:43:34 +0000 (UTC)
-Received: (qmail 31199 invoked from network); 2 Apr 2019 07:36:56 -0000
-Received: from unknown (HELO rtc-sm-01.app.dca.reflexion.local) (10.81.150.1)
-	by 0 (rfx-qmail) with SMTP; 2 Apr 2019 07:36:56 -0000
-Received: by rtc-sm-01.app.dca.reflexion.local
-	(Reflexion email security v9.22.0) with SMTP;
-	Tue, 02 Apr 2019 03:36:56 -0400 (EDT)
-Received: (qmail 14988 invoked from network); 2 Apr 2019 07:36:56 -0000
-Received: from unknown (HELO E15NYDAG-D16N01.sh11.lan) (67.214.141.234)
-	by 0 (rfx-qmail) with (AES256-SHA encrypted) SMTP;
-	2 Apr 2019 07:36:56 -0000
-Received: from E15NYDAG-D16N01.sh11.lan (10.115.8.25) by
-	E15NYDAG-D16N01.sh11.lan (10.115.8.25) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
-	15.1.1591.10; Tue, 2 Apr 2019 03:36:56 -0400
-Received: from E15NYDAG-D16N01.sh11.lan ([fe80::98e6:86b:1724:6c80]) by
-	E15NYDAG-D16N01.sh11.lan ([fe80::98e6:86b:1724:6c80%14]) with mapi id
-	15.01.1591.012; Tue, 2 Apr 2019 03:36:56 -0400
-From: Xavier Berger <xavier.berger@bio-logic.net>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Thread-Topic: [OE-core] [PULL][PATCH 0/2] Implement debian packages GPG signing
-Thread-Index: AQHU6GTx4G4h33HLE0ag9MnMsYtAJaYnpqwAgADSgPA=
-Date: Tue, 2 Apr 2019 07:36:56 +0000
-Message-ID: <7cbdc5ba6d0647678b7a3d2906f87a31@bio-logic.net>
-References: <cover.1554106752.git.xavier.berger@bio-logic.net>
-	<CANNYZj_CKFRAg9WByRfD56tOiV8FW-VfS4KyEN2YAniAxhaAtA@mail.gmail.com>
-In-Reply-To: <CANNYZj_CKFRAg9WByRfD56tOiV8FW-VfS4KyEN2YAniAxhaAtA@mail.gmail.com>
-Accept-Language: fr-FR, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [92.154.17.42]
-x-outbound-router: PLAD
-x-exclaimer-md-config: f0d3a6b8-613a-409d-aea5-530a0e693ae0
+	Tue,  2 Apr 2019 07:45:00 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x327ien2024030
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 2 Apr 2019 00:44:50 -0700
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 2 Apr 2019 00:44:30 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 2 Apr 2019 03:44:26 -0400
+Message-ID: <20190402074427.26561-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PULL][PATCH 0/2] Implement debian packages GPG signing
+Subject: [PATCH 1/2] avahi: fix CVE-2017-6519
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,27 +31,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 07:43:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 02 Apr 2019 07:45:00 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-SGkgQWxleGVuZGVyLCANCg0KSSdtIHdvcmtpbmcgb24gdGVzdCBjYXNlIGJ1dCBJJ3ZlIGEgbG90
-IG9mIHRoaW5ncyB0byB1bmRlcnN0YW5kIChhbmQgc2V0dXAgdG8gcGVyZm9ybSkuDQpJJ20gYmFz
-aWNhbGx5IHRha2luZyBkbmYgYXMgZXhhbXBsZSBhbmQgY3JlYXRpbmcgYSB0ZXN0IGZvciBhcHQu
-IFBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UgdGhpbmsgbXkgc3RyYXRlZ3kgaXMgbm90IGNvcnJl
-Y3QuDQoNCkknbGwgbGV0IHlvdSBrbm93IGhlcmUgd2hlbiBpdCB3aWxsIHdvcmsuDQoNClhhdmll
-cg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4g
-PGFsZXgua2FuYXZpbkBnbWFpbC5jb20+IA0KU2VudDogbHVuZGkgMSBhdnJpbCAyMDE5IDE2OjUw
-DQpUbzogWGF2aWVyIEJlcmdlciA8eGF2aWVyLmJlcmdlckBiaW8tbG9naWMubmV0Pg0KQ2M6IE9F
-LWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
-OiBSZTogW09FLWNvcmVdIFtQVUxMXVtQQVRDSCAwLzJdIEltcGxlbWVudCBkZWJpYW4gcGFja2Fn
-ZXMgR1BHIHNpZ25pbmcNCg0KT24gTW9uLCAxIEFwciAyMDE5IGF0IDE1OjU3LCBYYXZpZXIgQmVy
-Z2VyIDx4YXZpZXIuYmVyZ2VyQGJpby1sb2dpYy5uZXQ+IHdyb3RlOg0KPiBYYXZpZXIgQmVyZ2Vy
-ICgyKToNCj4gICBncGctc2lnbjogQWRkIHBhcmFtZXRlcnMgdG8gZ3BnIHNpZ25hdHVyZSBmdW5j
-dGlvbg0KPiAgIHBhY2thZ2VfbWFuYWdlcjogc2lnbiBERUIgcGFja2FnZSBmZWVkcw0KPg0KPiAg
-bWV0YS9saWIvb2UvZ3BnX3NpZ24ucHkgICAgICAgIHwgIDYgKysrKystDQo+ICBtZXRhL2xpYi9v
-ZS9wYWNrYWdlX21hbmFnZXIucHkgfCAxOSArKysrKysrKysrKysrKysrLS0tDQoNCkhvdyBkbyB3
-ZSBtYWtlIHN1cmUgdGhpcyBkb2VzIG5vdCByZWdyZXNzPyBDYW4geW91IGFkZCBhIHRlc3QgY2Fz
-ZSBzaW1pbGFyIHRvIG9uZSBmb3IgcnBtIGZlZWQgc2lnbmluZz8NCg0KQWxleA0K
+From: Kai Kang <kai.kang@windriver.com>
+
+Backport patch to fix CVE-2017-6519.
+
+CVE: CVE-2017-6519
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-connectivity/avahi/avahi.inc     |  4 +-
+ .../avahi/files/fix-CVE-2017-6519.patch       | 48 +++++++++++++++++++
+ 2 files changed, 51 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
+
+diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+index 11846849f0..8339e451f5 100644
+--- a/meta/recipes-connectivity/avahi/avahi.inc
++++ b/meta/recipes-connectivity/avahi/avahi.inc
+@@ -19,7 +19,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+                     file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
+                     file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
+ 
+-SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz"
++SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz \
++           file://fix-CVE-2017-6519.patch \
++           "
+ 
+ UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
+ SRC_URI[md5sum] = "d76c59d0882ac6c256d70a2a585362a6"
+diff --git a/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch b/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
+new file mode 100644
+index 0000000000..7461fe193d
+--- /dev/null
++++ b/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
+@@ -0,0 +1,48 @@
++Upstream-Status: Backport [https://github.com/lathiat/avahi/commit/e111def]
++
++CVE: CVE-2017-6519
++
++Signed-off-by: Kai Kang <kai.kang@windriver.com>
++
++From e111def44a7df4624a4aa3f85fe98054bffb6b4f Mon Sep 17 00:00:00 2001
++From: Trent Lloyd <trent@lloyd.id.au>
++Date: Sat, 22 Dec 2018 09:06:07 +0800
++Subject: [PATCH] Drop legacy unicast queries from address not on local link
++
++When handling legacy unicast queries, ensure that the source IP is
++inside a subnet on the local link, otherwise drop the packet.
++
++Fixes #145
++Fixes #203
++CVE-2017-6519
++CVE-2018-1000845
++---
++ avahi-core/server.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/avahi-core/server.c b/avahi-core/server.c
++index a2cb19a8..a2580e38 100644
++--- a/avahi-core/server.c
+++++ b/avahi-core/server.c
++@@ -930,6 +930,7 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
++ 
++     if (avahi_dns_packet_is_query(p)) {
++         int legacy_unicast = 0;
+++        char t[AVAHI_ADDRESS_STR_MAX];
++ 
++         /* For queries EDNS0 might allow ARCOUNT != 0. We ignore the
++          * AR section completely here, so far. Until the day we add
++@@ -947,6 +948,13 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
++             legacy_unicast = 1;
++         }
++ 
+++        if (!is_mdns_mcast_address(dst_address) &&
+++            !avahi_interface_address_on_link(i, src_address)) {
+++
+++            avahi_log_debug("Received non-local unicast query from host %s on interface '%s.%i'.", avahi_address_snprint(t, sizeof(t), src_address), i->hardware->name, i->protocol);
+++            return;
+++        }
+++
++         if (legacy_unicast)
++             reflect_legacy_unicast_query_packet(s, p, i, src_address, port);
++ 
+-- 
+2.20.0
+
 
