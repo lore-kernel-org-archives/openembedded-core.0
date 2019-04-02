@@ -1,57 +1,57 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E1DF7D1FF
+	by mail.openembedded.org (Postfix) with ESMTP id 9B2677D20B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 19:31:11 +0000 (UTC)
+	Tue,  2 Apr 2019 19:31:12 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 433C4183AB
+	by bastet.se.axis.com (Postfix) with ESMTP id 80225183AB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:12 +0200 (CEST)
+	Tue,  2 Apr 2019 21:31:13 +0200 (CEST)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id oO-0ADrIQXmV
+	port 10024) with LMTP id w_5CrWX7-UtJ
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:08 +0200 (CEST)
+	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
 Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 943421857B
+	by bastet.se.axis.com (Postfix) with ESMTPS id 861B51856C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 63D861A06F
+	by IMSVA (Postfix) with ESMTP id 692391A070
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
 Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 455821A06B
+	by IMSVA (Postfix) with ESMTP id 5DEAA1A06D
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
+Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder02.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
 Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by thoth.se.axis.com (Postfix) with ESMTP id 39EA02816
+	by seth.se.axis.com (Postfix) with ESMTP id 5233727A0
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
 Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id x32JV6S2026893
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id x32JV75D026897
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Apr 2019 21:31:06 +0200
+	Tue, 2 Apr 2019 21:31:07 +0200
 Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id x32JV62M026891
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id x32JV7pA026896
 	for openembedded-core@lists.openembedded.org;
-	Tue, 2 Apr 2019 21:31:06 +0200
+	Tue, 2 Apr 2019 21:31:07 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2019 21:31:01 +0200
-Message-Id: <8de500d9fe96149a349fa0fb668e11fa256e2db8.1554233389.git.pkj@axis.com>
+Date: Tue,  2 Apr 2019 21:31:02 +0200
+Message-Id: <4146cfefe1b40517c5fca68f0b52180acb2af7fa.1554233389.git.pkj@axis.com>
 X-Mailer: git-send-email 2.12.0
 In-Reply-To: <cover.1554233389.git.pkj@axis.com>
 References: <cover.1554233389.git.pkj@axis.com>
 X-TM-AS-GCONF: 00
-Subject: [PATCH 3/6] Revert "arm-tunes: Remove -march option if mcpu is already added"
+Subject: [PATCH 4/6] arm-tunes: Prefer the -mcpu option over -march
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,480 +64,411 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 19:31:11 -0000
+X-List-Received-Date: Tue, 02 Apr 2019 19:31:13 -0000
 
-This reverts commit ac83d22eb5031f7fdd09d34a1a46d92fd3e39a3c.
+Tune files that inherit the arch definitions already define
+appropriate -mcpu options, which are equivalent of the correct -march
+and -mtune combinations. This is preferred since gcc is getting
+stricter and stricter with option check semantics and can now find
+incompatible -march and -mcpu options better with every release. It
+does an internal feature consistency check and if it finds any
+discrepancies between what -mcpu would expand to as compared to
+-march, it will flag the options to be incompatible. For the naked eye
+it looks wrong, but gcc will translate -mcpu to a given -march
+internally and it might not match what we set in these arch files.
 
-This solution had unforeseen side effects, which, e.g., lead to the
-following sanity error if trying to build with the arm926ejs default
-tune:
+The effects are quite subtle, where this can result in configure tests
+failing to compile due to these incompatible options and a feature
+option getting disabled for a recipe for no reason.
 
-    Error, the PACKAGE_ARCHS variable (all any noarch arm armv4 armv4t
-    armv5 armv5t armv5e armv5te arm926ejste arm926ejse <BSP name
-    withheld>) for DEFAULTTUNE (arm926ejs) does not contain
-    TUNE_PKGARCH (arm926ejst).
+E.g., with GCC 9, which can now detect that -mcpu=cortex-a5 and
+-march=armv7-a are incompatible, many features in libstdc++ end up
+disabled due to configure check failures, e.g., size_t size, ptrdiff_t
+sizes, which in turn results in compiling libstdc++ with wanted
+features disabled.
 
-An alternative solution will follow, which only affects the -mcpu and
--march options without other side effects.
+This is an alternative solution to the same problem originally
+implemented by Khem Raj in commit ac83d22e, but this time only
+affecting -mcpu and -march options without other side effects.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- meta/conf/machine/include/tune-arm1136jf-s.inc   |  4 +---
- meta/conf/machine/include/tune-arm920t.inc       |  4 +---
- meta/conf/machine/include/tune-arm926ejs.inc     |  4 +---
- meta/conf/machine/include/tune-arm9tdmi.inc      |  4 +---
- meta/conf/machine/include/tune-cortexa15.inc     | 27 ++++++++++-------------
- meta/conf/machine/include/tune-cortexa17.inc     | 27 ++++++++++-------------
- meta/conf/machine/include/tune-cortexa5.inc      | 27 ++++++++++-------------
- meta/conf/machine/include/tune-cortexa7.inc      | 27 ++++++++++-------------
- meta/conf/machine/include/tune-cortexa8.inc      | 19 +++++++---------
- meta/conf/machine/include/tune-cortexa9.inc      | 28 ++++++++++--------------
- meta/conf/machine/include/tune-ep9312.inc        |  1 -
- meta/conf/machine/include/tune-iwmmxt.inc        |  3 +--
- meta/conf/machine/include/tune-strongarm1100.inc |  3 +--
- meta/conf/machine/include/tune-xscale.inc        |  7 ++----
- 14 files changed, 76 insertions(+), 109 deletions(-)
+ meta/conf/machine/include/arm/arch-arm.inc       | 6 ++++++
+ meta/conf/machine/include/arm/arch-armv4.inc     | 2 +-
+ meta/conf/machine/include/arm/arch-armv5.inc     | 2 +-
+ meta/conf/machine/include/arm/arch-armv6.inc     | 2 +-
+ meta/conf/machine/include/arm/arch-armv7a.inc    | 2 +-
+ meta/conf/machine/include/arm/arch-armv7ve.inc   | 2 +-
+ meta/conf/machine/include/arm/arch-armv8a.inc    | 6 +++---
+ meta/conf/machine/include/tune-arm1136jf-s.inc   | 2 +-
+ meta/conf/machine/include/tune-arm920t.inc       | 2 +-
+ meta/conf/machine/include/tune-arm926ejs.inc     | 2 +-
+ meta/conf/machine/include/tune-arm9tdmi.inc      | 2 +-
+ meta/conf/machine/include/tune-cortexa15.inc     | 2 +-
+ meta/conf/machine/include/tune-cortexa17.inc     | 2 +-
+ meta/conf/machine/include/tune-cortexa32.inc     | 2 +-
+ meta/conf/machine/include/tune-cortexa35.inc     | 2 +-
+ meta/conf/machine/include/tune-cortexa5.inc      | 2 +-
+ meta/conf/machine/include/tune-cortexa53.inc     | 2 +-
+ meta/conf/machine/include/tune-cortexa7.inc      | 2 +-
+ meta/conf/machine/include/tune-cortexa72.inc     | 2 +-
+ meta/conf/machine/include/tune-cortexa8.inc      | 2 +-
+ meta/conf/machine/include/tune-cortexa9.inc      | 2 +-
+ meta/conf/machine/include/tune-ep9312.inc        | 2 +-
+ meta/conf/machine/include/tune-iwmmxt.inc        | 2 +-
+ meta/conf/machine/include/tune-strongarm1100.inc | 2 +-
+ meta/conf/machine/include/tune-thunderx.inc      | 2 +-
+ meta/conf/machine/include/tune-xscale.inc        | 2 +-
+ 26 files changed, 33 insertions(+), 27 deletions(-)
 
+diff --git a/meta/conf/machine/include/arm/arch-arm.inc b/meta/conf/machine/include/arm/arch-arm.inc
+index 99625d8417..188cf8b473 100644
+--- a/meta/conf/machine/include/arm/arch-arm.inc
++++ b/meta/conf/machine/include/arm/arch-arm.inc
+@@ -11,6 +11,12 @@ ARMPKGSFX_THUMB ??= ""
+ TUNE_ARCH = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'armeb', 'arm', d)}"
+ TUNE_PKGARCH = "${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}"
+ 
++# Prefer -mcpu= over -arch=
++TUNE_CCARGS_MCPU ??= ""
++TUNE_CCARGS_MARCH ??= ""
++TUNE_CCARGS_FEATURES ??= ""
++TUNE_CCARGS .= "${@d.getVar('TUNE_CCARGS_MCPU') or d.getVar('TUNE_CCARGS_MARCH')}${TUNE_CCARGS_FEATURES}"
++
+ ABIEXTENSION = "eabi"
+ 
+ TARGET_FPU = "${@d.getVar('TUNE_CCARGS_MFLOAT') or 'soft'}"
+diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
+index 47a7ad2830..dac791e308 100644
+--- a/meta/conf/machine/include/arm/arch-armv4.inc
++++ b/meta/conf/machine/include/arm/arch-armv4.inc
+@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv4"
+ 
+ TUNEVALID[arm] = "Enable ARM instruction set"
+ TUNEVALID[armv4] = "Enable instructions for ARMv4"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
++TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
+ # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then disable it when we have also armv5 or thumb
+ # maybe we should extend bb.utils.contains to support check for any checkvalues in value, now it does 
+ # checkvalues.issubset(val) which cannot be used for negative test of foo neither bar in value
+diff --git a/meta/conf/machine/include/arm/arch-armv5.inc b/meta/conf/machine/include/arm/arch-armv5.inc
+index f9068af9de..9c82015df2 100644
+--- a/meta/conf/machine/include/arm/arch-armv5.inc
++++ b/meta/conf/machine/include/arm/arch-armv5.inc
+@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv5"
+ 
+ TUNEVALID[armv5] = "Enable instructions for ARMv5"
+ TUNECONFLICTS[armv5] = "armv4"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', ' -march=armv5t${ARMPKGSFX_DSP}', '', d)}"
++TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', ' -march=armv5t${ARMPKGSFX_DSP}', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv4.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
+index 6c838e999c..ece29aab8e 100644
+--- a/meta/conf/machine/include/arm/arch-armv6.inc
++++ b/meta/conf/machine/include/arm/arch-armv6.inc
+@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv6hf"
+ 
+ TUNEVALID[armv6] = "Enable instructions for ARMv6"
+ TUNECONFLICTS[armv6] = "armv4 armv5"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', ' -march=armv6', '', d)}"
++TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', ' -march=armv6', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv5-dsp.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
+index 199e63f98a..c09fb548c2 100644
+--- a/meta/conf/machine/include/arm/arch-armv7a.inc
++++ b/meta/conf/machine/include/arm/arch-armv7a.inc
+@@ -3,7 +3,7 @@ ARM_INSTRUCTION_SET ?= "thumb"
+ 
+ TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
+ TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', ' -march=armv7-a', '', d)}"
++TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', ' -march=armv7-a', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv6.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
+index fc172d0cb0..810abd2008 100644
+--- a/meta/conf/machine/include/arm/arch-armv7ve.inc
++++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
+@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv7vethf"
+ 
+ TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
+ TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
++TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-armv7a.inc
+diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
+index f810a1e8fc..9751594bf4 100644
+--- a/meta/conf/machine/include/arm/arch-armv8a.inc
++++ b/meta/conf/machine/include/arm/arch-armv8a.inc
+@@ -1,11 +1,11 @@
+ DEFAULTTUNE ?= "armv8a-crc"
+ 
+ TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
++TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
+ TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
++TUNE_CCARGS_FEATURES .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
+ TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
++TUNE_CCARGS_FEATURES .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
+ MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 'armv8a:', '' ,d)}"
+ 
+ require conf/machine/include/arm/arch-arm64.inc
 diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
-index d883eba7c9..c5de63e1cc 100644
+index c5de63e1cc..e29ac9d8d2 100644
 --- a/meta/conf/machine/include/tune-arm1136jf-s.inc
 +++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
-@@ -4,10 +4,8 @@ require conf/machine/include/arm/arch-armv6.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv6hf"
+ require conf/machine/include/arm/arch-armv6.inc
  
  TUNEVALID[arm1136jfs] = "Enable arm1136jfs specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', 'armv6:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
  
  AVAILTUNES += "arm1136jfs"
  ARMPKGARCH_tune-arm1136jfs = "arm1136jfs"
--# mcpu is used so don't use armv6 as we don't want march
--TUNE_FEATURES_tune-arm1136jfs = "arm arm1136jfs"
-+TUNE_FEATURES_tune-arm1136jfs = "${TUNE_FEATURES_tune-armv6} arm1136jfs"
- PACKAGE_EXTRA_ARCHS_tune-arm1136jfs = "${PACKAGE_EXTRA_ARCHS_tune-armv6} arm1136jfs-vfp"
 diff --git a/meta/conf/machine/include/tune-arm920t.inc b/meta/conf/machine/include/tune-arm920t.inc
-index 42e8ed2b51..c6e74b6772 100644
+index c6e74b6772..02fbed41a1 100644
 --- a/meta/conf/machine/include/tune-arm920t.inc
 +++ b/meta/conf/machine/include/tune-arm920t.inc
-@@ -4,10 +4,8 @@ require conf/machine/include/arm/arch-armv4.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
+ require conf/machine/include/arm/arch-armv4.inc
  
  TUNEVALID[arm920t] = "Enable arm920t specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', 'armv4:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
  
  AVAILTUNES += "arm920t"
  ARMPKGARCH_tune-arm920t = "arm920t"
--# mcpu is used so don't use armv4t as we don't want march
--TUNE_FEATURES_tune-arm920t = "arm thumb arm920t"
-+TUNE_FEATURES_tune-arm920t = "${TUNE_FEATURES_tune-armv4t} arm920t"
- PACKAGE_EXTRA_ARCHS_tune-arm920t = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} arm920t arm920tt"
 diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
-index 563d53bc4e..81bcda339b 100644
+index 81bcda339b..70179b59e4 100644
 --- a/meta/conf/machine/include/tune-arm926ejs.inc
 +++ b/meta/conf/machine/include/tune-arm926ejs.inc
-@@ -4,10 +4,8 @@ require conf/machine/include/arm/arch-armv5-dsp.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
+ require conf/machine/include/arm/arch-armv5-dsp.inc
  
  TUNEVALID[arm926ejs] = "Enable arm926ejs specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', 'armv5:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
  
  AVAILTUNES += "arm926ejs"
  ARMPKGARCH_tune-arm926ejs = "arm926ejs"
--# mcpu is used so don't use armv5te as we don't want march
--TUNE_FEATURES_tune-arm926ejs = "arm thumb dsp arm926ejs"
-+TUNE_FEATURES_tune-arm926ejs = "${TUNE_FEATURES_tune-armv5te} arm926ejs"
- PACKAGE_EXTRA_ARCHS_tune-arm926ejs = "${PACKAGE_EXTRA_ARCHS_tune-armv5te} arm926ejste arm926ejse"
 diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
-index e03a8b86a0..e9c2b8fcf5 100644
+index e9c2b8fcf5..013f6ba846 100644
 --- a/meta/conf/machine/include/tune-arm9tdmi.inc
 +++ b/meta/conf/machine/include/tune-arm9tdmi.inc
-@@ -4,10 +4,8 @@ require conf/machine/include/arm/arch-armv4.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
+ require conf/machine/include/arm/arch-armv4.inc
  
  TUNEVALID[arm9tdmi] = "Enable arm9tdmi specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', 'armv4:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
  
  AVAILTUNES += "arm9tdmi"
  ARMPKGARCH_tune-arm9tdmi = "arm9tdmi"
--# mcpu is used so don't use armv4t as we don't want march
--TUNE_FEATURES_tune-arm9tdmi = "arm thumb arm9tdmi"
-+TUNE_FEATURES_tune-arm9tdmi = "${TUNE_FEATURES_tune-armv4t} arm9tdmi"
- PACKAGE_EXTRA_ARCHS_tune-arm9tdmi = "${PACKAGE_EXTRA_ARCHS_tune-armv4t} arm9tdmit"
 diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
-index d53403af35..25e99f93d7 100644
+index 25e99f93d7..2ca38c59cc 100644
 --- a/meta/conf/machine/include/tune-cortexa15.inc
 +++ b/meta/conf/machine/include/tune-cortexa15.inc
-@@ -4,7 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+ require conf/machine/include/arm/arch-armv7ve.inc
  
  TUNEVALID[cortexa15] = "Enable Cortex-A15 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', 'armv7ve:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
  
  # Little Endian base configs
  AVAILTUNES += "cortexa15 cortexa15t cortexa15-neon cortexa15t-neon cortexa15-neon-vfpv4 cortexa15t-neon-vfpv4"
-@@ -14,13 +13,12 @@ ARMPKGARCH_tune-cortexa15-neon        = "cortexa15"
- ARMPKGARCH_tune-cortexa15t-neon       = "cortexa15"
- ARMPKGARCH_tune-cortexa15-neon-vfpv4  = "cortexa15"
- ARMPKGARCH_tune-cortexa15t-neon-vfpv4 = "cortexa15"
--# mcpu is used so don't use armv7ve as we don't want march
--TUNE_FEATURES_tune-cortexa15             = "arm vfp cortexa15"
--TUNE_FEATURES_tune-cortexa15t            = "${TUNE_FEATURES_tune-cortexa15} thumb"
--TUNE_FEATURES_tune-cortexa15-neon        = "${TUNE_FEATURES_tune-cortexa15} neon"
--TUNE_FEATURES_tune-cortexa15t-neon       = "${TUNE_FEATURES_tune-cortexa15-neon} thumb"
--TUNE_FEATURES_tune-cortexa15-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa15-neon} vfpv4"
--TUNE_FEATURES_tune-cortexa15t-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa15-neon-vfpv4} thumb"
-+TUNE_FEATURES_tune-cortexa15             = "${TUNE_FEATURES_tune-armv7ve} cortexa15"
-+TUNE_FEATURES_tune-cortexa15t            = "${TUNE_FEATURES_tune-armv7vet} cortexa15"
-+TUNE_FEATURES_tune-cortexa15-neon        = "${TUNE_FEATURES_tune-armv7ve-neon} cortexa15"
-+TUNE_FEATURES_tune-cortexa15t-neon       = "${TUNE_FEATURES_tune-armv7vet-neon} cortexa15"
-+TUNE_FEATURES_tune-cortexa15-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4} cortexa15"
-+TUNE_FEATURES_tune-cortexa15t-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} cortexa15"
- PACKAGE_EXTRA_ARCHS_tune-cortexa15             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve} cortexa15-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa15t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} cortexa15-vfp cortexa15t2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa15-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon} cortexa15-vfp cortexa15-neon"
-@@ -36,13 +34,12 @@ ARMPKGARCH_tune-cortexa15hf-neon        = "cortexa15"
- ARMPKGARCH_tune-cortexa15thf-neon       = "cortexa15"
- ARMPKGARCH_tune-cortexa15hf-neon-vfpv4  = "cortexa15"
- ARMPKGARCH_tune-cortexa15thf-neon-vfpv4 = "cortexa15"
--# mcpu is used so don't use armv7ve as we don't want march
--TUNE_FEATURES_tune-cortexa15hf             = "${TUNE_FEATURES_tune-cortexa15} callconvention-hard"
--TUNE_FEATURES_tune-cortexa15thf            = "${TUNE_FEATURES_tune-cortexa15t} callconvention-hard"
--TUNE_FEATURES_tune-cortexa15hf-neon        = "${TUNE_FEATURES_tune-cortexa15-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa15thf-neon       = "${TUNE_FEATURES_tune-cortexa15t-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa15hf-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa15-neon-vfpv4} callconvention-hard"
--TUNE_FEATURES_tune-cortexa15thf-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa15t-neon-vfpv4} callconvention-hard"
-+TUNE_FEATURES_tune-cortexa15hf             = "${TUNE_FEATURES_tune-armv7vehf} cortexa15"
-+TUNE_FEATURES_tune-cortexa15thf            = "${TUNE_FEATURES_tune-armv7vethf} cortexa15"
-+TUNE_FEATURES_tune-cortexa15hf-neon        = "${TUNE_FEATURES_tune-armv7vehf-neon} cortexa15"
-+TUNE_FEATURES_tune-cortexa15thf-neon       = "${TUNE_FEATURES_tune-armv7vethf-neon} cortexa15"
-+TUNE_FEATURES_tune-cortexa15hf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4} cortexa15"
-+TUNE_FEATURES_tune-cortexa15thf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} cortexa15"
- PACKAGE_EXTRA_ARCHS_tune-cortexa15hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf} cortexa15hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa15thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} cortexa15hf-vfp cortexa15t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa15hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon} cortexa15hf-vfp cortexa15hf-neon"
 diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
-index 3ffc02bf9f..40392f9bcc 100644
+index 40392f9bcc..048a7be420 100644
 --- a/meta/conf/machine/include/tune-cortexa17.inc
 +++ b/meta/conf/machine/include/tune-cortexa17.inc
-@@ -4,7 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+ require conf/machine/include/arm/arch-armv7ve.inc
  
  TUNEVALID[cortexa17] = "Enable Cortex-A17 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', 'armv7ve:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
  
  # Little Endian base configs
  AVAILTUNES += "cortexa17 cortexa17t cortexa17-neon cortexa17t-neon cortexa17-neon-vfpv4 cortexa17t-neon-vfpv4"
-@@ -14,13 +13,12 @@ ARMPKGARCH_tune-cortexa17-neon        = "cortexa17"
- ARMPKGARCH_tune-cortexa17t-neon       = "cortexa17"
- ARMPKGARCH_tune-cortexa17-neon-vfpv4  = "cortexa17"
- ARMPKGARCH_tune-cortexa17t-neon-vfpv4 = "cortexa17"
--# mcpu is used so don't use armv7ve as we don't want march
--TUNE_FEATURES_tune-cortexa17             = "arm vfp cortexa17"
--TUNE_FEATURES_tune-cortexa17t            = "${TUNE_FEATURES_tune-cortexa17} thumb"
--TUNE_FEATURES_tune-cortexa17-neon        = "${TUNE_FEATURES_tune-cortexa17} neon"
--TUNE_FEATURES_tune-cortexa17t-neon       = "${TUNE_FEATURES_tune-cortexa17-neon} thumb"
--TUNE_FEATURES_tune-cortexa17-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa17-neon} vfpv4"
--TUNE_FEATURES_tune-cortexa17t-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa17-neon-vfpv4} thumb"
-+TUNE_FEATURES_tune-cortexa17             = "${TUNE_FEATURES_tune-armv7ve} cortexa17"
-+TUNE_FEATURES_tune-cortexa17t            = "${TUNE_FEATURES_tune-armv7vet} cortexa17"
-+TUNE_FEATURES_tune-cortexa17-neon        = "${TUNE_FEATURES_tune-armv7ve-neon} cortexa17"
-+TUNE_FEATURES_tune-cortexa17t-neon       = "${TUNE_FEATURES_tune-armv7vet-neon} cortexa17"
-+TUNE_FEATURES_tune-cortexa17-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4} cortexa17"
-+TUNE_FEATURES_tune-cortexa17t-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} cortexa17"
- PACKAGE_EXTRA_ARCHS_tune-cortexa17             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve} cortexa17-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa17t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} cortexa17-vfp cortexa17t2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa17-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon} cortexa17-vfp cortexa17-neon"
-@@ -36,13 +34,12 @@ ARMPKGARCH_tune-cortexa17hf-neon        = "cortexa17"
- ARMPKGARCH_tune-cortexa17thf-neon       = "cortexa17"
- ARMPKGARCH_tune-cortexa17hf-neon-vfpv4  = "cortexa17"
- ARMPKGARCH_tune-cortexa17thf-neon-vfpv4 = "cortexa17"
--# mcpu is used so don't use armv7ve as we don't want march
--TUNE_FEATURES_tune-cortexa17hf             = "${TUNE_FEATURES_tune-cortexa17} callconvention-hard"
--TUNE_FEATURES_tune-cortexa17thf            = "${TUNE_FEATURES_tune-cortexa17t} callconvention-hard"
--TUNE_FEATURES_tune-cortexa17hf-neon        = "${TUNE_FEATURES_tune-cortexa17-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa17thf-neon       = "${TUNE_FEATURES_tune-cortexa17t-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa17hf-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa17-neon-vfpv4} callconvention-hard"
--TUNE_FEATURES_tune-cortexa17thf-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa17t-neon-vfpv4} callconvention-hard"
-+TUNE_FEATURES_tune-cortexa17hf             = "${TUNE_FEATURES_tune-armv7vehf} cortexa17"
-+TUNE_FEATURES_tune-cortexa17thf            = "${TUNE_FEATURES_tune-armv7vethf} cortexa17"
-+TUNE_FEATURES_tune-cortexa17hf-neon        = "${TUNE_FEATURES_tune-armv7vehf-neon} cortexa17"
-+TUNE_FEATURES_tune-cortexa17thf-neon       = "${TUNE_FEATURES_tune-armv7vethf-neon} cortexa17"
-+TUNE_FEATURES_tune-cortexa17hf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4} cortexa17"
-+TUNE_FEATURES_tune-cortexa17thf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} cortexa17"
- PACKAGE_EXTRA_ARCHS_tune-cortexa17hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf} cortexa17hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa17thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} cortexa17hf-vfp cortexa17t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa17hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon} cortexa17hf-vfp cortexa17hf-neon"
+diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
+index 9c948f1766..c50470203c 100644
+--- a/meta/conf/machine/include/tune-cortexa32.inc
++++ b/meta/conf/machine/include/tune-cortexa32.inc
+@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "cortexa32"
+ 
+ 
+ TUNEVALID[cortexa32] = "Enable Cortex-A32 specific processor optimizations"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa32', ' -mcpu=cortex-a32', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa32', ' -mcpu=cortex-a32', '', d)}"
+ 
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
+diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/tune-cortexa35.inc
+index d6df6cd6bd..0b082ce259 100644
+--- a/meta/conf/machine/include/tune-cortexa35.inc
++++ b/meta/conf/machine/include/tune-cortexa35.inc
+@@ -1,7 +1,7 @@
+ DEFAULTTUNE ?= "cortexa35"
+ 
+ TUNEVALID[cortexa35] = "Enable Cortex-A35 specific processor optimizations"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa35', ' -mcpu=cortex-a35', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa35', ' -mcpu=cortex-a35', '', d)}"
+ 
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
 diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
-index 496739e454..e9eddb407f 100644
+index e9eddb407f..fee874b224 100644
 --- a/meta/conf/machine/include/tune-cortexa5.inc
 +++ b/meta/conf/machine/include/tune-cortexa5.inc
-@@ -4,7 +4,6 @@ require conf/machine/include/arm/arch-armv7a.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
+ require conf/machine/include/arm/arch-armv7a.inc
  
  TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', 'armv7a:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
  
  # Little Endian base configs
  AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon cortexa5-neon-vfpv4 cortexa5t-neon-vfpv4"
-@@ -14,13 +13,12 @@ ARMPKGARCH_tune-cortexa5-neon        = "cortexa5"
- ARMPKGARCH_tune-cortexa5t-neon       = "cortexa5"
- ARMPKGARCH_tune-cortexa5-neon-vfpv4  = "cortexa5"
- ARMPKGARCH_tune-cortexa5t-neon-vfpv4 = "cortexa5"
--# mcpu is used so don't use armv7a as we don't want march
--TUNE_FEATURES_tune-cortexa5             = "arm vfp cortexa5"
--TUNE_FEATURES_tune-cortexa5t            = "${TUNE_FEATURES_tune-cortexa5} thumb"
--TUNE_FEATURES_tune-cortexa5-neon        = "${TUNE_FEATURES_tune-cortexa5} neon"
--TUNE_FEATURES_tune-cortexa5t-neon       = "${TUNE_FEATURES_tune-cortexa5-neon} thumb"
--TUNE_FEATURES_tune-cortexa5-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa5-neon} vfpv4"
--TUNE_FEATURES_tune-cortexa5t-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa5-neon-vfpv4} thumb"
-+TUNE_FEATURES_tune-cortexa5             = "${TUNE_FEATURES_tune-armv7a} cortexa5"
-+TUNE_FEATURES_tune-cortexa5t            = "${TUNE_FEATURES_tune-armv7at} cortexa5"
-+TUNE_FEATURES_tune-cortexa5-neon        = "${TUNE_FEATURES_tune-armv7a-neon} cortexa5"
-+TUNE_FEATURES_tune-cortexa5t-neon       = "${TUNE_FEATURES_tune-armv7at-neon} cortexa5"
-+TUNE_FEATURES_tune-cortexa5-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7a-neon-vfpv4} cortexa5"
-+TUNE_FEATURES_tune-cortexa5t-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7at-neon-vfpv4} cortexa5"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5             = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa5-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa5-vfp cortexa5t2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa5-vfp cortexa5-neon"
-@@ -36,13 +34,12 @@ ARMPKGARCH_tune-cortexa5hf-neon        = "cortexa5"
- ARMPKGARCH_tune-cortexa5thf-neon       = "cortexa5"
- ARMPKGARCH_tune-cortexa5hf-neon-vfpv4  = "cortexa5"
- ARMPKGARCH_tune-cortexa5thf-neon-vfpv4 = "cortexa5"
--# mcpu is used so don't use armv7a as we don't want march
--TUNE_FEATURES_tune-cortexa5hf             = "${TUNE_FEATURES_tune-cortexa5} callconvention-hard"
--TUNE_FEATURES_tune-cortexa5thf            = "${TUNE_FEATURES_tune-cortexa5t} callconvention-hard"
--TUNE_FEATURES_tune-cortexa5hf-neon        = "${TUNE_FEATURES_tune-cortexa5-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa5thf-neon       = "${TUNE_FEATURES_tune-cortexa5t-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa5hf-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa5-neon-vfpv4} callconvention-hard"
--TUNE_FEATURES_tune-cortexa5thf-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa5t-neon-vfpv4} callconvention-hard"
-+TUNE_FEATURES_tune-cortexa5hf             = "${TUNE_FEATURES_tune-armv7ahf} cortexa5"
-+TUNE_FEATURES_tune-cortexa5thf            = "${TUNE_FEATURES_tune-armv7athf} cortexa5"
-+TUNE_FEATURES_tune-cortexa5hf-neon        = "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa5"
-+TUNE_FEATURES_tune-cortexa5thf-neon       = "${TUNE_FEATURES_tune-armv7athf-neon} cortexa5"
-+TUNE_FEATURES_tune-cortexa5hf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ahf-neon-vfpv4} cortexa5"
-+TUNE_FEATURES_tune-cortexa5thf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7athf-neon-vfpv4} cortexa5"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa5hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa5hf-vfp cortexa5t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa5hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa5hf-vfp cortexa5hf-neon"
+diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
+index 6c0b443eaf..b3bd8bbc4e 100644
+--- a/meta/conf/machine/include/tune-cortexa53.inc
++++ b/meta/conf/machine/include/tune-cortexa53.inc
+@@ -1,7 +1,7 @@
+ DEFAULTTUNE ?= "cortexa53"
+ 
+ TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
+ 
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
 diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
-index 34a77b4788..52415d9c8b 100644
+index 52415d9c8b..79a395fe3f 100644
 --- a/meta/conf/machine/include/tune-cortexa7.inc
 +++ b/meta/conf/machine/include/tune-cortexa7.inc
-@@ -4,7 +4,6 @@ require conf/machine/include/arm/arch-armv7ve.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
+ require conf/machine/include/arm/arch-armv7ve.inc
  
  TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', 'armv7ve:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
  
  # Little Endian base configs
  AVAILTUNES += "cortexa7 cortexa7t cortexa7-neon cortexa7t-neon cortexa7-neon-vfpv4 cortexa7t-neon-vfpv4"
-@@ -14,13 +13,12 @@ ARMPKGARCH_tune-cortexa7-neon        = "cortexa7"
- ARMPKGARCH_tune-cortexa7t-neon       = "cortexa7"
- ARMPKGARCH_tune-cortexa7-neon-vfpv4  = "cortexa7"
- ARMPKGARCH_tune-cortexa7t-neon-vfpv4 = "cortexa7"
--# mcpu is used so don't use armv7ve as we don't want march
--TUNE_FEATURES_tune-cortexa7             = "arm vfp cortexa7"
--TUNE_FEATURES_tune-cortexa7t            = "${TUNE_FEATURES_tune-cortexa7} thumb"
--TUNE_FEATURES_tune-cortexa7-neon        = "${TUNE_FEATURES_tune-cortexa7} neon"
--TUNE_FEATURES_tune-cortexa7t-neon       = "${TUNE_FEATURES_tune-cortexa7-neon} thumb"
--TUNE_FEATURES_tune-cortexa7-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa7-neon} vfpv4"
--TUNE_FEATURES_tune-cortexa7t-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa7-neon-vfpv4} thumb"
-+TUNE_FEATURES_tune-cortexa7             = "${TUNE_FEATURES_tune-armv7ve} cortexa7"
-+TUNE_FEATURES_tune-cortexa7t            = "${TUNE_FEATURES_tune-armv7vet} cortexa7"
-+TUNE_FEATURES_tune-cortexa7-neon        = "${TUNE_FEATURES_tune-armv7ve-neon} cortexa7"
-+TUNE_FEATURES_tune-cortexa7t-neon       = "${TUNE_FEATURES_tune-armv7vet-neon} cortexa7"
-+TUNE_FEATURES_tune-cortexa7-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7ve-neon-vfpv4} cortexa7"
-+TUNE_FEATURES_tune-cortexa7t-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vet-neon-vfpv4} cortexa7"
- PACKAGE_EXTRA_ARCHS_tune-cortexa7             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve} cortexa7-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa7t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vet} cortexa7-vfp cortexa7t2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa7-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ve-neon} cortexa7-vfp cortexa7-neon"
-@@ -36,13 +34,12 @@ ARMPKGARCH_tune-cortexa7hf-neon        = "cortexa7"
- ARMPKGARCH_tune-cortexa7thf-neon       = "cortexa7"
- ARMPKGARCH_tune-cortexa7hf-neon-vfpv4  = "cortexa7"
- ARMPKGARCH_tune-cortexa7thf-neon-vfpv4 = "cortexa7"
--# mcpu is used so don't use armv7ve as we don't want march
--TUNE_FEATURES_tune-cortexa7hf             = "${TUNE_FEATURES_tune-cortexa7} callconvention-hard"
--TUNE_FEATURES_tune-cortexa7thf            = "${TUNE_FEATURES_tune-cortexa7t} callconvention-hard"
--TUNE_FEATURES_tune-cortexa7hf-neon        = "${TUNE_FEATURES_tune-cortexa7-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa7thf-neon       = "${TUNE_FEATURES_tune-cortexa7t-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa7hf-neon-vfpv4  = "${TUNE_FEATURES_tune-cortexa7-neon-vfpv4} callconvention-hard"
--TUNE_FEATURES_tune-cortexa7thf-neon-vfpv4 = "${TUNE_FEATURES_tune-cortexa7t-neon-vfpv4} callconvention-hard"
-+TUNE_FEATURES_tune-cortexa7hf             = "${TUNE_FEATURES_tune-armv7vehf} cortexa7"
-+TUNE_FEATURES_tune-cortexa7thf            = "${TUNE_FEATURES_tune-armv7vethf} cortexa7"
-+TUNE_FEATURES_tune-cortexa7hf-neon        = "${TUNE_FEATURES_tune-armv7vehf-neon} cortexa7"
-+TUNE_FEATURES_tune-cortexa7thf-neon       = "${TUNE_FEATURES_tune-armv7vethf-neon} cortexa7"
-+TUNE_FEATURES_tune-cortexa7hf-neon-vfpv4  = "${TUNE_FEATURES_tune-armv7vehf-neon-vfpv4} cortexa7"
-+TUNE_FEATURES_tune-cortexa7thf-neon-vfpv4 = "${TUNE_FEATURES_tune-armv7vethf-neon-vfpv4} cortexa7"
- PACKAGE_EXTRA_ARCHS_tune-cortexa7hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf} cortexa7hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa7thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7vethf} cortexa7hf-vfp cortexa7t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa7hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7vehf-neon} cortexa7hf-vfp cortexa7hf-neon"
+diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
+index 00f7745a22..1ed456f1a9 100644
+--- a/meta/conf/machine/include/tune-cortexa72.inc
++++ b/meta/conf/machine/include/tune-cortexa72.inc
+@@ -1,7 +1,7 @@
+ DEFAULTTUNE ?= "cortexa72"
+ 
+ TUNEVALID[cortexa72] = "Enable Cortex-A72 specific processor optimizations"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=cortex-a72', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=cortex-a72', '', d)}"
+ 
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
 diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
-index 6551ba4952..8ee8de97f1 100644
+index 8ee8de97f1..05dda1a51e 100644
 --- a/meta/conf/machine/include/tune-cortexa8.inc
 +++ b/meta/conf/machine/include/tune-cortexa8.inc
-@@ -4,7 +4,6 @@ require conf/machine/include/arm/arch-armv7a.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
+ require conf/machine/include/arm/arch-armv7a.inc
  
  TUNEVALID[cortexa8] = "Enable Cortex-A8 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', 'armv7a:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
  
  # Little Endian base configs
  AVAILTUNES += "cortexa8 cortexa8t cortexa8-neon cortexa8t-neon"
-@@ -12,11 +11,10 @@ ARMPKGARCH_tune-cortexa8             = "cortexa8"
- ARMPKGARCH_tune-cortexa8t            = "cortexa8"
- ARMPKGARCH_tune-cortexa8-neon        = "cortexa8"
- ARMPKGARCH_tune-cortexa8t-neon       = "cortexa8"
--# mcpu is used so don't use armv7a as we don't want march
--TUNE_FEATURES_tune-cortexa8             = "arm vfp cortexa8"
--TUNE_FEATURES_tune-cortexa8t            = "${TUNE_FEATURES_tune-cortexa8} thumb"
--TUNE_FEATURES_tune-cortexa8-neon        = "${TUNE_FEATURES_tune-cortexa8} neon"
--TUNE_FEATURES_tune-cortexa8t-neon       = "${TUNE_FEATURES_tune-cortexa8-neon} thumb"
-+TUNE_FEATURES_tune-cortexa8             = "${TUNE_FEATURES_tune-armv7a} cortexa8"
-+TUNE_FEATURES_tune-cortexa8t            = "${TUNE_FEATURES_tune-armv7at} cortexa8"
-+TUNE_FEATURES_tune-cortexa8-neon        = "${TUNE_FEATURES_tune-armv7a-neon} cortexa8"
-+TUNE_FEATURES_tune-cortexa8t-neon       = "${TUNE_FEATURES_tune-armv7at-neon} cortexa8"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8             = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa8-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa8-vfp cortexa8t2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa8-vfp cortexa8-neon"
-@@ -28,11 +26,10 @@ ARMPKGARCH_tune-cortexa8hf             = "cortexa8"
- ARMPKGARCH_tune-cortexa8thf            = "cortexa8"
- ARMPKGARCH_tune-cortexa8hf-neon        = "cortexa8"
- ARMPKGARCH_tune-cortexa8thf-neon       = "cortexa8"
--# mcpu is used so don't use armv7a as we don't want march
--TUNE_FEATURES_tune-cortexa8hf             = "${TUNE_FEATURES_tune-cortexa8} callconvention-hard"
--TUNE_FEATURES_tune-cortexa8thf            = "${TUNE_FEATURES_tune-cortexa8t} callconvention-hard"
--TUNE_FEATURES_tune-cortexa8hf-neon        = "${TUNE_FEATURES_tune-cortexa8-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa8thf-neon       = "${TUNE_FEATURES_tune-cortexa8t-neon} callconvention-hard"
-+TUNE_FEATURES_tune-cortexa8hf             = "${TUNE_FEATURES_tune-armv7ahf} cortexa8"
-+TUNE_FEATURES_tune-cortexa8thf            = "${TUNE_FEATURES_tune-armv7athf} cortexa8"
-+TUNE_FEATURES_tune-cortexa8hf-neon        = "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa8"
-+TUNE_FEATURES_tune-cortexa8thf-neon       = "${TUNE_FEATURES_tune-armv7athf-neon} cortexa8"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa8hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa8hf-vfp cortexa8t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa8hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa8hf-vfp cortexa8hf-neon"
 diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
-index ecc7908cd7..0cf323c960 100644
+index 0cf323c960..ff4e8ebfe1 100644
 --- a/meta/conf/machine/include/tune-cortexa9.inc
 +++ b/meta/conf/machine/include/tune-cortexa9.inc
-@@ -4,7 +4,6 @@ require conf/machine/include/arm/arch-armv7a.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
+ require conf/machine/include/arm/arch-armv7a.inc
  
  TUNEVALID[cortexa9] = "Enable Cortex-A9 specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', 'armv7a:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
  
  # Little Endian base configs
  AVAILTUNES += "cortexa9 cortexa9t cortexa9-neon cortexa9t-neon"
-@@ -12,11 +11,10 @@ ARMPKGARCH_tune-cortexa9             = "cortexa9"
- ARMPKGARCH_tune-cortexa9t            = "cortexa9"
- ARMPKGARCH_tune-cortexa9-neon        = "cortexa9"
- ARMPKGARCH_tune-cortexa9t-neon       = "cortexa9"
--# mcpu is used so don't use armv7a as we don't want march
--TUNE_FEATURES_tune-cortexa9             = "arm vfp cortexa9"
--TUNE_FEATURES_tune-cortexa9t            = "${TUNE_FEATURES_tune-cortexa9} thumb"
--TUNE_FEATURES_tune-cortexa9-neon        = "${TUNE_FEATURES_tune-cortexa9} neon"
--TUNE_FEATURES_tune-cortexa9t-neon       = "${TUNE_FEATURES_tune-cortexa9-neon} thumb"
-+TUNE_FEATURES_tune-cortexa9             = "${TUNE_FEATURES_tune-armv7a} cortexa9"
-+TUNE_FEATURES_tune-cortexa9t            = "${TUNE_FEATURES_tune-armv7at} cortexa9"
-+TUNE_FEATURES_tune-cortexa9-neon        = "${TUNE_FEATURES_tune-armv7a-neon} cortexa9"
-+TUNE_FEATURES_tune-cortexa9t-neon       = "${TUNE_FEATURES_tune-armv7at-neon} cortexa9"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9             = "${PACKAGE_EXTRA_ARCHS_tune-armv7a} cortexa9-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9t            = "${PACKAGE_EXTRA_ARCHS_tune-armv7at} cortexa9-vfp cortexa9t2-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-neon} cortexa9-vfp cortexa9-neon"
-@@ -28,11 +26,10 @@ ARMPKGARCH_tune-cortexa9hf             = "cortexa9"
- ARMPKGARCH_tune-cortexa9thf            = "cortexa9"
- ARMPKGARCH_tune-cortexa9hf-neon        = "cortexa9"
- ARMPKGARCH_tune-cortexa9thf-neon       = "cortexa9"
--# mcpu is used so don't use armv7a as we don't want march
--TUNE_FEATURES_tune-cortexa9hf             = "${TUNE_FEATURES_tune-cortexa9} callconvention-hard"
--TUNE_FEATURES_tune-cortexa9thf            = "${TUNE_FEATURES_tune-cortexa9t} callconvention-hard"
--TUNE_FEATURES_tune-cortexa9hf-neon        = "${TUNE_FEATURES_tune-cortexa9-neon} callconvention-hard"
--TUNE_FEATURES_tune-cortexa9thf-neon       = "${TUNE_FEATURES_tune-cortexa9t-neon} callconvention-hard"
-+TUNE_FEATURES_tune-cortexa9hf             = "${TUNE_FEATURES_tune-armv7ahf} cortexa9"
-+TUNE_FEATURES_tune-cortexa9thf            = "${TUNE_FEATURES_tune-armv7athf} cortexa9"
-+TUNE_FEATURES_tune-cortexa9hf-neon        = "${TUNE_FEATURES_tune-armv7ahf-neon} cortexa9"
-+TUNE_FEATURES_tune-cortexa9thf-neon       = "${TUNE_FEATURES_tune-armv7athf-neon} cortexa9"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9hf             = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf} cortexa9hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9thf            = "${PACKAGE_EXTRA_ARCHS_tune-armv7athf} cortexa9hf-vfp cortexa9t2hf-vfp"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9hf-neon        = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-neon} cortexa9hf-vfp cortexa9hf-neon"
-@@ -44,11 +41,10 @@ ARMPKGARCH_tune-cortexa9-vfpv3          = "cortexa9"
- ARMPKGARCH_tune-cortexa9t-vfpv3         = "cortexa9"
- ARMPKGARCH_tune-cortexa9hf-vfpv3        = "cortexa9"
- ARMPKGARCH_tune-cortexa9thf-vfpv3       = "cortexa9"
--# mcpu is used so don't use armv7a as we don't want march
--TUNE_FEATURES_tune-cortexa9-vfpv3           = "${TUNE_FEATURES_tune-cortexa9} vfpv3"
--TUNE_FEATURES_tune-cortexa9t-vfpv3          = "${TUNE_FEATURES_tune-cortexa9t} vfpv3"
--TUNE_FEATURES_tune-cortexa9hf-vfpv3         = "${TUNE_FEATURES_tune-cortexa9hf} vfpv3"
--TUNE_FEATURES_tune-cortexa9thf-vfpv3        = "${TUNE_FEATURES_tune-cortexa9thf} vfpv3"
-+TUNE_FEATURES_tune-cortexa9-vfpv3           = "${TUNE_FEATURES_tune-armv7a-vfpv3} cortexa9"
-+TUNE_FEATURES_tune-cortexa9t-vfpv3          = "${TUNE_FEATURES_tune-armv7at-vfpv3} cortexa9"
-+TUNE_FEATURES_tune-cortexa9hf-vfpv3         = "${TUNE_FEATURES_tune-armv7ahf-vfpv3} cortexa9"
-+TUNE_FEATURES_tune-cortexa9thf-vfpv3        = "${TUNE_FEATURES_tune-armv7athf-vfpv3} cortexa9"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9-vfpv3           = "${PACKAGE_EXTRA_ARCHS_tune-armv7a-vfpv3} cortexa9-vfp cortexa9-vfpv3"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9t-vfpv3          = "${PACKAGE_EXTRA_ARCHS_tune-armv7at-vfpv3} cortexa9-vfp cortexa9-vfpv3 cortexa9t2-vfp cortexa9t2-vfpv3"
- PACKAGE_EXTRA_ARCHS_tune-cortexa9hf-vfpv3         = "${PACKAGE_EXTRA_ARCHS_tune-armv7ahf-vfpv3} cortexa9hf-vfp cortexa9hf-vfpv3"
 diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
-index 4d92821628..84ca528d6d 100644
+index 84ca528d6d..6c4c9aa044 100644
 --- a/meta/conf/machine/include/tune-ep9312.inc
 +++ b/meta/conf/machine/include/tune-ep9312.inc
-@@ -4,7 +4,6 @@ require conf/machine/include/arm/arch-armv4.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "ep9312"
+ require conf/machine/include/arm/arch-armv4.inc
  
  TUNEVALID[ep9312] = "Enable Intel PXA27x specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', 'armv4:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
  
  AVAILTUNES += "ep9312"
  ARMPKGARCH_tune-ep9312 = "ep9312"
 diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/conf/machine/include/tune-iwmmxt.inc
-index 9a6cd23c99..f27423cb2e 100644
+index f27423cb2e..26e84cb8f4 100644
 --- a/meta/conf/machine/include/tune-iwmmxt.inc
 +++ b/meta/conf/machine/include/tune-iwmmxt.inc
-@@ -6,8 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
+@@ -6,7 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
  require conf/machine/include/arm/arch-armv5-dsp.inc
  
  TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -mcpu=iwmmxt', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', 'armv5:', '' ,d)}"
-+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mcpu=iwmmxt', '', d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mcpu=iwmmxt', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -mcpu=iwmmxt', '', d)}"
  
  AVAILTUNES += "iwmmxt"
  ARMPKGARCH_tune-iwmmxt = "iwmmxt"
 diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
-index e978e925d2..80cfb8ab8a 100644
+index 80cfb8ab8a..3b6ab6b130 100644
 --- a/meta/conf/machine/include/tune-strongarm1100.inc
 +++ b/meta/conf/machine/include/tune-strongarm1100.inc
-@@ -4,9 +4,8 @@ require conf/machine/include/arm/arch-armv4.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4"
+ require conf/machine/include/arm/arch-armv4.inc
  
  TUNEVALID[strongarm] = "Enable Strongarm 1100 series processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', 'armv4:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
  
  AVAILTUNES += "strongarm"
  ARMPKGARCH_tune-strongarm = "strongarm"
--TUNE_FEATURES_tune-strongarm = "arm strongarm"
-+TUNE_FEATURES_tune-strongarm = "${TUNE_FEATURES_tune-armv4} strongarm"
- PACKAGE_EXTRA_ARCHS_tune-strongarm = "${PACKAGE_EXTRA_ARCHS_tune-armv4} strongarm"
+diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machine/include/tune-thunderx.inc
+index 92adf2df1f..83d514614f 100644
+--- a/meta/conf/machine/include/tune-thunderx.inc
++++ b/meta/conf/machine/include/tune-thunderx.inc
+@@ -3,7 +3,7 @@ AVAILTUNES += "thunderx thunderx_be"
+ 
+ TUNEVALID[thunderx] = "Enable instructions for Cavium ThunderX"
+ 
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mcpu=thunderx', '',d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mcpu=thunderx', '',d)}"
+ 
+ require conf/machine/include/arm/arch-armv8a.inc
+ 
 diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
-index 19d5e13e61..0d07333955 100644
+index 0d07333955..64081b11c6 100644
 --- a/meta/conf/machine/include/tune-xscale.inc
 +++ b/meta/conf/machine/include/tune-xscale.inc
-@@ -4,16 +4,13 @@ require conf/machine/include/arm/arch-armv5-dsp.inc
+@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
+ require conf/machine/include/arm/arch-armv5-dsp.inc
  
  TUNEVALID[xscale] = "Enable PXA255/PXA26x Xscale specific processor optimizations"
- TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
--MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'xscale', 'armv5:', '' ,d)}"
+-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
++TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
  
  AVAILTUNES += "xscale"
  ARMPKGARCH_tune-xscale = "xscale"
--# mcpu is used so don't use armv5te as we don't want march
--TUNE_FEATURES_tune-xscale = "arm thumb dsp xscale"
-+TUNE_FEATURES_tune-xscale = "${TUNE_FEATURES_tune-armv5te} xscale"
- PACKAGE_EXTRA_ARCHS_tune-xscale = "${PACKAGE_EXTRA_ARCHS_tune-armv5te} xscale xscalet xscalee xscalete"
- 
- AVAILTUNES += "xscale-be"
- ARMPKGARCH_tune-xscale-be = "xscale"
--# mcpu is used so don't use armv5te as we don't want march
--TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-xscale} bigendian"
-+TUNE_FEATURES_tune-xscale-be = "${TUNE_FEATURES_tune-armv5teb} xscale bigendian"
- PACKAGE_EXTRA_ARCHS_tune-xscale-be = "${PACKAGE_EXTRA_ARCHS_tune-armv5teb} xscaleb xscaletb xscaleeb xscaleteb"
 -- 
 2.12.0
 
