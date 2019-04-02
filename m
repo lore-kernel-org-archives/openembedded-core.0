@@ -1,49 +1,55 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id DB7937D1F7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A65D17D1AD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 16:52:09 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id k17so17528302wrx.10
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 09:52:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=c4w3esIkBKtzRcoqoRwpC6LwOIAa1Bqj5t3tVk5o7rM=;
-	b=xi+MMYQLd28iI5AvV1zCerM5RyTTMM6U2PUF6OOQgC+oRW747rV6VYwInIMF3yp2It
-	rbt5lZZe2cc7f58yqATtN3nTPzlc+6nKWgXTW2d4gpLm+huxK9gDi5otYGNySplhY9NZ
-	0ovk0bkn5QNUVZOW05jw0Spbc/OcnDBDHTskF6u4m58aJi+Oe0nB4Q6opiswhDNHCzwk
-	bGL/4dMwe/mThWGfowy8xaUUeqW0KqkPMw1/Llgk0I+efaz1VAEvW8fUESW4ppcl0tiE
-	/2wyKWuRv5VCcovKfB50LfMZdf9MiB1NKk2vdJIBhT0IMXjOs1zm41BDNN6t96pTCcQJ
-	G6+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=c4w3esIkBKtzRcoqoRwpC6LwOIAa1Bqj5t3tVk5o7rM=;
-	b=OQef4Q/mpQVufF4zf7spv6NjnlUoEF1Yw56tRA5c6OskBG3GY+9ZotUBYx6vevCpb+
-	4rCYGu7Xu+O8KmmEgfP8qQ4PiD/5WQ7AQuE7B+6EfBVlPvqCwL/gav0UnfmZ4LcF+By3
-	fkKSHswUqDrljJkwkuHaFLXgYRYUk80gV4+Jj9h9svwcMtZgjLlWURtyG2W1UB7vDr/A
-	aWy0ysyvzdLCoeKz1RXreY1CPj19rv4a46c5RSm0UGs1l+PyYSV2YtTBYWmuR6+bMIt8
-	JUxAQ7pQ+bXLMSESWg4YyCt5m4K6MYaoiJyCiIij7TbWUcGElyZCNKVKvg3kaKc+NqBl
-	5X4Q==
-X-Gm-Message-State: APjAAAU8Rp5cvS4c0QTRqkQoNV37QxcrLnmydec8jGhluGOMsi06iwqF
-	5o1yaasB2RMNL4EKr8tL1xjT5L8BB1Y=
-X-Google-Smtp-Source: APXvYqwzSU/usQmiklZALqLuY5AAs+aK0Yc4ZSgch4Gh7zuTO2dpJSi9H9R94DfOR8jTTyl6lHEeiA==
-X-Received: by 2002:adf:cf05:: with SMTP id o5mr9278922wrj.8.1554223930307;
-	Tue, 02 Apr 2019 09:52:10 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	t15sm19898114wmt.2.2019.04.02.09.52.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Apr 2019 09:52:09 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2019 17:52:07 +0100
-Message-Id: <20190402165207.24366-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] asciidoc: specify XML catalogue to use
+	Tue,  2 Apr 2019 17:02:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x32H2Dt3006634
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Apr 2019 10:02:23 -0700
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 2 Apr 2019 10:02:02 -0700
+To: Paul Barker <paul@betafive.co.uk>, OE Core
+	<openembedded-core@lists.openembedded.org>
+References: <20190402141538.25146-1-paul@betafive.co.uk>
+	<20190402141538.25146-2-paul@betafive.co.uk>
+	<a0ef532b-b5b1-105a-78e0-54a4ea0194f4@windriver.com>
+	<b51fba48-8b94-4716-817f-b92849743823@www.fastmail.com>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <f4c90a40-8b42-0cdb-37a9-3ee696d2e2b4@windriver.com>
+Date: Tue, 2 Apr 2019 12:02:01 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <b51fba48-8b94-4716-817f-b92849743823@www.fastmail.com>
+Subject: Re: [PATCH 1/1] tzdata: Install everything by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,110 +62,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 16:52:10 -0000
+X-List-Received-Date: Tue, 02 Apr 2019 17:02:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-libxml-native by default uses a XML catalogue at /etc/xml/catalog, instead of
-the one in the sysroot.  Until this is fixed (#13260) override the XML catalogue
-manually in the recipe to point explicitly at the docbook-xml and docbook-xsl
-catalogues.
+On 4/2/19 11:36 AM, Paul Barker wrote:
+> On Tue, 2 Apr 2019, at 17:29, Mark Hatle wrote:
+>> On 4/2/19 9:15 AM, Paul Barker wrote:
+>>> tzdata is converted to an empty meta package which pulls in all
+>>> subpackages. The subpackages are defined in a TZ_PACKAGES variable so
+>>> that we don't have to repeat ourselves.
+>>>
+>>> The timezones and conffiles which were in the tzdata package are moved
+>>> to a new 'tzdata-core' package.
+>>
+>> Is there any type of 'RREPLACES' or anything that should be added so previous
+>> users of tzdata-all get tzdata in a package upgrade?
+> 
+> tzdata-all is just what I called it in my first attempt at this patch. So there was never a tzdata-all upstream to my knowledge.
+> 
 
-This fixes either complete build failures (where the host doesn't have
-docbook-xml installed) or slow builds (where the host doesn't have docbook-xsl
-installed).
+Ahh ok, so then no replacement needed you should be fine.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../asciidoc/asciidoc/auto-catalogs.patch          | 53 ++++++++++++++++++++++
- meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb   |  9 +++-
- 2 files changed, 60 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch
-
-diff --git a/meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch b/meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch
-new file mode 100644
-index 00000000000..ca170db00f2
---- /dev/null
-+++ b/meta/recipes-extended/asciidoc/asciidoc/auto-catalogs.patch
-@@ -0,0 +1,53 @@
-+If SGML_CATALOG_FILES is in the environment, pass --catalogs to xmllint and
-+xsltproc. Also pass --nonet to xsltproc to detect future missing stylesheet
-+problems.
-+
-+An earlier version of this patch was filed upstream at
-+https://github.com/asciidoc/asciidoc-py3/issues/61 so depending on how that goes
-+this could get merged.
-+
-+Upstream-Status: Inappropriate
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/a2x.py b/a2x.py
-+index 2d7699a..582d809 100755
-+--- a/a2x.py
-++++ b/a2x.py
-+@@ -57,6 +57,10 @@ LYNX_OPTS = '-dump'
-+ W3M_OPTS = '-dump -cols 70 -T text/html -no-graph'
-+ XSLTPROC_OPTS = ''
-+ 
-++if "SGML_CATALOG_FILES" in os.environ:
-++  XMLLINT += " --catalogs"
-++  XSLTPROC += " --catalogs"
-++
-+ ######################################################################
-+ # End of configuration file parameters.
-+ ######################################################################
-+@@ -298,7 +302,7 @@ def exec_xsltproc(xsl_file, xml_file, dst_dir, opts = ''):
-+     cwd = os.getcwd()
-+     shell_cd(dst_dir)
-+     try:
-+-        shell('"%s" %s "%s" "%s"' % (XSLTPROC, opts, xsl_file, xml_file))
-++        shell('%s %s "%s" "%s"' % (XSLTPROC, opts, xsl_file, xml_file))
-+     finally:
-+         shell_cd(cwd)
-+ 
-+@@ -483,7 +487,7 @@ class A2X(AttrDict):
-+             self.asciidoc_opts += ' --doctype %s' % self.doctype
-+         for attr in self.attributes:
-+             self.asciidoc_opts += ' --attribute "%s"' % attr
-+-#        self.xsltproc_opts += ' --nonet'
-++        self.xsltproc_opts += ' --nonet'
-+         if self.verbose:
-+             self.asciidoc_opts += ' --verbose'
-+             self.dblatex_opts += ' -V'
-+@@ -634,7 +638,7 @@ class A2X(AttrDict):
-+         shell('"%s" --backend docbook -a "a2x-format=%s" %s --out-file "%s" "%s"' %
-+              (self.asciidoc, self.format, self.asciidoc_opts, docbook_file, self.asciidoc_file))
-+         if not self.no_xmllint and XMLLINT:
-+-            shell('"%s" --nonet --noout --valid "%s"' % (XMLLINT, docbook_file))
-++            shell('%s --nonet --noout --valid "%s"' % (XMLLINT, docbook_file))
-+ 
-+     def to_xhtml(self):
-+         self.to_docbook()
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-index d0d15171ac4..f684f12dc72 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-@@ -8,14 +8,19 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-                     file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
- 
--SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https"
-+SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
-+           file://auto-catalogs.patch"
- SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
- PV .= "+py3-git${SRCPV}"
- 
--DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native"
-+DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
- 
- S = "${WORKDIR}/git"
- 
-+# Tell xmllint where to find the DocBook XML catalogue, because right now it
-+# opens /etc/xml/catalog on the host. Depends on auto-catalogs.patch
-+export SGML_CATALOG_FILES="file://${STAGING_ETCDIR_NATIVE}/xml/docbook-xml.xml file://${STAGING_ETCDIR_NATIVE}/xml/docbook-xsl.xml"
-+
- # Not using automake
- inherit autotools-brokensep
- CLEANBROKEN = "1"
--- 
-2.11.0
-
+--Mark
 
