@@ -1,55 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A8B207CF9C
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E0827D167
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 08:17:19 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id v14so2478857wmf.2
+	Tue,  2 Apr 2019 08:17:49 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id g8so6177586pgf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 01:17:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=aZeNA/ANBsKxHFCany+mHVj1x4AcvVqFm5VKGFbgUrs=;
-	b=qpu2IHLAcbWzBXwyDsvH7XiTaOJH2zAvT4NpUywzyUDy7Hk86MA+WIl3jhKhVqZHTq
-	dlbR7kZfW1By5mK3rgpgvO07WW1UURIn+91iiewXzmcdr6LDbBIrAP1wCCvqPmj3YLUT
-	eu7oB1+dUotI6M1PpJDYE8DP7ZUPp7OJ4I2dvTHmbp+PYQ7SVFgF2vdBCe7li8rMHrO+
-	of7NHMBF14oO9FyREcA9WQWF4hEmxPaUTU/mUhNxHW50uT1k1Ynanw1bH4I1XcxB0J0h
-	4nmmzmSSFllQsX0tiAVqKoPanr6pLu+Y9ktYb7ViLJjw8eAbQtn39k1aApCpxs32bbNN
-	ulhg==
+	Tue, 02 Apr 2019 01:17:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=nathanrossi.com; s=google;
+	h=date:message-id:from:to:cc:subject:content-transfer-encoding
+	:mime-version; bh=7GIeKg8plEd+oreAg+d3Bx4gaqpKNZpv3KuZSiQ5ahg=;
+	b=ID8wR7GsHWw9CW6ALVXQsTPl9KbgojAkeEonCCsnAlgUCtUDZpC6P/GoKmveL6HZYN
+	pkE0aP8gYyBgAiFBHoUqYBbwaHGI1hwV85Qi0UCxCzdc2oES5L+cfYxDlNVZSoiNik2X
+	h2U8DxbTnWq5tCy3YwUSGjadvNi1svDMae746+czGEeqx8ja+kiP/0cq1smRamPouwNS
+	nkraLjVXnTtCksYFra6cyf14h41emt+97fzc8hwks80FfjP6XFxoahSx8W6FBCGMzDPT
+	TCpvYsXk6XbdyDpllSlMy/gBTlRcJMhg9NXcaZWRQu246R58IDHFedhdU23Jsn979IKu
+	eF+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=aZeNA/ANBsKxHFCany+mHVj1x4AcvVqFm5VKGFbgUrs=;
-	b=gfhLStLPOj24h1UcYyyE7lbrOmyHwToO+/Ec2MV3sKC57O3T42J6Vwb+V+qH0hce5o
-	O2+kp5MaAfU7Kqi/Yx+YS38C8PuuhFGebHRShIqh5Qih11cIhVhuf5f1hJBIqRT+u8o+
-	gLShIXcsLG+sq70LnXQT4j60PbKdSrcWI46HMsQsNyG7/K6vCu35E0XaXqQW17J3sNgn
-	chpFpreE+jr7XMNQ4mLim8MXdZMnO8XGKZ9Twn66o2DuSvBqNrvvDjBIl1H4HFxrUkXi
-	rjuUgQrcq2K5Fs85gwbjK24IauYQR0c1Nd/nSjqi59395SzlbzrKnS/nFAGBgK6aOnep
-	N1TQ==
-X-Gm-Message-State: APjAAAXcy1SFYLCFWJlQWO0qHqVwdx4S91foTeste+P8uQPhrqMT4k1b
-	B4DZAehuVWVW/X/j4qOvokNiKHvf
-X-Google-Smtp-Source: APXvYqyUFBrExVc29upaO44srURrqShXGcZCu0uFVEudHJ5/ZSwZ3NbAakkSuHTnWiAfzqa1m506DQ==
-X-Received: by 2002:a1c:c504:: with SMTP id v4mr2691959wmf.45.1554193040049;
-	Tue, 02 Apr 2019 01:17:20 -0700 (PDT)
-Received: from [10.128.45.74] ([141.113.67.87])
-	by smtp.gmail.com with ESMTPSA id
-	w18sm17936550wru.24.2019.04.02.01.17.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Apr 2019 01:17:19 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16D57)
-In-Reply-To: <7cbdc5ba6d0647678b7a3d2906f87a31@bio-logic.net>
-Date: Tue, 2 Apr 2019 10:17:18 +0200
-Message-Id: <48E585E9-78F9-4074-AF65-34CA70DE5D96@gmail.com>
-References: <cover.1554106752.git.xavier.berger@bio-logic.net>
-	<CANNYZj_CKFRAg9WByRfD56tOiV8FW-VfS4KyEN2YAniAxhaAtA@mail.gmail.com>
-	<7cbdc5ba6d0647678b7a3d2906f87a31@bio-logic.net>
-To: Xavier Berger <xavier.berger@bio-logic.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PULL][PATCH 0/2] Implement debian packages GPG signing
+	h=x-gm-message-state:date:message-id:from:to:cc:subject
+	:content-transfer-encoding:mime-version;
+	bh=7GIeKg8plEd+oreAg+d3Bx4gaqpKNZpv3KuZSiQ5ahg=;
+	b=MqXBHgvvYvMFrh5Sp6Gt9sM4g7M36Rki2FapEdbNuuSkCjGEpbl5TXHR6q3yWuMJOx
+	Dtq78vG/D+9PtagQSm0f5z7OnZ/HEIq9SkznP5mhN09Lr3zTk6IWHspUU5J6dXbmmSkS
+	B89sbPPlu28r91rRPE4psD/ylWOphRJec9bdEkzqTabCVHn2SLa6fM+hszZnlKwYwnR9
+	KrAOcf3HDsPVIst5vMx6P17rULxeC+L8CAKQFQnrQXVc1Xk82IacG0mjTrWo5Hqg7UYO
+	FWvqJarWXycg5bAD7ZctaR16DaLUc/8ZpaknXd8G7hRLgq8R97qIJ05pVuHyJwGlIVxx
+	uNGA==
+X-Gm-Message-State: APjAAAU/uVltPhu2M14qyUVyuPd9kQx6nXtKfYZAyQQ+0V+AkXzj8M+u
+	NV3gTssjSLTnEaBNkwGPqIC6YY7XzS8=
+X-Google-Smtp-Source: APXvYqy7Yn0vc+uxnPcYu0m9dp9GzV7m/MAZhKrp7kW50CvMopDxZcFTWaB2yATd4F43GOfgP+kkMw==
+X-Received: by 2002:a63:711d:: with SMTP id m29mr19834931pgc.109.1554193070236;
+	Tue, 02 Apr 2019 01:17:50 -0700 (PDT)
+Received: from [127.0.1.1] ([101.184.73.181])
+	by smtp.gmail.com with UTF8SMTPSA id
+	o67sm11854108pga.55.2019.04.02.01.17.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 02 Apr 2019 01:17:49 -0700 (PDT)
+Date: Tue, 02 Apr 2019 08:17:39 +0000
+Message-Id: <20190402081739.3316-1-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+To: openembedded-core@lists.openembedded.org
+MIME-Version: 1.0
+Subject: [PATCH 1/2] terminal.bbclass: Generate do_terminal as bitbake would
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,51 +56,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 08:17:19 -0000
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Apr 2019 08:17:49 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-Yes, that is fine. Let me know if something is not clear in that test case.
+This changes the runfile that is generated to have the same behaviour as
+bitbake with regards to emitting the shebang and trap code. The existing
+implementation used 'env' with the current var-SHELL. This means that if
+the user has configured there system/environment with a alternate shell
+(e.g. csh, zsh, fish, etc.) the do_terminal function would attempt to
+execute with the wrong/incompatible shell and fail silently.
 
-Btw, the apt version we have is badly out of date (and has a significant sec=
-urity issue I think) so if you can update that, that=E2=80=99d be awesome.
+With this change devshell and other classes that rely on terminal can
+now run when the var-SHELL is not set to a sh compatible shell. For
+devshell, it will launch the devshell with the users configured shell.
 
-Alex
+Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+---
+ meta/classes/terminal.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> On 2 Apr 2019, at 9.36, Xavier Berger <xavier.berger@bio-logic.net> wrote:=
-
->=20
-> Hi Alexender,=20
->=20
-> I'm working on test case but I've a lot of things to understand (and setup=
- to perform).
-> I'm basically taking dnf as example and creating a test for apt. Please le=
-t me know if you think my strategy is not correct.
->=20
-> I'll let you know here when it will work.
->=20
-> Xavier
->=20
-> -----Original Message-----
-> From: Alexander Kanavin <alex.kanavin@gmail.com>=20
-> Sent: lundi 1 avril 2019 16:50
-> To: Xavier Berger <xavier.berger@bio-logic.net>
-> Cc: OE-core <openembedded-core@lists.openembedded.org>
-> Subject: Re: [OE-core] [PULL][PATCH 0/2] Implement debian packages GPG sig=
-ning
->=20
->> On Mon, 1 Apr 2019 at 15:57, Xavier Berger <xavier.berger@bio-logic.net> w=
-rote:
->> Xavier Berger (2):
->>  gpg-sign: Add parameters to gpg signature function
->>  package_manager: sign DEB package feeds
->>=20
->> meta/lib/oe/gpg_sign.py        |  6 +++++-
->> meta/lib/oe/package_manager.py | 19 ++++++++++++++++---
->=20
-> How do we make sure this does not regress? Can you add a test case similar=
- to one for rpm feed signing?
->=20
-> Alex
+diff --git a/meta/classes/terminal.bbclass b/meta/classes/terminal.bbclass
+index 73e765d57a..6059ae95e0 100644
+--- a/meta/classes/terminal.bbclass
++++ b/meta/classes/terminal.bbclass
+@@ -14,6 +14,7 @@ def oe_terminal_prioritized():
+     return " ".join(o.name for o in oe.terminal.prioritized())
+ 
+ def emit_terminal_func(command, envdata, d):
++    import bb.build
+     cmd_func = 'do_terminal'
+ 
+     envdata.setVar(cmd_func, 'exec ' + command)
+@@ -25,8 +26,7 @@ def emit_terminal_func(command, envdata, d):
+     bb.utils.mkdirhier(os.path.dirname(runfile))
+ 
+     with open(runfile, 'w') as script:
+-        script.write('#!/usr/bin/env %s\n' % d.getVar('SHELL'))
+-        script.write('set -e\n')
++        script.write(bb.build.shell_trap_code())
+         bb.data.emit_func(cmd_func, script, envdata)
+         script.write(cmd_func)
+         script.write("\n")
+---
+2.20.1
 
