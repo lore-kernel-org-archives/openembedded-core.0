@@ -1,46 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
-	[209.85.166.52])
-	by mail.openembedded.org (Postfix) with ESMTP id C537B79C86
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A6227D1AD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 16:16:33 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id v10so11390045iom.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 09:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RgcG1rhzODr0mc5sZWZqQyTeUixNUrNzRjf6XjGjJ7s=;
-	b=l7iRnCgUp5loeH9uA6+Hi40rjPGiett4geAHIREZ7AzJjnJucJ+th1m9wIyTsXxEk/
-	zyaEG5JJ+1mB2sgKTfJ0rSAFCOW5x9ShN97p8HE9bswDoXg02KVyEmFRQkCkUw8o1ros
-	31Zxm0oQxHQgLf25XxlCg6SfrR0Rbhic/JD4ZJAiiz0tgnK6msKJ4/tcIBsLyNY99L5I
-	htG2uYvl7S8UNyeaUfwrLMmvuNS5hTS/rCZMBXkqrOKBwVYpGlm+7DN+bwuL4lOLjNkL
-	NaGqvuxBIk9I5yzk6bGFp1R3DuTD6gCBgg5z4pxTRmY6EInIfip1e/9r6LojHkrjfM1O
-	UD3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RgcG1rhzODr0mc5sZWZqQyTeUixNUrNzRjf6XjGjJ7s=;
-	b=Tt4dMTw0hgcvUBpyReXtJdcXodrvKYk3pIcY6hQywPLBCiYO95Dj7Lzj3g4hUQYbvq
-	1eIC8ReHZdxiVpsMYJXpXKPb/NbDkDMwvhg3/Rnhm/k8axFlyELcyQMBVnZk8sZtPJ1e
-	njbfQh2Zlmx6bOYFlY8ilWwvAeiz3Ic8BGauozysCX5uafzB+2OsL8wQktanIqlS/HVw
-	w3rooPRQbKWeb5vel9GXMbJj2jC2S6In7e7ragfBTDf5/BdhDGAku8nc+O1dcCBmXwUV
-	Las0WDLuhzQYvDS85d8bMR+dix1EN029xj5Mmv6OfM4MAF7wPrgRrJcM0ZOIPf1wbmcf
-	1VmA==
-X-Gm-Message-State: APjAAAU/3WwyF5a4xcy5f6qWQAGTK4tCyYWeG2DUct7FZa1TSga8fuSS
-	/3mTFKg9jM0UO+R+RXjYOleTy8nBQKNXUBwBHLI=
-X-Google-Smtp-Source: APXvYqyHTCW3AcHr/MJ2D9SKtLqv8X19o/QQkxNW3pAA/A139nt318GUjVcidqeLyJPPyhgmPUiuxYLQxIwybHIAqUE=
-X-Received: by 2002:a5e:981a:: with SMTP id s26mr31222521ioj.90.1554221794340; 
-	Tue, 02 Apr 2019 09:16:34 -0700 (PDT)
+	Tue,  2 Apr 2019 16:29:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x32GTYsF007117
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Apr 2019 09:29:34 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.230) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 2 Apr 2019 09:29:33 -0700
+To: Paul Barker <paul@betafive.co.uk>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190402141538.25146-1-paul@betafive.co.uk>
+	<20190402141538.25146-2-paul@betafive.co.uk>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <a0ef532b-b5b1-105a-78e0-54a4ea0194f4@windriver.com>
+Date: Tue, 2 Apr 2019 11:29:32 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <a48654bd-c4df-694c-ad1f-3b2740a3aae9@windriver.com>
-In-Reply-To: <a48654bd-c4df-694c-ad1f-3b2740a3aae9@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 2 Apr 2019 09:16:07 -0700
-Message-ID: <CAMKF1sp6X16_wMgg0_GCL3TjjnyfzvfrGxJuYBYEPooD-4PcnQ@mail.gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Link issue of virglrenderer on x86 with gcc options '-O2 -fvisibility=default'
+In-Reply-To: <20190402141538.25146-2-paul@betafive.co.uk>
+Subject: Re: [PATCH 1/1] tzdata: Install everything by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,64 +59,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 16:16:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Apr 2019 16:29:39 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 2, 2019 at 8:46 AM Kang Kai <Kai.Kang@windriver.com> wrote:
->
-> Hi Raj,
->
-> I meet a link problem of virglrenderer with gcc options '-O2
-> -fvisibility=default' configured in local.conf:
->
-> SELECTED_OPTIMIZATION = "-O2 -fvisibility=default"
->
-> It fails on qemux86 but succeeds on x86-64.
->
-> And the error message:
->
-> | i586-poky-linux-libtool: link: i586-poky-linux-gcc  -m32 -march=i586
-> -fstack-protector-strong  -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security
-> -Werror=
-> format-security
-> --sysroot=/home/kkang/buildarea/Yocto/build-systemd/tmp/work/i586-poky-linux/virglrenderer/0.7.0-r0/recipe-sysroot
-> -shared  -fPIC -DPIC
->   .libs/virglrenderer.o  *-Wl,--whole-archive* ./.libs/libvrend.a
-> gallium/auxiliary/.libs/libgallium.a *-Wl,--no-whole-archive*  -lm -ldrm
-> -lgbm -lepoxy -lX1
-> 1  -m32 -march=i586 -fstack-protector-strong
-> --sysroot=/home/kkang/buildarea/Yocto/build-systemd/tmp/work/i586-poky-linux/virglrenderer/0.7.0-r0/recipe-
-> sysroot -O2 -Wl,-Bsymbolic -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
-> -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl,now   -pthread
-> -Wl,-soname
-> -Wl,libvirglrenderer.so.0 -o .libs/libvirglrenderer.so.0.2.0
-> |
-> /home/kkang/buildarea/Yocto/build-systemd/tmp/work/i586-poky-linux/virglrenderer/0.7.0-r0/recipe-sysroot-native/usr/bin/i586-poky-linux/../../libexec/
-> i586-poky-linux/gcc/i586-poky-linux/8.3.0/ld:
-> gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
-> R_386_GOTOFF against undefined symbol `ut
-> il_cpu_caps' can not be used when making a shared object
->
-> It could pass if options -Wl,--whole-archive and -Wl,--no-whole-archive
-> are removed.
->
-> It says 'relocation R_386_GOTOFF' but when I check the file, it shows
-> relocation type is R_386_GOT32X:
->
-> $ readelf --relocs ./util/.libs/u_cpu_detect.o | grep util_cpu_caps
-> 00000092  0000102b R_386_GOT32X      00000004   util_cpu_caps
->
-> AFAIK R_386_GOT32X is not used with PIC. But I don't know why the type
-> is R_386_GOT32X that -fPIC has been applied already?
->
-> Any suggestion is great appreciated. Thanks.
->
+On 4/2/19 9:15 AM, Paul Barker wrote:
+> tzdata is converted to an empty meta package which pulls in all
+> subpackages. The subpackages are defined in a TZ_PACKAGES variable so
+> that we don't have to repeat ourselves.
+> 
+> The timezones and conffiles which were in the tzdata package are moved
+> to a new 'tzdata-core' package.
 
-it seems you have to build PIC archive for libgallium.a, it might not
-be using the right -fPIC flags during compile/link phase.
+Is there any type of 'RREPLACES' or anything that should be added so previous
+users of tzdata-all get tzdata in a package upgrade?
 
->
-> --
-> Kai Kang
->
+(or is it ROBSOLETES, or..  I can never remember..)
+
+--Mark
+
+> Signed-off-by: Paul Barker <paul@betafive.co.uk>
+> ---
+>  meta/recipes-extended/timezone/tzdata.bb | 16 ++++++++++------
+>  1 file changed, 10 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/recipes-extended/timezone/tzdata.bb b/meta/recipes-extended/timezone/tzdata.bb
+> index 7542ce52d2..82fe369baa 100644
+> --- a/meta/recipes-extended/timezone/tzdata.bb
+> +++ b/meta/recipes-extended/timezone/tzdata.bb
+> @@ -80,9 +80,11 @@ pkg_postinst_${PN} () {
+>  # Packages primarily organized by directory with a major city
+>  # in most time zones in the base package
+>  
+> -PACKAGES = "tzdata tzdata-misc tzdata-posix tzdata-right tzdata-africa \
+> +TZ_PACKAGES = " \
+> +    tzdata-core tzdata-misc tzdata-posix tzdata-right tzdata-africa \
+>      tzdata-americas tzdata-antarctica tzdata-arctic tzdata-asia \
+>      tzdata-atlantic tzdata-australia tzdata-europe tzdata-pacific"
+> +PACKAGES = "${TZ_PACKAGES} ${PN}"
+>  
+>  FILES_tzdata-africa += "${datadir}/zoneinfo/Africa/*"
+>  RPROVIDES_tzdata-africa = "tzdata-africa"
+> @@ -124,7 +126,6 @@ RPROVIDES_tzdata-posix = "tzdata-posix"
+>  FILES_tzdata-right += "${datadir}/zoneinfo/right/*"
+>  RPROVIDES_tzdata-right = "tzdata-right"
+>  
+> -
+>  FILES_tzdata-misc += "${datadir}/zoneinfo/Cuba           \
+>                  ${datadir}/zoneinfo/Egypt                \
+>                  ${datadir}/zoneinfo/Eire                 \
+> @@ -145,8 +146,8 @@ FILES_tzdata-misc += "${datadir}/zoneinfo/Cuba           \
+>                  ${datadir}/zoneinfo/Turkey"
+>  RPROVIDES_tzdata-misc = "tzdata-misc"
+>  
+> -
+> -FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
+> +FILES_tzdata-core += " \
+> +                ${datadir}/zoneinfo/Pacific/Honolulu     \
+>                  ${datadir}/zoneinfo/America/Anchorage    \
+>                  ${datadir}/zoneinfo/America/Los_Angeles  \
+>                  ${datadir}/zoneinfo/America/Denver       \
+> @@ -201,5 +202,8 @@ FILES_${PN} += "${datadir}/zoneinfo/Pacific/Honolulu     \
+>                  ${datadir}/zoneinfo/iso3166.tab          \
+>                  ${datadir}/zoneinfo/Etc/*"
+>  
+> -CONFFILES_${PN} += "${@ "${sysconfdir}/timezone" if bb.utils.to_boolean(d.getVar('INSTALL_TIMEZONE_FILE')) else "" }"
+> -CONFFILES_${PN} += "${sysconfdir}/localtime"
+> +CONFFILES_tzdata-core += "${@ "${sysconfdir}/timezone" if bb.utils.to_boolean(d.getVar('INSTALL_TIMEZONE_FILE')) else "" }"
+> +CONFFILES_tzdata-core += "${sysconfdir}/localtime"
+> +
+> +ALLOW_EMPTY_${PN} = "1"
+> +RDEPENDS_${PN} = "${TZ_PACKAGES}"
+> 
+
 
