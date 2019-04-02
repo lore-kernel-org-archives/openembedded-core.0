@@ -1,40 +1,23 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id AC44360116;
-	Tue,  2 Apr 2019 06:51:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44YKcX693lz4T;
-	Tue,  2 Apr 2019 08:51:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1554187885;
-	bh=9Vslfiu4ks6EqT0/GeFlpHVLOQ/6yJVWB7nV5XWnhWg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tvxKPekSrYWAvqtodhShyIYp5YUGQqh4FoQhXOT8qSU1BO+XFHEVhQEKFsIFTZ4r6
-	VLPYxGJQAQMakLDhe7pdupZUY3XbXgMpwT87P/SoNZiKsR+0xZ8Hh1cdT+/k2q8PtV
-	v+UrM0E11f6znWio38wGAp6QImUKWnHRuAq+tIwtNZ/irKVRPIq2yLj8SQrKJVNPtM
-	RIal7JPu39gau5BlSS4V6ql7B1VpSoLXaRE7OLl7AZ1oARB5dJBZtD8O7L+FqNb2lp
-	pHyfJ6O7FdMzDZSeO7as+BVIHK/8tGREUkppIIhLpWp/if4tlKsNx6CMjIU8/ss5k8
-	VcPzMkLI1nuzARt9LoIQ3oEuq6FCckCWhbdWWBYijEVpfYfWmfpUx4Ek5hXuyEsIyY
-	AfOVVGoNDPPWW41uDWHTP/rj6OhcmhjY9dAebt+LZqMy7xrwZWhgMma8rzcGmNCBvD
-	CLanEB18EtMlbxPF3v+6gooK2hUZiouKl7HAtmb8EvjPEzJn/1J4tDldTKYSAGJ8RW
-	cJ540vp74aexICKtsa+bf6U40bB0l2d+v/geMCvkRxSI3ZLAJMRbdKQYoeBNdWcnM+
-	lcTNwYFAZKsizcdz6jfO4KM7syvUBmfG4ChRITKgR5CyTlMIoSCHNkW09cGRrt24rz
-	xXWWYEI7wmcmI0ZD1n2UT3QA=
-Date: Tue, 2 Apr 2019 09:51:21 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20190402065121.GA31468@localhost>
-References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
-	<b08083fc2f63f6324a652706f8343a0b8defe209.camel@linuxfoundation.org>
-	<a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Git commit process question.
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1793B7CDF4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Apr 2019 07:09:02 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	02 Apr 2019 00:09:03 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,298,1549958400"; d="scan'208";a="136812740"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga008.fm.intel.com with ESMTP; 02 Apr 2019 00:09:02 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Apr 2019 14:38:03 +0800
+Message-Id: <1554187084-13032-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] resulttool: Enable report for single result file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,52 +30,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 06:51:26 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 02 Apr 2019 07:09:03 -0000
 
-On Mon, Apr 01, 2019 at 04:20:41PM -0700, akuster808 wrote:
-> 
-> 
-> On 4/1/19 4:02 PM, Richard Purdie wrote:
-> > On Mon, 2019-04-01 at 15:33 -0700, akuster808 wrote:
-> >> Hello,
-> >>
-> >> I have noticed a large number of git commits with no header
-> >> information being accepted.
-> > Can you be more specific about what "no header information" means? You
-> > mean a shortlog and no full log message?
-> Commits with just a "subject" and signoff. No additional information
-> 
-> We tend to reference back to how the kernel does things.
-> 
-> https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-> These two sections in particular.
-> 
-> 
->     2) Describe your changes
-> 
-> Describe your problem. Whether your patch is a one-line bug fix or 5000
-> lines of a new feature, there must be an underlying problem that
-> motivated you to do this work. Convince the reviewer that there is a
-> problem worth fixing and that it makes sense for them to read past the
-> first paragraph.
->...
+Current validation check function inside resulttool disallow the
+report for single result file although the underlying library
+was able to handle both directory and file as source input to report.
+Removed the validation check as it was no longer needed and to
+enable report for single result file.
 
-The kernel does not have "upgrade foo to the latest upstream version" commits.
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ scripts/resulttool | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-With the Automatic Upgrade Helper this is a semi-automatic task, and 
-most of the time there is no specific motivation other than upgrading
-to the latest upstream version.
-
-cu
-Adrian
-
+diff --git a/scripts/resulttool b/scripts/resulttool
+index 5a89e1c..18ac101 100755
+--- a/scripts/resulttool
++++ b/scripts/resulttool
+@@ -51,13 +51,6 @@ import resulttool.report
+ import resulttool.manualexecution
+ logger = scriptutils.logger_create('resulttool')
+ 
+-def _validate_user_input_arguments(args):
+-    if hasattr(args, "source_dir"):
+-        if not os.path.isdir(args.source_dir):
+-            logger.error('source_dir argument need to be a directory : %s' % args.source_dir)
+-            return False
+-    return True
+-
+ def main():
+     parser = argparse_oe.ArgumentParser(description="OEQA test result manipulation tool.",
+                                         epilog="Use %(prog)s <subcommand> --help to get help on a specific command")
+@@ -80,9 +73,6 @@ def main():
+     elif args.quiet:
+         logger.setLevel(logging.ERROR)
+ 
+-    if not _validate_user_input_arguments(args):
+-        return -1
+-
+     try:
+         ret = args.func(args, logger)
+     except argparse_oe.ArgumentUsageError as ae:
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.7.4
 
 
