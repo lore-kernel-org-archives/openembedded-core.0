@@ -1,49 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
-	[209.85.166.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 216626C108
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F1B7F7CFCE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 09:08:16 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id c4so10246752ioh.9
+	Tue,  2 Apr 2019 09:36:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3297QL0026484
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 02:08:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=32yBTCgKVMHZinBJk/5MIRFg71CtooiCZFCUBTaP+BI=;
-	b=fPhSLB1Ic19khnSZNcmTXsF3kPBWUXYwvMr3dw1qt9EncUka51rYERnRHhQONTQgd9
-	RT3O6yGIue7ung9OxxVsfHCiCDZvND7PRq3sHrYfktoaHM0UA454AE3M9f/mfAL/AyFk
-	/VHsSe4cpxCjn3cyTFXmE/8RxCsQ4vUl1oVWFtrAuUngVpDat5WN3O1vsMbwYxo5ojOl
-	3XGqlHkU7uJlGY/gNQ7lQSyztxvWlV+aCfYTBYwmscep/19HlBIAXX+jdT0NQRgE1fvt
-	ZU/sLiM0/nNJ2OTxqMEpDtDF/JTPmQEHO6Wx2m4AT5FaI1PNDzTlEo2vQ5YSV7dlqMn2
-	h8+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=32yBTCgKVMHZinBJk/5MIRFg71CtooiCZFCUBTaP+BI=;
-	b=MmR+Nq2bt3QhvLp9UGn7iEnnnUO54427fq5QYII2+BTwzTmbKjNwbZIjIY/Pu4jXgH
-	FAM8JfEn0WlQu/+cHfuNj5XKBWzoFjnAkr7sDPXNtegeT3wPzxS5FOi1uxMyxlJeZdYF
-	3xhRqE46E7dWqj6WFbGjop317cF4bJda09/oNS11kC9a5Va/1HvShexLARsilDcOAv+f
-	xvrUkTyJrU7ynV3QyZguqbWFN1OuRwMEdsn+1MGLOvjf0Px4M2yrqljqSrXlTTANr5Ek
-	2awz5jCYODBUJUkldxyjfZfkRorvAgGSbGk3xL5CGoHLQULulLm+BFxDlVkjKD1Puxbo
-	FXjQ==
-X-Gm-Message-State: APjAAAXWEIXUG5DxkfIGqCMuN6LFKjV2tFU6rpkTM6qFPsN465kUlFGx
-	2wtAjD6GURLEjur4Vl2jNeSMG35qakIP1xLX36aaAg==
-X-Google-Smtp-Source: APXvYqydieWiER5SI7VDA6ysan3DgGExe3+zyi6dBwT170c21sl51sKW8ZnCJp6cnav6J0WofwDT51R7XpkLtxgF7FM=
-X-Received: by 2002:a5d:8d88:: with SMTP id b8mr30114105ioj.58.1554196098070; 
-	Tue, 02 Apr 2019 02:08:18 -0700 (PDT)
+	Tue, 2 Apr 2019 02:09:12 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Tue, 2 Apr 2019 02:08:35 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 2 Apr 2019 17:08:33 +0800
+Message-ID: <1554196113-200535-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190402074427.26561-1-kai.kang@windriver.com>
-	<CAJTo0La4V_Wo74ZntnALqPfAYsrKsSGkibnx60mRwjqAG5Sn9A@mail.gmail.com>
-	<a1341e2d-8687-2dcc-9d93-78e4cc46fed5@windriver.com>
-In-Reply-To: <a1341e2d-8687-2dcc-9d93-78e4cc46fed5@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Apr 2019 10:08:07 +0100
-Message-ID: <CAJTo0Lbm4uesR8Nw_9z2CGVZUU+6aUeibVoOv5xbbfv0dqXABg@mail.gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] avahi: fix CVE-2017-6519
+Subject: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,16 +31,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 09:08:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Apr 2019 09:36:54 -0000
+Content-Type: text/plain
 
-On Tue, 2 Apr 2019 at 08:49, Kang Kai <Kai.Kang@windriver.com> wrote:
-> I have checked CVE-2018-1000845 which is rejected that it is duplicate
-> of CVE-2017-6519. That why didn't list CVE-2018-1000845 in patch and
-> commit message.
+From: Changqing Li <changqing.li@windriver.com>
 
-Okay it's actually been rejected, so tooling shouldn't be seeing it.
+fix below compile error with -Werror=maybe-uninitialized
 
-Thanks,
-Ross
+| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|      *out_gltype = gltype;
+|      ~~~~~~~~~~~~^~~~~~~~
+| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|      *out_glintformat = glintformat;
+|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ ...mpile-error-with-Werror-maybe-uninitializ.patch | 40 ++++++++++++++++++++++
+ meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb      |  4 ++-
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+new file mode 100644
+index 0000000..3c99d25
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+@@ -0,0 +1,40 @@
++From e05ee89fcc978fceccab3e4724a3a37f7a338499 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Tue, 2 Apr 2019 14:48:49 +0800
++Subject: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
++
++fix below compile error with -Werror=maybe-uninitialized
++
++| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++|      *out_gltype = gltype;
++|      ~~~~~~~~~~~~^~~~~~~~
++| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++|      *out_glintformat = glintformat;
++|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
++
++Upstream-Status: Submitted [https://github.com/GNOME/cogl/pull/4/commits/be7a7b983952d3f2ce2cbaa7b89f413b92e15066]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ cogl/driver/gl/gles/cogl-driver-gles.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/cogl/driver/gl/gles/cogl-driver-gles.c b/cogl/driver/gl/gles/cogl-driver-gles.c
++index e94449f..a59d815 100644
++--- a/cogl/driver/gl/gles/cogl-driver-gles.c
+++++ b/cogl/driver/gl/gles/cogl-driver-gles.c
++@@ -74,9 +74,9 @@ _cogl_driver_pixel_format_to_gl (CoglContext *context,
++                                  GLenum *out_gltype)
++ {
++   CoglPixelFormat required_format;
++-  GLenum glintformat;
+++  GLenum glintformat = 0;
++   GLenum glformat = 0;
++-  GLenum gltype;
+++  GLenum gltype = 0;
++ 
++   required_format = format;
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+index 5901062..5ddeb4a 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+@@ -1,7 +1,9 @@
+ require cogl-1.0.inc
+ 
+ SRC_URI += "file://test-backface-culling.c-fix-may-be-used-uninitialize.patch \
+-            file://0001-Fix-an-incorrect-preprocessor-conditional.patch"
++            file://0001-Fix-an-incorrect-preprocessor-conditional.patch \
++            file://0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch \
++           "
+ SRC_URI[archive.md5sum] = "d53b708ca7c4af03d7254e46945d6b33"
+ SRC_URI[archive.sha256sum] = "39a718cdb64ea45225a7e94f88dddec1869ab37a21b339ad058a9d898782c00d"
+ 
+-- 
+2.7.4
+
 
