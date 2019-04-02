@@ -1,57 +1,56 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B2677D20B
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
+	[209.85.208.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 081766D51A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 19:31:12 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 80225183AB
+	Tue,  2 Apr 2019 19:46:18 +0000 (UTC)
+Received: by mail-ed1-f67.google.com with SMTP id s39so12779758edb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:13 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id w_5CrWX7-UtJ
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 861B51856C
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 692391A070
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5DEAA1A06D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
-Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
-	by seth.se.axis.com (Postfix) with ESMTP id 5233727A0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:31:07 +0200 (CEST)
-Received: from saur-2.se.axis.com (localhost [127.0.0.1])
-	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id x32JV75D026897
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 2 Apr 2019 21:31:07 +0200
-Received: (from pkj@localhost)
-	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id x32JV7pA026896
-	for openembedded-core@lists.openembedded.org;
-	Tue, 2 Apr 2019 21:31:07 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Apr 2019 21:31:02 +0200
-Message-Id: <4146cfefe1b40517c5fca68f0b52180acb2af7fa.1554233389.git.pkj@axis.com>
-X-Mailer: git-send-email 2.12.0
-In-Reply-To: <cover.1554233389.git.pkj@axis.com>
-References: <cover.1554233389.git.pkj@axis.com>
-X-TM-AS-GCONF: 00
-Subject: [PATCH 4/6] arm-tunes: Prefer the -mcpu option over -march
+	Tue, 02 Apr 2019 12:46:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=AZ4b8i0q+Dgwt2xIQe8oSqSxKMzs0WYHo45DQEkoXKI=;
+	b=hff//+ikh/Fk+SFdI5IO5pGgFnIx4q5PATvdPgNPbJKlVfYK2O7WV82dB3lQ4E7RGy
+	Sfp/Vyo0CqKWmLa2Yy+vYuQsoIVKYeSoU0NjPr69lnwcIur9754BJe0lrg2rjrwg1JnC
+	5dL25pXrfA61qouTPiMASJZkKqV9A9K8GCHb4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=AZ4b8i0q+Dgwt2xIQe8oSqSxKMzs0WYHo45DQEkoXKI=;
+	b=bNdZqvDJGHqxhglMI5g7hFxwVu1ZL3ar18Gx97iA/nybZlX02lPTPPsNToA8oVUGRt
+	aSZusrvpuVm1eROPsutjhnf6h6xM2ADiszPC/8oO/zW4Rq6xhwFzTR+lRlGOW842WS/P
+	BVmImPWKQ4ZhvjmWhs37+cRhhpMGJQ5GuuWLQAuqjPj4ufPML8FPkpHeUw89lZrtEz3K
+	u34OPEBmLCahrfzefT28Nf9qv01wrB9Rp+5N2uL0O3g2tGT/6QoCKWbQumyOhSYQn4i3
+	Tb/tuyRstJN/AXLhQVSSWzyWDHKHgRHJ8gFqMon//uRFrlS7O4Bub4YOrbp6f/TMrbLC
+	l2Ew==
+X-Gm-Message-State: APjAAAXOGFb+m8rXa0ofMsl4GCkebO2owMcGceLNszZyKBxB7XsusC0X
+	yy5jYEF9zYka0rNCyGYIZP8fGw==
+X-Google-Smtp-Source: APXvYqyJe9loqfXRu7gtTzvku3R5G44rrg0RZBcyRr9LFoq72W7SANfveVIO4/4Oif3l3jMRo2tLag==
+X-Received: by 2002:aa7:c456:: with SMTP id n22mr41498885edr.185.1554234379540;
+	Tue, 02 Apr 2019 12:46:19 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
+	[65.184.134.105]) by smtp.gmail.com with ESMTPSA id
+	y27sm2574227edb.67.2019.04.02.12.46.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 02 Apr 2019 12:46:17 -0700 (PDT)
+Date: Tue, 2 Apr 2019 15:46:14 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190402194614.GY4664@bill-the-cat>
+References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
+	<b08083fc2f63f6324a652706f8343a0b8defe209.camel@linuxfoundation.org>
+	<a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
+	<20190402065121.GA31468@localhost>
+MIME-Version: 1.0
+In-Reply-To: <20190402065121.GA31468@localhost>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Git commit process question.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,412 +63,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 19:31:13 -0000
+X-List-Received-Date: Tue, 02 Apr 2019 19:46:19 -0000
+X-Groupsio-MsgNum: 122954
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="FvpZCdL3V2P9482l"
+Content-Disposition: inline
 
-Tune files that inherit the arch definitions already define
-appropriate -mcpu options, which are equivalent of the correct -march
-and -mtune combinations. This is preferred since gcc is getting
-stricter and stricter with option check semantics and can now find
-incompatible -march and -mcpu options better with every release. It
-does an internal feature consistency check and if it finds any
-discrepancies between what -mcpu would expand to as compared to
--march, it will flag the options to be incompatible. For the naked eye
-it looks wrong, but gcc will translate -mcpu to a given -march
-internally and it might not match what we set in these arch files.
+--FvpZCdL3V2P9482l
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-The effects are quite subtle, where this can result in configure tests
-failing to compile due to these incompatible options and a feature
-option getting disabled for a recipe for no reason.
+On Tue, Apr 02, 2019 at 09:51:21AM +0300, Adrian Bunk wrote:
+> On Mon, Apr 01, 2019 at 04:20:41PM -0700, akuster808 wrote:
+> >=20
+> >=20
+> > On 4/1/19 4:02 PM, Richard Purdie wrote:
+> > > On Mon, 2019-04-01 at 15:33 -0700, akuster808 wrote:
+> > >> Hello,
+> > >>
+> > >> I have noticed a large number of git commits with no header
+> > >> information being accepted.
+> > > Can you be more specific about what "no header information" means? You
+> > > mean a shortlog and no full log message?
+> > Commits with just a "subject" and signoff. No additional information
+> >=20
+> > We tend to reference back to how the kernel does things.
+> >=20
+> > https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> > These two sections in particular.
+> >=20
+> >=20
+> >     2) Describe your changes
+> >=20
+> > Describe your problem. Whether your patch is a one-line bug fix or 5000
+> > lines of a new feature, there must be an underlying problem that
+> > motivated you to do this work. Convince the reviewer that there is a
+> > problem worth fixing and that it makes sense for them to read past the
+> > first paragraph.
+> >...
+>=20
+> The kernel does not have "upgrade foo to the latest upstream version" com=
+mits.
+>=20
+> With the Automatic Upgrade Helper this is a semi-automatic task, and=20
+> most of the time there is no specific motivation other than upgrading
+> to the latest upstream version.
 
-E.g., with GCC 9, which can now detect that -mcpu=cortex-a5 and
--march=armv7-a are incompatible, many features in libstdc++ end up
-disabled due to configure check failures, e.g., size_t size, ptrdiff_t
-sizes, which in turn results in compiling libstdc++ with wanted
-features disabled.
+But since that's just filling in a template the body can also be a
+template perhaps with useful AUH data (run at ... by ... ?) ?
 
-This is an alternative solution to the same problem originally
-implemented by Khem Raj in commit ac83d22e, but this time only
-affecting -mcpu and -march options without other side effects.
+--=20
+Tom
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/conf/machine/include/arm/arch-arm.inc       | 6 ++++++
- meta/conf/machine/include/arm/arch-armv4.inc     | 2 +-
- meta/conf/machine/include/arm/arch-armv5.inc     | 2 +-
- meta/conf/machine/include/arm/arch-armv6.inc     | 2 +-
- meta/conf/machine/include/arm/arch-armv7a.inc    | 2 +-
- meta/conf/machine/include/arm/arch-armv7ve.inc   | 2 +-
- meta/conf/machine/include/arm/arch-armv8a.inc    | 6 +++---
- meta/conf/machine/include/tune-arm1136jf-s.inc   | 2 +-
- meta/conf/machine/include/tune-arm920t.inc       | 2 +-
- meta/conf/machine/include/tune-arm926ejs.inc     | 2 +-
- meta/conf/machine/include/tune-arm9tdmi.inc      | 2 +-
- meta/conf/machine/include/tune-cortexa15.inc     | 2 +-
- meta/conf/machine/include/tune-cortexa17.inc     | 2 +-
- meta/conf/machine/include/tune-cortexa32.inc     | 2 +-
- meta/conf/machine/include/tune-cortexa35.inc     | 2 +-
- meta/conf/machine/include/tune-cortexa5.inc      | 2 +-
- meta/conf/machine/include/tune-cortexa53.inc     | 2 +-
- meta/conf/machine/include/tune-cortexa7.inc      | 2 +-
- meta/conf/machine/include/tune-cortexa72.inc     | 2 +-
- meta/conf/machine/include/tune-cortexa8.inc      | 2 +-
- meta/conf/machine/include/tune-cortexa9.inc      | 2 +-
- meta/conf/machine/include/tune-ep9312.inc        | 2 +-
- meta/conf/machine/include/tune-iwmmxt.inc        | 2 +-
- meta/conf/machine/include/tune-strongarm1100.inc | 2 +-
- meta/conf/machine/include/tune-thunderx.inc      | 2 +-
- meta/conf/machine/include/tune-xscale.inc        | 2 +-
- 26 files changed, 33 insertions(+), 27 deletions(-)
+--FvpZCdL3V2P9482l
+Content-Type: application/pgp-signature; name="signature.asc"
 
-diff --git a/meta/conf/machine/include/arm/arch-arm.inc b/meta/conf/machine/include/arm/arch-arm.inc
-index 99625d8417..188cf8b473 100644
---- a/meta/conf/machine/include/arm/arch-arm.inc
-+++ b/meta/conf/machine/include/arm/arch-arm.inc
-@@ -11,6 +11,12 @@ ARMPKGSFX_THUMB ??= ""
- TUNE_ARCH = "${@bb.utils.contains('TUNE_FEATURES', 'bigendian', 'armeb', 'arm', d)}"
- TUNE_PKGARCH = "${ARMPKGARCH}${ARMPKGSFX_THUMB}${ARMPKGSFX_DSP}${ARMPKGSFX_EABI}${ARMPKGSFX_ENDIAN}${ARMPKGSFX_FPU}"
- 
-+# Prefer -mcpu= over -arch=
-+TUNE_CCARGS_MCPU ??= ""
-+TUNE_CCARGS_MARCH ??= ""
-+TUNE_CCARGS_FEATURES ??= ""
-+TUNE_CCARGS .= "${@d.getVar('TUNE_CCARGS_MCPU') or d.getVar('TUNE_CCARGS_MARCH')}${TUNE_CCARGS_FEATURES}"
-+
- ABIEXTENSION = "eabi"
- 
- TARGET_FPU = "${@d.getVar('TUNE_CCARGS_MFLOAT') or 'soft'}"
-diff --git a/meta/conf/machine/include/arm/arch-armv4.inc b/meta/conf/machine/include/arm/arch-armv4.inc
-index 47a7ad2830..dac791e308 100644
---- a/meta/conf/machine/include/arm/arch-armv4.inc
-+++ b/meta/conf/machine/include/arm/arch-armv4.inc
-@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv4"
- 
- TUNEVALID[arm] = "Enable ARM instruction set"
- TUNEVALID[armv4] = "Enable instructions for ARMv4"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
-+TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv4', ' -march=armv4t', '', d)}"
- # enable --fix-v4bx when we have armv4 in TUNE_FEATURES, but then disable it when we have also armv5 or thumb
- # maybe we should extend bb.utils.contains to support check for any checkvalues in value, now it does 
- # checkvalues.issubset(val) which cannot be used for negative test of foo neither bar in value
-diff --git a/meta/conf/machine/include/arm/arch-armv5.inc b/meta/conf/machine/include/arm/arch-armv5.inc
-index f9068af9de..9c82015df2 100644
---- a/meta/conf/machine/include/arm/arch-armv5.inc
-+++ b/meta/conf/machine/include/arm/arch-armv5.inc
-@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv5"
- 
- TUNEVALID[armv5] = "Enable instructions for ARMv5"
- TUNECONFLICTS[armv5] = "armv4"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', ' -march=armv5t${ARMPKGSFX_DSP}', '', d)}"
-+TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv5', ' -march=armv5t${ARMPKGSFX_DSP}', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv5', 'armv5:', '' ,d)}"
- 
- require conf/machine/include/arm/arch-armv4.inc
-diff --git a/meta/conf/machine/include/arm/arch-armv6.inc b/meta/conf/machine/include/arm/arch-armv6.inc
-index 6c838e999c..ece29aab8e 100644
---- a/meta/conf/machine/include/arm/arch-armv6.inc
-+++ b/meta/conf/machine/include/arm/arch-armv6.inc
-@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv6hf"
- 
- TUNEVALID[armv6] = "Enable instructions for ARMv6"
- TUNECONFLICTS[armv6] = "armv4 armv5"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', ' -march=armv6', '', d)}"
-+TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv6', ' -march=armv6', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv6', 'armv6:', '' ,d)}"
- 
- require conf/machine/include/arm/arch-armv5-dsp.inc
-diff --git a/meta/conf/machine/include/arm/arch-armv7a.inc b/meta/conf/machine/include/arm/arch-armv7a.inc
-index 199e63f98a..c09fb548c2 100644
---- a/meta/conf/machine/include/arm/arch-armv7a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7a.inc
-@@ -3,7 +3,7 @@ ARM_INSTRUCTION_SET ?= "thumb"
- 
- TUNEVALID[armv7a] = "Enable instructions for ARMv7-a"
- TUNECONFLICTS[armv7a] = "armv4 armv5 armv6 armv7"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', ' -march=armv7-a', '', d)}"
-+TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', ' -march=armv7-a', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7a', 'armv7a:', '' ,d)}"
- 
- require conf/machine/include/arm/arch-armv6.inc
-diff --git a/meta/conf/machine/include/arm/arch-armv7ve.inc b/meta/conf/machine/include/arm/arch-armv7ve.inc
-index fc172d0cb0..810abd2008 100644
---- a/meta/conf/machine/include/arm/arch-armv7ve.inc
-+++ b/meta/conf/machine/include/arm/arch-armv7ve.inc
-@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "armv7vethf"
- 
- TUNEVALID[armv7ve] = "Enable instructions for ARMv7ve"
- TUNECONFLICTS[armv7ve] = "armv4 armv5 armv6 armv7 armv7a"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
-+TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', ' -march=armv7ve', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv7ve', 'armv7ve:', '' ,d)}"
- 
- require conf/machine/include/arm/arch-armv7a.inc
-diff --git a/meta/conf/machine/include/arm/arch-armv8a.inc b/meta/conf/machine/include/arm/arch-armv8a.inc
-index f810a1e8fc..9751594bf4 100644
---- a/meta/conf/machine/include/arm/arch-armv8a.inc
-+++ b/meta/conf/machine/include/arm/arch-armv8a.inc
-@@ -1,11 +1,11 @@
- DEFAULTTUNE ?= "armv8a-crc"
- 
- TUNEVALID[armv8a] = "Enable instructions for ARMv8-a"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
-+TUNE_CCARGS_MARCH .= "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', ' -march=armv8-a', '', d)}"
- TUNEVALID[crc] = "Enable instructions for ARMv8-a Cyclic Redundancy Check (CRC)"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
-+TUNE_CCARGS_FEATURES .= "${@bb.utils.contains('TUNE_FEATURES', 'crc', '+crc', '', d)}"
- TUNEVALID[crypto] = "Enable instructions for ARMv8-a cryptographic"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
-+TUNE_CCARGS_FEATURES .= "${@bb.utils.contains('TUNE_FEATURES', 'crypto', '+crypto', '', d)}"
- MACHINEOVERRIDES =. "${@bb.utils.contains('TUNE_FEATURES', 'armv8a', 'armv8a:', '' ,d)}"
- 
- require conf/machine/include/arm/arch-arm64.inc
-diff --git a/meta/conf/machine/include/tune-arm1136jf-s.inc b/meta/conf/machine/include/tune-arm1136jf-s.inc
-index c5de63e1cc..e29ac9d8d2 100644
---- a/meta/conf/machine/include/tune-arm1136jf-s.inc
-+++ b/meta/conf/machine/include/tune-arm1136jf-s.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv6hf"
- require conf/machine/include/arm/arch-armv6.inc
- 
- TUNEVALID[arm1136jfs] = "Enable arm1136jfs specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm1136jfs', ' -mcpu=arm1136jf-s', '', d)}"
- 
- AVAILTUNES += "arm1136jfs"
- ARMPKGARCH_tune-arm1136jfs = "arm1136jfs"
-diff --git a/meta/conf/machine/include/tune-arm920t.inc b/meta/conf/machine/include/tune-arm920t.inc
-index c6e74b6772..02fbed41a1 100644
---- a/meta/conf/machine/include/tune-arm920t.inc
-+++ b/meta/conf/machine/include/tune-arm920t.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
- require conf/machine/include/arm/arch-armv4.inc
- 
- TUNEVALID[arm920t] = "Enable arm920t specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm920t', ' -mcpu=arm920t', '', d)}"
- 
- AVAILTUNES += "arm920t"
- ARMPKGARCH_tune-arm920t = "arm920t"
-diff --git a/meta/conf/machine/include/tune-arm926ejs.inc b/meta/conf/machine/include/tune-arm926ejs.inc
-index 81bcda339b..70179b59e4 100644
---- a/meta/conf/machine/include/tune-arm926ejs.inc
-+++ b/meta/conf/machine/include/tune-arm926ejs.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
- require conf/machine/include/arm/arch-armv5-dsp.inc
- 
- TUNEVALID[arm926ejs] = "Enable arm926ejs specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm926ejs', ' -mcpu=arm926ej-s', '', d)}"
- 
- AVAILTUNES += "arm926ejs"
- ARMPKGARCH_tune-arm926ejs = "arm926ejs"
-diff --git a/meta/conf/machine/include/tune-arm9tdmi.inc b/meta/conf/machine/include/tune-arm9tdmi.inc
-index e9c2b8fcf5..013f6ba846 100644
---- a/meta/conf/machine/include/tune-arm9tdmi.inc
-+++ b/meta/conf/machine/include/tune-arm9tdmi.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4t"
- require conf/machine/include/arm/arch-armv4.inc
- 
- TUNEVALID[arm9tdmi] = "Enable arm9tdmi specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'arm9tdmi', ' -mcpu=arm9tdmi', '', d)}"
- 
- AVAILTUNES += "arm9tdmi"
- ARMPKGARCH_tune-arm9tdmi = "arm9tdmi"
-diff --git a/meta/conf/machine/include/tune-cortexa15.inc b/meta/conf/machine/include/tune-cortexa15.inc
-index 25e99f93d7..2ca38c59cc 100644
---- a/meta/conf/machine/include/tune-cortexa15.inc
-+++ b/meta/conf/machine/include/tune-cortexa15.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
- require conf/machine/include/arm/arch-armv7ve.inc
- 
- TUNEVALID[cortexa15] = "Enable Cortex-A15 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa15', ' -mcpu=cortex-a15', '', d)}"
- 
- # Little Endian base configs
- AVAILTUNES += "cortexa15 cortexa15t cortexa15-neon cortexa15t-neon cortexa15-neon-vfpv4 cortexa15t-neon-vfpv4"
-diff --git a/meta/conf/machine/include/tune-cortexa17.inc b/meta/conf/machine/include/tune-cortexa17.inc
-index 40392f9bcc..048a7be420 100644
---- a/meta/conf/machine/include/tune-cortexa17.inc
-+++ b/meta/conf/machine/include/tune-cortexa17.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
- require conf/machine/include/arm/arch-armv7ve.inc
- 
- TUNEVALID[cortexa17] = "Enable Cortex-A17 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa17', ' -mcpu=cortex-a17', '', d)}"
- 
- # Little Endian base configs
- AVAILTUNES += "cortexa17 cortexa17t cortexa17-neon cortexa17t-neon cortexa17-neon-vfpv4 cortexa17t-neon-vfpv4"
-diff --git a/meta/conf/machine/include/tune-cortexa32.inc b/meta/conf/machine/include/tune-cortexa32.inc
-index 9c948f1766..c50470203c 100644
---- a/meta/conf/machine/include/tune-cortexa32.inc
-+++ b/meta/conf/machine/include/tune-cortexa32.inc
-@@ -2,7 +2,7 @@ DEFAULTTUNE ?= "cortexa32"
- 
- 
- TUNEVALID[cortexa32] = "Enable Cortex-A32 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa32', ' -mcpu=cortex-a32', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa32', ' -mcpu=cortex-a32', '', d)}"
- 
- require conf/machine/include/arm/arch-armv8a.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa35.inc b/meta/conf/machine/include/tune-cortexa35.inc
-index d6df6cd6bd..0b082ce259 100644
---- a/meta/conf/machine/include/tune-cortexa35.inc
-+++ b/meta/conf/machine/include/tune-cortexa35.inc
-@@ -1,7 +1,7 @@
- DEFAULTTUNE ?= "cortexa35"
- 
- TUNEVALID[cortexa35] = "Enable Cortex-A35 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa35', ' -mcpu=cortex-a35', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa35', ' -mcpu=cortex-a35', '', d)}"
- 
- require conf/machine/include/arm/arch-armv8a.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa5.inc b/meta/conf/machine/include/tune-cortexa5.inc
-index e9eddb407f..fee874b224 100644
---- a/meta/conf/machine/include/tune-cortexa5.inc
-+++ b/meta/conf/machine/include/tune-cortexa5.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
- require conf/machine/include/arm/arch-armv7a.inc
- 
- TUNEVALID[cortexa5] = "Enable Cortex-A5 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa5', ' -mcpu=cortex-a5', '', d)}"
- 
- # Little Endian base configs
- AVAILTUNES += "cortexa5 cortexa5t cortexa5-neon cortexa5t-neon cortexa5-neon-vfpv4 cortexa5t-neon-vfpv4"
-diff --git a/meta/conf/machine/include/tune-cortexa53.inc b/meta/conf/machine/include/tune-cortexa53.inc
-index 6c0b443eaf..b3bd8bbc4e 100644
---- a/meta/conf/machine/include/tune-cortexa53.inc
-+++ b/meta/conf/machine/include/tune-cortexa53.inc
-@@ -1,7 +1,7 @@
- DEFAULTTUNE ?= "cortexa53"
- 
- TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
- 
- require conf/machine/include/arm/arch-armv8a.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa7.inc b/meta/conf/machine/include/tune-cortexa7.inc
-index 52415d9c8b..79a395fe3f 100644
---- a/meta/conf/machine/include/tune-cortexa7.inc
-+++ b/meta/conf/machine/include/tune-cortexa7.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7vethf-neon"
- require conf/machine/include/arm/arch-armv7ve.inc
- 
- TUNEVALID[cortexa7] = "Enable Cortex-A7 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa7', ' -mcpu=cortex-a7', '', d)}"
- 
- # Little Endian base configs
- AVAILTUNES += "cortexa7 cortexa7t cortexa7-neon cortexa7t-neon cortexa7-neon-vfpv4 cortexa7t-neon-vfpv4"
-diff --git a/meta/conf/machine/include/tune-cortexa72.inc b/meta/conf/machine/include/tune-cortexa72.inc
-index 00f7745a22..1ed456f1a9 100644
---- a/meta/conf/machine/include/tune-cortexa72.inc
-+++ b/meta/conf/machine/include/tune-cortexa72.inc
-@@ -1,7 +1,7 @@
- DEFAULTTUNE ?= "cortexa72"
- 
- TUNEVALID[cortexa72] = "Enable Cortex-A72 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=cortex-a72', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa72', ' -mcpu=cortex-a72', '', d)}"
- 
- require conf/machine/include/arm/arch-armv8a.inc
- 
-diff --git a/meta/conf/machine/include/tune-cortexa8.inc b/meta/conf/machine/include/tune-cortexa8.inc
-index 8ee8de97f1..05dda1a51e 100644
---- a/meta/conf/machine/include/tune-cortexa8.inc
-+++ b/meta/conf/machine/include/tune-cortexa8.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
- require conf/machine/include/arm/arch-armv7a.inc
- 
- TUNEVALID[cortexa8] = "Enable Cortex-A8 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa8', ' -mcpu=cortex-a8', '', d)}"
- 
- # Little Endian base configs
- AVAILTUNES += "cortexa8 cortexa8t cortexa8-neon cortexa8t-neon"
-diff --git a/meta/conf/machine/include/tune-cortexa9.inc b/meta/conf/machine/include/tune-cortexa9.inc
-index 0cf323c960..ff4e8ebfe1 100644
---- a/meta/conf/machine/include/tune-cortexa9.inc
-+++ b/meta/conf/machine/include/tune-cortexa9.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv7athf-neon"
- require conf/machine/include/arm/arch-armv7a.inc
- 
- TUNEVALID[cortexa9] = "Enable Cortex-A9 specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa9', ' -mcpu=cortex-a9', '', d)}"
- 
- # Little Endian base configs
- AVAILTUNES += "cortexa9 cortexa9t cortexa9-neon cortexa9t-neon"
-diff --git a/meta/conf/machine/include/tune-ep9312.inc b/meta/conf/machine/include/tune-ep9312.inc
-index 84ca528d6d..6c4c9aa044 100644
---- a/meta/conf/machine/include/tune-ep9312.inc
-+++ b/meta/conf/machine/include/tune-ep9312.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "ep9312"
- require conf/machine/include/arm/arch-armv4.inc
- 
- TUNEVALID[ep9312] = "Enable Intel PXA27x specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'ep9312', ' -march=ep9312 -mcpu=ep9312', '', d)}"
- 
- AVAILTUNES += "ep9312"
- ARMPKGARCH_tune-ep9312 = "ep9312"
-diff --git a/meta/conf/machine/include/tune-iwmmxt.inc b/meta/conf/machine/include/tune-iwmmxt.inc
-index f27423cb2e..26e84cb8f4 100644
---- a/meta/conf/machine/include/tune-iwmmxt.inc
-+++ b/meta/conf/machine/include/tune-iwmmxt.inc
-@@ -6,7 +6,7 @@ DEFAULTTUNE ?= "iwmmxt"
- require conf/machine/include/arm/arch-armv5-dsp.inc
- 
- TUNEVALID[iwmmxt] = "Enable Intel PXA27x specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -march=iwmmxt -mcpu=iwmmxt', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'iwmmxt', ' -mcpu=iwmmxt', '', d)}"
- 
- AVAILTUNES += "iwmmxt"
- ARMPKGARCH_tune-iwmmxt = "iwmmxt"
-diff --git a/meta/conf/machine/include/tune-strongarm1100.inc b/meta/conf/machine/include/tune-strongarm1100.inc
-index 80cfb8ab8a..3b6ab6b130 100644
---- a/meta/conf/machine/include/tune-strongarm1100.inc
-+++ b/meta/conf/machine/include/tune-strongarm1100.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv4"
- require conf/machine/include/arm/arch-armv4.inc
- 
- TUNEVALID[strongarm] = "Enable Strongarm 1100 series processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'strongarm', ' -mcpu=strongarm1100', '', d)}"
- 
- AVAILTUNES += "strongarm"
- ARMPKGARCH_tune-strongarm = "strongarm"
-diff --git a/meta/conf/machine/include/tune-thunderx.inc b/meta/conf/machine/include/tune-thunderx.inc
-index 92adf2df1f..83d514614f 100644
---- a/meta/conf/machine/include/tune-thunderx.inc
-+++ b/meta/conf/machine/include/tune-thunderx.inc
-@@ -3,7 +3,7 @@ AVAILTUNES += "thunderx thunderx_be"
- 
- TUNEVALID[thunderx] = "Enable instructions for Cavium ThunderX"
- 
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mcpu=thunderx', '',d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'thunderx', ' -mcpu=thunderx', '',d)}"
- 
- require conf/machine/include/arm/arch-armv8a.inc
- 
-diff --git a/meta/conf/machine/include/tune-xscale.inc b/meta/conf/machine/include/tune-xscale.inc
-index 0d07333955..64081b11c6 100644
---- a/meta/conf/machine/include/tune-xscale.inc
-+++ b/meta/conf/machine/include/tune-xscale.inc
-@@ -3,7 +3,7 @@ DEFAULTTUNE ?= "armv5te"
- require conf/machine/include/arm/arch-armv5-dsp.inc
- 
- TUNEVALID[xscale] = "Enable PXA255/PXA26x Xscale specific processor optimizations"
--TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
-+TUNE_CCARGS_MCPU .= "${@bb.utils.contains('TUNE_FEATURES', 'xscale', ' -mcpu=xscale', '', d)}"
- 
- AVAILTUNES += "xscale"
- ARMPKGARCH_tune-xscale = "xscale"
--- 
-2.12.0
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iQIcBAEBAgAGBQJco7wFAAoJEIf59jXTHXZS+sgQAIDiVamgH6Ku6v43F45fqVhO
+ehJngovn3rGiGLG3t6M5ld6ukZIUQP8nVMFZWRY7iSzuYyt2gMS6vM9Gr5e1ZRDe
+kzmgGcCoJjoa4YhpePZb9ImHygndtVt+QcZirJcleA6Wy2tzqrA6gweNpaG0pmKg
+HCerND8Gzh9GDnPVVkhp8IO/OcCewrwG1g2danSazgRNbtDHXaX1a6ADjspk78lG
+X/WQmXcaSjCl1igKhO7nJ6gbXb4/94WcpQip3fFBaAiwVKfvOlDLopA0erIlZ1AM
+fGgHTRawBHOAjMLIPEBn6AUGLxOBCcZdiFMg/UETR0xTK4SQQtWZmtY7wdjdME5D
+VbJR4TImStxadXHOwyFNTZk5jdp2wUIGjsSCPzMLNoyDO0SFVKPbaFWWGMexSUZx
+Mpen0l+Gdh1BzzNNPmKvBCxv0eG35mdxDXXSojkI+BSHz9Oz/1WidIlv/QQoZKkw
+7wjtV6SMwTM5BFASPNHFAep8Hvr2k6r5Nlzs993iCufXeR62TIU3/VuAzhJiNn/R
+CJ6BmNeo+a1OuyMitmMQQk6aceg53FcQk7+v+WWg7QJIR/LawMYBsKc9JItVQCGe
++6etlzZ30HBgyoRc3JA7QpsCPp4Re3jHqgwSfmwjVzoyPlHhE3Hz+pD1LY8Vw99Q
+gdpp6jVIbbUu14zEyOeu
+=N0Sq
+-----END PGP SIGNATURE-----
 
+--FvpZCdL3V2P9482l--
