@@ -1,51 +1,27 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f177.google.com (mail-it1-f177.google.com
-	[209.85.166.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F6556C42C
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 638657D15C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 07:48:50 +0000 (UTC)
-Received: by mail-it1-f177.google.com with SMTP id a190so2044247ite.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 00:48:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8wRCAxH0ZEqYbWTIOUSCZmg1RK9JOd4rHvWOFBlu15I=;
-	b=oVcKVcwC7xm0A5nneLUQVX0BShDDdX44+ziUZK9mMoGukNWmm0WqUa3ON2tn0gVpd2
-	AwsGVdOLu8toKgTxar70kdG2IXPhxwYjurkUGHScI8tMlw9efkyA9NaKWZhj9YvX2bTX
-	cO0oLohPZ4s4r4cV2iwcelRdtpTngOWYROqX7J2e3pXo8sHTyir8cNcZOYI7bX462a86
-	jmGgnPbPdq8pyBR5mPDXstgg/glGNf7AVMm/Uy1si7wsJ4KkIdT42GyJYY21KBn8schc
-	+WY+ew7rEetjXcAQxj3HmpbWyId3fUGwTQh8iRnJKT+fMvwsArsJggDL88reo+H3VySa
-	jxTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8wRCAxH0ZEqYbWTIOUSCZmg1RK9JOd4rHvWOFBlu15I=;
-	b=NW7Z6fLWOba82dfeIqrVUD3IsopyPuMK9fDa/iE6LfcrtabyrJQCSQkpxYW1GZBqFE
-	j0TZDP5CPqJGjdLWWOj9ojMsIsPX4KpAsC1wF3gmgRgUVWYE5ulCuDrZPFL9HgsaLnld
-	ndZshuVJi/VSgt2qoxu4fipgiykwmaNTdvKEdthukISQB/AKhFi+cU2NXHrV/MV+rcwQ
-	oc9PNuqVyBRYdQH8XOW0mPDV3iEAp3imR/w2dsxeXONsV0tiUvnHobXMEuVp56Q4pDvr
-	7qPlB6U4QX88poEiXMBVkPPhdCrqZv9DQoA6wLhe8NKzL8eLvm1MDDkf1Sgu6mk3RhrH
-	QGtQ==
-X-Gm-Message-State: APjAAAW/ct73b330Rdb5kEZnLVrCMOuf1YrYk2TkE+rry5nWV24wfTUr
-	9N8f2XRn6sgNEw1MneZDW9t76aVKVKbOTv6gExGVgihm
-X-Google-Smtp-Source: APXvYqyqoA6U1rIfLiZ1A/WwBmOECiH/or4ln1T0ZJTBh6yMvMx50pnLQ6G+B4i727t3QalokKfzvgK2pQZSqP1Dyuo=
-X-Received: by 2002:a24:d643:: with SMTP id o64mr3100665itg.148.1554191331592; 
-	Tue, 02 Apr 2019 00:48:51 -0700 (PDT)
+	Tue,  2 Apr 2019 07:49:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x327navV028783
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Apr 2019 00:49:37 -0700 (PDT)
+Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 2 Apr 2019 00:49:36 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20190402074427.26561-1-kai.kang@windriver.com>
+	<CAJTo0La4V_Wo74ZntnALqPfAYsrKsSGkibnx60mRwjqAG5Sn9A@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <a1341e2d-8687-2dcc-9d93-78e4cc46fed5@windriver.com>
+Date: Tue, 2 Apr 2019 15:49:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190327142005.17453-1-ross.burton@intel.com>
-	<CAMKF1sosOJ6_Dk-CAiyz38iyBpV3ty4df5Ya5e4m=ccGxLyRSQ@mail.gmail.com>
-	<CAJTo0Lam4oEvd6rPYvvu=AckU7irH=4tEqGhfOVEMo9j7AkcjQ@mail.gmail.com>
-	<CAMKF1srHw-SfA_TwxP-qB_Yi3y07rsjzk1MxFxoHa7ZfsGicPA@mail.gmail.com>
-In-Reply-To: <CAMKF1srHw-SfA_TwxP-qB_Yi3y07rsjzk1MxFxoHa7ZfsGicPA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 2 Apr 2019 08:48:40 +0100
-Message-ID: <CAJTo0LaKN5+SEMwRujXiWdVm7St33Hg02pjDKiFyKiRWJyfM8w@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] asciidoc: use Python 3 port
+In-Reply-To: <CAJTo0La4V_Wo74ZntnALqPfAYsrKsSGkibnx60mRwjqAG5Sn9A@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] avahi: fix CVE-2017-6519
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,95 +34,120 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 07:48:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Apr 2019 07:49:37 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Ah so it looks like it's ignoring the XML stuff we're installing and
-using the host, and you don't have the right versions.  Shall look
-into this today.
+On 2019/4/2 下午3:46, Burton, Ross wrote:
+> The patch itself says two CVE IDs, so can you put them both in the
+> path header with your SOB please?
 
-Ross
+I have checked CVE-2018-1000845 which is rejected that it is duplicate 
+of CVE-2017-6519. That why didn't list CVE-2018-1000845 in patch and 
+commit message.
 
-On Tue, 2 Apr 2019 at 03:34, Khem Raj <raj.khem@gmail.com> wrote:
+Regards,
+Kai
+
+
 >
-> I find many posts reporting similar issue also I see it happen on
-> ubuntu 18.04 host as well
+> Ross
 >
-> https://groups.google.com/forum/#!topic/asciidoc/FC-eOwU8rYg
-> https://groups.google.com/forum/#!topic/asciidoc/N4boYdQ3Zik
->
-> On Mon, Apr 1, 2019 at 7:01 AM Burton, Ross <ross.burton@intel.com> wrote:
-> >
-> > Error 4 is 'validation error', can you recover the file that is failing?
-> >
-> > Ross
-> >
-> > On Sat, 30 Mar 2019 at 02:01, Khem Raj <raj.khem@gmail.com> wrote:
-> > >
-> > > On Wed, Mar 27, 2019 at 7:20 AM Ross Burton <ross.burton@intel.com> wrote:
-> > > >
-> > > > There's a sort-of-official port of asciidoc to Python 3.  Whilst the official
-> > > > replacement is asciidoctor which is rewritten in Ruby, this is a fairly trivial
-> > > > swap and removes Python 2 from core-image-sato builds entirely.
-> > > >
-> > > > Moving forward we should evaluate asciidoctor, but that can wait.
-> > > >
-> > > > Change the RDEPENDS so that python3 is only a dependency for target and
-> > > > nativesdk builds, for native this can use the host python3.
-> > > >
-> > > > Remove redundant DESTDIR export that isn't needed.
-> > > >
-> > >
-> > > its failing on my archlinux builder, ideas ?
-> > >
-> > > https://errors.yoctoproject.org/Errors/Details/234833/
-> > > https://errors.yoctoproject.org/Errors/Details/234829/
-> > >
-> > > > Signed-off-by: Ross Burton <ross.burton@intel.com>
-> > > > ---
-> > > >  meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 21 ++++++++++++---------
-> > > >  1 file changed, 12 insertions(+), 9 deletions(-)
-> > > >
-> > > > diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> > > > index 38164d55735..d0d15171ac4 100644
-> > > > --- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> > > > +++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> > > > @@ -8,17 +8,20 @@ LICENSE = "GPLv2"
-> > > >  LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
-> > > >                      file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
-> > > >
-> > > > -SRC_URI = "http://downloads.sourceforge.net/project/${BPN}/${BPN}/${PV}/${BP}.tar.gz"
-> > > > -SRC_URI[md5sum] = "c59018f105be8d022714b826b0be130a"
-> > > > -SRC_URI[sha256sum] = "78db9d0567c8ab6570a6eff7ffdf84eadd91f2dfc0a92a2d0105d323cab4e1f0"
-> > > > +SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https"
-> > > > +SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
-> > > > +PV .= "+py3-git${SRCPV}"
-> > > >
-> > > > -UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/asciidoc/files/"
-> > > > +DEPENDS = "libxml2-native libxslt-native docbook-xml-dtd4-native"
-> > > >
-> > > > +S = "${WORKDIR}/git"
-> > > > +
-> > > > +# Not using automake
-> > > >  inherit autotools-brokensep
-> > > > +CLEANBROKEN = "1"
-> > > >
-> > > > -export DESTDIR = "${D}"
-> > > > -DEPENDS_class-native = "docbook-xml-dtd4-native"
-> > > > -RDEPENDS_${PN} += "python"
-> > > > -BBCLASSEXTEND = "native"
-> > > > +# target and nativesdk needs python3, but for native we can use the host.
-> > > > +RDEPENDS_${PN} += "python3"
-> > > > +RDEPENDS_remove_class-native = "python3"
-> > > >
-> > > > -CLEANBROKEN = "1"
-> > > > +BBCLASSEXTEND = "native nativesdk"
-> > > > --
-> > > > 2.11.0
-> > > >
-> > > > --
-> > > > _______________________________________________
-> > > > Openembedded-core mailing list
-> > > > Openembedded-core@lists.openembedded.org
-> > > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On Tue, 2 Apr 2019 at 08:45, <kai.kang@windriver.com> wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> Backport patch to fix CVE-2017-6519.
+>>
+>> CVE: CVE-2017-6519
+>>
+>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> ---
+>>   meta/recipes-connectivity/avahi/avahi.inc     |  4 +-
+>>   .../avahi/files/fix-CVE-2017-6519.patch       | 48 +++++++++++++++++++
+>>   2 files changed, 51 insertions(+), 1 deletion(-)
+>>   create mode 100644 meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
+>>
+>> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
+>> index 11846849f0..8339e451f5 100644
+>> --- a/meta/recipes-connectivity/avahi/avahi.inc
+>> +++ b/meta/recipes-connectivity/avahi/avahi.inc
+>> @@ -19,7 +19,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
+>>                       file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
+>>                       file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
+>>
+>> -SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz"
+>> +SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz \
+>> +           file://fix-CVE-2017-6519.patch \
+>> +           "
+>>
+>>   UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
+>>   SRC_URI[md5sum] = "d76c59d0882ac6c256d70a2a585362a6"
+>> diff --git a/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch b/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
+>> new file mode 100644
+>> index 0000000000..7461fe193d
+>> --- /dev/null
+>> +++ b/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
+>> @@ -0,0 +1,48 @@
+>> +Upstream-Status: Backport [https://github.com/lathiat/avahi/commit/e111def]
+>> +
+>> +CVE: CVE-2017-6519
+>> +
+>> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>> +
+>> +From e111def44a7df4624a4aa3f85fe98054bffb6b4f Mon Sep 17 00:00:00 2001
+>> +From: Trent Lloyd <trent@lloyd.id.au>
+>> +Date: Sat, 22 Dec 2018 09:06:07 +0800
+>> +Subject: [PATCH] Drop legacy unicast queries from address not on local link
+>> +
+>> +When handling legacy unicast queries, ensure that the source IP is
+>> +inside a subnet on the local link, otherwise drop the packet.
+>> +
+>> +Fixes #145
+>> +Fixes #203
+>> +CVE-2017-6519
+>> +CVE-2018-1000845
+>> +---
+>> + avahi-core/server.c | 8 ++++++++
+>> + 1 file changed, 8 insertions(+)
+>> +
+>> +diff --git a/avahi-core/server.c b/avahi-core/server.c
+>> +index a2cb19a8..a2580e38 100644
+>> +--- a/avahi-core/server.c
+>> ++++ b/avahi-core/server.c
+>> +@@ -930,6 +930,7 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
+>> +
+>> +     if (avahi_dns_packet_is_query(p)) {
+>> +         int legacy_unicast = 0;
+>> ++        char t[AVAHI_ADDRESS_STR_MAX];
+>> +
+>> +         /* For queries EDNS0 might allow ARCOUNT != 0. We ignore the
+>> +          * AR section completely here, so far. Until the day we add
+>> +@@ -947,6 +948,13 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
+>> +             legacy_unicast = 1;
+>> +         }
+>> +
+>> ++        if (!is_mdns_mcast_address(dst_address) &&
+>> ++            !avahi_interface_address_on_link(i, src_address)) {
+>> ++
+>> ++            avahi_log_debug("Received non-local unicast query from host %s on interface '%s.%i'.", avahi_address_snprint(t, sizeof(t), src_address), i->hardware->name, i->protocol);
+>> ++            return;
+>> ++        }
+>> ++
+>> +         if (legacy_unicast)
+>> +             reflect_legacy_unicast_query_packet(s, p, i, src_address, port);
+>> +
+>> --
+>> 2.20.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+-- 
+Kai Kang
+
 
