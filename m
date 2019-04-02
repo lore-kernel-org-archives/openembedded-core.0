@@ -1,53 +1,52 @@
 Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 74FBF7D15E
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 4AB577D19C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 08:22:02 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id b65so5875232plb.6
+	Tue,  2 Apr 2019 08:22:07 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id v12so6188851pgq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 01:22:03 -0700 (PDT)
+	Tue, 02 Apr 2019 01:22:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=nathanrossi.com; s=google;
 	h=date:message-id:in-reply-to:references:from:to:cc:subject
 	:content-transfer-encoding:mime-version;
-	bh=j9LMMJN607rXSieRXEOrrvZheAfG7vd/+ZZXaMWxdxU=;
-	b=bNz8CTf0HTAK0mdh4gcmnhRZMgqDJwJ95+qGx3MXeXPS97OiMt02AIGmjhwipMHBHt
-	+LiX7gqOsyrcnSH/WXSVu3kIOVcx+TKmtnJ5UJbuC+pI+AcDHmE+owjyGVEQMCL4mmFK
-	X++qH67Wpo6eCtqixlud8B2tYcCQaw3IOu8DllZxAXY4nx0woor22lyAeTV+ll8iqQuv
-	axmWgStkSPEMCJyWuxNB9OmwAWubVvadbjbxPrgzdmREc5FwKuK4TGOP3fURAa1RJkPt
-	7yeDPIaMbUHlmUs0qxwcgqFMw0CeRGX/dY0zRsxvmkfkFKl2m9B56XqnGkC4Ai2khCta
-	1+/g==
+	bh=cJIqyybd6eAdoENDZ2DqGLxhJJK4uYO25pS8cruhgSk=;
+	b=EMcPFryemqer0tQ45gv3GkB1kjF37c/DrsSCmagP4fvpKX88+FVvvkruPE7cY+NFex
+	+Kn26qWSlIr6vu4j/iafZpVoOLAvOYU2C5NpcoG1uELvL3at70vjbwwEvzhPUVPqJU1W
+	Fg1htEJuNRMZb6ZZEoSFrscJAKvCOFGQ3iMOJW5uACgkMgb3u2Xtpmv9RiHHu55Ih/25
+	6jSwb3ZxIS1g/Lzdri4nLGN5YavS6B9B1Q9rZ2pbsNA8SUktC3zvKjpVk8GYWnWXDREA
+	WjC3nB/+WpX+6Zmx4kzCPhQU3C0s1OxY20XP8fB8Ti3Z3aor+luLJ3D9/nad7sWgmB2l
+	xXAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
 	:cc:subject:content-transfer-encoding:mime-version;
-	bh=j9LMMJN607rXSieRXEOrrvZheAfG7vd/+ZZXaMWxdxU=;
-	b=mHg4z7CxY1FrgsK9qXn2BsYbCOn5OYrDpKOgXU9WYbo0dIYEpwqesE1H1okyxwMx8A
-	OJUQbsJKa/AIOvCjOn4kdNRl7h6QDiWAwtI9p1AJfou1R0OqX9UNdwRmfCx9v2JEckmn
-	pOxG8lCz7pq2hDLzhXtrm1LQciwzFevtaqyXUj/EcAwPP7u2bNA9ligUmqrIh+Od+5bc
-	m3btHe/ZfdGpdUUkJMFLQ1LqVTSdjHpXBLdVmrG2sdn6ay29a508RY63sfwtS4t9g/Gv
-	LzgoCMCB0I2kEmiAShlyCHwsSSiDQUwA2dGZTFUzTJ+61mBMZOJCxeAXz0Soj/AxDwQ7
-	u2QA==
-X-Gm-Message-State: APjAAAUnE59S/csO2l2TzVXgQSz37XYSeEcX9LUc0nTLbaEY9RQTVFUg
-	tyaY74bm6bfCHNILFPtzlodTxg==
-X-Google-Smtp-Source: APXvYqxxo+4WGkhR1cigGKBbG3pUwViWBeTbokRZtY48snSHa0ApEDlht5CVL8WEUFXIUoNUMgb5bQ==
-X-Received: by 2002:a17:902:2ec1:: with SMTP id
-	r59mr68153158plb.171.1554193323523; 
-	Tue, 02 Apr 2019 01:22:03 -0700 (PDT)
+	bh=cJIqyybd6eAdoENDZ2DqGLxhJJK4uYO25pS8cruhgSk=;
+	b=eNLidObbyMtQ0PN9tkNEgbBwLI6tBycLL4kbpjZlCfo/46detkVuxC4VfuSJMCqTrW
+	OGUgQXTcW8xceWJbSzsfEkT3A2cEVA/xsZg36I1A7MsD/4MZWjEvWXZ+cVGpD3WBVL9h
+	gb4OiQBAu2f6lrDex9w8DpzeHeteL7S0EnjF9gsbUSbDGlGWhShAdn3eMMGw6ZZEZDPz
+	tT0NTUCLn3ZlzvG6jO0DR+CrKZUj4Q9mlERNieaEdbOHIxIY1d677Fm9UT1NZClex19y
+	tYmOHTb3cE9AVE48wP1xi/Dmqifu8HodfTYqeQO1DLH7MIp4Ul52SpPsg+0oq5wSC/Ca
+	io8A==
+X-Gm-Message-State: APjAAAVJPcjALd2U57RM5G1lBAOL8FM9xlDUKjVdEN3nM1XiVjja8n9Y
+	GBZEirD/ahJGXgK1Gc1rV7Gp80rb9Ds=
+X-Google-Smtp-Source: APXvYqxe36PLo/mFdrAGOTbI8Sou1qav7IZ3YWvjv34DTg7StzCB0S6pd0JY/lGZyMwgzihUG67YUg==
+X-Received: by 2002:a63:cc0a:: with SMTP id x10mr52823597pgf.179.1554193328403;
+	Tue, 02 Apr 2019 01:22:08 -0700 (PDT)
 Received: from [127.0.1.1] ([101.184.73.181])
 	by smtp.gmail.com with UTF8SMTPSA id
-	d69sm29257143pfg.26.2019.04.02.01.22.01
+	g73sm24981968pfd.185.2019.04.02.01.22.06
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 02 Apr 2019 01:22:02 -0700 (PDT)
+	Tue, 02 Apr 2019 01:22:07 -0700 (PDT)
 Date: Tue, 02 Apr 2019 08:21:53 +0000
-Message-Id: <20190402082153.3630-2-nathan@nathanrossi.com>
+Message-Id: <20190402082153.3630-3-nathan@nathanrossi.com>
 In-Reply-To: <20190402082153.3630-1-nathan@nathanrossi.com>
 References: <20190402082153.3630-1-nathan@nathanrossi.com>
 From: Nathan Rossi <nathan@nathanrossi.com>
 To: openembedded-core@lists.openembedded.org
 MIME-Version: 1.0
-Subject: [PATCH 2/3] ccmake.bbclass: Create a cml1 style class for the CMake curses UI
+Subject: [PATCH 3/3] devtool: standard: Handle exporting generated config fragments
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,137 +59,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 08:22:02 -0000
+X-List-Received-Date: Tue, 02 Apr 2019 08:22:07 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-The ccmake bbclass implements two tasks. The first task 'ccmake'
-preserves the configured state of CMakeCache.txt (generated from the
-configure task) and invokes the 'ccmake' program within a oe_terminal
-execution. The user can then review, select and modify configuration
-options and once satisfied with the configuration exit ccmake. Once
-ccmake has exited the build can be run and the updated configuration
-should be reflected in the output build.
-
-The ccmake bbclass has a second task 'ccmake_diffconfig' to compute the
-differences in configuration which was modified by ccmake. Since there
-are many ways to persist the configuration changes within recipes and
-layer configuration, the differences are emitted as a bitbake recipe
-fragment (configuration.inc) using EXTRA_OECMAKE as well as a CMake
-script file which can be used as a input to cmake via the '-C' argument.
-Both files are generated in the WORKDIR of the build and the paths to
-the files are written as output from the build. It is then up to the
-user to take this configuration and apply it to the desired location.
+The cml1 and ccmake bbclasses generate configuration fragment source
+files that must be exported from the WORKDIR as a source file to be
+preserved across builds. This change adds detection of the current
+recipes inherited classes and for cml1 and ccmake classes checks for the
+specific generated configuration fragment files. These files are then
+exported by devtool and included as SRC_URI files from within the target
+layer.
 
 Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
 ---
- meta/classes/ccmake.bbclass | 97 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
- create mode 100644 meta/classes/ccmake.bbclass
+ scripts/lib/devtool/standard.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-diff --git a/meta/classes/ccmake.bbclass b/meta/classes/ccmake.bbclass
-new file mode 100644
-index 0000000000..933e122b35
---- /dev/null
-+++ b/meta/classes/ccmake.bbclass
-@@ -0,0 +1,97 @@
-+inherit terminal
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index ea09bbff31..0a1e329e61 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1328,6 +1328,20 @@ def _export_local_files(srctree, rd, destdir, srctreebase):
+                 if os.path.exists(os.path.join(local_files_dir, fragment_fn)):
+                     os.unlink(os.path.join(local_files_dir, fragment_fn))
+ 
++    # Special handling for cml1, ccmake, etc bbclasses that generated
++    # configuration fragment files that are consumed as source files
++    for frag_class, frag_name in [("cml1", "fragment.cfg"), ("ccmake", "site-file.cmake")]:
++        if bb.data.inherits_class(frag_class, rd):
++            srcpath = os.path.join(rd.getVar('WORKDIR'), frag_name)
++            if os.path.exists(srcpath):
++                if frag_name not in new_set:
++                    new_set.append(frag_name)
++                # copy fragment into destdir
++                shutil.copy2(srcpath, destdir)
++                # copy fragment into local files if exists
++                if os.path.isdir(local_files_dir):
++                    shutil.copy2(srcpath, local_files_dir)
 +
-+python do_ccmake() {
-+    import shutil
-+
-+    # copy current config for diffing
-+    config = os.path.join(d.getVar("B"), "CMakeCache.txt")
-+    if os.path.exists(config):
-+        shutil.copy(config, config + ".orig")
-+
-+    oe_terminal(d.expand("ccmake ${OECMAKE_GENERATOR_ARGS} ${OECMAKE_SOURCEPATH} -Wno-dev"),
-+        d.getVar("PN") + " - ccmake", d)
-+
-+    if os.path.exists(config) and os.path.exists(config + ".orig"):
-+        if bb.utils.md5_file(config) != bb.utils.md5_file(config + ".orig"):
-+            # the cmake class uses cmake --build, which will by default
-+            # regenerate configuration, simply mark the compile step as tainted
-+            # to ensure it is re-run
-+            bb.note("Configuration changed, recompile will be forced")
-+            bb.build.write_taint('do_compile', d)
-+
-+}
-+do_ccmake[depends] += "cmake-native:do_populate_sysroot"
-+do_ccmake[nostamp] = "1"
-+do_ccmake[dirs] = "${B}"
-+addtask ccmake after do_configure
-+
-+def cmake_parse_config_cache(path):
-+    with open(path, "r") as f:
-+        for i in f:
-+            i = i.rstrip("\n")
-+            if len(i) == 0 or i.startswith("//") or i.startswith("#"):
-+                continue # empty or comment
-+            key, value = i.split("=", 1)
-+            key, keytype = key.split(":")
-+            if keytype in ["INTERNAL", "STATIC"]:
-+                continue # skip internal and static config options
-+            yield key, keytype, value
-+
-+def cmake_diff_config_vars(a, b):
-+    removed, added = [], []
-+
-+    for ak, akt, av in a:
-+        found = False
-+        for bk, bkt, bv in b:
-+            if bk == ak:
-+                found = True
-+                if bkt != akt or bv != av: # changed
-+                    removed.append((ak, akt, av))
-+                    added.append((bk, bkt, bv))
-+                break
-+        # remove any missing from b
-+        if not found:
-+            removed.append((ak, akt, av))
-+
-+    # add any missing from a
-+    for bk, bkt, bv in b:
-+        if not any(bk == ak for ak, akt, av in a):
-+            added.append((bk, bkt, bv))
-+
-+    return removed, added
-+
-+python do_ccmake_diffconfig() {
-+    import shutil
-+    config = os.path.join(d.getVar("B"), "CMakeCache.txt")
-+    if os.path.exists(config) and os.path.exists(config + ".orig"):
-+        if bb.utils.md5_file(config) != bb.utils.md5_file(config + ".orig"):
-+            # scan the changed options
-+            old = list(cmake_parse_config_cache(config + ".orig"))
-+            new = list(cmake_parse_config_cache(config))
-+            _, added = cmake_diff_config_vars(old, new)
-+
-+            if len(added) != 0:
-+                with open(d.expand("${WORKDIR}/configuration.inc"), "w") as f:
-+                    f.write("EXTRA_OECMAKE += \" \\\n")
-+                    for k, kt, v in added:
-+                        escaped = v if " " not in v else "\"{0}\"".format(v)
-+                        f.write("    -D{0}:{1}={2} \\\n".format(k, kt, escaped))
-+                    f.write("    \"\n")
-+                bb.plain("Configuration recipe fragment written to: {0}".format(d.expand("${WORKDIR}/configuration.inc")))
-+
-+                with open(d.expand("${WORKDIR}/site-file.cmake"), "w") as f:
-+                    for k, kt, v in added:
-+                        f.write("SET({0} \"{1}\" CACHE {2} "")\n".format(k, v, kt))
-+                bb.plain("Configuration cmake fragment written to: {0}".format(d.expand("${WORKDIR}/site-file.cmake")))
-+
-+                # restore the original config
-+                shutil.copy(config + ".orig", config)
-+            else:
-+                bb.plain("No configuration differences, skipping configuration fragment generation.")
-+    else:
-+        bb.fatal("No config files found. Did you run ccmake?\n{0}".format(e))
-+}
-+do_ccmake_diffconfig[nostamp] = "1"
-+do_ccmake_diffconfig[dirs] = "${B}"
-+addtask ccmake_diffconfig
-+
+     if new_set is not None:
+         for fname in new_set:
+             if fname in existing_files:
 ---
 2.20.1
 
