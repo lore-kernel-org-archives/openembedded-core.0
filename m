@@ -1,30 +1,40 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 035F47C7A6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 05:56:27 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,298,1549900800"; d="scan'208";a="58273364"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 02 Apr 2019 13:56:27 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id 509C04CD7BA6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 13:56:28 +0800 (CST)
-Received: from localhost.local (10.167.225.84) by
-	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 2 Apr 2019 13:56:26 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 2 Apr 2019 13:57:04 +0800
-Message-ID: <20190402055704.23989-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id AC44360116;
+	Tue,  2 Apr 2019 06:51:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44YKcX693lz4T;
+	Tue,  2 Apr 2019 08:51:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1554187885;
+	bh=9Vslfiu4ks6EqT0/GeFlpHVLOQ/6yJVWB7nV5XWnhWg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tvxKPekSrYWAvqtodhShyIYp5YUGQqh4FoQhXOT8qSU1BO+XFHEVhQEKFsIFTZ4r6
+	VLPYxGJQAQMakLDhe7pdupZUY3XbXgMpwT87P/SoNZiKsR+0xZ8Hh1cdT+/k2q8PtV
+	v+UrM0E11f6znWio38wGAp6QImUKWnHRuAq+tIwtNZ/irKVRPIq2yLj8SQrKJVNPtM
+	RIal7JPu39gau5BlSS4V6ql7B1VpSoLXaRE7OLl7AZ1oARB5dJBZtD8O7L+FqNb2lp
+	pHyfJ6O7FdMzDZSeO7as+BVIHK/8tGREUkppIIhLpWp/if4tlKsNx6CMjIU8/ss5k8
+	VcPzMkLI1nuzARt9LoIQ3oEuq6FCckCWhbdWWBYijEVpfYfWmfpUx4Ek5hXuyEsIyY
+	AfOVVGoNDPPWW41uDWHTP/rj6OhcmhjY9dAebt+LZqMy7xrwZWhgMma8rzcGmNCBvD
+	CLanEB18EtMlbxPF3v+6gooK2hUZiouKl7HAtmb8EvjPEzJn/1J4tDldTKYSAGJ8RW
+	cJ540vp74aexICKtsa+bf6U40bB0l2d+v/geMCvkRxSI3ZLAJMRbdKQYoeBNdWcnM+
+	lcTNwYFAZKsizcdz6jfO4KM7syvUBmfG4ChRITKgR5CyTlMIoSCHNkW09cGRrt24rz
+	xXWWYEI7wmcmI0ZD1n2UT3QA=
+Date: Tue, 2 Apr 2019 09:51:21 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: akuster808 <akuster808@gmail.com>
+Message-ID: <20190402065121.GA31468@localhost>
+References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
+	<b08083fc2f63f6324a652706f8343a0b8defe209.camel@linuxfoundation.org>
+	<a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.84]
-X-yoursite-MailScanner-ID: 509C04CD7BA6.A9FBB
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] harfbuzz:upgrade 2.3.1 -> 2.4.0
+In-Reply-To: <a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Git commit process question.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 05:56:28 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Apr 2019 06:51:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
--Upgrade from harfbuzz_2.3.1.bb to harfbuzz_2.4.0.bb.
+On Mon, Apr 01, 2019 at 04:20:41PM -0700, akuster808 wrote:
+> 
+> 
+> On 4/1/19 4:02 PM, Richard Purdie wrote:
+> > On Mon, 2019-04-01 at 15:33 -0700, akuster808 wrote:
+> >> Hello,
+> >>
+> >> I have noticed a large number of git commits with no header
+> >> information being accepted.
+> > Can you be more specific about what "no header information" means? You
+> > mean a shortlog and no full log message?
+> Commits with just a "subject" and signoff. No additional information
+> 
+> We tend to reference back to how the kernel does things.
+> 
+> https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+> These two sections in particular.
+> 
+> 
+>     2) Describe your changes
+> 
+> Describe your problem. Whether your patch is a one-line bug fix or 5000
+> lines of a new feature, there must be an underlying problem that
+> motivated you to do this work. Convince the reviewer that there is a
+> problem worth fixing and that it makes sense for them to read past the
+> first paragraph.
+>...
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
----
- .../harfbuzz/{harfbuzz_2.3.1.bb => harfbuzz_2.4.0.bb}         | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_2.3.1.bb => harfbuzz_2.4.0.bb} (89%)
+The kernel does not have "upgrade foo to the latest upstream version" commits.
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.3.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
-similarity index 89%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_2.3.1.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
-index 4b292d8ea9..5855d77c50 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.3.1.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
- DEPENDS = "glib-2.0 cairo fontconfig freetype"
- 
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
--SRC_URI[md5sum] = "531de9df7c8a5405dd9c6a873fcee8c2"
--SRC_URI[sha256sum] = "f205699d5b91374008d6f8e36c59e419ae2d9a7bb8c5d9f34041b9a5abcae468"
-+SRC_URI[md5sum] = "ebccf8203103766383d4c5a0767b102d"
-+SRC_URI[sha256sum] = "9035005903da74667d28bb181986e879e11da3d5986722759fa145cca781ead6"
- 
- inherit autotools pkgconfig lib_package gtk-doc
- 
+With the Automatic Upgrade Helper this is a semi-automatic task, and 
+most of the time there is no specific motivation other than upgrading
+to the latest upstream version.
+
+cu
+Adrian
+
 -- 
-2.20.1
 
-
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
