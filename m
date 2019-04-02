@@ -1,27 +1,55 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 638657D15C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id A8B207CF9C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 07:49:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x327navV028783
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Apr 2019 00:49:37 -0700 (PDT)
-Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Tue, 2 Apr 2019 00:49:36 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20190402074427.26561-1-kai.kang@windriver.com>
-	<CAJTo0La4V_Wo74ZntnALqPfAYsrKsSGkibnx60mRwjqAG5Sn9A@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <a1341e2d-8687-2dcc-9d93-78e4cc46fed5@windriver.com>
-Date: Tue, 2 Apr 2019 15:49:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0La4V_Wo74ZntnALqPfAYsrKsSGkibnx60mRwjqAG5Sn9A@mail.gmail.com>
+	Tue,  2 Apr 2019 08:17:19 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id v14so2478857wmf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Apr 2019 01:17:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=aZeNA/ANBsKxHFCany+mHVj1x4AcvVqFm5VKGFbgUrs=;
+	b=qpu2IHLAcbWzBXwyDsvH7XiTaOJH2zAvT4NpUywzyUDy7Hk86MA+WIl3jhKhVqZHTq
+	dlbR7kZfW1By5mK3rgpgvO07WW1UURIn+91iiewXzmcdr6LDbBIrAP1wCCvqPmj3YLUT
+	eu7oB1+dUotI6M1PpJDYE8DP7ZUPp7OJ4I2dvTHmbp+PYQ7SVFgF2vdBCe7li8rMHrO+
+	of7NHMBF14oO9FyREcA9WQWF4hEmxPaUTU/mUhNxHW50uT1k1Ynanw1bH4I1XcxB0J0h
+	4nmmzmSSFllQsX0tiAVqKoPanr6pLu+Y9ktYb7ViLJjw8eAbQtn39k1aApCpxs32bbNN
+	ulhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=aZeNA/ANBsKxHFCany+mHVj1x4AcvVqFm5VKGFbgUrs=;
+	b=gfhLStLPOj24h1UcYyyE7lbrOmyHwToO+/Ec2MV3sKC57O3T42J6Vwb+V+qH0hce5o
+	O2+kp5MaAfU7Kqi/Yx+YS38C8PuuhFGebHRShIqh5Qih11cIhVhuf5f1hJBIqRT+u8o+
+	gLShIXcsLG+sq70LnXQT4j60PbKdSrcWI46HMsQsNyG7/K6vCu35E0XaXqQW17J3sNgn
+	chpFpreE+jr7XMNQ4mLim8MXdZMnO8XGKZ9Twn66o2DuSvBqNrvvDjBIl1H4HFxrUkXi
+	rjuUgQrcq2K5Fs85gwbjK24IauYQR0c1Nd/nSjqi59395SzlbzrKnS/nFAGBgK6aOnep
+	N1TQ==
+X-Gm-Message-State: APjAAAXcy1SFYLCFWJlQWO0qHqVwdx4S91foTeste+P8uQPhrqMT4k1b
+	B4DZAehuVWVW/X/j4qOvokNiKHvf
+X-Google-Smtp-Source: APXvYqyUFBrExVc29upaO44srURrqShXGcZCu0uFVEudHJ5/ZSwZ3NbAakkSuHTnWiAfzqa1m506DQ==
+X-Received: by 2002:a1c:c504:: with SMTP id v4mr2691959wmf.45.1554193040049;
+	Tue, 02 Apr 2019 01:17:20 -0700 (PDT)
+Received: from [10.128.45.74] ([141.113.67.87])
+	by smtp.gmail.com with ESMTPSA id
+	w18sm17936550wru.24.2019.04.02.01.17.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 02 Apr 2019 01:17:19 -0700 (PDT)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16D57)
+In-Reply-To: <7cbdc5ba6d0647678b7a3d2906f87a31@bio-logic.net>
+Date: Tue, 2 Apr 2019 10:17:18 +0200
+Message-Id: <48E585E9-78F9-4074-AF65-34CA70DE5D96@gmail.com>
+References: <cover.1554106752.git.xavier.berger@bio-logic.net>
+	<CANNYZj_CKFRAg9WByRfD56tOiV8FW-VfS4KyEN2YAniAxhaAtA@mail.gmail.com>
+	<7cbdc5ba6d0647678b7a3d2906f87a31@bio-logic.net>
+To: Xavier Berger <xavier.berger@bio-logic.net>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] avahi: fix CVE-2017-6519
+Subject: Re: [PULL][PATCH 0/2] Implement debian packages GPG signing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,120 +62,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 07:49:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 02 Apr 2019 08:17:19 -0000
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2019/4/2 下午3:46, Burton, Ross wrote:
-> The patch itself says two CVE IDs, so can you put them both in the
-> path header with your SOB please?
+Yes, that is fine. Let me know if something is not clear in that test case.
 
-I have checked CVE-2018-1000845 which is rejected that it is duplicate 
-of CVE-2017-6519. That why didn't list CVE-2018-1000845 in patch and 
-commit message.
+Btw, the apt version we have is badly out of date (and has a significant sec=
+urity issue I think) so if you can update that, that=E2=80=99d be awesome.
 
-Regards,
-Kai
+Alex
 
+> On 2 Apr 2019, at 9.36, Xavier Berger <xavier.berger@bio-logic.net> wrote:=
 
->
-> Ross
->
-> On Tue, 2 Apr 2019 at 08:45, <kai.kang@windriver.com> wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> Backport patch to fix CVE-2017-6519.
->>
->> CVE: CVE-2017-6519
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-connectivity/avahi/avahi.inc     |  4 +-
->>   .../avahi/files/fix-CVE-2017-6519.patch       | 48 +++++++++++++++++++
->>   2 files changed, 51 insertions(+), 1 deletion(-)
->>   create mode 100644 meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
->>
->> diff --git a/meta/recipes-connectivity/avahi/avahi.inc b/meta/recipes-connectivity/avahi/avahi.inc
->> index 11846849f0..8339e451f5 100644
->> --- a/meta/recipes-connectivity/avahi/avahi.inc
->> +++ b/meta/recipes-connectivity/avahi/avahi.inc
->> @@ -19,7 +19,9 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1 \
->>                       file://avahi-daemon/main.c;endline=21;md5=9ee77368c5407af77caaef1b07285969 \
->>                       file://avahi-client/client.h;endline=23;md5=f4ac741a25c4f434039ba3e18c8674cf"
->>
->> -SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz"
->> +SRC_URI = "https://github.com/lathiat/avahi/releases/download/v${PV}/avahi-${PV}.tar.gz \
->> +           file://fix-CVE-2017-6519.patch \
->> +           "
->>
->>   UPSTREAM_CHECK_URI = "https://github.com/lathiat/avahi/releases/"
->>   SRC_URI[md5sum] = "d76c59d0882ac6c256d70a2a585362a6"
->> diff --git a/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch b/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
->> new file mode 100644
->> index 0000000000..7461fe193d
->> --- /dev/null
->> +++ b/meta/recipes-connectivity/avahi/files/fix-CVE-2017-6519.patch
->> @@ -0,0 +1,48 @@
->> +Upstream-Status: Backport [https://github.com/lathiat/avahi/commit/e111def]
->> +
->> +CVE: CVE-2017-6519
->> +
->> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> +
->> +From e111def44a7df4624a4aa3f85fe98054bffb6b4f Mon Sep 17 00:00:00 2001
->> +From: Trent Lloyd <trent@lloyd.id.au>
->> +Date: Sat, 22 Dec 2018 09:06:07 +0800
->> +Subject: [PATCH] Drop legacy unicast queries from address not on local link
->> +
->> +When handling legacy unicast queries, ensure that the source IP is
->> +inside a subnet on the local link, otherwise drop the packet.
->> +
->> +Fixes #145
->> +Fixes #203
->> +CVE-2017-6519
->> +CVE-2018-1000845
->> +---
->> + avahi-core/server.c | 8 ++++++++
->> + 1 file changed, 8 insertions(+)
->> +
->> +diff --git a/avahi-core/server.c b/avahi-core/server.c
->> +index a2cb19a8..a2580e38 100644
->> +--- a/avahi-core/server.c
->> ++++ b/avahi-core/server.c
->> +@@ -930,6 +930,7 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
->> +
->> +     if (avahi_dns_packet_is_query(p)) {
->> +         int legacy_unicast = 0;
->> ++        char t[AVAHI_ADDRESS_STR_MAX];
->> +
->> +         /* For queries EDNS0 might allow ARCOUNT != 0. We ignore the
->> +          * AR section completely here, so far. Until the day we add
->> +@@ -947,6 +948,13 @@ static void dispatch_packet(AvahiServer *s, AvahiDnsPacket *p, const AvahiAddres
->> +             legacy_unicast = 1;
->> +         }
->> +
->> ++        if (!is_mdns_mcast_address(dst_address) &&
->> ++            !avahi_interface_address_on_link(i, src_address)) {
->> ++
->> ++            avahi_log_debug("Received non-local unicast query from host %s on interface '%s.%i'.", avahi_address_snprint(t, sizeof(t), src_address), i->hardware->name, i->protocol);
->> ++            return;
->> ++        }
->> ++
->> +         if (legacy_unicast)
->> +             reflect_legacy_unicast_query_packet(s, p, i, src_address, port);
->> +
->> --
->> 2.20.0
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
--- 
-Kai Kang
-
+>=20
+> Hi Alexender,=20
+>=20
+> I'm working on test case but I've a lot of things to understand (and setup=
+ to perform).
+> I'm basically taking dnf as example and creating a test for apt. Please le=
+t me know if you think my strategy is not correct.
+>=20
+> I'll let you know here when it will work.
+>=20
+> Xavier
+>=20
+> -----Original Message-----
+> From: Alexander Kanavin <alex.kanavin@gmail.com>=20
+> Sent: lundi 1 avril 2019 16:50
+> To: Xavier Berger <xavier.berger@bio-logic.net>
+> Cc: OE-core <openembedded-core@lists.openembedded.org>
+> Subject: Re: [OE-core] [PULL][PATCH 0/2] Implement debian packages GPG sig=
+ning
+>=20
+>> On Mon, 1 Apr 2019 at 15:57, Xavier Berger <xavier.berger@bio-logic.net> w=
+rote:
+>> Xavier Berger (2):
+>>  gpg-sign: Add parameters to gpg signature function
+>>  package_manager: sign DEB package feeds
+>>=20
+>> meta/lib/oe/gpg_sign.py        |  6 +++++-
+>> meta/lib/oe/package_manager.py | 19 ++++++++++++++++---
+>=20
+> How do we make sure this does not regress? Can you add a test case similar=
+ to one for rpm feed signing?
+>=20
+> Alex
 
