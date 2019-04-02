@@ -1,51 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id F28B57D265
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8999C7D29E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 20:26:47 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id q16so4843078wmj.3
+	Tue,  2 Apr 2019 20:52:35 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id i2so7132402pgj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 13:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=0svf6u+zq9YvzEcx81414j8V6GFCi2snh/CIG/gUDf0=;
-	b=Ak2T/Me1Eh/SLyPhictFv5BJIHACJ6yfB5qOfDF6xV+URQJpvfFwW7sZRArmoQXuYo
-	ckmzVTPJESjwYpsIUq8isxF1QbB+dSslm6zgbIJUwugjrMJILHdsJ0hwIL7St6TLMruL
-	ot35oMEfX3JOh/QhXym+m7ds3W5n5On9+OtRk=
+	Tue, 02 Apr 2019 13:52:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=REmBPh9PbOsKRXFklBoxyDJsqcrmanovZZY8w4thCBg=;
+	b=oLZHjvznbYcxXFYx7MXTNe8PRT/iPFr2Pn5Xj850Qpr4UtzE2Y8fTpknsZ95vySvjN
+	In/s6hbEE/4zdRJXUzZyV/76ozuNayIBoyJGk6HGN9bccclh5bPlfnCJLOUqgqWWw38H
+	6hqn9722bg1/A6xHvBzXp0p3C/9Qb5cMiH2/0jb/s6KV7BH3RF+/0EqtcREaiBWomFJ0
+	X1mDPiDvv9zROImWagsm9Kv1Kro/dIvFm8IIIbYagbiHilV9dUm1c5G2TWgmYmPM4M27
+	XXjkn3rMnVNNCSsHOwH7cNwd+VUfvt35lFatmTRTU1lHHMbmNuzs4woCoRU9qwWhLOaR
+	9KdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=0svf6u+zq9YvzEcx81414j8V6GFCi2snh/CIG/gUDf0=;
-	b=FMuos16IkORFritvGwP1XPTuOfRW0Fh7Mf2LIX+Q6JlyxnvjeVwGaZN0Xp6rZCQH9t
-	klTWrCPWFytaiaKnqpcKQCrDzLZLGQbM5orjzjPO2a9z/eqmYlGuBtmV/ceHXuYL455l
-	gUVAj1CHXCn8VZC6S03UYZj8zYNYqqY5KwCiwVrVdxhC26wK6tj0UNN5bmFMUH1yxWQn
-	kOSVjYbquIvSI24Z0NsXvX24hkyN16O47vyt2HKw4AiM/fUOK7qj4hWHKG93Afcg6uys
-	v2Exmvo7cLL2nLaKPODR0Te11EfTBUN/1XHTI40Lu+c9/XrNXfjKjPLVsSC3dystPbDs
-	F9Ww==
-X-Gm-Message-State: APjAAAUePQtRDYhMdsQEpSpeBRh/c/YqvsPYWJVhV06XiRowXZZo2otI
-	s0oUg3Nfg0hmxktBXRdL7L1ehw==
-X-Google-Smtp-Source: APXvYqzDXJOYR7HXX1Xbaet+YRP6cDARgQ1WrDFm5CAwwijHtrwX9LfvOY0p2Y/GxUyD9CEAf+wg+g==
-X-Received: by 2002:a1c:2087:: with SMTP id g129mr4996045wmg.114.1554236808358;
-	Tue, 02 Apr 2019 13:26:48 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=REmBPh9PbOsKRXFklBoxyDJsqcrmanovZZY8w4thCBg=;
+	b=Oi6/gjzGwK7++MlnCWREBBLp9/vLGHg2/MNSEqzGgvulxuOY2mN+A16scpes1FEXJe
+	3HotGoGmfe6owdnWQcdzcVJSB3jUFQPeK1WZGefT2Yvx/x202u9bdtfkn3ek3RpdTPMy
+	tZqdDCM3igC1LsVYLxWH0/j/gWAe2UyqnUJnvlgUZiUHHqcNI7WGa/sB6WlBdbNzDy0j
+	44bMNr6mhuWVJwT6XokxRI7O3MmJkC/6PIgkeG9yvmKh+hpG0jkvDHp9Wc1bKKzQ7a5r
+	13I2HcE28Wt/+Usu5xtrF9s6mhcIRACnVVqKYWhfOnB9Ngq3Ybn99ZbTKhy6uiIIU9fB
+	UUyw==
+X-Gm-Message-State: APjAAAV5W34za0P4QQV80x80Bfp/pbxzKt75fB8Ji8awgHM5ejhPbaQW
+	vKuAn2ypxj/B6yAR0R5xYOlJ9UGY
+X-Google-Smtp-Source: APXvYqxE3YM4/wHEsoVoZaBPvjLNXnI7liIFx9RcvM7m8qtAESGhL9AE7xrVh4t0oKFbfzw4I0nYFw==
+X-Received: by 2002:a63:5b4b:: with SMTP id l11mr68105836pgm.82.1554238356451; 
+	Tue, 02 Apr 2019 13:52:36 -0700 (PDT)
+Received: from [10.188.84.210] ([206.121.102.138])
 	by smtp.gmail.com with ESMTPSA id
-	x18sm15434953wmi.6.2019.04.02.13.26.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 02 Apr 2019 13:26:47 -0700 (PDT)
-Message-ID: <8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	i31sm27217617pgi.36.2019.04.02.13.52.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 02 Apr 2019 13:52:35 -0700 (PDT)
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
 	openembedded-core@lists.openembedded.org
-Date: Tue, 02 Apr 2019 21:26:46 +0100
-In-Reply-To: <cover.1554233389.git.pkj@axis.com>
 References: <cover.1554233389.git.pkj@axis.com>
-User-Agent: Evolution 3.32.0-1 
+	<65cd513a44ef0345fbdc94874aec631fde32b87e.1554233389.git.pkj@axis.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <2c93c78a-2c1d-7d81-af48-63e7f14fa850@gmail.com>
+Date: Tue, 2 Apr 2019 13:52:34 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/6] Correct and improve the ARM tunings
+In-Reply-To: <65cd513a44ef0345fbdc94874aec631fde32b87e.1554233389.git.pkj@axis.com>
+Subject: Re: [PATCH 2/6] Revert "arch-armv5-dsp.inc: Check for dsp only to enable 'e' in package arches"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +108,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 20:26:48 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Apr 2019 20:52:35 -0000
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Tue, 2019-04-02 at 21:30 +0200, Peter Kjellerstedt wrote:
-> These patches are intended to improve the ARM tunings and came about
-> after I had to study the tune files a lot more than I first had
-> anticipated...
-> 
-> The first patch (arch-armv8a.inc: Correct
-> PACKAGE_EXTRA_ARCHS_tune-armv8a-*) avoids odd architectures such as
-> "crc" and "crypto" to be included in PACKAGE_EXTRA_ARCHS.
-> 
-> The following three patches (where i have sent the latter two to the
-> list before) restores the "armv*" features to TUNE_FEATURES for all ARM
-> based SoCs as it does not make sense to remove them from the SoC
-> specific tune files just to determine whether -mcpu or -march shall be
-> used. This is because the SoCs still support the armv* features
-> specified in their TUNE_FEATURES even if they also have more specific
-> SoC tunings.
+Peter
 
-It depends how you view TUNE_FEATURES and what the presence of things 
-there is defined to mean.
+On 4/2/19 12:31 PM, Peter Kjellerstedt wrote:
+> This reverts commit 1d6d5bb30a83f9136b7c33e297d48564ae61b50e.
 
-"armv4t" is defined in the arm tune files to mean "add -march=armv4t"
-which is the convention used throughout all the tune files.
+What problem are you seeing that is being fixed by this revert?
+it may help decide if it need to be in warrior.
 
-I'm still not convinced this part of your changes improves the
-situation as it then breaks and confuses that situation.
-
-I'm also worried you're wanting this as you have code elsewhere which
-is using "armvX" there to mean something else?
-
-Cheers,
-
-Richard
-
+- armin
+>
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>  meta/conf/machine/include/arm/arch-armv5-dsp.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/conf/machine/include/arm/arch-armv5-dsp.inc b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
+> index d117af1520..1f16085fcd 100644
+> --- a/meta/conf/machine/include/arm/arch-armv5-dsp.inc
+> +++ b/meta/conf/machine/include/arm/arch-armv5-dsp.inc
+> @@ -1,4 +1,4 @@
+> -ARMPKGSFX_DSP = "${@bb.utils.contains('TUNE_FEATURES', [ 'dsp' ], 'e', '', d)}"
+> +ARMPKGSFX_DSP = "${@bb.utils.contains('TUNE_FEATURES', [ 'armv5', 'dsp' ], 'e', '', d)}"
+>  TUNEVALID[dsp] = "ARM DSP functionality"
+>  
+>  require conf/machine/include/arm/arch-armv5.inc
 
 
