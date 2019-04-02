@@ -1,45 +1,61 @@
-Return-Path: <37dmjXAMKABwO2C8GG8D6.4GE@flex--wak.bounces.google.com>
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com
-	[209.85.214.201])
-	by mail.openembedded.org (Postfix) with ESMTP id ABDA37D196
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B42BF7D2D8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 21:53:48 +0000 (UTC)
-Received: by mail-pl1-f201.google.com with SMTP id m37so10790145plg.22
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 14:53:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
-	h=date:message-id:mime-version:subject:from:to:cc;
-	bh=75ezkuxZDquA1LcTk2Qq19tHOmnLwmqNUgkU33GKRtA=;
-	b=Of4m3ri5i8SYWWb+gI7zWBIlxwmPaIoGlx7qAbXQ0Unm0xhMEtZs47annEVHhXQFv+
-	W86vQ1Y76Le14jnP8KTVi8hR0FDVHswetDoIeWqhy+CV5SPZk9L847y01zJZ98R/r2R+
-	7/SDDL8bkLCzSfINVVxcnWuve/6V2FJzMk8lhRnvZWd5wlRnoXcCkFKdhYXax15pX0nx
-	Lom/C6RavVxyY/q1J0S3AO7gRNMmKf1wJv570QaWEWMtxBYoTPLnWJ0ro2fBZwZ/kz80
-	r1huBdHUSQmJWDvq0RSa5aLSfRV4lQzsfJCqEWHMNKB9ZZWdyysNHd3WmxcDSJMbsA7z
-	/e9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
-	bh=75ezkuxZDquA1LcTk2Qq19tHOmnLwmqNUgkU33GKRtA=;
-	b=lkuE3bdYuQPcolS1skRhBQB2GgSSWljuS40l4KsUDTTXgSG3/smxaFF2A+VCzZxHjd
-	TuvFx2l7a3vqlduUGhsSUkmjsm+0tDzkIpJDiZkS3vOEE8Flhw5C0pUR6Bl1V/WhmEK5
-	I2fbjlL5xoGR6uyGkl0R/bUWTzZrxp64uilenhsU/cVkrmOAdTxNITvlmw4uaupb2zY7
-	VKVepdiKlGsn8IWdksrYAPgVvcZNcNgFMMFiNVJ6s+wKU5ktKu4ouQr7rt4Z1DmLkmzX
-	UvrHLhMtvH76fP3uhKw8+Hkh/c+kC8lYhH8/12TwsrE4ltrMANv0/Dl55yjTJx+0P/3C
-	PsPw==
-X-Gm-Message-State: APjAAAVYVbVhrS8DjsgJUY9HXch+CiYu9IbIFhWvWYWr7N/6PEpbpe70
-	20Pq4bw2cBxJ1j07Z3vIBqRsY7xNWF48iDtjRJi0rUqEiXL39FrQbkgS7x6CiF8OhFRacWfAnrm
-	zlhrH15woWs9KDzLozoYYWPiZL65kuzn4oAMQAnCVRxm0G8aIlN27KzxAd508WuEMCzTzwVCvF9
-	m7hw==
-X-Google-Smtp-Source: APXvYqyskhNzRxuuv5Htt66pdZujXRp2hYYNOh2+usRUrzssk+VJfEs+1TtsV/+2nmM83W5lj0AB0hA=
-X-Received: by 2002:a62:579a:: with SMTP id i26mr1472897pfj.122.1554242029666; 
-	Tue, 02 Apr 2019 14:53:49 -0700 (PDT)
-Date: Tue,  2 Apr 2019 14:53:47 -0700
-Message-Id: <20190402215347.117940-1-wak@google.com>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.21.0
-From: "William A. Kennington III" <wak@google.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] perl: Don't use TARGET_ARCH in filepaths
+	Tue,  2 Apr 2019 22:27:52 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 1D58118580;
+	Wed,  3 Apr 2019 00:27:53 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id TQbuA5W__i8T; Wed,  3 Apr 2019 00:27:51 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id BB12B18579;
+	Wed,  3 Apr 2019 00:27:51 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9DC761E077;
+	Wed,  3 Apr 2019 00:27:51 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 924BC1E074;
+	Wed,  3 Apr 2019 00:27:51 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Wed,  3 Apr 2019 00:27:51 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by seth.se.axis.com (Postfix) with ESMTP id 864EE2DB;
+	Wed,  3 Apr 2019 00:27:51 +0200 (CEST)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 3 Apr 2019 00:27:51 +0200
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 3 Apr 2019 00:27:51 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Wed, 3 Apr 2019 00:27:51 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 0/6] Correct and improve the ARM tunings
+Thread-Index: AQHU6YqyrSDnjht+pESghZILTcEnfaYpMCwAgAAukoA=
+Date: Tue, 2 Apr 2019 22:27:51 +0000
+Message-ID: <bc49fe0baf5e40bd8f2f2134d5616800@XBOX04.axis.com>
+References: <cover.1554233389.git.pkj@axis.com>
+	<8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
+In-Reply-To: <8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH 0/6] Correct and improve the ARM tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,40 +68,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 21:53:49 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 02 Apr 2019 22:27:53 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Platforms like powerpc64le have different variants of the same target.
-Perl guesses that the target should be called powerpc64le-linux, while
-TARGET_ARCH think it is called ppc64le-linux. If we use TARGET_ARCH
-for perl-native on powerpc64le this build will fail since the
-post-install rm command won't reference and existing file.
-
-We know that there is only one arch existing per build, so use a
-wildcard for finding the path instead of trying to guess the correct
-architecture name.
-
-Signed-off-by: William A. Kennington III <wak@google.com>
----
- meta/recipes-devtools/perl-sanity/perl_5.28.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-index 5aa7cd3ee1..f3948a5f8d 100644
---- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-+++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-@@ -107,8 +107,8 @@ do_install() {
-     install lib/ExtUtils/typemap ${D}${libdir}/perl5/${PV}/ExtUtils/
- 
-     # Fix up shared library
--    rm ${D}/${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/libperl.so
--    ln -sf ../../../../libperl.so.${PERL_LIB_VER} ${D}/${libdir}/perl5/${PV}/${TARGET_ARCH}-linux/CORE/libperl.so
-+    rm ${D}/${libdir}/perl5/${PV}/*/CORE/libperl.so
-+    ln -sf ../../../../libperl.so.${PERL_LIB_VER} $(echo ${D}/${libdir}/perl5/${PV}/*/CORE)/libperl.so
- }
- 
- do_install_append_class-target() {
--- 
-2.21.0
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDIgYXByaWwgMjAx
+OSAyMjoyNw0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCAwLzZdIENvcnJlY3QgYW5kIGltcHJvdmUgdGhl
+IEFSTSB0dW5pbmdzDQo+IA0KPiBPbiBUdWUsIDIwMTktMDQtMDIgYXQgMjE6MzAgKzAyMDAsIFBl
+dGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiBUaGVzZSBwYXRjaGVzIGFyZSBpbnRlbmRlZCB0
+byBpbXByb3ZlIHRoZSBBUk0gdHVuaW5ncyBhbmQgY2FtZSBhYm91dA0KPiA+IGFmdGVyIEkgaGFk
+IHRvIHN0dWR5IHRoZSB0dW5lIGZpbGVzIGEgbG90IG1vcmUgdGhhbiBJIGZpcnN0IGhhZA0KPiA+
+IGFudGljaXBhdGVkLi4uDQo+ID4NCj4gPiBUaGUgZmlyc3QgcGF0Y2ggKGFyY2gtYXJtdjhhLmlu
+YzogQ29ycmVjdA0KPiA+IFBBQ0tBR0VfRVhUUkFfQVJDSFNfdHVuZS1hcm12OGEtKikgYXZvaWRz
+IG9kZCBhcmNoaXRlY3R1cmVzIHN1Y2ggYXMNCj4gPiAiY3JjIiBhbmQgImNyeXB0byIgdG8gYmUg
+aW5jbHVkZWQgaW4gUEFDS0FHRV9FWFRSQV9BUkNIUy4NCj4gPg0KPiA+IFRoZSBmb2xsb3dpbmcg
+dGhyZWUgcGF0Y2hlcyAod2hlcmUgaSBoYXZlIHNlbnQgdGhlIGxhdHRlciB0d28gdG8gdGhlDQo+
+ID4gbGlzdCBiZWZvcmUpIHJlc3RvcmVzIHRoZSAiYXJtdioiIGZlYXR1cmVzIHRvIFRVTkVfRkVB
+VFVSRVMgZm9yIGFsbA0KPiA+IEFSTSBiYXNlZCBTb0NzIGFzIGl0IGRvZXMgbm90IG1ha2Ugc2Vu
+c2UgdG8gcmVtb3ZlIHRoZW0gZnJvbSB0aGUgU29DDQo+ID4gc3BlY2lmaWMgdHVuZSBmaWxlcyBq
+dXN0IHRvIGRldGVybWluZSB3aGV0aGVyIC1tY3B1IG9yIC1tYXJjaCBzaGFsbA0KPiA+IGJlIHVz
+ZWQuIFRoaXMgaXMgYmVjYXVzZSB0aGUgU29DcyBzdGlsbCBzdXBwb3J0IHRoZSBhcm12KiBmZWF0
+dXJlcw0KPiA+IHNwZWNpZmllZCBpbiB0aGVpciBUVU5FX0ZFQVRVUkVTIGV2ZW4gaWYgdGhleSBh
+bHNvIGhhdmUgbW9yZSBzcGVjaWZpYw0KPiA+IFNvQyB0dW5pbmdzLg0KPiANCj4gSXQgZGVwZW5k
+cyBob3cgeW91IHZpZXcgVFVORV9GRUFUVVJFUyBhbmQgd2hhdCB0aGUgcHJlc2VuY2Ugb2YgdGhp
+bmdzDQo+IHRoZXJlIGlzIGRlZmluZWQgdG8gbWVhbi4NCg0KVGhlIGFzc3VtcHRpb24gSSBtYWRl
+IHdhcyB0aGF0IHRoZSBmZWF0dXJlcyBsaXN0ZWQgaW4gVFVORV9GRUFUVVJFUyANCm1hdGNoZXMg
+d2hhdCBmZWF0dXJlcyB0aGUgY29tcGlsZXIvbGlua2VyIHdpbGwgbWFrZSB1c2Ugb2Ygd2hlbiAN
+CmJ1aWxkaW5nIHRoZSBjb2RlIGFuZCBzb21ldGhpbmcgdGhhdCBjYW4gYmUgY2hlY2tlZCBieSwg
+ZS5nLiwgcmVjaXBlcyANCnRvIGVuYWJsZS9kaXNhYmxlIGZ1bmN0aW9uYWxpdHkgdG8gbWF0Y2gg
+dGhpcy4gVGhlcmUgYXJlIGV4YW1wbGVzIG9mIA0KdGhpcyBpbiB0aGUgcmVjaXBlcyBpbiBPRS1D
+b3JlLCBlLmcuLCB3aGVyZSBUVU5FX0ZFQVRVUkVTIGlzIGNoZWNrZWQgDQp0byBkZXRlcm1pbmUg
+d2hhdCBvcHRpb25zIHRvIHBhc3MgdG8gY29uZmlndXJlLg0KDQpFLmcuLCB3aXRoIERFRkFVTFRU
+VU5FIHNldCB0byAiYXJtOTI2ZWpzIiwgVFVORV9GRUFUVVJFUyBleHBhbmRzIHRvIA0KImFybSBh
+cm12NSB0aHVtYiBkc3AgYXJtOTI2ZWpzIiAod2l0aCBUaHVkIGFuZCBvbGRlciwgb3Igd2l0aCBt
+eSANCnBhdGNoZXMgYXBwbGllZCkuIFRvIG1lIHRoaXMgbWVhbnMgdGhhdCBJIGNhbiBhc3N1bWUg
+dGhhdCBJIGNhbiB1c2UgDQphbnl0aGluZyB0aGF0IGlzIHNwZWNpZmljIHRvIGVpdGhlciBvZiB0
+aG9zZSBmZWF0dXJlcyB3aGVuIEkgZGVjaWRlIA0Kd2hhdCB0byBidWlsZC4gQW5kIGFsdGhvdWdo
+IGFybTkyNmVqcyBpbXBsaWVzIGFybXY1LCBoYXZpbmcgdGhlIA0KbGF0dGVyIGFzIGEgc2VwYXJh
+dGUgZmVhdHVyZSBtYWtlcyBpdCBwb3NzaWJsZSB0byB3cml0ZSBhIGdlbmVyaWMgDQp0ZXN0IGZv
+ciBhcm12NSB3aXRob3V0IGhhdmluZyB0byBrbm93IHRoZSBleGFjdCBTb0MgYW5kIHdoYXQgaXQg
+DQpzdXBwb3J0cy4NCg0KPiAiYXJtdjR0IiBpcyBkZWZpbmVkIGluIHRoZSBhcm0gdHVuZSBmaWxl
+cyB0byBtZWFuICJhZGQgLW1hcmNoPWFybXY0dCINCj4gd2hpY2ggaXMgdGhlIGNvbnZlbnRpb24g
+dXNlZCB0aHJvdWdob3V0IGFsbCB0aGUgdHVuZSBmaWxlcy4NCg0KSSBmYWlsIHRvIHNlZSB3aGVy
+ZSBpdCBzYXlzIHRoYXQgdGhlICJhcm12KiIgZmVhdHVyZXMgb2YgVFVORV9GRUFUVUVTIA0KYXJl
+IHRvIGJlIHVzZWQgdG8gc2V0IC1tYXJjaCBhbmQgbm90aGluZyBlbHNlLiBUaGF0IHNlZW1zIGxp
+a2UgYSB2ZXJ5IA0Kb2RkIGltcGxpY2F0aW9uIG9mIG9uZSBvZiB0aGUgbWFueSBmZWF0dXJlcyBz
+cGVjaWZpZWQgaW4gVFVORV9GRUFUVVJFUy4NCg0KSG93ZXZlciwgd2l0aCBteSBwYXRjaGVzIGFw
+cGxpZWQsIHRoZSAiYXJtdioiIGZlYXR1cmVzIHN0aWxsIHNheXMgdG8gDQpzZXQgLW1hcmNoLCB1
+bmxlc3MgdGhlcmUgaXMgYWxzbyBhIG1vcmUgc3BlY2lmaWMgdHVuZSBmZWF0dXJlLCBlLmcuLCAN
+CiJhcm05MjZlanMiLCB3aGljaCBtZWFucyAtbWNwdSB3aWxsIGJlIHVzZWQgaW5zdGVhZC4gSSBk
+b24ndCB0aGluayANCmRlY2lkaW5nIGJldHdlZW4gLW1jcHUgYW5kIC1tYXJjaCBzaG91bGQgYmUg
+YmFzZWQgb24gdGhlIGV4aXN0ZW5jZSBvciANCm5vbi1leGlzdGVuY2Ugb2YgYSBnaXZlbiBmZWF0
+dXJlIGluIFRVTkVfRkVBVFVSRVMsIGJ1dCByYXRoZXIgb24gdGhlIA0KY29udGV4dC4gVGhpcyBh
+bHNvIG1hdGNoZXMgaG93IHRoZSBUVU5FX0ZFQVRVUkVTX3R1bmUtYXJtKiB2YXJpYWJsZXMgDQph
+cmUgYmVpbmcgZGVmaW5lZCB3aXRoIG1vcmUgc3BlY2lmaWMgdmFyaWFibGVzIHN1Y2ggYXMgDQpU
+VU5FX0ZFQVRVUkVTX3R1bmUtYXJtOTI2ZWpzIGJlaW5nIGRlZmluZWQgYmFzZWQgb24gbW9yZSBn
+ZW5lcmljIA0KdmFyaWFibGVzIChUVU5FX0ZFQVRVUkVTX3R1bmUtYXJtdjV0ZSBpbiB0aGlzIGNh
+c2UpIGFuZCB0aGVuIGFkZGluZyANCnRoZSBtb3JlIHNwZWNpZmljIGZlYXR1cmUocykuDQoNCj4g
+SSdtIHN0aWxsIG5vdCBjb252aW5jZWQgdGhpcyBwYXJ0IG9mIHlvdXIgY2hhbmdlcyBpbXByb3Zl
+cyB0aGUNCj4gc2l0dWF0aW9uIGFzIGl0IHRoZW4gYnJlYWtzIGFuZCBjb25mdXNlcyB0aGF0IHNp
+dHVhdGlvbi4NCg0KQWNjb3JkaW5nIHRvIG15IHZpZXcgdGhlcmUgaXMgbGVzcyBjb25mdXNpb24g
+bm93LiBUVU5FX0ZFQVRVUkVTIHlldCANCmFnYWluIGRlc2NyaWJlcyB0aGUgZmVhdHVyZXMgdGhh
+dCBhcmUgc3VwcG9ydGVkLg0KDQo+IEknbSBhbHNvIHdvcnJpZWQgeW91J3JlIHdhbnRpbmcgdGhp
+cyBhcyB5b3UgaGF2ZSBjb2RlIGVsc2V3aGVyZSB3aGljaA0KPiBpcyB1c2luZyAiYXJtdlgiIHRo
+ZXJlIHRvIG1lYW4gc29tZXRoaW5nIGVsc2U/DQoNCkFjdHVhbGx5IHdlJ3JlIG5vdCB1c2luZyBh
+bnkgc3VjaCB0ZXN0cy4gSSBkaWQgdGhlIGluaXRpYWwgcmV3b3JrIA0KYmFzZWQgb24gdGhlIG5v
+dGlvbiB0aGF0IHRoZSBjaGFuZ2UgdGhhdCBoYWQgZ29uZSBpbnRvIHRoZSB0dW5pbmcgDQpmaWxl
+cyBmZWx0IHdyb25nLCB0ZWFyaW5nIG91dCB0aGUgc3RydWN0dXJlIHRoYXQgd2FzIHByZXZpb3Vz
+bHkgDQp0aGVyZSBpbiB0aGUgZGVmaW5pdGlvbnMgb2YgdGhlIFRVTkVfRkVBVFVSRVNfdHVuZS1h
+cm0qIHZhcmlhYmxlcywgDQphbmQgaG93IGl0IGhhZCBtZXNzZWQgdXAgbXkgdmlldyBvZiB3aGF0
+IHRoZSBmZWF0dXJlcyBpbiANClRVTkVfRkVBVFVSRVMgYXJlIHN1cHBvc2VkIHRvIG1lYW4uIEFu
+ZCBhZnRlciBoYXZpbmcgc3R1ZGllZCB0aG9zZSANCmZpbGVzIGEgbG90IG1vcmUsIHRoYXQgaW5p
+dGlhbCBub3Rpb24gc3RpbGwgaG9sZHMgdHJ1ZSBmb3IgbWUuDQoNCj4gQ2hlZXJzLA0KPiANCj4g
+UmljaGFyZA0KDQovL1BldGVyDQoNCg==
 
