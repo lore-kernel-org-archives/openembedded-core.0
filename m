@@ -1,53 +1,46 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id C13877D1A4
+Return-Path: <xavier.berger@bio-logic.net>
+X-Greylist: delayed 400 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 02 Apr 2019 07:43:35 UTC
+Received: from asp.reflexion.net (outbound-mail-211-30.reflexion.net
+	[208.70.211.30])
+	by mail.openembedded.org (Postfix) with ESMTP id 331F06C42C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Apr 2019 07:35:01 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id w1so15246528wrp.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 00:35:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=hczseSTrTNI4Uv64Y2AcoQbIf+7Q3AxOJfZ5KObUcEI=;
-	b=L5JxW5EUkBHu4iTctj+RsfjWLXLNFmHPpc2qkJxUpkMgdANQA3JoQ35DwYcoI8bce4
-	gkA8AlTHC9XcfvZu/rQhIRNzg9yxb5Mx8MT3DfdEJ8du7LX1UiEjFpDySWhTxcDTpCkp
-	zDkNFOg5q92kd4gauiX9z18MqMYCMEy5+y0relrorbIozNjhrHSmVFmO5gbJESGnKczT
-	40r/AnyAD+eADlrbroSE+h6JRxzbfJpTaPXdWFp7IoWibgJ3V36Pjh4xe0MYCwO5AREZ
-	nj0omfYXFYSvtjB5Df7gEapPnSJ6FDm10uPeKbv7a/tYqfm2Jp4yX61R8zB1d3+SBzc4
-	aRYg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=hczseSTrTNI4Uv64Y2AcoQbIf+7Q3AxOJfZ5KObUcEI=;
-	b=kga3lBkyxlb0kiRj6SqFholbh0pBP4FXaK3+/D9cS78xFr/RrhpfcR2s/nhqESWnw/
-	waEhyzGPHm+epbUcHbqjdlSzztUEzGvsZClwCNqUetKn3bpE3vth4P90xdtU1CgyyaD4
-	FC5edh4y8ubp0kSy1jKqe+j0WnEUmNke0C30z7PtWbcHeYR7mdcry6q00gcYoRvEH8Bo
-	zWzC3KA53rlItOEYV6VXSLtcwEpiWhSbKHE6JHgjT2QgvZe6t1QUrt6aa64qkOhfCkCf
-	S4TGjabskvmvJ4+c/70u9WfEJc4nW9/JmXycTsRvh9FECEqIcOXWS/HIY1tYAdf2enmo
-	+gbg==
-X-Gm-Message-State: APjAAAVY2iaGQdsNN/kGg7QaJKZoYpuUtQK0/lNDhZfJ8rBmtEAa+n3k
-	FaR3mhoeh937b8U6LtNARZY=
-X-Google-Smtp-Source: APXvYqxAwMDlR6xkZZFbh64lxtRzy55jnPqG/utgjA4+ocIR9HDETLRSFaZWT32QlSlAyv0dENmYqg==
-X-Received: by 2002:adf:cd90:: with SMTP id q16mr42827346wrj.75.1554190502531; 
-	Tue, 02 Apr 2019 00:35:02 -0700 (PDT)
-Received: from [10.128.45.74] ([141.113.67.87])
-	by smtp.gmail.com with ESMTPSA id
-	g132sm11911598wme.3.2019.04.02.00.35.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Apr 2019 00:35:01 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16D57)
-In-Reply-To: <20190401222843.31010-1-schnitzeltony@gmail.com>
-Date: Tue, 2 Apr 2019 09:35:00 +0200
-Message-Id: <51102B42-911B-4DAD-AB62-7C56061ADCA6@gmail.com>
-References: <20190401222843.31010-1-schnitzeltony@gmail.com>
-To: =?utf-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glib-networking: remove PACKAGECONFIG for gnutls
+	Tue,  2 Apr 2019 07:43:34 +0000 (UTC)
+Received: (qmail 31199 invoked from network); 2 Apr 2019 07:36:56 -0000
+Received: from unknown (HELO rtc-sm-01.app.dca.reflexion.local) (10.81.150.1)
+	by 0 (rfx-qmail) with SMTP; 2 Apr 2019 07:36:56 -0000
+Received: by rtc-sm-01.app.dca.reflexion.local
+	(Reflexion email security v9.22.0) with SMTP;
+	Tue, 02 Apr 2019 03:36:56 -0400 (EDT)
+Received: (qmail 14988 invoked from network); 2 Apr 2019 07:36:56 -0000
+Received: from unknown (HELO E15NYDAG-D16N01.sh11.lan) (67.214.141.234)
+	by 0 (rfx-qmail) with (AES256-SHA encrypted) SMTP;
+	2 Apr 2019 07:36:56 -0000
+Received: from E15NYDAG-D16N01.sh11.lan (10.115.8.25) by
+	E15NYDAG-D16N01.sh11.lan (10.115.8.25) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
+	15.1.1591.10; Tue, 2 Apr 2019 03:36:56 -0400
+Received: from E15NYDAG-D16N01.sh11.lan ([fe80::98e6:86b:1724:6c80]) by
+	E15NYDAG-D16N01.sh11.lan ([fe80::98e6:86b:1724:6c80%14]) with mapi id
+	15.01.1591.012; Tue, 2 Apr 2019 03:36:56 -0400
+From: Xavier Berger <xavier.berger@bio-logic.net>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Thread-Topic: [OE-core] [PULL][PATCH 0/2] Implement debian packages GPG signing
+Thread-Index: AQHU6GTx4G4h33HLE0ag9MnMsYtAJaYnpqwAgADSgPA=
+Date: Tue, 2 Apr 2019 07:36:56 +0000
+Message-ID: <7cbdc5ba6d0647678b7a3d2906f87a31@bio-logic.net>
+References: <cover.1554106752.git.xavier.berger@bio-logic.net>
+	<CANNYZj_CKFRAg9WByRfD56tOiV8FW-VfS4KyEN2YAniAxhaAtA@mail.gmail.com>
+In-Reply-To: <CANNYZj_CKFRAg9WByRfD56tOiV8FW-VfS4KyEN2YAniAxhaAtA@mail.gmail.com>
+Accept-Language: fr-FR, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [92.154.17.42]
+x-outbound-router: PLAD
+x-exclaimer-md-config: f0d3a6b8-613a-409d-aea5-530a0e693ae0
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PULL][PATCH 0/2] Implement debian packages GPG signing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +53,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Apr 2019 07:35:02 -0000
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Apr 2019 07:43:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-This option was re-instated in 2.60, can you add a comment to the recipe ple=
-ase? So that when it=E2=80=99s upgraded, gnutls is again optional.
-
-Alex
-
-> On 2 Apr 2019, at 0.28, Andreas M=C3=BCller <schnitzeltony@gmail.com> wrot=
-e:
->=20
-> * with patch suggested in [1] build complains with:
->  | ERROR: glib-networking-2.58.0-r0 do_configure: QA Issue: glib-networkin=
-g: configure was passed unrecognised options: gnutls [unknown-configure-opti=
-on]
-> * it turned mandatory - see meson.build:
->  | # *** Checks for GnuTLS     ***
->  | gnutls_dep =3D dependency('gnutls', version: '>=3D 3.4.4', required: tr=
-ue)
->=20
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2019-April/2=
-80693.html
->=20
-> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> ---
-> meta/recipes-core/glib-networking/glib-networking_2.58.0.bb | 5 +----
-> 1 file changed, 1 insertion(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb b=
-/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
-> index f3190e1cae0..a4138d67cc6 100644
-> --- a/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
-> +++ b/meta/recipes-core/glib-networking/glib-networking_2.58.0.bb
-> @@ -7,14 +7,11 @@ LICENSE =3D "LGPLv2.1"
-> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D4fbd65380cdd255951079008b364516=
-c"
->=20
-> SECTION =3D "libs"
-> -DEPENDS =3D "glib-2.0"
-> +DEPENDS =3D "glib-2.0 gnutls"
->=20
-> SRC_URI[archive.md5sum] =3D "75b14b7e73a67753be9ce307751c661d"
-> SRC_URI[archive.sha256sum] =3D "bdfa0255e031b8ee003cc283002536b77ee7645010=
-5f1dc6ab066b9bf4330068"
->=20
-> -PACKAGECONFIG ??=3D "gnutls"
-> -
-> -PACKAGECONFIG[gnutls] =3D "-Dgnutls=3Dtrue,-Dgnutls=3Dfalse,gnutls"
-> PACKAGECONFIG[libproxy] =3D "-Dlibproxy_support=3Dtrue,-Dlibproxy_support=3D=
-false,libproxy"
->=20
-> EXTRA_OEMESON =3D "-Dgnome_proxy_support=3Dfalse"
-> --=20
-> 2.20.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+SGkgQWxleGVuZGVyLCANCg0KSSdtIHdvcmtpbmcgb24gdGVzdCBjYXNlIGJ1dCBJJ3ZlIGEgbG90
+IG9mIHRoaW5ncyB0byB1bmRlcnN0YW5kIChhbmQgc2V0dXAgdG8gcGVyZm9ybSkuDQpJJ20gYmFz
+aWNhbGx5IHRha2luZyBkbmYgYXMgZXhhbXBsZSBhbmQgY3JlYXRpbmcgYSB0ZXN0IGZvciBhcHQu
+IFBsZWFzZSBsZXQgbWUga25vdyBpZiB5b3UgdGhpbmsgbXkgc3RyYXRlZ3kgaXMgbm90IGNvcnJl
+Y3QuDQoNCkknbGwgbGV0IHlvdSBrbm93IGhlcmUgd2hlbiBpdCB3aWxsIHdvcmsuDQoNClhhdmll
+cg0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogQWxleGFuZGVyIEthbmF2aW4g
+PGFsZXgua2FuYXZpbkBnbWFpbC5jb20+IA0KU2VudDogbHVuZGkgMSBhdnJpbCAyMDE5IDE2OjUw
+DQpUbzogWGF2aWVyIEJlcmdlciA8eGF2aWVyLmJlcmdlckBiaW8tbG9naWMubmV0Pg0KQ2M6IE9F
+LWNvcmUgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+DQpTdWJqZWN0
+OiBSZTogW09FLWNvcmVdIFtQVUxMXVtQQVRDSCAwLzJdIEltcGxlbWVudCBkZWJpYW4gcGFja2Fn
+ZXMgR1BHIHNpZ25pbmcNCg0KT24gTW9uLCAxIEFwciAyMDE5IGF0IDE1OjU3LCBYYXZpZXIgQmVy
+Z2VyIDx4YXZpZXIuYmVyZ2VyQGJpby1sb2dpYy5uZXQ+IHdyb3RlOg0KPiBYYXZpZXIgQmVyZ2Vy
+ICgyKToNCj4gICBncGctc2lnbjogQWRkIHBhcmFtZXRlcnMgdG8gZ3BnIHNpZ25hdHVyZSBmdW5j
+dGlvbg0KPiAgIHBhY2thZ2VfbWFuYWdlcjogc2lnbiBERUIgcGFja2FnZSBmZWVkcw0KPg0KPiAg
+bWV0YS9saWIvb2UvZ3BnX3NpZ24ucHkgICAgICAgIHwgIDYgKysrKystDQo+ICBtZXRhL2xpYi9v
+ZS9wYWNrYWdlX21hbmFnZXIucHkgfCAxOSArKysrKysrKysrKysrKysrLS0tDQoNCkhvdyBkbyB3
+ZSBtYWtlIHN1cmUgdGhpcyBkb2VzIG5vdCByZWdyZXNzPyBDYW4geW91IGFkZCBhIHRlc3QgY2Fz
+ZSBzaW1pbGFyIHRvIG9uZSBmb3IgcnBtIGZlZWQgc2lnbmluZz8NCg0KQWxleA0K
 
