@@ -1,51 +1,59 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 11B7C7D34C
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8C5007D369
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 14:40:46 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id r4so21710065wrq.8
+	Wed,  3 Apr 2019 14:41:14 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id x14so15166554eds.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 07:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=XtiZW+KxJu29MPHi/QLRIxFdHvF/v6cShDrzZ2GkbVU=;
-	b=RMxQ+e4ADCdtR6cE6FzD+i4J7EmsL0c9stD2/Hj06mjAOsAG6MBgCpEpPGlfsEyhzV
-	WBVC6U1j/bFzit6i/aqEddDRE1x8RQ44UF9/2w+6H/aEuuKS50iHnXSMlqz22qZzNghR
-	FAJi2yQGsCXHAtVvw962xhVzNCPRUlJcuEcPU=
+	Wed, 03 Apr 2019 07:41:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=7889NLI0s35grXq1VYGM1Ulq7Z0ewFiYzH0BLVVvfB4=;
+	b=imZ9ypxcftP+LJk5MPzVJXNiKU7pcLfWtQQ+s3dQsjLnk299jQVllks9Psn+EbY4vf
+	rIQzVNcJOwZb1I14cQy0SH4Z8VZPYIMD9KrUyvO6x0iT6Z1X+msOPWUOgfLSx/pt06Y5
+	sba6YcrFtMFrjGIybEjzyrPn98MOS3ACUxygc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=XtiZW+KxJu29MPHi/QLRIxFdHvF/v6cShDrzZ2GkbVU=;
-	b=g9efpxJprLlXpgetJeg0L+TUKzvYILA6wGfFfWiT3G/+zUxnaCYUUd61R86KghLzi3
-	pS2z8dmt+LNAjXwQMdERAKgVmCXBcbDCI/OhSbsG1l7XtNMeku0f8mFtmYB2PxluFNoL
-	XLqHvX+nCLoIgv2/s6QjQ/tVNBvqzcUuY7hneBpkTvz+gufQJQa1byLNoRbPf1S9NlA0
-	grUYb3mauM37jJCn2M9jq0LLLs7dfkOzyiXDwNAcs+luWxIs9aQ9KsAXkPsmkLUs0w5I
-	GbWKhkwD6kFo0279uGxuH+2Y+VVCZympaxnr/fvRc9QRkaC7HlUq9qa1YKuuki+XlgIr
-	SKDA==
-X-Gm-Message-State: APjAAAVmEHIbJg+D7Bsz1B0KhKM5KH9zZZ+9A+zmjzl51bfUjDS1Tr39
-	gXI0mZmamr5OSccl3wIflWpQHSRWeasrww==
-X-Google-Smtp-Source: APXvYqw+3ckmoU6GYSfNtWby0AMwTDjXbq+dDx1iPFelI/GnTNPIEyyHfOZg+x0pyc4quJ9L+nSXRw==
-X-Received: by 2002:a5d:54c4:: with SMTP id x4mr48184497wrv.296.1554302447388; 
-	Wed, 03 Apr 2019 07:40:47 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r9sm17216873wmh.38.2019.04.03.07.40.45
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=7889NLI0s35grXq1VYGM1Ulq7Z0ewFiYzH0BLVVvfB4=;
+	b=k8OpGtjNEys1/jzU+nZS1mZp7tPFFJd8oD6qHWwRCeB3G9xoEJ+0I8SqD/U4aFlz8+
+	7IeWZKvUyybANvLwLi7Xe1uxOgjdn14JJSJPlNCZsNVpnol+PZ5dgDC6AXnwaXvIH00+
+	amkcnDk5mwCuvDU2oEitjrzx9p52bFA/OJXJBOJ2EzpDfrT0C7yBqYAzGKP2GsQaRILe
+	7YJ2g421pEUU0iPCypp7AjX7aNveS1pmc2fETbA2f8t/p1RsfwhgcesVA+PHfS7251WG
+	KzL8DKiQqxqjkDXDvd49GLUKoEzakvglnuMvqJ+OYpeTuthd4nM41Xleu8nVSov/1IL0
+	l0gA==
+X-Gm-Message-State: APjAAAU8Buv890c+c6lDCap/I1fnNdn5qCQeooyVQQ50+roTD/XK/m+L
+	dfWw6QySBuH0WcZYDmoUKQsbvw==
+X-Google-Smtp-Source: APXvYqyvPh0Py7FXIAzV5WrzrSAhrD/eCtk0FYF+ZzRbB92wvosWvhE1aY2jTvmEvhGoE2vS9ax6MQ==
+X-Received: by 2002:a17:906:4f83:: with SMTP id o3mr76696eju.188.1554302475135;
+	Wed, 03 Apr 2019 07:41:15 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-134-105.ec.res.rr.com.
+	[65.184.134.105])
+	by smtp.gmail.com with ESMTPSA id g3sm3067440ejp.31.2019.04.03.07.41.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 07:40:45 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2019 15:40:43 +0100
-Message-Id: <20190403144043.4566-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190403144043.4566-1-richard.purdie@linuxfoundation.org>
-References: <20190403144043.4566-1-richard.purdie@linuxfoundation.org>
+	Wed, 03 Apr 2019 07:41:13 -0700 (PDT)
+Date: Wed, 3 Apr 2019 10:41:10 -0400
+From: Tom Rini <trini@konsulko.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20190403144110.GG4664@bill-the-cat>
+References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
+	<b08083fc2f63f6324a652706f8343a0b8defe209.camel@linuxfoundation.org>
+	<a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
+	<20190402065121.GA31468@localhost>
+	<20190402194614.GY4664@bill-the-cat>
+	<CAJTo0LZ5qeDA+rQ5Eh3_LCbGtQyo732LrDkiZ=O4sh52cjXU=w@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] resulttool: Allow extraction of ptest data
+In-Reply-To: <CAJTo0LZ5qeDA+rQ5Eh3_LCbGtQyo732LrDkiZ=O4sh52cjXU=w@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Adrian Bunk <bunk@stusta.de>
+Subject: Re: [oe] Git commit process question.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,107 +66,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 14:40:47 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 03 Apr 2019 14:41:14 -0000
+X-Groupsio-MsgNum: 122995
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="J1ldk4ymECC/Y9sn"
+Content-Disposition: inline
 
-Rather than simply discarding the ptest data, change the code to discard
-it when writing out the new testresult files, or optionally either preserve
-it, or write it as seperate discrete logs.
+--J1ldk4ymECC/Y9sn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This means the autobuilder should start writing out individual ptest log
-files as well as allowing ueers to extract these manually.
+On Wed, Apr 03, 2019 at 11:30:39AM +0100, Burton, Ross wrote:
+> On Tue, 2 Apr 2019 at 20:46, Tom Rini <trini@konsulko.com> wrote:
+> > > The kernel does not have "upgrade foo to the latest upstream version"=
+ commits.
+> > >
+> > > With the Automatic Upgrade Helper this is a semi-automatic task, and
+> > > most of the time there is no specific motivation other than upgrading
+> > > to the latest upstream version.
+> >
+> > But since that's just filling in a template the body can also be a
+> > template perhaps with useful AUH data (run at ... by ... ?) ?
+>=20
+> Apart from making the commit message longer what does this achieve?
+> The commit already has a timestamp and author.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/lib/resulttool/resultutils.py | 39 +++++++++++++++++++++------
- scripts/lib/resulttool/store.py       |  2 +-
- 2 files changed, 32 insertions(+), 9 deletions(-)
+It's an etiquette thing.  Subject+Sign-off+Empty body is bad form.  AUH
+updates are a form of "trivial update" that every project has.  "Update
+$X from version $Y to $Z" is what a human would normally put.  It's
+weird looking at git log of nothing but subject+signed-off-by.  I'm not
+going to object further on this point, but I don't get it.
 
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index 153f2b8e107..ad40ac8499d 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -15,6 +15,7 @@
- import os
- import json
- import scriptpath
-+import copy
- scriptpath.add_oe_lib_path()
- 
- flatten_map = {
-@@ -60,12 +61,6 @@ def append_resultsdata(results, f, configmap=store_map):
-         testpath = "/".join(data[res]["configuration"].get(i) for i in configmap[testtype])
-         if testpath not in results:
-             results[testpath] = {}
--        if 'ptestresult.rawlogs' in data[res]['result']:
--            del data[res]['result']['ptestresult.rawlogs']
--        if 'ptestresult.sections' in data[res]['result']:
--            for i in data[res]['result']['ptestresult.sections']:
--                if 'log' in data[res]['result']['ptestresult.sections'][i]:
--                    del data[res]['result']['ptestresult.sections'][i]['log']
-         results[testpath][res] = data[res]
- 
- #
-@@ -93,15 +88,43 @@ def filter_resultsdata(results, resultid):
-                  newresults[r][i] = results[r][i]
-     return newresults
- 
--def save_resultsdata(results, destdir, fn="testresults.json"):
-+def strip_ptestresults(results):
-+    newresults = copy.deepcopy(results)
-+    #for a in newresults2:
-+    #  newresults = newresults2[a]
-+    for res in newresults:
-+        if 'result' not in newresults[res]:
-+            continue
-+        if 'ptestresult.rawlogs' in newresults[res]['result']:
-+            del newresults[res]['result']['ptestresult.rawlogs']
-+        if 'ptestresult.sections' in newresults[res]['result']:
-+            for i in newresults[res]['result']['ptestresult.sections']:
-+                if 'log' in newresults[res]['result']['ptestresult.sections'][i]:
-+                    del newresults[res]['result']['ptestresult.sections'][i]['log']
-+    return newresults
-+
-+def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, ptestlogs=False):
-     for res in results:
-         if res:
-             dst = destdir + "/" + res + "/" + fn
-         else:
-             dst = destdir + "/" + fn
-         os.makedirs(os.path.dirname(dst), exist_ok=True)
-+        resultsout = results[res]
-+        if not ptestjson:
-+            resultsout = strip_ptestresults(results[res])
-         with open(dst, 'w') as f:
--            f.write(json.dumps(results[res], sort_keys=True, indent=4))
-+            f.write(json.dumps(resultsout, sort_keys=True, indent=4))
-+        for res2 in results[res]:
-+            if ptestlogs and 'result' in results[res][res2]:
-+                if 'ptestresult.rawlogs' in results[res][res2]['result']:
-+                    with open(dst.replace(fn, "ptest-raw.log"), "w+") as f:
-+                        f.write(results[res][res2]['result']['ptestresult.rawlogs']['log'])
-+                if 'ptestresult.sections' in results[res][res2]['result']:
-+                    for i in results[res][res2]['result']['ptestresult.sections']:
-+                        if 'log' in results[res][res2]['result']['ptestresult.sections'][i]:
-+                            with open(dst.replace(fn, "ptest-%s.log" % i), "w+") as f:
-+                                f.write(results[res][res2]['result']['ptestresult.sections'][i]['log'])
- 
- def git_get_result(repo, tags):
-     git_objs = []
-diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
-index 3a81933242b..e4a08075287 100644
---- a/scripts/lib/resulttool/store.py
-+++ b/scripts/lib/resulttool/store.py
-@@ -68,7 +68,7 @@ def store(args, logger):
-             results = revisions[r]
-             keywords = {'commit': r[0], 'branch': r[1], "commit_count": r[2]}
-             subprocess.check_call(["find", tempdir, "!", "-path", "./.git/*", "-delete"])
--            resultutils.save_resultsdata(results, tempdir)
-+            resultutils.save_resultsdata(results, tempdir, ptestlogs=True)
- 
-             logger.info('Storing test result into git repository %s' % args.git_dir)
- 
--- 
-2.20.1
+--=20
+Tom
 
+--J1ldk4ymECC/Y9sn
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcpMYFAAoJEIf59jXTHXZSNM4P/jiot9v78SXY7AC4hLN3E/0t
+/VkrNGTD9THD1r76eurhrpyzvQ+jipTlJoaepp3ZtUdKc9kg50SM+nlfo25NnmzE
+S4n5QsCqH41oHj+t2AW6xikRhOifOvbilsFH9HSGW4mppJNCsU7BJ6gm9xb+HS2F
+GCKZknUNCrV3VTNBRyJBt1gRJRBhLU47aIoF2JlY5QXBcDDaEfDKE0Nm05ABoIev
+4bLyEjzua6YTngNpJnoGyiAMAZQVVlC/pNAlHSIpRSGLoYONjDUm2d7AfNmhnf2n
+GFrea2lhOhPN8VtbQPcKqxdEhYcALXy6+OHJeH0giTNH2NcZxfs9nSRzftKlSdON
+/V3X1oYfiXKnDnz1eLSkGhxBUYlwUEiQSmWkiYgROvXNDCw8iYT7WtcXuTl/HFJl
+3WDiM/FmF6EsdpLUaIS9kezz49Z237Y+LlMuOuR9jwBxTUNiYrg1wgOlIIeH7GKL
+H5PbYOe3LuqwIsHuDWpdMeUGD3SmkiNhB7C+sUyicN5Xgy8SxdMiE5LJ/rqyeh2m
+a2t+il0iT/UhAARjpweiRbCpLY8NpV4FRb4RTwJa+8EAB++CeiBdLtKQrdrXn2+F
+3edSJehcr7kTRLmbhnpqVez9l2cCrRXxQSnVU8IlvPdYYwrY3mo3NfyI2/fShQ5x
+DThFd9nYeXvzBD20F2Hc
+=4enG
+-----END PGP SIGNATURE-----
+
+--J1ldk4ymECC/Y9sn--
