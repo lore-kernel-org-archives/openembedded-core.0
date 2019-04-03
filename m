@@ -1,50 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 445467D2FD
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 713A17D34C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 13:58:06 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id h18so8409976wml.1
+	Wed,  3 Apr 2019 14:40:46 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id z11so7773139wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 06:58:07 -0700 (PDT)
+	Wed, 03 Apr 2019 07:40:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=N2igmQL3qMs6tSBo36Yj7XZI4ioN7EZYbiqg2hu4v+U=;
-	b=Gpc99USXJaatmMr9klaD/DgQ8E/pIMjrd3UPsijT2+16ahfXKPHLZekipJPbOxcX42
-	E79V/AfFvAX1ZeI/kT7J3xfRs1SOPclyDuanAYS5UIQIwvF3vOxENfH0lRP2y/VETZ+R
-	Nc8vNkxAKnxXdyjA7Ztl3tw43GMG9LkrG+KJQ=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9MEOedJXeQ29m7mder6vly4h6msnQBwRFRyRWiyJUkM=;
+	b=dt81bzkMz2snXHHKqgLth2FDcioJYmsSfps6IvlrOHl0IAK0ig+h23QNrwqm2ChPEo
+	QsDXLEdu1GEU6G4gkgwq5OwJIa0zyyE7L/+iR7l0kd3q8YhWg9ublgKblFBdeLSNjWZM
+	kTPBvyV1dN8uSNXpU6TQRTl8rxkPlVe1T7Vyg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=N2igmQL3qMs6tSBo36Yj7XZI4ioN7EZYbiqg2hu4v+U=;
-	b=UGhhARRSMxDaERDhgF9B/zYd/YXrD11ult1YzYAPA0rKMYKXaiClMfZcfx8+cdslfb
-	0pciyUvVv6vxkxQD9bFIyjY6w8Un3hOBvMK2NQeK51DdWsTTrZo0BYokY46D3HZqNT2x
-	Ozp2K8x9q6ZGa2rwYT4kDDk6B4M+5pqHQVREgOd5QljaMJUzS/FKVzKPrpMoZNgCL50F
-	4HEf9lrQ+gQcCFKa4rVDbJEkq1a6GOgVnBUMfVCMXgbKppn810IR6cdqnxZS7jhUdQ3k
-	LhHhz5622nGVf2OKnsjjoblf19Ik4Crzb8YFc0yd1NNkDEFAI/1gpeHYGk8sgDogMjsw
-	zruQ==
-X-Gm-Message-State: APjAAAUKDQHVnsXpmcnl4CcDRdJcx6Mr/RWRij7lxacVrv2baCz6uF8R
-	wa/vZGvpj8b1YrIUoY73D6TkJQ==
-X-Google-Smtp-Source: APXvYqzMdnDO1VL8VRuP50x/SSoaETw2XLgxwbCFFNOvCxej6+T9zCewrU2Z5obPMQM/5w9SApiLYQ==
-X-Received: by 2002:a1c:c910:: with SMTP id f16mr58331wmb.47.1554299886938;
-	Wed, 03 Apr 2019 06:58:06 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9MEOedJXeQ29m7mder6vly4h6msnQBwRFRyRWiyJUkM=;
+	b=VN4CzH9ELylI33BiKeiTnVfIPrtPYSzlih4NNLwZb2jmPpxGHJEtFx1kR9vOQFl9pl
+	NHfnxMLkslsJeQHRMzfoXKO39CvUGhWYEwg+krPIhXA7sSMGdc2ird3uuardgBpNao13
+	GW6UYp3DRR9aq4PFIs/88zoHe5qy5Xl9e4HXalN0BLO17WHxBDxd6J2eNmw5c0CJq9OF
+	BigJFquMHhla1fjGoMGhkYf5EIKru6T2qkqr2gP087sAJyM1JImRPMPnoqzpZwwvM+56
+	syGo3bpEfRkUTosG/R6+Q0dp/B3WZIGoEtFS/CmRe96aKSpbuhGVDi2foTL95DXFJUh9
+	ry7w==
+X-Gm-Message-State: APjAAAXTLTj/SrPPCTdVkJn+XW0HxfKvLimQLlYAzF0yOeW+u7wpcQUe
+	yXMZFpaDn1yuehb8j+G5OyzFvB/fIK6zvg==
+X-Google-Smtp-Source: APXvYqxNLXBOclKcLcxGFDnUBAMEnu+3IjQNU2q1V9zsHu8Ml1M7kx/FU7iqUpDx6vCW8eju7ffXJQ==
+X-Received: by 2002:a1c:f413:: with SMTP id z19mr293085wma.71.1554302445607;
+	Wed, 03 Apr 2019 07:40:45 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	v16sm25212311wru.76.2019.04.03.06.58.05
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 03 Apr 2019 06:58:05 -0700 (PDT)
-Message-ID: <089f9da0ec7f175fcf327994f31e0728f75313a0.camel@linuxfoundation.org>
+	r9sm17216873wmh.38.2019.04.03.07.40.43
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 03 Apr 2019 07:40:44 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org
-Date: Wed, 03 Apr 2019 14:58:04 +0100
-In-Reply-To: <20190403131822.19503-1-sno@netbsd.org>
-References: <20190403131822.19503-1-sno@netbsd.org>
-User-Agent: Evolution 3.32.0-1 
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Apr 2019 15:40:42 +0100
+Message-Id: <20190403144043.4566-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] support CONFIG_MODULE_COMPRESS=y
+Subject: [PATCH 1/2] resulttool: Allow store to work on single files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 13:58:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2019 14:40:46 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2019-04-03 at 15:18 +0200, Jens Rehsack wrote:
-> In case, kernel config enables compressed modules, support of
-> splitting via split_kernel_module_packages won't find any module.
-> So, first expand module pattern regex to recognize compressed
-> modules and then objcopy on temporary extacted to extract module
-> information.
-> 
-> Signed-off-by: Jens Rehsack <sno@netbsd.org>
-> ---
->  meta/classes/kernel-module-split.bbclass | 36 +++++++++++++++++-----
-> --
->  1 file changed, 26 insertions(+), 10 deletions(-)
+Store operations using a single file as a source weren't working as the os.walk
+command didn't like being given a single file. Fix the store operation to
+work for single files.
 
-There is a lot of whitespace noise in this, could you clean that up and
-resend please?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ scripts/lib/resulttool/store.py | 21 ++++++++++++---------
+ 1 file changed, 12 insertions(+), 9 deletions(-)
 
-Cheers,
-
-Richard
+diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
+index 5e33716c3dc..3a81933242b 100644
+--- a/scripts/lib/resulttool/store.py
++++ b/scripts/lib/resulttool/store.py
+@@ -29,15 +29,18 @@ def store(args, logger):
+     try:
+         results = {}
+         logger.info('Reading files from %s' % args.source)
+-        for root, dirs,  files in os.walk(args.source):
+-            for name in files:
+-                f = os.path.join(root, name)
+-                if name == "testresults.json":
+-                    resultutils.append_resultsdata(results, f)
+-                elif args.all:
+-                    dst = f.replace(args.source, tempdir + "/")
+-                    os.makedirs(os.path.dirname(dst), exist_ok=True)
+-                    shutil.copyfile(f, dst)
++        if os.path.isfile(args.source):
++            resultutils.append_resultsdata(results, args.source)
++        else:
++            for root, dirs,  files in os.walk(args.source):
++                for name in files:
++                    f = os.path.join(root, name)
++                    if name == "testresults.json":
++                        resultutils.append_resultsdata(results, f)
++                    elif args.all:
++                        dst = f.replace(args.source, tempdir + "/")
++                        os.makedirs(os.path.dirname(dst), exist_ok=True)
++                        shutil.copyfile(f, dst)
+ 
+         revisions = {}
+ 
+-- 
+2.20.1
 
 
