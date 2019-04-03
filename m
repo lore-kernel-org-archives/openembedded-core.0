@@ -1,49 +1,47 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E0387D20A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f178.google.com (mail-it1-f178.google.com
+	[209.85.166.178])
+	by mail.openembedded.org (Postfix) with ESMTP id C5C797D07D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 13:26:41 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id p10so21382763wrq.1
+	Wed,  3 Apr 2019 13:34:50 +0000 (UTC)
+Received: by mail-it1-f178.google.com with SMTP id z126so10995665itd.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 06:26:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id;
-	bh=gcpZIYYpQ9G+BXawmLeHMKlrERCiwIBOq5UHKAealgE=;
-	b=mPRIpkJfT4QoaLa4PNvsiknxRi89OWmaRSW8KQBq9U5NHdheG5BXID2yFxNjxCkViM
-	pJHp/SffXzCTx1XTi77laXdzji0T6WvBoJ6uy7sf8VIaPTXKSJf6pvsQTYVct0QNXaY2
-	e1XIT2ZDftShHlYMcl6wtDIX4JohbTqt+bROU64UdRTHKamyXGRZoueXFsZ4WyYwuE5d
-	S4p/e4jtS3HjBaJU08aaHCAob42mCLOzOX0ySRqa3VGbfC3X8LJryWuQUy4as4lUQ3Y5
-	c1hNTq5yysx5LPjie76j+lvTcbLY60kVdyjvnLFXZzJqi7Z5B/vMKAqnZj1UDNXJnJ3F
-	OvIQ==
+	Wed, 03 Apr 2019 06:34:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=iwp98955+uCC1udL30jVa5TQxAlUA2uAnNZPHIHNz5M=;
+	b=U7aTL01HI2oK6OX2yOpKmmO6OVdj85q/4VBYx4XrcCwNV04PEQN2/k/23H0fVWiDG6
+	tLTUguMDnClBbN70NNbJK2ORuEj2Hg4DSDOozJVyH2hZSoGwbooArT6kOM6iMUMKyDMY
+	bildpN0//dvMPyKQdNfXn2W/ihReSu3xxFbhHD+RINZCvkLrIcU/6rNd9KuGdL/iSshT
+	M70UjCYpvUoYpio3u/ZfYfG9GVvf3AEnevddqR3whgpK76KGOrfmWYsipizUeIWNOn4c
+	gnovdJKcblrWOqtgdoms3MCKzUNn5/cgtNjsuIJyPIszhR+aQMkE95qYebFWJajrZ0dA
+	3F6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
-	bh=gcpZIYYpQ9G+BXawmLeHMKlrERCiwIBOq5UHKAealgE=;
-	b=boEgYbCY/3wFsd3gICjMjculKWjDbaKukua8HfMvDFnKbKG+ANXaHDwrrsvpgMEk6d
-	YGVPjrXg5CTuCKIBEEbXf6mO0r/yMuJaLSIbKGza2hEfV/DSaWkFX8ThfISHsJlY2F4/
-	Ezgz+eAfZyfCQ6lkDNIezl+qA0r39cX+haopSW5s+7Id9UWdxJjBpzNjTSngE+UaIIfZ
-	z+Z075kO8b2JWbSb4WrKQbZ+qvO3Ag/IK83eEGLW3PlW0PnxZY4F/h6XLBc4PZL82wpE
-	nX0etLd+ZGGuFkFdxR2a5Lsh30sOTQ7jw0GphvaBc+FT7SjptXgwmgM+gyqvh5cQ9FI/
-	mA9A==
-X-Gm-Message-State: APjAAAXpT3TzGlhOGUUHpNJomMBpwfYp/wgH1wQS4hzonArEh23zrhwb
-	jowCjPkpbMX/7fQYpzyHelU3fuZNZ/M=
-X-Google-Smtp-Source: APXvYqzVr/ChhJlFivDU6u+QB3q91uaXQsSejxvfxcWOk2Pqi0+xTKurUZy/o+2oKSeRgUCHgWh/hw==
-X-Received: by 2002:a5d:448b:: with SMTP id j11mr51001897wrq.218.1554298001568;
-	Wed, 03 Apr 2019 06:26:41 -0700 (PDT)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	g8sm28142535wro.77.2019.04.03.06.26.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 06:26:40 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2019 15:26:19 +0200
-Message-Id: <20190403132619.17948-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] perl-sanity: support cpan versions of core modules
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=iwp98955+uCC1udL30jVa5TQxAlUA2uAnNZPHIHNz5M=;
+	b=NuIziU8RjL2CfMx2YNGMlD3SlRZOFLFG65YTqIocJyISVabEIFcXA7mgdFyjL+0vF9
+	XcVFQEeGXmLrZR+kckUnqdTPK6KkKuI7uZDZO8gOpeif6nUUnqaNduqrIKHpbkw3A1Ml
+	7FCBzc5X0TAolUyh6jT5OVl9UE6smPkM5LsFArNGBvWwvKzN6lhCvq+hnDyRwGS8/Hb0
+	mLkqwSwulvvbDaifYtbQkSy3TwGNS6ohrqRfH3+IlwIzFYPgBSizeg2hUyfFqlBs2cXA
+	pnihtiqzgSiS7uYS52M7sm26cwJUDk+aGncXKubgy2S23yweL7qMvZj5tAeBw7NGLOPp
+	sLnA==
+X-Gm-Message-State: APjAAAW3pdXw7BH5zawfow5ef6OOh9GTP7nm+FHelgNe6+3GUJ2uapfT
+	fkR7ZGD8Tq29zUd94cxvO7GhbAE0qlGS/bN9Kp0zRdp5
+X-Google-Smtp-Source: APXvYqzAvVPAyO8XQ5SS8y2xikNRzs9by3eD4lRWZ93x+bKUgediWXpyH6uCbcUP3XrCmjZP0WQ35enEZqdUXTqhUQs=
+X-Received: by 2002:a02:b78e:: with SMTP id f14mr188912jam.43.1554298491354;
+	Wed, 03 Apr 2019 06:34:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190403123657.10547-1-ovidiu.panait@windriver.com>
+In-Reply-To: <20190403123657.10547-1-ovidiu.panait@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Apr 2019 14:34:39 +0100
+Message-ID: <CAJTo0LZ_zeiAChah_z4TMauj4vNhmHghQqezjnL4T2kJUeUiww@mail.gmail.com>
+To: Ovidiu Panait <ovidiu.panait@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [thud][PATCH] ghostscript: Fix CVE-2019-3835 and CVE-2019-3838
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,66 +54,809 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 13:26:41 -0000
+X-List-Received-Date: Wed, 03 Apr 2019 13:34:51 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Most of perl core modules are dual-life modules which exists on CPAN
-as well as they do in perl core. Sometime, fixes are uploaded to CPAN
-before a new perl is released which contains the fix of the core
-module. Also, some modules recent releases aren't fully backported
-to earlier releases (out of support, lack of specific feature, ...),
-which makes it up to the distribution build to choose between core
-or CPAN version, respectively.
+Have all of these been resolved in master?
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- .../perl-sanity/perl_5.28.1.bb                | 33 +++++++++++++++++++
- 1 file changed, 33 insertions(+)
+Ross
 
-diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-index 5aa7cd3ee1..e609c056d0 100644
---- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-+++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
-@@ -172,6 +172,39 @@ perl_package_preprocess () {
-             ${PKGD}${libdir}/perl5/config.sh
- }
- 
-+inherit update-alternatives
-+
-+ALTERNATIVE_PRIORITY = "100"
-+
-+ALTERNATIVE_${PN} = "corelist cpan enc2xs encguess h2ph h2xs instmodsh json_pp libnetcfg \
-+                     piconv pl2pm pod2html pod2man pod2text pod2usage podchecker podselect \
-+                     prove ptar ptardiff ptargrep shasum splain xsubpp zipdetails"
-+ALTERNATIVE_LINK_NAME[corelist] = "${bindir}/corelist"
-+ALTERNATIVE_LINK_NAME[cpan] = "${bindir}/cpan"
-+ALTERNATIVE_LINK_NAME[enc2xs] = "${bindir}/enc2xs"
-+ALTERNATIVE_LINK_NAME[encguess] = "${bindir}/encguess"
-+ALTERNATIVE_LINK_NAME[h2ph] = "${bindir}/h2ph"
-+ALTERNATIVE_LINK_NAME[h2xs] = "${bindir}/h2xs"
-+ALTERNATIVE_LINK_NAME[instmodsh] = "${bindir}/instmodsh"
-+ALTERNATIVE_LINK_NAME[json_pp] = "${bindir}/json_pp"
-+ALTERNATIVE_LINK_NAME[libnetcfg] = "${bindir}/libnetcfg"
-+ALTERNATIVE_LINK_NAME[piconv] = "${bindir}/piconv"
-+ALTERNATIVE_LINK_NAME[pl2pm] = "${bindir}/pl2pm"
-+ALTERNATIVE_LINK_NAME[pod2html] = "${bindir}/pod2html"
-+ALTERNATIVE_LINK_NAME[pod2man] = "${bindir}/pod2man"
-+ALTERNATIVE_LINK_NAME[pod2text] = "${bindir}/pod2text"
-+ALTERNATIVE_LINK_NAME[pod2usage] = "${bindir}/pod2usage"
-+ALTERNATIVE_LINK_NAME[podchecker] = "${bindir}/podchecker"
-+ALTERNATIVE_LINK_NAME[podselect] = "${bindir}/podselect"
-+ALTERNATIVE_LINK_NAME[prove] = "${bindir}/prove"
-+ALTERNATIVE_LINK_NAME[ptar] = "${bindir}/ptar"
-+ALTERNATIVE_LINK_NAME[ptardiff] = "${bindir}/ptardiff"
-+ALTERNATIVE_LINK_NAME[ptargrep] = "${bindir}/ptargrep"
-+ALTERNATIVE_LINK_NAME[shasum] = "${bindir}/shasum"
-+ALTERNATIVE_LINK_NAME[splain] = "${bindir}/splain"
-+ALTERNATIVE_LINK_NAME[xsubpp] = "${bindir}/xsubpp"
-+ALTERNATIVE_LINK_NAME[zipdetails] = "${bindir}/zipdetails"
-+
- require perl-ptest.inc
- 
- FILES_${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/libperl.so* \
--- 
-2.17.1
-
+On Wed, 3 Apr 2019 at 13:39, Ovidiu Panait <ovidiu.panait@windriver.com> wrote:
+>
+> It was found that the superexec operator was available in the internal
+> dictionary in ghostscript before 9.27. A specially crafted PostScript
+> file could use this flaw in order to, for example, have access to the
+> file system outside of the constrains imposed by -dSAFER.
+>
+> It was found that the forceput operator could be extracted from the
+> DefineResource method in ghostscript before 9.27. A specially crafted
+> PostScript file could use this flaw in order to, for example, have
+> access to the file system outside of the constrains imposed by -dSAFER.
+>
+> References:
+> https://nvd.nist.gov/vuln/detail/CVE-2019-3835
+> https://nvd.nist.gov/vuln/detail/CVE-2019-3838
+>
+> Upstream patches:
+> http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=779664d
+> http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=e8acf6d
+> http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=2055917
+> http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=d683d1e
+> http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=ed9fcd9
+> http://git.ghostscript.com/?p=ghostpdl.git;a=commitdiff;h=a82601e
+>
+> Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> ---
+>  .../ghostscript/CVE-2019-3835-0001.patch      |  99 ++++++
+>  .../ghostscript/CVE-2019-3835-0002.patch      |  71 +++++
+>  .../ghostscript/CVE-2019-3835-0003.patch      | 295 ++++++++++++++++++
+>  .../ghostscript/CVE-2019-3835-0004.patch      | 167 ++++++++++
+>  .../ghostscript/CVE-2019-3838-0001.patch      |  34 ++
+>  .../ghostscript/CVE-2019-3838-0002.patch      |  30 ++
+>  .../ghostscript/ghostscript_9.26.bb           |   6 +
+>  7 files changed, 702 insertions(+)
+>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0001.patch
+>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0002.patch
+>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0003.patch
+>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0004.patch
+>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0001.patch
+>  create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0002.patch
+>
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0001.patch
+> new file mode 100644
+> index 0000000000..30ce04a7b1
+> --- /dev/null
+> +++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0001.patch
+> @@ -0,0 +1,99 @@
+> +From ad3ad6b389653722507e588c5cb34d8731e49e89 Mon Sep 17 00:00:00 2001
+> +From: Chris Liddell <chris.liddell@artifex.com>
+> +Date: Mon, 26 Nov 2018 18:01:25 +0000
+> +Subject: [PATCH] Have gs_cet.ps run from gs_init.ps
+> +
+> +Previously gs_cet.ps was run on the command line, to set up the interpreter
+> +state so our output more closely matches the example output for the QL CET
+> +tests.
+> +
+> +Allow a -dCETMODE command line switch, which will cause gs_init.ps to run the
+> +file directly.
+> +
+> +This works better for gpdl as it means the changes are made in the intial
+> +interpreter state, rather than after initialisation is complete.
+> +
+> +This also means adding a definition of the default procedure for black
+> +generation and under color removal (rather it being defined in-line in
+> +.setdefaultbgucr
+> +
+> +Also, add a check so gs_cet.ps only runs once - if we try to run it a second
+> +time, we'll just skip over the file, flushing through to the end.
+> +
+> +CVE: CVE-2019-3835
+> +Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
+> +
+> +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +---
+> + Resource/Init/gs_cet.ps  | 11 ++++++++++-
+> + Resource/Init/gs_init.ps | 13 ++++++++++++-
+> + 2 files changed, 22 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/Resource/Init/gs_cet.ps b/Resource/Init/gs_cet.ps
+> +index d3e1686..75534bb 100644
+> +--- a/Resource/Init/gs_cet.ps
+> ++++ b/Resource/Init/gs_cet.ps
+> +@@ -1,6 +1,11 @@
+> + %!PS
+> + % Set defaults for Ghostscript to match Adobe CPSI behaviour for CET
+> +
+> ++systemdict /product get (PhotoPRINT SE 5.0v2) readonly eq
+> ++{
+> ++  (%END GS_CET) .skipeof
+> ++} if
+> ++
+> + % do this in the server level so it is persistent across jobs
+> + //true 0 startjob not {
+> +   (*** Warning: CET startup is not in server default) = flush
+> +@@ -25,7 +30,9 @@ currentglobal //true setglobal
+> +
+> + /UNROLLFORMS true def
+> +
+> +-{ } bind dup
+> ++(%.defaultbgrucrproc) cvn { } bind def
+> ++
+> ++(%.defaultbgrucrproc) cvn load dup
+> + setblackgeneration
+> + setundercolorremoval
+> + 0 array cvx readonly dup dup dup setcolortransfer
+> +@@ -109,3 +116,5 @@ userdict /.smoothness currentsmoothness put
+> + % end of slightly nasty hack to give consistent cluster results
+> +
+> + //false 0 startjob pop                % re-enter encapsulated mode
+> ++
+> ++%END GS_CET
+> +diff --git a/Resource/Init/gs_init.ps b/Resource/Init/gs_init.ps
+> +index 45bebf4..e6b9cd2 100644
+> +--- a/Resource/Init/gs_init.ps
+> ++++ b/Resource/Init/gs_init.ps
+> +@@ -1538,10 +1538,18 @@ setpacking
+> +   % any-part-of-pixel rule.
+> +   0.5 .setfilladjust
+> + } bind def
+> ++
+> + % Set the default screen and BG/UCR.
+> ++% We define the proc here, rather than inline in .setdefaultbgucr
+> ++% for the benefit of gs_cet.ps so jobs that do anything that causes
+> ++% .setdefaultbgucr to be called will still get the redefined proc
+> ++% in gs_cet.ps
+> ++(%.defaultbgrucrproc) cvn { pop 0 } def
+> ++
+> + /.setdefaultbgucr {
+> +   systemdict /setblackgeneration known {
+> +-    { pop 0 } dup setblackgeneration setundercolorremoval
+> ++    (%.defaultbgrucrproc) cvn load dup
+> ++    setblackgeneration setundercolorremoval
+> +   } if
+> + } bind def
+> + /.useloresscreen {    % - .useloresscreen <bool>
+> +@@ -2491,4 +2499,7 @@ WRITESYSTEMDICT {
+> + % be 'true' in some cases.
+> + userdict /AGM_preserve_spots //false put
+> +
+> ++systemdict /CETMODE .knownget
+> ++{ { (gs_cet.ps) runlibfile } if } if
+> ++
+> + % The interpreter will run the initial procedure (start).
+> +--
+> +2.18.1
+> +
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0002.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0002.patch
+> new file mode 100644
+> index 0000000000..590b92e186
+> --- /dev/null
+> +++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0002.patch
+> @@ -0,0 +1,71 @@
+> +From ba6dbd6e61dbb3cc6ee6db9dd3a4f70cc18f706e Mon Sep 17 00:00:00 2001
+> +From: Nancy Durgin <nancy.durgin@artifex.com>
+> +Date: Thu, 14 Feb 2019 10:09:00 -0800
+> +Subject: [PATCH] Undef /odef in gs_init.ps
+> +
+> +Made a new temporary utility function in gs_cet.ps (.odef) to use instead
+> +of /odef.  This makes it fine to undef odef with all the other operators in
+> +gs_init.ps
+> +
+> +This punts the bigger question of what to do with .makeoperator, but it
+> +doesn't make the situation any worse than it already was.
+> +
+> +CVE: CVE-2019-3835
+> +Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
+> +
+> +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +---
+> + Resource/Init/gs_cet.ps  | 10 ++++++++--
+> + Resource/Init/gs_init.ps |  1 +
+> + 2 files changed, 9 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/Resource/Init/gs_cet.ps b/Resource/Init/gs_cet.ps
+> +index 75534bb..dbc5c4e 100644
+> +--- a/Resource/Init/gs_cet.ps
+> ++++ b/Resource/Init/gs_cet.ps
+> +@@ -1,6 +1,10 @@
+> + %!PS
+> + % Set defaults for Ghostscript to match Adobe CPSI behaviour for CET
+> +
+> ++/.odef {              % <name> <proc> odef -
+> ++  1 index exch .makeoperator def
+> ++} bind def
+> ++
+> + systemdict /product get (PhotoPRINT SE 5.0v2) readonly eq
+> + {
+> +   (%END GS_CET) .skipeof
+> +@@ -93,8 +97,8 @@ userdict /.smoothness currentsmoothness put
+> +    } {
+> +      /setsmoothness .systemvar /typecheck signalerror
+> +    } ifelse
+> +-} bind odef
+> +-/currentsmoothness { userdict /.smoothness get } bind odef % for 09-55.PS, 09-57.PS .
+> ++} bind //.odef exec
+> ++/currentsmoothness { userdict /.smoothness get } bind //.odef exec % for 09-55.PS, 09-57.PS .
+> +
+> + % slightly nasty hack to give consistent cluster results
+> + /ofnfa systemdict /filenameforall get def
+> +@@ -113,6 +117,8 @@ userdict /.smoothness currentsmoothness put
+> +   } ifelse
+> +   ofnfa
+> + } bind def
+> ++
+> ++currentdict /.odef undef
+> + % end of slightly nasty hack to give consistent cluster results
+> +
+> + //false 0 startjob pop                % re-enter encapsulated mode
+> +diff --git a/Resource/Init/gs_init.ps b/Resource/Init/gs_init.ps
+> +index e6b9cd2..80d9585 100644
+> +--- a/Resource/Init/gs_init.ps
+> ++++ b/Resource/Init/gs_init.ps
+> +@@ -2257,6 +2257,7 @@ SAFER { .setsafeglobal } if
+> +   /.systemvmSFD /.settrapparams /.currentsystemparams /.currentuserparams /.getsystemparam /.getuserparam /.setsystemparams /.setuserparams
+> +   /.checkpassword /.locale_to_utf8 /.currentglobal /.gcheck /.imagepath /.currentoutputdevice
+> +   /.type /.writecvs /.setSMask /.currentSMask /.needinput /.countexecstack /.execstack /.applypolicies
+> ++  /odef
+> +
+> +   % Used by a free user in the Library of Congress. Apparently this is used to
+> +   % draw a partial page, which is then filled in by the results of a barcode
+> +--
+> +2.18.1
+> +
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0003.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0003.patch
+> new file mode 100644
+> index 0000000000..a339fa2f33
+> --- /dev/null
+> +++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0003.patch
+> @@ -0,0 +1,295 @@
+> +From 4203e04ef9e6ca22ed68a1ab10a878aa9ceaeedc Mon Sep 17 00:00:00 2001
+> +From: Ray Johnston <ray.johnston@artifex.com>
+> +Date: Thu, 14 Feb 2019 10:20:03 -0800
+> +Subject: [PATCH] Fix bug 700585: Restrict superexec and remove it from
+> + internals and gs_cet.ps
+> +
+> +Also while changing things, restructure the CETMODE so that it will
+> +work with -dSAFER. The gs_cet.ps is now run when we are still at save
+> +level 0 with systemdict writeable. Allows us to undefine .makeoperator
+> +and .setCPSImode internal operators after CETMODE is handled.
+> +
+> +Change previous uses of superexec to using .forceput (with the usual
+> +.bind executeonly to hide it).
+> +
+> +CVE: CVE-2019-3835
+> +Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
+> +
+> +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +---
+> + Resource/Init/gs_cet.ps   | 38 ++++++++++++++------------------------
+> + Resource/Init/gs_dps1.ps  |  2 +-
+> + Resource/Init/gs_fonts.ps |  8 ++++----
+> + Resource/Init/gs_init.ps  | 38 +++++++++++++++++++++++++++-----------
+> + Resource/Init/gs_ttf.ps   |  8 ++++----
+> + Resource/Init/gs_type1.ps |  6 +++---
+> + 6 files changed, 53 insertions(+), 47 deletions(-)
+> +
+> +diff --git a/Resource/Init/gs_cet.ps b/Resource/Init/gs_cet.ps
+> +index dbc5c4e..3cc6883 100644
+> +--- a/Resource/Init/gs_cet.ps
+> ++++ b/Resource/Init/gs_cet.ps
+> +@@ -1,37 +1,29 @@
+> + %!PS
+> + % Set defaults for Ghostscript to match Adobe CPSI behaviour for CET
+> +
+> +-/.odef {              % <name> <proc> odef -
+> +-  1 index exch .makeoperator def
+> +-} bind def
+> +-
+> ++% skip if we've already run this -- based on fake "product"
+> + systemdict /product get (PhotoPRINT SE 5.0v2) readonly eq
+> + {
+> +   (%END GS_CET) .skipeof
+> + } if
+> +
+> +-% do this in the server level so it is persistent across jobs
+> +-//true 0 startjob not {
+> +-  (*** Warning: CET startup is not in server default) = flush
+> +-} if
+> ++% Note: this must be run at save level 0 and when systemdict is writeable
+> ++currentglobal //true setglobal
+> ++systemdict dup dup dup
+> ++/version (3017.102) readonly .forceput                % match CPSI 3017.102
+> ++/product (PhotoPRINT SE 5.0v2) readonly .forceput     % match CPSI 3017.102
+> ++/revision 0 put                       % match CPSI 3017.103 Tek shows revision 5
+> ++/serialnumber dup {233640} readonly .makeoperator .forceput % match CPSI 3017.102 Tek shows serialnumber 1401788461
+> ++
+> ++systemdict /.odef {           % <name> <proc> odef -
+> ++  1 index exch //.makeoperator def
+> ++} .bind .forceput          % this will be undefined at the end
+> +
+> + 300 .sethiresscreen   % needed for language switch build since it
+> +                         % processes gs_init.ps BEFORE setting the resolution
+> +
+> + 0 array 0 setdash % CET 09-08 wants local setdash
+> +
+> +-currentglobal //true setglobal
+> +-
+> +-{
+> +-  systemdict dup dup dup
+> +-  /version (3017.102) readonly put            % match CPSI 3017.102
+> +-  /product (PhotoPRINT SE 5.0v2) readonly put % match CPSI 3017.102
+> +-  /revision 0 put                     % match CPSI 3017.103 Tek shows revision 5
+> +-  /serialnumber dup {233640} readonly .makeoperator put % match CPSI 3017.102 Tek shows serialnumber 1401788461
+> +-  systemdict /deviceinfo undef                  % for CET 20-23-1
+> +-%  /UNROLLFORMS true put                 % CET files do unreasonable things inside forms
+> +-} 1183615869 internaldict /superexec get exec
+> +-
+> + /UNROLLFORMS true def
+> +
+> + (%.defaultbgrucrproc) cvn { } bind def
+> +@@ -118,9 +110,7 @@ userdict /.smoothness currentsmoothness put
+> +   ofnfa
+> + } bind def
+> +
+> +-currentdict /.odef undef
+> +-% end of slightly nasty hack to give consistent cluster results
+> +-
+> +-//false 0 startjob pop                % re-enter encapsulated mode
+> ++systemdict /.odef .undef
+> +
+> ++% end of slightly nasty hack to give consistent cluster results
+> + %END GS_CET
+> +diff --git a/Resource/Init/gs_dps1.ps b/Resource/Init/gs_dps1.ps
+> +index 3d2cf7a..c4fd839 100644
+> +--- a/Resource/Init/gs_dps1.ps
+> ++++ b/Resource/Init/gs_dps1.ps
+> +@@ -89,7 +89,7 @@ level2dict begin
+> +                 % definition, copy it into the local directory.
+> +       //systemdict /SharedFontDirectory .knownget
+> +        { 1 index .knownget
+> +-          { //.FontDirectory 2 index 3 -1 roll { put } systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse } % readonly
+> ++          { //.FontDirectory 2 index 3 -1 roll .forceput } % readonly
+> +          if
+> +        }
+> +       if
+> +diff --git a/Resource/Init/gs_fonts.ps b/Resource/Init/gs_fonts.ps
+> +index 0562235..f2b4e19 100644
+> +--- a/Resource/Init/gs_fonts.ps
+> ++++ b/Resource/Init/gs_fonts.ps
+> +@@ -519,11 +519,11 @@ buildfontdict 3 /.buildfont3 cvx put
+> +                 % the font in LocalFontDirectory.
+> +    .currentglobal
+> +     { //systemdict /LocalFontDirectory .knownget
+> +-       { 2 index 2 index { .growput } systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse } % readonly
+> ++       { 2 index 2 index .forceput }  % readonly
+> +       if
+> +     }
+> +    if
+> +-   dup //.FontDirectory 4 -2 roll { .growput } systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse  % readonly
+> ++   dup //.FontDirectory 4 -2 roll .forceput % readonly
+> +                 % If the font originated as a resource, register it.
+> +    currentfile .currentresourcefile eq { dup .registerfont } if
+> +    readonly
+> +@@ -1191,13 +1191,13 @@ $error /SubstituteFont { } put
+> +           //.FontDirectory 1 index known not {
+> +             2 dict dup /FontName 3 index put
+> +             dup /FontType 1 put
+> +-            //.FontDirectory 3 1 roll { put } systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse   % readonly
+> ++            //.FontDirectory 3 1 roll //.forceput exec % readonly
+> +           } {
+> +             pop
+> +           } ifelse
+> +         } forall
+> +       } forall
+> +-    }
+> ++    } executeonly     % hide .forceput
+> + FAKEFONTS { exch } if pop def   % don't bind, .current/setglobal get redefined
+> +
+> + % Install initial fonts from Fontmap.
+> +diff --git a/Resource/Init/gs_init.ps b/Resource/Init/gs_init.ps
+> +index 80d9585..0d5c4f7 100644
+> +--- a/Resource/Init/gs_init.ps
+> ++++ b/Resource/Init/gs_init.ps
+> +@@ -2188,9 +2188,6 @@ SAFER { .setsafeglobal } if
+> +   /.endtransparencygroup     % transparency-example.ps
+> +   /.setdotlength             % Bug687720.ps
+> +   /.sort /.setdebug /.mementolistnewblocks /getenv
+> +-
+> +-  /.makeoperator /.setCPSImode              % gs_cet.ps, this won't work on cluster with -dSAFER
+> +-
+> +   /unread
+> +   ]
+> +   {systemdict exch .forceundef} forall
+> +@@ -2270,7 +2267,6 @@ SAFER { .setsafeglobal } if
+> +
+> +   % Used by our own test suite files
+> +   %/.fileposition %image-qa.ps
+> +-  %/.makeoperator /.setCPSImode % gs_cet.ps
+> +
+> +   % Either our code uses these in ways which mean they can't be undefined, or they are used directly by
+> +   % test files/utilities, or engineers expressed a desire to keep them visible.
+> +@@ -2457,6 +2453,16 @@ end
+> + /vmreclaim where
+> +  { pop NOGC not { 2 .vmreclaim 0 vmreclaim } if
+> +  } if
+> ++
+> ++% Do this before systemdict is locked (see below for additional CETMODE setup using gs_cet.ps)
+> ++systemdict /CETMODE .knownget {
+> ++  {
+> ++    (gs_cet.ps) runlibfile
+> ++  } if
+> ++} if
+> ++systemdict /.makeoperator .undef      % must be after gs_cet.ps
+> ++systemdict /.setCPSImode .undef               % must be after gs_cet.ps
+> ++
+> + DELAYBIND not {
+> +   systemdict /.bindnow .undef       % We only need this for DELAYBIND
+> +   systemdict /.forcecopynew .undef    % remove temptation
+> +@@ -2464,16 +2470,29 @@ DELAYBIND not {
+> +   systemdict /.forceundef .undef      % ditto
+> + } if
+> +
+> +-% Move superexec to internaldict if superexec is defined.
+> +-systemdict /superexec .knownget {
+> +-  1183615869 internaldict /superexec 3 -1 roll put
+> +-  systemdict /superexec .undef
+> ++% Move superexec to internaldict if superexec is defined. (Level 2 or later)
+> ++systemdict /superexec known {
+> ++  % restrict superexec to single known use by PScript5.dll
+> ++  % We could do this only for SAFER mode, but internaldict and superexec are
+> ++  % not very well documented, and we don't want them to be used.
+> ++  1183615869 internaldict /superexec {
+> ++    2 index /Private eq               % first check for typical use in PScript5.dll
+> ++    1 index length 1 eq and   % expected usage is: dict /Private <value> {put} superexec
+> ++    1 index 0 get systemdict /put get eq and
+> ++    {
+> ++      //superexec exec                % the only usage we allow
+> ++    } {
+> ++      /superexec load /invalidaccess signalerror
+> ++    } ifelse
+> ++  } bind cvx executeonly put
+> ++  systemdict /superexec .undef        % get rid of the dangerous (unrestricted) operator
+> + } if
+> +
+> + % Can't remove this one until the last minute :-)
+> + DELAYBIND not {
+> + systemdict /.undef .undef
+> + } if
+> ++
+> + WRITESYSTEMDICT {
+> +    SAFER {
+> +        (\n *** WARNING - you have selected SAFER, indicating you want Ghostscript\n) print
+> +@@ -2500,7 +2519,4 @@ WRITESYSTEMDICT {
+> + % be 'true' in some cases.
+> + userdict /AGM_preserve_spots //false put
+> +
+> +-systemdict /CETMODE .knownget
+> +-{ { (gs_cet.ps) runlibfile } if } if
+> +-
+> + % The interpreter will run the initial procedure (start).
+> +diff --git a/Resource/Init/gs_ttf.ps b/Resource/Init/gs_ttf.ps
+> +index 05943c5..da97afa 100644
+> +--- a/Resource/Init/gs_ttf.ps
+> ++++ b/Resource/Init/gs_ttf.ps
+> +@@ -1421,7 +1421,7 @@ mark
+> +           TTFDEBUG { (\n1 setting alias: ) print dup ==only
+> +                 ( to be the same as  ) print 2 index //== exec } if
+> +
+> +-          7 index 2 index 3 -1 roll exch //.growput systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse
+> ++          7 index 2 index 3 -1 roll exch .forceput
+> +         } forall
+> +         pop pop pop
+> +       }
+> +@@ -1439,7 +1439,7 @@ mark
+> +           exch pop
+> +           TTFDEBUG { (\n2 setting alias: ) print 1 index ==only
+> +                      ( to use glyph index: ) print dup //== exec } if
+> +-          5 index 3 1 roll //.growput systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse
+> ++          5 index 3 1 roll .forceput
+> +           //false
+> +         }
+> +         {
+> +@@ -1456,7 +1456,7 @@ mark
+> +         {                            %  CharStrings(dict) isunicode(boolean) cmap(dict) RAGL(dict) gname(name) codep(integer) gindex(integer)
+> +           TTFDEBUG { (\3 nsetting alias: ) print 1 index ==only
+> +                 ( to be index: ) print dup //== exec } if
+> +-          exch pop 5 index 3 1 roll //.growput systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse
+> ++          exch pop 5 index 3 1 roll .forceput
+> +         }
+> +         {
+> +           pop pop
+> +@@ -1486,7 +1486,7 @@ mark
+> +       } ifelse
+> +     ]
+> +   TTFDEBUG { (Encoding: ) print dup === flush } if
+> +-} bind def
+> ++} .bind executeonly odef              % hides .forceput
+> +
+> + % to be removed 9.09......
+> + currentdict /postalias undef
+> +diff --git a/Resource/Init/gs_type1.ps b/Resource/Init/gs_type1.ps
+> +index 96e1ced..61f5269 100644
+> +--- a/Resource/Init/gs_type1.ps
+> ++++ b/Resource/Init/gs_type1.ps
+> +@@ -116,7 +116,7 @@
+> +                  {                                               % scratch(string) RAGL(dict) AGL(dict) CharStrings(dict) cstring gname aglname
+> +                    CFFDEBUG { (\nsetting alias: ) print dup ==only
+> +                          ( to be the same as glyph: ) print 1 index //== exec } if
+> +-                   3 index exch 3 index //.growput systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse
+> ++                   3 index exch 3 index .forceput
+> +                                                                  % scratch(string) RAGL(dict) AGL(dict) CharStrings(dict) cstring gname
+> +                  }
+> +                  {pop} ifelse
+> +@@ -135,7 +135,7 @@
+> +          3 1 roll pop pop
+> +      } if
+> +      pop
+> +-     dup /.AGLprocessed~GS //true //.growput systemdict /superexec known {//superexec}{1183615869 internaldict /superexec get exec} ifelse
+> ++     dup /.AGLprocessed~GS //true .forceput
+> +    } if
+> +
+> +    %% We need to excute the C .buildfont1 in a stopped context so that, if there
+> +@@ -148,7 +148,7 @@
+> +    {//.buildfont1} stopped
+> +    4 3 roll .setglobal
+> +    {//.buildfont1 $error /errorname get signalerror} if
+> +- } bind def
+> ++ } .bind executeonly def      % hide .forceput
+> +
+> + % If the diskfont feature isn't included, define a dummy .loadfontdict.
+> + /.loadfontdict where
+> +--
+> +2.20.1
+> +
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0004.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0004.patch
+> new file mode 100644
+> index 0000000000..5228cace24
+> --- /dev/null
+> +++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3835-0004.patch
+> @@ -0,0 +1,167 @@
+> +From 5845e667dda3c945ee793fbe6af021533cb4fbec Mon Sep 17 00:00:00 2001
+> +From: Ray Johnston <ray.johnston@artifex.com>
+> +Date: Sun, 24 Feb 2019 22:01:04 -0800
+> +Subject: [PATCH] Bug 700585: Obliterate "superexec". We don't need it, nor
+> + do any known apps.
+> +
+> +We were under the impression that the Windows driver 'PScript5.dll' used
+> +superexec, but after testing with our extensive suite of PostScript file,
+> +and analysis of the PScript5 "Adobe CoolType ProcSet, it does not appear
+> +that this operator is needed anymore. Get rid of superexec and all of the
+> +references to it, since it is a potential security hole.
+> +
+> +CVE: CVE-2019-3835
+> +Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
+> +
+> +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +---
+> + Resource/Init/gs_init.ps | 18 ------------------
+> + psi/icontext.c           |  1 -
+> + psi/icstate.h            |  1 -
+> + psi/zcontrol.c           | 30 ------------------------------
+> + psi/zdict.c              |  6 ++----
+> + psi/zgeneric.c           |  3 +--
+> + 6 files changed, 3 insertions(+), 56 deletions(-)
+> +
+> +diff --git a/Resource/Init/gs_init.ps b/Resource/Init/gs_init.ps
+> +index 0d5c4f7..c5ac82a 100644
+> +--- a/Resource/Init/gs_init.ps
+> ++++ b/Resource/Init/gs_init.ps
+> +@@ -2470,24 +2470,6 @@ DELAYBIND not {
+> +   systemdict /.forceundef .undef      % ditto
+> + } if
+> +
+> +-% Move superexec to internaldict if superexec is defined. (Level 2 or later)
+> +-systemdict /superexec known {
+> +-  % restrict superexec to single known use by PScript5.dll
+> +-  % We could do this only for SAFER mode, but internaldict and superexec are
+> +-  % not very well documented, and we don't want them to be used.
+> +-  1183615869 internaldict /superexec {
+> +-    2 index /Private eq               % first check for typical use in PScript5.dll
+> +-    1 index length 1 eq and   % expected usage is: dict /Private <value> {put} superexec
+> +-    1 index 0 get systemdict /put get eq and
+> +-    {
+> +-      //superexec exec                % the only usage we allow
+> +-    } {
+> +-      /superexec load /invalidaccess signalerror
+> +-    } ifelse
+> +-  } bind cvx executeonly put
+> +-  systemdict /superexec .undef        % get rid of the dangerous (unrestricted) operator
+> +-} if
+> +-
+> + % Can't remove this one until the last minute :-)
+> + DELAYBIND not {
+> + systemdict /.undef .undef
+> +diff --git a/psi/icontext.c b/psi/icontext.c
+> +index 1fbe486..7462ea3 100644
+> +--- a/psi/icontext.c
+> ++++ b/psi/icontext.c
+> +@@ -151,7 +151,6 @@ context_state_alloc(gs_context_state_t ** ppcst,
+> +     pcst->rand_state = rand_state_initial;
+> +     pcst->usertime_total = 0;
+> +     pcst->keep_usertime = false;
+> +-    pcst->in_superexec = 0;
+> +     pcst->plugin_list = 0;
+> +     make_t(&pcst->error_object, t__invalid);
+> +     { /*
+> +diff --git a/psi/icstate.h b/psi/icstate.h
+> +index 4c6a14d..1009d85 100644
+> +--- a/psi/icstate.h
+> ++++ b/psi/icstate.h
+> +@@ -54,7 +54,6 @@ struct gs_context_state_s {
+> +     long usertime_total;      /* total accumulated usertime, */
+> +                                 /* not counting current time if running */
+> +     bool keep_usertime;               /* true if context ever executed usertime */
+> +-    int in_superexec;         /* # of levels of superexec */
+> +     /* View clipping is handled in the graphics state. */
+> +     ref error_object;         /* t__invalid or error object from operator */
+> +     ref userparams;           /* t_dictionary */
+> +diff --git a/psi/zcontrol.c b/psi/zcontrol.c
+> +index 0362cf4..dc813e8 100644
+> +--- a/psi/zcontrol.c
+> ++++ b/psi/zcontrol.c
+> +@@ -158,34 +158,6 @@ zexecn(i_ctx_t *i_ctx_p)
+> +     return o_push_estack;
+> + }
+> +
+> +-/* <obj> superexec - */
+> +-static int end_superexec(i_ctx_t *);
+> +-static int
+> +-zsuperexec(i_ctx_t *i_ctx_p)
+> +-{
+> +-    os_ptr op = osp;
+> +-    es_ptr ep;
+> +-
+> +-    check_op(1);
+> +-    if (!r_has_attr(op, a_executable))
+> +-        return 0;             /* literal object just gets pushed back */
+> +-    check_estack(2);
+> +-    ep = esp += 3;
+> +-    make_mark_estack(ep - 2, es_other, end_superexec); /* error case */
+> +-    make_op_estack(ep - 1,  end_superexec); /* normal case */
+> +-    ref_assign(ep, op);
+> +-    esfile_check_cache();
+> +-    pop(1);
+> +-    i_ctx_p->in_superexec++;
+> +-    return o_push_estack;
+> +-}
+> +-static int
+> +-end_superexec(i_ctx_t *i_ctx_p)
+> +-{
+> +-    i_ctx_p->in_superexec--;
+> +-    return 0;
+> +-}
+> +-
+> + /* <array> <executable> .runandhide <obj>                             */
+> + /*    before executing  <executable>, <array> is been removed from    */
+> + /*    the operand stack and placed on the execstack with attributes   */
+> +@@ -971,8 +943,6 @@ const op_def zcontrol3_op_defs[] = {
+> +     {"0%loop_continue", loop_continue},
+> +     {"0%repeat_continue", repeat_continue},
+> +     {"0%stopped_push", stopped_push},
+> +-    {"1superexec", zsuperexec},
+> +-    {"0%end_superexec", end_superexec},
+> +     {"2.runandhide", zrunandhide},
+> +     {"0%end_runandhide", end_runandhide},
+> +     op_def_end(0)
+> +diff --git a/psi/zdict.c b/psi/zdict.c
+> +index b0deaaa..e2e525d 100644
+> +--- a/psi/zdict.c
+> ++++ b/psi/zdict.c
+> +@@ -212,8 +212,7 @@ zundef(i_ctx_t *i_ctx_p)
+> +     int code;
+> +
+> +     check_type(*op1, t_dictionary);
+> +-    if (i_ctx_p->in_superexec == 0)
+> +-        check_dict_write(*op1);
+> ++    check_dict_write(*op1);
+> +     code = idict_undef(op1, op);
+> +     if (code < 0 && code != gs_error_undefined) /* ignore undefined error */
+> +         return code;
+> +@@ -504,8 +503,7 @@ zsetmaxlength(i_ctx_t *i_ctx_p)
+> +     int code;
+> +
+> +     check_type(*op1, t_dictionary);
+> +-    if (i_ctx_p->in_superexec == 0)
+> +-        check_dict_write(*op1);
+> ++    check_dict_write(*op1);
+> +     check_type(*op, t_integer);
+> +     if (op->value.intval < 0)
+> +         return_error(gs_error_rangecheck);
+> +diff --git a/psi/zgeneric.c b/psi/zgeneric.c
+> +index 8048e28..d4edddb 100644
+> +--- a/psi/zgeneric.c
+> ++++ b/psi/zgeneric.c
+> +@@ -204,8 +204,7 @@ zput(i_ctx_t *i_ctx_p)
+> +
+> +     switch (r_type(op2)) {
+> +         case t_dictionary:
+> +-            if (i_ctx_p->in_superexec == 0)
+> +-                check_dict_write(*op2);
+> ++            check_dict_write(*op2);
+> +             {
+> +                 int code = idict_put(op2, op1, op);
+> +
+> +--
+> +2.18.1
+> +
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0001.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0001.patch
+> new file mode 100644
+> index 0000000000..593109fb9f
+> --- /dev/null
+> +++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0001.patch
+> @@ -0,0 +1,34 @@
+> +From 53f0cb4c54ac951697704cb87d24154ae08aecce Mon Sep 17 00:00:00 2001
+> +From: Chris Liddell <chris.liddell@artifex.com>
+> +Date: Wed, 20 Feb 2019 09:54:28 +0000
+> +Subject: [PATCH] Bug 700576: Make a transient proc executeonly (in
+> + DefineResource).
+> +
+> +This prevents access to .forceput
+> +
+> +Solution originally suggested by cbuissar@redhat.com.
+> +
+> +CVE: CVE-2019-3838
+> +Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
+> +
+> +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +---
+> + Resource/Init/gs_res.ps | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Resource/Init/gs_res.ps b/Resource/Init/gs_res.ps
+> +index 89c0ed6..a163541 100644
+> +--- a/Resource/Init/gs_res.ps
+> ++++ b/Resource/Init/gs_res.ps
+> +@@ -426,7 +426,7 @@ status {
+> +                         % so we have to use .forceput here.
+> +                   currentdict /.Instances 2 index .forceput   % Category dict is read-only
+> +                 } executeonly if
+> +-              }
+> ++              } executeonly
+> +               { .LocalInstances dup //.emptydict eq
+> +                  { pop 3 dict localinstancedict Category 2 index put
+> +                  }
+> +--
+> +2.18.1
+> +
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0002.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0002.patch
+> new file mode 100644
+> index 0000000000..921e5b6876
+> --- /dev/null
+> +++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2019-3838-0002.patch
+> @@ -0,0 +1,30 @@
+> +From 0cb5e967c0200559f946291b5b54f8da30c32cd6 Mon Sep 17 00:00:00 2001
+> +From: Chris Liddell <chris.liddell@artifex.com>
+> +Date: Fri, 22 Feb 2019 12:28:23 +0000
+> +Subject: [PATCH] Bug 700576(redux): an extra transient proc needs
+> + executeonly'ed.
+> +
+> +CVE: CVE-2019-3838
+> +Upstream-Status: Backport [git://git.ghostscript.com/ghostpdl.git]
+> +
+> +Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+> +---
+> + Resource/Init/gs_res.ps | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/Resource/Init/gs_res.ps b/Resource/Init/gs_res.ps
+> +index a163541..8ce4ae3 100644
+> +--- a/Resource/Init/gs_res.ps
+> ++++ b/Resource/Init/gs_res.ps
+> +@@ -438,7 +438,7 @@ status {
+> +                         % Now make the resource value read-only.
+> +              0 2 copy get { readonly } .internalstopped pop
+> +              dup 4 1 roll put exch pop exch pop
+> +-           }
+> ++           } executeonly
+> +            { /defineresource cvx /typecheck signaloperror
+> +            }
+> +         ifelse
+> +--
+> +2.18.1
+> +
+> diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.26.bb b/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
+> index ad4c5e17d2..bb32347880 100644
+> --- a/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
+> +++ b/meta/recipes-extended/ghostscript/ghostscript_9.26.bb
+> @@ -39,6 +39,12 @@ SRC_URI = "${SRC_URI_BASE} \
+>             file://CVE-2019-6116-0005.patch \
+>             file://CVE-2019-6116-0006.patch \
+>             file://CVE-2019-6116-0007.patch \
+> +           file://CVE-2019-3835-0001.patch \
+> +           file://CVE-2019-3835-0002.patch \
+> +           file://CVE-2019-3835-0003.patch \
+> +           file://CVE-2019-3835-0004.patch \
+> +           file://CVE-2019-3838-0001.patch \
+> +           file://CVE-2019-3838-0002.patch \
+>             "
+>
+>  SRC_URI_class-native = "${SRC_URI_BASE} \
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
