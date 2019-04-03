@@ -1,38 +1,55 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 861177D2B1
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f182.google.com (mail-it1-f182.google.com
+	[209.85.166.182])
+	by mail.openembedded.org (Postfix) with ESMTP id E9E2A7D2C2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 09:58:13 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Z1jd5J8kz4b;
-	Wed,  3 Apr 2019 11:58:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1554285494;
-	bh=Y3IuqWcxLdyYJqNdC0bTIfTky3w6kZvkrQHhSWfzFcY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=U6OQK6of8A8D6RzifVbyhAD4trnaAnjENfmHofqg526Gx+aQV9QXCGEh36GwYGcFe
-	bJPjCl1toG+CkdyTF0V22X1U2vXdC0d3k71OBy5yrMdNH6oQHQ7v6p5/l+c0KxdYCB
-	+gfgceqFkqG96DeFmqd+2NfDjgV4Bi7dKbas5KAhOUrAO94o/3oprRpqmRMOBSYg+P
-	ipA1gDp1mnBWfRTUugod8u5+NCD+ac3GsptykS2LdvYwQMWDe0WYiorBB6cj2z2yVO
-	YkbJAiSN99lj/Ru3ifsF1CVHUhexh/Gr8Ixb7wzEgMhFxbMbd6+RvUDb8PP342aDtM
-	7Y/MEFq82x3wtEmaAJi+pWuknEXhJVEiUHqSK/wZ+FCrtQwvee//4Sy4HhATuuiNK5
-	bHdJ8JigoWkbQmGZVhsOwVFxG1cuQabC6pk1xF+Sh82o/jEctOoYSN6cNpCSIv5U2M
-	VQ2h9D0ckM+QPuq2WvQTuayj3IcM088HyqjFgKVC0nT9aKClR5C86vlqUfj/vSbirD
-	Zi0dCDmJufVcW3Lg106ZL0pdshexukD70MzFiaRPm+WrJqWkHFit3yK+jEsBPrJ9t/
-	oJZcUM0YehpY2LbeBlRtX/7DUHvbdI3KVGEDIgGtl2zP3d/jHcXXf7JRoScLaauL26
-	gBrk6L//Jb1Mh2iPKg3zHgwI=
-Date: Wed, 3 Apr 2019 12:58:11 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Changqing Li <changqing.li@windriver.com>
-Message-ID: <20190403095811.GB8376@localhost>
-References: <1554196113-200535-1-git-send-email-changqing.li@windriver.com>
-	<20190402113135.GA27866@localhost>
-	<3381bfd6-b3ed-da15-69dc-394fc1a9643b@windriver.com>
+	Wed,  3 Apr 2019 10:30:49 +0000 (UTC)
+Received: by mail-it1-f182.google.com with SMTP id u65so10399559itc.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Apr 2019 03:30:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=benLBz9hW99WBZEeOFcAKwfVLMwfm2Ry36HGmFBMO8o=;
+	b=SQGw6pGWvV2BQfEH99p7lXhGhjcxoLinT1QzUJdM/cQ07HykT5GXxeC6yZD+3i6J+X
+	pYHqo/KFvYz845co3jIpoQlsvIHElrtN0kvQ5aV15PYAXWG5SKIMiZbkM0Bp3pN/XNsT
+	Vx2Z9zfSg9kQLT5ALyhUrwa3tPnsCHiQQQxbpwOchmY5Ajn5Jbilrf9pZqCpJUEFCVFa
+	NXABdf59YdyoygoexNO9IUM901Og5rEZZ8a+Fu2KKVoVI4Stjr30gAxNwJVdpfvp3VLI
+	1UlceUPoOvXBtCcfrFUqoXquAWS69f6EPiBatVcf1nJ5PlNyOZj9QMd7UzqKv94ZVu2b
+	qmEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=benLBz9hW99WBZEeOFcAKwfVLMwfm2Ry36HGmFBMO8o=;
+	b=tDkXD5dFahH1O0QvyRF5LlXXXgRqdd/y7aaBlAqFS1FEQukXdEuR3u3cfYUhjvnNPi
+	+FCSK3TmgLclAnN0c067Ui1quBbxYK4rvcuoJt/nmEnDXzYqmHmjPXAHELBS26WrmRr6
+	nLp+Ej5sanu3TioqgYFKJJDFoYYeARISbwGZZokE458HpbnTpRVi/EiswpHrjcaPp2t9
+	Cq2D1jrRwhW3j82XYXEdc9yyh6nBefRxWmTGBCvyrrrnqDNuJQk/2fyvLCdotA5FqAsN
+	M7lkbYD7jy982FqT/o6w0isaW0sK36Q6RUk98qRjo5iCgu5t8ouM+ni9Kcyko3ISBVdb
+	geEA==
+X-Gm-Message-State: APjAAAWElbCtosDug/hu0qZ6x+z4l5eofDXu67OxOYCT+Y/u8inUx5sB
+	q7LfdHEwKQyWuKINQoVQqyWjkg+QHtl/F9ii3v8CSw==
+X-Google-Smtp-Source: APXvYqz9krAoYmJ9iEH/W+3fq3fSBkvPRClYTS/J7SbBKgtMn7jrBaEwTrpgcTIIbVLkW9iqmfnndk6VjuO+p7DetYc=
+X-Received: by 2002:a24:d643:: with SMTP id o64mr1186771itg.148.1554287450951; 
+	Wed, 03 Apr 2019 03:30:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <3381bfd6-b3ed-da15-69dc-394fc1a9643b@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
+References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
+	<b08083fc2f63f6324a652706f8343a0b8defe209.camel@linuxfoundation.org>
+	<a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
+	<20190402065121.GA31468@localhost>
+	<20190402194614.GY4664@bill-the-cat>
+In-Reply-To: <20190402194614.GY4664@bill-the-cat>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Apr 2019 11:30:39 +0100
+Message-ID: <CAJTo0LZ5qeDA+rQ5Eh3_LCbGtQyo732LrDkiZ=O4sh52cjXU=w@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Adrian Bunk <bunk@stusta.de>
+Subject: Re: [oe] Git commit process question.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,82 +62,21 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 09:58:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 03 Apr 2019 10:30:50 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 03, 2019 at 10:29:08AM +0800, Changqing Li wrote:
-> 
-> On 4/2/19 7:31 PM, Adrian Bunk wrote:
-> > On Tue, Apr 02, 2019 at 05:08:33PM +0800, changqing.li@windriver.com wrote:
-> > > From: Changqing Li <changqing.li@windriver.com>
-> > > 
-> > > fix below compile error with -Werror=maybe-uninitialized
-> > > 
-> > > | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> > > |      *out_gltype = gltype;
-> > > |      ~~~~~~~~~~~~^~~~~~~~
-> > > | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> > > |      *out_glintformat = glintformat;
-> > > |      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-> > > ...
-> > Looking at the code, is this a failure that only happens with DEBUG_FLAGS?
-> Yes, only happen with DEBUG_FLAGS
-> > > +--- a/cogl/driver/gl/gles/cogl-driver-gles.c
-> > > ++++ b/cogl/driver/gl/gles/cogl-driver-gles.c
-> > > +@@ -74,9 +74,9 @@ _cogl_driver_pixel_format_to_gl (CoglContext *context,
-> > > +                                  GLenum *out_gltype)
-> > > + {
-> > > +   CoglPixelFormat required_format;
-> > > +-  GLenum glintformat;
-> > > ++  GLenum glintformat = 0;
-> > > +   GLenum glformat = 0;
-> > > +-  GLenum gltype;
-> > > ++  GLenum gltype = 0;
-> > > ...
-> > Assigning random values to variables is a bug,
-> > they do not even seem to be valid values for these variables.
-> 
-> According to code logic,  glformat and glintformat will assigned
-> simultaneously and usually with same value,
+On Tue, 2 Apr 2019 at 20:46, Tom Rini <trini@konsulko.com> wrote:
+> > The kernel does not have "upgrade foo to the latest upstream version" commits.
+> >
+> > With the Automatic Upgrade Helper this is a semi-automatic task, and
+> > most of the time there is no specific motivation other than upgrading
+> > to the latest upstream version.
+>
+> But since that's just filling in a template the body can also be a
+> template perhaps with useful AUH data (run at ... by ... ?) ?
 
-But glformat has an assert later to ensure the 0 doesn't leak anywhere.
+Apart from making the commit message longer what does this achieve?
+The commit already has a timestamp and author.
 
-> and 0 mean invalid pixel format.
-
-For pixel format 0 means COGL_PIXEL_FORMAT_ANY.
-
-For glintformat I don't know what would happen if 0 is used.
-
-> [snip]
-> 
->     case COGL_PIXEL_FORMAT_DEPTH_24_STENCIL_8:
->       glintformat = GL_DEPTH_STENCIL;
->       glformat = GL_DEPTH_STENCIL;
->       gltype = GL_UNSIGNED_INT_24_8;
->       break;
-> 
-> and for gtype, there also should be no problem according to the code logic.
-
-According to the current code.
-
-If some future change breaks the code, it would pass invalid data at 
-runtime instead of giving a compile warning.
-
-> and the fix is just for eliminate the error when DEBUG_FLAGS is enabled.
-
-Looking at the code, does passing --enable-maintainer-flags=no
-to configure work around this gcc bug?
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Ross
 
