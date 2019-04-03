@@ -1,49 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3700D7D316
+Return-Path: <enrico.scholz@sigma-chemnitz.de>
+X-Greylist: delayed 1269 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 03 Apr 2019 16:02:49 UTC
+Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B49C7D2A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 15:44:32 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w10so22029967wrm.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 08:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=xMhZW4Vouwwgcg2JnLnqyoCUx17c8b2hdnMHkai5ruc=;
-	b=PX7lGazSBkgaqyKQ4IYyRlypwws5LR9RsBQA+ywl8YM3VsMrnhVtONSbCBiid+yW43
-	A+1P6owcSLGIPl/Iu/LK7aumpurrc1ijeGgb5lDJcDZ/rsN28Zo+WI86rOyRVm+9uxMr
-	Lgmf49qLqfwpL18E6sbQ8I4BDRv46rXUFB71l2I5uk08lkGts/6nWnbOQfbfiGMpRInZ
-	qwXnpzWyAHFM4mj64De58SivmJW7aNJCoRC6fZ8sApzyKNAhieGlJ2E+wchAbahDXFLh
-	xLCDtiiGYIr+JRmMNGy9WcJFer7W4JNPB4cckip8U20eMaBFU0SyaiNJ4hjswjckKLYw
-	kleQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xMhZW4Vouwwgcg2JnLnqyoCUx17c8b2hdnMHkai5ruc=;
-	b=r2c5L86lALUFjnIIB8waOP9tRPqhdVXcl3O8PXxnsopXzF1G7caLNyRSM8P1RigK9k
-	sn6zCkcz64T7GIKUoAzdh+di6xUyVuGRo7B1k9RgX+DSo1AVfS0LjXRC05pO0wNBR86T
-	L5gxp5jgeyQCtyEVcejhdGiH4vSmNu3brqw9pwVbTdA7a2yNRRq6b6BYpqzlV5/6pt8i
-	JRu5AUzkvLeHnRYM2ELFExm7KkczaaD+PIExCZNARwxxnftOjK3wHWdyOP3vKJtrwhRB
-	ldJxV03KNFOKFo3FDZRbUv4VG6RdhCpGRsYGE/CsBIjjFVEWNe72jETy0Xq9FU2Nq7XV
-	EO0w==
-X-Gm-Message-State: APjAAAXDDp3kolLTRMKOoowj24GF1VHlM6W5zvVBSd9UC+yIicO8zK9K
-	QUB5jN7A2Nj6LgMiI956QFcUuuLAIUY=
-X-Google-Smtp-Source: APXvYqz0Ermyj08taUIGOzr4TzAdOUiL42FiOeDlZA1+MqbyT7QVMSOcugvxKY3LzTMJG4dunCBlsw==
-X-Received: by 2002:adf:eac9:: with SMTP id o9mr147416wrn.85.1554306272653;
-	Wed, 03 Apr 2019 08:44:32 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a11sm17666280wrx.5.2019.04.03.08.44.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 08:44:31 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed,  3 Apr 2019 16:02:49 +0000 (UTC)
+Received: from mail-mta-0.intern.sigma-chemnitz.de
+	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
+	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	x33FfdYS020619
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK) for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Apr 2019 17:41:40 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
+	s=v2012061000; t=1554306100;
+	bh=r5VX5iQIfIbzoV/gHc7GkX48dHkhWzFGVZsFJsLyEPU=; l=618;
+	h=From:To:Cc:Subject:Date;
+	b=FMFeRdvHav8mSdgVbAFlUr7z1U2PlW5qGqv+a4kOv6QjV5W8r6sn/O0QOueluK4Mj
+	xctPb8yF3QRY05BdEdfUi78FGwMOk78qyliTaSoHdnzVFdxf4gyvTZViMW2l6Y1xw8
+	NAbbAzGQG7lH8OjrAN/cYis/c1IAYHKcSG6MZTWk=
+Received: from reddoxx.intern.sigma-chemnitz.de
+	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
+	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	x33FfXCX029918 for <openembedded-core@lists.openembedded.org> from
+	enrico.scholz@sigma-chemnitz.de; Wed, 3 Apr 2019 17:41:34 +0200
+Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
+	reddoxx.intern.sigma-chemnitz.de
+	(Reddoxx engine) with SMTP id 58C0A4A5214;
+	Wed, 3 Apr 2019 17:41:32 +0200
+Received: from ensc-virt.intern.sigma-chemnitz.de
+	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
+	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
+	x33FfW0U029915
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NO); Wed, 3 Apr 2019 17:41:32 +0200
+Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
+	4.92) (envelope-from <ensc@sigma-chemnitz.de>)
+	id 1hBi16-003qck-IU; Wed, 03 Apr 2019 17:41:32 +0200
+From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2019 16:44:28 +0100
-Message-Id: <20190403154428.2778-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libsecret: remove intltool DEPENDS
+Date: Wed,  3 Apr 2019 17:41:31 +0200
+Message-Id: <20190403154131.917232-1-enrico.scholz@sigma-chemnitz.de>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Cc: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+Subject: [PATCH] utils.py: added sh_quote() function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,29 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 15:44:32 -0000
+X-List-Received-Date: Wed, 03 Apr 2019 16:02:49 -0000
+Content-Transfer-Encoding: 8bit
 
-libsecret 0.18.7 removed intltool and now uses pure gettext.
+This function is a wrapper around "shlex.quote()" and can be used in
+"${@...}" context where shlex (or pipes, which provides similar
+functionality) is unavailable.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
 ---
- meta/recipes-gnome/libsecret/libsecret_0.18.7.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/utils.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.18.7.bb b/meta/recipes-gnome/libsecret/libsecret_0.18.7.bb
-index 0061b880533..ba38d107f7a 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.18.7.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.18.7.bb
-@@ -4,7 +4,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=23c2a5e0106b99d75238986559bb5fc6"
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index 3a496090f3..cedd053d36 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -490,3 +490,6 @@ class ImageQAFailed(bb.build.FuncFailed):
  
- inherit gnomebase gtk-doc vala gobject-introspection manpages
+         return msg
  
--DEPENDS += "glib-2.0 libgcrypt gettext-native intltool-native"
-+DEPENDS += "glib-2.0 libgcrypt gettext-native"
- 
- PACKAGECONFIG[manpages] = "--enable-manpages, --disable-manpages, libxslt-native xmlto-native"
- 
++def sh_quote(string):
++    import shlex
++    return shlex.quote(string)
 -- 
-2.11.0
+2.20.1
 
 
