@@ -1,53 +1,38 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 6980C7D2EE
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 2590D7D24B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 05:37:23 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id g12so7445533pll.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 22:37:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
-	h=date:message-id:in-reply-to:references:from:to:cc:subject
-	:content-transfer-encoding:mime-version;
-	bh=RJmSv4NbQ6QkVqN8LzxpjaYFp6SBW3U3awhU2uhJgGU=;
-	b=DpE5LEmvW8FiZHY4GzsjX4UQc2cjZkmOYXPl1KFVhu87xzub6y6Y9gPRoZ9w30E1C/
-	nFRk16AJWo0qX7neSAigXcVcx9NkDP0bAZ//N+suiWEC7rW0bBZztOvjXBRw78Ju9U6n
-	/UgHYESgJL79rtWre8puaOn+JFtbQIWnLgn/ASk8/WxGPGTQD4GWhfaPehYQ6IWWtO0u
-	AzqeDuM6frzGbFbn2vg2lZY82g0uS3li5nwGxHqJHxNZU+Sr9XxYoZOta/dIMUB/yNte
-	Do52q2kscFZIe4YbEuJsYKzSKbawZjXhks3PK6bzbyhLDzfSxCoT7409SNpLLzAaRrjb
-	6/uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:message-id:in-reply-to:references:from:to
-	:cc:subject:content-transfer-encoding:mime-version;
-	bh=RJmSv4NbQ6QkVqN8LzxpjaYFp6SBW3U3awhU2uhJgGU=;
-	b=QiagNWSktqE9Ux9Apkr1sYqutJX1TmO6DvR7DrQA44gU0zd8aMSSFwdYdCg9pOG3YZ
-	XuIDPUlvJo969MNzleYCuLuC32ufO6ItjBUX+BtKt8qnWT+SYz6AO8MR/XZkNbozOioW
-	BURm0Tfzvew9abkcLOC0GXljHSmY9mLvKvMVZyLLC9JOhSMhuL3Vdoh9D4k5m2bpyeYH
-	Dh6ZtS82zvOeOqOp+pXOme3ZAN3YnMIQA/Cb0xGU2Zvj30WLpc1aDqMJAmmkKf0iH5yz
-	4qtzUFpfNBBspjxbeR8VrMRVXtXurHS0pD9i4K4SxVtOH9gwFxY9blIaAqh4HxNhs1iI
-	g/Tg==
-X-Gm-Message-State: APjAAAVE/wN2oaTFpF1A4CrV8VMlm7mBiSCHe+KtW7lS1LG1BCboNyd1
-	zxYd5dvE67hoDAVtqDOA8skUNHcijco=
-X-Google-Smtp-Source: APXvYqy6SGQ3fTSMuDZ6iXguFa9KPp88jhYMP4P90oGe3y3u3n230Tmr4WMxuTYsvWxzVLODy+qTkg==
-X-Received: by 2002:a17:902:2a2a:: with SMTP id
-	i39mr33709665plb.211.1554269844009; 
-	Tue, 02 Apr 2019 22:37:24 -0700 (PDT)
-Received: from [127.0.1.1] ([101.184.73.181])
-	by smtp.gmail.com with UTF8SMTPSA id
-	b63sm39825958pfj.54.2019.04.02.22.37.21
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 02 Apr 2019 22:37:23 -0700 (PDT)
-Date: Wed, 03 Apr 2019 05:37:02 +0000
-Message-Id: <20190403053702.10672-3-nathan@nathanrossi.com>
-In-Reply-To: <20190403053702.10672-1-nathan@nathanrossi.com>
-References: <20190403053702.10672-1-nathan@nathanrossi.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-To: openembedded-core@lists.openembedded.org
+	Wed,  3 Apr 2019 06:22:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Ywx72SyJz4R;
+	Wed,  3 Apr 2019 08:22:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1554272573;
+	bh=GVmJB+llHune5h8/qXIOGgbV1m6cnxJOkHilSq4IgzY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eSMeWzjkkOrWhh8BG6EPscfhzDzVNH4urw11Ts6rxitBHRXwRuSNCdegFlK+A0a4p
+	mRsM3VQVaAUz1tbo892/JoIgQ//VcwoR+L99p1llGrPUA5lFc6UjDk0LOLna0uX866
+	zE7Wyh6cRyZ2GRmm3TG0R7pBlKpy/yXOnvyM43EjCIyP781KRXBFHVzqLwhYGFdBJz
+	mzcoP0kSsM8zjPN9ffE0O8V/1VNthEvGTqWR+HO2zeYP8+ngd1NPvpECyyheFdR+LT
+	N0FWWo2pMpEPUy4Nw6uSj6TKrCCDC/7npXnBIo4lq+FMBpGYTpDqlmKc4WQFWO/qIn
+	KbtNlJo6+v4TLzNKerJgZbgmrrbxU79sVOzPDYbdFO1BJ7Uukm26rYgnOuEbMGB/P5
+	cQUdBPi8r917ywbQBMvmXNSx2aJlvGXMsGeJTpUDP6+5JeVN922hyjv0KrW2XP1HCb
+	1xL0HiDVw8V+RzuOqBxZ8OuhXRrC29mJGsNnA+0AWhZ5qRWKcYTpoC1BqwJvD+WXsr
+	RX8HCKcFtflZo77ukbHeUMnfpnk1p13IcNdzpM8WHQlVN0L+B2Pw33wdxZq0hL1LAl
+	gdThlHghLRph7+RA8z+hiPQVYvWMyXvPj4tlD8xUjU+dC0SVMQEB0ymuNMMCgzCcLt
+	RUAcQxDDC9i/o+0x9uttSvww=
+Date: Wed, 3 Apr 2019 09:22:49 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190403062249.GB1281@localhost>
+References: <cover.1554233389.git.pkj@axis.com>
+	<8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/3] devtool: standard: Handle exporting generated config fragments
+In-Reply-To: <8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/6] Correct and improve the ARM tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,51 +45,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 05:37:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 03 Apr 2019 06:22:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-The cml1 and ccmake bbclasses generate configuration fragment source
-files that must be exported from the WORKDIR as a source file to be
-preserved across builds. This change adds detection of the current
-recipes inherited classes and for cml1 and ccmake classes checks for the
-specific generated configuration fragment files. These files are then
-exported by devtool and included as SRC_URI files from within the target
-layer.
+On Tue, Apr 02, 2019 at 09:26:46PM +0100, Richard Purdie wrote:
+>...
+> "armv4t" is defined in the arm tune files to mean "add -march=armv4t"
+> which is the convention used throughout all the tune files.
+>...
 
-Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
----
-Changes in v2:
-- None
----
- scripts/lib/devtool/standard.py | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+Unfortunately this is not true.
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index ea09bbff31..0a1e329e61 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1328,6 +1328,20 @@ def _export_local_files(srctree, rd, destdir, srctreebase):
-                 if os.path.exists(os.path.join(local_files_dir, fragment_fn)):
-                     os.unlink(os.path.join(local_files_dir, fragment_fn))
- 
-+    # Special handling for cml1, ccmake, etc bbclasses that generated
-+    # configuration fragment files that are consumed as source files
-+    for frag_class, frag_name in [("cml1", "fragment.cfg"), ("ccmake", "site-file.cmake")]:
-+        if bb.data.inherits_class(frag_class, rd):
-+            srcpath = os.path.join(rd.getVar('WORKDIR'), frag_name)
-+            if os.path.exists(srcpath):
-+                if frag_name not in new_set:
-+                    new_set.append(frag_name)
-+                # copy fragment into destdir
-+                shutil.copy2(srcpath, destdir)
-+                # copy fragment into local files if exists
-+                if os.path.isdir(local_files_dir):
-+                    shutil.copy2(srcpath, local_files_dir)
-+
-     if new_set is not None:
-         for fname in new_set:
-             if fname in existing_files:
----
-2.20.1
+OE has both armv7a and armv7at tunes.
+
+There is no armv7a without Thumb support,
+so no -march=armv7-at exists in gcc.
+
+Both armv7a and armv7at tunes pass the same march to gcc,
+but [1] is not true:
+  Default to using the Thumb-2 instruction set for armv7a and above.
+
+The hardware supports Thumb-2 in any case, the actual difference between 
+the armv7a and armv7at OE tunes is whether OE tells the compiler to 
+generate ARM or Thumb-2 code.
+
+OE has both armv6 and armv6t tunes.
+
+There is no armv6 without Thumb support
+so no -march=armv6t exists in gcc.
+
+Some v6 support only Thumb-1 and some v6 support also Thumb-2,
+so what gcc does have is an -march=armv6t2.
+But OE lacks tunes for that.
+
+For matching the gcc options it would be correct to remove all
+armv6t and armv7at tunes that have no coresponding gcc options,
+and add armv6t2 tunes.
+
+And that's only for the legacy 32bit platforms.
+
+armv8 already has 21 feature modifiers in gcc 9,
+and while not all 2^21 or 3^21[2] combinations are
+valid the old tune approach won't scale for that.
+
+> Cheers,
+> 
+> Richard
+
+cu
+Adrian
+
+[1] https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#migration-2.6-miscellaneous-changes
+[2] enable/disable/default
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
