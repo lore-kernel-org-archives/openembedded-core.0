@@ -1,56 +1,49 @@
-Return-Path: <philip@balister.org>
-Received: from starfish.geekisp.com (starfish.geekisp.com [216.168.135.166])
-	by mail.openembedded.org (Postfix) with ESMTP id C36547D3AB
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vk1-f194.google.com (mail-vk1-f194.google.com
+	[209.85.221.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 29E967BF70
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 17:35:36 +0000 (UTC)
-Received: (qmail 8837 invoked by uid 1003); 3 Apr 2019 17:35:37 -0000
-Received: from unknown (HELO ?192.168.11.100?)
-	(philip@opensdr.com@73.152.143.112)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	3 Apr 2019 17:35:37 -0000
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-References: <1550192184-13460-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<1550192184-13460-2-git-send-email-manjukumar.harthikote-matha@xilinx.com>
-	<679c61e2-f179-c986-b6ca-b69b95b5e22a@balister.org>
-	<BYAPR02MB6005274C95E7FE6ACA65292DB97C0@BYAPR02MB6005.namprd02.prod.outlook.com>
-	<6fe6cbadaf29e01975ec71a1b005d2fdb7885484.camel@linuxfoundation.org>
-	<BYAPR02MB6005A0C02E838863D370C7B4B97E0@BYAPR02MB6005.namprd02.prod.outlook.com>
-	<853fdac8bdfc6fc7222fce906172b08852a4eed3.camel@linuxfoundation.org>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <2fa17d30-9a97-635f-541b-89313ee63793@balister.org>
-Date: Wed, 3 Apr 2019 13:35:36 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	Wed,  3 Apr 2019 19:29:39 +0000 (UTC)
+Received: by mail-vk1-f194.google.com with SMTP id o187so70719vkg.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Apr 2019 12:29:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FZtvTGqmoD15yZ10nrr1OgaUITym8ly+iDObBk6WCLg=;
+	b=uAAw6zS9KX9fsG5cusEzXtsqrVA1c45HV+efIgjFCjrY3JQwp4jV5JjEHciqT9AQn9
+	x8ZARsTfueBLTme59Lf8kDzVLU5ziy1eWEzXtr7lvLHZR/JegpusGWCNcseJWeie43Xi
+	VVTm2yQhE3b4TPqWLGGP35wXb0FNCL3cxPqi340CbA3FFpsUEVyjV5pJrPhneJGp0mtC
+	fyYQvBQMEJJ3Ne7KUDkKBl7Yyaco0NtdwwoQm3v6Yt7NuLG0cj70E9D99o+iN37zlmY/
+	cO9ffBAdSEgrBRtgCzShSNsNdsWV9a8UUqvE/DSWko9i4VyqsjDvTTgyqg6nQZM98OGL
+	Ei+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FZtvTGqmoD15yZ10nrr1OgaUITym8ly+iDObBk6WCLg=;
+	b=Y8m3tZ2U69ARl0RakFBiAf4hEH4DNd7MPaOzX93zf0/AmdyH147X5MG0upJSkflvj/
+	bL0pne6gG7ONkaa8CwBsSR2r97NviRq53k7vNolOu3SRbhMBXIN2Vc/97QOYV+I4mPkA
+	CPyavP9/kFh9B+VgMbett1R/Z5EN7beF7soL88zqx+a+HFSVjKWjraG8llofxXY+Qmsp
+	7Hp/1/poVfvdX2lq43N9TVVYpHSQD6t+4ROYyCfoKv3W9pIa+/5R1jqrYdbmu2ETjwCg
+	UcvZnfYja6QXbeD2EdjNvsxhmZfQ3FGGigZ+S5NnyuECdHhs/QzwKIXpceXgznGCHE0b
+	3qnQ==
+X-Gm-Message-State: APjAAAV/nGlMQVc5Q1A/qvmCfttmpr/xQU/FDx8eib0J2BYfDzLNT4yC
+	1SNSTiItvDOJzvZuZOUTdCb67PTYeQ6n0XdyBKU=
+X-Google-Smtp-Source: APXvYqwvTc0HGrnqCUv5NfzxrOWyiWyMG2Sv32MxFyV6ghPUuTOEmAgOcuwmN4dUameuRcqyrUMFxpHMb5Ecv+U2FGQ=
+X-Received: by 2002:a1f:56:: with SMTP id 83mr1480671vka.16.1554319780672;
+	Wed, 03 Apr 2019 12:29:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <853fdac8bdfc6fc7222fce906172b08852a4eed3.camel@linuxfoundation.org>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] kernel-fitimage.bbclass: Introduce a way to provide external dtb
+References: <cover.1554233389.git.pkj@axis.com>
+	<8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
+	<20190403062249.GB1281@localhost>
+In-Reply-To: <20190403062249.GB1281@localhost>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 3 Apr 2019 12:29:29 -0700
+Message-ID: <CAJ86T=Wfp+1mrgWZCOG5VrhONADi08yZXd4Fm3L2Txb1euyUuA@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] Correct and improve the ARM tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,59 +56,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 17:35:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Apr 2019 19:29:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-I appreciate the nagging about testing, but I just did an update and
-realized these patches never made it into master so I could request they
-move into thud.
+On Tue, Apr 2, 2019 at 11:23 PM Adrian Bunk <bunk@stusta.de> wrote:
+> On Tue, Apr 02, 2019 at 09:26:46PM +0100, Richard Purdie wrote:
+> >...
+> > "armv4t" is defined in the arm tune files to mean "add -march=armv4t"
+> > which is the convention used throughout all the tune files.
+> >...
+>
+> Unfortunately this is not true.
+>
+> OE has both armv7a and armv7at tunes.
+>
+> There is no armv7a without Thumb support,
+> so no -march=armv7-at exists in gcc.
+>
+> Both armv7a and armv7at tunes pass the same march to gcc,
+> but [1] is not true:
+>   Default to using the Thumb-2 instruction set for armv7a and above.
+>
+> The hardware supports Thumb-2 in any case, the actual difference between
+> the armv7a and armv7at OE tunes is whether OE tells the compiler to
+> generate ARM or Thumb-2 code.
+>
+> OE has both armv6 and armv6t tunes.
+>
+> There is no armv6 without Thumb support
+> so no -march=armv6t exists in gcc.
+>
+> Some v6 support only Thumb-1 and some v6 support also Thumb-2,
+> so what gcc does have is an -march=armv6t2.
+> But OE lacks tunes for that.
+>
+> For matching the gcc options it would be correct to remove all
+> armv6t and armv7at tunes that have no coresponding gcc options,
+> and add armv6t2 tunes.
 
-Philip
+Aligning the tuning options exposed via the machine config files to
+those supported by gcc seems like a worthy goal... but would be a big
+upheaval at this point.
 
-On 02/21/2019 03:37 AM, Richard Purdie wrote:
-> On Thu, 2019-02-21 at 03:53 +0000, Manjukumar Harthikote Matha wrote:
->> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
->>> On Tue, 2019-02-19 at 19:34 +0000, Manjukumar Harthikote Matha
->>>
->>>>> PREFERRED_PROVIDER_virtual/dtb = "devicetree"
->>>>>
->>>>
->>>> Yes, I should have added this in the commit message. I will
->>>> update it
->>>> and re-send V2
->>>
->>> What may also help a lot here would be some tests. This is
->>> currently a blackhole in
->>> the tests :(
->>>
->> Are there examples of having tests only for bbclass in OE-Core? 
-> 
-> There are. See meta/lib/oeqa/selftest/cases/wic.py
-> 
-> I appreciate wic is a tool, not a class but the examples there should
-> help. You can trigger them with oe-selftest -r wic.
-> 
-> Another example which is a bbclass is selftest/cases/archiver.py which
-> does use a class inherit.
-> 
->> We need a recipe or create-one to inherit this class and probably add
->> that as a testcase. 
->> I am not sure how to proceed, any example would help to implement the
->> same
-> 
-> See above, they show how to add small config fragments. If you do need
-> a full recipe, then the meta-selftest layer of OE-Core should be able
-> to help too.
-> 
-> If you have any other questions or run into issues please do ask!
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
-> 
-> 
+Note that the problem isn't specific to ARM. There are similar issues
+for x86, but there we seem happy to provide a very minimal abstraction
+with no attempt to track gcc. e.g. "corei7" hasn't been a documented
+-march option since gcc 4.8 and we (somewhat arbitrarily) map it to
+-march=nehalem to hide that fact from end users.
+
+So the high level question seems to be: should DEFAULTTUNE even
+attempt to provide a full featured mapping to the options provided by
+gcc? Are we happy to expose a limited subset without a 1:1 mapping for
+the options we do expose (current ARM approach) or is it better for
+DEFAULTTUNE to hide away all the complexity of the options provided by
+gcc (current x86 approach).
+
+> And that's only for the legacy 32bit platforms.
+>
+> armv8 already has 21 feature modifiers in gcc 9,
+> and while not all 2^21 or 3^21[2] combinations are
+> valid the old tune approach won't scale for that.
+>
+> > Cheers,
+> >
+> > Richard
+>
+> cu
+> Adrian
+>
+> [1] https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#migration-2.6-miscellaneous-changes
+> [2] enable/disable/default
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
