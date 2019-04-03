@@ -1,49 +1,55 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 353397D277
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FEE47D245
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 11:54:59 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r4so20912971wrq.8
+	Wed,  3 Apr 2019 12:26:30 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id B9775185BD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 04:55:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yAW7L4s0mCb5Vg6c0zyMLyfYgpmczixbvVKxuJ6A1fE=;
-	b=hoIWMRuqGRASGxszILet76rtqdfl+Xqa93t/XVS5Fbe4iEJc0G131TjFwAKiYoAYk+
-	0ALWwr367UUgFS9Sp5eX7JHI6hrCddrFhSDvor1cbCl0JkmluE2+7GPq3kfzibeaRsE8
-	q4f4OouJAJUzyuG215R2ZZiFILE6myLO//bzI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yAW7L4s0mCb5Vg6c0zyMLyfYgpmczixbvVKxuJ6A1fE=;
-	b=aINWJxxM5HLv8VUrhaDBW87nwCi04OaT0okmMx8h40rrnnUfZCySsAJMej44cVy+eQ
-	JpGYh5TCsG1X66EzV+XXO0/tJO8LMZVRCKqVn71G8xin2IzcXI/18HWLsOknKxadL4c0
-	fh/P82azliJ9S4w91XOaP1axKuCHBz0DGkqb9aXQehSDpAurIgKWYiC+THpEyi7Cebiz
-	fpMwkVHTfUCFJwH46jkHPfUWROfUsDPQm091l+1ou0Jtc4EqVgBSIz6GdytUcxJKtpK0
-	2ythTljJ0FgJG1L8gePud+gdWmjlmcVYpwF1cDPWMXN5U3uXnwyYWX/dLIzkzzBvI7kS
-	ZC9Q==
-X-Gm-Message-State: APjAAAV1XErogUNx41Zdtl5Ep6V0faIHrm759pNGmWwS9qycNRlJej5Z
-	nrzCBwLcQ/heptClimrOKGZrNuZxNmaiig==
-X-Google-Smtp-Source: APXvYqwyhtQzU01PspdCO2LB2UvEwXGD53Gezujzj1zD8/g3Y8UIR8gJcdrSJ8phQNCTN8yTAuM7og==
-X-Received: by 2002:adf:ed8a:: with SMTP id c10mr2653667wro.40.1554292499616; 
-	Wed, 03 Apr 2019 04:54:59 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x205sm12631025wmg.9.2019.04.03.04.54.58
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 04:54:58 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	Wed,  3 Apr 2019 14:26:29 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id 2nZ36V8mJBcC
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Apr 2019 14:26:28 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id DAF7A18325
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Apr 2019 14:26:28 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C39BC1E08B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Apr 2019 14:26:28 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B872A1E089
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Apr 2019 14:26:28 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Apr 2019 14:26:28 +0200 (CEST)
+Received: from saur-2.se.axis.com (saur-2.se.axis.com [10.92.3.2])
+	by thoth.se.axis.com (Postfix) with ESMTP id ACB8F285A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  3 Apr 2019 14:26:28 +0200 (CEST)
+Received: from saur-2.se.axis.com (localhost [127.0.0.1])
+	by saur-2.se.axis.com (8.14.5/8.14.5) with ESMTP id x33CQSff018499
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 3 Apr 2019 14:26:28 +0200
+Received: (from pkj@localhost)
+	by saur-2.se.axis.com (8.14.5/8.14.5/Submit) id x33CQSWx018498
+	for openembedded-core@lists.openembedded.org;
+	Wed, 3 Apr 2019 14:26:28 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2019 12:54:58 +0100
-Message-Id: <20190403115458.28172-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] wic/engine: Add missing newline
+Date: Wed,  3 Apr 2019 14:26:26 +0200
+Message-Id: <20190403122626.18451-1-pkj@axis.com>
+X-Mailer: git-send-email 2.12.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH] useradd.bbclass: Make sure users/groups exist for package_write_* tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +62,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 11:54:59 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 03 Apr 2019 12:26:30 -0000
 
-On some hosts the wic.Wic2.test_wic_cp_ext selftest was failing as files weren't
-being copied into the rootfs with "wic cp". This was due to a bug added by:
+If the populate_lic task and any of the package_write_* tasks need to
+run, but the package task can be restored from the sstate cache, then
+the fetch task, which is a dependency of populate_lic, will wipe out
+the RSS including any users/groups that have been created. This
+results in that the package_write_* tasks are run without any
+user/group information, which causes them to fallback to either use
+the root user for any unknown users/groups (rpm) or to use the numeric
+UIDs/GIDs (deb/ipk). Neither solution will yield correct packages.
 
-http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=89d4a8df074598cfb3a76e41db7c45d845afd961
-
-where there should be a second newline added at the end of the expression due
-to the difference in the way echo -e and printf behave.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- scripts/lib/wic/engine.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/useradd.bbclass | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index ea600d2854e..ab33fa6042e 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -338,7 +338,7 @@ class Disk:
-     def copy(self, src, pnum, path):
-         """Copy partition image into wic image."""
-         if self.partitions[pnum].fstype.startswith('ext'):
--            cmd = "printf 'cd {}\nwrite {} {}' | {} -w {}".\
-+            cmd = "printf 'cd {}\nwrite {} {}\n' | {} -w {}".\
-                       format(path, src, os.path.basename(src),
-                              self.debugfs, self._get_part_image(pnum))
-         else: # fat
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 124becd082..e32315a1af 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -4,7 +4,7 @@ inherit useradd_base
+ # target sysroot, and shadow -native and -sysroot provide the utilities
+ # and support files needed to add and modify user and group accounts
+ DEPENDS_append_class-target = " base-files shadow-native shadow-sysroot shadow base-passwd"
+-PACKAGE_WRITE_DEPS += "shadow-native"
++PACKAGE_WRITE_DEPS += "shadow-native shadow-sysroot base-passwd"
+ 
+ # This preinstall function can be run in four different contexts:
+ #
+@@ -144,7 +144,10 @@ python useradd_sysroot_sstate () {
+     task = d.getVar("BB_CURRENTTASK")
+     if task == "package_setscene":
+         bb.build.exec_func("useradd_sysroot", d)
+-    elif task == "prepare_recipe_sysroot":
++    elif (task == "prepare_recipe_sysroot" or
++          task == "package_write_deb" or
++          task == "package_write_ipk" or
++          task == "package_write_rpm"):
+         # Used to update this recipe's own sysroot so the user/groups are available to do_install
+         scriptfile = d.expand("${RECIPE_SYSROOT}${bindir}/postinst-useradd-${PN}")
+         bb.build.exec_func("useradd_sysroot", d)
+@@ -161,13 +164,16 @@ python useradd_sysroot_sstate () {
+         os.chmod(scriptfile, 0o755)
+ }
+ 
+-do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
+-SYSROOTFUNC_class-target = "useradd_sysroot_sstate"
+ SYSROOTFUNC = ""
++SYSROOTFUNC_class-target = "useradd_sysroot_sstate"
+ 
+-SYSROOT_PREPROCESS_FUNCS += "${SYSROOTFUNC}"
++do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
++do_package_write_deb[prefuncs] += "${SYSROOTFUNC}"
++do_package_write_ipk[prefuncs] += "${SYSROOTFUNC}"
++do_package_write_rpm[prefuncs] += "${SYSROOTFUNC}"
+ 
+-SSTATEPREINSTFUNCS_append_class-target = " useradd_sysroot_sstate"
++SYSROOT_PREPROCESS_FUNCS += "${SYSROOTFUNC}"
++SSTATEPREINSTFUNCS += "${SYSROOTFUNC}"
+ 
+ do_package_setscene[depends] += "${USERADDSETSCENEDEPS}"
+ do_populate_sysroot_setscene[depends] += "${USERADDSETSCENEDEPS}"
 -- 
-2.20.1
+2.12.0
 
 
