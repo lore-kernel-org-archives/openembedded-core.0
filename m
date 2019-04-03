@@ -1,52 +1,49 @@
 Return-Path: <rehsack@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3FD087D231
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E0387D20A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 13:18:31 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id h18so8226438wml.1
+	Wed,  3 Apr 2019 13:26:41 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id p10so21382763wrq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 06:18:32 -0700 (PDT)
+	Wed, 03 Apr 2019 06:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=sbn4BKRWS4htYcIzYxmFD8jmqR5CO+doOupc5oJi7nM=;
-	b=Rp3n7fsteYzsTuaJuiuwRFsXXJmtWS0j2pGpHwCNybvPP2wiWxofv1ccLr6Ejtd9oo
-	R2TogA3xI2s8JC7Y0Q0JcdJl96sXMCWpbFuX4UnKs+sO1R9Ha+UtUr0ynJGzCB5WUsg9
-	LCVIcyoS9lIdhSVQR5hdYdWW3iGbGYAFAssDjQQakoxfMJATF33Y4m9h0oKHuXGlDMIr
-	FCcBgKsJ06c5JvNq/bBanmF0Fe/GfzmmcztXlgUxeJGNno+axZoGdCt8nnqhNC82MMtI
-	EKMgKdlkdH5rpGXyP3SZlkvyb+8It52hCidY6Tax1FFJ6xxEkBUN41o4l/P+R/jVgf1G
-	D25A==
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=gcpZIYYpQ9G+BXawmLeHMKlrERCiwIBOq5UHKAealgE=;
+	b=mPRIpkJfT4QoaLa4PNvsiknxRi89OWmaRSW8KQBq9U5NHdheG5BXID2yFxNjxCkViM
+	pJHp/SffXzCTx1XTi77laXdzji0T6WvBoJ6uy7sf8VIaPTXKSJf6pvsQTYVct0QNXaY2
+	e1XIT2ZDftShHlYMcl6wtDIX4JohbTqt+bROU64UdRTHKamyXGRZoueXFsZ4WyYwuE5d
+	S4p/e4jtS3HjBaJU08aaHCAob42mCLOzOX0ySRqa3VGbfC3X8LJryWuQUy4as4lUQ3Y5
+	c1hNTq5yysx5LPjie76j+lvTcbLY60kVdyjvnLFXZzJqi7Z5B/vMKAqnZj1UDNXJnJ3F
+	OvIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=sbn4BKRWS4htYcIzYxmFD8jmqR5CO+doOupc5oJi7nM=;
-	b=ZX/Y1ivs/SMP7vG5cQBKy9hL6Mf+DQErs6yELir5ZanqMjdRWv34VQbPohqjWJDyvg
-	mD6O/24o3gdFvgJfj69mL1/SaDekkZ0qZ6w8ptAMyiiDPGXN7ZSXcpYUlMjldDzqe5mi
-	eL4I3jBidj4NXQQ2631tuTjjrYnR6kVlHunutS7Mr42ruxXJPDWlmJLjIttkvjEhlrnY
-	KnBQZVV2sO3yqjO+wlfYocHql0VbhAMMg0D9WgnuJW73n7CaLMalUybW3pUT9kjeruBX
-	mnKDL6J2OMhhbc+j7ZMevZVxUHbwMWar4eDk1Tz6QGk0cM5m4oRT5ndMOwfi8Xb53nxW
-	IbSg==
-X-Gm-Message-State: APjAAAX5HTkROoLiquA88jd2k3D9ZoXvbIX7MrO6e0mLP04mRRs7M3ah
-	GPIQiBJnoUiAVMzDoltOKm5NVMACzIc=
-X-Google-Smtp-Source: APXvYqzA7hQq9khCJjW8bef7gCNdJzhaG5GObrM1Ot+xjQH37oQtuME0q4EJrH0NhlY3YiJrlWHB3g==
-X-Received: by 2002:a1c:ac07:: with SMTP id v7mr8104wme.49.1554297511512;
-	Wed, 03 Apr 2019 06:18:31 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=gcpZIYYpQ9G+BXawmLeHMKlrERCiwIBOq5UHKAealgE=;
+	b=boEgYbCY/3wFsd3gICjMjculKWjDbaKukua8HfMvDFnKbKG+ANXaHDwrrsvpgMEk6d
+	YGVPjrXg5CTuCKIBEEbXf6mO0r/yMuJaLSIbKGza2hEfV/DSaWkFX8ThfISHsJlY2F4/
+	Ezgz+eAfZyfCQ6lkDNIezl+qA0r39cX+haopSW5s+7Id9UWdxJjBpzNjTSngE+UaIIfZ
+	z+Z075kO8b2JWbSb4WrKQbZ+qvO3Ag/IK83eEGLW3PlW0PnxZY4F/h6XLBc4PZL82wpE
+	nX0etLd+ZGGuFkFdxR2a5Lsh30sOTQ7jw0GphvaBc+FT7SjptXgwmgM+gyqvh5cQ9FI/
+	mA9A==
+X-Gm-Message-State: APjAAAXpT3TzGlhOGUUHpNJomMBpwfYp/wgH1wQS4hzonArEh23zrhwb
+	jowCjPkpbMX/7fQYpzyHelU3fuZNZ/M=
+X-Google-Smtp-Source: APXvYqzVr/ChhJlFivDU6u+QB3q91uaXQsSejxvfxcWOk2Pqi0+xTKurUZy/o+2oKSeRgUCHgWh/hw==
+X-Received: by 2002:a5d:448b:: with SMTP id j11mr51001897wrq.218.1554298001568;
+	Wed, 03 Apr 2019 06:26:41 -0700 (PDT)
 Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
 	[78.94.80.58]) by smtp.gmail.com with ESMTPSA id
-	192sm15623313wme.13.2019.04.03.06.18.30
+	g8sm28142535wro.77.2019.04.03.06.26.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 06:18:30 -0700 (PDT)
+	Wed, 03 Apr 2019 06:26:40 -0700 (PDT)
 Sender: Jens Rehsack <rehsack@gmail.com>
 From: Jens Rehsack <sno@netbsd.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2019 15:18:22 +0200
-Message-Id: <20190403131822.19503-1-sno@netbsd.org>
+Date: Wed,  3 Apr 2019 15:26:19 +0200
+Message-Id: <20190403132619.17948-1-sno@netbsd.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
 Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] support CONFIG_MODULE_COMPRESS=y
+Subject: [PATCH] perl-sanity: support cpan versions of core modules
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,108 +56,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 13:18:31 -0000
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 03 Apr 2019 13:26:41 -0000
 
-In case, kernel config enables compressed modules, support of
-splitting via split_kernel_module_packages won't find any module.
-So, first expand module pattern regex to recognize compressed
-modules and then objcopy on temporary extacted to extract module
-information.
+Most of perl core modules are dual-life modules which exists on CPAN
+as well as they do in perl core. Sometime, fixes are uploaded to CPAN
+before a new perl is released which contains the fix of the core
+module. Also, some modules recent releases aren't fully backported
+to earlier releases (out of support, lack of specific feature, ...),
+which makes it up to the distribution build to choose between core
+or CPAN version, respectively.
 
 Signed-off-by: Jens Rehsack <sno@netbsd.org>
 ---
- meta/classes/kernel-module-split.bbclass | 36 +++++++++++++++++-------
- 1 file changed, 26 insertions(+), 10 deletions(-)
+ .../perl-sanity/perl_5.28.1.bb                | 33 +++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index e8d3eb5105..61819dca99 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -1,31 +1,31 @@
- pkg_postinst_modules () {
- if [ -z "$D" ]; then
--	depmod -a ${KERNEL_VERSION}
-+        depmod -a ${KERNEL_VERSION}
- else
--	# image.bbclass will call depmodwrapper after everything is installed,
--	# no need to do it here as well
--	:
-+        # image.bbclass will call depmodwrapper after everything is installed,
-+        # no need to do it here as well
-+        :
- fi
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+index 5aa7cd3ee1..e609c056d0 100644
+--- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+@@ -172,6 +172,39 @@ perl_package_preprocess () {
+             ${PKGD}${libdir}/perl5/config.sh
  }
  
- pkg_postrm_modules () {
- if [ -z "$D" ]; then
--	depmod -a ${KERNEL_VERSION}
-+        depmod -a ${KERNEL_VERSION}
- else
--	depmodwrapper -a -b $D ${KERNEL_VERSION}
-+        depmodwrapper -a -b $D ${KERNEL_VERSION}
- fi
- }
++inherit update-alternatives
++
++ALTERNATIVE_PRIORITY = "100"
++
++ALTERNATIVE_${PN} = "corelist cpan enc2xs encguess h2ph h2xs instmodsh json_pp libnetcfg \
++                     piconv pl2pm pod2html pod2man pod2text pod2usage podchecker podselect \
++                     prove ptar ptardiff ptargrep shasum splain xsubpp zipdetails"
++ALTERNATIVE_LINK_NAME[corelist] = "${bindir}/corelist"
++ALTERNATIVE_LINK_NAME[cpan] = "${bindir}/cpan"
++ALTERNATIVE_LINK_NAME[enc2xs] = "${bindir}/enc2xs"
++ALTERNATIVE_LINK_NAME[encguess] = "${bindir}/encguess"
++ALTERNATIVE_LINK_NAME[h2ph] = "${bindir}/h2ph"
++ALTERNATIVE_LINK_NAME[h2xs] = "${bindir}/h2xs"
++ALTERNATIVE_LINK_NAME[instmodsh] = "${bindir}/instmodsh"
++ALTERNATIVE_LINK_NAME[json_pp] = "${bindir}/json_pp"
++ALTERNATIVE_LINK_NAME[libnetcfg] = "${bindir}/libnetcfg"
++ALTERNATIVE_LINK_NAME[piconv] = "${bindir}/piconv"
++ALTERNATIVE_LINK_NAME[pl2pm] = "${bindir}/pl2pm"
++ALTERNATIVE_LINK_NAME[pod2html] = "${bindir}/pod2html"
++ALTERNATIVE_LINK_NAME[pod2man] = "${bindir}/pod2man"
++ALTERNATIVE_LINK_NAME[pod2text] = "${bindir}/pod2text"
++ALTERNATIVE_LINK_NAME[pod2usage] = "${bindir}/pod2usage"
++ALTERNATIVE_LINK_NAME[podchecker] = "${bindir}/podchecker"
++ALTERNATIVE_LINK_NAME[podselect] = "${bindir}/podselect"
++ALTERNATIVE_LINK_NAME[prove] = "${bindir}/prove"
++ALTERNATIVE_LINK_NAME[ptar] = "${bindir}/ptar"
++ALTERNATIVE_LINK_NAME[ptardiff] = "${bindir}/ptardiff"
++ALTERNATIVE_LINK_NAME[ptargrep] = "${bindir}/ptargrep"
++ALTERNATIVE_LINK_NAME[shasum] = "${bindir}/shasum"
++ALTERNATIVE_LINK_NAME[splain] = "${bindir}/splain"
++ALTERNATIVE_LINK_NAME[xsubpp] = "${bindir}/xsubpp"
++ALTERNATIVE_LINK_NAME[zipdetails] = "${bindir}/zipdetails"
++
+ require perl-ptest.inc
  
- autoload_postinst_fragment() {
- if [ x"$D" = "x" ]; then
--	modprobe %s || true
-+        modprobe %s || true
- fi
- }
- 
- PACKAGE_WRITE_DEPS += "kmod-native depmodwrapper-cross"
- 
- do_install_append() {
--	install -d ${D}${sysconfdir}/modules-load.d/ ${D}${sysconfdir}/modprobe.d/
-+        install -d ${D}${sysconfdir}/modules-load.d/ ${D}${sysconfdir}/modprobe.d/
- }
- 
- PACKAGESPLITFUNCS_prepend = "split_kernel_module_packages "
-@@ -44,9 +44,23 @@ python split_kernel_module_packages () {
-     def extract_modinfo(file):
-         import tempfile, subprocess
-         tempfile.tempdir = d.getVar("WORKDIR")
-+        compressed = re.match( r'.*\.([xg])z$', file)
-         tf = tempfile.mkstemp()
-         tmpfile = tf[1]
--        cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
-+        if compressed:
-+            tmpkofile = tmpfile + ".ko"
-+            if compressed.group(1) == 'g':
-+                cmd = "gunzip -dc %s > %s" % (file, tmpkofile)
-+                subprocess.check_call(cmd, shell=True)
-+            elif compressed.group(1) == 'x':
-+                cmd = "xz -dc %s > %s" % (file, tmpkofile)
-+                subprocess.check_call(cmd, shell=True)
-+            else:
-+                msg = "Cannot decompress '%s'" % file
-+                raise msg
-+            cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", tmpkofile, tmpfile)
-+        else:
-+            cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
-         subprocess.check_call(cmd, shell=True)
-         # errors='replace': Some old kernel versions contain invalid utf-8 characters in mod descriptions (like 0xf6, 'ö')
-         f = open(tmpfile, errors='replace')
-@@ -54,6 +68,8 @@ python split_kernel_module_packages () {
-         f.close()
-         os.close(tf[0])
-         os.unlink(tmpfile)
-+        if compressed:
-+            os.unlink(tmpkofile)
-         vals = {}
-         for i in l:
-             m = modinfoexp.match(i)
-@@ -133,7 +149,7 @@ python split_kernel_module_packages () {
-     kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME") or "kernel"
-     kernel_version = d.getVar("KERNEL_VERSION")
- 
--    module_regex = r'^(.*)\.k?o$'
-+    module_regex = r'^(.*)\.k?o(?:\.[xg]z)?$'
- 
-     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
-     module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
+ FILES_${PN} = "${bindir}/perl ${bindir}/perl.real ${bindir}/perl${PV} ${libdir}/libperl.so* \
 -- 
 2.17.1
 
