@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
-	[209.85.221.44])
-	by mail.openembedded.org (Postfix) with ESMTP id BCDA07D3CE
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id AB2E77D3D8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 17:04:23 +0000 (UTC)
-Received: by mail-wr1-f44.google.com with SMTP id k11so22432015wro.5
+	Wed,  3 Apr 2019 17:04:24 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id v14so9218230wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 10:04:25 -0700 (PDT)
+	Wed, 03 Apr 2019 10:04:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hzk/tjZzMRWxORB0IPs3e8O4nBV0dNJE4eN2RNOKBCI=;
-	b=KYHXTnpSStRLHEdAJbcxcEVGpVIv4kikOEzpJ70tVQ6ErNz8h09hVsYldSv6QhGmi/
-	EqqRZan5EUtX7qhIIlpLyzdd+NRKBWJ4ClKkpEKYFl6SCeP8MMQjMPYyxOYc0NJtGNpt
-	DJhMaMAwoYM6YNrKYoVJSWAbHZfCYc7dH9bSHApkZEN9nzFcPbv7mI6e7YPZsY5Kmjdg
-	XhZa0WtxiEh4Ecg7rLvf9HNV3QuRYCkCRkiH6hoOaL7CwSUysMkDOw1jHJs2xufx2l8k
-	8VOLuXyetuJs2EeloUSuieSzECv4F9cK3PIFZycSJ+KMFIJfh7LNEyKSgC6E+sALfwK9
-	tcIw==
+	bh=sL6cMEfgrpsGxEat61D3vOZQf/dnKU7lz4SXULQ2o0Q=;
+	b=wFUSOcxtd8cFuTbLc8nUi3L143S4tkTTsS6Zl0AOzLpMBKm/chrD+4I1MPj/CaGiLA
+	3998Q750jWU6X7+r1KBsmqgzaw386VuH0b++xhC6N8JcA5XlFPFYCeW6AHy+beuJFAgk
+	WI6V9CIPV4bMSK7c8j7wgE5Sy9G2ArjRJM+OIYI0aMCW3fMJKPtRWacFqp8D7ZBfmvfm
+	V23cUctemfRhSIOty6Yx2SiLzt47WcScD9tov9doMASWRR++VrBcqeuM0NJ8rWzTgFne
+	jYCycLQwqo2/BhsccQAoFxsiwbolLviv8btv3WkRXBypfjz+ZjaRrqiFhCM2S1mfthRh
+	iRWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=hzk/tjZzMRWxORB0IPs3e8O4nBV0dNJE4eN2RNOKBCI=;
-	b=nZTW1fNJyGabgTLLz2UPAJ03Pa67TlmGIlGx0rQLOp6jTI+Fwsb0QqkqGiIgjCeFJm
-	c2Dh+ialBUBlKt8JhZGO8dpLsvqh8elPJ4TIJSk9ExfwS5+wcH/8x70hiou75kQI8iyp
-	RdISaxdqFXPkoBzdYMl+5+AHlu1qzxMkxwWmvnQq6zLe7pcFKmiPJq5qLvyno62vauIf
-	xHmAiCkNGKhKaytc9oSAwVjG5+TG9bCmN83yiLYGRPI4ErarfxjbjjH6ZQlewDn/4uiR
-	cRkqJJ4ltq0JJtDvKQTwee0dQp3yvBYuWEeEoC62E4dSlnaGuMxRbpakpCDAov768XOq
-	NnUQ==
-X-Gm-Message-State: APjAAAVVrpFdMp9nvebY4yfb69NavIeYfk4ru5d3QP9Ni02MI/b30tpu
-	4rrLmQdWwIdWfqyHUoZ+GfMzpSpy6xs=
-X-Google-Smtp-Source: APXvYqzYE2gwzU+mf9725gta/k25PCfzZmytJv4T0qpJs31hXbQx/csTm0c3Y6tsTFpiWjnfsFgQhA==
-X-Received: by 2002:a5d:4d42:: with SMTP id a2mr496902wru.130.1554311064292;
-	Wed, 03 Apr 2019 10:04:24 -0700 (PDT)
+	bh=sL6cMEfgrpsGxEat61D3vOZQf/dnKU7lz4SXULQ2o0Q=;
+	b=VIa2Lm+QPYDesSsw1mcF6/KZ7uayJ4zH3X4Lqg9FrWyX+gkQBn+pgi9ALOzaPdBrKh
+	VnC/mVPyXJ9Y84dmd0auECJVVBKTbJGcd9yxXPgmHYvOB59ycZXAFTiusTZEyvInSKdd
+	Im/IIGX1kNAfJDTtkur93eTblaO3nmPS+WAtteLSnSVkqyg1x/s2RNTmd5yNXBrWrGbu
+	eJIbwas+9UV96f5L8UMGvMtGNY1tYNRku73rufBV/wWUz09j4ic+7DsuDTmuV5ciLrvX
+	Fht+YZHavS5SOMltZOu5DHKx1MWZaYlF6XFx+hQmNQhY9BJpAz51Gu/QCyAb/r4MzBtm
+	8HMQ==
+X-Gm-Message-State: APjAAAVwZnKz/CaGW2XHrP/P9Ki2TowuwVy+UrJnGiBhlgKySC5Qo/qn
+	GjbWO/ff68RT5F39f1CBVvkjahekXLs=
+X-Google-Smtp-Source: APXvYqyN3jLMpu2KePIimtQAKDj+21bJCJiqOuxY1OsugUTFDiRXmtNaiiGw7qjlVwjpGm9JV4AnZw==
+X-Received: by 2002:a1c:9dc8:: with SMTP id g191mr739726wme.132.1554311065257; 
+	Wed, 03 Apr 2019 10:04:25 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o17sm17362170wrw.73.2019.04.03.10.04.23
+	o17sm17362170wrw.73.2019.04.03.10.04.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 10:04:23 -0700 (PDT)
+	Wed, 03 Apr 2019 10:04:24 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2019 18:04:11 +0100
-Message-Id: <20190403170412.23568-8-ross.burton@intel.com>
+Date: Wed,  3 Apr 2019 18:04:12 +0100
+Message-Id: <20190403170412.23568-9-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190403170412.23568-1-ross.burton@intel.com>
 References: <20190403170412.23568-1-ross.burton@intel.com>
-Subject: [PATCH 8/9] xmlto: clean up RDEPENDS
+Subject: [PATCH 9/9] gtk+: update for new catalog path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,40 +59,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 17:04:24 -0000
+X-List-Received-Date: Wed, 03 Apr 2019 17:04:25 -0000
 
-Because of differences in how RDEPENDS works for native/target, add libxml2 and
-libxslt to RDEPENDS (so that native dependencies work), but also add
-libxml2-utils (for xmllint) and libxslt-bin (for xsltproc) to target RDEPENDS.
+The XML catalogue is now at the canonical path, ${sysconfdir}/xml/catalog.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-gnome/gtk+/gtk+.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index 06dc002083d..b17c11f5464 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -12,16 +12,16 @@ SRC_URI[md5sum] = "a1fefad9d83499a15576768f60f847c6"
- SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51fd8aad3"
+diff --git a/meta/recipes-gnome/gtk+/gtk+.inc b/meta/recipes-gnome/gtk+/gtk+.inc
+index 14ed8d812ca..d6d14a79d5a 100644
+--- a/meta/recipes-gnome/gtk+/gtk+.inc
++++ b/meta/recipes-gnome/gtk+/gtk+.inc
+@@ -26,7 +26,7 @@ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb x11', d)}"
+ PACKAGECONFIG[x11] = "--with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}"
+ # without --with-gdktarget=directfb it will check for cairo-xlib which isn't available without X11 DISTRO_FEATURE
+ PACKAGECONFIG[directfb] = "--with-gdktarget=directfb,,directfb"
+-PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog.xml, --disable-man, libxslt-native xmlto-native"
++PACKAGECONFIG[manpages] = "--enable-man --with-xml-catalog=${STAGING_ETCDIR_NATIVE}/xml/catalog, --disable-man, libxslt-native xmlto-native"
  
- inherit autotools
--RDEPENDS_class-native = "libxslt-native"
+ inherit autotools gtk-doc pkgconfig update-alternatives gtk-immodules-cache gobject-introspection manpages
  
--# xmlto needs getopt/xmllint/xsltproc/bash/tail at runtime
- RDEPENDS_${PN} = "docbook-xml-dtd4 \
-                   docbook-xsl-stylesheets \
-                   util-linux \
-                   libxml2 \
-+                  libxslt \
-                   bash \
- "
- RDEPENDS_${PN}_append_class-target = " \
-+                  libxml2-utils \
-                   libxslt-bin \
-                   coreutils \
- "
 -- 
 2.11.0
 
