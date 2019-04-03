@@ -1,57 +1,47 @@
-Return-Path: <jdmason@kudzu.us>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A2547D2E0
+Return-Path: <nathan@nathanrossi.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CA657D29B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 03:51:15 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id 139so9013009ita.4
+	Wed,  3 Apr 2019 05:29:53 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id c1so5873681wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Apr 2019 20:51:17 -0700 (PDT)
+	Tue, 02 Apr 2019 22:29:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+	d=nathanrossi.com; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wW/MoSS1flQjW8WCA7tfOy9rLOON5NNHQAszV4SFVh4=;
-	b=vh3LYBm9xqV+/Uq6hslzANV2nirm9RJYB5aL/GH3UqohlDLKsKF4+sUilRikTyXENh
-	+tuaE0B39SGESvQTPZoqo+CzTq+F9EY+J1wpcZJI+U8Gpr18nQkIYNILpk5qS5E4r4rG
-	L9hroW/m8D7F4NNrNTvfbp98OkUvGNJRlEz90OPheinNzPP1lqt2fsDXJfgyvk3gBl7b
-	+YlhvAwF2sh2Alk76+26pr0tFq99YwK66i9Cej+ZGS87xZ/RVxvpWMGy1xqzUE1RzDRu
-	1V96XdRQYt30HJ0dspNsrWv4d7NU1wgtwoMv5yIe4SYOQCYQCwNBrOo+SypIqBOLXzgb
-	n0pw==
+	:cc; bh=dI9bX6cpafmxSYAPvN/n+cTmRK1Ez5WoWAAeUV3bs/E=;
+	b=J8fYPUvYB0YS5ZCw7OfAO2x7m74N6mqfXkny6va0bLc+tBxrVJKbCUzGw2+AixqKaA
+	IVehKNWyig8X7JzNlV/LRNW07a5uYXyd1pYH/HVGStfIoSgjeI8dQvDdIAKIH8KucTEp
+	83a2zqHKvGIEhK+lGieKSBOU9nA79oMF0wILzG1YOM7nXcRRY8A/EMHiGiif3kvtQZZh
+	qtrKhwh5JajVxRyWFtnVBIFucn9jiwmsB+XVWUbIn7W4DHJkgd6YrXdhDSgKbD0Am6ao
+	2jOg+5gfPXAs1PXJWtG88P+VczqcvmpZqBt6RMk02GYGcYhx8cPj2ntLhUV6YeMbr97o
+	NMzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=wW/MoSS1flQjW8WCA7tfOy9rLOON5NNHQAszV4SFVh4=;
-	b=PGy5cy3CGVheFEJk58mwVWnakRljEKBv5zCx1HBek0/Up4Q+BmEIbHAXdd7r6zYJ5X
-	v5Am8AJ2Vm/J9464g4cuXBStX42VVqBZ8Sq6UF+mS5nRO+mp9p436STyiV6cYUtziduR
-	S5CKYkDmKdrU3WcyoDMoomhCasYit3dd7kGrVxd49/IsSWfAkkce3MALD7eQHPQOhyoc
-	IPLJCIgLAEZp1CLWUUk+SthY85uGLT+mVTJRwvJdvyTBvTbyGUkHRxvAwk/7qxpzCmz+
-	sQkJUWbjpf9qq8DW2UEpqiI/osKZB+7cUniZ/dAymE68vVQmKXmJjK5KvqRVSvMGOkby
-	q1EA==
-X-Gm-Message-State: APjAAAX7qynLPXkeSAOLszqjndX+4WJVztKBlZOZKmTZFyJY+3B0JkW+
-	p+nEUNfw193UzfaV2FoKmicEf2xGIaUdNhAN58uz5w==
-X-Google-Smtp-Source: APXvYqwo0Lffrb2lFnEi2191xmGykfcdJi50Xv1qepDH7egCMc74NDfzpQ0dHroAPc4XB1AKGc6U0QlNBSpNEzXKaWQ=
-X-Received: by 2002:a24:55d8:: with SMTP id e207mr258269itb.119.1554263476745; 
-	Tue, 02 Apr 2019 20:51:16 -0700 (PDT)
+	bh=dI9bX6cpafmxSYAPvN/n+cTmRK1Ez5WoWAAeUV3bs/E=;
+	b=TtWfj4bf7xr6ge5TH8+NvFRY2B3fTQDwMHTnXr8M3CsUd+KdK9zRieQV5/eS3Le5or
+	d1+PVw0GB0rUuw39Jfx+uZI5UAsUQUVTGRAS3a8mPpJnGY+UmyoBXkOOofTyb3AriouE
+	tfhCOhp0D5mIvtOYO8tOYqPwajUKotSnMCVJ1G3cwbltACqQSgu+bUszbPqHy/O/+DMw
+	KgJ5VZBq0GYjh/pqRJKsAmXswJL+Qmc4isve+a7ta3cWUyLjS69QMtY5PKX6Jpx3U5b9
+	4PJgpQn9Ak/+bHbcC1B0Vfh+sTlt5MqkLo+0T+E0cPzZKhui64KNBpU6LDQIM9jitnMD
+	RkVw==
+X-Gm-Message-State: APjAAAVyzgQ2qwaWZRniZdgAOWUKwM6k7FFaIXOebKlMXlrhgaFMn7+b
+	FrV2FKRXzYRz155i1M3iysk+jELUef5svsUabZMEnv9a
+X-Google-Smtp-Source: APXvYqwwQbxjnSX+gyamANf5oeB/4LQywh/0YCyi9SFNmrY6U7TDTdma6wgpkntngzJHvRn6E43SeWwbdmfie+9XI08=
+X-Received: by 2002:a1c:6587:: with SMTP id z129mr548484wmb.84.1554269394331; 
+	Tue, 02 Apr 2019 22:29:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
-	<b08083fc2f63f6324a652706f8343a0b8defe209.camel@linuxfoundation.org>
-	<a1416fe3-04fb-1d37-eaef-05b9a838254e@gmail.com>
-	<6068e963-94c1-7225-2c60-9ae027c74639@windriver.com>
-	<CAPoiz9yat-4XRgSFikh5PxrsgVpRAWNi2dx1O0+_iHyVR529Ag@mail.gmail.com>
-	<20190402194738.GZ4664@bill-the-cat>
-	<56e2b936-177c-7066-99c0-bb46854daa4b@gmail.com>
-	<20190403004550.GB4664@bill-the-cat>
-In-Reply-To: <20190403004550.GB4664@bill-the-cat>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Wed, 3 Apr 2019 03:51:05 +0000
-Message-ID: <CAPoiz9zYfcUJKOdix+1depKWUp5HBnNuSon0DvKKQLA6aKpdTQ@mail.gmail.com>
-To: Tom Rini <trini@konsulko.com>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe] Git commit process question.
+References: <20190402082153.3630-1-nathan@nathanrossi.com>
+	<20190402082153.3630-2-nathan@nathanrossi.com>
+In-Reply-To: <20190402082153.3630-2-nathan@nathanrossi.com>
+From: Nathan Rossi <nathan@nathanrossi.com>
+Date: Wed, 3 Apr 2019 15:29:43 +1000
+Message-ID: <CA+aJhH1hNNTpRvUEL8bscKkW2SXgmoBtMQ+13e-hQxb9PuTFvA@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/3] ccmake.bbclass: Create a cml1 style class for the CMake curses UI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,107 +54,145 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 03:51:16 -0000
+X-List-Received-Date: Wed, 03 Apr 2019 05:29:54 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 3, 2019 at 7:45 AM Tom Rini <trini@konsulko.com> wrote:
+On Tue, 2 Apr 2019 at 18:22, Nathan Rossi <nathan@nathanrossi.com> wrote:
 >
-> On Tue, Apr 02, 2019 at 02:24:51PM -0700, akuster808 wrote:
-> >
-> >
-> > On 4/2/19 12:47 PM, Tom Rini wrote:
-> > > On Tue, Apr 02, 2019 at 04:45:16AM +0000, Jon Mason wrote:
-> > >> On Tue, Apr 2, 2019 at 6:41 AM Mark Hatle <mark.hatle@windriver.com> wrote:
-> > >>> On 4/1/19 6:20 PM, akuster808 wrote:
-> > >>>>
-> > >>>> On 4/1/19 4:02 PM, Richard Purdie wrote:
-> > >>>>> On Mon, 2019-04-01 at 15:33 -0700, akuster808 wrote:
-> > >>>>>> Hello,
-> > >>>>>>
-> > >>>>>> I have noticed a large number of git commits with no header
-> > >>>>>> information being accepted.
-> > >>>>> Can you be more specific about what "no header information" means? You
-> > >>>>> mean a shortlog and no full log message?
-> > >>>> Commits with just a "subject" and signoff. No additional information
-> > >>> If you can convey the reason for the change in just the subject, that is
-> > >>> acceptable.. but there is -always- supposed to be a signed-off-by line according
-> > >>> to our guidelines.
-> > >>>
-> > >>> So if you see this, I think we need to step back and figure out where and why
-> > >>> it's happening and get it resolved in the future.
-> > >>>
-> > >>> (Places I've seen in the past were one-off mistakes and clearly that -- so it
-> > >>> wasn't anything that we needed to work on a correction.)
-> > >>>
-> > >>> --Mark
-> > >>>
-> > >>>> We tend to reference back to how the kernel does things.
-> > >>>>
-> > >>>> https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-> > >>>> These two sections in particular.
-> > >>>>
-> > >>>>
-> > >>>>     2) Describe your changes
-> > >>>>
-> > >>>> Describe your problem. Whether your patch is a one-line bug fix or 5000 lines of
-> > >>>> a new feature, there must be an underlying problem that motivated you to do this
-> > >>>> work. Convince the reviewer that there is a problem worth fixing and that it
-> > >>>> makes sense for them to read past the first paragraph.
-> > >>>>
-> > >>>>
-> > >>>> along with this section.
-> > >>>>
-> > >>>>
-> > >>>>     14) The canonical patch format
-> > >>>>
-> > >>>> This section describes how the patch itself should be formatted. Note that, if
-> > >>>> you have your patches stored in a |git| repository, proper patch formatting can
-> > >>>> be had with |git format-patch|. The tools cannot create the necessary text,
-> > >>>> though, so read the instructions below anyway.
-> > >>>>
-> > >>>> The canonical patch subject line is:
-> > >>>>
-> > >>>> Subject: [PATCH 001/123] subsystem: summary phrase
-> > >>>>
-> > >>>> The canonical patch message body contains the following:
-> > >>>>
-> > >>>>       * A |from| line specifying the patch author, followed by an empty line
-> > >>>>         (only needed if the person sending the patch is not the author).
-> > >>>>       * The body of the explanation, line wrapped at 75 columns, which will be
-> > >>>>         copied to the permanent changelog to describe this patch.
-> > >>>>       * An empty line.
-> > >>>>       * The |Signed-off-by:| lines, described above, which will also go in the
-> > >>>>         changelog.
-> > >>>>       * A marker line containing simply |---|.
-> > >>>>       * Any additional comments not suitable for the changelog.
-> > >>>>       * The actual patch (|diff| output).
-> > >>>>
-> > >>>>
-> > >>>>     - Armin
-> > >> There are existing git hooks that can be used to detect and fail to
-> > >> merge patches like this.  For Linux, I have the following in
-> > >> .git/hooks/pre-commit
-> > >> #!/bin/sh
-> > >> exec git diff --cached | scripts/checkpatch.pl -
-> > > FWIW, over in U-Boot land I do:
-> > > ./scripts/checkpatch.pl -q --git origin/master..
-> > > as part of checking things prior to pushing to master.
-> > Having hooks is fine but after the fact. It puts the burden back on the
-> > Layer maintainer to resolve. If we think more info is better, it needs
-> > to happen at time of change submittal.
+> The ccmake bbclass implements two tasks. The first task 'ccmake'
+> preserves the configured state of CMakeCache.txt (generated from the
+> configure task) and invokes the 'ccmake' program within a oe_terminal
+> execution. The user can then review, select and modify configuration
+> options and once satisfied with the configuration exit ccmake. Once
+> ccmake has exited the build can be run and the updated configuration
+> should be reflected in the output build.
 >
-> Note that I'm not talking about a hook, I'm talking about what's part of
-> my CI process.  And when something pops up there is when I grab the
-> patch in question and push back on the submitter.
-
-Exactly!  I do the same things for the Linux stuff I own.  I'll do a
-git-am, then redir the output and publicly shame them.  Public shaming
-is a vastly underrated method of behavior modification.
-
-Thanks,
-Jon
-
+> The ccmake bbclass has a second task 'ccmake_diffconfig' to compute the
+> differences in configuration which was modified by ccmake. Since there
+> are many ways to persist the configuration changes within recipes and
+> layer configuration, the differences are emitted as a bitbake recipe
+> fragment (configuration.inc) using EXTRA_OECMAKE as well as a CMake
+> script file which can be used as a input to cmake via the '-C' argument.
+> Both files are generated in the WORKDIR of the build and the paths to
+> the files are written as output from the build. It is then up to the
+> user to take this configuration and apply it to the desired location.
 >
-> --
-> Tom
+> Signed-off-by: Nathan Rossi <nathan@nathanrossi.com>
+> ---
+>  meta/classes/ccmake.bbclass | 97 +++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 97 insertions(+)
+>  create mode 100644 meta/classes/ccmake.bbclass
+>
+> diff --git a/meta/classes/ccmake.bbclass b/meta/classes/ccmake.bbclass
+> new file mode 100644
+> index 0000000000..933e122b35
+> --- /dev/null
+> +++ b/meta/classes/ccmake.bbclass
+> @@ -0,0 +1,97 @@
+> +inherit terminal
+> +
+> +python do_ccmake() {
+> +    import shutil
+> +
+> +    # copy current config for diffing
+> +    config = os.path.join(d.getVar("B"), "CMakeCache.txt")
+> +    if os.path.exists(config):
+> +        shutil.copy(config, config + ".orig")
+> +
+> +    oe_terminal(d.expand("ccmake ${OECMAKE_GENERATOR_ARGS} ${OECMAKE_SOURCEPATH} -Wno-dev"),
+> +        d.getVar("PN") + " - ccmake", d)
+> +
+> +    if os.path.exists(config) and os.path.exists(config + ".orig"):
+> +        if bb.utils.md5_file(config) != bb.utils.md5_file(config + ".orig"):
+> +            # the cmake class uses cmake --build, which will by default
+> +            # regenerate configuration, simply mark the compile step as tainted
+> +            # to ensure it is re-run
+> +            bb.note("Configuration changed, recompile will be forced")
+> +            bb.build.write_taint('do_compile', d)
+> +
+> +}
+> +do_ccmake[depends] += "cmake-native:do_populate_sysroot"
+> +do_ccmake[nostamp] = "1"
+> +do_ccmake[dirs] = "${B}"
+> +addtask ccmake after do_configure
+> +
+> +def cmake_parse_config_cache(path):
+> +    with open(path, "r") as f:
+> +        for i in f:
+> +            i = i.rstrip("\n")
+> +            if len(i) == 0 or i.startswith("//") or i.startswith("#"):
+> +                continue # empty or comment
+> +            key, value = i.split("=", 1)
+> +            key, keytype = key.split(":")
+> +            if keytype in ["INTERNAL", "STATIC"]:
+> +                continue # skip internal and static config options
+> +            yield key, keytype, value
+> +
+> +def cmake_diff_config_vars(a, b):
+> +    removed, added = [], []
+> +
+> +    for ak, akt, av in a:
+> +        found = False
+> +        for bk, bkt, bv in b:
+> +            if bk == ak:
+> +                found = True
+> +                if bkt != akt or bv != av: # changed
+> +                    removed.append((ak, akt, av))
+> +                    added.append((bk, bkt, bv))
+> +                break
+> +        # remove any missing from b
+> +        if not found:
+> +            removed.append((ak, akt, av))
+> +
+> +    # add any missing from a
+> +    for bk, bkt, bv in b:
+> +        if not any(bk == ak for ak, akt, av in a):
+> +            added.append((bk, bkt, bv))
+> +
+> +    return removed, added
+> +
+> +python do_ccmake_diffconfig() {
+> +    import shutil
+> +    config = os.path.join(d.getVar("B"), "CMakeCache.txt")
+> +    if os.path.exists(config) and os.path.exists(config + ".orig"):
+> +        if bb.utils.md5_file(config) != bb.utils.md5_file(config + ".orig"):
+> +            # scan the changed options
+> +            old = list(cmake_parse_config_cache(config + ".orig"))
+> +            new = list(cmake_parse_config_cache(config))
+> +            _, added = cmake_diff_config_vars(old, new)
+> +
+> +            if len(added) != 0:
+> +                with open(d.expand("${WORKDIR}/configuration.inc"), "w") as f:
+> +                    f.write("EXTRA_OECMAKE += \" \\\n")
+> +                    for k, kt, v in added:
+> +                        escaped = v if " " not in v else "\"{0}\"".format(v)
+> +                        f.write("    -D{0}:{1}={2} \\\n".format(k, kt, escaped))
+> +                    f.write("    \"\n")
+> +                bb.plain("Configuration recipe fragment written to: {0}".format(d.expand("${WORKDIR}/configuration.inc")))
+> +
+> +                with open(d.expand("${WORKDIR}/site-file.cmake"), "w") as f:
+> +                    for k, kt, v in added:
+> +                        f.write("SET({0} \"{1}\" CACHE {2} "")\n".format(k, v, kt))
+> +                bb.plain("Configuration cmake fragment written to: {0}".format(d.expand("${WORKDIR}/site-file.cmake")))
+> +
+> +                # restore the original config
+> +                shutil.copy(config + ".orig", config)
+> +            else:
+> +                bb.plain("No configuration differences, skipping configuration fragment generation.")
+> +    else:
+> +        bb.fatal("No config files found. Did you run ccmake?\n{0}".format(e))
+
+I've just noticed I had not cleaned up the debugging format of an
+exception here, I will send a v2 with this fixed up.
+
+Regards,
+Nathan
+
+> +}
+> +do_ccmake_diffconfig[nostamp] = "1"
+> +do_ccmake_diffconfig[dirs] = "${B}"
+> +addtask ccmake_diffconfig
+> +
+> ---
+> 2.20.1
 
