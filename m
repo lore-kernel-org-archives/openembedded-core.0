@@ -1,53 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 8138A7D2E0
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 445467D2FD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Apr 2019 13:54:05 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id k17so21463009wrx.10
+	Wed,  3 Apr 2019 13:58:06 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id h18so8409976wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 06:54:06 -0700 (PDT)
+	Wed, 03 Apr 2019 06:58:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=VRxb8GDEPvht/uh+57ZvATHd+txcTu2PekG8F2RhXmM=;
-	b=CX1ZD3juQgzU6kaFhAa8qIw7kvOpdhqLLX0pHMk9wZNAtz/KK6JGWjAXUxxc8GuM8c
-	lz73gx1BLTP/MdHDTlP1je8w99oOXxAXK1CZ5D2gcvtbvRxIVc1c23m6ltc8EtWMubLG
-	zC3V0GdBAOYo+wzSXVhESvdmQJ4LR8CSzDaPE=
+	bh=N2igmQL3qMs6tSBo36Yj7XZI4ioN7EZYbiqg2hu4v+U=;
+	b=Gpc99USXJaatmMr9klaD/DgQ8E/pIMjrd3UPsijT2+16ahfXKPHLZekipJPbOxcX42
+	E79V/AfFvAX1ZeI/kT7J3xfRs1SOPclyDuanAYS5UIQIwvF3vOxENfH0lRP2y/VETZ+R
+	Nc8vNkxAKnxXdyjA7Ztl3tw43GMG9LkrG+KJQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=VRxb8GDEPvht/uh+57ZvATHd+txcTu2PekG8F2RhXmM=;
-	b=qyEs7B2GyZ086nYiYq2uQ9KHK8AF2SPHm4GSka4aefumtueTU+n0L9ncz+ao/aDqtz
-	CmXBwVA740+QuRCsRqlfcHorubrMgyrVQ3krjbOF3XYyNd8aOKXsuppePMHeWvcGoc69
-	GP4cRpKfQaCEEtyjweC59IeqDLsqsT/hPa4+krrWL/ZiUbysHiHWFmoNgDtlgE7LFR97
-	xuKZcVPLs2nImFdPtKOvO1yfo5MRjYUalVAIq1+qGwr/N2Z4OTcoi+cG4On2O9LnGTAu
-	tcRfaeKmd9BhzebGdXi/uIjqPqBz/PsNzxWy1hk0ra7SkFH/Z4gG6uf+gIXo4N6YesF8
-	M6zw==
-X-Gm-Message-State: APjAAAW6cCPvB1BDQTgKoTH4JXOA2QpaLRDSG9YF2ErxsF+HKcCVrLqn
-	fmQ7hXZ/EnwXYP1QIcmst8MZuQ==
-X-Google-Smtp-Source: APXvYqzlcj62zZ985BKTrK7WrpBXJsEl31gUvYCzMwxIVtGSqjzAQPFfOO2yLE3aI6M74I+1sM2pig==
-X-Received: by 2002:adf:f1ce:: with SMTP id z14mr33118448wro.152.1554299646271;
-	Wed, 03 Apr 2019 06:54:06 -0700 (PDT)
+	bh=N2igmQL3qMs6tSBo36Yj7XZI4ioN7EZYbiqg2hu4v+U=;
+	b=UGhhARRSMxDaERDhgF9B/zYd/YXrD11ult1YzYAPA0rKMYKXaiClMfZcfx8+cdslfb
+	0pciyUvVv6vxkxQD9bFIyjY6w8Un3hOBvMK2NQeK51DdWsTTrZo0BYokY46D3HZqNT2x
+	Ozp2K8x9q6ZGa2rwYT4kDDk6B4M+5pqHQVREgOd5QljaMJUzS/FKVzKPrpMoZNgCL50F
+	4HEf9lrQ+gQcCFKa4rVDbJEkq1a6GOgVnBUMfVCMXgbKppn810IR6cdqnxZS7jhUdQ3k
+	LhHhz5622nGVf2OKnsjjoblf19Ik4Crzb8YFc0yd1NNkDEFAI/1gpeHYGk8sgDogMjsw
+	zruQ==
+X-Gm-Message-State: APjAAAUKDQHVnsXpmcnl4CcDRdJcx6Mr/RWRij7lxacVrv2baCz6uF8R
+	wa/vZGvpj8b1YrIUoY73D6TkJQ==
+X-Google-Smtp-Source: APXvYqzMdnDO1VL8VRuP50x/SSoaETw2XLgxwbCFFNOvCxej6+T9zCewrU2Z5obPMQM/5w9SApiLYQ==
+X-Received: by 2002:a1c:c910:: with SMTP id f16mr58331wmb.47.1554299886938;
+	Wed, 03 Apr 2019 06:58:06 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	v190sm41091077wme.18.2019.04.03.06.54.04
+	v16sm25212311wru.76.2019.04.03.06.58.05
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 03 Apr 2019 06:54:05 -0700 (PDT)
-Message-ID: <b81178abe3687349967473ab48fadef48cff088f.camel@linuxfoundation.org>
+	Wed, 03 Apr 2019 06:58:05 -0700 (PDT)
+Message-ID: <089f9da0ec7f175fcf327994f31e0728f75313a0.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Bach, Pascal" <pascal.bach@siemens.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 03 Apr 2019 14:54:04 +0100
-In-Reply-To: <355BE46A91031048906B695426A8D8E62EA2ECB0@DENBGAT9EL2MSX.ww902.siemens.net>
-References: <20190401121654.27469-1-pascal.bach@siemens.com>
-	<355BE46A91031048906B695426A8D8E62EA2ECB0@DENBGAT9EL2MSX.ww902.siemens.net>
+To: Jens Rehsack <sno@netbsd.org>, openembedded-core@lists.openembedded.org
+Date: Wed, 03 Apr 2019 14:58:04 +0100
+In-Reply-To: <20190403131822.19503-1-sno@netbsd.org>
+References: <20190403131822.19503-1-sno@netbsd.org>
 User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] cmake: 3.14.0 -> 3.14.1
+Subject: Re: [PATCH] support CONFIG_MODULE_COMPRESS=y
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,15 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Apr 2019 13:54:05 -0000
+X-List-Received-Date: Wed, 03 Apr 2019 13:58:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-04-03 at 09:20 +0000, Bach, Pascal wrote:
-> This patch should also go into warrior as I think we should not ship
-> 3.14.0 due to the issue mentioned bellow.
+On Wed, 2019-04-03 at 15:18 +0200, Jens Rehsack wrote:
+> In case, kernel config enables compressed modules, support of
+> splitting via split_kernel_module_packages won't find any module.
+> So, first expand module pattern regex to recognize compressed
+> modules and then objcopy on temporary extacted to extract module
+> information.
+> 
+> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+> ---
+>  meta/classes/kernel-module-split.bbclass | 36 +++++++++++++++++-----
+> --
+>  1 file changed, 26 insertions(+), 10 deletions(-)
 
-Thanks, will queue this in warrior-next.
+There is a lot of whitespace noise in this, could you clean that up and
+resend please?
 
 Cheers,
 
