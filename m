@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id B7FB37D48E
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 804D67D4D7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 22:16:46 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id k17so5633108wrx.10
+	Thu,  4 Apr 2019 22:16:53 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id p10so5700600wrq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 15:16:48 -0700 (PDT)
+	Thu, 04 Apr 2019 15:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=aEZhCNHqa6dNeNskT1gxqE9D2qhmhannGPNzbFGD0FY=;
-	b=pwIJQW2J6DkNzTKQFIzgicSJR4emAvrBQoa992mx02dvfiJZUk7nFuhA/VGBDYSh2n
-	ihrMGIO6NIkg3wJRPLFmpZhOpSGdCFMobUwlycy26ewZM/CJ1UENrdSOiPSukAN1iyZO
-	8IX79MpH4FJOulne+VOL2hAg/CW3kcyw7Hkj9tZq9YrzH89JDdg32BQCf8mqcZQ7AxYp
-	Ok7RI4LFa/iFryloBuaJiuBYpWLRp/KJLRxLeTDc5tjFWwqa8iCd+1HTLPSL7TOfNDzD
-	UckYSvCLjRUfVQEPCSjg2FC8P2l42gaNZwwtubs6lH1tDSE+CeRLs8BSZiV9OteW6N1S
-	S37A==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=FbFPAX3eyAw5RY0LRET3sg05QG8np52IS8v6mfofu1U=;
+	b=ZKCBD5PS2oUGqDuzKQzCd48TJV2bsbaXOcHsxg2P9mIgZQvV4tVnAYVB0l7KDvgst+
+	3twI+fpU+vj49Vre+54Zq4F9eHa8w/kxi/IzQE5YTA9QAtVDN2rGVuJNFoIAwN4uO8u9
+	Nk9Q/2MciMix3piygJRThzfwzRkgmzFXdUMcBdim5AIR746vJF9JSP8/HVc76l7+c2m/
+	lJYAV8tcFLlhd9x5LzwKnWQj5dJw8/3LwrpTpWFJQSWYuIRZ6OlnTxtlYLkpyWUmFFmi
+	rGLaxBgEDeEq81tNoXCm84ir5N6ICkWUHbfGYcEw4NHgmHjZQNEkgPDQW3SunpZichcD
+	F88g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=aEZhCNHqa6dNeNskT1gxqE9D2qhmhannGPNzbFGD0FY=;
-	b=kJcKSDrDnRr9q9n+loaAF4iVxsEBJGNO4VV4f2feteM1Tml3uP6pl1GXYBTy3iSEGf
-	X4jS2cT83NZ+Oct8zc9bm8Lijw5Ne0/FZxZX07mpnuy1T8xk1IhAMpQYK1SpF0G4kfue
-	ayFe2dhWh22ABAl+kOewAzQDsRwPiMCdKoX3LbuBiY/t+2RPz1P91oMjfQrU9lBYrl0T
-	mVQv0k+Y9SP3vKRv4AByf54gqYezzm0P8OvJQoLk6ujn/Vbbk3EPIoTPdtqhacUOGr3k
-	n3OXy+YIao1YF2TMiCwr062YGtSy7vXc3sEK2b6nnib65mpN+oPYrAmB845tYtXW2lb2
-	r9pA==
-X-Gm-Message-State: APjAAAWj9hx5D6OAAKmgJQfjA+znysHReCqNdPtV35szPmD8n0lIdXAS
-	plMV9i4r6D7PLMN1v7WvPWObR3X8cQ8=
-X-Google-Smtp-Source: APXvYqyfcmuMKQQ2d8bC1L0wpPIFDzhPJY32frzdL68nGVTSsxJ3rgIpwycVwQHwt7ao8/uTjndkSw==
-X-Received: by 2002:adf:fd46:: with SMTP id h6mr5962870wrs.139.1554416207033; 
-	Thu, 04 Apr 2019 15:16:47 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=FbFPAX3eyAw5RY0LRET3sg05QG8np52IS8v6mfofu1U=;
+	b=X9maZqeCAF618/ldYXyzWvYQQoq+dLrtaH5zEaqCsnxzg0uRuFFWcY5wJVY3movaUM
+	oT4VGwMZ3L9noqmzxP/yQlMVpAF79bUiDbLAyaWS7/f7d4Gkm5k7UMvPcWew3/qpRCEC
+	MpAhJN0i80G8nzjYWP28I0gbJ8t+16OveqayGcXlYeYM7s+WuqjC1Af8kceutpqf5/3h
+	XMBmxEaErhCN0wtfOdltKr6FBMXTZeCnMFbWjyNupZDNrovW/pbajoC/ArN84co05dXv
+	7u1bap/0uPvBU1k+5fATaDnROR7NVZWgtt9DBpZWuB/TdAjPIBLDoqQDz+z/kNJUZVhP
+	YsDA==
+X-Gm-Message-State: APjAAAWoUiuYNzqxiTq15yPmLArYqKffoauATYsiIVzs7K7/bO3wi2IY
+	wUaBClk8D+vjKuYQ/Cj3LktSYQ/059s=
+X-Google-Smtp-Source: APXvYqzo5G2PkT0URUP/hpTRdAvo9tdzE/xMwnbPiHO6FPidp6P6rvX+d+4dGsLQPlVAWzLvrCIwzA==
+X-Received: by 2002:a5d:4f11:: with SMTP id c17mr6009585wru.34.1554416213967; 
+	Thu, 04 Apr 2019 15:16:53 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d3sm305565wmf.46.2019.04.04.15.16.45
+	by smtp.gmail.com with ESMTPSA id d3sm305565wmf.46.2019.04.04.15.16.52
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Apr 2019 15:16:46 -0700 (PDT)
+	Thu, 04 Apr 2019 15:16:53 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2019 23:16:36 +0100
-Message-Id: <20190404221644.20496-1-ross.burton@intel.com>
+Date: Thu,  4 Apr 2019 23:16:37 +0100
+Message-Id: <20190404221644.20496-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH v2 1/9] xmlcatalog: new class to update the XML catalogue
+In-Reply-To: <20190404221644.20496-1-ross.burton@intel.com>
+References: <20190404221644.20496-1-ross.burton@intel.com>
+Subject: [PATCH v2 2/9] docbook-xml: use xmlcatalog class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +59,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 22:16:47 -0000
+X-List-Received-Date: Thu, 04 Apr 2019 22:16:53 -0000
 
-This is a new class to handle recipes that need to add/remove entries in the XML
-Catalog(ue)[1].  In the future it will handle updating the catalogue on the
-target, but the immediate requirement is during the build so currently this only
-works with native recipes.
+Instead of shipping a static catalog and patching it for native builds, use
+libxml2-native to generate a catalog with the correct paths.
 
-Note that as this is a new class and target use hasn't been implemented yet, it
-is possible that the behaviour of this class will change.
-
-[1] https://en.wikipedia.org/wiki/XML_catalog
+Use the xmlcatalog class to register this catalog automatically.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/xmlcatalog.bbclass | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
- create mode 100644 meta/classes/xmlcatalog.bbclass
+ .../docbook-xml/docbook-xml-dtd4/docbook-xml.xml   | 68 ----------------------
+ .../docbook-xml/docbook-xml-dtd4_4.5.bb            | 25 ++++----
+ 2 files changed, 12 insertions(+), 81 deletions(-)
+ delete mode 100644 meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml.xml
 
-diff --git a/meta/classes/xmlcatalog.bbclass b/meta/classes/xmlcatalog.bbclass
-new file mode 100644
-index 00000000000..075aef8c0c4
---- /dev/null
-+++ b/meta/classes/xmlcatalog.bbclass
-@@ -0,0 +1,24 @@
-+# A whitespace-separated list of XML catalogs to be registered, for example
-+# "${sysconfdir}/xml/docbook-xml.xml".
-+XMLCATALOGS ?= ""
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml.xml b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml.xml
+deleted file mode 100644
+index b71f559ef53..00000000000
+--- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4/docbook-xml.xml
++++ /dev/null
+@@ -1,68 +0,0 @@
+-<?xml version="1.0"?>
+-<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Notations V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook XML HTML Tables V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//ELEMENTS DocBook XML Information Pool V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Information Pool V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Additional General Entities V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook XML HTML Tables V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Additional General Entities V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook CALS Table Model V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Information Pool V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML V4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML V4.1//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//ENTITIES DocBook XML Notations V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Information Pool V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Notations V4.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook CALS Table Model V4.1.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//DTD CALS Table Model XML V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//ENTITIES DocBook XML Character Entities V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//ELEMENTS DocBook XML Document Hierarchy V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML V4.1.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Notations V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook CALS Table Model V4.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Normal Walsh//Exchange Table Model 19960430 XML V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Additional General Entities V4.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://docbook.org/xml/4.4/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://docbook.org/xml/4.1/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Notations V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//DTD DocBk XML V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/4.3/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Character Entities V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook XML Information Pool V4.1.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//DTD DocBook XML V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Additional General Entities V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://docbook.org/xml/4.1.2/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook XML HTML Tables V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://docbook.org/xml/4.5/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Notations V4.1.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Character Entities V4.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//Norman Walsh//ENTITIES DocBook XML Additional General Entities V4.0//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML V4.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook CALS Table Model V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.0/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://docbook.org/xml/4.2/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Character Entities V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD XML Exchange Table Model 19990315//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Character Entities V4.4//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.4/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Additional General Entities V4.1.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML V4.3//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://docbook.org/xml/4.3/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/4.3/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Information Pool V4.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook CALS Table Model V4.5//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.5/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook Document Hierarchy V4.1.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook Character Entities V4.1.2//EN" catalog="file:///usr/share/xml/docbook/schema/dtd/4.1.2/catalog.xml"/>
+-  <delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/4.1/docbookx.dtd" catalog="file:///usr/share/xml/docbook/schema/dtd/catalog.xml"/>
+-</catalog>
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+index da62b77a602..4b6a28e34c3 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+@@ -8,13 +8,14 @@ HOMEPAGE = "http://www.docbook.org/xml/"
+ LICENSE = "OASIS"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
+ 
++DEPENDS = "libxml2-native"
 +
-+SYSROOT_PREPROCESS_FUNCS_append = " xmlcatalog_sstate_postinst"
+ # Note: the upstream sources are not distributed with a license file.
+ # LICENSE-OASIS is included as a "patch" to workaround this. When
+ # upgrading this recipe, please verify whether this is still needed.
+ SRC_URI = "http://snapshot.debian.org/archive/debian/20160728T043443Z/pool/main/d/docbook-xml/docbook-xml_${PV}.orig.tar.gz \
+            file://LICENSE-OASIS \
+            file://docbook-xml-update-catalog.xml.patch \
+-           file://docbook-xml.xml \
+ "
+ 
+ SRC_URI[md5sum] = "487b4d44e15cffb1f4048af23f98208e"
+@@ -22,7 +23,7 @@ SRC_URI[sha256sum] = "b0f8edcf697f5318e63dd98c9a931f3fee167af0805ba441db372e0f17
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/docbook-xml/"
+ 
+-S="${WORKDIR}/docbook-xml-4.5.c31424"
++S = "${WORKDIR}/docbook-xml-4.5.c31424"
+ 
+ inherit allarch
+ BBCLASSEXTEND = "native"
+@@ -36,20 +37,18 @@ do_compile (){
+ }
+ 
+ do_install () {
+-    # Refer debian https://packages.debian.org/sid/all/docbook-xml/filelist
++    install -d ${D}${sysconfdir}/xml/
++    xmlcatalog --create --noout ${D}${sysconfdir}/xml/docbook-xml.xml
 +
-+xmlcatalog_complete() {
-+	ROOTCATALOG="${STAGING_ETCDIR_NATIVE}/xml/catalog"
-+	if [ ! -f $ROOTCATALOG ]; then
-+		mkdir --parents $(dirname $ROOTCATALOG)
-+		xmlcatalog --noout --create $ROOTCATALOG
-+	fi
-+	for CATALOG in ${XMLCATALOGS}; do
-+		xmlcatalog --noout --add nextCatalog unused file://$CATALOG $ROOTCATALOG
-+	done
-+}
-+
-+xmlcatalog_sstate_postinst() {
-+	mkdir -p ${SYSROOT_DESTDIR}${bindir}
-+	dest=${SYSROOT_DESTDIR}${bindir}/postinst-${PN}-xmlcatalog
-+	echo '#!/bin/sh' > $dest
-+	echo '${xmlcatalog_complete}' >> $dest
-+	chmod 0755 $dest
-+}
+     for DTDVERSION in 4.0 4.1.2 4.2 4.3 4.4 4.5; do
+-        install -d -m 755 ${D}${datadir}/xml/docbook/schema/dtd/${DTDVERSION}
+-        cp -v -R docbook-${DTDVERSION}/* ${D}${datadir}/xml/docbook/schema/dtd/${DTDVERSION}
++        DEST=${datadir}/xml/docbook/schema/dtd/$DTDVERSION
++        install -d -m 755 ${D}$DEST
++        cp -v -R docbook-$DTDVERSION/* ${D}$DEST
++        xmlcatalog --verbose --noout --add nextCatalog unused file://$DEST/catalog.xml ${D}${sysconfdir}/xml/docbook-xml.xml
+     done
+-
+-    install -d ${D}${sysconfdir}/xml/
+-    install -m 755  ${WORKDIR}/docbook-xml.xml ${D}${sysconfdir}/xml/docbook-xml.xml
+ }
+ 
+-do_install_append_class-native () {
+-	# Ensure that the catalog file sgml-docbook.cat is properly
+-	# updated when the package is installed from sstate cache.
+-	sed -i -e "s|file://.*/usr/share/xml|file://${datadir}/xml|g" ${D}${sysconfdir}/xml/docbook-xml.xml
+-}
++XMLCATALOGS = "${sysconfdir}/xml/docbook-xml.xml"
++inherit xmlcatalog
+ 
+ FILES_${PN} = "${datadir}/* ${sysconfdir}/xml/docbook-xml.xml"
 -- 
 2.11.0
 
