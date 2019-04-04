@@ -1,48 +1,56 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 582FB7D436
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AB777D3DC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 02:07:30 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 8so527839pfr.4
+	Thu,  4 Apr 2019 02:12:27 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id v12so422377pgq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 19:07:31 -0700 (PDT)
+	Wed, 03 Apr 2019 19:12:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
 	:user-agent:mime-version:in-reply-to:content-transfer-encoding
 	:content-language;
-	bh=59uiUjBZCEcOXqv29BCbV5BkXHzJ4dPdGFH44gQnjoI=;
-	b=d8FBd2ILyYwBf9YCj4QkKklukxj0knmMR/rlGxmX3ko0qvwivF/wwHhXBst/rmV2LB
-	kqIopxbIz3HVSVFzSiLBFlw/Dc6LYTLJLh0M/uo0rqrE0HevPSopk4i6sDTm3ZHrhXpr
-	Wi+EcMONzcBaLj76Qf1OFy0qUjb6HEJ5d3XgAwhtowN3Dk5VU3l9hMF0xvLVIcDda9mb
-	ZBx1nhiu8fW0xEVdDEzdlm/Eb8We3oHzVYq/09m2C7GWx9e6jVX10OYZKQcA867xT22y
-	4j30O+NSqHlR4ScjnyDKpELae/HDuizJmC8zt3YRq4qEfluP8DbswmO7sjyb0W/8fNTj
-	rZJA==
+	bh=kSTxLyCPTy7O/SX7NYOrA50jQqryndmrzp7tDU9iQRA=;
+	b=nglROtbncKiwfJF8OUW6L7fuQkIpVRGdDK6cUoxIMalXJYl7b68qjTcuDDKl6F+GVT
+	VdsMOpBCAKmFcwQeVNVB3oZCXmI3y2jupjm8EmjcvOkKuxNCV5BGcqREWJAwujpwWP9x
+	s+Si4dEaOflPHt2QjdmNalATcNZXTR2SWJo14H/+o8PfzH63bwqMV3WaGJNMntELMXWe
+	Qu+xv+9gRBufKlnnTODHRd9FV9LJFoc1BpznJ0qtIUmbfOtb0IUEezNP9YDzjE3hnwmZ
+	hVxTT8npEElT9nABODjq0EzCFPsLSFrSC7ViGtY3FtA/xx+AcqGajckr3SPbCKAfOrn+
+	SCbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-transfer-encoding:content-language;
-	bh=59uiUjBZCEcOXqv29BCbV5BkXHzJ4dPdGFH44gQnjoI=;
-	b=Fv8iyLZr85EFBv1RhY0qGAWpsCD9VheFW12no/iFsjLDX2JFFxkhxJU8L4EZRwC4sR
-	AU4PWyAcPSWz9XFtZ/iNEGMrw5OuNuBlocaif+QpAad7kuFYxDYi+SXSEmaGUhMHSMsO
-	ODJ+i9N1xIU8A/p5nKjdgft/skYF/7zKYxDh6UKRfWYH7rPsKosTBDYDz9SeYw/oKXY6
-	r6sxIysZj9kCYwC9zJEAMliDuYRvGu4Ej4aUEuzPaE6iBzIlzBCyM5L+pbX5sQyMPQGC
-	aaXs+9kfjPax+Yl3NrQbIL79N00+xT/D8//GQwKoAIZw1QJb26McWXbAbcyU5ZG+MY73
-	Cmvw==
-X-Gm-Message-State: APjAAAWj+xFVXbWOY4whS5fEMfNcau8oFU4AUIwS8t58GXS5IVlk6JSR
-	aDcDZeCMUjxp1XFLKMmeN9xBYGS6ipA=
-X-Google-Smtp-Source: APXvYqyNpjuzJE+fEuKlKwb+ea86Dmy0kPp38zFrGAwlgCPcZ4lnrS33Fc0f+UUIreV2j03T1A2fCw==
-X-Received: by 2002:a63:4e57:: with SMTP id o23mr3127882pgl.368.1554343650702; 
-	Wed, 03 Apr 2019 19:07:30 -0700 (PDT)
+	bh=kSTxLyCPTy7O/SX7NYOrA50jQqryndmrzp7tDU9iQRA=;
+	b=ZGHr0FzCHs/ucT8WKCXfMh9qqN1ljreWopFrmrNRYIU4IGjTAdGZ/HmhSivUxetnSD
+	o1O0dS/prPVlgmBOuQwzmDfbJJWhqpaqhH2QOYVPtmPkKbcT21+QQ2OX8b/lmt/1uBsM
+	QrMst4ZqiaCy8pj3Zp+Q9eM9eRyBtG/bIgode1zm+/2wiWVPN+8ZE0mRLnkx4+nDNZsW
+	wvh1XXze00Uua7DdS89abHVC28weUrONAue4HrWH4OIUJ5czy5OgOzwagKKVn5nMhZxy
+	etrxh49QCKv1Q2dv4o2r2oFxKAleydP1SM7YAnXYgyriUX2ub9DoVyOnUmWj9UYcyz5I
+	ORWw==
+X-Gm-Message-State: APjAAAW5+7a+jXx/o/2GyxJOiRxwPgknJhlCqsRtJclHnv6fUsFG9Kkp
+	1duoZbZqg7+XFkGcCtg+M8Lg3GYtK6I=
+X-Google-Smtp-Source: APXvYqwZg9UIrvC+eFYyBMAi40wwymLum0mX18a7L+td6KAZBAmviK3SoVWVphyV9+l2Td5KRXKmcg==
+X-Received: by 2002:a63:e818:: with SMTP id s24mr3135384pgh.190.1554343948738; 
+	Wed, 03 Apr 2019 19:12:28 -0700 (PDT)
 Received: from [10.240.241.171] ([116.212.180.67])
 	by smtp.gmail.com with ESMTPSA id
-	j16sm23065632pfi.58.2019.04.03.19.07.28
+	q10sm21198579pgh.93.2019.04.03.19.12.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 19:07:29 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20190403170443.10657-1-richard.purdie@linuxfoundation.org>
+	Wed, 03 Apr 2019 19:12:28 -0700 (PDT)
+To: Philip Balister <philip@balister.org>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
+References: <1550192184-13460-1-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<1550192184-13460-2-git-send-email-manjukumar.harthikote-matha@xilinx.com>
+	<679c61e2-f179-c986-b6ca-b69b95b5e22a@balister.org>
+	<BYAPR02MB6005274C95E7FE6ACA65292DB97C0@BYAPR02MB6005.namprd02.prod.outlook.com>
+	<6fe6cbadaf29e01975ec71a1b005d2fdb7885484.camel@linuxfoundation.org>
+	<BYAPR02MB6005A0C02E838863D370C7B4B97E0@BYAPR02MB6005.namprd02.prod.outlook.com>
+	<853fdac8bdfc6fc7222fce906172b08852a4eed3.camel@linuxfoundation.org>
+	<2fa17d30-9a97-635f-541b-89313ee63793@balister.org>
 From: akuster808 <akuster808@gmail.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
@@ -88,13 +96,14 @@ Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
 	PNHndk8VBTpzrmOaJxrebNL/W6C8JCmbLM11TAUMmHYi9JDytN8Au78hWpDbIdKwg1LeSxpw
 	ZZD/OqOc0DBvHOpQhzkSrtR1lVlDV/+9E8J1T4uDhrGmZwYV+4xQetypHax8aAHisYbjXdVa
 	8CS2NxU=
-Message-ID: <56a8da36-21cb-4340-df89-1c96f0b40052@gmail.com>
-Date: Wed, 3 Apr 2019 19:07:26 -0700
+Message-ID: <285f0b42-00a6-c891-86f6-a83fabe326f1@gmail.com>
+Date: Wed, 3 Apr 2019 19:12:25 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190403170443.10657-1-richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] core-image-sato-sdk-ptest: Fix free space issues causing test failures
+In-Reply-To: <2fa17d30-9a97-635f-541b-89313ee63793@balister.org>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernel-fitimage.bbclass: Introduce a way to provide external dtb
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,50 +116,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 02:07:30 -0000
+X-List-Received-Date: Thu, 04 Apr 2019 02:12:28 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
 
 
-On 4/3/19 10:04 AM, Richard Purdie wrote:
-> Some tests such as strace-ptest require more than the current 500MB of free
-> space. Increase the amount available, staying under the 4GB limit. We have more
-> flexibility now since we shrank kernel-devsrc and the comments are out of date
-> due to that.
-Won't this be more of a common issue for any image that pulls in the
-same stuff is is not named sato?
+On 4/3/19 10:35 AM, Philip Balister wrote:
+> I appreciate the nagging about testing, but I just did an update and
+> realized these patches never made it into master so I could request they
+> move into thud.
+Thud needs testing too, its not just a master thing.
+
+It needs to be in warrior first ; )
+
+Either send me the master/warrior commit ids or send a patch with the
+proper subject so its clear to me. 
+But this looks like a new feature or am I misunderstanding?
 
 - armin
-> This should improve the strace-ptest results and the util-linux ones since
-> those sort after strace and also hit the space issues as strace-ptest didn't
-> clean up after itself when failing.
 >
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
+> Philip
 >
-> diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-> index 7e3152b4a11..1027ec03be0 100644
-> --- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-> +++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-> @@ -4,11 +4,12 @@ DESCRIPTION += "Also includes ptest packages."
->  
->  IMAGE_FEATURES += "ptest-pkgs"
->  
-> -# This image is sufficiently large (~3GB) that it can't actually fit in a live
-> +# This image is sufficiently large (~1.8GB) that we need to be careful that it fits in a live
->  # image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
-> -# box) and explicitly add just 500MB.
-> +# box) and explicitly add just 1500MB.
-> +# strace-ptest in particular needs more than 500MB
->  IMAGE_OVERHEAD_FACTOR = "1.0"
-> -IMAGE_ROOTFS_EXTRA_SPACE = "524288"
-> +IMAGE_ROOTFS_EXTRA_SPACE = "1524288"
->  
->  # ptests need more memory than standard to avoid the OOM killer
->  QB_MEM = "-m 1024"
+> On 02/21/2019 03:37 AM, Richard Purdie wrote:
+>> On Thu, 2019-02-21 at 03:53 +0000, Manjukumar Harthikote Matha wrote:
+>>> From: Richard Purdie [mailto:richard.purdie@linuxfoundation.org]
+>>>> On Tue, 2019-02-19 at 19:34 +0000, Manjukumar Harthikote Matha
+>>>>
+>>>>>> PREFERRED_PROVIDER_virtual/dtb = "devicetree"
+>>>>>>
+>>>>> Yes, I should have added this in the commit message. I will
+>>>>> update it
+>>>>> and re-send V2
+>>>> What may also help a lot here would be some tests. This is
+>>>> currently a blackhole in
+>>>> the tests :(
+>>>>
+>>> Are there examples of having tests only for bbclass in OE-Core? 
+>> There are. See meta/lib/oeqa/selftest/cases/wic.py
+>>
+>> I appreciate wic is a tool, not a class but the examples there should
+>> help. You can trigger them with oe-selftest -r wic.
+>>
+>> Another example which is a bbclass is selftest/cases/archiver.py which
+>> does use a class inherit.
+>>
+>>> We need a recipe or create-one to inherit this class and probably add
+>>> that as a testcase. 
+>>> I am not sure how to proceed, any example would help to implement the
+>>> same
+>> See above, they show how to add small config fragments. If you do need
+>> a full recipe, then the meta-selftest layer of OE-Core should be able
+>> to help too.
+>>
+>> If you have any other questions or run into issues please do ask!
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>>
+>>
 
 
