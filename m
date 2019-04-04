@@ -1,24 +1,23 @@
-Return-Path: <Dengke.Du@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A0B567CFF8
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 97E627D434
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 09:02:59 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3492d0l004147
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 4 Apr 2019 02:02:50 -0700
-Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 4 Apr 2019 02:02:17 -0700
-From: Dengke Du <dengke.du@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 4 Apr 2019 17:02:33 +0800
-Message-ID: <1554368553-1851-1-git-send-email-dengke.du@windriver.com>
+	Thu,  4 Apr 2019 09:19:37 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Apr 2019 02:19:38 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,306,1549958400"; d="scan'208";a="132890980"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga006.jf.intel.com with ESMTP; 04 Apr 2019 02:19:37 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Apr 2019 16:48:34 +0800
+Message-Id: <1554367718-74682-1-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] perf: workaround the error cased by maybe-uninitialized warning
+Subject: [PATCH 0/4] resulttool/manualexecution: Enhancement and fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,47 +30,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 09:02:59 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 04 Apr 2019 09:19:37 -0000
 
-When enable DEBUG_BUILD, the perf build failed by the following error:
-    libbpf.c:727:36: error: 'data' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-This is ok until Khem commit a patch in oe-core:
-    16643b03227466e2c80a24c2d079fe36e89553c1
-This commit import "-Og" option to "DEBUG_OPTIMIZATION", result in this error.
+These series of patches include enhancement and fixes for manualexecution:
+ - Enhance input check to standardize checking
+ - Enhancement to display full steps without press enter 
+ - Fix test steps display order
+ - Refactor to simplify code and align to pythonic style
 
-Actually, the warning was misinformation. We explore the code in libbpf.c:
-    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/bpf/libbpf.c#n640
---------------------------------------------------------------------------
-	if (scn)
-		data = elf_getdata(scn, NULL);
-	if (!scn || !data) {
-		pr_warning("failed to get Elf_Data from map section %d\n",
-			   obj->efile.maps_shndx);
-		return -EINVAL;
-	}
-	......
-	using data...
-	......
---------------------------------------------------------------------------
-If the 'scn' was not null, the data will be initialized. if the data was null,
-the function will return -EINVAL, so the data must be not null, but compiler
-can't see it in 'if' code block, so treat it as 'maybe-uninitialized'.
+Yeoh Ee Peng (4):
+  resulttool/manualexecution: Standardize input check
+  resulttool/manualexecution: Enable display full steps without press
+    enter
+  resulttool/manualexecution: Fixed step sorted by integer
+  resulttool/manualexecution: Refactor and simplify codebase
 
-Signed-off-by: Dengke Du <dengke.du@windriver.com>
----
- meta/recipes-kernel/perf/perf.bb | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/lib/resulttool/manualexecution.py | 61 ++++++++++++-------------------
+ 1 file changed, 23 insertions(+), 38 deletions(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 5acdcfb..546076f 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -271,3 +271,4 @@ FILES_${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
- 
- 
- INHIBIT_PACKAGE_DEBUG_SPLIT="1"
-+DEBUG_OPTIMIZATION_append = " -Wno-error=maybe-uninitialized"
 -- 
 2.7.4
 
