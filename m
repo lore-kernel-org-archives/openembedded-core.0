@@ -1,23 +1,42 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id BDDB66C3AA
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CD156BC44
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 07:52:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x347qGEc000716
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Apr 2019 00:52:16 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 4 Apr 2019 00:52:10 -0700
-From: <kai.kang@windriver.com>
-To: <raj.khem@gmail.com>
-Date: Thu, 4 Apr 2019 03:52:05 -0400
-Message-ID: <20190404075205.108547-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+	Thu,  4 Apr 2019 08:00:37 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Zb3S4Zlpz3h;
+	Thu,  4 Apr 2019 10:00:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1554364837;
+	bh=9RVUiZ78Iwq/h8YBDwQ0QaQTN3lQ8Aeycb5TVvhExJw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fcojGa67JqmpiaIIOZlwAU1bjkpp0LBRvrFL7MPV8u6sURebs5oumjPNv35uGatLj
+	Qa2qmzAiz735qBSjpC6cocFndJi7KagvmJZPerUyUq5ZUAdI+ZsY/cNYY/ESTPIiyX
+	CmWkO9Hmb406FFKDpUr5iLgQQuQQXizqRmxmvKRIdmV9fY/CMvt97lY2VfjxnsnL8n
+	l7M91FtyS7KVpyk71pAOXZtfGGYzMWf//122mafYZnzadO54I0ODlarwm7hOwWF8nD
+	nAU3wlqzG6C1XvKQXwHO9SOo74SLIlVvqtQP/ZVWTOJsdNXwQgldO9VIKFSpoG7HvY
+	ZtvA1Y9Smzmxb2EULjhhhxs8TuOZgRcvHvCn0S3N4TPPytFLmZwrx5RTR2f23e5aie
+	3O0gojqZH33I46n2bYCOim+k7bdsEJT3COXH9bdN6w5M1nkjsCnNdvXiDiqQ5iZwS6
+	bsVYHW4WrnHLfucVKG94DmBSXyYNJMZM7BCDtJrROiVtLL4RtNrhmEVoN3jwj3X63z
+	4JqxJW0uzgNX3Pxe9OFip/ucujK+UUp8to7FlIzjekkG4n14qY3C/QUMjh+6NqgzUD
+	mY/ph4PXOfP42WtTMGIA76YridPYap2NMXT0IpmLU2fh63/nomHtNdFy7ccemHLpdl
+	KCCEN1SpM6tU1yIQGBSZ4aoo=
+Date: Thu, 4 Apr 2019 11:00:34 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20190404080034.GA13624@localhost>
+References: <cover.1554233389.git.pkj@axis.com>
+	<8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
+	<20190403062249.GB1281@localhost>
+	<CAJ86T=Wfp+1mrgWZCOG5VrhONADi08yZXd4Fm3L2Txb1euyUuA@mail.gmail.com>
+	<20190403202448.GA7131@localhost>
+	<CAJ86T=Xs2z7yTeF20NWT31KGGyzEtibxj3zJWKTBWUE_18btow@mail.gmail.com>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH] virglrenderer: remove link option -Bsymbolic
+In-Reply-To: <CAJ86T=Xs2z7yTeF20NWT31KGGyzEtibxj3zJWKTBWUE_18btow@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/6] Correct and improve the ARM tunings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +49,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 07:52:16 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Thu, 04 Apr 2019 08:00:37 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-From: Kai Kang <kai.kang@windriver.com>
+On Wed, Apr 03, 2019 at 01:48:04PM -0700, Andre McCurdy wrote:
+>...
+> If we let the user pass an arbitrary string to -march then we lose the
+> ability to determine that (for example) it's safe for a
+> "armv7athf-vfpv3" machine to pull from a "armv7athf-vfpv3d16" package
+> feed.
 
-When gcc compile options '-O2 -fvisibility=default' are applied, it
-fails to compile virglrenderer for x86:
+For ARM <= v7 this is possible, except for bugs like the mentioned 
+around thumb.
 
-| ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
-  R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be used
-  when making a shared object
-| ld: final link failed: bad value
-| collect2: error: ld returned 1 exit status
+With ARMv8 you end up duplicating everything gcc knows about 
+architecture and feature flags for a cpu, and about all the
+interdependencies between features flags.
 
-Remove link option '-Bsymbolic' to fix the failure.
+It will also have to tell whether a cpu contains the optional
+support for the old ARMv7 32bit ABI, or only for the ILP32 variant
+of the ARMv8 ABI.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- .../0001-Remove-link-option-Bsymbolic.patch   | 34 +++++++++++++++++++
- .../virglrenderer/virglrenderer_0.7.0.bb      |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch
+> Whether or not anyone in the real world actually maintains a generic
+> package feed and pulls from it from multiple machine specific builds
+> (verses setting up separate package feeds for each DEFAULTTUNE they
+> care about) would be an interesting question...
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch
-new file mode 100644
-index 0000000000..faefa16aae
---- /dev/null
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch
-@@ -0,0 +1,34 @@
-+When gcc compile options '-O2 -fvisibility=default' are applied, it fails to
-+compile virglrenderer for x86:
-+
-+| ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
-+  R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be used
-+  when making a shared object
-+| ld: final link failed: bad value
-+| collect2: error: ld returned 1 exit status
-+
-+Remove link option '-Bsymbolic' to fix the failure.
-+
-+Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virglrenderer/merge_requests/213]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+ src/Makefile.am | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/Makefile.am b/src/Makefile.am
-+index 9b668c8..7a421b8 100644
-+--- a/src/Makefile.am
-++++ b/src/Makefile.am
-+@@ -48,7 +49,7 @@ endif
-+ lib_LTLIBRARIES = libvirglrenderer.la
-+ noinst_LTLIBRARIES = libvrend.la
-+ 
-+-GM_LDFLAGS = -Wl,-Bsymbolic -version-number 0:2 -no-undefined
-++GM_LDFLAGS = -version-number 0:2 -no-undefined
-+ 
-+ libvirglrenderer_la_SOURCES = virglrenderer.c
-+ libvirglrenderer_ladir = $(libdir)
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
-index 225a0b8b0c..afc709bc48 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
-@@ -9,6 +9,7 @@ SRCREV = "402c228861c9893f64cffbbcb4cb23044b8c721c"
- SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
-            file://0001-vtest-add-missing-includes.patch \
-            file://0001-Makefile.am-explicitly-link-with-libdrm.patch \
-+           file://0001-Remove-link-option-Bsymbolic.patch \
-            "
- 
- S = "${WORKDIR}/git"
+It would be good to look at what exactly has to be supported here,
+and the complexity involved.
+
+The simplest "generic" would be armv8.0 with no feature flags.
+
+If a generic "is tune A a superset of tune B" is required,
+you end up duplicating a lot of hardware information from gcc.
+
+cu
+Adrian
+
 -- 
-2.20.0
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
