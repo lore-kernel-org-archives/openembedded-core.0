@@ -1,47 +1,59 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
-	[209.85.166.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 72ED07D439
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 712FC7C749
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 13:42:25 +0000 (UTC)
-Received: by mail-it1-f174.google.com with SMTP id f22so3712559ita.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 06:42:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Awl9bpU+D2H1r9FCVzD96XO5TZvOp6y4U+pa69o0FeE=;
-	b=loHjwWHqcKOHB1eN1rMiJadrJBHqvk9BHb9PeJgsrusNeKpzWNrAFT23PdVSBX+eGD
-	1/zwDz7mzdZqXaezgczZLjxCWxHD9qO/zbxos8BIcHIPuHCj1FuGt7f0TCcxcK6bJXHH
-	XQBrF0ug/MImDG8Dhk2MysZSn1kwQVsRC8ew5agC9k616l2LTJE3bcJQlWKj09j2EURG
-	v9m3ZL3gr74uXe4NyxL068I+Kgny7scccD6RVobU89rbORfXNgOShfYfZXPHGcSkqvDo
-	cs0Nl6gMG8F0nsGIeDXLXv0HfRAtV7eBFucREaxNpHa5cc7mCf05W8ga3WfPkom+kpuG
-	7W+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Awl9bpU+D2H1r9FCVzD96XO5TZvOp6y4U+pa69o0FeE=;
-	b=mWZ0gaFwd968M5wgf4vFpD/Us8RYkedX43nOK5DpVo+FqWx7lNdBoAhAmWorsQEXPM
-	+Ie52yt09ZKEttxS9ObCNQ1LB9jWnKA8oQsbIgwBzWY3eIXN8sSnb3pOLIN0kPDaNTzs
-	RJgVKmuPCkD6emL9wklyrMjdPg2J9TSs23ytoPDEkeM65n0V+m3E7cnWsJNNvsdj6vt0
-	zWOZoBG46JyrxGvlEHi+kKQPMqeC82phGjzvtaGE7e+CyEYoKqSohMhUhy7vJzX3RW9b
-	APyDZCb+ExcbAWVEQlIJ8i9YI+i0EqmmSrrwyrtILDq7Yqn1WrsPhFScaBjSmGAA8453
-	C4ng==
-X-Gm-Message-State: APjAAAUQOaiQHHVSOO1ML37wnukg1erqoikx92LHDixKHoDHADadaZAn
-	NoxqF9YmVe4agIH2Zy6d8J/pUPFo1TtMNzXu/B0KqA==
-X-Google-Smtp-Source: APXvYqy5GMUSOqSEj8E7vhGMYXKaBJ/BxRNMkyE5lXnKsg54mwW8a8Useu2XMcIcCIGJxMFiu0koyORZLd7jY2S3+9A=
-X-Received: by 2002:a02:b78e:: with SMTP id f14mr4637780jam.43.1554385346364; 
-	Thu, 04 Apr 2019 06:42:26 -0700 (PDT)
+	Thu,  4 Apr 2019 14:08:27 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id A8629186C0;
+	Thu,  4 Apr 2019 16:08:27 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id iEEhPV5HptJx; Thu,  4 Apr 2019 16:08:26 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 5EF8418348;
+	Thu,  4 Apr 2019 16:08:26 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4A2B81E077;
+	Thu,  4 Apr 2019 16:08:26 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3E72C1E05C;
+	Thu,  4 Apr 2019 16:08:26 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu,  4 Apr 2019 16:08:26 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id 321702656;
+	Thu,  4 Apr 2019 16:08:26 +0200 (CEST)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 4 Apr 2019 16:08:25 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Thu, 4 Apr 2019 16:08:25 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] useradd.bbclass: Make sure users/groups exist
+	for package_write_* tasks
+Thread-Index: AQHU6ht5rKnZdMrgykStWNHqqyp4A6YsCYBw
+Date: Thu, 4 Apr 2019 14:08:25 +0000
+Message-ID: <4788506b5c7f4fb4a369916b5500c373@XBOX04.axis.com>
+References: <20190403122626.18451-1-pkj@axis.com>
+	<866ba68abe94b19205b70f59a512c68ef65b79a1.camel@linuxfoundation.org>
+In-Reply-To: <866ba68abe94b19205b70f59a512c68ef65b79a1.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <1554196113-200535-1-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1554196113-200535-1-git-send-email-changqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Apr 2019 14:42:14 +0100
-Message-ID: <CAJTo0LYUXZAW7ewEa_5=3eZm-mey-vBq6vkdZ2NX8gYW4Uz4zw@mail.gmail.com>
-To: Changqing Li <changqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] useradd.bbclass: Make sure users/groups exist for package_write_* tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,104 +66,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 13:42:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Apr 2019 14:08:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-+Upstream-Status: Submitted
-[https://github.com/GNOME/cogl/pull/4/commits/be7a7b983952d3f2ce2cbaa7b89f413b92e15066]
-
-That's a GNOME mirror, note how your PR was closed.  GNOME is at
-gitlab.gnome.org.
-
-Ross
-
-On Tue, 2 Apr 2019 at 10:37, <changqing.li@windriver.com> wrote:
->
-> From: Changqing Li <changqing.li@windriver.com>
->
-> fix below compile error with -Werror=maybe-uninitialized
->
-> | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> |      *out_gltype = gltype;
-> |      ~~~~~~~~~~~~^~~~~~~~
-> | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> |      *out_glintformat = glintformat;
-> |      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  ...mpile-error-with-Werror-maybe-uninitializ.patch | 40 ++++++++++++++++++++++
->  meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb      |  4 ++-
->  2 files changed, 43 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
->
-> diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
-> new file mode 100644
-> index 0000000..3c99d25
-> --- /dev/null
-> +++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
-> @@ -0,0 +1,40 @@
-> +From e05ee89fcc978fceccab3e4724a3a37f7a338499 Mon Sep 17 00:00:00 2001
-> +From: Changqing Li <changqing.li@windriver.com>
-> +Date: Tue, 2 Apr 2019 14:48:49 +0800
-> +Subject: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
-> +
-> +fix below compile error with -Werror=maybe-uninitialized
-> +
-> +| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> +|      *out_gltype = gltype;
-> +|      ~~~~~~~~~~~~^~~~~~~~
-> +| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> +|      *out_glintformat = glintformat;
-> +|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
-> +
-> +Upstream-Status: Submitted [https://github.com/GNOME/cogl/pull/4/commits/be7a7b983952d3f2ce2cbaa7b89f413b92e15066]
-> +
-> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> +---
-> + cogl/driver/gl/gles/cogl-driver-gles.c | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/cogl/driver/gl/gles/cogl-driver-gles.c b/cogl/driver/gl/gles/cogl-driver-gles.c
-> +index e94449f..a59d815 100644
-> +--- a/cogl/driver/gl/gles/cogl-driver-gles.c
-> ++++ b/cogl/driver/gl/gles/cogl-driver-gles.c
-> +@@ -74,9 +74,9 @@ _cogl_driver_pixel_format_to_gl (CoglContext *context,
-> +                                  GLenum *out_gltype)
-> + {
-> +   CoglPixelFormat required_format;
-> +-  GLenum glintformat;
-> ++  GLenum glintformat = 0;
-> +   GLenum glformat = 0;
-> +-  GLenum gltype;
-> ++  GLenum gltype = 0;
-> +
-> +   required_format = format;
-> +
-> +--
-> +2.7.4
-> +
-> diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
-> index 5901062..5ddeb4a 100644
-> --- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
-> +++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
-> @@ -1,7 +1,9 @@
->  require cogl-1.0.inc
->
->  SRC_URI += "file://test-backface-culling.c-fix-may-be-used-uninitialize.patch \
-> -            file://0001-Fix-an-incorrect-preprocessor-conditional.patch"
-> +            file://0001-Fix-an-incorrect-preprocessor-conditional.patch \
-> +            file://0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch \
-> +           "
->  SRC_URI[archive.md5sum] = "d53b708ca7c4af03d7254e46945d6b33"
->  SRC_URI[archive.sha256sum] = "39a718cdb64ea45225a7e94f88dddec1869ab37a21b339ad058a9d898782c00d"
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDMgYXByaWwgMjAx
+OSAxNDo0OA0KPiBUbzogUGV0ZXIgS2plbGxlcnN0ZWR0IDxwZXRlci5ramVsbGVyc3RlZHRAYXhp
+cy5jb20+OyBvcGVuZW1iZWRkZWQtDQo+IGNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBT
+dWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSF0gdXNlcmFkZC5iYmNsYXNzOiBNYWtlIHN1cmUg
+dXNlcnMvZ3JvdXBzDQo+IGV4aXN0IGZvciBwYWNrYWdlX3dyaXRlXyogdGFza3MNCj4gDQo+IE9u
+IFdlZCwgMjAxOS0wNC0wMyBhdCAxNDoyNiArMDIwMCwgUGV0ZXIgS2plbGxlcnN0ZWR0IHdyb3Rl
+Og0KPiA+IElmIHRoZSBwb3B1bGF0ZV9saWMgdGFzayBhbmQgYW55IG9mIHRoZSBwYWNrYWdlX3dy
+aXRlXyogdGFza3MgbmVlZCB0bw0KPiA+IHJ1biwgYnV0IHRoZSBwYWNrYWdlIHRhc2sgY2FuIGJl
+IHJlc3RvcmVkIGZyb20gdGhlIHNzdGF0ZSBjYWNoZSwgdGhlbg0KPiA+IHRoZSBmZXRjaCB0YXNr
+LCB3aGljaCBpcyBhIGRlcGVuZGVuY3kgb2YgcG9wdWxhdGVfbGljLCB3aWxsIHdpcGUgb3V0DQo+
+ID4gdGhlIFJTUyBpbmNsdWRpbmcgYW55IHVzZXJzL2dyb3VwcyB0aGF0IGhhdmUgYmVlbiBjcmVh
+dGVkLiBUaGlzDQo+ID4gcmVzdWx0cyBpbiB0aGF0IHRoZSBwYWNrYWdlX3dyaXRlXyogdGFza3Mg
+YXJlIHJ1biB3aXRob3V0IGFueQ0KPiA+IHVzZXIvZ3JvdXAgaW5mb3JtYXRpb24sIHdoaWNoIGNh
+dXNlcyB0aGVtIHRvIGZhbGxiYWNrIHRvIGVpdGhlciB1c2UNCj4gPiB0aGUgcm9vdCB1c2VyIGZv
+ciBhbnkgdW5rbm93biB1c2Vycy9ncm91cHMgKHJwbSkgb3IgdG8gdXNlIHRoZSBudW1lcmljDQo+
+ID4gVUlEcy9HSURzIChkZWIvaXBrKS4gTmVpdGhlciBzb2x1dGlvbiB3aWxsIHlpZWxkIGNvcnJl
+Y3QgcGFja2FnZXMuDQo+ID4NCj4gPiBTaWduZWQtb2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQg
+PHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9jbGFzc2Vz
+L3VzZXJhZGQuYmJjbGFzcyB8IDE4ICsrKysrKysrKysrKy0tLS0tLQ0KPiA+ICAxIGZpbGUgY2hh
+bmdlZCwgMTIgaW5zZXJ0aW9ucygrKSwgNiBkZWxldGlvbnMoLSkNCj4gPg0KPiA+IGRpZmYgLS1n
+aXQgYS9tZXRhL2NsYXNzZXMvdXNlcmFkZC5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3VzZXJhZGQu
+YmJjbGFzcw0KPiA+IGluZGV4IDEyNGJlY2QwODIuLmUzMjMxNWExYWYgMTAwNjQ0DQo+ID4gLS0t
+IGEvbWV0YS9jbGFzc2VzL3VzZXJhZGQuYmJjbGFzcw0KPiA+ICsrKyBiL21ldGEvY2xhc3Nlcy91
+c2VyYWRkLmJiY2xhc3MNCj4gPiBAQCAtNCw3ICs0LDcgQEAgaW5oZXJpdCB1c2VyYWRkX2Jhc2UN
+Cj4gPiAgIyB0YXJnZXQgc3lzcm9vdCwgYW5kIHNoYWRvdyAtbmF0aXZlIGFuZCAtc3lzcm9vdCBw
+cm92aWRlIHRoZSB1dGlsaXRpZXMNCj4gPiAgIyBhbmQgc3VwcG9ydCBmaWxlcyBuZWVkZWQgdG8g
+YWRkIGFuZCBtb2RpZnkgdXNlciBhbmQgZ3JvdXAgYWNjb3VudHMNCj4gPiAgREVQRU5EU19hcHBl
+bmRfY2xhc3MtdGFyZ2V0ID0gIiBiYXNlLWZpbGVzIHNoYWRvdy1uYXRpdmUgc2hhZG93LXN5c3Jv
+b3Qgc2hhZG93IGJhc2UtcGFzc3dkIg0KPiA+IC1QQUNLQUdFX1dSSVRFX0RFUFMgKz0gInNoYWRv
+dy1uYXRpdmUiDQo+ID4gK1BBQ0tBR0VfV1JJVEVfREVQUyArPSAic2hhZG93LW5hdGl2ZSBzaGFk
+b3ctc3lzcm9vdCBiYXNlLXBhc3N3ZCINCj4gPg0KPiA+ICAjIFRoaXMgcHJlaW5zdGFsbCBmdW5j
+dGlvbiBjYW4gYmUgcnVuIGluIGZvdXIgZGlmZmVyZW50IGNvbnRleHRzOg0KPiA+ICAjDQo+ID4g
+QEAgLTE0NCw3ICsxNDQsMTAgQEAgcHl0aG9uIHVzZXJhZGRfc3lzcm9vdF9zc3RhdGUgKCkgew0K
+PiA+ICAgICAgdGFzayA9IGQuZ2V0VmFyKCJCQl9DVVJSRU5UVEFTSyIpDQo+ID4gICAgICBpZiB0
+YXNrID09ICJwYWNrYWdlX3NldHNjZW5lIjoNCj4gPiAgICAgICAgICBiYi5idWlsZC5leGVjX2Z1
+bmMoInVzZXJhZGRfc3lzcm9vdCIsIGQpDQo+ID4gLSAgICBlbGlmIHRhc2sgPT0gInByZXBhcmVf
+cmVjaXBlX3N5c3Jvb3QiOg0KPiA+ICsgICAgZWxpZiAodGFzayA9PSAicHJlcGFyZV9yZWNpcGVf
+c3lzcm9vdCIgb3INCj4gPiArICAgICAgICAgIHRhc2sgPT0gInBhY2thZ2Vfd3JpdGVfZGViIiBv
+cg0KPiA+ICsgICAgICAgICAgdGFzayA9PSAicGFja2FnZV93cml0ZV9pcGsiIG9yDQo+ID4gKyAg
+ICAgICAgICB0YXNrID09ICJwYWNrYWdlX3dyaXRlX3JwbSIpOg0KPiA+ICAgICAgICAgICMgVXNl
+ZCB0byB1cGRhdGUgdGhpcyByZWNpcGUncyBvd24gc3lzcm9vdCBzbyB0aGUgdXNlci9ncm91cHMg
+YXJlIGF2YWlsYWJsZSB0byBkb19pbnN0YWxsDQo+ID4gICAgICAgICAgc2NyaXB0ZmlsZSA9IGQu
+ZXhwYW5kKCIke1JFQ0lQRV9TWVNST09UfSR7YmluZGlyfS9wb3N0aW5zdC11c2VyYWRkLSR7UE59
+IikNCj4gPiAgICAgICAgICBiYi5idWlsZC5leGVjX2Z1bmMoInVzZXJhZGRfc3lzcm9vdCIsIGQp
+DQo+ID4gQEAgLTE2MSwxMyArMTY0LDE2IEBAIHB5dGhvbiB1c2VyYWRkX3N5c3Jvb3Rfc3N0YXRl
+ICgpIHsNCj4gPiAgICAgICAgICBvcy5jaG1vZChzY3JpcHRmaWxlLCAwbzc1NSkNCj4gPiAgfQ0K
+PiA+DQo+ID4gLWRvX3ByZXBhcmVfcmVjaXBlX3N5c3Jvb3RbcG9zdGZ1bmNzXSArPSAiJHtTWVNS
+T09URlVOQ30iDQo+ID4gLVNZU1JPT1RGVU5DX2NsYXNzLXRhcmdldCA9ICJ1c2VyYWRkX3N5c3Jv
+b3Rfc3N0YXRlIg0KPiA+ICBTWVNST09URlVOQyA9ICIiDQo+ID4gK1NZU1JPT1RGVU5DX2NsYXNz
+LXRhcmdldCA9ICJ1c2VyYWRkX3N5c3Jvb3Rfc3N0YXRlIg0KPiA+DQo+ID4gLVNZU1JPT1RfUFJF
+UFJPQ0VTU19GVU5DUyArPSAiJHtTWVNST09URlVOQ30iDQo+ID4gK2RvX3ByZXBhcmVfcmVjaXBl
+X3N5c3Jvb3RbcG9zdGZ1bmNzXSArPSAiJHtTWVNST09URlVOQ30iDQo+ID4gK2RvX3BhY2thZ2Vf
+d3JpdGVfZGViW3ByZWZ1bmNzXSArPSAiJHtTWVNST09URlVOQ30iDQo+ID4gK2RvX3BhY2thZ2Vf
+d3JpdGVfaXBrW3ByZWZ1bmNzXSArPSAiJHtTWVNST09URlVOQ30iDQo+ID4gK2RvX3BhY2thZ2Vf
+d3JpdGVfcnBtW3ByZWZ1bmNzXSArPSAiJHtTWVNST09URlVOQ30iDQo+ID4NCj4gPiAtU1NUQVRF
+UFJFSU5TVEZVTkNTX2FwcGVuZF9jbGFzcy10YXJnZXQgPSAiIHVzZXJhZGRfc3lzcm9vdF9zc3Rh
+dGUiDQo+ID4gK1NZU1JPT1RfUFJFUFJPQ0VTU19GVU5DUyArPSAiJHtTWVNST09URlVOQ30iDQo+
+ID4gK1NTVEFURVBSRUlOU1RGVU5DUyArPSAiJHtTWVNST09URlVOQ30iDQo+ID4NCj4gPiAgZG9f
+cGFja2FnZV9zZXRzY2VuZVtkZXBlbmRzXSArPSAiJHtVU0VSQUREU0VUU0NFTkVERVBTfSINCj4g
+PiAgZG9fcG9wdWxhdGVfc3lzcm9vdF9zZXRzY2VuZVtkZXBlbmRzXSArPSAiJHtVU0VSQUREU0VU
+U0NFTkVERVBTfSINCj4gDQo+IFRoaXMgbWF5IGJlIGEgYmlnZ2VyIHByb2JsZW0gdGhhdCBqdXN0
+IHBhY2thZ2Vfd3JpdGVfKi4NCj4gDQo+IFRoaXMgZmVlbHMgbGlrZSBhIGJhZCB0aGluZyB0byBk
+byBzaW5jZSB0aGVyZSBtYXkgYmUgb3RoZXIgdGFza3Mgd2hpY2gNCj4gYWxzbyByZWx5IG9uIHRo
+ZSB1c2VyIGluZm9ybWF0aW9uIGJlaW5nIHByZXNlbnQuIFRoaXMgcHJvYmFibHkgb25seQ0KPiBm
+aXhlcyBvbmUgY29ybmVyIGNhc2UgYnV0IHRoZXJlIGFyZSBsaWtleSBvdGhlcnMgOiguDQo+IA0K
+PiBQb3NzaWJsZSBzb2x1dGlvbnMgbWlnaHQgYmU6DQo+IA0KPiBhKSBUbyB3aXBlIG91dCBhbGwg
+c3N0YXRlIHRhc2tzIGlmIHdlJ3JlIHJlcnVubmluZyBkb19mZXRjaA0KDQpIb3cgdG8gZG8gdGhh
+dD8gV2l0aCBzb21lIHBvaW50ZXJzIEkgaG9wZSBJIGNhbiB3aGlwIHVwIGEgcGF0Y2ggDQp0byBk
+byB0aGlzIGluc3RlYWQuDQoNCklzIHRoaXMgcmFyZSBvciBpcyBpdCBsaWtlbHkgdG8gY2F1c2Ug
+YSBwZXJmb3JtYW5jZSBpbXBhY3Q/DQpJZiBpdCBvbmx5IGhhcHBlbnMgaW4gdGhlIGNhc2VzIHdo
+ZXJlIHdlIGFyZSBzZWVpbmcgcHJvYmxlbXMgZHVlIHRvIA0KdGhlIHJlbW92ZWQgdXNlci9ncm91
+cCBpbmZvLCB0aGVuIGl0IHNob3VsZCBiZSByZWFzb25hYmx5IHJhcmUuDQoNCj4gYikgUHJlc2Vy
+dmUgdGhlIHVzZXIvZ3JvdXAgaW5mb3JtYXRpb24gYXJvdW5kIHRoZSBjbGVhbmluZyBvZiB0aGUN
+Cj4gc3lzcm9vdA0KDQpUaGlzIHNvdW5kcyBlcnJvciBwcm9uZSBhdCBiZXN0Li4uDQoNCj4gSSB0
+aGluayB3ZSBtYXkgbmVlZCB0byBmaXggdGhpcyBnZW5lcmljYWxseS4uLg0KPiANCj4gQ2hlZXJz
+LA0KPiANCj4gUmljaGFyZA0KDQovL1BldGVyDQoNCg==
 
