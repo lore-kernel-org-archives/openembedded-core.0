@@ -1,51 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id B173A7D401
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 414137C8B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 05:49:41 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id w24so601942plp.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Apr 2019 22:49:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=TopGRm0NI3mUh3Cu3LGIAHTqGrpTiCglTsFZ02ryCpA=;
-	b=Tc/Q+euE6dKedbUTgrhrtAu0OQJTimaCl2c1f54bS+ANcQBwlsIqztKC3NG+sz/If4
-	ml10HpPlHROGTQ+/k1yhH5vOE611bK/h3cWCGm4hWZtkgcmhrwsyE6jfSPDZwa0B9q6d
-	ZDUAq3U17Fpio0S0MrJxeM78cbOE5j5MPJoSsjaBhbVNINld8M8/dQ1M/lLJFDR4yt+N
-	pXfIlBJPis0A1U1g7lkj+aL6j4QM2DmDHCpw6wZWWyeqzmPUJu+OVvo8abJN0u3nig/3
-	lq1JNkk0y/ub+J/A+z9OzoO9W+ITQ7dreVj53K01l8CutxVl0swcnZWv4y1VOuATImMy
-	s2BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=TopGRm0NI3mUh3Cu3LGIAHTqGrpTiCglTsFZ02ryCpA=;
-	b=F4ZS8Zy1elz/vAUEKBgbM+Bd49I8bhBIusbHnmlFzkQhKI8IemCCL94D6T05tO9QOX
-	hUdAoPQv003NsMAfyW8UhTSUsI3M4cX+y63BR4A7C+DAy5oPs4LP9mGnGn2/dqjT6lPp
-	yYpVp8BCvsf9LFGW4nvy75wXt+6senQ0Wqi481wfiaY7KNOFeSuXLXJKv692ManN/OZ1
-	sciwtYLh//bK1+V9RxW8YDfJ1C0eM8eqcOi09o6RN+QynoGCzFPzUQWnF5FHYQYhiGD9
-	m8xLL1iPVyL8o6yUNWgv7MgEWskFDQYt51UVCnPyMaZFnjfN+Wy7QD3NkXtecXYPHDLa
-	qUKg==
-X-Gm-Message-State: APjAAAUQ6uzBZBeSuU/A+BTQstv837BQjP8EbuUkDlArRkdYXd+DPnp0
-	NaWqbs0iVHOjPT1G4gOtZ4XmMIUTNdM=
-X-Google-Smtp-Source: APXvYqzAaNLVxmtpkdZ2ifIArJrVC51rLp3XFf1UeAcap6oEdJ7Lk7bZbUTIg4jd47EI8mzSmepYwg==
-X-Received: by 2002:a17:902:b715:: with SMTP id
-	d21mr4469171pls.103.1554356982061; 
-	Wed, 03 Apr 2019 22:49:42 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::dcf4])
-	by smtp.gmail.com with ESMTPSA id
-	w23sm17260666pgj.72.2019.04.03.22.49.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 03 Apr 2019 22:49:41 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  3 Apr 2019 22:49:32 -0700
-Message-Id: <20190404054932.38231-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Thu,  4 Apr 2019 06:11:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x346BrEi029655
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 3 Apr 2019 23:11:53 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 3 Apr 2019 23:11:52 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Thu, 4 Apr 2019 14:11:51 +0800
+Message-ID: <1554358311-216590-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] libgcc: Create linux-musleabihf and linux-gnueabihf symlinks
+Subject: [PATCH] asciidoc: disable xmllint check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +30,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 05:49:41 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 04 Apr 2019 06:11:54 -0000
+Content-Type: text/plain
 
-When we have hard-float ABI enabled, certain tools e.g. llvm/clang
-expects the hf version of tuples for crt files from libgcc, therefore
-create a symlink to help the cause.
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-This makes clang work with hard-float defaults on target
+asciidoc-native build with below error when
+there is no xmllint program located on build
+host:
+| python3 a2x.py -f manpage doc/asciidoc.1.txt
+| a2x: ERROR: "xmllint" --nonet --noout --valid "/build/tmp/work/x86_64-linux/asciidoc-native/8.6.9+py3-gitAUTOINC+618f6e6f6b-r0/git/doc/asciidoc.1.xml" returned non-zero exit status 4
+|
+| Makefile:110: recipe for target 'doc/asciidoc.1' failed
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Considering it's only used to check the xml format
+of the doc file as doc/asciidoc.1.txt, so disable
+xmllint check to fix the above issue.
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/recipes-devtools/gcc/libgcc.inc | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb   |  4 ++-
+ .../0001-Makefile.in-disable-xmllint-check.patch   | 38 ++++++++++++++++++++++
+ 2 files changed, 41 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
 
-diff --git a/meta/recipes-devtools/gcc/libgcc.inc b/meta/recipes-devtools/gcc/libgcc.inc
-index e4e0c48007..e008d14f36 100644
---- a/meta/recipes-devtools/gcc/libgcc.inc
-+++ b/meta/recipes-devtools/gcc/libgcc.inc
-@@ -11,6 +11,13 @@ do_install_append_class-target () {
- 		esac
- 		ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
- 	fi
-+	if [ -n "${@ bb.utils.contains('TUNE_CCARGS_MFLOAT', 'hard', 'hf', '', d)}" ]; then
-+		case "${TARGET_OS}" in
-+			"linux-musleabi") extra_target_os="linux-musleabihf";;
-+			"linux-gnueabi") extra_target_os="linux-gnueabihf";;
-+		esac
-+		ln -s ${TARGET_SYS} ${D}${libdir}/${TARGET_ARCH}${TARGET_VENDOR}-$extra_target_os
-+	fi
- }
+diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+index d0d1517..7e00b34 100644
+--- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
++++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+@@ -8,7 +8,9 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+                     file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
  
- PACKAGES = "\
+-SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https"
++SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
++           file://0001-Makefile.in-disable-xmllint-check.patch \
++"
+ SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
+ PV .= "+py3-git${SRCPV}"
+ 
+diff --git a/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch b/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
+new file mode 100644
+index 0000000..4c0dd6d
+--- /dev/null
++++ b/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
+@@ -0,0 +1,38 @@
++From 242e58f16c129f5983d6b32d493619cc4f87703e Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Thu, 4 Apr 2019 13:38:10 +0800
++Subject: [PATCH] Makefile.in: disable xmllint check
++
++asciidoc-native build with below error when
++there is no xmllint program located on build
++host:
++| python3 a2x.py -f manpage doc/asciidoc.1.txt
++| a2x: ERROR: "xmllint" --nonet --noout --valid "/build/tmp/work/x86_64-linux/asciidoc-native/8.6.9+py3-gitAUTOINC+618f6e6f6b-r0/git/doc/asciidoc.1.xml" returned non-zero exit status 4
++|
++| Makefile:110: recipe for target 'doc/asciidoc.1' failed
++
++So disable xmllint check to fix the above issue.
++
++Upstream-Status: Inappropriate [oe build specific]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ Makefile.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.in b/Makefile.in
++index ffba3b5..fb95fab 100644
++--- a/Makefile.in
+++++ b/Makefile.in
++@@ -107,7 +107,7 @@ $(DATATARGETS): % : %dir
++ 	$(INSTALL_DATA) $($@) $(DESTDIR)/$($<)/
++ 
++ $(manp): %.1 : %.1.txt
++-	python3 a2x.py -f manpage $<
+++	python3 a2x.py -L -f manpage $<
++ 
++ docs:
++ 	$(INSTALL) -d $(DESTDIR)/$(docdir)
++-- 
++2.7.4
++
 -- 
-2.21.0
+2.7.4
 
 
