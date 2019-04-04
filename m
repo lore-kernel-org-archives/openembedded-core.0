@@ -1,30 +1,49 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 102FA7D2AF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f180.google.com (mail-it1-f180.google.com
+	[209.85.166.180])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7B17D169
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 08:23:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x348MqJA003013
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Apr 2019 01:23:12 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 4 Apr 2019 01:23:06 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1554358311-216590-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0La7viPMKAR+9PMx8m_SNTk6eyfM+M9ge5qeTyYrG-6QRQ@mail.gmail.com>
-	<CAJTo0Lak05SBbDApK4L-QZpSqR_cONECVhDUUq99B_JFFhgVbQ@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CA5C01F.1050303@windriver.com>
-Date: Thu, 4 Apr 2019 16:28:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Thu,  4 Apr 2019 08:52:02 +0000 (UTC)
+Received: by mail-it1-f180.google.com with SMTP id z17so7633067itc.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Apr 2019 01:52:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=upTEUYmfPcDZjW/Beoxg4M/pYQgNATIeMl4D1DKpZwo=;
+	b=vTec1wGQxiTaupLTJky+hN2ZXXJ7SM+PEII2lZqwcUsBKY/MiLtYZ1ZNXYwc+2Lqwp
+	rJdyEl52Tf2XpwHXdbvkw2DvfQOBPjAad7gYLx1YxMbepwjHgqKjb5XiRfqBO+zz3JP4
+	KHrghrrMNtTvAtDm46Uj56SGf+xensQ76OoQNM8BxeuKy0bRVO3MgJ9v93jle4aBslll
+	6Ykuqe8/wovPjHfn3TZTo50LaaXF4y4GXiVTrcujE/GbEC2yESt4l2b5AqA/RFpNtVr6
+	mcejOs+SQ5Si0ELnLpzeArEqgJ+7sTN98XjZwpnJu+LOqIZ9E4BMdRK/evtJ4TrzOR3G
+	/GZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=upTEUYmfPcDZjW/Beoxg4M/pYQgNATIeMl4D1DKpZwo=;
+	b=AnSsKC5celiCgdQ6CB/0zjUGNhpkEKfLX0fQajOQhY4nKHlnul2m1Jp6Qo4ncjEl37
+	x00HXQXoCO2HWesUmvCO61nQwgukyD4VMz9E/coOK+coQWhPiopEu0rNtHlgvnCqk8qW
+	c/1pE1PNdj23Hgbhg7emLlwq4eGdBFneKGQtpM/LhteuNINPw6VLUnkliNMBzqujQnH6
+	gWl+KK/y1/QtSIuviZEZKsrkX3ydh9Af4jx/BTK2eCqwjrApNhFpIzAYpu9kLakDKLKp
+	KonqhLChPpcW7MBPSONslhAWEPXmnFGTUZklKJjudY9BcdkdVQU6jJGKZvZFEyRfBifX
+	q52w==
+X-Gm-Message-State: APjAAAWDlcKeW2hm5OCJuTvqBHKnPDVvTGMCTnsT7QTyEFh2cSkmbP6Y
+	eOzhQjJya37XE6Z7/buWax27z2Bf2cjC61py1ye7iw==
+X-Google-Smtp-Source: APXvYqzO/wAti/PkDceBz7yRtD2JJZU1tydeoLD8CljzRhYXgRfU1cTsYqtaDvGNy+PVGwjsq0rJsoJ5lKyGO+rzVjU=
+X-Received: by 2002:a02:7a48:: with SMTP id z8mr3662891jad.62.1554367923920;
+	Thu, 04 Apr 2019 01:52:03 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0Lak05SBbDApK4L-QZpSqR_cONECVhDUUq99B_JFFhgVbQ@mail.gmail.com>
-X-Originating-IP: [128.224.162.194]
+References: <20190403123657.10547-1-ovidiu.panait@windriver.com>
+	<CAJTo0LZ_zeiAChah_z4TMauj4vNhmHghQqezjnL4T2kJUeUiww@mail.gmail.com>
+	<c44f9100-579c-75ed-be2d-46e6e8d038ab@windriver.com>
+In-Reply-To: <c44f9100-579c-75ed-be2d-46e6e8d038ab@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Apr 2019 09:51:52 +0100
+Message-ID: <CAJTo0LY5Ji0GcT+_G0Xx0WwwfUbDY1V1SKnhqpUr967+HwESag@mail.gmail.com>
+To: Ovidiu Panait <ovidiu.panait@windriver.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] asciidoc: disable xmllint check
+Subject: Re: [thud][PATCH] ghostscript: Fix CVE-2019-3835 and CVE-2019-3838
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,122 +56,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 08:24:00 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 04 Apr 2019 08:52:03 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 2019年04月04日 16:02, Burton, Ross wrote:
-> Some further context (note to self: don't reply to mails during
-> breakfast): the problem which lead to xmllint failing also leads to
-> the XSL stylesheets in the sysroot not being used, so xsltproc
-> downloads them.  On my machine, asciidoc should execute do_compile in
-> about a second, but with the broken catalogues this was taking almost
-> a minute.
-
-Thanks Ross's reminding.
-
-Thanks,
-
+On Thu, 4 Apr 2019 at 07:56, Ovidiu Panait <ovidiu.panait@windriver.com> wrote:
+> > Have all of these been resolved in master?
+> >
+> > Ross
 >
-> Ross
+> No, these have not been resolved in master. Ghostscript version on
+> master is 9.26 and the fixes come from 9.27, which hasn't been released yet.
 >
-> On Thu, 4 Apr 2019 at 08:30, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> I've submitted fixes for this already.
->>
->> Ross
->>
->> On Thu, 4 Apr 2019 at 07:12, <mingli.yu@windriver.com> wrote:
->>>
->>> From: Mingli Yu <Mingli.Yu@windriver.com>
->>>
->>> asciidoc-native build with below error when
->>> there is no xmllint program located on build
->>> host:
->>> | python3 a2x.py -f manpage doc/asciidoc.1.txt
->>> | a2x: ERROR: "xmllint" --nonet --noout --valid "/build/tmp/work/x86_64-linux/asciidoc-native/8.6.9+py3-gitAUTOINC+618f6e6f6b-r0/git/doc/asciidoc.1.xml" returned non-zero exit status 4
->>> |
->>> | Makefile:110: recipe for target 'doc/asciidoc.1' failed
->>>
->>> Considering it's only used to check the xml format
->>> of the doc file as doc/asciidoc.1.txt, so disable
->>> xmllint check to fix the above issue.
->>>
->>> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
->>> ---
->>>   meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb   |  4 ++-
->>>   .../0001-Makefile.in-disable-xmllint-check.patch   | 38 ++++++++++++++++++++++
->>>   2 files changed, 41 insertions(+), 1 deletion(-)
->>>   create mode 100644 meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
->>>
->>> diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
->>> index d0d1517..7e00b34 100644
->>> --- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
->>> +++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
->>> @@ -8,7 +8,9 @@ LICENSE = "GPLv2"
->>>   LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
->>>                       file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
->>>
->>> -SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https"
->>> +SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
->>> +           file://0001-Makefile.in-disable-xmllint-check.patch \
->>> +"
->>>   SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
->>>   PV .= "+py3-git${SRCPV}"
->>>
->>> diff --git a/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch b/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
->>> new file mode 100644
->>> index 0000000..4c0dd6d
->>> --- /dev/null
->>> +++ b/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
->>> @@ -0,0 +1,38 @@
->>> +From 242e58f16c129f5983d6b32d493619cc4f87703e Mon Sep 17 00:00:00 2001
->>> +From: Mingli Yu <Mingli.Yu@windriver.com>
->>> +Date: Thu, 4 Apr 2019 13:38:10 +0800
->>> +Subject: [PATCH] Makefile.in: disable xmllint check
->>> +
->>> +asciidoc-native build with below error when
->>> +there is no xmllint program located on build
->>> +host:
->>> +| python3 a2x.py -f manpage doc/asciidoc.1.txt
->>> +| a2x: ERROR: "xmllint" --nonet --noout --valid "/build/tmp/work/x86_64-linux/asciidoc-native/8.6.9+py3-gitAUTOINC+618f6e6f6b-r0/git/doc/asciidoc.1.xml" returned non-zero exit status 4
->>> +|
->>> +| Makefile:110: recipe for target 'doc/asciidoc.1' failed
->>> +
->>> +So disable xmllint check to fix the above issue.
->>> +
->>> +Upstream-Status: Inappropriate [oe build specific]
->>> +
->>> +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
->>> +---
->>> + Makefile.in | 2 +-
->>> + 1 file changed, 1 insertion(+), 1 deletion(-)
->>> +
->>> +diff --git a/Makefile.in b/Makefile.in
->>> +index ffba3b5..fb95fab 100644
->>> +--- a/Makefile.in
->>> ++++ b/Makefile.in
->>> +@@ -107,7 +107,7 @@ $(DATATARGETS): % : %dir
->>> +       $(INSTALL_DATA) $($@) $(DESTDIR)/$($<)/
->>> +
->>> + $(manp): %.1 : %.1.txt
->>> +-      python3 a2x.py -f manpage $<
->>> ++      python3 a2x.py -L -f manpage $<
->>> +
->>> + docs:
->>> +       $(INSTALL) -d $(DESTDIR)/$(docdir)
->>> +--
->>> +2.7.4
->>> +
->>> --
->>> 2.7.4
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+> I only sent them for thud since I remember that on master is preferred
+> to upgrade to a newer version when it's available instead of backporting
+> fixes.
+
+Policy is that security issues are fixed in master then the release
+branches, so that we don't regress.  If this is merged then the next
+release will be vulnerable because it is frozen for upgrades right
+now...
+
+Ross
 
