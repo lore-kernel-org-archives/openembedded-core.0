@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 077BA7D45D
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CF117D45D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 22:16:57 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id r186so8300527wmf.1
+	Thu,  4 Apr 2019 22:16:59 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id z11so4775590wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 15:16:59 -0700 (PDT)
+	Thu, 04 Apr 2019 15:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=C5h7jbzjD8KnQSu5qJjp0eSR2A0q7BDf+j6g7062WL8=;
-	b=TDqXPh3Iovou2+GkPtG9uT7rWWJ6ihv8Owbrt7CpWPqhr6kg4Y9fNl83+L2rbwjht8
-	7qkeYqptuLMuVXhur44XvdM2hStjFlzhtQazT3XjwZuS2veS6qBL9huE1TxiMELX8dZR
-	f9dVLEqkX1qWxBu66gnjTFBS9E84HEwIMn/94kPNQUHPo+RQoKQ8tuuP5zMXqdUcIKfQ
-	nw5/vJxtiWPl0662Cb//IKoC+0XDNRdxvn9ADiAr5b7SXqgTjxdsOHsatr8EFv4DNG+e
-	4cE2E/rtyFT7hAs9xSmXcjRs55TcVieMUSKPHKGvHS0fREip41k1wX0Jrb3nfGzuWugU
-	z6rA==
+	bh=KSwQ6K0Wcg6HL8nscHk7krNotqZVfg2u/jBnfSWcbUI=;
+	b=YCEJSSugYHGDL7gZ7ePk97MPkGqa7f8Lw7WtHGVaBwPTSBTAAekwjOrW4J+HqIkf4/
+	lHY3mAT9jxMrCdSjP8eXohg9p6+RaHM2UUpRTTznUA8w+2E7UXyxAq/IxukDgNnHIAf7
+	RUKYGM87oBixQwzbkuTo2RnA5WXrRCiYaGko7+GMCty1XCa1neqXxRHP0kicE9FQeIG0
+	W68yhNhhWY8WQ+5Owe7rO8tBtsyuD6wrW9hQCki3K5QU6iaQRLc2W2sYHln6rzxpyeD1
+	2+lp/yTIzRX5XS61NcCa76nSz/KQ/kI+0Ek+/NIg9f26B1P64TgI73K2VEMo+23OLi1X
+	xxKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=C5h7jbzjD8KnQSu5qJjp0eSR2A0q7BDf+j6g7062WL8=;
-	b=Q+tYgWdHjLWv1qDThD2sPD9snqu9sGp8poo32dVB6JpOBSsdvI2VR1wQPAyIm/64d4
-	hasvuF9AU1gewV9xKblN1QHApfkkX1OYZ8K55SUafPF7s/JfMQ4GzX/OmSTDsu8dRjkf
-	VSm9E9ZBehUqc5bo4C/VTX7S1Tyl317EctLJbcXW/ME1zlkfKh+zIagOv3yoUeVLgd5S
-	8z6GvzUZ2CoSsgUTcWM9jqJTyPr07EUbk3/YxfBr4b0Wn16sc51X6BR9v1s3kjz/z/E0
-	JWzU4orOn9mqRRWeGhuDle9RCqrO3i5/+RxGwCPnz2c5fFPVGCIcylbtNwA6821M8DwT
-	W+Ew==
-X-Gm-Message-State: APjAAAVdMwYIxNLyTtgBlvpHhn2msufZ6dZ4xV2KhL4d+p3rTr216Gud
-	vne0orfW2WGOWPlmIW08opji1vK9VTg=
-X-Google-Smtp-Source: APXvYqygjgPQftKqxRU+M/5oCHVu98simQxw+s82oAGXmcCSis2IPnqd//W1ZmhiM/h1ZqUYq820uw==
-X-Received: by 2002:a1c:2d91:: with SMTP id t139mr5601035wmt.102.1554416218517;
-	Thu, 04 Apr 2019 15:16:58 -0700 (PDT)
+	bh=KSwQ6K0Wcg6HL8nscHk7krNotqZVfg2u/jBnfSWcbUI=;
+	b=fhtCTHI6eIztxZbK/FSUm0qu1hppfZGXE1xmqvtZUZEY9h9cox5UwpjXrrdHkGiqcs
+	ZLoDyLvnl7QSXK4OKpeBVFX15IxhHzdOaYxfgg1RMYyg9Ae+lSChbgqTCHjv3i0tawa+
+	vbYD/sInbTU9v5bb7LC/NBbwtoMeNcuxeFq6m+H/2+sHjKq+1NjUrUc9WSuRDr1Vl+dN
+	1sI3ZzfIVpLI3WS0U+JMTF87dHWb+GpGX/KvAgZ5eAI3TtbW3N7U3uKpcklNXochmsur
+	vNUNk75yaQ/SdXQi6C8dJExBPtEOMlLA3tILNxXswxEtVJhDA84SemgONMVhLAZTgmFV
+	hIlQ==
+X-Gm-Message-State: APjAAAV/IYUXWaDc07ETUOHIwzsn3uWgRfK+kepdv+u9NDATTGfHoGVh
+	LWcLj9/avtWqH5//B+WFuL+YpIDnfQ4=
+X-Google-Smtp-Source: APXvYqxlsA6N362QUQ4bXXjGAqyAIvypcZHPvkwk/HRK4XlZaMgzbSQLDP7qXtjIR3oKaE5h6gl+Wg==
+X-Received: by 2002:a1c:c910:: with SMTP id f16mr5312230wmb.47.1554416219696; 
+	Thu, 04 Apr 2019 15:16:59 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d3sm305565wmf.46.2019.04.04.15.16.57
+	by smtp.gmail.com with ESMTPSA id d3sm305565wmf.46.2019.04.04.15.16.58
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Apr 2019 15:16:57 -0700 (PDT)
+	Thu, 04 Apr 2019 15:16:58 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2019 23:16:41 +0100
-Message-Id: <20190404221644.20496-6-ross.burton@intel.com>
+Date: Thu,  4 Apr 2019 23:16:42 +0100
+Message-Id: <20190404221644.20496-7-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190404221644.20496-1-ross.burton@intel.com>
 References: <20190404221644.20496-1-ross.burton@intel.com>
-Subject: [PATCH v2 6/9] asciidoc: use correct XML catalog path
+Subject: [PATCH v2 7/9] xmlto: remove XML catalog
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,29 +59,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 22:16:58 -0000
+X-List-Received-Date: Thu, 04 Apr 2019 22:16:59 -0000
 
-Now that docbook-xml and docbook-xsl are writing catalog files, tell
-xmllint/xsltproc where the catalog is.
+Now that docbook-xml and docbook-xsl use the xmlcatalog class, xmlto can stop
+shipping a hand-coded catalogue.
+
+It still needs to keep the wrapper so that the sysroot catalog is used instead
+of /etc/xml/catalog.  The wrapper is native-specific so mark it as such.
+
+Note that this does effectively break xmlto on the target as the xmlcatalog
+class doesn't write a catalog for the target yet, but I'm hoping that nobody
+actually uses it on target.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/xmlto/files/catalog.xml | 19 -------------------
+ meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |  7 ++-----
+ 2 files changed, 2 insertions(+), 24 deletions(-)
+ delete mode 100644 meta/recipes-devtools/xmlto/files/catalog.xml
 
-diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-index f684f12dc72..751bf0f19f7 100644
---- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-+++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-@@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/xmlto/files/catalog.xml b/meta/recipes-devtools/xmlto/files/catalog.xml
+deleted file mode 100644
+index 6b8833d871b..00000000000
+--- a/meta/recipes-devtools/xmlto/files/catalog.xml
++++ /dev/null
+@@ -1,19 +0,0 @@
+-<?xml version="1.0"?>
+-<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
+-<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+-<delegateSystem systemIdStartString="http://docbook.org/xml/" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//OASIS//ELEMENTS DocBook" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//OASIS//DTD DocBook XML" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//OASIS//DTD XML Exchange Table Model 19990315" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//Norman Walsh//DTD CALS Table Model XML" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//Norman Walsh//ELEMENTS DocBk XML" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//Norman Walsh//DTD DocBook XML" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//OASIS//ENTITIES DocBook" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//Norman Walsh//ENTITIES DocBk XML" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//Norman Walsh//DTD DocBk XML" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//Normal Walsh//Exchange Table Model 19960430" catalog="./docbook-xml.xml"/>
+-<delegateSystem systemIdStartString="http://www.oasis-open.org/docbook/xml/" catalog="./docbook-xml.xml"/>
+-<delegatePublic publicIdStartString="-//OASIS//DTD DocBook CALS Table Model" catalog="./docbook-xml.xml"/>
+-<delegateURI uriStartString="http://docbook.sourceforge.net/release/xsl/" catalog="./docbook-xsl.xml"/>
+-<delegateSystem systemIdStartString="http://docbook.sourceforge.net/release/xsl/" catalog="./docbook-xsl.xml"/>
+-</catalog>
+diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+index 6216d7782be..06dc002083d 100644
+--- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
++++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
  
- # Tell xmllint where to find the DocBook XML catalogue, because right now it
- # opens /etc/xml/catalog on the host. Depends on auto-catalogs.patch
--export SGML_CATALOG_FILES="file://${STAGING_ETCDIR_NATIVE}/xml/docbook-xml.xml file://${STAGING_ETCDIR_NATIVE}/xml/docbook-xsl.xml"
-+export SGML_CATALOG_FILES="file://${STAGING_ETCDIR_NATIVE}/xml/catalog"
+ SRC_URI = "https://releases.pagure.org/xmlto/xmlto-${PV}.tar.gz \
+            file://configure.in-drop-the-test-of-xmllint-and-xsltproc.patch \
+-           file://catalog.xml \
+ "
+ SRC_URI[md5sum] = "a1fefad9d83499a15576768f60f847c6"
+ SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51fd8aad3"
+@@ -32,10 +31,8 @@ BBCLASSEXTEND = "native"
  
- # Not using automake
- inherit autotools-brokensep
+ EXTRA_OECONF_append = " BASH=/bin/bash GCP=/bin/cp XMLLINT=xmllint XSLTPROC=xsltproc"
+ 
+-do_install_append() {
+-    install -d ${D}${sysconfdir}/xml/
+-    install -m 755  ${WORKDIR}/catalog.xml ${D}${sysconfdir}/xml/catalog.xml
+-    create_wrapper ${D}/${bindir}/xmlto XML_CATALOG_FILES=${sysconfdir}/xml/catalog.xml
++do_install_append_class-native() {
++    create_wrapper ${D}${bindir}/xmlto XML_CATALOG_FILES=${sysconfdir}/xml/catalog
+ }
+ 
+ do_populate_sysroot[rdeptask] = "do_populate_sysroot"
 -- 
 2.11.0
 
