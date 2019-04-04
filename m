@@ -1,27 +1,53 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F07B6C4E6
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 09:31:20 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x349VKBD000510
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Apr 2019 02:31:20 -0700 (PDT)
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 4 Apr 2019 02:31:19 -0700
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1552985080-65398-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CA5D023.9090802@windriver.com>
-Date: Thu, 4 Apr 2019 17:36:35 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
+	[209.85.167.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 408BC7C629;
+	Thu,  4 Apr 2019 10:50:38 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id 3so1481814oir.7;
+	Thu, 04 Apr 2019 03:50:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=0P5kR6jhn4WNSQYVMDXuSXY3ENFBvxHRUqq3jwVaoVI=;
+	b=e7IrthM9tWhHhCWswMrpOzTveLh7FlZvGEVa4b5qRQmQdDA+MpqErfuVYIHTTb57uC
+	QTJ3Lgfsmj1qWwlA0QYf4gHSH/mZMRSB/gY3ta57u9odewT4M2dOE893Zbs90Qu1B1AR
+	4pkDhPjp/BXt3VfrywsssIZObmmmsuVlpXWWIMErzFOu7spflnQe4C9DdLwAXqkP/zGY
+	nqGbqKDmX5sda/gv5lZoXbrzCD+fRzEdRxHZ54QnqRlVPzwjz8s+Tbejr2Jj2S9kkCei
+	We3m+63C6MB9ciHsDBbJ1y6QGloNiGch6Rt0VHC+teQXmv8KlBMwxiB0KR/XZh0ZAQWg
+	LFIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=0P5kR6jhn4WNSQYVMDXuSXY3ENFBvxHRUqq3jwVaoVI=;
+	b=CGGfgSjsmRjwS5VIdUg71jSYnrkB+iEkFzUNB7VRITD2vAgi4uL7smGP7oRo9Bu3zb
+	M8DcIb9rEcBouWPE2kRzmQqvLrqykg8YBu3xf2Aqs2dUnAe1VAWgZvAQ+1CIzsl07j75
+	opd8xVYBpkvUyGKBJWdMzxlrHjYE7h0LrUIaXzRXE9CgL0hTv6Ad37rHD0pf2A6Tx7LU
+	wTDFfMEYYRET/tHtkzz/5GXdLxtKGzuSdkyym8ivBUNA+9L65ctSfXVFBHSHMkLqGaD8
+	7ChW2zqSPOyen5PpO2A8WjgOzHuo5+OIINwh69Bfu4lTXvO3cQxSLG4gHzPcMtRfOVcA
+	n3eA==
+X-Gm-Message-State: APjAAAVCfA5M5g2krJplRhU3BKbjdNZvK7Q1g3jXDk24rKfJUsSXsqNt
+	JOiZ+CYJ3jzTtteKczNz4HnMPIPCPU7+iyMM9zo=
+X-Google-Smtp-Source: APXvYqzZroSKuUETEM3GqtqOd4Nw/sC3xzcstxgXKl/OMcAB62jgWnMobiGPUafXy5hz3VYyhVswK1rVcxp4G6p3VJc=
+X-Received: by 2002:aca:e689:: with SMTP id d131mr3055538oih.132.1554375039211;
+	Thu, 04 Apr 2019 03:50:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1552985080-65398-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.162.194]
-Subject: Re: [PATCH] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
+References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
+	<20190403144110.GG4664@bill-the-cat>
+	<CAMKF1srb2EgL7tYZDFoq2EqABp-+_eib2u2OZMwT6B3TVgNk=Q@mail.gmail.com>
+	<2189093.Hm6Vq2XZhg@localhost.localdomain>
+	<CAMKF1spJCg2HjGRzke_3yH_9hCZR=ZQZfJ1EQZCQi9gQF3x-4g@mail.gmail.com>
+In-Reply-To: <CAMKF1spJCg2HjGRzke_3yH_9hCZR=ZQZfJ1EQZCQi9gQF3x-4g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 4 Apr 2019 12:50:27 +0200
+Message-ID: <CANNYZj9iPw7yV1Csy1wBk53twHk3nWo9jFhmJ+ww4vtQ_sJ1yQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Tom Rini <trini@konsulko.com>,
+	Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	Yocto Project <yocto@yoctoproject.org>, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [yocto] [oe] Git commit process question.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,84 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 09:31:20 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 04 Apr 2019 10:50:38 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Ping.
+On Thu, 4 Apr 2019 at 02:39, Khem Raj <raj.khem@gmail.com> wrote:
+> Definitely, and I agree that we should put relevant information in
+> commits, usually
+> the information about side effects if any, links to changelog etc. are
+> useful too
+> however, we should not enforce a behavior which could result in
+> redundancy as explained
 
-Any comments here?
+To be honest, researching changelogs and summarizing them into commit
+messages is feasible if you maintain maybe three recipes. When you
+maintain thirty, it becomes a burden, and I am not going to take that
+burden. There's already enough work in getting the upgrade into
+working shape, work that largely goes unnoticed and unappreciated and
+does not require finding and reading upstream changelogs.
 
-Thanks,
+HOWEVER. I think we could start putting links to changelogs into the
+recipes themselves. If it's a webpage, we can use templating to
+substitute version numbers, if it's a file in the source tree, we can
+also come up with a format for that. Then it's a simple extension to
+e.g. devtool to show that changelog via less or a browser.
 
-On 2019年03月19日 16:44, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> When DEBUG_BUILD = "1" added in local.conf, there
-> comes below build error when "bitbake gcc-sanitizers":
-> | ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
-> | ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> |   return S_ISLNK (st.st_mode);
->
-> Initialize st_mode member to fix the above issue.
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
->   .../0041-elf.c-initialize-st_mode-member.patch     | 33 ++++++++++++++++++++++
->   2 files changed, 34 insertions(+)
->   create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-> index f7bf257..3501325 100644
-> --- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-> @@ -71,6 +71,7 @@ SRC_URI = "\
->              file://0038-Re-introduce-spe-commandline-options.patch \
->              file://0039-riscv-Disable-multilib-for-OE.patch \
->              file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
-> +           file://0041-elf.c-initialize-st_mode-member.patch \
->   "
->   SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
->   SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
-> diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
-> new file mode 100644
-> index 0000000..8e80c4e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-st_mode-member.patch
-> @@ -0,0 +1,33 @@
-> +From 960f3e1f104192ceb80a97e665fadffda5285aab Mon Sep 17 00:00:00 2001
-> +From: Mingli Yu <Mingli.Yu@windriver.com>
-> +Date: Tue, 19 Mar 2019 16:23:04 +0800
-> +Subject: [PATCH] elf.c: initialize st_mode member
-> +
-> +Initialize st_mode member to fix the below
-> +build failure when -Og included in compiler flag.
-> +| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
-> +| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> +   return S_ISLNK (st.st_mode);
-> +
-> +Upstream-Status: Submitted[https://gcc.gnu.org/ml/gcc-patches/2019-03/msg00900.html]
-> +
-> +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> +---
-> + libbacktrace/elf.c | 1 +
-> + 1 file changed, 1 insertion(+)
-> +
-> +diff --git a/libbacktrace/elf.c b/libbacktrace/elf.c
-> +index f4863f0..561bdc2 100644
-> +--- a/libbacktrace/elf.c
-> ++++ b/libbacktrace/elf.c
-> +@@ -766,6 +766,7 @@ static int
-> + elf_is_symlink (const char *filename)
-> + {
-> +   struct stat st;
-> ++  st.st_mode = 0;
-> +
-> +   if (lstat (filename, &st) < 0)
-> +     return 0;
-> +--
-> +2.7.4
-> +
->
+Alex
 
