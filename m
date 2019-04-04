@@ -1,51 +1,30 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 706DF7D414;
-	Thu,  4 Apr 2019 00:39:19 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id g1so613231qki.5;
-	Wed, 03 Apr 2019 17:39:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xgz0S6lGlc07esuIoQoVYBejaSO4dHgPy4bgh3kQG5Q=;
-	b=ZNRMfrVd+jX9qj7ehgC1wnQNMsccGHvBIawiUIukqHS9Mp6M6O3DkJfoyKx+DvXX+d
-	ChKC/DFwMayrVxwfElaLD3Pdo1l2wET4ZZEYsM7lOAk7HYChMUMcaDyepUeNIsiWL0OJ
-	6NpmmjkXSITo/1T6lfHf//hH/VI3PIk++Z2ninCEy2dZE7lvuW0CAvIRc3NSKBINBkP5
-	ubm+1X9X44VDvbcrxId/+ARTQC6M35tdYzzPYHTZQ/SasHYpdsnp09o2VEvq5/yb/4u+
-	NFiOwW01fKBNMlyPb/UnJFzPpLNaGLSkHTA0GlB5bHHY912NCb9KWk4DnHJh3VEzcI+u
-	2pNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xgz0S6lGlc07esuIoQoVYBejaSO4dHgPy4bgh3kQG5Q=;
-	b=fbVWER7pR+UgI4XXjOCd6zfdGePzr4cmw16uaDVq2oV8wK8RwOf/PADNQGuq6Q4Lfh
-	WwOdFQ2NeBYF1cBh5QyH2xmRxyAMbq2dRiFfXG/bOr/3tfMOzQmQh9DhI5GcOSW/RrQK
-	FwLPidUZEQMnX43geO1HrDPair9oIDcTN9jclPrKt5xJEdbCmMHcPYM2Z1klENWtd/5R
-	5hDUSJQB8zdK9vRUTcrPZz9hF2o88cCONXAwdgR08g4n/Ef3PRaZZkbBR/HThQ0lx1z7
-	/JoYhR8tics+3ulsDtVTGSSW4xvzFDqMC4kDru5sWe4oQSOIZy0n4grGYevEszFr5o7s
-	X+sg==
-X-Gm-Message-State: APjAAAVkg5K5QB/g0W/DEW4yH8KLk3qnHAMm9TQwoClIfeOd9vvmdM2n
-	L3LdblEdCRJoLApH25+3f9SxOeSC3jH6O3JodtA=
-X-Google-Smtp-Source: APXvYqyVy3cpHue0WjdWqDQWdXoiggXCG8gASt/Rb13SKaeKPYaA0GhwKZbCYcwsf+L9XtJD2IC7ui3TVX/La4D+tmk=
-X-Received: by 2002:a37:9d84:: with SMTP id g126mr2625221qke.22.1554338359839; 
-	Wed, 03 Apr 2019 17:39:19 -0700 (PDT)
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id F07297D29F
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Apr 2019 02:06:48 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3426m8g027674
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 3 Apr 2019 19:06:48 -0700 (PDT)
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Wed, 3 Apr 2019 19:06:47 -0700
+To: Adrian Bunk <bunk@stusta.de>
+References: <1554196113-200535-1-git-send-email-changqing.li@windriver.com>
+	<20190402113135.GA27866@localhost>
+	<3381bfd6-b3ed-da15-69dc-394fc1a9643b@windriver.com>
+	<20190403095811.GB8376@localhost>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <c232147c-1fe0-e983-277e-ad3ee1049abb@windriver.com>
+Date: Thu, 4 Apr 2019 10:06:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
-	<20190403144110.GG4664@bill-the-cat>
-	<CAMKF1srb2EgL7tYZDFoq2EqABp-+_eib2u2OZMwT6B3TVgNk=Q@mail.gmail.com>
-	<2189093.Hm6Vq2XZhg@localhost.localdomain>
-In-Reply-To: <2189093.Hm6Vq2XZhg@localhost.localdomain>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 3 Apr 2019 17:38:53 -0700
-Message-ID: <CAMKF1spJCg2HjGRzke_3yH_9hCZR=ZQZfJ1EQZCQi9gQF3x-4g@mail.gmail.com>
-To: Paul Eggleton <paul.eggleton@linux.intel.com>
-Cc: Yocto Project <yocto@yoctoproject.org>, Adrian Bunk <bunk@stusta.de>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Tom Rini <trini@konsulko.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] [oe] Git commit process question.
+In-Reply-To: <20190403095811.GB8376@localhost>
+X-Originating-IP: [128.224.162.228]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,78 +37,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 00:39:19 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Apr 2019 02:06:49 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Wed, Apr 3, 2019 at 4:07 PM Paul Eggleton
-<paul.eggleton@linux.intel.com> wrote:
->
-> On Thursday, 4 April 2019 5:46:04 AM NZDT Khem Raj wrote:
-> > On Wed, Apr 3, 2019 at 7:41 AM Tom Rini <trini@konsulko.com> wrote:
-> > >
-> > > On Wed, Apr 03, 2019 at 11:30:39AM +0100, Burton, Ross wrote:
-> > > > On Tue, 2 Apr 2019 at 20:46, Tom Rini <trini@konsulko.com> wrote:
-> > > > > > The kernel does not have "upgrade foo to the latest upstream
-> > > > > > version" commits.
-> > > > > >
-> > > > > > With the Automatic Upgrade Helper this is a semi-automatic task, and
-> > > > > > most of the time there is no specific motivation other than
-> > > > > > upgrading
-> > > > > > to the latest upstream version.
-> > > > >
-> > > > > But since that's just filling in a template the body can also be a
-> > > > > template perhaps with useful AUH data (run at ... by ... ?) ?
-> > > >
-> > > > Apart from making the commit message longer what does this achieve?
-> > > > The commit already has a timestamp and author.
-> > >
-> > > It's an etiquette thing.  Subject+Sign-off+Empty body is bad form.  AUH
-> > > updates are a form of "trivial update" that every project has.  "Update
-> > > $X from version $Y to $Z" is what a human would normally put.  It's
-> > > weird looking at git log of nothing but subject+signed-off-by.  I'm not
-> > > going to object further on this point, but I don't get it.
-> >
-> > if the content of subject is being repeated in body then I would
-> > prefer an empty body
-> > redundant information in commits should be avoided since it can create
-> > impression that body does not have
-> > useful information and skip reading it. We should strive to make commits
-> > concise and useful.
->
-> There is often (I won't say always, but often) something useful you can put in
-> the commit message. If it's a recipe upgrade, you could put a pointer to the
-> upstream changelog in it, for example. As the person doing the upgrade if your
-> prior review of that changelog or other upstream release documentation
-> indicated any backwards-compatibility issues or CVEs fixed then those really
-> ought to be mentioned as well; if you're feeling especially generous you might
-> mention highlights of any new functionality. (I have a proposal that might
-> help us automate part of that which I've not yet fully fleshed out, hopefully
-> one day soon I will get around to it.)
->
-> The issue of empty commit messages is something I've complained about in the
-> past, and not just about recipe upgrades. If I - as someone who is relatively
-> familiar with OE - have to actually read beyond the shortlog / commit message
-> to understand the basics of why a change has been made, then it's likely that
-> the commit message wasn't good enough. Unlike other issues, once a commit goes
-> in the message is set in stone within the git history, so if you are working
-> on a change, *please* take a minute or two to document it adequately in the
-> commit message so that others looking back can understand it.
->
 
-Definitely, and I agree that we should put relevant information in
-commits, usually
-the information about side effects if any, links to changelog etc. are
-useful too
-however, we should not enforce a behavior which could result in
-redundancy as explained
+On 4/3/19 5:58 PM, Adrian Bunk wrote:
+> On Wed, Apr 03, 2019 at 10:29:08AM +0800, Changqing Li wrote:
+>> On 4/2/19 7:31 PM, Adrian Bunk wrote:
+>>> On Tue, Apr 02, 2019 at 05:08:33PM +0800, changqing.li@windriver.com wrote:
+>>>> From: Changqing Li <changqing.li@windriver.com>
+>>>>
+>>>> fix below compile error with -Werror=maybe-uninitialized
+>>>>
+>>>> | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>> |      *out_gltype = gltype;
+>>>> |      ~~~~~~~~~~~~^~~~~~~~
+>>>> | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>>> |      *out_glintformat = glintformat;
+>>>> |      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+>>>> ...
+>>> Looking at the code, is this a failure that only happens with DEBUG_FLAGS?
+>> Yes, only happen with DEBUG_FLAGS
+>>>> +--- a/cogl/driver/gl/gles/cogl-driver-gles.c
+>>>> ++++ b/cogl/driver/gl/gles/cogl-driver-gles.c
+>>>> +@@ -74,9 +74,9 @@ _cogl_driver_pixel_format_to_gl (CoglContext *context,
+>>>> +                                  GLenum *out_gltype)
+>>>> + {
+>>>> +   CoglPixelFormat required_format;
+>>>> +-  GLenum glintformat;
+>>>> ++  GLenum glintformat = 0;
+>>>> +   GLenum glformat = 0;
+>>>> +-  GLenum gltype;
+>>>> ++  GLenum gltype = 0;
+>>>> ...
+>>> Assigning random values to variables is a bug,
+>>> they do not even seem to be valid values for these variables.
+>> According to code logic,  glformat and glintformat will assigned
+>> simultaneously and usually with same value,
+> But glformat has an assert later to ensure the 0 doesn't leak anywhere.
+>
+>> and 0 mean invalid pixel format.
+> For pixel format 0 means COGL_PIXEL_FORMAT_ANY.
+>
+> For glintformat I don't know what would happen if 0 is used.
+>
+>> [snip]
+>>
+>>      case COGL_PIXEL_FORMAT_DEPTH_24_STENCIL_8:
+>>        glintformat = GL_DEPTH_STENCIL;
+>>        glformat = GL_DEPTH_STENCIL;
+>>        gltype = GL_UNSIGNED_INT_24_8;
+>>        break;
+>>
+>> and for gtype, there also should be no problem according to the code logic.
+> According to the current code.
+>
+> If some future change breaks the code, it would pass invalid data at
+> runtime instead of giving a compile warning.
+>
+>> and the fix is just for eliminate the error when DEBUG_FLAGS is enabled.
+> Looking at the code, does passing --enable-maintainer-flags=no
+> to configure work around this gcc bug
 
-> Thanks,
-> Paul
+Hi, Adrian
+
+Thanks for your detailed comments. And the future change wrong is 
+reasonable, but according to
+
+current code,  seems it can assert from g_assert_not_reached or g_assert 
+when glformat/glintformat is not assigned new value.
+
+[snip]
+
+     case xxx
+
+            glformat=xxx
+
+            glintformat=xxx
+
+     case COGL_PIXEL_FORMAT_ANY:
+     case COGL_PIXEL_FORMAT_YUV:
+       g_assert_not_reached ();
+       break;
+     }
+
+   /* All of the pixel formats are handled above so if this hits then
+      we've been given an invalid pixel format */
+   g_assert (glformat != 0);
+
+
+And also upstream have use same way to fix under 
+cogl/driver/gl/gl/cogl-driver-gl.c
+
+https://gitlab.gnome.org/GNOME/cogl/commit/ca5226513eb64bceb38ca01994799c4e7cd9f5fa
+
+so I think we can fix same way under this 
+cogl/driver/gl/gles/cogl-driver-gles.c
+
 >
-> --
+> cu
+> Adrian
 >
-> Paul Eggleton
-> Intel Open Source Technology Centre
->
->
+-- 
+BRs
+
+Sandy(Li Changqing)
+
 
