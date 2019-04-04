@@ -1,25 +1,56 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id B0D557D45E
+Return-Path: <rehsack@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9DE9A7D451
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 09:19:45 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Apr 2019 02:19:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,306,1549958400"; d="scan'208";a="132891051"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga006.jf.intel.com with ESMTP; 04 Apr 2019 02:19:46 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2019 16:48:38 +0800
-Message-Id: <1554367718-74682-5-git-send-email-ee.peng.yeoh@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1554367718-74682-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1554367718-74682-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH 4/4] resulttool/manualexecution: Refactor and simplify codebase
+	Thu,  4 Apr 2019 09:19:50 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id w10so2807328wrm.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Apr 2019 02:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:message-id:mime-version:subject:date:in-reply-to:cc:to
+	:references; bh=b4yD2k6lDeBc4wdPqkonzOkyPg4RbJySG0gPpDCMaVc=;
+	b=gOa+0hkjBbLHQhylrcv2TfjS5PM2C1A1AtQzap2zoUg2EaFmIwoUYMN1gX8jHGxau8
+	HYhnn56g0knJWr2EZov3AIP+6/QrDyqCfEXbsnjp9JbccQd3/ZZsRKpY4pCt3JtMDxzb
+	1VFVW4v92vdzbGM95KXBpTm5ltMspyS4G8eLzhFRnN1/K6mlOWX93NIxxCI4Gy3Du+lm
+	/BePr2EK3wZQslnN2oJ9KNILszbR91jaMH9XonrLFVvis9pX92pkC5lSHwSokNOa2tof
+	sOUEehf9fRhgJA+ri7Gt8p/Xqfk4YDFik01iyqoUjSY/GfDSOwCX3PaEYL40c/DYssU0
+	vzgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:message-id:mime-version:subject:date
+	:in-reply-to:cc:to:references;
+	bh=b4yD2k6lDeBc4wdPqkonzOkyPg4RbJySG0gPpDCMaVc=;
+	b=kpGFjl4icZEQfjyjK0TS5YtM9Ln5sPJHl3VvWsKOQy1rwJJnZBkPMazMfXbqah8sdz
+	j5Wle1GwlZ6Tq3UrGAlzJ3+mxzHxQTokiWD1kdUhP//hxCH37GizymuF/UBxffSLx4kK
+	vMYuWCvEcVgrYAL/BcXd/UucRyHWL8CXLfs/Xdw4ZIVakAwFox24syBe5k8v9Yeb34m8
+	Wf+3+7f8pL6OaahMUhWJb3Pl58ofm0kbdY/dq2BWNScuueebM6PYu5v3/vtIqq2nmnGj
+	qWIQ1sWVsU1UCGCNyF9AZlRdFlAmSSn55G455gglrthXCm7GT0lBT2C/bzHkawiHzh8P
+	IFNA==
+X-Gm-Message-State: APjAAAWvsmJjcYnA9VKCQAH2T9oBGCR3l6GzwsZx4I7qWAwj+ilMX0Uw
+	mHlwEl7b0GvjJRM7uMJk7cQ=
+X-Google-Smtp-Source: APXvYqzDLKJlxn5J8UFtCUcjAZZfcz4ruA+rzIB7iBihUO6jFmDfNPiRLTVFVELt2mooVfjGFGUsiw==
+X-Received: by 2002:a5d:634c:: with SMTP id b12mr3245383wrw.203.1554369591411; 
+	Thu, 04 Apr 2019 02:19:51 -0700 (PDT)
+Received: from [10.42.8.217] (b2b-78-94-80-58.unitymedia.biz. [78.94.80.58])
+	by smtp.gmail.com with ESMTPSA id
+	o12sm16325753wrx.92.2019.04.04.02.19.49
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Apr 2019 02:19:49 -0700 (PDT)
+Sender: Jens Rehsack <rehsack@gmail.com>
+From: Jens Rehsack <sno@netbsd.org>
+Message-Id: <D71C89FE-B1F1-45EE-A831-41B1F3E51B60@netbsd.org>
+Mime-Version: 1.0 (Mac OS X Mail 12.4 \(3445.104.8\))
+Date: Thu, 4 Apr 2019 11:19:48 +0200
+In-Reply-To: <cf7e013e8ca40525e6738bf318e85f299535f2d8.camel@linuxfoundation.org>
+To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
+References: <20190403131822.19503-1-sno@netbsd.org>
+	<089f9da0ec7f175fcf327994f31e0728f75313a0.camel@linuxfoundation.org>
+	<CCFDEF2A-61E0-493B-AF4B-8A8EA5D6A551@netbsd.org>
+	<cf7e013e8ca40525e6738bf318e85f299535f2d8.camel@linuxfoundation.org>
+X-Mailer: Apple Mail (2.3445.104.8)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] support CONFIG_MODULE_COMPRESS=y
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,131 +63,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 09:19:45 -0000
+X-List-Received-Date: Thu, 04 Apr 2019 09:19:51 -0000
+X-Groupsio-MsgNum: 123045
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_60952324-12FD-4457-92D0-AC353DF7F2FB";
+	protocol="application/pgp-signature"; micalg=pgp-sha512
 
-Simplify and removed unnecessary codes.
-Refactor to allow pythonic loop.
-
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
----
- scripts/lib/resulttool/manualexecution.py | 56 +++++++++++--------------------
- 1 file changed, 20 insertions(+), 36 deletions(-)
-
-diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index 9a29b0b..c94f981 100755
---- a/scripts/lib/resulttool/manualexecution.py
-+++ b/scripts/lib/resulttool/manualexecution.py
-@@ -24,24 +24,12 @@ def load_json_file(file):
-     with open(file, "r") as f:
-         return json.load(f)
- 
--
- class ManualTestRunner(object):
--    def __init__(self):
--        self.jdata = ''
--        self.test_module = ''
--        self.test_cases_id = ''
--        self.configuration = ''
--        self.starttime = ''
--        self.result_id = ''
--        self.write_dir = ''
- 
-     def _get_testcases(self, file):
-         self.jdata = load_json_file(file)
--        self.test_cases_id = []
-         self.test_module = self.jdata[0]['test']['@alias'].split('.', 2)[0]
--        for i in self.jdata:
--            self.test_cases_id.append(i['test']['@alias'])
--    
-+
-     def _get_input(self, config):
-         while True:
-             output = input('{} = '.format(config))
-@@ -67,45 +55,42 @@ class ManualTestRunner(object):
-         extra_config = set(store_map['manual']) - set(self.configuration)
-         for config in sorted(extra_config):
-             print('---------------------------------------------')
--            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).'
--                  % config)
-+            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).' % config)
-             print('---------------------------------------------')
-             value_conf = self._get_input('Configuration Value')
-             print('---------------------------------------------\n')
-             self.configuration[config] = value_conf
- 
-     def _create_result_id(self):
--        self.result_id = 'manual_' + self.test_module + '_' + self.starttime
-+        self.result_id = 'manual_%s_%s' % (self.test_module, self.starttime)
- 
--    def _execute_test_steps(self, test_id):
-+    def _execute_test_steps(self, test):
-         test_result = {}
--        total_steps = len(self.jdata[test_id]['test']['execution'].keys())
-         print('------------------------------------------------------------------------')
--        print('Executing test case:' + '' '' + self.test_cases_id[test_id])
-+        print('Executing test case: %s' % test['test']['@alias'])
-         print('------------------------------------------------------------------------')
--        print('You have total ' + str(total_steps) + ' test steps to be executed.')
-+        print('You have total %s test steps to be executed.' % len(test['test']['execution']))
-         print('------------------------------------------------------------------------\n')
--        for step, _ in sorted(self.jdata[test_id]['test']['execution'].items(), key=lambda x: int(x[0])):
--            print('Step %s: ' % step + self.jdata[test_id]['test']['execution']['%s' % step]['action'])
--            expected_output = self.jdata[test_id]['test']['execution']['%s' % step]['expected_results']
-+        for step, _ in sorted(test['test']['execution'].items(), key=lambda x: int(x[0])):
-+            print('Step %s: %s' % (step, test['test']['execution'][step]['action']))
-+            expected_output = test['test']['execution'][step]['expected_results']
-             if expected_output:
--                print('Expected output: ' + expected_output)
-+                print('Expected output: %s' % expected_output)
-         while True:
--            done = input('\nPlease provide test results: (P)assed/(F)ailed/(B)locked/(S)kipped? \n')
--            done = done.lower()
-+            done = input('\nPlease provide test results: (P)assed/(F)ailed/(B)locked/(S)kipped? \n').lower()
-             result_types = {'p':'PASSED',
--                                'f':'FAILED',
--                                'b':'BLOCKED',
--                                's':'SKIPPED'}
-+                            'f':'FAILED',
-+                            'b':'BLOCKED',
-+                            's':'SKIPPED'}
-             if done in result_types:
-                 for r in result_types:
-                     if done == r:
-                         res = result_types[r]
-                         if res == 'FAILED':
-                             log_input = input('\nPlease enter the error and the description of the log: (Ex:log:211 Error Bitbake)\n')
--                            test_result.update({self.test_cases_id[test_id]: {'status': '%s' % res, 'log': '%s' % log_input}})
-+                            test_result.update({test['test']['@alias']: {'status': '%s' % res, 'log': '%s' % log_input}})
-                         else:
--                            test_result.update({self.test_cases_id[test_id]: {'status': '%s' % res}})
-+                            test_result.update({test['test']['@alias']: {'status': '%s' % res}})
-                 break
-             print('Invalid input!')
-         return test_result
-@@ -120,9 +105,9 @@ class ManualTestRunner(object):
-         self._create_result_id()
-         self._create_write_dir()
-         test_results = {}
--        print('\nTotal number of test cases in this test suite: ' + '%s\n' % len(self.jdata))
--        for i in range(0, len(self.jdata)):
--            test_result = self._execute_test_steps(i)
-+        print('\nTotal number of test cases in this test suite: %s\n' % len(self.jdata))
-+        for t in self.jdata:
-+            test_result = self._execute_test_steps(t)
-             test_results.update(test_result)
-         return self.configuration, self.result_id, self.write_dir, test_results
- 
-@@ -130,8 +115,7 @@ def manualexecution(args, logger):
-     testrunner = ManualTestRunner()
-     get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file)
-     resultjsonhelper = OETestResultJSONHelper()
--    resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id,
--                                          get_test_results)
-+    resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id, get_test_results)
-     return 0
- 
- def register_commands(subparsers):
--- 
-2.7.4
+--Apple-Mail=_60952324-12FD-4457-92D0-AC353DF7F2FB
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain;
+	charset=us-ascii
 
 
+
+> Am 03.04.2019 um 19:10 schrieb richard.purdie@linuxfoundation.org:
+> 
+> On Wed, 2019-04-03 at 19:05 +0200, Jens Rehsack wrote:
+>> 
+>> 
+>>> Am 03.04.2019 um 15:58 schrieb Richard Purdie <
+>>> richard.purdie@linuxfoundation.org>:
+>>> 
+>>> On Wed, 2019-04-03 at 15:18 +0200, Jens Rehsack wrote:
+>>>> In case, kernel config enables compressed modules, support of
+>>>> splitting via split_kernel_module_packages won't find any module.
+>>>> So, first expand module pattern regex to recognize compressed
+>>>> modules and then objcopy on temporary extacted to extract module
+>>>> information.
+>>>> 
+>>>> Signed-off-by: Jens Rehsack <sno@netbsd.org>
+>>>> ---
+>>>> meta/classes/kernel-module-split.bbclass | 36 +++++++++++++++++
+>>>> -----
+>>>> --
+>>>> 1 file changed, 26 insertions(+), 10 deletions(-)
+>>> 
+>>> There is a lot of whitespace noise in this, could you clean that up
+>>> and
+>>> resend please?
+>> 
+>> It's because of <tab>s were replaced with spaces - which is
+>> reasonable when python code is mixed in.
+>> Sure that you want keep the tab's?
+> 
+> Rightly or wrongly, the style convention for OE-Core is tabs in shell,
+> spaces in python (I'd prefer not to open that can of worms again right
+> now).
+
+That wasn't the intension - I just wanted to be sure.
+
+> Whitespace changes need to be in a separate patch to code changes
+> regardless.
+
+Understood.
+
+Cheers
+--
+Jens Rehsack - rehsack@gmail.com
+
+
+--Apple-Mail=_60952324-12FD-4457-92D0-AC353DF7F2FB
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEEGutaqWUYV+tvC/mCRJmWrtzlCp0FAlylzDQACgkQRJmWrtzl
+Cp32lw/+MG86XHEyp2DcNBZzyDM8B+yqRo3IRdBSlxiOVJWcn9jL7luh0TNbWcWI
+NGQpc/p+oCEo14rL+bh3LxpcVkECkaxKGpBp8zpgFTW24osjcB5YYnNpWuoUX94t
+x6oWoB+r8yYwA4kZAqceSFBXbYazfeQOeD/RPxwv9ae+CGUrGdsLWv8ZqhCgbV97
+Cl7kKwIAlTMIIzFduVQUGMGP8huLLY3Saeo5nSe4lZ/1paZUMponrt2soX0F4sA4
+PI6shIxp4q8zjLeAHcyKJxRO0KLDaotSLKXaWcwgZz4sxhox7Bxr0ROhGz3T8MLm
+DfTx1oFj0UFb+RmW13O1re+HgKm/q7jHdEf3u91gpqzpV1kBYgP+1cjtJaxoB7Hs
+AdsOHu3v8tEVCl0u8AeG799M2G1rUjF756ei0WvLaOIB+OuT5SuIz0baJEdIuajf
+//7nf8NxrAa/yjRCF0u+POpmcFCqDF0ved7S+DuHmr6xaGrYpIgLo0TqojJLba9r
+fQDQtBo090NG/m7bKcsj3S6uMCMbVk7HEfpcFYOos8jfrdkOj9P+x+TnnGt7o40A
+setvBW1DwOyG8iXCxHz3ASdaO/p3b+BCqmRhyOS3Z6zo+v7UIx80QiECpnDzIPGe
+oaMohzQHYnMKMj4SdKz1mhkYg/L2HAHrCwGyRgJd8etQPLqWGKM=
+=CSZn
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_60952324-12FD-4457-92D0-AC353DF7F2FB--
