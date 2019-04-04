@@ -1,42 +1,48 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CD156BC44
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f175.google.com (mail-it1-f175.google.com
+	[209.85.166.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E1596C3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 08:00:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44Zb3S4Zlpz3h;
-	Thu,  4 Apr 2019 10:00:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1554364837;
-	bh=9RVUiZ78Iwq/h8YBDwQ0QaQTN3lQ8Aeycb5TVvhExJw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fcojGa67JqmpiaIIOZlwAU1bjkpp0LBRvrFL7MPV8u6sURebs5oumjPNv35uGatLj
-	Qa2qmzAiz735qBSjpC6cocFndJi7KagvmJZPerUyUq5ZUAdI+ZsY/cNYY/ESTPIiyX
-	CmWkO9Hmb406FFKDpUr5iLgQQuQQXizqRmxmvKRIdmV9fY/CMvt97lY2VfjxnsnL8n
-	l7M91FtyS7KVpyk71pAOXZtfGGYzMWf//122mafYZnzadO54I0ODlarwm7hOwWF8nD
-	nAU3wlqzG6C1XvKQXwHO9SOo74SLIlVvqtQP/ZVWTOJsdNXwQgldO9VIKFSpoG7HvY
-	ZtvA1Y9Smzmxb2EULjhhhxs8TuOZgRcvHvCn0S3N4TPPytFLmZwrx5RTR2f23e5aie
-	3O0gojqZH33I46n2bYCOim+k7bdsEJT3COXH9bdN6w5M1nkjsCnNdvXiDiqQ5iZwS6
-	bsVYHW4WrnHLfucVKG94DmBSXyYNJMZM7BCDtJrROiVtLL4RtNrhmEVoN3jwj3X63z
-	4JqxJW0uzgNX3Pxe9OFip/ucujK+UUp8to7FlIzjekkG4n14qY3C/QUMjh+6NqgzUD
-	mY/ph4PXOfP42WtTMGIA76YridPYap2NMXT0IpmLU2fh63/nomHtNdFy7ccemHLpdl
-	KCCEN1SpM6tU1yIQGBSZ4aoo=
-Date: Thu, 4 Apr 2019 11:00:34 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20190404080034.GA13624@localhost>
-References: <cover.1554233389.git.pkj@axis.com>
-	<8694f4c6a289db1fe45c24bc1ee9139458e09521.camel@linuxfoundation.org>
-	<20190403062249.GB1281@localhost>
-	<CAJ86T=Wfp+1mrgWZCOG5VrhONADi08yZXd4Fm3L2Txb1euyUuA@mail.gmail.com>
-	<20190403202448.GA7131@localhost>
-	<CAJ86T=Xs2z7yTeF20NWT31KGGyzEtibxj3zJWKTBWUE_18btow@mail.gmail.com>
+	Thu,  4 Apr 2019 08:02:40 +0000 (UTC)
+Received: by mail-it1-f175.google.com with SMTP id v8so7538909itf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Apr 2019 01:02:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=01sBN2WrJ/PRJO/KwCq3YJV49P9NjzkFkBO+NyC71J4=;
+	b=ZHsMM4CAIpp+t1Ex0ngLhw7swv7wdZ+wmIRAII4hlgrgGUqVFLI+rBzAGDDdtpupoq
+	H1Rxc5GOer8tR/UB0yjPqhD1p4jZezb3jAdv0awDPGO7ZPjqDwZShF0gQNilesVDizgU
+	hKCPOj4CvWfyXEEuwPrYhjZ6aDH/jCWfpNaYtuTrPSF2tvHwNJ315emsmDP46hbsgmgW
+	mWFXOEzKGOebYh2m3n2ICPx/5bfg+f69i1sp8iAl41JKW2j3rh+7/w+Pj9IDaWPbx5IR
+	7IHbpLQxeJfXnV0X938fPEjsVFZO5Wu5cGk898qZv1AeE8Msx3GLOWpfO7KpvswNCEOL
+	gFQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=01sBN2WrJ/PRJO/KwCq3YJV49P9NjzkFkBO+NyC71J4=;
+	b=SS5rhyqqyBSchBwksPTAgXuogG2hHQTDOYPQy/YbV8a0qoAI2ml8i4Ag63LfHJ0qOg
+	4Fq2P47i4FFfsgHXbRX6nClwYT4Bt8gkAcMF7OWv7VidS9NFh0EgjBasoMe4n1VFwjI8
+	1dMMT/HUHoZ6HBdYAiMMTrqudwM/w3jYt+vW3/29nhpMMEaZ+IrVGzvAwlr1ObpQkSZr
+	l0NyF8oGKWSlbxO/x93LHI1G8bpyv75P6gyqRW4m5Nug//157/71QpOT58Q8xcwjjn1t
+	N20dx3KTbXZZwfchs27REu2jPG5XibepU0cYsqp5K3aGnwv1uwA8guauvR+70SqwHGOE
+	/UXA==
+X-Gm-Message-State: APjAAAXTmQV4n528YuEnI1RHufKyyLH5Mj/O6znPi/ICYxxGp3ys4oPz
+	18aSJSLo00JGJszvGK6H2XmWoFUgJ+VzfGbz7ZPRWQ==
+X-Google-Smtp-Source: APXvYqwaPtDfqpaFKrJbuyPk+6ExLpYNN96/ltgdy73CEVffCdnInolpUJPS6V0qaX5qeDNS0NYbwicE4adEVcj0SQg=
+X-Received: by 2002:a24:1749:: with SMTP id 70mr3727973ith.50.1554364961319;
+	Thu, 04 Apr 2019 01:02:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Xs2z7yTeF20NWT31KGGyzEtibxj3zJWKTBWUE_18btow@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/6] Correct and improve the ARM tunings
+References: <1554358311-216590-1-git-send-email-mingli.yu@windriver.com>
+	<CAJTo0La7viPMKAR+9PMx8m_SNTk6eyfM+M9ge5qeTyYrG-6QRQ@mail.gmail.com>
+In-Reply-To: <CAJTo0La7viPMKAR+9PMx8m_SNTk6eyfM+M9ge5qeTyYrG-6QRQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Apr 2019 09:02:29 +0100
+Message-ID: <CAJTo0Lak05SBbDApK4L-QZpSqR_cONECVhDUUq99B_JFFhgVbQ@mail.gmail.com>
+To: Mingli Yu <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] asciidoc: disable xmllint check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,49 +55,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 08:00:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 04 Apr 2019 08:02:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 03, 2019 at 01:48:04PM -0700, Andre McCurdy wrote:
->...
-> If we let the user pass an arbitrary string to -march then we lose the
-> ability to determine that (for example) it's safe for a
-> "armv7athf-vfpv3" machine to pull from a "armv7athf-vfpv3d16" package
-> feed.
+Some further context (note to self: don't reply to mails during
+breakfast): the problem which lead to xmllint failing also leads to
+the XSL stylesheets in the sysroot not being used, so xsltproc
+downloads them.  On my machine, asciidoc should execute do_compile in
+about a second, but with the broken catalogues this was taking almost
+a minute.
 
-For ARM <= v7 this is possible, except for bugs like the mentioned 
-around thumb.
+Ross
 
-With ARMv8 you end up duplicating everything gcc knows about 
-architecture and feature flags for a cpu, and about all the
-interdependencies between features flags.
-
-It will also have to tell whether a cpu contains the optional
-support for the old ARMv7 32bit ABI, or only for the ILP32 variant
-of the ARMv8 ABI.
-
-> Whether or not anyone in the real world actually maintains a generic
-> package feed and pulls from it from multiple machine specific builds
-> (verses setting up separate package feeds for each DEFAULTTUNE they
-> care about) would be an interesting question...
-
-It would be good to look at what exactly has to be supported here,
-and the complexity involved.
-
-The simplest "generic" would be armv8.0 with no feature flags.
-
-If a generic "is tune A a superset of tune B" is required,
-you end up duplicating a lot of hardware information from gcc.
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+On Thu, 4 Apr 2019 at 08:30, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> I've submitted fixes for this already.
+>
+> Ross
+>
+> On Thu, 4 Apr 2019 at 07:12, <mingli.yu@windriver.com> wrote:
+> >
+> > From: Mingli Yu <Mingli.Yu@windriver.com>
+> >
+> > asciidoc-native build with below error when
+> > there is no xmllint program located on build
+> > host:
+> > | python3 a2x.py -f manpage doc/asciidoc.1.txt
+> > | a2x: ERROR: "xmllint" --nonet --noout --valid "/build/tmp/work/x86_64-linux/asciidoc-native/8.6.9+py3-gitAUTOINC+618f6e6f6b-r0/git/doc/asciidoc.1.xml" returned non-zero exit status 4
+> > |
+> > | Makefile:110: recipe for target 'doc/asciidoc.1' failed
+> >
+> > Considering it's only used to check the xml format
+> > of the doc file as doc/asciidoc.1.txt, so disable
+> > xmllint check to fix the above issue.
+> >
+> > Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> > ---
+> >  meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb   |  4 ++-
+> >  .../0001-Makefile.in-disable-xmllint-check.patch   | 38 ++++++++++++++++++++++
+> >  2 files changed, 41 insertions(+), 1 deletion(-)
+> >  create mode 100644 meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
+> >
+> > diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+> > index d0d1517..7e00b34 100644
+> > --- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+> > +++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
+> > @@ -8,7 +8,9 @@ LICENSE = "GPLv2"
+> >  LIC_FILES_CHKSUM = "file://COPYING;md5=8ca43cbc842c2336e835926c2166c28b \
+> >                      file://COPYRIGHT;md5=029ad5428ba5efa20176b396222d4069"
+> >
+> > -SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https"
+> > +SRC_URI = "git://github.com/asciidoc/asciidoc-py3;protocol=https \
+> > +           file://0001-Makefile.in-disable-xmllint-check.patch \
+> > +"
+> >  SRCREV = "618f6e6f6b558ed1e5f2588cd60a5a6b4f881ca0"
+> >  PV .= "+py3-git${SRCPV}"
+> >
+> > diff --git a/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch b/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
+> > new file mode 100644
+> > index 0000000..4c0dd6d
+> > --- /dev/null
+> > +++ b/meta/recipes-extended/asciidoc/files/0001-Makefile.in-disable-xmllint-check.patch
+> > @@ -0,0 +1,38 @@
+> > +From 242e58f16c129f5983d6b32d493619cc4f87703e Mon Sep 17 00:00:00 2001
+> > +From: Mingli Yu <Mingli.Yu@windriver.com>
+> > +Date: Thu, 4 Apr 2019 13:38:10 +0800
+> > +Subject: [PATCH] Makefile.in: disable xmllint check
+> > +
+> > +asciidoc-native build with below error when
+> > +there is no xmllint program located on build
+> > +host:
+> > +| python3 a2x.py -f manpage doc/asciidoc.1.txt
+> > +| a2x: ERROR: "xmllint" --nonet --noout --valid "/build/tmp/work/x86_64-linux/asciidoc-native/8.6.9+py3-gitAUTOINC+618f6e6f6b-r0/git/doc/asciidoc.1.xml" returned non-zero exit status 4
+> > +|
+> > +| Makefile:110: recipe for target 'doc/asciidoc.1' failed
+> > +
+> > +So disable xmllint check to fix the above issue.
+> > +
+> > +Upstream-Status: Inappropriate [oe build specific]
+> > +
+> > +Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> > +---
+> > + Makefile.in | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/Makefile.in b/Makefile.in
+> > +index ffba3b5..fb95fab 100644
+> > +--- a/Makefile.in
+> > ++++ b/Makefile.in
+> > +@@ -107,7 +107,7 @@ $(DATATARGETS): % : %dir
+> > +       $(INSTALL_DATA) $($@) $(DESTDIR)/$($<)/
+> > +
+> > + $(manp): %.1 : %.1.txt
+> > +-      python3 a2x.py -f manpage $<
+> > ++      python3 a2x.py -L -f manpage $<
+> > +
+> > + docs:
+> > +       $(INSTALL) -d $(DESTDIR)/$(docdir)
+> > +--
+> > +2.7.4
+> > +
+> > --
+> > 2.7.4
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
