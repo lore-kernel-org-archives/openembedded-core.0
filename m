@@ -1,49 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FB0B7C629
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
+	[209.85.166.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 72ED07D439
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 11:06:26 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id k11so3240133wro.5
+	Thu,  4 Apr 2019 13:42:25 +0000 (UTC)
+Received: by mail-it1-f174.google.com with SMTP id f22so3712559ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 04:06:27 -0700 (PDT)
+	Thu, 04 Apr 2019 06:42:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wpWvJ8sVpDokXzZOk4UBO12hAKllMpo4sVfYG+9q6Ok=;
-	b=bYW/KqwuwufjnpH7P7XmwJd3/G6MB8wOSBN9hsmBn2PloZxME2KRf4FVZUmWL5/zYM
-	izfetO7aezoOd2quuEW+xIlVT80hNiJeMq1EQIMlkCyZedXC+cs0LGAXxAEMUCqHZIC9
-	Ic3Bw6q3AE1qJDe29+RcMcB4xigYZq0LdjzBc=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Awl9bpU+D2H1r9FCVzD96XO5TZvOp6y4U+pa69o0FeE=;
+	b=loHjwWHqcKOHB1eN1rMiJadrJBHqvk9BHb9PeJgsrusNeKpzWNrAFT23PdVSBX+eGD
+	1/zwDz7mzdZqXaezgczZLjxCWxHD9qO/zbxos8BIcHIPuHCj1FuGt7f0TCcxcK6bJXHH
+	XQBrF0ug/MImDG8Dhk2MysZSn1kwQVsRC8ew5agC9k616l2LTJE3bcJQlWKj09j2EURG
+	v9m3ZL3gr74uXe4NyxL068I+Kgny7scccD6RVobU89rbORfXNgOShfYfZXPHGcSkqvDo
+	cs0Nl6gMG8F0nsGIeDXLXv0HfRAtV7eBFucREaxNpHa5cc7mCf05W8ga3WfPkom+kpuG
+	7W+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wpWvJ8sVpDokXzZOk4UBO12hAKllMpo4sVfYG+9q6Ok=;
-	b=SYUR5UpAab8nvTjs8jBx2l+j1TJZMvelueoWlunJKToYzmyL/Mw9GePIAuOxuzf6Yq
-	H/lM9/0tj9QH3BuTAn95RX6HmlHL+5C6B9gWrsO3HWPnW5LqZkeaIDlR2WTmXu7PS5Su
-	O1fZqFnbu/sdVnPTlbgOlaIVjli07qloB3nkWpRIEA3baa0dErhRdN2kfBRz2/ERT1qI
-	f3UAFGlyTYed55qUmZW8/y/6Gu6Wmx59xqG7KhIU+X8Ker0+FL6rGnjvkjG8LGFlZyue
-	Q6a2XvsYvN616gL6ZcRxdheRgWFMMkovM/zSKImhcOxT2d63slQ8x7bL1KN9QFeYRL9s
-	8sJQ==
-X-Gm-Message-State: APjAAAUgZiHdg1KiuG37sXWdfX/6wn3Nrvt1mOfbNRLZIyLELOL0Jbta
-	6vN88chSJ9QoBUPWh01WtWzfg/FvQlmP0g==
-X-Google-Smtp-Source: APXvYqwjAdOyEfCPBtBZTyjHbL2gzaTaZ4IfQodcNLBi3pbCmo4f1QrSVFwmz2qBRv+ACKHxUkqrkg==
-X-Received: by 2002:adf:f051:: with SMTP id t17mr3522170wro.73.1554375986843; 
-	Thu, 04 Apr 2019 04:06:26 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	d17sm25153134wrw.88.2019.04.04.04.06.25
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Apr 2019 04:06:26 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2019 12:06:25 +0100
-Message-Id: <20190404110625.6057-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Awl9bpU+D2H1r9FCVzD96XO5TZvOp6y4U+pa69o0FeE=;
+	b=mWZ0gaFwd968M5wgf4vFpD/Us8RYkedX43nOK5DpVo+FqWx7lNdBoAhAmWorsQEXPM
+	+Ie52yt09ZKEttxS9ObCNQ1LB9jWnKA8oQsbIgwBzWY3eIXN8sSnb3pOLIN0kPDaNTzs
+	RJgVKmuPCkD6emL9wklyrMjdPg2J9TSs23ytoPDEkeM65n0V+m3E7cnWsJNNvsdj6vt0
+	zWOZoBG46JyrxGvlEHi+kKQPMqeC82phGjzvtaGE7e+CyEYoKqSohMhUhy7vJzX3RW9b
+	APyDZCb+ExcbAWVEQlIJ8i9YI+i0EqmmSrrwyrtILDq7Yqn1WrsPhFScaBjSmGAA8453
+	C4ng==
+X-Gm-Message-State: APjAAAUQOaiQHHVSOO1ML37wnukg1erqoikx92LHDixKHoDHADadaZAn
+	NoxqF9YmVe4agIH2Zy6d8J/pUPFo1TtMNzXu/B0KqA==
+X-Google-Smtp-Source: APXvYqy5GMUSOqSEj8E7vhGMYXKaBJ/BxRNMkyE5lXnKsg54mwW8a8Useu2XMcIcCIGJxMFiu0koyORZLd7jY2S3+9A=
+X-Received: by 2002:a02:b78e:: with SMTP id f14mr4637780jam.43.1554385346364; 
+	Thu, 04 Apr 2019 06:42:26 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] base/pixbufcache: Remove obsolete sstatecompletions code
+References: <1554196113-200535-1-git-send-email-changqing.li@windriver.com>
+In-Reply-To: <1554196113-200535-1-git-send-email-changqing.li@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 4 Apr 2019 14:42:14 +0100
+Message-ID: <CAJTo0LYUXZAW7ewEa_5=3eZm-mey-vBq6vkdZ2NX8gYW4Uz4zw@mail.gmail.com>
+To: Changqing Li <changqing.li@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,66 +54,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 11:06:26 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 04 Apr 2019 13:42:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This has been unused in OE-Core since the introduction of recipe specific
-sysroots. Its not so useful since it only runs once upon sstate installation,
-not per installation per sysroot.
++Upstream-Status: Submitted
+[https://github.com/GNOME/cogl/pull/4/commits/be7a7b983952d3f2ce2cbaa7b89f413b92e15066]
 
-Remove the weird looking comment left behind in pixbufcache too.
+That's a GNOME mirror, note how your PR was closed.  GNOME is at
+gitlab.gnome.org.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/base.bbclass        | 14 +-------------
- meta/classes/pixbufcache.bbclass |  1 -
- 2 files changed, 1 insertion(+), 14 deletions(-)
+Ross
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index d0b82d747dc..1636c6ef938 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -220,7 +220,7 @@ def buildcfg_neededvars(d):
-         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
- 
- addhandler base_eventhandler
--base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.MultiConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete bb.event.RecipeParsed"
-+base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.MultiConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.event.RecipeParsed"
- python base_eventhandler() {
-     import bb.runqueue
- 
-@@ -274,18 +274,6 @@ python base_eventhandler() {
-             d.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++")
-             d.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs")
- 
--    if isinstance(e, bb.runqueue.sceneQueueComplete):
--        completions = d.expand("${STAGING_DIR}/sstatecompletions")
--        if os.path.exists(completions):
--            cmds = set()
--            with open(completions, "r") as f:
--                cmds = set(f)
--            d.setVar("completion_function", "\n".join(cmds))
--            d.setVarFlag("completion_function", "func", "1")
--            bb.debug(1, "Executing SceneQueue Completion commands: %s" % "\n".join(cmds))
--            bb.build.exec_func("completion_function", d)
--            os.remove(completions)
--
-     if isinstance(e, bb.event.RecipeParsed):
-         #
-         # If we have multiple providers of virtual/X and a PREFERRED_PROVIDER_virtual/X is set
-diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
-index fb50cd49659..b07f51ed56a 100644
---- a/meta/classes/pixbufcache.bbclass
-+++ b/meta/classes/pixbufcache.bbclass
-@@ -54,7 +54,6 @@ GDK_PIXBUF_FATAL_LOADER=1 ${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-que
- DEPENDS_append_class-native = " gdk-pixbuf-native"
- SYSROOT_PREPROCESS_FUNCS_append_class-native = " pixbufcache_sstate_postinst"
- 
--# See base.bbclass for the other half of this
- pixbufcache_sstate_postinst() {
- 	mkdir -p ${SYSROOT_DESTDIR}${bindir}
- 	dest=${SYSROOT_DESTDIR}${bindir}/postinst-${PN}
--- 
-2.20.1
-
+On Tue, 2 Apr 2019 at 10:37, <changqing.li@windriver.com> wrote:
+>
+> From: Changqing Li <changqing.li@windriver.com>
+>
+> fix below compile error with -Werror=maybe-uninitialized
+>
+> | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> |      *out_gltype = gltype;
+> |      ~~~~~~~~~~~~^~~~~~~~
+> | ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> |      *out_glintformat = glintformat;
+> |      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+>
+> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> ---
+>  ...mpile-error-with-Werror-maybe-uninitializ.patch | 40 ++++++++++++++++++++++
+>  meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb      |  4 ++-
+>  2 files changed, 43 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+>
+> diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+> new file mode 100644
+> index 0000000..3c99d25
+> --- /dev/null
+> +++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+> @@ -0,0 +1,40 @@
+> +From e05ee89fcc978fceccab3e4724a3a37f7a338499 Mon Sep 17 00:00:00 2001
+> +From: Changqing Li <changqing.li@windriver.com>
+> +Date: Tue, 2 Apr 2019 14:48:49 +0800
+> +Subject: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
+> +
+> +fix below compile error with -Werror=maybe-uninitialized
+> +
+> +| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +|      *out_gltype = gltype;
+> +|      ~~~~~~~~~~~~^~~~~~~~
+> +| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> +|      *out_glintformat = glintformat;
+> +|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+> +
+> +Upstream-Status: Submitted [https://github.com/GNOME/cogl/pull/4/commits/be7a7b983952d3f2ce2cbaa7b89f413b92e15066]
+> +
+> +Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> +---
+> + cogl/driver/gl/gles/cogl-driver-gles.c | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/cogl/driver/gl/gles/cogl-driver-gles.c b/cogl/driver/gl/gles/cogl-driver-gles.c
+> +index e94449f..a59d815 100644
+> +--- a/cogl/driver/gl/gles/cogl-driver-gles.c
+> ++++ b/cogl/driver/gl/gles/cogl-driver-gles.c
+> +@@ -74,9 +74,9 @@ _cogl_driver_pixel_format_to_gl (CoglContext *context,
+> +                                  GLenum *out_gltype)
+> + {
+> +   CoglPixelFormat required_format;
+> +-  GLenum glintformat;
+> ++  GLenum glintformat = 0;
+> +   GLenum glformat = 0;
+> +-  GLenum gltype;
+> ++  GLenum gltype = 0;
+> +
+> +   required_format = format;
+> +
+> +--
+> +2.7.4
+> +
+> diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+> index 5901062..5ddeb4a 100644
+> --- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+> +++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+> @@ -1,7 +1,9 @@
+>  require cogl-1.0.inc
+>
+>  SRC_URI += "file://test-backface-culling.c-fix-may-be-used-uninitialize.patch \
+> -            file://0001-Fix-an-incorrect-preprocessor-conditional.patch"
+> +            file://0001-Fix-an-incorrect-preprocessor-conditional.patch \
+> +            file://0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch \
+> +           "
+>  SRC_URI[archive.md5sum] = "d53b708ca7c4af03d7254e46945d6b33"
+>  SRC_URI[archive.sha256sum] = "39a718cdb64ea45225a7e94f88dddec1869ab37a21b339ad058a9d898782c00d"
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
