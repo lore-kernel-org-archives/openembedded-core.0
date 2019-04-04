@@ -1,100 +1,45 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 226A07D412
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id D7F767D43B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 21:28:44 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id v12so1868641pgq.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 14:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=L6LFpclOILE81WJhdF7O8Kc84C/kLKOdpSsIiI1xK7U=;
-	b=rT40QP12otO3mX5AgDPPVT8DnDZ51+MqLA4cJkrkYgSj5tStIoUU+BkIneul9UBmrg
-	tqD159eIei1w1NYG5VYgYJQgUfvE4z3EJokLbsMRUcLStt05xMX5oE1Wp/QYkH2Hwuz9
-	68Lx/fOQzOn1PLWSXQSElUO55Aa2B4mh23iwLUcTqrJ3McYHzm9P968XBsLtxzPzVg2f
-	7A56LcLx0moSwurgGW7F7Szn1DPW5juU83FYeCVfXzFu+0VM3w7Skm+vQyAXIa+JAc12
-	WRTygEqqpoeJiYLbVzYwoHQnDITWfrN+Ucp60+ixStYFgi51rbMirbqpHM/hx22YyAOF
-	mECQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=L6LFpclOILE81WJhdF7O8Kc84C/kLKOdpSsIiI1xK7U=;
-	b=XlFpRs6evjKnIoMvsk5QFOqT32Lfu0NunUe/K5O/5ul52juTxz47gTo4sUeLLsyoFW
-	p4N8oFv/hXWrJPoghUYmLplq3oSS1zUSaY+EzbGEhzK/XEBeakMah6Ypkozl+bLJIeXg
-	b79rPpZNFzyfuDg0cNwVGVtw9agJ150Kqkpw5O+caqSUO0TGkOiKYGATi0CDNEUfBuju
-	9PujW+oFg0dUP4GZH5tR77qISf/QxfdXI2bi70YoHOWmmCXB4pvVPCiGixpBxBMoaoGD
-	u87axJRXW9C6Ij5qByQadyQjTruiCmWpOy/BEZXYGjTqLbesiuvuWlpxDjxiFMYJPymf
-	ht5Q==
-X-Gm-Message-State: APjAAAWFpg1SBI4dil+dz4VIkQIUWL+OLBWwNeidLs76P36RwlLei9K7
-	hUKki7AAdrx+aSBW/+KvLnA=
-X-Google-Smtp-Source: APXvYqxcylf8+L+NYHu7W5xk+lksbJ3V+HgboPyQut1lWrgauLRGWHLSIfdaNKYHySKR3CPYcZ1Otg==
-X-Received: by 2002:aa7:8289:: with SMTP id s9mr8286194pfm.208.1554413325865; 
-	Thu, 04 Apr 2019 14:28:45 -0700 (PDT)
-Received: from [10.240.241.171] ([116.212.180.67])
-	by smtp.gmail.com with ESMTPSA id
-	y23sm28798814pfn.25.2019.04.04.14.28.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Apr 2019 14:28:45 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <cfd56541-43c4-5128-3d41-cddc356a3cb8@gmail.com>
-Date: Fri, 5 Apr 2019 02:58:31 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-Subject: Worries kernels supported
+	Thu,  4 Apr 2019 21:47:55 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 9A0151D3239;
+	Thu,  4 Apr 2019 17:47:56 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id WUBqFYulIhyy; Thu,  4 Apr 2019 17:47:56 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 0AAA01D3235;
+	Thu,  4 Apr 2019 17:47:56 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 0AAA01D3235
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1554414476;
+	bh=joUPE1e/0eOr8xoMRC8W+v3etTQWnupfvn/9sUJz4eE=;
+	h=From:To:Date:Message-Id;
+	b=SfvgWdQxZbeH3jqbhS4TPN/PPrNbPk4UvoklabJ9cMn8pOWNlBLT6KtDFyXDgm0+S
+	wESq/U78uFF1Iaw5uoVsEnD5Xsl7jIcBD113BZTaS36Db6poOgamXVCvverQgpJvkG
+	rglmRucKDkY5PO2sVUWFaV9cwulFp5HHSrpjZXD7IPXF4Ws6VTzUCU49eANgbXS/R7
+	CMOi4Ejv8heJEJ5CUICz3q7Ivj/gKDqTdkPIUMFLQYj8cYTPt1UktT2ZsiNwzAsM6w
+	vC6VYLDv7kKedVTn9PXfuKiOJaP5k3r7o3b4Ph9KJ5rT/BGP2VMzOTjW2k029mQ86y
+	SD5tMSXSOAsMQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id rrTVQDni0lCy; Thu,  4 Apr 2019 17:47:55 -0400 (EDT)
+Received: from joraj-yocto-dev.internal.efficios.com
+	(192-222-157-41.qc.cable.ebox.net [192.222.157.41])
+	by mail.efficios.com (Postfix) with ESMTPSA id 523CB1D322D;
+	Thu,  4 Apr 2019 17:47:55 -0400 (EDT)
+From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+To: richard.purdie@linuxfoundation.org
+Date: Thu,  4 Apr 2019 21:47:41 +0000
+Message-Id: <20190404214743.9827-2-jonathan.rajotte-julien@efficios.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190404214743.9827-1-jonathan.rajotte-julien@efficios.com>
+References: <20190404214743.9827-1-jonathan.rajotte-julien@efficios.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/4] lttng-ust: backport musl workaround
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,21 +52,153 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 21:28:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 04 Apr 2019 21:47:56 -0000
 
-Hello,
+musl implementation for _SC_NPROCESSORS_CONF is a bit fishy.
 
-I noticed there are 3 kernels in Warrior. 4.18, 4.19 an 5.0. Do we
-really need 4.18?
-I see its the default version for poky-tiny. 4.18 is EOL but maintained
-by Windriver.
+[1] https://www.openwall.com/lists/musl/2019/03/15/5
 
-regards,
-Armin
+Anyway, we implemented a fallback.
 
+This patch should be gone by next recipe update.
 
+Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+---
+ ...nd-broken-_SC_NPROCESSORS_CONF-on-MU.patch | 109 ++++++++++++++++++
+ meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb |   2 +
+ 2 files changed, 111 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch
+
+diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch
+new file mode 100644
+index 0000000000..5c4bd36726
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch
+@@ -0,0 +1,109 @@
++From 5de7c318804a7b1edce8562d4891b4c74aac0677 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Wed, 20 Mar 2019 11:07:35 -0400
++Subject: [PATCH] compat: work around broken _SC_NPROCESSORS_CONF on MUSL libc
++
++On MUSL libc the _SC_NPROCESSORS_CONF sysconf will report the number of
++CPUs allocated to the task based on the affinity mask instead of the
++total number of CPUs configured on the system.
++
++Upstream-Status: Accepted [1] [5de7c318804a7b1edce8562d4891b4c74aac0677]
++[1] https://lists.lttng.org/pipermail/lttng-dev/2019-March/028616.html
++
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++---
++ libringbuffer/smp.c | 66 +++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 66 insertions(+)
++
++diff --git a/libringbuffer/smp.c b/libringbuffer/smp.c
++index 9e7114be..656a75da 100644
++--- a/libringbuffer/smp.c
+++++ b/libringbuffer/smp.c
++@@ -2,6 +2,7 @@
++  * libringbuffer/smp.c
++  *
++  * Copyright (C) 2011-2012 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+++ * Copyright (C) 2019 Michael Jeanson <mjeanson@efficios.com>
++  *
++  * This library is free software; you can redistribute it and/or
++  * modify it under the terms of the GNU Lesser General Public
++@@ -26,6 +27,7 @@
++ 
++ int __num_possible_cpus;
++ 
+++#if (defined(__GLIBC__) || defined( __UCLIBC__))
++ void _get_num_possible_cpus(void)
++ {
++ 	int result;
++@@ -43,3 +45,67 @@ void _get_num_possible_cpus(void)
++ 		return;
++ 	__num_possible_cpus = result;
++ }
+++
+++#else
+++
+++/*
+++ * The MUSL libc implementation of the _SC_NPROCESSORS_CONF sysconf does not
+++ * return the number of configured CPUs in the system but relies on the cpu
+++ * affinity mask of the current task.
+++ *
+++ * So instead we use a strategy similar to GLIBC's, counting the cpu
+++ * directories in "/sys/devices/system/cpu" and fallback on the value from
+++ * sysconf if it fails.
+++ */
+++
+++#include <dirent.h>
+++#include <limits.h>
+++#include <stdlib.h>
+++#include <string.h>
+++#include <sys/types.h>
+++
+++#define __max(a,b) ((a)>(b)?(a):(b))
+++
+++void _get_num_possible_cpus(void)
+++{
+++	int result, count = 0;
+++	DIR *cpudir;
+++	struct dirent *entry;
+++
+++	cpudir = opendir("/sys/devices/system/cpu");
+++	if (cpudir == NULL)
+++		goto end;
+++
+++	/*
+++	 * Count the number of directories named "cpu" followed by and
+++	 * integer. This is the same strategy as glibc uses.
+++	 */
+++	while ((entry = readdir(cpudir))) {
+++		if (entry->d_type == DT_DIR &&
+++			strncmp(entry->d_name, "cpu", 3) == 0) {
+++
+++			char *endptr;
+++			unsigned long cpu_num;
+++
+++			cpu_num = strtoul(entry->d_name + 3, &endptr, 10);
+++			if ((cpu_num < ULONG_MAX) && (endptr != entry->d_name + 3)
+++					&& (*endptr == '\0')) {
+++				count++;
+++			}
+++		}
+++	}
+++
+++end:
+++	/*
+++	 * Get the sysconf value as a fallback. Keep the highest number.
+++	 */
+++	result = __max(sysconf(_SC_NPROCESSORS_CONF), count);
+++
+++	/*
+++	 * If both methods failed, don't store the value.
+++	 */
+++	if (result < 1)
+++		return;
+++	__num_possible_cpus = result;
+++}
+++#endif
++-- 
++2.17.1
++
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
+index c0f408eeec..d546104129 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
+@@ -27,7 +27,9 @@ PE = "2"
+ 
+ SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
+            file://lttng-ust-doc-examples-disable.patch \
++	   file://0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch \
+           "
++
+ SRC_URI[md5sum] = "ffcfa8c1ba9a52f002d240e936e9afa2"
+ SRC_URI[sha256sum] = "9e8420f90d5f963f7aa32bc6d44adc1e491136f687c69ffb7a3075d33b40852b"
+ 
+-- 
+2.17.1
 
 
