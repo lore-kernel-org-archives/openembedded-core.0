@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id E35387D45D
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E6D847D45D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 22:16:55 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id z11so4775452wmi.0
+	Thu,  4 Apr 2019 22:16:56 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 4so4738189wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 15:16:57 -0700 (PDT)
+	Thu, 04 Apr 2019 15:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=ioUUZBGRteS5T22R/hNDRLSHmEgvF1kfWemI3ZH0niQ=;
-	b=DGEOSuTzT4eLwc2JNvaWQdaD6ePSMrT8p4Zx8LsglvpB20HxsNK+WVedAK2OGv4waA
-	m3XdrH4598xC3Erika3tcZje36B7OD1c3fW0bNprUcfyVdxO2ZTOku5LymnUe/T5v6jT
-	Fa4NcnP24KCrHn8lXWzkIVeaZZb5bTOclMJ0yrCL3qYNl4I1BTn7tqGbTWhD/qEyNdkg
-	YZneboTqIG+O7X9JdihTxmSQPj/YdNRWV1BBWC4llfZxbwNi03HN52igOo4+5R4uJCjS
-	bWrz4Y15mqE0Hb68LDIVAyKIbT9DMJzG7bhSGHqd+LKfwBGFum5ZUPiadm70dPtX+rvl
-	vaFA==
+	bh=i1z15cK+pxeM88okhoBfO8Cc9buWEeDOQ639wSWAEgY=;
+	b=kekp7Ua5olx6kb5shv8lOhHmpSMkliRBhc1TVzv/0RK/J21d/b8bZ/jLeYlGFuhrbf
+	s8NXOQ+/00yMeN/CWTWxpSio5NM4WRd5jueb9egvNVx/Ns2We5T4DO2JVs9kos7GDLSL
+	Dj9Cc4zoKlqioV9Quji7W+3G52W52nUnw6dulbg8kkOC/zWmpTvny+nVTy+yrF/rVY+q
+	OGibVQ9c0xWuE17AL4H3Vic7Ek3ECL/XXdrPJkLixYb0gkKVNakWGFt0NZZnWDlOcMUL
+	po4vHmKlqhOFfUGyM6IdTr3dQFHVvMn8PQ0a18a0Zq7LShrZBuym4aPQBR09vGtzgFbO
+	Qb5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=ioUUZBGRteS5T22R/hNDRLSHmEgvF1kfWemI3ZH0niQ=;
-	b=stc0+p9ddyNDxbOACuSGDkIVc0HeKuquCy4tAwslUp6/SHyK5PaDzpWeM0PCFLX7Tc
-	2UkCwaOCdFAl5K/wp0EJM4ndXaZiQ6fCl0gayFwZ+9hD0XvJeBQ97qslNJCEMgZBwYZa
-	TreC9LndJE+IdLAzhMTXZfzDlIDaopN/IKmntcHpQBPnJfTsgEDwdJKM7AXixTig/Q1R
-	EcRZtwotTNLnYd4PQAUkEpDa5IxmJ0fOXVXpc0eP6mXxIo5tr7znYaECXzdvvNLGyACi
-	o4nmnyn+cR4pDvl0/hqjZI8pmRRoon1wC0fKd6CajSWwr+HBxw0I6QLOSSNEaIW0rBz7
-	5K2A==
-X-Gm-Message-State: APjAAAXdMmopT8VVw8Bz6dh/rErI7qzQiAogmCPmnrpf4E5f1Il171Qt
-	9uvhTJfZi8EqhzKBKpNf2nnzSJXQavg=
-X-Google-Smtp-Source: APXvYqxmEg8yJb+C3CaCRjp+9bFlnbPWpo+c3EntYkQZC5MHIomAg2uzvHAd2nCayQUQoNX2dF8VsQ==
-X-Received: by 2002:a1c:ac07:: with SMTP id v7mr5994257wme.49.1554416216414;
-	Thu, 04 Apr 2019 15:16:56 -0700 (PDT)
+	bh=i1z15cK+pxeM88okhoBfO8Cc9buWEeDOQ639wSWAEgY=;
+	b=jUMyn3vqdutnOETYgNdNaoSuP41IZRbTahgpF6MdvIdZbieFrK8Z6F0txUHsbHQlMA
+	1UUfMfLDI3z5nOcxe++N77UyOxUG6SxmC6/zhsQkcsS5ZRdsl/1CSUHrJdHXascZST+2
+	Myo6PX6kKuaDomcF4osTvLG/pdt7kP7MvC22gkDgORkdLgkDH+HebzG7ep6TmLIGlGkI
+	6ZZv+xUVZtsDgC2zLgD0JdrjNakp2v5IW4Q8HVOmbfDlwPurNuIyhonYauZx8kzFaVhQ
+	dBhFApyg+LQRRYsIhQRQ8SzGEr4LE6DNUGPG6O1wYswn7eAbHH7NSEarIBZ+DNemXRcg
+	R+cQ==
+X-Gm-Message-State: APjAAAV4jfcymbO1ktJ9HQwZf47xObnxrOpwnogVmdBJkIfeU8lLj+1Y
+	46Eo8b+fLwNJR8QHMn2FAx+xMk2WOdE=
+X-Google-Smtp-Source: APXvYqxH2tpZCOAwrzBVoswbUu+1wXt7Gt8F5Z5qSTQK8OveZ09bxllBqwWoTRMHyHgeukBWmPCH7g==
+X-Received: by 2002:a1c:6588:: with SMTP id z130mr5689040wmb.39.1554416217511; 
+	Thu, 04 Apr 2019 15:16:57 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id d3sm305565wmf.46.2019.04.04.15.16.55
+	by smtp.gmail.com with ESMTPSA id d3sm305565wmf.46.2019.04.04.15.16.56
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 04 Apr 2019 15:16:55 -0700 (PDT)
+	Thu, 04 Apr 2019 15:16:56 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Apr 2019 23:16:39 +0100
-Message-Id: <20190404221644.20496-4-ross.burton@intel.com>
+Date: Thu,  4 Apr 2019 23:16:40 +0100
+Message-Id: <20190404221644.20496-5-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190404221644.20496-1-ross.burton@intel.com>
 References: <20190404221644.20496-1-ross.burton@intel.com>
-Subject: [PATCH v2 4/9] docbook-xsl: use xmlcatalog
+Subject: [PATCH v2 5/9] libxslt: update for new catalog path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,89 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 22:16:56 -0000
+X-List-Received-Date: Thu, 04 Apr 2019 22:16:57 -0000
 
-There is no need to ship a static catalog that we have to patch, as upstream
-comes with a catalog fragment.
-
-Use the xmlcatalog class to register this catalog.
+The XML catalogue is now at the canonical path, ${sysconfdir}/xml/catalog.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../docbook-xsl-stylesheets/docbook-xsl.xml         |  6 ------
- .../docbook-xml/docbook-xsl-stylesheets_1.79.1.bb   | 21 +++++++--------------
- 2 files changed, 7 insertions(+), 20 deletions(-)
- delete mode 100644 meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml
+ meta/recipes-support/libxslt/libxslt_1.1.33.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml
-deleted file mode 100644
-index c60555ae149..00000000000
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets/docbook-xsl.xml
-+++ /dev/null
-@@ -1,6 +0,0 @@
--<?xml version="1.0"?>
--<!DOCTYPE catalog PUBLIC "-//OASIS//DTD Entity Resolution XML Catalog V1.0//EN" "http://www.oasis-open.org/committees/entity/release/1.0/catalog.dtd">
--<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
--<delegateURI uriStartString="http://docbook.sourceforge.net/release/xsl/" catalog="file:///usr/share/xml/docbook/xsl-stylesheets/catalog.xml"/>
--<delegateSystem systemIdStartString="http://docbook.sourceforge.net/release/xsl/" catalog="file:///usr/share/xml/docbook/xsl-stylesheets/catalog.xml"/>
--</catalog>
-diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-index 036fc15dc9a..ff38e874b3e 100644
---- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-+++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
-@@ -4,7 +4,6 @@ LICENSE = "XSL"
- LIC_FILES_CHKSUM = "file://COPYING;md5=6beadd98f9c54ab0c387e14211ee4d0e"
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+index fd442d44f72..28d404ca779 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+@@ -36,9 +36,9 @@ RPROVIDES_${PN}-bin += "${PN}-utils"
+ RCONFLICTS_${PN}-bin += "${PN}-utils"
+ RREPLACES_${PN}-bin += "${PN}-utils"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/docbook/docbook-xsl-${PV}.tar.bz2 \
--           file://docbook-xsl.xml \
-            file://docbook-xsl-stylesheets-no-bashism-in-docbook-xsl-up.patch \
- "
- 
-@@ -15,10 +14,11 @@ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/docbook/files/docbook-xsl/
- # Reject versions ending in .0 as those are release candidates
- UPSTREAM_CHECK_REGEX = "/docbook-xsl/(?P<pver>(\d+[\.\-_]*)+(?!\.0)\.\d+)/"
- 
-+DEPENDS = "libxml2-native"
-+
- S = "${WORKDIR}/docbook-xsl-${PV}"
- 
--inherit allarch
--BBCLASSEXTEND = "native"
-+inherit allarch xmlcatalog
- 
- do_configure (){
- 	:
-@@ -29,8 +29,6 @@ do_compile (){
+-
++# This is only needed until libxml can load the relocated catalog itself
+ do_install_append_class-native () {
+-    create_wrapper ${D}/${bindir}/xsltproc XML_CATALOG_FILES=${sysconfdir}/xml/catalog.xml
++    create_wrapper ${D}/${bindir}/xsltproc XML_CATALOG_FILES=${sysconfdir}/xml/catalog
  }
  
- do_install () {
--	# Refer to http://www.linuxfromscratch.org/blfs/view/stable/pst/docbook-xsl.html
--	# for details.
- 	install -v -m755 -d ${D}${datadir}/xml/docbook/xsl-stylesheets-${PV}
- 	ln -s xsl-stylesheets-${PV} ${D}${datadir}/xml/docbook/xsl-stylesheets
- 
-@@ -44,17 +42,12 @@ do_install () {
- 
- 	install -d ${D}${docdir}/${BPN}
- 	install -v -m644 README RELEASE-NOTES* NEWS* ${D}${docdir}/${BPN}
--
--	install -d ${D}${sysconfdir}/xml/
--	install -m 755  ${WORKDIR}/docbook-xsl.xml ${D}${sysconfdir}/xml/docbook-xsl.xml
--}
--
--do_install_append_class-native () {
--	# Ensure that the catalog file sgml-docbook.cat is properly
--	# updated when the package is installed from sstate cache.
--	sed -i -e "s|file://.*/usr/share/xml|file://${datadir}/xml|g" ${D}${sysconfdir}/xml/docbook-xsl.xml
- }
- 
- RDEPENDS_${PN} += "perl"
- FILES_${PN} = "${datadir}/xml/* ${sysconfdir}/xml/docbook-xsl.xml"
- FILES_${PN}-doc = "${datadir}/doc/*"
-+
-+XMLCATALOGS = "${datadir}/xml/docbook/xsl-stylesheets-${PV}/catalog.xml"
-+
-+BBCLASSEXTEND = "native"
+ FILES_${PN} += "${libdir}/libxslt-plugins"
 -- 
 2.11.0
 
