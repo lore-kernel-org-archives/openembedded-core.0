@@ -1,49 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f180.google.com (mail-it1-f180.google.com
-	[209.85.166.180])
-	by mail.openembedded.org (Postfix) with ESMTP id DE7B17D169
+Return-Path: <Dengke.Du@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A0B567CFF8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Apr 2019 08:52:02 +0000 (UTC)
-Received: by mail-it1-f180.google.com with SMTP id z17so7633067itc.1
+	Thu,  4 Apr 2019 09:02:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3492d0l004147
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 01:52:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=upTEUYmfPcDZjW/Beoxg4M/pYQgNATIeMl4D1DKpZwo=;
-	b=vTec1wGQxiTaupLTJky+hN2ZXXJ7SM+PEII2lZqwcUsBKY/MiLtYZ1ZNXYwc+2Lqwp
-	rJdyEl52Tf2XpwHXdbvkw2DvfQOBPjAad7gYLx1YxMbepwjHgqKjb5XiRfqBO+zz3JP4
-	KHrghrrMNtTvAtDm46Uj56SGf+xensQ76OoQNM8BxeuKy0bRVO3MgJ9v93jle4aBslll
-	6Ykuqe8/wovPjHfn3TZTo50LaaXF4y4GXiVTrcujE/GbEC2yESt4l2b5AqA/RFpNtVr6
-	mcejOs+SQ5Si0ELnLpzeArEqgJ+7sTN98XjZwpnJu+LOqIZ9E4BMdRK/evtJ4TrzOR3G
-	/GZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=upTEUYmfPcDZjW/Beoxg4M/pYQgNATIeMl4D1DKpZwo=;
-	b=AnSsKC5celiCgdQ6CB/0zjUGNhpkEKfLX0fQajOQhY4nKHlnul2m1Jp6Qo4ncjEl37
-	x00HXQXoCO2HWesUmvCO61nQwgukyD4VMz9E/coOK+coQWhPiopEu0rNtHlgvnCqk8qW
-	c/1pE1PNdj23Hgbhg7emLlwq4eGdBFneKGQtpM/LhteuNINPw6VLUnkliNMBzqujQnH6
-	gWl+KK/y1/QtSIuviZEZKsrkX3ydh9Af4jx/BTK2eCqwjrApNhFpIzAYpu9kLakDKLKp
-	KonqhLChPpcW7MBPSONslhAWEPXmnFGTUZklKJjudY9BcdkdVQU6jJGKZvZFEyRfBifX
-	q52w==
-X-Gm-Message-State: APjAAAWDlcKeW2hm5OCJuTvqBHKnPDVvTGMCTnsT7QTyEFh2cSkmbP6Y
-	eOzhQjJya37XE6Z7/buWax27z2Bf2cjC61py1ye7iw==
-X-Google-Smtp-Source: APXvYqzO/wAti/PkDceBz7yRtD2JJZU1tydeoLD8CljzRhYXgRfU1cTsYqtaDvGNy+PVGwjsq0rJsoJ5lKyGO+rzVjU=
-X-Received: by 2002:a02:7a48:: with SMTP id z8mr3662891jad.62.1554367923920;
-	Thu, 04 Apr 2019 01:52:03 -0700 (PDT)
+	Thu, 4 Apr 2019 02:02:50 -0700
+Received: from pek-lpg-core1-vm1.wrs.com (128.224.156.106) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Thu, 4 Apr 2019 02:02:17 -0700
+From: Dengke Du <dengke.du@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 4 Apr 2019 17:02:33 +0800
+Message-ID: <1554368553-1851-1-git-send-email-dengke.du@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190403123657.10547-1-ovidiu.panait@windriver.com>
-	<CAJTo0LZ_zeiAChah_z4TMauj4vNhmHghQqezjnL4T2kJUeUiww@mail.gmail.com>
-	<c44f9100-579c-75ed-be2d-46e6e8d038ab@windriver.com>
-In-Reply-To: <c44f9100-579c-75ed-be2d-46e6e8d038ab@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 4 Apr 2019 09:51:52 +0100
-Message-ID: <CAJTo0LY5Ji0GcT+_G0Xx0WwwfUbDY1V1SKnhqpUr967+HwESag@mail.gmail.com>
-To: Ovidiu Panait <ovidiu.panait@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [thud][PATCH] ghostscript: Fix CVE-2019-3835 and CVE-2019-3838
+Subject: [PATCH] perf: workaround the error cased by maybe-uninitialized warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,25 +31,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 08:52:03 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Apr 2019 09:02:59 -0000
+Content-Type: text/plain
 
-On Thu, 4 Apr 2019 at 07:56, Ovidiu Panait <ovidiu.panait@windriver.com> wrote:
-> > Have all of these been resolved in master?
-> >
-> > Ross
->
-> No, these have not been resolved in master. Ghostscript version on
-> master is 9.26 and the fixes come from 9.27, which hasn't been released yet.
->
-> I only sent them for thud since I remember that on master is preferred
-> to upgrade to a newer version when it's available instead of backporting
-> fixes.
+When enable DEBUG_BUILD, the perf build failed by the following error:
+    libbpf.c:727:36: error: 'data' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+This is ok until Khem commit a patch in oe-core:
+    16643b03227466e2c80a24c2d079fe36e89553c1
+This commit import "-Og" option to "DEBUG_OPTIMIZATION", result in this error.
 
-Policy is that security issues are fixed in master then the release
-branches, so that we don't regress.  If this is merged then the next
-release will be vulnerable because it is frozen for upgrades right
-now...
+Actually, the warning was misinformation. We explore the code in libbpf.c:
+    https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/tools/lib/bpf/libbpf.c#n640
+--------------------------------------------------------------------------
+	if (scn)
+		data = elf_getdata(scn, NULL);
+	if (!scn || !data) {
+		pr_warning("failed to get Elf_Data from map section %d\n",
+			   obj->efile.maps_shndx);
+		return -EINVAL;
+	}
+	......
+	using data...
+	......
+--------------------------------------------------------------------------
+If the 'scn' was not null, the data will be initialized. if the data was null,
+the function will return -EINVAL, so the data must be not null, but compiler
+can't see it in 'if' code block, so treat it as 'maybe-uninitialized'.
 
-Ross
+Signed-off-by: Dengke Du <dengke.du@windriver.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 5acdcfb..546076f 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -271,3 +271,4 @@ FILES_${PN}-perl = "${libexecdir}/perf-core/scripts/perl"
+ 
+ 
+ INHIBIT_PACKAGE_DEBUG_SPLIT="1"
++DEBUG_OPTIMIZATION_append = " -Wno-error=maybe-uninitialized"
+-- 
+2.7.4
+
 
