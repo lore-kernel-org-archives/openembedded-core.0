@@ -1,53 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
-	[209.85.167.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 408BC7C629;
-	Thu,  4 Apr 2019 10:50:38 +0000 (UTC)
-Received: by mail-oi1-f177.google.com with SMTP id 3so1481814oir.7;
-	Thu, 04 Apr 2019 03:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=0P5kR6jhn4WNSQYVMDXuSXY3ENFBvxHRUqq3jwVaoVI=;
-	b=e7IrthM9tWhHhCWswMrpOzTveLh7FlZvGEVa4b5qRQmQdDA+MpqErfuVYIHTTb57uC
-	QTJ3Lgfsmj1qWwlA0QYf4gHSH/mZMRSB/gY3ta57u9odewT4M2dOE893Zbs90Qu1B1AR
-	4pkDhPjp/BXt3VfrywsssIZObmmmsuVlpXWWIMErzFOu7spflnQe4C9DdLwAXqkP/zGY
-	nqGbqKDmX5sda/gv5lZoXbrzCD+fRzEdRxHZ54QnqRlVPzwjz8s+Tbejr2Jj2S9kkCei
-	We3m+63C6MB9ciHsDBbJ1y6QGloNiGch6Rt0VHC+teQXmv8KlBMwxiB0KR/XZh0ZAQWg
-	LFIQ==
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7FB0B7C629
+	for <openembedded-core@lists.openembedded.org>;
+	Thu,  4 Apr 2019 11:06:26 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id k11so3240133wro.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Apr 2019 04:06:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=wpWvJ8sVpDokXzZOk4UBO12hAKllMpo4sVfYG+9q6Ok=;
+	b=bYW/KqwuwufjnpH7P7XmwJd3/G6MB8wOSBN9hsmBn2PloZxME2KRf4FVZUmWL5/zYM
+	izfetO7aezoOd2quuEW+xIlVT80hNiJeMq1EQIMlkCyZedXC+cs0LGAXxAEMUCqHZIC9
+	Ic3Bw6q3AE1qJDe29+RcMcB4xigYZq0LdjzBc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=0P5kR6jhn4WNSQYVMDXuSXY3ENFBvxHRUqq3jwVaoVI=;
-	b=CGGfgSjsmRjwS5VIdUg71jSYnrkB+iEkFzUNB7VRITD2vAgi4uL7smGP7oRo9Bu3zb
-	M8DcIb9rEcBouWPE2kRzmQqvLrqykg8YBu3xf2Aqs2dUnAe1VAWgZvAQ+1CIzsl07j75
-	opd8xVYBpkvUyGKBJWdMzxlrHjYE7h0LrUIaXzRXE9CgL0hTv6Ad37rHD0pf2A6Tx7LU
-	wTDFfMEYYRET/tHtkzz/5GXdLxtKGzuSdkyym8ivBUNA+9L65ctSfXVFBHSHMkLqGaD8
-	7ChW2zqSPOyen5PpO2A8WjgOzHuo5+OIINwh69Bfu4lTXvO3cQxSLG4gHzPcMtRfOVcA
-	n3eA==
-X-Gm-Message-State: APjAAAVCfA5M5g2krJplRhU3BKbjdNZvK7Q1g3jXDk24rKfJUsSXsqNt
-	JOiZ+CYJ3jzTtteKczNz4HnMPIPCPU7+iyMM9zo=
-X-Google-Smtp-Source: APXvYqzZroSKuUETEM3GqtqOd4Nw/sC3xzcstxgXKl/OMcAB62jgWnMobiGPUafXy5hz3VYyhVswK1rVcxp4G6p3VJc=
-X-Received: by 2002:aca:e689:: with SMTP id d131mr3055538oih.132.1554375039211;
-	Thu, 04 Apr 2019 03:50:39 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=wpWvJ8sVpDokXzZOk4UBO12hAKllMpo4sVfYG+9q6Ok=;
+	b=SYUR5UpAab8nvTjs8jBx2l+j1TJZMvelueoWlunJKToYzmyL/Mw9GePIAuOxuzf6Yq
+	H/lM9/0tj9QH3BuTAn95RX6HmlHL+5C6B9gWrsO3HWPnW5LqZkeaIDlR2WTmXu7PS5Su
+	O1fZqFnbu/sdVnPTlbgOlaIVjli07qloB3nkWpRIEA3baa0dErhRdN2kfBRz2/ERT1qI
+	f3UAFGlyTYed55qUmZW8/y/6Gu6Wmx59xqG7KhIU+X8Ker0+FL6rGnjvkjG8LGFlZyue
+	Q6a2XvsYvN616gL6ZcRxdheRgWFMMkovM/zSKImhcOxT2d63slQ8x7bL1KN9QFeYRL9s
+	8sJQ==
+X-Gm-Message-State: APjAAAUgZiHdg1KiuG37sXWdfX/6wn3Nrvt1mOfbNRLZIyLELOL0Jbta
+	6vN88chSJ9QoBUPWh01WtWzfg/FvQlmP0g==
+X-Google-Smtp-Source: APXvYqwjAdOyEfCPBtBZTyjHbL2gzaTaZ4IfQodcNLBi3pbCmo4f1QrSVFwmz2qBRv+ACKHxUkqrkg==
+X-Received: by 2002:adf:f051:: with SMTP id t17mr3522170wro.73.1554375986843; 
+	Thu, 04 Apr 2019 04:06:26 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d17sm25153134wrw.88.2019.04.04.04.06.25
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Apr 2019 04:06:26 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Apr 2019 12:06:25 +0100
+Message-Id: <20190404110625.6057-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <854544cb-aab1-1a9d-9e98-0f39663ca621@gmail.com>
-	<20190403144110.GG4664@bill-the-cat>
-	<CAMKF1srb2EgL7tYZDFoq2EqABp-+_eib2u2OZMwT6B3TVgNk=Q@mail.gmail.com>
-	<2189093.Hm6Vq2XZhg@localhost.localdomain>
-	<CAMKF1spJCg2HjGRzke_3yH_9hCZR=ZQZfJ1EQZCQi9gQF3x-4g@mail.gmail.com>
-In-Reply-To: <CAMKF1spJCg2HjGRzke_3yH_9hCZR=ZQZfJ1EQZCQi9gQF3x-4g@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 4 Apr 2019 12:50:27 +0200
-Message-ID: <CANNYZj9iPw7yV1Csy1wBk53twHk3nWo9jFhmJ+ww4vtQ_sJ1yQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Tom Rini <trini@konsulko.com>,
-	Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Yocto Project <yocto@yoctoproject.org>, Adrian Bunk <bunk@stusta.de>
-Subject: Re: [yocto] [oe] Git commit process question.
+Subject: [PATCH] base/pixbufcache: Remove obsolete sstatecompletions code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +56,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Apr 2019 10:50:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Apr 2019 11:06:26 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 4 Apr 2019 at 02:39, Khem Raj <raj.khem@gmail.com> wrote:
-> Definitely, and I agree that we should put relevant information in
-> commits, usually
-> the information about side effects if any, links to changelog etc. are
-> useful too
-> however, we should not enforce a behavior which could result in
-> redundancy as explained
+This has been unused in OE-Core since the introduction of recipe specific
+sysroots. Its not so useful since it only runs once upon sstate installation,
+not per installation per sysroot.
 
-To be honest, researching changelogs and summarizing them into commit
-messages is feasible if you maintain maybe three recipes. When you
-maintain thirty, it becomes a burden, and I am not going to take that
-burden. There's already enough work in getting the upgrade into
-working shape, work that largely goes unnoticed and unappreciated and
-does not require finding and reading upstream changelogs.
+Remove the weird looking comment left behind in pixbufcache too.
 
-HOWEVER. I think we could start putting links to changelogs into the
-recipes themselves. If it's a webpage, we can use templating to
-substitute version numbers, if it's a file in the source tree, we can
-also come up with a format for that. Then it's a simple extension to
-e.g. devtool to show that changelog via less or a browser.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/base.bbclass        | 14 +-------------
+ meta/classes/pixbufcache.bbclass |  1 -
+ 2 files changed, 1 insertion(+), 14 deletions(-)
 
-Alex
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index d0b82d747dc..1636c6ef938 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -220,7 +220,7 @@ def buildcfg_neededvars(d):
+         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
+ 
+ addhandler base_eventhandler
+-base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.MultiConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.runqueue.sceneQueueComplete bb.event.RecipeParsed"
++base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.MultiConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.event.RecipeParsed"
+ python base_eventhandler() {
+     import bb.runqueue
+ 
+@@ -274,18 +274,6 @@ python base_eventhandler() {
+             d.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}g++")
+             d.delVar("PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}compilerlibs")
+ 
+-    if isinstance(e, bb.runqueue.sceneQueueComplete):
+-        completions = d.expand("${STAGING_DIR}/sstatecompletions")
+-        if os.path.exists(completions):
+-            cmds = set()
+-            with open(completions, "r") as f:
+-                cmds = set(f)
+-            d.setVar("completion_function", "\n".join(cmds))
+-            d.setVarFlag("completion_function", "func", "1")
+-            bb.debug(1, "Executing SceneQueue Completion commands: %s" % "\n".join(cmds))
+-            bb.build.exec_func("completion_function", d)
+-            os.remove(completions)
+-
+     if isinstance(e, bb.event.RecipeParsed):
+         #
+         # If we have multiple providers of virtual/X and a PREFERRED_PROVIDER_virtual/X is set
+diff --git a/meta/classes/pixbufcache.bbclass b/meta/classes/pixbufcache.bbclass
+index fb50cd49659..b07f51ed56a 100644
+--- a/meta/classes/pixbufcache.bbclass
++++ b/meta/classes/pixbufcache.bbclass
+@@ -54,7 +54,6 @@ GDK_PIXBUF_FATAL_LOADER=1 ${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-que
+ DEPENDS_append_class-native = " gdk-pixbuf-native"
+ SYSROOT_PREPROCESS_FUNCS_append_class-native = " pixbufcache_sstate_postinst"
+ 
+-# See base.bbclass for the other half of this
+ pixbufcache_sstate_postinst() {
+ 	mkdir -p ${SYSROOT_DESTDIR}${bindir}
+ 	dest=${SYSROOT_DESTDIR}${bindir}/postinst-${PN}
+-- 
+2.20.1
+
 
