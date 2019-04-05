@@ -1,55 +1,55 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 54A4A7D543
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
+	[209.85.128.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 74E846BE2D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 06:37:53 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id y197so5904137wmd.0
+	Fri,  5 Apr 2019 06:37:54 +0000 (UTC)
+Received: by mail-wm1-f48.google.com with SMTP id o25so5434898wmf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 23:37:54 -0700 (PDT)
+	Thu, 04 Apr 2019 23:37:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=feVpArV/DGsCksPve2l5xtLcEdOf0A/3NWWlb2AHUYI=;
-	b=gymfEOhXtJ18XTFG2heEJa0sEZinhuskgvmvApWExoCF977B0b/ki0cTqnCO0/j/lP
-	vnPShYNKnIh2F8VXZQVImSTzPLoybgpmISi4h4ceJp+ZSAJyynV/nB86NMVlfG1E3Fnl
-	Y9vecv6jALA6PdUFmEe/2t8JxcJHVorYKmZw6WSK4y/xOzKvrB49wh0JctGWZpQIJhBA
-	DMp05SOl2enn8t9cC7rRELHagpQfLAJKKEq8caQ8JsuQEn5/7JpKRTYtWw9qLNd+Y0tR
-	K1u+qag4pZ/lv5BKYhTrRu+yI+S4VQnUmkD9H2BK1lgohiq4AwR7JD5AKllKWX1xftYO
-	8Ydg==
+	bh=JlsEW8KcSEbCpK4mVhY0An/6bB92qFW6JKZOpW8jh84=;
+	b=E0OLr02K1QMsPTn0U+qquBGCpB3M5g8dB/p6DiSLNJUDJyP6nTDsoD5Z8Vl0jgiVu+
+	EHiqitSW5lo55Zv55TCUQMBYRmmoK2+QjX8Ig5oda6p0RbUuBkYSA1kALeerg47xw4oD
+	lEwvhdsifzA4bCtlno8bvM2eLWAbP2ryTsL0BKLk89++fElKV5c9sTS9Eu2G98tsBAcH
+	VqRF36n5ABzpCcrgnsuoQoBGD1ARp6Zk2WdXku/qRQxo7bU+gHSmELpBQhLYcPuPpBaY
+	vF6cZpFfxhkeZifreaBjBpmpsPNgjlU8I98MV739phkGvJ+BmxpCrtGHcAJoK8NZGquW
+	O82A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=feVpArV/DGsCksPve2l5xtLcEdOf0A/3NWWlb2AHUYI=;
-	b=BbEY1eBcrQkfYb3ImFyuNabpDjaToe1I/DNaH1l3Q3XtLGj8KYs/CL4TMi4eOzhzuZ
-	I6pBaWKXB4x2KY18tUYbQs6B/eJUe6tONxcodvEITCI0itsrbM7EhPuxaL374sB4V4Ls
-	IY9WSatbOYyvX0lHlPPcJRm7S/yu5t5VCBeGJFWfw6sVuTS8tW4Eb/ewgpUhQqzKx9m2
-	LTc3WUIWurQoyaVCwTQf+RvG5fIam57Dj9wUVBczNxwcD9ETWfUtkcGYmnAG2e5x7nLU
-	1CEiiVz48UNIkKQzdKyZL3BVwz4Y+z3PfMYH1mC64ROJI3pJeWsc2x/Jhh67ERdwQstB
-	dSbA==
-X-Gm-Message-State: APjAAAWWjFh4pzonYMF83lUClGKR0LH6a6ArC0MTyO4M7Va091rigTrx
-	A9dGb0MA91u0KWWPIEfNqZXkxDwL
-X-Google-Smtp-Source: APXvYqzIA0lQZT6A7mmAhXsZonwH1dKGym/l0rGq1mqvPHDQO2rmjARIa7PK8UxgN5Qg8F+yorV47w==
-X-Received: by 2002:a7b:cd07:: with SMTP id f7mr6796409wmj.43.1554446273977;
-	Thu, 04 Apr 2019 23:37:53 -0700 (PDT)
+	bh=JlsEW8KcSEbCpK4mVhY0An/6bB92qFW6JKZOpW8jh84=;
+	b=CS7hDDGEJFidT3A9+t1ibo8NniFUnNnijVeXfmgVmfLkC37P/EhRsWmJOoys6DqHDE
+	ugClrUgNb2BCranzn19NU8WZnPFExUJWbXoxL+GKwoEJ06sfXM+FX87qdqVqJ91O3J7m
+	YJXeZhRh+l7rNBy9Z9g0j6iRLDZcAyCWPXt0UmQ+dC3JCRfrxL6Wj851qH52Kf5mjkhW
+	Iu28OUxbPUFNNWynF3SFQol9oPs0r3HdjqTQpMqopFZoHOw+oPxMUaSxp9+23ZCMDBpJ
+	g0Bq2qg+SoJBQhVM5+BjoxypnsaX4WrCA76dEoH9l/t1CuLQcMDk7ON2IWdYCh2qq9ul
+	62iA==
+X-Gm-Message-State: APjAAAUhAqUcCkAkM7j7N2stdMTpnGEQBK2KypRZ8FWKWWcHqX2rYRtE
+	fqqDIK6eeebHo6UET6uD6dBy20t7
+X-Google-Smtp-Source: APXvYqxKSklxcFyhivcsNWJCa5Oq+BQ7nZqwqZ5Oggw6eRRG6NL4HxYd0uJ4jm5wOnYq45X3M9cbLQ==
+X-Received: by 2002:a7b:ce1a:: with SMTP id m26mr6703151wmc.131.1554446275075; 
+	Thu, 04 Apr 2019 23:37:55 -0700 (PDT)
 Received: from superandy.speedport.ip
 	(p200300F07F05D917A4978A6EAA704508.dip0.t-ipconnect.de.
 	[2003:f0:7f05:d917:a497:8a6e:aa70:4508])
 	by smtp.gmail.com with ESMTPSA id
-	g132sm1185443wme.3.2019.04.04.23.37.52
+	g132sm1185443wme.3.2019.04.04.23.37.54
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 04 Apr 2019 23:37:53 -0700 (PDT)
+	Thu, 04 Apr 2019 23:37:54 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	alex.kanavin@gmail.com
-Date: Fri,  5 Apr 2019 08:37:30 +0200
-Message-Id: <20190405063736.29750-8-schnitzeltony@gmail.com>
+Date: Fri,  5 Apr 2019 08:37:31 +0200
+Message-Id: <20190405063736.29750-9-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190405063736.29750-1-schnitzeltony@gmail.com>
 References: <20190405063736.29750-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 07/13] clutter-gtk-1.0: use gobject-introspection.bbclass on/off mechanism
+Subject: [PATCH 08/13] pango: use gobject-introspection.bbclass on/off mechanism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,25 +62,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 06:37:53 -0000
+X-List-Received-Date: Fri, 05 Apr 2019 06:37:54 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
- meta/recipes-graphics/clutter/clutter-gtk-1.0.inc | 11 +----------
- 1 file changed, 1 insertion(+), 10 deletions(-)
+ meta/recipes-graphics/pango/pango_1.42.4.bb | 10 +---------
+ 1 file changed, 1 insertion(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-index 4e82f56605..5f7daf8124 100644
---- a/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-+++ b/meta/recipes-graphics/clutter/clutter-gtk-1.0.inc
-@@ -16,16 +16,7 @@ PACKAGES  =+ "${PN}-examples"
+diff --git a/meta/recipes-graphics/pango/pango_1.42.4.bb b/meta/recipes-graphics/pango/pango_1.42.4.bb
+index d3357f82de..f3be9f44e1 100644
+--- a/meta/recipes-graphics/pango/pango_1.42.4.bb
++++ b/meta/recipes-graphics/pango/pango_1.42.4.bb
+@@ -28,17 +28,9 @@ PACKAGECONFIG[x11] = ",,virtual/libx11 libxft"
+ 
  GTKDOC_ENABLE_FLAG = "-Denable_docs=true"
  GTKDOC_DISABLE_FLAG = "-Denable_docs=false"
- 
--GI_ENABLE_FLAG = "-Denable_gi=true"
--GI_DISABLE_FLAG = "-Denable_gi=false"
+-
+-GI_ENABLE_FLAG = "-Dgir=true"
+-GI_DISABLE_FLAG = "-Dgir=false"
 -
 -EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
 -
@@ -89,10 +90,10 @@ index 4e82f56605..5f7daf8124 100644
 -
  EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GTKDOC_ENABLED', 'True', '${GTKDOC_ENABLE_FLAG}', \
                                                                                       '${GTKDOC_DISABLE_FLAG}', d)} "
++GIR_MESON_OPTION = 'gir'
  
--
--
-+GIR_MESON_OPTION = 'enable_gi'
+ LEAD_SONAME = "libpango-1.0*"
+ LIBV = "1.8.0"
 -- 
 2.20.1
 
