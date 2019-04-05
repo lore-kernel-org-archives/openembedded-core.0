@@ -1,49 +1,49 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1787C7D670
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
+	[209.85.160.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 087426C4DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 20:25:08 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id z17so11705362itc.1
+	Fri,  5 Apr 2019 21:44:36 +0000 (UTC)
+Received: by mail-qt1-f195.google.com with SMTP id d13so9175591qth.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2019 13:25:10 -0700 (PDT)
+	Fri, 05 Apr 2019 14:44:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=e162lC8Bveo2w+KnxPmhW/8lWoX2xhLVr2mgq9e+QVI=;
-	b=UmQ8JXZeN4wDAVLIkg61n98g3DW4bScs1nHbzhykqSSt/jd7lDF/UV5B3K26L1+9IL
-	KXuOAp3IdH6Pu18ahAYYf75SW+XShoMV9dy+25LySGo3fYMV4pRSYPuDzzu0OE6+d77A
-	CcCdrEj7uWs756UgZ3qkQWNPv2BIC8+/1DEyIGhQ6HzwOMyqRC6DTthsx3CgZqJKH7z0
-	vLPL1STEQo/Y/clxqiFE9wvJ46EEC8sy6G48tLAwaB1TIDw0ZEhdT1JRZWbOgxvY5ckh
-	nhPQRc9ycY70NoNWQYCy14XKfhzgY3wJCU8kU0a4lUKgt+otuZ9CyzVoH/wLJpbS+vH8
-	eXXg==
+	bh=W2yBr+R+LE2uYalFWyF8/l1StvMS6xGCr+WWh4a1fsQ=;
+	b=eWrxT0Ok7COWSLh4b7XdqdP8MB+TUSTxZKtvE7r7up23TfVslOMPzJqrgInLcHMM0Z
+	2eQlIhbViw1pV3vKGV+UvJFFZ/oe6nN+vbxi6t6btfDeP2xjLSIyDIXvOMxaxhb5ds7g
+	MJ87VyZYgNcRHzLJkc7KtWUyxhqgznnMyO2QRUvMlQMDMOAPXVfoURAKFiZEjM5pJLAQ
+	awIYWjwd7Jg3oyaJmeH93hsX++F2kZGShc0SF/kOHwMzmiezZtt1yO1NFX5WAY2HO16r
+	pQs02G1jXIx7XGIFjR77aIC7dqyfx73fwY+nQWWwhw7x+Q8yY+zaHY1Sg5EttgzJxloD
+	Mqvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=e162lC8Bveo2w+KnxPmhW/8lWoX2xhLVr2mgq9e+QVI=;
-	b=dsIZJOQGW84wkqUEoFDa0VzC1ZdUG5lsw68bcUBGl0RUg9kk1XTEkQd684wlTN9R5G
-	9XaKjl2vBy1PUgvdjB3CjMgaLrZjg+n4GO6yDnLJQpEfm8gMwFz/4xO/n+nI4jPp4s4h
-	xf8vabyhI44UWwbbUYxc1e7Y8Srs42IdsHaTpzmyX28f7TGPs6V37mt80TKsUDiWyDpj
-	mnlS3U7jO0Hb+MkmuDc4jFvvfu4uN0b+Ql2K9zfGghPEXbMDUhzJTfZmoC3GbaMUFNjA
-	OVHas4nk7XbaLBRlNEwsXoa8Pia7/atzJbTUXG2rGHT1W1pPikAr4+VdzMB8dRTkDQM9
-	+Chg==
-X-Gm-Message-State: APjAAAVVuYslzOgcLU5Uf7BwywDHHhIStwbL7RpQRjF3qNH7ku5GadnG
-	Yv/TKM+O1sPVgpljwazEWKNQwUQeywY3XzHZp6I=
-X-Google-Smtp-Source: APXvYqwQSpTfMrlglmcaiBbhujGdmLF4BVml82mKD3NjvIng4fRtRr12aJVumpxu67v3H1+ygbUAeFQFcVTdKjg5N/w=
-X-Received: by 2002:a24:f802:: with SMTP id a2mr9671441ith.24.1554495910152;
-	Fri, 05 Apr 2019 13:25:10 -0700 (PDT)
+	bh=W2yBr+R+LE2uYalFWyF8/l1StvMS6xGCr+WWh4a1fsQ=;
+	b=iZ0qpDYybUCaaKw70bRQ7GjUNH74RKC0tjEWoPsDfOnvNV5M4Qck4V0BKeu6sogpv+
+	/n5bykCKBW0FuYkxr/nrlUEPiD0c8lfXwFM3nPaPoHnAzrjf9T0MfWY1dRXBM/CfbxhQ
+	bdfaP8M4HoMy6A2htP4oy++L2+Oebmh+5vnzBoyq6+Brpbl1+AnZ9D1dI+23LF05CjjJ
+	Qcs5h7hBazfmy9i9N44crSMe4s0ewQPNLKoEGom/QaoTB9+74AIGaAAVtb/NSdxDHLsn
+	7NrFk/igeUyxJ+YN1zN281rJG2idvCeRSElM35CMCiP3N6VMgHtLCb69HCDzkkTh/L4a
+	vSYw==
+X-Gm-Message-State: APjAAAUMNRhGEaPfCujuOwXkLAI8GO6IeWOQ8UCnJrt4ty8Fc5DSr7Z0
+	CdSwXdS9ozn0ouf+4+AHayXIiXBcLOVxsUpMMs4=
+X-Google-Smtp-Source: APXvYqxaqzuGR63so2nqZjwObmoTj25Ge0lfM9TTCLnUPUqDE27pRu+MGvElcGi4qfFEm58S0iZ4pi67wPOkP0oMDDU=
+X-Received: by 2002:ac8:262c:: with SMTP id u41mr13699214qtu.198.1554500677805;
+	Fri, 05 Apr 2019 14:44:37 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190405192835.8080-1-schnitzeltony@gmail.com>
-	<20190405200546.GB1614@jama>
-In-Reply-To: <20190405200546.GB1614@jama>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Fri, 5 Apr 2019 22:24:58 +0200
-Message-ID: <CALbNGRR768BW6ePYNr1nS8eLVy7G8CztpGsT6t45ss33BFtS0w@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
+References: <20190405063736.29750-1-schnitzeltony@gmail.com>
+	<20190405063736.29750-2-schnitzeltony@gmail.com>
+In-Reply-To: <20190405063736.29750-2-schnitzeltony@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 5 Apr 2019 14:44:11 -0700
+Message-ID: <CAMKF1sqbm8wRO3gABaizZQ_1oY=ahpqCPvqPdJfj9fk5X7zgmw@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-python: rework gobject-introspection handling
+Subject: Re: [PATCH 01/13] insane.bbclass: Trigger unrecognzed configure option for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,55 +56,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 20:25:09 -0000
+X-List-Received-Date: Fri, 05 Apr 2019 21:44:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 5, 2019 at 10:05 PM Martin Jansa <martin.jansa@gmail.com> wrote=
-:
+On Thu, Apr 4, 2019 at 11:38 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
 >
-> On Fri, Apr 05, 2019 at 09:28:35PM +0200, Andreas M=C3=BCller wrote:
-> > gobject-introspection is mandatory for gstreamer1.0-python - there is n=
-o
-> > configure option to enable or disable it.
-> >
-> > To handle properly, this patch does:
-> >
-> > * Make 'gobject-introspection-data' a required distro feature
-> > * Add
-> >   'UNKNOWN_CONFIGURE_WHITELIST_append =3D " --enable-introspection --di=
-sable-introspection"'
-> >    - it was removed in gobject-introspection.bbclass to avoid
-> >   | ERROR: libgee-0.18.0-r0 do_configure: QA Issue: libgee: configure w=
-as passed unrecognised options: --disable-schemas-install [unknown-configur=
-e-option]
-> >
-> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > ---
-> >  .../gstreamer/gstreamer1.0-python_1.14.4.bb                   | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14=
-.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.4.bb
-> > index 8d45ca2668..fb76a37b92 100644
-> > --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.4.bb
-> > +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.4.bb
-> > @@ -16,6 +16,10 @@ PNREAL =3D "gst-python"
-> >
-> >  S =3D "${WORKDIR}/${PNREAL}-${PV}"
-> >
-> > +# gobject-introspection is mandatory and cannot be configured
-> > +REQUIRED_DISTRO_FEATURES =3D "gobject-introspection-data"
+> Tested with 'unknown-configure-option' in ERROR_QA:
 >
-> Is distro_features_check inherited somewhere? I don't see it in this
-> part and the above IIRC doesn't work without distro_features_check
-> inherit.
+> For meson (glib-2.0-native):
+> 1. add 'EXTRA_OEMESON_append =3D "-Dschnitzel=3Dtrue -Dwurst=3Dtrue"'
+>    | ERROR: glib-2.0-native-1_2.58.3-r0 do_configure: QA Issue: glib-2.0-=
+native: configure was passed unrecognised options: schnitzel wurst [unknown=
+-configure-option]
+> 2. add 'UNKNOWN_CONFIGURE_WHITELIST_append=3D" schnitzel"'
+>    | ERROR: glib-2.0-native-1_2.58.3-r0 do_configure: QA Issue: glib-2.0-=
+native: configure was passed unrecognised options: wurst [unknown-configure=
+-option]
+> 3. change to 'UNKNOWN_CONFIGURE_WHITELIST_append=3D" schnitzel wurst"'
+>    =3D> builds without issues
 >
-> Cheers,
+> For autotools (readline-native):
+> 1. add 'EXTRA_OECONF =3D "--with-schnitzel --with-wurst"'
+>    | ERROR: readline-native-8.0-r0 do_configure: QA Issue: readline-nativ=
+e: configure was passed unrecognised options: --with-wurst --with-schnitzel=
+ [unknown-configure-option]
+> 2. add 'UNKNOWN_CONFIGURE_WHITELIST_append=3D" --with-schnitzel"'
+>    | ERROR: readline-native-8.0-r0 do_configure: QA Issue: readline-nativ=
+e: configure was passed unrecognised options: --with-wurst [unknown-configu=
+re-option]
+> 3. add 'UNKNOWN_CONFIGURE_WHITELIST_append=3D" --with-schnitzel --with-wu=
+rst"'
+>    =3D> builds without issues
+>
 
-At the time you wrote that V2 was prepared :)
+thinking of Weisswurst with Bayerischer S=C3=BC=C3=9Fer Senf
+this patchset looks good :)
 
-I tend to forget that - need to check my meta-gnome patches for that...
 
-Andreas
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> ---
+>
+> This is a resend
+>
+>  meta/classes/insane.bbclass | 12 ++++++++----
+>  1 file changed, 8 insertions(+), 4 deletions(-)
+>
+> diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> index 37b8bb0032..c8d18c07f5 100644
+> --- a/meta/classes/insane.bbclass
+> +++ b/meta/classes/insane.bbclass
+> @@ -1093,12 +1093,16 @@ Rerun configure task after fixing this."""
+>      ####################################################################=
+#######
+>      # Check unrecognised configure options (with a white list)
+>      ####################################################################=
+#######
+> -    if bb.data.inherits_class("autotools", d):
+> +    if bb.data.inherits_class("autotools", d) or bb.data.inherits_class(=
+"meson", d):
+>          bb.note("Checking configure output for unrecognised options")
+>          try:
+> -            flag =3D "WARNING: unrecognized options:"
+> -            log =3D os.path.join(d.getVar('B'), 'config.log')
+> -            output =3D subprocess.check_output(['grep', '-F', flag, log]=
+).decode("utf-8").replace(', ', ' ')
+> +            if bb.data.inherits_class("autotools", d):
+> +                flag =3D "WARNING: unrecognized options:"
+> +                log =3D os.path.join(d.getVar('B'), 'config.log')
+> +            if bb.data.inherits_class("meson", d):
+> +                flag =3D "WARNING: Unknown options:"
+> +                log =3D os.path.join(d.getVar('T'), 'log.do_configure')
+> +            output =3D subprocess.check_output(['grep', '-F', flag, log]=
+).decode("utf-8").replace(', ', ' ').replace('"', '')
+>              options =3D set()
+>              for line in output.splitlines():
+>                  options |=3D set(line.partition(flag)[2].split())
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
