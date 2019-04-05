@@ -1,55 +1,55 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id B2FE67D509
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B2AE7D536
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 06:37:47 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id r4so6548254wrq.8
+	Fri,  5 Apr 2019 06:37:48 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id c1so5445594wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 23:37:49 -0700 (PDT)
+	Thu, 04 Apr 2019 23:37:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=tdccyjSN6B3+Udkmeng8Q2ni9t1Bgp1qkh6mvWK17U0=;
-	b=hlHVZmW0Q8jeT7jO6l9N7VMUcmCDA1JCoxFBh70uzQCdfWaxFoL2mB2LcjmByIvaiA
-	Oa+Vv98w8tseLmgUz51X4DV6G+ZXexlf1ACfMZhnFemYsaeyuSmZ2nrArVw39jj2/igL
-	Ow/V0ykkKSw7jqV9EupOatY+capyDOOch6t+jrZCTVZk8RfJ/JY6DRCSdc82y+diwuSa
-	AXCVsUo6ltaSHoE6VBbUXAK04Yt38W7kw+RrrU8Fe/HMxPZIMTTx7WTQjPmB5qv4CUfL
-	NORcrfhWyFCvkqqT4ljdLymwPcIyzY4PKyWvdwnMVRAl1AIWjEkOOJOu+x4nn0w5mO7m
-	qZOQ==
+	bh=BJrLXsWY6rNGlZay9sHUvgmpdmxcCAXW4BWkPKc695o=;
+	b=XuP5wFchA5ISqBeTXyQvW24gWkOjlFxih1OeQ868kf8RLV8VS9aJTSFA31viOEWwYa
+	HfodW6iwqgKhX7DLt54vxIJb8N9RA3XEthPsmmkDE8qxpQjbYgnSq7uwehN/c75JHJ0B
+	8VYON+n5snq+NccpvYahQ/BukV4I9Np5RBgGAclYfEgo6wD94G4RrBB5uhCxaVGQEzMv
+	LHli2HU4hPAnW/dVGqsnIBxLHUxoQOKfvN2JJDNK6rWtxoKVGG3hvNotDTzKkJalMfEY
+	Xu+hvwnBBJMYlCFBDOwojjGtQe+er0mfYFPNt1LXzZrR6u7QTFO8F567n3r2MMHiT+zA
+	UBHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=tdccyjSN6B3+Udkmeng8Q2ni9t1Bgp1qkh6mvWK17U0=;
-	b=oIvO93DAAzyaLYdrEJZbcT6+2leoh2CHmVdcJxn4oPw0///hWX+Vq26MELclW21q2t
-	88E+jes8Wmb5qXMFcIX7cwM/MfnbKvvwGxcXGAFqotjdSmb0kiUZGBqmg5nTQyM43XpR
-	bm9hZwncI2GSU7X0cpHLCqFOiyjL+cj1DkLypOS/ANzAqI6LVyXZ0me2n8aOiRQ3cC62
-	+ac7Swh9HIwkgPluVvlN/8J7Z6MsDLQT50zs7uoqzBbx21Za2rFkkOuhQGg2pW4n4tQp
-	ceQbxZQ3T5b64l34vBXop674Pzy53uoad/8vcI+MOv/8YIZscGw4S4rzSl8dyfUs+tFa
-	jaqQ==
-X-Gm-Message-State: APjAAAV1ah88xqFVVWZiuOKh5271jvdQOo0kk0t8BGQnrZnUh6LFm5RF
-	DrBF3VZu2rNQQzU0cUkEhRo46LYw
-X-Google-Smtp-Source: APXvYqx7kNOv6jN8k/1yyNp1wfc84spMfM67XA8JmGR3bhR26qbEHh8zSM+wGmDQUaVVRXVU14SPtA==
-X-Received: by 2002:adf:cf0c:: with SMTP id o12mr7293691wrj.16.1554446268427; 
-	Thu, 04 Apr 2019 23:37:48 -0700 (PDT)
+	bh=BJrLXsWY6rNGlZay9sHUvgmpdmxcCAXW4BWkPKc695o=;
+	b=qv9wLIDgIoCvI8HV1aFYSEyYC6mO8xElRDzbwr0ZSlZj5+bglOSl2y1GwzD/+wjNnm
+	Qx9Zq6cwfkKRO73pviGtszjt7GLqxbQloRyf23UXnjB7vnLCpB/dZDEh6Hd60FN7bB2Q
+	l+oJH4wXuzPrHgowDMy+5k4yfkTMMkHvYL5c5HF3HXA9cQLMRqfC+r9BSi0neATxs8Hv
+	qeT2qsSX0KZ6uwJNUiNh8aYugML435Qi8Di+3Ea9eUcM5bG8ccm8ME/PvCtSX0+fJQHe
+	iDfidkbDrkBdGeZvCfybENfyKpVqSxPL9f36H3xw2vzRn8pp0k8TeOnQBdF9js4rVRFX
+	0kNQ==
+X-Gm-Message-State: APjAAAUuikCpZNff4nHr3NYn1U2XctX2MmeZYhjVB9dUss218Gesia07
+	S+vAtAga4AxSvQumx8YLiAZi0FBd
+X-Google-Smtp-Source: APXvYqw7iW7659C8Zwo9n7cFJsviWaiy3Kx5SP5FUu7+KNSzNGmdIel2O9ogzxxjIcCs0RvUAgy2Gg==
+X-Received: by 2002:a1c:2394:: with SMTP id j142mr6880852wmj.111.1554446269530;
+	Thu, 04 Apr 2019 23:37:49 -0700 (PDT)
 Received: from superandy.speedport.ip
 	(p200300F07F05D917A4978A6EAA704508.dip0.t-ipconnect.de.
 	[2003:f0:7f05:d917:a497:8a6e:aa70:4508])
 	by smtp.gmail.com with ESMTPSA id
-	g132sm1185443wme.3.2019.04.04.23.37.47
+	g132sm1185443wme.3.2019.04.04.23.37.48
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 04 Apr 2019 23:37:47 -0700 (PDT)
+	Thu, 04 Apr 2019 23:37:48 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	alex.kanavin@gmail.com
-Date: Fri,  5 Apr 2019 08:37:25 +0200
-Message-Id: <20190405063736.29750-3-schnitzeltony@gmail.com>
+Date: Fri,  5 Apr 2019 08:37:26 +0200
+Message-Id: <20190405063736.29750-4-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190405063736.29750-1-schnitzeltony@gmail.com>
 References: <20190405063736.29750-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/13] gobject-introspection: auto-enable/-disable gobject-introspection for meson
+Subject: [PATCH 03/13] libmodulemd: use gobject-introspection.bbclass on/off mechanism
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,52 +66,30 @@ X-List-Received-Date: Fri, 05 Apr 2019 06:37:49 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-* the class sets defaults used most common which can be overriden by recipes
-* UNKNOWN_CONFIGURE_WHITELIST was removed for autotools (and not added for meson)
-  as suggested by Alexander Kanavin [1]
-
-[1] http://lists.openembedded.org/pipermail/openembedded-core/2019-April/280716.html
-
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
-V1 -> V2: Introduce GIR_MESON_OPTION as suggested by Alexander Kanavin
-V2 -> V3: * Add GIR_MESON_ENABLE_FLAG / GIR_MESON_DISABLE_FLAG
-          * remove UNKNOWN_CONFIGURE_WHITELIST_append
+ meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
- meta/classes/gobject-introspection.bbclass | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
-index 4ceb0c68b1..504f75e28d 100644
---- a/meta/classes/gobject-introspection.bbclass
-+++ b/meta/classes/gobject-introspection.bbclass
-@@ -6,14 +6,24 @@
- # This also sets up autoconf-based recipes to build introspection data (or not),
- # depending on distro and machine features (see gobject-introspection-data class).
- inherit python3native gobject-introspection-data
-+
-+# meson: default option name to enable/disable introspection. This matches most
-+# project's configuration. In doubts - check meson_options.txt in project's
-+# source path.
-+GIR_MESON_OPTION ?= 'introspection'
-+GIR_MESON_ENABLE_FLAG ?= 'true'
-+GIR_MESON_DISABLE_FLAG ?= 'false'
-+
-+# Auto enable/disable based on GI_DATA_ENABLED
- EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
-+EXTRA_OEMESON_prepend_class-target = "-D${GIR_MESON_OPTION}=${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GIR_MESON_ENABLE_FLAG}', '${GIR_MESON_DISABLE_FLAG}', d)} "
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index 87e92114c8..84012e4193 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -20,11 +20,6 @@ DEPENDS += "glib-2.0 libyaml glib-2.0-native"
  
- # When building native recipes, disable introspection, as it is not necessary,
- # pulls in additional dependencies, and makes build times longer
- EXTRA_OECONF_prepend_class-native = "--disable-introspection "
- EXTRA_OECONF_prepend_class-nativesdk = "--disable-introspection "
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-GI_ENABLE_FLAG = "-Dskip_introspection=false"
+-GI_DISABLE_FLAG = "-Dskip_introspection=true"
 -
--UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
-+EXTRA_OEMESON_prepend_class-native = "-D${GIR_MESON_OPTION}=${GIR_MESON_DISABLE_FLAG} "
-+EXTRA_OEMESON_prepend_class-nativesdk = "-D${GIR_MESON_OPTION}=${GIR_MESON_DISABLE_FLAG} "
- 
- # Generating introspection data depends on a combination of native and target
- # introspection tools, and qemu to run the target tools.
+-EXTRA_OEMESON_append_class-nativesdk = " ${GI_DISABLE_FLAG}"
+-EXTRA_OEMESON_append_class-native = " ${GI_DISABLE_FLAG}"
+-
+-EXTRA_OEMESON_append_class-target = " ${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GI_ENABLE_FLAG}', \
+-                                                                                       '${GI_DISABLE_FLAG}', d)} "
++GIR_MESON_OPTION = 'skip_introspection'
++GIR_MESON_ENABLE_FLAG = 'false'
++GIR_MESON_DISABLE_FLAG = 'true'
 -- 
 2.20.1
 
