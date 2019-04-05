@@ -1,54 +1,49 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id AB7737D315
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
+	[209.85.221.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 526B37D5BE
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 19:28:44 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id z24so8392400wmi.5
+	Fri,  5 Apr 2019 20:00:08 +0000 (UTC)
+Received: by mail-wr1-f48.google.com with SMTP id p10so9401365wrq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2019 12:28:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=CmzL7+tEmIWmCgUZ6aPuXiEdUVIyUnoJ2LZwCU3VaFU=;
-	b=Oj9ZkYUkp2ipRa30HoWr0p/pIZyBIn51USGppR0Vz/+SdaPoX7RSHYnZz3bYFMZkpG
-	H4etIP6gxDo2gAv13dZ5HusWaNTxawh/8Q67i+3m/Cv8YQPwGLkARwBy4cwMbq5cjHyG
-	k5HYEFxoGJ/CjDLTXMVI+03ADm62h4dA7Zt/bQa6fx61p8Q/IZOKS2c5zpVqCo9dR6qn
-	9G+bNWnjA+t9px0JdJu0wgVHHMK8nYpJNC/7fihbkozr+aRliZzRsHEe1P1jYJxDW/3n
-	XtWnYh0go2V8maL4BkfAk9sf4UGUe+hv7WT3RqHKwziUZyL2EKW5yQQk7K630Ck2EGDn
-	t23w==
+	Fri, 05 Apr 2019 13:00:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=mSRLz6ijc7TjxFAwnTC1b2BHaKIKz1j6Ppklbr1RzeM=;
+	b=qpVjmtdA9jVx75Ztb/OzyhNuAjFJr1sAxz7TPiu4VQCEVbP4QTlf5w7qNP4C1M5skn
+	csz4rMDqC1MeuottmNhJiNphkfit1JNLisn26SYCCQzP+M1d9vqNxjrV8Lb79UkTkor2
+	t/t63SzmQFGO9fSr1gy5qpW99A5a+qT5iOx3Yrh0QdcpIk0vqRUWl8Gv0WkbrOo8R0S3
+	ojiaVFcZLwsCGijjwSGO0a7/elZCY3SBmoR3p0RhPedKxZwEjACnZDHkkOQsaYixPlQU
+	Canyvp8be6QvvU6REeJjHWGPqrMv3JsT4gLPxCw0f+mLIiN9dAmwoIvjdgjB5NLEoVnB
+	MC6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=CmzL7+tEmIWmCgUZ6aPuXiEdUVIyUnoJ2LZwCU3VaFU=;
-	b=lhpt81H1lHZxRfKlVvGWyrIALcdBWZZdx8KrNVSqRrsxC8JsB8cBoqmygi6R3i7QoA
-	RtWinP3923uAhznx6Rholifyi6jExy+OETjl2Xg5CD0NK5eyVln7fw7YdxBH38elll0v
-	OC/mLSquKXKMBTRUvZh/CcSy9Nf8C2igJPSuSfbb7EYM6iqkcBYwR81o3839iFYzQ7GR
-	HPwAaqTU5xrzLHLQrSJmPRkWOjPpfyykVpcpLmg4Rdo0GPmLhtnCVZXl+/y74oL/Qi4G
-	JQ8PLis69Jh8PlAYv0hdwi8gzonByfiDMGCqsar+JnpsyycTYNINWy37anA7k3FUDSnP
-	Yr0Q==
-X-Gm-Message-State: APjAAAWSTAo476xPJoGX5Atuj4jyswQ8fz4UFevyJU3lNugGp+bFDH7R
-	03bzhszJzeH4AdsMhnCRO0PKSWCI
-X-Google-Smtp-Source: APXvYqz12jgMkNiZh5e+6GKbbMGbvTcQLRnczY7sRF7HfcWNWVa51Hcy/wtApN9+bT2anoLYDgfXYg==
-X-Received: by 2002:a05:600c:d4:: with SMTP id
-	u20mr7744510wmm.88.1554492525289; 
-	Fri, 05 Apr 2019 12:28:45 -0700 (PDT)
-Received: from superandy.speedport.ip
-	(p200300F07F05D917A4978A6EAA704508.dip0.t-ipconnect.de.
-	[2003:f0:7f05:d917:a497:8a6e:aa70:4508])
-	by smtp.gmail.com with ESMTPSA id
-	s189sm6288980wmf.45.2019.04.05.12.28.44
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 05 Apr 2019 12:28:44 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org, ross.burton@intel.com,
-	alex.kanavin@gmail.com
-Date: Fri,  5 Apr 2019 21:28:35 +0200
-Message-Id: <20190405192835.8080-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] gstreamer1.0-python: rework gobject-introspection handling
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=mSRLz6ijc7TjxFAwnTC1b2BHaKIKz1j6Ppklbr1RzeM=;
+	b=PMktE1u1x2gqZ65SUKTZM3tMjkXsYINhOth341CnvvdcoeXGL8eeV9LGuPd5GyylGJ
+	PgEZlfAh/JIW8xnVqvM1pINThMaLg+5zlg3tTH2EG2I7oRWTdy5WHSKV8Fdowf2EwYV6
+	2YmS6xAdKX83t3U28wg3H6+Q+RdisK/MEK1T3pvaRkrAMFh9dwUdjwmm8u6O8Shc+MaM
+	XZWGuVQhDWpgqDCwKea1GOWEF8XcK7KtNyc44NfR0pUMes8iRxSDFaKFgRBw4dQFSwEl
+	HBrS8CiwHfaEE8N5Y2FNSWwm5xghrpUB2SI2pjwER94NKLHhglYbLjoNl9TORcV5n6Ay
+	9zBQ==
+X-Gm-Message-State: APjAAAWQA7VHNTyvMevNYMedivBlg/kwFA7ihQD1vRfnM+OiBvlcSd3+
+	BqxirHuOqFue18AGN1e9dBE7+nD1WtA=
+X-Google-Smtp-Source: APXvYqwO225HiBOtA3QQU87jP1McmblhXWBzu66wAQ9MDKiC67UuZiiZxg26uN5rTkzXAL6iRSb+CQ==
+X-Received: by 2002:adf:eed1:: with SMTP id a17mr9995224wrp.268.1554494408737; 
+	Fri, 05 Apr 2019 13:00:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	r9sm20269665wrv.82.2019.04.05.13.00.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Apr 2019 13:00:07 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  5 Apr 2019 21:00:05 +0100
+Message-Id: <20190405200005.29748-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] sanity: clarify error message if TMPDIR moves
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,42 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 19:28:45 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Apr 2019 20:00:08 -0000
 
-gobject-introspection is mandatory for gstreamer1.0-python - there is no
-configure option to enable or disable it.
+If TMPDIR is moved the error message says "move it back or rebuild" but the
+obvious rebuild method of running 'bitbake [recipe]] -cclean' fails with the
+same error.
 
-To handle properly, this patch does:
+Make it clear what we mean by adding "delete and".
 
-* Make 'gobject-introspection-data' a required distro feature
-* Add
-  'UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"'
-   - it was removed in gobject-introspection.bbclass to avoid
-  | ERROR: libgee-0.18.0-r0 do_configure: QA Issue: libgee: configure was passed unrecognised options: --disable-schemas-install [unknown-configure-option]
-
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../gstreamer/gstreamer1.0-python_1.14.4.bb                   | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.4.bb
-index 8d45ca2668..fb76a37b92 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.14.4.bb
-@@ -16,6 +16,10 @@ PNREAL = "gst-python"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
-+# gobject-introspection is mandatory and cannot be configured
-+REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
-+UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
-+
- inherit autotools pkgconfig distutils3-base upstream-version-is-even gobject-introspection
- 
- do_install_append() {
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index cab09214014..4cbb1f3a61f 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -876,7 +876,7 @@ def check_sanity_everybuild(status, d):
+         with open(checkfile, "r") as f:
+             saved_tmpdir = f.read().strip()
+             if (saved_tmpdir != tmpdir):
+-                status.addresult("Error, TMPDIR has changed location. You need to either move it back to %s or rebuild\n" % saved_tmpdir)
++                status.addresult("Error, TMPDIR has changed location. You need to either move it back to %s or delete it and rebuild\n" % saved_tmpdir)
+     else:
+         bb.utils.mkdirhier(tmpdir)
+         # Remove setuid, setgid and sticky bits from TMPDIR
 -- 
-2.20.1
+2.11.0
 
 
