@@ -1,48 +1,48 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id E87FA6C4DA
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+	[209.85.160.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 92CD37D678
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 21:53:26 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id t28so9180573qte.6
+	Fri,  5 Apr 2019 21:54:31 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id w30so9168457qta.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2019 14:53:28 -0700 (PDT)
+	Fri, 05 Apr 2019 14:54:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hNDzAPIZnWbzkUe6g+UZ14NR849t97CfgLTNK/cVU8Q=;
-	b=Xyov5Edj+SfImLDgoV3pvY2CKeZfnAoVnyhDyegj63GiyMN9kr/TY7fNzdfkGTgVua
-	V2pxsSDpENZCIPFaQZj6wn+MdbfboQ9oZDzvUiEAEBT3lRcYstl+k4ekBYTnKgbUvjCm
-	jJDOKevjhuEU68MHQbFW/GTwxKPDcyE+6Nx9YtDUNb4GvWF5HLYX85ZVL5S1zpcinIgc
-	0VD3qfEfzoOGwJ2H4DNQA5TCGqvAzSYxLLxfW309rTmiiB4hlONBPhCpiF4oE1sRV+yF
-	pDoZ9g4N0ba6GccJRRwW5QM89WW1gnBek/i0d+/RpFf5cydJh68XKQG60+NERhy8kwzj
-	8CEg==
+	:cc; bh=EeDVQbUJ5Y+0dzFrWL4y101u79r2ikEbWiXyPNPMCnI=;
+	b=XA8Lv0H4W3zSoHFHezeSGO5vmoe/9feJgeVWIsLSTS9Eb25rjbrDwmKnyBFFqPgkfh
+	V9XJLwbTSMbaUNHvJl3S3t4TjWUR/g9Gfj5u/ICNcuo3apoqSLQ8jk9HkEJ+1Qf0QQmb
+	5P25YAUhpJgpTvM9QHozyGywncqDtDpdeE47fkODGawdQ24uu6pnVuwTk4orZ2ZwKLbg
+	Inu42IcxsNcM+T+o0arF38SNbcL2yKFDTyEa4AzOjkgtpG8LvP5KLmpcY+VvXpDUSqxp
+	XvGzxzQOlVP8acA69zVEtrOlm9DhcsvOPmd3zxEiBp7GNfT2+QZVQGxzSncK8o4niXNO
+	fPiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=hNDzAPIZnWbzkUe6g+UZ14NR849t97CfgLTNK/cVU8Q=;
-	b=p58LdEKRNTnGmTxrAUtvo6IduvDYxbozoiUZ9NqndwZbknV9xhSBG427M8xmzGDgzl
-	MV35WXaEffiBdoV6OpANW9eSifj7u5jsNtBQ/ZZuC9MsgUnxZ9ICHtIgDDSpyOWmiXNm
-	GpvMZ6ca4baprRp86KPZWflgsSzKliy9yBJad51xuYv5VBsxWGzqwZrnifBOckt6r8PG
-	VgC+D6rKsTN2iM3qfatFhLk20QNweFt57YlYeMoV+YMTddq4Q5e4eriw3C97otL9s6gy
-	+Eq2j7JnF2d2OhPS/2rYGUUzcULf+C387au+K5poAM6xf/durqMm5wbW4Ot/b9LTmqPK
-	D78g==
-X-Gm-Message-State: APjAAAVbfZYmMLfjELIUAxuMM2WNolty8qPmI9aW3DW0ulvb8R2TLFSK
-	Opl4JYXdENiCSOzxv9pTXv9vl8HvdTpEqSuqzGU=
-X-Google-Smtp-Source: APXvYqy8iEbQe+/o54KtYqgpYuzqkBUVayQR9Bet/rZE/he9LhHRphiHkAM4mwgUTV9t5Tdt9WHmJFA2O9HnN4pFBQo=
-X-Received: by 2002:ac8:1833:: with SMTP id q48mr13215395qtj.133.1554501207614;
-	Fri, 05 Apr 2019 14:53:27 -0700 (PDT)
+	bh=EeDVQbUJ5Y+0dzFrWL4y101u79r2ikEbWiXyPNPMCnI=;
+	b=dQBfsRh27chYQIlGR4HvC4A2wjnJYjxmi4iS61CkhiRnGKGSCQdgPEAk0YH/dNZL8y
+	2+oxFdU8ZZ6d89T3C27Fhx5EEP6oofxWWgqNdI+EvgBS+fZJvsxM/YJsw6cziUiLqZMN
+	cJqQnTPVBT0Fpf15iiN1MJUGM594R7iAHPjsV+B1NtpeoAR/psUZhuo9anPWVp6VnLqn
+	d2B1ppm/odgqdWilZjVm02uDIjml3OdK+1Zlto5REGVUnix4NK4MraBJCEkHHd6T+v08
+	io91vewkxVh5q4jLqIOYJKD13oiYq5V9p3oXRB5HS/Mr+TyBKaTSfukUkB810Lnpvdr/
+	y2bg==
+X-Gm-Message-State: APjAAAUc0kcs0Oroq3c8yGs1MLTdQ6pmhPP9A8WUhOpzUMuOKZuJcroG
+	brygttx86hnry0M57/qoci+SIASOByFE9JSmS2I=
+X-Google-Smtp-Source: APXvYqzHcknPV9zwgT8gL/Z9QF7u0MR0Z/QIvAN7BTv11ZPclnezBeRIwsjxvsMwH28dVqNuHhJkKpH/DUbL3NLDza0=
+X-Received: by 2002:a0c:d1a7:: with SMTP id e36mr12626819qvh.127.1554501272443;
+	Fri, 05 Apr 2019 14:54:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190404221644.20496-1-ross.burton@intel.com>
-	<20190404221644.20496-6-ross.burton@intel.com>
-In-Reply-To: <20190404221644.20496-6-ross.burton@intel.com>
+References: <cfd56541-43c4-5128-3d41-cddc356a3cb8@gmail.com>
+In-Reply-To: <cfd56541-43c4-5128-3d41-cddc356a3cb8@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 5 Apr 2019 14:53:01 -0700
-Message-ID: <CAMKF1sqaBpsboaAkCxY53B69yakjagm+R_YyFJVo2awsca1naQ@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
-Cc: Patches and discussions about the oe-core layer
+Date: Fri, 5 Apr 2019 14:54:06 -0700
+Message-ID: <CAMKF1sqftJeFBGrCyxdQQfNjGA3P16Uu2t+=W-gz-VJK4zUB5w@mail.gmail.com>
+To: akuster808 <akuster808@gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 6/9] asciidoc: use correct XML catalog path
+Subject: Re: Worries kernels supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,36 +55,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 21:53:27 -0000
+X-List-Received-Date: Fri, 05 Apr 2019 21:54:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-thanks for this patchset and it fixed my builders failing to build asciidoc
+On Thu, Apr 4, 2019 at 2:29 PM akuster808 <akuster808@gmail.com> wrote:
+>
+> Hello,
+>
+> I noticed there are 3 kernels in Warrior. 4.18, 4.19 an 5.0. Do we
+> really need 4.18?
+> I see its the default version for poky-tiny. 4.18 is EOL but maintained
+> by Windriver.
 
-On Thu, Apr 4, 2019 at 3:17 PM Ross Burton <ross.burton@intel.com> wrote:
+I would prefer it to be 4.19 since thats at least LTS
+
 >
-> Now that docbook-xml and docbook-xsl are writing catalog files, tell
-> xmllint/xsltproc where the catalog is.
+> regards,
+> Armin
 >
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
-> ---
->  meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> index f684f12dc72..751bf0f19f7 100644
-> --- a/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> +++ b/meta/recipes-extended/asciidoc/asciidoc_8.6.9.bb
-> @@ -19,7 +19,7 @@ S = "${WORKDIR}/git"
->
->  # Tell xmllint where to find the DocBook XML catalogue, because right now it
->  # opens /etc/xml/catalog on the host. Depends on auto-catalogs.patch
-> -export SGML_CATALOG_FILES="file://${STAGING_ETCDIR_NATIVE}/xml/docbook-xml.xml file://${STAGING_ETCDIR_NATIVE}/xml/docbook-xsl.xml"
-> +export SGML_CATALOG_FILES="file://${STAGING_ETCDIR_NATIVE}/xml/catalog"
->
->  # Not using automake
->  inherit autotools-brokensep
-> --
-> 2.11.0
 >
 > --
 > _______________________________________________
