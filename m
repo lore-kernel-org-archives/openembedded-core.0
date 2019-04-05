@@ -1,49 +1,51 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F6BC7D299
+Return-Path: <just.another.mariano@gmail.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 90EDF7D299
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 14:22:25 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id d18so4555899lfn.3
+	Fri,  5 Apr 2019 14:26:53 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id d24so5760570otl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2019 07:22:27 -0700 (PDT)
+	Fri, 05 Apr 2019 07:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=cDH3f22NkcexLN7dqIOFS9yEWVEbZwsyg918fb0RGKA=;
-	b=CHQc0Z3CC0os9m5PhzcnS0+C1fdMfl6YCZsSLgj0LNnpK1V2XRZghyzZPkd2TH5eIs
-	N0QvAmoyGPIm9jGVU3Hn7UdOwDutVF7lxzD3k9r6vG7KG2DOyiS53WWbbpNIygXT7lWZ
-	joTLEHukJYxNV/ntiDp98aWgRzb5LxbefpVG30uhjlq/E3AZFtlKUcgR/pLtjH9d+c4K
-	Rgx6NAA+V9ZDIMq1HijzXwqK8en9bu+sWb4BONwydsI1Y1YDPXdge9uYrN/13Y/KkZp9
-	gstvMCQhnqTSkv5f/x4xuYv0VHFf26gu0MQQGzBKF27VYAKiWIs/1LjysrHUB1x9JAUd
-	f35Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Acxy2x2HJ671NxMMmmaSX3Q+n9vVfSU1Bn7A/UUtQZk=;
+	b=X/Xp2YHJV0sP0tE/NJ7h4ORjUgL4wbPvoBka99L6+zAQQ29n4lWDk0svVOhWIu8zHq
+	Bufw2DG5MffaGEPVM3zunFkeK0Z99KFVHkvXIj4O+a4WWXCqQyMuK4iT702xDl64n92d
+	ANzFyVkyn0Qo4201X9TxQdbA7qqkvTUy7ByK/HfhZHFegfwT2l1cgPZosyT1TBVjNbDC
+	OjQesoP4ZVP0bSRy8OEfJamr8n2IIGVK38mRT7zskKNFxIySDJBPRbzGI914nMFRaxDv
+	BTx+eXZQqdekxMcky3VwHVkJLgoj8Qsa+fLXYdUMS7XayehJkqGCK37jBeQl8bh13cqQ
+	03Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cDH3f22NkcexLN7dqIOFS9yEWVEbZwsyg918fb0RGKA=;
-	b=eiYXn1LC4h3DeHP7/rf1Wj0b8G9GQ6s41f7i0U7EdV6/TvCkpikkj95ToxTHH8UDuG
-	eZOUK6igqnbjjORveFao3bgMqecilSFWGPx67tKnSR3hB5FY3c13wh9iz6Rr1lxIe8w0
-	VicyxRXmE8u4uNja7OkxqUCuRLGyYezycjw0PnfKB1kyNnFrURDGX3ziLDEhczuB2jar
-	712yZo3CYMbyRkRH0hh+tKsP5MnY5ly+qtLm1GWmE+2jf7gArfnv9ZzPHpGf3wOuMrCs
-	/KSRZ8ppyfVoqIVarifT/rnuvbPnHyRJrzpwFZiaTO7dvpGvXQjdyZpFKmyNrPwzScJM
-	4Jmw==
-X-Gm-Message-State: APjAAAW5TGL0Wq75JRtVSvIv2setGDDvhUtxf7+nOd6E0yKBzRQT/aZA
-	IfwVfYZNRQ3Go8x1JOiZObHko4V7atU=
-X-Google-Smtp-Source: APXvYqzhgob+JiHPbDlbjlwP858pe4rEJk34+aD6qQJ5ndD216tQ336zIsXtdObLo+PSOEkZEXUjUQ==
-X-Received: by 2002:a19:6619:: with SMTP id a25mr7214558lfc.21.1554474146324; 
-	Fri, 05 Apr 2019 07:22:26 -0700 (PDT)
-Received: from peterliu-Precision-M4800.emea.group.atlascopco.com
-	(m77-218-244-185.cust.tele2.se. [77.218.244.185])
-	by smtp.gmail.com with ESMTPSA id
-	v13sm4824185lje.84.2019.04.05.07.22.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 05 Apr 2019 07:22:25 -0700 (PDT)
-From: liu.ming50@gmail.com
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Acxy2x2HJ671NxMMmmaSX3Q+n9vVfSU1Bn7A/UUtQZk=;
+	b=a9ugjUmXwzWlySUNYM2YaHyrIa3HRKobJmCvYCldVJEWTKzzJCSR+/1MBhgyi2VF6V
+	dhzPpRx575ea6g2B3Vupm2GV8TgBiNZEG46Fqdg25AML2iDAmN/7Zcmj93lZxUBg1nb5
+	clvD5snTs1XGnTUAtxZrjm2FEj2BmRk0FuU7lbfyUlWKz17Vos74CWHR6Ifo1wL2mSWf
+	U1fl5F4IQiq35PGW8NFgyIgWQLLOufMuadXPfVCExr3BT8cRgXTwacxg2+PU64yTHjoa
+	kCze1015uG9qE2Jy511PWbQKBLZeOkadp4gsYz6loTV9+awhGsfZOChIoFq1mz+Kw0dA
+	bgHw==
+X-Gm-Message-State: APjAAAVUIrwJ3bRl3DaBFY11PCvEt7m2n6U7FVRKTALp+dAvNssX5jvR
+	/17kLCtL0miUpSXogLm9Lynw7Gww
+X-Google-Smtp-Source: APXvYqzvvvEUJ8R58Z1CSVMwUoG/OoZzqDou1p9tVOE7Cpz7yKv387/cM2qYh+7awOCFt5c08dPRuw==
+X-Received: by 2002:a9d:3983:: with SMTP id y3mr9067273otb.32.1554474414345;
+	Fri, 05 Apr 2019 07:26:54 -0700 (PDT)
+Received: from ultima.ninicasiopea.net
+	([2605:a601:43d5:f700:215:17ff:fe90:1065])
+	by smtp.googlemail.com with ESMTPSA id
+	j82sm4056967oih.31.2019.04.05.07.26.53
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Apr 2019 07:26:53 -0700 (PDT)
+From: Mariano Lopez <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Apr 2019 16:22:15 +0200
-Message-Id: <1554474135-15120-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: stefan.agner@toradex.com, Ming Liu <liu.ming50@gmail.com>
-Subject: [thud][PATCH] opkg-utils: backport a patch to fix a sstate timestamp issue
+Date: Fri,  5 Apr 2019 09:26:38 -0500
+Message-Id: <cover.1554391453.git.just.another.mariano@gmail.com>
+X-Mailer: git-send-email 2.19.2
+MIME-Version: 1.0
+Subject: [PATCH 0/3] Feature to use symbolic links to binaries for ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,106 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 14:22:26 -0000
+X-List-Received-Date: Fri, 05 Apr 2019 14:26:53 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Ming Liu <liu.ming50@gmail.com>
+Some binaries are renamed by update-alternatives class at build time
+and some ptest run against a binary belonging to another package. Take
+for example busybox or util-linux.
 
-When using sstate, two parallel builds can produce two packages
-with the same mtime but different checksums. When later one of
-those two builds fetches the others ipk, the package index does
-not get udpated properly (since mtime matches). This ends up with
-messages such as:
-  Downloading file:/../tmp/work/../image/...ipk.
-  Removing corrupt package file /../sysroot/../var/cache/opkg/volatile/...ipk
+This series adds a directory within the ptest path with symlinks to the
+binaries produced by the package, so just adding this directory to the
+PATH will test the correct binaries.
 
-However, in that case, ctime is different. Use ctime instead of
-mtime to prevent failures like this.
+To use this feature just add PTEST_BINDIR = "1" to the recipe.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- ...pkg-make-index-use-ctime-instead-of-mtime.patch | 59 ++++++++++++++++++++++
- .../opkg-utils/opkg-utils_0.3.6.bb                 |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-make-index-use-ctime-instead-of-mtime.patch
+This will help to solve bug 13238.
 
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-make-index-use-ctime-instead-of-mtime.patch b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-make-index-use-ctime-instead-of-mtime.patch
-new file mode 100644
-index 0000000..19778ac
---- /dev/null
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils/0001-opkg-make-index-use-ctime-instead-of-mtime.patch
-@@ -0,0 +1,59 @@
-+From 0cd38bb1bdcdbfc091014a1f39d015a1586a33e6 Mon Sep 17 00:00:00 2001
-+From: Stefan Agner <stefan.agner@toradex.com>
-+Date: Fri, 19 Oct 2018 17:38:21 +0200
-+Subject: [PATCH] opkg-make-index: use ctime instead of mtime
-+
-+Upstream-Status: Backport
-+
-+When using sstate, two parallel builds can produce two packages
-+with the same mtime but different checksums. When later one of
-+those two builds fetches the others ipk, the package index does
-+not get udpated properly (since mtime matches). This ends up with
-+messages such as:
-+  Downloading file:/../tmp/work/../image/...ipk.
-+  Removing corrupt package file /../sysroot/../var/cache/opkg/volatile/...ipk
-+
-+However, in that case, ctime is different. Use ctime instead of
-+mtime to prevent failures like this.
-+
-+Suggested-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Stefan Agner <stefan.agner@toradex.com>
-+Acked-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Acked-by: Khem Raj <raj.khem@gmail.com>
-+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
-+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-+---
-+ opkg-make-index | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/opkg-make-index b/opkg-make-index
-+index 3227fc0..db7bf64 100755
-+--- a/opkg-make-index
-++++ b/opkg-make-index
-+@@ -115,12 +115,12 @@ for abspath in files:
-+      pkg = None
-+      fnameStat = os.stat(abspath)
-+      if filename in old_pkg_hash:
-+-          if filename in pkgsStamps and int(fnameStat.st_mtime) == pkgsStamps[filename]:
-++          if filename in pkgsStamps and int(fnameStat.st_ctime) == pkgsStamps[filename]:
-+             if (verbose):
-+                sys.stderr.write("Found %s in Packages\n" % (filename,))
-+             pkg = old_pkg_hash[filename]
-+           else:
-+-               sys.stderr.write("Found %s in Packages, but mtime differs - re-reading\n" % (filename,))
-++               sys.stderr.write("Found %s in Packages, but ctime differs - re-reading\n" % (filename,))
-+ 
-+      if not pkg:
-+           if (verbose):
-+@@ -137,7 +137,7 @@ for abspath in files:
-+      else:
-+           old_filename = ""
-+      s = packages.add_package(pkg, opt_a)
-+-     pkgsStamps[filename] = fnameStat.st_mtime
-++     pkgsStamps[filename] = fnameStat.st_ctime
-+      if s == 0:
-+           if old_filename:
-+                # old package was displaced by newer
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-index 4c41774..41cf11c 100644
---- a/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-+++ b/meta/recipes-devtools/opkg-utils/opkg-utils_0.3.6.bb
-@@ -14,6 +14,7 @@ SRC_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/${BPN}/snapshot/${BPN}-${PV
-            file://threaded-xz.patch \
-            file://pigz.patch \
-            file://0001-update-alternatives-Fix-link-relocation-support.patch \
-+           file://0001-opkg-make-index-use-ctime-instead-of-mtime.patch \
- "
- SRC_URI_append_class-native = " file://tar_ignore_error.patch"
- UPSTREAM_CHECK_URI = "http://git.yoctoproject.org/cgit/cgit.cgi/opkg-utils/refs/"
+[YOCTO #13238]
+
+The following changes since commit ffa5a1bda6741f5dc9f1b8db1bb37b0c6f103c99:
+
+  asciidoc: specify XML catalogue to use (2019-04-03 14:56:27 +0100)
+
+are available in the Git repository at:
+
+  git://github.com/justanotherboy/poky bug12597
+  https://github.com/justanotherboy/poky/tree/bug12597
+
+Mariano Lopez (3):
+  update-alternatives.bbclass: Add function to get renamed binaries
+  ptest.bbclass: Add feature to populate a binary directory
+  util-linux: Use PTEST binary directory
+
+
 -- 
-2.7.4
+2.19.2
 
 
