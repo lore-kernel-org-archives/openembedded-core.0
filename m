@@ -1,23 +1,44 @@
-Return-Path: <Ovidiu.Panait@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5AF336BCE7
+Return-Path: <jupiter.hce@gmail.com>
+Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
+	[209.85.166.169])
+	by mail.openembedded.org (Postfix) with ESMTP id DACB67D5B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 11:21:18 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x35BLI4v017297
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri,  5 Apr 2019 11:23:37 +0000 (UTC)
+Received: by mail-it1-f169.google.com with SMTP id w15so8895226itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Apr 2019 04:21:19 -0700 (PDT)
-Received: from otp-opanait-l1.corp.ad.wrs.com (128.224.124.169) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 5 Apr 2019 04:21:18 -0700
-From: Ovidiu Panait <ovidiu.panait@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 5 Apr 2019 14:19:42 +0300
-Message-ID: <20190405111942.3059-1-ovidiu.panait@windriver.com>
-X-Mailer: git-send-email 2.17.1
+	Fri, 05 Apr 2019 04:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=AAFuhoOMk2iKMr8SUCN1brzkSHzqnYFR5njy2neTyZE=;
+	b=N+OOFO1H/yN+tZn/9OE0kYEuf4U/OAUZvnDI+sfTGZbH9q9SexH6eiV9DogEfOZdcZ
+	NCBzdwSfSa8gXwLwgF+ZbmqBo6sLSbbY3FSuky4SzfrblppNZcOnmXRafStGY4EjNQcU
+	f+xVYxBeBgt+O8gV7Iss/LeHaukx1EL+YvSWiDlJuC+CVsUfeILOjqChD9qIXhedB5KT
+	nof7yTx10VcQ5Sr9iLAh6ies9IygedKhZ30HCHATs8Q9jK49ug8c4/qARmEP0dGxRaU4
+	d847yxAYMXaaT85tZU3zVWlMilE5kyL3GS2TZ2UCBCHWonABYyv5F/vU8bJYTTV3T2ni
+	X+2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=AAFuhoOMk2iKMr8SUCN1brzkSHzqnYFR5njy2neTyZE=;
+	b=GzoYNLxHfews4l9H/NYAGN/nkcIX+5TIcHVK6NkrzvXL4ouBYVMN8lSLcM/HewRg8T
+	HfO5P3+Z9lo1ccyzyObTbkVFHKRcNIhI5LYBxbEscrDlJ8lF3ykrSr/grqJ1vOY7FYBJ
+	Ccu/hWHW/n1oerc0GYEFjInAISxLVrL0QzuOFXsdJqewp7HCn90wTVUzlHc0dDNP8qGC
+	LueC97guBCmPehrI067cIxwPlS9sXRXam/n80+VKuubPmOVHfPC9+nSuZoLMvRkMwJCG
+	Mf4MyrXKZC8w1JIUuEcKT24jPR7trnIHXk7JHohDDHbAFOrQzjpLfKgKdedD6Shz8x+c
+	k1ow==
+X-Gm-Message-State: APjAAAUSkVwGmRHXZEeLKkSAjT3o1yQGRpjgsjq5W8Ml2iH9TMspbxGm
+	E9idgW7fRq/ljUSfwlMlQdddQ5F9M85QcJl5AiyKWw==
+X-Google-Smtp-Source: APXvYqzmvisMqDcCqpIReTlraxK/ho5zILsuNuAnKH4IXoGqOUBMzzL5iNahCQ8mkWNUjshQz/CdjNXhmDWQ7dqWUCU=
+X-Received: by 2002:a02:bb91:: with SMTP id g17mr9227635jan.55.1554463418801; 
+	Fri, 05 Apr 2019 04:23:38 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] xf86-video-vesa: Refuse to run on UEFI machines
+Received: by 2002:ac0:91a9:0:0:0:0:0 with HTTP;
+	Fri, 5 Apr 2019 04:23:38 -0700 (PDT)
+From: JH <jupiter.hce@gmail.com>
+Date: Fri, 5 Apr 2019 22:23:38 +1100
+Message-ID: <CAA=hcWS-6EbpkevDUm3MiS5Y4KFR_5kqO6qD=bbYPJsMXtBJbg@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: How to control OS/ABI System V or GNU/Linux?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,97 +51,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 11:21:18 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 05 Apr 2019 11:23:39 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Fix the following Xorg start failure on UEFI machines when using xf86-video-vesa
-driver (e.g. in qemu, when anaconda tries to start X):
-Xorg -br -logfile /tmp/X.log :1 vt7 -s 1440 -ac -nolisten tcp -dpi 96 -noreset
-...
-(EE) Cannot run in framebuffer mode. Please specify busIDs for all framebuffer devices
-...
+Hi,
 
-Upstream patch:
-https://cgit.freedesktop.org/xorg/driver/xf86-video-vesa/commit/?id=2645e0aa9c17c2c966a0533e52ad00510311483e
+I am running OE and bitbake on Ubuntu 18, how do you control the
+OS/ABI for System V or GNU/Linux?
 
-Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
----
- .../0001-Refuse-to-run-on-UEFI-machines.patch | 52 +++++++++++++++++++
- .../xorg-driver/xf86-video-vesa_2.4.0.bb      |  4 ++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-driver/xf86-video-vesa/0001-Refuse-to-run-on-UEFI-machines.patch
+I built one shared library which is ELF 32-bit LSB shared object, ARM,
+EABI5 version 1 (SYSV), another library which is ELF 32-bit LSB shared
+object, ARM, EABI5 version 1 (GNU/Linux), appreciate your tips and
+helps.
 
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vesa/0001-Refuse-to-run-on-UEFI-machines.patch b/meta/recipes-graphics/xorg-driver/xf86-video-vesa/0001-Refuse-to-run-on-UEFI-machines.patch
-new file mode 100644
-index 0000000000..9e01770667
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vesa/0001-Refuse-to-run-on-UEFI-machines.patch
-@@ -0,0 +1,52 @@
-+From 2645e0aa9c17c2c966a0533e52ad00510311483e Mon Sep 17 00:00:00 2001
-+From: Adam Jackson <ajax@redhat.com>
-+Date: Wed, 29 Aug 2018 11:04:23 -0400
-+Subject: [PATCH] Refuse to run on UEFI machines
-+
-+No possible good can come of this.
-+
-+v2: Check for .../efi-framebuffer.0 ("is there an EFI framebuffer")
-+instead of /sys/firmware/efi ("is this an EFI machine"). Suggested by
-+Peter Jones.
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/driver/xf86-video-vesa]
-+
-+Reviewed-by: Peter Jones <pjones@redhat.com>
-+Signed-off-by: Adam Jackson <ajax@redhat.com>
-+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
-+---
-+ src/vesa.c | 11 +++++++++--
-+ 1 file changed, 9 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/vesa.c b/src/vesa.c
-+index 9b65b9b..af750e2 100644
-+--- a/src/vesa.c
-++++ b/src/vesa.c
-+@@ -43,7 +43,7 @@
-+ #endif
-+ 
-+ #include <string.h>
-+-
-++#include <unistd.h>
-+ #include "vesa.h"
-+ 
-+ /* All drivers initialising the SW cursor need this */
-+@@ -450,7 +450,14 @@ VESAPciProbe(DriverPtr drv, int entity_num, struct pci_device *dev,
-+ 	     intptr_t match_data)
-+ {
-+     ScrnInfoPtr pScrn;
-+-    
-++
-++#ifdef __linux__
-++    if (access("/sys/devices/platform/efi-framebuffer.0", F_OK) == 0) {
-++        ErrorF("vesa: Refusing to run on UEFI\n");
-++        return FALSE;
-++    }
-++#endif
-++
-+     pScrn = xf86ConfigPciEntity(NULL, 0, entity_num, NULL, 
-+ 				NULL, NULL, NULL, NULL, NULL);
-+     if (pScrn != NULL) {
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb
-index 9a110148d8..f6aa54456c 100644
---- a/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb
-+++ b/meta/recipes-graphics/xorg-driver/xf86-video-vesa_2.4.0.bb
-@@ -17,3 +17,7 @@ RRECOMMENDS_${PN} += "xserver-xorg-module-libint10"
- 
- SRC_URI[md5sum] = "8134201beaf6f77150c7809c3cc802e6"
- SRC_URI[sha256sum] = "bf443c94d7bf6cd4e248f8a3147f4647be04dc4c80250d9405006263bbdee38c"
-+
-+SRC_URI += " \
-+    file://0001-Refuse-to-run-on-UEFI-machines.patch \
-+    "
--- 
-2.20.1
+Thank you.
 
+Kind regards,
+
+- JH
 
