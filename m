@@ -1,55 +1,55 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id DFDCD7D53E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 130147D5B9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 06:37:59 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id h18so5885178wml.1
+	Fri,  5 Apr 2019 07:39:55 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id q14so4610198edr.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 23:38:01 -0700 (PDT)
+	Fri, 05 Apr 2019 00:39:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=IeuQ1pdn1kilH6jv0fPNvGA7D8J4RsEFPsUy3zGqROA=;
-	b=uy1Lm2zCWW/SZsFO1UdrHQyjZQ/i5JKci2ZQBon31jaZSn1K8x/Ua3+Y7m91wFTlfL
-	DkfaR6esqGfT6kls3Uvd2IGS2LOuaKWaiIFWHK6JUNZyyS8bdzkEWnUh0DzVk5huLT+o
-	LZNtTuz9e2bAXYh1iU1uoWRt316HSMhW61hIMBrj8TmGtdbbncnQqWE6oW28C0oHWxzx
-	urjsp+HxmndCTjki00crhf7rV1j8aDqg3rL/ZaI1ei0t7IspWb//YFVFxagOcWEaoaZG
-	PLKhoXbRGmoJq7Yk8dphSS5WqPJRspI0QfkJ8aHfm0b+UA4tNsHcHI9WdSm7xKn8Oza+
-	nfoQ==
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=n0wnSAqhU3pqF9dx7W9ROMDsr10G8aJvbFEE+DvIQhI=;
+	b=mseNbmg7ZWrjgvBxziBjMCscUw8Sw1TkUN1LnFGuaXdRFzZ/vt2p+NcenetJpxj72a
+	hhrf7tE5vXeOEL8VNbzJL23KzOV5XWuIGkQPMNotNlmZ8BWs8GZ+cICgLIqs39zDzhwX
+	PqWoST3tqUIU0zJcrpV2/scJHfR+6BjxtfCTTqHB8glGJkovGf1IZzlLxippuCcd7GaK
+	DuUnsjJYct3E6+oXSaIHCC67JkCLoUDvOGZdp1VUSJFZTSUfMcYa3/Xqwe3Q6Md7aYwF
+	fgmMx6b4adEINkemrizVKo0/rhV1o1GqTrK1WRDA4Tvu1KqMqZn4Wih/Z674bSMM3c4W
+	Zplg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=IeuQ1pdn1kilH6jv0fPNvGA7D8J4RsEFPsUy3zGqROA=;
-	b=AfX4VnTKLxbVc2CaJm1I23CWZXa0U7meg3CwBWtd4LTM7RhqrPcvhoS/4FUVQ1W7Z4
-	/UuUd4R9SxfYqVsulAf8iz5C7qZDZAEvtHtEmYfVAAphLiVkQ2gO5nGEFgfaZwolrSAN
-	3/duaiLBq+5Mbx1ggHUyjOy8m9BGpM+TEAntFIG/JBX2iIvLtoLy+Yql3585aKk3P32S
-	+6um/cKjo3DrkoB/gV4o86ppz747nwG3dyM0eAa12mgmaUKsRnKHxAkBLC0CGT4ihrx8
-	xS+cpxi6UyivPyuF0JRDhqIN8/Gtm+wPOj/qJD2NrrJQdK2h/hyft4oPSM56EtNO7RW4
-	iJxA==
-X-Gm-Message-State: APjAAAXYzz5izyN9x7JaLfaRB5vZ7nmH2JEqFcyH1rpNgNM2SQ7HYkBY
-	fpD8OkuoxLCPpKds2riNxkF2Oa8E
-X-Google-Smtp-Source: APXvYqxVhbq/VkG0HB5s7OZAVlEBhLs3HqL9ZljdueyVXUjwyh/dIJrb9dnL4Yrln9g9W1Ytn+ls4w==
-X-Received: by 2002:a7b:c769:: with SMTP id x9mr6773848wmk.103.1554446280492; 
-	Thu, 04 Apr 2019 23:38:00 -0700 (PDT)
-Received: from superandy.speedport.ip
-	(p200300F07F05D917A4978A6EAA704508.dip0.t-ipconnect.de.
-	[2003:f0:7f05:d917:a497:8a6e:aa70:4508])
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=n0wnSAqhU3pqF9dx7W9ROMDsr10G8aJvbFEE+DvIQhI=;
+	b=asxtnVDzUHSTYshFaPXgadzP10N8lgamxnqsQQsj2OsipfXaQPY0osjfm2sAAYdCE1
+	HSQeffSHZZs4stxW+cPMd7+n2FB0OZNk1O8pg1xasN3xP5AAtPuGe0x+WoV1/pEAr9tb
+	WqGoUxq2PH1B1Nby4DarjzXgxWsi1ralmGr0j0T/M6tKhn3befrfYWJ8uPW08OjeP4ZQ
+	19UddlYFZW8P7wv7GoB3E77so9MHQy7UrKJtOLBInxZQaloUQd7gPTtlTRhjArxUJ4c3
+	ZRer1IuFYr9DczQhOQ6odsDAGboTganlDcBEEckYtVe2UJmUzT7d5jOPx1my54Vkm7rJ
+	ol9w==
+X-Gm-Message-State: APjAAAUkW9Hyfz4xdAun18+CUSt/qEjkf+iB53EH18qa4mLr5Uoki3jl
+	sfgFU3/SMBSWiNku/+NMHPA=
+X-Google-Smtp-Source: APXvYqzKbjiSopAu0rLyS8wU4MqV6+hkSwofw3xnaF729JgBLLnv0j+YY8dEwhhYh7pJb8GbcaiKPQ==
+X-Received: by 2002:aa7:dcca:: with SMTP id w10mr6887526edu.73.1554449996758; 
+	Fri, 05 Apr 2019 00:39:56 -0700 (PDT)
+Received: from ?IPv6:2a02:8109:b5c0:1267:e553:6a15:e853:9078?
+	([2a02:8109:b5c0:1267:e553:6a15:e853:9078])
 	by smtp.gmail.com with ESMTPSA id
-	g132sm1185443wme.3.2019.04.04.23.37.59
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 04 Apr 2019 23:37:59 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	alex.kanavin@gmail.com
-Date: Fri,  5 Apr 2019 08:37:36 +0200
-Message-Id: <20190405063736.29750-14-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190405063736.29750-1-schnitzeltony@gmail.com>
+	t31sm6387837edb.52.2019.04.05.00.39.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Apr 2019 00:39:55 -0700 (PDT)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16D57)
+In-Reply-To: <20190405063736.29750-14-schnitzeltony@gmail.com>
+Date: Fri, 5 Apr 2019 09:39:54 +0200
+Message-Id: <B6580F15-9E30-4926-95F1-FB1906E9EEFC@gmail.com>
 References: <20190405063736.29750-1-schnitzeltony@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH 13/13] gst-plugins: move 'inherit gobject-introspection' to recipes supporting GI
+	<20190405063736.29750-14-schnitzeltony@gmail.com>
+To: =?utf-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 13/13] gst-plugins: move 'inherit gobject-introspection' to recipes supporting GI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,66 +62,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 06:38:00 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 05 Apr 2019 07:39:56 -0000
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Now that whitelisting for unknown configure options was removed in
-gobject-introspection.bbclass gstreamer1.0-plugins-ugly/-good start complaining
+Thanks, looks good!
 
-| ERROR: gstreamer1.0-plugins-ugly-1.14.4-r0 do_configure: QA Issue: gstreamer1.0-plugins-ugly: configure was passed unrecognised options: --enable-introspection [unknown-configure-option]
-| ERROR: gstreamer1.0-plugins-good-1.14.4-r0 do_configure: QA Issue: gstreamer1.0-plugins-good: configure was passed unrecognised options: --enable-introspection [unknown-configure-option]
+Alex
 
-So let only those gst-plugin recipes inherit gobject-introspection whose sources
-support GI.
+> On 5 Apr 2019, at 8.37, Andreas M=C3=BCller <schnitzeltony@gmail.com> wrot=
+e:
+>=20
+> Now that whitelisting for unknown configure options was removed in
+> gobject-introspection.bbclass gstreamer1.0-plugins-ugly/-good start compla=
+ining
+>=20
+> | ERROR: gstreamer1.0-plugins-ugly-1.14.4-r0 do_configure: QA Issue: gstre=
+amer1.0-plugins-ugly: configure was passed unrecognised options: --enable-in=
+trospection [unknown-configure-option]
+> | ERROR: gstreamer1.0-plugins-good-1.14.4-r0 do_configure: QA Issue: gstre=
+amer1.0-plugins-good: configure was passed unrecognised options: --enable-in=
+trospection [unknown-configure-option]
+>=20
+> So let only those gst-plugin recipes inherit gobject-introspection whose s=
+ources
+> support GI.
+>=20
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> ---
+> .../gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb                | 2 +-
+> .../gstreamer/gstreamer1.0-plugins-base_1.14.4.bb               | 2 +-
+> meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc      | 2 +-
+> 3 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.=
+14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.4.=
+bb
+> index 4987be865b..23d093d47c 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb=
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- .../gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb                | 2 +-
- .../gstreamer/gstreamer1.0-plugins-base_1.14.4.bb               | 2 +-
- meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb=
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb
-index 4987be865b..23d093d47c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.14.4.bb
-@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=73a5855a8119deb017f5f13cf327095d \
- 
- DEPENDS += "gstreamer1.0-plugins-base"
- 
--inherit gettext bluetooth
-+inherit gettext bluetooth gobject-introspection
- 
- PACKAGECONFIG ??= " \
-     ${GSTREAMER_ORC} \
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb
-index 12c9bbce9d..f3e6daf564 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.bb
-@@ -28,7 +28,7 @@ S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
- DEPENDS += "iso-codes util-linux"
- 
--inherit gettext
-+inherit gettext gobject-introspection
- 
- PACKAGES_DYNAMIC =+ "^libgst.*"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-index 5906e4ad36..bc24b05fec 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
-@@ -7,7 +7,7 @@ DEPENDS = "gstreamer1.0 glib-2.0-native"
- 
- SRC_URI_append = " file://gtk-doc-tweaks.patch"
- 
--inherit autotools pkgconfig upstream-version-is-even gobject-introspection gtk-doc
-+inherit autotools pkgconfig upstream-version-is-even gtk-doc
- 
- acpaths = "-I ${S}/common/m4 -I ${S}/m4"
- 
--- 
-2.20.1
-
+> @@ -20,7 +20,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D73a5855a8119d=
+eb017f5f13cf327095d \
+>=20
+> DEPENDS +=3D "gstreamer1.0-plugins-base"
+>=20
+> -inherit gettext bluetooth
+> +inherit gettext bluetooth gobject-introspection
+>=20
+> PACKAGECONFIG ??=3D " \
+>     ${GSTREAMER_ORC} \
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1=
+.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.=
+4.bb
+> index 12c9bbce9d..f3e6daf564 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.b=
+b
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.14.4.b=
+b
+> @@ -28,7 +28,7 @@ S =3D "${WORKDIR}/gst-plugins-base-${PV}"
+>=20
+> DEPENDS +=3D "iso-codes util-linux"
+>=20
+> -inherit gettext
+> +inherit gettext gobject-introspection
+>=20
+> PACKAGES_DYNAMIC =3D+ "^libgst.*"
+>=20
+> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc b/=
+meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+> index 5906e4ad36..bc24b05fec 100644
+> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins.inc
+> @@ -7,7 +7,7 @@ DEPENDS =3D "gstreamer1.0 glib-2.0-native"
+>=20
+> SRC_URI_append =3D " file://gtk-doc-tweaks.patch"
+>=20
+> -inherit autotools pkgconfig upstream-version-is-even gobject-introspectio=
+n gtk-doc
+> +inherit autotools pkgconfig upstream-version-is-even gtk-doc
+>=20
+> acpaths =3D "-I ${S}/common/m4 -I ${S}/m4"
+>=20
+> --=20
+> 2.20.1
+>=20
 
