@@ -1,55 +1,55 @@
 Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id F2C107D537
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id B2FE67D509
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 06:37:46 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id a184so5447528wma.2
+	Fri,  5 Apr 2019 06:37:47 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id r4so6548254wrq.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Apr 2019 23:37:48 -0700 (PDT)
+	Thu, 04 Apr 2019 23:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=d3HRMfdMHmBT3sG6Hj/imzR4oFCtuD1zAnv4uUkE98c=;
-	b=Pehzr8/ZNoWskYHXQIb7sHK7lWF+n/ZlDxtD/Q2G3v9nIXogGQVlNPVAim33A31mk2
-	6xfyVjsPPFUmy2oBJgS1UwaG6E6FbMNzsm91w7nJlVP++pUF+rT5KyHw96oXO4ngOlDC
-	SN7hRzfqBqlyC5jhov3bFG3TzH+PO+qGWxS9d5RU7tWweVszjPcd7RQGRpaZHSXI9voG
-	+/MWNYxE4sz+8oEAS0UGYcbuf1XJShGza4DKZrhZJuSN2qXBJiPfikBjmoEd/hdKVni2
-	0iVhBPApo4yQRH4CAlEhZ0Hd5zseVW7S3QfylCQDVlE///+slTLgvfRC2Ros56kd7IEU
-	APwA==
+	bh=tdccyjSN6B3+Udkmeng8Q2ni9t1Bgp1qkh6mvWK17U0=;
+	b=hlHVZmW0Q8jeT7jO6l9N7VMUcmCDA1JCoxFBh70uzQCdfWaxFoL2mB2LcjmByIvaiA
+	Oa+Vv98w8tseLmgUz51X4DV6G+ZXexlf1ACfMZhnFemYsaeyuSmZ2nrArVw39jj2/igL
+	Ow/V0ykkKSw7jqV9EupOatY+capyDOOch6t+jrZCTVZk8RfJ/JY6DRCSdc82y+diwuSa
+	AXCVsUo6ltaSHoE6VBbUXAK04Yt38W7kw+RrrU8Fe/HMxPZIMTTx7WTQjPmB5qv4CUfL
+	NORcrfhWyFCvkqqT4ljdLymwPcIyzY4PKyWvdwnMVRAl1AIWjEkOOJOu+x4nn0w5mO7m
+	qZOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=d3HRMfdMHmBT3sG6Hj/imzR4oFCtuD1zAnv4uUkE98c=;
-	b=VvtJPIGEjs9vsQtMQJyK9sRQQHXyv8NDysh6Y938Ue0Rqp2CbOyMp+TSqntBOQ2muM
-	IDfAZjw43F/VwsTckzfv3FuYiK2xnXtZUzpZYHI1yngHKWpxgWnYV1cv2ZZmvTc/0kxB
-	C6lI+EuxDkxiiGU0dOFC7+qly7P2oCEh3mUL5AlGQtp/wXGO6T1s6xMqB4dpQMzBamba
-	fgpH1kmfiW1y3x8xUBom5Ed1QsALSQ8uNQq26Zyd5vAtvqcGQPSOzyL22O3iCBn14gCg
-	OcmD+jmsIAlD43siwiyID9q71eliJscDI3VF+HmD/kaDhMLQ4q34DMo4MObzev8H38C0
-	gAhw==
-X-Gm-Message-State: APjAAAWawXzj9tG5YQ0YoSCBHIMPX2N8b/fP5NVYIUtA06teseZpJrbk
-	qa9dJty3cVNiBatdooH1JmXHz4FI
-X-Google-Smtp-Source: APXvYqz5ujJGgakTk7OEGAd8XlpfyV5LaXbUg/g2qFMieRzapYrdDT22S/ulkFfe8VRZBEX0BO80+A==
-X-Received: by 2002:a1c:9609:: with SMTP id y9mr6883868wmd.27.1554446267389;
-	Thu, 04 Apr 2019 23:37:47 -0700 (PDT)
+	bh=tdccyjSN6B3+Udkmeng8Q2ni9t1Bgp1qkh6mvWK17U0=;
+	b=oIvO93DAAzyaLYdrEJZbcT6+2leoh2CHmVdcJxn4oPw0///hWX+Vq26MELclW21q2t
+	88E+jes8Wmb5qXMFcIX7cwM/MfnbKvvwGxcXGAFqotjdSmb0kiUZGBqmg5nTQyM43XpR
+	bm9hZwncI2GSU7X0cpHLCqFOiyjL+cj1DkLypOS/ANzAqI6LVyXZ0me2n8aOiRQ3cC62
+	+ac7Swh9HIwkgPluVvlN/8J7Z6MsDLQT50zs7uoqzBbx21Za2rFkkOuhQGg2pW4n4tQp
+	ceQbxZQ3T5b64l34vBXop674Pzy53uoad/8vcI+MOv/8YIZscGw4S4rzSl8dyfUs+tFa
+	jaqQ==
+X-Gm-Message-State: APjAAAV1ah88xqFVVWZiuOKh5271jvdQOo0kk0t8BGQnrZnUh6LFm5RF
+	DrBF3VZu2rNQQzU0cUkEhRo46LYw
+X-Google-Smtp-Source: APXvYqx7kNOv6jN8k/1yyNp1wfc84spMfM67XA8JmGR3bhR26qbEHh8zSM+wGmDQUaVVRXVU14SPtA==
+X-Received: by 2002:adf:cf0c:: with SMTP id o12mr7293691wrj.16.1554446268427; 
+	Thu, 04 Apr 2019 23:37:48 -0700 (PDT)
 Received: from superandy.speedport.ip
 	(p200300F07F05D917A4978A6EAA704508.dip0.t-ipconnect.de.
 	[2003:f0:7f05:d917:a497:8a6e:aa70:4508])
 	by smtp.gmail.com with ESMTPSA id
-	g132sm1185443wme.3.2019.04.04.23.37.46
+	g132sm1185443wme.3.2019.04.04.23.37.47
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 04 Apr 2019 23:37:46 -0700 (PDT)
+	Thu, 04 Apr 2019 23:37:47 -0700 (PDT)
 From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
 To: openembedded-core@lists.openembedded.org,
 	alex.kanavin@gmail.com
-Date: Fri,  5 Apr 2019 08:37:24 +0200
-Message-Id: <20190405063736.29750-2-schnitzeltony@gmail.com>
+Date: Fri,  5 Apr 2019 08:37:25 +0200
+Message-Id: <20190405063736.29750-3-schnitzeltony@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190405063736.29750-1-schnitzeltony@gmail.com>
 References: <20190405063736.29750-1-schnitzeltony@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 01/13] insane.bbclass: Trigger unrecognzed configure option for meson
+Subject: [PATCH 02/13] gobject-introspection: auto-enable/-disable gobject-introspection for meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,61 +62,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 06:37:47 -0000
+X-List-Received-Date: Fri, 05 Apr 2019 06:37:49 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Tested with 'unknown-configure-option' in ERROR_QA:
+* the class sets defaults used most common which can be overriden by recipes
+* UNKNOWN_CONFIGURE_WHITELIST was removed for autotools (and not added for meson)
+  as suggested by Alexander Kanavin [1]
 
-For meson (glib-2.0-native):
-1. add 'EXTRA_OEMESON_append = "-Dschnitzel=true -Dwurst=true"'
-   | ERROR: glib-2.0-native-1_2.58.3-r0 do_configure: QA Issue: glib-2.0-native: configure was passed unrecognised options: schnitzel wurst [unknown-configure-option]
-2. add 'UNKNOWN_CONFIGURE_WHITELIST_append=" schnitzel"'
-   | ERROR: glib-2.0-native-1_2.58.3-r0 do_configure: QA Issue: glib-2.0-native: configure was passed unrecognised options: wurst [unknown-configure-option]
-3. change to 'UNKNOWN_CONFIGURE_WHITELIST_append=" schnitzel wurst"'
-   => builds without issues
-
-For autotools (readline-native):
-1. add 'EXTRA_OECONF = "--with-schnitzel --with-wurst"'
-   | ERROR: readline-native-8.0-r0 do_configure: QA Issue: readline-native: configure was passed unrecognised options: --with-wurst --with-schnitzel [unknown-configure-option]
-2. add 'UNKNOWN_CONFIGURE_WHITELIST_append=" --with-schnitzel"'
-   | ERROR: readline-native-8.0-r0 do_configure: QA Issue: readline-native: configure was passed unrecognised options: --with-wurst [unknown-configure-option]
-3. add 'UNKNOWN_CONFIGURE_WHITELIST_append=" --with-schnitzel --with-wurst"'
-   => builds without issues
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2019-April/280716.html
 
 Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
 ---
+V1 -> V2: Introduce GIR_MESON_OPTION as suggested by Alexander Kanavin
+V2 -> V3: * Add GIR_MESON_ENABLE_FLAG / GIR_MESON_DISABLE_FLAG
+          * remove UNKNOWN_CONFIGURE_WHITELIST_append
 
-This is a resend
+ meta/classes/gobject-introspection.bbclass | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
- meta/classes/insane.bbclass | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index 37b8bb0032..c8d18c07f5 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -1093,12 +1093,16 @@ Rerun configure task after fixing this."""
-     ###########################################################################
-     # Check unrecognised configure options (with a white list)
-     ###########################################################################
--    if bb.data.inherits_class("autotools", d):
-+    if bb.data.inherits_class("autotools", d) or bb.data.inherits_class("meson", d):
-         bb.note("Checking configure output for unrecognised options")
-         try:
--            flag = "WARNING: unrecognized options:"
--            log = os.path.join(d.getVar('B'), 'config.log')
--            output = subprocess.check_output(['grep', '-F', flag, log]).decode("utf-8").replace(', ', ' ')
-+            if bb.data.inherits_class("autotools", d):
-+                flag = "WARNING: unrecognized options:"
-+                log = os.path.join(d.getVar('B'), 'config.log')
-+            if bb.data.inherits_class("meson", d):
-+                flag = "WARNING: Unknown options:"
-+                log = os.path.join(d.getVar('T'), 'log.do_configure')
-+            output = subprocess.check_output(['grep', '-F', flag, log]).decode("utf-8").replace(', ', ' ').replace('"', '')
-             options = set()
-             for line in output.splitlines():
-                 options |= set(line.partition(flag)[2].split())
+diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
+index 4ceb0c68b1..504f75e28d 100644
+--- a/meta/classes/gobject-introspection.bbclass
++++ b/meta/classes/gobject-introspection.bbclass
+@@ -6,14 +6,24 @@
+ # This also sets up autoconf-based recipes to build introspection data (or not),
+ # depending on distro and machine features (see gobject-introspection-data class).
+ inherit python3native gobject-introspection-data
++
++# meson: default option name to enable/disable introspection. This matches most
++# project's configuration. In doubts - check meson_options.txt in project's
++# source path.
++GIR_MESON_OPTION ?= 'introspection'
++GIR_MESON_ENABLE_FLAG ?= 'true'
++GIR_MESON_DISABLE_FLAG ?= 'false'
++
++# Auto enable/disable based on GI_DATA_ENABLED
+ EXTRA_OECONF_prepend_class-target = "${@bb.utils.contains('GI_DATA_ENABLED', 'True', '--enable-introspection', '--disable-introspection', d)} "
++EXTRA_OEMESON_prepend_class-target = "-D${GIR_MESON_OPTION}=${@bb.utils.contains('GI_DATA_ENABLED', 'True', '${GIR_MESON_ENABLE_FLAG}', '${GIR_MESON_DISABLE_FLAG}', d)} "
+ 
+ # When building native recipes, disable introspection, as it is not necessary,
+ # pulls in additional dependencies, and makes build times longer
+ EXTRA_OECONF_prepend_class-native = "--disable-introspection "
+ EXTRA_OECONF_prepend_class-nativesdk = "--disable-introspection "
+-
+-UNKNOWN_CONFIGURE_WHITELIST_append = " --enable-introspection --disable-introspection"
++EXTRA_OEMESON_prepend_class-native = "-D${GIR_MESON_OPTION}=${GIR_MESON_DISABLE_FLAG} "
++EXTRA_OEMESON_prepend_class-nativesdk = "-D${GIR_MESON_OPTION}=${GIR_MESON_DISABLE_FLAG} "
+ 
+ # Generating introspection data depends on a combination of native and target
+ # introspection tools, and qemu to run the target tools.
 -- 
 2.20.1
 
