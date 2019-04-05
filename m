@@ -1,51 +1,53 @@
 Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 90EDF7D299
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+	[209.85.167.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B6ED7D299
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 14:26:53 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id d24so5760570otl.11
+	Fri,  5 Apr 2019 14:26:54 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id a6so5011174oie.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2019 07:26:54 -0700 (PDT)
+	Fri, 05 Apr 2019 07:26:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Acxy2x2HJ671NxMMmmaSX3Q+n9vVfSU1Bn7A/UUtQZk=;
-	b=X/Xp2YHJV0sP0tE/NJ7h4ORjUgL4wbPvoBka99L6+zAQQ29n4lWDk0svVOhWIu8zHq
-	Bufw2DG5MffaGEPVM3zunFkeK0Z99KFVHkvXIj4O+a4WWXCqQyMuK4iT702xDl64n92d
-	ANzFyVkyn0Qo4201X9TxQdbA7qqkvTUy7ByK/HfhZHFegfwT2l1cgPZosyT1TBVjNbDC
-	OjQesoP4ZVP0bSRy8OEfJamr8n2IIGVK38mRT7zskKNFxIySDJBPRbzGI914nMFRaxDv
-	BTx+eXZQqdekxMcky3VwHVkJLgoj8Qsa+fLXYdUMS7XayehJkqGCK37jBeQl8bh13cqQ
-	03Mw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=NGAcABQROjmWTHEHuhbrl/hFBJW77qZTSu4ECk8XHp8=;
+	b=hQjewodUH+axjklkYeZ5TaefVailh6CGhvtC75q0DurATlVjRwl7V/b4CGjPSLtKVl
+	gXCtI4Wh8abTELN1JPBz4fIkEUz/F8/lJQw9zPe/ecwYjrxyuyQdLX1qp5zznQP2TKA4
+	efO4eYJAoetYHIF4JTzlrCy+VmwAieugjpm1xkS6BujRWfshbiThtY8+p6F/PWbyn5zQ
+	cmwGoFixgMMj6MKgfMIOfs8y5OO7dqNC4nyCtLfvxF95IbCihiYxb41t2EArAvzzxsZS
+	dfg3XdjQtrw3P3w7ZKAIBgxZbqPKiQU/CXaR/EoxBa01rUuwKTJxwDD38R1s78dHnUZp
+	KBIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Acxy2x2HJ671NxMMmmaSX3Q+n9vVfSU1Bn7A/UUtQZk=;
-	b=a9ugjUmXwzWlySUNYM2YaHyrIa3HRKobJmCvYCldVJEWTKzzJCSR+/1MBhgyi2VF6V
-	dhzPpRx575ea6g2B3Vupm2GV8TgBiNZEG46Fqdg25AML2iDAmN/7Zcmj93lZxUBg1nb5
-	clvD5snTs1XGnTUAtxZrjm2FEj2BmRk0FuU7lbfyUlWKz17Vos74CWHR6Ifo1wL2mSWf
-	U1fl5F4IQiq35PGW8NFgyIgWQLLOufMuadXPfVCExr3BT8cRgXTwacxg2+PU64yTHjoa
-	kCze1015uG9qE2Jy511PWbQKBLZeOkadp4gsYz6loTV9+awhGsfZOChIoFq1mz+Kw0dA
-	bgHw==
-X-Gm-Message-State: APjAAAVUIrwJ3bRl3DaBFY11PCvEt7m2n6U7FVRKTALp+dAvNssX5jvR
-	/17kLCtL0miUpSXogLm9Lynw7Gww
-X-Google-Smtp-Source: APXvYqzvvvEUJ8R58Z1CSVMwUoG/OoZzqDou1p9tVOE7Cpz7yKv387/cM2qYh+7awOCFt5c08dPRuw==
-X-Received: by 2002:a9d:3983:: with SMTP id y3mr9067273otb.32.1554474414345;
-	Fri, 05 Apr 2019 07:26:54 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=NGAcABQROjmWTHEHuhbrl/hFBJW77qZTSu4ECk8XHp8=;
+	b=HKm/BX3L0bAwnAzAE8bWHfjFBp3LKf4Nj00UYTL/wUgWsqU9CJoUPcAtwLwi4N26UC
+	oqXgoevgkc1rahU0pKVdJk6qnX4n3mhtVEyxvYiT8tRyqSgvHIVJu8+n25EaPQEjC5KR
+	MkE0LH9n0pMJ+qdJ/0E568Lw3UB131Bd41+Zyjdp4oIvT/yUf/PAaUx+GKdSdRlOBMko
+	Fgwqt5hgvLnVj65WkL1zCUd0breZVBvSNFnI4luiulsnz6D7EmGe7xtvnavp1//41Nam
+	mWtNAmRGnjA/xGybU0XuWeUYVOywzUxNjAi/6W4hNVhEtCzAiDfXfigxdE2JAzb79bNw
+	oDdg==
+X-Gm-Message-State: APjAAAVTTLqdDQnWoankUHO8A38FOj41yuX5am4HXuhS6BgPgmDbto8o
+	dqwZS+JcbfYdx+mHg3EYaztmuBA7
+X-Google-Smtp-Source: APXvYqwc8Zf6bolyU6JHlpe93cmRRY8kHg4WKSRYGo8jM/rzu8uJdRfvfkrgp1OJjBlF9v/LWegNiA==
+X-Received: by 2002:aca:ab82:: with SMTP id u124mr7130837oie.41.1554474415128; 
+	Fri, 05 Apr 2019 07:26:55 -0700 (PDT)
 Received: from ultima.ninicasiopea.net
 	([2605:a601:43d5:f700:215:17ff:fe90:1065])
 	by smtp.googlemail.com with ESMTPSA id
-	j82sm4056967oih.31.2019.04.05.07.26.53
+	j82sm4056967oih.31.2019.04.05.07.26.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 05 Apr 2019 07:26:53 -0700 (PDT)
+	Fri, 05 Apr 2019 07:26:54 -0700 (PDT)
 From: Mariano Lopez <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  5 Apr 2019 09:26:38 -0500
-Message-Id: <cover.1554391453.git.just.another.mariano@gmail.com>
+Date: Fri,  5 Apr 2019 09:26:39 -0500
+Message-Id: <d370d05c79d7f49eaaee544d995343f77e6773eb.1554474048.git.just.another.mariano@gmail.com>
 X-Mailer: git-send-email 2.19.2
+In-Reply-To: <cover.1554474048.git.just.another.mariano@gmail.com>
+References: <cover.1554474048.git.just.another.mariano@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/3] Feature to use symbolic links to binaries for ptest
+Subject: [PATCH 1/3] update-alternatives.bbclass: Add function to get renamed binaries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,38 +60,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 14:26:53 -0000
+X-List-Received-Date: Fri, 05 Apr 2019 14:26:54 -0000
 Content-Transfer-Encoding: 8bit
 
-Some binaries are renamed by update-alternatives class at build time
-and some ptest run against a binary belonging to another package. Take
-for example busybox or util-linux.
+This adds a function to get the new name for renamed binaries by the
+update-alternatives class. The function uses the build metadata because
+some update-alternatives binaries/scripts lack the feature to provide
+this information.
 
-This series adds a directory within the ptest path with symlinks to the
-binaries produced by the package, so just adding this directory to the
-PATH will test the correct binaries.
-
-To use this feature just add PTEST_BINDIR = "1" to the recipe.
-
-This will help to solve bug 13238.
+This also adds the function _ua_alt_target for code reuse.
 
 [YOCTO #13238]
 
-The following changes since commit ffa5a1bda6741f5dc9f1b8db1bb37b0c6f103c99:
+Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
+---
+ meta/classes/update-alternatives.bbclass | 43 +++++++++++++++++++++---
+ 1 file changed, 38 insertions(+), 5 deletions(-)
 
-  asciidoc: specify XML catalogue to use (2019-04-03 14:56:27 +0100)
-
-are available in the Git repository at:
-
-  git://github.com/justanotherboy/poky bug12597
-  https://github.com/justanotherboy/poky/tree/bug12597
-
-Mariano Lopez (3):
-  update-alternatives.bbclass: Add function to get renamed binaries
-  ptest.bbclass: Add feature to populate a binary directory
-  util-linux: Use PTEST binary directory
-
-
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 537e85d9a3..d601dfc700 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -216,6 +216,43 @@ python apply_update_alternative_renames () {
+             update_files(alt_target, alt_target_rename, pkg, d)
+ }
+ 
++def update_alternatives_get_alt_target(d, link):
++    """
++    Returns the renamed binary modified by update-alternatives class.
++
++    Unfortunately not all update-alternative binaries/scripts implement a way
++    to provide a list of binaries for a link, so we need to use the build
++    metadata to get the information.
++
++    NOTE: This function needs to run after apply_update_alternative_renames
++    """
++    for pkg in (d.getVar('PACKAGES') or "").split():
++        for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
++            alt_link   = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
++
++            # Just care for the link being asked for
++            if link != alt_link:
++                continue
++
++            alt_target = _ua_alt_target(d, alt_name, alt_link, pkg)
++            if alt_target != alt_link:
++                return alt_target
++            else:
++                return None
++
++    return None
++
++def _ua_alt_target(d, alt_name, alt_link, pkg):
++    alt_target = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or \
++                 d.getVarFlag('ALTERNATIVE_TARGET', alt_name) or \
++                 d.getVar('ALTERNATIVE_TARGET_%s' % pkg) or \
++                 d.getVar('ALTERNATIVE_TARGET') or \
++                 alt_link
++
++    # Sometimes alt_target is specified as relative to the link name.
++    alt_target   = os.path.join(os.path.dirname(alt_link), alt_target)
++    return alt_target
++
+ PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
+ 
+ python populate_packages_updatealternatives () {
+@@ -232,11 +269,7 @@ python populate_packages_updatealternatives () {
+         alt_remove_links = ""
+         for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
+             alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
+-            alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name)
+-            alt_target   = alt_target or d.getVar('ALTERNATIVE_TARGET_%s' % pkg) or d.getVar('ALTERNATIVE_TARGET') or alt_link
+-            # Sometimes alt_target is specified as relative to the link name.
+-            alt_target   = os.path.join(os.path.dirname(alt_link), alt_target)
+-
++            alt_target   = _ua_alt_target(d, alt_name, alt_link, pkg)
+             alt_priority = d.getVarFlag('ALTERNATIVE_PRIORITY_%s' % pkg,  alt_name) or d.getVarFlag('ALTERNATIVE_PRIORITY',  alt_name)
+             alt_priority = alt_priority or d.getVar('ALTERNATIVE_PRIORITY_%s' % pkg) or d.getVar('ALTERNATIVE_PRIORITY')
+ 
 -- 
 2.19.2
 
