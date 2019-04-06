@@ -1,49 +1,49 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 158027D5ED
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AB3E37D5C0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Apr 2019 18:29:52 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id v13so7875134ljk.4
+	Sat,  6 Apr 2019 18:45:28 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id c4so7732954ioh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Apr 2019 11:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=C+GM++IMwFFK75OSNbkc6xoVTI4jKR135itoS3YJ31Q=;
-	b=cfXtCRFF9TviN3/uxydAOhfc94kj04CbxBlRrFzg9cVIDAmipKYRiIFl8VMOboKaqL
-	5iARazbl9AXzdFxVIaeXcFNxb3CxrGltPTJlaFaE0t4Fh1+Mb0YZdh58pZ5jxtSB/XRf
-	795qtS1GaxrTUrkFWhucZCpt1iL2uqDnrR25zDyisd9WLeEHh5E8KJsF3rgxqyf1al7+
-	8+O3ZJG/oKJ2ZO1784e1Q30+iLg52JNNc6FYl2rdiPoPkU6Pi4cmrrdQSXwjB6BTOMN+
-	qxRBSZ5hlHrqt0YEYnbk6Dic52QQ7eYu4KzDIBdgDun6KaByzuub7fWE7nXqNz0leuEm
-	RhRw==
+	Sat, 06 Apr 2019 11:45:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=tEYRAHDY2smJKNDYnmF4OJQcvBSVM0rzW2X1A3lXzoc=;
+	b=shz8g3AR3hV+djhNBznXf1Nx49PVKFHtLsIKvwr6gfsbUhR1aMBe0+AImnzp80AH7a
+	5zcLI/gO90C/nAr/mqT6XwxJnSiHhvFHLwjkH0n9TgJIosrFobdj0OVYdbkEw+NX6HTr
+	hTBtfjZg+WZEe+Vh0BjJqg1mgjYrAYG/SrN0Sh92I15xqvigq/DaIVLih7JyaKnFcRTc
+	4Lqo9WxikN35VlhN4OABLXuWUuTWo7/sS3WiM6EBHYfFo6jBBEo89/eiblQvgO14QJFn
+	gmsH9jWsI8vuPkb0MIUETuzIScQmrnmTd5tbp19rCnmj5vAt7B7NyFWMpunwc+IvRjkD
+	dlLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=C+GM++IMwFFK75OSNbkc6xoVTI4jKR135itoS3YJ31Q=;
-	b=Y9M6IEwQWpEBEMWEY5AmQw/GvWFO0KPcGpa8JcFnibCrzvId6n5kGBTjvjSnrrN4VR
-	lKCiHGwF77/nwzH1GeO8Clp0RVP2/X3cU1QqUR6QrhB17onqQkxMzzkYrJFzullCsj0Q
-	n9LftIZW5U8OzPc88RFuPKgbkBopRoGiul03kspWHuwT3pkxO+w7pOw9CzmeCu6DPhaJ
-	x5pA1D4hdbV7ihYkrE0+cnmicUu738ghQ6LojrzBnC0G9fd/deRi8KGSGZu/C6S71CWY
-	l7OSA3G7rIo1TPSjLQeAjLu/5N1fmxZCZUHN2gjB5tYmoCrzSu17FmhN4RkU6oimCxJN
-	nmNw==
-X-Gm-Message-State: APjAAAWjKlc1er21Zw9c2gZNyUMIff7kq4GJe+o+kkk0SE0XNNr02Z2N
-	OXSdBLvjSH7zx5jK54XtC5VJasFIt/0=
-X-Google-Smtp-Source: APXvYqzZL6mvf4H1J3eXoLkrt8TB1VEJCoU39CDVolAIKrwCGvkq4t8tiWY0nphkhQCJ2zuohvI+lg==
-X-Received: by 2002:a2e:6c0f:: with SMTP id h15mr10287800ljc.155.1554575392949;
-	Sat, 06 Apr 2019 11:29:52 -0700 (PDT)
-Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id w3sm5486656lji.59.2019.04.06.11.29.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 06 Apr 2019 11:29:52 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Apr 2019 20:29:43 +0200
-Message-Id: <20190406182943.13662-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] makedepend: update to 1.0.6
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=tEYRAHDY2smJKNDYnmF4OJQcvBSVM0rzW2X1A3lXzoc=;
+	b=AzWhcQrl5D1e2CXTw8V6i2A1tlByrem0G75oGu4P6uq7X24iNKek7hO3hBiwf+NNCg
+	VfRCSBOmrdBJjRzfrTbs22jRftQgD/S38mkVcdsZ+12FezNEP5bXEwVBVMLejjlmNBMx
+	hwNjTvjdI/yM3JYmpO5kdkXvoo8ZF6BB5Y2nDhTTNh1LgxpjdI5KKLXjOSNzbZIyBiE4
+	/tXRqMLqW8dMlM+ycFec/yJvxmmRTML5GYGGmv4rQTyTO2k1xpbMMGa6y5OuWkCEBkLS
+	uk3AXWqmnRnzPRb+C7qELqNY/R7x0aW301JSoNaJ4zYudgDIZsTDhFbnDp1AkLIWzg9I
+	V/Gg==
+X-Gm-Message-State: APjAAAWl0YvUqMIO9Cu1ZUQ0fWgTL++PuHHXHNH18bMIIKK2ZsH7cfXA
+	af+oefAcI3arSf4HfBDzH15AQkfQFkPHH96Ken4=
+X-Google-Smtp-Source: APXvYqxrU2M9Y3Hst1n4c3nswrm4Ib4H2yX2qaxshy6re1tGIobnMQt1OMYUqYQ0+MoSwWSHodv4IGFRpvXt84KXHP8=
+X-Received: by 2002:a6b:440b:: with SMTP id r11mr3751088ioa.48.1554576329715; 
+	Sat, 06 Apr 2019 11:45:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190406161948.9151-1-raj.khem@gmail.com>
+	<CALbNGRS9mRJidO1dDRrwJjBadjMz4DjRr40pj=WhOSF8443x-w@mail.gmail.com>
+In-Reply-To: <CALbNGRS9mRJidO1dDRrwJjBadjMz4DjRr40pj=WhOSF8443x-w@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sat, 6 Apr 2019 20:45:18 +0200
+Message-ID: <CALbNGRQwCG=vGmfiiuSSZzgFv6Qh7Du3LEpN7KR-Pzz+93KVbA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gstreamer1.0-python: Remove --enable-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,30 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Apr 2019 18:29:53 -0000
+X-List-Received-Date: Sat, 06 Apr 2019 18:45:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../xorg-util/{makedepend_1.0.5.bb => makedepend_1.0.6.bb}    | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/xorg-util/{makedepend_1.0.5.bb => makedepend_1.0.6.bb} (82%)
+On Sat, Apr 6, 2019 at 8:27 PM Andreas M=C3=BCller <schnitzeltony@gmail.com=
+> wrote:
+AArgh recent comment went out way too early.
 
-diff --git a/meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb b/meta/recipes-graphics/xorg-util/makedepend_1.0.6.bb
-similarity index 82%
-rename from meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb
-rename to meta/recipes-graphics/xorg-util/makedepend_1.0.6.bb
-index 727ab54965..2760edd173 100644
---- a/meta/recipes-graphics/xorg-util/makedepend_1.0.5.bb
-+++ b/meta/recipes-graphics/xorg-util/makedepend_1.0.6.bb
-@@ -17,5 +17,5 @@ BBCLASSEXTEND = "native"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=43a6eda34b48ee821b3b66f4f753ce4f"
- 
--SRC_URI[md5sum] = "efb2d7c7e22840947863efaedc175747"
--SRC_URI[sha256sum] = "503903d41fb5badb73cb70d7b3740c8b30fe1cc68c504d3b6a85e6644c4e5004"
-+SRC_URI[md5sum] = "8a583055c84914060c35b6c2f963fc07"
-+SRC_URI[sha256sum] = "845f6708fc850bf53f5b1d0fb4352c4feab3949f140b26f71b22faba354c3365"
--- 
-2.17.1
+This patch won't work if gobject-introspection-data is not in distro
+features. Then there would be unknown configure option
+--disable-introspection.
 
+So what do others think: ignore unknown options (then my patch is OK) or re=
+move?
+
+Andreas
+>
+> On Sat, Apr 6, 2019 at 6:20 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > This option is not available and recently it is reported as error
+> >
+> > do_configure: QA Issue: gstreamer1.0-python: configur
+> > e was passed unrecognised options: --enable-introspection [unknown-conf=
+igure-option]
+> >
+> Send out a patch already addressing [1] but honestly I parts of this
+> parts more: remove option instead of ignoring.
+>
+> Cann you add:
+>
+> -inherit autotools pkgconfig distutils3-base upstream-version-is-even
+> gobject-introspection
+> +inherit autotools pkgconfig distutils3-base upstream-version-is-even
+> gobject-introspection distro_features_check
+> +# gobject-introspection is mandatory and cannot be configured
+> +REQUIRED_DISTRO_FEATURES =3D "gobject-introspection-data"
+>
+> or shall I send V3?
+>
+> [1] http://lists.openembedded.org/pipermail/openembedded-core/2019-April/=
+280958.html
+>
+> Andreas
 
