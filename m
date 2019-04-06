@@ -1,53 +1,103 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 06B437D68F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com
+	[209.85.215.182])
+	by mail.openembedded.org (Postfix) with ESMTP id C5FEA7D631
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Apr 2019 23:46:06 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id h4so9806106wre.7
+	Sat,  6 Apr 2019 00:04:20 +0000 (UTC)
+Received: by mail-pg1-f182.google.com with SMTP id k3so3869495pga.6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Apr 2019 16:46:08 -0700 (PDT)
+	Fri, 05 Apr 2019 17:04:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=apCqyNmXu2eB6viTWFSpgiSsYSjZcJlb/hfiVMF40Do=;
-	b=KwYv//yubTPOb4A/WK334L8x1Mt/ObMJeafJ0jcOUByN8w10ZGLp7kMba9ELWdVQkA
-	4/s0wfV9AP4O3eNvXH0/pPgEDbIonndIYanCWHXXMZqd5mCxYuL0LilKh4IirR5GtvTt
-	J0covl0nnvPNDdXNSSoliQgVMMPkf+mcBpxJGGYb7r5KGNMg5qxms1HtBYTBD9ZJTvMC
-	ubq62x0iN1hBpZGigPeqoVOhwI/Ohcmzx/LHUdWed52fb5G4+4Va5eebyAdFJEj0z4a7
-	K8ehfpPmKLIWn9FN/aREPIC+FBJDjvjuvwBKBk2fYwqossRAXRlxCZdgZaRG//5hoL88
-	n0Kw==
+	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=NAeIgxugrMuL53ABDtC/7T/xI3Xb00q2yV8zZdSDALE=;
+	b=C8iUkne4USP6Xrm+4zKMDHfDw9iHjEntEpOkc5SygvNJ2kYRvwVxZPQX3rBVrWWeuM
+	pfOVmb5tIqCQLyxThGxICo1TmLx5idu7N4cXp9jbtAh3SKKwEc8qMzcs8F7rKiPp9DPN
+	exgY0f/Rn/nT3BNMsMev02EJ7iYimwBbLRw041TcLdU+2TY3OxtddbFK3MkSFEcCdSfT
+	SHnFurxUYhgmVvFuroVhqYt0QzXXwIBYfbgtDhlvCsTyNMf2T9556KZRnFMosoXOlh2g
+	Fnhx1CPh2sc902ZPf6LGR2b53EjZy2BMaBVtkeaDYxJRZhyuPDSXv+LvPmtr5/2Wzi2w
+	SWrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=apCqyNmXu2eB6viTWFSpgiSsYSjZcJlb/hfiVMF40Do=;
-	b=E4XRoBgU4bgwTRXABJYsWWUdwpBa9rBxkhkKuUjh//nDsa/mVLCyeBR7JKW23tR26S
-	wxhRJa4uuy9ZK/ExlbcCaQsh2RUoh8czG2TTEoeom93DpTlh0aW5OUDzReljQV+KrLtR
-	EV0kZ5Y1ECXWJpeCbwO06sU3fQQ9ufTlmdBhTF99Axtg1CUmiKmZEY8i8Bvj+gRfeBF6
-	BVkGqeuTt7U8mmXsxHHCLdyV9Nf19iQxfNZ+RQUkAgRkXUwqqebPJpH3ZUED0r+4z+8a
-	Zx6oblND4M0ioP/hKJLlIniuO1UIf8uqPNCPMXCW6+MZFu2dV4R0+GxmUP6ucig5eDkk
-	utDA==
-X-Gm-Message-State: APjAAAWIS5wh0RWClzl09ucLF+bK/f6h1X36fG2HZoxAvxuUvzeMhEey
-	ZnAVzPumdcWQyDiUwZ78PHMmIaRo
-X-Google-Smtp-Source: APXvYqy5rTMwLZ/avcvuOSbX8kvJ4Cj7bNSsI19x0eCcWGMo3bnRUKey11uH37mQRJ6gATX1ShYYIQ==
-X-Received: by 2002:a05:6000:1152:: with SMTP id
-	d18mr9844542wrx.32.1554507967371; 
-	Fri, 05 Apr 2019 16:46:07 -0700 (PDT)
-Received: from mueller-a-nb-linux.speedport.ip
-	(p200300F07F05D9171AC3D57FD073A679.dip0.t-ipconnect.de.
-	[2003:f0:7f05:d917:1ac3:d57f:d073:a679])
-	by smtp.gmail.com with ESMTPSA id y17sm3045249wma.8.2019.04.05.16.46.06
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 05 Apr 2019 16:46:06 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  6 Apr 2019 01:45:56 +0200
-Message-Id: <20190405234556.1854-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=NAeIgxugrMuL53ABDtC/7T/xI3Xb00q2yV8zZdSDALE=;
+	b=ivNYZMlpt/JKUMPaS74ZpUsjo5zk3vkKk3zNx6cCS3TqrhMKYsNox8beXWWuGpf8QR
+	9IxQTPgxyPlQO+Sivh/B+YBAWTF/XW7jpGzGSkpAKkQMoY1r0WPdteeTStwoMHINFM1F
+	WDqC9akmYjZwaGQ2Q7LamVXHPILfdgwLYcuSnG5R5t0PPYgfUjrx5L9voB5VFMQIAiBb
+	QxVdtWKfQYPA72NlKN/4DXSr1g8Z1AjCAqyemOmg1rG2rxzJHy/KXz+OL7PoGEOX3BIJ
+	ioMtjJHOwJQe3MIy6R8dWp6EIADjjWu5JGpQDNU53R1GKOjbZBmuRTe6FbaItPLYn3ZR
+	vyqQ==
+X-Gm-Message-State: APjAAAXDrA7TD0IGOJ/VuN0PuWAvg50KKVnxQGhugbquz4S1Xg/Eka8A
+	byzxqbsgVduXmOZSolpQ74A=
+X-Google-Smtp-Source: APXvYqziEGGnOYzm1yGz1q6e9iMEvJTWBdDYTD/WV/dn9D5qkVdb3mm1fomclj2rDEQxLW3rqNSllw==
+X-Received: by 2002:a65:4185:: with SMTP id a5mr14630500pgq.82.1554509061638; 
+	Fri, 05 Apr 2019 17:04:21 -0700 (PDT)
+Received: from [10.240.241.171] ([116.212.180.67])
+	by smtp.gmail.com with ESMTPSA id
+	g4sm42238944pfm.115.2019.04.05.17.04.19
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Apr 2019 17:04:20 -0700 (PDT)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cfd56541-43c4-5128-3d41-cddc356a3cb8@gmail.com>
+	<CADkTA4MT3JctYMTFjLZXtJYgaxj6HG=G_nAAe+w0A-JRGXRFxw@mail.gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <cb36599b-ab9f-36cc-ce2c-9760508df54c@gmail.com>
+Date: Sat, 6 Apr 2019 05:34:09 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Subject: [PATCH] Rework patch fuzz handling
+In-Reply-To: <CADkTA4MT3JctYMTFjLZXtJYgaxj6HG=G_nAAe+w0A-JRGXRFxw@mail.gmail.com>
+Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Worries kernels supported
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,173 +110,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Apr 2019 23:46:07 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 06 Apr 2019 00:04:20 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Currently there are three issues which can be enhanced:
 
-1. Fuzz warnings cannot be configured as errors for hardening. It happened
-   often to me that these warnings were overseen and detected after commits
-   were already out.
-2. The output is too verbose - particularly when more than one file is
-   affected. Meanwhile all users should know why patch fuzz check is performed.
-   So move links with background information to insane.bbclass.
-3. Reduce copy & paste effort slightly by printing PN (nit: <recipe> was not
-   a correct suggestion e.g for native extended recipe - see example below)
 
-To achieve patch.py drops patch-fuzz info encapsulated by a header- and footer-
-string into log.do_patch. With this insane.bbclass can drop warnings/errors
-depending on 'patch-fuzz' in ERROR_QA or WARN_QA. Default remains unchanged:
-Spit out warnings only.
+On 4/6/19 5:12 AM, Bruce Ashfield wrote:
+> On Thu, Apr 4, 2019 at 5:28 PM akuster808 <akuster808@gmail.com> wrote:
+>> Hello,
+>>
+>> I noticed there are 3 kernels in Warrior. 4.18, 4.19 an 5.0. Do we
+>> really need 4.18?
+>> I see its the default version for poky-tiny. 4.18 is EOL but maintained
+>> by Windriver.
+> 4.18 needed to be around through M3 to backstop some layers and references
+> that were being updated.
+>
+> I may delete it as part of M4, but really, since I kept it through M3, I may not
+> churn it in M4.  I handle all the support load on the linux-yocto
+> reference kernels,
+> so it shouldn't cause any one harm one way or the other.
+Thanks for the info.
 
-A message for two fuzzed patches and 'pact-fuzz' in ERROR_QA now looks like:
-
-| ERROR: autoconf-native-2.69-r11 do_patch: Fuzz detected:
-|
-| Applying patch autoreconf-exclude.patch
-| patching file bin/autoreconf.in
-| Hunk #1 succeeded at 73 with fuzz 1 (offset -3 lines).
-| Hunk #2 succeeded at 143 (offset 6 lines).
-| Hunk #3 succeeded at 167 (offset 6 lines).
-| Hunk #4 succeeded at 177 (offset 6 lines).
-| Hunk #5 succeeded at 281 (offset 15 lines).
-| Hunk #6 succeeded at 399 (offset 15 lines).
-| Hunk #7 succeeded at 571 (offset 20 lines).
-| Hunk #8 succeeded at 612 (offset 20 lines).
-| Hunk #9 succeeded at 636 (offset 20 lines).
-| Hunk #10 succeeded at 656 (offset 20 lines).
-| Hunk #11 succeeded at 683 (offset 20 lines).
-|
-| Applying patch autoreconf-gnuconfigize.patch
-| patching file bin/autoreconf.in
-| Hunk #1 succeeded at 55 with fuzz 1 (offset -3 lines).
-| Hunk #3 succeeded at 663 (offset 18 lines).
-|
-| The context lines in the patches can be updated with devtool:
-|
-|     devtool modify autoconf-native
-|     devtool finish --force-patch-refresh autoconf-native <layer_path>
-|
-| Don't forget to review changes done by devtool!
-|
-| ERROR: autoconf-native-2.69-r11 do_patch: QA Issue: Patch log indicates that patches do not apply cleanly. [patch-fuzz]
-
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- meta/classes/insane.bbclass | 53 ++++++++++++++++++++++++++++++++++++-
- meta/lib/oe/patch.py        | 19 +++----------
- 2 files changed, 56 insertions(+), 16 deletions(-)
-
-diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
-index c8d18c07f55..7b0efc21892 100644
---- a/meta/classes/insane.bbclass
-+++ b/meta/classes/insane.bbclass
-@@ -27,7 +27,7 @@ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
-             installed-vs-shipped compile-host-path install-host-path \
-             pn-overrides infodir build-deps \
-             unknown-configure-option symlink-to-sysroot multilib \
--            invalid-packageconfig host-user-contaminated uppercase-pn \
-+            invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
-             "
- ERROR_QA ?= "dev-so debug-deps dev-deps debug-files arch pkgconfig la \
-             perms dep-cmp pkgvarcheck perm-config perm-line perm-link \
-@@ -1033,6 +1033,54 @@ python do_qa_staging() {
-         bb.fatal("QA staging was broken by the package built above")
- }
- 
-+python do_qa_patch() {
-+    import subprocess
-+
-+    ###########################################################################
-+    # Check patch.log for fuzz warnings
-+    #
-+    # Further information on why we check for patch fuzz warnings:
-+    # http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
-+    # https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
-+    ###########################################################################
-+
-+    logdir = d.getVar('T')
-+    patchlog = os.path.join(logdir,"log.do_patch")
-+
-+    if os.path.exists(patchlog):
-+        fuzzheader = '--- Patch fuzz start ---'
-+        fuzzfooter = '--- Patch fuzz end ---'
-+        statement = "grep -e '%s' %s > /dev/null" % (fuzzheader, patchlog)
-+        if subprocess.call(statement, shell=True) == 0:
-+            msg = "Fuzz detected:\n\n"
-+            fuzzmsg = ""
-+            inFuzzInfo = False
-+            f = open(patchlog, "r")
-+            for line in f:
-+                if fuzzheader in line:
-+                    inFuzzInfo = True
-+                    fuzzmsg = ""
-+                elif fuzzfooter in line:
-+                    fuzzmsg = fuzzmsg.replace('\n\n', '\n')
-+                    msg += fuzzmsg
-+                    msg += "\n"
-+                    inFuzzInfo = False
-+                elif inFuzzInfo and not 'Now at patch' in line:
-+                    fuzzmsg += line
-+            f.close()
-+            msg += "The context lines in the patches can be updated with devtool:\n"
-+            msg += "\n"
-+            msg += "    devtool modify %s\n" % d.getVar('PN')
-+            msg += "    devtool finish --force-patch-refresh %s <layer_path>\n\n" % d.getVar('PN')
-+            msg += "Don't forget to review changes done by devtool!\n"
-+            if 'patch-fuzz' in d.getVar('ERROR_QA'):
-+                bb.error(msg)
-+            elif 'patch-fuzz' in d.getVar('WARN_QA'):
-+                bb.warn(msg)
-+            msg = "Patch log indicates that patches do not apply cleanly."
-+            package_qa_handle_error("patch-fuzz", msg, d)
-+}
-+
- python do_qa_configure() {
-     import subprocess
- 
-@@ -1141,6 +1189,9 @@ python do_qa_unpack() {
- #addtask qa_staging after do_populate_sysroot before do_build
- do_populate_sysroot[postfuncs] += "do_qa_staging "
- 
-+# Check for patch fuzz
-+do_patch[postfuncs] += "do_qa_patch "
-+
- # Check broken config.log files, for packages requiring Gettext which
- # don't have it in DEPENDS.
- #addtask qa_configure after do_configure before do_compile
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index 7dd31d9d463..f43cf047c06 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -38,21 +38,10 @@ def runcmd(args, dir = None):
-         if exitstatus != 0:
-             raise CmdError(cmd, exitstatus >> 8, output)
-         if " fuzz " in output:
--            bb.warn("""
--Some of the context lines in patches were ignored. This can lead to incorrectly applied patches.
--The context lines in the patches can be updated with devtool:
--
--    devtool modify <recipe>
--    devtool finish --force-patch-refresh <recipe> <layer_path>
--
--Then the updated patches and the source tree (in devtool's workspace)
--should be reviewed to make sure the patches apply in the correct place
--and don't introduce duplicate lines (which can, and does happen
--when some of the context is ignored). Further information:
--http://lists.openembedded.org/pipermail/openembedded-core/2018-March/148675.html
--https://bugzilla.yoctoproject.org/show_bug.cgi?id=10450
--Details:
--{}""".format(output))
-+            # Drop patch fuzz info with header and footer to log file so
-+            # insane.bbclass can handle to throw error/warning
-+            bb.note("--- Patch fuzz start ---\n%s\n--- Patch fuzz end ---" % format(output))
-+
-         return output
- 
-     finally:
--- 
-2.20.1
+Armin
+>
+> I keep a very close eye on the versions, so nothing is around by chance or
+> by mistake .. and best to just copy me on the email, since I can
+> easily miss them
+> in the noise.
+>
+> Bruce
+>
+>> regards,
+>> Armin
+>>
+>>
+>>
+>
 
 
