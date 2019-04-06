@@ -1,71 +1,47 @@
-Return-Path: <MANJUKUM@xilinx.com>
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
-	(mail-eopbgr750078.outbound.protection.outlook.com [40.107.75.78])
-	by mail.openembedded.org (Postfix) with ESMTP id 6DD1C7D596
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9996E7D42B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Apr 2019 16:51:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=lM2FBoCMj0hc9tGNq30X9Lnaddd231tShLgi4+s0oj8=;
-	b=zrVvL3qpxIIO5AqwfXJg5olkkIBAJqw9UNi3nj/GRBMy1bcssuEN71BV4q3WgI9R9JQv5QENwVzSHSFXSghsiPEbgTEWBD5dQN6fw/Gdf/alyt6GCq7kESYZEmjUh7xzcpGPaWM/J3V5uDBH8aqFziMQj2xFMfT6KchDj+Lkjrw=
-Received: from BYAPR02MB6005.namprd02.prod.outlook.com (20.179.89.140) by
-	BYAPR02MB5750.namprd02.prod.outlook.com (20.179.62.10) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1750.20; Sat, 6 Apr 2019 16:51:03 +0000
-Received: from BYAPR02MB6005.namprd02.prod.outlook.com
-	([fe80::1dad:d1e3:42c7:e50c]) by
-	BYAPR02MB6005.namprd02.prod.outlook.com
-	([fe80::1dad:d1e3:42c7:e50c%4]) with mapi id 15.20.1771.016;
-	Sat, 6 Apr 2019 16:51:03 +0000
-From: Manjukumar Harthikote Matha <MANJUKUM@xilinx.com>
-To: Khem Raj <raj.khem@gmail.com>, akuster808 <akuster808@gmail.com>
-Thread-Topic: [OE-core] Worries kernels supported
-Thread-Index: AQHU6/or0jl+pKcIx0OGGfQgJSFtUKYvWcRQ
-Date: Sat, 6 Apr 2019 16:51:03 +0000
-Message-ID: <BYAPR02MB6005540B22A0BE6F3C33BD22B9520@BYAPR02MB6005.namprd02.prod.outlook.com>
-References: <cfd56541-43c4-5128-3d41-cddc356a3cb8@gmail.com>
-	<CAMKF1sqftJeFBGrCyxdQQfNjGA3P16Uu2t+=W-gz-VJK4zUB5w@mail.gmail.com>
-In-Reply-To: <CAMKF1sqftJeFBGrCyxdQQfNjGA3P16Uu2t+=W-gz-VJK4zUB5w@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=MANJUKUM@xilinx.com; 
-x-originating-ip: [73.231.161.32]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 383a4457-1482-4d4b-b4b1-08d6bab00e0f
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(4618075)(2017052603328)(7193020);
-	SRVR:BYAPR02MB5750; 
-x-ms-traffictypediagnostic: BYAPR02MB5750:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <BYAPR02MB57502FEA04F571C3D0267E5CB9520@BYAPR02MB5750.namprd02.prod.outlook.com>
-x-forefront-prvs: 0999136621
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(376002)(366004)(396003)(346002)(136003)(39850400004)(13464003)(199004)(189003)(229853002)(8676002)(55016002)(54906003)(4326008)(106356001)(52536014)(256004)(110136005)(53936002)(6116002)(99286004)(3846002)(6506007)(305945005)(6436002)(9686003)(6246003)(66066001)(53546011)(6306002)(86362001)(105586002)(478600001)(71200400001)(71190400001)(316002)(2906002)(72206003)(14454004)(76176011)(97736004)(25786009)(966005)(33656002)(5660300002)(102836004)(11346002)(7736002)(476003)(26005)(81166006)(8936002)(74316002)(446003)(7696005)(186003)(486006)(81156014)(68736007);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB5750;
-	H:BYAPR02MB6005.namprd02.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: xilinx.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: /8rr0b4bCW+uu4zGkRwgoatp4rkZkGeqUQht1YGgII5BIb/sCCfeFuO8yICfiYzjDYYLjLrM5mTF/jmFH1ZE/aHJZtAGCvUTP5EUHDZVlXwEL7Z+oeQwqIkFAapfH7rW7erE2l96091AZvOfcXBHDsRo0/9SgKQU3kDzCVH6mpEYJwE6Jmxy0H3dPae/FHlLVymE8HqM1+amEe3oPK35164JmyUnUawA2gBRrGJ9yjuG35Pzb84eQnq+OWZoItk7znMLCLK8XJVKrnpcW4X0l6e128C7QI+fZn6Vtj7c7Dl3/2pNZH/MkLF7buIVUo2Vltjl9CnHn4EQxgn+zOB+SDhTFY8zp97Zi7+WPFix0wx9M7b0IvrCJvIX/04bFZwmzv4RHXr05/+z5c6FaSlymvzv+ehIFPuti1sDgvKHrzE=
+	Sat,  6 Apr 2019 18:27:24 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id s7so7694207iom.12
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Apr 2019 11:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qgUGZN9NqPOPQ8wakZQouJRwV30MxnOqzCnGqUtLkGk=;
+	b=J0Sz9I5GXcFfAhOKNhrUjJvqioRlS1Svi1uA0EW5uSC/bkEBh+n8yz9TvY2SoM9MEl
+	RNA+57LhjZ1XM63ShOL8Svjf5QLCYhhZFMhJBH+mYR2Bsr41STuOH+wZLWIfOucfj7+i
+	JG5DhfspAz71KBvFHAjgAvWkbAGvJNvRZRrVfEQGa7MX0l87xCPcILViPpZjnAZEUCTx
+	/+Js8/pqtHaMOnL6KU4Eqa25Ct4+sq4mE8vbNCFSCBptqQH9Kcbh2HQb1FAjR4ZKCyA9
+	01VMLGfmhWpW2OUGMP9zgAs2zEYr+En6aYUOoQdnin7IWNYOfDS+9bgxHetB0Zbk5gnh
+	hozA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=qgUGZN9NqPOPQ8wakZQouJRwV30MxnOqzCnGqUtLkGk=;
+	b=mjEAa4Qf2h/3Hf7gdhT4cFAIieYdNqFZcP279yItMUSHUEZH5PTvV0UKQYbqei4WKf
+	uMYurp54JYDLfJCZNkQqnKHsqKn0kVm2Fq+VRSgB4BXgu2P7CWL+ya2PBqDUt7K+tiZF
+	8CJ9Wh4amyCuXwPbw6qcFibNBOkyQMDVExkGOMmdr4BknAtdzoXpolJr63kHU/FFqng8
+	kioU89ijTx/GEOYYMyTmYfiUxJKdfFbT658nqbhuI12Rlg4YWTGh7olkcc7vq625mnzC
+	ryCgtNmHV8qm5Vyy30W7sa+MJfEhP5Ecnn1JYU0vsb7myJmYsLEg2s7eA9U2fLop6FPH
+	X0qQ==
+X-Gm-Message-State: APjAAAWbVwHUUM5mbaP8lBsfr9cZ/7u3BiRf2N781SJxjtRgSYawH542
+	EriyphGwWMiivcAR3i35e6ntY2kmjaJ6o+NV0TA=
+X-Google-Smtp-Source: APXvYqzHKajFm3V27llhGnMrnLibPEeVrB8I470bmbgYzI8GTcMGIjLcaSiG8zn+zthRaxBNX/Le6PriK9jggwz/QNw=
+X-Received: by 2002:a6b:7417:: with SMTP id s23mr14011595iog.2.1554575245709; 
+	Sat, 06 Apr 2019 11:27:25 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 383a4457-1482-4d4b-b4b1-08d6bab00e0f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Apr 2019 16:51:03.1183 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5750
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	Patches and discussions about the oe-core layer
+References: <20190406161948.9151-1-raj.khem@gmail.com>
+In-Reply-To: <20190406161948.9151-1-raj.khem@gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sat, 6 Apr 2019 20:27:14 +0200
+Message-ID: <CALbNGRS9mRJidO1dDRrwJjBadjMz4DjRr40pj=WhOSF8443x-w@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: Worries kernels supported
+Subject: Re: [PATCH] gstreamer1.0-python: Remove --enable-introspection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -78,52 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Apr 2019 16:51:05 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 06 Apr 2019 18:27:24 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Sat, Apr 6, 2019 at 6:20 PM Khem Raj <raj.khem@gmail.com> wrote:
+>
+> This option is not available and recently it is reported as error
+>
+> do_configure: QA Issue: gstreamer1.0-python: configur
+> e was passed unrecognised options: --enable-introspection [unknown-configure-option]
+>
+Send out a patch already addressing [1] but honestly I parts of this
+parts more: remove option instead of ignoring.
 
+Cann you add:
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org
-> [mailto:openembedded-core-bounces@lists.openembedded.org] On Behalf
-> Of Khem Raj
-> Sent: Friday, April 5, 2019 2:54 PM
-> To: akuster808 <akuster808@gmail.com>
-> Cc: yocto@yoctoproject.org; Patches and discussions about the oe-core lay=
-er
-> <openembedded-core@lists.openembedded.org>
-> Subject: Re: [OE-core] Worries kernels supported
->=20
-> On Thu, Apr 4, 2019 at 2:29 PM akuster808 <akuster808@gmail.com> wrote:
-> >
-> > Hello,
-> >
-> > I noticed there are 3 kernels in Warrior. 4.18, 4.19 an 5.0. Do we
-> > really need 4.18?
-> > I see its the default version for poky-tiny. 4.18 is EOL but
-> > maintained by Windriver.
->=20
-> I would prefer it to be 4.19 since thats at least LTS
+-inherit autotools pkgconfig distutils3-base upstream-version-is-even
+gobject-introspection
++inherit autotools pkgconfig distutils3-base upstream-version-is-even
+gobject-introspection distro_features_check
++# gobject-introspection is mandatory and cannot be configured
++REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
 
-I agree with Khem, keep 4.19 since it is LTS
+or shall I send V3?
 
->=20
-> >
-> > regards,
-> > Armin
-> >
-> >
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2019-April/280958.html
+
+Andreas
 
