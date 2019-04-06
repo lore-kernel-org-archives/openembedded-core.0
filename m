@@ -1,23 +1,37 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 53CA77C989
+Return-Path: <andre.rosa@lge.com>
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.51])
+	by mail.openembedded.org (Postfix) with ESMTP id D48817D297
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Apr 2019 00:32:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x360WBO2026459
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 5 Apr 2019 17:32:12 -0700 (PDT)
-Received: from fidler.wrs.com (172.25.44.10) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Fri, 5 Apr 2019 17:32:11 -0700
-From: Randy MacLeod <Randy.MacLeod@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 5 Apr 2019 20:32:10 -0400
-Message-ID: <20190406003210.13747-1-Randy.MacLeod@windriver.com>
-X-Mailer: git-send-email 2.17.0
+	Sat,  6 Apr 2019 01:28:26 +0000 (UTC)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.51 with ESMTP; 6 Apr 2019 10:28:27 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: andre.rosa@lge.com
+Received: from unknown (HELO LGSVL-EXC02.lgsvl.net) (10.195.253.63)
+	by 156.147.1.126 with ESMTP; 6 Apr 2019 10:28:26 +0900
+X-Original-SENDERIP: 10.195.253.63
+X-Original-MAILFROM: andre.rosa@lge.com
+Received: from LGSVL-EXC01.lgsvl.net (10.195.253.62) by LGSVL-EXC02.lgsvl.net
+	(10.195.253.63) with Microsoft SMTP Server (TLS) id 15.0.1044.25;
+	Fri, 5 Apr 2019 18:28:25 -0700
+Received: from LGSVL-EXC01.lgsvl.net ([10.195.253.62]) by
+	LGSVL-EXC01.lgsvl.net ([10.195.253.62]) with mapi id 15.00.1044.021;
+	Fri, 5 Apr 2019 18:28:25 -0700
+From: andre.rosa <andre.rosa@lge.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] Make prune_suffix prune a suffix
+Thread-Index: AQHU7A1EPZO/DQKFNUWP2cxURXI4DaYuQpvQgAAVRwA=
+Date: Sat, 6 Apr 2019 01:28:25 +0000
+Message-ID: <fbb65e3f8eab4b85b140fc74a150da60@LGSVL-EXC01.lgsvl.net>
+References: <20190406001120.20309-1-andre.rosa@lge.com> 
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.192.223.164]
 MIME-Version: 1.0
-Subject: [PATCH] autoconf: update runtime perl module dependencies
+Subject: [PATCH] Make prune_suffix prune a suffix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,62 +44,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Apr 2019 00:32:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 06 Apr 2019 01:28:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Running:
-   # autoreconf -if
-on target for prelink-cross was failing due to missing perl modules:
-   Can't locate File/Spec.pm in @INC ...
+From: Andre Rosa <andre.rosa@lge.com>
 
-Add the required perl modules and duplicate them for the SDK.
+... instead of replacing a substring that could happen more than once and n=
+ot only when it ends with it. Do the same for the prefix.
 
-Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+See related https://github.com/openembedded/bitbake/pull/24 . There it stop=
+s replacing sufixes once first one is matched but not here.
+
+Signed-off-by: Andre Rosa <andre.rosa@lge.com>
 ---
- meta/recipes-devtools/autoconf/autoconf.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/lib/oe/utils.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/autoconf/autoconf.inc b/meta/recipes-devtools/autoconf/autoconf.inc
-index b82af5a5fa..2c87bf8296 100644
---- a/meta/recipes-devtools/autoconf/autoconf.inc
-+++ b/meta/recipes-devtools/autoconf/autoconf.inc
-@@ -22,10 +22,14 @@ RDEPENDS_${PN} = "m4 gnu-config \
- 		  perl-module-file-find \
- 		  perl-module-file-glob \
- 		  perl-module-file-path \
-+		  perl-module-file-spec \
-+		  perl-module-file-spec-unix \
- 		  perl-module-file-stat \
- 		  perl-module-getopt-long \
- 		  perl-module-io-file \
-+		  perl-module-overloading \
- 		  perl-module-posix \
-+		  perl-module-symbol \
- 		  perl-module-thread-queue \
- 		  perl-module-threads \
- 		 "
-@@ -46,14 +50,20 @@ RDEPENDS_${PN}_class-nativesdk = "\
- 		  nativesdk-perl-module-file-find \
- 		  nativesdk-perl-module-file-glob \
- 		  nativesdk-perl-module-file-path \
-+		  nativesdk-perl-module-file-spec \
-+		  nativesdk-perl-module-file-spec-unix \
- 		  nativesdk-perl-module-file-stat \
- 		  nativesdk-perl-module-getopt-long \
- 		  nativesdk-perl-module-io-file \
-+		  nativesdk-perl-module-overloading \
- 		  nativesdk-perl-module-posix \
-+		  nativesdk-perl-module-symbol \
- 		  nativesdk-perl-module-thread-queue \
- 		  nativesdk-perl-module-threads \
-                   "
- 
-+
-+
- SRC_URI = "${GNU_MIRROR}/autoconf/autoconf-${PV}.tar.gz \
- 	   file://program_prefix.patch"
- 
--- 
-2.17.0
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py index cedd053d36..=
+a4fd79ccb2 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -78,12 +78,12 @@ def prune_suffix(var, suffixes, d):
+     # See if var ends with any of the suffixes listed and
+     # remove it if found
+     for suffix in suffixes:
+-        if var.endswith(suffix):
+-            var =3D var.replace(suffix, "")
++        if suffix and var.endswith(suffix):
++            var =3D var[:-len(suffix)]
+=20
+     prefix =3D d.getVar("MLPREFIX")
+     if prefix and var.startswith(prefix):
+-        var =3D var.replace(prefix, "")
++        var =3D var[len(prefix):]
+=20
+     return var
+=20
+--
+2.20.1.519.g8feddda32c
 
 
