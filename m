@@ -1,49 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id A4A917D27F
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 28E457D5B8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Apr 2019 19:04:57 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id x12so11137998qts.7
+	Sun,  7 Apr 2019 00:11:58 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id 10so5402586pfo.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Apr 2019 12:04:59 -0700 (PDT)
+	Sat, 06 Apr 2019 17:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=DyBZTkLW5AcdNN5jNFKMLZdnaIcKZK05EnGH95xLJb0=;
-	b=BnkYgNVqw+B27J+bAitACLxLIqYTQGJisLSoB3b0AQs2k7uAnc30gEqcOUJ67ZhLh4
-	oCC2SPZ+92j+L0vSqffimGH78E0z5tRZub/KUhYet4gLt3BvAKgVNV2wgALuFs2VpoTG
-	k7qeeLtiC66gbjOjavNNGMCqQRuOTnd8diLF1ydszO+FbbklRFN/tjAOoNbm69fOUtyV
-	j+smZpdnEWLEbn91aWkMaVopQYLT1HRpiaYLu9f888Vk0irQ108Ko+90iRpvhJbBCfbo
-	34NrR1Xf6mfHzi0Y/QzHL+jvAMwK/AB7q2FPsMH1+nzMGkJRW9nFlJBQLl+XHNtfuD04
-	2GIw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=05PBuVtgoU5THi0O52lV1nwMiLdeFNsX9Vt5FNfAPTc=;
+	b=gQvrm4RMbOtdSJFnkhfJKrguWgQpToiwtH2EtPsV3nMNtLQbIfsKyAcE1GidFUUkTS
+	TE2AdTXwDcm/F8mCNMKAQgzCnhKJFWLXZEHkB9flpq3hPqxB2wWqtfpFZBc9n58EliP2
+	MQwRbZ/P+bNkQSUJpEYE8f2us2Qc7cJih4rTYSqga9MXByogdw2oFU+4xkSs2xoWIQQC
+	fXQJhmxPsf/sIw6KXSrANIuooE5Hls8UFhD3ddBYVJSYDNWb51M9yklNjmGutoAZbdtq
+	0Q0iOAaYTGrErFMYq+acn47OwWix5niCtX/RPSiXiKSU9YbPe/f89DhzxM9L19x92UDO
+	f8XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=DyBZTkLW5AcdNN5jNFKMLZdnaIcKZK05EnGH95xLJb0=;
-	b=jvVdMmCKa3yPGsHXw1eDuIpZHU07s1TyvJDv+CYDMTHauOvfJQxxaTP4uwvq85Ly4z
-	8AKgR+2VfvS7jMDOpkvecgwQNm7y2YG9JGYibgCFa/kZLU6YBYe35zVkAm2G8hXT6+Yg
-	PzR67a/rXRH7GPpuF+6Kgo/3s3V7Kg6jKpruBA9EpstxNmVX+QP/GlQhckMvCpYC7EUq
-	NzVfiM9CcS9awMbbBdCEHqMg/+n6c3S10ls7iqOtTUGMym1N3R57o16kwuGxFse/VB/n
-	eAShlbUy23AyUSx5tnWzUcEyaDxAvpi5/oFXonCxuJ5qCAhL5VCSznz2NkO7s+BvOK5l
-	DVEw==
-X-Gm-Message-State: APjAAAWUwXgodPBZFhRlJElieEtGf+4FLmyFH47TUwQ0B3pKhEC3jHRx
-	a/5wyAeuRfW2ujykSoTntarqw/Ud9l99ZFVr0BmwAryO
-X-Google-Smtp-Source: APXvYqzJpdg4vlmefwsda7t8AYLCdpbi69SKY39FWO/vmqw2DO9zYVXkOP32hB+fpj/uRwHZ8dTOsq2XsPkeSpORYV0=
-X-Received: by 2002:ac8:2aa4:: with SMTP id b33mr17151409qta.127.1554577498448;
-	Sat, 06 Apr 2019 12:04:58 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190406161948.9151-1-raj.khem@gmail.com>
-	<CALbNGRS9mRJidO1dDRrwJjBadjMz4DjRr40pj=WhOSF8443x-w@mail.gmail.com>
-In-Reply-To: <CALbNGRS9mRJidO1dDRrwJjBadjMz4DjRr40pj=WhOSF8443x-w@mail.gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=05PBuVtgoU5THi0O52lV1nwMiLdeFNsX9Vt5FNfAPTc=;
+	b=F7jUMLgE93wboqmneCiLmEHzpLHwp5kzEXvt3YVcv9wi9rh3ROwXhbiXZFL8XHeaub
+	+mhB3GyOBp0+dHg96wPyEyj5GviG9waJYdS/iQbEujrOx0vOY0OOK49OyTFfO2VHNJFU
+	mplxosw6IwnQxZ97Hl662HwHI6WqRL7wDmoY+2Lpcf9wmToh4xirniOeINOZsTwXFRwH
+	QaqdG5zImmr+xCEIJhnJWtRsolwQ4L3cme5ix/GQePJpPQ3jDhotp8rCNV+gC9VP6Ke9
+	9hOjft+ZK4Ajp+1lBMAfpjRKIUxyhG37QVYWBVYcWHyjTeSUkFo0ZCgn9pLTeIqb1ptT
+	rvAw==
+X-Gm-Message-State: APjAAAVcjmpcDjkXCgj8m/9Ic6Fuc4+k0jiZf2RD/rpeV2Vu5aTJZSbA
+	z+3HtMCUs5ZIk1T9NumHs2sf4qMNX48=
+X-Google-Smtp-Source: APXvYqy5YxfxR93VRD6qaXfNoqikA7hB9A6sW9io1dtAYDLslAPJ7GUSKxraw6WNdvI3zT9/Gdz4zg==
+X-Received: by 2002:a63:2a8f:: with SMTP id q137mr19847069pgq.31.1554595918422;
+	Sat, 06 Apr 2019 17:11:58 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::8ec8])
+	by smtp.gmail.com with ESMTPSA id
+	18sm32691302pfp.18.2019.04.06.17.11.57
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 06 Apr 2019 17:11:57 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 6 Apr 2019 12:04:32 -0700
-Message-ID: <CAMKF1soj5ax+mtnxgWLGMRZuQoybDTBRO_zpgTgxVMpLF5yHMw@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gstreamer1.0-python: Remove --enable-introspection
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  6 Apr 2019 17:11:50 -0700
+Message-Id: <20190407001150.41719-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH] Revert "mdadm: fix gcc8 maybe-uninitialized/format-overflow warning"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,40 +57,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Apr 2019 19:04:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sun, 07 Apr 2019 00:11:58 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 6, 2019 at 11:27 AM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
->
-> On Sat, Apr 6, 2019 at 6:20 PM Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> > This option is not available and recently it is reported as error
-> >
-> > do_configure: QA Issue: gstreamer1.0-python: configur
-> > e was passed unrecognised options: --enable-introspection [unknown-conf=
-igure-option]
-> >
-> Send out a patch already addressing [1] but honestly I parts of this
-> parts more: remove option instead of ignoring.
->
-> Cann you add:
->
-> -inherit autotools pkgconfig distutils3-base upstream-version-is-even
-> gobject-introspection
-> +inherit autotools pkgconfig distutils3-base upstream-version-is-even
-> gobject-introspection distro_features_check
-> +# gobject-introspection is mandatory and cannot be configured
-> +REQUIRED_DISTRO_FEATURES =3D "gobject-introspection-data"
->
-> or shall I send V3?
+This reverts commit 630281663893cdcfa9c4323b717b415d87d5510f.
 
-seems better please do
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-uninitialized-format-overflow-warni.patch | 60 -------------------
+ meta/recipes-extended/mdadm/mdadm_4.1.bb      |  1 -
+ 2 files changed, 61 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch
 
->
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2019-April/=
-280958.html
->
-> Andreas
+diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch
+deleted file mode 100644
+index 237f83a87e..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-From bf457a83834932ba06de3528b8779a023e73fa7b Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Tue, 12 Mar 2019 16:17:29 +0800
+-Subject: [PATCH] mdadm: gcc8 maybe-uninitialized/format-overflow warning
+-
+-while compiled with -Werror=maybe-uninitialized/-Werror=format-overflow=,
+-it failed
+-
+-[snip]
+-| Incremental.c: In function 'Incremental_container':
+-| Incremental.c:1593:3: error: 'mdfd' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+-| close(mdfd);
+-| ^~~~~~~~~~~
+-
+-[snip]
+-super-intel.c: In function 'apply_takeover_update':
+-| super-intel.c:9615:15: error: '%d' directive writing between 1 and 11 bytes into a region of size 7 [-Werror=format-overflow=]
+-| " MISSING_%d", du->index);
+-| ^~
+-
+-Upstream-Status: Submitted [https://github.com/neilbrown/mdadm/pull/36]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- Incremental.c | 2 +-
+- super-intel.c | 4 ++--
+- 2 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/Incremental.c b/Incremental.c
+-index a4ff7d4..b667868 100644
+---- a/Incremental.c
+-+++ b/Incremental.c
+-@@ -1500,7 +1500,7 @@ static int Incremental_container(struct supertype *st, char *devname,
+- 		return 0;
+- 	}
+- 	for (ra = list ; ra ; ra = ra->next) {
+--		int mdfd;
+-+		int mdfd = 0;
+- 		char chosen_name[1024];
+- 		struct map_ent *mp;
+- 		struct mddev_ident *match = NULL;
+-diff --git a/super-intel.c b/super-intel.c
+-index 10d7218..c3741ea 100644
+---- a/super-intel.c
+-+++ b/super-intel.c
+-@@ -9612,9 +9612,9 @@ static int apply_takeover_update(struct imsm_update_takeover *u,
+- 			du->major = 0;
+- 			du->index = (i * 2) + 1;
+- 			sprintf((char *)du->disk.serial,
+--				" MISSING_%d", du->index);
+-+				" MISSING_%hu", du->index);
+- 			sprintf((char *)du->serial,
+--				"MISSING_%d", du->index);
+-+				"MISSING_%hu", du->index);
+- 			du->next = super->missing;
+- 			super->missing = du;
+- 		}
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 9862a38dc3..947706ff5f 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -19,7 +19,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-fix-gcc-8-format-truncation-warning.patch \
+ 	   file://mdadm.init \
+ 	   file://mdmonitor.service \
+-           file://0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+-- 
+2.21.0
+
 
