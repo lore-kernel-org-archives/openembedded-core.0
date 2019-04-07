@@ -1,53 +1,48 @@
 Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DA2127D540
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
+	[209.85.160.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A31A07D311
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Apr 2019 17:16:25 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id e80so9926339ote.5
+	Sun,  7 Apr 2019 17:22:57 +0000 (UTC)
+Received: by mail-qt1-f178.google.com with SMTP id p20so12827732qtc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Apr 2019 10:16:27 -0700 (PDT)
+	Sun, 07 Apr 2019 10:22:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
-	b=jthQnCbbJ6KYVHywNGv3d85g884mQVp8PH1g2spX1xV5Y8cog3QAwb0vKH2008xeym
-	qi1aA5clwXFbHgnTGWmayeUh9sT2ZNhr9s5kO6HfM0Y2iHA2cwCy5eZec3guyIwStbE6
-	wBFEtD0qtndTWRSij2PeAeB2cCFXF5FnL2oYesoDKL+lQl9LiW7eifVzJqPQ6xPow6JP
-	EXU0Mh17UcbcR6zUz9r3Z8VuuL4Fk65wLqDIdfq0vIATV/3ZBwj2GDj4gCWwrubpNz66
-	MigLvMmJtfWEhGqxMVRe9A+1I5xB8Vo7l6Ix7fUDi42x2jB0SfSkQBIACiwevUN1Swyn
-	mqgg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Tm0djKz1w4A/mg7dJmoqA+mRRGwYx9sUhtUo3ArdPL8=;
+	b=f+i/2lw5TYaXSCUvAfMq/Mxm5uXwC8OTn5l4ig8y2xkN1/uaqRy19HBFCWL8moKajo
+	bOI75FKBhcSn3DKlwu8RzjBbo1RoQXnQlUNiSkD6vQuIRNzdHU1NO+lG+pUWM4aXTAFJ
+	wAxeHrLL3j/gOZdx7BN5dl389QpsHFXPhLN+pcjUGnIMMwMRtuV4rR5HaqKcnlkwyPWa
+	pXZV4yZnEvrdxtKRRj+J8LxfkqslkOQdma/P3eQ1aORxsXgjLm5J+cPqwGinxHNRBrSR
+	RIaE81mSMF8N9YyQWnaZgQZ9UK6ifS87uVTQ55a58GrJ0DuWFVeLX1Y2T4vQPJT0daZe
+	d3dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
-	b=CGc+EYfQzOapDlP9UY5u4V8vU6fytfFYowu0KFMTUwOvWahxQKFw0TbfebyUOIq1R5
-	osFkVgBhON0FjxU7AEBEtVzt9VRvWhq6TMOzZokH+h+6rPWWmyer2elbiHyqpvunUIDV
-	9dE5spjo79nyYTMjLsFBKVq37alsGgSOvimDWzbvZ4/0XjmjlV4dOEOmPjtx/PUOyJMg
-	1RhVRnkRXlsZgDLFLClZub/juQ1Ek3V5RH1NSxSgv2wfx8YrLbfXsmCSZmT8ABWAWD28
-	3ek7ZCU3XkLSbhihdLFqDKfYb6r09xUZ6kCk1OGa7h/HCC8LujG9g+uHCBog03gPiqiN
-	NMHA==
-X-Gm-Message-State: APjAAAWCigjAJdxbumwUHnTasixyfh2CV7A4lwAsN7vunpMSt+TTz0n4
-	pmszGBxjAVH541Gzr4cH9jir4iZU
-X-Google-Smtp-Source: APXvYqxkkkiMdK68dfgHXZn2ADqtxkyqOvzDQxdmEYndA68o9a/cm5GkCH3QnFS3YyH4M8wDhL/moA==
-X-Received: by 2002:a9d:2f42:: with SMTP id h60mr16634150otb.280.1554657386848;
-	Sun, 07 Apr 2019 10:16:26 -0700 (PDT)
-Received: from ultima.ninicasiopea.net
-	([2605:a601:43d5:f700:215:17ff:fe90:1065])
-	by smtp.googlemail.com with ESMTPSA id
-	d70sm14952535oih.18.2019.04.07.10.16.26
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 07 Apr 2019 10:16:26 -0700 (PDT)
-From: Mariano Lopez <just.another.mariano@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Apr 2019 12:16:00 -0500
-Message-Id: <6019950905909dd5e097c4543eebefdfbbbe0e54.1554656203.git.just.another.mariano@gmail.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <cover.1554656203.git.just.another.mariano@gmail.com>
-References: <cover.1554656203.git.just.another.mariano@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Tm0djKz1w4A/mg7dJmoqA+mRRGwYx9sUhtUo3ArdPL8=;
+	b=l8ore0EpQJWRVH9CHQqWl+KvzBy50GNyPh9ZUt4roRU2YtpQ1sG9phkdAiXkVglhfL
+	3JxeBINF99HeOTCy3RihQW7yt+W9hrCFk4Lol5JSTh+f1WYY8DsT/Bc3PBdD3INIqU2C
+	7Zop7p0rU5hLQ+L7aWtfurTn3+ukYQyG5V4/CGFNR9/0Y8LQutFq9vXSGwFC6+QYNjat
+	G+6vhfF7BAZp4r2IyagD22Pne/WbJlvxtzA+ScpflEgYuBdxIHqB33AmWwyNg85mi6Bs
+	1AuQxhDfNoPoHz70k2rEsfhjolwQ23/wmUWMcfDgdMGB/vCumbkUgimGa2PB/dumhrGk
+	ruDg==
+X-Gm-Message-State: APjAAAVUvPLcJMkVRbmpD5Mya8QMhYzBLYPPVPzu82Pk5Wy5jT7Y4n0T
+	Vg4JN5ApTQXi4SUN2I9WsN6+fqJeJWnSXf+Er0CdSd1Z
+X-Google-Smtp-Source: APXvYqyuDkmjdkK3k82k5ngJUx9pvUudjy0rxwpRGWjD+MRQI/7uUK0mRbDDLLqwH5w6OjnADyVSlSPopTtlR0S9wUA=
+X-Received: by 2002:a0c:9246:: with SMTP id 6mr20163623qvz.194.1554657778622; 
+	Sun, 07 Apr 2019 10:22:58 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2 4/4] busybox: Use PTEST binary directory
+References: <cover.1554391453.git.just.another.mariano@gmail.com>
+	<CAJTo0LYVNgEkkhmv9j=hOE8bzn5KCzWZLSdrngG4UVrNBfaf+g@mail.gmail.com>
+	<CA+TmX=OWwJxVcrGoCaBHEJCj1QtEMHiZrUu=gudw86hwn-WMxg@mail.gmail.com>
+In-Reply-To: <CA+TmX=OWwJxVcrGoCaBHEJCj1QtEMHiZrUu=gudw86hwn-WMxg@mail.gmail.com>
+From: Mariano Lopez <just.another.mariano@gmail.com>
+Date: Sun, 7 Apr 2019 12:22:47 -0500
+Message-ID: <CA+TmX=M9mj=46NJKipXL8r1hYu3e5ic5b=G==gjtAfV4niO8tQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/3] Feature to use symbolic links to binaries for ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +55,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Apr 2019 17:16:26 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 07 Apr 2019 17:22:57 -0000
+Content-Type: multipart/alternative; boundary="000000000000a466b00585f3f879"
 
-This will generate the symlinks in the ptest binary directory using the
-ptest class functionality instead of generating them manually. Because
-the ptest class uses update-alternatives to get the metadata for the
-symlinks it will respect the use of BUSYBOX_SPLIT_SUID automatically.
+--000000000000a466b00585f3f879
+Content-Type: text/plain; charset="UTF-8"
 
-[YOCTO #12597]
+Thanks for pointing that out! The busybox recipe provided me
+insight on how to implement this series in a cleaner way.
+I refactor the code and the v2 of the series can be found here:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-April/280981.html
 
-Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
----
- meta/recipes-core/busybox/busybox.inc | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+Please do not integrate this series
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index c9d25ff1ca..174ce5a8c0 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -347,24 +347,12 @@ do_install () {
- 	fi
- }
- 
-+PTEST_BINDIR = "1"
-+
- do_install_ptest () {
- 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
- 	cp ${B}/.config      ${D}${PTEST_PATH}/
- 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
--
--	mkdir ${D}${PTEST_PATH}/bin
--	if [ "${BUSYBOX_SPLIT_SUID}" = "1" ]; then
--		while read link; do
--			ln -s ${base_bindir}/busybox.suid ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links.suid
--		while read link; do
--			ln -s ${base_bindir}/busybox.nosuid ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links.nosuid
--	else
--		while read link; do
--			ln -s ${base_bindir}/busybox ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links
--	fi
- }
- 
- inherit update-alternatives
--- 
-2.19.2
+Thanks again Ross!
 
+On Fri, Apr 5, 2019 at 1:49 PM Mariano Lopez <just.another.mariano@gmail.com>
+wrote:
 
+> Sure, can you integrate this in the while I work on the busybox one? I'll
+> do it as part of bug 12597 that is also assigned to me
+>
+> Mariano
+>
+> On Fri, Apr 5, 2019 at 9:37 AM Burton, Ross <ross.burton@intel.com> wrote:
+>
+>> Can you also port busybox to this instead of its own hand-coded logic?
+>>
+>> Ross
+>>
+>> On Fri, 5 Apr 2019 at 15:27, Mariano Lopez
+>> <just.another.mariano@gmail.com> wrote:
+>> >
+>> > Some binaries are renamed by update-alternatives class at build time
+>> > and some ptest run against a binary belonging to another package. Take
+>> > for example busybox or util-linux.
+>> >
+>> > This series adds a directory within the ptest path with symlinks to the
+>> > binaries produced by the package, so just adding this directory to the
+>> > PATH will test the correct binaries.
+>> >
+>> > To use this feature just add PTEST_BINDIR = "1" to the recipe.
+>> >
+>> > This will help to solve bug 13238.
+>> >
+>> > [YOCTO #13238]
+>> >
+>> > The following changes since commit
+>> ffa5a1bda6741f5dc9f1b8db1bb37b0c6f103c99:
+>> >
+>> >   asciidoc: specify XML catalogue to use (2019-04-03 14:56:27 +0100)
+>> >
+>> > are available in the Git repository at:
+>> >
+>> >   git://github.com/justanotherboy/poky bug12597
+>> >   https://github.com/justanotherboy/poky/tree/bug12597
+>> >
+>> > Mariano Lopez (3):
+>> >   update-alternatives.bbclass: Add function to get renamed binaries
+>> >   ptest.bbclass: Add feature to populate a binary directory
+>> >   util-linux: Use PTEST binary directory
+>> >
+>> >
+>> > --
+>> > 2.19.2
+>> >
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>>
+>
+
+--000000000000a466b00585f3f879
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Thanks for pointing that out! The busybox=
+ recipe provided me</div><div dir=3D"ltr">insight on how to implement this =
+series in a cleaner way.<br>I refactor the code and the v2 of the series ca=
+n be found here:<br><a href=3D"http://lists.openembedded.org/pipermail/open=
+embedded-core/2019-April/280981.html">http://lists.openembedded.org/piperma=
+il/openembedded-core/2019-April/280981.html</a><br><br></div><div>Please do=
+ not integrate this series</div><div><br></div><div>Thanks again Ross!<br><=
+/div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_a=
+ttr">On Fri, Apr 5, 2019 at 1:49 PM Mariano Lopez &lt;<a href=3D"mailto:jus=
+t.another.mariano@gmail.com">just.another.mariano@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
+x;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"=
+><div>Sure, can you integrate this in the while I work on the busybox one? =
+I&#39;ll do it as part of bug 12597 that is also assigned to me<br> </div><=
+div><br></div><div>Mariano<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Apr 5, 2019 at 9:37 AM Burton, Ross &=
+lt;<a href=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@i=
+ntel.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Can you also port busybox to this instead of its own hand-coded log=
+ic?<br>
+<br>
+Ross<br>
+<br>
+On Fri, 5 Apr 2019 at 15:27, Mariano Lopez<br>
+&lt;<a href=3D"mailto:just.another.mariano@gmail.com" target=3D"_blank">jus=
+t.another.mariano@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Some binaries are renamed by update-alternatives class at build time<b=
+r>
+&gt; and some ptest run against a binary belonging to another package. Take=
+<br>
+&gt; for example busybox or util-linux.<br>
+&gt;<br>
+&gt; This series adds a directory within the ptest path with symlinks to th=
+e<br>
+&gt; binaries produced by the package, so just adding this directory to the=
+<br>
+&gt; PATH will test the correct binaries.<br>
+&gt;<br>
+&gt; To use this feature just add PTEST_BINDIR =3D &quot;1&quot; to the rec=
+ipe.<br>
+&gt;<br>
+&gt; This will help to solve bug 13238.<br>
+&gt;<br>
+&gt; [YOCTO #13238]<br>
+&gt;<br>
+&gt; The following changes since commit ffa5a1bda6741f5dc9f1b8db1bb37b0c6f1=
+03c99:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0asciidoc: specify XML catalogue to use (2019-04-03 14:56:2=
+7 +0100)<br>
+&gt;<br>
+&gt; are available in the Git repository at:<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0git://<a href=3D"http://github.com/justanotherboy/poky" re=
+l=3D"noreferrer" target=3D"_blank">github.com/justanotherboy/poky</a> bug12=
+597<br>
+&gt;=C2=A0 =C2=A0<a href=3D"https://github.com/justanotherboy/poky/tree/bug=
+12597" rel=3D"noreferrer" target=3D"_blank">https://github.com/justanotherb=
+oy/poky/tree/bug12597</a><br>
+&gt;<br>
+&gt; Mariano Lopez (3):<br>
+&gt;=C2=A0 =C2=A0update-alternatives.bbclass: Add function to get renamed b=
+inaries<br>
+&gt;=C2=A0 =C2=A0ptest.bbclass: Add feature to populate a binary directory<=
+br>
+&gt;=C2=A0 =C2=A0util-linux: Use PTEST binary directory<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.19.2<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+</blockquote></div>
+
+--000000000000a466b00585f3f879--
