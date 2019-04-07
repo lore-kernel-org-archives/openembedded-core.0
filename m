@@ -1,53 +1,54 @@
 Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 17B657D540
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+	[209.85.210.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 6189B7D540
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Apr 2019 17:16:19 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id e5so9890765otk.12
+	Sun,  7 Apr 2019 17:16:23 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id k21so9955141otf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Apr 2019 10:16:21 -0700 (PDT)
+	Sun, 07 Apr 2019 10:16:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=0VeqvEeSq68qy+glX/ndZUhEIdqlWVm7J4dV2naECq0=;
-	b=fJjFwijCKsurooL8b7PqkFmYwal3WiSWgMFl1SGo2V7r8WYlzzKzQaDpoXCklFII8A
-	A9hBbBMuQWxDA1N1o2v78iebdKHPt7P7ijUvsAJOz59ShogmOBEPZQ1LnyBP8RLXLmN0
-	5r4bbuyydze/ZyFABbZdGb5R6BreSAxAsc1NmiDrJAAxIj5PELNj5OT8JNVLdFoMvRXc
-	BxQYRCNz+ooVS5ktoIL87d2MKmMwhspw9nw9Oo6NyjRwIm/8qmzizZnyuibF8lBbfz/+
-	qHejyqcGntS6ma3uF4NT3bduqTGnt54UT7TRzA4H5E917fp79/QnRAioqd8SPq/3AsEO
-	5A3Q==
+	bh=w0CRCwYNuQzvQ/AXeOCALCAg3p3rfzqgtH7jFSW0Cd0=;
+	b=mNNXv7Kdmw2vHg2y93lVmouch0J8QYKjyqaHShA8IoEwZqQu/P9nNDCVAtWTkccEh8
+	ecXmWk4ll0XsnQKK7zLHM013bnmjUS0lBbRZEaB8ieVC4x/t2i2Z2EkE7PHawLoutzHe
+	p8TBKV+25iAXUprZ3NgEtiw1121ZIIs0/1bb8UhOUb1Yf6mOQY9b2Yz1nKMFmg6eUy0u
+	ARiqX5C5nUAxmbYVZPEqMPjfOmbEA6Dd7MFRH3n4pcS3cnBcWXRl9Za+38BhkHrTKE9E
+	GRBDGh5i4UU5YclrA6z6Mw+IBG3sdiQQ425LmD5/17Y5yQVRDD5zS4BQPE/l8ulzf+eG
+	rtMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=0VeqvEeSq68qy+glX/ndZUhEIdqlWVm7J4dV2naECq0=;
-	b=BG7ZQvr48UgLwCZk6W1h1ZytLHIRysDV6FirlGsiLGMiLV6dTUOfXdBeyn0d0+W1YS
-	2Fu653XG/xDpDDowlJ/ZmloxJmENzFYC3WoKyjRHiaZyYSK0qFXxafqeRzEl2aqNikJj
-	RIIAcEaV0++OhYIFxmWJzbJjgrwL+e3Y1FBa7TQZXxD2fPwekN9ovgSREXOCzF9j2kew
-	TIV78Ul9pFFk8NGsZc63VWH483xGnKO5JYGDpCNsZw09p68K3jHrYp+7aj59RItW2NSf
-	bx5oInpWwJm0JJyq0EpykwKiVnOBP5KITpScE7X+vwNh3rlqR/QhyUjj/CpcHtelKji5
-	gfyQ==
-X-Gm-Message-State: APjAAAUpAGw1MSIfJEoinHR6VQUfWcyOtyMMfpq7/heJ/6oRvTfOmHNF
-	Mq3EALabZ9CxI901vLhG8/QcLWyc
-X-Google-Smtp-Source: APXvYqzdeOVJ0OnMouPuUR6Bd3qhqeiFBGVCzUGNrHEc/BAWbWVucknMBU0fAUFIJzltfLuD868P0Q==
-X-Received: by 2002:a9d:51d2:: with SMTP id d18mr15250079oth.61.1554657381045; 
-	Sun, 07 Apr 2019 10:16:21 -0700 (PDT)
+	bh=w0CRCwYNuQzvQ/AXeOCALCAg3p3rfzqgtH7jFSW0Cd0=;
+	b=rhbDK3Wk3iYtELi8byJuixDsQ5hNBTO4g1CQnTSWD5A6UnobMt0r13fBexR+vjQDbV
+	Rs3rdWxh5IZuEygL+Sd8Bt7BRuqjPaHIzlCblZe1uPwXdxzHYTYZiJHbFcMRlxQwli+S
+	F+ISvA64MT85sCRAiMbD7ktT7yza9df+lWnXTflEb83VAvOxI9hE62GIxhyPSQeelEeb
+	zWVVLrX1Mt1FkcAVegXJ257TFWIMPP1GdyeUgS2LB4Ki5TkJ8pq08bJfWxHnQO+XpxMy
+	6yWBicg+/TJHsihUhXs44CP3BHfJFFRHzGe6/4roJhEVI+tTGcL/w75aIsFj7H/x3m8Q
+	nE2Q==
+X-Gm-Message-State: APjAAAVdqTdHPNRWYExkFuyOLLQj4kyILLSvZ6IQ6WbxrknGNwnGSoBw
+	INa4fyk9pNQRxudfQwEFt+HnCa/R
+X-Google-Smtp-Source: APXvYqzeQnlY6lxGQ8wyTmPMc74QhEOzKEz8CHcanPf21cu5hflOFghZp2D12Nxne49UJJ62/LdXlg==
+X-Received: by 2002:a05:6830:2049:: with SMTP id
+	f9mr16794285otp.50.1554657384222; 
+	Sun, 07 Apr 2019 10:16:24 -0700 (PDT)
 Received: from ultima.ninicasiopea.net
 	([2605:a601:43d5:f700:215:17ff:fe90:1065])
 	by smtp.googlemail.com with ESMTPSA id
-	d70sm14952535oih.18.2019.04.07.10.16.20
+	d70sm14952535oih.18.2019.04.07.10.16.23
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 07 Apr 2019 10:16:20 -0700 (PDT)
+	Sun, 07 Apr 2019 10:16:23 -0700 (PDT)
 From: Mariano Lopez <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Apr 2019 12:15:58 -0500
-Message-Id: <c738d94204a42f05ddc30fb75f429fc9003224b2.1554656203.git.just.another.mariano@gmail.com>
+Date: Sun,  7 Apr 2019 12:15:59 -0500
+Message-Id: <8a59c91c0ddbeca9faabbbb08c6b29c58ad48727.1554656203.git.just.another.mariano@gmail.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <cover.1554656203.git.just.another.mariano@gmail.com>
 References: <cover.1554656203.git.just.another.mariano@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 2/4] ptest.bbclass: Add feature to populate a binary directory
+Subject: [PATCH v2 3/4] util-linux: Use PTEST binary directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,68 +61,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Apr 2019 17:16:20 -0000
+X-List-Received-Date: Sun, 07 Apr 2019 17:16:23 -0000
 Content-Transfer-Encoding: 8bit
 
-This adds the functionality to create a binary directory within
-PTEST_PATH directory. This directory will be populated with
-symlinks pointing to the binaries installed by the package and
-then renamed by update-alternatives. This way the ptest only needs
-to source this binary directory in order to use the expected
-binaries.
+Some binaries generated by util-linux will be replaced by core-utils
+in the final image by update-alternatives, so use a dedicated directory
+with symlinks to avoid using a binary generated by another package.
 
-To enable this feature just add PTEST_BINDIR = "1" to the recipe.
+This will solve the issue with the ptest runner timing out when
+running the kill ptests for util-linux.
 
-[YOCTO #12597]
 [YOCTO #13238]
 
 Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
 ---
- meta/classes/ptest.bbclass | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+ meta/recipes-core/util-linux/util-linux.inc       | 5 +++--
+ meta/recipes-core/util-linux/util-linux/run-ptest | 4 ++++
+ 2 files changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
-index 97865c9338..0c37447881 100644
---- a/meta/classes/ptest.bbclass
-+++ b/meta/classes/ptest.bbclass
-@@ -65,6 +65,37 @@ do_install_ptest_base() {
-     done
- }
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 18c3af240e..a67318e84e 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -284,6 +284,7 @@ ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
  
-+PTEST_BINDIR_PKGD_PATH = "${PKGD}${PTEST_PATH}/bin"
+ BBCLASSEXTEND = "native nativesdk"
+ 
++PTEST_BINDIR = "1"
+ do_compile_ptest() {
+     oe_runmake buildtest-TESTS
+ }
+@@ -312,8 +313,8 @@ do_install_ptest() {
+         '/^\tif[[:space:]]\[[[:space:]]![[:space:]]-x[[:space:]]"$1"/s|$1|`which $1 2>/dev/null`|g' \
+          ${D}${PTEST_PATH}/tests/functions.sh
+ 
+-    # "kill -L" behaves differently than "/bin/kill -L" so we need an additional fix
++    # Running "kill" without the the complete path would use the shell's built-in kill
+     sed -i -e \
+-         '/^TS_CMD_KILL/ s|kill|/bin/kill|g' \
++         '/^TS_CMD_KILL/ s|kill|${PTEST_PATH}/bin/kill|g' \
+          ${D}${PTEST_PATH}/tests/commands.sh
+ }
+diff --git a/meta/recipes-core/util-linux/util-linux/run-ptest b/meta/recipes-core/util-linux/util-linux/run-ptest
+index fbc2f9b56a..2178ab8fef 100644
+--- a/meta/recipes-core/util-linux/util-linux/run-ptest
++++ b/meta/recipes-core/util-linux/util-linux/run-ptest
+@@ -1,5 +1,9 @@
+ #!/bin/sh
+ 
++current_path=$(readlink -f $0)
++export bindir=$(dirname $current_path)
++export PATH=$bindir/bin:$PATH
 +
-+# This function needs to run after apply_update_alternative_renames because the
-+# aforementioned function will update the ALTERNATIVE_LINK_NAME flag. Append is
-+# used here to make this function to run as late as possible.
-+PACKAGE_PREPROCESS_FUNCS_append = "${@bb.utils.contains("PTEST_BINDIR", "1", " ptest_update_alternatives", "", d)}"
-+
-+python ptest_update_alternatives() {
-+    """
-+    This function will generate the symlinks in the PTEST_BINDIR_PKGD_PATH
-+    to match the renamed binaries by update-alternatives.
-+    """
-+
-+    if not bb.data.inherits_class('update-alternatives', d) \
-+           or not update_alternatives_enabled(d):
-+        return
-+
-+    bb.note("Generating symlinks for ptest")
-+    bin_paths = { os.environ["bindir"], os.environ["base_bindir"],
-+                  os.environ["sbindir"], os.environ["base_sbindir"] }
-+    ptest_bindir = d.getVar("PTEST_BINDIR_PKGD_PATH")
-+    os.mkdir(ptest_bindir)
-+    for pkg in (d.getVar('PACKAGES') or "").split():
-+        alternatives = update_alternatives_alt_targets(d, pkg)
-+        for alt_name, alt_link, alt_target, _ in alternatives:
-+            # Some alternatives are for man pages,
-+            # check if the alternative is in PATH
-+            if os.path.dirname(alt_link) in bin_paths:
-+                os.symlink(alt_target, os.path.join(ptest_bindir, alt_name))
-+}
-+
- do_configure_ptest_base[dirs] = "${B}"
- do_compile_ptest_base[dirs] = "${B}"
- do_install_ptest_base[dirs] = "${B}"
+ cd tests || exit 1                                                          
+ 
+ comps=$(find ts/ -type f -perm -111 -regex ".*/[^\.~]*" |  sort)
 -- 
 2.19.2
 
