@@ -1,54 +1,53 @@
 Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
-	[209.85.210.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 6189B7D540
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DA2127D540
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  7 Apr 2019 17:16:23 +0000 (UTC)
-Received: by mail-ot1-f47.google.com with SMTP id k21so9955141otf.1
+	Sun,  7 Apr 2019 17:16:25 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id e80so9926339ote.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Apr 2019 10:16:24 -0700 (PDT)
+	Sun, 07 Apr 2019 10:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=w0CRCwYNuQzvQ/AXeOCALCAg3p3rfzqgtH7jFSW0Cd0=;
-	b=mNNXv7Kdmw2vHg2y93lVmouch0J8QYKjyqaHShA8IoEwZqQu/P9nNDCVAtWTkccEh8
-	ecXmWk4ll0XsnQKK7zLHM013bnmjUS0lBbRZEaB8ieVC4x/t2i2Z2EkE7PHawLoutzHe
-	p8TBKV+25iAXUprZ3NgEtiw1121ZIIs0/1bb8UhOUb1Yf6mOQY9b2Yz1nKMFmg6eUy0u
-	ARiqX5C5nUAxmbYVZPEqMPjfOmbEA6Dd7MFRH3n4pcS3cnBcWXRl9Za+38BhkHrTKE9E
-	GRBDGh5i4UU5YclrA6z6Mw+IBG3sdiQQ425LmD5/17Y5yQVRDD5zS4BQPE/l8ulzf+eG
-	rtMw==
+	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
+	b=jthQnCbbJ6KYVHywNGv3d85g884mQVp8PH1g2spX1xV5Y8cog3QAwb0vKH2008xeym
+	qi1aA5clwXFbHgnTGWmayeUh9sT2ZNhr9s5kO6HfM0Y2iHA2cwCy5eZec3guyIwStbE6
+	wBFEtD0qtndTWRSij2PeAeB2cCFXF5FnL2oYesoDKL+lQl9LiW7eifVzJqPQ6xPow6JP
+	EXU0Mh17UcbcR6zUz9r3Z8VuuL4Fk65wLqDIdfq0vIATV/3ZBwj2GDj4gCWwrubpNz66
+	MigLvMmJtfWEhGqxMVRe9A+1I5xB8Vo7l6Ix7fUDi42x2jB0SfSkQBIACiwevUN1Swyn
+	mqgg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=w0CRCwYNuQzvQ/AXeOCALCAg3p3rfzqgtH7jFSW0Cd0=;
-	b=rhbDK3Wk3iYtELi8byJuixDsQ5hNBTO4g1CQnTSWD5A6UnobMt0r13fBexR+vjQDbV
-	Rs3rdWxh5IZuEygL+Sd8Bt7BRuqjPaHIzlCblZe1uPwXdxzHYTYZiJHbFcMRlxQwli+S
-	F+ISvA64MT85sCRAiMbD7ktT7yza9df+lWnXTflEb83VAvOxI9hE62GIxhyPSQeelEeb
-	zWVVLrX1Mt1FkcAVegXJ257TFWIMPP1GdyeUgS2LB4Ki5TkJ8pq08bJfWxHnQO+XpxMy
-	6yWBicg+/TJHsihUhXs44CP3BHfJFFRHzGe6/4roJhEVI+tTGcL/w75aIsFj7H/x3m8Q
-	nE2Q==
-X-Gm-Message-State: APjAAAVdqTdHPNRWYExkFuyOLLQj4kyILLSvZ6IQ6WbxrknGNwnGSoBw
-	INa4fyk9pNQRxudfQwEFt+HnCa/R
-X-Google-Smtp-Source: APXvYqzeQnlY6lxGQ8wyTmPMc74QhEOzKEz8CHcanPf21cu5hflOFghZp2D12Nxne49UJJ62/LdXlg==
-X-Received: by 2002:a05:6830:2049:: with SMTP id
-	f9mr16794285otp.50.1554657384222; 
-	Sun, 07 Apr 2019 10:16:24 -0700 (PDT)
+	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
+	b=CGc+EYfQzOapDlP9UY5u4V8vU6fytfFYowu0KFMTUwOvWahxQKFw0TbfebyUOIq1R5
+	osFkVgBhON0FjxU7AEBEtVzt9VRvWhq6TMOzZokH+h+6rPWWmyer2elbiHyqpvunUIDV
+	9dE5spjo79nyYTMjLsFBKVq37alsGgSOvimDWzbvZ4/0XjmjlV4dOEOmPjtx/PUOyJMg
+	1RhVRnkRXlsZgDLFLClZub/juQ1Ek3V5RH1NSxSgv2wfx8YrLbfXsmCSZmT8ABWAWD28
+	3ek7ZCU3XkLSbhihdLFqDKfYb6r09xUZ6kCk1OGa7h/HCC8LujG9g+uHCBog03gPiqiN
+	NMHA==
+X-Gm-Message-State: APjAAAWCigjAJdxbumwUHnTasixyfh2CV7A4lwAsN7vunpMSt+TTz0n4
+	pmszGBxjAVH541Gzr4cH9jir4iZU
+X-Google-Smtp-Source: APXvYqxkkkiMdK68dfgHXZn2ADqtxkyqOvzDQxdmEYndA68o9a/cm5GkCH3QnFS3YyH4M8wDhL/moA==
+X-Received: by 2002:a9d:2f42:: with SMTP id h60mr16634150otb.280.1554657386848;
+	Sun, 07 Apr 2019 10:16:26 -0700 (PDT)
 Received: from ultima.ninicasiopea.net
 	([2605:a601:43d5:f700:215:17ff:fe90:1065])
 	by smtp.googlemail.com with ESMTPSA id
-	d70sm14952535oih.18.2019.04.07.10.16.23
+	d70sm14952535oih.18.2019.04.07.10.16.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 07 Apr 2019 10:16:23 -0700 (PDT)
+	Sun, 07 Apr 2019 10:16:26 -0700 (PDT)
 From: Mariano Lopez <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Apr 2019 12:15:59 -0500
-Message-Id: <8a59c91c0ddbeca9faabbbb08c6b29c58ad48727.1554656203.git.just.another.mariano@gmail.com>
+Date: Sun,  7 Apr 2019 12:16:00 -0500
+Message-Id: <6019950905909dd5e097c4543eebefdfbbbe0e54.1554656203.git.just.another.mariano@gmail.com>
 X-Mailer: git-send-email 2.19.2
 In-Reply-To: <cover.1554656203.git.just.another.mariano@gmail.com>
 References: <cover.1554656203.git.just.another.mariano@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 3/4] util-linux: Use PTEST binary directory
+Subject: [PATCH v2 4/4] busybox: Use PTEST binary directory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,61 +60,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 07 Apr 2019 17:16:23 -0000
+X-List-Received-Date: Sun, 07 Apr 2019 17:16:26 -0000
 Content-Transfer-Encoding: 8bit
 
-Some binaries generated by util-linux will be replaced by core-utils
-in the final image by update-alternatives, so use a dedicated directory
-with symlinks to avoid using a binary generated by another package.
+This will generate the symlinks in the ptest binary directory using the
+ptest class functionality instead of generating them manually. Because
+the ptest class uses update-alternatives to get the metadata for the
+symlinks it will respect the use of BUSYBOX_SPLIT_SUID automatically.
 
-This will solve the issue with the ptest runner timing out when
-running the kill ptests for util-linux.
-
-[YOCTO #13238]
+[YOCTO #12597]
 
 Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc       | 5 +++--
- meta/recipes-core/util-linux/util-linux/run-ptest | 4 ++++
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ meta/recipes-core/busybox/busybox.inc | 16 ++--------------
+ 1 file changed, 2 insertions(+), 14 deletions(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 18c3af240e..a67318e84e 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -284,6 +284,7 @@ ALTERNATIVE_LINK_NAME[wall.1] = "${mandir}/man1/wall.1"
- 
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
+index c9d25ff1ca..174ce5a8c0 100644
+--- a/meta/recipes-core/busybox/busybox.inc
++++ b/meta/recipes-core/busybox/busybox.inc
+@@ -347,24 +347,12 @@ do_install () {
+ 	fi
+ }
  
 +PTEST_BINDIR = "1"
- do_compile_ptest() {
-     oe_runmake buildtest-TESTS
- }
-@@ -312,8 +313,8 @@ do_install_ptest() {
-         '/^\tif[[:space:]]\[[[:space:]]![[:space:]]-x[[:space:]]"$1"/s|$1|`which $1 2>/dev/null`|g' \
-          ${D}${PTEST_PATH}/tests/functions.sh
- 
--    # "kill -L" behaves differently than "/bin/kill -L" so we need an additional fix
-+    # Running "kill" without the the complete path would use the shell's built-in kill
-     sed -i -e \
--         '/^TS_CMD_KILL/ s|kill|/bin/kill|g' \
-+         '/^TS_CMD_KILL/ s|kill|${PTEST_PATH}/bin/kill|g' \
-          ${D}${PTEST_PATH}/tests/commands.sh
- }
-diff --git a/meta/recipes-core/util-linux/util-linux/run-ptest b/meta/recipes-core/util-linux/util-linux/run-ptest
-index fbc2f9b56a..2178ab8fef 100644
---- a/meta/recipes-core/util-linux/util-linux/run-ptest
-+++ b/meta/recipes-core/util-linux/util-linux/run-ptest
-@@ -1,5 +1,9 @@
- #!/bin/sh
- 
-+current_path=$(readlink -f $0)
-+export bindir=$(dirname $current_path)
-+export PATH=$bindir/bin:$PATH
 +
- cd tests || exit 1                                                          
+ do_install_ptest () {
+ 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
+ 	cp ${B}/.config      ${D}${PTEST_PATH}/
+ 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
+-
+-	mkdir ${D}${PTEST_PATH}/bin
+-	if [ "${BUSYBOX_SPLIT_SUID}" = "1" ]; then
+-		while read link; do
+-			ln -s ${base_bindir}/busybox.suid ${D}${PTEST_PATH}/bin/$(basename $link)
+-		done <${D}${sysconfdir}/busybox.links.suid
+-		while read link; do
+-			ln -s ${base_bindir}/busybox.nosuid ${D}${PTEST_PATH}/bin/$(basename $link)
+-		done <${D}${sysconfdir}/busybox.links.nosuid
+-	else
+-		while read link; do
+-			ln -s ${base_bindir}/busybox ${D}${PTEST_PATH}/bin/$(basename $link)
+-		done <${D}${sysconfdir}/busybox.links
+-	fi
+ }
  
- comps=$(find ts/ -type f -perm -111 -regex ".*/[^\.~]*" |  sort)
+ inherit update-alternatives
 -- 
 2.19.2
 
