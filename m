@@ -1,52 +1,49 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com
-	[209.85.210.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E10D6007A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E8E07D527
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 16:31:15 +0000 (UTC)
-Received: by mail-pf1-f177.google.com with SMTP id 10so7932900pfo.5
+	Mon,  8 Apr 2019 16:37:20 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id k130so8385293qke.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2019 09:31:16 -0700 (PDT)
+	Mon, 08 Apr 2019 09:37:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:thread-index
-	:content-language;
-	bh=qckzP8sPFdZBUxjXF0Dro2AFB28JV/dVCHDLnE+j+S0=;
-	b=TMpL9dEkUzmBTXGECeF3CQXXE5YGjW7xv+CH/B0qwFdxv/WmaP8DtLqKo+oJsagKLO
-	noCVuVFQNReZ5Ozr0zRKEEcbLkN8e2hGRQeTmauM+FwX1w9S5pcx2zipk+LyZrs+4wy4
-	sYOg/GQu0w/aE/uFMMTSvA4zDcIwRZZu0sgVWPwnpL30PkrWoR6AHBhiQbhhFhQioJZX
-	bc1y3YK0kZqUGARNOEp6BRdNOHyIFfxHHFSs/eTPB30TM1ITu9QoDzUIzDIW/ipdypKW
-	/++isVUjpTc6wGh7aZmBN+PRVfwGPnyPVgtnnLtWtiXt3dNqjZZR/Fn4aOtOysu0RFhR
-	grjg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=6ZDn/18j0Cx8lLUzNT3YqDSmB2KL9bNNIk5KtD46cYw=;
+	b=SHmuffWWf0oPNyOGPhpwf6UFzzdwCQXijRFWh1rIY/WE4Urq0TExYKTkq7PtgF0SPm
+	08mHvlUlCIGQaWVs4bhSqJH9yTImhx5wOTck62HVV6n94LhePJuDb7FQXWZGp3+Gvnv/
+	lrWVuNm9NohFhnUFGQZ2RGRVFCRncNgZ/A9lCrUi024vMDOPp64qiZPdu0iL61izn1Ck
+	qirPfwZrTs7kojIwvtVCO4dqzEct/WCH9M3d6H/lpkFMS/dIRBZNST4853RvxpBihW+z
+	BCWYn7xQQU90f8ivgOgzimNxsRtJ3jra80ISgVjM+n9AHmORyVirLtC/sihKrA4ePK2n
+	PfSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:thread-index:content-language;
-	bh=qckzP8sPFdZBUxjXF0Dro2AFB28JV/dVCHDLnE+j+S0=;
-	b=CKKeg/s5cAqX+T1JY3hjg4assAA3PzZF0LIAtoYNIJxl6K8nrump2hPntRhO89Kw1B
-	H943uPhQkWx+qSWny5t3EvcG9NZJ9XuM/WS7FWPFGvz/bm/81nydHo4ePR2auV+IMM1q
-	rCXiuvJ3GNGoBKk0ICsgZ0+mt1w9FzImkxJ3TgoFh8+LgZpFSv831iNAi7nosOwnDTFl
-	2pDmhpmfZr52g6E95AUY97ZJo1CY5Rd3fn6gxjRG0e1CpqHV5OjNqZnCPW8ok2sxgbbl
-	eZQWjZ39cH1ve8wNq8EPgksqnlpFihABXi3+qGqT7BMdTiwnHHK23DV1t04A/JMwidWW
-	e8OA==
-X-Gm-Message-State: APjAAAVshXmpeSn3IalP6/KQZBhH3ehlOQZeABI7sJgmFNF6z0sm9A1l
-	xYanWAascUlusZMyY8VCI24Ed25B
-X-Google-Smtp-Source: APXvYqw12en0RtSAIB31ByY0wdGJwcYf+DnXRTxoHFV2ehz08glwzkHq8Cm9uyOwwPRN7i9nPjjLag==
-X-Received: by 2002:a63:c64a:: with SMTP id x10mr27692144pgg.12.1554741076068; 
-	Mon, 08 Apr 2019 09:31:16 -0700 (PDT)
-Received: from sjolley (c-71-59-136-149.hsd1.or.comcast.net. [71.59.136.149])
-	by smtp.gmail.com with ESMTPSA id
-	a129sm71836780pfa.152.2019.04.08.09.31.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Apr 2019 09:31:15 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Apr 2019 09:31:14 -0700
-Message-ID: <0e3d01d4ee28$7c7a9d60$756fd820$@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=6ZDn/18j0Cx8lLUzNT3YqDSmB2KL9bNNIk5KtD46cYw=;
+	b=Ow23AN3sX46VcAy3tVFASN5ijk9G2Wc9ZSe952G9j3ySpaLtZptYESZdb9/Jm5QfAr
+	KaNMBI8WWzl2Hbmqxd0t69eFSAvZ7TCX8E+dL3+KXe5q91DO7TXlU4aCAXopo+Cm5W/7
+	GCXDA8qUfe79j33lIskwiX7wkJOEwUw35B6PumC9/w1xcjhOUedexgYvLAlE7W5a1ZXj
+	Hy/Os0tFoYK0H0RCkOOdZfDNFIJQj7uI97F0HzxeQt81QIEetpGWgnt5zteRtuLUw6sR
+	wUotMhvVkIdsmOiiMmmr2d6s5MljzJS7jseBhe9PH8btdvaGIJ3TqnKISCaWoi9rCocd
+	pzQA==
+X-Gm-Message-State: APjAAAXqw9RFpt7UJRCvJnmAvET7DYFhRVLHnETQwrM+qlHp2yJJeMAv
+	xTNn9e5DOkTGI9Fi3wCGIZxJb1EAOgCJxyE03xE=
+X-Google-Smtp-Source: APXvYqznOzHZPWXdixxAW4G5Nf+621n/f/PyUO+ou6yKPpOGPciaVht3tyHaMSh10S4mE67DxvT6wBz/nA0l11QPKAI=
+X-Received: by 2002:a37:9d84:: with SMTP id g126mr22395013qke.22.1554741441636;
+	Mon, 08 Apr 2019 09:37:21 -0700 (PDT)
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQMawDt5x2Z5aVV3paA9u4L5XLE2tA==
-Subject: Yocto Project Unassigned Bugs - Help Needed
+References: <20190404075205.108547-1-kai.kang@windriver.com>
+	<d7797aa9-4b8d-9bb9-536e-f4bfa5ab906e@windriver.com>
+In-Reply-To: <d7797aa9-4b8d-9bb9-536e-f4bfa5ab906e@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 8 Apr 2019 09:36:55 -0700
+Message-ID: <CAMKF1sqeKbYiMWLj=+KBh8Sx-8hR8uQbMDT9qTr7WgV=HdsVkg@mail.gmail.com>
+To: Kang Kai <Kai.Kang@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] virglrenderer: remove link option -Bsymbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,274 +56,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 16:31:15 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0E3E_01D4EDED.D01CD6D0"
-Content-Language: en-us
-
-------=_NextPart_000_0E3E_01D4EDED.D01CD6D0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-
-All,
-
- 
-
-The triage team meets weekly and does its best to handle the bugs reported
-into the Bugzilla. The number of people attending that meeting has fallen,
-as have the number of people available to help fix bugs. One of the things
-we hear users report is they don't know how to help. We (the triage team)
-are therefore going to start reporting out the currently 281 unassigned
-bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.
-
- 
-
-Bugs are split into two types, "true bugs" where things don't work as they
-should and "enhancements" which are features we'd want to add to the system.
-
- 
-
-There are also roughly four different "priority" classes right now, "2.7",
-"2.8", "2.9', "2.99" and "Future", the more pressing/urgent issues being in
-"2.7" and then "2.8".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me
-(Stephen.k.jolley@intel.com <mailto:Stephen.k.jolley@intel.com> ) an e-mail
-with the bug number you would like and I will assign it to you (please make
-sure you have a Bugzilla account).
-
- 
-
-The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
- 
-
-
-------=_NextPart_000_0E3E_01D4EDED.D01CD6D0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_00B1_01D4E89D.FFDB0400";
-	charset="us-ascii"
+X-List-Received-Date: Mon, 08 Apr 2019 16:37:21 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle20
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoPlainText>All,<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-triage team meets weekly and does its best to handle the bugs reported =
-into the Bugzilla. The number of people attending that meeting has =
-fallen, as have the number of people available to help fix bugs. One of =
-the things we hear users report is they don't know how to help. We (the =
-triage team) are therefore going to start reporting out the currently =
-281 unassigned bugs.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
-hoping people may be able to spare some time now and again to help out =
-with these.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Bugs =
-are split into two types, &quot;true bugs&quot; where things don't work =
-as they should and &quot;enhancements&quot; which are features we'd want =
-to add to the system.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>There =
-are also roughly four different &quot;priority&quot; classes right now, =
-&#8220;2.7&#8221;, &#8220;2.8&#8221;, &#8220;2.9&#8217;, =
-&quot;2.99&quot; and &quot;Future&quot;, the more pressing/urgent issues =
-being in &quot;2.7&quot; and then &#8220;2.8&#8221;.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
-review this link and if a bug is something you would be able to help =
-with either take ownership of the bug, or send me (<a =
-href=3D"mailto:Stephen.k.jolley@intel.com">Stephen.k.jolley@intel.com</a>=
-) an e-mail with the bug number you would like and I will assign it to =
-you (please make sure you have a Bugzilla account).<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
-mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
-comer_Bugs</a><o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
-/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
-p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
+On Sun, Apr 7, 2019 at 6:59 PM Kang Kai <Kai.Kang@windriver.com> wrote:
+>
+> On 2019/4/4 =E4=B8=8B=E5=8D=883:52, kai.kang@windriver.com wrote:
+> > From: Kai Kang <kai.kang@windriver.com>
+> >
+> > When gcc compile options '-O2 -fvisibility=3Ddefault' are applied, it
+> > fails to compile virglrenderer for x86:
+> >
+> > | ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
+> >    R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be use=
+d
+> >    when making a shared object
+> > | ld: final link failed: bad value
+> > | collect2: error: ld returned 1 exit status
+> >
+> > Remove link option '-Bsymbolic' to fix the failure.
+>
+>
+> Any comments on this patch? Thank.
+>
+> Kai
+>
+>
+> >
+> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > ---
+> >   .../0001-Remove-link-option-Bsymbolic.patch   | 34 ++++++++++++++++++=
++
+> >   .../virglrenderer/virglrenderer_0.7.0.bb      |  1 +
+> >   2 files changed, 35 insertions(+)
+> >   create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/=
+0001-Remove-link-option-Bsymbolic.patch
+> >
+> > diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Rem=
+ove-link-option-Bsymbolic.patch b/meta/recipes-graphics/virglrenderer/virgl=
+renderer/0001-Remove-link-option-Bsymbolic.patch
+> > new file mode 100644
+> > index 0000000000..faefa16aae
+> > --- /dev/null
+> > +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-lin=
+k-option-Bsymbolic.patch
+> > @@ -0,0 +1,34 @@
+> > +When gcc compile options '-O2 -fvisibility=3Ddefault' are applied, it =
+fails to
+> > +compile virglrenderer for x86:
+> > +
+> > +| ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
+> > +  R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be use=
+d
+> > +  when making a shared object
+> > +| ld: final link failed: bad value
+> > +| collect2: error: ld returned 1 exit status
+> > +
+> > +Remove link option '-Bsymbolic' to fix the failure.
+> > +
 
-------=_NextPart_000_0E3E_01D4EDED.D01CD6D0--
+In spite of removing the option can we try replacing it with
+-Bsymbolic-functions
+
+> > +Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virgl=
+renderer/merge_requests/213]
+> > +
+> > +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> > +---
+> > + src/Makefile.am | 2 +-
+> > + 1 file changed, 1 insertion(+), 1 deletion(-)
+> > +
+> > +diff --git a/src/Makefile.am b/src/Makefile.am
+> > +index 9b668c8..7a421b8 100644
+> > +--- a/src/Makefile.am
+> > ++++ b/src/Makefile.am
+> > +@@ -48,7 +49,7 @@ endif
+> > + lib_LTLIBRARIES =3D libvirglrenderer.la
+> > + noinst_LTLIBRARIES =3D libvrend.la
+> > +
+> > +-GM_LDFLAGS =3D -Wl,-Bsymbolic -version-number 0:2 -no-undefined
+> > ++GM_LDFLAGS =3D -version-number 0:2 -no-undefined
+> > +
+> > + libvirglrenderer_la_SOURCES =3D virglrenderer.c
+> > + libvirglrenderer_ladir =3D $(libdir)
+> > +--
+> > +2.20.1
+> > +
+> > diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb=
+ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> > index 225a0b8b0c..afc709bc48 100644
+> > --- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> > +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> > @@ -9,6 +9,7 @@ SRCREV =3D "402c228861c9893f64cffbbcb4cb23044b8c721c"
+> >   SRC_URI =3D "git://anongit.freedesktop.org/virglrenderer \
+> >              file://0001-vtest-add-missing-includes.patch \
+> >              file://0001-Makefile.am-explicitly-link-with-libdrm.patch =
+\
+> > +           file://0001-Remove-link-option-Bsymbolic.patch \
+> >              "
+> >
+> >   S =3D "${WORKDIR}/git"
+>
+>
+> --
+> Kai Kang
+>
+
