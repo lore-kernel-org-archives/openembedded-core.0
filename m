@@ -1,53 +1,27 @@
-Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
-	[209.85.167.179])
-	by mail.openembedded.org (Postfix) with ESMTP id ABE2C7D596
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 25A0B7D43F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 01:22:32 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id i21so9138773oib.11
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Apr 2019 18:22:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
-	b=DT7ptMMoEIHYr9ODMITqFVy5bl5QIy5PSiWXhujTET1TKRWu2zWIq6H39pu86hnKT5
-	VQT0xpcFyUnCE8gDv9ZCptLRFWgNkqADs8NnvzWoTi8lRKCXiYuI6F2w8Zyf/BYLJac4
-	ZfCN4algk4RfWJMoCmKELGozoGXlZrY9GAWCfpgek+nmZVGzWQMX5D49OSgG1ZskQrHS
-	ExtGpuFobJC2eqW3Jx1WTTMXZDHupq8E1m/dGD2NafE/LqOzUA9XAAvkT7TlQD1+FoE6
-	NBwfPbBaAlWt37aUmRSeSVmQ0rVpXeOlhR+88Nqh7Dp1VLrzrisnKv+r/nnyyYJpwPrp
-	0i1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
-	b=uhsnrz8lJuXSQLvCpG//4ex322dxQIcwAwubeMPRQjJToB842sGo+BNHqv4bLx1KTn
-	jyk6mjJdAM/RDFPN2CIzkmBECdy4wk4A6EN+LhGCeK7J55CmNyctqsk1jSs9aB8O+GS1
-	IPSRUwt5MLpj008uSApk4Ux8kGdhhBCNIcDK7ae3IuNdDE0ki7Kizqoukea7j2okcPC3
-	xLnByTCBJP149fjCIVLmwEC+nqkSf0YhQGMKyRWWYvvD9xgl90vMQkT8xqCGseL9JVIj
-	wzIxyu+lxW9moFOWNpSCaS8LQdbHbSQOSbilDsAEfUVuZIrXdVFZuJo2v/Aph53H3fCT
-	w3sg==
-X-Gm-Message-State: APjAAAVvAxKom8vkd9MYvy/+osy8q6TxKYvVfPmsuEor+mUg1EZBsL47
-	C3FJpnRBh6mClY3ahATAPScnEEU6
-X-Google-Smtp-Source: APXvYqxF/l13RdcX7rgwOuBmaqzGWX/QHKuIrqAq3OPwWCvMZnvDD7TvsGyW/BxCwMjZuKks+Tbc5A==
-X-Received: by 2002:aca:df44:: with SMTP id w65mr13734593oig.66.1554686553715; 
-	Sun, 07 Apr 2019 18:22:33 -0700 (PDT)
-Received: from ultima.ninicasiopea.net
-	([2605:a601:43d5:f700:215:17ff:fe90:1065])
-	by smtp.googlemail.com with ESMTPSA id
-	z2sm16258206ota.56.2019.04.07.18.22.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 07 Apr 2019 18:22:33 -0700 (PDT)
-From: Mariano Lopez <just.another.mariano@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sun,  7 Apr 2019 20:21:58 -0500
-Message-Id: <9c5bed109a2280a6b4e3544b4dc7ea4e1d651b4e.1554686123.git.just.another.mariano@gmail.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <cover.1554686123.git.just.another.mariano@gmail.com>
-References: <cover.1554686123.git.just.another.mariano@gmail.com>
+	Mon,  8 Apr 2019 01:59:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x381xNZF003129
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 7 Apr 2019 18:59:33 -0700
+Received: from [128.224.163.218] (128.224.163.218) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Sun, 7 Apr 2019 18:59:12 -0700
+To: <raj.khem@gmail.com>
+References: <20190404075205.108547-1-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <d7797aa9-4b8d-9bb9-536e-f4bfa5ab906e@windriver.com>
+Date: Mon, 8 Apr 2019 09:58:36 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Subject: [PATCH v3 4/4] busybox: Use PTEST binary directory
+In-Reply-To: <20190404075205.108547-1-kai.kang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] virglrenderer: remove link option -Bsymbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +34,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 01:22:32 -0000
+X-List-Received-Date: Mon, 08 Apr 2019 01:59:59 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-This will generate the symlinks in the ptest binary directory using the
-ptest class functionality instead of generating them manually. Because
-the ptest class uses update-alternatives to get the metadata for the
-symlinks it will respect the use of BUSYBOX_SPLIT_SUID automatically.
+On 2019/4/4 下午3:52, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> When gcc compile options '-O2 -fvisibility=default' are applied, it
+> fails to compile virglrenderer for x86:
+>
+> | ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
+>    R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be used
+>    when making a shared object
+> | ld: final link failed: bad value
+> | collect2: error: ld returned 1 exit status
+>
+> Remove link option '-Bsymbolic' to fix the failure.
 
-[YOCTO #12597]
 
-Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
----
- meta/recipes-core/busybox/busybox.inc | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+Any comments on this patch? Thank.
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index c9d25ff1ca..174ce5a8c0 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -347,24 +347,12 @@ do_install () {
- 	fi
- }
- 
-+PTEST_BINDIR = "1"
-+
- do_install_ptest () {
- 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
- 	cp ${B}/.config      ${D}${PTEST_PATH}/
- 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
--
--	mkdir ${D}${PTEST_PATH}/bin
--	if [ "${BUSYBOX_SPLIT_SUID}" = "1" ]; then
--		while read link; do
--			ln -s ${base_bindir}/busybox.suid ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links.suid
--		while read link; do
--			ln -s ${base_bindir}/busybox.nosuid ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links.nosuid
--	else
--		while read link; do
--			ln -s ${base_bindir}/busybox ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links
--	fi
- }
- 
- inherit update-alternatives
+Kai
+
+
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   .../0001-Remove-link-option-Bsymbolic.patch   | 34 +++++++++++++++++++
+>   .../virglrenderer/virglrenderer_0.7.0.bb      |  1 +
+>   2 files changed, 35 insertions(+)
+>   create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch
+>
+> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch
+> new file mode 100644
+> index 0000000000..faefa16aae
+> --- /dev/null
+> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-link-option-Bsymbolic.patch
+> @@ -0,0 +1,34 @@
+> +When gcc compile options '-O2 -fvisibility=default' are applied, it fails to
+> +compile virglrenderer for x86:
+> +
+> +| ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
+> +  R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be used
+> +  when making a shared object
+> +| ld: final link failed: bad value
+> +| collect2: error: ld returned 1 exit status
+> +
+> +Remove link option '-Bsymbolic' to fix the failure.
+> +
+> +Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virglrenderer/merge_requests/213]
+> +
+> +Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> +---
+> + src/Makefile.am | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/Makefile.am b/src/Makefile.am
+> +index 9b668c8..7a421b8 100644
+> +--- a/src/Makefile.am
+> ++++ b/src/Makefile.am
+> +@@ -48,7 +49,7 @@ endif
+> + lib_LTLIBRARIES = libvirglrenderer.la
+> + noinst_LTLIBRARIES = libvrend.la
+> +
+> +-GM_LDFLAGS = -Wl,-Bsymbolic -version-number 0:2 -no-undefined
+> ++GM_LDFLAGS = -version-number 0:2 -no-undefined
+> +
+> + libvirglrenderer_la_SOURCES = virglrenderer.c
+> + libvirglrenderer_ladir = $(libdir)
+> +--
+> +2.20.1
+> +
+> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> index 225a0b8b0c..afc709bc48 100644
+> --- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+> @@ -9,6 +9,7 @@ SRCREV = "402c228861c9893f64cffbbcb4cb23044b8c721c"
+>   SRC_URI = "git://anongit.freedesktop.org/virglrenderer \
+>              file://0001-vtest-add-missing-includes.patch \
+>              file://0001-Makefile.am-explicitly-link-with-libdrm.patch \
+> +           file://0001-Remove-link-option-Bsymbolic.patch \
+>              "
+>   
+>   S = "${WORKDIR}/git"
+
+
 -- 
-2.19.2
+Kai Kang
 
 
