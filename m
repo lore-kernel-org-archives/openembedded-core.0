@@ -1,54 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 53C617D48D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 547747D380
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 06:57:14 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id q1so14934255wrp.0
+	Mon,  8 Apr 2019 10:57:30 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a184so13778656wma.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 07 Apr 2019 23:57:15 -0700 (PDT)
+	Mon, 08 Apr 2019 03:57:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=qYCNX26UxZ9C7UO9yl0oo7JLXXErpFpwvd64rFDzn3I=;
-	b=HcYIpMnGElVo3iYO4l8wj2RymYt+6mZrfRlY0uLDb8Wns758z2qMCU56+EuIg9cst8
-	xl4SvFEV0/oAZ81m3/g10j7krxc6ORAG7BU1StmqvLExkl4G3Tg/t5BVp29/QT08U9wh
-	0FkkImsgSxDMIdaSn3XU7FzN/R1b2nHdf0E4Q=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=ANUGMSUHaIB98BJHfPvYIe5/xf3lUxqNOkjDzK+rQtg=;
+	b=fmwkKDJhfvPqRCT9Y87ZTjKrJuSubaBR0UmPkLTJ18/y/zyatLAW5FtThWzYosutzs
+	7LZRgUnhsBIjsXYWgO3UZ7PNrquCEAOTX6KdfrwIEMOpTmEB4BSRc8wouG9V7tMlB2X/
+	NlM+oAG81vaYhMeRnOP3DxKVCCKIkGL94Z48WSjIkbG+VvG4ED7AAh4dnbaOHKAIcb+1
+	jL2G8/qo469KRGxWBa3X9T7Ay5djEIK91zMBH0Mt3MjxXz9LcIQYIF0LHaZXokQgkrhI
+	kU0+aLHHDS6/i8MM8uAl2Q8hCeaGTASr6TsRrpvJzqxGOV8B4AO6musJFKt+p3MnAK6S
+	3R/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=qYCNX26UxZ9C7UO9yl0oo7JLXXErpFpwvd64rFDzn3I=;
-	b=nUWrGTucH4ROSdGkwUC/StcmbEr5ap8DLsxcjbdjoQNx22pVjIbCpChRUGuh+ZXyvQ
-	HVuHZAMzVocqqrX7D4itlU+OsmufxhDHk8wFjSgNGFQ4aLxo/CC/rtabYEKJvd8jYue0
-	6rl86dKpxiWvzJhYkCEhPsYU5xQJcPj3TMmFrFQAuCxstr4MRGn+j8wXdyDajnUWTT4j
-	ONo55MIbIPXx9h8h+NaFym10ClcEaCL8cmNqv8ZbF8jc1uQtI4f0912cL0V+PIPi54kI
-	rXjuF51e6s7xt5S4UsuZ5GlDAcuKi83Ftnvsu2bJHGRIlQ1auMrDjJikjxDuBpvLQhWP
-	4A0w==
-X-Gm-Message-State: APjAAAVpS6zQP3flo/78HFcFU0BtYT1qSA2kyD//alVUM79Bk0t5Z7U1
-	tPRtUVUb737bBaKUVJxy2VWJyQ==
-X-Google-Smtp-Source: APXvYqwmtkzFKBDPss9Zkt6ELYSO8ly53hstInqzyn0SZ23F/yj/3TWf/6tjNPmQ6xqNwr6HBOIpVQ==
-X-Received: by 2002:adf:e449:: with SMTP id t9mr16673858wrm.204.1554706635112; 
-	Sun, 07 Apr 2019 23:57:15 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w16sm41331487wrt.84.2019.04.07.23.57.14
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 07 Apr 2019 23:57:14 -0700 (PDT)
-Message-ID: <4ada62440bafff322033ec43b1a1af9342539f8c.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Mariano Lopez <just.another.mariano@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 08 Apr 2019 07:57:13 +0100
-In-Reply-To: <b5761ac5-380a-64bf-f3a8-d93cd9aae822@gmail.com>
-References: <cover.1554656203.git.just.another.mariano@gmail.com>
-	<694f59ce48ac5931431cd76f12d7bbe23d279fbd.1554656203.git.just.another.mariano@gmail.com>
-	<475418a26ad41bf4dd50386badf97eab3b6004f6.camel@linuxfoundation.org>
-	<b5761ac5-380a-64bf-f3a8-d93cd9aae822@gmail.com>
-User-Agent: Evolution 3.32.0-1 
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/4] update-alternatives.bbclass: Add function to get metadata
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=ANUGMSUHaIB98BJHfPvYIe5/xf3lUxqNOkjDzK+rQtg=;
+	b=sJQY6Ci8ZxQi8NdCI4KkJkc5CNX8IjSDYb/RRetL1C4lly6LF4vuRl0IDm6AoNezuS
+	yAUcrk/DngvUf8HWFbJUCadcd/Y3wBHnsl0CgegsfZ1Bv2cJb/C9/NRK1d1qQTapk6Ah
+	RwhLdmv1TNQK1bIrxva87BgKBS9nEBcKbDJ9x7b/8wxKbxs7WAMHy1ULkshj8QZw60AP
+	hnCDjferLf3UUlqMpIHmFSiJ8itW4TQJxpg2u3YVstjFp0QyWp9hs/GHzmH/3VnFawop
+	MW0EUVkXR08b9Blcwdy8CIWIxHH1Jn/wNquRHbxopxDhS9Q6kV5OsChka3ZhIbDj5168
+	nxMA==
+X-Gm-Message-State: APjAAAU/nG92j3H8SH7Xu4eBw5cMaVuCcJISHu/h5VVhKGM380b8xyOM
+	Lfbl0cUsdo6TTn4Yi3pDYQVC/XIiJl4=
+X-Google-Smtp-Source: APXvYqwk+FOTaFKJe3zcDqD+nKikJuyehFIn4zmNCDJM0VVI7nqzS+2loSHBLnMbNu89D7Xne9EKRw==
+X-Received: by 2002:a1c:1f08:: with SMTP id f8mr15748385wmf.97.1554721050697; 
+	Mon, 08 Apr 2019 03:57:30 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	h12sm26688449wrq.95.2019.04.08.03.57.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Apr 2019 03:57:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Apr 2019 11:57:27 +0100
+Message-Id: <20190408105727.18055-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] insane: fix gettext dependency warning
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,52 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 06:57:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Apr 2019 10:57:30 -0000
 
-On Sun, 2019-04-07 at 21:23 -0500, Mariano Lopez wrote:
-> On 4/7/19 4:32 PM, Richard Purdie wrote:
-> > On Sun, 2019-04-07 at 12:15 -0500, Mariano Lopez wrote:
-> > > -
-> > > -            # Default to generate shell script.. eventually we
-> > > may want to change this...
-> > > -            alt_target = os.path.normpath(alt_target)
-> > > -
-> > > -            alt_setup_links  += '\tupdate-alternatives --install 
-> > > %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
-> > > -            alt_remove_links += '\tupdate-alternatives --
-> > > remove  %s %s\n' % (alt_name, alt_target)
-> > > +        updates = update_alternatives_alt_targets(d, pkg)
-> > > +        for alt_name, alt_link, alt_target, alt_priority in
-> > > updates:
-> > > +           alt_setup_links  += '\tupdate-alternatives --install
-> > > %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
-> > > +           alt_remove_links += '\tupdate-alternatives --
-> > > remove  %s %s\n' % (alt_name, alt_target)
-> > I think the above is three whitespaces, not four? I know its minor
-> > but
-> > it jumped out as I was comparing the code before/after!
-> > 
-> > Cheers,
-> > 
-> > Richard
-> > 
-> 
-> Good catch! I have sent the the fixed version but I messed up with
-> the 
-> cover letter, you can find the correct version here:
-> https://patchwork.openembedded.org/patch/160236/
-> 
-> 
-> I think I don't even need to put that link there :)
+This message was using %s markers but nothing was being passed in.
 
-Thanks, unfortunately nativesdk-util-linux fails to build :(
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/insane.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/711
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index c8d18c07f55..43df0046201 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -1087,7 +1087,7 @@ Rerun configure task after fixing this."""
+             for config in configs:
+                 gnu = "grep \"^[[:space:]]*AM_GNU_GETTEXT\" %s >/dev/null" % config
+                 if subprocess.call(gnu, shell=True) == 0:
+-                    error_msg = "%s required but not in DEPENDS for file %s. Missing inherit gettext?"
++                    error_msg = "AM_GNU_GETTEXT used but no inherit gettext"
+                     package_qa_handle_error("configure-gettext", error_msg, d)
+ 
+     ###########################################################################
+-- 
+2.11.0
 
 
