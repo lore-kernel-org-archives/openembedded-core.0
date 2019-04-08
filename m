@@ -1,24 +1,25 @@
-Return-Path: <stefan@herbrechtsmeier.net>
-Received: from dd41138.kasserver.com (dd41138.kasserver.com [85.13.157.12])
-	by mail.openembedded.org (Postfix) with ESMTP id F31EB7D3DC
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8BA0B6C0BE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 05:43:29 +0000 (UTC)
-Received: from [192.168.178.23] (i59F77E15.versanet.de [89.247.126.21])
-	by dd41138.kasserver.com (Postfix) with ESMTPSA id 4BAF811A0193;
-	Mon,  8 Apr 2019 07:43:30 +0200 (CEST)
-Date: Mon, 08 Apr 2019 07:43:28 +0200
-Message-ID: <58b4bdc8-f722-41f4-8c0b-7671b44397e0@email.android.com>
-X-Android-Message-ID: <58b4bdc8-f722-41f4-8c0b-7671b44397e0@email.android.com>
-In-Reply-To: <e32fe531d73752de6447e32acb4581fed2982cda.camel@linuxfoundation.org>
-From: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
-To: richard.purdie@linuxfoundation.org
-Importance: Normal
-X-Priority: 3
-X-MSMail-Priority: Normal
+	Mon,  8 Apr 2019 06:01:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3861ZON021740
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 7 Apr 2019 23:01:36 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Sun, 7 Apr 2019 23:01:23 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Apr 2019 14:01:22 +0800
+Message-ID: <1554703282-165014-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAJTo0LYUXZAW7ewEa_5=3eZm-mey-vBq6vkdZ2NX8gYW4Uz4zw@mail.gmail.com>
+References: <CAJTo0LYUXZAW7ewEa_5=3eZm-mey-vBq6vkdZ2NX8gYW4Uz4zw@mail.gmail.com>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Circular dependency of do_populate_sysroot
+Subject: [PATCH V2] cogl: fix compile error with -Werror=maybe-uninitialized
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,75 +32,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 05:43:30 -0000
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Mon, 08 Apr 2019 06:01:35 -0000
+Content-Type: text/plain
 
-PGRpdiBkaXI9J2F1dG8nPjxkaXY+SGksPGJyPjxkaXYgY2xhc3M9ImdtYWlsX2V4dHJhIj48YnI+
-PGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPkFtIDA3LjA0LjIwMTkgMjM6MzUgc2NocmllYiByaWNo
-YXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnOjxiciB0eXBlPSJhdHRyaWJ1dGlvbiI+PGJs
-b2NrcXVvdGUgY2xhc3M9InF1b3RlIiBzdHlsZT0ibWFyZ2luOjAgMCAwIC44ZXg7Ym9yZGVyLWxl
-ZnQ6MXB4ICNjY2Mgc29saWQ7cGFkZGluZy1sZWZ0OjFleCI+PHAgZGlyPSJsdHIiPk9uIFN1biwg
-MjAxOS0wNC0wNyBhdCAyMToxOCArMDIwMCwgU3RlZmFuIEhlcmJyZWNodHNtZWllciB3cm90ZToK
-PGJyPgomZ3Q7IEknbSB3b3JraW5nIHRvd2FyZHMgYW4gaW50ZWdyYXRlZCBOb2RlLmpzIHN1cHBv
-cnQgd2l0aG91dCBucG0gYW5kCjxicj4KJmd0OyBoYXZlIGEmbmJzcDsgcHJvYmxlbSB3aXRoIGEg
-Y2lyY3VsYXIgZGVwZW5kZW5jeSBvZiBkb19wb3B1bGF0ZV9zeXNyb290IGZvcgo8YnI+CiZndDsg
-dGhlIG5hdGl2ZSBidWlsZC4KPGJyPgomZ3Q7IAo8YnI+CiZndDsgSSBoYXZlIHR3byByZWNpcGVz
-IGEuYmIgYW5kIGIuYmIgd2hpY2ggaGF2ZSBubyBERVBFTkRTIGJ1dCBhIAo8YnI+CiZndDsgUkRF
-UEVORFNfJHtQTn0gYmV0d2VlbiBlYWNoIG90aGVyLiBUaGlzIGlzIG5vIHByb2JsZW0gZm9yIGEg
-Y3Jvc3MKPGJyPgomZ3Q7IGJ1aWxkIGJ1dCBsZWFkcyB0byB0aGUgZm9sbG93aW5nIGVycm9yIGZv
-ciB0aGUgbmF0aXZlIGJ1aWxkOgo8YnI+CiZndDsgVGFzayB2aXJ0dWFsOm5hdGl2ZTphLmJiOmRv
-X3BvcHVsYXRlX3N5c3Jvb3QgaGFzIGNpcmN1bGFyIGRlcGVuZGVuY3kKPGJyPgomZ3Q7IG9uIHZp
-cnR1YWw6bmF0aXZlOmIuYmI6ZG9fcG9wdWxhdGVfc3lzcm9vdC4KPGJyPgomZ3Q7IAo8YnI+CiZn
-dDsgSXQgbG9va3MgbGlrZSB0aGUgcHJvYmxlbSBjb21lcyBmcm9tIHRoZSBmb2xsb3dpbmcgbGlu
-ZXMgaW4gCjxicj4KJmd0OyBuYXRpdmUuYmJjbGFzcyBhbmQgY29tbWl0IGVlYTg2YzRmMGE5NjBk
-MDA5NDU3MWE3OGRjMGNmOWQ0NmQxNjJhMjI6Cjxicj4KJmd0OyBSRUNJUEVSREVQVEFTSyA9ICJk
-b19wb3B1bGF0ZV9zeXNyb290Igo8YnI+CiZndDsgZG9fcG9wdWxhdGVfc3lzcm9vdFtyZGVwdGFz
-a10gPSAiJHtSRUNJUEVSREVQVEFTS30iCjxicj4KJmd0OyAKPGJyPgomZ3Q7IElzIHRoZSByZGVw
-dGFzayBvbiB0aGUgc2FtZSB0YXNrIHJlYWxseSBuZWVkZWQgb3IgaXMgaXQgcG9zc2libGUgdG8K
-PGJyPgomZ3Q7IHVzZSZuYnNwOyBhbiBvdGhlciB0YXNrIGFmdGVyIGRvX3BvcHVsYXRlX3N5c3Jv
-b3QgYXMgc3luYyB0YXNrIHdoaWNoIHJ1bgo8YnI+CiZndDsgdGltZSBkZXBlbmRlbmN5IG9uIHRo
-ZSBvdGhlciBkb19wb3B1bGF0ZV9zeXNyb290IHRhc2s/Cjxicj4KCjxicj4KWW91J3JlIHNheWlu
-ZyBBIHJ1bnRpbWUgZGVwZW5kcyBvbiBCIGFuZCBCIHJ1bnRpbWUgZGVwZW5kcyBvbiBBLjxicj48
-L3A+PC9ibG9ja3F1b3RlPjwvZGl2PjwvZGl2PjwvZGl2PjxkaXYgZGlyPSJhdXRvIj5ZZXMsIG9u
-bHkgdGhlIHJ1biB0aW1lIGRlcGVuZHMgb24gZWFjaCBvdGhlci4gVGhpcyBtZWFucyB0aGUgZGVw
-ZW5kZW5jeSBkb2Vzbid0IGV4aXN0IGR1cmluZyBhIG5hdGl2ZSBidWlsZCBvZiBhIG9yIGIuPC9k
-aXY+PGRpdiBkaXI9ImF1dG8iPjxicj48L2Rpdj48ZGl2IGRpcj0iYXV0byI+PGRpdiBjbGFzcz0i
-Z21haWxfZXh0cmEiPjxkaXYgY2xhc3M9ImdtYWlsX3F1b3RlIj48YmxvY2txdW90ZSBjbGFzcz0i
-cXVvdGUiIHN0eWxlPSJtYXJnaW46MCAwIDAgLjhleDtib3JkZXItbGVmdDoxcHggI2NjYyBzb2xp
-ZDtwYWRkaW5nLWxlZnQ6MWV4Ij48cCBkaXI9Imx0ciI+Cgo8YnI+ClRoZSBjb2RlIGlzIHF1aXRl
-IGNvcnJlY3RseSB0aGVyZWZvcmUgdHJ5aW5nIHRvIGluc3RhbGwgQiBpbnRvIEEncwo8YnI+CnN5
-c3Jvb3Qgc2luY2UgeW91IG1pZ2h0IHdhbnQgdG8gcnVuIGl0IGFuZCBhbHNvIGluc3RhbGwgQSBp
-bnRvIEIncwo8YnI+CnN5c3Jvb3Qgc2luY2UgdGhhdCBhbHNvIGRlcGVuZHMgb24gaXQgYW5kIHlv
-dSBtYXkgd2FudCB0byBydW4gdGhhdC48YnI+PC9wPjwvYmxvY2txdW90ZT48L2Rpdj48L2Rpdj48
-L2Rpdj48ZGl2IGRpcj0iYXV0byI+SSBkb24ndCB1bmRlcnN0YW5kIHRoaXMuIFRoZSBwYWNrYWdl
-IGEgYW5kIGIgZG9uJ3QgbmVlZCB0aGUgb3RoZXIgcGFja2FnZSBkdXJpbmcgYnVpbGQgb25seSBw
-YWNrYWdlIGMgd2hpY2ggZGVwZW5kcyBvbiBvbmUgb2YgdGhlbSBuZWVkcyBib3RoIHBhY2thZ2Vz
-LjwvZGl2PjxkaXYgZGlyPSJhdXRvIj48YnI+PC9kaXY+PGRpdiBkaXI9ImF1dG8iPkRvZXMgdGhl
-IG5hdGl2ZSBidWlsZCBldmFsdWF0ZXMgYWxsIGRlcGVuZGVuY2llcyBkdXJpbmcgdGhlIGluZGl2
-aWR1YWwgcGFja2FnZSBidWlsZD88L2Rpdj48ZGl2IGRpcj0iYXV0byI+PGJyPjwvZGl2PjxkaXYg
-ZGlyPSJhdXRvIj48ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+PGRpdiBjbGFzcz0iZ21haWxfcXVv
-dGUiPjxibG9ja3F1b3RlIGNsYXNzPSJxdW90ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4O2Jv
-cmRlci1sZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPjxwIGRpcj0ibHRyIj4K
-VGhlIGRlcGVuZGVuY3kgaXMgdGhlcmVmb3JlIGNvcnJlY3QgYW5kIHlvdSdyZSB0cnlpbmcgdG8g
-YXNrIHRoZSBzeXN0ZW0KPGJyPgp0byBkbyBzb21ldGhpbmcgaW1wb3NzaWJsZS48YnI+PC9wPjwv
-YmxvY2txdW90ZT48L2Rpdj48L2Rpdj48L2Rpdj48ZGl2IGRpcj0iYXV0byI+SG93IGRvZXMgaXQg
-d29ya3MgZm9yIGNyb3NzIGRlcGVuZGVuY2llcz88L2Rpdj48ZGl2IGRpcj0iYXV0byI+PGJyPjwv
-ZGl2PjxkaXYgZGlyPSJhdXRvIj5Eb2VzIHRoZSBuYXRpdmUgYnVpbGQgY2hhbmdlIHJkZXBlbmRz
-IGludG8gZGVwZW5kcz88L2Rpdj48ZGl2IGRpcj0iYXV0byI+PGJyPjwvZGl2PjxkaXYgZGlyPSJh
-dXRvIj48ZGl2IGNsYXNzPSJnbWFpbF9leHRyYSI+PGRpdiBjbGFzcz0iZ21haWxfcXVvdGUiPjxi
-bG9ja3F1b3RlIGNsYXNzPSJxdW90ZSIgc3R5bGU9Im1hcmdpbjowIDAgMCAuOGV4O2JvcmRlci1s
-ZWZ0OjFweCAjY2NjIHNvbGlkO3BhZGRpbmctbGVmdDoxZXgiPjxwIGRpcj0ibHRyIj4KCjxicj4K
-WW91IGxpa2VseSBuZWVkIHRvIGRlY2lkZSB0aGF0IHRoZSBuYXRpdmUgQSBkb2Vzbid0IHJlYWxs
-eSBydW50aW1lCjxicj4KZGVwZW5kIG9uIG5hdGl2ZSBCIG9yIHZpY2UgdmVyc2EgYW5kIGJyZWFr
-IGF0IGxlYXN0IHRoZSBuYXRpdmUKPGJyPgpkZXBlbmRlbmN5Ljxicj48L3A+PC9ibG9ja3F1b3Rl
-PjwvZGl2PjwvZGl2PjwvZGl2PjxkaXYgZGlyPSJhdXRvIj5UaGUgcHJvYmxlbSBpcyB0aGF0IEkg
-Z2VuZXJhdGUgdGhlIHJlY2lwaWVzIGZyb20gbnBtIHBhY2thZ2VzIGFuZCZuYnNwO3dlYmFzc2Vt
-Ymx5anMgaGFzIGEgbG90IG9mIHJ1bnRpbWUgY3Jvc3MgZGVwZW5kZW5jaWVzIGJldHdlZW4gaXQn
-cyBvd24gbnBtIHBhY2thZ2VzLiBJIGRvbid0IGtub3cgd2hpY2ggcGFja2FnZSBpcyByZGVwZW5k
-cyBieSBvdGhlciBwYWNrYWdlcyBhbmQgdGhlcmVmb3JlIG5lZWQgdG8ga2VlcCB0aGUgY3Jvc3Mg
-ZGVwZW5kZW5jaWVzLjwvZGl2PjxkaXYgZGlyPSJhdXRvIj48YnI+PC9kaXY+PGRpdiBkaXI9ImF1
-dG8iPkJlc3QgcmVnYXJkczwvZGl2PjxkaXYgZGlyPSJhdXRvIj4mbmJzcDsgU3RlZmFuPC9kaXY+
-PGRpdiBkaXI9ImF1dG8iPjxicj48L2Rpdj48L2Rpdj4=
+From: Changqing Li <changqing.li@windriver.com>
+
+fix below compile error with -Werror=maybe-uninitialized
+while DEBUG_BUILD is enabled
+
+| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|      *out_gltype = gltype;
+|      ~~~~~~~~~~~~^~~~~~~~
+| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|      *out_glintformat = glintformat;
+|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ ...mpile-error-with-Werror-maybe-uninitializ.patch | 40 ++++++++++++++++++++++
+ meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb      |  4 ++-
+ 2 files changed, 43 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+new file mode 100644
+index 0000000..1cfd35c
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+@@ -0,0 +1,40 @@
++From e05ee89fcc978fceccab3e4724a3a37f7a338499 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Tue, 2 Apr 2019 14:48:49 +0800
++Subject: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
++
++fix below compile error with -Werror=maybe-uninitialized when DEBUG_BUILD is enabled
++
++| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++|      *out_gltype = gltype;
++|      ~~~~~~~~~~~~^~~~~~~~
++| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++|      *out_glintformat = glintformat;
++|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
++
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/cogl/issues/6]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ cogl/driver/gl/gles/cogl-driver-gles.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/cogl/driver/gl/gles/cogl-driver-gles.c b/cogl/driver/gl/gles/cogl-driver-gles.c
++index e94449f..a59d815 100644
++--- a/cogl/driver/gl/gles/cogl-driver-gles.c
+++++ b/cogl/driver/gl/gles/cogl-driver-gles.c
++@@ -74,9 +74,9 @@ _cogl_driver_pixel_format_to_gl (CoglContext *context,
++                                  GLenum *out_gltype)
++ {
++   CoglPixelFormat required_format;
++-  GLenum glintformat;
+++  GLenum glintformat = 0;
++   GLenum glformat = 0;
++-  GLenum gltype;
+++  GLenum gltype = 0;
++ 
++   required_format = format;
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+index 5901062..5ddeb4a 100644
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+@@ -1,7 +1,9 @@
+ require cogl-1.0.inc
+ 
+ SRC_URI += "file://test-backface-culling.c-fix-may-be-used-uninitialize.patch \
+-            file://0001-Fix-an-incorrect-preprocessor-conditional.patch"
++            file://0001-Fix-an-incorrect-preprocessor-conditional.patch \
++            file://0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch \
++           "
+ SRC_URI[archive.md5sum] = "d53b708ca7c4af03d7254e46945d6b33"
+ SRC_URI[archive.sha256sum] = "39a718cdb64ea45225a7e94f88dddec1869ab37a21b339ad058a9d898782c00d"
+ 
+-- 
+2.7.4
 
 
