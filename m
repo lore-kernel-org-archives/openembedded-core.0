@@ -1,25 +1,25 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8BA0B6C0BE
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4BAC46D230
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 06:01:35 +0000 (UTC)
+	Mon,  8 Apr 2019 06:40:39 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3861ZON021740
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 7 Apr 2019 23:01:36 -0700 (PDT)
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x386ebud023128
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 7 Apr 2019 23:40:37 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 7 Apr 2019 23:01:23 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Apr 2019 14:01:22 +0800
-Message-ID: <1554703282-165014-1-git-send-email-changqing.li@windriver.com>
+	14.3.439.0; Sun, 7 Apr 2019 23:40:36 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
+Date: Mon, 8 Apr 2019 14:40:34 +0800
+Message-ID: <1554705634-56387-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <CAJTo0LYUXZAW7ewEa_5=3eZm-mey-vBq6vkdZ2NX8gYW4Uz4zw@mail.gmail.com>
-References: <CAJTo0LYUXZAW7ewEa_5=3eZm-mey-vBq6vkdZ2NX8gYW4Uz4zw@mail.gmail.com>
+In-Reply-To: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
+References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH V2] cogl: fix compile error with -Werror=maybe-uninitialized
+Subject: [PATCH v2] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +32,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 06:01:35 -0000
+X-List-Received-Date: Mon, 08 Apr 2019 06:40:39 -0000
 Content-Type: text/plain
 
-From: Changqing Li <changqing.li@windriver.com>
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-fix below compile error with -Werror=maybe-uninitialized
-while DEBUG_BUILD is enabled
+When DEBUG_BUILD = "1" added in local.conf, there
+comes below build error when "bitbake gcc-sanitizers":
+| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
+| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|   return S_ISLNK (st.st_mode);
 
-| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-|      *out_gltype = gltype;
-|      ~~~~~~~~~~~~^~~~~~~~
-| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-|      *out_glintformat = glintformat;
-|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+Initialize struct stat to fix the above issue.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- ...mpile-error-with-Werror-maybe-uninitializ.patch | 40 ++++++++++++++++++++++
- meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb      |  4 ++-
- 2 files changed, 43 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+ meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
+ .../0041-elf.c-initialize-struct-stat.patch        | 34 ++++++++++++++++++++++
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch
 
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
+index f7bf257..317c6af 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
+@@ -71,6 +71,7 @@ SRC_URI = "\
+            file://0038-Re-introduce-spe-commandline-options.patch \
+            file://0039-riscv-Disable-multilib-for-OE.patch \
+            file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
++           file://0041-elf.c-initialize-struct-stat.patch \
+ "
+ SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
+ SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch
 new file mode 100644
-index 0000000..1cfd35c
+index 0000000..56d62c9
 --- /dev/null
-+++ b/meta/recipes-graphics/cogl/cogl-1.0/0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch
-@@ -0,0 +1,40 @@
-+From e05ee89fcc978fceccab3e4724a3a37f7a338499 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Tue, 2 Apr 2019 14:48:49 +0800
-+Subject: [PATCH] cogl: fix compile error with -Werror=maybe-uninitialized
++++ b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch
+@@ -0,0 +1,34 @@
++From eae259e4722a1c4606a1e6df7ee84a311a91f4a6 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Mon, 8 Apr 2019 14:19:31 +0800
++Subject: [PATCH] elf.c: initialize struct stat
 +
-+fix below compile error with -Werror=maybe-uninitialized when DEBUG_BUILD is enabled
++Initialize struct stat to fix the below
++build failure when -Og included in compiler flag.
++| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
++| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++   return S_ISLNK (st.st_mode);
 +
-+| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+|      *out_gltype = gltype;
-+|      ~~~~~~~~~~~~^~~~~~~~
-+| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+|      *out_glintformat = glintformat;
-+|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
++Upstream-Status: Submitted[https://gcc.gnu.org/ml/gcc-patches/2019-04/msg00261.html]
 +
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/cogl/issues/6]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 +---
-+ cogl/driver/gl/gles/cogl-driver-gles.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ libbacktrace/elf.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/cogl/driver/gl/gles/cogl-driver-gles.c b/cogl/driver/gl/gles/cogl-driver-gles.c
-+index e94449f..a59d815 100644
-+--- a/cogl/driver/gl/gles/cogl-driver-gles.c
-++++ b/cogl/driver/gl/gles/cogl-driver-gles.c
-+@@ -74,9 +74,9 @@ _cogl_driver_pixel_format_to_gl (CoglContext *context,
-+                                  GLenum *out_gltype)
++diff --git a/libbacktrace/elf.c b/libbacktrace/elf.c
++index f4863f0..8c57047 100644
++--- a/libbacktrace/elf.c
+++++ b/libbacktrace/elf.c
++@@ -765,7 +765,7 @@ elf_syminfo (struct backtrace_state *state, uintptr_t addr,
++ static int
++ elf_is_symlink (const char *filename)
 + {
-+   CoglPixelFormat required_format;
-+-  GLenum glintformat;
-++  GLenum glintformat = 0;
-+   GLenum glformat = 0;
-+-  GLenum gltype;
-++  GLenum gltype = 0;
++-  struct stat st;
+++  struct stat st = {0};
 + 
-+   required_format = format;
-+ 
++   if (lstat (filename, &st) < 0)
++     return 0;
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
-index 5901062..5ddeb4a 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
-+++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
-@@ -1,7 +1,9 @@
- require cogl-1.0.inc
- 
- SRC_URI += "file://test-backface-culling.c-fix-may-be-used-uninitialize.patch \
--            file://0001-Fix-an-incorrect-preprocessor-conditional.patch"
-+            file://0001-Fix-an-incorrect-preprocessor-conditional.patch \
-+            file://0001-cogl-fix-compile-error-with-Werror-maybe-uninitializ.patch \
-+           "
- SRC_URI[archive.md5sum] = "d53b708ca7c4af03d7254e46945d6b33"
- SRC_URI[archive.sha256sum] = "39a718cdb64ea45225a7e94f88dddec1869ab37a21b339ad058a9d898782c00d"
- 
 -- 
 2.7.4
 
