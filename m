@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DCBC7D431
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 629B57D65D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 11:59:38 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id g3so16008797wrx.9
+	Mon,  8 Apr 2019 11:59:39 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id v14so14380918wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2019 04:59:39 -0700 (PDT)
+	Mon, 08 Apr 2019 04:59:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=gMfyllPZTao99dveLZ+eh2A6h9eon/6DCO1+MTSx/NU=;
-	b=XSBs6RnAPiqqcHC5BkwV+yhzdES5l5HadWv/154Wtt9g+IIEEvGUwcLtO2bB4rG6ny
-	jWthNbTNDv6w6yEdsO/zh+eoPrpQKdawK63K2e/kBjNLlkpShW/l5KT2TN/jNb+hZgBo
-	TglVV2caNpyZzVTKbJTleSJ7Y/XqHCRHXHCfw=
+	bh=HZbCV3OrV5bfWRTKMt+g09I+3wPjGxRpCJDRztRaeOg=;
+	b=ImBaOvc3MdnVAoF38rlqJMvgM28jijOGKqszQVeb8xg3BJxvZNSg1cI2qglLGXXSZf
+	Kbzjp/BifS9iVaKWiQ/Ydd9OggxsuURaM/5FCRzdy/3kz89IS8dk0gGZrXV+RX8lC94A
+	s2gyHF5KD7YvdW2p68QrHVPC8mAGCtD6mutEY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=gMfyllPZTao99dveLZ+eh2A6h9eon/6DCO1+MTSx/NU=;
-	b=dvTlB2Zg5OgHydrZVZZQaRZsXudFOk+KyJgVZcVQ1dKs4Vzj1u7gVMjIMSIL804lQ2
-	TGfBMI85iZes1IWqx1VKorBEYK99gCofqA117Pq40QOcw4x5+KJl3AIHXNQJnzjTKVLM
-	TRImcp3LKRrs32ZNhin4mlY2lLoqsl2E1/xGPsAQ5YGUFUEwZSWYS6Q+rEd/5SeXA8aB
-	bpde+q1WNJbM86bMCv+CTTPDtuUd2l++RLsmDJfylPCaV2gLvN/2P9XISCaA+pYGduhX
-	RNV+FNqmRO3l9x348TF7CM+RGTOVmm0uN59l83UG3rxe0PnvaL45n0SyFnJdwKvmxaCo
-	jvUw==
-X-Gm-Message-State: APjAAAX5yxRXlAIYbDi807ktnjgfqG72DluMN/STVHYgJxv0vXgeEGJp
-	mnJaOocRU1ei1ermYfhYqOQoNiUC+Vg=
-X-Google-Smtp-Source: APXvYqwykq/C/6T8AumygDDsqmj8ju+FgNpPJNNZ/X6tMXyZkkL/aVOpwywCn963EIaYSecXGSbV2w==
-X-Received: by 2002:a5d:69c1:: with SMTP id s1mr18332059wrw.245.1554724778525; 
-	Mon, 08 Apr 2019 04:59:38 -0700 (PDT)
+	bh=HZbCV3OrV5bfWRTKMt+g09I+3wPjGxRpCJDRztRaeOg=;
+	b=pVZK5dCGMqFbg54dvn9o9AYysMfMD2JldEaApCK8U7ImHn+K9RCothMKSzIZpNLedv
+	X9d3Gc2x97amRbsWWmdRGJFJ/Gv7YOoYTEnN8n9TVVBWNqPSoFSXnugSeqevNFYJywQX
+	+mn7rjQfZ9ny1bAeUIhZNXXKskRy+9HgpE56S8QceZwHMd2qAB7kkSj2McT71X0tSQ65
+	BPlI0yXsIe/ofxbsVoF6JkNbzNM0j9orHmzxEycJTGjTYg3VmDxfoMolooegTg4RonNJ
+	Zb1izxKrheUARix2Z9xrRv22818o8SWbPXUt4gCCbK7k1c2hNa/1ZWkczMcKq6ZLwUoX
+	b1ew==
+X-Gm-Message-State: APjAAAXMvnsvHtoGgCD8QPcTHua2bmtVlqBgPPUkrqCro/CWK4vAeFi6
+	dYi5bYYw0i+I97Q5GemLyzXc4wM1hWw=
+X-Google-Smtp-Source: APXvYqyrANwFowP5J5y9+F4KxURXRn8pX0TErX/eCIfwNJklvXj2ARYG+m0HFZ1a+90urHk9ZsVgwA==
+X-Received: by 2002:a1c:244:: with SMTP id 65mr17845811wmc.42.1554724779714;
+	Mon, 08 Apr 2019 04:59:39 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s1sm21654036wrt.43.2019.04.08.04.59.37
+	s1sm21654036wrt.43.2019.04.08.04.59.38
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Apr 2019 04:59:37 -0700 (PDT)
+	Mon, 08 Apr 2019 04:59:38 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  8 Apr 2019 12:59:34 +0100
-Message-Id: <20190408115935.16945-2-richard.purdie@linuxfoundation.org>
+Date: Mon,  8 Apr 2019 12:59:35 +0100
+Message-Id: <20190408115935.16945-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190408115935.16945-1-richard.purdie@linuxfoundation.org>
 References: <20190408115935.16945-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] openssh/util-linux/python*: Ensure ptest output is unbuffered
+Subject: [PATCH 3/3] ptest-runner: Add several logging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,124 +58,214 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 11:59:38 -0000
+X-List-Received-Date: Mon, 08 Apr 2019 11:59:39 -0000
 Content-Transfer-Encoding: 8bit
 
-We need to run sed with the -u option to ensure the output is unbuffered else
-ptest-runner may timeout thinkig things were idle. Busybox doesn't have the -u
-option so we need to RDEPEND on sed (which is a good thing to do if we use it
-anyway).
-
-Alex Kanavin should get credit for discovering the problem.
+This change adds three patches to improve the handling of stdout/stderr and child
+processes to try and improve logging reliability in ptest-runner.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-connectivity/openssh/openssh/run-ptest | 2 +-
- meta/recipes-connectivity/openssh/openssh_7.9p1.bb  | 2 +-
- meta/recipes-core/util-linux/util-linux.inc         | 2 +-
- meta/recipes-core/util-linux/util-linux/run-ptest   | 2 +-
- meta/recipes-devtools/python/python/run-ptest       | 2 +-
- meta/recipes-devtools/python/python3/run-ptest      | 2 +-
- meta/recipes-devtools/python/python3_3.7.2.bb       | 2 +-
- meta/recipes-devtools/python/python_2.7.15.bb       | 2 +-
- 8 files changed, 8 insertions(+), 8 deletions(-)
+ ...ils-Ensure-stdout-stderr-are-flushed.patch | 45 +++++++++++
+ ...002-use-process-groups-when-spawning.patch | 35 +++++++++
+ ...ils-Ensure-pipes-are-read-after-exit.patch | 76 +++++++++++++++++++
+ .../ptest-runner/ptest-runner_2.3.1.bb        |  6 +-
+ 4 files changed, 161 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+ create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+ create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/run-ptest b/meta/recipes-connectivity/openssh/openssh/run-ptest
-index 36a3d2a7b7b..daf62cca5b1 100755
---- a/meta/recipes-connectivity/openssh/openssh/run-ptest
-+++ b/meta/recipes-connectivity/openssh/openssh/run-ptest
-@@ -5,7 +5,7 @@ export TEST_SHELL=sh
- cd regress
- sed -i "/\t\tagent-ptrace /d" Makefile
- make -k .OBJDIR=`pwd` .CURDIR=`pwd` SUDO="sudo" tests \
--        | sed -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
-+        | sed -u -e 's/^skipped/SKIP: /g' -e 's/^ok /PASS: /g' -e 's/^failed/FAIL: /g'
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch b/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+new file mode 100644
+index 00000000000..c9a9dd7cf49
+--- /dev/null
++++ b/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+@@ -0,0 +1,45 @@
++From 9b36993794c1de733c521b2477370c874c07b617 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Thu, 4 Apr 2019 14:18:55 +0100
++Subject: [PATCH 1/3] utils: Ensure stdout/stderr are flushed
++
++There is no guarantee that the data written with fwrite will be flushed to the
++buffer. If stdout and stderr are the same thing, this could lead to interleaved
++writes. The common case is stdout output so flush the output pipes when writing to
++stderr. Also flush stdout before the function returns.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Pending [code being tested]
++---
++ utils.c | 7 +++++--
++ 1 file changed, 5 insertions(+), 2 deletions(-)
++
++diff --git a/utils.c b/utils.c
++index 504df0b..3ceb342 100644
++--- a/utils.c
+++++ b/utils.c
++@@ -295,8 +295,11 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
++ 			}
++ 
++ 			if (pfds[1].revents != 0) {
++-				while ((n = read(fds[1], buf, WAIT_CHILD_BUF_MAX_SIZE)) > 0)
+++				while ((n = read(fds[1], buf, WAIT_CHILD_BUF_MAX_SIZE)) > 0) {
+++					fflush(fps[0]);
++ 					fwrite(buf, n, 1, fps[1]);
+++					fflush(fps[1]);
+++				}
++ 			}
++ 
++ 			clock_gettime(clock, &sentinel);
++@@ -315,7 +318,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
++ 			break;
++ 	}
++ 
++-
+++	fflush(fps[0]);
++ 	return status;
++ }
++ 
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch b/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+new file mode 100644
+index 00000000000..5436a3340c4
+--- /dev/null
++++ b/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+@@ -0,0 +1,35 @@
++From f0c42a65633341ad048718c7a6dbd035818e9eaf Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Thu, 4 Apr 2019 14:20:31 +0100
++Subject: [PATCH 2/3] use process groups when spawning
++
++Rather than just killing the process we've swawned, set the process group
++for spawned children and then kill the group of processes.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Pending [code being tested]
++---
++ utils.c | 9 +++++----
++ 1 file changed, 5 insertions(+), 4 deletions(-)
++
++diff --git a/utils.c b/utils.c
++index 3ceb342..c5b3b8d 100644
++--- a/utils.c
+++++ b/utils.c
++@@ -309,7 +309,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
++ 			clock_gettime(clock, &time);
++ 			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
++ 				*timeouted = 1;
++-				kill(pid, SIGKILL);
+++				kill(-pid, SIGKILL);
++ 				waitflags = 0;
++ 			}
++ 		}
++@@ -371,6 +371,7 @@ run_ptests(struct ptest_list *head, const struct ptest_options opts,
++ 				rc = -1;
++ 				break;
++ 			} else if (child == 0) {
+++				setsid();
++ 				run_child(p->run_ptest, pipefd_stdout[1], pipefd_stderr[1]);
++ 			} else {
++ 				int status;
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch b/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
+new file mode 100644
+index 00000000000..f7c3ebe6f2c
+--- /dev/null
++++ b/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
+@@ -0,0 +1,76 @@
++From e58e4e1a7f854953f823dc5135d35f728f253f31 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Thu, 4 Apr 2019 14:24:14 +0100
++Subject: [PATCH 3/3] utils: Ensure pipes are read after exit
++
++There was a race in the code where the pipes may not be read after the process has exited
++and data may be left behind in them. This change to ordering ensures the pipes are read
++after the exit code has been read meaning no data can be left behind and the logs should
++be complete.
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++Upstream-Status: Pending [code being tested]
++---
++ utils.c | 29 ++++++++++++++++-------------
++ 1 file changed, 16 insertions(+), 13 deletions(-)
++
++diff --git a/utils.c b/utils.c
++index c5b3b8d..37e88ab 100644
++--- a/utils.c
+++++ b/utils.c
++@@ -264,6 +264,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
++ 	struct pollfd pfds[2];
++ 	struct timespec sentinel;
++ 	clockid_t clock = CLOCK_MONOTONIC;
+++	int looping = 1;
++ 	int r;
++ 
++ 	int status;
++@@ -281,9 +282,23 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
++ 
++ 	*timeouted = 0;
++ 
++-	while (1) {
+++	while (looping) {
++ 		waitflags = WNOHANG;
++ 
+++		if (timeout >= 0) {
+++			struct timespec time;
+++
+++			clock_gettime(clock, &time);
+++			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
+++				*timeouted = 1;
+++				kill(-pid, SIGKILL);
+++				waitflags = 0;
+++			}
+++		}
+++
+++		if (waitpid(pid, &status, waitflags) == pid)
+++			looping = 0;
+++
++ 		r = poll(pfds, 2, WAIT_CHILD_POLL_TIMEOUT_MS);
++ 		if (r > 0) {
++ 			char buf[WAIT_CHILD_BUF_MAX_SIZE];
++@@ -303,19 +318,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
++ 			}
++ 
++ 			clock_gettime(clock, &sentinel);
++-		} else if (timeout >= 0) {
++-			struct timespec time;
++-
++-			clock_gettime(clock, &time);
++-			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
++-				*timeouted = 1;
++-				kill(-pid, SIGKILL);
++-				waitflags = 0;
++-			}
++ 		}
++-
++-		if (waitpid(pid, &status, waitflags) == pid)
++-			break;
++ 	}
++ 
++ 	fflush(fps[0]);
++-- 
++2.17.1
++
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+index 4b7992bf2fd..e2eb258d0b0 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+@@ -10,7 +10,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+ SRCREV = "05b112bda7ac2adba8e9b0f088d6e5843b148a38"
+ PV = "2.3.1+git${SRCPV}"
  
- SSHAGENT=`which ssh-agent`
- GDB=`which gdb`
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-index 2a23f64b894..6260135d5b2 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-@@ -144,7 +144,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+-SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
++SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
++ file://0001-utils-Ensure-stdout-stderr-are-flushed.patch \
++ file://0002-use-process-groups-when-spawning.patch \
++ file://0003-utils-Ensure-pipes-are-read-after-exit.patch"
++
+ S = "${WORKDIR}/git"
  
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
--RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make"
-+RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed"
- 
- RPROVIDES_${PN}-ssh = "ssh"
- RPROVIDES_${PN}-sshd = "sshd"
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 18c3af240eb..c7ba8c446f1 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -142,7 +142,7 @@ RDEPENDS_${PN}_class-nativesdk = ""
- RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
- 
- RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
--RDEPENDS_${PN}-ptest = "bash grep coreutils which btrfs-tools ${PN}"
-+RDEPENDS_${PN}-ptest = "bash grep coreutils which btrfs-tools ${PN} sed"
- RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
- ALLOW_EMPTY_${PN}-swaponoff = "1"
- 
-diff --git a/meta/recipes-core/util-linux/util-linux/run-ptest b/meta/recipes-core/util-linux/util-linux/run-ptest
-index fbc2f9b56a9..8c57bd20740 100644
---- a/meta/recipes-core/util-linux/util-linux/run-ptest
-+++ b/meta/recipes-core/util-linux/util-linux/run-ptest
-@@ -16,7 +16,7 @@ res=0
- count=0
- for ts in $comps; 
- do 
--   $ts | sed '{        
-+   $ts | sed -u '{        
-       s/^\(.*\):\(.*\) \.\.\. OK$/PASS: \1:\2/                              
-       s/^\(.*\):\(.*\) \.\.\. FAILED \(.*\)$/FAIL: \1:\2 \3/                
-       s/^\(.*\):\(.*\) \.\.\. SKIPPED \(.*\)$/SKIP: \1:\2 \3/               
-diff --git a/meta/recipes-devtools/python/python/run-ptest b/meta/recipes-devtools/python/python/run-ptest
-index 13dfc99efd5..c7002a4560c 100644
---- a/meta/recipes-devtools/python/python/run-ptest
-+++ b/meta/recipes-devtools/python/python/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
- 
--python -mtest -W | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-+python -mtest -W | sed -u -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-diff --git a/meta/recipes-devtools/python/python3/run-ptest b/meta/recipes-devtools/python/python3/run-ptest
-index 20c9274dfa7..50f92916eb6 100644
---- a/meta/recipes-devtools/python/python3/run-ptest
-+++ b/meta/recipes-devtools/python/python3/run-ptest
-@@ -1,3 +1,3 @@
- #!/bin/sh
- 
--python3 -m test -W | sed -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-+python3 -m test -W | sed -u -e '/\.\.\. ok/ s/^/PASS: /g' -e '/\.\.\. [ERROR|FAIL]/ s/^/FAIL: /g' -e '/\.\.\. skipped/ s/^/SKIP: /g' -e 's/ \.\.\. ok//g' -e 's/ \.\.\. ERROR//g' -e 's/ \.\.\. FAIL//g' -e 's/ \.\.\. skipped//g'
-diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
-index 3d44bdca911..4ff8cff3a1f 100644
---- a/meta/recipes-devtools/python/python3_3.7.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.2.bb
-@@ -285,7 +285,7 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MA
- PACKAGES += "${PN}-man"
- FILES_${PN}-man = "${datadir}/man"
- 
--RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils"
-+RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
- RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
- RDEPENDS_${PN}-dev = ""
- 
-diff --git a/meta/recipes-devtools/python/python_2.7.15.bb b/meta/recipes-devtools/python/python_2.7.15.bb
-index c459af06f10..62051a227b8 100644
---- a/meta/recipes-devtools/python/python_2.7.15.bb
-+++ b/meta/recipes-devtools/python/python_2.7.15.bb
-@@ -176,7 +176,7 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}"
- RDEPENDS_${PN}-modules += "${PN}-misc"
- 
- # ptest
--RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip tzdata-europe coreutils"
-+RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip tzdata-europe coreutils sed"
- RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
- # catch manpage
- PACKAGES += "${PN}-man"
+ FILES_${PN} = "${bindir}/ptest-runner"
 -- 
 2.20.1
 
