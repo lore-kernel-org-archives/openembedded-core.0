@@ -1,25 +1,52 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BAC46D230
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id DA0857D48D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 06:40:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x386ebud023128
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 7 Apr 2019 23:40:37 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 7 Apr 2019 23:40:36 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
-Date: Mon, 8 Apr 2019 14:40:34 +0800
-Message-ID: <1554705634-56387-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
-References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
+	Mon,  8 Apr 2019 06:55:35 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id w10so14910034wrm.4
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 07 Apr 2019 23:55:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=9stAm3K34sOqafO4lMoqlY+FiU4C77S4jM/5soIxwGM=;
+	b=LP1EfC9O3JE8rJuY6LN05UWXsJ86PGxXQ3PNvpulmzeHxdUilAv4K88JI7scvO1UL4
+	pVugAnsv6jWCX8IZlU2UFFVVnanvlFFXHLBNk0w6/h58ZJwcKt26l2x2eAg1ZXQeocoW
+	hr3XDqSJWY5ADatUpGID/rzRn0txKcWVrmXe0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=9stAm3K34sOqafO4lMoqlY+FiU4C77S4jM/5soIxwGM=;
+	b=kZo7F0Q0gNn9OiZY1u+fp1b6thDoBY+775fkg/SKjqN2BRQ1bmpwOw8SUxAZR3RmgK
+	/FuqAcBBPCAeseonELJtr0iS3QZZtl5N4W2fX5qvS0zmRhPb0Ll8bPqsZ/jkJvbMg05F
+	aPkfE6Er75UkTmj0nAfQTDjDgo8kR3RfB6OQRUw8kIfTY0siNnrYZn2eZJJbVSJYCMTj
+	EofL4dWSFXBspj2++kIcNa+GxuVzMYXG61RvvMIc6nSvqe4aGkNXKnVoqb2EEgv+NrGh
+	ahgTT3vveD2uKQOo/Qlb0NuynbwviE7e8NaeFi8KywjooyrujSiUipi4SqxWJqGXnXeF
+	/iTw==
+X-Gm-Message-State: APjAAAXJ4XXkwNwWlSfbN0w1Sk44TcKjDwgQjugh+8cSiQIZfYXr+Sqc
+	5o0gcucrqzepN8uVUZx7qAy/Ax8BwxE=
+X-Google-Smtp-Source: APXvYqy/yC3WUMjYmpx1xNdJ/kt6+kCPBC/NllAFrhU4LibFMrXf13zmW8rKl96HEyn/pg90usRlJg==
+X-Received: by 2002:a5d:63c5:: with SMTP id c5mr18194302wrw.82.1554706536507; 
+	Sun, 07 Apr 2019 23:55:36 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o1sm10694651wmh.47.2019.04.07.23.55.35
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sun, 07 Apr 2019 23:55:35 -0700 (PDT)
+Message-ID: <1cde16c3b778fe783faa1e93f2004ba392e2387f.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Stefan Herbrechtsmeier <stefan@herbrechtsmeier.net>
+Date: Mon, 08 Apr 2019 07:55:33 +0100
+In-Reply-To: <58b4bdc8-f722-41f4-8c0b-7671b44397e0@email.android.com>
+References: <58b4bdc8-f722-41f4-8c0b-7671b44397e0@email.android.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-Subject: [PATCH v2] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Circular dependency of do_populate_sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,79 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 06:40:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 08 Apr 2019 06:55:36 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+On Mon, 2019-04-08 at 07:43 +0200, Stefan Herbrechtsmeier wrote:
+> Am 07.04.2019 23:35 schrieb richard.purdie@linuxfoundation.org:
+> > You're saying A runtime depends on B and B runtime depends on A.
+> 
+> Yes, only the run time depends on each other. This means the
+> dependency doesn't exist during a native build of a or b.
 
-When DEBUG_BUILD = "1" added in local.conf, there
-comes below build error when "bitbake gcc-sanitizers":
-| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
-| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-|   return S_ISLNK (st.st_mode);
+In which case this is easy, simply set:
 
-Initialize struct stat to fix the above issue.
+RDEPENDS_${PN}_class-native = ""
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-8.3.inc              |  1 +
- .../0041-elf.c-initialize-struct-stat.patch        | 34 ++++++++++++++++++++++
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch
+By default the system assumes that native packages have the same
+dependencies as target.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-index f7bf257..317c6af 100644
---- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-@@ -71,6 +71,7 @@ SRC_URI = "\
-            file://0038-Re-introduce-spe-commandline-options.patch \
-            file://0039-riscv-Disable-multilib-for-OE.patch \
-            file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
-+           file://0041-elf.c-initialize-struct-stat.patch \
- "
- SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
- SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch
-new file mode 100644
-index 0000000..56d62c9
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc-8.3/0041-elf.c-initialize-struct-stat.patch
-@@ -0,0 +1,34 @@
-+From eae259e4722a1c4606a1e6df7ee84a311a91f4a6 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Mon, 8 Apr 2019 14:19:31 +0800
-+Subject: [PATCH] elf.c: initialize struct stat
-+
-+Initialize struct stat to fix the below
-+build failure when -Og included in compiler flag.
-+| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
-+| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-+   return S_ISLNK (st.st_mode);
-+
-+Upstream-Status: Submitted[https://gcc.gnu.org/ml/gcc-patches/2019-04/msg00261.html]
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ libbacktrace/elf.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libbacktrace/elf.c b/libbacktrace/elf.c
-+index f4863f0..8c57047 100644
-+--- a/libbacktrace/elf.c
-++++ b/libbacktrace/elf.c
-+@@ -765,7 +765,7 @@ elf_syminfo (struct backtrace_state *state, uintptr_t addr,
-+ static int
-+ elf_is_symlink (const char *filename)
-+ {
-+-  struct stat st;
-++  struct stat st = {0};
-+ 
-+   if (lstat (filename, &st) < 0)
-+     return 0;
-+-- 
-+2.7.4
-+
--- 
-2.7.4
+Its complicated by PACKAGES being empty for native but the code knows
+to look at "${PN}" for rdepends.
+
+Cheers,
+
+Richard
+
 
 
