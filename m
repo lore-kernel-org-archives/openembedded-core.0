@@ -1,49 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E8E07D527
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 409947D574
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 16:37:20 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id k130so8385293qke.3
+	Mon,  8 Apr 2019 17:47:39 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id z9so4800931pgu.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2019 09:37:22 -0700 (PDT)
+	Mon, 08 Apr 2019 10:47:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=6ZDn/18j0Cx8lLUzNT3YqDSmB2KL9bNNIk5KtD46cYw=;
-	b=SHmuffWWf0oPNyOGPhpwf6UFzzdwCQXijRFWh1rIY/WE4Urq0TExYKTkq7PtgF0SPm
-	08mHvlUlCIGQaWVs4bhSqJH9yTImhx5wOTck62HVV6n94LhePJuDb7FQXWZGp3+Gvnv/
-	lrWVuNm9NohFhnUFGQZ2RGRVFCRncNgZ/A9lCrUi024vMDOPp64qiZPdu0iL61izn1Ck
-	qirPfwZrTs7kojIwvtVCO4dqzEct/WCH9M3d6H/lpkFMS/dIRBZNST4853RvxpBihW+z
-	BCWYn7xQQU90f8ivgOgzimNxsRtJ3jra80ISgVjM+n9AHmORyVirLtC/sihKrA4ePK2n
-	PfSw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hCxLrwf+wPDcC0/k7ghSJtxRQ5a/7fzu2G+3KSDZcic=;
+	b=ld9DUj9KFxJ4nc2TvcjBAntmmE38a7DRkZEV8qdM9/6Mm4JoZQR5g2Jlw/b84UrXZw
+	wTO4DVUAzW+5zvCPtZegFQfIa9hfXaop1/e/0pZb/yOwbUAjQOCIc0CUtACwbziWo5oK
+	Kgn5yvz93gnqbfHo/iUV0H11xPBAtWKnnWqpIPolIYZkVQd8FlbSAUaeQ2MEhA3VyCE2
+	Hrp6FNcGiKXdSSoMMEgiwYlxYO6q6Wt6RvJrS8Dh2RvPuZZITCX5NjBFzUFF1ZgJS+vf
+	q7uiqoZRMlO/E1gOhIVEWpsze0T5a/ewLSMQ5k62vaVqMuw73XErIUFMny0a/kvHjJbL
+	OnOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=6ZDn/18j0Cx8lLUzNT3YqDSmB2KL9bNNIk5KtD46cYw=;
-	b=Ow23AN3sX46VcAy3tVFASN5ijk9G2Wc9ZSe952G9j3ySpaLtZptYESZdb9/Jm5QfAr
-	KaNMBI8WWzl2Hbmqxd0t69eFSAvZ7TCX8E+dL3+KXe5q91DO7TXlU4aCAXopo+Cm5W/7
-	GCXDA8qUfe79j33lIskwiX7wkJOEwUw35B6PumC9/w1xcjhOUedexgYvLAlE7W5a1ZXj
-	Hy/Os0tFoYK0H0RCkOOdZfDNFIJQj7uI97F0HzxeQt81QIEetpGWgnt5zteRtuLUw6sR
-	wUotMhvVkIdsmOiiMmmr2d6s5MljzJS7jseBhe9PH8btdvaGIJ3TqnKISCaWoi9rCocd
-	pzQA==
-X-Gm-Message-State: APjAAAXqw9RFpt7UJRCvJnmAvET7DYFhRVLHnETQwrM+qlHp2yJJeMAv
-	xTNn9e5DOkTGI9Fi3wCGIZxJb1EAOgCJxyE03xE=
-X-Google-Smtp-Source: APXvYqznOzHZPWXdixxAW4G5Nf+621n/f/PyUO+ou6yKPpOGPciaVht3tyHaMSh10S4mE67DxvT6wBz/nA0l11QPKAI=
-X-Received: by 2002:a37:9d84:: with SMTP id g126mr22395013qke.22.1554741441636;
-	Mon, 08 Apr 2019 09:37:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190404075205.108547-1-kai.kang@windriver.com>
-	<d7797aa9-4b8d-9bb9-536e-f4bfa5ab906e@windriver.com>
-In-Reply-To: <d7797aa9-4b8d-9bb9-536e-f4bfa5ab906e@windriver.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=hCxLrwf+wPDcC0/k7ghSJtxRQ5a/7fzu2G+3KSDZcic=;
+	b=CjQrr9bioDAzXrJUv+Tpz61/49IKuv6sL5Jx774rL1wSZuWKfyJT3h4C/rBvFPozxb
+	WL1wQnRPfcMcrMCh0cPEUYwbb/Vs0Tg57wKfpu6z2zXhz3KM6KNnn9jFUKIEcUaJhgDi
+	Jc3BVbk+wQoEe31LyDMh65A9vZfy7Dvfrh0OVmIPWvEFjHNYujCXZfBjlOJ79Eo5bDNT
+	HprUYGCCdOt9NGV+4X09LU0Vdkr8rp9z4Tw65HhYlGeGFuUNhkdKAYKvXcGA9sXyOLTE
+	nhHnxOp78FmSuhh3hH79WIo2Fm6kVsBQdKwFaKSFEyRbe6xB3ZjxWUx1v7UJPuhTyXcb
+	ZG+w==
+X-Gm-Message-State: APjAAAWizcxHbTWuwkrsQKNlBZp06lvgNETG5koo32IdUFWPPJt1wl6g
+	aqe16GzH43rACzD8Y+C8dJ6I5l4JYrc=
+X-Google-Smtp-Source: APXvYqxuzS6LX6vljy74+lYVWwb+sW6A003UO8sSGShrOtJiqDb1B9jgGwdrWM9HaPpKfOwGb3F+AQ==
+X-Received: by 2002:a65:5ac3:: with SMTP id d3mr30487839pgt.168.1554745659419; 
+	Mon, 08 Apr 2019 10:47:39 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::8ec8])
+	by smtp.gmail.com with ESMTPSA id
+	b72sm67232254pga.86.2019.04.08.10.47.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 08 Apr 2019 10:47:38 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 8 Apr 2019 09:36:55 -0700
-Message-ID: <CAMKF1sqeKbYiMWLj=+KBh8Sx-8hR8uQbMDT9qTr7WgV=HdsVkg@mail.gmail.com>
-To: Kang Kai <Kai.Kang@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] virglrenderer: remove link option -Bsymbolic
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Apr 2019 10:47:32 -0700
+Message-Id: <20190408174732.20703-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH V2] Revert "mdadm: fix gcc8 maybe-uninitialized/format-overflow warning"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,110 +57,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 16:37:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 08 Apr 2019 17:47:39 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 7, 2019 at 6:59 PM Kang Kai <Kai.Kang@windriver.com> wrote:
->
-> On 2019/4/4 =E4=B8=8B=E5=8D=883:52, kai.kang@windriver.com wrote:
-> > From: Kai Kang <kai.kang@windriver.com>
-> >
-> > When gcc compile options '-O2 -fvisibility=3Ddefault' are applied, it
-> > fails to compile virglrenderer for x86:
-> >
-> > | ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
-> >    R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be use=
-d
-> >    when making a shared object
-> > | ld: final link failed: bad value
-> > | collect2: error: ld returned 1 exit status
-> >
-> > Remove link option '-Bsymbolic' to fix the failure.
->
->
-> Any comments on this patch? Thank.
->
-> Kai
->
->
-> >
-> > Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > ---
-> >   .../0001-Remove-link-option-Bsymbolic.patch   | 34 ++++++++++++++++++=
-+
-> >   .../virglrenderer/virglrenderer_0.7.0.bb      |  1 +
-> >   2 files changed, 35 insertions(+)
-> >   create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/=
-0001-Remove-link-option-Bsymbolic.patch
-> >
-> > diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Rem=
-ove-link-option-Bsymbolic.patch b/meta/recipes-graphics/virglrenderer/virgl=
-renderer/0001-Remove-link-option-Bsymbolic.patch
-> > new file mode 100644
-> > index 0000000000..faefa16aae
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-Remove-lin=
-k-option-Bsymbolic.patch
-> > @@ -0,0 +1,34 @@
-> > +When gcc compile options '-O2 -fvisibility=3Ddefault' are applied, it =
-fails to
-> > +compile virglrenderer for x86:
-> > +
-> > +| ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
-> > +  R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be use=
-d
-> > +  when making a shared object
-> > +| ld: final link failed: bad value
-> > +| collect2: error: ld returned 1 exit status
-> > +
-> > +Remove link option '-Bsymbolic' to fix the failure.
-> > +
+This patch tried to address a gcc problem when -Og is used, but it did
+cause regressions on normal compiles when using clang e.g. the real
+problem is to fix the compiler until then disable the warning in
+DEBUG_FLAGS
 
-In spite of removing the option can we try replacing it with
--Bsymbolic-functions
+This reverts commit 630281663893cdcfa9c4323b717b415d87d5510f.
 
-> > +Upstream-Status: Submitted [https://gitlab.freedesktop.org/virgl/virgl=
-renderer/merge_requests/213]
-> > +
-> > +Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> > +---
-> > + src/Makefile.am | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/src/Makefile.am b/src/Makefile.am
-> > +index 9b668c8..7a421b8 100644
-> > +--- a/src/Makefile.am
-> > ++++ b/src/Makefile.am
-> > +@@ -48,7 +49,7 @@ endif
-> > + lib_LTLIBRARIES =3D libvirglrenderer.la
-> > + noinst_LTLIBRARIES =3D libvrend.la
-> > +
-> > +-GM_LDFLAGS =3D -Wl,-Bsymbolic -version-number 0:2 -no-undefined
-> > ++GM_LDFLAGS =3D -version-number 0:2 -no-undefined
-> > +
-> > + libvirglrenderer_la_SOURCES =3D virglrenderer.c
-> > + libvirglrenderer_ladir =3D $(libdir)
-> > +--
-> > +2.20.1
-> > +
-> > diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb=
- b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
-> > index 225a0b8b0c..afc709bc48 100644
-> > --- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
-> > +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
-> > @@ -9,6 +9,7 @@ SRCREV =3D "402c228861c9893f64cffbbcb4cb23044b8c721c"
-> >   SRC_URI =3D "git://anongit.freedesktop.org/virglrenderer \
-> >              file://0001-vtest-add-missing-includes.patch \
-> >              file://0001-Makefile.am-explicitly-link-with-libdrm.patch =
-\
-> > +           file://0001-Remove-link-option-Bsymbolic.patch \
-> >              "
-> >
-> >   S =3D "${WORKDIR}/git"
->
->
-> --
-> Kai Kang
->
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-uninitialized-format-overflow-warni.patch | 60 -------------------
+ meta/recipes-extended/mdadm/mdadm_4.1.bb      |  1 -
+ 2 files changed, 61 deletions(-)
+ delete mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch
+
+diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch
+deleted file mode 100644
+index 237f83a87e..0000000000
+--- a/meta/recipes-extended/mdadm/files/0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-From bf457a83834932ba06de3528b8779a023e73fa7b Mon Sep 17 00:00:00 2001
+-From: Changqing Li <changqing.li@windriver.com>
+-Date: Tue, 12 Mar 2019 16:17:29 +0800
+-Subject: [PATCH] mdadm: gcc8 maybe-uninitialized/format-overflow warning
+-
+-while compiled with -Werror=maybe-uninitialized/-Werror=format-overflow=,
+-it failed
+-
+-[snip]
+-| Incremental.c: In function 'Incremental_container':
+-| Incremental.c:1593:3: error: 'mdfd' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+-| close(mdfd);
+-| ^~~~~~~~~~~
+-
+-[snip]
+-super-intel.c: In function 'apply_takeover_update':
+-| super-intel.c:9615:15: error: '%d' directive writing between 1 and 11 bytes into a region of size 7 [-Werror=format-overflow=]
+-| " MISSING_%d", du->index);
+-| ^~
+-
+-Upstream-Status: Submitted [https://github.com/neilbrown/mdadm/pull/36]
+-
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- Incremental.c | 2 +-
+- super-intel.c | 4 ++--
+- 2 files changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/Incremental.c b/Incremental.c
+-index a4ff7d4..b667868 100644
+---- a/Incremental.c
+-+++ b/Incremental.c
+-@@ -1500,7 +1500,7 @@ static int Incremental_container(struct supertype *st, char *devname,
+- 		return 0;
+- 	}
+- 	for (ra = list ; ra ; ra = ra->next) {
+--		int mdfd;
+-+		int mdfd = 0;
+- 		char chosen_name[1024];
+- 		struct map_ent *mp;
+- 		struct mddev_ident *match = NULL;
+-diff --git a/super-intel.c b/super-intel.c
+-index 10d7218..c3741ea 100644
+---- a/super-intel.c
+-+++ b/super-intel.c
+-@@ -9612,9 +9612,9 @@ static int apply_takeover_update(struct imsm_update_takeover *u,
+- 			du->major = 0;
+- 			du->index = (i * 2) + 1;
+- 			sprintf((char *)du->disk.serial,
+--				" MISSING_%d", du->index);
+-+				" MISSING_%hu", du->index);
+- 			sprintf((char *)du->serial,
+--				"MISSING_%d", du->index);
+-+				"MISSING_%hu", du->index);
+- 			du->next = super->missing;
+- 			super->missing = du;
+- 		}
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 9862a38dc3..947706ff5f 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -19,7 +19,6 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-fix-gcc-8-format-truncation-warning.patch \
+ 	   file://mdadm.init \
+ 	   file://mdmonitor.service \
+-           file://0001-mdadm-gcc8-maybe-uninitialized-format-overflow-warni.patch \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+-- 
+2.21.0
+
 
