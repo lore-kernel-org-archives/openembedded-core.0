@@ -1,49 +1,49 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E6B77D740
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f181.google.com (mail-it1-f181.google.com
+	[209.85.166.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 62CFA7D67A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 18:19:57 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id f23so15411995ljc.0
+	Tue,  9 Apr 2019 19:52:27 +0000 (UTC)
+Received: by mail-it1-f181.google.com with SMTP id z17so3629955itc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2019 11:19:59 -0700 (PDT)
+	Tue, 09 Apr 2019 12:52:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=VR9q6zi7nkb6AAU26f0I0dAwHaltiqB08H7yRpQNI9U=;
-	b=Ivno6IkH5L5A0pDSWO+lt/hPrBQtC3K2ZmyCiiPcDFYF0GbvT+gJAtTC5yVGHpMfMu
-	Heya46C2V8TnS3ayAW6u/ttIqjj+4oZ9zB6lUKj/C7rXVZBs/EOaCr0ozRqb7Psayjpj
-	U6/S2PTn8SgcBX5O3bWuW1ST0knTvCF2oUSbQwzKRF7+iQgmcr4DHFpKHObdDhhjrYBW
-	7xcRvjHpytbTW+mv7BHHEwVirIHDvKzESL1Zv5Ihn4FqebVVie4NxoSWd86O2meuOf5h
-	uh8KguO/Bj6Lfhw2lEJK8v1+WCDdUacDM7TmVr/jCq85agugqYhdyvFRQmsT25xTN9Yz
-	FGaA==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=TkCNJRKB2N45Bet2Fyhb0cmUUqU9WiatYJGNJDYtgVw=;
+	b=GLqMCb2EdbSaKeIv9JrOv6QlxvdTt8IDwzDSIT/4xxjJ107xtxfVoffq8CEkNg4r6Y
+	sfNp1YvxXwGu4R1hdX6lEp9y5cQ+becv6W94W4G9ayj1iZK+ddgTRU6tyuQ+K+DjKecE
+	H89HLJpa4JH0iKIZx+9Wv1J3B5aNwoXiEk1jEE3UE42UfNfJZr44FegAP1zP5QQUYVHX
+	d7S8PqArkgXbRiweWojDRqaw0Pax+1sFOf1no/N5qlIgaK5Gtg0bXUplT58f3MKqvhwS
+	R5hcOTxhh8uYEHgZvvr8HSBkFNolMJMK3EesDAXMLfUvvHRQLEqVTz5m3gdI4/ST6xgp
+	381A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=VR9q6zi7nkb6AAU26f0I0dAwHaltiqB08H7yRpQNI9U=;
-	b=kZ51OA14QjGOqCYLoUfHcFA8aGBG2oJiLGkdaBvKGr1i4bINRuVjHCaoKeDqwJvmIW
-	QaWUhkeLnal3ycfgUzeH863m269ayjzjfqyE92wMKr6NgZnwiaox1PTijPHS4yxVN5RL
-	yLlBUubFYU7eVbqbWCCF5Y4N8eoH4T9FZIxVTL3JKuooPrRt9xqMjF73ggoT8DOPSvzO
-	uwOd3jCmk20jbX+4BNT5qA3ogkvJd4tAEN4JQXXDTXVldY1iRU3LnuE82HeimEWkjoRp
-	o+8f7yEoZookgn+alBsy9vHgFeRde4cBoQY+u82pIe5GJmAcC+AbBXmkPns1fiHG/8eu
-	ggJA==
-X-Gm-Message-State: APjAAAXvkM8tx7d7I3OUiLI6rLKcI1oyeLzKajrmJwDzmD6pnLpacYPv
-	yTgQ94aTbHdste5IdAFBx8KU70jvpfM=
-X-Google-Smtp-Source: APXvYqxvoKUGPwET7gvZX9W5blKLDkK7hth3KMVrB49K1T3V/wA517bVH5RnbJfr82RwDsNwqsgnnA==
-X-Received: by 2002:a2e:8ec5:: with SMTP id e5mr10945997ljl.7.1554833998151;
-	Tue, 09 Apr 2019 11:19:58 -0700 (PDT)
-Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	v26sm6883405lja.60.2019.04.09.11.19.57
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Apr 2019 11:19:57 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2019 20:19:55 +0200
-Message-Id: <20190409181955.13824-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH v2][meta-oe] ell: add recipe
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=TkCNJRKB2N45Bet2Fyhb0cmUUqU9WiatYJGNJDYtgVw=;
+	b=eZRUZUJjxH7kWKjX0WqxkX6FWe/ngXwWjw+SQL7ht3IX6s7xS3MZ5HSOtgMqbXBiO6
+	oYm2QLorGgwDWgBvzoVFhUsAZZXM0EBTXCQaDd5PZa5dzp3qY49S+VU76qEozXUIRG5e
+	RvpN0I6vFl4MkR2LswHPqMlW9SiiYb7SvHoaosmiziFb9k9Gbf9OR8qUIyvvU1M2m+uu
+	R+hRhw0pMNR/qxMw7gLLdTk1jyInZWTxnQee67wcfaePGgI80TY0e7cL4YslolsKTua1
+	Qj3UwJIgqwBeiP7ew9o7yjt8sd7rHOTSpeRNVoFRSeeRqb/VwHn0+0PRIn30L0BZIDIj
+	wfxw==
+X-Gm-Message-State: APjAAAX+yVho7d2bYGlqwxeYxAgEQN1jX4LLH552vuCWOeQWQMbDPbbV
+	GHLhx7vFu72WyyG1uP6jEVXquMVjtTUX63jN3F2oug==
+X-Google-Smtp-Source: APXvYqzBk+68BqnEnZPoZkKrP40QRkE8t3gD6yjEi0+7Rbyn0sSYZ4o2zpWxcuN8OyzZbn4S9kxJM/I1KBhfF1dp2SQ=
+X-Received: by 2002:a24:d643:: with SMTP id o64mr89770itg.148.1554839548417;
+	Tue, 09 Apr 2019 12:52:28 -0700 (PDT)
+MIME-Version: 1.0
+References: <CALbNGRT1ng9=Gfd8m9g=L4BnyvsF6qE_rL79DxdDNZ8yKaEtDA@mail.gmail.com>
+In-Reply-To: <CALbNGRT1ng9=Gfd8m9g=L4BnyvsF6qE_rL79DxdDNZ8yKaEtDA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Apr 2019 20:52:16 +0100
+Message-ID: <CAJTo0LaSMUzctZU-hXvA4DpuqubBY3GNPGrFJM6Etd-96NxZ5A@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Build broken with current master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,59 +56,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 18:20:04 -0000
+X-List-Received-Date: Tue, 09 Apr 2019 19:52:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-ELL has originally been part of meta-openembedded, but newer versions
-of some of the poky components depend on it, e.g. ofono.
+Hm, annoying.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/conf/distro/include/maintainers.inc |  1 +
- meta/recipes-core/ell/ell_0.18.bb        | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-core/ell/ell_0.18.bb
+The recipe that depends on docbook-xml-dtd4-native also needs to
+depend on libxml2-native.
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 950b8e8951..62de7d21bc 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -165,6 +165,7 @@ RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
-+RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
- RECIPE_MAINTAINER_pn-enchant = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
-diff --git a/meta/recipes-core/ell/ell_0.18.bb b/meta/recipes-core/ell/ell_0.18.bb
-new file mode 100644
-index 0000000000..ca27f4dcda
---- /dev/null
-+++ b/meta/recipes-core/ell/ell_0.18.bb
-@@ -0,0 +1,22 @@
-+SUMMARY  = "Embedded Linux Library"
-+DESCRIPTION = "The Embedded Linux Library (ELL) provides core, \
-+low-level functionality for system daemons. It typically has no \
-+dependencies other than the Linux kernel, C standard library, and \
-+libdl (for dynamic linking). While ELL is designed to be efficient \
-+and compact enough for use on embedded Linux platforms, it is not \
-+limited to resource-constrained systems."
-+SECTION = "libs"
-+LICENSE  = "LGPLv2.1"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
-+
-+DEPENDS = "dbus"
-+
-+inherit autotools pkgconfig
-+
-+SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${PN}/${PN}-${PV}.tar.xz"
-+SRC_URI[md5sum] = "18e2be697a54811e49bbe34590a13a42"
-+SRC_URI[sha256sum] = "2c4c1a129f1b697e63ba3f63927dbae1482f6329b48c14a1748d9ab8ac4ee7e3"
-+
-+do_configure_prepend () {
-+    mkdir -p ${S}/build-aux
-+}
--- 
-2.17.1
+Ross
 
+On Tue, 9 Apr 2019 at 18:55, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
+wrote:
+>
+> Hi,
+>
+> Just updated to current master to rebase my patches. Now I get for
+> meta-qt5-extra/kglobalaccel:
+>
+> ERROR: kglobalaccel-5.56.0-r0 do_prepare_recipe_sysroot: Error
+> executing a python function in exec_python_func() autogenerated:
+>
+> The stack trace of python calls that resulted in this exception/failure w=
+as:
+> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:extend_recipe_sysroot(d)
+>      0003:
+> File: '/home/a.mueller/data/oe-core/sources/openembedded-core/meta/classe=
+s/staging.bbclass',
+> lineno: 566, function: extend_recipe_sysroot
+>      0562:    for f in fixme:
+>      0563:        staging_processfixme(fixme[f], f, recipesysroot,
+> recipesysrootnative, d)
+>      0564:
+>      0565:    for p in postinsts:
+>  *** 0566:        subprocess.check_output(p, shell=3DTrue,
+> stderr=3Dsubprocess.STDOUT)
+>      0567:
+>      0568:    for dep in manifests:
+>      0569:        c =3D setscenedeps[dep][0]
+>      0570:        os.symlink(manifests[dep], depdir + "/" + c + ".complet=
+e")
+> File: '/usr/lib64/python3.7/subprocess.py', lineno: 395, function: check_=
+output
+>      0391:        # empty string. That is maintained here for
+> backwards compatibility.
+>      0392:        kwargs['input'] =3D '' if
+> kwargs.get('universal_newlines', False) else b''
+>      0393:
+>      0394:    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, ch=
+eck=3DTrue,
+>  *** 0395:               **kwargs).stdout
+>      0396:
+>      0397:
+>      0398:class CompletedProcess(object):
+>      0399:    """A process that has finished running.
+> File: '/usr/lib64/python3.7/subprocess.py', lineno: 487, function: run
+>      0483:            raise
+>      0484:        retcode =3D process.poll()
+>      0485:        if check and retcode:
+>      0486:            raise CalledProcessError(retcode, process.args,
+>  *** 0487:                                     output=3Dstdout, stderr=3D=
+stderr)
+>      0488:    return CompletedProcess(process.args, retcode, stdout, stde=
+rr)
+>      0489:
+>      0490:
+>      0491:def list2cmdline(seq):
+> Exception: subprocess.CalledProcessError: Command
+> '/home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-l=
+inux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docboo=
+k-xml-dtd4-xmlcatalog'
+> returned non-zero exit status 127.
+>
+> Subprocess output:
+> /home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-li=
+nux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docbook=
+-xml-dtd4-xmlcatalog:
+> line 5: xmlcatalog: command not found
+> /home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-li=
+nux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docbook=
+-xml-dtd4-xmlcatalog:
+> line 8: xmlcatalog: command not found
+>
+> ERROR: kglobalaccel-5.56.0-r0 do_prepare_recipe_sysroot: Command
+> '/home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-l=
+inux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docboo=
+k-xml-dtd4-xmlcatalog'
+> returned non-zero exit status 127.
+> ERROR: kglobalaccel-5.56.0-r0 do_prepare_recipe_sysroot: Function
+> failed: extend_recipe_sysroot
+> ERROR: Logfile of failure stored in:
+> /home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-li=
+nux-musleabi/kglobalaccel/5.56.0-r0/temp/log.do_prepare_recipe_sysroot.1026=
+7
+> ERROR: Task (/home/a.mueller/data/oe-core/sources/meta-qt5-extra/recipes-=
+kde/kf5/tier3/kglobalaccel/kglobalaccel.bb:do_prepare_recipe_sysroot)
+> failed with exit code '1'
+>
+> Saw there were some changes at that area. Anything I can do to fix?
+>
+> Andreas
 
