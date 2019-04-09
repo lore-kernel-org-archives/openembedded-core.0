@@ -1,53 +1,23 @@
-Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com
-	[209.85.167.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BC4D7D537
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CEBB7D27F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 05:44:32 +0000 (UTC)
-Received: by mail-oi1-f178.google.com with SMTP id j132so12549274oib.2
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2019 22:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
-	b=mACFS0tFY5M15Du57KTSWv2tT+u4f+C1uS2xoQHg6wxZHJEusFBHnQvN6WDjUDWxko
-	IaR5BgZbTLeIe7dYAHsYGvU4RsDcyOciVQkCtAHDtlWs02iEY+UL/1z0mw5fvz4pwZy3
-	bKLt0IlmHu9FcVDhTFAEFywLHArDNjJ98yg2/xY743JWoq+32zBE84Vq3xbqgjZNFawa
-	rpe2g8dKLZan5fuDwqgbz1ueo3U3+RQBN8zF97ROSyzKPPzndgCQ/mK7FNvyA6KctJIW
-	DdXqNanNWNxhdGX0R+XY29vdKUl577wzpwv9U1pASOAMRI9ASeiyGtcyOmIDJFj84suN
-	+1pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=5ixPpoq3AV+/jzp3iJZExiLv/j4+VgXUn74hK7zT1C0=;
-	b=ql2ZBaylb2JQ8oZvZATCHcMozpcTJMhltE8Isij6viiG4woGfdsrllpspxOwZoC7nx
-	s0p9mNDssL9l2Z3zzbQ1zAbvUelJvTWjAZK9ZU1+SiyHSQU9zyTlmo6CLRl+YswzlSMP
-	BSA80WAejaT7tBXbs/ljRg6xdLIqzBS2yD74Pbs2yHnezN14IZR42VSpYYeiW5DK9aIS
-	tFMq0FkHnv4RqBGvIpUIv9nxX+2r6KPAlsx93PfudypoCbEJ0JEEwk8M07AkvAPtO6dE
-	LcC+Fnqyq87jwxPQi+c+XW2sz9FeAShNimNVFD1YY58z73rBgkrYhvZVcWJfdQmzLTwW
-	BCxQ==
-X-Gm-Message-State: APjAAAV9kHJc3tXrpRhABTIqSY2AIGc7tx74tNh5Zd9dpElvEGGDVwd0
-	Sc8oSJyTLSMlRt2fnl24DTuevy/o
-X-Google-Smtp-Source: APXvYqw7BSIAKeEcO1lQykOBarEMgqba/zFWYCk+5aJIwB9UM1FlcMd97Q7APSWQg3Mgfhy2T7T9Yg==
-X-Received: by 2002:aca:df09:: with SMTP id w9mr17458366oig.94.1554788673116; 
-	Mon, 08 Apr 2019 22:44:33 -0700 (PDT)
-Received: from ultima.ninicasiopea.net
-	([2605:a601:43d5:f700:215:17ff:fe90:1065])
-	by smtp.googlemail.com with ESMTPSA id
-	n16sm11787705oic.7.2019.04.08.22.44.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Apr 2019 22:44:32 -0700 (PDT)
-From: Mariano Lopez <just.another.mariano@gmail.com>
+	Tue,  9 Apr 2019 06:24:05 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Apr 2019 23:24:06 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,328,1549958400"; d="scan'208";a="314299368"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga005.jf.intel.com with ESMTP; 08 Apr 2019 23:24:05 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2019 00:44:15 -0500
-Message-Id: <cfb0203279505b6f3392353e05d2e86ab37bf096.1554787765.git.just.another.mariano@gmail.com>
-X-Mailer: git-send-email 2.19.2
-In-Reply-To: <cover.1554787765.git.just.another.mariano@gmail.com>
-References: <cover.1554787765.git.just.another.mariano@gmail.com>
-MIME-Version: 1.0
-Subject: [PATCH v4 4/4] busybox: Use PTEST binary directory
+Date: Tue,  9 Apr 2019 13:53:07 +0800
+Message-Id: <1554789188-6328-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2] resulttool/manualexecution: Enable configuration options selection
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +30,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 05:44:32 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 09 Apr 2019 06:24:06 -0000
 
-This will generate the symlinks in the ptest binary directory using the
-ptest class functionality instead of generating them manually. Because
-the ptest class uses update-alternatives to get the metadata for the
-symlinks it will respect the use of BUSYBOX_SPLIT_SUID automatically.
+Current manualexecution required user to input configuration manually
+where there were inconsistent inputs and human typo issues.
 
-[YOCTO #12597]
+Enable manualexecution to have the optional feature where it
+will use pre-compiled configuration options file where user will
+be able to select configuration from the pre-compiled list instead
+of manual key-in the configuration. This will eliminate human error.
 
-Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
+Expect the pre-compiled configuration options file in json format below
+
+{
+    "bsps-hw": {
+        "IMAGE_BASENAME": {
+            "1": "core-image-sato-sdk"
+        },
+        "MACHINE": {
+            "1": "beaglebone-yocto",
+            "2": "edgerouter",
+            "3": "mpc8315e-rdb",
+            "4": "genericx86",
+            "5": "genericx86-64"
+        }
+    },
+    "bsps-qemu": {
+        "IMAGE_BASENAME": {
+            "1": "core-image-sato-sdk"
+        },
+        "MACHINE": {
+            "1": "qemuarm",
+            "2": "qemuarm64",
+            "3": "qemumips",
+            "4": "qemumips64",
+            "5": "qemuppc",
+            "6": "qemux86",
+            "7": "qemux86-64"
+        }
+    }
+}
+
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 16 ++--------------
- 1 file changed, 2 insertions(+), 14 deletions(-)
+ scripts/lib/resulttool/manualexecution.py | 48 +++++++++++++++++++++++++------
+ 1 file changed, 39 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index c9d25ff1ca..174ce5a8c0 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -347,24 +347,12 @@ do_install () {
- 	fi
- }
+diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
+index c94f981..57e7b29 100755
+--- a/scripts/lib/resulttool/manualexecution.py
++++ b/scripts/lib/resulttool/manualexecution.py
+@@ -38,7 +38,21 @@ class ManualTestRunner(object):
+             print('Only lowercase alphanumeric, hyphen and dot are allowed. Please try again')
+         return output
  
-+PTEST_BINDIR = "1"
+-    def _create_config(self):
++    def _get_available_config_options(self, config_options, test_module, target_config):
++        avail_config_options = None
++        if test_module in config_options:
++            avail_config_options = config_options[test_module].get(target_config)
++        return avail_config_options
 +
- do_install_ptest () {
- 	cp -r ${B}/testsuite ${D}${PTEST_PATH}/
- 	cp ${B}/.config      ${D}${PTEST_PATH}/
- 	ln -s /bin/busybox   ${D}${PTEST_PATH}/busybox
--
--	mkdir ${D}${PTEST_PATH}/bin
--	if [ "${BUSYBOX_SPLIT_SUID}" = "1" ]; then
--		while read link; do
--			ln -s ${base_bindir}/busybox.suid ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links.suid
--		while read link; do
--			ln -s ${base_bindir}/busybox.nosuid ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links.nosuid
--	else
--		while read link; do
--			ln -s ${base_bindir}/busybox ${D}${PTEST_PATH}/bin/$(basename $link)
--		done <${D}${sysconfdir}/busybox.links
--	fi
- }
++    def _choose_config_option(self, options):
++        while True:
++            output = input('{} = '.format('Option index number'))
++            if output in options:
++                break
++            print('Only integer index inputs from above available configuration options are allowed. Please try again.')
++        return options[output]
++
++    def _create_config(self, config_options):
+         from oeqa.utils.metadata import get_layers
+         from oeqa.utils.commands import get_bb_var
+         from resulttool.resultutils import store_map
+@@ -54,11 +68,22 @@ class ManualTestRunner(object):
  
- inherit update-alternatives
+         extra_config = set(store_map['manual']) - set(self.configuration)
+         for config in sorted(extra_config):
+-            print('---------------------------------------------')
+-            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).' % config)
+-            print('---------------------------------------------')
+-            value_conf = self._get_input('Configuration Value')
+-            print('---------------------------------------------\n')
++            avail_config_options = self._get_available_config_options(config_options, self.test_module, config)
++            if avail_config_options:
++                print('---------------------------------------------')
++                print('These are available configuration #%s options:' % config)
++                print('---------------------------------------------')
++                for option, _ in sorted(avail_config_options.items(), key=lambda x: int(x[0])):
++                    print('%s: %s' % (option, avail_config_options[option]))
++                print('Please select configuration option, enter the integer index number.')
++                value_conf = self._choose_config_option(avail_config_options)
++                print('---------------------------------------------\n')
++            else:
++                print('---------------------------------------------')
++                print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).' % config)
++                print('---------------------------------------------')
++                value_conf = self._get_input('Configuration Value')
++                print('---------------------------------------------\n')
+             self.configuration[config] = value_conf
+ 
+     def _create_result_id(self):
+@@ -99,9 +124,12 @@ class ManualTestRunner(object):
+         basepath = os.environ['BUILDDIR']
+         self.write_dir = basepath + '/tmp/log/manual/'
+ 
+-    def run_test(self, file):
++    def run_test(self, file, config_options_file):
+         self._get_testcases(file)
+-        self._create_config()
++        config_options = {}
++        if config_options_file:
++            config_options = load_json_file(config_options_file)
++        self._create_config(config_options)
+         self._create_result_id()
+         self._create_write_dir()
+         test_results = {}
+@@ -113,7 +141,7 @@ class ManualTestRunner(object):
+ 
+ def manualexecution(args, logger):
+     testrunner = ManualTestRunner()
+-    get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file)
++    get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file, args.config_options_file)
+     resultjsonhelper = OETestResultJSONHelper()
+     resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id, get_test_results)
+     return 0
+@@ -125,3 +153,5 @@ def register_commands(subparsers):
+                                          group='manualexecution')
+     parser_build.set_defaults(func=manualexecution)
+     parser_build.add_argument('file', help='specify path to manual test case JSON file.Note: Please use \"\" to encapsulate the file path.')
++    parser_build.add_argument('-c', '--config-options-file', default='',
++                              help='the config options file to import and used as available configuration option selection')
 -- 
-2.19.2
+2.7.4
 
 
