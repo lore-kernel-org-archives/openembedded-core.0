@@ -1,23 +1,25 @@
 Return-Path: <ee.peng.yeoh@intel.com>
 Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CEBB7D27F
+	by mail.openembedded.org (Postfix) with ESMTP id 3F7A37D27F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 06:24:05 +0000 (UTC)
+	Tue,  9 Apr 2019 06:24:07 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
 	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 Apr 2019 23:24:06 -0700
+	08 Apr 2019 23:24:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,328,1549958400"; d="scan'208";a="314299368"
+X-IronPort-AV: E=Sophos;i="5.60,328,1549958400"; d="scan'208";a="314299374"
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga005.jf.intel.com with ESMTP; 08 Apr 2019 23:24:05 -0700
+	by orsmga005.jf.intel.com with ESMTP; 08 Apr 2019 23:24:07 -0700
 From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2019 13:53:07 +0800
-Message-Id: <1554789188-6328-1-git-send-email-ee.peng.yeoh@intel.com>
+Date: Tue,  9 Apr 2019 13:53:08 +0800
+Message-Id: <1554789188-6328-2-git-send-email-ee.peng.yeoh@intel.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH 1/2] resulttool/manualexecution: Enable configuration options selection
+In-Reply-To: <1554789188-6328-1-git-send-email-ee.peng.yeoh@intel.com>
+References: <1554789188-6328-1-git-send-email-ee.peng.yeoh@intel.com>
+Subject: [PATCH 2/2] resulttool/manualexecution: Enable creation of configuration option file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,137 +32,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 06:24:06 -0000
+X-List-Received-Date: Tue, 09 Apr 2019 06:24:07 -0000
 
-Current manualexecution required user to input configuration manually
-where there were inconsistent inputs and human typo issues.
-
-Enable manualexecution to have the optional feature where it
-will use pre-compiled configuration options file where user will
-be able to select configuration from the pre-compiled list instead
-of manual key-in the configuration. This will eliminate human error.
-
-Expect the pre-compiled configuration options file in json format below
-
-{
-    "bsps-hw": {
-        "IMAGE_BASENAME": {
-            "1": "core-image-sato-sdk"
-        },
-        "MACHINE": {
-            "1": "beaglebone-yocto",
-            "2": "edgerouter",
-            "3": "mpc8315e-rdb",
-            "4": "genericx86",
-            "5": "genericx86-64"
-        }
-    },
-    "bsps-qemu": {
-        "IMAGE_BASENAME": {
-            "1": "core-image-sato-sdk"
-        },
-        "MACHINE": {
-            "1": "qemuarm",
-            "2": "qemuarm64",
-            "3": "qemumips",
-            "4": "qemumips64",
-            "5": "qemuppc",
-            "6": "qemux86",
-            "7": "qemux86-64"
-        }
-    }
-}
+Allow the creation of configuration option file based on user inputs.
+Where this configuration option file will be used by the the manual
+execution to display options for configuration rather than user
+need to inputs configuration manually.
 
 Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 ---
- scripts/lib/resulttool/manualexecution.py | 48 +++++++++++++++++++++++++------
- 1 file changed, 39 insertions(+), 9 deletions(-)
+ scripts/lib/resulttool/manualexecution.py | 54 ++++++++++++++++++++++++++++++-
+ 1 file changed, 53 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index c94f981..57e7b29 100755
+index 57e7b29..12ef90d 100755
 --- a/scripts/lib/resulttool/manualexecution.py
 +++ b/scripts/lib/resulttool/manualexecution.py
-@@ -38,7 +38,21 @@ class ManualTestRunner(object):
-             print('Only lowercase alphanumeric, hyphen and dot are allowed. Please try again')
-         return output
+@@ -24,6 +24,11 @@ def load_json_file(file):
+     with open(file, "r") as f:
+         return json.load(f)
  
--    def _create_config(self):
-+    def _get_available_config_options(self, config_options, test_module, target_config):
-+        avail_config_options = None
-+        if test_module in config_options:
-+            avail_config_options = config_options[test_module].get(target_config)
-+        return avail_config_options
++def write_json_file(f, json_data):
++    os.makedirs(os.path.dirname(f), exist_ok=True)
++    with open(f, 'w') as filedata:
++        filedata.write(json.dumps(json_data, sort_keys=True, indent=4))
 +
-+    def _choose_config_option(self, options):
+ class ManualTestRunner(object):
+ 
+     def _get_testcases(self, file):
+@@ -139,8 +144,53 @@ class ManualTestRunner(object):
+             test_results.update(test_result)
+         return self.configuration, self.result_id, self.write_dir, test_results
+ 
++    def _get_true_false_input(self, input_message):
++        yes_list = ['Y', 'YES']
++        no_list = ['N', 'NO']
 +        while True:
-+            output = input('{} = '.format('Option index number'))
-+            if output in options:
++            more_config_option = input(input_message).upper()
++            if more_config_option in yes_list or more_config_option in no_list:
 +                break
-+            print('Only integer index inputs from above available configuration options are allowed. Please try again.')
-+        return options[output]
++            print('Invalid input!')
++        if more_config_option in no_list:
++            return False
++        return True
 +
-+    def _create_config(self, config_options):
-         from oeqa.utils.metadata import get_layers
-         from oeqa.utils.commands import get_bb_var
-         from resulttool.resultutils import store_map
-@@ -54,11 +68,22 @@ class ManualTestRunner(object):
- 
-         extra_config = set(store_map['manual']) - set(self.configuration)
-         for config in sorted(extra_config):
--            print('---------------------------------------------')
--            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).' % config)
--            print('---------------------------------------------')
--            value_conf = self._get_input('Configuration Value')
--            print('---------------------------------------------\n')
-+            avail_config_options = self._get_available_config_options(config_options, self.test_module, config)
-+            if avail_config_options:
-+                print('---------------------------------------------')
-+                print('These are available configuration #%s options:' % config)
-+                print('---------------------------------------------')
-+                for option, _ in sorted(avail_config_options.items(), key=lambda x: int(x[0])):
-+                    print('%s: %s' % (option, avail_config_options[option]))
-+                print('Please select configuration option, enter the integer index number.')
-+                value_conf = self._choose_config_option(avail_config_options)
-+                print('---------------------------------------------\n')
-+            else:
-+                print('---------------------------------------------')
-+                print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).' % config)
-+                print('---------------------------------------------')
-+                value_conf = self._get_input('Configuration Value')
-+                print('---------------------------------------------\n')
-             self.configuration[config] = value_conf
- 
-     def _create_result_id(self):
-@@ -99,9 +124,12 @@ class ManualTestRunner(object):
-         basepath = os.environ['BUILDDIR']
-         self.write_dir = basepath + '/tmp/log/manual/'
- 
--    def run_test(self, file):
-+    def run_test(self, file, config_options_file):
-         self._get_testcases(file)
--        self._create_config()
++    def make_config_option_file(self, logger, manual_case_file, config_options_file):
 +        config_options = {}
 +        if config_options_file:
 +            config_options = load_json_file(config_options_file)
-+        self._create_config(config_options)
-         self._create_result_id()
-         self._create_write_dir()
-         test_results = {}
-@@ -113,7 +141,7 @@ class ManualTestRunner(object):
- 
++        new_test_module = os.path.basename(manual_case_file).split('.')[0]
++        print('Creating configuration options file for test module: %s' % new_test_module)
++        new_config_options = {}
++
++        while True:
++            config_name = input('\nPlease provide test configuration to create:\n').upper()
++            new_config_options[config_name] = {}
++            while True:
++                config_value = self._get_input('Configuration possible option value')
++                config_option_index = len(new_config_options[config_name]) + 1
++                new_config_options[config_name][config_option_index] = config_value
++                more_config_option = self._get_true_false_input('\nIs there more configuration option input: (Y)es/(N)o\n')
++                if not more_config_option:
++                    break
++            more_config = self._get_true_false_input('\nIs there more configuration to create: (Y)es/(N)o\n')
++            if not more_config:
++                break
++
++        if new_config_options:
++            config_options[new_test_module] = new_config_options
++        if not config_options_file:
++            self._create_write_dir()
++            config_options_file = os.path.join(self.write_dir, 'manual_config_options.json')
++        write_json_file(config_options_file, config_options)
++        logger.info('Configuration option file created at %s' % config_options_file)
++
  def manualexecution(args, logger):
      testrunner = ManualTestRunner()
--    get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file)
-+    get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file, args.config_options_file)
++    if args.make_config_options_file:
++        testrunner.make_config_option_file(logger, args.file, args.config_options_file)
++        return 0
+     get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file, args.config_options_file)
      resultjsonhelper = OETestResultJSONHelper()
      resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id, get_test_results)
-     return 0
-@@ -125,3 +153,5 @@ def register_commands(subparsers):
-                                          group='manualexecution')
+@@ -154,4 +204,6 @@ def register_commands(subparsers):
      parser_build.set_defaults(func=manualexecution)
      parser_build.add_argument('file', help='specify path to manual test case JSON file.Note: Please use \"\" to encapsulate the file path.')
-+    parser_build.add_argument('-c', '--config-options-file', default='',
-+                              help='the config options file to import and used as available configuration option selection')
+     parser_build.add_argument('-c', '--config-options-file', default='',
+-                              help='the config options file to import and used as available configuration option selection')
++                              help='the config options file to import and used as available configuration option selection or make config option file')
++    parser_build.add_argument('-m', '--make-config-options-file', action='store_true',
++                              help='make the configuration options file based on provided inputs')
 -- 
 2.7.4
 
