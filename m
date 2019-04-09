@@ -1,55 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 70EE77D2A2
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EEBC36B89A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 08:42:38 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id s16so14174449edr.3
+	Tue,  9 Apr 2019 11:59:19 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id p6so9165987pgh.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2019 01:42:39 -0700 (PDT)
+	Tue, 09 Apr 2019 04:59:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=am1L7jxmL3TnkZxeFuNXDAwWOvz3rhYQ03BTTzsk1sU=;
-	b=lsvOkv8781OW0phDIugXBzVep1Rd0R75zqmQj3Gv6bW0erwbTK5LYAbcUIbsP0A6xR
-	l4dCF0GbYE4B4QbpTIY6t4hNoBdEKJlhBQGqwiweGmNHukFI48rWc9Jr/O9Gj4mkN3zj
-	m7+Osu5FTOnCTVZDq24Jh3AMwgVkMwAxFYIc2uTT8Ye2YumUCh9fTpk9bpH9Vu1D+a6B
-	SRlyKu6xS0X5NFAE9EmKR7UI3iAxgMNrDcTtSZRgF8GLUc3QBdaYXfKLmnDnZ3gGzIzA
-	RK8YraD23PvrkiRNDANPp/coA+nZtGEZrgb7AlOB5URJ70fKqBipWKpaGY5C+KR82BY1
-	pdRQ==
+	h=from:to:subject:date:message-id;
+	bh=bgKajX2yurhIpDBQuGx5tTg5Wj0KKNyRNaChVkMANr0=;
+	b=lo4SEEzcG95XvzQtBXMxlyFCGPAcm9mKqaiC2yIR1lOgtxA2U1kzlFKjU/c+ZGWKTP
+	yZIbgcMBHKJrnIkJQH+522VvY4ZZ6wfIX7RbS3DZ571bDA63DprbBzko/qzo5cOtLsQ4
+	8UgJbdFf7o8rZVlYW6154EjG5PI8MdVyVqtWS8ZTe++EVZsap2pLHlAsGvm8kbTBhza3
+	hKxbMwlM8UraiF1vKGVFUn2TBCdQqOA8cMTjMhAjc6FkY0RZcqZbx7I2u5zfDqxFawF0
+	ac60ZnVEry/TdfwABffGhS2TLQa+dcRNcUxXmaxQMPb6RFkxeYvYi5EiV8j9jvNxar83
+	rqAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
-	:content-transfer-encoding:message-id:references:to;
-	bh=am1L7jxmL3TnkZxeFuNXDAwWOvz3rhYQ03BTTzsk1sU=;
-	b=a/8+0GW7A1SBWVt3ZKCWc42ZE2UZ+IPuAyNLRAoz/FHOt2i1pdn0BSRfYR/tY8reMj
-	vw9aqLN3rNcLhqPAxCpVqi3JOAcv0Fz+I7lfNRtk8RmDinDk0xMe4pGs7Z6+VFbMNGxw
-	pn6wmt0BP346El0Lba1iU40MBDO+LA6qwRC1Ng/HYxUknjp3zA5I//AF/6ThBP5YhwFt
-	jZJV7UBuYBH1oNcqo5DMb414sRYm3OO7RGSQhTgl9XmJ4E5ERxAsTbWSPy3YMcZRxQtW
-	RFF3bUS3R4opD04wJLTsR4zmow/vwrxz4rOoIHdjXQBWadSvbXJk/HD7ToxnMMoK2Nct
-	b6og==
-X-Gm-Message-State: APjAAAVaAsKNmP1Ei94TmSQEZn5+mCPcnmTjfYYVmyfBJND5EQWkGVKr
-	lgM7SipFoSeLMsNwHtTf3WA=
-X-Google-Smtp-Source: APXvYqyT3Dg88vNzl3I78wUO4mlOyW4vk8XTkv4qcRlVj8yjJmMCoIejz9/BV4CP1i01ZvbcTyWetw==
-X-Received: by 2002:a17:906:34d3:: with SMTP id
-	h19mr19441324ejb.259.1554799359048; 
-	Tue, 09 Apr 2019 01:42:39 -0700 (PDT)
-Received: from ?IPv6:2a02:8109:b5c0:1267:50d1:a6a4:b006:f39b?
-	([2a02:8109:b5c0:1267:50d1:a6a4:b006:f39b])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=bgKajX2yurhIpDBQuGx5tTg5Wj0KKNyRNaChVkMANr0=;
+	b=AODUqqtGQ3G0697M8lWAfU8aE0iSXmvUE+H5BebK8xebsnORU5M56x8BW24hwOWQJW
+	My7mWa2WYg6DxyDtjcAi/LPKu2yWyydM3bskS+i2qHvrxENOXVk8RDrgXbPoMu00da/u
+	5GsxQbcxA7lHrwOzUROAGjjsaJN6UDQPOfU/K9xpArFvLkTwHqiibkdPn2oiSCPIE+rm
+	0DNvZKX6OgLOLPlQE8WcBzIbIlQAezsx8eUN3RVX6OW64iQrPhhLsVk463yi0zWWA2mk
+	LtBCTD8X8Kwk6C3b2OgcciaTSXpvgX2GHAYNjrVWQWIjp05JW9tvRERmVSApDLMNN2Js
+	bZXg==
+X-Gm-Message-State: APjAAAWhIJMwV38LQMhGq5ldS81gmUqOeyN72eUlbpTxr1CANRYIRR6h
+	Ag04PEcAlCtCHvzZ+CtgeyAt9gjz
+X-Google-Smtp-Source: APXvYqxri8JRYAdVg3krmds39CtigbZZbcZyrRAb5Z2pYm6neie9pApRP3E26r1x7NmIhFTE6pFv1Q==
+X-Received: by 2002:a65:4183:: with SMTP id a3mr35101880pgq.121.1554811160734; 
+	Tue, 09 Apr 2019 04:59:20 -0700 (PDT)
+Received: from localhost.localdomain ([116.212.180.67])
 	by smtp.gmail.com with ESMTPSA id
-	p10sm3431008eja.79.2019.04.09.01.42.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Apr 2019 01:42:38 -0700 (PDT)
-Mime-Version: 1.0 (1.0)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-X-Mailer: iPhone Mail (16D57)
-In-Reply-To: <20190408205010.29163-1-open.source@oleksandr-kravchuk.com>
-Date: Tue, 9 Apr 2019 10:42:33 +0200
-Message-Id: <D8EBE7DC-8880-4FEE-9928-1A5143D1EF1F@gmail.com>
-References: <20190408205010.29163-1-open.source@oleksandr-kravchuk.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] ell: add recipe
+	f2sm23773119pgc.30.2019.04.09.04.59.19
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 09 Apr 2019 04:59:20 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Apr 2019 17:28:58 +0530
+Message-Id: <cover.1554811027.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 00/16] Pull request for thud-next
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,65 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 08:42:38 -0000
-Content-Type: text/plain;
-	charset=us-ascii
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Apr 2019 11:59:20 -0000
 
-You need to insert an entry for ell into maintainers.inc at the same time.
+please concider these changes for thud.
 
-Alex
+The following changes since commit 45032e30be70503faeee468159b216031b729309:
 
-> On 8 Apr 2019, at 22.50, Oleksandr Kravchuk <open.source@oleksandr-kravchu=
-k.com> wrote:
->=20
-> ELL has originally been part of meta-openembedded, but newer versions
-> of some of the poky components depend on it, e.g. ofono.
->=20
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
-> meta/recipes-core/ell/ell_0.18.bb | 22 ++++++++++++++++++++++
-> 1 file changed, 22 insertions(+)
-> create mode 100644 meta/recipes-core/ell/ell_0.18.bb
->=20
-> diff --git a/meta/recipes-core/ell/ell_0.18.bb b/meta/recipes-core/ell/ell=
-_0.18.bb
-> new file mode 100644
-> index 0000000000..ca27f4dcda
-> --- /dev/null
-> +++ b/meta/recipes-core/ell/ell_0.18.bb
-> @@ -0,0 +1,22 @@
-> +SUMMARY  =3D "Embedded Linux Library"
-> +DESCRIPTION =3D "The Embedded Linux Library (ELL) provides core, \
-> +low-level functionality for system daemons. It typically has no \
-> +dependencies other than the Linux kernel, C standard library, and \
-> +libdl (for dynamic linking). While ELL is designed to be efficient \
-> +and compact enough for use on embedded Linux platforms, it is not \
-> +limited to resource-constrained systems."
-> +SECTION =3D "libs"
-> +LICENSE  =3D "LGPLv2.1"
-> +LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dfb504b67c50331fc78734fed90fb0e=
-09"
-> +
-> +DEPENDS =3D "dbus"
-> +
-> +inherit autotools pkgconfig
-> +
-> +SRC_URI =3D "https://mirrors.edge.kernel.org/pub/linux/libs/${PN}/${PN}-$=
-{PV}.tar.xz"
-> +SRC_URI[md5sum] =3D "18e2be697a54811e49bbe34590a13a42"
-> +SRC_URI[sha256sum] =3D "2c4c1a129f1b697e63ba3f63927dbae1482f6329b48c14a17=
-48d9ab8ac4ee7e3"
-> +
-> +do_configure_prepend () {
-> +    mkdir -p ${S}/build-aux
-> +}
-> --=20
-> 2.17.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+  build-appliance-image: Update to thud head revision (2019-03-27 23:22:49 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/thud-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/thud-next
+
+Armin Kuster (1):
+  Revert "boost: update to 1.69.0"
+
+Chen Qi (1):
+  pkgdata.py: avoid target-sdk-dummy-provides to mess things up
+
+Mazliana (1):
+  oeqa/manual/bsp-hw.json: add non-IA tests
+
+Richard Purdie (2):
+  resulttool: Allow store to work on single files
+  resulttool: Allow extraction of ptest data
+
+Sudhir Sharma (1):
+  oeqa/manual: Add manual runtime 'compliance' testcases to json
+
+Yeoh Ee Peng (6):
+  oeqa/manual/toaster: transfer manual toaster test cases to oeqa
+  oeqa/manual/toaster: updated test id naming
+  resulttool/manualexecution: Standardize input check
+  resulttool/manualexecution: Enable display full steps without press
+    enter
+  resulttool/manualexecution: Fixed step sorted by integer
+  resulttool/manualexecution: Refactor and simplify codebase
+
+sangeeta jain (4):
+  oeqa/manual/sdk.json: Updated toolchain tarball to core-image-sato
+  oeqa/manual/bsp-hw.json: test id updated and obsolete test cases
+    removed
+  oeqa/manual/compliance-test.json: test id updated and missing test
+    cases added
+  oeqa/manual/kernel-dev.json: test id updated
+
+ meta/lib/oeqa/manual/bsp-hw.json                   |  264 +-
+ meta/lib/oeqa/manual/compliance-test.json          |  194 ++
+ meta/lib/oeqa/manual/kernel-dev.json               |   36 +-
+ meta/lib/oeqa/manual/sdk.json                      |   14 +-
+ meta/lib/oeqa/manual/toaster-managed-mode.json     | 2572 ++++++++++++++++++++
+ meta/lib/oeqa/manual/toaster-unmanaged-mode.json   | 1170 +++++++++
+ meta/lib/oeqa/selftest/cases/pkgdata.py            |    1 +
+ ...bjam-native_1.69.0.bb => bjam-native_1.68.0.bb} |    0
+ .../boost/{boost-1.69.0.inc => boost-1.68.0.inc}   |    4 +-
+ meta/recipes-support/boost/boost.inc               |    1 +
+ ...-arch-instruction-set-flags-we-do-that-o.patch} |   23 +-
+ ...ucibility-add-file-directive-to-assembler.patch |  243 ++
+ .../boost/{boost_1.69.0.bb => boost_1.68.0.bb}     |    6 +-
+ scripts/lib/resulttool/manualexecution.py          |   61 +-
+ scripts/lib/resulttool/resultutils.py              |   39 +-
+ scripts/lib/resulttool/store.py                    |   23 +-
+ 16 files changed, 4467 insertions(+), 184 deletions(-)
+ create mode 100644 meta/lib/oeqa/manual/compliance-test.json
+ create mode 100644 meta/lib/oeqa/manual/toaster-managed-mode.json
+ create mode 100644 meta/lib/oeqa/manual/toaster-unmanaged-mode.json
+ rename meta/recipes-support/boost/{bjam-native_1.69.0.bb => bjam-native_1.68.0.bb} (100%)
+ rename meta/recipes-support/boost/{boost-1.69.0.inc => boost-1.68.0.inc} (85%)
+ rename meta/recipes-support/boost/boost/{0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch => 0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch} (93%)
+ create mode 100644 meta/recipes-support/boost/boost/reproducibility-add-file-directive-to-assembler.patch
+ rename meta/recipes-support/boost/{boost_1.69.0.bb => boost_1.68.0.bb} (56%)
+
+-- 
+2.7.4
+
 
