@@ -1,20 +1,25 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 0ECF77D592
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C1577D48D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Apr 2019 21:24:37 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 5E7FD1C001F;
-	Tue,  9 Apr 2019 09:24:38 +1200 (NZST)
-From: Douglas Royds <douglas.royds@taitradio.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2019 09:24:36 +1200
-Message-Id: <20190408212436.12812-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190408205558.11994-1-douglas.royds@taitradio.com>
-References: <20190408205558.11994-1-douglas.royds@taitradio.com>
-Cc: Nikhil Pal Singh <nikhilpal.singh@taitradio.com>
-Subject: [PATCH v2] cmake: Support Eclipse and other cmake generators
+	Tue,  9 Apr 2019 02:32:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x392Wqw0005878
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 8 Apr 2019 19:32:52 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 8 Apr 2019 19:32:52 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
+Date: Tue, 9 Apr 2019 10:32:50 +0800
+Message-ID: <1554777170-58044-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
+References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH v3] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -27,66 +32,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Apr 2019 21:24:38 -0000
+X-List-Received-Date: Tue, 09 Apr 2019 02:32:54 -0000
+Content-Type: text/plain
 
-From: Nikhil Pal Singh <nikhilpal.singh@taitradio.com>
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Support project-file generators such as CodeBlocks, CodeLite,
-Eclipse, Sublime, and Kate for both make and Ninja build systems.
+When DEBUG_BUILD = "1" added in local.conf, there
+comes below build error when "bitbake gcc-sanitizers":
+| ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
+| ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+|   return S_ISLNK (st.st_mode);
 
-The following generators are listed in cmake --help:
+Per https://gcc.gnu.org/ml/gcc-patches/2019-04/msg00315.html,
+the gcc upstream thinks the warning is a false
+positive and suggests to use -O2 rather than -Og
+or -O1 when compiling that file, so pass -Wno-error
+to compiler when -Og is used to silence the error.
 
-  Unix Makefiles               = Generates standard UNIX makefiles.
-  Ninja                        = Generates build.ninja files.
-  Watcom WMake                 = Generates Watcom WMake makefiles.
-  CodeBlocks - Ninja           = Generates CodeBlocks project files.
-  CodeBlocks - Unix Makefiles  = Generates CodeBlocks project files.
-  CodeLite - Ninja             = Generates CodeLite project files.
-  CodeLite - Unix Makefiles    = Generates CodeLite project files.
-  Sublime Text 2 - Ninja       = Generates Sublime Text 2 project files.
-  Sublime Text 2 - Unix Makefiles
-                               = Generates Sublime Text 2 project files.
-  Kate - Ninja                 = Generates Kate project files.
-  Kate - Unix Makefiles        = Generates Kate project files.
-  Eclipse CDT4 - Ninja         = Generates Eclipse CDT 4.0 project files.
-  Eclipse CDT4 - Unix Makefiles= Generates Eclipse CDT 4.0 project files.
-
-All but one of these contain one of the strings, "Unix Makefiles" or "Ninja".
-In each of these cases, cmake generates the Makefiles (or ninja files respectively),
-and also the appropriate project files, eg. .project and .cproject for Eclipse.
-
-A user can set OECMAKE_GENERATOR in their local.conf to any
-one of these strings, except "Watcom WMake" (not supported).
-
-Signed-off-by: Nikhil Pal Singh <nikhilpal.singh@taitradio.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- meta/classes/cmake.bbclass | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/gcc/gcc-sanitizers.inc | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index e16630434e..d3f0d70847 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -10,13 +10,14 @@ OECMAKE_GENERATOR ?= "Ninja"
+diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+index e5e8452..8b1d1c9 100644
+--- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
++++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+@@ -45,6 +45,9 @@ INHIBIT_DEFAULT_DEPS = "1"
+ ALLOW_EMPTY_${PN} = "1"
+ DEPENDS = "gcc-runtime virtual/${TARGET_PREFIX}gcc"
  
- python() {
-     generator = d.getVar("OECMAKE_GENERATOR")
--    if generator == "Unix Makefiles":
--        args = "-G 'Unix Makefiles' -DCMAKE_MAKE_PROGRAM=" + d.getVar("MAKE")
-+    if "Unix Makefiles" in generator:
-+        args = "-G '" + generator +  "' -DCMAKE_MAKE_PROGRAM=" + d.getVar("MAKE")
-         d.setVar("OECMAKE_GENERATOR_ARGS", args)
-         d.setVarFlag("do_compile", "progress", "percent")
--    elif generator == "Ninja":
-+    elif "Ninja" in generator:
-+        args = "-G '" + generator + "' -DCMAKE_MAKE_PROGRAM=ninja"
-         d.appendVar("DEPENDS", " ninja-native")
--        d.setVar("OECMAKE_GENERATOR_ARGS", "-G Ninja -DCMAKE_MAKE_PROGRAM=ninja")
-+        d.setVar("OECMAKE_GENERATOR_ARGS", args)
-         d.setVarFlag("do_compile", "progress", r"outof:^\[(\d+)/(\d+)\]\s+")
-     else:
-         bb.fatal("Unknown CMake Generator %s" % generator)
++# used to fix ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
++DEBUG_OPTIMIZATION_append = " -Wno-error"
++
+ BBCLASSEXTEND = "nativesdk"
+ 
+ PACKAGES = "${PN} ${PN}-dbg"
 -- 
-2.17.1
+2.7.4
 
 
