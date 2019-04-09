@@ -1,49 +1,86 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f181.google.com (mail-it1-f181.google.com
-	[209.85.166.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 62CFA7D67A
+Return-Path: <prvs=5002f761b2=alejandro.delcastillo@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 87AED7D735
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 19:52:27 +0000 (UTC)
-Received: by mail-it1-f181.google.com with SMTP id z17so3629955itc.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2019 12:52:28 -0700 (PDT)
+	Tue,  9 Apr 2019 20:48:22 +0000 (UTC)
+Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x39KkND9010155; Tue, 9 Apr 2019 15:48:23 -0500
+Received: from nam02-cy1-obe.outbound.protection.outlook.com
+	(mail-cys01nam02lp2055.outbound.protection.outlook.com
+	[104.47.37.55])
+	by mx0a-00010702.pphosted.com with ESMTP id 2rrhm9bhq3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Tue, 09 Apr 2019 15:48:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=TkCNJRKB2N45Bet2Fyhb0cmUUqU9WiatYJGNJDYtgVw=;
-	b=GLqMCb2EdbSaKeIv9JrOv6QlxvdTt8IDwzDSIT/4xxjJ107xtxfVoffq8CEkNg4r6Y
-	sfNp1YvxXwGu4R1hdX6lEp9y5cQ+becv6W94W4G9ayj1iZK+ddgTRU6tyuQ+K+DjKecE
-	H89HLJpa4JH0iKIZx+9Wv1J3B5aNwoXiEk1jEE3UE42UfNfJZr44FegAP1zP5QQUYVHX
-	d7S8PqArkgXbRiweWojDRqaw0Pax+1sFOf1no/N5qlIgaK5Gtg0bXUplT58f3MKqvhwS
-	R5hcOTxhh8uYEHgZvvr8HSBkFNolMJMK3EesDAXMLfUvvHRQLEqVTz5m3gdI4/ST6xgp
-	381A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=TkCNJRKB2N45Bet2Fyhb0cmUUqU9WiatYJGNJDYtgVw=;
-	b=eZRUZUJjxH7kWKjX0WqxkX6FWe/ngXwWjw+SQL7ht3IX6s7xS3MZ5HSOtgMqbXBiO6
-	oYm2QLorGgwDWgBvzoVFhUsAZZXM0EBTXCQaDd5PZa5dzp3qY49S+VU76qEozXUIRG5e
-	RvpN0I6vFl4MkR2LswHPqMlW9SiiYb7SvHoaosmiziFb9k9Gbf9OR8qUIyvvU1M2m+uu
-	R+hRhw0pMNR/qxMw7gLLdTk1jyInZWTxnQee67wcfaePGgI80TY0e7cL4YslolsKTua1
-	Qj3UwJIgqwBeiP7ew9o7yjt8sd7rHOTSpeRNVoFRSeeRqb/VwHn0+0PRIn30L0BZIDIj
-	wfxw==
-X-Gm-Message-State: APjAAAX+yVho7d2bYGlqwxeYxAgEQN1jX4LLH552vuCWOeQWQMbDPbbV
-	GHLhx7vFu72WyyG1uP6jEVXquMVjtTUX63jN3F2oug==
-X-Google-Smtp-Source: APXvYqzBk+68BqnEnZPoZkKrP40QRkE8t3gD6yjEi0+7Rbyn0sSYZ4o2zpWxcuN8OyzZbn4S9kxJM/I1KBhfF1dp2SQ=
-X-Received: by 2002:a24:d643:: with SMTP id o64mr89770itg.148.1554839548417;
-	Tue, 09 Apr 2019 12:52:28 -0700 (PDT)
+	d=nio365.onmicrosoft.com; s=selector1-ni-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=n6dzMTGn8Wao8ukFllDCJnN0FMt2puKK5xVdrZ8VktE=;
+	b=BFBCUM2TLp+Ny+EKEV2J87fiuEzBF989/vxPMa3+1VHnkmRuetbSpEKpCk4rR5R5rLDSNZLUQHZA3bjpRfNeOs1I7ExPfT+b4MgrAjxwEjHzVh9oRatrlzBkQ3mKdJHSLTuJDQKrvYwQ/dAfWcB2+VmZ2tX688Gv7YNpJpL9GSQ=
+Received: from SN6PR04MB4221.namprd04.prod.outlook.com (52.135.71.147) by
+	SN6PR04MB5424.namprd04.prod.outlook.com (20.177.254.32) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1771.19; Tue, 9 Apr 2019 20:48:20 +0000
+Received: from SN6PR04MB4221.namprd04.prod.outlook.com
+	([fe80::c4cc:7e6c:e9c2:da0b]) by
+	SN6PR04MB4221.namprd04.prod.outlook.com
+	([fe80::c4cc:7e6c:e9c2:da0b%2]) with mapi id 15.20.1771.016;
+	Tue, 9 Apr 2019 20:48:20 +0000
+From: Alejandro Del Castillo <alejandro.delcastillo@ni.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [EXTERNAL] Re: [OE-core] [PATCH] opkg: add ptest
+Thread-Index: AQHU7izRJJ44pcE7Z0eer4E3u0wev6Yyo+uAgAGq1wA=
+Date: Tue, 9 Apr 2019 20:48:19 +0000
+Message-ID: <7eddd92f-bb0c-ae68-a4c5-9db558897eb7@ni.com>
+References: <20190408170152.13583-1-alejandro.delcastillo@ni.com>
+	<CAJTo0Lb=jVx++oA6GAdF3-ARSkZb=grkZ8r3Urx-a9btTBvK=g@mail.gmail.com>
+In-Reply-To: <CAJTo0Lb=jVx++oA6GAdF3-ARSkZb=grkZ8r3Urx-a9btTBvK=g@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: SN1PR12CA0066.namprd12.prod.outlook.com
+	(2603:10b6:802:20::37) To SN6PR04MB4221.namprd04.prod.outlook.com
+	(2603:10b6:805:30::19)
+x-ms-exchange-messagesentrepresentingtype: 1
+x-originating-ip: [130.164.62.198]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 275039c5-eb01-45c8-d131-08d6bd2cb1be
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(2017052603328)(7193020);
+	SRVR:SN6PR04MB5424; 
+x-ms-traffictypediagnostic: SN6PR04MB5424:
+x-microsoft-antispam-prvs: <SN6PR04MB54246363319633133E685F78862D0@SN6PR04MB5424.namprd04.prod.outlook.com>
+x-forefront-prvs: 000227DA0C
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(346002)(396003)(136003)(366004)(39860400002)(376002)(199004)(189003)(36756003)(11346002)(5660300002)(446003)(71200400001)(478600001)(71190400001)(4326008)(6246003)(99286004)(53936002)(86362001)(66066001)(31696002)(14454004)(52116002)(256004)(476003)(486006)(2616005)(6116002)(31686004)(106356001)(97736004)(53546011)(3846002)(386003)(186003)(105586002)(7736002)(6506007)(81156014)(6916009)(68736007)(6436002)(76176011)(316002)(6486002)(8936002)(229853002)(81166006)(6512007)(102836004)(8676002)(26005)(4744005)(2906002)(305945005)(25786009);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:SN6PR04MB5424;
+	H:SN6PR04MB4221.namprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:3; 
+received-spf: None (protection.outlook.com: ni.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: xtDAIPA33fI3RiDfQc19vg6pmY824N/hz/P4eWPSa4KfMGKTueJqtPEph/Re7rkG9jnpZNUjrvjlxCqkVfLoTFVgRIoNVDn1wuBf/9rBuOJI/v84bTtmqrZrWiicHapGO9cs7h0GjocxuPpJg1oyhmTBM0rHlUD/hy7RPsa4mvR2HV3y7Tp+XKfZK28JlvXzdADKF5ifxb6GGCW0OfKucsRszBtacCOFQNBq0LNSJ8reXrzqYQDOJKAsKf1+6WuKQbVTsrBy54QizwbdzVQWYAIA4qmPlF2gd9ZXDa/y1lf/O9u5wFQ/unMkVyMbSQ56GStzpldrFs8FkSZnCsP0OeMRL/E4pJQfPOjb4yMR5UvDmhreJCiCo1W7dUJ44FK/mnh0TE5/uIerFzh60V0ElOiPvJ7Gp74VW82SHGwLv6Y=
 MIME-Version: 1.0
-References: <CALbNGRT1ng9=Gfd8m9g=L4BnyvsF6qE_rL79DxdDNZ8yKaEtDA@mail.gmail.com>
-In-Reply-To: <CALbNGRT1ng9=Gfd8m9g=L4BnyvsF6qE_rL79DxdDNZ8yKaEtDA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Apr 2019 20:52:16 +0100
-Message-ID: <CAJTo0LaSMUzctZU-hXvA4DpuqubBY3GNPGrFJM6Etd-96NxZ5A@mail.gmail.com>
-To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: Build broken with current master
+X-OriginatorOrg: ni.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 275039c5-eb01-45c8-d131-08d6bd2cb1be
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2019 20:48:19.8951 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB5424
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-04-09_10:, , signatures=0
+X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
+	score=30
+	priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
+	bulkscore=0
+	spamscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=30 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1904090130
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] opkg: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,107 +93,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 19:52:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 09 Apr 2019 20:48:22 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <1FAF83C4977F604FB21BF77008EEAE54@namprd04.prod.outlook.com>
+Content-Transfer-Encoding: base64
 
-Hm, annoying.
-
-The recipe that depends on docbook-xml-dtd4-native also needs to
-depend on libxml2-native.
-
-Ross
-
-On Tue, 9 Apr 2019 at 18:55, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
-wrote:
->
-> Hi,
->
-> Just updated to current master to rebase my patches. Now I get for
-> meta-qt5-extra/kglobalaccel:
->
-> ERROR: kglobalaccel-5.56.0-r0 do_prepare_recipe_sysroot: Error
-> executing a python function in exec_python_func() autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:extend_recipe_sysroot(d)
->      0003:
-> File: '/home/a.mueller/data/oe-core/sources/openembedded-core/meta/classe=
-s/staging.bbclass',
-> lineno: 566, function: extend_recipe_sysroot
->      0562:    for f in fixme:
->      0563:        staging_processfixme(fixme[f], f, recipesysroot,
-> recipesysrootnative, d)
->      0564:
->      0565:    for p in postinsts:
->  *** 0566:        subprocess.check_output(p, shell=3DTrue,
-> stderr=3Dsubprocess.STDOUT)
->      0567:
->      0568:    for dep in manifests:
->      0569:        c =3D setscenedeps[dep][0]
->      0570:        os.symlink(manifests[dep], depdir + "/" + c + ".complet=
-e")
-> File: '/usr/lib64/python3.7/subprocess.py', lineno: 395, function: check_=
-output
->      0391:        # empty string. That is maintained here for
-> backwards compatibility.
->      0392:        kwargs['input'] =3D '' if
-> kwargs.get('universal_newlines', False) else b''
->      0393:
->      0394:    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, ch=
-eck=3DTrue,
->  *** 0395:               **kwargs).stdout
->      0396:
->      0397:
->      0398:class CompletedProcess(object):
->      0399:    """A process that has finished running.
-> File: '/usr/lib64/python3.7/subprocess.py', lineno: 487, function: run
->      0483:            raise
->      0484:        retcode =3D process.poll()
->      0485:        if check and retcode:
->      0486:            raise CalledProcessError(retcode, process.args,
->  *** 0487:                                     output=3Dstdout, stderr=3D=
-stderr)
->      0488:    return CompletedProcess(process.args, retcode, stdout, stde=
-rr)
->      0489:
->      0490:
->      0491:def list2cmdline(seq):
-> Exception: subprocess.CalledProcessError: Command
-> '/home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-l=
-inux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docboo=
-k-xml-dtd4-xmlcatalog'
-> returned non-zero exit status 127.
->
-> Subprocess output:
-> /home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-li=
-nux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docbook=
--xml-dtd4-xmlcatalog:
-> line 5: xmlcatalog: command not found
-> /home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-li=
-nux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docbook=
--xml-dtd4-xmlcatalog:
-> line 8: xmlcatalog: command not found
->
-> ERROR: kglobalaccel-5.56.0-r0 do_prepare_recipe_sysroot: Command
-> '/home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-l=
-inux-musleabi/kglobalaccel/5.56.0-r0/recipe-sysroot/usr/bin/postinst-docboo=
-k-xml-dtd4-xmlcatalog'
-> returned non-zero exit status 127.
-> ERROR: kglobalaccel-5.56.0-r0 do_prepare_recipe_sysroot: Function
-> failed: extend_recipe_sysroot
-> ERROR: Logfile of failure stored in:
-> /home/a.mueller/tmp/oe-core-musl/work/cortexa7t2hf-neon-vfpv4-mortsgna-li=
-nux-musleabi/kglobalaccel/5.56.0-r0/temp/log.do_prepare_recipe_sysroot.1026=
-7
-> ERROR: Task (/home/a.mueller/data/oe-core/sources/meta-qt5-extra/recipes-=
-kde/kf5/tier3/kglobalaccel/kglobalaccel.bb:do_prepare_recipe_sysroot)
-> failed with exit code '1'
->
-> Saw there were some changes at that area. Anything I can do to fix?
->
-> Andreas
+DQoNCk9uIDQvOC8xOSAyOjIwIFBNLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+IE9uIE1vbiwgOCBB
+cHIgMjAxOSBhdCAyMDowMywgQWxlamFuZHJvIGRlbCBDYXN0aWxsbw0KPiA8YWxlamFuZHJvLmRl
+bGNhc3RpbGxvQG5pLmNvbT4gd3JvdGU6DQo+PiArZG9faW5zdGFsbF9wdGVzdCgpIHsNCj4+ICsg
+ICAgICAgaW5zdGFsbCAtZCAke0R9JHtQVEVTVF9QQVRIfQ0KPj4gKyAgICAgICBpbnN0YWxsIC1t
+IDc1NSAke1dPUktESVJ9L3J1bi1wdGVzdCAke0R9LyR7UFRFU1RfUEFUSH0vcnVuLXB0ZXN0DQo+
+PiArICAgICAgIGluc3RhbGwgLW0gNzU1ICR7Qn0vTWFrZWZpbGUgJHtEfSR7UFRFU1RfUEFUSH0v
+TWFrZWZpbGUNCj4+ICsgICAgICAgc2VkIC1pIC1lICdzLF5NYWtlZmlsZTosX01ha2VmaWxlOiwn
+ICR7RH0vJHtQVEVTVF9QQVRIfS9NYWtlZmlsZQ0KPj4gKyAgICAgICBjcCAtciAke1N9L3Rlc3Rz
+ICR7RH0ke1BURVNUX1BBVEh9DQo+PiArICAgICAgIHNlZCAtaSAtZSAncyxeb3BrZ2NsID0gb3Mu
+cGF0aC5yZWFscGF0aCgiLi4vc3JjL29wa2ciKSxvcGtnY2w9IiR7YmluZGlyfS9vcGtnIiwnICR7
+RH0vJHtQVEVTVF9QQVRIfS90ZXN0cy9jZmcucHkNCj4+ICt9DQo+IA0KPiBZb3UncmUgdGhlIG1h
+aW50YWluZXIgb2Ygb3BrZywganVzdCBhZGQgYW4gaW5zdGFsbCB0YXJnZXQgZm9yIHRoZSB0ZXN0
+IHN1aXRlIDspDQoNCkF0IGZpcnN0IGdsYW5jZSwgaXQgbG9va2VkIGEgYml0IG9kZCB0byBhZGQg
+YSBwdGVzdCBzcGVjaWZpYyB0YXJnZXQgDQooaW5zdGFsbC1wdGVzdCkgdG8gb3BrZy4gQnV0IEkg
+Y2FuIHNlZSBvdGhlciBjb21wb25lbnRzIGRvIHRoYXQgKGdkYm0sIA0KbGlieG1sKS4gQW5kIGdp
+dmUgdGhhdCBvcGtnIHByaW1hcnkgY2xpZW50IGlzIE9FLCB0aGVuIGl0IHNob3VsZCBiZSBPSy4g
+DQpJJ2xsIGFkZCB0aGUgaW5zdGFsbC1wdGVzdCB0byBvcGtnIGFuZCB3aWxsIHNlbmQgYSB2MiBz
+b29uLg0KDQotLSANCkNoZWVycywNCg0KQWxlamFuZHJvDQo=
 
