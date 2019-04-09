@@ -1,54 +1,54 @@
 Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 338017D72E
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F7AD7D732
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 15:38:01 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id x132so5640614itf.2
+	Tue,  9 Apr 2019 15:38:02 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id y10so5657244itc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2019 08:38:02 -0700 (PDT)
+	Tue, 09 Apr 2019 08:38:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=/P79aXNKZTXsHOw0R8ob8s6iMxMODblSWfI6v6PLvng=;
-	b=Iv7Wn7pmUOcY2UPP7nAfCPRQzueSM93LfLUR5F7QWdTmzFmnNf/WL0rvLMzjsgUbj4
-	zSMuHCEdeHoHyG2dDKycai/FLjLgomw92KXzkpa+kX9u8e6GPUQB+Fa1hFZHBghaXitv
-	fZRRfx0tJ/j8eiORYPad031DwxTe7u57t+JCAJLVh+Nb5XaAyS6cZXV+fqPU4//ss3cQ
-	WKtpzu9NrIQWTK7VnzPbiM9PUgnztQsp7wLlCwDTxVfaQ6s6VVfib2XzYykXCXgsMxwO
-	e+HsKl23JT9GxxuZkj2XlvQiRISWLhFREVK2Kw8Hczl9BjeO9rnK3NUpRKRd0ajKbeQn
-	+d7A==
+	bh=3g7kqIe+nDlsru0uBd96+gYkpzcF6cSw+MDJiUhO2NQ=;
+	b=aCA4Wnx3C9hEYFqLHkQ6SzF8cG6GM/MvuLPzOQlXTorGn1N6dMEB1gCBS3nCvYJ/AE
+	54OnAF9X/fXVzXfMqKZA7nnYX1fyxxa/Yea2I4eLpc1q5wZ+yI4pL5AlvVEeEW0pVSQG
+	QR8XIlF8QnsLvpoRRgJ7g7jCk07UdrkDcyUbRvLHP+yPl7vutnF7qk9d5JEZBomTJ2mZ
+	82VqJUAhG/CNJk/SoIk45zhVhkZAHY2q4HW/9x3o2SFeSAXOuXRnV7nqd6cN/5VJc+2/
+	ALSNGwo5cvJNur1UTJg0/r3swCGvR4IspKjRhy/FnhfEm7XKiaSozQjaF1CQdPyWkcfS
+	PyQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=/P79aXNKZTXsHOw0R8ob8s6iMxMODblSWfI6v6PLvng=;
-	b=JdMu3vf62sGnFjAT2NdGh1VOdCdsWX7PJGuiqo41+FuCfJRgkeQkJ1gGNNDrkcieo0
-	gDiyIVbsY5DNF77E82y175HtRiZy4oQcCgQSRrfZ3Jo8VqfkC9/uTZhH2/J9XLSfBR9H
-	Ognzs6Tf8ZNw9BYwzFX0zOG1PglRxSXbyQsnlicCczrfEiY7Q7h7iu7JtEyw03E9I1CN
-	Gfct3tIa7XATiS3ytzeIrTblvkD3/qio0i3BcTLaccVCW9fNH6K3xUTlh9dB/D9E7Ku5
-	P2V+pnH7XzTcyzxbj+ciA1Ej79rXcq4Tsep0gupUTfZgmMkVNxcH6JY7R+UDkxySoTHO
-	Q75A==
-X-Gm-Message-State: APjAAAXl0WD60hMqW+eBlc4hLeQzWlwz74V0wBzleobuYoRC8R5VUCek
-	LaWwp5Khb2Lk0hrjBk3mOjrOY2xhNok=
-X-Google-Smtp-Source: APXvYqzLq0yF/zE9EE8XxhnconA74QIJ6GKUA9GKBtZUxS9bnr4njdK6o/tUmaPu7Uk6BQ3F9MfdQw==
-X-Received: by 2002:a24:684b:: with SMTP id v72mr9842566itb.101.1554824282060; 
-	Tue, 09 Apr 2019 08:38:02 -0700 (PDT)
+	bh=3g7kqIe+nDlsru0uBd96+gYkpzcF6cSw+MDJiUhO2NQ=;
+	b=cQBwYUj89p+iYylWdjpvllLKlUjWW8zbbIb1ShZiWRDEj6yrcwIWmqIK1dxZrnNQjh
+	GXeEhkQZybjFeRT4RybJixNd1j+0fC3LI+rQtzysIzNbiotj0Qyanojvo53bJGCWWnlm
+	Sfh/D9sZUT/NmrT/3AsBbCKuBQlq87uGGptfFPbWKSoDpymArzB9aIyKFFytPsz6y2hV
+	fzR5E1mCOixLzKmroRC1pQn8ZiVo+O4YQyC7Y1G9bVXd9JdDjFAdiSl3icxWkDR3aVCx
+	rmVyBZu2CnHLzjQ2x94bCVsvltsrh5sM95/hJG8qtt1z4e36yHG83mQKX2M7Ni5/UdAW
+	wI5w==
+X-Gm-Message-State: APjAAAU+F1R48VGgBw4QEWFOmtvxIy5HPcDCiXKYSV0XeI9CagNMqR1t
+	xMHhDeNpvGI1VxEzi8FaBpo=
+X-Google-Smtp-Source: APXvYqzJnLzkDpXdWHaBiRKrs4zttIYVn3cKed2XWSY1xlPKwwq4Fd/HW2+9INzumIpo3Cn6PGw/dg==
+X-Received: by 2002:a24:7ce:: with SMTP id f197mr13467192itf.41.1554824283363; 
+	Tue, 09 Apr 2019 08:38:03 -0700 (PDT)
 Received: from localhost.localdomain
 	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
 	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	y24sm12376510iol.8.2019.04.09.08.38.00
+	y24sm12376510iol.8.2019.04.09.08.38.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 09 Apr 2019 08:38:01 -0700 (PDT)
+	Tue, 09 Apr 2019 08:38:02 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
-Date: Tue,  9 Apr 2019 11:37:52 -0400
-Message-Id: <e1f5feae63c632da390bd845f87a95bfb0218419.1554824014.git.bruce.ashfield@gmail.com>
+Date: Tue,  9 Apr 2019 11:37:53 -0400
+Message-Id: <0bad6098fd71df502d1f7a3d29ac3e0f5b925a8d.1554824014.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <cover.1554824014.git.bruce.ashfield@gmail.com>
 References: <cover.1554824014.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/7] linux-yocto/5.0: update CGL audit configuration fragment
+Subject: [PATCH 3/7] linux-yocto-tiny/4.18: point KBRANCH to 4.18
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,69 +61,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 15:38:01 -0000
+X-List-Received-Date: Tue, 09 Apr 2019 15:38:02 -0000
 Content-Transfer-Encoding: 8bit
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Integrating the follow config tweak:
+The other kernel versions had the -tiny KBRANCH typo of 4.15
+fixed, but 4.18 was missed. So we update the kbranch to the right
+version for 4.18 as well.
 
-    cgl: audit: Remove CONFIG_AUDIT_WATCH and CONFIG_AUDIT_WATCH
-
-    In the following commits, these two options have been replaced by
-    CONFIG_AUDITSYSCALL which is in audit.cfg.
-
-    c8fc5d49c341 ("audit: remove WATCH and TREE config options")
-    cb74ed278f80 ("audit: always enable syscall auditing when supported and audit is enabled")
-
-    Signed-off-by: He Zhe <zhe.he@windriver.com>
+[YOCTO #13247]
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-index 65c3698495..68c57e89f3 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
+index 0be7f0889a..f4bb49a60d 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.18.bb
+@@ -1,5 +1,5 @@
+ KBRANCH ?= "v4.18/standard/tiny/base"
+-KBRANCH_qemuarm  ?= "v4.15/standard/tiny/arm-versatile-926ejs"
++KBRANCH_qemuarm  ?= "v4.18/standard/tiny/arm-versatile-926ejs"
  
- SRCREV_machine ?= "06e1ff79ea9efef052404ee1989cae038b28e954"
--SRCREV_meta ?= "705457837e7ddd27e4e2ecf6d3dbd255b1aaf848"
-+SRCREV_meta ?= "172634f02e7e293bb53c6c7b1473306b9b30058d"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-index dc60548c6f..b3027c0057 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "b0477279877bb2b5cca6ec49c64e931901ff2022"
- SRCREV_machine ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
--SRCREV_meta ?= "705457837e7ddd27e4e2ecf6d3dbd255b1aaf848"
-+SRCREV_meta ?= "172634f02e7e293bb53c6c7b1473306b9b30058d"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-index be5dbaedc1..dc3cc11466 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
- SRCREV_machine_qemux86-64 ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
- SRCREV_machine_qemumips64 ?= "2468c20c15477ebe5ecd73c0e0162d7432149318"
- SRCREV_machine ?= "3df4aae6074e94e794e27fe7f17451d9353cdf3d"
--SRCREV_meta ?= "705457837e7ddd27e4e2ecf6d3dbd255b1aaf848"
-+SRCREV_meta ?= "172634f02e7e293bb53c6c7b1473306b9b30058d"
- 
- # remap qemuarm to qemuarma15 for the 5.0 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+ LINUX_KERNEL_TYPE = "tiny"
+ KCONFIG_MODE = "--allnoconfig"
 -- 
 2.19.1
 
