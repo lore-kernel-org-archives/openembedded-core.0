@@ -1,86 +1,51 @@
-Return-Path: <prvs=5002f761b2=alejandro.delcastillo@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id 87AED7D735
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D7EA7D7AC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 20:48:22 +0000 (UTC)
-Received: from pps.filterd (m0098780.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x39KkND9010155; Tue, 9 Apr 2019 15:48:23 -0500
-Received: from nam02-cy1-obe.outbound.protection.outlook.com
-	(mail-cys01nam02lp2055.outbound.protection.outlook.com
-	[104.47.37.55])
-	by mx0a-00010702.pphosted.com with ESMTP id 2rrhm9bhq3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
-	Tue, 09 Apr 2019 15:48:23 -0500
+	Tue,  9 Apr 2019 21:27:43 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id y7so349416wrn.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 09 Apr 2019 14:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nio365.onmicrosoft.com; s=selector1-ni-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=n6dzMTGn8Wao8ukFllDCJnN0FMt2puKK5xVdrZ8VktE=;
-	b=BFBCUM2TLp+Ny+EKEV2J87fiuEzBF989/vxPMa3+1VHnkmRuetbSpEKpCk4rR5R5rLDSNZLUQHZA3bjpRfNeOs1I7ExPfT+b4MgrAjxwEjHzVh9oRatrlzBkQ3mKdJHSLTuJDQKrvYwQ/dAfWcB2+VmZ2tX688Gv7YNpJpL9GSQ=
-Received: from SN6PR04MB4221.namprd04.prod.outlook.com (52.135.71.147) by
-	SN6PR04MB5424.namprd04.prod.outlook.com (20.177.254.32) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1771.19; Tue, 9 Apr 2019 20:48:20 +0000
-Received: from SN6PR04MB4221.namprd04.prod.outlook.com
-	([fe80::c4cc:7e6c:e9c2:da0b]) by
-	SN6PR04MB4221.namprd04.prod.outlook.com
-	([fe80::c4cc:7e6c:e9c2:da0b%2]) with mapi id 15.20.1771.016;
-	Tue, 9 Apr 2019 20:48:20 +0000
-From: Alejandro Del Castillo <alejandro.delcastillo@ni.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [EXTERNAL] Re: [OE-core] [PATCH] opkg: add ptest
-Thread-Index: AQHU7izRJJ44pcE7Z0eer4E3u0wev6Yyo+uAgAGq1wA=
-Date: Tue, 9 Apr 2019 20:48:19 +0000
-Message-ID: <7eddd92f-bb0c-ae68-a4c5-9db558897eb7@ni.com>
-References: <20190408170152.13583-1-alejandro.delcastillo@ni.com>
-	<CAJTo0Lb=jVx++oA6GAdF3-ARSkZb=grkZ8r3Urx-a9btTBvK=g@mail.gmail.com>
-In-Reply-To: <CAJTo0Lb=jVx++oA6GAdF3-ARSkZb=grkZ8r3Urx-a9btTBvK=g@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN1PR12CA0066.namprd12.prod.outlook.com
-	(2603:10b6:802:20::37) To SN6PR04MB4221.namprd04.prod.outlook.com
-	(2603:10b6:805:30::19)
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [130.164.62.198]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 275039c5-eb01-45c8-d131-08d6bd2cb1be
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(2017052603328)(7193020);
-	SRVR:SN6PR04MB5424; 
-x-ms-traffictypediagnostic: SN6PR04MB5424:
-x-microsoft-antispam-prvs: <SN6PR04MB54246363319633133E685F78862D0@SN6PR04MB5424.namprd04.prod.outlook.com>
-x-forefront-prvs: 000227DA0C
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(346002)(396003)(136003)(366004)(39860400002)(376002)(199004)(189003)(36756003)(11346002)(5660300002)(446003)(71200400001)(478600001)(71190400001)(4326008)(6246003)(99286004)(53936002)(86362001)(66066001)(31696002)(14454004)(52116002)(256004)(476003)(486006)(2616005)(6116002)(31686004)(106356001)(97736004)(53546011)(3846002)(386003)(186003)(105586002)(7736002)(6506007)(81156014)(6916009)(68736007)(6436002)(76176011)(316002)(6486002)(8936002)(229853002)(81166006)(6512007)(102836004)(8676002)(26005)(4744005)(2906002)(305945005)(25786009);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:SN6PR04MB5424;
-	H:SN6PR04MB4221.namprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:3; 
-received-spf: None (protection.outlook.com: ni.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: xtDAIPA33fI3RiDfQc19vg6pmY824N/hz/P4eWPSa4KfMGKTueJqtPEph/Re7rkG9jnpZNUjrvjlxCqkVfLoTFVgRIoNVDn1wuBf/9rBuOJI/v84bTtmqrZrWiicHapGO9cs7h0GjocxuPpJg1oyhmTBM0rHlUD/hy7RPsa4mvR2HV3y7Tp+XKfZK28JlvXzdADKF5ifxb6GGCW0OfKucsRszBtacCOFQNBq0LNSJ8reXrzqYQDOJKAsKf1+6WuKQbVTsrBy54QizwbdzVQWYAIA4qmPlF2gd9ZXDa/y1lf/O9u5wFQ/unMkVyMbSQ56GStzpldrFs8FkSZnCsP0OeMRL/E4pJQfPOjb4yMR5UvDmhreJCiCo1W7dUJ44FK/mnh0TE5/uIerFzh60V0ElOiPvJ7Gp74VW82SHGwLv6Y=
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=kJamQ/nBTP1ypw5ITaxD828SEUM56vCCeatwU/KlcQk=;
+	b=Ldjkofg3SXIsNqXaSy4xID/sVs9YbDiw9D05hvbTtN9+pw50hq75iCA8XkWBdUoJfx
+	XnTXCM/OaaUrsQSJHcVzmB4RRyIQfFVZroJS+gcYkPx+Uz8XN3a5kIQIvWmF7Y13fXJf
+	cNCLdxJKZkj8V0RWEel8jdJt3VDXJKfzi8vRA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=kJamQ/nBTP1ypw5ITaxD828SEUM56vCCeatwU/KlcQk=;
+	b=P2gAQz5eHK7gFLmNGHhTlaGnLFIsVUPBX+8JLvFWVvmEYEqWzNbk3NxJNBuk7bDu54
+	iIeOHxtXrsLSGOAyLNpAXdCr4Wpi7BMw8smyNSAqOumVPOiJSfzmcN9r7nsTDLIZPMMV
+	XxvO7xZq6B3+OPRlZqNRI3i4nT9o2hkY/2dZpBwlNyNKjfS+tF26Wr3pvyA1w7z8bQeh
+	Vcukmn86FF9V9bKicV7UbDCr0awyBuA7Gz0AcOR9tmmfkv3M1/NxN1C/6fgkTx4U7rrN
+	LjVDRYwoVcazN795uTYD7imep2UcVJZsBKs6ttxITH+z7vL0SCcQhOwz4ucX4x7KR6v4
+	LmSA==
+X-Gm-Message-State: APjAAAWdh3thaHLZ0G5wsa9CmRK7hldJTUXyoD40IUj9kb/q0aXBvSVm
+	SWhMkqCzsN2teNMBpjFCjI+W6A==
+X-Google-Smtp-Source: APXvYqzw+F8hz8Q/33nEth2Bg7HYXfTzuEic1rPHb0yUvkliSkzvGxqNEbojus3bS9sPOBWNpWjiXw==
+X-Received: by 2002:adf:edcf:: with SMTP id v15mr16837682wro.20.1554845264262; 
+	Tue, 09 Apr 2019 14:27:44 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	7sm115677259wrc.81.2019.04.09.14.27.42
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 09 Apr 2019 14:27:43 -0700 (PDT)
+Message-ID: <f755b3b339b8b6482ab99d29b733af43aa28cc00.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Mark Asselstine <mark.asselstine@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 09 Apr 2019 22:27:42 +0100
+In-Reply-To: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
+References: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 275039c5-eb01-45c8-d131-08d6bd2cb1be
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2019 20:48:19.8951 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR04MB5424
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-04-09_10:, , signatures=0
-X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=30 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1904090130
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] opkg: add ptest
+Subject: Re: [v3][PATCH 1/2] go.bbclass: Export more GO* environment variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -93,28 +58,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 20:48:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <1FAF83C4977F604FB21BF77008EEAE54@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 09 Apr 2019 21:27:43 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-DQoNCk9uIDQvOC8xOSAyOjIwIFBNLCBCdXJ0b24sIFJvc3Mgd3JvdGU6DQo+IE9uIE1vbiwgOCBB
-cHIgMjAxOSBhdCAyMDowMywgQWxlamFuZHJvIGRlbCBDYXN0aWxsbw0KPiA8YWxlamFuZHJvLmRl
-bGNhc3RpbGxvQG5pLmNvbT4gd3JvdGU6DQo+PiArZG9faW5zdGFsbF9wdGVzdCgpIHsNCj4+ICsg
-ICAgICAgaW5zdGFsbCAtZCAke0R9JHtQVEVTVF9QQVRIfQ0KPj4gKyAgICAgICBpbnN0YWxsIC1t
-IDc1NSAke1dPUktESVJ9L3J1bi1wdGVzdCAke0R9LyR7UFRFU1RfUEFUSH0vcnVuLXB0ZXN0DQo+
-PiArICAgICAgIGluc3RhbGwgLW0gNzU1ICR7Qn0vTWFrZWZpbGUgJHtEfSR7UFRFU1RfUEFUSH0v
-TWFrZWZpbGUNCj4+ICsgICAgICAgc2VkIC1pIC1lICdzLF5NYWtlZmlsZTosX01ha2VmaWxlOiwn
-ICR7RH0vJHtQVEVTVF9QQVRIfS9NYWtlZmlsZQ0KPj4gKyAgICAgICBjcCAtciAke1N9L3Rlc3Rz
-ICR7RH0ke1BURVNUX1BBVEh9DQo+PiArICAgICAgIHNlZCAtaSAtZSAncyxeb3BrZ2NsID0gb3Mu
-cGF0aC5yZWFscGF0aCgiLi4vc3JjL29wa2ciKSxvcGtnY2w9IiR7YmluZGlyfS9vcGtnIiwnICR7
-RH0vJHtQVEVTVF9QQVRIfS90ZXN0cy9jZmcucHkNCj4+ICt9DQo+IA0KPiBZb3UncmUgdGhlIG1h
-aW50YWluZXIgb2Ygb3BrZywganVzdCBhZGQgYW4gaW5zdGFsbCB0YXJnZXQgZm9yIHRoZSB0ZXN0
-IHN1aXRlIDspDQoNCkF0IGZpcnN0IGdsYW5jZSwgaXQgbG9va2VkIGEgYml0IG9kZCB0byBhZGQg
-YSBwdGVzdCBzcGVjaWZpYyB0YXJnZXQgDQooaW5zdGFsbC1wdGVzdCkgdG8gb3BrZy4gQnV0IEkg
-Y2FuIHNlZSBvdGhlciBjb21wb25lbnRzIGRvIHRoYXQgKGdkYm0sIA0KbGlieG1sKS4gQW5kIGdp
-dmUgdGhhdCBvcGtnIHByaW1hcnkgY2xpZW50IGlzIE9FLCB0aGVuIGl0IHNob3VsZCBiZSBPSy4g
-DQpJJ2xsIGFkZCB0aGUgaW5zdGFsbC1wdGVzdCB0byBvcGtnIGFuZCB3aWxsIHNlbmQgYSB2MiBz
-b29uLg0KDQotLSANCkNoZWVycywNCg0KQWxlamFuZHJvDQo=
+On Mon, 2019-03-18 at 11:21 -0400, Mark Asselstine wrote:
+> Currently we are not doing a good job of consolidating GO environment
+> variables used by the go build system in the go.bbclass, instead we
+> are relying on the individual GO recipe authors to perform the
+> exports. This can result in inconsistent build results and often
+> binaries that are not properly cross compiled, resulting in segfaults
+> when the applications are run on the target.
+> 
+> For example the GO documentation recommends that the environment
+> include a value assigned to GOARM when cross building for ARMv5,
+> ARMv6
+> and ARMv7 (https://github.com/golang/go/wiki/GoArm).
+> 
+> In order to avoid polluting the build scripts with unnecessary
+> exports, such as run.do_compile, we attempt to only export variables
+> when they apply to a specific arch.
+> 
+> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
+> ---
+> 
+> V2
+> * Avoid potential undefined situations
+> 
+> V3
+> * Add more exports to cover the basics
+> * Tested on all qemu* variants, -native and build test other BSPs
+> 
+>  meta/classes/go.bbclass | 19 +++++++++++++++++++
+>  1 file changed, 19 insertions(+)
+> 
+> diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+> index 7069c5f..78c2d68 100644
+> --- a/meta/classes/go.bbclass
+> +++ b/meta/classes/go.bbclass
+> @@ -8,6 +8,25 @@ GOROOT = "${STAGING_LIBDIR}/go"
+>  export GOROOT
+>  export GOROOT_FINAL = "${libdir}/go"
+>  
+> +export GOARCH = "${TARGET_GOARCH}"
+> +export GOOS = "${TARGET_GOOS}"
+> +export GOHOSTARCH="${BUILD_GOARCH}"
+> +export GOHOSTOS="${BUILD_GOOS}"
+> +
+> +GOARM[export] = "0"
+> +GOARM_arm_class-target = "${TARGET_GOARM}"
+> +GOARM_arm_class-target[export] = "1"
+> +
+> +GO386[export] = "0"
+> +GO386_x86_class-target = "${TARGET_GO386}"
+> +GO386_x86_class-target[export] = "1"
+> +GO386_i586_class-target = "${TARGET_GO386}"
+> +GO386_i586_class-target[export] = "1"
+
+I'm almost certain that you don't need the i586 variant here as the x86
+class should cover that already.
+
+The export 0/1 thing is ugly and I which we had better syntax in
+bitbake but its too late in the release for that now.
+
+Cheers,
+
+Richard
+
 
