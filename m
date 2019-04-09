@@ -1,51 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A8F07D768
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 9806C7D768
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 21:31:17 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id c1so280972wml.4
+	Tue,  9 Apr 2019 21:31:50 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id k11so399598wro.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Apr 2019 14:31:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=f/bKzWnVjKpYEzC1rudG5QckpAJQxQRn2j8yb6HY5kM=;
-	b=O6RyAkGm4+roo0fx86mt/di7JBzn9TyCo2tm+JlUr1ZIYnSA84huHYSen+dxpA9UJx
-	duU94NFICJ3UkUEnD7ySr4CL9S2yR4G2gfO0MQUrKn1LG3dZRXW9WqdR/6CH80Q9MxMZ
-	mhj7hm/FoeHhKhlyRoD28bgqaTmxswLWBvzQ8=
+	Tue, 09 Apr 2019 14:31:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Z25heakNldit0yKYlkRHAdvB12PsqZWHE5tbbuTJfGg=;
+	b=Q/4sZaKN8hVrs3zW3GDJ45WT6asWHbuh8Q30J7+sQSLS4wxJME2txuK7GHZT/z0zvF
+	3kjFN4UPIzWKXrMc28I/LSW4nsOp7v/EcMx3yqf2nno+grIktH44bs3BbrmqUeDkgZq7
+	jhLWlkG4edb9BuyXGvDBpWbHTXS6QOd5td4qjb/qvCHUA1Hr9MMk7rQ3tEPlz/vEaUf9
+	mSfH4aOlqou8JcXOS8jjZAhOOvE6NEd0ce1C+0K66qu2fO+8yOOTnF34D2f3OKhQF0AU
+	XHup11SpUkMphcRy7692KZT5Nz+BInsiM7DmXsL8tT1Eh06XVW0t8I4NqtZqbmEFuH6d
+	9UZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=f/bKzWnVjKpYEzC1rudG5QckpAJQxQRn2j8yb6HY5kM=;
-	b=RizILVrp6RfGpkdpWr669NnBi7aBFL6Bi4ilYXcwLnOdrl5J60u16cFwAp6J7MiHRm
-	stm/peNiKfMe8hCt9sbA2jisGug1igDgxa5m5vXptZ1WtDiZX9fTd8jLwQ3sFfAYlJeT
-	lZfi//4CsOhzJNPI1wtHkhioegwOjOt/kgDO9z4Dx0AzdwyhYkUCX+oSWygRn0KaAeSd
-	S5nbZOmha3k/pAiGe/uo/ObEHqXf5VcOHkm3Lk/vkbME03qThjElY1SYpwXpj+IrnzoE
-	orCv473tqm6EMm0KvxV+fxA20ml9BVjAXphmUN3RKQ4Apo/wyaewN5G4xGU25pA0XiuJ
-	FwJg==
-X-Gm-Message-State: APjAAAXqV8PRt2hc/u/vGEHuTc4AxGgo6RUID/SYOAymqh8GbAOLX7ai
-	jCtL8+/FUVpZtZqOSQjwODcQjQ==
-X-Google-Smtp-Source: APXvYqwPWhZtpqN4xkLz2PbJmOB9daH11LGW6KeR2o5d7ncGAazKWlwhsu+rKXePd/nZ9kqM4KSHdw==
-X-Received: by 2002:a1c:81c9:: with SMTP id c192mr261739wmd.124.1554845477866; 
-	Tue, 09 Apr 2019 14:31:17 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 84sm359281wme.43.2019.04.09.14.31.16
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 09 Apr 2019 14:31:16 -0700 (PDT)
-Message-ID: <9634b91d63c9dcb0b39c4d81646e02abc26a394e.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Mark Asselstine <mark.asselstine@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 09 Apr 2019 22:31:15 +0100
-In-Reply-To: <1552922513-21915-2-git-send-email-mark.asselstine@windriver.com>
-References: <1552922513-21915-1-git-send-email-mark.asselstine@windriver.com>
-	<1552922513-21915-2-git-send-email-mark.asselstine@windriver.com>
-User-Agent: Evolution 3.32.0-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Z25heakNldit0yKYlkRHAdvB12PsqZWHE5tbbuTJfGg=;
+	b=P1BUw1gehQd6Y3Lhvf8S9LeA2cmWGOionhce8quw3IcqYmJble0w+l4w5MxuVLwKjJ
+	Dim0Sj4kBstNamFk0onLpHGtCqNWFRAmjGu86atq+0M25Eb/D3c52m0gc+C2a0AteqQb
+	+t6qsIzHDEycu+AFz63Flqxu0akG7+yrFeXDQ1hey4Nhs9JjCOdqiKi+2iNXS6UMWuM/
+	Nqu2iTU0HKLLPJK5P9i7V5H71FJMrHYi0t6SaStxt8cAMJ+p0YO+I7tAtvP/aJHRaR1p
+	9X9x4mA+d4f+n7/a0DIdkxnSHOpjIhWkk1vRz8nf9PggKN1htfSyqmOQeXjbkwZuA6a4
+	zhjg==
+X-Gm-Message-State: APjAAAWOrzMI26x+bPlNLz9bvEvcipIctkvUfEGtfVprQ4HW9cQREbvK
+	BOJi4dPKxJQ/zNR2wPjTuKveUjahlpZOGCMToZU=
+X-Google-Smtp-Source: APXvYqwKOe5Xou5QIEYkALmbPOzDwrA8CstBJQDvMJ/DHllrtfz0kvhNmbg8oHqIkPiBqYTfOBq0TeujMPI89xVTKK8=
+X-Received: by 2002:adf:f607:: with SMTP id t7mr26038962wrp.191.1554845511190; 
+	Tue, 09 Apr 2019 14:31:51 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [v3][PATCH 2/2] goarch.bbclass: use MACHINEOVERRIDES and simplify go_map_arm()
+References: <cover.1554628807.git.akuster808@gmail.com>
+In-Reply-To: <cover.1554628807.git.akuster808@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Tue, 9 Apr 2019 23:31:41 +0200
+Message-ID: <CA+chaQd2dqK4LyTeKRwROvSwtwFC23GO9fWB3GpFTwGz91ytMQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 00/16] thud-next patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,108 +54,256 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 21:31:17 -0000
+X-List-Received-Date: Tue, 09 Apr 2019 21:31:50 -0000
+Content-Type: multipart/alternative; boundary="000000000000600c0705861faecc"
+
+--000000000000600c0705861faecc
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-03-18 at 11:21 -0400, Mark Asselstine wrote:
-> Per https://github.com/golang/go/wiki/GoArm we need to set GOARM when
-> cross building for ARMv5, ARMv6 and ARMv7. The current approach of
-> using TUNE_FEATURES can be error prone, as we can see today when
-> attempting to build for Cortex-A7 which results in GOARM=''.
-> 
-> Since the value of MACHINEOVERRIDES already consolidates the values
-> of
-> TUNE_FEATURES into something more consistent we can use the overrides
-> mechanism to set GOARM, leaving just a little bit of logic in
-> go_map_arm() to trigger off the arch (basically target vs host)
-> for the setting of GOARM.
-> 
-> Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> ---
-> 
-> V2
-> * Cover all ARMv7 Cortex* variants
-> 
-> V3
-> * Switch to using MACHINEOVERRIDES/overrides mechanism
-> 
->  meta/classes/goarch.bbclass | 19 +++++++++++--------
->  1 file changed, 11 insertions(+), 8 deletions(-)
-> 
-> diff --git a/meta/classes/goarch.bbclass
-> b/meta/classes/goarch.bbclass
-> index 39fea5e..8fdb443 100644
-> --- a/meta/classes/goarch.bbclass
-> +++ b/meta/classes/goarch.bbclass
-> @@ -3,18 +3,26 @@ BUILD_GOARCH = "${@go_map_arch(d.getVar('BUILD_ARCH
-> '), d)}"
->  BUILD_GOTUPLE = "${BUILD_GOOS}_${BUILD_GOARCH}"
->  HOST_GOOS = "${@go_map_os(d.getVar('HOST_OS'), d)}"
->  HOST_GOARCH = "${@go_map_arch(d.getVar('HOST_ARCH'), d)}"
-> -HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
-> +HOST_GOARM = "${@go_map_arm(d.getVar('HOST_ARCH'),
-> d.getVar('BASE_GOARM'), d)}"
->  HOST_GO386 = "${@go_map_386(d.getVar('HOST_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
->  HOST_GOMIPS = "${@go_map_mips(d.getVar('HOST_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
->  HOST_GOTUPLE = "${HOST_GOOS}_${HOST_GOARCH}"
->  TARGET_GOOS = "${@go_map_os(d.getVar('TARGET_OS'), d)}"
->  TARGET_GOARCH = "${@go_map_arch(d.getVar('TARGET_ARCH'), d)}"
-> -TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
-> +TARGET_GOARM = "${@go_map_arm(d.getVar('TARGET_ARCH'),
-> d.getVar('BASE_GOARM'), d)}"
->  TARGET_GO386 = "${@go_map_386(d.getVar('TARGET_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
->  TARGET_GOMIPS = "${@go_map_mips(d.getVar('TARGET_ARCH'),
-> d.getVar('TUNE_FEATURES'), d)}"
->  TARGET_GOTUPLE = "${TARGET_GOOS}_${TARGET_GOARCH}"
->  GO_BUILD_BINDIR =
-> "${@['bin/${HOST_GOTUPLE}','bin'][d.getVar('BUILD_GOTUPLE') ==
-> d.getVar('HOST_GOTUPLE')]}"
->  
-> +# Use the MACHINEOVERRIDES to map ARM CPU architecture passed to GO
-> via GOARM.
-> +# This is combined with *_ARCH to set HOST_GOARM and TARGET_GOARM.
-> +BASE_GOARM = ''
-> +BASE_GOARM_armv7ve = '7'
-> +BASE_GOARM_armv7a = '7'
-> +BASE_GOARM_armv6 = '6'
-> +BASE_GOARM_armv5 = '5'
-> +
->  # Go supports dynamic linking on a limited set of architectures.
->  # See the supportsDynlink function in
-> go/src/cmd/compile/internal/gc/main.go
->  GO_DYNLINK = ""
-> @@ -74,12 +82,7 @@ def go_map_arch(a, d):
->  def go_map_arm(a, f, d):
->      import re
->      if re.match('arm.*', a):
-> -        if 'armv7' in f:
-> -            return '7'
-> -        elif 'armv6' in f:
-> -            return '6'
-> -        elif 'armv5' in f:
-> -            return '5'
-> +        return f
->      return ''
+Please don't forget to include:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280094.html
+and similar one for sumo:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280093.html
+in the next pull.
 
-regexs are slow, this is probably more pythonic too:
+I don't see them included in any thud-next/thud-nmut branches.
 
-def go_map_arm(a, f, d):
-    if a.startswith("arm"):
-        return d.getVar('BASE_GOARM')
-    return ''
+On Sun, Apr 7, 2019 at 11:24 AM Armin Kuster <akuster808@gmail.com> wrote:
 
-and ditch f as a parameter?
+> There are the commit I intend on sending a pull request for in two days.
+> Tuesday my timezone (IST)
+>
+> Please provide feedback by then if there are any issues. This is mostly
+> OEQA changes. They have been througt the AB a-full and passed.
+>
+> The following changes since commit
+> 45032e30be70503faeee468159b216031b729309:
+>
+>   build-appliance-image: Update to thud head revision (2019-03-27 23:22:49
+> +0000)
+>
+> are available in the git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib stable/thud-nmut
+>   http://cgit.openembedded.org//log/?h=stable/thud-nmut
+>
+> Armin Kuster (1):
+>   Revert "boost: update to 1.69.0"
+>
+> Chen Qi (1):
+>   pkgdata.py: avoid target-sdk-dummy-provides to mess things up
+>
+> Mazliana (1):
+>   oeqa/manual/bsp-hw.json: add non-IA tests
+>
+> Richard Purdie (2):
+>   resulttool: Allow store to work on single files
+>   resulttool: Allow extraction of ptest data
+>
+> Sudhir Sharma (1):
+>   oeqa/manual: Add manual runtime 'compliance' testcases to json
+>
+> Yeoh Ee Peng (6):
+>   oeqa/manual/toaster: transfer manual toaster test cases to oeqa
+>   oeqa/manual/toaster: updated test id naming
+>   resulttool/manualexecution: Standardize input check
+>   resulttool/manualexecution: Enable display full steps without press
+>     enter
+>   resulttool/manualexecution: Fixed step sorted by integer
+>   resulttool/manualexecution: Refactor and simplify codebase
+>
+> sangeeta jain (4):
+>   oeqa/manual/sdk.json: Updated toolchain tarball to core-image-sato
+>   oeqa/manual/bsp-hw.json: test id updated and obsolete test cases
+>     removed
+>   oeqa/manual/compliance-test.json: test id updated and missing test
+>     cases added
+>   oeqa/manual/kernel-dev.json: test id updated
+>
+>  meta/lib/oeqa/manual/bsp-hw.json                   |  264 +-
+>  meta/lib/oeqa/manual/compliance-test.json          |  194 ++
+>  meta/lib/oeqa/manual/kernel-dev.json               |   36 +-
+>  meta/lib/oeqa/manual/sdk.json                      |   14 +-
+>  meta/lib/oeqa/manual/toaster-managed-mode.json     | 2572
+> ++++++++++++++++++++
+>  meta/lib/oeqa/manual/toaster-unmanaged-mode.json   | 1170 +++++++++
+>  meta/lib/oeqa/selftest/cases/pkgdata.py            |    1 +
+>  ...bjam-native_1.69.0.bb => bjam-native_1.68.0.bb} |    0
+>  .../boost/{boost-1.69.0.inc => boost-1.68.0.inc}   |    4 +-
+>  meta/recipes-support/boost/boost.inc               |    1 +
+>  ...-arch-instruction-set-flags-we-do-that-o.patch} |   23 +-
+>  ...ucibility-add-file-directive-to-assembler.patch |  243 ++
+>  .../boost/{boost_1.69.0.bb => boost_1.68.0.bb}     |    6 +-
+>  scripts/lib/resulttool/manualexecution.py          |   61 +-
+>  scripts/lib/resulttool/resultutils.py              |   39 +-
+>  scripts/lib/resulttool/store.py                    |   23 +-
+>  16 files changed, 4467 insertions(+), 184 deletions(-)
+>  create mode 100644 meta/lib/oeqa/manual/compliance-test.json
+>  create mode 100644 meta/lib/oeqa/manual/toaster-managed-mode.json
+>  create mode 100644 meta/lib/oeqa/manual/toaster-unmanaged-mode.json
+>  rename meta/recipes-support/boost/{bjam-native_1.69.0.bb =>
+> bjam-native_1.68.0.bb} (100%)
+>  rename meta/recipes-support/boost/{boost-1.69.0.inc => boost-1.68.0.inc}
+> (85%)
+>  rename
+> meta/recipes-support/boost/boost/{0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch
+> => 0003-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch} (93%)
+>  create mode 100644
+> meta/recipes-support/boost/boost/reproducibility-add-file-directive-to-assembler.patch
+>  rename meta/recipes-support/boost/{boost_1.69.0.bb => boost_1.68.0.bb}
+> (56%)
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-Cheers,
+--000000000000600c0705861faecc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Richard
+<div dir=3D"ltr"><div dir=3D"ltr">Please don&#39;t forget to include:<div><=
+a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2019-Ma=
+rch/280094.html">http://lists.openembedded.org/pipermail/openembedded-core/=
+2019-March/280094.html</a><br></div><div>and similar one for sumo:</div><di=
+v><a href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2019=
+-March/280093.html">http://lists.openembedded.org/pipermail/openembedded-co=
+re/2019-March/280093.html</a></div><div>in the next pull.</div><div><br></d=
+iv><div>I don&#39;t see them included in any thud-next/thud-nmut branches.<=
+/div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
+mail_attr">On Sun, Apr 7, 2019 at 11:24 AM Armin Kuster &lt;<a href=3D"mail=
+to:akuster808@gmail.com">akuster808@gmail.com</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">There are the commit I intend =
+on sending a pull request for in two days. Tuesday my timezone (IST)<br>
+<br>
+Please provide feedback by then if there are any issues. This is mostly OEQ=
+A changes. They have been througt the AB a-full and passed.<br>
+<br>
+The following changes since commit 45032e30be70503faeee468159b216031b729309=
+:<br>
+<br>
+=C2=A0 build-appliance-image: Update to thud head revision (2019-03-27 23:2=
+2:49 +0000)<br>
+<br>
+are available in the git repository at:<br>
+<br>
+=C2=A0 git://<a href=3D"http://git.openembedded.org/openembedded-core-contr=
+ib" rel=3D"noreferrer" target=3D"_blank">git.openembedded.org/openembedded-=
+core-contrib</a> stable/thud-nmut<br>
+=C2=A0 <a href=3D"http://cgit.openembedded.org//log/?h=3Dstable/thud-nmut" =
+rel=3D"noreferrer" target=3D"_blank">http://cgit.openembedded.org//log/?h=
+=3Dstable/thud-nmut</a><br>
+<br>
+Armin Kuster (1):<br>
+=C2=A0 Revert &quot;boost: update to 1.69.0&quot;<br>
+<br>
+Chen Qi (1):<br>
+=C2=A0 pkgdata.py: avoid target-sdk-dummy-provides to mess things up<br>
+<br>
+Mazliana (1):<br>
+=C2=A0 oeqa/manual/bsp-hw.json: add non-IA tests<br>
+<br>
+Richard Purdie (2):<br>
+=C2=A0 resulttool: Allow store to work on single files<br>
+=C2=A0 resulttool: Allow extraction of ptest data<br>
+<br>
+Sudhir Sharma (1):<br>
+=C2=A0 oeqa/manual: Add manual runtime &#39;compliance&#39; testcases to js=
+on<br>
+<br>
+Yeoh Ee Peng (6):<br>
+=C2=A0 oeqa/manual/toaster: transfer manual toaster test cases to oeqa<br>
+=C2=A0 oeqa/manual/toaster: updated test id naming<br>
+=C2=A0 resulttool/manualexecution: Standardize input check<br>
+=C2=A0 resulttool/manualexecution: Enable display full steps without press<=
+br>
+=C2=A0 =C2=A0 enter<br>
+=C2=A0 resulttool/manualexecution: Fixed step sorted by integer<br>
+=C2=A0 resulttool/manualexecution: Refactor and simplify codebase<br>
+<br>
+sangeeta jain (4):<br>
+=C2=A0 oeqa/manual/sdk.json: Updated toolchain tarball to core-image-sato<b=
+r>
+=C2=A0 oeqa/manual/bsp-hw.json: test id updated and obsolete test cases<br>
+=C2=A0 =C2=A0 removed<br>
+=C2=A0 oeqa/manual/compliance-test.json: test id updated and missing test<b=
+r>
+=C2=A0 =C2=A0 cases added<br>
+=C2=A0 oeqa/manual/kernel-dev.json: test id updated<br>
+<br>
+=C2=A0meta/lib/oeqa/manual/bsp-hw.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 264 +-<br>
+=C2=A0meta/lib/oeqa/manual/compliance-test.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 194 ++<br>
+=C2=A0meta/lib/oeqa/manual/kernel-dev.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A036 +-<br>
+=C2=A0meta/lib/oeqa/manual/sdk.json=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A014 +-<br>
+=C2=A0meta/lib/oeqa/manual/toaster-managed-mode.json=C2=A0 =C2=A0 =C2=A0| 2=
+572 ++++++++++++++++++++<br>
+=C2=A0meta/lib/oeqa/manual/toaster-unmanaged-mode.json=C2=A0 =C2=A0| 1170 +=
+++++++++<br>
+=C2=A0meta/lib/oeqa/selftest/cases/pkgdata.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 |=C2=A0 =C2=A0 1 +<br>
+=C2=A0...<a href=3D"http://bjam-native_1.69.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">bjam-native_1.69.0.bb</a> =3D&gt; <a href=3D"http://bjam-native=
+_1.68.0.bb" rel=3D"noreferrer" target=3D"_blank">bjam-native_1.68.0.bb</a>}=
+ |=C2=A0 =C2=A0 0<br>
+=C2=A0.../boost/{boost-1.69.0.inc =3D&gt; boost-1.68.0.inc}=C2=A0 =C2=A0|=
+=C2=A0 =C2=A0 4 +-<br>
+=C2=A0meta/recipes-support/boost/boost.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 1 +<br>
+=C2=A0...-arch-instruction-set-flags-we-do-that-o.patch} |=C2=A0 =C2=A023 +=
+-<br>
+=C2=A0...ucibility-add-file-directive-to-assembler.patch |=C2=A0 243 ++<br>
+=C2=A0.../boost/{<a href=3D"http://boost_1.69.0.bb" rel=3D"noreferrer" targ=
+et=3D"_blank">boost_1.69.0.bb</a> =3D&gt; <a href=3D"http://boost_1.68.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">boost_1.68.0.bb</a>}=C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 =C2=A0 6 +-<br>
+=C2=A0scripts/lib/resulttool/manualexecution.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 =C2=A061 +-<br>
+=C2=A0scripts/lib/resulttool/resultutils.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A039 +-<br>
+=C2=A0scripts/lib/resulttool/store.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A023 +-<br>
+=C2=A016 files changed, 4467 insertions(+), 184 deletions(-)<br>
+=C2=A0create mode 100644 meta/lib/oeqa/manual/compliance-test.json<br>
+=C2=A0create mode 100644 meta/lib/oeqa/manual/toaster-managed-mode.json<br>
+=C2=A0create mode 100644 meta/lib/oeqa/manual/toaster-unmanaged-mode.json<b=
+r>
+=C2=A0rename meta/recipes-support/boost/{<a href=3D"http://bjam-native_1.69=
+.0.bb" rel=3D"noreferrer" target=3D"_blank">bjam-native_1.69.0.bb</a> =3D&g=
+t; <a href=3D"http://bjam-native_1.68.0.bb" rel=3D"noreferrer" target=3D"_b=
+lank">bjam-native_1.68.0.bb</a>} (100%)<br>
+=C2=A0rename meta/recipes-support/boost/{boost-1.69.0.inc =3D&gt; boost-1.6=
+8.0.inc} (85%)<br>
+=C2=A0rename meta/recipes-support/boost/boost/{0001-Don-t-set-up-arch-instr=
+uction-set-flags-we-do-that-o.patch =3D&gt; 0003-Don-t-set-up-arch-instruct=
+ion-set-flags-we-do-that-o.patch} (93%)<br>
+=C2=A0create mode 100644 meta/recipes-support/boost/boost/reproducibility-a=
+dd-file-directive-to-assembler.patch<br>
+=C2=A0rename meta/recipes-support/boost/{<a href=3D"http://boost_1.69.0.bb"=
+ rel=3D"noreferrer" target=3D"_blank">boost_1.69.0.bb</a> =3D&gt; <a href=
+=3D"http://boost_1.68.0.bb" rel=3D"noreferrer" target=3D"_blank">boost_1.68=
+.0.bb</a>} (56%)<br>
+<br>
+-- <br>
+2.7.4<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-
-
-
+--000000000000600c0705861faecc--
