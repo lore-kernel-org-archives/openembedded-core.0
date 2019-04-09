@@ -1,52 +1,54 @@
 Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
-	[209.85.167.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A3F86C227
+Received: from mail-oi1-f171.google.com (mail-oi1-f171.google.com
+	[209.85.167.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1381E7D485
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Apr 2019 05:44:24 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id y84so12497861oia.12
+	Tue,  9 Apr 2019 05:44:27 +0000 (UTC)
+Received: by mail-oi1-f171.google.com with SMTP id e5so12573293oii.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Apr 2019 22:44:25 -0700 (PDT)
+	Mon, 08 Apr 2019 22:44:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=V5jGdBaC5WYbBf/FQH0ueLkOYftIGA/mjeGIABMI0Qg=;
-	b=rkpM/ynN7w0FlUyWNGg9Xam0l21Ydrfr4z/++6L/IvCVmFHrx3Oi410oAtbEOzpq+M
-	3imczJiKnFHwsRHUaSrHtkXdOmppxXP7d70NH3HaLRoRq2M40Kymqk6EuVbuJVq8lcCn
-	pdWDQMDKTlylss0rdvOpjvGXMToABacUDweUADRjT7T8Go5wg42jZHwhxFKKXuc4c+yM
-	DaH3YG5xtZsqlgEs7aLe92NqocySMM5N0FuHyaTckOi3sU+FUpXamHVRVximSMvBgrgy
-	2YIrwBZ/hF56AwUtkZpMw/t8TtF32UtISQwkdJiwE6P/fpCt/Y13xdqoT2LvRT6g1/0Q
-	t1vQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=BqIJCauV0xIdBK5Pop6DQUCezDx4z5AsDi3uOKHMgoU=;
+	b=hrOcPitY7zVm7jIzWLpAWjGTnRpJ82ifY51Sclj9+lwzkiAkzEVAp9o+RlgQhOwQ9+
+	ED1WjwPoUhIdoxq0JIMF4AaCVmN6BPcVXJ7Czc4bGsDXUgfarBQUwX/YBfRnTXukNSOX
+	rzIid7B+ZW2yctLR+LJ8RoBqMx2QBBAhvcg3XIlvJQGvodtI6WLFOTBAfm9AfdZ2qDqJ
+	gKdjPJn1+cAr0hyxxgwMkvA3kiyIsfNNPcS4HfnD02DIVIPegoktA6IuqK4AMGb+dC5A
+	+83pbDS8wqfC57j8P+4aN+nzR26SD496EPj3eB8yHAX6irHNaoBR6/H31lbPbvlsvYGk
+	rnNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=V5jGdBaC5WYbBf/FQH0ueLkOYftIGA/mjeGIABMI0Qg=;
-	b=pLVr3j38FuCFoqnvlRGSW35fBda+6TGx7VL1v4I24tUH1Ag4rte4MXnIzDCk5QEwGt
-	SKxCoWYfu5LxEMwUtHMH1RVSMu1iba6oY1Hcw7kfXJoZ9+5dkGuBBFPGbiQSJj5fs4Ad
-	7M8ak7utTgvCb37lbGAYyMV8Jlg2aGqO5NaRQkTcdmrltn5eDHxSyfvg/ABg0mORCS4O
-	L0lN7XbzzvKnCbm+9GEWcM2Nbb2pqj0dREYFdY/r8QcEUrNssCLIjHFy15jvpC65VW3/
-	l0klhFgwYzpFiynx0hiFtAIK1sN+11nWjKTGHNRq1uAsMNtNp5dJXCTVKwtruPdK+tDP
-	53kA==
-X-Gm-Message-State: APjAAAVTnOUHj8TTZ+QgoJ/FyuEVYw5HoclvAp6dNEPkgNGewFucbfCQ
-	Y4N76kCkkUF8h/e3okPv6LO5RRbk
-X-Google-Smtp-Source: APXvYqxPi0zBrNRHboCLn7Ma5amBYVWZolziaSI+ln2hR31lagBZnPAohuvKUD11kAKMnUIV6Z4Gxw==
-X-Received: by 2002:aca:6084:: with SMTP id
-	u126mr16945201oib.145.1554788665198; 
-	Mon, 08 Apr 2019 22:44:25 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=BqIJCauV0xIdBK5Pop6DQUCezDx4z5AsDi3uOKHMgoU=;
+	b=TzAhThbfKqpi9IOiyYkFTdWnbhp5GNs1Pc8tCxCyJFKOa0jYDNvYt/muSsXByj7fIR
+	mpkn01UCWQ1aEkwWzUQHdCSGG/0ScFLEypbd1j5ckLdmufjFeGXkzLNA0/9d9zhID+Ft
+	isxokiW/gsS/U/lb6pv4ZdKSaMjztq8hoF6dbEagHfSl0YNxuYeK5180SPuMXigZVF1O
+	WEQp/od1q2KAmDbXTRs+JIXgfES/0vNFAxN19rCKby7DYds+AmUFsw0xbJTU+9URCsdm
+	Q2GI1DEPTNfd5SfbwMcuRE3D44ybV8hE2M00VB4AgVp4xwu/moSkd5E9z+z00xZlReLi
+	8MfA==
+X-Gm-Message-State: APjAAAV1YK++BnWPq0GtJl+QSnPOcDsWv0xLoRPVTHNxd1Pav3SnL2q4
+	/Y2siia8PpZLpv5TYHvA9BNHnzhD
+X-Google-Smtp-Source: APXvYqxcn7Y1qT5VEILtT9kH2DXHC0RGzH4SlPJcj+dgg1NZe7UOZWb7fQsYNv1qlg9O61/sFPzYDw==
+X-Received: by 2002:aca:bb88:: with SMTP id
+	l130mr17665408oif.124.1554788669030; 
+	Mon, 08 Apr 2019 22:44:29 -0700 (PDT)
 Received: from ultima.ninicasiopea.net
 	([2605:a601:43d5:f700:215:17ff:fe90:1065])
 	by smtp.googlemail.com with ESMTPSA id
-	n16sm11787705oic.7.2019.04.08.22.44.24
+	n16sm11787705oic.7.2019.04.08.22.44.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 08 Apr 2019 22:44:24 -0700 (PDT)
+	Mon, 08 Apr 2019 22:44:28 -0700 (PDT)
 From: Mariano Lopez <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Apr 2019 00:44:11 -0500
-Message-Id: <cover.1554787765.git.just.another.mariano@gmail.com>
+Date: Tue,  9 Apr 2019 00:44:12 -0500
+Message-Id: <30b90189f08b7edd9f46e36da8116c6f278395eb.1554787765.git.just.another.mariano@gmail.com>
 X-Mailer: git-send-email 2.19.2
+In-Reply-To: <cover.1554787765.git.just.another.mariano@gmail.com>
+References: <cover.1554787765.git.just.another.mariano@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v4 0/4] Feature to use symbolic links to binaries for ptest
+Subject: [PATCH v4 1/4] update-alternatives.bbclass: Add function to get metadata
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,63 +61,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Apr 2019 05:44:24 -0000
+X-List-Received-Date: Tue, 09 Apr 2019 05:44:28 -0000
 Content-Transfer-Encoding: 8bit
 
-Some binaries are renamed by update-alternatives class at build time
-and some ptest run against a binary belonging to another package. Take
-for example busybox or util-linux.
+This adds update_alternatives_alt_targets function to get the metadata
+for a package. This is for code reuse because the metadata would help
+other classes that needs to be aware of how update-alternatives modify
+the final package.
 
-This series adds a directory within the ptest with symlinks to the
-binaries produced by the package, so just adding this directory to the
-PATH will test the correct binaries.
+[YOCTO #12597]
+[YOCTO #13238]
 
-To use this feature just add PTEST_BINDIR = "1" to the recipe.
+Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
+---
+ meta/classes/update-alternatives.bbclass | 70 +++++++++++++++---------
+ 1 file changed, 45 insertions(+), 25 deletions(-)
 
-v2 changes:
-
-Add busybox recipe to use this method of symlinks generation.
-
-Refactor the way the binary ptest directory is generated. Now the
-directory will contain only symlinks to binaries that were renamed by
-update-alternatives and not symlinks to all the package's binaries. This
-have some advantages:
-- Less lines and the code is cleaner.
-- There is no need to have symlinks for every binary.
-- Reuse existing update-alternatives functionality, don't need to add
-  new features to the class.
-
-v3 changes:
-
-Fix white space mismatch
-
-v4 changes:
-
-Check for PTEST_ENABLED to add the functionality, this will solve the
-issue when building nativesdk packages
-
-The following changes since commit ffa5a1bda6741f5dc9f1b8db1bb37b0c6f103c99:
-
-  asciidoc: specify XML catalogue to use (2019-04-03 14:56:27 +0100)
-
-are available in the Git repository at:
-
-  git://github.com/justanotherboy/poky bug13238v4
-  https://github.com/justanotherboy/poky/tree/bug13238v4
-
-Mariano Lopez (4):
-  update-alternatives.bbclass: Add function to get metadata
-  ptest.bbclass: Add feature to populate a binary directory
-  util-linux: Use PTEST binary directory
-  busybox: Use PTEST binary directory
-
- meta/classes/ptest.bbclass                    | 32 +++++++++
- meta/classes/update-alternatives.bbclass      | 70 ++++++++++++-------
- meta/recipes-core/busybox/busybox.inc         | 16 +----
- meta/recipes-core/util-linux/util-linux.inc   |  5 +-
- .../util-linux/util-linux/run-ptest           |  4 ++
- 5 files changed, 86 insertions(+), 41 deletions(-)
-
+diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
+index 537e85d9a3..b702e77ee5 100644
+--- a/meta/classes/update-alternatives.bbclass
++++ b/meta/classes/update-alternatives.bbclass
+@@ -216,42 +216,62 @@ python apply_update_alternative_renames () {
+             update_files(alt_target, alt_target_rename, pkg, d)
+ }
+ 
++def update_alternatives_alt_targets(d, pkg):
++    """
++    Returns the update-alternatives metadata for a package.
++
++    The returned format is a list of tuples where the tuple contains:
++    alt_name:     The binary name
++    alt_link:     The path for the binary (Shared by different packages)
++    alt_target:   The path for the renamed binary (Unique per package)
++    alt_priority: The priority of the alt_target
++
++    All the alt_targets will be installed into the sysroot. The alt_link is
++    a symlink pointing to the alt_target with the highest priority.
++    """
++
++    pn = d.getVar('BPN')
++    pkgdest = d.getVar('PKGD')
++    updates = list()
++    for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
++        alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
++        alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or \
++                       d.getVarFlag('ALTERNATIVE_TARGET', alt_name) or \
++                       d.getVar('ALTERNATIVE_TARGET_%s' % pkg) or \
++                       d.getVar('ALTERNATIVE_TARGET') or \
++                       alt_link
++        alt_priority = d.getVarFlag('ALTERNATIVE_PRIORITY_%s' % pkg,  alt_name) or \
++                       d.getVarFlag('ALTERNATIVE_PRIORITY',  alt_name) or \
++                       d.getVar('ALTERNATIVE_PRIORITY_%s' % pkg) or  \
++                       d.getVar('ALTERNATIVE_PRIORITY')
++
++        # This shouldn't trigger, as it should have been resolved earlier!
++        if alt_link == alt_target:
++            bb.note('alt_link == alt_target: %s == %s -- correcting, this should not happen!' % (alt_link, alt_target))
++            alt_target = '%s.%s' % (alt_target, pn)
++
++        if not os.path.lexists('%s/%s' % (pkgdest, alt_target)):
++            bb.warn('%s: NOT adding alternative provide %s: %s does not exist' % (pn, alt_link, alt_target))
++            continue
++
++        alt_target = os.path.normpath(alt_target)
++        updates.append( (alt_name, alt_link, alt_target, alt_priority) )
++
++    return updates
++
+ PACKAGESPLITFUNCS_prepend = "populate_packages_updatealternatives "
+ 
+ python populate_packages_updatealternatives () {
+     if not update_alternatives_enabled(d):
+         return
+ 
+-    pn = d.getVar('BPN')
+-
+     # Do actual update alternatives processing
+-    pkgdest = d.getVar('PKGD')
+     for pkg in (d.getVar('PACKAGES') or "").split():
+         # Create post install/removal scripts
+         alt_setup_links = ""
+         alt_remove_links = ""
+-        for alt_name in (d.getVar('ALTERNATIVE_%s' % pkg) or "").split():
+-            alt_link     = d.getVarFlag('ALTERNATIVE_LINK_NAME', alt_name)
+-            alt_target   = d.getVarFlag('ALTERNATIVE_TARGET_%s' % pkg, alt_name) or d.getVarFlag('ALTERNATIVE_TARGET', alt_name)
+-            alt_target   = alt_target or d.getVar('ALTERNATIVE_TARGET_%s' % pkg) or d.getVar('ALTERNATIVE_TARGET') or alt_link
+-            # Sometimes alt_target is specified as relative to the link name.
+-            alt_target   = os.path.join(os.path.dirname(alt_link), alt_target)
+-
+-            alt_priority = d.getVarFlag('ALTERNATIVE_PRIORITY_%s' % pkg,  alt_name) or d.getVarFlag('ALTERNATIVE_PRIORITY',  alt_name)
+-            alt_priority = alt_priority or d.getVar('ALTERNATIVE_PRIORITY_%s' % pkg) or d.getVar('ALTERNATIVE_PRIORITY')
+-
+-            # This shouldn't trigger, as it should have been resolved earlier!
+-            if alt_link == alt_target:
+-                bb.note('alt_link == alt_target: %s == %s -- correcting, this should not happen!' % (alt_link, alt_target))
+-                alt_target = '%s.%s' % (alt_target, pn)
+-
+-            if not os.path.lexists('%s/%s' % (pkgdest, alt_target)):
+-                bb.warn('%s: NOT adding alternative provide %s: %s does not exist' % (pn, alt_link, alt_target))
+-                continue
+-
+-            # Default to generate shell script.. eventually we may want to change this...
+-            alt_target = os.path.normpath(alt_target)
+-
++        updates = update_alternatives_alt_targets(d, pkg)
++        for alt_name, alt_link, alt_target, alt_priority in updates:
+             alt_setup_links  += '\tupdate-alternatives --install %s %s %s %s\n' % (alt_link, alt_name, alt_target, alt_priority)
+             alt_remove_links += '\tupdate-alternatives --remove  %s %s\n' % (alt_name, alt_target)
+ 
 -- 
 2.19.2
 
