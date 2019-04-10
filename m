@@ -1,23 +1,51 @@
-Return-Path: <Wenlin.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C98C7D828
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+	[209.85.166.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 8D7AF7D840
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 09:42:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3A9g6YN013901
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 10 Apr 2019 13:00:54 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id x7so2030255ioh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 02:42:06 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 10 Apr 2019 02:42:06 -0700
-From: Wenlin Kang <wenlin.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Apr 2019 17:24:33 +0800
-Message-ID: <1554888273-111881-1-git-send-email-wenlin.kang@windriver.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 10 Apr 2019 06:00:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Ln/dgjF+6t61xBlLSe/+K4oZkPKvujNpt3MGxXzCmbs=;
+	b=2J6/TfS5z+QeBW0PvgGPdoBNqt6ZGAYDqqLIwmFGFwbUX7OzqQnm0D/Sop1PASiLXU
+	4Wv6fzWQJeNqB9q8UGyPmipQK69x+td+5/a5kQ4jl16LuS0w1MTttYwQFGFIqEi8eyR+
+	XKrirIslFUaUbDzll9veeGSdv+t5e7weEZsyUjhocfVzwd+cS8yOK/gxKJKmStTjr95Q
+	aBE8ImqAKYmQtIcUpG/09yXTk3oBRiacIa4Iwgg8mjVT3L/+17Vbh2TpzoY+rEYBWBy0
+	GWWaAYW55e6Qd4lQ+xZyf32EKt2CisZt24abfH+ZcOjnb4qq76Eu1zMcn4gL5Z6g9rQr
+	V1rQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Ln/dgjF+6t61xBlLSe/+K4oZkPKvujNpt3MGxXzCmbs=;
+	b=fBEleuznWWyoWptcu3iNDw1FbZTZ2yxo86xTDSX3nlawhY+Z84pfDaKxWdWoN6WfL6
+	QdkQFCCAJsgYl35NPUwWgPp3NipvUMtcdB87eSCFgt71994HQPpOXMujnaUBhwZWHKGX
+	V+ySH8xIbaJglb1Kf/R4RbSRyUWgr0qCKcHKb8O4MXSg6ElFm+u+kEfh6XU1IMzgeENm
+	YJ3MCVs0Io2nG0mhw8WVPVhZ/U8OH3ixZAVmwuc4N6c7C9o2eioILsuKO0lXMJW/rVkf
+	l6lNeV4i73BOAozQczvGSEcrqzfc6vK5cLd+7J5bEE+Ce6bv9VwFQKRx8X6YXn02CLhX
+	d8UQ==
+X-Gm-Message-State: APjAAAUMMGC0aFc6Jt5ycv87MpfKXgY+hhNnxZylz7FtcHVVcy1d5pTB
+	zvzrOrubwWKWieGRjvzPtbRhM5yBpUl/n+DcThqN6A==
+X-Google-Smtp-Source: APXvYqxZECiMaqWjdwdUViPW5oKlybc45ssarRrMv8FZqIYtCz92/uMPru/DVAezvS6R7bRrUnRazjC76GUn/qtGeWo=
+X-Received: by 2002:a5d:8d88:: with SMTP id b8mr18754384ioj.58.1554901255616; 
+	Wed, 10 Apr 2019 06:00:55 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] systemd: install libnss-myhostname.so when myhostname be enabled
+References: <CALbNGRT1ng9=Gfd8m9g=L4BnyvsF6qE_rL79DxdDNZ8yKaEtDA@mail.gmail.com>
+	<CAJTo0LaSMUzctZU-hXvA4DpuqubBY3GNPGrFJM6Etd-96NxZ5A@mail.gmail.com>
+	<CALbNGRSeHpT2xFrJkPUEey-BbXZnBnNZC96cZ_9joUN2UWeTkA@mail.gmail.com>
+In-Reply-To: <CALbNGRSeHpT2xFrJkPUEey-BbXZnBnNZC96cZ_9joUN2UWeTkA@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 10 Apr 2019 14:00:43 +0100
+Message-ID: <CAJTo0Lbe62V5M4gtyDexboyraoX1RLAt-Q2AQvYzw1Di=1_NqA@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Build broken with current master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,33 +58,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 09:42:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Apr 2019 13:00:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This fixes the follow issue, the cause is that net-tools needs
-libnss-myhostname.so when run "hostname -s".
+On Tue, 9 Apr 2019 at 22:41, Andreas M=C3=BCller <schnitzeltony@gmail.com> =
+wrote:
+> > The recipe that depends on docbook-xml-dtd4-native also needs to
+> > depend on libxml2-native.
+>
+> Do I have to go through recipes failing - or is there a chance for a
+> common solution?
 
-root@qemuarm64:~# hostname -s
-hostname: Unknown host
+Very few recipes should be depending directly on docbook-xml and
+docbook-xsl, and they'll need the depends added.
 
-Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
----
- meta/recipes-core/systemd/systemd_241.bb | 1 +
- 1 file changed, 1 insertion(+)
+A common solution would be great but would mean adding new dependency
+support into the staging code.
 
-diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
-index bfbfc81..251daaa 100644
---- a/meta/recipes-core/systemd/systemd_241.bb
-+++ b/meta/recipes-core/systemd/systemd_241.bb
-@@ -547,6 +547,7 @@ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ $
- RDEPENDS_${PN} += "kmod dbus util-linux-mount util-linux-umount udev (= ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
- RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
- RDEPENDS_${PN} += "volatile-binds update-rc.d systemd-conf"
-+RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'libnss-myhostname', '', d)}"
- 
- RRECOMMENDS_${PN} += "systemd-extra-utils \
-                       systemd-compat-units udev-hwdb \
--- 
-1.9.1
-
+Ross
 
