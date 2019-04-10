@@ -1,50 +1,50 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 34ACF7D925
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A16E7D90C
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 10 Apr 2019 13:12:29 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id y13so2917885wrd.3
+Received: by mail-wm1-f65.google.com with SMTP id c1so2550505wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 06:12:30 -0700 (PDT)
+	Wed, 10 Apr 2019 06:12:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=DhKN8oTNwbLo2vLF4V7c2BoTMr+cnyz+esJ7rkwoAhs=;
-	b=SwlUY9o3viFkNi94amG0Tmg0MFv9HNVQafCa/uG483Y+DWY1KKmMC2tEC1elztbWWb
-	F1uAeC/tHvD7VqVKn2xtf8W/K+0s1rsrDUV69SrrN3RyfULjO3U3grEjLmd5kUheYQRd
-	Ne54HRwhI/2/G01m66IC/Hte69HdAYUpHmnTxZ9lsoEL8QWTH25xL57mRJvqv3R86i4l
-	gGLHW4tLG/eZL8pznwoJPA0+/85aB0YyYdcvqfQZcDHApZNQr0bE4g/ka2+oqCJv5tZM
-	6uVQSxiigpzJ3SpxS8dyAQAkakcSF7TDilAPMbLiGaZnqyqpa7cjj2PIEISsdlO/nyr7
-	iuYA==
+	bh=woFjiJ9nKzy7V+JyYFC2vIyFp0byhdvxVFcHpX2VRgs=;
+	b=hXKLU83pPhvxH77kdi3fG1wJKvPNZeWW9UYiX8jC1e5Lrj2Ry2lyw9t+Bq3YeBzbFf
+	ZqvJWS2MPPkhTR3NPp/KMk1RqALDEEXZsLoPkBg4Fjc+7Ixpwkf+5aS6unYEumVuXcqo
+	nxf42VqeNBhbIm/aFlniRG6Fw0chrrD+fb/s1t9/1DYXactxZSXQ/QQMX557LOIhOHu2
+	24pIJJqJm5Dgg555j0rCjpjZYqUT+YPm/whh070iyiwRprO5WsjRLgSsDP5JGqExQZmM
+	kE+M0Av/rtrGbLTxy/StS0W8+4sidtPH65V4oF6ZkT4SLY403eBRZD9azOFuayLhQRuy
+	HgyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=DhKN8oTNwbLo2vLF4V7c2BoTMr+cnyz+esJ7rkwoAhs=;
-	b=jxHsmn8TSgV3fHIl/hBnNWs1Yr6aUku2Hl229K2UIAvYTt91eSfTYZhu0DL5wqjdtp
-	8N+GQfSyuESfN1lA8u/Robxq+PL9KkrBkGyjxNve2pOlwMXp3cJt9VNFlIpAGuhMhn4F
-	pEhPOd7tcaSRmd5A0M814/jHGcydNxc08df+xqhcepJKcljgCS/T9A38peFQyDTlPlC9
-	geepYZCqKb5hoMqV1iEPH3d4A0hLWeX2k6S4pTZ2Ml4Wssijg3AGjfXMDxMmFJN7wTdl
-	WhsBS6AlPHKqep60uClV0P5Lli3A/V+bUsnhFGq/4q7vppYxkuir1pE9MhsDscXSnhQc
-	TkfQ==
-X-Gm-Message-State: APjAAAW4HC24pMlRDeBPCg46ElBRSA16a853X8SqwnIYmhaxZ+44r5jy
-	w7tRS73aTaAkFVVAUnsX7IHzYMVpKN8=
-X-Google-Smtp-Source: APXvYqxcNJcKDUECt3Mbt3O3iGYE7auFRNLZ+nA2Kh+D2z1mEfduSJz0uuOIY4vxrO+LybWsgSmA+Q==
-X-Received: by 2002:adf:dc8e:: with SMTP id r14mr3015791wrj.118.1554901949673; 
-	Wed, 10 Apr 2019 06:12:29 -0700 (PDT)
+	bh=woFjiJ9nKzy7V+JyYFC2vIyFp0byhdvxVFcHpX2VRgs=;
+	b=UfI4Gmhh4gn4QIutFIzUgAUiSljFGfyStBAFTzoSEXy8DXLypHPBH3Hcfxod+x50+i
+	pXct6RfQULhjmicbOKlMkZv2paUZB7TC0h6fRLh5pB+qw0k2Qr6SOsnO7kF9TLaa55Ca
+	PcMagF67ZA2LvvAJ14UZPcW3RzUhSqOjcFafDPkGCE7OTv4C2R9QW0h/DvsBiHdB88IS
+	dNpNBZ70F7Y//6sgjQkX5J8xGLL8eXpZiKAZRTNfupeFsKBi6fF+mxkAtK5BOOe7Fizc
+	gdAXoZiUcJ3KNmH5Gzaa/6L328PO9YsSgSwOcvM3pFqJcIJVe4+x7X/+Mq15lPKozafF
+	bFew==
+X-Gm-Message-State: APjAAAW+T1GYcislWY5ipyqeWNFU/nQaGGUzGGub2aD3Xmf+7j9IR3Ok
+	EREIzs+lkBsfliYH+U/XuJ7SBAMcV34=
+X-Google-Smtp-Source: APXvYqz5oK8USBbCxJ3ygeGgicUi6FZ5MkcgZPJ4g3yN2ptQmAMTiRQW5ZkbLyQ8dalMkpDhxKD0mQ==
+X-Received: by 2002:a7b:cb58:: with SMTP id v24mr2883428wmj.121.1554901950636; 
+	Wed, 10 Apr 2019 06:12:30 -0700 (PDT)
 Received: from localhost.localdomain ([37.205.61.202])
-	by smtp.gmail.com with ESMTPSA id x14sm3032399wmj.3.2019.04.10.06.12.28
+	by smtp.gmail.com with ESMTPSA id x14sm3032399wmj.3.2019.04.10.06.12.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Wed, 10 Apr 2019 06:12:29 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Apr 2019 18:41:42 +0530
-Message-Id: <6b5681533eed4e6c00e1cc7ee442c93076f1c976.1554901639.git.akuster808@gmail.com>
+Date: Wed, 10 Apr 2019 18:41:43 +0530
+Message-Id: <6f53c61dd989045a7075b678c7030421d715bc16.1554901639.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1554901639.git.akuster808@gmail.com>
 References: <cover.1554901639.git.akuster808@gmail.com>
-Subject: [PATCH 23/33] wic: make engine.py:get_partitions() resilient to parted/dmidecode stderr output
+Subject: [PATCH 24/33] wic: search nonarch STAGING_DATADIR for multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,58 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 13:12:29 -0000
+X-List-Received-Date: Wed, 10 Apr 2019 13:12:30 -0000
 
-From: Geoff Parker <geoffhp@gmail.com>
+From: Kai Kang <kai.kang@windriver.com>
 
-Running wic commands on Debian 10 systems fail in
-scripts/lib/wic/engine.py:get_partitions() due to new stderr output captured
-when trying to parse the output from /sbin/parted as a non-root user.
+It fails to build multilib image such as lib32-core-image-minimal with
+wic by set 'IMAGE_FSTYPES = "wic"':
 
-The parted command calls the dmidecode utility, which produces this error
-as a non-root user:
-    /sys/firmware/dmi/tables/smbios_entry_point: Permission denied
-    /dev/mem: Permission denied
+| ERROR: Couldn't find correct bootimg_dir, exiting
 
-scripts/lib/wic/engine.py:get_partitions() calls misc.py:exec_cmd(),
-a subprocess wrapper which returns a combined stderr and sdtdout.
-These messages to stderr confuse the partition table parser in
-get_partitions().
+When multilib is enabled, STAGING_DATADIR is expanded with MLPREFIX. But
+dependencies of images such as syslinux is still populated to nonarch
+STAGING_DATADIR.
 
-This patch has the partition table parser ignore lines before the expected
-"BYT;" header string.
+Search nonarch STAGING_DATADIR to fix the error.
 
-Running wic in Debian 9 does not have this issue.
-
-Signed-off-by: Geoff Parker <geoffhp@gmail.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/wic/engine.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
-index 4996bff..4eefc94 100644
---- a/scripts/lib/wic/engine.py
-+++ b/scripts/lib/wic/engine.py
-@@ -266,10 +266,15 @@ class Disk:
-             out = exec_cmd("%s -sm %s unit B print" % (self.parted, self.imagepath))
-             parttype = namedtuple("Part", "pnum start end size fstype")
-             splitted = out.splitlines()
--            lsector_size, psector_size, self._ptable_format = splitted[1].split(":")[3:6]
-+            # skip over possible errors in exec_cmd output
-+            try:
-+                idx =splitted.index("BYT;")
-+            except ValueError:
-+                raise WicError("Error getting partition information from %s" % (self.parted))
-+            lsector_size, psector_size, self._ptable_format = splitted[idx + 1].split(":")[3:6]
-             self._lsector_size = int(lsector_size)
-             self._psector_size = int(psector_size)
--            for line in splitted[2:]:
-+            for line in splitted[idx + 2:]:
-                 pnum, start, end, size, fstype = line.split(':')[:5]
-                 partition = parttype(int(pnum), int(start[:-1]), int(end[:-1]),
-                                      int(size[:-1]), fstype)
+diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+index d599112..9347aa7 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
++++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
+@@ -26,6 +26,7 @@
+ 
+ import logging
+ import os
++import re
+ 
+ from wic import WicError
+ from wic.engine import get_custom_config
+@@ -47,10 +48,17 @@ class BootimgPcbiosPlugin(SourcePlugin):
+         """
+         Check if dirname exists in default bootimg_dir or in STAGING_DIR.
+         """
+-        for result in (bootimg_dir, get_bitbake_var("STAGING_DATADIR")):
++        staging_datadir = get_bitbake_var("STAGING_DATADIR")
++        for result in (bootimg_dir, staging_datadir):
+             if os.path.exists("%s/%s" % (result, dirname)):
+                 return result
+ 
++        # STAGING_DATADIR is expanded with MLPREFIX if multilib is enabled
++        # but dependency syslinux is still populated to original STAGING_DATADIR
++        nonarch_datadir = re.sub('/[^/]*recipe-sysroot', '/recipe-sysroot', staging_datadir)
++        if os.path.exists(os.path.join(nonarch_datadir, dirname)):
++            return nonarch_datadir
++
+         raise WicError("Couldn't find correct bootimg_dir, exiting")
+ 
+     @classmethod
 -- 
 2.7.4
 
