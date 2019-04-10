@@ -1,84 +1,47 @@
-Return-Path: <prvs=996be2310=Alistair.Francis@wdc.com>
-X-Greylist: delayed 425 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 10 Apr 2019 17:30:28 UTC
-Received: from esa6.hgst.iphmx.com (esa6.hgst.iphmx.com [216.71.154.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 16B307D8CD
+Return-Path: <prvs=50038b4f16=alejandro.delcastillo@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B89E7D797
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 17:30:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1554917431; x=1586453431;
-	h=from:to:cc:subject:date:message-id:
-	content-transfer-encoding:mime-version;
-	bh=89vAIifbaCPk2AEfe1nrOPYdCkU7uBsBrgxUB7OV87U=;
-	b=JfkZn7IPypFoA111tyAkh0kfG3AnnMxVdzUOkp7ltr3CLZaITGWx1OaK
-	iJSgvOrQrzs3pYZwwpQbJNP2CVoPLiauyXQSbx+6NshmcxNgWSSI/c1o/
-	7AJOWl+Mpunmr4rjs4u4QEF46BD0/tEIPWBFyH04n3FZxIPn+qxt7Q1jU
-	GEF/RRkJK+t6SQ1Miykig6irrmbmZc0/3pD3OnuJLVEMWCCevJCgHtYro
-	mpxpgaL7V6zlQZGUqe5tpeef6T2hibfpNeH2QPpEqAkABsrBnmmF1APYP
-	rkMRWNUANHAOJaU3K769DULLagYRelBrVRKJTU6QTwufUbUjwr14jOW7P w==;
-X-IronPort-AV: E=Sophos;i="5.60,334,1549900800"; d="scan'208";a="107174168"
-Received: from mail-bn3nam01lp2058.outbound.protection.outlook.com (HELO
-	NAM01-BN3-obe.outbound.protection.outlook.com) ([104.47.33.58])
-	by ob1.hgst.iphmx.com with ESMTP; 11 Apr 2019 01:23:11 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=89vAIifbaCPk2AEfe1nrOPYdCkU7uBsBrgxUB7OV87U=;
-	b=nXLbj0nT89F27B6KxHLm3Xc3cQqVsY4oc4sn6ZIyntZEymNncSr29fpKM0XMgYl/z6G9wuoMmdnCo+N0cBZmwwBSqeltiXRmib3CLg3CE8uvPbxpj8NnzF7R4xJ8rLKdg2MKuruCminio5iFXoHqizYlfa1zkRQ6hlRSg9g4tnU=
-Received: from BYAPR04MB4901.namprd04.prod.outlook.com (52.135.232.206) by
-	BYAPR04MB5013.namprd04.prod.outlook.com (52.135.234.223) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1771.21; Wed, 10 Apr 2019 17:23:09 +0000
-Received: from BYAPR04MB4901.namprd04.prod.outlook.com
-	([fe80::44e8:bd21:17b:348c]) by BYAPR04MB4901.namprd04.prod.outlook.com
-	([fe80::44e8:bd21:17b:348c%4]) with mapi id 15.20.1771.021;
-	Wed, 10 Apr 2019 17:23:09 +0000
-From: Alistair Francis <Alistair.Francis@wdc.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] u-boot: Upgrade from 2019.01 to 2019.04
-Thread-Index: AQHU78IRms2092dF6Ui6rgmc/QyA6A==
-Date: Wed, 10 Apr 2019 17:23:09 +0000
-Message-ID: <20190410172152.13509-1-alistair.francis@wdc.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.21.0
-x-clientproxiedby: BYAPR07CA0073.namprd07.prod.outlook.com
-	(2603:10b6:a03:12b::14) To BYAPR04MB4901.namprd04.prod.outlook.com
-	(2603:10b6:a03:4f::14)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=Alistair.Francis@wdc.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [199.255.44.250]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: c4701177-fd78-4df1-8bb9-08d6bdd93384
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600139)(711020)(4605104)(4618075)(2017052603328)(7193020);
-	SRVR:BYAPR04MB5013; 
-x-ms-traffictypediagnostic: BYAPR04MB5013:
-wdcipoutbound: EOP-TRUE
-x-microsoft-antispam-prvs: <BYAPR04MB50132E818FF9A2E2EFDA9B5D902E0@BYAPR04MB5013.namprd04.prod.outlook.com>
-x-forefront-prvs: 00032065B2
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(39860400002)(136003)(366004)(376002)(346002)(396003)(199004)(189003)(5640700003)(186003)(36756003)(86362001)(52116002)(4326008)(2906002)(66066001)(102836004)(386003)(6506007)(26005)(44832011)(99286004)(256004)(6512007)(54906003)(97736004)(1076003)(5660300002)(50226002)(6436002)(6116002)(6486002)(3846002)(476003)(53936002)(2616005)(14444005)(486006)(106356001)(2351001)(25786009)(6916009)(72206003)(105586002)(2501003)(305945005)(7736002)(8936002)(81166006)(81156014)(14454004)(68736007)(478600001)(8676002)(71190400001)(71200400001)(316002);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BYAPR04MB5013;
-	H:BYAPR04MB4901.namprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: m9yNh9qrVYzHw9Ft/K1RFBOdDmpfZC/p2SU9tz38r13YXO2xKSvPUtu73U1Z7VrBElT8+D4vKNZsvxSRR9JvyT8tx8exkTjzFuXqrIufk2QG1/561T+4yW+nWdEst4X9cnHKZ2r111rZC7aUm/YhkHxmnV2H8jrc+kWWZ589VQ6rwBpuJZGfjzHNkbQ8qlC4b89eR5O+UW5/eA0Otx9O2WY6W/FrnypBJRiPtS5imxL3+kVjER+mFKmS69n/Iq8RE1Ho2U52gdL5QLMss9yAZ+Wkg2Hlfo+/DpfNIY56doOyGqMqUmJIOnR0AKQh7cMqS21p5HAchEIzoMTbO6CABHkbWrlcm+xJFG0cvaC9zpgXYpGvZxf22/z3UesVZ/hRZCoXLqqs1f8jkIvbNg8GOYLxQzAx6jsITYkHs1qlAeA=
+	Wed, 10 Apr 2019 20:54:36 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x3AKkEs1011280 for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Apr 2019 15:54:37 -0500
+Received: from ni.com (skprod3.natinst.com [130.164.80.24])
+	by mx0a-00010702.pphosted.com with ESMTP id 2rs5ph3kqk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Apr 2019 15:54:37 -0500
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod3.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
+	x3AKsaGv027791
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Apr 2019 15:54:36 -0500
+Received: from us-aus-exch5.ni.corp.natinst.com (130.164.68.15) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Wed, 10 Apr 2019 15:54:36 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch5.ni.corp.natinst.com (130.164.68.15) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Wed, 10 Apr 2019 15:54:36 -0500
+Received: from delcastillo3.amer.corp.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Wed, 10 Apr 2019 15:54:36 -0500
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Apr 2019 15:54:23 -0500
+Message-ID: <20190410205423.27558-1-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <CAJTo0Lb=jVx++oA6GAdF3-ARSkZb=grkZ8r3Urx-a9btTBvK=g@mail.gmail.com>
+References: <CAJTo0Lb=jVx++oA6GAdF3-ARSkZb=grkZ8r3Urx-a9btTBvK=g@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4701177-fd78-4df1-8bb9-08d6bdd93384
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2019 17:23:09.3764 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR04MB5013
-Subject: [PATCH] u-boot: Upgrade from 2019.01 to 2019.04
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-04-10_09:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [PATCH v2] opkg: add ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -91,44 +54,150 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 17:30:29 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 10 Apr 2019 20:54:36 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-U2lnbmVkLW9mZi1ieTogQWxpc3RhaXIgRnJhbmNpcyA8YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29t
-Pg0KLS0tDQogbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMgICAgICAg
-ICAgICAgICAgICAgICAgIHwgMiArLQ0KIC4uLi97dS1ib290LWZ3LXV0aWxzXzIwMTkuMDEuYmIg
-PT4gdS1ib290LWZ3LXV0aWxzXzIwMTkuMDQuYmJ9ICB8IDANCiAuLi4vdS1ib290L3t1LWJvb3Qt
-dG9vbHNfMjAxOS4wMS5iYiA9PiB1LWJvb3QtdG9vbHNfMjAxOS4wNC5iYn0gfCAwDQogLi4uL3Jl
-Y2lwZXMtYnNwL3UtYm9vdC97dS1ib290XzIwMTkuMDEuYmIgPT4gdS1ib290XzIwMTkuMDQuYmJ9
-IHwgMA0KIDQgZmlsZXMgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkNCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3Qve3UtYm9vdC1mdy11dGlsc18yMDE5LjAxLmJi
-ID0+IHUtYm9vdC1mdy11dGlsc18yMDE5LjA0LmJifSAoMTAwJSkNCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLWJzcC91LWJvb3Qve3UtYm9vdC10b29sc18yMDE5LjAxLmJiID0+IHUtYm9vdC10b29sc18y
-MDE5LjA0LmJifSAoMTAwJSkNCiByZW5hbWUgbWV0YS9yZWNpcGVzLWJzcC91LWJvb3Qve3UtYm9v
-dF8yMDE5LjAxLmJiID0+IHUtYm9vdF8yMDE5LjA0LmJifSAoMTAwJSkNCg0KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC1jb21tb24uaW5jIGIvbWV0YS9yZWNpcGVz
-LWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMNCmluZGV4IGRjZmI5Y2M2M2YuLmEwMjEyZTFi
-NmIgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QtY29tbW9uLmlu
-Yw0KKysrIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWNvbW1vbi5pbmMNCkBAIC04
-LDcgKzgsNyBAQCBQRSA9ICIxIg0KIA0KICMgV2UgdXNlIHRoZSByZXZpc2lvbiBpbiBvcmRlciB0
-byBhdm9pZCBoYXZpbmcgdG8gZmV0Y2ggaXQgZnJvbSB0aGUNCiAjIHJlcG8gZHVyaW5nIHBhcnNl
-DQotU1JDUkVWID0gImQzNjg5MjY3ZjkyYzU5NTZlMDljYzdkMWJhYTQ3MDAxNDE2NjJiZmYiDQor
-U1JDUkVWID0gIjNjOTkxNjY0NDFiZjNlYTMyNWFmMmRhODNjZmU2NTQzMGI0OWMwNjYiDQogDQog
-U1JDX1VSSSA9ICJnaXQ6Ly9naXQuZGVueC5kZS91LWJvb3QuZ2l0Ig0KIA0KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdC1mdy11dGlsc18yMDE5LjAxLmJiIGIvbWV0
-YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LWZ3LXV0aWxzXzIwMTkuMDQuYmINCnNpbWlsYXJp
-dHkgaW5kZXggMTAwJQ0KcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290
-LWZ3LXV0aWxzXzIwMTkuMDEuYmINCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91
-LWJvb3QtZnctdXRpbHNfMjAxOS4wNC5iYg0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ic3Av
-dS1ib290L3UtYm9vdC10b29sc18yMDE5LjAxLmJiIGIvbWV0YS9yZWNpcGVzLWJzcC91LWJvb3Qv
-dS1ib290LXRvb2xzXzIwMTkuMDQuYmINCnNpbWlsYXJpdHkgaW5kZXggMTAwJQ0KcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290LXRvb2xzXzIwMTkuMDEuYmINCnJlbmFt
-ZSB0byBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3QtdG9vbHNfMjAxOS4wNC5iYg0KZGlm
-ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ic3AvdS1ib290L3UtYm9vdF8yMDE5LjAxLmJiIGIvbWV0
-YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290XzIwMTkuMDQuYmINCnNpbWlsYXJpdHkgaW5kZXgg
-MTAwJQ0KcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWJzcC91LWJvb3QvdS1ib290XzIwMTkuMDEu
-YmINCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtYnNwL3UtYm9vdC91LWJvb3RfMjAxOS4wNC5iYg0K
-LS0gDQoyLjIxLjANCg0K
+Install opkg test suite and run it as ptest.
+
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ ...dd-target-for-testsuite-installation.patch | 43 +++++++++++++++++++
+ ....py-resolve-paths-before-comparision.patch | 31 +++++++++++++
+ meta/recipes-devtools/opkg/opkg/run-ptest     |  5 +++
+ meta/recipes-devtools/opkg/opkg_0.4.0.bb      |  6 ++-
+ 4 files changed, 84 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch
+ create mode 100644 meta/recipes-devtools/opkg/opkg/run-ptest
+
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch b/meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch
+new file mode 100644
+index 0000000000..951c186767
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch
+@@ -0,0 +1,43 @@
++From 8fb0364bd0e19f35c20616dd1ab10aa00e08fa8f Mon Sep 17 00:00:00 2001
++From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++Date: Wed, 10 Apr 2019 14:49:43 -0500
++Subject: [PATCH] opkg: add target for testsuite installation
++
++- Add target to install testsuite
++- Add override of opkg binary used during test via OPKG_PATH environment
++variable.
++
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++---
++Upstream-Status: Submitted
++
++ Makefile.am  | 5 +++++
++ tests/cfg.py | 2 +-
++ 2 files changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/Makefile.am b/Makefile.am
++index 90cfcae..1f6a784 100644
++--- a/Makefile.am
+++++ b/Makefile.am
++@@ -18,3 +18,8 @@ run-tests:
++ 	$(MAKE) -C tests DATADIR=@datadir@ SYSCONFDIR=@sysconfdir@ VARDIR=@localstatedir@
++ 
++ check: run-tests
+++
+++install-ptest:
+++	cp -r $(srcdir)/tests $(DESTDIR)
+++	cp Makefile $(DESTDIR)
+++	sed -e 's/^Makefile/_Makefile/' < Makefile > $(DESTDIR)/Makefile
++diff --git a/tests/cfg.py b/tests/cfg.py
++index 4efaff6..ca59d03 100644
++--- a/tests/cfg.py
+++++ b/tests/cfg.py
++@@ -2,4 +2,4 @@ import os
++ 
++ opkdir = "/tmp/opk"
++ offline_root = "/tmp/opkg"
++-opkgcl = os.path.realpath("../src/opkg")
+++opkgcl = os.getenv('OPKG_PATH', os.path.realpath("../src/opkg"))
++-- 
++2.20.1
++
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch b/meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch
+new file mode 100644
+index 0000000000..75ecb5fb42
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch
+@@ -0,0 +1,31 @@
++From 5f005830eea7d03c02107a3a3fc58907b0a037bf Mon Sep 17 00:00:00 2001
++From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++Date: Mon, 8 Apr 2019 11:14:56 -0500
++Subject: [PATCH] regress/issue72.py: resolve paths before comparision
++
++In systems that have a volatile /tmp, the test incorrectly fails since
++it doesn't resolve the real path in all cases.
++
++Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
++---
++Upstream-Status: Submitted
++
++ tests/regress/issue72.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tests/regress/issue72.py b/tests/regress/issue72.py
++index 1626877..2f24dec 100755
++--- a/tests/regress/issue72.py
+++++ b/tests/regress/issue72.py
++@@ -56,7 +56,7 @@ if not os.path.lexists("{}/{}".format(cfg.offline_root, long_filename2)):
++ 				"not created.")
++ 
++ linky = os.path.realpath("{}/{}".format(cfg.offline_root, long_filename2))
++-linky_dst = "{}/{}".format(cfg.offline_root, long_filename)
+++linky_dst = os.path.realpath("{}/{}".format(cfg.offline_root, long_filename))
++ if linky != linky_dst:
++ 	opk.fail("symlink path truncated.")
++ 
++-- 
++2.20.1
++
+diff --git a/meta/recipes-devtools/opkg/opkg/run-ptest b/meta/recipes-devtools/opkg/opkg/run-ptest
+new file mode 100644
+index 0000000000..5fb7077eec
+--- /dev/null
++++ b/meta/recipes-devtools/opkg/opkg/run-ptest
+@@ -0,0 +1,5 @@
++#!/bin/sh
++
++OPKG_PATH=$(which opkg)
++
++make OPKG_PATH=$OPKG_PATH run-tests
+diff --git a/meta/recipes-devtools/opkg/opkg_0.4.0.bb b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
+index a2329d3e71..20c2e0b72a 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.4.0.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
+@@ -15,12 +15,15 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
+            file://opkg.conf \
+            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+            file://0001-libopkg-add-add-ignore-recommends-option.patch \
++           file://0001-regress-issue72.py-resolve-paths-before-comparision.patch \
++           file://0001-opkg-add-target-for-testsuite-installation.patch \
++           file://run-ptest \
+ "
+ 
+ SRC_URI[md5sum] = "ae51d95fee599bb4dce08453529158f5"
+ SRC_URI[sha256sum] = "f6c00515d8a2ad8f6742a8e73830315d1983ed0459cba77c4d656cfc9e7fe6fe"
+ 
+-inherit autotools pkgconfig systemd
++inherit autotools pkgconfig systemd ptest
+ 
+ target_localstatedir := "${localstatedir}"
+ OPKGLIBDIR = "${target_localstatedir}/lib"
+@@ -49,6 +52,7 @@ do_install_append () {
+ RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} opkg-arch-config libarchive"
+ RDEPENDS_${PN}_class-native = ""
+ RDEPENDS_${PN}_class-nativesdk = ""
++RDEPENDS_${PN}-ptest += "make binutils python3-core python3-compression"
+ RREPLACES_${PN} = "opkg-nogpg opkg-collateral"
+ RCONFLICTS_${PN} = "opkg-collateral"
+ RPROVIDES_${PN} = "opkg-collateral"
+-- 
+2.20.1
+
 
