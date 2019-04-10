@@ -1,48 +1,49 @@
-Return-Path: <beniaminsandu@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 095CE7D42C
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DD8C17D787
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 22:56:30 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t17so4753945wrw.13
+	Wed, 10 Apr 2019 23:12:56 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id n25so4319341wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 15:56:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=pjfC2oyi1Lr/IDUly6tKo+2DfT4n+/gcb7Msu3yORyE=;
-	b=Lja3bgqtMPvlBGoBCcTKOSRrmrbL0OuCt0LPPGqqygAwp9OaswZXG0aDCCo5f7uBJz
-	mDL2r00FT6rgiyG/1oiuaSmhhsV08Ajm0QTJoMc/yCbKx21RMZWKwq2vdSTKXLgA5jOh
-	O5p8yQUk0FF5lZoc8Tx/9J8PqxFYneL9ijqBD+Q4FhCG3JwncyypLJMGTTG8M/br/nZG
-	eYLvhC24Fl4rWwu0lmgtmu0f38+gSRQnkrhQAMa5MSDLenJSMYZaceqwJhBnujVY1SFn
-	YhhdaZFOIUrgs5HlfM4MrhGhFunymzfzsXhYX3ZpnLMl3RSLwWBOdGxoNj1mXYGJV1Mx
-	yB/w==
+	Wed, 10 Apr 2019 16:12:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SNnhmq4X0Drzi7DmKKmRI8qghcxieh8VWjAcK9RuTEQ=;
+	b=AyYn7K1szRbOyEQcfeom8qcLtUp04UQaLiKHVGRsN+nui8Qr58nC9Vf8lIIfjzNQJH
+	rF/V8TAhQ9AsMTYTSMa+UCUusZ4DdcAQgJPwwMcLvtGipPwvXjvOVKHN7zC6EO0aTEu2
+	EoU/oC+7lcLUnZRDfTl3XD/ZhyelwsIxzJO0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=pjfC2oyi1Lr/IDUly6tKo+2DfT4n+/gcb7Msu3yORyE=;
-	b=SbwOZBhSdQ2p0srFjXo7Vi20YF8ZiYCnwbvau0ZguOnHko4DyNMGn08+LK58vPuHvz
-	6xqgyCteCDLjOwbcXbx1fNnkAENkbPMJNyZd1CZ45UnGjI+fNp0KA7zEkeRZHpFdO1Ll
-	mBgtSeftsa/1YoniQHaRLmjExajQ6aEp3NDyTRQ2//eu4/JUTRxAyhOGk/Fj72NEYiLv
-	vSCZq9CLQ/F1IBsBTyihjjWQF2u6la2alq4YS2NsA0EBke+BZWak+t9iaPuy/2EgHKsa
-	sJvDXYxkQA+nVoPJPLf27hmvwrOQPOTzc3T5YyqUpdMMuc/DxvXi1PSNxSacEqzmahU8
-	LEJg==
-X-Gm-Message-State: APjAAAUctG4J/xo8xjsfYMujX8aYB+rBkwSOrL4Qxt0vzpCFI3ceCt9I
-	yMlYQBd5B6VdsZXNjZ2pC+Ms1yHMxmk=
-X-Google-Smtp-Source: APXvYqwojvrFLwW++uXJ1PLvM+s6M7DJ79F+qtrGrIyisxUPUbFXbnkWC7Ts8/ng2ZYuNc7Dw9x7cA==
-X-Received: by 2002:adf:f803:: with SMTP id s3mr10085366wrp.54.1554936991567; 
-	Wed, 10 Apr 2019 15:56:31 -0700 (PDT)
-Received: from localhost.localdomain (5-13-211-180.residential.rdsnet.ro.
-	[5.13.211.180]) by smtp.gmail.com with ESMTPSA id
-	y17sm42694360wrh.60.2019.04.10.15.56.30
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=SNnhmq4X0Drzi7DmKKmRI8qghcxieh8VWjAcK9RuTEQ=;
+	b=pjsZuAU/dCZbGkZxQxUKcptmGKZbX3EveumhwjPUBi3n7+qnY6L35plIdZhYf7Ucx6
+	EVCo29Mn7ff8FZvkHvnx9urWmR1Q1P1Oe9Zj8MGb0Zm4gkscz0p4Pg9ikkBCRUOvlnpY
+	6d053LrqYTMCTo8HxbRRNBMj75a1T0MIxb40HMso491v2lCWKHGql2P5XLDf4+zi152I
+	Y1deMwv1Vw0F95nfBaZRBejSt3e/WiU1tya7XLiBMkX3WlB3rG3Oimcj5kL2coX+QR6r
+	YfCIJTXHvAGE5OwvWuKrTR0vk7AYA9caOM7J7EabuBBpQiT74gPfP6hA+yTsvsU3FU8R
+	/QRg==
+X-Gm-Message-State: APjAAAW4FMGMBFrDbyQYVeDvDvCDA81A+dCtgjHgy/2Jfqq1YyPdMGa7
+	v8IGKwDCF3suLOSmSw8tfIcYeQ1LPsE=
+X-Google-Smtp-Source: APXvYqylrRPvov92UMwOBVKx2+CwsqLHFTIJfZ1IKwSPRGoQOx/30bxodIOwPfZwNHcLMmBdJoykeA==
+X-Received: by 2002:a1c:9d8f:: with SMTP id g137mr4598956wme.26.1554937977279; 
+	Wed, 10 Apr 2019 16:12:57 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a17sm2614031wmg.40.2019.04.10.16.12.55
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 10 Apr 2019 15:56:31 -0700 (PDT)
-From: Beniamin Sandu <beniaminsandu@gmail.com>
-X-Google-Original-From: Beniamin Sandu <beniamin.sandu@gmail.com>
+	Wed, 10 Apr 2019 16:12:56 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Apr 2019 01:55:24 +0300
-Message-Id: <20190410225524.7489-1-beniamin.sandu@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] kernel-devsrc: check for localversion files in the kernel source tree
+Date: Thu, 11 Apr 2019 00:12:54 +0100
+Message-Id: <20190410231254.25763-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] pseudo: Update to gain key bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 22:56:31 -0000
+X-List-Received-Date: Wed, 10 Apr 2019 23:12:57 -0000
+Content-Transfer-Encoding: 8bit
 
-The kernel-devsrc rework doesn't take into account localversion
-files in the kernel source tree. This might result in modules with an
-incomplete version magic when building out-of-tree using the SDK.
+Newer distros are using new versions of glibc and coreutils which use the new glibc
+renameat2 function. We need to intercept this for correct functioning of pseudo. This
+is essential to ensure new distros continue to work with the project.
 
-Before:
-root@qemux86:~# insmod hello.ko
-[   42.000212] hello: version magic '5.0.3-yocto-standard SMP preempt
-mod_unload PENTIUMM ' should be '5.0.3-my-custom-release-yocto-standard
-SMP preempt mod_unload PENTIUMM '
-[   42.008200] hello: version magic '5.0.3-yocto-standard SMP preempt
-mod_unload PENTIUMM ' should be '5.0.3-my-custom-release-yocto-standard
-SMP preempt mod_unload PENTIUMM '
-insmod: can't insert 'hello.ko': invalid module format
+Also, this version has a fix for path/inode cross corruption problems which
+may explain our mysterious locale permissions issues.
 
-After:
-root@qemux86:~# insmod hello.ko
-[   39.094288] hello: loading out-of-tree module taints kernel.
-[   39.108044] Hello World!
+Many thanks to Otavio and Peter Seebach for the help in figuring this out and
+fixing it.
 
-Signed-off-by: Beniamin Sandu <beniamin.sandu@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-kernel/linux/kernel-devsrc.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-index 69a8eaef81..ed265f702d 100644
---- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-+++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-@@ -228,6 +228,11 @@ do_install() {
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 79e0b6bd21a..64b3832ca4d 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://git.yoctoproject.org/pseudo \
+            file://toomanyfiles.patch \
+            "
  
-         # required to build scripts/selinux/genheaders/genheaders
-         cp -a --parents security/selinux/include/* $kerneldir/build/
-+
-+	# check for any localversion files
-+	if [ -f localversion* ]; then
-+	   cp localversion* $kerneldir/build/
-+	fi
-     )
+-SRCREV = "6294b344e5140f5467e6860f45a174440015304e"
++SRCREV = "6ebc7d6bc8ab973d0ba949eeb363821811ce8dc5"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git${SRCPV}"
  
-     # Make sure the Makefile and version.h have a matching timestamp so that
 -- 
-2.17.1
+2.20.1
 
 
