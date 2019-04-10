@@ -1,30 +1,54 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D2BE7D894
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 3084E7D7A7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 06:44:53 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,332,1549900800"; d="scan'208";a="58924079"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 10 Apr 2019 14:44:54 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id A203D4CD810E
+	Wed, 10 Apr 2019 09:41:23 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id g3so2078158wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 14:44:56 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 10 Apr 2019 14:45:00 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Apr 2019 23:44:10 +0800
-Message-ID: <1554911050-2472-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+	Wed, 10 Apr 2019 02:41:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=BS1dxAymN4xVQI5RL/sOe8PTS5ZD9ACKNEhWAi0SeK8=;
+	b=cxxHhnCeocdyD//TLUlap45R6aGq9/+cWxodU75b6/D8kQHC8oyrVGRPhiEEZFWM4N
+	IomO4owc+zOivShsK+6hxEIjsRg/DAcjIIbprmV85bwlRdZasUuzKjLX3ZPjaFiKNWcP
+	4089P/Fk7D1caiRSRbUiJAH60GoPBId+DA560=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=BS1dxAymN4xVQI5RL/sOe8PTS5ZD9ACKNEhWAi0SeK8=;
+	b=HTE/QyvjbYjQq4R2vTEbqfCgEcCuXz/Hv5gDxTvfu9vsFoHxA4St885TTH0x438pDO
+	HoY/YhTM7G9tn4R2ArxUO72LIhZgtAMZBcrdS8jSuIoYbdn8VcEUlX4MgG+F8JK4gr33
+	DYwrVTlIWoGvT8hiz3tkpKzQFVMF8wUR3TkdqN4/hToCioXwO7/69CJf60k1V3MUiKIz
+	VUYzXclU5PpZH5GB1P9l4uo8lklB6APc7WyIM8LjsbJzdpsAJS5VGs6eKF1+HlOWchFI
+	3ipZDVgEIxPEiP9SO0kp0LonSRp9UYeT4YwS9H6XHPhNsOQHb0SG9aJSZKKOLWSRygON
+	sH3A==
+X-Gm-Message-State: APjAAAW/FtbAHHW1LVRuu/l/YB+0gdlXWDLjydvDPFvQqYnHGNugHOyY
+	ya2o3wKltqiZCpmIoUht9k/SdA==
+X-Google-Smtp-Source: APXvYqznGkSR+WAWRzOROV6ERrdL4O2joWiQu6qLt7edT05q4Oh0uSf4g6vo4ysQYqEq035ZBLesYw==
+X-Received: by 2002:a5d:52cc:: with SMTP id r12mr6888111wrv.163.1554889283812; 
+	Wed, 10 Apr 2019 02:41:23 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	c10sm40684639wrt.65.2019.04.10.02.41.22
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 10 Apr 2019 02:41:22 -0700 (PDT)
+Message-ID: <680dff761ebd04f8f240d12339b31569c70c48da.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: akuster808 <akuster808@gmail.com>, Yocto discussion list
+	<yocto@yoctoproject.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Date: Wed, 10 Apr 2019 10:41:21 +0100
+In-Reply-To: <f8b3661d-a6cc-494e-de49-e462ba935535@gmail.com>
+References: <90d55754e9381759c8b70ebca0b880e6013f17f0.camel@linuxfoundation.org>
+	<f8b3661d-a6cc-494e-de49-e462ba935535@gmail.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: A203D4CD810E.A98E8
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] sanity: check_perl_modules bug fix
+Subject: Re: Eclipse support dropped with immediate effect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,50 +61,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 06:44:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Apr 2019 09:41:23 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Fix Python3 TypeError error in check_perl_modules:
+On Wed, 2019-04-10 at 05:56 +0530, akuster808 wrote:
+> 
+> On 4/9/19 8:52 PM, Richard Purdie wrote:
+> > I'm sorry to have to say this but the project is terminating its
+> > official eclipse plugin support with immediate effect.
+> 
+> Does this affect the stable branches as well?
 
-Executing bitbake, the following error message will be throwed:
+Yes, I think we'll just be removing the target from the autobuilder
+entirely.
 
-  File ".../poky/meta/classes/sanity.bbclass", line
-979, in check_sanity_eventhandler
-    check_sanity(sanity_data)
-  File ".../poky/meta/classes/sanity.bbclass", line
-943, in check_sanity
-    check_sanity_version_change(status, sanity_data)
-  File ".../poky/meta/classes/sanity.bbclass", line
-637, in check_sanity_version_change
-    status.addresult(check_perl_modules(d))
-  File ".../poky/meta/classes/sanity.bbclass", line
-563, in check_perl_modules
-    errresult += e.output
-TypeError: must be str, not bytes
+Cheers,
 
-So here, transfer e.output from bytes to str.
-
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- meta/classes/sanity.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
-index 4cbb1f3..9429202 100644
---- a/meta/classes/sanity.bbclass
-+++ b/meta/classes/sanity.bbclass
-@@ -560,7 +560,7 @@ def check_perl_modules(sanity_data):
-         try:
-             subprocess.check_output(["perl", "-e", "use %s" % m])
-         except subprocess.CalledProcessError as e:
--            errresult += e.output
-+            errresult += bytes.decode(e.output)
-             ret += "%s " % m
-     if ret:
-         return "Required perl module(s) not found: %s\n\n%s\n" % (ret, errresult)
--- 
-1.8.3.1
-
-
+Richard
 
 
