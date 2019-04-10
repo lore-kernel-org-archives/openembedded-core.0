@@ -1,24 +1,30 @@
-Return-Path: <Lei.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 740EB7D886
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D2BE7D894
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 06:04:40 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3A6498m016905
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 10 Apr 2019 06:44:53 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,332,1549900800"; d="scan'208";a="58924079"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 10 Apr 2019 14:44:54 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id A203D4CD810E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Apr 2019 23:04:31 -0700
-Received: from pek-lyang0-u17.wrs.com (128.224.162.225) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 9 Apr 2019 23:04:11 -0700
-From: Lei Yang <Lei.Yang@windriver.com>
+	Wed, 10 Apr 2019 14:44:56 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.35) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 10 Apr 2019 14:45:00 +0800
+From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Apr 2019 14:04:09 +0800
-Message-ID: <20190410060409.26643-1-Lei.Yang@windriver.com>
-X-Mailer: git-send-email 2.17.1
+Date: Wed, 10 Apr 2019 23:44:10 +0800
+Message-ID: <1554911050-2472-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Subject: [PATCH] recipetool: add missed module
+X-Originating-IP: [10.167.225.35]
+X-yoursite-MailScanner-ID: A203D4CD810E.A98E8
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] sanity: check_perl_modules bug fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,34 +37,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 06:04:40 -0000
+X-List-Received-Date: Wed, 10 Apr 2019 06:44:53 -0000
 Content-Type: text/plain
 
-When I use recipetool to add a new recipe, it says:
+Fix Python3 TypeError error in check_perl_modules:
 
-[snip]
-sys.exit(14)
-NameError: name 'sys' is not defined
-[snip]
+Executing bitbake, the following error message will be throwed:
 
-Signed-off-by: Lei Yang <Lei.Yang@windriver.com>
+  File ".../poky/meta/classes/sanity.bbclass", line
+979, in check_sanity_eventhandler
+    check_sanity(sanity_data)
+  File ".../poky/meta/classes/sanity.bbclass", line
+943, in check_sanity
+    check_sanity_version_change(status, sanity_data)
+  File ".../poky/meta/classes/sanity.bbclass", line
+637, in check_sanity_version_change
+    status.addresult(check_perl_modules(d))
+  File ".../poky/meta/classes/sanity.bbclass", line
+563, in check_perl_modules
+    errresult += e.output
+TypeError: must be str, not bytes
+
+So here, transfer e.output from bytes to str.
+
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
 ---
- scripts/lib/recipetool/create_npm.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/sanity.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index 03667887fc..0b09ed0b04 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -16,6 +16,7 @@
- # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
- 
- import os
-+import sys
- import logging
- import subprocess
- import tempfile
+diff --git a/meta/classes/sanity.bbclass b/meta/classes/sanity.bbclass
+index 4cbb1f3..9429202 100644
+--- a/meta/classes/sanity.bbclass
++++ b/meta/classes/sanity.bbclass
+@@ -560,7 +560,7 @@ def check_perl_modules(sanity_data):
+         try:
+             subprocess.check_output(["perl", "-e", "use %s" % m])
+         except subprocess.CalledProcessError as e:
+-            errresult += e.output
++            errresult += bytes.decode(e.output)
+             ret += "%s " % m
+     if ret:
+         return "Required perl module(s) not found: %s\n\n%s\n" % (ret, errresult)
 -- 
-2.17.1
+1.8.3.1
+
+
 
 
