@@ -1,47 +1,61 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 094977D787
+Return-Path: <otavio.salvador@ossystems.com.br>
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com
+	[209.85.210.44])
+	by mail.openembedded.org (Postfix) with ESMTP id BD1DA7D8A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 23:15:41 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id v13so3679321ljk.4
+	Wed, 10 Apr 2019 23:28:00 +0000 (UTC)
+Received: by mail-ot1-f44.google.com with SMTP id d24so3527605otl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 16:15:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YwFaqw7eXvQ3tUbWY+MVKcBoKm1O5yjKdOlt9TGv6Xs=;
-	b=mxGeL1YF6I+r4xC18Jzn/MppM0KwChXyUfV8ZRPVB2Lt6HWcRM8aU8kcTcwboxGrMo
-	xLJ8nbA+oGhcr076Tsg0bAVILkzRY6X5ub9XnDxpAQdk72/BN8XaMOKYqHD1+IQmVDox
-	X6M7dgpe6qrzoFnpRDuEYZCgyX9fhodO7dHgcWJmFDQ2x4FLgzhdftgpJzbNoDMpEBSx
-	OZ6zXEbZGASk/9n3FkDnyo3EwXpagUFEI08yAWMQIskuQjTgMe3uQyLJ9KiAVXRFT6uf
-	wQ1dpH6xAnNkeZmt+ymUaPyoMdG0hWpOQ2lwFKWtYJzT4wrDeAoHyhi0B5nU+u2OZOo0
-	YraQ==
+	Wed, 10 Apr 2019 16:28:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:mime-version:references:in-reply-to:date:message-id:subject:to
+	:cc; bh=ufyPsRjpJKGrmirFQdCA2efwKXehgYhqbPKX/f+CC3M=;
+	b=k1TcnP8KNBIP+OftMpSxr8Sccdhl/Req2pMPPBMrViKsOQ2F+11jX+IMJbjcxTN+py
+	3Leg0opTSpKJsM+G1CYX3l2z0p3KUGvecSImkI2GVvjERrkVZp8Qt8GEe/+4wAs5GOcj
+	cv97mhLPNki4LHo6YSTV/fSKXvp3NoY3u+t+OvYM78b5D/3plfoj8Tk4aHvqwnAgifey
+	2gQgrrUKPa2xYdNGcUxpySgvUFNvtk7hS0QXmuePtnTLNRag27ZZIX+qVEKX6Hkh4C0F
+	33gha4lJb4IRV6+5VvSwVI94y+udIIrwJX5+H+h3k4GvVFw8zSqdsqYqDaLl5fTxyihU
+	kGIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	h=x-gm-message-state:from:mime-version:references:in-reply-to:date
 	:message-id:subject:to:cc;
-	bh=YwFaqw7eXvQ3tUbWY+MVKcBoKm1O5yjKdOlt9TGv6Xs=;
-	b=DxWoSeKYA5tAOfeigYR6uM1bMWNmXjigMKnBxK+hdzxGNrp3+LT0y09AdL3YZCEBGa
-	EG8LSjgLBrfEhwMCUXO1vYkbobjQagaGFMCp+iXd21jH+FGHrJ4HcPiLHne1rOKskRiv
-	sOetdJ4pZk80A22b3v7AVuQO59UgqVCAvRi5sN54fxqk2mePvDUeUd/Ht1g/pzCVKGWC
-	c9J6lgSATpdK65nmpeo5HYipestxlKpiKIF1eR8q4S7uVX6gLQOqoyNtu3sgfuC4yoCZ
-	xVt+E7teLUhyUJHboTCvMIOGyQIaGlIhcDvY5nAVjTLx3dH8lm43GHYY7oPaEQxtvzS+
-	fvZA==
-X-Gm-Message-State: APjAAAWjYjD5oX7SzH6xMm6vIvt6tj3hjYLc9g8KKTdsAyl4xoR+whep
-	PRXzsmf5e2l6cZKx97sppwF0U1kUgmYxp91IM7w=
-X-Google-Smtp-Source: APXvYqzJG2UYUIZzQruOLv92tvgOV4nd0H9tRx15uZ5Qy3BboEun81DTl/wP8rAw7iIA1gAajuu/WHi18y5jRLc6wmc=
-X-Received: by 2002:a2e:2a03:: with SMTP id q3mr24471438ljq.56.1554938142363; 
-	Wed, 10 Apr 2019 16:15:42 -0700 (PDT)
+	bh=ufyPsRjpJKGrmirFQdCA2efwKXehgYhqbPKX/f+CC3M=;
+	b=CwvGBD8DFoo6c++M7YYwncQqiV1IhIwL0bcLh98Bt9cr1nPbGys61nvrkSWBFuM+Ky
+	tMapVSEFtpBuQaPv8B+GbvQG+R4f7MkVOct6WUkiGWwOaJbwK+BpAhj2D4maTISnCiVc
+	aB2daOnneMGP/HL2KX6vy9IIyKm+pPjdBsMoZ5Iqr4amh7ETOVf1fe/iGiPU2kpQWATY
+	u6m/XpAsl5BJhEempQw8YKXyNyUSioxEuCP4GipprPkgeCj/NKXUeDj1MpE4pbKBy41S
+	rOn9vWXCzSqBm0Et8xE/IGys0I+5pUpFiof2QLImqeXRrGz+M6D2V3BYvCqeh9pOX+eo
+	uo1Q==
+X-Gm-Message-State: APjAAAV3bTXaQy0HKOsT/VwUc3rKd3oy+o/BXLbpUhwJdzHt3CnwtLeO
+	mDnNY3bAGm/liT3wr+VLErh8RWLsO2aZIA==
+X-Google-Smtp-Source: APXvYqz0KiGlpPYZc9WR+RNBZrRYpkCJ6pYhdPFs+a1lfUq8mgQw3YtH8oCT7As4eF2Yo14wfr995Q==
+X-Received: by 2002:a9d:6d05:: with SMTP id o5mr30429159otp.175.1554938881435; 
+	Wed, 10 Apr 2019 16:28:01 -0700 (PDT)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com.
+	[209.85.167.173]) by smtp.gmail.com with ESMTPSA id
+	m63sm8411767otc.76.2019.04.10.16.28.00
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 10 Apr 2019 16:28:00 -0700 (PDT)
+From: Otavio Salvador <otavio.salvador@ossystems.com.br>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.com.br>
+Received: by mail-oi1-f173.google.com with SMTP id e5so3339352oii.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 10 Apr 2019 16:28:00 -0700 (PDT)
+X-Received: by 2002:aca:812:: with SMTP id 18mr4283615oii.134.1554938880002;
+	Wed, 10 Apr 2019 16:28:00 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190410225524.7489-1-beniamin.sandu@gmail.com>
-In-Reply-To: <20190410225524.7489-1-beniamin.sandu@gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 10 Apr 2019 19:15:31 -0400
-Message-ID: <CADkTA4Nv=hzjbYCHfAQGLF6VWWpM7HOqfVYgrPPng=8S9ZsXiA@mail.gmail.com>
-To: Beniamin Sandu <beniaminsandu@gmail.com>
+References: <20190410231254.25763-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <20190410231254.25763-1-richard.purdie@linuxfoundation.org>
+Date: Wed, 10 Apr 2019 20:27:34 -0300
+X-Gmail-Original-Message-ID: <CAP9ODKrat=4kOWAxe+RpS1w0coY-9ZAxFNCHDwNQF8mbP3MGaA@mail.gmail.com>
+Message-ID: <CAP9ODKrat=4kOWAxe+RpS1w0coY-9ZAxFNCHDwNQF8mbP3MGaA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-devsrc: check for localversion files in the kernel source tree
+Subject: Re: [PATCH] pseudo: Update to gain key bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,76 +68,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 23:15:42 -0000
+X-List-Received-Date: Wed, 10 Apr 2019 23:28:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 10, 2019 at 6:56 PM Beniamin Sandu <beniaminsandu@gmail.com> wrote:
+On Wed, Apr 10, 2019 at 8:13 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 >
-> The kernel-devsrc rework doesn't take into account localversion
-> files in the kernel source tree. This might result in modules with an
-> incomplete version magic when building out-of-tree using the SDK.
+> Newer distros are using new versions of glibc and coreutils which use the new glibc
+> renameat2 function. We need to intercept this for correct functioning of pseudo. This
+> is essential to ensure new distros continue to work with the project.
 >
-> Before:
-> root@qemux86:~# insmod hello.ko
-> [   42.000212] hello: version magic '5.0.3-yocto-standard SMP preempt
-> mod_unload PENTIUMM ' should be '5.0.3-my-custom-release-yocto-standard
-> SMP preempt mod_unload PENTIUMM '
-> [   42.008200] hello: version magic '5.0.3-yocto-standard SMP preempt
-> mod_unload PENTIUMM ' should be '5.0.3-my-custom-release-yocto-standard
-> SMP preempt mod_unload PENTIUMM '
-> insmod: can't insert 'hello.ko': invalid module format
+> Also, this version has a fix for path/inode cross corruption problems which
+> may explain our mysterious locale permissions issues.
 >
-> After:
-> root@qemux86:~# insmod hello.ko
-> [   39.094288] hello: loading out-of-tree module taints kernel.
-> [   39.108044] Hello World!
+> Many thanks to Otavio and Peter Seebach for the help in figuring this out and
+> fixing it.
 >
-> Signed-off-by: Beniamin Sandu <beniamin.sandu@gmail.com>
-> ---
->  meta/recipes-kernel/linux/kernel-devsrc.bb | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> index 69a8eaef81..ed265f702d 100644
-> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
-> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
-> @@ -228,6 +228,11 @@ do_install() {
->
->          # required to build scripts/selinux/genheaders/genheaders
->          cp -a --parents security/selinux/include/* $kerneldir/build/
-> +
-> +       # check for any localversion files
-> +       if [ -f localversion* ]; then
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Why not just stay consistent with the rest of the copying and make
-sure it survives these not
-being present via || : ?
-
-Since that is going to potentially have issues when no localversion
-files are present.
-
-i.e. just use: cp -a localversion* $kerneldir/build/ 2>/dev/null || :
-
-Bruce
-
-> +          cp localversion* $kerneldir/build/
-> +       fi
->      )
->
->      # Make sure the Makefile and version.h have a matching timestamp so that
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+Glad to help! ;-)
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Otavio Salvador                             O.S. Systems
+http://www.ossystems.com.br        http://code.ossystems.com.br
+Mobile: +55 (53) 9 9981-7854          Mobile: +1 (347) 903-9750
 
