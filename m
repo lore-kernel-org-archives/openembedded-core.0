@@ -1,50 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2403E7D92C
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 67A1A7D934
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 13:12:24 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id j9so2895154wrn.6
+	Wed, 10 Apr 2019 13:12:25 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id w15so2531027wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 06:12:25 -0700 (PDT)
+	Wed, 10 Apr 2019 06:12:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=z1PS1DLsTyAmHiseO/+C18AzrnqssfES43OP/clgvpo=;
-	b=qXq56nvrGUcfJShjCkuIsfa6+buN5SnCie5p+dtakGTWKyox/BAnOXif07w1OSLOzT
-	uKsXQEYqfbR1SB0mn7r6g5APb1R4iOsVA6PjeWD99do0H9Xb+UqXBze1/ByDJtelRI5a
-	K/dyjHLF4gkPJmU2WcSgagdp3sYK3rNzEFPEM2Wa/D2wsLQ7P+yhO8gLXuCes9/MU8KD
-	kFvOhRsdr1yoWnh2njqYUznGXYwadWe4QSxSqf5caAKc9VlM8G43yXFlLpfpEd90SXUY
-	EuAQQNR1TGa0L8p3OvaMp2Qn04mAP1DBmD3sX2QQWeSKGbgT54bzViIitsonDdvvYF9R
-	hIuA==
+	bh=iShKFIsNF6YmHYT3WfeB7O3BZQK7Pq+lalYnbxK7Ja0=;
+	b=WzPNt4Q/zOYvAihpR3tqLq9KGue2Vj8N2l1YoVuNWxoP+QXLn1TpOcdqTo7F9zR4mR
+	RZHvJS2OQ8BdHeEFHS7eAjn6mOjDow1+Es63gs7sg7+bgOgWxWGa05/x8QMgKZkHW4tY
+	jeZ+3aC1AITurHnkEl4iBS4iRrfTXgJ2rYtY3kXBIRtz+d+taIpzkt+59y+a0kb1HRrd
+	jLzB4AV4dYjtKOn3Wa5pqPvMRbPBoS0qwiBEp1ALqLmX+Af3XrmqUfYtiqAQ62uwUe/E
+	JBADy1TUUOVVEyk94IO+FbFCbsmknqwXr/Jk2wG9JQwT7e8LG65I4Vuk6NsmtjFpO1bz
+	5CYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=z1PS1DLsTyAmHiseO/+C18AzrnqssfES43OP/clgvpo=;
-	b=fuG3g2e4lt+R35IelLV+WgryvzvOj5jd4QuPx7pfi2L4oDOKzfro5qAHFBY6/EK82K
-	lrx0j+I0pF0VLEgAY2uhJhw/3/a3vVZxzyHmfiXfCQyZzh0ZU87spcRWK8kkzyT/UZhk
-	NNqBffGrmGwv/0OmIMhiUs1XFy3D/K1ryVtSeJuKtGba3rs+o0uDfrJRMMS6TLAOsZ+M
-	iEYjPQHSaa5b5X48uvYIrjUdIzSv9msAAl9W7mE2lptjw90twPk8h6fdb2pJAG8LrZDG
-	W9jeqUT2yS5qNpoez682yB4MEBbZsHxkDmfr6HzgLuBaYpboBJzh9WRdidftERGFJViy
-	SYBw==
-X-Gm-Message-State: APjAAAWeNAEounk3NpL3qAbrUaXm53RRKsLxyheINg53/DG0nepc60Px
-	a/cGRgYAnIRozCWATbiz6B1R9Sy+6sY=
-X-Google-Smtp-Source: APXvYqx9Le2YZbLnnxxFCEC1q3Ikeb5T7GtJlDRjYtktfHG9cu66XbFXEBjfSzexiui3mRXyJ1dh8w==
-X-Received: by 2002:a5d:6681:: with SMTP id l1mr27971485wru.186.1554901944825; 
-	Wed, 10 Apr 2019 06:12:24 -0700 (PDT)
+	bh=iShKFIsNF6YmHYT3WfeB7O3BZQK7Pq+lalYnbxK7Ja0=;
+	b=egfgeQr7WuCbNaPi2POqWkQ0T0p3MHq3YFkCaNHcyIx8QHYIdvrh1vnP7ZvWe4xYQi
+	A3MVgFI/9YC19Vl5aGjiL1GXeYcxCfXY3gUhDzKruuax4jHmW5SlPrt8niw6WxEooEM/
+	GBsreKFQl2fLmZi3NM8R5R4dgXcQL+tw03wuDROilwje1bsOE3SMBbXTx0uE9dS9kiR+
+	gA6JiU436W+AwNGsoXY9gOo0zb1SqEnqATU/rAX6uj9ehONALwFCLge11MBXAnppAXUf
+	A0DWlvJZQUQhVKHx2Rk2OeiPXXJ6MF4cfZM7FN8HH+GfINT5dfixXieOLSKlEh7fzqqv
+	uexg==
+X-Gm-Message-State: APjAAAXJP8a6zctgk5zdEwpxnbcWrd0OFJnZSHtqinM4MrvJmDygP8Af
+	HH8FG/CVzSGSCZivuvf6EeQqWFU69N8=
+X-Google-Smtp-Source: APXvYqwaybImamhSWHHMYM5T48nrJKjOSzxYqLXo0WgZzhdW846FQxQtb6W5akpJnQf1BUYcCNU7+Q==
+X-Received: by 2002:a05:600c:2189:: with SMTP id
+	e9mr2855113wme.4.1554901945835; 
+	Wed, 10 Apr 2019 06:12:25 -0700 (PDT)
 Received: from localhost.localdomain ([37.205.61.202])
-	by smtp.gmail.com with ESMTPSA id x14sm3032399wmj.3.2019.04.10.06.12.23
+	by smtp.gmail.com with ESMTPSA id x14sm3032399wmj.3.2019.04.10.06.12.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Apr 2019 06:12:24 -0700 (PDT)
+	Wed, 10 Apr 2019 06:12:25 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Apr 2019 18:41:37 +0530
-Message-Id: <1e5fba51f022a9320e72b6df753a02bfc1732af8.1554901639.git.akuster808@gmail.com>
+Date: Wed, 10 Apr 2019 18:41:38 +0530
+Message-Id: <77ede7cbb7da2ed1b01d11441edcbd7dedad9b9a.1554901639.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1554901639.git.akuster808@gmail.com>
 References: <cover.1554901639.git.akuster808@gmail.com>
-Subject: [PATCH 18/33] resulttool/manualexecution: Fixed step sorted by integer
+Subject: [PATCH 19/33] resulttool/manualexecution: Refactor and simplify codebase
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +58,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 13:12:24 -0000
+X-List-Received-Date: Wed, 10 Apr 2019 13:12:25 -0000
 
 From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 
-Currently the manual execution display step by sorting
-the step as string, where steps were not being sorted
-correctly when there are more than 9 steps.
-
-Fixed the step sorting by sorting step as integer.
+Simplify and removed unnecessary codes.
+Refactor to allow pythonic loop.
 
 Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/resulttool/manualexecution.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/resulttool/manualexecution.py | 56 +++++++++++--------------------
+ 1 file changed, 20 insertions(+), 36 deletions(-)
 
 diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index 0783540..9a29b0b 100755
+index 9a29b0b..c94f981 100755
 --- a/scripts/lib/resulttool/manualexecution.py
 +++ b/scripts/lib/resulttool/manualexecution.py
-@@ -85,7 +85,7 @@ class ManualTestRunner(object):
+@@ -24,24 +24,12 @@ def load_json_file(file):
+     with open(file, "r") as f:
+         return json.load(f)
+ 
+-
+ class ManualTestRunner(object):
+-    def __init__(self):
+-        self.jdata = ''
+-        self.test_module = ''
+-        self.test_cases_id = ''
+-        self.configuration = ''
+-        self.starttime = ''
+-        self.result_id = ''
+-        self.write_dir = ''
+ 
+     def _get_testcases(self, file):
+         self.jdata = load_json_file(file)
+-        self.test_cases_id = []
+         self.test_module = self.jdata[0]['test']['@alias'].split('.', 2)[0]
+-        for i in self.jdata:
+-            self.test_cases_id.append(i['test']['@alias'])
+-    
++
+     def _get_input(self, config):
+         while True:
+             output = input('{} = '.format(config))
+@@ -67,45 +55,42 @@ class ManualTestRunner(object):
+         extra_config = set(store_map['manual']) - set(self.configuration)
+         for config in sorted(extra_config):
+             print('---------------------------------------------')
+-            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).'
+-                  % config)
++            print('This is configuration #%s. Please provide configuration value(use "None" if not applicable).' % config)
+             print('---------------------------------------------')
+             value_conf = self._get_input('Configuration Value')
+             print('---------------------------------------------\n')
+             self.configuration[config] = value_conf
+ 
+     def _create_result_id(self):
+-        self.result_id = 'manual_' + self.test_module + '_' + self.starttime
++        self.result_id = 'manual_%s_%s' % (self.test_module, self.starttime)
+ 
+-    def _execute_test_steps(self, test_id):
++    def _execute_test_steps(self, test):
+         test_result = {}
+-        total_steps = len(self.jdata[test_id]['test']['execution'].keys())
          print('------------------------------------------------------------------------')
-         print('You have total ' + str(total_steps) + ' test steps to be executed.')
+-        print('Executing test case:' + '' '' + self.test_cases_id[test_id])
++        print('Executing test case: %s' % test['test']['@alias'])
+         print('------------------------------------------------------------------------')
+-        print('You have total ' + str(total_steps) + ' test steps to be executed.')
++        print('You have total %s test steps to be executed.' % len(test['test']['execution']))
          print('------------------------------------------------------------------------\n')
--        for step in sorted((self.jdata[test_id]['test']['execution']).keys()):
-+        for step, _ in sorted(self.jdata[test_id]['test']['execution'].items(), key=lambda x: int(x[0])):
-             print('Step %s: ' % step + self.jdata[test_id]['test']['execution']['%s' % step]['action'])
-             expected_output = self.jdata[test_id]['test']['execution']['%s' % step]['expected_results']
+-        for step, _ in sorted(self.jdata[test_id]['test']['execution'].items(), key=lambda x: int(x[0])):
+-            print('Step %s: ' % step + self.jdata[test_id]['test']['execution']['%s' % step]['action'])
+-            expected_output = self.jdata[test_id]['test']['execution']['%s' % step]['expected_results']
++        for step, _ in sorted(test['test']['execution'].items(), key=lambda x: int(x[0])):
++            print('Step %s: %s' % (step, test['test']['execution'][step]['action']))
++            expected_output = test['test']['execution'][step]['expected_results']
              if expected_output:
+-                print('Expected output: ' + expected_output)
++                print('Expected output: %s' % expected_output)
+         while True:
+-            done = input('\nPlease provide test results: (P)assed/(F)ailed/(B)locked/(S)kipped? \n')
+-            done = done.lower()
++            done = input('\nPlease provide test results: (P)assed/(F)ailed/(B)locked/(S)kipped? \n').lower()
+             result_types = {'p':'PASSED',
+-                                'f':'FAILED',
+-                                'b':'BLOCKED',
+-                                's':'SKIPPED'}
++                            'f':'FAILED',
++                            'b':'BLOCKED',
++                            's':'SKIPPED'}
+             if done in result_types:
+                 for r in result_types:
+                     if done == r:
+                         res = result_types[r]
+                         if res == 'FAILED':
+                             log_input = input('\nPlease enter the error and the description of the log: (Ex:log:211 Error Bitbake)\n')
+-                            test_result.update({self.test_cases_id[test_id]: {'status': '%s' % res, 'log': '%s' % log_input}})
++                            test_result.update({test['test']['@alias']: {'status': '%s' % res, 'log': '%s' % log_input}})
+                         else:
+-                            test_result.update({self.test_cases_id[test_id]: {'status': '%s' % res}})
++                            test_result.update({test['test']['@alias']: {'status': '%s' % res}})
+                 break
+             print('Invalid input!')
+         return test_result
+@@ -120,9 +105,9 @@ class ManualTestRunner(object):
+         self._create_result_id()
+         self._create_write_dir()
+         test_results = {}
+-        print('\nTotal number of test cases in this test suite: ' + '%s\n' % len(self.jdata))
+-        for i in range(0, len(self.jdata)):
+-            test_result = self._execute_test_steps(i)
++        print('\nTotal number of test cases in this test suite: %s\n' % len(self.jdata))
++        for t in self.jdata:
++            test_result = self._execute_test_steps(t)
+             test_results.update(test_result)
+         return self.configuration, self.result_id, self.write_dir, test_results
+ 
+@@ -130,8 +115,7 @@ def manualexecution(args, logger):
+     testrunner = ManualTestRunner()
+     get_configuration, get_result_id, get_write_dir, get_test_results = testrunner.run_test(args.file)
+     resultjsonhelper = OETestResultJSONHelper()
+-    resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id,
+-                                          get_test_results)
++    resultjsonhelper.dump_testresult_file(get_write_dir, get_configuration, get_result_id, get_test_results)
+     return 0
+ 
+ def register_commands(subparsers):
 -- 
 2.7.4
 
