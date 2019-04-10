@@ -1,54 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 3084E7D7A7
+Return-Path: <Wenlin.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C98C7D828
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 09:41:23 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id g3so2078158wrx.9
+	Wed, 10 Apr 2019 09:42:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3A9g6YN013901
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Apr 2019 02:41:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=BS1dxAymN4xVQI5RL/sOe8PTS5ZD9ACKNEhWAi0SeK8=;
-	b=cxxHhnCeocdyD//TLUlap45R6aGq9/+cWxodU75b6/D8kQHC8oyrVGRPhiEEZFWM4N
-	IomO4owc+zOivShsK+6hxEIjsRg/DAcjIIbprmV85bwlRdZasUuzKjLX3ZPjaFiKNWcP
-	4089P/Fk7D1caiRSRbUiJAH60GoPBId+DA560=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=BS1dxAymN4xVQI5RL/sOe8PTS5ZD9ACKNEhWAi0SeK8=;
-	b=HTE/QyvjbYjQq4R2vTEbqfCgEcCuXz/Hv5gDxTvfu9vsFoHxA4St885TTH0x438pDO
-	HoY/YhTM7G9tn4R2ArxUO72LIhZgtAMZBcrdS8jSuIoYbdn8VcEUlX4MgG+F8JK4gr33
-	DYwrVTlIWoGvT8hiz3tkpKzQFVMF8wUR3TkdqN4/hToCioXwO7/69CJf60k1V3MUiKIz
-	VUYzXclU5PpZH5GB1P9l4uo8lklB6APc7WyIM8LjsbJzdpsAJS5VGs6eKF1+HlOWchFI
-	3ipZDVgEIxPEiP9SO0kp0LonSRp9UYeT4YwS9H6XHPhNsOQHb0SG9aJSZKKOLWSRygON
-	sH3A==
-X-Gm-Message-State: APjAAAW/FtbAHHW1LVRuu/l/YB+0gdlXWDLjydvDPFvQqYnHGNugHOyY
-	ya2o3wKltqiZCpmIoUht9k/SdA==
-X-Google-Smtp-Source: APXvYqznGkSR+WAWRzOROV6ERrdL4O2joWiQu6qLt7edT05q4Oh0uSf4g6vo4ysQYqEq035ZBLesYw==
-X-Received: by 2002:a5d:52cc:: with SMTP id r12mr6888111wrv.163.1554889283812; 
-	Wed, 10 Apr 2019 02:41:23 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c10sm40684639wrt.65.2019.04.10.02.41.22
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 10 Apr 2019 02:41:22 -0700 (PDT)
-Message-ID: <680dff761ebd04f8f240d12339b31569c70c48da.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: akuster808 <akuster808@gmail.com>, Yocto discussion list
-	<yocto@yoctoproject.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-Date: Wed, 10 Apr 2019 10:41:21 +0100
-In-Reply-To: <f8b3661d-a6cc-494e-de49-e462ba935535@gmail.com>
-References: <90d55754e9381759c8b70ebca0b880e6013f17f0.camel@linuxfoundation.org>
-	<f8b3661d-a6cc-494e-de49-e462ba935535@gmail.com>
-User-Agent: Evolution 3.32.0-1 
+	Wed, 10 Apr 2019 02:42:06 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 10 Apr 2019 02:42:06 -0700
+From: Wenlin Kang <wenlin.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Apr 2019 17:24:33 +0800
+Message-ID: <1554888273-111881-1-git-send-email-wenlin.kang@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: Re: Eclipse support dropped with immediate effect
+Subject: [PATCH] systemd: install libnss-myhostname.so when myhostname be enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,23 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Apr 2019 09:41:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Apr 2019 09:42:06 -0000
+Content-Type: text/plain
 
-On Wed, 2019-04-10 at 05:56 +0530, akuster808 wrote:
-> 
-> On 4/9/19 8:52 PM, Richard Purdie wrote:
-> > I'm sorry to have to say this but the project is terminating its
-> > official eclipse plugin support with immediate effect.
-> 
-> Does this affect the stable branches as well?
+This fixes the follow issue, the cause is that net-tools needs
+libnss-myhostname.so when run "hostname -s".
 
-Yes, I think we'll just be removing the target from the autobuilder
-entirely.
+root@qemuarm64:~# hostname -s
+hostname: Unknown host
 
-Cheers,
+Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+---
+ meta/recipes-core/systemd/systemd_241.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Richard
+diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+index bfbfc81..251daaa 100644
+--- a/meta/recipes-core/systemd/systemd_241.bb
++++ b/meta/recipes-core/systemd/systemd_241.bb
+@@ -547,6 +547,7 @@ FILES_${PN}-dev += "${base_libdir}/security/*.la ${datadir}/dbus-1/interfaces/ $
+ RDEPENDS_${PN} += "kmod dbus util-linux-mount util-linux-umount udev (= ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
+ RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty-generator', '', 'systemd-serialgetty', d)}"
+ RDEPENDS_${PN} += "volatile-binds update-rc.d systemd-conf"
++RDEPENDS_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'libnss-myhostname', '', d)}"
+ 
+ RRECOMMENDS_${PN} += "systemd-extra-utils \
+                       systemd-compat-units udev-hwdb \
+-- 
+1.9.1
 
 
