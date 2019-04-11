@@ -1,50 +1,37 @@
-Return-Path: <prvs=9974216f9=Mikko.Rapeli@bmw.de>
-Received: from esa8.bmw.c3s2.iphmx.com (esa8.bmw.c3s2.iphmx.com
-	[68.232.139.97])
-	by mail.openembedded.org (Postfix) with ESMTP id 261E86D3B8
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 54D697D3B6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 11:02:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1554980527; x=1586516527;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-id:content-transfer-encoding:mime-version;
-	bh=YTCFrEFJvkFl54ix856oIgiAazi5MkyMxuXboLFl7ng=;
-	b=HsSCXVExUyyLByDPA9xEAAy4cqHWDuz8qKkv1YqEUZncqbZCFagTeMCu
-	RJl/4sKGI+f8IJyG7rPluEzN0lPnPN5OazwRbDKim5ydh7/R/8QlCJVuJ
-	eS/Vakvz4/0bvJnJ6iISWrYAZRRYi3eLJwMtgLlujCoVeHWMTkA/PxEx2 E=;
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
-	esa8.bmw.c3s2.iphmx.com with ESMTP/TLS; 11 Apr 2019 13:02:01 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw6.muc with ESMTP/TLS;
-	11 Apr 2019 13:02:00 +0200
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb3.muc with ESMTP/TLS; 11 Apr 2019 13:02:00 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Thu, 11 Apr 2019 13:02:00 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.003;
-	Thu, 11 Apr 2019 13:02:00 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] elfutils: update LICENSE to include GPLv2 for
-	shared libraries
-Thread-Index: AQHU8EvHwq5Kg0KcjU+j6ELZHJRqhqY2o+YAgAAF9AA=
-Date: Thu, 11 Apr 2019 11:02:00 +0000
-Message-ID: <20190411110200.GG20077@hiutale>
-References: <1554976120-21849-1-git-send-email-mikko.rapeli@bmw.de>
-	<20190411104042.GE20077@hiutale>
-In-Reply-To: <20190411104042.GE20077@hiutale>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.38]
-MIME-Version: 1.0
-Subject: Re: [PATCH] elfutils: update LICENSE to include GPLv2 for shared libraries
+	Thu, 11 Apr 2019 11:13:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=njwNXN9g/1dREcPM2rWaD7Wf/jP0i0Z0+ECONKwsCyU=;
+	b=g2ghwtRYQS4ac6xLlFYtrVf4kq
+	734ldLqSvoQzzIolhJJGtt5EfEMSQX8rvBvuf6MAXTD5YB33Ai/7n/QQ/jet3h93YUy2/yIhe/CAQ
+	Lxyir16c1U6yNFZdUVFJWuS6yo+1WlKcQhVcCV6he6BAAVUgKMdfGJaRtzdxVZQGfeoZtoa1caZjS
+	N9c8QLPi3TUOeMtFvT0ogpnfI9454TUUauqPWTKTZwA8KqI4Atq4x6EXp0uVisxMoCITBdgtP9x9Y
+	5obYPjUJcf4LXiTsktEr+m82SXRhO1gfi1e4B3hBun/VzG/I2N8TSrbm8bZpMIi4tfYaaqqvZV+jb
+	cj8IuDLA==;
+Received: from lakka.kapsi.fi ([2001:67c:1be8::1] ident=Debian-exim)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1hEXeM-0000YI-J5; Thu, 11 Apr 2019 14:13:46 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1hEXeM-00029Q-GE; Thu, 11 Apr 2019 14:13:46 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Apr 2019 14:13:43 +0300
+Message-Id: <1554981223-7867-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 2001:67c:1be8::1
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH v2] elfutils: remove Elfutils-Exception and include GPLv2 for shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,99 +44,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 11:02:06 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <7B3AB680A3C84A4FA36ACB09A8EEC9D2@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Apr 2019 11:13:47 -0000
 
-On Thu, Apr 11, 2019 at 10:40:43AM +0000, openembedded-core-bounces@lists.o=
-penembedded.org wrote:
-> On Thu, Apr 11, 2019 at 12:48:40PM +0300, Mikko Rapeli wrote:
-> > NEWS file in the sources says this about switch from GPLv2 to
-> > GPLv3 license:
-> >=20
-> > https://sourceware.org/git/?p=3Delfutils.git;a=3Dblob;f=3DNEWS;h=3D5a06=
-047f255e3c9a63828953759fd18a4ba9a3f3;hb=3DHEAD#l362
-> >=20
-> >  362 The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for =
-stand-alone
-> >  363 programs. There is now also a formal CONTRIBUTING document describ=
-ing how to
-> >  364 submit patches.
-> >=20
-> > libasm, libdw and libelf are thus covered optionally by GPLv2 license.
-> >=20
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> > ---
-> >  meta/recipes-devtools/elfutils/elfutils_0.175.bb | 14 +++++++++++++-
-> >  1 file changed, 13 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/recipes-devtools/elfutils/elfutils_0.175.bb b/meta/re=
-cipes-devtools/elfutils/elfutils_0.175.bb
-> > index b0b9ddc..6d1279a 100644
-> > --- a/meta/recipes-devtools/elfutils/elfutils_0.175.bb
-> > +++ b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
-> > @@ -1,7 +1,7 @@
-> >  SUMMARY =3D "Utilities and libraries for handling compiled object file=
-s"
-> >  HOMEPAGE =3D "https://sourceware.org/elfutils"
-> >  SECTION =3D "base"
-> > -LICENSE =3D "(GPLv3 & Elfutils-Exception)"
-> > +LICENSE =3D "(GPLv2 & LGPLv3+ & GPLv3+ & Elfutils-Exception)"
->=20
-> Can anyone find the Elfutils-Exception in current 0.175 or sumo 0.170 sou=
-rces?
->=20
-> Debian is also listing libraries with GPLv2+ | LGPLv3+ and executables
-> with GPLv3+ in
->=20
-> https://tracker.debian.org/media/packages/e/elfutils/copyright-0.176-1
->=20
-> Should I also drop the Elfutils-Exception?
-
-I will send a new version which drops Elfutils-Exception since it no longer
-exists after tag elfutils-0.154 and commit:
+Elfutils-Exception no longer exists after upstream release 0.154
+and commit:
 
 commit de2ed97f33139af5c7a0811e4ec66fc896a13cf2
 Author: Mark Wielaard <mjw@redhat.com>
 Date:   Tue Jun 5 17:15:16 2012 +0200
 
-    Update name, license and contributor policy.
-   =20
-    * Change name from "Red Hat elfutils" to "elfutils".
-    * Update license of standalone tools and test from GPLv2 to GPLv3+.
-    * Change license of libraries from GPLv2+exception to GPLv2/LGPLv3+.
-    * Add Developer Certificate of Origin based contributor policy.
-   =20
-    top-level:
-   =20
-    - COPYING: Upgraded from GPLv2 to GPLv3.
-    - CONTRIBUTING, COPYING-GPLv2, COPYING-LGPLv3: New files.
-    - NEWS: Added note about new contribution and license policy.
-    - Makefile.am: Updated to GPLv3, added new files to EXTRA_DIST.
-    - configure.ac: Update to GPLv3, changed AC_INIT name to 'elfutils'.
-   =20
-    backends, lib, libasm, libcpu, libdw, libdwfl, libebl, libelf:
-   =20
-    - All files updated to GPLv2/LGPLv3+. Except some very small files
-      (<5 lines) which didn't have any headers at all before, the linker
-      .maps files and the libcpu/defs files which only contain data and
-      libelf/elf.h which comes from glibc and is under LGPLv2+.
-   =20
-    config:
-   =20
-    - elfutils.spec.in: Add new License: headers and new %doc files.
-    - Update all license headers to GPLv2/LGPLv3+ for files used by libs.
-   =20
-    src, tests:
-   =20
-    - All files updated to GPLv3+. Except for the test bz2 data files, the
-      linker maps and script files and some very small files (<5 lines)
-      that don't have any headers.
-   =20
-    Signed-off-by: Richard Fontana <rfontana@redhat.com>
-    Signed-off-by: Mark Wielaard <mjw@redhat.com>
+NEWS file in the sources says this about switch from GPLv2 to
+GPLv3 license:
 
--Mikko=
+https://sourceware.org/git/?p=elfutils.git;a=blob;f=NEWS;h=5a06047f255e3c9a63828953759fd18a4ba9a3f3;hb=HEAD#l362
+
+ 362 The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for stand-alone
+ 363 programs. There is now also a formal CONTRIBUTING document describing how to
+ 364 submit patches.
+
+libasm, libdw and libelf are thus covered optionally by GPLv2 license.
+
+See also Debian copyright summary for elfutils:
+
+https://tracker.debian.org/media/packages/e/elfutils/copyright-0.175-1
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/conf/licenses.conf                          |  2 +-
+ meta/files/common-licenses/Elfutils-Exception    | 12 ------------
+ meta/recipes-devtools/elfutils/elfutils_0.175.bb | 14 +++++++++++++-
+ 3 files changed, 14 insertions(+), 14 deletions(-)
+ delete mode 100644 meta/files/common-licenses/Elfutils-Exception
+
+diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+index 1058084..7b01c57 100644
+--- a/meta/conf/licenses.conf
++++ b/meta/conf/licenses.conf
+@@ -16,7 +16,7 @@ SRC_DISTRIBUTE_LICENSES += "CC-BY-SA-1.0 CC-BY-SA-2.0 CC-BY-SA-2.5 CC-BY-SA-3.0
+ SRC_DISTRIBUTE_LICENSES += "CDDL-1.0 CECILL-1.0 CECILL-2.0 CECILL-B CECILL-C"
+ SRC_DISTRIBUTE_LICENSES += "ClArtistic CPAL-1.0 CPL-1.0 CUA-OPL-1.0 DSSSL"
+ SRC_DISTRIBUTE_LICENSES += "ECL-1.0 ECL-2.0 eCos-2.0 EDL-1.0 EFL-1.0 EFL-2.0"
+-SRC_DISTRIBUTE_LICENSES += "Elfutils-Exception Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
++SRC_DISTRIBUTE_LICENSES += "Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
+ SRC_DISTRIBUTE_LICENSES += "EUDatagrid EUPL-1.0 EUPL-1.1 Fair Frameworx-1.0"
+ SRC_DISTRIBUTE_LICENSES += "FreeType GFDL-1.1 GFDL-1.2 GFDL-1.3 GPL-1.0"
+ SRC_DISTRIBUTE_LICENSES += "GPL-2.0 GPL-2.0-with-autoconf-exception"
+diff --git a/meta/files/common-licenses/Elfutils-Exception b/meta/files/common-licenses/Elfutils-Exception
+deleted file mode 100644
+index 627d769..0000000
+--- a/meta/files/common-licenses/Elfutils-Exception
++++ /dev/null
+@@ -1,12 +0,0 @@
+-   This file describes the limits of the Exception under which you are allowed
+-   to distribute Non-GPL Code in linked combination with Red Hat elfutils.
+-   For the full text of the license, please see one of the header files
+-   included with the source distribution or the file COPYING found in the
+-   top level directory of the source.
+-
+-   The Approved Interfaces are the functions declared in the files:
+-
+-   libelf.h
+-   libdw.h
+-   libdwfl.h
+-
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.175.bb b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+index b0b9ddc..111fa1c 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.175.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Utilities and libraries for handling compiled object files"
+ HOMEPAGE = "https://sourceware.org/elfutils"
+ SECTION = "base"
+-LICENSE = "(GPLv3 & Elfutils-Exception)"
++LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
+ DEPENDS_append_libc-musl = " argp-standalone fts "
+@@ -53,6 +53,18 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ # Package utilities separately
+ PACKAGES =+ "${PN}-binutils libelf libasm libdw"
++
++# shared libraries are licensed GPLv2 or GPLv3+, binaries GPLv3+
++# according to NEWS file:
++# "The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for stand-alone
++# programs. There is now also a formal CONTRIBUTING document describing how to
++# submit patches."
++LICENSE_${PN}-binutils = "GPLv3+"
++LICENSE_${PN} = "GPLv3+"
++LICENSE_libelf = "GPLv2 | LGPLv3+"
++LICENSE_libasm = "GPLv2 | LGPLv3+"
++LICENSE_libdw = "GPLv2 | LGPLv3+"
++
+ FILES_${PN}-binutils = "\
+     ${bindir}/eu-addr2line \
+     ${bindir}/eu-ld \
+-- 
+1.9.1
+
 
