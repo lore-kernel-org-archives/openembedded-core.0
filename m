@@ -1,36 +1,48 @@
-Return-Path: <prvs=997e349e1=Andreas.Obergschwandtner@skidata.com>
-Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
-	by mail.openembedded.org (Postfix) with ESMTP id 29F5E7D598
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 07ED47D598
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 12:22:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-	t=1554985325; x=1586521325;
-	h=from:to:cc:subject:date:message-id:mime-version;
-	bh=OcT723XwTfjbaUP7koXjmyAQZFy+Q7YykPrkH9kSQ1Q=;
-	b=VUQcVMg+CUbI2ppbTuVurrVCm0QVxDeXPvTDNLJAN+5mi+gO6chUlGkF
-	gn44sh9zGJr7llyTh7KsWu/iveAES49RxelAmXLDUyOgKsZ29znQMW3nF
-	gdyqKFKK9pWnm7nrvEEV6r/iVbbS1jongvnyUY8IB27ntbhwRvbrKpy60
-	q/MWYvFd2PDxJ34JHNSe1O6zjAfHwhOyLYolHInUvLP+Sh9qVIiwrV5KU
-	Xt6XTSZ6mLz19cX61Y6lqfx9rCpOpldyaDodec48YNZJJNSQoHE2EiTXY
-	228BGAd0yLcu2Fb7a9Z9lxyhM1cJ5nxzQ+6piwNLg/7pD+jAHzK565Q30 w==;
-IronPort-SDR: a1pP9tPIUhd+FJtd74a45gOMfDAoGh2YAlYJRJRuyVj6Wr3oN7fHp5t+25Jva7j30iewlTVieI
-	B3+UEvHg2ZFtcf4+KAvw2O4hFzobAh6H30ow/KnJI0yobI2EDGn7OnnKVIUvkiV/jdMqj+eSU/
-	b3srC6hcu6OcYkU3Y49TlPAQaVWVrgbGQ075PsZCw91yXMdbtDd3nP4j3n4sYNUOVOE40jDBjC
-	EHTszfIFJZosOmpGuLaxLBdsIuOu2YeFk3/s/LNojkl7czy4iSJnO6qFRJiyvLXjjBFxGJvzTG
-	UwQ=
-X-IronPort-AV: E=Sophos;i="5.60,337,1549926000"; 
-   d="scan'208";a="2085567"
-From: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Apr 2019 14:21:30 +0200
-Message-ID: <20190411122130.8966-1-andreas.obergschwandtner@skidata.com>
-X-Mailer: git-send-email 2.17.1
+	Thu, 11 Apr 2019 12:38:12 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id r24so5388093ljg.3
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2019 05:38:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9whnmC/WbtEk/azRnDCXqg2t9RTpZuCZuHTOkAcRc8M=;
+	b=bBnmJ6HS10EU9qOe3DfXGltd4HX0m3YBMsLQ0SuC5EgBuwi0cy0ByCPvHRgHMLT5bH
+	dsXCpRO3iwTNRe3hxiVwA196jc5krfbxcjSv6JhmGW2Ro0kKgTdGeQSHYG09iND0QHPb
+	hQoP7SsniE6OorW+srfd/pOjEX/Y5Pfhriu2BAvXn1nZ2/Ckbl8XszGr2crsdGImv/1v
+	wfHZ73nMztqKhNtV59fRN5Wli+DuRpkakxZjN6DADhh/BF+uiM9qDIZOcp578nKlJp+I
+	nMauviKW+j3y4pPRdU5SqKpkGMgGvp7CbPK8613BQknVJJr0BbNmjxq9q8mdAllllF+S
+	Y7oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9whnmC/WbtEk/azRnDCXqg2t9RTpZuCZuHTOkAcRc8M=;
+	b=BqAmZDicNPqY/UCDBXmd53nvsJJYUW3+XzRDIwrDLWJpmtuk2YPdS7x7gTOFBP72Ex
+	puQyZ1ns3QqrhKNSc79+RSnXlK7Nm86Y+gyUIq7qgcP1M00u8Qa/oI9+dtOmrTkxHupV
+	BNhXMkptu86imrA6mNBSbX/wQZY3JtgKf/ija72EP7m9DlZG9cx/WkFriClMADnxgwSM
+	Y3NxKcUWa6MMOincbaFQCF51EcCsCJuZoDpXHVOzO+ljbLS8uc/YLqPdU7Gj1geSc6ez
+	mu9qG86+PEOwJ6JXVxvGlEXbTBuC8ANfDlDOCnVWGlUyYTPTk0i9WV0++v+Sc1Q/VC7t
+	vUnw==
+X-Gm-Message-State: APjAAAXI3oR4fFds4480tU2sScx6RQA5GLy7LF9FbwS60hwFzSa+8/ii
+	XM9zllmxJJ7wdmkDug49k0WRqzj+iNIBl+eY9Oc=
+X-Google-Smtp-Source: APXvYqxGUmfYq+Ese6eKjl2NZ2NkXBioQkf1d92xI7NZ//0topMcq1Jj7f6hu7CaL20fe0ZvXOJoBOHppbKV+mODQiU=
+X-Received: by 2002:a2e:1311:: with SMTP id 17mr15336981ljt.75.1554986293423; 
+	Thu, 11 Apr 2019 05:38:13 -0700 (PDT)
 MIME-Version: 1.0
-X-Originating-IP: [192.168.111.22]
-X-ClientProxiedBy: sdex6srv.skidata.net (192.168.111.84) To
-	sdex4srv.skidata.net (192.168.111.82)
-Subject: [PATCH] uboot-sign: add support for different u-boot configurations
+References: <20190411072854.31885-1-beniamin.sandu@gmail.com>
+In-Reply-To: <20190411072854.31885-1-beniamin.sandu@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Thu, 11 Apr 2019 08:38:02 -0400
+Message-ID: <CADkTA4PQm-kcEh_XzrWxNeHo5OFXn0B2pt8af39PT1PZJ=0_Pw@mail.gmail.com>
+To: Beniamin Sandu <beniaminsandu@gmail.com>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [[PATCH v2] kernel-devsrc: check for localversion files in the kernel source tree
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,127 +55,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 12:22:04 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Apr 2019 12:38:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This is done by concatenating the DTB with the kernels public key
-to all built u-boot binaries. Furthermore the installation of all
-the binaries is required.
+On Thu, Apr 11, 2019 at 3:29 AM Beniamin Sandu <beniaminsandu@gmail.com> wrote:
+>
+> The kernel-devsrc rework doesn't take into account localversion
+> files in the kernel source tree. This might result in modules with an
+> incomplete version magic when building out-of-tree using the SDK.
+>
+> Before:
+> root@qemux86:~# insmod hello.ko
+> [   42.000212] hello: version magic '5.0.3-yocto-standard SMP preempt
+> mod_unload PENTIUMM ' should be '5.0.3-my-custom-release-yocto-standard
+> SMP preempt mod_unload PENTIUMM '
+> [   42.008200] hello: version magic '5.0.3-yocto-standard SMP preempt
+> mod_unload PENTIUMM ' should be '5.0.3-my-custom-release-yocto-standard
+> SMP preempt mod_unload PENTIUMM '
+> insmod: can't insert 'hello.ko': invalid module format
+>
+> After:
+> root@qemux86:~# insmod hello.ko
+> [   39.094288] hello: loading out-of-tree module taints kernel.
+> [   39.108044] Hello World!
+>
+> Signed-off-by: Beniamin Sandu <beniamin.sandu@gmail.com>
 
-Signed-off-by: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
----
- meta/classes/uboot-sign.bbclass | 85 +++++++++++++++++++++------------
- 1 file changed, 54 insertions(+), 31 deletions(-)
+Looks good to me.
 
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index 9e3d1d6fc1..2da43655aa 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -45,49 +45,72 @@ UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
- # Functions in this bbclass is for u-boot only
- UBOOT_PN = "${@d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'}"
- 
-+concat_dtb_helper() {
-+	if [ -e ${UBOOT_DTB_BINARY} ]; then
-+		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
-+		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
-+	fi
-+
-+	if [ -f ${UBOOT_NODTB_BINARY} ]; then
-+		install ${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
-+		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
-+		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
-+	fi
-+
-+	# Concatenate U-Boot w/o DTB & DTB with public key
-+	# (cf. kernel-fitimage.bbclass for more details)
-+	deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
-+	if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
-+		[ -e "$deployed_uboot_dtb_binary" ]; then
-+		oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
-+		install ${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
-+	elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
-+		cd ${DEPLOYDIR}
-+		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${UBOOT_BINARY} > ${UBOOT_IMAGE}
-+	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
-+		bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
-+	fi
-+}
-+
- concat_dtb() {
- 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
- 		mkdir -p ${DEPLOYDIR}
--		if [ -e ${B}/${UBOOT_DTB_BINARY} ]; then
--			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
--			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
--		fi
--
--		if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
--            install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
--            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
--            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
--		fi
--
--		# Concatenate U-Boot w/o DTB & DTB with public key
--		# (cf. kernel-fitimage.bbclass for more details)
--		deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
--		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
--			[ -e "$deployed_uboot_dtb_binary" ]; then
-+		if [ -n "${UBOOT_CONFIG}" ]; then
-+			for config in ${UBOOT_MACHINE}; do
-+				cd ${B}/${config}
-+				concat_dtb_helper
-+			done
-+		else
- 			cd ${B}
--			oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
--			install ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
--		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
--			cd ${DEPLOYDIR}
--			cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
--		elif [ -n "${UBOOT_DTB_BINARY}" ]; then
--			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
-+			concat_dtb_helper
- 		fi
- 	fi
- }
- 
- # Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
- # signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
-+install_helper() {
-+	if [ -f ${UBOOT_DTB_BINARY} ]; then
-+		install -d ${D}${datadir}
-+		# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
-+		# need both of them.
-+		install ${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
-+		ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
-+	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
-+		bbwarn "${UBOOT_DTB_BINARY} not found"
-+	fi
-+}
-+
- do_install_append() {
- 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
--		if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
--			install -d ${D}${datadir}
--			# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
--			# need both of them.
--			install ${B}/${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
--			ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
--		elif [ -n "${UBOOT_DTB_BINARY}" ]; then
--			bbwarn "${B}/${UBOOT_DTB_BINARY} not found"
-+		if [ -n "${UBOOT_CONFIG}" ]; then
-+			for config in ${UBOOT_MACHINE}; do
-+				cd ${B}/${config}
-+				install_helper
-+			done
-+		else
-+			cd ${B}
-+			install_helper
- 		fi
- 	fi
- }
+Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+Richard, I assume you'll pick this up directly and don't want to wait
+for me to queue and send it along with my next pull request.
+
+Bruce
+
+> ---
+>  meta/recipes-kernel/linux/kernel-devsrc.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/kernel-devsrc.bb b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> index 69a8eaef81..5ec5929735 100644
+> --- a/meta/recipes-kernel/linux/kernel-devsrc.bb
+> +++ b/meta/recipes-kernel/linux/kernel-devsrc.bb
+> @@ -228,6 +228,9 @@ do_install() {
+>
+>          # required to build scripts/selinux/genheaders/genheaders
+>          cp -a --parents security/selinux/include/* $kerneldir/build/
+> +
+> +       # copy any localversion files
+> +       cp -a localversion* $kerneldir/build/ 2>/dev/null || :
+>      )
+>
+>      # Make sure the Makefile and version.h have a matching timestamp so that
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
+
 -- 
-2.17.1
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
