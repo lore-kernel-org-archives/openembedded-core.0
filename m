@@ -1,25 +1,56 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id F30586C3B1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 4287C7D916
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 07:02:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3B72bUV007434
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 11 Apr 2019 07:20:39 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id z11so5319742wmi.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 00:02:37 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 11 Apr 2019 00:02:36 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Apr 2019 15:02:33 +0800
-Message-ID: <1554966153-165096-2-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1554966153-165096-1-git-send-email-changqing.li@windriver.com>
-References: <1554966153-165096-1-git-send-email-changqing.li@windriver.com>
+	Thu, 11 Apr 2019 00:20:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=gHueDPhlg6tz/+Xpy/gHl77vXljtVD4TsAZKL5ypdIQ=;
+	b=iONDuByLEHNM21mMvIuZp0WB6p4GxeQNaMs4ys5EklO+AlLaN0clywXMyNnbElY+no
+	kDiuQgXkDizx0+Hx709uiVctDUYGjm+LSC/0ikCabfv2wHgrgw9/HW4GBEBGKyMMn2+m
+	WGLKpSRb5nmGht7+W4Olu9tVWh/twfLc3PFz4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=gHueDPhlg6tz/+Xpy/gHl77vXljtVD4TsAZKL5ypdIQ=;
+	b=tkJXOdOGgth8XTaW1XqIl5ltDRLqQJk3yvIRFmF51uSOk83TUqHCHtQf6lQttuABCO
+	N8Z/E3pYLE72B2Rhu52Ix6tLO16oi6HxG1MNtkebAFMTSvj5IeEMeFc4O4yo0OTkQ3GU
+	WkcwvSje8ZnmMp/47CSwZi9h72B+XpHXyetF0dbf80P7rI7ZZ1RNmUpH9XszcVFT63mi
+	uZ+XpNg2OcMrOe9hLF3shpmZsbV44mG6dkvQ9BssxrcP/35xdNUG0BkZJPBsWyZjmd7+
+	2sAL18ydBflJjplG45+TZzMWCYviE0CQ882+jQvAids3wrlklMnxfuxUXbtxhdCEIxJc
+	2LrQ==
+X-Gm-Message-State: APjAAAXRMVFFRcelTruVm+FGQLn5iog9I+jGyws0Ud+30Xp50wLo4I1C
+	HIiqzHSm5mTD3hUUxyVmgEwClw==
+X-Google-Smtp-Source: APXvYqynH31+773evqPkD37JY2XMXKwZmd2GYKN39FH+6sn6b77znheLZ1xs8iIJ0pPoE5yFQWQWAA==
+X-Received: by 2002:a7b:c4d2:: with SMTP id g18mr5417261wmk.108.1554967240027; 
+	Thu, 11 Apr 2019 00:20:40 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	i28sm106527711wrc.32.2019.04.11.00.20.38
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 11 Apr 2019 00:20:39 -0700 (PDT)
+Message-ID: <7c1d84b0957f2831a7add461f73e3d9108176e9b.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: akuster808 <akuster808@gmail.com>, Yocto discussion list
+	<yocto@yoctoproject.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>
+Date: Thu, 11 Apr 2019 08:20:36 +0100
+In-Reply-To: <05dd3911-b195-1d1f-b218-e4b41d80ec72@gmail.com>
+References: <90d55754e9381759c8b70ebca0b880e6013f17f0.camel@linuxfoundation.org>
+	<f8b3661d-a6cc-494e-de49-e462ba935535@gmail.com>
+	<680dff761ebd04f8f240d12339b31569c70c48da.camel@linuxfoundation.org>
+	<05dd3911-b195-1d1f-b218-e4b41d80ec72@gmail.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-Subject: [PATCH 2/2] ruby: add ptest
+Subject: Re: [yocto] Eclipse support dropped with immediate effect
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,85 +63,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 07:02:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Apr 2019 07:20:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On Thu, 2019-04-11 at 08:42 +0530, akuster808 wrote:
+> 
+> On 4/10/19 3:11 PM, richard.purdie@linuxfoundation.org wrote:
+> > On Wed, 2019-04-10 at 05:56 +0530, akuster808 wrote:
+> > > On 4/9/19 8:52 PM, Richard Purdie wrote:
+> > > > I'm sorry to have to say this but the project is terminating
+> > > > its
+> > > > official eclipse plugin support with immediate effect.
+> > > Does this affect the stable branches as well?
+> > Yes, I think we'll just be removing the target from the autobuilder
+> > entirely.
+> 
+> Have we every removed a feature from a release? Do we need to doc
+> this ?
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-devtools/ruby/ruby.inc       |  2 +-
- meta/recipes-devtools/ruby/ruby/run-ptest | 13 +++++++++++++
- meta/recipes-devtools/ruby/ruby_2.5.3.bb  | 10 ++++++++++
- 3 files changed, 24 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/run-ptest
+Its not so much remove as not release. No, we haven't and yes, we do
+need to document it in the release notes.
 
-diff --git a/meta/recipes-devtools/ruby/ruby.inc b/meta/recipes-devtools/ruby/ruby.inc
-index 28e21fe..1ecd087 100644
---- a/meta/recipes-devtools/ruby/ruby.inc
-+++ b/meta/recipes-devtools/ruby/ruby.inc
-@@ -24,7 +24,7 @@ SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
- 
--inherit autotools
-+inherit autotools ptest
- 
- 
- # This snippet lets compiled extensions which rely on external libraries,
-diff --git a/meta/recipes-devtools/ruby/ruby/run-ptest b/meta/recipes-devtools/ruby/ruby/run-ptest
-new file mode 100644
-index 0000000..de7c415
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/run-ptest
-@@ -0,0 +1,13 @@
-+#!/bin/sh
-+
-+test_fullname=`find test -name test_*.rb` 
-+ 
-+for i in ${test_fullname}; do 
-+	ruby ./test/runner.rb ${i}  2>&1 > /dev/null
-+	ret=$? 
-+	if [ $ret != 0 ]; then
-+		echo "FAIL: ${i}" 
-+	else
-+		echo "PASS: ${i}"         
-+	fi 
-+done 
-diff --git a/meta/recipes-devtools/ruby/ruby_2.5.3.bb b/meta/recipes-devtools/ruby/ruby_2.5.3.bb
-index 173b44b..519daf2 100644
---- a/meta/recipes-devtools/ruby/ruby_2.5.3.bb
-+++ b/meta/recipes-devtools/ruby/ruby_2.5.3.bb
-@@ -3,6 +3,7 @@ require ruby.inc
- SRC_URI += " \
-            file://ruby-CVE-2017-9226.patch \
-            file://ruby-CVE-2017-9228.patch \
-+           file://run-ptest \
-            "
- 
- SRC_URI[md5sum] = "20c85b67846d49622ef3b24230803fef"
-@@ -55,6 +56,13 @@ do_install_append_class-target () {
- 
- }
- 
-+do_install_ptest () {
-+    cp -rf ${S}/test ${D}${PTEST_PATH}/
-+    cp -r ${S}/include ${D}/${libdir}/ruby/
-+    test_case_rb=`grep rubygems/test_case.rb ${B}/.installed.list`
-+    sed -i -e 's:../../../test/:../../../ptest/test/:g' ${D}/$test_case_rb
-+}
-+
- PACKAGES =+ "${PN}-ri-docs ${PN}-rdoc"
- 
- SUMMARY_${PN}-ri-docs = "ri (Ruby Interactive) documentation for the Ruby standard library"
-@@ -67,4 +75,6 @@ FILES_${PN}-rdoc += "${libdir}/ruby/*/rdoc ${bindir}/rdoc"
- 
- FILES_${PN} += "${datadir}/rubygems"
- 
-+FILES_${PN}-ptest_append_class-target += "${libdir}/ruby/include"
-+
- BBCLASSEXTEND = "native"
--- 
-2.7.4
+Cheers,
+
+Richard
 
 
