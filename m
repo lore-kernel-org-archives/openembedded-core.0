@@ -1,51 +1,47 @@
-Return-Path: <prvs=9974216f9=Mikko.Rapeli@bmw.de>
-Received: from esa10.bmw.c3s2.iphmx.com (esa10.bmw.c3s2.iphmx.com
-	[68.232.139.98])
-	by mail.openembedded.org (Postfix) with ESMTP id 177207D967
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 53C267D789
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 15:54:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1554998097; x=1586534097;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=yTJj/BdeYg5wQqhoNefLI77nsDNI4+SXxQk6MtYW9SY=;
-	b=I/yYnaN/6Itrc4NDhtUbrYp2VfVGUojVdLM+3vQGxzibkz8HZfEDzPpZ
-	wAzN5ea3eohE8iZd5THUmdFEeFzu3vV/+XaDzQ4jnfntHNbIBU36wZxMu
-	6xTIl/WL7vsgYXrc5TgdW8SsxX9vhCw3YDO3qcLB2EbtJ6sepqUm/NrWL Q=;
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
-	esa10.bmw.c3s2.iphmx.com with ESMTP/TLS; 11 Apr 2019 17:54:55 +0200
-Received: from esabb3.muc ([160.50.100.30])  by esagw3.muc with ESMTP/TLS;
-	11 Apr 2019 17:54:54 +0200
-Received: from smucm10l.bmwgroup.net (HELO smucm10l.europe.bmw.corp)
-	([160.48.96.48])
-	by esabb3.muc with ESMTP/TLS; 11 Apr 2019 17:54:53 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10l.europe.bmw.corp
-	(160.48.96.48) with Microsoft SMTP Server (TLS;
-	Thu, 11 Apr 2019 17:54:54 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.003;
-	Thu, 11 Apr 2019 17:54:54 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <mark.hatle@windriver.com>
-Thread-Topic: [OE-core] [PATCH v3] elfutils: remove Elfutils-Exception and
-	include GPLv2 for shared libraries
-Thread-Index: AQHU8GxWY5+eD2aSD0OwhXow2++tb6Y2+MSAgAACqwA=
-Date: Thu, 11 Apr 2019 15:54:54 +0000
-Message-ID: <20190411155454.GK20077@hiutale>
-References: <1554990109-13038-1-git-send-email-mikko.rapeli@bmw.de>
-	<910c4894-d0d5-2994-c4f1-331556db9ed4@windriver.com>
-In-Reply-To: <910c4894-d0d5-2994-c4f1-331556db9ed4@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.45]
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v3] elfutils: remove Elfutils-Exception and include GPLv2 for shared libraries
+	Thu, 11 Apr 2019 16:00:42 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w10so8072005wrm.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2019 09:00:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=wXGvbbSvdM/uIlsP2KMucb3xXFCu+opcBTg9hF5ldUA=;
+	b=DRmRrgb8NY25ZOC+mLt5DZVpwHwkYOzPtJftBobMGgFAVCWBEOlUzTtEykGKfESCqg
+	f/t7RC9ro4KyKWV37Rq7dl4F0qx57rMdzbkjp+OqLAkkpPVJl0aFQejgV9nw9e9m7hO/
+	zsqi66UiXsSQDuXxxYO8NnCgvbvZM2fxbST6Mypl27HXZo/7S0883SVBppLP5c/GrNlH
+	KG2FStE9PLnwiDU2I/+EdWGUZ52+UVpFGZxEA8H2PaB91MLXgmSIwUyr88lL7ZnxUvku
+	iIzkUMwjctsmZ97AiBZWygQu0p9oose/o6XIt8UBpagXaNSlhzRdhWSe/6gg8B34B1M2
+	+XLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=wXGvbbSvdM/uIlsP2KMucb3xXFCu+opcBTg9hF5ldUA=;
+	b=hRAt/QgRkGHN2HT2APMvKmUNUMaRXDCRWXVNQ2Yu9E58qmScqj6NydfWBNNtTUy96W
+	lt0U8zOirOr52QNC+8Must586RUAGSFgIpB4KWUC5q2FlwwGpnMDvPLYtBiKwQ6mY0HU
+	UNfvFM3oTTC0kU1lLt6pAqNS7EqBIiaFJmKBAroD5gs8sSTbPL9S9/F+Ya6mIIxTOQU9
+	HLl0m09HC+zZmLaMch+hIbhOLhSahRo/tl79y76NEs0yXd3Xc6JL+Dhz+Tr58eeGXDKF
+	Psy1lrOkgP3CYglLogqoLXDX5xAUM7zb1YwlMzlpaS5EoicYOh22EYG6fJOsFgttF64Q
+	UZPg==
+X-Gm-Message-State: APjAAAV4OXVEVzQdiMQSvnw+Y8bWBYUyRWrbRhIYtBzYrXk5ONkrnrR5
+	HReA4fRNl0+W29WyCDXSM/lBm4BZsXMbpg==
+X-Google-Smtp-Source: APXvYqxjnjZxWjf9Q55gdxw/LcQxHs+ShWmOkRTotGJmU7vTq1EniPK8F9dWOLSzdonA6ufPbY9jjw==
+X-Received: by 2002:a5d:4b01:: with SMTP id v1mr30838646wrq.48.1554998442696; 
+	Thu, 11 Apr 2019 09:00:42 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	t15sm39633779wrx.22.2019.04.11.09.00.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 11 Apr 2019 09:00:41 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Apr 2019 18:00:37 +0200
+Message-Id: <20190411160037.21952-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] python3: add a tr-tr locale for test_locale ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,165 +54,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 15:54:55 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <FA11BA4FC2481E458AFAF5CF5FA55941@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Apr 2019 16:00:42 -0000
 
-On Thu, Apr 11, 2019 at 10:45:21AM -0500, Mark Hatle wrote:
-> On 4/11/19 8:41 AM, Mikko Rapeli wrote:
-> > Elfutils-Exception no longer exists after upstream release 0.154
-> > and commit:
-> >=20
-> > commit de2ed97f33139af5c7a0811e4ec66fc896a13cf2
-> > Author: Mark Wielaard <mjw@redhat.com>
-> > Date:   Tue Jun 5 17:15:16 2012 +0200
-> >=20
-> > NEWS file in the sources says this about switch from GPLv2 to
-> > GPLv3 license:
-> >=20
-> > https://sourceware.org/git/?p=3Delfutils.git;a=3Dblob;f=3DNEWS;h=3D5a06=
-047f255e3c9a63828953759fd18a4ba9a3f3;hb=3DHEAD#l362
-> >=20
-> >  362 The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for =
-stand-alone
-> >  363 programs. There is now also a formal CONTRIBUTING document describ=
-ing how to
-> >  364 submit patches.
-> >=20
-> > libasm, libdw and libelf are thus covered optionally by GPLv2 license.
-> >=20
-> > See also Debian copyright summary for elfutils:
-> >=20
-> > https://tracker.debian.org/media/packages/e/elfutils/copyright-0.175-1
-> >=20
-> > Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-> > ---
-> >  meta/conf/licenses.conf                          |  2 +-
-> >  meta/files/common-licenses/Elfutils-Exception    | 12 ------------
-> >  meta/recipes-devtools/elfutils/elfutils_0.176.bb | 14 +++++++++++++-
-> >  3 files changed, 14 insertions(+), 14 deletions(-)
-> >  delete mode 100644 meta/files/common-licenses/Elfutils-Exception
-> >=20
-> > v1: http://lists.openembedded.org/pipermail/openembedded-core/2019-Apri=
-l/281124.html
-> >=20
-> > v2: http://lists.openembedded.org/pipermail/openembedded-core/2019-Apri=
-l/281127.html
-> >  * removed Elfutils-Exception
-> >=20
-> > v3:
-> >  * rebase to latest master branch with elfutils 0.176
-> >=20
-> > diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
-> > index 1058084..7b01c57 100644
-> > --- a/meta/conf/licenses.conf
-> > +++ b/meta/conf/licenses.conf
-> > @@ -16,7 +16,7 @@ SRC_DISTRIBUTE_LICENSES +=3D "CC-BY-SA-1.0 CC-BY-SA-2=
-.0 CC-BY-SA-2.5 CC-BY-SA-3.0
-> >  SRC_DISTRIBUTE_LICENSES +=3D "CDDL-1.0 CECILL-1.0 CECILL-2.0 CECILL-B =
-CECILL-C"
-> >  SRC_DISTRIBUTE_LICENSES +=3D "ClArtistic CPAL-1.0 CPL-1.0 CUA-OPL-1.0 =
-DSSSL"
-> >  SRC_DISTRIBUTE_LICENSES +=3D "ECL-1.0 ECL-2.0 eCos-2.0 EDL-1.0 EFL-1.0=
- EFL-2.0"
-> > -SRC_DISTRIBUTE_LICENSES +=3D "Elfutils-Exception Entessa EPL-1.0 EPL-2=
-.0 ErlPL-1.1"
-> > +SRC_DISTRIBUTE_LICENSES +=3D "Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
-> >  SRC_DISTRIBUTE_LICENSES +=3D "EUDatagrid EUPL-1.0 EUPL-1.1 Fair Framew=
-orx-1.0"
-> >  SRC_DISTRIBUTE_LICENSES +=3D "FreeType GFDL-1.1 GFDL-1.2 GFDL-1.3 GPL-=
-1.0"
-> >  SRC_DISTRIBUTE_LICENSES +=3D "GPL-2.0 GPL-2.0-with-autoconf-exception"
-> > diff --git a/meta/files/common-licenses/Elfutils-Exception b/meta/files=
-/common-licenses/Elfutils-Exception
-> > deleted file mode 100644
-> > index 627d769..0000000
-> > --- a/meta/files/common-licenses/Elfutils-Exception
-> > +++ /dev/null
-> > @@ -1,12 +0,0 @@
-> > -   This file describes the limits of the Exception under which you are=
- allowed
-> > -   to distribute Non-GPL Code in linked combination with Red Hat elfut=
-ils.
-> > -   For the full text of the license, please see one of the header file=
-s
-> > -   included with the source distribution or the file COPYING found in =
-the
-> > -   top level directory of the source.
-> > -
-> > -   The Approved Interfaces are the functions declared in the files:
-> > -
-> > -   libelf.h
-> > -   libdw.h
-> > -   libdwfl.h
-> > -
-> > diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/re=
-cipes-devtools/elfutils/elfutils_0.176.bb
-> > index fd901c9..cd824e2 100644
-> > --- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> > +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> > @@ -1,7 +1,7 @@
-> >  SUMMARY =3D "Utilities and libraries for handling compiled object file=
-s"
-> >  HOMEPAGE =3D "https://sourceware.org/elfutils"
-> >  SECTION =3D "base"
-> > -LICENSE =3D "(GPLv3 & Elfutils-Exception)"
-> > +LICENSE =3D "GPLv2 & LGPLv3+ & GPLv3+"'
->=20
-> I realize we don't have a choice but to conform to the licensing when we
-> rebase... but has anyone looked at what links to elfutils to see if this =
-could
-> end up introducing any licensing issues?
->=20
-> The previous exception specifically allowed Non-GPL code to use interface=
-s, I'm
-> not sure if there is actually any non-GPL code using these interfaces wit=
-hout
-> OE, but it may be worth a quick look.
+With this change, the ptests do not fail anymore,
+except for the three failures caused by the 5.0 kernel regression:
 
-At least poky and meta-openembedded users have GPLv2 licenses:
+- test_ssl and test_httplib lock up, and are skipped
+(there is a separate patch for it)
 
-$ grep LICENSE $( egrep -l "DEPENDS.*elfutils" poky/meta* meta-openembedded=
- -rn )
-poky/meta/recipes-devtools/dwarfsrcfiles/dwarfsrcfiles.bb:LICENSE =3D "GPLv=
-2+"
-poky/meta/recipes-devtools/rpm/rpm_4.14.2.1.bb:LICENSE =3D "GPL-2.0"
-poky/meta/recipes-devtools/prelink/prelink_git.bb:LICENSE =3D "GPLv2"
-poky/meta/recipes-connectivity/iproute2/iproute2.inc:LICENSE =3D "GPLv2+"
-poky/meta/recipes-kernel/perf/perf.bb:LICENSE =3D "GPLv2"
-poky/meta/recipes-kernel/linux/kernel-devsrc.bb:LICENSE =3D "GPLv2"
-meta-openembedded/meta-oe/recipes-devtools/ltrace/ltrace_git.bb:LICENSE =3D=
- "GPLv2"
-meta-openembedded/meta-oe/recipes-devtools/uftrace/uftrace_0.9.2.bb:LICENSE=
- =3D "GPLv2"
-meta-openembedded/meta-oe/recipes-kernel/minicoredumper/minicoredumper_2.0.=
-1.bb:LICENSE =3D " LGPLv2.1 & BSD-2-Clause"
-meta-openembedded/meta-oe/recipes-kernel/kpatch/kpatch.inc:LICENSE =3D "GPL=
-v2 & LGPLv2"
-meta-openembedded/meta-oe/recipes-kernel/makedumpfile/makedumpfile_1.6.5.bb=
-:LICENSE =3D "GPLv2.0"
-meta-openembedded/meta-oe/recipes-kernel/bpftool/bpftool.bb:LICENSE =3D "GP=
-Lv2"
-meta-openembedded/meta-oe/recipes-kernel/bpftool/bpftool.bb:LIC_FILES_CHKSU=
-M =3D "file://${COMMON_LICENSE_DIR}/GPL-2.0;md5=3D801f80980d171dd6425610833=
-a22dbe6"
+- test_asyncio fails but does not lock up
 
-> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Dd32239bcb673463ab874e80d47f=
-ae504"
-> >  DEPENDS =3D "libtool bzip2 zlib virtual/libintl"
-> >  DEPENDS_append_libc-musl =3D " argp-standalone fts "
-> > @@ -53,6 +53,18 @@ BBCLASSEXTEND =3D "native nativesdk"
-> > =20
-> >  # Package utilities separately
-> >  PACKAGES =3D+ "${PN}-binutils libelf libasm libdw"
-> > +
-> > +# shared libraries are licensed GPLv2 or GPLv3+, binaries GPLv3+
->=20
-> Don't you mean LGPLv3+ above for the shared libraries?
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-devtools/python/python3_3.7.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Yes, will fix and send another version.
+diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb b/meta/recipes-devtools/python/python3_3.7.2.bb
+index 28f128d488b..71a6c103166 100644
+--- a/meta/recipes-devtools/python/python3_3.7.2.bb
++++ b/meta/recipes-devtools/python/python3_3.7.2.bb
+@@ -284,7 +284,7 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN} ${libdir}/python${PYTHON_MA
+ PACKAGES += "${PN}-man"
+ FILES_${PN}-man = "${datadir}/man"
+ 
+-RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed"
++RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc tzdata-europe coreutils sed locale-base-tr-tr.iso-8859-9"
+ RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk', 'tk', '', d)}"
+ RDEPENDS_${PN}-dev = ""
+ 
+-- 
+2.17.1
 
--Mikko=
 
