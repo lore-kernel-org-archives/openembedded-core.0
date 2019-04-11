@@ -1,73 +1,42 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4DEC87D8FA
+Return-Path: <vincent.prince.fr@gmail.com>
+Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
+	[209.85.166.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A45E7D8FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 15:25:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3BFPvAW016894
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 11 Apr 2019 08:25:57 -0700 (PDT)
-Received: from [172.25.59.211] (172.25.59.211) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 11 Apr 2019 08:25:57 -0700
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20190410215402.20055-1-jason.wessel@windriver.com>
-	<CANNYZj8K=irJAXpTtFtaNiQ2V+dFpSPT-ikfTgK5e0TECCv_fQ@mail.gmail.com>
-	<3e65af20-d2ad-603a-d121-a5982c0ae69e@windriver.com>
-	<CANNYZj94F69Ske57dARqP__Yk5iiutjaqxcens6tR84sfVMF+w@mail.gmail.com>
-From: Jason Wessel <jason.wessel@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jason.wessel@windriver.com; prefer-encrypt=mutual; keydata=
-	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
-	ig4=
-Message-ID: <847b6274-fa84-c76b-ee52-b4f884d63c0a@windriver.com>
-Date: Thu, 11 Apr 2019 10:25:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Thu, 11 Apr 2019 15:32:49 +0000 (UTC)
+Received: by mail-it1-f174.google.com with SMTP id s3so10344102itk.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2019 08:32:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=1NMrtEmN2kjq3x4FnKRey+LTviIxLcV/UFdXp2TNEks=;
+	b=I/DRZdhmOXID5hqSPGKH16TkbAGDzPaMsvRk7sgk66O3brcBFAMMEIxu+zFu/BET7U
+	mRQn4O4NmXKORul+5djnjY1BZycdJXeL0c2p/Gi08SjNRldSV4a3YnEkknP99jy15T6i
+	1s8Qya16HAytewwj7rViTEAPh57dC5ij0VtGTVLtoWM5Nlip8OdHMLM5tQHc5QfajdC+
+	b+TsNOOztD0U+qpz3T4ZqpM7aXne9kkmxe40z60hCkQrROXvtLPiiYWr/24z/9eqZEcg
+	YL+vncSdAT/BqA6xU6jI0eLSCQDF9aJhlbiLJBnxPPjHsei6viH6EID4lz5RlkD0Ac7d
+	zuYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=1NMrtEmN2kjq3x4FnKRey+LTviIxLcV/UFdXp2TNEks=;
+	b=fK3tTsRvUX4uqTske4bg5cmRhHOTdl0hPwy0iBMWBzCcg5YnMgDA9dpqetGYXWr1x7
+	iCELh/RPjahctbQeAS07RbeoYhYEjze9sxEvnJ87TphWJTIP7ecUoPhvZLZbveRuYXcc
+	sewyymyatdNqjg0H3jQsAjy9XvL+8VbagseGpdKdTa1g+mi06cnnHrEQUEsTY5Xa3YTR
+	3dlA5DfR6moRsRt+WypWoR/QlcvabBWpMj4/AaZlxRSnOGRjuN12pQlG4s4c+SvAu/oI
+	4oJXjeIY6H161VRP/GDA9dy3o/vJbPBW7B+jQLsMjlOY+U/nvKlZjCB38xgaQoC66yeC
+	tudw==
+X-Gm-Message-State: APjAAAXP7oqNNdh6DNCvNoODTO+VrbHfIzZwTuz0njzSv4TjNAFyrEzb
+	Bn4k4g63u4UdWT2Kwqw9DcnwJkHOT/NnFbxTMUAyWSWX
+X-Google-Smtp-Source: APXvYqysc+xm8Bg84HgNrQzyzaNnEgWvWb+AOWkkKgP+ip4q+bstUr34yTnx41GLFFgYtnGvRTkCqlZ9nMwuXQWjRGY=
+X-Received: by 2002:a24:4682:: with SMTP id j124mr9403767itb.90.1554996769837; 
+	Thu, 11 Apr 2019 08:32:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj94F69Ske57dARqP__Yk5iiutjaqxcens6tR84sfVMF+w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gobject-introspection.bbclass: Disable writing to $HOME/.cache/g-ir-scanner
+From: Vincent Prince <vincent.prince.fr@gmail.com>
+Date: Thu, 11 Apr 2019 17:32:38 +0200
+Message-ID: <CAB2nKc-cPBiMhye=56XmN4wXXL-DCAUVtfa2wtjBSskw1ccYvA@mail.gmail.com>
+To: OE-core <openembedded-core@lists.openembedded.org>
+Subject: volatile-binds: VOLATILE_LIB_DIR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,33 +49,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 15:25:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Apr 2019 15:32:49 -0000
+Content-Type: multipart/alternative; boundary="00000000000017d4ca058642e61c"
 
-On 4/11/19 9:44 AM, Alexander Kanavin wrote:
-> Generally because generating introspection data is disabled for native
-> packages, as a matter of policy (do not build something which is
-> unused and untested).
-> 
-> If you could add
-> EXTRA_OEMESON_append_class-native = " ${GI_DISABLE_FLAG}"
-> 
-> to the gdk-pixbuf recipe, and re-test (without your fix, to be extra
-> sure) that g-ir-scanner is not invoked and nothing shows up in its
-> cache, I would appreciate.
+--00000000000017d4ca058642e61c
+Content-Type: text/plain; charset="UTF-8"
 
+Hi all,
 
-Thank you for the explanation.  I think the problem is more widespread than just gdk-pixbuf, now that I have a slightly better idea about what we are looking for.  My build is not even complete and I can see there are three additional places the g-ir-scanner is creating .cache entries.  
+I'm wondering if it makes sense to add a VOLATILE_LIB_DIR option same way
+as VOLATILE_LOG_DIR but for /var/lib folder?
 
-/poky/build% grep -r /usr/bin/g-ir-scanner tmp/work/*/*/*/temp |awk -F/ '{print $4}' |sort -u 
-atk-native
-at-spi2-core-native
-pango-native
+I'm asking because I can't append VOLATILE_BINDS with folders inside
+/var/lib as it fails on ConditionPathIsReadWrite (/var/lib is writable
+after bindmounting to /var/volatile/lib) and also goes into trouble with
+inner overlays.
 
+One way to fix it in my case is to redefines entirely VOLATILE_BINDS
+variable, so maybe it's not worth the effort?
 
-Is it the case the bbclass file should be altered to set this variable for the -native, or does each package need to be modified individually? 
+Regards,
+Vincent
 
-Jason. 
+--00000000000017d4ca058642e61c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"ltr"><div>Hi=
+ all, <br></div><div><br></div><div>I&#39;m wondering if it makes sense to =
+add a VOLATILE_LIB_DIR option same way as=20
+VOLATILE_LOG_DIR but for /var/lib folder?</div><div><br></div><div>I&#39;m =
+asking because I can&#39;t append VOLATILE_BINDS with folders inside /var/l=
+ib as it fails on ConditionPathIsReadWrite (/var/lib is writable after bind=
+mounting to /var/volatile/lib) and also goes into trouble with inner overla=
+ys.</div><div><br></div><div>One way to fix it in my case is to redefines e=
+ntirely=20
+VOLATILE_BINDS variable, so maybe it&#39;s not worth the effort?</div><div>=
+<br></div><div>Regards,</div><div>Vincent<br></div></div></div></div></div>
+
+--00000000000017d4ca058642e61c--
