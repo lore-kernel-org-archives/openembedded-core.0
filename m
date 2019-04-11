@@ -1,48 +1,71 @@
-Return-Path: <jeff.dagenais@gmail.com>
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com
-	[209.85.160.179])
-	by mail.openembedded.org (Postfix) with ESMTP id CCB6D7D91E
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 988327D242
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 12:38:38 +0000 (UTC)
-Received: by mail-qt1-f179.google.com with SMTP id d13so6833143qth.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 05:38:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=F4BL9lck4+c3QrfaWTmZpJJM3+dxdYWaPzQNa5nsU/E=;
-	b=dgLYM7GvGi8QkrLllPHfwfLnvp4aG7gTqkFWcu5znR6tQoGnjSRlNCOluzwQNAIz8f
-	UNgtx2wh3jimIHrzagl499u+xjCpozfjuf4W95okOmCXH706QUV8utvFeOcB/35U7HMX
-	I3p3CW2DF1viFLseHIkn7oIlyWe9wC6TS38I8Q8IiVBf6KCEjV5F6xjXa6cnXdMnx5FL
-	15QspHwKJIbpFRpv6jCE9L6BsC8nB+Z3n4UZ+aRgJgv5/4+vc2qbSdU3IL9/AYV+mdtz
-	rS4BgEKZpVBcFOJrm/H6zdmsoNEOTM9QJ+mCH6GGUyGgdkkbcZBSEoz3XtWA4Wlrzafd
-	gW+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=F4BL9lck4+c3QrfaWTmZpJJM3+dxdYWaPzQNa5nsU/E=;
-	b=GP0WD9AC41m+6oJMoMv1grCnix+5cPuYEJYO9Nt01moau7SFsXlARrAg4ef+nAowOc
-	AXz9SWPQQ/saWToFJGCq51bVnxBq+iaYWt629Z1RPZeM77PF4neVw1V1mAPhWTf7sTvb
-	XXio8TIm2O58ZrF9zGRbKln07YM0j2nlEc3Rmh1FDb362JdmI7B/2YjYprkW7HjPNaZG
-	dFnCerCnnVQL1RoxADlHv0PPO/GZ0ZzmT/kB78Cw6Ste/SLsGux0foB6ktt+K1RrMQAG
-	N661Jqi6yjmxWvKFVID7TkbjQz/kEExJwWsC5aEKMGBxNnEHg4wJKV5kJTW7DOOBd7dp
-	DgJQ==
-X-Gm-Message-State: APjAAAW0KRNH/7MRwRbJKP6uc6iVobi71InWscyWuPI35GURByOdaaEM
-	mLnk+IbGCcM+pVg8ZHMHEidKj/9L9v2xdg==
-X-Google-Smtp-Source: APXvYqxymIOlYqDzz7FH0I6gIeimZl8pDYWtQgC6ANwt1kJ4XSMD+6IvYoGf/NhSW/InzTfQXI1tvQ==
-X-Received: by 2002:a0c:d1f7:: with SMTP id k52mr20077582qvh.5.1554986319325; 
-	Thu, 11 Apr 2019 05:38:39 -0700 (PDT)
-Received: from jfddesk.Sonatest.net
-	(ipagstaticip-d73c7528-4de5-0861-800b-03d8b15e3869.sdsl.bell.ca.
-	[174.94.156.236]) by smtp.gmail.com with ESMTPSA id
-	y18sm25134392qtc.52.2019.04.11.05.38.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 11 Apr 2019 05:38:38 -0700 (PDT)
-From: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Apr 2019 08:38:19 -0400
-Message-Id: <20190411123819.20731-1-jeff.dagenais@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH v1] weston: introduce meson build on v5.0.94
+	Thu, 11 Apr 2019 13:10:56 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3BDAt0m015251
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Apr 2019 06:10:55 -0700 (PDT)
+Received: from [172.25.59.211] (172.25.59.211) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 11 Apr 2019 06:10:49 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <20190410215402.20055-1-jason.wessel@windriver.com>
+	<CANNYZj8K=irJAXpTtFtaNiQ2V+dFpSPT-ikfTgK5e0TECCv_fQ@mail.gmail.com>
+From: Jason Wessel <jason.wessel@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jason.wessel@windriver.com; prefer-encrypt=mutual; keydata=
+	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
+	ig4=
+Message-ID: <3e65af20-d2ad-603a-d121-a5982c0ae69e@windriver.com>
+Date: Thu, 11 Apr 2019 08:10:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CANNYZj8K=irJAXpTtFtaNiQ2V+dFpSPT-ikfTgK5e0TECCv_fQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gobject-introspection.bbclass: Disable writing to $HOME/.cache/g-ir-scanner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,130 +78,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 12:38:39 -0000
+X-List-Received-Date: Thu, 11 Apr 2019 13:10:56 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Jean-Francois Dagenais <jeff.dagenais@gmail.com>
----
-Changes in v1:
-        - v5.0.94 is a pre-release, so this is preliminary work. I wanted to
-	  submit this imperfect recipe now because I have to put aside working
-	  on weston for a while. Since I put a reasonable amount of work into
-	  this, I thought it may be useful for others to get the ball rolling
-	  quicker. Enjoy!
 
- meta/recipes-graphics/wayland/weston_git.bb | 102 ++++++++++++++++++++++++++++
- 1 file changed, 102 insertions(+)
- create mode 100644 meta/recipes-graphics/wayland/weston_git.bb
+Please understand I have no idea how gdk-pixbuf-native is supposed to compile.  Perhaps you can elaborate further as to why g-ir-scanner cannot be called in this case.  I did not observe any obvious way that the g-ir-scanner was explicitly disabled for the build of the -native package with in the do_configure stage. 
 
-diff --git a/meta/recipes-graphics/wayland/weston_git.bb b/meta/recipes-graphics/wayland/weston_git.bb
-new file mode 100644
-index 0000000000..f591550f9a
---- /dev/null
-+++ b/meta/recipes-graphics/wayland/weston_git.bb
-@@ -0,0 +1,102 @@
-+SUMMARY = "Weston, a Wayland compositor"
-+DESCRIPTION = "Weston is the reference implementation of a Wayland compositor"
-+HOMEPAGE = "http://wayland.freedesktop.org"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
-+                    file://libweston/compositor.c;endline=27;md5=6c53bbbd99273f4f7c4affa855c33c0a"
-+
-+SRC_URI = "git://github.com/wayland-project/weston \
-+           file://weston.png \
-+           file://weston.desktop \
-+           file://xwayland.weston-start \
-+"
-+
-+S = "${WORKDIR}/git"
-+SRCREV = "cc64cc3717ab39882df37bc244d1ac6cf8526f93"
-+PV = "5.0.94+git${SRCPV}"
-+# from meson.build:libweston_major
-+WESTON_MAJOR_VERSION = "6"
-+
-+UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
-+
-+inherit meson useradd distro_features_check
-+# depends on virtual/egl
-+REQUIRED_DISTRO_FEATURES = "opengl"
-+
-+DEPENDS = "libxkbcommon pixman cairo glib-2.0 jpeg"
-+DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
-+
-+EXTRA_OEMESON = " \
-+                -Dbackend-default=auto \
-+                -Dimage-jpeg=true \
-+		-Dsimple-dmabuf-drm= \
-+                "
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'drm fbdev egl', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
-+                   ${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)} \
-+                   launch tools shell-desktop demo-clients simple-clients"
-+
-+WESTON_TOOLS ?= "calibrator,debug,info,terminal,touch-calibrator"
-+
-+#
-+# see https://github.com/wayland-project/weston/raw/master/meson_options.txt
-+#
-+PACKAGECONFIG[drm] = "-Ddrm-compositor=true,-Ddrm-compositor=false,drm udev virtual/mesa virtual/libgbm mtdev"
-+PACKAGECONFIG[vaapi] = "-Dbackend-drm-screencast-vaapir=true,-Dbackend-drm-screencast-vaapi=false,libva drm"
-+PACKAGECONFIG[headless] = "-Dbackend-headless=true,-Dbackend-headless=false,"
-+PACKAGECONFIG[rdp] = "-Dbackend-rdp=true,-Dbackend-rdp=false,freerdp"
-+PACKAGECONFIG[screenshare] = "-Dscreenshare=true -Dshell-fullscreen=true,-Dscreenshare=false"
-+PACKAGECONFIG[wayland] = "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/mesa"
-+PACKAGECONFIG[x11] = "-Dbackend-x11=true,-Dbackend-x11=false,libxcb"
-+PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false,libxcb libxcursor"
-+PACKAGECONFIG[systemd] = "-Dlauncher-logind=true,-Dlauncher-logind=false,systemd dbus"
-+PACKAGECONFIG[remote] = "-Dremoting=true,-Dremoting=false, gstreamer"
-+PACKAGECONFIG[shell-desktop] = "-Dshell-desktop=true,-Dshell-desktop=false"
-+PACKAGECONFIG[shell-fullscreen] = "-Dshell-fullscreen=true,-Dshell-fullscreen=false"
-+PACKAGECONFIG[shell-ivi] = "-Dshell-ivi=true,-Dshell-ivi=false"
-+PACKAGECONFIG[fbdev] = "-Dbackend-fbdev=true,-Dbackend-fbdev=false,libinput mtdev udev (>=136)"
-+PACKAGECONFIG[egl] = "-Drender-gl=true,-Drender-gl=false"
-+PACKAGECONFIG[lcms] = "-Dcolor-management-lcms=true,-Dcolor-management-lcms=false,lcms"
-+PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-colord=false,lcms"
-+PACKAGECONFIG[launch] = "-Dweston-launch=true,-Dweston-launch=false,drm libpam systemd"
-+PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
-+PACKAGECONFIG[tools] = "-Dtools=${WESTON_TOOLS},-Dtools=,"
-+PACKAGECONFIG[demo-clients] = "-Ddemo-clients=true,-Ddemo-clients=false"
-+PACKAGECONFIG[simple-clients] = "-Dsimple-clients=all,-Dsimple-clients="
-+PACKAGECONFIG[wcap-decode] = "-Dwcap-decode=true,-Dwcap-decode=false"
-+PACKAGECONFIG[test-junit-xml] = "-Dtest-junit-xml=true,-Dtest-junit-xml=false,libxml"
-+
-+do_install_append() {
-+	# If X11, ship a desktop file to launch it
-+	if [ "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}" ]; then
-+		install -d ${D}${datadir}/applications
-+		install ${WORKDIR}/weston.desktop ${D}${datadir}/applications
-+
-+		install -d ${D}${datadir}/icons/hicolor/48x48/apps
-+		install ${WORKDIR}/weston.png ${D}${datadir}/icons/hicolor/48x48/apps
-+	fi
-+
-+	if [ "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', 'yes', 'no', d)}" = "yes" ]; then
-+		install -Dm 644 ${WORKDIR}/xwayland.weston-start ${D}${datadir}/weston-start/xwayland
-+	fi
-+}
-+
-+PACKAGES += "${@bb.utils.contains('PACKAGECONFIG', 'xwayland', '${PN}-xwayland', '', d)} \
-+             libweston-${WESTON_MAJOR_VERSION} ${PN}-examples"
-+
-+FILES_${PN} = "${bindir}/weston ${bindir}/weston-terminal ${bindir}/weston-info ${bindir}/weston-launch ${bindir}/wcap-decode ${libexecdir} ${libdir}/${BPN}/*.so ${datadir}"
-+
-+FILES_libweston-${WESTON_MAJOR_VERSION} = "${libdir}/lib*${SOLIBS} ${libdir}/libweston-${WESTON_MAJOR_VERSION}/*.so"
-+SUMMARY_libweston-${WESTON_MAJOR_VERSION} = "Helper library for implementing 'wayland window managers'."
-+
-+FILES_${PN}-examples = "${bindir}/*"
-+
-+FILES_${PN}-xwayland = "${libdir}/libweston-${WESTON_MAJOR_VERSION}/xwayland.so"
-+RDEPENDS_${PN}-xwayland += "xserver-xorg-xwayland"
-+
-+RDEPENDS_${PN} += "xkeyboard-config"
-+RRECOMMENDS_${PN} = "weston-conf liberation-fonts"
-+RRECOMMENDS_${PN}-dev += "wayland-protocols"
-+
-+USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM_${PN} = "--system weston-launch"
--- 
-2.11.0
+Looking at the log files from the compilation phase it appears to use meson as the build tool.  The compile log file indicates that it is using the pkg-config tool to find g-ir-scanner and subsequently use it. 
+
+
+Log file: x86_64-linux/gdk-pixbuf-native/2.38.0-r0/build/meson-logs/meson-log.txt
+===
+Called `/poky/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.38.0-r0/recipe-sysroot-native/usr/bin/pkg-config-native --variable=g_ir_scanner gobject-introspection-1.0` -> 0
+/poky/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.38.0-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/bin/g-ir-scanner
+Got pkgconfig variable g_ir_scanner : /poky/build/tmp/work/x86_64-linux/gdk-pixbuf-native/2.38.0-r0/recipe-sysroot-native/usr/lib/pkgconfig/../../../usr/bin/g-ir-scanner
+
+===
+
+
+Jason.
+
+On 4/11/19 6:14 AM, Alexander Kanavin wrote:
+> gdk-pixbuf-native should not be running g-ir-scanner at all, as we
+> explicitly disable this for native builds. Can you please look into
+> why it is happening, because the patch is really treating the symptom
+> rather than the problem.
+> 
+> Alex
+> 
+> On Wed, 10 Apr 2019 at 23:54, Jason Wessel <jason.wessel@windriver.com> wrote:
+>>
+>> Investigation of an end user going over their quota in the user's home
+>> directory showed that the gobject-instrospection is writing files into
+>> the ~/.cache/g-ir-scanner when building -native packages.  The test
+>> package in this case was gdk-pixbuf-native.
+>>
+>> Setting the GI_SCANNER_DISABLE_CACHE in the bbclass should be all that
+>> is needed.  The qemu wrapper was already setting this properly, but we
+>> also need it for the -native builds.
+>>
+>> meta/recipes-gnome/gobject-introspection/gobject-introspection_1.58.3.bb:131:
+>> export GI_SCANNER_DISABLE_CACHE=1
+>>
+>> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+>> ---
+>>  meta/classes/gobject-introspection.bbclass | 3 +++
+>>  1 file changed, 3 insertions(+)
+>>
+>> diff --git a/meta/classes/gobject-introspection.bbclass b/meta/classes/gobject-introspection.bbclass
+>> index 4ceb0c68b1..359620fba7 100644
+>> --- a/meta/classes/gobject-introspection.bbclass
+>> +++ b/meta/classes/gobject-introspection.bbclass
+>> @@ -27,6 +27,9 @@ DEPENDS_append_class-nativesdk = " gobject-introspection-native"
+>>  # This is used by introspection tools to find .gir includes
+>>  export XDG_DATA_DIRS = "${STAGING_DATADIR}:${STAGING_LIBDIR}"
+>>
+>> +# Disable writing to $HOME/.cache/g-ir-scanner
+>> +export GI_SCANNER_DISABLE_CACHE = "1"
+>> +
+>>  do_configure_prepend_class-target () {
+>>      # introspection.m4 pre-packaged with upstream tarballs does not yet
+>>      # have our fixes
+>> --
+>> 2.17.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
