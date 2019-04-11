@@ -1,54 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
 	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CAD417D9A9
+	by mail.openembedded.org (Postfix) with ESMTP id 3CCBB7D781
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 20:21:25 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id n25so8206984wmk.4
+	Thu, 11 Apr 2019 20:25:05 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id y197so8241572wmd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 13:21:27 -0700 (PDT)
+	Thu, 11 Apr 2019 13:25:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=xvNZFGWRPi7ABSt84dfuB5fjPjyTQN24qdxc1QLO4MQ=;
-	b=JyioOoVwJcsBWFTr4jyNW96n1jUg1NQqXwNkt8UEFW9twyiIZrhOVktVMMxsnbQC7f
-	nNj3B7z1Ngb9/aHCdyMfmE3qIZTZ4F3Q0OQ7ttJ2UFQk0zpAeWhVjgjAbBCxcGKHr7dw
-	2PL/exP5aZ56eeflVqrP7me3Fbwcxhi8ajPuo=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=e4dv9Omh1FEyLmhlmUmfasTayk5qQqtY0Dsb4t1l48o=;
+	b=Xf/ttQlx6YdgYdlfIPeUaGAYsry4haKO7w28Suz69ihDsFQbJBcfBPJF9tMz7CcG2O
+	LxBFFFiL2dhqpH9BNo061axk/sEKXX3UBuo79Ratx+MP9tfeQvy7aeLQOdBzbmDiuluC
+	8xD0csPfaEgAoEZIUe7dJF1X4SdtaQ1sZU/5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=xvNZFGWRPi7ABSt84dfuB5fjPjyTQN24qdxc1QLO4MQ=;
-	b=rVaFTg3stmKhfOm670Z0dj4YkRfzi4W8qGEcY/wGEkqWq1i6ZxUM1JKakD/t3sbxyM
-	mHwfS7dAaGPVX2NNC4C8fENwbTQnyu9Y/pbYHMKULNNR4YzUV8RptppSdWG7EboRnjNH
-	rTM0uC3+FRW3jagZNiAWYZqCQU6nhM9TCGgFQhSffKe3KfPzxqsapD5V28wJTlPtMSRT
-	PpZUZa+hsHHtE988VQd1aVnvyyA4+JD5DW2FF/ERy53zXTjX9pJ/SaCg4C63PxIjCHug
-	ZT7TthyypC4L+kGSR7GWyYMpq96MZ9DNMMhQQLJhmUAU3dpdB/FWhYH2YWDobD4Yzxjk
-	cJgA==
-X-Gm-Message-State: APjAAAWaF+FMYVukikZclOuVwmGW5IV+ODooR7dy98bwzWgQFWwJLQx8
-	ec4bWMctrLXEPLsDdutTWQ7coA==
-X-Google-Smtp-Source: APXvYqx57+6PVEBz+Lt7No1jr/MWvxfNOd1F5wTHawfzngYW14VVtSe0rMO+Ttuk4VLJg1foIP/YMA==
-X-Received: by 2002:a7b:cd08:: with SMTP id f8mr8203997wmj.86.1555014086679;
-	Thu, 11 Apr 2019 13:21:26 -0700 (PDT)
+	bh=e4dv9Omh1FEyLmhlmUmfasTayk5qQqtY0Dsb4t1l48o=;
+	b=Q5qMeisplXG+Moidvp0VQQtuAGAxX964A2iNEGkJbILXiiYZ8rDbHytRliwTgGzh0P
+	ePWiFgt0XA/OJX+yIWczAOYTBiD+sR3xQQv6+K4nl6VVT4FQi8fG2Iid5UxOZf7lKL3Y
+	QdvKjcYG9zDA0bo9mQf5DTnTnBaXGxH3I5AqFFIdIoZhxDNl/2D9ymxoTMyccsuBR6vY
+	PfKw+eFef24ltxwSp5LKvtaoVI9PlomotGe/4ulzJso8pbNz13ZS1BrwPrsa3RrnBFom
+	eBmvF/p7jkf+C25PSr8vpePCdRhXtCQuBc9XRZwRRvvxKsACqt+3vAAa4dl020Aa+YAB
+	6FVw==
+X-Gm-Message-State: APjAAAVc9IQIzww0SiX8HpVcWYF5DgDQtO9btEJ3j47159ujJZy3EZKK
+	CtgY4ILBtwxoC4I8NkuvCq3s2Q==
+X-Google-Smtp-Source: APXvYqw4iIpR1UdiQw1sAcVFLM4W4pMlN7Xn1pXcHPzKETQZ2aOOk7/bH72WBxWJdquDLqAg9QHNWg==
+X-Received: by 2002:a1c:1a46:: with SMTP id a67mr8245529wma.21.1555014305910; 
+	Thu, 11 Apr 2019 13:25:05 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	d14sm60202806wro.79.2019.04.11.13.21.25
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 11 Apr 2019 13:21:25 -0700 (PDT)
-Message-ID: <25407247d6bb76c46ae21654b005358d72b09b6f.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Beniamin Sandu
-	<beniaminsandu@gmail.com>
-Date: Thu, 11 Apr 2019 21:21:24 +0100
-In-Reply-To: <CADkTA4PQm-kcEh_XzrWxNeHo5OFXn0B2pt8af39PT1PZJ=0_Pw@mail.gmail.com>
-References: <20190411072854.31885-1-beniamin.sandu@gmail.com>
-	<CADkTA4PQm-kcEh_XzrWxNeHo5OFXn0B2pt8af39PT1PZJ=0_Pw@mail.gmail.com>
+	t74sm12962918wmt.3.2019.04.11.13.25.04
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 11 Apr 2019 13:25:04 -0700 (PDT)
+Message-ID: <9fa8d19084b46a9467a72873540e796230352ea5.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Thu, 11 Apr 2019 21:25:03 +0100
+In-Reply-To: <2e971d062525b21d52a68d1926927f1a60af08d8.1548386264.git.Qi.Chen@windriver.com>
+References: <cover.1548386264.git.Qi.Chen@windriver.com>
+	<2e971d062525b21d52a68d1926927f1a60af08d8.1548386264.git.Qi.Chen@windriver.com>
 User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [[PATCH v2] kernel-devsrc: check for localversion files in the kernel source tree
+Subject: Re: [PATCH 1/1] runqemu: do not check return code of tput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,19 +58,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 20:21:26 -0000
+X-List-Received-Date: Thu, 11 Apr 2019 20:25:05 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-04-11 at 08:38 -0400, Bruce Ashfield wrote:
-> Looks good to me.
+On Fri, 2019-01-25 at 11:18 +0800, Chen Qi wrote:
+> The subprocess.run was replaced by subprocess.check_call because
+> of compatibility support down to python 3.4. But we really don't
+> care about whether that command succeeds. Some user reports that
+> in some tmux environment, this command fails and gives some
+> unpleasant traceback output. So we use 'call' instead of 'check_call'
+> to avoid such problem.
 > 
-> Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  scripts/runqemu | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Richard, I assume you'll pick this up directly and don't want to wait
-> for me to queue and send it along with my next pull request.
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index c4a0ca8..d3239ee 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -1318,7 +1318,7 @@ def main():
+>              logger.info("SIGTERM received")
+>              os.kill(config.qemupid, signal.SIGTERM)
+>              config.cleanup()
+> -            subprocess.check_call(["tput", "smam"])
+> +            subprocess.call(["tput", "smam"])
+>          signal.signal(signal.SIGTERM, sigterm_handler)
+>  
+>          config.check_args()
+> @@ -1340,7 +1340,7 @@ def main():
+>          return 1
+>      finally:
+>          config.cleanup()
+> -        subprocess.check_call(["tput", "smam"])
+> +        subprocess.call(["tput", "smam"])
 
-Correct, I've picked it up.
+Can you send a v2 with a comment saying we're ignoring errors
+deliberately please? Otherwise someone will just "fix" this again.
 
 Cheers,
 
