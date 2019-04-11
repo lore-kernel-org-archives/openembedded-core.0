@@ -1,49 +1,37 @@
-Return-Path: <prvs=9974216f9=Mikko.Rapeli@bmw.de>
-Received: from esa8.bmw.c3s2.iphmx.com (esa8.bmw.c3s2.iphmx.com
-	[68.232.139.97])
-	by mail.openembedded.org (Postfix) with ESMTP id 148C07D316
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 44B7D7D6A3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 13:39:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1554989950; x=1586525950;
-	h=from:to:subject:date:message-id:references:in-reply-to:
-	content-id:content-transfer-encoding:mime-version;
-	bh=RVlhOW1lkyWvZygZqZZ5gGvQckBXAr5suzZGX3BDo2Y=;
-	b=GNNxCALyLpxzJlNBOp6fzvjSMoBW21xBNv1gtniqbGS/0rKrkWZzkcWZ
-	3AmeKApomuzJ9OOcFdphmuavL1IBy/nXsPQDMH0goCoU6yVPk/K09CabX
-	GZq8OGs5ToMbxFScW3Jm0za941d9VyylrZb36gq5emS7WJIaCSpVKbmIC M=;
-Received: from esagw3.bmwgroup.com (HELO esagw3.muc) ([160.46.252.35]) by
-	esa8.bmw.c3s2.iphmx.com with ESMTP/TLS; 11 Apr 2019 15:39:08 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw3.muc with ESMTP/TLS;
-	11 Apr 2019 15:38:47 +0200
-Received: from smucm10m.bmwgroup.net (HELO smucm10m.europe.bmw.corp)
-	([160.48.96.49])
-	by esabb2.muc with ESMTP/TLS; 11 Apr 2019 15:38:47 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10m.europe.bmw.corp
-	(160.48.96.49) with Microsoft SMTP Server (TLS;
-	Thu, 11 Apr 2019 15:38:46 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.003;
-	Thu, 11 Apr 2019 15:38:47 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] elfutils: remove Elfutils-Exception and include GPLv2
-	for shared libraries
-Thread-Index: AQHU8FekvNVS8rChpkmNt/dayb+JOKY21Y8A
-Date: Thu, 11 Apr 2019 13:38:46 +0000
-Message-ID: <20190411133846.GI20077@hiutale>
-References: <1554981223-7867-1-git-send-email-mikko.rapeli@bmw.de>
-In-Reply-To: <1554981223-7867-1-git-send-email-mikko.rapeli@bmw.de>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.40]
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] elfutils: remove Elfutils-Exception and include GPLv2 for shared libraries
+	Thu, 11 Apr 2019 13:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=I8tLF9ZTr/DjmkCJi5EiFh3/zj+T0TpLRRJy4jRp5io=;
+	b=A3cjHZwtiqa9sSAYaeZf8n8xUK
+	FreCgsdkl7o9XqFQqF0dAaHaRog8iAErfNqnOM/Tf/QUWD9a1MogTE5L8NckEiYxf4BHaATwlK+zt
+	SofO6LphktoYKReWD6FNDyqAbXWwH34Lr9DRANC0753rtDp67EuYWsvoxk8sKKOUOTVUXIakWbfs+
+	3Pim6WWo4Kw2+qE27zA0+W3x4z480WOpRr0W/2bbCW01ZvfirxEFlenFUh+e2m5PeluLOc/Ae079V
+	bqlCxZ8SzrM29T65YdoOqMyAHhJI8PFa++JiVbroQM62IMOfcbyE02SQDCLpq6dxb1RORxwIPPm0G
+	YCXYS3pA==;
+Received: from lakka.kapsi.fi ([2001:67c:1be8::1] ident=Debian-exim)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1hEZxg-0006MA-BN; Thu, 11 Apr 2019 16:41:52 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1hEZxg-0003WT-84; Thu, 11 Apr 2019 16:41:52 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Apr 2019 16:41:49 +0300
+Message-Id: <1554990109-13038-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 2001:67c:1be8::1
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH v3] elfutils: remove Elfutils-Exception and include GPLv2 for shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +44,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 13:39:08 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <CDB6FD08A110E049BD7F205D6CEA1F81@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 11 Apr 2019 13:41:53 -0000
 
-Sorry, this wasn't rebased to latest master with elfutils 0.176. I'll rebas=
-e
-and resend.
+Elfutils-Exception no longer exists after upstream release 0.154
+and commit:
 
--Mikko=
+commit de2ed97f33139af5c7a0811e4ec66fc896a13cf2
+Author: Mark Wielaard <mjw@redhat.com>
+Date:   Tue Jun 5 17:15:16 2012 +0200
+
+NEWS file in the sources says this about switch from GPLv2 to
+GPLv3 license:
+
+https://sourceware.org/git/?p=elfutils.git;a=blob;f=NEWS;h=5a06047f255e3c9a63828953759fd18a4ba9a3f3;hb=HEAD#l362
+
+ 362 The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for stand-alone
+ 363 programs. There is now also a formal CONTRIBUTING document describing how to
+ 364 submit patches.
+
+libasm, libdw and libelf are thus covered optionally by GPLv2 license.
+
+See also Debian copyright summary for elfutils:
+
+https://tracker.debian.org/media/packages/e/elfutils/copyright-0.175-1
+
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/conf/licenses.conf                          |  2 +-
+ meta/files/common-licenses/Elfutils-Exception    | 12 ------------
+ meta/recipes-devtools/elfutils/elfutils_0.176.bb | 14 +++++++++++++-
+ 3 files changed, 14 insertions(+), 14 deletions(-)
+ delete mode 100644 meta/files/common-licenses/Elfutils-Exception
+
+v1: http://lists.openembedded.org/pipermail/openembedded-core/2019-April/281124.html
+
+v2: http://lists.openembedded.org/pipermail/openembedded-core/2019-April/281127.html
+ * removed Elfutils-Exception
+
+v3:
+ * rebase to latest master branch with elfutils 0.176
+
+diff --git a/meta/conf/licenses.conf b/meta/conf/licenses.conf
+index 1058084..7b01c57 100644
+--- a/meta/conf/licenses.conf
++++ b/meta/conf/licenses.conf
+@@ -16,7 +16,7 @@ SRC_DISTRIBUTE_LICENSES += "CC-BY-SA-1.0 CC-BY-SA-2.0 CC-BY-SA-2.5 CC-BY-SA-3.0
+ SRC_DISTRIBUTE_LICENSES += "CDDL-1.0 CECILL-1.0 CECILL-2.0 CECILL-B CECILL-C"
+ SRC_DISTRIBUTE_LICENSES += "ClArtistic CPAL-1.0 CPL-1.0 CUA-OPL-1.0 DSSSL"
+ SRC_DISTRIBUTE_LICENSES += "ECL-1.0 ECL-2.0 eCos-2.0 EDL-1.0 EFL-1.0 EFL-2.0"
+-SRC_DISTRIBUTE_LICENSES += "Elfutils-Exception Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
++SRC_DISTRIBUTE_LICENSES += "Entessa EPL-1.0 EPL-2.0 ErlPL-1.1"
+ SRC_DISTRIBUTE_LICENSES += "EUDatagrid EUPL-1.0 EUPL-1.1 Fair Frameworx-1.0"
+ SRC_DISTRIBUTE_LICENSES += "FreeType GFDL-1.1 GFDL-1.2 GFDL-1.3 GPL-1.0"
+ SRC_DISTRIBUTE_LICENSES += "GPL-2.0 GPL-2.0-with-autoconf-exception"
+diff --git a/meta/files/common-licenses/Elfutils-Exception b/meta/files/common-licenses/Elfutils-Exception
+deleted file mode 100644
+index 627d769..0000000
+--- a/meta/files/common-licenses/Elfutils-Exception
++++ /dev/null
+@@ -1,12 +0,0 @@
+-   This file describes the limits of the Exception under which you are allowed
+-   to distribute Non-GPL Code in linked combination with Red Hat elfutils.
+-   For the full text of the license, please see one of the header files
+-   included with the source distribution or the file COPYING found in the
+-   top level directory of the source.
+-
+-   The Approved Interfaces are the functions declared in the files:
+-
+-   libelf.h
+-   libdw.h
+-   libdwfl.h
+-
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+index fd901c9..cd824e2 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Utilities and libraries for handling compiled object files"
+ HOMEPAGE = "https://sourceware.org/elfutils"
+ SECTION = "base"
+-LICENSE = "(GPLv3 & Elfutils-Exception)"
++LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
+ DEPENDS_append_libc-musl = " argp-standalone fts "
+@@ -53,6 +53,18 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ # Package utilities separately
+ PACKAGES =+ "${PN}-binutils libelf libasm libdw"
++
++# shared libraries are licensed GPLv2 or GPLv3+, binaries GPLv3+
++# according to NEWS file:
++# "The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for stand-alone
++# programs. There is now also a formal CONTRIBUTING document describing how to
++# submit patches."
++LICENSE_${PN}-binutils = "GPLv3+"
++LICENSE_${PN} = "GPLv3+"
++LICENSE_libelf = "GPLv2 | LGPLv3+"
++LICENSE_libasm = "GPLv2 | LGPLv3+"
++LICENSE_libdw = "GPLv2 | LGPLv3+"
++
+ FILES_${PN}-binutils = "\
+     ${bindir}/eu-addr2line \
+     ${bindir}/eu-ld \
+-- 
+1.9.1
+
 
