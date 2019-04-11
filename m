@@ -1,51 +1,77 @@
-Return-Path: <srifenbark@gmail.com>
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
-	[209.85.208.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 058F37D242;
-	Thu, 11 Apr 2019 16:29:21 +0000 (UTC)
-Received: by mail-ed1-f43.google.com with SMTP id d46so966433eda.7;
-	Thu, 11 Apr 2019 09:29:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=sgdAeX/dJmpbdTeigKIry8OZPihxpgyDrawpp/agPPM=;
-	b=Rtt8EBjZlh6vDn1eq64YGq4dPZ4tcKBrtNdaYqWfUkh1DsoR+v5qHkj4uOULZfYaxI
-	ltuzquZI6z4atvthQ3UVMGd8AyTk+DPemSj9ClfT6s/RvtSd8GVMlk/mGt2Fjk93ld4p
-	bBp4GViIHYc6o4EH7oV8H9TDAq29Zla4EJNYdu4gCRGvGC2yHbKt7hU5voRD7ufDwmX4
-	ngyHZirVDwbL1OPx2F1smn14LUaAhxwji9AauDzU06zJB0EiL7Wfam9Nj899xDNHDSpi
-	AdiMo8+kcVynHQYU1Znt1xcexJDxUlthM7qYZ5kQFxgqhxVW6Y1o3h6Yqf7DLvIVPFdf
-	gmxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=sgdAeX/dJmpbdTeigKIry8OZPihxpgyDrawpp/agPPM=;
-	b=i/YLNAHjOmrGsXAa5EUo61CqJSwfjFSravhmyuz41GPKx1CGSWlXKtifio3JjP0A/u
-	IRjlfT0DeAf73yZGWiIgXrL/yjQANNDcKu+JlbmLMnmArd5zW+HIqpS9+NLN3oCUm/tr
-	NU9Oe3hjbP/jVtYjVIf5zs4q828XaS79iNWyF32XVaJO3O2wwZSxcsvUfF7Oot+HBG8y
-	iXwCXX3PRInwGgEiOE+CxP3V66P0L5H+xpHTdDha5BeJxnv3tHDJwO81EkBDDg4yL0N9
-	0bbTT8MlwAQvKIFKFrRepwwTQJGIrmvo7S4YDEYxrB78LiGjQvN3GamRsXGHSz1OYppJ
-	iyaw==
-X-Gm-Message-State: APjAAAUNIrRVRy1paeZGLpD7UgEM69bPXBUOC2CeRRhR29OpHpOFDp9J
-	WN2MOHNiQpJmdtjnuvbtggc9rCpIlHqRiQILnPE=
-X-Google-Smtp-Source: APXvYqzK10hJ8EUzPZP68Xpfr71gtYoPamhWLpp7FuAemWfjG7bo3ZWQJuOsKDw4KYcrEnSWYwNES5kBZOshdskZwx0=
-X-Received: by 2002:a17:906:a945:: with SMTP id
-	hh5mr28194242ejb.108.1555000162487; 
-	Thu, 11 Apr 2019 09:29:22 -0700 (PDT)
+Return-Path: <jason.wessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7EEF67D242
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2019 16:37:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3BGapTt005813
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 11 Apr 2019 09:37:07 -0700
+Received: from [172.25.59.211] (172.25.59.211) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 11 Apr 2019 09:36:58 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	=?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>
+References: <20190410215402.20055-1-jason.wessel@windriver.com>
+	<CANNYZj8K=irJAXpTtFtaNiQ2V+dFpSPT-ikfTgK5e0TECCv_fQ@mail.gmail.com>
+	<3e65af20-d2ad-603a-d121-a5982c0ae69e@windriver.com>
+	<CANNYZj94F69Ske57dARqP__Yk5iiutjaqxcens6tR84sfVMF+w@mail.gmail.com>
+	<847b6274-fa84-c76b-ee52-b4f884d63c0a@windriver.com>
+	<CANNYZj9k0qM+O9+mVmHf1JM6MR3Cd5xbuhfZFWTqXcW+DnXb2w@mail.gmail.com>
+From: Jason Wessel <jason.wessel@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jason.wessel@windriver.com; prefer-encrypt=mutual; keydata=
+	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
+	ig4=
+Message-ID: <6cb9ab41-778b-5e87-dfd2-88d38fec279a@windriver.com>
+Date: Thu, 11 Apr 2019 11:36:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <90d55754e9381759c8b70ebca0b880e6013f17f0.camel@linuxfoundation.org>
-	<f8b3661d-a6cc-494e-de49-e462ba935535@gmail.com>
-	<680dff761ebd04f8f240d12339b31569c70c48da.camel@linuxfoundation.org>
-	<05dd3911-b195-1d1f-b218-e4b41d80ec72@gmail.com>
-	<7c1d84b0957f2831a7add461f73e3d9108176e9b.camel@linuxfoundation.org>
-In-Reply-To: <7c1d84b0957f2831a7add461f73e3d9108176e9b.camel@linuxfoundation.org>
-From: Scott Rifenbark <srifenbark@gmail.com>
-Date: Thu, 11 Apr 2019 09:29:11 -0700
-Message-ID: <CAFNP8OstwvzhdYvyiaJ4JFZqNPGK3zypTPVEG-u437hE83js1A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Yocto discussion list <yocto@yoctoproject.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] [yocto] Eclipse support dropped with immediate effect
+In-Reply-To: <CANNYZj9k0qM+O9+mVmHf1JM6MR3Cd5xbuhfZFWTqXcW+DnXb2w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gobject-introspection.bbclass: Disable writing to $HOME/.cache/g-ir-scanner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,95 +84,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 16:29:22 -0000
-Content-Type: multipart/alternative; boundary="0000000000004f948a058643b0af"
+X-List-Received-Date: Thu, 11 Apr 2019 16:37:33 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
---0000000000004f948a058643b0af
-Content-Type: text/plain; charset="UTF-8"
+On 4/11/19 10:35 AM, Alexander Kanavin wrote:
+> On Thu, 11 Apr 2019 at 17:25, Jason Wessel <jason.wessel@windriver.com> wrote:
+>>> Generally because generating introspection data is disabled for native
+>>> packages, as a matter of policy (do not build something which is
+>>> unused and untested).
+>>>
+>>> If you could add
+>>> EXTRA_OEMESON_append_class-native = " ${GI_DISABLE_FLAG}"
+>>>
+>>> to the gdk-pixbuf recipe, and re-test (without your fix, to be extra
+>>> sure) that g-ir-scanner is not invoked and nothing shows up in its
+>>> cache, I would appreciate.
+>>
+>>
+>> Thank you for the explanation.  I think the problem is more widespread than just gdk-pixbuf, now that I have a slightly better idea about what we are looking for.  My build is not even complete and I can see there are three additional places the g-ir-scanner is creating .cache entries.
+>>
+>> /poky/build% grep -r /usr/bin/g-ir-scanner tmp/work/*/*/*/temp |awk -F/ '{print $4}' |sort -u
+>> atk-native
+>> at-spi2-core-native
+>> pango-native
+>>
+>>
+>> Is it the case the bbclass file should be altered to set this variable for the -native, or does each package need to be modified individually?
+> 
+> I think Andreas's patchset that was recently posted (and is currently
+> in master-next) takes care of this in a general way, where you don't
+> have to go and fix every recipe. The unfortunate bit is that meson
+> does not have a standard flag for enabling/disabling introspection,
+> but we found a way to deal with this that is as generic as possible.
+> 
+> If you try with master-next, would be good to know.
+> 
 
-Richard and Armin,
+It all appears to work fine without the need to patch anything in master-next.  
 
-I am going to start pulling Eclipse from the docs today.  The changes won't
-make the frozen rc build but the website docs will reflect reality.
+Thank you for the explanation.
 
-Scott
+Jason.
 
-On Thu, Apr 11, 2019 at 12:20 AM <richard.purdie@linuxfoundation.org> wrote:
-
-> On Thu, 2019-04-11 at 08:42 +0530, akuster808 wrote:
-> >
-> > On 4/10/19 3:11 PM, richard.purdie@linuxfoundation.org wrote:
-> > > On Wed, 2019-04-10 at 05:56 +0530, akuster808 wrote:
-> > > > On 4/9/19 8:52 PM, Richard Purdie wrote:
-> > > > > I'm sorry to have to say this but the project is terminating
-> > > > > its
-> > > > > official eclipse plugin support with immediate effect.
-> > > > Does this affect the stable branches as well?
-> > > Yes, I think we'll just be removing the target from the autobuilder
-> > > entirely.
-> >
-> > Have we every removed a feature from a release? Do we need to doc
-> > this ?
->
-> Its not so much remove as not release. No, we haven't and yes, we do
-> need to document it in the release notes.
->
-> Cheers,
->
-> Richard
->
-> _______________________________________________
-> Openembedded-architecture mailing list
-> Openembedded-architecture@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
->
-
---0000000000004f948a058643b0af
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Richard and Armin, <br></div><div><br></div><div>I am=
- going to start pulling Eclipse from the docs today.=C2=A0 The changes won&=
-#39;t make the frozen rc build but the website docs will reflect reality.</=
-div><div><br></div><div>Scott<br></div></div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Apr 11, 2019 at 12:20 AM &lt=
-;<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linux=
-foundation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">On Thu, 2019-04-11 at 08:42 +0530, akuster808 wrote:<br>
-&gt; <br>
-&gt; On 4/10/19 3:11 PM, <a href=3D"mailto:richard.purdie@linuxfoundation.o=
-rg" target=3D"_blank">richard.purdie@linuxfoundation.org</a> wrote:<br>
-&gt; &gt; On Wed, 2019-04-10 at 05:56 +0530, akuster808 wrote:<br>
-&gt; &gt; &gt; On 4/9/19 8:52 PM, Richard Purdie wrote:<br>
-&gt; &gt; &gt; &gt; I&#39;m sorry to have to say this but the project is te=
-rminating<br>
-&gt; &gt; &gt; &gt; its<br>
-&gt; &gt; &gt; &gt; official eclipse plugin support with immediate effect.<=
-br>
-&gt; &gt; &gt; Does this affect the stable branches as well?<br>
-&gt; &gt; Yes, I think we&#39;ll just be removing the target from the autob=
-uilder<br>
-&gt; &gt; entirely.<br>
-&gt; <br>
-&gt; Have we every removed a feature from a release? Do we need to doc<br>
-&gt; this ?<br>
-<br>
-Its not so much remove as not release. No, we haven&#39;t and yes, we do<br=
->
-need to document it in the release notes.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-_______________________________________________<br>
-Openembedded-architecture mailing list<br>
-<a href=3D"mailto:Openembedded-architecture@lists.openembedded.org" target=
-=3D"_blank">Openembedded-architecture@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-arch=
-itecture" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.or=
-g/mailman/listinfo/openembedded-architecture</a><br>
-</blockquote></div>
-
---0000000000004f948a058643b0af--
