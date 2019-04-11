@@ -1,24 +1,53 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 503737D35F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F61B7D016
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 08:21:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3B8Ki3I025037
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 11 Apr 2019 08:27:33 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id h4so6105900wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 01:21:05 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 11 Apr 2019 01:20:47 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Apr 2019 16:20:46 +0800
-Message-ID: <1554970846-190302-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Thu, 11 Apr 2019 01:27:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=cBD/SO5p0J9WwBru1WA7LaeNLsmjkVfuwH7vk7+rYyA=;
+	b=JAyJ1bEpPzSorMCoq6tIRzQOGacO389jKqAZcNWPTwLllQIinQAdv481SPUlmvz5BK
+	yMPsLi8Zn3fgNKv4k6noqTKmK+aQl/hDjRQ5fYQq+0RHPRalzIFvjLbIo8DS4K7BaAJN
+	R1wLJdLQzHJ52cJNQAKATzX6sNlMFlP8P2Q2I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=cBD/SO5p0J9WwBru1WA7LaeNLsmjkVfuwH7vk7+rYyA=;
+	b=ZRl0uWIVKj+RHRAz91vYpgMyZMEsSFUVn0TaMdrvqKXlLF2tcCPOjWKISm77FDipkd
+	1nZVM3l5PpbjdHYdk9viBrGc13tNwt2IicCcXdLyf2zVp3/V0IKw1BncENWma3QqWp0x
+	xBhWjjB2p7oQDgrQ4M2GqmHG+MpyqI1e2BijdnJYNU3c4DxT+Y0V663J1FcYg/dZ20xM
+	YVd6o5hc1TtvzjfG5mgCdMexUx3vMg54JplcgZA0YPSMISDpAHghpjuWwH/ut7pZj4Y/
+	1nS6/U7e5V0op0cvLBl+y07dse4C2d/yunc8LB9HGKj+bRYsbwYmm+IY/FlGrn3hK87K
+	lNUg==
+X-Gm-Message-State: APjAAAW4PgLqaNcp/wGyfAc6Ea7Q1pbHREvx2xLzkiJnRzkQY7pPQ4Ea
+	gCKK/Pxhq+CXvtDFt+6zfu/TIQ==
+X-Google-Smtp-Source: APXvYqyoRhVD1MjXfoRv4fqquHg88k1Zut30fbyZEOme/Yw41w4tzRyPW8L9do673+3pmEg+eWdniQ==
+X-Received: by 2002:adf:f88c:: with SMTP id u12mr29805195wrp.235.1554971253962;
+	Thu, 11 Apr 2019 01:27:33 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	m6sm45835621wrr.53.2019.04.11.01.27.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 11 Apr 2019 01:27:33 -0700 (PDT)
+Message-ID: <eac980cd94a8d408a02f143f8ee9f2723655e819.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alistair Francis <Alistair.Francis@wdc.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Apr 2019 09:27:32 +0100
+In-Reply-To: <20190410172152.13509-1-alistair.francis@wdc.com>
+References: <20190410172152.13509-1-alistair.francis@wdc.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-Subject: [PATCH] cogl: fix compile error caused by -Werror=maybe-uninitialized
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] u-boot: Upgrade from 2019.01 to 2019.04
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,41 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 08:21:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Apr 2019 08:27:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On Wed, 2019-04-10 at 17:23 +0000, Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2
+> +-
+>  .../{u-boot-fw-utils_2019.01.bb => u-boot-fw-utils_2019.04.bb}  | 0
+>  .../u-boot/{u-boot-tools_2019.01.bb => u-boot-tools_2019.04.bb} | 0
+>  .../recipes-bsp/u-boot/{u-boot_2019.01.bb => u-boot_2019.04.bb} | 0
+>  4 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2019.01.bb => u-
+> boot-fw-utils_2019.04.bb} (100%)
+>  rename meta/recipes-bsp/u-boot/{u-boot-tools_2019.01.bb => u-boot-
+> tools_2019.04.bb} (100%)
+>  rename meta/recipes-bsp/u-boot/{u-boot_2019.01.bb => u-
+> boot_2019.04.bb} (100%)
 
-When enable DEBUG_BUILD, cogl compile failed with error:
+Breaks beaglebone-yocto:
 
-| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:217:17: error: 'gltype' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-|      *out_gltype = gltype;
-|      ~~~~~~~~~~~~^~~~~~~~
-| ../../cogl-1.22.2/cogl/driver/gl/gles/cogl-driver-gles.c:213:22: error: 'glintformat' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-|      *out_glintformat = glintformat;
-|      ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/490
+https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/489
 
-Source: https://gitlab.gnome.org/GNOME/cogl/blob/master/cogl/driver/gl/gles/cogl-driver-gles.c
-it can handle correctly, so fix with -Wnoerror
+Cheers,
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/recipes-graphics/cogl/cogl-1.0.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-graphics/cogl/cogl-1.0.inc b/meta/recipes-graphics/cogl/cogl-1.0.inc
-index 7a79aa7..3e392fa 100644
---- a/meta/recipes-graphics/cogl/cogl-1.0.inc
-+++ b/meta/recipes-graphics/cogl/cogl-1.0.inc
-@@ -31,6 +31,7 @@ EXTRA_OECONF += "--enable-examples-install	\
- 	       	 --disable-gles1		\
- 	         --disable-cairo                \
- 	    	"
-+DEBUG_OPTIMIZATION_append = " -Wno-error=maybe-uninitialized"
- 
- # OpenGL/GLX
- PACKAGECONFIG[glx] = "--enable-gl --enable-glx,--disable-gl --disable-glx,${EDEPENDS_GL} ${EDEPENDS_X11},${ERDEPENDS_GL}"
--- 
-2.7.4
+Richard
 
 
