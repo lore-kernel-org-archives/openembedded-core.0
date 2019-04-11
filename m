@@ -1,49 +1,36 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
-	[209.85.210.48])
-	by mail.openembedded.org (Postfix) with ESMTP id C28797D363
+Return-Path: <prvs=997e349e1=Andreas.Obergschwandtner@skidata.com>
+Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
+	by mail.openembedded.org (Postfix) with ESMTP id 29F5E7D598
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 12:17:04 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id j10so5035240otq.0
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 05:17:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=eu0h6kkE0DSyozBF+rE+1XjKT0+8k+nL+XPleadqP9M=;
-	b=QRyg4RxX248SbT+gsmAyc1bvTBdE0PHw9Aqj9BEov55Z/T0JSUrawyAFPikBwfO7fA
-	BLto7IGn8seqevn0RcqJzK+D6aZKPgFkggx4Gli4A9LRDgPt1YUKFMmWCCniwKtyI7qa
-	kInqF6wPSySlewBfgAzJ/Jn75NzlSy7AnRLosSlV+10un9AR76tFDMOjeYtGEGH/fX2i
-	fXl1Qhpl8pO95+NmHxO030D5oGIMp9T3HRK/f0joL7r6uwxN3QFVcGIfzi46JpwOGyk7
-	/M9HcuYRX68kj0sG8FPOHXty2To+70r2uSrPBYUBHrgah08avXeqwcdAcElQSGige989
-	YNoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=eu0h6kkE0DSyozBF+rE+1XjKT0+8k+nL+XPleadqP9M=;
-	b=eab37z83Pnuqzjb+Oov1W4vaKTXvtU36zYemXVcnAlMoxCSVaINtw3y8YYFX/aVfPl
-	qcjwrjutR8UI5vgpC9wyq4wScnVyQnvvnkM/g0TkbtFltLM1l2K3P2dWbMm+VcCRk4fO
-	YwFp9Q6LfL4wp9TzOTmmmsbfoJp3h/brkX+2pw5bMTXG4aGKDnfMGKLGfdrwpim6i4Td
-	AiCEelayBdOKhMPiNuxs64Gpfh/FAvGfGmZVIDWFxtEYGnLg3ghWlP7DHT5qO8BvaiZn
-	eSRFlX43N9jLedIqiLlfmBGUyp4hFjrtkh+MVtEJCgQAPDKJzrijg1INXZ+022h9GtRw
-	mU6w==
-X-Gm-Message-State: APjAAAV27Tp9vssCSoX4JO2P+qWQNz7hQQ/HySptRnrP8XaOqY50FgIy
-	kGEGMfYEAOWGW+45tT0G/hSLmfiNoGas1jzlNFk=
-X-Google-Smtp-Source: APXvYqzMHAcRBdETRWaN+eoTROP0lzlnTota+3+K5HxX0NddRPm4FgekcprWZawhwdTsQ7c8Ik4GzRJiH9QWQfuTvJc=
-X-Received: by 2002:a05:6830:16d3:: with SMTP id
-	l19mr30719964otr.92.1554985025736; 
-	Thu, 11 Apr 2019 05:17:05 -0700 (PDT)
+	Thu, 11 Apr 2019 12:22:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+	t=1554985325; x=1586521325;
+	h=from:to:cc:subject:date:message-id:mime-version;
+	bh=OcT723XwTfjbaUP7koXjmyAQZFy+Q7YykPrkH9kSQ1Q=;
+	b=VUQcVMg+CUbI2ppbTuVurrVCm0QVxDeXPvTDNLJAN+5mi+gO6chUlGkF
+	gn44sh9zGJr7llyTh7KsWu/iveAES49RxelAmXLDUyOgKsZ29znQMW3nF
+	gdyqKFKK9pWnm7nrvEEV6r/iVbbS1jongvnyUY8IB27ntbhwRvbrKpy60
+	q/MWYvFd2PDxJ34JHNSe1O6zjAfHwhOyLYolHInUvLP+Sh9qVIiwrV5KU
+	Xt6XTSZ6mLz19cX61Y6lqfx9rCpOpldyaDodec48YNZJJNSQoHE2EiTXY
+	228BGAd0yLcu2Fb7a9Z9lxyhM1cJ5nxzQ+6piwNLg/7pD+jAHzK565Q30 w==;
+IronPort-SDR: a1pP9tPIUhd+FJtd74a45gOMfDAoGh2YAlYJRJRuyVj6Wr3oN7fHp5t+25Jva7j30iewlTVieI
+	B3+UEvHg2ZFtcf4+KAvw2O4hFzobAh6H30ow/KnJI0yobI2EDGn7OnnKVIUvkiV/jdMqj+eSU/
+	b3srC6hcu6OcYkU3Y49TlPAQaVWVrgbGQ075PsZCw91yXMdbtDd3nP4j3n4sYNUOVOE40jDBjC
+	EHTszfIFJZosOmpGuLaxLBdsIuOu2YeFk3/s/LNojkl7czy4iSJnO6qFRJiyvLXjjBFxGJvzTG
+	UwQ=
+X-IronPort-AV: E=Sophos;i="5.60,337,1549926000"; 
+   d="scan'208";a="2085567"
+From: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 11 Apr 2019 14:21:30 +0200
+Message-ID: <20190411122130.8966-1-andreas.obergschwandtner@skidata.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <1554995545-20943-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CANNYZj_rYwg3Y5uDxKiwzJZrzMsmjLCNXOU2TMpgmB5Ydgt2sw@mail.gmail.com>
-	<60b0b95f4227efd2be7ac7908b92aa08243de396.camel@linuxfoundation.org>
-In-Reply-To: <60b0b95f4227efd2be7ac7908b92aa08243de396.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 11 Apr 2019 14:16:54 +0200
-Message-ID: <CANNYZj9UUBV1=RWTpwco1wGqctacKrPNRkjMCB-naCWAMUJW=w@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dnf: Enable nativesdk
+X-Originating-IP: [192.168.111.22]
+X-ClientProxiedBy: sdex6srv.skidata.net (192.168.111.84) To
+	sdex4srv.skidata.net (192.168.111.82)
+Subject: [PATCH] uboot-sign: add support for different u-boot configurations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,53 +43,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 12:17:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 11 Apr 2019 12:22:04 -0000
+Content-Type: text/plain
 
-Presumably to be able to put dnf into SDKs?
+This is done by concatenating the DTB with the kernels public key
+to all built u-boot binaries. Furthermore the installation of all
+the binaries is required.
 
-Alex
+Signed-off-by: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
+---
+ meta/classes/uboot-sign.bbclass | 85 +++++++++++++++++++++------------
+ 1 file changed, 54 insertions(+), 31 deletions(-)
 
-On Thu, 11 Apr 2019 at 14:05, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2019-04-11 at 13:19 +0200, Alexander Kanavin wrote:
-> > On Thu, 11 Apr 2019 at 08:13, Zheng Ruoqin <
-> > zhengrq.fnst@cn.fujitsu.com> wrote:
-> >
-> > > +RDEPENDS_${PN}_class-nativesdk += " \
-> > > +  python3-core \
-> > > +  python3-codecs \
-> > > +  python3-netclient \
-> > > +  python3-email \
-> > > +  python3-threading \
-> > > +  python3-distutils \
-> > > +  python3-logging \
-> > > +  python3-fcntl \
-> > > +  librepo \
-> > > +  python3-shell \
-> > > +  libcomps \
-> > > +  libdnf \
-> > > +  python3-sqlite3 \
-> > > +  python3-compression \
-> > > +  python3-rpm \
-> > > +  python3-iniparse \
-> > > +  python3-json \
-> > > +  python3-curses \
-> > > +  python3-misc \
-> > > +  python3-gpg \
-> > > +  "
-> > > +
-> > >  RRECOMMENDS_${PN}_class-target += "gnupg"
-> >
-> > Do not copy-paste large chunks like this please. Assign the
-> > dependencies to a variable, and use it where needed.
->
-> Its worse than that, those are target dependencies, why would nativesdk
-> need them?
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 9e3d1d6fc1..2da43655aa 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -45,49 +45,72 @@ UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
+ # Functions in this bbclass is for u-boot only
+ UBOOT_PN = "${@d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'}"
+ 
++concat_dtb_helper() {
++	if [ -e ${UBOOT_DTB_BINARY} ]; then
++		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
++		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
++	fi
++
++	if [ -f ${UBOOT_NODTB_BINARY} ]; then
++		install ${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
++		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
++		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
++	fi
++
++	# Concatenate U-Boot w/o DTB & DTB with public key
++	# (cf. kernel-fitimage.bbclass for more details)
++	deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
++	if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
++		[ -e "$deployed_uboot_dtb_binary" ]; then
++		oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
++		install ${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
++	elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
++		cd ${DEPLOYDIR}
++		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${UBOOT_BINARY} > ${UBOOT_IMAGE}
++	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
++		bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
++	fi
++}
++
+ concat_dtb() {
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
+ 		mkdir -p ${DEPLOYDIR}
+-		if [ -e ${B}/${UBOOT_DTB_BINARY} ]; then
+-			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
+-			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
+-		fi
+-
+-		if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
+-            install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
+-            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
+-            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
+-		fi
+-
+-		# Concatenate U-Boot w/o DTB & DTB with public key
+-		# (cf. kernel-fitimage.bbclass for more details)
+-		deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
+-		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
+-			[ -e "$deployed_uboot_dtb_binary" ]; then
++		if [ -n "${UBOOT_CONFIG}" ]; then
++			for config in ${UBOOT_MACHINE}; do
++				cd ${B}/${config}
++				concat_dtb_helper
++			done
++		else
+ 			cd ${B}
+-			oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
+-			install ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+-		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
+-			cd ${DEPLOYDIR}
+-			cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
+-		elif [ -n "${UBOOT_DTB_BINARY}" ]; then
+-			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
++			concat_dtb_helper
+ 		fi
+ 	fi
+ }
+ 
+ # Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
+ # signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
++install_helper() {
++	if [ -f ${UBOOT_DTB_BINARY} ]; then
++		install -d ${D}${datadir}
++		# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
++		# need both of them.
++		install ${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
++		ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
++	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
++		bbwarn "${UBOOT_DTB_BINARY} not found"
++	fi
++}
++
+ do_install_append() {
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
+-		if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
+-			install -d ${D}${datadir}
+-			# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
+-			# need both of them.
+-			install ${B}/${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
+-			ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
+-		elif [ -n "${UBOOT_DTB_BINARY}" ]; then
+-			bbwarn "${B}/${UBOOT_DTB_BINARY} not found"
++		if [ -n "${UBOOT_CONFIG}" ]; then
++			for config in ${UBOOT_MACHINE}; do
++				cd ${B}/${config}
++				install_helper
++			done
++		else
++			cd ${B}
++			install_helper
+ 		fi
+ 	fi
+ }
+-- 
+2.17.1
+
 
