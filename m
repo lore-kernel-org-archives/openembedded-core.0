@@ -1,53 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
-	[209.85.221.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F61B7D016
+Return-Path: <mcfrisk@kapsi.fi>
+X-Greylist: delayed 2606 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 11 Apr 2019 10:32:14 UTC
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id BA3E37D706
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 08:27:33 +0000 (UTC)
-Received: by mail-wr1-f54.google.com with SMTP id h4so6105900wre.7
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 01:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=cBD/SO5p0J9WwBru1WA7LaeNLsmjkVfuwH7vk7+rYyA=;
-	b=JAyJ1bEpPzSorMCoq6tIRzQOGacO389jKqAZcNWPTwLllQIinQAdv481SPUlmvz5BK
-	yMPsLi8Zn3fgNKv4k6noqTKmK+aQl/hDjRQ5fYQq+0RHPRalzIFvjLbIo8DS4K7BaAJN
-	R1wLJdLQzHJ52cJNQAKATzX6sNlMFlP8P2Q2I=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=cBD/SO5p0J9WwBru1WA7LaeNLsmjkVfuwH7vk7+rYyA=;
-	b=ZRl0uWIVKj+RHRAz91vYpgMyZMEsSFUVn0TaMdrvqKXlLF2tcCPOjWKISm77FDipkd
-	1nZVM3l5PpbjdHYdk9viBrGc13tNwt2IicCcXdLyf2zVp3/V0IKw1BncENWma3QqWp0x
-	xBhWjjB2p7oQDgrQ4M2GqmHG+MpyqI1e2BijdnJYNU3c4DxT+Y0V663J1FcYg/dZ20xM
-	YVd6o5hc1TtvzjfG5mgCdMexUx3vMg54JplcgZA0YPSMISDpAHghpjuWwH/ut7pZj4Y/
-	1nS6/U7e5V0op0cvLBl+y07dse4C2d/yunc8LB9HGKj+bRYsbwYmm+IY/FlGrn3hK87K
-	lNUg==
-X-Gm-Message-State: APjAAAW4PgLqaNcp/wGyfAc6Ea7Q1pbHREvx2xLzkiJnRzkQY7pPQ4Ea
-	gCKK/Pxhq+CXvtDFt+6zfu/TIQ==
-X-Google-Smtp-Source: APXvYqyoRhVD1MjXfoRv4fqquHg88k1Zut30fbyZEOme/Yw41w4tzRyPW8L9do673+3pmEg+eWdniQ==
-X-Received: by 2002:adf:f88c:: with SMTP id u12mr29805195wrp.235.1554971253962;
-	Thu, 11 Apr 2019 01:27:33 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	m6sm45835621wrr.53.2019.04.11.01.27.32
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 11 Apr 2019 01:27:33 -0700 (PDT)
-Message-ID: <eac980cd94a8d408a02f143f8ee9f2723655e819.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alistair Francis <Alistair.Francis@wdc.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Apr 2019 09:27:32 +0100
-In-Reply-To: <20190410172152.13509-1-alistair.francis@wdc.com>
-References: <20190410172152.13509-1-alistair.francis@wdc.com>
-User-Agent: Evolution 3.32.0-1 
-MIME-Version: 1.0
-Cc: Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] u-boot: Upgrade from 2019.01 to 2019.04
+	Thu, 11 Apr 2019 10:32:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Q7wUbpPDoMIVAfRAc4RwlsuFdq/TwBF6e1YWhxQU3uY=;
+	b=dFqp568oixuz80D/ZSpNxEPHbx
+	tMm6moXJ6Wsz1ASAwgN96IqLEdY3iM9qFwz1dYqQWNrRDMJruZ6fHp6l9YG4Yq8kHEMFttr0mnBVl
+	qOO6f29zyFIqSjEKWlsGym4dZ+muITq3JzJEQx8ec4pyD8WSLnbB7xEvzKSOl38oFC7SGstqpnyB2
+	5Dh0AXoDCYPjoqa4ayccl97UfAC1amffp+dP2tj8KswsvqVCMEcQTJrfe4uUtZVs3CBia68STg500
+	LG9atXBTl7E3Y8fcMc73sMkFOCMLq978AElyetF9BB6w0jQjhKemcosCbJN6RmxNCV0XOubqafFq/
+	I7pzXlig==;
+Received: from lakka.kapsi.fi ([2001:67c:1be8::1] ident=Debian-exim)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1hEWK7-0003Qd-I6; Thu, 11 Apr 2019 12:48:47 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1hEWK7-0005wT-Ez; Thu, 11 Apr 2019 12:48:47 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 11 Apr 2019 12:48:40 +0300
+Message-Id: <1554976120-21849-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 2001:67c:1be8::1
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH] elfutils: update LICENSE to include GPLv2 for shared libraries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,33 +46,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 08:27:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 11 Apr 2019 10:32:15 -0000
 
-On Wed, 2019-04-10 at 17:23 +0000, Alistair Francis wrote:
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2
-> +-
->  .../{u-boot-fw-utils_2019.01.bb => u-boot-fw-utils_2019.04.bb}  | 0
->  .../u-boot/{u-boot-tools_2019.01.bb => u-boot-tools_2019.04.bb} | 0
->  .../recipes-bsp/u-boot/{u-boot_2019.01.bb => u-boot_2019.04.bb} | 0
->  4 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2019.01.bb => u-
-> boot-fw-utils_2019.04.bb} (100%)
->  rename meta/recipes-bsp/u-boot/{u-boot-tools_2019.01.bb => u-boot-
-> tools_2019.04.bb} (100%)
->  rename meta/recipes-bsp/u-boot/{u-boot_2019.01.bb => u-
-> boot_2019.04.bb} (100%)
+NEWS file in the sources says this about switch from GPLv2 to
+GPLv3 license:
 
-Breaks beaglebone-yocto:
+https://sourceware.org/git/?p=elfutils.git;a=blob;f=NEWS;h=5a06047f255e3c9a63828953759fd18a4ba9a3f3;hb=HEAD#l362
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/490
-https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/489
+ 362 The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for stand-alone
+ 363 programs. There is now also a formal CONTRIBUTING document describing how to
+ 364 submit patches.
 
-Cheers,
+libasm, libdw and libelf are thus covered optionally by GPLv2 license.
 
-Richard
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/recipes-devtools/elfutils/elfutils_0.175.bb | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.175.bb b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+index b0b9ddc..6d1279a 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.175.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Utilities and libraries for handling compiled object files"
+ HOMEPAGE = "https://sourceware.org/elfutils"
+ SECTION = "base"
+-LICENSE = "(GPLv3 & Elfutils-Exception)"
++LICENSE = "(GPLv2 & LGPLv3+ & GPLv3+ & Elfutils-Exception)"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "libtool bzip2 zlib virtual/libintl"
+ DEPENDS_append_libc-musl = " argp-standalone fts "
+@@ -53,6 +53,18 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ # Package utilities separately
+ PACKAGES =+ "${PN}-binutils libelf libasm libdw"
++
++# shared libraries are licensed GPLv2 or GPLv3+, binaries GPLv3+
++# according to NEWS file:
++# "The license is now GPLv2/LGPLv3+ for the libraries and GPLv3+ for stand-alone
++# programs. There is now also a formal CONTRIBUTING document describing how to
++# submit patches."
++LICENSE_${PN}-binutils = "GPLv3+"
++LICENSE_${PN} = "GPLv3+"
++LICENSE_libelf = "GPLv2 | LGPLv3+"
++LICENSE_libasm = "GPLv2 | LGPLv3+"
++LICENSE_libdw = "GPLv2 | LGPLv3+"
++
+ FILES_${PN}-binutils = "\
+     ${bindir}/eu-addr2line \
+     ${bindir}/eu-ld \
+-- 
+1.9.1
 
 
