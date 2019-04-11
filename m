@@ -1,53 +1,59 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 17AAC7D981
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C3B67D781
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 18:31:06 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id h18so5439645lfj.11
+	Thu, 11 Apr 2019 20:00:00 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id g3so8915699wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 11:31:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=UTirlWwxOb+oWDZR4epRdtRI3cj+vuaUW3Yu9lkTL+I=;
-	b=QaB8NHb/30HihqSKhIb4tgRpVIXeABNMfpURsp8qMUzFsw7niHwkrJynUJraxOCzi6
-	pW3K8ChaADFjaC/2w4TapEW/UN3I7q4dGzN8Kk37vBj3r/FVT3RICgFMnztW1P1B56Xl
-	yBiTQ9YKfIooTbB4VZa0j0lShMV12/id4W8l6tskzV2TSLqlLgX/rZFFa4v/wIw563xj
-	CelzYTpMNaZSM849QZJfORv1DLthtzgaucBpv7d0gzLBXSskD0sisXvvRxwpHjXeL1Zu
-	dDrJohBYGkrtZNaX+OFS2rEp6JiizHuPwlu1lIZGG1Fse/RJF1S0f3J103QOU7Oogrra
-	wV7A==
+	Thu, 11 Apr 2019 13:00:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=8MGq9Z3X/M3smO2Yce88qVykrVjiTqYH55Wxu/PcWVw=;
+	b=dL6xKQrd+4oHZ4QiVNQAX+iD7uyuoijrax8aa0r/JktRrRRj0sk3elwaoURwiuXv6b
+	urs57WKiSk2jec2JPCWL6qsRnlbvo6ZKUorLmkw28xiUGJMEfzuy9+VzYH1WpcJOadVF
+	G7tts6sJqopLfIIL9SOJF8S13gQiWmPpElM6k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=UTirlWwxOb+oWDZR4epRdtRI3cj+vuaUW3Yu9lkTL+I=;
-	b=gtfFFUta0WLy8oHkrWUlwvG823XvjUjMwjJ5lTTZxi9oO0koQgi/532oizPNTsmdFR
-	qOBHX0Abf7FVFQRYc2RYBHIZ391TXYHPbaVZEAZkCN04x/qzxCaw/aE33hgC0rHtNGWX
-	3KfaEr8qfS40FkOsnIFhv69DzpSDZ7fhXnc7Q7VxdNTldDN8SrC7scvgsHRHeWrGF2Vk
-	ZkNttIZ6GDCVbArB7XCeLdmCQFZot6pqp/0477bppw8fJ8k9K06kERNP1ejHvLe1O2Be
-	bBg9nLR0Xrnym6WhJIzALEtcdhSBPOp7T+72+woYrPFqKXmuf7TjpVpw2Jogfje1UlMp
-	98sw==
-X-Gm-Message-State: APjAAAU3oe3kS7lXE+IVf+QnS0VD8OXvfbzsayFkUKcpk78twmc23NDI
-	PHhh/j4TBDt0F2XNal5G4PQmtDR1qQ8vLTYJunE=
-X-Google-Smtp-Source: APXvYqyR8kdeOWkOUoe/j1pG5Gl2aHQZd0H60Ud009VYG+EQzOpdrpkRTT+wEYdN36K7Ucp1UYKD2Cvw6pzAR7+cweg=
-X-Received: by 2002:ac2:41d8:: with SMTP id d24mr12960568lfi.56.1555007466499; 
-	Thu, 11 Apr 2019 11:31:06 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=8MGq9Z3X/M3smO2Yce88qVykrVjiTqYH55Wxu/PcWVw=;
+	b=eFjj3AIh4amBwHZYa1B9amAYf/bnhUn58OWa2X24i+rVecjrVhaP9v9s/YSjyoMsHO
+	KFNteoBryH9igsZWnCJkzY4v4ndz4ga9m+Tt+QOirBLJSH77tR7JuJDifmlEa2f/0Yux
+	sE6kaso01M3iTBuMOw5uv+nwiWO/L1k5K1T9Buo57fPqXeLl2lse7qyTJJvfS1rAY/1i
+	hbWQ7TZvCjUqQLjbRpK7r/Qx6HJTAsi22M452gypIob7FbjMYxAQtyNAL7kkVQprW2w6
+	4a/uC5RuHHBH6c+91B1+RK07vPNmHRPbqm3v0MFw/LLdGoZTPL94zMJ97t01lfLsggBH
+	YBGA==
+X-Gm-Message-State: APjAAAV0FtzwoPVKW7pKGGE8cQCbuhfY9XEG95N5q3DxtY0KwsqHwDmb
+	c6ePcJ661gxLqykbJhjQYdmYiQ==
+X-Google-Smtp-Source: APXvYqwEL8Efrf6elnrn1KOju84MwQMSidyU0d3b/vyW2XQogt3SBwisr7vWlBydYVo/nOa/Sn7bVg==
+X-Received: by 2002:adf:f488:: with SMTP id l8mr31403521wro.213.1555012801060; 
+	Thu, 11 Apr 2019 13:00:01 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z1sm33833085wrs.52.2019.04.11.12.59.58
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 11 Apr 2019 12:59:59 -0700 (PDT)
+Message-ID: <89f9a01cf5b0e87afe338360dda5057f34a60747.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jason Wessel <jason.wessel@windriver.com>, Alexander Kanavin
+	<alex.kanavin@gmail.com>, Andreas =?ISO-8859-1?Q?M=FCller?=
+	<schnitzeltony@gmail.com>
+Date: Thu, 11 Apr 2019 20:59:58 +0100
+In-Reply-To: <6cb9ab41-778b-5e87-dfd2-88d38fec279a@windriver.com>
+References: <20190410215402.20055-1-jason.wessel@windriver.com>
+	<CANNYZj8K=irJAXpTtFtaNiQ2V+dFpSPT-ikfTgK5e0TECCv_fQ@mail.gmail.com>
+	<3e65af20-d2ad-603a-d121-a5982c0ae69e@windriver.com>
+	<CANNYZj94F69Ske57dARqP__Yk5iiutjaqxcens6tR84sfVMF+w@mail.gmail.com>
+	<847b6274-fa84-c76b-ee52-b4f884d63c0a@windriver.com>
+	<CANNYZj9k0qM+O9+mVmHf1JM6MR3Cd5xbuhfZFWTqXcW+DnXb2w@mail.gmail.com>
+	<6cb9ab41-778b-5e87-dfd2-88d38fec279a@windriver.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-References: <20190410172152.13509-1-alistair.francis@wdc.com>
-	<eac980cd94a8d408a02f143f8ee9f2723655e819.camel@linuxfoundation.org>
-	<20190411172654.GO2112@denix.org>
-	<CAKmqyKPZ0+NovkG2T6LS_dpD0h_JJ1QXbRiLQGYW5jsm-DVYuA@mail.gmail.com>
-	<20190411181136.GQ2112@denix.org>
-In-Reply-To: <20190411181136.GQ2112@denix.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 11 Apr 2019 11:29:32 -0700
-Message-ID: <CAKmqyKNNZ20ErfNsia51M0R5+RcqPYUmk3WaGa2BhQWvsPi=OA@mail.gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] u-boot: Upgrade from 2019.01 to 2019.04
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] gobject-introspection.bbclass: Disable writing to $HOME/.cache/g-ir-scanner
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,146 +66,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 18:31:06 -0000
+X-List-Received-Date: Thu, 11 Apr 2019 20:00:00 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 11, 2019 at 11:11 AM Denys Dmytriyenko <denis@denix.org> wrote:
->
-> On Thu, Apr 11, 2019 at 10:32:12AM -0700, Alistair Francis wrote:
-> > On Thu, Apr 11, 2019 at 10:27 AM Denys Dmytriyenko <denis@denix.org> wr=
-ote:
-> > >
-> > > On Thu, Apr 11, 2019 at 09:27:32AM +0100, Richard Purdie wrote:
-> > > > On Wed, 2019-04-10 at 17:23 +0000, Alistair Francis wrote:
-> > > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > > > ---
-> > > > >  meta/recipes-bsp/u-boot/u-boot-common.inc                       =
-| 2
-> > > > > +-
-> > > > >  .../{u-boot-fw-utils_2019.01.bb =3D> u-boot-fw-utils_2019.04.bb}=
-  | 0
-> > > > >  .../u-boot/{u-boot-tools_2019.01.bb =3D> u-boot-tools_2019.04.bb=
-} | 0
-> > > > >  .../recipes-bsp/u-boot/{u-boot_2019.01.bb =3D> u-boot_2019.04.bb=
-} | 0
-> > > > >  4 files changed, 1 insertion(+), 1 deletion(-)
-> > > > >  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2019.01.bb =3D> =
-u-
-> > > > > boot-fw-utils_2019.04.bb} (100%)
-> > > > >  rename meta/recipes-bsp/u-boot/{u-boot-tools_2019.01.bb =3D> u-b=
-oot-
-> > > > > tools_2019.04.bb} (100%)
-> > > > >  rename meta/recipes-bsp/u-boot/{u-boot_2019.01.bb =3D> u-
-> > > > > boot_2019.04.bb} (100%)
-> > > >
-> > > > Breaks beaglebone-yocto:
-> > > >
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/4=
-90
-> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/4=
-89
-> > >
-> > > Richard,
-> > >
-> > > This is quite interesting and surprisingly timely for me! Let me expl=
-ain.
-> > >
-> > > Both of the above errors are not really specific to beaglebone or eve=
-n u-boot.
-> > > In both cases, the failure is this:
-> > >
-> > > | ERROR: _exec_cmd: install -m 0644 -D /home/pokybuild/yocto-worker/b=
-eaglebone/build/build/tmp/deploy/images/beaglebone-yocto/u-boot.img /home/p=
-okybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky=
--linux-gnueabi/core-image-sato-sdk-ptest/1.0-r0/deploy-core-image-sato-sdk-=
-ptest-image-complete/core-image-sato-sdk-ptest-beaglebone-yocto-20190410232=
-147/tmp.wic.4xf3vi9f/boot.1/u-boot.img returned '1' instead of 0
-> > > | output: install: cannot stat '/home/pokybuild/yocto-worker/beaglebo=
-ne/build/build/tmp/deploy/images/beaglebone-yocto/u-boot.img': No such file=
- or directory
-> > > | ERROR: Function failed: do_image_wic (log file is located at /home/=
-pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-pok=
-y-linux-gnueabi/core-image-sato-sdk-ptest/1.0-r0/temp/log.do_image_wic.4196=
-0)
-> > >
-> > > I recently received exactly the same error report internally and have=
- been
-> > > investigating it. Though it is against Thud, for a different platform=
- and with
-> > > our own u-boot from meta-ti.
-> > >
-> > > It seems to be a race condition - wic is trying to assemble an image =
-when
-> > > u-boot binary is not yet ready. Usually on subsequent rebuilds when u=
--boot
-> > > needs to be rebuilt, but everything else is already available.
-> > >
-> > > Packaging for wic is set with IMAGE_BOOT_FILES =3D "u-boot.img", but =
-the build
-> > > dependency is special, as u-boot is not part of rootfs and is being s=
-et by
-> > > EXTRA_IMAGEDEPENDS =3D "u-boot":
-> > > http://git.yoctoproject.org/cgit/cgit.cgi/meta-yocto/tree/meta-yocto-=
-bsp/conf/machine/beaglebone-yocto.conf
-> > >
-> > > Since wic jumps right into packaging u-boot.img and doesn't wait for =
-it to
-> > > finish building/installing/deploying, it seems EXTRA_IMAGEDEPENDS is =
-broken.
-> > > But it used to work prior to Thud. It appears it may have been broken=
- here:
-> > > https://git.openembedded.org/openembedded-core/commit/?id=3Db54cdaea7=
-844ee3bf0c39eb97cc7c4c17ed5818c
-> > >
-> > > While the above commit deals with licenses and manifests, removal of =
-these
-> > > lines is not clear:
-> > >
-> > > -    extra_depends =3D d.getVar("EXTRA_IMAGEDEPENDS")
-> > > -    boot_depends =3D get_boot_dependencies(d)
-> > > -    depends.extend(extra_depends.split())
-> > > -    depends.extend(boot_depends)
-> > > -    depends =3D list(set(depends))
-> > >
-> > > Could it have affected boot dependencies and EXTRA_IMAGEDEPENDS behav=
-ior?
-> > > Please let me know if you need any more details. Thanks.
-> >
-> > Interesting. I just managed to reproduce a build failure for the
-> > beaglebone based on this patch. My build fail wasn't because of the
-> > missing u-boot.img file like in the buildbot error but instead due to
-> > an incorrect config file.
-> >
-> > I have sent a patch with you both in CC that fixes the missing config
-> > "beaglebone-yocto: Update u-boot config to match u-boot 19.04".
-> > Without that patch u-boot 19.04 doesn't even compile, so I'm not sure
-> > how the buildbot got far enough to complain about a missing .img file.
-> >
-> > After reading your email it makes more sense. It does seem like wic is
-> > trying to package the u-boot.img file too early.
-> >
-> > Either way the "beaglebone-yocto: Update u-boot config to match u-boot
-> > 19.04" patch should be applied at the same time as this patch.
->
-> Yeah, I just acked your config patch. I was going to do the same myself. =
-I
-> provided some details in the reply and also referenced bug #13145 from th=
-e
-> bugzilla. I wonder if v2 would be possible to include all that in the com=
-mit
-> log? Thanks.
+On Thu, 2019-04-11 at 11:36 -0500, Jason Wessel wrote:
+> On 4/11/19 10:35 AM, Alexander Kanavin wrote:
+> > On Thu, 11 Apr 2019 at 17:25, Jason Wessel <
+> > jason.wessel@windriver.com> wrote:
+> > > > Generally because generating introspection data is disabled for
+> > > > native
+> > > > packages, as a matter of policy (do not build something which
+> > > > is
+> > > > unused and untested).
+> > > > 
+> > > > If you could add
+> > > > EXTRA_OEMESON_append_class-native = " ${GI_DISABLE_FLAG}"
+> > > > 
+> > > > to the gdk-pixbuf recipe, and re-test (without your fix, to be
+> > > > extra
+> > > > sure) that g-ir-scanner is not invoked and nothing shows up in
+> > > > its
+> > > > cache, I would appreciate.
+> > > 
+> > > Thank you for the explanation.  I think the problem is more
+> > > widespread than just gdk-pixbuf, now that I have a slightly
+> > > better idea about what we are looking for.  My build is not even
+> > > complete and I can see there are three additional places the g-
+> > > ir-scanner is creating .cache entries.
+> > > 
+> > > /poky/build% grep -r /usr/bin/g-ir-scanner tmp/work/*/*/*/temp
+> > > |awk -F/ '{print $4}' |sort -u
+> > > atk-native
+> > > at-spi2-core-native
+> > > pango-native
+> > > 
+> > > 
+> > > Is it the case the bbclass file should be altered to set this
+> > > variable for the -native, or does each package need to be
+> > > modified individually?
+> > 
+> > I think Andreas's patchset that was recently posted (and is
+> > currently
+> > in master-next) takes care of this in a general way, where you
+> > don't
+> > have to go and fix every recipe. The unfortunate bit is that meson
+> > does not have a standard flag for enabling/disabling introspection,
+> > but we found a way to deal with this that is as generic as
+> > possible.
+> > 
+> > If you try with master-next, would be good to know.
+> > 
+> 
+> It all appears to work fine without the need to patch anything in
+> master-next.  
+> 
+> Thank you for the explanation.
 
-Done, just sent a v2.
+This is starting to look like something we probably want to pull into
+the warrior release given the problems with meson converted recipes
+otherwise?
 
->
-> Anyway, that's separate from the wic issue we started discussing above :)
+Cheers,
 
-Great! So this patch and the other patch are ready to be merged :)
+Richard
 
-Alistair
-
->
-> --
-> Denys
 
