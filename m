@@ -1,51 +1,53 @@
-Return-Path: <ticotimo@gmail.com>
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com
-	[209.85.222.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 56D727D90E;
-	Thu, 11 Apr 2019 18:15:00 +0000 (UTC)
-Received: by mail-ua1-f51.google.com with SMTP id b8so2347686uaq.7;
-	Thu, 11 Apr 2019 11:15:01 -0700 (PDT)
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 17AAC7D981
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2019 18:31:06 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id h18so5439645lfj.11
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Apr 2019 11:31:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=sxtCrpmF3Ou7betowsQWGBZ9BDUP2+bTKg2O0mX5VV4=;
-	b=NelsnhyhjKmLoS9mgLVcBqyOGbxgooT9zMbP8t6H2z5+u09mPV8p13jvvHFuG4Vx5T
-	rVX0tmaBf2wf5YJbe8dKqFNtJYaaj6984i/fENheUd+BFtZ6XT+W9wO6uotp708Mu0Tp
-	b4QbEiBDnL3SG79PD+47925fV10qHCuoVwTLn5b8UFbY2VfnU5KQkfUYWAQxhnn1joXK
-	iAWZbWPI6HUz9m95amdWgEAzR1YM7Edu9jwA2iK090BV3c8QYvM9POzWgw6XhJuuwsGq
-	3gTWPj22JDALH0xVNdBsJFXc54dcbUoxDcnefha8jH4Fl9/v0BZI0aJXex6cMpT0BoIK
-	h+Qw==
+	:cc:content-transfer-encoding;
+	bh=UTirlWwxOb+oWDZR4epRdtRI3cj+vuaUW3Yu9lkTL+I=;
+	b=QaB8NHb/30HihqSKhIb4tgRpVIXeABNMfpURsp8qMUzFsw7niHwkrJynUJraxOCzi6
+	pW3K8ChaADFjaC/2w4TapEW/UN3I7q4dGzN8Kk37vBj3r/FVT3RICgFMnztW1P1B56Xl
+	yBiTQ9YKfIooTbB4VZa0j0lShMV12/id4W8l6tskzV2TSLqlLgX/rZFFa4v/wIw563xj
+	CelzYTpMNaZSM849QZJfORv1DLthtzgaucBpv7d0gzLBXSskD0sisXvvRxwpHjXeL1Zu
+	dDrJohBYGkrtZNaX+OFS2rEp6JiizHuPwlu1lIZGG1Fse/RJF1S0f3J103QOU7Oogrra
+	wV7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=sxtCrpmF3Ou7betowsQWGBZ9BDUP2+bTKg2O0mX5VV4=;
-	b=A2UuMdxrt9VpUvOZx1xiLsp8QkX7e699Jf8LpnUzTRkI/2XJa1VIsN3LCMRSwLG6ZN
-	yLvop2NMyeHqAKy6NKtmn3wLjhXK6LMaSMGxbsxc2nCPswG++Ex1VpI2qDSPwiyf1L6j
-	08i3X13IGV/P0cUBYqWvdNab/vnrG6p/hZ+p2q9lfeTBSBBnVzYitO7HCNKTgRHfuqpF
-	7E2vSxXwGd6mAegW083gP7G3hQqmQ58/T0thm0TQTV3hvL9QlVcn/hKSLyIaXiIr96Ux
-	cZHCsX+ei6PB2U1pYvFa67cqBPX0VOaIKn4JMSA27INpQ0vy2HNt5jPQFZ7mvpE9wNNz
-	fI3w==
-X-Gm-Message-State: APjAAAVp1nFox/Q0cQQBIMuQgryY2BoGml6qkSceE9a1l+obP7ZuKy0S
-	7trvV8KFhQ//q/Mzikyhsh6BClQ2l0wRTr0mXgA=
-X-Google-Smtp-Source: APXvYqxteMfjidT6+BFxZ17nOm3r569EGEtvW+VyYqNIOAoNGr9P2nF9PmFcLfO3Nb+brMdrBjA2qRwuW6CjKm4FLVs=
-X-Received: by 2002:ab0:7493:: with SMTP id n19mr1443804uap.121.1555006500890; 
-	Thu, 11 Apr 2019 11:15:00 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=UTirlWwxOb+oWDZR4epRdtRI3cj+vuaUW3Yu9lkTL+I=;
+	b=gtfFFUta0WLy8oHkrWUlwvG823XvjUjMwjJ5lTTZxi9oO0koQgi/532oizPNTsmdFR
+	qOBHX0Abf7FVFQRYc2RYBHIZ391TXYHPbaVZEAZkCN04x/qzxCaw/aE33hgC0rHtNGWX
+	3KfaEr8qfS40FkOsnIFhv69DzpSDZ7fhXnc7Q7VxdNTldDN8SrC7scvgsHRHeWrGF2Vk
+	ZkNttIZ6GDCVbArB7XCeLdmCQFZot6pqp/0477bppw8fJ8k9K06kERNP1ejHvLe1O2Be
+	bBg9nLR0Xrnym6WhJIzALEtcdhSBPOp7T+72+woYrPFqKXmuf7TjpVpw2Jogfje1UlMp
+	98sw==
+X-Gm-Message-State: APjAAAU3oe3kS7lXE+IVf+QnS0VD8OXvfbzsayFkUKcpk78twmc23NDI
+	PHhh/j4TBDt0F2XNal5G4PQmtDR1qQ8vLTYJunE=
+X-Google-Smtp-Source: APXvYqyR8kdeOWkOUoe/j1pG5Gl2aHQZd0H60Ud009VYG+EQzOpdrpkRTT+wEYdN36K7Ucp1UYKD2Cvw6pzAR7+cweg=
+X-Received: by 2002:ac2:41d8:: with SMTP id d24mr12960568lfi.56.1555007466499; 
+	Thu, 11 Apr 2019 11:31:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <90d55754e9381759c8b70ebca0b880e6013f17f0.camel@linuxfoundation.org>
-	<f8b3661d-a6cc-494e-de49-e462ba935535@gmail.com>
-	<680dff761ebd04f8f240d12339b31569c70c48da.camel@linuxfoundation.org>
-	<05dd3911-b195-1d1f-b218-e4b41d80ec72@gmail.com>
-	<7c1d84b0957f2831a7add461f73e3d9108176e9b.camel@linuxfoundation.org>
-	<CAFNP8OstwvzhdYvyiaJ4JFZqNPGK3zypTPVEG-u437hE83js1A@mail.gmail.com>
-In-Reply-To: <CAFNP8OstwvzhdYvyiaJ4JFZqNPGK3zypTPVEG-u437hE83js1A@mail.gmail.com>
-From: Tim Orling <ticotimo@gmail.com>
-Date: Thu, 11 Apr 2019 11:14:48 -0700
-Message-ID: <CANx9H-BpLmKOhhetW8AKnWw+UaeD5GHjjhQVpSn+BWL=M9_ziA@mail.gmail.com>
-To: Scott Rifenbark <srifenbark@gmail.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Yocto discussion list <yocto@yoctoproject.org>, openembedded-architecture
-	<openembedded-architecture@lists.openembedded.org>
-Subject: Re: [Openembedded-architecture] [yocto] Eclipse support dropped with immediate effect
+References: <20190410172152.13509-1-alistair.francis@wdc.com>
+	<eac980cd94a8d408a02f143f8ee9f2723655e819.camel@linuxfoundation.org>
+	<20190411172654.GO2112@denix.org>
+	<CAKmqyKPZ0+NovkG2T6LS_dpD0h_JJ1QXbRiLQGYW5jsm-DVYuA@mail.gmail.com>
+	<20190411181136.GQ2112@denix.org>
+In-Reply-To: <20190411181136.GQ2112@denix.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 11 Apr 2019 11:29:32 -0700
+Message-ID: <CAKmqyKNNZ20ErfNsia51M0R5+RcqPYUmk3WaGa2BhQWvsPi=OA@mail.gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	Denys Dmytriyenko <denys@ti.com>
+Subject: Re: [PATCH] u-boot: Upgrade from 2019.01 to 2019.04
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,124 +60,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 18:15:00 -0000
-Content-Type: multipart/alternative; boundary="0000000000001bedb40586452a53"
-
---0000000000001bedb40586452a53
+X-List-Received-Date: Thu, 11 Apr 2019 18:31:06 -0000
 Content-Type: text/plain; charset="UTF-8"
-
-On Thu, Apr 11, 2019 at 9:29 AM Scott Rifenbark <srifenbark@gmail.com>
-wrote:
-
-> Richard and Armin,
->
-> I am going to start pulling Eclipse from the docs today.  The changes
-> won't make the frozen rc build but the website docs will reflect reality.
->
-
-Thank you, Scott.
-
->
-> Scott
->
-> On Thu, Apr 11, 2019 at 12:20 AM <richard.purdie@linuxfoundation.org>
-> wrote:
->
->> On Thu, 2019-04-11 at 08:42 +0530, akuster808 wrote:
->> >
->> > On 4/10/19 3:11 PM, richard.purdie@linuxfoundation.org wrote:
->> > > On Wed, 2019-04-10 at 05:56 +0530, akuster808 wrote:
->> > > > On 4/9/19 8:52 PM, Richard Purdie wrote:
->> > > > > I'm sorry to have to say this but the project is terminating
->> > > > > its
->> > > > > official eclipse plugin support with immediate effect.
->> > > > Does this affect the stable branches as well?
->> > > Yes, I think we'll just be removing the target from the autobuilder
->> > > entirely.
->> >
->> > Have we every removed a feature from a release? Do we need to doc
->> > this ?
->>
->> Its not so much remove as not release. No, we haven't and yes, we do
->> need to document it in the release notes.
->>
->> Cheers,
->>
->> Richard
->>
->> _______________________________________________
->> Openembedded-architecture mailing list
->> Openembedded-architecture@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
->>
-> _______________________________________________
-> Openembedded-architecture mailing list
-> Openembedded-architecture@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-architecture
->
-
---0000000000001bedb40586452a53
-Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Apr 11, 2019 at 9:29 AM Scott Rifenbark &lt;<a href=
-=3D"mailto:srifenbark@gmail.com">srifenbark@gmail.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left=
-:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div>Richard and Armin, =
-<br></div><div><br></div><div>I am going to start pulling Eclipse from the =
-docs today.=C2=A0 The changes won&#39;t make the frozen rc build but the we=
-bsite docs will reflect reality.</div></div><div dir=3D"ltr"><div></div></d=
-iv></blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Thank you, Sc=
-ott.</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bord=
-er-left:1px #ccc solid;padding-left:1ex"><div dir=3D"ltr"><div><br></div><d=
-iv>Scott<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Thu, Apr 11, 2019 at 12:20 AM &lt;<a href=3D"mailto:ri=
-chard.purdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfou=
-ndation.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Thu, 2019-04-11 at 08:42 +0530, akuster808 wrote:<br>
-&gt; <br>
-&gt; On 4/10/19 3:11 PM, <a href=3D"mailto:richard.purdie@linuxfoundation.o=
-rg" target=3D"_blank">richard.purdie@linuxfoundation.org</a> wrote:<br>
-&gt; &gt; On Wed, 2019-04-10 at 05:56 +0530, akuster808 wrote:<br>
-&gt; &gt; &gt; On 4/9/19 8:52 PM, Richard Purdie wrote:<br>
-&gt; &gt; &gt; &gt; I&#39;m sorry to have to say this but the project is te=
-rminating<br>
-&gt; &gt; &gt; &gt; its<br>
-&gt; &gt; &gt; &gt; official eclipse plugin support with immediate effect.<=
-br>
-&gt; &gt; &gt; Does this affect the stable branches as well?<br>
-&gt; &gt; Yes, I think we&#39;ll just be removing the target from the autob=
-uilder<br>
-&gt; &gt; entirely.<br>
-&gt; <br>
-&gt; Have we every removed a feature from a release? Do we need to doc<br>
-&gt; this ?<br>
-<br>
-Its not so much remove as not release. No, we haven&#39;t and yes, we do<br=
+On Thu, Apr 11, 2019 at 11:11 AM Denys Dmytriyenko <denis@denix.org> wrote:
 >
-need to document it in the release notes.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-_______________________________________________<br>
-Openembedded-architecture mailing list<br>
-<a href=3D"mailto:Openembedded-architecture@lists.openembedded.org" target=
-=3D"_blank">Openembedded-architecture@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-arch=
-itecture" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.or=
-g/mailman/listinfo/openembedded-architecture</a><br>
-</blockquote></div>
-_______________________________________________<br>
-Openembedded-architecture mailing list<br>
-<a href=3D"mailto:Openembedded-architecture@lists.openembedded.org" target=
-=3D"_blank">Openembedded-architecture@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-arch=
-itecture" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.or=
-g/mailman/listinfo/openembedded-architecture</a><br>
-</blockquote></div></div>
+> On Thu, Apr 11, 2019 at 10:32:12AM -0700, Alistair Francis wrote:
+> > On Thu, Apr 11, 2019 at 10:27 AM Denys Dmytriyenko <denis@denix.org> wr=
+ote:
+> > >
+> > > On Thu, Apr 11, 2019 at 09:27:32AM +0100, Richard Purdie wrote:
+> > > > On Wed, 2019-04-10 at 17:23 +0000, Alistair Francis wrote:
+> > > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > > ---
+> > > > >  meta/recipes-bsp/u-boot/u-boot-common.inc                       =
+| 2
+> > > > > +-
+> > > > >  .../{u-boot-fw-utils_2019.01.bb =3D> u-boot-fw-utils_2019.04.bb}=
+  | 0
+> > > > >  .../u-boot/{u-boot-tools_2019.01.bb =3D> u-boot-tools_2019.04.bb=
+} | 0
+> > > > >  .../recipes-bsp/u-boot/{u-boot_2019.01.bb =3D> u-boot_2019.04.bb=
+} | 0
+> > > > >  4 files changed, 1 insertion(+), 1 deletion(-)
+> > > > >  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2019.01.bb =3D> =
+u-
+> > > > > boot-fw-utils_2019.04.bb} (100%)
+> > > > >  rename meta/recipes-bsp/u-boot/{u-boot-tools_2019.01.bb =3D> u-b=
+oot-
+> > > > > tools_2019.04.bb} (100%)
+> > > > >  rename meta/recipes-bsp/u-boot/{u-boot_2019.01.bb =3D> u-
+> > > > > boot_2019.04.bb} (100%)
+> > > >
+> > > > Breaks beaglebone-yocto:
+> > > >
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/4=
+90
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/4=
+89
+> > >
+> > > Richard,
+> > >
+> > > This is quite interesting and surprisingly timely for me! Let me expl=
+ain.
+> > >
+> > > Both of the above errors are not really specific to beaglebone or eve=
+n u-boot.
+> > > In both cases, the failure is this:
+> > >
+> > > | ERROR: _exec_cmd: install -m 0644 -D /home/pokybuild/yocto-worker/b=
+eaglebone/build/build/tmp/deploy/images/beaglebone-yocto/u-boot.img /home/p=
+okybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky=
+-linux-gnueabi/core-image-sato-sdk-ptest/1.0-r0/deploy-core-image-sato-sdk-=
+ptest-image-complete/core-image-sato-sdk-ptest-beaglebone-yocto-20190410232=
+147/tmp.wic.4xf3vi9f/boot.1/u-boot.img returned '1' instead of 0
+> > > | output: install: cannot stat '/home/pokybuild/yocto-worker/beaglebo=
+ne/build/build/tmp/deploy/images/beaglebone-yocto/u-boot.img': No such file=
+ or directory
+> > > | ERROR: Function failed: do_image_wic (log file is located at /home/=
+pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-pok=
+y-linux-gnueabi/core-image-sato-sdk-ptest/1.0-r0/temp/log.do_image_wic.4196=
+0)
+> > >
+> > > I recently received exactly the same error report internally and have=
+ been
+> > > investigating it. Though it is against Thud, for a different platform=
+ and with
+> > > our own u-boot from meta-ti.
+> > >
+> > > It seems to be a race condition - wic is trying to assemble an image =
+when
+> > > u-boot binary is not yet ready. Usually on subsequent rebuilds when u=
+-boot
+> > > needs to be rebuilt, but everything else is already available.
+> > >
+> > > Packaging for wic is set with IMAGE_BOOT_FILES =3D "u-boot.img", but =
+the build
+> > > dependency is special, as u-boot is not part of rootfs and is being s=
+et by
+> > > EXTRA_IMAGEDEPENDS =3D "u-boot":
+> > > http://git.yoctoproject.org/cgit/cgit.cgi/meta-yocto/tree/meta-yocto-=
+bsp/conf/machine/beaglebone-yocto.conf
+> > >
+> > > Since wic jumps right into packaging u-boot.img and doesn't wait for =
+it to
+> > > finish building/installing/deploying, it seems EXTRA_IMAGEDEPENDS is =
+broken.
+> > > But it used to work prior to Thud. It appears it may have been broken=
+ here:
+> > > https://git.openembedded.org/openembedded-core/commit/?id=3Db54cdaea7=
+844ee3bf0c39eb97cc7c4c17ed5818c
+> > >
+> > > While the above commit deals with licenses and manifests, removal of =
+these
+> > > lines is not clear:
+> > >
+> > > -    extra_depends =3D d.getVar("EXTRA_IMAGEDEPENDS")
+> > > -    boot_depends =3D get_boot_dependencies(d)
+> > > -    depends.extend(extra_depends.split())
+> > > -    depends.extend(boot_depends)
+> > > -    depends =3D list(set(depends))
+> > >
+> > > Could it have affected boot dependencies and EXTRA_IMAGEDEPENDS behav=
+ior?
+> > > Please let me know if you need any more details. Thanks.
+> >
+> > Interesting. I just managed to reproduce a build failure for the
+> > beaglebone based on this patch. My build fail wasn't because of the
+> > missing u-boot.img file like in the buildbot error but instead due to
+> > an incorrect config file.
+> >
+> > I have sent a patch with you both in CC that fixes the missing config
+> > "beaglebone-yocto: Update u-boot config to match u-boot 19.04".
+> > Without that patch u-boot 19.04 doesn't even compile, so I'm not sure
+> > how the buildbot got far enough to complain about a missing .img file.
+> >
+> > After reading your email it makes more sense. It does seem like wic is
+> > trying to package the u-boot.img file too early.
+> >
+> > Either way the "beaglebone-yocto: Update u-boot config to match u-boot
+> > 19.04" patch should be applied at the same time as this patch.
+>
+> Yeah, I just acked your config patch. I was going to do the same myself. =
+I
+> provided some details in the reply and also referenced bug #13145 from th=
+e
+> bugzilla. I wonder if v2 would be possible to include all that in the com=
+mit
+> log? Thanks.
 
---0000000000001bedb40586452a53--
+Done, just sent a v2.
+
+>
+> Anyway, that's separate from the wic issue we started discussing above :)
+
+Great! So this patch and the other patch are ready to be merged :)
+
+Alistair
+
+>
+> --
+> Denys
+
