@@ -1,30 +1,28 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id A21127BF70
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C7E0F7BF70
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 06:13:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,336,1549900800"; d="scan'208";a="59011145"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 11 Apr 2019 14:13:11 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id DDB554CD83B7
+	Thu, 11 Apr 2019 06:29:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3B6TSQK013105
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 14:13:15 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.35) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Thu, 11 Apr 2019 14:13:19 +0800
-From: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+	Wed, 10 Apr 2019 23:29:28 -0700 (PDT)
+Received: from [128.224.162.190] (128.224.162.190) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Wed, 10 Apr 2019 23:29:27 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Apr 2019 23:12:25 +0800
-Message-ID: <1554995545-20943-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
+References: <cover.1548386264.git.Qi.Chen@windriver.com>
+	<2e971d062525b21d52a68d1926927f1a60af08d8.1548386264.git.Qi.Chen@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <0fcf04ce-457c-df87-bd2b-09a7077e654f@windriver.com>
+Date: Thu, 11 Apr 2019 14:40:12 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.35]
-X-yoursite-MailScanner-ID: DDB554CD83B7.AA33C
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] dnf: Enable nativesdk
+In-Reply-To: <2e971d062525b21d52a68d1926927f1a60af08d8.1548386264.git.Qi.Chen@windriver.com>
+X-Originating-IP: [128.224.162.190]
+Subject: Re: [PATCH 1/1] runqemu: do not check return code of tput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,79 +35,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 06:13:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Apr 2019 06:29:27 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Make dnf work on nativesdk environment.
+ping
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
----
- meta/classes/toolchain-scripts.bbclass |  1 +
- meta/recipes-devtools/dnf/dnf_4.1.0.bb | 29 +++++++++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
-
-diff --git a/meta/classes/toolchain-scripts.bbclass b/meta/classes/toolchain-scripts.bbclass
-index 1a2ec4f..de50b7e 100644
---- a/meta/classes/toolchain-scripts.bbclass
-+++ b/meta/classes/toolchain-scripts.bbclass
-@@ -101,6 +101,7 @@ toolchain_shared_env_script () {
- 	echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
- 	echo 'export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"' >> $script
- 	echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
-+	echo 'export MACHINE_ARCH=${MACHINE_ARCH}' >> $script
- 	echo 'export OECORE_SDK_VERSION="${SDK_VERSION}"' >> $script
- 	echo 'export ARCH=${ARCH}' >> $script
- 	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
-diff --git a/meta/recipes-devtools/dnf/dnf_4.1.0.bb b/meta/recipes-devtools/dnf/dnf_4.1.0.bb
-index d45023e..a5bded0 100644
---- a/meta/recipes-devtools/dnf/dnf_4.1.0.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.1.0.bb
-@@ -49,6 +49,29 @@ RDEPENDS_${PN}_class-target += " \
-   python3-gpg \
-   "
- 
-+RDEPENDS_${PN}_class-nativesdk += " \
-+  python3-core \
-+  python3-codecs \
-+  python3-netclient \
-+  python3-email \
-+  python3-threading \
-+  python3-distutils \
-+  python3-logging \
-+  python3-fcntl \
-+  librepo \
-+  python3-shell \
-+  libcomps \
-+  libdnf \
-+  python3-sqlite3 \
-+  python3-compression \
-+  python3-rpm \
-+  python3-iniparse \
-+  python3-json \
-+  python3-curses \
-+  python3-misc \
-+  python3-gpg \
-+  "
-+
- RRECOMMENDS_${PN}_class-target += "gnupg"
- 
- # Create a symlink called 'dnf' as 'make install' does not do it, but
-@@ -66,6 +89,12 @@ do_install_append_class-native() {
-                 RPM_NO_CHROOT_FOR_SCRIPTS=1
- }
- 
-+do_install_append_class-nativesdk() {
-+        create_wrapper ${D}/${bindir}/dnf \
-+                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1
-+}
-+
- SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
-                          dnf-automatic.service dnf-automatic.timer \
-                          dnf-automatic-download.service dnf-automatic-download.timer \
--- 
-1.8.3.1
-
+On 01/25/2019 11:18 AM, Chen Qi wrote:
+> The subprocess.run was replaced by subprocess.check_call because
+> of compatibility support down to python 3.4. But we really don't
+> care about whether that command succeeds. Some user reports that
+> in some tmux environment, this command fails and gives some
+> unpleasant traceback output. So we use 'call' instead of 'check_call'
+> to avoid such problem.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   scripts/runqemu | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index c4a0ca8..d3239ee 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -1318,7 +1318,7 @@ def main():
+>               logger.info("SIGTERM received")
+>               os.kill(config.qemupid, signal.SIGTERM)
+>               config.cleanup()
+> -            subprocess.check_call(["tput", "smam"])
+> +            subprocess.call(["tput", "smam"])
+>           signal.signal(signal.SIGTERM, sigterm_handler)
+>   
+>           config.check_args()
+> @@ -1340,7 +1340,7 @@ def main():
+>           return 1
+>       finally:
+>           config.cleanup()
+> -        subprocess.check_call(["tput", "smam"])
+> +        subprocess.call(["tput", "smam"])
+>   
+>   if __name__ == "__main__":
+>       sys.exit(main())
 
 
 
