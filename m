@@ -1,44 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com
-	[209.85.210.53])
-	by mail.openembedded.org (Postfix) with ESMTP id D694F7D3B6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 299C97D3A2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 11:19:15 +0000 (UTC)
-Received: by mail-ot1-f53.google.com with SMTP id 103so4846393otd.9
+	Thu, 11 Apr 2019 12:05:20 +0000 (UTC)
+Received: by mail-wm1-f49.google.com with SMTP id a184so6396693wma.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 04:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TuL4ZucuIFZX3EUFhe4ZdQko6HGHebs0ub3GjNo3AIs=;
-	b=FZROgtJPpcd2Fb1erytSiCnQ72bQMcPlN13YpgdnPxpFpTQIqPmuSeLrOSCybbUMGi
-	+jrV6EEcko8iwIK9FpdzINgSwJOxlUwSXAvP/Q3zazuUnodlnE6OOGW/HEB061dV+Mjt
-	z3W8dFI5OToEY/j0mVq6i+RY9znzsAngYY9HaBMdd11usB+fWc2/yF9des6qrrsgR3GY
-	5qaP9vw9RpW2BgS8g+hlMCvbKrH8wDe09KvKMavc/przP9tOhFRKYb5r5/vKSzyOrVjv
-	Fyi4XX2fLPhnWlGAJjjUjdcLQGN4tbY/yYwJfK4c+GEMBwZOl07uIGlmlxyhSPMoht8M
-	0EFA==
+	Thu, 11 Apr 2019 05:05:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=PqoR4U2fPa42JO7m3JHmyRW6kucGQwJBdMr058udCG0=;
+	b=W18OXTIF50Mr5xLtnUP1ljTtlbzE9oCMNCIu592vpFc/CFcSPDgcZBuFAASixsALhf
+	P3bHEnmoIbX7AXJ4z9Y+TKmPO3U8R+GyEOL8jILZMGti4zdpULW/poRAImG8DszOvmDk
+	7Wd27jLmBEzQhhoEKjjuc51uI0pxn3VcOqaKU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TuL4ZucuIFZX3EUFhe4ZdQko6HGHebs0ub3GjNo3AIs=;
-	b=EQAj5lCdzFqMKbsJj950zahyOjXaHW45dyC3RkdrlND1T7T9ekX9s5rOu++ClDqNJY
-	AByvhi2ys+8A0ol63gWgSCJG35I6n2c12IXJWyj+t0qYOfubxCghjxTKw4808PBqd5IH
-	uEeLbGfSuQOuHoNtqcB04OxDB0dWg+0sXUZNaE3RV3HKajke9Ym+paZpvua0O7u28ChK
-	Wd4+V9t+jXu7ypz8S+ZAEm2Zhx3avYb+QgQb+jqnC0IBBePGKpxK7bnKziE8iZiziUsI
-	JUbWWJSOIIs0Kzw46XjKS2p+iSCF9XeLDj1ifpa66zLjix7hxL4AQmGZWemgn39rhgDJ
-	MFrQ==
-X-Gm-Message-State: APjAAAUekJU0lcPrhLLp9Rw8I+j1pym/Z6N7miibUj9HAErwbbutIFBY
-	76V24hH/x6oogS5wNtxg4uYydRdZqsfU3cZ28lY=
-X-Google-Smtp-Source: APXvYqy+50nYMUbwejt4sMiMwz0/moyHs3w2tgEy3cFLjzzPpG8/pdZuNWgvb26bkuQlHAQEjqHlnDqxTIeuzi1k1/Y=
-X-Received: by 2002:a9d:68cb:: with SMTP id i11mr31996269oto.237.1554981556898;
-	Thu, 11 Apr 2019 04:19:16 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=PqoR4U2fPa42JO7m3JHmyRW6kucGQwJBdMr058udCG0=;
+	b=K850w+ngxPNe47aTBbAdnI9E/76WR3qtB+byxcYi6poZbVgiTlbWkEtOmFMJeAfU7N
+	pxaSbqaseJY30gV3iNUzkSWnl9aVj1AZe2SOgBG5fmGuchf1h3dQMSYvYK4MhG8H/6yb
+	wfmIH93QYePaF921yEyXbjzthU6NTfiKsdvRDriln8oKjIKUOkWZNjc3vZb0W8NmLGDn
+	6tdNoe7Wf9l33lKn6gV3ZX03YbbSwsx6UPfpO3Q/eT3z3znEovEuzOPjhT3QKvONZByK
+	ErQhA0NjDb1Sa99ufR+bLyjAk7rYmcu9il0fC13CYEc7iDok9xb4KWmz+VYCJ2hKqqEU
+	h4Bg==
+X-Gm-Message-State: APjAAAVYNcuIA0k5po8wPOBDBPZpC3/HdEnDoF/jvbIvRTR/lldAEUh0
+	tCZq/o/RPsgEEkNUmd6jyPnGIg==
+X-Google-Smtp-Source: APXvYqy7osmZwLzuVfGNaT+6f5xjROmF5BGYbUe/YdXX/IPpPT2Or1nvYO7W0P3Q3zbeJlpuHZRFwg==
+X-Received: by 2002:a7b:c053:: with SMTP id u19mr2465614wmc.63.1554984321650; 
+	Thu, 11 Apr 2019 05:05:21 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d14sm58606731wro.79.2019.04.11.05.05.20
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 11 Apr 2019 05:05:20 -0700 (PDT)
+Message-ID: <60b0b95f4227efd2be7ac7908b92aa08243de396.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Zheng Ruoqin
+	<zhengrq.fnst@cn.fujitsu.com>
+Date: Thu, 11 Apr 2019 13:05:19 +0100
+In-Reply-To: <CANNYZj_rYwg3Y5uDxKiwzJZrzMsmjLCNXOU2TMpgmB5Ydgt2sw@mail.gmail.com>
 References: <1554995545-20943-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1554995545-20943-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 11 Apr 2019 13:19:05 +0200
-Message-ID: <CANNYZj_rYwg3Y5uDxKiwzJZrzMsmjLCNXOU2TMpgmB5Ydgt2sw@mail.gmail.com>
-To: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+	<CANNYZj_rYwg3Y5uDxKiwzJZrzMsmjLCNXOU2TMpgmB5Ydgt2sw@mail.gmail.com>
+User-Agent: Evolution 3.32.0-1 
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] dnf: Enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,48 +60,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 11:19:16 -0000
+X-List-Received-Date: Thu, 11 Apr 2019 12:05:21 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, 11 Apr 2019 at 08:13, Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
+On Thu, 2019-04-11 at 13:19 +0200, Alexander Kanavin wrote:
+> On Thu, 11 Apr 2019 at 08:13, Zheng Ruoqin <
+> zhengrq.fnst@cn.fujitsu.com> wrote:
+> 
+> > +RDEPENDS_${PN}_class-nativesdk += " \
+> > +  python3-core \
+> > +  python3-codecs \
+> > +  python3-netclient \
+> > +  python3-email \
+> > +  python3-threading \
+> > +  python3-distutils \
+> > +  python3-logging \
+> > +  python3-fcntl \
+> > +  librepo \
+> > +  python3-shell \
+> > +  libcomps \
+> > +  libdnf \
+> > +  python3-sqlite3 \
+> > +  python3-compression \
+> > +  python3-rpm \
+> > +  python3-iniparse \
+> > +  python3-json \
+> > +  python3-curses \
+> > +  python3-misc \
+> > +  python3-gpg \
+> > +  "
+> > +
+> >  RRECOMMENDS_${PN}_class-target += "gnupg"
+> 
+> Do not copy-paste large chunks like this please. Assign the
+> dependencies to a variable, and use it where needed.
 
-> --- a/meta/classes/toolchain-scripts.bbclass
-> +++ b/meta/classes/toolchain-scripts.bbclass
-> @@ -101,6 +101,7 @@ toolchain_shared_env_script () {
->         echo 'export CPPFLAGS="${TARGET_CPPFLAGS}"' >> $script
->         echo 'export KCFLAGS="--sysroot=$SDKTARGETSYSROOT"' >> $script
->         echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >> $script
-> +       echo 'export MACHINE_ARCH=${MACHINE_ARCH}' >> $script
+Its worse than that, those are target dependencies, why would nativesdk
+need them?
 
-Please explain why this change in the commit.
+Cheers,
 
-> +RDEPENDS_${PN}_class-nativesdk += " \
-> +  python3-core \
-> +  python3-codecs \
-> +  python3-netclient \
-> +  python3-email \
-> +  python3-threading \
-> +  python3-distutils \
-> +  python3-logging \
-> +  python3-fcntl \
-> +  librepo \
-> +  python3-shell \
-> +  libcomps \
-> +  libdnf \
-> +  python3-sqlite3 \
-> +  python3-compression \
-> +  python3-rpm \
-> +  python3-iniparse \
-> +  python3-json \
-> +  python3-curses \
-> +  python3-misc \
-> +  python3-gpg \
-> +  "
-> +
->  RRECOMMENDS_${PN}_class-target += "gnupg"
+Richard
 
-Do not copy-paste large chunks like this please. Assign the
-dependencies to a variable, and use it where needed.
-
-Alex
 
