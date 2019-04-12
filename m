@@ -1,46 +1,23 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com
-	[209.85.160.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 311B17DB46
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id ED3687D8CD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 02:12:47 +0000 (UTC)
-Received: by mail-qt1-f178.google.com with SMTP id w5so9503124qtb.11
+	Fri, 12 Apr 2019 03:27:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3C3Rx9G014429
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 19:12:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pz0QaOKJ97WAMhU6+HmzGVjtaUbKhfdg6tlnH16phrc=;
-	b=tFMhM07Nd5kTh7oQlkHgS84QUvU9zZIM1tMquX1lpBeym3wvbK5M9bzkxriZlP+ibW
-	/nIKSSVEAot8HPA/lGMD1JQNLhdIa4EcJ6Q2Zx+Nni8OIdr7GMQlN4Sjt8N1Oq/EW2zU
-	UwiQjMoWAOEDtCAh1IsHsMoYq3QZoTkjKK+oMmkcpNRvWleVGQ/OvC4c15icutiQ2LUk
-	wOY79NsDGCdI2/kxrJU8d1Kbo3wxqxvhJxD1tzY80EiyfjJfVTLSyk6WaHY0sTbU0o5q
-	BCNK19TPV2RZrfe3tP59dmTma+JPMzPjejPBLWvNTWs6PpzZji4jicDj+Cd4zi57biSR
-	BH4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pz0QaOKJ97WAMhU6+HmzGVjtaUbKhfdg6tlnH16phrc=;
-	b=IDi+kTYhF+JOZjk9lrvWjFARtoi9t8hjcDrqOaSCP1/Vh5IdrV7VGsBLA/929menxP
-	tzVVSI55FdtZONbH+ZVJb+BtkZS0sv2YDhE0eJjXCz8HXDAK6UGQNpML+Ycq+EW+2mFw
-	rI7DRx5MdXC9c8zBhGCBduOkLIeuPeBhArw5O0Zl0fHLwwe/NHcjsz3YDvwv7r3XEB1x
-	BhZHf3nwcxiTcDus5Y37rYB/34GohdyUB9bghHs1DtzJjJnWBP04wS9BYyAxTJjqySg0
-	8LaNuSVF9MsG19jFL+pSNOMp0cN/xHsCGBPfoml0iy+WX7MHQElVdTsOChBQtaZ1uP9s
-	5/zg==
-X-Gm-Message-State: APjAAAWrtYu1VooApuvSjTGL2/KdEH8+Z8tkj/LpiZqP0R9KbNrJVKkT
-	5tLx/Z8GvOUXPAFKR6zOX6hMW/6xFVTUhLW/Eko=
-X-Google-Smtp-Source: APXvYqz8vaIgVgFAyHwlGXSiaUQkKARUdhe9pGCuvnAOMhczz+LGbC7XduSOdfoequZZyADK/n32mXuCGPybN/MeLyo=
-X-Received: by 2002:a0c:92e2:: with SMTP id c31mr11627752qvc.87.1555035168614; 
-	Thu, 11 Apr 2019 19:12:48 -0700 (PDT)
+	Thu, 11 Apr 2019 20:27:59 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Thu, 11 Apr 2019 20:27:59 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Apr 2019 11:27:57 +0800
+Message-ID: <1555039677-16701-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190411160037.21952-1-alex.kanavin@gmail.com>
-In-Reply-To: <20190411160037.21952-1-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 11 Apr 2019 19:12:37 -0700
-Message-ID: <CAMKF1sqTi8azcTi06msrQ9fhtwAgfduOU_20wQtCR4vbTP2nQw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] python3: add a tr-tr locale for test_locale ptest
+Subject: [PATCH] nettle: fix ptest failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,124 +30,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 02:12:48 -0000
-Content-Type: multipart/alternative; boundary="000000000000d6aed105864bd63a"
+X-List-Received-Date: Fri, 12 Apr 2019 03:27:59 -0000
+Content-Type: text/plain
 
---000000000000d6aed105864bd63a
-Content-Type: text/plain; charset="UTF-8"
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-On Thu, Apr 11, 2019 at 9:00 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+Remove dlopen-test.patch which originally used
+to fix the test dlopen-test, but autually the
+patch didn't resolve the issue as dlopen-test.patch
+supposes the file /usr/lib/libnettle.so exists.
+Instead deploy ${D}${PTEST_PATH}/libnettle.so to
+fix the dlopen-test failure.
 
-> With this change, the ptests do not fail anymore,
-> except for the three failures caused by the 5.0 kernel regression:
->
-> - test_ssl and test_httplib lock up, and are skipped
-> (there is a separate patch for it)
->
-> - test_asyncio fails but does not lock up
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-devtools/python/python3_3.7.2.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/python/python3_3.7.2.bb
-> b/meta/recipes-devtools/python/python3_3.7.2.bb
-> index 28f128d488b..71a6c103166 100644
-> --- a/meta/recipes-devtools/python/python3_3.7.2.bb
-> +++ b/meta/recipes-devtools/python/python3_3.7.2.bb
-> @@ -284,7 +284,7 @@ FILES_${PN}-misc = "${libdir}/python${PYTHON_MAJMIN}
-> ${libdir}/python${PYTHON_MA
->  PACKAGES += "${PN}-man"
->  FILES_${PN}-man = "${datadir}/man"
->
-> -RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc
-> tzdata-europe coreutils sed"
-> +RDEPENDS_${PN}-ptest = "${PN}-modules ${PN}-tests unzip bzip2 libgcc
-> tzdata-europe coreutils sed locale-base-tr-tr.iso-8859-9"
+Update the initialization for the salt to fix
+below Segmentation fault and also nettle-pbkdf2-test
+failure.
+ # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
+ [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
+ [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
+ Segmentation fault
+
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ ...kdf2.c-change-the-initialization-for-salt.patch | 39 ++++++++++++++++++++++
+ .../nettle/nettle-3.4.1/dlopen-test.patch          | 20 -----------
+ meta/recipes-support/nettle/nettle_3.4.1.bb        |  9 ++---
+ 3 files changed, 44 insertions(+), 24 deletions(-)
+ create mode 100644 meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch
+ delete mode 100644 meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+
+diff --git a/meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch b/meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch
+new file mode 100644
+index 0000000..713823e
+--- /dev/null
++++ b/meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch
+@@ -0,0 +1,39 @@
++From 7510ee2877368464ecce7de515ce056e08c75245 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Fri, 12 Apr 2019 10:30:14 +0800
++Subject: [PATCH] nettle-pbkdf2.c: change the initialization for salt
++
++use malloc and strncpy altogether to replace
++strdup for salt initialization to fix below
++Segmentation fault:
++ # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
++ [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
++ [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
++ Segmentation fault
++
++Upstream-Status: Submitted[http://lists.lysator.liu.se/pipermail/nettle-bugs/2019/007467.html]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ tools/nettle-pbkdf2.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/tools/nettle-pbkdf2.c b/tools/nettle-pbkdf2.c
++index 1f0a301..000acd3 100644
++--- a/tools/nettle-pbkdf2.c
+++++ b/tools/nettle-pbkdf2.c
++@@ -141,7 +141,10 @@ main (int argc, char **argv)
++       return EXIT_FAILURE;
++     }
++ 
++-  salt = strdup (argv[0]);
+++  salt = malloc (strlen(argv[0]) + 1);
+++  if (! salt)
+++     die ("Failed to allocate memory for salt\n");
+++  strncpy(salt, argv[0], sizeof(salt) - 1);
++   salt_length = strlen(argv[0]);
++   
++   if (hex_salt)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+deleted file mode 100644
+index c4f0b7e..0000000
+--- a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Replace relative path of libnettle.so with absolute path so the test
+-program can find it.
+-Relative paths are not suitable, as the folder strucure for ptest
+-is different from the one expected by the nettle testsuite.
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+-
+---- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000 -0700
+-+++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860 -0700
+-@@ -9,7 +9,7 @@
+- main (int argc UNUSED, char **argv UNUSED)
+- {
+- #if HAVE_LIBDL
+--  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
+-+  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
+-   int (*get_version)(void);
+-   if (!handle)
+-     {
+diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
+index dd49c30..612e058 100644
+--- a/meta/recipes-support/nettle/nettle_3.4.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
+@@ -14,12 +14,9 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+            file://Add-target-to-only-build-tests-not-run-them.patch \
+            file://run-ptest \
+            file://check-header-files-of-openssl-only-if-enable_.patch \
++           file://0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch \
+            "
+ 
+-SRC_URI_append_class-target = "\
+-            file://dlopen-test.patch \
+-            "
+-
+ SRC_URI[md5sum] = "9bdebb0e2f638d3b9d91f7fc264b70c1"
+ SRC_URI[sha256sum] = "f941cf1535cd5d1819be5ccae5babef01f6db611f9b5a777bae9c7604b8a92ad"
+ 
+@@ -47,6 +44,10 @@ do_install_ptest() {
+         # tools can be found in PATH, not in ../tools/
+         sed -i -e 's|../tools/||' ${D}${PTEST_PATH}/testsuite/*-test
+         install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
++        # libnettle.so is needed for dlopen-test
++        if [ -f ${D}${libdir}/libnettle.so.6.* ]; then
++            cp ${D}${libdir}/libnettle.so.6.* ${D}${PTEST_PATH}/libnettle.so
++        fi
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.7.4
 
 
-While this is a test package i must mention that locale packaged are
-specific to Glibc so it would be better to append it with libc override
-
->
->  RDEPENDS_${PN}-tkinter += "${@bb.utils.contains('PACKAGECONFIG', 'tk',
-> 'tk', '', d)}"
->  RDEPENDS_${PN}-dev = ""
->
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000d6aed105864bd63a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Apr 11, 2019 at 9:00 AM Alexander Kanavin &lt;<a hr=
-ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">With this change, the ptests do not=
- fail anymore,<br>
-except for the three failures caused by the 5.0 kernel regression:<br>
-<br>
-- test_ssl and test_httplib lock up, and are skipped<br>
-(there is a separate patch for it)<br>
-<br>
-- test_asyncio fails but does not lock up<br>
-<br>
-Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.c=
-om" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3_3.7.2.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.7.2.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.7.2.b=
-b" rel=3D"noreferrer" target=3D"_blank">python3_3.7.2.bb</a> b/meta/recipes=
--devtools/python/<a href=3D"http://python3_3.7.2.bb" rel=3D"noreferrer" tar=
-get=3D"_blank">python3_3.7.2.bb</a><br>
-index 28f128d488b..71a6c103166 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.7.2.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.7.2.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.7.2.bb" rel=
-=3D"noreferrer" target=3D"_blank">python3_3.7.2.bb</a><br>
-@@ -284,7 +284,7 @@ FILES_${PN}-misc =3D &quot;${libdir}/python${PYTHON_MAJ=
-MIN} ${libdir}/python${PYTHON_MA<br>
-=C2=A0PACKAGES +=3D &quot;${PN}-man&quot;<br>
-=C2=A0FILES_${PN}-man =3D &quot;${datadir}/man&quot;<br>
-<br>
--RDEPENDS_${PN}-ptest =3D &quot;${PN}-modules ${PN}-tests unzip bzip2 libgc=
-c tzdata-europe coreutils sed&quot;<br>
-+RDEPENDS_${PN}-ptest =3D &quot;${PN}-modules ${PN}-tests unzip bzip2 libgc=
-c tzdata-europe coreutils sed locale-base-tr-tr.iso-8859-9&quot;</blockquot=
-e><div dir=3D"auto"><br></div><div dir=3D"auto">While this is a test packag=
-e i must mention that locale packaged are specific to Glibc so it would be =
-better to append it with libc override=C2=A0</div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left=
-:1ex"><br>
-=C2=A0RDEPENDS_${PN}-tkinter +=3D &quot;${@bb.utils.contains(&#39;PACKAGECO=
-NFIG&#39;, &#39;tk&#39;, &#39;tk&#39;, &#39;&#39;, d)}&quot;<br>
-=C2=A0RDEPENDS_${PN}-dev =3D &quot;&quot;<br>
-<br>
--- <br>
-2.17.1<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---000000000000d6aed105864bd63a--
