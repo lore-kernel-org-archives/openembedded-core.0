@@ -1,37 +1,46 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id C9D447DCE7
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B1DC7DBD1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 21:11:54 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id B889E40BA5;
-	Fri, 12 Apr 2019 21:11:55 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id gzQOZo0NwTxx; Fri, 12 Apr 2019 21:11:55 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
-	[100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8605140A89;
-	Fri, 12 Apr 2019 21:11:53 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id 489A116E02A; Fri, 12 Apr 2019 17:11:53 -0400 (EDT)
-Date: Fri, 12 Apr 2019 17:11:53 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190412211153.GR2112@denix.org>
-References: <20190410172152.13509-1-alistair.francis@wdc.com>
-	<eac980cd94a8d408a02f143f8ee9f2723655e819.camel@linuxfoundation.org>
-	<20190411172654.GO2112@denix.org>
+	Fri, 12 Apr 2019 21:44:15 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id a46so3734953uae.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Apr 2019 14:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=FBGgJfQFkKlRBvylM3H+P5hNDSiclqx15qsX0Kg0YnM=;
+	b=RugtCW3xQGOz1oSFdpRQjDA7BG5lFK8m50DP7lff89ioqK5nPPur3Jd+h8ptpD7BZV
+	iGmGwKGiWFZiMs2YjXAfgsWiEAuRO4HLJXTxbV9x/osTC5eagFIKYBhCwrm+FNpgEBXD
+	+oHGd8oypQeQZV7PWnl5QhYMCePfvTpUxGOXGRo9N4OeOFv1f4FhXCKwgtVN3iHrCgGU
+	4yC61WBZw+gT8+kfYBlOHbcXaOR/qZjrjLS3DH51fFmo4JwrCUh/yApp0LOgBIIcSnCs
+	20XVhBKeXUMJGnrfCapjrVljV43x4sd+ehc9+x5/S1uMqz06xoRoiXikgqP2t3xNJRzI
+	LZrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=FBGgJfQFkKlRBvylM3H+P5hNDSiclqx15qsX0Kg0YnM=;
+	b=r05X29YFdqewBXnjkRofNC6rJ4QPWUDMnHvaEWb+qOMAYxSFxpEpz3vj68+hzRkDlu
+	AYXI5fb1//bzDxAJXBSgsqUll2lYu80ex7zuhznlaaAbCsOXETIODJauuRwBljFlaX34
+	2Ma/V+8n9gqPYKek/K3mSAC5oe36pEPCQ0YD+ZCIwypaY5XbHOc/FXWP0jdB+PgIO+is
+	wIYuYp87ucX7mdH1voCWlRjGfSkLFUQgl4czrv6Ds+5GQZsB0LZxj6+G64VwNTofdsNG
+	uCtcqxs6T46stw6jTfdVD45n/lYZb9CCmU8AAbjiNd1FSanUEnBNsBtzN0zzMmYEDJut
+	F7RA==
+X-Gm-Message-State: APjAAAXd9EkJ7jrHaCWuIsWEbS5wI17C+iUNtmlLJ3Gwtve0cmP0Y22l
+	MOY8LHNvEZUIHGpi0XdDGVwNdZdjMQJ4VLopI169ha0L
+X-Google-Smtp-Source: APXvYqy9VYicr15sSyex12ROZaBKnc3GHq6nyHAvwf39mUKZam6FK1caulzFZ2BGLj+akqwBItUoOk8ZOgIpaPpr6MA=
+X-Received: by 2002:ab0:348a:: with SMTP id c10mr26610708uar.79.1555105456190; 
+	Fri, 12 Apr 2019 14:44:16 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190411172654.GO2112@denix.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	Denys Dmytriyenko <denys@ti.com>
-Subject: Re: [PATCH] u-boot: Upgrade from 2019.01 to 2019.04
+References: <20190412210912.21432-1-bunk@stusta.de>
+In-Reply-To: <20190412210912.21432-1-bunk@stusta.de>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 12 Apr 2019 14:44:05 -0700
+Message-ID: <CAJ86T=V5RzrFCdyQ2fyJHHkH352vMF+DQ6dXHsxwSC9kRLMBZg@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Set XZ_COMPRESSION_LEVEL to -9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,74 +53,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 21:11:55 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 12 Apr 2019 21:44:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 11, 2019 at 01:26:54PM -0400, Denys Dmytriyenko wrote:
-> On Thu, Apr 11, 2019 at 09:27:32AM +0100, Richard Purdie wrote:
-> > On Wed, 2019-04-10 at 17:23 +0000, Alistair Francis wrote:
-> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  meta/recipes-bsp/u-boot/u-boot-common.inc                       | 2
-> > > +-
-> > >  .../{u-boot-fw-utils_2019.01.bb => u-boot-fw-utils_2019.04.bb}  | 0
-> > >  .../u-boot/{u-boot-tools_2019.01.bb => u-boot-tools_2019.04.bb} | 0
-> > >  .../recipes-bsp/u-boot/{u-boot_2019.01.bb => u-boot_2019.04.bb} | 0
-> > >  4 files changed, 1 insertion(+), 1 deletion(-)
-> > >  rename meta/recipes-bsp/u-boot/{u-boot-fw-utils_2019.01.bb => u-
-> > > boot-fw-utils_2019.04.bb} (100%)
-> > >  rename meta/recipes-bsp/u-boot/{u-boot-tools_2019.01.bb => u-boot-
-> > > tools_2019.04.bb} (100%)
-> > >  rename meta/recipes-bsp/u-boot/{u-boot_2019.01.bb => u-
-> > > boot_2019.04.bb} (100%)
-> > 
-> > Breaks beaglebone-yocto:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/490
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/489
-> 
-> Richard,
-> 
-> This is quite interesting and surprisingly timely for me! Let me explain.
-> 
-> Both of the above errors are not really specific to beaglebone or even u-boot. 
-> In both cases, the failure is this:
-> 
-> | ERROR: _exec_cmd: install -m 0644 -D /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/deploy/images/beaglebone-yocto/u-boot.img /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato-sdk-ptest/1.0-r0/deploy-core-image-sato-sdk-ptest-image-complete/core-image-sato-sdk-ptest-beaglebone-yocto-20190410232147/tmp.wic.4xf3vi9f/boot.1/u-boot.img returned '1' instead of 0
-> | output: install: cannot stat '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/deploy/images/beaglebone-yocto/u-boot.img': No such file or directory
-> | ERROR: Function failed: do_image_wic (log file is located at /home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato-sdk-ptest/1.0-r0/temp/log.do_image_wic.41960)
-> 
-> I recently received exactly the same error report internally and have been 
-> investigating it. Though it is against Thud, for a different platform and with 
-> our own u-boot from meta-ti.
-> 
-> It seems to be a race condition - wic is trying to assemble an image when 
-> u-boot binary is not yet ready. Usually on subsequent rebuilds when u-boot 
-> needs to be rebuilt, but everything else is already available.
-> 
-> Packaging for wic is set with IMAGE_BOOT_FILES = "u-boot.img", but the build 
-> dependency is special, as u-boot is not part of rootfs and is being set by 
-> EXTRA_IMAGEDEPENDS = "u-boot":
-> http://git.yoctoproject.org/cgit/cgit.cgi/meta-yocto/tree/meta-yocto-bsp/conf/machine/beaglebone-yocto.conf
-> 
-> Since wic jumps right into packaging u-boot.img and doesn't wait for it to 
-> finish building/installing/deploying, it seems EXTRA_IMAGEDEPENDS is broken. 
-> But it used to work prior to Thud. It appears it may have been broken here:
-> https://git.openembedded.org/openembedded-core/commit/?id=b54cdaea7844ee3bf0c39eb97cc7c4c17ed5818c
-> 
-> While the above commit deals with licenses and manifests, removal of these 
-> lines is not clear:
-> 
-> -    extra_depends = d.getVar("EXTRA_IMAGEDEPENDS")
-> -    boot_depends = get_boot_dependencies(d)
-> -    depends.extend(extra_depends.split())
-> -    depends.extend(boot_depends)
-> -    depends = list(set(depends))
-> 
-> Could it have affected boot dependencies and EXTRA_IMAGEDEPENDS behavior? 
-> Please let me know if you need any more details. Thanks.
+On Fri, Apr 12, 2019 at 2:09 PM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> It is consistent with other compressors also using their
+> best compression.
+>
+> xz is currently the option that offers best compression,
+> using settings even lower than the default is surprising
+> and makes it harder to choose the best available compression.
+>
+> For anyone who cares about compression time using a different
+> option like gzip or bzip2 is the logical choice.
 
-Files a bug here:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13280
+The concern with xz's highest compression level is memory usage rather
+than CPU time. Quoting from the manpage:
+
+  Preset   DictSize   CompCPU    CompMem   DecMem
+    -0     256 KiB     0      3 MiB    1 MiB
+    -1       1 MiB     1      9 MiB    2 MiB
+    -2       2 MiB     2     17 MiB    3 MiB
+    -3       4 MiB     3     32 MiB    5 MiB
+    -4       4 MiB     4     48 MiB    5 MiB
+    -5       8 MiB     5     94 MiB    9 MiB
+    -6       8 MiB     6     94 MiB    9 MiB
+    -7      16 MiB     6    186 MiB   17 MiB
+    -8      32 MiB     6    370 MiB   33 MiB
+    -9      64 MiB     6    674 MiB   65 MiB
+
+Given that these are per-thread the memory requirements may start to
+get a little unreasonable with xz -9. We do limit usage to 50% of
+physical memory via XZ_DEFAULTS though so maybe it's not a big
+concern?
+
+Either way, perhaps now would be a good time to remove
+XZ_COMPRESSION_LEVEL from image_types.bbclass and instead just include
+the compression level option in XZ_DEFAULTS so that it gets used
+consistently everywhere.
+
+> For decompression, better compressed is actually faster
+> to decompress.
+>
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  meta/classes/image_types.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
+> index 95aa1674cf..1c44ec4a80 100644
+> --- a/meta/classes/image_types.bbclass
+> +++ b/meta/classes/image_types.bbclass
+> @@ -54,7 +54,7 @@ def imagetypes_getdepends(d):
+>      # Sort the set so that ordering is consistant
+>      return " ".join(sorted(deps))
+>
+> -XZ_COMPRESSION_LEVEL ?= "-3"
+> +XZ_COMPRESSION_LEVEL ?= "-9"
+>  XZ_INTEGRITY_CHECK ?= "crc32"
+>
+>  ZIP_COMPRESSION_LEVEL ?= "-9"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
