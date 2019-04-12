@@ -1,58 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 29D027D597
+Return-Path: <daniel.thompson@linaro.org>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id DBD6E7D720
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 12:05:36 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 46531185E5;
-	Fri, 12 Apr 2019 14:05:37 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id gj9maeCzb9mM; Fri, 12 Apr 2019 14:05:36 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id DA613186D7;
-	Fri, 12 Apr 2019 14:05:35 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C35441E06E;
-	Fri, 12 Apr 2019 14:05:35 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B82C81E066;
-	Fri, 12 Apr 2019 14:05:35 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Fri, 12 Apr 2019 14:05:35 +0200 (CEST)
-Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
-	by seth.se.axis.com (Postfix) with ESMTP id AC2981A4;
-	Fri, 12 Apr 2019 14:05:35 +0200 (CEST)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Fri, 12 Apr 2019 14:05:35 +0200
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Fri, 12 Apr 2019 14:05:35 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Wenlin Kang <wenlin.kang@windriver.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] systemd: install libnss-myhostname.so when
-	myhostname be enabled
-Thread-Index: AQHU74GuFTjmZlQL3kyBDIXo/8YWh6Y4boEw
-Date: Fri, 12 Apr 2019 12:05:35 +0000
-Message-ID: <755e2a014f114ecdb7e02ed6b7040578@XBOX04.axis.com>
-References: <1554888273-111881-1-git-send-email-wenlin.kang@windriver.com>
-In-Reply-To: <1554888273-111881-1-git-send-email-wenlin.kang@windriver.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Fri, 12 Apr 2019 12:31:01 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id w1so11719463wrp.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Apr 2019 05:31:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X2iu+9y6/U89dym76q7HQ2EJ0/9NT7NVjCPPhrYFZNo=;
+	b=Xd5g2hSDB2RTlI0GgZDhN82zFhuwxleWuZt3QIPP/MUbkrErCQQdDhmJ+Q58G8IOwl
+	2EisTizI+K11PxtAwmlaXs+FJeHb/z8bpHTr15YaGCdDsrQkN4xSoH9jLUpdEneAdP54
+	DNDyugR5+HeTJHIOqTcyWLS9/xmAUg093gK8RS65i51KMlbG8xwj2pPDSFW2nJ+yPe4o
+	10fOESmyaFisSUQEjArp3S7nQD1IhXHhJnpq2xoFjUn0zLXBxWck4BtL+4k9WBIqcH6e
+	4axr/q3MMaJX6JfL9tDZPqwjLOHDRY1ldVPhf8EX6Ad4ulDkJgBcOHbfl9vd3WWaJk43
+	v4gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X2iu+9y6/U89dym76q7HQ2EJ0/9NT7NVjCPPhrYFZNo=;
+	b=e7WcWkyBnV895DhFxAhhrcXHLW8s8dM6Em9S6DOzorLdQmPsdnYugn20Dr6FqYowif
+	kqryZUeP+6pX5DR9wSrGWV1vhI3LYnIkHBRH/CfSrSJq6Z1H1mg9eDejJUGXwBuxna0/
+	uB/9xRznz9AuOi82AjMsyTrPq58cuXsqM1Zf7UDPVij/G+c3szpDW753jkk8jWv1m8hA
+	UbP2mo0KMzNE09VWJCCL1hR6Iuxuyx85PjIc9n3+TmzP1pLP1aUhTZxLf0RVAB7AU7Ig
+	Edv625zmY5o81INoIHb82spxTMPNNj8BbS3FPGH3vU4vcdyFm1aCzk27jwDolw3GXI9K
+	otRw==
+X-Gm-Message-State: APjAAAXUU+ebrK0oKL+gMoLQi3WmogSvom+pv1GUsqAdByYcPz1Mlwot
+	RcM4OhIKR6lmEd/c8aOnKZRd8efLz2BBGA==
+X-Google-Smtp-Source: APXvYqyJXQlbwDE+66q3Gjl6Yox/pUOsRj2WrgqN6lybW5jJ96PLlzE9FOGt+uzfHdbXItsPhW+kag==
+X-Received: by 2002:a05:6000:14a:: with SMTP id
+	r10mr15708797wrx.107.1555072262283; 
+	Fri, 12 Apr 2019 05:31:02 -0700 (PDT)
+Received: from oak.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+	[86.9.19.6]) by smtp.gmail.com with ESMTPSA id
+	13sm10610126wmf.23.2019.04.12.05.31.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 12 Apr 2019 05:31:01 -0700 (PDT)
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Apr 2019 13:30:46 +0100
+Message-Id: <20190412123046.17510-1-daniel.thompson@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] systemd: install libnss-myhostname.so when	myhostname be enabled
+Subject: [PATCH] go: Allow bootstrapping using host go compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,56 +58,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 12:05:37 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 12 Apr 2019 12:31:02 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Wenlin Kang
-> Sent: den 10 april 2019 11:25
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH] systemd: install libnss-myhostname.so when
-> myhostname be enabled
->=20
-> This fixes the follow issue, the cause is that net-tools needs
-> libnss-myhostname.so when run "hostname -s".
->=20
-> root@qemuarm64:~# hostname -s
-> hostname: Unknown host
->=20
-> Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-> ---
->  meta/recipes-core/systemd/systemd_241.bb | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core=
-/systemd/systemd_241.bb
-> index bfbfc81..251daaa 100644
-> --- a/meta/recipes-core/systemd/systemd_241.bb
-> +++ b/meta/recipes-core/systemd/systemd_241.bb
-> @@ -547,6 +547,7 @@ FILES_${PN}-dev +=3D "${base_libdir}/security/*.la ${=
-datadir}/dbus-1/interfaces/ $
->  RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount util-linux-umount udev (=
-=3D ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
->  RDEPENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'serial-getty=
--generator', '', 'systemd-serialgetty', d)}"
->  RDEPENDS_${PN} +=3D "volatile-binds update-rc.d systemd-conf"
-> +RDEPENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'myhostname',=
- 'libnss-myhostname', '', d)}"
+Currently go-native bootstraps without any dependency on the host go
+compiler by building go-1.4 (the last version written in C) and using
+that to build a more recent version of go. This does not work on host
+architectures, such as arm64, that are not supported by go-1.4. To
+support these host architectures we must rely on an existing host go
+compiler and use that to build go-native instead.
 
-Do this via the PACKAGECONFIG instead, i.e., change the existing=20
-PACKAGECONFIG for myhostname to:
+Rather than add arm64 specific code that forces the use of the host go
+compiler, we use an architecture neutral approach based on adopting the
+host go compiler if it is both recent enough and the output of `go env
+GOROOT` passes basic sanity testing.
 
-PACKAGECONFIG[myhostname] =3D "-Dnss-myhostname=3Dtrue,-Dnss-myhostname=3Df=
-alse,,libnss-myhostname"
+Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+---
+ meta/conf/bitbake.conf                 |  4 +++
+ meta/recipes-devtools/go/go-native.inc | 38 ++++++++++++++++++++++++--
+ 2 files changed, 39 insertions(+), 3 deletions(-)
 
->  RRECOMMENDS_${PN} +=3D "systemd-extra-utils \
->                        systemd-compat-units udev-hwdb \
-> --
-> 1.9.1
-
-//Peter
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7f8b043cc4..61a3069579 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -514,6 +514,10 @@ HOSTTOOLS_NONFATAL += "bzr"
+ # Used by ssh fetcher
+ HOSTTOOLS_NONFATAL += "scp"
+ 
++# Used to bootstrap go more quickly (and to support host architectures not
++# supported by go-1.4)
++HOSTTOOLS_NONFATAL += "go"
++
+ CCACHE ??= ""
+ 
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+diff --git a/meta/recipes-devtools/go/go-native.inc b/meta/recipes-devtools/go/go-native.inc
+index 207708745e..adf1666e29 100644
+--- a/meta/recipes-devtools/go/go-native.inc
++++ b/meta/recipes-devtools/go/go-native.inc
+@@ -10,14 +10,46 @@ CC = "${@d.getVar('BUILD_CC').strip()}"
+ 
+ GOMAKEARGS ?= "--no-banner"
+ 
++check_host_go () {
++	local GOROOT="`go env GOROOT`"
++	if [ ! -x "$GOROOT/bin/go" ]
++	then
++		return 1
++	fi
++
++	local GOVERSION=`$GOROOT/bin/go version | tr ' ' '\n' | grep ^go[0-9] | cut -b3-`
++	local GOMAJOR=`echo $GOVERSION | cut -d. -f 1`
++	local GOMINOR=`echo $GOVERSION | cut -d. -f 2`
++	if [ "`echo $GOMAJOR.$GOMINOR | tr -d 0-9`" != "." ] || \
++	   [ "$GOMAJOR" -lt 1 ] || \
++	   [ "$GOMAJOR" -eq 1 -a "$GOMINOR" -lt 4 ]
++	then
++		return 1
++	fi
++
++	return 0
++}
++
+ do_configure() {
+-	cd ${WORKDIR}/go1.4/go/src
+-	CGO_ENABLED=0 GOROOT=${WORKDIR}/go1.4/go ./make.bash
++	if check_host_go
++	then
++		bbplain "Bootstrap using host go compiler: `go env GOROOT`"
++	else
++		cd ${WORKDIR}/go1.4/go/src
++		CGO_ENABLED=0 GOROOT=${WORKDIR}/go1.4/go ./make.bash
++	fi
+ }
++do_configure[cleandirs] =+ "${GOTMPDIR}"
+ 
+ do_compile() {
+ 	export GOROOT_FINAL="${libdir_native}/go"
+-	export GOROOT_BOOTSTRAP="${WORKDIR}/go1.4/go"
++
++	if check_host_go
++	then
++		export GOROOT_BOOTSTRAP="`go env GOROOT`"
++	else
++		export GOROOT_BOOTSTRAP="${WORKDIR}/go1.4/go"
++	fi
+ 
+ 	cd src
+ 	./make.bash ${GOMAKEARGS}
+-- 
+2.20.1
 
 
