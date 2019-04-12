@@ -1,50 +1,25 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id DEFA07DB5A
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A2C97DAA0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 22:11:58 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id i2so4142776pgj.11
+	Fri, 12 Apr 2019 01:29:53 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3C1TsOR003466
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Apr 2019 15:12:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=vuuV8Ld7esGyx7eIO7hZKecFa5Li48exk+UaVJj1Unc=;
-	b=oGz9Dw7dckFCcjemX/rMS1EDhXzLZUOoNqrmY0xMIVq7tMfG7WmZlzsfaYTkc+S19w
-	9riXdHP4O9VAucJV+MM9xMemd9mQUWg8Nlo2OiAI4yXzYxfPoJAcBfrIpYfsKZMZz7Qn
-	t0a9LTlm9RH5btK1ko+fFIzv/lVLE6+ZyOtPc1BEnX7182NO3Ai7L5pofqNSuxLqwiCD
-	3VZxCj1A3ruZ8WvEMh/bXsPwtew2fwYSihTUQhQJfxWmWCuxYmOZeJrQG72GUSGAKCaq
-	iRnx4T10DkBwENCllj36J3n6/qDD3h3GyXU9Yw01g0OEcmNZ/vE8UOLWDOy5Ztyog+Pu
-	NjhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=vuuV8Ld7esGyx7eIO7hZKecFa5Li48exk+UaVJj1Unc=;
-	b=iGlXrVVo7Bt3t0ruUTHEQubhVXxD7TiHgKrLRE3JB1v/FD0LD2C7dXDFFqnRGgKpzo
-	fl6aB5xLHvGflrNlv+6T6KYlaKpXaji5aO5FsEdrqBNivLr9HNjxiTBDwT7+LR9JRB0N
-	DaHAGcd9Zn6lQ0GKSG1c3xz0nEzGoMyKJKw8tswCGMVMstIaNAy4OdHWYxVbO+WMV+GT
-	3UCMxEMeeW5EZCLDktBtT8Cn76NmFRDTC+QuiNVWo56iBvLOelCEHUPr3rlepkzaoWj3
-	r/soJQ59DjWHZharH7p4MpTXzQQtsy9lqrdRNt7u0qtl7/s4f6m47vUxuDYzparl8fMY
-	EYRQ==
-X-Gm-Message-State: APjAAAUDo7z+y2GNP/+CDJhVNQl0ENfOtPLiv/bcr0DnR2ii5kh4tRIT
-	TzdsvBrOjdEq0NABj0HzMWsTpLIJb+M=
-X-Google-Smtp-Source: APXvYqwJ4yCaVhfWolOyHwmdT94Vi19yTBn3cwoRgIyOQktLepTiZYbO0aqOZHe0FYUzH2DztHUsPQ==
-X-Received: by 2002:aa7:8518:: with SMTP id v24mr52756912pfn.219.1555020719419;
-	Thu, 11 Apr 2019 15:11:59 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::739a])
-	by smtp.gmail.com with ESMTPSA id
-	h20sm53080314pfj.40.2019.04.11.15.11.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 11 Apr 2019 15:11:58 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 11 Apr 2019 15:11:50 -0700
-Message-Id: <20190411221150.16825-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Thu, 11 Apr 2019 18:29:54 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.190) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Thu, 11 Apr 2019 18:29:53 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Apr 2019 09:40:06 +0800
+Message-ID: <c075d06f6ca4c085bdb27280a37c23e26d11026e.1555033053.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1555033053.git.Qi.Chen@windriver.com>
+References: <cover.1555033053.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH V2] gcc-cross-canadian: Make baremetal specific code generic
+Subject: [PATCH V2 1/1] runqemu: do not check return code of tput
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Apr 2019 22:11:59 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 12 Apr 2019 01:29:53 -0000
+Content-Type: text/plain
 
-baremetal override is not valid for cross-canadian anymore
-therefore use the TARGET_OS overrides
+The subprocess.run was replaced by subprocess.check_call because
+of compatibility support down to python 3.4. But we really don't
+care about whether that command succeeds. Some user reports that
+in some tmux environment, this command fails and gives some
+unpleasant traceback output. So we use 'call' instead of 'check_call'
+to avoid such problem.
 
-Fixes
-e.g. https://github.com/riscv/meta-riscv/issues/117
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/recipes-devtools/gcc/gcc-cross-canadian.inc | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ scripts/runqemu | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-index e7c08d3a61..807e47e0ee 100644
---- a/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-+++ b/meta/recipes-devtools/gcc/gcc-cross-canadian.inc
-@@ -159,10 +159,9 @@ SYSTEMLIBS = "${target_base_libdir}/"
- SYSTEMLIBS1 = "${target_libdir}/"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index c0e569c..a4fc606 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1329,7 +1329,8 @@ def main():
+             logger.info("SIGTERM received")
+             os.kill(config.qemupid, signal.SIGTERM)
+             config.cleanup()
+-            subprocess.check_call(["tput", "smam"])
++            # Deliberately ignore the return code of 'tput smam'.
++            subprocess.call(["tput", "smam"])
+         signal.signal(signal.SIGTERM, sigterm_handler)
  
- EXTRA_OECONF += "--enable-poison-system-directories"
--
--EXTRA_OECONF_append_libc-baremetal = " --without-headers"
--EXTRA_OECONF_remove_libc-baremetal = "--with-sysroot=/not/exist"
--EXTRA_OECONF_remove_libc-baremetal = "--with-build-sysroot=${STAGING_DIR_TARGET}"
--
-+EXTRA_OECONF_remove_elf = "--with-sysroot=/not/exist"
-+EXTRA_OECONF_remove_eabi = "--with-sysroot=/not/exist"
-+EXTRA_OECONF_append_elf = "--without-headers --with-newlib"
-+EXTRA_OECONF_append_eabi = "--without-headers --with-newlib"
- # gcc 4.7 needs -isystem
- export ARCH_FLAGS_FOR_TARGET = "--sysroot=${STAGING_DIR_TARGET} -isystem=${target_includedir}"
+         config.check_args()
+@@ -1351,7 +1352,8 @@ def main():
+         return 1
+     finally:
+         config.cleanup()
+-        subprocess.check_call(["tput", "smam"])
++        # Deliberately ignore the return code of 'tput smam'.
++        subprocess.call(["tput", "smam"])
+ 
+ if __name__ == "__main__":
+     sys.exit(main())
 -- 
-2.21.0
+1.9.1
 
 
