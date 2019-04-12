@@ -1,51 +1,53 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 6944C7D720
+Return-Path: <daniel.thompson@linaro.org>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0FF787DC9B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 12:39:54 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id p10so11787211wrq.1
+	Fri, 12 Apr 2019 13:16:17 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id g3so11877394wrx.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 05:39:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=8ZVkLKaLY+99PI8z6s2jE2MhkiQgxWNI3nbiiXfgWlY=;
-	b=Zm9HvF0IwWHypfUJXa6w9qmY7lPxwOOEMSG0szjuweQfoTxov9zHasl9NznRGqMp1p
-	zAt1/RiGClj5OOdfmxbaK+0nc6HNS19/f9SY59HE6OMWPHhQcF42/Wja0WM6fuT3beW5
-	Z0/mQP7aSGZdGsQOsxS3dGMGdLj/AsF0Vn+jw=
+	Fri, 12 Apr 2019 06:16:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=oh5S9RyP9RtMtr0NPqLA74eENKJjr7CDo9sujp1YTeM=;
+	b=DXgDY8H2xYRWVrgXSchuzFyglLIoA0T9hmuadTh/iYZudN9QoTtyxjfmoA8Xe0eaU/
+	GhO5wVrO8FMSFC4/BfciBBR7QhVUGhvZkXmYupRoWB+4FBYDLrhRLupwwEdf6wJA9DGk
+	nfG2fV4BbbvHsLHn0VlLC6QDa1hKZw0iJahd5hoY98RU2drYpUoxqzodyuNHmj5aB95b
+	CBN1n3yfRTccxsw1dJQqOkPuDkrt/SmYLxgLWSA7Goim2LqBEJSC3gz5OMNA7qvaBHd3
+	z74TCBNfMo4W4YSgLuUu8pTB1qqTrdjOlYQiw5NiFG0v81sWnd8EDzaZxYeD4RK5Rwet
+	dRfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=8ZVkLKaLY+99PI8z6s2jE2MhkiQgxWNI3nbiiXfgWlY=;
-	b=lVSQfvgA1ka7MfX3y/d2RxOyYYdrQA7v/xy/WHqsOTi9Q5IBnkOLcvKkxWGT4pzoM+
-	uSaU4HvvOcQmqzhtiK21f/zZ/n+OjLB8NsGLZQOOlxT+pZk4PZVgywK6KF05C3q/O0PK
-	OiJZ8zQlsDHbBsqRX6UEb1Z+CVu1ACg199MI3xixEbbGlrskv88w33pLrhbfWL4XoQob
-	RcF9uzVxJ6LkQZ0egk0UFg/ykVftX6aUWc7I5XmfuIfEpHCY2PDK/eB/Ao9qP6D1/Ewh
-	sIfe5dDpE/vklFkxS9xGvNbEi9avVzWKywTKtM5Aw689BWFgCsCZewvcZ5z1ZIGSuimU
-	2v3A==
-X-Gm-Message-State: APjAAAX5jNbkdZzzgVLIpJDOI6oPfv+KqqCSIGkPjmFAWS1SgJX80JMQ
-	QPV0HlMnLYoeX2wrvf228iwvdg==
-X-Google-Smtp-Source: APXvYqyLzAJcNAZHlij1s77laNWeN/eWkWad0t9H5v72J1FRkjfMOiJsDXg4Ygcn7w8RWxTSp2ERxA==
-X-Received: by 2002:a05:6000:5:: with SMTP id
-	h5mr35612060wrx.271.1555072795174; 
-	Fri, 12 Apr 2019 05:39:55 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g13sm6254408wmh.11.2019.04.12.05.39.53
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=oh5S9RyP9RtMtr0NPqLA74eENKJjr7CDo9sujp1YTeM=;
+	b=mWZ5UeIco1SSFfpZXuN11vqL4dMWd/hjXUcdl/5xpBRypl6QQMoXVwfELxwoFkrXlc
+	oSaMqUSb5T0FUZClABrLBttrHSd8aTRwkW1yAUKxWfR3VXNR4UXg0ADhiiBGkxg2Yl/O
+	/+Gjj7obaMr1s4hCUqPI98f04U8/PJ7Ju/1zIrbWGaoFV4pnxsV+D4oWA+hxrFWx7UlG
+	nOQaoMAveTp9fNPkdn+z8zpX8R91HPE/z6w9xE4RXAdksxRn1dnbS9s/AHBa8wtvUJ5V
+	67C535X0HJUvHMZoWUVxZnQiFn5VxNV/b68obnCPh+FsjUl5GFNcSk3ls8YpswLi++0w
+	nmrg==
+X-Gm-Message-State: APjAAAU9zOyqV0Ey49y91H1b42d3DBObL7aO4xUMg9BtaTtlDEaqqLO2
+	8PyzWIkUzv/svJZZ45QTcr6ZZKbAyypU9Q==
+X-Google-Smtp-Source: APXvYqyVflXzCCYkvrHRrY+rGrMJgYYNp/f1fbhY6MW9w+DM9hbnHt2Iar8CQlh4TBKpp0h8526vYA==
+X-Received: by 2002:adf:fc51:: with SMTP id e17mr36843481wrs.243.1555074978683;
+	Fri, 12 Apr 2019 06:16:18 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+	[86.9.19.6]) by smtp.gmail.com with ESMTPSA id
+	z140sm20529066wmc.27.2019.04.12.06.16.17
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 12 Apr 2019 05:39:54 -0700 (PDT)
-Message-ID: <5b21542499899b2465a2b1f581faba726351e58d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Daniel Thompson <daniel.thompson@linaro.org>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 12 Apr 2019 13:39:52 +0100
-In-Reply-To: <20190412123046.17510-1-daniel.thompson@linaro.org>
+	Fri, 12 Apr 2019 06:16:17 -0700 (PDT)
+Date: Fri, 12 Apr 2019 14:16:16 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190412131616.2mwd5qefxrvlxaw3@holly.lan>
 References: <20190412123046.17510-1-daniel.thompson@linaro.org>
-User-Agent: Evolution 3.32.0-1 
+	<5b21542499899b2465a2b1f581faba726351e58d.camel@linuxfoundation.org>
 MIME-Version: 1.0
+In-Reply-To: <5b21542499899b2465a2b1f581faba726351e58d.camel@linuxfoundation.org>
+User-Agent: NeoMutt/20180716
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] go: Allow bootstrapping using host go compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,40 +61,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 12:39:54 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 12 Apr 2019 13:16:18 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, 2019-04-12 at 13:30 +0100, Daniel Thompson wrote:
-> Currently go-native bootstraps without any dependency on the host go
-> compiler by building go-1.4 (the last version written in C) and using
-> that to build a more recent version of go. This does not work on host
-> architectures, such as arm64, that are not supported by go-1.4. To
-> support these host architectures we must rely on an existing host go
-> compiler and use that to build go-native instead.
+On Fri, Apr 12, 2019 at 01:39:52PM +0100, Richard Purdie wrote:
+> On Fri, 2019-04-12 at 13:30 +0100, Daniel Thompson wrote:
+> > Currently go-native bootstraps without any dependency on the host go
+> > compiler by building go-1.4 (the last version written in C) and using
+> > that to build a more recent version of go. This does not work on host
+> > architectures, such as arm64, that are not supported by go-1.4. To
+> > support these host architectures we must rely on an existing host go
+> > compiler and use that to build go-native instead.
+> > 
+> > Rather than add arm64 specific code that forces the use of the host
+> > go
+> > compiler, we use an architecture neutral approach based on adopting
+> > the
+> > host go compiler if it is both recent enough and the output of `go
+> > env
+> > GOROOT` passes basic sanity testing.
+> > 
+> > Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
+> > ---
+> >  meta/conf/bitbake.conf                 |  4 +++
+> >  meta/recipes-devtools/go/go-native.inc | 38
+> > ++++++++++++++++++++++++--
+> >  2 files changed, 39 insertions(+), 3 deletions(-)
 > 
-> Rather than add arm64 specific code that forces the use of the host
-> go
-> compiler, we use an architecture neutral approach based on adopting
-> the
-> host go compiler if it is both recent enough and the output of `go
-> env
-> GOROOT` passes basic sanity testing.
-> 
-> Signed-off-by: Daniel Thompson <daniel.thompson@linaro.org>
-> ---
->  meta/conf/bitbake.conf                 |  4 +++
->  meta/recipes-devtools/go/go-native.inc | 38
-> ++++++++++++++++++++++++--
->  2 files changed, 39 insertions(+), 3 deletions(-)
+> Whilst this is quite a creative approach it isn't deterministic and I
+> can see this introducing bugs which are hard to track down :(
 
-Whilst this is quite a creative approach it isn't deterministic and I
-can see this introducing bugs which are hard to track down :(
+I guess I can't disagree too strongly... the version check and bbplain
+message about the go toolchain we adopted were intended to mitigate
+this by at least making the selected go toolchain conspicious (and thus
+a git blame would probably draw flames towards me).
 
-I think we need to make this a specific configuration option.
+We could make things fully deterministic by downloading go compiler
+binaries (rather than source) if the host architecture is not supported
+by go-1.4. Is this feasible or should I continue trying to adopt the
+host go compiler for these architectures?
 
-Cheers,
 
-Richard
+> I think we need to make this a specific configuration option.
 
+I guess we could wrap this up in a config option although I hope
+it is ok to have per-architecture defaults so the config option is
+always sane out-of-the-box.
+
+
+Daniel.
 
