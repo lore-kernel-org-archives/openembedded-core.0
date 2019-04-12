@@ -1,48 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com
-	[209.85.167.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A6DE7D6FA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id A63247DADD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 10:03:32 +0000 (UTC)
-Received: by mail-oi1-f179.google.com with SMTP id v84so7478300oif.4
+	Fri, 12 Apr 2019 11:15:54 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id n25so10516648wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 03:03:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=N5iLt0J6vDgzjM33+Aw1jo4KPf6y7AWe6QmG4zpcST0=;
-	b=YgI5a8ZWjEiUZaZ91l5oko2gAdhwuHWSh0IUUf/9nV8VIAogkJWe4iIp7jbsyy3qMI
-	u4J+4H7ZGo56K6Zc8IjZjJi7aiFyt+8DraJdrf/IBPffVFCCjGEdGu1wutu70t/MPDR9
-	wziodcYOLz0zwTZCsz5O4aSU+DkbBYhdGZLjEAmXqv5JxxHysR0ivY1LmhztFCqKiccQ
-	8cY8RpsOLo6K3uUsQmQCgTYqgcqBFw8tjMkhc8uqGl1TGHdA1y3U7NLjv8Xn6b7lymJK
-	Jf9KM0DUuu6AHQPU0s3Xt+QfK9QasMZ7KkLBiU+WGaMrw5PRl4EYlYzs0YLMfIRR9RSz
-	YbcQ==
+	Fri, 12 Apr 2019 04:15:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=T98nrEt00gbtKHCyqL7qOBH2EFSif47dvNuCF3AFokU=;
+	b=G4olYAwC0hK2NkB+menvWzgoxWbOZygfHp3VvIoLddKgE9TdcN7/ON8cuCb3kbd0pb
+	4xwSaZLe/Q+9eaWy20BqYcouIJBZMWNlpseX0UuY+FM56bngkx9OZ2w7/WZqCyMpm6dz
+	UJXRs6mXl30LjeDzd9mxnAd3OsqAIuHwponiQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=N5iLt0J6vDgzjM33+Aw1jo4KPf6y7AWe6QmG4zpcST0=;
-	b=hBIZ+KFZaY/7cB65QK5g1GiVM4A7AhF6pFUxuVimN2t5vhByF5EO7qzBbkAi+YAXeC
-	ThWcs/P0wMXVq3JxV4mSU8xLPN5bS06uNU4DLfUclMWN85uCWrGinZ10PLYQ9rEEuJau
-	DXpoBlXRLHWUXS9D+xZli4QVB0SbEsk+OUGoZjF5lDM9xT4Ms1NEtch5oCvsZuJ1xPV+
-	8GIzRgp6HsphqCg4KeZqcJ9+UoCj1xiFa/3PYu87Y3b+IcpZMl61kpsctDZjGUhizNsc
-	1+CxazU/OetZ+i+whAUkOe5nY+OrII7JyUM3IsPLzEfemtMvfb1Aaj8vRikq6rK6v0Nc
-	QvLg==
-X-Gm-Message-State: APjAAAXodjy4nzUDfdfZDygMV+OCNnr6OjFe6VG7V2C2W2rgxmAgddSt
-	01x2tebO2nZephBVd2W/7Yle+05cqevbknMlm6KRzPamYH8ITA==
-X-Google-Smtp-Source: APXvYqwZRQREyfv1QO7UUE5yExPoYobWA+IY5WGKkliJFcBkCg6ncD9fNBlPscTqyN4VFbinGak7vXUDSDjhePqEnxM=
-X-Received: by 2002:aca:ed88:: with SMTP id l130mr8281522oih.70.1555063413105; 
-	Fri, 12 Apr 2019 03:03:33 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=T98nrEt00gbtKHCyqL7qOBH2EFSif47dvNuCF3AFokU=;
+	b=PugaJT+GOfxW4EMA4SKyWnrBqyO1XzVxeS858LeaUB8e7y+6/2TtyKenWl6YMALVq9
+	/+2z3SPIZr1mYk7/l9dn6oafPCKHdJJIDQg+5+vc4PbtzKlFVBeVRjb5I6x/ELaXS601
+	uKG3KFIOdpZqR5WOdR45xpS256ttJPapj0lYRjfUj1nQEkjHM/5bGfiAvG+SGF1nqxuP
+	MKK+kYKHv/f0WrpKt8v00wrkPe22I82Ubo799gxCEZtwr8ZYyXgj+PaeOXxmxPmDuxVh
+	qE5rC2QIlQRn6g1B5eej3+MIL5BYcdhwSoDfRltO1WSd7SRRoOQwFwlm443tV5d7qYth
+	zQLw==
+X-Gm-Message-State: APjAAAWjsVzWW1fhk7XR25O0NGvEPJZxE3aJyeVpllsitTpGs0LMVWux
+	JcmR95yFJPzofVBg7AAgRdLg2A==
+X-Google-Smtp-Source: APXvYqxJr9Vz1Ef1Xry5OWVmR/DE8uPV0vy3gNLlBGx+ZtrJn0YkcdV6r7hQ3rlS95B/trxlFyszqQ==
+X-Received: by 2002:a05:600c:21d3:: with SMTP id
+	x19mr10771043wmj.2.1555067755217; 
+	Fri, 12 Apr 2019 04:15:55 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t74sm15126007wmt.3.2019.04.12.04.15.53
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 12 Apr 2019 04:15:54 -0700 (PDT)
+Message-ID: <6efbe3299710921b8da6988b37e53ce34ed14314.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Jain, Sangeeta" <sangeeta.jain@intel.com>, "'yocto@yoctoproject.org'"
+	<yocto@yoctoproject.org>, "Eggleton, Paul" <paul.eggleton@intel.com>, 
+	'Michael Halstead' <mhalstead@linuxfoundation.org>, "Erway, Tracey M"
+	<tracey.m.erway@intel.com>,  "'sjolley.yp.pm@gmail.com'"
+	<sjolley.yp.pm@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Fri, 12 Apr 2019 12:15:53 +0100
+In-Reply-To: <015AB11D45F2C442929CB2765DAE738634DD053D@PGSMSX110.gar.corp.intel.com>
+References: <015AB11D45F2C442929CB2765DAE738634DD053D@PGSMSX110.gar.corp.intel.com>
+User-Agent: Evolution 3.32.0-1 
 MIME-Version: 1.0
-References: <1554995545-20943-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<CANNYZj_rYwg3Y5uDxKiwzJZrzMsmjLCNXOU2TMpgmB5Ydgt2sw@mail.gmail.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C131E8@G08CNEXMBPEKD01.g08.fujitsu.local>
-In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B1C131E8@G08CNEXMBPEKD01.g08.fujitsu.local>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 12 Apr 2019 12:03:21 +0200
-Message-ID: <CANNYZj8iuzGHWnvYRUvmjVVUR1ZOxjAYtTxPxMbd3KzY3Ab8Yw@mail.gmail.com>
-To: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] dnf: Enable nativesdk
+Subject: Re: QA cycle report for 2.6.2 RC3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,37 +62,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 10:03:32 -0000
+X-List-Received-Date: Fri, 12 Apr 2019 11:15:54 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Fri, 12 Apr 2019 at 10:57, Zheng, Ruoqin <zhengrq.fnst@cn.fujitsu.com> wrote:
-> > >         echo 'export OECORE_DISTRO_VERSION="${DISTRO_VERSION}"' >>
-> > > $script
-> > > +       echo 'export MACHINE_ARCH=${MACHINE_ARCH}' >> $script
-> > > Please explain why this change in the commit.
->
-> Dnf is based on rpm and rpm need to read the arch info, but $script did not provide it. So I added it.
+On Wed, 2019-04-10 at 02:38 +0000, Jain, Sangeeta wrote:
+>  
+> QA cycle report for 2.6.2 RC3:
+>  
+> No high milestone defects. 
+> Test results are available at following location:
+> ·        For results of all automated tests, refer to results at
+> public AB [1].
+> ·        For other test results, refer to attachment [2].
+> ·        For test report for test cases run by Intel and WR team,
+> refer attachment [3]
+> ·        For full test report, refer attachment [4]
+> ·        For ptest results, please refer to results at public AB [5]
+> ·        For ptest report, refer to attachment [6]
+> 1 new defects are found in this cycle, Beaglebone [7].
+> QA hint:  Similar issue for sysemtap failure (bug 13153) was found in
+> 2.7 M2 RC1 which is now resolved for master.
+> Number of existing issues observed in this release is 3- toaster [8],
+> Build-appliance [9] and qemu-shutdown [10]
+> For ptest, regression data is not available for this release. 3
+> packages are facing timeout issues: lttng-tools [11], openssh [12]
+> and strace [13].
+> Test result report on Public AB shows following failures:
+> buildgalculator.GalculatorTest.test_galculator
+> QA Comment: Expected failure for hw limitation
+> python.PythonTest.test_python3
+> QA Comment: Failure due to “python3” test case not backported to
+> Thud. No bug filed as not real Yocto failure.
 
-Please make a separate commit for this then.
+Thanks for running QA on this. Firstly, I can comment on the bugs:
+ 
+> [7] Bug 13273 - [2.6.2 RC3] Systemtap doesn't work on beaglebone
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13273
 
-> > > Do not copy-paste large chunks like this please. Assign the
-> > > dependencies to a variable, and use it where needed.
->
-> If so, how about this way?
->
-> BBCLASSEXTEND = "native nativesdk"
->
-> RDEPENDS_${PN} += " \
->    python3-core \
->    ......
->    "
->
-> RDEPENDS_${PN}_class-native = ""
+We've root caused this on master and believe we know how to fix this,
+its a kernel makefile configuration issue. We can likely document this
+as a known issue and fix in 2.6.3.
+ 
+> Previous Bugs observed in this release:
+>  
+> [8] Bug 13191 – [Test Case 1439] Build Failure after adding or
+> removing packages with and without dependencies
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13191
+>  
+> [9] Bug 12991 - [Bug] [2.6 M4 RC1][Build-Appliance] Bitbake build-
+> appliance-image getting failed during building image due to webkitgtk
+> package.
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=12991
 
-Yes, this should work. There is an issue with class-native RDEPENDS,
-where you can put recipe names in it, but not package names (because
-there are no packages created for -native). I wrote about it here:
-http://lists.openembedded.org/pipermail/openembedded-core/2019-March/280618.html
+This is a long running issue we've been "ignoring", its likely resource
+issues on the machine/VM running the test.
 
-Alex
+> [10] Bug 13234 - [2.7 M3 RC1] qemumips & qemumips64: failed to
+> shutdown
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13234
+
+This is an issue root caused to be from 4.19 and 5.0 kernels. I thought
+2.6.2 had a 4.18 kernel so shouldn't have this issue? The bug wasn't
+reopened?
+ 
+> ptest Bugs:
+>  
+> [11] Bug 13255 - [2.7 M3 rc1] lttng-tools ptest facing timeout issue
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13255
+>  
+> [12] Bug 13256 - [2.7 M3 rc1] openssh ptest facing timeout issue
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13256
+>  
+> [13] Bug 13274 - [2.6.2 RC3] strace ptest facing timeout issue
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13274
+
+ptest has been a bit tricky and we've been actively working these bugs
+on master. Once we have them resolved there we can backport to older
+releases.
+
+There is one other critical issue we have with 2.6.2 which is the
+revert of the boost upgrade. I'm very reluctant to release without that
+revert as it caused problems for a lot of people.
+
+I'm wondering whether we should rebuild 2.6.2 one commit later and then
+release that assuming it passes a rerun of the automated QA (but not
+the manual QA). Opinions on that?
+
+I'd propose fixing the systemtap and ptest issues for 2.6.3.
+
+Cheers,
+
+Richard
+
+
+
 
