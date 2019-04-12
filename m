@@ -1,48 +1,55 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
 	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CD3967D6B7
+	by mail.openembedded.org (Postfix) with ESMTP id 5A34B7DAF7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 16:58:35 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 4so12101621wmf.1
+	Fri, 12 Apr 2019 17:03:28 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id z24so11930425wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 09:58:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=evrRjSe+z/f+e10GFzG6aev4QjsDwbJsOTONAPgXpcg=;
-	b=rdfiU2wubX+LKsf3xqjm50uf4ZaWmdu78RIO52DLzs0Qzn9IzKSs2TdCRVeOM67+of
-	ydgjwCb7VRMvtL9iPxyOcV6DNAJh7Rw6GSpxxj+44kponz+iGvFBXASaAECzmYRUDhgr
-	n2sJRID4XMst0+HIQ/CBslfwnWi4cqdvF8Ry3fukSpxLpqeqD0sgYbJZozdPIK9UIoNo
-	lh8OoWwHbl/zXVntVcRUFhKhdDB3yoc2nJWilqqN0qmnIzCCFiL/XoVhNC1cxzya4yAc
-	LvAV+iMxU3JUAQB8I2cGdFQlD4xeN8P7qBdIfRCkiWmF633z09vJ6FARKMrGxLPk0jfL
-	5TLw==
+	Fri, 12 Apr 2019 10:03:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=ffLREhw4/A/9jbYZtOegmpyAkhYUwetBIxcFbpYHANQ=;
+	b=KKJiw4yvhRG4OUEZBYW9nqM+cysyTWEdY6iofh8cRErJ7sG+fber+r6XZBQjSEFHoo
+	9/0FbrxyMqVX1nbO3ZzUqdwpP5S7+Kwpu4IZgZOul+mUOk9H6IbVK743N+ALCk4LJv6i
+	wkMo3sN7bgtYy5oSdpZxBNnuex91cgAuuUuws=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=evrRjSe+z/f+e10GFzG6aev4QjsDwbJsOTONAPgXpcg=;
-	b=kuMdDHj9z+MdaWS007htb9EKzTVW5k5Ic6JEJOhwNW+Ja+AHOeDU/+AGYptfy8ZF9h
-	XOUFZsEEE4eoeK6k/Feql9paYQjc6cVxp3H29i6diRcZXYyz2HFI2qpM+QbiHvcrZw1o
-	0gTSk1BtofFZLQ9AfNa5TPFlCSWRPEnzcrcqzSsJzZs5GK43kTfHAApj6xrmZ78xpXeO
-	RhOoIJcyvuymYiIkUFZAhhQcEKjoIzuVmZKxK7kXvZmyoAJGlaAHdVnGNrrN2lT4K0IN
-	VLK1d2DE6z+j170TXWmhJxNwipgIknE+41DQelUoS9Zdw0csOVnLgbFarPSwdPDT7AMJ
-	qkqQ==
-X-Gm-Message-State: APjAAAUnY+KgJLQRuWIFAlIqLpGpuhPv6B/T89NDgZ+RknroePhdEtMU
-	IrUIXiqUii2r0DiW9LYy5FR2XSWQ
-X-Google-Smtp-Source: APXvYqxBTqWpAWdsGNMcKTj5LRqXjuogKMmiQBmxp3wG2h//qWyJZAAjWCMOVDl2fmk01eG2T37qtg==
-X-Received: by 2002:a1c:4187:: with SMTP id o129mr11747659wma.57.1555088316166;
-	Fri, 12 Apr 2019 09:58:36 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ffLREhw4/A/9jbYZtOegmpyAkhYUwetBIxcFbpYHANQ=;
+	b=YMj/IqDrUoACJscPCB7TJMduDwi9ARMYXMvIEa3ojp23En9HbBMJfDcnMQ1yzs2hLl
+	Paz7pSYpzcFOVynkAKSteCZZl15GfGNRnz6PqkURVYbiHBgCKVdgfG3T0LiPmYQUkRAd
+	gG44TqBhvyVzBGpZSSTuzUXf6lLh1KVpGABCEH6fayx7iA5NrNONxat9iNyTdcnetmxJ
+	7DTlIg+REssfRbN+u6bEbLsSOTmrpl2xP+jvOQQjoA5etj9FoOq0LeafUDGHqRkuVdHQ
+	w/GwKXt+HRr15QgOjYNR5XDTb7yLUiwg3z3WGUVFAeSoL/yiZev8GW6jgG7/De9HPOUf
+	javQ==
+X-Gm-Message-State: APjAAAWbLFGlec/3VJ2TxRAnzhhPZ2ztuFCuGnR9Qy0ivwgt3biFWa9o
+	KDaKJSr6wNAsuBGojybxFUPsQQ==
+X-Google-Smtp-Source: APXvYqyr6jQOt6TrDqrLHHRajTLvpfApSy69NXOEDva2klnKQT8CwL1v33OFe1NpIwn1KUo5c6yqVg==
+X-Received: by 2002:a1c:9c14:: with SMTP id f20mr11799897wme.16.1555088609157; 
+	Fri, 12 Apr 2019 10:03:29 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	u17sm16012116wmu.36.2019.04.12.09.58.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 12 Apr 2019 09:58:34 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Apr 2019 16:58:34 +0000
-Message-Id: <20190412165834.1944-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [morty][PATCH] libtool-cross: remove host specific paths to native sysroot from sstate archive
+	z84sm10891667wmg.24.2019.04.12.10.03.28
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 12 Apr 2019 10:03:28 -0700 (PDT)
+Message-ID: <7e6be2702bcadf7c5e60fec0dcc668a5ffd881f4.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Date: Fri, 12 Apr 2019 18:03:27 +0100
+In-Reply-To: <acc766373fca400587d0d779dd9f2550@XBOX04.axis.com>
+References: <20190403122626.18451-1-pkj@axis.com>
+	<866ba68abe94b19205b70f59a512c68ef65b79a1.camel@linuxfoundation.org>
+	<4788506b5c7f4fb4a369916b5500c373@XBOX04.axis.com>
+	<acc766373fca400587d0d779dd9f2550@XBOX04.axis.com>
+User-Agent: Evolution 3.32.0-1 
+MIME-Version: 1.0
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] useradd.bbclass: Make sure users/groups exist for package_write_* tasks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,110 +62,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 16:58:36 -0000
+X-List-Received-Date: Fri, 12 Apr 2019 17:03:28 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* when you build libtool-cross on one builder in some directory
-  and then reuse the same libtool-cross on another builder in
-  different directory, you'll have some variables still pointing
-  to wrong directory (it's a bit worse when it's on the same
-  builder, just in different workspace, because then the directory
-  might exist and not exist depending on the state of the other
-  workspace and then the failures are even more random)
+On Fri, 2019-04-12 at 15:51 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org
+> > <openembedded-
+> > core-bounces@lists.openembedded.org> On Behalf Of Peter
+> > Kjellerstedt
+> > Sent: den 4 april 2019 16:08
+> > To: Richard Purdie <richard.purdie@linuxfoundation.org>;
+> > openembedded-
+> > core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] useradd.bbclass: Make sure
+> > users/groups
+> > exist for package_write_* tasks
+> > 
+> > > -----Original Message-----
+> > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > > Sent: den 3 april 2019 14:48
+> > > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>;
+> > > openembedded-
+> > > core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH] useradd.bbclass: Make sure
+> > > users/groups
+> > > exist for package_write_* tasks
+> > > 
+> > > On Wed, 2019-04-03 at 14:26 +0200, Peter Kjellerstedt wrote:
+> > > > If the populate_lic task and any of the package_write_* tasks
+> > > > need to
+> > > > run, but the package task can be restored from the sstate
+> > > > cache, then
+> > > > the fetch task, which is a dependency of populate_lic, will
+> > > > wipe out
+> > > > the RSS including any users/groups that have been created. This
+> > > > results in that the package_write_* tasks are run without any
+> > > > user/group information, which causes them to fallback to either
+> > > > use
+> > > > the root user for any unknown users/groups (rpm) or to use the
+> > > > numeric
+> > > > UIDs/GIDs (deb/ipk). Neither solution will yield correct
+> > > > packages.
+> > > > 
+> > > > Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > > > ---
+> > > >  meta/classes/useradd.bbclass | 18 ++++++++++++------
+> > > >  1 file changed, 12 insertions(+), 6 deletions(-)
+> > > > 
+> > > > diff --git a/meta/classes/useradd.bbclass
+> > > > b/meta/classes/useradd.bbclass
+> > > > index 124becd082..e32315a1af 100644
+> > > > --- a/meta/classes/useradd.bbclass
+> > > > +++ b/meta/classes/useradd.bbclass
+> > > > @@ -4,7 +4,7 @@ inherit useradd_base
+> > > >  # target sysroot, and shadow -native and -sysroot provide the
+> > > > utilities
+> > > >  # and support files needed to add and modify user and group
+> > > > accounts
+> > > >  DEPENDS_append_class-target = " base-files shadow-native
+> > > > shadow-sysroot shadow base-passwd"
+> > > > -PACKAGE_WRITE_DEPS += "shadow-native"
+> > > > +PACKAGE_WRITE_DEPS += "shadow-native shadow-sysroot base-
+> > > > passwd"
+> > > > 
+> > > >  # This preinstall function can be run in four different
+> > > > contexts:
+> > > >  #
+> > > > @@ -144,7 +144,10 @@ python useradd_sysroot_sstate () {
+> > > >      task = d.getVar("BB_CURRENTTASK")
+> > > >      if task == "package_setscene":
+> > > >          bb.build.exec_func("useradd_sysroot", d)
+> > > > -    elif task == "prepare_recipe_sysroot":
+> > > > +    elif (task == "prepare_recipe_sysroot" or
+> > > > +          task == "package_write_deb" or
+> > > > +          task == "package_write_ipk" or
+> > > > +          task == "package_write_rpm"):
+> > > >          # Used to update this recipe's own sysroot so the
+> > > > user/groups are available to do_install
+> > > >          scriptfile =
+> > > > d.expand("${RECIPE_SYSROOT}${bindir}/postinst-useradd-${PN}")
+> > > >          bb.build.exec_func("useradd_sysroot", d)
+> > > > @@ -161,13 +164,16 @@ python useradd_sysroot_sstate () {
+> > > >          os.chmod(scriptfile, 0o755)
+> > > >  }
+> > > > 
+> > > > -do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
+> > > > -SYSROOTFUNC_class-target = "useradd_sysroot_sstate"
+> > > >  SYSROOTFUNC = ""
+> > > > +SYSROOTFUNC_class-target = "useradd_sysroot_sstate"
+> > > > 
+> > > > -SYSROOT_PREPROCESS_FUNCS += "${SYSROOTFUNC}"
+> > > > +do_prepare_recipe_sysroot[postfuncs] += "${SYSROOTFUNC}"
+> > > > +do_package_write_deb[prefuncs] += "${SYSROOTFUNC}"
+> > > > +do_package_write_ipk[prefuncs] += "${SYSROOTFUNC}"
+> > > > +do_package_write_rpm[prefuncs] += "${SYSROOTFUNC}"
+> > > > 
+> > > > -SSTATEPREINSTFUNCS_append_class-target = "
+> > > > useradd_sysroot_sstate"
+> > > > +SYSROOT_PREPROCESS_FUNCS += "${SYSROOTFUNC}"
+> > > > +SSTATEPREINSTFUNCS += "${SYSROOTFUNC}"
+> > > > 
+> > > >  do_package_setscene[depends] += "${USERADDSETSCENEDEPS}"
+> > > >  do_populate_sysroot_setscene[depends] +=
+> > > > "${USERADDSETSCENEDEPS}"
+> > > 
+> > > This may be a bigger problem that just package_write_*.
+> > > 
+> > > This feels like a bad thing to do since there may be other tasks
+> > > which
+> > > also rely on the user information being present. This probably
+> > > only
+> > > fixes one corner case but there are likey others :(.
+> > > 
+> > > Possible solutions might be:
+> > > 
+> > > a) To wipe out all sstate tasks if we're rerunning do_fetch
+> > 
+> > How to do that? With some pointers I hope I can whip up a patch
+> > to do this instead.
+> 
+> I would very much like to have a solution for this in Warrior. If 
+> the solution provided by the patch above is not acceptable, I need 
+> some help where to look for how to solve it by wiping out the 
+> sstate tasks if do_fetch is being rerun.
 
-* in my case I'm building libtool-cross in /jenkins/mjansa/build-nodistro-morty/
-  and you can see the paths to native sysroot in:
-  LTCFLAGS, sys_lib_search_path_spec, compiler_lib_search_dirs, compiler_lib_search_path
-  after this change, there is only one case in LTCFLAGS -fdebug-prefix-map
-  which points to the old WORKDIR:
+Warrior rc1 is in the process of being built so its likely too late for
+that. I am very nervous about changing key pieces of the core of the
+system so close to release too which I admit is why this hasn't been a
+top priority. If people haven't run into this and there aren't tests
+for it, how big of an issue really is it?
 
-  # grep build-nodistro-morty sstate-*/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool
-  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:LTCFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/jenkins/mjansa/build-nodistro-morty/BUILD/work/i586-oe-linux/libtool-cross/2.4.6-r0=/usr/src/debug/libtool-cross/2.4.6-r0 -fdebug-prefix-map=/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux= -fdebug-prefix-map=FIXMESTAGINGDIRHOST= "
-  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:sys_lib_search_path_spec="/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/lib/i586-oe-linux/gcc/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/lib FIXMESTAGINGDIRHOST/usr/lib/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/usr/lib "
-  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:compiler_lib_search_dirs="/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/lib/i586-oe-linux/gcc/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/lib FIXMESTAGINGDIRHOST/usr/lib/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/usr/lib"
-  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:compiler_lib_search_path="-L/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/lib/i586-oe-linux/gcc/i586-oe-linux/6.4.0 -LFIXMESTAGINGDIRHOST/lib -LFIXMESTAGINGDIRHOST/usr/lib/i586-oe-linux/6.4.0 -LFIXMESTAGINGDIRHOST/usr/lib"
+I'm sorry but I don't know the answer to your question without spending
+20 minutes looking at the code and trying to figure it out. I'm
+struggling to find a spare 20 minutes at the moment :(. I know this
+isn't the answer you want but it is what it is.
 
-  sstate-better/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:LTCFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/jenkins/mjansa/build-nodistro-morty/BUILD/work/i586-oe-linux/libtool-cross/2.4.6-r0=/usr/src/debug/libtool-cross/2.4.6-r0 -fdebug-prefix-map=FIXME_STAGING_DIR_NATIVE= -fdebug-prefix-map=FIXMESTAGINGDIRHOST= "
+I really am totally slammed with some other issues going on which are
+complicating things even more too.
 
-* It seems there aren't many cases where the above variables cause big issues,
-  but it gets worse when you build "dd" in native sysroot (coreutils-native),
-  before libtool-cross (this is why this is bad only with Yocto 2.2 Morty and
-  older before RSS, with Pyro and newer you won't detect bin/dd in
-  native sysroot without explicit dependency on coreutils-native and you'll
-  always use dd from HOSTTOOLS)
+Cheers,
 
-  without coreutils-native in sysroot:
-  sstate-better/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="/bin/dd bs=4096 count=1"
-
-  with coreutils-native in sysroot before and after this change:
-  sstate-bad-with-dd/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/bin/dd bs=4096 count=1"
-  sstate-better-with-dd/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="FIXME_STAGING_DIR_NATIVE/usr/bin/dd bs=4096 count=1"
-
-  this issue was already resolved for target libtool, but not for
-  libtool-cross in:
-  http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/libtool?h=morty&id=5e83a72f1ec834063d27b924bc7f9a047204cec6
-
-  and the HOSTTOOLS_DIR and DEBUG_PREFIX_MAP a bit later in rocko (but
-  again only for target libtool, not libtool-cross:
-  http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/libtool?h=rocko&id=04db02138e363898e040e33557f1296e8a43c3fd
-
-  the above still isn't ideal, because now FIXME_STAGING_DIR_NATIVE/usr/bin/dd will be
-  replaced with correct path to native sysroot when unpacking libtool-cross from sstate
-  but it will still need coreutils-native dependency to find /usr/bin/dd there.
-  Add ac_cv_path_lt_DD=dd to CACHED_CONFIGUREVARS to prevent using absolute path to
-  dd (like we already do for grep) to prevent this issue as well, now we have:
-
-  sstate-best-with-dd/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="dd bs=4096 count=1"
-
-* I've noticed this in a build which was failing with:
-  ERROR: lib32-db-5.3.28-r1 do_package_qa: QA Issue: /usr/bin/db_verify contained in package lib32-db-bin requires /bin/bash, but no providers found in RDEPENDS_lib32-db-bin? [file-rdeps]
-  and strengly enough, this was cased by all /usr/bin/db_* files being the libtool
-  linker scripts instead of the actual binaries, in the log.do_install you can notice
-  only small warning and different path when installing the utilities:
-  working case:
-  x86_64-oe-linux-libtool: warning: 'libdb-5.3.la' has not been installed in '/usr/lib64'
-  x86_64-oe-linux-libtool: install: cp -p .libs/db_checkpoint /jenkins/mjansa/build-nodistro-morty/BUILD/work/qemux86-oe-linux/db/5.3.28-r1/image/usr/bin/db_checkpoint
-  broken case:
-  x86_64-oe-linux-libtool: install: cp -p db_checkpoint /jenkins/mjansa/build-nodistro-morty/BUILD/work/qemux86-oe-linux/db/5.3.28-r1/image/usr/bin/db_checkpoint
-
-  this was caused by the invalid path to "dd" mentioned above, comparing
-  libtool --mode-install --debug shows:
-
-  diff -uNr log.install.db_archive.libtool.{ape,raven}
-  --- log.install.db_archive.libtool.ape  2019-04-12 13:36:07.127370425 +0000
-  +++ log.install.db_archive.libtool.raven        2019-04-12 13:36:25.847821004 +0000
-  @@ -202,9 +202,125 @@
-   + wrapper=db_archive
-   + func_ltwrapper_script_p db_archive
-   + test -f db_archive
-  ++ /bin/dd bs=4096 count=1
-   + func_generated_by_libtool_p
-  -+ /home/jenkins/anaconda/build-nodistro-morty/build/BUILD/sysroots/x86_64-linux/usr/bin/dd bs=4096 count=1
-   + grep '^# Generated by .*libtool'
-  ++ notinst_deplibs=
-  ...
-  func_ltwrapper_script_p, calls lt_truncate_bin and pipes the result to
-  func_generated_by_libtool_p, but with non-existent path to dd this fails
-  and libtool installs the db_archive script, instead of sourcing it and installing
-  the actual binary .libs/db_checkpoint
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-index b268310468..40530b3cfa 100644
---- a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-+++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
-@@ -38,3 +38,7 @@ do_install () {
- SYSROOT_DIRS += "${bindir_crossscripts} ${target_datadir}"
- 
- SSTATE_SCAN_FILES += "libtoolize *-libtool"
-+
-+# Replace native sysroot as well, it's used in
-+# LTCFLAGS, sys_lib_search_path_spec, compiler_lib_search_dirs, compiler_lib_search_path variables
-+EXTRA_STAGING_FIXMES = "STAGING_DIR_NATIVE"
--- 
-2.17.1
+Richard
 
 
