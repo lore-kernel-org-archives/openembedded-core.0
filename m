@@ -1,46 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B6BE67DC57
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CD3967D6B7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 16:35:45 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id x12so11921223qts.7
+	Fri, 12 Apr 2019 16:58:35 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 4so12101621wmf.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 09:35:47 -0700 (PDT)
+	Fri, 12 Apr 2019 09:58:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=bAjKuiGJs33oLEEAE+mmacTfLDpVZPFTf/pI9uey7tA=;
-	b=jtZQBLhVEG8J1Y/8kezn/SYcUyAndkdYDeLBQ8c4mdNR4WLBnbXRUk5l3n0nuEJtXC
-	z1mQw7Q0XGwF86JyAcjooure2mzgNWIu6Wolpz5hRnUUB/7++DMBUX45J0yktl99fKou
-	5ULmBYHbMbiCjzIqtT6xfxLEVyKXHZeISRRb2FxWoMBRXbPZltd79Xz8MQ8weRfh0lwC
-	UBW4Alu7NhfIRLdef28roTCa7ggcLR6n/Pr3Cv029kicP9E8oGzVhfWxxEhgQiXGZaIk
-	hy4kkQnJexED0Cov57fTnYJL2iEfc91Yagnn348BtEq326bhRZ207ZlXZwVopTZOOYD/
-	rrGg==
+	h=from:to:cc:subject:date:message-id;
+	bh=evrRjSe+z/f+e10GFzG6aev4QjsDwbJsOTONAPgXpcg=;
+	b=rdfiU2wubX+LKsf3xqjm50uf4ZaWmdu78RIO52DLzs0Qzn9IzKSs2TdCRVeOM67+of
+	ydgjwCb7VRMvtL9iPxyOcV6DNAJh7Rw6GSpxxj+44kponz+iGvFBXASaAECzmYRUDhgr
+	n2sJRID4XMst0+HIQ/CBslfwnWi4cqdvF8Ry3fukSpxLpqeqD0sgYbJZozdPIK9UIoNo
+	lh8OoWwHbl/zXVntVcRUFhKhdDB3yoc2nJWilqqN0qmnIzCCFiL/XoVhNC1cxzya4yAc
+	LvAV+iMxU3JUAQB8I2cGdFQlD4xeN8P7qBdIfRCkiWmF633z09vJ6FARKMrGxLPk0jfL
+	5TLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=bAjKuiGJs33oLEEAE+mmacTfLDpVZPFTf/pI9uey7tA=;
-	b=asahbXDdofGIXy/00+ZOULq384HcWEgKXTX38CIel4an/g3ZjnSVuRP7tufdyfy/CN
-	Okrzj7XZ9asjs6SXaAXIjpNWjaFzfX7RaB2kMBZ6aIMgTabx9NpS+M9GC5/HYEUqRYEE
-	wPEvykjorr4MbALgNxi4N09GA3wvvD/uf/Rrz7tSfiE+losfMWcpyZXMOeZUqKxnY+b5
-	rfU0vMYqaQG5LyU53W9SUO8Uvv8Cyn+/tDS+vXDHq7Jqy0Tv92RQH6cYl0PgwoJq7u45
-	36C8lOzApRNiTDstiAF7ejhb5ShIaYnNh32jNLKm52F/nc81ISihw2nTf7gXAriz8mIV
-	ncdA==
-X-Gm-Message-State: APjAAAXGJ9m5aoEnr0AXuuHItwODSh8bpIbHgUmMfq7nkFedTow7p/oX
-	aC+GRRXwbVJFpsGo2XjDGjgVnoZZJggqr765glk=
-X-Google-Smtp-Source: APXvYqyLQ2/MEY4G8T3z3OKRz2oWprEoJ4j4uBn39wW62cLU5jVu/ppvuDPtIt577cH8A6zy80mGVlb49DWezsfd/90=
-X-Received: by 2002:a0c:c988:: with SMTP id b8mr47033854qvk.33.1555086946225; 
-	Fri, 12 Apr 2019 09:35:46 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190412054625.9447-1-mike@foundries.io>
-In-Reply-To: <20190412054625.9447-1-mike@foundries.io>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 12 Apr 2019 09:35:35 -0700
-Message-ID: <CAMKF1sqvdAkHU+htzTcoGgtWrSrp2t76CAYxvDJpxRroKn6+gA@mail.gmail.com>
-To: Michael Scott <mike@foundries.io>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] kernel-fitimage: support RISC-V
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=evrRjSe+z/f+e10GFzG6aev4QjsDwbJsOTONAPgXpcg=;
+	b=kuMdDHj9z+MdaWS007htb9EKzTVW5k5Ic6JEJOhwNW+Ja+AHOeDU/+AGYptfy8ZF9h
+	XOUFZsEEE4eoeK6k/Feql9paYQjc6cVxp3H29i6diRcZXYyz2HFI2qpM+QbiHvcrZw1o
+	0gTSk1BtofFZLQ9AfNa5TPFlCSWRPEnzcrcqzSsJzZs5GK43kTfHAApj6xrmZ78xpXeO
+	RhOoIJcyvuymYiIkUFZAhhQcEKjoIzuVmZKxK7kXvZmyoAJGlaAHdVnGNrrN2lT4K0IN
+	VLK1d2DE6z+j170TXWmhJxNwipgIknE+41DQelUoS9Zdw0csOVnLgbFarPSwdPDT7AMJ
+	qkqQ==
+X-Gm-Message-State: APjAAAUnY+KgJLQRuWIFAlIqLpGpuhPv6B/T89NDgZ+RknroePhdEtMU
+	IrUIXiqUii2r0DiW9LYy5FR2XSWQ
+X-Google-Smtp-Source: APXvYqxBTqWpAWdsGNMcKTj5LRqXjuogKMmiQBmxp3wG2h//qWyJZAAjWCMOVDl2fmk01eG2T37qtg==
+X-Received: by 2002:a1c:4187:: with SMTP id o129mr11747659wma.57.1555088316166;
+	Fri, 12 Apr 2019 09:58:36 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	u17sm16012116wmu.36.2019.04.12.09.58.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 12 Apr 2019 09:58:34 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Apr 2019 16:58:34 +0000
+Message-Id: <20190412165834.1944-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [morty][PATCH] libtool-cross: remove host specific paths to native sysroot from sstate archive
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,111 +55,110 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 16:35:46 -0000
-Content-Type: multipart/alternative; boundary="00000000000006544e058657e587"
+X-List-Received-Date: Fri, 12 Apr 2019 16:58:36 -0000
 
---00000000000006544e058657e587
-Content-Type: text/plain; charset="UTF-8"
+* when you build libtool-cross on one builder in some directory
+  and then reuse the same libtool-cross on another builder in
+  different directory, you'll have some variables still pointing
+  to wrong directory (it's a bit worse when it's on the same
+  builder, just in different workspace, because then the directory
+  might exist and not exist depending on the state of the other
+  workspace and then the failures are even more random)
 
-On Thu, Apr 11, 2019 at 10:46 PM Michael Scott <mike@foundries.io> wrote:
+* in my case I'm building libtool-cross in /jenkins/mjansa/build-nodistro-morty/
+  and you can see the paths to native sysroot in:
+  LTCFLAGS, sys_lib_search_path_spec, compiler_lib_search_dirs, compiler_lib_search_path
+  after this change, there is only one case in LTCFLAGS -fdebug-prefix-map
+  which points to the old WORKDIR:
 
-> Support RISC-V kernel image, using the "Image" target.
->
-> This change allows RISC-V support for fitImage via the following
-> flow: OpenSBI -> u-boot (as payload) -> Linux kernel (as fitImage
-> with ramdisk and dtb).
->
-> This was tested using QEMU RISC-V 64-bit.
->
-> Signed-off-by: Michael Scott <mike@foundries.io>
-> ---
->  meta/classes/kernel-fitimage.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/classes/kernel-fitimage.bbclass
-> b/meta/classes/kernel-fitimage.bbclass
-> index 2517d75746..2820ff9689 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -10,6 +10,8 @@ python __anonymous () {
->          uarch = d.getVar("UBOOT_ARCH")
->          if uarch == "arm64":
->              replacementtype = "Image"
-> +        elif uarch == "riscv":
-> +            replacementtype = "Image"
+  # grep build-nodistro-morty sstate-*/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool
+  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:LTCFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/jenkins/mjansa/build-nodistro-morty/BUILD/work/i586-oe-linux/libtool-cross/2.4.6-r0=/usr/src/debug/libtool-cross/2.4.6-r0 -fdebug-prefix-map=/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux= -fdebug-prefix-map=FIXMESTAGINGDIRHOST= "
+  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:sys_lib_search_path_spec="/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/lib/i586-oe-linux/gcc/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/lib FIXMESTAGINGDIRHOST/usr/lib/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/usr/lib "
+  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:compiler_lib_search_dirs="/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/lib/i586-oe-linux/gcc/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/lib FIXMESTAGINGDIRHOST/usr/lib/i586-oe-linux/6.4.0 FIXMESTAGINGDIRHOST/usr/lib"
+  sstate-bad/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:compiler_lib_search_path="-L/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/lib/i586-oe-linux/gcc/i586-oe-linux/6.4.0 -LFIXMESTAGINGDIRHOST/lib -LFIXMESTAGINGDIRHOST/usr/lib/i586-oe-linux/6.4.0 -LFIXMESTAGINGDIRHOST/usr/lib"
+
+  sstate-better/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:LTCFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fdebug-prefix-map=/jenkins/mjansa/build-nodistro-morty/BUILD/work/i586-oe-linux/libtool-cross/2.4.6-r0=/usr/src/debug/libtool-cross/2.4.6-r0 -fdebug-prefix-map=FIXME_STAGING_DIR_NATIVE= -fdebug-prefix-map=FIXMESTAGINGDIRHOST= "
+
+* It seems there aren't many cases where the above variables cause big issues,
+  but it gets worse when you build "dd" in native sysroot (coreutils-native),
+  before libtool-cross (this is why this is bad only with Yocto 2.2 Morty and
+  older before RSS, with Pyro and newer you won't detect bin/dd in
+  native sysroot without explicit dependency on coreutils-native and you'll
+  always use dd from HOSTTOOLS)
+
+  without coreutils-native in sysroot:
+  sstate-better/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="/bin/dd bs=4096 count=1"
+
+  with coreutils-native in sysroot before and after this change:
+  sstate-bad-with-dd/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="/jenkins/mjansa/build-nodistro-morty/BUILD/sysroots/x86_64-linux/usr/bin/dd bs=4096 count=1"
+  sstate-better-with-dd/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="FIXME_STAGING_DIR_NATIVE/usr/bin/dd bs=4096 count=1"
+
+  this issue was already resolved for target libtool, but not for
+  libtool-cross in:
+  http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/libtool?h=morty&id=5e83a72f1ec834063d27b924bc7f9a047204cec6
+
+  and the HOSTTOOLS_DIR and DEBUG_PREFIX_MAP a bit later in rocko (but
+  again only for target libtool, not libtool-cross:
+  http://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/libtool?h=rocko&id=04db02138e363898e040e33557f1296e8a43c3fd
+
+  the above still isn't ideal, because now FIXME_STAGING_DIR_NATIVE/usr/bin/dd will be
+  replaced with correct path to native sysroot when unpacking libtool-cross from sstate
+  but it will still need coreutils-native dependency to find /usr/bin/dd there.
+  Add ac_cv_path_lt_DD=dd to CACHED_CONFIGUREVARS to prevent using absolute path to
+  dd (like we already do for grep) to prevent this issue as well, now we have:
+
+  sstate-best-with-dd/sysroot-destdir/usr/bin/crossscripts/i586-oe-linux-libtool:lt_truncate_bin="dd bs=4096 count=1"
+
+* I've noticed this in a build which was failing with:
+  ERROR: lib32-db-5.3.28-r1 do_package_qa: QA Issue: /usr/bin/db_verify contained in package lib32-db-bin requires /bin/bash, but no providers found in RDEPENDS_lib32-db-bin? [file-rdeps]
+  and strengly enough, this was cased by all /usr/bin/db_* files being the libtool
+  linker scripts instead of the actual binaries, in the log.do_install you can notice
+  only small warning and different path when installing the utilities:
+  working case:
+  x86_64-oe-linux-libtool: warning: 'libdb-5.3.la' has not been installed in '/usr/lib64'
+  x86_64-oe-linux-libtool: install: cp -p .libs/db_checkpoint /jenkins/mjansa/build-nodistro-morty/BUILD/work/qemux86-oe-linux/db/5.3.28-r1/image/usr/bin/db_checkpoint
+  broken case:
+  x86_64-oe-linux-libtool: install: cp -p db_checkpoint /jenkins/mjansa/build-nodistro-morty/BUILD/work/qemux86-oe-linux/db/5.3.28-r1/image/usr/bin/db_checkpoint
+
+  this was caused by the invalid path to "dd" mentioned above, comparing
+  libtool --mode-install --debug shows:
+
+  diff -uNr log.install.db_archive.libtool.{ape,raven}
+  --- log.install.db_archive.libtool.ape  2019-04-12 13:36:07.127370425 +0000
+  +++ log.install.db_archive.libtool.raven        2019-04-12 13:36:25.847821004 +0000
+  @@ -202,9 +202,125 @@
+   + wrapper=db_archive
+   + func_ltwrapper_script_p db_archive
+   + test -f db_archive
+  ++ /bin/dd bs=4096 count=1
+   + func_generated_by_libtool_p
+  -+ /home/jenkins/anaconda/build-nodistro-morty/build/BUILD/sysroots/x86_64-linux/usr/bin/dd bs=4096 count=1
+   + grep '^# Generated by .*libtool'
+  ++ notinst_deplibs=
+  ...
+  func_ltwrapper_script_p, calls lt_truncate_bin and pipes the result to
+  func_generated_by_libtool_p, but with non-existent path to dd this fails
+  and libtool installs the db_archive script, instead of sourcing it and installing
+  the actual binary .libs/db_checkpoint
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+index b268310468..40530b3cfa 100644
+--- a/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
++++ b/meta/recipes-devtools/libtool/libtool-cross_2.4.6.bb
+@@ -38,3 +38,7 @@ do_install () {
+ SYSROOT_DIRS += "${bindir_crossscripts} ${target_datadir}"
+ 
+ SSTATE_SCAN_FILES += "libtoolize *-libtool"
++
++# Replace native sysroot as well, it's used in
++# LTCFLAGS, sys_lib_search_path_spec, compiler_lib_search_dirs, compiler_lib_search_path variables
++EXTRA_STAGING_FIXMES = "STAGING_DIR_NATIVE"
+-- 
+2.17.1
 
 
-Make it or condition along with arm64 check
-
->
->          elif uarch == "mips":
->              replacementtype = "vmlinuz.bin"
->          elif uarch == "x86":
-> --
-> 2.21.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---00000000000006544e058657e587
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Apr 11, 2019 at 10:46 PM Michael Scott &lt;<a href=
-=3D"mailto:mike@foundries.io">mike@foundries.io</a>&gt; wrote:<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #=
-ccc solid;padding-left:1ex">Support RISC-V kernel image, using the &quot;Im=
-age&quot; target.<br>
-<br>
-This change allows RISC-V support for fitImage via the following<br>
-flow: OpenSBI -&gt; u-boot (as payload) -&gt; Linux kernel (as fitImage<br>
-with ramdisk and dtb).<br>
-<br>
-This was tested using QEMU RISC-V 64-bit.<br>
-<br>
-Signed-off-by: Michael Scott &lt;<a href=3D"mailto:mike@foundries.io" targe=
-t=3D"_blank">mike@foundries.io</a>&gt;<br>
----<br>
-=C2=A0meta/classes/kernel-fitimage.bbclass | 2 ++<br>
-=C2=A01 file changed, 2 insertions(+)<br>
-<br>
-diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fit=
-image.bbclass<br>
-index 2517d75746..2820ff9689 100644<br>
---- a/meta/classes/kernel-fitimage.bbclass<br>
-+++ b/meta/classes/kernel-fitimage.bbclass<br>
-@@ -10,6 +10,8 @@ python __anonymous () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0uarch =3D d.getVar(&quot;UBOOT_ARCH&quot;=
-)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if uarch =3D=3D &quot;arm64&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0replacementtype =3D &quot;I=
-mage&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 elif uarch =3D=3D &quot;riscv&quot;:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 replacementtype =3D &quot;Image&=
-quot;</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Make it or =
-condition along with arm64 check=C2=A0</div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif uarch =3D=3D &quot;mips&quot;:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0replacementtype =3D &quot;v=
-mlinuz.bin&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0elif uarch =3D=3D &quot;x86&quot;:<br>
--- <br>
-2.21.0<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-
---00000000000006544e058657e587--
