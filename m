@@ -1,58 +1,49 @@
-Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 318887964F
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 380EA7D6D4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 16:19:32 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id t81so10479570oig.10
+	Sat, 13 Apr 2019 18:15:35 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id k3so6678254pga.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 09:19:34 -0700 (PDT)
+	Sat, 13 Apr 2019 11:15:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=kwoofcQ9ir30x6qn5Xu4nK36PLYKb03Jefh9HQfqsJ4=;
-	b=WIshPZbWNpbGHpSRDaiZ3Zx21MgQfEH+Ezj6OANYzfDFzltN3iTUchDCnWl435QDzC
-	3/dnonZRODBRdnNH91V0CqxOMqTDkiBidgKVjQ/0dG3I5W4KmLj3iGHYLF6Mu+ZhK3Bw
-	Ka/8s93wt1ShSA38mvR+CJU8IxAl8KU54pvfMTlw3TVBKQTdphj8m8AiLZJ2E3K9PsGq
-	A/mEgBItOzUxmYl7aZo2FkD2T/EahYTEUTFOb5Lo7/BdwwXqOEtxOpfOXnrSiWz4XYjI
-	mXFgrDzwZwsLDh9i27i7OPOkPj9TPos27HrJnSovI72rGs/6vYs72qlxegXFOzGQmoy8
-	2rTw==
+	h=from:to:subject:date:message-id;
+	bh=el9UmJF25ahdQ4s2Os5H3P1PSw3iAgPaEDNdVvntcws=;
+	b=Nk9hBRsEus7rTGJXKfl7/ecKRZH7HZ2tDSYyup9y6TparItZFcYePeaJzOtKAtkdr1
+	UbweLZwsYMJ20610aR1RgRZHCh8l8xDQ7aiw5llXKo18pYyBfpkyabVeDNNpxlK9eYeB
+	WSDuia/9sSe8wNz5x/vR0B3+Kx0OZAWRiGBYIyHtTTE+H0O/2iSMFYJ1rROXr6BCRd1y
+	hj9JXxmRxgV998R5f1OENeUccrglrRHa9sADTjWEUkpJQrXcH+NoNfIC6Cf3i2mNeDJQ
+	Ghifso0vTUAaV0LRoUBA1LECemATIyZQrIIvbR4burg6V7WwL6wLpc/2i3dGq4oo4juW
+	goqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=kwoofcQ9ir30x6qn5Xu4nK36PLYKb03Jefh9HQfqsJ4=;
-	b=YIdH96v7OSGR5aq821WwQ4JHKio4z1l1ysMtGz16s/q0FdIu0ytzVjai86SyuG6vmH
-	eGCOFrLOyAfjlaB9IYqtpyEJknG05mQG0TKcf/v5gt1VFSc6fIkEI273RbPrL4GUEQ7R
-	4MMOyJlXNMXllM4PYn1gzRxGQHt6kwFa2sUep5091cqM/GFqCF+FDnvqDtBGLZJz+uYJ
-	dRcTFd6/hur93W4kkFcnIPqShLszpOKgye9WeDQ7boqTCLyhF+iE27JLIFZSjuFQc3OU
-	sl92duxRavdoIB/185bMB2gQpmpNemmB5m27s+UG8QKiYNWLdBycyLjMANH9z4l6I/6t
-	GCpA==
-X-Gm-Message-State: APjAAAXZchtqiAMRz5pjiDJAmyrBhoIrGn2cEmZNbzWZpg2LlNy1iiWU
-	jB4aGultGU5v4e7WWp397/yUPSB0
-X-Google-Smtp-Source: APXvYqwTeKm4Zgl3wwvzdxdPplWPnlAnEfImnWYXaW+142KEdOOGGu3+sa09fDPOhLpgmPFZlYCQWw==
-X-Received: by 2002:aca:3e41:: with SMTP id l62mr14306833oia.24.1555172373920; 
-	Sat, 13 Apr 2019 09:19:33 -0700 (PDT)
-Received: from ?IPv6:2605:a601:43d5:f700:c5be:7ada:a7e0:e98c?
-	([2605:a601:43d5:f700:c5be:7ada:a7e0:e98c])
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=el9UmJF25ahdQ4s2Os5H3P1PSw3iAgPaEDNdVvntcws=;
+	b=XtX6MMebEF6wadgLOMytLrCGKHyI8CMfCOZggkeym6xa7iJ+uM/UBeffWoyPJzTC7p
+	di0IwACq6ynrPdGU7IDeJfZtJqlkbo6QV8e+VBNbrwtgfOdov8xnEr5DpDSp0fChMj/7
+	5pP/xrwEtIwvMLeI1hSf5dpPDsw2exmIuunpMf+4bdeCme3ONlJ7GuTINg+7MNdcw8O4
+	sovbJ6zKA4xQqS1eMLLHgmrzDzOtM6ViYT7fS6AKrXlbb7T5kLpV+PLkNm8tckLC93xz
+	y/+Qu+N6zX3PcTJibrCcybMH9KEpnXiVL/Ubh87eJZOMqkjb4mRS+FGgKq+jnHTztPBw
+	NFAA==
+X-Gm-Message-State: APjAAAXvpCoiakOTcLmXnTAVseKasbS095q71UwvoBbMl5QQchmHMxvd
+	XCYTygX75aGs2CgOq/MeceOxzSNV
+X-Google-Smtp-Source: APXvYqyzNlB5yNafINESYIM06HTH1AtytjocuHd/YhT4WfxjvBCQ09K0uo4Adt8o2PSIE+YnyWQjjQ==
+X-Received: by 2002:a62:1d0d:: with SMTP id d13mr65285060pfd.96.1555179335988; 
+	Sat, 13 Apr 2019 11:15:35 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:7ca0:5fa6:145:76be])
 	by smtp.gmail.com with ESMTPSA id
-	i81sm12432007oia.4.2019.04.13.09.19.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 13 Apr 2019 09:19:33 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <cover.1554787765.git.just.another.mariano@gmail.com>
-	<102ba655188d6b90411171468c0c354602e3e549.1554787765.git.just.another.mariano@gmail.com>
-	<a9b15f00daefad23c17a4f8199f9da7d361b1f51.camel@linuxfoundation.org>
-From: Mariano Lopez <just.another.mariano@gmail.com>
-Message-ID: <b7667a68-8100-7e18-a391-064f64a021d1@gmail.com>
-Date: Sat, 13 Apr 2019 11:19:28 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <a9b15f00daefad23c17a4f8199f9da7d361b1f51.camel@linuxfoundation.org>
-Subject: Re: [PATCH v4 2/4] ptest.bbclass: Add feature to populate a binary directory
+	o5sm137868343pfa.135.2019.04.13.11.15.34
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 13 Apr 2019 11:15:35 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 13 Apr 2019 11:14:59 -0700
+Message-Id: <cover.1555179238.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 00/33] sumo-next pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,75 +56,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2019 16:19:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Sat, 13 Apr 2019 18:15:35 -0000
 
+please consider these changes for sumo
 
-On 4/11/19 3:11 PM, Richard Purdie wrote:
-> On Tue, 2019-04-09 at 00:44 -0500, Mariano Lopez wrote:
->> This adds the functionality to create a binary directory within
->> PTEST_PATH directory. This directory will be populated with
->> symlinks pointing to the binaries installed by the package and
->> then renamed by update-alternatives. This way the ptest only needs
->> to source this binary directory in order to use the expected
->> binaries.
->>
->> To enable this feature just add PTEST_BINDIR = "1" to the recipe.
->>
->> [YOCTO #12597]
->> [YOCTO #13238]
->>
->> Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
->> ---
->>   meta/classes/ptest.bbclass | 32 ++++++++++++++++++++++++++++++++
->>   1 file changed, 32 insertions(+)
->>
->> diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
->> index 97865c9338..e87a9659cb 100644
->> --- a/meta/classes/ptest.bbclass
->> +++ b/meta/classes/ptest.bbclass
->> @@ -65,6 +65,38 @@ do_install_ptest_base() {
->>       done
->>   }
->>   
->> +PTEST_BINDIR_PKGD_PATH = "${PKGD}${PTEST_PATH}/bin"
->> +
->> +# This function needs to run after apply_update_alternative_renames
->> because the
->> +# aforementioned function will update the ALTERNATIVE_LINK_NAME
->> flag. Append is
->> +# used here to make this function to run as late as possible.
->> +PACKAGE_PREPROCESS_FUNCS_append = "${@bb.utils.contains('PTEST_BINDI
->> R', '1', \
->> +                                    bb.utils.contains('PTEST_ENABLED
->> ', '1', ' ptest_update_alternatives', '', d), '', d)}"
->> +
->> +python ptest_update_alternatives() {
->> +    """
->> +    This function will generate the symlinks in the
->> PTEST_BINDIR_PKGD_PATH
->> +    to match the renamed binaries by update-alternatives.
->> +    """
->> +
->> +    if not bb.data.inherits_class('update-alternatives', d) \
->> +           or not update_alternatives_enabled(d):
->> +        return
->> +
->> +    bb.note("Generating symlinks for ptest")
->> +    bin_paths = { os.environ["bindir"], os.environ["base_bindir"],
-> I'm going to merge this but is there a good reason you're using
-> os.environ[] here? If not we should merge a small fixup to use
-> d.getVar() since ultimately we don't really want these things in the
-> environment if we can help it.
->
-> Cheers,
->
-> Richard
->
-Sorry about that, I just sent the fix for this
+The following changes since commit 0a2db923fd17019d07d88204b355aa46590f0b97:
 
-Mariano
+  build-appliance-image: Update to sumo head revision (2019-03-27 23:21:58 +0000)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/sumo-next
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=stable/sumo-next
+
+Chen Qi (2):
+  pkgdata.py: avoid target-sdk-dummy-provides to mess things up
+  logging: use warning instead warn
+
+Davis, Michael (1):
+  wic: Support for changing the imager.
+
+Geoff Parker (1):
+  wic: make engine.py:get_partitions() resilient to parted/dmidecode
+    stderr output
+
+Kai Kang (1):
+  wic: search nonarch STAGING_DATADIR for multilib
+
+Khem Raj (1):
+  lib/oe: Fix collections ABCs DeprecationWarning in Python 3.7+
+
+Leonardo Augusto (1):
+  scripts/lib/wic/engine: Fix cp's target path for ext* filesystems
+
+Mazliana (1):
+  oeqa/manual/bsp-hw.json: add non-IA tests
+
+Richard Purdie (9):
+  oeqa/manual: Remove bitbake-selftest execution
+  oeqa/manual/build-appliance: Drop test which is already automated
+  resulttool: Allow store to work on single files
+  resulttool: Allow extraction of ptest data
+  scripts/wic: Be consistent about how we call bitbake
+  wic/engine: Fix missing parted autobuilder failures
+  oeqa/selftest/devtool: Ensure dbus is built befoe running test
+  oeqa: Default to buffer mode for tests
+  devtool: Split tests into multiple classes
+
+Robert Yang (1):
+  oeqa/manual/bsp-qemu.json: Update for QEMU_USE_KVM
+
+Ross Burton (1):
+  wic: use explicit errno import
+
+Sudhir Sharma (1):
+  oeqa/manual: Add manual runtime 'compliance' testcases to json
+
+William Bourque (1):
+  wic/engine.py: Load paths from PATH environment variable
+
+Yeoh Ee Peng (8):
+  oeqa/manual: transfer manual test cases from testopia to oeqa
+  oeqa/manual/toaster: transfer manual toaster test cases to oeqa
+  oeqa/manual/toaster: updated test id naming
+  resulttool: Enable report for single result file
+  resulttool/manualexecution: Standardize input check
+  resulttool/manualexecution: Enable display full steps without press
+    enter
+  resulttool/manualexecution: Fixed step sorted by integer
+  resulttool/manualexecution: Refactor and simplify codebase
+
+sangeeta jain (4):
+  oeqa/manual/sdk.json: Updated toolchain tarball to core-image-sato
+  oeqa/manual/bsp-hw.json: test id updated and obsolete test cases
+    removed
+  oeqa/manual/compliance-test.json: test id updated and missing test
+    cases added
+  oeqa/manual/kernel-dev.json: test id updated
+
+ meta/lib/oe/maketype.py                          |    9 +-
+ meta/lib/oe/terminal.py                          |    6 +-
+ meta/lib/oeqa/core/context.py                    |    2 +-
+ meta/lib/oeqa/core/runner.py                     |    5 -
+ meta/lib/oeqa/manual/abat.patch                  |   64 +
+ meta/lib/oeqa/manual/bsp-hw.json                 | 1286 +++++++++++
+ meta/lib/oeqa/manual/bsp-qemu.json               |  222 ++
+ meta/lib/oeqa/manual/build-appliance.json        |   96 +
+ meta/lib/oeqa/manual/compliance-test.json        |  194 ++
+ meta/lib/oeqa/manual/crops.json                  |  294 +++
+ meta/lib/oeqa/manual/eclipse-plugin.json         |  322 +++
+ meta/lib/oeqa/manual/kernel-dev.json             |  200 ++
+ meta/lib/oeqa/manual/oe-core.json                |  264 +++
+ meta/lib/oeqa/manual/sdk.json                    |   32 +
+ meta/lib/oeqa/manual/toaster-managed-mode.json   | 2572 ++++++++++++++++++++++
+ meta/lib/oeqa/manual/toaster-unmanaged-mode.json | 1170 ++++++++++
+ meta/lib/oeqa/selftest/cases/devtool.py          |  115 +-
+ meta/lib/oeqa/selftest/cases/efibootpartition.py |    1 -
+ meta/lib/oeqa/selftest/cases/imagefeatures.py    |    2 -
+ meta/lib/oeqa/selftest/cases/pkgdata.py          |    1 +
+ meta/lib/oeqa/selftest/cases/runqemu.py          |    2 -
+ meta/lib/oeqa/selftest/context.py                |    2 +-
+ meta/lib/oeqa/utils/qemurunner.py                |    4 +-
+ scripts/combo-layer                              |    2 +-
+ scripts/contrib/verify-homepage.py               |    2 +-
+ scripts/lib/devtool/export.py                    |    2 +-
+ scripts/lib/devtool/import.py                    |    8 +-
+ scripts/lib/devtool/standard.py                  |   16 +-
+ scripts/lib/devtool/upgrade.py                   |    6 +-
+ scripts/lib/recipetool/append.py                 |   14 +-
+ scripts/lib/recipetool/create.py                 |    4 +-
+ scripts/lib/recipetool/create_kmod.py            |    2 +-
+ scripts/lib/recipetool/create_npm.py             |    6 +-
+ scripts/lib/recipetool/newappend.py              |    4 +-
+ scripts/lib/resulttool/manualexecution.py        |   61 +-
+ scripts/lib/resulttool/resultutils.py            |   39 +-
+ scripts/lib/resulttool/store.py                  |   23 +-
+ scripts/lib/wic/engine.py                        |   26 +-
+ scripts/lib/wic/filemap.py                       |    9 +-
+ scripts/lib/wic/plugins/source/bootimg-pcbios.py |   10 +-
+ scripts/resulttool                               |   10 -
+ scripts/runqemu                                  |   16 +-
+ scripts/wic                                      |   18 +-
+ 43 files changed, 6941 insertions(+), 202 deletions(-)
+ create mode 100644 meta/lib/oeqa/manual/abat.patch
+ create mode 100644 meta/lib/oeqa/manual/bsp-hw.json
+ create mode 100644 meta/lib/oeqa/manual/bsp-qemu.json
+ create mode 100644 meta/lib/oeqa/manual/build-appliance.json
+ create mode 100644 meta/lib/oeqa/manual/compliance-test.json
+ create mode 100644 meta/lib/oeqa/manual/crops.json
+ create mode 100644 meta/lib/oeqa/manual/eclipse-plugin.json
+ create mode 100644 meta/lib/oeqa/manual/kernel-dev.json
+ create mode 100644 meta/lib/oeqa/manual/oe-core.json
+ create mode 100644 meta/lib/oeqa/manual/sdk.json
+ create mode 100644 meta/lib/oeqa/manual/toaster-managed-mode.json
+ create mode 100644 meta/lib/oeqa/manual/toaster-unmanaged-mode.json
+
+-- 
+2.7.4
 
 
