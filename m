@@ -1,51 +1,53 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B7577D29B
+Return-Path: <just.another.mariano@gmail.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 85BC66007A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 14:49:11 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id h18so9678990lfj.11
+	Sat, 13 Apr 2019 16:05:14 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id 139so20611693ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 07:49:12 -0700 (PDT)
+	Sat, 13 Apr 2019 09:05:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0xBztFJaoBXq61Kg1ECeHOHFZW2TVyu+gNPAiHilXM8=;
-	b=EFH/XQUiVHTZvAIa7++4oeBjIOBikvvcGPPwbetU2/Bz2wYW+aqZ6wex3A0hcNQ9rL
-	uyuZxzPrJF20WSxCXSuCvFt+5FHegi+Vtbj0SWjtbkjtywjV+fd/4fXyZGQL/NZfYL4p
-	OpYDTIL1PAZMrWze8NQOiWnUce+yojczHChkzMdrzyiBgife8zvbAVbmv12s1LK+efnj
-	FPPmbAqX4JO4jtwXtKaCAx5YFLeN/LfmATjIN15Mi+5AdM4JXgN1hqgOs/3UdaYDHdxg
-	lU0MKIaIw28SfUd6d9oVHFspbCLFI1CqMkPrOKFKaWa+tMaIUzO4Wi8NSMJvt4pvPMoe
-	Vmpg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=1hptkgL4rHrFRVACbfDCR3NhFUSqLs26Qrcqf0VZcUA=;
+	b=HzPoMfOjvuJwRGeO14bDcLx8K7aVYdlj+XSWMssm3II9S3ednEfb5I5bD01SNrv/GH
+	N+oRmBPiVC1l/VejozVMjDthS64yEGw1w/WcyC2nIyevMlkagwjinMNLNFHUaELvJZ/4
+	1GOGclMDsh2hYzqJHRjANY6y19l4vsV34duDaI4zli997xmnufFuDKJ05QeA7bT8CgfE
+	SJNn7kvuJD898QrS4pMwz1NBkXNlPkpu7oBW/SZP44Mgj2j3oEmN4vkNu2xXqHrfg0rf
+	0Eg7YCgGOqDOxJ+ggatKixVCfXgE4cioN7uWJHURPyH8ug+dmpbv15hBENZq12LN7gtF
+	/Buw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=0xBztFJaoBXq61Kg1ECeHOHFZW2TVyu+gNPAiHilXM8=;
-	b=TweiNAUdqpsTPmss98S6DTaiiSKplR3i5Jiwnj64dahVHFVEnfVkOTFUAo72YV7uAu
-	9krsbF1ZUDuwVFdodDcqkcHfIsfqOYwpqEC+botUbxJPz3kwjZZIbFLlfNLKuhzBUcUz
-	4rBjTv8fmLjghZTpEh0zs3F5imfLvVWwtqlxLnekQF0TaVWmENFbtLa5/e+j9+ejvyFd
-	6OpV91U1E3YJk6gM40BduA+Qsmo/c1YIeqkqF8VWSXKesfn34Vh+wrZi86L8O/WCyvJh
-	/Rq6sfCHZGK7OCR7kYwczLfz48fBzevhD23TW/+ErodRtqUMRAThBB5TjUhOoOB91+qL
-	Lb8Q==
-X-Gm-Message-State: APjAAAWPGZ64cyfi7NNI/+mOeHQ6JsQgvwUMcywVLBXSovio1kNxEqgj
-	jCgWFowX8gnc/OchQSqn3FN/npeg
-X-Google-Smtp-Source: APXvYqx9BgNJMWk+8/crxr0ap7OvlWsY085AbTL/Rb3AG1UlgLXRrKHwlh6J2cjjE6vcMdEs9d4YSw==
-X-Received: by 2002:ac2:598b:: with SMTP id w11mr5692440lfn.62.1555166951304; 
-	Sat, 13 Apr 2019 07:49:11 -0700 (PDT)
-Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
-	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
-	x71sm2308279lff.82.2019.04.13.07.49.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 13 Apr 2019 07:49:10 -0700 (PDT)
-From: Jacob Kroon <jacob.kroon@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=1hptkgL4rHrFRVACbfDCR3NhFUSqLs26Qrcqf0VZcUA=;
+	b=ijUGFlzuOLhtvprQC9A7ualFHynO/r91wv84AQXssABqAP38Dw3WIZ5AHibhMEBUuI
+	OrgM1Foh77ALYvu47rwKFNqLmcR7hI3Sv+ZWq/VGjHx99gSB+1BLYrFnA+oEmKLSJgKd
+	68l3+Q1kPjn/pmSZ+INMBtyHYuFiB6m8JgyHv4swts0Pqh7OSKsr/PWrcS+48TVjldpP
+	BPznpxkvj+ZdKLirki88P8DIflliNnhMdbDmDv2WF8hWSEEn3p7rypt3Xg1GJO+IddO4
+	/uiufdvp4CQC92EUkSEPkU1ffx+CB+R6lbU8inBNX6vkz1PEmAptSnbGV32C/ORCbi1Y
+	NQUA==
+X-Gm-Message-State: APjAAAX6pS9NpvFgXMgraGoWtKUF2hG3KW6ESfQi9TgqdTudcTRuN2t5
+	1wmb1bAlwARuEmVp6JDd3x/RgNrT
+X-Google-Smtp-Source: APXvYqwsx6M/m7URyNQof3jUcKoROrMK9owre1FzhsZwHK3mM52aEb33PTH0OUxAQ61vFFn8xTCdrg==
+X-Received: by 2002:a24:a70f:: with SMTP id a15mr2749580itf.117.1555171515448; 
+	Sat, 13 Apr 2019 09:05:15 -0700 (PDT)
+Received: from ultima.ninicasiopea.net
+	([2605:a601:43d5:f700:215:17ff:fe90:1065])
+	by smtp.googlemail.com with ESMTPSA id
+	f132sm17449285ioa.76.2019.04.13.09.05.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 13 Apr 2019 09:05:14 -0700 (PDT)
+From: Mariano Lopez <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Apr 2019 16:48:53 +0200
-Message-Id: <20190413144853.3765-1-jacob.kroon@gmail.com>
-X-Mailer: git-send-email 2.20.1
+Date: Sat, 13 Apr 2019 11:05:08 -0500
+Message-Id: <5ba6da88992e252b5e4139c961ad1afb4e8c780b.1555128581.git.just.another.mariano@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1555128581.git.just.another.mariano@gmail.com>
+References: <cover.1555128581.git.just.another.mariano@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] grub-efi-native: Install grub-editenv
+Subject: [PATCH 1/1] ptest.bbclass: Use d.getVar instead of os.environ
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2019 14:49:11 -0000
+X-List-Received-Date: Sat, 13 Apr 2019 16:05:14 -0000
 Content-Transfer-Encoding: 8bit
 
-Having a native version of grub-editenv around can be useful for
-setting the targets grub environment.
+[YOCTO #12597]
+[YOCTO #13238]
 
-Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+Signed-off-by: Mariano Lopez <just.another.mariano@gmail.com>
 ---
- meta/recipes-bsp/grub/grub-efi_2.02.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/ptest.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-index 14fce97ff0..6dbd23a3c7 100644
---- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
-+++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
-@@ -70,6 +70,7 @@ do_install_append_class-target() {
- do_install_class-native() {
- 	install -d ${D}${bindir}
- 	install -m 755 grub-mkimage ${D}${bindir}
-+	install -m 755 grub-editenv ${D}${bindir}
- }
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index e87a9659cb..936bf82736 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -84,8 +84,8 @@ python ptest_update_alternatives() {
+         return
  
- do_install_class-target() {
+     bb.note("Generating symlinks for ptest")
+-    bin_paths = { os.environ["bindir"], os.environ["base_bindir"],
+-                  os.environ["sbindir"], os.environ["base_sbindir"] }
++    bin_paths = { d.getVar("bindir"), d.getVar("base_bindir"),
++                   d.getVar("sbindir"), d.getVar("base_sbindir") }
+     ptest_bindir = d.getVar("PTEST_BINDIR_PKGD_PATH")
+     os.mkdir(ptest_bindir)
+     for pkg in (d.getVar('PACKAGES') or "").split():
 -- 
-2.20.1
+2.19.2
 
 
