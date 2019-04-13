@@ -1,52 +1,49 @@
-Return-Path: <changhyeok.bae@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id EA2157D3EC
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D420D7D3E3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 19:22:14 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id d55so10398095ede.0
+	Sat, 13 Apr 2019 20:49:24 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id g7so10065453lfh.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 12:22:15 -0700 (PDT)
+	Sat, 13 Apr 2019 13:49:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=XxpjzuTM01fRKajjmHGXF7D+wjFzbz9CRr755acQG98=;
-	b=KoPc65akmLft21mvZ+5CNPk4ZZaFrcyal1/y7aSogS7O5hIK2FxPhNUO4VlluY5b63
-	lYNhsndpmRcTXhQczwx39paxdgsUxD93GYYA7v+nPCv/7/ugUFwwHYKqiO86j459aCiC
-	Wce1WwZH84AUjeGKsm9WThq8VjBkTC3qg7Gyhy5v3blGRjylC+Eb0BnG+WahiVvdoDa7
-	oj3aNyYE6KVA8UJAnBFXaitLyxiXf12dIdk7pMiQSwDl4mPLT28L9n7k2egELiDoVOXx
-	xFiLlWg+EQ0ReZpgudzyKZ3UCjADA/g5bYZ6eTYMnianjynH9TxpR1ueqCQzoAQyJqyc
-	6ADw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=q9KNQTH+YGH7EEQlbVLt2ozMxR6XDdsXWJN23uM0G64=;
+	b=b+/MDZyPOmZTj5L5k1PJScY/lbi8NUxe+AocxVyb3ZT4bYqJyAOXPclv10UG4TWwYv
+	q6XVj/HRzkGZj7ChS8h3lzt1UC6nKh47vo0YL/9T9B02CMKj9CucwUfG5sWJDUCAAYEr
+	s1b+25ek1XvqGRTM6qrVcNsNV5R4QePPBTxC6PY6pZcDcsdjz+ndsV8g6LQfWhaVkX5t
+	pogGkxlrbvu4yDrD4drn0P7hGgnAYnPDu4LGyo19HYskkr9Mff5XpvLfHki2JLTzfxCk
+	9kwnfnfhb088Ps6N9TVRpYfAJKcZegEeCkXXnKoKwfE1Nejd/8TcnnFSjx62yMSkhOQV
+	Sbiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=XxpjzuTM01fRKajjmHGXF7D+wjFzbz9CRr755acQG98=;
-	b=Ez/YzsMvWIDJG9VpWCXm/tbW/YbHd6nbTWdFOzSwtO3LR6kRWWVEbzDum6j+llBuz2
-	Bjvbt0NF2cp2Ze3VlOBkV0jj2wE3v6znvHHgC6RQLlPryUpoBi3y10ixBXPJVvK+N51c
-	WU6/H0kBLA4egMgNy4D6D+3TzwNaLFI9ZIAjTU4p1W/MBPD4NvJmQ0fldAUzC2h7UVZQ
-	63hA5qgctVVid4fvdbMiioExSj012/n4LNEiK0d3sdgip/z+whyQ0hfkqJRYtmlnOZ/q
-	fNI/tUCcgBORGn4JKZ+S713ZboKDogmnGsM7n9CTuzXaIxUdO7LwUPeqseNjNWnABgGr
-	UElQ==
-X-Gm-Message-State: APjAAAXSqX+LZ/LW0gjEak3r/BqRjkOsYICGE3JysnFEu7+Rpq5zWYtz
-	Iyu8gGuqZlVUquze/FBCQs6BPLEw
-X-Google-Smtp-Source: APXvYqy99zMO9CuHOJ2gZnzsOTlR8731X7WoBxUDIlqarhVq5HKJYV/UrVOZSFpVMdQCGu2BvSbS5Q==
-X-Received: by 2002:a17:906:1b03:: with SMTP id
-	o3mr26457097ejg.201.1555183334353; 
-	Sat, 13 Apr 2019 12:22:14 -0700 (PDT)
-Received: from 16c67e32fcd5.fritz.box
-	(ip5b413250.dynamic.kabel-deutschland.de. [91.65.50.80])
-	by smtp.gmail.com with ESMTPSA id
-	p24sm2751821edm.43.2019.04.13.12.22.12
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 13 Apr 2019 12:22:13 -0700 (PDT)
-From: Changhyeok Bae <changhyeok.bae@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Apr 2019 19:21:10 +0000
-Message-Id: <1555183270-338-1-git-send-email-changhyeok.bae@gmail.com>
-X-Mailer: git-send-email 2.7.4
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=q9KNQTH+YGH7EEQlbVLt2ozMxR6XDdsXWJN23uM0G64=;
+	b=ZZZ+3MSv+zesXZmTTg8e6B5vPQUC6V3f51fg/RXToIxKW5eErZIzsY7diCSAYVlROl
+	8JHUUUIsagf4nAm6eksXTwUG9dyhNj3qUV1ahqd0pGZvbP3XMmX1nVzYF3lLcgQDE4o+
+	6s08bYn8HuoQnR5JBGO7PRZuwvCWUiAhlwhJz3vfsuAF/uTtHV6vNTKpFGv/pftO8vlM
+	SeCI163Gv9z+UvUI8T1uYoUvmqVNKODeaNmYwrS9OZK6OSpudztQ4rHRlNPw7lzUrVbx
+	PlVdxFdM7Yq5pdK9pRA3pRz9aiuLxjo3hk75l8Yu3M4kcgBlm5BcQoGYZvn3RtnduFLL
+	NmWQ==
+X-Gm-Message-State: APjAAAWJII1b/6rA0FuzO/Hz9BBqWv7NkIRjJNY84lPeE9OMOcbkb4lE
+	I5N2LpbYEjk3GUqx5YBqz69niNI8xQbyY0Snne9i2Ppm
+X-Google-Smtp-Source: APXvYqxN+usu10FrVxERH7BkTPSH8ulB2LgQfftQFtiapwz3qkj/xuFnejrtZp/uuU4wnKRfCdU7mKe3VJrxbZ18qTI=
+X-Received: by 2002:a19:7503:: with SMTP id y3mr34376607lfe.83.1555188565414; 
+	Sat, 13 Apr 2019 13:49:25 -0700 (PDT)
 MIME-Version: 1.0
-Subject: ][PATCH] iptables: upgrade 1.6.2 -> 1.8.2
+References: <20190412054625.9447-1-mike@foundries.io>
+	<CAKmqyKPW93Z5ovf3kLe3VteXNEr0Z45YUNShakwcCN7bJvnG9Q@mail.gmail.com>
+	<2cc02705-6ee2-cf74-1e87-7865b6d790b1@foundries.io>
+In-Reply-To: <2cc02705-6ee2-cf74-1e87-7865b6d790b1@foundries.io>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Sat, 13 Apr 2019 13:48:59 -0700
+Message-ID: <CAKmqyKNkz0cYrPddfQocs66N8QBMHFGsn_fSpcrj3_j5kXGC6g@mail.gmail.com>
+To: Michael Scott <mike@foundries.io>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-fitimage: support RISC-V
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,110 +56,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2019 19:22:15 -0000
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 13 Apr 2019 20:49:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-To enable security flash, get the build error. To fix this,
-0003-extensions-format-security-fixes-in-libipt_icmp.patch is required.
+On Fri, Apr 12, 2019 at 9:56 PM Michael Scott <mike@foundries.io> wrote:
+>
+>
+> On 4/12/19 10:17 AM, Alistair Francis wrote:
+> > On Thu, Apr 11, 2019 at 10:46 PM Michael Scott <mike@foundries.io> wrot=
+e:
+> >> Support RISC-V kernel image, using the "Image" target.
+> >>
+> >> This change allows RISC-V support for fitImage via the following
+> >> flow: OpenSBI -> u-boot (as payload) -> Linux kernel (as fitImage
+> >> with ramdisk and dtb).
+> >>
+> >> This was tested using QEMU RISC-V 64-bit.
+> > Do you mind sharing how you tested this? I would be interested in
+> > trying this as well.
+> The current OE-based manifest for the Foundries.io Linux microPlatform
+> is found here (v42):
+> https://github.com/foundriesio/lmp-manifest
+>
+> However, I think you're interested in seeing the
+> opensbi/u-boot/fit-image work for qemuriscv64, and that won't land until
+> v43 (along with kernel 5.0.6 update).
+>
+> It should be ready in a few days.  I can send you a private ping then,
+> if you'd like.
 
-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
----
- ...ions-format-security-fixes-in-libipt_icmp.patch | 61 ++++++++++++++++++++++
- .../{iptables_1.6.2.bb => iptables_1.8.2.bb}       |  5 +-
- 2 files changed, 64 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-extended/iptables/iptables/0003-extensions-format-security-fixes-in-libipt_icmp.patch
- rename meta/recipes-extended/iptables/{iptables_1.6.2.bb => iptables_1.8.2.bb} (91%)
+If you wouldn't mind that would be great! I'm interested in adding FIT
+image OpenSBI -> u-boot -> Linux boot support to meta-riscv.
 
-diff --git a/meta/recipes-extended/iptables/iptables/0003-extensions-format-security-fixes-in-libipt_icmp.patch b/meta/recipes-extended/iptables/iptables/0003-extensions-format-security-fixes-in-libipt_icmp.patch
-new file mode 100644
-index 0000000..0029661
---- /dev/null
-+++ b/meta/recipes-extended/iptables/iptables/0003-extensions-format-security-fixes-in-libipt_icmp.patch
-@@ -0,0 +1,61 @@
-+From 907e429d7548157016cd51aba4adc5d0c7d9f816 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Adam=20Go=C5=82=C4=99biowski?= <adamg@pld-linux.org>
-+Date: Wed, 14 Nov 2018 07:35:28 +0100
-+Subject: extensions: format-security fixes in libip[6]t_icmp
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+commit 61d6c3834de3 ("xtables: add 'printf' attribute to xlate_add")
-+introduced support for gcc feature to check format string against passed
-+argument.  This commit adds missing bits to extenstions's libipt_icmp.c
-+and libip6t_icmp6.c that were causing build to fail.
-+
-+Fixes: 61d6c3834de3 ("xtables: add 'printf' attribute to xlate_add")
-+Signed-off-by: Adam Gołębiowski <adamg@pld-linux.org>
-+Signed-off-by: Pablo Neira Ayuso <pablo@netfilter.org>
-+
-+Upstream-Status: Backporting
-+---
-+ extensions/libip6t_icmp6.c | 4 ++--
-+ extensions/libipt_icmp.c   | 2 +-
-+ 2 files changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/extensions/libip6t_icmp6.c b/extensions/libip6t_icmp6.c
-+index 45a71875..cc7bfaeb 100644
-+--- a/extensions/libip6t_icmp6.c
-++++ b/extensions/libip6t_icmp6.c
-+@@ -230,7 +230,7 @@ static unsigned int type_xlate_print(struct xt_xlate *xl, unsigned int icmptype,
-+ 	type_name = icmp6_type_xlate(icmptype);
-+ 
-+ 	if (type_name) {
-+-		xt_xlate_add(xl, type_name);
-++		xt_xlate_add(xl, "%s", type_name);
-+ 	} else {
-+ 		for (i = 0; i < ARRAY_SIZE(icmpv6_codes); ++i)
-+ 			if (icmpv6_codes[i].type == icmptype &&
-+@@ -239,7 +239,7 @@ static unsigned int type_xlate_print(struct xt_xlate *xl, unsigned int icmptype,
-+ 				break;
-+ 
-+ 		if (i != ARRAY_SIZE(icmpv6_codes))
-+-			xt_xlate_add(xl, icmpv6_codes[i].name);
-++			xt_xlate_add(xl, "%s", icmpv6_codes[i].name);
-+ 		else
-+ 			return 0;
-+ 	}
-+diff --git a/extensions/libipt_icmp.c b/extensions/libipt_icmp.c
-+index 54189976..e76257c5 100644
-+--- a/extensions/libipt_icmp.c
-++++ b/extensions/libipt_icmp.c
-+@@ -236,7 +236,7 @@ static unsigned int type_xlate_print(struct xt_xlate *xl, unsigned int icmptype,
-+ 			if (icmp_codes[i].type == icmptype &&
-+ 			    icmp_codes[i].code_min == code_min &&
-+ 			    icmp_codes[i].code_max == code_max) {
-+-				xt_xlate_add(xl, icmp_codes[i].name);
-++				xt_xlate_add(xl, "%s", icmp_codes[i].name);
-+ 				return 1;
-+ 			}
-+ 	}
-+-- 
-+cgit v1.2.1
-+
-diff --git a/meta/recipes-extended/iptables/iptables_1.6.2.bb b/meta/recipes-extended/iptables/iptables_1.8.2.bb
-similarity index 91%
-rename from meta/recipes-extended/iptables/iptables_1.6.2.bb
-rename to meta/recipes-extended/iptables/iptables_1.8.2.bb
-index a57cac3..ad2c1a6 100644
---- a/meta/recipes-extended/iptables/iptables_1.6.2.bb
-+++ b/meta/recipes-extended/iptables/iptables_1.8.2.bb
-@@ -10,10 +10,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263\
- SRC_URI = "http://netfilter.org/projects/iptables/files/iptables-${PV}.tar.bz2 \
-            file://0001-configure-Add-option-to-enable-disable-libnfnetlink.patch \
-            file://0002-configure.ac-only-check-conntrack-when-libnfnetlink-enabled.patch \
-+           file://0003-extensions-format-security-fixes-in-libipt_icmp.patch  \
- "
- 
--SRC_URI[md5sum] = "7d2b7847e4aa8832a18437b8a4c1873d"
--SRC_URI[sha256sum] = "55d02dfa46263343a401f297d44190f2a3e5113c8933946f094ed40237053733"
-+SRC_URI[md5sum] = "944558e88ddcc3b9b0d9550070fa3599"
-+SRC_URI[sha256sum] = "a3778b50ed1a3256f9ca975de82c2204e508001fc2471238c8c97f3d1c4c12af"
- 
- inherit autotools pkgconfig
- 
--- 
-2.7.4
+Alistair
 
+>
+> The documentation is here:
+> https://docs.foundries.io/latest/reference/linux-building.html
+>
+> - Mike
+>
+> >
+> > Alistair
+> >
+> >> Signed-off-by: Michael Scott <mike@foundries.io>
+> >> ---
+> >>   meta/classes/kernel-fitimage.bbclass | 2 ++
+> >>   1 file changed, 2 insertions(+)
+> >>
+> >> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kerne=
+l-fitimage.bbclass
+> >> index 2517d75746..2820ff9689 100644
+> >> --- a/meta/classes/kernel-fitimage.bbclass
+> >> +++ b/meta/classes/kernel-fitimage.bbclass
+> >> @@ -10,6 +10,8 @@ python __anonymous () {
+> >>           uarch =3D d.getVar("UBOOT_ARCH")
+> >>           if uarch =3D=3D "arm64":
+> >>               replacementtype =3D "Image"
+> >> +        elif uarch =3D=3D "riscv":
+> >> +            replacementtype =3D "Image"
+> >>           elif uarch =3D=3D "mips":
+> >>               replacementtype =3D "vmlinuz.bin"
+> >>           elif uarch =3D=3D "x86":
+> >> --
+> >> 2.21.0
+> >>
+> >> --
+> >> _______________________________________________
+> >> Openembedded-core mailing list
+> >> Openembedded-core@lists.openembedded.org
+> >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+> --
+> Michael Scott
+> Embedded Software Engineer at Foundries.io
+> "microPlatforms=E2=84=A2 for Connected Products"
+> E: mike@foundries.io
+> W: https://www.foundries.io
+>
 
