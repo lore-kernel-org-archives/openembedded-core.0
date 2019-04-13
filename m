@@ -1,38 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 556227D415
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 29BF77DBD1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 06:52:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44h57G1PBQzPV;
-	Sat, 13 Apr 2019 08:52:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1555138378;
-	bh=uCCF7iKmfFJE16zh3d4rvNtDNzYMnti4WSEfaBe/TlE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gHWCEqtDztGNlBu9W3sFIQjmnUnAj0pQvzQn2g8j+fyJx9KpUBZnZ/nJpuXs5EUii
-	ObdV1+aAQfgkvtuPGQGBwqcucHuv3dxKqWJqiW3ztbv6oey9hIBOHFHrY/eDvmGdha
-	8Vya+4BGGE2N4Brg9ib6nrmcxKsIdYcxM3YLN8ZBghP9EC7SFHS/PVZyPjNUpstdIP
-	0QWjNhAqn4KhSrCX/XFU3DjnbGAEKMAGgUkzVewJghKT02kMQv2wgSnW6oSJ6qh9ai
-	EeDi9iZzu06cT0c0R5uewgf5LqSjBZ4gjnAXEkZjvvh+FNAZ8ln7bMWFOGwEdBNW01
-	uYXGvnQ8x6S3PxVSxG8iju6Nj/iMHOjyy/Dh/N4pnvXqQuWwZQ7D8u9yXnnLy6DFFH
-	tkwdkuQHSaaENslghx38HIl/Sj7ZqzQwU+nxlhFlD1UlZxRthB8PWOgdhsbv+kp/uP
-	M2K7GvlmWMjMEtv3Ywt1iM+07Cn5bym8qeQk6R7z66CNnrtX6HTR2r4v+ArvkYb2/Y
-	lJWWJ/IpagV5YvQEae6MHbH9BW48zz7bX07q11om0DIyTyWQYl+/x4b624unmVXGCg
-	cTa+/9oyhTQGirhE11RFbcKQS+/y8coxF9Z9jFHKnoLQEjSS7sZmFQZFAhbbwmFSUS
-	YUaxlh7FhdtxlMFrYrSPo01s=
-Date: Sat, 13 Apr 2019 09:52:56 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190413065256.GB10988@localhost>
-References: <20190412210912.21432-1-bunk@stusta.de>
-	<CAMKF1srHOayZ_MVHrwEA=54XD7HS5D5jT_fYmqF84mYuJ-cjEw@mail.gmail.com>
+	Sat, 13 Apr 2019 08:03:14 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id p23so10534195iol.13
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 13 Apr 2019 01:03:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=xvKkMLvUFo5aMIqNGwpt87CzCJOdB/mArk/f9X1gM88=;
+	b=ZTk/inBR9Tp2mYLDDHmprRZ9iISZExsb9f2Qc7GG5l5ECnV3RCFHewdt+YFaQDoFqF
+	JsxnjpzGexyvp9ud6K4/G+pk/OVr7inMicF4HvfKoHyG+H97OrkHoi//EfL/C1ELxi0E
+	pw/bAPFZlJBjvvYKbPxppGKkj1OZcvZ2mYbmjNvf2vt2KP2kHSao3aLQH5fqLGtYlwTz
+	RvI5ZMcbtXtv7wryiDaimNKg2TZzaJJvLeR+YB70ZQGH42OimQabQz8qAaawoQ+WMRFW
+	RJvyrPLCO/W+WyfiZiGTI8eVr/3RLWp8Ozem2MifGDMQVtiFotXqFLOmPjJU5lWD5uGJ
+	cSSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xvKkMLvUFo5aMIqNGwpt87CzCJOdB/mArk/f9X1gM88=;
+	b=khLiP90b81wRFz1IYEQ3xJ6zGaQSNDZmhmHXeynfAgVg4tzNeO1gNqZ2h+z6eC9cSR
+	qZnEFaa8K6X+g6byW54ZbrDzZ2IU6MehECS3OZ+xrQYdB2/n8bwSEuMSb8I21YKUSMtJ
+	09fbQz23g1TES1mNp3gRr+catE1LlChROBV1g0RsZo8UZlxspTEPWcQ4G/4Kf9HlK5ug
+	2sIjWhay8A/VDVKzO555LTIRH6sdU/KMf0FIsKuCJPExcV+wRn7NsyVp2e2InNKH+gs1
+	IOsj1PaAyB4+BUkCwYS0U/LMJmlgCXJmSJsZ9dviAZoftEED+CioeGvVkY0a9SAkSMG3
+	DOLQ==
+X-Gm-Message-State: APjAAAVZXj+Q+Zu6DzIfaidaCma7GG9hvTZUrR5MaNIvNE+JkORFZ7um
+	oFdK03N8y0alj/ulZDAaZyGZY+el8uQ79D2InMo=
+X-Google-Smtp-Source: APXvYqx8bnukVoALLejqBhZMeAY186q67qDxKh/SpAFECauqxwihxzBg4mf41iyp3shktazvYK6kzfLrmwoqQkUXNZY=
+X-Received: by 2002:a6b:e50d:: with SMTP id y13mr38805567ioc.142.1555142595013;
+	Sat, 13 Apr 2019 01:03:15 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1srHOayZ_MVHrwEA=54XD7HS5D5jT_fYmqF84mYuJ-cjEw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190410231254.25763-1-richard.purdie@linuxfoundation.org>
+	<20190410185944.0a16ea5d@seebsdell>
+	<2cf8ada8df82cb38252db3ff4c45b9f85294c63e.camel@linuxfoundation.org>
+In-Reply-To: <2cf8ada8df82cb38252db3ff4c45b9f85294c63e.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Sat, 13 Apr 2019 10:03:03 +0200
+Message-ID: <CALbNGRR7HZt9Jf1rEhMHd_y4tW4G=f8rUH=9hA9hbfcAY2Yayg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Set XZ_COMPRESSION_LEVEL to -9
+Subject: Re: [PATCH] pseudo: Update to gain key bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,48 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2019 06:52:58 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 13 Apr 2019 08:03:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Apr 12, 2019 at 04:12:19PM -0700, Khem Raj wrote:
-> On Fri, Apr 12, 2019 at 2:09 PM Adrian Bunk <bunk@stusta.de> wrote:
+On Fri, Apr 12, 2019 at 10:18 AM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Wed, 2019-04-10 at 18:59 -0500, Seebs wrote:
+> > On Thu, 11 Apr 2019 00:12:54 +0100
+> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
 > >
-> > It is consistent with other compressors also using their
-> > best compression.
+> > > -SRCREV = "6294b344e5140f5467e6860f45a174440015304e"
+> > > +SRCREV = "6ebc7d6bc8ab973d0ba949eeb363821811ce8dc5"
 > >
-> > xz is currently the option that offers best compression,
-> > using settings even lower than the default is surprising
-> > and makes it harder to choose the best available compression.
-> >
-> > For anyone who cares about compression time using a different
-> > option like gzip or bzip2 is the logical choice.
-> >
-> > For decompression, better compressed is actually faster
-> > to decompress.
-> 
-> I worry about resources we need to spend when creating these archives.
-> Can you post some comparisons
-> along to assess the performance.
+> > I would sort of recommend one of the two commits since then -- one
+> > may
+> > fix the .NET startup failures, and the other fixes warnings that this
+> > one introduced and I forgot to fix. But I'm also okay with this one.
+>
+> That is good news. I've tested and updated to the later revision,
+> thanks!
+>
+> Cheers,
+>
+> Richard
+>
+Hi,
 
-On my laptop single-threaded compression of an image I am frequently
-building takes 20s with -3 and 55s with -9.
+If you want a happy weekend - stop reading here.
 
-Building the whole image from scratch takes more than 2 hours.
+But somebody has to do widen the audience...
 
-If you care about resources spent, I remember it saved me around 10 
-minutes build time when I changed OPKGBUILDCMD from the default "xz -6" 
-to "gzip -1" - for the common case where package feeds are not used 
-there is no point in spending time on compression and decompression.
+Seems that this commit causes issues on meta-qt5 / qtbase [1]. To make
+it worse it seems that only some host configurations are affected...
 
-cu
-Adrian
+Cheers
 
--- 
+[1] https://github.com/meta-qt5/meta-qt5/issues/187
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Andreas
 
