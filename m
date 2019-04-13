@@ -1,33 +1,38 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 0BFF96C487
+	by mail.openembedded.org (Postfix) with ESMTP id 556227D415
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 06:19:19 +0000 (UTC)
+	Sat, 13 Apr 2019 06:52:58 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44h4NS44fdzPV
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 08:19:20 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44h57G1PBQzPV;
+	Sat, 13 Apr 2019 08:52:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1555136360;
-	bh=dvNH5m/9iOBiiBCCu32ziwzTQ2OSfnIfO7ZSGSM+dEM=;
-	h=From:To:Subject:Date:From;
-	b=pOgvC91kxvxQ8DesBLntlhoUQIZwm/mcApeTp5U+f3Ecm9+2yIN46hoB0xwPaay8Y
-	qA263wkMjOodpa/9IpB7Fm6pn8yD8NO34PqAO3RI02z+nmQHIHkvsBTB5JJKbsaSs7
-	r9ucaYyEpXj0P3lIpTAAtld6Fa5dEQpEzDC723oy6pwqN8nyxrs7y9xPrxvqK86OqR
-	8hEVplno+GU7tVQRvmSe0j4Y2cHogv9qSAi14gQdFIFaU1irzY0WVmp8ibrj57VC29
-	22lxeIH6O7Mo0W/mS0IE8yN6a/6nHMxcTcv9o748ipj9oaW29CBcj6MkDCEcjJzu1H
-	jdKpEo1JvZcUgapLPYgiXVCQ8U8OcziLn/3EvF5QAX5gHP0PmPwvNcDZEoC2kyL18t
-	TqCGSJzLS2rphNOjYzaSFulqsO1241StXhG4TLoWUbrANlRFGssJdPEgpl2TkKgy3n
-	yqa1CVhaMr0taTx7Q9dXSpDLF4FO+iZ/m+yOeaA1ZQbGCumkveNA1drl7RSbvwxzlz
-	VxqLH1Sc3G+CYBbHKu7k+7lBb/D1AugRFahbuEqeMLdefub4FF15kkCtb68nVLY9HS
-	pwccfSlDWScbU/PP9A3NnghsCGxNyD1pZsmoZ0hphywSrfVV0VQRCxamlRximyXOfm
-	fe4HI0G1iR4YayYvt6V7Wmtk=
+	s=default; t=1555138378;
+	bh=uCCF7iKmfFJE16zh3d4rvNtDNzYMnti4WSEfaBe/TlE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gHWCEqtDztGNlBu9W3sFIQjmnUnAj0pQvzQn2g8j+fyJx9KpUBZnZ/nJpuXs5EUii
+	ObdV1+aAQfgkvtuPGQGBwqcucHuv3dxKqWJqiW3ztbv6oey9hIBOHFHrY/eDvmGdha
+	8Vya+4BGGE2N4Brg9ib6nrmcxKsIdYcxM3YLN8ZBghP9EC7SFHS/PVZyPjNUpstdIP
+	0QWjNhAqn4KhSrCX/XFU3DjnbGAEKMAGgUkzVewJghKT02kMQv2wgSnW6oSJ6qh9ai
+	EeDi9iZzu06cT0c0R5uewgf5LqSjBZ4gjnAXEkZjvvh+FNAZ8ln7bMWFOGwEdBNW01
+	uYXGvnQ8x6S3PxVSxG8iju6Nj/iMHOjyy/Dh/N4pnvXqQuWwZQ7D8u9yXnnLy6DFFH
+	tkwdkuQHSaaENslghx38HIl/Sj7ZqzQwU+nxlhFlD1UlZxRthB8PWOgdhsbv+kp/uP
+	M2K7GvlmWMjMEtv3Ywt1iM+07Cn5bym8qeQk6R7z66CNnrtX6HTR2r4v+ArvkYb2/Y
+	lJWWJ/IpagV5YvQEae6MHbH9BW48zz7bX07q11om0DIyTyWQYl+/x4b624unmVXGCg
+	cTa+/9oyhTQGirhE11RFbcKQS+/y8coxF9Z9jFHKnoLQEjSS7sZmFQZFAhbbwmFSUS
+	YUaxlh7FhdtxlMFrYrSPo01s=
+Date: Sat, 13 Apr 2019 09:52:56 +0300
 From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 13 Apr 2019 09:19:19 +0300
-Message-Id: <20190413061919.14855-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] gcc: Remove Java support variables
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190413065256.GB10988@localhost>
+References: <20190412210912.21432-1-bunk@stusta.de>
+	<CAMKF1srHOayZ_MVHrwEA=54XD7HS5D5jT_fYmqF84mYuJ-cjEw@mail.gmail.com>
+MIME-Version: 1.0
+In-Reply-To: <CAMKF1srHOayZ_MVHrwEA=54XD7HS5D5jT_fYmqF84mYuJ-cjEw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] Set XZ_COMPRESSION_LEVEL to -9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,50 +45,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2019 06:19:20 -0000
+X-List-Received-Date: Sat, 13 Apr 2019 06:52:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Java support was removed in upstream gcc 7.
+On Fri, Apr 12, 2019 at 04:12:19PM -0700, Khem Raj wrote:
+> On Fri, Apr 12, 2019 at 2:09 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > It is consistent with other compressors also using their
+> > best compression.
+> >
+> > xz is currently the option that offers best compression,
+> > using settings even lower than the default is surprising
+> > and makes it harder to choose the best available compression.
+> >
+> > For anyone who cares about compression time using a different
+> > option like gzip or bzip2 is the logical choice.
+> >
+> > For decompression, better compressed is actually faster
+> > to decompress.
+> 
+> I worry about resources we need to spend when creating these archives.
+> Can you post some comparisons
+> along to assess the performance.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/gcc/gcc-8.3.inc              | 1 -
- meta/recipes-devtools/gcc/gcc-configure-common.inc | 8 +-------
- 2 files changed, 1 insertion(+), 8 deletions(-)
+On my laptop single-threaded compression of an image I am frequently
+building takes 20s with -3 and 55s with -9.
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-index f7bf257fa6..88a9df2049 100644
---- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-@@ -82,7 +82,6 @@ B = "${WORKDIR}/gcc-${PV}/build.${HOST_SYS}.${TARGET_SYS}"
- 
- # Language Overrides
- FORTRAN = ""
--JAVA = ""
- 
- LTO = "--enable-lto"
- SSP ?= "--disable-libssp"
-diff --git a/meta/recipes-devtools/gcc/gcc-configure-common.inc b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-index 375c5e90c9..b6f2ca541d 100644
---- a/meta/recipes-devtools/gcc/gcc-configure-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-configure-common.inc
-@@ -5,15 +5,9 @@ require gcc-shared-source.inc
- #
- # These can be overridden by the version specific .inc file.
- 
--# Java (gcj doesn't work on all architectures)
--JAVA ?= ",java"
--JAVA_arm ?= ""
--JAVA_armeb ?= ""
--JAVA_mipsel ?= ""
--JAVA_sh3 ?= ""
- # gcc 3.x expects 'f77', 4.0 expects 'f95', 4.1 and 4.2 expect 'fortran'
- FORTRAN ?= ",f77"
--LANGUAGES ?= "c,c++${FORTRAN}${JAVA}"
-+LANGUAGES ?= "c,c++${FORTRAN}"
- 
- EXTRA_OECONF_BASE ?= ""
- EXTRA_OECONF_PATHS ?= ""
+Building the whole image from scratch takes more than 2 hours.
+
+If you care about resources spent, I remember it saved me around 10 
+minutes build time when I changed OPKGBUILDCMD from the default "xz -6" 
+to "gzip -1" - for the common case where package feeds are not used 
+there is no point in spending time on compression and decompression.
+
+cu
+Adrian
+
 -- 
-2.17.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
