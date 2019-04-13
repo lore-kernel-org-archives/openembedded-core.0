@@ -1,47 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com
-	[209.85.160.169])
-	by mail.openembedded.org (Postfix) with ESMTP id EB6807D3A2
+Return-Path: <mike@foundries.io>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1092A7DA9A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 23:12:44 +0000 (UTC)
-Received: by mail-qt1-f169.google.com with SMTP id w5so13116693qtb.11
+	Sat, 13 Apr 2019 04:38:00 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id t21so6076899pfh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Apr 2019 16:12:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=IRv8JCE4DSUsYfBjI8qGZsXrsfDflFyS6NYgfMcKJvU=;
-	b=EU/7D/KaOkQ2cTHOKLjXXC8npbNqi+HgarP/puCkgciv1XuPsvOpm3blYnZS/0rQLa
-	ZJXUQ3Y+jUCOZ1sUq/ekySxJHyz5OaZcyrj1QjG+WLcWwZthobz0b1xCS6rBykitMFna
-	o+wUYjDN41pmcwo99QdYFn3SstQT1M121sOXJTD57FCybo5gBda6JP/yyneTlUpjgVNM
-	iPa7eBwy8SrU4K4t3PRFmfiJhrhKgwCIG/vKO1cKUpGFvoEu/XwACpaVmrnQbvK++t5i
-	j/QNWouvqCM46euqmcl8KxZe9opWon7trpQgi6GS/cEU+FmcT728dKcLgnxHEk7J5I4u
-	kYYw==
+	Fri, 12 Apr 2019 21:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=foundries-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language;
+	bh=G7VD/s/PGX1U5mu7wBqZEFN+n75/vGgYO/rgLBnOaig=;
+	b=T7/MyLQQxxIdfOlR/pZVcZg7+vr0lxpM97j2/GH5zTfXGIG9V96FwhiOWfUIHsJkwZ
+	35dotp4AWlY/Mdcdn8Hd0Iqm2BXuivejV752HCRu1Etn5jbdjDKyTRAzAqstIkVgViiN
+	iNVFnkC/OS37J/kchhjMnuhdaUcTc9An+wUTy+jEIqySiObo2EGA317aVkUqdi26jvja
+	uoHaP2d8ZAtP+qBs0DYuKSAFsVTFRx126E5qSbm9S0LLxST71Uq8UV3GaD/ydeCXqC3F
+	xmjGs4Z6ft4H4l0hzer+Sivno5NjyqXsFdnZWh6ZJ6BYVNp9gV6CIutLPTEIC/MgcG+A
+	rw7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=IRv8JCE4DSUsYfBjI8qGZsXrsfDflFyS6NYgfMcKJvU=;
-	b=Aq6/XEbDLUyT+RfFkOy81HcqUUhqewULI2/YRjjTJSTZm73y7pX7nEbFvnqABqgyZE
-	ldn92AIOHvSaCvNKeDG7SfA+4GCbP5Yp+ZLLHsNfmbUC2M/NlSIbf8rvTG5mjVS/6j1W
-	SxfggqPMf+nYUGjbT8G0LJan1eNdXLE8Rf9wj/8LbD6BXarNdWVY/RLujaO6iQmWpnEY
-	oCZxS71w7ti971mcjkLYGFQloYgCnL5x9nJKE/pdZ3Q3z/Vya1abro2t6fyj+NQNOa8U
-	+9TZ5XoRrnI2Y/YyDChvU4PDgzb07G3+zKwQM6Fcdbo6QtH5dI16DGrZroiiYL/v1h1O
-	iq0A==
-X-Gm-Message-State: APjAAAVMQeKkGmUrz7X/kdEDf69pSeK3olopT6Gqtl7K90Z0gCymv50s
-	dp+XCpVIGaSZQhoYqPWDqojPptLb0EtOGX2m5cPtrWJ9
-X-Google-Smtp-Source: APXvYqwUjs5ilZw75qpMGy+iKUZPSdRvApxENqpKmxbXH9ciDwgQ0b1nJKOq9pztqJXGgR0R9QlXxJp0nHC6wgEpC6c=
-X-Received: by 2002:ac8:1846:: with SMTP id n6mr48055993qtk.262.1555110765218; 
-	Fri, 12 Apr 2019 16:12:45 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language;
+	bh=G7VD/s/PGX1U5mu7wBqZEFN+n75/vGgYO/rgLBnOaig=;
+	b=ejC9mWZML+PFi+f5km9zxddPEDE70X8+/+UF8TbHa3qKsHrBVwCaQm93UKUpghXhKx
+	m4tHK7RssPN+yTR62caR57+IKhX8IrFYRiaYHQcvw52XJQErwvKgRNGJKaZ7/vL4v9tz
+	tm8CemrfndFJa1pcrOu7QyvoE1RPYTBamiuofaUtslcLynkYMZjETTco0SirzRHSKUNQ
+	xpMqNWEaIKLMuetok2Z6KvLps05/lHxzT13yZ/WWPzAWsipTgMVaF9Ijvui7ayoWF6pT
+	9dKOholVzSiWBCD/6BV6jsrws8keu75ROqn6Xn/7a/1Nce/+EQxKD7I46omqhMhBaAI6
+	rD/Q==
+X-Gm-Message-State: APjAAAW23Y23WsJAMw2IL/9mdyfgjSFsIpKyOUHyJGjuXxXWes6Mbm5O
+	nmapTkjgzEeQiZxy6YPBqVm5uULh0uA=
+X-Google-Smtp-Source: APXvYqz3u8iN8lkigQvxJSJJSvofnPHXxr9zMRCG3F6WpRnhwfyXTq5yIxsapA2pURxi+a/jVTY1iA==
+X-Received: by 2002:a62:1b8a:: with SMTP id b132mr61662537pfb.19.1555130281429;
+	Fri, 12 Apr 2019 21:38:01 -0700 (PDT)
+Received: from [172.20.2.133] ([207.183.242.50])
+	by smtp.gmail.com with ESMTPSA id
+	c1sm20198075pgq.33.2019.04.12.21.38.00
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 12 Apr 2019 21:38:00 -0700 (PDT)
+To: Khem Raj <raj.khem@gmail.com>
+References: <20190412054625.9447-1-mike@foundries.io>
+	<CAMKF1sqvdAkHU+htzTcoGgtWrSrp2t76CAYxvDJpxRroKn6+gA@mail.gmail.com>
+From: Michael Scott <mike@foundries.io>
+Message-ID: <324d471a-c746-455c-5412-1efaf3517b12@foundries.io>
+Date: Fri, 12 Apr 2019 21:37:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190412210912.21432-1-bunk@stusta.de>
-In-Reply-To: <20190412210912.21432-1-bunk@stusta.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 12 Apr 2019 16:12:19 -0700
-Message-ID: <CAMKF1srHOayZ_MVHrwEA=54XD7HS5D5jT_fYmqF84mYuJ-cjEw@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Set XZ_COMPRESSION_LEVEL to -9
+In-Reply-To: <CAMKF1sqvdAkHU+htzTcoGgtWrSrp2t76CAYxvDJpxRroKn6+gA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] kernel-fitimage: support RISC-V
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,53 +63,168 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Apr 2019 23:12:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 13 Apr 2019 04:38:01 -0000
+Content-Type: multipart/alternative;
+	boundary="------------060134FE09C73C76A4B1D2FD"
+Content-Language: en-US
 
-On Fri, Apr 12, 2019 at 2:09 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> It is consistent with other compressors also using their
-> best compression.
->
-> xz is currently the option that offers best compression,
-> using settings even lower than the default is surprising
-> and makes it harder to choose the best available compression.
->
-> For anyone who cares about compression time using a different
-> option like gzip or bzip2 is the logical choice.
->
-> For decompression, better compressed is actually faster
-> to decompress.
+--------------060134FE09C73C76A4B1D2FD
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-I worry about resources we need to spend when creating these archives.
-Can you post some comparisons
-along to assess the performance.
 
+On 4/12/19 9:35 AM, Khem Raj wrote:
 >
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  meta/classes/image_types.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/meta/classes/image_types.bbclass b/meta/classes/image_types.bbclass
-> index 95aa1674cf..1c44ec4a80 100644
-> --- a/meta/classes/image_types.bbclass
-> +++ b/meta/classes/image_types.bbclass
-> @@ -54,7 +54,7 @@ def imagetypes_getdepends(d):
->      # Sort the set so that ordering is consistant
->      return " ".join(sorted(deps))
+> On Thu, Apr 11, 2019 at 10:46 PM Michael Scott <mike@foundries.io 
+> <mailto:mike@foundries.io>> wrote:
 >
-> -XZ_COMPRESSION_LEVEL ?= "-3"
-> +XZ_COMPRESSION_LEVEL ?= "-9"
->  XZ_INTEGRITY_CHECK ?= "crc32"
+>     Support RISC-V kernel image, using the "Image" target.
 >
->  ZIP_COMPRESSION_LEVEL ?= "-9"
-> --
-> 2.17.1
+>     This change allows RISC-V support for fitImage via the following
+>     flow: OpenSBI -> u-boot (as payload) -> Linux kernel (as fitImage
+>     with ramdisk and dtb).
 >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     This was tested using QEMU RISC-V 64-bit.
+>
+>     Signed-off-by: Michael Scott <mike@foundries.io
+>     <mailto:mike@foundries.io>>
+>     ---
+>      meta/classes/kernel-fitimage.bbclass | 2 ++
+>      1 file changed, 2 insertions(+)
+>
+>     diff --git a/meta/classes/kernel-fitimage.bbclass
+>     b/meta/classes/kernel-fitimage.bbclass
+>     index 2517d75746..2820ff9689 100644
+>     --- a/meta/classes/kernel-fitimage.bbclass
+>     +++ b/meta/classes/kernel-fitimage.bbclass
+>     @@ -10,6 +10,8 @@ python __anonymous () {
+>              uarch = d.getVar("UBOOT_ARCH")
+>              if uarch == "arm64":
+>                  replacementtype = "Image"
+>     +        elif uarch == "riscv":
+>     +            replacementtype = "Image"
+>
+>
+> Make it or condition along with arm64 check
+Sure, sending v2.
+>
+>
+>              elif uarch == "mips":
+>                  replacementtype = "vmlinuz.bin"
+>              elif uarch == "x86":
+>     -- 
+>     2.21.0
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+-- 
+Michael Scott
+Embedded Software Engineer at Foundries.io
+"microPlatforms™ for Connected Products"
+E: mike@foundries.io
+W: https://www.foundries.io
 
+
+--------------060134FE09C73C76A4B1D2FD
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 4/12/19 9:35 AM, Khem Raj wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAMKF1sqvdAkHU+htzTcoGgtWrSrp2t76CAYxvDJpxRroKn6+gA@mail.gmail.com">
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+      <div><br>
+      </div>
+      <div><br>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">On Thu, Apr 11, 2019 at
+            10:46 PM Michael Scott &lt;<a
+              href="mailto:mike@foundries.io" moz-do-not-send="true">mike@foundries.io</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">Support
+            RISC-V kernel image, using the "Image" target.<br>
+            <br>
+            This change allows RISC-V support for fitImage via the
+            following<br>
+            flow: OpenSBI -&gt; u-boot (as payload) -&gt; Linux kernel
+            (as fitImage<br>
+            with ramdisk and dtb).<br>
+            <br>
+            This was tested using QEMU RISC-V 64-bit.<br>
+            <br>
+            Signed-off-by: Michael Scott &lt;<a
+              href="mailto:mike@foundries.io" target="_blank"
+              moz-do-not-send="true">mike@foundries.io</a>&gt;<br>
+            ---<br>
+             meta/classes/kernel-fitimage.bbclass | 2 ++<br>
+             1 file changed, 2 insertions(+)<br>
+            <br>
+            diff --git a/meta/classes/kernel-fitimage.bbclass
+            b/meta/classes/kernel-fitimage.bbclass<br>
+            index 2517d75746..2820ff9689 100644<br>
+            --- a/meta/classes/kernel-fitimage.bbclass<br>
+            +++ b/meta/classes/kernel-fitimage.bbclass<br>
+            @@ -10,6 +10,8 @@ python __anonymous () {<br>
+                     uarch = d.getVar("UBOOT_ARCH")<br>
+                     if uarch == "arm64":<br>
+                         replacementtype = "Image"<br>
+            +        elif uarch == "riscv":<br>
+            +            replacementtype = "Image"</blockquote>
+          <div dir="auto"><br>
+          </div>
+          <div dir="auto">Make it or condition along with arm64 check <br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    Sure, sending v2.<br>
+    <blockquote type="cite"
+cite="mid:CAMKF1sqvdAkHU+htzTcoGgtWrSrp2t76CAYxvDJpxRroKn6+gA@mail.gmail.com">
+      <div>
+        <div class="gmail_quote">
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+                     elif uarch == "mips":<br>
+                         replacementtype = "vmlinuz.bin"<br>
+                     elif uarch == "x86":<br>
+            -- <br>
+            2.21.0<br>
+            <br>
+            -- <br>
+            _______________________________________________<br>
+            Openembedded-core mailing list<br>
+            <a href="mailto:Openembedded-core@lists.openembedded.org"
+              target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
+            <a
+              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+    <pre class="moz-signature" cols="72">-- 
+Michael Scott
+Embedded Software Engineer at Foundries.io
+"microPlatforms™ for Connected Products"
+E: <a class="moz-txt-link-abbreviated" href="mailto:mike@foundries.io">mike@foundries.io</a>
+W: <a class="moz-txt-link-freetext" href="https://www.foundries.io">https://www.foundries.io</a></pre>
+  </body>
+</html>
+
+--------------060134FE09C73C76A4B1D2FD--
