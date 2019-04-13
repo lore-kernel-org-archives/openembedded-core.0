@@ -1,25 +1,51 @@
-Return-Path: <seebs@seebs.net>
-Received: from mail.seebs.net (mail.seebs.net [162.213.38.76])
-	by mail.openembedded.org (Postfix) with ESMTP id EA4647D29B
+Return-Path: <jacob.kroon@gmail.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B7577D29B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 13 Apr 2019 14:41:55 +0000 (UTC)
-Received: from seebsdell (unknown [24.196.59.174])
-	by mail.seebs.net (Postfix) with ESMTPSA id 8D5012E895E;
-	Sat, 13 Apr 2019 09:41:55 -0500 (CDT)
-Date: Sat, 13 Apr 2019 09:41:53 -0500
-From: Seebs <seebs@seebs.net>
-To: Andreas =?UTF-8?B?TcO8bGxlcg==?= <schnitzeltony@gmail.com>
-Message-ID: <20190413094153.3432092b@seebsdell>
-In-Reply-To: <CALbNGRR7HZt9Jf1rEhMHd_y4tW4G=f8rUH=9hA9hbfcAY2Yayg@mail.gmail.com>
-References: <20190410231254.25763-1-richard.purdie@linuxfoundation.org>
-	<20190410185944.0a16ea5d@seebsdell>
-	<2cf8ada8df82cb38252db3ff4c45b9f85294c63e.camel@linuxfoundation.org>
-	<CALbNGRR7HZt9Jf1rEhMHd_y4tW4G=f8rUH=9hA9hbfcAY2Yayg@mail.gmail.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-pc-linux-gnu)
+	Sat, 13 Apr 2019 14:49:11 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id h18so9678990lfj.11
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 13 Apr 2019 07:49:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0xBztFJaoBXq61Kg1ECeHOHFZW2TVyu+gNPAiHilXM8=;
+	b=EFH/XQUiVHTZvAIa7++4oeBjIOBikvvcGPPwbetU2/Bz2wYW+aqZ6wex3A0hcNQ9rL
+	uyuZxzPrJF20WSxCXSuCvFt+5FHegi+Vtbj0SWjtbkjtywjV+fd/4fXyZGQL/NZfYL4p
+	OpYDTIL1PAZMrWze8NQOiWnUce+yojczHChkzMdrzyiBgife8zvbAVbmv12s1LK+efnj
+	FPPmbAqX4JO4jtwXtKaCAx5YFLeN/LfmATjIN15Mi+5AdM4JXgN1hqgOs/3UdaYDHdxg
+	lU0MKIaIw28SfUd6d9oVHFspbCLFI1CqMkPrOKFKaWa+tMaIUzO4Wi8NSMJvt4pvPMoe
+	Vmpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=0xBztFJaoBXq61Kg1ECeHOHFZW2TVyu+gNPAiHilXM8=;
+	b=TweiNAUdqpsTPmss98S6DTaiiSKplR3i5Jiwnj64dahVHFVEnfVkOTFUAo72YV7uAu
+	9krsbF1ZUDuwVFdodDcqkcHfIsfqOYwpqEC+botUbxJPz3kwjZZIbFLlfNLKuhzBUcUz
+	4rBjTv8fmLjghZTpEh0zs3F5imfLvVWwtqlxLnekQF0TaVWmENFbtLa5/e+j9+ejvyFd
+	6OpV91U1E3YJk6gM40BduA+Qsmo/c1YIeqkqF8VWSXKesfn34Vh+wrZi86L8O/WCyvJh
+	/Rq6sfCHZGK7OCR7kYwczLfz48fBzevhD23TW/+ErodRtqUMRAThBB5TjUhOoOB91+qL
+	Lb8Q==
+X-Gm-Message-State: APjAAAWPGZ64cyfi7NNI/+mOeHQ6JsQgvwUMcywVLBXSovio1kNxEqgj
+	jCgWFowX8gnc/OchQSqn3FN/npeg
+X-Google-Smtp-Source: APXvYqx9BgNJMWk+8/crxr0ap7OvlWsY085AbTL/Rb3AG1UlgLXRrKHwlh6J2cjjE6vcMdEs9d4YSw==
+X-Received: by 2002:ac2:598b:: with SMTP id w11mr5692440lfn.62.1555166951304; 
+	Sat, 13 Apr 2019 07:49:11 -0700 (PDT)
+Received: from localhost.localdomain (37-247-29-68.customers.ownit.se.
+	[37.247.29.68]) by smtp.gmail.com with ESMTPSA id
+	x71sm2308279lff.82.2019.04.13.07.49.09
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 13 Apr 2019 07:49:10 -0700 (PDT)
+From: Jacob Kroon <jacob.kroon@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 13 Apr 2019 16:48:53 +0200
+Message-Id: <20190413144853.3765-1-jacob.kroon@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: Update to gain key bugfixes
+Subject: [PATCH] grub-efi-native: Install grub-editenv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,53 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 13 Apr 2019 14:41:57 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 13 Apr 2019 14:49:11 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sat, 13 Apr 2019 10:03:03 +0200
-Andreas M=C3=BCller <schnitzeltony@gmail.com> wrote:
+Having a native version of grub-editenv around can be useful for
+setting the targets grub environment.
 
-> On Fri, Apr 12, 2019 at 10:18 AM <richard.purdie@linuxfoundation.org>
-> wrote:
-> >
-> > On Wed, 2019-04-10 at 18:59 -0500, Seebs wrote:
-> > > On Thu, 11 Apr 2019 00:12:54 +0100
-> > > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > > -SRCREV =3D "6294b344e5140f5467e6860f45a174440015304e"
-> > > > +SRCREV =3D "6ebc7d6bc8ab973d0ba949eeb363821811ce8dc5"
-> > >
-> > > I would sort of recommend one of the two commits since then -- one
-> > > may
-> > > fix the .NET startup failures, and the other fixes warnings that
-> > > this one introduced and I forgot to fix. But I'm also okay with
-> > > this one.
-> >
-> > That is good news. I've tested and updated to the later revision,
-> > thanks!
-> >
-> > Cheers,
-> >
-> > Richard
-> >
-> Hi,
->=20
-> If you want a happy weekend - stop reading here.
->=20
-> But somebody has to do widen the audience...
->=20
-> Seems that this commit causes issues on meta-qt5 / qtbase [1]. To make
-> it worse it seems that only some host configurations are affected...
->=20
-> Cheers
->=20
-> [1] https://github.com/meta-qt5/meta-qt5/issues/187
->=20
-> Andreas
+Signed-off-by: Jacob Kroon <jacob.kroon@gmail.com>
+---
+ meta/recipes-bsp/grub/grub-efi_2.02.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-My guess from looking at it is that qmake is using renameat2 and isn't
-falling back to something else if renameat2 fails with ENOSYS.
+diff --git a/meta/recipes-bsp/grub/grub-efi_2.02.bb b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+index 14fce97ff0..6dbd23a3c7 100644
+--- a/meta/recipes-bsp/grub/grub-efi_2.02.bb
++++ b/meta/recipes-bsp/grub/grub-efi_2.02.bb
+@@ -70,6 +70,7 @@ do_install_append_class-target() {
+ do_install_class-native() {
+ 	install -d ${D}${bindir}
+ 	install -m 755 grub-mkimage ${D}${bindir}
++	install -m 755 grub-editenv ${D}${bindir}
+ }
+ 
+ do_install_class-target() {
+-- 
+2.20.1
 
--s
 
