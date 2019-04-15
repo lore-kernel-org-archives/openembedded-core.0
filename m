@@ -1,36 +1,25 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 883637D72E
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CEFCF7D72E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 07:38:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44jL3Q1VzjzJn;
-	Mon, 15 Apr 2019 09:38:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1555313938;
-	bh=rpsA7+yOljUF4kLb6arUflxZlEchVQ9rLPORTxzaPvk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h2k6qG+qKb7sTN2Gpdf3SLDDFw8Y1FL+F/Qe1xqojO04CQa6RF2CalJb7Z6IzSNvp
-	iqSFAKZ0jk8fnoPuc0Y3mzelF1q9iFxkXIpFwT2KkZq1xbbnJSXARrE04F+V7p9SFf
-	GTzUxdEUGx3h6BMBitST1nhqld6+Of1qNw41SnQwIphdzF5Jm1xkKXIv5Kv3dTYKQj
-	6Qw7z311jZSDdwHzCGHnYZU+lUSv1rHeaX/haiisAmTfFco3J3kqAyYlLVpZkvrmk+
-	imxYv0D0t28MN5worOY+GQtwQlIcgIhhlF+uAEtitAcEcL2x12SGxzL+eHYEHFqFaq
-	PKKjpoQ2k5ZuBOn3YbZQ1yRadbomO3sXSQoBg0rMQCJkZLgVXbrVUMWwCkQwWJcuXP
-	3DtxW3Kx6KsIfzzz6ccN/OtAL32XvKb6W4tYT3xb8cxoI1p5FNHLNmyRRzX5YmAGHk
-	ulYg7xDY3SPTQVXCNuxKcqGLMmdlwVMadVB1BLLy9/aM5XypR6h+YBZ8+G0HrjbwDf
-	2d/2eMp+cjn0bCsA6HE14QMN3nFKRRMqEv8Td7Nt/Mbu2wtEaMW31TnCwNqNo3jQ+8
-	hiJcHvgwp9McZoEd/tqPlGjPH/2oI2If8TRgBnul2tc4/a1i0ZTvmEz1NYo3kfBpbx
-	Zd/rs0yCr+1Mt6N8u4vNjadg=
-Date: Mon, 15 Apr 2019 10:38:54 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: kai.kang@windriver.com
-Message-ID: <20190415073854.GA30607@localhost>
-References: <20190415034231.105641-1-kai.kang@windriver.com>
+	Mon, 15 Apr 2019 07:40:44 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3F7ehcn000412
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Apr 2019 00:40:43 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 15 Apr 2019 00:40:43 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Mon, 15 Apr 2019 15:40:41 +0800
+Message-ID: <1555314041-117426-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <23562ca03db97ef41bbb2e6365ecde4bd715438d.camel@linuxfoundation.org>
+References: <23562ca03db97ef41bbb2e6365ecde4bd715438d.camel@linuxfoundation.org>
 MIME-Version: 1.0
-In-Reply-To: <20190415034231.105641-1-kai.kang@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] cryptodev: update SRCREV
+Subject: [PATCH v2] nettle: fix ptest failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,51 +32,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 07:38:58 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 15 Apr 2019 07:40:44 -0000
+Content-Type: text/plain
 
-On Sun, Apr 14, 2019 at 11:42:31PM -0400, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> Update SRCREV of cryptodev which only contains one fix for linux 5.0:
->...
-> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-> @@ -4,7 +4,7 @@ LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->  
->  SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
-> -SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
-> +SRCREV = "f971e0cd4a0ebe59fb2e8e17240399bf6901b09b"
->  
->  S = "${WORKDIR}/git"
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-This moves cryptodev from a release to a git snapshot,
-but no PV is set to show that.
+Rework dlopen-test.patch to fix below
+dlopen-test failure:
+ # cd /usr/lib64/nettle/ptest
+ # ./run-ptest
+ dlopen failed: /usr/lib/libnettle.so: cannot open shared object file: No such file or directory
+ ./run-ptest: line 8:  7607 Aborted                 "./$f"
+ FAIL: dlopen-test
 
-It is a systematic problem caused by the switch to git hashes for 
-releases that random git snapshots look exactly the same as releases
-without any clean way to see what a commit actually is.
+As the test dlopen-test depends on libnettle.so
+which belongs to nettle-dev package, so add it
+to rdepends of nettle-ptest.
 
-IMHO this needs support for tags, and then checks like (pseudo-code)
-  if(TAG) (commit(TAG) == SRCREV)
-  TAG xor (PV contains "+git") 
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ .../nettle/nettle-3.4.1/dlopen-test.patch          | 23 +++++++++++++++++++---
+ meta/recipes-support/nettle/nettle_3.4.1.bb        |  3 +++
+ 2 files changed, 23 insertions(+), 3 deletions(-)
 
-Short-term for the suggested change in cryptodev the
-"which only contains one fix" is correct, and this
-is not much different from adding the fix as .patch
-which also wouldn't change PV.
-So no objection from me to applying the suggested patch as-is.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+index c4f0b7e..9b075d8 100644
+--- a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
++++ b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+@@ -1,20 +1,37 @@
++From d8140904f51ec8025833e5e7eee732a4a50ed0cf Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Mon, 15 Apr 2019 11:16:54 +0800
++Subject: [PATCH] dlopen-test.c: use absolute path
++
+ Replace relative path of libnettle.so with absolute path so the test
+ program can find it.
++
+ Relative paths are not suitable, as the folder strucure for ptest
+ is different from the one expected by the nettle testsuite.
+ 
+ Upstream-Status: Inappropriate [embedded specific]
+ 
+ Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ testsuite/dlopen-test.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
+ 
+---- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000 -0700
+-+++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860 -0700
+-@@ -9,7 +9,7 @@
++diff --git a/testsuite/dlopen-test.c b/testsuite/dlopen-test.c
++index 99d3535..92de9f8 100644
++--- a/testsuite/dlopen-test.c
+++++ b/testsuite/dlopen-test.c
++@@ -9,7 +9,9 @@ int
+  main (int argc UNUSED, char **argv UNUSED)
+  {
+  #if HAVE_LIBDL
+ -  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
+ +  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
+++  if (!handle)
+++     handle = dlopen ("/usr/lib64/libnettle.so", RTLD_NOW);
+    int (*get_version)(void);
+    if (!handle)
+      {
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
+index dd49c30..131676d 100644
+--- a/meta/recipes-support/nettle/nettle_3.4.1.bb
++++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
+@@ -49,4 +49,7 @@ do_install_ptest() {
+         install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
+ }
+ 
++RDEPENDS_${PN}-ptest += "${PN}-dev"
++INSANE_SKIP_${PN}-ptest += "dev-deps"
++
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.7.4
 
 
