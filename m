@@ -1,47 +1,24 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id B34F07D695
+Return-Path: <vernon.mauery@linux.intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id 821FB7D263
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 22:07:50 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id r4so23945642wrq.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 15:07:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=hWQm1iidic6UfQuW4YpIwsOkHYcw5z07bvwFDLBqETY=;
-	b=EHfcfiHDQnHByxQWaF2E7+qtCRf9EERGdXasBlvgUL/zYf+LDETChpLLIkxv1Nzjpt
-	jrr4fFvjYdsBD/iYKI42muh9VOPWIlWpHPo6Kj1Z3TSQR6kgefjlSaL2HoKKUzrML+7M
-	FmllymtkhC2HYVgGy0IExB3UaVv/y1fmUskuox/K1JD2phb10Fjjox6CbWkQqRty7tr7
-	XUNxWa/6ghOKkazIcf28pJUMwx+h2bt/P91mQ4HncwXWIV9ngW5KgqI+oWqeP3wiszy6
-	bNrvEfbOFcauVGv7Y1LJR6ezs94gsEWE6rWQojklNX9/UtJvNBpoccW3WIc9dL0Wg9Pn
-	c5kQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hWQm1iidic6UfQuW4YpIwsOkHYcw5z07bvwFDLBqETY=;
-	b=f1RwvWLKpqOaebRIHiJPGT3r0/oaMw2wieGqLD6RCyp9QeJRrm5VyO6r03NiaH3wfW
-	ADSv9Uih424DTNIIEP2iaEO7K2KJ0fqUiG9S5Fv5pVUpL3tjxecIkU3Z6ENWOhIsVdeM
-	AVgyog4oNR5NSIibVyLAd8Z3zeOXjuR0empsugJW6k7Uvh2wtZIGvftji0bSbjFnVkm1
-	BOUOJYYPtFJfmoDylh/WUakpDnfZnwLBZ8Iau4gGmCke0JeKQz0LFFR5LjVl4zpd+K2O
-	yWdycJd8tpf1nGj5KIUp9rfmhVazr2/DHbc2rapYwc5wyRUUFIJmK8G5mCPzSrNeqUTj
-	ZQ8w==
-X-Gm-Message-State: APjAAAVjGQSo4DHG016NgqV5n+Ab07Gculfzj1keOLZWAjgtz5PHK0Hp
-	bBPSCPAGZ1xBbWBl9EnqAJnNFiyx
-X-Google-Smtp-Source: APXvYqxgsx4qEbqjlx7XlxSmYoUZu88g2o6RqYQj/i9YSGDFtCDzobalnimlN8oc4K/RHEHqm4IpTA==
-X-Received: by 2002:adf:df08:: with SMTP id y8mr12782990wrl.91.1555366071066; 
-	Mon, 15 Apr 2019 15:07:51 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id h9sm14344602wmb.5.2019.04.15.15.07.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 15 Apr 2019 15:07:50 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Mon, 15 Apr 2019 23:27:37 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Apr 2019 16:27:38 -0700
+X-IronPort-AV: E=Sophos;i="5.60,355,1549958400"; d="scan'208";a="134633338"
+Received: from vmauery-desk.jf.intel.com ([10.7.150.62])
+	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES128-GCM-SHA256;
+	15 Apr 2019 16:27:38 -0700
+From: Vernon Mauery <vernon.mauery@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 22:07:51 +0000
-Message-Id: <20190415220751.22127-1-Martin.Jansa@gmail.com>
+Date: Mon, 15 Apr 2019 16:27:31 -0700
+Message-Id: <20190415232731.3666-1-vernon.mauery@linux.intel.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] connman: add PACKAGECONFIG for nfc, fix MACHINE_ARCH signature when l2tp is enabled
+Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
+Subject: [PATCH] Update ipmitool to use new active source
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +31,217 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 22:07:51 -0000
+X-List-Received-Date: Mon, 15 Apr 2019 23:27:37 -0000
 
-* import 2 fixes from LuneOS
-* with l2tp PACKAGECONFIG enabled connman depends on MACHINE_ARCH xl2tpd:
-   === Comparing signatures for task do_package_write_ipk.sigdata between hammerhead and mako ===
-  ERROR: connman different signature for task do_package_write_ipk.sigdata between hammerhead and mako
-  NOTE: Starting bitbake server...
-  Hash for dependent task xl2tpd/xl2tpd_git.bb.do_packagedata changed from 6312d5711b5c2c1a85ee235d09bf37a8ec00f7ad9e7248c087bb83ef1d5bd078 to c0d3ef52b37bda945d8b2a015980ddb8fe7b4b3dca3d82d71a84176cc5125142
-  Unable to find matching sigdata for /OE/build/luneos-master/webos-ports/meta-openembedded/meta-networking/recipes-protocols/xl2tpd/xl2tpd_git.bb.do_packagedata with hashes 6312d5711b5c2c1a85ee235d09bf37a8ec00f7ad9e7248c087bb83ef1d5bd078 or c0d3ef52b37bda945d8b2a015980ddb8fe7b4b3dca3d82d71a84176cc5125142
+The ipmitool project has moved from sourceforge to github and is under
+new management. This updates the source so that it pulls directly from
+git rather than a tarball. Eventually, once the next release is tagged,
+the new SRCREV can be updated to that. But for now, the project is under
+active development and could probably benefit from periodic updates
+anyway.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+The SRCREV and SRC_URI links point to code that already has been patched
+to work with the new openssl 1.1 APIs, so the patch is no longer needed.
+
+Signed-off-by: Vernon Mauery <vernon.mauery@linux.intel.com>
 ---
- meta/conf/layer.conf                          | 1 +
- meta/recipes-connectivity/connman/connman.inc | 1 +
- 2 files changed, 2 insertions(+)
+ .../0001-Migrate-to-openssl-1.1.patch         | 152 ------------------
+ .../{ipmitool_1.8.18.bb => ipmitool_git.bb}   |  12 +-
+ 2 files changed, 6 insertions(+), 158 deletions(-)
+ delete mode 100644 meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch
+ rename meta-oe/recipes-kernel/ipmitool/{ipmitool_1.8.18.bb => ipmitool_git.bb} (80%)
 
-diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
-index 9d63b5b24d..6590e80700 100644
---- a/meta/conf/layer.conf
-+++ b/meta/conf/layer.conf
-@@ -76,6 +76,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
-   weston->weston-conf \
-   weston-init->weston \
-   weston-init->kbd \
-+  connman->xl2tpd \
+diff --git a/meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch b/meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch
+deleted file mode 100644
+index 394aa16ad..000000000
+--- a/meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch
++++ /dev/null
+@@ -1,152 +0,0 @@
+-From c9dcb6afef9c343d070aaff208d11a997a45a105 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 5 Sep 2018 22:19:38 -0700
+-Subject: [PATCH] Migrate to openssl 1.1
+-
+-Upstream-Status: Backport [https://sourceforge.net/p/ipmitool/source/ci/1664902525a1c3771b4d8b3ccab7ea1ba6b2bdd1/]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/plugins/lanplus/lanplus_crypt_impl.c | 50 ++++++++++++++----------
+- 1 file changed, 29 insertions(+), 21 deletions(-)
+-
+-diff --git a/src/plugins/lanplus/lanplus_crypt_impl.c b/src/plugins/lanplus/lanplus_crypt_impl.c
+-index d5fac37..9652a5e 100644
+---- a/src/plugins/lanplus/lanplus_crypt_impl.c
+-+++ b/src/plugins/lanplus/lanplus_crypt_impl.c
+-@@ -164,11 +164,7 @@ lanplus_encrypt_aes_cbc_128(const uint8_t * iv,
+- 							uint8_t       * output,
+- 							uint32_t        * bytes_written)
+- {
+--	EVP_CIPHER_CTX ctx;
+--	EVP_CIPHER_CTX_init(&ctx);
+--	EVP_EncryptInit_ex(&ctx, EVP_aes_128_cbc(), NULL, key, iv);
+--	EVP_CIPHER_CTX_set_padding(&ctx, 0);
+--	
+-+	EVP_CIPHER_CTX *ctx = NULL;
+- 
+- 	*bytes_written = 0;
+- 
+-@@ -182,6 +178,14 @@ lanplus_encrypt_aes_cbc_128(const uint8_t * iv,
+- 		printbuf(input, input_length, "encrypting this data");
+- 	}
+- 
+-+	ctx = EVP_CIPHER_CTX_new();
+-+	if (ctx == NULL) {
+-+		lprintf(LOG_DEBUG, "ERROR: EVP_CIPHER_CTX_new() failed");
+-+		return;
+-+	}
+-+	EVP_CIPHER_CTX_init(ctx);
+-+	EVP_EncryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv);
+-+	EVP_CIPHER_CTX_set_padding(ctx, 0);
+- 
+- 	/*
+- 	 * The default implementation adds a whole block of padding if the input
+-@@ -191,28 +195,28 @@ lanplus_encrypt_aes_cbc_128(const uint8_t * iv,
+- 	assert((input_length % IPMI_CRYPT_AES_CBC_128_BLOCK_SIZE) == 0);
+- 
+- 
+--	if(!EVP_EncryptUpdate(&ctx, output, (int *)bytes_written, input, input_length))
+-+	if(!EVP_EncryptUpdate(ctx, output, (int *)bytes_written, input, input_length))
+- 	{
+- 		/* Error */
+- 		*bytes_written = 0;
+--		return;
+- 	}
+- 	else
+- 	{
+- 		uint32_t tmplen;
+- 
+--		if(!EVP_EncryptFinal_ex(&ctx, output + *bytes_written, (int *)&tmplen))
+-+		if(!EVP_EncryptFinal_ex(ctx, output + *bytes_written, (int *)&tmplen))
+- 		{
+-+			/* Error */
+- 			*bytes_written = 0;
+--			return; /* Error */
+- 		}
+- 		else
+- 		{
+- 			/* Success */
+- 			*bytes_written += tmplen;
+--			EVP_CIPHER_CTX_cleanup(&ctx);
+- 		}
+- 	}
+-+	/* performs cleanup and free */
+-+	EVP_CIPHER_CTX_free(ctx);
+- }
+- 
+- 
+-@@ -239,11 +243,7 @@ lanplus_decrypt_aes_cbc_128(const uint8_t * iv,
+- 							uint8_t       * output,
+- 							uint32_t        * bytes_written)
+- {
+--	EVP_CIPHER_CTX ctx;
+--	EVP_CIPHER_CTX_init(&ctx);
+--	EVP_DecryptInit_ex(&ctx, EVP_aes_128_cbc(), NULL, key, iv);
+--	EVP_CIPHER_CTX_set_padding(&ctx, 0);
+--
+-+	EVP_CIPHER_CTX *ctx = NULL;
+- 
+- 	if (verbose >= 5)
+- 	{
+-@@ -252,12 +252,20 @@ lanplus_decrypt_aes_cbc_128(const uint8_t * iv,
+- 		printbuf(input, input_length, "decrypting this data");
+- 	}
+- 
+--
+- 	*bytes_written = 0;
+- 
+- 	if (input_length == 0)
+- 		return;
+- 
+-+	ctx = EVP_CIPHER_CTX_new();
+-+	if (ctx == NULL) {
+-+		lprintf(LOG_DEBUG, "ERROR: EVP_CIPHER_CTX_new() failed");
+-+		return;
+-+	}
+-+	EVP_CIPHER_CTX_init(ctx);
+-+	EVP_DecryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv);
+-+	EVP_CIPHER_CTX_set_padding(ctx, 0);
+-+
+- 	/*
+- 	 * The default implementation adds a whole block of padding if the input
+- 	 * data is perfectly aligned.  We would like to keep that from happening.
+-@@ -266,33 +274,33 @@ lanplus_decrypt_aes_cbc_128(const uint8_t * iv,
+- 	assert((input_length % IPMI_CRYPT_AES_CBC_128_BLOCK_SIZE) == 0);
+- 
+- 
+--	if (!EVP_DecryptUpdate(&ctx, output, (int *)bytes_written, input, input_length))
+-+	if (!EVP_DecryptUpdate(ctx, output, (int *)bytes_written, input, input_length))
+- 	{
+- 		/* Error */
+- 		lprintf(LOG_DEBUG, "ERROR: decrypt update failed");
+- 		*bytes_written = 0;
+--		return;
+- 	}
+- 	else
+- 	{
+- 		uint32_t tmplen;
+- 
+--		if (!EVP_DecryptFinal_ex(&ctx, output + *bytes_written, (int *)&tmplen))
+-+		if (!EVP_DecryptFinal_ex(ctx, output + *bytes_written, (int *)&tmplen))
+- 		{
+-+			/* Error */
+- 			char buffer[1000];
+- 			ERR_error_string(ERR_get_error(), buffer);
+- 			lprintf(LOG_DEBUG, "the ERR error %s", buffer);
+- 			lprintf(LOG_DEBUG, "ERROR: decrypt final failed");
+- 			*bytes_written = 0;
+--			return; /* Error */
+- 		}
+- 		else
+- 		{
+- 			/* Success */
+- 			*bytes_written += tmplen;
+--			EVP_CIPHER_CTX_cleanup(&ctx);
+- 		}
+- 	}
+-+	/* performs cleanup and free */
+-+	EVP_CIPHER_CTX_free(ctx);
+- 
+- 	if (verbose >= 5)
+- 	{
+diff --git a/meta-oe/recipes-kernel/ipmitool/ipmitool_1.8.18.bb b/meta-oe/recipes-kernel/ipmitool/ipmitool_git.bb
+similarity index 80%
+rename from meta-oe/recipes-kernel/ipmitool/ipmitool_1.8.18.bb
+rename to meta-oe/recipes-kernel/ipmitool/ipmitool_git.bb
+index b7f1aa914..2a6ca6a22 100644
+--- a/meta-oe/recipes-kernel/ipmitool/ipmitool_1.8.18.bb
++++ b/meta-oe/recipes-kernel/ipmitool/ipmitool_git.bb
+@@ -14,7 +14,7 @@ Log (SEL), printing Field Replaceable Unit (FRU) information, reading and \
+ setting LAN configuration, and chassis power control. \
  "
  
- # Avoid adding bison-native to the sysroot without a specific
-diff --git a/meta/recipes-connectivity/connman/connman.inc b/meta/recipes-connectivity/connman/connman.inc
-index 0a117e44a4..ae67079c71 100644
---- a/meta/recipes-connectivity/connman/connman.inc
-+++ b/meta/recipes-connectivity/connman/connman.inc
-@@ -53,6 +53,7 @@ PACKAGECONFIG[pptp] = "--enable-pptp --with-pptp=${sbindir}/pptp,--disable-pptp,
- PACKAGECONFIG[wispr] = "--enable-wispr,--disable-wispr,gnutls,"
- PACKAGECONFIG[nftables] = "--with-firewall=nftables ,,libmnl libnftnl,,kernel-module-nf-tables-ipv4 kernel-module-nft-chain-nat-ipv4 kernel-module-nft-chain-route-ipv4 kernel-module-nft-meta kernel-module-nft-masq-ipv4 kernel-module-nft-nat"
- PACKAGECONFIG[iptables] = "--with-firewall=iptables ,,iptables,iptables"
-+PACKAGECONFIG[nfc] = "--enable-neard, --disable-neard, neard, neard"
+-HOMEPAGE = "http://ipmitool.sourceforge.net/"
++HOMEPAGE = "https://github.com/ipmitool/ipmitool"
+ SECTION = "kernel/userland"
  
- INITSCRIPT_NAME = "connman"
- INITSCRIPT_PARAMS = "start 05 5 2 3 . stop 22 0 1 6 ."
+ LICENSE = "BSD-3-Clause"
+@@ -22,11 +22,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9aa91e13d644326bf281924212862184"
+ 
+ DEPENDS = "openssl readline ncurses"
+ 
+-SRC_URI = "${SOURCEFORGE_MIRROR}/ipmitool/ipmitool-${PV}.tar.bz2 \
+-           file://0001-Migrate-to-openssl-1.1.patch \
+-           "
+-SRC_URI[md5sum] = "bab7ea104c7b85529c3ef65c54427aa3"
+-SRC_URI[sha256sum] = "0c1ba3b1555edefb7c32ae8cd6a3e04322056bc087918f07189eeedfc8b81e01"
++SRC_URI = "git://github.com/ipmitool/ipmitool.git;protocol=https"
++SRCREV = "b0d84e0f15b2120eaf9fe1301cf02c24eebcfb37"
++
++# latest current tag from the project
++PV = "1.8.18+git${SRCPV}"
+ 
+ inherit autotools
+ 
 -- 
 2.17.1
 
