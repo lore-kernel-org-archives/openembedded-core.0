@@ -1,50 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C097B7D784
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F9C07D784
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 13:20:21 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id q1so21968656wrp.0
+	Mon, 15 Apr 2019 13:23:51 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3FDNQLS009104
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 06:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=h1qg9Evxan4G/eEkkxGDSP15LUSPlkqh/4BzuO2lRoE=;
-	b=NzSe5xBUh05u1FJ2Ge+HlDP7L8hbI6Kl1BTwjTxBkmDMOIEN67IJFLC82o7SXpVmDj
-	0QyZHbc7IBtlPRS8MqkhaAtnqbHRQVsD3pFlm774MeVu0qUeqc1lq+zDr43chyVJ2gEU
-	ql0u26vlGPEz/+QaHbQ3jQU5hlgKu7qcm4BNY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=h1qg9Evxan4G/eEkkxGDSP15LUSPlkqh/4BzuO2lRoE=;
-	b=ZeWAwlaf8Nlckk/B2cx9wPqyZpGS9J5Z14HoQ/fyXQjl8AebTvdn3vwaMKG81yLiJH
-	F0U3pMb+9GF5F/8os0vZnlk38RpklJOxsZF1/NkfYalxNBBAY2PUw46I2nKvqCwKPL4u
-	tnIlyivROYPhde5AMa6aLZM1X7R70Ro0KEQ68iz888u6/HF7awGWm9BCqT99MxelXMXK
-	WlHSIcrQvCXIaLmJ1M+Cv0Bx2LfZSUfdVmvFKgti4+1wK8+oTY6SEVQkXC2TguQrbNKM
-	+z6ittCXdNCiAy+MJuIpNUBWffAqaIjORYUZKrUxE1dH7/zbeAv4wWGYdvJ+c5mMmeY/
-	2utA==
-X-Gm-Message-State: APjAAAXOLVofOv/Zuhrx2+cIMQwVsR2ab/Z+8hwiOp8FtR88/slhReZ4
-	BSJBScqGeI3OkYlKPirjn6U32A==
-X-Google-Smtp-Source: APXvYqxHVZuuU/qEZQplrduvUm7eBP2yzKHYIjJgizVBAWJPXcpJUcF5JFD3NIhVVm0k+nEV1wqhgw==
-X-Received: by 2002:a5d:684e:: with SMTP id o14mr50949545wrw.138.1555334422362;
-	Mon, 15 Apr 2019 06:20:22 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s10sm21837594wmh.0.2019.04.15.06.20.20
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 15 Apr 2019 06:20:21 -0700 (PDT)
-Message-ID: <a6d8db1cab09ee762353d355107975a59c74b67e.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 14:20:19 +0100
-In-Reply-To: <1555060891-180878-1-git-send-email-mingli.yu@windriver.com>
-References: <1555060891-180878-1-git-send-email-mingli.yu@windriver.com>
-User-Agent: Evolution 3.32.1-2 
+	Mon, 15 Apr 2019 06:23:42 -0700
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 15 Apr 2019 06:23:21 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Apr 2019 09:23:18 -0400
+Message-ID: <20190415132318.150124-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] elfutils: add ptest support
+Subject: [PATCH] msmtp: 1.6.6 -> 1.8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +31,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 13:20:22 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Apr 2019 13:23:51 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Fri, 2019-04-12 at 17:21 +0800, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
-> 
-> Add testsuite-ignore-elflint.diff from debian
-> (
-> http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
-> )
-> to fix below ptest failure:
->  | ./run-strip-strmerge.sh: line 33: testrun_on_self_skip: command
-> not found
->  | FAIL: run-strip-strmerge.sh
-> 
-> Add check for gcc for two test cases such as
-> run-strip-nothing.sh and run-strip-g.sh which
-> depends on gcc at run time.
+From: Kai Kang <kai.kang@windriver.com>
 
-I'm afraid this doesn't work on musl:
+Update HOMEPAGE and SRC_URI.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/510
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ .../msmtp/{msmtp_1.6.6.bb => msmtp_1.8.3.bb}             | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
+ rename meta/recipes-extended/msmtp/{msmtp_1.6.6.bb => msmtp_1.8.3.bb} (71%)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.6.6.bb b/meta/recipes-extended/msmtp/msmtp_1.8.3.bb
+similarity index 71%
+rename from meta/recipes-extended/msmtp/msmtp_1.6.6.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.3.bb
+index e1721936cb..d2b75ae5dc 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.6.6.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.3.bb
+@@ -1,6 +1,6 @@
+ SUMMARY = "msmtp is an SMTP client"
+ DESCRIPTION = "A sendmail replacement for use in MTAs like mutt"
+-HOMEPAGE = "http://msmtp.sourceforge.net/"
++HOMEPAGE = "https://marlam.de/msmtp/"
+ SECTION = "console/network"
+ 
+ LICENSE = "GPLv3"
+@@ -9,11 +9,10 @@ DEPENDS = "zlib gnutls"
+ #COPYING or Licence
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+-SRC_URI = "http://sourceforge.net/projects/msmtp/files/msmtp/${PV}/${BPN}-${PV}.tar.xz \
+-          "
++SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+ 
+-SRC_URI[md5sum] = "82b0520b57db4b2cf05333d11fb5974d"
+-SRC_URI[sha256sum] = "da15db1f62bd0201fce5310adb89c86188be91cd745b7cb3b62b81a501e7fb5e"
++SRC_URI[md5sum] = "0c0be51e6872e818f78bd6924636327b"
++SRC_URI[sha256sum] = "3cb2eefd33d048f0f82de100ef39a494e44fd1485e376ead31f733d2f36b92b4"
+ 
+ inherit gettext autotools update-alternatives pkgconfig
+ 
+-- 
+2.20.0
 
 
