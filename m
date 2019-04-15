@@ -1,39 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D5C97D848
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E78527D957
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 09:38:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44jNjH2fHfzFr;
-	Mon, 15 Apr 2019 11:38:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1555321108;
-	bh=97tXANDmlwcyuAaOn9vooUZ1ryraOFGVVwKfLo1NNv4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QWmaZfX+we5EqYCrKrXGooeI3XTe21aJqjI93I7JVrIBZeeeB7fMxmM7QabM8MRO+
-	yI5gDfcJTB5MAOVmzcgKx4Upqd0+3HxokbxE7MHmbPqcxLoBKuRrnWCKhS7x5CadV+
-	LntnqP7G0/3tHIwSRxNXydrcYXcgCdNphhdLLi+t0KJzth7BvrWnF4EcElUPf/0Na4
-	pcDl9ymibFChzhg/2/+Dait4EIQu9HY6d6u4v8rFhvmD04MBx3YCvCPY4WNX8ehbc/
-	+EpKH4J1Ill8R/Lpmo1rW7r3fymqk2zVvGJyE10M2mIY/TzoSxPSFJ3yuDnOlHIfzv
-	smHkMGezlS807HupIXwCexAYAMTtdhoY54jW+ymB3GYER/i8x6eTv9uVwEuP+sZ2eZ
-	/VablukvFJtsNUnymv+EgDYkKIUvlRgltg1ivsJUDKnTQx1/mMA3kw5pkSZ5Sl9dO+
-	iib2gYJ+U3+vhHR3uLU/5jclSpUpVyJQ9qXIKs4bC8Gvb9NgUFmcX0wVy0b/c0oFa+
-	qufXeyQ3y/QqZlOpazCCcWTouuAgddWKgx4zoUy5gIIiFOJ9yGEdxObiyz/vMw2/JI
-	zBXoApjZd/Lgs+kPC0pbb44x/nnQjhEUMcZ0oVYvs9IyKsPR0UKA7/8UG5BQq/HZjg
-	5ONOpoteqcXq8LnyloeIAkNo=
-Date: Mon, 15 Apr 2019 12:38:25 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190415093825.GB4317@localhost>
-References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
-	<1554777170-58044-1-git-send-email-mingli.yu@windriver.com>
-	<CAMKF1sq0wYPvJg1G5+cnY-6owi1K=Nc4bctXm3pcsbh1R5gpFA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAMKF1sq0wYPvJg1G5+cnY-6owi1K=Nc4bctXm3pcsbh1R5gpFA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
+	Mon, 15 Apr 2019 10:55:03 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id g3so21292684wrx.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Apr 2019 03:55:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=PkNDapm2k6/e2EwkNHX5c1Po1+fDZBSQFn1ELtaTNi8=;
+	b=pIfHcg9uWUnMhhAPy/sEZnxOmfoYBAkjjWrCR++aDrwt65zaoV5KVhHXP4HB09LaXo
+	VnQlNbeNqWcYFYVADlHqzEoa58mVHXCJbcuersujP7Hz+9Eji9VIKIjWD/6oBAqb9VJ/
+	O0uR39tOTjAijYNfUZqkbPaARxGurR2RgBzYRNJSkgtcpQyK549mpxVBOmwy7f1bRrVH
+	P1J84pfIOS6OfLRMxgeqbeozjHNvik8hgF/ZIN7mWcYj0Hycyx9gDlJ5gK2pxJYa5TM5
+	8egsNTEFSmOiIZdSnzVhmn4S2QbaeVZ9rMsL4PcSFCvP4SNfw17AeFsJgZlmYmLJ0kML
+	XjZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=PkNDapm2k6/e2EwkNHX5c1Po1+fDZBSQFn1ELtaTNi8=;
+	b=Dn5G16EROKSTBuaI6Gxi/iDNCw7k5YX2I8HCGCxR0D1/Ygefuu2Y1AiKOX8lsIC0is
+	4KlidHHd90Xg0DMFSaBLtoxRT8CcyTl4cxyvpbCqEtUIppj13fYUs6Csui5jbqRFLSof
+	RgFDvyQkhL7bYlpp5jYqrS8iq44UobXorKy6Xr6kNc0Q/gb/jtjpthKb4wq06tjtf9HJ
+	XTw5DPDKRC1PoXG0GfFSfaARyRZvzt6z8PgsAzTL2PlST17KJjzr/WcYZ/FMvPuzgcqs
+	iAbxPSy9CNXip7xFr//8UacxTETuAi1g07gSeV5wAHzY7EEU5WLrgh/dsqqG9m7EjCOU
+	RgRQ==
+X-Gm-Message-State: APjAAAVUZTTkH7VBCmWIRGfBcflbG4WVP+famWp1NceeadBZOt5RH3Jr
+	1rXHZElWyu71UaINbz7FFDozKSPrXzs=
+X-Google-Smtp-Source: APXvYqzrOmpZFLJVFYXk9ptZrC0QMwSQfla3RaETNKv9WUhtrR26UC/vtDcKDnTSa3g2XG9pF/ySeQ==
+X-Received: by 2002:adf:ea0b:: with SMTP id q11mr28147468wrm.233.1555325704637;
+	Mon, 15 Apr 2019 03:55:04 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	o10sm75468400wru.54.2019.04.15.03.55.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 15 Apr 2019 03:55:04 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2019 12:54:40 +0200
+Message-Id: <20190415105457.57067-2-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190415105457.57067-1-alex.kanavin@gmail.com>
+References: <20190415105457.57067-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/19] dtc: upgrade 1.4.7 -> 1.5.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,54 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 09:38:28 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 15 Apr 2019 10:55:04 -0000
 
-On Mon, Apr 08, 2019 at 08:53:49PM -0700, Khem Raj wrote:
-> On Mon, Apr 8, 2019 at 7:32 PM <mingli.yu@windriver.com> wrote:
-> >
-> > From: Mingli Yu <Mingli.Yu@windriver.com>
-> >
-> > When DEBUG_BUILD = "1" added in local.conf, there
-> > comes below build error when "bitbake gcc-sanitizers":
-> > | ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
-> > | ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
-> > |   return S_ISLNK (st.st_mode);
-> >
-> > Per https://gcc.gnu.org/ml/gcc-patches/2019-04/msg00315.html,
-> > the gcc upstream thinks the warning is a false
-> > positive and suggests to use -O2 rather than -Og
-> > or -O1 when compiling that file, so pass -Wno-error
-> > to compiler when -Og is used to silence the error.
-> >
-> 
-> Not particular to this change but in general if a package says that it
-> does not support -Og
-> then we are just going to get into more and more untested grounds
-> especially during runtime
-> so I wonder how useful it will be to use -Og for such packages or any
-> other non supported
-> combination for that matter.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-kernel/dtc/dtc.inc                        | 2 ++
+ meta/recipes-kernel/dtc/{dtc_1.4.7.bb => dtc_1.5.0.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+ rename meta/recipes-kernel/dtc/{dtc_1.4.7.bb => dtc_1.5.0.bb} (81%)
 
-This has nothing to do with specific packages not supporting -Og
-or any other combination, it is just about how to best workaround
-a compiler bug temporarily.
-
-gcc has bug(s) emitting bogus warnings with -Og, and these are build
-failures with some packages that build with -Werror.
-
-None of this is related to whether or not the packages will work
-at runtime with -Og.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-kernel/dtc/dtc.inc b/meta/recipes-kernel/dtc/dtc.inc
+index 7a923bf5206..0650e3c82e6 100644
+--- a/meta/recipes-kernel/dtc/dtc.inc
++++ b/meta/recipes-kernel/dtc/dtc.inc
+@@ -12,6 +12,8 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ 
+ EXTRA_OEMAKE='NO_PYTHON=1 PREFIX="${prefix}" LIBDIR="${libdir}" DESTDIR="${D}"'
+ 
++inherit pkgconfig
++
+ S = "${WORKDIR}/git"
+ 
+ do_install () {
+diff --git a/meta/recipes-kernel/dtc/dtc_1.4.7.bb b/meta/recipes-kernel/dtc/dtc_1.5.0.bb
+similarity index 81%
+rename from meta/recipes-kernel/dtc/dtc_1.4.7.bb
+rename to meta/recipes-kernel/dtc/dtc_1.5.0.bb
+index 6ce462a7f49..a9c131706ce 100644
+--- a/meta/recipes-kernel/dtc/dtc_1.4.7.bb
++++ b/meta/recipes-kernel/dtc/dtc_1.5.0.bb
+@@ -3,7 +3,7 @@ require dtc.inc
+ LIC_FILES_CHKSUM = "file://GPL;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://libfdt/libfdt.h;beginline=3;endline=52;md5=fb360963151f8ec2d6c06b055bcbb68c"
+ 
+-SRCREV = "88f18909db731a627456f26d779445f84e449536"
++SRCREV = "d37f6b20107e952064e3f77e9d6915a9c09d10a6"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
