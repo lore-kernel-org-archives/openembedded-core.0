@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com
-	[209.85.128.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E72C7D963
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 39A1E7D97F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 10:55:08 +0000 (UTC)
-Received: by mail-wm1-f41.google.com with SMTP id a184so20042737wma.2
+	Mon, 15 Apr 2019 10:55:09 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id n25so19809988wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 03:55:09 -0700 (PDT)
+	Mon, 15 Apr 2019 03:55:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=af0CQonsQmdb/89tZxSSpiYxnfBSJSB9AeasnJ5Hq4s=;
-	b=PGRXy6fUImuL0sOQZ+An9oMZoCPLbwuHsU5NcO74lqZrcpF2RqcU0MLdQspH9PDXre
-	1ilYrHCwb87XPP97cQ3fGlMwVuI3jZLQWUJM49Xy0J3JL6nshhYNqzKB41a9UxRRlDKk
-	cY+Rv8iByOkOn3ewgufzIgDWFwIjTrGIFiYlCBr5yIxl3gWJnNip1J4CZb79q6BCGovY
-	Loi33mtpL+lx0HkFArsFsdIcDNSLTZ3HGniq5/Fi1gPgbYSFoX+7bZOb/q4M2dlBxo4r
-	/cgdZHwDuDGAMQcRVkE3zSoiAEtoh9u6t1MU0IlqpEVyvSEQQKsEjYnUSVxkLQgEAbeV
-	vLDA==
+	bh=Zncyx+vzvkzOp2QgzckEgpA69LREhyUoVmHxMY+OSJc=;
+	b=kzvF0FEtehcEDcUh9sC+FlUtMQlknaRJQEIbPX3NcdhbW7NJ5Jh333nCDSqX7tBNrN
+	3vMtvTZ86l1Gckhf7rwueJjPhv4/YSJMyx3t9VwAH/wWPc1YmtMi164xF3S4Ew/Td08x
+	c1fv65aqdZekk10KgqgV1JwVMT5mi58aU07Ir7YIUiJb+sX78vN16adHMVel7KJpw45v
+	3dgPESxHHL6sd1Pcgf/FGWsS73VkRnWCPJWNZVxTvSheF0ex4aizejXhmpWRtbdkadMz
+	0yt6Q4VZGCGV/k9/OKmsr3jD+XDI3MTrlrp+k1a0UggZGMHV9G+wzTOFkZswTnlcm6TI
+	zO8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=af0CQonsQmdb/89tZxSSpiYxnfBSJSB9AeasnJ5Hq4s=;
-	b=DFMRXgOOzmjLkB8y8AEC7VYwj56ipjQsrmvqVKnhgmxlqwbdwbxSAzpTW+fDVezBnt
-	LwasajBkt92ApuQotTQ52wIRjEw6wbTkf+VgJNP7SwUfLubzYS/Lt7D5XroWpbd3EX31
-	Rls/+l+D/7V1OgkF45Wx4IfWG74UXI9E5rAfcffJkpgnVLUfxBjhQx+e92n/oY805uXR
-	mMszwo28d5Aamcs+dQn0C60y3URoUao3P/LxP+EU1U295HTNqu8409wIhKuME89ePKyJ
-	qiEU77VAf13SZ6536m0UaDdc0ywFo4128MDNGlkPfUsHf+MVDyN4xkNTsRWOnOLjkLp5
-	XUIg==
-X-Gm-Message-State: APjAAAW0OHq3RpOAEbqYbLuYFzOg4j5zjqiPafhEGuHLzT0SuTJAneEW
-	XffJcmlMZ2de+hxQggH3y7g/ZmYHKHw=
-X-Google-Smtp-Source: APXvYqx3znA+35KO0hI5lzt3Vx0qttNLwUxqzarK+Rj23wQ0agAHEgmOj2hRhGFZsVg+HHmTANnFfw==
-X-Received: by 2002:a05:600c:c4:: with SMTP id
-	u4mr22264824wmm.80.1555325708557; 
-	Mon, 15 Apr 2019 03:55:08 -0700 (PDT)
+	bh=Zncyx+vzvkzOp2QgzckEgpA69LREhyUoVmHxMY+OSJc=;
+	b=JDKNeAABYWx8VUN1boNMx9JvDtKRqwpX491F1YjIaFvkZciYGCtvUU4vAQq7y5oCfe
+	7Azpb2VNXIRIBwLChNIz1GmoTDcIL6C7sMUC1wI/PVraC0uZaDippEGcap05NG8jO1tx
+	u9VL9WU+xMnbB5/keanNOzSXB5snotV6oUBv78cYWirFFDWAaH5qyts6JdD5PpduN2Va
+	AnHYOUebDPXeX08OQPrcvdWBWQTEDMOeIX5fKngb3xQSTXzjCc5oFkgIIC5tc8WLyz0O
+	GuBWqJT0VWxVxY2gtlUOfNUCfvDXWQrWglOjA5bGGm0JnDrfHOBVjEL2hc/9oFMSCbBi
+	w2Jg==
+X-Gm-Message-State: APjAAAUwC7BrStv8lmcfjI8sNcnitJ37ze6YRMQadjV6JRxHkS2Q59PA
+	8NGzDPvAbTIM88kg3qhMvWShTLAyxCc=
+X-Google-Smtp-Source: APXvYqx3AHKjUpZolg4YjnrUgUeMz2N19sVbroN4ptwJvf4cCiECaH26bgaUUvwf51pmxgXCrsIjxg==
+X-Received: by 2002:a7b:cd07:: with SMTP id f7mr22414921wmj.43.1555325709597; 
+	Mon, 15 Apr 2019 03:55:09 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	o10sm75468400wru.54.2019.04.15.03.55.07
+	o10sm75468400wru.54.2019.04.15.03.55.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 15 Apr 2019 03:55:07 -0700 (PDT)
+	Mon, 15 Apr 2019 03:55:08 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 12:54:44 +0200
-Message-Id: <20190415105457.57067-6-alex.kanavin@gmail.com>
+Date: Mon, 15 Apr 2019 12:54:45 +0200
+Message-Id: <20190415105457.57067-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190415105457.57067-1-alex.kanavin@gmail.com>
 References: <20190415105457.57067-1-alex.kanavin@gmail.com>
-Subject: [PATCH 06/19] vala: update to 0.44.3
+Subject: [PATCH 07/19] libdnf: update to 0.28.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,337 +57,250 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 10:55:08 -0000
+X-List-Received-Date: Mon, 15 Apr 2019 10:55:09 -0000
 
-Remove valadoc-related patches, as upstream added an option to disable it;
-adjust the recipe accordingly.
+Remove upstreamed 0001-include-missing-string-and-errno.h-headers.patch
+
+Rebase the other patches.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/vala/vala.inc           |   2 +-
- .../vala/vala/0001-Disable-valadoc.patch      |  32 ---
- .../vala/vala/disable-graphviz.patch          | 226 ------------------
- meta/recipes-devtools/vala/vala_0.42.5.bb     |  10 -
- meta/recipes-devtools/vala/vala_0.44.3.bb     |   8 +
- 5 files changed, 9 insertions(+), 269 deletions(-)
- delete mode 100644 meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch
- delete mode 100644 meta/recipes-devtools/vala/vala/disable-graphviz.patch
- delete mode 100644 meta/recipes-devtools/vala/vala_0.42.5.bb
- create mode 100644 meta/recipes-devtools/vala/vala_0.44.3.bb
+ .../libdnf/0001-Add-WITH_TESTS-option.patch   | 44 ++++++-------
+ ...or-both-libsolv-and-libsolvext-libdn.patch | 16 ++---
+ ...e-missing-string-and-errno.h-headers.patch | 65 -------------------
+ ...ables-with-pkg-config-cmake-s-own-mo.patch | 20 +++---
+ .../{libdnf_0.26.0.bb => libdnf_0.28.1.bb}    |  3 +-
+ 5 files changed, 41 insertions(+), 107 deletions(-)
+ delete mode 100644 meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch
+ rename meta/recipes-devtools/libdnf/{libdnf_0.26.0.bb => libdnf_0.28.1.bb} (90%)
 
-diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
-index f680640ca68..703ed1aa8d0 100644
---- a/meta/recipes-devtools/vala/vala.inc
-+++ b/meta/recipes-devtools/vala/vala.inc
-@@ -37,7 +37,7 @@ EOF
-         chmod +x ${B}/vapigen-wrapper
- }
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
+index 7c8131b4be8..3c87d4d8b33 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-Add-WITH_TESTS-option.patch
+@@ -1,4 +1,4 @@
+-From 0d0155c4dd6c0b3305ea2ab0e10b0f84d024a6e1 Mon Sep 17 00:00:00 2001
++From e5a50db749b2b02e9e0cff9f7b639020e8ac76da Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 6 Nov 2018 13:54:43 +0100
+ Subject: [PATCH] Add WITH_TESTS option
+@@ -14,36 +14,36 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  2 files changed, 5 insertions(+)
  
--EXTRA_OECONF += " --disable-graphviz"
-+EXTRA_OECONF += " --disable-valadoc"
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index b73a03d7..a9e0200f 100644
++index ce88b9e3..7a99320a 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -36,6 +36,7 @@ OPTION(WITH_MAN "Enables hawkey man page generation" ON)
+- OPTION(WITH_HTML "Enables hawkey HTML generation" ON)
++@@ -32,6 +32,7 @@ option(WITH_HTML "Enables hawkey HTML generation" ON)
++ option(WITH_MAN "Enables hawkey man page generation" ON)
++ option(ENABLE_RHSM_SUPPORT "Build with Red Hat Subscription Manager support?" OFF)
++ option(ENABLE_SOLV_URPMREORDER "Build with support for URPM-like solution reordering?" OFF)
+++option(WITH_TESTS "Enables unit tests" ON)
+  
+- OPTION(WITH_BINDINGS "Enables python/SWIG bindings" ON)
+-+OPTION(WITH_TESTS "Enables unit tests" ON)
+  
+- OPTION (ENABLE_SOLV_URPMREORDER "Build with support for URPM-like solution reordering?" OFF)
+- option (ENABLE_RHSM_SUPPORT "Build with Red Hat Subscription Manager support?" OFF)
+-@@ -122,8 +123,10 @@ IF (WITH_BINDINGS)
+- # ADD_SUBDIRECTORY (bindings/perl)
+- ADD_SUBDIRECTORY (bindings/python)
+- ENDIF()
++ # load pkg-config first; it's required by other modules
++@@ -158,8 +159,10 @@ endif()
++ 
++ 
++ # build tests
+ +IF (WITH_TESTS)
+- ENABLE_TESTING()
+- ADD_SUBDIRECTORY (tests)
++ enable_testing()
++ add_subdirectory(tests)
+ +ENDIF()
+- IF (WITH_BINDINGS)
+- ADD_SUBDIRECTORY (python/hawkey)
+- ADD_SUBDIRECTORY (docs/hawkey)
++ if(WITH_BINDINGS)
++     add_subdirectory(python/hawkey)
++ endif()
+ diff --git a/python/hawkey/CMakeLists.txt b/python/hawkey/CMakeLists.txt
+-index 3c0b3c0c..31466ed9 100644
++index d9645346..84d17204 100644
+ --- a/python/hawkey/CMakeLists.txt
+ +++ b/python/hawkey/CMakeLists.txt
+-@@ -49,4 +49,6 @@ TARGET_LINK_LIBRARIES(_hawkeymodule ${PYTHON_LIBRARY})
+- INSTALL(FILES __init__.py DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
+- INSTALL(TARGETS _hawkeymodule LIBRARY DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
++@@ -50,4 +50,6 @@ target_link_libraries(_hawkeymodule ${PYTHON_LIBRARY})
++ install(FILES __init__.py DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
++ install(TARGETS _hawkeymodule LIBRARY DESTINATION ${PYTHON_INSTALL_DIR}/hawkey)
+  
+ +IF (WITH_TESTS)
+- ADD_SUBDIRECTORY(tests)
++ add_subdirectory(tests)
+ +ENDIF()
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+index 246db34154a..10450defbec 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch
+@@ -1,4 +1,4 @@
+-From c139a6c929cff93dbb9b8279e97263fc9e055727 Mon Sep 17 00:00:00 2001
++From 9294cd19e5e3121fb8d37b44ee82dd7c4b3ab2c7 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 7 Feb 2017 12:16:03 +0200
+ Subject: [PATCH] Get parameters for both libsolv and libsolvext (libdnf is
+@@ -13,15 +13,15 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- # Vapigen wrapper needs to be available system-wide, because it will be used
- # to build vapi files from all other packages with vala support
-diff --git a/meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch b/meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index cd91f08..6422534 100644
++index b722d4fb..ce88b9e3 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -46,7 +46,7 @@ endif(APPLE)
+- PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.46.0 REQUIRED)
+- pkg_check_modules(SMARTCOLS REQUIRED smartcols)
+- FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
++@@ -45,7 +45,7 @@ endif()
++ 
++ # build dependencies
++ find_package(Gpgme REQUIRED)
+ -PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
+ +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv libsolvext)
+  set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
+- if (ENABLE_RHSM_SUPPORT)
+-     pkg_check_modules (RHSM REQUIRED librhsm>=0.0.3)
++ find_package(OpenSSL REQUIRED)
++ 
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch b/meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch
 deleted file mode 100644
-index 9b27b7fd14a..00000000000
---- a/meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch
+index 62de7848207..00000000000
+--- a/meta/recipes-devtools/libdnf/libdnf/0001-include-missing-string-and-errno.h-headers.patch
 +++ /dev/null
-@@ -1,32 +0,0 @@
--From b6ca3876e233c724fd460c1579abc4ab63c8d01e Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 4 Oct 2017 15:23:08 +0300
--Subject: [PATCH] Disable valadoc
+@@ -1,65 +0,0 @@
+-From ccc89ff0c1f8e55a4a22444d051925408f265df1 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 30 Jan 2019 10:32:11 -0800
+-Subject: [PATCH] include missing <string> and errno.h headers
 -
--Valadoc is a documentation generator for Vala sources, which was
--recently merged into the main vala source tree. Unsurprisingly,
--it's broken in cross-compile environment in multiple ways,
--so let's fix it some other time.
+-This is unearthed when compiling with clang/libc++
 -
--Upstream-Status: Inappropriate [oe-core specific]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-Upstream-Status: Submitted [https://github.com/rpm-software-management/libdnf/pull/677]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- Makefile.am | 2 --
-- 1 file changed, 2 deletions(-)
+- libdnf/conf/ConfigParser.hpp             | 1 +
+- libdnf/module/modulemd/ModuleProfile.hpp | 1 +
+- libdnf/sack/changelog.hpp                | 1 +
+- libdnf/utils/smartcols/Cell.hpp          | 1 +
+- 4 files changed, 4 insertions(+)
 -
--diff --git a/Makefile.am b/Makefile.am
--index e5dc0cc..813b3fc 100644
----- a/Makefile.am
--+++ b/Makefile.am
--@@ -13,8 +13,6 @@ SUBDIRS = \
-- 	doc \
-- 	gobject-introspection \
-- 	vapigen \
---	libvaladoc \
---	valadoc \
-- 	$(NULL)
+-diff --git a/libdnf/conf/ConfigParser.hpp b/libdnf/conf/ConfigParser.hpp
+-index 97f25500..2a3851fa 100644
+---- a/libdnf/conf/ConfigParser.hpp
+-+++ b/libdnf/conf/ConfigParser.hpp
+-@@ -23,6 +23,7 @@
 - 
-- if ENABLE_UNVERSIONED
---- 
--2.14.1
--
-diff --git a/meta/recipes-devtools/vala/vala/disable-graphviz.patch b/meta/recipes-devtools/vala/vala/disable-graphviz.patch
-deleted file mode 100644
-index e521bc854b3..00000000000
---- a/meta/recipes-devtools/vala/vala/disable-graphviz.patch
-+++ /dev/null
-@@ -1,226 +0,0 @@
--From b2723ff18b70c67c8a7fab5375a7f3c442d49790 Mon Sep 17 00:00:00 2001
--From: Rico Tzschichholz <ricotz@ubuntu.com>
--Date: Wed, 6 Sep 2017 18:52:55 +0200
--Subject: [PATCH] libvaladoc: Allow disabling the graphviz dependency of
--
-- valadoc
--
--https://bugzilla.gnome.org/show_bug.cgi?id=787375
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--Upstream-Status: Submitted [bugzilla link above]
--
-----
-- configure.ac                          | 60 ++++++++++++++-------------
-- libvaladoc/Makefile.am                | 25 ++++++++---
-- libvaladoc/html/basicdoclet.vala      |  8 ++++
-- libvaladoc/html/htmlmarkupwriter.vala |  4 ++
-- 4 files changed, 63 insertions(+), 34 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 730c72d..af81986 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -119,34 +119,38 @@ PKG_CHECK_MODULES(GMODULE, gmodule-2.0 >= $GLIB_REQUIRED)
-- AC_SUBST(GMODULE_CFLAGS)
-- AC_SUBST(GMODULE_LIBS)
+- #include <map>
+- #include <stdexcept>
+-+#include <string>
+- #include <utility>
 - 
---PKG_CHECK_MODULES(LIBGVC, libgvc >= $LIBGVC_REQUIRED)
---AC_MSG_CHECKING([for CGRAPH])
---cgraph_tmp_LIBADD="$LIBADD"
---cgraph_tmp_CFLAGS="$CFLAGS"
---LIBADD="$LIBADD $LIBGVC_LIBS"
---CFLAGS="$CFLAGS $LIBGVC_CFLAGS"
---AC_RUN_IFELSE(
---	[AC_LANG_SOURCE([
---		#include <gvc.h>
---
---		int main(void) {
---			#ifdef WITH_CGRAPH
---				return 0;
---			#else
---				return -1;
---			#endif
---		}
---	])], [
---		AC_MSG_RESULT([yes])
---		VALAFLAGS="$VALAFLAGS -D WITH_CGRAPH"
---		have_cgraph=yes
---	], [
---		AC_MSG_RESULT([no])
---		have_cgraph=no
---	]
---)
---LIBADD="$cgraph_tmp_LIBADD"
---CFLAGS="$cgraph_tmp_CFLAGS"
--+AC_ARG_ENABLE(graphviz, AS_HELP_STRING([--disable-graphviz], [Disable graphviz usage for valadoc]), enable_graphviz=$enableval, enable_graphviz=yes)
--+if test x$enable_graphviz = xyes; then
--+	PKG_CHECK_MODULES(LIBGVC, libgvc >= $LIBGVC_REQUIRED)
--+	AC_MSG_CHECKING([for CGRAPH])
--+	VALAFLAGS="$VALAFLAGS -D HAVE_GRAPHVIZ"
--+	cgraph_tmp_LIBADD="$LIBADD"
--+	cgraph_tmp_CFLAGS="$CFLAGS"
--+	LIBADD="$LIBADD $LIBGVC_LIBS"
--+	CFLAGS="$CFLAGS $LIBGVC_CFLAGS"
--+	AC_RUN_IFELSE(
--+		[AC_LANG_SOURCE([
--+			#include <gvc.h>
--+			int main(void) {
--+				#ifdef WITH_CGRAPH
--+					return 0;
--+				#else
--+					return -1;
--+				#endif
--+			}
--+		])], [
--+			AC_MSG_RESULT([yes])
--+			VALAFLAGS="$VALAFLAGS -D WITH_CGRAPH"
--+			have_cgraph=yes
--+		], [
--+			AC_MSG_RESULT([no])
--+			have_cgraph=no
--+		]
--+	)
--+	LIBADD="$cgraph_tmp_LIBADD"
--+	CFLAGS="$cgraph_tmp_CFLAGS"
--+fi
--+AM_CONDITIONAL(ENABLE_GRAPHVIZ, test x$enable_graphviz = xyes)
-- AM_CONDITIONAL(HAVE_CGRAPH, test "$have_cgraph" = "yes")
-- 
-- AC_PATH_PROG([XSLTPROC], [xsltproc], :)
--diff --git a/libvaladoc/Makefile.am b/libvaladoc/Makefile.am
--index f3f790e..3c5dc4c 100644
----- a/libvaladoc/Makefile.am
--+++ b/libvaladoc/Makefile.am
--@@ -128,10 +128,6 @@ libvaladoc_la_VALASOURCES = \
-- 	content/tablerow.vala \
-- 	content/taglet.vala \
-- 	content/text.vala \
---	charts/chart.vala \
---	charts/chartfactory.vala \
---	charts/hierarchychart.vala \
---	charts/simplechartfactory.vala \
-- 	parser/manyrule.vala \
-- 	parser/oneofrule.vala \
-- 	parser/optionalrule.vala \
--@@ -158,13 +154,24 @@ libvaladoc_la_VALASOURCES = \
-- 	highlighter/codetoken.vala \
-- 	highlighter/highlighter.vala \
-- 	html/basicdoclet.vala \
---	html/htmlchartfactory.vala \
-- 	html/linkhelper.vala \
-- 	html/cssclassresolver.vala \
-- 	html/htmlmarkupwriter.vala \
-- 	html/htmlrenderer.vala \
-- 	$(NULL)
-- 
--+if ENABLE_GRAPHVIZ
--+libvaladoc_la_VALASOURCES += \
--+	charts/chart.vala \
--+	charts/chartfactory.vala \
--+	charts/hierarchychart.vala \
--+	charts/simplechartfactory.vala \
--+	html/htmlchartfactory.vala \
--+	$(NULL)
--+
--+LIBGVC_PKG = --vapidir $(top_srcdir)/vapi --pkg libgvc
--+endif
--+
-- libvaladoc@PACKAGE_SUFFIX@_la_SOURCES = \
-- 	libvaladoc.vala.stamp \
-- 	$(libvaladoc_la_VALASOURCES:.vala=.c) \
--@@ -184,11 +191,11 @@ libvaladoc.vala.stamp: $(libvaladoc_la_VALASOURCES)
-- 		--library valadoc \
-- 		--vapi valadoc@PACKAGE_SUFFIX@.vapi \
-- 		--vapidir $(top_srcdir)/vapi --pkg gmodule-2.0 \
---		--vapidir $(top_srcdir)/vapi --pkg libgvc \
-- 		--vapidir $(top_srcdir)/gee --pkg gee \
-- 		--vapidir $(top_srcdir)/vala --pkg vala \
-- 		--vapidir $(top_srcdir)/ccode --pkg ccode \
-- 		--vapidir $(top_srcdir)/codegen --pkg codegen \
--+		$(LIBGVC_PKG) \
-- 		--pkg config \
-- 		$(filter %.vala %.c,$^)
-- 	touch $@
--@@ -217,6 +224,9 @@ nodist_pkgconfig_DATA = valadoc@PACKAGE_SUFFIX@.pc
-- 
-- valadoc@PACKAGE_SUFFIX@.pc: valadoc.pc
-- 	cp $< $@
--+if !ENABLE_GRAPHVIZ
--+	sed -i "s/libgvc //g" $@
--+endif
-- 
-- vapidir = $(datadir)/vala/vapi
-- dist_vapi_DATA = valadoc@PACKAGE_SUFFIX@.vapi
--@@ -224,6 +234,9 @@ nodist_vapi_DATA = valadoc@PACKAGE_SUFFIX@.deps
-- 
-- valadoc@PACKAGE_SUFFIX@.deps: valadoc.deps
-- 	cp $< $@
--+if !ENABLE_GRAPHVIZ
--+	sed -i "s/libgvc//g" $@
--+endif
-- 
-- EXTRA_DIST = \
-- 	$(libvaladoc_la_VALASOURCES) \
--diff --git a/libvaladoc/html/basicdoclet.vala b/libvaladoc/html/basicdoclet.vala
--index 192e488..ec09602 100644
----- a/libvaladoc/html/basicdoclet.vala
--+++ b/libvaladoc/html/basicdoclet.vala
--@@ -46,7 +46,11 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-- 	protected HtmlRenderer _renderer;
-- 	protected Html.MarkupWriter writer;
-- 	protected Html.CssClassResolver cssresolver;
--+#if HAVE_GRAPHVIZ
-- 	protected Charts.Factory image_factory;
--+#else
--+	protected void* image_factory;
--+#endif
-- 	protected ErrorReporter reporter;
-- 	protected string package_list_link = "../index.html";
-- 
--@@ -120,7 +124,9 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-- 		this.linker = new LinkHelper ();
-- 
-- 		_renderer = new HtmlRenderer (settings, this.linker, this.cssresolver);
--+#if HAVE_GRAPHVIZ
-- 		this.image_factory = new SimpleChartFactory (settings, linker);
--+#endif
-- 	}
+- namespace libdnf {
+-diff --git a/libdnf/module/modulemd/ModuleProfile.hpp b/libdnf/module/modulemd/ModuleProfile.hpp
+-index ab018deb..8d996ff4 100644
+---- a/libdnf/module/modulemd/ModuleProfile.hpp
+-+++ b/libdnf/module/modulemd/ModuleProfile.hpp
+-@@ -23,6 +23,7 @@
 - 
 - 
--@@ -1026,6 +1032,7 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-- 	}
+- #include <memory>
+-+#include <string>
+- #include <vector>
 - 
-- 	protected void write_image_block (Api.Node element) {
--+#if HAVE_GRAPHVIZ
-- 		if (element is Class || element is Interface || element is Struct) {
-- 			unowned string format = (settings.use_svg_images ? "svg" : "png");
-- 			var chart = new Charts.Hierarchy (image_factory, element);
--@@ -1045,6 +1052,7 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-- 									   this.get_img_path_html (element, format)});
-- 			writer.add_usemap (chart);
-- 		}
--+#endif
-- 	}
+- #include <modulemd/modulemd.h>
+-diff --git a/libdnf/sack/changelog.hpp b/libdnf/sack/changelog.hpp
+-index a3d3fc44..d830c414 100644
+---- a/libdnf/sack/changelog.hpp
+-+++ b/libdnf/sack/changelog.hpp
+-@@ -23,6 +23,7 @@
+- #define __CHANGELOG_HPP
 - 
-- 	public void write_namespace_content (Namespace node, Api.Node? parent) {
--diff --git a/libvaladoc/html/htmlmarkupwriter.vala b/libvaladoc/html/htmlmarkupwriter.vala
--index 5aa4afd..e79b0b8 100644
----- a/libvaladoc/html/htmlmarkupwriter.vala
--+++ b/libvaladoc/html/htmlmarkupwriter.vala
--@@ -51,12 +51,16 @@ public class Valadoc.Html.MarkupWriter : Valadoc.MarkupWriter {
-- 		}
-- 	}
+- #include <ctime>
+-+#include <string>
 - 
--+#if HAVE_GRAPHVIZ
-- 	public unowned MarkupWriter add_usemap (Charts.Chart chart) {
-- 		string? buf = (string?) chart.write_buffer ("cmapx");
-- 		if (buf != null) {
-- 			raw_text ("\n");
-- 			raw_text ((!) buf);
-- 		}
--+#else
--+	public unowned MarkupWriter add_usemap (void* chart) {
--+#endif
+- namespace libdnf {
 - 
-- 		return this;
-- 	}
-diff --git a/meta/recipes-devtools/vala/vala_0.42.5.bb b/meta/recipes-devtools/vala/vala_0.42.5.bb
-deleted file mode 100644
-index eea17661604..00000000000
---- a/meta/recipes-devtools/vala/vala_0.42.5.bb
-+++ /dev/null
-@@ -1,10 +0,0 @@
--require ${BPN}.inc
--
--SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch \
--             file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
--	     file://disable-graphviz.patch \
--	     file://0001-Disable-valadoc.patch \
--"
--
--SRC_URI[md5sum] = "d204eb4fa210995e731e2a9a01c8c772"
--SRC_URI[sha256sum] = "8c33b4abc0573d364781bbfe54a1668ed34956902e471191a31cf05dc87c6e12"
-diff --git a/meta/recipes-devtools/vala/vala_0.44.3.bb b/meta/recipes-devtools/vala/vala_0.44.3.bb
-new file mode 100644
-index 00000000000..fe6a5fcdcbd
---- /dev/null
-+++ b/meta/recipes-devtools/vala/vala_0.44.3.bb
-@@ -0,0 +1,8 @@
-+require ${BPN}.inc
-+
-+SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch \
-+           file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
-+           "
-+
-+SRC_URI[md5sum] = "25f97c1b46ae0b60b5cc49cbc044eca2"
-+SRC_URI[sha256sum] = "8553b422484af88be1685d8b47f7b0df36ae4477c3e77e89ab22276ffed1eae9"
+-diff --git a/libdnf/utils/smartcols/Cell.hpp b/libdnf/utils/smartcols/Cell.hpp
+-index 2e811dee..b90f0050 100644
+---- a/libdnf/utils/smartcols/Cell.hpp
+-+++ b/libdnf/utils/smartcols/Cell.hpp
+-@@ -22,6 +22,7 @@
+- #define LIBDNF_CELL_HPP
+- 
+- #include <libsmartcols/libsmartcols.h>
+-+#include <cerrno>
+- #include <string>
+- #include <stdexcept>
+- 
+diff --git a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+index 80b1ed7bf18..475c8f120ba 100644
+--- a/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
++++ b/meta/recipes-devtools/libdnf/libdnf/0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch
+@@ -1,4 +1,4 @@
+-From 2bcd0b9f6310bacdc554e077e85319a5e90e5ce0 Mon Sep 17 00:00:00 2001
++From 18c2c06017784cd641cc8a3deee5fc472008f7f4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Fri, 30 Dec 2016 18:24:50 +0200
+ Subject: [PATCH] Set libsolv variables with pkg-config (cmake's own module
+@@ -13,16 +13,16 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 insertions(+), 1 deletion(-)
+ 
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index 0b405cb..cd91f08 100644
++index 16b63308..b722d4fb 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+-@@ -46,7 +46,8 @@ endif(APPLE)
+- PKG_CHECK_MODULES(GLIB gio-unix-2.0>=2.46.0 REQUIRED)
+- pkg_check_modules(SMARTCOLS REQUIRED smartcols)
+- FIND_LIBRARY (RPMDB_LIBRARY NAMES rpmdb)
+--find_package (LibSolv 0.6.30 REQUIRED COMPONENTS ext)
++@@ -45,7 +45,8 @@ endif()
++ 
++ # build dependencies
++ find_package(Gpgme REQUIRED)
++-find_package(LibSolv 0.6.30 REQUIRED COMPONENTS ext)
+ +PKG_CHECK_MODULES (LIBSOLV REQUIRED libsolv)
+ +set(LIBSOLV_LIBRARY ${LIBSOLV_LIBRARIES})
+- if (ENABLE_RHSM_SUPPORT)
+-     pkg_check_modules (RHSM REQUIRED librhsm>=0.0.3)
+-     include_directories (${RHSM_INCLUDE_DIRS})
++ find_package(OpenSSL REQUIRED)
++ 
++ 
+diff --git a/meta/recipes-devtools/libdnf/libdnf_0.26.0.bb b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+similarity index 90%
+rename from meta/recipes-devtools/libdnf/libdnf_0.26.0.bb
+rename to meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+index 9c2247c237d..4ff294c32cb 100644
+--- a/meta/recipes-devtools/libdnf/libdnf_0.26.0.bb
++++ b/meta/recipes-devtools/libdnf/libdnf_0.28.1.bb
+@@ -7,10 +7,9 @@ SRC_URI = "git://github.com/rpm-software-management/libdnf \
+            file://0004-Set-libsolv-variables-with-pkg-config-cmake-s-own-mo.patch \
+            file://0001-Get-parameters-for-both-libsolv-and-libsolvext-libdn.patch \
+            file://0001-Add-WITH_TESTS-option.patch \
+-           file://0001-include-missing-string-and-errno.h-headers.patch \
+            "
+ 
+-SRCREV = "bd23204aa83d10e3d293a9f2d496cba6070f6a4d"
++SRCREV = "751f89045b80d58c0d05800f74357cf78cdf7e77"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
 2.17.1
 
