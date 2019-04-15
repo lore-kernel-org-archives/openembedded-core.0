@@ -1,24 +1,36 @@
-Return-Path: <Yi.Zhao@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C6B86BAAB
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 883637D72E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 06:13:01 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3F6D1CN029842
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Apr 2019 23:13:02 -0700 (PDT)
-Received: from localhost (128.224.163.192) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Sun, 14 Apr 2019 23:13:01 -0700
-From: Yi Zhao <yi.zhao@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 15 Apr 2019 14:12:58 +0800
-Message-ID: <1555308778-9316-1-git-send-email-yi.zhao@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 15 Apr 2019 07:38:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44jL3Q1VzjzJn;
+	Mon, 15 Apr 2019 09:38:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1555313938;
+	bh=rpsA7+yOljUF4kLb6arUflxZlEchVQ9rLPORTxzaPvk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h2k6qG+qKb7sTN2Gpdf3SLDDFw8Y1FL+F/Qe1xqojO04CQa6RF2CalJb7Z6IzSNvp
+	iqSFAKZ0jk8fnoPuc0Y3mzelF1q9iFxkXIpFwT2KkZq1xbbnJSXARrE04F+V7p9SFf
+	GTzUxdEUGx3h6BMBitST1nhqld6+Of1qNw41SnQwIphdzF5Jm1xkKXIv5Kv3dTYKQj
+	6Qw7z311jZSDdwHzCGHnYZU+lUSv1rHeaX/haiisAmTfFco3J3kqAyYlLVpZkvrmk+
+	imxYv0D0t28MN5worOY+GQtwQlIcgIhhlF+uAEtitAcEcL2x12SGxzL+eHYEHFqFaq
+	PKKjpoQ2k5ZuBOn3YbZQ1yRadbomO3sXSQoBg0rMQCJkZLgVXbrVUMWwCkQwWJcuXP
+	3DtxW3Kx6KsIfzzz6ccN/OtAL32XvKb6W4tYT3xb8cxoI1p5FNHLNmyRRzX5YmAGHk
+	ulYg7xDY3SPTQVXCNuxKcqGLMmdlwVMadVB1BLLy9/aM5XypR6h+YBZ8+G0HrjbwDf
+	2d/2eMp+cjn0bCsA6HE14QMN3nFKRRMqEv8Td7Nt/Mbu2wtEaMW31TnCwNqNo3jQ+8
+	hiJcHvgwp9McZoEd/tqPlGjPH/2oI2If8TRgBnul2tc4/a1i0ZTvmEz1NYo3kfBpbx
+	Zd/rs0yCr+1Mt6N8u4vNjadg=
+Date: Mon, 15 Apr 2019 10:38:54 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: kai.kang@windriver.com
+Message-ID: <20190415073854.GA30607@localhost>
+References: <20190415034231.105641-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [128.224.163.192]
-Subject: [PATCH] harfbuzz: update SRC_URI[md5sum] and SRC_URI[sha256sum]
+In-Reply-To: <20190415034231.105641-1-kai.kang@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] cryptodev: update SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +43,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 06:13:01 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Apr 2019 07:38:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-The previous md5sum and sha256sum are not correct.
-See: https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2.sha256
+On Sun, Apr 14, 2019 at 11:42:31PM -0400, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+> 
+> Update SRCREV of cryptodev which only contains one fix for linux 5.0:
+>...
+> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
+> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+> @@ -4,7 +4,7 @@ LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>  
+>  SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
+> -SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
+> +SRCREV = "f971e0cd4a0ebe59fb2e8e17240399bf6901b09b"
+>  
+>  S = "${WORKDIR}/git"
 
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
----
- meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This moves cryptodev from a release to a git snapshot,
+but no PV is set to show that.
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
-index 5855d77..4691d16 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
-@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
- DEPENDS = "glib-2.0 cairo fontconfig freetype"
- 
- SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
--SRC_URI[md5sum] = "ebccf8203103766383d4c5a0767b102d"
--SRC_URI[sha256sum] = "9035005903da74667d28bb181986e879e11da3d5986722759fa145cca781ead6"
-+SRC_URI[md5sum] = "49f111f9b52ae3d9b31c1a3631a320bd"
-+SRC_URI[sha256sum] = "b470eff9dd5b596edf078596b46a1f83c179449f051a469430afc15869db336f"
- 
- inherit autotools pkgconfig lib_package gtk-doc
- 
+It is a systematic problem caused by the switch to git hashes for 
+releases that random git snapshots look exactly the same as releases
+without any clean way to see what a commit actually is.
+
+IMHO this needs support for tags, and then checks like (pseudo-code)
+  if(TAG) (commit(TAG) == SRCREV)
+  TAG xor (PV contains "+git") 
+
+Short-term for the suggested change in cryptodev the
+"which only contains one fix" is correct, and this
+is not much different from adding the fix as .patch
+which also wouldn't change PV.
+So no objection from me to applying the suggested patch as-is.
+
+cu
+Adrian
+
 -- 
-2.7.4
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
