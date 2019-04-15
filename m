@@ -1,50 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 34A0C7D900
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0094F7D2CD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 08:35:14 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id n25so19180537wmk.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 01:35:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=QXUkNSLNJvcOmriLAjatEtqSs8b8AQ/+CQvINdzpI4c=;
-	b=Wd3mp7aOBaVw+G46r7c5cEJtEKZ4EfArjnX2iLgob7Fubyf84PngQMcEmBH/LgbL/o
-	JI6Z3IHaL/d1jRIL+VZTEkKEi7d3l175aXgHqGwubhxQLCN67KQ8porck8mMuvXwJPO+
-	bRmuIkok1+G8EGvshbZooiEHfialttcrJ2l4A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=QXUkNSLNJvcOmriLAjatEtqSs8b8AQ/+CQvINdzpI4c=;
-	b=KdR7fnXEtCcrwzMWTWzfLIfIWN22CXMwFVEAFoq/xGrLU7q7f2ZnCLuoSogQU0wG2z
-	RIhD7Pk9Oz5MlVenDjqZx5M6Td/JQKV/F2N/unzbhrDueYIL+mhWjncEsykptMJA0IIn
-	Q+8yJRFLjKYsQaDIBgxlnnrYXi56NnAxsRuZfPim3MUgzHagKkcomw5a1DZSKcNR97dm
-	eJGgOREyFnNw/Mbua0H2xQ62v2fth7JHZ0SyC58EAhe7aLXk9DA9ww/z2XtxGjG/mYh1
-	mMzwTruLtejfZD2l+bDboFZ9gh+9OPlAkdAbil/N7B/e6iRp5pltvrtwnu0DNFSx1ld7
-	D7CA==
-X-Gm-Message-State: APjAAAWxVFgWCUAmgIDKGnTYkvruCaXXhZDPya03JpIKf6DyjNY42J8E
-	IeE+bd6GEGvF8OADyC4StgFslw==
-X-Google-Smtp-Source: APXvYqx2yDv8R6MtfNxYFQyoK742w+tKQiIpoeaxG8ZjBjzbn5nA0/2/l3YBKcGBWuMUeyNtQW1w+g==
-X-Received: by 2002:a1c:804c:: with SMTP id b73mr20166418wmd.116.1555317314929;
-	Mon, 15 Apr 2019 01:35:14 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w2sm37485886wrm.74.2019.04.15.01.35.14
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 15 Apr 2019 01:35:14 -0700 (PDT)
-Message-ID: <97ab05f9b4560c85e7386210318fe98b1d5121af.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 09:35:13 +0100
-In-Reply-To: <1555317167-20284-1-git-send-email-yi.zhao@windriver.com>
-References: <1555317167-20284-1-git-send-email-yi.zhao@windriver.com>
-User-Agent: Evolution 3.32.1-2 
+	Mon, 15 Apr 2019 08:38:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3F8chaN008746
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 15 Apr 2019 01:38:44 -0700 (PDT)
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 15 Apr 2019 01:38:43 -0700
+To: <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <23562ca03db97ef41bbb2e6365ecde4bd715438d.camel@linuxfoundation.org>
+	<1555314041-117426-1-git-send-email-mingli.yu@windriver.com>
+	<8879daf5747ec05fa2430354dbd38cc3ae5e1cd5.camel@linuxfoundation.org>
+	<5CB43C2A.4050908@windriver.com>
+	<21cc3e7248d8e702f49de8818f26e2e53a001ed1.camel@linuxfoundation.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5CB4442F.2040906@windriver.com>
+Date: Mon, 15 Apr 2019 16:43:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] libyaml: update SRC_URI[md5sum] and SRC_URI[sha256sum]
+In-Reply-To: <21cc3e7248d8e702f49de8818f26e2e53a001ed1.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.194]
+Subject: Re: [PATCH v2] nettle: fix ptest failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,41 +38,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 08:35:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 15 Apr 2019 08:38:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, 2019-04-15 at 16:32 +0800, Yi Zhao wrote:
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  meta/recipes-support/libyaml/libyaml_0.2.2.bb | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/recipes-support/libyaml/libyaml_0.2.2.bb
-> b/meta/recipes-support/libyaml/libyaml_0.2.2.bb
-> index d2b39f3..fbd1992 100644
-> --- a/meta/recipes-support/libyaml/libyaml_0.2.2.bb
-> +++ b/meta/recipes-support/libyaml/libyaml_0.2.2.bb
-> @@ -8,8 +8,10 @@ LICENSE = "MIT"
->  LIC_FILES_CHKSUM =
-> "file://LICENSE;md5=a76b4c69bfcf82313bbdc0393b04438a"
->  
->  SRC_URI = "http://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
-> -SRC_URI[md5sum] = "2ad4119a57f94739cc39a1b482c81264"
-> -SRC_URI[sha256sum] =
-> "46bca77dc8be954686cff21888d6ce10ca4016b360ae1f56962e6882a17aa1fe"
-> +SRC_URI[md5sum] = "54bf11ccb8bc488b5b3bec931f5b70dc"
-> +SRC_URI[sha256sum] =
-> "4a9100ab61047fd9bd395bcef3ce5403365cafd55c1e0d0299cde14958e47be9"
-> +
-> +S = "${WORKDIR}/yaml-${PV}"
 
-Why?
 
-Did upstream change the tarball?
+On 2019年04月15日 16:06, richard.purdie@linuxfoundation.org wrote:
+> On Mon, 2019-04-15 at 16:09 +0800, Yu, Mingli wrote:
+>>
+>> On 2019年04月15日 15:59, richard.purdie@linuxfoundation.org wrote:
+>>> On Mon, 2019-04-15 at 15:40 +0800, mingli.yu@windriver.com wrote:
+>>>> ---- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000
+>>>> -0700
+>>>> -+++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860
+>>>> -0700
+>>>> -@@ -9,7 +9,7 @@
+>>>> +diff --git a/testsuite/dlopen-test.c b/testsuite/dlopen-test.c
+>>>> +index 99d3535..92de9f8 100644
+>>>> +--- a/testsuite/dlopen-test.c
+>>>> ++++ b/testsuite/dlopen-test.c
+>>>> +@@ -9,7 +9,9 @@ int
+>>>>     main (int argc UNUSED, char **argv UNUSED)
+>>>>     {
+>>>>     #if HAVE_LIBDL
+>>>>    -  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
+>>>>    +  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
+>>>> ++  if (!handle)
+>>>> ++     handle = dlopen ("/usr/lib64/libnettle.so", RTLD_NOW);
+>>>>       int (*get_version)(void);
+>>>>       if (!handle)
+>>>>         {
+>>>
+>>> What happens on a 32 bit system?
+>>>
+>>> You can't hardcode a specific libdir like that!
+>>
+>> I just rework the patch dlopen-test.patch which Juro Bystricky
+>> generated
+>> before, the previous patch only check /usr/lib/libnettle.so and I
+>> updated it also to check /usr/lib64/libnettle.so if no
+>> /usr/lib/libnettle.so exist.
+>>    -  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
+>>    +  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
+>> ++  if (!handle)
+>> ++     handle = dlopen ("/usr/lib64/libnettle.so", RTLD_NOW);
+>
+> What happens on x32? n32? or if I set libdir to lib32?
 
-Cheers,
+Got it! V3 is coming.
 
-Richard
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 
