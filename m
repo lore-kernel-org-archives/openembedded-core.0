@@ -1,24 +1,24 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6018D7D8DD
+Return-Path: <Yi.Zhao@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C6B86BAAB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 03:43:15 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3F3gur6027081
+	Mon, 15 Apr 2019 06:13:01 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3F6D1CN029842
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 14 Apr 2019 20:43:06 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 14 Apr 2019 20:42:33 -0700
-From: <kai.kang@windriver.com>
+	Sun, 14 Apr 2019 23:13:02 -0700 (PDT)
+Received: from localhost (128.224.163.192) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Sun, 14 Apr 2019 23:13:01 -0700
+From: Yi Zhao <yi.zhao@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 14 Apr 2019 23:42:31 -0400
-Message-ID: <20190415034231.105641-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+Date: Mon, 15 Apr 2019 14:12:58 +0800
+Message-ID: <1555308778-9316-1-git-send-email-yi.zhao@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] cryptodev: update SRCREV
+X-Originating-IP: [128.224.163.192]
+Subject: [PATCH] harfbuzz: update SRC_URI[md5sum] and SRC_URI[sha256sum]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +31,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 03:43:15 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 15 Apr 2019 06:13:01 -0000
 Content-Type: text/plain
 
-From: Kai Kang <kai.kang@windriver.com>
+The previous md5sum and sha256sum are not correct.
+See: https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2.sha256
 
-Update SRCREV of cryptodev which only contains one fix for linux 5.0:
-
-$ git log fd8b15ef1c8398a69a37932ee48c74ab40329a29..f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
-commit f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
-Author: Derald D. Woods <woods.technical@gmail.com>
-Date:   Sun Feb 10 13:22:19 2019 -0600
-
-    Fix module loading with Linux v5.0-rc5
-
-    This commit fixes this module load error:
-    [...]
-    [   29.112091] cryptodev: loading out-of-tree module taints kernel.
-    [   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
-    [   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
-    modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
-    [...]
-
-    Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
-
-    c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
-
-    Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/recipes-kernel/cryptodev/cryptodev.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index 252d39d23a..79ddefd435 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -4,7 +4,7 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
+index 5855d77..4691d16 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb
+@@ -11,8 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e021dd6dda6ff1e6b1044002fc662b9b \
+ DEPENDS = "glib-2.0 cairo fontconfig freetype"
  
- SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
--SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
-+SRCREV = "f971e0cd4a0ebe59fb2e8e17240399bf6901b09b"
+ SRC_URI = "http://www.freedesktop.org/software/harfbuzz/release/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "ebccf8203103766383d4c5a0767b102d"
+-SRC_URI[sha256sum] = "9035005903da74667d28bb181986e879e11da3d5986722759fa145cca781ead6"
++SRC_URI[md5sum] = "49f111f9b52ae3d9b31c1a3631a320bd"
++SRC_URI[sha256sum] = "b470eff9dd5b596edf078596b46a1f83c179449f051a469430afc15869db336f"
  
- S = "${WORKDIR}/git"
+ inherit autotools pkgconfig lib_package gtk-doc
  
 -- 
-2.20.0
+2.7.4
 
 
