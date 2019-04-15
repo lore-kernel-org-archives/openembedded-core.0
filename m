@@ -1,26 +1,31 @@
 Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E1567D90B
+	by mail.openembedded.org (Postfix) with ESMTP id 44BCD7D848
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 09:06:10 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3F95YUb002329
+	Mon, 15 Apr 2019 09:23:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3F9MbYn003110
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Apr 2019 02:05:44 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 15 Apr 2019 02:05:24 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-Date: Mon, 15 Apr 2019 17:05:22 +0800
-Message-ID: <1555319122-215657-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <21cc3e7248d8e702f49de8818f26e2e53a001ed1.camel@linuxfoundation.org>
-References: <21cc3e7248d8e702f49de8818f26e2e53a001ed1.camel@linuxfoundation.org>
+	Mon, 15 Apr 2019 02:22:57 -0700
+Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 15 Apr 2019 02:22:46 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
+	<1554777170-58044-1-git-send-email-mingli.yu@windriver.com>
+	<CAMKF1sq0wYPvJg1G5+cnY-6owi1K=Nc4bctXm3pcsbh1R5gpFA@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5CB44E82.5020907@windriver.com>
+Date: Mon, 15 Apr 2019 17:27:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: [PATCH v3] nettle: fix ptest failure
+In-Reply-To: <CAMKF1sq0wYPvJg1G5+cnY-6owi1K=Nc4bctXm3pcsbh1R5gpFA@mail.gmail.com>
+X-Originating-IP: [128.224.162.194]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,94 +38,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 09:06:11 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 15 Apr 2019 09:23:39 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Remove dlopen-test.patch which originally used
-to fix the test dlopen-test, but actually it
-didn't resolve the issue as expected as it hardcodes
-the file /usr/lib/libnettle.so.
 
-Update dynamically with the real ${libdir}/libnettle.so
-to fix the below dlopen-test failure:
- # cd /usr/lib64/nettle/ptest
- # ./run-ptest
- dlopen failed: ../libnettle.so: cannot open shared object file: No such file or directory
- ./run-ptest: line 8:  7607 Aborted                 "./$f"
- FAIL: dlopen-test
+On 2019年04月09日 11:53, Khem Raj wrote:
+> On Mon, Apr 8, 2019 at 7:32 PM <mingli.yu@windriver.com> wrote:
+>>
+>> From: Mingli Yu <Mingli.Yu@windriver.com>
+>>
+>> When DEBUG_BUILD = "1" added in local.conf, there
+>> comes below build error when "bitbake gcc-sanitizers":
+>> | ./../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c: In function 'elf_is_symlink':
+>> | ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>> |   return S_ISLNK (st.st_mode);
+>>
+>> Per https://gcc.gnu.org/ml/gcc-patches/2019-04/msg00315.html,
+>> the gcc upstream thinks the warning is a false
+>> positive and suggests to use -O2 rather than -Og
+>> or -O1 when compiling that file, so pass -Wno-error
+>> to compiler when -Og is used to silence the error.
+>>
+>
+> Not particular to this change but in general if a package says that it
+> does not support -Og
+> then we are just going to get into more and more untested grounds
+> especially during runtime
+> so I wonder how useful it will be to use -Og for such packages or any
+> other non supported
+> combination for that matter.
 
-As the test dlopen-test depends on libnettle.so
-which belongs to nettle-dev package, so add it
-to rdepends of nettle-ptest.
+Hi Khem,
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- .../nettle/nettle-3.4.1/dlopen-test.patch            | 20 --------------------
- meta/recipes-support/nettle/nettle_3.4.1.bb          |  9 +++++----
- 2 files changed, 5 insertions(+), 24 deletions(-)
- delete mode 100644 meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+Any other suggestion to silence the gcc-sanitizers build error when 
+DEBUG_BUILD is enabled?
 
-diff --git a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-deleted file mode 100644
-index c4f0b7e..0000000
---- a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-+++ /dev/null
-@@ -1,20 +0,0 @@
--Replace relative path of libnettle.so with absolute path so the test
--program can find it.
--Relative paths are not suitable, as the folder strucure for ptest
--is different from the one expected by the nettle testsuite.
--
--Upstream-Status: Inappropriate [embedded specific]
--
--Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
--
----- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000 -0700
--+++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860 -0700
--@@ -9,7 +9,7 @@
-- main (int argc UNUSED, char **argv UNUSED)
-- {
-- #if HAVE_LIBDL
---  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
--+  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
--   int (*get_version)(void);
--   if (!handle)
--     {
-diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-index dd49c30..d6bdd2a 100644
---- a/meta/recipes-support/nettle/nettle_3.4.1.bb
-+++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-@@ -16,10 +16,6 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
-            file://check-header-files-of-openssl-only-if-enable_.patch \
-            "
- 
--SRC_URI_append_class-target = "\
--            file://dlopen-test.patch \
--            "
--
- SRC_URI[md5sum] = "9bdebb0e2f638d3b9d91f7fc264b70c1"
- SRC_URI[sha256sum] = "f941cf1535cd5d1819be5ccae5babef01f6db611f9b5a777bae9c7604b8a92ad"
- 
-@@ -33,6 +29,8 @@ EXTRA_OECONF = "--disable-openssl"
- CFLAGS_append = " -std=c99"
- 
- do_compile_ptest() {
-+        # fix dlopen-test failure as cannot locate libnettle.so
-+        sed -i 's;dlopen ("../libnettle.so", RTLD_NOW);dlopen ("${libdir}/libnettle.so", RTLD_NOW);g' ${S}/testsuite/dlopen-test.c
-         oe_runmake buildtest
- }
- 
-@@ -49,4 +47,7 @@ do_install_ptest() {
-         install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
- }
- 
-+RDEPENDS_${PN}-ptest += "${PN}-dev"
-+INSANE_SKIP_${PN}-ptest += "dev-deps"
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.7.4
+Or just keep the logic DEBUG_OPTIMIZATION_append = " -Wno-error" as my 
+patch stated?
 
+Thanks,
+
+>
+>> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+>> ---
+>>   meta/recipes-devtools/gcc/gcc-sanitizers.inc | 3 +++
+>>   1 file changed, 3 insertions(+)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+>> index e5e8452..8b1d1c9 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
+>> @@ -45,6 +45,9 @@ INHIBIT_DEFAULT_DEPS = "1"
+>>   ALLOW_EMPTY_${PN} = "1"
+>>   DEPENDS = "gcc-runtime virtual/${TARGET_PREFIX}gcc"
+>>
+>> +# used to fix ../../../../../../../../../work-shared/gcc-8.3.0-r0/gcc-8.3.0/libsanitizer/libbacktrace/../../libbacktrace/elf.c:772:21: error: 'st.st_mode' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>> +DEBUG_OPTIMIZATION_append = " -Wno-error"
+>> +
+>>   BBCLASSEXTEND = "nativesdk"
+>>
+>>   PACKAGES = "${PN} ${PN}-dbg"
+>> --
+>> 2.7.4
+>>
+>
 
