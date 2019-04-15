@@ -1,24 +1,23 @@
-Return-Path: <vernon.mauery@linux.intel.com>
-Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
-	by mail.openembedded.org (Postfix) with ESMTP id 821FB7D263
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BBD979CE4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 23:27:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	15 Apr 2019 16:27:38 -0700
-X-IronPort-AV: E=Sophos;i="5.60,355,1549958400"; d="scan'208";a="134633338"
-Received: from vmauery-desk.jf.intel.com ([10.7.150.62])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/DHE-RSA-AES128-GCM-SHA256;
-	15 Apr 2019 16:27:38 -0700
-From: Vernon Mauery <vernon.mauery@linux.intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 16:27:31 -0700
-Message-Id: <20190415232731.3666-1-vernon.mauery@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Vernon Mauery <vernon.mauery@linux.intel.com>
-Subject: [PATCH] Update ipmitool to use new active source
+	Mon, 15 Apr 2019 23:52:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3FNqSSx001106
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Apr 2019 16:52:29 -0700 (PDT)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 15 Apr 2019 16:52:28 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 15 Apr 2019 16:52:27 -0700
+Message-ID: <20190415235227.52361-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
+MIME-Version: 1.0
+Subject: [PATCH 1/1] bash: add sanity check for locale in run-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,218 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 23:27:37 -0000
+X-List-Received-Date: Mon, 15 Apr 2019 23:52:28 -0000
+Content-Type: text/plain
 
-The ipmitool project has moved from sourceforge to github and is under
-new management. This updates the source so that it pulls directly from
-git rather than a tarball. Eventually, once the next release is tagged,
-the new SRCREV can be updated to that. But for now, the project is under
-active development and could probably benefit from periodic updates
-anyway.
+We will fail later if the current locale is invalid, so check
+for error messages from locale.
 
-The SRCREV and SRC_URI links point to code that already has been patched
-to work with the new openssl 1.1 APIs, so the patch is no longer needed.
-
-Signed-off-by: Vernon Mauery <vernon.mauery@linux.intel.com>
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
 ---
- .../0001-Migrate-to-openssl-1.1.patch         | 152 ------------------
- .../{ipmitool_1.8.18.bb => ipmitool_git.bb}   |  12 +-
- 2 files changed, 6 insertions(+), 158 deletions(-)
- delete mode 100644 meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch
- rename meta-oe/recipes-kernel/ipmitool/{ipmitool_1.8.18.bb => ipmitool_git.bb} (80%)
+ meta/recipes-extended/bash/bash/run-ptest | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch b/meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch
-deleted file mode 100644
-index 394aa16ad..000000000
---- a/meta-oe/recipes-kernel/ipmitool/ipmitool/0001-Migrate-to-openssl-1.1.patch
-+++ /dev/null
-@@ -1,152 +0,0 @@
--From c9dcb6afef9c343d070aaff208d11a997a45a105 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Wed, 5 Sep 2018 22:19:38 -0700
--Subject: [PATCH] Migrate to openssl 1.1
--
--Upstream-Status: Backport [https://sourceforge.net/p/ipmitool/source/ci/1664902525a1c3771b4d8b3ccab7ea1ba6b2bdd1/]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- src/plugins/lanplus/lanplus_crypt_impl.c | 50 ++++++++++++++----------
-- 1 file changed, 29 insertions(+), 21 deletions(-)
--
--diff --git a/src/plugins/lanplus/lanplus_crypt_impl.c b/src/plugins/lanplus/lanplus_crypt_impl.c
--index d5fac37..9652a5e 100644
----- a/src/plugins/lanplus/lanplus_crypt_impl.c
--+++ b/src/plugins/lanplus/lanplus_crypt_impl.c
--@@ -164,11 +164,7 @@ lanplus_encrypt_aes_cbc_128(const uint8_t * iv,
-- 							uint8_t       * output,
-- 							uint32_t        * bytes_written)
-- {
---	EVP_CIPHER_CTX ctx;
---	EVP_CIPHER_CTX_init(&ctx);
---	EVP_EncryptInit_ex(&ctx, EVP_aes_128_cbc(), NULL, key, iv);
---	EVP_CIPHER_CTX_set_padding(&ctx, 0);
---	
--+	EVP_CIPHER_CTX *ctx = NULL;
-- 
-- 	*bytes_written = 0;
-- 
--@@ -182,6 +178,14 @@ lanplus_encrypt_aes_cbc_128(const uint8_t * iv,
-- 		printbuf(input, input_length, "encrypting this data");
-- 	}
-- 
--+	ctx = EVP_CIPHER_CTX_new();
--+	if (ctx == NULL) {
--+		lprintf(LOG_DEBUG, "ERROR: EVP_CIPHER_CTX_new() failed");
--+		return;
--+	}
--+	EVP_CIPHER_CTX_init(ctx);
--+	EVP_EncryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv);
--+	EVP_CIPHER_CTX_set_padding(ctx, 0);
-- 
-- 	/*
-- 	 * The default implementation adds a whole block of padding if the input
--@@ -191,28 +195,28 @@ lanplus_encrypt_aes_cbc_128(const uint8_t * iv,
-- 	assert((input_length % IPMI_CRYPT_AES_CBC_128_BLOCK_SIZE) == 0);
-- 
-- 
---	if(!EVP_EncryptUpdate(&ctx, output, (int *)bytes_written, input, input_length))
--+	if(!EVP_EncryptUpdate(ctx, output, (int *)bytes_written, input, input_length))
-- 	{
-- 		/* Error */
-- 		*bytes_written = 0;
---		return;
-- 	}
-- 	else
-- 	{
-- 		uint32_t tmplen;
-- 
---		if(!EVP_EncryptFinal_ex(&ctx, output + *bytes_written, (int *)&tmplen))
--+		if(!EVP_EncryptFinal_ex(ctx, output + *bytes_written, (int *)&tmplen))
-- 		{
--+			/* Error */
-- 			*bytes_written = 0;
---			return; /* Error */
-- 		}
-- 		else
-- 		{
-- 			/* Success */
-- 			*bytes_written += tmplen;
---			EVP_CIPHER_CTX_cleanup(&ctx);
-- 		}
-- 	}
--+	/* performs cleanup and free */
--+	EVP_CIPHER_CTX_free(ctx);
-- }
-- 
-- 
--@@ -239,11 +243,7 @@ lanplus_decrypt_aes_cbc_128(const uint8_t * iv,
-- 							uint8_t       * output,
-- 							uint32_t        * bytes_written)
-- {
---	EVP_CIPHER_CTX ctx;
---	EVP_CIPHER_CTX_init(&ctx);
---	EVP_DecryptInit_ex(&ctx, EVP_aes_128_cbc(), NULL, key, iv);
---	EVP_CIPHER_CTX_set_padding(&ctx, 0);
---
--+	EVP_CIPHER_CTX *ctx = NULL;
-- 
-- 	if (verbose >= 5)
-- 	{
--@@ -252,12 +252,20 @@ lanplus_decrypt_aes_cbc_128(const uint8_t * iv,
-- 		printbuf(input, input_length, "decrypting this data");
-- 	}
-- 
---
-- 	*bytes_written = 0;
-- 
-- 	if (input_length == 0)
-- 		return;
-- 
--+	ctx = EVP_CIPHER_CTX_new();
--+	if (ctx == NULL) {
--+		lprintf(LOG_DEBUG, "ERROR: EVP_CIPHER_CTX_new() failed");
--+		return;
--+	}
--+	EVP_CIPHER_CTX_init(ctx);
--+	EVP_DecryptInit_ex(ctx, EVP_aes_128_cbc(), NULL, key, iv);
--+	EVP_CIPHER_CTX_set_padding(ctx, 0);
--+
-- 	/*
-- 	 * The default implementation adds a whole block of padding if the input
-- 	 * data is perfectly aligned.  We would like to keep that from happening.
--@@ -266,33 +274,33 @@ lanplus_decrypt_aes_cbc_128(const uint8_t * iv,
-- 	assert((input_length % IPMI_CRYPT_AES_CBC_128_BLOCK_SIZE) == 0);
-- 
-- 
---	if (!EVP_DecryptUpdate(&ctx, output, (int *)bytes_written, input, input_length))
--+	if (!EVP_DecryptUpdate(ctx, output, (int *)bytes_written, input, input_length))
-- 	{
-- 		/* Error */
-- 		lprintf(LOG_DEBUG, "ERROR: decrypt update failed");
-- 		*bytes_written = 0;
---		return;
-- 	}
-- 	else
-- 	{
-- 		uint32_t tmplen;
-- 
---		if (!EVP_DecryptFinal_ex(&ctx, output + *bytes_written, (int *)&tmplen))
--+		if (!EVP_DecryptFinal_ex(ctx, output + *bytes_written, (int *)&tmplen))
-- 		{
--+			/* Error */
-- 			char buffer[1000];
-- 			ERR_error_string(ERR_get_error(), buffer);
-- 			lprintf(LOG_DEBUG, "the ERR error %s", buffer);
-- 			lprintf(LOG_DEBUG, "ERROR: decrypt final failed");
-- 			*bytes_written = 0;
---			return; /* Error */
-- 		}
-- 		else
-- 		{
-- 			/* Success */
-- 			*bytes_written += tmplen;
---			EVP_CIPHER_CTX_cleanup(&ctx);
-- 		}
-- 	}
--+	/* performs cleanup and free */
--+	EVP_CIPHER_CTX_free(ctx);
-- 
-- 	if (verbose >= 5)
-- 	{
-diff --git a/meta-oe/recipes-kernel/ipmitool/ipmitool_1.8.18.bb b/meta-oe/recipes-kernel/ipmitool/ipmitool_git.bb
-similarity index 80%
-rename from meta-oe/recipes-kernel/ipmitool/ipmitool_1.8.18.bb
-rename to meta-oe/recipes-kernel/ipmitool/ipmitool_git.bb
-index b7f1aa914..2a6ca6a22 100644
---- a/meta-oe/recipes-kernel/ipmitool/ipmitool_1.8.18.bb
-+++ b/meta-oe/recipes-kernel/ipmitool/ipmitool_git.bb
-@@ -14,7 +14,7 @@ Log (SEL), printing Field Replaceable Unit (FRU) information, reading and \
- setting LAN configuration, and chassis power control. \
- "
+diff --git a/meta/recipes-extended/bash/bash/run-ptest b/meta/recipes-extended/bash/bash/run-ptest
+index c61fabd..19f2991 100644
+--- a/meta/recipes-extended/bash/bash/run-ptest
++++ b/meta/recipes-extended/bash/bash/run-ptest
+@@ -1,5 +1,12 @@
+ #!/bin/sh
  
--HOMEPAGE = "http://ipmitool.sourceforge.net/"
-+HOMEPAGE = "https://github.com/ipmitool/ipmitool"
- SECTION = "kernel/userland"
- 
- LICENSE = "BSD-3-Clause"
-@@ -22,11 +22,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=9aa91e13d644326bf281924212862184"
- 
- DEPENDS = "openssl readline ncurses"
- 
--SRC_URI = "${SOURCEFORGE_MIRROR}/ipmitool/ipmitool-${PV}.tar.bz2 \
--           file://0001-Migrate-to-openssl-1.1.patch \
--           "
--SRC_URI[md5sum] = "bab7ea104c7b85529c3ef65c54427aa3"
--SRC_URI[sha256sum] = "0c1ba3b1555edefb7c32ae8cd6a3e04322056bc087918f07189eeedfc8b81e01"
-+SRC_URI = "git://github.com/ipmitool/ipmitool.git;protocol=https"
-+SRCREV = "b0d84e0f15b2120eaf9fe1301cf02c24eebcfb37"
++if [ -n "`locale -V 2>&1 >/dev/null`" ]
++then
++        echo "The default locale is not valid!"
++        echo "Try 'locale -a' to see installed locales."
++        exit 1
++fi
 +
-+# latest current tag from the project
-+PV = "1.8.18+git${SRCPV}"
- 
- inherit autotools
- 
+ en_US=`locale -a | grep en_US*`
+ fr_FR=`locale -a | grep fr_FR*`
+ de_DE=`locale -a | grep de_DE*`
 -- 
-2.17.1
+2.7.4
 
 
