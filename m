@@ -1,50 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A2C87D95C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 3042D7D95C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 10:55:15 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id z6so5913217wmi.0
+	Mon, 15 Apr 2019 10:55:16 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id s15so21281984wra.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 03:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=Yct0cRsP9g22il5bXx2ZThdJ+VyzCrexT6zKdwF25vM=;
-	b=KdCeLsl00YY8ytmEgdWazQAn5xuzcSe/xWjB9IxSNzo6qepqhXxCGbLVlFrfrt6ywC
-	CaVQMODyiM5n+3ZgcnCbBd2Vt0sOS+xXXoW47qDKn7Vik5P2aTjzfoH+cleEBHdiudr8
-	0fFSmg2CCp88O93XX9pg1RSNaihRHaxcSvfoo=
+	Mon, 15 Apr 2019 03:55:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=H5Pif3yf1uchjak7tn7u7rAk9qv528DFq29NchvlgeU=;
+	b=iK0QqAeW9ZzYCFTMtfc+4rvNatIrezRuz+XRyRwKNotq74eiPCfvE3aydMZac7JKsN
+	R95OTDUv/OlXfSg7ubYMzeB4r2Ak0E6z1H7kZtAFrpAsD/F8ltNeXeSYl/XRvyk29LY9
+	8ZYTG0r0oIYQpKtaM9GwivdmVdP2Me0xFEKX/6sMMlmrsvND1CYuDJGmcZMw7pwQ+Uak
+	zlpXMI83Vc4kgxOpqGGAZff9rlU+2n3kfVo66PiKFuB61nfKtvNpuphZAYqW+Rv0uBEC
+	rxFfH+qBpYV+IE+EaYKyE3HCp6titdeIXVXO1RGoU7Eg/RpA0+cTSohyp/mVH8AZSUuE
+	b3lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Yct0cRsP9g22il5bXx2ZThdJ+VyzCrexT6zKdwF25vM=;
-	b=o/1ZUQHjpA2B1Sv/vXUr/T49ouNv03PjNCo1sy5hwXFeOe4depaGE/swh5ymDnVH2P
-	9G1wc6jITviF+MWoBRnrTo/6SuE1xlSPJpLPdXR1VYokJRBELlyitbKt06WOst/jY45V
-	ezAZPQGs3nPa0u/EqE48eUcBt/vH0oH9tFp6mtiLPUwklhyn4Mpi4y124RKIVV+ozAof
-	d3yEDd9tFroj6L24gxEGd9hgYeh4JQBUSyu5nRtWsmKd4B4k2+clKGIOVT1ktXezTvoN
-	Y8a5CCUvJ8zEvxQxWsuczeWWm7lJQIjiWZnyTixvNJrpK4HAP3ryEfBy70aJbsEx7Btq
-	Oz8w==
-X-Gm-Message-State: APjAAAV5ghvXXKoA0u3NnJBDQryki+JImi4ckFmC6/HK+6K8a+FVIRnX
-	x/xMWbNSCfj1pfHYsrosdTY9Pyvyro8=
-X-Google-Smtp-Source: APXvYqxrp7wRA6hh1ANvzlrfwshpzV4C9F3DwDDPQuILMYIfH6s3s8G03miahXfSib7EFARfzrCVvw==
-X-Received: by 2002:a1c:1dc3:: with SMTP id d186mr16442757wmd.64.1555325716337;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=H5Pif3yf1uchjak7tn7u7rAk9qv528DFq29NchvlgeU=;
+	b=O2Ivwevwhdk0ATSfIPl+kigntbXhomTRdHl/ScYgMmaN/W8A29eu1YW4g/BVyfguLW
+	5bha99qKdRT7N/Cr3PLO3ANIA9BQh8gb4ja6ncUKEb2oAUyMO6CH3rTQ9/ppqRzrnQTw
+	BCTDFEH9c7mGF6LnnFxLc5Lb5I1fKWwX8RaLFAPZO34WkSoTNwsMAwB7p+2hJ42TNz8h
+	wn26Hsawb3kXjyVfnUri5JZZtnO0zA3bTr3y6PXRCBiYCFEi4leX0dW2PVPJsUt+MTdO
+	LZVEveq8zOSxE0cuq8VDVnZEEkFl7H5ncdkc+KgwkPh5GP43Ap5F4n2VANPgsy29Gwjj
+	Gr0A==
+X-Gm-Message-State: APjAAAVhDLWPa6IGKbS7UZwk1aXn3LjkVVzQf1EGkMOTYOpUDrQsuTwc
+	Ru6NGn1jA9JUg8eYMa9+qvaxvKrv3eM=
+X-Google-Smtp-Source: APXvYqzt0k1X1SwBoRtc/93Qtp5nTOWwBaEj7mKkdpRxWqQjmddsYeqIpKrtYUdlPOIrcoKeut5m7A==
+X-Received: by 2002:adf:9427:: with SMTP id 36mr48449961wrq.128.1555325716730; 
 	Mon, 15 Apr 2019 03:55:16 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	n6sm25631796wmn.48.2019.04.15.03.55.15
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 15 Apr 2019 03:55:15 -0700 (PDT)
-Message-ID: <ee713999139dd8576b9529685c5654850eb12bed.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 11:55:14 +0100
-In-Reply-To: <1555308778-9316-1-git-send-email-yi.zhao@windriver.com>
-References: <1555308778-9316-1-git-send-email-yi.zhao@windriver.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH] harfbuzz: update SRC_URI[md5sum] and SRC_URI[sha256sum]
+	o10sm75468400wru.54.2019.04.15.03.55.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 15 Apr 2019 03:55:16 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2019 12:54:52 +0200
+Message-Id: <20190415105457.57067-14-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190415105457.57067-1-alex.kanavin@gmail.com>
+References: <20190415105457.57067-1-alex.kanavin@gmail.com>
+Subject: [PATCH 14/19] ffmpeg: update to 4.1.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +58,32 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 15 Apr 2019 10:55:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-04-15 at 14:12 +0800, Yi Zhao wrote:
-> The previous md5sum and sha256sum are not correct.
-> See: 
-> https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2.sha256
-> 
-> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-> ---
->  meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../ffmpeg/{ffmpeg_4.1.2.bb => ffmpeg_4.1.3.bb}               | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_4.1.2.bb => ffmpeg_4.1.3.bb} (97%)
 
-I wanted to understand why this was. I've looked into it and upstream
-re-released the tarball.
-
-I've updated the commit message with more details and queued it in
--next.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+similarity index 97%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.2.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+index e76fe7cbbfc..994a792ded4 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+@@ -26,8 +26,8 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://mips64_cpu_detection.patch \
+            "
+-SRC_URI[md5sum] = "8f7f0a6c5d81ff20d9d65d000a6b419d"
+-SRC_URI[sha256sum] = "b95f0ae44798ab1434155ac7f81f30a7e9760a02282e4b5898372c22a335347b"
++SRC_URI[md5sum] = "dcc20dd2682ea01c678b7b8324339d43"
++SRC_URI[sha256sum] = "0c3020452880581a8face91595b239198078645e7d7184273b8bcc7758beb63d"
+ 
+ # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/show_bug.cgi?id=7717
+ ARM_INSTRUCTION_SET_armv4 = "arm"
+-- 
+2.17.1
 
 
