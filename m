@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
-	[209.85.128.43])
-	by mail.openembedded.org (Postfix) with ESMTP id E3E827D9CE
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C097B7D784
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 11:08:16 +0000 (UTC)
-Received: by mail-wm1-f43.google.com with SMTP id h18so19883170wml.1
+	Mon, 15 Apr 2019 13:20:21 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id q1so21968656wrp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 04:08:18 -0700 (PDT)
+	Mon, 15 Apr 2019 06:20:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=ffNmSTWJ8I6yuG3N0WswRrtwIJpbXip6SvWYKYRtvKY=;
-	b=aag6I2/69qeBq614SuCKTkV2laJtf4AfuNg7ut6LpGpiVizv0uQDeaNlPvEd8RzGEZ
-	CzHArMv2vwpimGci2w2cP/Qm2qJSVwAeG35CEZi+cjVybzEx2jKVXtmhz+67SWwxpQ1l
-	5OKLj4nVMETcLUoshm8fIXMewLpGIcJf9CFGo=
+	bh=h1qg9Evxan4G/eEkkxGDSP15LUSPlkqh/4BzuO2lRoE=;
+	b=NzSe5xBUh05u1FJ2Ge+HlDP7L8hbI6Kl1BTwjTxBkmDMOIEN67IJFLC82o7SXpVmDj
+	0QyZHbc7IBtlPRS8MqkhaAtnqbHRQVsD3pFlm774MeVu0qUeqc1lq+zDr43chyVJ2gEU
+	ql0u26vlGPEz/+QaHbQ3jQU5hlgKu7qcm4BNY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ffNmSTWJ8I6yuG3N0WswRrtwIJpbXip6SvWYKYRtvKY=;
-	b=I6vsDUpcV4rwasQj578+wf630ASIy8TfNFqJ7TegJEHMOpbJtAzgPWOWjlqfzwPyqy
-	rkeeo3OnR3pR60AQy0PL8qeY4GXk2iXQ2RM96nygjy5WKb+2eCIX8O0oBzLIIM22sU4D
-	ZqdrgZLJb4Ri+2tDmzPeyyfjrkWB8sgOV6tijbX82A/nTO0dOJXzrTd38lHnkGUQzn3C
-	9ncATDUvZK8Ug00KdM0kSn8fX1qa4gDaQynONUHrJHT7EyDldS0Dr9I9T/cBxFq2ePvY
-	kJ/3rbQfIkH40Yc7vYykUuNpvKxx70NRVXeTOv+oswTpoaejz/syjxiMPeDRLRfU2DMn
-	9SIA==
-X-Gm-Message-State: APjAAAXf0uZ4Uvv0XSBvhGK1g4cxIZfuFNLgx7nUcPTVVrjUaUof3yno
-	+vEoz+v5WREBimvLTnxDvyzOXQ==
-X-Google-Smtp-Source: APXvYqxCaYrkfcRdyjzipYfy7TEKjtvJp1hCPyEW06JhOBpD5zGus/fFwE/mv1kzPtEt3BWUwbWpPQ==
-X-Received: by 2002:a1c:cf0b:: with SMTP id f11mr21191100wmg.26.1555326497648; 
-	Mon, 15 Apr 2019 04:08:17 -0700 (PDT)
+	bh=h1qg9Evxan4G/eEkkxGDSP15LUSPlkqh/4BzuO2lRoE=;
+	b=ZeWAwlaf8Nlckk/B2cx9wPqyZpGS9J5Z14HoQ/fyXQjl8AebTvdn3vwaMKG81yLiJH
+	F0U3pMb+9GF5F/8os0vZnlk38RpklJOxsZF1/NkfYalxNBBAY2PUw46I2nKvqCwKPL4u
+	tnIlyivROYPhde5AMa6aLZM1X7R70Ro0KEQ68iz888u6/HF7awGWm9BCqT99MxelXMXK
+	WlHSIcrQvCXIaLmJ1M+Cv0Bx2LfZSUfdVmvFKgti4+1wK8+oTY6SEVQkXC2TguQrbNKM
+	+z6ittCXdNCiAy+MJuIpNUBWffAqaIjORYUZKrUxE1dH7/zbeAv4wWGYdvJ+c5mMmeY/
+	2utA==
+X-Gm-Message-State: APjAAAXOLVofOv/Zuhrx2+cIMQwVsR2ab/Z+8hwiOp8FtR88/slhReZ4
+	BSJBScqGeI3OkYlKPirjn6U32A==
+X-Google-Smtp-Source: APXvYqxHVZuuU/qEZQplrduvUm7eBP2yzKHYIjJgizVBAWJPXcpJUcF5JFD3NIhVVm0k+nEV1wqhgw==
+X-Received: by 2002:a5d:684e:: with SMTP id o14mr50949545wrw.138.1555334422362;
+	Mon, 15 Apr 2019 06:20:22 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z17sm21037295wmc.7.2019.04.15.04.08.16
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 15 Apr 2019 04:08:16 -0700 (PDT)
-Message-ID: <b7f0fbbdfd6b0523e521cdd7ff84d6b59554abeb.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
+	s10sm21837594wmh.0.2019.04.15.06.20.20
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 15 Apr 2019 06:20:21 -0700 (PDT)
+Message-ID: <a6d8db1cab09ee762353d355107975a59c74b67e.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 12:08:15 +0100
-In-Reply-To: <1555319122-215657-1-git-send-email-mingli.yu@windriver.com>
-References: <21cc3e7248d8e702f49de8818f26e2e53a001ed1.camel@linuxfoundation.org>
-	<1555319122-215657-1-git-send-email-mingli.yu@windriver.com>
+Date: Mon, 15 Apr 2019 14:20:19 +0100
+In-Reply-To: <1555060891-180878-1-git-send-email-mingli.yu@windriver.com>
+References: <1555060891-180878-1-git-send-email-mingli.yu@windriver.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] nettle: fix ptest failure
+Subject: Re: [PATCH] elfutils: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 11:08:17 -0000
+X-List-Received-Date: Mon, 15 Apr 2019 13:20:22 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-04-15 at 17:05 +0800, mingli.yu@windriver.com wrote:
-> @@ -33,6 +29,8 @@ EXTRA_OECONF = "--disable-openssl"
->  CFLAGS_append = " -std=c99"
->  
->  do_compile_ptest() {
-> +        # fix dlopen-test failure as cannot locate libnettle.so
-> +        sed -i 's;dlopen ("../libnettle.so", RTLD_NOW);dlopen
-> ("${libdir}/libnettle.so", RTLD_NOW);g' ${S}/testsuite/dlopen-test.c
->          oe_runmake buildtest
->  }
->  
-> @@ -49,4 +47,7 @@ do_install_ptest() {
->          install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
->  }
->  
-> +RDEPENDS_${PN}-ptest += "${PN}-dev"
-> +INSANE_SKIP_${PN}-ptest += "dev-deps"
-> +
->  BBCLASSEXTEND = "native nativesdk"
+On Fri, 2019-04-12 at 17:21 +0800, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+> 
+> Add testsuite-ignore-elflint.diff from debian
+> (
+> http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.176-1.debian.tar.xz
+> )
+> to fix below ptest failure:
+>  | ./run-strip-strmerge.sh: line 33: testrun_on_self_skip: command
+> not found
+>  | FAIL: run-strip-strmerge.sh
+> 
+> Add check for gcc for two test cases such as
+> run-strip-nothing.sh and run-strip-g.sh which
+> depends on gcc at run time.
 
-Does Adrian's suggestion of removing the "../" work? Also, can we
-install a symlink in do_install_ptest which this code would find? That
-would be less invasive and we could potentially remove the -dev package
-dependency which would be good from an image perspective.
+I'm afraid this doesn't work on musl:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/510
 
 Cheers,
 
