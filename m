@@ -1,50 +1,50 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 5598A7D915
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
+	[209.85.128.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A2C87D95C
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 Apr 2019 10:55:15 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id t17so21261612wrw.13
+Received: by mail-wm1-f49.google.com with SMTP id z6so5913217wmi.0
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 15 Apr 2019 03:55:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=DU/8k6znCJVVCDWbtQJfCnAepVTAPyCBxKf2r00E50E=;
-	b=BcR0GotHJAR+pLSw0ifKmnjLBlCSln2zfQfCHw02z2EqmZuS5zI+uv2BMoh0kKnFdr
-	4kQFfBABWOl2Fujn4ucpb0TqwPgk9oZWuH+ehHEyWw1UPgn/fZc0ojfEHKlrqvtZcmf1
-	GXjD162zkeQ+tc69g5JLyOB0nXNl59oKjDwSoOEBDUDUsbT/kxYIiGdF6vrwrqXhuWgd
-	kKazzWmveoyV8a/vtMAod0Ox7il6ATjeMnvtOA7h+VT90B9ChGhz8cwb0QHTLdzc6FOI
-	Nnmoiaa+AUe/hLfmdurBq3GhWgiqGAkxe4HCxIxzCifHNXU2Mt30/nNWPWOXdmERwbK/
-	fM/Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Yct0cRsP9g22il5bXx2ZThdJ+VyzCrexT6zKdwF25vM=;
+	b=KdCeLsl00YY8ytmEgdWazQAn5xuzcSe/xWjB9IxSNzo6qepqhXxCGbLVlFrfrt6ywC
+	CaVQMODyiM5n+3ZgcnCbBd2Vt0sOS+xXXoW47qDKn7Vik5P2aTjzfoH+cleEBHdiudr8
+	0fFSmg2CCp88O93XX9pg1RSNaihRHaxcSvfoo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=DU/8k6znCJVVCDWbtQJfCnAepVTAPyCBxKf2r00E50E=;
-	b=pu6pLfqiviYzRDQA1MkOEo5wu4B6PuEUfpVU/hWzUPWp9ru2/h90UzwgCDw2P0rNqs
-	WhvpOE/ULY9iENk2xALC2HCOKVuNY/R8ZyOFuvTPmIeDCyKYOcji0EyfTIfvmtNRhCfc
-	OS6KpTeSIqcbfRaxohBHYN6yCZOvcXtoytj1Q3ON8cdwf4Yimdlj1QBnj4ZodHgcPfGF
-	z5qXTvTtFYbJ+UQoUb2GMZ1r4k/iCoetr490eyifw18tEKOvYl890i/Nb124GGobWOET
-	0WlpILmSyelE5EtZYLt0r8rQo4BB/Sf8j6eGfuZxgEjtpGzdnveOne9WqR5BZp/b61ya
-	PY+A==
-X-Gm-Message-State: APjAAAV6BqshJQVeM6RODSr7U3eXKWskwnASiRtmP+mTHG2a/IWbFbkm
-	VXzAoh1ty//s24RkhuJQ4GH2QsBNMBA=
-X-Google-Smtp-Source: APXvYqxDVko8FkELhBhGicXLd2Ct1lSrRHd9Ph0mSDa4KNErNj9QOnBwNOSVJfreG+sIJA+qGF3Izg==
-X-Received: by 2002:adf:ea0b:: with SMTP id q11mr28148163wrm.233.1555325715873;
-	Mon, 15 Apr 2019 03:55:15 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Yct0cRsP9g22il5bXx2ZThdJ+VyzCrexT6zKdwF25vM=;
+	b=o/1ZUQHjpA2B1Sv/vXUr/T49ouNv03PjNCo1sy5hwXFeOe4depaGE/swh5ymDnVH2P
+	9G1wc6jITviF+MWoBRnrTo/6SuE1xlSPJpLPdXR1VYokJRBELlyitbKt06WOst/jY45V
+	ezAZPQGs3nPa0u/EqE48eUcBt/vH0oH9tFp6mtiLPUwklhyn4Mpi4y124RKIVV+ozAof
+	d3yEDd9tFroj6L24gxEGd9hgYeh4JQBUSyu5nRtWsmKd4B4k2+clKGIOVT1ktXezTvoN
+	Y8a5CCUvJ8zEvxQxWsuczeWWm7lJQIjiWZnyTixvNJrpK4HAP3ryEfBy70aJbsEx7Btq
+	Oz8w==
+X-Gm-Message-State: APjAAAV5ghvXXKoA0u3NnJBDQryki+JImi4ckFmC6/HK+6K8a+FVIRnX
+	x/xMWbNSCfj1pfHYsrosdTY9Pyvyro8=
+X-Google-Smtp-Source: APXvYqxrp7wRA6hh1ANvzlrfwshpzV4C9F3DwDDPQuILMYIfH6s3s8G03miahXfSib7EFARfzrCVvw==
+X-Received: by 2002:a1c:1dc3:: with SMTP id d186mr16442757wmd.64.1555325716337;
+	Mon, 15 Apr 2019 03:55:16 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o10sm75468400wru.54.2019.04.15.03.55.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	n6sm25631796wmn.48.2019.04.15.03.55.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Mon, 15 Apr 2019 03:55:15 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 15 Apr 2019 12:54:51 +0200
-Message-Id: <20190415105457.57067-13-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190415105457.57067-1-alex.kanavin@gmail.com>
-References: <20190415105457.57067-1-alex.kanavin@gmail.com>
-Subject: [PATCH 13/19] at-spi2-core: fix meson 0.50 build
+Message-ID: <ee713999139dd8576b9529685c5654850eb12bed.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yi Zhao <yi.zhao@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2019 11:55:14 +0100
+In-Reply-To: <1555308778-9316-1-git-send-email-yi.zhao@windriver.com>
+References: <1555308778-9316-1-git-send-email-yi.zhao@windriver.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH] harfbuzz: update SRC_URI[md5sum] and SRC_URI[sha256sum]
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,65 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 10:55:15 -0000
+X-List-Received-Date: Mon, 15 Apr 2019 10:55:16 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- .../atk/at-spi2-core/meson-0.50-fix.patch     | 31 +++++++++++++++++++
- .../atk/at-spi2-core_2.30.0.bb                |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-support/atk/at-spi2-core/meson-0.50-fix.patch
+On Mon, 2019-04-15 at 14:12 +0800, Yi Zhao wrote:
+> The previous md5sum and sha256sum are not correct.
+> See: 
+> https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-2.4.0.tar.bz2.sha256
+> 
+> Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> ---
+>  meta/recipes-graphics/harfbuzz/harfbuzz_2.4.0.bb | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/atk/at-spi2-core/meson-0.50-fix.patch b/meta/recipes-support/atk/at-spi2-core/meson-0.50-fix.patch
-new file mode 100644
-index 00000000000..fbdf7d0e2ea
---- /dev/null
-+++ b/meta/recipes-support/atk/at-spi2-core/meson-0.50-fix.patch
-@@ -0,0 +1,31 @@
-+From 44a812ea51223d82f21a098a2d45fcc5c329ce7a Mon Sep 17 00:00:00 2001
-+From: Tobias Stoeckmann <tobias@stoeckmann.org>
-+Date: Tue, 12 Mar 2019 11:46:24 +0100
-+Subject: [PATCH] Fix meson.build for meson 0.50.0.
-+
-+Since meson 0.50.0 it is not possible anymore to specify an
-+absolute directory for subdir. To keep current functionality,
-+use install_dir instead.
-+
-+atspi/meson.build:60:0: ERROR: Subdir keyword must not be an absolute path.
-+
-+Upstream-Status: Backport
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+Signed-off-by: Tobias Stoeckmann <tobias@stoeckmann.org>
-+---
-+ atspi/meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/atspi/meson.build b/atspi/meson.build
-+index b7a9357..2a6915d 100644
-+--- a/atspi/meson.build
-++++ b/atspi/meson.build
-+@@ -57,7 +57,7 @@ atspi_headers = [
-+ 
-+ atspi_includedir = join_paths(get_option('prefix'), get_option('includedir'), 'at-spi-2.0', 'atspi')
-+ 
-+-install_headers(atspi_headers, subdir: atspi_includedir)
-++install_headers(atspi_headers, install_dir: atspi_includedir)
-+ 
-+ atspi_enums = gnome.mkenums('atspi-enum-types',
-+                             sources: [ 'atspi-constants.h', 'atspi-types.h' ],
-diff --git a/meta/recipes-support/atk/at-spi2-core_2.30.0.bb b/meta/recipes-support/atk/at-spi2-core_2.30.0.bb
-index 06fb7195b64..36e8a9ef486 100644
---- a/meta/recipes-support/atk/at-spi2-core_2.30.0.bb
-+++ b/meta/recipes-support/atk/at-spi2-core_2.30.0.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=e9f288ba982d60518f375b5898283886"
- MAJ_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- 
- SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
-+           file://meson-0.50-fix.patch \
-            "
- 
- SRC_URI[md5sum] = "d4f22c66b3210ffe6b10d01c04e008b5"
--- 
-2.17.1
+I wanted to understand why this was. I've looked into it and upstream
+re-released the tarball.
+
+I've updated the commit message with more details and queued it in
+-next.
+
+Cheers,
+
+Richard
 
 
