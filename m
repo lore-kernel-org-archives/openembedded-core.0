@@ -1,41 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id BE67B7D716
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A53606C10F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 15 Apr 2019 16:21:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44jYft565NzFr;
-	Mon, 15 Apr 2019 18:21:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1555345320;
-	bh=XNbD3V2FEqJFQf54TaEiZ9VpWbzIl4hF2E0UkWqlRLw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lwLS4a3yRknTuPZhj1GmOl6caWorKanexYmSOeu1+d2LchGYkTClzaDBzR6tGNiDC
-	AThTHCamcvXhB/VnTbgjlFfz4YuRWaJTYmwid5FaDbiz06T7N3nTwEeGoxgdgzxhCZ
-	PrK0XrO4i4yQYSvdG5vA18z45U7+sNQZpcfniNh70w+PTqFQdcyGPMKQZrZgP7yA5L
-	lXyPHrPkGXZIteK4nyYGcajzMzA8fRwNlfyzECFr1Tnxh8IkGAzdNYjvY392nqQq16
-	5B0L4rJaBw09VkT0jMThHlKPMhvtpOlRp+I7LVYtCLwCttnkeq/rdPGHRz4uedWdhU
-	h87/PYS+vuMpaYH/dzjUzxTfQgernUCdICeSjbwuFPu7A4wAzh3KpubYqV52wrY6re
-	kafmhqezQGSt8WGfidkq26is/XgBlIT2RCQDRbOkhJ83XD2rbSbohV8DWA6fIRgXXT
-	qLk/dTa37J2Mtqzl4P56gH/ChWQvBBR4fjtRGYEjjJd92mcZL3xV8+Oha10InQHRqj
-	7Q+o8UmUfeUfBT1HUTLF/XPsxzpAlm7O3SFEl+xdEg2MCiZNAG1zOc8IR6vjmnhIm8
-	GmRZ3HgqoTXlqgKVmmN7TKuqly9BwP7ULLcAkp2V+s6XDbyfXnVb8FdQZkTB+EYX/l
-	bXqBazfqEf+FGpBJj1kXLmU0=
-Date: Mon, 15 Apr 2019 19:21:56 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190415162156.GA16706@localhost>
-References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
-	<1554777170-58044-1-git-send-email-mingli.yu@windriver.com>
-	<CAMKF1sq0wYPvJg1G5+cnY-6owi1K=Nc4bctXm3pcsbh1R5gpFA@mail.gmail.com>
-	<20190415093825.GB4317@localhost>
-	<CAMKF1sps-k6m=ZrpuMmhj23ZkmF8C=17hGPscRH-V0cagV-2rw@mail.gmail.com>
+	Mon, 15 Apr 2019 16:45:33 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id g3so22825465wrx.9
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 15 Apr 2019 09:45:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=NRYIbY+pkqcy97UZYIUCqzSMFYN5Jf5zLZATQA3NY7w=;
+	b=IVcsSKmAxqCWrN1jdOe0NkRHz6W33FNZh4arScKmcW3gYAL+JKfHvooeALpNsAyLCy
+	nbg9Uh5qx0BItVl15EIRpA9vYXAkv1/uqMqNNjWXKxVEsKbuzck4FziyZjj/6z1sTBp9
+	PUFbUzjZwRpd5KdkxF4diheDqmYNClAm5Y/dk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=NRYIbY+pkqcy97UZYIUCqzSMFYN5Jf5zLZATQA3NY7w=;
+	b=BdY9y5AnvVHyQT/p3uktq6qCnSfcX4UTA4GHkpF4oy6bSxRWphmhDx0NMvdkUkws3K
+	hUcTi+S0rSVL+JDAfSMfYqn/RpKAlogf4a+Ub1y8mlyEei50tfnQkM0dzc6hkxtJxl2k
+	myKmcDHQGBwDXYxh5lIJ+ACTWQcz20H83euUnfnS8FNWtwYz/j0wkd+XoLC1dxsHrPjx
+	cOJHl7LhqzM3H/Iiy1XlNV4vqBxGsmj1FVKPRBkn0Npnw8sBA/sVJoLSQ/Iq9hhi0uKB
+	riP4/HnRVBteMwZJYgZ23AUcNo5YnMG5x7MmC6cSgjYNhucDBq6ih28CCs14POJTmRha
+	9WYQ==
+X-Gm-Message-State: APjAAAWPSQwde7zR8q/KfdwZnR17H0iDl9rESunWsgJCbw7WV9pICYdu
+	W48nOGej0bnyitjTOSGbWOjzEA==
+X-Google-Smtp-Source: APXvYqwUHLIx8OalSnJQn39bBG88dqLXFLURJNQh0zKiQMzr4p5EAeKLVgxPF8NES4pgFsRoD84dHQ==
+X-Received: by 2002:a5d:4d49:: with SMTP id a9mr48648085wru.227.1555346734422; 
+	Mon, 15 Apr 2019 09:45:34 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	f15sm62962548wru.21.2019.04.15.09.45.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 15 Apr 2019 09:45:33 -0700 (PDT)
+Message-ID: <99b41243d8067275b52a17d01debdd42bf0fee78.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrey Zhizhikin <andrey.z@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 15 Apr 2019 17:45:31 +0100
+In-Reply-To: <CAHtQpK5ky=PfhuxTGaGkXTzxjevvQ9bD6yiTNkr9KwWL8buSRA@mail.gmail.com>
+References: <20190328094652.19336-1-andrey.z@gmail.com>
+	<CAHtQpK5ky=PfhuxTGaGkXTzxjevvQ9bD6yiTNkr9KwWL8buSRA@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sps-k6m=ZrpuMmhj23ZkmF8C=17hGPscRH-V0cagV-2rw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
+Subject: Re: [PATCH] package_ipk: handle exception for subprocess command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,42 +59,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 15 Apr 2019 16:22:00 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 15 Apr 2019 16:45:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 15, 2019 at 07:19:13AM -0700, Khem Raj wrote:
+On Sun, 2019-04-14 at 16:21 +0200, Andrey Zhizhikin wrote:
+> Ping.
 > 
-> What are you trying to convey ? That’s what I mentioned before I began my
-> reply however to reiterate my point was if a package is not usually built
-> and tested with this combination which is evident because it fails to build
-> then how good would it be if we fix this error especially complex packages
-> like compilers so is it worth to fix them or disable Og for them
+> On Thu, Mar 28, 2019 at 10:47 AM Andrey Zhizhikin <andrey.z@gmail.com
+> > wrote:
+> > When opkg-build command fails to execute, subprocess is returned
+> > with
+> > exception instead of printing to stderr. This causes the error
+> > logging
+> > not to be printed out, as the "finally" statement does not contain
+> > any
+> > bitbake error output.
+> > 
+> > One example of this behavior is when the package name contains
+> > uppercase
+> > character, which are rejected by opkg-build,
+> > subprocess.check_output
+> > would except and no error log would be produced.
+> > 
+> > This commit catches the exception subprocess.CalledProcessError and
+> > produces bb.error output visible to the user.
+> > 
+> > Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> > ---
+> >  meta/classes/package_ipk.bbclass | 2 ++
+> >  1 file changed, 2 insertions(+)
+> > 
+> > diff --git a/meta/classes/package_ipk.bbclass
+> > b/meta/classes/package_ipk.bbclass
+> > index d1b317b42b..f181f5b4fd 100644
+> > --- a/meta/classes/package_ipk.bbclass
+> > +++ b/meta/classes/package_ipk.bbclass
+> > @@ -234,6 +234,8 @@ def ipk_write_pkg(pkg, d):
+> >              ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname,
+> > ipkver, d.getVar('PACKAGE_ARCH'))
+> >              sign_ipk(d, ipk_to_sign)
+> > 
+> > +    except subprocess.CalledProcessError as exc:
+> > +        bb.error("OPKG Build failed: %s" % exc.output)
+> >      finally:
+> >          cleanupcontrol(root)
+> >          bb.utils.unlockfile(lf)
 
-Packages that usually get built and tested with -Og should be pretty rare,
-and these specific build failures are better at finding the rare packages
-that use -Werror than pointing at potential miscompilations.
+My main concern is why isn't the raised exception being caught and
+causing its own error...
 
-From a distribution point of view, a package build with -Werror by 
-default is arguably a bug since this frequently breaks when something
-is changed (usually the compiler version).
+This feels like a workaround rather than fixing the underlying problem
+which I suspect might be in the parallel execution code exception
+handling.
 
--Og is better suited than the -O that was previously used for debugging,
-but are we talking about debug builds or production builds?
-If users would be using DEBUG_OPTIMIZATION in production builds that 
-would be wrong - this will always be a mostly untested situation
-with an increased probability of hitting bugs noone else has seen
-before.
+Cheers,
 
-cu
-Adrian
+Richard
 
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
 
 
