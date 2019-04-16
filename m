@@ -1,37 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 40A977C4F9
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
+	[209.85.166.169])
+	by mail.openembedded.org (Postfix) with ESMTP id B81057D710
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 13:18:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44k5Xy5bQCz2s;
-	Tue, 16 Apr 2019 15:18:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1555420723;
-	bh=L46oP3KW87nCMYw0IEHU9gFAYeeJtsgVVcZaaDoFoLw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eCnmeue3j/ufRCzVYdWL3Y4/IAO2yknPBmaabqVue57sP05jPAKeW5ONkogPgObGH
-	IZTmz+Tfk21hkcAe4u5FdiYUF7XkWMjqnwq92LrNdhVmwDAR6fBwf41MKC+tMZwSq1
-	GDitkDYq5PfeDFBHxYEF7N0zK2OjEhYgBSFBkfLDgiI+KofGo4n86CnVCLtgkCg3qS
-	EMOhwykwIXyUnfUQQ4tEHztay8CcnuLCtB1noVKltIMalFEIxQE3SPNeZvgtzrnBRR
-	WC4Fi/J/U7LULaN29lJS+zcyF9Wz41i0XLrAszwofmT4f45nfF9aLgjD3RDCM/jOlw
-	Gotbx1MrkmnP7SLT7pfZEkj59oXPGt5tX+25aWyKsPCm+2wWB4rZQlhuFbtHhezbpn
-	HGyrej6KMzbPo80d7RWcuwDC+Shy8XOmHQRKvZAn7cxqepyqB4ao/MZ0h9zJceC9yr
-	OmWB+M569WEEGl7nfJpFyD5ApZMtG+iJXmMakLrMB0Ip/YZmvuF/VCFMV1g19wjjTY
-	4uiRwco6qco/GoLbmQ6s5rcNMKY3exiaPNP2USjGwNwW5jNNuI7ZZMRYcwF7ak2klh
-	w7kjrxnvkQChrXzcwlZ0E3CmlYwP2k9q7lGs4emX2maZ9Ehqg2C97UoTU83xNrStAF
-	J6JhT1IOfo7D8XlSXhMtJRvI=
-Date: Tue, 16 Apr 2019 16:18:39 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: changqing.li@windriver.com
-Message-ID: <20190416131839.GA29433@localhost>
-References: <1555408184-375724-1-git-send-email-changqing.li@windriver.com>
-	<1555408184-375724-2-git-send-email-changqing.li@windriver.com>
+	Tue, 16 Apr 2019 14:07:10 +0000 (UTC)
+Received: by mail-it1-f169.google.com with SMTP id q14so18133382itk.0
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Apr 2019 07:07:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MvsHdD/Cuar1MXEC4fJkX32CpOESMwXcRislMryyzqU=;
+	b=PHfxoJU8T+o3dBBjcA7A5nzOWip1ib74esNqoqTnyslHu5vwrRy9Ap2813L/yA9dL2
+	extBQUApL89aRSmwKx9M9g5IyV87x4KGwBVu3kmpjYA6JRWTMpaZ05tm/78bBYsXvpn1
+	hCP2VEDQ46GPO/k1UmW/xH8ITOLyqgHyY3KavK2GJDf94IAkKmDg64ecMdPIq1nhR5+Y
+	fryOsfMWNzkbh3biUvx06KCJf6IbDumkUgXTe9U1rCTt0JnXI8zqMlQQNBBqihqQ9w/w
+	nrvIWW283dTkIiNHxiRhBGm+t+j5LFgQuq4e16lJoxDG6ecaABKYVaoBMQwiTjU1BQDn
+	rtkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MvsHdD/Cuar1MXEC4fJkX32CpOESMwXcRislMryyzqU=;
+	b=cak7RQuvbiWfyYoHG+2cx66eHhJVLuoZspfZiq/YSaRy0MdVGQRQQCehE+PDTA4+ea
+	tgH08wdjP0PTYHpQUxD510AFz0M1ChU4BpF0V4wQU5GdRh4T9RsXIojz5vA0QJfB4WOQ
+	7A3mzb/QNjQCjLTB938uIcgouRrmy0GP83NSwFqyh4qZVPEGbOqwk9hQ6hg2JSLM+FSF
+	l8xDg5EKIiyidSZEnEgn1f9lg1LULjtrb2vl6vABH613hMkQuINJnVR0vMf0qGEhtMWl
+	dqsmy1W1Yjmtb47higootXJ46ssGQL4C8b3VOaQzr4Yzeu9oZJTtkHo3IrVUq4cX+pcv
+	0lbA==
+X-Gm-Message-State: APjAAAXXg5oIKqCqgTiyfyAqHtfHdl5IvzDCDIGqDvmb5VoIWDz2c3Jj
+	WFugUsiO4806POu0Nzc0ADqDcoXo5Q8=
+X-Google-Smtp-Source: APXvYqy5WfRhIojJ8Ok2BDnA0bLAyHohW11Ta2ck13+vnemGKfkmd3nDVTFW5Yu2BwvyuNzjFQ4RFw==
+X-Received: by 2002:a05:660c:b48:: with SMTP id
+	m8mr8348998itl.135.1555423631423; 
+	Tue, 16 Apr 2019 07:07:11 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	f132sm20131362ioa.76.2019.04.16.07.07.10
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 16 Apr 2019 07:07:10 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Apr 2019 09:07:02 -0500
+Message-Id: <20190416140702.13771-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1555408184-375724-2-git-send-email-changqing.li@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] glibc: Add a C.UTF-8 locale
+Subject: [PATCH] classes/waf: Set WAFLOCK
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,34 +59,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 13:18:43 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 16 Apr 2019 14:07:10 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 16, 2019 at 05:49:44PM +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
-> 
-> * This patch is get from fedora project, link:
-> https://src.fedoraproject.org/rpms/glibc/blob/0457f649e3fe6299efe384da13dfc923bbe65707/f/glibc-c-utf8-locale.patch
-> 
-> * At this point, most major distro have support this locale
->...
+Sets the WAFLOCK environment variable. This controls the name of the
+lock file that waf uses to pass the build configuration from 'configure'
+to 'build' and 'install'. Using a uniquely generated name based on the
+parameters passed to 'configure' ensures that the source directory can
+be configured for multiple different builds without conflicting (since
+the lock file is stored in ${S})
 
-Is there now agreement on the exact semantics of this locale?
-I remember this was a problem when it was suggested for upstream
-inclusion ~ 5 years ago.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/waf.bbclass | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-E.g. the Debian definition of C.UTF-8 is very different to and
-more than 10 times to size of the Fedora definition of C.UTF-8.
-
-cu
-Adrian
-
+diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
+index 8e6d754c299..900244004ec 100644
+--- a/meta/classes/waf.bbclass
++++ b/meta/classes/waf.bbclass
+@@ -5,6 +5,32 @@ B = "${WORKDIR}/build"
+ 
+ EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
+ 
++def waflock_hash(d):
++    # Calculates the hash used for the waf lock file. This should include
++    # all of the user controllable inputs passed to waf configure. Note
++    # that the full paths for ${B} and ${S} are used; this is OK and desired
++    # because a change to either of these should create a unique lock file
++    # to prevent collisions.
++    import hashlib
++    h = hashlib.sha512()
++    def update(name):
++        val = d.getVar(name)
++        if val is not None:
++            h.update(val.encode('utf-8'))
++    update('S')
++    update('B')
++    update('prefix')
++    update('EXTRA_OECONF')
++    return h.hexdigest()
++
++# Use WAFLOCK to specify a separate lock file. The build is already
++# sufficiently isolated by setting the output directory, this ensures that
++# bitbake won't step on toes of any other configured context in the source
++# directory (e.g. if the source is coming from externalsrc and was previously
++# configured elsewhere).
++export WAFLOCK = ".lock-waf_oe_${@waflock_hash(d)}_build"
++BB_HASHBASE_WHITELIST += "WAFLOCK"
++
+ python waf_preconfigure() {
+     import subprocess
+     from distutils.version import StrictVersion
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1
 
 
