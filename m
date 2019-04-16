@@ -1,64 +1,48 @@
-Return-Path: <alistair@alistair23.me>
-X-Greylist: delayed 62690 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 16 Apr 2019 06:29:06 UTC
-Received: from APC01-SG2-obe.outbound.protection.outlook.com
-	(mail-oln040092253018.outbound.protection.outlook.com [40.92.253.18])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EA287D27D
+Return-Path: <andrey.z@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8AAE67D6BB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 06:29:06 +0000 (UTC)
-Received: from PU1APC01FT020.eop-APC01.prod.protection.outlook.com
-	(10.152.252.52) by PU1APC01HT053.eop-APC01.prod.protection.outlook.com
-	(10.152.253.65) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1771.16;
-	Tue, 16 Apr 2019 03:56:09 +0000
-Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM (10.152.252.58) by
-	PU1APC01FT020.mail.protection.outlook.com (10.152.252.217) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.20.1771.16 via Frontend Transport; Tue, 16 Apr 2019 03:56:09 +0000
-Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
-	([fe80::a9fb:86c9:a1ef:59ec]) by PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
-	([fe80::a9fb:86c9:a1ef:59ec%5]) with mapi id 15.20.1792.020;
-	Tue, 16 Apr 2019 03:56:09 +0000
-From: Alistair Francis <alistair@alistair23.me>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] libsoup: Upgrade from 2.64.2 to 2.66.1
-Thread-Index: AQHU9AhT1L0x2BJ9pEWI79gri9dCjQ==
-Date: Tue, 16 Apr 2019 03:56:09 +0000
-Message-ID: <PSXP216MB02779648BB8675A09BDD2905DD240@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR08CA0007.namprd08.prod.outlook.com
-	(2603:10b6:a03:100::20) To PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
-	(2603:1096:300:a::18)
-x-incomingtopheadermarker: OriginalChecksum:81B88FF2563FD4CD33379CDD4D201B13E045D4ED35F4067E219BD89D90E0B3A1;
-	UpperCasedChecksum:A50CB11ECCE3FC7F03C8BF5A49228175F9C57C97CFC44A2BB0C1E31B1B473EA3;
-	SizeAsReceived:7453; Count:48
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.20.1
-x-tmn: [HDhG+NempeQUoZp3iAOhoOcqwIR/XKbEvuJjiAa0uBxiFGi/nyxZgD/Ql2JS0II2]
-x-microsoft-original-message-id: <20190416035556.16964-1-alistair@alistair23.me>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 48
-x-eopattributedmessage: 0
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031323274)(2017031324274)(2017031322404)(1601125500)(1603101475)(1701031045);
-	SRVR:PU1APC01HT053; 
-x-ms-traffictypediagnostic: PU1APC01HT053:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-message-info: VT2jlUl5GJuir+kRkaAsSCL/zJV33rrH9bIOHJNCYcErteQREU6ONg02z+diGZGDY3P7vwlA4ZE2N1H8C56xAwW7hKZN9oDsRFhyBU+gDu4uUBXZvWpWY9QRb54EKkyelXdhFYyEwamrrAjpmTjMzh2XPJ48UJgyfTG+NAyPIqM6CiAcKavCigricdtlgGqd
+	Tue, 16 Apr 2019 07:11:04 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id h18so23748056wml.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Apr 2019 00:11:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Mvi5pSsmztJOaxn31aIJFoPnPoNj7a6KqxJG0xmQWDA=;
+	b=W2idHMqIq71TpRWgtPoGQ8nU2x1sLNjWA0X32nWMGPa2Wa0v0JI5Xb8+ykrPZo8Nj9
+	7PL4yfz9+ARf+mLXrkFceluO55e0+E0r63N1JEDJuIll68trgoBYD+GfGn54rEzgh33j
+	dKP2aSY6LN3SCsDKw8fbJKfbTIOR+D9LKYS92mPjXRd+LLko9rcA7KbUkI5crqSt1NxA
+	tQT9R1eWoLy41a8BcmGAMIhoqwFTt2ocfhZL7Tngr1wRVEErLQWPDqXGEnNxkvtrgioY
+	4hsje+CuwDNHzdkIEEGCGC229IcHoqfvWN0laqwp3Y+oCJPrpFoFFQ35mKCpvfcXDXgy
+	jQjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Mvi5pSsmztJOaxn31aIJFoPnPoNj7a6KqxJG0xmQWDA=;
+	b=ihGvsGC54WKSupYAzav/25/d0953BEtj8RZ8U993kxV4h8Stwde8Avr8aumR6txyUb
+	jlekxzTY0fuT9riAFIa2rFyEtwdKRm9RNIM9UQggrIGPwKXJXNcLn427YDF8W5An3OxF
+	qadJzht7TAH4J1PW2ARWq3R0pdHUW/UB3jtOJrdvD47mo/OZYfxtmYtMAgCcmxDp7yhJ
+	QvClmAw6OMYr6ykZccQ5cNvtv+r1cqho8qtKYnCdvVV6SF5c+xcNdzrYKh70dlkjie02
+	Mf5KBy+KKCvc3uXBzWhBS/yZl8Jmr28qJq7rMupiN1P+zSSISjCI7DUwUzeI+biTPPLK
+	QByQ==
+X-Gm-Message-State: APjAAAVYvZlZUznRbuupBeAXDL8H2IHjWcVSPGBnE3Mb/Wivd7mZp+u9
+	zUcrU12fYgNKhWf+Wgl36We9xnDDh5vLJzagCgA=
+X-Google-Smtp-Source: APXvYqxOQET+aGCObJ/1C5uDOiTaDVRomKoLep/znBowIBLAzk+yHGSQdnEIDV1B8U8BAQJElGX3NjwUAd0GV6Q+VhA=
+X-Received: by 2002:a1c:ce:: with SMTP id 197mr25815681wma.105.1555398665272; 
+	Tue, 16 Apr 2019 00:11:05 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 148f6053-14b0-4fe8-5a2b-08d6c21f7557
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Apr 2019 03:56:09.3942 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT053
-Subject: [PATCH v2] libsoup: Upgrade from 2.64.2 to 2.66.1
+References: <20190328094652.19336-1-andrey.z@gmail.com>
+	<CAHtQpK5ky=PfhuxTGaGkXTzxjevvQ9bD6yiTNkr9KwWL8buSRA@mail.gmail.com>
+	<99b41243d8067275b52a17d01debdd42bf0fee78.camel@linuxfoundation.org>
+In-Reply-To: <99b41243d8067275b52a17d01debdd42bf0fee78.camel@linuxfoundation.org>
+From: Andrey Zhizhikin <andrey.z@gmail.com>
+Date: Tue, 16 Apr 2019 09:10:54 +0200
+Message-ID: <CAHtQpK4kHoMUZ=d416kKqv7FRgNZtp5BJURuJbjif=CAV+LEQQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] package_ipk: handle exception for subprocess command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -71,96 +55,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 06:29:07 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Apr 2019 07:11:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- ...no-introspection-when-cross-building.patch | 20 +++++++++++--------
- ...up-2.4_2.64.2.bb =3D> libsoup-2.4_2.66.1.bb} |  4 ++--
- 2 files changed, 14 insertions(+), 10 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.64.2.bb =3D> libsoup-2.=
-4_2.66.1.bb} (92%)
+On Mon, Apr 15, 2019 at 6:45 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Sun, 2019-04-14 at 16:21 +0200, Andrey Zhizhikin wrote:
+> > Ping.
+> >
+> > On Thu, Mar 28, 2019 at 10:47 AM Andrey Zhizhikin <andrey.z@gmail.com
+> > > wrote:
+> > > When opkg-build command fails to execute, subprocess is returned
+> > > with
+> > > exception instead of printing to stderr. This causes the error
+> > > logging
+> > > not to be printed out, as the "finally" statement does not contain
+> > > any
+> > > bitbake error output.
+> > >
+> > > One example of this behavior is when the package name contains
+> > > uppercase
+> > > character, which are rejected by opkg-build,
+> > > subprocess.check_output
+> > > would except and no error log would be produced.
+> > >
+> > > This commit catches the exception subprocess.CalledProcessError and
+> > > produces bb.error output visible to the user.
+> > >
+> > > Signed-off-by: Andrey Zhizhikin <andrey.z@gmail.com>
+> > > ---
+> > >  meta/classes/package_ipk.bbclass | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > >
+> > > diff --git a/meta/classes/package_ipk.bbclass
+> > > b/meta/classes/package_ipk.bbclass
+> > > index d1b317b42b..f181f5b4fd 100644
+> > > --- a/meta/classes/package_ipk.bbclass
+> > > +++ b/meta/classes/package_ipk.bbclass
+> > > @@ -234,6 +234,8 @@ def ipk_write_pkg(pkg, d):
+> > >              ipk_to_sign = "%s/%s_%s_%s.ipk" % (pkgoutdir, pkgname,
+> > > ipkver, d.getVar('PACKAGE_ARCH'))
+> > >              sign_ipk(d, ipk_to_sign)
+> > >
+> > > +    except subprocess.CalledProcessError as exc:
+> > > +        bb.error("OPKG Build failed: %s" % exc.output)
+> > >      finally:
+> > >          cleanupcontrol(root)
+> > >          bb.utils.unlockfile(lf)
+>
+> My main concern is why isn't the raised exception being caught and
+> causing its own error...
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-n=
-o-introspection-when-cross-building.patch b/meta/recipes-support/libsoup/li=
-bsoup-2.4/0001-Do-not-enforce-no-introspection-when-cross-building.patch
-index 72b029a80b..cd6de853e5 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-intro=
-spection-when-cross-building.patch
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-intro=
-spection-when-cross-building.patch
-@@ -1,24 +1,28 @@
--From 921888affe66953c92a08ae440e911b016b124be Mon Sep 17 00:00:00 2001
-+From 85f7b74fc602214297928afe09347c31d696173d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 15 Feb 2019 14:21:06 +0100
- Subject: [PATCH] Do not enforce no-introspection when cross-building
-=20
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+Signed-off-by: Alistair Francis <alistair@alistair23.me>
- ---
-  meson.build | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/meson.build b/meson.build
--index 5a92cda..cfb3520 100644
-+index 25887f9..6261a7c 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -262,7 +262,7 @@ enable_gnome =3D get_option('gnome') and host_machine.=
-system() !=3D 'windows'
-- #########################
-- # GObject introspection #
-- #########################
---enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found() and not meson.is_cross_build()
--+enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found()
-+@@ -281,7 +281,7 @@ enable_gnome =3D get_option('gnome') and host_machine.=
-system() !=3D 'windows'
-+ # FIXME: once we start to require meson 0.49.0+ and gnome-introspection 1=
-.58.1+
-+ # the we can enable the introspection even for the static build. See
-+ # https://github.com/mesonbuild/meson/pull/4478.
-+-enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found() and not meson.is_cross_build() and no=
-t is_static_library
-++enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found() and not is_static_library
- =20
-  ############
-  # Vala API #
-+--=20
-+2.20.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb b/meta/reci=
-pes-support/libsoup/libsoup-2.4_2.66.1.bb
-similarity index 92%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-index b095397ec2..99fb65844e 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-@@ -12,8 +12,8 @@ SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVa=
-r('PV').split('.')[1]}"
- SRC_URI =3D "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-Do-not-enforce-no-introspection-when-cross-building=
-.patch \
-            "
--SRC_URI[md5sum] =3D "cac755dc6c6acd6e0c70007f547548f5"
--SRC_URI[sha256sum] =3D "75ddc194a5b1d6f25033bb9d355f04bfe5c03e0e1c71ed0774=
-104457b3a786c6"
-+SRC_URI[md5sum] =3D "5f04c09a06f6dbe4c4d3f003992145ce"
-+SRC_URI[sha256sum] =3D "4a2cb6c1174540af13661636035992c2b179dfcb39f4d3fa7b=
-ee3c7e355c43ff"
-=20
- S =3D "${WORKDIR}/libsoup-${PV}"
-=20
---=20
-2.20.1
+The raised exception is actually caught by a finally: statement below,
+and the build gracefully terminates. The problem is that finally:
+block does not contain any valuable output to inform user what
+actually happened.
+subprocess.check_output() would throw this exception every time the
+command in sub-process is terminated with the error code, and since we
+do tell it to dump stderr -> stdout - the error message would be
+contained in the exception output.
+This additional handling of the subprocess.check_output() exception
+would extract the stdout from the failed process here and just shows
+to the user the actual output from command processing, so that he is
+aware what was wrong.
 
+The case where I personally needed it the most is when the package
+name contained upper and lower case characters, which were rejected by
+the opkg-build command and until I introduced the handler - I just had
+an erroneous build failure without any additional information on what
+went wrong.
+
+>
+> This feels like a workaround rather than fixing the underlying problem
+> which I suspect might be in the parallel execution code exception
+> handling.
+The exception from  subprocess.check_output() is actually expected and
+perfectly handled, so there is no problem with that. This patch would
+just deliver a bit more information in the output for user to react
+proper.
+>
+> Cheers,
+>
+> Richard
+>
+>
+
+-- 
+Regards,
+Andrey.
 
