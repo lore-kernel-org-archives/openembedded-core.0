@@ -1,30 +1,23 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1928E7C160
+Return-Path: <naveen.kumar.saini@intel.com>
+Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A93E7D351
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 03:10:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3G39Uh2029996
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 15 Apr 2019 20:09:40 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Mon, 15 Apr 2019 20:09:20 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <21cc3e7248d8e702f49de8818f26e2e53a001ed1.camel@linuxfoundation.org>
-	<1555319122-215657-1-git-send-email-mingli.yu@windriver.com>
-	<b7f0fbbdfd6b0523e521cdd7ff84d6b59554abeb.camel@linuxfoundation.org>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CB54879.2020303@windriver.com>
-Date: Tue, 16 Apr 2019 11:14:01 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
-MIME-Version: 1.0
-In-Reply-To: <b7f0fbbdfd6b0523e521cdd7ff84d6b59554abeb.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.194]
-Subject: Re: [PATCH v3] nettle: fix ptest failure
+	Tue, 16 Apr 2019 05:58:49 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	15 Apr 2019 22:58:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,355,1549958400"; d="scan'208";a="131750132"
+Received: from optimus-prime.png.intel.com ([172.30.199.130])
+	by orsmga007.jf.intel.com with ESMTP; 15 Apr 2019 22:58:49 -0700
+From: Naveen Saini <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Apr 2019 13:59:19 +0800
+Message-Id: <20190416055919.9090-1-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.17.0
+Subject: [PATCH] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,59 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 03:10:07 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 16 Apr 2019 05:58:50 -0000
 
+This provides git large file storage (lfs) extension.
 
+Include git-lfs conditionally. If git-lfs is present on host and repo
+has lfs pointers, then git-lfs will be used. If git-lfs is not present
+on host, it will be ignored.
 
-On 2019年04月15日 19:08, richard.purdie@linuxfoundation.org wrote:
-> On Mon, 2019-04-15 at 17:05 +0800, mingli.yu@windriver.com wrote:
->> @@ -33,6 +29,8 @@ EXTRA_OECONF = "--disable-openssl"
->>   CFLAGS_append = " -std=c99"
->>
->>   do_compile_ptest() {
->> +        # fix dlopen-test failure as cannot locate libnettle.so
->> +        sed -i 's;dlopen ("../libnettle.so", RTLD_NOW);dlopen
->> ("${libdir}/libnettle.so", RTLD_NOW);g' ${S}/testsuite/dlopen-test.c
->>           oe_runmake buildtest
->>   }
->>
->> @@ -49,4 +47,7 @@ do_install_ptest() {
->>           install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
->>   }
->>
->> +RDEPENDS_${PN}-ptest += "${PN}-dev"
->> +INSANE_SKIP_${PN}-ptest += "dev-deps"
->> +
->>   BBCLASSEXTEND = "native nativesdk"
->
-> Does Adrian's suggestion of removing the "../" work? Also, can we
+[YOCTO #13198]
 
-Yes, the Adrian's suggestion works. But I think it's also okay to update 
-the actual libnettle.so path in do_compile_ptest phase as we still need 
-an extra patch if use Adrian's suggestion.
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+---
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-> install a symlink in do_install_ptest which this code would find? That
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7f8b043cc4..d35a6f64d9 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -514,6 +514,9 @@ HOSTTOOLS_NONFATAL += "bzr"
+ # Used by ssh fetcher
+ HOSTTOOLS_NONFATAL += "scp"
+ 
++# Link to git-lfs if present
++HOSTTOOLS_NONFATAL += "git-lfs"
++
+ CCACHE ??= ""
+ 
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
+-- 
+2.17.0
 
-Install a symlink? Does it means nettle-ptest will provide libnettle.so?
-@@ -45,6 +49,7 @@ do_install_ptest() {
-          # tools can be found in PATH, not in ../tools/
-          sed -i -e 's|../tools/||' ${D}${PTEST_PATH}/testsuite/*-test
-          install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
-+        ln -s ${libdir}/libnettle.so.6.5 ${D}${PTEST_PATH}/libnettle.so
-  }
-
-
-> would be less invasive and we could potentially remove the -dev package
-> dependency which would be good from an image perspective.
-
-Just nettle-ptest rdepends on nettle-dev.
-
->
-> Cheers,
->
-> Richard
->
->
 
