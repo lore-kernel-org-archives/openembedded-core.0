@@ -1,57 +1,37 @@
-Return-Path: <enrico.scholz@sigma-chemnitz.de>
-Received: from mail.cvg.de (mail.cvg.de [193.158.56.148])
-	by mail.openembedded.org (Postfix) with ESMTP id D50877D848
+Return-Path: <zhengrq.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E5E57D744
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 11:02:52 +0000 (UTC)
-Received: from mail-mta-0.intern.sigma-chemnitz.de
-	(mail-mta-0.intern.sigma-chemnitz.de [192.168.12.76])
-	by mailout-1.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	x3GB2pW9022113
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK) for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 13:02:52 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sigma-chemnitz.de;
-	s=v2012061000; t=1555412572;
-	bh=1PEW7gmOgEWt52tof07QFxBgiyTVPbot+wMW0/kvef8=; l=471;
-	h=From:To:Cc:Subject:References:Date:In-Reply-To;
-	b=KmzDiRYDDEKSF4xK0Pa+ylWkqjUsk9qQtC7k5uq7vVPvWsh1kj7E1isxCPUBLMBJN
-	gPym6nPHrCJxWiAM7Ox0lGJ/BZ/jQHKf4z1x5jrwHp2Pd4w0dFbaxNuLg2CGOJlAKP
-	+YrwL6sIPr0+zuRfqrFfm0cVlaGH6Dcd4BwzRQWg=
-Received: from reddoxx.intern.sigma-chemnitz.de
-	(reddoxx.intern.sigma-chemnitz.de [192.168.0.193])
-	by mail-mta-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	x3GB1vpT023533 for <openembedded-core@lists.openembedded.org> from
-	enrico.scholz@sigma-chemnitz.de; Tue, 16 Apr 2019 13:02:03 +0200
-Received: from mail-msa-0.intern.sigma-chemnitz.de ( [192.168.12.77]) by
-	reddoxx.intern.sigma-chemnitz.de
-	(Reddoxx engine) with SMTP id 86EC0907DF3;
-	Tue, 16 Apr 2019 13:01:56 +0200
-Received: from ensc-virt.intern.sigma-chemnitz.de
-	(ensc-virt.intern.sigma-chemnitz.de [192.168.3.24])
-	by mail-msa-0.intern.sigma-chemnitz.de (8.14.7/8.14.7) with ESMTP id
-	x3GB1tqp023521
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NO) for <openembedded-core@lists.openembedded.org> from
-	ensc@sigma-chemnitz.de; Tue, 16 Apr 2019 13:01:56 +0200
-Received: from ensc by ensc-virt.intern.sigma-chemnitz.de with local (Exim
-	4.92) (envelope-from <ensc@sigma-chemnitz.de>)
-	id 1hGLqd-001O1Q-Ak; Tue, 16 Apr 2019 13:01:55 +0200
-From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-To: Richard Purdie
-	<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-References: <1555408184-375724-1-git-send-email-changqing.li@windriver.com>
-	<6ca03a74bb0c22fb2f483afac0d9e8ec13d6e29d.camel@linuxfoundation.org>
-Mail-Followup-To: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Date: Tue, 16 Apr 2019 13:01:55 +0200
-In-Reply-To: <6ca03a74bb0c22fb2f483afac0d9e8ec13d6e29d.camel@linuxfoundation.org>
-	(Richard Purdie's message of "Tue, 16 Apr 2019 11:22:39 +0100")
-Message-ID: <lytveymcws.fsf@ensc-virt.intern.sigma-chemnitz.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	Tue, 16 Apr 2019 11:16:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,357,1549900800"; d="scan'208";a="59438126"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 16 Apr 2019 19:16:47 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7A8314CD80C7
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Apr 2019 19:16:44 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
+	14.03.0439.000; Tue, 16 Apr 2019 19:16:49 +0800
+From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2] dnf: Enable nativesdk
+Thread-Index: AQHU8briPCTAp9HdGUWwMDUYh/3paqY+p/eA
+Date: Tue, 16 Apr 2019 11:16:48 +0000
+Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B1C13A5C@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1555166150-57588-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+In-Reply-To: <1555166150-57588-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.35]
 MIME-Version: 1.0
-Sender: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Cc: changqing.li-CWA4WttNNZF54TAoqtyWWQ@public.gmane.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] systemd: change default locale from C.UTF-8 to C
+X-yoursite-MailScanner-ID: 7A8314CD80C7.A7453
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH v2] dnf: Enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,24 +44,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 11:02:53 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Apr 2019 11:16:48 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-Richard Purdie
-<richard.purdie-hQyY1W1yCW8ekmWlsbkhG0B+6BGkLq7r@public.gmane.org>
-writes:
-
->> current default locale is set to C.UTF-8, but glibc not support
->> locale C.UTF-8. so set to the default locale C.
->
-> Doesn't your second patch mean we don't need this one?
-
-C.UTF-8 instead of plain C has runtime costs because additional files
-need to be read by services.
-
-imo, plain C should be a PACKAGE_CONFIG option which is enabled by
-default.
-
-
-Enrico
+UGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
+TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
+Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
+bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
+ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
+DQo+IEZyb206IFpoZW5nLCBSdW9xaW4v1qMgyPTH1Q0KPiBTZW50OiBTYXR1
+cmRheSwgQXByaWwgMTMsIDIwMTkgMTA6MzYgUE0NCj4gVG86IG9wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IFpoZW5n
+LCBSdW9xaW4v1qMgyPTH1SA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29t
+Pg0KPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIHYyXSBkbmY6IEVuYWJs
+ZSBuYXRpdmVzZGsNCj4gDQo+IE1ha2UgZG5mIHdvcmsgb24gbmF0aXZlc2Rr
+IGVudmlyb25tZW50Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogWmhlbmcgUnVv
+cWluIDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+IC0tLQ0KPiAg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmZfNC4xLjAuYmIgfCAxMCAr
+KysrKysrKystDQo+ICAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCsp
+LCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2RuZi9kbmZfNC4xLjAuYmIgYi9tZXRhL3JlY2lwZXMt
+DQo+IGRldnRvb2xzL2RuZi9kbmZfNC4xLjAuYmINCj4gaW5kZXggZDQ1MDIz
+ZS4uOGI0MjkxYSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL2RuZi9kbmZfNC4xLjAuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2RuZi9kbmZfNC4xLjAuYmINCj4gQEAgLTI2LDcgKzI2LDcgQEAg
+RVhUUkFfT0VDTUFLRSA9ICIgLURXSVRIX01BTj0wIC0NCj4gRFBZVEhPTl9J
+TlNUQUxMX0RJUj0ke1BZVEhPTl9TSVRFUEFDS0FHRVNfRElSfSAtDQo+IA0K
+PiAgQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIg0KPiANCj4g
+LVJERVBFTkRTXyR7UE59X2NsYXNzLXRhcmdldCArPSAiIFwNCj4gK1JERVBF
+TkRTXyR7UE59ICs9ICIgXA0KPiAgICBweXRob24zLWNvcmUgXA0KPiAgICBw
+eXRob24zLWNvZGVjcyBcDQo+ICAgIHB5dGhvbjMtbmV0Y2xpZW50IFwNCj4g
+QEAgLTQ5LDYgKzQ5LDggQEAgUkRFUEVORFNfJHtQTn1fY2xhc3MtdGFyZ2V0
+ICs9ICIgXA0KPiAgICBweXRob24zLWdwZyBcDQo+ICAgICINCj4gDQo+ICtS
+REVQRU5EU18ke1BOfV9jbGFzcy1uYXRpdmUgPSAiIg0KPiArDQo+ICBSUkVD
+T01NRU5EU18ke1BOfV9jbGFzcy10YXJnZXQgKz0gImdudXBnIg0KPiANCj4g
+ICMgQ3JlYXRlIGEgc3ltbGluayBjYWxsZWQgJ2RuZicgYXMgJ21ha2UgaW5z
+dGFsbCcgZG9lcyBub3QgZG8gaXQsIGJ1dCBAQCAtNjYsNg0KPiArNjgsMTIg
+QEAgZG9faW5zdGFsbF9hcHBlbmRfY2xhc3MtbmF0aXZlKCkgew0KPiAgICAg
+ICAgICAgICAgICAgIFJQTV9OT19DSFJPT1RfRk9SX1NDUklQVFM9MSAgfQ0K
+PiANCj4gK2RvX2luc3RhbGxfYXBwZW5kX2NsYXNzLW5hdGl2ZXNkaygpIHsN
+Cj4gKyAgICAgICAgY3JlYXRlX3dyYXBwZXIgJHtEfS8ke2JpbmRpcn0vZG5m
+IFwNCj4gKyAgICAgICAgICAgICAgICBSUE1fQ09ORklHRElSPSR7U0RLUEFU
+SE5BVElWRX0ke2xpYmRpcl9uYXRpdmVzZGt9L3JwbSBcDQo+ICsgICAgICAg
+ICAgICAgICAgUlBNX05PX0NIUk9PVF9GT1JfU0NSSVBUUz0xIH0NCj4gKw0K
+PiAgU1lTVEVNRF9TRVJWSUNFXyR7UE59ID0gImRuZi1tYWtlY2FjaGUuc2Vy
+dmljZSBkbmYtbWFrZWNhY2hlLnRpbWVyIFwNCj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgICBkbmYtYXV0b21hdGljLnNlcnZpY2UgZG5mLWF1dG9tYXRp
+Yy50aW1lciBcDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgZG5mLWF1
+dG9tYXRpYy1kb3dubG9hZC5zZXJ2aWNlIGRuZi1hdXRvbWF0aWMtZG93bmxv
+YWQudGltZXIgXA0KPiAtLQ0KPiAxLjguMy4xDQoNCgoK
 
