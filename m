@@ -1,26 +1,50 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FA887D71F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 745FA7D723
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 09:50:17 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3G9nvud007329
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 16 Apr 2019 10:22:41 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id h18so24612902wml.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 02:50:08 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 16 Apr 2019 02:49:47 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 16 Apr 2019 17:49:44 +0800
-Message-ID: <1555408184-375724-2-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue, 16 Apr 2019 03:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=jbx3QIubDDYiMLM6hGI/8oqZtYt9Yo9avaXvAD36JV4=;
+	b=XS86v2tdBGLVT5+zsBRRJfbb0kaJbXfb8xx+XbZsQx8t0KfuNP7nG7zm/xxM6efg65
+	Tw4TTpxHFnCpWaDfefHcg3PhL3/O+08J1qlk0h/sN1brB+vdH1LgilXEXJR9VZ8HBSj3
+	Vx9OA9XdQTq2VRWIKDh3k0bx1BaEeLMxGvG9E=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=jbx3QIubDDYiMLM6hGI/8oqZtYt9Yo9avaXvAD36JV4=;
+	b=rJcCeloMTD+Bau6bTz7CKWIeF/S+WIxbk88ywctnGcV4V7JPe8OOseK99IaFaMIlEb
+	YRQrTjftNoT/l6HHv6TxBuJY334UV8zoBcgVU7jtho533KqZlVjL/ZqpkO5feucOzFfH
+	0d9vNJsLPHL0ZaWVURVhVDM8wf1P5AgaxN7Vm6uaXvH7Y07JtYCna9sMfcR2tNZrmtSC
+	SgKH+FgUlM9BwwRlrBahDKEMIpzb60YuDZoomKhadu6t0mljjj4FKrat/i9+6IWM/8vy
+	/gPbzO1jaNQcUbREcMWF4PGZjft4u8dG0+E7hHyuo9oUwsqts22yEBoXf7RsnkAidhke
+	wnIw==
+X-Gm-Message-State: APjAAAVEyhCIcHYtxhNydjzAFtv+BSln+4wEuy+K+T+6yjeracBws0Ok
+	lbBnDHC5qTPjWJsMC/HW8Q5lSIQttqA=
+X-Google-Smtp-Source: APXvYqyyK+lY3NuMjPIjNOrRXlMeIWZDt4ZbFfFi73JkTwoouDY5O4fXCrNhN48Vnz3vDPBYb/yQ/Q==
+X-Received: by 2002:a1c:9c14:: with SMTP id f20mr25753977wme.16.1555410162164; 
+	Tue, 16 Apr 2019 03:22:42 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t81sm41529762wmb.5.2019.04.16.03.22.40
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 16 Apr 2019 03:22:41 -0700 (PDT)
+Message-ID: <6ca03a74bb0c22fb2f483afac0d9e8ec13d6e29d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: changqing.li@windriver.com, openembedded-core@lists.openembedded.org
+Date: Tue, 16 Apr 2019 11:22:39 +0100
 In-Reply-To: <1555408184-375724-1-git-send-email-changqing.li@windriver.com>
 References: <1555408184-375724-1-git-send-email-changqing.li@windriver.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: [PATCH 2/2] glibc: Add a C.UTF-8 locale
+Subject: Re: [PATCH 1/2] systemd: change default locale from C.UTF-8 to C
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,318 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 09:50:17 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 16 Apr 2019 10:22:41 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Changqing Li <changqing.li@windriver.com>
+On Tue, 2019-04-16 at 17:49 +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> current default locale is set to C.UTF-8, but glibc not support
+> locale C.UTF-8. so set to the default locale C.
+> 
+> [snip]
+>         if not meson.is_cross_build()
+>                 choose_default_locale_sh =
+> find_program('tools/choose-default-locale.sh')
+>                 default_locale =
+> run_command(choose_default_locale_sh).stdout().strip()
+>         else
+>                 default_locale = 'C.UTF-8'
+>         endif
+> 
+> if default locale set to C.UTF-8, it will cause libpcre ptest fail:
+> 
+>   re> //8+L
+> ** Failed to set locale ""
 
-* This patch is get from fedora project, link:
-https://src.fedoraproject.org/rpms/glibc/blob/0457f649e3fe6299efe384da13dfc923bbe65707/f/glibc-c-utf8-locale.patch
+Doesn't your second patch mean we don't need this one?
 
-* At this point, most major distro have support this locale
+Cheers,
 
-* refer:
-https://sourceware.org/bugzilla/show_bug.cgi?id=17318
-https://sourceware.org/glibc/wiki/Proposals/C.UTF-8
-https://bugs.python.org/issue19846
-https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=636086
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- .../glibc/glibc/Add-a-C.UTF-8-locale.patch         | 270 +++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.29.bb              |   1 +
- 2 files changed, 271 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/Add-a-C.UTF-8-locale.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/Add-a-C.UTF-8-locale.patch b/meta/recipes-core/glibc/glibc/Add-a-C.UTF-8-locale.patch
-new file mode 100644
-index 0000000..77b3ebd
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/Add-a-C.UTF-8-locale.patch
-@@ -0,0 +1,270 @@
-+>From 2eda7b462b415105f5a05c1323372d4e39d46439 Mon Sep 17 00:00:00 2001
-+From: Mike FABIAN <mfabian@redhat.com>
-+Date: Mon, 10 Aug 2015 15:58:12 +0200
-+Subject: [PATCH] Add a C.UTF-8 locale
-+
-+---
-+ localedata/SUPPORTED |   1 +
-+ localedata/locales/C | 238 +++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 239 insertions(+)
-+ create mode 100644 localedata/locales/C
-+
-+diff --git a/localedata/SUPPORTED b/localedata/SUPPORTED
-+index 8ca023e..2a78391 100644
-+--- a/localedata/SUPPORTED
-++++ b/localedata/SUPPORTED
-+@@ -1,6 +1,7 @@
-+ # This file names the currently supported and somewhat tested locales.
-+ # If you have any additions please file a glibc bug report.
-+ SUPPORTED-LOCALES=\
-++C.UTF-8/UTF-8 \
-+ aa_DJ.UTF-8/UTF-8 \
-+ aa_DJ/ISO-8859-1 \
-+ aa_ER/UTF-8 \
-+diff --git a/localedata/locales/C b/localedata/locales/C
-+new file mode 100644
-+index 0000000..fdf460e
-+--- /dev/null
-++++ b/localedata/locales/C
-+@@ -0,0 +1,238 @@
-++escape_char /
-++comment_char %
-++% Locale for C locale in UTF-8
-++
-++LC_IDENTIFICATION
-++title      "C locale"
-++source     ""
-++address    ""
-++contact    ""
-++email      "mfabian@redhat.com"
-++tel        ""
-++fax        ""
-++language   "C"
-++territory  ""
-++revision   "1.0"
-++date       "2015-08-10"
-++%
-++category  "C:2015";LC_IDENTIFICATION
-++category  "C:2015";LC_CTYPE
-++category  "C:2015";LC_COLLATE
-++category  "C:2015";LC_TIME
-++category  "C:2015";LC_NUMERIC
-++category  "C:2015";LC_MONETARY
-++category  "C:2015";LC_MESSAGES
-++category  "C:2015";LC_PAPER
-++category  "C:2015";LC_NAME
-++category  "C:2015";LC_ADDRESS
-++category  "C:2015";LC_TELEPHONE
-++category  "C:2015";LC_MEASUREMENT
-++END LC_IDENTIFICATION
-++
-++LC_CTYPE
-++copy "i18n"
-++
-++translit_start
-++include "translit_combining";""
-++translit_end
-++
-++END LC_CTYPE
-++
-++LC_COLLATE
-++order_start forward
-++<U0000>
-++..
-++<UFFFF>
-++<U10000>
-++..
-++<U1FFFF>
-++<U20000>
-++..
-++<U2FFFF>
-++<UE0000>
-++..
-++<UEFFFF>
-++<UF0000>
-++..
-++<UFFFFF>
-++<U100000>
-++..
-++<U10FFFF>
-++UNDEFINED
-++order_end
-++END LC_COLLATE
-++
-++LC_MONETARY
-++% This is the 14652 i18n fdcc-set definition for
-++% the LC_MONETARY category
-++% (except for the int_curr_symbol and currency_symbol, they are empty in
-++% the 14652 i18n fdcc-set definition and also empty in
-++% glibc/locale/C-monetary.c. But localedef complains in that case).
-++%
-++% Using "USD" for int_curr_symbol. But maybe "XXX" would be better?
-++% XXX is "No currency" (https://en.wikipedia.org/wiki/ISO_4217)
-++int_curr_symbol     "<U0055><U0053><U0044><U0020>"
-++% Using "$" for currency_symbol. But maybe <U00A4> would be better?
-++% U+00A4 is the "generic currency symbol"
-++% (https://en.wikipedia.org/wiki/Currency_sign_%28typography%29)
-++currency_symbol     "<U0024>"
-++mon_decimal_point   "<U002E>"
-++mon_thousands_sep   ""
-++mon_grouping        -1
-++positive_sign       ""
-++negative_sign       "<U002D>"
-++int_frac_digits     -1
-++frac_digits         -1
-++p_cs_precedes       -1
-++int_p_sep_by_space  -1
-++p_sep_by_space      -1
-++n_cs_precedes       -1
-++int_n_sep_by_space  -1
-++n_sep_by_space      -1
-++p_sign_posn         -1
-++n_sign_posn         -1
-++%
-++END LC_MONETARY
-++
-++LC_NUMERIC
-++% This is the POSIX Locale definition for
-++% the LC_NUMERIC category.
-++%
-++decimal_point   "<U002E>"
-++thousands_sep   ""
-++grouping        -1
-++END LC_NUMERIC
-++
-++LC_TIME
-++% This is the POSIX Locale definition for
-++% the LC_TIME category.
-++%
-++% Abbreviated weekday names (%a)
-++abday       "<U0053><U0075><U006E>";"<U004D><U006F><U006E>";/
-++            "<U0054><U0075><U0065>";"<U0057><U0065><U0064>";/
-++            "<U0054><U0068><U0075>";"<U0046><U0072><U0069>";/
-++            "<U0053><U0061><U0074>"
-++
-++% Full weekday names (%A)
-++day         "<U0053><U0075><U006E><U0064><U0061><U0079>";/
-++            "<U004D><U006F><U006E><U0064><U0061><U0079>";/
-++            "<U0054><U0075><U0065><U0073><U0064><U0061><U0079>";/
-++            "<U0057><U0065><U0064><U006E><U0065><U0073><U0064><U0061><U0079>";/
-++            "<U0054><U0068><U0075><U0072><U0073><U0064><U0061><U0079>";/
-++            "<U0046><U0072><U0069><U0064><U0061><U0079>";/
-++            "<U0053><U0061><U0074><U0075><U0072><U0064><U0061><U0079>"
-++
-++% Abbreviated month names (%b)
-++abmon       "<U004A><U0061><U006E>";"<U0046><U0065><U0062>";/
-++            "<U004D><U0061><U0072>";"<U0041><U0070><U0072>";/
-++            "<U004D><U0061><U0079>";"<U004A><U0075><U006E>";/
-++            "<U004A><U0075><U006C>";"<U0041><U0075><U0067>";/
-++            "<U0053><U0065><U0070>";"<U004F><U0063><U0074>";/
-++            "<U004E><U006F><U0076>";"<U0044><U0065><U0063>"
-++
-++% Full month names (%B)
-++mon         "<U004A><U0061><U006E><U0075><U0061><U0072><U0079>";/
-++            "<U0046><U0065><U0062><U0072><U0075><U0061><U0072><U0079>";/
-++            "<U004D><U0061><U0072><U0063><U0068>";/
-++            "<U0041><U0070><U0072><U0069><U006C>";/
-++            "<U004D><U0061><U0079>";/
-++            "<U004A><U0075><U006E><U0065>";/
-++            "<U004A><U0075><U006C><U0079>";/
-++            "<U0041><U0075><U0067><U0075><U0073><U0074>";/
-++            "<U0053><U0065><U0070><U0074><U0065><U006D><U0062><U0065><U0072>";/
-++            "<U004F><U0063><U0074><U006F><U0062><U0065><U0072>";/
-++            "<U004E><U006F><U0076><U0065><U006D><U0062><U0065><U0072>";/
-++            "<U0044><U0065><U0063><U0065><U006D><U0062><U0065><U0072>"
-++
-++% Week description, consists of three fields:
-++% 1. Number of days in a week.
-++% 2. Gregorian date that is a first weekday (19971130 for Sunday, 19971201 for Monday).
-++% 3. The weekday number to be contained in the first week of the year.
-++%
-++% ISO 8601 conforming applications should use the values 7, 19971201 (a
-++% Monday), and 4 (Thursday), respectively.
-++week    7;19971201;4
-++first_weekday	1
-++first_workday	1
-++
-++% Appropriate date and time representation (%c)
-++%	"%a %b %e %H:%M:%S %Y"
-++d_t_fmt "<U0025><U0061><U0020><U0025><U0062><U0020><U0025><U0065><U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053><U0020><U0025><U0059>"
-++
-++% Appropriate date representation (%x)
-++%	"%m/%d/%y"
-++d_fmt   "<U0025><U006D><U002F><U0025><U0064><U002F><U0025><U0079>"
-++
-++% Appropriate time representation (%X)
-++%	"%H:%M:%S"
-++t_fmt   "<U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053>"
-++
-++% Appropriate AM/PM time representation (%r)
-++%	"%I:%M:%S %p"
-++t_fmt_ampm "<U0025><U0049><U003A><U0025><U004D><U003A><U0025><U0053><U0020><U0025><U0070>"
-++
-++% Equivalent of AM/PM (%p)      "AM"/"PM"
-++%
-++am_pm	"<U0041><U004D>";"<U0050><U004D>"
-++
-++% Appropriate date representation (date(1))   "%a %b %e %H:%M:%S %Z %Y"
-++date_fmt	"<U0025><U0061><U0020><U0025><U0062><U0020><U0025><U0065><U0020><U0025><U0048><U003A><U0025><U004D><U003A><U0025><U0053><U0020><U0025><U005A><U0020><U0025><U0059>"
-++END LC_TIME
-++
-++LC_MESSAGES
-++% This is the POSIX Locale definition for
-++% the LC_NUMERIC category.
-++%
-++yesexpr "<U005E><U005B><U0079><U0059><U005D>"
-++noexpr  "<U005E><U005B><U006E><U004E><U005D>"
-++yesstr  "<U0059><U0065><U0073>"
-++nostr   "<U004E><U006F>"
-++END LC_MESSAGES
-++
-++LC_PAPER
-++% This is the ISO/IEC 14652 "i18n" definition for
-++% the LC_PAPER category.
-++% (A4 paper, this is also used in the built in C/POSIX
-++% locale in glibc/locale/C-paper.c)
-++height   297
-++width    210
-++END LC_PAPER
-++
-++LC_NAME
-++% This is the ISO/IEC 14652 "i18n" definition for
-++% the LC_NAME category.
-++% "%p%t%g%t%m%t%f"
-++% (also used in the built in C/POSIX locale in glibc/locale/C-name.c)
-++name_fmt    "<U0025><U0070><U0025><U0074><U0025><U0067><U0025><U0074>/
-++<U0025><U006D><U0025><U0074><U0025><U0066>"
-++END LC_NAME
-++
-++LC_ADDRESS
-++% This is the ISO/IEC 14652 "i18n" definition for
-++% the LC_ADDRESS category.
-++% "%a%N%f%N%d%N%b%N%s %h %e %r%N%C-%z %T%N%c%N"
-++% (also used in the built in C/POSIX locale in glibc/locale/C-address.c)
-++postal_fmt    "<U0025><U0061><U0025><U004E><U0025><U0066><U0025><U004E>/
-++<U0025><U0064><U0025><U004E><U0025><U0062><U0025><U004E><U0025><U0073>/
-++<U0020><U0025><U0068><U0020><U0025><U0065><U0020><U0025><U0072><U0025>/
-++<U004E><U0025><U0043><U002D><U0025><U007A><U0020><U0025><U0054><U0025>/
-++<U004E><U0025><U0063><U0025><U004E>"
-++END LC_ADDRESS
-++
-++LC_TELEPHONE
-++% This is the ISO/IEC 14652 "i18n" definition for
-++% the LC_TELEPHONE category.
-++% "+%c %a %l"
-++tel_int_fmt    "<U002B><U0025><U0063><U0020><U0025><U0061><U0020><U0025>/
-++<U006C>"
-++% (also used in the built in C/POSIX locale in glibc/locale/C-telephone.c)
-++END LC_TELEPHONE
-++
-++LC_MEASUREMENT
-++% This is the ISO/IEC 14652 "i18n" definition for
-++% the LC_MEASUREMENT category.
-++% (same as in the built in C/POSIX locale in glibc/locale/C-measurement.c)
-++%metric
-++measurement    1
-++END LC_MEASUREMENT
-++
-+-- 
-+2.4.3
-+
-diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
-index 9184c59..3c2dfa0 100644
---- a/meta/recipes-core/glibc/glibc_2.29.bb
-+++ b/meta/recipes-core/glibc/glibc_2.29.bb
-@@ -56,6 +56,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0030-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
-            file://0001-x86-64-memcmp-Use-unsigned-Jcc-instructions-on-size-.patch \
-            file://CVE-2019-9169.patch \
-+           file://Add-a-C.UTF-8-locale.patch \
- "
- 
- S = "${WORKDIR}/git"
--- 
-2.7.4
+Richard
 
 
