@@ -1,37 +1,31 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E5E57D744
+Return-Path: <john.ernberg@actia.se>
+X-Greylist: delayed 901 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 16 Apr 2019 12:17:06 UTC
+Received: from mail.actia.se (mail.actia.se [195.67.112.82])
+	by mail.openembedded.org (Postfix) with ESMTP id 11F327D6BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 11:16:47 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,357,1549900800"; d="scan'208";a="59438126"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 16 Apr 2019 19:16:47 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 7A8314CD80C7
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 19:16:44 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0439.000; Tue, 16 Apr 2019 19:16:49 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
+	Tue, 16 Apr 2019 12:17:06 +0000 (UTC)
+Received: from S036ANL.actianordic.se (192.168.16.117) by
+	S036ANL.actianordic.se (192.168.16.117) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+	15.1.1713.5; Tue, 16 Apr 2019 14:02:04 +0200
+Received: from S036ANL.actianordic.se ([fe80::e13e:1feb:4ea6:ec69]) by
+	S036ANL.actianordic.se ([fe80::e13e:1feb:4ea6:ec69%3]) with mapi id
+	15.01.1713.004; Tue, 16 Apr 2019 14:02:04 +0200
+From: John Ernberg <john.ernberg@actia.se>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2] dnf: Enable nativesdk
-Thread-Index: AQHU8briPCTAp9HdGUWwMDUYh/3paqY+p/eA
-Date: Tue, 16 Apr 2019 11:16:48 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B1C13A5C@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1555166150-57588-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1555166150-57588-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
+Thread-Topic: [OE-core][PATCH] i2c-tools: Split binaries and library
+Thread-Index: AQHU9Ew0MlRN6nF6G0ukxnQHcxTbrg==
+Date: Tue, 16 Apr 2019 12:02:04 +0000
+Message-ID: <20190416120224.6737-1-john.ernberg@actia.se>
+Accept-Language: en-US, sv-SE
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
+x-mailer: git-send-email 2.21.0
+x-originating-ip: [10.11.11.53]
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 7A8314CD80C7.A7453
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH v2] dnf: Enable nativesdk
+Subject: [PATCH] i2c-tools: Split binaries and library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,56 +38,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 11:16:48 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 16 Apr 2019 12:17:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-UGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
-TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
-Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
-bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IFpoZW5nLCBSdW9xaW4v1qMgyPTH1Q0KPiBTZW50OiBTYXR1
-cmRheSwgQXByaWwgMTMsIDIwMTkgMTA6MzYgUE0NCj4gVG86IG9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IFpoZW5n
-LCBSdW9xaW4v1qMgyPTH1SA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29t
-Pg0KPiBTdWJqZWN0OiBbT0UtY29yZV0gW1BBVENIIHYyXSBkbmY6IEVuYWJs
-ZSBuYXRpdmVzZGsNCj4gDQo+IE1ha2UgZG5mIHdvcmsgb24gbmF0aXZlc2Rr
-IGVudmlyb25tZW50Lg0KPiANCj4gU2lnbmVkLW9mZi1ieTogWmhlbmcgUnVv
-cWluIDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+IC0tLQ0KPiAg
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL2RuZi9kbmZfNC4xLjAuYmIgfCAxMCAr
-KysrKysrKystDQo+ICAxIGZpbGUgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCsp
-LCAxIGRlbGV0aW9uKC0pDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2RuZi9kbmZfNC4xLjAuYmIgYi9tZXRhL3JlY2lwZXMt
-DQo+IGRldnRvb2xzL2RuZi9kbmZfNC4xLjAuYmINCj4gaW5kZXggZDQ1MDIz
-ZS4uOGI0MjkxYSAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL2RuZi9kbmZfNC4xLjAuYmINCj4gKysrIGIvbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL2RuZi9kbmZfNC4xLjAuYmINCj4gQEAgLTI2LDcgKzI2LDcgQEAg
-RVhUUkFfT0VDTUFLRSA9ICIgLURXSVRIX01BTj0wIC0NCj4gRFBZVEhPTl9J
-TlNUQUxMX0RJUj0ke1BZVEhPTl9TSVRFUEFDS0FHRVNfRElSfSAtDQo+IA0K
-PiAgQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIg0KPiANCj4g
-LVJERVBFTkRTXyR7UE59X2NsYXNzLXRhcmdldCArPSAiIFwNCj4gK1JERVBF
-TkRTXyR7UE59ICs9ICIgXA0KPiAgICBweXRob24zLWNvcmUgXA0KPiAgICBw
-eXRob24zLWNvZGVjcyBcDQo+ICAgIHB5dGhvbjMtbmV0Y2xpZW50IFwNCj4g
-QEAgLTQ5LDYgKzQ5LDggQEAgUkRFUEVORFNfJHtQTn1fY2xhc3MtdGFyZ2V0
-ICs9ICIgXA0KPiAgICBweXRob24zLWdwZyBcDQo+ICAgICINCj4gDQo+ICtS
-REVQRU5EU18ke1BOfV9jbGFzcy1uYXRpdmUgPSAiIg0KPiArDQo+ICBSUkVD
-T01NRU5EU18ke1BOfV9jbGFzcy10YXJnZXQgKz0gImdudXBnIg0KPiANCj4g
-ICMgQ3JlYXRlIGEgc3ltbGluayBjYWxsZWQgJ2RuZicgYXMgJ21ha2UgaW5z
-dGFsbCcgZG9lcyBub3QgZG8gaXQsIGJ1dCBAQCAtNjYsNg0KPiArNjgsMTIg
-QEAgZG9faW5zdGFsbF9hcHBlbmRfY2xhc3MtbmF0aXZlKCkgew0KPiAgICAg
-ICAgICAgICAgICAgIFJQTV9OT19DSFJPT1RfRk9SX1NDUklQVFM9MSAgfQ0K
-PiANCj4gK2RvX2luc3RhbGxfYXBwZW5kX2NsYXNzLW5hdGl2ZXNkaygpIHsN
-Cj4gKyAgICAgICAgY3JlYXRlX3dyYXBwZXIgJHtEfS8ke2JpbmRpcn0vZG5m
-IFwNCj4gKyAgICAgICAgICAgICAgICBSUE1fQ09ORklHRElSPSR7U0RLUEFU
-SE5BVElWRX0ke2xpYmRpcl9uYXRpdmVzZGt9L3JwbSBcDQo+ICsgICAgICAg
-ICAgICAgICAgUlBNX05PX0NIUk9PVF9GT1JfU0NSSVBUUz0xIH0NCj4gKw0K
-PiAgU1lTVEVNRF9TRVJWSUNFXyR7UE59ID0gImRuZi1tYWtlY2FjaGUuc2Vy
-dmljZSBkbmYtbWFrZWNhY2hlLnRpbWVyIFwNCj4gICAgICAgICAgICAgICAg
-ICAgICAgICAgICBkbmYtYXV0b21hdGljLnNlcnZpY2UgZG5mLWF1dG9tYXRp
-Yy50aW1lciBcDQo+ICAgICAgICAgICAgICAgICAgICAgICAgICAgZG5mLWF1
-dG9tYXRpYy1kb3dubG9hZC5zZXJ2aWNlIGRuZi1hdXRvbWF0aWMtZG93bmxv
-YWQudGltZXIgXA0KPiAtLQ0KPiAxLjguMy4xDQoNCgoK
+From: John Ernberg <john.ernberg@actia.se>
+
+Since the library is differently licensed, split it from the executables.
+
+According to the README of i2c-tools the library is LGPLv2.1 while the
+executables are GPLv2.
+
+License-update: Additional license file.
+
+Signed-off-by: John Ernberg <john.ernberg@actia.se>
+---
+ meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb b/meta/recipe=
+s-devtools/i2c-tools/i2c-tools_4.1.bb
+index 2b4563d4f0..b827a8274a 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
+@@ -1,8 +1,10 @@
+ SUMMARY =3D "Set of i2c tools for linux"
+ HOMEPAGE =3D "https://i2c.wiki.kernel.org/index.php/I2C_Tools"
+ SECTION =3D "base"
+-LICENSE =3D "GPLv2+"
+-LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882bb=
+e"
++LICENSE =3D "LGPLv2.1 & GPLv2+"
++LICENSE_${PN} =3D "LGPLv2.1"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882bb=
+e \
++                    file://COPYING.LGPL;md5=3D4fbd65380cdd255951079008b364=
+516c"
+=20
+ SRC_URI =3D "${KERNELORG_MIRROR}/software/utils/i2c-tools/${BP}.tar.gz \
+ "
+@@ -21,20 +23,23 @@ do_install() {
+     oe_runmake 'DESTDIR=3D${D}' install
+ }
+=20
+-PACKAGES =3D+ "${PN}-misc"
++PACKAGES =3D+ "${PN}-misc ${PN}-utils "
+ FILES_${PN}-misc =3D "${sbindir}/i2c-stub-from-dump \
+                         ${bindir}/ddcmon \
+                         ${bindir}/decode-edid \
+                         ${bindir}/decode-dimms \
+                         ${bindir}/decode-vaio \
+                        "
++FILES_${PN}-utils =3D "${sbindir}"
++RRECOMMENDS_${PN}_class-target =3D "${PN}-utils"
++
+ RDEPENDS_${PN}-misc =3D "${PN} perl perl-module-posix \
+                        perl-module-constant perl-module-file-basename \
+                        perl-module-fcntl perl-module-strict perl-module-va=
+rs \
+                       "
+=20
+ ALTERNATIVE_PRIORITY =3D "100"
+-ALTERNATIVE_${PN} =3D "i2cdetect i2cdump i2cget i2cset"
++ALTERNATIVE_${PN}-utils =3D "i2cdetect i2cdump i2cget i2cset"
+ ALTERNATIVE_LINK_NAME[i2cdetect] =3D "${sbindir}/i2cdetect"
+ ALTERNATIVE_LINK_NAME[i2cdump] =3D "${sbindir}/i2cdump"
+ ALTERNATIVE_LINK_NAME[i2cget] =3D "${sbindir}/i2cget"
+--=20
+2.21.0
 
