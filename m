@@ -1,53 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 32B917D2A8
+Return-Path: <adrian.freihofer@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 09AFC7D3E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 18:01:10 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id e13so18390505ioq.6
+	Tue, 16 Apr 2019 21:00:23 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id k45so19112657edb.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 11:01:11 -0700 (PDT)
+	Tue, 16 Apr 2019 14:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=qm4l0R2Bix9O9g8fki82GY81i1rqjCVOvbb35xT+t14=;
-	b=lFH7/9AnZq6WibtzqXnQoew8pgp8UvI1Ku9VOih20cQyOSKydqQg9JCH5ULk0oijGy
-	G6EX1ABHMH5/oQaV8hEI2LLl5dJV2mWka7BLIUqT1h2qFEpVyJFDTJfOJFM8eDreY7id
-	SHWaDWnWgHZWOIP+LGu1ivnP3fXuhgD8ElQVWE7irL4uL3WERL9huRE6z13tNG49oEmn
-	jMwOWBux2sG3AFyoJRura3L4qGvPShgqoSkZjt35lMPLAUXtGd046zINEC6zILAzyM8P
-	2UhXeeoeyet+crn3mdIpJ9hpPWX+nbZna/bmmioDRe6K0v05fEnKyGHHC8ejSKlKuKy8
-	Ax9g==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gFhQHaBbVq05LzjID/UNn4MGjkDiuzrzKk7vJHX2VOI=;
+	b=tsEZ4+mpm/v/51ruLnp/pLhlTLhfMjGx/Kpa/1kearHAinAYqiNMXV84tYwMArlI6q
+	taHZIFjX+RNQN00Ey2u/ZdVm1ovtyvFI4ODSEbsbbFPrc2w2hGz0sD34BSr9Uz6IuA1K
+	W5XCzU09NJA1CcnxlFPskkdMPWjSL6gVziai3lHiMsV4/g+MjVoVgzKOnudnWH5zp0qq
+	D+bbq62x0assBVSOeoPFRSO14VGiGBXh+SJUW6WWC0nCXTGf+BmkqYjYNZFjAywI2yqi
+	5vgpdJzuasc31NDsN39MOdWRPxXuPvAhkD0EiS7MMS70Pb7eOu4YzqeywA9I390k8qeC
+	M5vA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qm4l0R2Bix9O9g8fki82GY81i1rqjCVOvbb35xT+t14=;
-	b=gVufnkgrSa9irt1/Od9eitzKnuCNpOJ3GBXCp5q4PzOTnNqpqeeQK9CoWXc/8ec9n5
-	FJ43yPTOoqEgEN3qxflxjVIcdz25sXHKBST23dfmvtFgi9na1N1KcPWdgbCBEfpBW2lc
-	/ojjMbdSMY9vwN/FlYza/8ZpemdNcP51dm7omSawDW0P80Dmo4i0BioxIRBSkCICXEs4
-	5u0GMrevFAcL0zIRWiRG1DA6vuBkQKaTRqUnao8OITpX2y2gYrmZKYAY+N5ToYGyPHL4
-	1odv1zq7FwGzWQblwH9q6/kKhs0VaeGmFLA0rWt7KaDIQHlj4Cpa9ggvmI07O08JmrRn
-	ox6w==
-X-Gm-Message-State: APjAAAXycNApTNY1cbMuMTJCrpuER3Jhb/Zj600kCXX0TTUtPVJ4EP+a
-	dbv9iOZIaRQOG+hbDqKPBJ1jF1CacHx4rW1wErM=
-X-Google-Smtp-Source: APXvYqwJIPzj21Di0uDkHao+XmW3bMjtx2pY/nkQ+8QXSC17amMEswBdaTfuxXkFRjzL4BbQkxrZvHIT56koUho0ZyQ=
-X-Received: by 2002:a6b:e307:: with SMTP id u7mr52404901ioc.208.1555437670795; 
-	Tue, 16 Apr 2019 11:01:10 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gFhQHaBbVq05LzjID/UNn4MGjkDiuzrzKk7vJHX2VOI=;
+	b=BqLMaUcnVDK0AouujPplgIEVt1r9ET7mZm/JX+raNxc1l0MrOprJUJK1uSE4uxKFwd
+	DQfpv6RCf/u8Ggr8Uqzj9BnkbHQQ4eEC03K2Ybb0Ix+cSfmx21v1l2uhuDPCas4az8eL
+	YbSAWElkU4NYuw/rvrOvtAC/204FP1dAq3v0sVgEykQkF1sFoY3ZQ5JGeZM3S0e2U4bs
+	LeH79dlbT6b8slxI2qLDae8wjGqO1JnvtZgRSlV3irmcHAVkpee/ICW4hwfoZlOj0N0g
+	AZiQ5eKD6nKgb5iEdOU00ZDgAxQaJ5GOU8Tm/fz53zGVvvOXNOuEyuj5fx8adVk0Y4qx
+	MLIQ==
+X-Gm-Message-State: APjAAAXBahCa6zFdoO7CCx3/ju7eETpl97Vd6RUBgAvVOGfGMPwPWJEq
+	YqG1zGVDe9/281Oz/qG7eftDwT3GLP4=
+X-Google-Smtp-Source: APXvYqwx2J2xS47wA7PQU/GxpvJQs3yOlb1R0060PjWmoXKqkkXypjNGU4O4f/0TNLhRmvA2ZuclXg==
+X-Received: by 2002:a17:906:278a:: with SMTP id
+	j10mr46380155ejc.12.1555448424307; 
+	Tue, 16 Apr 2019 14:00:24 -0700 (PDT)
+Received: from wsadrian2.lan97.ffah.ch (c-93-184-18-27.customer.ggaweb.ch.
+	[93.184.18.27])
+	by smtp.gmail.com with ESMTPSA id x14sm1377480edm.1.2019.04.16.14.00.21
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 16 Apr 2019 14:00:22 -0700 (PDT)
+From: Adrian Freihofer <adrian.freihofer@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 16 Apr 2019 22:56:56 +0200
+Message-Id: <20190416205658.7310-1-adrian.freihofer@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
-	<1554777170-58044-1-git-send-email-mingli.yu@windriver.com>
-	<CAMKF1sq0wYPvJg1G5+cnY-6owi1K=Nc4bctXm3pcsbh1R5gpFA@mail.gmail.com>
-	<20190415093825.GB4317@localhost>
-	<CAMKF1sps-k6m=ZrpuMmhj23ZkmF8C=17hGPscRH-V0cagV-2rw@mail.gmail.com>
-	<20190415162156.GA16706@localhost> <5CB5960C.2030408@windriver.com>
-In-Reply-To: <5CB5960C.2030408@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 16 Apr 2019 11:00:44 -0700
-Message-ID: <CAMKF1soGYt5qNKtQMuCDmjvqgsc5B=qfjrt-3jSvUR4PmY1UsA@mail.gmail.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH v3] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
+Subject: [meta-oe][PATCH v2 1/3] systemd: remove 2 obsolete useradds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,58 +58,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 16 Apr 2019 18:01:10 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 16 Apr 2019 21:00:24 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 16, 2019 at 1:40 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
->
->
->
-> On 2019=E5=B9=B404=E6=9C=8816=E6=97=A5 00:21, Adrian Bunk wrote:
-> > On Mon, Apr 15, 2019 at 07:19:13AM -0700, Khem Raj wrote:
-> >>
-> >> What are you trying to convey ? That=E2=80=99s what I mentioned before=
- I began my
-> >> reply however to reiterate my point was if a package is not usually bu=
-ilt
-> >> and tested with this combination which is evident because it fails to =
-build
-> >> then how good would it be if we fix this error especially complex pack=
-ages
-> >> like compilers so is it worth to fix them or disable Og for them
-> >
-> > Packages that usually get built and tested with -Og should be pretty ra=
-re,
-> > and these specific build failures are better at finding the rare packag=
-es
-> > that use -Werror than pointing at potential miscompilations.
-> >
-> >>From a distribution point of view, a package build with -Werror by
-> > default is arguably a bug since this frequently breaks when something
-> > is changed (usually the compiler version).
-> >
-> > -Og is better suited than the -O that was previously used for debugging=
-,
-> > but are we talking about debug builds or production builds?
-> > If users would be using DEBUG_OPTIMIZATION in production builds that
->
-> Thanks Adrian and Khem's response!
-> We indeed don't use DEBUG_OPTIMIZATION in production build.
->
-> But still comes question: how to silence gcc-sanitizers build failure
-> when debug build enabled?
->
-> Thanks,
->
-> > would be wrong - this will always be a mostly untested situation
-> > with an increased probability of hitting bugs noone else has seen
-> > before.
+- Users systemd-journal-gateway and systemd-journal-upload are not used by
+  systemd anymore. Systemd creates dynamic users for services without
+  persistent data.
+- Fix start of journal-remote
 
-disable warning as errors.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@gmail.com>
+---
+ meta/recipes-core/systemd/systemd_241.bb | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-> >
-> > cu
-> > Adrian
-> >
+diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+index 3a58f44a3b..8e493d5b55 100644
+--- a/meta/recipes-core/systemd/systemd_241.bb
++++ b/meta/recipes-core/systemd/systemd_241.bb
+@@ -334,9 +334,7 @@ SYSTEMD_PACKAGES = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', '${PN}-binfm
+ SYSTEMD_SERVICE_${PN}-binfmt = "systemd-binfmt.service"
+ 
+ USERADD_PACKAGES = "${PN} ${PN}-extra-utils \
+-                    ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-gateway', '', d)} \
+                     ${@bb.utils.contains('PACKAGECONFIG', 'microhttpd', '${PN}-journal-remote', '', d)} \
+-                    ${@bb.utils.contains('PACKAGECONFIG', 'journal-upload', '${PN}-journal-upload', '', d)} \
+ "
+ GROUPADD_PARAM_${PN} = "-r systemd-journal"
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'coredump', '--system -d / -M --shell /bin/nologin systemd-coredump;', '', d)}"
+@@ -345,9 +343,7 @@ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'polkit', '--syste
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'resolved', '--system -d / -M --shell /bin/nologin systemd-resolve;', '', d)}"
+ USERADD_PARAM_${PN} += "${@bb.utils.contains('PACKAGECONFIG', 'timesyncd', '--system -d / -M --shell /bin/nologin systemd-timesync;', '', d)}"
+ USERADD_PARAM_${PN}-extra-utils = "--system -d / -M --shell /bin/nologin systemd-bus-proxy"
+-USERADD_PARAM_${PN}-journal-gateway = "--system -d / -M --shell /bin/nologin systemd-journal-gateway"
+ USERADD_PARAM_${PN}-journal-remote = "--system -d / -M --shell /bin/nologin systemd-journal-remote"
+-USERADD_PARAM_${PN}-journal-upload = "--system -d / -M --shell /bin/nologin systemd-journal-upload"
+ 
+ FILES_${PN}-analyze = "${bindir}/systemd-analyze"
+ 
+@@ -401,7 +397,7 @@ FILES_${PN}-journal-remote = "${rootlibexecdir}/systemd/systemd-journal-remote \
+                               ${systemd_system_unitdir}/systemd-journal-remote.service \
+                               ${systemd_system_unitdir}/systemd-journal-remote.socket \
+                              "
+-SYSTEMD_SERVICE_${PN}-remote = "systemd-journal-remote.socket"
++SYSTEMD_SERVICE_${PN}-journal-remote = "systemd-journal-remote.socket"
+ 
+ 
+ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
+-- 
+2.20.1
+
 
