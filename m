@@ -1,51 +1,60 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
-	[209.85.128.52])
-	by mail.openembedded.org (Postfix) with ESMTP id BDAF36C13D
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2CB4C7D106
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 13:39:55 +0000 (UTC)
-Received: by mail-wm1-f52.google.com with SMTP id h18so3693426wml.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 06:39:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=++2qG7X1fX5sEC8Vv9Yp/40C7BFWzyZwCAWuZyoorNs=;
-	b=OG0CigmLDYUJ9FMyFxpQOESHd3NgHlq0NF2m/qFdAHe/hFJO1Z2D+9+bzLkaOMQ6+P
-	m762cykX3cu8svZkzASgMWTIKOp7Ay2oX89J5C/p6+AX7YPcuDXmoeBtpSbbqFgvnsKC
-	NDp20nammbMNnCOVwexiEgYkstUtgtdkRPpTzubXDb1gg9ij/oTEdrL71SyFuEy8Z1uy
-	izWiWNLW0yOcaAY4J1LoIDhFmE0rXgAC97+nTWyz7xWtVLYjVduk1dyyZtX83VBstlKC
-	Yox0j8Jmc1BVf3kdORLUZdEzK2KSQza/fEWXB8aFqLdJzLcZIaPNm/82gerKpFFbZsOJ
-	3DDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=++2qG7X1fX5sEC8Vv9Yp/40C7BFWzyZwCAWuZyoorNs=;
-	b=XN5One9KDlVZCtJOyqesm9zlIpyfBn4XR5TqAFZHJHfXGVm4FHkm9abP7B/+/0kdZS
-	m4c/a8Am87/HzmYGT+qU/4F8+zrIrctLhyvwOwZS1sCLcvcbAjBgbvhYJ+2J5C3lY+LM
-	yNajEwJUL7UcxMH48f3/uOuNX0TBmdrxMYr6dF3PCJMBLCmbjNP8n0UfBtVqL7FkxC0J
-	d88shfEXtyRMpWexiCQOq4sY8JFJO5Hgubw9HZVVsIJHTeXMJtArGKjbLNMX0Nw9CAV5
-	mePPHoT1+qzFZYQBAWQ3Ad3DCBwSa8PuNsuTlPMKQiERWMtoAMoMPRDpxH1Mh7P7Z6gA
-	8qjg==
-X-Gm-Message-State: APjAAAVSr9/PvOkzGnJaYIcMD1MtvBwArzaN6PIChu4r0xOKKJXlThw/
-	pGcTKyHct+f8wK0VWIqrBPYbPozG
-X-Google-Smtp-Source: APXvYqwUv9tYaqK4KouJjk/anMHV4eyj/MrjW+QhLZe0jO96U/PW8Myvqr5OVR0zGlrC34qUCPQKUQ==
-X-Received: by 2002:a1c:e188:: with SMTP id y130mr30259522wmg.83.1555508396084;
-	Wed, 17 Apr 2019 06:39:56 -0700 (PDT)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	z140sm5105630wmc.27.2019.04.17.06.39.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 17 Apr 2019 06:39:55 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Apr 2019 15:39:41 +0200
-Message-Id: <20190417133941.31087-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Wed, 17 Apr 2019 14:12:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 8882818607;
+	Wed, 17 Apr 2019 16:12:22 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id mVSID46C0GUI; Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 801DE18528;
+	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6D58D1A094;
+	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 61C421A08C;
+	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id 55DBB1704;
+	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 17 Apr 2019 16:12:20 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Wed, 17 Apr 2019 16:12:20 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	Seebs <seebs@seebs.net>
+Thread-Topic: [OE-core] [PATCH] pseudo: Update to gain key bugfixes
+Thread-Index: AQHU7/L3kbkYfTRQmE2zAn03l95XLKY18YMAgAIdcwCACF3YkA==
+Date: Wed, 17 Apr 2019 14:12:19 +0000
+Message-ID: <5bc0e9c882a24ddcb08d922e290d3dad@XBOX04.axis.com>
+References: <20190410231254.25763-1-richard.purdie@linuxfoundation.org>
+	<20190410185944.0a16ea5d@seebsdell>
+	<2cf8ada8df82cb38252db3ff4c45b9f85294c63e.camel@linuxfoundation.org>
+In-Reply-To: <2cf8ada8df82cb38252db3ff4c45b9f85294c63e.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-Subject: [PATCH][thud] adwaita-icon-theme: do not delete symbolic svg but pack them in ${PN}-symbolic
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] pseudo: Update to gain key bugfixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,57 +67,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 13:39:56 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Apr 2019 14:12:22 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-This fixes:
-* gtk-icon-browser: for symbolic view almost all icons were missing
-* xfce's thunar: 'home' and 'up' icons were missing. Had a long discussion with
-  XFCE-people [1] and asked here [2].
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of
+> richard.purdie@linuxfoundation.org
+> Sent: den 12 april 2019 10:18
+> To: Seebs <seebs@seebs.net>
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH] pseudo: Update to gain key bugfixes
+>=20
+> On Wed, 2019-04-10 at 18:59 -0500, Seebs wrote:
+> > On Thu, 11 Apr 2019 00:12:54 +0100
+> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > > -SRCREV =3D "6294b344e5140f5467e6860f45a174440015304e"
+> > > +SRCREV =3D "6ebc7d6bc8ab973d0ba949eeb363821811ce8dc5"
+> >
+> > I would sort of recommend one of the two commits since then -- one
+> > may
+> > fix the .NET startup failures, and the other fixes warnings that this
+> > one introduced and I forgot to fix. But I'm also okay with this one.
+>=20
+> That is good news. I've tested and updated to the later revision,
+> thanks!
+>=20
+> Cheers,
+>=20
+> Richard
 
-How could I overlook the most obvious...
+One of our developers, who has been especially affected by this=20
+problem, reported that he was still having problems building a=20
+couple of recipes even with the latest version of pseudo. After=20
+some debugging it was determined that the problem was due to the=20
+Debian version of coreutils that he was using. When he downgraded=20
+from 8.30-3 to 8.30-1 the problems he was seeing went away. The=20
+changelog for the reverted changes indicate that pseudo will=20
+need to be made aware about what they are doing:
 
-[1] https://bugzilla.xfce.org/show_bug.cgi?id=14443
-[2] http://lists.openembedded.org/pipermail/openembedded-core/2018-November/275815.html
+,----
+| coreutils (8.30-3) unstable; urgency=3Dmedium
+|=20
+|   * Fix renameat2 patch (Closes: #923420)
+|=20
+|  -- Michael Stone <mstone@debian.org>  Thu, 28 Feb 2019 10:30:31 -0500
+|=20
+| coreutils (8.30-2) unstable; urgency=3Dmedium
+|=20
+|   * Use renameat2 glibc function that can be intercepted by fakechroot
+|     (Closes: #915559)
+|   * Above requires autoreconf turned on again
+|=20
+|  -- Michael Stone <mstone@debian.org>  Tue, 26 Feb 2019 07:15:19 -0500
+`----
 
-(From OE-Core rev: 0911e7d2f5443210b594a198ada8465af7a2fc78)
-
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb | 10 ++--------
- 1 file changed, 2 insertions(+), 8 deletions(-)
-
-diff --git a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
-index 40dd35ba30..6e453a0163 100644
---- a/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
-+++ b/meta/recipes-gnome/gnome/adwaita-icon-theme_3.28.0.bb
-@@ -18,13 +18,6 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${MAJ_VER}/${BPN}-${PV}.tar.xz \
- SRC_URI[md5sum] = "b25b2d82cbebf2cc9cd469457b604f2c"
- SRC_URI[sha256sum] = "7aae8c1dffd6772fd1a21a3d365a0ea28b7c3988bdbbeafbf8742cda68242150"
- 
--do_install_append() {
--	# Build uses gtk-encode-symbolic-svg to create png versions:
--        # no need to store the svgs anymore.
--	rm -f ${D}${prefix}/share/icons/Adwaita/scalable/*/*-symbolic.svg \
--	      ${D}${prefix}/share/icons/Adwaita/scalable/*/*-symbolic-rtl.svg
--}
--
- PACKAGES = "${PN}-cursors ${PN}-symbolic-hires ${PN}-symbolic ${PN}-hires ${PN}"
- 
- RREPLACES_${PN} = "gnome-icon-theme"
-@@ -37,7 +30,8 @@ FILES_${PN}-symbolic-hires = "${prefix}/share/icons/Adwaita/96x96/*/*.symbolic.p
-                               ${prefix}/share/icons/Adwaita/48x48/*/*.symbolic.png \
-                               ${prefix}/share/icons/Adwaita/32x32/*/*.symbolic.png"
- FILES_${PN}-symbolic = "${prefix}/share/icons/Adwaita/16x16/*/*.symbolic.png \
--                        ${prefix}/share/icons/Adwaita/24x24/*/*.symbolic.png"
-+                        ${prefix}/share/icons/Adwaita/24x24/*/*.symbolic.png \
-+                        ${prefix}/share/icons/Adwaita/scalable/*/*-symbolic*.svg"
- FILES_${PN}-hires = "${prefix}/share/icons/Adwaita/256x256/ \
-                      ${prefix}/share/icons/Adwaita/512x512/"
- FILES_${PN} = "${prefix}/share/icons/Adwaita/ \
--- 
-2.20.1
+//Peter
 
 
