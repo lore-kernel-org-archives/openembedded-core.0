@@ -1,50 +1,55 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 85DAD7D1F7
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A636B7D209
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 20:35:48 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id u65so6609609itc.2
+	Wed, 17 Apr 2019 20:52:18 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id k64so6663127itb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 13:35:49 -0700 (PDT)
+	Wed, 17 Apr 2019 13:52:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=sjbYZZHDnhWny0JK3VQQ0xRLs3Gt13MdBy3ZW7Vl5ak=;
-	b=J3891blfOed5QfunGEC5GeXk00XluoRnF9KxEj/jfE3bwmP42MqUESu1V0PZQZ0NGf
-	iKp8bOF4F3HfgSlfziS18q8IozxlvFx2BfaNJl/CuWl/f2VmIPowIi4NkvNWfVuAzLai
-	fFKPizf5m2yuHjt9cTu8aCLaU8iXYJJmIPdnFRC+WeN2qx0sNKHPdyFtdh2HcjahU+ir
-	HsDy8og7m+2yAE4j1jTjgaLok9xpFY75InhX4ifWnDPgT7ZEMkIjOvgbBRKYoy/cymJX
-	Y1PMhKLwRwFti0SqvKYn1Bh1ZX2YACoQXvTJtI9X48yHSuP4gewG85mZw2DvuJsR3Q3K
-	A0Iw==
+	h=from:message-id:subject:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=KoIG07fgh2Fg3p5LbOcJHV6ujeawkd4eiu6+ew+aB1w=;
+	b=WdOOEw0UfdboAAGRRQuPyom/ZQY3KJfLvydEfghLzO4M+sbPdZuFY6fcqMoEFPIFdw
+	IizeIq2NVs/oTaJki2pn8XFPNAMyhnQS0c+PHXji2Y2VQGS/w9bM/itPG/RWsIZkAIrR
+	oEuqx/cJVQmNsuIC3cWCeuqFTdYmu0EQK2sWGBeRqZfsceGqHFzWk1YNXs2ZuNEhJxwP
+	RoEnWWqTTbb16p2jBxAV4kNEfXhu23BM3ypIueo80PhamYB5byCUEhEEEFKEbJt0rjTA
+	vW7l+YeMbrq1PqGaCdk1Gs54uf4r6t42cnZ3bnFzn+HExKo6tO0QEB/+uIW3Ku9I4vjs
+	DopQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=sjbYZZHDnhWny0JK3VQQ0xRLs3Gt13MdBy3ZW7Vl5ak=;
-	b=T3twndRhQgRfmCeyEcriftOBdpl7QURUw+NWmo8nb+ukJJLRjgMD6DVM0jBA6LMZsD
-	9cwhPRsB4kyoVtpRphWiqEF3N8NuJMK1qL56g8CS6iAnD1y5L6Jb0u979RMmqAY04Tu0
-	Ls7Ce0MRkd3td8TYVQaWHqow1w+wcY89Ll+12oh5pK59u3IY+doTmTaLfrFkGm25ZxUg
-	YN6V49JR1ul+PiiIF0J0DSNS3oXyF4CcwtBIbkyidreH8usyHXqneXV+1on7lq5LSokH
-	rHeWXJinfXsp3jdc9bk6thRiXoCqdU5OqqvS7AGSC1TMek6Fq0kmwHnHP1KAMFfug6yY
-	1vKQ==
-X-Gm-Message-State: APjAAAXwCVE9TV27I25w4e9WRzhxMJ+W62ePG0XnLpaiU0PGau1oZ4jJ
-	oJKqcG85cn6bE/J1aO6xl60Gksb+hAgMfV7veXU=
-X-Google-Smtp-Source: APXvYqwaJKdH0MgdKKsexj2iNHpjfQr0o5wJqx3cKFWedvxrVQkbL/pKBbni7MIOZ9JlRmwlj5J5COqpSxnUKyKmOBk=
-X-Received: by 2002:a24:5c10:: with SMTP id q16mr437178itb.81.1555533349420;
-	Wed, 17 Apr 2019 13:35:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAJTo0LYTPzM_YPZJ4AH1uwbGE0vMRYqX-VFaS4cqsG3H9SHvUg@mail.gmail.com>
-	<1555525297-26931-1-git-send-email-mark.asselstine@windriver.com>
-	<CALbNGRS05HmvF2ka5GNBP4XP1cp+WpbxW1Ss4RzMp6ggBPzUEQ@mail.gmail.com>
-In-Reply-To: <CALbNGRS05HmvF2ka5GNBP4XP1cp+WpbxW1Ss4RzMp6ggBPzUEQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Wed, 17 Apr 2019 22:35:38 +0200
-Message-ID: <CALbNGRQ7LMGUO8zeTmUczBBJrjaWBumzDydR3KezyF4=jEfcmA@mail.gmail.com>
-To: Mark Asselstine <mark.asselstine@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:from:message-id:subject:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=KoIG07fgh2Fg3p5LbOcJHV6ujeawkd4eiu6+ew+aB1w=;
+	b=mbqAuUYTbWcyDCdtsZ4OpQzJw/w0MTh2vyMyMuEGuKGh/ddWTiRptFGnEh78TGI6Km
+	8ZGPm9P8aJ/ynrC2Sdvtm8dCKaTheitFQcHpd1Wkvf9mVj/KzcYIjOI3QMLBL6C1F5Yg
+	PL2dTEWVopkxEkOubMGm9vj+QbIs8zyJDgmQeAKDaDp8LtMJDXadgu4EMYd6fag0gmTf
+	i2gETg1qlNbNyi28lbZFQlr8MZisIuCnLhivCAUEHEdbdV44jYXB1vXVslRmPbnoILA5
+	dXqDcR7xx27857y3+Eg7V8iKnfbTqCHFYUAjOAnGoCw/MI9s3WFwIaUcz7Scs1WsmHye
+	0r4Q==
+X-Gm-Message-State: APjAAAW8w/pD8sFjlac2qxW0WZzqjy49bv/JoWqeP7Uc34q5FkgjujbL
+	JjX6MLVTtuIBQOluSxHk6vjggVGCSFc=
+X-Google-Smtp-Source: APXvYqyGGboIdHsg6+m6uLIV7wx1GDbRjPFLpbfjIuNHc9xEJSxRQhDb91kPIYnkAnG1NelQ9KHfyA==
+X-Received: by 2002:a24:33d3:: with SMTP id k202mr455452itk.129.1555534339601; 
+	Wed, 17 Apr 2019 13:52:19 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	a16sm31005itc.36.2019.04.17.13.52.18
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 17 Apr 2019 13:52:18 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <17d9700be97553b4c807a33242914fafbfc058db.camel@gmail.com>
+To: Alistair Francis <alistair@alistair23.me>, 
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] xfconf: fix 'Failed to get connection to xfconfd' during do_rootfs
+Date: Wed, 17 Apr 2019 15:52:17 -0500
+In-Reply-To: <PSXP216MB0277954FFCBA2B28C7A2C6EEDD250@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+References: <PSXP216MB0277954FFCBA2B28C7A2C6EEDD250@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
+MIME-Version: 1.0
+Subject: Re: [PATCH] u-boot: Fix missing Python.h build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,85 +62,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 20:35:48 -0000
+X-List-Received-Date: Wed, 17 Apr 2019 20:52:19 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Forgot the link
+The PYTHON variable is already being passed to u-boot in EXTRA_OEMAKE
+("PYTHON=nativepython"), perhaps is should be changed to pass PYTHON2
+instead of patching u-boot?
 
-[1] https://bugzilla.xfce.org/show_bug.cgi?id=3D14789
+On Wed, 2019-04-17 at 04:56 +0000, Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> ---
+>  ...rt-pylibfdt-Use-Python-2-in-Makefile.patch | 37
+> +++++++++++++++++++
+>  meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
+>  2 files changed, 40 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-bsp/u-boot/files/0001-Revert-
+> pylibfdt-Use-Python-2-in-Makefile.patch
+> 
+> diff --git a/meta/recipes-bsp/u-boot/files/0001-Revert-pylibfdt-Use-
+> Python-2-in-Makefile.patch b/meta/recipes-bsp/u-boot/files/0001-
+> Revert-pylibfdt-Use-Python-2-in-Makefile.patch
+> new file mode 100644
+> index 0000000000..a7c934d49e
+> --- /dev/null
+> +++ b/meta/recipes-bsp/u-boot/files/0001-Revert-pylibfdt-Use-Python-
+> 2-in-Makefile.patch
+> @@ -0,0 +1,37 @@
+> +From 30f41eae3d7a3d07e1d62b98d11430d5b2d24513 Mon Sep 17 00:00:00
+> 2001
+> +From: Alistair Francis <alistair@alistair23.me>
+> +Date: Sat, 13 Apr 2019 13:41:58 -0700
+> +Subject: [PATCH] Revert "pylibfdt: Use Python 2 in Makefile"
+> +
+> +This reverts commit 03e6151d5bb42fd055e9c1e571440359bd5b5282.
+> +
+> +Revert the patch to avoid:
+> +| scripts/dtc/pylibfdt/libfdt_wrap.c:149:11: fatal error: Python.h:
+> No such file or directory
+> +|  # include <Python.h>
+> +|            ^~~~~~~~~~
+> +| compilation terminated.
+> +
+> +errors when buildling u-boot in OE.
+> +
+> +Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> +Upstream-Status: Inappropriate [configuration]
+> +---
+> + scripts/dtc/pylibfdt/Makefile | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/scripts/dtc/pylibfdt/Makefile
+> b/scripts/dtc/pylibfdt/Makefile
+> +index 15e66ad44d..c769d7db06 100644
+> +--- a/scripts/dtc/pylibfdt/Makefile
+> ++++ b/scripts/dtc/pylibfdt/Makefile
+> +@@ -21,7 +21,7 @@ quiet_cmd_pymod = PYMOD   $@
+> + 		CPPFLAGS="$(HOSTCFLAGS) -I$(LIBFDT_srcdir)"
+> OBJDIR=$(obj) \
+> + 		SOURCES="$(PYLIBFDT_srcs)" \
+> + 		SWIG_OPTS="-I$(LIBFDT_srcdir) -I$(LIBFDT_srcdir)/.." \
+> +-		$(PYTHON2) $< --quiet build_ext --inplace
+> ++		$(PYTHON) $< --quiet build_ext --inplace
+> + 
+> + $(obj)/_libfdt.so: $(src)/setup.py $(PYLIBFDT_srcs) FORCE
+> + 	$(call if_changed,pymod)
+> +-- 
+> +2.20.1
+> +
+> diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc
+> b/meta/recipes-bsp/u-boot/u-boot-common.inc
+> index a0212e1b6b..5e81cabdbd 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+> @@ -10,6 +10,8 @@ PE = "1"
+>  # repo during parse
+>  SRCREV = "3c99166441bf3ea325af2da83cfe65430b49c066"
+>  
+> -SRC_URI = "git://git.denx.de/u-boot.git"
+> +SRC_URI = "git://git.denx.de/u-boot.git \
+> +           file://0001-Revert-pylibfdt-Use-Python-2-in-
+> Makefile.patch \
+> +          "
+>  
+>  S = "${WORKDIR}/git"
+> -- 
+> 2.20.1
+> 
+-- 
+Joshua Watt <JPEWhacker@gmail.com>
 
-On Wed, Apr 17, 2019 at 10:33 PM Andreas M=C3=BCller <schnitzeltony@gmail.c=
-om> wrote:
->
-> On Wed, Apr 17, 2019 at 8:22 PM Mark Asselstine
-> <mark.asselstine@windriver.com> wrote:
-> Seems that there are configurations where it xfconf causes trouble
-> even at runtime (not only at headless builds) [1]
->
-> So adding a PACKAGECONFIG disabled by default is OK.
->
-> Could you please send this to meta-oe with
->
-> PACKAGECONFIG[gsettings-backend] =3D
-> "--enable-gsettings-backend,--disable-gsettings-backend,"
->
-> Thanks
->
-> Andreas
-> >
-> > Packages such as gdk-pixbuf can result in the following error during
-> > the rootfs construction:
-> >   CRITICAL **: 16:51:57.223: Failed to get connection to xfconfd: Canno=
-t autolaunch D-Bus without X11 $DISPLAY
-> >
-> > This is hit during the postinst-intercepts/update_pixbuf_cache.
-> >
-> > Based on discussions upstream this appears to be an issue for xfconf
-> > and has an upstream update
-> >
-> > https://git.xfce.org/xfce/xfconf/commit?id=3D6f11cc65a2213f424728b5a0d2=
-5b1b63c19e773e
-> >
-> > Drawing from this change we can go ahead and use PACKAGECONFIG to
-> > emulate it.
-> >
-> > Signed-off-by: Mark Asselstine <mark.asselstine@windriver.com>
-> > ---
-> >
-> > Guys,
-> >
-> > This is still broken in Yocto and I would like to see it fixed. I haven=
-'t
-> > dug into the issue as much as you two so I wanted to float this fix
-> > out there but hold back from calling it a proper fix. Please let
-> > me know what you think or feel free to take this, evaluate it and
-> > modify it into a full fledged fix.
-> >
-> > MarkA
-> >
-> >
-> >  meta-xfce/recipes-xfce/xfconf/xfconf_4.13.6.bb | 2 ++
-> >  1 file changed, 2 insertions(+)
-> >
-> > diff --git a/meta-xfce/recipes-xfce/xfconf/xfconf_4.13.6.bb b/meta-xfce=
-/recipes-xfce/xfconf/xfconf_4.13.6.bb
-> > index 2667ff9..22a7bc1 100644
-> > --- a/meta-xfce/recipes-xfce/xfconf/xfconf_4.13.6.bb
-> > +++ b/meta-xfce/recipes-xfce/xfconf/xfconf_4.13.6.bb
-> > @@ -16,3 +16,5 @@ FILES_${PN} +=3D "${libdir}/xfce4/xfconf/xfconfd \
-> >                  ${datadir}/dbus-1/services/org.xfce.Xfconf.service"
-> >
-> >  FILES_${PN}-dev +=3D "${libdir}/gio/modules/libxfconfgsettingsbackend.=
-la"
-> > +
-> > +PACKAGECONFIG[gsettings-backend] =3D ",--disable-gsettings-backend,"
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
