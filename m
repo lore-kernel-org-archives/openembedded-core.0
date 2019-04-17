@@ -1,23 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AE5017D24C
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 44FF37D30D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 01:50:29 +0000 (UTC)
+	Wed, 17 Apr 2019 01:50:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3H1oUBR027711
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3H1oVBN016667
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 18:50:30 -0700 (PDT)
+	Tue, 16 Apr 2019 18:50:32 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.190) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 16 Apr 2019 18:50:28 -0700
+	14.3.439.0; Tue, 16 Apr 2019 18:50:31 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 17 Apr 2019 10:01:24 +0800
-Message-ID: <cover.1555466464.git.Qi.Chen@windriver.com>
+Date: Wed, 17 Apr 2019 10:01:25 +0800
+Message-ID: <b8a79d080b42b8234706d4e1733adf2d08f2d860.1555466464.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1555466464.git.Qi.Chen@windriver.com>
+References: <cover.1555466464.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] base-files: move hostname operations out of issue file settings
+Subject: [PATCH 1/1] base-files: move hostname operations out of issue file settings
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +32,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 01:50:29 -0000
+X-List-Received-Date: Wed, 17 Apr 2019 01:50:31 -0000
 Content-Type: text/plain
 
-*** BLURB HERE ***
-The following changes since commit c23c8ebc7f66a92110bfc9e3c4d633a432d1353b:
+The function do_install_basefilesissue is meant to deal with
+/etc/issue* files and the following setting could actually be
+overridden.
 
-  core-image-sato-sdk-ptest: Try and keep image below 4GB limit (2019-04-16 11:10:02 +0100)
+  BASEFILESISSUEINSTALL ?= "do_install_basefilesissue"
 
-are available in the git repository at:
+So move the hostname operations out of this function.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/base-files-issue
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/base-files-issue
-
-Chen Qi (1):
-  base-files: move hostname operations out of issue file settings
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/recipes-core/base-files/base-files_3.0.14.bb | 7 ++++---
  1 file changed, 4 insertions(+), 3 deletions(-)
 
+diff --git a/meta/recipes-core/base-files/base-files_3.0.14.bb b/meta/recipes-core/base-files/base-files_3.0.14.bb
+index a1639db..4b4027f 100644
+--- a/meta/recipes-core/base-files/base-files_3.0.14.bb
++++ b/meta/recipes-core/base-files/base-files_3.0.14.bb
+@@ -134,15 +134,16 @@ do_install () {
+ 	install -m 0644 ${WORKDIR}/motd ${D}${sysconfdir}/motd
+ 
+ 	ln -sf /proc/mounts ${D}${sysconfdir}/mtab
+-}
+ 
+-DISTRO_VERSION[vardepsexclude] += "DATE"
+-do_install_basefilesissue () {
++	# deal with hostname
+ 	if [ "${hostname}" ]; then
+ 		echo ${hostname} > ${D}${sysconfdir}/hostname
+ 		echo "127.0.1.1 ${hostname}" >> ${D}${sysconfdir}/hosts
+ 	fi
++}
+ 
++DISTRO_VERSION[vardepsexclude] += "DATE"
++do_install_basefilesissue () {
+ 	install -m 644 ${WORKDIR}/issue*  ${D}${sysconfdir}
+         if [ -n "${DISTRO_NAME}" ]; then
+ 		printf "${DISTRO_NAME} " >> ${D}${sysconfdir}/issue
 -- 
 1.9.1
 
