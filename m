@@ -1,47 +1,63 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CC5316011C
+Return-Path: <alistair@alistair23.me>
+X-Greylist: delayed 56060 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 17 Apr 2019 20:31:03 UTC
+Received: from APC01-SG2-obe.outbound.protection.outlook.com
+	(mail-oln040092253038.outbound.protection.outlook.com [40.92.253.38])
+	by mail.openembedded.org (Postfix) with ESMTP id AC9057D106
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 18:31:19 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w16so3277082wrl.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 11:31:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=IUz6mGcard9lZLNirhSKiJNS3UAObEmOMD0WAU7V6PQ=;
-	b=UhVCZly8abXlx5qyJvyr2QQ8IUbR7ldQ5A0WYiFZTjLWCmN3iMUCf3DCjsY8xsT/Mk
-	E83YMEanW65Z+YTj8j9mGbYgtSoAAf4kZ0cII6Z3Bucy3l0E42lGmh210n7zDtczT+xg
-	ZuXW8c3RSdkDEdTEF3LIyPpbgedzy3lwzsLPD978KXnLPLssPi4wnGS+6TF8EEDE2jUI
-	WYhIR8LkfszVH5wcm4KlBZsXcpfv6VPJMXzGLzvXlnzAwYv6fIsrWG296U+RrSW4shsv
-	T3M4zYIpaICxb4Hz/rY51Li1aRfJL/vLOMle17DB7Q8PSCVZarLWpk/jecLwVbybxASL
-	IjgA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=IUz6mGcard9lZLNirhSKiJNS3UAObEmOMD0WAU7V6PQ=;
-	b=GP/0c8QVg9TvQFspZvqNtnBQbKwx3nUnYGdgqznSF6rKeEOK1Bt/UDgSYGszaZD4GA
-	krPufjJE/X7L0JI27WNm8o2W531O9ghZD/Ge9dNdZ3Ku+Q53imw9SsF8+Y0eLQvL5ZQt
-	wcc5tmvi7XLy06+81516eYJkgMMtjcSLfjIVvtnSzP5CDYLuuByqNgbjGNJ0RijwFB/w
-	MMhU7sbdeNbTVuLE5MdDMuN+k0eCEsQWrtbaMuUZhscJEpijxMYZc5P2ZUGMffKx3ZIW
-	h4esH2IrKoHnQPUNZEwh5QCL5Yon3qQ6psFLBIr7dEgKFG6Pqh/ZgmqYV3FVypPZXM3m
-	Ob3Q==
-X-Gm-Message-State: APjAAAU/mSYSAPrIByT3QFV4rjjznkHWxhWtXbiJCep/aox+Of5GV2K2
-	QZwqyxLxN9Ez7v5kNNm1q2dnVYQG
-X-Google-Smtp-Source: APXvYqx7JtpSPP8JDjn5gMTuNSwpk/AgFN54CyDqohY2EJg3bxqWKNaxgOOYytMy3G07iaHBcySfIg==
-X-Received: by 2002:a5d:68cf:: with SMTP id p15mr37126196wrw.301.1555525880331;
-	Wed, 17 Apr 2019 11:31:20 -0700 (PDT)
-Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
-	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	s189sm6803514wmf.45.2019.04.17.11.31.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 17 Apr 2019 11:31:19 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Apr 2019 18:31:16 +0000
-Message-Id: <1555525877-19944-1-git-send-email-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] uboot-sign: Fix build when UBOOT_DTB_BINARY is empty
+	Wed, 17 Apr 2019 20:31:03 +0000 (UTC)
+Received: from PU1APC01FT019.eop-APC01.prod.protection.outlook.com
+	(10.152.252.51) by PU1APC01HT138.eop-APC01.prod.protection.outlook.com
+	(10.152.253.158) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1771.16;
+	Wed, 17 Apr 2019 04:56:42 +0000
+Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM (10.152.252.57) by
+	PU1APC01FT019.mail.protection.outlook.com (10.152.252.222) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+	15.20.1771.16 via Frontend Transport; Wed, 17 Apr 2019 04:56:42 +0000
+Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
+	([fe80::a9fb:86c9:a1ef:59ec]) by PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
+	([fe80::a9fb:86c9:a1ef:59ec%5]) with mapi id 15.20.1792.020;
+	Wed, 17 Apr 2019 04:56:42 +0000
+From: Alistair Francis <alistair@alistair23.me>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] u-boot: Fix missing Python.h build failure
+Thread-Index: AQHU9Nny9j5vCy4ZwEOk9iD4aY1iyg==
+Date: Wed, 17 Apr 2019 04:56:41 +0000
+Message-ID: <PSXP216MB0277954FFCBA2B28C7A2C6EEDD250@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+Accept-Language: en-AU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BYAPR08CA0020.namprd08.prod.outlook.com
+	(2603:10b6:a03:100::33) To PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
+	(2603:1096:300:a::18)
+x-incomingtopheadermarker: OriginalChecksum:B6616BBA9F450EDC600A95532145A136E359627F1E08EDDFE6CCEFB4C38511BC;
+	UpperCasedChecksum:7CC78390DB5C3A4CD193512AC40D10C540F9AA2E59DEAC8F096E0B748E311471;
+	SizeAsReceived:7455; Count:48
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.20.1
+x-tmn: [6+NfhjhqbBonNEbaQwSiRwSX0DzKu52WPAM4CrT2LmMYKZeBdlowJVsXjlYZXPMM]
+x-microsoft-original-message-id: <20190417045626.16216-1-alistair@alistair23.me>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 48
+x-eopattributedmessage: 0
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031323274)(2017031324274)(2017031322404)(1601125500)(1603101475)(1701031045);
+	SRVR:PU1APC01HT138; 
+x-ms-traffictypediagnostic: PU1APC01HT138:
+x-microsoft-antispam-message-info: Mzfd25Jc7ZfwTy6aciEKOI4GF5bVrey9htpjA2Rjf+pvm8WhY3gro7J5QMCGZgVPoIvvsuz6nQPVG4CZ/rAVaTM3xe2YduZYD6T3zGQ8nOEorRxeZ3GlFSQXwtWfxgdvKiVOH+hrqYQTJSAtfxFCw2cyUCW6otyh2hw9TYQqmAF/xS0kKrGaz77/yBrYSCHJ
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: bb998a22-a7ee-4369-4a19-08d6c2f114ea
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2019 04:56:41.9934 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU1APC01HT138
+Subject: [PATCH] u-boot: Fix missing Python.h build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,82 +70,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 18:31:20 -0000
+X-List-Received-Date: Wed, 17 Apr 2019 20:31:04 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-When UBOOT_DTB_BINARY is empty and because the code now changes
-directory into ${B}, the test for the existence becomes `[ -f ]` which
-succeeds and subsequently the install fails.
-
-Reorder the code so it's clear that UBOOT_DTB_BINARY empty is an
-expected configuration and then quote UBOOT_DTB_BINARY everywhere so
-no one trips over this again.
-
-Fixes: bacb59079eb6 ("uboot-sign: add support for different u-boot configurations")
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Alistair Francis <alistair@alistair23.me>
 ---
+ ...rt-pylibfdt-Use-Python-2-in-Makefile.patch | 37 +++++++++++++++++++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |  4 +-
+ 2 files changed, 40 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/0001-Revert-pylibfdt-Use-=
+Python-2-in-Makefile.patch
 
- meta/classes/uboot-sign.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
-
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index 2da43655aabb..6385a06c13ef 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -46,12 +46,12 @@ UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
- UBOOT_PN = "${@d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'}"
- 
- concat_dtb_helper() {
--	if [ -e ${UBOOT_DTB_BINARY} ]; then
-+	if [ -e "${UBOOT_DTB_BINARY}" ]; then
- 		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
- 		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
- 	fi
- 
--	if [ -f ${UBOOT_NODTB_BINARY} ]; then
-+	if [ -f "${UBOOT_NODTB_BINARY}" ]; then
- 		install ${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
- 		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
- 		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
-@@ -67,13 +67,13 @@ concat_dtb_helper() {
- 	elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
- 		cd ${DEPLOYDIR}
- 		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${UBOOT_BINARY} > ${UBOOT_IMAGE}
--	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
-+	else
- 		bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
- 	fi
- }
- 
- concat_dtb() {
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
-+	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" -a -n "${UBOOT_DTB_BINARY}" ]; then
- 		mkdir -p ${DEPLOYDIR}
- 		if [ -n "${UBOOT_CONFIG}" ]; then
- 			for config in ${UBOOT_MACHINE}; do
-@@ -90,19 +90,19 @@ concat_dtb() {
- # Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
- # signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
- install_helper() {
--	if [ -f ${UBOOT_DTB_BINARY} ]; then
-+	if [ -f "${UBOOT_DTB_BINARY}" ]; then
- 		install -d ${D}${datadir}
- 		# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
- 		# need both of them.
- 		install ${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
- 		ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
--	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
-+	else
- 		bbwarn "${UBOOT_DTB_BINARY} not found"
- 	fi
- }
- 
- do_install_append() {
--	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
-+	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" -a -n "${UBOOT_DTB_BINARY}" ]; then
- 		if [ -n "${UBOOT_CONFIG}" ]; then
- 			for config in ${UBOOT_MACHINE}; do
- 				cd ${B}/${config}
--- 
-2.7.4
+diff --git a/meta/recipes-bsp/u-boot/files/0001-Revert-pylibfdt-Use-Python-=
+2-in-Makefile.patch b/meta/recipes-bsp/u-boot/files/0001-Revert-pylibfdt-Us=
+e-Python-2-in-Makefile.patch
+new file mode 100644
+index 0000000000..a7c934d49e
+--- /dev/null
++++ b/meta/recipes-bsp/u-boot/files/0001-Revert-pylibfdt-Use-Python-2-in-Ma=
+kefile.patch
+@@ -0,0 +1,37 @@
++From 30f41eae3d7a3d07e1d62b98d11430d5b2d24513 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair@alistair23.me>
++Date: Sat, 13 Apr 2019 13:41:58 -0700
++Subject: [PATCH] Revert "pylibfdt: Use Python 2 in Makefile"
++
++This reverts commit 03e6151d5bb42fd055e9c1e571440359bd5b5282.
++
++Revert the patch to avoid:
++| scripts/dtc/pylibfdt/libfdt_wrap.c:149:11: fatal error: Python.h: No suc=
+h file or directory
++|  # include <Python.h>
++|            ^~~~~~~~~~
++| compilation terminated.
++
++errors when buildling u-boot in OE.
++
++Signed-off-by: Alistair Francis <alistair@alistair23.me>
++Upstream-Status: Inappropriate [configuration]
++---
++ scripts/dtc/pylibfdt/Makefile | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/scripts/dtc/pylibfdt/Makefile b/scripts/dtc/pylibfdt/Makefile
++index 15e66ad44d..c769d7db06 100644
++--- a/scripts/dtc/pylibfdt/Makefile
+++++ b/scripts/dtc/pylibfdt/Makefile
++@@ -21,7 +21,7 @@ quiet_cmd_pymod =3D PYMOD   $@
++ 		CPPFLAGS=3D"$(HOSTCFLAGS) -I$(LIBFDT_srcdir)" OBJDIR=3D$(obj) \
++ 		SOURCES=3D"$(PYLIBFDT_srcs)" \
++ 		SWIG_OPTS=3D"-I$(LIBFDT_srcdir) -I$(LIBFDT_srcdir)/.." \
++-		$(PYTHON2) $< --quiet build_ext --inplace
+++		$(PYTHON) $< --quiet build_ext --inplace
++=20
++ $(obj)/_libfdt.so: $(src)/setup.py $(PYLIBFDT_srcs) FORCE
++ 	$(call if_changed,pymod)
++--=20
++2.20.1
++
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u=
+-boot/u-boot-common.inc
+index a0212e1b6b..5e81cabdbd 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -10,6 +10,8 @@ PE =3D "1"
+ # repo during parse
+ SRCREV =3D "3c99166441bf3ea325af2da83cfe65430b49c066"
+=20
+-SRC_URI =3D "git://git.denx.de/u-boot.git"
++SRC_URI =3D "git://git.denx.de/u-boot.git \
++           file://0001-Revert-pylibfdt-Use-Python-2-in-Makefile.patch \
++          "
+=20
+ S =3D "${WORKDIR}/git"
+--=20
+2.20.1
 
 
