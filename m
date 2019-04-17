@@ -1,36 +1,49 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EB4877D302
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C4377D2A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 07:45:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3H7icPZ009492
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 17 Apr 2019 00:44:54 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Wed, 17 Apr 2019 00:44:40 -0700
-To: Khem Raj <raj.khem@gmail.com>
-References: <CAMKF1soKYZj6fKjFdNzAjhgtwaFKcw7iwyCU_kPq_QxmgCivng@mail.gmail.com>
-	<1554777170-58044-1-git-send-email-mingli.yu@windriver.com>
-	<CAMKF1sq0wYPvJg1G5+cnY-6owi1K=Nc4bctXm3pcsbh1R5gpFA@mail.gmail.com>
-	<20190415093825.GB4317@localhost>
-	<CAMKF1sps-k6m=ZrpuMmhj23ZkmF8C=17hGPscRH-V0cagV-2rw@mail.gmail.com>
-	<20190415162156.GA16706@localhost> <5CB5960C.2030408@windriver.com>
-	<CAMKF1soGYt5qNKtQMuCDmjvqgsc5B=qfjrt-3jSvUR4PmY1UsA@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CB6DA7F.3020106@windriver.com>
-Date: Wed, 17 Apr 2019 15:49:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Wed, 17 Apr 2019 08:27:27 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id b6so19924606iog.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Apr 2019 01:27:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=cpss+lku2IxUvNW7FXn+OX2mmcAkMU5MzJqT7whVtYk=;
+	b=TtsnAYbN4JwcorwAFVBYlZRJkJJ+gkMzk+Q/Qz7syYpyfbsQtHf7ElZivBgdiFxd9d
+	aJNINQrkVG8fQmwKcgcGIySZyuWNFPXwMeOhUaH7gp1I5CqTq3sygqQqd/+FpviC2fp1
+	RxXwZvuftPSJElf2dTGjUGAeQKT7pjZYNZkGopYwB3YrtHs1HLVPb4EXG+BuuRDV+KPF
+	VCEjF3JBMBeq1F+WnNvzMiCNWA7tJ6W4aO4Q6X6w66d9azEovTdgotW9FF723FHG8bRq
+	2Hi+n+GXq5z56VbqH3KRbgOQ+sGpsUntTRm4EXwwotP/EtS9soHrYwYMvYi6f60k5SlJ
+	LL+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=cpss+lku2IxUvNW7FXn+OX2mmcAkMU5MzJqT7whVtYk=;
+	b=nHBsNmtnr7/lCy4vr2LtUmR+l51mnvVsOPSv7i24OQwdxWM+H9bRPofqpbgCwqved2
+	ZPBPD+mCAo/tE1X4YG2ujD6gbN8Us+c9cKohbYQtV+EqKesw4kL4U43fqIt1xtggib8t
+	5/sBEf42v2ggwyGdfzFtZadcuCsKTC/cEHXyuOXPiKQgSREsOhT92d217WOopG2m5qL/
+	M3FCeL3hDhPlN8wSC6JIHFP3orf+296dKS1PgJUo9SJ+nUG2lt/0opHj4MoKH4KThV/p
+	B7NMgvjyUohczscz1eiYyCioEw5VwKW1sHImkt+nOhWTiTlDMVKE5ElqgijTDZUxjdbf
+	GYwQ==
+X-Gm-Message-State: APjAAAVmDtgEE2WMOeaD2c1goSjrMSzfu4KMvMpHCcL380Fn0JacgeXg
+	+NBPlL3hcImS/6TAT7HDLbCdpDqZ6KH3REh+h4E=
+X-Google-Smtp-Source: APXvYqzhniZ9SWXc65fx8egyBAyNmID2OFcAq7q/133/xMvAoNHo2ktLIrartFlWGSB2AheID6510ntPCP50G1eObjY=
+X-Received: by 2002:a6b:440b:: with SMTP id r11mr50157241ioa.48.1555489649002; 
+	Wed, 17 Apr 2019 01:27:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soGYt5qNKtQMuCDmjvqgsc5B=qfjrt-3jSvUR4PmY1UsA@mail.gmail.com>
-X-Originating-IP: [128.224.162.194]
-Cc: Patches and discussions about the oe-core
-	layer <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH v3] gcc-sanitizers: fix -Werror=maybe-uninitialized issue
+References: <1555408184-375724-1-git-send-email-changqing.li@windriver.com>
+	<6ca03a74bb0c22fb2f483afac0d9e8ec13d6e29d.camel@linuxfoundation.org>
+	<52db974d-c320-7f53-2fb4-75f353ed1b60@windriver.com>
+In-Reply-To: <52db974d-c320-7f53-2fb4-75f353ed1b60@windriver.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Wed, 17 Apr 2019 10:27:17 +0200
+Message-ID: <CALbNGRTETs9tpwurh_dwAKbyCo4o7Di8mc=Bz5w3rOqaVvRbtQ@mail.gmail.com>
+To: Changqing Li <changqing.li@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] systemd: change default locale from C.UTF-8 to C
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,73 +56,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 07:45:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 17 Apr 2019 08:27:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-
-
-On 2019年04月17日 02:00, Khem Raj wrote:
-> On Tue, Apr 16, 2019 at 1:40 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
->>
->>
->>
->> On 2019年04月16日 00:21, Adrian Bunk wrote:
->>> On Mon, Apr 15, 2019 at 07:19:13AM -0700, Khem Raj wrote:
->>>>
->>>> What are you trying to convey ? That’s what I mentioned before I began my
->>>> reply however to reiterate my point was if a package is not usually built
->>>> and tested with this combination which is evident because it fails to build
->>>> then how good would it be if we fix this error especially complex packages
->>>> like compilers so is it worth to fix them or disable Og for them
->>>
->>> Packages that usually get built and tested with -Og should be pretty rare,
->>> and these specific build failures are better at finding the rare packages
->>> that use -Werror than pointing at potential miscompilations.
->>>
->>> >From a distribution point of view, a package build with -Werror by
->>> default is arguably a bug since this frequently breaks when something
->>> is changed (usually the compiler version).
->>>
->>> -Og is better suited than the -O that was previously used for debugging,
->>> but are we talking about debug builds or production builds?
->>> If users would be using DEBUG_OPTIMIZATION in production builds that
->>
->> Thanks Adrian and Khem's response!
->> We indeed don't use DEBUG_OPTIMIZATION in production build.
->>
->> But still comes question: how to silence gcc-sanitizers build failure
->> when debug build enabled?
->>
->> Thanks,
->>
->>> would be wrong - this will always be a mostly untested situation
->>> with an increased probability of hitting bugs noone else has seen
->>> before.
+On Wed, Apr 17, 2019 at 3:06 AM Changqing Li <changqing.li@windriver.com> wrote:
 >
-> disable warning as errors.
-
-Hi Khem,
-
-I don't quite get what you mean. Disable warning as errors?
-
-As https://gcc.gnu.org/ml/gcc-patches/2019-04/msg00315.html, gcc 
-upstream thinks the build error is meaningless when compile 
-gcc-sanitizers with -Og and suggests not use -Og to compile for 
-gcc-sanitizers.
-
-So I send out the patch to add the workaround [DEBUG_OPTIMIZATION_append 
-= " -Wno-error"] to silence the error when debug build is enabled for 
-gcc-sanitizers.
-If the workaround isn't suitable, then how to silence the 
--Werror=maybe-uninitialized issue build error when debug build enabled?
-
-Thanks,
-
 >
->>>
->>> cu
->>> Adrian
->>>
+> On 4/16/19 6:22 PM, Richard Purdie wrote:
+> > On Tue, 2019-04-16 at 17:49 +0800, changqing.li@windriver.com wrote:
+> >> From: Changqing Li <changqing.li@windriver.com>
+> >>
+> >> current default locale is set to C.UTF-8, but glibc not support
+> >> locale C.UTF-8. so set to the default locale C.
+> >>
+> >> [snip]
+> >>          if not meson.is_cross_build()
+> >>                  choose_default_locale_sh =
+> >> find_program('tools/choose-default-locale.sh')
+> >>                  default_locale =
+> >> run_command(choose_default_locale_sh).stdout().strip()
+> >>          else
+> >>                  default_locale = 'C.UTF-8'
+> >>          endif
+> >>
+> >> if default locale set to C.UTF-8, it will cause libpcre ptest fail:
+> >>
+> >>    re> //8+L
+> >> ** Failed to set locale ""
+> > Doesn't your second patch mean we don't need this one?
 >
+> 1.  No ,  we need this one.
+>
+> because image maybe don't  install any locale except glibc default C
+> locale, like below:
+>
+> root@qemux86:~# locale -a
+> C
+> POSIX
+>
+> if systemd set to C.UTF-8,   any image need to install C.UTF-8 locale by
+> default, but only C is default locale.
+>
+> with this patch,  sysVinit and systemd both set to default C locale.
+>
+>
+> 2. patch 2/2 glibc: Add a C.UTF-8 locale
+>
+> This patch is not necessary, it is just for add support of C.UTF-8
+> locale.  if any package depend on it in the future,  it can install
+>
+> this locale.
+>
+>
+> Add this patch just because I noticed most of major distro have support
+> this locale. not for fix  "** Failed to set locale "".
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+> >
+> --
+> BRs
+>
+> Sandy(Li Changqing)
+>
+Can we make default locale overridable please so distros have a chance
+to choose different?
+
+Andreas
 
