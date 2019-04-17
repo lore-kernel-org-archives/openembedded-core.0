@@ -1,53 +1,39 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id BD4D77C62D
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 2BEF17D01C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 09:37:47 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id k11so31037768wro.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 02:37:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=jQuyKda8+yoO0rHyvU/sdK2pgY8VnbyzmWzuMGFOyfI=;
-	b=D+9PfLRWaEcxZLfzSMerNxfmvRACOzqbPXd/oX9ze9pvus/fvjkYzabCwXuvDEQ8SM
-	erVenhLtPUsK9HkfXbqE+KeiNatJvIWdX5WEyhm90z8EmU5km9dA4r+zqke2OlRZCDsg
-	64M9+QIDq/hrk7bdlked5uqVd/DWRP0Ia0gX0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=jQuyKda8+yoO0rHyvU/sdK2pgY8VnbyzmWzuMGFOyfI=;
-	b=h+9O00sCQJeoMQ61o7qzDikfW4tKTYCtjieFm+1GGg0BVZcUXspO2fnxBXlB+N3MWN
-	3/AwqhHioSdydIqQ/DHiU2pW19bBb4rr9SpIAgKxpJFPbdRiAdc7JODedcOXUGtVAr3w
-	rNnpchCTrs5wkNQNZoeBh4ogGKTNKAn8arhtv7LE38T9rrzkyQ7zvLbzBXnPejKNm5YU
-	ObdmLsDbplacXVOBJNnmXPvoaIAW7Yk4pIlw4hrDVA9PDicW6a3ruI/Qp2ZDAezj1OjZ
-	JN08ptFIpEz+BM+JqxJE95tTULWmspNLQE8He7RPEoNH13BbSJgm6fq6uiaqkm2YwrIT
-	OYWA==
-X-Gm-Message-State: APjAAAW+9elRq4bjqBOVDWAsxe8SaTnbjukhScMy1FhHSLELy5BtWD2B
-	9A7h2iamom+UmkTR/ld0Dnc3zg==
-X-Google-Smtp-Source: APXvYqysKKsTs1F47Kc3+4doVIgxo3Rmjomm8Pi2CdjgzcY+/n3qri7H59D4k4PXHFUFJVDQJU9ZXg==
-X-Received: by 2002:a5d:698b:: with SMTP id g11mr15636007wru.65.1555493868405; 
-	Wed, 17 Apr 2019 02:37:48 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s21sm33186902wra.45.2019.04.17.02.37.47
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Apr 2019 02:37:47 -0700 (PDT)
-Message-ID: <fdc87321d0cba27741ae1b9e1dde703e42683fa2.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Adrian Bunk <bunk@stusta.de>
-Date: Wed, 17 Apr 2019 10:37:45 +0100
-In-Reply-To: <20190417093520.GA895@localhost>
+	Wed, 17 Apr 2019 09:50:30 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44kctH3MQ7z3G;
+	Wed, 17 Apr 2019 11:50:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1555494631;
+	bh=8yodkVAwhWkw5pSMoUBcmYAnYl5HiE6rzYwP4x9asC4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f6nz6izzAdsBKW2+M4RqLXjvbSOzEWUJW1TRPDQBk/BlV1L7fAdGVAppZkHwzxrt6
+	rAhc21GbuB+Ec+eFcJMtSmK3kKbhouxuc6hs6TdXV+9uuWsPVIRQ/u8Xmus5Vnudka
+	r0B9q0ZwMicTDML+TrtPTxwcHSsLTer7vOzm7a1iB2TtO5U2Zdj3HPyhwRxQiFf11v
+	kExb7asFaNhZEuEBgreNxBT9oTf0ncmoAJ/cG0wwBR0V3Du4mdmrb6/d0tqFoMJk9P
+	IlyoF24uyoOqul0FFhhcSCzrBrEaqJLRdyt0GSE8uk3AQnjPVSuatSwxxWkdjQo5ho
+	S6R1+7r7BhJ86/zyvlSOWtAFbeM+0xhv+28uFG0miv47xeMXIVXjl/2OfPm7LIU5G8
+	vZwpo/+Eh4gFz1TZH2pcg+MwESRWq2uhnDf4p8VgZwq5X0C7KklVMmyc8Q74XK9+FQ
+	qtMgA9peggp5ngDsRufEkXiSpnlVVD2xx6LpVn9CUDc70QC7qt7cw/1qdZYo2FwisW
+	O31ilGBgTTcVWUOSaQjbIUcyOVct4PLBREgMGRH9L7Fan9dAbA3xGvJgjV3AKjmNAB
+	gwUDnbwuNSwdXZhwm080hKuhdwYJcbPfG2jT8d39y2YLIa5giTgNL49GLx/xr49Job
+	GmuLHG+c+GieQkR7Ciey0JQI=
+Date: Wed, 17 Apr 2019 12:50:29 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190417095029.GB895@localhost>
 References: <20190416055919.9090-1-naveen.kumar.saini@intel.com>
 	<b7de17b7188d78a1da3c7200ce5263edcf979a22.camel@linuxfoundation.org>
 	<95a0e409-ad9c-759e-bcf2-c9e6b20a2e50@intel.com>
 	<eac500ca51a96c769ab3080bcd78dd93316bea9f.camel@linuxfoundation.org>
 	<20190417093520.GA895@localhost>
-User-Agent: Evolution 3.32.1-2 
+	<fdc87321d0cba27741ae1b9e1dde703e42683fa2.camel@linuxfoundation.org>
 MIME-Version: 1.0
+In-Reply-To: <fdc87321d0cba27741ae1b9e1dde703e42683fa2.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -62,47 +48,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 09:37:48 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Apr 2019 09:50:31 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Wed, 2019-04-17 at 12:35 +0300, Adrian Bunk wrote:
-> On Wed, Apr 17, 2019 at 09:46:25AM +0100, 
-> richard.purdie@linuxfoundation.org wrote:
-> > On Wed, 2019-04-17 at 10:20 +0800, Saini, Naveen Kumar wrote:
-> > ...
-> > > Should this be added to HOSTTOOLS instead so lfs files are always
-> > > fetched for packages that use it?
-> > 
-> > No, that would mean everyone has to install it.
-> > 
-> > I'm ok with adding it to HOSTTOOLS_NONFATAL as soon as we have some
-> > mechanism in the fetcher or in recipes which detects lfs usage and
-> > hard
-> > errors if its present but git-lfs is not installed.
-> > 
-> > That way its deterministic - it builds with git-lfs installed and
-> > errors if it is not.
+On Wed, Apr 17, 2019 at 10:37:45AM +0100, richard.purdie@linuxfoundation.org wrote:
+> On Wed, 2019-04-17 at 12:35 +0300, Adrian Bunk wrote:
+>...
+> > Your "everyone has to install it" worry misses the much bigger
+> > problem 
+> > that git-lfs is a relatively new tool and not available in
+> > distributions 
+> > like Debian 9 or Ubuntu 16.04.
 > 
-> Is it OK that some packages are not buildable at all on supported
-> distributions?
+> Someone could certainly write a native recipe for lfs and add that as a
+> dependency which would also solve this problem. I'd be quite happy to
+> see that and it would neatly solve the problems.
 
-We're talking about a non-core layer and that would be something for
-that layer's maintainers to decide.
+This was also my first thought.
 
-> Your "everyone has to install it" worry misses the much bigger
-> problem 
-> that git-lfs is a relatively new tool and not available in
-> distributions 
-> like Debian 9 or Ubuntu 16.04.
+It stops being neat once you realize that it requires packaging
+a 3 digit number of Go libraries.
 
-Someone could certainly write a native recipe for lfs and add that as a
-dependency which would also solve this problem. I'd be quite happy to
-see that and it would neatly solve the problems.
+> Cheers,
+> 
+> Richard
 
-Cheers,
+cu
+Adrian
 
-Richard
+-- 
 
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
