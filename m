@@ -1,48 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
-	[209.85.160.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 501A67D330
+Return-Path: <auh@auh.yoctoproject.org>
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
+	[140.211.169.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 9D4287D354
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 04:04:56 +0000 (UTC)
-Received: by mail-qt1-f194.google.com with SMTP id w5so25852040qtb.11
+	Wed, 17 Apr 2019 06:39:52 +0000 (UTC)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id F20FBE00D4D; Tue, 16 Apr 2019 23:39:53 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from auh.yoctoproject.org (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id 44481E00DF2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 16 Apr 2019 21:04:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UZz5GhS3ZxqGjeaTHWFGrCs5o94+M+rUGyLHcZrUJGA=;
-	b=Gfsnaxf2aKe1xnc0j1qRJ7a3aALMuil8qYJnBT0NbyjZ8XdaDObLqDKu7Sx5ruX0y4
-	PclErj8TxZa8LTs855HTeFkgNrLLmttgUULz1Ks923LrE2bq0q3mtoS71WRio23XT92y
-	TKJG2W5y2vEiOLbvgd6rT/NhEV3Ke2L18/XtKs2iqCdc1yG2Xbn0vIv2SM4RTYx/jkBC
-	lQkvCod4xaAbMc6tLxzbyX41HoKHif/++CpDW0E5h6GHYRi0kZIeYR4uiIeDAG0f5Fmk
-	J53GWFHwpViuZXgucac2eHRFVBcVPN32/6vQcGDsZBm6msF5EwJupt/NWEiJMqu9U/5T
-	/7Vw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=UZz5GhS3ZxqGjeaTHWFGrCs5o94+M+rUGyLHcZrUJGA=;
-	b=QwOYs/xNu4tskfYrksRK1uNLjXyb60TN6jRRfWAh6+3AoKmcgK8w98PxkQ9t1DdhWn
-	bhYvdofwtFidHZC6b/t8FvjPQQC89F6sxltMsgpEmsCVeFI0NGcPd50Z4eK77rPxAKld
-	zBuH+RvpXIqlt89y1GVEhwUFRBcbGy1qe+ZaNjdZ+bI6VIQUegGTE6yrN7armVTh5yju
-	35hH2TZlhx4k6zVD9WeSICgu8rNzFvQXhzYnTwcpaZlaIpZ3OfZdIF8UAdw2TvpvvGtv
-	jNCbTHpxWD9JUxPgUEwPFO13w8lIjVuOnyy6yHYfIeNtrPuY7Zj+jFEBrCnULGdaiuBu
-	FPyw==
-X-Gm-Message-State: APjAAAWErL2ifGuvxVC0gkze5SveolCxcXxiUnmIrrvM9+oMn+YMNZM8
-	GLu0c+s54TOI4mGDsBWDoszX5d4KUmHMSRONj7o=
-X-Google-Smtp-Source: APXvYqzQPtnTBUoTSzxmx9JvlfL4FYDjYYvRJlyoH6MMQiu1TowjsRMhCZ12XwbJVcTIbtao3UyjHTLhcgnIFaVQRDk=
-X-Received: by 2002:a0c:81a9:: with SMTP id 38mr67706372qvd.208.1555473896973; 
-	Tue, 16 Apr 2019 21:04:56 -0700 (PDT)
+	Tue, 16 Apr 2019 23:39:47 -0700 (PDT)
+Received: from auh.yocto.io (localhost [127.0.0.1])
+	by auh.yoctoproject.org (Postfix) with ESMTP id 3A8CB440001
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 16 Apr 2019 23:39:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190415105457.57067-1-alex.kanavin@gmail.com>
-	<20190415105457.57067-6-alex.kanavin@gmail.com>
-In-Reply-To: <20190415105457.57067-6-alex.kanavin@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 16 Apr 2019 21:04:30 -0700
-Message-ID: <CAMKF1soxwoYJr1rcqvN27qugjajsSQ-2K5iC4Kn2HWQPgrnezQ@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/19] vala: update to 0.44.3
+From: auh@auh.yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Message-Id: <20190417063947.3A8CB440001@auh.yoctoproject.org>
+Date: Tue, 16 Apr 2019 23:39:47 -0700 (PDT)
+Subject: [AUH] Upgrade status: 2019-04-16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,351 +40,180 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 04:04:56 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 17 Apr 2019 06:39:52 -0000
+Content-Type: multipart/mixed; boundary="===============9061777241161113582=="
 
-This means we need to update xfce4-vala recipe at same time
-see
-https://errors.yoctoproject.org/Errors/Details/237659/
+--===============9061777241161113582==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-On Mon, Apr 15, 2019 at 3:56 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Remove valadoc-related patches, as upstream added an option to disable it;
-> adjust the recipe accordingly.
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-devtools/vala/vala.inc           |   2 +-
->  .../vala/vala/0001-Disable-valadoc.patch      |  32 ---
->  .../vala/vala/disable-graphviz.patch          | 226 ------------------
->  meta/recipes-devtools/vala/vala_0.42.5.bb     |  10 -
->  meta/recipes-devtools/vala/vala_0.44.3.bb     |   8 +
->  5 files changed, 9 insertions(+), 269 deletions(-)
->  delete mode 100644 meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch
->  delete mode 100644 meta/recipes-devtools/vala/vala/disable-graphviz.patch
->  delete mode 100644 meta/recipes-devtools/vala/vala_0.42.5.bb
->  create mode 100644 meta/recipes-devtools/vala/vala_0.44.3.bb
->
-> diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
-> index f680640ca68..703ed1aa8d0 100644
-> --- a/meta/recipes-devtools/vala/vala.inc
-> +++ b/meta/recipes-devtools/vala/vala.inc
-> @@ -37,7 +37,7 @@ EOF
->          chmod +x ${B}/vapigen-wrapper
->  }
->
-> -EXTRA_OECONF += " --disable-graphviz"
-> +EXTRA_OECONF += " --disable-valadoc"
->
->  # Vapigen wrapper needs to be available system-wide, because it will be used
->  # to build vapi files from all other packages with vala support
-> diff --git a/meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch b/meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch
-> deleted file mode 100644
-> index 9b27b7fd14a..00000000000
-> --- a/meta/recipes-devtools/vala/vala/0001-Disable-valadoc.patch
-> +++ /dev/null
-> @@ -1,32 +0,0 @@
-> -From b6ca3876e233c724fd460c1579abc4ab63c8d01e Mon Sep 17 00:00:00 2001
-> -From: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Date: Wed, 4 Oct 2017 15:23:08 +0300
-> -Subject: [PATCH] Disable valadoc
-> -
-> -Valadoc is a documentation generator for Vala sources, which was
-> -recently merged into the main vala source tree. Unsurprisingly,
-> -it's broken in cross-compile environment in multiple ways,
-> -so let's fix it some other time.
-> -
-> -Upstream-Status: Inappropriate [oe-core specific]
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ----
-> - Makefile.am | 2 --
-> - 1 file changed, 2 deletions(-)
-> -
-> -diff --git a/Makefile.am b/Makefile.am
-> -index e5dc0cc..813b3fc 100644
-> ---- a/Makefile.am
-> -+++ b/Makefile.am
-> -@@ -13,8 +13,6 @@ SUBDIRS = \
-> -       doc \
-> -       gobject-introspection \
-> -       vapigen \
-> --      libvaladoc \
-> --      valadoc \
-> -       $(NULL)
-> -
-> - if ENABLE_UNVERSIONED
-> ---
-> -2.14.1
-> -
-> diff --git a/meta/recipes-devtools/vala/vala/disable-graphviz.patch b/meta/recipes-devtools/vala/vala/disable-graphviz.patch
-> deleted file mode 100644
-> index e521bc854b3..00000000000
-> --- a/meta/recipes-devtools/vala/vala/disable-graphviz.patch
-> +++ /dev/null
-> @@ -1,226 +0,0 @@
-> -From b2723ff18b70c67c8a7fab5375a7f3c442d49790 Mon Sep 17 00:00:00 2001
-> -From: Rico Tzschichholz <ricotz@ubuntu.com>
-> -Date: Wed, 6 Sep 2017 18:52:55 +0200
-> -Subject: [PATCH] libvaladoc: Allow disabling the graphviz dependency of
-> -
-> - valadoc
-> -
-> -https://bugzilla.gnome.org/show_bug.cgi?id=787375
-> -Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> -Upstream-Status: Submitted [bugzilla link above]
-> -
-> ----
-> - configure.ac                          | 60 ++++++++++++++-------------
-> - libvaladoc/Makefile.am                | 25 ++++++++---
-> - libvaladoc/html/basicdoclet.vala      |  8 ++++
-> - libvaladoc/html/htmlmarkupwriter.vala |  4 ++
-> - 4 files changed, 63 insertions(+), 34 deletions(-)
-> -
-> -diff --git a/configure.ac b/configure.ac
-> -index 730c72d..af81986 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -119,34 +119,38 @@ PKG_CHECK_MODULES(GMODULE, gmodule-2.0 >= $GLIB_REQUIRED)
-> - AC_SUBST(GMODULE_CFLAGS)
-> - AC_SUBST(GMODULE_LIBS)
-> -
-> --PKG_CHECK_MODULES(LIBGVC, libgvc >= $LIBGVC_REQUIRED)
-> --AC_MSG_CHECKING([for CGRAPH])
-> --cgraph_tmp_LIBADD="$LIBADD"
-> --cgraph_tmp_CFLAGS="$CFLAGS"
-> --LIBADD="$LIBADD $LIBGVC_LIBS"
-> --CFLAGS="$CFLAGS $LIBGVC_CFLAGS"
-> --AC_RUN_IFELSE(
-> --      [AC_LANG_SOURCE([
-> --              #include <gvc.h>
-> --
-> --              int main(void) {
-> --                      #ifdef WITH_CGRAPH
-> --                              return 0;
-> --                      #else
-> --                              return -1;
-> --                      #endif
-> --              }
-> --      ])], [
-> --              AC_MSG_RESULT([yes])
-> --              VALAFLAGS="$VALAFLAGS -D WITH_CGRAPH"
-> --              have_cgraph=yes
-> --      ], [
-> --              AC_MSG_RESULT([no])
-> --              have_cgraph=no
-> --      ]
-> --)
-> --LIBADD="$cgraph_tmp_LIBADD"
-> --CFLAGS="$cgraph_tmp_CFLAGS"
-> -+AC_ARG_ENABLE(graphviz, AS_HELP_STRING([--disable-graphviz], [Disable graphviz usage for valadoc]), enable_graphviz=$enableval, enable_graphviz=yes)
-> -+if test x$enable_graphviz = xyes; then
-> -+      PKG_CHECK_MODULES(LIBGVC, libgvc >= $LIBGVC_REQUIRED)
-> -+      AC_MSG_CHECKING([for CGRAPH])
-> -+      VALAFLAGS="$VALAFLAGS -D HAVE_GRAPHVIZ"
-> -+      cgraph_tmp_LIBADD="$LIBADD"
-> -+      cgraph_tmp_CFLAGS="$CFLAGS"
-> -+      LIBADD="$LIBADD $LIBGVC_LIBS"
-> -+      CFLAGS="$CFLAGS $LIBGVC_CFLAGS"
-> -+      AC_RUN_IFELSE(
-> -+              [AC_LANG_SOURCE([
-> -+                      #include <gvc.h>
-> -+                      int main(void) {
-> -+                              #ifdef WITH_CGRAPH
-> -+                                      return 0;
-> -+                              #else
-> -+                                      return -1;
-> -+                              #endif
-> -+                      }
-> -+              ])], [
-> -+                      AC_MSG_RESULT([yes])
-> -+                      VALAFLAGS="$VALAFLAGS -D WITH_CGRAPH"
-> -+                      have_cgraph=yes
-> -+              ], [
-> -+                      AC_MSG_RESULT([no])
-> -+                      have_cgraph=no
-> -+              ]
-> -+      )
-> -+      LIBADD="$cgraph_tmp_LIBADD"
-> -+      CFLAGS="$cgraph_tmp_CFLAGS"
-> -+fi
-> -+AM_CONDITIONAL(ENABLE_GRAPHVIZ, test x$enable_graphviz = xyes)
-> - AM_CONDITIONAL(HAVE_CGRAPH, test "$have_cgraph" = "yes")
-> -
-> - AC_PATH_PROG([XSLTPROC], [xsltproc], :)
-> -diff --git a/libvaladoc/Makefile.am b/libvaladoc/Makefile.am
-> -index f3f790e..3c5dc4c 100644
-> ---- a/libvaladoc/Makefile.am
-> -+++ b/libvaladoc/Makefile.am
-> -@@ -128,10 +128,6 @@ libvaladoc_la_VALASOURCES = \
-> -       content/tablerow.vala \
-> -       content/taglet.vala \
-> -       content/text.vala \
-> --      charts/chart.vala \
-> --      charts/chartfactory.vala \
-> --      charts/hierarchychart.vala \
-> --      charts/simplechartfactory.vala \
-> -       parser/manyrule.vala \
-> -       parser/oneofrule.vala \
-> -       parser/optionalrule.vala \
-> -@@ -158,13 +154,24 @@ libvaladoc_la_VALASOURCES = \
-> -       highlighter/codetoken.vala \
-> -       highlighter/highlighter.vala \
-> -       html/basicdoclet.vala \
-> --      html/htmlchartfactory.vala \
-> -       html/linkhelper.vala \
-> -       html/cssclassresolver.vala \
-> -       html/htmlmarkupwriter.vala \
-> -       html/htmlrenderer.vala \
-> -       $(NULL)
-> -
-> -+if ENABLE_GRAPHVIZ
-> -+libvaladoc_la_VALASOURCES += \
-> -+      charts/chart.vala \
-> -+      charts/chartfactory.vala \
-> -+      charts/hierarchychart.vala \
-> -+      charts/simplechartfactory.vala \
-> -+      html/htmlchartfactory.vala \
-> -+      $(NULL)
-> -+
-> -+LIBGVC_PKG = --vapidir $(top_srcdir)/vapi --pkg libgvc
-> -+endif
-> -+
-> - libvaladoc@PACKAGE_SUFFIX@_la_SOURCES = \
-> -       libvaladoc.vala.stamp \
-> -       $(libvaladoc_la_VALASOURCES:.vala=.c) \
-> -@@ -184,11 +191,11 @@ libvaladoc.vala.stamp: $(libvaladoc_la_VALASOURCES)
-> -               --library valadoc \
-> -               --vapi valadoc@PACKAGE_SUFFIX@.vapi \
-> -               --vapidir $(top_srcdir)/vapi --pkg gmodule-2.0 \
-> --              --vapidir $(top_srcdir)/vapi --pkg libgvc \
-> -               --vapidir $(top_srcdir)/gee --pkg gee \
-> -               --vapidir $(top_srcdir)/vala --pkg vala \
-> -               --vapidir $(top_srcdir)/ccode --pkg ccode \
-> -               --vapidir $(top_srcdir)/codegen --pkg codegen \
-> -+              $(LIBGVC_PKG) \
-> -               --pkg config \
-> -               $(filter %.vala %.c,$^)
-> -       touch $@
-> -@@ -217,6 +224,9 @@ nodist_pkgconfig_DATA = valadoc@PACKAGE_SUFFIX@.pc
-> -
-> - valadoc@PACKAGE_SUFFIX@.pc: valadoc.pc
-> -       cp $< $@
-> -+if !ENABLE_GRAPHVIZ
-> -+      sed -i "s/libgvc //g" $@
-> -+endif
-> -
-> - vapidir = $(datadir)/vala/vapi
-> - dist_vapi_DATA = valadoc@PACKAGE_SUFFIX@.vapi
-> -@@ -224,6 +234,9 @@ nodist_vapi_DATA = valadoc@PACKAGE_SUFFIX@.deps
-> -
-> - valadoc@PACKAGE_SUFFIX@.deps: valadoc.deps
-> -       cp $< $@
-> -+if !ENABLE_GRAPHVIZ
-> -+      sed -i "s/libgvc//g" $@
-> -+endif
-> -
-> - EXTRA_DIST = \
-> -       $(libvaladoc_la_VALASOURCES) \
-> -diff --git a/libvaladoc/html/basicdoclet.vala b/libvaladoc/html/basicdoclet.vala
-> -index 192e488..ec09602 100644
-> ---- a/libvaladoc/html/basicdoclet.vala
-> -+++ b/libvaladoc/html/basicdoclet.vala
-> -@@ -46,7 +46,11 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-> -       protected HtmlRenderer _renderer;
-> -       protected Html.MarkupWriter writer;
-> -       protected Html.CssClassResolver cssresolver;
-> -+#if HAVE_GRAPHVIZ
-> -       protected Charts.Factory image_factory;
-> -+#else
-> -+      protected void* image_factory;
-> -+#endif
-> -       protected ErrorReporter reporter;
-> -       protected string package_list_link = "../index.html";
-> -
-> -@@ -120,7 +124,9 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-> -               this.linker = new LinkHelper ();
-> -
-> -               _renderer = new HtmlRenderer (settings, this.linker, this.cssresolver);
-> -+#if HAVE_GRAPHVIZ
-> -               this.image_factory = new SimpleChartFactory (settings, linker);
-> -+#endif
-> -       }
-> -
-> -
-> -@@ -1026,6 +1032,7 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-> -       }
-> -
-> -       protected void write_image_block (Api.Node element) {
-> -+#if HAVE_GRAPHVIZ
-> -               if (element is Class || element is Interface || element is Struct) {
-> -                       unowned string format = (settings.use_svg_images ? "svg" : "png");
-> -                       var chart = new Charts.Hierarchy (image_factory, element);
-> -@@ -1045,6 +1052,7 @@ public abstract class Valadoc.Html.BasicDoclet : Api.Visitor, Doclet {
-> -                                                                          this.get_img_path_html (element, format)});
-> -                       writer.add_usemap (chart);
-> -               }
-> -+#endif
-> -       }
-> -
-> -       public void write_namespace_content (Namespace node, Api.Node? parent) {
-> -diff --git a/libvaladoc/html/htmlmarkupwriter.vala b/libvaladoc/html/htmlmarkupwriter.vala
-> -index 5aa4afd..e79b0b8 100644
-> ---- a/libvaladoc/html/htmlmarkupwriter.vala
-> -+++ b/libvaladoc/html/htmlmarkupwriter.vala
-> -@@ -51,12 +51,16 @@ public class Valadoc.Html.MarkupWriter : Valadoc.MarkupWriter {
-> -               }
-> -       }
-> -
-> -+#if HAVE_GRAPHVIZ
-> -       public unowned MarkupWriter add_usemap (Charts.Chart chart) {
-> -               string? buf = (string?) chart.write_buffer ("cmapx");
-> -               if (buf != null) {
-> -                       raw_text ("\n");
-> -                       raw_text ((!) buf);
-> -               }
-> -+#else
-> -+      public unowned MarkupWriter add_usemap (void* chart) {
-> -+#endif
-> -
-> -               return this;
-> -       }
-> diff --git a/meta/recipes-devtools/vala/vala_0.42.5.bb b/meta/recipes-devtools/vala/vala_0.42.5.bb
-> deleted file mode 100644
-> index eea17661604..00000000000
-> --- a/meta/recipes-devtools/vala/vala_0.42.5.bb
-> +++ /dev/null
-> @@ -1,10 +0,0 @@
-> -require ${BPN}.inc
-> -
-> -SRC_URI += " file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch \
-> -             file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
-> -            file://disable-graphviz.patch \
-> -            file://0001-Disable-valadoc.patch \
-> -"
-> -
-> -SRC_URI[md5sum] = "d204eb4fa210995e731e2a9a01c8c772"
-> -SRC_URI[sha256sum] = "8c33b4abc0573d364781bbfe54a1668ed34956902e471191a31cf05dc87c6e12"
-> diff --git a/meta/recipes-devtools/vala/vala_0.44.3.bb b/meta/recipes-devtools/vala/vala_0.44.3.bb
-> new file mode 100644
-> index 00000000000..fe6a5fcdcbd
-> --- /dev/null
-> +++ b/meta/recipes-devtools/vala/vala_0.44.3.bb
-> @@ -0,0 +1,8 @@
-> +require ${BPN}.inc
-> +
-> +SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.patch \
-> +           file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
-> +           "
-> +
-> +SRC_URI[md5sum] = "25f97c1b46ae0b60b5cc49cbc044eca2"
-> +SRC_URI[sha256sum] = "8553b422484af88be1685d8b47f7b0df36ae4477c3e77e89ab22276ffed1eae9"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIFN1Y2NlZWRlZDogMzIKICAgICAgICBi
+dHJmcy10b29scywgNC4yMC4yLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWls
+LmNvbT4KICAgICAgICBsaW51eC1maXJtd2FyZSwgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwg
+T3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAg
+ICBwa2djb25mLCAxLjYuMSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAg
+ICAgICBsaWJpbnB1dCwgMS4xMy4xLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29t
+PgogICAgICAgIGRuZiwgNC4yLjIsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21h
+aWwuY29tPgogICAgICAgIGF0aywgMi4zMi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
+ZWwuY29tPgogICAgICAgIGdzdC1leGFtcGxlcywgMC4wLjEtbmV3LWNvbW1pdHMtYXZhaWxhYmxl
+LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIG9yYywgMC40LjI5
+LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHBpZ2xpdCwgMS4w
+LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNv
+bT4KICAgICAgICBsaWJ0ZXN0LW5lZWRzLXBlcmwsIDAuMDAyMDA2LCBUaW0gT3JsaW5nIDx0aW1v
+dGh5LnQub3JsaW5nQGxpbnV4LmludGVsLmNvbT4KICAgICAgICBhcHIsIDEuNy4wLCBIb25neHUg
+SmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgZ251LWNvbmZpZywgMjAxODEx
+MjgtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJp
+dmVyLmNvbT4KICAgICAgICBtYW4tcGFnZXMsIDUuMDAsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFA
+d2luZHJpdmVyLmNvbT4KICAgICAgICBweXRob24zLW1ha28sIDEuMC45LCBEZXJlayBTdHJha2Eg
+PGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIHB5dGhvbjMtcGlwLCAxOS4wLjMsIERlcmVrIFN0
+cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgbGliY3JvY28sIDAuNi4xMywgQW51aiBN
+aXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBsaWJjb21wcywgMC4xLjExLCBB
+bGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBmcmVldHlw
+ZSwgMi4xMC4wLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGdh
+d2ssIDUuMC4wLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgYWR3YWl0
+YS1pY29uLXRoZW1lLCAzLjMyLjAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+
+CiAgICAgICAga21zY3ViZSwgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQ2FybG9zIFJhZmFl
+bCBHaWFuaSA8ZHZAcHNldWRvdGVybWluYWwub3JnPgogICAgICAgIHdnZXQsIDEuMjAuMywgWWkg
+WmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgICAgIGxpYm1vZHVsZW1kLCAyLjIuMywg
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9u
+MywgMy43LjMsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgeDI2NCwg
+cjI5MTctbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50
+ZWwuY29tPgogICAgICAgIHB5dGhvbjMtc2V0dXB0b29scywgNDEuMC4wLCBEZXJlayBTdHJha2Eg
+PGRlcmVrQGFzdGVyaXVzLmlvPgogICAgICAgIGZmbXBlZywgNC4xLjMsIEFsZXhhbmRlciBLYW5h
+dmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGxpYnNvbHYsIDAuNy40LCBBbnVq
+IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGN1cHMsIDIuMi4xMSwgQ2hl
+biBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHB5dGhvbjMtcGJyLCA1LjEuMywg
+RGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBsaWJub3RpZnksIDAuNy44
+LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHBpeG1hbiwgMC4z
+OC40LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgKiBGYWlsZWQob3Ro
+ZXIgZXJyb3JzKTogMgogICAgICAgIGdvLCAxLjEyLjQsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
+bC5jb20+CiAgICAgICAgZ28tcnVudGltZSwgMS4xMi40LCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21h
+aWwuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDIyCiAgICAgICAgbWtmb250c2NhbGUs
+IDEuMi4xLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIGNtYWtl
+LCAzLjE0LjIsIFBhc2NhbCBCYWNoIDxwYXNjYWwuYmFjaEBzaWVtZW5zLmNvbT4KICAgICAgICBw
+eXRob24tc2V0dXB0b29scywgNDEuMC4wLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlv
+PgogICAgICAgIGF0LXNwaTItY29yZSwgMi4zMi4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
+aW50ZWwuY29tPgogICAgICAgIGR0YywgMS41LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
+bmF2aW5AZ21haWwuY29tPgogICAgICAgIHByZWxpbmssIDEuMC1uZXctY29tbWl0cy1hdmFpbGFi
+bGUsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT4KICAgICAgICBnbnV0bHMs
+IDMuNi43LjEsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgZ2l0
+LCAyLjIxLjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAg
+IHN5c3RlbWQtYm9vdCwgMjQyLCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAg
+ICAgYXV0b2NvbmYtYXJjaGl2ZSwgMjAxOS4wMS4wNiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5n
+QHdpbmRyaXZlci5jb20+CiAgICAgICAgbWVzYSwgMTkuMC4yLCBPdGF2aW8gU2FsdmFkb3IgPG90
+YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIGVwaXBoYW55LCAzLjMyLjEu
+MiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgcHl0
+aG9uMy1weWdvYmplY3QsIDMuMzIuMCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4K
+ICAgICAgICBtdGQtdXRpbHMsIDIuMS4wLCBEZW55cyBEbXl0cml5ZW5rbyA8ZGVueXNAdGkuY29t
+PgogICAgICAgIGdzZXR0aW5ncy1kZXNrdG9wLXNjaGVtYXMsIDMuMzIuMCwgQW51aiBNaXR0YWwg
+PGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBweXRob24zLXB5Y2Fpcm8sIDEuMTguMCwg
+RGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICBzeXN0ZW1kLWNvbmYsIDI0
+MiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIG9mb25vLCAxLjI5LCBS
+b3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGNvcmV1dGlscywgOC4z
+MSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGF0LXNwaTItYXRrLCAy
+LjMyLjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgbWFuLWRi
+LCAyLjguNSwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIGlw
+dGFibGVzLCAxLjguMiwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4K
+ICAgICogRmFpbGVkIChkZXZ0b29sIGVycm9yKTogNTkKICAgICAgICBhdHRyLCAyLjQuNDgsIENo
+ZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBiaXNvbiwgMy4zLjIsIENoZW4g
+UWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnaG9zdHNjcmlwdCwgOS4yNywgSG9u
+Z3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAgIHZ0ZSwgMC41Ni4xLCBB
+bnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdvYmplY3QtaW50cm9z
+cGVjdGlvbiwgMS42MC4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
+bT4KICAgICAgICBmbGV4LCAyLjYuNCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
+ICAgICAgIHZpbSwgOC4xLjExNzQsIFRvbSBSaW5pIDx0cmluaUBrb25zdWxrby5jb20+CiAgICAg
+ICAgcHl0aG9uLW51bXB5LCAxLjE2LjIsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+
+CiAgICAgICAgc3lza2xvZ2QsIDEuNiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
+ICAgICAgIHNlZCwgNC43LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAg
+aXcsIDUuMC4xLCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAg
+ICAgIHRleGluZm8sIDYuNiwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAg
+ICAgICBsaWJ4bWwyLCAyLjkuOSwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29t
+PgogICAgICAgIHF1aWx0LCAwLjY2LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVy
+LmNvbT4KICAgICAgICBsaWJkbmYsIDAuMjguMSwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2Fu
+YXZpbkBnbWFpbC5jb20+CiAgICAgICAgZTJmc3Byb2dzLCAxLjQ1LjAsIFJvYmVydCBZYW5nIDxs
+aWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGlwdXRpbHMsIHMyMDE5MDMyNCwgQ2hh
+bmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAgICBib29zdCwgMS43
+MC4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBx
+dW90YSwgNC4wNSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBw
+eXRob24zLW51bXB5LCAxLjE2LjIsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAg
+ICAgICAgc29jYXQsIDEuNy4zLjMsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNv
+bT4KICAgICAgICBncGdtZSwgMS4xMy4wLCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZl
+ci5jb20+CiAgICAgICAgdnVsa2FuLWRlbW9zLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBS
+b3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGFjbCwgMi4yLjUzLCBD
+aGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgc3F1YXNoZnMtdG9vbHMsIDQu
+My1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2
+ZXIuY29tPgogICAgICAgIG10b29scywgNC4wLjIzLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
+aW50ZWwuY29tPgogICAgICAgIG1lc29uLCAwLjUwLjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIHB1enpsZXMsIDAuMC1uZXctY29tbWl0cy1hdmFp
+bGFibGUsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgbGliaWRu
+MiwgMi4xLjFhLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGRw
+a2csIDEuMTkuNiwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+CiAgICAg
+ICAgc3RyYWNlLCA1LjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgog
+ICAgICAgIHJuZy10b29scywgNi43LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29t
+PgogICAgICAgIGxpYmRhenpsZSwgMy4zMi4xLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
+dmluQGdtYWlsLmNvbT4KICAgICAgICBpZnVwZG93biwgMC44LjM1LCBBbnVqIE1pdHRhbCA8YW51
+ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHV0aWwtbGludXgsIDIuMzMuMiwgQ2hlbiBRaSA8
+UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGd0ayszLCAzLjI0LjgsIFJvc3MgQnVydG9u
+IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgdmFsYSwgMC40NC4zLCBBbGV4YW5kZXIg
+S2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBnbnVwZywgMi4yLjE1LCBI
+b25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAgYWNwaWNhLCAyMDE5
+MDQwNSwgRmF0aGkgQm91ZHJhIDxmYXRoaS5ib3VkcmFAbGluYXJvLm9yZz4KICAgICAgICB2aW0t
+dGlueSwgOC4xLjExNzQsIFRvbSBSaW5pIDx0cmluaUBrb25zdWxrby5jb20+CiAgICAgICAgd2Vi
+a2l0Z3RrLCAyLjI0LjEsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29t
+PgogICAgICAgIGdsaWItMi4wLCAyLjYwLjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRl
+bC5jb20+CiAgICAgICAgcHl0aG9uLXNjb25zLCAzLjAuNSwgRGVyZWsgU3RyYWthIDxkZXJla0Bh
+c3Rlcml1cy5pbz4KICAgICAgICBsaWJpY2FsLCAzLjAuNCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVy
+dG9uQGludGVsLmNvbT4KICAgICAgICBnby1kZXAsIDAuNS4xLCBPdGF2aW8gU2FsdmFkb3IgPG90
+YXZpby5zYWx2YWRvckBvc3N5c3RlbXMuY29tLmJyPgogICAgICAgIGljdSwgNjQuMSwgQWxleGFu
+ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgdnVsa2FuLCAxLjEu
+MTAxLjAsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgZ2RrLXBp
+eGJ1ZiwgMi4zOC4xLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAg
+IGxpYnNvdXAtMi40LCAyLjY2LjEsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+
+CiAgICAgICAgcHl0aG9uLCAyLjcuMTYsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+
+CiAgICAgICAgYnVpbGQtY29tcGFyZSwgMjAxNS4wMi4xMC1uZXctY29tbWl0cy1hdmFpbGFibGUs
+IFBhdWwgRWdnbGV0b24gPHBhdWwuZWdnbGV0b25AbGludXguaW50ZWwuY29tPgogICAgICAgIGFw
+dCwgMS44LjAsIEFuw61iYWwgTGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwuY29tPgogICAgICAg
+IGJhc2gsIDUuMCwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAgICAg
+IGxzYmluaXRzY3JpcHRzLCAxMC4wMSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNv
+bT4KICAgICAgICBtbWMtdXRpbHMsIDAuMS1uZXctY29tbWl0cy1hdmFpbGFibGUsIEFudWogTWl0
+dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcnVieSwgMi42LjIsIFJvc3MgQnVy
+dG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgbHR0bmctbW9kdWxlcywgMi4xMC45
+LCBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KICAg
+ICAgICBzeXN2aW5pdCwgMi45NCwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4K
+ICAgICAgICBncm9mZiwgMS4yMi40LCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5j
+b20+CgogICAgVE9UQUw6IGF0dGVtcHRlZD0xMTUgc3VjY2VlZGVkPTMyKDI3LjgzJSkgZmFpbGVk
+PTgzKDcyLjE3JSkKClJlY2lwZSB1cGdyYWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6Cgog
+ICAgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uOiBhdHRlbXB0ZWQ9MTUgc3VjY2VlZGVkPTUoMzMu
+MzMlKSBmYWlsZWQ9MTAoNjYuNjclKQogICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFl
+OiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTMoMTAwLjAwJSkKICAgIEFy
+bWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZh
+aWxlZD0yKDEwMC4wMCUpCiAgICBNYXJrIEhhdGxlIDxtYXJrLmhhdGxlOiBhdHRlbXB0ZWQ9MSBz
+dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIE90YXZpbyBTYWx2YWRvciA8
+b3RhdmlvLnNhbHZhZG9yOiBhdHRlbXB0ZWQ9MyBzdWNjZWVkZWQ9MSgzMy4zMyUpIGZhaWxlZD0y
+KDY2LjY3JSkKICAgIERlbnlzIERteXRyaXllbmtvIDxkZW55czogYXR0ZW1wdGVkPTEgc3VjY2Vl
+ZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxk
+djogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBU
+b20gUmluaSA8dHJpbmk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9Migx
+MDAuMDAlKQogICAgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYTogYXR0ZW1wdGVkPTEwIHN1Y2NlZWRl
+ZD0yKDIwLjAwJSkgZmFpbGVkPTgoODAuMDAlKQogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFs
+OiBhdHRlbXB0ZWQ9MjEgc3VjY2VlZGVkPTgoMzguMTAlKSBmYWlsZWQ9MTMoNjEuOTAlKQogICAg
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTE1IHN1Y2NlZWRlZD01
+KDMzLjMzJSkgZmFpbGVkPTEwKDY2LjY3JSkKICAgIERlcmVrIFN0cmFrYSA8ZGVyZWs6IGF0dGVt
+cHRlZD0xMiBzdWNjZWVkZWQ9NSg0MS42NyUpIGZhaWxlZD03KDU4LjMzJSkKICAgIFBhc2NhbCBC
+YWNoIDxwYXNjYWwuYmFjaDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0x
+KDEwMC4wMCUpCiAgICBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmc6IGF0dGVtcHRlZD03IHN1Y2Nl
+ZWRlZD0xKDE0LjI5JSkgZmFpbGVkPTYoODUuNzElKQogICAgQW7DrWJhbCBMaW3Ds24gPGxpbW9u
+LmFuaWJhbDogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUp
+CiAgICBUaW0gT3JsaW5nIDx0aW1vdGh5LnQub3JsaW5nOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9
+MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1w
+dGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBDaGVuIFFpIDxR
+aS5DaGVuOiBhdHRlbXB0ZWQ9MTIgc3VjY2VlZGVkPTIoMTYuNjclKSBmYWlsZWQ9MTAoODMuMzMl
+KQogICAgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllOiBhdHRlbXB0ZWQ9MSBzdWNjZWVk
+ZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFBhdWwgRWdnbGV0b24gPHBhdWwuZWdn
+bGV0b246IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQog
+ICAgRmF0aGkgQm91ZHJhIDxmYXRoaS5ib3VkcmE6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAu
+MDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgWWkgWmhhbyA8eWkuemhhbzogYXR0ZW1wdGVkPTEg
+c3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAoMC4wMCUpCg==
 
+--===============9061777241161113582==--
