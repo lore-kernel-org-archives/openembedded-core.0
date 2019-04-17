@@ -1,60 +1,49 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CB4C7D106
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E6216C109
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 14:12:21 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 8882818607;
-	Wed, 17 Apr 2019 16:12:22 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id mVSID46C0GUI; Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 801DE18528;
-	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6D58D1A094;
-	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 61C421A08C;
-	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 55DBB1704;
-	Wed, 17 Apr 2019 16:12:20 +0200 (CEST)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Wed, 17 Apr 2019 16:12:20 +0200
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Wed, 17 Apr 2019 16:12:20 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
-	Seebs <seebs@seebs.net>
-Thread-Topic: [OE-core] [PATCH] pseudo: Update to gain key bugfixes
-Thread-Index: AQHU7/L3kbkYfTRQmE2zAn03l95XLKY18YMAgAIdcwCACF3YkA==
-Date: Wed, 17 Apr 2019 14:12:19 +0000
-Message-ID: <5bc0e9c882a24ddcb08d922e290d3dad@XBOX04.axis.com>
-References: <20190410231254.25763-1-richard.purdie@linuxfoundation.org>
-	<20190410185944.0a16ea5d@seebsdell>
-	<2cf8ada8df82cb38252db3ff4c45b9f85294c63e.camel@linuxfoundation.org>
-In-Reply-To: <2cf8ada8df82cb38252db3ff4c45b9f85294c63e.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Wed, 17 Apr 2019 16:00:04 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w18so2530360wrv.11
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 17 Apr 2019 09:00:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Dhp38Uj/VvvFRJnQq4b+8pSs3sRCe5geveC55ivh7o8=;
+	b=PLkE6ffxj5qxpqz7ccnoqIo6bMOxLyilU8Nx1hejb4lggMAT6D2pRW9E9qxZGvakqw
+	Czd8LElreKnsJcS5yG57AurifhmoP6OC7w6sYUvpdPfBX6lCKEFgm5m5gEsxMEu44H9P
+	UZdElc0VqjW2nxArjR2DwGxcvwikOAC6GMP9o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Dhp38Uj/VvvFRJnQq4b+8pSs3sRCe5geveC55ivh7o8=;
+	b=DVSkHr0McG8j1JF0q9MBpgxwmRx+kB3ht424NkL4uLY2x0pgsvqXzEtDCGjurU7T+O
+	+cGbDNS4o9PEQue6H3KBb6OcLVaza2BiW0MsGMgQhEeb7DJ9SckHmxxXjIIOCPeRx+GU
+	6DbZZW+wAp32RYMiyhnmoo31BCpIp7USYf3QzWLGlACY17YFZaGnSKdHGqTmJNCFZWm6
+	ocO0z2Lyrfr9RsoEwU+C0BcmA4FR8VxYVY413H5H389ErTnnIBczxPs0HkL+470sf597
+	owY22J3ICOOmmRvfQW8Tz4hJy7yRSYqJjDM/6VOo/Rutt9UgtKOi9tgYhRFwsA9NPv++
+	8VhA==
+X-Gm-Message-State: APjAAAUdwFgMM/67g6MuVA6ulj5I4+u24RjKH3WwwlzoNeswD9cllSnv
+	QdMxTu5X67U7vo72ihu2tTBbyfhl0Vo=
+X-Google-Smtp-Source: APXvYqysKGWEDw4VlNlgDK1UuAOP7JXpKOr8aKf9qmEkQ9zt7u1yerjWvJ7RkF1BNvVXRx9ZAuhzdw==
+X-Received: by 2002:adf:ef0c:: with SMTP id e12mr56159717wro.170.1555516804939;
+	Wed, 17 Apr 2019 09:00:04 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	t81sm5290330wmb.5.2019.04.17.09.00.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 17 Apr 2019 09:00:04 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 17 Apr 2019 16:59:45 +0100
+Message-Id: <20190417155947.24890-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] pseudo: Update to gain key bugfixes
+Subject: [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast' ptest execution image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,64 +56,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 14:12:22 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 17 Apr 2019 16:00:04 -0000
+Content-Transfer-Encoding: 8bit
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of
-> richard.purdie@linuxfoundation.org
-> Sent: den 12 april 2019 10:18
-> To: Seebs <seebs@seebs.net>
-> Cc: openembedded-core@lists.openembedded.org
-> Subject: Re: [OE-core] [PATCH] pseudo: Update to gain key bugfixes
->=20
-> On Wed, 2019-04-10 at 18:59 -0500, Seebs wrote:
-> > On Thu, 11 Apr 2019 00:12:54 +0100
-> > Richard Purdie <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > > -SRCREV =3D "6294b344e5140f5467e6860f45a174440015304e"
-> > > +SRCREV =3D "6ebc7d6bc8ab973d0ba949eeb363821811ce8dc5"
-> >
-> > I would sort of recommend one of the two commits since then -- one
-> > may
-> > fix the .NET startup failures, and the other fixes warnings that this
-> > one introduced and I forgot to fix. But I'm also okay with this one.
->=20
-> That is good news. I've tested and updated to the later revision,
-> thanks!
->=20
-> Cheers,
->=20
-> Richard
+Create a common include file which lists recipes that have ptests divided
+into 'fast' and 'slow' groups. This allows us to include ptests which otherwise
+may not get included in images and allows us to test the faster running things
+more regularly.
 
-One of our developers, who has been especially affected by this=20
-problem, reported that he was still having problems building a=20
-couple of recipes even with the latest version of pseudo. After=20
-some debugging it was determined that the problem was due to the=20
-Debian version of coreutils that he was using. When he downgraded=20
-from 8.30-3 to 8.30-1 the problems he was seeing went away. The=20
-changelog for the reverted changes indicate that pseudo will=20
-need to be made aware about what they are doing:
+The new image allows access to these faster executing tests. 'fast' is defined
+as tests which execute in under 30s roughly speaking.
 
-,----
-| coreutils (8.30-3) unstable; urgency=3Dmedium
-|=20
-|   * Fix renameat2 patch (Closes: #923420)
-|=20
-|  -- Michael Stone <mstone@debian.org>  Thu, 28 Feb 2019 10:30:31 -0500
-|=20
-| coreutils (8.30-2) unstable; urgency=3Dmedium
-|=20
-|   * Use renameat2 glibc function that can be intercepted by fakechroot
-|     (Closes: #915559)
-|   * Above requires autoreconf turned on again
-|=20
-|  -- Michael Stone <mstone@debian.org>  Tue, 26 Feb 2019 07:15:19 -0500
-`----
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../distro/include/ptest-packagelists.inc     | 75 +++++++++++++++++++
+ .../images/core-image-sato-ptest-fast.bb      | 16 ++++
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/conf/distro/include/ptest-packagelists.inc
+ create mode 100644 meta/recipes-sato/images/core-image-sato-ptest-fast.bb
 
-//Peter
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+new file mode 100644
+index 00000000000..768ba743ed0
+--- /dev/null
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -0,0 +1,75 @@
++#
++# Lists of the ptests in OE-Core, sorted into two sets by the time they take
++#
++# ptests which take less than ~30s each
++#
++PTESTS_FAST = "\
++    acl-ptest \
++    apr-ptest \
++    apr-util-ptest \
++    attr-ptest \
++    bluez5-ptest \
++    bzip2-ptest \
++    dbus-test-ptest \
++    diffstat-ptest \
++    diffutils-ptest \
++    elfutils-ptest \
++    ethtool-ptest \
++    flex-ptest \
++    gawk-ptest \
++    gdbm-ptest \
++    gdk-pixbuf-ptest \
++    gzip-ptest \
++    json-glib-ptest \
++    kbd-ptest \
++    libconvert-asn1-perl-ptest \
++    liberror-perl-ptest \
++    libpcre-ptest \
++    libtimedate-perl-ptest \
++    libtest-needs-perl-ptest \
++    liburi-perl-ptest \
++    libusb1-ptest \
++    libxml-namespacesupport-perl-ptest \
++    libxml-perl-ptest \
++    libxml-parser-perl-ptest \
++    libxml-sax-perl-ptest \
++    libxml-sax-base-perl-ptest \
++    libxml-simple-perl-ptest \
++    libxml2-ptest \
++    lzo-ptest \
++    nettle-ptest \
++    openssl-ptest \
++    opkg-ptest \
++    pango-ptest \
++    parted-ptest \
++    quilt-ptest \
++    sed-ptest \
++    slang-ptest \
++    zlib-ptest \
++"
++
++#PTESTS_PROBLEMS = "\
++#    qemu-ptest \ # Doesn't run any tests?
++#    ruby-ptest \ # Timeout
++#    mdadm-ptest \ # Timeout
++#    clutter-1.0-ptest \ # Doesn't build due to depends on cogl-1.0
++#"
++
++PTESTS_SLOW = "\
++    bash-ptest \
++    busybox-ptest \
++    e2fsprogs-ptest \
++    glib-2.0-ptest \
++    gstreamer1.0-ptest \
++    libevent-ptest \
++    lttng-tools-ptest \
++    openssh-ptest \
++    openssl-ptest \
++    perl-ptest \
++    python-ptest \
++    python3-ptest \
++    strace-ptest \
++    tcl-ptest \
++    util-linux-ptest \
++    valgrind-ptest \
++"
+diff --git a/meta/recipes-sato/images/core-image-sato-ptest-fast.bb b/meta/recipes-sato/images/core-image-sato-ptest-fast.bb
+new file mode 100644
+index 00000000000..b794a7dc9e9
+--- /dev/null
++++ b/meta/recipes-sato/images/core-image-sato-ptest-fast.bb
+@@ -0,0 +1,16 @@
++require core-image-sato-sdk.bb
++require conf/distro/include/ptest-packagelists.inc
++
++IMAGE_INSTALL += "${PTESTS_FAST}"
++
++DESCRIPTION += "Also includes ptest packages with fast execution times to allow for more automated QA."
++
++# This image is sufficiently large (~1.8GB) that it can't actually fit in a live
++# image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
++# box) and explicitly add just 1500MB.
++# strace-ptest in particular needs more than 500MB
++IMAGE_OVERHEAD_FACTOR = "1.0"
++IMAGE_ROOTFS_EXTRA_SPACE = "1524288"
++
++# ptests need more memory than standard to avoid the OOM killer
++QB_MEM = "-m 1024"
+-- 
+2.20.1
 
 
