@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F54A6C109
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B158F7D088
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 16:00:06 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id h4so32659559wre.7
+	Wed, 17 Apr 2019 16:00:08 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id w15so4234101wmc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 09:00:07 -0700 (PDT)
+	Wed, 17 Apr 2019 09:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=QOLY6fjOHMFIX10N3SFqeQfDOZ8inHUOgmK03Qz/TMQ=;
-	b=JC4jPOKNiBR6SOhp1ugECNvAgVnk4Xf2zzNlHZpIZsdh8vUb8X+e7LNE8sv4mul9s9
-	413F4/G9B3Hq7ef9RTBZj0r+5sPzo8AgfURC8zu6WVgKAwB6GvqhoPZjER/wCTDqQGQ9
-	Ur8yincF4CoylNuCmd9EE+8cnloKnAUyOYyqw=
+	bh=4ZnIEGvgiqOyfrwAvFzKhW09/QxSVqscTOluaNnAP8w=;
+	b=cdc6FkEK+QoTApatrlAVtNkYI6qduLMlRz7mN3fv0J9NJ/5SzZcIB2u88cEHJ0kCja
+	ruIpBqQqYrUIA7q1yqPbwIqRNWK7cFnIBlYK9kwQRsuUR28QDPhVJfeGocDIZIg7pzhj
+	/PGh2xfh7QaXb52xnVwGI3S78vGHxvrYuI2CA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=QOLY6fjOHMFIX10N3SFqeQfDOZ8inHUOgmK03Qz/TMQ=;
-	b=U+BPA17pF2R+LvTyGuprEzpbt3vevqSrMxRIa9zfjOnGPH/3r8D6WsS/rfZOBMZJdM
-	FkFUvogCtiZLXJwuv8wAjiUOSJ/K5qSm5OCUFmSOyzjrfNb0wzPvm+Nt5obnuBnAoEUT
-	2Wm3q8oQHFZBE4LnDAITpQOd8woF3ms7xevL1l2qsmcn6MPovL+KtcDmqZZYM2ImZJhy
-	qOp7IduVotHMMlBtjMhLmJx9CCWgtFL7zS5h8+S9JfgNB1PtJS9kP988BhfQu4S14Phv
-	/wd4aYOwmcTuOl8gNrjDc24wz01B8MC1oPrf3nE66JwRsL5BC2Q+YOU6qOQmkPHcxcRo
-	bfNA==
-X-Gm-Message-State: APjAAAXuNfSU0RRBztEI+etSoqH6FWNORc3pU1JXsRaVvYPVAGTRBQcd
-	DBv688MxOk+xSpLN7yc0ERalTxx0JtQ=
-X-Google-Smtp-Source: APXvYqyfKr6Sc1/kjLbApV/co+dE6ghu7rQw0Sc/wXS6LMLwGNBwskv+zlR3rv7tsNDXikGKJ/7JAg==
-X-Received: by 2002:adf:ec87:: with SMTP id z7mr22777601wrn.44.1555516806734; 
-	Wed, 17 Apr 2019 09:00:06 -0700 (PDT)
+	bh=4ZnIEGvgiqOyfrwAvFzKhW09/QxSVqscTOluaNnAP8w=;
+	b=FkAub5dPxOFMZtGWMOdP7708+ryDxrpdbSDzzX8sN+gCkLNsOC6c5laKrdFUZGfwcC
+	SQK2sCmOHUSsYq7c5yOvkqIqfbsC61/QmKagKufufk955+CPFjBJheaTAzM3YeQfHWLG
+	GSHH3b4PdqhR7lVWcW8LEwbm8ecUrXt4Szt8upvfyYDDkQIPVftuUb9s7facO4VARV1j
+	g3B+5XUuNT6n+fOg5pSSuppQA8CHZ9pINA/w4Bl+FpWtVg7anQZdZITtkBpowrChW/Az
+	bKSB8wd2Ys32ibZhHEWsc0FWxxaBLziXMfMW37sc5amURlVeDK2YPEjrHhnF7E1R3gqZ
+	aTQg==
+X-Gm-Message-State: APjAAAUNFw6zp3dIrrxkKWrT1ft+m5fiuc6JQF4O2HebRnspcSuhIYb9
+	Wly4cl5pJ+S4ruNLA/FX8k6EXFfhCqQ=
+X-Google-Smtp-Source: APXvYqwTWS3atiHjtWA8mvTu3kXRVM5h7qb7CDXJC5/Mgj67XJiA2HvJfaVhZH8e6dIz0fjB+50xQA==
+X-Received: by 2002:a7b:c94c:: with SMTP id i12mr29717333wml.115.1555516808029;
+	Wed, 17 Apr 2019 09:00:08 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	t81sm5290330wmb.5.2019.04.17.09.00.05
+	t81sm5290330wmb.5.2019.04.17.09.00.06
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 17 Apr 2019 09:00:06 -0700 (PDT)
+	Wed, 17 Apr 2019 09:00:07 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 17 Apr 2019 16:59:46 +0100
-Message-Id: <20190417155947.24890-2-richard.purdie@linuxfoundation.org>
+Date: Wed, 17 Apr 2019 16:59:47 +0100
+Message-Id: <20190417155947.24890-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190417155947.24890-1-richard.purdie@linuxfoundation.org>
 References: <20190417155947.24890-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 2/3] core-image-sato-sdk-ptest: Include more ptests in ptest image
+Subject: [PATCH 3/3] core-image-sato-sdk-ptest: Move to drop SDK components from ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 16:00:06 -0000
+X-List-Received-Date: Wed, 17 Apr 2019 16:00:08 -0000
 Content-Transfer-Encoding: 8bit
 
-There are recipes not included in core-image-sato-sdk which have ptests, include
-these in our ptest test image using the new include file.
+Move the ptest image to be based off core-image-sato instead of core-image-sato-sdk.
+
+This gives a better test of the ptest package dependencies and reduces the overall
+image size so it only contains the things we need.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../{core-image-sato-sdk-ptest.bb => core-image-sato-ptest.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-sato/images/{core-image-sato-sdk-ptest.bb => core-image-sato-ptest.bb} (95%)
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-index 57395992cc2..61cb9c6626c 100644
+diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-ptest.bb
+similarity index 95%
+rename from meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
+rename to meta/recipes-sato/images/core-image-sato-ptest.bb
+index 61cb9c6626c..2fa5178461e 100644
 --- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-@@ -1,9 +1,13 @@
- require core-image-sato-sdk.bb
-+require conf/distro/include/ptest-packagelists.inc
++++ b/meta/recipes-sato/images/core-image-sato-ptest.bb
+@@ -1,4 +1,4 @@
+-require core-image-sato-sdk.bb
++require core-image-sato.bb
+ require conf/distro/include/ptest-packagelists.inc
  
  DESCRIPTION += "Also includes ptest packages."
- 
- IMAGE_FEATURES += "ptest-pkgs"
- 
-+# Also include ptests which may not otherwise be included in a sato image
-+IMAGE_INSTALL += "${PTESTS_FAST} ${PTESTS_SLOW}"
-+
- # This image is sufficiently large (~1.8GB) that we need to be careful that it fits in a live
- # image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
- # box) and explicitly add just 1300MB.
 -- 
 2.20.1
 
