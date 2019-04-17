@@ -1,52 +1,38 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D5557C410
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 1828A60116
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 08:46:28 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id s15so30771056wra.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 17 Apr 2019 01:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=9TV8WL2voggMrmcPENxLJVlJFs9cST2TKIKH6A/Y2BQ=;
-	b=KeEITeYRptmu6Gujeh5QhF1A5JKPQlZgLlDEFpKeoqPrt4ucaYk2jVuXdYpYuwfpzD
-	SbzKz2EStvRTvGgjY4MNcYj2KOAZr1ex1zZBsuYIXi79ygQiP5QSo2IGqPavGMuu50Wa
-	evUtLcSO55EX2EdDMIEFKA+L4y0bJshtOfeZU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=9TV8WL2voggMrmcPENxLJVlJFs9cST2TKIKH6A/Y2BQ=;
-	b=mGZTdBMMsyz3j3vO/N1OGq7TBW8C4wZhL55hVPdth0kvsjpv6G9QY6+D3cgu1Xvoq7
-	L22DRjn5Nr7MyPYZ4F6xaaGOBJLODNc8SDF9sB3F4cFSsTrmDPaR7xGnZdVF6AJ69GuL
-	0Ap0Tnn06q+yLTnW6lQ8bKWQlNMt8QDwoSQiVeUulIfCKUJfRoMC+f9W81S1S+T0FDaO
-	eC8oalRJJfdJwOMpzh4+mjeFbz1la/sKY8NVvpDCq0bMLOUIGrWdWsL2J6Lln+/7xkCA
-	eXwo3ecXTHEzYMBlC0RzFGihOEcF/AeoAUKpbTWzERxTfc2qbNSOEoyYWuxZQgucVwBi
-	2PoA==
-X-Gm-Message-State: APjAAAUyw1CKvF1T53HPWjq/phTWPY6uINqC9fZ3gfUqDSTbMkj6vBEn
-	3ZjoHQOwZ8VROQ2vxTSQxlrNLQ==
-X-Google-Smtp-Source: APXvYqyz8XLf2qSwNnBUPB4QWMNjMI5IpnSlgVbp/r5VqA7wARMU+AYNl5XChn7S8GPJA63s+pA6Rg==
-X-Received: by 2002:adf:de8d:: with SMTP id w13mr56699813wrl.26.1555490789077; 
-	Wed, 17 Apr 2019 01:46:29 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u189sm3485066wme.25.2019.04.17.01.46.26
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 17 Apr 2019 01:46:28 -0700 (PDT)
-Message-ID: <eac500ca51a96c769ab3080bcd78dd93316bea9f.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Saini, Naveen Kumar" <naveen.kumar.saini@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 17 Apr 2019 09:46:25 +0100
-In-Reply-To: <95a0e409-ad9c-759e-bcf2-c9e6b20a2e50@intel.com>
+	Wed, 17 Apr 2019 09:35:25 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44kcXq1D7wz3G;
+	Wed, 17 Apr 2019 11:35:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1555493725;
+	bh=LYplF16dqXDZmsPSHurksLrPEfpZOXxCwiV6VXP8d+Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a2nHEwfUdRX+ruJONo0GyhE5aPeOgGOzDsrwLBektup+P7nfQIK1Qm3MM85RgghyT
+	Kiz34psMiwUq6l9cFycAYlauuUG4hElMuhy0SakZDDmQEUT5KoS+0/YT476x+H0loP
+	fzLZG6TJ9oBpUorcnooj4KwatgjpL4Xk6ceprbhx163ubyYt98oP8G+ASuSKu2j/++
+	mkj0YaThQjnstrPS60fO+ASQs0MTlb28/ZuQv6gafbWzD10jlmCL2R5poHmLQ1S8lq
+	AL2qM2RDQAy1pA3/4hBCmY90WNRW48X5xZ9rXBOYsYuOj9fgdprx3MoFsDQP6JFmBF
+	rznlivjLsEkpoakmaPRR2NGVrUdo2wpQrIgKMNavC4u1PTMXdFh/MW5FOzmcJWR636
+	jAa/7GQXYCTBX8p+Pmupo9E2uUM1uoz0uoWyNqx+gGg5BtFTZyPbnUIIr6Dl9sw1nq
+	r15PmFrJhKyNC47VXGqvr6zCKbIFgjwKzqpP3trX+UBFJ50XdvOhrUrD2eGxFXGawH
+	/ZxQANzZSZBxMQVFR1xC+2ymmz8Ub5wYfyh+cyxV9yGhsxqWI1PPBuxIIVrjwMb3Fv
+	FUvD8rH8azfdhpFHiKSiXGAI3Fb6lf4l0MQxkEwaJ6Y0vTvNVKGXCOjlsyHrH2e2x3
+	PkhDw1A/9Fh3TTGYL/gQCxJo=
+Date: Wed, 17 Apr 2019 12:35:20 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190417093520.GA895@localhost>
 References: <20190416055919.9090-1-naveen.kumar.saini@intel.com>
 	<b7de17b7188d78a1da3c7200ce5263edcf979a22.camel@linuxfoundation.org>
 	<95a0e409-ad9c-759e-bcf2-c9e6b20a2e50@intel.com>
-User-Agent: Evolution 3.32.1-2 
+	<eac500ca51a96c769ab3080bcd78dd93316bea9f.camel@linuxfoundation.org>
 MIME-Version: 1.0
+In-Reply-To: <eac500ca51a96c769ab3080bcd78dd93316bea9f.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,65 +46,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 17 Apr 2019 08:46:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 17 Apr 2019 09:35:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Wed, 2019-04-17 at 10:20 +0800, Saini, Naveen Kumar wrote:
+On Wed, Apr 17, 2019 at 09:46:25AM +0100, richard.purdie@linuxfoundation.org wrote:
+> On Wed, 2019-04-17 at 10:20 +0800, Saini, Naveen Kumar wrote:
+>...
+> > Should this be added to HOSTTOOLS instead so lfs files are always
+> > fetched for packages that use it?
 > 
-> On Selasa 16 Apr 2019 06:23 , Richard Purdie wrote:
-> > On Tue, 2019-04-16 at 13:59 +0800, Naveen Saini wrote:
-> > > This provides git large file storage (lfs) extension.
-> > > 
-> > > Include git-lfs conditionally. If git-lfs is present on host and
-> > > repo
-> > > has lfs pointers, then git-lfs will be used. If git-lfs is not
-> > > present
-> > > on host, it will be ignored.
-> > > 
-> > > [YOCTO #13198]
-> > > 
-> > > Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
-> > > ---
-> > >   meta/conf/bitbake.conf | 3 +++
-> > >   1 file changed, 3 insertions(+)
-> > 
-> > This sounds like we swap the current situation where things are
-> > deterministic for a situation where the situation is not
-> > deterministic?
-> > 
-> > I'm not sure that is an improvement.
+> No, that would mean everyone has to install it.
 > 
-> Currently, if host machine has git-lfs installed, build always fails
-> and if host doesn't have git-lfs installed, build passes but
-> does not download files pointed by lfs. So, the current behaviour
-> depends on whether or not git-lfs is installed.
+> I'm ok with adding it to HOSTTOOLS_NONFATAL as soon as we have some
+> mechanism in the fetcher or in recipes which detects lfs usage and hard
+> errors if its present but git-lfs is not installed.
+> 
+> That way its deterministic - it builds with git-lfs installed and
+> errors if it is not.
 
-That is clearly a problem as the output is not deterministic (a given
-sstate hash input does not guarantee a given output).
+Is it OK that some packages are not buildable at all on supported
+distributions?
 
-> With this patch, build will pass in both the cases and files stored
-> using lfs will be fetched when git-lfs is present. So this is more
-> deterministic than before? If git-lfs isn't present, then files won't
-> be fetched as before.
+Your "everyone has to install it" worry misses the much bigger problem 
+that git-lfs is a relatively new tool and not available in distributions 
+like Debian 9 or Ubuntu 16.04.
 
-So we swap one problem for a different one and its still not
-deterministic.
+> Cheers,
+> 
+> Richard
 
-> Should this be added to HOSTTOOLS instead so lfs files are always
-> fetched for packages that use it?
+cu
+Adrian
 
-No, that would mean everyone has to install it.
+-- 
 
-I'm ok with adding it to HOSTTOOLS_NONFATAL as soon as we have some
-mechanism in the fetcher or in recipes which detects lfs usage and hard
-errors if its present but git-lfs is not installed.
-
-That way its deterministic - it builds with git-lfs installed and
-errors if it is not.
-
-Cheers,
-
-Richard
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
