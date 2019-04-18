@@ -1,52 +1,57 @@
-Return-Path: <rehsack@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AEBED71BEE
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
+	[209.85.166.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E0F96B11A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2019 14:10:43 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 4so2944933wmf.1
+	Thu, 18 Apr 2019 14:29:25 +0000 (UTC)
+Received: by mail-io1-f54.google.com with SMTP id u12so2037945iop.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2019 07:10:45 -0700 (PDT)
+	Thu, 18 Apr 2019 07:29:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=S1wYFn5GNAuO9FQZA2GEmJpQqUOobO7xpIzVLZ9kh4g=;
-	b=kNtPI9uu898ppDY17LVzg9ye0V9gq4cExTeuLAptSxwHWMUId+jeAUNjHd0rZVpcaT
-	4fTT1ViA8RififMvSb9FGVfNygXG97JYRTT//Vx7cCltNGacwfHh74HJ3pGLzfbWpGrj
-	H46lCc0tguvEWdRf/pzv9XUOljSFErkbPkGw8IoA0fKWnQizWd8zW6ZV072TNearN/yG
-	3egKh809EdWq1OB8FqWvpaa2F9KOu+o/haVMmtSOYh+DPENlpgdsyszcykp8HJowr5Yj
-	2Q4ylBcRG9wjfR1KwWcRAC/4czr3GELvB0+4dnZRJJv0Rmit9gA9CjDrFTgGSm2cKQXP
-	Y7tg==
+	h=from:message-id:subject:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=gySmE1d4vtnIqWav7fBdWpSEkNCucph6i8Y+PMeuK9c=;
+	b=WuawxxS8LXpRpiPQUjHB2TLS+XFz3PIlAa9wIgyEkI2KHBihvV2eRn0KKwiz+gdAhd
+	35iwbpF1wFKWrug2OXMwbCXt/jKHdmOUNB04UFQVBlIw+6mr2Wj4TdqsD2vxB/ZAKebX
+	okRUEDJwF8wsO4gdd5vEiHoWXBNq0au7rBDIuF5XDliKOEBdvTgXr9VNwKKen0mQd2XD
+	GdNFTjc9SnpkXG6ms82RExaJL8wrZLgygsjNCGb4dKu5xGFL//Rep8nhr+0n3ae6wWHO
+	Dsmc1dyXngBsh5fJsJXYJwpMGDLpZg+zkH/Spea6ZPqyp8ATQk+88gws9XfqqdD43eEt
+	KHug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=S1wYFn5GNAuO9FQZA2GEmJpQqUOobO7xpIzVLZ9kh4g=;
-	b=E6AmLo5FPKCQPreVuQrWnj0LVJG03f6KxtJcWNrb2S+91iUR4JvOEpxUJVd5kR41VI
-	F1vQVxy9sxD9WD+5DJ7eSAuLixd40624iPBSjlny0K4nsylueHmoO/x9W5ZbNUqcwAUb
-	o2QcZXDMfG6bb+WuJZyrOYQvNRSa7qCLhd+I69w8EcydccnySHR4kQ+HBfDQZlrZ+5Eb
-	1N9fZeb3/rTs4P5Gmfb+lUGNKxci673qsAIHew7n0e8ahDQAfwxMF4AL5u34yXreHGkq
-	3coRjXVR7uOK0PPfJLcW86Haz/Yzq++gW/RCK+aAE0DE3iCJbKtcJ229EcyNA5vIaiKW
-	QEbg==
-X-Gm-Message-State: APjAAAXQxkyzRBOB4gQd/kJ+pmz+cv10jrfcA3vhYs+KMepKQWMkiJh0
-	NCgAd+SbVPsuyBid23APwQ4ruHNmUos=
-X-Google-Smtp-Source: APXvYqyeBBbTjZnDKjuM06zWlJ6HNQ1VI/IzbHwM2uRnjzodrxCN9rxSKP1BqbM3hEAZ6BOKHPSJ4A==
-X-Received: by 2002:a1c:a00a:: with SMTP id j10mr3361461wme.15.1555596643831; 
-	Thu, 18 Apr 2019 07:10:43 -0700 (PDT)
-Received: from beaker.muppets.liwing.de (b2b-78-94-80-58.unitymedia.biz.
-	[78.94.80.58])
-	by smtp.gmail.com with ESMTPSA id i2sm2874666wmg.47.2019.04.18.07.10.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 18 Apr 2019 07:10:33 -0700 (PDT)
-Sender: Jens Rehsack <rehsack@gmail.com>
-From: Jens Rehsack <sno@netbsd.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 18 Apr 2019 16:08:42 +0200
-Message-Id: <20190418140842.2953-1-sno@netbsd.org>
-X-Mailer: git-send-email 2.17.1
+	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=gySmE1d4vtnIqWav7fBdWpSEkNCucph6i8Y+PMeuK9c=;
+	b=PAtHduuKNBv6AJZlYcAoRaT5FcSaN1K6jC4vY5GCQDIzwyQHTl8EGva1Z6j2UAD4rN
+	7tmAYxP7VI1QVQqJFdwiq1ygoXDLnAVC2raay7MuLi2s7K2IJfuCPU5xQlcoZZwBXCa+
+	V6kqSm2KJpjKvuFzYzW77Bkt77GXSNHmoOfx6sCXjiYUVaAL7WiWHydQCCI31VcLEFl/
+	zQIlCcH/wu/ZsCwwaN0AuwPdmX2qpcHGHTRqCiylXG32J5ghyJs8EIXd1mreHYfBMIAp
+	X76wudu+raHVriRavR7Q6nDjDYsQ1bPvgLMwkn4GAjr3MiuIgLL7qWG7X3Y66Z0uYddv
+	Olpg==
+X-Gm-Message-State: APjAAAU7ne0OXSOm8OFNUuXbDlwyMMFepkccZXQ1nv3Ju45Q9fdvUFfN
+	rGhjb2Wy1g1L4pRb64YDSvPMTKIeue4=
+X-Google-Smtp-Source: APXvYqz861aXzVJOGdsKzOitqeKeyL7V2RHeWwX1MFAcgXjNhr18zi/WEInIRwtYFGKhgfNcR9cmOg==
+X-Received: by 2002:a6b:8b50:: with SMTP id n77mr35539038iod.222.1555597767045;
+	Thu, 18 Apr 2019 07:29:27 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	p1sm1042877itp.19.2019.04.18.07.29.26
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 18 Apr 2019 07:29:26 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <307926a6c77f2ab0af46fa2f668b73bf4ddf0731.camel@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Alistair Francis
+	<alistair@alistair23.me>
+Date: Thu, 18 Apr 2019 09:29:25 -0500
+In-Reply-To: <CANNYZj_nwJpa_Yj-8_YYnu194c_3GSdb1iCg5EkDhXOCjh_ZzQ@mail.gmail.com>
+References: <SL2P216MB028292C44E997FA682A1C8DADD260@SL2P216MB0282.KORP216.PROD.OUTLOOK.COM>
+	<CANNYZj_nwJpa_Yj-8_YYnu194c_3GSdb1iCg5EkDhXOCjh_ZzQ@mail.gmail.com>
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-Cc: Jens Rehsack <sno@netbsd.org>
-Subject: [PATCH] kernel-module-split.bbclass: support CONFIG_MODULE_COMPRESS=y
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] u-boot: Fix missing Python.h build failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,69 +64,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2019 14:10:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Apr 2019 14:29:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-In case, kernel config enables compressed modules, support of
-splitting via split_kernel_module_packages won't find any module.
-So, first expand module pattern regex to recognize compressed
-modules and then objcopy on temporary extacted to extract module
-information.
+On Thu, 2019-04-18 at 14:16 +0200, Alexander Kanavin wrote:
+> Can we take this opportunity to teach u-boot to use Python 3.x
+> instead? oe-core is trying to eliminate Python 2.x dependencies
+> everywhere.
 
-Signed-off-by: Jens Rehsack <sno@netbsd.org>
----
- meta/classes/kernel-module-split.bbclass | 20 ++++++++++++++++++--
- 1 file changed, 18 insertions(+), 2 deletions(-)
+It looks like the libfdt code in u-boot currently requires Python 2, so
+it would be an unstream change to convert it to Python 3. It also
+appears to be compiling a C module to work with Python 2 so its
+probably not as simple as "convert the script".
 
-diff --git a/meta/classes/kernel-module-split.bbclass b/meta/classes/kernel-module-split.bbclass
-index e8d3eb5105..221022b7bc 100644
---- a/meta/classes/kernel-module-split.bbclass
-+++ b/meta/classes/kernel-module-split.bbclass
-@@ -44,9 +44,23 @@ python split_kernel_module_packages () {
-     def extract_modinfo(file):
-         import tempfile, subprocess
-         tempfile.tempdir = d.getVar("WORKDIR")
-+        compressed = re.match( r'.*\.([xg])z$', file)
-         tf = tempfile.mkstemp()
-         tmpfile = tf[1]
--        cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
-+        if compressed:
-+            tmpkofile = tmpfile + ".ko"
-+            if compressed.group(1) == 'g':
-+                cmd = "gunzip -dc %s > %s" % (file, tmpkofile)
-+                subprocess.check_call(cmd, shell=True)
-+            elif compressed.group(1) == 'x':
-+                cmd = "xz -dc %s > %s" % (file, tmpkofile)
-+                subprocess.check_call(cmd, shell=True)
-+            else:
-+                msg = "Cannot decompress '%s'" % file
-+                raise msg
-+            cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", tmpkofile, tmpfile)
-+        else:
-+            cmd = "%sobjcopy -j .modinfo -O binary %s %s" % (d.getVar("HOST_PREFIX") or "", file, tmpfile)
-         subprocess.check_call(cmd, shell=True)
-         # errors='replace': Some old kernel versions contain invalid utf-8 characters in mod descriptions (like 0xf6, 'ö')
-         f = open(tmpfile, errors='replace')
-@@ -54,6 +68,8 @@ python split_kernel_module_packages () {
-         f.close()
-         os.close(tf[0])
-         os.unlink(tmpfile)
-+        if compressed:
-+            os.unlink(tmpkofile)
-         vals = {}
-         for i in l:
-             m = modinfoexp.match(i)
-@@ -133,7 +149,7 @@ python split_kernel_module_packages () {
-     kernel_package_name = d.getVar("KERNEL_PACKAGE_NAME") or "kernel"
-     kernel_version = d.getVar("KERNEL_VERSION")
- 
--    module_regex = r'^(.*)\.k?o$'
-+    module_regex = r'^(.*)\.k?o(?:\.[xg]z)?$'
- 
-     module_pattern_prefix = d.getVar('KERNEL_MODULE_PACKAGE_PREFIX')
-     module_pattern_suffix = d.getVar('KERNEL_MODULE_PACKAGE_SUFFIX')
+
+> 
+> Alex
+> 
+> On Thu, 18 Apr 2019 at 13:38, Alistair Francis <
+> alistair@alistair23.me> wrote:
+> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
+> > ---
+> >  meta/recipes-bsp/u-boot/u-boot.inc | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-
+> > bsp/u-boot/u-boot.inc
+> > index 96c1f94011..9a754fd09b 100644
+> > --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > @@ -13,7 +13,7 @@ DEPENDS += "swig-native python-native"
+> > 
+> >  EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX}
+> > CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
+> >  EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS}
+> > ${BUILD_LDFLAGS}"'
+> > -EXTRA_OEMAKE += 'PYTHON=nativepython
+> > STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
+> > STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
+> > +EXTRA_OEMAKE += 'PYTHON2=nativepython
+> > STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
+> > STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
+> > 
+> >  PACKAGECONFIG ??= "openssl"
+> >  # u-boot will compile its own tools during the build, with
+> > specific
+> > --
+> > 2.20.1
+> > 
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 -- 
-2.17.1
+Joshua Watt <JPEWhacker@gmail.com>
 
 
