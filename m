@@ -1,49 +1,17 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D3AA6BA10
+Return-Path: <adrian.ratiu@collabora.com>
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [46.235.227.227])
+	by mail.openembedded.org (Postfix) with ESMTP id DF0287C752
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2019 14:37:57 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id h18so1801342lfj.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2019 07:37:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OCOC1VVGFw2XTwsJGp1zv3t6oqlxD1Wl+soXPdRFx2E=;
-	b=cD8kose/BkTB29p3eJX1qUfd5M/baFkxbKDxwCkhVsJah3/styBpltiA1Wtt8lBiwz
-	2V6L3KKTNYvV4H4uHmAzbYUgcHFXEVwCGSULFHhr2TbXkCa1Vn/+CycALn0FoV+jRhK6
-	CKC+x59hK39SH55URgUWvb8UfukSQR1l1tWalTGCCOwcUNJRoCI5tzSROWQBRBnZK3lc
-	xLul+UnOQNLsU51wH/g+bk+UdktMa5EPX47vrnl9EFO2pm2gDkN3mLZV8oVJl8H53Lj/
-	UYoPyjtYPE7FIQnOHRfZxV4q1UJ3IXQh/r3km0089jh7ySdfrYh9iUC7vpVugMESYFCz
-	ZUtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OCOC1VVGFw2XTwsJGp1zv3t6oqlxD1Wl+soXPdRFx2E=;
-	b=aafp8K/9rkcArNLWEQ4Y21n/DRFccrBWP4Kvk7HsW9gPj3AbbD+YPx5QxxI+m0W63f
-	QunETquZ4su77pG/x2+d2wSPyXkA4WJm6FkS4oVYHSTGqVOtB3h9HM0EAGuFdPEpL8PE
-	ytSDMxTmVinQ/phMEIr8BtaZCwC92JVMjOqDio7ect4uwdrnKDC8at15RHao39agDZ4W
-	fqhlkBfFlB2xcTRpewSEDLqand7lpD+E1R7mGCYEwAPbXKqJn/a0uyyH7z6bZ1+sFIHz
-	Y0kfKOIL7w+TiC7KzuY/Asoudhsh0Sddsqqjr8rTmN5Yl4Bk5nv57yN0Vb5CFPd/IcHA
-	QVQw==
-X-Gm-Message-State: APjAAAWnvgLWWoLlMx4rjDb7ESXRD9GWK2Rs02zlBiPvIUXdX5BU2CKO
-	vCLhOc3JkqH85VVc49c5pftHnZTScFQys4wxPcY=
-X-Google-Smtp-Source: APXvYqxH3I/5LHVDPIseoUs/AkHJPKFzDI5vPbcDQfrBLyQ2MbgHR8gZkuwiYLQTemoPaV2vjzjeMZIx7X1q8IZRiZk=
-X-Received: by 2002:a19:4b84:: with SMTP id y126mr10436487lfa.15.1555598277761;
-	Thu, 18 Apr 2019 07:37:57 -0700 (PDT)
+	Thu, 18 Apr 2019 15:46:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	(Authenticated sender: aratiu) with ESMTPSA id C3404260667
+From: Adrian Ratiu <adrian.ratiu@collabora.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Apr 2019 18:46:48 +0300
+Message-Id: <20190418154648.8019-1-adrian.ratiu@collabora.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <SL2P216MB028292C44E997FA682A1C8DADD260@SL2P216MB0282.KORP216.PROD.OUTLOOK.COM>
-	<CANNYZj_nwJpa_Yj-8_YYnu194c_3GSdb1iCg5EkDhXOCjh_ZzQ@mail.gmail.com>
-	<307926a6c77f2ab0af46fa2f668b73bf4ddf0731.camel@gmail.com>
-In-Reply-To: <307926a6c77f2ab0af46fa2f668b73bf4ddf0731.camel@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 18 Apr 2019 07:37:27 -0700
-Message-ID: <CAKmqyKNqNRumrm6Bf0EnSCQVKViZnF5buDG9TAuzz8rCMJLxpA@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] u-boot: Fix missing Python.h build failure
+Subject: [PATCH v2] weston: switch build from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,74 +24,139 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2019 14:37:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 18 Apr 2019 15:46:39 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 18, 2019 at 7:29 AM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> On Thu, 2019-04-18 at 14:16 +0200, Alexander Kanavin wrote:
-> > Can we take this opportunity to teach u-boot to use Python 3.x
-> > instead? oe-core is trying to eliminate Python 2.x dependencies
-> > everywhere.
->
-> It looks like the libfdt code in u-boot currently requires Python 2, so
-> it would be an unstream change to convert it to Python 3. It also
-> appears to be compiling a C module to work with Python 2 so its
-> probably not as simple as "convert the script".
+Weston 6.0 is the last version which supports autotools builds, hidden
+behind an --enable-autotools deprecation flag. We must convert the recipe
+to meson to be able to upgrade to future versions.
 
-Agreed, the u-boot Maintainers added a patch to specifically use
-Python2 recently so I think we are stuck with Python2 here until
-upstream u-boot is updated.
+The difficulty in doing this is that there is not always a 1-on-1
+correspondence between the autotools and meson build configurations, for
+example the --with-cairo= flag doesn't exist anymore and --with-cairo=image
+is assumed.
 
-Alistair
+This is based on work done by Jean-Francois Dagenais at
+https://patchwork.openembedded.org/patch/160370/
 
->
->
-> >
-> > Alex
-> >
-> > On Thu, 18 Apr 2019 at 13:38, Alistair Francis <
-> > alistair@alistair23.me> wrote:
-> > > Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> > > ---
-> > >  meta/recipes-bsp/u-boot/u-boot.inc | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-
-> > > bsp/u-boot/u-boot.inc
-> > > index 96c1f94011..9a754fd09b 100644
-> > > --- a/meta/recipes-bsp/u-boot/u-boot.inc
-> > > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-> > > @@ -13,7 +13,7 @@ DEPENDS += "swig-native python-native"
-> > >
-> > >  EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX}
-> > > CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
-> > >  EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS}
-> > > ${BUILD_LDFLAGS}"'
-> > > -EXTRA_OEMAKE += 'PYTHON=nativepython
-> > > STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
-> > > STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
-> > > +EXTRA_OEMAKE += 'PYTHON2=nativepython
-> > > STAGING_INCDIR=${STAGING_INCDIR_NATIVE}
-> > > STAGING_LIBDIR=${STAGING_LIBDIR_NATIVE}'
-> > >
-> > >  PACKAGECONFIG ??= "openssl"
-> > >  # u-boot will compile its own tools during the build, with
-> > > specific
-> > > --
-> > > 2.20.1
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> Joshua Watt <JPEWhacker@gmail.com>
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Changes since v1:
+- Merged the weston_git.bb v5.0.94 recipe with the oe-core's *_6.0.bb
+- Renamed the 5.0.94 drm PACKAGECONFIG to kms to preserve compatibility
+- Added a missing virtual/egl dependency to 5.0.94 egl PACKAGECONFIGS
+
+Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+---
+ meta/recipes-graphics/wayland/weston_6.0.0.bb | 70 ++++++++++++-------
+ 1 file changed, 45 insertions(+), 25 deletions(-)
+
+diff --git a/meta/recipes-graphics/wayland/weston_6.0.0.bb b/meta/recipes-graphics/wayland/weston_6.0.0.bb
+index fa08dac91d..552e90ce27 100644
+--- a/meta/recipes-graphics/wayland/weston_6.0.0.bb
++++ b/meta/recipes-graphics/wayland/weston_6.0.0.bb
+@@ -17,7 +17,7 @@ SRC_URI[sha256sum] = "546323a90607b3bd7f48809ea9d76e64cd09718102f2deca6d95aa59a8
+ 
+ UPSTREAM_CHECK_URI = "https://wayland.freedesktop.org/releases.html"
+ 
+-inherit autotools pkgconfig useradd distro_features_check
++inherit meson pkgconfig useradd distro_features_check
+ # depends on virtual/egl
+ REQUIRED_DISTRO_FEATURES = "opengl"
+ 
+@@ -26,49 +26,69 @@ DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
+ 
+ WESTON_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:1])}"
+ 
+-EXTRA_OECONF = "--enable-setuid-install \
+-                --disable-rdp-compositor \
+-                --enable-autotools \
++EXTRA_OEMESON = " \
++                -Dbackend-default=auto \
++                -Dimage-jpeg=true \
++                -Dsimple-dmabuf-drm= \
+                 "
+ PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'kms fbdev wayland egl', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 wayland', 'xwayland', '', d)} \
+-                   ${@bb.utils.filter('DISTRO_FEATURES', 'pam systemd x11', d)} \
+-                   clients launch"
++                   ${@bb.utils.filter('DISTRO_FEATURES', 'systemd x11', d)} \
++                   simple-clients demo-clients launch"
++
++# Additional weston tools to build and install
++WESTON_TOOLS ?= "calibrator,debug,info,terminal,touch-calibrator"
++
+ #
+ # Compositor choices
++# see https://github.com/wayland-project/weston/raw/master/meson_options.txt
+ #
+ # Weston on KMS
+-PACKAGECONFIG[kms] = "--enable-drm-compositor,--disable-drm-compositor,drm udev virtual/mesa virtual/libgbm mtdev"
++PACKAGECONFIG[kms] = "-Ddrm-compositor=true,-Ddrm-compositor=false,drm udev virtual/mesa virtual/libgbm mtdev"
+ # Weston on Wayland (nested Weston)
+-PACKAGECONFIG[wayland] = "--enable-wayland-compositor,--disable-wayland-compositor,virtual/mesa"
++PACKAGECONFIG[wayland] = "-Dbackend-wayland=true,-Dbackend-wayland=false,virtual/mesa"
+ # Weston on X11
+-PACKAGECONFIG[x11] = "--enable-x11-compositor,--disable-x11-compositor,virtual/libx11 libxcb libxcb libxcursor cairo"
++PACKAGECONFIG[x11] = "-Dbackend-x11=true,-Dbackend-x11=false,libxcb"
+ # Headless Weston
+-PACKAGECONFIG[headless] = "--enable-headless-compositor,--disable-headless-compositor"
++PACKAGECONFIG[headless] = "-Dbackend-headless=true,-Dbackend-headless=false,"
+ # Weston on framebuffer
+-PACKAGECONFIG[fbdev] = "--enable-fbdev-compositor,--disable-fbdev-compositor,udev mtdev"
++PACKAGECONFIG[fbdev] = "-Dbackend-fbdev=true,-Dbackend-fbdev=false,libinput mtdev udev (>=136)"
+ # weston-launch
+-PACKAGECONFIG[launch] = "--enable-weston-launch,--disable-weston-launch,drm"
++PACKAGECONFIG[launch] = "-Dweston-launch=true,-Dweston-launch=false,drm libpam"
+ # VA-API desktop recorder
+-PACKAGECONFIG[vaapi] = "--enable-vaapi-recorder,--disable-vaapi-recorder,libva"
++PACKAGECONFIG[vaapi] = "-Dbackend-drm-screencast-vaapir=true,-Dbackend-drm-screencast-vaapi=false,libva drm"
+ # Weston with EGL support
+-PACKAGECONFIG[egl] = "--enable-egl --enable-simple-egl-clients,--disable-egl --disable-simple-egl-clients,virtual/egl"
+-# Weston with cairo glesv2 support
+-PACKAGECONFIG[cairo-glesv2] = "--with-cairo-glesv2,--with-cairo=image,cairo"
++PACKAGECONFIG[egl] = "-Drender-gl=true,-Drender-gl=false,virtual/egl"
+ # Weston with lcms support
+-PACKAGECONFIG[lcms] = "--enable-lcms,--disable-lcms,lcms"
++PACKAGECONFIG[lcms] = "-Dcolor-management-lcms=true,-Dcolor-management-lcms=false,lcms"
+ # Weston with webp support
+-PACKAGECONFIG[webp] = "--with-webp,--without-webp,libwebp"
++PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
+ # Weston with systemd-login support
+-PACKAGECONFIG[systemd] = "--enable-systemd-login,--disable-systemd-login,systemd dbus"
++PACKAGECONFIG[systemd] = "-Dlauncher-logind=true,-Dlauncher-logind=false,systemd dbus"
+ # Weston with Xwayland support (requires X11 and Wayland)
+-PACKAGECONFIG[xwayland] = "--enable-xwayland,--disable-xwayland"
++PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false,libxcb libxcursor"
+ # colord CMS support
+-PACKAGECONFIG[colord] = "--enable-colord,--disable-colord,colord"
+-# Clients support
+-PACKAGECONFIG[clients] = "--enable-clients --enable-simple-clients --enable-demo-clients-install,--disable-clients --disable-simple-clients"
+-# Weston with PAM support
+-PACKAGECONFIG[pam] = "--with-pam,--without-pam,libpam"
++PACKAGECONFIG[colord] = "-Dcolor-management-colord=true,-Dcolor-management-colord=false,lcms"
++# Client support
++PACKAGECONFIG[demo-clients] = "-Ddemo-clients=true,-Ddemo-clients=false"
++PACKAGECONFIG[simple-clients] = "-Dsimple-clients=all,-Dsimple-clients="
++# RDP remote screensharing
++PACKAGECONFIG[rdp] = "-Dbackend-rdp=true,-Dbackend-rdp=false,freerdp"
++PACKAGECONFIG[screenshare] = "-Dscreenshare=true -Dshell-fullscreen=true,-Dscreenshare=false"
++# Virtual remote output with GStreamer on DRM backend
++PACKAGECONFIG[remote] = "-Dremoting=true,-Dremoting=false, gstreamer"
++# Traditional desktop UI
++PACKAGECONFIG[shell-desktop] = "-Dshell-desktop=true,-Dshell-desktop=false"
++# Fullscreen/kiosk UI
++PACKAGECONFIG[shell-fullscreen] = "-Dshell-fullscreen=true,-Dshell-fullscreen=false"
++# IVI (automotive) UI
++PACKAGECONFIG[shell-ivi] = "-Dshell-ivi=true,-Dshell-ivi=false"
++# List of accessory clients to build and install
++PACKAGECONFIG[tools] = "-Dtools=${WESTON_TOOLS},-Dtools=,"
++# Screen recording decoder tool
++PACKAGECONFIG[wcap-decode] = "-Dwcap-decode=true,-Dwcap-decode=false"
++# Output JUnit XML results
++PACKAGECONFIG[test-junit-xml] = "-Dtest-junit-xml=true,-Dtest-junit-xml=false,libxml"
+ 
+ do_install_append() {
+ 	# Weston doesn't need the .la files to load modules, so wipe them
+-- 
+2.21.0
+
 
