@@ -1,31 +1,32 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 46E067CB4F
+Return-Path: <john.ernberg@actia.se>
+Received: from mail.actia.se (mail.actia.se [195.67.112.82])
+	by mail.openembedded.org (Postfix) with ESMTP id D9FF17C341
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 18 Apr 2019 05:26:13 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3I5PVFq009790
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 17 Apr 2019 22:25:46 -0700
-Received: from [128.224.162.194] (128.224.162.194) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Wed, 17 Apr 2019 22:25:28 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <21cc3e7248d8e702f49de8818f26e2e53a001ed1.camel@linuxfoundation.org>
-	<1555319122-215657-1-git-send-email-mingli.yu@windriver.com>
-	<b7f0fbbdfd6b0523e521cdd7ff84d6b59554abeb.camel@linuxfoundation.org>
-	<5CB54879.2020303@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CB80B5D.40800@windriver.com>
-Date: Thu, 18 Apr 2019 13:30:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Thu, 18 Apr 2019 06:37:58 +0000 (UTC)
+Received: from S036ANL.actianordic.se (192.168.16.117) by
+	S036ANL.actianordic.se (192.168.16.117) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+	15.1.1713.5; Thu, 18 Apr 2019 08:37:57 +0200
+Received: from S036ANL.actianordic.se ([fe80::e13e:1feb:4ea6:ec69]) by
+	S036ANL.actianordic.se ([fe80::e13e:1feb:4ea6:ec69%3]) with mapi id
+	15.01.1713.004; Thu, 18 Apr 2019 08:37:57 +0200
+From: John Ernberg <john.ernberg@actia.se>
+To: Adrian Bunk <bunk@stusta.de>
+Thread-Topic: [OE-core] [PATCH] i2c-tools: Split binaries and library
+Thread-Index: AQHU9FD/6Z7Xnp5RHEuO/HtCuDslg6ZBWKYA
+Date: Thu, 18 Apr 2019 06:37:56 +0000
+Message-ID: <f789129d-2037-3b01-0e33-03fd4fcecfbe@actia.se>
+References: <20190416120224.6737-1-john.ernberg@actia.se>
+	<20190416123603.GA25920@localhost>
+In-Reply-To: <20190416123603.GA25920@localhost>
+Accept-Language: en-US, sv-SE
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.11.11.53]
 MIME-Version: 1.0
-In-Reply-To: <5CB54879.2020303@windriver.com>
-X-Originating-IP: [128.224.162.194]
-Subject: Re: [PATCH v3] nettle: fix ptest failure
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] i2c-tools: Split binaries and library
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,66 +39,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 18 Apr 2019 05:26:13 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 18 Apr 2019 06:37:59 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4576E9E84564B54484B8E2F51C74CE16@actia.se>
+Content-Transfer-Encoding: base64
 
-Hi RP,
-
-Any comments here?
-
-Thanks,
-
-On 2019年04月16日 11:14, Yu, Mingli wrote:
->
->
-> On 2019年04月15日 19:08, richard.purdie@linuxfoundation.org wrote:
->> On Mon, 2019-04-15 at 17:05 +0800, mingli.yu@windriver.com wrote:
->>> @@ -33,6 +29,8 @@ EXTRA_OECONF = "--disable-openssl"
->>>   CFLAGS_append = " -std=c99"
->>>
->>>   do_compile_ptest() {
->>> +        # fix dlopen-test failure as cannot locate libnettle.so
->>> +        sed -i 's;dlopen ("../libnettle.so", RTLD_NOW);dlopen
->>> ("${libdir}/libnettle.so", RTLD_NOW);g' ${S}/testsuite/dlopen-test.c
->>>           oe_runmake buildtest
->>>   }
->>>
->>> @@ -49,4 +47,7 @@ do_install_ptest() {
->>>           install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
->>>   }
->>>
->>> +RDEPENDS_${PN}-ptest += "${PN}-dev"
->>> +INSANE_SKIP_${PN}-ptest += "dev-deps"
->>> +
->>>   BBCLASSEXTEND = "native nativesdk"
->>
->> Does Adrian's suggestion of removing the "../" work? Also, can we
->
-> Yes, the Adrian's suggestion works. But I think it's also okay to update
-> the actual libnettle.so path in do_compile_ptest phase as we still need
-> an extra patch if use Adrian's suggestion.
->
->> install a symlink in do_install_ptest which this code would find? That
->
-> Install a symlink? Does it means nettle-ptest will provide libnettle.so?
-> @@ -45,6 +49,7 @@ do_install_ptest() {
->           # tools can be found in PATH, not in ../tools/
->           sed -i -e 's|../tools/||' ${D}${PTEST_PATH}/testsuite/*-test
->           install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
-> +        ln -s ${libdir}/libnettle.so.6.5 ${D}${PTEST_PATH}/libnettle.so
->   }
->
->
->> would be less invasive and we could potentially remove the -dev package
->> dependency which would be good from an image perspective.
->
-> Just nettle-ptest rdepends on nettle-dev.
->
->>
->> Cheers,
->>
->> Richard
->>
->>
+DQpPbiA0LzE2LzE5IDI6MzYgUE0sIEFkcmlhbiBCdW5rIHdyb3RlOg0KPiBPbiBUdWUsIEFwciAx
+NiwgMjAxOSBhdCAxMjowMjowNFBNICswMDAwLCBKb2huIEVybmJlcmcgd3JvdGU6DQo+PiAuLi4N
+Cj4+IC0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9pMmMtdG9vbHMvaTJjLXRvb2xzXzQuMS5i
+Yg0KPj4gKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2kyYy10b29scy9pMmMtdG9vbHNfNC4x
+LmJiDQo+PiAuLi4NCj4+IC1QQUNLQUdFUyA9KyAiJHtQTn0tbWlzYyINCj4+ICtQQUNLQUdFUyA9
+KyAiJHtQTn0tbWlzYyAke1BOfS11dGlscyAiDQo+PiAuLi4NCj4gaTJjLXRvb2xzLXV0aWxzIGlz
+IGEgd2VpcmQgbmFtZS4NCj4NCj4gSXQgd291bGQgYmUgYmV0dGVyIHRvIGFkZCBhIG5ldyBwYWNr
+YWdlIGxpYmkyYyBmb3IgdGhlIGxpYnJhcnkgaW5zdGVhZC4NCj4NCj4gVGhpcyB3b3VsZCBhbHNv
+IG5vdCBicmVhayBiYWNrd2FyZHMgY29tcGF0aWJpbGl0eSBmb3IgcGVvcGxlDQo+IGFscmVhZHkg
+aW5zdGFsbGluZyBpMmMtdG9vbHMgdG8gdGhlaXIgaW1hZ2VzLg0KPg0KPiBjdQ0KPiBBZHJpYW4N
+Cj4NCkkgdGlua2VyZWQgd2l0aCB0aGlzIGFuZCByYW4gaW50byB0aGUgU0hMSUIgaGFuZGxpbmcg
+d2hlcmUgaXQgcmVuYW1lcyANCnRoZSBwYWNrYWdlcyBiYXNlZCBvbiBsaWJyYXJpZXMsIGFyZSB0
+aGVyZSBhbnkgZXhhbXBsZSByZWNpcGVzIEkgY2FuIA0KbG9vayBhdCBiZWNhdXNlIGRlZmluaW5n
+IGxpYmkyYyBhcyBhIHBhY2thZ2Ugd2l0aCBQQUNLQUdFUyBicmVha3MgdGhlIA0KZGVwZW5kZW5j
+eSBncmFwaCBkdWUgdG8gdGhlIFNITElCIGhhbmRsaW5nIGFuZCBJIGNhbm5vdCBmaWd1cmUgb3V0
+IGhvdyANCnRvIHdyaXRlIHRoZSByZWNpcGUgc28gdGhhdCBkb2Vzbid0IGhhcHBlbi4NCg0KVGhh
+bmtzLg0KDQpCZXN0IHJlZ2FyZHMgLy8gSm9obiBFcm5iZXJnDQo=
 
