@@ -1,37 +1,51 @@
-Return-Path: <zhengrq.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E7C47C337
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+	[209.85.166.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 292467D280
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 02:55:12 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,368,1549900800"; d="scan'208";a="59715335"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Apr 2019 10:55:13 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 0A1694CD8851
+	Fri, 19 Apr 2019 02:57:32 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id p23so3468601iol.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 10:55:13 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0439.000; Fri, 19 Apr 2019 10:55:17 +0800
-From: "Zheng, Ruoqin" <zhengrq.fnst@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core][PATCH] toolchain-scripts: make rpm work in toolchain
-Thread-Index: AQHU8btSCqLTx2A2u06Avi+BPe0Uv6ZC0xbw
-Date: Fri, 19 Apr 2019 02:55:11 +0000
-Message-ID: <33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-In-Reply-To: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.35]
+	Thu, 18 Apr 2019 19:57:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=R2ilW70vZlPCd/8HYAWWgUVBl7lzxHC97A22RFv0YV0=;
+	b=StzQdOoaleC0siO3MHVGvIzTGE24vdmfFU55pFtlg5Br/w0LM8C/HpB9HPQsIOY57T
+	AGZNnS/GlquA6MczMRjPlOxsqBVJZqFIShyJbW/XJdEFL9viKK36yKjp/1/xDplFH4gg
+	bgUkStFT8ScJbaA/8CLw6iFYeVA1OKJR+2bXmeWpExo/CCW9xO19WwFAdmoyoCObw3zZ
+	s56nLYUghqhN4qMtZAyF4eP3vt+O+Cn9JjqU8DNIb0Te+PEqg3kkzmg+J8fL3+70naAJ
+	GK6iudEX9k8xF5OZQ8CyWy0Kiw/UkR+yuF9MKZLdNHPdIBc0+f6pP8Mk17ztPti/A8q/
+	b/EA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=R2ilW70vZlPCd/8HYAWWgUVBl7lzxHC97A22RFv0YV0=;
+	b=Udch9eyvdqy1JtwSlgFPTKfq5OY8XbGkVCJc7fTS8iqpaFrDpAsNEdZ2fZui5u/CaX
+	nMOGipXLG4pRbpQep0B+DCQoYmj/4F3U4mnrjIdkbz8XuQa9hGA0FWU5NmwEEcRFXSmA
+	mPnudvBXEw7py6nxIAJsxWLi42yBfoqP22pasqh8Fy2tCw1LCJYomXtRLitohgnRHDVr
+	u9FPUvvoHie84gTjjcyymxsBHYY825P6AG753oA+T3W5MH2jxCahR9EFu95TmxzzjlXu
+	Ow8NtP7taUXA7S0oc7MAeYmAjUNRGCeOHTdVbQwsnsa4fjsezBlLxCz0gRddnBfO/Ik/
+	LSlw==
+X-Gm-Message-State: APjAAAXkVo9YtULNeDN8Ipy7i2KEbvCaK4EurthENIR87v4LI3gmEYis
+	8/9CJFjGCwfjc+nZARLfU9jafj/XBnQ=
+X-Google-Smtp-Source: APXvYqwqrOTLaB4QdUaLVxOSYpJVTkZYe3v60Yq0xEwozrEF4CTEy4WS1Fw1XK12NrwQKGyS64NZSw==
+X-Received: by 2002:a6b:700a:: with SMTP id l10mr1137424ioc.270.1555642653785; 
+	Thu, 18 Apr 2019 19:57:33 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	137sm1796885ita.22.2019.04.18.19.57.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 18 Apr 2019 19:57:32 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 18 Apr 2019 21:57:16 -0500
+Message-Id: <20190419025718.15348-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 0A1694CD8851.AB58D
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zhengrq.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
+Subject: [PATCH 0/2] resulttool improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,43 +58,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 02:55:13 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Fri, 19 Apr 2019 02:57:33 -0000
+Content-Transfer-Encoding: 8bit
 
-cGluZw0KDQotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLQ0KWmhlbmcgUnVvcWluDQpOYW5qaW5nIEZ1aml0c3Ug
-TmFuZGEgU29mdHdhcmUgVGVjaC4gQ28uLCBMdGQuKEZOU1QpDQpBRERSLjog
-Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KICAgICAgIE5h
-bmppbmcsIDIxMDAxMiwgQ2hpbmENCk1BSUwgOiB6aGVuZ3JxLmZuc3RAY24u
-ZnVqaXN0dS5jb20NCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0t
-DQo+IEZyb206IFpoZW5nLCBSdW9xaW4v1qMgyPTH1Q0KPiBTZW50OiBTYXR1
-cmRheSwgQXByaWwgMTMsIDIwMTkgMTA6MzcgUE0NCj4gVG86IG9wZW5lbWJl
-ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gQ2M6IFpoZW5n
-LCBSdW9xaW4v1qMgyPTH1SA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29t
-Pg0KPiBTdWJqZWN0OiBbT0UtY29yZV1bUEFUQ0hdIHRvb2xjaGFpbi1zY3Jp
-cHRzOiBtYWtlIHJwbSB3b3JrIGluIHRvb2xjaGFpbg0KPiANCj4gUnBtIG5l
-ZWQgdG8gcmVhZCB0aGUgYXJjaCBpbmZvLCBidXQgJHNjcmlwdCBkaWQgbm90
-IHByb3ZpZGUgaXQsIHNvIGFkZCBpdC4NCj4gDQo+IFNpZ25lZC1vZmYtYnk6
-IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0K
-PiAtLS0NCj4gIG1ldGEvY2xhc3Nlcy90b29sY2hhaW4tc2NyaXB0cy5iYmNs
-YXNzIHwgMSArDQo+ICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKykN
-Cj4gDQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNj
-cmlwdHMuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy90b29sY2hhaW4tDQo+IHNj
-cmlwdHMuYmJjbGFzcw0KPiBpbmRleCAxYTJlYzRmLi5kZTUwYjdlIDEwMDY0
-NA0KPiAtLS0gYS9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNjcmlwdHMuYmJj
-bGFzcw0KPiArKysgYi9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNjcmlwdHMu
-YmJjbGFzcw0KPiBAQCAtMTAxLDYgKzEwMSw3IEBAIHRvb2xjaGFpbl9zaGFy
-ZWRfZW52X3NjcmlwdCAoKSB7DQo+ICAJZWNobyAnZXhwb3J0IENQUEZMQUdT
-PSIke1RBUkdFVF9DUFBGTEFHU30iJyA+PiAkc2NyaXB0DQo+ICAJZWNobyAn
-ZXhwb3J0IEtDRkxBR1M9Ii0tc3lzcm9vdD0kU0RLVEFSR0VUU1lTUk9PVCIn
-ID4+ICRzY3JpcHQNCj4gIAllY2hvICdleHBvcnQgT0VDT1JFX0RJU1RST19W
-RVJTSU9OPSIke0RJU1RST19WRVJTSU9OfSInID4+DQo+ICRzY3JpcHQNCj4g
-KwllY2hvICdleHBvcnQgTUFDSElORV9BUkNIPSR7TUFDSElORV9BUkNIfScg
-Pj4gJHNjcmlwdA0KPiAgCWVjaG8gJ2V4cG9ydCBPRUNPUkVfU0RLX1ZFUlNJ
-T049IiR7U0RLX1ZFUlNJT059IicgPj4gJHNjcmlwdA0KPiAgCWVjaG8gJ2V4
-cG9ydCBBUkNIPSR7QVJDSH0nID4+ICRzY3JpcHQNCj4gIAllY2hvICdleHBv
-cnQgQ1JPU1NfQ09NUElMRT0ke1RBUkdFVF9QUkVGSVh9JyA+PiAkc2NyaXB0
-DQo+IC0tDQo+IDEuOC4zLjENCg0KCgo=
+Implements 2 improvements to resulttool:
+ 1) Result files can be loaded over http or https
+ 2) Adds a new subcommand to extract logs from result data
+
+Joshua Watt (2):
+  resulttool: Load results from URL
+  resulttool: Add log subcommand
+
+ scripts/lib/resulttool/log.py         | 56 +++++++++++++++++++++++++++
+ scripts/lib/resulttool/merge.py       |  8 ++--
+ scripts/lib/resulttool/regression.py  |  6 +--
+ scripts/lib/resulttool/report.py      |  2 +-
+ scripts/lib/resulttool/resultutils.py | 23 +++++++++--
+ scripts/lib/resulttool/store.py       |  4 +-
+ scripts/resulttool                    |  2 +
+ 7 files changed, 87 insertions(+), 14 deletions(-)
+ create mode 100644 scripts/lib/resulttool/log.py
+
+-- 
+2.20.1
+
 
