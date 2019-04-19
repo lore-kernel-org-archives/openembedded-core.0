@@ -1,23 +1,23 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 391756C106
+Return-Path: <sangeeta.jain@intel.com>
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C7C26C106
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 08:52:14 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3J8qErv019796
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 01:52:15 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 19 Apr 2019 01:52:14 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Apr 2019 16:52:13 +0800
-Message-ID: <1555663933-327651-1-git-send-email-zhe.he@windriver.com>
+	Fri, 19 Apr 2019 08:53:39 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Apr 2019 01:53:39 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,369,1549958400"; d="scan'208";a="162995403"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga002.fm.intel.com with ESMTP; 19 Apr 2019 01:53:27 -0700
+From: sangeeta.jain@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 19 Apr 2019 16:22:26 +0800
+Message-Id: <1555662146-74749-1-git-send-email-sangeeta.jain@intel.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH v2] ltp: Fix setrlimit03 call succeeded unexpectedly
+Subject: [PATCH] resulttool/manualexecution: Enable test case configuration option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,106 +30,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 08:52:14 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 19 Apr 2019 08:53:39 -0000
 
-From: He Zhe <zhe.he@windriver.com>
+From: sangeeta jain <sangeeta.jain@intel.com>
 
-Backport a patch from upstream to fix the following error.
-"setrlimit03.c:54: FAIL: call succeeded unexpectedly"
+Current manualexecution required user to exceute all test cases defined inside a "modulename.json" file in oeqa/manual
 
-Signed-off-by: He Zhe <zhe.he@windriver.com>
+There are cases when all test cases all not required to run for a module on specific DUT.
+
+Enable manualexecution to have the optional feature where it will use pre-defined json format test case configuration file
+where user will be able to select test cases from the "modulename.json" instead of running all of them. This will help
+in reducing testing time and reporting unneccesary skip or failures.
+
+Example pre-defined json format test case configuration file (for build-applince):
+
+{
+    "testcases" : [
+        "build-appliance.build-appliance.Create_core-image-sato-sdk_using_build_appliance",
+        "build-appliance.build-appliance.Build_a_image_without_error_(added_recipe)"
+    ]
+}
+
+Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
 ---
- ...trlimit03.c-read-proc-sys-fs-nr_open-for-.patch | 67 ++++++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190115.bb          |  1 +
- 2 files changed, 68 insertions(+)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
+ scripts/lib/resulttool/manualexecution.py | 14 ++++++++++++--
+ 1 file changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
-new file mode 100644
-index 0000000..3a689ca
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
-@@ -0,0 +1,67 @@
-+From db57ddc1497e72947da2b14f471ab521478ef99d Mon Sep 17 00:00:00 2001
-+From: Tommi Rantala <tommi.t.rantala@nokia.com>
-+Date: Thu, 31 Jan 2019 19:49:00 +0200
-+Subject: [PATCH] syscalls/setrlimit03.c: read /proc/sys/fs/nr_open for
-+ RLIMIT_NOFILE limit
-+
-+Since kernel v2.6.25 RLIMIT_NOFILE limit is no longer hardcoded to
-+NR_OPEN, but can be set via /proc/sys/fs/nr_open, see kernel commit
-+9cfe015aa424b3c003baba3841a60dd9b5ad319b ("get rid of NR_OPEN and
-+introduce a sysctl_nr_open").
-+
-+nr_open default value is 1024*1024, so setrlimit03 has been passing fine
-+on new kernels, only "unexpectedly succeeding" if nr_open is set to some
-+larger value.
-+
-+Signed-off-by: Tommi Rantala <tommi.t.rantala@nokia.com>
-+Reviewed-by: Cyril Hrubis <chrubis@suse.cz>
-+Signed-off-by: He Zhe <zhe.he@windriver.com>
-+---
-+ testcases/kernel/syscalls/setrlimit/setrlimit03.c | 13 +++++++++++--
-+ 1 file changed, 11 insertions(+), 2 deletions(-)
-+
-+diff --git a/testcases/kernel/syscalls/setrlimit/setrlimit03.c b/testcases/kernel/syscalls/setrlimit/setrlimit03.c
-+index 29b52aa..12455fe 100644
-+--- a/testcases/kernel/syscalls/setrlimit/setrlimit03.c
-++++ b/testcases/kernel/syscalls/setrlimit/setrlimit03.c
-+@@ -35,7 +35,10 @@
-+ # define NR_OPEN (1024*1024)
-+ #endif
-+ 
-++#define NR_OPEN_PATH "/proc/sys/fs/nr_open"
-++
-+ static struct rlimit rlim1, rlim2;
-++static unsigned int nr_open = NR_OPEN;
-+ 
-+ static struct tcase {
-+ 	struct rlimit *rlimt;
-+@@ -51,7 +54,10 @@ static void verify_setrlimit(unsigned int n)
-+ 
-+ 	TEST(setrlimit(RLIMIT_NOFILE, tc->rlimt));
-+ 	if (TST_RET != -1) {
-+-		tst_res(TFAIL, "call succeeded unexpectedly");
-++		tst_res(TFAIL, "call succeeded unexpectedly "
-++			"(nr_open=%u rlim_cur=%lu rlim_max=%lu)", nr_open,
-++			(unsigned long)(tc->rlimt->rlim_cur),
-++			(unsigned long)(tc->rlimt->rlim_max));
-+ 		return;
-+ 	}
-+ 
-+@@ -65,10 +71,13 @@ static void verify_setrlimit(unsigned int n)
-+ 
-+ static void setup(void)
-+ {
-++	if (!access(NR_OPEN_PATH, F_OK))
-++		SAFE_FILE_SCANF(NR_OPEN_PATH, "%u", &nr_open);
-++
-+ 	SAFE_GETRLIMIT(RLIMIT_NOFILE, &rlim1);
-+ 	rlim2.rlim_max = rlim1.rlim_cur;
-+ 	rlim2.rlim_cur = rlim1.rlim_max + 1;
-+-	rlim1.rlim_max = NR_OPEN + 1;
-++	rlim1.rlim_max = nr_open + 1;
-+ }
-+ 
-+ static struct tst_test test = {
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190115.bb b/meta/recipes-extended/ltp/ltp_20190115.bb
-index ddf97e2..1d0c00b 100644
---- a/meta/recipes-extended/ltp/ltp_20190115.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190115.bb
-@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
-            file://define-sigrtmin-and-sigrtmax-for-musl.patch \
-            file://setregid01-security-string-formatting.patch \
-+           file://0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch \
-            "
+diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
+index ea44219..dc368f3 100755
+--- a/scripts/lib/resulttool/manualexecution.py
++++ b/scripts/lib/resulttool/manualexecution.py
+@@ -17,6 +17,7 @@ import os
+ import sys
+ import datetime
+ import re
++import copy
+ from oeqa.core.runner import OETestResultJSONHelper
  
- S = "${WORKDIR}/git"
+ 
+@@ -123,7 +124,7 @@ class ManualTestRunner(object):
+     def _get_write_dir(self):
+         return os.environ['BUILDDIR'] + '/tmp/log/manual/'
+ 
+-    def run_test(self, case_file, config_options_file):
++    def run_test(self, case_file, config_options_file, testcase_config_file):
+         test_module = self._get_test_module(case_file)
+         cases = load_json_file(case_file)
+         config_options = {}
+@@ -132,6 +133,13 @@ class ManualTestRunner(object):
+         configurations = self._get_config(config_options, test_module)
+         result_id = 'manual_%s_%s' % (test_module, configurations['STARTTIME'])
+         test_results = {}
++        if testcase_config_file:
++            test_case_config = load_json_file(testcase_config_file)
++            test_case_to_execute = test_case_config['testcases']
++            for case in copy.deepcopy(cases) :
++                if case['test']['@alias'] not in test_case_to_execute:
++                    cases.remove(case)
++
+         print('\nTotal number of test cases in this test suite: %s\n' % len(cases))
+         for c in cases:
+             test_result = self._execute_test_steps(c)
+@@ -184,7 +192,7 @@ def manualexecution(args, logger):
+     if args.make_config_options_file:
+         testrunner.make_config_option_file(logger, args.file, args.config_options_file)
+         return 0
+-    configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file)
++    configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file, args.testcase_config_file)
+     resultjsonhelper = OETestResultJSONHelper()
+     resultjsonhelper.dump_testresult_file(write_dir, configurations, result_id, test_results)
+     return 0
+@@ -200,3 +208,5 @@ def register_commands(subparsers):
+                               help='the config options file to import and used as available configuration option selection or make config option file')
+     parser_build.add_argument('-m', '--make-config-options-file', action='store_true',
+                               help='make the configuration options file based on provided inputs')
++    parser_build.add_argument('-t', '--testcase-config-file', default='',
++                              help='the testcase configuration file to enable user to run a selected set of test case')
+\ No newline at end of file
 -- 
 2.7.4
 
