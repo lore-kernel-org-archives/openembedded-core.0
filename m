@@ -1,23 +1,23 @@
-Return-Path: <sangeeta.jain@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C7C26C106
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id AE26F7D2AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 08:53:39 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	19 Apr 2019 01:53:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,369,1549958400"; d="scan'208";a="162995403"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga002.fm.intel.com with ESMTP; 19 Apr 2019 01:53:27 -0700
-From: sangeeta.jain@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 19 Apr 2019 16:22:26 +0800
-Message-Id: <1555662146-74749-1-git-send-email-sangeeta.jain@intel.com>
+	Fri, 19 Apr 2019 08:54:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3J8s4Cb013369
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Apr 2019 01:54:04 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Fri, 19 Apr 2019 01:54:04 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Apr 2019 16:54:03 +0800
+Message-ID: <1555664043-329543-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] resulttool/manualexecution: Enable test case configuration option
+MIME-Version: 1.0
+Subject: [PATCH] glib-2.0: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 08:53:39 -0000
+X-List-Received-Date: Fri, 19 Apr 2019 08:54:03 -0000
+Content-Type: text/plain
 
-From: sangeeta jain <sangeeta.jain@intel.com>
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Current manualexecution required user to exceute all test cases defined inside a "modulename.json" file in oeqa/manual
+* Set G_TEST_BUILDDIR to mark we run the tests
+  out of builddir to make it can skip the test_non_utf8_printf
+  to fix below test error as test_non_utf8_printf needed
+  to run under builddir per https://gitlab.gnome.org/GNOME/glib/blob/master/glib/tests/gdatetime.c#L1440.
+  | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
+  | Bail out! GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
+  | FAIL: glib/gdatetime.test (Child process killed by signal 6)
 
-There are cases when all test cases all not required to run for a module on specific DUT.
+* Increase the timeout to 15 minute to fix below
+  error as the default timeout which is 5 minutes
+  is not enough.
+  | Executing: glib/actions.test
+  | Test timed out after 300 seconds
+  | cleaning up pid 13050
+  | FAIL: glib/actions.test (Child process killed by signal 9)
 
-Enable manualexecution to have the optional feature where it will use pre-defined json format test case configuration file
-where user will be able to select test cases from the "modulename.json" instead of running all of them. This will help
-in reducing testing time and reporting unneccesary skip or failures.
-
-Example pre-defined json format test case configuration file (for build-applince):
-
-{
-    "testcases" : [
-        "build-appliance.build-appliance.Create_core-image-sato-sdk_using_build_appliance",
-        "build-appliance.build-appliance.Build_a_image_without_error_(added_recipe)"
-    ]
-}
-
-Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 ---
- scripts/lib/resulttool/manualexecution.py | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ meta/recipes-core/glib-2.0/glib-2.0/run-ptest | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index ea44219..dc368f3 100755
---- a/scripts/lib/resulttool/manualexecution.py
-+++ b/scripts/lib/resulttool/manualexecution.py
-@@ -17,6 +17,7 @@ import os
- import sys
- import datetime
- import re
-+import copy
- from oeqa.core.runner import OETestResultJSONHelper
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+index 8f082d3..e4777da 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
++++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+@@ -1,6 +1,8 @@
+ #! /bin/sh
  
- 
-@@ -123,7 +124,7 @@ class ManualTestRunner(object):
-     def _get_write_dir(self):
-         return os.environ['BUILDDIR'] + '/tmp/log/manual/'
- 
--    def run_test(self, case_file, config_options_file):
-+    def run_test(self, case_file, config_options_file, testcase_config_file):
-         test_module = self._get_test_module(case_file)
-         cases = load_json_file(case_file)
-         config_options = {}
-@@ -132,6 +133,13 @@ class ManualTestRunner(object):
-         configurations = self._get_config(config_options, test_module)
-         result_id = 'manual_%s_%s' % (test_module, configurations['STARTTIME'])
-         test_results = {}
-+        if testcase_config_file:
-+            test_case_config = load_json_file(testcase_config_file)
-+            test_case_to_execute = test_case_config['testcases']
-+            for case in copy.deepcopy(cases) :
-+                if case['test']['@alias'] not in test_case_to_execute:
-+                    cases.remove(case)
-+
-         print('\nTotal number of test cases in this test suite: %s\n' % len(cases))
-         for c in cases:
-             test_result = self._execute_test_steps(c)
-@@ -184,7 +192,7 @@ def manualexecution(args, logger):
-     if args.make_config_options_file:
-         testrunner.make_config_option_file(logger, args.file, args.config_options_file)
-         return 0
--    configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file)
-+    configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file, args.testcase_config_file)
-     resultjsonhelper = OETestResultJSONHelper()
-     resultjsonhelper.dump_testresult_file(write_dir, configurations, result_id, test_results)
-     return 0
-@@ -200,3 +208,5 @@ def register_commands(subparsers):
-                               help='the config options file to import and used as available configuration option selection or make config option file')
-     parser_build.add_argument('-m', '--make-config-options-file', action='store_true',
-                               help='make the configuration options file based on provided inputs')
-+    parser_build.add_argument('-t', '--testcase-config-file', default='',
-+                              help='the testcase configuration file to enable user to run a selected set of test case')
-\ No newline at end of file
++# set G_TEST_BUILDDIR to mark the tests running out of the builddir
++export G_TEST_BUILDDIR=$(pwd)
+ set -eux
+ useradd glib2-test
+-su glib2-test -c gnome-desktop-testing-runner glib
++su glib2-test -c "gnome-desktop-testing-runner glib -t 900"
+ userdel glib2-test
 -- 
 2.7.4
 
