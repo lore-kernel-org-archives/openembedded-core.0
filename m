@@ -1,24 +1,23 @@
 Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5DAE579B57
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 391756C106
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 08:46:31 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3J8kBxC019026
+	Fri, 19 Apr 2019 08:52:14 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3J8qErv019796
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 01:46:22 -0700
+	Fri, 19 Apr 2019 01:52:15 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 19 Apr 2019 01:46:01 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Fri, 19 Apr 2019 01:52:14 -0700
 From: <zhe.he@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Apr 2019 16:45:59 +0800
-Message-ID: <1555663559-321591-1-git-send-email-zhe.he@windriver.com>
+Date: Fri, 19 Apr 2019 16:52:13 +0800
+Message-ID: <1555663933-327651-1-git-send-email-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] ltp: Fix setrlimit03 call succeeded unexpectedly
+Subject: [PATCH v2] ltp: Fix setrlimit03 call succeeded unexpectedly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 08:46:31 -0000
+X-List-Received-Date: Fri, 19 Apr 2019 08:52:14 -0000
 Content-Type: text/plain
 
 From: He Zhe <zhe.he@windriver.com>
@@ -41,17 +40,17 @@ Backport a patch from upstream to fix the following error.
 
 Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- ...trlimit03.c-read-proc-sys-fs-nr_open-for-.patch | 66 ++++++++++++++++++++++
+ ...trlimit03.c-read-proc-sys-fs-nr_open-for-.patch | 67 ++++++++++++++++++++++
  meta/recipes-extended/ltp/ltp_20190115.bb          |  1 +
- 2 files changed, 67 insertions(+)
+ 2 files changed, 68 insertions(+)
  create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
 
 diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
 new file mode 100644
-index 0000000..1191e88
+index 0000000..3a689ca
 --- /dev/null
 +++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
-@@ -0,0 +1,66 @@
+@@ -0,0 +1,67 @@
 +From db57ddc1497e72947da2b14f471ab521478ef99d Mon Sep 17 00:00:00 2001
 +From: Tommi Rantala <tommi.t.rantala@nokia.com>
 +Date: Thu, 31 Jan 2019 19:49:00 +0200
@@ -69,6 +68,7 @@ index 0000000..1191e88
 +
 +Signed-off-by: Tommi Rantala <tommi.t.rantala@nokia.com>
 +Reviewed-by: Cyril Hrubis <chrubis@suse.cz>
++Signed-off-by: He Zhe <zhe.he@windriver.com>
 +---
 + testcases/kernel/syscalls/setrlimit/setrlimit03.c | 13 +++++++++++--
 + 1 file changed, 11 insertions(+), 2 deletions(-)
