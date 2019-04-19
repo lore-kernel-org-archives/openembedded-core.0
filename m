@@ -1,34 +1,24 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 0665F60272
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E9BBC7D26B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 18:52:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3JIqDXv027221
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 19 Apr 2019 11:52:13 -0700 (PDT)
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.68]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0439.000;
-	Fri, 19 Apr 2019 11:52:12 -0700
-From: "Slater, Joseph" <joe.slater@windriver.com>
-To: akuster808 <akuster808@gmail.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast'
-	ptest execution image
-Thread-Index: AQHU9T7BCe5ATJdUKk+8Punvsdv7TaZD1nAu
-Date: Fri, 19 Apr 2019 18:52:11 +0000
-Message-ID: <007BD92917A2324FA403BCF9A464CF84F3782B17@ALA-MBD.corp.ad.wrs.com>
-References: <20190417155947.24890-1-richard.purdie@linuxfoundation.org>,
-	<d12938fb-ffbd-05e5-c518-96cf7222d9f8@gmail.com>
-In-Reply-To: <d12938fb-ffbd-05e5-c518-96cf7222d9f8@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [147.11.119.76]
+	Fri, 19 Apr 2019 19:02:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3JJ1pOH001767
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Apr 2019 12:02:01 -0700
+Received: from fidler.wrs.com (172.25.44.10) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 19 Apr 2019 12:01:40 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Apr 2019 15:01:39 -0400
+Message-ID: <20190419190139.26106-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast' ptest execution image
+Subject: [PATCH] valgrind: update from 3.14.0 to 3.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,167 +31,156 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 18:52:18 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 19 Apr 2019 19:02:11 -0000
+Content-Type: text/plain
 
-gdk-pixbuf is fast?  Not for me.  Some of its tests take about 2000 seconds=
- on qemux86-64 on a 32 core machine with 64GB ram.=0A=
-=0A=
-Joe=0A=
-________________________________________=0A=
-From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
-ounces@lists.openembedded.org] on behalf of akuster808 [akuster808@gmail.co=
-m]=0A=
-Sent: Wednesday, April 17, 2019 9:57 AM=0A=
-To: Richard Purdie; openembedded-core@lists.openembedded.org=0A=
-Subject: Re: [OE-core] [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast' p=
-test execution image=0A=
-=0A=
-On 4/17/19 8:59 AM, Richard Purdie wrote:=0A=
-> Create a common include file which lists recipes that have ptests divided=
-=0A=
-> into 'fast' and 'slow' groups. This allows us to include ptests which oth=
-erwise=0A=
-> may not get included in images and allows us to test the faster running t=
-hings=0A=
-> more regularly.=0A=
->=0A=
-> The new image allows access to these faster executing tests. 'fast' is de=
-fined=0A=
-> as tests which execute in under 30s roughly speaking.=0A=
-Maybe at some point allow recipes to define their own groupings. It=0A=
-would lend itself to scaling better.=0A=
-=0A=
-Can we define the system at ~30 seconds? All these may be fast on a 196=0A=
-core system where as on my laptop all would be slow ; )=0A=
-=0A=
-- armin=0A=
->=0A=
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>=0A=
-> ---=0A=
->  .../distro/include/ptest-packagelists.inc     | 75 +++++++++++++++++++=
-=0A=
->  .../images/core-image-sato-ptest-fast.bb      | 16 ++++=0A=
->  2 files changed, 91 insertions(+)=0A=
->  create mode 100644 meta/conf/distro/include/ptest-packagelists.inc=0A=
->  create mode 100644 meta/recipes-sato/images/core-image-sato-ptest-fast.b=
-b=0A=
->=0A=
-> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
-distro/include/ptest-packagelists.inc=0A=
-> new file mode 100644=0A=
-> index 00000000000..768ba743ed0=0A=
-> --- /dev/null=0A=
-> +++ b/meta/conf/distro/include/ptest-packagelists.inc=0A=
-> @@ -0,0 +1,75 @@=0A=
-> +#=0A=
-> +# Lists of the ptests in OE-Core, sorted into two sets by the time they =
-take=0A=
-> +#=0A=
-> +# ptests which take less than ~30s each=0A=
-> +#=0A=
-> +PTESTS_FAST =3D "\=0A=
-> +    acl-ptest \=0A=
-> +    apr-ptest \=0A=
-> +    apr-util-ptest \=0A=
-> +    attr-ptest \=0A=
-> +    bluez5-ptest \=0A=
-> +    bzip2-ptest \=0A=
-> +    dbus-test-ptest \=0A=
-> +    diffstat-ptest \=0A=
-> +    diffutils-ptest \=0A=
-> +    elfutils-ptest \=0A=
-> +    ethtool-ptest \=0A=
-> +    flex-ptest \=0A=
-> +    gawk-ptest \=0A=
-> +    gdbm-ptest \=0A=
-> +    gdk-pixbuf-ptest \=0A=
-> +    gzip-ptest \=0A=
-> +    json-glib-ptest \=0A=
-> +    kbd-ptest \=0A=
-> +    libconvert-asn1-perl-ptest \=0A=
-> +    liberror-perl-ptest \=0A=
-> +    libpcre-ptest \=0A=
-> +    libtimedate-perl-ptest \=0A=
-> +    libtest-needs-perl-ptest \=0A=
-> +    liburi-perl-ptest \=0A=
-> +    libusb1-ptest \=0A=
-> +    libxml-namespacesupport-perl-ptest \=0A=
-> +    libxml-perl-ptest \=0A=
-> +    libxml-parser-perl-ptest \=0A=
-> +    libxml-sax-perl-ptest \=0A=
-> +    libxml-sax-base-perl-ptest \=0A=
-> +    libxml-simple-perl-ptest \=0A=
-> +    libxml2-ptest \=0A=
-> +    lzo-ptest \=0A=
-> +    nettle-ptest \=0A=
-> +    openssl-ptest \=0A=
-> +    opkg-ptest \=0A=
-> +    pango-ptest \=0A=
-> +    parted-ptest \=0A=
-> +    quilt-ptest \=0A=
-> +    sed-ptest \=0A=
-> +    slang-ptest \=0A=
-> +    zlib-ptest \=0A=
-> +"=0A=
-> +=0A=
-> +#PTESTS_PROBLEMS =3D "\=0A=
-> +#    qemu-ptest \ # Doesn't run any tests?=0A=
-> +#    ruby-ptest \ # Timeout=0A=
-> +#    mdadm-ptest \ # Timeout=0A=
-> +#    clutter-1.0-ptest \ # Doesn't build due to depends on cogl-1.0=0A=
-> +#"=0A=
-> +=0A=
-> +PTESTS_SLOW =3D "\=0A=
-> +    bash-ptest \=0A=
-> +    busybox-ptest \=0A=
-> +    e2fsprogs-ptest \=0A=
-> +    glib-2.0-ptest \=0A=
-> +    gstreamer1.0-ptest \=0A=
-> +    libevent-ptest \=0A=
-> +    lttng-tools-ptest \=0A=
-> +    openssh-ptest \=0A=
-> +    openssl-ptest \=0A=
-> +    perl-ptest \=0A=
-> +    python-ptest \=0A=
-> +    python3-ptest \=0A=
-> +    strace-ptest \=0A=
-> +    tcl-ptest \=0A=
-> +    util-linux-ptest \=0A=
-> +    valgrind-ptest \=0A=
-> +"=0A=
-> diff --git a/meta/recipes-sato/images/core-image-sato-ptest-fast.bb b/met=
-a/recipes-sato/images/core-image-sato-ptest-fast.bb=0A=
-> new file mode 100644=0A=
-> index 00000000000..b794a7dc9e9=0A=
-> --- /dev/null=0A=
-> +++ b/meta/recipes-sato/images/core-image-sato-ptest-fast.bb=0A=
-> @@ -0,0 +1,16 @@=0A=
-> +require core-image-sato-sdk.bb=0A=
-> +require conf/distro/include/ptest-packagelists.inc=0A=
-> +=0A=
-> +IMAGE_INSTALL +=3D "${PTESTS_FAST}"=0A=
-> +=0A=
-> +DESCRIPTION +=3D "Also includes ptest packages with fast execution times=
- to allow for more automated QA."=0A=
-> +=0A=
-> +# This image is sufficiently large (~1.8GB) that it can't actually fit i=
-n a live=0A=
-> +# image (which has a 4GB limit), so nullify the overhead factor (1.3x ou=
-t of the=0A=
-> +# box) and explicitly add just 1500MB.=0A=
-> +# strace-ptest in particular needs more than 500MB=0A=
-> +IMAGE_OVERHEAD_FACTOR =3D "1.0"=0A=
-> +IMAGE_ROOTFS_EXTRA_SPACE =3D "1524288"=0A=
-> +=0A=
-> +# ptests need more memory than standard to avoid the OOM killer=0A=
-> +QB_MEM =3D "-m 1024"=0A=
-=0A=
---=0A=
-_______________________________________________=0A=
-Openembedded-core mailing list=0A=
-Openembedded-core@lists.openembedded.org=0A=
-http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
+The SRC_URI moved.
+Two local patches are now fixed upstream so remove them.
+
+The glibc ptest results are essentially the same.
+
+             3.14  3.15
+TOTAL:        579   589
+PASSED:       297   301
+FAILED:       251   254
+SKIPPED:       31    34
+DURATION:    1312  1171
+
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+---
+ ...-between-libcoregrind-.a-and-m_main..patch | 45 -------------------
+ ...ts-amd64-Do-not-clobber-rsp-register.patch | 37 ---------------
+ ...{valgrind_3.14.0.bb => valgrind_3.15.0.bb} |  8 ++--
+ 3 files changed, 3 insertions(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
+ delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
+ rename meta/recipes-devtools/valgrind/{valgrind_3.14.0.bb => valgrind_3.15.0.bb} (94%)
+
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch b/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
+deleted file mode 100644
+index bedf1c1274..0000000000
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From 7820fc268fae4353118b6355f1d4b9e1b7eeebec Mon Sep 17 00:00:00 2001
+-From: Philippe Waroquiers <philippe.waroquiers@skynet.be>
+-Date: Sun, 28 Oct 2018 18:35:11 +0100
+-Subject: [PATCH] Fix dependencies between libcoregrind*.a and
+- *m_main.o/*m_libcsetjmp.o
+-
+-The primary and secondary coregrind libraries must be updated
+-when m_main.c or m_libcsetjmp.c are changed.
+-
+-A dependency was missing between libcoregrind*.a and libnolto_coregrind*.a,
+-and so tools were not relinked when m_main.c or m_libcsetjmp.c were
+-changed.
+-
+-Upstream-Status: Backport[git://sourceware.org/git/valgrind.git 7820fc268fae4353118b6355f1d4b9e1b7eeebec]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- coregrind/Makefile.am | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/coregrind/Makefile.am b/coregrind/Makefile.am
+-index 914a270..8de1996 100644
+---- a/coregrind/Makefile.am
+-+++ b/coregrind/Makefile.am
+-@@ -511,6 +511,8 @@ libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_CFLAGS += \
+- endif
+- libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_LIBADD = \
+-     $(libnolto_coregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_OBJECTS)
+-+libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_DEPENDENCIES = \
+-+    libnolto_coregrind-@VGCONF_ARCH_PRI@-@VGCONF_OS@.a
+- 
+- if VGCONF_HAVE_PLATFORM_SEC
+- libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_SOURCES = \
+-@@ -531,6 +533,8 @@ libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_CFLAGS += \
+- endif
+- libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_LIBADD = \
+-     $(libnolto_coregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_OBJECTS)
+-+libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_DEPENDENCIES = \
+-+    libnolto_coregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+- endif
+- 
+- #----------------------------------------------------------------------------
+--- 
+-2.10.2
+-
+diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch b/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
+deleted file mode 100644
+index 657f80335d..0000000000
+--- a/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 8c1ebb564f5eca2baeedc27a703200786d1abb0b Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 22 Dec 2018 15:28:40 -0800
+-Subject: [PATCH] tests/amd64: Do not clobber %rsp register
+-
+-This is seen with gcc-9.0 compiler now which is fix that gcc community
+-did recently
+-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52813
+-
+-Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=402480]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- none/tests/amd64-linux/bug345887.c | 5 +++--
+- 1 file changed, 3 insertions(+), 2 deletions(-)
+-
+-diff --git a/none/tests/amd64-linux/bug345887.c b/none/tests/amd64-linux/bug345887.c
+-index 0f9237d..4b07fe1 100644
+---- a/none/tests/amd64-linux/bug345887.c
+-+++ b/none/tests/amd64-linux/bug345887.c
+-@@ -20,13 +20,14 @@ static void inner(void)
+-       "movq $0x10d, %%r14\n"
+-       "movq $0x10e, %%r15\n"
+-       // not %rbp as mdb is then not able to reconstruct stack trace
+--      "movq $0x10f, %%rsp\n"
+-+      // not %rsp since gcc ignores it and since gcc >= 9.0 errors about it
+-+      // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52813
+-       "movq $0x1234, (%%rax)\n"  // should cause SEGV here
+-       "ud2"                      // should never get here
+-       : // no output registers
+-       : // no input registers
+-       : "memory", "%rax", "%rbx", "%rcx", "%rdx", "%rsi", "%rdi",
+--        "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15", "%rsp");
+-+        "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15");
+- }
+- 
+- __attribute__((noinline))
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+rename to meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+index db1bd9fc5b..3159f32230 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+@@ -12,7 +12,7 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d
+            ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'boost', '', d)} \
+         "
+ 
+-SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
++SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+            file://fixed-perl-path.patch \
+            file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
+            file://run-ptest \
+@@ -36,11 +36,9 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+            file://0001-fix-opcode-not-supported-on-mips32-linux.patch \
+            file://0001-Guard-against-__GLIBC_PREREQ-for-musl-libc.patch \
+            file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
+-           file://0001-tests-amd64-Do-not-clobber-rsp-register.patch \
+-           file://0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch \
+            "
+-SRC_URI[md5sum] = "74175426afa280184b62591b58c671b3"
+-SRC_URI[sha256sum] = "037c11bfefd477cc6e9ebe8f193bb237fe397f7ce791b4a4ce3fa1c6a520baa5"
++SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
++SRC_URI[sha256sum] = "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
+ UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
+-- 
+2.17.0
+
 
