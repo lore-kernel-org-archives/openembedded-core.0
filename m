@@ -1,28 +1,23 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D8826D545
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 85EBF60053
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 19:27:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3JJQlc4002657
+	Fri, 19 Apr 2019 19:58:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3JJw9eY027866
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 12:26:57 -0700
-Received: from [172.25.44.10] (172.25.44.10) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Fri, 19 Apr 2019 12:26:36 -0700
+	Fri, 19 Apr 2019 12:58:10 -0700 (PDT)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 19 Apr 2019 12:58:09 -0700
+From: Joe Slater <joe.slater@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-References: <20190419190139.26106-1-Randy.MacLeod@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <042de1d8-1cec-1941-c270-629709cb4a2e@windriver.com>
-Date: Fri, 19 Apr 2019 15:26:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+Date: Fri, 19 Apr 2019 12:58:09 -0700
+Message-ID: <20190419195809.25716-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-In-Reply-To: <20190419190139.26106-1-Randy.MacLeod@windriver.com>
-X-Originating-IP: [172.25.44.10]
-Subject: Re: [PATCH] valgrind: update from 3.14.0 to 3.15.0
+Subject: [PATCH 1/1] gdk-pixbuf: add timeout to run-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,175 +30,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 19:27:07 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 19 Apr 2019 19:58:09 -0000
+Content-Type: text/plain
 
-On 4/19/19 3:01 PM, Randy MacLeod wrote:
-> The SRC_URI moved.
-> Two local patches are now fixed upstream so remove them.
-> 
-> The glibc ptest results are essentially the same.
-s/glibc/qemux86-64 glibc/
-> 
->               3.14  3.15
-> TOTAL:        579   589
-> PASSED:       297   301
-> FAILED:       251   254
-> SKIPPED:       31    34
-> DURATION:    1312  1171
+The default timeout of 300 seconds is far too low for qemu bsp's.
 
-I hope to have time to fix some of these valgrind ptest failures
-but I didn't want to hold back the update.
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-Build tested for all qemu machines, for both glibc and musl.
-
-I'm building core-image-sato-sdk-ptest for qemuarm64 now but
-it will be a while so merge if you like or wait for an update
-and a v2 with minor improvements.
-
-../Randy
-
-> 
-> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
-> ---
->   ...-between-libcoregrind-.a-and-m_main..patch | 45 -------------------
->   ...ts-amd64-Do-not-clobber-rsp-register.patch | 37 ---------------
->   ...{valgrind_3.14.0.bb => valgrind_3.15.0.bb} |  8 ++--
->   3 files changed, 3 insertions(+), 87 deletions(-)
->   delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
->   delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
->   rename meta/recipes-devtools/valgrind/{valgrind_3.14.0.bb => valgrind_3.15.0.bb} (94%)
-> 
-> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch b/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
-> deleted file mode 100644
-> index bedf1c1274..0000000000
-> --- a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
-> +++ /dev/null
-> @@ -1,45 +0,0 @@
-> -From 7820fc268fae4353118b6355f1d4b9e1b7eeebec Mon Sep 17 00:00:00 2001
-> -From: Philippe Waroquiers <philippe.waroquiers@skynet.be>
-> -Date: Sun, 28 Oct 2018 18:35:11 +0100
-> -Subject: [PATCH] Fix dependencies between libcoregrind*.a and
-> - *m_main.o/*m_libcsetjmp.o
-> -
-> -The primary and secondary coregrind libraries must be updated
-> -when m_main.c or m_libcsetjmp.c are changed.
-> -
-> -A dependency was missing between libcoregrind*.a and libnolto_coregrind*.a,
-> -and so tools were not relinked when m_main.c or m_libcsetjmp.c were
-> -changed.
-> -
-> -Upstream-Status: Backport[git://sourceware.org/git/valgrind.git 7820fc268fae4353118b6355f1d4b9e1b7eeebec]
-> -
-> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ----
-> - coregrind/Makefile.am | 4 ++++
-> - 1 file changed, 4 insertions(+)
-> -
-> -diff --git a/coregrind/Makefile.am b/coregrind/Makefile.am
-> -index 914a270..8de1996 100644
-> ---- a/coregrind/Makefile.am
-> -+++ b/coregrind/Makefile.am
-> -@@ -511,6 +511,8 @@ libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_CFLAGS += \
-> - endif
-> - libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_LIBADD = \
-> -     $(libnolto_coregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_OBJECTS)
-> -+libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_DEPENDENCIES = \
-> -+    libnolto_coregrind-@VGCONF_ARCH_PRI@-@VGCONF_OS@.a
-> -
-> - if VGCONF_HAVE_PLATFORM_SEC
-> - libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_SOURCES = \
-> -@@ -531,6 +533,8 @@ libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_CFLAGS += \
-> - endif
-> - libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_LIBADD = \
-> -     $(libnolto_coregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_OBJECTS)
-> -+libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_DEPENDENCIES = \
-> -+    libnolto_coregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
-> - endif
-> -
-> - #----------------------------------------------------------------------------
-> ---
-> -2.10.2
-> -
-> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch b/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
-> deleted file mode 100644
-> index 657f80335d..0000000000
-> --- a/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
-> +++ /dev/null
-> @@ -1,37 +0,0 @@
-> -From 8c1ebb564f5eca2baeedc27a703200786d1abb0b Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sat, 22 Dec 2018 15:28:40 -0800
-> -Subject: [PATCH] tests/amd64: Do not clobber %rsp register
-> -
-> -This is seen with gcc-9.0 compiler now which is fix that gcc community
-> -did recently
-> -https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52813
-> -
-> -Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=402480]
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - none/tests/amd64-linux/bug345887.c | 5 +++--
-> - 1 file changed, 3 insertions(+), 2 deletions(-)
-> -
-> -diff --git a/none/tests/amd64-linux/bug345887.c b/none/tests/amd64-linux/bug345887.c
-> -index 0f9237d..4b07fe1 100644
-> ---- a/none/tests/amd64-linux/bug345887.c
-> -+++ b/none/tests/amd64-linux/bug345887.c
-> -@@ -20,13 +20,14 @@ static void inner(void)
-> -       "movq $0x10d, %%r14\n"
-> -       "movq $0x10e, %%r15\n"
-> -       // not %rbp as mdb is then not able to reconstruct stack trace
-> --      "movq $0x10f, %%rsp\n"
-> -+      // not %rsp since gcc ignores it and since gcc >= 9.0 errors about it
-> -+      // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52813
-> -       "movq $0x1234, (%%rax)\n"  // should cause SEGV here
-> -       "ud2"                      // should never get here
-> -       : // no output registers
-> -       : // no input registers
-> -       : "memory", "%rax", "%rbx", "%rcx", "%rdx", "%rsi", "%rdi",
-> --        "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15", "%rsp");
-> -+        "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15");
-> - }
-> -
-> - __attribute__((noinline))
-> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-> similarity index 94%
-> rename from meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> rename to meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-> index db1bd9fc5b..3159f32230 100644
-> --- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
-> +++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
-> @@ -12,7 +12,7 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d
->              ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'boost', '', d)} \
->           "
->   
-> -SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
-> +SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
->              file://fixed-perl-path.patch \
->              file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
->              file://run-ptest \
-> @@ -36,11 +36,9 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
->              file://0001-fix-opcode-not-supported-on-mips32-linux.patch \
->              file://0001-Guard-against-__GLIBC_PREREQ-for-musl-libc.patch \
->              file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
-> -           file://0001-tests-amd64-Do-not-clobber-rsp-register.patch \
-> -           file://0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch \
->              "
-> -SRC_URI[md5sum] = "74175426afa280184b62591b58c671b3"
-> -SRC_URI[sha256sum] = "037c11bfefd477cc6e9ebe8f193bb237fe397f7ce791b4a4ce3fa1c6a520baa5"
-> +SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
-> +SRC_URI[sha256sum] = "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
->   UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
->   
->   COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
-> 
-
-
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest
+index 8f90723..b4f982b 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf/run-ptest
+@@ -1,3 +1,5 @@
+ #! /bin/sh
+ 
+-gnome-desktop-testing-runner gdk-pixbuf
++# The default timeout of 300 seconds is far too low for qemu bsp's.
++#
++gnome-desktop-testing-runner -t 2400 gdk-pixbuf
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.7.4
+
 
