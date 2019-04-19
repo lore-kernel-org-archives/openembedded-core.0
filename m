@@ -1,37 +1,24 @@
-Return-Path: <steven.hung@mediatek.com>
-X-Greylist: delayed 300 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 19 Apr 2019 07:37:03 UTC
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	by mail.openembedded.org (Postfix) with ESMTP id 208656C0EB
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5DAE579B57
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 07:37:03 +0000 (UTC)
-X-UUID: 23e22625c52b49839a6eb643b69f26fd-20190419
-X-UUID: 23e22625c52b49839a6eb643b69f26fd-20190419
-Received: from mtkexhb02.mediatek.inc [(172.21.101.103)] by
-	mailgw02.mediatek.com (envelope-from <steven.hung@mediatek.com>)
-	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 115413121; Fri, 19 Apr 2019 15:31:59 +0800
-Received: from MTKMBS06N1.mediatek.inc (172.21.101.129) by
-	mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Fri, 19 Apr 2019 15:31:58 +0800
-Received: from MTKMBS06N1.mediatek.inc ([fe80::893a:dede:6681:ca4b]) by
-	mtkmbs06n1.mediatek.inc ([fe80::893a:dede:6681:ca4b%18]) with mapi id
-	15.00.1395.000; Fri, 19 Apr 2019 15:31:58 +0800
-From: =?big5?B?U3RldmVuIEh1bmcgKKx4pF+lySk=?= <Steven.Hung@mediatek.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] kernel.bbclass: convert base_do_unpack_append() to a task
-Thread-Index: AdT2gccboPShOgVsRYmWBEVx1VW+Wg==
-Date: Fri, 19 Apr 2019 07:31:58 +0000
-Message-ID: <844b63f236524325b1852c5a3022140d@mtkmbs06n1.mediatek.inc>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [172.21.101.239]
-x-tm-snts-smtp: 1801156272FDFDDA14195C70BFE25C64DA805B51BA7539147B0BFE52A8E016A62000:8
+	Fri, 19 Apr 2019 08:46:31 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3J8kBxC019026
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 19 Apr 2019 01:46:22 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Fri, 19 Apr 2019 01:46:01 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 19 Apr 2019 16:45:59 +0800
+Message-ID: <1555663559-321591-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] kernel.bbclass: convert base_do_unpack_append() to a task
+Subject: [PATCH] ltp: Fix setrlimit03 call succeeded unexpectedly
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,97 +31,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 07:37:04 -0000
-Content-Language: zh-TW
-Content-Transfer-Encoding: base64
-Content-Type: multipart/related;
-	boundary="__=_Part_Boundary_005_1885105979.22383272"
+X-List-Received-Date: Fri, 19 Apr 2019 08:46:31 -0000
+Content-Type: text/plain
 
---__=_Part_Boundary_005_1885105979.22383272
-Content-Transfer-Encoding: base64
-Content-Type: multipart/alternative;
-	boundary="__=_Part_Boundary_006_1534387165.2138456852"
+From: He Zhe <zhe.he@windriver.com>
 
---__=_Part_Boundary_006_1534387165.2138456852
-Content-Type: text/html
-Content-Transfer-Encoding: base64
+Backport a patch from upstream to fix the following error.
+"setrlimit03.c:54: FAIL: call succeeded unexpectedly"
 
-PHByZT4NCndoZW4mIzMyO2V4dGVybmFsc3JjJiMzMjtpcyYjMzI7ZW5hYmxlZCYjMzI7YW5kJiMz
-Mjt0aGUmIzMyOyYjMzk7ZG9fdW5wYWNrJiMzOTsmIzMyO3Rhc2smIzMyO2lzJiMzMjtkZWxldGVk
-LA0KYnVpbGRpbmcmIzMyO2tlcm5lbCYjMzI7bW9kdWxlJiMzMjtmYWlsDQoNClNpZ25lZC1vZmYt
-Ynk6JiMzMjtTdGV2ZW4mIzMyO0h1bmcmIzMyOygmIzI3OTQ2OyYjMjAxMTA7JiMyOTU3NzspJiMz
-MjsmbHQ7U3RldmVuLkh1bmdAbWVkaWF0ZWsuY29tJmd0Ow0KLS0tDQomIzMyO21ldGEvY2xhc3Nl
-cy9rZXJuZWwuYmJjbGFzcyYjMzI7fCYjMzI7MyYjMzI7KystDQomIzMyOzEmIzMyO2ZpbGUmIzMy
-O2NoYW5nZWQsJiMzMjsyJiMzMjtpbnNlcnRpb25zKCspLCYjMzI7MSYjMzI7ZGVsZXRpb24oLSkN
-Cg0KZGlmZiYjMzI7LS1naXQmIzMyO2EvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzJiMzMjti
-L21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0KaW5kZXgmIzMyOzlkYTk4MTg5NjIuLmIzNDZh
-NjA1OWEmIzMyOzEwMDY0NA0KLS0tJiMzMjthL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0K
-KysrJiMzMjtiL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0KQEAmIzMyOy0xMzAsNyYjMzI7
-KzEzMCw3JiMzMjtAQCYjMzI7aW5oZXJpdCYjMzI7JiMzNjt7S0VSTkVMX0NMQVNTRVN9DQomIzMy
-OyMmIzMyO3RoZSYjMzI7c3ltbGluay4NCiYjMzI7ZG9fdW5wYWNrW2NsZWFuZGlyc10mIzMyOys9
-JiMzMjsmcXVvdDsmIzMyOyYjMzY7e1N9JiMzMjsmIzM2O3tTVEFHSU5HX0tFUk5FTF9ESVJ9JiMz
-MjsmIzM2O3tCfSYjMzI7JiMzNjt7U1RBR0lOR19LRVJORUxfQlVJTERESVJ9JnF1b3Q7DQomIzMy
-O2RvX2NsZWFuW2NsZWFuZGlyc10mIzMyOys9JiMzMjsmcXVvdDsmIzMyOyYjMzY7e1N9JiMzMjsm
-IzM2O3tTVEFHSU5HX0tFUk5FTF9ESVJ9JiMzMjsmIzM2O3tCfSYjMzI7JiMzNjt7U1RBR0lOR19L
-RVJORUxfQlVJTERESVJ9JnF1b3Q7DQotYmFzZV9kb191bnBhY2tfYXBwZW5kJiMzMjsoKSYjMzI7
-ew0KK3B5dGhvbiYjMzI7ZG9fc3ltbGlua19rZXJuc3JjJiMzMjsoKSYjMzI7ew0KJiMzMjsmIzMy
-OyYjMzI7JiMzMjsmIzMyO3MmIzMyOz0mIzMyO2QuZ2V0VmFyKCZxdW90O1MmcXVvdDspDQomIzMy
-OyYjMzI7JiMzMjsmIzMyOyYjMzI7aWYmIzMyO3NbLTFdJiMzMjs9PSYjMzI7JiMzOTsvJiMzOTs6
-DQomIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsjJiMzMjtkcm9w
-JiMzMjt0cmFpbGluZyYjMzI7c2xhc2gsJiMzMjtzbyYjMzI7dGhhdCYjMzI7b3Muc3ltbGluayhr
-ZXJuc3JjLCYjMzI7cykmIzMyO2RvZXNuJiMzOTt0JiMzMjt1c2UmIzMyO3MmIzMyO2FzJiMzMjtk
-aXJlY3RvcnkmIzMyO25hbWUmIzMyO2FuZCYjMzI7ZmFpbA0KQEAmIzMyOy0xNDcsNiYjMzI7KzE0
-Nyw3JiMzMjtAQCYjMzI7YmFzZV9kb191bnBhY2tfYXBwZW5kJiMzMjsoKSYjMzI7ew0KJiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjtzaHV0aWwubW92ZShzLCYjMzI7a2VybnNyYykNCiYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7b3Muc3ltbGluayhrZXJuc3Jj
-LCYjMzI7cykNCiYjMzI7fQ0KK2FkZHRhc2smIzMyO3N5bWxpbmtfa2VybnNyYyYjMzI7YmVmb3Jl
-JiMzMjtkb19jb25maWd1cmUmIzMyO2FmdGVyJiMzMjtkb191bnBhY2sNCiYjMzI7DQomIzMyO2lu
-aGVyaXQmIzMyO2tlcm5lbC1hcmNoJiMzMjtkZXBsb3kNCiYjMzI7DQotLSYjMzI7DQoyLjE4LjAN
-Cg0KPC9wcmU+PCEtLXR5cGU6dGV4dC0tPjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1FRElB
-VEVLIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZv
-cm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSAN
-CmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdl
-ZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUg
-bGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25h
-dGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24s
-IHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5n
-IGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3Rs
-eSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50
-ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlIA0KdGhhdCB5b3UgaGF2
-ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVy
-IA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBh
-bmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRz
-KSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0
-aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0t
-Pg==
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ ...trlimit03.c-read-proc-sys-fs-nr_open-for-.patch | 66 ++++++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20190115.bb          |  1 +
+ 2 files changed, 67 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
 
---__=_Part_Boundary_006_1534387165.2138456852
-Content-Type: text/plain;
-	charset="big5"
-Content-Transfer-Encoding: base64
+diff --git a/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch b/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
+new file mode 100644
+index 0000000..1191e88
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
+@@ -0,0 +1,66 @@
++From db57ddc1497e72947da2b14f471ab521478ef99d Mon Sep 17 00:00:00 2001
++From: Tommi Rantala <tommi.t.rantala@nokia.com>
++Date: Thu, 31 Jan 2019 19:49:00 +0200
++Subject: [PATCH] syscalls/setrlimit03.c: read /proc/sys/fs/nr_open for
++ RLIMIT_NOFILE limit
++
++Since kernel v2.6.25 RLIMIT_NOFILE limit is no longer hardcoded to
++NR_OPEN, but can be set via /proc/sys/fs/nr_open, see kernel commit
++9cfe015aa424b3c003baba3841a60dd9b5ad319b ("get rid of NR_OPEN and
++introduce a sysctl_nr_open").
++
++nr_open default value is 1024*1024, so setrlimit03 has been passing fine
++on new kernels, only "unexpectedly succeeding" if nr_open is set to some
++larger value.
++
++Signed-off-by: Tommi Rantala <tommi.t.rantala@nokia.com>
++Reviewed-by: Cyril Hrubis <chrubis@suse.cz>
++---
++ testcases/kernel/syscalls/setrlimit/setrlimit03.c | 13 +++++++++++--
++ 1 file changed, 11 insertions(+), 2 deletions(-)
++
++diff --git a/testcases/kernel/syscalls/setrlimit/setrlimit03.c b/testcases/kernel/syscalls/setrlimit/setrlimit03.c
++index 29b52aa..12455fe 100644
++--- a/testcases/kernel/syscalls/setrlimit/setrlimit03.c
+++++ b/testcases/kernel/syscalls/setrlimit/setrlimit03.c
++@@ -35,7 +35,10 @@
++ # define NR_OPEN (1024*1024)
++ #endif
++ 
+++#define NR_OPEN_PATH "/proc/sys/fs/nr_open"
+++
++ static struct rlimit rlim1, rlim2;
+++static unsigned int nr_open = NR_OPEN;
++ 
++ static struct tcase {
++ 	struct rlimit *rlimt;
++@@ -51,7 +54,10 @@ static void verify_setrlimit(unsigned int n)
++ 
++ 	TEST(setrlimit(RLIMIT_NOFILE, tc->rlimt));
++ 	if (TST_RET != -1) {
++-		tst_res(TFAIL, "call succeeded unexpectedly");
+++		tst_res(TFAIL, "call succeeded unexpectedly "
+++			"(nr_open=%u rlim_cur=%lu rlim_max=%lu)", nr_open,
+++			(unsigned long)(tc->rlimt->rlim_cur),
+++			(unsigned long)(tc->rlimt->rlim_max));
++ 		return;
++ 	}
++ 
++@@ -65,10 +71,13 @@ static void verify_setrlimit(unsigned int n)
++ 
++ static void setup(void)
++ {
+++	if (!access(NR_OPEN_PATH, F_OK))
+++		SAFE_FILE_SCANF(NR_OPEN_PATH, "%u", &nr_open);
+++
++ 	SAFE_GETRLIMIT(RLIMIT_NOFILE, &rlim1);
++ 	rlim2.rlim_max = rlim1.rlim_cur;
++ 	rlim2.rlim_cur = rlim1.rlim_max + 1;
++-	rlim1.rlim_max = NR_OPEN + 1;
+++	rlim1.rlim_max = nr_open + 1;
++ }
++ 
++ static struct tst_test test = {
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/ltp/ltp_20190115.bb b/meta/recipes-extended/ltp/ltp_20190115.bb
+index ddf97e2..1d0c00b 100644
+--- a/meta/recipes-extended/ltp/ltp_20190115.bb
++++ b/meta/recipes-extended/ltp/ltp_20190115.bb
+@@ -49,6 +49,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://0001-open_posix_testsuite-mmap24-2-Relax-condition-a-bit.patch \
+            file://define-sigrtmin-and-sigrtmax-for-musl.patch \
+            file://setregid01-security-string-formatting.patch \
++           file://0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.7.4
 
-d2hlbiBleHRlcm5hbHNyYyBpcyBlbmFibGVkIGFuZCB0aGUgJ2RvX3VucGFjaycgdGFzayBpcyBk
-ZWxldGVkLA0KYnVpbGRpbmcga2VybmVsIG1vZHVsZSBmYWlsDQoNClNpZ25lZC1vZmYtYnk6IFN0
-ZXZlbiBIdW5nICiseKRfpckpIDxTdGV2ZW4uSHVuZ0BtZWRpYXRlay5jb20+DQotLS0NCiBtZXRh
-L2NsYXNzZXMva2VybmVsLmJiY2xhc3MgfCAzICsrLQ0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2Vy
-dGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9rZXJu
-ZWwuYmJjbGFzcyBiL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0KaW5kZXggOWRhOTgxODk2
-Mi4uYjM0NmE2MDU5YSAxMDA2NDQNCi0tLSBhL21ldGEvY2xhc3Nlcy9rZXJuZWwuYmJjbGFzcw0K
-KysrIGIvbWV0YS9jbGFzc2VzL2tlcm5lbC5iYmNsYXNzDQpAQCAtMTMwLDcgKzEzMCw3IEBAIGlu
-aGVyaXQgJHtLRVJORUxfQ0xBU1NFU30NCiAjIHRoZSBzeW1saW5rLg0KIGRvX3VucGFja1tjbGVh
-bmRpcnNdICs9ICIgJHtTfSAke1NUQUdJTkdfS0VSTkVMX0RJUn0gJHtCfSAke1NUQUdJTkdfS0VS
-TkVMX0JVSUxERElSfSINCiBkb19jbGVhbltjbGVhbmRpcnNdICs9ICIgJHtTfSAke1NUQUdJTkdf
-S0VSTkVMX0RJUn0gJHtCfSAke1NUQUdJTkdfS0VSTkVMX0JVSUxERElSfSINCi1iYXNlX2RvX3Vu
-cGFja19hcHBlbmQgKCkgew0KK3B5dGhvbiBkb19zeW1saW5rX2tlcm5zcmMgKCkgew0KICAgICBz
-ID0gZC5nZXRWYXIoIlMiKQ0KICAgICBpZiBzWy0xXSA9PSAnLyc6DQogICAgICAgICAjIGRyb3Ag
-dHJhaWxpbmcgc2xhc2gsIHNvIHRoYXQgb3Muc3ltbGluayhrZXJuc3JjLCBzKSBkb2Vzbid0IHVz
-ZSBzIGFzIGRpcmVjdG9yeSBuYW1lIGFuZCBmYWlsDQpAQCAtMTQ3LDYgKzE0Nyw3IEBAIGJhc2Vf
-ZG9fdW5wYWNrX2FwcGVuZCAoKSB7DQogICAgICAgICAgICAgc2h1dGlsLm1vdmUocywga2VybnNy
-YykNCiAgICAgICAgICAgICBvcy5zeW1saW5rKGtlcm5zcmMsIHMpDQogfQ0KK2FkZHRhc2sgc3lt
-bGlua19rZXJuc3JjIGJlZm9yZSBkb19jb25maWd1cmUgYWZ0ZXIgZG9fdW5wYWNrDQogDQogaW5o
-ZXJpdCBrZXJuZWwtYXJjaCBkZXBsb3kNCiANCi0tIA0KMi4xOC4wDQo=
 
---__=_Part_Boundary_006_1534387165.2138456852--
-
---__=_Part_Boundary_005_1885105979.22383272--
