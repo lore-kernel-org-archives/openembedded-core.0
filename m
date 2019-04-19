@@ -1,57 +1,34 @@
-Return-Path: <mike@foundries.io>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 477CB6C216
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 0665F60272
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 17:41:46 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id e92so1117240plb.6
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 19 Apr 2019 10:41:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=foundries-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:cc:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=7GoM0+3+DV2m6KrcPYhvppzeiAc7zISoin9TkpP4oCA=;
-	b=MggDrTe0YxRiIMpcZ0N4I9bZg2Ew3fij5iazoMGiBfYQhUeDliyn5DP2M7/HdDUGLQ
-	3ZKZ0BcxWWW42qN37TSHFbsxfMdNRA9O3DAvzuSn7XysEMKJPmtOt/x0YtmcVKBpymcg
-	5vHa2KkVt8+Qxy4PQRz4h6Q9X0IVvveSgZgL6O77LpO0mEMNsuvQ24Bk4QY/Fz2PYUV4
-	bhNs5rWZnngN9sqmGck/X9MBZ6W8kSLQAfin0G/+sZyxcL+BiwT6Tkbw/U4xQZM/aWqG
-	NJ+3SyHetowWXu6dVdERjDE8nbOJOiMGCaPKxK8N62h5Bb1BA1YqAlcARniYHmyFy8L/
-	uqKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:cc:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=7GoM0+3+DV2m6KrcPYhvppzeiAc7zISoin9TkpP4oCA=;
-	b=l7Dhm0aKvPIyDc5AhbvIRkHN5qUGc4HLI04mmkhQHS0Mv46L39K7aJ4e/lfX0JQsMK
-	CZqHUqN+mBb8yinZCcVNMuiTT4j9UCQ8DTpqFGZVqupL/Ki77gBie+jz1GONebeTEotg
-	m0L4irG7AD+CPsIRZSLqA5Q7roBFP/0nWyrzwHScpsGoh8JmoJlQpxqP3OSoEGCohJG5
-	JtkCTzyQ7CR7ehrT3d75zg+RTJc4JUpbdixXqB+tzZe41urv/q0v7sBtAG822ulIPqok
-	Yx0M5rrNqhz7sJhoANZTQKJ/yk6UQV0A1O31eCBXiZRe/iEx5RnP/KtevV5HOIsDb5J/
-	GSGw==
-X-Gm-Message-State: APjAAAWMY4e8tjirGttogY91Lz6AzWtyZfcHxlU7F0dCPY+sPsPM35VW
-	ACbihjFOmJB1vR1k0dJZCJZQrdGCRa4=
-X-Google-Smtp-Source: APXvYqydYCy+QigXp43+r1y05sfHvVVaWR6dnLTVdO6AXLBpS12i0uEFyjif5EKe+Fqkc2F/atIfQQ==
-X-Received: by 2002:a17:902:7044:: with SMTP id
-	h4mr5030674plt.274.1555695706710; 
-	Fri, 19 Apr 2019 10:41:46 -0700 (PDT)
-Received: from [192.168.69.121] (107-198-5-8.lightspeed.irvnca.sbcglobal.net.
-	[107.198.5.8]) by smtp.gmail.com with ESMTPSA id
-	p66sm12780866pfb.4.2019.04.19.10.41.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 19 Apr 2019 10:41:45 -0700 (PDT)
-To: Khem Raj <raj.khem@gmail.com>, Alistair Francis <alistair23@gmail.com>
-References: <20190413045641.3659-1-mike@foundries.io>
-From: Michael Scott <mike@foundries.io>
-Message-ID: <88e820e3-d8b5-e57e-5362-4e36b4799461@foundries.io>
-Date: Fri, 19 Apr 2019 10:41:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Fri, 19 Apr 2019 18:52:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3JIqDXv027221
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 19 Apr 2019 11:52:13 -0700 (PDT)
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.68]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0439.000;
+	Fri, 19 Apr 2019 11:52:12 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: akuster808 <akuster808@gmail.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast'
+	ptest execution image
+Thread-Index: AQHU9T7BCe5ATJdUKk+8Punvsdv7TaZD1nAu
+Date: Fri, 19 Apr 2019 18:52:11 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84F3782B17@ALA-MBD.corp.ad.wrs.com>
+References: <20190417155947.24890-1-richard.purdie@linuxfoundation.org>,
+	<d12938fb-ffbd-05e5-c518-96cf7222d9f8@gmail.com>
+In-Reply-To: <d12938fb-ffbd-05e5-c518-96cf7222d9f8@gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.119.76]
 MIME-Version: 1.0
-In-Reply-To: <20190413045641.3659-1-mike@foundries.io>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel-fitimage: support RISC-V
+Subject: Re: [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast' ptest execution image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,50 +41,167 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 19 Apr 2019 17:41:46 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 19 Apr 2019 18:52:18 -0000
 Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-
-On 4/12/19 9:56 PM, Michael Scott wrote:
-> Support RISC-V kernel image, using the "Image" target.
->
-> This change allows RISC-V support for fitImage via the following
-> flow: OpenSBI -> u-boot (as payload) -> Linux kernel (as fitImage
-> with ramdisk and dtb).
->
-> This was tested using QEMU RISC-V 64-bit.
->
-> Signed-off-by: Michael Scott <mike@foundries.io>
-> ---
->   meta/classes/kernel-fitimage.bbclass | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel-fitimage.bbclass b/meta/classes/kernel-fitimage.bbclass
-> index 2517d75746..09abedff8e 100644
-> --- a/meta/classes/kernel-fitimage.bbclass
-> +++ b/meta/classes/kernel-fitimage.bbclass
-> @@ -8,7 +8,7 @@ python __anonymous () {
->           d.setVar("DEPENDS", depends)
->   
->           uarch = d.getVar("UBOOT_ARCH")
-> -        if uarch == "arm64":
-> +        if uarch == "arm64" or uarch == "riscv":
-
-I didn't see any response to this v2 patch.  Is this approach 
-acceptible?  RISC-V should not attempt to use zImage for fitImage as it 
-now stands.
-
->               replacementtype = "Image"
->           elif uarch == "mips":
->               replacementtype = "vmlinuz.bin"
-
--- 
-Michael Scott
-Embedded Software Engineer at Foundries.io
-"microPlatforms™ for Connected Products"
-E: mike@foundries.io
-W: https://www.foundries.io
-
+gdk-pixbuf is fast?  Not for me.  Some of its tests take about 2000 seconds=
+ on qemux86-64 on a 32 core machine with 64GB ram.=0A=
+=0A=
+Joe=0A=
+________________________________________=0A=
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of akuster808 [akuster808@gmail.co=
+m]=0A=
+Sent: Wednesday, April 17, 2019 9:57 AM=0A=
+To: Richard Purdie; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast' p=
+test execution image=0A=
+=0A=
+On 4/17/19 8:59 AM, Richard Purdie wrote:=0A=
+> Create a common include file which lists recipes that have ptests divided=
+=0A=
+> into 'fast' and 'slow' groups. This allows us to include ptests which oth=
+erwise=0A=
+> may not get included in images and allows us to test the faster running t=
+hings=0A=
+> more regularly.=0A=
+>=0A=
+> The new image allows access to these faster executing tests. 'fast' is de=
+fined=0A=
+> as tests which execute in under 30s roughly speaking.=0A=
+Maybe at some point allow recipes to define their own groupings. It=0A=
+would lend itself to scaling better.=0A=
+=0A=
+Can we define the system at ~30 seconds? All these may be fast on a 196=0A=
+core system where as on my laptop all would be slow ; )=0A=
+=0A=
+- armin=0A=
+>=0A=
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>=0A=
+> ---=0A=
+>  .../distro/include/ptest-packagelists.inc     | 75 +++++++++++++++++++=
+=0A=
+>  .../images/core-image-sato-ptest-fast.bb      | 16 ++++=0A=
+>  2 files changed, 91 insertions(+)=0A=
+>  create mode 100644 meta/conf/distro/include/ptest-packagelists.inc=0A=
+>  create mode 100644 meta/recipes-sato/images/core-image-sato-ptest-fast.b=
+b=0A=
+>=0A=
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc=0A=
+> new file mode 100644=0A=
+> index 00000000000..768ba743ed0=0A=
+> --- /dev/null=0A=
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc=0A=
+> @@ -0,0 +1,75 @@=0A=
+> +#=0A=
+> +# Lists of the ptests in OE-Core, sorted into two sets by the time they =
+take=0A=
+> +#=0A=
+> +# ptests which take less than ~30s each=0A=
+> +#=0A=
+> +PTESTS_FAST =3D "\=0A=
+> +    acl-ptest \=0A=
+> +    apr-ptest \=0A=
+> +    apr-util-ptest \=0A=
+> +    attr-ptest \=0A=
+> +    bluez5-ptest \=0A=
+> +    bzip2-ptest \=0A=
+> +    dbus-test-ptest \=0A=
+> +    diffstat-ptest \=0A=
+> +    diffutils-ptest \=0A=
+> +    elfutils-ptest \=0A=
+> +    ethtool-ptest \=0A=
+> +    flex-ptest \=0A=
+> +    gawk-ptest \=0A=
+> +    gdbm-ptest \=0A=
+> +    gdk-pixbuf-ptest \=0A=
+> +    gzip-ptest \=0A=
+> +    json-glib-ptest \=0A=
+> +    kbd-ptest \=0A=
+> +    libconvert-asn1-perl-ptest \=0A=
+> +    liberror-perl-ptest \=0A=
+> +    libpcre-ptest \=0A=
+> +    libtimedate-perl-ptest \=0A=
+> +    libtest-needs-perl-ptest \=0A=
+> +    liburi-perl-ptest \=0A=
+> +    libusb1-ptest \=0A=
+> +    libxml-namespacesupport-perl-ptest \=0A=
+> +    libxml-perl-ptest \=0A=
+> +    libxml-parser-perl-ptest \=0A=
+> +    libxml-sax-perl-ptest \=0A=
+> +    libxml-sax-base-perl-ptest \=0A=
+> +    libxml-simple-perl-ptest \=0A=
+> +    libxml2-ptest \=0A=
+> +    lzo-ptest \=0A=
+> +    nettle-ptest \=0A=
+> +    openssl-ptest \=0A=
+> +    opkg-ptest \=0A=
+> +    pango-ptest \=0A=
+> +    parted-ptest \=0A=
+> +    quilt-ptest \=0A=
+> +    sed-ptest \=0A=
+> +    slang-ptest \=0A=
+> +    zlib-ptest \=0A=
+> +"=0A=
+> +=0A=
+> +#PTESTS_PROBLEMS =3D "\=0A=
+> +#    qemu-ptest \ # Doesn't run any tests?=0A=
+> +#    ruby-ptest \ # Timeout=0A=
+> +#    mdadm-ptest \ # Timeout=0A=
+> +#    clutter-1.0-ptest \ # Doesn't build due to depends on cogl-1.0=0A=
+> +#"=0A=
+> +=0A=
+> +PTESTS_SLOW =3D "\=0A=
+> +    bash-ptest \=0A=
+> +    busybox-ptest \=0A=
+> +    e2fsprogs-ptest \=0A=
+> +    glib-2.0-ptest \=0A=
+> +    gstreamer1.0-ptest \=0A=
+> +    libevent-ptest \=0A=
+> +    lttng-tools-ptest \=0A=
+> +    openssh-ptest \=0A=
+> +    openssl-ptest \=0A=
+> +    perl-ptest \=0A=
+> +    python-ptest \=0A=
+> +    python3-ptest \=0A=
+> +    strace-ptest \=0A=
+> +    tcl-ptest \=0A=
+> +    util-linux-ptest \=0A=
+> +    valgrind-ptest \=0A=
+> +"=0A=
+> diff --git a/meta/recipes-sato/images/core-image-sato-ptest-fast.bb b/met=
+a/recipes-sato/images/core-image-sato-ptest-fast.bb=0A=
+> new file mode 100644=0A=
+> index 00000000000..b794a7dc9e9=0A=
+> --- /dev/null=0A=
+> +++ b/meta/recipes-sato/images/core-image-sato-ptest-fast.bb=0A=
+> @@ -0,0 +1,16 @@=0A=
+> +require core-image-sato-sdk.bb=0A=
+> +require conf/distro/include/ptest-packagelists.inc=0A=
+> +=0A=
+> +IMAGE_INSTALL +=3D "${PTESTS_FAST}"=0A=
+> +=0A=
+> +DESCRIPTION +=3D "Also includes ptest packages with fast execution times=
+ to allow for more automated QA."=0A=
+> +=0A=
+> +# This image is sufficiently large (~1.8GB) that it can't actually fit i=
+n a live=0A=
+> +# image (which has a 4GB limit), so nullify the overhead factor (1.3x ou=
+t of the=0A=
+> +# box) and explicitly add just 1500MB.=0A=
+> +# strace-ptest in particular needs more than 500MB=0A=
+> +IMAGE_OVERHEAD_FACTOR =3D "1.0"=0A=
+> +IMAGE_ROOTFS_EXTRA_SPACE =3D "1524288"=0A=
+> +=0A=
+> +# ptests need more memory than standard to avoid the OOM killer=0A=
+> +QB_MEM =3D "-m 1024"=0A=
+=0A=
+--=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
