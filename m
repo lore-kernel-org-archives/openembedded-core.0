@@ -1,92 +1,48 @@
-Return-Path: <alejandr@xilinx.com>
-X-Greylist: delayed 43154 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 20 Apr 2019 17:57:50 UTC
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
-	(mail-eopbgr750045.outbound.protection.outlook.com [40.107.75.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 707DF6C1C4
+Return-Path: <changhyeok.bae@gmail.com>
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com
+	[209.85.221.51])
+	by mail.openembedded.org (Postfix) with ESMTP id DB7F279CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 20 Apr 2019 17:57:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=F+feXeeyVCur873973x3/pT2QW43TyKYyWZ1QqoMtkM=;
-	b=MnAEq8mVgfcr7HRlGWMkZLvJWZAxz1lHLD+mRw6qUAWe08DMR/bPIH4QZcBLVciREcKtbL5x3y8f80ELsNNQsNmD11wtY9F07dojDUVagA+QQ61sP7gBH14t0gpjbJl7si8jQFQmvn42/POK+4elaQUi2a6ned3ABcMLtpsXvVw=
-Received: from MWHPR0201CA0017.namprd02.prod.outlook.com
-	(2603:10b6:301:74::30) by MWHPR02MB2687.namprd02.prod.outlook.com
-	(2603:10b6:300:106::13) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1813.11;
-	Fri, 19 Apr 2019 21:47:59 +0000
-Received: from BL2NAM02FT038.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e46::206) by MWHPR0201CA0017.outlook.office365.com
-	(2603:10b6:301:74::30) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1813.11 via
-	Frontend Transport; Fri, 19 Apr 2019 21:47:52 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none; lists.openembedded.org;
-	dmarc=bestguesspass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
-Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	BL2NAM02FT038.mail.protection.outlook.com (10.152.77.25) with Microsoft
-	SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1771.16
-	via Frontend Transport; Fri, 19 Apr 2019 21:47:51 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1hHbMN-0006gv-53 for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2019 14:47:51 -0700
-Received: from [127.0.0.1] (helo=localhost)
-	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1hHbMI-0005mS-2H for openembedded-core@lists.openembedded.org;
-	Fri, 19 Apr 2019 14:47:46 -0700
-Received: from xsj-pvapsmtp01 (mailhost.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	x3JLlfvF018637; Fri, 19 Apr 2019 14:47:41 -0700
-Received: from [172.19.2.8] (helo=xsjalejandr50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandr@xilinx.com>)
-	id 1hHbMD-0005mC-Mi; Fri, 19 Apr 2019 14:47:41 -0700
-From: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 19 Apr 2019 14:47:40 -0700
-Message-ID: <1555710460-29774-1-git-send-email-alejandr@xilinx.com>
+	Sat, 20 Apr 2019 21:55:53 +0000 (UTC)
+Received: by mail-wr1-f51.google.com with SMTP id a15so6650654wrw.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 20 Apr 2019 14:55:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=YN84JHEgmZPbylh+yfY5vXjYGZZZsm40j89/BNBMUwU=;
+	b=qAhz2lbr+vJfNZ7+mmVt1vZ+SMmSZi8isTeSSRKeQ1yTQVKZOk3As7oG0e/MIkO7Lb
+	k7mb6ugIH6BvM+J1maegFry7tvaFEiNsuhxVlqyrJEIUJrG3CocKfjgE75LBnc5zmU/F
+	1OI2ZsguMhAxT4EjLaXF9A+5L0optATDP2ri4cbS20Yl9BI4vzdI/v3QFwOR0YG2qSuL
+	YFEHYz7HZQ61OxQ+kmqoHiKY374De7L/MuZdnq6vzxH39ewesR1q34f+B21vNVE7l+6H
+	Cl62KuBDzo5AICDoW3myHV904Ld4+nFzCUPI8xOABQGhDJxTaPOA2j5qkUZpxJX2MEvH
+	0FyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YN84JHEgmZPbylh+yfY5vXjYGZZZsm40j89/BNBMUwU=;
+	b=Fm/tQEqgXxig7NYjmd8XpB+I9ObXM5PM/oj1A1ncKVmFg2kL2Sef7fMf4CWwxlcT9a
+	eeAWG/sdYe7aU3ZqoDXx32sKS8UwURwUsb2m8zVF5yZETVn0oitRwgvVFBy0dgdWL77/
+	4DTqpayojRAZOjKK10ODh1koqqpeDCKLPSEBQgkaNivlhbbehKImZtCtBIn1fU525p0a
+	JcIqiTE8W0yoT2Bn7HcXOZjc3WyONU2PU8Fek2W7U2DfRRxcKcN+CO9rqOKf2698UgBw
+	3v4SBsm8EYBCl1Aja52wNBUjbfUXZXNp65l9X+AEzaUYfOOI+0u6oDAhPNNhqQUO4LU4
+	RPTA==
+X-Gm-Message-State: APjAAAW+xMhy44HIvv+yVq/AC+Meps0jFNHxyx4+3gnaTPRVeIawbWvx
+	oNy6UGOalFzu24tbTLjCgdwdRhNC
+X-Google-Smtp-Source: APXvYqwDi1ozgEwq0v57YhBUV+yitKVn9qq6lNB2JCbaoE2Qb77TKB9Oj6MEQvdlCiLl78W0iPwI8A==
+X-Received: by 2002:adf:dbcc:: with SMTP id e12mr6209322wrj.134.1555797354316; 
+	Sat, 20 Apr 2019 14:55:54 -0700 (PDT)
+Received: from 5817cd7c5c65.corpintra.net
+	(ip5b413250.dynamic.kabel-deutschland.de. [91.65.50.80])
+	by smtp.gmail.com with ESMTPSA id
+	b134sm15708363wmd.26.2019.04.20.14.55.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 20 Apr 2019 14:55:53 -0700 (PDT)
+From: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 20 Apr 2019 21:55:42 +0000
+Message-Id: <1555797342-76992-1-git-send-email-changhyeok.bae@gmail.com>
 X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(136003)(39860400002)(396003)(376002)(346002)(2980300002)(189003)(199004)(126002)(36756003)(7696005)(36386004)(476003)(186003)(6916009)(14444005)(426003)(48376002)(16586007)(70206006)(70586007)(47776003)(336012)(51416003)(2351001)(356004)(316002)(478600001)(81156014)(26005)(4326008)(2616005)(81166006)(50466002)(106002)(107886003)(486006)(8676002)(305945005)(8936002)(5660300002)(2906002)(77096007)(9786002)(63266004)(50226002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:MWHPR02MB2687; H:xsj-pvapsmtpgw01;
-	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7d4e94e6-99b6-474a-1fed-08d6c510ac3e
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(5600141)(711020)(4605104)(4709054)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(2017052603328);
-	SRVR:MWHPR02MB2687; 
-X-MS-TrafficTypeDiagnostic: MWHPR02MB2687:|MWHPR02MB2687:
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <MWHPR02MB268723E2C51C46B94644DD17AC270@MWHPR02MB2687.namprd02.prod.outlook.com>
-X-Forefront-PRVS: 0012E6D357
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: pHVc0JcXpB16+jqGn5VcLDU0oKF0yofudkfzuNzY5P3FDioFP0s/SwC8EXPnzM92fMOZIIB3rqfDN4PyGd8CBpJSYlwsmn9CXQZsm++EuE0syPJWgp1zMOtJ9UrwteoM6S1VozSgjF/NT73Qw5bJcXtgOHCiooYJ+SjPnzPKtTZUoG7y/CiutUVXQOBG7/JQurFckKJuC4cDKT2fQSTiNLMLtyclozY+N2wNg/CFdwgi/I+eXu7ECOgOit7Yh+iggEa+sQAWuLtcoZVA4tXYiIeqmolLGJQggBpEWai3J/Uw8snDrYYIextlfUnpmzcXEk61fl8cyzrM/q/V4My0LTrVKibqLSWpWtoUdDi10a9aSj55hr+8LUA19EtjhRTW2vegGlnEtANdfER0thFrVoSOFsgaQhqEyVo/Vza54gg=
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Apr 2019 21:47:51.7673 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7d4e94e6-99b6-474a-1fed-08d6c510ac3e
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2687
-X-OriginatorOrg: xilinx.com
-Subject: [PATCH] run-postinsts: Fix full execution of scripts at first boot
+Subject: [PATCH] iputils: update to s20190324
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -99,68 +55,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 20 Apr 2019 17:57:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 20 Apr 2019 21:55:55 -0000
 
-run-postinsts runs a given set of scripts during the first boot of the
-device, when one of these scripts prints something to stdout (isnt
-daemonized correctly), since stdout is not available at that time,
-the script execution immediately returns with an error (exit_group()),
-this error causes the script to terminate all threads within the process,
-causing undesired behavior since the script might still had to execute
-some other code.
+build system is changed to meson.
 
-Replace eval built-in with $(), since $() executes in a different shell,
-even if one of the scripts exits, all threads of that process will only
-be within that session, this ensures other scripts meant to be run are
-still run afterwards.
-
-This was only required on the line that actually executes the scripts:
-"eval sh -c $i $append_log", other replacements were put for consistency,
-and generally, it is recommended to use $() instead of eval anyway.
-
-[YOCTO #13266]
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
 ---
- .../recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ .../iputils/iputils/ai_canonidn.patch              | 58 --------------------
+ .../recipes-extended/iputils/iputils/install.patch | 26 ---------
+ meta/recipes-extended/iputils/iputils_s20180629.bb | 61 ----------------------
+ meta/recipes-extended/iputils/iputils_s20190324.bb | 51 ++++++++++++++++++
+ 4 files changed, 51 insertions(+), 145 deletions(-)
+ delete mode 100644 meta/recipes-extended/iputils/iputils/ai_canonidn.patch
+ delete mode 100644 meta/recipes-extended/iputils/iputils/install.patch
+ delete mode 100644 meta/recipes-extended/iputils/iputils_s20180629.bb
+ create mode 100644 meta/recipes-extended/iputils/iputils_s20190324.bb
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-index 95eff04..419796f 100755
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-@@ -65,13 +65,13 @@ exec_postinst_scriptlets() {
- 	for i in `ls $pi_dir`; do
- 		i=$pi_dir/$i
- 		echo "Running postinst $i..."
--		[ "$POSTINST_LOGGING" = "1" ] && eval echo "Running postinst $i..." $append_log
-+		[ "$POSTINST_LOGGING" = "1" ] && $(echo "Running postinst $i..." $append_log)
- 		if [ -x $i ]; then
--			eval sh -c $i $append_log
-+			$(sh -c $i $append_log)
- 			rm $i
- 		else
- 			echo "ERROR: postinst $i failed."
--			[ "$POSTINST_LOGGING" = "1" ] && eval echo "ERROR: postinst $i failed." $append_log
-+			[ "$POSTINST_LOGGING" = "1" ] && $(echo "ERROR: postinst $i failed." $append_log)
- 			remove_pi_dir=0
- 		fi
- 	done
-@@ -81,11 +81,11 @@ remove_pi_dir=1
- if $pm_installed; then
- 	case $pm in
- 		"ipk")
--			eval opkg configure $append_log
-+			$(opkg configure $append_log)
- 			;;
- 
- 		"deb")
--			eval dpkg --configure -a $append_log
-+			$(dpkg --configure -a $append_log)
- 			;;
- 	esac
- else
+diff --git a/meta/recipes-extended/iputils/iputils/ai_canonidn.patch b/meta/recipes-extended/iputils/iputils/ai_canonidn.patch
+deleted file mode 100644
+index cd91267..0000000
+--- a/meta/recipes-extended/iputils/iputils/ai_canonidn.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 714e2b458c151c5bdfe93647445cd00dd8e36fff Mon Sep 17 00:00:00 2001
+-From: Petr Vorel <petr.vorel@gmail.com>
+-Date: Sat, 21 Jul 2018 17:46:14 +0200
+-Subject: [PATCH] ping: Fix AI_CANONIDN usage on some systems
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-Commit 99f67db used AI_CANONIDN in a way, which broke compilation on
+-systems where AI_CANONIDN is not defined in netdb.h (e.g. glibc < 2.3.4,
+-alternative libcs that don't support IDN: e.g. current musl 1.1.19 and
+-uClibc-ng 1.0.30) when not using the system libidn2.
+-
+-Fixes: 99f67db ping: Fix ping name encoded using ACE on C locale
+-
+-Reported-by: Nicholas Fish
+-Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
+-
+----
+- ping.c | 2 +-
+- ping.h | 2 +-
+- 2 files changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/ping.c b/ping.c
+-index 733477f..b241815 100644
+---- a/ping.c
+-+++ b/ping.c
+-@@ -207,9 +207,9 @@ main(int argc, char **argv)
+- 
+- #ifdef USE_IDN
+- 	setlocale(LC_ALL, "");
+--#endif
+- 	if (!strcmp(setlocale(LC_ALL, NULL), "C"))
+- 		hints.ai_flags &= ~ AI_CANONIDN;
+-+#endif
+- 
+- 	/* Support being called using `ping4` or `ping6` symlinks */
+- 	if (argv[0][strlen(argv[0])-1] == '4')
+-diff --git a/ping.h b/ping.h
+-index 3e09685..8a0c4ef 100644
+---- a/ping.h
+-+++ b/ping.h
+-@@ -28,7 +28,6 @@
+- #include <netinet/icmp6.h>
+- #include <linux/filter.h>
+- #include <resolv.h>
+--#include <locale.h>
+- 
+- #ifdef CAPABILITIES
+- #include <sys/prctl.h>
+-@@ -36,6 +35,7 @@
+- #endif
+- 
+- #ifdef USE_IDN
+-+#include <locale.h>
+- #include <idn2.h>
+- #define getaddrinfo_flags (AI_CANONNAME | AI_IDN | AI_CANONIDN)
+- #define getnameinfo_flags NI_IDN
+diff --git a/meta/recipes-extended/iputils/iputils/install.patch b/meta/recipes-extended/iputils/iputils/install.patch
+deleted file mode 100644
+index abfefd7..0000000
+--- a/meta/recipes-extended/iputils/iputils/install.patch
++++ /dev/null
+@@ -1,26 +0,0 @@
+-From 5c8c3b04d73304679340f893636e87691992053b Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross@burtonini.com>
+-Date: Mon, 23 Jul 2018 14:21:03 +0100
+-Subject: [PATCH] Add install
+-
+-Add a simple install rule so that we always install the binaries that were built.
+-
+-Upstream-Status: Inappropriate
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+----
+- Makefile | 4 ++++
+- 1 file changed, 4 insertions(+)
+-
+-diff --git a/Makefile b/Makefile
+-index 17fc5c9..e0c2784 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -231,3 +231,7 @@ rpm:
+- 	@$(RPMBUILD) -ta --define 'current yes' $(RPMTMP)/iputils.tar.bz2
+- 	@rm -f $(RPMTMP)/iputils.tar.bz2
+- 
+-+install:
+-+	for t in $(TARGETS); do \
+-+		install -D $$t $(DESTDIR)$(bindir)/$$t; \
+-+	done
+diff --git a/meta/recipes-extended/iputils/iputils_s20180629.bb b/meta/recipes-extended/iputils/iputils_s20180629.bb
+deleted file mode 100644
+index eff44be..0000000
+--- a/meta/recipes-extended/iputils/iputils_s20180629.bb
++++ /dev/null
+@@ -1,61 +0,0 @@
+-SUMMARY = "Network monitoring tools"
+-DESCRIPTION = "Utilities for the IP protocol, including traceroute6, \
+-tracepath, tracepath6, ping, ping6 and arping."
+-HOMEPAGE = "https://github.com/iputils/iputils"
+-SECTION = "console/network"
+-
+-LICENSE = "BSD & GPLv2+"
+-
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=b792e38abdc59f766a3153908f23e766 \
+-                    file://LICENSE.BSD3;md5=0f00d99239d922ffd13cabef83b33444 \
+-                    file://LICENSE.GPL2;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-
+-DEPENDS = "gnutls libcap libgcrypt"
+-
+-SRC_URI = "git://github.com/iputils/iputils \
+-           file://ai_canonidn.patch \
+-           file://install.patch"
+-SRCREV = "f6aac8dbe3f8c45c53424854a3312bdd8cdd58d3"
+-
+-S = "${WORKDIR}/git"
+-
+-UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
+-
+-EXTRA_OEMAKE = "-e MAKEFLAGS="
+-
+-PACKAGECONFIG ??= ""
+-PACKAGECONFIG[libidn] = "USE_IDN=yes,USE_IDN=no,libidn2"
+-
+-do_compile () {
+-	oe_runmake 'CC=${CC} -D_GNU_SOURCE' VPATH="${STAGING_LIBDIR}:${STAGING_DIR_HOST}/${base_libdir}" ${PACKAGECONFIG_CONFARGS} all
+-}
+-
+-do_install() {
+-	oe_runmake DESTDIR=${D} bindir=${base_bindir} install
+-	for b in ping traceroute6 clockdiff; do
+-		chmod u+s ${D}${base_bindir}/$b
+-	done
+-}
+-
+-inherit update-alternatives
+-
+-ALTERNATIVE_PRIORITY = "100"
+-
+-ALTERNATIVE_${PN}-ping = "ping"
+-ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
+-
+-SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-traceroute6 ${PN}-clockdiff ${PN}-tftpd ${PN}-rarpd ${PN}-rdisc"
+-PACKAGES += "${SPLITPKGS}"
+-
+-ALLOW_EMPTY_${PN} = "1"
+-RDEPENDS_${PN} += "${SPLITPKGS}"
+-
+-FILES_${PN}	= ""
+-FILES_${PN}-ping = "${base_bindir}/ping.${BPN}"
+-FILES_${PN}-arping = "${base_bindir}/arping"
+-FILES_${PN}-tracepath = "${base_bindir}/tracepath"
+-FILES_${PN}-traceroute6	= "${base_bindir}/traceroute6"
+-FILES_${PN}-clockdiff = "${base_bindir}/clockdiff"
+-FILES_${PN}-tftpd = "${base_bindir}/tftpd"
+-FILES_${PN}-rarpd = "${base_bindir}/rarpd"
+-FILES_${PN}-rdisc = "${base_bindir}/rdisc"
+diff --git a/meta/recipes-extended/iputils/iputils_s20190324.bb b/meta/recipes-extended/iputils/iputils_s20190324.bb
+new file mode 100644
+index 0000000..50db3f5
+--- /dev/null
++++ b/meta/recipes-extended/iputils/iputils_s20190324.bb
+@@ -0,0 +1,51 @@
++SUMMARY = "Network monitoring tools"
++DESCRIPTION = "Utilities for the IP protocol, including traceroute6, \
++tracepath, tracepath6, ping, ping6 and arping."
++HOMEPAGE = "https://github.com/iputils/iputils"
++SECTION = "console/network"
++
++LICENSE = "BSD & GPLv2+"
++
++LIC_FILES_CHKSUM = "file://LICENSE;md5=55aa8c9fcad0691cef0ecd420361e390"
++
++DEPENDS = "gnutls"
++
++SRC_URI = "git://github.com/iputils/iputils"
++
++SRCREV = "991916bf6ee6469285621e47038ee7aeab6ce9e8"
++
++S = "${WORKDIR}/git"
++
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>s\d+)"
++
++PACKAGECONFIG ??= "libcap libgcrypt"
++PACKAGECONFIG[libcap] = "-DUSE_CAP=true, -DUSE_CAP=false, libcap"
++PACKAGECONFIG[libgcrypt] = "-DUSE_CRYPTO=gcrypt, -DUSE_CRYPTO=none, libgcrypt"
++PACKAGECONFIG[libidn] = "-DUSE_IDN=true, -DUSE_IDN=false, libidn2"
++PACKAGECONFIG[gettext] = "-DUSE_GETTEXT=true, -DUSE_GETTEXT=false, gettext"
++
++inherit meson update-alternatives
++
++EXTRA_OEMESON += "--prefix=/"
++
++ALTERNATIVE_PRIORITY = "100"
++
++ALTERNATIVE_${PN}-ping = "ping"
++ALTERNATIVE_LINK_NAME[ping] = "${base_bindir}/ping"
++
++SPLITPKGS = "${PN}-ping ${PN}-arping ${PN}-tracepath ${PN}-traceroute6 ${PN}-clockdiff ${PN}-tftpd ${PN}-rarpd ${PN}-rdisc ${PN}-ninfod"
++PACKAGES += "${SPLITPKGS}"
++
++ALLOW_EMPTY_${PN} = "1"
++RDEPENDS_${PN} += "${SPLITPKGS}"
++
++FILES_${PN}	= ""
++FILES_${PN}-ping = "${base_bindir}/ping.${BPN}"
++FILES_${PN}-arping = "${base_bindir}/arping"
++FILES_${PN}-tracepath = "${base_bindir}/tracepath"
++FILES_${PN}-traceroute6	= "${base_bindir}/traceroute6"
++FILES_${PN}-clockdiff = "${base_bindir}/clockdiff"
++FILES_${PN}-tftpd = "${base_bindir}/tftpd"
++FILES_${PN}-rarpd = "${base_bindir}/rarpd"
++FILES_${PN}-rdisc = "${base_sbindir}/rdisc"
++FILES_${PN}-ninfod = "${base_sbindir}/ninfod ${sysconfdir}/init.d/ninfod.sh"
 -- 
 2.7.4
 
