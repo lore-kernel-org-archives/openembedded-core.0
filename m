@@ -1,42 +1,49 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com
-	[209.85.208.49])
-	by mail.openembedded.org (Postfix) with ESMTP id B46356B50B
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 88808751D2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Apr 2019 17:57:13 +0000 (UTC)
-Received: by mail-ed1-f49.google.com with SMTP id u57so7982637edm.3
+	Sun, 21 Apr 2019 19:44:55 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id h18so7524016lfj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 21 Apr 2019 10:57:14 -0700 (PDT)
+	Sun, 21 Apr 2019 12:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=B22Zu6i8CU0CgtjDLu2RhEAavcfvP67/ZD1Za8fAoZ4=;
+	b=UN7zdML4KHb06LjCThvFInwMc/M4eQFPLWm3pkwTqV4JPKtO1JrthdeMjqxjaUTcPD
+	yoguP/q5+5rbThxF9Vf7h0z19YfTeKhGt3oENA3lX07gqDuqBTTroqPnca0Igzz/Mu/u
+	2dh5N86mSMJKNHL4wa0Y5/x3NZWsOmbO9tbbGoGW34VIqQtLIqvYzOSsYS+SDYGeGsIv
+	y8ODOtU4hgtkR0Pc9QMteKK4KlxPC4AbbmqgDbe6aJhFPEVk9+VIi63p/afpR3LzlQKn
+	PTzirZcEln/77rB/xumItbpUIaR/bfnY1MzyroUR9jrgiKbmLzn7+tPcvyEPN+iESJuG
+	XPtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=dC+ushDDG7Tjd8IYoayYWIerUxljKklY/G687HfRpcE=;
-	b=QDbN/7Z+kTOCiCUeqYHHd1Mcg5ra0yPzd/Ufpb8LDQXMkMK45oMDQmzZxh48smY/Hn
-	f/5RpChNivzSKR/4K0jeG/PWvnWNbKRwr1k+h20+pW3J1uEXT22E/X7JlWYWvo/J68k7
-	krvwFnSgfQlYqTFUHhVJG1aCBWkZIl+wXEXnDahyXiWUb8OtWujId7oalklg47RXPSMa
-	T9/ez4rOAJyeQAqAKTtnypXJgNHo2UDZb8ZFFX4oIVoQgiRkVBnivUxD7YTv8M07l2mT
-	e1V1fN1QnEOrp2iq4aM0l7Yz4kBD3/fYf+CE9LVsUYtDfPA2XShODSvrn+tHfvOtvXzr
-	ifmg==
-X-Gm-Message-State: APjAAAV7cFp/3U54DoK6RO+SZmQ6UW6iBEwbdNZH/Yq+quHh3JPxCNBG
-	MJaiZm3nQMLINXzaRjpl1XNPQc8=
-X-Google-Smtp-Source: APXvYqzaNDwKUH83JS6rXGrPtDGovV3lX1ycYhlLcp8xOqU6B1ZhVWOw4s82IZPV6pUPCDg8+0P/UQ==
-X-Received: by 2002:a50:89b9:: with SMTP id g54mr8633963edg.37.1555869434012; 
-	Sun, 21 Apr 2019 10:57:14 -0700 (PDT)
-Received: from bill-the-cat.local (cpe-65-184-134-105.ec.res.rr.com.
-	[65.184.134.105])
-	by smtp.gmail.com with ESMTPSA id b42sm755559edd.83.2019.04.21.10.57.12
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 21 Apr 2019 10:57:13 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=B22Zu6i8CU0CgtjDLu2RhEAavcfvP67/ZD1Za8fAoZ4=;
+	b=DFkQ16BYHKChmEz3XldiQbxRhTkckVf6pS6pz5F55YWlr8PyL+w8GFlR48KbrBJ9HR
+	KH5Qnb48S+rzAXWtCJw3JJ5OFHNLiH/u5c7tDYQ59jRjpfqIFW2De7o/RPCea1t1FPJA
+	6p0PEi9u3NWcYKtANWrdgzFeWMVm8S7qdIzxqZoiTOBW3XcKjkN3FMq+8N/fU/+xEQEx
+	LmVllRUKmV0VOYuDyNdRQtUVuoyQruOELjeRfnNRSLijzuohhwmikXbHzC0JhMUtAYU7
+	Ol9qkQLULgz7sfhR2NLGuln6HbfCMsFBrEIVXuykuCSMrO+6FK6ACjP3ndoAIv3OqeIs
+	2dLQ==
+X-Gm-Message-State: APjAAAVgEFGZtFepGCPhBMwzf3kJABvDU2ey8KRdJM3m2V2UsFodn6u+
+	q+0ZLmUg5MJ+m93nh2elLD9c681Ub0c=
+X-Google-Smtp-Source: APXvYqw7PaP1lUy22MMgf+WYTtPA863mMHt8B9uREXBhZTEp4XGm+BJRIriWw4uZMlWhzfbzoJk/ig==
+X-Received: by 2002:a19:7911:: with SMTP id u17mr8048390lfc.90.1555875895592; 
+	Sun, 21 Apr 2019 12:44:55 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id x6sm2596571lfe.67.2019.04.21.12.44.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 21 Apr 2019 12:44:54 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 21 Apr 2019 13:57:05 -0400
-Message-Id: <1555869425-7613-2-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1555869425-7613-1-git-send-email-trini@konsulko.com>
-References: <1555869425-7613-1-git-send-email-trini@konsulko.com>
-Subject: [PATCH 2/2] vim: Update to 8.1.1198
+Date: Sun, 21 Apr 2019 21:44:22 +0200
+Message-Id: <20190421194422.10862-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH][meta-oe] ell: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,39 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 21 Apr 2019 17:57:14 -0000
+X-List-Received-Date: Sun, 21 Apr 2019 19:44:55 -0000
 
-This brings us to the current version of vim.
+ELL has originally been part of meta-openembedded, but newer versions
+of some of the oe-core components depend on it, e.g. ofono.
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-support/vim/{vim-tiny_8.1.1017.bb => vim-tiny_8.1.1198.bb} | 0
- meta/recipes-support/vim/{vim_8.1.1017.bb => vim_8.1.1198.bb}           | 2 +-
- 2 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb => vim-tiny_8.1.1198.bb} (100%)
- rename meta/recipes-support/vim/{vim_8.1.1017.bb => vim_8.1.1198.bb} (98%)
+ meta/recipes-core/ell/ell_0.19.bb | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-core/ell/ell_0.19.bb
 
-diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1017.bb b/meta/recipes-support/vim/vim-tiny_8.1.1198.bb
-similarity index 100%
-rename from meta/recipes-support/vim/vim-tiny_8.1.1017.bb
-rename to meta/recipes-support/vim/vim-tiny_8.1.1198.bb
-diff --git a/meta/recipes-support/vim/vim_8.1.1017.bb b/meta/recipes-support/vim/vim_8.1.1198.bb
-similarity index 98%
-rename from meta/recipes-support/vim/vim_8.1.1017.bb
-rename to meta/recipes-support/vim/vim_8.1.1198.bb
-index 4e3e663c5429..d7b864ee8b94 100644
---- a/meta/recipes-support/vim/vim_8.1.1017.bb
-+++ b/meta/recipes-support/vim/vim_8.1.1198.bb
-@@ -13,7 +13,7 @@ SRC_URI = "git://github.com/vim/vim.git \
-            file://vim-add-knob-whether-elf.h-are-checked.patch \
-            file://0001-src-Makefile-improve-reproducibility.patch \
- "
--SRCREV = "493fbe4abee660d30b4f2aef87b754b0a720213c"
-+SRCREV = "958eabe5e53673fc39186432ff98b3656663beeb"
- 
- S = "${WORKDIR}/git"
- 
+diff --git a/meta/recipes-core/ell/ell_0.19.bb b/meta/recipes-core/ell/ell_0.19.bb
+new file mode 100644
+index 0000000000..c0ba92a297
+--- /dev/null
++++ b/meta/recipes-core/ell/ell_0.19.bb
+@@ -0,0 +1,22 @@
++SUMMARY  = "Embedded Linux Library"
++DESCRIPTION = "The Embedded Linux Library (ELL) provides core, \
++low-level functionality for system daemons. It typically has no \
++dependencies other than the Linux kernel, C standard library, and \
++libdl (for dynamic linking). While ELL is designed to be efficient \
++and compact enough for use on embedded Linux platforms, it is not \
++limited to resource-constrained systems."
++SECTION = "libs"
++LICENSE  = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
++
++DEPENDS = "dbus"
++
++inherit autotools pkgconfig
++
++SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${PN}/${PN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "4356397ca11d5f8ec7f1aaf1e91ffea4"
++SRC_URI[sha256sum] = "a5a4d45ca002dd91560fcd565e696f59e82631e69c927115dafc640f0b8d779c"
++
++do_configure_prepend () {
++    mkdir -p ${S}/build-aux
++}
 -- 
-2.7.4
+2.17.1
 
 
