@@ -1,54 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id EABD46C3A3
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com
+	[209.85.208.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4A76D666
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 13:18:22 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id c6so10085173wrm.1
+	Mon, 22 Apr 2019 14:36:02 +0000 (UTC)
+Received: by mail-lj1-f177.google.com with SMTP id p14so10489635ljg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 06:18:23 -0700 (PDT)
+	Mon, 22 Apr 2019 07:36:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=mHJ+GD6q73YT8mM82HS5vcFvjRo59EGuug5DFoCTAe8=;
-	b=LTAF1PRN7544R96dUFoW0OeokZTr4TGAIgIUzjHDbvfxUPNfTlpB8b9zjjvA2mRIJF
-	PqFWOUMLe/cV5cwkZkSX4PxMfK+zZbwWJ/vU0PDsDSFWNJVG3JGOh7Xl27FfnU4+x00H
-	Oo+jmnrTcMMTFRcC2sqmRf9ZE3Scg84ijBRyA=
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=yAeYvjDK5PomFGzSOD44Y3QHKsMXDy5sgwN5wvbgKRs=;
+	b=j3TcmG3tH+6ZgjRDX7cRGS+TCpwptdf7ejwdVTt7BdxEqbNQLOD8+AYuqU0KW15RAO
+	d4aVEgZVW78pgSX34M1vDXbbNVTPHXj9eXa0wWoctGPusiAnQ04IU7t6rfLJsPoS+Ox7
+	fWwTtzOy5kbhBcbmrqxRBxi2cQm9F1E3Ou7jmRD125Lnf+0ecx5pNSSQ1XnEpYoSJDZU
+	JmvhoLvAAyHBNdPqc825ft8aCALw8XFk+cqLFUBA4NAYb0llxWNaLWEqGay5+3Su8Zj0
+	yeyifKJvx5xx4iWNYuKkZBD2GXXpfblnQSU+lerAC/9YQmPkuMoqKHVr7stiMtVy6PDL
+	wPpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=mHJ+GD6q73YT8mM82HS5vcFvjRo59EGuug5DFoCTAe8=;
-	b=L2o9TEdEjAVZN4WcEQN8PpAoEJ0cFrZqibfv8FkNuDo91J9IGSlsO085x9D/thEYm6
-	cegdNFrUa5rOa7zVEO/I2xHE3UfCDmRUv3RU3p7S+hiLXDy+644TE+11L3FoD6tOVbcI
-	7iWTo5DeR6WYyDsLAkI+mGYIcXCP+W6ZEDEznuhWGq63ob4Ggb7sx4XoVMDdBHFYN5Bl
-	IqCcXq++3d6IYGHvy6diuxtkfR27sxv6NmX8eTUKmNOT6yv//6UduXlwt8p6yGxMt2xQ
-	20utrBmUDv9mx5Fz7D8s8wlcaBGSboC5FIm1ga19DEczUQcA1H4goLzSyyryceaQ4lxR
-	A2lQ==
-X-Gm-Message-State: APjAAAWbgKF0HCeZdrEliQwTWrUxoprY3deVxlGG/F3oQOf4tYIO4npM
-	sbzsPtVQJN0Dz2XrugtZMv5Lkg==
-X-Google-Smtp-Source: APXvYqyaXYDZp7LVpR5bfSjV0utRAvimInp9FyhCUtDFxglC8aoGZTGNXxoDoRHLUmwI7t8h6P8bfg==
-X-Received: by 2002:adf:ec09:: with SMTP id x9mr13661314wrn.187.1555939102982; 
-	Mon, 22 Apr 2019 06:18:22 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x84sm15657881wmg.13.2019.04.22.06.18.21
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 22 Apr 2019 06:18:22 -0700 (PDT)
-Message-ID: <e3150ea55289518f632f8265dce2a832bd65be59.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Slater, Joseph" <joe.slater@windriver.com>, akuster808
-	<akuster808@gmail.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Apr 2019 14:18:21 +0100
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84F3782B17@ALA-MBD.corp.ad.wrs.com>
-References: <20190417155947.24890-1-richard.purdie@linuxfoundation.org>
-	,<d12938fb-ffbd-05e5-c518-96cf7222d9f8@gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84F3782B17@ALA-MBD.corp.ad.wrs.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] core-image-sato-ptest-fast: Add 'fast' ptest execution image
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=yAeYvjDK5PomFGzSOD44Y3QHKsMXDy5sgwN5wvbgKRs=;
+	b=fmhu+TKYKX6OjGDzsJ5OsJ0Sp4AWWrzOAB6mQcIeYtPpQOOIUj2WMxt0BOTUwIRPFd
+	xcOi5AT6NJKrg7EwJ9TxuhaicGiXV8iELiGs0qRXNt/cV+dWk0rQ7AupOmj2KAvEUmtI
+	bXScTGLYmoRyOXjbUvcfCLfT/sk7Ye3nE6sGBmlDWjMepmcuI2XMWpZhGaGcBjpSaL/P
+	DbwQGdXkMYjoZiIPbTZkwtAUU3B1T7actQQsAIsw7EBVi8aRFSFNsmuuNU0CIvUhcBjq
+	G4j1sKj4xbjKpE6p4ROzdGy33xSHYrR/3hjLoyggdi9O8ypHf33DnYnDFSPWt6hnqgCL
+	GfFw==
+X-Gm-Message-State: APjAAAWI41fuojsIwOymnlmJVfchCi+NGU9+aNmvA6+atmFp0SyVeEKE
+	43x1eW+MobzSPQt4Hu1kmGOcPDPkaqA=
+X-Google-Smtp-Source: APXvYqwk2ziAqWr/oZDMxXQAKFDY4r5L/XoenMqcpnygLRB2juxBjIpUmpIbn8M+94hrmdqcA+pOEw==
+X-Received: by 2002:a2e:8906:: with SMTP id d6mr10488922lji.152.1555943763100; 
+	Mon, 22 Apr 2019 07:36:03 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	k25sm2708460ljc.14.2019.04.22.07.36.02
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 22 Apr 2019 07:36:02 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 22 Apr 2019 16:35:46 +0200
+Message-Id: <20190422143546.952-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH][meta-oe] pixman: update to 0.38.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,26 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 13:18:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 22 Apr 2019 14:36:04 -0000
 
-On Fri, 2019-04-19 at 18:52 +0000, Slater, Joseph wrote:
-> gdk-pixbuf is fast?  Not for me.  Some of its tests take about 2000
-> seconds on qemux86-64 on a 32 core machine with 64GB ram.
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../xorg-lib/{pixman_0.38.0.bb => pixman_0.38.4.bb}           | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{pixman_0.38.0.bb => pixman_0.38.4.bb} (91%)
 
-from the ptest logs from gdk-pixbuf:
-
-SUMMARY: total=20; passed=20; skipped=0; failed=0; user=27.1s; system=0.2s; maxrss=20260
-DURATION: 28
-
-so yes, it takes around 30s for qemux86-64 on the autobuilder (single
-thread qemu).
-
-Are you using KVM?
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-graphics/xorg-lib/pixman_0.38.0.bb b/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+similarity index 91%
+rename from meta/recipes-graphics/xorg-lib/pixman_0.38.0.bb
+rename to meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+index 49c3d62342..82c2e73e50 100644
+--- a/meta/recipes-graphics/xorg-lib/pixman_0.38.0.bb
++++ b/meta/recipes-graphics/xorg-lib/pixman_0.38.4.bb
+@@ -34,7 +34,7 @@ SRC_URI += "\
+ 	    file://0001-test-utils-Check-for-FE_INVALID-definition-before-us.patch \
+ "
+ 
+-SRC_URI[md5sum] = "04ecad28edcc14e7eb5f7ed6df29c7a0"
+-SRC_URI[sha256sum] = "b768e3f7895ddebdc0f07478729d9cec4fe0a9d2201f828c900d67b0e5b436a8"
++SRC_URI[md5sum] = "16a350a8a40116ddf67632a1d2623711"
++SRC_URI[sha256sum] = "84abb7fa2541af24d9c3b34bf75d6ac60cc94ac4410061bbb295b66a29221550"
+ 
+ REQUIRED_DISTRO_FEATURES = ""
+-- 
+2.17.1
 
 
