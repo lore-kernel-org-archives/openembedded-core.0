@@ -1,23 +1,23 @@
 Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DF5866007A
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D38C601F6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 08:51:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3M8pRXJ021160
+	Mon, 22 Apr 2019 08:55:40 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3M8teRo027646
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 01:51:27 -0700 (PDT)
+	Mon, 22 Apr 2019 01:55:41 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 22 Apr 2019 01:51:27 -0700
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 22 Apr 2019 01:55:40 -0700
 From: <zhe.he@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 22 Apr 2019 16:51:25 +0800
-Message-ID: <1555923085-434267-1-git-send-email-zhe.he@windriver.com>
+Date: Mon, 22 Apr 2019 16:55:39 +0800
+Message-ID: <1555923339-440174-1-git-send-email-zhe.he@windriver.com>
 X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] ltp: file01: Fix in was not recognized
+Subject: [PATCH v2] ltp: file01: Fix in was not recognized
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,7 +30,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 08:51:27 -0000
+X-List-Received-Date: Mon, 22 Apr 2019 08:55:40 -0000
 Content-Type: text/plain
 
 From: He Zhe <zhe.he@windriver.com>
@@ -43,21 +43,21 @@ following error.
 
 This patches tunes the regulation expression to include those cases.
 
-Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-April/011758.html]
-
 Signed-off-by: He Zhe <zhe.he@windriver.com>
 ---
- .../0001-file01.sh-Fix-in-was-not-recognized.patch | 36 ++++++++++++++++++++++
+v1 to v2: Move Upstream-Status to right place
+
+ .../0001-file01.sh-Fix-in-was-not-recognized.patch | 38 ++++++++++++++++++++++
  meta/recipes-extended/ltp/ltp_20190115.bb          |  1 +
- 2 files changed, 37 insertions(+)
+ 2 files changed, 39 insertions(+)
  create mode 100644 meta/recipes-extended/ltp/ltp/0001-file01.sh-Fix-in-was-not-recognized.patch
 
 diff --git a/meta/recipes-extended/ltp/ltp/0001-file01.sh-Fix-in-was-not-recognized.patch b/meta/recipes-extended/ltp/ltp/0001-file01.sh-Fix-in-was-not-recognized.patch
 new file mode 100644
-index 0000000..c68f5dd
+index 0000000..5cd9e08
 --- /dev/null
 +++ b/meta/recipes-extended/ltp/ltp/0001-file01.sh-Fix-in-was-not-recognized.patch
-@@ -0,0 +1,36 @@
+@@ -0,0 +1,38 @@
 +From 974e9b862e503c50501079e6586f81918e94a849 Mon Sep 17 00:00:00 2001
 +From: He Zhe <zhe.he@windriver.com>
 +Date: Fri, 19 Apr 2019 17:57:48 +0800
@@ -70,6 +70,8 @@ index 0000000..c68f5dd
 +..."ELF 64-bit LSB pie executable"...
 +
 +This patches tunes the regulation expression to include those cases.
++
++Upstream-Status: Submitted [http://lists.linux.it/pipermail/ltp/2019-April/011758.html]
 +
 +Signed-off-by: He Zhe <zhe.he@windriver.com>
 +---
