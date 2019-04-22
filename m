@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 536DA72EB7
+Received: from mail-it1-f175.google.com (mail-it1-f175.google.com
+	[209.85.166.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 6A307748D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 12:32:58 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id y134so17534574itc.5
+	Mon, 22 Apr 2019 12:32:59 +0000 (UTC)
+Received: by mail-it1-f175.google.com with SMTP id s3so17592558itk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 05:32:59 -0700 (PDT)
+	Mon, 22 Apr 2019 05:33:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=WKOYtP04EKiKUf6DBgnw4Dj+YmH0PKWBpaB+HUTSbMs=;
-	b=FdK5Bz16EM0oFlZhw3QCnKEgaw8oz/AJUs0q/nWi+Uvnc1VSFlsQdTXicnjjRJ57ph
-	6tNDhHJA0YQQ4JKV37flJPFd9BicUIZ/OX7a1Sg6dYB3g2oBc0NXWQB+ehPkri2j2wok
-	VmX+CbMrco5sbTP0RdUtIq+ityGDM4ss0zeYp4Zk9I8hnb4tMcgg+YdrLAPD2/xYATy1
-	WOhbjqZs6teOwCVhZaBa8WgRUC2OwfLR5PH2JxtgZRBUJH9ULk0itoju5F41R89ZZN7I
-	4KtphwTWLKzP+QYWNAi6fSn4TI+RafXFEWDezsL/InJClzqCtr3Oc9iu+Hoy1+Md7g0J
-	+PVQ==
+	bh=PDotNg4EIf7hltG/+1mmcWN6LMvTRtsG/C3i/P6i3oc=;
+	b=Ry9jJV0KY+8Yku1HjARFXvIO/t4mxIhAuGG+Vagk1x992+vTpWMOqgaLnxAqtA5src
+	pNr6vpVZAWKP5u9n1bPgtTQRh/aBzdJRxcqjSfvmNE01uVLE2l8kbXG1zJF8j/kwdfnD
+	0VQliJ8a46KYHzRXqnQyjyG0Y8/3rsCEUfnLN3sHE73pVArTrLeiA9K9frZsZA8nOcjC
+	m0yobKUCkiQWxo2SsNLjBQmNlPtGJVsXZVdXU/nIBaE3JPbgYuv19u1lt5CQN5aLk4im
+	0+0pv6/7vmHQr853tu613eWWL6eu2gLjgftbC0Kz8MJ6Xv4EHRAI8HhomjsVaDhTDoSm
+	KMwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=WKOYtP04EKiKUf6DBgnw4Dj+YmH0PKWBpaB+HUTSbMs=;
-	b=gAcjCG9JKewhoH/Iq0A7lHSV/XXMrmtlO42GhpQtTm3p/XJdIi7wjmQRAsBd4x6vB4
-	mAFhGQN6ySSmpPaLvW2+Irj6YPfWp4VCqCHA0OdOjYOVoeQ11fsEL8NOf1UnlMF38OsM
-	+CxnKvFCz3s5S/cJDKCdWO1wZD8uvdNZMU7lEO42a7WMNilWjkk+9YEYbEESxgB0ogWH
-	lf+TjnEuAgaA+tVg7YkfnUmw58REvY9l0KUR06yOpic+HALbxm6sE/MJQaL8fuSjZ8W0
-	I7xoMmm8jo7evcmeVAGDuFEgGq9poS8xk9gU8AKTTMKXl36m+9X6C4tucvJHeA/dVaf2
-	toSA==
-X-Gm-Message-State: APjAAAUX1Co4Q7JjGT6i1xbMjkfCH0kdZjclg1RDqmud7PQnH8I7u5bH
-	wUiavU8D5qtWuU6chjPxGGIJ3Vu/
-X-Google-Smtp-Source: APXvYqyIr/bC8ycYYg2Ich0qdUogbyGvPp50aWXZsIoh6i09vdlp21pZKyCltIkWfa9k9ZwqKbloKw==
-X-Received: by 2002:a24:fc06:: with SMTP id b6mr12367452ith.130.1555936379314; 
-	Mon, 22 Apr 2019 05:32:59 -0700 (PDT)
+	bh=PDotNg4EIf7hltG/+1mmcWN6LMvTRtsG/C3i/P6i3oc=;
+	b=kbGcSRJFDkigoMZQ6YJdZdNYqAmcPB6v9UVZJ0dKeRigvQ91A+pHgAo9Fs+H62j4fd
+	DxD6zPk7R1FuK+yZ2Z0uHlZzEN1mvqzSTR30sQjRwDYlbn2Aj6ZPgVIqMDS+SD7j7rM0
+	CkVR/uoAp6YtyJ6cLaQzSMwINlm61Fb3OYq2KGOJWYOLG2bCcNltXPDjy6NB0Dk2cDVe
+	C8poM8E/ZiTBl+f7mO9YzMOHX0fBz1C9v9qdt4FPxB/Lzr3OBxDpOP2R6EG/ogP+Pstr
+	+Obs363xIm5HjkIDzM4kqeFYP6ri1aU6ERJdLrnn4YUSk7+cbr75S0jFPBrVFlwBswUG
+	GSpw==
+X-Gm-Message-State: APjAAAWYCdJzaS1FV2gkh6S/aDUyzBK+lMIMjNDXNL1u1ioLEATbQ+y6
+	jO2gNgxEHQLtQ+ZocCy7Q1XVCkSg
+X-Google-Smtp-Source: APXvYqzHRkTUvhrm+KCzYAYg93Up9OzC5yttuhtRVI7VJo6voR3PEaa1sxTNLUhXU6On63v52orMTQ==
+X-Received: by 2002:a24:7a8b:: with SMTP id
+	a133mr12834513itc.118.1555936380308; 
+	Mon, 22 Apr 2019 05:33:00 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	(75-163-235-80.clsp.qwest.net. [75.163.235.80])
-	by smtp.gmail.com with ESMTPSA id 19sm5889536itm.6.2019.04.22.05.32.58
+	by smtp.gmail.com with ESMTPSA id 19sm5889536itm.6.2019.04.22.05.32.59
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 Apr 2019 05:32:58 -0700 (PDT)
+	Mon, 22 Apr 2019 05:32:59 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Apr 2019 06:32:42 -0600
-Message-Id: <1555936363-18793-6-git-send-email-akuster808@gmail.com>
+Date: Mon, 22 Apr 2019 06:32:43 -0600
+Message-Id: <1555936363-18793-7-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1555936363-18793-1-git-send-email-akuster808@gmail.com>
 References: <1555936363-18793-1-git-send-email-akuster808@gmail.com>
-Subject: [QA][PATCH 5/6] logparser: Add LTP compliance section
+Subject: [QA][PATCH 6/6] ltp_compliance: add new runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,58 +59,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 12:32:58 -0000
+X-List-Received-Date: Mon, 22 Apr 2019 12:32:59 -0000
+
+test runtimes in sec.
+AIO: 14
+MEM: 94
+MSG: 89
+SEM: 30
+SIG: 194
+THR: 399
+TMR: 867
+TPS: 23
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/utils/logparser.py | 37 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 37 insertions(+)
+ meta/lib/oeqa/runtime/cases/ltp_compliance.py | 104 ++++++++++++++++++++++++++
+ 1 file changed, 104 insertions(+)
+ create mode 100644 meta/lib/oeqa/runtime/cases/ltp_compliance.py
 
-diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-index 76efac4..584ad4f 100644
---- a/meta/lib/oeqa/utils/logparser.py
-+++ b/meta/lib/oeqa/utils/logparser.py
-@@ -111,3 +111,40 @@ class LtpParser(object):
-             self.section['log'] = self.section['log'] + ("%s: %s\n" % (result.strip()[:-2], test.strip()))
- 
-         return self.results, self.section
+diff --git a/meta/lib/oeqa/runtime/cases/ltp_compliance.py b/meta/lib/oeqa/runtime/cases/ltp_compliance.py
+new file mode 100644
+index 0000000..be9a9a3
+--- /dev/null
++++ b/meta/lib/oeqa/runtime/cases/ltp_compliance.py
+@@ -0,0 +1,104 @@
++# LTP compliance runtime
++#
++# Copyright (c) 2019 MontaVista Software, LLC
++#
++# This program is free software; you can redistribute it and/or modify it
++# under the terms and conditions of the GNU General Public License,
++# version 2, as published by the Free Software Foundation.
++#
++# This program is distributed in the hope it will be useful, but WITHOUT
++# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++# more details.
++#
 +
++import time
++import datetime
++import pprint
 +
-+# ltp Compliance log parsing
-+class LtpComplianceParser(object):
-+    def __init__(self):
-+        self.results = {}
-+        self.section = {'duration': "", 'log': ""}
++from oeqa.runtime.case import OERuntimeTestCase
++from oeqa.core.decorator.depends import OETestDepends
++from oeqa.runtime.decorator.package import OEHasPackage
++from oeqa.utils.logparser import LtpComplianceParser
 +
-+    def parse(self, logfile):
-+        test_regex = {}
-+        test_regex['PASSED'] = re.compile(r"^PASS")
-+        test_regex['FAILED'] = re.compile(r"^FAIL")
-+        test_regex['SKIPPED'] = re.compile(r"(?:UNTESTED)|(?:UNSUPPORTED)")
++class LtpPosixBase(OERuntimeTestCase):
 +
-+        section_regex = {}
-+        section_regex['test'] = re.compile(r"^Testing")
++    @classmethod
++    def setUpClass(cls):
++        cls.ltp_startup()
 +
-+        with open(logfile, errors='replace') as f:
-+            for line in f:
-+                result = section_regex['test'].search(line)
-+                if result:
-+                    self.name = ""
-+                    self.name = line.split()[1].strip()
-+                    self.results[self.name] = "PASSED"
-+                    failed = 0
++    @classmethod
++    def tearDownClass(cls):
++        cls.ltp_finishup()
 +
-+                failed_result = test_regex['FAILED'].search(line)
-+                if failed_result:
-+                    failed = line.split()[1].strip()
-+                    if int(failed) > 0:
-+                        self.results[self.name] = "FAILED"
++    @classmethod
++    def ltp_startup(cls):
++        cls.sections = {}
++        cls.failmsg = ""
++        test_log_dir = os.path.join(cls.td.get('WORKDIR', ''), 'testimage')
++        timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
 +
-+        for test in self.results:
-+            result = self.results[test]
-+            self.section['log'] = self.section['log'] + ("%s: %s\n" % (result.strip()[:-2], test.strip()))
++        cls.ltptest_log_dir_link = os.path.join(test_log_dir, 'ltpcomp_log')
++        cls.ltptest_log_dir = '%s.%s' % (cls.ltptest_log_dir_link, timestamp)
++        os.makedirs(cls.ltptest_log_dir)
 +
-+        return self.results, self.section
++        cls.tc.target.run("mkdir -p /opt/ltp/results")
++
++        if not hasattr(cls.tc, "extraresults"):
++            cls.tc.extraresults = {}
++        cls.extras = cls.tc.extraresults
++        cls.extras['ltpposixresult.rawlogs'] = {'log': ""}
++
++ 
++    @classmethod
++    def ltp_finishup(cls):
++        cls.extras['ltpposixresult.sections'] =  cls.sections
++
++        # update symlink to ltp_log
++        if os.path.exists(cls.ltptest_log_dir_link):
++            os.remove(cls.ltptest_log_dir_link)
++
++        os.symlink(os.path.basename(cls.ltptest_log_dir), cls.ltptest_log_dir_link)
++
++        if cls.failmsg:
++            cls.fail(cls.failmsg)
++
++class LtpPosixTest(LtpPosixBase):
++    posix_groups = ["AIO", "MEM", "MSG", "SEM", "SIG",  "THR", "TMR", "TPS"]
++
++    def runltp(self, posix_group):
++            cmd = "/opt/ltp/bin/run-posix-option-group-test.sh %s 2>@1 | tee /opt/ltp/results/%s" % (posix_group, posix_group)
++            starttime = time.time()
++            (status, output) = self.target.run(cmd)
++            endtime = time.time()
++
++            with open(os.path.join(self.ltptest_log_dir, "%s" % posix_group), 'w') as f:
++                f.write(output)
++
++            self.extras['ltpposixresult.rawlogs']['log'] = self.extras['ltpposixresult.rawlogs']['log'] + output
++
++            parser = LtpComplianceParser()
++            results, sections  = parser.parse(os.path.join(self.ltptest_log_dir, "%s" % posix_group))
++
++            runtime = int(endtime-starttime)
++            sections['duration'] = runtime
++            self.sections[posix_group] =  sections
++ 
++            failed_tests = {}
++            for test in results:
++                result = results[test]
++                testname = ("ltpposixresult." + posix_group + "." + test)
++                self.extras[testname] = {'status': result}
++                if result == 'FAILED':
++                    failed_tests[posix_group] = test 
++
++            if failed_tests:
++                self.failmsg = self.failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
++
++    # LTP Posix compliance runtime tests
++
++    @OETestDepends(['ssh.SSHTest.test_ssh'])
++    @OEHasPackage(["ltp"])
++    def test_posix_groups(self):
++        for posix_group in self.posix_groups: 
++            self.runltp(posix_group)
 -- 
 2.7.4
 
