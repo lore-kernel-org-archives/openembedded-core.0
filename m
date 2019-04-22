@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 32A586011C
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id F02CB6C132
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 22:13:48 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id h18so10070333lfj.11
+	Mon, 22 Apr 2019 22:36:50 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id j20so10136128lfh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 15:13:50 -0700 (PDT)
+	Mon, 22 Apr 2019 15:36:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=fnBMq7WgMPnbLP4n03tVCUSuOHU7In60aWOtKAEqMv0=;
-	b=WmW1T3AMP/5WlleOs2yMx7fHbIu0A49LbGghJIsFgPRWSiKRh04DD30ThyjhImOUjz
-	JymQEcagY7g1S8pFdltR2Wbe7pcJ6s6ze+anG6p0q60yzdLbYSJ4ALZB+oFvZJhAMTwj
-	FxMO/jRR4F7/dVwFo+zN3GX645hX44zKNBwWImeH+8H4hU8G9+gP+x4HIybdabRDv8H4
-	uo116L2TScD3ckHFzDUMjB22KqMOiboug7N/55b6ZV8HkRoBI2jIYJl0K5Wvh0zDnKAN
-	MfdtFVAI8wJfxoKYL/14NvnHeUYsYjmLuII4pFuxWw0ZRLKOu4eyYZqZJhHosZxEHxM/
-	sWTQ==
+	bh=tGcPJpyZqYFf7W1BOKDAXdc/DsozKNsaqnTVFnvA93g=;
+	b=JSreLzKn02zmAv6i7yqJzEZ3+e04+MUAoLr/MyAIEOT/Qc7lwR23BTnPzpfOkNiJze
+	XIH/08aWh9Ujyr0VfaHGAaprVbigCurtNPDJ2dViCrL7Hj1mG63nbB9VC7Macy9khcz0
+	STp2ZuE7Ekh1BJ4ej3fMGzA4rR+kz3P+9sIQSc3FV6s1iXaLjWOHBG/40ftXgYXhGFiQ
+	+NYtRZ12szgn4wGuvW0a6Ffr9xSzNT7cmQJGp49xNLVQ8nEzkPdpUz9T5V36pDZqfwlc
+	wS4ThwHKblTNkQ08oKvetzYc6Ht/w7thdUOHujOrFp5xlRhWktkYmSWyOkixHmWx/MnU
+	2+LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=fnBMq7WgMPnbLP4n03tVCUSuOHU7In60aWOtKAEqMv0=;
-	b=abMWvzDLMky2E8RfKmcrz35hAQPbdRckJKmSMVQflwY8/pzaf6gY1GkAnJhfoB0w+b
-	+jCoB9dRn1RyiJIg4+ZHDJ3vLdNAhwETnkM/Adr2X/L5cObaj6zrLc9u0uxuXzMQAzcO
-	1l3Wj22hQk41zD3WLaWZeIwZClwsQqB8gOahqxAtbxRFbZisLY8qU3oeuiSN1lRnBLLn
-	DYvGSpVviEaji0Ejenj+9DBk9PpZSo65uoq+GHUUEXeLKCfyspB4ufJzl3iwrnfEv+EQ
-	oMfhi9VoDXc5m9SBjNyGagFP/2j/vBbpUns1hGQr/k3UUOxAeDwkTuNGNp3AcU2EE82k
-	GIUQ==
-X-Gm-Message-State: APjAAAXhdbJagPX78qQ7zbfZzJeZ8ywLNZl+Au0muVBuubVIENfPewKU
-	KRBJB+CUb20ndTEpPR/eEhlxdzA7+mE=
-X-Google-Smtp-Source: APXvYqxKiZ+namljE79rsB2y2czPzxMr6OxvGYCRAqtOp3UeivAvHILMrrjFVCor3mXPzckyrp+rcQ==
-X-Received: by 2002:ac2:592b:: with SMTP id v11mr11734873lfi.85.1555971229459; 
-	Mon, 22 Apr 2019 15:13:49 -0700 (PDT)
+	bh=tGcPJpyZqYFf7W1BOKDAXdc/DsozKNsaqnTVFnvA93g=;
+	b=GMIxMEZlNqcYuajuynTHWwDesHfkGVzKQ+2YwpUEanCJydtqkLiCNCYDAKmxJXv72V
+	T8ae3s2Kl0qLXrLr0cHeEPsmdHdCayDrqjoKvZWfxwfwFdvcmGotc5Zd3OxKOpa3GP1s
+	PhWqzvoWclKHl0tL/BppK0qc/7I3zQe7fyh0EvIzAxh6eKyaIg2EsZp89M9jdirg/p2H
+	0Hog7IK4XfHeZ5LRm1/1O8JIHN33G7ctDOOKQqGSy9eS7aA+r0Vy/CzOW+HFCvaaQOu/
+	2/ErUmhTDoMAOSfHRrNgGBam7lySDujRnrqxlX0qmfeUN3e28/3eAjyEgpDjQg0o/Q1b
+	K82w==
+X-Gm-Message-State: APjAAAVwKW8nWhdBZPIv941Sq1cq0j9pz2UuYgbx7WatdgJaS+Cmcg37
+	BkG+FVhUwz2TH9k5PimXAjSBXglDHXE=
+X-Google-Smtp-Source: APXvYqzz4+M7Y6eMN8T7XB3NZ9iIxFpaX2dzjswrp692U2nUgPERIX/IXBYzQJrG5LE31vtd8XQ8EQ==
+X-Received: by 2002:ac2:5326:: with SMTP id f6mr11511631lfh.100.1555972611107; 
+	Mon, 22 Apr 2019 15:36:51 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	a11sm2969874ljf.68.2019.04.22.15.13.48
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id 7sm3467686lju.27.2019.04.22.15.36.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Apr 2019 15:13:48 -0700 (PDT)
+	Mon, 22 Apr 2019 15:36:50 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Apr 2019 00:13:46 +0200
-Message-Id: <20190422221346.8852-1-open.source@oleksandr-kravchuk.com>
+Date: Tue, 23 Apr 2019 00:36:48 +0200
+Message-Id: <20190422223648.30507-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH][meta-oe] libinput: update to 1.13.1
+Subject: [PATCH][meta-oe] libnotify: update to 0.7.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 22:13:50 -0000
+X-List-Received-Date: Mon, 22 Apr 2019 22:36:51 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../wayland/{libinput_1.13.0.bb => libinput_1.13.1.bb}        | 4 ++--
+ .../libnotify/{libnotify_0.7.7.bb => libnotify_0.7.8.bb}      | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{libinput_1.13.0.bb => libinput_1.13.1.bb} (86%)
+ rename meta/recipes-gnome/libnotify/{libnotify_0.7.7.bb => libnotify_0.7.8.bb} (80%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.13.0.bb b/meta/recipes-graphics/wayland/libinput_1.13.1.bb
-similarity index 86%
-rename from meta/recipes-graphics/wayland/libinput_1.13.0.bb
-rename to meta/recipes-graphics/wayland/libinput_1.13.1.bb
-index 77792b9bb1..5a6dd9aecb 100644
---- a/meta/recipes-graphics/wayland/libinput_1.13.0.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.13.1.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
- DEPENDS = "libevdev udev mtdev"
+diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
+similarity index 80%
+rename from meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
+rename to meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
+index 6c299bc175..82c137ca33 100644
+--- a/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
++++ b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
+@@ -10,8 +10,8 @@ inherit gnomebase gtk-doc distro_features_check gobject-introspection
+ # depends on gtk+3
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
  
- SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
--SRC_URI[md5sum] = "ea0834452b03457f8a33359db3eabfbf"
--SRC_URI[sha256sum] = "eb27c95d35c8fc9c7b96b9f0b2de5a043c47eb5f4b2868f353ab1bd0be0b616d"
-+SRC_URI[md5sum] = "869a7e68c4290d99868500a369645def"
-+SRC_URI[sha256sum] = "e1d487d478ee2bb118890a64211c2b7f2348aaed7363b214bed4d642274841ab"
+-SRC_URI[archive.md5sum] = "e9d911f6a22435e0b922f2fe71212b59"
+-SRC_URI[archive.sha256sum] = "9cb4ce315b2655860c524d46b56010874214ec27e854086c1a1d0260137efc04"
++SRC_URI[archive.md5sum] = "babb4b07b5f21bef42a386d3d7019599"
++SRC_URI[archive.sha256sum] = "69209e0b663776a00c7b6c0e560302a8dbf66b2551d55616304f240bba66e18c"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
- 
+ # there were times, we had two versions of libnotify (oe-core libnotify:0.6.x /
+ # meta-gnome libnotify3: 0.7.x)
 -- 
 2.17.1
 
