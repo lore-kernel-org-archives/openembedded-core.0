@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-it1-f180.google.com (mail-it1-f180.google.com
-	[209.85.166.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D56F7997D
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com
+	[209.85.166.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E61471B99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 12:42:10 +0000 (UTC)
-Received: by mail-it1-f180.google.com with SMTP id q14so10032801itk.0
+	Mon, 22 Apr 2019 12:42:11 +0000 (UTC)
+Received: by mail-io1-f41.google.com with SMTP id d19so5166537ioc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 05:42:11 -0700 (PDT)
+	Mon, 22 Apr 2019 05:42:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=eiMmG0PUbFHenB9RVpUkOteiwcXYY0h3T66Kxsa1P6k=;
-	b=qTIhV5H30F4NxwRpClFG3q/q+JzAc0Gr9M93I3+kaVCj4EbEzOR2MRJb2tgj5aOhi9
-	MF9+c27JQIOIJognYpXp4TtdxnhKejOPF514ihh6qREWvBdHJrl4WtzaRtNQ/yvuyvcw
-	8zhw40x9trw5hk8uKL6xaHhTPaWgh84qhLQRZaSDzwEafONqM+owWJb8KCtMf1HuzXdw
-	0qDcjEP+9ZyfrknBbUZlMbd8CSbcDcHgIAUAF49UwNzTFvrvvdqhGDRYRueg8Kvzat2q
-	SVqudo3WQzcxWOzjSagcEm9z8ApluoerNpnVt08sfqxiMSS4ZNJV4FftKnJdAIXwMkgH
-	YwNg==
+	bh=5u7f4br7enc4+26cw+aztyNME67IMvki6ewJeMq4B9I=;
+	b=iUmAY/T3xm/cy7NPwwObgSWWJkwbX48Z4NxjqDHGyPiiJseIWuz7muK7hxlIz9hDEK
+	lK7lr2hLb6S7YlbRoHrRIM6ixZYgZoIpMkYcEyGT6sVUSiWIG8EcbMcu8l5B+byW+Cz1
+	uzvh7Ag+Na0mYHAx45F5oA7KwloaI8xn3Uwn15wh+mQR3y7bmR9lHRSwzqTMS0kCTY39
+	f2WMQ2hKDiFNimJiDMqmwdoE8np2PtCnvRJIt/KGDMdTZBNTpia+LOE1cv6qJc4uvadD
+	8J8UWLaTo576RkwZb70keQq4bPP/y7FelivTVkWsi3AAnVAkYKv9oc2GVdXCdFuTJ4eH
+	3d5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=eiMmG0PUbFHenB9RVpUkOteiwcXYY0h3T66Kxsa1P6k=;
-	b=MGvRw8YY5Tdhb4+AkTKjRwYRZPgn5505ouYTcuxF+/aen3fze1gGPSsVtsX4wb3QHK
-	O3qjHSM4/V/r8jEpgtT+10HCk4dwU9LKaRbmBYK+RdW0jTU4K4hwgPdjNhAMokrTeir/
-	XHhxShvlegOt/r6deipSgsnfLeAheBh/tRBUPm0EsL5jQC6Ss14XuJv6WvMXoKnoZIVo
-	NTZq72awAvLVL539qHp32qKlCvqBy0gHf1IZ6cqovPz9vaKO8Hgh1Fy6U/5mF0Qq/89r
-	QuUvAEYjU1No7p7RN6U0jK9Apils3nMGtJKmzo7qPrNIdpw3tuQMDKp/uok2Jr9XrkCB
-	katw==
-X-Gm-Message-State: APjAAAWsFxwTmQEGndYXcfTS3tuNx16Ywjl5VIIP2XNlrsIuOJdVK4Me
-	83vDWy6Q2ZduMUcoLJLrlN3ItmJp
-X-Google-Smtp-Source: APXvYqz2zPPs5oZKcktjwuFdicCuRmqzAXgZhrwh2o5Z5WXcbEX4h4pnNmr95nwybEaCeY5/jbfu0g==
-X-Received: by 2002:a24:b60b:: with SMTP id g11mr13370704itf.114.1555936930997;
-	Mon, 22 Apr 2019 05:42:10 -0700 (PDT)
+	bh=5u7f4br7enc4+26cw+aztyNME67IMvki6ewJeMq4B9I=;
+	b=BZzQkjUefJVvkrOWZUChlcT8KCsHnXVdxAC5p+5O3jhSo1oueasVXFvn6y+hymEk/v
+	fdpR5sVPAJZO0h33890/xikom5gCVuL/bhTqSTjtZ6ae6y/4Awr9WJMh1bkkvysRyMtM
+	/HkOWLpSAnjKs7gY1mnQxCZUXcsFniiRad8LxKaqk3xX+rqDQzUBg9Ix7F71WB7n+xnf
+	EsRk59hTkhevkSzl4R8OmIZ4OW14slK1w4SODchcbNW0ZP5CFyh3iV3KZqXlVhUgjHjc
+	CLL7iEjxEz+zfwlquRBOahV1E2z+NFisl/PrHC3Vnnnl8S1w6nIrSMKmRMybsWICgcMa
+	lEkA==
+X-Gm-Message-State: APjAAAWa1r1jIptEIsDLF8QpEu0rKlZKc35gFHdI6rnBsYXfU/EvfToz
+	1gZk9H8hsBfyDs8vxz9jnpS+iyOO
+X-Google-Smtp-Source: APXvYqxIiWX16ulcL2V4wBDyAn3R6HRS5xKO78UZk/FTJ+SXZ2f6JVQDEy+JW+0/qUaRhKN3fJ0RZQ==
+X-Received: by 2002:a5d:97da:: with SMTP id k26mr12557976ios.46.1555936931994; 
+	Mon, 22 Apr 2019 05:42:11 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	(75-163-235-80.clsp.qwest.net. [75.163.235.80])
 	by smtp.gmail.com with ESMTPSA id
-	h133sm6173634itb.34.2019.04.22.05.42.10
+	h133sm6173634itb.34.2019.04.22.05.42.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 Apr 2019 05:42:10 -0700 (PDT)
+	Mon, 22 Apr 2019 05:42:11 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Apr 2019 06:41:54 -0600
-Message-Id: <1555936919-19078-3-git-send-email-akuster808@gmail.com>
+Date: Mon, 22 Apr 2019 06:41:55 -0600
+Message-Id: <1555936919-19078-4-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1555936919-19078-1-git-send-email-akuster808@gmail.com>
 References: <1555936919-19078-1-git-send-email-akuster808@gmail.com>
-Subject: [QA][PATCH 2/7] manual qa/oe-core: remove packageconfig flag tests
+Subject: [QA][PATCH 3/7] manual qa/bsp-qemu: remove rpm tests already done in runtime
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,65 +59,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 12:42:10 -0000
+X-List-Received-Date: Mon, 22 Apr 2019 12:42:11 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/manual/oe-core.json | 36 +-----------------------------------
- 1 file changed, 1 insertion(+), 35 deletions(-)
+ meta/lib/oeqa/manual/bsp-qemu.json | 60 --------------------------------------
+ 1 file changed, 60 deletions(-)
 
-diff --git a/meta/lib/oeqa/manual/oe-core.json b/meta/lib/oeqa/manual/oe-core.json
-index d893d84..b3644af 100644
---- a/meta/lib/oeqa/manual/oe-core.json
-+++ b/meta/lib/oeqa/manual/oe-core.json
-@@ -69,40 +69,6 @@
+diff --git a/meta/lib/oeqa/manual/bsp-qemu.json b/meta/lib/oeqa/manual/bsp-qemu.json
+index cf51b6a..f680f64 100644
+--- a/meta/lib/oeqa/manual/bsp-qemu.json
++++ b/meta/lib/oeqa/manual/bsp-qemu.json
+@@ -91,66 +91,6 @@
    },
    {
      "test": {
--      "@alias": "oe-core.scripts.List_all_the_PACKAGECONFIG's_flags",
+-      "@alias": "bsps-qemu.bsps-tools.rpm_-__install_dependency_package",
 -      "author": [
 -        {
--          "email": "yi.zhao@windriver.com",
--          "name": "yi.zhao@windriver.com"
+-          "email": "alexandru.c.georgescu@intel.com",
+-          "name": "alexandru.c.georgescu@intel.com"
 -        }
 -      ],
 -      "execution": {
 -        "1": {
--          "action": " Download the poky source and setup the environment. ",
+-          "action": "Get a not previously installed RPM package or build one on local machine, which should have run-time dependency.For example, \"mc\" (Midnight Commander, which is a visual file manager) should depend on \"ncurses-terminfo\".   \n\n$ bitbake mc  \n\n\n",
 -          "expected_results": ""
 -        },
 -        "2": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py\" ",
--          "expected_results": "In step 2, will list available pkgs which have PACKAGECONFIG flags:  \nPACKAGE NAME (or RECIPE NAME)           PACKAGECONFIG FLAGS  \n==============================================================  \nalsa-tools-1.0.26.1                                         defaultval gtk+  \navahi-ui-0.6.31                                                defaultval python  \nbluez4-4.101                                                alsa defaultval pie  \n"
+-          "action": "Copy the package into a system folder (for example /home/root/rpm_packages).  \n\n\n",
+-          "expected_results": ""
 -        },
 -        "3": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py -f\" ",
--          "expected_results": "In step 3, will list available PACKAGECONFIG flags and all affected pkgs  \nPACKAGECONFIG FLAG       PACKAGE NAMES (or RECIPE NAMES)  \n====================================  \n3g                             connman-1.16  \n        \navahi                        cups-1.6.3  pulseaudio-4.0  \nbeecrypt                   rpm-5.4.9  rpm-native-5.4.9  \n"
--        },
--        "4": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py -a\" ",
--          "expected_results": "In step 4, will list all pkgs and PACKAGECONFIG information:  \n==================================================  \ngtk+-2.24.18  \n/home/jiahongxu/yocto/poky/meta/recipes-gnome/gtk+/gtk+_2.24.18.bb  \nPACKAGECONFIG x11  \nPACKAGECONFIG[x11] --with-x=yes --with-gdktarget=x11,--with-x=no,${X11DEPENDS}  \nxf86-video-intel-2.21.9  \n/home/jiahongxu/yocto/poky/meta/recipes-graphics/xorg-driver/xf86-video-intel_2.21.9.bb  \nPACKAGECONFIG None  \nPACKAGECONFIG[xvmc] --enable-xvmc,--disable-xvmc,libxvmc  \nPACKAGECONFIG[sna] --enable-sna,--disable-sna  \n"
--        },
--        "5": {
--          "action": "Run \"../scripts/contrib/list-packageconfig-flags.py -p\"   ",
--          "expected_results": "In step 5, will list pkgs with preferred version:  \nPACKAGE NAME (or RECIPE NAME)              PACKAGECONFIG FLAGS  \n===================================================  \nalsa-tools-1.0.26.1                                           defaultval gtk+  \navahi-ui-0.6.31                                                   defaultval python  \nbluez4-4.101                                                       alsa defaultval pie  \nbluez5-5.7                                                            alsa defaultval obex-profiles  \n\n\n\n "
+-          "action": "Run \"rpm -ivh package_name\" and check the output, for example \"rpm -ivh mc.rpm*\" should report the dependency on \"ncurses-terminfo\".\n\n\n\n",
+-          "expected_results": "3 . rpm command should report message when some RPM installation depends on other packages."
 -        }
 -      },
--      "summary": "List_all_the_PACKAGECONFIG's_flags"
+-      "summary": "rpm_-__install_dependency_package"
 -    }
 -  },
 -  {
 -    "test": {
-       "@alias": "oe-core.bitbake.Test_bitbake_menuconfig",
+-      "@alias": "bsps-qemu.bsps-tools.Check_rpm_install/removal_log_file_size(auto)",
+-      "author": [
+-        {
+-          "email": "alexandru.c.georgescu@intel.com",
+-          "name": "alexandru.c.georgescu@intel.com"
+-        }
+-      ],
+-      "execution": {
+-        "1": {
+-          "action": "Get some rpm or other kind of installation packages.  \n\n",
+-          "expected_results": "Steps 1- 4 (more than 2.3) \nEach file will occupy around 10MB, and there should be some method to keep rpm log in a small size. (the size of the db of RPMs must not be taking so much space)  \nStep 5 (less than or equal to 2.3)\nThe size on /var/lib/rpm/ must keep around 30MB"
+-        },
+-        "2": {
+-          "action": "After system is up, check the size of log file named as \"log.xxxxxx\" on  /var/lib/rpm/log  \n\n",
+-          "expected_results": ""
+-        },
+-        "3": {
+-          "action": "After several install/removal of packages, with either of the install/removal commands   (rpm/smart/zypper/dnf install/removal), check again the size of log file.  \n\n",
+-          "expected_results": ""
+-        },
+-        "4": {
+-          "action": "For packages installation, there will be some database files under /var/lib/rpm/, named as \"__db.xxx\" and there will be some log files   \nunder /var/lib/rpm/log, named as \"\"log.xxxxxx\"\".   \n\nNote: You will only see the log.xxxx on /var/lib/rpm/log mentioned above if the poky version is minor than 2.3.For poky 2.3 or major versions this has been modified and the package RPM4 does not show the logs.xxxx. if major, follow the next step.  \n\n",
+-          "expected_results": ""
+-        },
+-        "5": {
+-          "action": "Repeat steps (1 and 3)  and check the size of /var/lib/rpm/  \n\nMore info: https://bugzilla.yoctoproject.org/show_bug.cgi?id=9259",
+-          "expected_results": ""
+-        }
+-      },
+-      "summary": "Check_rpm_install/removal_log_file_size"
+-    }
+-  },
+-  {
+-    "test": {
+       "@alias": "bsps-qemu.bsps-runtime.only_one_connmand_in_background(auto)",
        "author": [
          {
-@@ -257,4 +223,4 @@
-       "summary": "test_bitbake_sane_error_for_invalid_layer"
-     }
-   }
--]
-\ No newline at end of file
-+]
 -- 
 2.7.4
 
