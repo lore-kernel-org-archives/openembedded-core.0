@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-it1-f180.google.com (mail-it1-f180.google.com
-	[209.85.166.180])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A4366D5B1
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 70186748D5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 12:32:56 +0000 (UTC)
-Received: by mail-it1-f180.google.com with SMTP id x132so17577567itf.2
+	Mon, 22 Apr 2019 12:32:57 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id u12so9339614iop.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 05:32:57 -0700 (PDT)
+	Mon, 22 Apr 2019 05:32:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Bdu0iAs9gfxJrBXRya/dJ2FbZhzp31PK5eOdumrIfaY=;
-	b=NJkejOU0C46CS9nxsAcNHgCP0D1GFgODRMc5dPN8svCNG6SMepYQwDC9SHd71+KeTG
-	qW4amI16lXnocHGPjYYBL5HlbbOWt40XurnMHYguNnKMni2QjaJVmV7wywJjS5fqtaxk
-	y1AJ/jkGgh5/IvWgV+tx9Oj+ah90njU5QEQ8rnCawe65bIWFan+3qiiyM2xBgST0pqyS
-	aXPXJT7pLcl1+lovzHx0DT5T8pVUjp/d1flyn7c/ygvCz0gYs23MQMhw5q8zXeIec4Ya
-	3SEXXa7ALwc3B3hi/+phJS3bQesjBbdcqcg/0KVJc16NWOv62j1h7P0GabjQHmBNyRl5
-	AScg==
+	bh=WNo/dQd3uVfnr3dhwqH5W/UER3W7/jW1ScDbPcAVqzk=;
+	b=PC8kRaHKrEAsbwT29GScqfcnyUScX7YYRrL/aSVeB2Rdk1Dp7v//kg+RbosgqhrYu1
+	rWSnfuonJ7ThzH8uCqb1DTbzPLJ/RwehryqmVsEDNpZrZPMnoF/p9Zjfpfa5oqufMuJN
+	howgAt1U0b/J/1OVa/19dKBDfU9/rW4rH/EmzebIgU6EYGuKlpuyxY26FX/j+VpFQmpg
+	mM5Z/DC9u+Z3EQFBIa17vXwwkznQBVlgtyUWxYYHK2mmYy+QkN1fmqAQH3EcEQn23frp
+	EoyigIp32NDWUltyuBHNQgTvMJUcYXT01olV6lEMSPoHzHwFtbFDariDjQNTn4HH7jpI
+	gVXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Bdu0iAs9gfxJrBXRya/dJ2FbZhzp31PK5eOdumrIfaY=;
-	b=XYhMkN+1YJw5lJ63uCM6F+27twB4uwBuyvN0H595PXBQw68D2aRAXHcanj/viubM1o
-	w3gXEIiGvKmcpjIQRUaHqImNY+nBavGc0KCY3LTtrT4yAKta8bKThMnRx2Eps8jvltTS
-	FSSKlYSRzq8IF6RBZOtKvFqKSnNevwtMTsTuXgAtjz3VgqCG8cNPvEIRCFHZXccE/Oam
-	ImlmIoB010MlagWbHm1KyYhFlFrJiovGLZGU95O07MmO1LriK6dNI/2t+EQ7pTrdBZiO
-	b4mEeXcl7qde35pNB2saUBdgOx6i5jBJxDy0JfqP5eU5C9dHkcWY3pVVtHPHARRS03wN
-	tOVA==
-X-Gm-Message-State: APjAAAWPTgosj81sQNk9Xzd8Uoyb30jIV+b6G740A67ygXqfHKyzFXOx
-	JF4UKtvNTRu2rBluxj1iGctZsOUa
-X-Google-Smtp-Source: APXvYqxpVw2b++ySlbduYqGneXr1kb7ZcmR4ceeNb91Mu8hlKzvMEct0aPjNwB5r2oDL+BFzUB8cvQ==
-X-Received: by 2002:a24:43cf:: with SMTP id
-	s198mr13116286itb.113.1555936377381; 
-	Mon, 22 Apr 2019 05:32:57 -0700 (PDT)
+	bh=WNo/dQd3uVfnr3dhwqH5W/UER3W7/jW1ScDbPcAVqzk=;
+	b=A+5AdPmC1cjfOVxE/vD8pJSTrkmdIsVhweXLICsSxxRw1eFR8w6Er5L0kkvZcoIYNb
+	I3WpwX1gjXodOHk/XC/lyKRByiYp5gTVT5A+TbQk65n4KzwDrE0MlWo57zLD2AXoXCaJ
+	HxLKFR2C1k+RFPNvbc6rSzS3OaiDvSLpKypvO+yegbGdnfhhD6ER4J2mr5X2BHGib0WT
+	iBbkPA3tUbvcxxqUlEngYRL7w1Ac3XLwZUoZFMyES+Z9W6G/3E/rqUUt9RN7NPS/dMay
+	YVk1ZfNMe/t3Ad3+NK/Y5wLLwbRDzc27+2fvMkyyJwoyqcHLctlZ6pRM5dAK4aXuVYzn
+	XzHA==
+X-Gm-Message-State: APjAAAVrqczREQjpDrVHN/EvULG+WdzLPhj68+Ph1eTPa7NpEn+PC1mV
+	XQ4w6xmJvcHlboVA6//MXzgWR6i5
+X-Google-Smtp-Source: APXvYqxiy9flwyczQHQvU09lSOYI4N1XwKRwTKJsWQ13t5n9urq5m1MS0JJdczkUFDvgJRrC2OxbWA==
+X-Received: by 2002:a5e:de4d:: with SMTP id e13mr1079695ioq.39.1555936378338; 
+	Mon, 22 Apr 2019 05:32:58 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	(75-163-235-80.clsp.qwest.net. [75.163.235.80])
-	by smtp.gmail.com with ESMTPSA id 19sm5889536itm.6.2019.04.22.05.32.56
+	by smtp.gmail.com with ESMTPSA id 19sm5889536itm.6.2019.04.22.05.32.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 22 Apr 2019 05:32:56 -0700 (PDT)
+	Mon, 22 Apr 2019 05:32:57 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Apr 2019 06:32:40 -0600
-Message-Id: <1555936363-18793-4-git-send-email-akuster808@gmail.com>
+Date: Mon, 22 Apr 2019 06:32:41 -0600
+Message-Id: <1555936363-18793-5-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1555936363-18793-1-git-send-email-akuster808@gmail.com>
 References: <1555936363-18793-1-git-send-email-akuster808@gmail.com>
-Subject: [QA][PATCH 3/6] ltp: add runtime test
+Subject: [QA][PATCH 4/6] resulttool: add LTP compliance section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,173 +58,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 12:32:56 -0000
-
-This adds the framework for running ltp tests.
-
-Here are some times:
-math: 61
-syscalls: 3957
-dio: 18472
-io: 29
-mm: 551
-ipc: 48
-sched: 165
-nptl: 46
-pty: 37
-containers: 52
-controllers: 9625
-filecaps: 27
-cap_bounds: 27
-fcntl-locktests: 29
-connectors: 27
-timers: 37
-commands: 165
-net.ipv6_lib: 30
-input: 29
-fs_perms_simple: 31
-fs: 3476
-fsx: 30
-fs_bind: 28
-fs_ext4: 28
-cve: 675
+X-List-Received-Date: Mon, 22 Apr 2019 12:32:57 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/runtime/cases/ltp.py | 124 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 124 insertions(+)
- create mode 100644 meta/lib/oeqa/runtime/cases/ltp.py
+ scripts/lib/resulttool/report.py                   | 42 +++++++++++++++++++++-
+ .../resulttool/template/test_report_full_text.txt  | 17 +++++++++
+ 2 files changed, 58 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ltp.py b/meta/lib/oeqa/runtime/cases/ltp.py
-new file mode 100644
-index 0000000..628494e
---- /dev/null
-+++ b/meta/lib/oeqa/runtime/cases/ltp.py
-@@ -0,0 +1,124 @@
-+# LTP runtime
-+#
-+# Copyright (c) 2019 MontaVista Software, LLC
-+#
-+# This program is free software; you can redistribute it and/or modify it
-+# under the terms and conditions of the GNU General Public License,
-+# version 2, as published by the Free Software Foundation.
-+#
-+# This program is distributed in the hope it will be useful, but WITHOUT
-+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+# more details.
-+#
-+import time
-+import datetime
-+import pprint
+diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
+index e5962a0..cd30250 100644
+--- a/scripts/lib/resulttool/report.py
++++ b/scripts/lib/resulttool/report.py
+@@ -24,6 +24,7 @@ class ResultsTextReport(object):
+     def __init__(self):
+         self.ptests = {}
+         self.ltptests = {}
++        self.ltpposixtests = {}
+         self.result_types = {'passed': ['PASSED', 'passed'],
+                              'failed': ['FAILED', 'failed', 'ERROR', 'error', 'UNKNOWN'],
+                              'skipped': ['SKIPPED', 'skipped']}
+@@ -88,6 +89,37 @@ class ResultsTextReport(object):
+             if status in self.result_types[tk]:
+                 self.ltptests[suite][tk] += 1
+ 
++    def handle_ltpposixtest_result(self, k, status, result):
++        if k == 'ltpposixresult.sections':
++            # Ensure tests without any test results still show up on the report
++            for suite in result['ltpposixresult.sections']:
++                if suite not in self.ltpposixtests:
++                    self.ltpposixtests[suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
++                if 'duration' in result['ltpposixresult.sections'][suite]:
++                    self.ltpposixtests[suite]['duration'] = result['ltpposixresult.sections'][suite]['duration']
++            return
++        try:
++            _, suite, test = k.split(".", 2)
++        except ValueError:
++            return
++        # Handle 'glib-2.0'
++        if 'ltpposixresult.sections' in result and suite not in result['ltpposixresult.sections']:
++            try:
++                _, suite, suite1, test = k.split(".", 3)
++                if suite + "." + suite1 in result['ltpposixresult.sections']:
++                    suite = suite + "." + suite1
++            except ValueError:
++                pass
++        if suite not in self.ltpposixtests:
++            self.ltpposixtests[suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
++        for tk in self.result_types:
++            if status in self.result_types[tk]:
++                self.ltpposixtests[suite][tk] += 1
 +
-+from oeqa.runtime.case import OERuntimeTestCase
-+from oeqa.core.decorator.depends import OETestDepends
-+from oeqa.runtime.decorator.package import OEHasPackage
-+from oeqa.utils.logparser import LtpParser
++    def get_aggregated_test_result(self, logger, testresult):
++        test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
++    def get_aggregated_test_result(self, logger, testresult):
++        test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
+     def get_aggregated_test_result(self, logger, testresult):
+         test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
+     def get_aggregated_test_result(self, logger, testresult):
+@@ -104,6 +136,8 @@ class ResultsTextReport(object):
+                 self.handle_ptest_result(k, test_status, result)
+             if k.startswith("ltpresult."):
+                 self.handle_ltptest_result(k, test_status, result)
++            if k.startswith("ltpposixresult."):
++                self.handle_ltpposixtest_result(k, test_status, result)
+         return test_count_report
+ 
+     def print_test_report(self, template_file_name, test_count_reports):
+@@ -115,9 +149,10 @@ class ResultsTextReport(object):
+         havefailed = False
+         haveptest = bool(self.ptests)
+         haveltp = bool(self.ltptests)
++        haveltpposix = bool(self.ltpposixtests)
+         reportvalues = []
+         cols = ['passed', 'failed', 'skipped']
+-        maxlen = {'passed' : 0, 'failed' : 0, 'skipped' : 0, 'result_id': 0, 'testseries' : 0, 'ptest' : 0 ,'ltptest': 0}
++        maxlen = {'passed' : 0, 'failed' : 0, 'skipped' : 0, 'result_id': 0, 'testseries' : 0, 'ptest' : 0 ,'ltptest': 0, 'ltpposixtest': 0}
+         for line in test_count_reports:
+             total_tested = line['passed'] + line['failed'] + line['skipped']
+             vals = {}
+@@ -139,12 +174,17 @@ class ResultsTextReport(object):
+         for ltptest in self.ltptests:
+             if len(ltptest) > maxlen['ltptest']:
+                 maxlen['ltptest'] = len(ltptest)
++        for ltpposixtest in self.ltpposixtests:
++            if len(ltpposixtest) > maxlen['ltpposixtest']:
++                maxlen['ltpposixtest'] = len(ltpposixtest)
+         output = template.render(reportvalues=reportvalues,
+                                  havefailed=havefailed,
+                                  haveptest=haveptest,
+                                  ptests=self.ptests,
+                                  haveltp=haveltp,
++                                 haveltpposix=haveltpposix,
+                                  ltptests=self.ltptests,
++                                 ltpposixtests=self.ltpposixtests,
+                                  maxlen=maxlen)
+         print(output)
+ 
+diff --git a/scripts/lib/resulttool/template/test_report_full_text.txt b/scripts/lib/resulttool/template/test_report_full_text.txt
+index 6ecd5bc..d2725b8 100644
+--- a/scripts/lib/resulttool/template/test_report_full_text.txt
++++ b/scripts/lib/resulttool/template/test_report_full_text.txt
+@@ -41,6 +41,23 @@ Ltp Test Result Summary
+ There was no LTP Test data
+ {% endif %}
+ 
++{% if haveltpposix %}
++==============================================================================================================
++Ltp Posix Result Summary
++==============================================================================================================
++--------------------------------------------------------------------------------------------------------------
++{{ 'Recipe'.ljust(maxlen['ltpposixtest']) }} | {{ 'Passed'.ljust(maxlen['passed']) }} | {{ 'Failed'.ljust(maxlen['failed']) }} | {{ 'Skipped'.ljust(maxlen['skipped']) }} | {{ 'Time(s)'.ljust(10) }}
++--------------------------------------------------------------------------------------------------------------
++{% for ltpposixtest in ltpposixtests |sort %}
++{{ ltpposixtest.ljust(maxlen['ltpposixtest']) }} | {{ (ltpposixtests[ltpposixtest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ltpposixtests[ltpposixtest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ltpposixtests[ltpposixtest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ltpposixtests[ltpposixtest]['duration']|string) }}
++{% endfor %}
++--------------------------------------------------------------------------------------------------------------
 +
-+class LtpTestBase(OERuntimeTestCase):
++{% else %}
++There was no LTP Posix Test data
++{% endif %}
 +
-+    @classmethod
-+    def setUpClass(cls):
-+        cls.ltp_startup()
 +
-+    @classmethod
-+    def tearDownClass(cls):
-+        cls.ltp_finishup()
-+
-+    @classmethod
-+    def ltp_startup(cls):
-+        cls.sections = {}
-+        cls.failmsg = ""
-+        test_log_dir = os.path.join(cls.td.get('WORKDIR', ''), 'testimage')
-+        timestamp = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
-+
-+        cls.ltptest_log_dir_link = os.path.join(test_log_dir, 'ltp_log')
-+        cls.ltptest_log_dir = '%s.%s' % (cls.ltptest_log_dir_link, timestamp)
-+        os.makedirs(cls.ltptest_log_dir)
-+
-+        cls.tc.target.run("mkdir -p /opt/ltp/results")
-+
-+        if not hasattr(cls.tc, "extraresults"):
-+            cls.tc.extraresults = {}
-+        cls.extras = cls.tc.extraresults
-+        cls.extras['ltpresult.rawlogs'] = {'log': ""}
-+
-+ 
-+    @classmethod
-+    def ltp_finishup(cls):
-+        cls.extras['ltpresult.sections'] =  cls.sections
-+
-+        # update symlink to ltp_log
-+        if os.path.exists(cls.ltptest_log_dir_link):
-+            os.remove(cls.ltptest_log_dir_link)
-+        os.symlink(os.path.basename(cls.ltptest_log_dir), cls.ltptest_log_dir_link)
-+
-+        if cls.failmsg:
-+            cls.fail(cls.failmsg)
-+
-+class LtpTest(LtpTestBase):
-+
-+    ltp_groups = ["math", "syscalls", "dio", "io", "mm", "ipc", "sched", "nptl", "pty", "containers", "controllers", "filecaps", "cap_bounds", "fcntl-locktests", "connectors","timers", "commands", "net.ipv6_lib", "input","fs_perms_simple"]
-+
-+    ltp_fs = ["fs", "fsx", "fs_bind", "fs_ext4"]
-+    # skip kernel cpuhotplug
-+    ltp_kernel = ["power_management_tests", "hyperthreading ", "kernel_misc", "hugetlb"]
-+    ltp_groups += ltp_fs
-+
-+    def runltp(self, ltp_group):
-+            cmd = '/opt/ltp/runltp -f %s -p -q -r /opt/ltp -l /opt/ltp/results/%s -I 1 -d /opt/ltp' % (ltp_group, ltp_group)
-+            starttime = time.time()
-+            (status, output) = self.target.run(cmd)
-+            endtime = time.time()
-+
-+            with open(os.path.join(self.ltptest_log_dir, "%s-raw.log" % ltp_group), 'w') as f:
-+                f.write(output)
-+
-+            self.extras['ltpresult.rawlogs']['log'] = self.extras['ltpresult.rawlogs']['log'] + output
-+
-+            # copy nice log from DUT
-+            dst = os.path.join(self.ltptest_log_dir, "%s" %  ltp_group )
-+            remote_src = "/opt/ltp/results/%s" % ltp_group 
-+            (status, output) = self.target.copyFrom(remote_src, dst)
-+            msg = 'File could not be copied. Output: %s' % output
-+            self.assertEqual(status, 0, msg=msg)
-+
-+            parser = LtpParser()
-+            results, sections  = parser.parse(dst)
-+
-+            runtime = int(endtime-starttime)
-+            sections['duration'] = runtime
-+            self.sections[ltp_group] =  sections
-+
-+            failed_tests = {}
-+            for test in results:
-+                result = results[test]
-+                testname = ("ltpresult." + ltp_group + "." + test)
-+                self.extras[testname] = {'status': result}
-+                if result == 'FAILED':
-+                    failed_tests[ltp_group] = test 
-+
-+            if failed_tests:
-+                self.failmsg = self.failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
-+
-+    # LTP runtime tests
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage(["ltp"])
-+    def test_ltp_help(self):
-+        (status, output) = self.target.run('/opt/ltp/runltp --help')
-+        msg = 'Failed to get ltp help. Output: %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+    @OETestDepends(['ltp.LtpTest.test_ltp_help'])
-+    def test_ltp_groups(self):
-+        for ltp_group in self.ltp_groups: 
-+            self.runltp(ltp_group)
-+
-+    @OETestDepends(['ltp.LtpTest.test_ltp_groups'])
-+    def test_ltp_runltp_cve(self):
-+        self.runltp("cve")
+ 
+ ==============================================================================================================
+ Failed test cases (sorted by testseries, ID)
 -- 
 2.7.4
 
