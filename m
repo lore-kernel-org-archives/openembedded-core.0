@@ -1,50 +1,52 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com
-	[209.85.208.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 467476D4C6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B3C86D4C6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 14:59:04 +0000 (UTC)
-Received: by mail-ed1-f44.google.com with SMTP id d46so9666997eda.7
+	Mon, 22 Apr 2019 15:03:01 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id c1so14741201wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 07:59:05 -0700 (PDT)
+	Mon, 22 Apr 2019 08:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=hFsZN0YjU/AwuqHtXZLg8sZhlu/xgmzqTDEfacrvXW4=;
-	b=QoiqRDp6rSb1d2IJQIYqEMwwb+0JWO1E7jb7T/V517PW0/oxZ7W0fBqOiApUiUfaEf
-	c6CGLFOMdDiJIztQVP2Ld/1CPMOHDZU88Y2nvZVZtPs/9Ji06SgayCpVTgK9uYnJp2co
-	XFVa0oDT5e0WPypWacMe92DbhWqsZEgLqqcwwPBTJsHD9eky2VEfaMkiEuPVCA+pmp+O
-	Y39wEUjgfK1IbpB2ljSOcCQXxIvJHinw56nHnKtngUFDdZnb0DXEI7nzRhdMwRdEH/4k
-	OT+qi2CCaXZoYoaQDHH4rcsacdGrF7ZGjFmksEIJXSPqaSUYAVAtnIfCv7WkY4IQcBT9
-	ZjfQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=x/g7H0liKLx9uGTkrfOaVTVmRSLPTErY6lJEFBjw2sY=;
+	b=JHby/u5Q5xV6Pi8qB/CSy++QSGqq6Hud4PkkZlGgaYq27jTuRp5huqvGSk2BLQNxFj
+	YB7L+OW8lsYjvEtmg6tBVgZSs9MnYA5OUrEf46EyE4sGSAriyxGixFoTd6LXy/A55mxN
+	HYUXEjerS6Ds1D6vRoW7gjrggEFVZ9/kNvXX8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=hFsZN0YjU/AwuqHtXZLg8sZhlu/xgmzqTDEfacrvXW4=;
-	b=YOyTtJ//c/qvdAO6zVhTFvZjfg3NFLQUoTvbPuiArGWJoJSo7SxzXghvtDxemL9JHx
-	V9nttxHvYz4u6JbDwffEzQjob9sxx/xunwDvyy4O4MyWCXiRrjvEHDNnzgj36Iv2v/SL
-	NttzsRcFgIcptl8e14bsZkZUE99FINiDMMGoy+pFNLpVFj+aH581mV5MFBiKf8HNpoAx
-	fnm8/ZigVEZ0i01yhJTUpB2TSxv1zMVJnHxKBZj8d44FjfkaWB78iOZGZkONnhl5nJaH
-	ICPvs9x3kTgsTmoXn/bIcwM+k1EaWuaYo1YcrMFIzauEe/wOuFrkPKc9RRT0UZqCxT1R
-	+IAg==
-X-Gm-Message-State: APjAAAXaPwmQiB0dERxJhsu4W56EOiJsa1842hi6+eiIoMQWiwt8EMfw
-	vL0vZLSTtC7zBVLmpGR81GqnSZZhJGc=
-X-Google-Smtp-Source: APXvYqzlcvDoRPSUiwugz5ZaCxR964wYLZb+IGMtIFbzcoyCeTPD8rWJ7/nLdVYmzMNqKMckxiXCsQ==
-X-Received: by 2002:a17:906:1851:: with SMTP id
-	w17mr9928234eje.242.1555945144736; 
-	Mon, 22 Apr 2019 07:59:04 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	a14sm2212192edc.61.2019.04.22.07.59.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Apr 2019 07:59:04 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Apr 2019 16:59:01 +0200
-Message-Id: <20190422145901.24657-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH][meta-oe] libcap: update to 2.27
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=x/g7H0liKLx9uGTkrfOaVTVmRSLPTErY6lJEFBjw2sY=;
+	b=RBfCtLvzPhpcZuec75TGXH9874rMYHUnoMAaFFM2DIGRZ0oUooZv4acyrEQLlpg9g4
+	wxknwgcdadAH6Oh9pV6/2yP4UOeX+XDBUAN6BC1DrQVB8+YuyTzqLeD1aYg5VXV5v8lM
+	b5uHA2Etu28ALJLJOg4mQ38g7uiEHwBJp52xcOMvqhD+rEY10Q59SGRctk4gd/bbcHBl
+	X9Ga0y7mhB07FMH7trUvEd8LdufwDDyV42cdxmmDCGexLKFPR43VeywQNrULl3A8cNVJ
+	ETDmmr9+8f8Rnkr7h1ppo5+T500DvcE8U6iCt5TgsqVEIPQwCuXoTGWzF91dFM6RtojW
+	HOqg==
+X-Gm-Message-State: APjAAAV6xYDZ3FEhviA8uVsVteocdPwDeDLsK1N1UwUZy+8s/NDVEqEI
+	O/O7OR+YgyK86Y3ub2db8PgfvA==
+X-Google-Smtp-Source: APXvYqxnrdYSlc/DB5mgrb9pSSyUa1Z9Kwp9yUOqZQoEUWfcgQcwR7QMRjkkZ5YPQh6PUl62ZucIrw==
+X-Received: by 2002:a1c:a00a:: with SMTP id j10mr12651249wme.15.1555945382702; 
+	Mon, 22 Apr 2019 08:03:02 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o1sm18556903wmh.47.2019.04.22.08.03.01
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 22 Apr 2019 08:03:02 -0700 (PDT)
+Message-ID: <9e7716f3cfd4ece8f022ba1e9816e9def1d4e451.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 22 Apr 2019 16:03:01 +0100
+In-Reply-To: <1555936919-19078-8-git-send-email-akuster808@gmail.com>
+References: <1555936919-19078-1-git-send-email-akuster808@gmail.com>
+	<1555936919-19078-8-git-send-email-akuster808@gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Subject: Re: [QA][PATCH 7/7] manual sdk: remove this manual sdk test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,33 +59,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 14:59:04 -0000
+X-List-Received-Date: Mon, 22 Apr 2019 15:03:02 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../recipes-support/libcap/{libcap_2.26.bb => libcap_2.27.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libcap/{libcap_2.26.bb => libcap_2.27.bb} (93%)
+On Mon, 2019-04-22 at 06:41 -0600, Armin Kuster wrote:
+> This is done during nearly all qemu testimage
+> This seems to test "release" artifacts on the web
 
-diff --git a/meta/recipes-support/libcap/libcap_2.26.bb b/meta/recipes-support/libcap/libcap_2.27.bb
-similarity index 93%
-rename from meta/recipes-support/libcap/libcap_2.26.bb
-rename to meta/recipes-support/libcap/libcap_2.27.bb
-index 14841de4a7..4f3bac8490 100644
---- a/meta/recipes-support/libcap/libcap_2.26.bb
-+++ b/meta/recipes-support/libcap/libcap_2.27.bb
-@@ -10,8 +10,8 @@ DEPENDS = "hostperl-runtime-native gperf-native"
- SRC_URI = "${KERNELORG_MIRROR}/linux/libs/security/linux-privs/${BPN}2/${BPN}-${PV}.tar.xz \
-            file://0001-ensure-the-XATTR_NAME_CAPS-is-defined-when-it-is-use.patch \
-            "
--SRC_URI[md5sum] = "968ac4d42a1a71754313527be2ab5df3"
--SRC_URI[sha256sum] = "b630b7c484271b3ba867680d6a14b10a86cfa67247a14631b14c06731d5a458b"
-+SRC_URI[md5sum] = "2e8f9fab32eb5ccb37969fe317fd17aa"
-+SRC_URI[sha256sum] = "dac1792d0118bee6aae6ba7fb93ff1602c6a9bda812fd63916eee1435b9c486a"
- 
- inherit lib_package
- 
--- 
-2.17.1
+This does two things, it tests release artefacts and it also tests we
+can run two qemus at once.
+
+Whether those are useful things to test I'm not sure about but we
+should make a concious statement in the commit message if we are
+deciding not to test that.
+
+Cheers,
+
+Richard
+
+
 
 
