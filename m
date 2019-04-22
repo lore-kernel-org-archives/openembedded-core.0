@@ -1,50 +1,103 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
-	[209.85.208.48])
-	by mail.openembedded.org (Postfix) with ESMTP id A8E0771CBD
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 667986D494
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 15:13:20 +0000 (UTC)
-Received: by mail-ed1-f48.google.com with SMTP id c1so3752819edk.5
+	Mon, 22 Apr 2019 15:52:41 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id o7so3757461pll.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 08:13:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=HFprI7pRspPpwMIaeE7xNHPfsE+T43uvUO8Symu1lq4=;
-	b=A+2x4RZqrIwafbi780PB9Wi70mYQ/cNnXU4eeoMx3WBxZCmO66Dq70dVstiKfGK34w
-	fUHtpJwrJ68FFMNKsZjVWYs+CCC0ZI0uHVxn5+KvFvX6J28mutner/FT3K5o2T7XNnsj
-	5+bZkkO8E1QhFdSxx5q38Bn4HH+iSkrI5/du1JbG5cwbCX5DyenQ4b19HuJy3a1zqPHW
-	XGtTRJwoMuDBWUhy/CDhDd/3smGQYNKxdd7X36aSlcJfZGGKRrCvXBnPrCszzx0r8xek
-	VUlJdM2jCsl61XEucJtY0wYpztYd4hXa3bspRO0xaRx1HvZt1fFUKn2Wb3lPdgrFQb83
-	IdDQ==
+	Mon, 22 Apr 2019 08:52:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=xk6PyDtJwqtX6F50f+q8Td7P5GRWmlMa4S2xoQOGE3M=;
+	b=UEBT/W2dD/kEiBARbxELmXcZTBVK1txal8UiewGB0NvAiijNYU/DB0USo3ytSeElo1
+	ke2qgNKCtxVKV7iBMG1ENX2oMQ9ibBsoMW7Vsfu4/np0oyGcByoLkovgku0g+bk2dAQX
+	BpGVGuwChM7ROefF3uHE/zNIMUpwmbDoiiEVXzhEXYXD7qKpI1AGRd9V1jAtfvT7+A0u
+	tAeBclQW6FIlZwlWH6ApFz6jzZ1tUvLYiUyTJjtwJ9ZJJALm99f+W87+4wR3XPG6WC/E
+	iwgw96GpmdK2X7pqbN5mRGvFF39MmMArSxXouJHaOads2WKdjD4Umr8bsvrILXnUN/1z
+	5f6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=HFprI7pRspPpwMIaeE7xNHPfsE+T43uvUO8Symu1lq4=;
-	b=YNHW3P1HcxLHgAxwRCSGzA+g3meE9oTjy2QOkcUkkZ8fl9PeFzhMif9NX75B/fZwa6
-	k8ZYVH0ZE2h8V432a98hA+GWcl6KjGt4Z7rlZ9XhLGgMmLslYLEuQ03pr23bqdUxukoF
-	ri1z95KjOaWTw9jaNGS6xcjRyqXKmqouLt/51Uv4THIOZoOJzItKaN5qWhz1qF1DB6P9
-	5GUxgEhCvTtXvXf2xR0GmbD+E1AsQzsJTTqirssv2EHKZlzzA+Txj3s6M8P9INY9tG2/
-	Av2uv2NDvEpPZTMLcVdIWhqdWPg3j8mL5pQ7yNyUcqf94WKCJh5wYZD3sCarJyOPpQYY
-	02uQ==
-X-Gm-Message-State: APjAAAWw38eX8N4IxlHMGj+eE6LqjaIf0LwkD44m6gP3ZNTxovSeuf9y
-	n0aRF0cSgxZb9pYLH0wGN3PVQsDgsJ8=
-X-Google-Smtp-Source: APXvYqwm1dv9fo71o/4j9ihGDH15vkBy+nQS8fO9SDwtTU2WcIge/HqJSwhgpULBFdX7jgfqvEa22A==
-X-Received: by 2002:a05:6402:390:: with SMTP id
-	o16mr12078596edv.156.1555946000783; 
-	Mon, 22 Apr 2019 08:13:20 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	j55sm3716557ede.73.2019.04.22.08.13.19
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=xk6PyDtJwqtX6F50f+q8Td7P5GRWmlMa4S2xoQOGE3M=;
+	b=RsreCEHFMwddo0IX4kxXkTM0Obp2iukeGURJMMQTRk7DoIV0b+AfVZuzQCBl8FkPAA
+	zgmH54/4AQXvfPyTHblpw9KnfMVxSoTFEKaPTVl8IymMrr4DdFAFUUcDpSfrVHQkKlTN
+	8TwOjtRQ84wgyPUl11tMYonAMjqxfPlFANrA0lnfvDEx1mmWAPSRD2rqlm8NnOtcCocj
+	WClfcw8qNzS84IUsrHHp+P4DD/ihw0zhZbat7mMWtxk4o7/qR2osWtboI0xYJCUDVD76
+	R/YDHGhXW7oO62pehw+PBdjafYq7pbVRB3GECY9bCLKooFAvULkHwRVwDU0UotUbUYjN
+	/Y2Q==
+X-Gm-Message-State: APjAAAU27zzHOnFjoxFw0RfyB4FmLF4UtcrdWJ61PnkHe3X0yRPcrIh6
+	hOZMS+jYkGUJBfwaFkxv0V8Rpx0x
+X-Google-Smtp-Source: APXvYqyO8hO9sN4Dp4aEO+V0Ufgo6T4zCRqcqfQVrONmHRyDYnRrdBw5EWA2rjnUP/J03S1m7qUYcw==
+X-Received: by 2002:a17:902:4501:: with SMTP id
+	m1mr20989758pld.290.1555948362389; 
+	Mon, 22 Apr 2019 08:52:42 -0700 (PDT)
+Received: from [192.168.0.33] (75-163-235-80.clsp.qwest.net. [75.163.235.80])
+	by smtp.gmail.com with ESMTPSA id
+	b1sm15793738pgq.15.2019.04.22.08.52.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Apr 2019 08:13:20 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 22 Apr 2019 17:13:17 +0200
-Message-Id: <20190422151317.5383-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH][meta-oe] cups: update to 2.2.11
+	Mon, 22 Apr 2019 08:52:41 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <1555936919-19078-1-git-send-email-akuster808@gmail.com>
+	<1555936919-19078-8-git-send-email-akuster808@gmail.com>
+	<9e7716f3cfd4ece8f022ba1e9816e9def1d4e451.camel@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <d258baae-9a39-d4a9-e8ee-8e3018a77b76@gmail.com>
+Date: Mon, 22 Apr 2019 09:52:40 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <9e7716f3cfd4ece8f022ba1e9816e9def1d4e451.camel@linuxfoundation.org>
+Subject: Re: [QA][PATCH 7/7] manual sdk: remove this manual sdk test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,44 +110,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 22 Apr 2019 15:13:20 -0000
+X-List-Received-Date: Mon, 22 Apr 2019 15:52:41 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-CUPS 2.2.11 is a bug fix release that addresses issues in the scheduler,
-IPP Everywhere support, CUPS library, and USB printer support.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-extended/cups/cups_2.2.10.bb | 6 ------
- meta/recipes-extended/cups/cups_2.2.11.bb | 6 ++++++
- 2 files changed, 6 insertions(+), 6 deletions(-)
- delete mode 100644 meta/recipes-extended/cups/cups_2.2.10.bb
- create mode 100644 meta/recipes-extended/cups/cups_2.2.11.bb
 
-diff --git a/meta/recipes-extended/cups/cups_2.2.10.bb b/meta/recipes-extended/cups/cups_2.2.10.bb
-deleted file mode 100644
-index 490c84e2f4..0000000000
---- a/meta/recipes-extended/cups/cups_2.2.10.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require cups.inc
--
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f212b4338db0da8cb892e94bf2949460"
--
--SRC_URI[md5sum] = "3d22d747403ec5dcd0b66d1332564816"
--SRC_URI[sha256sum] = "77c8b2b3bb7fe8b5fbfffc307f2c817b2d7ec67b657f261a1dd1c61ab81205bb"
-diff --git a/meta/recipes-extended/cups/cups_2.2.11.bb b/meta/recipes-extended/cups/cups_2.2.11.bb
-new file mode 100644
-index 0000000000..aeb2e14e3b
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups_2.2.11.bb
-@@ -0,0 +1,6 @@
-+require cups.inc
-+
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=f212b4338db0da8cb892e94bf2949460"
-+
-+SRC_URI[md5sum] = "7afbbcd2497e7d742583c492f6de40cd"
-+SRC_URI[sha256sum] = "f58010813fd6903f690cdb0c0b91e4d1bc9e5b9570c28734229ba3ed2908b76c"
--- 
-2.17.1
+On 4/22/19 8:03 AM, Richard Purdie wrote:
+> On Mon, 2019-04-22 at 06:41 -0600, Armin Kuster wrote:
+>> This is done during nearly all qemu testimage
+>> This seems to test "release" artifacts on the web
+> This does two things, it tests release artefacts=20
+Correct. I think this is more of a Release process step and I think it
+can be automated.
+> and it also tests we
+> can run two qemus at once.
+I would think this could be automated as well.
+>
+> Whether those are useful things to test I'm not sure about but we
+> should make a concious statement in the commit message if we are
+> deciding not to test that.
+sometimes patches are way to get a conversion started=C2=A0 and here we a=
+re : )
+
+- armin
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+
 
 
