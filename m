@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BFD27D10D
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D56147D305
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 16:19:31 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id q16so822313wmj.3
+	Tue, 23 Apr 2019 16:19:32 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id c1so816255wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 09:19:32 -0700 (PDT)
+	Tue, 23 Apr 2019 09:19:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MqxQn+BUm3Yae2VYWLu3NNVu/ynL3FV5uMlsYaz0muU=;
-	b=A6qIdihrfbac8TPleQ4VJq76+hdZPxYRwachkDFUNRnq8KKySxzwzPdi6SdTIALhyb
-	fDgjhFvk0te9mr586CW661ERS0BAS9TNgJFWWglD2Y6KeBqbMnTjvglqfa6ahm8Ey8P7
-	QCtXmiZDtxpYlpa0uaOXxp+f6xDDwOyxMJ+uxysmwsTov+v3ITqDw/WdARtTowRcxMVT
-	kE1ui8JufDLQ3zn9PD/YL9sT5K+uvL02LCBpU28OTeI5JSidRoFhj1ybYpBWy8XH4QoK
-	UO8ACAxSwEnyCAblQQqeGZZb3AUv1Q3iPO25K4UuOdG16iTbfJ4TQTbR5QduCQBH9o2L
-	p4fQ==
+	bh=TBVUSasSLPjregGbYT9FuK0al7BOqwnJSlzJzootz+o=;
+	b=B0ECUS+nldkeLX81Um/7y8mu0hEvwkg9eiNU2R8jUSLBF4aMZJd+9szM3HWghSkK/Q
+	JX+2eTPrc6nSg6bVqvlugAAWBwz+xSoxiGaSJDamRVKvnh+D1QLWpAKdc3av+PqbkUly
+	kYSHO9OnrBclSm5UBkVnBLVMFRcNcSrZfAOte3UBg6gQHHS3WkWU3ZCHFU+92TGb44ZG
+	fkPArwdM5EddXIXhDUUmiwnu02FuapPyKF8BQ/Eua8qC/jPaa4tZhgU8UDBWhRIkdJQn
+	Hoe1OgVtg/Qd80Alsb4L5bq+KYGyoEmFxJ+UwcFrOshTF4TlipZBRO5lRrLNUy+2v80O
+	Lflg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MqxQn+BUm3Yae2VYWLu3NNVu/ynL3FV5uMlsYaz0muU=;
-	b=TSwp4lYWU3H4Oiw++4KRmkK1MEvtkhGHfEL7BFNpkV++VmWm3SniCEAdpU3kgIz7yg
-	PdBdPsZUq9GNvqC1njEv+abFC0KDpRPZnmGe8w/c3B1rmQMp9Pe8WWGy1q3vXUgCcG6Q
-	qxMHeQaB7MkUx++fQpQHIi8khw8vgJ38Je1z0oPrUEK90LiZ/NBXlD22I+TIPiUDfTJu
-	BBiG28NvJ1OmCbgV+AwfsjT+4PCAkxnG9q6CxHSVlzHPzY4qgUDXBxi8tbI11oO9FAbj
-	LiLR1NQVWRwNVklFw9B8s+5zwxxvzkfCKHgxdYCRUdzVfMBj99yZ+q8bLhu487WQMbx/
-	bIBg==
-X-Gm-Message-State: APjAAAWZezR2oz5W31u25cPhOouByLul4Qizr9aoGRGveQ8tuR1CBbj+
-	uRW8aDgByzvIVjw7jB+Nj6wBhNNzXgo=
-X-Google-Smtp-Source: APXvYqwZNd7naWojPA901HIAdEq/cKRpghG3/gTLCCwfIB0qO9SZjR0IrjgVGWXr0VXcXE1SgPrmbQ==
-X-Received: by 2002:a7b:c14c:: with SMTP id z12mr2947804wmi.138.1556036371904; 
-	Tue, 23 Apr 2019 09:19:31 -0700 (PDT)
+	bh=TBVUSasSLPjregGbYT9FuK0al7BOqwnJSlzJzootz+o=;
+	b=Ni67Tu+TCom97qcDhHLALnN5aEDhwt22Y5DNOs1UD7lGIxhRWLugwYA38sn4+1U9PZ
+	EsiAmN26mIizY6l5V7P8vB03LDO4R+fkYszVOGNG1w8J4VPPFwf00nIhflPvwdrs/yoX
+	Se8N7FiFNmmvY5hsljACqbe6b60+ds1dhvJk2pRMYGm4huGBnVdFS0smUcMEEoSB/Q8d
+	UQ3bhApSw+mrK3WzGnfNIz79ZMZirlkAFrDm8XSgAsNXN8upy1AQUPimg5abnsveDF6h
+	asC/5iuNWmgu1tcORGV/ztoYcQACA4TJ8xfnarddAaRD5459PzqB2aS3qPLUkse28rhi
+	dXFA==
+X-Gm-Message-State: APjAAAWrg2tqE4N25kuouQVjjUZHYCTmK4XVhlNii7lcxvYKKBGv3x8h
+	VGX0dvhOFjaouz1PkghRU7csWaWm5+o=
+X-Google-Smtp-Source: APXvYqwqclEaDz9WUkkO7pbiHiyuQ2fyTpaXjuPEDZdoM7uOdDfhiPb4aEwO0wfjWbyCdd7xVhIBEQ==
+X-Received: by 2002:a7b:c301:: with SMTP id k1mr2918791wmj.37.1556036373350;
+	Tue, 23 Apr 2019 09:19:33 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	t76sm22599142wmt.8.2019.04.23.09.19.30
+	t76sm22599142wmt.8.2019.04.23.09.19.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Apr 2019 09:19:31 -0700 (PDT)
+	Tue, 23 Apr 2019 09:19:32 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Apr 2019 18:19:15 +0200
-Message-Id: <20190423161916.25572-8-alex.kanavin@gmail.com>
+Date: Tue, 23 Apr 2019 18:19:16 +0200
+Message-Id: <20190423161916.25572-9-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190423161916.25572-1-alex.kanavin@gmail.com>
 References: <20190423161916.25572-1-alex.kanavin@gmail.com>
-Subject: [PATCH 8/9] python3-pip: update to 19.0.3
+Subject: [PATCH 9/9] python3-pycairo: update to 1.18.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 16:19:31 -0000
+X-List-Received-Date: Tue, 23 Apr 2019 16:19:33 -0000
+
+Switch over to meson build, as it does not attempt to install
+headers into /usr/share and pkg-config files into /usr/share/$libdir.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../python/{python3-pip_19.0.2.bb => python3-pip_19.0.3.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_19.0.2.bb => python3-pip_19.0.3.bb} (81%)
+ ...3-pycairo_1.15.6.bb => python3-pycairo_1.18.1.bb} | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.18.1.bb} (65%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_19.0.2.bb b/meta/recipes-devtools/python/python3-pip_19.0.3.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-pip_19.0.2.bb
-rename to meta/recipes-devtools/python/python3-pip_19.0.3.bb
-index d81a60caa2b..4fdc7ee244f 100644
---- a/meta/recipes-devtools/python/python3-pip_19.0.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_19.0.3.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
+similarity index 65%
+rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
+index 5c3e1e6f03b..db7cc921984 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
+@@ -13,19 +13,15 @@ DEPENDS = "cairo"
+ SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
  
- DEPENDS += "python3 python3-setuptools-native"
+-SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
+-SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
++SRC_URI[md5sum] = "7610da8a40a7bed548991aa3416431d1"
++SRC_URI[sha256sum] = "70172e58b6bad7572a3518c26729b074acdde15e6fee6cbab6d3528ad552b786"
  
--SRC_URI[md5sum] = "526fd9ec1e6ea956b3571ebfb42cf83c"
--SRC_URI[sha256sum] = "f851133f8b58283fa50d8c78675eb88d4ff4cde29b6c41205cd938b06338e0e5"
-+SRC_URI[md5sum] = "1c5edb0924a0d7d79f3a2e3df05009b4"
-+SRC_URI[sha256sum] = "6e6f197a1abfb45118dbb878b5c859a0edbdd33fd250100bc015b67fded4b9f2"
+ S = "${WORKDIR}/pycairo-${PV}"
  
- inherit pypi distutils3
+-inherit setuptools3 pkgconfig
++inherit meson pkgconfig
  
+ CFLAGS += "-fPIC"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-do_install_append() {
+-    install -d ${D}${includedir}/pycairo/
+-    install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
+-}
+-FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
++FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
 -- 
 2.17.1
 
