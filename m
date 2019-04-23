@@ -1,49 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AB3507D013
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id F3BAF7D28D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 15:52:51 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id k64so927040itb.5
+	Tue, 23 Apr 2019 16:19:23 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id 10so853077wmk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 08:52:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=+dTYCtK+Q+uTMwRs2wH+xFo6VZNC0EwD89FzkAaMCHo=;
-	b=Hvkum9nRIqQa6Gn8My83TI17GlVt2xPnZyAIBNGr4YOeTTFxfPgjhX2Ahc8RrN3oGj
-	VD8/SJRTqHvCQD72+EMh63PcjI+G/zd6nFsvlKDHIvRnr7+c0asb+NYG47ZZdN9tFOX4
-	ZZ/ImDREw8SfH/unGXPkcrvpu4JoseYJOnpY2X2/yEdL0OACPBi7rSknaBRcArJ0/ftd
-	vB5Cp/u8I7Q2E3ywydbBrwwQW1U2HElocFVrjWQ7JYF+ZW02pVu1lp3E5Sp63SHLLpju
-	vWcZNM1b+t43nmKA3Km4VcOihE1kvz2OfZyb6mAdkfZ17XZ/D4hQitazohl6bKLyHJzY
-	/1VA==
+	Tue, 23 Apr 2019 09:19:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=IFCJ6Dz6+TvPEtooxpHXftGNFn4BgavR/1HuCYnj9ls=;
+	b=k7fhTa9pJ43B+br0QvQbQLB49xyG5bMWKkWCHJOPKzNVScZ0fM1Os7qCt5+gR3Ois6
+	nAkdsbixfCeDIke5z3Fs2YHlfE1me33RC9WPXcqruUCoIe0U/H71vBPFfFCjBcCkohKo
+	QmnSVUlpjvQMUH0fJsqhfX4jd8DGp0hOtKS1MEp14E8n6+Yfsr4Z8+Ft2MJkwYZVkWBC
+	T2Btt555olM3mxz63gYhGkBt6Cn/qVrYwfsj5cDyfwpNCUyyZWX/90SrWxUMd0jXin5/
+	LQxfH+upc6Dg2W2LxNXSI3UezX9SgxW+T6UDpnC2/2jwNZ98kQl2gu9Fq3N+z76LH4Kp
+	jjpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=+dTYCtK+Q+uTMwRs2wH+xFo6VZNC0EwD89FzkAaMCHo=;
-	b=BZ7xRPwgliR0YRvgr0HYQx5p9nP2bit2UaNL+PFJfOxutjBYJ1r6cLSt6ptXBnHdtA
-	ipCp4Di4nIHcGbTsNhb+S1tGDz5vAgt5HT9BiA/8mxD2zzfdLP7rSSHZvEYiw0aZoYjd
-	WVQegKAOinfqPcLP1pn4iIRxI9qY+D+xqDR2eRZ8n93Jt0mXNWriGGO7PYdBEJMd2emQ
-	q6pRu5y4BEqhF+itv/sYufU9m67BhMc0zKiFH+sw+yogICrOj4aBhdNJAt97wUk9FZo+
-	WCcP5U5iH+BVaPe4mvn9sdgFGnei6OyEfsJKz4kyv20iDiZCWcNlDdSwI72EITTMU54K
-	NMTQ==
-X-Gm-Message-State: APjAAAWQ6x0Pp4NC4yeJasTuDn59csuCE9HocoKhR0xgNT/e09VGmnut
-	3argCXSFe711BkWxC9qkabAb7lPG4efXu4woU12ItQ==
-X-Google-Smtp-Source: APXvYqylCTd9Cd5JUjBCHfS4aquny5t3imdO74fbzdAWq+bCTPjaMkuR6SXfgjH52t8yI/lwgrFgCBCdh6NEtsI8094=
-X-Received: by 2002:a05:660c:111:: with SMTP id
-	w17mr2500096itj.62.1556034773007; 
-	Tue, 23 Apr 2019 08:52:53 -0700 (PDT)
-MIME-Version: 1.0
-References: <1555664043-329543-1-git-send-email-mingli.yu@windriver.com>
-In-Reply-To: <1555664043-329543-1-git-send-email-mingli.yu@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Apr 2019 16:52:42 +0100
-Message-ID: <CAJTo0LYQeSCoShBRc5SJ9C1+qyFAgxYn7uVYAshFrFGGQAos=Q@mail.gmail.com>
-To: Mingli Yu <mingli.yu@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib-2.0: fix ptest failures
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=IFCJ6Dz6+TvPEtooxpHXftGNFn4BgavR/1HuCYnj9ls=;
+	b=h5FAWFIVb1rxNcb/u5NdXYUqnl+3U8y96/XJbp6kpGyTG6D5FrZAOPBQUPc82G1VJ7
+	xwvhYHaLv05czYkaK778WFhRp7To0yiSVCKCN5zPG3dMR7M5F6Sd+rXeQmtRqZLxU5UR
+	SVkOjBYWu0tkqNpjmi6H7fKaK8qLqNfxzjgbD2eO7urA2r7Sm5vhmbvRYBxeVII4qIro
+	xNGvqh4rmjR3WvgfBN1qF6qOaMQmM8S9Y3LJpxE8YCKkMo5uvRs3b41IBMkiPPxmbWT9
+	DAoxqedgjKAuS3jyifls/7Amk02zRfjXD6qnnvFmIAd03p94Xg1bYTtqF+UZBKG2xnjO
+	HTLg==
+X-Gm-Message-State: APjAAAVBuboPq/UsyqKRsQfMO5DlJNIrjUFsWTJHowjgCB5y4i94kxEz
+	4DsAWANoJ2w50ZSBzN+J3QN8NZaVIrY=
+X-Google-Smtp-Source: APXvYqz/z8ATaBZoc3GFrMiraecLb1OSCqgoNNqjyLn5hzKCzZDd3rjGSJlMukK+kzt05Qe0G4cy/A==
+X-Received: by 2002:a1c:55c3:: with SMTP id j186mr2781546wmb.127.1556036364183;
+	Tue, 23 Apr 2019 09:19:24 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	t76sm22599142wmt.8.2019.04.23.09.19.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Apr 2019 09:19:23 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 23 Apr 2019 18:19:08 +0200
+Message-Id: <20190423161916.25572-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/9] msmtp: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 15:52:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 23 Apr 2019 16:19:24 -0000
 
-On Fri, 19 Apr 2019 at 09:54, <mingli.yu@windriver.com> wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> * Set G_TEST_BUILDDIR to mark we run the tests
->   out of builddir to make it can skip the test_non_utf8_printf
->   to fix below test error as test_non_utf8_printf needed
->   to run under builddir per https://gitlab.gnome.org/GNOME/glib/blob/mast=
-er/glib/tests/gdatetime.c#L1440.
->   | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_p=
-rintf: assertion failed (__p =3D=3D ("10\346\234\210")): ("Oct" =3D=3D "10\=
-346\234\210")
->   | Bail out! GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_=
-non_utf8_printf: assertion failed (__p =3D=3D ("10\346\234\210")): ("Oct" =
-=3D=3D "10\346\234\210")
->   | FAIL: glib/gdatetime.test (Child process killed by signal 6)
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-extended/msmtp/msmtp_1.8.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-As per the link:
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.3.bb b/meta/recipes-extended/msmtp/msmtp_1.8.3.bb
+index d2b75ae5dce..9f28d6ac252 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.3.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.3.bb
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ 
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+ 
++UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
++
+ SRC_URI[md5sum] = "0c0be51e6872e818f78bd6924636327b"
+ SRC_URI[sha256sum] = "3cb2eefd33d048f0f82de100ef39a494e44fd1485e376ead31f733d2f36b92b4"
+ 
+-- 
+2.17.1
 
-/* If running uninstalled (G_TEST_BUILDDIR is set), skip this test, since w=
-e
-   * need the translations to be installed. We can=E2=80=99t mess around wi=
-th
-   * bindtextdomain() here, as the compiled .gmo files in po/ are not in th=
-e
-   * right installed directory hierarchy to be successfully loaded by
-gettext. */
-
-Setting G_TEST_BUILDDIR isn't right as we're not running uninstalled.
-This is a gross hack, and not a fix.
-
-Ross
 
