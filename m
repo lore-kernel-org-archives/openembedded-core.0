@@ -1,49 +1,50 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 826046D6F5
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com
+	[209.85.208.48])
+	by mail.openembedded.org (Postfix) with ESMTP id BC3A76C3E1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 02:37:31 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id k18so10434343lfj.13
+	Tue, 23 Apr 2019 02:52:36 +0000 (UTC)
+Received: by mail-ed1-f48.google.com with SMTP id j20so11187060edq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 22 Apr 2019 19:37:32 -0700 (PDT)
+	Mon, 22 Apr 2019 19:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=PWlbA2ImoX1yjzLGq2atfYr7vl5SXwgenaIXs+JiSz4=;
-	b=JYz72HnMlIJRmyE9b8VDocXoo8uDVCkdxlq9wgtgYfPQm4D7aX59uZ1hP28OcETIPJ
-	fDHFoU/0jxPVLZzUD+yUniT46ab/4QThrkSMGz2JtQ5gdP+ATCcPBVunrNC00JBtPFcK
-	vu+ZfictJKB48RWlVLl3zbZTaxcey57u2S9oue7H2avdyE8ESKQCNzBfOKBgW7NOU0NW
-	EQcwxqtVaVWJC23Lk233ZVNUSbWWshhv1l7lCA7o4xbxAHrg2mQgLXHsF3Po/akZXPWx
-	4+3CFJcjDJX6+hd7r15KJjMCakajZfknA86d3vRElrQWyKmw5kIHuJJKOAkJUdnWaDeE
-	JTzw==
+	bh=CJ8Z43R6LneJRzAkCbA1scuOIrhf5P/LKaxqBWjW7z4=;
+	b=yJ4W7xnAkivwx7/QwmjRB1r7wql6TpqSUjQdGFksEcsprHErLBM1loiT/nhFJFiDhP
+	/TuqcvjCxQZ72iiEg0XDev0WAWwtxdmEeu2bPs3/vfdeNFg10DyS8ThOJJp0vuLxfV6n
+	xjLg87IJgTYbN9o0DIx36lK5eqgvNuMm0XrByDQJvfLSd2Pa26Rw32LBxl9Do+k+KzCD
+	a/TJp2NjrzCZ59lO8zghtxII+/4M92eSSi08dBxQ7GI5OCW7gBILr6RzUvDNkQGFJ2Jd
+	KShQmPjLSZvDsfp9wT6RhfvSPkBqMRcBWfTgCPBylcIw32NlOCqOG61OCNG3IH497mza
+	ddqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=PWlbA2ImoX1yjzLGq2atfYr7vl5SXwgenaIXs+JiSz4=;
-	b=J1fNI7mw630Cg+koS9wGnk70/YVNIZZwsF6HQ8LCbgHX8Diq7uvjfriPotgERpFOvQ
-	vZSbTtjIKTiqywijjotoItSXHULM7Cfhpz7F8rsiLTFWIWRIbQwFsJHQ1cN1yevivSKN
-	xCj46aPiz/BxkZGpqK8O6ba9CmTC7xb3a37l3L8VMeHdDQTF8DnEVUwXMKESpG4Rj3x8
-	dXqVf/BKJVYiEqBXmMEDwObFWoj9MkeYVzVIwtClHz5wuQeWwsGcInoMq91l7zwbSl3k
-	rEWT4T510KEybz8zDepvSska8NwiFM+p1pRWSKLoHkAWRiDg3WcgoYHp7r0e0SAF2KSZ
-	ohiw==
-X-Gm-Message-State: APjAAAXmS06GQaGZiyPy+xGnWARve1y7nOniMCexjHqzNGuxGorg0W5h
-	cR0gXsqAyq6uKZAyh5oUPF69jSVuzSs=
-X-Google-Smtp-Source: APXvYqyZJzvOpENj/BDjejR6qwKp0++GqIZpX2SXANXP2KQHkPB09A1FwXt8pIXrJZ9mHtkmiBiFdA==
-X-Received: by 2002:a19:f60f:: with SMTP id x15mr12238294lfe.95.1555987051592; 
-	Mon, 22 Apr 2019 19:37:31 -0700 (PDT)
+	bh=CJ8Z43R6LneJRzAkCbA1scuOIrhf5P/LKaxqBWjW7z4=;
+	b=ctY4pAC+M+ScmvWu3yksrh2DePl6iuSupBo9D9jnamxEdEI38OjJ/v777ItsVrv6OE
+	x8ntarkMuP0ANqpC04VzWuVluIy3YnNZkKQawO74SqxmrXjNpSCT9kRmDkvQUw6Wb55/
+	1pAJOoRggLdpMFNWGb70eeutAvwkRsSvNeKLsAO2XztIe8YcxcGfVum3MVbvNo7A3Oi1
+	tSuoXvIh8uxjRd+/+ue5KxksHjEnrJCJs1Mv5zXrToyIJ8SEZtwz3XctDQFWxC1qJE0B
+	MTz9PWTLN+msNc0CmzSfAYPfJX2UE1h0dwrdjlhlu30cPIh9AcFmTup/PM4w910qDZ8R
+	9Nrg==
+X-Gm-Message-State: APjAAAUG9oOEmGQ9pyUZo+Bo70i0fh10qausmE3UwW+tGiUaAIx2gDqL
+	YDzlaiHxTw4MZQ3MPBp52Y8YOz0J+vQ=
+X-Google-Smtp-Source: APXvYqyh9UhdWGIlqDZnsNRe2P10ZWF+S9pw/UawCCsWB6vOsDEK8U6kdjXLpTzUQ/fUx6eWh7npXA==
+X-Received: by 2002:a17:906:5d4:: with SMTP id
+	t20mr11353283ejt.80.1555987956895; 
+	Mon, 22 Apr 2019 19:52:36 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id y7sm3351722lfg.76.2019.04.22.19.37.30
+	by smtp.gmail.com with ESMTPSA id l3sm4200720edl.63.2019.04.22.19.52.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 22 Apr 2019 19:37:30 -0700 (PDT)
+	Mon, 22 Apr 2019 19:52:36 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Apr 2019 04:37:26 +0200
-Message-Id: <20190423023726.31461-1-open.source@oleksandr-kravchuk.com>
+Date: Tue, 23 Apr 2019 04:52:32 +0200
+Message-Id: <20190423025232.2822-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] orc: update to 0.4.29
+Subject: [PATCH] help2man-native: update to 1.47.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 02:37:32 -0000
+X-List-Received-Date: Tue, 23 Apr 2019 02:52:37 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-devtools/orc/{orc_0.4.28.bb => orc_0.4.29.bb} | 5 ++---
+ ...{help2man-native_1.47.6.bb => help2man-native_1.47.10.bb} | 5 ++---
  1 file changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/orc/{orc_0.4.28.bb => orc_0.4.29.bb} (84%)
+ rename meta/recipes-devtools/help2man/{help2man-native_1.47.6.bb => help2man-native_1.47.10.bb} (79%)
 
-diff --git a/meta/recipes-devtools/orc/orc_0.4.28.bb b/meta/recipes-devtools/orc/orc_0.4.29.bb
-similarity index 84%
-rename from meta/recipes-devtools/orc/orc_0.4.28.bb
-rename to meta/recipes-devtools/orc/orc_0.4.29.bb
-index 03cddad8bb..8313576ab4 100644
---- a/meta/recipes-devtools/orc/orc_0.4.28.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.29.bb
-@@ -4,9 +4,8 @@ LICENSE = "BSD-2-Clause & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
+diff --git a/meta/recipes-devtools/help2man/help2man-native_1.47.6.bb b/meta/recipes-devtools/help2man/help2man-native_1.47.10.bb
+similarity index 79%
+rename from meta/recipes-devtools/help2man/help2man-native_1.47.6.bb
+rename to meta/recipes-devtools/help2man/help2man-native_1.47.10.bb
+index 794d308cb7..5feaeea139 100644
+--- a/meta/recipes-devtools/help2man/help2man-native_1.47.6.bb
++++ b/meta/recipes-devtools/help2man/help2man-native_1.47.10.bb
+@@ -5,9 +5,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ DEPENDS = "autoconf-native automake-native"
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
 -
--SRC_URI[md5sum] = "6b582ec4b3275c5efd51e3ae6406d445"
--SRC_URI[sha256sum] = "bfcd7c6563b05672386c4eedfc4c0d4a0a12b4b4775b74ec6deb88fc2bcd83ce"
-+SRC_URI[md5sum] = "25799917c7d31a891d5e32b83ad08f6d"
-+SRC_URI[sha256sum] = "4f8901f9144b5ec17dffdb33548b5f4c7f8049b0d1023be3462cdd64ec5a3ab2"
+-SRC_URI[md5sum] = "7424901e6eca8af372d2ad62be5cf659"
+-SRC_URI[sha256sum] = "d91b0295b72a638e4a564f643e4e6d1928779131f628c00f356c13bf336de46f"
++SRC_URI[md5sum] = "0d70833650a552e0af742882ba84f2ee"
++SRC_URI[sha256sum] = "f371cbfd63f879065422b58fa6b81e21870cd791ef6e11d4528608204aa4dcfb"
  
- inherit autotools pkgconfig gtk-doc
+ inherit autotools native
  
 -- 
 2.17.1
