@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
 	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AF2C7D2BB
+	by mail.openembedded.org (Postfix) with ESMTP id 60A3D7D2D3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 16:19:27 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 10so853433wmk.0
+	Tue, 23 Apr 2019 16:19:28 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 10so853501wmk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 09:19:28 -0700 (PDT)
+	Tue, 23 Apr 2019 09:19:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=yW2NdPhDEhew6ipmA7mzFCbLrdc8jqvnASgHvUBGL0Q=;
-	b=OcqwIh5DmUUIVKX++xC/mQgCEylC+SI8WqpYHDjij7q3GeY1aPRG3M4hX/fTPH13Jg
-	JpMjzfkib/Z+Cdrn6V+wGJCxtoJkHV137GsbgMkWHPHAp7opYc6zfkTTIOmtT70Wd+++
-	Ju56rJ1qOMO+ivBbcIAh6Oe1tOK3qXW8aWyPZ16QPQQ9A36ZXNzMiAc/PvQVun+3OQB8
-	1svCBVMMXiioYKld6AlgpxXrBBrjY0PfkVlHx7bkLg9UqahYBmA1Tfa+DbCPRgJylLPw
-	6Atmin2iP0KMV0HVCvT/BDCGotY6Ax7yBWU2zJb4Gje4luVS5T8agaRjkuse2mwSS8SA
-	bOdw==
+	bh=HDJF5WnWCHpeyilKsTW9uly+DcplRO9aavvO0OecsF8=;
+	b=K8ouKTB6DJZ2I/ItC5A6pz/M/KzpykvJfOeo08JR3qaD7QQPku/Vq6ZzwlCP5AAR/w
+	ozDD5EyrFMavFEPqUVSNYN7ORtRHLSFcMkytDw18v8ITeupx4xPiTwqGv86t0ZG+uL0+
+	jeVxfyZwkVZ9bEziCS40mbAtNedhb3vvmB6yaBVQ1FEMvRNel4MmFi/4u6nhyV80g53O
+	htCKVvSKUQKj0jQO5caedVQ0hw67WmqxwEjcse/ZfwPToGYXZMrUjyoyCIbrS13LjNPL
+	eoEgLi/H5RWJfiBjxY64WY3S0mz0eji3q47Rl39D2OgNzszAXM9j4RKJ9h9auaf5OBa/
+	YViw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=yW2NdPhDEhew6ipmA7mzFCbLrdc8jqvnASgHvUBGL0Q=;
-	b=r/FG5PmzZ/ruBJeeuHkla1OyImUjGvbjJWrclcl+iQpIWYjm6ctuw6KuYkxFNneeoy
-	HioFqFP7BCDBixeblMz3iCriRHa+aSwxkAJGqFaPkOg2ao4zKRsB5k/OY7MMM15brOYl
-	yOukUuJSB3xwaSazEWO6bW8WhqZwjuYa8kPhiWwXvaRbKFkJIvR4gBvpTbi3JbRWqR5s
-	RQPEJ0QmLTZNDhNqNycVFDIEwJKgFjk5cfvuPcwYMjopJb8crgF86tQKlUBPZNktjieW
-	4Pbv3/KpKl6Q5aybYPNZKubdWhPr3kChdWlN1PZroqPy6TWbSxaX/ceuCph724W4k0bF
-	Ireg==
-X-Gm-Message-State: APjAAAXBBbhFU75vFPZBmHW8eN/uAGGBvHtLn6AoNipURnVLw4Y+KIbF
-	1uSt8tMR33pnGZ55FZGkSkomMndqwuc=
-X-Google-Smtp-Source: APXvYqzd4o/jtj3J7p89+BlJfsCkruw3ruHGBrl8Zont+sAn5OjTINZmoyChPIk+iasJLHoxVeETnA==
-X-Received: by 2002:a1c:c74b:: with SMTP id x72mr2822583wmf.151.1556036367992; 
-	Tue, 23 Apr 2019 09:19:27 -0700 (PDT)
+	bh=HDJF5WnWCHpeyilKsTW9uly+DcplRO9aavvO0OecsF8=;
+	b=WvvTNY1q1NMNHfnBppgIIMhID3Pen7ueGG+zOQAASufQpAQirxQh5QqMHCJzNwktA5
+	3hYCGPPMPJ+4JCFxkdmzLrua4HaJkxImt50GXHjIALRVLf+uOSdD3sb+QDrIJnmuHG9U
+	vWpA9hqbX2VIBxBEpKDuxfcPTDITMcMhaMIHrcAotwo+z5NxEiEEiHUb8QGu62Un7TOH
+	J+/PqpKApKwdkWIUPuYrXIMoQA373jNHTclMsXrHer1J2YI+RhcoGV7//XR2oQHLAsQR
+	GqQ2pXv6dqi/4/WPe3B4C7d+t7ro7SWyESO2QKuyDoWv7QRT4hK8RF0Jyro5ZH00omuk
+	QsMg==
+X-Gm-Message-State: APjAAAVZZitjHZ2OgPXpnnWKgHJl1GvuRxcP/nKd0yHMxB4FBVrwwYUc
+	iqzJd7udcIB4UC1rfC8f28qliFlfLtI=
+X-Google-Smtp-Source: APXvYqwR+If7WL7WjPyAa3dQknfc/gxJoMbYkIb1IvJZe7IjCSY5dQlB/x80I1lw0Cz+SfI6UXubHQ==
+X-Received: by 2002:a05:600c:2153:: with SMTP id
+	v19mr630379wml.112.1556036369112; 
+	Tue, 23 Apr 2019 09:19:29 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	t76sm22599142wmt.8.2019.04.23.09.19.26
+	t76sm22599142wmt.8.2019.04.23.09.19.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Apr 2019 09:19:27 -0700 (PDT)
+	Tue, 23 Apr 2019 09:19:28 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Apr 2019 18:19:11 +0200
-Message-Id: <20190423161916.25572-4-alex.kanavin@gmail.com>
+Date: Tue, 23 Apr 2019 18:19:12 +0200
+Message-Id: <20190423161916.25572-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190423161916.25572-1-alex.kanavin@gmail.com>
 References: <20190423161916.25572-1-alex.kanavin@gmail.com>
-Subject: [PATCH 4/9] python-scons: update to 3.0.5
+Subject: [PATCH 5/9] python-setuptools: update to 41.0.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,54 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 16:19:27 -0000
-
-Do not use the latest pypi tarball, as it lacks several files (the LICENSE, for instance).
-
-License-update: copyright years.
+X-List-Received-Date: Tue, 23 Apr 2019 16:19:28 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...s-native_3.0.1.bb => python-scons-native_3.0.5.bb} |  0
- .../{python-scons_3.0.1.bb => python-scons_3.0.5.bb}  | 11 +++++++----
- 2 files changed, 7 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python/{python-scons-native_3.0.1.bb => python-scons-native_3.0.5.bb} (100%)
- rename meta/recipes-devtools/python/{python-scons_3.0.1.bb => python-scons_3.0.5.bb} (51%)
+ meta/recipes-devtools/python/python-setuptools.inc            | 4 ++--
+ ...ython-setuptools_40.8.0.bb => python-setuptools_41.0.1.bb} | 0
+ ...hon3-setuptools_40.8.0.bb => python3-setuptools_41.0.1.bb} | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python-setuptools_40.8.0.bb => python-setuptools_41.0.1.bb} (100%)
+ rename meta/recipes-devtools/python/{python3-setuptools_40.8.0.bb => python3-setuptools_41.0.1.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python-scons-native_3.0.1.bb b/meta/recipes-devtools/python/python-scons-native_3.0.5.bb
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 9092d7ad03a..357aa07086a 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -10,8 +10,8 @@ inherit pypi
+ 
+ SRC_URI_append_class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ 
+-SRC_URI[md5sum] = "712697a5bc975cf479d487cd68206c20"
+-SRC_URI[sha256sum] = "6e4eec90337e849ade7103723b9a99631c1f0d19990d6e8412dc42f5ae8b304d"
++SRC_URI[md5sum] = "6404ca798bb9a9073aff3b91b2df35c8"
++SRC_URI[sha256sum] = "a222d126f5471598053c9a77f4b5d4f26eaa1f150ad6e01dcf1a42e185d05613"
+ 
+ DEPENDS += "${PYTHON_PN}"
+ 
+diff --git a/meta/recipes-devtools/python/python-setuptools_40.8.0.bb b/meta/recipes-devtools/python/python-setuptools_41.0.1.bb
 similarity index 100%
-rename from meta/recipes-devtools/python/python-scons-native_3.0.1.bb
-rename to meta/recipes-devtools/python/python-scons-native_3.0.5.bb
-diff --git a/meta/recipes-devtools/python/python-scons_3.0.1.bb b/meta/recipes-devtools/python/python-scons_3.0.5.bb
-similarity index 51%
-rename from meta/recipes-devtools/python/python-scons_3.0.1.bb
-rename to meta/recipes-devtools/python/python-scons_3.0.5.bb
-index d5084b2d16f..939c15bcc63 100644
---- a/meta/recipes-devtools/python/python-scons_3.0.1.bb
-+++ b/meta/recipes-devtools/python/python-scons_3.0.5.bb
-@@ -1,15 +1,18 @@
- SUMMARY = "Software Construction tool (make/autotools replacement)"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=46ddf66004e5be5566367cb525a66fc6"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=37bb53a08e6beaea0c90e7821d731284"
- 
--SRC_URI[md5sum] = "b6a292e251b34b82c203b56cfa3968b3"
--SRC_URI[sha256sum] = "24475e38d39c19683bc88054524df018fe6949d70fbd4c69e298d39a0269f173"
-+SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
-+SRC_URI[md5sum] = "9f9c163e8bd48cf8cd92f03e85ca6395"
-+SRC_URI[sha256sum] = "df676f23dc6d4bfa384fc389d95dcd21ab907e6349d4c848958ba4befb73c73e"
-+
-+S = "${WORKDIR}/scons-${PV}"
- 
- UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
- 
--inherit pypi setuptools
-+inherit setuptools
- 
- RDEPENDS_${PN} = "\
-   python-fcntl \
+rename from meta/recipes-devtools/python/python-setuptools_40.8.0.bb
+rename to meta/recipes-devtools/python/python-setuptools_41.0.1.bb
+diff --git a/meta/recipes-devtools/python/python3-setuptools_40.8.0.bb b/meta/recipes-devtools/python/python3-setuptools_41.0.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/python/python3-setuptools_40.8.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_41.0.1.bb
 -- 
 2.17.1
 
