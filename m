@@ -1,50 +1,55 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f175.google.com (mail-oi1-f175.google.com
-	[209.85.167.175])
-	by mail.openembedded.org (Postfix) with ESMTP id CF0FD7CFF8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id E5C377CF7D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 13:55:39 +0000 (UTC)
-Received: by mail-oi1-f175.google.com with SMTP id n187so11330314oih.6
+	Tue, 23 Apr 2019 14:35:31 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id z24so347685wmi.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 06:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=g6voOMssGJuu6WGWFmAfUFfkLKX4oa+pkRQsRiZNVjs=;
-	b=EHi/Rxw5OaSGtLV9dGP4rz3wS4ca6Y2WJfxrecOlmrVeQn5LceC+UWE401QAAf96fO
-	+HOqAn66QPCUV/EKH/hOUAxRQwgtVyF0SNYur6HjXsR+Whd89/CooVLFjYqHnTAfqcv4
-	RrwCNmnPxPxaniubTjaD0YQQzPK37PmcAH3FyFzwQIvHfPWGcmTR5V/T0r8ouqy8AaSK
-	aIPwzfQ4s7D9eonMZPbYo9c8JwNqLTqf+Q6kG/HYeOBQwfemIZGmaGk6YE3w7VHi5vvD
-	S8Y6Oxx5UWD+W7TLnSDGVYO29/H1g0C0ppaYaCrx+kyxJ1DpsI1oYveD3c6ODkkgcnm6
-	wBWA==
+	Tue, 23 Apr 2019 07:35:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=VBrRHoUmTJiLfmMq+XBAzM50sCLuOXh9MGKhJahiMyQ=;
+	b=d0Bz/HKxfxiKpnCKl+W6qR0F4Pw6Y4FrzMzKKTbsSntA196KSw/AORWfSQus6Ig/aY
+	7EfzvuYBXJJejPbxZpxQj/hMhYzHrBDt2v89dQQKSfXv4uJc1zh/LDgTCt63pzRq+pqY
+	A1+MOH26Eh4xStjZ4AadgmWzMmPWj3nHaJFfc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=g6voOMssGJuu6WGWFmAfUFfkLKX4oa+pkRQsRiZNVjs=;
-	b=VK6zNkN9A4BCWOv2VzA7z/rjS0xiVtBvRIT0ptiR8o9xXtBatIpeThwwfnAqu8+pxE
-	2FQwu7ETCNKrM4ThrnBXcG00O1VqsT5uOthM+xHqS8IW7FBwBfLFoxqIUDy84RdjqxNI
-	4D2JGeIjVJEEJYpccPW6vQ6i5AknZRl3gQyTKZQl0ph3aoPHd6pc8a+6jQoh7zKUNekS
-	jgV/I0OlJ5XG8dNS10sD0NOhTw7HAHrV0tybQVRILT28ptXOujfNmq8XYJ+NV+vuYtrt
-	Ap6BcaAj76NMWpTqtiP+mLX1cWaV+ca5kUAjalePhUZQ1yw7WCIUrilMKgOJnD0KCZb6
-	3/GA==
-X-Gm-Message-State: APjAAAWMj118xYlYlZCr2gbXoWZw7pJeOJdEA/dQBZM+ZsoW2/M+qx1A
-	7JvyaUa+yJLJAHd71dhL7BOG5iX8cIXYtBQ8JhI=
-X-Google-Smtp-Source: APXvYqw5Ei7mLVW1kJXHu1HjpfZioWtXXq5WkAg16J0C6RCpw3RNwTFt+TMtsEmExeNpZcghjqin1LAGtsu7swfCn2Y=
-X-Received: by 2002:aca:ed88:: with SMTP id l130mr1762465oih.70.1556027740508; 
-	Tue, 23 Apr 2019 06:55:40 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=VBrRHoUmTJiLfmMq+XBAzM50sCLuOXh9MGKhJahiMyQ=;
+	b=osBYXtZTT8o3W6Y6M0/DdNfXKR2fAuYB/FqQFndLUW5eXsNtVaEC2tGgTvRX7ausd4
+	qhwYHFdQTCvQnTr7EmxuS313L8fq1u9M3w8fK98Bu7DQxZvOVfQX5iPOJUdYBwJ12czK
+	MOC0TS9LVXGOQoMyZgW72QKG2fGqzH3+y0GkfP/n8iUKqGTd60rKjX3AeSHxBYEJ1+nY
+	AG18apFzgcnKjiewsBmHzQqWSP6QAMFRZmA+vnF67/T7/Bt7x5yNN7aynsmA4vqp+QJj
+	XgtFlrLkAz9lF9/yWcIAHeh1WMUFRXbCQy6LqboXjkJlK8XHpae3kdvnFdwMw53nXDY9
+	SvtA==
+X-Gm-Message-State: APjAAAVtwpBiarFFpgs3l1fT4l6NtKW6TbBGFihZ1RHdjlo6k2ZXIrTN
+	yfjMy9uMoGmKKT2V4KfpLeiKVQ==
+X-Google-Smtp-Source: APXvYqxMBarcJ4SU90l+/TTV74Xm0Gy4BmQra2LdkrYNPP7e8gVfqSCP6pSgQr4gfiHLzKa+olPACA==
+X-Received: by 2002:a1c:a803:: with SMTP id r3mr2720248wme.78.1556030132636;
+	Tue, 23 Apr 2019 07:35:32 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o4sm20080719wmo.20.2019.04.23.07.35.31
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 23 Apr 2019 07:35:31 -0700 (PDT)
+Message-ID: <24835a616c9ec53fba5e4424f12b72f9e0f8d94d.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Jain, Sangeeta" <sangeeta.jain@intel.com>, "'yocto@yoctoproject.org'"
+	<yocto@yoctoproject.org>, "Eggleton, Paul" <paul.eggleton@intel.com>, 
+	'Michael Halstead' <mhalstead@linuxfoundation.org>, "Erway, Tracey M"
+	<tracey.m.erway@intel.com>,  "'sjolley.yp.pm@gmail.com'"
+	<sjolley.yp.pm@gmail.com>, "'openembedded-core@lists.openembedded.org'"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 23 Apr 2019 15:35:30 +0100
+In-Reply-To: <015AB11D45F2C442929CB2765DAE738634DD6D05@PGSMSX110.gar.corp.intel.com>
+References: <015AB11D45F2C442929CB2765DAE738634DD6D05@PGSMSX110.gar.corp.intel.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-References: <20190422223648.30507-1-open.source@oleksandr-kravchuk.com>
-	<CAJTo0LYefGWi6Y8qo68oi=7RnLLVyYFYewdvrxUNnb0HZ6Y7jg@mail.gmail.com>
-	<b2f825a1-b567-8f15-752c-347e6d83b2c5@oleksandr-kravchuk.com>
-	<CAJTo0LZ6B3cRwnxskoLap6gRmyPKCcjhf9HxiLKKYU9KxiJFSw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ6B3cRwnxskoLap6gRmyPKCcjhf9HxiLKKYU9KxiJFSw@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 23 Apr 2019 15:55:28 +0200
-Message-ID: <CANNYZj9s4bvY8zQCdL9ionVNeed99w204XUat2G_TVVsoM73_w@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: Re: [PATCH][meta-oe] libnotify: update to 0.7.8
+Subject: Re: QA cycle report for 2.5.3 RC3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +62,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 13:55:40 -0000
+X-List-Received-Date: Tue, 23 Apr 2019 14:35:32 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-I would need to see the patch-in-progress to make a meaningful comment.
+On Thu, 2019-04-18 at 04:58 +0000, Jain, Sangeeta wrote:
+>  
+> QA cycle report for 2.5.3 RC3:
+>  
+> No high milestone defects. 
+> Test results are available at following location:
+> ·        For results of all automated tests, refer to results at
+> public AB [1].
+> ·        For other test results, refer to attachment [2].
+> ·        For test report for test cases run by Intel and WR team,
+> refer attachment [3]
+> ·        For full test report, refer attachment [4]
+> ·        For ptest results, please refer to results at public AB [5]
+> ·        For ptest report, refer to attachment [6]
+> No new defects are found in this cycle.
+> Number of existing issues observed in this release is 2- toaster [7]
+> and Build-appliance [8]
+> For ptest, regression data is not available for this release. No
+> timeout issues.
+> Test result report on Public AB shows no failures.
 
-Alex
+I've been discussing with Tracy and Vineela how to best handle the test
+results for the release for 2.5.3. In the end I:
 
-On Tue, 23 Apr 2019 at 15:54, Burton, Ross <ross.burton@intel.com> wrote:
->
-> CCing Alex who has been working on the gtk-doc/meson stuff a lot.
->
-> Ross
->
-> On Tue, 23 Apr 2019 at 14:50, Oleksandr Kravchuk
-> <open.source@oleksandr-kravchuk.com> wrote:
-> >
-> > On 23/04/2019 13:59, Burton, Ross wrote:
-> > > Fancy following this up with a Meson port?
-> > >
-> > > Ross
-> > >
-> > > On Mon, 22 Apr 2019 at 23:37, Oleksandr Kravchuk
-> > > <open.source@oleksandr-kravchuk.com> wrote:
-> > >> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> > >> ---
-> > >>  .../libnotify/{libnotify_0.7.7.bb => libnotify_0.7.8.bb}      | 4 ++--
-> > >>  1 file changed, 2 insertions(+), 2 deletions(-)
-> > >>  rename meta/recipes-gnome/libnotify/{libnotify_0.7.7.bb => libnotify_0.7.8.bb} (80%)
-> > >>
-> > >> diff --git a/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-> > >> similarity index 80%
-> > >> rename from meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
-> > >> rename to meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-> > >> index 6c299bc175..82c137ca33 100644
-> > >> --- a/meta/recipes-gnome/libnotify/libnotify_0.7.7.bb
-> > >> +++ b/meta/recipes-gnome/libnotify/libnotify_0.7.8.bb
-> > >> @@ -10,8 +10,8 @@ inherit gnomebase gtk-doc distro_features_check gobject-introspection
-> > >>  # depends on gtk+3
-> > >>  ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> > >>
-> > >> -SRC_URI[archive.md5sum] = "e9d911f6a22435e0b922f2fe71212b59"
-> > >> -SRC_URI[archive.sha256sum] = "9cb4ce315b2655860c524d46b56010874214ec27e854086c1a1d0260137efc04"
-> > >> +SRC_URI[archive.md5sum] = "babb4b07b5f21bef42a386d3d7019599"
-> > >> +SRC_URI[archive.sha256sum] = "69209e0b663776a00c7b6c0e560302a8dbf66b2551d55616304f240bba66e18c"
-> > >>
-> > >>  # there were times, we had two versions of libnotify (oe-core libnotify:0.6.x /
-> > >>  # meta-gnome libnotify3: 0.7.x)
-> > >> --
-> > >> 2.17.1
-> > >>
-> > >> --
-> > >> _______________________________________________
-> > >> Openembedded-core mailing list
-> > >> Openembedded-core@lists.openembedded.org
-> > >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> > 2019-04-23 13:41:30,546:scangobj.py:execute_command:1200:WARNING:Running
-> > scanner failed: [Errno 2] No such file or directory:
-> > '/home/sashko/projects/yocto/open-embedded/build/tmp/work/i586-poky-linux/libnotify/0.7.8-r0/build/gtkdoc-qemuwrapper':
-> > '/home/sashko/projects/yocto/open-embedded/build/tmp/work/i586-poky-linux/libnotify/0.7.8-r0/build/gtkdoc-qemuwrapper',
-> > command:
-> > /home/sashko/projects/yocto/open-embedded/build/tmp/work/i586-poky-linux/libnotify/0.7.8-r0/build/gtkdoc-qemuwrapper
-> > ./libnotify-scan
-> >
-> > Is it worth fixing?
-> >
+a) Copied in the ptest results to the right place. This will happen
+automagically in all future builds:
+
+https://autobuilder.yocto.io/pub/releases/yocto-2.5.3/testresults/qemux86-64-ptest/
+
+b) Copied in the intel test results to their own directory:
+
+https://autobuilder.yocto.io/pub/releases/yocto-2.5.3/testresults-intel/
+
+c) Manually generated an updated test report for the combined results
+with the commands:
+
+$ cd /srv/autobuilder/autobuilder.yoctoproject.org/pub/releases/yocto-
+2.5.3
+$resulttool report . > testreport.txt
+
+d) Added a header to the report which consisted of the report from QA
+with details of the bugs etc.
+
+This means we have a top level testreport file which contains all the
+test information about the release.
+
+I'd like to make this the standard procedure for release. The release
+notes and announcement can refer to the test report included with the
+release and the test results as its there all together.
+
+Ultimately I'd like to improve the formatting of the report (separate
+out ptest regressions from the other regressions, maybe html, maybe
+graphs, better regression information) but that is something for the
+future.
+
+Does that work for everyone?
+
+Cheers,
+
+Richard
+
+
 
