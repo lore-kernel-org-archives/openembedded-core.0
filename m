@@ -1,47 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C67676B463
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 801E46B463
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 09:27:06 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id q14so4109416itk.0
+	Tue, 23 Apr 2019 09:28:30 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id a190so22313632ite.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 02:27:08 -0700 (PDT)
+	Tue, 23 Apr 2019 02:28:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KplAr2uh8J4lhHdZdrDZbgdQif380lpDLuXCx76CWm4=;
-	b=BFWCi5iJK6KWonKB1WDEpVsXHQ9kXhX9LcwujTt4Xlpyd9ZkTkhxkDaVmYTc30L3D+
-	NO2kVvaEkVE7H/WCMNzx+d7TBQgOAeVd5Vt2366tI0Re18o1f6zc3mi+vSfV51eL4dh4
-	zARuxGBRHGfGY/z0qYy8XJ51ES2Iw9laJFTFRyReC5jkzIOkwi00PB0BkUJhQL0dDM00
-	JaunPqoUVlBvS1gVSUOVK3tUUXmVg57pGHSxXS+w8TcnqLe16aQEcjphV9ZaLFkX6iS8
-	3zyDUzxPAw/RionjOi4RdPl/k5E1YZvyDciZLnIgGVVmPQzhYFk2W/MsjvjKJIjfUqIu
-	PMWw==
+	:cc; bh=akZwv5NAfOb4CxpYNL/02lnmULwH31Ya5FbPtKu1De0=;
+	b=2MhRxU87Va8XyDpDqa1qIyn42rTU6tapJRVK4b/BsJl2rT6crnGtfnxDKK6XnSSRrd
+	NJG0tzXas/iC5WWn94XjTVKQDRvftx0/YOSzaD8dOcHsXP7R1aykP+EFnNbu8fpIsxb4
+	zYGaewclaRNjkvrP2dH1o5WX75ifIR1IjKboBe2rlchXGxeUVlWaldS7Qg0BknMxY5O5
+	iO9cjis9bxPXmg7jaCyVHDqLmppKg9FEVSAVknO8jIavpWXnYdpKjkOf4kK/AINTEzyT
+	wBCw/GNXFqPJQhrPRcUHpc5gPQDgvALzgej//TT1R+gaQNuU24VSfGNJYcWFutXEcUF3
+	rLEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=KplAr2uh8J4lhHdZdrDZbgdQif380lpDLuXCx76CWm4=;
-	b=tBP3eGbCCKU7OSc6dZspmyrjaf1uwvayRqzlssZQ1PgpSu2Euf9frjugZwITli//i0
-	Ue7iQsDYWfOLHDT77+VJpnrDJfoyBSFQPdh7nVNYXPQObroJzV/kvBLBHq2bA4B9oXpJ
-	hH6C3MDKluSiQdcSe+6S6GZExgB6j3uuTltBlkHhtFkvixeXFWCIn8UVyy+HaL5pGzWo
-	TtT0QeC4geezvL2ThHXRksLXcjrw3rbEZ+JfqG/NNrscbhhXAetcP4ROcdqiFYbX0r5c
-	PX4cFejN0UBzmvV/d8LrHUyDcWnPtDsIHiP+KndB2CRrfy0Q+FBtgrQD19e8lQyBoKfx
-	claA==
-X-Gm-Message-State: APjAAAWIiVjKc464Kf1nMvisvukqCUqVY7dawR+Ck0be0ggFhYLAdEqp
-	2tVLpEoURqfJ62KZz3xijdpYlxlkyRrKhSQTcQPdnLa1
-X-Google-Smtp-Source: APXvYqxNlOQeUCCxEYi8SsPXa+sDHKkl5C8NvRHx8opPEh87S2D7s9qGVxJAgfwHGY72tTMnmJ15AtDZUOwl89ADqwI=
-X-Received: by 2002:a24:ad2:: with SMTP id 201mr1186467itw.26.1556011627665;
-	Tue, 23 Apr 2019 02:27:07 -0700 (PDT)
+	bh=akZwv5NAfOb4CxpYNL/02lnmULwH31Ya5FbPtKu1De0=;
+	b=E5imN3SCgwAYWJahsmul+jW8XhK5mnmG7li2o+D/n5Zsgtu3e+WgGMTtEVbY9AumPo
+	qov4yqPiZ/mfadrH1wJutb0OJFr8dO4IsblZpx1ZWKKZhA3kYCz6N7hkj9akqvQ9XZzz
+	6jk3dz1gFi7obNfO805fiHFdZY6VicavwnczBE53hsRYecLPXykdwzoQcRrabp4+d+A/
+	B3N8FVoqqWrN1DWMTTZ81iwgZZzFGypeFaXsCTHuHYoqaTelZThHJc9GfE1yCNKe9qCW
+	ENqM/OpPxZl/UHyJzNXLifZa8IVhZCN/v9Cox4J+Bzj1qgYwoL2TM+pmrfRc4W6n9NJO
+	Bm7g==
+X-Gm-Message-State: APjAAAUfQScSJ7ZAhlQ133bLOblcGX/YeMQv+uBYH5veeNbeWpHpj7ej
+	uxJ8QYosE/mM0WwYkBws/7K7lej16gY6QET8Uib/DA==
+X-Google-Smtp-Source: APXvYqy+4Qs3dsTk1tYo3PS/MlBZiKq3BmZ5Xx3CC/hbhggSJqkBf65YRP9agZKs+nKKnZ6iw2+dFAIN20mj3g22oPs=
+X-Received: by 2002:a05:660c:111:: with SMTP id
+	w17mr1206933itj.62.1556011710652; 
+	Tue, 23 Apr 2019 02:28:30 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190323163858.15371-1-open.source@oleksandr-kravchuk.com>
-In-Reply-To: <20190323163858.15371-1-open.source@oleksandr-kravchuk.com>
+References: <20190415105457.57067-1-alex.kanavin@gmail.com>
+	<20190415105457.57067-11-alex.kanavin@gmail.com>
+In-Reply-To: <20190415105457.57067-11-alex.kanavin@gmail.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 23 Apr 2019 10:26:56 +0100
-Message-ID: <CAJTo0LaYdMRz41qeojHLsv9zj+VL6u7EL8LwM3=JKnKcriw_bQ@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Date: Tue, 23 Apr 2019 10:28:18 +0100
+Message-ID: <CAJTo0LZyjrK_fOMAA5hyTv0GMnD-61u7uG4cZF_KBP_-Yb=L5A@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] ninja: upate to 1.9.0
+Subject: Re: [PATCH 11/19] meson: update to 0.50.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,54 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 09:27:06 -0000
+X-List-Received-Date: Tue, 23 Apr 2019 09:28:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Sat, 23 Mar 2019 at 16:39, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
-> +++ b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-> @@ -0,0 +1,39 @@
-> +2ff54ad7478a90bd75c91e434236a Mon Sep 17 00:00:00 2001
-> +From: makepost <makepost@firemail.cc>
-> +Date: Mon, 24 Dec 2018 03:13:16 +0200
-> +Subject: [PATCH] Use st_mtim if st_mtime is macro, fix #1510
+On Mon, 15 Apr 2019 at 11:56, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+> +++ b/meta/recipes-devtools/meson/meson/load-configs-generalise-search-path.patch
+> @@ -0,0 +1,50 @@
+> +From d57dd1092e84e08ee15d7063b6c56bd6d864f2e1 Mon Sep 17 00:00:00 2001
+> +From: Ross Burton <ross.burton@intel.com>
+> +Date: Mon, 18 Mar 2019 16:16:56 +0000
+> +Subject: [PATCH] load_configs: generalise the search path
 > +
-> +In POSIX.1-2008, sys_stat has a st_mtim member and a st_mtime backward
-> +compatibility macro. Should help avoid hardcoding platform detection.
+> +Instead of hard-coding the fact that load_configs() searches for files under
+> +meson/native, pass in the subdirectory allowing the cross-file code to use the
+> +same logic.
 > +---
-> + src/disk_interface.cc | 14 ++++----------
-> + 1 file changed, 4 insertions(+), 10 deletions(-)
+> + mesonbuild/coredata.py    | 6 +++---
+> + mesonbuild/environment.py | 2 +-
+> + 2 files changed, 4 insertions(+), 4 deletions(-)
 > +
-> +diff --git a/src/disk_interface.cc b/src/disk_interface.cc
-> +index d4c2fb087..dc297c449 100644
-> +--- src/disk_interface.cc
-> ++++ /src/disk_interface.cc
-> +@@ -202,19 +202,13 @@ TimeStamp RealDiskInterface::Stat(const string& path, string* err) const {
-> +   // that it doesn't exist.
-> +   if (st.st_mtime == 0)
-> +     return 1;
-> +-#if defined(__APPLE__) && !defined(_POSIX_C_SOURCE)
-> ++#if defined(_AIX)
-> ++  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> ++#elif defined(__APPLE__)
-> +   return ((int64_t)st.st_mtimespec.tv_sec * 1000000000LL +
-> +           st.st_mtimespec.tv_nsec);
-> +-#elif (_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700 || defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
-> +-       defined(__BIONIC__) || (defined (__SVR4) && defined (__sun)) || defined(__FreeBSD__))
-> +-  // For glibc, see "Timestamp files" in the Notes of http://www.kernel.org/doc/man-pages/online/pages/man2/stat.2.html
-> +-  // newlib, uClibc and musl follow the kernel (or Cygwin) headers and define the right macro values above.
-> +-  // For bsd, see https://github.com/freebsd/freebsd/blob/master/sys/sys/stat.h and similar
-> +-  // For bionic, C and POSIX API is always enabled.
-> +-  // For solaris, see https://docs.oracle.com/cd/E88353_01/html/E37841/stat-2.html.
-> ++#elif defined(st_mtime) // A macro, so we're likely on modern POSIX.
-> +   return (int64_t)st.st_mtim.tv_sec * 1000000000LL + st.st_mtim.tv_nsec;
-> +-#elif defined(_AIX)
-> +-  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> + #else
-> +   return (int64_t)st.st_mtime * 1000000000LL + st.st_mtimensec;
-> + #endif
+> +diff --git a/mesonbuild/coredata.py b/mesonbuild/coredata.py
+> +index fba90fa369..6e60917d10 100644
+> +--- a/mesonbuild/coredata.py
+> ++++ b/mesonbuild/coredata.py
+> +@@ -211,8 +211,8 @@ def is_auto(self):
+> +         return self.value == 'auto'
+> +
+> +
+> +-def load_configs(filenames):
+> +-    """Load native files."""
+> ++def load_configs(filenames, subdir):
+> ++    """Load configuration files from a named subdirectory."""
+> +     def gen():
+> +         for f in filenames:
+> +             f = os.path.expanduser(os.path.expandvars(f))
+> +@@ -225,7 +225,7 @@ def gen():
+> +                     os.environ.get('XDG_DATA_HOME', os.path.expanduser('~/.local/share')),
+> +                 ] + os.environ.get('XDG_DATA_DIRS', '/usr/local/share:/usr/share').split(':')
+> +                 for path in paths:
+> +-                    path_to_try = os.path.join(path, 'meson', 'native', f)
+> ++                    path_to_try = os.path.join(path, 'meson', subdir, f)
+> +                     if os.path.isfile(path_to_try):
+> +                         yield path_to_try
+> +                         break
+> +diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
+> +index 58adb06960..92a00dd7bf 100644
+> +--- a/mesonbuild/environment.py
+> ++++ b/mesonbuild/environment.py
+> +@@ -408,7 +408,7 @@ def __init__(self, source_dir, build_dir, options):
+> +
+> +         if self.coredata.config_files is not None:
+> +             config = MesonConfigFile.from_config_parser(
+> +-                coredata.load_configs(self.coredata.config_files))
+> ++                coredata.load_configs(self.coredata.config_files, 'native'))
+> +             self.binaries.build = BinaryTable(config.get('binaries', {}))
+> +             self.paths.build = Directories(**config.get('paths', {}))
+> +
 
-This patch has no Signed-off-by or Upstream-Status.  Can you add those please?
+Missing Upstream-Status and Signed-off-by, can you add those please.
 
 Ross
 
