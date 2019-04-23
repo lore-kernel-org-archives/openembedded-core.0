@@ -1,60 +1,47 @@
-Return-Path: <mike@foundries.io>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B8FC77D2EC
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f172.google.com (mail-it1-f172.google.com
+	[209.85.166.172])
+	by mail.openembedded.org (Postfix) with ESMTP id DA1F77D2CA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 17:03:39 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id t16so7845042plo.0
+	Tue, 23 Apr 2019 17:46:48 +0000 (UTC)
+Received: by mail-it1-f172.google.com with SMTP id u65so1618708itc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 10:03:41 -0700 (PDT)
+	Tue, 23 Apr 2019 10:46:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=foundries-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=QNo2GTbJ525ckb6qwI45LPIGHor3VOr4UEkquJ2wMrM=;
-	b=dxFgEVr9iip5GpMimqafudW+ibF/XpGEcgNCiGWYJTRng2b8ZF+Y8ImjwxMb9bVsFi
-	OvtnlhlMNElTVJEY2ECDJat51DEsoy6lUTwZ/F+DrpB049pe31NAlNJ/KkQiZqD2jpkJ
-	I05+SYX31NVdpxWd41V/jgnSGfbPYu7vbjsc4n+1sAQ6voYYj3DQlKnPTDYzX14ahrnJ
-	uBxJ2WFMuIeuIsA/jdrzgE+nQV9BMal+qf3INbYsgvG2TaNYmy81iioQtQn+1RvlmNqc
-	GAaYiL36KFR7Cw/EdewfgzPyLUGBTLMbXVyampSJYfzUUrxUs93YHZK8Ze8PvC0oVb0F
-	q74w==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=O2RWTxw0Tw6JyJ1NwJ16RkdvpCzfjDWHvAOM2zWFbuQ=;
+	b=gzr4V4Rv1rjUvAXvgz9dOyUsSlIYY25cL3QCbVhU6fNGMuNbmNWGDVuiVkHd6Wey0Q
+	COp12In9pJHEMY4GA39XDdB+NItJ5nd+5qhjfTOhrnWm9uY5wLGBJxdNaIS6z4gce0eT
+	BEmA0/NOTWOhFVwLPh7lT8g0HmdcZdcQ0P6selcDFsZfxXzK3UN+ERKYT0FaDgFfGoRp
+	1F3cdmtKqisfGgbpB82dSZoIgIsi1GfkLDirEOXIANe1MNFetqsfGXuHDLnwJ4vLkFR3
+	PipuNfCeS+FyXTPSnp9/XIvrnAZQ8N+YPAOSdZi9sxtgBw+2b6Cr1IUmut1CMnOGRwLj
+	iovA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=QNo2GTbJ525ckb6qwI45LPIGHor3VOr4UEkquJ2wMrM=;
-	b=WY4wSWA8diZYZN77mW7l1ge3HGjoIXwiJE273GrUyk4enAY+VE0QitxatM0DwPxmGz
-	TU/nekr0eszsQe7rZvIqKs/UVrre5XNuRSFUTG/Y9Ru17lm8BIgTaPqfggc3rCF5YyRr
-	D2vV8QNcNa2l/PULW7vlSKTSmTM8D5JxQyMcQJ4W6qHxjrVy74EZt/vkbgzQK8HfRDMZ
-	1FLO0aM+ryRWWhZ9EI/rN6rMH2EWOG0lw/0sb5EszAZy+vU/AcFheyr+uZjd+UULYkip
-	gXIeATZMEBk0y5T6KPJ6hL9/4jMoVmEFtPd1FPfcPSTKTYaqJ5jBZ0pg48s0tAiyZRxi
-	KbOw==
-X-Gm-Message-State: APjAAAXhL9xRXauMcPLGkuGVrDklC0qlxGran8ZhgpONAdmZmspZXmNo
-	YKMRfU+E53ivQH1ntX7RxxdvaCsPJnA=
-X-Google-Smtp-Source: APXvYqwe8jArhXdwj9Qb9V1QxCpH4eOWgXiZPvBVWOPICMgJ3N7Hht7QkKZWJbrAHfzV6LbDXJ4q+A==
-X-Received: by 2002:a17:902:112a:: with SMTP id
-	d39mr21275079pla.47.1556039019305; 
-	Tue, 23 Apr 2019 10:03:39 -0700 (PDT)
-Received: from [192.168.69.121] (107-198-5-8.lightspeed.irvnca.sbcglobal.net.
-	[107.198.5.8])
-	by smtp.gmail.com with ESMTPSA id l15sm938608pgb.71.2019.04.23.10.03.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Apr 2019 10:03:38 -0700 (PDT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Khem Raj <raj.khem@gmail.com>, Alistair Francis <alistair23@gmail.com>
-References: <20190413045641.3659-1-mike@foundries.io>
-	<88e820e3-d8b5-e57e-5362-4e36b4799461@foundries.io>
-	<d110e52007bc2f3fe015506613211d961a03d979.camel@linuxfoundation.org>
-From: Michael Scott <mike@foundries.io>
-Message-ID: <51d1cebe-a868-5d63-e3ad-f81d00b1251c@foundries.io>
-Date: Tue, 23 Apr 2019 10:03:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=O2RWTxw0Tw6JyJ1NwJ16RkdvpCzfjDWHvAOM2zWFbuQ=;
+	b=drA3t0+gX+RF/Lk8K9Cr1vQrmZ7nv/uBtcqYaIwfXQ6F9eGtD+sAQiisSrn1uwSom2
+	qZp02WDMSxZETl8H8LB0XxuCNcIoOe6TNKpt8lvbDhZR2sFbRqmY8HBB+J/RBc4VwQQx
+	3W/WdDLaCUcbLKjPrEzDyvM+bW/k+0UJJror1YSCRP+imL7lnHVXAn7Zh8AHlsPKiXRE
+	zzTcjJiGlM7LFNF+LKEiaE4cHUtrGuo4e5RYUKIAFnHmC53LKvFBlJtoVmOK7ZiLpYiP
+	n0xsXwR4pHotKU4OpjtUUei1wmA7mqV89DimV80Pr3rdnDc9613DP5H/iUCePCybcM5y
+	x1BQ==
+X-Gm-Message-State: APjAAAVpISkhiwvO0VHYJD4CjWgo0r3O++zDT1+f1Yig85V0Y3MkkDMH
+	e62NUMx5cccMmlaLRRBIIj7C799m7vfVHLlNSqOevgAO
+X-Google-Smtp-Source: APXvYqwN4RJ0GrYI8MPYA3+G2QqIOQkcLpLjl6XlN8KTO91z19u9GLL3PApIYZFAO/0Agm2f51aDXzGianiQxK+NaB0=
+X-Received: by 2002:a24:52c5:: with SMTP id d188mr3266846itb.130.1556041609943;
+	Tue, 23 Apr 2019 10:46:49 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <d110e52007bc2f3fe015506613211d961a03d979.camel@linuxfoundation.org>
+References: <20190421194422.10862-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190421194422.10862-1-open.source@oleksandr-kravchuk.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 23 Apr 2019 18:46:38 +0100
+Message-ID: <CAJTo0LboX9h0K4E0AbY1x315qv6ng4hd2rw6fn2RXH6C09p-0Q@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] kernel-fitimage: support RISC-V
+Subject: Re: [PATCH][meta-oe] ell: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,60 +54,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 17:03:39 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 23 Apr 2019 17:46:49 -0000
+Content-Type: text/plain; charset="UTF-8"
 
+On Sun, 21 Apr 2019 at 20:52, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+> +SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${PN}/${PN}-${PV}.tar.xz"
 
-On 4/23/19 2:37 AM, Richard Purdie wrote:
-> On Fri, 2019-04-19 at 10:41 -0700, Michael Scott wrote:
->> On 4/12/19 9:56 PM, Michael Scott wrote:
->>> Support RISC-V kernel image, using the "Image" target.
->>>
->>> This change allows RISC-V support for fitImage via the following
->>> flow: OpenSBI -> u-boot (as payload) -> Linux kernel (as fitImage
->>> with ramdisk and dtb).
->>>
->>> This was tested using QEMU RISC-V 64-bit.
->>>
->>> Signed-off-by: Michael Scott <mike@foundries.io>
->>> ---
->>>    meta/classes/kernel-fitimage.bbclass | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/classes/kernel-fitimage.bbclass
->>> b/meta/classes/kernel-fitimage.bbclass
->>> index 2517d75746..09abedff8e 100644
->>> --- a/meta/classes/kernel-fitimage.bbclass
->>> +++ b/meta/classes/kernel-fitimage.bbclass
->>> @@ -8,7 +8,7 @@ python __anonymous () {
->>>            d.setVar("DEPENDS", depends)
->>>    
->>>            uarch = d.getVar("UBOOT_ARCH")
->>> -        if uarch == "arm64":
->>> +        if uarch == "arm64" or uarch == "riscv":
->> I didn't see any response to this v2 patch.  Is this approach
->> acceptible?  RISC-V should not attempt to use zImage for fitImage as
->> it now stands.
-> I think the v1 patch was merged. I'd take a patch to tweak the code to
-> the v2 version as it is slightly neater but its not essential.
->
-> Cheers,
->
-> Richard
-Thank you for pointing out that v1 got merged.  I didn't realize there 
-isn't a notification for when patches are merged and wasn't watching the 
-warrior branches.  I'll submit the tweak patch later this week.
+In native or nativesdk builds PN will be ell-native or nativesdk-ell,
+so PN here should be BPN  Also BPN-PV can be shortened to just ${BP}.
 
-- Mike
-
->
--- 
-Michael Scott
-Embedded Software Engineer at Foundries.io
-"microPlatforms™ for Connected Products"
-E: mike@foundries.io
-W: https://www.foundries.io
-
+Ross
 
