@@ -1,49 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DD8465CF3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B0EFF65CF3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 09:34:39 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id t17so19229431wrw.13
+	Tue, 23 Apr 2019 09:37:33 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id v14so17948795wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 02:34:40 -0700 (PDT)
+	Tue, 23 Apr 2019 02:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=1Ter9HJ80GeNTlJEJrRP8bpHS4nahtYRXzYMafl0XAQ=;
-	b=ziZZsuUiaXh5bAeSU93XhDYqHYCwIb5ByrigbB28eW9eFIhdB6BG9xLTpgf6TDzMDu
-	xIcUyLdkwGQUjUuc9XZQsg0g3DrYVPLzZ5omAhs/ksIsYp+tKF3URn5Tbnom7fO+9fNL
-	K+kEHEqf0TEd2qea2G/wtP4GGRpnCNzgsIx5TOYS670rzarveeTeOSGZj0X+LLGZfnFy
-	X1tJ8cVxPSdkaV/AUolk3ILNEDIysCpzGBdsQ/PMq2zUFz4xX/KKODKy2yqpqa2UpBBK
-	2my1V4Mg1wL1i+X3wL71ENzxOUjcumETDLYRcUIDAtRFRfLpMGtkI6tIOkeATgOAsj7c
-	5ZhA==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=aO33LR06H0gjCQkVBUgX4+N8+bH8mJ1w+wRG49maI8Y=;
+	b=gU/5TXI2vBPWwV8hDgNjMOR/WC/St0p7t8j9wDGPAcBf5qhiQGn/7G62px6KquaQAs
+	K5RYxtDA+yVYwMztOpbODOdQ4Z2VvOhZS3PWCeqqD/eSy4Xw4vcr7nkKlMy1w1BeVEob
+	Y2TucTrz5ng5KCtS0lBdhwJ4KNnrRlAxgtowM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=1Ter9HJ80GeNTlJEJrRP8bpHS4nahtYRXzYMafl0XAQ=;
-	b=Ws2Cy9dNTThkjX53lrYl9ZnBumAdiiF6gWDQIOjrKfNd/SA91XQ4M6TkEyZdmAD06x
-	tzxotUjJ/kSyqUq7WNxf640TfCm9bXi3Jiy5MvT6LarVyJvG5mAGhCPP6M4fNsVgwdU1
-	AgO6Pua4EC10OP7hDT8gKPpr2P0klAEH0ong1kO/WCYZhzGa+IB1ZGGhHMVHpxe8RvWZ
-	HIOj+5X0xnlfaOHrzRxVbeCdjHi0Pk+2wPT98BJoeoJ5R1CJ+yrlOzw8jfTr/oVSlO7D
-	1XF1J1YcQaBpO8wNlPILD7kxwaQLe8dA+qrarPSfgBpmB2yXo/5M0mDoXXSjXu+IGk3f
-	WWzw==
-X-Gm-Message-State: APjAAAV0SxXyqCw9UC45eW9TVSIWMFw3uNAD2T80wVrMRzzTDUbTSKRb
-	LRpPmQvLo1uanzBUh+RPN/G9pTyv2q8=
-X-Google-Smtp-Source: APXvYqzSifuay3f/dEvrpCUs0WiIC8UF1Sc/FcmDeSzp7kaWcuqj5WXILxbSRaN8GGCBbqjYyKxl+w==
-X-Received: by 2002:adf:eb02:: with SMTP id s2mr16259691wrn.29.1556012080125; 
-	Tue, 23 Apr 2019 02:34:40 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	a11sm12102802wmm.35.2019.04.23.02.34.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Apr 2019 02:34:39 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 23 Apr 2019 10:34:36 +0100
-Message-Id: <20190423093436.4022-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] lttng-tools: fix Upstream-Status
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=aO33LR06H0gjCQkVBUgX4+N8+bH8mJ1w+wRG49maI8Y=;
+	b=IsPWd62Sr4Ttd4u/NT8y6Zn+AC1buunpIrg7yR127iocE4reI+JfgS+2/HwW1S+NRk
+	viSYlf0WgNn72apf/WOidXEZ7JCgjvnHu63vQo7GMpRRUC/nvJYMRIDlgaWh2vd9NNz1
+	vPJ+CFgXF5qtFa21C9JUBZuF8camfEb5T7iHfW+lqAf1GF8Byxne2u4YTP2Z7IYPedWi
+	GEK4IKix81ZsE4WR4e9fWlG4Dmybcm8/kSIKT5GeRr3aY8DL4eJtz9iUazFL0C68hBqS
+	y4xgXG1vM+DqUGIxsCn5VbzLOsXLyaO5jjB0IoCimfCHe7D29bn+Cst0Fex5SdN5ScAx
+	9sbg==
+X-Gm-Message-State: APjAAAUR5GFUXdrrJ67Fya2yfmZb8BkBF2CCV5OyBtMwweiyk3A5DyGC
+	qa7kZjPDu7yZHmLBGBVRlOXyqg==
+X-Google-Smtp-Source: APXvYqxQGDkGvIIWiYt5GDxX47mA1D/dmivRse/g9imwbVGqk9wgga/tbXqVJOcZik1BhJhOQxquHA==
+X-Received: by 2002:a1c:81c9:: with SMTP id c192mr1528717wmd.124.1556012254391;
+	Tue, 23 Apr 2019 02:37:34 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o130sm13432059wmo.43.2019.04.23.02.37.33
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 23 Apr 2019 02:37:33 -0700 (PDT)
+Message-ID: <d110e52007bc2f3fe015506613211d961a03d979.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Michael Scott <mike@foundries.io>, Khem Raj <raj.khem@gmail.com>, 
+	Alistair Francis <alistair23@gmail.com>
+Date: Tue, 23 Apr 2019 10:37:32 +0100
+In-Reply-To: <88e820e3-d8b5-e57e-5362-4e36b4799461@foundries.io>
+References: <20190413045641.3659-1-mike@foundries.io>
+	<88e820e3-d8b5-e57e-5362-4e36b4799461@foundries.io>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] kernel-fitimage: support RISC-V
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +60,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 09:34:39 -0000
+X-List-Received-Date: Tue, 23 Apr 2019 09:37:33 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../lttng/lttng-tools/0006-Tests-check-for-lttng-modules-presence.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 2019-04-19 at 10:41 -0700, Michael Scott wrote:
+> On 4/12/19 9:56 PM, Michael Scott wrote:
+> > Support RISC-V kernel image, using the "Image" target.
+> > 
+> > This change allows RISC-V support for fitImage via the following
+> > flow: OpenSBI -> u-boot (as payload) -> Linux kernel (as fitImage
+> > with ramdisk and dtb).
+> > 
+> > This was tested using QEMU RISC-V 64-bit.
+> > 
+> > Signed-off-by: Michael Scott <mike@foundries.io>
+> > ---
+> >   meta/classes/kernel-fitimage.bbclass | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes/kernel-fitimage.bbclass
+> > b/meta/classes/kernel-fitimage.bbclass
+> > index 2517d75746..09abedff8e 100644
+> > --- a/meta/classes/kernel-fitimage.bbclass
+> > +++ b/meta/classes/kernel-fitimage.bbclass
+> > @@ -8,7 +8,7 @@ python __anonymous () {
+> >           d.setVar("DEPENDS", depends)
+> >   
+> >           uarch = d.getVar("UBOOT_ARCH")
+> > -        if uarch == "arm64":
+> > +        if uarch == "arm64" or uarch == "riscv":
+> 
+> I didn't see any response to this v2 patch.  Is this approach 
+> acceptible?  RISC-V should not attempt to use zImage for fitImage as
+> it now stands.
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/0006-Tests-check-for-lttng-modules-presence.patch b/meta/recipes-kernel/lttng/lttng-tools/0006-Tests-check-for-lttng-modules-presence.patch
-index e07c227f466..30aa66b2c8c 100644
---- a/meta/recipes-kernel/lttng/lttng-tools/0006-Tests-check-for-lttng-modules-presence.patch
-+++ b/meta/recipes-kernel/lttng/lttng-tools/0006-Tests-check-for-lttng-modules-presence.patch
-@@ -3,7 +3,7 @@ From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
- Date: Mon, 25 Mar 2019 14:24:51 -0400
- Subject: [2/2] tests: check for lttng-modules presence
- 
--Upstream-status: Accepted [5da3fc8579a9f93ea4767729a107784bf2d034ae]
-+Upstream-Status: Accepted [5da3fc8579a9f93ea4767729a107784bf2d034ae]
- Backported to 2.11 and 2.10
- 
- Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
--- 
-2.11.0
+I think the v1 patch was merged. I'd take a patch to tweak the code to
+the v2 version as it is slightly neater but its not essential.
+
+Cheers,
+
+Richard
 
 
