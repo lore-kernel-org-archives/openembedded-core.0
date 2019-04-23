@@ -1,52 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DD4646D494
+Return-Path: <trini@konsulko.com>
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
+	[209.85.208.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C8F1B6C0F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 22:22:15 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id s15so22157585wra.12
+	Tue, 23 Apr 2019 22:29:05 +0000 (UTC)
+Received: by mail-ed1-f66.google.com with SMTP id g6so14124187edc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 15:22:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=t8PD2dIvUtctSVLGAWNnQlQOtN4FzEU0Rq9izp+pt5o=;
-	b=Wpwv9DKEVfOdxLu/ZjluS9PQSDEVY03eC+j6Tg/mLBijgQTJ0y7K5AAhOzOSBZfN9d
-	9fJmWSMNlFIZUxlzA3g/IdsI9CG+fIADuR8xjHhy+fIMgKguiWQt8GRtCcyOP+akzDAq
-	cHO52s9Cz9HxnG326cHHfnmO+J82pnsWql+Zk=
+	Tue, 23 Apr 2019 15:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=JP66MB4XxJoPznKAg87xR5iSUOw+Myk6fKDNSg1sIb0=;
+	b=Xkbo/pdMGqpbTRHxRLyAY1qeJ3DzzHasT6xVal7dnZFtZNuw/K56punzQE/Hth3r6s
+	+8UKTpXKq5hFuhHSIFndycVu5ouI+Z5s5431yDxjjCUH0pBTP6IFaBQ69omiCx1lfB6Q
+	huK7t097jWZdE+RGXYaKpgzHq5igYHQ7vTdbo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=t8PD2dIvUtctSVLGAWNnQlQOtN4FzEU0Rq9izp+pt5o=;
-	b=VVKRP7AqDqGw0IUjuuyLXoXIlU+VLLiUiCIpzMNt6/NkSZqDpsOsDrX22Ke3xB97vb
-	HFJsPJSm5y24q72O6hXfqWMchLD8ti8C0DMqY1WkQEysdbgfTwDF8btwaruQis6Btj/8
-	aZV9ONtZtEVSUlvYNfrLvHX/M7YzFpEG6XadtktRxmy0WiYD4q/uPdt/SawmdbhkhEvJ
-	mOcPDqQK5kQYRalrTIWtzcL9XwZFYtKnsD+pUPbIhbKLhjDo0WgSufetPJrlPgJMp0rT
-	hEtI12+q5aSC4ORSDjxRrO8gYWYvch2wHPnvxsnwPs8AX/ICHq1dE/TkMQHnk3EdcoG0
-	uGpw==
-X-Gm-Message-State: APjAAAWjTrHxYIAvSX7xCyJf2oABdoMg9DfVj0W0KkLGj+WsBW6qHGaK
-	Kka6nEwvYmboWnQruebTNDOh3Q==
-X-Google-Smtp-Source: APXvYqxBE5q9RKgxOmaAnKSvheLhDk1JWPQOZatDFr+i+5qWsvV1WTzzLOVB1VBoUxuUK5kJrGjYlw==
-X-Received: by 2002:a5d:5284:: with SMTP id c4mr18140693wrv.281.1556058136431; 
-	Tue, 23 Apr 2019 15:22:16 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n18sm13241583wrt.16.2019.04.23.15.22.15
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 23 Apr 2019 15:22:15 -0700 (PDT)
-Message-ID: <e6b4feb2584669c83dabbf50761f2e68b990140f.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Tom Rini <trini@konsulko.com>
-Date: Tue, 23 Apr 2019 23:22:14 +0100
-In-Reply-To: <20190423220106.GA30419@bill-the-cat>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=JP66MB4XxJoPznKAg87xR5iSUOw+Myk6fKDNSg1sIb0=;
+	b=qm0vk7T+KO3OdWf978yjENPuU9XfQeZUwDJX0EFrF4puOHuFKod24porwB1qfpWORJ
+	NNLsnVMJPuZppenFFVk0rYryRyMCYOKLvrqd9NU0A/Q3Xb2Qdg5cAGDbKf9NFSm1KWgN
+	HwFSqxLTXQ3FwbhZWC8zyBJVXa4QN4E+rRRi6wBY0n+cEgbh6GL3QxEA9zvcs7Vh7MOr
+	buH1owjudX6p1wbNN8eWqCQgF+n3oMwOISnZsrVi2c9w3GpcsXnNAjtCmrzGIHBYR0Sr
+	cvPxchIfcG9kLnxSsIq+9KIsmRY2UROp51J6AozB0cfQytyZ/l7jMyxr+dtB6Olxblp5
+	wxVg==
+X-Gm-Message-State: APjAAAVdUROwobmYE7MYkGKeySMGdFsfiNsyH/iV40YNIQKVCBRGbCfI
+	rIUY6eNySx1Bg1Z6ee6stJD+VQ==
+X-Google-Smtp-Source: APXvYqzm4ehGPhvHHQjuRreliCmOs5vETxjOM79ad8NgkxeyDIdZF34vLz9Jk28ulT6Tyj5BNGEpAA==
+X-Received: by 2002:a50:ac34:: with SMTP id v49mr17679245edc.52.1556058546447; 
+	Tue, 23 Apr 2019 15:29:06 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-141-147.ec.res.rr.com.
+	[65.184.141.147])
+	by smtp.gmail.com with ESMTPSA id 5sm1732039eds.26.2019.04.23.15.29.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Apr 2019 15:29:05 -0700 (PDT)
+Date: Tue, 23 Apr 2019 18:29:02 -0400
+From: Tom Rini <trini@konsulko.com>
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190423222902.GD30419@bill-the-cat>
 References: <1555869425-7613-1-git-send-email-trini@konsulko.com>
 	<1555869425-7613-2-git-send-email-trini@konsulko.com>
 	<6d594af6f152f129047dd75c8d42a52e1c6e7687.camel@linuxfoundation.org>
 	<20190423220106.GA30419@bill-the-cat>
-User-Agent: Evolution 3.32.1-2 
+	<e6b4feb2584669c83dabbf50761f2e68b990140f.camel@linuxfoundation.org>
 MIME-Version: 1.0
+In-Reply-To: <e6b4feb2584669c83dabbf50761f2e68b990140f.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 2/2] vim: Update to 8.1.1198
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,61 +61,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 23 Apr 2019 22:22:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 23 Apr 2019 22:29:06 -0000
+X-Groupsio-MsgNum: 123643
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="GpGaEY17fSl8rd50"
+Content-Disposition: inline
 
-On Tue, 2019-04-23 at 18:01 -0400, Tom Rini wrote:
-> On Tue, Apr 23, 2019 at 04:02:49PM +0100, Richard Purdie wrote:
-> > On Sun, 2019-04-21 at 13:57 -0400, Tom Rini wrote:
-> > > This brings us to the current version of vim.
-> > > 
-> > > Signed-off-by: Tom Rini <trini@konsulko.com>
-> > > ---
-> > >  meta/recipes-support/vim/{vim-tiny_8.1.1017.bb => vim-
-> > > tiny_8.1.1198.bb} | 0
-> > >  meta/recipes-support/vim/{vim_8.1.1017.bb =>
-> > > vim_8.1.1198.bb}           | 2 +-
-> > >  2 files changed, 1 insertion(+), 1 deletion(-)
-> > >  rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb => vim-
-> > > tiny_8.1.1198.bb} (100%)
-> > >  rename meta/recipes-support/vim/{vim_8.1.1017.bb => vim_8.1.1198.bb}
-> > > (98%)
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527
-> 
-> Does the current version even work in this case?  Digging down into
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527/steps/7/logs/step1b
-> there's a certain level of "how does that even work today then?" that
-> springs to mind.
-> 
-> I need a few more details to know how to reproduce this locally as I
-> don't see whatever must be in site.conf/etc to turn regular poky into
-> no-x11.  The errors are also around iconv stuff so maybe nls is also
-> removed here?  Thanks!
+--GpGaEY17fSl8rd50
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-perhaps simpler, qemux86-world also failed:
+On Tue, Apr 23, 2019 at 11:22:14PM +0100, richard.purdie@linuxfoundation.or=
+g wrote:
+> On Tue, 2019-04-23 at 18:01 -0400, Tom Rini wrote:
+> > On Tue, Apr 23, 2019 at 04:02:49PM +0100, Richard Purdie wrote:
+> > > On Sun, 2019-04-21 at 13:57 -0400, Tom Rini wrote:
+> > > > This brings us to the current version of vim.
+> > > >=20
+> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > > > ---
+> > > >  meta/recipes-support/vim/{vim-tiny_8.1.1017.bb =3D> vim-
+> > > > tiny_8.1.1198.bb} | 0
+> > > >  meta/recipes-support/vim/{vim_8.1.1017.bb =3D>
+> > > > vim_8.1.1198.bb}           | 2 +-
+> > > >  2 files changed, 1 insertion(+), 1 deletion(-)
+> > > >  rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb =3D> vim-
+> > > > tiny_8.1.1198.bb} (100%)
+> > > >  rename meta/recipes-support/vim/{vim_8.1.1017.bb =3D> vim_8.1.1198=
+=2Ebb}
+> > > > (98%)
+> > >=20
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527
+> >=20
+> > Does the current version even work in this case?  Digging down into
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527/s=
+teps/7/logs/step1b
+> > there's a certain level of "how does that even work today then?" that
+> > springs to mind.
+> >=20
+> > I need a few more details to know how to reproduce this locally as I
+> > don't see whatever must be in site.conf/etc to turn regular poky into
+> > no-x11.  The errors are also around iconv stuff so maybe nls is also
+> > removed here?  Thanks!
+>=20
+> perhaps simpler, qemux86-world also failed:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/515
+>=20
+> with:
+>=20
+> | /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/i586-
+> poky-linux/vim/8.1.1198-r0/recipe-sysroot-native/usr/bin/msgfmt: Cannot
+> convert from "ISO-8859-2" to "UTF-8". msgfmt relies on iconv(), and
+> iconv() does not support this conversion.
+> | make[2]: *** [gvim.desktop] Error 1
+>=20
+> So perhaps there is host contamination and this works one some build
+> machine setups but not more minimal ones?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/515
+Hmm, could be.  I assume there's not currently a minimal Docker (or,
+whatever) image to grab and build off of (I just spent some time setting
+up such a thing for U-Boot) ?  It looks like I can setup a minimal
+Fedora chroot without too much work, so I'll pencil in some time to make
+that, install the normal documented must-haves and see what I can make
+blow up.  Thanks!
 
-with:
+--=20
+Tom
 
-| /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/i586-
-poky-linux/vim/8.1.1198-r0/recipe-sysroot-native/usr/bin/msgfmt: Cannot
-convert from "ISO-8859-2" to "UTF-8". msgfmt relies on iconv(), and
-iconv() does not support this conversion.
-| make[2]: *** [gvim.desktop] Error 1
+--GpGaEY17fSl8rd50
+Content-Type: application/pgp-signature; name="signature.asc"
 
-So perhaps there is host contamination and this works one some build
-machine setups but not more minimal ones?
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-The build configuration hasn't changed, just the new version upgrade
-and the other patch. I suppose its possible it depends which of our
-workers its built upon but that seems unlikely for two world failures
-(no-x11 is also a world failure).
+iQIcBAEBAgAGBQJcv5GtAAoJEIf59jXTHXZS9LEQAIrbOKkL8vbJ3eXS71iufHzS
+6JFH8dm/oHBpfOhOtZhV+sWVL+OC/MUvTBT8rSSGtXQ/OYEtaz/o4rAyxfCMMxwI
+cfrTxfYzBe8ytnBrSFHYALv/i0EPCSl5of3PdrvrnJERgs0eagA/rfHPxuXDKOix
+5yybEf6B+SpFmozt+lsGKNAQZv1lPDNDzXbJ4l58BNzCkBJN9TdcLsNkFuEpnlua
+ICuVPD3BpsBbC/uttx4h30tW3B2qtkE/z9rLnhht4xIM6pG7fBLvmCFH2KnuaswY
+sZC+bXyN/szLiLgTzFs8HyASbcBYOCvZ7LD1g9j2wkagYva8RHaOXfZ+FRXRO9d9
+uBXni1l90bBwEYzmxwbNib99Bh3ex2hvUiHCBxRJSPRakveYlexOkHAAU3wAPt6P
+UsLd0LffWsfaDMSKVojAsBz2WVKRVBc7M5LMMDEeBHf+zs98+xQ2NNjoSWHbRUEx
+U9dc3FxrqyHkgK99amHhmD9KnXPhZKXfKQRRCo1vWdWOBZQdeBGCQESLp/Rt8vK+
+WsT1wHfbGlmxD/ZU065winKoN0tj1PsYyoYlwzIEpYMSIYMZDyvSkg3At2kyCQDv
+iCQbxm213Hh7wAaGC2oPH9Em6/wWVYHrhcvtW2vPQzO8HD3Tw0drtQZR6bnWqkyQ
+PDMmfaoIUmh8hi4mv+G5
+=VZA4
+-----END PGP SIGNATURE-----
 
-Cheers,
-
-Richard
-
-
+--GpGaEY17fSl8rd50--
