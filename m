@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 9607A600BB
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AB0A600BB
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 17:19:09 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id z6so5038171wmi.0
+	Wed, 24 Apr 2019 17:24:44 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id f7so3668872wrs.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 10:19:10 -0700 (PDT)
+	Wed, 24 Apr 2019 10:24:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=Uo4z+OnLwGogMyibB9CgNBiYU32xdjdLpcqN0ERTgVc=;
-	b=flGE+udH35Ckz26q7LQselGGyIxr30UpHCWgaiTWfwOsnQCxgfUZFUFr/Q5te4VZ1i
-	IeilTHIYcgvm0W7/kzF+4LFV4kE9xnM24sNFjiqUUSksIFEeYxamnpwlYwRItIfqshiY
-	CZt6elJ+T3BRoRfr5i+unlQmlA/wqHO2UTvLM=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=s7J1I9wjkCkThO9Vfge5hPnyFzL2+SGIqQU867HmLtc=;
+	b=TVrfNMyzpwFWJt7eri5REVZ2WQQJa5JiH9EeFhooOtXmJ9OAYO+NX/HhK1UnPAm9bc
+	e2E9yVO0eVD2npysgM3l1IhKSQnmsMf3FElNitZTnjPOKHI9WRvCJ8jprnhSOnZaLOb8
+	lPBD2a/lYsmqyMkZTDwp11RmWak0W6tpxKmF8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Uo4z+OnLwGogMyibB9CgNBiYU32xdjdLpcqN0ERTgVc=;
-	b=Agtw/1Kh4iYUGDco3YVArU6+UdFIiXj6V84aW9hu3X3EXLQPOBDmJ1ykuIYpr4gTQI
-	5sPWLwvtjWsPmF6+xlc/YC1/OREVdgSBrr0K8uOUFROsLOHrwSaUdf88q7TvPBZgeMMA
-	tVDSUq7J8KZ4EwFJcyg7j5WEuEz1aHJV2C/x1r+X4yWFhowpp/JkCOCnjFpF/fl9/bAD
-	OgJe1bVBbFerJReCApNPUKpSGZ05BGNyVE31x+lGs9UJ3E+sgf4FzeomHMYMdkROYWr1
-	Ohl+PrZ/iIucBYG0Rmm3RLQhGllaJL7t18/bdxliB9HOLWXDm8igR6anYRANR6xjk474
-	UI2A==
-X-Gm-Message-State: APjAAAW5WiCORILqKHnW2THSB/YGDkz+WFe8nlOUdAppco0HdlaUaV+c
-	rBvAJ2biRrdhe5/lveSGaYXSXQ==
-X-Google-Smtp-Source: APXvYqxQsE5RA95NuoyBf+sWcgYL2pQ+hJWDjP9k9ocJqM4xaYIAdThWtuTvS38x5WJx1ELjQF1gug==
-X-Received: by 2002:a1c:6502:: with SMTP id z2mr81583wmb.119.1556126350331;
-	Wed, 24 Apr 2019 10:19:10 -0700 (PDT)
+	bh=s7J1I9wjkCkThO9Vfge5hPnyFzL2+SGIqQU867HmLtc=;
+	b=Br7KbvlbBalAGPEZo7FCFnwIv07MgtJp1Ubrf60zl3solmYd0XrPb6oa6QL1FBoMRC
+	tQm0e6tIY5OddxBXTdPnMYKH/93phwT9aGbPdusIeqtUn/MfE6Dp5ecO6vory8syZJBa
+	OWWstHISCkOz54KAxrDZCIbFCVRkzRksdZgaUUMPll56xIlAl4uEGdcU2pat9oxLhC6y
+	ACK0RYMnMHheAGCK48NYIl6y3UK3814Og8va+iZ+KfWsfmwjdzpJZJh9RVldeNHcWjVR
+	ulDUG1jSDBJK3KdUK2w/uej09ABIMeI5tOmq7keNMU3ixAauKFsMHWZuPulIztCSSF6Y
+	5/pQ==
+X-Gm-Message-State: APjAAAVT8OS53AsqhCjIsS7e+D1Ysi9pYKxorLlNdSITqJe9Ke34Vyvb
+	sOf6nNud8HVvDdLDrtLOl/f8Qg==
+X-Google-Smtp-Source: APXvYqyYBwvE5rNJMp7UE9wLh03XtRY/cCq4znIUT5ZTq7nRkJhROkMSBzYkBtTlSM0lCyvrLamSqw==
+X-Received: by 2002:adf:f68c:: with SMTP id v12mr5975379wrp.40.1556126685822; 
+	Wed, 24 Apr 2019 10:24:45 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	y17sm13163968wma.8.2019.04.24.10.19.09
+	x192sm30179421wmf.48.2019.04.24.10.24.44
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 24 Apr 2019 10:19:09 -0700 (PDT)
-Message-ID: <ae421cdcbc8c0b4a5ac66da108134f0d8a18c90d.camel@linuxfoundation.org>
+	Wed, 24 Apr 2019 10:24:44 -0700 (PDT)
+Message-ID: <43646bdfb4aaa197d156f5ee8f195ad3128d74e5.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 18:19:08 +0100
-In-Reply-To: <20190424163415.126844-1-alex.kanavin@gmail.com>
-References: <20190424163415.126844-1-alex.kanavin@gmail.com>
+To: "Mardegan, Alberto" <AMardegan@luxoft.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Apr 2019 18:24:43 +0100
+In-Reply-To: <20190424141215.11624-1-amardegan@luxoft.com>
+References: <20190424141215.11624-1-amardegan@luxoft.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH] buildhistory: call a dependency parser only on actual dependency lists
+Subject: Re: [PATCH] oeqa/core/runner: dump stdout and stderr of each test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,19 +59,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 17:19:09 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 17:24:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-04-24 at 18:34 +0200, Alexander Kanavin wrote:
-> Previously it was also called on filelists and possibly other items
-> which broke the parser.
+On Wed, 2019-04-24 at 14:12 +0000, Mardegan, Alberto wrote:
+> Some CI pipelines might perform further processing of the test output
+> (for instance, to plot some metrics into a chart). However, Since
+> `thud`
+> we switched away from the XML-based jUnit reporting, and at the same
+> time we lost the ability of collecting the stdout and stderr of the
+> various tests.
+> 
+> We now restore this functionality by adding `stdout` and `stderr`
+> keys to the JSON reports.
 
-Thanks, that fix makes sense, I couldn't see the wood for the trees! :)
+This is nearly there, thanks!
+
+I think we need a better name than "TEST_WRITE_OUTPUT". That variable
+could be about enabling some tests of writing output or several other
+things. How about TESTREPORT_FULLLOGS?
+
+The variable name needs to be mentioned in the commit message and we
+should cc: Scott so we can add to the manual.
 
 Cheers,
 
 Richard
+
 
 
 
