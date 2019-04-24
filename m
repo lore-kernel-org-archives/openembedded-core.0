@@ -1,48 +1,48 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
-	[209.85.167.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 220FC7CF8D
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E3E77D5AC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 16:30:19 +0000 (UTC)
-Received: by mail-oi1-f193.google.com with SMTP id k6so1066230oic.4
+	Wed, 24 Apr 2019 16:32:50 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id c12so19871392wrt.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 09:30:21 -0700 (PDT)
+	Wed, 24 Apr 2019 09:32:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FJeVeAIdth9LZ42APoOGN1ESTpkVRNC6k5nbiZ6JFF4=;
-	b=BDWElPcMWsJ2996AnM0CRuBsfsZDSi6UxhKb6QxfhGYvbJdYiqb+TJA9kjPvDp9/65
-	iq3Jg5vv+g7Y7VHfo9MHHCSBScLWxmWZ05rrdGONKCSLU1NweTFAvix6lOf+GMahF8QZ
-	5nBgWpE0xJ+5rGhSms5DJvN4NyewMbw790fpXpZrRzXKwpKn436Qw0aJngdVN2buKNxN
-	zRhJB3scWYV0lnzvAHibAxLK++ecWc54SHW1e3paNhdjTBZ3KNGJeFxCt+77+7rGBXFF
-	JPQNlvxS3VS+NQfij3JfkWOS9jPfrwb47rSvfHvo1Nlrfgq7BkibHy6h97F0mm54sSdv
-	LG4g==
+	h=from:to:cc:subject:date:message-id;
+	bh=9NVAfQ6seIXFQqR8pCFmVv4a6+YKhW/wCyn7Py101Wg=;
+	b=aV0XfTJ1q1F94WuG/F5wqq8qXYkSGS0qT4p1t9NnhWeIfCiBPp/wfTTQTcfTkrwHYw
+	x3zh1tcx/PeQshZ08WGuAfgDRT/Bz3LMKkGInMZZPSjFQweNzuM6ohPyyrjL/oHCVbrG
+	x5mZgepSp8EJtsvtFUVLAQLDBdjJkuR19SMlLva6mmLAHIOWUqOZ23XYmFOTiJIcc+KB
+	zx/bmk9AdD8J+Na5yShkyDp07SMb6zZQl1M0rucOXzI+QsU3ktPH5bvNpQ9twQQV+xtS
+	+p9TtgaW4OxSxSlwRI6kfYgchL0rQFJ0kJNapLNx4+E3WC+dR9k+0bmnrxQY1qdWVq6g
+	kNVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=FJeVeAIdth9LZ42APoOGN1ESTpkVRNC6k5nbiZ6JFF4=;
-	b=VXxQyj6+kSsZCfV4ouyxSiEjP64svwisIU2O9QAI+IB2gwFse1JbV+lref7bSgG3Xh
-	6mHyIuNaLyyOZH8jJKvT+ZIP5V9MW0kFlIondGU3K+7QjJkti5SnyPgSWOLk+04ygy9h
-	s48YMdN/8tgEiF/KT6xv09786A570egbyYKlVVU1lJ4XFyppFvEmRDq7mN/xOdNfIOSe
-	+06cnz+07xuWnExgaEZKU29Npz1lFp1lMsllH5QjeELLGE2dY3e1V//81mm16Y+IaunV
-	G/jO3qi7zwcazP3EBURm56jgG5eDknh0uThGsOtklfNcTjm9JJV9excK2i8wzuNM2tzl
-	zAxA==
-X-Gm-Message-State: APjAAAU76sa/SnDuCM6YiyRtI3k3Ix9UpRnulWqRv9Jp2zCqSgRUQS4x
-	GiwfccJNwStVJdpRYQpHgNHIb4zn7jAzz5MXV8toPRrtlBc=
-X-Google-Smtp-Source: APXvYqxLynMiBK9lnB28wex2ftvArV5P2rGgEA5z9zi34GojTLH4/eVMqTP9cc9DODUxtGJb1ytocJPW3St6ZM9r0c8=
-X-Received: by 2002:aca:e689:: with SMTP id d131mr6451791oih.132.1556123420952;
-	Wed, 24 Apr 2019 09:30:20 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190423161916.25572-1-alex.kanavin@gmail.com>
-	<20190423161916.25572-9-alex.kanavin@gmail.com>
-	<47f9247c144f591b4527e1af2c6b7bb80cd1bfbd.camel@linuxfoundation.org>
-In-Reply-To: <47f9247c144f591b4527e1af2c6b7bb80cd1bfbd.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Apr 2019 18:30:09 +0200
-Message-ID: <CANNYZj8ZyU5Nhu_edVeRAg9BX7ZBF1g=RW+6gKpY5Ec9=9Q8rg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 9/9] python3-pycairo: update to 1.18.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=9NVAfQ6seIXFQqR8pCFmVv4a6+YKhW/wCyn7Py101Wg=;
+	b=h62Jxr7xNLyBEfCgot5kGrwoyKX/2srH8jmYaKC1rEljYfNnQUueKl1ZNCgfaTekCq
+	ArE3zGCgYgD5poPX+Sen7kKZcpamQerSzpfbNiCOo2hDFE9w/wIDWAtAM1Iv1wJzHTUb
+	8x8cpOJB1bygifA8ufelYTCdOpBZXHbJvXKG8JI1q8q0HqgCfTVYZ1dB8Gg75fRufUvK
+	Qah2koICopL9pntw3ZONWfjGN+zSBa6lE/7GkKmFsThWj5BtN0QS/i0IhyHO3PcU2G6n
+	cPXmPi2Wa7pwOBFDdjFGuUcwUfDjQEiAvX2i3sEGS/xCdZ9wQuC4VHB/AgqIB48RNZOW
+	+m5g==
+X-Gm-Message-State: APjAAAWem8glj3yPGRtsmXrwgbuk2kwiTEjfFmpaG3hpqNNbTxBztdY8
+	nw8aqnVUTDgGTmcGqJatQqan0tJ6
+X-Google-Smtp-Source: APXvYqw6sLFoccdEfL7V0w1wBdSv7cYp2xThY3rgLwXDaJH7jCeh3y64Chkdu0n77UPBbd95Se3r2g==
+X-Received: by 2002:a5d:6352:: with SMTP id b18mr7267484wrw.24.1556123571545; 
+	Wed, 24 Apr 2019 09:32:51 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	o4sm24517678wmo.20.2019.04.24.09.32.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 24 Apr 2019 09:32:50 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 16:32:49 +0000
+Message-Id: <20190424163249.16077-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] icecc.bbclass: stop causing everything to be effectivelly MACHINE_ARCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 16:30:20 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 Apr 2019 16:32:51 -0000
 
-On Wed, 24 Apr 2019 at 17:49, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2019-04-23 at 18:19 +0200, Alexander Kanavin wrote:
-> > Switch over to meson build, as it does not attempt to install
-> > headers into /usr/share and pkg-config files into /usr/share/$libdir.
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  ...3-pycairo_1.15.6.bb => python3-pycairo_1.18.1.bb} | 12 ++++----
-> > ----
-> >  1 file changed, 4 insertions(+), 8 deletions(-)
-> >  rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb =>
-> > python3-pycairo_1.18.1.bb} (65%)
->
-> Fails on no-x11:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/531
-> qemuarm-oecore:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/543
->
+* since this change:
+  commit d2fcaeb153fdc3f8d7143ea823139f1537055ff1
+  Author: Douglas Royds <douglas.royds@taitradio.com>
+  Date:   Thu Dec 20 11:59:47 2018 +1300
 
-This one I could not reproduce :( The issue seems to be meson complaining:
+    icecc: Don't generate recipe-sysroot symlinks at recipe-parsing time
 
-| meson.build:14:0: ERROR: <ExternalProgram 'python3' ->
-['/home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/core2-64-poky-linux/python3-pycairo/1.18.1-r0/recipe-sysroot-native/usr/bin/python3-native/python3']>
-is not a valid python
-|
-| A full log can be found at
-/home/pokybuild/yocto-worker/no-x11/build/build/tmp/work/core2-64-poky-linux/python3-pycairo/1.18.1-r0/build/meson-logs/meson-log.txt
+  the set_icecc_env function depends on KERNEL_CC variable even for recipes
+  like linux-libc-headers
 
-which does not seem to be caused by lack of x11 - maybe a host issue?
+* KERNEL_CC variable depends on STAGING_KERNEL_DIR:
+  Variable KERNEL_CC value is ${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH}
+  List of dependencies for variable KERNEL_CC is {'STAGING_KERNEL_DIR', 'HOST_PREFIX', 'DEBUG_PREFIX_MAP', 'HOST_CC_KERNEL_ARCH', 'KERNEL_SRC_PATH'}
 
-Alex
+  which depends on MACHINE:
+  Variable STAGING_KERNEL_DIR value is ${TMPDIR}/work-shared/${MACHINE}/kernel-source
+  List of dependencies for variable STAGING_KERNEL_DIR is {'MACHINE'}
+
+* as detected with:
+  openembedded-core/scripts/sstate-diff-machines.sh --tmpdir=tmp-glibc --machines="qemux86 qemux86copy qemuarm" --targets=glibc --analyze
+
+  ERROR: linux-libc-headers different signature for task do_configure.sigdata between qemux86 and qemux86copy
+  NOTE: Starting bitbake server...
+  basehash changed from 3146f4ffeb002bd69fed7656a4b896365b2e2a00071c69e1afbb672889e754ee to f1a5160e39912e61389b6f9fe68d61146a2be91716ac37e4a32ecf4c09b2b5fa
+  Variable MACHINE value changed from 'qemux86' to 'qemux86copy'
+
+  $ bitbake-diffsigs /OE/build/oe-core/tmp-glibc/sstate-diff/1556122458/qemux86*/*/linux-libc-headers/*do_configure.sigdata*
+  NOTE: Starting bitbake server...
+  basehash changed from f1a5160e39912e61389b6f9fe68d61146a2be91716ac37e4a32ecf4c09b2b5fa to 3146f4ffeb002bd69fed7656a4b896365b2e2a00071c69e1afbb672889e754ee
+  Variable MACHINE value changed from 'qemux86copy' to 'qemux86'
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/classes/icecc.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index 6d003dccef..edb0e10434 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -312,6 +312,7 @@ def set_icecc_env():
+     # dummy python version of set_icecc_env
+     return
+ 
++set_icecc_env[vardepsexclude] += "KERNEL_CC"
+ set_icecc_env() {
+     if [ "${@use_icecc(bb, d)}" = "no" ]
+     then
+-- 
+2.17.1
+
 
