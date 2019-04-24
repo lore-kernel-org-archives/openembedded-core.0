@@ -1,52 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 59BBE7CF9D
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
+	[209.85.208.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 75AB260069
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 06:50:07 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id 10so3099296wmk.0
+	Wed, 24 Apr 2019 06:56:06 +0000 (UTC)
+Received: by mail-ed1-f54.google.com with SMTP id u57so14916203edm.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 23:50:08 -0700 (PDT)
+	Tue, 23 Apr 2019 23:56:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=/ljQelXHs8lT9f+gaN+c1K8ocArsTzsxQ4Ihj3h5QLE=;
-	b=JyiwgCPwlikpVp89+NNK2lx7p5Btm0roD0Y2ZK+/u1byuGqwVTkxFARdpzrXTI2pOE
-	unqJc+E2FfLmScpgqpO1AYR7C+C1tX5b15lWm6As1iBi8p5cg3QprGwQcNmomHIOqMbO
-	gm9dVBwxNNOB+E+NV3OyEP0/DQbgK70D4tB3c=
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=1zWTNow8kwtL5ScrjckHRpjc4sXJOVH4b5cyPRIedeY=;
+	b=GCD3XMmeRSzS+p9dO3naReh0FJkfXhFEQH2JIONwjhAj8h0yNwSZM501RJ07TNwDWM
+	Pf80SKr8criZatsN/ueKlEMIkNZpGvoQ4fOmzymsGOjBVtS8NufiankUIs83EkNWZdS0
+	oz3MfOxy1brsnmyqrsr/33/zXyiwO80+aJfqaRjIVjKkMFb4v8fR1Q0iKjdn7B8wDw6J
+	UzFLxEmB7Tcov8Hivbc0X6Ai2IKht6MTk7yWLs28UQXfeDAptO9bHjus0Gog+E3ge0tQ
+	orQF7fo/neaM2sf2V4HlKUsENgz4kXVizFiLNpZNGhDWE0RPiAop1KJTOklC1gTd+aV4
+	QhHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=/ljQelXHs8lT9f+gaN+c1K8ocArsTzsxQ4Ihj3h5QLE=;
-	b=BI7wbDYQZww+vInWX/u4Ah8+qlxfXmHv3GJEg7nzDI0LyeXqS0/89j2qW3gajfxHYT
-	f4/8XzpsAOrR5NOi16e+Cl2jJG+jvyQdNqL4S9XUYfuAp4S0XtD4dHDFZwqB/mVO3hHK
-	Sp3GZnSrKsx4s4oNkx0ikjCR0ES4b2prMfhJSW0RP07tqgWmf1tSo94rCNlm44cIpWqI
-	xOvvdQLF+6Kd+sNAqNrmOYZ1dqYppSMQqEgKun4+aIsBmIVM/DNetAxvuFekgS7BAQI+
-	AVG1+lF+MjF5Y9IR+M1eyZTBun/L/ynVnXLZ3SzELpIMrROozAuupNrHYtwvVIHqTUL5
-	Yenw==
-X-Gm-Message-State: APjAAAVV5ZGLwlMUWM/N9qlql/kBQwiWycI7oKDGa1DsJNWvuV2q3S6h
-	GJ7CesBa9nptQPZHoQAVTojjUQ==
-X-Google-Smtp-Source: APXvYqwml6AMawTbArwBeguGYDDVV2HKd0IsKbzTEEMzhBnY3PZ6b72YrSfzki2c8O2SLFOrDQ+g7g==
-X-Received: by 2002:a1c:7518:: with SMTP id o24mr432325wmc.42.1556088608034;
-	Tue, 23 Apr 2019 23:50:08 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b8sm13971176wrf.21.2019.04.23.23.50.07
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 23 Apr 2019 23:50:07 -0700 (PDT)
-Message-ID: <b161abdfa2cb9aaf65ecffd7b1dcb0d9d2d2aca2.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 07:50:06 +0100
-In-Reply-To: <20190423161916.25572-3-alex.kanavin@gmail.com>
-References: <20190423161916.25572-1-alex.kanavin@gmail.com>
-	<20190423161916.25572-3-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH 3/9] gtk-doc.bbclass: unify option setting for meson-based recipes
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1zWTNow8kwtL5ScrjckHRpjc4sXJOVH4b5cyPRIedeY=;
+	b=TezRLjrr3D0ahG7N4qjTEgL3JbKob7CTrTY6bxtSKn503FsrSMcZ6l4SWgYE6np0tZ
+	fntpCnUrqllGRCs+pYtR5g+ZP9jBZHLeXtg3DlFXrhQ2qL6ieR61vnPZZ0tdtNLgMJ9w
+	JpQQh51xVHuXRTZl/60TxxA3YTOhep3Qn4Se5F3CdUQgTZMXM4OAecX4oLm4KzmONTKd
+	Fp9yI85Ly2gK4RD5ADZjf98Kw6AEsbEXuLVn/MSnp3BQM8Idw0RVajB7rdAsBptAb92L
+	tkQ/WmBJCpPvigMuXVsjC2JT4uizf9EQNauXh/9IKLKs8MbuqHjR8PICrTweUC8F0ztP
+	PL9Q==
+X-Gm-Message-State: APjAAAWbEW781Cb5YdG/uHkJ9nd1cgZS+WlrAUvFc9Eprwo4BLsO505J
+	+eg01U3Y+9+8NLDvD0oe9TVn55TFceU=
+X-Google-Smtp-Source: APXvYqwyUktgY3RsTy9HzG9R0dBgcbuOyWCwUSz7Y5lXoNxbRpMSuhS/Eew83Gdz6po4T+aWGuKh7w==
+X-Received: by 2002:a17:906:f1d6:: with SMTP id
+	gx22mr1978910ejb.276.1556088965804; 
+	Tue, 23 Apr 2019 23:56:05 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	z33sm5412432edd.47.2019.04.23.23.56.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Apr 2019 23:56:05 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 08:56:03 +0200
+Message-Id: <20190424065603.20591-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] wget: update to 1.20.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,37 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 06:50:07 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 24 Apr 2019 06:56:06 -0000
 
-On Tue, 2019-04-23 at 18:19 +0200, Alexander Kanavin wrote:
-> This is done similarly to gobject-introspection work by Andreas
-> Müller,
-> and allows dropping duplicate clutter from the recipes.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/classes/gtk-doc.bbclass                       | 11 +++++++++++
->  meta/recipes-core/glib-2.0/glib.inc                |  6 +-----
->  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb |  6 ------
->  meta/recipes-gnome/json-glib/json-glib_1.4.4.bb    |  7 -------
->  meta/recipes-graphics/clutter/clutter-gtk-1.0.inc  |  6 +-----
->  meta/recipes-graphics/pango/pango_1.42.4.bb        |  5 +----
->  meta/recipes-support/atk/at-spi2-core_2.30.0.bb    |  6 +-----
->  meta/recipes-support/atk/atk_2.30.0.bb             |  6 ------
->  meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb |  7 +------
->  9 files changed, 16 insertions(+), 44 deletions(-)
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-extended/wget/wget_1.20.2.bb | 8 --------
+ meta/recipes-extended/wget/wget_1.20.3.bb | 8 ++++++++
+ 2 files changed, 8 insertions(+), 8 deletions(-)
+ delete mode 100644 meta/recipes-extended/wget/wget_1.20.2.bb
+ create mode 100644 meta/recipes-extended/wget/wget_1.20.3.bb
 
-Its this patch which is causing gobject-introspection-native to fail to
-build:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/530
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/411
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-extended/wget/wget_1.20.2.bb b/meta/recipes-extended/wget/wget_1.20.2.bb
+deleted file mode 100644
+index cd20785259..0000000000
+--- a/meta/recipes-extended/wget/wget_1.20.2.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+-           file://0002-improve-reproducibility.patch \
+-          "
+-
+-SRC_URI[md5sum] = "2692f6678e93601441306b5c1fc6a77a"
+-SRC_URI[sha256sum] = "7e43b98cb5e10234836ebef6faf24c4d96c0ae7a480e49ff658117cc4793d166"
+-
+-require wget.inc
+diff --git a/meta/recipes-extended/wget/wget_1.20.3.bb b/meta/recipes-extended/wget/wget_1.20.3.bb
+new file mode 100644
+index 0000000000..4fa273d093
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget_1.20.3.bb
+@@ -0,0 +1,8 @@
++SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
++           file://0002-improve-reproducibility.patch \
++          "
++
++SRC_URI[md5sum] = "db4e6dc7977cbddcd543b240079a4899"
++SRC_URI[sha256sum] = "31cccfc6630528db1c8e3a06f6decf2a370060b982841cfab2b8677400a5092e"
++
++require wget.inc
+-- 
+2.17.1
 
 
