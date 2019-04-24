@@ -1,49 +1,52 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com
-	[209.85.208.169])
-	by mail.openembedded.org (Postfix) with ESMTP id D1A1A7D2CC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E53F67D590
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 14:44:41 +0000 (UTC)
-Received: by mail-lj1-f169.google.com with SMTP id k2so2893024lje.10
+	Wed, 24 Apr 2019 15:05:11 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id j13so5124977wmh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 07:44:42 -0700 (PDT)
+	Wed, 24 Apr 2019 08:05:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=kA43mMeSeNsrq3HfwouaKSKO6EtnNbh0aHPweJyKeew=;
-	b=uQ/eVRajy863g8rqrm94EH5rgOw1hE46vPVSm4qVQD7gEHkLNYsfmEWxXcMNCNLpMs
-	zklamKVBVlu0jGjpsZZUCHIoYzUlZeoWy3BNm6haWKo3VEue7GrY80WI925pCKy8UmTD
-	RooWSFkvC2K4oyHhhPt/FvvCvcVSMP0DWx1Z4i2nn9FGwKOR37/nxe0jy4G413eANR9x
-	Yy4oq1dddyUOfJfKcrOoL9PfuMHTi2hAJ1fFt1kcYQ/AO3/3kzhwkSYWpVACPHGLg8oS
-	jh4vQq8WDeqjcN5iqVXHJqePMCX7zUUp9YNwjeRgnx7XLjlV18Nd7emg58mEH7d5i/M5
-	P9Cw==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=nGRlmJvnS+EutRcZphZuOQGG+t6h8y4ZwWqhCrm6y7Y=;
+	b=asIOf3g2fQ+6ulI89S0H4hNbTUgpJEAJ+jItifIt5iaGkrjDScMKZTucqpLDgo2E+y
+	msi1LaT9zcqpRBh6MDbgbzG9D1mjQEnePGT5NhP92ifuMCTf8x/U2n2FY8XV7w0tr0le
+	K2plDSvCzMEWyXn7GnN75MSqHhwuBLUpbXfQo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kA43mMeSeNsrq3HfwouaKSKO6EtnNbh0aHPweJyKeew=;
-	b=sFSgf3Zpg5ZHQvTzMwRUk12ROl5lML2qZYYvF+gbrWF2MaaNMrVOs4zW/fBzF4v1Cy
-	7Ygf3SvZ/WaJ6Ul8dM91LGPLiJbh9AEZxTneWFXpxLJXu4wlw5mRd8N2U1iemFHf3U7t
-	KP5jSJE+UBOhQhSARe/mh+XIAGDceXTPvx3LWjezo7V9z+PSodK4jvfVmpClwhs+xBLc
-	xf9AsirdSEOyqYh4oYuxCbqEgYqKnXiHqKjstsn2fpgbqPrDepnn8UMdrNpOtqmcIn8O
-	DWSDhmAaS82ubS9K5oPWgFVBuVsYuC0s67QSe0HNoa18yUgAt1RU44VzOgQ1xqDfvGCL
-	LecA==
-X-Gm-Message-State: APjAAAVkukaSVNg4zBbyKiF/y4KyLUKBJ1Uh0NJfWbsZX675oa8JwQEj
-	SBMtW5uJ8BPlg5EL5H5SPhZcZ/6gz0w=
-X-Google-Smtp-Source: APXvYqxq33vp6aVtc1IL5fB/FECdqmJkvpZG4Ztxf2gL8Omi4K2nmjZWxvKh/RIMXh/yrt32+Vhjkw==
-X-Received: by 2002:a2e:7d19:: with SMTP id y25mr7318003ljc.126.1556117081907; 
-	Wed, 24 Apr 2019 07:44:41 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	v26sm3978682lja.60.2019.04.24.07.44.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Apr 2019 07:44:41 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 16:44:38 +0200
-Message-Id: <20190424144438.26001-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] ninja: add Upstream-Status and SOB for musl patch
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=nGRlmJvnS+EutRcZphZuOQGG+t6h8y4ZwWqhCrm6y7Y=;
+	b=NTj6Vcbacvdr3SuTqp5HMRjd8IqY+a3JNwSkuPcLWw37oDip5JvEmaZNdX7ResGFe6
+	6pO02pBcl4qFLwMWwJyMCwZV6lmTO7HmZXs/Nt6AtLRTmfooFv4MPSlvYvXudRoVa78w
+	yEplrwmSQKM8I75cYUACmPAL+DDkOsi+vQ6qTJTv5z8HMNZ59TzCr9zxMKZLx0IisMAH
+	EvEMDftMw2VSVXpWMqlyUv6lESneE1qSerFRFR8yJRAAu4gIdZ5x7hDYEA1bx47TCnmM
+	Hq5cqP+eTnT+7yVf8Vhma6XJnq5PcXeaeFnmQKXOIyG5wpuVaNiQauYnec+mDMeK7ScK
+	oslQ==
+X-Gm-Message-State: APjAAAXkGw1JO4vywm6Oo8kjkta0uHqXP+TDUovhaE68ENT457MwhvN6
+	f+j5oT3qIURiavrY8E3TpshdQw==
+X-Google-Smtp-Source: APXvYqx1EBQ82v8O+uHp4XOrurDnvSKSRWZBXhdD3Sy3C75lldkptnH7nfrhx42qx19tkuZcYwuXbg==
+X-Received: by 2002:a1c:f910:: with SMTP id x16mr2485452wmh.114.1556118312692; 
+	Wed, 24 Apr 2019 08:05:12 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d3sm36286926wmf.46.2019.04.24.08.05.11
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 24 Apr 2019 08:05:11 -0700 (PDT)
+Message-ID: <6d0bf92974bf8b17be3e5daebb33673b71428642.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 16:05:10 +0100
+In-Reply-To: <1555936919-19078-2-git-send-email-akuster808@gmail.com>
+References: <1555936919-19078-1-git-send-email-akuster808@gmail.com>
+	<1555936919-19078-2-git-send-email-akuster808@gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Subject: Re: [QA][PATCH 1/7] manual tests migrate to selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,52 +59,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 14:44:42 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 15:05:12 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/recipes-devtools/ninja/ninja/fix-musl.patch | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+On Mon, 2019-04-22 at 06:41 -0600, Armin Kuster wrote:
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/oescripts.py | 89
+> +++++++++++++++++++++++++++++++
+>  1 file changed, 89 insertions(+)
 
-diff --git a/meta/recipes-devtools/ninja/ninja/fix-musl.patch b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-index 543d4f1c48..7fd779110d 100644
---- a/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-+++ b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-@@ -1,18 +1,22 @@
--2ff54ad7478a90bd75c91e434236a Mon Sep 17 00:00:00 2001
-+From e92a915183f8bff268f74c8cd00d986301a2bbf8 Mon Sep 17 00:00:00 2001
- From: makepost <makepost@firemail.cc>
- Date: Mon, 24 Dec 2018 03:13:16 +0200
- Subject: [PATCH] Use st_mtim if st_mtime is macro, fix #1510
- 
- In POSIX.1-2008, sys_stat has a st_mtim member and a st_mtime backward
- compatibility macro. Should help avoid hardcoding platform detection.
-+
-+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-+
-+Upstream-Status: Pending
- ---
-  src/disk_interface.cc | 14 ++++----------
-  1 file changed, 4 insertions(+), 10 deletions(-)
- 
- diff --git a/src/disk_interface.cc b/src/disk_interface.cc
--index d4c2fb087..dc297c449 100644
----- src/disk_interface.cc
--+++ /src/disk_interface.cc
-+index d4c2fb0..dc297c4 100644
-+--- a/src/disk_interface.cc
-++++ b/src/disk_interface.cc
- @@ -202,19 +202,13 @@ TimeStamp RealDiskInterface::Stat(const string& path, string* err) const {
-    // that it doesn't exist.
-    if (st.st_mtime == 0)
-@@ -37,3 +41,6 @@ index d4c2fb087..dc297c449 100644
-  #else
-    return (int64_t)st.st_mtime * 1000000000LL + st.st_mtimensec;
-  #endif
-+-- 
-+2.17.1
-+
--- 
-2.17.1
+This threw a few errors on the autobuilder:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/425
+
+One issue is missing pycairo but there seem to be others.
+
+Cheers,
+
+Richard
 
 
