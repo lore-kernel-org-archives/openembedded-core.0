@@ -1,28 +1,26 @@
-Return-Path: <Mingli.Yu@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A0EE67D418
+	by mail.openembedded.org (Postfix) with ESMTP id 896887C51E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 01:50:52 +0000 (UTC)
+	Wed, 24 Apr 2019 02:25:42 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3O1oq5p022874
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 23 Apr 2019 18:50:52 -0700 (PDT)
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Tue, 23 Apr 2019 18:50:52 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <1555664043-329543-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0LYQeSCoShBRc5SJ9C1+qyFAgxYn7uVYAshFrFGGQAos=Q@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CBFC2C8.2000301@windriver.com>
-Date: Wed, 24 Apr 2019 09:58:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3O2PhvA023360
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 23 Apr 2019 19:25:43 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 23 Apr 2019 19:25:42 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <20190415034231.105641-1-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <c5cfa394-44e4-bdae-d334-82b9fe109f86@windriver.com>
+Date: Wed, 24 Apr 2019 10:23:05 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYQeSCoShBRc5SJ9C1+qyFAgxYn7uVYAshFrFGGQAos=Q@mail.gmail.com>
-X-Originating-IP: [128.224.162.170]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib-2.0: fix ptest failures
+In-Reply-To: <20190415034231.105641-1-kai.kang@windriver.com>
+Subject: Re: [PATCH] cryptodev: update SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,42 +33,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 01:50:52 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 02:25:42 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-
-
-On 2019年04月23日 23:52, Burton, Ross wrote:
-> On Fri, 19 Apr 2019 at 09:54, <mingli.yu@windriver.com> wrote:
->> From: Mingli Yu <Mingli.Yu@windriver.com>
->>
->> * Set G_TEST_BUILDDIR to mark we run the tests
->>    out of builddir to make it can skip the test_non_utf8_printf
->>    to fix below test error as test_non_utf8_printf needed
->>    to run under builddir per https://gitlab.gnome.org/GNOME/glib/blob/master/glib/tests/gdatetime.c#L1440.
->>    | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
->>    | Bail out! GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
->>    | FAIL: glib/gdatetime.test (Child process killed by signal 6)
+On 2019/4/15 上午11:42, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
 >
-> As per the link:
+> Update SRCREV of cryptodev which only contains one fix for linux 5.0:
 >
-> /* If running uninstalled (G_TEST_BUILDDIR is set), skip this test, since we
->     * need the translations to be installed. We can’t mess around with
->     * bindtextdomain() here, as the compiled .gmo files in po/ are not in the
->     * right installed directory hierarchy to be successfully loaded by
-> gettext. */
+> $ git log fd8b15ef1c8398a69a37932ee48c74ab40329a29..f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
+> commit f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
+> Author: Derald D. Woods <woods.technical@gmail.com>
+> Date:   Sun Feb 10 13:22:19 2019 -0600
 >
-> Setting G_TEST_BUILDDIR isn't right as we're not running uninstalled.
-> This is a gross hack, and not a fix.
+>      Fix module loading with Linux v5.0-rc5
+>
+>      This commit fixes this module load error:
+>      [...]
+>      [   29.112091] cryptodev: loading out-of-tree module taints kernel.
+>      [   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
+>      [   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
+>      modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
+>      [...]
 
-Per the comments at https://gitlab.gnome.org/GNOME/glib/issues/1357, we 
-need to run test_non_utf8_printf under builddir to guarantee the test 
-passed.
 
-Thanks,
+Without this patch it fails to modprobe module cryptodev. Ping.
+
+Kai
+
 
 >
-> Ross
+>      Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
 >
+>      c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
+>
+>      Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-kernel/cryptodev/cryptodev.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+> index 252d39d23a..79ddefd435 100644
+> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
+> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+> @@ -4,7 +4,7 @@ LICENSE = "GPLv2"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>   
+>   SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
+> -SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
+> +SRCREV = "f971e0cd4a0ebe59fb2e8e17240399bf6901b09b"
+>   
+>   S = "${WORKDIR}/git"
+>   
+
+
+-- 
+Kai Kang
+
 
