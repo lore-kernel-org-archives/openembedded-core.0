@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
 Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
 	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id BD5F07D5AD
+	by mail.openembedded.org (Postfix) with ESMTP id 2987A7D676
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 18:37:42 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id l6so3032305ljb.3
+	Wed, 24 Apr 2019 18:37:59 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id h16so5308253ljg.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 11:37:43 -0700 (PDT)
+	Wed, 24 Apr 2019 11:38:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
 	bh=n8XyzAP34mYGjEPiLAmbKFmWIWTUeY4mN7XtTleYZ2A=;
-	b=W3IyImhZLPNR6m1JV4H4g65dzvRBukxlqzZzrdvAMeMAUO2QSpangoz9MvscahhRK+
-	FGDGQ1rsJEzYUmIzxdwwboDEm9wfiOgl3CCYwGgQdLikB2iXwwRx7u8Z1UxYLdSr2J+f
-	9zKC5UcRQd05uWYuQkyVREHGrb82nfnYJjtXlM/Ji7YiuUi1F3uf0Hd/OuZUCqwJVbyL
-	QJJZqJhi44MYR/e5fqTkQIxux/o/jfpKOzCnoO3ueg5/Rw9r2J7xxOmB06iYBlaEQ0RR
-	SMVwLkVEx9uBBQd3Tix32xue69I3IMKI4PBgkLUZpt+QR4hIwxAGUtimXrC9M93CHaFD
-	KDeQ==
+	b=YeLpvh4it3iP3icVR9sSIsTF4GQEV3mg+NNuN8u5ec3XrZMs/FmeMwsjdge1n+bVhg
+	mnkSoOKzY0MSmXxBrFWK5Hmwht9MrBgWYMT4RrC65BtD85S0PCe6Sgv3AawMJRSukG2H
+	0MzizRwtEYdRV5UuKkaGgpC0/MWn7H8DSzoVc998yv2q2bIPEIjWiqwQv2Kl6y+S/PQG
+	5MSflDfbklJ7CvHrHjAh8X3DXyo7ETmVh6AXkQIQBoIzHTaPbj0y9SBjzniSQylWyq+E
+	T4NFtHbMLsOuAWRbM3IlHnAkvyqCiVIY4JDMyFy7NlgaXHFsVMK9XuImb3MRmZPWvcpj
+	Rb6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
 	bh=n8XyzAP34mYGjEPiLAmbKFmWIWTUeY4mN7XtTleYZ2A=;
-	b=h0iG8rpiBTaRg3P1DRy8Nh6M42bASs/7+qVaVhCQtUIQtTxa49Svy2Q+X3IyYVqAtp
-	P968D+zQthBgvSQUQ0Bn0oNC5q8jvJSFHrcJruFpcnQnOqQan3mCAzL5Ahq/yA7lz553
-	Y71nnEfV8pAntRo+fqwX2aReJ5gK2lqBDKmZFn09OJDVFo0Rf3h0eKYyoFzsUgcxvPFo
-	SOGrqHdgtJVG2aV1DGvsmZW/z5X9uqmZKW2FYRd3prZeCaEZhagXpG/UvzDN+7o/VqL5
-	ko9wLrFKozbOm+dhnqRJGAtmDX8RvqYU+uKufnOyVFIjDC23U7OtwAyNE/XSRVFSDoVw
-	741w==
-X-Gm-Message-State: APjAAAW5vHADz8oNmJ+R3gEDl39G5KJ0NETktCzjT8KJJSXTXbTmUvOU
-	ZyfpdZGM6pmpuGkY8akAwF1+q9LJYLA=
-X-Google-Smtp-Source: APXvYqz6u92AiOrueFYgqxuhBM+Hj4Rae2ZpEQEoz3QXltLWTVql+V3rT11kOw/uuRmZY3IfdD9H5Q==
-X-Received: by 2002:a2e:420c:: with SMTP id p12mr18516768lja.1.1556131062730; 
-	Wed, 24 Apr 2019 11:37:42 -0700 (PDT)
+	b=crT+TrLzIkfTjrBHM+iA5v5LrzaRymwXRmcaXVw+awpzaniED5K2m5wBwWl5+WA0vH
+	FC4KctQduC+S7V6xVcTWhvXrihorXSposnua1vZwV4cUoskFICF13JxIpUFvaJ4yi1bc
+	Nb0rGnrxuQpP7E4BuwshW1k+wrBuaOUA7Cy1r4n5nFF255OoCmEFgK5U0FkdM/4KtUBW
+	WXKL8Le3y2CFHj67pNq1UHk1rPGk/VCvbQXzYbIOpZZufNBXYGwmwUdvYQcNPbS5ZvYT
+	+CwRzEzvCB5mXJOWLo5USZHCnFFz68/LRIRsoY9uLPHycCy07WYmk6fYedhjjbAxdJ5u
+	/vCg==
+X-Gm-Message-State: APjAAAUL0Ev2ZtL2+39zj3Sl6geOUiG+YWkiF6ggaRPuJ7+dMjZ5eHLv
+	eZIRI/2IW0yKFYCkMzhTogDjnYhhvy8=
+X-Google-Smtp-Source: APXvYqxRLVzBLLQtNqpPXVt7LDObfwGTFTW1t00LiWHs6ClzgwuOr5ObzgvdCM2qWA2VppSzTiGCxg==
+X-Received: by 2002:a2e:8ec5:: with SMTP id e5mr18363341ljl.7.1556131079560;
+	Wed, 24 Apr 2019 11:37:59 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id x25sm654486ljj.95.2019.04.24.11.37.41
+	by smtp.gmail.com with ESMTPSA id z16sm5382383lfi.9.2019.04.24.11.37.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Apr 2019 11:37:42 -0700 (PDT)
+	Wed, 24 Apr 2019 11:37:59 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 20:37:39 +0200
-Message-Id: <20190424183739.11532-1-open.source@oleksandr-kravchuk.com>
+Date: Wed, 24 Apr 2019 20:37:56 +0200
+Message-Id: <20190424183756.11654-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python-sons: update to 3.0.5
+Subject: [PATCH v2] python-scons: update to 3.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,7 +56,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 18:37:43 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 18:37:59 -0000
 
 License checksum changed due to modified copyright years.
 
