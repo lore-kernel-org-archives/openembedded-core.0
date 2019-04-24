@@ -1,54 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0EA3D7D598
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 41B317D66A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 17:28:45 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id b1so14944540wru.3
+	Wed, 24 Apr 2019 17:32:45 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id q66so17669762ljq.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 10:28:47 -0700 (PDT)
+	Wed, 24 Apr 2019 10:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=tmKV2NJkXItWyHWQq4xTWLkh0v/wreFZezv5yvYWTA4=;
-	b=ACeq9EDcnOPwKzF9ujZqv5JWcRXnIiu3Ia0GkBAgQXSbW3Tn/mYrhfktRDIT0tuhrY
-	zFxhTWA4d8QweJW0oudmOj/5HJhN5OpWCNvuZJj3+O7z4cmrofeAYip7kuORrBLUWynB
-	jc4G/p9FdrSFd/UOgl/ybEKybcRaCUvgQa40Q=
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=YVe3cJ/vqbMijpEIwBde8sScZzGM/shQYBG57XDemjA=;
+	b=yaakVGjkNpM+0Fzw2WTlw9td/2nfJgE7JuqSD82ytIs/9E/knlarolE66LU5jWXX6N
+	4VCLXLjTlkwsJEdBaXRsdxLVo80dLkQLkgSBTq7zRQ001VPvNia7YFGOvnS3wFOGq7tf
+	3BAG5Fla7QhmugimEdiYbc+C5YPHOeOkQXsD6zb83OVyp6GaSxGj7Zy5SpVxHhxSlcPj
+	NH5OwcR7h8dWSNHtV2XDt3APWncaG4F1193r26o87kqLN3nO1WW54ypqp9r8KLd4YCb8
+	+BaqKKJcaYrA2usibLqsti0rZ0TguErrayBudzrQRRlWtEZVDd5eKRLEJWV6PMfdHRAU
+	Vb0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tmKV2NJkXItWyHWQq4xTWLkh0v/wreFZezv5yvYWTA4=;
-	b=dOZLPYnPuxPRBIxHWHk6OMYce4azP+blqGzZnH189fg6Xvdu7vDsfRyXOaBw9FTYOd
-	L57bAfChKr0oScT5N5Dgy6vZlq5dtuAq0ROG4+0XA35gyrqsRC4528muSeLtvqfLdnXo
-	JTON5dE/eatrKG/IGhhmHC+mUd3aHMc5XVJF5yFJRPeh9YJFJE5CDe0/OIpJARBg76R6
-	A0uO4xY2VEGRFwKEoXNPlNTSyRWbii7+i1m2sVDS8wnegwOwesAqDmHRdbeiERL1wLSi
-	5t79A7RGMBiImgTI4ukY0XLTaOJweMolImjwJESN22PIFWKte0Sf3N0wd/hPBvyl3V1A
-	cdHQ==
-X-Gm-Message-State: APjAAAUuk2B/VXUAll474ePVLR1QYiTywB9u8t7eie4QAljYmBaP0WcJ
-	3siOHiYcPytvBvFvdaugufW52k+OV0w=
-X-Google-Smtp-Source: APXvYqy2bKPygySNvKDjCPmQGrBNFFGl2jJB0d8Jui36Jxm/Qr1O6j37qAcI5azNX0wJzj3E8gs7Mw==
-X-Received: by 2002:adf:f64f:: with SMTP id x15mr2781048wrp.202.1556126926840; 
-	Wed, 24 Apr 2019 10:28:46 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r9sm18779399wmh.38.2019.04.24.10.28.45
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 24 Apr 2019 10:28:46 -0700 (PDT)
-Message-ID: <f1cbab2b9d878718e45c11d822d7e114197969a0.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Changqing Li <changqing.li@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 18:28:44 +0100
-In-Reply-To: <7bd4040d-0ebf-490f-735d-eb64a16b1dc7@windriver.com>
-References: <1541388536-121953-1-git-send-email-changqing.li@windriver.com>
-	<1555490306-29097-1-git-send-email-changqing.li@windriver.com>
-	<f6e345e417eb8219c0b08ba72ef4e7f6916fdf11.camel@linuxfoundation.org>
-	<7bd4040d-0ebf-490f-735d-eb64a16b1dc7@windriver.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH V4] dbus: fix ptest failure
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YVe3cJ/vqbMijpEIwBde8sScZzGM/shQYBG57XDemjA=;
+	b=YyubjSf9gBIX3HRj0JPIWiZFHwB4QM57HS/W34G6t0TuLnY3ujvB1m9WZtk9L98uws
+	B/JMGKvkTE9NYsuTzRJiJcILJV3/tn1jk69GQq+wAHDqndSljV4h2xwHV42aZK0jbdm+
+	/iP8RB4m//5m+LzErtB2H7bz+o4emAAYNeUyPuozg4fiGKK4WEvF55pIwrL5qBDA3WYl
+	szSswhEg9RqnPhSokJlx54KECp/w2n5cgqL794/Rzgzdy07aTF8MtAN+M9qyPWlSab/p
+	0IO1sfIYXd6OjhUZSWIX5rC/YReF0oX/hBShj/m4a15mei6WOa4AyTprCNhpsaXvc8bO
+	odHg==
+X-Gm-Message-State: APjAAAULuvgfqwwCxvI5P3Yt5mwweeRPbl606QhSNLysXn1yh0gGN65l
+	IgK/huMqO6prfn8pQ+jzTx9u60Rfp0o=
+X-Google-Smtp-Source: APXvYqw6YGCi+0X0eXXeDGi2NwvH1HM7qFLDlGchnC+NxWiN28sLeot/4GfQxaHJCkV8tkUoaGv9yA==
+X-Received: by 2002:a2e:4a1a:: with SMTP id x26mr16104066lja.49.1556127166347; 
+	Wed, 24 Apr 2019 10:32:46 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	n10sm5188505ljh.36.2019.04.24.10.32.45
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 24 Apr 2019 10:32:45 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 19:32:41 +0200
+Message-Id: <20190424173241.13587-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH v2] coreutils: update to 8.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,87 +56,113 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 17:28:46 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 24 Apr 2019 17:32:46 -0000
 
-On Thu, 2019-04-18 at 09:59 +0800, Changqing Li wrote:
-> 
-> On 4/18/19 6:01 AM, Richard Purdie wrote:
-> > On Wed, 2019-04-17 at 16:38 +0800, changqing.li@windriver.com
-> > wrote:
-> > > From: Changqing Li <changqing.li@windriver.com>
-> > > 
-> > > 1. since one bug in run-ptest, testcase test-bus have never been
-> > > actually run (althrough it's result is PASS).
-> > > 
-> > > After commit 0828850, test-bus can actually run but it
-> > > did not install:
-> > >   test-service, test-shell-service, test-segfault, and
-> > >   dbus-daemon-launch-helper-test
-> > > Add the configure flag:
-> > >   --enable-embedded-tests
-> > > to generate binary dbus-daemon-launch-helper-test, then install
-> > > them so that test-bus will now pass.
-> > > 
-> > > 2. fix testcase test-dbus-daemon failed
-> > > we enable --enable-verbose-mode in recipe dbus-test, and don't
-> > > enable it in recipe dbus. This will make below test code get
-> > > unexpect result of have_verbose and assert.
-> > > disable --enable-verbose-mode for recipe dbus-test to fix it.
-> > > 
-> > >  #ifdef DBUS_ENABLE_STATS
-> > >   g_assert_true (have_stats);
-> > >  #else
-> > >   g_assert_false (have_stats);
-> > >  #endif
-> > > 
-> > > Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> > > ---
-> > >  meta/recipes-core/dbus/dbus-test_1.12.12.bb | 13 ++++++++++---
-> > >  meta/recipes-core/dbus/dbus/run-ptest       | 16 ++++++++++++---
-> > > -
-> > >  2 files changed, 22 insertions(+), 7 deletions(-)
-> > 
-> > I'm wondering if some of these tests were intentionally not run due
-> > to
-> > the length of time they take? It takes the dbus-ptest time from 26s
-> > to
-> > 250+s. Can you see which test that is and why its taking so long
-> > please?
-> 
-> test-bus take most of the time, it include several sub tests. My test
-> result:
-> all test runed: 
-> real    2m59.637s
-> user    0m59.494s
-> sys    0m41.952s
-> skipped test-bus:
-> real    0m13.125s
-> user    0m12.230s
-> sys    0m0.162s
-> 
-> Previously we don't intentionally skip test-bus,  just because we had
-> a bug in run-ptest before,
-> so test-bus  accidentally not run,  just return PASS. 
-> After below commit fix this bug, test-bus can be runned.
-> https://git.openembedded.org/openembedded-core/commit/?id=0828850fd09f738572ae8259384af07eeb81182b
-> 
-> -for i in `ls test/test-*`; do ./$i ./test/data
-> DBUS_TEST_HOMEDIR=./test >/dev/null; output; done
-> 
-> "DBUS_TEST_HOMEDIR=./test" will take as an argument,  make no sub
-> test is runned. 
+lc.c license checksum changed due to modified copyright year.
 
+musl fix was backported from RHEL5 and is musl specific as the patched
+file is autogenerated during configure phase.
 
-Ross, do you remember if we intentionally skip this dbus test for
-taking around 200s, taking the overall test time from 20s to 220s?
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../strtod_fix_clash_with_strtold.patch       | 56 +++++++++++++++++++
+ .../{coreutils_8.30.bb => coreutils_8.31.bb}  |  8 ++-
+ 2 files changed, 61 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+ rename meta/recipes-core/coreutils/{coreutils_8.30.bb => coreutils_8.31.bb} (94%)
 
-I'm strongly tempted to explicitly disable this test unless someone can
-convince me it tests someting critical...
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch b/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+new file mode 100644
+index 0000000000..19410715f5
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+@@ -0,0 +1,56 @@
++From 0562b040fa17f1722ba2b3096067b45d0582ca53 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Mon, 11 Mar 2019 16:40:29 -0700
++Subject: [PATCH] strtod: fix clash with strtold
++
++Problem reported for RHEL 5 by Jesse Caldwell (Bug#34817).
++* lib/strtod.c (compute_minus_zero, minus_zero):
++Simplify by remving the macro / external variable,
++and having just a function.  User changed.  This avoids
++the need for an external variable that might clash.
++
++Upstream-Status: Backported [rhel5]
++
++Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
++
++---
++ ChangeLog    |  9 +++++++++
++ lib/strtod.c | 11 +++++------
++ 2 files changed, 14 insertions(+), 6 deletions(-)
++
++diff --git a/lib/strtod.c b/lib/strtod.c
++index b9eaa51b4..69b1564e1 100644
++--- a/lib/strtod.c
+++++ b/lib/strtod.c
++@@ -294,16 +294,15 @@ parse_number (const char *nptr,
++    ICC 10.0 has a bug when optimizing the expression -zero.
++    The expression -MIN * MIN does not work when cross-compiling
++    to PowerPC on Mac OS X 10.5.  */
++-#if defined __hpux || defined __sgi || defined __ICC
++ static DOUBLE
++-compute_minus_zero (void)
+++minus_zero (void)
++ {
+++#if defined __hpux || defined __sgi || defined __ICC
++   return -MIN * MIN;
++-}
++-# define minus_zero compute_minus_zero ()
++ #else
++-DOUBLE minus_zero = -0.0;
+++  return -0.0;
++ #endif
+++}
++ 
++ /* Convert NPTR to a DOUBLE.  If ENDPTR is not NULL, a pointer to the
++    character after the last one used in the number is put in *ENDPTR.  */
++@@ -479,6 +478,6 @@ STRTOD (const char *nptr, char **endptr)
++   /* Special case -0.0, since at least ICC miscompiles negation.  We
++      can't use copysign(), as that drags in -lm on some platforms.  */
++   if (!num && negative)
++-    return minus_zero;
+++    return minus_zero ();
++   return negative ? -num : num;
++ }
++-- 
++2.20.1
++
+diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+similarity index 94%
+rename from meta/recipes-core/coreutils/coreutils_8.30.bb
+rename to meta/recipes-core/coreutils/coreutils_8.31.bb
+index 8f4ee55712..4a74f619af 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.30.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-                    file://src/ls.c;beginline=1;endline=15;md5=dbe356a88b09c29232b083d1ff8ac82a"
++                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
+ DEPENDS = "gmp libcap"
+ DEPENDS_class-native = ""
+ 
+@@ -20,8 +20,10 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
+           "
+ 
+-SRC_URI[md5sum] = "ab06d68949758971fe744db66b572816"
+-SRC_URI[sha256sum] = "e831b3a86091496cdba720411f9748de81507798f6130adeaef872d206e1b057"
++SRC_URI_append_libc-musl = "file://strtod_fix_clash_with_strtold.patch"
++
++SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
++SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
+ 
+ EXTRA_OECONF_class-native = "--without-gmp"
+ EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+-- 
+2.17.1
 
 
