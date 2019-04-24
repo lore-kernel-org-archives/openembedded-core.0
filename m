@@ -1,49 +1,29 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3414C7D676
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id B68DD7D610
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 18:47:13 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id k2so3636948lje.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 11:47:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=eCWWeIuZFZczcyIiTqhT5IoXN6BQYIV+qOi4tghoYPU=;
-	b=nfXLzxHmmmiZeH9d+GoHLCG0MyWGI96lqwmkWolplAZrc1LrZfsU4Hd4LYpk4XZBvw
-	OpEUdcSVZU00eivrNchcBnBj14nx3n86EcWn0DuokN227nGi3ic8Cvm2ASLVYk3mLGC8
-	9r9GrwjFwxLmStB64gOvJDWzXet26NQlPC62gyAIO+dmgpKJTpCZNZEMnapUmaDeJGiC
-	7d6jM3fcgbF9ElRozwXo8upllHL50dWWABwljaU9p+sZ4kvrBxgGRakQyZqanS4EGh9x
-	O0ULEaKg8q/vVyL5pU1xiMuVxZxPyoweGwfpS9Cn1HXTgdHzLg47qCWcN13niqgZ3Dr2
-	3lNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=eCWWeIuZFZczcyIiTqhT5IoXN6BQYIV+qOi4tghoYPU=;
-	b=qechDqA4vyYIlJp3piIQQsh5tefijmiK8peseA/aiGjkn6qQmPBvumtMZZRxLmY5pa
-	u4CNLwXoItZEGSdDDP6LAcDmZ9dQFqSJl+cd+U0KNTcsNw5thQnYTAx3bcSCaCXvNYUX
-	be1Ky933YYCmctcgx6oISca5we5S2eivMNyF/RzYpXPVBvvjWOrokpS1p8V6xYdzE+qr
-	CdusIMT+OrpqU6YKCZ4UT9xLST7YDyG6no05tDckfgacB/UEgBxTr0lEHhIqbYkJhRkD
-	XUNJ0M4BVtykjOWqhF9RCLpzslevrfARSmJtO+sz6YqgFnPnZMbstRhIp+SvMNUoiW7h
-	2jjA==
-X-Gm-Message-State: APjAAAXU7RqXyuicdWWEnbCA+BhjjYsT6et2Sh0MiCq34y51sgiCLhDd
-	Eos+Tc2V5PKAhlufSzdRrXDfDBxW3OU=
-X-Google-Smtp-Source: APXvYqyAakWbd7+iHxqPGcm4eBatoKetvYrHcHsuIvVNS6+224Kb2x0v6Xuj/F4BUs/wqMTtcca5wA==
-X-Received: by 2002:a2e:9c85:: with SMTP id x5mr4912115lji.45.1556131634491;
-	Wed, 24 Apr 2019 11:47:14 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id w2sm1716117ljh.72.2019.04.24.11.47.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Apr 2019 11:47:13 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 20:47:11 +0200
-Message-Id: <20190424184711.19015-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python3-pycairo: update to 1.18.1
+	Wed, 24 Apr 2019 18:50:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3OIooZA004231
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Apr 2019 11:50:50 -0700 (PDT)
+Received: from [128.224.56.205] (128.224.56.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 24 Apr 2019 11:50:50 -0700
+To: Joshua Watt <jpewhacker@gmail.com>
+References: <20190419190139.26106-1-Randy.MacLeod@windriver.com>
+	<042de1d8-1cec-1941-c270-629709cb4a2e@windriver.com>
+	<CAJdd5GbT1HscC-8zTiud4_=Vm6PwWUYW370=C7KBt6H_soSpHg@mail.gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <02bfebf8-a802-8d83-d832-8f3d30aab26b@windriver.com>
+Date: Wed, 24 Apr 2019 14:50:49 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAJdd5GbT1HscC-8zTiud4_=Vm6PwWUYW370=C7KBt6H_soSpHg@mail.gmail.com>
+X-Originating-IP: [128.224.56.205]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] valgrind: update from 3.14.0 to 3.15.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +36,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 18:47:14 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 18:50:50 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- ...on3-pycairo_1.15.6.bb => python3-pycairo_1.18.1.bb} | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.18.1.bb} (78%)
+On 4/19/19 4:04 PM, Joshua Watt wrote:
+> On Fri, Apr 19, 2019 at 2:27 PM Randy MacLeod
+> <randy.macleod@windriver.com> wrote:
+>>
+>> On 4/19/19 3:01 PM, Randy MacLeod wrote:
+>>> The SRC_URI moved.
+>>> Two local patches are now fixed upstream so remove them.
+>>>
+>>> The glibc ptest results are essentially the same.
+>> s/glibc/qemux86-64 glibc/
+>>>
+>>>                3.14  3.15
+>>> TOTAL:        579   589
+>>> PASSED:       297   301
+>>> FAILED:       251   254
+>>> SKIPPED:       31    34
+>>> DURATION:    1312  1171
+>>
+>> I hope to have time to fix some of these valgrind ptest failures
+>> but I didn't want to hold back the update.
+>>
+>> Build tested for all qemu machines, for both glibc and musl.
+>>
+>> I'm building core-image-sato-sdk-ptest for qemuarm64 now but
+>> it will be a while so merge if you like or wait for an update
+>> and a v2 with minor improvements.
+> 
+> Randy,
+> 
+> Might this be related to or fix
+> https://bugzilla.yoctoproject.org/show_bug.cgi?id=13302 ?
 
-diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
-similarity index 78%
-rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
-rename to meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
-index 5c3e1e6f03..6ede00b89e 100644
---- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
-+++ b/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
-@@ -13,8 +13,8 @@ DEPENDS = "cairo"
- SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
- UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
- 
--SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
--SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
-+SRC_URI[md5sum] = "7610da8a40a7bed548991aa3416431d1"
-+SRC_URI[sha256sum] = "70172e58b6bad7572a3518c26729b074acdde15e6fee6cbab6d3528ad552b786"
- 
- S = "${WORKDIR}/pycairo-${PV}"
- 
-@@ -28,4 +28,8 @@ do_install_append() {
-     install -d ${D}${includedir}/pycairo/
-     install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
- }
--FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
-+
-+FILES_${PN} += " \
-+    ${datadir}/include/pycairo/py3cairo.h \
-+    ${datadir}/lib/pkgconfig/py3cairo.pc \
-+"
+Probably not.
+
+After the update, I noticed that an image I built didn't
+have valgrind installed. Being focussed on the update, I just added it
+explicitly rather than debug why it didn't get added even though
+I had added 'tools-profile' to EXTRA_IMAGE_FEATURES.
+
+I'll keep any eye out for that problem when I get back to fixing
+the valgrind ptests. That's looking like Friday now, sigh.
+
+../Randy
+
+
+
+> 
+>>
+>> ../Randy
+>>
+>>>
+>>> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+>>> ---
+>>>    ...-between-libcoregrind-.a-and-m_main..patch | 45 -------------------
+>>>    ...ts-amd64-Do-not-clobber-rsp-register.patch | 37 ---------------
+>>>    ...{valgrind_3.14.0.bb => valgrind_3.15.0.bb} |  8 ++--
+>>>    3 files changed, 3 insertions(+), 87 deletions(-)
+>>>    delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
+>>>    delete mode 100644 meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
+>>>    rename meta/recipes-devtools/valgrind/{valgrind_3.14.0.bb => valgrind_3.15.0.bb} (94%)
+>>>
+>>> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch b/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
+>>> deleted file mode 100644
+>>> index bedf1c1274..0000000000
+>>> --- a/meta/recipes-devtools/valgrind/valgrind/0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch
+>>> +++ /dev/null
+>>> @@ -1,45 +0,0 @@
+>>> -From 7820fc268fae4353118b6355f1d4b9e1b7eeebec Mon Sep 17 00:00:00 2001
+>>> -From: Philippe Waroquiers <philippe.waroquiers@skynet.be>
+>>> -Date: Sun, 28 Oct 2018 18:35:11 +0100
+>>> -Subject: [PATCH] Fix dependencies between libcoregrind*.a and
+>>> - *m_main.o/*m_libcsetjmp.o
+>>> -
+>>> -The primary and secondary coregrind libraries must be updated
+>>> -when m_main.c or m_libcsetjmp.c are changed.
+>>> -
+>>> -A dependency was missing between libcoregrind*.a and libnolto_coregrind*.a,
+>>> -and so tools were not relinked when m_main.c or m_libcsetjmp.c were
+>>> -changed.
+>>> -
+>>> -Upstream-Status: Backport[git://sourceware.org/git/valgrind.git 7820fc268fae4353118b6355f1d4b9e1b7eeebec]
+>>> -
+>>> -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>>> ----
+>>> - coregrind/Makefile.am | 4 ++++
+>>> - 1 file changed, 4 insertions(+)
+>>> -
+>>> -diff --git a/coregrind/Makefile.am b/coregrind/Makefile.am
+>>> -index 914a270..8de1996 100644
+>>> ---- a/coregrind/Makefile.am
+>>> -+++ b/coregrind/Makefile.am
+>>> -@@ -511,6 +511,8 @@ libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_CFLAGS += \
+>>> - endif
+>>> - libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_LIBADD = \
+>>> -     $(libnolto_coregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_OBJECTS)
+>>> -+libcoregrind_@VGCONF_ARCH_PRI@_@VGCONF_OS@_a_DEPENDENCIES = \
+>>> -+    libnolto_coregrind-@VGCONF_ARCH_PRI@-@VGCONF_OS@.a
+>>> -
+>>> - if VGCONF_HAVE_PLATFORM_SEC
+>>> - libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_SOURCES = \
+>>> -@@ -531,6 +533,8 @@ libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_CFLAGS += \
+>>> - endif
+>>> - libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_LIBADD = \
+>>> -     $(libnolto_coregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_OBJECTS)
+>>> -+libcoregrind_@VGCONF_ARCH_SEC@_@VGCONF_OS@_a_DEPENDENCIES = \
+>>> -+    libnolto_coregrind-@VGCONF_ARCH_SEC@-@VGCONF_OS@.a
+>>> - endif
+>>> -
+>>> - #----------------------------------------------------------------------------
+>>> ---
+>>> -2.10.2
+>>> -
+>>> diff --git a/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch b/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
+>>> deleted file mode 100644
+>>> index 657f80335d..0000000000
+>>> --- a/meta/recipes-devtools/valgrind/valgrind/0001-tests-amd64-Do-not-clobber-rsp-register.patch
+>>> +++ /dev/null
+>>> @@ -1,37 +0,0 @@
+>>> -From 8c1ebb564f5eca2baeedc27a703200786d1abb0b Mon Sep 17 00:00:00 2001
+>>> -From: Khem Raj <raj.khem@gmail.com>
+>>> -Date: Sat, 22 Dec 2018 15:28:40 -0800
+>>> -Subject: [PATCH] tests/amd64: Do not clobber %rsp register
+>>> -
+>>> -This is seen with gcc-9.0 compiler now which is fix that gcc community
+>>> -did recently
+>>> -https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52813
+>>> -
+>>> -Upstream-Status: Submitted [https://bugs.kde.org/show_bug.cgi?id=402480]
+>>> -
+>>> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>>> ----
+>>> - none/tests/amd64-linux/bug345887.c | 5 +++--
+>>> - 1 file changed, 3 insertions(+), 2 deletions(-)
+>>> -
+>>> -diff --git a/none/tests/amd64-linux/bug345887.c b/none/tests/amd64-linux/bug345887.c
+>>> -index 0f9237d..4b07fe1 100644
+>>> ---- a/none/tests/amd64-linux/bug345887.c
+>>> -+++ b/none/tests/amd64-linux/bug345887.c
+>>> -@@ -20,13 +20,14 @@ static void inner(void)
+>>> -       "movq $0x10d, %%r14\n"
+>>> -       "movq $0x10e, %%r15\n"
+>>> -       // not %rbp as mdb is then not able to reconstruct stack trace
+>>> --      "movq $0x10f, %%rsp\n"
+>>> -+      // not %rsp since gcc ignores it and since gcc >= 9.0 errors about it
+>>> -+      // see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52813
+>>> -       "movq $0x1234, (%%rax)\n"  // should cause SEGV here
+>>> -       "ud2"                      // should never get here
+>>> -       : // no output registers
+>>> -       : // no input registers
+>>> -       : "memory", "%rax", "%rbx", "%rcx", "%rdx", "%rsi", "%rdi",
+>>> --        "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15", "%rsp");
+>>> -+        "%r8", "%r9", "%r10", "%r11", "%r12", "%r13", "%r14", "%r15");
+>>> - }
+>>> -
+>>> - __attribute__((noinline))
+>>> diff --git a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+>>> similarity index 94%
+>>> rename from meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+>>> rename to meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+>>> index db1bd9fc5b..3159f32230 100644
+>>> --- a/meta/recipes-devtools/valgrind/valgrind_3.14.0.bb
+>>> +++ b/meta/recipes-devtools/valgrind/valgrind_3.15.0.bb
+>>> @@ -12,7 +12,7 @@ DEPENDS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '${X11DEPENDS}', '', d
+>>>               ${@bb.utils.contains('DISTRO_FEATURES', 'ptest', 'boost', '', d)} \
+>>>            "
+>>>
+>>> -SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>>> +SRC_URI = "https://sourceware.org/pub/valgrind/valgrind-${PV}.tar.bz2 \
+>>>               file://fixed-perl-path.patch \
+>>>               file://Added-support-for-PPC-instructions-mfatbu-mfatbl.patch \
+>>>               file://run-ptest \
+>>> @@ -36,11 +36,9 @@ SRC_URI = "http://www.valgrind.org/downloads/valgrind-${PV}.tar.bz2 \
+>>>               file://0001-fix-opcode-not-supported-on-mips32-linux.patch \
+>>>               file://0001-Guard-against-__GLIBC_PREREQ-for-musl-libc.patch \
+>>>               file://0001-Make-local-functions-static-to-avoid-assembler-error.patch \
+>>> -           file://0001-tests-amd64-Do-not-clobber-rsp-register.patch \
+>>> -           file://0001-Fix-dependencies-between-libcoregrind-.a-and-m_main..patch \
+>>>               "
+>>> -SRC_URI[md5sum] = "74175426afa280184b62591b58c671b3"
+>>> -SRC_URI[sha256sum] = "037c11bfefd477cc6e9ebe8f193bb237fe397f7ce791b4a4ce3fa1c6a520baa5"
+>>> +SRC_URI[md5sum] = "46e5fbdcbc3502a5976a317a0860a975"
+>>> +SRC_URI[sha256sum] = "417c7a9da8f60dd05698b3a7bc6002e4ef996f14c13f0ff96679a16873e78ab1"
+>>>    UPSTREAM_CHECK_REGEX = "valgrind-(?P<pver>\d+(\.\d+)+)\.tar"
+>>>
+>>>    COMPATIBLE_HOST = '(i.86|x86_64|arm|aarch64|mips|powerpc|powerpc64).*-linux'
+>>>
+>>
+>>
+>> --
+>> # Randy MacLeod
+>> # Wind River Linux
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 -- 
-2.17.1
-
+# Randy MacLeod
+# Wind River Linux
 
