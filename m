@@ -1,50 +1,30 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com
-	[209.85.208.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 75AB260069
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC1C7D565
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 06:56:06 +0000 (UTC)
-Received: by mail-ed1-f54.google.com with SMTP id u57so14916203edm.3
+	Wed, 24 Apr 2019 07:19:05 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,388,1549900800"; d="scan'208";a="60365417"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 24 Apr 2019 15:19:05 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 685AC4CDAABF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 23:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=1zWTNow8kwtL5ScrjckHRpjc4sXJOVH4b5cyPRIedeY=;
-	b=GCD3XMmeRSzS+p9dO3naReh0FJkfXhFEQH2JIONwjhAj8h0yNwSZM501RJ07TNwDWM
-	Pf80SKr8criZatsN/ueKlEMIkNZpGvoQ4fOmzymsGOjBVtS8NufiankUIs83EkNWZdS0
-	oz3MfOxy1brsnmyqrsr/33/zXyiwO80+aJfqaRjIVjKkMFb4v8fR1Q0iKjdn7B8wDw6J
-	UzFLxEmB7Tcov8Hivbc0X6Ai2IKht6MTk7yWLs28UQXfeDAptO9bHjus0Gog+E3ge0tQ
-	orQF7fo/neaM2sf2V4HlKUsENgz4kXVizFiLNpZNGhDWE0RPiAop1KJTOklC1gTd+aV4
-	QhHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1zWTNow8kwtL5ScrjckHRpjc4sXJOVH4b5cyPRIedeY=;
-	b=TezRLjrr3D0ahG7N4qjTEgL3JbKob7CTrTY6bxtSKn503FsrSMcZ6l4SWgYE6np0tZ
-	fntpCnUrqllGRCs+pYtR5g+ZP9jBZHLeXtg3DlFXrhQ2qL6ieR61vnPZZ0tdtNLgMJ9w
-	JpQQh51xVHuXRTZl/60TxxA3YTOhep3Qn4Se5F3CdUQgTZMXM4OAecX4oLm4KzmONTKd
-	Fp9yI85Ly2gK4RD5ADZjf98Kw6AEsbEXuLVn/MSnp3BQM8Idw0RVajB7rdAsBptAb92L
-	tkQ/WmBJCpPvigMuXVsjC2JT4uizf9EQNauXh/9IKLKs8MbuqHjR8PICrTweUC8F0ztP
-	PL9Q==
-X-Gm-Message-State: APjAAAWbEW781Cb5YdG/uHkJ9nd1cgZS+WlrAUvFc9Eprwo4BLsO505J
-	+eg01U3Y+9+8NLDvD0oe9TVn55TFceU=
-X-Google-Smtp-Source: APXvYqwyUktgY3RsTy9HzG9R0dBgcbuOyWCwUSz7Y5lXoNxbRpMSuhS/Eew83Gdz6po4T+aWGuKh7w==
-X-Received: by 2002:a17:906:f1d6:: with SMTP id
-	gx22mr1978910ejb.276.1556088965804; 
-	Tue, 23 Apr 2019 23:56:05 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	z33sm5412432edd.47.2019.04.23.23.56.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Apr 2019 23:56:05 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 08:56:03 +0200
-Message-Id: <20190424065603.20591-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] wget: update to 1.20.3
+	Wed, 24 Apr 2019 15:19:06 +0800 (CST)
+Received: from localhost.local (10.167.225.84) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 24 Apr 2019 15:19:06 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Apr 2019 15:19:55 +0800
+Message-ID: <20190424071955.22692-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.84]
+X-yoursite-MailScanner-ID: 685AC4CDAABF.A9D37
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] mesa:upgrade 19.0.1 -> 19.0.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,45 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 06:56:06 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 07:19:06 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+-Upgrade from mesa_19.0.1.bb to mesa_19.0.2.bb.
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- meta/recipes-extended/wget/wget_1.20.2.bb | 8 --------
- meta/recipes-extended/wget/wget_1.20.3.bb | 8 ++++++++
- 2 files changed, 8 insertions(+), 8 deletions(-)
- delete mode 100644 meta/recipes-extended/wget/wget_1.20.2.bb
- create mode 100644 meta/recipes-extended/wget/wget_1.20.3.bb
+ meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.2.bb} (85%)
 
-diff --git a/meta/recipes-extended/wget/wget_1.20.2.bb b/meta/recipes-extended/wget/wget_1.20.2.bb
-deleted file mode 100644
-index cd20785259..0000000000
---- a/meta/recipes-extended/wget/wget_1.20.2.bb
-+++ /dev/null
-@@ -1,8 +0,0 @@
--SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
--           file://0002-improve-reproducibility.patch \
--          "
--
--SRC_URI[md5sum] = "2692f6678e93601441306b5c1fc6a77a"
--SRC_URI[sha256sum] = "7e43b98cb5e10234836ebef6faf24c4d96c0ae7a480e49ff658117cc4793d166"
--
--require wget.inc
-diff --git a/meta/recipes-extended/wget/wget_1.20.3.bb b/meta/recipes-extended/wget/wget_1.20.3.bb
-new file mode 100644
-index 0000000000..4fa273d093
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget_1.20.3.bb
-@@ -0,0 +1,8 @@
-+SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-+           file://0002-improve-reproducibility.patch \
-+          "
-+
-+SRC_URI[md5sum] = "db4e6dc7977cbddcd543b240079a4899"
-+SRC_URI[sha256sum] = "31cccfc6630528db1c8e3a06f6decf2a370060b982841cfab2b8677400a5092e"
-+
-+require wget.inc
+diff --git a/meta/recipes-graphics/mesa/mesa_19.0.1.bb b/meta/recipes-graphics/mesa/mesa_19.0.2.bb
+similarity index 85%
+rename from meta/recipes-graphics/mesa/mesa_19.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_19.0.2.bb
+index d90be8a074..e6646e8503 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.0.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.0.2.bb
+@@ -7,8 +7,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
+ "
+ 
+-SRC_URI[md5sum] = "19636bb3da35c21f43040d31e575d5ce"
+-SRC_URI[sha256sum] = "6884163c0ea9e4c98378ab8fecd72fe7b5f437713a14471beda378df247999d4"
++SRC_URI[md5sum] = "7f84af1c3fe2078c35a7a991d1469921"
++SRC_URI[sha256sum] = "1a2edc3ce56906a676c91e6851298db45903df1f5cb9827395a922c1452db802"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
-2.17.1
+2.20.1
+
+
 
 
