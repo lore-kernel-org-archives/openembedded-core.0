@@ -1,53 +1,54 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 28C1A62134
+Return-Path: <trini@konsulko.com>
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5AAB162134
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 01:15:11 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id z24so2459962wmi.5
+	Wed, 24 Apr 2019 01:17:45 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id c190so6090252qke.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 18:15:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ywhcjjyrTAnHTKF9hgkFHFOUsJCotptxtu2HVKN5G8o=;
-	b=tQR/FvzwZwClaCTNRivqEKCA+NlhYaKK2RuCO3sGnVDpAPXMpLBIoXV7SZfTtttYKp
-	NRjTSdeMV3JIJHeW5FHYaUqIu5vAvc+8qfZIA5sM1W17yNJAtz1oP+00Mh6hy8qCuTkN
-	JdeoSUL7GM9Xll81oTXCugCRRhA8f0eSP13MUcXnnsr8Bf63jdrmkum+VDFwGrDoYaI0
-	w4R8hgplN4dCR3ZGpXUzsq1+ihIjh5LeZFy/gDxGQZXCXokoHHkbsLWD4Vpmxiahy7nK
-	KlhObL/tZOKBchIVX2bXSd0XW/t9VsGwq4/ju6W9GieJMVgQ59KhWHosapv6bpvG9Smm
-	eeSA==
+	Tue, 23 Apr 2019 18:17:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=30Nuy+JpfuOAtENl234ss7dL1z4u8Agq2TJYQ2GMejw=;
+	b=BRaLnDHiZV9LrEx3eHUyjwvwJQhJT1jU+mRYit8AyXyfIr406lwcsaVjk9Ooxj5NmP
+	r+fjs9fJbQa8Cq9eWgRScbtRcDr3QXkZEzkzBlWYnWrRMpnjUKiTf4nw65cdkjGgeuTV
+	wgDOaxk3fp4iXVeHs7VIl5VsivgaZnGJt2o0s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ywhcjjyrTAnHTKF9hgkFHFOUsJCotptxtu2HVKN5G8o=;
-	b=J5PUfaYkWCnB4ni7lKbKm6GQEibZA2gWuq6z3qGzJySH1AYdEYhL2YTzL8TDfEglY3
-	O9+lwuGSFNuBTQNB1K46vbTphdCaB43brsOjzzS0nS9BF77MPCQg9Z/84aRx8FJo5q4H
-	BVD66zEMdOhAuMw/xBcz+wMNjo6belEQUP7Si+bSDBdvfZ8kLK5usloWmCojhxHeOFYa
-	hTQv52WGUwOBBJS1MWQYQRZ1FVscFU7EnjZfUEtuBrlFXJj4EQ1sQJcqumq95yQaIfH0
-	CVoN5nvSF272yBKbFqhPwTAFiVLz8B9y9fIbU6Ff6XMVOoF+LAJZRU3i1sbxSMbzAWvf
-	bViA==
-X-Gm-Message-State: APjAAAWw2ZOmRbVRR2c0woK+OonmJQ7GLns4JxqXtCqE+MQJuOEy3U+L
-	PPQjL1LHs/cmqRgQNlITMHTXRAmA
-X-Google-Smtp-Source: APXvYqz3R1I7N+S0lVnIhMEUQHOAPISKebw0JKWpgFhbqbr8rbOAj29Jsph6q7kZI7DiNAdlfqnAWA==
-X-Received: by 2002:a05:600c:2055:: with SMTP id
-	p21mr4460962wmg.118.1556068512355; 
-	Tue, 23 Apr 2019 18:15:12 -0700 (PDT)
-Received: from superandy.speedport.ip
-	(p200300F07F06D061E0920178A04BAB4C.dip0.t-ipconnect.de.
-	[2003:f0:7f06:d061:e092:178:a04b:ab4c])
-	by smtp.gmail.com with ESMTPSA id l1sm8152693wrh.58.2019.04.23.18.15.11
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 23 Apr 2019 18:15:11 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 03:15:00 +0200
-Message-Id: <20190424011500.9830-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=30Nuy+JpfuOAtENl234ss7dL1z4u8Agq2TJYQ2GMejw=;
+	b=UqR4sYLCOiM+OPmZ72k2ttaxdWWA8FEZtd9tigZbwPPhCDX/vQ/2oVwGfR8SwQkYWZ
+	Lvjy1YkHaK9PyaqPY9kstrAMtKGvxY4OqYT7mPjKpZsRthc7vIGCVpvWjCXHjbt8C7fD
+	EvE37ZIPAPMOIQ8jSgF18MkA2YitjYs53UX6url+vqzCOa/F1+PlOSQzdX3DIEV8/XOt
+	sKNPY+FwrwbTQPTdfzedYEW+XKp53PDP6GfBrkvExbBVc1gk+gK8hApJ/jFwEswUkZQo
+	Y/8lmU3H9SJ9gkmlVP6XpqKugg6VWVV2OmaAdTyExAv1foIz79mKSX7vsRp+TeRTQVnm
+	g8UQ==
+X-Gm-Message-State: APjAAAVXo1t7wfcuIgPn9AgvEyks9xSnR4lXn3jhGKlGk5W/VoiVBCPk
+	QX3xOSuiVYxsLkOjQ6Cd/0GSOg==
+X-Google-Smtp-Source: APXvYqz1Rv+9dyj+ihXv052JuUqPSitBWmbKzNacK+Yqi/kMD4FUq4zj5R7NAHJ0Rt7qND76v9ocTQ==
+X-Received: by 2002:ae9:ee1a:: with SMTP id i26mr5246601qkg.13.1556068666029; 
+	Tue, 23 Apr 2019 18:17:46 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-141-147.ec.res.rr.com.
+	[65.184.141.147])
+	by smtp.gmail.com with ESMTPSA id 9sm5926364qkn.38.2019.04.23.18.17.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Apr 2019 18:17:44 -0700 (PDT)
+Date: Tue, 23 Apr 2019 21:17:42 -0400
+From: Tom Rini <trini@konsulko.com>
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190424011742.GE30419@bill-the-cat>
+References: <1555869425-7613-1-git-send-email-trini@konsulko.com>
+	<1555869425-7613-2-git-send-email-trini@konsulko.com>
+	<6d594af6f152f129047dd75c8d42a52e1c6e7687.camel@linuxfoundation.org>
+	<20190423220106.GA30419@bill-the-cat>
+	<e6b4feb2584669c83dabbf50761f2e68b990140f.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH] vte: upgrade 0.52.2 -> 0.56.1
+In-Reply-To: <e6b4feb2584669c83dabbf50761f2e68b990140f.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] vim: Update to 8.1.1198
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,66 +61,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 01:15:12 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 24 Apr 2019 01:17:45 -0000
+X-Groupsio-MsgNum: 123647
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="VUDLurXRWRKrGuMn"
+Content-Disposition: inline
 
-* license: COPYING was replaced by COPYING.LGPL2/COPYING.LGPL3/COPYING.GPL3
-* pretify recipe a bit
+--VUDLurXRWRKrGuMn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- .../vte/{vte_0.52.2.bb => vte_0.56.1.bb}       | 18 ++++++++++++------
- 1 file changed, 12 insertions(+), 6 deletions(-)
- rename meta/recipes-support/vte/{vte_0.52.2.bb => vte_0.56.1.bb} (78%)
+On Tue, Apr 23, 2019 at 11:22:14PM +0100, richard.purdie@linuxfoundation.or=
+g wrote:
+> On Tue, 2019-04-23 at 18:01 -0400, Tom Rini wrote:
+> > On Tue, Apr 23, 2019 at 04:02:49PM +0100, Richard Purdie wrote:
+> > > On Sun, 2019-04-21 at 13:57 -0400, Tom Rini wrote:
+> > > > This brings us to the current version of vim.
+> > > >=20
+> > > > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > > > ---
+> > > >  meta/recipes-support/vim/{vim-tiny_8.1.1017.bb =3D> vim-
+> > > > tiny_8.1.1198.bb} | 0
+> > > >  meta/recipes-support/vim/{vim_8.1.1017.bb =3D>
+> > > > vim_8.1.1198.bb}           | 2 +-
+> > > >  2 files changed, 1 insertion(+), 1 deletion(-)
+> > > >  rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb =3D> vim-
+> > > > tiny_8.1.1198.bb} (100%)
+> > > >  rename meta/recipes-support/vim/{vim_8.1.1017.bb =3D> vim_8.1.1198=
+=2Ebb}
+> > > > (98%)
+> > >=20
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527
+> >=20
+> > Does the current version even work in this case?  Digging down into
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527/s=
+teps/7/logs/step1b
+> > there's a certain level of "how does that even work today then?" that
+> > springs to mind.
+> >=20
+> > I need a few more details to know how to reproduce this locally as I
+> > don't see whatever must be in site.conf/etc to turn regular poky into
+> > no-x11.  The errors are also around iconv stuff so maybe nls is also
+> > removed here?  Thanks!
+>=20
+> perhaps simpler, qemux86-world also failed:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/515
+>=20
+> with:
+>=20
+> | /home/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/i586-
+> poky-linux/vim/8.1.1198-r0/recipe-sysroot-native/usr/bin/msgfmt: Cannot
+> convert from "ISO-8859-2" to "UTF-8". msgfmt relies on iconv(), and
+> iconv() does not support this conversion.
+> | make[2]: *** [gvim.desktop] Error 1
+>=20
+> So perhaps there is host contamination and this works one some build
+> machine setups but not more minimal ones?
+>=20
+> The build configuration hasn't changed, just the new version upgrade
+> and the other patch. I suppose its possible it depends which of our
+> workers its built upon but that seems unlikely for two world failures
+> (no-x11 is also a world failure).
 
-diff --git a/meta/recipes-support/vte/vte_0.52.2.bb b/meta/recipes-support/vte/vte_0.56.1.bb
-similarity index 78%
-rename from meta/recipes-support/vte/vte_0.52.2.bb
-rename to meta/recipes-support/vte/vte_0.56.1.bb
-index 272ae66f13..0c0c0f4cd8 100644
---- a/meta/recipes-support/vte/vte_0.52.2.bb
-+++ b/meta/recipes-support/vte/vte_0.56.1.bb
-@@ -1,9 +1,15 @@
- SUMMARY = "Virtual terminal emulator GTK+ widget library"
- BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
--LICENSE = "LGPLv2.1+"
--DEPENDS = "glib-2.0 gtk+3 libpcre2 intltool-native libxml2-native gperf-native"
-+LICENSE = "GPLv3 & LGPLv2.1+"
-+LICENSE_libvte = "LGPLv2.1+"
-+
-+LIC_FILES_CHKSUM = " \
-+    file://COPYING.GPL3;md5=2f31b266d3440dd7ee50f92cf67d8e6c \
-+    file://COPYING.LGPL2;md5=4fbd65380cdd255951079008b364516c \
-+    file://COPYING.LGPL3;md5=b52f2d57d10c4f7ee67a7eb9615d5d24 \
-+"
- 
--LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
-+DEPENDS = "glib-2.0 gtk+3 libpcre2 intltool-native libxml2-native gperf-native"
- 
- inherit gnomebase gtk-doc distro_features_check upstream-version-is-even gobject-introspection
- 
-@@ -12,8 +18,8 @@ SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'vala', '', 'file://0001-Add-m4-vapigen.m4.patch', d) } \
-            file://0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch \
-            "
--SRC_URI[archive.md5sum] = "de8181350dccb010e915e366bdd06d18"
--SRC_URI[archive.sha256sum] = "0f2657cef52accbfe56feede553155552d7c1984b1291838af3cb8cfc19b26af"
-+SRC_URI[archive.md5sum] = "a8984cd5a101dbff0b0c875d1de3f692"
-+SRC_URI[archive.sha256sum] = "02fa8ecc02a9332e47f486795494527b5687b3bd448e73e6b67285f2f326dc7c"
- 
- ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
- 
-@@ -27,7 +33,7 @@ export XDG_DATA_DIRS = "${STAGING_DATADIR}"
- 
- # Help g-ir-scanner find the .so for linking
- do_compile_prepend() {
--        export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
-+    export GIR_EXTRA_LIBS_PATH="${B}/src/.libs"
- }
- 
- # Package additional files
--- 
-2.20.1
+Current poky master-next + my patches (and bitbake -k'ing around
+gobject-introspection-native failing to configure over passing
+-Ddocs=3Dfalse) and vim builds on a FC29 "Cloud" image + documented
+additional packages off of
+https://www.openembedded.org/wiki/Getting_started
 
+--=20
+Tom
 
+--VUDLurXRWRKrGuMn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJcv7k1AAoJEIf59jXTHXZSIt0P/iq/eqBq6u1EO4829BQmfCjL
+AaBNhtNxjNQ4xxqAlqvJ0YsNIjHX5Gt32tSCeruVUA0Jr6K3m4xejtCZCVdzYgBd
+GC8zLl5S7g9QHvY+rsAlcJTVQbM6IVrpWUeRqdbQm+9/EmG4FiQGfS6cHkR2cmpt
+oPkUdCayx3b1hhWDl6pwSWnlPkD7QaCabbiefDBWtIioco4cighdu8CNryx/A01Q
+GEVOrnla3xzIevj6ymw6na6lBXsaSgo11qJl93TOMrL8L/fyFwtxBfgNsYc4pqwi
+qN37JnopfmMYHIuhAOeJUxBaLL2qoXKVicZDgoz4JLQO606wiTE9YWNYwHQPxiNM
+JpV2aVCA2/7DnIv2WcjT5sreVk2WD+PSQQOwIyrbDHbcUZrzGOWEyXY0ySNUY112
+bfxlqXYi6Jz6WyVoT9cYY6F/MqHIyMIFFsv8EdRqk/iq6umzJVgE8Tf6raByNk66
+jlOoOEJQLVglV95KnVv24YtlxGAFnfG+qMUPK1/TYyZhZCC1+Aq6uXvwg0ub9F8s
+iUVEsIC96AhbXoHOvN2SUKYkdaPP2VSuYfKMazuAT4XreyB7+PcGHgCNbc1orHhK
+gSfBiV8aJtsDc4re0KbtfyaB7w8wGam1wduSr9aXa9BUs1/ze74GnyVVRG+/ueDq
+pK47VkrUnCmvzTVx7zL7
+=tA1b
+-----END PGP SIGNATURE-----
+
+--VUDLurXRWRKrGuMn--
