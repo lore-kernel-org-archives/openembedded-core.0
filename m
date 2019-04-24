@@ -1,33 +1,56 @@
-Return-Path: <Haiqing.Bai@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0550B7D280
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 90D337D557
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 07:24:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3O7OKbd028942
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Apr 2019 00:24:31 -0700
-Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.68]) by
-	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0439.000;
-	Wed, 24 Apr 2019 00:24:10 -0700
-From: "Bai, Haiqing" <Haiqing.Bai@windriver.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [V2][PATCH] sysstat:Add PACKAGECONFIG for
-	'--enable-install-cron' configure
-Thread-Index: AQHU+exFE18kP5K0dEelnKh5I6RrTaZK3Gaw
-Date: Wed, 24 Apr 2019 07:24:09 +0000
-Message-ID: <C2A454FDE6C23F41BD5011E2458C46C9F30B2A56@ALA-MBD.corp.ad.wrs.com>
-References: <1555666691-6043-1-git-send-email-Haiqing.Bai@windriver.com>
-	<CAJTo0LZ26dmhPjX0D0iprJc6u0APv-jB9-wt0Fkbk+MkwSt9pw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ26dmhPjX0D0iprJc6u0APv-jB9-wt0Fkbk+MkwSt9pw@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [128.224.176.106]
+	Wed, 24 Apr 2019 07:40:03 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id j13so3263709wmh.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Apr 2019 00:40:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=B0NNyqikn0s0bxrDR30MOohzIJBxtSriUoFefc4O9Nw=;
+	b=ddmYElikDAie7hPHa/HYw6e2KjEYJxtXTvrz/u+sm8VOvVLCFGbNXVSrcRpBjroj+3
+	LBduNgXehMMUCOqQIJfL1PGSQLN/6wqYZm1+p3jjVhl7b5gruZ5gbUapQalO+0blAXqy
+	j97wXOsmdZexobbEYcb1TFOFlSS0fX5Ew+VV4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=B0NNyqikn0s0bxrDR30MOohzIJBxtSriUoFefc4O9Nw=;
+	b=pN8YgAcr+hwtQqbpVWFSSdW+xBXRbCWZ7qnrAjWZtfKqG/rR66qCwdWV4sJddTmL4O
+	ujl/u8h9yaak9009BLbpzvAMh6XNkIc2yZ4vXfJprNiN4jy6UQdiunQKVP2+rKvf3bwM
+	NigXjcXJkblwFkAOppzn//CRRakaMqWywIySOQN3j9sWap1jkplc93YADGDdaKCQcJpB
+	1TSgPjKTw7B/2lyBHpJXR0wrjdSt/7JM6nlcZ6RUrKKCMqetDJoSPYjGw485QJIu/YN6
+	6r82vp6M1c+vcg1pU7qPNQo/c6isAN6PjtTyAqSOazd2bxkalqnVmjS78YEmI0bIf/DH
+	q2xw==
+X-Gm-Message-State: APjAAAXLIgRzRirizV4c4owDyV9mpsci2RkjUsWnIJqqb14L9FRGHF/Y
+	R0thC9r6y3h0rU3t7tzSnZbaiw==
+X-Google-Smtp-Source: APXvYqwtGa65VQZ9P930+m9QWWLuhXwO+oCQByUZShXLz+CAVwqpmLe6qjxGHjJixM/ESbI/7S+WQQ==
+X-Received: by 2002:a7b:c5c7:: with SMTP id n7mr5638284wmk.9.1556091604267;
+	Wed, 24 Apr 2019 00:40:04 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v1sm17787145wrd.47.2019.04.24.00.40.02
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 24 Apr 2019 00:40:03 -0700 (PDT)
+Message-ID: <f0092d0d82b7fe8fda61bb0baee724926264820f.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Tom Rini <trini@konsulko.com>
+Date: Wed, 24 Apr 2019 08:40:01 +0100
+In-Reply-To: <20190424011742.GE30419@bill-the-cat>
+References: <1555869425-7613-1-git-send-email-trini@konsulko.com>
+	<1555869425-7613-2-git-send-email-trini@konsulko.com>
+	<6d594af6f152f129047dd75c8d42a52e1c6e7687.camel@linuxfoundation.org>
+	<20190423220106.GA30419@bill-the-cat>
+	<e6b4feb2584669c83dabbf50761f2e68b990140f.camel@linuxfoundation.org>
+	<20190424011742.GE30419@bill-the-cat>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [V2][PATCH] sysstat:Add PACKAGECONFIG for '--enable-install-cron' configure
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] vim: Update to 8.1.1198
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,111 +63,92 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 07:24:57 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 24 Apr 2019 07:40:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-WWVzLCAgYWZ0ZXIgbXkgdGVzdHMsICB5b3UgYXJlIHJpZ2h0LiAgDQpGb3IgdGhlIGRlZmF1bHQg
-IFN5c1YgaW5pdCBzeXN0ZW1zIHBva3kgdXNlZCBub3csICAiLS1lbmFibGUtaW5zdGFsbC1jcm9u
-IiB3b3JrcyB3ZWxsIHRvIGluc3RhbGwgIi9ldGMvY3Jvbi5kL3N5c3N0YXQiDQpCdXQgZm9yIHN5
-c3RlbWQgbW9kZSwgIi0tZW5hYmxlLWluc3RhbGwtY3JvbiIgbXVzdCBiZSBlbmFibGVkIHRvZ2V0
-aGVyIHdpdGggIi0tZW5hYmxlLWNvcHktb25seSIgZm9yIGVtYmVkZGVkIGJ1aWxkaW5nLA0KdGhl
-biB0aGUgbWFrZWZpbGUgbmVlZCBub3QgdG8gYmUgcGF0Y2hlZC4NCg0KLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCkZyb206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVs
-LmNvbV0gDQpTZW50OiAyMDE55bm0NOaciDIz5pelIDIzOjUwDQpUbzogQmFpLCBIYWlxaW5nDQpD
-YzogT0UtY29yZQ0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbVjJdW1BBVENIXSBzeXNzdGF0OkFk
-ZCBQQUNLQUdFQ09ORklHIGZvciAnLS1lbmFibGUtaW5zdGFsbC1jcm9uJyBjb25maWd1cmUNCg0K
-TG9va3MgYSBsb3QgbGlrZSBzZXR0aW5nIENPUFlfT05MWT15IGlzIHdoYXQgeW91IHdhbnQgdG8g
-ZG8sIGluc3RlYWQNCm9mIHBhdGNoaW5nIHRoZSBtYWtlZmlsZT8NCg0KUm9zcw0KDQpPbiBGcmks
-IDE5IEFwciAyMDE5IGF0IDEwOjU2LCBIYWlxaW5nIEJhaSA8SGFpcWluZy5CYWlAd2luZHJpdmVy
-LmNvbT4gd3JvdGU6DQo+DQo+IEFkZCBQQUNLQUdFQ09ORklHW2Nyb25dIGZvciBjb25maWd1cmUg
-b3B0aW9uOiAnLS1lbmFibGUtaW5zdGFsbC1jcm9uJw0KPiBhbmQgcmVtb3ZlIHRoZSBjb2RlIG9m
-IGVuYWJsZS9kaXNhYmxlIHN5c3N0YXQuc2VydmljZSBpbiBNYWtlZmlsZS5pbg0KPiB3aGljaCBp
-cyBub3QgYXZhaWxhYmxlIGZvciBlbWJlZGRlZCBjcm9zcyBjb21waWxpbmcuDQo+DQo+IFNpZ25l
-ZC1vZmYtYnk6IEhhaXFpbmcgQmFpIDxIYWlxaW5nLkJhaUB3aW5kcml2ZXIuY29tPg0KPiAtLS0N
-Cj4gIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXQuaW5jICAgICAgICAgIHwg
-IDQgKy0NCj4gIC4uLmNvZGUtb2YtaGFuZGxpbmctZW5hYmxlLWRpc2FibGUtc2VsZi1zdGFyLnBh
-dGNoIHwgNTUgKysrKysrKysrKysrKysrKysrKysrKw0KPiAgbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L3N5c3N0YXQvc3lzc3RhdF8xMS43LjEuYmIgICAgfCAgMyArLQ0KPiAgMyBmaWxlcyBjaGFuZ2Vk
-LCA1OSBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygtKQ0KPiAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXQvMDAwMS1SZW1vdmUtdGhlLWNv
-ZGUtb2YtaGFuZGxpbmctZW5hYmxlLWRpc2FibGUtc2VsZi1zdGFyLnBhdGNoDQo+DQo+IGRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3lzc3RhdC9zeXNzdGF0LmluYyBiL21ldGEv
-cmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXQuaW5jDQo+IGluZGV4IDBiYzdlMTQuLjgz
-YTkyMDIgMTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0
-YXQuaW5jDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXQuaW5j
-DQo+IEBAIC0xNyw4ICsxNyw4IEBAIERFUEVORFMgKz0gImJhc2UtcGFzc3dkIg0KPiAgIyBhdXRv
-dG9vbHMtYnJva2Vuc2VwIGFzIHRoaXMgcGFja2FnZSBkb2Vzbid0IHVzZSBhdXRvbWFrZQ0KPiAg
-aW5oZXJpdCBhdXRvdG9vbHMtYnJva2Vuc2VwIGdldHRleHQgc3lzdGVtZA0KPg0KPiAtUEFDS0FH
-RUNPTkZJRyA/Pz0gIiINCj4gIFBBQ0tBR0VDT05GSUdbbG0tc2Vuc29yc10gPSAiLS1lbmFibGUt
-c2Vuc29ycywtLWRpc2FibGUtc2Vuc29ycyxsbXNlbnNvcnMsbG1zZW5zb3JzLWxpYnNlbnNvcnMi
-DQo+ICtQQUNLQUdFQ09ORklHW2Nyb25dID0gIi0tZW5hYmxlLWluc3RhbGwtY3JvbiwtLWRpc2Fi
-bGUtaW5zdGFsbC1jcm9uIg0KPg0KPiAgRVhUUkFfT0VDT05GICs9ICItLWRpc2FibGUtc3RyaXBw
-aW5nIg0KPg0KPiBAQCAtNjAsNiArNjAsNiBAQCBwa2dfcG9zdGluc3RfJHtQTn0gKCkgew0KPiAg
-fQ0KPg0KPg0KPiAtRklMRVNfJHtQTn0gKz0gIiR7bGliZGlyfS9zYSINCj4gK0ZJTEVTXyR7UE59
-ICs9ICIke2xpYmRpcn0vc2EgJHtzeXN0ZW1kX3VuaXRkaXJ9L3N5c3RlbS8qIg0KPg0KPiAgVEFS
-R0VUX0NDX0FSQ0ggKz0gIiR7TERGTEFHU30iDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvc3lzc3RhdC9zeXNzdGF0LzAwMDEtUmVtb3ZlLXRoZS1jb2RlLW9mLWhhbmRsaW5n
-LWVuYWJsZS1kaXNhYmxlLXNlbGYtc3Rhci5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9z
-eXNzdGF0L3N5c3N0YXQvMDAwMS1SZW1vdmUtdGhlLWNvZGUtb2YtaGFuZGxpbmctZW5hYmxlLWRp
-c2FibGUtc2VsZi1zdGFyLnBhdGNoDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAw
-MDAwMDAuLjFkMDk5YzkNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9tZXRhL3JlY2lwZXMtZXh0
-ZW5kZWQvc3lzc3RhdC9zeXNzdGF0LzAwMDEtUmVtb3ZlLXRoZS1jb2RlLW9mLWhhbmRsaW5nLWVu
-YWJsZS1kaXNhYmxlLXNlbGYtc3Rhci5wYXRjaA0KPiBAQCAtMCwwICsxLDU1IEBADQo+ICtGcm9t
-IDg1ODEzZDE2NDhiMDNiYTA0OTc2MzVjNDVlOTBkN2VkZjRkYzIwNGMgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxDQo+ICtGcm9tOiBIYWlxaW5nIEJhaSA8SGFpcWluZy5CYWlAd2luZHJpdmVyLmNv
-bT4NCj4gK0RhdGU6IEZyaSwgMjkgTWFyIDIwMTkgMTE6MDA6MDkgKzA4MDANCj4gK1N1YmplY3Q6
-IFtQQVRDSF0gUmVtb3ZlIHRoZSBjb2RlIG9mIGhhbmRsaW5nIGVuYWJsZS9kaXNhYmxlIHNlbGYt
-c3RhcnQgc2VydmljZQ0KPiArIGluIE1ha2VmaWxlLmluDQo+ICsNCj4gK1JlbW92ZSB0aGUgaGFu
-ZGxpbmcgb2YgZW5hYmxlL2Rpc2FibGUgc3lzc3RhdC5zZXJ2aWNlIHNlbGYtc3RhcnQgaW4gTWFr
-ZWZpbGUuaW4uDQo+ICtUaGUgY29kZSB3aWxsIHRyaWdnZXIgYmVsb3cgZXJyb3Igd2hlbiBjcm9z
-cyBjb21waWxpbmcgd2l0aA0KPiArJy0tZW5hYmxlLWluc3RhbGwtY3Jvbic6DQo+ICt8IGlmIFsg
-LXggIi9wYXRoL3RvL3N5c3N0YXQvMTEuNy4xLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3Iv
-YmluL3N5c3RlbWN0bCIgXTsgdGhlbiBcDQo+ICt8ICAgICAgIC9wYXRoL3RvL3N5c3N0YXQvMTEu
-Ny4xLXIwL3JlY2lwZS1zeXNyb290LW5hdGl2ZS91c3IvYmluL3N5c3RlbWN0bCBlbmFibGUgc3lz
-c3RhdC5zZXJ2aWNlOyBcDQo+ICt8IGZpDQo+ICt8IFN0YXJ0ZWQgL3BhdGgvdG8vc3lzc3RhdC8x
-MS43LjEtcjAvcmVjaXBlLXN5c3Jvb3QtbmF0aXZlL3Vzci9iaW4vc3lzdGVtY3RsIGVuYWJsZSBz
-eXNzdGF0LnNlcnZpY2UNCj4gK3wgVHJ5IHRvIGZpbmQgbG9jYXRpb24gb2Ygc3lzc3RhdC5zZXJ2
-aWNlLi4uDQo+ICt8ICdzeXNzdGF0LnNlcnZpY2UnIGNvdWxkbid0IGJlIGZvdW5kOyBleGl0aW5n
-IHdpdGggZXJyb3INCj4gKw0KPiArSXQncyBiZXR0ZXIgZm9yIHVzZXIgdG8gZW5hYmxlL2Rpc2Fi
-bGUgdGhlIHNlcnZpY2Ugd2l0aA0KPiArJ3N5c3RlbWN0bCBlbmFibGUvZGlzYWJsZSBzeXNzdGF0
-LnNlcnZpY2UnDQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0ZSBbIGVtYmVk
-ZGVkIHNwZWNpZmljIF0NCj4gKw0KPiArU2lnbmVkLW9mZi1ieTogSGFpcWluZyBCYWkgPEhhaXFp
-bmcuQmFpQHdpbmRyaXZlci5jb20+DQo+ICstLS0NCj4gKyBNYWtlZmlsZS5pbiB8IDggLS0tLS0t
-LS0NCj4gKyAxIGZpbGUgY2hhbmdlZCwgOCBkZWxldGlvbnMoLSkNCj4gKw0KPiArZGlmZiAtLWdp
-dCBhL01ha2VmaWxlLmluIGIvTWFrZWZpbGUuaW4NCj4gK2luZGV4IGVkYWVhM2YuLjIxODYxNTUg
-MTAwNjQ0DQo+ICstLS0gYS9NYWtlZmlsZS5pbg0KPiArKysrIGIvTWFrZWZpbGUuaW4NCj4gK0BA
-IC00NTQsMTEgKzQ1NCw2IEBAIGVuZGlmDQo+ICsgICAgICAgICAgICAgICAgICAgICAgIGZpIFwN
-Cj4gKyAgICAgICAgICAgICAgIGZpIFwNCj4gKyAgICAgICBmaQ0KPiArLWlmZXEgKCQoQ09QWV9P
-TkxZKSxuKQ0KPiArLSAgICAgIGlmIFsgLXggIiQoU1lTVEVNQ1RMKSIgXTsgdGhlbiBcDQo+ICst
-ICAgICAgICAgICAgICAkKFNZU1RFTUNUTCkgZW5hYmxlIHN5c3N0YXQuc2VydmljZTsgXA0KPiAr
-LSAgICAgIGZpDQo+ICstZW5kaWYNCj4gKw0KPiArIHVuaW5zdGFsbF9tYW46DQo+ICsgaWZlcSAo
-JChJTlNUQUxMX0RPQykseSkNCj4gK0BAIC01NDEsOSArNTM2LDYgQEAgaWZlcSAoJChDT1BZX09O
-TFkpLG4pDQo+ICsgICAgICAgICAgICAgICBAZWNobyAiVVNFUidTIENST05UQUIgU0FWRUQgSU4g
-Q1VSUkVOVCBESVJFQ1RPUlkgKFVTSU5HIC5vbGQgU1VGRklYKS4iIDsgXA0KPiArICAgICAgICAg
-ICAgICAgLXN1ICQoQ1JPTl9PV05FUikgLWMgImNyb250YWIgLXIiIDsgXA0KPiArICAgICAgIGZp
-DQo+ICstICAgICAgaWYgWyAteCAkKFNZU1RFTUNUTCkgXTsgdGhlbiBcDQo+ICstICAgICAgICAg
-ICAgICAkKFNZU1RFTUNUTCkgZGlzYWJsZSBzeXNzdGF0LnNlcnZpY2U7IFwNCj4gKy0gICAgICBm
-aQ0KPiArIGVuZGlmDQo+ICsgICAgICAgaWYgWyAtbiAiJChTWVNURU1EX1VOSVRfRElSKSIgLWEg
-LWQgJChERVNURElSKSQoU1lTVEVNRF9VTklUX0RJUikgXTsgdGhlbiBcDQo+ICsgICAgICAgICAg
-ICAgICBybSAtZiAkKERFU1RESVIpJChTWVNURU1EX1VOSVRfRElSKS9zeXNzdGF0LnNlcnZpY2U7
-IFwNCj4gKy0tDQo+ICsxLjkuMQ0KPiArDQo+IGRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0
-ZW5kZWQvc3lzc3RhdC9zeXNzdGF0XzExLjcuMS5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9z
-eXNzdGF0L3N5c3N0YXRfMTEuNy4xLmJiDQo+IGluZGV4IDg2NzM4ZTcuLjI2YmU2MTkgMTAwNjQ0
-DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXRfMTEuNy4xLmJi
-DQo+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zeXNzdGF0L3N5c3N0YXRfMTEuNy4xLmJi
-DQo+IEBAIC0yLDcgKzIsOCBAQCByZXF1aXJlIHN5c3N0YXQuaW5jDQo+DQo+ICBMSUNfRklMRVNf
-Q0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1hMjNhNzRiM2Y0Y2FmOTYxNjIzMDc4OWQ5NDIx
-N2FjYiINCj4NCj4gLVNSQ19VUkkgKz0gImZpbGU6Ly8wMDAxLUluY2x1ZGUtbmVlZGVkLWhlYWRl
-cnMtZXhwbGljaXRseS5wYXRjaCINCj4gK1NSQ19VUkkgKz0gImZpbGU6Ly8wMDAxLUluY2x1ZGUt
-bmVlZGVkLWhlYWRlcnMtZXhwbGljaXRseS5wYXRjaCBcDQo+ICsgICAgICAgZmlsZTovLzAwMDEt
-UmVtb3ZlLXRoZS1jb2RlLW9mLWhhbmRsaW5nLWVuYWJsZS1kaXNhYmxlLXNlbGYtc3Rhci5wYXRj
-aCINCj4NCj4gIFNSQ19VUklbbWQ1c3VtXSA9ICJiZGNkYTdjOTA0OGM3YzIyZmIxZjMwZjc1Mjg1
-ZDEzZCINCj4gIFNSQ19VUklbc2hhMjU2c3VtXSA9ICIzMDNhNTk1YjFhZjAzMzBiMTgzYTBmMWZl
-YmZjY2Y4OWYxODNiOTU3NWFlMDU2MmI5MWZkYjg3NmYzZWYxZmViIg0KPiAtLQ0KPiAxLjkuMQ0K
-Pg0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-Xw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVA
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9t
-YWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQo=
+On Tue, 2019-04-23 at 21:17 -0400, Tom Rini wrote:
+> On Tue, Apr 23, 2019 at 11:22:14PM +0100, 
+> richard.purdie@linuxfoundation.org wrote:
+> > On Tue, 2019-04-23 at 18:01 -0400, Tom Rini wrote:
+> > > On Tue, Apr 23, 2019 at 04:02:49PM +0100, Richard Purdie wrote:
+> > > > On Sun, 2019-04-21 at 13:57 -0400, Tom Rini wrote:
+> > > > > This brings us to the current version of vim.
+> > > > > 
+> > > > > Signed-off-by: Tom Rini <trini@konsulko.com>
+> > > > > ---
+> > > > >  meta/recipes-support/vim/{vim-tiny_8.1.1017.bb => vim-
+> > > > > tiny_8.1.1198.bb} | 0
+> > > > >  meta/recipes-support/vim/{vim_8.1.1017.bb =>
+> > > > > vim_8.1.1198.bb}           | 2 +-
+> > > > >  2 files changed, 1 insertion(+), 1 deletion(-)
+> > > > >  rename meta/recipes-support/vim/{vim-tiny_8.1.1017.bb =>
+> > > > > vim-
+> > > > > tiny_8.1.1198.bb} (100%)
+> > > > >  rename meta/recipes-support/vim/{vim_8.1.1017.bb =>
+> > > > > vim_8.1.1198.bb}
+> > > > > (98%)
+> > > > 
+> > > > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527
+> > > 
+> > > Does the current version even work in this case?  Digging down
+> > > into
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/527/steps/7/logs/step1b
+> > > there's a certain level of "how does that even work today then?"
+> > > that
+> > > springs to mind.
+> > > 
+> > > I need a few more details to know how to reproduce this locally
+> > > as I
+> > > don't see whatever must be in site.conf/etc to turn regular poky
+> > > into
+> > > no-x11.  The errors are also around iconv stuff so maybe nls is
+> > > also
+> > > removed here?  Thanks!
+> > 
+> > perhaps simpler, qemux86-world also failed:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/52/builds/515
+> > 
+> > with:
+> > 
+> > > /home/pokybuild/yocto-worker/qemux86-
+> > > world/build/build/tmp/work/i586-
+> > poky-linux/vim/8.1.1198-r0/recipe-sysroot-native/usr/bin/msgfmt:
+> > Cannot
+> > convert from "ISO-8859-2" to "UTF-8". msgfmt relies on iconv(), and
+> > iconv() does not support this conversion.
+> > > make[2]: *** [gvim.desktop] Error 1
+> > 
+> > So perhaps there is host contamination and this works one some
+> > build
+> > machine setups but not more minimal ones?
+> > 
+> > The build configuration hasn't changed, just the new version
+> > upgrade
+> > and the other patch. I suppose its possible it depends which of our
+> > workers its built upon but that seems unlikely for two world
+> > failures
+> > (no-x11 is also a world failure).
+> 
+> Current poky master-next + my patches (and bitbake -k'ing around
+> gobject-introspection-native failing to configure over passing
+> -Ddocs=false) and vim builds on a FC29 "Cloud" image + documented
+> additional packages off of
+> https://www.openembedded.org/wiki/Getting_started
+
+Something odd is going on as I tried this on my local build system and
+that failed the same way as the autobuilder. That is an ubuntu 18.04
+system, nothing special. I guess this means I should try and figure out
+why it breaks. I still suspect something about the native locales
+installed...
+
+The gobject-introspection-native issue was dropped from -next fwiw.
+
+What does "locale -a" show for you?
+
+Cheers,
+
+Richard
+
 
