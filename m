@@ -1,52 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AB0A600BB
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EA3D7D598
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 17:24:44 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id f7so3668872wrs.2
+	Wed, 24 Apr 2019 17:28:45 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id b1so14944540wru.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 10:24:46 -0700 (PDT)
+	Wed, 24 Apr 2019 10:28:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=s7J1I9wjkCkThO9Vfge5hPnyFzL2+SGIqQU867HmLtc=;
-	b=TVrfNMyzpwFWJt7eri5REVZ2WQQJa5JiH9EeFhooOtXmJ9OAYO+NX/HhK1UnPAm9bc
-	e2E9yVO0eVD2npysgM3l1IhKSQnmsMf3FElNitZTnjPOKHI9WRvCJ8jprnhSOnZaLOb8
-	lPBD2a/lYsmqyMkZTDwp11RmWak0W6tpxKmF8=
+	bh=tmKV2NJkXItWyHWQq4xTWLkh0v/wreFZezv5yvYWTA4=;
+	b=ACeq9EDcnOPwKzF9ujZqv5JWcRXnIiu3Ia0GkBAgQXSbW3Tn/mYrhfktRDIT0tuhrY
+	zFxhTWA4d8QweJW0oudmOj/5HJhN5OpWCNvuZJj3+O7z4cmrofeAYip7kuORrBLUWynB
+	jc4G/p9FdrSFd/UOgl/ybEKybcRaCUvgQa40Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=s7J1I9wjkCkThO9Vfge5hPnyFzL2+SGIqQU867HmLtc=;
-	b=Br7KbvlbBalAGPEZo7FCFnwIv07MgtJp1Ubrf60zl3solmYd0XrPb6oa6QL1FBoMRC
-	tQm0e6tIY5OddxBXTdPnMYKH/93phwT9aGbPdusIeqtUn/MfE6Dp5ecO6vory8syZJBa
-	OWWstHISCkOz54KAxrDZCIbFCVRkzRksdZgaUUMPll56xIlAl4uEGdcU2pat9oxLhC6y
-	ACK0RYMnMHheAGCK48NYIl6y3UK3814Og8va+iZ+KfWsfmwjdzpJZJh9RVldeNHcWjVR
-	ulDUG1jSDBJK3KdUK2w/uej09ABIMeI5tOmq7keNMU3ixAauKFsMHWZuPulIztCSSF6Y
-	5/pQ==
-X-Gm-Message-State: APjAAAVT8OS53AsqhCjIsS7e+D1Ysi9pYKxorLlNdSITqJe9Ke34Vyvb
-	sOf6nNud8HVvDdLDrtLOl/f8Qg==
-X-Google-Smtp-Source: APXvYqyYBwvE5rNJMp7UE9wLh03XtRY/cCq4znIUT5ZTq7nRkJhROkMSBzYkBtTlSM0lCyvrLamSqw==
-X-Received: by 2002:adf:f68c:: with SMTP id v12mr5975379wrp.40.1556126685822; 
-	Wed, 24 Apr 2019 10:24:45 -0700 (PDT)
+	bh=tmKV2NJkXItWyHWQq4xTWLkh0v/wreFZezv5yvYWTA4=;
+	b=dOZLPYnPuxPRBIxHWHk6OMYce4azP+blqGzZnH189fg6Xvdu7vDsfRyXOaBw9FTYOd
+	L57bAfChKr0oScT5N5Dgy6vZlq5dtuAq0ROG4+0XA35gyrqsRC4528muSeLtvqfLdnXo
+	JTON5dE/eatrKG/IGhhmHC+mUd3aHMc5XVJF5yFJRPeh9YJFJE5CDe0/OIpJARBg76R6
+	A0uO4xY2VEGRFwKEoXNPlNTSyRWbii7+i1m2sVDS8wnegwOwesAqDmHRdbeiERL1wLSi
+	5t79A7RGMBiImgTI4ukY0XLTaOJweMolImjwJESN22PIFWKte0Sf3N0wd/hPBvyl3V1A
+	cdHQ==
+X-Gm-Message-State: APjAAAUuk2B/VXUAll474ePVLR1QYiTywB9u8t7eie4QAljYmBaP0WcJ
+	3siOHiYcPytvBvFvdaugufW52k+OV0w=
+X-Google-Smtp-Source: APXvYqy2bKPygySNvKDjCPmQGrBNFFGl2jJB0d8Jui36Jxm/Qr1O6j37qAcI5azNX0wJzj3E8gs7Mw==
+X-Received: by 2002:adf:f64f:: with SMTP id x15mr2781048wrp.202.1556126926840; 
+	Wed, 24 Apr 2019 10:28:46 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	x192sm30179421wmf.48.2019.04.24.10.24.44
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 24 Apr 2019 10:24:44 -0700 (PDT)
-Message-ID: <43646bdfb4aaa197d156f5ee8f195ad3128d74e5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Mardegan, Alberto" <AMardegan@luxoft.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Apr 2019 18:24:43 +0100
-In-Reply-To: <20190424141215.11624-1-amardegan@luxoft.com>
-References: <20190424141215.11624-1-amardegan@luxoft.com>
+	r9sm18779399wmh.38.2019.04.24.10.28.45
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 24 Apr 2019 10:28:46 -0700 (PDT)
+Message-ID: <f1cbab2b9d878718e45c11d822d7e114197969a0.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Changqing Li <changqing.li@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 18:28:44 +0100
+In-Reply-To: <7bd4040d-0ebf-490f-735d-eb64a16b1dc7@windriver.com>
+References: <1541388536-121953-1-git-send-email-changqing.li@windriver.com>
+	<1555490306-29097-1-git-send-email-changqing.li@windriver.com>
+	<f6e345e417eb8219c0b08ba72ef4e7f6916fdf11.camel@linuxfoundation.org>
+	<7bd4040d-0ebf-490f-735d-eb64a16b1dc7@windriver.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: Re: [PATCH] oeqa/core/runner: dump stdout and stderr of each test case
+Subject: Re: [PATCH V4] dbus: fix ptest failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,34 +61,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 17:24:45 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 17:28:46 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-04-24 at 14:12 +0000, Mardegan, Alberto wrote:
-> Some CI pipelines might perform further processing of the test output
-> (for instance, to plot some metrics into a chart). However, Since
-> `thud`
-> we switched away from the XML-based jUnit reporting, and at the same
-> time we lost the ability of collecting the stdout and stderr of the
-> various tests.
+On Thu, 2019-04-18 at 09:59 +0800, Changqing Li wrote:
 > 
-> We now restore this functionality by adding `stdout` and `stderr`
-> keys to the JSON reports.
+> On 4/18/19 6:01 AM, Richard Purdie wrote:
+> > On Wed, 2019-04-17 at 16:38 +0800, changqing.li@windriver.com
+> > wrote:
+> > > From: Changqing Li <changqing.li@windriver.com>
+> > > 
+> > > 1. since one bug in run-ptest, testcase test-bus have never been
+> > > actually run (althrough it's result is PASS).
+> > > 
+> > > After commit 0828850, test-bus can actually run but it
+> > > did not install:
+> > >   test-service, test-shell-service, test-segfault, and
+> > >   dbus-daemon-launch-helper-test
+> > > Add the configure flag:
+> > >   --enable-embedded-tests
+> > > to generate binary dbus-daemon-launch-helper-test, then install
+> > > them so that test-bus will now pass.
+> > > 
+> > > 2. fix testcase test-dbus-daemon failed
+> > > we enable --enable-verbose-mode in recipe dbus-test, and don't
+> > > enable it in recipe dbus. This will make below test code get
+> > > unexpect result of have_verbose and assert.
+> > > disable --enable-verbose-mode for recipe dbus-test to fix it.
+> > > 
+> > >  #ifdef DBUS_ENABLE_STATS
+> > >   g_assert_true (have_stats);
+> > >  #else
+> > >   g_assert_false (have_stats);
+> > >  #endif
+> > > 
+> > > Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> > > ---
+> > >  meta/recipes-core/dbus/dbus-test_1.12.12.bb | 13 ++++++++++---
+> > >  meta/recipes-core/dbus/dbus/run-ptest       | 16 ++++++++++++---
+> > > -
+> > >  2 files changed, 22 insertions(+), 7 deletions(-)
+> > 
+> > I'm wondering if some of these tests were intentionally not run due
+> > to
+> > the length of time they take? It takes the dbus-ptest time from 26s
+> > to
+> > 250+s. Can you see which test that is and why its taking so long
+> > please?
+> 
+> test-bus take most of the time, it include several sub tests. My test
+> result:
+> all test runed: 
+> real    2m59.637s
+> user    0m59.494s
+> sys    0m41.952s
+> skipped test-bus:
+> real    0m13.125s
+> user    0m12.230s
+> sys    0m0.162s
+> 
+> Previously we don't intentionally skip test-bus,  just because we had
+> a bug in run-ptest before,
+> so test-bus  accidentally not run,  just return PASS. 
+> After below commit fix this bug, test-bus can be runned.
+> https://git.openembedded.org/openembedded-core/commit/?id=0828850fd09f738572ae8259384af07eeb81182b
+> 
+> -for i in `ls test/test-*`; do ./$i ./test/data
+> DBUS_TEST_HOMEDIR=./test >/dev/null; output; done
+> 
+> "DBUS_TEST_HOMEDIR=./test" will take as an argument,  make no sub
+> test is runned. 
 
-This is nearly there, thanks!
 
-I think we need a better name than "TEST_WRITE_OUTPUT". That variable
-could be about enabling some tests of writing output or several other
-things. How about TESTREPORT_FULLLOGS?
+Ross, do you remember if we intentionally skip this dbus test for
+taking around 200s, taking the overall test time from 20s to 220s?
 
-The variable name needs to be mentioned in the commit message and we
-should cc: Scott so we can add to the manual.
+I'm strongly tempted to explicitly disable this test unless someone can
+convince me it tests someting critical...
 
 Cheers,
 
 Richard
-
-
 
 
