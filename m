@@ -1,48 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
-	[209.85.167.194])
-	by mail.openembedded.org (Postfix) with ESMTP id D72D76D61B
+Return-Path: <daniel.thompson@linaro.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 368CE7D589
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 14:35:11 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id l7so4869141oil.11
+	Wed, 24 Apr 2019 14:36:08 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id t17so25454743wrw.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 07:35:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=o04VRq+ZTcNH4WnqOk0jeJVOiGcTpgJSnptQhRW2kFE=;
-	b=dc95qqfFGDaHLYOMJa75U1yTj7V9gLA3z4ZJCta5UMS2Vv59UrAoNZjABZhjLYTHcq
-	7YTwI6ALHWvmBV5Tqq0sRVcVv/37fZUDtKa+jZqwnZpjG4XCyrHJeecc+Fqo7MgMal+/
-	YyySlhxlVlcsnpnAoe8HHxKIO2mVMfo1ey6MX0+QDzyIG3mediX0d3NVoFKU0OkRJ8EA
-	Z2wJa0/x9FBosFRs0EhggYmThgA4WU1/6ddgDq626z7nYoKkWRiw3rXXMkQXCL8aSPFI
-	LfUmgUOLPVOWJ9Swt+2eArHrPfgYQufBTURbbuH/4bDBPHJi5uf7FXCbAbeG7uotrcXc
-	Ljmg==
+	Wed, 24 Apr 2019 07:36:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=NGI35KAmcxuPSVqAzV2nMN2JxVGh3v96Ke7fuvIgdfM=;
+	b=bRnAgWDisuyyaj8RUnYN0LdhhxZ0XCmzHNaNeIZHXP8/CMOoOYicIrI6qlcXm5uG+Z
+	0gej8RrYCBLFcVxGQOmSJRQZhx66gRzILLSnxNgw+A0wL9HXk66pHBP4Ba1VSKWilXNs
+	CBW7fksxW4ohzBYy0ju3eqUIDuvkzinBW42ohqg2ANEWWRwXkqV5SB0wcxenUPKTu/s6
+	tO5SBfidWg0CsmGkHY5hk2IWangJjwmmzCwwenNJml3sSINc5BQ1MpRfsYxcrCRtEQHk
+	3CpMoAjCHsLj62XgCg/9KRsaPgMXDw/xbusvurp0VyiRLHocEtDjhhlDsH+XeJHdNtHP
+	3SUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=o04VRq+ZTcNH4WnqOk0jeJVOiGcTpgJSnptQhRW2kFE=;
-	b=W25omcN9Qnlt+6pmsi4kwTm/VlgOaWHI0KVw29CweaSQArTM+zplbYfvf5uXlefTCE
-	2xMoWpn98yVtCdntkPSH0erL+d3k4nk8jsFHCQG0fYgCGHZoJql6nYCAvOJ2hd5vcmMP
-	AR0cBaQCsG2k7Bfm/BFloMaxsjgnF9bNyXpAFwbcdyCzcw1JGxtjQA6DxziS8Q9Xb9sZ
-	Z1Jm4NW0xxDSaL/YQkZF/Pnkt21BSTKhvdhqKk7gZhprfu0mFRTEZwuDo6kSiDg4PNR1
-	iaRerjndWzkEOyRNfE2YlGww7mbd3Q8MVqa0z2wkOtez3py5PBX/Ljc7BgHAIElA2aBK
-	QASw==
-X-Gm-Message-State: APjAAAUB7bSdA/NMnDmbbAbprIF/gbJRRywtUN4Z3uYX1y/JNvU33Zkn
-	NdNPcpMAiKA/kVOeEhDdOGWuUjdzkeA+YUUNT0Z0BveG
-X-Google-Smtp-Source: APXvYqwJrFaoDWd0NCJ+9yLsCBAgp5ryi3wO8/9sp7Eo4tb3XeOPv9qgo3fmXTTzv1lYT3iT4X5xkWEqDVwcIfxgN84=
-X-Received: by 2002:aca:e689:: with SMTP id d131mr6046766oih.132.1556116512638;
-	Wed, 24 Apr 2019 07:35:12 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=NGI35KAmcxuPSVqAzV2nMN2JxVGh3v96Ke7fuvIgdfM=;
+	b=Rm7PSFsUosDev6p1rgLfKJo8Dm+C6w8n6dJO1su1PPdv0gjRUXFX/6fM2ztYZD0Fgz
+	y+A1Ob/kE7o6vVtjjBEwhMr1Fd5Xl7UlNoJ4dQb6AiuuHhhLfmzSxpnBwqWH/1sOZExi
+	sohN0K0AoySdJz6AYyDIN5NcCDlwaDMdzSw3ibW71VU8AYN/Sk55VgNrgVZIo/IsG2qw
+	9o6q6Xj0XeSnJ8ze0hhCRITmOjKaEvKZftQ/apWD8SrgvCmv7rDCH323VwCOkCkQk8ue
+	mdRnd0jQJKVG6K1owqDdfcT9M5acQ+K5dFDjd7NnPYlrmJoZ6iVAUZEj9tHmsaaLcxJD
+	LFaA==
+X-Gm-Message-State: APjAAAXdJJrRe48pvSazOG3OvFVYJxNF/viSSCq9DRtrn5NLX9+3Rcw0
+	0TDnX7O6NGvm1uJF7mG9K9A8xK5QL9sdnw==
+X-Google-Smtp-Source: APXvYqwTMTX6miw5WU/5Aplrx6y9YqEDuKldSZF6wqtde0IXuX79Y1DzpQf9L/vyrpNCRCJfAjtIeQ==
+X-Received: by 2002:adf:f14e:: with SMTP id y14mr5302409wro.276.1556116568786; 
+	Wed, 24 Apr 2019 07:36:08 -0700 (PDT)
+Received: from holly.lan (cpc141214-aztw34-2-0-cust773.18-1.cable.virginm.net.
+	[86.9.19.6]) by smtp.gmail.com with ESMTPSA id
+	i17sm17952842wrs.44.2019.04.24.07.36.07
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 24 Apr 2019 07:36:07 -0700 (PDT)
+Date: Wed, 24 Apr 2019 15:36:06 +0100
+From: Daniel Thompson <daniel.thompson@linaro.org>
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190424143606.gwjtirpnvjh63rko@holly.lan>
+References: <20190412123046.17510-1-daniel.thompson@linaro.org>
+	<20190412194507.GB19080@localhost>
 MIME-Version: 1.0
-References: <20190323163858.15371-1-open.source@oleksandr-kravchuk.com>
-	<CAJTo0LaYdMRz41qeojHLsv9zj+VL6u7EL8LwM3=JKnKcriw_bQ@mail.gmail.com>
-	<891ea63e-134f-ded4-b0a7-f1c75022d4cd@oleksandr-kravchuk.com>
-In-Reply-To: <891ea63e-134f-ded4-b0a7-f1c75022d4cd@oleksandr-kravchuk.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 24 Apr 2019 16:35:01 +0200
-Message-ID: <CANNYZj-Ld+RK=H1+Z1LNyJ9q0MobGU7nWVqRJxekRA3YLAvuSw@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] ninja: upate to 1.9.0
+In-Reply-To: <20190412194507.GB19080@localhost>
+User-Agent: NeoMutt/20180716
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] go: Allow bootstrapping using host go compiler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +61,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 14:35:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 24 Apr 2019 14:36:08 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Master is never force pushed to and always has a linear history, so
-any changes need to apply cleanly to the latest commit in it.
+On Fri, Apr 12, 2019 at 10:45:07PM +0300, Adrian Bunk wrote:
+> On Fri, Apr 12, 2019 at 01:30:46PM +0100, Daniel Thompson wrote:
+> > Currently go-native bootstraps without any dependency on the host go
+> > compiler by building go-1.4 (the last version written in C) and using
+> > that to build a more recent version of go. This does not work on host
+> > architectures, such as arm64, that are not supported by go-1.4. To
+> > support these host architectures we must rely on an existing host go
+> > compiler and use that to build go-native instead.
+> >...
+> 
+> Why is this the only option for you?
 
-Alex
+Good point. Not the most accurate use of "must"... more "these
+changes".
 
-On Wed, 24 Apr 2019 at 16:31, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->
-> Sure. It's already in master though.
->
-> Should I send a new patch or just a diff with master?
->
-> On 23/04/2019 11:26, Burton, Ross wrote:
-> > On Sat, 23 Mar 2019 at 16:39, Oleksandr Kravchuk
-> > <open.source@oleksandr-kravchuk.com> wrote:
-> >> +++ b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-> >> @@ -0,0 +1,39 @@
-> >> +2ff54ad7478a90bd75c91e434236a Mon Sep 17 00:00:00 2001
-> >> +From: makepost <makepost@firemail.cc>
-> >> +Date: Mon, 24 Dec 2018 03:13:16 +0200
-> >> +Subject: [PATCH] Use st_mtim if st_mtime is macro, fix #1510
-> >> +
-> >> +In POSIX.1-2008, sys_stat has a st_mtim member and a st_mtime backward
-> >> +compatibility macro. Should help avoid hardcoding platform detection.
-> >> +---
-> >> + src/disk_interface.cc | 14 ++++----------
-> >> + 1 file changed, 4 insertions(+), 10 deletions(-)
-> >> +
-> >> +diff --git a/src/disk_interface.cc b/src/disk_interface.cc
-> >> +index d4c2fb087..dc297c449 100644
-> >> +--- src/disk_interface.cc
-> >> ++++ /src/disk_interface.cc
-> >> +@@ -202,19 +202,13 @@ TimeStamp RealDiskInterface::Stat(const string& path, string* err) const {
-> >> +   // that it doesn't exist.
-> >> +   if (st.st_mtime == 0)
-> >> +     return 1;
-> >> +-#if defined(__APPLE__) && !defined(_POSIX_C_SOURCE)
-> >> ++#if defined(_AIX)
-> >> ++  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> >> ++#elif defined(__APPLE__)
-> >> +   return ((int64_t)st.st_mtimespec.tv_sec * 1000000000LL +
-> >> +           st.st_mtimespec.tv_nsec);
-> >> +-#elif (_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700 || defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
-> >> +-       defined(__BIONIC__) || (defined (__SVR4) && defined (__sun)) || defined(__FreeBSD__))
-> >> +-  // For glibc, see "Timestamp files" in the Notes of http://www.kernel.org/doc/man-pages/online/pages/man2/stat.2.html
-> >> +-  // newlib, uClibc and musl follow the kernel (or Cygwin) headers and define the right macro values above.
-> >> +-  // For bsd, see https://github.com/freebsd/freebsd/blob/master/sys/sys/stat.h and similar
-> >> +-  // For bionic, C and POSIX API is always enabled.
-> >> +-  // For solaris, see https://docs.oracle.com/cd/E88353_01/html/E37841/stat-2.html.
-> >> ++#elif defined(st_mtime) // A macro, so we're likely on modern POSIX.
-> >> +   return (int64_t)st.st_mtim.tv_sec * 1000000000LL + st.st_mtim.tv_nsec;
-> >> +-#elif defined(_AIX)
-> >> +-  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> >> + #else
-> >> +   return (int64_t)st.st_mtime * 1000000000LL + st.st_mtimensec;
-> >> + #endif
-> > This patch has no Signed-off-by or Upstream-Status.  Can you add those please?
-> >
-> > Ross
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+ 
+> The clean way to bootstrap go would be by building gccgo and using that 
+> as starting point for the bootstrap.
+> 
+> Haven't tried how trivial or difficult it is to make that work,
+> but it sounds more long-term maintainable than having different
+> problems depending on what architecture and host distribution
+> is used - it doesn't sound like a good idea to have to test
+> and maintain all combinations, e.g. whether Go 1.6 on arm64
+> in Ubuntu 16.04 manages to bootstrap the latest Go.
+
+Source wise it should work (depending on your level of belief in the go
+compatibility promise) since the go compiler is written in go-1.4 but I
+agree that code generation bugs in old versions of go tools could make
+things less predictable.
+
+I'm suddenly a bit swamped so it could me a long time to look at but
+using gccgo to bootstrap is not structurally much more complex than
+bootstrapping with go-1.4 and certainly could be more flexible. Sounds
+like "the right thing to do" so definitely worth a shot.
+
+
+Thanks
+
+
+Daniel.
+
+
+> -- 
+> 
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+> 
 
