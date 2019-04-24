@@ -1,26 +1,38 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 896887C51E
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F7E27D259
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 02:25:42 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3O2PhvA023360
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 24 Apr 2019 03:25:17 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,388,1549900800"; d="scan'208";a="60339092"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 24 Apr 2019 11:25:17 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 6D5C34CDAABF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 19:25:43 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Tue, 23 Apr 2019 19:25:42 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <20190415034231.105641-1-kai.kang@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <c5cfa394-44e4-bdae-d334-82b9fe109f86@windriver.com>
-Date: Wed, 24 Apr 2019 10:23:05 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Wed, 24 Apr 2019 11:25:19 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0439.000; Wed, 24 Apr 2019 11:25:19 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH v2] dnf: Enable nativesdk
+Thread-Index: AQHU+dl1l/AGVn0r5Eaj4NlX6Kk9kKZKpeKA
+Date: Wed, 24 Apr 2019 03:25:21 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF0F5626@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1555166150-57588-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<582e5ae68be63214ad48c3320185aa117563d81a.camel@linuxfoundation.org>
+In-Reply-To: <582e5ae68be63214ad48c3320185aa117563d81a.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.227]
 MIME-Version: 1.0
-In-Reply-To: <20190415034231.105641-1-kai.kang@windriver.com>
-Subject: Re: [PATCH] cryptodev: update SRCREV
+X-yoursite-MailScanner-ID: 6D5C34CDAABF.AE754
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH v2] dnf: Enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,65 +45,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 02:25:42 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 24 Apr 2019 03:25:18 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="gb2312"
+Content-Transfer-Encoding: base64
 
-On 2019/4/15 上午11:42, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> Update SRCREV of cryptodev which only contains one fix for linux 5.0:
->
-> $ git log fd8b15ef1c8398a69a37932ee48c74ab40329a29..f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
-> commit f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
-> Author: Derald D. Woods <woods.technical@gmail.com>
-> Date:   Sun Feb 10 13:22:19 2019 -0600
->
->      Fix module loading with Linux v5.0-rc5
->
->      This commit fixes this module load error:
->      [...]
->      [   29.112091] cryptodev: loading out-of-tree module taints kernel.
->      [   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
->      [   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
->      modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
->      [...]
-
-
-Without this patch it fails to modprobe module cryptodev. Ping.
-
-Kai
-
-
->
->      Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
->
->      c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
->
->      Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->   meta/recipes-kernel/cryptodev/cryptodev.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-> index 252d39d23a..79ddefd435 100644
-> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-> @@ -4,7 +4,7 @@ LICENSE = "GPLv2"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->   
->   SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
-> -SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
-> +SRCREV = "f971e0cd4a0ebe59fb2e8e17240399bf6901b09b"
->   
->   S = "${WORKDIR}/git"
->   
-
-
--- 
-Kai Kang
-
+SGksDQoNCj4gUGF0Y2ggZG9lc24ndCBhcHBseSBhZ2FpbnN0IG1hc3Rlcj8N
+Cg0KSSB3aWxsIHVwZGF0ZSB0aGlzIHBhdGNoIGZvciBuZXcgdmVyc2lvbiBk
+bmYuDQoNCkJlc3QgcmVnYXJkcy4NCkxlaQ0KDQoNCj4gLS0tLS1PcmlnaW5h
+bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91
+bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVk
+ZGVkLQ0KPiBjb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10g
+T24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IFR1ZXNkYXks
+IEFwcmlsIDIzLCAyMDE5IDk6MzUgUE0NCj4gVG86IFpoZW5nLCBSdW9xaW4v
+1qMgyPTH1Tsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0gZG5m
+OiBFbmFibGUgbmF0aXZlc2RrDQo+IA0KPiBPbiBTYXQsIDIwMTktMDQtMTMg
+YXQgMjI6MzUgKzA4MDAsIFpoZW5nIFJ1b3FpbiB3cm90ZToNCj4gPiBNYWtl
+IGRuZiB3b3JrIG9uIG5hdGl2ZXNkayBlbnZpcm9ubWVudC4NCj4gPg0KPiA+
+IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNu
+LmZ1aml0c3UuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvZG5mL2RuZl80LjEuMC5iYiB8IDEwICsrKysrKysrKy0NCj4gPiAg
+MSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
+KQ0KPiANCj4gUGF0Y2ggZG9lc24ndCBhcHBseSBhZ2FpbnN0IG1hc3Rlcj8N
+Cj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCj4gDQo+IC0tDQo+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+DQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1i
+ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9s
+aXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVt
+YmVkZGVkLWNvcmUNCj4gDQoNCgoK
 
