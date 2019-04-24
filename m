@@ -1,30 +1,50 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 763BA7D42C
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D7B27D245
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 03:37:55 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,388,1549900800"; d="scan'208";a="60340576"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 24 Apr 2019 11:37:55 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id D6AD24CD8D87
+	Wed, 24 Apr 2019 05:16:44 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id y67so14729502ede.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 11:37:55 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.227) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 24 Apr 2019 11:37:58 +0800
-From: Lei Maohui <leimaohui@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Apr 2019 11:38:17 +0800
-Message-ID: <1556077097-64268-1-git-send-email-leimaohui@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.227]
-X-yoursite-MailScanner-ID: D6AD24CD8D87.A0459
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH v3] dnf: Enable nativesdk
+	Tue, 23 Apr 2019 22:16:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=k0PqRKG6UyqAOmrthKSrVAol+dTaHBBoieC52ogJeZA=;
+	b=ZEvzf7uNXBqpZLEVGQwwnSPgs9tX0gAzbWCvUhNi6aL2eEICATx7E92URqbcN6n9L8
+	xFHFGcpbDwDbrELAwHYU9Ax8FUkbL4K29hTq8g1biJL3hIjUU2FSd7j1c+tbl5OELmjt
+	rbwOP8kRabO9CCYbok8xvovcASaT/LXcLrXaGP72hFQf5o5c2n2XeoCCtlwO7YiUr63r
+	c9MonSX+SRRpiNKME/OAMgN2/1xLxRt8/JWelw2XUix2FqIKPOvkC3i+p4MTlDoRDQNY
+	exr81lTOfv+SK1SUR9gIw4CZjUeaOMskFq4pBZbtwfB/dc78QFxoBMLp0OHc5xxDloJW
+	QDAg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=k0PqRKG6UyqAOmrthKSrVAol+dTaHBBoieC52ogJeZA=;
+	b=C8kQKBO9XDDU4IZzFEWXfG5AhtZMwFjmpisF8I4CvlqOKxt8p4Sek4uxzu4/Y8UrLc
+	fpiQywvbBD8zeThHAP3MnxnUzhqQyaMnPVBiR0adumgaoMMifoF06Hk2j//OjrO2DIKH
+	n7lcCF7MH4+sxmgM9EZbVQzd+Vk/f/RGet3pHu7X6ORWQC8N3N/AJzO7WKfG4q3WRYsc
+	XWGn9Xi2JxwTqEEtfLKZT23FKdgS7GzKGYN0bIBEQpDjbIrN40SonP9/ECsBPv+N17lh
+	jLJS4CQebIid1hsCOCOtL2zxFYBJ8fM3Ti6+M+BppV2vNovQdM83TwAj9G9cdRK3stfA
+	bS5g==
+X-Gm-Message-State: APjAAAXX9O8bdmcqUIlkFNcors4ghlZ5l/yAGCOyA5EwHcLA0994XwB1
+	5XNL/wRqJCKrioiCX6HGtZXjwwybQH0=
+X-Google-Smtp-Source: APXvYqxRcBYPq8w3sXBqsRCYEq069wQ5nIr7Qj2X3FTKXwmb1zdHq7e4sp07jH9kNiaO9l+CU3Tnjw==
+X-Received: by 2002:a05:6402:169a:: with SMTP id
+	a26mr19230367edv.26.1556083004791; 
+	Tue, 23 Apr 2019 22:16:44 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id e7sm39251eja.35.2019.04.23.22.16.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 23 Apr 2019 22:16:44 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 07:16:20 +0200
+Message-Id: <20190424051620.10065-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH v2] ell: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,54 +57,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 03:37:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Apr 2019 05:16:44 -0000
 
-Make dnf work on nativesdk environment.
+ELL has originally been part of meta-openembedded, but newer versions
+of some of the oe-core components depend on it, e.g. ofono.
 
-Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
-Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-devtools/dnf/dnf_4.2.2.bb | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ meta/conf/distro/include/maintainers.inc |  1 +
+ meta/recipes-core/ell/ell_0.19.bb        | 22 ++++++++++++++++++++++
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-core/ell/ell_0.19.bb
 
-diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-index 3970b41..159d7e9 100644
---- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-+++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
-@@ -26,7 +26,7 @@ EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -
- 
- BBCLASSEXTEND = "native nativesdk"
- 
--RDEPENDS_${PN}_class-target += " \
-+RDEPENDS_${PN} += " \
-   python3-core \
-   python3-codecs \
-   python3-netclient \
-@@ -49,6 +49,8 @@ RDEPENDS_${PN}_class-target += " \
-   python3-gpg \
-   "
- 
-+RDEPENDS_${PN}_class-native = ""
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 41c2a95d53..c00e5b8c65 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -166,6 +166,7 @@ RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
++RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+ RECIPE_MAINTAINER_pn-enchant = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-core/ell/ell_0.19.bb b/meta/recipes-core/ell/ell_0.19.bb
+new file mode 100644
+index 0000000000..8f635e673c
+--- /dev/null
++++ b/meta/recipes-core/ell/ell_0.19.bb
+@@ -0,0 +1,22 @@
++SUMMARY  = "Embedded Linux Library"
++DESCRIPTION = "The Embedded Linux Library (ELL) provides core, \
++low-level functionality for system daemons. It typically has no \
++dependencies other than the Linux kernel, C standard library, and \
++libdl (for dynamic linking). While ELL is designed to be efficient \
++and compact enough for use on embedded Linux platforms, it is not \
++limited to resource-constrained systems."
++SECTION = "libs"
++LICENSE  = "LGPLv2.1"
++LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
 +
- RRECOMMENDS_${PN}_class-target += "gnupg"
- 
- # Create a symlink called 'dnf' as 'make install' does not do it, but
-@@ -66,6 +68,11 @@ do_install_append_class-native() {
-                 RPM_NO_CHROOT_FOR_SCRIPTS=1
- }
- 
-+do_install_append_class-nativesdk() {
-+        create_wrapper ${D}/${bindir}/dnf \
-+                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
-+                RPM_NO_CHROOT_FOR_SCRIPTS=1 }
++DEPENDS = "dbus"
 +
- SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
-                          dnf-automatic.service dnf-automatic.timer \
-                          dnf-automatic-download.service dnf-automatic-download.timer \
++inherit autotools pkgconfig
++
++SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
++SRC_URI[md5sum] = "4356397ca11d5f8ec7f1aaf1e91ffea4"
++SRC_URI[sha256sum] = "a5a4d45ca002dd91560fcd565e696f59e82631e69c927115dafc640f0b8d779c"
++
++do_configure_prepend () {
++    mkdir -p ${S}/build-aux
++}
 -- 
-2.7.4
-
-
+2.17.1
 
 
