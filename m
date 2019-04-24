@@ -1,38 +1,30 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F7E27D259
+	by mail.openembedded.org (Postfix) with ESMTP id 93867600B3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 03:25:17 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,388,1549900800"; d="scan'208";a="60339092"
+	Wed, 24 Apr 2019 03:32:06 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,388,1549900800"; d="scan'208";a="60339880"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 24 Apr 2019 11:25:17 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 6D5C34CDAABF
+	by heian.cn.fujitsu.com with ESMTP; 24 Apr 2019 11:32:07 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 454AC4CD8D87
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 11:25:19 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0439.000; Wed, 24 Apr 2019 11:25:19 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH v2] dnf: Enable nativesdk
-Thread-Index: AQHU+dl1l/AGVn0r5Eaj4NlX6Kk9kKZKpeKA
-Date: Wed, 24 Apr 2019 03:25:21 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF0F5626@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1555166150-57588-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<582e5ae68be63214ad48c3320185aa117563d81a.camel@linuxfoundation.org>
-In-Reply-To: <582e5ae68be63214ad48c3320185aa117563d81a.camel@linuxfoundation.org>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.227]
+	Wed, 24 Apr 2019 11:32:07 +0800 (CST)
+Received: from localhost.local (10.167.225.84) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 24 Apr 2019 11:32:06 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 24 Apr 2019 11:32:56 +0800
+Message-ID: <20190424033256.31641-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 6D5C34CDAABF.AE754
+X-Originating-IP: [10.167.225.84]
+X-yoursite-MailScanner-ID: 454AC4CD8D87.A91B5
 X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
 X-Spam-Status: No
-Subject: Re: [PATCH v2] dnf: Enable nativesdk
+Subject: [PATCH] icu:upgrade 64.1 -> 64.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,33 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 03:25:18 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Wed, 24 Apr 2019 03:32:07 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-SGksDQoNCj4gUGF0Y2ggZG9lc24ndCBhcHBseSBhZ2FpbnN0IG1hc3Rlcj8N
-Cg0KSSB3aWxsIHVwZGF0ZSB0aGlzIHBhdGNoIGZvciBuZXcgdmVyc2lvbiBk
-bmYuDQoNCkJlc3QgcmVnYXJkcy4NCkxlaQ0KDQoNCj4gLS0tLS1PcmlnaW5h
-bCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91
-bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnIFttYWlsdG86b3BlbmVtYmVk
-ZGVkLQ0KPiBjb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZ10g
-T24gQmVoYWxmIE9mIFJpY2hhcmQgUHVyZGllDQo+IFNlbnQ6IFR1ZXNkYXks
-IEFwcmlsIDIzLCAyMDE5IDk6MzUgUE0NCj4gVG86IFpoZW5nLCBSdW9xaW4v
-1qMgyPTH1Tsgb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVk
-Lm9yZw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtQQVRDSCB2Ml0gZG5m
-OiBFbmFibGUgbmF0aXZlc2RrDQo+IA0KPiBPbiBTYXQsIDIwMTktMDQtMTMg
-YXQgMjI6MzUgKzA4MDAsIFpoZW5nIFJ1b3FpbiB3cm90ZToNCj4gPiBNYWtl
-IGRuZiB3b3JrIG9uIG5hdGl2ZXNkayBlbnZpcm9ubWVudC4NCj4gPg0KPiA+
-IFNpZ25lZC1vZmYtYnk6IFpoZW5nIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNu
-LmZ1aml0c3UuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL3JlY2lwZXMtZGV2
-dG9vbHMvZG5mL2RuZl80LjEuMC5iYiB8IDEwICsrKysrKysrKy0NCj4gPiAg
-MSBmaWxlIGNoYW5nZWQsIDkgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigt
-KQ0KPiANCj4gUGF0Y2ggZG9lc24ndCBhcHBseSBhZ2FpbnN0IG1hc3Rlcj8N
-Cj4gDQo+IENoZWVycywNCj4gDQo+IFJpY2hhcmQNCj4gDQo+IC0tDQo+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-DQo+IE9wZW5lbWJlZGRlZC1jb3JlIG1haWxpbmcgbGlzdA0KPiBPcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IGh0dHA6Ly9s
-aXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVt
-YmVkZGVkLWNvcmUNCj4gDQoNCgoK
+-Upgrade from icu_64.1.bb to icu_64.2.bb.
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ meta/recipes-support/icu/{icu_64.1.bb => icu_64.2.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/icu/{icu_64.1.bb => icu_64.2.bb} (86%)
+
+diff --git a/meta/recipes-support/icu/icu_64.1.bb b/meta/recipes-support/icu/icu_64.2.bb
+similarity index 86%
+rename from meta/recipes-support/icu/icu_64.1.bb
+rename to meta/recipes-support/icu/icu_64.2.bb
+index 9a5f8a3b09..bbc76d6483 100644
+--- a/meta/recipes-support/icu/icu_64.1.bb
++++ b/meta/recipes-support/icu/icu_64.2.bb
+@@ -22,8 +22,8 @@ SRC_URI = "${BASE_SRC_URI} \
+ SRC_URI_append_class-target = "\
+            file://0001-Disable-LDFLAGSICUDT-for-Linux.patch \
+           "
+-SRC_URI[md5sum] = "f150be2231c13bb45206d79e0242372b"
+-SRC_URI[sha256sum] = "92f1b7b9d51b396679c17f35a2112423361b8da3c1b9de00aa94fd768ae296e6"
++SRC_URI[md5sum] = "a3d18213beec454e3cdec9a3116d6b05"
++SRC_URI[sha256sum] = "627d5d8478e6d96fc8c90fed4851239079a561a6a8b9e48b0892f24e82d31d6c"
+ 
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
+ UPSTREAM_CHECK_URI = "http://download.icu-project.org/files/icu4c/"
+-- 
+2.20.1
+
+
+
 
