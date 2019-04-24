@@ -1,26 +1,47 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 2EF667C68C
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f175.google.com (mail-it1-f175.google.com
+	[209.85.166.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E04D7D577
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 08:41:06 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3O8f5Tv026143
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Apr 2019 01:41:06 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 24 Apr 2019 01:41:05 -0700
-From: <mingli.yu@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 24 Apr 2019 16:41:01 +0800
-Message-ID: <1556095261-171895-2-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
-References: <5CB80B5D.40800@windriver.com>
-	<1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
+	Wed, 24 Apr 2019 08:58:39 +0000 (UTC)
+Received: by mail-it1-f175.google.com with SMTP id w15so4975862itc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Apr 2019 01:58:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=M6uEtenezvEHe42p8qk+gcHHDT1digN1/2bcgetHtMo=;
+	b=ILufvUw4Q46t9Yiwo3Pd2v6YrXG75UylCq1xI69iZk4NmqY2T49uMvPZ31va2jUh+w
+	RJEJKjQa+ZCMfBTgd56JoRznzowHQqOkYsTx55TVCSx5IxYZXyDG/hnbS7mNcUxzW7ei
+	nFHRODboxvbBhpbfyJoBq1ZnM6MiN/ETKe2oCJNKnsrFzByJyBbbaLOh4YKsc/2KUQIZ
+	b4sPgSIFvnd2wGfUSYbL8yUla9C1wC7i0hafsGXovAVerBh6rxu99uAfJA2/GZJsWTUw
+	D4aL3iNGk+CrlbC5mOtm6rL7qL2jrdR4vpTPpp0TnKRIk37QL1BUr53paQ87qYpFQiFf
+	/rew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=M6uEtenezvEHe42p8qk+gcHHDT1digN1/2bcgetHtMo=;
+	b=NUITNcyRte5Kq8cNNpa/zf19XJTP2AVrsp/qWNhzjLsFc1vuOwP6FKb7/IlZwHqjCo
+	y5RBiV6BCWEWohutzccl3YwwVqZt8JQapsGV8o3DCfGNitumACUt0Pd+MR3SARN8T7Gc
+	r19w8ZgrutWMEO+Dd/Y6jiUpnuieLm2sBQxAzL1+7WJtyPalJg18NDtsuFkkHEm86lwj
+	tEUuMnuQQiuDq1KHhXE/Ilpi4cas6MrtTb2GOhNedXZRuHlPYaHgA6U1Vu3wh+JTTU+z
+	wo1whxtqxRX95VM7VkgV1yca4hu0EbQ+vHolZ2d9Retrcx7f7VqpBesr4Hx/8VZNklZR
+	PmzQ==
+X-Gm-Message-State: APjAAAUckpyCk/mW9HbC91rhy3YugEHl85CWWHbyvoumMrxcplOvje2K
+	Eew18PF8yW2GnB9URtVbreZJIRnlU5L2Cy502IHAiA==
+X-Google-Smtp-Source: APXvYqzmSq1mCEdfGB+J/RTRoew6Ok8Gw/KH/41XrUVgVfhAJE1aoKEJDg1LM6wy2ArGtvyeE0msJZWS2DWoT4WLq1g=
+X-Received: by 2002:a24:78c8:: with SMTP id p191mr5747115itc.58.1556096320214; 
+	Wed, 24 Apr 2019 01:58:40 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v4 2/2] nettle: fix ptest failure
+References: <20190424011500.9830-1-schnitzeltony@gmail.com>
+In-Reply-To: <20190424011500.9830-1-schnitzeltony@gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Wed, 24 Apr 2019 10:58:28 +0200
+Message-ID: <CALbNGRTxioQZkp-AxmSS-bX88p_3FBCGTw99X=0tgxju+2VumQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vte: upgrade 0.52.2 -> 0.56.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,69 +54,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 08:41:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 24 Apr 2019 08:58:39 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+On Wed, Apr 24, 2019 at 3:15 AM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+>
+> * license: COPYING was replaced by COPYING.LGPL2/COPYING.LGPL3/COPYING.GP=
+L3
+> * pretify recipe a bit
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> ---
+>  .../vte/{vte_0.52.2.bb =3D> vte_0.56.1.bb}       | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+>  rename meta/recipes-support/vte/{vte_0.52.2.bb =3D> vte_0.56.1.bb} (78%)
+Sent out too early: Does not yet build for musl
 
-Rework dlopen-test.patch to fix below
-dlopen-test failure:
- # cd /usr/lib64/nettle/ptest
- # ./run-ptest
- dlopen failed: /usr/lib/libnettle.so: cannot open shared object file: No such file or directory
- ./run-ptest: line 8:  7607 Aborted                 "./$f"
- FAIL: dlopen-test
-
-As the test dlopen-test depends on libnettle.so
-which belongs to nettle-dev package, so add it
-to rdepends of nettle-ptest.
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch | 5 +++--
- meta/recipes-support/nettle/nettle_3.4.1.bb                | 3 +++
- 2 files changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-index c4f0b7e..fea5774 100644
---- a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-+++ b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-@@ -1,4 +1,4 @@
--Replace relative path of libnettle.so with absolute path so the test
-+Remove the relative path for libnettle.so so the test
- program can find it.
- Relative paths are not suitable, as the folder strucure for ptest
- is different from the one expected by the nettle testsuite.
-@@ -6,6 +6,7 @@ is different from the one expected by the nettle testsuite.
- Upstream-Status: Inappropriate [embedded specific]
- 
- Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
- 
- --- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000 -0700
- +++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860 -0700
-@@ -14,7 +15,7 @@ Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
-  {
-  #if HAVE_LIBDL
- -  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
--+  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
-++  void *handle = dlopen ("libnettle.so", RTLD_NOW);
-    int (*get_version)(void);
-    if (!handle)
-      {
-diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-index 8375fcf..cd8024f 100644
---- a/meta/recipes-support/nettle/nettle_3.4.1.bb
-+++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-@@ -49,4 +49,7 @@ do_install_ptest() {
-         install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
- }
- 
-+RDEPENDS_${PN}-ptest += "${PN}-dev"
-+INSANE_SKIP_${PN}-ptest += "dev-deps"
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.7.4
-
+Andreas
 
