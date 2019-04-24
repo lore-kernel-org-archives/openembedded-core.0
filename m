@@ -1,58 +1,52 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 862217D676
+Return-Path: <fabio.berton@ossystems.com.br>
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id AC2D07D672
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 19:08:19 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id k92so16893230edc.12
+	Wed, 24 Apr 2019 20:15:45 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id l199so2000027qke.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 12:08:20 -0700 (PDT)
+	Wed, 24 Apr 2019 13:15:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=kkmQAMmr8xkxE/stbwgpwe9GJ4/UGULWsLJpCraJMjM=;
-	b=jv8TK2Y56jTGEAcwxGQ7m8Ca7BGbgiohbn3mv4Ndf78YwXyHtjLIfnJ3WcgEI+MZac
-	o6JcJ4stGMkpVtzNaaD5ggTbINUq5nqzw4XnYsOHOoCgPPLSRCSTT1LRlYnXlEV9T7iw
-	Vzv4HWmCCVl0HuQyX9Z1JbdLNQjN1dE/yrYa1qqgan7s4sBOmrFFZhIyalf+gaCbJDwx
-	lt5aPKjNaLoZrjGHLnlWGwNJdrHkNeFO0nqLHBcC3joTNOe33mcOyjJLApKNx67ESXWb
-	hvjDRdeK4j1vD/BaE7rYArqMEBFaNMlF4ddgcRqRJo2N00K1l66riAcqcEl1TFHF9TqN
-	nbnQ==
+	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version:organization
+	:content-transfer-encoding;
+	bh=1Lj0GtN4jHPxWEPQMf9okKG1Nvu//u44BNL//dZ4THU=;
+	b=PF1VD6OJAvIosiT74YqcOxXptGqEVAdQVxrewfUhqIrKsPF4TwMcsvwIAtoDZRxMyV
+	kNrQfjQwVlRdoaW4UxWeGDNNEtISfWctfO3mRnS88SQpWeNsRP1tjzC3ZI30QlrTkhST
+	tYjOlCeG0mQeXACSSnrLrXkkNvA3CSUBXQh1DhFqsPllC5ENPYbnJHndlqnFb+tChiBr
+	bdXSHo7a9sxVvS+Sd8fOty+kLoABEulsL1Q0f2+mvS/E+zCTQEcoWs/GraoN6XEhHD+B
+	ybIDwYmXoIaC8nibcM/q6tElL5/cQBAKynPR3H9GhjGWS+C+5lTdRyRNQvUnOAsbChlo
+	gqMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=kkmQAMmr8xkxE/stbwgpwe9GJ4/UGULWsLJpCraJMjM=;
-	b=AP9otNjQMgI6K2P3xsnblqc59FmusOMNitIAhzlzRx/aFD5K8Bv8kkZO57FOmqt6fr
-	1bT+88eFq80djDcUx4IEC8P+kmAcR7irZrb/FsQLqLc0AOv0qKQSb7hvLNsoDgAz2Sj/
-	9jjiBRu9tYPhPhUZe7K1WubkMCwEF2rUWVjUBLm7tu4dpdbWtUQ9yLREssb4dMsczfPn
-	peNqt/TNrbYO40sxI2NiiryzubA53RVgzkaDT0dWDUyAcT3Q+yS53LherYiiOv3yCVtl
-	voZcS2VtyHQ0S+yGtb3/RUn9HHALa7vmgkMdoKnjLiI5W2Pw8w7cVSfghUDdZaICMNL2
-	gPLw==
-X-Gm-Message-State: APjAAAVUkFL0Ib495GyOPn3YvReUN6mWquCE3Uz/khMylrJXNB2Mf/gy
-	1BcUmEFttrHuZf142HCN3FLFmyMxR7g=
-X-Google-Smtp-Source: APXvYqxWaW2hMqrOgbqQIWw6Kz45L9RFOGiGpLkp31SpmV0jKKtPXwLf96rdCiPV8DGEwYVih9TLPQ==
-X-Received: by 2002:a17:906:338a:: with SMTP id
-	v10mr311312eja.146.1556132899850; 
-	Wed, 24 Apr 2019 12:08:19 -0700 (PDT)
-Received: from [192.168.0.8] (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id p51sm4726561eda.3.2019.04.24.12.08.18
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:organization:content-transfer-encoding;
+	bh=1Lj0GtN4jHPxWEPQMf9okKG1Nvu//u44BNL//dZ4THU=;
+	b=nTbdFuiwb0DomQyfwVofihOnNdQH/EPTRqN0X1l4/+ZGp9WUJUscrqjx6U9c2R1Hxp
+	7BScvemEhaRdSt8dfNS8lU7ODUECt86bKxn3Z80bd5qOzrirEkSLXGEOuIrICf5F8tIp
+	3g1SD6rDi/2t4VSmVimqn56meWhf5xXjgfvPrksgawMA4h4fcM4CJF+rd7IaUmry5snk
+	o5nnOzQIiT0z7d06OuzlPM/TzOBQ8u7I9nGa0ggcpQ/AKrtsSNp6SKTiuueg/ItOARqW
+	f6m1q67EXqLTtu/vqp3kuy8zzWtnzp43eAa7aCKHpzGDXC9N+272b3N/RxdbBzSbHc/v
+	Q+6Q==
+X-Gm-Message-State: APjAAAWQVg2EBNWuZrmZX65fgnZIAvam3Me4lyLq6zip5ECu0OMApxmA
+	EnsuScTUcJteKJqbg8tCmwozDRbTWBmcXg==
+X-Google-Smtp-Source: APXvYqzq4rBZlKuzHzUq9umbyLw2a9PhBtH9dMGAGQhNk+hwdU7/0BFG4RZEdjmKBV/PHIDkQC1c7Q==
+X-Received: by 2002:a37:4948:: with SMTP id w69mr27247227qka.122.1556136946401;
+	Wed, 24 Apr 2019 13:15:46 -0700 (PDT)
+Received: from centrium.lab.ossystems ([181.220.83.165])
+	by smtp.gmail.com with ESMTPSA id y7sm6801607qki.14.2019.04.24.13.15.44
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Apr 2019 12:08:19 -0700 (PDT)
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20190424184711.19015-1-open.source@oleksandr-kravchuk.com>
-	<CANNYZj80U3T9YqSm9OduV2zFzjygWb53m8M64uGFynsgh1K2dg@mail.gmail.com>
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Message-ID: <a4b459d7-8692-539e-8977-69a37ac00214@oleksandr-kravchuk.com>
-Date: Wed, 24 Apr 2019 21:08:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Wed, 24 Apr 2019 13:15:45 -0700 (PDT)
+From: Fabio Berton <fabio.berton@ossystems.com.br>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 17:15:29 -0300
+Message-Id: <20190424201529.28928-1-fabio.berton@ossystems.com.br>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj80U3T9YqSm9OduV2zFzjygWb53m8M64uGFynsgh1K2dg@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-pycairo: update to 1.18.1
+Organization: O.S. Systems Software LTDA.
+Subject: [PATCH] mesa: Update 19.0.1 -> 19.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,28 +59,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 19:08:20 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 24 Apr 2019 20:15:45 -0000
+Content-Transfer-Encoding: 8bit
 
-No, It was dumb of me to not check the mailing list first.
+Mesa 19.0.3 is a bug fix release which fixes bugs found since the
+19.0.1 release.
 
-Also, good to learn something...
+For full log see:
 
-On 24/04/2019 21:02, Alexander Kanavin wrote:
-> On Wed, 24 Apr 2019 at 20:47, Oleksandr Kravchuk
-> <open.source@oleksandr-kravchuk.com> wrote:
->> -FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
->> +
->> +FILES_${PN} += " \
->> +    ${datadir}/include/pycairo/py3cairo.h \
->> +    ${datadir}/lib/pkgconfig/py3cairo.pc \
->> +"
-> This isn't right (and packaging the header installed into a wrong
-> location wasn't right either). I sent a different patch that addresses
-> this a bit earlier, together with the rest of python-* updates that
-> are now in master-next - apologies for the duplicate effort :)
->
-> Alex
+https://www.mesa3d.org/relnotes/19.0.2.html
+https://www.mesa3d.org/relnotes/19.0.3.html
+
+Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
+---
+ .../mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.3.bb}             | 0
+ meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.3.bb} | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.3.bb} (85%)
+
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_19.0.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_19.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.0.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_19.0.1.bb b/meta/recipes-graphics/mesa/mesa_19.0.3.bb
+similarity index 85%
+rename from meta/recipes-graphics/mesa/mesa_19.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_19.0.3.bb
+index d90be8a074..585c3ede23 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.0.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.0.3.bb
+@@ -7,8 +7,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
+ "
+ 
+-SRC_URI[md5sum] = "19636bb3da35c21f43040d31e575d5ce"
+-SRC_URI[sha256sum] = "6884163c0ea9e4c98378ab8fecd72fe7b5f437713a14471beda378df247999d4"
++SRC_URI[md5sum] = "d03bf14e42c0e54ebae5730712ccc408"
++SRC_URI[sha256sum] = "f027244e38dc309a4c12db45ef79be81ab62c797a50a88d566e4edb6159fc4d5"
+ 
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
+-- 
+2.20.1
+
 
