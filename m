@@ -1,50 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
-	[209.85.214.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AD336007A
+Return-Path: <AMardegan@luxoft.com>
+X-Greylist: delayed 902 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 24 Apr 2019 14:27:33 UTC
+Received: from mx01.luxoft.com (mx01.luxoft.com [109.166.244.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 7689A7D2CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 13:56:09 +0000 (UTC)
-Received: by mail-pl1-f182.google.com with SMTP id w24so9346864plp.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 06:56:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=G6VCbyfGqG5YJmpln7xauP7ugVDJC0yXmiTZKR1c30s=;
-	b=Fa/sjyA9FPi47RkiInXYzK1x+2X0A0u8V/n5PjEEhpwfeh6Qll2XRmqU7l8pUVD7gK
-	MsExgA1Y3odKAulgSWoi5vVZZqrntpiH5A175tAk5Iocovl9yVGv/McQ3casB01VFSLT
-	IZLgfwU4F8GGGqlm4foQwZfHCjPOVoE0pottiP49vdg2Eb23vy4+V78QhH9P0DXfdv+D
-	eIbBULV12TIPH4JBK8R2dzK3a8Ce6huYI0bxkFgv2jqopr4cgra4BgfJ93tHUVyhUfRo
-	VQb5GTrS/gi/Awgw2MN4Xf5h2JbNHrDkavm9q51ia4FZuZa4D+gZ5WmcI6HBocdGf2YP
-	lCwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=G6VCbyfGqG5YJmpln7xauP7ugVDJC0yXmiTZKR1c30s=;
-	b=j+WogzFh/muNcurtGBVsNTC5Q+dbsauaTdOM+zipmTwTis/sPsi+9kSSmvCATRbK4C
-	TlrDX2MdAZHpYUB2YNhSEhjqvFx/vkgHQnX/nB0mPYLiIb1ezeaGXSWgAUF1yWEYkV4E
-	g05bBq4zgqCLvV4Ma4cOivogPskXjLbE8c4SdGJEJbBCq9N3zqNX7um/DnBBPFgDoPmx
-	X0HEwiAyThRTvzT6S9DZA6D/Hmj6rA3XlcUudqhdjtjzvbwEJJK335GShELLi6QecbdT
-	9SOWs/jna+aO2Q6+NudPdnoaafzueloHuMl3h1PF+dMtna48SRg2ovmNlB/pwtNV+kAN
-	1SUw==
-X-Gm-Message-State: APjAAAVv5E5ljeY7nmphey9tzM0I+yilkUwjJGlg58+g81qXwwTLqwHH
-	zvoZOZcPl2uP9CjByLqtaDzLASOc
-X-Google-Smtp-Source: APXvYqzf7iIbTKWBG/rAqlMlBMQ7sHseX8cVyr9W0Au18KnAphCsDJxZyih2+qq2uSIkPs/K1oTAUw==
-X-Received: by 2002:a17:902:b28:: with SMTP id
-	37mr31897244plq.322.1556114170326; 
-	Wed, 24 Apr 2019 06:56:10 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:c33:a87f:9f1d:bbdb:3483])
-	by smtp.gmail.com with ESMTPSA id
-	v20sm29812437pfe.118.2019.04.24.06.56.09
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 24 Apr 2019 06:56:09 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 06:56:08 -0700
-Message-Id: <1556114168-23170-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [QA][PATCH] manual qa: compliance-test drop ltpstress
+	Wed, 24 Apr 2019 14:27:33 +0000 (UTC)
+X-AuditID: ac1e1338-fe1ff7000001616c-7a-5cc06ecee682
+Received: from ORO-EDGE-03.luxoft.com (oro-edge-03.luxoft.com [172.30.19.23])
+	(using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mx01.luxoft.com (Symantec Messaging Gateway) with SMTP id
+	F4.48.24940.ECE60CC5; Wed, 24 Apr 2019 17:12:31 +0300 (EEST)
+Received: from oro-exch-05.luxoft.com (172.25.192.35) by
+	oro-edge-03.luxoft.com (172.30.19.23) with Microsoft SMTP Server (TLS)
+	id 14.3.408.0; Wed, 24 Apr 2019 17:12:30 +0300
+Received: from oro-exch-01.luxoft.com (172.25.192.30) by
+	oro-exch-05.luxoft.com (172.25.192.35) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521) id
+	15.1.1466.3; Wed, 24 Apr 2019 17:12:30 +0300
+Received: from oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13]) by
+	oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13%13]) with mapi id
+	15.01.1466.003; Wed, 24 Apr 2019 17:12:30 +0300
+From: "Mardegan, Alberto" <AMardegan@luxoft.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] oeqa/core/runner: dump stdout and stderr of each test
+	case
+Thread-Index: AQHU+qfAsdoyQM4uCU+gacke5mzFZQ==
+Date: Wed, 24 Apr 2019 14:12:30 +0000
+Message-ID: <20190424141215.11624-1-amardegan@luxoft.com>
+Accept-Language: it-IT, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.19.68]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrGLMWRmVeSWpSXmKPExsWyRk5YXPd83oEYg/ddnBZ3fr5jd2D0OLdx
+	BWMAYxSXTUpqTmZZapG+XQJXxsmNq5kKjipXnDjv2sD4WqqLkYNDQsBE4uYv7S5GLg4hgc1M
+	EpN+/2eDcDYxSnzYvI4ZwvnCKNF37BILhLOfUeLpuj7GLkZODjYBA4m/u9eygtgiAtESS2fM
+	ZAexhQW8Jb4uPMEKskJEIEhi/XFmiBI9iRm9r1hAbBYBVYkdWx+DtfIKWEq8Wt7PBGIzCshK
+	TNi9CGw8s4C4xK0n88HiEgICEkv2nGeGsEUlXj7+xwphK0h0Pm1kh6jXk7gxdQobhK0tsWzh
+	a2aI+YISJ2c+AdsrJKAosfzbfKYJjKKzkKyYhaR9FpL2WUjaFzCyrGIUzS/K1y3OTdc1MNbL
+	Ka3ITyvRS87P3cQIiQmLHYynD6YcYmTi4JRqYNwY96jqhuNMydyNx0wUc15c4HFuq036toVn
+	2pUEv3K/b6YbP93be35rhnjWPQt7PnaP5LDIPcw6AfVf0qIbrO5JOX+ZusrERuyWlt/7Q3cT
+	upMTheJ+Gr08rPOio3Gtf+JcgwSlD5uaC7Ymaalvv9si1T+/TaEn9Bh7T3UI573nZqbt277W
+	K7EUZyQaajEXFScCAI2ASfw5AgAA
+Subject: [PATCH] oeqa/core/runner: dump stdout and stderr of each test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,64 +57,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 13:56:09 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 14:27:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-ltpstress was remived in Oct 2018
+Some CI pipelines might perform further processing of the test output
+(for instance, to plot some metrics into a chart). However, Since `thud`
+we switched away from the XML-based jUnit reporting, and at the same
+time we lost the ability of collecting the stdout and stderr of the
+various tests.
 
-https://github.com/linux-test-project/ltp/commit/e752f7c19674d9b2f7d37aed123561a3f6410e97#diff-5231627fc8640e0adb955f9e69c3c08d
+We now restore this functionality by adding `stdout` and `stderr` keys
+to the JSON reports.
 
- Remove LTP stress tests
-
-ltpstress.sh runs stress.part[1-3]. But these runtest files just
-duplicate definitions:
-* stress.part1: fs, mm, nfs
-* stress.part2: ipc, math, nptl
-* stress.part3: net.multicast, pty, syscalls
-
-Definitions are outdated anyway. There is no point trying trying
-to keep them sync.
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Alberto Mardegan <amardegan@luxoft.com>
 ---
- meta/lib/oeqa/manual/compliance-test.json | 26 --------------------------
- 1 file changed, 26 deletions(-)
+ meta/classes/testimage.bbclass |  3 ++-
+ meta/lib/oeqa/core/runner.py   | 20 ++++++++++++++++----
+ 2 files changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/meta/lib/oeqa/manual/compliance-test.json b/meta/lib/oeqa/manual/compliance-test.json
-index 8c13b68..0ed090a 100644
---- a/meta/lib/oeqa/manual/compliance-test.json
-+++ b/meta/lib/oeqa/manual/compliance-test.json
-@@ -77,30 +77,4 @@
-       "summary": "stress_test_-_crashme_-Beaglebone"
-     }
-   },
--  {
--    "test": {
--      "@alias": "compliance-test.compliance-test.stress_test_-_ltp_-Beaglebone",
--      "author": [
--        {
--          "email": "corneliux.stoicescu@intel.com",
--          "name": "corneliux.stoicescu@intel.com"
--        }
--      ],
--      "execution": {
--        "1": {
--          "action": "Build LTP with toolchain or in sdk image",
--          "expected_results": ""
--        },
--        "2": {
--          "action": "Copy LTP folder into target, for example, /opt/ltp. Modify script,  testscripts/ltpstress.sh, set Iostat=1, NO_NETWORK=1",
--          "expected_results": ""
--        },
--        "3": {
--          "action": "cd testscripts/ && ./ltpstress.sh",
--          "expected_results": "This stress case will run for 24 hours Check the result\ntarget should not crash with the program "
--        }
--      },
--      "summary": "stress_test_-_-ltp_-Beaglebone"
--    }
--  }
- ]
--- 
-2.7.4
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclas=
+s
+index ff1c53b93e..d0f4a77ff9 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -316,7 +316,8 @@ def testimage_main(d):
+     configuration =3D get_testimage_configuration(d, 'runtime', machine)
+     results.logDetails(get_testimage_json_result_dir(d),
+                        configuration,
+-                       get_testimage_result_id(configuration))
++                       get_testimage_result_id(configuration),
++                       dump_streams=3Dd.getVar('TEST_WRITE_OUTPUT'))
+     results.logSummary(pn)
+     if not results.wasSuccessful():
+         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, =
+forcelog=3DTrue)
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index df88b85f1c..478b7b6683 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -7,6 +7,7 @@ import unittest
+ import logging
+ import re
+ import json
++import sys
 
+ from unittest import TextTestResult as _TestResult
+ from unittest import TextTestRunner as _TestRunner
+@@ -45,6 +46,9 @@ class OETestResult(_TestResult):
+
+         self.tc =3D tc
+
++        # stdout and stderr for each test case
++        self.logged_output =3D {}
++
+     def startTest(self, test):
+         # May have been set by concurrencytest
+         if test.id() not in self.starttime:
+@@ -53,6 +57,9 @@ class OETestResult(_TestResult):
+
+     def stopTest(self, test):
+         self.endtime[test.id()] =3D time.time()
++        if self.buffer:
++            self.logged_output[test.id()] =3D (
++                    sys.stdout.getvalue(), sys.stderr.getvalue())
+         super(OETestResult, self).stopTest(test)
+         if test.id() in self.progressinfo:
+             self.tc.logger.info(self.progressinfo[test.id()])
+@@ -118,7 +125,8 @@ class OETestResult(_TestResult):
+         self.successes.append((test, None))
+         super(OETestResult, self).addSuccess(test)
+
+-    def logDetails(self, json_file_dir=3DNone, configuration=3DNone, resul=
+t_id=3DNone):
++    def logDetails(self, json_file_dir=3DNone, configuration=3DNone, resul=
+t_id=3DNone,
++            dump_streams=3DFalse):
+         self.tc.logger.info("RESULTS:")
+
+         result =3D {}
+@@ -144,10 +152,14 @@ class OETestResult(_TestResult):
+             if status not in logs:
+                 logs[status] =3D []
+             logs[status].append("RESULTS - %s - Testcase %s: %s%s" % (case=
+.id(), oeid, status, t))
++            report =3D {'status': status}
+             if log:
+-                result[case.id()] =3D {'status': status, 'log': log}
+-            else:
+-                result[case.id()] =3D {'status': status}
++                report['log'] =3D log
++            if dump_streams and case.id() in self.logged_output:
++                (stdout, stderr) =3D self.logged_output[case.id()]
++                report['stdout'] =3D stdout
++                report['stderr'] =3D stderr
++            result[case.id()] =3D report
+
+         for i in ['PASSED', 'SKIPPED', 'EXPECTEDFAIL', 'ERROR', 'FAILED', =
+'UNKNOWN']:
+             if i not in logs:
+--
+2.17.1
+
+________________________________
+
+This e-mail and any attachment(s) are intended only for the recipient(s) na=
+med above and others who have been specifically authorized to receive them.=
+ They may contain confidential information. If you are not the intended rec=
+ipient, please do not read this email or its attachment(s). Furthermore, yo=
+u are hereby notified that any dissemination, distribution or copying of th=
+is e-mail and any attachment(s) is strictly prohibited. If you have receive=
+d this e-mail in error, please immediately notify the sender by replying to=
+ this e-mail and then delete this e-mail and any attachment(s) or copies th=
+ereof from your system. Thank you.
 
