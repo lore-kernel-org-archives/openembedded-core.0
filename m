@@ -1,49 +1,28 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2987A7D676
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B2267D686
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 18:37:59 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id h16so5308253ljg.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 11:38:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=n8XyzAP34mYGjEPiLAmbKFmWIWTUeY4mN7XtTleYZ2A=;
-	b=YeLpvh4it3iP3icVR9sSIsTF4GQEV3mg+NNuN8u5ec3XrZMs/FmeMwsjdge1n+bVhg
-	mnkSoOKzY0MSmXxBrFWK5Hmwht9MrBgWYMT4RrC65BtD85S0PCe6Sgv3AawMJRSukG2H
-	0MzizRwtEYdRV5UuKkaGgpC0/MWn7H8DSzoVc998yv2q2bIPEIjWiqwQv2Kl6y+S/PQG
-	5MSflDfbklJ7CvHrHjAh8X3DXyo7ETmVh6AXkQIQBoIzHTaPbj0y9SBjzniSQylWyq+E
-	T4NFtHbMLsOuAWRbM3IlHnAkvyqCiVIY4JDMyFy7NlgaXHFsVMK9XuImb3MRmZPWvcpj
-	Rb6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=n8XyzAP34mYGjEPiLAmbKFmWIWTUeY4mN7XtTleYZ2A=;
-	b=crT+TrLzIkfTjrBHM+iA5v5LrzaRymwXRmcaXVw+awpzaniED5K2m5wBwWl5+WA0vH
-	FC4KctQduC+S7V6xVcTWhvXrihorXSposnua1vZwV4cUoskFICF13JxIpUFvaJ4yi1bc
-	Nb0rGnrxuQpP7E4BuwshW1k+wrBuaOUA7Cy1r4n5nFF255OoCmEFgK5U0FkdM/4KtUBW
-	WXKL8Le3y2CFHj67pNq1UHk1rPGk/VCvbQXzYbIOpZZufNBXYGwmwUdvYQcNPbS5ZvYT
-	+CwRzEzvCB5mXJOWLo5USZHCnFFz68/LRIRsoY9uLPHycCy07WYmk6fYedhjjbAxdJ5u
-	/vCg==
-X-Gm-Message-State: APjAAAUL0Ev2ZtL2+39zj3Sl6geOUiG+YWkiF6ggaRPuJ7+dMjZ5eHLv
-	eZIRI/2IW0yKFYCkMzhTogDjnYhhvy8=
-X-Google-Smtp-Source: APXvYqxRLVzBLLQtNqpPXVt7LDObfwGTFTW1t00LiWHs6ClzgwuOr5ObzgvdCM2qWA2VppSzTiGCxg==
-X-Received: by 2002:a2e:8ec5:: with SMTP id e5mr18363341ljl.7.1556131079560;
-	Wed, 24 Apr 2019 11:37:59 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id z16sm5382383lfi.9.2019.04.24.11.37.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 24 Apr 2019 11:37:59 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 20:37:56 +0200
-Message-Id: <20190424183756.11654-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH v2] python-scons: update to 3.0.5
+	Wed, 24 Apr 2019 18:38:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3OIbeJk014295
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Apr 2019 11:37:51 -0700
+Received: from [128.224.56.205] (128.224.56.205) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 24 Apr 2019 11:37:30 -0700
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190424173241.13587-1-open.source@oleksandr-kravchuk.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <18d17d26-457c-25b4-f3e6-16611bec1ded@windriver.com>
+Date: Wed, 24 Apr 2019 14:37:29 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190424173241.13587-1-open.source@oleksandr-kravchuk.com>
+X-Originating-IP: [128.224.56.205]
+Subject: Re: [PATCH v2] coreutils: update to 8.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +35,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 18:37:59 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 18:38:11 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-License checksum changed due to modified copyright years.
+On 4/24/19 1:32 PM, Oleksandr Kravchuk wrote:
+> lc.c license checksum changed due to modified copyright year.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- ...n-scons-native_3.0.1.bb => python-scons-native_3.0.5.bb} | 0
- .../python/{python-scons_3.0.1.bb => python-scons_3.0.5.bb} | 6 +++---
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/python/{python-scons-native_3.0.1.bb => python-scons-native_3.0.5.bb} (100%)
- rename meta/recipes-devtools/python/{python-scons_3.0.1.bb => python-scons_3.0.5.bb} (63%)
+It's
+   ls.c not lc.c.
 
-diff --git a/meta/recipes-devtools/python/python-scons-native_3.0.1.bb b/meta/recipes-devtools/python/python-scons-native_3.0.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python-scons-native_3.0.1.bb
-rename to meta/recipes-devtools/python/python-scons-native_3.0.5.bb
-diff --git a/meta/recipes-devtools/python/python-scons_3.0.1.bb b/meta/recipes-devtools/python/python-scons_3.0.5.bb
-similarity index 63%
-rename from meta/recipes-devtools/python/python-scons_3.0.1.bb
-rename to meta/recipes-devtools/python/python-scons_3.0.5.bb
-index d5084b2d16..c010cd94b8 100644
---- a/meta/recipes-devtools/python/python-scons_3.0.1.bb
-+++ b/meta/recipes-devtools/python/python-scons_3.0.5.bb
-@@ -1,10 +1,10 @@
- SUMMARY = "Software Construction tool (make/autotools replacement)"
- SECTION = "devel/python"
- LICENSE = "MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=46ddf66004e5be5566367cb525a66fc6"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=37bb53a08e6beaea0c90e7821d731284"
- 
--SRC_URI[md5sum] = "b6a292e251b34b82c203b56cfa3968b3"
--SRC_URI[sha256sum] = "24475e38d39c19683bc88054524df018fe6949d70fbd4c69e298d39a0269f173"
-+SRC_URI[md5sum] = "9f9c163e8bd48cf8cd92f03e85ca6395"
-+SRC_URI[sha256sum] = "df676f23dc6d4bfa384fc389d95dcd21ab907e6349d4c848958ba4befb73c73e"
- 
- UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+Could you change the log to say:
+
+    The license checksum for src/ls.c changed due
+    to an updated copyright year.
+
+Thanks,
+../Randy
+
+
+> 
+> musl fix was backported from RHEL5 and is musl specific as the patched
+> file is autogenerated during configure phase.
+> 
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>   .../strtod_fix_clash_with_strtold.patch       | 56 +++++++++++++++++++
+>   .../{coreutils_8.30.bb => coreutils_8.31.bb}  |  8 ++-
+>   2 files changed, 61 insertions(+), 3 deletions(-)
+>   create mode 100644 meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+>   rename meta/recipes-core/coreutils/{coreutils_8.30.bb => coreutils_8.31.bb} (94%)
+> 
+> diff --git a/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch b/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+> new file mode 100644
+> index 0000000000..19410715f5
+> --- /dev/null
+> +++ b/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+> @@ -0,0 +1,56 @@
+> +From 0562b040fa17f1722ba2b3096067b45d0582ca53 Mon Sep 17 00:00:00 2001
+> +From: Paul Eggert <eggert@cs.ucla.edu>
+> +Date: Mon, 11 Mar 2019 16:40:29 -0700
+> +Subject: [PATCH] strtod: fix clash with strtold
+> +
+> +Problem reported for RHEL 5 by Jesse Caldwell (Bug#34817).
+> +* lib/strtod.c (compute_minus_zero, minus_zero):
+> +Simplify by remving the macro / external variable,
+> +and having just a function.  User changed.  This avoids
+> +the need for an external variable that might clash.
+> +
+> +Upstream-Status: Backported [rhel5]
+> +
+> +Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> +
+> +---
+> + ChangeLog    |  9 +++++++++
+> + lib/strtod.c | 11 +++++------
+> + 2 files changed, 14 insertions(+), 6 deletions(-)
+> +
+> +diff --git a/lib/strtod.c b/lib/strtod.c
+> +index b9eaa51b4..69b1564e1 100644
+> +--- a/lib/strtod.c
+> ++++ b/lib/strtod.c
+> +@@ -294,16 +294,15 @@ parse_number (const char *nptr,
+> +    ICC 10.0 has a bug when optimizing the expression -zero.
+> +    The expression -MIN * MIN does not work when cross-compiling
+> +    to PowerPC on Mac OS X 10.5.  */
+> +-#if defined __hpux || defined __sgi || defined __ICC
+> + static DOUBLE
+> +-compute_minus_zero (void)
+> ++minus_zero (void)
+> + {
+> ++#if defined __hpux || defined __sgi || defined __ICC
+> +   return -MIN * MIN;
+> +-}
+> +-# define minus_zero compute_minus_zero ()
+> + #else
+> +-DOUBLE minus_zero = -0.0;
+> ++  return -0.0;
+> + #endif
+> ++}
+> +
+> + /* Convert NPTR to a DOUBLE.  If ENDPTR is not NULL, a pointer to the
+> +    character after the last one used in the number is put in *ENDPTR.  */
+> +@@ -479,6 +478,6 @@ STRTOD (const char *nptr, char **endptr)
+> +   /* Special case -0.0, since at least ICC miscompiles negation.  We
+> +      can't use copysign(), as that drags in -lm on some platforms.  */
+> +   if (!num && negative)
+> +-    return minus_zero;
+> ++    return minus_zero ();
+> +   return negative ? -num : num;
+> + }
+> +--
+> +2.20.1
+> +
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> similarity index 94%
+> rename from meta/recipes-core/coreutils/coreutils_8.30.bb
+> rename to meta/recipes-core/coreutils/coreutils_8.31.bb
+> index 8f4ee55712..4a74f619af 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.30.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> @@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+>   BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+>   LICENSE = "GPLv3+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+> -                    file://src/ls.c;beginline=1;endline=15;md5=dbe356a88b09c29232b083d1ff8ac82a"
+> +                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
+>   DEPENDS = "gmp libcap"
+>   DEPENDS_class-native = ""
+>   
+> @@ -20,8 +20,10 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>              file://0001-local.mk-fix-cross-compiling-problem.patch \
+>             "
+>   
+> -SRC_URI[md5sum] = "ab06d68949758971fe744db66b572816"
+> -SRC_URI[sha256sum] = "e831b3a86091496cdba720411f9748de81507798f6130adeaef872d206e1b057"
+> +SRC_URI_append_libc-musl = "file://strtod_fix_clash_with_strtold.patch"
+> +
+> +SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
+> +SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
+>   
+>   EXTRA_OECONF_class-native = "--without-gmp"
+>   EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+> 
+
+
 -- 
-2.17.1
-
+# Randy MacLeod
+# Wind River Linux
 
