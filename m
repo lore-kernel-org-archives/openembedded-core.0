@@ -1,49 +1,50 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id DB73360290
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com
+	[209.85.208.41])
+	by mail.openembedded.org (Postfix) with ESMTP id BE86F7D2AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 06:23:08 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id k92so14790422edc.12
+	Wed, 24 Apr 2019 06:30:25 +0000 (UTC)
+Received: by mail-ed1-f41.google.com with SMTP id u57so14862456edm.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 23:23:09 -0700 (PDT)
+	Tue, 23 Apr 2019 23:30:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=iE7dmnd4HLZ3wPDC77ksOHGLMd8iViv1a0IV8sKZwcs=;
-	b=vnoSeQX9gUk2XcY1vjbcLfQe/hVhGqKWC03QdndHj+6VFv7yJFkNSCkFK7/BNlM8Cj
-	OMp3GeRepnbdsW6ZfbkSbOVChkteoVxsluo5bxO3TRtGMbUhjntendnvX2fSNPWNP2E0
-	XdyvipNSblk0gfn1yW45b0cOqpQ+Orj6skl4Z6d+EiRsqluWVvhae5S55yLnNSpdD49/
-	6ETQFcMIT2/c3tWyprvt4dbHtaFSPDeuTg6Isuj1q0UfJZrApkOt+wAYP664lwSMn3I0
-	3JCwgnPsVFZkHtpXir98ZV/909AvA1x3kroPlUYnNf9mRMlfonySP0Kl2NkmtrYASSvP
-	OMUg==
+	bh=A6SluzCUj3ZAGg4KwyU9YiC7QMoRKtOPotTZS22yWTI=;
+	b=QvU9WexX/I6SMhV2PvOctLdW/27WXfJHxrwEXBJg7gry23WS9QsVpPJ0U/Q4ZqCMqT
+	Jpk0iIJHNHwS4PuU2+31cGkKHXVEIlW5c+WK//4sgWUUp1kBR4iiuP9nwiV2pQehCxQl
+	S51QJ8ifV+vkJLeVVQaE+FC+TkyfmeWjbomVOTUAGVU2vv/Dv2hV7DvJiYUc/L/lmSH5
+	k4BxoCQhmsnC4rUv5wILVdVS869alWeGeIV7N2w95PZBFi80c6d+5trXat37oUf9J2PN
+	FOwFQsD/GPnp+ZoAkVaXYpX+2GXkaaOVbi2OeavhLsXGQIxjkpQZc3cZ1kBT5qzHl7PC
+	7y2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=iE7dmnd4HLZ3wPDC77ksOHGLMd8iViv1a0IV8sKZwcs=;
-	b=BfTUDSwjYdGskzeiTHEs2bo4OVYQNNLP12JotOkCcv0mjn5ftpNEsqjSaRs0xlomYa
-	t/5aIHdGjcPGTQ5xL652priPGqQaCSDBHNxJLp1pA6DCBVUsAhb+ciozXEVyusAIdj3Z
-	89Tz/XTGUmsE2TlKx1R0810Iauy7SlWhY0aRSPnLzsJFS4BtvK+lguhqfcXOW1FsPpm5
-	wuu791oj30p06gHQm5zzs8lQbs3D/UoFg8uW6KjxbiY7cGm7dcBQ/mfQt9qZHdiPat9d
-	QfTCn7arZPAdFja6HJLrgB6TcrwRFbXgGmqHdud9jycij7Q+KcWQ7ATvzZ5Ca1pK4vfT
-	vXng==
-X-Gm-Message-State: APjAAAUr2Kn9QWx600CgyocYO/bSl7NT/tJj9pU4bWobrMjQszHYDu7C
-	vtawLi5ieJkvO6+K33MWnrVfIehsE0A=
-X-Google-Smtp-Source: APXvYqy4aEp/2hIbTl1XmC2b6Hzeh34abz1aM/lF3y5508X5U/iUNembpV5YaACTw/LjQb1EO4F6Kw==
-X-Received: by 2002:a50:9843:: with SMTP id h3mr9339769edb.74.1556086988892;
-	Tue, 23 Apr 2019 23:23:08 -0700 (PDT)
+	bh=A6SluzCUj3ZAGg4KwyU9YiC7QMoRKtOPotTZS22yWTI=;
+	b=nUeu2zxEAxeMB59deiHnQCxiOAcNM0Jn6twJalgR/ibOuYCGUYXgYAqiL+zFNHpg2Y
+	Y21O31Ju+e7+xKA9zHUdkp9pOuC2Ihf7nnUq493ieathd7vz52eCn99OEUjzfJzP3149
+	dFDoMK0J+K3akthpiek7NmiQVz83Hn1EVLwgQo62u7xjLUsNeWc2vY+ZHCnr3riMDnkv
+	z5mk4aNuybJF+UUXRsZkaJPCirZnCSTTmFjFhHMtSBimJUwu90H4WYfg/NbbWVG3LAKW
+	bmigV57vXuLakGYcGJpJllzHOZAOgD892LehEzcVP6GnkzhBux8gTqcDVDeHELRs5Pvp
+	OBtA==
+X-Gm-Message-State: APjAAAXqLpsOvD+AgNDe6QXBMNNj5oVTEF/w8J2zV8UCYDqi1UPlzq2r
+	senmtPyqS2ZsmoC4v6p6TQT0HRf9yMk=
+X-Google-Smtp-Source: APXvYqznMeN/2rdztNgvFQTGkkp+tsosrB9s2Fy47YPbbO1BdJwcxTr4VOa4YzUwythM159zgCDNPw==
+X-Received: by 2002:a17:906:a48:: with SMTP id
+	x8mr5504883ejf.247.1556087426172; 
+	Tue, 23 Apr 2019 23:30:26 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id n14sm88973edr.35.2019.04.23.23.23.07
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	j10sm3411320eja.58.2019.04.23.23.30.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Apr 2019 23:23:08 -0700 (PDT)
+	Tue, 23 Apr 2019 23:30:25 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 08:22:44 +0200
-Message-Id: <20190424062244.1306-1-open.source@oleksandr-kravchuk.com>
+Date: Wed, 24 Apr 2019 08:30:23 +0200
+Message-Id: <20190424063023.21576-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] coreutils: update to 8.31
+Subject: [PATCH] python-numpy: update to 1.16.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,65 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 06:23:09 -0000
-
-Musl fix was suggested by:
-https://www.mail-archive.com/bug-coreutils@gnu.org/msg30888.html
+X-List-Received-Date: Wed, 24 Apr 2019 06:30:27 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../coreutils/fix-minus_zero-first-defined-here.patch | 11 +++++++++++
- .../{coreutils_8.30.bb => coreutils_8.31.bb}          |  8 +++++---
- 2 files changed, 16 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch
- rename meta/recipes-core/coreutils/{coreutils_8.30.bb => coreutils_8.31.bb} (94%)
+ meta/recipes-devtools/python-numpy/python-numpy.inc           | 4 ++--
+ .../{python-numpy_1.16.2.bb => python-numpy_1.16.3.bb}        | 0
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python-numpy/{python-numpy_1.16.2.bb => python-numpy_1.16.3.bb} (100%)
 
-diff --git a/meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch b/meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch
-new file mode 100644
-index 0000000000..fa9d047d4a
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch
-@@ -0,0 +1,11 @@
-+--- a/lib/strtod.c
-++++ b/lib/strtod.c
-+@@ -302,7 +302,7 @@ compute_minus_zero (void)
-+ }
-+ # define minus_zero compute_minus_zero ()
-+ #else
-+-DOUBLE minus_zero = -0.0;
-++static DOUBLE minus_zero = -0.0;
-+ #endif
-+ 
-+ /* Convert NPTR to a DOUBLE.  If ENDPTR is not NULL, a pointer to the
-diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
-similarity index 94%
-rename from meta/recipes-core/coreutils/coreutils_8.30.bb
-rename to meta/recipes-core/coreutils/coreutils_8.31.bb
-index 8f4ee55712..fa4c0d9007 100644
---- a/meta/recipes-core/coreutils/coreutils_8.30.bb
-+++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
- BUGTRACKER = "http://debbugs.gnu.org/coreutils"
- LICENSE = "GPLv3+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
--                    file://src/ls.c;beginline=1;endline=15;md5=dbe356a88b09c29232b083d1ff8ac82a"
-+                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
- DEPENDS = "gmp libcap"
- DEPENDS_class-native = ""
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy.inc b/meta/recipes-devtools/python-numpy/python-numpy.inc
+index 43c8960a18..43c3053cd8 100644
+--- a/meta/recipes-devtools/python-numpy/python-numpy.inc
++++ b/meta/recipes-devtools/python-numpy/python-numpy.inc
+@@ -10,8 +10,8 @@ SRC_URI = "https://github.com/${SRCNAME}/${SRCNAME}/releases/download/v${PV}/${S
+            file://0001-npy_cpu-Add-riscv-support.patch \
+            ${CONFIGFILESURI} \
+            "
+-SRC_URI[md5sum] = "4fc754be7ec3e0f80b042d907e99f4ad"
+-SRC_URI[sha256sum] = "8088221e6e27da8d5907729f0bfe798f526836f22cc59ae83a0f867e67416a3e"
++SRC_URI[md5sum] = "0886e5b5017f08f2b7a624c0b5931e61"
++SRC_URI[sha256sum] = "adf063a3f87ab89393f5eea0eb903293b112fa0a308e8c594a75ffa585d81d4f"
  
-@@ -20,8 +20,10 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://0001-local.mk-fix-cross-compiling-problem.patch \
-           "
- 
--SRC_URI[md5sum] = "ab06d68949758971fe744db66b572816"
--SRC_URI[sha256sum] = "e831b3a86091496cdba720411f9748de81507798f6130adeaef872d206e1b057"
-+SRC_URI_append_libc-musl = "file://fix-minus_zero-first-defined-here.patch"
-+
-+SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
-+SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
- 
- EXTRA_OECONF_class-native = "--without-gmp"
- EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+ UPSTREAM_CHECK_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/python-numpy/python-numpy_1.16.2.bb b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/python-numpy/python-numpy_1.16.2.bb
+rename to meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
 -- 
 2.17.1
 
