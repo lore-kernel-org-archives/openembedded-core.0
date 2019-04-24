@@ -1,37 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7EEE57D53E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DA477D486
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 09:21:40 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44pvvk5wvdz4R;
-	Wed, 24 Apr 2019 11:21:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1556097700;
-	bh=RxirmW1goR5CYyc8FDGoyLXRb/Qk+M8vR1nQIjkytXs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CJcWfXC6ELWGluXKBDzpoTc3p1H/aEE8ylYV1IcW0ofF80SoFd0GimTZxTS8kBlEc
-	ZlaABe1cvKfy+QRNh6rw3xPJvST0xJP3iL4Ti9aoLSCyMtUzwA9uJNlLsjZnmSXe/J
-	PxV53GaBVwpkXduAz8VXc0Ia8Xt40Pffo0J0j6G5zZH9KKd7kTOifq6xfJ2S7SSnd0
-	tyLVQZRtiuUA4A6UL6kAOVX5JAWS/HsFGTO+1WtdU5OsJYVTm5Hjt6P610HPF18Wz8
-	o8WngUcK+dOh5J9HSzi9/SIzfm4VL8BtqA0QZVJ+mMOBqTvtfsHlwU46EXKDSkmc+R
-	AP7ErpYrKMhXpe844ne63vDh53sisGSuMitIlTL3ZlKy1GMI1hPROgVlxIRC1f0nu/
-	qKoNsT9YTfs0gPEReOsWtUWK+JJfoEEk5xW309NtRDsYlBG+8J1DFIWp9imDeRGQWR
-	ByNpCBtY+5EycSwlgtuUEtMJwzGit0H+0ptcDIiSSX1+hgxUwC7aXX4hOypTQbl2gz
-	sgTrRjiFjzPD6W7+0LK8jyCqEvhdoPaiO8cP04D8bH09m2+o886H6RDI3ouZqzPuyc
-	OObOtC/hvIRMdUjO8XiwBvosAt/oJcAeDBAapuoEoXZAMbOO1bVEujZ1FgsZbVj3ip
-	Vq0kJ2bimKXLEV5GiGwwt5ro=
-Date: Wed, 24 Apr 2019 12:21:35 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: mingli.yu@windriver.com
-Message-ID: <20190424092135.GA19130@localhost>
-References: <5CB80B5D.40800@windriver.com>
-	<1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
+	Wed, 24 Apr 2019 10:45:21 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id x132so5466177itf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 24 Apr 2019 03:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=BLcag8+HPCSCEr8rOCmAgJE+eviF5GqVxrXvnbD8Fo4=;
+	b=BI9S99Izjp/32XLZ+X6P6gpcL3/GSOtwX14ZCIw/yOhyg/yFVHB3U4sqRKkoUIK0q2
+	3NVSPQFxISMOSqHGT2hKENIhfFG5tXNbVcXaKEQ468GI7ro3nOd9JC9B4MerxAGtstwj
+	XJDAEOHKqxRlpnHAXpTDBb1lymJPlBbVTW5xoihha8N8TFckN67YM15gfDbx9IsZJp0L
+	ZvtfJMPYDHE5SGZpVMQBG/goMyHPmVAdCB6qNs1SVzUPvXO1lbqYPDAvxrGDN0xQrWYS
+	HBy0es9HwG4kOnYMzvrX0Jhew0Ssa2GvoKv2t0Aeqev2b4NEHI0WpFJQF+sN7XOuoKi5
+	XEnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=BLcag8+HPCSCEr8rOCmAgJE+eviF5GqVxrXvnbD8Fo4=;
+	b=Tl2thwpp52zXMTpqhRnZ3c9sQTeKWPOsPl6s2ag4mVKfcNUsYiBDwJftPZSRgyTCxG
+	CDL0U5vgmNWipgI7c3L3G8ErpNlxabgVTgYcDYOoVaDcUXxlPBSaY/LpsyUF8PWdNscv
+	QLRd+wqRMdJyb+w+y3ONc233kZQKy9NKNm6BPSraTRSTfAAKvzMWg7Iku4ReO09iBzsV
+	CFlyRHIpA2ZCkLbsBIYHqWiDRQSufWSUc66JXDNltb0czaJ6muVVm7YSCb4eq++Npfn5
+	ferM6f8no0NXLfnqdmuWeV6d58El53FlcHLwpr1/Ac+G2CbS9FIg6ldX09+9BSsCndQj
+	sl0A==
+X-Gm-Message-State: APjAAAU3YEA+GySNjCOW/enfRMKR6zGGIaATUpWEJUXnisIRb3h63mp7
+	bOBCb8Za+HH5b8eLFdoW0SLIu7rjGpO0U2g+hLbv4UIE
+X-Google-Smtp-Source: APXvYqyOAXTGX2KuR1VJtwQ51tM9w0+tRA/ODg/EPcOCoI0jZxRI9ncCkD5dmGcDOASgIF05CQ46P8+IdHCO2LRSuOY=
+X-Received: by 2002:a02:ad15:: with SMTP id s21mr9852474jan.79.1556102722894; 
+	Wed, 24 Apr 2019 03:45:22 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v4 1/2] nettle: fix the Segmentation fault
+References: <20190424062244.1306-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190424062244.1306-1-open.source@oleksandr-kravchuk.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 24 Apr 2019 11:45:11 +0100
+Message-ID: <CAJTo0LYpOtdDZnUWxAS0B8cCqukz_+6_0b1gv=ApYovCDTVspg@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] coreutils: update to 8.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,75 +54,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 09:21:41 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 24 Apr 2019 10:45:22 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 24, 2019 at 04:41:00PM +0800, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
-> 
-> The commit[8ac8fa8ee1 nettle: update to 3.4.1]
-> add CFLAGS_append = " -std=c99" to silence the
-> below error for native build:
-> | ../nettle-3.4.1/rsa-sign-tr.c: In function 'sec_equal':
-> | ../nettle-3.4.1/rsa-sign-tr.c:243:3: error: 'for' loop initial declarations are only allowed in C99 mode
->    for (size_t i = 0; i < limbs; i++)
->    ^
-> | ../nettle-3.4.1/rsa-sign-tr.c:243:3: note: use option -std=c99 or -std=gnu99 to compile your code
-> | Makefile:263: recipe for target 'rsa-sign-tr.o' failed
-> 
-> But the above change will trigger below Segmentation
-> fault:
->  # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
->  [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
->  [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
->  Segmentation fault
-> 
-> So update the logic to CFLAGS_append = " -std=gnu99"
-> to fix the issue.
-> 
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+The new patch needs an explanation, a Upstream-Status, and your
+signed-off-by.  Also if a musl-fixing patch doesn't hinder builds
+using glibc in some way then apply it always.  The problem with
+patches-in-overrides is that they tend to not be tested enough on
+upgrades.
+
+Ross
+
+On Wed, 24 Apr 2019 at 07:23, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+>
+> Musl fix was suggested by:
+> https://www.mail-archive.com/bug-coreutils@gnu.org/msg30888.html
+>
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 > ---
->  meta/recipes-support/nettle/nettle_3.4.1.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-> index dd49c30..8375fcf 100644
-> --- a/meta/recipes-support/nettle/nettle_3.4.1.bb
-> +++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-> @@ -30,7 +30,7 @@ inherit autotools ptest multilib_header
->  EXTRA_AUTORECONF += "--exclude=aclocal"
->  
->  EXTRA_OECONF = "--disable-openssl"
-> -CFLAGS_append = " -std=c99"
-> +CFLAGS_append = " -std=gnu99"
->...
-
-Nice catch.
-
-Looking at the build log, setting a C mode without GNU extensions 
-resulted in
-
-../../nettle-3.4.1/tools/nettle-pbkdf2.c: In function 'main':
-../../nettle-3.4.1/tools/nettle-pbkdf2.c:144:10: warning: implicit declaration of function 'strdup'; did you mean 'strcmp'? [-Wimplicit-function-declaration]
-   salt = strdup (argv[0]);
-          ^~~~~~
-          strcmp
-../../nettle-3.4.1/tools/nettle-pbkdf2.c:144:10: warning: nested extern declaration of 'strdup' [-Wnested-externs]
-../../nettle-3.4.1/tools/nettle-pbkdf2.c:144:8: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-   salt = strdup (argv[0]);
-        ^
-
-It is obvious why the resulting code crashed.
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+>  .../coreutils/fix-minus_zero-first-defined-here.patch | 11 +++++++++++
+>  .../{coreutils_8.30.bb => coreutils_8.31.bb}          |  8 +++++---
+>  2 files changed, 16 insertions(+), 3 deletions(-)
+>  create mode 100644 meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch
+>  rename meta/recipes-core/coreutils/{coreutils_8.30.bb => coreutils_8.31.bb} (94%)
+>
+> diff --git a/meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch b/meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch
+> new file mode 100644
+> index 0000000000..fa9d047d4a
+> --- /dev/null
+> +++ b/meta/recipes-core/coreutils/coreutils/fix-minus_zero-first-defined-here.patch
+> @@ -0,0 +1,11 @@
+> +--- a/lib/strtod.c
+> ++++ b/lib/strtod.c
+> +@@ -302,7 +302,7 @@ compute_minus_zero (void)
+> + }
+> + # define minus_zero compute_minus_zero ()
+> + #else
+> +-DOUBLE minus_zero = -0.0;
+> ++static DOUBLE minus_zero = -0.0;
+> + #endif
+> +
+> + /* Convert NPTR to a DOUBLE.  If ENDPTR is not NULL, a pointer to the
+> diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> similarity index 94%
+> rename from meta/recipes-core/coreutils/coreutils_8.30.bb
+> rename to meta/recipes-core/coreutils/coreutils_8.31.bb
+> index 8f4ee55712..fa4c0d9007 100644
+> --- a/meta/recipes-core/coreutils/coreutils_8.30.bb
+> +++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+> @@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+>  BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+>  LICENSE = "GPLv3+"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+> -                    file://src/ls.c;beginline=1;endline=15;md5=dbe356a88b09c29232b083d1ff8ac82a"
+> +                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
+>  DEPENDS = "gmp libcap"
+>  DEPENDS_class-native = ""
+>
+> @@ -20,8 +20,10 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+>             file://0001-local.mk-fix-cross-compiling-problem.patch \
+>            "
+>
+> -SRC_URI[md5sum] = "ab06d68949758971fe744db66b572816"
+> -SRC_URI[sha256sum] = "e831b3a86091496cdba720411f9748de81507798f6130adeaef872d206e1b057"
+> +SRC_URI_append_libc-musl = "file://fix-minus_zero-first-defined-here.patch"
+> +
+> +SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
+> +SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
+>
+>  EXTRA_OECONF_class-native = "--without-gmp"
+>  EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
