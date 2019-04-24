@@ -1,49 +1,52 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
-	[209.85.208.65])
-	by mail.openembedded.org (Postfix) with ESMTP id EEB8660069
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 59BBE7CF9D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 06:49:39 +0000 (UTC)
-Received: by mail-ed1-f65.google.com with SMTP id d1so14839770edd.13
+	Wed, 24 Apr 2019 06:50:07 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 10so3099296wmk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 23 Apr 2019 23:49:41 -0700 (PDT)
+	Tue, 23 Apr 2019 23:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=GjeDJ9cWD4VHsybLPvuK6tMWB7sv0+0Eco2SHX9pLFk=;
-	b=zrAmJ/LpC+bHvpRMvbGUDkZ/JxSCoZBc07KE2GAIVFxrBEt4mZyPasd6xpHA1SxB1x
-	955oSQ7nz5NDVaABEQidghN+tMm81IDe/NC1+C/xhxmPQRUf+eUpURUIr9xiAIXcSzsc
-	X/2Gqy0I9jr6g7dQUOioQ8rIrmXPu+Zy7SwG3FcYq9q+blrDT2cKhiuOaLFDJuVBebFn
-	LDr3qLfat8B78k6zPlfQuSIZmX6MUfVeoWLtTp98TrzFAdyTj6cSOYjWAoUNY1VpFwpp
-	iIiilujrXdUTXCqGZzdLAVqQ4uXPVGcMB4PpJi6Q/Fa/DKnv8mCcsEYgqZ+SdgEMWmDs
-	blyQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=/ljQelXHs8lT9f+gaN+c1K8ocArsTzsxQ4Ihj3h5QLE=;
+	b=JyiwgCPwlikpVp89+NNK2lx7p5Btm0roD0Y2ZK+/u1byuGqwVTkxFARdpzrXTI2pOE
+	unqJc+E2FfLmScpgqpO1AYR7C+C1tX5b15lWm6As1iBi8p5cg3QprGwQcNmomHIOqMbO
+	gm9dVBwxNNOB+E+NV3OyEP0/DQbgK70D4tB3c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=GjeDJ9cWD4VHsybLPvuK6tMWB7sv0+0Eco2SHX9pLFk=;
-	b=fJMgEuQg2v7ZSRnqcGdhxmfc+DRA7QAJMp1jQg2K2uNjIXJFLGcGjIstr0JqEL/jwd
-	y6eUaSlUXuxUqKc4+gruiDsLFhBXkE4I+VG3t0A/UQlFcazUw6QQnJI54jjknqiW/UxO
-	Dnz0ele+5t/HsAq3RkvolouJbHtjI7jBxRC3wgpb/So85OF66IzNDovH2XmUbaPHDEOG
-	KLU0pDPinQMP6Fjn3C+rlMjiV8NG0/yOQ8cOVWXRK+kCG5Q+vrDtywMg7vzdZOgOoMPG
-	vimmbgmjDeHjrGrPEJHQGqZS7vF+Zqg1g400UmtKj4Ulo2EWzjZm9EjZ2sIRQSFIM1wp
-	5LQA==
-X-Gm-Message-State: APjAAAXEH3UuQgfB3/Q3ZWFh9BoTaGfP/ykdDdN7bux3npRDCYtNv3sh
-	XzK7RnHVZuAb9i229Rp0oTZMWp9Ht0U=
-X-Google-Smtp-Source: APXvYqxbmjcgKy88TqKkgQMVVFMtbIYBIvNV6IAIAulC3q4hgX7peo5ejU5OGKOyvUI+iQvPiM6SeQ==
-X-Received: by 2002:a50:a915:: with SMTP id l21mr19280250edc.164.1556088580370;
-	Tue, 23 Apr 2019 23:49:40 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	jp24sm1527421ejb.51.2019.04.23.23.49.39
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 23 Apr 2019 23:49:39 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 08:49:37 +0200
-Message-Id: <20190424064937.2941-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] python3-pygobject: update to 3.32.1
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=/ljQelXHs8lT9f+gaN+c1K8ocArsTzsxQ4Ihj3h5QLE=;
+	b=BI7wbDYQZww+vInWX/u4Ah8+qlxfXmHv3GJEg7nzDI0LyeXqS0/89j2qW3gajfxHYT
+	f4/8XzpsAOrR5NOi16e+Cl2jJG+jvyQdNqL4S9XUYfuAp4S0XtD4dHDFZwqB/mVO3hHK
+	Sp3GZnSrKsx4s4oNkx0ikjCR0ES4b2prMfhJSW0RP07tqgWmf1tSo94rCNlm44cIpWqI
+	xOvvdQLF+6Kd+sNAqNrmOYZ1dqYppSMQqEgKun4+aIsBmIVM/DNetAxvuFekgS7BAQI+
+	AVG1+lF+MjF5Y9IR+M1eyZTBun/L/ynVnXLZ3SzELpIMrROozAuupNrHYtwvVIHqTUL5
+	Yenw==
+X-Gm-Message-State: APjAAAVV5ZGLwlMUWM/N9qlql/kBQwiWycI7oKDGa1DsJNWvuV2q3S6h
+	GJ7CesBa9nptQPZHoQAVTojjUQ==
+X-Google-Smtp-Source: APXvYqwml6AMawTbArwBeguGYDDVV2HKd0IsKbzTEEMzhBnY3PZ6b72YrSfzki2c8O2SLFOrDQ+g7g==
+X-Received: by 2002:a1c:7518:: with SMTP id o24mr432325wmc.42.1556088608034;
+	Tue, 23 Apr 2019 23:50:08 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b8sm13971176wrf.21.2019.04.23.23.50.07
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 23 Apr 2019 23:50:07 -0700 (PDT)
+Message-ID: <b161abdfa2cb9aaf65ecffd7b1dcb0d9d2d2aca2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 24 Apr 2019 07:50:06 +0100
+In-Reply-To: <20190423161916.25572-3-alex.kanavin@gmail.com>
+References: <20190423161916.25572-1-alex.kanavin@gmail.com>
+	<20190423161916.25572-3-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH 3/9] gtk-doc.bbclass: unify option setting for meson-based recipes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 06:49:40 -0000
+X-List-Received-Date: Wed, 24 Apr 2019 06:50:07 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../python3-pygobject/0001-Do-not-build-tests.patch    | 10 +++++++---
- ...pygobject_3.32.0.bb => python3-pygobject_3.32.1.bb} |  4 ++--
- 2 files changed, 9 insertions(+), 5 deletions(-)
- rename meta/recipes-devtools/python/{python3-pygobject_3.32.0.bb => python3-pygobject_3.32.1.bb} (87%)
+On Tue, 2019-04-23 at 18:19 +0200, Alexander Kanavin wrote:
+> This is done similarly to gobject-introspection work by Andreas
+> Müller,
+> and allows dropping duplicate clutter from the recipes.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/classes/gtk-doc.bbclass                       | 11 +++++++++++
+>  meta/recipes-core/glib-2.0/glib.inc                |  6 +-----
+>  meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.38.0.bb |  6 ------
+>  meta/recipes-gnome/json-glib/json-glib_1.4.4.bb    |  7 -------
+>  meta/recipes-graphics/clutter/clutter-gtk-1.0.inc  |  6 +-----
+>  meta/recipes-graphics/pango/pango_1.42.4.bb        |  5 +----
+>  meta/recipes-support/atk/at-spi2-core_2.30.0.bb    |  6 +-----
+>  meta/recipes-support/atk/atk_2.30.0.bb             |  6 ------
+>  meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb |  7 +------
+>  9 files changed, 16 insertions(+), 44 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pygobject/0001-Do-not-build-tests.patch b/meta/recipes-devtools/python/python3-pygobject/0001-Do-not-build-tests.patch
-index 626a82cb09..0f2465bb52 100644
---- a/meta/recipes-devtools/python/python3-pygobject/0001-Do-not-build-tests.patch
-+++ b/meta/recipes-devtools/python/python3-pygobject/0001-Do-not-build-tests.patch
-@@ -12,15 +12,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/meson.build b/meson.build
--index a63d771..b3925d0 100644
-+index 278fa16f..aacbd4a2 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -174,4 +174,4 @@ configure_file(input : 'PKG-INFO.in',
-- 
-+@@ -175,6 +175,6 @@ configure_file(input : 'PKG-INFO.in',
-  subdir('gi')
-  subdir('pygtkcompat')
-+ with_tests = get_option('tests')
-+-if with_tests
- -subdir('tests')
-+-endif
-++#if with_tests
- +#subdir('tests')
-++#endif
- -- 
- 2.17.1
- 
-diff --git a/meta/recipes-devtools/python/python3-pygobject_3.32.0.bb b/meta/recipes-devtools/python/python3-pygobject_3.32.1.bb
-similarity index 87%
-rename from meta/recipes-devtools/python/python3-pygobject_3.32.0.bb
-rename to meta/recipes-devtools/python/python3-pygobject_3.32.1.bb
-index c2676b3502..8eda06e9e1 100644
---- a/meta/recipes-devtools/python/python3-pygobject_3.32.0.bb
-+++ b/meta/recipes-devtools/python/python3-pygobject_3.32.1.bb
-@@ -16,8 +16,8 @@ SRC_URI = " \
- 
- UNKNOWN_CONFIGURE_WHITELIST = "introspection"
- 
--SRC_URI[md5sum] = "6e39bca1d19a27cde4435061dd59578a"
--SRC_URI[sha256sum] = "83f4d7e59fde6bc6b0d39c5e5208574802f759bc525a4cb8e7265dfcba45ef29"
-+SRC_URI[md5sum] = "9d5dbca10162dd9b0d03fed0c6cf865d"
-+SRC_URI[sha256sum] = "32c99def94b8dea5ce9e4bc99576ef87591ea779b4db77cfdca7af81b76d04d8"
- 
- S = "${WORKDIR}/${SRCNAME}-${PV}"
- 
--- 
-2.17.1
+Its this patch which is causing gobject-introspection-native to fail to
+build:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/530
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/411
+
+Cheers,
+
+Richard
 
 
