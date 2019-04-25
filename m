@@ -1,51 +1,73 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 685DC7D5A1
+Return-Path: <JAEWON@xilinx.com>
+X-Greylist: delayed 7332 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 26 Apr 2019 01:34:52 UTC
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-eopbgr750071.outbound.protection.outlook.com [40.107.75.71])
+	by mail.openembedded.org (Postfix) with ESMTP id 3FDAD7D9B4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 20:50:23 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id o25so913547wmf.5
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 13:50:24 -0700 (PDT)
+	Fri, 26 Apr 2019 01:34:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=zbYv4zZhj8/q4xC9Yae6/FXG0j3PcUzKZMY6qCXYALE=;
-	b=Kw2IYN3q4Q3FaysyNoEKXGmr2Kojb1KhHfnr6bW+/yl5eHmX1ovb9x3UQKVlpmDlKR
-	NTi0UgEmp3P1+ZTXJJIqUt1a/EOEvyCnO94WthY4C3K8yLJ9u2W/DsMPuIs1dXqu7UOB
-	gW2ZijHrqC0bi1476VrIzlF/lY8sUSeFUG7Yo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=zbYv4zZhj8/q4xC9Yae6/FXG0j3PcUzKZMY6qCXYALE=;
-	b=BXQlSruwTul4vrxgLj8D+kzFtTavy8vXSwMGF5bHtgo96TR4YtEYUEBaBGguILMtws
-	vgAx68D9y9sbrwNr7EFAotvmebxg3w18dN4Qu8iwRaOVO8EpVODuQTTWRWrTcaa1at2O
-	dkjyIlKvsuRm+R5bxs3nrksp0fJJ9QDANkSzPgu9r+N61dAt/jbr8C22e717zRa7gJ/M
-	tE5aDMAMxgEDKqmLcxhI8UtbhrmC4g1V8epq+cerNCfFaqAtvYXIC+lUneFfOwAr3XAq
-	P0VoHtN78hDr0sshfkfLIaRD5MDZWWVCs9e4BITaqRXmdy0iMIVlcX3LgIzsTDPZPeSq
-	tR+g==
-X-Gm-Message-State: APjAAAXDJkDtJ6Qnt1O04olOP+tMbykvKXHO17tWggLd2uyg9rh3zFsT
-	ryC6X3f452IG2JQH/fvkWFKI7w==
-X-Google-Smtp-Source: APXvYqyS7FEI3BPMEVvmhp6wBDZajQxxfqRJe0pbG9nGJyQBS7/ERwNp8lmMpdqKdMWBjgqYlaaGuQ==
-X-Received: by 2002:a7b:c5c4:: with SMTP id n4mr911043wmk.151.1556225423978;
-	Thu, 25 Apr 2019 13:50:23 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o6sm45879926wre.60.2019.04.25.13.50.22
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 25 Apr 2019 13:50:22 -0700 (PDT)
-Message-ID: <72e102b7e2a14c0747e3b485a6429f8dde546508.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jaewon Lee <jaewon.lee@xilinx.com>, 
-	openembedded-core@lists.openembedded.org, manjukum@xilinx.com, 
-	alejandr@xilinx.com
-Date: Thu, 25 Apr 2019 21:50:21 +0100
-In-Reply-To: <1556222193-2780-1-git-send-email-jaewon.lee@xilinx.com>
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=iVISA4mCRGalOEa9zAWopD4JdDAuST7bxwBBgHaLev4=;
+	b=mTrj9gWcEJCV8nCWu/635BCmMYYB2Pz8rGXwdhCodnWBBr8Cx3EG1ag3Oq+KxxCZdJHzxOOSoWv5xuG8cDux5Tjw6ccoiKB5qle9kxxsG202c3bsr0JeOfntP6jNYJ26WQxYyc/x8yXS9t2W1o3Hl3SRTi5LsWLUnsAO+sYv8K8=
+Received: from BYAPR02MB5816.namprd02.prod.outlook.com (20.179.62.217) by
+	BYAPR02MB5048.namprd02.prod.outlook.com (20.176.253.221) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1813.16; Thu, 25 Apr 2019 21:59:59 +0000
+Received: from BYAPR02MB5816.namprd02.prod.outlook.com
+	([fe80::b166:f3f6:847b:b09f]) by
+	BYAPR02MB5816.namprd02.prod.outlook.com
+	([fe80::b166:f3f6:847b:b09f%7]) with mapi id 15.20.1835.010;
+	Thu, 25 Apr 2019 21:59:59 +0000
+From: Jaewon Lee <JAEWON@xilinx.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Manjukumar Harthikote Matha
+	<MANJUKUM@xilinx.com>, Alejandro Enedino Hernandez Samaniego
+	<alejandr@xilinx.com>
+Thread-Topic: [OE-core][master][RFC] Adding back wrapper and using
+	OEPYTHON3HOME variable for python3
+Thread-Index: AQHU+6ECMooAT//9zkyxkvUFR/UoN6ZNWbyAgAATYtA=
+Date: Thu, 25 Apr 2019 21:59:59 +0000
+Message-ID: <BYAPR02MB5816DFE994E263D11187C553AF3D0@BYAPR02MB5816.namprd02.prod.outlook.com>
 References: <1556222193-2780-1-git-send-email-jaewon.lee@xilinx.com>
-User-Agent: Evolution 3.32.1-2 
+	<72e102b7e2a14c0747e3b485a6429f8dde546508.camel@linuxfoundation.org>
+In-Reply-To: <72e102b7e2a14c0747e3b485a6429f8dde546508.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=JAEWON@xilinx.com; 
+x-originating-ip: [149.199.62.133]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 28fdc41b-78ef-4dc0-263b-08d6c9c95c7a
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
+	SRVR:BYAPR02MB5048; 
+x-ms-traffictypediagnostic: BYAPR02MB5048:
+x-microsoft-antispam-prvs: <BYAPR02MB5048572EADE19BCB746F2494AF3D0@BYAPR02MB5048.namprd02.prod.outlook.com>
+x-forefront-prvs: 0018A2705B
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(376002)(136003)(39860400002)(396003)(346002)(366004)(13464003)(189003)(199004)(186003)(6116002)(102836004)(72206003)(478600001)(9686003)(68736007)(6506007)(64756008)(53546011)(66556008)(6246003)(66946007)(25786009)(55016002)(2906002)(256004)(71190400001)(66476007)(76176011)(71200400001)(76116006)(7696005)(53936002)(66446008)(73956011)(14454004)(26005)(81166006)(11346002)(316002)(486006)(81156014)(6436002)(8676002)(33656002)(6636002)(110136005)(99286004)(66066001)(229853002)(446003)(8936002)(97736004)(3846002)(2501003)(7736002)(305945005)(476003)(74316002)(5660300002)(86362001)(52536014);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB5048;
+	H:BYAPR02MB5816.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: pmCEowvoVCxZCUy3SJTRVsbB2BHaBxswvi0YB9/ZaJXFTXF5Bv7e99GLpbAAzSZqt1SxWuGptxsc0iIYPFsTdfgfyNkPo2JpLgIq/oGyvc/HXdBofBnbjN3az/oTXRwlhEQJLgjrZ2Gv7X/NRZ44O1PVGuyL1oFc+3oC/cdeHDcTABzMLwJonBOrGofcYHVCmX5MvBq5+q45WzyRMzLo8s20w1a1O7a4L3IQxg50Yz7Dp7aOtrB6ZB7ly3VGk5MVWGKawCi7Bi7ltyx7MnFL+MOUwxodwaGotTjD779qtprDJpTSbKLtD2ZmzuQq7Qp1FnQUvadlrxaDCw64XhxIgggNL2GJKZtWZlHFRrXlIk0M41Qu4oMZTeqmrhEZ87W6trshezU0YTUt6iHM//hnpinOMtNw28+fYuxu41Evv3s=
 MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 28fdc41b-78ef-4dc0-263b-08d6c9c95c7a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Apr 2019 21:59:59.4761 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5048
 Subject: Re: [master][RFC] Adding back wrapper and using OEPYTHON3HOME variable for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,50 +81,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2019 20:50:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Apr 2019 01:34:52 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Thu, 2019-04-25 at 12:56 -0700, Jaewon Lee wrote:
-> +diff --git a/Modules/main.c b/Modules/main.c
-> +index a745381..25ca435 100644
-> +--- a/Modules/main.c
-> ++++ b/Modules/main.c
-> +@@ -1857,6 +1857,11 @@ config_init_home(_PyCoreConfig *config)
-> +     }
-> + 
-> +     int res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
-> ++
-> ++    const char *oepython3home = config_get_env_var("OEPYTHON3HOME");
-> ++    if (oepython3home) {
-> ++        res = config_get_env_var_dup(&home, L"OEPYTHON3HOME", "OEPYTHON3HOME");
-> ++    }
-> +     if (res < 0) {
-> +         return DECODE_LOCALE_ERR("PYTHONHOME", res);
-> +     }
-> +-- 
-> +2.7.4
-
-I think the above will leak memory.
-
-Instead I think the code should be something like:
-
-int res;
-const char *oepython3home = config_get_env_var("OEPYTHON3HOME");
-if (oepython3home) {
-    res = config_get_env_var_dup(&home, L"OEPYTHON3HOME", "OEPYTHON3HOME");
-    if (res < 0)
-        return DECODE_LOCALE_ERR("OEPYTHON3HOME", res);
-} else {
-    res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
-    if (res < 0)
-        return DECODE_LOCALE_ERR("PYTHONHOME", res);
-}
-
-and then a copy of PYTHONHOME isn't created in the OEPYTHON3HOME case.
-
-Cheers,
-
-Richard
-
+SGkgUmljaGFyZCwNCg0KQWdyZWVkLCB3aWxsIHNlbmQgYSB2Mg0KDQpUaGFua3MsDQpKYWV3b24N
+Cg0KLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCkZyb206IHJpY2hhcmQucHVyZGllQGxpbnV4
+Zm91bmRhdGlvbi5vcmcgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+IA0KU2Vu
+dDogVGh1cnNkYXksIEFwcmlsIDI1LCAyMDE5IDE6NTAgUE0NClRvOiBKYWV3b24gTGVlIDxKQUVX
+T05AeGlsaW54LmNvbT47IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc7
+IE1hbmp1a3VtYXIgSGFydGhpa290ZSBNYXRoYSA8TUFOSlVLVU1AeGlsaW54LmNvbT47IEFsZWph
+bmRybyBFbmVkaW5vIEhlcm5hbmRleiBTYW1hbmllZ28gPGFsZWphbmRyQHhpbGlueC5jb20+DQpT
+dWJqZWN0OiBSZTogW09FLWNvcmVdW21hc3Rlcl1bUkZDXSBBZGRpbmcgYmFjayB3cmFwcGVyIGFu
+ZCB1c2luZyBPRVBZVEhPTjNIT01FIHZhcmlhYmxlIGZvciBweXRob24zDQoNCk9uIFRodSwgMjAx
+OS0wNC0yNSBhdCAxMjo1NiAtMDcwMCwgSmFld29uIExlZSB3cm90ZToNCj4gK2RpZmYgLS1naXQg
+YS9Nb2R1bGVzL21haW4uYyBiL01vZHVsZXMvbWFpbi5jIGluZGV4IGE3NDUzODEuLjI1Y2E0MzUg
+DQo+ICsxMDA2NDQNCj4gKy0tLSBhL01vZHVsZXMvbWFpbi5jDQo+ICsrKysgYi9Nb2R1bGVzL21h
+aW4uYw0KPiArQEAgLTE4NTcsNiArMTg1NywxMSBAQCBjb25maWdfaW5pdF9ob21lKF9QeUNvcmVD
+b25maWcgKmNvbmZpZykNCj4gKyAgICAgfQ0KPiArIA0KPiArICAgICBpbnQgcmVzID0gY29uZmln
+X2dldF9lbnZfdmFyX2R1cCgmaG9tZSwgTCJQWVRIT05IT01FIiwgDQo+ICsgIlBZVEhPTkhPTUUi
+KTsNCj4gKysNCj4gKysgICAgY29uc3QgY2hhciAqb2VweXRob24zaG9tZSA9IGNvbmZpZ19nZXRf
+ZW52X3ZhcigiT0VQWVRIT04zSE9NRSIpOw0KPiArKyAgICBpZiAob2VweXRob24zaG9tZSkgew0K
+PiArKyAgICAgICAgcmVzID0gY29uZmlnX2dldF9lbnZfdmFyX2R1cCgmaG9tZSwgTCJPRVBZVEhP
+TjNIT01FIiwgIk9FUFlUSE9OM0hPTUUiKTsNCj4gKysgICAgfQ0KPiArICAgICBpZiAocmVzIDwg
+MCkgew0KPiArICAgICAgICAgcmV0dXJuIERFQ09ERV9MT0NBTEVfRVJSKCJQWVRIT05IT01FIiwg
+cmVzKTsNCj4gKyAgICAgfQ0KPiArLS0NCj4gKzIuNy40DQoNCkkgdGhpbmsgdGhlIGFib3ZlIHdp
+bGwgbGVhayBtZW1vcnkuDQoNCkluc3RlYWQgSSB0aGluayB0aGUgY29kZSBzaG91bGQgYmUgc29t
+ZXRoaW5nIGxpa2U6DQoNCmludCByZXM7DQpjb25zdCBjaGFyICpvZXB5dGhvbjNob21lID0gY29u
+ZmlnX2dldF9lbnZfdmFyKCJPRVBZVEhPTjNIT01FIik7DQppZiAob2VweXRob24zaG9tZSkgew0K
+ICAgIHJlcyA9IGNvbmZpZ19nZXRfZW52X3Zhcl9kdXAoJmhvbWUsIEwiT0VQWVRIT04zSE9NRSIs
+ICJPRVBZVEhPTjNIT01FIik7DQogICAgaWYgKHJlcyA8IDApDQogICAgICAgIHJldHVybiBERUNP
+REVfTE9DQUxFX0VSUigiT0VQWVRIT04zSE9NRSIsIHJlcyk7IH0gZWxzZSB7DQogICAgcmVzID0g
+Y29uZmlnX2dldF9lbnZfdmFyX2R1cCgmaG9tZSwgTCJQWVRIT05IT01FIiwgIlBZVEhPTkhPTUUi
+KTsNCiAgICBpZiAocmVzIDwgMCkNCiAgICAgICAgcmV0dXJuIERFQ09ERV9MT0NBTEVfRVJSKCJQ
+WVRIT05IT01FIiwgcmVzKTsgfQ0KDQphbmQgdGhlbiBhIGNvcHkgb2YgUFlUSE9OSE9NRSBpc24n
+dCBjcmVhdGVkIGluIHRoZSBPRVBZVEhPTjNIT01FIGNhc2UuDQoNCkNoZWVycywNCg0KUmljaGFy
+ZA0KDQo=
 
