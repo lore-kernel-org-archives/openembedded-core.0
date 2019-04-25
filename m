@@ -1,41 +1,30 @@
-Return-Path: <tom.rini@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 14F467D68D
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id E84C57CF7D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 21:09:00 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id h4so27066332wre.7
+	Thu, 25 Apr 2019 00:03:33 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,391,1549900800"; d="scan'208";a="60477317"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 25 Apr 2019 08:03:33 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 82D1C4CD8861
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 14:09:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=y8R64glQC3biGN2dSLABgzarf5pTKzQpTzUOriPEXYQ=;
-	b=kct/9rc/QTEH3BAWqs9NQFexT0bWxIN+FvOmAIWEo3o4nTU8xqFLd/34pOzIqIqrik
-	kpOUbBGQoT4EXEs6ZbtSVTLAmK7VwIefZVnh1SUxg7iUDiweSvx7rriWBkmIvIsFWKOn
-	fDwLTaQc1Gd0KN37ZRQBj6aPwnhydnezX6uPdS2I2fH5nPonVOe9912SsFrWUtmMk7YF
-	lF9Oc4c+yLE6hLSZlmKywixF2yVzHYV6dsQcjNydXZE6Okd4MQHIAjKGklH4nf73jivE
-	5CNwz5fJCU5za4N5l1wQihVbqWAflmdPb9muC4Oy2k170AqZwmL/P/ZLvgsFi+Cfk0qr
-	8C5w==
-X-Gm-Message-State: APjAAAUOi5aTNydncQaCtCIMzZ0Tprpr9xj/qwU3k/OMy0ej3Mybsemn
-	0zIrKA98IhHtVuiuaWd3Hn8Skyo=
-X-Google-Smtp-Source: APXvYqw5CrCAE5Z4OfpfUxosv0n7NleQ+hdsf6fxNCkTRPLQbUtJSN6SZfVdq09+oZyacZ5vzago1w==
-X-Received: by 2002:adf:e703:: with SMTP id c3mr21544203wrm.98.1556140140612; 
-	Wed, 24 Apr 2019 14:09:00 -0700 (PDT)
-Received: from bill-the-cat.local (cpe-65-184-141-147.ec.res.rr.com.
-	[65.184.141.147]) by smtp.gmail.com with ESMTPSA id
-	a17sm11302609wrm.53.2019.04.24.14.08.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 24 Apr 2019 14:08:59 -0700 (PDT)
-From: Tom Rini <trini@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 24 Apr 2019 17:08:54 -0400
-Message-Id: <1556140134-15963-1-git-send-email-trini@konsulko.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1555869425-7613-2-git-send-email-trini@konsulko.com>
-References: <1555869425-7613-2-git-send-email-trini@konsulko.com>
-Subject: [RFC DO NOT APPLY][PATCH 3/2] vim: Add a work-around for some locale issues
+	Thu, 25 Apr 2019 08:03:32 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 25 Apr 2019 08:03:38 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Apr 2019 08:03:58 +0800
+Message-ID: <1556150638-2947-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: 82D1C4CD8861.ABF13
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v4] dnf: Enable nativesdk
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,39 +37,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 24 Apr 2019 21:09:01 -0000
+X-List-Received-Date: Thu, 25 Apr 2019 00:03:34 -0000
+Content-Type: text/plain
 
-We do not support fully / correctly the certain locales.  Attempting
-to use these with msgfmt in order to update the ".desktop" files exposes
-this problem and leads to the compile failing.
+Make dnf work on nativesdk environment.
 
-Signed-off-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Zheng Ruoqin <zhengrq.fnst@cn.fujitsu.com>
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- meta/recipes-support/vim/vim_8.1.1198.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-devtools/dnf/dnf_4.2.2.bb | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/vim/vim_8.1.1198.bb b/meta/recipes-support/vim/vim_8.1.1198.bb
-index d7b864ee8b94..6b17a3c90e68 100644
---- a/meta/recipes-support/vim/vim_8.1.1198.bb
-+++ b/meta/recipes-support/vim/vim_8.1.1198.bb
-@@ -36,6 +36,16 @@ do_configure () {
-     touch src/auto/config.mk src/auto/config.h
+diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+index 3970b41..c777733 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+@@ -26,7 +26,7 @@ EXTRA_OECMAKE = " -DWITH_MAN=0 -DPYTHON_INSTALL_DIR=${PYTHON_SITEPACKAGES_DIR} -
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-RDEPENDS_${PN}_class-target += " \
++RDEPENDS_${PN} += " \
+   python3-core \
+   python3-codecs \
+   python3-netclient \
+@@ -49,6 +49,8 @@ RDEPENDS_${PN}_class-target += " \
+   python3-gpg \
+   "
+ 
++RDEPENDS_${PN}_class-native = ""
++
+ RRECOMMENDS_${PN}_class-target += "gnupg"
+ 
+ # Create a symlink called 'dnf' as 'make install' does not do it, but
+@@ -66,6 +68,12 @@ do_install_append_class-native() {
+                 RPM_NO_CHROOT_FOR_SCRIPTS=1
  }
  
-+do_compile() {
-+    # We do not support fully / correctly the following locales.  Attempting
-+    # to use these with msgfmt in order to update the ".desktop" files exposes
-+    # this problem and leads to the compile failing.
-+    for LOCALE in cs fr ko pl sk zh_CN zh_TW;do
-+        echo -n > src/po/${LOCALE}.po
-+    done
-+    autotools_do_compile
++do_install_append_class-nativesdk() {
++        create_wrapper ${D}/${bindir}/dnf \
++                RPM_CONFIGDIR=${SDKPATHNATIVE}${libdir_nativesdk}/rpm \
++                RPM_NO_CHROOT_FOR_SCRIPTS=1 
 +}
 +
- #Available PACKAGECONFIG options are gtkgui, acl, x11, tiny
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += " \
+ SYSTEMD_SERVICE_${PN} = "dnf-makecache.service dnf-makecache.timer \
+                          dnf-automatic.service dnf-automatic.timer \
+                          dnf-automatic-download.service dnf-automatic-download.timer \
 -- 
 2.7.4
+
+
 
 
