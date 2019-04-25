@@ -1,23 +1,30 @@
-Return-Path: <naveen.kumar.saini@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A7CF7D692
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id ECDAA7D687
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 02:25:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	24 Apr 2019 19:25:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,392,1549958400"; d="scan'208";a="164853449"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga004.fm.intel.com with ESMTP; 24 Apr 2019 19:25:31 -0700
-From: Naveen Saini <naveen.kumar.saini@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Apr 2019 09:54:36 +0800
-Message-Id: <1556157276-87248-1-git-send-email-naveen.kumar.saini@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH v3 2/2] bitbake: fetch2/git: git-lfs check
+	Thu, 25 Apr 2019 02:34:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,392,1549900800"; d="scan'208";a="60496952"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 25 Apr 2019 10:34:48 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id E186B4CDAD99
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 25 Apr 2019 10:34:45 +0800 (CST)
+Received: from localhost.local (10.167.225.84) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 25 Apr 2019 10:34:51 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 25 Apr 2019 10:35:37 +0800
+Message-ID: <20190425023537.27791-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.84]
+X-yoursite-MailScanner-ID: E186B4CDAD99.AC660
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCHv2] mesa:upgrade 19.0.1 -> 19.0.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,59 +37,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2019 02:25:30 -0000
+X-List-Received-Date: Thu, 25 Apr 2019 02:34:49 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Build will fail if repository has lfs contents in absense of git-lfs tool on host.
-Build will pass if repository may or may not contains lfs content if host has git-lfs installed.
+-Upgrade from mesa-gl_19.0.1.bb to mesa-gl_19.0.3.bb.
 
-Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+-Upgrade from mesa_19.0.1.bb to mesa_19.0.3.bb.
+
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
- bitbake/lib/bb/fetch2/git.py | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ .../mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.3.bb}             | 0
+ meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.3.bb} | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.3.bb} (100%)
+ rename meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.3.bb} (85%)
 
-diff --git a/bitbake/lib/bb/fetch2/git.py b/bitbake/lib/bb/fetch2/git.py
-index 8185bf4..d862942 100644
---- a/bitbake/lib/bb/fetch2/git.py
-+++ b/bitbake/lib/bb/fetch2/git.py
-@@ -503,6 +503,15 @@ class Git(FetchMethod):
+diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_19.0.3.bb
+similarity index 100%
+rename from meta/recipes-graphics/mesa/mesa-gl_19.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa-gl_19.0.3.bb
+diff --git a/meta/recipes-graphics/mesa/mesa_19.0.1.bb b/meta/recipes-graphics/mesa/mesa_19.0.3.bb
+similarity index 85%
+rename from meta/recipes-graphics/mesa/mesa_19.0.1.bb
+rename to meta/recipes-graphics/mesa/mesa_19.0.3.bb
+index d90be8a074..585c3ede23 100644
+--- a/meta/recipes-graphics/mesa/mesa_19.0.1.bb
++++ b/meta/recipes-graphics/mesa/mesa_19.0.3.bb
+@@ -7,8 +7,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
+ "
  
-         repourl = self._get_repo_url(ud)
-         runfetchcmd("%s remote set-url origin %s" % (ud.basecmd, repourl), d, workdir=destdir)
-+
-+        if self._contains_lfs(ud, d, destdir):
-+            origbbenv = d.getVar("BB_ORIGENV", False)
-+            path = origbbenv.getVar("PATH")
-+            gitlfstool = bb.utils.which(path, "git-lfs", executable=True)
-+            if not gitlfstool:
-+                raise bb.fetch2.FetchError("Repository %s has lfs content, install git-lfs plugin on host to download" % (repourl))
-+
-+
-         if not ud.nocheckout:
-             if subdir != "":
-                 runfetchcmd("%s read-tree %s%s" % (ud.basecmd, ud.revisions[ud.names[0]], readpathspec), d,
-@@ -553,6 +562,21 @@ class Git(FetchMethod):
-             raise bb.fetch2.FetchError("The command '%s' gave output with more then 1 line unexpectedly, output: '%s'" % (cmd, output))
-         return output.split()[0] != "0"
+-SRC_URI[md5sum] = "19636bb3da35c21f43040d31e575d5ce"
+-SRC_URI[sha256sum] = "6884163c0ea9e4c98378ab8fecd72fe7b5f437713a14471beda378df247999d4"
++SRC_URI[md5sum] = "d03bf14e42c0e54ebae5730712ccc408"
++SRC_URI[sha256sum] = "f027244e38dc309a4c12db45ef79be81ab62c797a50a88d566e4edb6159fc4d5"
  
-+    def _contains_lfs(self, ud, d, wd):
-+        """
-+        Check git lfs repository
-+        """
-+        cmd = "%s grep lfs HEAD:.gitattributes | wc -l" % (
-+                ud.basecmd)
-+        try:
-+            output = runfetchcmd(cmd, d, quiet=True, workdir=wd)
-+        except bb.fetch2.FetchError:
-+            return False
-+        if int(output) > 0:
-+            return True
-+        else:
-+            return False
-+
-     def _get_repo_url(self, ud):
-         """
-         Return the repository URL
+ #because we cannot rely on the fact that all apps will use pkgconfig,
+ #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
 -- 
-2.7.4
+2.20.1
+
+
 
 
