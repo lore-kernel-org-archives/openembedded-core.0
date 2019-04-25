@@ -1,29 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 76B806D147
+Return-Path: <naveen.kumar.saini@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 2873C79E69
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 01:39:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3P1dNaF025355
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 24 Apr 2019 18:39:33 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 24 Apr 2019 18:39:12 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <20190415034231.105641-1-kai.kang@windriver.com>
-	<c5cfa394-44e4-bdae-d334-82b9fe109f86@windriver.com>
-	<CAJTo0LYvVT5g0LG+XGf5Nz-XJj-Nw32tubmNGw1_dNPyWs9R4w@mail.gmail.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <6ba3a9e8-bbb1-c2e1-b29f-968e41d1aa93@windriver.com>
-Date: Thu, 25 Apr 2019 09:36:32 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LYvVT5g0LG+XGf5Nz-XJj-Nw32tubmNGw1_dNPyWs9R4w@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cryptodev: update SRCREV
+	Thu, 25 Apr 2019 02:25:18 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	24 Apr 2019 19:25:18 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,392,1549958400"; d="scan'208";a="143401651"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga008.fm.intel.com with ESMTP; 24 Apr 2019 19:25:17 -0700
+From: Naveen Saini <naveen.kumar.saini@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 25 Apr 2019 09:54:23 +0800
+Message-Id: <1556157263-71443-1-git-send-email-naveen.kumar.saini@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v3 1/2] bitbake.conf: add git-lfs to HOSTTOOLS_NONFATAL
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,86 +30,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2019 01:39:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 25 Apr 2019 02:25:19 -0000
 
-On 2019/4/24 下午8:38, Burton, Ross wrote:
-> I'd prefer this to be applying the patch, which also makes the fix
-> easier to backport.
+This provides git large file storage (lfs) extension.
 
-OK. I'll send v2 to apply the the patch.
+Include git-lfs conditionally. If git-lfs is present on host and repo
+has lfs pointers, then git-lfs will be used. If git-lfs is not present
+on host, it will be ignored.
 
-Regards,
-Kai
+[YOCTO #13198]
 
+Signed-off-by: Naveen Saini <naveen.kumar.saini@intel.com>
+---
+ meta/conf/bitbake.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
->
-> Ross
->
-> On Wed, 24 Apr 2019 at 03:26, Kang Kai <Kai.Kang@windriver.com> wrote:
->> On 2019/4/15 上午11:42, kai.kang@windriver.com wrote:
->>> From: Kai Kang <kai.kang@windriver.com>
->>>
->>> Update SRCREV of cryptodev which only contains one fix for linux 5.0:
->>>
->>> $ git log fd8b15ef1c8398a69a37932ee48c74ab40329a29..f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
->>> commit f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
->>> Author: Derald D. Woods <woods.technical@gmail.com>
->>> Date:   Sun Feb 10 13:22:19 2019 -0600
->>>
->>>       Fix module loading with Linux v5.0-rc5
->>>
->>>       This commit fixes this module load error:
->>>       [...]
->>>       [   29.112091] cryptodev: loading out-of-tree module taints kernel.
->>>       [   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
->>>       [   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
->>>       modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
->>>       [...]
->>
->> Without this patch it fails to modprobe module cryptodev. Ping.
->>
->> Kai
->>
->>
->>>       Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
->>>
->>>       c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
->>>
->>>       Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
->>>
->>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->>> ---
->>>    meta/recipes-kernel/cryptodev/cryptodev.inc | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
->>> index 252d39d23a..79ddefd435 100644
->>> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
->>> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
->>> @@ -4,7 +4,7 @@ LICENSE = "GPLv2"
->>>    LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
->>>
->>>    SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
->>> -SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
->>> +SRCREV = "f971e0cd4a0ebe59fb2e8e17240399bf6901b09b"
->>>
->>>    S = "${WORKDIR}/git"
->>>
->>
->> --
->> Kai Kang
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7f8b043..d35a6f6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -514,6 +514,9 @@ HOSTTOOLS_NONFATAL += "bzr"
+ # Used by ssh fetcher
+ HOSTTOOLS_NONFATAL += "scp"
+ 
++# Link to git-lfs if present
++HOSTTOOLS_NONFATAL += "git-lfs"
++
+ CCACHE ??= ""
+ 
+ TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
 -- 
-Kai Kang
+2.7.4
 
 
