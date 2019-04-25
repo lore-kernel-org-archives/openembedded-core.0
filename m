@@ -1,53 +1,49 @@
-Return-Path: <andrey.z@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 631D87D9F4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id DF5E77DA50
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 14:55:14 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 4so9681916wmf.1
+	Thu, 25 Apr 2019 15:21:34 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id k64so704900itb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 07:55:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Thu, 25 Apr 2019 08:21:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1718dB7Lg6E2EQxSIYtDNFzzAhsWl4ViwtJvd20Sw4U=;
-	b=HSKqQc+d8pngcklnGX9HloWN2QPBqSJi/WIS8EZRzUmQ4anqSikITSz/n+BEUYIwXT
-	28AapQPuAqktOGFVqKVPt8huQC9f/pfoohzJADfCmZ/Sq6ebG+tUSBeju4SIghXgmhQD
-	bIUnwX067ps9FnC2AMKEYVsdjUGG9Au573skdbEE01tNRcNpW4hRssw4Bqjd/2f1VKqT
-	Iv4Ya/ZzO1+dpZm1dsVTbdXCNwIi+S+1OuueDsiR9KrQ4KztuJr8dsGjAhs/360/WpMI
-	BUwUhsUiLmz7GhZSoYdT0MSkW7/ehWBWvBcxy84yQWPiCM9z0tvBcUTNzW82M+zmTb5k
-	xlug==
+	:cc:content-transfer-encoding;
+	bh=Vdzz/fNq9nZKydv4joP23LN53bM/cIdF50/SDLdVUKg=;
+	b=AsoPbYzz1v/6JeEUjDg8YbrFFZ84ysuMZ+ci6KCnwFuDzYHIS8v+MXR8JH0dQSOmKM
+	9kj3QpdgM3Dj/farZY8COUQpHDW5hEqMqEAX4hugn1I9bCixOrW+Q542Jv/mkWS/ezP4
+	nlQBJ98ELcpsdWcieJ2vtog5auz3WBi+YqDw2JBehGjdQBCcZnjV2zsS/DixaswVRmxE
+	B043Y/pBUYuKZZb8FoiFJTLdRe/+jx5cSrmZa9Ym89HyifYPoepb5w73rhkQMSt/w8B8
+	cKk9RMypvtN4qTyhCYH1vI45hX5XqDIQxc/IiNxX1ou6Dt3UGuqs3ieYh80m4dSArXuT
+	jqWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=1718dB7Lg6E2EQxSIYtDNFzzAhsWl4ViwtJvd20Sw4U=;
-	b=C31sIRO44ru6li1roQ3Rm5ahcHJfzgUInXhZzRrVOlE8BiyA4jl2eVmPdlh7+CmS6C
-	czjY48APVS4CQwpeITqQ2z1eCGywOq7gwaBsnyHw2taoHyEa6+W7PATH6PrHfa1x6THH
-	tgEIaAcukML2zyxfLgWK1DijkisCuL3MX5b+wHN4Q6VXmnS8e4G1eORBbZifdlS7PdPi
-	SQqsERD/es2CE/oIykSC1ktqJipxrqOujcBYWw6/Fi0psK1K7sF+PSV9wr5ByNh87JGQ
-	g0ry+yrehj3NekImdkTLFHqLkx4ZuGetIVyMN/25jioVC9ynhOHhfcRW3o2CqkE8HBz0
-	O4kA==
-X-Gm-Message-State: APjAAAU8atUnX6wKC4zoO6XvJnfkU8AIJ64Two74fGy3nLiax3vJedxK
-	v5fVLmOpbdj6oW/nolptzj8HqIejUIu7X82Ja15lJGyZ
-X-Google-Smtp-Source: APXvYqyhQMC9DlcJVs3voErJwQTAbFRfoioGUEkZrqagz+NBFNRB55uTVJokuVYo4AtpPElNGSVnNWUtQpEwqddFg0M=
-X-Received: by 2002:a7b:c5ce:: with SMTP id n14mr4172616wmk.18.1556204115113; 
-	Thu, 25 Apr 2019 07:55:15 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Vdzz/fNq9nZKydv4joP23LN53bM/cIdF50/SDLdVUKg=;
+	b=rjzHm/PJvbgz457zRUOe7Bl/qniLfbHgLHcneYsk8GNLGjwArpzKxF4UgMpEEzy36t
+	ItbI1CAtcF3OrbV3lahYHLd/XYgGM1ZKP0+sCusoOlA+xykpyEZHYZANyzCx8bEXBR7B
+	JyU76tKN02YNv8AdU3NKuQBedZmkkov/RVvV15uakkAfUh/P9hd8FytPKLd2b7MWBGJr
+	oMdvCfzAywTcav3cUfZnRD6AeDn7/aQOt7OejPUQ7G/0U7qTb+lSUcUyq5BH/TWuunHX
+	CwM8i8ITrehTpC/fKN3YKsMZ8udhwpETsmcHVudxmjo+JCgtumgXQeXidfOPqkjKUVO6
+	0m6w==
+X-Gm-Message-State: APjAAAVKCDYqew7gWceVMO+kwB8QvUgHBazDJw9fxg326FOQDc+SpWoC
+	llam1wk3dgX0vytEEa8YyzS26jeq0CLVpQ/n535FlxnFFJ8=
+X-Google-Smtp-Source: APXvYqwQs5MWs+qyUd4LKS7/kZgaP01C9NZ+UASXdZSmALZRqM5vKtkhwpuWihenonQxUKl6yfNXth/PJXIFnRebjZc=
+X-Received: by 2002:a05:660c:111:: with SMTP id
+	w17mr4053378itj.62.1556205695537; 
+	Thu, 25 Apr 2019 08:21:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190328094652.19336-1-andrey.z@gmail.com>
-	<CAHtQpK5ky=PfhuxTGaGkXTzxjevvQ9bD6yiTNkr9KwWL8buSRA@mail.gmail.com>
-	<99b41243d8067275b52a17d01debdd42bf0fee78.camel@linuxfoundation.org>
-	<CAHtQpK4kHoMUZ=d416kKqv7FRgNZtp5BJURuJbjif=CAV+LEQQ@mail.gmail.com>
-	<854407565898da7154b769187cf2e28cf7d0e451.camel@linuxfoundation.org>
-	<CAHtQpK7VUYr=jR2uQJU5HCZa-izC4u_2t_uGpiGtzid86GpyWQ@mail.gmail.com>
-	<2b52357c0d72676caa87be5f873520494a93bf6e.camel@linuxfoundation.org>
-	<CAHtQpK4eHaZ4dSPmXCOQe8ETXHTB0PnYWoAB3Zqx=PmQKbd0eA@mail.gmail.com>
-In-Reply-To: <CAHtQpK4eHaZ4dSPmXCOQe8ETXHTB0PnYWoAB3Zqx=PmQKbd0eA@mail.gmail.com>
-From: Andrey Zhizhikin <andrey.z@gmail.com>
-Date: Thu, 25 Apr 2019 16:55:04 +0200
-Message-ID: <CAHtQpK68KokxxHmzLK73fgDHxgH1yE=anrM1itQFRW-RDBcGCg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] package_ipk: handle exception for subprocess command
+References: <20190424150842.7403-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190424150842.7403-1-open.source@oleksandr-kravchuk.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 25 Apr 2019 16:21:22 +0100
+Message-ID: <CAJTo0Lb1j0dLx5bshJWVRNhbU+HNCKP09wrymbYCs-bNfb51+g@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] apr: update to 1.7.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,18 +56,398 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2019 14:55:14 -0000
+X-List-Received-Date: Thu, 25 Apr 2019 15:21:35 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Apr 25, 2019 at 4:51 PM Andrey Zhizhikin <andrey.z@gmail.com> wrote:
+Sadly this breaks subversion target builds:
+
+checking for linking Python libraries...
+checking for apr_int64_t Python/C API format string...
+configure: error: failed to recognize APR_INT64_T_FMT on this platform
+
+Ross
+
+On Wed, 24 Apr 2019 at 16:09, Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
 >
-> Thanks a lot, I'll definitely give it a try! Would you be willing to
-> take this further in into the master branch?
-
-Just saw your other patch against [utils/multiprocess_launch], please
-discard this question.
-
---
-Regards,
-Andrey.
+> Refreshed patches with devtool.
+>
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  ...ldcheck.sh-improve-libtool-detection.patch | 10 +++----
+>  ...ir-path-references-from-installed-ap.patch |  9 +++----
+>  ...configure.in-support-cross-compiling.patch | 12 ++++-----
+>  ...04-Fix-packet-discards-HTTP-redirect.patch |  8 +++---
+>  ...-LTFLAGS-to-make-it-work-with-ccache.patch | 10 +++----
+>  ...ze-doesn-t-match-in-glibc-when-cross.patch | 27 +++++++++----------
+>  ...libapr-against-phtread-to-make-gold-.patch | 14 +++++-----
+>  .../apr/{apr_1.6.5.bb =3D> apr_1.7.0.bb}        |  4 +--
+>  8 files changed, 40 insertions(+), 54 deletions(-)
+>  rename meta/recipes-support/apr/{apr_1.6.5.bb =3D> apr_1.7.0.bb} (96%)
+>
+> diff --git a/meta/recipes-support/apr/apr/0001-build-buildcheck.sh-improv=
+e-libtool-detection.patch b/meta/recipes-support/apr/apr/0001-build-buildch=
+eck.sh-improve-libtool-detection.patch
+> index 097c195a19..c0426797bd 100644
+> --- a/meta/recipes-support/apr/apr/0001-build-buildcheck.sh-improve-libto=
+ol-detection.patch
+> +++ b/meta/recipes-support/apr/apr/0001-build-buildcheck.sh-improve-libto=
+ol-detection.patch
+> @@ -1,19 +1,20 @@
+> -From 4efdc06fb17b8a00a9eca923caa176be741d1e04 Mon Sep 17 00:00:00 2001
+> +From 507a36c128c22fad2e7183f3da5bc8424fb42729 Mon Sep 17 00:00:00 2001
+>  From: Hongxu Jia <hongxu.jia@windriver.com>
+>  Date: Thu, 1 Feb 2018 14:56:13 +0800
+> -Subject: [PATCH 1/7] build/buildcheck.sh: improve libtool detection
+> +Subject: [PATCH] build/buildcheck.sh: improve libtool detection
+>
+>  Support customize libtool by variable assigning, it is helpful
+>  for cross compileing (such as libtool=3Daarch64-linux-libtool)
+>
+>  Upstream-Status: Submitted [https://github.com/apache/apr/pull/8]
+>  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +
+>  ---
+>   build/buildcheck.sh | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
+>
+>  diff --git a/build/buildcheck.sh b/build/buildcheck.sh
+> -index ab5df44..f191a41 100755
+> +index 76ff8ce..44921b5 100755
+>  --- a/build/buildcheck.sh
+>  +++ b/build/buildcheck.sh
+>  @@ -40,7 +40,9 @@ fi
+> @@ -27,6 +28,3 @@ index ab5df44..f191a41 100755
+>   lt_pversion=3D`$libtool --version 2>/dev/null|sed -e 's/([^)]*)//g;s/^[=
+^0-9]*//;s/[- ].*//g;q'`
+>   if test -z "$lt_pversion"; then
+>     echo "buildconf: libtool not found."
+> ---
+> -1.8.3.1
+> -
+> diff --git a/meta/recipes-support/apr/apr/0002-apr-Remove-workdir-path-re=
+ferences-from-installed-ap.patch b/meta/recipes-support/apr/apr/0002-apr-Re=
+move-workdir-path-references-from-installed-ap.patch
+> index 72e706f966..6b7156a439 100644
+> --- a/meta/recipes-support/apr/apr/0002-apr-Remove-workdir-path-reference=
+s-from-installed-ap.patch
+> +++ b/meta/recipes-support/apr/apr/0002-apr-Remove-workdir-path-reference=
+s-from-installed-ap.patch
+> @@ -1,8 +1,7 @@
+> -From 5925b20da8bbc34d9bf5a5dca123ef38864d43c6 Mon Sep 17 00:00:00 2001
+> +From c06e33851c4b209996682897a02a4219ebf34197 Mon Sep 17 00:00:00 2001
+>  From: Hongxu Jia <hongxu.jia@windriver.com>
+>  Date: Tue, 30 Jan 2018 09:39:06 +0800
+> -Subject: [PATCH 2/7] apr: Remove workdir path references from installed =
+apr
+> - files
+> +Subject: [PATCH] apr: Remove workdir path references from installed apr =
+files
+>
+>  Upstream-Status: Inappropriate [configuration]
+>
+> @@ -14,6 +13,7 @@ packages at target run time, the workdir path caused co=
+nfusion.
+>  Rebase to 1.6.3
+>
+>  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +
+>  ---
+>   apr-config.in | 26 ++------------------------
+>   1 file changed, 2 insertions(+), 24 deletions(-)
+> @@ -69,6 +69,3 @@ index 84b4073..bbbf651 100644
+>       ;;
+>       --shlib-path-var)
+>       echo "$SHLIBPATH_VAR"
+> ---
+> -1.8.3.1
+> -
+> diff --git a/meta/recipes-support/apr/apr/0003-Makefile.in-configure.in-s=
+upport-cross-compiling.patch b/meta/recipes-support/apr/apr/0003-Makefile.i=
+n-configure.in-support-cross-compiling.patch
+> index 4dd53bd8eb..95f45ca896 100644
+> --- a/meta/recipes-support/apr/apr/0003-Makefile.in-configure.in-support-=
+cross-compiling.patch
+> +++ b/meta/recipes-support/apr/apr/0003-Makefile.in-configure.in-support-=
+cross-compiling.patch
+> @@ -1,7 +1,7 @@
+> -From d5028c10f156c224475b340cfb1ba025d6797243 Mon Sep 17 00:00:00 2001
+> +From 90b35ba29588ec4359eb8e5f0b8477c46d7baa6b Mon Sep 17 00:00:00 2001
+>  From: Hongxu Jia <hongxu.jia@windriver.com>
+>  Date: Fri, 2 Feb 2018 15:51:42 +0800
+> -Subject: [PATCH 3/7] Makefile.in/configure.in: support cross compiling
+> +Subject: [PATCH] Makefile.in/configure.in: support cross compiling
+>
+>  While cross compiling, the tools/gen_test_char could not
+>  be executed at build time, use AX_PROG_CC_FOR_BUILD to
+> @@ -10,13 +10,14 @@ build native tools/gen_test_char
+>  Upstream-Status: Submitted [https://github.com/apache/apr/pull/8]
+>
+>  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +
+>  ---
+>   Makefile.in  | 10 +++-------
+>   configure.in |  3 +++
+>   2 files changed, 6 insertions(+), 7 deletions(-)
+>
+>  diff --git a/Makefile.in b/Makefile.in
+> -index 5fb760e..8675f90 100644
+> +index 7aeefd0..22d090d 100644
+>  --- a/Makefile.in
+>  +++ b/Makefile.in
+>  @@ -46,7 +46,7 @@ LT_VERSION =3D @LT_VERSION@
+> @@ -45,7 +46,7 @@ index 5fb760e..8675f90 100644
+>   include/private/apr_escape_test_char.h: tools/gen_test_char@EXEEXT@
+>         $(APR_MKDIR) include/private
+>  diff --git a/configure.in b/configure.in
+> -index 719f331..361120f 100644
+> +index 6833b32..c663a96 100644
+>  --- a/configure.in
+>  +++ b/configure.in
+>  @@ -183,6 +183,9 @@ dnl can only be used once within a configure script,=
+ so this prevents a
+> @@ -58,6 +59,3 @@ index 719f331..361120f 100644
+>   dnl AC_PROG_SED is only avaliable in recent autoconf versions.
+>   dnl Use AC_CHECK_PROG instead if AC_PROG_SED is not present.
+>   ifdef([AC_PROG_SED],
+> ---
+> -1.8.3.1
+> -
+> diff --git a/meta/recipes-support/apr/apr/0004-Fix-packet-discards-HTTP-r=
+edirect.patch b/meta/recipes-support/apr/apr/0004-Fix-packet-discards-HTTP-=
+redirect.patch
+> index 30fc07d4a0..9e34ec2dac 100644
+> --- a/meta/recipes-support/apr/apr/0004-Fix-packet-discards-HTTP-redirect=
+.patch
+> +++ b/meta/recipes-support/apr/apr/0004-Fix-packet-discards-HTTP-redirect=
+.patch
+> @@ -1,7 +1,7 @@
+> -From 7925eb1766a00ccee05c6e80b1d34f163a04b7b1 Mon Sep 17 00:00:00 2001
+> +From 6ffaed6bb44966c0ac6ee7a1c5afc4a47420e714 Mon Sep 17 00:00:00 2001
+>  From: Hongxu Jia <hongxu.jia@windriver.com>
+>  Date: Tue, 30 Jan 2018 09:43:34 +0800
+> -Subject: [PATCH 4/7] Fix packet discards HTTP redirect.
+> +Subject: [PATCH] Fix packet discards HTTP redirect.
+>
+>  Disconnect the connection by poll() timeout.
+>  If timeout=3D0 and apr_wait_for_io_or_timeout()=3DAPR_TIMEUP then
+> @@ -15,6 +15,7 @@ Signed-off-by: Li Wang <li.wang@windriver.com>
+>  Rebase to 1.6.3
+>
+>  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +
+>  ---
+>   network_io/unix/sendrecv.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> @@ -34,6 +35,3 @@ index 4c0e0a6..1bdafba 100644
+>           if (arv !=3D APR_SUCCESS) {
+>               *len =3D 0;
+>               return arv;
+> ---
+> -1.8.3.1
+> -
+> diff --git a/meta/recipes-support/apr/apr/0005-configure.in-fix-LTFLAGS-t=
+o-make-it-work-with-ccache.patch b/meta/recipes-support/apr/apr/0005-config=
+ure.in-fix-LTFLAGS-to-make-it-work-with-ccache.patch
+> index 02634e6fde..d8cb18f381 100644
+> --- a/meta/recipes-support/apr/apr/0005-configure.in-fix-LTFLAGS-to-make-=
+it-work-with-ccache.patch
+> +++ b/meta/recipes-support/apr/apr/0005-configure.in-fix-LTFLAGS-to-make-=
+it-work-with-ccache.patch
+> @@ -1,7 +1,7 @@
+> -From 2e66cece0c3adff92733332111204ddc1d730a07 Mon Sep 17 00:00:00 2001
+> +From 8f3675678980d7032646ee88eafb061d5b2cd1a0 Mon Sep 17 00:00:00 2001
+>  From: Robert Yang <liezhi.yang@windriver.com>
+>  Date: Thu, 19 Nov 2015 18:25:38 -0800
+> -Subject: [PATCH 5/7] configure.in: fix LTFLAGS to make it work with ccac=
+he
+> +Subject: [PATCH] configure.in: fix LTFLAGS to make it work with ccache
+>
+>  When ccache is enabled, libtool requires --tag=3DCC when use ccache,
+>  otherwise when building apr-util with ccache enabled:
+> @@ -14,12 +14,13 @@ otherwise when building apr-util with ccache enabled:
+>  Upstream-Status: Pending
+>
+>  Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> +
+>  ---
+>   configure.in | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+>
+>  diff --git a/configure.in b/configure.in
+> -index 361120f..3b10422 100644
+> +index c663a96..27b8539 100644
+>  --- a/configure.in
+>  +++ b/configure.in
+>  @@ -249,7 +249,7 @@ case $host in
+> @@ -31,6 +32,3 @@ index 361120f..3b10422 100644
+>       fi
+>       if test "$experimental_libtool" =3D "yes"; then
+>           # Use a custom-made libtool replacement
+> ---
+> -1.8.3.1
+> -
+> diff --git a/meta/recipes-support/apr/apr/0006-apr-fix-off_t-size-doesn-t=
+-match-in-glibc-when-cross.patch b/meta/recipes-support/apr/apr/0006-apr-fi=
+x-off_t-size-doesn-t-match-in-glibc-when-cross.patch
+> index 5f5e7eac32..366e90bfd3 100644
+> --- a/meta/recipes-support/apr/apr/0006-apr-fix-off_t-size-doesn-t-match-=
+in-glibc-when-cross.patch
+> +++ b/meta/recipes-support/apr/apr/0006-apr-fix-off_t-size-doesn-t-match-=
+in-glibc-when-cross.patch
+> @@ -1,7 +1,8 @@
+> -From f4d6e45ed5d2ccffd1af4c2ccdf7099ba0dce137 Mon Sep 17 00:00:00 2001
+> +From b729e7d6d48590c5130e7f7b752acd4972cb9c8b Mon Sep 17 00:00:00 2001
+>  From: Dengke Du <dengke.du@windriver.com>
+>  Date: Wed, 14 Dec 2016 18:13:08 +0800
+> -Subject: [PATCH 6/7] apr: fix off_t size doesn't match in glibc when cro=
+ss
+> +Subject: [PATCH] apr: fix off_t size doesn't match in glibc when cross
+> +
+>   compiling
+>
+>  In configure.in, it contains the following:
+> @@ -29,15 +30,16 @@ Change the above correspondingly.
+>  Signed-off-by: Dengke Du <dengke.du@windriver.com>
+>
+>  Upstream-Status: Pending
+> +
+>  ---
+>   configure.in | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+>
+>  diff --git a/configure.in b/configure.in
+> -index 3b10422..a227e72 100644
+> +index 27b8539..fb408d1 100644
+>  --- a/configure.in
+>  +++ b/configure.in
+> -@@ -1769,7 +1769,7 @@ else
+> +@@ -1801,7 +1801,7 @@ else
+>       socklen_t_value=3D"int"
+>   fi
+>
+> @@ -46,25 +48,25 @@ index 3b10422..a227e72 100644
+>
+>   if test "$ac_cv_sizeof_pid_t" =3D "$ac_cv_sizeof_short"; then
+>       pid_t_fmt=3D'#define APR_PID_T_FMT "hd"'
+> -@@ -1838,7 +1838,7 @@ APR_CHECK_TYPES_COMPATIBLE(ssize_t, long, [ssize_t=
+_fmt=3D"ld"])
+> - APR_CHECK_TYPES_COMPATIBLE(size_t, unsigned int, [size_t_fmt=3D"u"])
+> - APR_CHECK_TYPES_COMPATIBLE(size_t, unsigned long, [size_t_fmt=3D"lu"])
+> +@@ -1873,7 +1873,7 @@ APR_CHECK_TYPES_FMT_COMPATIBLE(size_t, unsigned lo=
+ng, lu, [size_t_fmt=3D"lu"], [
+> + APR_CHECK_TYPES_FMT_COMPATIBLE(size_t, unsigned int, u, [size_t_fmt=3D"=
+u"])
+> + ])
+>
+>  -APR_CHECK_SIZEOF_EXTENDED([#include <sys/types.h>], ssize_t, 8)
+>  +AC_CHECK_SIZEOF(ssize_t)
+>
+> + dnl the else cases below should no longer occur;
+>   AC_MSG_CHECKING([which format to use for apr_ssize_t])
+> - if test -n "$ssize_t_fmt"; then
+> -@@ -1855,7 +1855,7 @@ fi
+> +@@ -1891,7 +1891,7 @@ fi
+>
+>   ssize_t_fmt=3D"#define APR_SSIZE_T_FMT \"$ssize_t_fmt\""
+>
+>  -APR_CHECK_SIZEOF_EXTENDED([#include <stddef.h>], size_t, 8)
+>  +AC_CHECK_SIZEOF(size_t)
+>
+> + # else cases below should no longer occur;
+>   AC_MSG_CHECKING([which format to use for apr_size_t])
+> - if test -n "$size_t_fmt"; then
+> -@@ -1872,7 +1872,7 @@ fi
+> +@@ -1909,7 +1909,7 @@ fi
+>
+>   size_t_fmt=3D"#define APR_SIZE_T_FMT \"$size_t_fmt\""
+>
+> @@ -73,6 +75,3 @@ index 3b10422..a227e72 100644
+>
+>   if test "${ac_cv_sizeof_off_t}${apr_cv_use_lfs64}" =3D "4yes"; then
+>       # Enable LFS
+> ---
+> -1.8.3.1
+> -
+> diff --git a/meta/recipes-support/apr/apr/0007-explicitly-link-libapr-aga=
+inst-phtread-to-make-gold-.patch b/meta/recipes-support/apr/apr/0007-explic=
+itly-link-libapr-against-phtread-to-make-gold-.patch
+> index 8760b0140c..b9c2e701e6 100644
+> --- a/meta/recipes-support/apr/apr/0007-explicitly-link-libapr-against-ph=
+tread-to-make-gold-.patch
+> +++ b/meta/recipes-support/apr/apr/0007-explicitly-link-libapr-against-ph=
+tread-to-make-gold-.patch
+> @@ -1,8 +1,8 @@
+> -From c6afc4a4a766478cb6aa6b43a50051881b6318d7 Mon Sep 17 00:00:00 2001
+> +From fa81248e15958a2c0bfc21fa852609f3742c991b Mon Sep 17 00:00:00 2001
+>  From: =3D?UTF-8?q?Andreas=3D20M=3DC3=3DBCller?=3D <schnitzeltony@googlem=
+ail.com>
+>  Date: Fri, 3 Mar 2017 22:24:17 +0100
+> -Subject: [PATCH 7/7] explicitly link libapr against phtread to make gold=
+ happy
+> - on test
+> +Subject: [PATCH] explicitly link libapr against phtread to make gold hap=
+py on
+> + test
+>  MIME-Version: 1.0
+>  Content-Type: text/plain; charset=3DUTF-8
+>  Content-Transfer-Encoding: 8bit
+> @@ -29,15 +29,16 @@ Content-Transfer-Encoding: 8bit
+>  Upstream-Status: Pending
+>
+>  Signed-off-by: Andreas M=C3=BCller <schnitzeltony@googlemail.com>
+> +
+>  ---
+>   configure.in | 1 +
+>   1 file changed, 1 insertion(+)
+>
+>  diff --git a/configure.in b/configure.in
+> -index a227e72..cbc0f90 100644
+> +index fb408d1..d9f32d6 100644
+>  --- a/configure.in
+>  +++ b/configure.in
+> -@@ -784,6 +784,7 @@ else
+> +@@ -787,6 +787,7 @@ else
+>             APR_PTHREADS_CHECK_RESTORE ] )
+>       fi
+>       if test "$pthreadh" =3D "1"; then
+> @@ -45,6 +46,3 @@ index a227e72..cbc0f90 100644
+>           APR_CHECK_PTHREAD_GETSPECIFIC_TWO_ARGS
+>           APR_CHECK_PTHREAD_ATTR_GETDETACHSTATE_ONE_ARG
+>           APR_CHECK_PTHREAD_RECURSIVE_MUTEX
+> ---
+> -1.8.3.1
+> -
+> diff --git a/meta/recipes-support/apr/apr_1.6.5.bb b/meta/recipes-support=
+/apr/apr_1.7.0.bb
+> similarity index 96%
+> rename from meta/recipes-support/apr/apr_1.6.5.bb
+> rename to meta/recipes-support/apr/apr_1.7.0.bb
+> index 432e4ed744..a58651d077 100644
+> --- a/meta/recipes-support/apr/apr_1.6.5.bb
+> +++ b/meta/recipes-support/apr/apr_1.7.0.bb
+> @@ -20,8 +20,8 @@ SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.bz2 =
+\
+>             file://0007-explicitly-link-libapr-against-phtread-to-make-go=
+ld-.patch \
+>             "
+>
+> -SRC_URI[md5sum] =3D "ad4add8efdfe87330b88e5e788241775"
+> -SRC_URI[sha256sum] =3D "a67ca9fcf9c4ff59bce7f428a323c8b5e18667fdea7b0eba=
+d47d194371b0a105"
+> +SRC_URI[md5sum] =3D "7a14a83d664e87599ea25ff4432e48a7"
+> +SRC_URI[sha256sum] =3D "e2e148f0b2e99b8e5c6caa09f6d4fb4dd3e83f744aa72a95=
+2f94f5a14436f7ea"
+>
+>  inherit autotools-brokensep lib_package binconfig multilib_header ptest
+>
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
