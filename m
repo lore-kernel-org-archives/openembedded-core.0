@@ -1,54 +1,97 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 703057DBBC
+Return-Path: <JAEWON@xilinx.com>
+X-Greylist: delayed 58642 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 26 Apr 2019 15:19:53 UTC
+Received: from NAM01-SN1-obe.outbound.protection.outlook.com
+	(mail-eopbgr820080.outbound.protection.outlook.com [40.107.82.80])
+	by mail.openembedded.org (Postfix) with ESMTP id EDA307D8E7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 14:52:23 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id r71so3131325iod.11
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 07:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=MVik/o08dDV4fh2WDuw/TZyZxJE1qxF+BRmeVeUh2wc=;
-	b=JhRpwlYXGokolyyIfnwToja+LN6NME/4doquzu37oE2QQnAf2y2Z53SpK89PqJWaV8
-	ADL6zIoy5cVR+ba1eQudUJEXmwtdHHEWnaiwL+SOcB71UkygGdV0ikG7wNb10zalfQAd
-	v1CKUQz3eJKLUq8YzIv5X1gIcQQ2yL5CcNhnfkJMaDlB8Tiifx6+K89Uxb33tWFvPigR
-	K+9M8xVSI/I/DY27XLfM2hOFoa+ngkDXOhB4wVKVlS9jcF5sHidoKnYJwJutv6wyYiWZ
-	+iC079sgGAZSG6Nlll82LM978S+f5VW/JqondTUMyeNCjpuo8SUzXlmMRNRC3OPqzG3v
-	tpJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=MVik/o08dDV4fh2WDuw/TZyZxJE1qxF+BRmeVeUh2wc=;
-	b=LpTmybYLuhOk92gzDWtg7V2E84v33lYUKb0Sh/m2d0ZWDoWt6ocRr6uRGQrSTwiq9Z
-	EjE2bjSHTtq6fHb7cWhu05GKE1jzO1PcB6egYZu8a6LyPtUqHZET7ENqNGq9gLcqOxfF
-	TnDAz05vPndw6r5b4M1y4m6d1BwcDi86lnJ+BaL6iVHEx7O+Y6durfkpeOFZcvk+BhWO
-	rUWq9DFtoOhyN2moJa4U3Kh3nMNLmUMEmOh1M4j2Flwt3IJNZbPpBGvSn6HHFpW+OD+h
-	t12NBw5+KZ2bfNFbL8IpAJixXsYTrUuQ3E4jZm1aizOWRLXXi35k3EZv70HJfdeH5SEr
-	4PiA==
-X-Gm-Message-State: APjAAAXWX4m9MCR3+mb004Bt3ERCNJtPaQMsqSGEtMG7bunHT2nICnJo
-	USWeRWbRYl5UBI+RzuKt2EKISy9cb2w=
-X-Google-Smtp-Source: APXvYqxKsyt1dXLIXRG1DPVNK8cDU2sucipwUoX2ZGTs0A03ovDJWWdxKyiABRiKxNwR8kojbLQUeQ==
-X-Received: by 2002:a5d:9d0a:: with SMTP id j10mr25345430ioj.196.1556290344340;
-	Fri, 26 Apr 2019 07:52:24 -0700 (PDT)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.112.251.208])
-	by smtp.gmail.com with ESMTPSA id t24sm4625947ioc.1.2019.04.26.07.52.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 26 Apr 2019 07:52:23 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Fri, 26 Apr 2019 10:52:17 -0400
-Message-Id: <dcc94e7788184894ed34e61f1d5ac81b69a320c0.1556289910.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1556289910.git.bruce.ashfield@gmail.com>
-References: <cover.1556289910.git.bruce.ashfield@gmail.com>
+	Fri, 26 Apr 2019 15:19:53 +0000 (UTC)
+Received: from CY4PR02MB2679.namprd02.prod.outlook.com (10.175.81.16) by
+	DM5PR02MB2684.namprd02.prod.outlook.com (10.175.85.14) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1835.14; Fri, 26 Apr 2019 06:49:14 +0000
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=b5g80vEDSvhWebqGGgIritlG6nXBx49HqZAYUOJ1i0E=;
+	b=oYP/vIVh5WidjoE9SF+HmqZC6IqkeBRZwWVpjWAXvNMDyCYmAScw2nz2ID+rgGheWMBKbj+u/J+xmvy+zpVCSW+nQ4bENF769dktRAgXp3Z0aFYF948o6TZXUDRIlkqC4jcB38BFiXo2ferHCfr3fEYhMGNGqm+ZDGId9ZO55Y0=
+Received: from MWHPR0201CA0018.namprd02.prod.outlook.com
+	(2603:10b6:301:74::31) by CY4PR02MB2679.namprd02.prod.outlook.com
+	(2603:10b6:903:126::16) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1813.16;
+	Thu, 25 Apr 2019 22:58:49 +0000
+Received: from SN1NAM02FT049.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e44::202) by MWHPR0201CA0018.outlook.office365.com
+	(2603:10b6:301:74::31) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1835.12 via
+	Frontend Transport; Thu, 25 Apr 2019 22:58:48 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.100)
+	smtp.mailfrom=xilinx.com; linuxfoundation.org;
+	dkim=none (message not signed)
+	header.d=none;linuxfoundation.org; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
+Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
+	SN1NAM02FT049.mail.protection.outlook.com (10.152.72.166) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1792.25
+	via Frontend Transport; Thu, 25 Apr 2019 22:58:48 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]:46354
+	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1hJnKK-0005Hc-5K; Thu, 25 Apr 2019 15:58:48 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1hJnKF-0001nD-1e; Thu, 25 Apr 2019 15:58:43 -0700
+Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	x3PMwcDT011787; Thu, 25 Apr 2019 15:58:38 -0700
+Received: from [172.19.3.42] (helo=xsjjaewon50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1hJnKA-0001mm-1l; Thu, 25 Apr 2019 15:58:38 -0700
+From: Jaewon Lee <jaewon.lee@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>, <manjukum@xilinx.com>,
+	<alejandr@xilinx.com>, <richard.purdie@linuxfoundation.org>
+Date: Thu, 25 Apr 2019 15:58:37 -0700
+Message-ID: <1556233117-12801-1-git-send-email-jaewon.lee@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(136003)(346002)(39860400002)(396003)(376002)(2980300002)(199004)(189003)(106002)(16586007)(14444005)(2201001)(336012)(110136005)(5660300002)(50226002)(316002)(26005)(47776003)(186003)(8676002)(54906003)(77096007)(305945005)(426003)(107886003)(51416003)(7696005)(356004)(8936002)(9786002)(48376002)(63266004)(44832011)(70206006)(81156014)(486006)(50466002)(72206003)(70586007)(126002)(476003)(4326008)(478600001)(2616005)(36386004)(36756003)(2906002)(81166006)(5001870100001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR02MB2679; H:xsj-pvapsmtpgw02;
+	FPR:; SPF:Pass; LANG:en;
+	PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com; A:1; MX:1; 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] linux-yocto/5.0: integrate TCP timeout / hang fix
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 612005b2-7cfa-4360-fbef-08d6c9d193ee
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);
+	SRVR:CY4PR02MB2679; 
+X-MS-TrafficTypeDiagnostic: CY4PR02MB2679:|CY4PR02MB2679:|DM5PR02MB2684:
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <CY4PR02MB26793AE3DC1E6FA5354A386DAF3D0@CY4PR02MB2679.namprd02.prod.outlook.com>
+X-Forefront-PRVS: 0018A2705B
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: 7b7voZzkNMhli+xrUVQjz6p2j7EDpIBbw7nc15DbeN9fs8QwYnGH5ireNEOmeei3quLSWoHPFJ0GkhX5NWzr3OctyNkSa1XmlkamcFpCNsSZExOErqz4kwcI28XF4q8uuH7hVeXuS3H9kUYS98yrCUYqBzFiuZM1oawA/fW4EQxe19tL488hj3GFqHx37LgbsBvdueRt2DUUzcR+sU7bcrQeQQiUXcJgkkBxed6TI+E5g1418Hk0w4l8l2am0o9UrVU88x1ccoLyvN0aU03s/6Rs0FQCMAgJP6iZL+rrd2Mxh99pkrTPZ6bruvwtO2ImaHdmGsS4epQ/UZklMfFqe+/vhf3IXi5j/uBFBsJFDWXusIElfWT3hEpvCtBCgbI40qL0fK7gvKt+eSidY1C/yR5zDR5271NLZrwFLXq/j2w=
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2019 22:58:48.5263 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 612005b2-7cfa-4360-fbef-08d6c9d193ee
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2679
+X-OriginatorOrg: xilinx.com
+Subject: [master][RFC v2] Adding back wrapper and using OEPYTHON3HOME variable for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,94 +104,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 14:52:23 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 26 Apr 2019 15:19:54 -0000
+Content-Type: text/plain
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Adding back the python wrapper and adding a patch to use OEPYTHON3HOME
+instead of PYTHONHOME if set, for python3.
 
-Integrating the following fix:
+If we add back the wrapper as is, we would see the following error that
+we also see in Thud:
 
-[
-    tcp: fix issues relaed to implement coalescing on backlog queue
+ImportError: No module named site
+OpenEmbedded requires 'python' to be python v2 (>= 2.7.3), not python
+v3.
+Please upgrade your python v2
 
-    As was discussed on -netdev, there's an issue with TCP timeouts and
-    hangs due to new features introduced in the 5.0 kernel:
+This is because python3 would've set PYTHONHOME to use nativesdk
+python3 libraries but when the oe-buildenv-internal script tries to call
+python2 for the py_v27_check, there will be no python2 libraries in the
+PYTHONHOME directory.
+In other words, bitbake needs host python2 and the env variable set from
+the wrapper contaminates the env and host python2 won't be able to find
+its libraries
 
-      https://www.spinics.net/lists/netdev/msg562928.html
+Creating another variable OEPYTHON3HOME and using this in the python3
+wrapper to allow for a way to set a different paths for python3 and
+python2
 
-    This is a temporary commit to widely test the proposed solution. It
-    will be dropped when an official patch makes mainline.
-]
+[YOCTO #13208]
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
 ---
- .../recipes-kernel/linux/linux-yocto-rt_5.0.bb |  4 ++--
- .../linux/linux-yocto-tiny_5.0.bb              |  6 +++---
- meta/recipes-kernel/linux/linux-yocto_5.0.bb   | 18 +++++++++---------
- 3 files changed, 14 insertions(+), 14 deletions(-)
+ ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch | 47 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.3.bb      |  7 ++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-index 07fa910ee8..ef3f0a0e1b 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+diff --git a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+new file mode 100644
+index 0000000..5a59a67
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+@@ -0,0 +1,47 @@
++From 347e5e080f5bbd2e18562d5f99ec61d706cb1cd8 Mon Sep 17 00:00:00 2001
++From: Jaewon Lee <jaewon.lee@xilinx.com>
++Date: Thu, 25 Apr 2019 15:34:26 -0700
++Subject: [PATCH] main.c: if OEPYTHON3HOME is set use instead of PYTHONHOME
++
++There is one variable PYTHONHOME to determine where libraries are coming
++from for both python2 and python3. This becomes an issue if only one has
++libraries in the specified PYTHONHOME path, but they are using the same
++PYTHONHOME. Creating another variable OEPYTHON3HOME to allow for a way
++to set a different path for python3
++
++Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
++---
++ Modules/main.c | 17 +++++++++++++----
++ 1 file changed, 13 insertions(+), 4 deletions(-)
++
++diff --git a/Modules/main.c b/Modules/main.c
++index a745381..27ce112 100644
++--- a/Modules/main.c
+++++ b/Modules/main.c
++@@ -1855,10 +1855,19 @@ config_init_home(_PyCoreConfig *config)
++         }
++         return _Py_INIT_OK();
++     }
++-
++-    int res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
++-    if (res < 0) {
++-        return DECODE_LOCALE_ERR("PYTHONHOME", res);
+++    int res;
+++    const char *oepython3home = config_get_env_var("OEPYTHON3HOME");
+++    if (oepython3home) {
+++        res = config_get_env_var_dup(&home, L"OEPYTHON3HOME", "OEPYTHON3HOME");
+++        if (res < 0) {
+++            return DECODE_LOCALE_ERR("OEPYTHON3HOME", res);
+++        }
+++    }
+++    else {
+++	res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
+++        if (res < 0) {
+++            return DECODE_LOCALE_ERR("PYTHONHOME", res);
+++        }
++     }
++     config->home = home;
++     return _Py_INIT_OK();
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
+index ea46b05..af7ede1 100644
+--- a/meta/recipes-devtools/python/python3_3.7.3.bb
++++ b/meta/recipes-devtools/python/python3_3.7.3.bb
+@@ -28,6 +28,9 @@ SRC_URI_append_class-native = " \
+            file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            "
++SRC_URI_append_class-nativesdk = " \
++           file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
++           "
+ 
+ SRC_URI[md5sum] = "93df27aec0cd18d6d42173e601ffbbfd"
+ SRC_URI[sha256sum] = "da60b54064d4cfcd9c26576f6df2690e62085123826cff2e667e72a91952d318"
+@@ -131,6 +134,10 @@ do_install_append() {
+                 ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
  }
  
--SRCREV_machine ?= "04585fb29f99725a27acb96fc25efa0a55a62a8a"
--SRCREV_meta ?= "ffd8cf5baf8e741b8987b72c942ce3b9cc7c7f30"
-+SRCREV_machine ?= "a3309af7ab77156bd8d731df3a97126d3d897916"
-+SRCREV_meta ?= "2d838e11b084a96dd70e5cc0fec01d2e492f72c3"
++do_install_append_class-nativesdk () {
++    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} OEPYTHON3HOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
++}
++
+ SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
+ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
  
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-index c1084f2bb9..206e6c348d 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
- KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
--SRCREV_machine_qemuarm ?= "e265300362d7004e3b57bb5cbcfc65fb469b9ce9"
--SRCREV_machine ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
--SRCREV_meta ?= "ffd8cf5baf8e741b8987b72c942ce3b9cc7c7f30"
-+SRCREV_machine_qemuarm ?= "d905ae925fc4a60d63f45e1922163da683d8a3bc"
-+SRCREV_machine ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
-+SRCREV_meta ?= "2d838e11b084a96dd70e5cc0fec01d2e492f72c3"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-index 01269dda27..f34cc7b9db 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v5.0/standard/base"
- KBRANCH_qemux86-64 ?= "v5.0/standard/base"
- KBRANCH_qemumips64 ?= "v5.0/standard/mti-malta64"
- 
--SRCREV_machine_qemuarm ?= "ed9d11e2c8ebbfe056420cb89c2e5d02836496ce"
--SRCREV_machine_qemuarm64 ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
--SRCREV_machine_qemumips ?= "40a729c3b0683d0875f8d6ad7353e6e429c7afc2"
--SRCREV_machine_qemuppc ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
--SRCREV_machine_qemux86 ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
--SRCREV_machine_qemux86-64 ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
--SRCREV_machine_qemumips64 ?= "437d99225c689f3f192bb834e4d649ea0467ac87"
--SRCREV_machine ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
--SRCREV_meta ?= "ffd8cf5baf8e741b8987b72c942ce3b9cc7c7f30"
-+SRCREV_machine_qemuarm ?= "17c4b7e9db4d17aa713c85d0c3d2d84af962864a"
-+SRCREV_machine_qemuarm64 ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
-+SRCREV_machine_qemumips ?= "e5c23fb31438dab373a50afc40f6e4ab0c568485"
-+SRCREV_machine_qemuppc ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
-+SRCREV_machine_qemux86 ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
-+SRCREV_machine_qemux86-64 ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
-+SRCREV_machine_qemumips64 ?= "743d799797ad6828472087e1da8c67fdab87bf75"
-+SRCREV_machine ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
-+SRCREV_meta ?= "2d838e11b084a96dd70e5cc0fec01d2e492f72c3"
- 
- # remap qemuarm to qemuarma15 for the 5.0 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
-2.19.1
+2.7.4
 
 
