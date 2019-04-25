@@ -1,38 +1,53 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C36B97D00E
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 157337D8F2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 19:28:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44qnKs3v8bz5p;
-	Thu, 25 Apr 2019 21:28:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1556220529;
-	bh=utlUhKy6U4PBwwE/ptxh+bMO2RcqMWjw3nTRXTGkkLw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=sELkYi6CB3/NF1RK7qxuNU7fRJh3CFtsAItFvCatASuhTf7VTT1xHLDCr8gR0dxbi
-	J5G2BKukjqk8XXRraSibQreoIVg9tiTiSXaFmYpZFD8bC+iRTTspQ3hyT5BKtGPiZ2
-	/x/I0Ps9HqIeLg8DPAjDCx971EzXJYRPgwYTqF8cSHY23XDzHKalLznZhdbxCXzJuI
-	pWf/n4e7udT3oPr5RZ+Tw9FTzdDgvPGYRvTCtFwwRrhnlGtJwpygx1OdrAoA1FDezq
-	uebsCKUCEngpkz5SO4FHFmGuLbkPy6CwBH9QSjC16t1l8vdMZw792uMFksKx6MgsmS
-	QSC+aK+ky5NoiSZNiZ9Fz9MfNUhlV3SYejS1cFcf2MP4MA6H+oRSVaBtKsEAFiljWt
-	hCURqqvv/WDC4bwR9vW44ERhLpz4R4XSC+bqSPbnxgwiBh5OHMS8ycjLTdAWUUIqDT
-	y01UdBwK1Z7IDHAfNRvkpRjpItTI8aJptqvUmm5v+rO68JinTZao9Gzr5H4ha73CLF
-	Ymdk9UJicuCCd7LIkB4LvfIHcfdpH1TOxDvdi37XdHQwCoETrLu/MWyQGjJWVhfxXI
-	Rs9iZd5Fcc7wTxfw61cGRGGd0oOVFVPECHDxPNqMutb54Gu5j5bmyukK3fNry7axIL
-	03oOQSOjsoKIt6ayohpW0/qU=
-Date: Thu, 25 Apr 2019 22:28:46 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190425192846.GA8813@localhost>
+	Thu, 25 Apr 2019 20:18:50 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3PKInxc010188
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 25 Apr 2019 13:18:49 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 25 Apr 2019 13:18:48 -0700
+To: Adrian Bunk <bunk@stusta.de>, Alexander Kanavin <alex.kanavin@gmail.com>
 References: <20190308184939.22937-1-bunk@stusta.de>
 	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
 	<20190308193841.GA13393@localhost>
 	<E3B36DFB-0727-41ED-9494-3997E768A865@gmail.com>
-	<20190308203904.GA19247@localhost>
+	<20190308203904.GA19247@localhost> <20190425192846.GA8813@localhost>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
+Date: Thu, 25 Apr 2019 15:18:47 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190308203904.GA19247@localhost>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190425192846.GA8813@localhost>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -47,25 +62,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2019 19:28:50 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 25 Apr 2019 20:18:51 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 
-Would you consider this patch appropriate now that warrior has branched?
+On 4/25/19 2:28 PM, Adrian Bunk wrote:
+> Would you consider this patch appropriate now that warrior has branched?
 
-Adrian
+The use of OpenSSL10 as a 'second library' is likely no longer needed.  But
+OpenSSL 1.0 (as an alternative version) to OpenSSL 1.1 is still needed in some
+cases.. (FIPS-140-2)
 
-On Fri, Mar 08, 2019 at 10:39:04PM +0200, Adrian Bunk wrote:
-> On Fri, Mar 08, 2019 at 11:21:26PM +0300, Alexander Kanavin wrote:
-> > Perhaps you could grep meta-openembedded for openssl10? I do not have access to a Linux machine for the next two weeks to check that, but I think there’s a few items there. Once meta-oe layers are free of openssl10 deps, there is a better case for removing it.
-> >...
-> 
-> My patches to remove the last uses of openssl10 in meta-openembedded 
-> are already in meta-openembedded master.
-> 
-> > Alex
-> 
-> cu
+So removal of openssl10 is fine, but if there are patches for support of both
+versions (old/new) of OpenSSL they will be needed at least through the end of
+this year for many users.
+
+--Mark
+
 > Adrian
+> 
+> On Fri, Mar 08, 2019 at 10:39:04PM +0200, Adrian Bunk wrote:
+>> On Fri, Mar 08, 2019 at 11:21:26PM +0300, Alexander Kanavin wrote:
+>>> Perhaps you could grep meta-openembedded for openssl10? I do not have access to a Linux machine for the next two weeks to check that, but I think there’s a few items there. Once meta-oe layers are free of openssl10 deps, there is a better case for removing it.
+>>> ...
+>>
+>> My patches to remove the last uses of openssl10 in meta-openembedded 
+>> are already in meta-openembedded master.
+>>
+>>> Alex
+>>
+>> cu
+>> Adrian
+
 
