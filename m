@@ -1,26 +1,91 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DD1A7D4F9
+Return-Path: <JAEWON@xilinx.com>
+X-Greylist: delayed 17905 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 26 Apr 2019 10:31:28 UTC
+Received: from NAM02-BL2-obe.outbound.protection.outlook.com
+	(mail-eopbgr750070.outbound.protection.outlook.com [40.107.75.70])
+	by mail.openembedded.org (Postfix) with ESMTP id 906567DA94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 08:44:31 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x3Q8iVoX018604
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Fri, 26 Apr 2019 10:44:31 +0200
-Received: from dev.vm6.ccp.siemens.com (md1wg6qc.ad001.siemens.net
-	[163.242.44.88])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id x3Q8iUs9014905;
-	Fri, 26 Apr 2019 10:44:30 +0200
-Received: from mail2.siemens.de (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 9768823B85;
-	Fri, 26 Apr 2019 10:44:29 +0200 (CEST)
-From: Andrej Valek <andrej.valek@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Apr 2019 10:44:09 +0200
-Message-Id: <20190426084409.5066-1-andrej.valek@siemens.com>
-X-Mailer: git-send-email 2.11.0
-Cc: Visser Sander <sander.visser.2@consultant.volvo.com>
-Subject: [sumo][PATCH] busybox: fix udhcpd not dying on SIGTERM
+	Fri, 26 Apr 2019 10:31:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=PVj+BB0YKD0BO78csSjexZnGhM0Idoi6eKWlIDYCkdY=;
+	b=gun0v7tCA16jKC51Sgwfj1QCYGBXVuEZz7OKsvm/G7+MzPMJ5CkNMCCMQEd6Shz0XV9fTHg0rDg5NugQnRtu7LuzVr131QmUBgmUai0t1TllMGKjKpiAaH0f3E5l2ODI+96C8JJRY2rIOkvlM/Q0rxC+sk5iHdOyorE2fj7v/oA=
+Received: from BN7PR02CA0027.namprd02.prod.outlook.com (2603:10b6:408:20::40)
+	by BLUPR02MB504.namprd02.prod.outlook.com (2a01:111:e400:88c::26)
+	with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1813.12;
+	Thu, 25 Apr 2019 19:56:45 +0000
+Received: from SN1NAM02FT018.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e44::203) by BN7PR02CA0027.outlook.office365.com
+	(2603:10b6:408:20::40) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1835.12 via
+	Frontend Transport; Thu, 25 Apr 2019 19:56:45 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.83)
+	smtp.mailfrom=xilinx.com; linuxfoundation.org;
+	dkim=none (message not signed)
+	header.d=none;linuxfoundation.org; dmarc=bestguesspass action=none
+	header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
+Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
+	SN1NAM02FT018.mail.protection.outlook.com (10.152.72.122) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1792.25
+	via Frontend Transport; Thu, 25 Apr 2019 19:56:45 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
+	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1hJkU8-000649-Si; Thu, 25 Apr 2019 12:56:44 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1hJkU3-0008Fu-Px; Thu, 25 Apr 2019 12:56:39 -0700
+Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
+	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
+	x3PJuYTU030519; Thu, 25 Apr 2019 12:56:34 -0700
+Received: from [172.19.3.42] (helo=xsjjaewon50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <jaewon.lee@xilinx.com>)
+	id 1hJkTy-0008F4-88; Thu, 25 Apr 2019 12:56:34 -0700
+From: Jaewon Lee <jaewon.lee@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>, <manjukum@xilinx.com>,
+	<alejandr@xilinx.com>, <richard.purdie@linuxfoundation.org>
+Date: Thu, 25 Apr 2019 12:56:33 -0700
+Message-ID: <1556222193-2780-1-git-send-email-jaewon.lee@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-RCIS-Action: ALLOW
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(346002)(396003)(39860400002)(136003)(376002)(2980300002)(189003)(199004)(72206003)(54906003)(478600001)(336012)(426003)(486006)(8936002)(2201001)(106002)(9786002)(16586007)(107886003)(81166006)(81156014)(44832011)(2616005)(356004)(8676002)(50226002)(316002)(4326008)(7696005)(51416003)(110136005)(47776003)(305945005)(77096007)(63266004)(126002)(36386004)(70206006)(50466002)(2906002)(70586007)(476003)(5660300002)(14444005)(186003)(26005)(36756003)(48376002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BLUPR02MB504; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 42dc7902-b810-4d63-2131-08d6c9b82533
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);
+	SRVR:BLUPR02MB504; 
+X-MS-TrafficTypeDiagnostic: BLUPR02MB504:
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <BLUPR02MB504491DE3FF1325508EC0CDAF3D0@BLUPR02MB504.namprd02.prod.outlook.com>
+X-Forefront-PRVS: 0018A2705B
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: REpzLR3yBPxbpa1RYAn0X73ReVPQzvHJI/BH37FhzXONDnKcKbUmvqjhYMW1g6br8X7U6h72q946PzNSG9KCF/sf1qobTid1SUDLHMRR9eTXLtgddXFxlAtV30FbIpzuysV/509LV27CVdWY4HA7rwt/jkRLFHwbc0rRahlvMCW0pMoNKRWwAlCW/aZme5MfHBiZyoLIgJPCfeMqQ1WDuZcXuFeUQaeMKYj+0flUQiaks0cEE0jCBRXSzX9unIuSbYtIC8KMnHH2di/rnlEd9kwT7YLrZFlqOHQWyw20XcF/slnQXtMvv7iujOUl4FZHCGoQPvdIRH1lSWMPeEDkgUMgA0oSw+d/8otxnQaxwnLQguwfwMHiTcy607gLiropsSWKnFJRQNQ9lAED1jWc74Zwvolel536/FTurrqrsek=
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2019 19:56:45.3275 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 42dc7902-b810-4d63-2131-08d6c9b82533
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR02MB504
+Subject: [master][RFC] Adding back wrapper and using OEPYTHON3HOME variable for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,307 +98,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 08:44:32 -0000
+X-List-Received-Date: Fri, 26 Apr 2019 10:31:28 -0000
+Content-Type: text/plain
 
-Signed-off-by: Visser Sander <sander.visser.2@consultant.volvo.com>
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Adding back the python wrapper and adding a patch to use OEPYTHON3HOME
+instead of PYTHONHOME if set, for python3.
+
+If we add back the wrapper as is, we would see the following error that
+we also see in Thud:
+
+ImportError: No module named site
+OpenEmbedded requires 'python' to be python v2 (>= 2.7.3), not python
+v3.
+Please upgrade your python v2
+
+This is because python3 would've set PYTHONHOME to use nativesdk
+python3 libraries but when the oe-buildenv-internal script tries to call
+python2 for the py_v27_check, there will be no python2 libraries in the
+PYTHONHOME directory.
+In other words, bitbake needs host python2 and the env variable set from
+the wrapper contaminates the env and host python2 won't be able to find
+its libraries
+
+Creating another variable OEPYTHON3HOME and using this in the python3
+wrapper to allow for a way to set a different paths for python3 and
+python2
+
+[YOCTO #13208]
+
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
 ---
- .../busybox-udhcpd-fix-not-dying-on-SIGTERM.patch  | 272 +++++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.27.2.bb        |   1 +
- 2 files changed, 273 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/busybox-udhcpd-fix-not-dying-on-SIGTERM.patch
+ ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch | 35 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.3.bb      |  7 +++++
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/busybox-udhcpd-fix-not-dying-on-SIGTERM.patch b/meta/recipes-core/busybox/busybox/busybox-udhcpd-fix-not-dying-on-SIGTERM.patch
+diff --git a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
 new file mode 100644
-index 0000000000..96be486c61
+index 0000000..12aeab9
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/busybox-udhcpd-fix-not-dying-on-SIGTERM.patch
-@@ -0,0 +1,272 @@
-+From 1384459d88cb0f5f47b6a36b8346dcf425a643f5 Mon Sep 17 00:00:00 2001
-+From: Denys Vlasenko <vda.linux@googlemail.com>
-+Date: Sat, 10 Mar 2018 19:01:48 +0100
-+Subject: [PATCH] udhcpd: fix "not dying on SIGTERM"
++++ b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+@@ -0,0 +1,35 @@
++From e4363ca1d84b4014184a79a847fb2affb3dfe86e Mon Sep 17 00:00:00 2001
++From: Jaewon Lee <jaewon.lee@xilinx.com>
++Date: Tue, 23 Apr 2019 17:01:08 -0700
++Subject: [PATCH] main.c: if OEPYTHON3HOME is set use instead of PYTHONHOME
 +
-+Upstream-status: Backport [https://git.busybox.net/busybox/commit/?id=3293bc146985c56790033409facc0ad64a471084]
++There is one variable PYTHONHOME to determine where libraries are coming
++from for both python2 and python3. This becomes an issue if only one has
++libraries in the specified PYTHONHOME path, but they are using the same
++PYTHONHOME. Creating another variable OEPYTHON3HOME to allow for a way
++to set a different path for python3
 +
-+Fixes:
-+	commit 52a515d18724bbb34e3ccbbb0218efcc4eccc0a8
-+	"udhcp: use poll() instead of select()"
-+	Feb 16 2017
-+
-+udhcp_sp_read() is meant to check whether signal pipe indeed has some data to read.
-+In the above commit, it was changed as follows:
-+
-+-	if (!FD_ISSET(signal_pipe.rd, rfds))
-++	if (!pfds[0].revents)
-+		return 0;
-+
-+The problem is, the check was working for select() purely by accident.
-+Caught signal interrupts select()/poll() syscalls, they return with EINTR
-+(regardless of SA_RESTART flag in sigaction). _Then_ signal handler is invoked.
-+IOW: they can't see any changes to fd state caused by signal haldler
-+(in our case, signal handler makes signal pipe ready to be read).
-+
-+For select(), it means that rfds[] bit array is unmodified, bit of signal
-+pipe's read fd is still set, and the above check "works": it thinks select()
-+says there is data to read.
-+
-+This accident does not work for poll(): .revents stays clear, and we do not
-+try reading signal pipe as we should. In udhcpd, we fall through and block
-+in socket read. Further SIGTERM signals simply cause socket read to be
-+interrupted and then restarted (since SIGTERM handler has SA_RESTART=1).
-+
-+Fixing this as follows: remove the check altogether. Set signal pipe read fd
-+to nonblocking mode. Always read it in udhcp_sp_read().
-+If read fails, assume it's EAGAIN and return 0 ("no signal seen").
-+
-+udhcpd avoids reading signal pipe on every recvd packet by looping if EINTR
-+(using safe_poll()) - thus ensuring we have correct .revents for all fds -
-+and calling udhcp_sp_read() only if pfds[0].revents!=0.
-+
-+udhcpc performs much fewer reads (typically it sleeps >99.999% of the time),
-+there is no need to optimize it: can call udhcp_sp_read() after each poll
-+unconditionally.
-+
-+To robustify socket reads, unconditionally set pfds[1].revents=0
-+in udhcp_sp_fd_set() (which is before poll), and check it before reading
-+network socket in udhcpd.
-+
-+TODO:
-+This might still fail: if pfds[1].revents=POLLIN, socket read may still block.
-+There are rare cases when select/poll indicates that data can be read,
-+but then actual read still blocks (one such case is UDP packets with
-+wrong checksum). General advise is, if you use a poll/select loop,
-+keep all your fds nonblocking.
-+Maybe we should also do that to our network sockets?
-+
-+function                                             old     new   delta
-+udhcp_sp_setup                                        55      65     +10
-+udhcp_sp_fd_set                                       54      60      +6
-+udhcp_sp_read                                         46      36     -10
-+udhcpd_main                                         1451    1437     -14
-+udhcpc_main                                         2723    2708     -15
-+------------------------------------------------------------------------------
-+(add/remove: 0/0 grow/shrink: 2/3 up/down: 16/-39)            Total: -23 bytes
-+
-+Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
 +---
-+ examples/var_service/dhcpd_if/run                  |  4 +--
-+ .../dhcpd_if/{udhcpc.conf => udhcpd.conf}          |  0
-+ networking/udhcp/common.h                          |  2 +-
-+ networking/udhcp/d6_dhcpc.c                        |  9 +++---
-+ networking/udhcp/dhcpc.c                           |  9 +++---
-+ networking/udhcp/dhcpd.c                           | 34 ++++++++++++----------
-+ networking/udhcp/signalpipe.c                      | 11 +++----
-+ 7 files changed, 35 insertions(+), 34 deletions(-)
-+ rename examples/var_service/dhcpd_if/{udhcpc.conf => udhcpd.conf} (100%)
++ Modules/main.c | 5 +++++
++ 1 file changed, 5 insertions(+)
 +
-+diff --git a/examples/var_service/dhcpd_if/run b/examples/var_service/dhcpd_if/run
-+index de85dece0..a603bdc71 100755
-+--- a/examples/var_service/dhcpd_if/run
-++++ b/examples/var_service/dhcpd_if/run
-+@@ -11,13 +11,13 @@ echo "* Upping iface $if"
-+ ip link set dev $if up
++diff --git a/Modules/main.c b/Modules/main.c
++index a745381..25ca435 100644
++--- a/Modules/main.c
+++++ b/Modules/main.c
++@@ -1857,6 +1857,11 @@ config_init_home(_PyCoreConfig *config)
++     }
 + 
-+ >>udhcpd.leases
-+-sed 's/^interface.*$/interface '"$if/" -i udhcpc.conf
-++sed 's/^interface.*$/interface '"$if/" -i udhcpd.conf
-+ 
-+ echo "* Starting udhcpd"
-+ exec \
-+ env - PATH="$PATH" \
-+ softlimit \
-+ setuidgid root \
-+-udhcpd -f -vv udhcpc.conf
-++udhcpd -f -vv udhcpd.conf
-+ 
-+ exit $?
-+diff --git a/examples/var_service/dhcpd_if/udhcpc.conf b/examples/var_service/dhcpd_if/udhcpd.conf
-+similarity index 100%
-+rename from examples/var_service/dhcpd_if/udhcpc.conf
-+rename to examples/var_service/dhcpd_if/udhcpd.conf
-+diff --git a/networking/udhcp/common.h b/networking/udhcp/common.h
-+index a9c23a186..866f3d8b1 100644
-+--- a/networking/udhcp/common.h
-++++ b/networking/udhcp/common.h
-+@@ -312,7 +312,7 @@ int udhcp_send_kernel_packet(struct dhcp_packet *dhcp_pkt,
-+ 
-+ void udhcp_sp_setup(void) FAST_FUNC;
-+ void udhcp_sp_fd_set(struct pollfd *pfds, int extra_fd) FAST_FUNC;
-+-int udhcp_sp_read(struct pollfd *pfds) FAST_FUNC;
-++int udhcp_sp_read(void) FAST_FUNC;
-+ 
-+ int udhcp_read_interface(const char *interface, int *ifindex, uint32_t *nip, uint8_t *mac) FAST_FUNC;
-+ 
-+diff --git a/networking/udhcp/d6_dhcpc.c b/networking/udhcp/d6_dhcpc.c
-+index f6d3fb98b..bdf8dad17 100644
-+--- a/networking/udhcp/d6_dhcpc.c
-++++ b/networking/udhcp/d6_dhcpc.c
-+@@ -1371,13 +1371,12 @@ int udhcpc6_main(int argc UNUSED_PARAM, char **argv)
-+ 			/* yah, I know, *you* say it would never happen */
-+ 			timeout = INT_MAX;
-+ 			continue; /* back to main loop */
-+-		} /* if select timed out */
-++		} /* if poll timed out */
-+ 
-+-		/* select() didn't timeout, something happened */
-++		/* poll() didn't timeout, something happened */
-+ 
-+ 		/* Is it a signal? */
-+-		/* note: udhcp_sp_read checks poll result before reading */
-+-		switch (udhcp_sp_read(pfds)) {
-++		switch (udhcp_sp_read()) {
-+ 		case SIGUSR1:
-+ 			client_config.first_secs = 0; /* make secs field count from 0 */
-+ 			already_waited_sec = 0;
-+@@ -1412,7 +1411,7 @@ int udhcpc6_main(int argc UNUSED_PARAM, char **argv)
-+ 		}
-+ 
-+ 		/* Is it a packet? */
-+-		if (listen_mode == LISTEN_NONE || !pfds[1].revents)
-++		if (!pfds[1].revents)
-+ 			continue; /* no */
-+ 
-+ 		{
-+diff --git a/networking/udhcp/dhcpc.c b/networking/udhcp/dhcpc.c
-+index 1a66c610e..c8027983e 100644
-+--- a/networking/udhcp/dhcpc.c
-++++ b/networking/udhcp/dhcpc.c
-+@@ -1588,13 +1588,12 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
-+ 			/* yah, I know, *you* say it would never happen */
-+ 			timeout = INT_MAX;
-+ 			continue; /* back to main loop */
-+-		} /* if select timed out */
-++		} /* if poll timed out */
-+ 
-+-		/* select() didn't timeout, something happened */
-++		/* poll() didn't timeout, something happened */
-+ 
-+ 		/* Is it a signal? */
-+-		/* note: udhcp_sp_read checks poll result before reading */
-+-		switch (udhcp_sp_read(pfds)) {
-++		switch (udhcp_sp_read()) {
-+ 		case SIGUSR1:
-+ 			client_config.first_secs = 0; /* make secs field count from 0 */
-+ 			already_waited_sec = 0;
-+@@ -1629,7 +1628,7 @@ int udhcpc_main(int argc UNUSED_PARAM, char **argv)
-+ 		}
-+ 
-+ 		/* Is it a packet? */
-+-		if (listen_mode == LISTEN_NONE || !pfds[1].revents)
-++		if (!pfds[1].revents)
-+ 			continue; /* no */
-+ 
-+ 		{
-+diff --git a/networking/udhcp/dhcpd.c b/networking/udhcp/dhcpd.c
-+index 3a5fc2db7..c4e990a48 100644
-+--- a/networking/udhcp/dhcpd.c
-++++ b/networking/udhcp/dhcpd.c
-+@@ -912,20 +912,18 @@ int udhcpd_main(int argc UNUSED_PARAM, char **argv)
-+ 
-+ 		udhcp_sp_fd_set(pfds, server_socket);
-+ 		tv = timeout_end - monotonic_sec();
-+-		retval = 0;
-+-		if (!server_config.auto_time || tv > 0) {
-+-			retval = poll(pfds, 2, server_config.auto_time ? tv * 1000 : -1);
-+-		}
-+-		if (retval == 0) {
-+-			write_leases();
-+-			goto continue_with_autotime;
-+-		}
-+-		if (retval < 0 && errno != EINTR) {
-+-			log1("error on select");
-+-			continue;
-++		/* Block here waiting for either signal or packet */
-++		retval = safe_poll(pfds, 2, server_config.auto_time ? tv * 1000 : -1);
-++		if (retval <= 0) {
-++			if (retval == 0) {
-++				write_leases();
-++				goto continue_with_autotime;
-++			}
-++			/* < 0 and not EINTR: should not happen */
-++			bb_perror_msg_and_die("poll");
-+ 		}
-+ 
-+-		switch (udhcp_sp_read(pfds)) {
-++		if (pfds[0].revents) switch (udhcp_sp_read()) {
-+ 		case SIGUSR1:
-+ 			bb_error_msg("received %s", "SIGUSR1");
-+ 			write_leases();
-+@@ -935,12 +933,16 @@ int udhcpd_main(int argc UNUSED_PARAM, char **argv)
-+ 			bb_error_msg("received %s", "SIGTERM");
-+ 			write_leases();
-+ 			goto ret0;
-+-		case 0: /* no signal: read a packet */
-+-			break;
-+-		default: /* signal or error (probably EINTR): back to select */
-+-			continue;
-+ 		}
-+ 
-++		/* Is it a packet? */
-++		if (!pfds[1].revents)
-++			continue; /* no */
++     int res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
 ++
-++		/* Note: we do not block here, we block on poll() instead.
-++		 * Blocking here would prevent SIGTERM from working:
-++		 * socket read inside this call is restarted on caught signals.
-++		 */
-+ 		bytes = udhcp_recv_kernel_packet(&packet, server_socket);
-+ 		if (bytes < 0) {
-+ 			/* bytes can also be -2 ("bad packet data") */
-+diff --git a/networking/udhcp/signalpipe.c b/networking/udhcp/signalpipe.c
-+index b101b4ce4..2ff78f0f2 100644
-+--- a/networking/udhcp/signalpipe.c
-++++ b/networking/udhcp/signalpipe.c
-+@@ -40,6 +40,7 @@ void FAST_FUNC udhcp_sp_setup(void)
-+ 	xpiped_pair(signal_pipe);
-+ 	close_on_exec_on(signal_pipe.rd);
-+ 	close_on_exec_on(signal_pipe.wr);
-++	ndelay_on(signal_pipe.rd);
-+ 	ndelay_on(signal_pipe.wr);
-+ 	bb_signals(0
-+ 		+ (1 << SIGUSR1)
-+@@ -61,20 +62,20 @@ void FAST_FUNC udhcp_sp_fd_set(struct pollfd pfds[2], int extra_fd)
-+ 		pfds[1].fd = extra_fd;
-+ 		pfds[1].events = POLLIN;
-+ 	}
-++	/* this simplifies "is extra_fd ready?" tests elsewhere: */
-++	pfds[1].revents = 0;
-+ }
-+ 
-+ /* Read a signal from the signal pipe. Returns 0 if there is
-+  * no signal, -1 on error (and sets errno appropriately), and
-+  * your signal on success */
-+-int FAST_FUNC udhcp_sp_read(struct pollfd pfds[2])
-++int FAST_FUNC udhcp_sp_read(void)
-+ {
-+ 	unsigned char sig;
-+ 
-+-	if (!pfds[0].revents)
-+-		return 0;
-+-
-++	/* Can't block here, fd is in nonblocking mode */
-+ 	if (safe_read(signal_pipe.rd, &sig, 1) != 1)
-+-		return -1;
-++		return 0;
-+ 
-+ 	return sig;
-+ }
+++    const char *oepython3home = config_get_env_var("OEPYTHON3HOME");
+++    if (oepython3home) {
+++        res = config_get_env_var_dup(&home, L"OEPYTHON3HOME", "OEPYTHON3HOME");
+++    }
++     if (res < 0) {
++         return DECODE_LOCALE_ERR("PYTHONHOME", res);
++     }
 +-- 
-+2.16.4
-diff --git a/meta/recipes-core/busybox/busybox_1.27.2.bb b/meta/recipes-core/busybox/busybox_1.27.2.bb
-index 716a0650fc..45369808ac 100644
---- a/meta/recipes-core/busybox/busybox_1.27.2.bb
-+++ b/meta/recipes-core/busybox/busybox_1.27.2.bb
-@@ -49,6 +49,7 @@ SRC_URI = "http://www.busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://busybox-fix-lzma-segfaults.patch \
-            file://umount-ignore-c.patch \
-            file://CVE-2017-15874.patch \
-+           file://busybox-udhcpd-fix-not-dying-on-SIGTERM.patch \
- "
- SRC_URI_append_libc-musl = " file://musl.cfg "
++2.7.4
++
+diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
+index ea46b05..af7ede1 100644
+--- a/meta/recipes-devtools/python/python3_3.7.3.bb
++++ b/meta/recipes-devtools/python/python3_3.7.3.bb
+@@ -28,6 +28,9 @@ SRC_URI_append_class-native = " \
+            file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
+            file://12-distutils-prefix-is-inside-staging-area.patch \
+            "
++SRC_URI_append_class-nativesdk = " \
++           file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
++           "
+ 
+ SRC_URI[md5sum] = "93df27aec0cd18d6d42173e601ffbbfd"
+ SRC_URI[sha256sum] = "da60b54064d4cfcd9c26576f6df2690e62085123826cff2e667e72a91952d318"
+@@ -131,6 +134,10 @@ do_install_append() {
+                 ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
+ }
+ 
++do_install_append_class-nativesdk () {
++    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} OEPYTHON3HOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
++}
++
+ SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
+ PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
  
 -- 
-2.11.0
+2.7.4
 
 
