@@ -1,55 +1,29 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id D23D67CF7D
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 76B806D147
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 25 Apr 2019 00:11:07 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id f14so26990582wrj.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 24 Apr 2019 17:11:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=PGuApoByWs0rFAxI5/mSTXhK8wmB0cxAdPFWhPlj6d8=;
-	b=NJvFGg7yjqy0kXSD0O9RIj2TRL2bHsq7s5M0FA0rhPsLzKmDkj1AkZaRZzC8xEFu40
-	6M8TCVgkeqfaq9wUP+NBko+8iH7udtf4768646O1xmaTUQwctHMLsNQzG3H2tQM+XvgD
-	zZ3el8fHQe0ftxj9+fPJ9u6RFfOj4BKkLz1LIrKDPRp5jOmo8HXu6ZxsQusun+mgAUuz
-	Eez3/uSDzoWZKRg2e6GqBgLD5nshJWUyxfST/VBOB6DCUyeNVxnVAp6lJKbe8NgaxGJk
-	pBW31KSUI35V2dIRmRphXqrNm69YFGrDakoJYbAGNqOUUcSUTbs62Q3DPBDhWu4u0aYf
-	FmyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=PGuApoByWs0rFAxI5/mSTXhK8wmB0cxAdPFWhPlj6d8=;
-	b=h79ylnUosggqd9vY2CMERz9QIovmL+UZ1lRFjy1UiNdYjQVVt/7UYDB/R8z23rUSHI
-	GLuf+3PA8kJCacEEIP/BrKHxVHPM3Auai0DIlAEiOxDJ2NAkgo/M33mad0tVqdwhkMy1
-	uZl+cuzSI0RqxKyTJtoImhm0jHTO4sgXLnv6lXO68AeKbGOSO2GReQfvQ0oUe+ZVgETe
-	NT/iMBLDQ3OU3+86YJV5Z5h571u5PcWdNkrIeyxjABb9G/JFhQHT/H9Xi8IIG7NeawS3
-	0Tsv0eJ36GI7dVqk4BcXT0qx49dEBEYUHQs26mC/rZ6/zyR1+WOj/ynAjVf+b6YYusWD
-	5JJg==
-X-Gm-Message-State: APjAAAW9ZEP2eVDQE47aBS+djSd3oOzlY/3WyeRB1w+0yQLv/b0iVOgv
-	+qV45OfFFVlCdfyR1HiSTSROdrwE9PU=
-X-Google-Smtp-Source: APXvYqwX0zhSpxnf90biMSXq7LD8OvDXXlQ+6GSKLWbrk1mjnTwSDrd2zcveZcqXDctRRR5MmbwmRg==
-X-Received: by 2002:adf:9f11:: with SMTP id l17mr4321236wrf.28.1556151068285; 
-	Wed, 24 Apr 2019 17:11:08 -0700 (PDT)
-Received: from superandy.speedport.ip
-	(p200300F07F06D0346D2B854BA6962495.dip0.t-ipconnect.de.
-	[2003:f0:7f06:d034:6d2b:854b:a696:2495])
-	by smtp.gmail.com with ESMTPSA id
-	u6sm37737680wrg.72.2019.04.24.17.11.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 24 Apr 2019 17:11:07 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 25 Apr 2019 02:10:54 +0200
-Message-Id: <20190425001054.32220-2-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190425001054.32220-1-schnitzeltony@gmail.com>
-References: <20190425001054.32220-1-schnitzeltony@gmail.com>
+	Thu, 25 Apr 2019 01:39:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3P1dNaF025355
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 24 Apr 2019 18:39:33 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 24 Apr 2019 18:39:12 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20190415034231.105641-1-kai.kang@windriver.com>
+	<c5cfa394-44e4-bdae-d334-82b9fe109f86@windriver.com>
+	<CAJTo0LYvVT5g0LG+XGf5Nz-XJj-Nw32tubmNGw1_dNPyWs9R4w@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <6ba3a9e8-bbb1-c2e1-b29f-968e41d1aa93@windriver.com>
+Date: Thu, 25 Apr 2019 09:36:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] vte: move shell auto scripts into seperate package
+In-Reply-To: <CAJTo0LYvVT5g0LG+XGf5Nz-XJj-Nw32tubmNGw1_dNPyWs9R4w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cryptodev: update SRCREV
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,42 +36,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 25 Apr 2019 00:11:08 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Thu, 25 Apr 2019 01:39:59 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-It bugged me for a while that xfce4-terminal sets (tab-)title to 'Untitled'.
-This is caused by bash variable PROMPT_COMMAND not set. vte ships /etc/profile.d/vte.sh
-adding PROMPT_COMMAND and a function to handle.
+On 2019/4/24 下午8:38, Burton, Ross wrote:
+> I'd prefer this to be applying the patch, which also makes the fix
+> easier to backport.
 
-Since
+OK. I'll send v2 to apply the the patch.
 
-* not all consumers of 'libvte' are interested in this feature
-* executable shipped by package 'vte' is not necessary for PROMPT_COMMAND support
+Regards,
+Kai
 
-create a seperate package.
-Once applied patches for xfce4-terminal and gnome-terminal will be send.
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- meta/recipes-support/vte/vte_0.56.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> Ross
+>
+> On Wed, 24 Apr 2019 at 03:26, Kang Kai <Kai.Kang@windriver.com> wrote:
+>> On 2019/4/15 上午11:42, kai.kang@windriver.com wrote:
+>>> From: Kai Kang <kai.kang@windriver.com>
+>>>
+>>> Update SRCREV of cryptodev which only contains one fix for linux 5.0:
+>>>
+>>> $ git log fd8b15ef1c8398a69a37932ee48c74ab40329a29..f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
+>>> commit f971e0cd4a0ebe59fb2e8e17240399bf6901b09b
+>>> Author: Derald D. Woods <woods.technical@gmail.com>
+>>> Date:   Sun Feb 10 13:22:19 2019 -0600
+>>>
+>>>       Fix module loading with Linux v5.0-rc5
+>>>
+>>>       This commit fixes this module load error:
+>>>       [...]
+>>>       [   29.112091] cryptodev: loading out-of-tree module taints kernel.
+>>>       [   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
+>>>       [   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
+>>>       modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
+>>>       [...]
+>>
+>> Without this patch it fails to modprobe module cryptodev. Ping.
+>>
+>> Kai
+>>
+>>
+>>>       Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
+>>>
+>>>       c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
+>>>
+>>>       Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
+>>>
+>>> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>> ---
+>>>    meta/recipes-kernel/cryptodev/cryptodev.inc | 2 +-
+>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
+>>> index 252d39d23a..79ddefd435 100644
+>>> --- a/meta/recipes-kernel/cryptodev/cryptodev.inc
+>>> +++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
+>>> @@ -4,7 +4,7 @@ LICENSE = "GPLv2"
+>>>    LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+>>>
+>>>    SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
+>>> -SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
+>>> +SRCREV = "f971e0cd4a0ebe59fb2e8e17240399bf6901b09b"
+>>>
+>>>    S = "${WORKDIR}/git"
+>>>
+>>
+>> --
+>> Kai Kang
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-diff --git a/meta/recipes-support/vte/vte_0.56.1.bb b/meta/recipes-support/vte/vte_0.56.1.bb
-index 02b84c38d9..3585e9ce57 100644
---- a/meta/recipes-support/vte/vte_0.56.1.bb
-+++ b/meta/recipes-support/vte/vte_0.56.1.bb
-@@ -50,7 +50,8 @@ CFLAGS += "-D_GNU_SOURCE"
- # Use libtool-cross (which has a hack to prevent that) instead.
- EXTRA_OEMAKE_class-target = "LIBTOOL=${STAGING_BINDIR_CROSS}/${HOST_SYS}-libtool"
- 
--PACKAGES =+ "libvte"
-+PACKAGES =+ "libvte ${PN}-prompt"
- FILES_libvte = "${libdir}/*.so.* ${libdir}/girepository-1.0/*"
-+FILES_${PN}-prompt = "${sysconfdir}/profile.d"
- 
- BBCLASSEXTEND = "native nativesdk"
+
 -- 
-2.20.1
+Kai Kang
 
 
