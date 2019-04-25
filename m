@@ -1,91 +1,91 @@
 Return-Path: <JAEWON@xilinx.com>
-X-Greylist: delayed 17905 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 26 Apr 2019 10:31:28 UTC
-Received: from NAM02-BL2-obe.outbound.protection.outlook.com
-	(mail-eopbgr750070.outbound.protection.outlook.com [40.107.75.70])
-	by mail.openembedded.org (Postfix) with ESMTP id 906567DA94
+X-Greylist: delayed 26102 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 26 Apr 2019 10:45:09 UTC
+Received: from NAM05-CO1-obe.outbound.protection.outlook.com
+	(mail-eopbgr720051.outbound.protection.outlook.com [40.107.72.51])
+	by mail.openembedded.org (Postfix) with ESMTP id B58507DA94
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 10:31:28 +0000 (UTC)
+	Fri, 26 Apr 2019 10:45:09 +0000 (UTC)
+Received: from BN6PR02MB2676.namprd02.prod.outlook.com (10.175.95.14) by
+	DM5PR02MB2684.namprd02.prod.outlook.com (10.175.85.14) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1835.14; Fri, 26 Apr 2019 10:45:09 +0000
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
 	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=PVj+BB0YKD0BO78csSjexZnGhM0Idoi6eKWlIDYCkdY=;
-	b=gun0v7tCA16jKC51Sgwfj1QCYGBXVuEZz7OKsvm/G7+MzPMJ5CkNMCCMQEd6Shz0XV9fTHg0rDg5NugQnRtu7LuzVr131QmUBgmUai0t1TllMGKjKpiAaH0f3E5l2ODI+96C8JJRY2rIOkvlM/Q0rxC+sk5iHdOyorE2fj7v/oA=
-Received: from BN7PR02CA0027.namprd02.prod.outlook.com (2603:10b6:408:20::40)
-	by BLUPR02MB504.namprd02.prod.outlook.com (2a01:111:e400:88c::26)
+	bh=VDLyr/YzMGO3UBYgTLuLmyYsWBXiqJAw4QjUSChHpUg=;
+	b=FqWMQntFKJfmiv17z7bc3CqX6SghOovegm8oo6temKcg5/eUfrV3s8RIlxSVidQyOr3oVCiTDcI2PwAF7utvXokBmvndJUhmwVhOIvrq2Yx4I6MawFOwxfkUPaGbn4caNvZy9ln4ZC0ANxqIQ9HMD/UxglR0yRVnhoTmfBsNE3I=
+Received: from BYAPR02CA0011.namprd02.prod.outlook.com (2603:10b6:a02:ee::24)
+	by BN6PR02MB2676.namprd02.prod.outlook.com (2603:10b6:404:fa::14)
 	with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1813.12;
-	Thu, 25 Apr 2019 19:56:45 +0000
-Received: from SN1NAM02FT018.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e44::203) by BN7PR02CA0027.outlook.office365.com
-	(2603:10b6:408:20::40) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1813.19;
+	Thu, 25 Apr 2019 23:02:31 +0000
+Received: from CY1NAM02FT034.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e45::206) by BYAPR02CA0011.outlook.office365.com
+	(2603:10b6:a02:ee::24) with Microsoft SMTP Server (version=TLS1_2,
 	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1835.12 via
-	Frontend Transport; Thu, 25 Apr 2019 19:56:45 +0000
+	Frontend Transport; Thu, 25 Apr 2019 23:02:30 +0000
 Authentication-Results: spf=pass (sender IP is 149.199.60.83)
-	smtp.mailfrom=xilinx.com; linuxfoundation.org;
-	dkim=none (message not signed)
-	header.d=none;linuxfoundation.org; dmarc=bestguesspass action=none
-	header.from=xilinx.com;
+	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
+	signed) header.d=none; lists.openembedded.org;
+	dmarc=bestguesspass action=none header.from=xilinx.com;
 Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
 	149.199.60.83 as permitted sender) receiver=protection.outlook.com;
 	client-ip=149.199.60.83; helo=xsj-pvapsmtpgw01;
 Received: from xsj-pvapsmtpgw01 (149.199.60.83) by
-	SN1NAM02FT018.mail.protection.outlook.com (10.152.72.122) with
+	CY1NAM02FT034.mail.protection.outlook.com (10.152.75.190) with
 	Microsoft SMTP Server (version=TLS1_0,
 	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1792.25
-	via Frontend Transport; Thu, 25 Apr 2019 19:56:45 +0000
+	via Frontend Transport; Thu, 25 Apr 2019 23:02:29 +0000
 Received: from unknown-38-66.xilinx.com ([149.199.38.66] helo=xsj-pvapsmtp01)
 	by xsj-pvapsmtpgw01 with esmtp (Exim 4.63)
 	(envelope-from <jaewon.lee@xilinx.com>)
-	id 1hJkU8-000649-Si; Thu, 25 Apr 2019 12:56:44 -0700
+	id 1hJnNt-0001Z2-D6; Thu, 25 Apr 2019 16:02:29 -0700
 Received: from [127.0.0.1] (helo=localhost)
 	by xsj-pvapsmtp01 with smtp (Exim 4.63)
 	(envelope-from <jaewon.lee@xilinx.com>)
-	id 1hJkU3-0008Fu-Px; Thu, 25 Apr 2019 12:56:39 -0700
-Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp2.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	x3PJuYTU030519; Thu, 25 Apr 2019 12:56:34 -0700
+	id 1hJnNo-0004bZ-9X; Thu, 25 Apr 2019 16:02:24 -0700
 Received: from [172.19.3.42] (helo=xsjjaewon50.xilinx.com)
 	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
 	(envelope-from <jaewon.lee@xilinx.com>)
-	id 1hJkTy-0008F4-88; Thu, 25 Apr 2019 12:56:34 -0700
+	id 1hJnNm-0004b9-6H; Thu, 25 Apr 2019 16:02:22 -0700
 From: Jaewon Lee <jaewon.lee@xilinx.com>
 To: <openembedded-core@lists.openembedded.org>, <manjukum@xilinx.com>,
 	<alejandr@xilinx.com>, <richard.purdie@linuxfoundation.org>
-Date: Thu, 25 Apr 2019 12:56:33 -0700
-Message-ID: <1556222193-2780-1-git-send-email-jaewon.lee@xilinx.com>
+Date: Thu, 25 Apr 2019 16:02:21 -0700
+Message-ID: <1556233341-13827-1-git-send-email-jaewon.lee@xilinx.com>
 X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
 X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
 X-TM-AS-User-Approved-Sender: Yes;Yes
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-Forefront-Antispam-Report: CIP:149.199.60.83; IPV:NLI; CTRY:US; EFV:NLI;
 	SFV:NSPM;
-	SFS:(10009020)(346002)(396003)(39860400002)(136003)(376002)(2980300002)(189003)(199004)(72206003)(54906003)(478600001)(336012)(426003)(486006)(8936002)(2201001)(106002)(9786002)(16586007)(107886003)(81166006)(81156014)(44832011)(2616005)(356004)(8676002)(50226002)(316002)(4326008)(7696005)(51416003)(110136005)(47776003)(305945005)(77096007)(63266004)(126002)(36386004)(70206006)(50466002)(2906002)(70586007)(476003)(5660300002)(14444005)(186003)(26005)(36756003)(48376002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:BLUPR02MB504; H:xsj-pvapsmtpgw01;
-	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; MX:1; A:1;
+	SFS:(10009020)(396003)(136003)(39860400002)(376002)(346002)(2980300002)(199004)(189003)(54534003)(54906003)(106002)(63266004)(7696005)(77096007)(50226002)(26005)(2906002)(5660300002)(8936002)(9786002)(16586007)(186003)(476003)(2616005)(47776003)(72206003)(126002)(110136005)(36386004)(44832011)(316002)(486006)(356004)(51416003)(70586007)(70206006)(426003)(36756003)(48376002)(14444005)(2201001)(81166006)(478600001)(4326008)(305945005)(50466002)(81156014)(107886003)(8676002)(336012);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BN6PR02MB2676; H:xsj-pvapsmtpgw01;
+	FPR:; SPF:Pass; LANG:en; PTR:unknown-60-83.xilinx.com; A:1; MX:1;
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 42dc7902-b810-4d63-2131-08d6c9b82533
+X-MS-Office365-Filtering-Correlation-Id: b060e2c8-284e-4446-de2d-08d6c9d217e5
 X-Microsoft-Antispam: BCL:0; PCL:0;
 	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);
-	SRVR:BLUPR02MB504; 
-X-MS-TrafficTypeDiagnostic: BLUPR02MB504:
+	SRVR:BN6PR02MB2676; 
+X-MS-TrafficTypeDiagnostic: BN6PR02MB2676:|BN6PR02MB2676:|DM5PR02MB2684:
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <BLUPR02MB504491DE3FF1325508EC0CDAF3D0@BLUPR02MB504.namprd02.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <BN6PR02MB2676E77097E5D427539C1C74AF3D0@BN6PR02MB2676.namprd02.prod.outlook.com>
 X-Forefront-PRVS: 0018A2705B
 X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: REpzLR3yBPxbpa1RYAn0X73ReVPQzvHJI/BH37FhzXONDnKcKbUmvqjhYMW1g6br8X7U6h72q946PzNSG9KCF/sf1qobTid1SUDLHMRR9eTXLtgddXFxlAtV30FbIpzuysV/509LV27CVdWY4HA7rwt/jkRLFHwbc0rRahlvMCW0pMoNKRWwAlCW/aZme5MfHBiZyoLIgJPCfeMqQ1WDuZcXuFeUQaeMKYj+0flUQiaks0cEE0jCBRXSzX9unIuSbYtIC8KMnHH2di/rnlEd9kwT7YLrZFlqOHQWyw20XcF/slnQXtMvv7iujOUl4FZHCGoQPvdIRH1lSWMPeEDkgUMgA0oSw+d/8otxnQaxwnLQguwfwMHiTcy607gLiropsSWKnFJRQNQ9lAED1jWc74Zwvolel536/FTurrqrsek=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2019 19:56:45.3275 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42dc7902-b810-4d63-2131-08d6c9b82533
+X-Microsoft-Antispam-Message-Info: nt+lACiqGJ7eI7V3Ai8gz+j3vGTd7FKvO95Z3TpZktTwCG0kWTXdBQy19s1t4DtdbtPJ6SdnqxFlwWcK3F0anOuXV/tfNNwfL5x97AKYsPhFPLLg6eP5oNNkENXSRoZbM7TqqLKuzleMBfyQkxqzfRi5ebqyFMnN2Ymyrtq2k2do+g3he4XyLYdM4zaMfe+b+PMKLzqGKnLqpdOcXJXleIvo87Ibgr7MrLgscHmDItDzDw+uPsQmJy8O4pb3EkAMlVBiFGLhnzaXfJ/D84MmfsIYu5IOKd2MWP5CxawGfqD7ewSJjX5beKOmuuYgAnYsln2rTnpeqXIV6gUMYGeeQ6pNgnbujP9IoOOl+3bqYFrJsQYJ2PKHjy4nvZ7CI7qHdN7DHO0A/jvO2srkEIkGg8vlBNHK4upDUCwQX8rE1PA=
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2019 23:02:29.8637 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b060e2c8-284e-4446-de2d-08d6c9d217e5
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
 	Ip=[149.199.60.83]; Helo=[xsj-pvapsmtpgw01]
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BLUPR02MB504
-Subject: [master][RFC] Adding back wrapper and using OEPYTHON3HOME variable for python3
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR02MB2676
+X-OriginatorOrg: xilinx.com
+Subject: [master][RFC v3] Adding back wrapper and using OEPYTHON3HOME variable for python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -98,7 +98,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 10:31:28 -0000
+X-List-Received-Date: Fri, 26 Apr 2019 10:45:10 -0000
 Content-Type: text/plain
 
 Adding back the python wrapper and adding a patch to use OEPYTHON3HOME
@@ -129,20 +129,25 @@ python2
 Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
 Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
 ---
- ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch | 35 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.3.bb      |  7 +++++
- 2 files changed, 42 insertions(+)
+changelog:
+    v2: change python3 patch to avoid mem leak
+    v3: fix tabs and spaces issue
+
+---
+ ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch | 47 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.3.bb      |  7 ++++
+ 2 files changed, 54 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
 
 diff --git a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
 new file mode 100644
-index 0000000..12aeab9
+index 0000000..06eb2bd
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-@@ -0,0 +1,35 @@
-+From e4363ca1d84b4014184a79a847fb2affb3dfe86e Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,47 @@
++From ffe7797637f08cd6ee4c82e2d67462c5e194d30a Mon Sep 17 00:00:00 2001
 +From: Jaewon Lee <jaewon.lee@xilinx.com>
-+Date: Tue, 23 Apr 2019 17:01:08 -0700
++Date: Thu, 25 Apr 2019 15:34:26 -0700
 +Subject: [PATCH] main.c: if OEPYTHON3HOME is set use instead of PYTHONHOME
 +
 +There is one variable PYTHONHOME to determine where libraries are coming
@@ -153,25 +158,37 @@ index 0000000..12aeab9
 +
 +Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
 +---
-+ Modules/main.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ Modules/main.c | 17 +++++++++++++----
++ 1 file changed, 13 insertions(+), 4 deletions(-)
 +
 +diff --git a/Modules/main.c b/Modules/main.c
-+index a745381..25ca435 100644
++index a745381..b553e30 100644
 +--- a/Modules/main.c
 ++++ b/Modules/main.c
-+@@ -1857,6 +1857,11 @@ config_init_home(_PyCoreConfig *config)
++@@ -1855,10 +1855,19 @@ config_init_home(_PyCoreConfig *config)
++         }
++         return _Py_INIT_OK();
 +     }
-+ 
-+     int res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
-++
++-
++-    int res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
++-    if (res < 0) {
++-        return DECODE_LOCALE_ERR("PYTHONHOME", res);
+++    int res;
 ++    const char *oepython3home = config_get_env_var("OEPYTHON3HOME");
 ++    if (oepython3home) {
 ++        res = config_get_env_var_dup(&home, L"OEPYTHON3HOME", "OEPYTHON3HOME");
+++        if (res < 0) {
+++            return DECODE_LOCALE_ERR("OEPYTHON3HOME", res);
+++        }
 ++    }
-+     if (res < 0) {
-+         return DECODE_LOCALE_ERR("PYTHONHOME", res);
+++    else {
+++        res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
+++        if (res < 0) {
+++            return DECODE_LOCALE_ERR("PYTHONHOME", res);
+++        }
 +     }
++     config->home = home;
++     return _Py_INIT_OK();
 +-- 
 +2.7.4
 +
