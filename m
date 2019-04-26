@@ -1,57 +1,49 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DC0B57D8E7
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AF55A7D8E7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 15:31:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3QFV4u4010489
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 26 Apr 2019 08:31:05 -0700 (PDT)
-Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Fri, 26 Apr 2019 08:31:04 -0700
-To: Adrian Bunk <bunk@stusta.de>
-References: <20190308184939.22937-1-bunk@stusta.de>
-	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
-	<20190308193841.GA13393@localhost>
-	<E3B36DFB-0727-41ED-9494-3997E768A865@gmail.com>
-	<20190308203904.GA19247@localhost> <20190425192846.GA8813@localhost>
-	<bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
-	<20190426051215.GA26023@localhost>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <c2b30caa-1e86-8363-57fb-d399484d9708@windriver.com>
-Date: Fri, 26 Apr 2019 10:31:03 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.6.1
+	Fri, 26 Apr 2019 15:36:44 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id j184so2148559vsd.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 08:36:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=VH7kiC6ITAT73Ln5nAdqUhjoQeiP9o9e2YsUF2C+CUM=;
+	b=gR9K7QcJJ9TFrP1WtnLFkBazLRH+L5azQdhV65R2Af5siwgX7NjMTlt2SUirehMvuK
+	HLf9mr4ghEwTwIRbSFc/Zl4mT/67DJIg1uyn209OH5/SF5P9Ml1dXjkfbD4QPcBhpaed
+	XSKiKmRJE3npDkSSHlPahY4Asc9uls02x1qU+dKB6bFX3d5aec5tirUOJ/6pZBRJtC/h
+	fYGROd4ZjQ9CJP+cTFG8iopkNRTAmnu7eSKbTdhQHnFmEm2dog6X7ytsyZ3QIUjpF8uc
+	MPaFMzeN5wkt22b8ZYkZMeKgloZr5YM92VqXRdA590McxJnvtvUWguCdEY0a3368XxOf
+	X/pQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=VH7kiC6ITAT73Ln5nAdqUhjoQeiP9o9e2YsUF2C+CUM=;
+	b=ml0QHML6nUGfwE3HVqiy9FJOLVzktaAvhOT+cIUpgW5jatRmmXkL8N5y5S+RMvvCh+
+	n3RN0MxLdcjgp1SgfsPi1I559w+pVO1bEF02D0iJ79faiuY9VNM711i9H0uRai2wBmDL
+	PNfBfS7uS9Qek6tiwPMX66yhKeSOAx2u3mtheG/PJ8y1qtlf21WHbLdpBkM/7KRYJud/
+	8qetXsz/sjVswcym+gz50luT4Ew+CB48sf0uf8MP7i+mv5q0pL7D46ZvvfRXQ0Dm5g18
+	xIMuSvD266TYZMX317EhZf6v2WlTim7rOEVI+fdhGAFtHqjas+h+PJydRq3QD8hBxL/c
+	MCdg==
+X-Gm-Message-State: APjAAAVPyc3wb6nfIKys5eV4RwPkjsZzdEnXED6WIANIwnbUQzahGY+t
+	MFEaFCB9cqXPvHmNadKZCq6lAzDbYBZKAIC7pE8=
+X-Google-Smtp-Source: APXvYqzIkl9Apk1mhy2XPqpYQMAhuBnczW1TrlQicks61SCsBDZU+F70KBiON98a2G3e62KGV/tokJAMEThwOr8/Qng=
+X-Received: by 2002:a67:bc01:: with SMTP id t1mr25377164vsn.149.1556293005445; 
+	Fri, 26 Apr 2019 08:36:45 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190426051215.GA26023@localhost>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
+References: <20190418101906.15246-1-andrej.valek@siemens.com>
+	<CAO5Uq5QnNM5idDM5BafGQT7xSH5UXUdZb3KhhT2v8nQOVajXhg@mail.gmail.com>
+	<5ba501db-0e29-80b5-93f7-9ebafc10416c@norrbonn.se>
+In-Reply-To: <5ba501db-0e29-80b5-93f7-9ebafc10416c@norrbonn.se>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 26 Apr 2019 16:36:32 +0100
+Message-ID: <CAO5Uq5Q1bG=KC0neU6LMP-xiWrGSwh8y1c_BdurYjY3crczL_w@mail.gmail.com>
+To: Jonas Bonn <jonas@norrbonn.se>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: upgrade to 242
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,55 +56,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 15:31:06 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 26 Apr 2019 15:36:44 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/26/19 12:12 AM, Adrian Bunk wrote:
-> On Thu, Apr 25, 2019 at 03:18:47PM -0500, Mark Hatle wrote:
->> On 4/25/19 2:28 PM, Adrian Bunk wrote:
->>> Would you consider this patch appropriate now that warrior has branched?
->>
->> The use of OpenSSL10 as a 'second library' is likely no longer needed.  But
->> OpenSSL 1.0 (as an alternative version) to OpenSSL 1.1 is still needed in some
->> cases.. (FIPS-140-2)
-> 
-> Is anyone actually security-maintaining OpenSSL in OE?
+On Fri, Apr 26, 2019 at 3:45 PM Jonas Bonn <jonas@norrbonn.se> wrote:
+>
+> Hi Alex,
+>
+> On 26/04/2019 16:14, Alex Kiernan wrote:
+> > On Thu, Apr 18, 2019 at 11:22 AM Andrej Valek <andrej.valek@siemens.com> wrote:
+> >>
+> >> PATCH REBASED:
+> >> ==============
+> >> 0001-do-not-disable-buffer-in-writing-files.patch
+> >> 0002-don-t-use-glibc-specific-qsort_r.patch
+> >> 0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
+> >> 0004-add-fallback-parse_printf_format-implementation.patch
+> >> 0005-rules-watch-metadata-changes-in-ide-devices.patch
+> >> 0005-src-basic-missing.h-check-for-missing-strndupa.patch
+> >> 0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch
+> >> 0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
+> >> 0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
+> >> 0021-avoid-redefinition-of-prctl_mm_map-structure.patch
+> >> 0024-test-json.c-define-M_PIl.patch
+> >>
+> >> PATCH DROPPED:
+> >> ==============
+> >> 0001-meson-declare-version.h-as-dep-for-various-targets-t.patch
+> >> 0001-meson-declare-version.h-as-dependency-for-systemd.patch
+> >> 0013-test-hexdecoct.c-Include-missing.h-for-strndupa.patch
+> >>
+> >> PATCH ADDED:
+> >> 0025-fs-utilh-add-missing-sys-stat-include.patch
+> >>
+> >> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> >> ---
+> >
+> > This change in 242 means I'm no longer getting network up after
+> > flashing a new image (I'm flashing the entire eMMC from an image):
+> >
+> > * During package installation (with `ninja install`), we would create
+> > symlinks for systemd-networkd.service, systemd-networkd.socket,
+> > systemd-resolved.service, remote-cryptsetup.target, remote-fs.target,
+> > systemd-networkd-wait-online.service, and systemd-timesyncd.service
+> > in /etc, as if `systemctl enable` was called for those units, to make
+> > the system usable immediately after installation. Now this is not
+> > done anymore, and instead calling `systemctl preset-all` is
+> > recommended after the first installation of systemd.
+> >
+> > I don't know if Jonas is still working on this series:
+> >
+> > https://patchwork.openembedded.org/series/15497/
+>
+> I haven't given up on it, but I had to put it aside for a bit due to
+> more pressing matters.
+>
 
--In- OE?  I have no idea.
+Don't we all end up in those kind of problems!
 
-Outside of OE to meet the OpenSSL-FIPS 'you must not modify the sources and
-follow these exact steps', yes people are.
+> >
+> > as that looks like it has the kind of machinery we need (though I
+> > don't think this problem is specific to read only rootfs now) - I'm
+> > looking at the series in case he's not.
+>
+> If you have a writable root, systemd will automatically do the
+> preset-all for you; the catch is, systemd only does this if
+> /etc/machine-id does not exist.
 
-> The just released sumo has both versions of OpenSSL not touched since 
-> August, despite just upgrading to the latest versions would fix CVEs.
-> 
->> So removal of openssl10 is fine, but if there are patches for support of both
->> versions (old/new) of OpenSSL they will be needed at least through the end of
->> this year for many users.
-> 
-> This is now for Yocto 2.8, which will be released October/November
-> this year.
+Ah... that's useful information that I didn't know.
 
-Yes, and thats the problem.  OpenSSL 1.1 will not have FIPS support before the
-end of the year (based on the last blog post..)
+Whilst I do have a writeable /etc, I'm running under OSTree, so I
+don't want /etc mutated in the normal use case as I want to ensure
+that changes in /etc are correctly propagated across upgrades (OSTree
+does a three way merge of /etc using the current /etc and what was
+shipped as defaults in the previous deployment and the new
+deployment).
 
-So unless the OpenSSL community is able to get it certified and released before
-YP 2.8, I believe we still need OpenSSL 10 support through the end of this year.
- We should evaluate where the community is after that.
+> OE forces an empty /etc/machine-id onto
+> all root images so this doesn't work; as such, you'll need to do the
+> preset-all magic manually for ALL filesystems irregardless of whether
+> they are read-only or not.
+>
+> A better solution is drop the /etc/machine-id and let systemd create
+> that automatically; then it will also do the automatic preset-all at
+> first-boot.  The problem here is that the OE build farm detects images
+> that stall at boot when /etc/machine-id isn't present; I wasn't able to
+> find the cause of this but that's where you should be looking if you
+> want to pursue this patch series.  Aside from that little glitch, I
+> think the rest of it is fine.
+>
 
-Again, I'm not talking about the 'OpenSSL10' recipe, but support in the
-applications for the older APIs.  I don't care if the OpenSSL10 recipe goes
-away.  Anyone using FIPS-140-2 support is going to want to use a single OpenSSL
-library on their system, not both 1.1 and 1.0.
+Thanks, I'll see if I can chase that one down.
 
---Mark
+> And getting this working is also a big step towards making "stateless"
+> systems (using the systemd terminology) work where /etc may be a tmpfs
+> and gets populated at boot.
+>
 
->> --Mark
-> 
-> cu
-> Adrian
-> 
+Yeah, that's something I'd like to get to.
 
+--
+Alex Kiernan
 
