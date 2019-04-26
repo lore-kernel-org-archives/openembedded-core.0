@@ -1,42 +1,38 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 2ECB67CF88
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EBBF7CA4F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 05:12:18 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44r2H61hlYz4R;
-	Fri, 26 Apr 2019 07:12:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1556255538;
-	bh=nP/WU+O9NvBRfc4WTbeBGD/ZpXmc4eTAlkgwU8JP9as=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uFtTm7nQkKZnUjJlZiworEIUFVKB/4DWMAMVVFRVdK1bjDLTt5xQhLr0GHWJkJivS
-	xd0GAbIZt4xyztVo0NirT8o473RJ4uh8D0a1yAewaDe0lN8H0dEEojviaJiyiLrYiQ
-	k75CCrv/buFOeASWe28ccl8dDFdx5vPQgVhlTVLMdRNI5T1VW4cj95MrZqxP00KXjy
-	1Tz1ROPJYOoS2D0v8/QNB/d5Q5bqsKaLlr8btN4Y9mY6myzEUoh1+1rDIUiibFHyUQ
-	xnllCeEiraChTj3n/WlIjEdEPG2MDhk7OGFVbwGtWagGk1QZzVfBqNsxtVDfUXyYop
-	MA+4KP7j/Dq+qSJzXabzjxhVPeetPO7R3P3vkRq66zhO0AucrS79ptsmRFOwpNuvct
-	EkCLfD/u8gU7RNDbkIj2zny+vgpWeG6k2SUW/hkmyX7S1FiAxmvSfTZe6EEjfEDsOi
-	eE2nDnuI0TyvgqHdzSL/KaPvTCYTkSQPoJYp8GoA9OBgDBwXDNNkA8XPOaasy1fPl/
-	U+U0G6lOz5KFtbUw8EvQZAfGJsBkUlI/0O3qoTGxTzlOWhKl0fXPGJ5LVAvI5XKHYR
-	Umn0H2TELVnJiZ3moMoPc9EOnneIA0N+mjjB11lJ23ijU8xPs8njYJCR/If88YM0WS
-	vC+5f0JDltSwc0gLECk7LLVY=
-Date: Fri, 26 Apr 2019 08:12:15 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20190426051215.GA26023@localhost>
-References: <20190308184939.22937-1-bunk@stusta.de>
-	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
-	<20190308193841.GA13393@localhost>
-	<E3B36DFB-0727-41ED-9494-3997E768A865@gmail.com>
-	<20190308203904.GA19247@localhost>
-	<20190425192846.GA8813@localhost>
-	<bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
+	Fri, 26 Apr 2019 05:55:54 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,396,1549900800"; d="scan'208";a="60666736"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 26 Apr 2019 13:55:55 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 7B0314CD9DA3
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 13:55:52 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0439.000; Fri, 26 Apr 2019 13:55:53 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] toolchain-scripts: make rpm work in toolchain
+Thread-Index: AQHU8btdwcW6mVdAkUK2QKbtt/xhNaZCTQiAgAu3nCA=
+Date: Fri, 26 Apr 2019 05:55:52 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.227]
 MIME-Version: 1.0
-In-Reply-To: <bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
+X-yoursite-MailScanner-ID: 7B0314CD9DA3.AA327
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,40 +45,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 05:12:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 26 Apr 2019 05:55:55 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
-On Thu, Apr 25, 2019 at 03:18:47PM -0500, Mark Hatle wrote:
-> On 4/25/19 2:28 PM, Adrian Bunk wrote:
-> > Would you consider this patch appropriate now that warrior has branched?
-> 
-> The use of OpenSSL10 as a 'second library' is likely no longer needed.  But
-> OpenSSL 1.0 (as an alternative version) to OpenSSL 1.1 is still needed in some
-> cases.. (FIPS-140-2)
-
-Is anyone actually security-maintaining OpenSSL in OE?
-
-The just released sumo has both versions of OpenSSL not touched since 
-August, despite just upgrading to the latest versions would fix CVEs.
-
-> So removal of openssl10 is fine, but if there are patches for support of both
-> versions (old/new) of OpenSSL they will be needed at least through the end of
-> this year for many users.
-
-This is now for Yocto 2.8, which will be released October/November
-this year.
-
-> --Mark
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+SGksDQoNCkkgbm90aWNlZCB0aGF0ICIgZG5mOiBFbmFibGUgbmF0aXZlc2Rr
+ICIgaGFzIGJlZW4gbWVyZ2VkIGludG8gbWFzdGVyLW5leHQuIFRoaXMgcGF0
+Y2ggaXMgbmVjZXNzYXJ5IGZvciBkbmYtbmF0aXZlc2RrLCBzbyBwbGVhc2Ug
+bWVyZ2UgdG9vLg0KDQpCZXN0IHJlZ2FyZHMNCkxlaSANCg0KDQo+IC0tLS0t
+T3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9wZW5lbWJlZGRlZC1j
+b3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyBbbWFpbHRvOm9w
+ZW5lbWJlZGRlZC0NCj4gY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmddIE9uIEJlaGFsZiBPZiBaaGVuZywgUnVvcWluDQo+IFNlbnQ6IEZy
+aWRheSwgQXByaWwgMTksIDIwMTkgMTA6NTUgQU0NCj4gVG86IG9wZW5lbWJl
+ZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDog
+UmU6IFtPRS1jb3JlXSBbUEFUQ0hdIHRvb2xjaGFpbi1zY3JpcHRzOiBtYWtl
+IHJwbSB3b3JrIGluIHRvb2xjaGFpbg0KPiANCj4gcGluZw0KPiANCj4gLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0NCj4gWmhlbmcgUnVvcWluDQo+IE5hbmppbmcgRnVqaXRzdSBOYW5kYSBT
+b2Z0d2FyZSBUZWNoLiBDby4sIEx0ZC4oRk5TVCkNCj4gQUREUi46IE5vLjYg
+V2Vuemh1IFJvYWQsIFNvZnR3YXJlIEF2ZW51ZSwNCj4gICAgICAgIE5hbmpp
+bmcsIDIxMDAxMiwgQ2hpbmENCj4gTUFJTCA6IHpoZW5ncnEuZm5zdEBjbi5m
+dWppc3R1LmNvbQ0KPiANCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
+LS0tLS0NCj4gPiBGcm9tOiBaaGVuZywgUnVvcWluDQo+ID4gU2VudDogU2F0
+dXJkYXksIEFwcmlsIDEzLCAyMDE5IDEwOjM3IFBNDQo+ID4gVG86IG9wZW5l
+bWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBDYzog
+WmhlbmcsIFJ1b3FpbiA8emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0K
+PiA+IFN1YmplY3Q6IFtPRS1jb3JlXVtQQVRDSF0gdG9vbGNoYWluLXNjcmlw
+dHM6IG1ha2UgcnBtIHdvcmsgaW4gdG9vbGNoYWluDQo+ID4NCj4gPiBScG0g
+bmVlZCB0byByZWFkIHRoZSBhcmNoIGluZm8sIGJ1dCAkc2NyaXB0IGRpZCBu
+b3QgcHJvdmlkZSBpdCwgc28gYWRkIGl0Lg0KPiA+DQo+ID4gU2lnbmVkLW9m
+Zi1ieTogWmhlbmcgUnVvcWluIDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5j
+b20+DQo+ID4gLS0tDQo+ID4gIG1ldGEvY2xhc3Nlcy90b29sY2hhaW4tc2Ny
+aXB0cy5iYmNsYXNzIHwgMSArDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
+c2VydGlvbigrKQ0KPiA+DQo+ID4gZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nl
+cy90b29sY2hhaW4tc2NyaXB0cy5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL3Rv
+b2xjaGFpbi0NCj4gPiBzY3JpcHRzLmJiY2xhc3MNCj4gPiBpbmRleCAxYTJl
+YzRmLi5kZTUwYjdlIDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvY2xhc3Nlcy90
+b29sY2hhaW4tc2NyaXB0cy5iYmNsYXNzDQo+ID4gKysrIGIvbWV0YS9jbGFz
+c2VzL3Rvb2xjaGFpbi1zY3JpcHRzLmJiY2xhc3MNCj4gPiBAQCAtMTAxLDYg
+KzEwMSw3IEBAIHRvb2xjaGFpbl9zaGFyZWRfZW52X3NjcmlwdCAoKSB7DQo+
+ID4gIAllY2hvICdleHBvcnQgQ1BQRkxBR1M9IiR7VEFSR0VUX0NQUEZMQUdT
+fSInID4+ICRzY3JpcHQNCj4gPiAgCWVjaG8gJ2V4cG9ydCBLQ0ZMQUdTPSIt
+LXN5c3Jvb3Q9JFNES1RBUkdFVFNZU1JPT1QiJyA+PiAkc2NyaXB0DQo+ID4g
+IAllY2hvICdleHBvcnQgT0VDT1JFX0RJU1RST19WRVJTSU9OPSIke0RJU1RS
+T19WRVJTSU9OfSInID4+DQo+ID4gJHNjcmlwdA0KPiA+ICsJZWNobyAnZXhw
+b3J0IE1BQ0hJTkVfQVJDSD0ke01BQ0hJTkVfQVJDSH0nID4+ICRzY3JpcHQN
+Cj4gPiAgCWVjaG8gJ2V4cG9ydCBPRUNPUkVfU0RLX1ZFUlNJT049IiR7U0RL
+X1ZFUlNJT059IicgPj4gJHNjcmlwdA0KPiA+ICAJZWNobyAnZXhwb3J0IEFS
+Q0g9JHtBUkNIfScgPj4gJHNjcmlwdA0KPiA+ICAJZWNobyAnZXhwb3J0IENS
+T1NTX0NPTVBJTEU9JHtUQVJHRVRfUFJFRklYfScgPj4gJHNjcmlwdA0KPiA+
+IC0tDQo+ID4gMS44LjMuMQ0KPiANCj4gDQo+IA0KPiAtLQ0KPiBfX19fX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fXw0KPiBP
+cGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCj4gT3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiBodHRwOi8vbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xpc3RpbmZvL29wZW5lbWJlZGRl
+ZC1jb3JlDQoKCg==
 
