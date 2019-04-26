@@ -1,55 +1,55 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0386F7DA5A
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 95C6D7DA96
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 13:40:20 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id c1so3866293wml.4
+	Fri, 26 Apr 2019 13:43:08 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id k16so4538443wrn.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 06:40:22 -0700 (PDT)
+	Fri, 26 Apr 2019 06:43:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=psmwPYULGOomhlo2X4n2cX46bfMBo3f+847NIicyFVM=;
-	b=ObaKGcfLjPOM27KnHJipd+5upFO0VKUioRLqNP61xUIRIzTPjzms4KA5bR8ZI5LngX
-	8l/Vtm9AIDWgFtJnwcoA+D9qQiCoz2eV+wiUWB2qqhuuAX36qSSm5IzKIKrLMTx1aUo6
-	VqsINrFLbXEu+VWx1ehPEwt+ls+PLlqlP88X0=
+	bh=1o88k+6SAQdU8vLGqUvDWyk6QMcDTBax5LIM6y9IIC0=;
+	b=PUzymX0v19bBvcOFzXz+m6McUX5SaXGLxMNoELK3XqFGIdwOxmdsfIylauFimNnhXI
+	b2WszzDdlRQQacE8Yl9dFWPp3bK9WnmT7I46Xo0QxspDRNUTN3u1ExjQjNQ31xg92TYz
+	nTR3hXKOHPdmimK+rt08skgfZ1ad1fAYCw4SQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=psmwPYULGOomhlo2X4n2cX46bfMBo3f+847NIicyFVM=;
-	b=f2VWMqt92tvUMOwl05N2B4QeKSCSMcT2g3hNavF6IuHzt2/7UUEvKe3KieBnPZT6yl
-	yTgQk47y/WfD3gPb/mpbrhgNQatXEIehAVIaOsTGGuyEQFpczkKIxxj2xZHoZ86ujXkn
-	4RQ4RkKAFK4IBTva3C9GllZXJm5XhTCvib75TlAFFvSRDbgUz+plrUOhKSU32Oj1w2cC
-	CpMunZSr+BlgRjowyf7okD4gBqPIVKUhh1j9hzaykPtDPVqQbT/PQBmCxyAWjEmH30da
-	uBso+Oz/6LJ84EyuQWMj3Z/46d/XFt0NC9JUqWi1oAZtA41B2Jqk2urmveaQteLKUCJv
-	LCdw==
-X-Gm-Message-State: APjAAAVl1Wx+KA2tYLWtp0lbDlSQnbAfqgWHirgDrPub0P7Pyo1k+bMx
-	9DFwTQozQaGOkVA4dZpvoNCDow==
-X-Google-Smtp-Source: APXvYqxF9kFCNLDs3TGsd+kIh4p800M7Lg1HW9bBlfeVqmg90L+xAimvEY3CWjyAiRYioyVC46o3PQ==
-X-Received: by 2002:a1c:4e14:: with SMTP id g20mr3450282wmh.88.1556286021553; 
-	Fri, 26 Apr 2019 06:40:21 -0700 (PDT)
+	bh=1o88k+6SAQdU8vLGqUvDWyk6QMcDTBax5LIM6y9IIC0=;
+	b=h+7WbNQVgD4l4/rIulMX3JNGHWfb3JyGwuNK8YE+TaDDcUSb16cPmX/rlT1ncY0Vz3
+	c5MwxKhC+UaYr80b2pN5dvUP9z8VVHQQFm8m6NVR62PxIq6dPwA9wREUuhrvIXV8nYhE
+	mJPUZ0Z5I+5jHYyh1lK7RGKKkVr8hGBjaPK7ZSBoirGCkReSYfrfFaWC+LsK6elHDG3d
+	iAzgNcNHshqvh0NZy0QquHvKVot8nYcXwPtogEmD4nZgWPrODwcBEQ+DW6AhGTSjpiHD
+	/YLy3tTmzc3BNQqBiYKJpTk7qrw+jYe9ReNE4Xd5xBrZCeLEXhKwttg22sTQNu3BCmhP
+	GqhQ==
+X-Gm-Message-State: APjAAAWR6qeut1cHLuerQyYW+c59Vd5GJ18+qJhat1dPd+UJHxvmth9a
+	CVJS9H2SaFlPAE+hOKEiEIBPoQ==
+X-Google-Smtp-Source: APXvYqx+Hy6+Tuh66t8V9TpJmuEkwcZ3TTWoxxLh9C2etRuS0zpnQeOC/pkLeRdqbthDFBnomKFSiA==
+X-Received: by 2002:a5d:400e:: with SMTP id n14mr24490414wrp.317.1556286189381;
+	Fri, 26 Apr 2019 06:43:09 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o4sm32426697wmo.20.2019.04.26.06.40.20
+	c63sm9337001wma.29.2019.04.26.06.43.08
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 26 Apr 2019 06:40:20 -0700 (PDT)
-Message-ID: <f25bf5236a45b8494cf1cc4e8bb7e7b7e05ac3bf.camel@linuxfoundation.org>
+	Fri, 26 Apr 2019 06:43:08 -0700 (PDT)
+Message-ID: <9c11e5fa0dd254f99ee1f20d0ab0bfdea0aaad6d.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
-To: Alistair Francis <alistair23@gmail.com>, akuster808 <akuster808@gmail.com>
-Date: Fri, 26 Apr 2019 14:40:19 +0100
-In-Reply-To: <CAKmqyKOyQ82yYZzuqDBgM_+-6=czN4Xg8npAWxkXvNkch0JXpQ@mail.gmail.com>
-References: <20190424001333.14948-1-alistair.francis@wdc.com>
-	<a824b9bf98abc6545575514aa58e97e5f6347ada.camel@linuxfoundation.org>
-	<bccaa968-1653-f9b1-4b75-8e72337dcd7c@gmail.com>
-	<CAKmqyKOyQ82yYZzuqDBgM_+-6=czN4Xg8npAWxkXvNkch0JXpQ@mail.gmail.com>
+To: "Jain, Sangeeta" <sangeeta.jain@intel.com>, "'yocto@yoctoproject.org'"
+	<yocto@yoctoproject.org>, "Eggleton, Paul" <paul.eggleton@intel.com>, 
+	'Michael Halstead' <mhalstead@linuxfoundation.org>, "Erway, Tracey M"
+	<tracey.m.erway@intel.com>,  "'sjolley.yp.pm@gmail.com'"
+	<sjolley.yp.pm@gmail.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 26 Apr 2019 14:43:07 +0100
+In-Reply-To: <015AB11D45F2C442929CB2765DAE738634DDE72D@PGSMSX110.gar.corp.intel.com>
+References: <015AB11D45F2C442929CB2765DAE738634DDE72D@PGSMSX110.gar.corp.intel.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] qemu: Upgrade from 3.1.0 to 4.0.0
+Subject: Re: QA cycle report for 2.7 RC2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,54 +62,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 13:40:21 -0000
+X-List-Received-Date: Fri, 26 Apr 2019 13:43:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-04-25 at 11:24 -0700, Alistair Francis wrote:
-> On Thu, Apr 25, 2019 at 7:27 AM akuster808 <akuster808@gmail.com> wrote:
-> > 
-> > 
-> > On 4/25/19 6:49 AM, Richard Purdie wrote:
-> > > On Wed, 2019-04-24 at 00:15 +0000, Alistair Francis wrote:
-> > > > This commit upgrade QEMU to the latest 4.0.0 release.
-> > > > 
-> > > >  - The COPYING.LIB file has changed SHA to:
-> > > >     "Synchronize the LGPL 2.1 with the version from gnu.org"
-> > > >  - SDL 1.2 has been removed, along with the --with-sdlabi command
-> > > > line
-> > > >     arg
-> > > >  - The backported patches have been removed
-> > > >  - Al the other patches have been refreshed and the numbering has
-> > > > been
-> > > >     updated
-> > > I put this in for testing but it failed as nativesdk-qemu doesn't build
-> > > due to unpackaged files:
-> > 
-> > Bug opened: 13308
-> > 
-> > Thanks,
-> > 
-> > Your neighborhood swat team.
-> > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/535/steps/7/logs/step1b
-> 
-> I have updated the patch here:
-> https://github.com/alistair23/openembedded-core/tree/alistair/qemu-4.0.0
+On Fri, 2019-04-26 at 06:27 +0000, Jain, Sangeeta wrote:
+>  
+> QA cycle report for 2.7 RC2:
+>  
+> No high milestone defects. 
+> Test results are available at following location:
+> ·        For results of all automated tests, please refer to results
+> at public AB [1].
+> ·        For other test results, refer to attachment [2].
+> ·        For test report for test cases run by Intel and WR team,
+> refer attachment [3]
+> ·        For full test report, refer attachment [4]
+> No new defects are found in this cycle.
+> No existing issues observed in this release
+> No ptests are failing in this release which were passing in previous
+> release. No timeout issues.
+>  
+> QA Hint: One failure was observed on public AB:
+>  
+> testseries | result_id : qemuppc | oeselftest_centos-
+> 7_qemuppc_20190414221329
+> runqemu.QemuTest.test_qemu_can_shutdown
+>  
+> No bug filed for this issue, as it appears to be an intermittent
+> failure and worked on rc1 test run.
 
+Thanks for the testing!
 
-Thanks, this worked better in testing but showed issues with qemuarm
-booting:
+FWIW it should have and does have a bug:
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13309
+also, 
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=12991
+is still present in the release according to that bug.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/535
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/549
-
-I took it out of -next again and those passed (but some of the other
-build failures also in that build remained)
+I've asked the TSC for a go/nogo decision on the release.
 
 Cheers,
 
 Richard
+
+
+
 
 
