@@ -1,47 +1,41 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CBDD27D69B
+Return-Path: <sander@visser.se>
+Received: from mail.visser.se (vps.visser.se [82.102.5.251])
+	by mail.openembedded.org (Postfix) with ESMTP id E9E1A7D69B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 14:14:11 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id t23so1982790vso.10
+	Fri, 26 Apr 2019 14:21:48 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.visser.se (Postfix) with ESMTP id 6B75411F740
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 07:14:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=EyrNH0p9OLepySqWde0ujwNlvAi4Z7KbiRZzHo9g61w=;
-	b=vXpEnl1aT/Zmvr9xDpEPEVLqv3O32SF2fC11Td0p4YqiQF8JW0jhq1BWOFV8Z50PqH
-	p7/6cLUqExzxOR5VxTXjswIDin3T6hSOMKPfc2fOKSaJm92AR0ydpUoLva3qISCju7Zm
-	iLoCgHL3unewAEGkiqgY+mQfOkJOeU7dv2eSaZnfVuPtP9ItFP6SnBzrsb8eESSeRVW4
-	kJ4m6ZfoD5b3+IU2sp5Lr3ASqdl7dr7tx0eAe/S+rkC8jRCaql3Sp1eY/vuWEcJu/c5S
-	F283nrs+KV05/l1rCfT03/lX4WBvQ/MbjHoWyo6RPUUTU4/dJgqwyIkg1fpOanOuFOVM
-	Vt5w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=EyrNH0p9OLepySqWde0ujwNlvAi4Z7KbiRZzHo9g61w=;
-	b=JQUjDwWiMtqTjuYRNpBwlQtN6oYUHO1LmISHkFVVCvKvGHO7h7Mnq7fUdLBPp8kQMm
-	rVy0x+dkAMemwV9h6W2b8nUqqVD8D9F94lFHgdviBTzy4EiQX+ypoeFDo4UKun7On3NP
-	LjSe38l34Mp7lrvZC2yAEsvXzEUeI7AX+VeFOa2iFOrUjIOMD5i2fpEryYcltSHwId02
-	ZUXOMDZ4CrzCyrA7bVsdfbUuExPKz+gdIRC68E+EKfmq0WDVvGNculsjUZm7zZJPXki4
-	OkieO3Qqm4hE0l0Caz1ZShC2iCWiuw9W3v4yeAG8en5mMfifNng6VZuVPeXc0JAs+jgn
-	5zlw==
-X-Gm-Message-State: APjAAAX2M3KqsJgEzc9/yThL5vRmRApYFZREOiyQ+XiNAnevcjO9naKk
-	Ij2zsUg7A5vk7bcqBSvilzTPoouG9zneVkv8M1Y=
-X-Google-Smtp-Source: APXvYqy7Lnjb51UpXwfPQwPyRKVKd0ni8oRY7hAwMogUGlsPyOazXnFIF+VfcwVeodLB3KSEsn6nOwp6q2nif/phKig=
-X-Received: by 2002:a67:fa4d:: with SMTP id j13mr24262153vsq.22.1556288052889; 
-	Fri, 26 Apr 2019 07:14:12 -0700 (PDT)
+	Fri, 26 Apr 2019 16:20:08 +0200 (CEST)
+Received: from mail.visser.se ([127.0.0.1])
+	by localhost (mail.visser.se [127.0.0.1]) (amavisd-new, port 10032)
+	with ESMTP id 9J4g1t7PdrYk
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 16:20:07 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by mail.visser.se (Postfix) with ESMTP id C62FB11F7E0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 16:20:07 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mail.visser.se
+Received: from mail.visser.se ([127.0.0.1])
+	by localhost (mail.visser.se [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id xA9sKEfpZek4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 16:20:07 +0200 (CEST)
+Received: from mail.visser.se (localhost [127.0.0.1])
+	by mail.visser.se (Postfix) with ESMTP id 7B47811F740
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 16:20:07 +0200 (CEST)
+Date: Fri, 26 Apr 2019 16:20:06 +0200 (CEST)
+From: Sander Visser <sander@visser.se>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Message-ID: <1098696077.72633.1556288406588.JavaMail.zimbra@visser.se>
 MIME-Version: 1.0
-References: <20190418101906.15246-1-andrej.valek@siemens.com>
-In-Reply-To: <20190418101906.15246-1-andrej.valek@siemens.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 26 Apr 2019 15:14:01 +0100
-Message-ID: <CAO5Uq5QnNM5idDM5BafGQT7xSH5UXUdZb3KhhT2v8nQOVajXhg@mail.gmail.com>
-To: Andrej Valek <andrej.valek@siemens.com>, Jonas Bonn <jonas@norrbonn.se>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: upgrade to 242
+X-Originating-IP: [168.149.128.94]
+X-Mailer: Zimbra 8.8.11_GA_3780 (ZimbraWebClient - GC69 (Win)/8.8.11_GA_3787)
+Thread-Index: L99eAQDPaJ7R+axLqs4jzWIg0jfhwA==
+Thread-Topic: Package sha1 and md5 in python3-crypt
+Subject: [sumo][PATCH] Package sha1 and md5 in python3-crypt
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,61 +48,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 14:14:13 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 26 Apr 2019 14:21:49 -0000
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 18, 2019 at 11:22 AM Andrej Valek <andrej.valek@siemens.com> wrote:
->
-> PATCH REBASED:
-> ==============
-> 0001-do-not-disable-buffer-in-writing-files.patch
-> 0002-don-t-use-glibc-specific-qsort_r.patch
-> 0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
-> 0004-add-fallback-parse_printf_format-implementation.patch
-> 0005-rules-watch-metadata-changes-in-ide-devices.patch
-> 0005-src-basic-missing.h-check-for-missing-strndupa.patch
-> 0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch
-> 0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
-> 0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
-> 0021-avoid-redefinition-of-prctl_mm_map-structure.patch
-> 0024-test-json.c-define-M_PIl.patch
->
-> PATCH DROPPED:
-> ==============
-> 0001-meson-declare-version.h-as-dep-for-various-targets-t.patch
-> 0001-meson-declare-version.h-as-dependency-for-systemd.patch
-> 0013-test-hexdecoct.c-Include-missing.h-for-strndupa.patch
->
-> PATCH ADDED:
-> 0025-fs-utilh-add-missing-sys-stat-include.patch
->
-> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-> ---
+---
+ meta/recipes-devtools/python/python3/python3-manifest.json | 2 ++
+ 1 file changed, 2 insertions(+)
 
-This change in 242 means I'm no longer getting network up after
-flashing a new image (I'm flashing the entire eMMC from an image):
-
-* During package installation (with `ninja install`), we would create
-symlinks for systemd-networkd.service, systemd-networkd.socket,
-systemd-resolved.service, remote-cryptsetup.target, remote-fs.target,
-systemd-networkd-wait-online.service, and systemd-timesyncd.service
-in /etc, as if `systemctl enable` was called for those units, to make
-the system usable immediately after installation. Now this is not
-done anymore, and instead calling `systemctl preset-all` is
-recommended after the first installation of systemd.
-
-I don't know if Jonas is still working on this series:
-
-https://patchwork.openembedded.org/series/15497/
-
-as that looks like it has the kind of machinery we need (though I
-don't think this problem is specific to read only rootfs now) - I'm
-looking at the series in case he's not.
-
-The quick-hack fix is to revert 01d2041e41f4 ("meson: stop creating
-enablement symlinks in /etc during installation"), but clearly that's
-not sustainable.
-
---
-Alex Kiernan
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 2491f36..b5a6e4e 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -312,6 +312,8 @@
+             "${libdir}/python3.5/hashlib.py",
+             "${libdir}/python3.5/lib-dynload/_crypt.*.so",
+             "${libdir}/python3.5/lib-dynload/_hashlib.*.so",
++            "${libdir}/python3.5/lib-dynload/_md5.*.so",
++            "${libdir}/python3.5/lib-dynload/_sha1.*.so",
+             "${libdir}/python3.5/lib-dynload/_sha256.*.so",
+             "${libdir}/python3.5/lib-dynload/_sha512.*.so"
+         ],
+-- 
+1.8.3.1
 
