@@ -1,54 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 37D4E7DB8B
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
+	[209.85.217.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CBDD27D69B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 13:56:30 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id b1so4614746wru.3
+	Fri, 26 Apr 2019 14:14:11 +0000 (UTC)
+Received: by mail-vs1-f66.google.com with SMTP id t23so1982790vso.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 06:56:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=VLmMbK9LXlKNgIYlbC8SRlBdKepdYjRDn8Yvo2Lxm4g=;
-	b=dACh2CvbEVoCQalffkR3RWJ28s/FAXg8DG3F6PjPARdZRm6+SjuS6iHUiVIO2aKUjq
-	KYUUtcmCUnbZf7Qo8R9cyydtNXdrWj6MneGAOc7DvFTwr1jzasSStIAHwhNqG4JlkNQT
-	QFxQGsFJ94x2USK68+wbcs0r1Cll7+YIyq5RI=
+	Fri, 26 Apr 2019 07:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=EyrNH0p9OLepySqWde0ujwNlvAi4Z7KbiRZzHo9g61w=;
+	b=vXpEnl1aT/Zmvr9xDpEPEVLqv3O32SF2fC11Td0p4YqiQF8JW0jhq1BWOFV8Z50PqH
+	p7/6cLUqExzxOR5VxTXjswIDin3T6hSOMKPfc2fOKSaJm92AR0ydpUoLva3qISCju7Zm
+	iLoCgHL3unewAEGkiqgY+mQfOkJOeU7dv2eSaZnfVuPtP9ItFP6SnBzrsb8eESSeRVW4
+	kJ4m6ZfoD5b3+IU2sp5Lr3ASqdl7dr7tx0eAe/S+rkC8jRCaql3Sp1eY/vuWEcJu/c5S
+	F283nrs+KV05/l1rCfT03/lX4WBvQ/MbjHoWyo6RPUUTU4/dJgqwyIkg1fpOanOuFOVM
+	Vt5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=VLmMbK9LXlKNgIYlbC8SRlBdKepdYjRDn8Yvo2Lxm4g=;
-	b=ZwmwbsjWFTZ/NksGxDJjwBzBxtfMuSC1J6XBF9miPMJ0H9hv0lqM1vZyBsn131XCxO
-	litUnY8N91py2QQLXWUUAqg/jds92jTEwBVrr6b0oOPvIBPeXnZ/AxWfUc9uyN3WroB5
-	yJ4BtNdJdnpLB9Wf95D6YRb1qCXSF2c5qOo3Lc84iL0W38ZzCEeQpE+fDosa4t8JUcqh
-	Z4YHgVrOJSRK2FyEGUlt2/elRHy+Mp9R40LKKIlmN1ixgwL9dZ/72Wgn9fkKJk4D9zqo
-	mwLfkR1TOdxlgv9XypO8Yz300H7FDiBfFlyM5VN61ytg1dB4dvK6ODcEaJrkuBJ+2Vgp
-	ktVw==
-X-Gm-Message-State: APjAAAW49uBuko2miS8ZIN2ozeJHNb/iKJjcenI4Ymxe748xaciKSH3d
-	UUYLhOL84vWUpxXbMj14vy2IvDU1sHw=
-X-Google-Smtp-Source: APXvYqwqN9VbdsM8OoO5LtiDRE/Murc7cAFgNUKNzjoPtACgf+3XGXhM6CiFvfQX/sWRvKPgDBS8FQ==
-X-Received: by 2002:adf:ea42:: with SMTP id j2mr4476260wrn.70.1556286991018;
-	Fri, 26 Apr 2019 06:56:31 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a17sm16761997wrm.53.2019.04.26.06.56.30
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 26 Apr 2019 06:56:30 -0700 (PDT)
-Message-ID: <7e08518b4381a936e225eccdadee24a5a5521000.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Fabio Berton <fabio.berton@ossystems.com.br>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 26 Apr 2019 14:56:29 +0100
-In-Reply-To: <c05b9ebe4d9e79e34897851477e3c9b2a9e7602b.camel@linuxfoundation.org>
-References: <20190425135557.8967-1-fabio.berton@ossystems.com.br>
-	<c05b9ebe4d9e79e34897851477e3c9b2a9e7602b.camel@linuxfoundation.org>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=EyrNH0p9OLepySqWde0ujwNlvAi4Z7KbiRZzHo9g61w=;
+	b=JQUjDwWiMtqTjuYRNpBwlQtN6oYUHO1LmISHkFVVCvKvGHO7h7Mnq7fUdLBPp8kQMm
+	rVy0x+dkAMemwV9h6W2b8nUqqVD8D9F94lFHgdviBTzy4EiQX+ypoeFDo4UKun7On3NP
+	LjSe38l34Mp7lrvZC2yAEsvXzEUeI7AX+VeFOa2iFOrUjIOMD5i2fpEryYcltSHwId02
+	ZUXOMDZ4CrzCyrA7bVsdfbUuExPKz+gdIRC68E+EKfmq0WDVvGNculsjUZm7zZJPXki4
+	OkieO3Qqm4hE0l0Caz1ZShC2iCWiuw9W3v4yeAG8en5mMfifNng6VZuVPeXc0JAs+jgn
+	5zlw==
+X-Gm-Message-State: APjAAAX2M3KqsJgEzc9/yThL5vRmRApYFZREOiyQ+XiNAnevcjO9naKk
+	Ij2zsUg7A5vk7bcqBSvilzTPoouG9zneVkv8M1Y=
+X-Google-Smtp-Source: APXvYqy7Lnjb51UpXwfPQwPyRKVKd0ni8oRY7hAwMogUGlsPyOazXnFIF+VfcwVeodLB3KSEsn6nOwp6q2nif/phKig=
+X-Received: by 2002:a67:fa4d:: with SMTP id j13mr24262153vsq.22.1556288052889; 
+	Fri, 26 Apr 2019 07:14:12 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>
-Subject: Re: [RFC, v5] mesa: Convert recipe to use meson build system
+References: <20190418101906.15246-1-andrej.valek@siemens.com>
+In-Reply-To: <20190418101906.15246-1-andrej.valek@siemens.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 26 Apr 2019 15:14:01 +0100
+Message-ID: <CAO5Uq5QnNM5idDM5BafGQT7xSH5UXUdZb3KhhT2v8nQOVajXhg@mail.gmail.com>
+To: Andrej Valek <andrej.valek@siemens.com>, Jonas Bonn <jonas@norrbonn.se>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: upgrade to 242
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,39 +54,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 13:56:30 -0000
+X-List-Received-Date: Fri, 26 Apr 2019 14:14:13 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-04-26 at 14:55 +0100, Richard Purdie wrote:
-> On Thu, 2019-04-25 at 10:55 -0300, Fabio Berton wrote:
-> >   - Remove all non related meson patches
-> >   - Change radeon driver to r100
-> >   - Add python3-mako-native gettext-native to DEPENDS
-> > 
-> > Based on https://patchwork.openembedded.org/patch/158748/
-> > 
-> > Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
-> 
-> I think this breaks musl at runtime:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/538/steps/7/logs/step1c
-> 
-> Specifically:
-> 
-> [     5.224] (EE) Failed to load
-> /usr/lib/xorg/modules/extensions/libglx.so: Error relocating
-> /usr/lib/libGL.so.1: alphasort: initial-exec TLS resolves to dynamic
-> definition in /usr/lib/libGL.so.1
+On Thu, Apr 18, 2019 at 11:22 AM Andrej Valek <andrej.valek@siemens.com> wrote:
+>
+> PATCH REBASED:
+> ==============
+> 0001-do-not-disable-buffer-in-writing-files.patch
+> 0002-don-t-use-glibc-specific-qsort_r.patch
+> 0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch
+> 0004-add-fallback-parse_printf_format-implementation.patch
+> 0005-rules-watch-metadata-changes-in-ide-devices.patch
+> 0005-src-basic-missing.h-check-for-missing-strndupa.patch
+> 0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch
+> 0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
+> 0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch
+> 0021-avoid-redefinition-of-prctl_mm_map-structure.patch
+> 0024-test-json.c-define-M_PIl.patch
+>
+> PATCH DROPPED:
+> ==============
+> 0001-meson-declare-version.h-as-dep-for-various-targets-t.patch
+> 0001-meson-declare-version.h-as-dependency-for-systemd.patch
+> 0013-test-hexdecoct.c-Include-missing.h-for-strndupa.patch
+>
+> PATCH ADDED:
+> 0025-fs-utilh-add-missing-sys-stat-include.patch
+>
+> Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+> ---
 
-and also:
+This change in 242 means I'm no longer getting network up after
+flashing a new image (I'm flashing the entire eMMC from an image):
 
-https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/457856/raw
+* During package installation (with `ninja install`), we would create
+symlinks for systemd-networkd.service, systemd-networkd.socket,
+systemd-resolved.service, remote-cryptsetup.target, remote-fs.target,
+systemd-networkd-wait-online.service, and systemd-timesyncd.service
+in /etc, as if `systemctl enable` was called for those units, to make
+the system usable immediately after installation. Now this is not
+done anymore, and instead calling `systemctl preset-all` is
+recommended after the first installation of systemd.
 
-oe-selftest -r runtime_test.TestImage.test_testimage_virgl_gtk 
+I don't know if Jonas is still working on this series:
 
-Cheers,
+https://patchwork.openembedded.org/series/15497/
 
-Richard
+as that looks like it has the kind of machinery we need (though I
+don't think this problem is specific to read only rootfs now) - I'm
+looking at the series in case he's not.
 
+The quick-hack fix is to revert 01d2041e41f4 ("meson: stop creating
+enablement symlinks in /etc during installation"), but clearly that's
+not sustainable.
+
+--
+Alex Kiernan
 
