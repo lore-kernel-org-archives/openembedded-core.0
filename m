@@ -1,44 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8447CF9E
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2424F7CF9E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 15:50:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44rJRh6r1JzB7;
-	Fri, 26 Apr 2019 17:50:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1556293841;
-	bh=elMz9TMjjlMpQlSMPPqfwkZQfjPh1nol+2bivlxuKuQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DeL4Haxb1slxQ4h0cZKAWJ5/j1lalpOYOQG3httUwmeWC16iENMC0O/LspcnDntuN
-	Zglqkgoh6a4Ky0LxWTh8LmgLboEsDYtPNnP070Jw3+zjciCFjRhGGya6C/ZhydDKXj
-	CXhONMIAv68BD9tNMThfO0KgCRFnZNKxULbPj2/FltCnc754xSO0FVIPqeY/F5vxLx
-	2kTeGXPCX8X0XodzAsuw2wIL+QlNKwr4LmotJOldbjRvO3JicFySwHwdReXl7ZhF8b
-	M2MEMSWHEfw2k8F55XnFRlAqXPCgAeXLJmbkFTXXWtYwKruYg1N2MuhoYGzYKCMr/k
-	0666JrC5ZPzkSesytP0ouyGGUA9JbyDuRUw2AkNGgzPef1lgcs79xsfwlzT7MfAZdD
-	Dx1AJGBlGKAPW8ce8otCWDYTDdk7umafj/YZ1IQzz70A+/3W8Qd6aAzmC3SVzUXks+
-	iTLcQ3ieMZMa05UyXkECQVIz/KjM24rt4UFxNCjMCsGepXa/5VH3q8oJHScj3v1sav
-	jRx6G5PbopifoFhvT3Yne9v8q5q9JkXjwB+WuTf9e3kSQstuqxF1YB819290zdT69/
-	G1G/UfpRNXcxTtCW79LUXYQ0YUqhLcGeyqcAerAOtS+EI3zcngS1tRuVB3nbh3EKHj
-	s8aL20a7Kudgl0Zr9a8inhbM=
-Date: Fri, 26 Apr 2019 18:50:38 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Mark Hatle <mark.hatle@windriver.com>
-Message-ID: <20190426155038.GA17613@localhost>
-References: <20190308184939.22937-1-bunk@stusta.de>
-	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
-	<20190308193841.GA13393@localhost>
-	<E3B36DFB-0727-41ED-9494-3997E768A865@gmail.com>
-	<20190308203904.GA19247@localhost>
-	<20190425192846.GA8813@localhost>
-	<bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
-	<20190426051215.GA26023@localhost>
-	<c2b30caa-1e86-8363-57fb-d399484d9708@windriver.com>
+	Fri, 26 Apr 2019 15:58:06 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id v16so2722210wrp.1
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 08:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=DwapZ5rMYnIY15a7b6KRuzjlkG24O1EquCG9acmVU4w=;
+	b=rG3GuXmiiu0olXVIR9ZLRzNPwTLlNHZrkBOnAICfR5d5cynCQJXVnu5AESYmiHlych
+	b9i2GQRKVlEUJullag8On+F+Vd1aVCi43tseegLLQIywrp5q9m0d/0b6mWgb2tGX6ba+
+	xeokoymgnEm2Us/VS18LVPYwNui5jrjK/uJtNCSKYVfuVmY2rur1/ohmpGchYibneE8m
+	4elgjLmRAxIycKheGwwyrC5+ZcF7DbaoUmJabz2HGxUek3bAj2ZOdBXfGPF0eeOvsxf+
+	acmN13zpPFJmsYdA7jjQXXreQEXgUkJe86F4MTVANhShkP1iNoG9SVF7oiHG8GFxXobh
+	CEXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=DwapZ5rMYnIY15a7b6KRuzjlkG24O1EquCG9acmVU4w=;
+	b=Iv5LW6S+7Z5qIvkzKDL9zT6EYA+2jZUtCcU1dFVwuTUybVx62gDzqj+uN631eZ0yHt
+	8NsE6iphTDMWrgjUgRE6bdUlfPn1bWr+BRYlquEoBTprGBIHD4LRD4fAhBacVAm/+zjA
+	a5mlSDPEgyRh9Gn4/+pipyCX3PIjk1VDUxpqytRRO9Gps7pHdBt9Dikw6YMl8C5W+J3W
+	ZbezQgC7ladmt2D3LqUpEHFWQ0QWoEMfEq9NLm9uNwahTaIY2w2/bXnYUsX9LskEcRWq
+	LIomsyGvCaX+Ks5DNL3cJ/dLu30MCyMwSr5/vXjvz8FZiu/my1WbVUpo7MBNWy1u2TJE
+	9KYg==
+X-Gm-Message-State: APjAAAUhfo4aNrir6faWvVo3NWFplL3PoHR8tmZovSQ+xR/vbJSfgcwx
+	fZYKGmtZTEgx0bl5P6eCMcJGC27pEmU=
+X-Google-Smtp-Source: APXvYqwF3lbckZSgs0OKyryChr+nrWX//nzUM+ySRzvsEcG/9fpyU89WrDzrKHTwHsSmx1EZwuxzyg==
+X-Received: by 2002:adf:cd83:: with SMTP id q3mr4710669wrj.228.1556294286412; 
+	Fri, 26 Apr 2019 08:58:06 -0700 (PDT)
+Received: from localhost ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
+	c13sm22578750wrx.88.2019.04.26.08.58.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 26 Apr 2019 08:58:04 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 26 Apr 2019 16:57:57 +0100
+Message-Id: <20190426155757.28387-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <c2b30caa-1e86-8363-57fb-d399484d9708@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
+Subject: [PATCH] systemd: add cgroupv2 PACKAGECONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,47 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 15:50:41 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 26 Apr 2019 15:58:06 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 26, 2019 at 10:31:03AM -0500, Mark Hatle wrote:
-> On 4/26/19 12:12 AM, Adrian Bunk wrote:
-> > On Thu, Apr 25, 2019 at 03:18:47PM -0500, Mark Hatle wrote:
-> >> On 4/25/19 2:28 PM, Adrian Bunk wrote:
-> >>> Would you consider this patch appropriate now that warrior has branched?
-> >>
-> >> The use of OpenSSL10 as a 'second library' is likely no longer needed.  But
-> >> OpenSSL 1.0 (as an alternative version) to OpenSSL 1.1 is still needed in some
-> >> cases.. (FIPS-140-2)
-> > 
-> > Is anyone actually security-maintaining OpenSSL in OE?
-> 
-> -In- OE?  I have no idea.
-> 
-> Outside of OE to meet the OpenSSL-FIPS 'you must not modify the sources and
-> follow these exact steps', yes people are.
->...
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Why does this need OpenSSL 1.0 in Yocto?
-How does this look as OE recipe?
+Allow users to change the default cgroup mode at build time
+and use the unified hierarchy mode.
+Disabled by default - hybrid is the default upstream value.
 
-I would say that an OpenSSL-FIPS recipe might now perhaps need an 
-openssl_1.1.1%.bbappend re-adding the three openssl-conf lines my
-patch removes.
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-core/systemd/systemd_242.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Do I miss anything more complicated here?
-
-> --Mark
-
-cu
-Adrian
-
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index a559fa0d75..33d3e0b000 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -115,6 +115,7 @@ PACKAGECONFIG[audit] = "-Daudit=true,-Daudit=false,audit"
+ PACKAGECONFIG[backlight] = "-Dbacklight=true,-Dbacklight=false"
+ PACKAGECONFIG[binfmt] = "-Dbinfmt=true,-Dbinfmt=false"
+ PACKAGECONFIG[bzip2] = "-Dbzip2=true,-Dbzip2=false,bzip2"
++PACKAGECONFIG[cgroupv2] = "-Ddefault-hierarchy=unified,-Ddefault-hierarchy=hybrid"
+ PACKAGECONFIG[coredump] = "-Dcoredump=true,-Dcoredump=false"
+ PACKAGECONFIG[cryptsetup] = "-Dlibcryptsetup=true,-Dlibcryptsetup=false,cryptsetup"
+ PACKAGECONFIG[dbus] = "-Ddbus=true,-Ddbus=false,dbus"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1
 
 
