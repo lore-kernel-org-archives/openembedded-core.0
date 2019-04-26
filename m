@@ -1,33 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 90E987DB69
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f180.google.com (mail-it1-f180.google.com
+	[209.85.166.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B50A7DC76
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 20:44:06 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44rQyF4gtgz5l
+	Fri, 26 Apr 2019 21:26:46 +0000 (UTC)
+Received: by mail-it1-f180.google.com with SMTP id e13so7955880itk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 22:44:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1556311445;
-	bh=lnVb2u4lUQ4vCZBbDpiU6UOEI+/21IthYdnJHu87xio=;
-	h=From:To:Subject:Date:From;
-	b=UDZZSZNfSSf/vmjRAPQ5ZhviRcDTX/BKvR2wYlogKXfWNEeVTjMiFFKGvB8A/F6y/
-	Qgc4YFqKgqIRO7pS8tg52xd7onu52blfE1aaljPAZkJ6357U/Zx+G3QX7jtDM46XXq
-	VwYOax2gpUAxZnXROhIexcgy/zS5tadLeDt5yw1lGQRpvyuSFukRvg4xqGbWUlni6b
-	1KTgg/gTsETNSZ5L2jDkfB7k1tOGQnO2l81NJfKHjrwp9kaLmRVhFuar4waTuALCWj
-	qUoj426a2cQOlDy/s9eGU0jsujyzw4/yHxBaDZOoOBKtgZ5ovqvQJgr0vdGLWgBvYG
-	cbhtKAqUpydHWF3zfFmd+MvfUJE9wyedWtjAkvpnb+w85UbjzA9eOjlJAxZC5Igf35
-	+o92oPQM+3TMPE73XErJhDS5Ax0XnWzxnvaJuA36I/tkEJMYxepOsGkmdcaSzQWzsq
-	ZGoqc6HiYSbA6RUXSO7A1KG5zgV51Tc848j95IZ1S7YKIDYFx+xypYIggy3Y7f0Ap4
-	CPrNlaB5y8NhQVTrcxZ6AUnepxWSMiS5Z9o/CfEwDTMiY6Y7RJupLkjBjTLnBO4yzV
-	llPQ8P+TPAlsJQG18a3QBgB2tR4okr85vRHWNqJZcRrwN01pzTDqI1U40wRqQHuLC4
-	3eCqhOXGdHY0lsbBs/LTdlG0=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 26 Apr 2019 23:44:04 +0300
-Message-Id: <20190426204404.14856-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] gnome-doc-utils: Remove stale patch
+	Fri, 26 Apr 2019 14:26:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=MJoRHxa6X4aTaxvBvAynkirZ0k2wM/P2xqVhbwL8j0Y=;
+	b=nWJB6xh7FVRtJOt1A+oxO2PevkCXuK1iRuvXHaavtZGNLcrRGxTLoSfTtLvscDIWVY
+	4tkRkBaZc7wkRRbwea3eFMYNdw576QebvnQ1jCIm5zOnip5g8QkQNFTU/s4Paxg7gTTH
+	SHu76Qr4dt9loa1LAorK5HQ8yyx+mizURnrRRVUrEae6InOAKOKivU3imdPqcNT5olzm
+	D/T/s+MVf3c9rBPOKoqDJsJYvF1GKiXibASP57HooOsGTgDyCgPTZBg4/cp2o5zLF9xC
+	ZnZOIHY/oHJ6ri9C2XtYN1+uwJrh3Xj7EntVBW3M1BkGktJbRt4O4tN4x+ipmN7RdItC
+	u57w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=MJoRHxa6X4aTaxvBvAynkirZ0k2wM/P2xqVhbwL8j0Y=;
+	b=JZ9AnT/amgg/2wsEwJM6R4I9NRM34GTtTeFkf3SCEcEgjB6rZSXJ1yVoRjQysALzhM
+	vnc41R0nBJSmhvZmG4ETYu71OYrrFsJhfnVS1e2meM4gLoo039Z7kzxZOFCRAxo4nv2g
+	owMTJ4f2OoiDsCF6l8FQ97PBaZ8Jw2djhsoQPeNPAh5UxUrYnMvR1wCwpKWpZ72kPv1g
+	jr7ZqiNnaN01ZMS4rUeZ3WvEplYRDzINjB6kWrVCHemfUS9RojF757OXh2vbhyWi8eAA
+	B4atdMit7nExGLlJx0HcmwTvcZhav0Rf2ltZGX1lU6HZs8Slbac6gUVmdYqCqDBMhY5R
+	5+4w==
+X-Gm-Message-State: APjAAAUsG+YuyTRJwPtoBr67yFkcziXXZX1In9C+W5UG22JWNPUJc+ZE
+	RFxxWUzCTEd4GSMwIGjzDjxo3R7IQLawNUOCQVY=
+X-Google-Smtp-Source: APXvYqzwQf6kRN5tPBfaxTTgMRNXxk90UBWvdaSHQWva68+2BwViDoacEB2FGfHfc9SPD/5q8HwtROchUtDTQV2ySjc=
+X-Received: by 2002:a02:b088:: with SMTP id v8mr25784842jah.21.1556314008132; 
+	Fri, 26 Apr 2019 14:26:48 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190424091318.18154-1-schnitzeltony@gmail.com>
+	<e290569afc4a08a1489cf033195e32d58ba78e19.camel@linuxfoundation.org>
+In-Reply-To: <e290569afc4a08a1489cf033195e32d58ba78e19.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Fri, 26 Apr 2019 23:26:36 +0200
+Message-ID: <CALbNGRTMzeWHgAO6MdLs1HmiCrMWfmpd3=OLUrJdSDBbbT44Gg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vte: upgrade 0.52.2 -> 0.56.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,63 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 20:44:06 -0000
+X-List-Received-Date: Fri, 26 Apr 2019 21:26:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The recipe was removed 3 years ago.
+On Fri, Apr 26, 2019 at 10:34 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Hi,
+>
+> On Wed, 2019-04-24 at 11:13 +0200, Andreas M=C3=BCller wrote:
+> > * license: COPYING was replaced by
+> > COPYING.LGPL2/COPYING.LGPL3/COPYING.GPL3
+> > * prettify recipe a bit
+> >
+> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > ---
+> >
+> > V1 -> V2: Fix build with musl
+>
+> I think something with vte-native is not working quite right with one
+> of these patches and is causing oe-selftest to fail:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/433
+>
+> (oe-selftest -r runtime_test.TestImage.test_testimage_virgl_gtk)
+Will try to reproduce...
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- ...Update-AM_GLIB_GNU_GETTEXT-to-match-.patch | 40 -------------------
- 1 file changed, 40 deletions(-)
- delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch
-
-diff --git a/meta/recipes-gnome/gnome/gnome-doc-utils/0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch b/meta/recipes-gnome/gnome/gnome-doc-utils/0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch
-deleted file mode 100644
-index 4cfcabd385..0000000000
---- a/meta/recipes-gnome/gnome/gnome-doc-utils/0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch
-+++ /dev/null
-@@ -1,40 +0,0 @@
--From 426e38468463a4abb495cf6a269b9635b2107519 Mon Sep 17 00:00:00 2001
--From: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Date: Tue, 17 May 2016 13:51:24 +0300
--Subject: [PATCH] glib-gettext.m4: Update AM_GLIB_GNU_GETTEXT to match glib
--
--This avoids
--  error: m4_copy: won't overwrite defined macro: glib_DEFUN
--
--Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
--Upstream-Status: Inappropriate [No upstream]
-----
-- m4/glib-gettext.m4 | 5 +++--
-- 1 file changed, 3 insertions(+), 2 deletions(-)
--
--diff --git a/m4/glib-gettext.m4 b/m4/glib-gettext.m4
--index 81f8fd2..e2b142b 100644
----- a/m4/glib-gettext.m4
--+++ b/m4/glib-gettext.m4
--@@ -310,7 +310,7 @@ msgstr ""
-- # on various variables needed by the Makefile.in.in installed by
-- # glib-gettextize.
-- dnl
---glib_DEFUN([GLIB_GNU_GETTEXT],
--+AU_DEFUN([GLIB_GNU_GETTEXT],
--   [AC_REQUIRE([AC_PROG_CC])dnl
--    AC_REQUIRE([AC_HEADER_STDC])dnl
-- 
--@@ -381,7 +381,8 @@ glib_DEFUN([GLIB_GNU_GETTEXT],
--    rm -f po/POTFILES
--    sed -e "/^#/d" -e "/^\$/d" -e "s,.*,	$posrcprefix& \\\\," -e "\$s/\(.*\) \\\\/\1/" \
-- 	< $srcdir/po/POTFILES.in > po/POTFILES
---  ])
--+  ]
--+  [[$0: This macro is deprecated. You should use upstream gettext instead.]])
-- 
-- # AX_GLIB_DEFINE_LOCALEDIR(VARIABLE)
-- # -------------------------------
---- 
--2.1.4
--
--- 
-2.17.1
-
+Andreas
 
