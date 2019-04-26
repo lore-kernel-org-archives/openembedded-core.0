@@ -1,70 +1,42 @@
-Return-Path: <alistair@alistair23.me>
-X-Greylist: delayed 16209 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 26 Apr 2019 02:34:27 UTC
-Received: from APC01-PU1-obe.outbound.protection.outlook.com
-	(mail-oln040092254086.outbound.protection.outlook.com [40.92.254.86])
-	by mail.openembedded.org (Postfix) with ESMTP id 726E37D44E
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ECB67CF88
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 02:34:27 +0000 (UTC)
-Received: from HK2APC01HT157.eop-APC01.prod.protection.outlook.com
-	(2a01:111:e400:7ebc::275) by
-	PU1APC01HT154.eop-APC01.prod.protection.outlook.com
-	(2a01:111:e400:7ebe::195) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1792.25;
-	Fri, 26 Apr 2019 02:01:35 +0000
-Received: from HK2APC01FT040.eop-APC01.prod.protection.outlook.com
-	(10.152.248.56) by HK2APC01HT157.eop-APC01.prod.protection.outlook.com
-	(10.152.249.19) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1792.25;
-	Thu, 25 Apr 2019 04:30:06 +0000
-Received: from SL2P216MB0282.KORP216.PROD.OUTLOOK.COM (10.152.248.51) by
-	HK2APC01FT040.mail.protection.outlook.com (10.152.249.42) with
-	Microsoft SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.20.1792.25 via Frontend Transport; Thu, 25 Apr 2019 04:30:06 +0000
-Received: from SL2P216MB0282.KORP216.PROD.OUTLOOK.COM
-	([fe80::1942:8cfa:9ed:5f6b]) by SL2P216MB0282.KORP216.PROD.OUTLOOK.COM
-	([fe80::1942:8cfa:9ed:5f6b%10]) with mapi id 15.20.1813.011;
-	Thu, 25 Apr 2019 04:30:06 +0000
-From: Alistair Francis <alistair@alistair23.me>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] libsoup: Upgrade from 2.64.2 to 2.66.1
-Thread-Index: AQHU+x+OKaJNs/82Y02AF/qYyEaaYA==
-Date: Thu, 25 Apr 2019 04:30:05 +0000
-Message-ID: <SL2P216MB0282859C16C8AA587EF91CB2DD3D0@SL2P216MB0282.KORP216.PROD.OUTLOOK.COM>
-Accept-Language: en-AU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR06CA0051.namprd06.prod.outlook.com
-	(2603:10b6:a03:14b::28) To SL2P216MB0282.KORP216.PROD.OUTLOOK.COM
-	(2603:1096:100:1f::8)
-x-incomingtopheadermarker: OriginalChecksum:C4229AB89E6F44A7734E64E46D86F7C2B5E7B527009AF410F4EC36B680792C68;
-	UpperCasedChecksum:BF6B6D88BDC2A279CC3F8720DA5D11ECA0729C7C57E05C98518ACEDBD9D89129;
-	SizeAsReceived:7443; Count:48
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.21.0
-x-tmn: [ATAU92wpsoboSg2O6+z05IlcWwLD4UKiR/7l/pFnAWp8U6ZRwXgkDt24UTIQ28hK]
-x-microsoft-original-message-id: <20190425042946.22855-1-alistair@alistair23.me>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 48
-x-eopattributedmessage: 0
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031323274)(2017031324274)(2017031322404)(1601125500)(1603101475)(1701031045);
-	SRVR:HK2APC01HT157; 
-X-MS-TrafficTypeDiagnostic: HK2APC01HT157:|HK2APC01HT157:|PU1APC01HT154:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-message-info: 3CxCCMvesDFeT+Bjs774r7tfHYvxZIANRPYKwomQ/gZviWcoZ/D6eGLC9vAIcp/Dg4EbMMTmGpt63fSgTrF49fO8jyneM2QYM2bHGLpXOczcPl+2VurUh/p1jIG2smKrygeuw8HNhr/+PLxE3CBwEDijY0aSoDpauBN1z6qwLfUxU6zyeUrPxJC5M1w2Mzgr
+	Fri, 26 Apr 2019 05:12:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44r2H61hlYz4R;
+	Fri, 26 Apr 2019 07:12:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1556255538;
+	bh=nP/WU+O9NvBRfc4WTbeBGD/ZpXmc4eTAlkgwU8JP9as=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uFtTm7nQkKZnUjJlZiworEIUFVKB/4DWMAMVVFRVdK1bjDLTt5xQhLr0GHWJkJivS
+	xd0GAbIZt4xyztVo0NirT8o473RJ4uh8D0a1yAewaDe0lN8H0dEEojviaJiyiLrYiQ
+	k75CCrv/buFOeASWe28ccl8dDFdx5vPQgVhlTVLMdRNI5T1VW4cj95MrZqxP00KXjy
+	1Tz1ROPJYOoS2D0v8/QNB/d5Q5bqsKaLlr8btN4Y9mY6myzEUoh1+1rDIUiibFHyUQ
+	xnllCeEiraChTj3n/WlIjEdEPG2MDhk7OGFVbwGtWagGk1QZzVfBqNsxtVDfUXyYop
+	MA+4KP7j/Dq+qSJzXabzjxhVPeetPO7R3P3vkRq66zhO0AucrS79ptsmRFOwpNuvct
+	EkCLfD/u8gU7RNDbkIj2zny+vgpWeG6k2SUW/hkmyX7S1FiAxmvSfTZe6EEjfEDsOi
+	eE2nDnuI0TyvgqHdzSL/KaPvTCYTkSQPoJYp8GoA9OBgDBwXDNNkA8XPOaasy1fPl/
+	U+U0G6lOz5KFtbUw8EvQZAfGJsBkUlI/0O3qoTGxTzlOWhKl0fXPGJ5LVAvI5XKHYR
+	Umn0H2TELVnJiZ3moMoPc9EOnneIA0N+mjjB11lJ23ijU8xPs8njYJCR/If88YM0WS
+	vC+5f0JDltSwc0gLECk7LLVY=
+Date: Fri, 26 Apr 2019 08:12:15 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Mark Hatle <mark.hatle@windriver.com>
+Message-ID: <20190426051215.GA26023@localhost>
+References: <20190308184939.22937-1-bunk@stusta.de>
+	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
+	<20190308193841.GA13393@localhost>
+	<E3B36DFB-0727-41ED-9494-3997E768A865@gmail.com>
+	<20190308203904.GA19247@localhost>
+	<20190425192846.GA8813@localhost>
+	<bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c9f25d7-a759-4aa0-8ed8-08d6c936b104
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Apr 2019 04:30:05.9771 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: HK2APC01HT157
-X-OriginatorOrg: outlook.com
-Subject: [PATCH v2] libsoup: Upgrade from 2.64.2 to 2.66.1
+In-Reply-To: <bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -77,96 +49,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 02:34:27 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 26 Apr 2019 05:12:19 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- ...no-introspection-when-cross-building.patch | 20 +++++++++++--------
- ...up-2.4_2.64.2.bb =3D> libsoup-2.4_2.66.1.bb} |  4 ++--
- 2 files changed, 14 insertions(+), 10 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.64.2.bb =3D> libsoup-2.=
-4_2.66.1.bb} (92%)
+On Thu, Apr 25, 2019 at 03:18:47PM -0500, Mark Hatle wrote:
+> On 4/25/19 2:28 PM, Adrian Bunk wrote:
+> > Would you consider this patch appropriate now that warrior has branched?
+> 
+> The use of OpenSSL10 as a 'second library' is likely no longer needed.  But
+> OpenSSL 1.0 (as an alternative version) to OpenSSL 1.1 is still needed in some
+> cases.. (FIPS-140-2)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-n=
-o-introspection-when-cross-building.patch b/meta/recipes-support/libsoup/li=
-bsoup-2.4/0001-Do-not-enforce-no-introspection-when-cross-building.patch
-index 72b029a80b..cd6de853e5 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-intro=
-spection-when-cross-building.patch
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/0001-Do-not-enforce-no-intro=
-spection-when-cross-building.patch
-@@ -1,24 +1,28 @@
--From 921888affe66953c92a08ae440e911b016b124be Mon Sep 17 00:00:00 2001
-+From 85f7b74fc602214297928afe09347c31d696173d Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 15 Feb 2019 14:21:06 +0100
- Subject: [PATCH] Do not enforce no-introspection when cross-building
-=20
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+Signed-off-by: Alistair Francis <alistair@alistair23.me>
- ---
-  meson.build | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
-=20
- diff --git a/meson.build b/meson.build
--index 5a92cda..cfb3520 100644
-+index 25887f9..6261a7c 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -262,7 +262,7 @@ enable_gnome =3D get_option('gnome') and host_machine.=
-system() !=3D 'windows'
-- #########################
-- # GObject introspection #
-- #########################
---enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found() and not meson.is_cross_build()
--+enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found()
-+@@ -281,7 +281,7 @@ enable_gnome =3D get_option('gnome') and host_machine.=
-system() !=3D 'windows'
-+ # FIXME: once we start to require meson 0.49.0+ and gnome-introspection 1=
-.58.1+
-+ # the we can enable the introspection even for the static build. See
-+ # https://github.com/mesonbuild/meson/pull/4478.
-+-enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found() and not meson.is_cross_build() and no=
-t is_static_library
-++enable_introspection =3D get_option('introspection') and find_program('g-=
-ir-scanner', required: false).found() and not is_static_library
- =20
-  ############
-  # Vala API #
-+--=20
-+2.20.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb b/meta/reci=
-pes-support/libsoup/libsoup-2.4_2.66.1.bb
-similarity index 92%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-index b095397ec2..99fb65844e 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.64.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-@@ -12,8 +12,8 @@ SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVa=
-r('PV').split('.')[1]}"
- SRC_URI =3D "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-Do-not-enforce-no-introspection-when-cross-building=
-.patch \
-            "
--SRC_URI[md5sum] =3D "cac755dc6c6acd6e0c70007f547548f5"
--SRC_URI[sha256sum] =3D "75ddc194a5b1d6f25033bb9d355f04bfe5c03e0e1c71ed0774=
-104457b3a786c6"
-+SRC_URI[md5sum] =3D "5f04c09a06f6dbe4c4d3f003992145ce"
-+SRC_URI[sha256sum] =3D "4a2cb6c1174540af13661636035992c2b179dfcb39f4d3fa7b=
-ee3c7e355c43ff"
-=20
- S =3D "${WORKDIR}/libsoup-${PV}"
-=20
---=20
-2.21.0
+Is anyone actually security-maintaining OpenSSL in OE?
+
+The just released sumo has both versions of OpenSSL not touched since 
+August, despite just upgrading to the latest versions would fix CVEs.
+
+> So removal of openssl10 is fine, but if there are patches for support of both
+> versions (old/new) of OpenSSL they will be needed at least through the end of
+> this year for many users.
+
+This is now for Yocto 2.8, which will be released October/November
+this year.
+
+> --Mark
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
