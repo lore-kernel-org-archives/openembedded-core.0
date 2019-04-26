@@ -1,97 +1,57 @@
-Return-Path: <JAEWON@xilinx.com>
-X-Greylist: delayed 58642 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 26 Apr 2019 15:19:53 UTC
-Received: from NAM01-SN1-obe.outbound.protection.outlook.com
-	(mail-eopbgr820080.outbound.protection.outlook.com [40.107.82.80])
-	by mail.openembedded.org (Postfix) with ESMTP id EDA307D8E7
+Return-Path: <mark.hatle@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DC0B57D8E7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 15:19:53 +0000 (UTC)
-Received: from CY4PR02MB2679.namprd02.prod.outlook.com (10.175.81.16) by
-	DM5PR02MB2684.namprd02.prod.outlook.com (10.175.85.14) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1835.14; Fri, 26 Apr 2019 06:49:14 +0000
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=b5g80vEDSvhWebqGGgIritlG6nXBx49HqZAYUOJ1i0E=;
-	b=oYP/vIVh5WidjoE9SF+HmqZC6IqkeBRZwWVpjWAXvNMDyCYmAScw2nz2ID+rgGheWMBKbj+u/J+xmvy+zpVCSW+nQ4bENF769dktRAgXp3Z0aFYF948o6TZXUDRIlkqC4jcB38BFiXo2ferHCfr3fEYhMGNGqm+ZDGId9ZO55Y0=
-Received: from MWHPR0201CA0018.namprd02.prod.outlook.com
-	(2603:10b6:301:74::31) by CY4PR02MB2679.namprd02.prod.outlook.com
-	(2603:10b6:903:126::16) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1813.16;
-	Thu, 25 Apr 2019 22:58:49 +0000
-Received: from SN1NAM02FT049.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e44::202) by MWHPR0201CA0018.outlook.office365.com
-	(2603:10b6:301:74::31) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1835.12 via
-	Frontend Transport; Thu, 25 Apr 2019 22:58:48 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
-	smtp.mailfrom=xilinx.com; linuxfoundation.org;
-	dkim=none (message not signed)
-	header.d=none;linuxfoundation.org; dmarc=bestguesspass action=none
-	header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
-	SN1NAM02FT049.mail.protection.outlook.com (10.152.72.166) with
-	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1792.25
-	via Frontend Transport; Thu, 25 Apr 2019 22:58:48 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:46354
-	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
-	(envelope-from <jaewon.lee@xilinx.com>)
-	id 1hJnKK-0005Hc-5K; Thu, 25 Apr 2019 15:58:48 -0700
-Received: from [127.0.0.1] (helo=localhost)
-	by xsj-pvapsmtp01 with smtp (Exim 4.63)
-	(envelope-from <jaewon.lee@xilinx.com>)
-	id 1hJnKF-0001nD-1e; Thu, 25 Apr 2019 15:58:43 -0700
-Received: from xsj-pvapsmtp01 (mailman.xilinx.com [149.199.38.66])
-	by xsj-smtp-dlp1.xlnx.xilinx.com (8.13.8/8.13.1) with ESMTP id
-	x3PMwcDT011787; Thu, 25 Apr 2019 15:58:38 -0700
-Received: from [172.19.3.42] (helo=xsjjaewon50.xilinx.com)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <jaewon.lee@xilinx.com>)
-	id 1hJnKA-0001mm-1l; Thu, 25 Apr 2019 15:58:38 -0700
-From: Jaewon Lee <jaewon.lee@xilinx.com>
-To: <openembedded-core@lists.openembedded.org>, <manjukum@xilinx.com>,
-	<alejandr@xilinx.com>, <richard.purdie@linuxfoundation.org>
-Date: Thu, 25 Apr 2019 15:58:37 -0700
-Message-ID: <1556233117-12801-1-git-send-email-jaewon.lee@xilinx.com>
-X-Mailer: git-send-email 2.7.4
-X-RCIS-Action: ALLOW
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(136003)(346002)(39860400002)(396003)(376002)(2980300002)(199004)(189003)(106002)(16586007)(14444005)(2201001)(336012)(110136005)(5660300002)(50226002)(316002)(26005)(47776003)(186003)(8676002)(54906003)(77096007)(305945005)(426003)(107886003)(51416003)(7696005)(356004)(8936002)(9786002)(48376002)(63266004)(44832011)(70206006)(81156014)(486006)(50466002)(72206003)(70586007)(126002)(476003)(4326008)(478600001)(2616005)(36386004)(36756003)(2906002)(81166006)(5001870100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR02MB2679; H:xsj-pvapsmtpgw02;
-	FPR:; SPF:Pass; LANG:en;
-	PTR:unknown-60-100.xilinx.com,xapps1.xilinx.com; A:1; MX:1; 
+	Fri, 26 Apr 2019 15:31:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3QFV4u4010489
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 26 Apr 2019 08:31:05 -0700 (PDT)
+Received: from soho-mhatle-m.local (172.25.36.226) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 26 Apr 2019 08:31:04 -0700
+To: Adrian Bunk <bunk@stusta.de>
+References: <20190308184939.22937-1-bunk@stusta.de>
+	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
+	<20190308193841.GA13393@localhost>
+	<E3B36DFB-0727-41ED-9494-3997E768A865@gmail.com>
+	<20190308203904.GA19247@localhost> <20190425192846.GA8813@localhost>
+	<bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
+	<20190426051215.GA26023@localhost>
+From: Mark Hatle <mark.hatle@windriver.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
+	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
+	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
+	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
+	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
+	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
+	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
+	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
+	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
+	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
+	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
+	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
+	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
+	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
+	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
+	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
+	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
+	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
+	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
+	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
+	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
+	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
+	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
+Organization: Wind River Systems
+Message-ID: <c2b30caa-1e86-8363-57fb-d399484d9708@windriver.com>
+Date: Fri, 26 Apr 2019 10:31:03 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.6.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 612005b2-7cfa-4360-fbef-08d6c9d193ee
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);
-	SRVR:CY4PR02MB2679; 
-X-MS-TrafficTypeDiagnostic: CY4PR02MB2679:|CY4PR02MB2679:|DM5PR02MB2684:
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <CY4PR02MB26793AE3DC1E6FA5354A386DAF3D0@CY4PR02MB2679.namprd02.prod.outlook.com>
-X-Forefront-PRVS: 0018A2705B
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: 7b7voZzkNMhli+xrUVQjz6p2j7EDpIBbw7nc15DbeN9fs8QwYnGH5ireNEOmeei3quLSWoHPFJ0GkhX5NWzr3OctyNkSa1XmlkamcFpCNsSZExOErqz4kwcI28XF4q8uuH7hVeXuS3H9kUYS98yrCUYqBzFiuZM1oawA/fW4EQxe19tL488hj3GFqHx37LgbsBvdueRt2DUUzcR+sU7bcrQeQQiUXcJgkkBxed6TI+E5g1418Hk0w4l8l2am0o9UrVU88x1ccoLyvN0aU03s/6Rs0FQCMAgJP6iZL+rrd2Mxh99pkrTPZ6bruvwtO2ImaHdmGsS4epQ/UZklMfFqe+/vhf3IXi5j/uBFBsJFDWXusIElfWT3hEpvCtBCgbI40qL0fK7gvKt+eSidY1C/yR5zDR5271NLZrwFLXq/j2w=
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2019 22:58:48.5263 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 612005b2-7cfa-4360-fbef-08d6c9d193ee
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2679
-X-OriginatorOrg: xilinx.com
-Subject: [master][RFC v2] Adding back wrapper and using OEPYTHON3HOME variable for python3
+In-Reply-To: <20190426051215.GA26023@localhost>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -104,121 +64,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 15:19:54 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 26 Apr 2019 15:31:06 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Adding back the python wrapper and adding a patch to use OEPYTHON3HOME
-instead of PYTHONHOME if set, for python3.
+On 4/26/19 12:12 AM, Adrian Bunk wrote:
+> On Thu, Apr 25, 2019 at 03:18:47PM -0500, Mark Hatle wrote:
+>> On 4/25/19 2:28 PM, Adrian Bunk wrote:
+>>> Would you consider this patch appropriate now that warrior has branched?
+>>
+>> The use of OpenSSL10 as a 'second library' is likely no longer needed.  But
+>> OpenSSL 1.0 (as an alternative version) to OpenSSL 1.1 is still needed in some
+>> cases.. (FIPS-140-2)
+> 
+> Is anyone actually security-maintaining OpenSSL in OE?
 
-If we add back the wrapper as is, we would see the following error that
-we also see in Thud:
+-In- OE?  I have no idea.
 
-ImportError: No module named site
-OpenEmbedded requires 'python' to be python v2 (>= 2.7.3), not python
-v3.
-Please upgrade your python v2
+Outside of OE to meet the OpenSSL-FIPS 'you must not modify the sources and
+follow these exact steps', yes people are.
 
-This is because python3 would've set PYTHONHOME to use nativesdk
-python3 libraries but when the oe-buildenv-internal script tries to call
-python2 for the py_v27_check, there will be no python2 libraries in the
-PYTHONHOME directory.
-In other words, bitbake needs host python2 and the env variable set from
-the wrapper contaminates the env and host python2 won't be able to find
-its libraries
+> The just released sumo has both versions of OpenSSL not touched since 
+> August, despite just upgrading to the latest versions would fix CVEs.
+> 
+>> So removal of openssl10 is fine, but if there are patches for support of both
+>> versions (old/new) of OpenSSL they will be needed at least through the end of
+>> this year for many users.
+> 
+> This is now for Yocto 2.8, which will be released October/November
+> this year.
 
-Creating another variable OEPYTHON3HOME and using this in the python3
-wrapper to allow for a way to set a different paths for python3 and
-python2
+Yes, and thats the problem.  OpenSSL 1.1 will not have FIPS support before the
+end of the year (based on the last blog post..)
 
-[YOCTO #13208]
+So unless the OpenSSL community is able to get it certified and released before
+YP 2.8, I believe we still need OpenSSL 10 support through the end of this year.
+ We should evaluate where the community is after that.
 
-Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
----
- ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch | 47 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.3.bb      |  7 ++++
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+Again, I'm not talking about the 'OpenSSL10' recipe, but support in the
+applications for the older APIs.  I don't care if the OpenSSL10 recipe goes
+away.  Anyone using FIPS-140-2 support is going to want to use a single OpenSSL
+library on their system, not both 1.1 and 1.0.
 
-diff --git a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-new file mode 100644
-index 0000000..5a59a67
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-@@ -0,0 +1,47 @@
-+From 347e5e080f5bbd2e18562d5f99ec61d706cb1cd8 Mon Sep 17 00:00:00 2001
-+From: Jaewon Lee <jaewon.lee@xilinx.com>
-+Date: Thu, 25 Apr 2019 15:34:26 -0700
-+Subject: [PATCH] main.c: if OEPYTHON3HOME is set use instead of PYTHONHOME
-+
-+There is one variable PYTHONHOME to determine where libraries are coming
-+from for both python2 and python3. This becomes an issue if only one has
-+libraries in the specified PYTHONHOME path, but they are using the same
-+PYTHONHOME. Creating another variable OEPYTHON3HOME to allow for a way
-+to set a different path for python3
-+
-+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
-+---
-+ Modules/main.c | 17 +++++++++++++----
-+ 1 file changed, 13 insertions(+), 4 deletions(-)
-+
-+diff --git a/Modules/main.c b/Modules/main.c
-+index a745381..27ce112 100644
-+--- a/Modules/main.c
-++++ b/Modules/main.c
-+@@ -1855,10 +1855,19 @@ config_init_home(_PyCoreConfig *config)
-+         }
-+         return _Py_INIT_OK();
-+     }
-+-
-+-    int res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
-+-    if (res < 0) {
-+-        return DECODE_LOCALE_ERR("PYTHONHOME", res);
-++    int res;
-++    const char *oepython3home = config_get_env_var("OEPYTHON3HOME");
-++    if (oepython3home) {
-++        res = config_get_env_var_dup(&home, L"OEPYTHON3HOME", "OEPYTHON3HOME");
-++        if (res < 0) {
-++            return DECODE_LOCALE_ERR("OEPYTHON3HOME", res);
-++        }
-++    }
-++    else {
-++	res = config_get_env_var_dup(&home, L"PYTHONHOME", "PYTHONHOME");
-++        if (res < 0) {
-++            return DECODE_LOCALE_ERR("PYTHONHOME", res);
-++        }
-+     }
-+     config->home = home;
-+     return _Py_INIT_OK();
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
-index ea46b05..af7ede1 100644
---- a/meta/recipes-devtools/python/python3_3.7.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.3.bb
-@@ -28,6 +28,9 @@ SRC_URI_append_class-native = " \
-            file://0001-distutils-sysconfig-append-STAGING_LIBDIR-python-sys.patch \
-            file://12-distutils-prefix-is-inside-staging-area.patch \
-            "
-+SRC_URI_append_class-nativesdk = " \
-+           file://0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch \
-+           "
- 
- SRC_URI[md5sum] = "93df27aec0cd18d6d42173e601ffbbfd"
- SRC_URI[sha256sum] = "da60b54064d4cfcd9c26576f6df2690e62085123826cff2e667e72a91952d318"
-@@ -131,6 +134,10 @@ do_install_append() {
-                 ${D}${libdir}/python-sysconfigdata/_sysconfigdata.py
- }
- 
-+do_install_append_class-nativesdk () {
-+    create_wrapper ${D}${bindir}/python${PYTHON_MAJMIN} OEPYTHON3HOME='${prefix}' TERMINFO_DIRS='${sysconfdir}/terminfo:/etc/terminfo:/usr/share/terminfo:/usr/share/misc/terminfo:/lib/terminfo' PYTHONNOUSERSITE='1'
-+}
-+
- SSTATE_SCAN_FILES += "Makefile _sysconfigdata.py"
- PACKAGE_PREPROCESS_FUNCS += "py_package_preprocess"
- 
--- 
-2.7.4
+--Mark
+
+>> --Mark
+> 
+> cu
+> Adrian
+> 
 
 
