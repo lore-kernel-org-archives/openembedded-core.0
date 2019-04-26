@@ -1,58 +1,55 @@
-Return-Path: <tanuk@iki.fi>
-Received: from wout1-smtp.messagingengine.com (wout1-smtp.messagingengine.com
-	[64.147.123.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 859AA7DAEB
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0386F7DA5A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 26 Apr 2019 12:54:11 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.west.internal (Postfix) with ESMTP id 2F2B35D9;
-	Fri, 26 Apr 2019 08:54:12 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute5.internal (MEProxy); Fri, 26 Apr 2019 08:54:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=F4l/KYpiaRtLepEcs2YgDUVfa+g02MV7Mc3RIjHqB
-	tg=; b=4KCOaf2iMGm3+PuhsKzaQBT+AjiXsrEZOtO1Z+ETgufmnTofAoyT+7ngb
-	RfDY/hyvTTgOxNUqWSlpJjIxOisoiXnQQpzey2QQayilhC5J1RMkAJDmw3d70qW7
-	XBqaLyDHoeYPUUZetmzSdvdIq//iodcF0nuJR9TO6ZoSx4uXq6BY6VawVqdP3Znj
-	6ciq3CVJXUxhwIHQ5BLFXNIQe0yhcbC2zt0ddOE7WKsOBzCcfM0xDJM5OmWz1ltW
-	V0XZfUyCWk6oieqlx5KEqbmknLSV/yVy5+KExGrkS6Np99D5+kqiJBmwHHgXyix6
-	N4PdE9hJyWha3Y/OR+ugIke4+isdw==
-X-ME-Sender: <xms:c__CXJjTBJm3YwzC7oS_kzyC_yxEV8nvnITTOaryNK_j9FviNLVZFA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrheeigdehlecutefuodetggdotefrodftvf
-	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-	fjughrpefkuffhvfffjghftggfggfgsehtkeertddtreejnecuhfhrohhmpefvrghnuhcu
-	mfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucffohhmrghinheplhhisg
-	gvrhgrphgrhidrtghomhdpphgrthhrvghonhdrtghomhenucfkphepudelvddrgedtrdel
-	hedrfedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehtrghnuhhksehikhhirdhfihenuc
-	evlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:c__CXGn8ELqyLOoGmfRtPjejVdcKy557GHuqN3_lMo3sFboAgN5aCA>
-	<xmx:c__CXAJzx9fzYaMBWFKhe3LKM08i-Fwxojn2UkqlPYeXz4ZUv5uPBw>
-	<xmx:c__CXDUh6-8Mxm4lIm0iDdrrL_bhdjdCPgX_OMw6zyJKfog1zqoUUw>
-	<xmx:c__CXPm-ARu2j1jHQ_I7xQF0V1mTiBk8DACrwFO9f9_hEkQIDVvQOg>
-Received: from laptop (unknown [192.40.95.31])
-	by mail.messagingengine.com (Postfix) with ESMTPA id C07F1103CE;
-	Fri, 26 Apr 2019 08:54:09 -0400 (EDT)
-Message-ID: <ab836c42b9708c98ed658453e7a28620183cf9f8.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 26 Apr 2019 15:53:59 +0300
-In-Reply-To: <CAMKF1so+LSFMd8+E1E7O1KGGNt2CZSdbC8sGfjVtNE9iDdNw1A@mail.gmail.com>
-References: <cover.1496979431.git.raj.khem@gmail.com>
-	<c0e598696af9be3f567751a8641effb08431a7d2.1496979431.git.raj.khem@gmail.com>
-	<CAJTo0La6u=Tzzsow5ZYwqmWHY8RzyvgVqT=J4J9UpKy8uKbb9A@mail.gmail.com>
-	<CAMKF1srdVU0p-e4gPJx5rNEhk4aQdsiELuz+-1AsD_tgG6b_Gw@mail.gmail.com>
-	<1497026309.2435.5.camel@iki.fi>
-	<CAMKF1soH0BshzDQorBw7mmXGCgCg_OF=uc5pX1q=J_-ZPqtGMg@mail.gmail.com>
-	<49993ca438e2a8b32473ad524404d8927c12d23e.camel@iki.fi>
-	<CAMKF1so+LSFMd8+E1E7O1KGGNt2CZSdbC8sGfjVtNE9iDdNw1A@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1 
+	Fri, 26 Apr 2019 13:40:20 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id c1so3866293wml.4
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 26 Apr 2019 06:40:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=psmwPYULGOomhlo2X4n2cX46bfMBo3f+847NIicyFVM=;
+	b=ObaKGcfLjPOM27KnHJipd+5upFO0VKUioRLqNP61xUIRIzTPjzms4KA5bR8ZI5LngX
+	8l/Vtm9AIDWgFtJnwcoA+D9qQiCoz2eV+wiUWB2qqhuuAX36qSSm5IzKIKrLMTx1aUo6
+	VqsINrFLbXEu+VWx1ehPEwt+ls+PLlqlP88X0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=psmwPYULGOomhlo2X4n2cX46bfMBo3f+847NIicyFVM=;
+	b=f2VWMqt92tvUMOwl05N2B4QeKSCSMcT2g3hNavF6IuHzt2/7UUEvKe3KieBnPZT6yl
+	yTgQk47y/WfD3gPb/mpbrhgNQatXEIehAVIaOsTGGuyEQFpczkKIxxj2xZHoZ86ujXkn
+	4RQ4RkKAFK4IBTva3C9GllZXJm5XhTCvib75TlAFFvSRDbgUz+plrUOhKSU32Oj1w2cC
+	CpMunZSr+BlgRjowyf7okD4gBqPIVKUhh1j9hzaykPtDPVqQbT/PQBmCxyAWjEmH30da
+	uBso+Oz/6LJ84EyuQWMj3Z/46d/XFt0NC9JUqWi1oAZtA41B2Jqk2urmveaQteLKUCJv
+	LCdw==
+X-Gm-Message-State: APjAAAVl1Wx+KA2tYLWtp0lbDlSQnbAfqgWHirgDrPub0P7Pyo1k+bMx
+	9DFwTQozQaGOkVA4dZpvoNCDow==
+X-Google-Smtp-Source: APXvYqxF9kFCNLDs3TGsd+kIh4p800M7Lg1HW9bBlfeVqmg90L+xAimvEY3CWjyAiRYioyVC46o3PQ==
+X-Received: by 2002:a1c:4e14:: with SMTP id g20mr3450282wmh.88.1556286021553; 
+	Fri, 26 Apr 2019 06:40:21 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o4sm32426697wmo.20.2019.04.26.06.40.20
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 26 Apr 2019 06:40:20 -0700 (PDT)
+Message-ID: <f25bf5236a45b8494cf1cc4e8bb7e7b7e05ac3bf.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alistair Francis <alistair23@gmail.com>, akuster808 <akuster808@gmail.com>
+Date: Fri, 26 Apr 2019 14:40:19 +0100
+In-Reply-To: <CAKmqyKOyQ82yYZzuqDBgM_+-6=czN4Xg8npAWxkXvNkch0JXpQ@mail.gmail.com>
+References: <20190424001333.14948-1-alistair.francis@wdc.com>
+	<a824b9bf98abc6545575514aa58e97e5f6347ada.camel@linuxfoundation.org>
+	<bccaa968-1653-f9b1-4b75-8e72337dcd7c@gmail.com>
+	<CAKmqyKOyQ82yYZzuqDBgM_+-6=czN4Xg8npAWxkXvNkch0JXpQ@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] pulseaudio: disable PIE flags when hardened flags are enabled
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] qemu: Upgrade from 3.1.0 to 4.0.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,78 +62,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 26 Apr 2019 12:54:11 -0000
+X-List-Received-Date: Fri, 26 Apr 2019 13:40:21 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-04-22 at 14:28 -0600, Khem Raj wrote:
-> On Mon, Apr 22, 2019 at 6:33 AM Tanu Kaskinen <tanuk@iki.fi> wrote:
-> 
-> > On Fri, 2017-06-09 at 10:10 -0700, Khem Raj wrote:
-> > > On Fri, Jun 9, 2017 at 9:38 AM, Tanu Kaskinen <tanuk@iki.fi> wrote:
-> > > > On Fri, 2017-06-09 at 13:07 +0000, Khem Raj wrote:
-> > > > > On Fri, Jun 9, 2017 at 5:56 AM Burton, Ross <ross.burton@intel.com>
-> > wrote:
-> > > > > > On 9 June 2017 at 04:41, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > > > 
-> > > > > > > +SECURITY_CFLAGS = "${SECURITY_NO_PIE_CFLAGS}"
-> > > > > > > 
-> > > > > > 
-> > > > > > These tend to go into security-flags.inc, not the recipe.
-> > > > > > 
-> > > > > 
-> > > > > I know that's been the case but I think having a global file is
-> > error prone
-> > > > > its better to have it in recipe context since it can get attention at
-> > > > > upgrade time to test if this has been fixed in new release etc
-> > > > 
-> > > > Do you mean that there's some bug in pulseaudio, and this is a
-> > > > workaround for it? Is the bug that there are textrels? Ross saw
-> > > > textrels in pulseaudio before (see the discussion starting at [1]), but
-> > > > I was unable to reproduce that. If you give instructions for
-> > > > reproducing the problem, I'll see if I can fix pulseaudio (until then
-> > > > I'm fine with having a workaround).
-> > > > 
-> > > 
-> > > yes there is a bug lurking when compiling with hardening flags are
-> > turned on
-> > > so you can do something like
-> > > 
-> > > in local.conf
-> > > 
-> > > require conf/distro/include/security_flags.inc
-> > > 
-> > > then
-> > > 
-> > > MACHINE=qemux86 bitbake pulseaudio
-> > > 
-> > > it also happens on arm so qemuarm will reproduce it too.
-> > > 
-> > > some assembly code is probably missing using GOT relative accesses
+On Thu, 2019-04-25 at 11:24 -0700, Alistair Francis wrote:
+> On Thu, Apr 25, 2019 at 7:27 AM akuster808 <akuster808@gmail.com> wrote:
 > > 
-> > Resurrecting this ancient thread... I finally tried to reproduce this
-> > problem with the given instructions. No success. Have you still been
-> > running into this issue?
+> > 
+> > On 4/25/19 6:49 AM, Richard Purdie wrote:
+> > > On Wed, 2019-04-24 at 00:15 +0000, Alistair Francis wrote:
+> > > > This commit upgrade QEMU to the latest 4.0.0 release.
+> > > > 
+> > > >  - The COPYING.LIB file has changed SHA to:
+> > > >     "Synchronize the LGPL 2.1 with the version from gnu.org"
+> > > >  - SDL 1.2 has been removed, along with the --with-sdlabi command
+> > > > line
+> > > >     arg
+> > > >  - The backported patches have been removed
+> > > >  - Al the other patches have been refreshed and the numbering has
+> > > > been
+> > > >     updated
+> > > I put this in for testing but it failed as nativesdk-qemu doesn't build
+> > > due to unpackaged files:
+> > 
+> > Bug opened: 13308
+> > 
+> > Thanks,
+> > 
+> > Your neighborhood swat team.
+> > 
+> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/535/steps/7/logs/step1b
 > 
-> I don’t know for sure if this still exists but we did disable assembly in
-> few packages which addresses this issue since in assembly PIC has to be
-> respected
-> In hand written code
-> 
-> You might have to check if we did something similar for pulseaudio
+> I have updated the patch here:
+> https://github.com/alistair23/openembedded-core/tree/alistair/qemu-4.0.0
 
-There seem to be no such changes to the pulseaudio recipe. Some
-upstream fix seems unlikely as well. The only possibly relevant change
-that I could find was removing a buggy implementation of reading the
-cpuid register (the removed code was replaced with the __get_cpuid()
-macro that compilers provide in cpuid.h).
 
-Oh well, if the problem reappears, let me know.
+Thanks, this worked better in testing but showed issues with qemuarm
+booting:
 
--- 
-Tanu
+https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/535
 
-https://www.patreon.com/tanuk
-https://liberapay.com/tanuk
+https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/549
+
+I took it out of -next again and those passed (but some of the other
+build failures also in that build remained)
+
+Cheers,
+
+Richard
 
 
