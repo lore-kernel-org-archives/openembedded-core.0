@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 078297D006
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 625277D426
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Apr 2019 17:12:01 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id g7so7712633qtc.0
+	Sun, 28 Apr 2019 06:58:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3S6wRLW008360
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Apr 2019 10:12:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Zq3tEc8qLT6iHtg7c1vKb56/s1pu00XsoJRSY1bbEoo=;
-	b=qhe66Ke8I2LJ1RkAgSUfeSvOVZiFp04ad2HRIuAIDqEQJpKf2a7xGolDdcJ7B7b6uJ
-	kG3eFX4G+4kRWvxVrXqLFyxsZSM/BtB+a1kwNtBYFuCAWl9ctjOPisc9p1KrptnSpuVZ
-	jb9h3YWRYyXDT4xvrOgmpPLbqPNx3RebPPBBZZEXB0fkNpe6Jiet1AwDpoXgTxxy9JYu
-	b4rR1ssEd+k2lcvIQYFFQjGG1DI/wWvbF3RjmC1BpXVvEgD13Ym3ddpcYpkj32CLCjZj
-	DC2ohvcHlM0S0kjnRyC3UfxtI7fRJQblGhXu22beWyrwsk03AiYp1gw8Y1xBrtUHEEGM
-	fuPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Zq3tEc8qLT6iHtg7c1vKb56/s1pu00XsoJRSY1bbEoo=;
-	b=geWW3MdOzz5z6Z2s5kjCMsRSQv6ClY+eWev0pavNd8LX3YwxX4vdH9vpWyc/MxO1TP
-	TlsUjVLxiErZL47VLwiMRvFEs5TaEmGxlCMMXGfVa5juExFG5Q79IRoU5IX7VHSrNe8P
-	tmhRIb25J9yGYurrC/jYjV4IzqkrBZavOIijtJD51fkzP/JuxWDT296oOA9HaBEqIDkx
-	x4dWJCxMUSZUK8dUNCUF8fdkG3ceYkUxmM4k4NiODRzoAlEak/zxpzI5E7BX3aaDniZb
-	lCSBC6IpCyModZYBIng19BrXgj4XMPvnRj2GAKOyP77coOHUJSkVGIoqFNFCvMnrbTVn
-	KP3w==
-X-Gm-Message-State: APjAAAX6VfdzUBbyqdXsld6CMsiOs2RCoQuc+y/0HOffnrWjOjQOuQyC
-	7qkCjtyyd2+d+OVUG5olUYols9HM7o+7RRfL/AU=
-X-Google-Smtp-Source: APXvYqyUS3UoYDWsdK9FVaMe2znoibyTss2JB7inXSfz0GXbv3avk+H52NBV/mUa9dwUKtW/EH8eW27P/okcvpZ8Tjw=
-X-Received: by 2002:a0c:92f9:: with SMTP id c54mr11232916qvc.194.1556385122677;
-	Sat, 27 Apr 2019 10:12:02 -0700 (PDT)
+	Sat, 27 Apr 2019 23:58:37 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Sat, 27 Apr 2019 23:58:04 -0700
+From: <mingli.yu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 28 Apr 2019 14:58:03 +0800
+Message-ID: <1556434683-140874-1-git-send-email-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190323163858.15371-1-open.source@oleksandr-kravchuk.com>
-	<CAJTo0LaYdMRz41qeojHLsv9zj+VL6u7EL8LwM3=JKnKcriw_bQ@mail.gmail.com>
-	<891ea63e-134f-ded4-b0a7-f1c75022d4cd@oleksandr-kravchuk.com>
-	<CANNYZj-Ld+RK=H1+Z1LNyJ9q0MobGU7nWVqRJxekRA3YLAvuSw@mail.gmail.com>
-In-Reply-To: <CANNYZj-Ld+RK=H1+Z1LNyJ9q0MobGU7nWVqRJxekRA3YLAvuSw@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 27 Apr 2019 10:11:36 -0700
-Message-ID: <CAMKF1sqkbMKJ0H3xeasVK=xcmAQ6qBnkty13Bm-PjLYc=rtCSw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: Re: [PATCH v2] ninja: upate to 1.9.0
+Subject: [PATCH] bjam-native: do not search all PATHs variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,83 +31,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 27 Apr 2019 17:12:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 28 Apr 2019 06:58:47 -0000
+Content-Type: text/plain
 
-another issue I see
+From: Li Wang <li.wang@windriver.com>
 
-https://errors.yoctoproject.org/Errors/Details/238569/
+By default, it searches all paths specified by $PATH.
 
-On Wed, Apr 24, 2019 at 7:35 AM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> Master is never force pushed to and always has a linear history, so
-> any changes need to apply cleanly to the latest commit in it.
->
-> Alex
->
-> On Wed, 24 Apr 2019 at 16:31, Oleksandr Kravchuk
-> <open.source@oleksandr-kravchuk.com> wrote:
-> >
-> > Sure. It's already in master though.
-> >
-> > Should I send a new patch or just a diff with master?
-> >
-> > On 23/04/2019 11:26, Burton, Ross wrote:
-> > > On Sat, 23 Mar 2019 at 16:39, Oleksandr Kravchuk
-> > > <open.source@oleksandr-kravchuk.com> wrote:
-> > >> +++ b/meta/recipes-devtools/ninja/ninja/fix-musl.patch
-> > >> @@ -0,0 +1,39 @@
-> > >> +2ff54ad7478a90bd75c91e434236a Mon Sep 17 00:00:00 2001
-> > >> +From: makepost <makepost@firemail.cc>
-> > >> +Date: Mon, 24 Dec 2018 03:13:16 +0200
-> > >> +Subject: [PATCH] Use st_mtim if st_mtime is macro, fix #1510
-> > >> +
-> > >> +In POSIX.1-2008, sys_stat has a st_mtim member and a st_mtime backward
-> > >> +compatibility macro. Should help avoid hardcoding platform detection.
-> > >> +---
-> > >> + src/disk_interface.cc | 14 ++++----------
-> > >> + 1 file changed, 4 insertions(+), 10 deletions(-)
-> > >> +
-> > >> +diff --git a/src/disk_interface.cc b/src/disk_interface.cc
-> > >> +index d4c2fb087..dc297c449 100644
-> > >> +--- src/disk_interface.cc
-> > >> ++++ /src/disk_interface.cc
-> > >> +@@ -202,19 +202,13 @@ TimeStamp RealDiskInterface::Stat(const string& path, string* err) const {
-> > >> +   // that it doesn't exist.
-> > >> +   if (st.st_mtime == 0)
-> > >> +     return 1;
-> > >> +-#if defined(__APPLE__) && !defined(_POSIX_C_SOURCE)
-> > >> ++#if defined(_AIX)
-> > >> ++  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> > >> ++#elif defined(__APPLE__)
-> > >> +   return ((int64_t)st.st_mtimespec.tv_sec * 1000000000LL +
-> > >> +           st.st_mtimespec.tv_nsec);
-> > >> +-#elif (_POSIX_C_SOURCE >= 200809L || _XOPEN_SOURCE >= 700 || defined(_BSD_SOURCE) || defined(_SVID_SOURCE) || \
-> > >> +-       defined(__BIONIC__) || (defined (__SVR4) && defined (__sun)) || defined(__FreeBSD__))
-> > >> +-  // For glibc, see "Timestamp files" in the Notes of http://www.kernel.org/doc/man-pages/online/pages/man2/stat.2.html
-> > >> +-  // newlib, uClibc and musl follow the kernel (or Cygwin) headers and define the right macro values above.
-> > >> +-  // For bsd, see https://github.com/freebsd/freebsd/blob/master/sys/sys/stat.h and similar
-> > >> +-  // For bionic, C and POSIX API is always enabled.
-> > >> +-  // For solaris, see https://docs.oracle.com/cd/E88353_01/html/E37841/stat-2.html.
-> > >> ++#elif defined(st_mtime) // A macro, so we're likely on modern POSIX.
-> > >> +   return (int64_t)st.st_mtim.tv_sec * 1000000000LL + st.st_mtim.tv_nsec;
-> > >> +-#elif defined(_AIX)
-> > >> +-  return (int64_t)st.st_mtime * 1000000000LL + st.st_mtime_n;
-> > >> + #else
-> > >> +   return (int64_t)st.st_mtime * 1000000000LL + st.st_mtimensec;
-> > >> + #endif
-> > > This patch has no Signed-off-by or Upstream-Status.  Can you add those please?
-> > >
-> > > Ross
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+But if the directory of the $PATH variable on
+build host includes nfs(build host as nfs client),
+it causes the build hung when the nfs server is
+unavailable.
+
+Signed-off-by: Li Wang <li.wang@windriver.com>
+---
+ meta/recipes-support/boost/bjam-native_1.69.0.bb   |  1 +
+ .../bjam-do-not-search-all-PATHs-varibale.patch    | 53 ++++++++++++++++++++++
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-support/boost/files/bjam-do-not-search-all-PATHs-varibale.patch
+
+diff --git a/meta/recipes-support/boost/bjam-native_1.69.0.bb b/meta/recipes-support/boost/bjam-native_1.69.0.bb
+index 94f96e6..395ad34 100644
+--- a/meta/recipes-support/boost/bjam-native_1.69.0.bb
++++ b/meta/recipes-support/boost/bjam-native_1.69.0.bb
+@@ -6,6 +6,7 @@ SECTION = "devel"
+ inherit native
+ 
+ SRC_URI += "file://bjam-native-build-bjam.debug.patch \
++            file://bjam-do-not-search-all-PATHs-varibale.patch \
+ "
+ 
+ do_compile() {
+diff --git a/meta/recipes-support/boost/files/bjam-do-not-search-all-PATHs-varibale.patch b/meta/recipes-support/boost/files/bjam-do-not-search-all-PATHs-varibale.patch
+new file mode 100644
+index 0000000..742603a
+--- /dev/null
++++ b/meta/recipes-support/boost/files/bjam-do-not-search-all-PATHs-varibale.patch
+@@ -0,0 +1,53 @@
++bjam: do not search all PATHs varibale
++
++By default, it searches all paths specified by $PATH.
++But if the directory of the $PATH variable on
++build host includes nfs, it causes system hung
++when nfs server is unavailable.
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Li Wang <li.wang@windriver.com>
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ tools/build/src/engine/build.jam | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/tools/build/src/engine/build.jam b/tools/build/src/engine/build.jam
++index a92b70f..f866619 100644
++--- a/tools/build/src/engine/build.jam
+++++ b/tools/build/src/engine/build.jam
++@@ -781,8 +781,8 @@ if $(OS) = NT
++ }
++ SUFEXE ?= "" ;
++ 
++-yacc ?= [ GLOB $(PATH) : yacc$(SUFEXE) ] ;
++-yacc ?= [ GLOB $(PATH) : bison$(SUFEXE) ] ;
+++yacc ?= [ GLOB "" : yacc$(SUFEXE) ] ;
+++yacc ?= [ GLOB "" : bison$(SUFEXE) ] ;
++ yacc ?= [ GLOB "$(ProgramFiles:J= )\\GnuWin32\\bin"
++     "C:\\Program Files\\GnuWin32\\bin" : bison$(SUFEXE) ] ;
++ yacc = $(yacc[1]) ;
++@@ -966,7 +966,7 @@ if $(OS) = NT
++ }
++ if $(UNIX) = true
++ {
++-    tar ?= [ GLOB $(PATH) : star bsdtar tar ] ;
+++    tar ?= [ GLOB "" : star bsdtar tar ] ;
++     tar = $(tar[1]) ;
++     switch $(tar:D=:S=)
++     {
++@@ -1047,8 +1047,8 @@ rule .package ( dst-dir : src-files + )
++ }
++ 
++ # RPM distro file.
++-rpm-tool = [ GLOB $(PATH) : "rpmbuild" ] ;
++-rpm-tool ?= [ GLOB $(PATH) : "rpm" ] ;
+++rpm-tool = [ GLOB "" : "rpmbuild" ] ;
+++rpm-tool ?= [ GLOB "" : "rpm" ] ;
++ rpm-tool = $(rpm-tool[1]) ;
++ rule .rpm ( name : source )
++ {
++-- 
++2.18.1
++
+-- 
+2.7.4
+
 
