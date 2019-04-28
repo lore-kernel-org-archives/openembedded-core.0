@@ -1,24 +1,25 @@
 Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 625277D426
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 188536BC19
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Apr 2019 06:58:47 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3S6wRLW008360
+	Sun, 28 Apr 2019 07:02:51 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3S72qE6012796
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 27 Apr 2019 23:58:37 -0700
+	Sun, 28 Apr 2019 00:02:53 -0700 (PDT)
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Sat, 27 Apr 2019 23:58:04 -0700
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Sun, 28 Apr 2019 00:02:52 -0700
 From: <mingli.yu@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 28 Apr 2019 14:58:03 +0800
-Message-ID: <1556434683-140874-1-git-send-email-mingli.yu@windriver.com>
+Date: Sun, 28 Apr 2019 15:02:51 +0800
+Message-ID: <1556434971-251075-1-git-send-email-mingli.yu@windriver.com>
 X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1556434683-140874-1-git-send-email-mingli.yu@windriver.com>
+References: <1556434683-140874-1-git-send-email-mingli.yu@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] bjam-native: do not search all PATHs variable
+Subject: [PATCH v2] bjam-native: do not search all PATHs variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Apr 2019 06:58:47 -0000
+X-List-Received-Date: Sun, 28 Apr 2019 07:02:52 -0000
 Content-Type: text/plain
 
 From: Li Wang <li.wang@windriver.com>
@@ -44,6 +45,7 @@ it causes the build hung when the nfs server is
 unavailable.
 
 Signed-off-by: Li Wang <li.wang@windriver.com>
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
  meta/recipes-support/boost/bjam-native_1.69.0.bb   |  1 +
  .../bjam-do-not-search-all-PATHs-varibale.patch    | 53 ++++++++++++++++++++++
