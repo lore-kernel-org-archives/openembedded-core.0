@@ -1,56 +1,31 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B7427D486
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 07D037DC61
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Apr 2019 08:22:37 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id g3so10900412wrx.9
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 28 Apr 2019 01:22:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=kgq9d4LQnJxXZnCOd07H44gaamlNMi34Wj97n0XUw7A=;
-	b=EXP2oihQEZHa7zvLdfYqV8mCPv8KIhKMAoTVQeLqqIAeMOfZ1eRo+xKHyRYZKQKZa+
-	lY6IWPUuO8Qv+41RMzfQOsgM/QBnLiTXwpz1ccVseYxd9pTHEzYFSIFUyWgARgXFn5ga
-	oNPvSKN361aEt+F7Yv93aMBzofaCjIujES/IY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=kgq9d4LQnJxXZnCOd07H44gaamlNMi34Wj97n0XUw7A=;
-	b=lWc2ZkDCWE3KkTxJNU7dKbuaI6KPlhJZORcmfpgZuJhtMOjhLEgxwIP8Q5WnbLmTw+
-	HpPAPSSjsjFfNnq/+u57UnmH5jOxwanTRdyO3rGdI6nRl9gEdu8E+ISlntm5HWz3NxXI
-	2BEg2xBTxCuskbpZjPksQr8m6oW/nJuWlzpZP4dioVlnupOet9erwqLAH4ZisgZR8K+8
-	7l1ESdKD3ggH+m8JRvf+3K3I77U8mvwIOL0KIktFnnvAsAgNp9u6vTWamtkLCgWnlWLl
-	vz7c9ziEiSjReynI4tGcAdT9p0nZ3LuABkJayjNtp5jJvUYl6jlnpQWHXwb+bYoDaM1p
-	AEzw==
-X-Gm-Message-State: APjAAAVFEhI6tgSKwnD/G0b2p9RsEAMvy7LpyLZ2uWWpBd2lCeP0FT7x
-	RTFcFtRBaEvO9FaP39E11dXplA==
-X-Google-Smtp-Source: APXvYqzhiYlakPuLKUqDa4bTk00fDtoz31FGlAB5md6rOdEoYU6ZOr4FEkFFjc5xcicTYIXpJ8H2kg==
-X-Received: by 2002:adf:db05:: with SMTP id s5mr5949290wri.247.1556439757973; 
-	Sun, 28 Apr 2019 01:22:37 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h8sm33673336wrx.45.2019.04.28.01.22.36
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 28 Apr 2019 01:22:37 -0700 (PDT)
-Message-ID: <476bda846c17a7b1a4479806803cf7ede4f88830.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 28 Apr 2019 09:22:35 +0100
-In-Reply-To: <CE98D515-E3E6-445D-BDFF-574A1F0F031E@gmail.com>
-References: <20190425135557.8967-1-fabio.berton@ossystems.com.br>
-	<c05b9ebe4d9e79e34897851477e3c9b2a9e7602b.camel@linuxfoundation.org>
-	<7e08518b4381a936e225eccdadee24a5a5521000.camel@linuxfoundation.org>
-	<CE98D515-E3E6-445D-BDFF-574A1F0F031E@gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	Sun, 28 Apr 2019 08:35:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3S8Z1kW010602
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Sun, 28 Apr 2019 01:35:11 -0700
+Received: from [128.224.162.228] (128.224.162.228) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Sun, 28 Apr 2019 01:34:50 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <608ce7362098bbc8c96431fd8c56441a46e1a56b.camel@linuxfoundation.org>
+	<1549948241-309157-1-git-send-email-changqing.li@windriver.com>
+	<efe358c26f3e3e9e83853e72256f54d1b9bd4a7f.camel@linuxfoundation.org>
+	<5b10c70c-f8e5-6a32-4003-17398ddb0e01@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <9c660988-0998-7bf6-a233-d8f7a423fad5@windriver.com>
+Date: Sun, 28 Apr 2019 16:34:23 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-Cc: Jussi Kukkonen <jussi.kukkonen@intel.com>,
-	Otavio Salvador <otavio@ossystems.com.br>,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [RFC, v5] mesa: Convert recipe to use meson build system
+In-Reply-To: <5b10c70c-f8e5-6a32-4003-17398ddb0e01@windriver.com>
+X-Originating-IP: [128.224.162.228]
+Subject: Re: [PATCH V2] gcc-runtime: fix C++ header mapping for n32/x32 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,23 +38,285 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 28 Apr 2019 08:22:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 28 Apr 2019 08:35:38 -0000
+Content-Type: multipart/alternative;
+	boundary="------------10FA6172F6C33BB0A86C7E3D"
+Content-Language: en-US
 
-On Sat, 2019-04-27 at 11:32 +0200, Alexander Kanavin wrote:
-> This one is not about Mesa but rather failure to build recently
-> updated vte-native due to host gcc being too ancient?
+--------------10FA6172F6C33BB0A86C7E3D
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Yes, the mesa+musl problem is a valid issue, I hadn't realised the
-virtgl-gtk issue was actually vte-native so that one has a fix
-elsewhere. Sorry for the confusion, this is the challenge with bulk
-testing patches...
+On 2/19/19 3:05 PM, Changqing Li wrote:
+>
+>
+> On 2/14/19 7:19 PM, Richard Purdie wrote:
+>> On Tue, 2019-02-12 at 13:10 +0800,changqing.li@windriver.com  wrote:
+>>> From: Changqing Li<changqing.li@windriver.com>
+>>>
+>>>      The SDK was unable to find the C++ header pieces correctly since
+>>> it's
+>>>      using a generic compiler, not one specifically targeting the
+>>> multilib
+>>>      vendor prefix and default tune.  This adds the right mapping to
+>>> ensure
+>>>      SDKs work as expected. And fix problem in below configurations:
+>>>
+>>>      multilib configuration 1:
+>>>      MACHINE="qemumips64"
+>>>      MULTILIBS ?= "multilib:lib32 multilib:libn32"
+>>>      DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+>>>      DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
+>>>      MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+>>>      require conf/multilib.conf
+>>>
+>>>      ignoring nonexistent directory "<path>/sysroots/mips64-poky-
+>>> linux/usr/include/c++/8.2.0/mips64-poky-linux/32
+>>>
+>>>      multilib configuration 2:
+>>>      MACHINE="qemumips64"
+>>>      MULTILIBS = 'multilib:lib64 multilib:lib32'
+>>>      DEFAULTTUNE = 'mips64-n32'
+>>>      DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
+>>>      DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
+>>>      require conf/multilib.conf
+>>>
+>>>      For this configuration:
+>>>      for target gcc-runtime, need to create symlink like mips64-poly-
+>>> linux --> mips64-poky-linux-gnu32
+>>>      for target lib64-gcc-runtime, need to create symlink like mips64-
+>>> poly-linux/32 --> mips64-pokymllib64-linux
+>>>      in order to avoid conflict during populate_sdk, create symlink
+>>> for subfoler bits/ext for target gcc-runtime,
+>>>      this is ugly, but seems no better way to cover all kinds of
+>>> configuration.
+>>>
+>>>      single lib configuration:
+>>>      MACHINE="qemumips64"
+>>>      DEFAULTTUNE = "mips64-n32"
+>>>
+>>> Signed-off-by: Changqing Li<changqing.li@windriver.com>
+>>> ---
+>>>   meta/recipes-devtools/gcc/gcc-runtime.inc | 29 +++++++++++++++++--
+>>> ----------
+>>>   1 file changed, 17 insertions(+), 12 deletions(-)
+>> I haven't looked into why and it took a bit of narrowing down to find
+>> the commit responsible but this is still causing a failure on the
+>> autobuilder:
+>>
+>> https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/285
+>
+> Hi, Richard
+>
+> I checked this problem,  this autobuilder fail seems not related to 
+> this patch.
+>
+> it is failed as:
+>
+> Error:
+> Problem: conflicting requests
+> - nothing provides lib64-lttng-modules needed by 
+> lib64-packagegroup-core-tools-profile-1.0-r3.0.qemux86'
+>
+> but one place weird is I cannot reproduce this error locally with same 
+> configuration.
+>
+> This is my lib64-packagegroup-core-tools-profile.spec:
+>
+> Requires: lib64-powertop
+> Requires: lib64-systemtap
+> Requires: lib64-valgrind
+> Requires: lttng-modules
+> Recommends: lib64-blktrace
+>
+>
+> Requires should be lttng-modules  and not lib64-lttng-modules. 
+> lib64-lttng-modules should have been replace to lttng-modules.
+>
+> during do_package_rpm->mapping_rename_hook->get_package_mapping.
+>
+>
+> I checked history of this part of code,  it should not have change 
+> recently,  so my local code should same as autobuildler, so I don't
+>
+> quite understand why autobuilder failed.
+>
+>
+> If possible, could you help to check on the build server of the 
+> autobuilder ? Thanks.
+>
+Hi, Richard
 
-Cheers,
+I  tested the scenario of the failed build with this patch and the 
+latest poky distro.  It can build success.  Also,  the fauilure seems not
+
+related to this patch.
+
+
+Could you try again build this patch on autobuilder?  Thanks
+
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+> -- 
+> BRs
+>
+> Sandy(Li Changqing)
+>
+-- 
+BRs
+
+Sandy(Li Changqing)
+
+
+--------------10FA6172F6C33BB0A86C7E3D
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 2/19/19 3:05 PM, Changqing Li wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:5b10c70c-f8e5-6a32-4003-17398ddb0e01@windriver.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <p><br>
+      </p>
+      <div class="moz-cite-prefix">On 2/14/19 7:19 PM, Richard Purdie
+        wrote:<br>
+      </div>
+      <blockquote type="cite"
+cite="mid:efe358c26f3e3e9e83853e72256f54d1b9bd4a7f.camel@linuxfoundation.org">
+        <pre class="moz-quote-pre" wrap="">On Tue, 2019-02-12 at 13:10 +0800, <a class="moz-txt-link-abbreviated" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">changqing.li@windriver.com</a> wrote:
+</pre>
+        <blockquote type="cite">
+          <pre class="moz-quote-pre" wrap="">From: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>
+
+    The SDK was unable to find the C++ header pieces correctly since
+it's
+    using a generic compiler, not one specifically targeting the
+multilib
+    vendor prefix and default tune.  This adds the right mapping to
+ensure
+    SDKs work as expected. And fix problem in below configurations:
+
+    multilib configuration 1:
+    MACHINE="qemumips64"
+    MULTILIBS ?= "multilib:lib32 multilib:libn32"
+    DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+    DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
+    MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+    require conf/multilib.conf
+
+    ignoring nonexistent directory "&lt;path&gt;/sysroots/mips64-poky-
+linux/usr/include/c++/8.2.0/mips64-poky-linux/32
+
+    multilib configuration 2:
+    MACHINE="qemumips64"
+    MULTILIBS = 'multilib:lib64 multilib:lib32'
+    DEFAULTTUNE = 'mips64-n32'
+    DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
+    DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
+    require conf/multilib.conf
+
+    For this configuration:
+    for target gcc-runtime, need to create symlink like mips64-poly-
+linux --&gt; mips64-poky-linux-gnu32
+    for target lib64-gcc-runtime, need to create symlink like mips64-
+poly-linux/32 --&gt; mips64-pokymllib64-linux
+    in order to avoid conflict during populate_sdk, create symlink
+for subfoler bits/ext for target gcc-runtime,
+    this is ugly, but seems no better way to cover all kinds of
+configuration.
+
+    single lib configuration:
+    MACHINE="qemumips64"
+    DEFAULTTUNE = "mips64-n32"
+
+Signed-off-by: Changqing Li <a class="moz-txt-link-rfc2396E" href="mailto:changqing.li@windriver.com" moz-do-not-send="true">&lt;changqing.li@windriver.com&gt;</a>
+---
+ meta/recipes-devtools/gcc/gcc-runtime.inc | 29 +++++++++++++++++--
+----------
+ 1 file changed, 17 insertions(+), 12 deletions(-)
+</pre>
+        </blockquote>
+        <pre class="moz-quote-pre" wrap="">I haven't looked into why and it took a bit of narrowing down to find
+the commit responsible but this is still causing a failure on the
+autobuilder:
+
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/285" moz-do-not-send="true">https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/285</a></pre>
+      </blockquote>
+      <p>Hi, Richard</p>
+      <p>I checked this problem,  this autobuilder fail seems not
+        related to this patch.</p>
+      <p>it is failed as:</p>
+      <div style="box-sizing: border-box; height: 18px; color: rgb(199, 199, 199); font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(0, 0, 0); text-decoration-style: initial; text-decoration-color: initial;"><span class="no-wrap log_o ng-binding" data-linenumber-content="10206" style="box-sizing: border-box; color: rgb(199, 199, 199); white-space: pre; overflow-wrap: normal;"><span class="" style="box-sizing: border-box;">Error: </span></span></div>
+      <div style="box-sizing: border-box; height: 18px; color: rgb(199, 199, 199); font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(0, 0, 0); text-decoration-style: initial; text-decoration-color: initial;"><span class="no-wrap log_o ng-binding" data-linenumber-content="10207" style="box-sizing: border-box; color: rgb(199, 199, 199); white-space: pre; overflow-wrap: normal;"><span class="" style="box-sizing: border-box;"> Problem: conflicting requests</span></span></div>
+      <div style="box-sizing: border-box; height: 18px; color: rgb(199, 199, 199); font-family: Menlo, Monaco, Consolas, &quot;Courier New&quot;, monospace; font-size: 13px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: pre; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(0, 0, 0); text-decoration-style: initial; text-decoration-color: initial;"><span class="no-wrap log_o ng-binding" data-linenumber-content="10208" style="box-sizing: border-box; color: rgb(199, 199, 199); white-space: pre; overflow-wrap: normal;"><span class="" style="box-sizing: border-box;">  - nothing provides lib64-lttng-modules needed by lib64-packagegroup-core-tools-profile-1.0-r3.0.qemux86'</span></span></div>
+      <p>but one place weird is I cannot reproduce this error locally
+        with same configuration.</p>
+      <p>This is my lib64-packagegroup-core-tools-profile.spec:<br>
+      </p>
+      <p>Requires: lib64-powertop<br>
+        Requires: lib64-systemtap<br>
+        Requires: lib64-valgrind<br>
+        Requires: lttng-modules<br>
+        Recommends: lib64-blktrace</p>
+      <p><br>
+      </p>
+      <p>Requires should be lttng-modules  and not lib64-lttng-modules. 
+        lib64-lttng-modules should have been replace to lttng-modules.</p>
+      <p>during
+        do_package_rpm-&gt;mapping_rename_hook-&gt;get_package_mapping. </p>
+      <p><br>
+      </p>
+      <p>I checked history of this part of code,  it should not have
+        change recently,  so my local code should same as autobuildler,
+        so I don't</p>
+      <p>quite understand why autobuilder failed.   </p>
+      <p><br>
+      </p>
+      <p>If possible, could you help to check on the build server of the
+        autobuilder ? Thanks.<br>
+      </p>
+    </blockquote>
+    <p>Hi, Richard</p>
+    <p>I  tested the scenario of the failed build with this patch and
+      the latest poky distro.  It can build success.  Also,  the
+      fauilure seems not</p>
+    <p>related to this patch.</p>
+    <p><br>
+    </p>
+    <p>Could you try again build this patch on autobuilder?  Thanks</p>
+    <blockquote type="cite"
+      cite="mid:5b10c70c-f8e5-6a32-4003-17398ddb0e01@windriver.com">
+      <p> </p>
+      <blockquote type="cite"
+cite="mid:efe358c26f3e3e9e83853e72256f54d1b9bd4a7f.camel@linuxfoundation.org">
+        <pre class="moz-quote-pre" wrap="">Cheers,
 
 Richard
 
 
+</pre>
+      </blockquote>
+      <pre class="moz-signature" cols="72">-- 
+BRs
 
+Sandy(Li Changqing)</pre>
+      <br>
+      <fieldset class="mimeAttachmentHeader"></fieldset>
+    </blockquote>
+    <pre class="moz-signature" cols="72">-- 
+BRs
 
+Sandy(Li Changqing)</pre>
+  </body>
+</html>
+
+--------------10FA6172F6C33BB0A86C7E3D--
