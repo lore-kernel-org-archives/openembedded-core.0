@@ -1,57 +1,32 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 127927DBB2
+Return-Path: <f.suligoi@asem.it>
+X-Greylist: delayed 303 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 29 Apr 2019 14:01:10 UTC
+Received: from smtp.asem.it (smtp.asem.it [151.1.184.197])
+	by mail.openembedded.org (Postfix) with ESMTP id A69187DBB2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 13:51:41 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id b10so870936wmj.4
+	Mon, 29 Apr 2019 14:01:10 +0000 (UTC)
+Received: from webmail.asem.it by asem.it (smtp.asem.it)
+	(SecurityGateway 5.5.0) with ESMTP id SG003839685.MSG 
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 06:51:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=/7h5abzpE/2ab0lIFt4E8E7aNOy66VkebILlRta1JYs=;
-	b=ceMob5Au7T2W1zPmpoLGd1QfZz0hCVOW+r9qmuAEcwLOSzVyP27ggciIWpWw+di6CU
-	yrF7Ph2sMO9cRiJXsT91HTMY4LE05B7HizFSe8r3INIAothdq5fLh0nDXEVJnKWJmpOT
-	z/d+1NDoOMEvwRl+2orvgcp9a0HmFg0aDbTkQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=/7h5abzpE/2ab0lIFt4E8E7aNOy66VkebILlRta1JYs=;
-	b=KHglyVSyRm986LpjRKyodcXlPAVyhL6CYtWPrqJ4fj+CXGHGCK4frsmfUVaQ1JYk60
-	F7TL74YHvrA9wuB+n1H+I2GqLUCw8RyVvgUNLahX+umYFf42GlnnfTz6WGQxduPq4tdU
-	QGoZVhfkw546I+GwowYWeT1kLnlf4s+xrpR2AjF96humQS97PexMSGirO/tz6lzrhP80
-	0IeOhLm6nWrSplt/9RoVKu4RwoMcccCpxAXAsIVNCO95a8XIZBL+84djjxectAO7As3I
-	sj8YFOMlYRuu4t/rMjG81o5BTHdgJHvBWrz+HAuVOiEFzy8yTp/UWgKqtoWG+GNEaHxl
-	WkUw==
-X-Gm-Message-State: APjAAAV66KgVCIF+2xJQc13Q7vmXfc1M8WR3ObR9Zd4qzo4VKjFM9CFE
-	kZpBw+Lnhxy2bpP41CZo76LTaA==
-X-Google-Smtp-Source: APXvYqyAilzriSHI4mXCRCsiQVZyrUt4vTvGm34Cu5fZ4/n4BxNgyfip7ovSmfn1r7m0uxoNLuBYrA==
-X-Received: by 2002:a1c:cc15:: with SMTP id h21mr7485284wmb.85.1556545902808; 
-	Mon, 29 Apr 2019 06:51:42 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id t18sm429731wrg.19.2019.04.29.06.51.41
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 29 Apr 2019 06:51:42 -0700 (PDT)
-Message-ID: <ec77d08feb85f543bbc79372d276092c10336035.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, Bas
-	Mevissen <abuse@basmevissen.nl>
-Date: Mon, 29 Apr 2019 14:51:40 +0100
-In-Reply-To: <CALbNGRR_YxL=+u7Kc5x8OiTXLFhRjqK_jp53xB5Q_9WZS-rZ+Q@mail.gmail.com>
-References: <20190427113714.30173-1-schnitzeltony@gmail.com>
-	<d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
-	<CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
-	<a45f59b03312a7693bd5d4e4ae04c600@basmevissen.nl>
-	<CALbNGRT_FRQfA0jpP7DHsFOxnt97JW-KEjyGXOkW9V2w+Ujgyw@mail.gmail.com>
-	<CALbNGRR_YxL=+u7Kc5x8OiTXLFhRjqK_jp53xB5Q_9WZS-rZ+Q@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	Mon, 29 Apr 2019 15:56:06 +0200S
+Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
+	(172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1261.35;
+	Mon, 29 Apr 2019 15:56:05 +0200
+Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
+	(172.16.16.44) with Microsoft SMTP Server id 15.1.1261.35 via Frontend
+	Transport; Mon, 29 Apr 2019 15:56:05 +0200
+From: Flavio Suligoi <f.suligoi@asem.it>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Apr 2019 15:56:03 +0200
+Message-ID: <1556546164-28522-1-git-send-email-f.suligoi@asem.it>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
+X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
+X-SGSPF-Result: none (smtp.asem.it)
+X-SGOP-RefID: str=0001.0A0B0202.5CC70276.002B, ss=1, re=0.000, recu=0.000,
+	reip=0.000, cl=1, cld=1, fgs=0 (_st=1 _vt=0 _iwf=0)
+Subject: [PATCH 1/2] kernel: redirect merge_config.sh error output to file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,76 +39,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 13:51:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 29 Apr 2019 14:01:11 -0000
+Content-Type: text/plain
 
-On Mon, 2019-04-29 at 15:47 +0200, Andreas Müller wrote:
-> On Mon, Apr 29, 2019 at 2:21 PM Andreas Müller <
-> schnitzeltony@gmail.com> wrote:
-> > On Mon, Apr 29, 2019 at 12:56 PM Bas Mevissen <abuse@basmevissen.nl
-> > > wrote:
-> > > On 2019-04-29 11:29, Andreas Müller wrote:
-> > > 
-> > > (...)
-> > > 
-> > > > Understood - hope to find time till tomorrow for this. Need to
-> > > > find an
-> > > > old machine for test because otherwise further fixes might
-> > > > remain
-> > > > incomplete again.
-> > > > 
-> > > 
-> > > Why not add the g++ option --std=c++11 when test building this
-> > > recipe?
-> > > 
-> > > $cat test.cc
-> > > 
-> > > #include <string>
-> > > 
-> > > using namespace std::literals;
-> > > 
-> > > int main()
-> > > {
-> > >         return 0;
-> > > }
-> > > 
-> > > 
-> > > $ g++ --std=c++17 test.cc -o test
-> > > $ g++ --std=c++11 test.cc -o test
-> > > test.cc:5:22: error: ‘literals’ is not a namespace-name
-> > >      5 | using namespace std::literals;
-> > >        |                      ^~~~~~~~
-> > > 
-> > > -- Bas.
-> > Did that but on CFLAGS (copy & paste from another place in recipe)
-> > and
-> > since issues popped up I thought it was right :(
-> > 
-> Looked into:
-> 
-> There is no easy way to get vte-native to build with c++11. Even if -
-> patches possibly introduce functional changes/errors (and the result
-> of oe-selftest is questionable with a massively patched vte).
-> 
-> So I see two ways to go:
-> 
-> 1. set vte-native requirements to c++14. That worked here with
-> CXXFLAGS_append_class-native = " --std=c++14" but looking into logs
-> of
-> centos 7 there are several '--std=gnu++11'. Have no idea where they
-> come from so chances are high this patch is going fail with c++14.
-> 2. revert vte back to 0.52.2 and forget the idea to get recent
-> gnome-terminal back in near future. That requires vte 0.56.1 and was
-> the reason I sent the update here.
-> 
-> My preference is 2.
+In the task:
 
-I'm willing to try testing a c++14 patch if that helps, we can fall
-back to 2 if that fails?
+do_kernel_configme
 
-Cheers,
+the errors during execution of the "merge_config.sh" script are
+currently lost.
+But these errors are very useful for debugging, when there are
+problems during the kernel configuration fragments assembly.
 
-Richard
+This is the reason to save also the error log, in addition to the
+existing log.
+
+Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+---
+ meta/classes/kernel-yocto.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index ed9bcfa..243f8d6 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -330,7 +330,7 @@ do_kernel_configme() {
+ 		bbfatal_log "Could not find configuration queue (${meta_dir}/config.queue)"
+ 	fi
+ 
+-	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2>&1
++	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2> ${meta_dir}/cfg/merge_config_build-errors.log
+ 	if [ $? -ne 0 ]; then
+ 		bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
+ 	fi
+-- 
+2.7.4
 
 
