@@ -1,53 +1,48 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 453157DBBE
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 473FB7DB48
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 14:07:43 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id s18so16340866wrp.0
+	Mon, 29 Apr 2019 14:15:45 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id h5so8154396lfm.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 07:07:44 -0700 (PDT)
+	Mon, 29 Apr 2019 07:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=NMUbLuYT9CCucqlsfm38KbpLC8HeCHkCIVu3btL8sXo=;
-	b=aw8bS4CBSz8hfuAzWqnYCZQPPja89wUv1L/9X9rXNzLlSSo6Vbhvm8inuOQT14nCaU
-	4D/ae4E18B1+CUdM4yUjev8UngY8wm/nq2VkCZYMH72NpM7xx9Sf1bBhjkMM8vP2zOdA
-	wD0VnGgpRZzKnrUisFXXqkFjPMPRkVGzGMF8iFMrRZQ6Yjr/p1HfMVXbkoB5LbbaDCjd
-	Xxz4B1u/mQ9l1KSxEQAFV3Nz4YXzE/4fLhbD3jPzv4jdgzDXYKEGSAFVUdVpM2oj1pZr
-	ms87g1i+n/01+u9R2vNhVxfU05CwsS1w1utMHHm64SOW3zb4bRhBjbpz2X4moBSB4FeS
-	hhmQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=nvmVMFNDgnCnl1iflRhEVGKwzvZJ9zBMJtpECtL1bVU=;
+	b=Ljk5eBEMHR0fwfTMO4ggVUTDvlFyi/FWEpDcxFtLybh4ofNAKtQiRALe0Pj0dJWeWj
+	BGTRI+PIhhIPYlqXxGy8pywJcvljhI8xl7YtCaW3VOb7kyImjUtCpHw2OZVxsQ+Ny8gH
+	aoqlKmYl3EWkQrGy6wXu5xWobN8QiHTGYR4AZ10Zk6oczwbobtFghzEUTJETUicZHSLE
+	KQOT2Y3nl19HH+eeN5tzDPJx/TKJ4Gt9diXhDxSTPSZMtlWlbmMaR8IoRA3dUFn7PGxp
+	sNAcxPOguGgbyMV6yku41WA9y8nmT4seQRRx7cf9Hq15JMmydvWXHDs+aypQmUe5vwF+
+	Byzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=NMUbLuYT9CCucqlsfm38KbpLC8HeCHkCIVu3btL8sXo=;
-	b=PvPeXsR2wZ/urxAYG2ar9c2LxDTW7LbpeDWCFb/ENH58vP7Ic2/wHhOHvIyr+BDLmg
-	v8IZ9j7nNXeNImv7z7yMEbIKKwERkCsMEu5e475ZZYNQngQtZzaiI1e9yqzq67scABDa
-	yt0zdCD1Fkzt4GMHMYWwW1WSP9FK7InSYoy8CDET7Zkxb7j05Wo4lr7Tc4XsDjKsE64n
-	zZZiJBFNBn0/rYre5VeXY6mQ1atw/gKAVZfTef/Mxe8HpgVcPHYYiAutZuDSJlh48YIn
-	fS4vaNc3tn3es6aslz9e1J74SrQmnw9Kx8yFIlyFQ4olcOMIYFoFUEvrf1p406VRoRHx
-	DvDA==
-X-Gm-Message-State: APjAAAVYvfbPeHJqC5EAFZZ27XHsxK+rfApk6q7TIGBNXyB+MWJf+jGM
-	aMTyccomVbuf/Y4N4Rjw572hLkBE
-X-Google-Smtp-Source: APXvYqwhQ5BLMX0YlJbpgNT7BEwKpTI3MMWcn2U/k3jynRgICDuGX5PdP9HD4oIopQytOtBAILfgmA==
-X-Received: by 2002:adf:c002:: with SMTP id z2mr42356079wre.177.1556546863825; 
-	Mon, 29 Apr 2019 07:07:43 -0700 (PDT)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163])
-	by smtp.gmail.com with ESMTPSA id q7sm2627964wra.57.2019.04.29.07.07.42
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 29 Apr 2019 07:07:42 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Apr 2019 16:07:30 +0200
-Message-Id: <20190429140730.2899-2-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190429140730.2899-1-schnitzeltony@gmail.com>
-References: <20190429140730.2899-1-schnitzeltony@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=nvmVMFNDgnCnl1iflRhEVGKwzvZJ9zBMJtpECtL1bVU=;
+	b=NENuTYQOLlYuxjegWvpV1pKYd8rL1aWMD/CMaj1l9prkXXT1abZaGDrhw2GUpoAewI
+	+TYw2kSpqjNxaUqPJkfuIk6REE8eJVn9hFO8d3VbkLp0EHTYLCPk3YbvH6bpWG/tXQcP
+	mZiIxSqRNKQ/Cx78tdb9Se2i5GaiJxZ7ZDaCXFKDQFyTjBxR7tE2/Pn4FFfN9FBAgNKf
+	4SWmzz8RM8HeFIIJIUuoqLSxmRnYFuzamGdSOFwHxZmspy4Cpi9Q5pu6OeizOZYuEXeo
+	s2JRSjwMSX+EEu9mYZL2vVnU809LBdP7gTCs9ja04Q/T0z8G4LqLjqh4/TtHY/MpMgvr
+	3u4A==
+X-Gm-Message-State: APjAAAVq9K9i7wsajxzxZ3vISPwi2MQqTgO5eC8lrlY0XU2SfI199Odb
+	k6VOfbhtoZXZHA5Vb+mZOrmK1b1xNyVUbWMB2TY=
+X-Google-Smtp-Source: APXvYqzZ/ey9R7M/hB4RATbjOb+Kwsl65YTE/bQT7XnBcXRoBRUcGvnjJFjZ7AyEKrtzo23QXtA/MkerqB1sdORN0J4=
+X-Received: by 2002:a19:a94d:: with SMTP id s74mr18226690lfe.134.1556547345654;
+	Mon, 29 Apr 2019 07:15:45 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] vte-native: reduce c++ requirements from c++17 -> c++14
+References: <1556546164-28522-1-git-send-email-f.suligoi@asem.it>
+	<1556546164-28522-2-git-send-email-f.suligoi@asem.it>
+In-Reply-To: <1556546164-28522-2-git-send-email-f.suligoi@asem.it>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 29 Apr 2019 10:15:34 -0400
+Message-ID: <CADkTA4MjV8eMW5BZxze4midXnrhVmwMC9wA-gvfTGQFbNoNcVw@mail.gmail.com>
+To: Flavio Suligoi <f.suligoi@asem.it>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] kernel: check for empty .config file after merge_config.sh
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,171 +55,147 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 14:07:43 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 29 Apr 2019 14:15:45 -0000
+Content-Type: multipart/alternative; boundary="0000000000009d27030587abebc6"
 
-This should fix build on ancient hosts
+--0000000000009d27030587abebc6
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- ...uce-gcc-required-support-downto-c-14.patch | 34 ++++++++++++++
- ...001-Revert-parser-glue-Use-std-clamp.patch | 44 +++++++++++++++++++
- ...replace-std-clamp-by-std-min-std-max.patch | 33 ++++++++++++++
- meta/recipes-support/vte/vte_0.56.1.bb        |  7 +++
- 4 files changed, 118 insertions(+)
- create mode 100644 meta/recipes-support/vte/vte/0001-Reduce-gcc-required-support-downto-c-14.patch
- create mode 100644 meta/recipes-support/vte/vte/0001-Revert-parser-glue-Use-std-clamp.patch
- create mode 100644 meta/recipes-support/vte/vte/0001-vte.cc-replace-std-clamp-by-std-min-std-max.patch
+On Mon, Apr 29, 2019 at 10:01 AM Flavio Suligoi <f.suligoi@asem.it> wrote:
 
-diff --git a/meta/recipes-support/vte/vte/0001-Reduce-gcc-required-support-downto-c-14.patch b/meta/recipes-support/vte/vte/0001-Reduce-gcc-required-support-downto-c-14.patch
-new file mode 100644
-index 0000000000..19379b4c9b
---- /dev/null
-+++ b/meta/recipes-support/vte/vte/0001-Reduce-gcc-required-support-downto-c-14.patch
-@@ -0,0 +1,34 @@
-+From 6d33f959f442f1338846f6f80e826f1345951b57 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-+Date: Sat, 27 Apr 2019 12:52:03 +0200
-+Subject: [PATCH] Reduce gcc required support downto c++14
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Native builds require host gcc and they might not support full c++17 but enough
-+to build vte-native.
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 1c7a753b..698e795d 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -97,7 +97,7 @@ AC_HEADER_STDC
-+ AM_PROG_CC_C_O
-+ AC_PROG_SED
-+ 
-+-AX_CXX_COMPILE_STDCXX([17])
-++AX_CXX_COMPILE_STDCXX([14])
-+ 
-+ AC_SYS_LARGEFILE
-+ 
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-support/vte/vte/0001-Revert-parser-glue-Use-std-clamp.patch b/meta/recipes-support/vte/vte/0001-Revert-parser-glue-Use-std-clamp.patch
-new file mode 100644
-index 0000000000..581996d3c4
---- /dev/null
-+++ b/meta/recipes-support/vte/vte/0001-Revert-parser-glue-Use-std-clamp.patch
-@@ -0,0 +1,44 @@
-+From 9e562ebaf4c01f864cd5791ad759465cb32a9dc5 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-+Date: Sat, 27 Apr 2019 13:03:33 +0200
-+Subject: [PATCH] Revert "parser: glue: Use std::clamp"
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+std::clamp requires c++17
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+This reverts commit 1a84c427cd2ea05939b86eb47c21a437d0ce6d79.
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ src/parser-glue.hh | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/parser-glue.hh b/src/parser-glue.hh
-+index c12bb784..9c23a0a3 100644
-+--- a/src/parser-glue.hh
-++++ b/src/parser-glue.hh
-+@@ -281,7 +281,7 @@ public:
-+                                    int max_v) const noexcept
-+         {
-+                 auto v = param(idx, default_v);
-+-                return std::clamp(v, min_v, max_v);
-++                return std::min(std::max(v, min_v), max_v);
-+         }
-+ 
-+         /* param_nonfinal:
-+@@ -381,7 +381,7 @@ public:
-+                                       int max_v) const noexcept
-+         {
-+                 int v = __builtin_expect(idx < size(), 1) ? vte_seq_arg_value_final(m_seq->args[idx], default_v) : default_v;
-+-                return std::clamp(v, min_v, max_v);
-++                return std::min(std::max(v, min_v), max_v);
-+         }
-+ 
-+         /* collect_subparams:
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-support/vte/vte/0001-vte.cc-replace-std-clamp-by-std-min-std-max.patch b/meta/recipes-support/vte/vte/0001-vte.cc-replace-std-clamp-by-std-min-std-max.patch
-new file mode 100644
-index 0000000000..ef53458858
---- /dev/null
-+++ b/meta/recipes-support/vte/vte/0001-vte.cc-replace-std-clamp-by-std-min-std-max.patch
-@@ -0,0 +1,33 @@
-+From db3b9cceb55130b0a4b3414be804530c368ececc Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-+Date: Sat, 27 Apr 2019 13:22:52 +0200
-+Subject: [PATCH] vte.cc: replace std:clamp by std:min(std:max(..)..)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+std::clamp requires c++17
-+
-+Upstream-Status: Inappropriate [configuration]
-+
-+Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-+---
-+ src/vte.cc | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/vte.cc b/src/vte.cc
-+index 0aa9a3fc..c9faab49 100644
-+--- a/src/vte.cc
-++++ b/src/vte.cc
-+@@ -5125,7 +5125,7 @@ Terminal::resolve_selection_endpoint(vte::grid::halfcoords const& rowcolhalf, bo
-+                 /* Just find the nearest cell boundary within the line, not caring about CJKs, unused
-+                  * cells, or wrapping at EOL. The @after parameter is unused in this mode. */
-+                 col += half;
-+-                col = std::clamp (col, 0L, m_column_count);
-++                col = std::min (std::max(col, 0L), m_column_count);
-+         } else {
-+                 switch (m_selection_type) {
-+                 case selection_type_char:
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-support/vte/vte_0.56.1.bb b/meta/recipes-support/vte/vte_0.56.1.bb
-index 3585e9ce57..b261c03191 100644
---- a/meta/recipes-support/vte/vte_0.56.1.bb
-+++ b/meta/recipes-support/vte/vte_0.56.1.bb
-@@ -19,6 +19,13 @@ SRC_URI += "file://0001-Don-t-enable-stack-protection-by-default.patch \
-            file://0001-app.cc-use-old-school-asignment-to-avoid-gcc-4.8-err.patch \
-            file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
-            "
-+
-+SRC_URI_append_class-native = " \
-+    file://0001-Reduce-gcc-required-support-downto-c-14.patch \
-+    file://0001-Revert-parser-glue-Use-std-clamp.patch \
-+    file://0001-vte.cc-replace-std-clamp-by-std-min-std-max.patch \
-+"
-+
- SRC_URI[archive.md5sum] = "a8984cd5a101dbff0b0c875d1de3f692"
- SRC_URI[archive.sha256sum] = "02fa8ecc02a9332e47f486795494527b5687b3bd448e73e6b67285f2f326dc7c"
- 
+> Sometimes, for example in case of missed dependecies, after the
+> execution of:
+>
+> merge_config.sh
+>
+> the resulting file ".config" can be empty.
+> This is the reason why is necessary test it and, in case, display
+> the "Could not configure ..." error message.
+>
+
+This doesn't belong here. Auditing of the final .config is done in a
+separate task, and we could pickup that issue there.
+
+That being said, there are already checks for inputs that could result in
+something like this. How were you triggering this issue ? I'd like to
+reproduce it here, and perhaps come up with a different solution.
+
+Bruce
+
+
+
+>
+> Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
+> ---
+>  meta/classes/kernel-yocto.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel-yocto.bbclass
+> b/meta/classes/kernel-yocto.bbclass
+> index 243f8d6..895966b 100644
+> --- a/meta/classes/kernel-yocto.bbclass
+> +++ b/meta/classes/kernel-yocto.bbclass
+> @@ -331,7 +331,7 @@ do_kernel_configme() {
+>         fi
+>
+>         CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}" HOSTCC="${BUILD_CC}
+> ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}"
+> ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} >
+> ${meta_dir}/cfg/merge_config_build.log 2>
+> ${meta_dir}/cfg/merge_config_build-errors.log
+> -       if [ $? -ne 0 ]; then
+> +       if [ $? -ne 0 ] || [ ! -s ${B}/.config ]; then
+>                 bbfatal_log "Could not configure
+> ${KMACHINE}-${LINUX_KERNEL_TYPE}"
+>         fi
+>
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+
 -- 
-2.20.1
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
+--0000000000009d27030587abebc6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Mon, Apr 29, 2019 at 10:01 AM Flavio Suligoi &lt=
+;<a href=3D"mailto:f.suligoi@asem.it">f.suligoi@asem.it</a>&gt; wrote:<br><=
+/div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bo=
+rder-left:1px solid rgb(204,204,204);padding-left:1ex">Sometimes, for examp=
+le in case of missed dependecies, after the<br>
+execution of:<br>
+<br>
+merge_config.sh<br>
+<br>
+the resulting file &quot;.config&quot; can be empty.<br>
+This is the reason why is necessary test it and, in case, display<br>
+the &quot;Could not configure ...&quot; error message.<br></blockquote><div=
+><br></div><div><div class=3D"gmail_default" style=3D"font-size:small">This=
+ doesn&#39;t belong here. Auditing of the final .config is done in a separa=
+te task, and we could pickup that issue there.</div><div class=3D"gmail_def=
+ault" style=3D"font-size:small"><br></div><div class=3D"gmail_default" styl=
+e=3D"font-size:small">That being said, there are already checks for inputs =
+that could result in something like this. How were you triggering this issu=
+e ? I&#39;d like to reproduce it here, and perhaps come up with a different=
+ solution.</div><div class=3D"gmail_default" style=3D"font-size:small"><br>=
+</div><div class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br=
+></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Flavio Suligoi &lt;<a href=3D"mailto:f.suligoi@asem.it" targ=
+et=3D"_blank">f.suligoi@asem.it</a>&gt;<br>
+---<br>
+=C2=A0meta/classes/kernel-yocto.bbclass | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.=
+bbclass<br>
+index 243f8d6..895966b 100644<br>
+--- a/meta/classes/kernel-yocto.bbclass<br>
++++ b/meta/classes/kernel-yocto.bbclass<br>
+@@ -331,7 +331,7 @@ do_kernel_configme() {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 CFLAGS=3D&quot;${CFLAGS} ${TOOLCHAIN_OPTIONS}&q=
+uot; HOSTCC=3D&quot;${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}&quot; HOST=
+CPP=3D&quot;${BUILD_CPP}&quot; CC=3D&quot;${KERNEL_CC}&quot; ARCH=3D${ARCH}=
+ merge_config.sh -O ${B} ${config_flags} ${configs} &gt; ${meta_dir}/cfg/me=
+rge_config_build.log 2&gt; ${meta_dir}/cfg/merge_config_build-errors.log<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ]; then<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ $? -ne 0 ] || [ ! -s ${B}/.config ]; then<=
+br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bbfatal_log &quot;C=
+ould not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}&quot;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
+<br>
+-- <br>
+2.7.4<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">- Thou shalt not follow the NULL pointer, for ch=
+aos and madness await thee at its end<br>- &quot;Use the force Harry&quot; =
+- Gandalf, Star Trek II<br><br></div></div>
+
+--0000000000009d27030587abebc6--
