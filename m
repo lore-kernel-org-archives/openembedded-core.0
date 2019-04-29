@@ -1,46 +1,31 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 440FE7D443
+Return-Path: <abuse@basmevissen.nl>
+X-Greylist: delayed 324 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 29 Apr 2019 11:02:02 UTC
+Received: from hosting.emcodev.net (hosting.emcodev.net [178.18.92.162])
+	by mail.openembedded.org (Postfix) with ESMTP id 2169760720
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 09:30:03 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id v9so8307488iol.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 02:30:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=4qnbLEXY7ZhxhZqlj2LifvVk6pIeTThF8XYF0U3GhpM=;
-	b=mAm7nEgCFQm4mN452B9cCp4C5i8cPqaaM5eLd0oIigHX5yfIyi3ImF5I3820Oerh8g
-	9g9NwfgSUA0U99G1zuIIIzf6TBQDIsetqwP+k/XbsdRvr8SccDxAVUJmB/lkOmGelmyq
-	8l4/KPbo7z7wW3eccfD0kDJEfG4utclgAdCwyodWd6yGo6by/iHxBSOWJ2EtgUtHjuqm
-	7ulq8cTCRI/zepdCfG/NvRPWzVWaiuxSnE+wxtwso1kbhk2zxSArEHoUJ01XGrEzKQmj
-	tE9g218/gYvhkBymCgq3GwEGAsEavwuW7IZfpMDAAXfx4fgPBJZTHXzxOUseSXnhHDMM
-	o8TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=4qnbLEXY7ZhxhZqlj2LifvVk6pIeTThF8XYF0U3GhpM=;
-	b=mJJ2a62HPh5lPNgK7I0/+MluHC1MSXQpH+CCPF2Oh59TuynnxTwXpzSTAqRI18rUwr
-	PVXHImk3sVXuXcbT9l00r6Z+UOHx1Hm3Vi6zrciQDViaiHQnNwLhtHpQHlurSawpmV0t
-	TUL1YZk8WwhoM7SQ1BAJkXD/eA83VkpICwodwZltCGebQDGCk+icFCH3nQuwHVBkJpXS
-	AahbZPUvY35tqDFbY68blNNWJl2Mmk1kxOEEWYhNpUpTfJSyrDWYMlEQsKf9cM5cCNXp
-	07p/S4oIwZ8W17MHQloahjt5PYmMa8NNfsbtDLgVN4fSIPi0+znfL9DZX9uViTkdAEnm
-	H1Ng==
-X-Gm-Message-State: APjAAAW8Sgr7J5zJN5FavD413a3ZkGo8spPjAWaq1VWSdb5JPJC5GqYI
-	J/Cv9+IAZeG2uFxknP0xyELIQtoZMI5DVCc4fVrsug==
-X-Google-Smtp-Source: APXvYqyX7a4d9V6tNBIYYh4a79A579q44YBhhRtEidIcPzMVzK4mrdJbE1Zq6gkRimbum2Lu23RDyZScwDgFUWCc5f4=
-X-Received: by 2002:a6b:c38d:: with SMTP id t135mr7158916iof.284.1556530205115;
-	Mon, 29 Apr 2019 02:30:05 -0700 (PDT)
+	Mon, 29 Apr 2019 11:02:02 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id D44B3212001;
+	Mon, 29 Apr 2019 12:56:38 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at hosting.emcodev.net
+Received: from hosting.emcodev.net ([127.0.0.1])
+	by localhost (hosting.emcodev.net [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id fOqZ3BWeWug7; Mon, 29 Apr 2019 12:56:37 +0200 (CEST)
+Received: from emcodev.nl (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id C6F6F12B6DD;
+	Mon, 29 Apr 2019 12:56:37 +0200 (CEST)
 MIME-Version: 1.0
+Date: Mon, 29 Apr 2019 12:56:37 +0200
+From: Bas Mevissen <abuse@basmevissen.nl>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+In-Reply-To: <CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
 References: <20190427113714.30173-1-schnitzeltony@gmail.com>
 	<d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
-In-Reply-To: <d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Mon, 29 Apr 2019 11:29:52 +0200
-Message-ID: <CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
+Message-ID: <a45f59b03312a7693bd5d4e4ae04c600@basmevissen.nl>
+X-Sender: abuse@basmevissen.nl
+User-Agent: Roundcube Webmail/1.3.7
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
@@ -56,70 +41,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 09:30:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 29 Apr 2019 11:02:03 -0000
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 29, 2019 at 10:49 AM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Sat, 2019-04-27 at 13:37 +0200, Andreas M=C3=BCller wrote:
-> > This should fix build on ancient hosts
-> >
-> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > ---
-> >  ...uce-gcc-required-support-downto-c-11.patch | 34 ++++++++++++++
-> >  ...001-Revert-parser-glue-Use-std-clamp.patch | 44
-> > +++++++++++++++++++
-> >  ...replace-std-clamp-by-std-min-std-max.patch | 33 ++++++++++++++
-> >  meta/recipes-support/vte/vte_0.56.1.bb        |  7 +++
-> >  4 files changed, 118 insertions(+)
-> >  create mode 100644 meta/recipes-support/vte/vte/0001-Reduce-gcc-
-> > required-support-downto-c-11.patch
-> >  create mode 100644 meta/recipes-support/vte/vte/0001-Revert-parser-
-> > glue-Use-std-clamp.patch
-> >  create mode 100644 meta/recipes-support/vte/vte/0001-vte.cc-replace-
-> > std-clamp-by-std-min-std-max.patch
->
-> Unfortunately it doesn't seem to be quite enough:
->
-> https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/461993/raw
-> (from centos 7)
->
-> | ../../vte-0.56.1/src/utf8-test.cc:27:22: error: =E2=80=98literals=E2=80=
-=99 is not a
-> namespace-name
-> |  using namespace std::literals;
-> |                       ^
->
-> and:
->
-> https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/461960/raw
-> (from debian9)
->
-> | ../../vte-0.56.1/src/parser-cat.cc:140:31: error: enclosing class of
-> constexpr non-static member function =E2=80=98bool PrettyPrinter::plain()
-> const=E2=80=99 is not a literal type
-> |          inline constexpr bool plain() const noexcept { return
-> m_plain; }
-> |                                ^~~~~
-> | ../../vte-0.56.1/src/parser-cat.cc:134:7: note: =E2=80=98PrettyPrinter=
-=E2=80=99 is
-> not literal because:
-> |  class PrettyPrinter {
-> |        ^~~~~~~~~~~~~
->
-> Unfortunately I merged the upgrade into master as we'd had green builds
-> before this (chance meant we didn't hit this failure) so this is a more
-> pressing problem now...
->
-> Cheers,
->
-> Richard
->
-Understood - hope to find time till tomorrow for this. Need to find an
-old machine for test because otherwise further fixes might remain
-incomplete again.
+On 2019-04-29 11:29, Andreas M=C3=BCller wrote:
 
-Andreas
+(...)
+
+>>=20
+> Understood - hope to find time till tomorrow for this. Need to find an
+> old machine for test because otherwise further fixes might remain
+> incomplete again.
+>=20
+
+Why not add the g++ option --std=3Dc++11 when test building this recipe?
+
+$cat test.cc
+
+#include <string>
+
+using namespace std::literals;
+
+int main()
+{
+	return 0;
+}
+
+
+$ g++ --std=3Dc++17 test.cc -o test
+$ g++ --std=3Dc++11 test.cc -o test
+test.cc:5:22: error: =E2=80=98literals=E2=80=99 is not a namespace-name
+     5 | using namespace std::literals;
+       |                      ^~~~~~~~
+
+-- Bas.
 
