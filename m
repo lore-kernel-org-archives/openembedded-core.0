@@ -1,48 +1,48 @@
 Return-Path: <AMardegan@luxoft.com>
 Received: from mx02.luxoft.com (mx02.luxoft.com [109.166.244.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C4D67DBC7
+	by mail.openembedded.org (Postfix) with ESMTP id 3A7FA7DBC7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 14:51:26 +0000 (UTC)
-X-AuditID: ac1e1348-4d5ff70000000417-ee-5cc70f6fc85b
-Received: from ORO-EDGE-02.luxoft.com (oro-edge-02.luxoft.com [172.30.19.22])
+	Mon, 29 Apr 2019 14:52:10 +0000 (UTC)
+X-AuditID: ac1e1348-4d5ff70000000417-34-5cc70f9ab1e4
+Received: from ORO-EDGE-03.luxoft.com (oro-edge-03.luxoft.com [172.30.19.23])
 	(using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
 	(Client did not present a certificate)
 	by mx02.luxoft.com (Symantec Messaging Gateway) with SMTP id
-	5F.B4.01047.F6F07CC5; Mon, 29 Apr 2019 17:51:27 +0300 (EEST)
-Received: from oro-exch-03.luxoft.com (172.25.192.31) by
-	oro-edge-02.luxoft.com (172.30.19.22) with Microsoft SMTP Server (TLS)
-	id 14.3.408.0; Mon, 29 Apr 2019 17:51:24 +0300
+	76.C4.01047.A9F07CC5; Mon, 29 Apr 2019 17:52:10 +0300 (EEST)
+Received: from oro-exch-04.luxoft.com (172.25.192.34) by
+	oro-edge-03.luxoft.com (172.30.19.23) with Microsoft SMTP Server (TLS)
+	id 14.3.408.0; Mon, 29 Apr 2019 17:52:09 +0300
 Received: from oro-exch-01.luxoft.com (172.25.192.30) by
-	oro-exch-03.luxoft.com (172.25.192.31) with Microsoft SMTP Server
+	oro-exch-04.luxoft.com (172.25.192.34) with Microsoft SMTP Server
 	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521) id
-	15.1.1466.3; Mon, 29 Apr 2019 17:51:26 +0300
+	15.1.1466.3; Mon, 29 Apr 2019 17:52:09 +0300
 Received: from oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13]) by
 	oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13%13]) with mapi id
-	15.01.1466.003; Mon, 29 Apr 2019 17:51:26 +0300
+	15.01.1466.003; Mon, 29 Apr 2019 17:52:09 +0300
 From: "Mardegan, Alberto" <AMardegan@luxoft.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH][thud] oeqa/core/runner: dump stdout and stderr of each
-	test case
-Thread-Index: AQHU/psFHnWDnnzVy0abAM+F9a2vCg==
-Date: Mon, 29 Apr 2019 14:51:26 +0000
-Message-ID: <20190429145112.6702-1-amardegan@luxoft.com>
+Thread-Topic: [PATCH][warrior] oeqa/core/runner: dump stdout and stderr of
+	each test case
+Thread-Index: AQHU/psfTNx6lk55PECp6qFbaTX54A==
+Date: Mon, 29 Apr 2019 14:52:09 +0000
+Message-ID: <20190429145158.6785-1-amardegan@luxoft.com>
 Accept-Language: it-IT, en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-originating-ip: [172.30.19.68]
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKLMWRmVeSWpSXmKPExsWyRk5YTDef/3iMwY9PAhZ3fr5jd2D0OLdx
-	BWMAYxSXTUpqTmZZapG+XQJXxoXv61gK2tUqjh67zNLA2CzbxcjJISFgIrFi2xuWLkYuDiGB
-	zUwSD1a2sUM4mxglmie9h8p8YZSYv+80M4Szn1Hiyf0lzCD9bAIGEn93r2UFsUUEoiWWzpjJ
-	DmIzC2hJLG05ygRiCwsES9xbs5AdoiZCovnxakYIW0+iu2s1WC+LgKrE/hVXWUBsXgELiWMH
-	HoLFGQVkJSbsXsQIMVNc4taT+UwQdwtILNlznhnCFpV4+fgfK4StINH5tBHqBj2JG1OnsEHY
-	2hLLFr5mhpgvKHFy5hOwXUICihLLv81nmsAoNgvJillI2mchaZ+FpH0BI8sqRtH8onzd4tx0
-	XQMTvZzSivy0Er3k/NxNjJCI8djB+PFwyiFGJg5OqQZGlr3+0wuam5499020LbDcfcfg3LeL
-	ykcE9H+8vtwlrN3XHRy4+mpJ6ZoaiUCjpVGJDX4roxdmG/TXn5jRdW11vndh0+cUoSPaRwV+
-	i588919RJDni1llB6+u+7cx9QS8+CZ+VbxLvCk4pe1wYcG9B4iPmsH1h9/RT3mpdf/h3W+r8
-	0hVPbhcpsRRnJBpqMRcVJwIAQJ7feUgCAAA=
-Subject: [PATCH][thud] oeqa/core/runner: dump stdout and stderr of each test case
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrILMWRmVeSWpSXmKPExsWyRk5YXHcW//EYgzkzTC3u/HzH7sDocW7j
+	CsYAxigum5TUnMyy1CJ9uwSujIXdm1kL2tUqNlxJaWBslu1i5OSQEDCReDR9NXsXIxeHkMBm
+	Jokvix9BOZsYJaZNOw7lfGGU+D+liRGkRUhgP6PE5zO5IDabgIHE391rWUFsEYFoiaUzZrKD
+	2MwCWhJLW44ydTFycAgLhEl8bNUFMUFKznTkQ1TrSbTcvAjWySKgKrG0dxIziM0rYCHx5utz
+	sDijgKzEhN2LGCEmikvcejKfCeJoAYkle84zQ9iiEi8f/2OFsBUkOp82Ql2gJ3Fj6hQ2CFtb
+	YtnC11DzBSVOznzCAvGJosTyb/OZJjCKzUKyYhaS9llI2mchaV/AyLKKUTS/KF+3ODdd18BE
+	L6e0Ij+tRC85P3cTIyRSPHYwfjyccoiRiYNTqoHRp4j9UKNrct7vSesvlQVK9P8q4b290ttV
+	9rmmdXWC8okZgg/2flE9fa7ingqn8uG5d39ZvTjxV+xprJbO8m3aesL3/pQVTOL+cWHS7T6z
+	ZKNgTk/Bk8vkdqYuvM+r+uhu5LmyfcerhY/+V04pmG3X2tz2MmJRzov4mKbQO0Vyd67m6nOw
+	FN9RYinOSDTUYi4qTgQAS4NaikQCAAA=
+Subject: [PATCH][warrior] oeqa/core/runner: dump stdout and stderr of each test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,7 +55,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 14:51:27 -0000
+X-List-Received-Date: Mon, 29 Apr 2019 14:52:10 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
@@ -84,10 +84,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclas=
 s
-index cb8c12acce..3479228307 100644
+index ff1c53b93e..9bb5a5cb0b 100644
 --- a/meta/classes/testimage.bbclass
 +++ b/meta/classes/testimage.bbclass
-@@ -314,7 +314,8 @@ def testimage_main(d):
+@@ -316,7 +316,8 @@ def testimage_main(d):
      configuration =3D get_testimage_configuration(d, 'runtime', machine)
      results.logDetails(get_testimage_json_result_dir(d),
                         configuration,
