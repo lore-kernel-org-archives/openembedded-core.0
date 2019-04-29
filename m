@@ -1,29 +1,23 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F1667DA88
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A77BA7D588
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 06:41:33 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3T6ew6r008933
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 28 Apr 2019 23:41:08 -0700
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Sun, 28 Apr 2019 23:40:47 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <5CB80B5D.40800@windriver.com>
-	<1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CC69E2C.9060601@windriver.com>
-Date: Mon, 29 Apr 2019 14:48:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Mon, 29 Apr 2019 07:16:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x3T7GbVt004699
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Apr 2019 00:16:37 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 29 Apr 2019 00:16:31 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 29 Apr 2019 15:27:17 +0800
+Message-ID: <cover.1556522821.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
-X-Originating-IP: [128.224.162.170]
-Subject: Re: [PATCH v4 1/2] nettle: fix the Segmentation fault
+Subject: [PATCH 0/1] dropbear: set CVE_PRODUCT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,54 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 06:41:34 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 29 Apr 2019 07:16:36 -0000
+Content-Type: text/plain
 
-Ping.
+*** BLURB HERE ***
+The following changes since commit 244cbcce0ecc4691a9ddfb0a44dc487ff7af0670:
 
-Thanks,
+  utils/multiprocess_launch: Improve failing subprocess output (2019-04-26 10:09:08 +0100)
 
-On 2019年04月24日 16:41, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
->
-> The commit[8ac8fa8ee1 nettle: update to 3.4.1]
-> add CFLAGS_append = " -std=c99" to silence the
-> below error for native build:
-> | ../nettle-3.4.1/rsa-sign-tr.c: In function 'sec_equal':
-> | ../nettle-3.4.1/rsa-sign-tr.c:243:3: error: 'for' loop initial declarations are only allowed in C99 mode
->     for (size_t i = 0; i < limbs; i++)
->     ^
-> | ../nettle-3.4.1/rsa-sign-tr.c:243:3: note: use option -std=c99 or -std=gnu99 to compile your code
-> | Makefile:263: recipe for target 'rsa-sign-tr.o' failed
->
-> But the above change will trigger below Segmentation
-> fault:
->   # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
->   [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
->   [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
->   Segmentation fault
->
-> So update the logic to CFLAGS_append = " -std=gnu99"
-> to fix the issue.
->
-> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ---
->   meta/recipes-support/nettle/nettle_3.4.1.bb | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-> index dd49c30..8375fcf 100644
-> --- a/meta/recipes-support/nettle/nettle_3.4.1.bb
-> +++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-> @@ -30,7 +30,7 @@ inherit autotools ptest multilib_header
->   EXTRA_AUTORECONF += "--exclude=aclocal"
->
->   EXTRA_OECONF = "--disable-openssl"
-> -CFLAGS_append = " -std=c99"
-> +CFLAGS_append = " -std=gnu99"
->
->   do_compile_ptest() {
->           oe_runmake buildtest
->
+are available in the git repository at:
+
+  git://git.pokylinux.org/poky-contrib ChenQi/dropbear-cve
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/dropbear-cve
+
+Chen Qi (1):
+  dropbear: set CVE_PRODUCT
+
+ meta/recipes-core/dropbear/dropbear.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+-- 
+1.9.1
+
 
