@@ -1,25 +1,26 @@
 Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3691C7DA05
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 76F247D9FF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 07:38:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3T7cLsf014371
+	Mon, 29 Apr 2019 07:38:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3T7cAsl010173
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 00:38:21 -0700 (PDT)
+	Mon, 29 Apr 2019 00:38:20 -0700
 Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 29 Apr 2019 00:38:21 -0700
+	14.3.439.0; Mon, 29 Apr 2019 00:37:59 -0700
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Apr 2019 15:37:57 +0800
-Message-ID: <1556523477-268112-3-git-send-email-changqing.li@windriver.com>
+Date: Mon, 29 Apr 2019 15:37:56 +0800
+Message-ID: <1556523477-268112-2-git-send-email-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1556523477-268112-1-git-send-email-changqing.li@windriver.com>
 References: <1556523477-268112-1-git-send-email-changqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2 V3] piglit: support build piglit without x11
+Subject: [PATCH 1/2 V3] waffle: supprt build waffle without x11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,67 +33,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 07:38:21 -0000
+X-List-Received-Date: Mon, 29 Apr 2019 07:38:29 -0000
 Content-Type: text/plain
 
 From: Changqing Li <changqing.li@windriver.com>
 
-*  test PIGLIT_BUILD_GL_TESTS depend on glx library, so depend
-   on x11, so respect the DISTRO_FEATURES, only enable it when
-   x11 is enabled.
-*  mesa-demos depend on libGL.so which is provide by recipe
-   mesa, but when x11 is disabled, libGL.so is not generated.
-   so we can only rdepend on this when x11 is enabled
-*  add x11 PACKAGECONFIG to add correct config/depend/rdepend
+respect DISTRO_FEATURES to make waffle support different platform,
+gbm platform is supported by default.
 
 [YOCTO #6077]
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-graphics/piglit/piglit_git.bb | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+ meta/recipes-graphics/waffle/waffle_1.5.2.bb | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
-index 59d1348..b6542a1 100644
---- a/meta/recipes-graphics/piglit/piglit_git.bb
-+++ b/meta/recipes-graphics/piglit/piglit_git.bb
-@@ -17,11 +17,12 @@ PV = "1.0+gitr${SRCPV}"
+diff --git a/meta/recipes-graphics/waffle/waffle_1.5.2.bb b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
+index 43c3edc..31572f2 100644
+--- a/meta/recipes-graphics/waffle/waffle_1.5.2.bb
++++ b/meta/recipes-graphics/waffle/waffle_1.5.2.bb
+@@ -15,10 +15,9 @@ inherit cmake distro_features_check lib_package
  
- S = "${WORKDIR}/git"
+ # This should be overridden per-machine to reflect the capabilities of the GL
+ # stack.
+-PACKAGECONFIG ??= "glx"
+-
+-# libx11 requires x11 in DISTRO_FEATURES.
+-REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('PACKAGECONFIG', 'glx', 'x11', '', d)}"
++PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'glx x11-egl', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'wayland', 'wayland', '', d)} \
++                   gbm"
  
--DEPENDS = "libpng virtual/libx11 libxkbcommon libxrender waffle virtual/libgl libglu python3-mako-native python3-numpy-native python3-six-native virtual/egl"
-+X11_DEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'virtual/libx11 libxrender libglu', '', d)}"
-+X11_RDEPS = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)}"
-+
-+DEPENDS = "libpng waffle libxkbcommon virtual/libgl python3-mako-native python3-numpy-native python3-six-native virtual/egl"
- 
- inherit cmake pkgconfig python3native distro_features_check bash-completion
--# depends on virtual/libx11
--REQUIRED_DISTRO_FEATURES = "x11"
- 
- # depends on virtual/libgl
- REQUIRED_DISTRO_FEATURES += "opengl"
-@@ -32,8 +33,10 @@ REQUIRED_DISTRO_FEATURES += "opengl"
- export TEMP = "${B}/temp/"
- do_compile[dirs] =+ "${B}/temp/"
- 
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
- PACKAGECONFIG[freeglut] = "-DPIGLIT_USE_GLUT=1,-DPIGLIT_USE_GLUT=0,freeglut,"
-+PACKAGECONFIG[x11] = "-DPIGLIT_BUILD_GL_TESTS=ON,-DPIGLIT_BUILD_GL_TESTS=OFF,${X11_DEPS}, ${X11_RDEPS}"
-+
- 
- do_configure_prepend() {
-    if [ "${@bb.utils.contains('PACKAGECONFIG', 'freeglut', 'yes', 'no', d)}" = "no" ]; then
-@@ -48,7 +51,7 @@ RDEPENDS_${PN} = "waffle waffle-bin python3 python3-mako python3-json \
- 	python3-misc \
- 	python3-unixadmin python3-xml python3-multiprocessing \
- 	python3-six python3-shell python3-io \
--	python3-netserver mesa-demos bash \
-+	python3-netserver bash \
- 	"
- 
- INSANE_SKIP_${PN} += "dev-so already-stripped"
+ # virtual/libgl requires opengl in DISTRO_FEATURES.
+ REQUIRED_DISTRO_FEATURES += "${@bb.utils.contains('DEPENDS', 'virtual/${MLPREFIX}libgl', 'opengl', '', d)}"
 -- 
 2.7.4
 
