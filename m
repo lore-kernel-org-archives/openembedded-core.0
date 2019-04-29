@@ -1,50 +1,48 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 924FF7DBCA
+Return-Path: <AMardegan@luxoft.com>
+Received: from mx02.luxoft.com (mx02.luxoft.com [109.166.244.72])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C4D67DBC7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 14:43:46 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id b10so1117403wmj.4
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 07:43:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=PUgMa+2zeKAP/IwdMOsiaqNTCzHpVyPbLGO8UsMFBdM=;
-	b=Ul5JZisMOnJhnp4e1HcOMr/AX8pJkI6Nu6nrOHwp0aFyNtn9g4EreoEQNCFXmS++7l
-	Pp+lTDXrQwGFa4lUETkcCuCfa1l9C5QLNBZc6N3nYWRhvBSgPRvNjuJsPtzHBhXADtD8
-	Qz99xj9jtWN4+Yle/H/UtqR/KaEhuNW949lizk31ajpjtvEmV30QTPUYuZMuh8zy9sfr
-	JHXLSkkYC1gX9WqQ416ZejmATV8r1LX0qbnZad/j2fq5d2bZC+pt3+ecw+BoJTkwS9hW
-	Ft+408pX1PfcLVusJC8LSIJpMs2hsLJVUSzNhYaoeGqnyNiIN2mScA2emFdOKYMcQRYT
-	DUKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=PUgMa+2zeKAP/IwdMOsiaqNTCzHpVyPbLGO8UsMFBdM=;
-	b=jMzucjur0LB45qUbV8XJaWEcf/7K95f59tbEexuZJ0FYbKgSLIR212qTrGujkLsZit
-	i8iHg/GNUdOmSZ8fhoEv9h8OuIdb6PF3dZI75a5U2IwxahAM70IiGrXve+WwJEAzLd2g
-	VNF+X2cVdtvZD6DqxqGccV0jD2+k4adsURdAmHtxHy1zw+nmWrIAvNMnd2lJRGvl8rGP
-	6m1x/lrUfQMYLdzhiypUHWvi1yyRlPkVD0IhpIu6x5SmuqcKzdQXkJOVomibSG1ZZnk1
-	Ay4mS9MBcE6TOSMpjz/tjJ6a6/8kicogGZEi30OcqRkrvWmpvkAsDmpP+o+feCXCmsCb
-	Ol2w==
-X-Gm-Message-State: APjAAAW1x8i96zkZSnDJY1mYKcYMTSdqQrXwQJUGuoe7aowVaE2D88gi
-	JhsuHeOhsk9faNscWDnPQBctNB6FUyE=
-X-Google-Smtp-Source: APXvYqxCmtsSoeeILnYZofQDvJOSXi957e0h01ixbsrLXv3do0ZF56XLpiw+dSjctl45iYRekT0lqg==
-X-Received: by 2002:a05:600c:203:: with SMTP id
-	3mr17447183wmi.77.1556549027059; 
-	Mon, 29 Apr 2019 07:43:47 -0700 (PDT)
-Received: from localhost.localdomain ([89.197.133.108])
-	by smtp.gmail.com with ESMTPSA id y70sm9452860wmc.8.2019.04.29.07.43.46
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 07:43:46 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Apr 2019 15:43:25 +0100
-Message-Id: <20190429144325.63744-7-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190429144325.63744-1-alex.kiernan@gmail.com>
-References: <20190429144325.63744-1-alex.kiernan@gmail.com>
-Subject: [PATCH v5 6/6] rootfs-postcommands: call preset-all for read-only-rootfs
+	Mon, 29 Apr 2019 14:51:26 +0000 (UTC)
+X-AuditID: ac1e1348-4d5ff70000000417-ee-5cc70f6fc85b
+Received: from ORO-EDGE-02.luxoft.com (oro-edge-02.luxoft.com [172.30.19.22])
+	(using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+	(Client did not present a certificate)
+	by mx02.luxoft.com (Symantec Messaging Gateway) with SMTP id
+	5F.B4.01047.F6F07CC5; Mon, 29 Apr 2019 17:51:27 +0300 (EEST)
+Received: from oro-exch-03.luxoft.com (172.25.192.31) by
+	oro-edge-02.luxoft.com (172.30.19.22) with Microsoft SMTP Server (TLS)
+	id 14.3.408.0; Mon, 29 Apr 2019 17:51:24 +0300
+Received: from oro-exch-01.luxoft.com (172.25.192.30) by
+	oro-exch-03.luxoft.com (172.25.192.31) with Microsoft SMTP Server
+	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521) id
+	15.1.1466.3; Mon, 29 Apr 2019 17:51:26 +0300
+Received: from oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13]) by
+	oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13%13]) with mapi id
+	15.01.1466.003; Mon, 29 Apr 2019 17:51:26 +0300
+From: "Mardegan, Alberto" <AMardegan@luxoft.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH][thud] oeqa/core/runner: dump stdout and stderr of each
+	test case
+Thread-Index: AQHU/psFHnWDnnzVy0abAM+F9a2vCg==
+Date: Mon, 29 Apr 2019 14:51:26 +0000
+Message-ID: <20190429145112.6702-1-amardegan@luxoft.com>
+Accept-Language: it-IT, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [172.30.19.68]
+MIME-Version: 1.0
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKLMWRmVeSWpSXmKPExsWyRk5YTDef/3iMwY9PAhZ3fr5jd2D0OLdx
+	BWMAYxSXTUpqTmZZapG+XQJXxoXv61gK2tUqjh67zNLA2CzbxcjJISFgIrFi2xuWLkYuDiGB
+	zUwSD1a2sUM4mxglmie9h8p8YZSYv+80M4Szn1Hiyf0lzCD9bAIGEn93r2UFsUUEoiWWzpjJ
+	DmIzC2hJLG05ygRiCwsES9xbs5AdoiZCovnxakYIW0+iu2s1WC+LgKrE/hVXWUBsXgELiWMH
+	HoLFGQVkJSbsXsQIMVNc4taT+UwQdwtILNlznhnCFpV4+fgfK4StINH5tBHqBj2JG1OnsEHY
+	2hLLFr5mhpgvKHFy5hOwXUICihLLv81nmsAoNgvJillI2mchaZ+FpH0BI8sqRtH8onzd4tx0
+	XQMTvZzSivy0Er3k/NxNjJCI8djB+PFwyiFGJg5OqQZGlr3+0wuam5499020LbDcfcfg3LeL
+	ykcE9H+8vtwlrN3XHRy4+mpJ6ZoaiUCjpVGJDX4roxdmG/TXn5jRdW11vndh0+cUoSPaRwV+
+	i588919RJDni1llB6+u+7cx9QS8+CZ+VbxLvCk4pe1wYcG9B4iPmsH1h9/RT3mpdf/h3W+r8
+	0hVPbhcpsRRnJBpqMRcVJwIAQJ7feUgCAAA=
+Subject: [PATCH][thud] oeqa/core/runner: dump stdout and stderr of each test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +55,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 14:43:46 -0000
+X-List-Received-Date: Mon, 29 Apr 2019 14:51:27 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-From: Jonas Bonn <jonas@norrbonn.se>
+From: "Mardegan, Alberto" <AMardegan@luxoft.com>
 
-When the rootfs is read-only, we cannot rely on systemd's default
-invocation of preset-all at runtime in order to enable services.  As
-such, we need to do it at image creation time.
+Some CI pipelines might perform further processing of the test output
+(for instance, to plot some metrics into a chart). However, Since `thud`
+we switched away from the XML-based jUnit reporting, and at the same
+time we lost the ability of collecting the stdout and stderr of the
+various tests.
 
-Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+We now restore this functionality by adding `stdout` and `stderr` keys
+to the JSON reports. This behavior is off by default; in order to enable
+it, one must set the `TESTREPORT_FULLLOGS` variable in the bitbake
+configuration.
+
+(From OE-Core rev: fd0048630ece5b21efb3a79e97046be0ab2a1514)
+
+Signed-off-by: Alberto Mardegan <amardegan@luxoft.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
+ meta/classes/testimage.bbclass |  3 ++-
+ meta/lib/oeqa/core/runner.py   | 20 ++++++++++++++++----
+ 2 files changed, 18 insertions(+), 5 deletions(-)
 
- meta/classes/rootfs-postcommands.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclas=
+s
+index cb8c12acce..3479228307 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -314,7 +314,8 @@ def testimage_main(d):
+     configuration =3D get_testimage_configuration(d, 'runtime', machine)
+     results.logDetails(get_testimage_json_result_dir(d),
+                        configuration,
+-                       get_testimage_result_id(configuration))
++                       get_testimage_result_id(configuration),
++                       dump_streams=3Dd.getVar('TESTREPORT_FULLLOGS'))
+     results.logSummary(pn)
+     if not results.wasSuccessful():
+         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, =
+forcelog=3DTrue)
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index df88b85f1c..478b7b6683 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -7,6 +7,7 @@ import unittest
+ import logging
+ import re
+ import json
++import sys
 
-diff --git a/meta/classes/rootfs-postcommands.bbclass b/meta/classes/rootfs-postcommands.bbclass
-index 89f8efd32363..5fcd53c4ca7a 100644
---- a/meta/classes/rootfs-postcommands.bbclass
-+++ b/meta/classes/rootfs-postcommands.bbclass
-@@ -16,6 +16,7 @@ ROOTFS_POSTPROCESS_COMMAND += "rootfs_update_timestamp ; "
- 
- # Tweak the mount options for rootfs in /etc/fstab if read-only-rootfs is enabled
- ROOTFS_POSTPROCESS_COMMAND += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "read_only_rootfs_hook; ", "",d)}'
-+IMAGE_EXTRADEPENDS += '${@bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs", "systemd-systemctl-native", "", d)}'
- 
- # We also need to do the same for the kernel boot parameters,
- # otherwise kernel or initramfs end up mounting the rootfs read/write
-@@ -131,6 +132,7 @@ read_only_rootfs_hook () {
- 	# Create machine-id
- 	# 20:12 < mezcalero> koen: you have three options: a) run systemd-machine-id-setup at install time, b) have / read-only and an empty file there (for stateless) and c) boot with / writable
- 		touch ${IMAGE_ROOTFS}${sysconfdir}/machine-id
-+		systemctl --root=${IMAGE_ROOTFS} preset-all
- 	fi
- }
- 
--- 
+ from unittest import TextTestResult as _TestResult
+ from unittest import TextTestRunner as _TestRunner
+@@ -45,6 +46,9 @@ class OETestResult(_TestResult):
+
+         self.tc =3D tc
+
++        # stdout and stderr for each test case
++        self.logged_output =3D {}
++
+     def startTest(self, test):
+         # May have been set by concurrencytest
+         if test.id() not in self.starttime:
+@@ -53,6 +57,9 @@ class OETestResult(_TestResult):
+
+     def stopTest(self, test):
+         self.endtime[test.id()] =3D time.time()
++        if self.buffer:
++            self.logged_output[test.id()] =3D (
++                    sys.stdout.getvalue(), sys.stderr.getvalue())
+         super(OETestResult, self).stopTest(test)
+         if test.id() in self.progressinfo:
+             self.tc.logger.info(self.progressinfo[test.id()])
+@@ -118,7 +125,8 @@ class OETestResult(_TestResult):
+         self.successes.append((test, None))
+         super(OETestResult, self).addSuccess(test)
+
+-    def logDetails(self, json_file_dir=3DNone, configuration=3DNone, resul=
+t_id=3DNone):
++    def logDetails(self, json_file_dir=3DNone, configuration=3DNone, resul=
+t_id=3DNone,
++            dump_streams=3DFalse):
+         self.tc.logger.info("RESULTS:")
+
+         result =3D {}
+@@ -144,10 +152,14 @@ class OETestResult(_TestResult):
+             if status not in logs:
+                 logs[status] =3D []
+             logs[status].append("RESULTS - %s - Testcase %s: %s%s" % (case=
+.id(), oeid, status, t))
++            report =3D {'status': status}
+             if log:
+-                result[case.id()] =3D {'status': status, 'log': log}
+-            else:
+-                result[case.id()] =3D {'status': status}
++                report['log'] =3D log
++            if dump_streams and case.id() in self.logged_output:
++                (stdout, stderr) =3D self.logged_output[case.id()]
++                report['stdout'] =3D stdout
++                report['stderr'] =3D stderr
++            result[case.id()] =3D report
+
+         for i in ['PASSED', 'SKIPPED', 'EXPECTEDFAIL', 'ERROR', 'FAILED', =
+'UNKNOWN']:
+             if i not in logs:
+--
 2.17.1
 
+________________________________
+
+This e-mail and any attachment(s) are intended only for the recipient(s) na=
+med above and others who have been specifically authorized to receive them.=
+ They may contain confidential information. If you are not the intended rec=
+ipient, please do not read this email or its attachment(s). Furthermore, yo=
+u are hereby notified that any dissemination, distribution or copying of th=
+is e-mail and any attachment(s) is strictly prohibited. If you have receive=
+d this e-mail in error, please immediately notify the sender by replying to=
+ this e-mail and then delete this e-mail and any attachment(s) or copies th=
+ereof from your system. Thank you.
 
