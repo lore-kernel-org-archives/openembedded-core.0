@@ -1,51 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com
-	[209.85.128.49])
-	by mail.openembedded.org (Postfix) with ESMTP id DE4517C427
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f171.google.com (mail-it1-f171.google.com
+	[209.85.166.171])
+	by mail.openembedded.org (Postfix) with ESMTP id ECF247D912
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 20:26:26 +0000 (UTC)
-Received: by mail-wm1-f49.google.com with SMTP id b10so924222wmj.4
+	Mon, 29 Apr 2019 20:53:12 +0000 (UTC)
+Received: by mail-it1-f171.google.com with SMTP id t200so1278607itf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 13:26:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=ZXZMfmw5Us6lIIg3CK4RregE2019SrLPW2GFx3T2shQ=;
-	b=LcUmT+uaBn/lbcdZ/GyDE2hLJuZCGB3hIjcgq9j9cVarG3czO+rT2zLf9ynvoosLC7
-	RXxYW0roVYIcP+hpsMpYJZ0jtFyXR+TWX6H1yuv+lT3Hq1q+v9m2fcaSoFRIzfPfiCaM
-	czpv6DKFnPKWOSZ6IGiZwuRBeoaokCS3NAFFc=
+	Mon, 29 Apr 2019 13:53:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=1qJrHY4V3zurAUzpkL/nFIN/L3hF3nkIDCrtKvZhdU8=;
+	b=N0M1G1ais49LXqVzwWaZNYqoqEayOxZtkUcbyhnw049NNo4aC9s/T40wdEGVy2M1Bg
+	S0hHmV0jwtluNGdes/EY3eTtx03dSkmsu65ttHTwGRlyZl4JX1qdVieSrQbiCGkTS20l
+	IMOqkl9W0SEMBnsfxHRMQFkFst/DLencctCZFbz1YvDWPkj7uSqwJd5N6LE58zXYdj+8
+	Xvd/KI8lYABln6/m97CaSzUF18uleBCKfHUCutZ5EBf2UcOr06bX87WYIIC9LBbaSWb/
+	5adQ5ZEODECktXRiMfmQ8ATVd1+lc2Gkl6twUoXb2rgCj+//5a5bzj8NW4X2Xd1IGKFH
+	G4UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ZXZMfmw5Us6lIIg3CK4RregE2019SrLPW2GFx3T2shQ=;
-	b=iTKAhy2SIVKr+w7og/YhAAAn0VJNh6ipLzL5L5DjZuociuSWiV5qM8PHjuZpaSXDWH
-	qiYGL0veJ9KJHfOoNZdn12zYUKzn5bzws0HxB7PuXw0sR74LYZyC4cvYyNZOh5khvVX5
-	IGNQApxFcolTxT5Lg+5/RZa/OeBob2b7h9kxyIIUcCyeSnQly+J/HUU+FaOcfgIFB6/c
-	tjEui9udrKRzVvnEz1nR8jOZsTa+aGsv1+OirqQCWSBLSyDh6WVuLaj6bdnAkzVC88wp
-	Fs2Teyl/IwQlWuGqZ/URq5V4YJ3agpHiU1yTroF6LK8Xq62q0l3UH9XftbYxLO/+nLsS
-	OiEw==
-X-Gm-Message-State: APjAAAWEdYR3cUh/KLgtGT9jRoagdc+9mdhcv8stTmwSd18rK/TEW0GY
-	p8YncUWyBxRrPKzYXQV4I5gEXg==
-X-Google-Smtp-Source: APXvYqxsPfooIIa4tUZlGO8OlVZOrbg2ytLBPCy0OLJAILdGxi82tWnnzB52AIgYf41aLBuXz3qaIQ==
-X-Received: by 2002:a1c:e707:: with SMTP id e7mr636753wmh.42.1556569587431;
-	Mon, 29 Apr 2019 13:26:27 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	z6sm15612336wrw.87.2019.04.29.13.26.25
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 29 Apr 2019 13:26:26 -0700 (PDT)
-Message-ID: <323098102d47a837b953a3c399f8db65b1c43349.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 29 Apr 2019 21:26:25 +0100
-In-Reply-To: <20190429140730.2899-2-schnitzeltony@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=1qJrHY4V3zurAUzpkL/nFIN/L3hF3nkIDCrtKvZhdU8=;
+	b=M+hGziaJYrfN6kkdu7U1UtfAy1UilOoUhBhF6vsAwGFd6UB4D1761fkLwxz5qMoOrz
+	qtCR9rH+0zIv+X5DEu+KrhWpU1pr/JrDN+SW2CAnjYI3rcHPRjPeGdThm3KqIYNi/Vl3
+	4leV+9oV7ObW4A8v3l5ja0WmXheIPcWm2cgOm+nuxSQ5Dp8nx0SLPzC/KO4Qivw2VIoV
+	gGidWYraI3iR91XiGrgEG855KBkkfFqVz955++T2AOwDNc2nx6dXFdsDTNebEQXHGErU
+	DoCRVQLm9RqflDcjH6mlTuUW264Q8wffxcq9Elqq3BeD87AO+Z8eM1DO4nM6QaE/FjK+
+	8NCA==
+X-Gm-Message-State: APjAAAWfUzDyYwTCIKbe2JpBCl1OmkP6zYyCelJ+HdRsuuQJhNfoSZYq
+	mRMtwv9awR+1gADtqN7EDyMzBz2EMTTua8BFz8A=
+X-Google-Smtp-Source: APXvYqzpdxfMIgpd4KacqNtxM/CYPHUqHPiKrJhDV1dwQ88xU0nrtJRsYUBo/q6dcybtZV4dW2aRWV1dodwXdzrlNQ0=
+X-Received: by 2002:a24:5c10:: with SMTP id q16mr865993itb.81.1556571193948;
+	Mon, 29 Apr 2019 13:53:13 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190429140730.2899-1-schnitzeltony@gmail.com>
 	<20190429140730.2899-2-schnitzeltony@gmail.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
+	<323098102d47a837b953a3c399f8db65b1c43349.camel@linuxfoundation.org>
+In-Reply-To: <323098102d47a837b953a3c399f8db65b1c43349.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Mon, 29 Apr 2019 22:53:02 +0200
+Message-ID: <CALbNGRRuLKUfornkTS6e2PBskpyxuWo-XnLrd=boHYPJMkDhhQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] vte-native: reduce c++ requirements from c++17 -> c++14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -59,37 +57,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 20:26:27 -0000
+X-List-Received-Date: Mon, 29 Apr 2019 20:53:13 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2019-04-29 at 16:07 +0200, Andreas Müller wrote:
-> This should fix build on ancient hosts
-> 
-> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+On Mon, Apr 29, 2019 at 10:26 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2019-04-29 at 16:07 +0200, Andreas M=C3=BCller wrote:
+> > This should fix build on ancient hosts
+> >
+> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+>
+> This fixed debian9 but didn't fix centos7 :(
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/150
+>
+> | checking for a sed that does not truncate output... (cached) sed
+> | checking whether g++  supports C++14 features by default... no
+> | checking whether g++  supports C++14 features with -std=3Dgnu++14... no
+> | checking whether g++  supports C++14 features with -std=3Dgnu++1y... no
+> | checking whether g++  supports C++14 features with -std=3Dc++14... no
+> | checking whether g++  supports C++14 features with +std=3Dc++14... no
+> | checking whether g++  supports C++14 features with -h std=3Dc++14... no
+> | checking whether g++  supports C++14 features with -std=3Dc++1y... no
+> | checking whether g++  supports C++14 features with +std=3Dc++1y... no
+> | checking whether g++  supports C++14 features with -h std=3Dc++1y... no
+> | configure: error: *** A compiler with support for C++14 language
+> features is required.
+>
+I expected that - turns nightmarish..
 
-This fixed debian9 but didn't fix centos7 :(
+> So we may have to look at reverting, or perhaps just adding a vte-
+> native recipe with an older version of vte?
+I have no problem with this but is it a good idea to run self test
+with a different version as the target one?
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/150
+What about Ross' suggestion:
+> 3. Don't use vte in qemu when building under virgl.  The gtk
+> PACKAGECONFIG turns on vte support unconditionally but from glancing
+> at the qemu code that isn't a requirement.
+Question: If this is accepted and works properly - could we get rid of
+vte-native then?
 
-| checking for a sed that does not truncate output... (cached) sed
-| checking whether g++  supports C++14 features by default... no
-| checking whether g++  supports C++14 features with -std=gnu++14... no
-| checking whether g++  supports C++14 features with -std=gnu++1y... no
-| checking whether g++  supports C++14 features with -std=c++14... no
-| checking whether g++  supports C++14 features with +std=c++14... no
-| checking whether g++  supports C++14 features with -h std=c++14... no
-| checking whether g++  supports C++14 features with -std=c++1y... no
-| checking whether g++  supports C++14 features with +std=c++1y... no
-| checking whether g++  supports C++14 features with -h std=c++1y... no
-| configure: error: *** A compiler with support for C++14 language
-features is required.
+Let's decide some option: I really would like to close this and I have
+no problem with either way - gnome-terminal can wait. Gnome stuff just
+hobby to me and for test I can add recent vte in my personal
+meta-verse.
 
-So we may have to look at reverting, or perhaps just adding a vte-
-native recipe with an older version of vte?
-
-Cheers,
-
-Richard
-
+Andreas
 
