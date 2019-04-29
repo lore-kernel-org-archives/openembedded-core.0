@@ -1,49 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 709987DD39
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B9467D743
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 17:52:42 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id l203so9053642oia.3
+	Mon, 29 Apr 2019 20:06:14 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id w15so1101821itc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 10:52:43 -0700 (PDT)
+	Mon, 29 Apr 2019 13:06:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2v5bO4jO2+0VjGw09BUEdu6t5uAGCgZTjnco9cgb0F4=;
-	b=r+TyXYLYs+EtUWSiU6yCePrErLEvk6XByMR2AmeT3dIOYN+jeyD6WtMnheKSxHFgSG
-	hrFy4wzwizD2F/h2lH+QH0X+ihOpAxUalb1NN86dS5PpOKGlWK5e8mTmGPhoSi5NBbG9
-	OgV7hYU/linzmpOoKnLfNQ1JvyhGPMwDeXT7gx8H6wwa9HHl0gTPySzmcR+5Gg6nRzug
-	GMmSvTFARAAsNnqFqmSceJHFPQ79ggzEUabKdxPwcAiA19W1wgJBQxn/534EMUK1rgo/
-	KYfiHs3od38m1XZpZEL9usSdGKNYmQbBwWnEpK4nPY0ellM3hC7xfcQfZyUCNN6oR7cC
-	PPrw==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=n92x6K16tSGWTZC3uqjAJzFXMQYsWJukA+zbSVY5RRI=;
+	b=dGQToqRxCuSWalhpukumTUWgrNIarKacqfvwJxkOT8gjsrTq1+kpjxm+tRO/oGuK+p
+	+flidrD/W8W+Wil8J47lmS4b4pJxfGrz1KGMT7oMCqsNMOF/YsCRNaVaJka/sQtbwP0D
+	OBiwZKIsM4CWX/TbJo9exix288ntgpdcN7l+YuXIdX0SvRz9N2f8Sgqc02kpjOEoZeiK
+	DxSYk/j9l+Zj+HoME3d7KI6yj1jzA5zh/uaNxGjfhP4Sp6AObQsBHTJKu21SimZmO5H8
+	e28PJNKx8+uQj1AiD+vr+q6anikNhM555IIf6DKMgL3EpIBoLB8KtL4YShX1EZE409x+
+	iqqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=2v5bO4jO2+0VjGw09BUEdu6t5uAGCgZTjnco9cgb0F4=;
-	b=Dqb14dgJTDb7K+5PxYi0jHg7qZSKUREGfC3hgSkKeBec857ff8pe2p+CeMWuTYGemi
-	cAyu670p56Lazm8ElSZaemZYYpPLTnxgyVnE0bGl1zJRMv89ObEVE55vNUhml2FY2L5X
-	SqzVxBGOdFHCCmjJoVf/Uhx3EqAxJOmAI99LarZkZzaErTyG9q3RsolN967qWg37lhDb
-	9DVZDymktRYG8zGbotivTEHdkfp/lLI/x+BZiBGxPXgwnaV8HANX8SrlHYOOuqD3te/1
-	KWbqYKx1SCOAPnBxzXa8eEC2XMOfXWIh/pcRaWqwSKcnv7NrlIWEPgwkHOJ9uN8v/sHR
-	yrlg==
-X-Gm-Message-State: APjAAAWLUPLBWU6vnwtXwk0YC4B51yHrRRFrNcB4X8gnZXvHSsVeGv1j
-	J/xCdgN3jJz0cVZWeFHY5Y5unPBtya1CejRk5dc=
-X-Google-Smtp-Source: APXvYqzope9a1RT3Qx+x96xbFk8QSRts1r/WtkQHd8Jh6GmM2KLFU9wudJkeZfmmnHFkAJGnyuA6/W9RhbkLyBv1BiU=
-X-Received: by 2002:aca:5809:: with SMTP id m9mr219451oib.88.1556560363356;
-	Mon, 29 Apr 2019 10:52:43 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=n92x6K16tSGWTZC3uqjAJzFXMQYsWJukA+zbSVY5RRI=;
+	b=bkhV5at1A4zLSP9J5qjstH2s1Dm0J0f2vATEXqHg+7jlOeTGeXRcMecYZWk57YxEb9
+	q2YLCXaJFSlyOjcOXxZ60TpzGRKdctKe7qQqzBc3F424xDrfBmdop30IVmabbgREopbZ
+	lvA8U9YWjwsKd2vD4prDT4IZDHQnye8mvZVbS0dAmMqR7gHHN3eRWZE9VuHlwObnyclb
+	gEnDIteekYr7eat0NJuihphinMg0FcxnmC67pAlHwhao37fI+J1t89jk4JOpiDyAReoO
+	UTf1mYcp+aa6gomZS4p11W9IZuBXo5W9VLcFlGF4SLce0UpIUrfTDxMWVjhKI3u8XHeG
+	t34w==
+X-Gm-Message-State: APjAAAUUv2fwZ8K7CKWUmp3fie0ImSv+3kP/p8flXZPRArmd10tPo2KF
+	WL9tax2NtOFbU8fmq4dd8Xk=
+X-Google-Smtp-Source: APXvYqxlCyDQDrVAXpwKzvx9r5f4csH8zSFOWghZNPWCY7tBrxTd0xsKkGdOW+e2ZpnyVsCefSHUsA==
+X-Received: by 2002:a02:52c9:: with SMTP id d192mr6699203jab.53.1556568374948; 
+	Mon, 29 Apr 2019 13:06:14 -0700 (PDT)
+Received: from localhost.localdomain
+	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
+	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
+	o16sm11086902ioo.45.2019.04.29.13.06.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Apr 2019 13:06:14 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Date: Mon, 29 Apr 2019 16:06:12 -0400
+Message-Id: <20190429200612.8504-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20190418155918.40653-1-alex.kanavin@gmail.com>
-	<20190418155918.40653-2-alex.kanavin@gmail.com>
-	<CAMKF1soCnBA+kgUqV-XBKfz554c1ecWXyRPn7DXJzRofkcfC0Q@mail.gmail.com>
-In-Reply-To: <CAMKF1soCnBA+kgUqV-XBKfz554c1ecWXyRPn7DXJzRofkcfC0Q@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 29 Apr 2019 19:52:31 +0200
-Message-ID: <CANNYZj-PaXAM_9N25LTUiD7ijp+jNw87N9On4a3fm+Kxei_pNg@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] epiphany: update to 3.32.1.2
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH] linux-yocto/5.0: update TCP patch to mainline version
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +59,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 17:52:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 29 Apr 2019 20:06:14 -0000
+Content-Transfer-Encoding: 8bit
 
-"../epiphany-3.32.1.2/lib/ephy-web-app-utils.c:391:5: error: cannot
-jump from this goto statement to its label"
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Huh? :)
+Updating the SRCREVs to drop our temporary workaround for TCP
+timeout issues and switch to the mainline version:
 
-Alex
+  tcp: add sanity tests in tcp_add_backlog()
+  Revert "tcp: fix issues relaed to implement coalescing on backlog queue"
 
-On Mon, 29 Apr 2019 at 19:16, Khem Raj <raj.khem@gmail.com> wrote:
->
-> FWIW Fails on rpi3
-> https://errors.yoctoproject.org/Errors/Details/238639/
->
-> On Thu, Apr 18, 2019 at 8:59 AM Alexander Kanavin
-> <alex.kanavin@gmail.com> wrote:
-> >
-> > Drop an option no longer provided by upstream.
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  .../epiphany/{epiphany_3.30.3.bb => epiphany_3.32.1.2.bb}   | 6 ++----
-> >  1 file changed, 2 insertions(+), 4 deletions(-)
-> >  rename meta/recipes-gnome/epiphany/{epiphany_3.30.3.bb => epiphany_3.32.1.2.bb} (80%)
-> >
-> > diff --git a/meta/recipes-gnome/epiphany/epiphany_3.30.3.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
-> > similarity index 80%
-> > rename from meta/recipes-gnome/epiphany/epiphany_3.30.3.bb
-> > rename to meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
-> > index a64c82f48bf..ba2e851bb6f 100644
-> > --- a/meta/recipes-gnome/epiphany/epiphany_3.30.3.bb
-> > +++ b/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
-> > @@ -13,10 +13,8 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
-> >  SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-> >             file://0002-help-meson.build-disable-the-use-of-yelp.patch \
-> >             "
-> > -SRC_URI[archive.md5sum] = "fd05702b1c9bcb6a0633de54c4a6ccd2"
-> > -SRC_URI[archive.sha256sum] = "76cdb8db6af2da8c3371a73e2dfd5ba64867b5f1e65fa9621f35348a42ff0d17"
-> > -
-> > -EXTRA_OEMESON += " -Ddistributor_name=${DISTRO}"
-> > +SRC_URI[archive.md5sum] = "93faec353e9f62519859e6164350fd5d"
-> > +SRC_URI[archive.sha256sum] = "a8284fb9bbc8b7914a154a8eac1598c8b59ae421e0d685146fb48198427926be"
-> >
-> >  FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
-> >  RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
-> > --
-> > 2.17.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../recipes-kernel/linux/linux-yocto-rt_5.0.bb |  4 ++--
+ .../linux/linux-yocto-tiny_5.0.bb              |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb   | 18 +++++++++---------
+ 3 files changed, 14 insertions(+), 14 deletions(-)
+
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+index ef3f0a0e1b..54f86dac92 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+@@ -11,8 +11,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "a3309af7ab77156bd8d731df3a97126d3d897916"
+-SRCREV_meta ?= "2d838e11b084a96dd70e5cc0fec01d2e492f72c3"
++SRCREV_machine ?= "494384666b623a23e19cbbc54574d08e31496a03"
++SRCREV_meta ?= "d26eec23cf1057a715c05777a18f395678fcbf38"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+index 206e6c348d..720192152b 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+@@ -15,9 +15,9 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine_qemuarm ?= "d905ae925fc4a60d63f45e1922163da683d8a3bc"
+-SRCREV_machine ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
+-SRCREV_meta ?= "2d838e11b084a96dd70e5cc0fec01d2e492f72c3"
++SRCREV_machine_qemuarm ?= "f07da0a13d6f503b72594776b5e8a9795da6d6a0"
++SRCREV_machine ?= "891531d68e5101bf64be1cc1cb31e3d1255cf382"
++SRCREV_meta ?= "d26eec23cf1057a715c05777a18f395678fcbf38"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+index 4ccf907ac5..ae8f643e9f 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+@@ -11,15 +11,15 @@ KBRANCH_qemux86  ?= "v5.0/standard/base"
+ KBRANCH_qemux86-64 ?= "v5.0/standard/base"
+ KBRANCH_qemumips64 ?= "v5.0/standard/mti-malta64"
+ 
+-SRCREV_machine_qemuarm ?= "17c4b7e9db4d17aa713c85d0c3d2d84af962864a"
+-SRCREV_machine_qemuarm64 ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
+-SRCREV_machine_qemumips ?= "e5c23fb31438dab373a50afc40f6e4ab0c568485"
+-SRCREV_machine_qemuppc ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
+-SRCREV_machine_qemux86 ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
+-SRCREV_machine_qemux86-64 ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
+-SRCREV_machine_qemumips64 ?= "743d799797ad6828472087e1da8c67fdab87bf75"
+-SRCREV_machine ?= "14b6c1fc020fa357245e9ac9c6c69d253bc7ce30"
+-SRCREV_meta ?= "2d838e11b084a96dd70e5cc0fec01d2e492f72c3"
++SRCREV_machine_qemuarm ?= "99f3821bdc8718af3ef6e96d594b593d644ab2e4"
++SRCREV_machine_qemuarm64 ?= "891531d68e5101bf64be1cc1cb31e3d1255cf382"
++SRCREV_machine_qemumips ?= "1128cfe6c7915535c4066b75342c952640e65d72"
++SRCREV_machine_qemuppc ?= "891531d68e5101bf64be1cc1cb31e3d1255cf382"
++SRCREV_machine_qemux86 ?= "891531d68e5101bf64be1cc1cb31e3d1255cf382"
++SRCREV_machine_qemux86-64 ?= "891531d68e5101bf64be1cc1cb31e3d1255cf382"
++SRCREV_machine_qemumips64 ?= "55e385d52db438df1ff7ad3845c9076b2bb221eb"
++SRCREV_machine ?= "891531d68e5101bf64be1cc1cb31e3d1255cf382"
++SRCREV_meta ?= "d26eec23cf1057a715c05777a18f395678fcbf38"
+ 
+ # remap qemuarm to qemuarma15 for the 5.0 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
+-- 
+2.19.1
+
 
