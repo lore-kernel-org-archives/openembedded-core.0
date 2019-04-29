@@ -1,32 +1,51 @@
-Return-Path: <f.suligoi@asem.it>
-Received: from smtp.asem.it (smtp.asem.it [151.1.184.197])
-	by mail.openembedded.org (Postfix) with ESMTP id AB4907DBB2
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
+	[209.85.221.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A4D17DBBE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 14:01:11 +0000 (UTC)
-Received: from webmail.asem.it by asem.it (smtp.asem.it)
-	(SecurityGateway 5.5.0) with ESMTP id SG003839686.MSG 
+	Mon, 29 Apr 2019 14:07:42 +0000 (UTC)
+Received: by mail-wr1-f52.google.com with SMTP id t17so16211326wrw.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 15:56:06 +0200S
-Received: from ASAS044.asem.intra (172.16.16.44) by ASAS044.asem.intra
-	(172.16.16.44) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1261.35;
-	Mon, 29 Apr 2019 15:56:05 +0200
-Received: from flavio-x.asem.intra (172.16.17.208) by ASAS044.asem.intra
-	(172.16.16.44) with Microsoft SMTP Server id 15.1.1261.35 via Frontend
-	Transport; Mon, 29 Apr 2019 15:56:05 +0200
-From: Flavio Suligoi <f.suligoi@asem.it>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Apr 2019 15:56:04 +0200
-Message-ID: <1556546164-28522-2-git-send-email-f.suligoi@asem.it>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1556546164-28522-1-git-send-email-f.suligoi@asem.it>
-References: <1556546164-28522-1-git-send-email-f.suligoi@asem.it>
+	Mon, 29 Apr 2019 07:07:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Yur5gDnjiO9eq7qC9HHpiPNy5bGVgtmQRjhIqA2IHHk=;
+	b=s1NeCG9N7HttwlGkQHeFi70gvaiwJeW7SBaZcJHAvJkO26sx/jQT698K2K0saXRsvE
+	QHkijGE2t+n+cGbqR1MtWgwP8bQumGYLKkid7M2z5yah2+O90fAlBgYkx0Jsuc9AI16K
+	7CANMn1fgwO30IAjCV2yDk9tkyCUxRGd8DBBYN8PDwcAwhEgwrvhq7J/GkZzCagYyDxd
+	Aq8Np8YfRqFRtpeNl1P3LRnyHUiAkFwefjLArHe4LiJ3SIbGtqKoA3ONTeX3wCDY1Je1
+	pzWdbUaNn+Cj/Kj5BpMj0lrm8YnOPH1C9D5saRlaxYyU0JtCncjPygSRUDT6c8e44vpu
+	2PVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Yur5gDnjiO9eq7qC9HHpiPNy5bGVgtmQRjhIqA2IHHk=;
+	b=O3zQA5KVjBXDVqNzJHsx1dvQxr0J9aUoXGMQry6HI/MDIkEKj+HKROL3XHWbUDCvXm
+	fbbaQaUXAaKG0u22yG14KF6W857QN5CKFVlNugpPLHtXaxyhadH/ocQJqTACOf8LL0lm
+	7dsha1BwevOVCxllkPQA43vjC5tzwvrAbTQmFScx7ByBYLWygf6bs7F1lueCTbY0/ZyZ
+	H8MOwBIdEkxHp5jRzqiblIbbPK42xudrKuIdGEKeMCDjzuf6WyCPKE2XJmJsE66UauOr
+	8FVHuEp1Xk3eSoJifthVV0jSor0JYr2W4y/UYhl/iiGZW9ldDzf7wiTramfr7EK7p5iD
+	0VJw==
+X-Gm-Message-State: APjAAAXQAvzmEFZssA3Qh1vmnkTdNlZeArN6PUiajFGRQngxQRI8/VKP
+	h9Fr+zv16u5ir05CbZ6e3syTolbk
+X-Google-Smtp-Source: APXvYqy+jfYDbGjh4bljCFqLixdr1m7cJUBXFkqMb83x5Ih/DnbUl7N0ghtEGeRwZ1DtovXv8B5GQw==
+X-Received: by 2002:adf:db05:: with SMTP id s5mr10099147wri.247.1556546862667; 
+	Mon, 29 Apr 2019 07:07:42 -0700 (PDT)
+Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
+	[80.151.55.163])
+	by smtp.gmail.com with ESMTPSA id q7sm2627964wra.57.2019.04.29.07.07.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 29 Apr 2019 07:07:41 -0700 (PDT)
+From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Apr 2019 16:07:29 +0200
+Message-Id: <20190429140730.2899-1-schnitzeltony@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-SGHeloLookup-Result: pass smtp.helo=webmail.asem.it (ip=172.16.16.44)
-X-SGSPF-Result: none (smtp.asem.it)
-X-SGOP-RefID: str=0001.0A0B0202.5CC70276.0035, ss=1, re=0.000, recu=0.000,
-	reip=0.000, cl=1, cld=1, fgs=0 (_st=1 _vt=0 _iwf=0)
-Subject: [PATCH 2/2] kernel: check for empty .config file after merge_config.sh
+Subject: [PATCH 0/1] vte-native: reduce c++ requirements from c++17 -> c++14
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -39,37 +58,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 14:01:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Apr 2019 14:07:42 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Sometimes, for example in case of missed dependecies, after the
-execution of:
+Let the autobuilders decide :)
 
-merge_config.sh
+Andreas Müller (1):
+  vte-native: reduce c++ requirements from c++17 -> c++14
 
-the resulting file ".config" can be empty.
-This is the reason why is necessary test it and, in case, display
-the "Could not configure ..." error message.
+ ...uce-gcc-required-support-downto-c-14.patch | 34 ++++++++++++++
+ ...001-Revert-parser-glue-Use-std-clamp.patch | 44 +++++++++++++++++++
+ ...replace-std-clamp-by-std-min-std-max.patch | 33 ++++++++++++++
+ meta/recipes-support/vte/vte_0.56.1.bb        |  7 +++
+ 4 files changed, 118 insertions(+)
+ create mode 100644 meta/recipes-support/vte/vte/0001-Reduce-gcc-required-support-downto-c-14.patch
+ create mode 100644 meta/recipes-support/vte/vte/0001-Revert-parser-glue-Use-std-clamp.patch
+ create mode 100644 meta/recipes-support/vte/vte/0001-vte.cc-replace-std-clamp-by-std-min-std-max.patch
 
-Signed-off-by: Flavio Suligoi <f.suligoi@asem.it>
----
- meta/classes/kernel-yocto.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-index 243f8d6..895966b 100644
---- a/meta/classes/kernel-yocto.bbclass
-+++ b/meta/classes/kernel-yocto.bbclass
-@@ -331,7 +331,7 @@ do_kernel_configme() {
- 	fi
- 
- 	CFLAGS="${CFLAGS} ${TOOLCHAIN_OPTIONS}"	HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}" CC="${KERNEL_CC}" ARCH=${ARCH} merge_config.sh -O ${B} ${config_flags} ${configs} > ${meta_dir}/cfg/merge_config_build.log 2> ${meta_dir}/cfg/merge_config_build-errors.log
--	if [ $? -ne 0 ]; then
-+	if [ $? -ne 0 ] || [ ! -s ${B}/.config ]; then
- 		bbfatal_log "Could not configure ${KMACHINE}-${LINUX_KERNEL_TYPE}"
- 	fi
- 
 -- 
-2.7.4
+2.20.1
 
 
