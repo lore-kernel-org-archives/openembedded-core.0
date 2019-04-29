@@ -1,46 +1,49 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DDBA7DBAC
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CFDC7DBCA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 14:43:28 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id k16so16452371wrn.5
+	Mon, 29 Apr 2019 14:43:40 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id l2so783123wrb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 07:43:30 -0700 (PDT)
+	Mon, 29 Apr 2019 07:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=APVUc7i3GPo2CefMozcYfSqWtT8DxQ93m44At+up5Ns=;
-	b=iXaBgqK7ip3D+kDpPBv4O9Yw6dUVaWeYsGFCiAD3maRMlMLFVL09c8WkPuD24hyMTr
-	Qg3TJoNTe3gF602NIyOy4oOaJ8Kbg9xwJkyr16VgkElHsOz5JL5Okeoq5Kh4Pup8x2yO
-	C/RhEpCn8DTBCyaL2upYkCKKOP2k9uUIjNAOezFFIxEKkMNQUZ+4HxxJ6OQ25ihUgdyu
-	d1ZjwuBR6rlyXsEzu9sCXYh4dR57ZuFuYn5f0p8b7bnJ5LK5grw8q129Uq5xSE3uBXS/
-	XOdVE1cAFgXHrreK8obRGwtSewWY/R004SGXZXXmmL9AOldWGk/3Gpvz3cabwS3Ob1rc
-	ECRA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=5X5zuiBSjmAQQKyGIh89LEnQR3l/D6PynGsHnhXnAPc=;
+	b=SawKq+hsVcgMYamOPv3JticoCHYSfinHm17iERQwmRK5dGRZhBXug93XmwOvn3W3W+
+	mnhq7UD2NniTDPCb/GPCB6o7lsmjsmk4kxTvjQiaU9VSXScfJY5EzoLoA5qYyB/ZtO3q
+	Oyfp+xCxuwk8OPD4bUG2p853ZSC5DRozx/SxBDjGqYrYm/BSCiMjk24laDlcZcMS7rEj
+	N9XVLt/0qJK9s7HCjSYkHrvZZ1Qbm1JfMWJ4qDZtP7zxswEXNMXXKehaCcs2DFsdCh2n
+	yOXJK/n+J9Are5NM9ZNZWAPINy1QmCJHYtlgXqkHrahHvGQe+axJ/N4k4uwjiu+1HIpq
+	9FOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=APVUc7i3GPo2CefMozcYfSqWtT8DxQ93m44At+up5Ns=;
-	b=KzO+uzxCNDKpDonhnbEg9qpDMfe66zkKblDGKil0cK97jJ0vN9GgB9ssRY4Sr65hcd
-	4Au1kT6kmXpiudwQuQjC5xQZRz9HamQDKhd/klINiBgu6HuCZwBUyvuydpWft4gA3CnW
-	eeRCKSMIwXZeQ0H8ivqUiFw1ImkhJ8tXDNS0YZEKBoSUEiTynuYU4srrRbAxR38SqMrQ
-	MsRclmVI3akcRtgw4zcmODCjzwUV094ngk3V6rCc95EsuFzLS4wnjHYKRmtI5bqFfRAM
-	/c5GMcTjslJMeFW7sbID3JVS7NDaq4kRWWGDFQ0ZWheRudPK5XhituiEQ57pM6SG329w
-	Al3w==
-X-Gm-Message-State: APjAAAXhORn7IRdEDIKb1+snQA3lAhiiRGz1Pk9Qa9A1dB8lcXpCILho
-	2HMv1eO7qTSGIoh3RmfGHesYYiKl76g=
-X-Google-Smtp-Source: APXvYqwMD4oQDNmTKDL80pQ1zU6HAwBjS7klY4g2SdrEskzOQU/WSpcohduUDqSikYKJiq/sfjHR6g==
-X-Received: by 2002:a5d:66c9:: with SMTP id k9mr24376028wrw.101.1556549009532; 
-	Mon, 29 Apr 2019 07:43:29 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=5X5zuiBSjmAQQKyGIh89LEnQR3l/D6PynGsHnhXnAPc=;
+	b=YHtZJcxjHZzpEGJh9T/hn2ui9zZrCSs1VgAg23+U3n+iAmX0wffLhGgkTz+chLV+V0
+	2CjJ2LRhuShNHIfPEQj3LICcCAyIbcQHZOArLOcpewWmBvn7ody8vePE9QwksVL6xtz6
+	E2xQzgR+qOBhG+2X77GMBRV0Ennqm4G/eZIsIo4lu3b88N526H022qO1e9PlqQgpxFpm
+	K9wDR6bya86qHTf7aftyG+yAr2g2xwR0KIjSvSFGECR42mz2abINuBoX4oIsOjnwlq2i
+	Gu+BYZ8IUXBq3yc7o/gAqnvYhH/tjS+PjJkDta9LKvGmXzD+WENaLlNetTxGW321dl0R
+	vc9A==
+X-Gm-Message-State: APjAAAXBMOxLYgKAiKVhOvk7i5MoUn0VlL0dyOvlU2pM/86pD205L1eZ
+	w1Sb44PYvdleyR+/h1dXNyg1bX67CNc=
+X-Google-Smtp-Source: APXvYqySSQxPrBH9/nh9QAGiMEz4a4v1HkV4jhBpiw+K8wRh4P76RFUgmQRaY4FfjW/owvb0+WhcRA==
+X-Received: by 2002:adf:f88f:: with SMTP id u15mr21155091wrp.155.1556549020799;
+	Mon, 29 Apr 2019 07:43:40 -0700 (PDT)
 Received: from localhost.localdomain ([89.197.133.108])
-	by smtp.gmail.com with ESMTPSA id y70sm9452860wmc.8.2019.04.29.07.43.28
+	by smtp.gmail.com with ESMTPSA id y70sm9452860wmc.8.2019.04.29.07.43.39
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 07:43:28 -0700 (PDT)
+	Mon, 29 Apr 2019 07:43:40 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 29 Apr 2019 15:43:19 +0100
-Message-Id: <20190429144325.63744-1-alex.kiernan@gmail.com>
+Date: Mon, 29 Apr 2019 15:43:20 +0100
+Message-Id: <20190429144325.63744-2-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v5 0/6] Fix systemd service enables/move towards "stateless" configuration
+In-Reply-To: <20190429144325.63744-1-alex.kiernan@gmail.com>
+References: <20190429144325.63744-1-alex.kiernan@gmail.com>
+Subject: [PATCH v5 1/6] systemd: don't build firstboot by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,86 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 14:43:29 -0000
+X-List-Received-Date: Mon, 29 Apr 2019 14:43:40 -0000
 
+From: Jonas Bonn <jonas@norrbonn.se>
 
-This is largely Jonas Bonn <jonas@norrbonn.se> patchset to move towards a
-"stateless" configuration:
+The firstboot service prompts the user for information about the host at
+first boot.  Systemd determines whether or not a boot is a "first boot"
+by the existence of the file /etc/machine-id.  Since oe-core always
+includes this file (it is part of the systemd package), the firstboot
+service never runs so this service is being built but never run.
 
-  These patches make some modifications to systemd with the long-term goal
-  of being able to run OE in systemd's "stateless" configuration.
-  "Stateless" boils down to building an image with empty /etc and /var
-  directories so that volatile (tmpfs) filesystems can be mounted there;
-  this requires that the system subsequently be able to populate these
-  directories dynamically, which systemd mostly takes care of if things are
-  done right.
+A follow-up patch to this one will remove the machine-id from the
+systemd build and allow it to be created automatically by systemd at
+"first boot".  With that patch, we don't want the firstboot service to
+suddenly start being invoked and presenting a prompt to the user.
 
-  In these patches:
-  i)   Don't include machine-id in writable images so that systemd can run
-       its first-boot machinery
-  ii)  Move systemd configuration files out of /etc
-  iii) Allow systemd to dynamically enable services and populate
-       /etc/systemd/system via the presets mechanism
+With this patch, the firstboot service becomes a PACKAGECONFIG option
+that the user must actively select.
 
-  There's a long way to go to get to a working "stateless" configuration.
-  Getting to a "volatile" system (just empty /var) should be easier and I'll
-  post patches moving things in that direction shortly.
-
-As a result of the systemd 242 upgrade, which includes 01d2041e41f4
-("meson: stop creating enablement symlinks in /etc during
-installation"), services such as systemd-networkd are no longer enabled
-in images.
-
-This patch set fixes this problem in addition to satisfying the goal of
-moving towards "stateless" configurations.
-
-The issue with respect to image testing during CI was caused by
-systemd-time-wait-sync.service being enabled due to the lack of a
-default preset policy:
-
-https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
-
-We include a default policy of "enable nothing" which matches that used
-by (at least) Arch and Fedora.
+Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
 Changes in v5:
 - rebased for systemd 242
-- install default preset distribution policy of "enable nothing"
 
-Changes in v4:
-- add patch to make systemd-firstboot a non-default option to systemd to
-  prevent unexpected prompts at runtime
+ meta/recipes-core/systemd/systemd_242.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Changes in v3:
-- parameterize preset-file installation location (as suggested in patch
-  review)
-
-Changes in v2:
-- address patchtest warnings:
-  - include sign-offs on patches
-  - include License-Update tag on patch that makes licensing change
-- dropped patch implementing brute-force removal of unit files installed
-  by systemd into /etc
-- reworked the systemd-conf patch to restore the installation of the
-  base systemd configuration files
-
-Jonas Bonn (6):
-  systemd: don't build firstboot by default
-  systemd: do not create machine-id
-  systemd-conf: simplify creation of machine-specific configuration
-  systemd: create preset files instead of installing in image
-  systemd-systemctl-native: simplify and support preset-all
-  rootfs-postcommands: call preset-all for read-only-rootfs
-
- meta/classes/rootfs-postcommands.bbclass      |  8 +++
- meta/classes/systemd.bbclass                  | 33 ++++++------
- meta/recipes-core/systemd/systemd-conf_242.bb | 53 ++++++++-----------
- .../systemd/systemd-systemctl/systemctl       | 36 +++----------
- .../systemd/systemd/99-default.preset         |  1 +
- meta/recipes-core/systemd/systemd_242.bb      | 23 ++++----
- 6 files changed, 68 insertions(+), 86 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd/99-default.preset
-
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 33d3e0b000d9..9f194f2b6ca1 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -66,7 +66,6 @@ PACKAGECONFIG ??= " \
+     acl \
+     backlight \
+     binfmt \
+-    firstboot \
+     gshadow \
+     hibernate \
+     hostnamed \
 -- 
 2.17.1
 
