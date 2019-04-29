@@ -1,57 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F59E7DADA
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B4097DAA0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 11:39:38 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id 77so2116316otu.13
+	Mon, 29 Apr 2019 11:58:17 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id a12so15589841wrq.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 04:39:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TZ4q0grExkRO6raAdGllSToJjImPb4e6iCyMDTyoVFs=;
-	b=By6biaKWLZJlrsnJ321uUx5sGe7gDNpVTnZz6h7BHlq3M2DhoeK7P8zX6swweGu/OO
-	4+YdHggdsp46OOjkdbWFe+cQOJrLo6prikZgMqBKf8L9Exy0qWAco4jOXU3y3Tz1eZxc
-	y4UCZCnAfrxHL73oaUmlucZwId1EIWjJiuuZJKGLhQvhK3Dk6UQ+V5wElS6E7MiGFE+Y
-	uM0le60eLUmXk02+6VrNJ+O/sNnl7IQXrlim/EKzndeY7H+mp+XjV/qStsFRtVoPzHLn
-	QZZAao2TIgMyMia/49AfbEMFQtwmLmTG2fqsQVMn4JT5lWJdKnejJC6lLfV//WCz+cTW
-	te4g==
+	Mon, 29 Apr 2019 04:58:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nT6g58L1yn6U+DcSU2I7dbK8RLF25TqnQhz0M/u1I4E=;
+	b=PcUCug/d0siYLWZIJwRze47zY5U4AtSs4pnlJIp88+kjtJAKbJ8tmSkUW09d4VLXnp
+	cbegWYU2EgNFngYFpGKUQvQ1l3G1ZkU9lgxm3ucGkZuR89enHgSa1bmgcLGojLnxI7nZ
+	2aciC9vIpFGk5WTbuE7k0Xi3I578cODwwdRuE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TZ4q0grExkRO6raAdGllSToJjImPb4e6iCyMDTyoVFs=;
-	b=DWYtmEnne9hrsxeWj4J75xqUWS4Q3+z+y9tD8AAGCK1WrgamASKw9QR1tj+NzJHthy
-	KmQpWTUfz4Iwq861//2CiIRbOBPQ/PQ1M+st9LJnJa7yY5AOWd1Zc8w0N3HFe/nCk5gX
-	EnLBWIz77zkDFF5/7/Qgm63+aZV6j6BNxLPRtY1Ulrfu0ubHbsq+EQB/IC3AOMaxlFAj
-	h8d0PdPwmluIX6Be85tcehq64mT679O9xgcjX81MwbuVkxzpkYcwioBAei0wIf2DB82p
-	cjVJoHwtfEzNGX0fX/7Qzo0jukA1B3XQkqVRzGdEJ9PmCM1VdlPsrHTeno2OxmCUzVIZ
-	892w==
-X-Gm-Message-State: APjAAAVLX9IEKjnm74zfvp+QH8K6fuA70x+XcWLcPjqzsKoFwbWS93/Y
-	kGOk+hsIOYmUpB6g5sXXxsZ+EyrgJ3Zx5Tkfs8fDZA==
-X-Google-Smtp-Source: APXvYqy6Ix0ZWEJi7iSkXoDxqp4KJyBgfTyOFbhw9zxF4V2/w5rJpU0ubx3eIDUB6JkzoUCAKQEyEP5XKLZsZMCT5RI=
-X-Received: by 2002:a05:6830:1647:: with SMTP id
-	h7mr3056582otr.360.1556537979140; 
-	Mon, 29 Apr 2019 04:39:39 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nT6g58L1yn6U+DcSU2I7dbK8RLF25TqnQhz0M/u1I4E=;
+	b=cTQHtQw92y1Knqk166wGgwFX4jr2h/9wfrV2Hb8E4NPDfOw7/7M+OQ6fGR0uHtVSTo
+	GYM8Ya0/uPtgPIjIl1PiHBvfN77FHg1jC7z94ymD3OGJFiVQlkQMtBCvdQwAfd1CYK6O
+	TW154BOt6kAX2xYv1yltLDjoBmPwsEdiwM90TbfGt+W09Ta+YQA+CoB9rt0pSLsP5sno
+	EBfWmcD2aTHzs6DOlxtyuFmT66gCO8Sx5NlhN+Ol8RolQAyFok3semtV3VETfZ9+C9VJ
+	dVXHFrtDDZeA5p+oZDZsxh2s51+SDfxH+1hlhCPIfF9ZU9Y7v44tRtyurFM+At+oWge+
+	jaeQ==
+X-Gm-Message-State: APjAAAW96xBlwHZjm7UodA6bVbndA32Iyp8Ttc55ZUPmOn00VYJa1voJ
+	PdR9Kg+o8wE+iz65ICg4fzRv/fYQCw0=
+X-Google-Smtp-Source: APXvYqzzDmzFVEK1sJ53cmFIoohDLSMiUP7dngaLQTc0Le5Bnyz7I+6/eCaSpVHHFoyxhCeWTs2egw==
+X-Received: by 2002:adf:f791:: with SMTP id q17mr8554000wrp.223.1556539098289; 
+	Mon, 29 Apr 2019 04:58:18 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	u8sm9634172wmc.14.2019.04.29.04.58.16
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Apr 2019 04:58:17 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Apr 2019 12:58:14 +0100
+Message-Id: <20190429115815.20734-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190308184939.22937-1-bunk@stusta.de>
-	<CANNYZj-c+H9zqsj640ef+evBNQbi+6M1XAqJHaqu-_i5dHaxnA@mail.gmail.com>
-	<20190308193841.GA13393@localhost>
-	<E3B36DFB-0727-41ED-9494-3997E768A865@gmail.com>
-	<20190308203904.GA19247@localhost> <20190425192846.GA8813@localhost>
-	<bf9d998e-487b-32a0-7879-9f0694a835ee@windriver.com>
-	<20190426051215.GA26023@localhost>
-	<c2b30caa-1e86-8363-57fb-d399484d9708@windriver.com>
-	<20190426155038.GA17613@localhost>
-	<9428cb85-3010-7ce7-a15d-3848fbbe62e7@windriver.com>
-In-Reply-To: <9428cb85-3010-7ce7-a15d-3848fbbe62e7@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 29 Apr 2019 13:39:27 +0200
-Message-ID: <CANNYZj8JdOQp5q_PjzG4Z3g3WfYMh13D_Dy7Ka_4Es8SDgbqGw@mail.gmail.com>
-To: Mark Hatle <mark.hatle@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Adrian Bunk <bunk@stusta.de>
-Subject: Re: [meta-oe][RFC][PATCH] Remove openssl10
+Subject: [PATCH 1/2] python3: Drop ptest hack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,87 +56,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 11:39:38 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 29 Apr 2019 11:58:18 -0000
+Content-Transfer-Encoding: 8bit
 
-For what it's worth, I don't have a strong opinion on this. Anyone who
-still needs 1.0 as the primary openssl version can add the openssl10
-recipe as 'openssl' to their private layers, and set PREFERRED_VERSION
-accordingly.
+With the kernel TCP backlog queue coalescing bug fixed in the 5.0 kernels
+we don't need this patch anymore and can run the tests.
 
-Alex
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../python/python3/ptesthack.patch            | 60 -------------------
+ meta/recipes-devtools/python/python3_3.7.3.bb |  1 -
+ 2 files changed, 61 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/ptesthack.patch
 
+diff --git a/meta/recipes-devtools/python/python3/ptesthack.patch b/meta/recipes-devtools/python/python3/ptesthack.patch
+deleted file mode 100644
+index 8cfa92f9e81..00000000000
+--- a/meta/recipes-devtools/python/python3/ptesthack.patch
++++ /dev/null
+@@ -1,60 +0,0 @@
+-This test hangs under 5.0 kernels onwards. It appears to be caused by the commit in the kernel:
+-
+-commit 4f693b55c3d2d2239b8a0094b518a1e533cf75d5 (HEAD, refs/bisect/bad)
+-Author: Eric Dumazet <edumazet@google.com>
+-Date:   Tue Nov 27 14:42:03 2018 -0800
+-
+-    tcp: implement coalescing on backlog queue
+-    
+-    In case GRO is not as efficient as it should be or disabled,
+-    we might have a user thread trapped in __release_sock() while
+-    softirq handler flood packets up to the point we have to drop.
+-    
+-    This patch balances work done from user thread and softirq,
+-    to give more chances to __release_sock() to complete its work
+-    before new packets are added the the backlog.
+-    
+-    This also helps if we receive many ACK packets, since GRO
+-    does not aggregate them.
+-    
+-    This patch brings ~60% throughput increase on a receiver
+-    without GRO, but the spectacular gain is really on
+-    1000x release_sock() latency reduction I have measured.
+-    
+-    Signed-off-by: Eric Dumazet <edumazet@google.com>
+-    Cc: Neal Cardwell <ncardwell@google.com>
+-    Cc: Yuchung Cheng <ycheng@google.com>
+-    Acked-by: Neal Cardwell <ncardwell@google.com>
+-    Signed-off-by: David S. Miller <davem@davemloft.net>
+-
+-
+-Reported to upstream kernel for advice: https://lore.kernel.org/netdev/85aabf9d4f41b6c57629e736993233f80a037e59.camel@linuxfoundation.org/T/#u
+-
+-Disable the test for now to stop ptests hanging
+-
+-Upstream-Status: Inappropriate [real cause of issue still TBD]
+-
+-Index: Python-3.7.2/Lib/test/test_httplib.py
+-===================================================================
+---- Python-3.7.2.orig/Lib/test/test_httplib.py
+-+++ Python-3.7.2/Lib/test/test_httplib.py
+-@@ -1114,6 +1114,7 @@ class BasicTest(TestCase):
+-         self.assertEqual(sock.file.read(), extradata) #we read to the end
+-         resp.close()
+- 
+-+    @unittest.skip("broken on newer kernels")
+-     def test_response_fileno(self):
+-         # Make sure fd returned by fileno is valid.
+-         serv = socket.socket(
+-Index: Python-3.7.2/Lib/test/test_ssl.py
+-===================================================================
+---- Python-3.7.2.orig/Lib/test/test_ssl.py
+-+++ Python-3.7.2/Lib/test/test_ssl.py
+-@@ -4146,6 +4146,7 @@ class ThreadedTests(unittest.TestCase):
+-         self.assertEqual(sess_stat['accept'], 4)
+-         self.assertEqual(sess_stat['hits'], 2)
+- 
+-+    @unittest.skip("broken on newer kernels")
+-     def test_session_handling(self):
+-         client_context, server_context, hostname = testing_context()
+-         client_context2, _, _ = testing_context()
+diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
+index eee01c3af61..081ecf4beea 100644
+--- a/meta/recipes-devtools/python/python3_3.7.3.bb
++++ b/meta/recipes-devtools/python/python3_3.7.3.bb
+@@ -21,7 +21,6 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-python3-use-cc_basename-to-replace-CC-for-checking-c.patch \
+            file://0002-Don-t-do-runtime-test-to-get-float-byte-order.patch \
+            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
+-           file://ptesthack.patch \
+            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
+            "
+ 
+-- 
+2.20.1
 
-On Fri, 26 Apr 2019 at 19:56, Mark Hatle <mark.hatle@windriver.com> wrote:
->
-> On 4/26/19 10:50 AM, Adrian Bunk wrote:
-> > On Fri, Apr 26, 2019 at 10:31:03AM -0500, Mark Hatle wrote:
-> >> On 4/26/19 12:12 AM, Adrian Bunk wrote:
-> >>> On Thu, Apr 25, 2019 at 03:18:47PM -0500, Mark Hatle wrote:
-> >>>> On 4/25/19 2:28 PM, Adrian Bunk wrote:
-> >>>>> Would you consider this patch appropriate now that warrior has branched?
-> >>>>
-> >>>> The use of OpenSSL10 as a 'second library' is likely no longer needed.  But
-> >>>> OpenSSL 1.0 (as an alternative version) to OpenSSL 1.1 is still needed in some
-> >>>> cases.. (FIPS-140-2)
-> >>>
-> >>> Is anyone actually security-maintaining OpenSSL in OE?
-> >>
-> >> -In- OE?  I have no idea.
-> >>
-> >> Outside of OE to meet the OpenSSL-FIPS 'you must not modify the sources and
-> >> follow these exact steps', yes people are.
-> >> ...
-> >
-> > Why does this need OpenSSL 1.0 in Yocto?
->
-> I think you are misunderstanding what I am saying.
->
-> For the recipes that -use- OpenSSL, we still need support for the legacy API
-> through at least the end of the year.
->
-> In the past we had added pkgconfigs for a few things to switch them between the
-> old and new OpenSSL API.
->
-> The OpenSSL10 recipe I don't care about, I have no use for it.
->
-> > How does this look as OE recipe?
-> >
-> > I would say that an OpenSSL-FIPS recipe might now perhaps need an
-> > openssl_1.1.1%.bbappend re-adding the three openssl-conf lines my
-> > patch removes.
->
-> You can't.. There is no such thing as OpenSSL-FIPS for 1.1.x.  Doesn't exist,
-> never will.
->
-> OpenSSL 1.0.2* has an OpenSSL-FIPS module.. They have to be compiled -exactly-
-> as stated in the documentation or they are not functionally equivalent..
-> (reality doesn't matter here -- it's the rules that matter.)
->
-> So after it's built (usually via an SDK), then it's packaged in a recipe that
-> uses the precompiled binary.
->
-> OpenSSL 3 (there won't be a 2 from my understanding) is supposed to be
-> compatible with the 1.1.x API (for the most part), but will include FIPS-140-2
-> support.   However, OpenSSL 3 doesn't exist yet.  The last blog from the OpenSSL
-> developers indicated end of 2019... but as we all know release dates change.
->
-> So for users who have an OpenSSL FIPS requirement, the ONLY answer is that their
-> applications (including system) HAVE to use the OpenSSL 1.0.2* + FIPS module.
->
-> --Mark
->
-> > Do I miss anything more complicated here?
-> >
-> >> --Mark
-> >
-> > cu
-> > Adrian
-> >
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
