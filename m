@@ -1,36 +1,51 @@
-Return-Path: <steven.hung@mediatek.com>
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	by mail.openembedded.org (Postfix) with ESMTP id EEFD77D686
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 549D47D686
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 08:36:08 +0000 (UTC)
-X-UUID: 2b102bee44934079ac481e9e36ede50d-20190429
-X-UUID: 2b102bee44934079ac481e9e36ede50d-20190429
-Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
-	mailgw02.mediatek.com (envelope-from <steven.hung@mediatek.com>)
-	(mhqrelay.mediatek.com ESMTP with TLS)
-	with ESMTP id 1345403047; Mon, 29 Apr 2019 16:36:08 +0800
-Received: from MTKMBS06N1.mediatek.inc (172.21.101.129) by
-	mtkmbs06n2.mediatek.inc (172.21.101.130) with Microsoft SMTP Server
-	(TLS) id 15.0.1395.4; Mon, 29 Apr 2019 16:36:05 +0800
-Received: from MTKMBS06N1.mediatek.inc ([fe80::893a:dede:6681:ca4b]) by
-	mtkmbs06n1.mediatek.inc ([fe80::893a:dede:6681:ca4b%18]) with mapi id
-	15.00.1395.000; Mon, 29 Apr 2019 16:36:05 +0800
-From: =?big5?B?U3RldmVuIEh1bmcgKKx4pF+lySk=?= <Steven.Hung@mediatek.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH v2] musl: fix build failure when ld-is-gold is in
-	DISTRO_FEATURES
-Thread-Index: AdT+ZpFL4qi/kFUbSeuFh/0FSKDbTg==
-Date: Mon, 29 Apr 2019 08:36:05 +0000
-Message-ID: <eb6e23843ff14f079f0218e579894f31@mtkmbs06n1.mediatek.inc>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [172.21.101.239]
-x-tm-snts-smtp: E2BEF5592CD76FCB5F463976636F10211166C34DBF229BB074A038B2DBD6AAEB2000:8
+	Mon, 29 Apr 2019 08:49:26 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id y197so14553248wmd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Apr 2019 01:49:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=edpMXSCnSynrphTKQDxrLecRq2Dxxv4Wk/4I52D9MZc=;
+	b=SOvIrMmtct2o+lBr3Fp1F6+bui9m8aOZNLHbqzkP8l/vOOTdfwgsG7Xfz2U0kGO1Yv
+	p4CBwFzu9qQRQOPz5pMoN7kkYXCCMXkukhsWH/oz/PUDAMnnQVvuRLaeAd/aoOELkB1r
+	jZdAotZvuImvkulfFbaPew6ROTZNu6spdSMdw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=edpMXSCnSynrphTKQDxrLecRq2Dxxv4Wk/4I52D9MZc=;
+	b=cniO5ky8HGSjIxJt2QCEVJIe3rnvizOE1h7nbWKyYLygy+HarG8ICeYSdNNocqxAQb
+	/AOV5mP6gUptwVOCrGBUFXCMp1rbeMHEDN+pMqmNyrdGImC7FwHlx0ZTBtyb2Z3x7/Lr
+	jQ/oMQKyj7uJ7IEWu4KCbXqpVxz/BZnmKEFKGZ2YAcK6Y/tWhhS3PZaZwE111PUOuchZ
+	eM2MW7RQJQMGfzEJce3B6zVWjEARA+5SgFsuj2jtCpUJB8yYXoMsqCFbCHyXCFFZRF2Y
+	V29+4g705KVPK3plBkggpzgR6IeyC5hatkwjenK3OHyLc+NUeHBA14FaRn3Lg1LPshQ+
+	Mwrw==
+X-Gm-Message-State: APjAAAWsr2J/X7Wg9UK1Z1s2RGWNfZOefGeT2Wj0dXaoBWtosWqU7I2/
+	udwIUMUcPdfsgML9LD5a9iF9CQ==
+X-Google-Smtp-Source: APXvYqzuJESX+mz1YGOB9lCgLMBIdYbHCns5O5yZKhwU46aZj0ASyBuYo/F9ZAiL3wRbDB8Z6QSmuw==
+X-Received: by 2002:a7b:cf33:: with SMTP id m19mr17482219wmg.101.1556527767022;
+	Mon, 29 Apr 2019 01:49:27 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	z16sm14208068wrt.26.2019.04.29.01.49.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 29 Apr 2019 01:49:26 -0700 (PDT)
+Message-ID: <d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 29 Apr 2019 09:49:24 +0100
+In-Reply-To: <20190427113714.30173-1-schnitzeltony@gmail.com>
+References: <20190427113714.30173-1-schnitzeltony@gmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: [PATCH v2] musl: fix build failure when ld-is-gold is in DISTRO_FEATURES
+Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,146 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 08:36:09 -0000
-Content-Language: zh-TW
-Content-Transfer-Encoding: base64
-Content-Type: multipart/related;
-	boundary="__=_Part_Boundary_008_996507989.821433635"
+X-List-Received-Date: Mon, 29 Apr 2019 08:49:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
---__=_Part_Boundary_008_996507989.821433635
-Content-Transfer-Encoding: base64
-Content-Type: multipart/alternative;
-	boundary="__=_Part_Boundary_009_1174563859.1968860235"
+On Sat, 2019-04-27 at 13:37 +0200, Andreas Müller wrote:
+> This should fix build on ancient hosts
+> 
+> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+> ---
+>  ...uce-gcc-required-support-downto-c-11.patch | 34 ++++++++++++++
+>  ...001-Revert-parser-glue-Use-std-clamp.patch | 44
+> +++++++++++++++++++
+>  ...replace-std-clamp-by-std-min-std-max.patch | 33 ++++++++++++++
+>  meta/recipes-support/vte/vte_0.56.1.bb        |  7 +++
+>  4 files changed, 118 insertions(+)
+>  create mode 100644 meta/recipes-support/vte/vte/0001-Reduce-gcc-
+> required-support-downto-c-11.patch
+>  create mode 100644 meta/recipes-support/vte/vte/0001-Revert-parser-
+> glue-Use-std-clamp.patch
+>  create mode 100644 meta/recipes-support/vte/vte/0001-vte.cc-replace-
+> std-clamp-by-std-min-std-max.patch
 
---__=_Part_Boundary_009_1174563859.1968860235
-Content-Type: text/html
-Content-Transfer-Encoding: base64
+Unfortunately it doesn't seem to be quite enough:
 
-PHByZT4NCmJhc2VkJiMzMjtvbiYjMzI7dGhlJiMzMjtzb2x1dGlvbjomIzMyO2h0dHA6Ly9mZm1w
-ZWcub3JnL3BpcGVybWFpbC9mZm1wZWctZGV2ZWwvMjAxOC1BcHJpbC8yMjgyNDYuaHRtbA0KDQpT
-aWduZWQtb2ZmLWJ5OiYjMzI7U3RldmVuJiMzMjtIdW5nJiMzMjsoJiMyNzk0NjsmIzIwMTEwOyYj
-Mjk1Nzc7KSYjMzI7Jmx0O1N0ZXZlbi5IdW5nQG1lZGlhdGVrLmNvbSZndDsNCi0tLQ0KJiMzMjsu
-Li5icmFuY2gtdG8tUExULWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2gmIzMyO3wmIzMyOzM0
-JiMzMjsrKysrKysrKysrKysrKysrKysrDQomIzMyO21ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVz
-bF9naXQuYmImIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjt8JiMzMjsmIzMyOzEmIzMyOysNCiYjMzI7MiYjMzI7ZmlsZXMmIzMyO2NoYW5n
-ZWQsJiMzMjszNSYjMzI7aW5zZXJ0aW9ucygrKQ0KJiMzMjtjcmVhdGUmIzMyO21vZGUmIzMyOzEw
-MDY0NCYjMzI7bWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9tdXNsLzAwMDMtZml4LWNvbmRpdGlvbmFs
-LWJyYW5jaC10by1QTFQtaW4tVEhVTUItMi1ub3Qtc3VwcG9ydC5wYXRjaA0KDQpkaWZmJiMzMjst
-LWdpdCYjMzI7YS9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2wvMDAwMy1maXgtY29uZGl0aW9u
-YWwtYnJhbmNoLXRvLVBMVC1pbi1USFVNQi0yLW5vdC1zdXBwb3J0LnBhdGNoJiMzMjtiL21ldGEv
-cmVjaXBlcy1jb3JlL211c2wvbXVzbC8wMDAzLWZpeC1jb25kaXRpb25hbC1icmFuY2gtdG8tUExU
-LWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2gNCm5ldyYjMzI7ZmlsZSYjMzI7bW9kZSYjMzI7
-MTAwNjQ0DQppbmRleCYjMzI7MDAwMDAwMDAwMC4uZTFhYTEyNmI4NQ0KLS0tJiMzMjsvZGV2L251
-bGwNCisrKyYjMzI7Yi9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2wvMDAwMy1maXgtY29uZGl0
-aW9uYWwtYnJhbmNoLXRvLVBMVC1pbi1USFVNQi0yLW5vdC1zdXBwb3J0LnBhdGNoDQpAQCYjMzI7
-LTAsMCYjMzI7KzEsMzQmIzMyO0BADQorRnJvbSYjMzI7ZWUzZDZiMGYzNWVjNGU3MWNiYzJhZTRk
-MWE3NTYxZjljYjI3ZDUxZiYjMzI7TW9uJiMzMjtTZXAmIzMyOzE3JiMzMjswMDowMDowMCYjMzI7
-MjAwMQ0KK0Zyb206JiMzMjs9JiM2MztVVEYtOCYjNjM7cSYjNjM7U3RldmVuPTIwSHVuZz0yMD0y
-OD1FNj1CND1BQT1FND1CQT04RT1FNz04RT04OT0yOSYjNjM7PQ0KKyYjMzI7Jmx0O1N0ZXZlbi5I
-dW5nQG1lZGlhdGVrLmNvbSZndDsNCitEYXRlOiYjMzI7TW9uLCYjMzI7MjkmIzMyO0FwciYjMzI7
-MjAxOSYjMzI7MTY6MjU6MTcmIzMyOyswODAwDQorU3ViamVjdDomIzMyO1tQQVRDSF0mIzMyO2Zp
-eCYjMzI7Y29uZGl0aW9uYWwmIzMyO2JyYW5jaCYjMzI7dG8mIzMyO1BMVCYjMzI7aW4mIzMyO1RI
-VU1CLTImIzMyO25vdCYjMzI7c3VwcG9ydGVkJiMzMjt5ZXQuDQorTUlNRS1WZXJzaW9uOiYjMzI7
-MS4wDQorQ29udGVudC1UeXBlOiYjMzI7dGV4dC9wbGFpbjsmIzMyO2NoYXJzZXQ9VVRGLTgNCitD
-b250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiYjMzI7OGJpdA0KKw0KK2Jhc2VkJiMzMjtvbiYjMzI7
-dGhlJiMzMjtzb2x1dGlvbjomIzMyO2h0dHA6Ly9mZm1wZWcub3JnL3BpcGVybWFpbC9mZm1wZWct
-ZGV2ZWwvMjAxOC1BcHJpbC8yMjgyNDYuaHRtbA0KKw0KK1Vwc3RyZWFtLVN0YXR1czomIzMyO1Bl
-bmRpbmcNCitTaWduZWQtb2ZmLWJ5OiYjMzI7U3RldmVuJiMzMjtIdW5nJiMzMjsoJiMyNzk0Njsm
-IzIwMTEwOyYjMjk1Nzc7KSYjMzI7Jmx0O1N0ZXZlbi5IdW5nQG1lZGlhdGVrLmNvbSZndDsNCist
-LS0NCismIzMyO3NyYy9zaWduYWwvYXJtL3NpZ3NldGptcC5zJiMzMjt8JiMzMjszJiMzMjsrKysN
-CismIzMyOzEmIzMyO2ZpbGUmIzMyO2NoYW5nZWQsJiMzMjszJiMzMjtpbnNlcnRpb25zKCspDQor
-DQorZGlmZiYjMzI7LS1naXQmIzMyO2Evc3JjL3NpZ25hbC9hcm0vc2lnc2V0am1wLnMmIzMyO2Iv
-c3JjL3NpZ25hbC9hcm0vc2lnc2V0am1wLnMNCitpbmRleCYjMzI7MzE4YWRkYmEuLjFhYzc5Mjkz
-JiMzMjsxMDA2NDQNCistLS0mIzMyO2Evc3JjL3NpZ25hbC9hcm0vc2lnc2V0am1wLnMNCisrKysm
-IzMyO2Ivc3JjL3NpZ25hbC9hcm0vc2lnc2V0am1wLnMNCitAQCYjMzI7LTYsNiYjMzI7KzYsOSYj
-MzI7QEANCismIzMyO3NpZ3NldGptcDoNCismIzMyO19fc2lnc2V0am1wOg0KKyYjMzI7dHN0JiMz
-MjtyMSxyMQ0KKysjaWZkZWYmIzMyO19fdGh1bWIyX18NCisraXQmIzMyO2VxDQorKyNlbmRpZg0K
-KyYjMzI7YmVxJiMzMjtzZXRqbXANCismIzMyOw0KKyYjMzI7c3RyJiMzMjtscixbcjAsIzI1Nl0N
-CistLSYjMzI7DQorMi4xOC4wDQorDQpkaWZmJiMzMjstLWdpdCYjMzI7YS9tZXRhL3JlY2lwZXMt
-Y29yZS9tdXNsL211c2xfZ2l0LmJiJiMzMjtiL21ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVzbF9n
-aXQuYmINCmluZGV4JiMzMjsxZTMyNDgwNGUxLi43NzllMWRjNzUxJiMzMjsxMDA2NDQNCi0tLSYj
-MzI7YS9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2xfZ2l0LmJiDQorKysmIzMyO2IvbWV0YS9y
-ZWNpcGVzLWNvcmUvbXVzbC9tdXNsX2dpdC5iYg0KQEAmIzMyOy0xNSw2JiMzMjsrMTUsNyYjMzI7
-QEAmIzMyO1BWJiMzMjs9JiMzMjsmcXVvdDsmIzM2O3tCQVNFVkVSfStnaXQmIzM2O3tTUkNQVn0m
-cXVvdDsNCiYjMzI7U1JDX1VSSSYjMzI7PSYjMzI7JnF1b3Q7Z2l0Oi8vZ2l0Lm11c2wtbGliYy5v
-cmcvbXVzbCYjMzI7JiM5MjsNCiYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMz
-MjsmIzMyOyYjMzI7JiMzMjsmIzMyO2ZpbGU6Ly8wMDAxLU1ha2UtZHluYW1pYy1saW5rZXItYS1y
-ZWxhdGl2ZS1zeW1saW5rLXRvLWxpYmMucGF0Y2gmIzMyOyYjOTI7DQomIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtmaWxlOi8vMDAwMi1s
-ZHNvLVVzZS1zeXNsaWJkaXItYW5kLWxpYmRpci1hcy1kZWZhdWx0LXBhdGhlcy10by1sLnBhdGNo
-JiMzMjsmIzkyOw0KKyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
-OyYjMzI7JiMzMjtmaWxlOi8vMDAwMy1maXgtY29uZGl0aW9uYWwtYnJhbmNoLXRvLVBMVC1pbi1U
-SFVNQi0yLW5vdC1zdXBwb3J0LnBhdGNoJiMzMjsmIzkyOw0KJiMzMjsmIzMyOyYjMzI7JiMzMjsm
-IzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyZxdW90Ow0KJiMzMjsNCiYjMzI7UyYj
-MzI7PSYjMzI7JnF1b3Q7JiMzNjt7V09SS0RJUn0vZ2l0JnF1b3Q7DQotLSYjMzI7DQoyLjE4LjAN
-Cg0KPC9wcmU+PCEtLXR5cGU6dGV4dC0tPjwhLS17LS0+PHByZT4qKioqKioqKioqKioqIE1FRElB
-VEVLIENvbmZpZGVudGlhbGl0eSBOb3RpY2UgKioqKioqKioqKioqKioqKioqKioNClRoZSBpbmZv
-cm1hdGlvbiBjb250YWluZWQgaW4gdGhpcyBlLW1haWwgbWVzc2FnZSAoaW5jbHVkaW5nIGFueSAN
-CmF0dGFjaG1lbnRzKSBtYXkgYmUgY29uZmlkZW50aWFsLCBwcm9wcmlldGFyeSwgcHJpdmlsZWdl
-ZCwgb3Igb3RoZXJ3aXNlDQpleGVtcHQgZnJvbSBkaXNjbG9zdXJlIHVuZGVyIGFwcGxpY2FibGUg
-bGF3cy4gSXQgaXMgaW50ZW5kZWQgdG8gYmUgDQpjb252ZXllZCBvbmx5IHRvIHRoZSBkZXNpZ25h
-dGVkIHJlY2lwaWVudChzKS4gQW55IHVzZSwgZGlzc2VtaW5hdGlvbiwgDQpkaXN0cmlidXRpb24s
-IHByaW50aW5nLCByZXRhaW5pbmcgb3IgY29weWluZyBvZiB0aGlzIGUtbWFpbCAoaW5jbHVkaW5n
-IGl0cyANCmF0dGFjaG1lbnRzKSBieSB1bmludGVuZGVkIHJlY2lwaWVudChzKSBpcyBzdHJpY3Rs
-eSBwcm9oaWJpdGVkIGFuZCBtYXkgDQpiZSB1bmxhd2Z1bC4gSWYgeW91IGFyZSBub3QgYW4gaW50
-ZW5kZWQgcmVjaXBpZW50IG9mIHRoaXMgZS1tYWlsLCBvciBiZWxpZXZlIA0KdGhhdCB5b3UgaGF2
-ZSByZWNlaXZlZCB0aGlzIGUtbWFpbCBpbiBlcnJvciwgcGxlYXNlIG5vdGlmeSB0aGUgc2VuZGVy
-IA0KaW1tZWRpYXRlbHkgKGJ5IHJlcGx5aW5nIHRvIHRoaXMgZS1tYWlsKSwgZGVsZXRlIGFueSBh
-bmQgYWxsIGNvcGllcyBvZiANCnRoaXMgZS1tYWlsIChpbmNsdWRpbmcgYW55IGF0dGFjaG1lbnRz
-KSBmcm9tIHlvdXIgc3lzdGVtLCBhbmQgZG8gbm90DQpkaXNjbG9zZSB0aGUgY29udGVudCBvZiB0
-aGlzIGUtbWFpbCB0byBhbnkgb3RoZXIgcGVyc29uLiBUaGFuayB5b3UhDQo8L3ByZT48IS0tfS0t
-Pg==
+https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/461993/raw
+(from centos 7)
 
---__=_Part_Boundary_009_1174563859.1968860235
-Content-Type: text/plain;
-	charset="big5"
-Content-Transfer-Encoding: base64
+| ../../vte-0.56.1/src/utf8-test.cc:27:22: error: ‘literals’ is not a
+namespace-name
+|  using namespace std::literals;
+|                       ^
 
-YmFzZWQgb24gdGhlIHNvbHV0aW9uOiBodHRwOi8vZmZtcGVnLm9yZy9waXBlcm1haWwvZmZtcGVn
-LWRldmVsLzIwMTgtQXByaWwvMjI4MjQ2Lmh0bWwNCg0KU2lnbmVkLW9mZi1ieTogU3RldmVuIEh1
-bmcgKKx4pF+lySkgPFN0ZXZlbi5IdW5nQG1lZGlhdGVrLmNvbT4NCi0tLQ0KIC4uLmJyYW5jaC10
-by1QTFQtaW4tVEhVTUItMi1ub3Qtc3VwcG9ydC5wYXRjaCB8IDM0ICsrKysrKysrKysrKysrKysr
-KysNCiBtZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2xfZ2l0LmJiICAgICAgICAgICAgfCAgMSAr
-DQogMiBmaWxlcyBjaGFuZ2VkLCAzNSBpbnNlcnRpb25zKCspDQogY3JlYXRlIG1vZGUgMTAwNjQ0
-IG1ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVzbC8wMDAzLWZpeC1jb25kaXRpb25hbC1icmFuY2gt
-dG8tUExULWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2gNCg0KZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1jb3JlL211c2wvbXVzbC8wMDAzLWZpeC1jb25kaXRpb25hbC1icmFuY2gtdG8tUExU
-LWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211
-c2wvMDAwMy1maXgtY29uZGl0aW9uYWwtYnJhbmNoLXRvLVBMVC1pbi1USFVNQi0yLW5vdC1zdXBw
-b3J0LnBhdGNoDQpuZXcgZmlsZSBtb2RlIDEwMDY0NA0KaW5kZXggMDAwMDAwMDAwMC4uZTFhYTEy
-NmI4NQ0KLS0tIC9kZXYvbnVsbA0KKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9tdXNsLzAw
-MDMtZml4LWNvbmRpdGlvbmFsLWJyYW5jaC10by1QTFQtaW4tVEhVTUItMi1ub3Qtc3VwcG9ydC5w
-YXRjaA0KQEAgLTAsMCArMSwzNCBAQA0KK0Zyb20gZWUzZDZiMGYzNWVjNGU3MWNiYzJhZTRkMWE3
-NTYxZjljYjI3ZDUxZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCitGcm9tOiA9P1VURi04P3E/
-U3RldmVuPTIwSHVuZz0yMD0yOD1FNj1CND1BQT1FND1CQT04RT1FNz04RT04OT0yOT89DQorIDxT
-dGV2ZW4uSHVuZ0BtZWRpYXRlay5jb20+DQorRGF0ZTogTW9uLCAyOSBBcHIgMjAxOSAxNjoyNTox
-NyArMDgwMA0KK1N1YmplY3Q6IFtQQVRDSF0gZml4IGNvbmRpdGlvbmFsIGJyYW5jaCB0byBQTFQg
-aW4gVEhVTUItMiBub3Qgc3VwcG9ydGVkIHlldC4NCitNSU1FLVZlcnNpb246IDEuMA0KK0NvbnRl
-bnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOA0KK0NvbnRlbnQtVHJhbnNmZXItRW5j
-b2Rpbmc6IDhiaXQNCisNCitiYXNlZCBvbiB0aGUgc29sdXRpb246IGh0dHA6Ly9mZm1wZWcub3Jn
-L3BpcGVybWFpbC9mZm1wZWctZGV2ZWwvMjAxOC1BcHJpbC8yMjgyNDYuaHRtbA0KKw0KK1Vwc3Ry
-ZWFtLVN0YXR1czogUGVuZGluZw0KK1NpZ25lZC1vZmYtYnk6IFN0ZXZlbiBIdW5nICiseKRfpckp
-IDxTdGV2ZW4uSHVuZ0BtZWRpYXRlay5jb20+DQorLS0tDQorIHNyYy9zaWduYWwvYXJtL3NpZ3Nl
-dGptcC5zIHwgMyArKysNCisgMSBmaWxlIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKQ0KKw0KK2Rp
-ZmYgLS1naXQgYS9zcmMvc2lnbmFsL2FybS9zaWdzZXRqbXAucyBiL3NyYy9zaWduYWwvYXJtL3Np
-Z3NldGptcC5zDQoraW5kZXggMzE4YWRkYmEuLjFhYzc5MjkzIDEwMDY0NA0KKy0tLSBhL3NyYy9z
-aWduYWwvYXJtL3NpZ3NldGptcC5zDQorKysrIGIvc3JjL3NpZ25hbC9hcm0vc2lnc2V0am1wLnMN
-CitAQCAtNiw2ICs2LDkgQEANCisgc2lnc2V0am1wOg0KKyBfX3NpZ3NldGptcDoNCisgCXRzdCBy
-MSxyMQ0KKysjaWZkZWYgX190aHVtYjJfXw0KKysJaXQgZXENCisrI2VuZGlmDQorIAliZXEgc2V0
-am1wDQorIA0KKyAJc3RyIGxyLFtyMCwjMjU2XQ0KKy0tIA0KKzIuMTguMA0KKw0KZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVzbF9naXQuYmIgYi9tZXRhL3JlY2lwZXMtY29y
-ZS9tdXNsL211c2xfZ2l0LmJiDQppbmRleCAxZTMyNDgwNGUxLi43NzllMWRjNzUxIDEwMDY0NA0K
-LS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9tdXNsX2dpdC5iYg0KKysrIGIvbWV0YS9yZWNp
-cGVzLWNvcmUvbXVzbC9tdXNsX2dpdC5iYg0KQEAgLTE1LDYgKzE1LDcgQEAgUFYgPSAiJHtCQVNF
-VkVSfStnaXQke1NSQ1BWfSINCiBTUkNfVVJJID0gImdpdDovL2dpdC5tdXNsLWxpYmMub3JnL211
-c2wgXA0KICAgICAgICAgICAgZmlsZTovLzAwMDEtTWFrZS1keW5hbWljLWxpbmtlci1hLXJlbGF0
-aXZlLXN5bWxpbmstdG8tbGliYy5wYXRjaCBcDQogICAgICAgICAgICBmaWxlOi8vMDAwMi1sZHNv
-LVVzZS1zeXNsaWJkaXItYW5kLWxpYmRpci1hcy1kZWZhdWx0LXBhdGhlcy10by1sLnBhdGNoIFwN
-CisgICAgICAgICAgIGZpbGU6Ly8wMDAzLWZpeC1jb25kaXRpb25hbC1icmFuY2gtdG8tUExULWlu
-LVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2ggXA0KICAgICAgICAgICAiDQogDQogUyA9ICIke1dP
-UktESVJ9L2dpdCINCi0tIA0KMi4xOC4wDQo=
+and:
 
---__=_Part_Boundary_009_1174563859.1968860235--
+https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/461960/raw
+(from debian9)
 
---__=_Part_Boundary_008_996507989.821433635--
+| ../../vte-0.56.1/src/parser-cat.cc:140:31: error: enclosing class of
+constexpr non-static member function ‘bool PrettyPrinter::plain()
+const’ is not a literal type
+|          inline constexpr bool plain() const noexcept { return
+m_plain; }
+|                                ^~~~~
+| ../../vte-0.56.1/src/parser-cat.cc:134:7: note: ‘PrettyPrinter’ is
+not literal because:
+|  class PrettyPrinter {
+|        ^~~~~~~~~~~~~
+
+Unfortunately I merged the upgrade into master as we'd had green builds
+before this (chance meant we didn't hit this failure) so this is a more
+pressing problem now...
+
+Cheers,
+
+Richard
+
+
