@@ -1,51 +1,50 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f43.google.com (mail-io1-f43.google.com
-	[209.85.166.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EEC177DB3C
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 12:21:47 +0000 (UTC)
-Received: by mail-io1-f43.google.com with SMTP id p23so8678340iol.13
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 05:21:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f49.google.com (mail-io1-f49.google.com
+	[209.85.166.49])
+	by mail.openembedded.org (Postfix) with ESMTP id 474947DBB8
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 29 Apr 2019 13:25:41 +0000 (UTC)
+Received: by mail-io1-f49.google.com with SMTP id r71so8875402iod.11
+	for <Openembedded-core@lists.openembedded.org>;
+	Mon, 29 Apr 2019 06:25:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=4EArOAmUb7gkawwu2PjfxWvVkNv1Sfe2emUK4IT+lbs=;
-	b=GXQyu5Hd4uK8JBeADxAyuxuSLM0WuFhYl/PtZ+rslH6Y5FHKRdQtNLIzQZrj0Hkp4f
-	ieixImbfAVOwwenteNPUzFN+w9qb2fNNpmR9/dFZ6A9F4HgaqN53VJPrXtT/5r9bMEFz
-	7obbG2lTNuBHjJTCn7eSuMSIIYNV2Odq56dIO1URYIuoQhc7tJ2zCM+txzP51ve/S6jd
-	y4DO/4WCjk7Bru+bCA5X3Teu2hM7TDUj0HrDr0tpw269lKhDsD7dwORkrToNH7xv9y6X
-	DhyydA2IcNDEox1FO45vqL9JSL+w7W//pQDltfLfrgS6Sft6lJqTXR/TvJwbvp0hvl8v
-	zUzA==
+	bh=8+suR4WA2mIQXU70mR+MvfxjOSOGQF/gFEHyCQDidW8=;
+	b=sZoTEow74tQiBscDZP7y4aHKGxPjAnDXTiBEBS9orSnrgp8bNL2S0fsT4G1NX/BbMT
+	eWsxJmmtN9h+K+gbWVpfucszhb/L9xNTea9cyen5kTjNPOc6PJsabmltKEw4H8VBIO2a
+	ui93+ojap+GukunpTCfl60jC8Bn3yZetSEGGZp7LCOFLOTXLLbcPmkOqEX8YdwP72uwl
+	SG5ZWVACIm0DcnvBTny/RBl01/HBRL+PS6SbwtaPuKVPjBdJS8cDETzzifKX4QSom2oD
+	RBlH7YY2IimnbPwBoEI3iarU34HaBo09yM31IUk/0g6iFnJTOwytN3QCDcfVTwAixYka
+	NF+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=4EArOAmUb7gkawwu2PjfxWvVkNv1Sfe2emUK4IT+lbs=;
-	b=F5aWkdkNRqq6te5odM21guKftcHx06STEUZOAOi9fO53wN1DDAclaZMwEZ84knn50L
-	njoglHTiEBzx+t8FPN55UP/TI+6toN5OZ0YSNVdG9YjSsn2W6EELyIF9qdB5PMVOKiTK
-	gYijksTEzlNk/YuDFbl5vnvS7aXZEK7+02P/Yy5DE7MhujoWfZvXJJMDF0Q/vChJ4vA1
-	ICWAel4tbndJmfG9U/IPVXUwRk5W6YUBn1Vo9wZYnhB9igrYBd/+WzGEC52v/AUdb2Gc
-	y5Xlr9UOjzvS3QIX2Rj7PfjJuD45z8wu/6xHVzSFmK+4WWxjNhCVV4gFjxBcMos3CYkf
-	hAXQ==
-X-Gm-Message-State: APjAAAV0X8WktgctVtk2qYEbLhUN15fce5b4SqvXdsmRREAPCS99LoS9
-	xrBDT7MxeF/aLiuzFu8v6t0jJoonq4Rg+v9ztIs=
-X-Google-Smtp-Source: APXvYqzwxU+vSrBCwvrvBbcD9qAvf/xT9Fm1/WTyrRC8la1lSf0BRhXZ9bgY91HH9OpVxFB49f4kaWQ/x1Jj6Uc8LMg=
-X-Received: by 2002:a5e:d505:: with SMTP id e5mr13817591iom.99.1556540508918; 
-	Mon, 29 Apr 2019 05:21:48 -0700 (PDT)
+	bh=8+suR4WA2mIQXU70mR+MvfxjOSOGQF/gFEHyCQDidW8=;
+	b=dSG+dERthBgrSVOF+/mRazuFm83t0kUdWm0tCGeWKDOIo5cB+dkFgHhNc4TOtLh4Rm
+	DrNeZZBAvZ2oLmgi6KR5bG1yo6Yvo4DwRSokW7H0I9QYEuqbcBqS6gPKIAfXlkRFTqw1
+	iFX2UjGd9MVn36F6qUtS5It98AaSyTat+n9igSaiA4Yah8Bg+q7Y3MEffZWunJvjEkQX
+	YWnypUucIKCeFTebGnhcmo5PoizYBMaS0PmhN5uFkmAnVg4LU91sVVr4c0Mnt58+8Hu+
+	fiykNGak4Kfm1f94siD9WojMt6u2rcOLw7v2ccVAtuIBKoJQ5KcXcE1tvja81YFgkQg9
+	jSzQ==
+X-Gm-Message-State: APjAAAW5rvAnK0aqvOL/SdaC+OPIOfQnjmXYUU5Xe9lq39XNzYqZhME2
+	HjV8lBvrd6hqZeOowNLa07j8GuN2tp0dWpuk2Jj5xNsZ
+X-Google-Smtp-Source: APXvYqwbQUOC14DCzKfHR7RxO5JTcINdt0nd+IbLNC1n7ZMkqkcSBdXrzNAg+oSY/e2eXti97Vy63I0KMPCQDMSdTtE=
+X-Received: by 2002:a5d:8795:: with SMTP id f21mr20362481ion.20.1556544342290; 
+	Mon, 29 Apr 2019 06:25:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190427113714.30173-1-schnitzeltony@gmail.com>
-	<d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
-	<CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
-	<a45f59b03312a7693bd5d4e4ae04c600@basmevissen.nl>
-In-Reply-To: <a45f59b03312a7693bd5d4e4ae04c600@basmevissen.nl>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Mon, 29 Apr 2019 14:21:37 +0200
-Message-ID: <CALbNGRT_FRQfA0jpP7DHsFOxnt97JW-KEjyGXOkW9V2w+Ujgyw@mail.gmail.com>
-To: Bas Mevissen <abuse@basmevissen.nl>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
+References: <1551792970-1216-1-git-send-email-catalin-dan.udma@nxp.com>
+	<VI1PR04MB5565D1837E769E35CB840F41DA550@VI1PR04MB5565.eurprd04.prod.outlook.com>
+In-Reply-To: <VI1PR04MB5565D1837E769E35CB840F41DA550@VI1PR04MB5565.eurprd04.prod.outlook.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 29 Apr 2019 14:25:30 +0100
+Message-ID: <CAJTo0LbBGZz_71T4kF5yq7Lwj9Mta2k8K+wAEMo=KOYj48nnew@mail.gmail.com>
+To: Catalin Dan Udma <catalin-dan.udma@nxp.com>
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] insane.bbclass: fix QA-check to consider the PREFERRED_RPROVIDER for RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,45 +57,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 12:21:48 -0000
+X-List-Received-Date: Mon, 29 Apr 2019 13:25:41 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 29, 2019 at 12:56 PM Bas Mevissen <abuse@basmevissen.nl> wrote:
->
-> On 2019-04-29 11:29, Andreas M=C3=BCller wrote:
->
-> (...)
->
-> >>
-> > Understood - hope to find time till tomorrow for this. Need to find an
-> > old machine for test because otherwise further fixes might remain
-> > incomplete again.
-> >
->
-> Why not add the g++ option --std=3Dc++11 when test building this recipe?
->
-> $cat test.cc
->
-> #include <string>
->
-> using namespace std::literals;
->
-> int main()
-> {
->         return 0;
-> }
->
->
-> $ g++ --std=3Dc++17 test.cc -o test
-> $ g++ --std=3Dc++11 test.cc -o test
-> test.cc:5:22: error: =E2=80=98literals=E2=80=99 is not a namespace-name
->      5 | using namespace std::literals;
->        |                      ^~~~~~~~
->
-> -- Bas.
-Did that but on CFLAGS (copy & paste from another place in recipe) and
-since issues popped up I thought it was right :(
+I just ran into this, but the patch doesn't apply to master anymore.
+Can you rebase?
 
-Andreas
+Thanks,
+Ross
+
+On Tue, 2 Apr 2019 at 23:39, Catalin Dan Udma <catalin-dan.udma@nxp.com> wr=
+ote:
+>
+> Ping.
+>
+> Thanks,
+> Catalin Udma
+>
+> > -----Original Message-----
+> > From: Catalin Dan Udma
+> > Sent: Tuesday, March 5, 2019 3:36 PM
+> > To: Openembedded-core@lists.openembedded.org
+> > Cc: Catalin Dan Udma <catalin-dan.udma@nxp.com>
+> > Subject: [OE-core][PATCH] insane.bbclass: fix QA-check to consider the
+> > PREFERRED_RPROVIDER for RDEPENDS
+> >
+> > QA-check looks in the RDEPENDS list without taking into consideration t=
+hat a
+> > specific package may have a PREFERRED_RPROVIDER defined.
+> > If PREFERRED_RPROVIDER is set, QA-check will ignore that settings and w=
+ill
+> > consider the original package, resulting in QA-check errors:
+> >       ERROR: do_packate_qa: QA Issue: <...>, but no providers found in
+> >       RDEPENDS_<package>? [file-rdeps]
+> > The fix is to replace the original package in the QA-check with the new
+> > package defined in PREFERRED_RPROVIDER, if it=E2=80=99s set.
+> >
+> > Signed-off-by: Catalin Udma <catalin-dan.udma@nxp.com>
+> > ---
+> >  meta/classes/insane.bbclass | 6 ++++++
+> >  1 file changed, 6 insertions(+)
+> >
+> > diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+> > index 6411884..165233b 100644
+> > --- a/meta/classes/insane.bbclass
+> > +++ b/meta/classes/insane.bbclass
+> > @@ -689,6 +689,9 @@ def package_qa_check_rdepends(pkg, pkgdest, skip,
+> > taskdeps, packages, d):
+> >          # Now do the sanity check!!!
+> >          if "build-deps" not in skip:
+> >              for rdepend in rdepends:
+> > +                pref_rdepend =3D localdata.getVar("PREFERRED_RPROVIDER=
+_%s" %
+> > rdepend)
+> > +                if pref_rdepend:
+> > +                    rdepend =3D pref_rdepend
+> >                  if "-dbg" in rdepend and "debug-deps" not in skip:
+> >                      error_msg =3D "%s rdepends on %s" % (pkg,rdepend)
+> >                      package_qa_handle_error("debug-deps", error_msg, d=
+)
+> > @@ -739,6 +742,9 @@ def package_qa_check_rdepends(pkg, pkgdest, skip,
+> > taskdeps, packages, d):
+> >                  while next:
+> >                      new =3D []
+> >                      for rdep in next:
+> > +                        pref_rdep =3D localdata.getVar("PREFERRED_RPRO=
+VIDER_%s" %
+> > rdep)
+> > +                        if pref_rdep:
+> > +                            rdep =3D pref_rdep
+> >                          rdep_data =3D oe.packagedata.read_subpkgdata(r=
+dep, d)
+> >                          sub_rdeps =3D rdep_data.get("RDEPENDS_" + rdep=
+)
+> >                          if not sub_rdeps:
+> > --
+> > 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
