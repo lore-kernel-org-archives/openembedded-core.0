@@ -1,48 +1,49 @@
-Return-Path: <AMardegan@luxoft.com>
-Received: from mx02.luxoft.com (mx02.luxoft.com [109.166.244.72])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A7FA7DBC7
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AA4A87DBDD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 14:52:10 +0000 (UTC)
-X-AuditID: ac1e1348-4d5ff70000000417-34-5cc70f9ab1e4
-Received: from ORO-EDGE-03.luxoft.com (oro-edge-03.luxoft.com [172.30.19.23])
-	(using TLS with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by mx02.luxoft.com (Symantec Messaging Gateway) with SMTP id
-	76.C4.01047.A9F07CC5; Mon, 29 Apr 2019 17:52:10 +0300 (EEST)
-Received: from oro-exch-04.luxoft.com (172.25.192.34) by
-	oro-edge-03.luxoft.com (172.30.19.23) with Microsoft SMTP Server (TLS)
-	id 14.3.408.0; Mon, 29 Apr 2019 17:52:09 +0300
-Received: from oro-exch-01.luxoft.com (172.25.192.30) by
-	oro-exch-04.luxoft.com (172.25.192.34) with Microsoft SMTP Server
-	(version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P521) id
-	15.1.1466.3; Mon, 29 Apr 2019 17:52:09 +0300
-Received: from oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13]) by
-	oro-exch-01.luxoft.com ([fe80::1da3:c392:32fa:ad13%13]) with mapi id
-	15.01.1466.003; Mon, 29 Apr 2019 17:52:09 +0300
-From: "Mardegan, Alberto" <AMardegan@luxoft.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH][warrior] oeqa/core/runner: dump stdout and stderr of
-	each test case
-Thread-Index: AQHU/psfTNx6lk55PECp6qFbaTX54A==
-Date: Mon, 29 Apr 2019 14:52:09 +0000
-Message-ID: <20190429145158.6785-1-amardegan@luxoft.com>
-Accept-Language: it-IT, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.30.19.68]
-MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrILMWRmVeSWpSXmKPExsWyRk5YXHcW//EYgzkzTC3u/HzH7sDocW7j
-	CsYAxigum5TUnMyy1CJ9uwSujIXdm1kL2tUqNlxJaWBslu1i5OSQEDCReDR9NXsXIxeHkMBm
-	Jokvix9BOZsYJaZNOw7lfGGU+D+liRGkRUhgP6PE5zO5IDabgIHE391rWUFsEYFoiaUzZrKD
-	2MwCWhJLW44ydTFycAgLhEl8bNUFMUFKznTkQ1TrSbTcvAjWySKgKrG0dxIziM0rYCHx5utz
-	sDijgKzEhN2LGCEmikvcejKfCeJoAYkle84zQ9iiEi8f/2OFsBUkOp82Ql2gJ3Fj6hQ2CFtb
-	YtnC11DzBSVOznzCAvGJosTyb/OZJjCKzUKyYhaS9llI2mchaV/AyLKKUTS/KF+3ODdd18BE
-	L6e0Ij+tRC85P3cTIyRSPHYwfjyccoiRiYNTqoHRp4j9UKNrct7vSesvlQVK9P8q4b290ttV
-	9rmmdXWC8okZgg/2flE9fa7ingqn8uG5d39ZvTjxV+xprJbO8m3aesL3/pQVTOL+cWHS7T6z
-	ZKNgTk/Bk8vkdqYuvM+r+uhu5LmyfcerhY/+V04pmG3X2tz2MmJRzov4mKbQO0Vyd67m6nOw
-	FN9RYinOSDTUYi4qTgQAS4NaikQCAAA=
-Subject: [PATCH][warrior] oeqa/core/runner: dump stdout and stderr of each test case
+	Mon, 29 Apr 2019 14:55:13 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c12so16485531wrt.8
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 29 Apr 2019 07:55:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=6hseZyuaPmxDaX4HQdlAa2cxX9H3TkpxPqu+yBp8smc=;
+	b=1ofgcoQXKj2k53ew37KiaDgY8WhmkNBORGs77vqJHyO1bDGQSaOFQvGnh6oqNeoam9
+	zSEvg0LpJ7T9MB+wwbhRraHIGDmxMjDBpmiZezx91U85ynlpD8SN5txIq8V4vrs6J+nf
+	qXp73If175xqLanda3Veu4HdjItaQZ9C0RYMbU10FGFY3AKqPboYgZPVy218Jr8gsZQJ
+	3J0KjI7+aGwpfQ4NCF5o4rYWNsTXMprJZAmhtRdrTr6RL8hWmPDLh3Z6Myo7tjOMumSm
+	rT/T/K6X7dbfAFpwxcwgQIjqslrjf6BQqtH7d8ThBDFa1CeRVRtWqKNjjvUb5NelLjqV
+	o26w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=6hseZyuaPmxDaX4HQdlAa2cxX9H3TkpxPqu+yBp8smc=;
+	b=Mcr0uV8fOJmdHTFxspq3Y2JBgas9LMcgDT94T5voSZIoSMDRogCXm3jsIQa6t6AMGM
+	5aoeZDLfwZFjH2SE8XQEVjj08CNqaXRVWgap5AxOS7etbkfIgw6Skmxr2Cd/yYjy0ZFr
+	IFS45aD2gcy3aowQ5/VAnuuOA/3MxY/jA6IulYOcbbJSVrRK9hTZxEkGtL6kxxaHf+rf
+	qGFdWaTN5zzDZWx7ApFUCyNrcRPgSZqCjQvWmKck39IZp9b/q/iaRPcvC5KznW+VYwmM
+	pW3hIsqPUGlhlRi8MeW2TKZsqPFCwp6PNxR6QwQKzT/gOOXwVEXOGDNg3YRPJ3lAIxaS
+	h5yg==
+X-Gm-Message-State: APjAAAWeHu5aBEgI4xcUgtr+rCSBdQg5GJgpO2Fh7pScBySWu02LBKKs
+	EcsUxNqUK4UbMc8gR7UotKa8YSYC7x0=
+X-Google-Smtp-Source: APXvYqxSFXGSXUBhi78lqnOlVFOpVuL4g90hPpr9tC+gN7/H2DIAAfuBrlY4sIuFZH70udPDpCTu9g==
+X-Received: by 2002:adf:fa4d:: with SMTP id y13mr10712675wrr.4.1556549714270; 
+	Mon, 29 Apr 2019 07:55:14 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	r6sm25969378wmc.11.2019.04.29.07.55.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Apr 2019 07:55:13 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 29 Apr 2019 15:55:11 +0100
+Message-Id: <20190429145511.8286-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] staging: add ${datadir}/gtk-doc/html to the sysroot blacklist
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,125 +56,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 14:52:10 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 29 Apr 2019 14:55:14 -0000
 
-From: "Mardegan, Alberto" <AMardegan@luxoft.com>
+When api-documentation is enabled the GNOME stack builds API documentation. As
+${datadir} is in SYSROOT_DIRS this documentation is in the sysroot but is never
+used, wasting time and space.
 
-Some CI pipelines might perform further processing of the test output
-(for instance, to plot some metrics into a chart). However, Since `thud`
-we switched away from the XML-based jUnit reporting, and at the same
-time we lost the ability of collecting the stdout and stderr of the
-various tests.
+Add ${datadir}/gtk-doc/html to the blacklist so that the generated documentation
+isn't in the sysroot.  Note that we don't blacklist all of ${datadir}/gtk-doc
+because gtk-doc itself installs files there which are needed to use gtk-doc.
 
-We now restore this functionality by adding `stdout` and `stderr` keys
-to the JSON reports. This behavior is off by default; in order to enable
-it, one must set the `TESTREPORT_FULLLOGS` variable in the bitbake
-configuration.
-
-(From OE-Core rev: fd0048630ece5b21efb3a79e97046be0ab2a1514)
-
-Signed-off-by: Alberto Mardegan <amardegan@luxoft.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/classes/testimage.bbclass |  3 ++-
- meta/lib/oeqa/core/runner.py   | 20 ++++++++++++++++----
- 2 files changed, 18 insertions(+), 5 deletions(-)
+ meta/classes/staging.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclas=
-s
-index ff1c53b93e..9bb5a5cb0b 100644
---- a/meta/classes/testimage.bbclass
-+++ b/meta/classes/testimage.bbclass
-@@ -316,7 +316,8 @@ def testimage_main(d):
-     configuration =3D get_testimage_configuration(d, 'runtime', machine)
-     results.logDetails(get_testimage_json_result_dir(d),
-                        configuration,
--                       get_testimage_result_id(configuration))
-+                       get_testimage_result_id(configuration),
-+                       dump_streams=3Dd.getVar('TESTREPORT_FULLLOGS'))
-     results.logSummary(pn)
-     if not results.wasSuccessful():
-         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, =
-forcelog=3DTrue)
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index df88b85f1c..478b7b6683 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -7,6 +7,7 @@ import unittest
- import logging
- import re
- import json
-+import sys
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 062b2817c88..6bcd0b087a0 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -27,9 +27,10 @@ SYSROOT_DIRS_BLACKLIST = " \
+     ${mandir} \
+     ${docdir} \
+     ${infodir} \
+-    ${datadir}/locale \
+     ${datadir}/applications \
+     ${datadir}/fonts \
++    ${datadir}/gtk-doc/html \
++    ${datadir}/locale \
+     ${datadir}/pixmaps \
+     ${libdir}/${PN}/ptest \
+ "
+-- 
+2.11.0
 
- from unittest import TextTestResult as _TestResult
- from unittest import TextTestRunner as _TestRunner
-@@ -45,6 +46,9 @@ class OETestResult(_TestResult):
-
-         self.tc =3D tc
-
-+        # stdout and stderr for each test case
-+        self.logged_output =3D {}
-+
-     def startTest(self, test):
-         # May have been set by concurrencytest
-         if test.id() not in self.starttime:
-@@ -53,6 +57,9 @@ class OETestResult(_TestResult):
-
-     def stopTest(self, test):
-         self.endtime[test.id()] =3D time.time()
-+        if self.buffer:
-+            self.logged_output[test.id()] =3D (
-+                    sys.stdout.getvalue(), sys.stderr.getvalue())
-         super(OETestResult, self).stopTest(test)
-         if test.id() in self.progressinfo:
-             self.tc.logger.info(self.progressinfo[test.id()])
-@@ -118,7 +125,8 @@ class OETestResult(_TestResult):
-         self.successes.append((test, None))
-         super(OETestResult, self).addSuccess(test)
-
--    def logDetails(self, json_file_dir=3DNone, configuration=3DNone, resul=
-t_id=3DNone):
-+    def logDetails(self, json_file_dir=3DNone, configuration=3DNone, resul=
-t_id=3DNone,
-+            dump_streams=3DFalse):
-         self.tc.logger.info("RESULTS:")
-
-         result =3D {}
-@@ -144,10 +152,14 @@ class OETestResult(_TestResult):
-             if status not in logs:
-                 logs[status] =3D []
-             logs[status].append("RESULTS - %s - Testcase %s: %s%s" % (case=
-.id(), oeid, status, t))
-+            report =3D {'status': status}
-             if log:
--                result[case.id()] =3D {'status': status, 'log': log}
--            else:
--                result[case.id()] =3D {'status': status}
-+                report['log'] =3D log
-+            if dump_streams and case.id() in self.logged_output:
-+                (stdout, stderr) =3D self.logged_output[case.id()]
-+                report['stdout'] =3D stdout
-+                report['stderr'] =3D stderr
-+            result[case.id()] =3D report
-
-         for i in ['PASSED', 'SKIPPED', 'EXPECTEDFAIL', 'ERROR', 'FAILED', =
-'UNKNOWN']:
-             if i not in logs:
---
-2.17.1
-
-________________________________
-
-This e-mail and any attachment(s) are intended only for the recipient(s) na=
-med above and others who have been specifically authorized to receive them.=
- They may contain confidential information. If you are not the intended rec=
-ipient, please do not read this email or its attachment(s). Furthermore, yo=
-u are hereby notified that any dissemination, distribution or copying of th=
-is e-mail and any attachment(s) is strictly prohibited. If you have receive=
-d this e-mail in error, please immediately notify the sender by replying to=
- this e-mail and then delete this e-mail and any attachment(s) or copies th=
-ereof from your system. Thank you.
 
