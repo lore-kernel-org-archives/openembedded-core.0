@@ -1,26 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A3B897D588
+Return-Path: <steven.hung@mediatek.com>
+Received: from mailgw01.mediatek.com (unknown [210.61.82.183])
+	by mail.openembedded.org (Postfix) with ESMTP id 1CD5D7D588
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 07:17:13 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x3T7GsvY009765
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 29 Apr 2019 00:17:04 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 29 Apr 2019 00:16:38 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 29 Apr 2019 15:27:18 +0800
-Message-ID: <fe4f843b8da72db7cedd424596fe4b6ab99692ac.1556522821.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1556522821.git.Qi.Chen@windriver.com>
-References: <cover.1556522821.git.Qi.Chen@windriver.com>
+	Mon, 29 Apr 2019 07:32:03 +0000 (UTC)
+X-UUID: a84e240a0bef429f98d23bdde9e80162-20190429
+X-UUID: a84e240a0bef429f98d23bdde9e80162-20190429
+Received: from mtkcas09.mediatek.inc [(172.21.101.178)] by
+	mailgw01.mediatek.com (envelope-from <steven.hung@mediatek.com>)
+	(mhqrelay.mediatek.com ESMTP with TLS)
+	with ESMTP id 515136255; Mon, 29 Apr 2019 15:32:01 +0800
+Received: from MTKMBS06N1.mediatek.inc (172.21.101.129) by
+	mtkmbs06n1.mediatek.inc (172.21.101.129) with Microsoft SMTP Server
+	(TLS) id 15.0.1395.4; Mon, 29 Apr 2019 15:31:59 +0800
+Received: from MTKMBS06N1.mediatek.inc ([fe80::893a:dede:6681:ca4b]) by
+	mtkmbs06n1.mediatek.inc ([fe80::893a:dede:6681:ca4b%18]) with mapi id
+	15.00.1395.000; Mon, 29 Apr 2019 15:31:59 +0800
+From: =?big5?B?U3RldmVuIEh1bmcgKKx4pF+lySk=?= <Steven.Hung@mediatek.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [PATCH] musl: fix build failure when ld-is-gold is in
+	DISTRO_FEATURES
+Thread-Index: AdT+XVz5W506/bnHS6K3lZJo5GTECg==
+Date: Mon, 29 Apr 2019 07:31:59 +0000
+Message-ID: <ec922d7762594a07a99e5c00241ea82b@mtkmbs06n1.mediatek.inc>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [172.21.101.239]
 MIME-Version: 1.0
-Subject: [PATCH 1/1] dropbear: set CVE_PRODUCT
+Subject: [PATCH] musl: fix build failure when ld-is-gold is in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +42,138 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 29 Apr 2019 07:17:13 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 29 Apr 2019 07:32:04 -0000
+Content-Language: zh-TW
+Content-Transfer-Encoding: base64
+Content-Type: multipart/related;
+	boundary="__=_Part_Boundary_008_1268904595.173078788"
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-core/dropbear/dropbear.inc | 2 ++
- 1 file changed, 2 insertions(+)
+--__=_Part_Boundary_008_1268904595.173078788
+Content-Transfer-Encoding: base64
+Content-Type: multipart/alternative;
+	boundary="__=_Part_Boundary_009_1641656553.248133629"
 
-diff --git a/meta/recipes-core/dropbear/dropbear.inc b/meta/recipes-core/dropbear/dropbear.inc
-index 3fbdb5e..2537603 100644
---- a/meta/recipes-core/dropbear/dropbear.inc
-+++ b/meta/recipes-core/dropbear/dropbear.inc
-@@ -34,6 +34,8 @@ RDEPENDS_${PN} += "${@bb.utils.contains('DISTRO_FEATURES', 'pam', '${PAM_PLUGINS
- 
- inherit autotools update-rc.d systemd
- 
-+CVE_PRODUCT = "dropbear_ssh"
-+
- INITSCRIPT_NAME = "dropbear"
- INITSCRIPT_PARAMS = "defaults 10"
- 
--- 
-1.9.1
+--__=_Part_Boundary_009_1641656553.248133629
+Content-Type: text/html
+Content-Transfer-Encoding: base64
 
+PHByZT4NCmJhc2VkJiMzMjtvbiYjMzI7dGhlJiMzMjtzb2x1dGlvbjomIzMyO2h0dHA6Ly9mZm1w
+ZWcub3JnL3BpcGVybWFpbC9mZm1wZWctZGV2ZWwvMjAxOC1BcHJpbC8yMjgyNDYuaHRtbA0KDQpT
+aWduZWQtb2ZmLWJ5OiYjMzI7U3RldmVuJiMzMjtIdW5nJiMzMjsoJiMyNzk0NjsmIzIwMTEwOyYj
+Mjk1Nzc7KSYjMzI7Jmx0O1N0ZXZlbi5IdW5nQG1lZGlhdGVrLmNvbSZndDsNCi0tLQ0KJiMzMjsu
+Li5icmFuY2gtdG8tUExULWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2gmIzMyO3wmIzMyOzI4
+JiMzMjsrKysrKysrKysrKysrKysrKysrDQomIzMyO21ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVz
+bF9naXQuYmImIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjt8JiMzMjsmIzMyOzEmIzMyOysNCiYjMzI7MiYjMzI7ZmlsZXMmIzMyO2NoYW5n
+ZWQsJiMzMjsyOSYjMzI7aW5zZXJ0aW9ucygrKQ0KJiMzMjtjcmVhdGUmIzMyO21vZGUmIzMyOzEw
+MDY0NCYjMzI7bWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9tdXNsLzAwMDMtZml4LWNvbmRpdGlvbmFs
+LWJyYW5jaC10by1QTFQtaW4tVEhVTUItMi1ub3Qtc3VwcG9ydC5wYXRjaA0KDQpkaWZmJiMzMjst
+LWdpdCYjMzI7YS9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2wvMDAwMy1maXgtY29uZGl0aW9u
+YWwtYnJhbmNoLXRvLVBMVC1pbi1USFVNQi0yLW5vdC1zdXBwb3J0LnBhdGNoJiMzMjtiL21ldGEv
+cmVjaXBlcy1jb3JlL211c2wvbXVzbC8wMDAzLWZpeC1jb25kaXRpb25hbC1icmFuY2gtdG8tUExU
+LWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2gNCm5ldyYjMzI7ZmlsZSYjMzI7bW9kZSYjMzI7
+MTAwNjQ0DQppbmRleCYjMzI7MDAwMDAwMDAwMC4uMDJiNGE3YTJlNw0KLS0tJiMzMjsvZGV2L251
+bGwNCisrKyYjMzI7Yi9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2wvMDAwMy1maXgtY29uZGl0
+aW9uYWwtYnJhbmNoLXRvLVBMVC1pbi1USFVNQi0yLW5vdC1zdXBwb3J0LnBhdGNoDQpAQCYjMzI7
+LTAsMCYjMzI7KzEsMjgmIzMyO0BADQorRnJvbSYjMzI7ZmJmYzNhNmFkMWU3Zjg0NGNhNGI5NzM2
+MzMwZjI4Y2VkMmYyYTdkOCYjMzI7TW9uJiMzMjtTZXAmIzMyOzE3JiMzMjswMDowMDowMCYjMzI7
+MjAwMQ0KK0Zyb206JiMzMjs9JiM2MztVVEYtOCYjNjM7cSYjNjM7U3RldmVuPTIwSHVuZz0yMD0y
+OD1FNj1CND1BQT1FND1CQT04RT1FNz04RT04OT0yOSYjNjM7PQ0KKyYjMzI7Jmx0O1N0ZXZlbi5I
+dW5nQG1lZGlhdGVrLmNvbSZndDsNCitEYXRlOiYjMzI7TW9uLCYjMzI7MjkmIzMyO0FwciYjMzI7
+MjAxOSYjMzI7MTQ6Mjg6NTImIzMyOyswODAwDQorU3ViamVjdDomIzMyO1tQQVRDSF0mIzMyO2Zp
+eCYjMzI7Y29uZGl0aW9uYWwmIzMyO2JyYW5jaCYjMzI7dG8mIzMyO1BMVCYjMzI7aW4mIzMyO1RI
+VU1CLTImIzMyO25vdCYjMzI7c3VwcG9ydGVkJiMzMjt5ZXQuDQorDQorYmFzZWQmIzMyO29uJiMz
+Mjt0aGUmIzMyO3NvbHV0aW9uOiYjMzI7aHR0cDovL2ZmbXBlZy5vcmcvcGlwZXJtYWlsL2ZmbXBl
+Zy1kZXZlbC8yMDE4LUFwcmlsLzIyODI0Ni5odG1sDQorLS0tDQorJiMzMjtzcmMvc2lnbmFsL2Fy
+bS9zaWdzZXRqbXAucyYjMzI7fCYjMzI7MyYjMzI7KysrDQorJiMzMjsxJiMzMjtmaWxlJiMzMjtj
+aGFuZ2VkLCYjMzI7MyYjMzI7aW5zZXJ0aW9ucygrKQ0KKw0KK2RpZmYmIzMyOy0tZ2l0JiMzMjth
+L3NyYy9zaWduYWwvYXJtL3NpZ3NldGptcC5zJiMzMjtiL3NyYy9zaWduYWwvYXJtL3NpZ3NldGpt
+cC5zDQoraW5kZXgmIzMyOzMxOGFkZGJhLi4xYWM3OTI5MyYjMzI7MTAwNjQ0DQorLS0tJiMzMjth
+L3NyYy9zaWduYWwvYXJtL3NpZ3NldGptcC5zDQorKysrJiMzMjtiL3NyYy9zaWduYWwvYXJtL3Np
+Z3NldGptcC5zDQorQEAmIzMyOy02LDYmIzMyOys2LDkmIzMyO0BADQorJiMzMjtzaWdzZXRqbXA6
+DQorJiMzMjtfX3NpZ3NldGptcDoNCismIzMyO3RzdCYjMzI7cjEscjENCisrI2lmZGVmJiMzMjtf
+X3RodW1iMl9fDQorK2l0JiMzMjtlcQ0KKysjZW5kaWYNCismIzMyO2JlcSYjMzI7c2V0am1wDQor
+JiMzMjsNCismIzMyO3N0ciYjMzI7bHIsW3IwLCMyNTZdDQorLS0mIzMyOw0KKzIuMTguMA0KKw0K
+ZGlmZiYjMzI7LS1naXQmIzMyO2EvbWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9tdXNsX2dpdC5iYiYj
+MzI7Yi9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2xfZ2l0LmJiDQppbmRleCYjMzI7MWUzMjQ4
+MDRlMS4uNzc5ZTFkYzc1MSYjMzI7MTAwNjQ0DQotLS0mIzMyO2EvbWV0YS9yZWNpcGVzLWNvcmUv
+bXVzbC9tdXNsX2dpdC5iYg0KKysrJiMzMjtiL21ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVzbF9n
+aXQuYmINCkBAJiMzMjstMTUsNiYjMzI7KzE1LDcmIzMyO0BAJiMzMjtQViYjMzI7PSYjMzI7JnF1
+b3Q7JiMzNjt7QkFTRVZFUn0rZ2l0JiMzNjt7U1JDUFZ9JnF1b3Q7DQomIzMyO1NSQ19VUkkmIzMy
+Oz0mIzMyOyZxdW90O2dpdDovL2dpdC5tdXNsLWxpYmMub3JnL211c2wmIzMyOyYjOTI7DQomIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjtm
+aWxlOi8vMDAwMS1NYWtlLWR5bmFtaWMtbGlua2VyLWEtcmVsYXRpdmUtc3ltbGluay10by1saWJj
+LnBhdGNoJiMzMjsmIzkyOw0KJiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmIzMyOyYjMzI7ZmlsZTovLzAwMDItbGRzby1Vc2Utc3lzbGliZGlyLWFuZC1s
+aWJkaXItYXMtZGVmYXVsdC1wYXRoZXMtdG8tbC5wYXRjaCYjMzI7JiM5MjsNCismIzMyOyYjMzI7
+JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7ZmlsZTovLzAwMDMt
+Zml4LWNvbmRpdGlvbmFsLWJyYW5jaC10by1QTFQtaW4tVEhVTUItMi1ub3Qtc3VwcG9ydC5wYXRj
+aCYjMzI7JiM5MjsNCiYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMyOyYjMzI7JiMzMjsmIzMy
+OyYjMzI7JiMzMjsmcXVvdDsNCiYjMzI7DQomIzMyO1MmIzMyOz0mIzMyOyZxdW90OyYjMzY7e1dP
+UktESVJ9L2dpdCZxdW90Ow0KLS0mIzMyOw0KMi4xOC4wDQoNCjwvcHJlPjwhLS10eXBlOnRleHQt
+LT48IS0tey0tPjxwcmU+KioqKioqKioqKioqKiBNRURJQVRFSyBDb25maWRlbnRpYWxpdHkgTm90
+aWNlICoqKioqKioqKioqKioqKioqKioqDQpUaGUgaW5mb3JtYXRpb24gY29udGFpbmVkIGluIHRo
+aXMgZS1tYWlsIG1lc3NhZ2UgKGluY2x1ZGluZyBhbnkgDQphdHRhY2htZW50cykgbWF5IGJlIGNv
+bmZpZGVudGlhbCwgcHJvcHJpZXRhcnksIHByaXZpbGVnZWQsIG9yIG90aGVyd2lzZQ0KZXhlbXB0
+IGZyb20gZGlzY2xvc3VyZSB1bmRlciBhcHBsaWNhYmxlIGxhd3MuIEl0IGlzIGludGVuZGVkIHRv
+IGJlIA0KY29udmV5ZWQgb25seSB0byB0aGUgZGVzaWduYXRlZCByZWNpcGllbnQocykuIEFueSB1
+c2UsIGRpc3NlbWluYXRpb24sIA0KZGlzdHJpYnV0aW9uLCBwcmludGluZywgcmV0YWluaW5nIG9y
+IGNvcHlpbmcgb2YgdGhpcyBlLW1haWwgKGluY2x1ZGluZyBpdHMgDQphdHRhY2htZW50cykgYnkg
+dW5pbnRlbmRlZCByZWNpcGllbnQocykgaXMgc3RyaWN0bHkgcHJvaGliaXRlZCBhbmQgbWF5IA0K
+YmUgdW5sYXdmdWwuIElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCBvZiB0aGlz
+IGUtbWFpbCwgb3IgYmVsaWV2ZSANCnRoYXQgeW91IGhhdmUgcmVjZWl2ZWQgdGhpcyBlLW1haWwg
+aW4gZXJyb3IsIHBsZWFzZSBub3RpZnkgdGhlIHNlbmRlciANCmltbWVkaWF0ZWx5IChieSByZXBs
+eWluZyB0byB0aGlzIGUtbWFpbCksIGRlbGV0ZSBhbnkgYW5kIGFsbCBjb3BpZXMgb2YgDQp0aGlz
+IGUtbWFpbCAoaW5jbHVkaW5nIGFueSBhdHRhY2htZW50cykgZnJvbSB5b3VyIHN5c3RlbSwgYW5k
+IGRvIG5vdA0KZGlzY2xvc2UgdGhlIGNvbnRlbnQgb2YgdGhpcyBlLW1haWwgdG8gYW55IG90aGVy
+IHBlcnNvbi4gVGhhbmsgeW91IQ0KPC9wcmU+PCEtLX0tLT4=
 
+--__=_Part_Boundary_009_1641656553.248133629
+Content-Type: text/plain;
+	charset="big5"
+Content-Transfer-Encoding: base64
+
+YmFzZWQgb24gdGhlIHNvbHV0aW9uOiBodHRwOi8vZmZtcGVnLm9yZy9waXBlcm1haWwvZmZtcGVn
+LWRldmVsLzIwMTgtQXByaWwvMjI4MjQ2Lmh0bWwNCg0KU2lnbmVkLW9mZi1ieTogU3RldmVuIEh1
+bmcgKKx4pF+lySkgPFN0ZXZlbi5IdW5nQG1lZGlhdGVrLmNvbT4NCi0tLQ0KIC4uLmJyYW5jaC10
+by1QTFQtaW4tVEhVTUItMi1ub3Qtc3VwcG9ydC5wYXRjaCB8IDI4ICsrKysrKysrKysrKysrKysr
+KysNCiBtZXRhL3JlY2lwZXMtY29yZS9tdXNsL211c2xfZ2l0LmJiICAgICAgICAgICAgfCAgMSAr
+DQogMiBmaWxlcyBjaGFuZ2VkLCAyOSBpbnNlcnRpb25zKCspDQogY3JlYXRlIG1vZGUgMTAwNjQ0
+IG1ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVzbC8wMDAzLWZpeC1jb25kaXRpb25hbC1icmFuY2gt
+dG8tUExULWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2gNCg0KZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1jb3JlL211c2wvbXVzbC8wMDAzLWZpeC1jb25kaXRpb25hbC1icmFuY2gtdG8tUExU
+LWluLVRIVU1CLTItbm90LXN1cHBvcnQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9tdXNsL211
+c2wvMDAwMy1maXgtY29uZGl0aW9uYWwtYnJhbmNoLXRvLVBMVC1pbi1USFVNQi0yLW5vdC1zdXBw
+b3J0LnBhdGNoDQpuZXcgZmlsZSBtb2RlIDEwMDY0NA0KaW5kZXggMDAwMDAwMDAwMC4uMDJiNGE3
+YTJlNw0KLS0tIC9kZXYvbnVsbA0KKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9tdXNsLzAw
+MDMtZml4LWNvbmRpdGlvbmFsLWJyYW5jaC10by1QTFQtaW4tVEhVTUItMi1ub3Qtc3VwcG9ydC5w
+YXRjaA0KQEAgLTAsMCArMSwyOCBAQA0KK0Zyb20gZmJmYzNhNmFkMWU3Zjg0NGNhNGI5NzM2MzMw
+ZjI4Y2VkMmYyYTdkOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCitGcm9tOiA9P1VURi04P3E/
+U3RldmVuPTIwSHVuZz0yMD0yOD1FNj1CND1BQT1FND1CQT04RT1FNz04RT04OT0yOT89DQorIDxT
+dGV2ZW4uSHVuZ0BtZWRpYXRlay5jb20+DQorRGF0ZTogTW9uLCAyOSBBcHIgMjAxOSAxNDoyODo1
+MiArMDgwMA0KK1N1YmplY3Q6IFtQQVRDSF0gZml4IGNvbmRpdGlvbmFsIGJyYW5jaCB0byBQTFQg
+aW4gVEhVTUItMiBub3Qgc3VwcG9ydGVkIHlldC4NCisNCitiYXNlZCBvbiB0aGUgc29sdXRpb246
+IGh0dHA6Ly9mZm1wZWcub3JnL3BpcGVybWFpbC9mZm1wZWctZGV2ZWwvMjAxOC1BcHJpbC8yMjgy
+NDYuaHRtbA0KKy0tLQ0KKyBzcmMvc2lnbmFsL2FybS9zaWdzZXRqbXAucyB8IDMgKysrDQorIDEg
+ZmlsZSBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKykNCisNCitkaWZmIC0tZ2l0IGEvc3JjL3NpZ25h
+bC9hcm0vc2lnc2V0am1wLnMgYi9zcmMvc2lnbmFsL2FybS9zaWdzZXRqbXAucw0KK2luZGV4IDMx
+OGFkZGJhLi4xYWM3OTI5MyAxMDA2NDQNCistLS0gYS9zcmMvc2lnbmFsL2FybS9zaWdzZXRqbXAu
+cw0KKysrKyBiL3NyYy9zaWduYWwvYXJtL3NpZ3NldGptcC5zDQorQEAgLTYsNiArNiw5IEBADQor
+IHNpZ3NldGptcDoNCisgX19zaWdzZXRqbXA6DQorIAl0c3QgcjEscjENCisrI2lmZGVmIF9fdGh1
+bWIyX18NCisrCWl0IGVxDQorKyNlbmRpZg0KKyAJYmVxIHNldGptcA0KKyANCisgCXN0ciBscixb
+cjAsIzI1Nl0NCistLSANCisyLjE4LjANCisNCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29y
+ZS9tdXNsL211c2xfZ2l0LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvbXVzbC9tdXNsX2dpdC5iYg0K
+aW5kZXggMWUzMjQ4MDRlMS4uNzc5ZTFkYzc1MSAxMDA2NDQNCi0tLSBhL21ldGEvcmVjaXBlcy1j
+b3JlL211c2wvbXVzbF9naXQuYmINCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL211c2wvbXVzbF9n
+aXQuYmINCkBAIC0xNSw2ICsxNSw3IEBAIFBWID0gIiR7QkFTRVZFUn0rZ2l0JHtTUkNQVn0iDQog
+U1JDX1VSSSA9ICJnaXQ6Ly9naXQubXVzbC1saWJjLm9yZy9tdXNsIFwNCiAgICAgICAgICAgIGZp
+bGU6Ly8wMDAxLU1ha2UtZHluYW1pYy1saW5rZXItYS1yZWxhdGl2ZS1zeW1saW5rLXRvLWxpYmMu
+cGF0Y2ggXA0KICAgICAgICAgICAgZmlsZTovLzAwMDItbGRzby1Vc2Utc3lzbGliZGlyLWFuZC1s
+aWJkaXItYXMtZGVmYXVsdC1wYXRoZXMtdG8tbC5wYXRjaCBcDQorICAgICAgICAgICBmaWxlOi8v
+MDAwMy1maXgtY29uZGl0aW9uYWwtYnJhbmNoLXRvLVBMVC1pbi1USFVNQi0yLW5vdC1zdXBwb3J0
+LnBhdGNoIFwNCiAgICAgICAgICAgIg0KIA0KIFMgPSAiJHtXT1JLRElSfS9naXQiDQotLSANCjIu
+MTguMA0K
+
+--__=_Part_Boundary_009_1641656553.248133629--
+
+--__=_Part_Boundary_008_1268904595.173078788--
