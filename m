@@ -1,25 +1,51 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CFD947D744
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 33E047D6B4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 07:45:22 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3U7jMjs006583
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 30 Apr 2019 00:45:22 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 30 Apr 2019 00:45:21 -0700
-From: <mingli.yu@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>,
-	<richard.purdie@linuxfoundation.org>
-Date: Tue, 30 Apr 2019 15:45:20 +0800
-Message-ID: <1556610320-114012-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <5CC12A3E.4010702@windriver.com>
-References: <5CC12A3E.4010702@windriver.com>
+	Tue, 30 Apr 2019 08:37:03 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id h11so2831434wmb.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Apr 2019 01:37:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=oHBSDpvK9xkyFAku/ZwosvEI8FlIwKqo/5PwGapZ5Ao=;
+	b=X77iby2TeM6r7A05VrBkdmDKjpafnog4JamRCtEZg0rRqgFigMkEO7/4GoRYusWxt4
+	MER5X24SlAX/TxVkGRj1irjsljXPZzA5qk4pG2KJtqPrOCOymNwtaoeopPsfUqCAxmAP
+	7kEl4aHvdlKJUMLNP3oQ0m6ruttoZ8pApiPv8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=oHBSDpvK9xkyFAku/ZwosvEI8FlIwKqo/5PwGapZ5Ao=;
+	b=gKj3WucEHffWdzIeu7C7oYzQSkoZo3lUOkKgOVs1PxoF1RmjQV37nLSLWQhBOs5Gz2
+	DSh2Mf22uLVzUCqMYWuea8pWUJwGRo0qG20e2QxX11UBGo7UnLiJ4qAU15YyaxFU7stE
+	CMuACF85UES7dOHftMC5CnYlBQdQGtGij8KZSsFQHdfRxzvuGM0ryY3aJQVfrwUC7obU
+	LT1alLlqIKPhMn+ZKH0hpH7Zo8AFF9ghfdnrmkW88FOvQoN6WUmFRUfQNc5jV1gkaOo2
+	u2YYb5cBJeNTkarh5//JlduYnfb8H9halDR7fTutsZeAvn+WHc13i0hrPyysWKDL+55/
+	VZYQ==
+X-Gm-Message-State: APjAAAUt2oxz+V9WO/UxDVj8ds5hBMfhkfewgzwzgxrVH9zZoXm+mlnz
+	O92xbGP23WGbriide3frt7yFjw==
+X-Google-Smtp-Source: APXvYqzGbxBMCFk5MJ3ZT8VXM3I+y6gsIaKGdeOM97mKP2CJROIJjUlSckMLi+eeatNGl9miqp9n6A==
+X-Received: by 2002:a1c:7d14:: with SMTP id y20mr2274269wmc.26.1556613423737; 
+	Tue, 30 Apr 2019 01:37:03 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	e6sm29329361wrc.96.2019.04.30.01.37.02
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 30 Apr 2019 01:37:02 -0700 (PDT)
+Message-ID: <e9de6b6c335464a1eb8321d0c85697f815918354.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Douglas Royds <douglas.royds@taitradio.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 30 Apr 2019 09:37:01 +0100
+In-Reply-To: <20190430023405.29459-1-douglas.royds@taitradio.com>
+References: <20190430023405.29459-1-douglas.royds@taitradio.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: [PATCH v2] glib-2.0: fix ptest failures
+Subject: Re: [PATCH] distutils: Run python from the PATH in the -native case as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,160 +58,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 07:45:23 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 30 Apr 2019 08:37:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+On Tue, 2019-04-30 at 14:34 +1200, Douglas Royds via Openembedded-core wrote:
+> The python distutils generate a python wrapper script for each package.
+> These python scripts have shebang lines pointing to the python executable.
+> In our case, this is a fully-qualified path to python-native in the
+> recipe-sysroot-native.
+> 
+> Ubuntu 18.04 restricts the useful length of the shebang line to 125
+> characters, and Ubuntu 16.04 restricts it to 77. In both cases, the
+> staged python script fails to run due to the length of the path to
+> the python-native executable.
+> 
+> Replace the shebang line with:
+> 
+>     #!/usr/bin/env python
+> 
+> We were already doing this for on-target distutils components.
+> This change applies the sed-line to -native distutils components as
+> well.
+> 
+> The python executable must be in the PATH.
+> Client components must inherit pythonnative.
+> 
+> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+> ---
+>  meta/classes/distutils.bbclass | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+> index 9862731493..e7d79271e3 100644
+> --- a/meta/classes/distutils.bbclass
+> +++ b/meta/classes/distutils.bbclass
+> @@ -53,18 +53,14 @@ distutils_do_install() {
+>  
+>          if test -e ${D}${bindir} ; then	
+>              for i in ${D}${bindir}/* ; do \
+> -                if [ ${PN} != "${BPN}-native" ]; then
+> -			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
+> -		fi
+> +                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
+>                  sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+>              done
+>          fi
+>  
+>          if [ -e ${D}${sbindir} ]; then
+>              for i in ${D}${sbindir}/* ; do \
+> -                if [ ${PN} != "${BPN}-native" ]; then
+> -			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
+> -		fi
+> +                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
+>                  sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+>              done
+>          fi
 
-* Install 7 translation packages to fix 7 ptest
-  failures such as:
-  | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
-  | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1716:test_month_names: assertion failed (p_casefold == (o_casefold)): ("nov" == "stu")
-  | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1731:test_month_names: assertion failed (p_casefold == (o_casefold)): ("jul" == "liep.")
+I have a bad feeling that there is a reason we use the full path. I
+have memories of cases where the "python-native" component isn't in
+PATH but we obviously still want it to use our python since that is
+what its been built against.
 
-* Increase the timeout to 15 minutes as the default
-  timeout which is 5 minutes is not enough to fix below error:
-  | Executing: glib/actions.test
-  | Test timed out after 300 seconds
-  | cleaning up pid 13050
-  | FAIL: glib/actions.test (Child process killed by signal 9)
+One fix would be to apply this, then ensure all those locations inherit
+the pythonnative bbclass however I think that becomes annoying as
+anything using the recipe as a dependency also has to inherit the
+class.
 
-* There are 240+ ptest cases for glib-2.0 and one
-  case is gdatetime.test. And there are 53 sub-cases
-  under gdatetime.test.
+I *think* we might have therefore created a nativepython symlink of
+some kind to ./python-native/python. The right fix might therefore be
+to use "${USRBINPATH}/env\ nativepython"?
 
-  Among of the 53 sub-cases of gdatetime.test, there
-  is one sub-case named test_month_names.
+You'll have to check the code for the correct names as I'm going from
+memory.
 
-  For test_month_names case, there are also 64 cases
-  against it. Comment 2 cases of test_month_names
-  as a workaround to fix the below test_month_names
-  failure as the issue also exists in the latest version:
-  | GLib:ERROR:../glib-2.60.1/glib/tests
-  /gdatetime.c:1702:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\316\261\317\205\316\263" == "\316\261\317\215\316\263")
-  | GLib:ERROR:../glib-2.60.1/glib/tests/gdatetime.c:1765:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\320\274\320\260\321\217" == "\320\274\320\260\320\271")
+Cheers,
 
-  Have reported the above issues to upstream as
-  https://gitlab.gnome.org/GNOME/glib/issues/1759
-  and as the failure even exists on the latest version 2.60.1
-  until now, so comment it as a workaround until the
-  upstream fixs it.
+Richard
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- ...c-workaround-to-fix-test_month_names-1759.patch | 57 ++++++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0/run-ptest      |  2 +-
- meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb      |  1 +
- meta/recipes-core/glib-2.0/glib.inc                |  7 +++
- 4 files changed, 66 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/0001-gdatetime.c-workaround-to-fix-test_month_names-1759.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/0001-gdatetime.c-workaround-to-fix-test_month_names-1759.patch b/meta/recipes-core/glib-2.0/glib-2.0/0001-gdatetime.c-workaround-to-fix-test_month_names-1759.patch
-new file mode 100644
-index 0000000..155ae0a
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/0001-gdatetime.c-workaround-to-fix-test_month_names-1759.patch
-@@ -0,0 +1,57 @@
-+From c40e4f0d0017c943d5c15bb2e8cfd8becf3e0d84 Mon Sep 17 00:00:00 2001
-+From: Mingli Yu <Mingli.Yu@windriver.com>
-+Date: Tue, 30 Apr 2019 14:32:29 +0800
-+Subject: [PATCH] gdatetime.c: workaround to fix test_month_names[#1759]
-+
-+There are 240+ ptest cases for glib-2.0 and one
-+case is gdatetime.test. And there are 53 sub-cases
-+under gdatetime.test.
-+
-+Among of the 53 sub-cases of gdatetime.test, there
-+is one sub-case named test_month_names.
-+
-+For test_month_names case, there are also 64 cases
-+against it. Comment 2 cases of test_month_names
-+as a workaround to fix the below test_month_names
-+failure as the issue also exists in the latest version:
-+GLib:ERROR:../glib-2.60.1/glib/tests
-+/gdatetime.c:1702:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\316\261\317\205\316\263" == "\316\261\317\215\316\263")
-+
-+GLib:ERROR:../glib-2.60.1/glib/tests/gdatetime.c:1765:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\320\274\320\260\321\217" == "\320\274\320\260\320\271")
-+
-+Have reported the above issues to upstream as
-+https://gitlab.gnome.org/GNOME/glib/issues/1759
-+and as the failure even exists on the latest version 2.60.1
-+until now, so comment it as a workaround until the
-+upstream fixs it.
-+
-+Upstream-Status: Inappropriate [workaround]
-+
-+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-+---
-+ glib/tests/gdatetime.c | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
-+index 8ab4681..3f9f0c3 100644
-+--- a/glib/tests/gdatetime.c
-++++ b/glib/tests/gdatetime.c
-+@@ -1699,7 +1699,6 @@ test_month_names (void)
-+       TEST_PRINTF_DATE (2018,  5,  1, "%OB", "Μάιος");
-+       TEST_PRINTF_DATE (2018,  6,  1, "%OB", "Ιούνιος");
-+       TEST_PRINTF_DATE (2018,  7,  1,  "%b", "Ιουλ");
-+-      TEST_PRINTF_DATE (2018,  8,  1, "%Ob", "Αύγ");
-+     }
-+   else
-+     g_test_skip ("locale el_GR not available, skipping Greek month names test");
-+@@ -1762,7 +1761,6 @@ test_month_names (void)
-+       TEST_PRINTF_DATE (2018,  8,  1, "%Ob", "авг");
-+       /* This difference is very important in Russian:  */
-+       TEST_PRINTF_DATE (2018,  5,  1,  "%b", "мая");
-+-      TEST_PRINTF_DATE (2018,  5,  1, "%Ob", "май");
-+     }
-+   else
-+     g_test_skip ("locale ru_RU not available, skipping Russian month names test");
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-index 8f082d3..893125d 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
-@@ -2,5 +2,5 @@
- 
- set -eux
- useradd glib2-test
--su glib2-test -c gnome-desktop-testing-runner glib
-+su glib2-test -c "gnome-desktop-testing-runner glib -t 900"
- userdel glib2-test
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-index 733a2d4..83fcb69 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
-            file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
-            file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
-+           file://0001-gdatetime.c-workaround-to-fix-test_month_names-1759.patch \
-            file://glib-meson.cross \
-            "
- 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 574bb38..1e8fea2 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -152,6 +152,13 @@ RDEPENDS_${PN}-ptest += "\
-             tzdata-europe \
-             tzdata-posix \
-             shared-mime-info \
-+            ${PN}-locale-ja \
-+            ${PN}-locale-fr \
-+            ${PN}-locale-el \
-+            ${PN}-locale-hr \
-+            ${PN}-locale-lt \
-+            ${PN}-locale-pl \
-+            ${PN}-locale-ru \
-            "
- 
- RDEPENDS_${PN}-ptest_append_libc-glibc = "\
--- 
-2.7.4
 
 
