@@ -1,49 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id D92EE7DAEF
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F5D96C0EA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 14:47:00 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id z16so6933906pgv.11
+	Tue, 30 Apr 2019 19:03:52 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id l2so6606755wrb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 07:47:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=ukx/gFXLRoYvFPUacJl/NJuin3iR6fbJw4fyHfPDcsc=;
-	b=gzhh7eO8TTaM1VFdJ1Fbsz2VoKMe/x6x/cQD7eBkIdqt9Dx1Xc/Hgf250fjN8CACOD
-	fCgKlD3XWzl7SFuvgztU66ABgPtmBp4MzLFojyAvQHTMnvTVnEVFgeBhoxDH0aUmJufT
-	UUuLru0cYaZOdO/vAKAnR7jyOhgOyBIonDk9dSY/9F22RVeDNKcY2sLbHs9ZT/iR+oGG
-	aarhV+4ZlsXHxPy/Yi0i9NGvaZJJfpcOWVu/vQTPF9Moru5YLq7DA3/h/zdZMlHA7AsY
-	kd/nhe9GThPNfv/Zpput5s9ss6jzYX4EGmeaqMdj1Cwsr1lVBz7ZvcqejNasCIP4TU6j
-	1yNg==
+	Tue, 30 Apr 2019 12:03:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=qwWl42F2UfXK9CdKSITCSsx2y50Tf7CkQLG++xXxIEY=;
+	b=VFS7W5ToiLJo3/mWdSQFzPtPVEnu3XaXetoimdkGySp4m0ORoQFBuI5T5o0e+k5vw/
+	0tJebeuDR+/rfwneOsBLgvpr/7s2d0f2MLvSu/fLUrpeUcJcaQYgKi+X5jLoyJeokx24
+	7mFBNT2GGeJs0JkDrg+C0d1zzHa9BJmAP1MkE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=ukx/gFXLRoYvFPUacJl/NJuin3iR6fbJw4fyHfPDcsc=;
-	b=X+Yzxfe3SPP3LJIezMaiqJsy3OqH6eESXvWL7TdpvxDM5k08BS9l3+IWhZcrFGIXJf
-	L/tLKIhJemNE/HwESqX3GeZmr0AhHHDALXiaipfNYsIYzCTSKFJ3x4O0DmefK4mKH30r
-	dSqyE4+SC9FK2REmfogNPRP7hDwWxlWVlMZJX0NuzvCZJcpjpjPBzVy9UUbE5UEBIv1m
-	2M4giTHCySM57eAC/MKHlgQxVPWgX5YRzpZ96fqroN7BAsgj8VFtsQdD5eK2Hhbj+Z3C
-	CZHza05lGceAaD4WkO7Fnakx2XBPqHwwq8hni/6iHOD87ncd2LYUhdG7FRZ8RYHsHK7/
-	Pn2Q==
-X-Gm-Message-State: APjAAAVGngNSOmo4Kn4o7BP68F43yVQZCoW+zYOQKykvvYe5YIg92NB+
-	F+daqdm3TnoxOeSceDJROJ76p+Sp
-X-Google-Smtp-Source: APXvYqwwpjTSxl7XLwVosIWVirrAxkn72bthq3baiHprH0XIe8aUlp9FLpNtywipICqBQchSd7XIGA==
-X-Received: by 2002:a63:e550:: with SMTP id z16mr10194253pgj.329.1556635621799;
-	Tue, 30 Apr 2019 07:47:01 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:c33:3820:22f7:e8b2:345d])
-	by smtp.gmail.com with ESMTPSA id
-	j14sm47155606pfa.57.2019.04.30.07.47.00
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 30 Apr 2019 07:47:01 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Apr 2019 07:46:59 -0700
-Message-Id: <1556635619-32075-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [v2][PATCH] manual tests migrate to selftest
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=qwWl42F2UfXK9CdKSITCSsx2y50Tf7CkQLG++xXxIEY=;
+	b=GxgSyfcM3OSu7Nrw7KaytQXMW++tasr6ffi84uUPvFGiT1+LcuaBwY7fAsjSAVGOH4
+	TY9CG30KEQwQfLOLQz0WCjM2K7MVN5KnQTcRKFeBFpYGX6LENWOO5OoNHUf9Daf8P1Jj
+	/leJ1+9ui5NrQli++KjgIFp1RMAPZq9uSnofWECdd8PeE+yQuoC6dljP0UBnpkfKgv59
+	xqogTu9oCRAIXNUvIpweTR3MzKLNrEeBfmqg1vEnT4/gV2VoGNmTrXLeQqvTQ1OZDDnz
+	mxHFQgEay56w5pT4ULGN3weiZb39cVHeyeUIAQCC+KP0+6+acfUDZD0ATX/rDL9fwT6w
+	//jw==
+X-Gm-Message-State: APjAAAXBzrNAZRqWIeYnn+iGmoNp26g5mmS1bETayQofnsb/4+x/tVrR
+	ucQMBMqLHWwy3YVGQAhn6dw19Q==
+X-Google-Smtp-Source: APXvYqwkGvRUSZgMCcV6k6MvyCM5CHaoP2Ga0qOgFYTOTWWdE3XuY12F8zDd3GSu4JGlRTpLPnBSBg==
+X-Received: by 2002:adf:f2c9:: with SMTP id d9mr24205611wrp.36.1556651033696; 
+	Tue, 30 Apr 2019 12:03:53 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id o8sm16811048wra.4.2019.04.30.12.03.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 30 Apr 2019 12:03:52 -0700 (PDT)
+Message-ID: <3e4a4b1296f3c42c087d2d03a6ad11b47239c694.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Changhyeok Bae <changhyeok.bae@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 30 Apr 2019 20:03:49 +0100
+In-Reply-To: <1556575824-39650-1-git-send-email-changhyeok.bae@gmail.comd>
+References: <1556575824-39650-1-git-send-email-changhyeok.bae@gmail.comd>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH v3] iputils: update to s20190324
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,136 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 14:47:00 -0000
+X-List-Received-Date: Tue, 30 Apr 2019 19:03:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-[v2]
-add check for python cairo module
-pybootchartgui.py needs it
+On Mon, 2019-04-29 at 22:10 +0000, Changhyeok Bae wrote:
+> From: Changhyeok Bae <changhyeok.bae@gmail.com>
+> 
+> build system is changed to meson.
+> 
+> Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+> ---
+>  .../iputils/iputils/ai_canonidn.patch              | 58 ------------
+> --------
+>  .../recipes-extended/iputils/iputils/install.patch | 26 ---------
+>  meta/recipes-extended/iputils/iputils_s20180629.bb | 61 ------------
+> ----------
+>  meta/recipes-extended/iputils/iputils_s20190324.bb | 55
+> +++++++++++++++++++
+>  4 files changed, 55 insertions(+), 145 deletions(-)
+>  delete mode 100644 meta/recipes-
+> extended/iputils/iputils/ai_canonidn.patch
+>  delete mode 100644 meta/recipes-
+> extended/iputils/iputils/install.patch
+>  delete mode 100644 meta/recipes-
+> extended/iputils/iputils_s20180629.bb
+>  create mode 100644 meta/recipes-
+> extended/iputils/iputils_s20190324.bb
 
-don't use relative path to pybootchartgui.py, use absolute
+This is better but there are still some issues:
 
-fix endline check data to reflect current output
+https://autobuilder.yoctoproject.org/typhoon/#/builders/43/builds/549
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/lib/oeqa/selftest/cases/oescripts.py | 97 +++++++++++++++++++++++++++++++
- 1 file changed, 97 insertions(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/54/builds/128
 
-diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index bcdc2d5..81dd786 100644
---- a/meta/lib/oeqa/selftest/cases/oescripts.py
-+++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -1,8 +1,11 @@
-+import os, sys
- from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.core.decorator.depends import OETestDepends
- from oeqa.selftest.cases.buildhistory import BuildhistoryBase
- from oeqa.utils.commands import Command, runCmd, bitbake, get_bb_var, get_test_layer
- from oeqa.core.decorator.oeid import OETestID
- 
-+
- class BuildhistoryDiffTests(BuildhistoryBase):
- 
-     @OETestID(295)
-@@ -26,3 +29,97 @@ class BuildhistoryDiffTests(BuildhistoryBase):
-                 self.fail('Unexpected line:\n%s\nExpected line endings:\n  %s' % (line, '\n  '.join(expected_endlines)))
-         if expected_endlines:
-             self.fail('Missing expected line endings:\n  %s' % '\n  '.join(expected_endlines))
-+
-+class OEScriptTests(OESelftestTestCase):
-+    def setUp(self):
-+        try:
-+            import cairo
-+        except ImportError:
-+            self.skipTest('Python module cairo is not present')
-+
-+    scripts_dir = os.path.join(get_bb_var('COREBASE'), 'scripts')
-+
-+    def check_endlines(self, results,  expected_endlines): 
-+        for line in results.output.splitlines():
-+            for el in expected_endlines:
-+                if line == el:
-+                    expected_endlines.remove(el)
-+                    break
-+
-+        if expected_endlines:
-+            self.fail('Missing expected line endings:\n  %s' % '\n  '.join(expected_endlines))
-+
-+
-+class OEPybootchartguyTests(OEScriptTests):
-+
-+    def test_pybootchartguy_help(self):
-+        runCmd('%s/pybootchartgui/pybootchartgui.py  --help' % self.scripts_dir)
-+
-+    def test_pybootchartguy_to_generate_build_png_output(self):
-+        tmpdir = get_bb_var('TMPDIR')
-+        runCmd('%s/pybootchartgui/pybootchartgui.py  %s/buildstats -o %s/charts -f png' % (self.scripts_dir, tmpdir, tmpdir))
-+
-+    def test_pybootchartguy_to_generate_build_svg_output(self):
-+        tmpdir = get_bb_var('TMPDIR')
-+        runCmd('%s/pybootchartgui/pybootchartgui.py  %s/buildstats -o %s/charts -f svg' % (self.scripts_dir, tmpdir, tmpdir))
-+
-+    def test_pybootchartguy_to_generate_build_pdf_output(self):
-+        tmpdir = get_bb_var('TMPDIR')
-+        runCmd('%s/pybootchartgui/pybootchartgui.py  %s/buildstats -o %s/charts -f pdf' % (self.scripts_dir, tmpdir, tmpdir))
-+
-+
-+class OEListPackageconfigTests(OEScriptTests):
-+    #oe-core.scripts.List_all_the_PACKAGECONFIG's_flags
-+    def test_packageconfig_flags_help(self):
-+        runCmd('%s/contrib/list-packageconfig-flags.py -h' % self.scripts_dir)
-+
-+    def test_packageconfig_flags_default(self):
-+        results = runCmd('%s/contrib/list-packageconfig-flags.py' % self.scripts_dir)
-+        expected_endlines = []
-+        expected_endlines.append("RECIPE NAME                                                        PACKAGECONFIG FLAGS")
-+        expected_endlines.append("xserver-xorg-1.20.4                                                dri dri2 dri3 gcrypt glamor glx nettle openssl systemd systemd-logind udev unwind xinerama xmlto xshmfence xwayland")
-+        expected_endlines.append("znc-1.7.1                                                          ipv6")
-+
-+        self.check_endlines(results, expected_endlines)
-+
-+
-+    def test_packageconfig_flags_option_flags(self):
-+        results = runCmd('%s/contrib/list-packageconfig-flags.py -f' % self.scripts_dir)
-+        expected_endlines = []
-+        expected_endlines.append("PACKAGECONFIG FLAG     RECIPE NAMES")
-+        expected_endlines.append("xshmfence              xserver-xorg-1.20.4")
-+
-+        self.check_endlines(results, expected_endlines)
-+
-+    def test_packageconfig_flags_option_all(self):
-+        results = runCmd('%s/contrib/list-packageconfig-flags.py -a' % self.scripts_dir)
-+        expected_endlines = []
-+        expected_endlines.append("xserver-xorg-1.20.4")
-+        expected_endlines.append("PACKAGECONFIG dri2 udev openssl")
-+        expected_endlines.append("PACKAGECONFIG[udev] --enable-config-udev,--disable-config-udev,udev")
-+        expected_endlines.append("PACKAGECONFIG[dri] --enable-dri,--disable-dri,xorgproto virtual/mesa")
-+        expected_endlines.append("PACKAGECONFIG[dri2] --enable-dri2,--disable-dri2,xorgproto")
-+        expected_endlines.append("PACKAGECONFIG[dri3] --enable-dri3,--disable-dri3,xorgproto")
-+        expected_endlines.append("PACKAGECONFIG[glx] --enable-glx,--disable-glx,xorgproto virtual/libgl virtual/libx11")
-+        expected_endlines.append("PACKAGECONFIG[glamor] --enable-glamor,--disable-glamor,libepoxy virtual/libgbm,libegl")
-+        expected_endlines.append("PACKAGECONFIG[unwind] --enable-libunwind,--disable-libunwind,libunwind")
-+        expected_endlines.append("PACKAGECONFIG[xshmfence] --enable-xshmfence,--disable-xshmfence,libxshmfence")
-+        expected_endlines.append("PACKAGECONFIG[xmlto] --with-xmlto, --without-xmlto, xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native")
-+        expected_endlines.append("PACKAGECONFIG[systemd-logind] --enable-systemd-logind=yes,--enable-systemd-logind=no,dbus,")
-+        expected_endlines.append("PACKAGECONFIG[systemd] --with-systemd-daemon,--without-systemd-daemon,systemd")
-+        expected_endlines.append("PACKAGECONFIG[xinerama] --enable-xinerama,--disable-xinerama,xorgproto")
-+        expected_endlines.append("PACKAGECONFIG[xwayland] --enable-xwayland,--disable-xwayland,wayland wayland-native wayland-protocols libepoxy")
-+        expected_endlines.append("PACKAGECONFIG[openssl] --with-sha1=libcrypto,,openssl")
-+        expected_endlines.append("PACKAGECONFIG[nettle] --with-sha1=libnettle,,nettle")
-+        expected_endlines.append("PACKAGECONFIG[gcrypt] --with-sha1=libgcrypt,,libgcrypt")
-+
-+        self.check_endlines(results, expected_endlines)
-+
-+    def test_packageconfig_flags_optiins_preferred_only(self):
-+        results = runCmd('%s/contrib/list-packageconfig-flags.py -p' % self.scripts_dir)
-+        expected_endlines = []
-+        expected_endlines.append("RECIPE NAME                                                        PACKAGECONFIG FLAGS")
-+        expected_endlines.append("xserver-xorg-1.20.4                                                dri dri2 dri3 gcrypt glamor glx nettle openssl systemd systemd-logind udev unwind xinerama xmlto xshmfence xwayland")
-+
-+        self.check_endlines(results, expected_endlines)
-+
--- 
-2.7.4
+Cheers,
+
+Richard
 
 
