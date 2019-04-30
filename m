@@ -1,49 +1,46 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
-	[209.85.222.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B5B4A7DB8F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 81D6A7DB8F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 11:53:09 +0000 (UTC)
-Received: by mail-ua1-f68.google.com with SMTP id x6so2039047uaq.0
+	Tue, 30 Apr 2019 11:54:14 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id b10so3470575wmj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 04:53:11 -0700 (PDT)
+	Tue, 30 Apr 2019 04:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dvzS7m7tvD2ASBdOBCBWjRjhDsSgwDuM8ml08wT0gSk=;
-	b=YfnuvUtHd/jUZmAN9DkxYlsf6/VSX4rgS5Z0/DRgEuZ6VF7R6xxvu7kpZm7wq5fr2Y
-	7TIDpRFgytKMhSc3P6IraSaX5xTZlkIbuUPsF7lJncnI5Ww62JBDyMZ+0bsUKZ7trhos
-	lsKz3v89fbM+ivJqg/zD0hjXGfXhZEMCz9U3EES0iOLGTpI7dMbITazrfY84sltyc4UE
-	h9Az63K9NFqW/knPFMnDy9JApkWu1krbQ8qP0QFSs7LtbCaLwlrJc1Qv0dhYFZWMIrI5
-	sC4Y2CmmP13rVhGangpu9xLeo870vvQShcv71Hc37105zUPRHbrsTiI6k6frCCyBoJ2v
-	gp7Q==
+	h=from:to:cc:subject:date:message-id;
+	bh=rS3i8WvWKFeWp4sWwTOTWRaOMwLDgR2OQgE/VeF7Bgc=;
+	b=UfP+Q2/xNZNmdr2jA7Pw3IGd37a6z/jS4zXYpvqOJ9VDP+cGkyCJIXwyYW4/dvrvlm
+	CIVho5e4gUgutzE0SPpbusWwMvLfQ5/bDMkQx1DOteEdDTAVyYNlNmAeHfjkQZiIgXIc
+	AUVjXTeNJLFD0KhrJq+aJrEjHE05Bre4PzN2vgn8rSO6hu8oBje5upq5O2z1c6XaT0Tb
+	hnLB3ziCQ4UB2Q3MLndD88bnZyv6DP3dcmkApW75tIQxQYmhGKRtIwDs8yskg2hHkviE
+	wLwzL0lCpxk1ZIuVFBzGBMge5tfjcuCshiUYX32uD6F7RouE6ZQ1Ah0Hthm+mmwla2uc
+	p3Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=dvzS7m7tvD2ASBdOBCBWjRjhDsSgwDuM8ml08wT0gSk=;
-	b=dK9+5VW6QK8OygpwLo5rTHwJvk1HdqcMOZiS88wPyYBZIB0PVh6mfGBMuMGUdq9dzg
-	KwGZ4/jNvipQX9z4LFLa16OQoQKQIX0WQwe78450svjnPOMZer5H2JpCmDW0thgP1XVk
-	UsU9XqtaCsXAwmIXuKkBzJaDisMi3M9x6UhiOUC8qi/kDvmoTp/anKJf4a7AHDYDPuMi
-	f59s5LwqM3RfZWHcf/tt6xLm509hVPxlSuOfnW+oBBEa91wyS7YF9SRUGrXKd0OszXVj
-	rF8HjRd9sA3y2nWTcPCmXiLuooCt//EEj/vVleEWTdjhU3PNJGAModdJgXqRPZ65A6my
-	iXpw==
-X-Gm-Message-State: APjAAAVE9QS4BAkovlzPGFECm+754oO7kbWjnJHe2gPg1dE5Q1/kpeh5
-	45KtWRk+Ki03IfzCGzTFomNyCT0T3yZ5Nu8CfDw=
-X-Google-Smtp-Source: APXvYqw+clj4ayAYww7pfD2KKElHN7XY+Wsx85YG+RxlYqhSf0LughR+brqhv0zUDFQ/3fmY5Zzz/SJioXRa50Gis5c=
-X-Received: by 2002:ab0:7298:: with SMTP id w24mr32949668uao.119.1556625190531;
-	Tue, 30 Apr 2019 04:53:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190429144325.63744-1-alex.kiernan@gmail.com>
-	<546ea9e32e2fb9ffa97aae5fbd328f653a1949b5.camel@linuxfoundation.org>
-	<CAO5Uq5RRn7vCwxWvFyZR=OGc_VgnvcckOysqGCFtzbWkszqzsw@mail.gmail.com>
-In-Reply-To: <CAO5Uq5RRn7vCwxWvFyZR=OGc_VgnvcckOysqGCFtzbWkszqzsw@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 30 Apr 2019 12:52:59 +0100
-Message-ID: <CAO5Uq5TYifkzZm43kScmm+uBa8vxvsZWR+A-jCSfL6C5ryB7tg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 0/6] Fix systemd service enables/move towards "stateless" configuration
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rS3i8WvWKFeWp4sWwTOTWRaOMwLDgR2OQgE/VeF7Bgc=;
+	b=VyAcc9jA8j+CI+/NPxxS3rN30ZclczLfmTmanL43OHtLe6z5QCYfLa7UzIaFuvx+kn
+	HZJWFFxRr3MgiWq4EnqXr00m+XR0L611DKHQ9zIq4nOvBwiDUgLee49mm5C8Xhl09dyL
+	cjZQb8QNyDAe2p7fBwDS3hszSiST3yeY/PgXtNbbcxxGsz4DUUsa5hasDUBAjw/w5UoS
+	8e7Rc+6l57iq5RR+pAt77eN5pbwPLMIjl9/Y/AH0wDVD8cX75EAXXa0HgeDRhBPysROf
+	kcfU6gKGVqJNvHx4xKQc7+DI/gl/vkMnxfpYZ6nuT4zFgzDLxRZQ+ZfTZVmnBICQkCXa
+	z40Q==
+X-Gm-Message-State: APjAAAWZEfanBPzvUALCwsasWw6PfBDmlSOr+lFJKgttc9mmHcJio/EA
+	ycss1FAaruJcENaUBLfe8y8BGYvVjYg=
+X-Google-Smtp-Source: APXvYqwNhHU3kXMTAEClKiY/4v27Mhle2nfAasQPHFtiexDX2kQqwfw9MBMRDUBU0dmlzT/5LpTTUw==
+X-Received: by 2002:a7b:ce85:: with SMTP id q5mr2838354wmj.54.1556625254950;
+	Tue, 30 Apr 2019 04:54:14 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id f8sm244012wmb.32.2019.04.30.04.54.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Apr 2019 04:54:14 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Apr 2019 13:54:07 +0200
+Message-Id: <20190430115408.21601-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] python3-pycairo: update to 1.18.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,122 +53,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 11:53:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 30 Apr 2019 11:54:14 -0000
 
-On Tue, Apr 30, 2019 at 12:45 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> On Tue, Apr 30, 2019 at 11:59 AM <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Mon, 2019-04-29 at 15:43 +0100, Alex Kiernan wrote:
-> > > This is largely Jonas Bonn <jonas@norrbonn.se> patchset to move
-> > > towards a
-> > > "stateless" configuration:
-> > >
-> > >   These patches make some modifications to systemd with the long-term
-> > > goal
-> > >   of being able to run OE in systemd's "stateless" configuration.
-> > >   "Stateless" boils down to building an image with empty /etc and
-> > > /var
-> > >   directories so that volatile (tmpfs) filesystems can be mounted
-> > > there;
-> > >   this requires that the system subsequently be able to populate
-> > > these
-> > >   directories dynamically, which systemd mostly takes care of if
-> > > things are
-> > >   done right.
-> > >
-> > >   In these patches:
-> > >   i)   Don't include machine-id in writable images so that systemd
-> > > can run
-> > >        its first-boot machinery
-> > >   ii)  Move systemd configuration files out of /etc
-> > >   iii) Allow systemd to dynamically enable services and populate
-> > >        /etc/systemd/system via the presets mechanism
-> > >
-> > >   There's a long way to go to get to a working "stateless"
-> > > configuration.
-> > >   Getting to a "volatile" system (just empty /var) should be easier
-> > > and I'll
-> > >   post patches moving things in that direction shortly.
-> > >
-> > > As a result of the systemd 242 upgrade, which includes 01d2041e41f4
-> > > ("meson: stop creating enablement symlinks in /etc during
-> > > installation"), services such as systemd-networkd are no longer
-> > > enabled
-> > > in images.
-> > >
-> > > This patch set fixes this problem in addition to satisfying the goal
-> > > of
-> > > moving towards "stateless" configurations.
-> > >
-> > > The issue with respect to image testing during CI was caused by
-> > > systemd-time-wait-sync.service being enabled due to the lack of a
-> > > default preset policy:
-> > >
-> > > https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
-> > >
-> > > We include a default policy of "enable nothing" which matches that
-> > > used
-> > > by (at least) Arch and Fedora.
-> > >
-> > > Changes in v5:
-> > > - rebased for systemd 242
-> > > - install default preset distribution policy of "enable nothing"
-> > >
-> > > Changes in v4:
-> > > - add patch to make systemd-firstboot a non-default option to systemd
-> > > to
-> > >   prevent unexpected prompts at runtime
-> > >
-> > > Changes in v3:
-> > > - parameterize preset-file installation location (as suggested in
-> > > patch
-> > >   review)
-> > >
-> > > Changes in v2:
-> > > - address patchtest warnings:
-> > >   - include sign-offs on patches
-> > >   - include License-Update tag on patch that makes licensing change
-> > > - dropped patch implementing brute-force removal of unit files
-> > > installed
-> > >   by systemd into /etc
-> > > - reworked the systemd-conf patch to restore the installation of the
-> > >   base systemd configuration files
-> > >
-> > > Jonas Bonn (6):
-> > >   systemd: don't build firstboot by default
-> > >   systemd: do not create machine-id
-> > >   systemd-conf: simplify creation of machine-specific configuration
-> > >   systemd: create preset files instead of installing in image
-> > >   systemd-systemctl-native: simplify and support preset-all
-> > >   rootfs-postcommands: call preset-all for read-only-rootfs
-> >
-> > I think this is close but in one of our test configurations it appears
-> > the ssh server isn't starting:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/548
-> >
-> > (the stdio log shows the configuration its building for step 6 and
-> > step6c shows it failing to ssh into the image)
-> >
-> > I reran it and the same error happened twice so it is consistent.
-> >
->
-> I'll have a look - thanks for throwing it through!
->
+Switch over to meson build, as it does not attempt to install
+headers into /usr/share and pkg-config files into /usr/share/$libdir.
 
-Bother... I've seen that before:
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...pycairo_1.15.6.bb => python3-pycairo_1.18.1.bb} | 14 +++++---------
+ 1 file changed, 5 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/python/{python3-pycairo_1.15.6.bb => python3-pycairo_1.18.1.bb} (63%)
 
-  DISTRO_FEATURES_append = ' systemd'
-  VIRTUAL-RUNTIME_init_manager = 'sysvinit'
-
-I fell over it myself when I was first getting the image tests
-working, then completely forgot about it...
-
-Unrelated to this error (but relevant for the patch set) - do we have
-a test that runs for read-only rootfs?
-
+diff --git a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb b/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
+similarity index 63%
+rename from meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
+rename to meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
+index 5c3e1e6f03b..5aaa01a00a5 100644
+--- a/meta/recipes-devtools/python/python3-pycairo_1.15.6.bb
++++ b/meta/recipes-devtools/python/python3-pycairo_1.18.1.bb
+@@ -8,24 +8,20 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f2e071ab72978431b294a0d696327421 \
+                     file://COPYING-MPL-1.1;md5=bfe1f75d606912a4111c90743d6c7325"
+ 
+ # cairo >= 1.14
+-DEPENDS = "cairo"
++DEPENDS = "cairo python3"
+ 
+ SRC_URI = "https://github.com/pygobject/pycairo/releases/download/v${PV}/pycairo-${PV}.tar.gz"
+ UPSTREAM_CHECK_URI = "https://github.com/pygobject/pycairo/releases/"
+ 
+-SRC_URI[md5sum] = "3ff210c34e7b052590e15fd0fb147766"
+-SRC_URI[sha256sum] = "ad150ea637860836b66705e0513b8e59494538f0b80497ad3462051368755016"
++SRC_URI[md5sum] = "7610da8a40a7bed548991aa3416431d1"
++SRC_URI[sha256sum] = "70172e58b6bad7572a3518c26729b074acdde15e6fee6cbab6d3528ad552b786"
+ 
+ S = "${WORKDIR}/pycairo-${PV}"
+ 
+-inherit setuptools3 pkgconfig
++inherit meson pkgconfig
+ 
+ CFLAGS += "-fPIC"
+ 
+ BBCLASSEXTEND = "native"
+ 
+-do_install_append() {
+-    install -d ${D}${includedir}/pycairo/
+-    install -m 0644 ${D}${datadir}/include/pycairo/py3cairo.h ${D}${includedir}/pycairo/
+-}
+-FILES_${PN} += "${datadir}/include/pycairo/py3cairo.h"
++FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
 -- 
-Alex Kiernan
+2.17.1
+
 
