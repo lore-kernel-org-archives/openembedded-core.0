@@ -1,40 +1,50 @@
-Return-Path: <mfe@pengutronix.de>
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de
-	[85.220.165.71])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F5937DD0F
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
+	[209.85.217.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 078F47DA0D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 12:27:34 +0000 (UTC)
-Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
-	by metis.ext.pengutronix.de with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1hLRrD-00082f-6F; Tue, 30 Apr 2019 14:27:35 +0200
-Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
-	(envelope-from <mfe@pengutronix.de>)
-	id 1hLRrC-0005kH-Ml; Tue, 30 Apr 2019 14:27:34 +0200
-Date: Tue, 30 Apr 2019 14:27:34 +0200
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190430122734.pgqklrtghuvdhnlk@pengutronix.de>
-References: <20190430115323.25661-1-m.felsch@pengutronix.de>
-	<CANNYZj8htehKO+DvnzH_uhbQD8DBeipnAP3SkOKhLPHsz8qmqg@mail.gmail.com>
+	Tue, 30 Apr 2019 12:33:26 +0000 (UTC)
+Received: by mail-vs1-f67.google.com with SMTP id j184so7827296vsd.11
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Apr 2019 05:33:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=p3kL4tzzQYq1SySG36AHWRAY++8g/glNpow9SDk5d5w=;
+	b=Va20Ivj2ZhHJi7B40b2W4zn4JdqpFxv7WKujs/Kcn3WGzD4JGhA6kKdSnvb6VVZPCI
+	dWbewDhQxklS3dLUz2wZt6doKi1Of9BzjRzA8cAuY/0UmTX0II2GFxL1yChg9aKC08CO
+	00B3gVRz/vH3FXZl5pOK6XUrIW7kfc2V2d1YoZ152I50TC7DgWSwCctg3W4CcbWMk/fN
+	7HAS0ARzrBXxTdZC9qEq2SVTj7W4dGoy/5USTnjbpzUbvDiQ9ZqAw0Uoxm4YgJw7sqUt
+	T6E7vJ6ovHg4fpahZiW++njetpnAV9iXqteCETqsmximlgMZgCLmSHUD/8Q06YcR1hkS
+	fFXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=p3kL4tzzQYq1SySG36AHWRAY++8g/glNpow9SDk5d5w=;
+	b=oMSx5m6kq/xPt9V0bkYqSQ8WYV2sboZ4kQdGEgB2BxqD7HoGh/DEE65Wx498SlvQ2g
+	rXRKGwEvQ7PgMAbkwDak1b5JpFm3q2x37WK0fIvJxXOSpPD0BOIp22lQQviSvVxU+BSR
+	UgDMbfvN7kkBqJO6Ue/sLA6X7ynC2EXeCoCXqg8QPNcGRIsDDYVoHmtw/wRwwdSXXCB7
+	JiAzdIwR37dhyPZi16ikudMsCa0Q9M0CGWrlEeauyNbIiwaBpBPtUazQXPo6HFSO+i37
+	0shym0grj52faJu0BF5INdW2uC8Bt1NPb7cAk2gvj/dbPysbUWC9Kwl0AcwOlA7Z5yV6
+	Ixng==
+X-Gm-Message-State: APjAAAUAmei5shqNLnOB218R0JkCr5sBpFsZ/UxbVKObPq/I9GY12xnk
+	y8GWYoPdVY/lvNlhoFD4scopO7LyZRKozuooWM4=
+X-Google-Smtp-Source: APXvYqz925QqCofPGuus47VIfWaCVYvGdQRZLbrnrbTT4ysg0tDWNxVdAHQSbszdWfmmgIpGq/P9gqvsh1/oK3uy2Ks=
+X-Received: by 2002:a67:fa4d:: with SMTP id j13mr35403169vsq.22.1556627607767; 
+	Tue, 30 Apr 2019 05:33:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CANNYZj8htehKO+DvnzH_uhbQD8DBeipnAP3SkOKhLPHsz8qmqg@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-IRC: #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 14:25:26 up 101 days, 17:07, 80 users,  load average: 0.12, 0.05,
-	0.01
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
-X-SA-Exim-Mail-From: mfe@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de);
-	SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] mesa: fix imx gallium driver
+References: <20190429144325.63744-1-alex.kiernan@gmail.com>
+	<057307c5-9cd5-49d4-b73e-6bf9be16f710@www.fastmail.com>
+	<CAO5Uq5RTE1J6YVQLZ0zhsBHLi=m2fCxgq49mvdUkJJ3iorCQkA@mail.gmail.com>
+	<22a9ceb8-073a-4ee9-8ce7-36c2b311b2e9@www.fastmail.com>
+In-Reply-To: <22a9ceb8-073a-4ee9-8ce7-36c2b311b2e9@www.fastmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 30 Apr 2019 13:33:16 +0100
+Message-ID: <CAO5Uq5TbThvLxoeONBEdRfGEjSuZir+Wphxn5sNgivaB2a9UOg@mail.gmail.com>
+To: Paul Barker <paul@betafive.co.uk>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 0/6] Fix systemd service enables/move towards "stateless" configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,140 +57,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 12:27:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 30 Apr 2019 12:33:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Alex,
+On Tue, Apr 30, 2019 at 1:24 PM Paul Barker <paul@betafive.co.uk> wrote:
+>
+> On Tue, 30 Apr 2019, at 13:14, Alex Kiernan wrote:
+> > On Tue, Apr 30, 2019 at 1:08 PM Paul Barker <paul@betafive.co.uk> wrote=
+:
+> > >
+> > > On Mon, 29 Apr 2019, at 15:44, Alex Kiernan wrote:
+> > > > As a result of the systemd 242 upgrade, which includes 01d2041e41f4
+> > > > ("meson: stop creating enablement symlinks in /etc during
+> > > > installation"), services such as systemd-networkd are no longer ena=
+bled
+> > > > in images.
+> > > >
+> > >
+> > > As an aside - is this systemd upgrade why on raspberrypi3 with master=
+ branches I recently have no console on tty1 and `/etc/systemd/system/getty=
+.target.wants/getty@tty1.service` is missing?
+> > >
+> >
+> > I suspect so - certainly getty@ is one of the things that's was
+> > touched in the upstream commit.
+> >
+>
+> Doing some reading now.
+>
+> The discussion on https://github.com/systemd/systemd/issues/12345 suggest=
+s we should be running `systemctl preset-all` or at least `systemctl enable=
+ getty@tty1` on first boot.
 
-On 19-04-30 14:18, Alexander Kanavin wrote:
-> Autotools is indeed deprecated, and we are trying to switch to meson
-> now. Rather than continue to fix autotools, can you try to help us
-> with meson please? The latest iteration of the patch should be in the
-> archives.
+That's what this patchset does (`systemctl preset-all`), or rather it
+builds images without /etc/machine-id which triggers systemd to do it.
 
-Of course, let me see if I have some time this week. I know that the
-autotools path is deprecated but can you apply this patch since it is
-broken in yocto since switching to 19.0.0.
+> Maybe this should be handled at the BSP level so we can decide whether to=
+ enable getty@tty1 or not on a per-machine basis.
+>
 
-Regards,
-  Marco
+Once I'm done you should be able to install preset files which then
+determine what gets enabled/disabled, the only real question I've got
+is if we should always do this at image build time, or leave it for
+first boot and let systemd do it (on read-write images at least).
 
-> Alex
-> 
-> 
-> On Tue, 30 Apr 2019 at 14:10, Marco Felsch <m.felsch@pengutronix.de> wrote:
-> >
-> > Since commit [1] the imx-drm driver is covered by the generic kmsro
-> > driver. Unfortunatly we need to patch the autotools path too since the
-> > switch commit [1] missed some dependencies.
-> >
-> > [1] https://gitlab.freedesktop.org/mesa/mesa/commit/ \
-> >         41a0acd6a149ec9f47ea527ad08a2b29bf1ee6b2
-> >
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> >  ...Fix-imx-autotools-build-dependencies.patch | 46 +++++++++++++++++++
-> >  meta/recipes-graphics/mesa/mesa.inc           |  4 +-
-> >  meta/recipes-graphics/mesa/mesa_19.0.1.bb     |  1 +
-> >  3 files changed, 49 insertions(+), 2 deletions(-)
-> >  create mode 100644 meta/recipes-graphics/mesa/files/0005-Fix-imx-autotools-build-dependencies.patch
-> >
-> > diff --git a/meta/recipes-graphics/mesa/files/0005-Fix-imx-autotools-build-dependencies.patch b/meta/recipes-graphics/mesa/files/0005-Fix-imx-autotools-build-dependencies.patch
-> > new file mode 100644
-> > index 0000000000..6cefe70bd8
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/mesa/files/0005-Fix-imx-autotools-build-dependencies.patch
-> > @@ -0,0 +1,46 @@
-> > +From 3e2aeab89fdbd0572d635d3a57a54f3fb99af254 Mon Sep 17 00:00:00 2001
-> > +From: Marco Felsch <m.felsch@pengutronix.de>
-> > +Date: Tue, 30 Apr 2019 09:45:26 +0200
-> > +Subject: [PATCH] Fix imx autotools build dependencies
-> > +
-> > +Since commit 41a0acd6 ("Switch imx to kmsro and remove the imx winsys")
-> > +the imx-drm is covered by kmsro. During the switch some autotools
-> > +dependencies are missed. Autotools are marked as deprecated but since
-> > +yocto still uses them we need to cover this.
-> > +
-> > +Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > +---
-> > + configure.ac                           | 4 ++--
-> > + src/gallium/drivers/kmsro/Automake.inc | 1 +
-> > + 2 files changed, 3 insertions(+), 2 deletions(-)
-> > +
-> > +diff --git a/configure.ac b/configure.ac
-> > +index 1ef68fe68e6..1623976ab5c 100644
-> > +--- a/configure.ac
-> > ++++ b/configure.ac
-> > +@@ -2861,8 +2861,8 @@ AM_CONDITIONAL(HAVE_SWR_BUILTIN, test "x$HAVE_SWR_BUILTIN" = xyes)
-> > +
-> > + dnl We need to validate some needed dependencies for renderonly drivers.
-> > +
-> > +-if test "x$HAVE_GALLIUM_VC4" != xyes -a "x$HAVE_GALLIUM_KMSRO" = xyes  ; then
-> > +-    AC_MSG_ERROR([Building with kmsro requires vc4])
-> > ++if test "x$HAVE_GALLIUM_VC4" != xyes -a "x$HAVE_GALLIUM_ETNAVIV" != xyes -a "x$HAVE_GALLIUM_KMSRO" = xyes  ; then
-> > ++    AC_MSG_ERROR([Building with kmsro requires vc4 or etnaviv])
-> > + fi
-> > +
-> > + if test "x$HAVE_GALLIUM_NOUVEAU" != xyes -a "x$HAVE_GALLIUM_TEGRA" = xyes; then
-> > +diff --git a/src/gallium/drivers/kmsro/Automake.inc b/src/gallium/drivers/kmsro/Automake.inc
-> > +index d5961c90765..ebed42408c2 100644
-> > +--- a/src/gallium/drivers/kmsro/Automake.inc
-> > ++++ b/src/gallium/drivers/kmsro/Automake.inc
-> > +@@ -2,6 +2,7 @@ if HAVE_GALLIUM_KMSRO
-> > +
-> > + TARGET_DRIVERS += pl111
-> > + TARGET_DRIVERS += hx8357d
-> > ++TARGET_DRIVERS += imx-drm
-> > + TARGET_CPPFLAGS += -DGALLIUM_KMSRO
-> > + TARGET_LIB_DEPS += \
-> > +     $(top_builddir)/src/gallium/winsys/kmsro/drm/libkmsrodrm.la \
-> > +--
-> > +2.20.1
-> > +
-> > diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
-> > index ece74974b5..b3339dce33 100644
-> > --- a/meta/recipes-graphics/mesa/mesa.inc
-> > +++ b/meta/recipes-graphics/mesa/mesa.inc
-> > @@ -87,11 +87,11 @@ PACKAGECONFIG[gles] = "--enable-gles1 --enable-gles2, --disable-gles1 --disable-
-> >  PACKAGECONFIG[egl] = "--enable-egl, --disable-egl"
-> >
-> >  PACKAGECONFIG[etnaviv] = ""
-> > -PACKAGECONFIG[imx] = ""
-> > +PACKAGECONFIG[kmsro] = ""
-> >
-> >  GALLIUMDRIVERS = "swrast"
-> >  GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'etnaviv', ',etnaviv', '', d)}"
-> > -GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'imx', ',imx', '', d)}"
-> > +GALLIUMDRIVERS_append ="${@bb.utils.contains('PACKAGECONFIG', 'kmsro', ',kmsro', '', d)}"
-> >
-> >  # radeonsi requires LLVM
-> >  GALLIUMDRIVERS_LLVM33 = "${@bb.utils.contains('PACKAGECONFIG', 'r600', ',radeonsi', '', d)}"
-> > diff --git a/meta/recipes-graphics/mesa/mesa_19.0.1.bb b/meta/recipes-graphics/mesa/mesa_19.0.1.bb
-> > index d90be8a074..753fd5328a 100644
-> > --- a/meta/recipes-graphics/mesa/mesa_19.0.1.bb
-> > +++ b/meta/recipes-graphics/mesa/mesa_19.0.1.bb
-> > @@ -5,6 +5,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-> >             file://0002-winsys-svga-drm-Include-sys-types.h.patch \
-> >             file://0003-Properly-get-LLVM-version-when-using-LLVM-Git-releas.patch \
-> >             file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
-> > +           file://0005-Fix-imx-autotools-build-dependencies.patch \
-> >  "
-> >
-> >  SRC_URI[md5sum] = "19636bb3da35c21f43040d31e575d5ce"
-> > --
-> > 2.20.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> 
+> However, I can't see an easy way to resolve this at BSP level right now. =
+I know how to add a systemd service file in a package and enable it but in =
+this case we're looking to enable a service which is already installed. Rea=
+ding through systemd.bbclass and the relevant docs doesn't give any suggest=
+ions. Is there any straightforward way to enable an already installed servi=
+ce?
+>
 
--- 
-Pengutronix e.K.                           |                             |
-Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Personally, if I needed it fixing right now, I'd probably add a hack
+during rootfs build to put the symlinks in the right place.
+
+--=20
+Alex Kiernan
 
