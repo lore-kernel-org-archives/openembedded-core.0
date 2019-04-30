@@ -1,54 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id BF6AE7DC65
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 05F557D9E0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 10:53:25 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id y197so3340234wmd.0
+	Tue, 30 Apr 2019 10:58:20 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id m9so5407816iok.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 03:53:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=4XWOlhERWCgyoipnuSKINU3VBRcdVedlYvYU0igICBQ=;
-	b=WLcx/TkUfTgQzYQPlCZPRCUsD32JFdOlTbDVBxqK1cdo/5A4d+uNx8r8e3QxU1vrXR
-	QB/5tJrvcyK1Bl3z8+rne02Rn8wwynSY092strJDe3XXg+rK8g9g6nFaTZL8GveS/QVt
-	2mW3O3A8lZxB8Y/zMYt4Zj3lBtWQSk4cqjJLE=
+	Tue, 30 Apr 2019 03:58:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tYwrzjtsgk6ofSKS/CIE0LXG8vgdus7eNde8jBvMxXY=;
+	b=guJyFM1REA/JVIN4lXXmBBI5c079lBjAaykfZOw5G8N4L8WyCQrfaBbrz2P8NCsopB
+	+w+jcmuMxooR8MbzYwTEqm1tim1u/tl8KQG5wZMf204ca0K6VTtigcunPkMeVUv1L8t1
+	Mg6DrJg0bBlAXl9lp35sJ3Pv1WWYJ+qLpcXajeGVCeVD68u9V/R+y/9Nn7rzTIohua5g
+	jHL6eZc3CcWIytUFAJe9rgSTavkRr1UMt+vnh+UfuoaXjXo7Zl5rvrENJOeUD2YJfE7u
+	6xrPL5TVRr3LBdWTQda+LfBujOO6Mv8JOUnfSeqVaHFAx1+UoABszo/LJCVnK6px69Ea
+	7NYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=4XWOlhERWCgyoipnuSKINU3VBRcdVedlYvYU0igICBQ=;
-	b=I8GPRp/j8xwRZfYmLYVj9Fbccu+31lw6BIxG5lCLKMJvRP8RtJTr8tAtuAed3ueK/4
-	y7J2SBr0aoGaIg9UY4kA0skmigaP0zVDQVOVAhnO6HX1ug7zxJ1mCLJkIM2yDKspqJ8P
-	P1adnxyehM00AyF9nsDPCYe7hBn9/pDkRg0+a2WXMoA8IN5o+nb1Dofq9iMdo8x+Gups
-	G24Pv/XecoM+DZApS/piWVgYpTxBZufAIx/2rwwv1rfk7T/fVq8VktDP7eMXJNuSyXOS
-	CDHsFyE49sxd6LsiaiAk3syjqiI8DEaFZmY+GH+b9YlhiFEJf1cwDY9zbUwPUEAAThXm
-	68fw==
-X-Gm-Message-State: APjAAAW3X3wv0xoM/A9VCLGMdTgJsiASqLAkRgWmS4khC6CwYnvjw/WS
-	Xug4KVDnlPyhCIroMngnjdP/Bw==
-X-Google-Smtp-Source: APXvYqwa52kuR8ggc38ofQql8AnecglSteBCUXt74KDENYtyMF7CgO9ElSuJHnDkP7trg0ksIcOU5Q==
-X-Received: by 2002:a1c:2743:: with SMTP id n64mr2591935wmn.19.1556621606535; 
-	Tue, 30 Apr 2019 03:53:26 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o16sm25161091wro.63.2019.04.30.03.53.25
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 30 Apr 2019 03:53:25 -0700 (PDT)
-Message-ID: <a9333c6e475b7bd4fc4b687715ef7b2b6354814b.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 30 Apr 2019 11:53:24 +0100
-In-Reply-To: <CANNYZj9VG3Ty8OLyft2Hn67AvYYUeqknaU1kdBgb1zeRW+o3Dw@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tYwrzjtsgk6ofSKS/CIE0LXG8vgdus7eNde8jBvMxXY=;
+	b=rEDgA++2yVjIWg8tvD5fq03hTl81eRIrhixT/j/L7qvSiVfYMhjWm3o4olUdJ69DL4
+	hikJ+BF28e8cQCxAJ3zlQ4WzmnpzLSId2+IfiMXMSeJypBtSQRLiPCSEECM94CT9+Be8
+	rbWKQr3xfMpUXpJypcM9TUsofwk5jEiIrPTK3Ut568yec+YRiET0PYODjGdkl+Hd0neY
+	VQXd/XZaSwHTh7TuqolcmZVououyWDPF9awiMnPwGn8Rr8rAPPK7YcZR8dRU6Fftyd3+
+	GCV0OUqaW5HuFCSOQOaHXxnKyFB7EPrjCfiCrpJv6nF715rgT5btyyIGTWAI16syNZxf
+	GtqA==
+X-Gm-Message-State: APjAAAVFD78ldiCw2XX/H7ICUKqKyG59LWNJUgnkNd79+F2KPrjcc05w
+	lpv2qsOWfjbptgmPozbTv60OiECvB70HVPGDfUE=
+X-Google-Smtp-Source: APXvYqyBQzq0WVvgo1pNQeputgzvlIgRZciAyIbbKZJStD9jvXM9R/lAsiv3ycF49Yoa+AenNVhSPhOOtHqske90s/4=
+X-Received: by 2002:a5e:d505:: with SMTP id e5mr17362645iom.99.1556621901911; 
+	Tue, 30 Apr 2019 03:58:21 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190429140730.2899-1-schnitzeltony@gmail.com>
 	<20190429140730.2899-2-schnitzeltony@gmail.com>
 	<323098102d47a837b953a3c399f8db65b1c43349.camel@linuxfoundation.org>
 	<CALbNGRRuLKUfornkTS6e2PBskpyxuWo-XnLrd=boHYPJMkDhhQ@mail.gmail.com>
 	<19fa74d55f965241b227fd1e63241be600f93b5a.camel@linuxfoundation.org>
 	<CANNYZj9VG3Ty8OLyft2Hn67AvYYUeqknaU1kdBgb1zeRW+o3Dw@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
+	<a9333c6e475b7bd4fc4b687715ef7b2b6354814b.camel@linuxfoundation.org>
+In-Reply-To: <a9333c6e475b7bd4fc4b687715ef7b2b6354814b.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 30 Apr 2019 12:58:06 +0200
+Message-ID: <CALbNGRS3oVjU_nYEUjmMM0FMk05pnUfz8eapdqv=E98foV1gAA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] vte-native: reduce c++ requirements from c++17 -> c++14
@@ -64,33 +60,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 10:53:26 -0000
+X-List-Received-Date: Tue, 30 Apr 2019 10:58:21 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-04-30 at 12:48 +0200, Alexander Kanavin wrote:
-> On Mon, 29 Apr 2019 at 23:22, <richard.purdie@linuxfoundation.org>
-> wrote:
-> > vte-native of an older version is looking like the best option
-> > unless
-> > Alex says I'm mis-remembering...
-> 
-> I checked what --enable-vte actually does in combination with the gtk
-> UI in qemu, and it makes the serial console tab in the gtk ui behave
-> like a real gnome-terminal tab (selection, scrolling etc). In the
-> absence of vte support, the serial console tab is still there and you
-> can still log in and issue commands, but it is more "dumb" regarding
-> terminal capabilities. This serial console is an addition to the main
-> tab where the output from the virtual graphical card goes.
-> 
-> So to conclude: we can split the vte option into its own
-> PACKAGECONFIG, and leave it disabled for native. I would rather do
-> this, than make vte and vte-native versions diverge.
+On Tue, Apr 30, 2019 at 12:53 PM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2019-04-30 at 12:48 +0200, Alexander Kanavin wrote:
+> > On Mon, 29 Apr 2019 at 23:22, <richard.purdie@linuxfoundation.org>
+> > wrote:
+> > > vte-native of an older version is looking like the best option
+> > > unless
+> > > Alex says I'm mis-remembering...
+> >
+> > I checked what --enable-vte actually does in combination with the gtk
+> > UI in qemu, and it makes the serial console tab in the gtk ui behave
+> > like a real gnome-terminal tab (selection, scrolling etc). In the
+> > absence of vte support, the serial console tab is still there and you
+> > can still log in and issue commands, but it is more "dumb" regarding
+> > terminal capabilities. This serial console is an addition to the main
+> > tab where the output from the virtual graphical card goes.
+> >
+> > So to conclude: we can split the vte option into its own
+> > PACKAGECONFIG, and leave it disabled for native. I would rather do
+> > this, than make vte and vte-native versions diverge.
+>
+> Sounds like a plan, can someone send me a patch please! :)
+>
+> Cheers,
+>
+> Richard
+>
+As the origin of all this I'll try to be the someone
 
-Sounds like a plan, can someone send me a patch please! :)
-
-Cheers,
-
-Richard
-
+Andreas
 
