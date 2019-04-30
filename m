@@ -1,23 +1,26 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 98C227D5FD
+Return-Path: <andrej.valek@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E7776D666
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 09:08:22 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3U98Mbe014698
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 30 Apr 2019 09:59:36 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x3U9xbt2015291
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 02:08:23 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 30 Apr 2019 02:08:22 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 30 Apr 2019 17:08:21 +0800
-Message-ID: <1556615301-328879-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH V4] populate_sdk_base: provide options to set sdk type
+	Tue, 30 Apr 2019 11:59:37 +0200
+Received: from dev.vm6.ccp.siemens.com (md1wg6qc.ad001.siemens.net
+	[163.242.44.88])
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x3U9xbkb030211;
+	Tue, 30 Apr 2019 11:59:37 +0200
+Received: from mail2.siemens.de (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id D26C99508F2;
+	Tue, 30 Apr 2019 11:59:33 +0200 (CEST)
+From: Andrej Valek <andrej.valek@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Apr 2019 11:59:16 +0200
+Message-Id: <20190430095917.3680-1-andrej.valek@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 0/1] insane.bbclass: Add QA package check for mixed bins and libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,140 +33,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 09:08:22 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Apr 2019 09:59:37 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+In multi-lib cases some packages with mixed binaries and libraries
+could have a problem. Explanations with GDB and bmap-tools.
 
-Current sdk type is tar.xz, but for mingw sdk, since we
-have symlink under the sdk folder, 7zip which used to
-extract tar.xz cannot handle it, refer 7zip upstream bug:
-https://sourceforge.net/p/sevenzip/discussion/45797/thread/c71d6b96/
-so add option for usr can select the sdk type.
+GDB requires python binary (RDEPENDS) and bmap-tools too.
+GDB is installed as 32bit variant and bmap-tools as 64bit.
+In the current state both type (32+64) of required libraries
+will be installed on the target. (I think' this is the right case.)
 
-Add override SDK_ARCHIVE_TYPE, default type is tar.xz, and also
-support type zip. user want to use zip type can set SDK_ARCHIVE_TYPE
-to zip.
+At the end a 32bit variant of binaries wins and overrides the 64bit.
+Finally GDB is working without any problems and bmap-tools not.
+Bacuse 64-bit python binary was overriden with 32-bit.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
----
- meta/classes/populate_sdk_base.bbclass | 29 ++++++++++++++++++++++-------
- meta/files/toolchain-shar-extract.sh   | 22 ++++++++++++++++++++--
- 2 files changed, 42 insertions(+), 9 deletions(-)
+All-arch variant has been disabled for multilib. Is there any special
+reson why?
 
-diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
-index efaa5b9..a7f0fe7 100644
---- a/meta/classes/populate_sdk_base.bbclass
-+++ b/meta/classes/populate_sdk_base.bbclass
-@@ -45,8 +45,23 @@ TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalon
- TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
- TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
- 
-+# Default archived SDK's suffix
-+SDK_ARCHIVE_TYPE ?= "tar.xz"
-+
-+# To support different sdk type according to SDK_ARCHIVE_TYPE, now support zip and tar.xz
-+python () {
-+    if d.getVar('SDK_ARCHIVE_TYPE') == 'zip':
-+       d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
-+       # SDK_ARCHIVE_CMD used to generate archived sdk ${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir ${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
-+       # recommand to cd into input dir first to avoid archive with buildpath
-+       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
-+    else:
-+       d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
-+       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
-+}
-+
- SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
--SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
-+SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
- PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
- SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
- 
-@@ -104,7 +119,7 @@ POPULATE_SDK_POST_TARGET_COMMAND_append = " write_sdk_test_data ; "
- POPULATE_SDK_POST_TARGET_COMMAND_append_task-populate-sdk  = " write_target_sdk_manifest ; "
- POPULATE_SDK_POST_HOST_COMMAND_append_task-populate-sdk = " write_host_sdk_manifest; "
- SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
--SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
-+SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; archive_sdk; ${SDK_PACKAGING_COMMAND} "
- 
- def populate_sdk_common(d):
-     from oe.sdk import populate_sdk
-@@ -222,11 +237,10 @@ python check_sdk_sysroots() {
- 
- SDKTAROPTS = "--owner=root --group=root"
- 
--fakeroot tar_sdk() {
-+fakeroot archive_sdk() {
- 	# Package it up
- 	mkdir -p ${SDKDEPLOYDIR}
--	cd ${SDK_OUTPUT}/${SDKPATH}
--	tar ${SDKTAROPTS} -cf - . | xz -9 ${XZ_DEFAULTS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
-+	${SDK_ARCHIVE_CMD}
- }
- 
- TOOLCHAIN_SHAR_EXT_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-extract.sh"
-@@ -263,16 +277,17 @@ EOF
- 		-e '/@SDK_PRE_INSTALL_COMMAND@/d' \
- 		-e '/@SDK_POST_INSTALL_COMMAND@/d' \
- 		-e 's#@SDK_GCC_VER@#${@oe.utils.host_gcc_version(d, taskcontextonly=True)}#g' \
-+		-e 's#@SDK_ARCHIVE_TYPE@#${SDK_ARCHIVE_TYPE}#g' \
- 		${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
- 	# add execution permission
- 	chmod +x ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
- 	# append the SDK tarball
--	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
-+	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
- 
- 	# delete the old tarball, we don't need it anymore
--	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
-+	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}
- }
- 
- populate_sdk_log_check() {
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 156085b..ccc4f4e 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -113,7 +113,16 @@ done
- 
- payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
- if [ "$listcontents" = "1" ] ; then
--    tail -n +$payload_offset $0| tar tvJ || exit 1
-+    if [ @SDK_ARCHIVE_TYPE@ = "zip" ]; then
-+        tail -n +$payload_offset $0 > sdk.zip
-+        if unzip -l sdk.zip;then
-+            rm sdk.zip
-+        else
-+            rm sdk.zip && exit 1
-+        fi
-+    else
-+        tail -n +$payload_offset $0| tar tvJ || exit 1
-+    fi
-     exit
- fi
- 
-@@ -232,7 +241,16 @@ if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; the
- fi
- 
- printf "Extracting SDK..."
--tail -n +$payload_offset $0| $SUDO_EXEC tar xJ -C $target_sdk_dir --checkpoint=.2500 $EXTRA_TAR_OPTIONS || exit 1
-+if [ @SDK_ARCHIVE_TYPE@ = "zip" ]; then
-+    tail -n +$payload_offset $0 > sdk.zip
-+    if $SUDO_EXEC unzip $EXTRA_TAR_OPTIONS sdk.zip -d $target_sdk_dir;then
-+        rm sdk.zip
-+    else
-+        rm sdk.zip && exit 1
-+    fi
-+else
-+    tail -n +$payload_offset $0| $SUDO_EXEC tar xJ -C $target_sdk_dir --checkpoint=.2500 $EXTRA_TAR_OPTIONS || exit 1
-+fi
- echo "done"
- 
- printf "Setting it up..."
+How we can proceed with this kind of problem? There are many others
+tools like python, perl, ... . 
+
+
+Just for info, I have run this check locally with current
+`bitbake world`, >100 packages have this problem.
+
+
+Andrej Valek (1):
+  insane.bbclass: Add QA package check for mixed bins and libs
+
+ meta/classes/insane.bbclass | 27 +++++++++++++++++++++++++++
+ 1 file changed, 27 insertions(+)
+
 -- 
-2.7.4
+2.11.0
 
 
