@@ -1,28 +1,61 @@
-Return-Path: <pascal.bach@siemens.com>
-Received: from david.siemens.de (david.siemens.de [192.35.17.14])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CB0B7D258
+Return-Path: <paul@betafive.co.uk>
+X-Greylist: delayed 302 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 30 Apr 2019 12:08:10 UTC
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+	[64.147.123.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D1D37DC5B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 12:04:39 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x3UC4dnd005899
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Tue, 30 Apr 2019 14:04:39 +0200
-Received: from [139.16.79.72] (MD1FZU9C.ad001.siemens.net [139.16.79.72])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id x3UC4dLg004026;
-	Tue, 30 Apr 2019 14:04:39 +0200
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Andrej Valek <andrej.valek@siemens.com>,
-	openembedded-core@lists.openembedded.org
-References: <20190430095917.3680-1-andrej.valek@siemens.com>
-	<36c9eed229ab8b2bedc6e6903a5be396abc7d1de.camel@linuxfoundation.org>
-From: Pascal Bach <pascal.bach@siemens.com>
-Message-ID: <94c5b33e-8c56-fcb1-2c75-10fb4f1ebeac@siemens.com>
-Date: Tue, 30 Apr 2019 14:04:39 +0200
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
-MIME-Version: 1.0
-In-Reply-To: <36c9eed229ab8b2bedc6e6903a5be396abc7d1de.camel@linuxfoundation.org>
-Subject: Re: [PATCH 0/1] insane.bbclass: Add QA package check for mixed bins and libs
+	Tue, 30 Apr 2019 12:08:10 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 918656CE
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Apr 2019 08:03:08 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+	by compute1.internal (MEProxy); Tue, 30 Apr 2019 08:03:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=mime-version:message-id:in-reply-to:references:date:from:to
+	:subject:content-type; s=fm1; bh=GZFquNYN50UORnps0/fWqIsB4DMPAA/
+	TRrNBiB0aLeE=; b=dfp+dzRurI24FMdCTeWRgQ79o1T4FF33UM5IQQ2/7WgCmcP
+	0Avmt5zWGtaY3NvDQ1yu2geFgCH+BPz7Y4LE9upOFzWhTevhtDxxxOMwyLExrRiZ
+	i+1r+hMY3VE2ozRQoJFPL+DfswwwNyv4I9MJ/LNepTH9v+KFmV5HX18Jys8tHmHf
+	7acCgjU/RWzylz5Ird7j0u+BUoc5I80zmKmKwrkt/+SJWit833RoHWe67KzsX04L
+	d4hVk/EuB7EyOYyskz0hzJ6n7TrEU5edbk4XCALN3yXeukVDHo5ZGDVYTOkZuZIi
+	OcbXdqdzJzy1ygtaOceUfR7vPXQlYsvW/MyZp4Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=GZFquN
+	YN50UORnps0/fWqIsB4DMPAA/TRrNBiB0aLeE=; b=Bvco2tj+N0S+zxzHsQS99Z
+	B9q++5IixSEwaBENlKvyVlnXrPskvVmn9tXgzIBkTxpRyeyeX+BxPcbn4FozCUwT
+	7VKMStLAReXobfYiKZzrnQ6n0prC8JagiEPTAH70peiFNK6VdE7/uYlbqQCNzTeA
+	rP3X4DI9Nvqa0Hyq1mHIvOmmjyiBaQTPhSOEnP6gTLxdp+4fCHxas1cM6HbP6auf
+	88hCHl/pYIgcpchOU+KLSOGiKlWclCgmCtLcMPZK2Vai5QavoiCXi7wvcbL+VfH6
+	+IjDUQDUYrC3Fi2MnitFydiNRmyTn9NoZz4ou+r9TujmNbkMN7btktwflujEzBow
+	==
+X-ME-Sender: <xms:eznIXEWUeS54TGL_SfcHkleAnrhG_DCOnF0skHYrh3vpGfeIcyXaMQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieeggdegjecutefuodetggdotefrodftvf
+	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+	fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedfrfgruhhl
+	uceurghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecurfgrrh
+	grmhepmhgrihhlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehl
+	uhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:eznIXH5Nv6tzzIs0K4JS_sjfZ7X1eWf2ttpeZ5Z33IgiCh7iF1M6HQ>
+	<xmx:eznIXPXsg-hSUp0sAlCZ_8cGgWc2LzRtU53y6CizM79-1HRunIS7lA>
+	<xmx:eznIXOrHkI5WCtKCaZEfed4qsnAq1hYRXcM0jt-bv4fgIHYc-xwlMA>
+	<xmx:eznIXGT1em5A3zKbuep8o3SjV796D-vBwhGRitdKtm_6bdEztc-W2w>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 3C1747C199; Tue, 30 Apr 2019 08:03:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-448-g5cc1c91-fmstable-20190429v1
+Mime-Version: 1.0
+Message-Id: <057307c5-9cd5-49d4-b73e-6bf9be16f710@www.fastmail.com>
+In-Reply-To: <20190429144325.63744-1-alex.kiernan@gmail.com>
+References: <20190429144325.63744-1-alex.kiernan@gmail.com>
+Date: Tue, 30 Apr 2019 08:02:59 -0400
+From: "Paul Barker" <paul@betafive.co.uk>
+To: "OE Core" <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 0/6] Fix systemd service enables/move	towards "stateless" configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +68,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 12:04:40 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 30 Apr 2019 12:08:11 -0000
+Content-Type: text/plain
 
+On Mon, 29 Apr 2019, at 15:44, Alex Kiernan wrote:
+> As a result of the systemd 242 upgrade, which includes 01d2041e41f4
+> ("meson: stop creating enablement symlinks in /etc during
+> installation"), services such as systemd-networkd are no longer enabled
+> in images.
+> 
 
+As an aside - is this systemd upgrade why on raspberrypi3 with master branches I recently have no console on tty1 and `/etc/systemd/system/getty.target.wants/getty@tty1.service` is missing?
 
-On 30.04.2019 12:26, Richard Purdie wrote:
->
-> Merging a QA test which causes hundreds of warnings isn't really going
-> to help unless we have a strategy for fixing it.
-I agree merging this only makes sense if we commit to fixing the issue.
+Thanks,
 
-In my opinion the strategy for fixing it would be to always split packages that consists of both binaries and libs into two.
-This is already done for many like sqlite3 (sqlite3 vs libsqlite3). This check would just ensure that this rule is always followed.
-
-This would make it easier to separate the two. Let's take the example that you have two applications A (32bit) and B (64bit) both using sqlite3.
-In this case the two would link to lib32-libsqlite3 and libsqlite3.
-
-If the package contained both the library and the binary you would end up with both libs but one of the two binaries (not sure this is deterministic).
-If the packages are only lib and only binary then you would explicitly need to select either the 32bit or the 64bit variant.
-
-In practice this would not only benefit the multilib case. It would also help with avoiding unnecessarily installed binaries just because somebody is using a library
-bundled in the same package.
-
->
-> As I understand it, if you install python 32bit and 64 bit, you should
-> get the libraries from both but only the binaries from the one that
-> wins. That should mean anything linking to the lib should work?
->
-> What am I missing? Is something not working like that? Is this with the
-> rpm or opkg implementation? (they're very different)
-I think the issue with scripting languages (especially python) is different from the general case above (sqlite3).
-And maybe the insane check in the current form is not covering all cases.
-
-
-Pascal
+-- 
+Paul Barker
+Managing Director & Principal Engineer
+Beta Five Ltd
 
