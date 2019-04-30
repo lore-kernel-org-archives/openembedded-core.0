@@ -1,52 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CD097DB86
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0EDBC7D9E9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 13:35:11 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id k64so4701002itb.5
+	Tue, 30 Apr 2019 13:51:14 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id w130so4715910itc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 06:35:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=av5v7djp6HGTxMNcq7qk7Hf9Hd5h6HvLCVDyrjC0RdM=;
-	b=vuAGr4E8m4p2+v6PlEqTNF0cSN+6BHjV3Dc3YZ14pLIjnNEBcV1mhsPqVoGHZ6rt4e
-	8NTjb+lU8uht4ROP3OerCgD5r1YdE8AoQ7OY9IFGbChTuNZOH0aG1NSYS9XTNie4LDzC
-	j/ScfBnbsW7a9VIWHHekCTlo62K8VDCtSyhHB4qNjiqnWg3YUcxbXzNi79fklAywjUyI
-	3digmsRRx9rJ9SLogNvGgG9HVuFgZJrl9pd8GReY8Mu0BaXAA45rfFbapUjavXvRB1RX
-	5HD+90fh9qzfV9QvA5psU487TsFrXd6e/nW7agdXUzbwTvEH1reQ+ZmJaqBQqvItSWjg
-	gxnA==
+	Tue, 30 Apr 2019 06:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JOxk3ZRWa7JgkjoWpm0OJgR9ogLJtZRD9lkgxqXB2Ho=;
+	b=YgOuuA+yIOrnV0rej33UT/OHvAs8E/LKJ5w6XXmfokNOTdbKV9q0Kv2aCRXM+dSlSW
+	GG7g79WmnVePkbTY/+h5n9VQvteYALXGvA4UANmds+0zOiGT2whzugQTlW7I6WvJJ+3A
+	toxhSOxcqBLs7oukGW6og0MlZK4WEbF7ISd1E+UEh3t5dyD83C5tEiWadm6gKpvx0oA0
+	+4ufzkoot98RFBo4X9NgkBZGbwojiIKxURhkp8H45gs36Pl561JNNBtzvmfNrMOB0CH8
+	x3Cv9R9DI6cCDFvw0MRiGDYFVzQ9oXemYjBCiPQ/Un2NJycQ1Rs3yhU8ybEFd1y06WAy
+	PWCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=av5v7djp6HGTxMNcq7qk7Hf9Hd5h6HvLCVDyrjC0RdM=;
-	b=QQOfEFXe0Z8/q63g1Al3YiUN9fe3V7T3hcMDolFyV20lFWYimdeR6Prx1PbyxpPbSU
-	uZOOiCbcDWkwSej0/FeG8JkztzkALvMOiOLaJWYxm0wuvt9GHMPihjysImrrHC/Yw9z3
-	Ptf0UYttl2Jec+h2rYeGujtqZuE2FRdQIV6Fd+2AbD3A5JvhWMqU289H0uwnm4S2UpYb
-	x5Nn2IUxE3yhxLUje9AU34sMTp5PIWMcq9nWTX3cnSAizHI30l42lnh2X17XbLWeh5HO
-	7w1Q4V6/sqQXMNwfl01gmDdLDGW9TKF/aFNUUqV/M1/kBEf6h0rrUbyuIcdUx8HBA+it
-	6iTw==
-X-Gm-Message-State: APjAAAUx5sj2Uonr9Bdbqnpi7p87m2g5oXLxazCtPyHgL8nhkep72/6P
-	uZEiGJyPC2yPLCCOoXvj2CIRcvNzy2V0VvzcWfir8Q==
-X-Google-Smtp-Source: APXvYqw7ILG2mo5hV/8PAVT37+oCXCo3qDelFCWgRxRnQPB35Nop52XJRB/79ZeTX+zmlxhCWvMHeweI03vdyx7N+NM=
-X-Received: by 2002:a05:660c:111:: with SMTP id
-	w17mr3421962itj.62.1556631312319; 
-	Tue, 30 Apr 2019 06:35:12 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=JOxk3ZRWa7JgkjoWpm0OJgR9ogLJtZRD9lkgxqXB2Ho=;
+	b=h5kAql6QnpkH7nkz9RdBCvr+PdUt28F405DNFxLe+H2pU9smT1l3vt8H16KV7m3qFT
+	vObYhdp2RZesN3kuSh+bS/UUAO3u0814Qwwe3zKlLpj+FOrV5UHqK2qEYlSxAcu+s8K5
+	XXtHVQCMaxiGf5Z3bM7JkOc34Rgbb85pvV++f12o0fMpbfmwoIHZWzWJkIB6ymn+HCVB
+	7pX1DxWnZpRaYverZHzZlwoFPHcUUgfaJFp1xBMhym2byPXUWr0uqmr5dj8f1F7LOEDd
+	sOVtDRBwLQNy13bulfIR+iXgp/HENb4G9LoOFKTDBEKrzfEY9oKe4rqF2WlAv9P3+xEb
+	oKLA==
+X-Gm-Message-State: APjAAAW+Yv6z/+ICSEK3qcTWAnfZeCFkgQf2OBx2OSZ5RmCsoUuIy7Z5
+	JcrhRBKU3MtpVMl0BD0OTCPBePImR5k=
+X-Google-Smtp-Source: APXvYqxpuIrVfnrrWiU4zR5Cd8L5YwrIAhRfqWeHM0AvOvLai6bzdaPQfsErF7Cx9JRwsv3i+I6p2A==
+X-Received: by 2002:a05:660c:18d:: with SMTP id
+	v13mr206704itj.75.1556632275703; 
+	Tue, 30 Apr 2019 06:51:15 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	j10sm5808753iop.39.2019.04.30.06.51.14
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 30 Apr 2019 06:51:14 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 30 Apr 2019 08:51:09 -0500
+Message-Id: <20190430135109.21473-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1541388536-121953-1-git-send-email-changqing.li@windriver.com>
-	<1555490306-29097-1-git-send-email-changqing.li@windriver.com>
-	<f6e345e417eb8219c0b08ba72ef4e7f6916fdf11.camel@linuxfoundation.org>
-	<7bd4040d-0ebf-490f-735d-eb64a16b1dc7@windriver.com>
-	<f1cbab2b9d878718e45c11d822d7e114197969a0.camel@linuxfoundation.org>
-In-Reply-To: <f1cbab2b9d878718e45c11d822d7e114197969a0.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 30 Apr 2019 14:35:01 +0100
-Message-ID: <CAJTo0LYye1JWths-jDB87CdGPbAiudTt5H8VJ39+TeO-XZWHMg@mail.gmail.com>
-To: "Purdie, Richard" <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V4] dbus: fix ptest failure
+Subject: [PATCH] qemux86: Allow higher tunes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,93 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 13:35:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 30 Apr 2019 13:51:15 -0000
+Content-Transfer-Encoding: 8bit
 
-test-bus sounds like it actually tests the bus, which is useful.  If
-it actually passes now then I'd say we keep it.
+Allows the qemux86 machine to be tuned all the way up to an i7 if
+desired by overriding DEFAULTTUNE. The default if unspecified is left at
+i586.
 
-Ross
+This can be useful for enabling advanced processor features like SSE if
+desired or required by various packages.
 
-On Wed, 24 Apr 2019 at 18:28, <richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2019-04-18 at 09:59 +0800, Changqing Li wrote:
-> >
-> > On 4/18/19 6:01 AM, Richard Purdie wrote:
-> > > On Wed, 2019-04-17 at 16:38 +0800, changqing.li@windriver.com
-> > > wrote:
-> > > > From: Changqing Li <changqing.li@windriver.com>
-> > > >
-> > > > 1. since one bug in run-ptest, testcase test-bus have never been
-> > > > actually run (althrough it's result is PASS).
-> > > >
-> > > > After commit 0828850, test-bus can actually run but it
-> > > > did not install:
-> > > >   test-service, test-shell-service, test-segfault, and
-> > > >   dbus-daemon-launch-helper-test
-> > > > Add the configure flag:
-> > > >   --enable-embedded-tests
-> > > > to generate binary dbus-daemon-launch-helper-test, then install
-> > > > them so that test-bus will now pass.
-> > > >
-> > > > 2. fix testcase test-dbus-daemon failed
-> > > > we enable --enable-verbose-mode in recipe dbus-test, and don't
-> > > > enable it in recipe dbus. This will make below test code get
-> > > > unexpect result of have_verbose and assert.
-> > > > disable --enable-verbose-mode for recipe dbus-test to fix it.
-> > > >
-> > > >  #ifdef DBUS_ENABLE_STATS
-> > > >   g_assert_true (have_stats);
-> > > >  #else
-> > > >   g_assert_false (have_stats);
-> > > >  #endif
-> > > >
-> > > > Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> > > > ---
-> > > >  meta/recipes-core/dbus/dbus-test_1.12.12.bb | 13 ++++++++++---
-> > > >  meta/recipes-core/dbus/dbus/run-ptest       | 16 ++++++++++++---
-> > > > -
-> > > >  2 files changed, 22 insertions(+), 7 deletions(-)
-> > >
-> > > I'm wondering if some of these tests were intentionally not run due
-> > > to
-> > > the length of time they take? It takes the dbus-ptest time from 26s
-> > > to
-> > > 250+s. Can you see which test that is and why its taking so long
-> > > please?
-> >
-> > test-bus take most of the time, it include several sub tests. My test
-> > result:
-> > all test runed:
-> > real    2m59.637s
-> > user    0m59.494s
-> > sys    0m41.952s
-> > skipped test-bus:
-> > real    0m13.125s
-> > user    0m12.230s
-> > sys    0m0.162s
-> >
-> > Previously we don't intentionally skip test-bus,  just because we had
-> > a bug in run-ptest before,
-> > so test-bus  accidentally not run,  just return PASS.
-> > After below commit fix this bug, test-bus can be runned.
-> > https://git.openembedded.org/openembedded-core/commit/?id=0828850fd09f738572ae8259384af07eeb81182b
-> >
-> > -for i in `ls test/test-*`; do ./$i ./test/data
-> > DBUS_TEST_HOMEDIR=./test >/dev/null; output; done
-> >
-> > "DBUS_TEST_HOMEDIR=./test" will take as an argument,  make no sub
-> > test is runned.
->
->
-> Ross, do you remember if we intentionally skip this dbus test for
-> taking around 200s, taking the overall test time from 20s to 220s?
->
-> I'm strongly tempted to explicitly disable this test unless someone can
-> convince me it tests someting critical...
->
-> Cheers,
->
-> Richard
->
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/conf/machine/qemux86.conf | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index ae5187cbd5b..f2434a4b5f5 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -8,7 +8,9 @@ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ 
+ require conf/machine/include/qemu.inc
+-require conf/machine/include/tune-i586.inc
++DEFAULTTUNE ?= "i586"
++X86ARCH32 ?= "i586"
++require conf/machine/include/tune-corei7.inc
+ require conf/machine/include/qemuboot-x86.inc
+ 
+ UBOOT_MACHINE ?= "qemu-x86_defconfig"
+-- 
+2.20.1
+
 
