@@ -1,52 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
 	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B85217DC65
+	by mail.openembedded.org (Postfix) with ESMTP id 7EBDE6BE2A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 10:19:55 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id n25so3204041wmk.4
+	Tue, 30 Apr 2019 10:26:55 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id p21so3190121wmc.0
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 03:19:57 -0700 (PDT)
+	Tue, 30 Apr 2019 03:26:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=DgAEFiaCb9ENBpNOQN/3DczCYYjhA6pr/hzJPrYCsSA=;
-	b=Bw0ZEWC6NJNHUWNswL4KuZsd9ip3wKNpTDnzwsaupAZkhMbijgi1yUwrAKLWd0zgmL
-	k8shqAveAuqGdVB3KmsX8zQLrgaYICMrehwUeGTL0WjhWpmxTs2MZTa05tfITNT+tZjg
-	N5o63GKG+FCbZpUUrY+wha8ZOJeV/YH7hbWQQ=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=FiOCz4R0dJNT9VBNm0qAb2U5MaoCHegNF5Jtd2XAmak=;
+	b=Mb9N829fxpXg+HbuCFzymFQqE5e4UuzrLmuaaIxvrgVecUZv/EXmt3LKM5C90MKNCa
+	2HLoKsAme/wCBtJitx5+bA6Kk1rabfcDm7sqMyDyUrOBR/acVqFosC8ciaHqDGIKrBI2
+	JUX6pukHFsmxtNalvFOIFGAs55WteuVuB/28g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=DgAEFiaCb9ENBpNOQN/3DczCYYjhA6pr/hzJPrYCsSA=;
-	b=S3FZnn0QRGUmW0DvAOJMB3YUr9Dqy+5krlH294RKIZe27zB9kfk0GKoBHcXnvSnm0W
-	6ojJ5zbGbM3/AZRSvc9WUO3/nNdvLAqd2Sdl3PPfkRdKkadhd4XPHwkzQoFsNbMob/1G
-	PX6imqbKS8WAJgDCMsTxSZhqqsEwEOIMJJKEc8j6XElapx//F1fk3w3M50U3qygx4GwC
-	3VokQNdYU4pVDfIX7hc/2iChqI9bQjbcxh2+5d+bk7iMSr8XWFPgtMeI3Y5tsr4DWG7/
-	aUpoSKvRX+h+rAdAz4kFjOqnyD8p4mFVEtYXQpPTVYbDk6RvOHkU4pEOKInfC8aDAyEv
-	ku9A==
-X-Gm-Message-State: APjAAAUwqLUI9yt+RKACLJdg3MVykDDXyJA4YgHyugRJ/oeD1GwZe/aA
-	ohwfm6PFoiF+Zm0z75dw1ZbRkQ==
-X-Google-Smtp-Source: APXvYqxwYy+GalcEecbkD3wnehWbYQ0Xvahvv4awQyHJZkfkBj9Hfr7L8sB2K80uRcLb+hnPA69dIA==
-X-Received: by 2002:a1c:2743:: with SMTP id n64mr2491767wmn.19.1556619596356; 
-	Tue, 30 Apr 2019 03:19:56 -0700 (PDT)
+	bh=FiOCz4R0dJNT9VBNm0qAb2U5MaoCHegNF5Jtd2XAmak=;
+	b=ZyIOFcjlM1d4PmUXdFd7pfnDoifCqIyEMTtaNY+EU2KhB9dlKaRYdlGkOha4cLsr7V
+	v/z4Cx9L6L6A2Eweb+Kta3/X6AtDD4uhbRWu3mBPcXHUJUeoemeVlT5WLcTfMk3w3l55
+	a7l5lQYl7iwJuREyBb3PkBaZR5CXJGyBXjxQuZ1ALSOxFjVm2H5q5zc82aOkue4AayfL
+	rV9e2IbNiHRN58MM6R//hcG4IKIrJsrKul0YCsL/KcM7OsVFlLTThpwuSFaSJAQwW2zx
+	7PnHZXvqymowYISBATFh9t/DocIwDhnXjc7w8QtDqPz2M8njHoajbRch949wUW3C1V2Y
+	FvVA==
+X-Gm-Message-State: APjAAAXO+CAwahnUY9hxUYiVmMjn9eTolqyQaiT0i9OlHkCJy9K1O/lX
+	vPk4O4iD9CDYIFz5JNCqA2F0MQ==
+X-Google-Smtp-Source: APXvYqwR7JrFGqf+7s+RJKhyGnTLR1w4IEK8O+NXUB0le/rK6xihrdr/cmcj0Us9NNNBjFG+EFJpRQ==
+X-Received: by 2002:a1c:b189:: with SMTP id a131mr2572549wmf.107.1556620016206;
+	Tue, 30 Apr 2019 03:26:56 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	l127sm2693952wml.40.2019.04.30.03.19.54
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 30 Apr 2019 03:19:55 -0700 (PDT)
-Message-ID: <719f10333b6dc28ffe36c6f61f28528e7d888ee5.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: kai.kang@windriver.com
-Date: Tue, 30 Apr 2019 11:19:53 +0100
-In-Reply-To: <20190430071539.145427-2-kai.kang@windriver.com>
-References: <20190430071539.145427-1-kai.kang@windriver.com>
-	<20190430071539.145427-2-kai.kang@windriver.com>
+	by smtp.gmail.com with ESMTPSA id o5sm1873710wmc.16.2019.04.30.03.26.55
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 30 Apr 2019 03:26:55 -0700 (PDT)
+Message-ID: <36c9eed229ab8b2bedc6e6903a5be396abc7d1de.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Andrej Valek <andrej.valek@siemens.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 30 Apr 2019 11:26:54 +0100
+In-Reply-To: <20190430095917.3680-1-andrej.valek@siemens.com>
+References: <20190430095917.3680-1-andrej.valek@siemens.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] target-sdk-provides-dummy: set nostamp for do_package
+Subject: Re: [PATCH 0/1] insane.bbclass: Add QA package check for mixed bins and libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,81 +57,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 10:19:56 -0000
+X-List-Received-Date: Tue, 30 Apr 2019 10:26:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-04-30 at 03:15 -0400, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
+On Tue, 2019-04-30 at 11:59 +0200, Andrej Valek wrote:
+> In multi-lib cases some packages with mixed binaries and libraries
+> could have a problem. Explanations with GDB and bmap-tools.
 > 
-> It exists a situation that there is a common config file includes
-> multilib.conf but variable MULTILIBS is not set by default:
+> GDB requires python binary (RDEPENDS) and bmap-tools too.
+> GDB is installed as 32bit variant and bmap-tools as 64bit.
+> In the current state both type (32+64) of required libraries
+> will be installed on the target. (I think' this is the right case.)
 > 
->   require conf/multilib.conf
->   MULTILIBS ?= ""
+> At the end a 32bit variant of binaries wins and overrides the 64bit.
+> Finally GDB is working without any problems and bmap-tools not.
+> Bacuse 64-bit python binary was overriden with 32-bit.
 > 
-> When build target-sdk-provides-dummy in the same build project with
-> following steps, it fails.
-> 
-> 1 $ echo 'MACHINE = "qemux86"' >>conf/local.conf
->   $ bitbake target-sdk-provides-dummy
-> 2 $ cat <<EOF >>conf/local.conf
->     MACHINE = "qemux86-64"
->     MULTILIBS = "multilib:lib32"
->     DEFAULTTUNE_virtclass-multilib-lib32 = "i586"
->     EOF
->   $ bitbake target-sdk-provides-dummy
->   $ bitbake lib32-target-sdk-provides-dummy
-> 
-> It fails to build lib32-target-sdk-provides-dummy with error
-> messages:
-> 
-> > ERROR: target-sdk-provides-dummy-1.0-r0 do_packagedata: The recipe
-> > target-sdk-provides-dummy
-> >  is trying to install files into a shared area when those files
-> > already exist. Those files
-> >  and their manifest location are:
-> >   .../tmp/pkgdata/qemux86-64/lib32-target-sdk-provides-dummy
-> >     (matched in manifest-qemux86_64-lib32-target-sdk-provides-
-> > dummy.packagedata)
-> >   .../tmp/pkgdata/qemux86-64/runtime/lib32-target-sdk-provides-
-> > dummy
-> >     (matched in manifest-qemux86_64-lib32-target-sdk-provides-
-> > dummy.packagedata)
-> >   ... snip ...
-> > Please verify which recipe should provide the above files.
-> 
-> Because target-sdk-provides-dummy is a virtual package, its sstate
-> caches are same for both qemux86 and qemux86_64. So when build
-> target-sdk-provides-dummy for qemux86_64, it re-uses the sstate cache
-> from qemux86 and then create file lib32-target-sdk-provides-dummy
-> under
-> ${PKGDATA_DIR} which should not and then conflicts with lib32-target-
-> sdk-provides-dummy.
-> 
-> Make do_package always be executed to fix the issue. Because it is a
-> dummy
-> package, it won't cost too much build time.
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-core/meta/target-sdk-provides-dummy.bb | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> index 85472a825c..e09a08bcd7 100644
-> --- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> +++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-> @@ -52,3 +52,5 @@ DUMMYPROVIDES = "\
->  "
->  
->  require dummy-sdk-package.inc
-> +
-> +do_package[nostamp] = "1"
+> All-arch variant has been disabled for multilib. Is there any special
+> reson why?
 
-This isn't the right way to fix it, we should probably whitelist that
-particular file for multiple providers. See SSTATE_DUPWHITELIST.
+Yes, this had long discussion and was done very reluctantly.
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=d9ba0219b2f6643ffc825d4b8d3494d07237dd0b
+
+was the commit but there was a lot of discussion on the list before it
+merged.
+
+> How we can proceed with this kind of problem? There are many others
+> tools like python, perl, ... . 
+> 
+> Just for info, I have run this check locally with current
+> `bitbake world`, >100 packages have this problem.
+
+Merging a QA test which causes hundreds of warnings isn't really going
+to help unless we have a strategy for fixing it.
+
+As I understand it, if you install python 32bit and 64 bit, you should
+get the libraries from both but only the binaries from the one that
+wins. That should mean anything linking to the lib should work?
+
+What am I missing? Is something not working like that? Is this with the
+rpm or opkg implementation? (they're very different)
 
 Cheers,
 
