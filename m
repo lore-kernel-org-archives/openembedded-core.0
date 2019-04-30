@@ -1,49 +1,28 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 407BE7DB8F
+Return-Path: <pascal.bach@siemens.com>
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CB0B7D258
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 11:54:15 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id l2so5007524wrb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 04:54:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=mVmHD9jvr/EunU8sntXm2g2AbYKukQM2t3ELQn8Xxac=;
-	b=a90PMU5yrjEkI0YcG0gGJ+caLPCMdgdZkfcXMTpa8VjwITP/hy0pNbJSM+mpd5NpIG
-	z2K57ooHm/wdAGD+ctHPe8V2Of2H+eyLdaM+Rt8JNOVn2Z4l2HhfQJMlgZe+JTLIeS0x
-	RMb3lVkQ9JKrL0z7ax26hN6xVZNLiUQcQ4tA/rekgYjeDr26UNewTskc1o4cMuj2VKky
-	ma4ioU8hTrIhFFYlJMoLWkLInNNmPxjsqoU33oyyLVT2WbAQ3mv91jdsOmD7hhGuR11G
-	h4YOVvxbHycm2LeayHnetP22ZYY1bW2rFIGhmLlK24/7t9s6wKmgXSnGNyh2QhRl7tNU
-	2RNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=mVmHD9jvr/EunU8sntXm2g2AbYKukQM2t3ELQn8Xxac=;
-	b=na9jnRREEldfdcFedy5H54mhKhPaoeoyNcsxOAsft7/zk7ByAw3axHuT9pUvtZpwso
-	z/hvcPyGc/JtsUkS48TaE4n0b1KLw1PUdGjevx0uLj0Ts4ujoAloIL355LzszUEpQa0z
-	RIiabupCeB5ETeXKfwipbgnNtXjSB2SWCRWA9gLzDTREXTXl/zzyTKf3uXzDCdjkC+et
-	UuIW9o+n45kp6rYg9J1cxndRMPQeTje3XJTwR162MG9ebLmMn9i1VoICu6iBDDhc3OnD
-	6mw/ZgCHkG6iAsJXaWHy7TlUd7XDd8/br7UWDM3pWa8LVzLMHfJU4LXNNVkefGlyWok7
-	ik3A==
-X-Gm-Message-State: APjAAAWZnNR8t1AfBgpVh5Uk1NoU4wh0mD+Eh13bDK87N/o6JrGKs/92
-	6Bh9MuwprxjyqZbHN1Ik87+ymBmV9Bo=
-X-Google-Smtp-Source: APXvYqwfCwUTQ47oTKY/sgMYVMxUPkmTCiU4RNiEwMA8W8YovrIkQebkCfcAFnKopZ0Uk5Cqxo8h/Q==
-X-Received: by 2002:adf:e4ca:: with SMTP id v10mr856857wrm.329.1556625255855; 
-	Tue, 30 Apr 2019 04:54:15 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id f8sm244012wmb.32.2019.04.30.04.54.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 04:54:15 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 30 Apr 2019 13:54:08 +0200
-Message-Id: <20190430115408.21601-2-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190430115408.21601-1-alex.kanavin@gmail.com>
-References: <20190430115408.21601-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/2] maintainers.inc: take over as perl maintainer
+	Tue, 30 Apr 2019 12:04:39 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x3UC4dnd005899
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
+	Tue, 30 Apr 2019 14:04:39 +0200
+Received: from [139.16.79.72] (MD1FZU9C.ad001.siemens.net [139.16.79.72])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id x3UC4dLg004026;
+	Tue, 30 Apr 2019 14:04:39 +0200
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Andrej Valek <andrej.valek@siemens.com>,
+	openembedded-core@lists.openembedded.org
+References: <20190430095917.3680-1-andrej.valek@siemens.com>
+	<36c9eed229ab8b2bedc6e6903a5be396abc7d1de.camel@linuxfoundation.org>
+From: Pascal Bach <pascal.bach@siemens.com>
+Message-ID: <94c5b33e-8c56-fcb1-2c75-10fb4f1ebeac@siemens.com>
+Date: Tue, 30 Apr 2019 14:04:39 +0200
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <36c9eed229ab8b2bedc6e6903a5be396abc7d1de.camel@linuxfoundation.org>
+Subject: Re: [PATCH 0/1] insane.bbclass: Add QA package check for mixed bins and libs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +35,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 11:54:15 -0000
+X-List-Received-Date: Tue, 30 Apr 2019 12:04:40 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Ross requested; I agreed :-)
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/conf/distro/include/maintainers.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 41c2a95d534..8c4548f2399 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -556,8 +556,8 @@ RECIPE_MAINTAINER_pn-pbzip2 = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-pciutils = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER_pn-pcmanfm = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-perf = "Bruce Ashfield <bruce.ashfield@gmail.com>"
--RECIPE_MAINTAINER_pn-perl = "Ross Burton <ross.burton@intel.com>"
--RECIPE_MAINTAINER_pn-perl-native = "Ross Burton <ross.burton@intel.com>"
-+RECIPE_MAINTAINER_pn-perl = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER_pn-perl-native = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-piglit = "Ross Burton <ross.burton@intel.com>"
- RECIPE_MAINTAINER_pn-pigz = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER_pn-pinentry = "Armin Kuster <akuster808@gmail.com>"
--- 
-2.17.1
+On 30.04.2019 12:26, Richard Purdie wrote:
+>
+> Merging a QA test which causes hundreds of warnings isn't really going
+> to help unless we have a strategy for fixing it.
+I agree merging this only makes sense if we commit to fixing the issue.
 
+In my opinion the strategy for fixing it would be to always split packages that consists of both binaries and libs into two.
+This is already done for many like sqlite3 (sqlite3 vs libsqlite3). This check would just ensure that this rule is always followed.
+
+This would make it easier to separate the two. Let's take the example that you have two applications A (32bit) and B (64bit) both using sqlite3.
+In this case the two would link to lib32-libsqlite3 and libsqlite3.
+
+If the package contained both the library and the binary you would end up with both libs but one of the two binaries (not sure this is deterministic).
+If the packages are only lib and only binary then you would explicitly need to select either the 32bit or the 64bit variant.
+
+In practice this would not only benefit the multilib case. It would also help with avoiding unnecessarily installed binaries just because somebody is using a library
+bundled in the same package.
+
+>
+> As I understand it, if you install python 32bit and 64 bit, you should
+> get the libraries from both but only the binaries from the one that
+> wins. That should mean anything linking to the lib should work?
+>
+> What am I missing? Is something not working like that? Is this with the
+> rpm or opkg implementation? (they're very different)
+I think the issue with scripting languages (especially python) is different from the general case above (sqlite3).
+And maybe the insane check in the current form is not covering all cases.
+
+
+Pascal
 
