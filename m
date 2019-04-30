@@ -1,63 +1,48 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
-	[64.147.123.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 0DB3D7DA0D
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B3547DBB2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 12:37:44 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.west.internal (Postfix) with ESMTP id 0449F754;
-	Tue, 30 Apr 2019 08:37:45 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-	by compute1.internal (MEProxy); Tue, 30 Apr 2019 08:37:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=mime-version:message-id:in-reply-to:references:date:from:to
-	:cc:subject:content-type; s=fm1; bh=918xO+iq1GfKsShBrsfKZK5gRpS0
-	/IDl/pC56M5Swo8=; b=hNmmk6ZzzjOK/teHXcsLt/8dfV87wNILAZPV9o2sd9e/
-	3h0waAwIT9xukZKkImS0bMtRCK04Ubd2yhmvW5T6hurwAVxfJjcV+yD1UHYp0AC1
-	/5DNL//nuJ4T9DILNM9k27IKiuauXxG9qYAPYkfDs5iOTKz2lVy7KSDaH7bal6MW
-	JT+qWpkM0rfN1aKkpQuybG9mAMwnEqRpRZvsq910k9xWi0OUICQi2C1WJqQyPg8g
-	k3wA/P97twE1ybP7Mvgt29I+K4do8VvSoFFnZCAgk+kQwom7Zi5pIuqSGl1DTp4C
-	4GrmqsYPBPlYDtZ8iylt8Ju+qVz7uuLPQfMMb3HITw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=918xO+
-	iq1GfKsShBrsfKZK5gRpS0/IDl/pC56M5Swo8=; b=Q5ihZSi9SMSiEHopzLSlvl
-	TugPIv2bS8/4WJ5ANta1JAsM7NYY5uwlf2NwTFkDv/7SbhqzI4aDjw87siZhwyU3
-	RFd1JPKpv3BZ/5yk1AdfQ+6nkKJGbnCwUtj5vOslLwG0T8+iOoCOwPUkcLKR1R6a
-	WvBfYHjwOkIleFk2VgmvGeoRcEqHL8q1YSwfRwBCVlAmdEA7cQlyrLsW+dTsMCHg
-	8P6AtDUCjz+NvR1sdUl3dLEVoRqdaQlUyvxVROQ6Q8oyzzMLpKchpUuRa8M59qdY
-	TMxdoIr4BzJSrNRMr+GFWd7DEjWdvl1b9/zr6bqm8D1+DkS41VeqnBmq8zxOPF1Q
-	==
-X-ME-Sender: <xms:mUHIXGPsRnEy2n24mDKp447CEOUvQCwOOHEIx9Mk27DbEDXFlpmZMg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieeggdehhecutefuodetggdotefrodftvf
-	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-	fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedfrfgruhhl
-	uceurghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecuffhomh
-	grihhnpehgihhthhhusgdrtghomhenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhl
-	segsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:mUHIXNUgNb7F689NQcBEheoCl4F-O-o0RlR8rt_W5UPv9qvyxFXc9w>
-	<xmx:mUHIXHiesVMkj2ALIdyF7l8t6IOC8_7bjcN3poyjyHzdE_5qnVtrvg>
-	<xmx:mUHIXLRSf3VWMWRcMlXDoJsJ1V5-2mUbwwlj7cY-5-HkTSlusQqW6w>
-	<xmx:mUHIXENgFDXsKPIUQrBO_S61Hm3HGNtCEFvVm4lEKCn0EgbUBy2wbg>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 350117C199; Tue, 30 Apr 2019 08:37:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-448-g5cc1c91-fmstable-20190429v1
-Mime-Version: 1.0
-Message-Id: <59e7467e-70a5-4174-8c5b-65790bccda63@www.fastmail.com>
-In-Reply-To: <CAO5Uq5TbThvLxoeONBEdRfGEjSuZir+Wphxn5sNgivaB2a9UOg@mail.gmail.com>
-References: <20190429144325.63744-1-alex.kiernan@gmail.com>
-	<057307c5-9cd5-49d4-b73e-6bf9be16f710@www.fastmail.com>
-	<CAO5Uq5RTE1J6YVQLZ0zhsBHLi=m2fCxgq49mvdUkJJ3iorCQkA@mail.gmail.com>
-	<22a9ceb8-073a-4ee9-8ce7-36c2b311b2e9@www.fastmail.com>
-	<CAO5Uq5TbThvLxoeONBEdRfGEjSuZir+Wphxn5sNgivaB2a9UOg@mail.gmail.com>
-Date: Tue, 30 Apr 2019 08:37:44 -0400
-From: "Paul Barker" <paul@betafive.co.uk>
-To: "Alex Kiernan" <alex.kiernan@gmail.com>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 0/6] Fix systemd service enables/move towards "stateless" configuration
+	Tue, 30 Apr 2019 13:16:25 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id l10so1163003iti.3
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 30 Apr 2019 06:16:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=UIROdxofO36vfLbSLU3vbNK039S0kHHuf6YT385drqM=;
+	b=D2mIivp090ar1MsQqzdj6TWG2M8LocigJci8v16kh0RKemhug+uPKhmsPJ7kPdYiGo
+	pqCmY1o2c24aZp5y6BB148UhkfI3hG0jQeCetPY4qWiG6a8T9LM811kpKxP3gufNYMlh
+	hgx76x71UOvknOuwthI3se14CKKvxz611gX0j8/tHxYj6ykqhBNll3vVxnGpUAZiChd5
+	us1Ci1jLlIR4GqYWQVLYDDixO1JJRZ8ByoDwAPBCXIY63yyQ610ZOnE8Qh466gKC5slS
+	KdJ6czB1tk782wTx729feCH41v7gvEwOo2wag2++Nc/ZnybN8OqPAPqInqpCgI/JbtHW
+	Jjlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=UIROdxofO36vfLbSLU3vbNK039S0kHHuf6YT385drqM=;
+	b=ogvcrAtp3LnwJoIDjVyTOILfc9VkyCd1aZIbryZsCcFFkRSnT95yPKF3i3nK6yQlAh
+	pvMuzHaftk9K/lT4S90eaAyhBzJYI+H1kJr2vpQlScaqLhivPR4su5sji17BaAaoNJLA
+	gxTBMGc3UtHpz8HxlMTP/dcM9RywA+zFVTSkXCuymPFk8CsWyGvpYBTx4+lEQH+6tpXG
+	hwa5mOIoWajfjeLBFxZB/4f/d/2Zx3Y8AXbOBi+U5+Dy2UV0ZRmwXY0Bo2dleF5sol4y
+	8h/j/ifF7Veg8jr2L+CVjlKk4Odfi+fh+5vFV2Z3tjhHZ3uQccbnJH2bOnKgCiYuK6hE
+	H3Rg==
+X-Gm-Message-State: APjAAAVQgcMLsAHWYxgPwKLdcMqjCOl9uG4LwVmYTC66YuKYOsx0WQWk
+	uE/ShVlZy520ABGT9RMoi/ckxYi25t/XPC/FVXSeiA==
+X-Google-Smtp-Source: APXvYqy61Hjxkw0V0f56nw+MRnLrEyTOtzi74F/1WbILEdukI2igxMFTtrmgiu+YcyygsdZOEgHD+3ws5mOFWz+Du40=
+X-Received: by 2002:a24:ad2:: with SMTP id 201mr3312427itw.26.1556630186541;
+	Tue, 30 Apr 2019 06:16:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <5CC12A3E.4010702@windriver.com>
+	<1556610320-114012-1-git-send-email-mingli.yu@windriver.com>
+In-Reply-To: <1556610320-114012-1-git-send-email-mingli.yu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 30 Apr 2019 14:16:15 +0100
+Message-ID: <CAJTo0LZnTfeC66-BWnhhXrb6w9eRsUH-hMostVgtKLY4mxwA3A@mail.gmail.com>
+To: Mingli Yu <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] glib-2.0: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -70,57 +55,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 12:37:45 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 30 Apr 2019 13:16:25 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 30 Apr 2019, at 13:33, Alex Kiernan wrote:
-> On Tue, Apr 30, 2019 at 1:24 PM Paul Barker <paul@betafive.co.uk> wrote:
-> >
-> > On Tue, 30 Apr 2019, at 13:14, Alex Kiernan wrote:
-> > > On Tue, Apr 30, 2019 at 1:08 PM Paul Barker <paul@betafive.co.uk> wrote:
-> > > >
-> > > > On Mon, 29 Apr 2019, at 15:44, Alex Kiernan wrote:
-> > > > > As a result of the systemd 242 upgrade, which includes 01d2041e41f4
-> > > > > ("meson: stop creating enablement symlinks in /etc during
-> > > > > installation"), services such as systemd-networkd are no longer enabled
-> > > > > in images.
-> > > > >
-> > > >
-> > > > As an aside - is this systemd upgrade why on raspberrypi3 with master branches I recently have no console on tty1 and `/etc/systemd/system/getty.target.wants/getty@tty1.service` is missing?
-> > > >
-> > >
-> > > I suspect so - certainly getty@ is one of the things that's was
-> > > touched in the upstream commit.
-> > >
-> >
-> > Doing some reading now.
-> >
-> > The discussion on https://github.com/systemd/systemd/issues/12345 suggests we should be running `systemctl preset-all` or at least `systemctl enable getty@tty1` on first boot.
-> 
-> That's what this patchset does (`systemctl preset-all`), or rather it
-> builds images without /etc/machine-id which triggers systemd to do it.
-> 
-> > Maybe this should be handled at the BSP level so we can decide whether to enable getty@tty1 or not on a per-machine basis.
-> >
-> 
-> Once I'm done you should be able to install preset files which then
-> determine what gets enabled/disabled, the only real question I've got
-> is if we should always do this at image build time, or leave it for
-> first boot and let systemd do it (on read-write images at least).
-> 
-> > However, I can't see an easy way to resolve this at BSP level right now. I know how to add a systemd service file in a package and enable it but in this case we're looking to enable a service which is already installed. Reading through systemd.bbclass and the relevant docs doesn't give any suggestions. Is there any straightforward way to enable an already installed service?
-> >
-> 
-> Personally, if I needed it fixing right now, I'd probably add a hack
-> during rootfs build to put the symlinks in the right place.
-> 
+On Tue, 30 Apr 2019 at 08:45, <mingli.yu@windriver.com> wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+>
+> * Install 7 translation packages to fix 7 ptest
+>   failures such as:
+>   | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
+>   | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1716:test_month_names: assertion failed (p_casefold == (o_casefold)): ("nov" == "stu")
+>   | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1731:test_month_names: assertion failed (p_casefold == (o_casefold)): ("jul" == "liep.")
 
-Thanks for the advice, I understand much better now. I think for now I'll pin oe-core to the last commit before the systemd upgrade (ac64c3b96b...) so we can carry on our development. I'll watch out for this patch series going into master and then test it out again.
+Would be better if we had a meta-package to install 'all
+translations', but we don't.
 
-Thanks,
+> * Increase the timeout to 15 minutes as the default
+>   timeout which is 5 minutes is not enough to fix below error:
+>   | Executing: glib/actions.test
+>   | Test timed out after 300 seconds
+>   | cleaning up pid 13050
+>   | FAIL: glib/actions.test (Child process killed by signal 9)
 
--- 
-Paul Barker
-Managing Director & Principal Engineer
-Beta Five Ltd
+Looks like we're working around a test case that is going to fail
+because it is timing out.  Let's investigate why it is taking so long
+instead.
+
+> * There are 240+ ptest cases for glib-2.0 and one
+>   case is gdatetime.test. And there are 53 sub-cases
+>   under gdatetime.test.
+>
+>   Among of the 53 sub-cases of gdatetime.test, there
+>   is one sub-case named test_month_names.
+>
+>   For test_month_names case, there are also 64 cases
+>   against it. Comment 2 cases of test_month_names
+>   as a workaround to fix the below test_month_names
+>   failure as the issue also exists in the latest version:
+>   | GLib:ERROR:../glib-2.60.1/glib/tests
+>   /gdatetime.c:1702:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\316\261\317\205\316\263" == "\316\261\317\215\316\263")
+>   | GLib:ERROR:../glib-2.60.1/glib/tests/gdatetime.c:1765:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\320\274\320\260\321\217" == "\320\274\320\260\320\271")
+>
+>   Have reported the above issues to upstream as
+>   https://gitlab.gnome.org/GNOME/glib/issues/1759
+>   and as the failure even exists on the latest version 2.60.1
+>   until now, so comment it as a workaround until the
+>   upstream fixs it.
+
+The test is failing and we don't know why, so it should continue to
+fail.  We don't get to 100% pass rate by disabling every test that
+fails.
+
+Can you drop the timeout and datetime test removal, leaving just the
+translation additions?
+
+Ross
 
