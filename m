@@ -1,48 +1,61 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
-	[209.85.217.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 078F47DA0D
+Return-Path: <paul@betafive.co.uk>
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com
+	[64.147.123.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 0DB3D7DA0D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 12:33:26 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id j184so7827296vsd.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 05:33:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=p3kL4tzzQYq1SySG36AHWRAY++8g/glNpow9SDk5d5w=;
-	b=Va20Ivj2ZhHJi7B40b2W4zn4JdqpFxv7WKujs/Kcn3WGzD4JGhA6kKdSnvb6VVZPCI
-	dWbewDhQxklS3dLUz2wZt6doKi1Of9BzjRzA8cAuY/0UmTX0II2GFxL1yChg9aKC08CO
-	00B3gVRz/vH3FXZl5pOK6XUrIW7kfc2V2d1YoZ152I50TC7DgWSwCctg3W4CcbWMk/fN
-	7HAS0ARzrBXxTdZC9qEq2SVTj7W4dGoy/5USTnjbpzUbvDiQ9ZqAw0Uoxm4YgJw7sqUt
-	T6E7vJ6ovHg4fpahZiW++njetpnAV9iXqteCETqsmximlgMZgCLmSHUD/8Q06YcR1hkS
-	fFXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=p3kL4tzzQYq1SySG36AHWRAY++8g/glNpow9SDk5d5w=;
-	b=oMSx5m6kq/xPt9V0bkYqSQ8WYV2sboZ4kQdGEgB2BxqD7HoGh/DEE65Wx498SlvQ2g
-	rXRKGwEvQ7PgMAbkwDak1b5JpFm3q2x37WK0fIvJxXOSpPD0BOIp22lQQviSvVxU+BSR
-	UgDMbfvN7kkBqJO6Ue/sLA6X7ynC2EXeCoCXqg8QPNcGRIsDDYVoHmtw/wRwwdSXXCB7
-	JiAzdIwR37dhyPZi16ikudMsCa0Q9M0CGWrlEeauyNbIiwaBpBPtUazQXPo6HFSO+i37
-	0shym0grj52faJu0BF5INdW2uC8Bt1NPb7cAk2gvj/dbPysbUWC9Kwl0AcwOlA7Z5yV6
-	Ixng==
-X-Gm-Message-State: APjAAAUAmei5shqNLnOB218R0JkCr5sBpFsZ/UxbVKObPq/I9GY12xnk
-	y8GWYoPdVY/lvNlhoFD4scopO7LyZRKozuooWM4=
-X-Google-Smtp-Source: APXvYqz925QqCofPGuus47VIfWaCVYvGdQRZLbrnrbTT4ysg0tDWNxVdAHQSbszdWfmmgIpGq/P9gqvsh1/oK3uy2Ks=
-X-Received: by 2002:a67:fa4d:: with SMTP id j13mr35403169vsq.22.1556627607767; 
-	Tue, 30 Apr 2019 05:33:27 -0700 (PDT)
-MIME-Version: 1.0
+	Tue, 30 Apr 2019 12:37:44 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.west.internal (Postfix) with ESMTP id 0449F754;
+	Tue, 30 Apr 2019 08:37:45 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+	by compute1.internal (MEProxy); Tue, 30 Apr 2019 08:37:46 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=mime-version:message-id:in-reply-to:references:date:from:to
+	:cc:subject:content-type; s=fm1; bh=918xO+iq1GfKsShBrsfKZK5gRpS0
+	/IDl/pC56M5Swo8=; b=hNmmk6ZzzjOK/teHXcsLt/8dfV87wNILAZPV9o2sd9e/
+	3h0waAwIT9xukZKkImS0bMtRCK04Ubd2yhmvW5T6hurwAVxfJjcV+yD1UHYp0AC1
+	/5DNL//nuJ4T9DILNM9k27IKiuauXxG9qYAPYkfDs5iOTKz2lVy7KSDaH7bal6MW
+	JT+qWpkM0rfN1aKkpQuybG9mAMwnEqRpRZvsq910k9xWi0OUICQi2C1WJqQyPg8g
+	k3wA/P97twE1ybP7Mvgt29I+K4do8VvSoFFnZCAgk+kQwom7Zi5pIuqSGl1DTp4C
+	4GrmqsYPBPlYDtZ8iylt8Ju+qVz7uuLPQfMMb3HITw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=918xO+
+	iq1GfKsShBrsfKZK5gRpS0/IDl/pC56M5Swo8=; b=Q5ihZSi9SMSiEHopzLSlvl
+	TugPIv2bS8/4WJ5ANta1JAsM7NYY5uwlf2NwTFkDv/7SbhqzI4aDjw87siZhwyU3
+	RFd1JPKpv3BZ/5yk1AdfQ+6nkKJGbnCwUtj5vOslLwG0T8+iOoCOwPUkcLKR1R6a
+	WvBfYHjwOkIleFk2VgmvGeoRcEqHL8q1YSwfRwBCVlAmdEA7cQlyrLsW+dTsMCHg
+	8P6AtDUCjz+NvR1sdUl3dLEVoRqdaQlUyvxVROQ6Q8oyzzMLpKchpUuRa8M59qdY
+	TMxdoIr4BzJSrNRMr+GFWd7DEjWdvl1b9/zr6bqm8D1+DkS41VeqnBmq8zxOPF1Q
+	==
+X-ME-Sender: <xms:mUHIXGPsRnEy2n24mDKp447CEOUvQCwOOHEIx9Mk27DbEDXFlpmZMg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieeggdehhecutefuodetggdotefrodftvf
+	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+	fjughrpefofgggkfgjfhffhffvufgtsehttdertderreejnecuhfhrohhmpedfrfgruhhl
+	uceurghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecuffhomh
+	grihhnpehgihhthhhusgdrtghomhenucfrrghrrghmpehmrghilhhfrhhomhepphgruhhl
+	segsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:mUHIXNUgNb7F689NQcBEheoCl4F-O-o0RlR8rt_W5UPv9qvyxFXc9w>
+	<xmx:mUHIXHiesVMkj2ALIdyF7l8t6IOC8_7bjcN3poyjyHzdE_5qnVtrvg>
+	<xmx:mUHIXLRSf3VWMWRcMlXDoJsJ1V5-2mUbwwlj7cY-5-HkTSlusQqW6w>
+	<xmx:mUHIXENgFDXsKPIUQrBO_S61Hm3HGNtCEFvVm4lEKCn0EgbUBy2wbg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 350117C199; Tue, 30 Apr 2019 08:37:45 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-448-g5cc1c91-fmstable-20190429v1
+Mime-Version: 1.0
+Message-Id: <59e7467e-70a5-4174-8c5b-65790bccda63@www.fastmail.com>
+In-Reply-To: <CAO5Uq5TbThvLxoeONBEdRfGEjSuZir+Wphxn5sNgivaB2a9UOg@mail.gmail.com>
 References: <20190429144325.63744-1-alex.kiernan@gmail.com>
 	<057307c5-9cd5-49d4-b73e-6bf9be16f710@www.fastmail.com>
 	<CAO5Uq5RTE1J6YVQLZ0zhsBHLi=m2fCxgq49mvdUkJJ3iorCQkA@mail.gmail.com>
 	<22a9ceb8-073a-4ee9-8ce7-36c2b311b2e9@www.fastmail.com>
-In-Reply-To: <22a9ceb8-073a-4ee9-8ce7-36c2b311b2e9@www.fastmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 30 Apr 2019 13:33:16 +0100
-Message-ID: <CAO5Uq5TbThvLxoeONBEdRfGEjSuZir+Wphxn5sNgivaB2a9UOg@mail.gmail.com>
-To: Paul Barker <paul@betafive.co.uk>
+	<CAO5Uq5TbThvLxoeONBEdRfGEjSuZir+Wphxn5sNgivaB2a9UOg@mail.gmail.com>
+Date: Tue, 30 Apr 2019 08:37:44 -0400
+From: "Paul Barker" <paul@betafive.co.uk>
+To: "Alex Kiernan" <alex.kiernan@gmail.com>
 Cc: OE Core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH v5 0/6] Fix systemd service enables/move towards "stateless" configuration
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -57,62 +70,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 12:33:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 30 Apr 2019 12:37:45 -0000
+Content-Type: text/plain
 
-On Tue, Apr 30, 2019 at 1:24 PM Paul Barker <paul@betafive.co.uk> wrote:
->
-> On Tue, 30 Apr 2019, at 13:14, Alex Kiernan wrote:
-> > On Tue, Apr 30, 2019 at 1:08 PM Paul Barker <paul@betafive.co.uk> wrote=
-:
-> > >
-> > > On Mon, 29 Apr 2019, at 15:44, Alex Kiernan wrote:
-> > > > As a result of the systemd 242 upgrade, which includes 01d2041e41f4
-> > > > ("meson: stop creating enablement symlinks in /etc during
-> > > > installation"), services such as systemd-networkd are no longer ena=
-bled
-> > > > in images.
+On Tue, 30 Apr 2019, at 13:33, Alex Kiernan wrote:
+> On Tue, Apr 30, 2019 at 1:24 PM Paul Barker <paul@betafive.co.uk> wrote:
+> >
+> > On Tue, 30 Apr 2019, at 13:14, Alex Kiernan wrote:
+> > > On Tue, Apr 30, 2019 at 1:08 PM Paul Barker <paul@betafive.co.uk> wrote:
+> > > >
+> > > > On Mon, 29 Apr 2019, at 15:44, Alex Kiernan wrote:
+> > > > > As a result of the systemd 242 upgrade, which includes 01d2041e41f4
+> > > > > ("meson: stop creating enablement symlinks in /etc during
+> > > > > installation"), services such as systemd-networkd are no longer enabled
+> > > > > in images.
+> > > > >
+> > > >
+> > > > As an aside - is this systemd upgrade why on raspberrypi3 with master branches I recently have no console on tty1 and `/etc/systemd/system/getty.target.wants/getty@tty1.service` is missing?
 > > > >
 > > >
-> > > As an aside - is this systemd upgrade why on raspberrypi3 with master=
- branches I recently have no console on tty1 and `/etc/systemd/system/getty=
-.target.wants/getty@tty1.service` is missing?
+> > > I suspect so - certainly getty@ is one of the things that's was
+> > > touched in the upstream commit.
 > > >
 > >
-> > I suspect so - certainly getty@ is one of the things that's was
-> > touched in the upstream commit.
+> > Doing some reading now.
 > >
->
-> Doing some reading now.
->
-> The discussion on https://github.com/systemd/systemd/issues/12345 suggest=
-s we should be running `systemctl preset-all` or at least `systemctl enable=
- getty@tty1` on first boot.
+> > The discussion on https://github.com/systemd/systemd/issues/12345 suggests we should be running `systemctl preset-all` or at least `systemctl enable getty@tty1` on first boot.
+> 
+> That's what this patchset does (`systemctl preset-all`), or rather it
+> builds images without /etc/machine-id which triggers systemd to do it.
+> 
+> > Maybe this should be handled at the BSP level so we can decide whether to enable getty@tty1 or not on a per-machine basis.
+> >
+> 
+> Once I'm done you should be able to install preset files which then
+> determine what gets enabled/disabled, the only real question I've got
+> is if we should always do this at image build time, or leave it for
+> first boot and let systemd do it (on read-write images at least).
+> 
+> > However, I can't see an easy way to resolve this at BSP level right now. I know how to add a systemd service file in a package and enable it but in this case we're looking to enable a service which is already installed. Reading through systemd.bbclass and the relevant docs doesn't give any suggestions. Is there any straightforward way to enable an already installed service?
+> >
+> 
+> Personally, if I needed it fixing right now, I'd probably add a hack
+> during rootfs build to put the symlinks in the right place.
+> 
 
-That's what this patchset does (`systemctl preset-all`), or rather it
-builds images without /etc/machine-id which triggers systemd to do it.
+Thanks for the advice, I understand much better now. I think for now I'll pin oe-core to the last commit before the systemd upgrade (ac64c3b96b...) so we can carry on our development. I'll watch out for this patch series going into master and then test it out again.
 
-> Maybe this should be handled at the BSP level so we can decide whether to=
- enable getty@tty1 or not on a per-machine basis.
->
+Thanks,
 
-Once I'm done you should be able to install preset files which then
-determine what gets enabled/disabled, the only real question I've got
-is if we should always do this at image build time, or leave it for
-first boot and let systemd do it (on read-write images at least).
-
-> However, I can't see an easy way to resolve this at BSP level right now. =
-I know how to add a systemd service file in a package and enable it but in =
-this case we're looking to enable a service which is already installed. Rea=
-ding through systemd.bbclass and the relevant docs doesn't give any suggest=
-ions. Is there any straightforward way to enable an already installed servi=
-ce?
->
-
-Personally, if I needed it fixing right now, I'd probably add a hack
-during rootfs build to put the symlinks in the right place.
-
---=20
-Alex Kiernan
+-- 
+Paul Barker
+Managing Director & Principal Engineer
+Beta Five Ltd
 
