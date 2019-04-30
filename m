@@ -1,51 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 33E047D6B4
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 98C227D5FD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 08:37:03 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id h11so2831434wmb.5
+	Tue, 30 Apr 2019 09:08:22 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x3U98Mbe014698
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 30 Apr 2019 01:37:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=oHBSDpvK9xkyFAku/ZwosvEI8FlIwKqo/5PwGapZ5Ao=;
-	b=X77iby2TeM6r7A05VrBkdmDKjpafnog4JamRCtEZg0rRqgFigMkEO7/4GoRYusWxt4
-	MER5X24SlAX/TxVkGRj1irjsljXPZzA5qk4pG2KJtqPrOCOymNwtaoeopPsfUqCAxmAP
-	7kEl4aHvdlKJUMLNP3oQ0m6ruttoZ8pApiPv8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=oHBSDpvK9xkyFAku/ZwosvEI8FlIwKqo/5PwGapZ5Ao=;
-	b=gKj3WucEHffWdzIeu7C7oYzQSkoZo3lUOkKgOVs1PxoF1RmjQV37nLSLWQhBOs5Gz2
-	DSh2Mf22uLVzUCqMYWuea8pWUJwGRo0qG20e2QxX11UBGo7UnLiJ4qAU15YyaxFU7stE
-	CMuACF85UES7dOHftMC5CnYlBQdQGtGij8KZSsFQHdfRxzvuGM0ryY3aJQVfrwUC7obU
-	LT1alLlqIKPhMn+ZKH0hpH7Zo8AFF9ghfdnrmkW88FOvQoN6WUmFRUfQNc5jV1gkaOo2
-	u2YYb5cBJeNTkarh5//JlduYnfb8H9halDR7fTutsZeAvn+WHc13i0hrPyysWKDL+55/
-	VZYQ==
-X-Gm-Message-State: APjAAAUt2oxz+V9WO/UxDVj8ds5hBMfhkfewgzwzgxrVH9zZoXm+mlnz
-	O92xbGP23WGbriide3frt7yFjw==
-X-Google-Smtp-Source: APXvYqzGbxBMCFk5MJ3ZT8VXM3I+y6gsIaKGdeOM97mKP2CJROIJjUlSckMLi+eeatNGl9miqp9n6A==
-X-Received: by 2002:a1c:7d14:: with SMTP id y20mr2274269wmc.26.1556613423737; 
-	Tue, 30 Apr 2019 01:37:03 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	e6sm29329361wrc.96.2019.04.30.01.37.02
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Apr 2019 01:37:02 -0700 (PDT)
-Message-ID: <e9de6b6c335464a1eb8321d0c85697f815918354.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Douglas Royds <douglas.royds@taitradio.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 30 Apr 2019 09:37:01 +0100
-In-Reply-To: <20190430023405.29459-1-douglas.royds@taitradio.com>
-References: <20190430023405.29459-1-douglas.royds@taitradio.com>
-User-Agent: Evolution 3.32.1-2 
+	Tue, 30 Apr 2019 02:08:23 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Tue, 30 Apr 2019 02:08:22 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 30 Apr 2019 17:08:21 +0800
+Message-ID: <1556615301-328879-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: Re: [PATCH] distutils: Run python from the PATH in the -native case as well
+Subject: [PATCH V4] populate_sdk_base: provide options to set sdk type
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,84 +30,140 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 30 Apr 2019 08:37:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 30 Apr 2019 09:08:22 -0000
+Content-Type: text/plain
 
-On Tue, 2019-04-30 at 14:34 +1200, Douglas Royds via Openembedded-core wrote:
-> The python distutils generate a python wrapper script for each package.
-> These python scripts have shebang lines pointing to the python executable.
-> In our case, this is a fully-qualified path to python-native in the
-> recipe-sysroot-native.
-> 
-> Ubuntu 18.04 restricts the useful length of the shebang line to 125
-> characters, and Ubuntu 16.04 restricts it to 77. In both cases, the
-> staged python script fails to run due to the length of the path to
-> the python-native executable.
-> 
-> Replace the shebang line with:
-> 
->     #!/usr/bin/env python
-> 
-> We were already doing this for on-target distutils components.
-> This change applies the sed-line to -native distutils components as
-> well.
-> 
-> The python executable must be in the PATH.
-> Client components must inherit pythonnative.
-> 
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
->  meta/classes/distutils.bbclass | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
-> 
-> diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-> index 9862731493..e7d79271e3 100644
-> --- a/meta/classes/distutils.bbclass
-> +++ b/meta/classes/distutils.bbclass
-> @@ -53,18 +53,14 @@ distutils_do_install() {
->  
->          if test -e ${D}${bindir} ; then	
->              for i in ${D}${bindir}/* ; do \
-> -                if [ ${PN} != "${BPN}-native" ]; then
-> -			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
-> -		fi
-> +                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
->                  sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
->              done
->          fi
->  
->          if [ -e ${D}${sbindir} ]; then
->              for i in ${D}${sbindir}/* ; do \
-> -                if [ ${PN} != "${BPN}-native" ]; then
-> -			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
-> -		fi
-> +                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
->                  sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
->              done
->          fi
+From: Changqing Li <changqing.li@windriver.com>
 
-I have a bad feeling that there is a reason we use the full path. I
-have memories of cases where the "python-native" component isn't in
-PATH but we obviously still want it to use our python since that is
-what its been built against.
+Current sdk type is tar.xz, but for mingw sdk, since we
+have symlink under the sdk folder, 7zip which used to
+extract tar.xz cannot handle it, refer 7zip upstream bug:
+https://sourceforge.net/p/sevenzip/discussion/45797/thread/c71d6b96/
+so add option for usr can select the sdk type.
 
-One fix would be to apply this, then ensure all those locations inherit
-the pythonnative bbclass however I think that becomes annoying as
-anything using the recipe as a dependency also has to inherit the
-class.
+Add override SDK_ARCHIVE_TYPE, default type is tar.xz, and also
+support type zip. user want to use zip type can set SDK_ARCHIVE_TYPE
+to zip.
 
-I *think* we might have therefore created a nativepython symlink of
-some kind to ./python-native/python. The right fix might therefore be
-to use "${USRBINPATH}/env\ nativepython"?
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/classes/populate_sdk_base.bbclass | 29 ++++++++++++++++++++++-------
+ meta/files/toolchain-shar-extract.sh   | 22 ++++++++++++++++++++--
+ 2 files changed, 42 insertions(+), 9 deletions(-)
 
-You'll have to check the code for the correct names as I'm going from
-memory.
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/classes/populate_sdk_base.bbclass b/meta/classes/populate_sdk_base.bbclass
+index efaa5b9..a7f0fe7 100644
+--- a/meta/classes/populate_sdk_base.bbclass
++++ b/meta/classes/populate_sdk_base.bbclass
+@@ -45,8 +45,23 @@ TOOLCHAIN_TARGET_TASK ?= "${@multilib_pkg_extend(d, 'packagegroup-core-standalon
+ TOOLCHAIN_TARGET_TASK_ATTEMPTONLY ?= ""
+ TOOLCHAIN_OUTPUTNAME ?= "${SDK_NAME}-toolchain-${SDK_VERSION}"
+ 
++# Default archived SDK's suffix
++SDK_ARCHIVE_TYPE ?= "tar.xz"
++
++# To support different sdk type according to SDK_ARCHIVE_TYPE, now support zip and tar.xz
++python () {
++    if d.getVar('SDK_ARCHIVE_TYPE') == 'zip':
++       d.setVar('SDK_ARCHIVE_DEPENDS', 'zip-native')
++       # SDK_ARCHIVE_CMD used to generate archived sdk ${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} from input dir ${SDK_OUTPUT}/${SDKPATH} to output dir ${SDKDEPLOYDIR}
++       # recommand to cd into input dir first to avoid archive with buildpath
++       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; zip -r ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} .')
++    else:
++       d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
++       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz -T 0 > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
++}
++
+ SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
+-SDK_DEPENDS = "virtual/fakeroot-native xz-native cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
++SDK_DEPENDS = "virtual/fakeroot-native ${SDK_ARCHIVE_DEPENDS} cross-localedef-native nativesdk-qemuwrapper-cross ${@' '.join(["%s-qemuwrapper-cross" % m for m in d.getVar("MULTILIB_VARIANTS").split()])} qemuwrapper-cross"
+ PATH_prepend = "${STAGING_DIR_HOST}${SDKPATHNATIVE}${bindir}/crossscripts:${@":".join(all_multilib_tune_values(d, 'STAGING_BINDIR_CROSS').split())}:"
+ SDK_DEPENDS_append_libc-glibc = " nativesdk-glibc-locale"
+ 
+@@ -104,7 +119,7 @@ POPULATE_SDK_POST_TARGET_COMMAND_append = " write_sdk_test_data ; "
+ POPULATE_SDK_POST_TARGET_COMMAND_append_task-populate-sdk  = " write_target_sdk_manifest ; "
+ POPULATE_SDK_POST_HOST_COMMAND_append_task-populate-sdk = " write_host_sdk_manifest; "
+ SDK_PACKAGING_COMMAND = "${@'${SDK_PACKAGING_FUNC};' if '${SDK_PACKAGING_FUNC}' else ''}"
+-SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; tar_sdk; ${SDK_PACKAGING_COMMAND} "
++SDK_POSTPROCESS_COMMAND = " create_sdk_files; check_sdk_sysroots; archive_sdk; ${SDK_PACKAGING_COMMAND} "
+ 
+ def populate_sdk_common(d):
+     from oe.sdk import populate_sdk
+@@ -222,11 +237,10 @@ python check_sdk_sysroots() {
+ 
+ SDKTAROPTS = "--owner=root --group=root"
+ 
+-fakeroot tar_sdk() {
++fakeroot archive_sdk() {
+ 	# Package it up
+ 	mkdir -p ${SDKDEPLOYDIR}
+-	cd ${SDK_OUTPUT}/${SDKPATH}
+-	tar ${SDKTAROPTS} -cf - . | xz -9 ${XZ_DEFAULTS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
++	${SDK_ARCHIVE_CMD}
+ }
+ 
+ TOOLCHAIN_SHAR_EXT_TMPL ?= "${COREBASE}/meta/files/toolchain-shar-extract.sh"
+@@ -263,16 +277,17 @@ EOF
+ 		-e '/@SDK_PRE_INSTALL_COMMAND@/d' \
+ 		-e '/@SDK_POST_INSTALL_COMMAND@/d' \
+ 		-e 's#@SDK_GCC_VER@#${@oe.utils.host_gcc_version(d, taskcontextonly=True)}#g' \
++		-e 's#@SDK_ARCHIVE_TYPE@#${SDK_ARCHIVE_TYPE}#g' \
+ 		${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+ 	# add execution permission
+ 	chmod +x ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+ 	# append the SDK tarball
+-	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
++	cat ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE} >> ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.sh
+ 
+ 	# delete the old tarball, we don't need it anymore
+-	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.tar.xz
++	rm ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}
+ }
+ 
+ populate_sdk_log_check() {
+diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
+index 156085b..ccc4f4e 100644
+--- a/meta/files/toolchain-shar-extract.sh
++++ b/meta/files/toolchain-shar-extract.sh
+@@ -113,7 +113,16 @@ done
+ 
+ payload_offset=$(($(grep -na -m1 "^MARKER:$" $0|cut -d':' -f1) + 1))
+ if [ "$listcontents" = "1" ] ; then
+-    tail -n +$payload_offset $0| tar tvJ || exit 1
++    if [ @SDK_ARCHIVE_TYPE@ = "zip" ]; then
++        tail -n +$payload_offset $0 > sdk.zip
++        if unzip -l sdk.zip;then
++            rm sdk.zip
++        else
++            rm sdk.zip && exit 1
++        fi
++    else
++        tail -n +$payload_offset $0| tar tvJ || exit 1
++    fi
+     exit
+ fi
+ 
+@@ -232,7 +241,16 @@ if [ ! -x $target_sdk_dir -o ! -w $target_sdk_dir -o ! -r $target_sdk_dir ]; the
+ fi
+ 
+ printf "Extracting SDK..."
+-tail -n +$payload_offset $0| $SUDO_EXEC tar xJ -C $target_sdk_dir --checkpoint=.2500 $EXTRA_TAR_OPTIONS || exit 1
++if [ @SDK_ARCHIVE_TYPE@ = "zip" ]; then
++    tail -n +$payload_offset $0 > sdk.zip
++    if $SUDO_EXEC unzip $EXTRA_TAR_OPTIONS sdk.zip -d $target_sdk_dir;then
++        rm sdk.zip
++    else
++        rm sdk.zip && exit 1
++    fi
++else
++    tail -n +$payload_offset $0| $SUDO_EXEC tar xJ -C $target_sdk_dir --checkpoint=.2500 $EXTRA_TAR_OPTIONS || exit 1
++fi
+ echo "done"
+ 
+ printf "Setting it up..."
+-- 
+2.7.4
 
 
