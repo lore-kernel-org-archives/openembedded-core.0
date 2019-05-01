@@ -1,48 +1,54 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 831507D290
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 May 2019 15:44:44 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id k16so25040646wrn.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2019 08:44:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yREK/d1zkb6u2YRAU+mDkEhhdp7xgfkZgLKvtEjwXzE=;
-	b=T11dy9dP+uKdkYDXTbw0MxNuQNxFy2fBM5VyVNOTOPwxiFoqUpAuMpf1th/XGQ21bG
-	YmGDJgDVorG3QkWu/oTxg50VCmCcy3aVsc8faT2I49ufN3PpDwa6+K7I0m9vFNTeqx+8
-	0R2PSruNWc01kIBVisz2nV5QOjXzguFm7Ptog=
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 225977D9B4;
+	Wed,  1 May 2019 15:45:05 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id t200so10385514itf.4;
+	Wed, 01 May 2019 08:45:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:message-id:subject:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=aY6dFWpV7+tYH50HOgxeqDj9cCZmbI2WR6V7SXLX5J0=;
+	b=C1AHlAABe+BMb6ME/jykioP2OUfnPdtAWiJXCBFhXQlyTsBWw7/9cSpOvpfhv/VAZX
+	/Y3VQbx+kfjDiZhN1Xvx1URiMZk5UsGRw8UfzpDq/fOJqH8IQmEZX4BXykFXssU8Zj6X
+	annO0U9HaSdCmSPTW5kUYP7cKA/LdPF6vyaoN1hUuRlt323nyw/8R05ivMxos1eMf7Bq
+	eItX+hiEfE5ay66oLHZoLMk+Wg3blCnU6cyJ2Pjh+kIksVE+Hrv5VlGKNDr+M07qI6Vf
+	f3v/g8/juo3888pwlUm2MPGXgQfGO0Az8Ot19u7RC5tXqNY6MLoK274pAnJkLiF75vGA
+	TxRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=yREK/d1zkb6u2YRAU+mDkEhhdp7xgfkZgLKvtEjwXzE=;
-	b=ECPeAmPa9IeH74Yrn/czmQ4QQPPpDhabBXcTT8+Wn57OOdm5taXslrpKCwIr5yeatd
-	r0x6w+WV1x2iRh4xVAF2zUR1pLxkahm4u0jCmnAIDiDCNyYxIbn6nAwa50l/yJWLlpk2
-	cCrbBIBllcQCcBT8EX/E2MA8+mWuDZtXftzV/NyUtJNKjLom927VjHcTkUOC3Na0xqo+
-	0EmPoDMGUN3R/of6nuiRtjbLx8sDNiZsPXO/LoEYLNUjqEy+Vw55MAnr8MRW0ImMP2zI
-	KHlSlyPjybQPiEykCfj9UCfannmahJB9Ui0qBAbtZ6ngRE6Q2g75m6HRFlPZAgPQBlxC
-	EdEA==
-X-Gm-Message-State: APjAAAUe6AMgrHnvKmlGW+ed2/IiqR0M6ZwZyqnFt+kLhZuTUAo31D3M
-	1lMRLMzr5h3V+Gw2g2lQwVewQJMc1D8=
-X-Google-Smtp-Source: APXvYqwFMrEBngn+ZuwYZSAOnYiV7ieFri0Q3Pp0nCWJXLP1GVrpfj4Vp9vZz+zreoqetycDlAP6Uw==
-X-Received: by 2002:adf:cc8a:: with SMTP id p10mr7789567wrj.34.1556725484847; 
-	Wed, 01 May 2019 08:44:44 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y197sm5882815wmd.34.2019.05.01.08.44.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 May 2019 08:44:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 May 2019 16:44:42 +0100
-Message-Id: <20190501154442.10964-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=aY6dFWpV7+tYH50HOgxeqDj9cCZmbI2WR6V7SXLX5J0=;
+	b=swQfi+1CvZ5Iqlcu+1jPvyK2uiPVM9DNg13FADfEFTNbF7FTtPRXvJi89D1diUJW9O
+	whrRHN73OGCDJIrddRlIAceCQpOXv2UzFciUWbBrzIUFYIm4AB4OU4+EZGd7551XFpcw
+	PT7PrnTKQl2U2J0mjJUyopKDL++DcUPuYPttBkwcYvr1TdIBIZV1mPPYmeMHm2zf6GmX
+	nM9pjwJCisoXomaFMM7j2ofIAq93+yH73dYv3zxH0IyFiMU6/c5sWvlJqo3r66v1HKRl
+	DBDSlZKcNO0VzSLT1KFSAkysuNSZF5jBI3Kff10Xttt4vqg4hFqtGnmdKIIvaPC1GbYC
+	d87A==
+X-Gm-Message-State: APjAAAXujUfMrY4922jyNU2GROuP41C8kfi9ONzYxFRsXdm68W4w+jm4
+	VBebwE95ohRzrnvQ3jBIiVM=
+X-Google-Smtp-Source: APXvYqyPM/+Lkym6wjZbZgZkx5ON+Di6DSTirzdewzK8T53FpfLnW/iGXCQXOfUPCzS1w9GsVJxGJQ==
+X-Received: by 2002:a24:694b:: with SMTP id e72mr8484227itc.48.1556725505655; 
+	Wed, 01 May 2019 08:45:05 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.googlemail.com with ESMTPSA id
+	m3sm1888442ion.69.2019.05.01.08.45.04
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 01 May 2019 08:45:05 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+Message-ID: <f3d54ab2a6c9fd0f452483c86b4a1f84d31a8420.camel@gmail.com>
+To: Tom Rini <trini@konsulko.com>, Armin Kuster <akuster808@gmail.com>
+Date: Wed, 01 May 2019 10:45:03 -0500
+In-Reply-To: <20190501152748.GY31207@bill-the-cat>
+References: <1556722320-17827-1-git-send-email-akuster808@gmail.com>
+	<20190501152748.GY31207@bill-the-cat>
+User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
 MIME-Version: 1.0
-Subject: [PATCH] elfutils: ptest fixes
+Cc: openembedded-devel@lists.openembedded.org,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [oe] [warrior][PATCH] README: updated Maintainers list for Warrior
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,214 +61,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2019 15:44:44 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 01 May 2019 15:45:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Changes to improve the way ptest runs:
+On Wed, 2019-05-01 at 11:27 -0400, Tom Rini wrote:
+> On Wed, May 01, 2019 at 07:52:00AM -0700, Armin Kuster wrote:
+> > Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> > ---
+> >  README                      |  2 +-
+> >  meta-filesystems/README     | 12 ++++++------
+> >  meta-gnome/README           | 10 +++++-----
+> >  meta-initramfs/README       |  8 ++++----
+> >  meta-multimedia/README      | 10 +++++-----
+> >  meta-networking/MAINTAINERS | 32 +++-----------------------------
+> >  meta-networking/README      |  6 +++---
+> >  meta-oe/README              |  8 ++++----
+> >  meta-perl/README            | 10 ++++------
+> >  meta-python/README          | 12 +++++-------
+> >  meta-webserver/README       |  8 ++++----
+> >  meta-xfce/README            | 10 +++++-----
+> >  12 files changed, 49 insertions(+), 79 deletions(-)
+> > 
+> > diff --git a/README b/README
+> > index 7318f09..881115e 100644
+> > --- a/README
+> > +++ b/README
+> > @@ -1,6 +1,6 @@
+> >  Collection of layers for the OE-core universe
+> >  
+> > -Main layer maintainer: Khem Raj <raj.khem@gmail.com>
+> > +Warrior maintainer: Armin Kuster  <akuster808@gmail.com>
+> >  
+> >  This repository is a collection of layers to suppliment OE-Core
+> >  with additional packages, Each layer have designated maintainer
+> > diff --git a/meta-filesystems/README b/meta-filesystems/README
+> > index 87cb685..d9f07df 100644
+> > --- a/meta-filesystems/README
+> > +++ b/meta-filesystems/README
+> > @@ -10,30 +10,30 @@ Dependencies
+> >  This layer depends on:
+> >  
+> >    URI: git://git.openembedded.org/bitbake
+> > -  branch: master
+> > +  branch: 1.40
+> 
+> I may be starting off on the wrong patch here, but, did 1.40 or
+> bitbake.conf ever get patched up such that rm_work doesn't cause
+> world-rebuilds every time?  I recall when digging into this before
+> there
+> was a "maybe if we tweak $something it'll be happy again with this
+> older
+> bitbake".  Thanks!
 
-a) Use the standalone test mode which allows the tests to be run in their
-  'installled' locations on target (but not any of the standalone build pieces)
-b) We want to use the binaries from their installed locations so the run-subr
-   script needs tweaking to run them like that. The rpath conditional isn't
-   enough since we want the second entry in the case statement.
-c) Add an oecheck make target which we can use to build the test binaries we need
-d) Add missing -ptest package dependencies (needs coreutils, ${PN}, ${PN}-binutils, make)
-e) Don't add RPATH to the test binaries, we don't need that
-f) Add some extra parameters to the make command to ensure tests run correctly
+No it didn't... I seem to recall looking at it and it wasn't quite as
+trivial as I had assumed but got distracted; sorry about that. If we
+are still wanting to make oe-core backward compatible with older
+bitbake I can open a bugzilla. 
 
-Before:
------------------------------------------------------
-Recipe   | Passed    | Failed   | Skipped  | Time(s)
------------------------------------------------------
-elfutils | 31        | 4        | 168      | 6
------------------------------------------------------
+For reference, here is the discussion: 
+http://lists.openembedded.org/pipermail/openembedded-core/2019-March/279724.html
 
-After:
------------------------------------------------------
-Recipe   | Passed    | Failed   | Skipped  | Time(s)
------------------------------------------------------
-elfutils | 173       | 25       | 5        | 15
------------------------------------------------------
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../elfutils/elfutils_0.176.bb                | 10 +--
- .../elfutils/files/ptest.patch                | 76 +++++++++++++++++++
- .../recipes-devtools/elfutils/files/run-ptest |  2 +-
- .../elfutils/files/serial-tests.patch         | 28 -------
- 4 files changed, 81 insertions(+), 35 deletions(-)
- create mode 100644 meta/recipes-devtools/elfutils/files/ptest.patch
- delete mode 100644 meta/recipes-devtools/elfutils/files/serial-tests.patch
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-index fb2868723ae..19d27cd992a 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-@@ -30,7 +30,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://debian/testsuite-ignore-elflint.diff \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://run-ptest \
--           file://serial-tests.patch \
-+           file://ptest.patch \
-            "
- SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch \
-                              file://0001-fix-err-variable-and-function-conflicts.patch \
-@@ -43,10 +43,9 @@ inherit autotools gettext ptest
- 
- EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
- EXTRA_OECONF_append_class-native = " --without-bzlib"
--# gcc has been added to blacklist, we will find workaround solution
--RDEPENDS_${PN}-ptest = "libasm libelf bash"
-+RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN}"
- 
--EXTRA_OECONF_append_class-target += "--enable-tests-rpath"
-+EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
- 
- do_install_append() {
- 	if [ "${TARGET_ARCH}" != "x86_64" ] && [ -z `echo "${TARGET_ARCH}"|grep 'i.86'` ];then
-@@ -56,14 +55,13 @@ do_install_append() {
- 
- do_compile_ptest() {
- 	cd ${B}/tests
--	oe_runmake buildtest-TESTS
-+	oe_runmake buildtest-TESTS oecheck
- }
- 
- do_install_ptest() {
- 	if [ ${PTEST_ENABLED} = "1" ]; then
- 		cp -r ${S}/tests/                       ${D}${PTEST_PATH}
- 		cp -r ${B}/tests/*                      ${D}${PTEST_PATH}/tests
--		cp -r ${B}/src                          ${D}${PTEST_PATH}
- 		cp -r ${B}/config.h                     ${D}${PTEST_PATH}
- 		cp -r ${B}/backends                     ${D}${PTEST_PATH}
- 		sed -i '/^Makefile:/c Makefile:'        ${D}${PTEST_PATH}/tests/Makefile
-diff --git a/meta/recipes-devtools/elfutils/files/ptest.patch b/meta/recipes-devtools/elfutils/files/ptest.patch
-new file mode 100644
-index 00000000000..35b23f43b34
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/ptest.patch
-@@ -0,0 +1,76 @@
-+Changes to allow ptest to run standalone on target:
-+
-+a) Run the tests serially
-+b) Use the standalone test mode which allows the tests to be run in their
-+  'installled' locations on target (but not any of the standalone build pieces)
-+c) We want to use the binaries from their installed locations so the run-subr
-+   script needs tweaking to run them like that. The rpath conditional isn't
-+   enough since we want the second entry in the case statement.
-+d) Add an oecheck make target which we can use to build the test binaries we need
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Index: elfutils-0.176/configure.ac
-+===================================================================
-+--- elfutils-0.176.orig/configure.ac
-++++ elfutils-0.176/configure.ac
-+@@ -45,7 +45,7 @@ AC_COPYRIGHT([Copyright (C) 1996-2018 Th
-+ AC_PREREQ(2.63)			dnl Minimum Autoconf version required.
-+ 
-+ dnl We use GNU make extensions; automake 1.10 defaults to -Wportability.
-+-AM_INIT_AUTOMAKE([gnits 1.11 -Wno-portability dist-bzip2 no-dist-gzip parallel-tests])
-++AM_INIT_AUTOMAKE([gnits 1.11 -Wno-portability dist-bzip2 no-dist-gzip serial-tests])
-+ AM_MAINTAINER_MODE
-+ 
-+ AM_SILENT_RULES([yes])
-+Index: elfutils-0.176/tests/Makefile.am
-+===================================================================
-+--- elfutils-0.176.orig/tests/Makefile.am
-++++ elfutils-0.176/tests/Makefile.am
-+@@ -445,10 +445,10 @@ installed_TESTS_ENVIRONMENT = libdir=$(D
-+ installed_LOG_COMPILER = $(abs_srcdir)/test-wrapper.sh \
-+ 			 installed $(tests_rpath) \
-+ 			 '$(program_transform_name)'
-+-if STANDALONE
-++if !STANDALONE
-+ TESTS_ENVIRONMENT = $(installed_TESTS_ENVIRONMENT)
-+ LOG_COMPILER = $(installed_LOG_COMPILER)
-+-else !STANDALONE
-++else STANDALONE
-+ TESTS_ENVIRONMENT = LC_ALL=C; LANG=C; VALGRIND_CMD=$(valgrind_cmd); \
-+ 		    abs_srcdir=$(abs_srcdir);  abs_builddir=$(abs_builddir); \
-+ 		    abs_top_builddir=$(abs_top_builddir); \
-+@@ -463,7 +463,7 @@ installcheck-local:
-+ 	$(MAKE) $(AM_MAKEFLAGS) \
-+ 		TESTS_ENVIRONMENT="$(installed_TESTS_ENVIRONMENT)" \
-+ 		LOG_COMPILER="$(installed_LOG_COMPILER)" check-TESTS
-+-endif !STANDALONE
-++endif STANDALONE
-+ 
-+ if STANDALONE
-+ libdw = -ldw
-+@@ -612,3 +612,5 @@ check: check-am coverage
-+ coverage:
-+ 	-$(srcdir)/coverage.sh
-+ endif
-++oecheck:
-++	$(MAKE) $(AM_MAKEFLAGS) $(check_PROGRAMS)
-+Index: elfutils-0.176/tests/test-subr.sh
-+===================================================================
-+--- elfutils-0.176.orig/tests/test-subr.sh
-++++ elfutils-0.176/tests/test-subr.sh
-+@@ -91,12 +91,6 @@ installed_testrun()
-+   program="$1"
-+   shift
-+   case "$program" in
-+-  ${abs_builddir}/*)
-+-    if [ "x$elfutils_tests_rpath" != xno ]; then
-+-      echo >&2 installcheck not possible with --enable-tests-rpath
-+-      exit 77
-+-    fi
-+-    ;;
-+   ${abs_top_builddir}/src/*)
-+     program=${bindir}/`program_transform ${program##*/}`
-+     ;;
-diff --git a/meta/recipes-devtools/elfutils/files/run-ptest b/meta/recipes-devtools/elfutils/files/run-ptest
-index 770a62e7310..81b81f2f5d1 100644
---- a/meta/recipes-devtools/elfutils/files/run-ptest
-+++ b/meta/recipes-devtools/elfutils/files/run-ptest
-@@ -3,4 +3,4 @@
- #This script is used to run elfutils test suites
- cd tests
- 
--make -k runtest-TESTS abs_srcdir=$PWD abs_builddir=$PWD bindir=$PWD/../src/  srcdir=$PWD  top_srcdir=$PWD/../ abs_top_builddir=$PWD/../ elfutils_testrun=installed
-+make -k runtest-TESTS abs_srcdir=$PWD abs_builddir=$PWD srcdir=$PWD top_srcdir=$PWD/../ abs_top_builddir=$PWD/../ elfutils_testrun=installed elfutils_tests_rpath=no program_transform_name=s,^,eu-,
-diff --git a/meta/recipes-devtools/elfutils/files/serial-tests.patch b/meta/recipes-devtools/elfutils/files/serial-tests.patch
-deleted file mode 100644
-index 4b448cd50a8..00000000000
---- a/meta/recipes-devtools/elfutils/files/serial-tests.patch
-+++ /dev/null
-@@ -1,28 +0,0 @@
--From 48e111a17e8d5f10690716a63c17670f1406b56c Mon Sep 17 00:00:00 2001
--From: "Hongjun.Yang" <hongjun.yang@windriver.com>
--Date: Wed, 28 Oct 2015 13:24:54 +0800
--Subject: [PATCH] Add serial-tests support, ptest need it.
--
--Add serial-tests support, ptest need it.
--
--Upstream-Status: Inappropriate [oe specific]
--
--Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
--
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index b4e012d..2eb0417 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -45,7 +45,7 @@ AC_COPYRIGHT([Copyright (C) 1996-2018 The elfutils developers.])
-- AC_PREREQ(2.63)			dnl Minimum Autoconf version required.
-- 
-- dnl We use GNU make extensions; automake 1.10 defaults to -Wportability.
---AM_INIT_AUTOMAKE([gnits 1.11 -Wno-portability dist-bzip2 no-dist-gzip parallel-tests])
--+AM_INIT_AUTOMAKE([gnits 1.11 -Wno-portability dist-bzip2 no-dist-gzip serial-tests])
-- AM_MAINTAINER_MODE
-- 
-- AM_SILENT_RULES([yes])
+> 
 -- 
-2.20.1
+Joshua Watt <JPEWhacker@gmail.com>
 
 
