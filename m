@@ -1,52 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CB257D8EC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id C1CEB7D8DE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 May 2019 20:35:27 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id o39so140121ota.6
+	Wed,  1 May 2019 22:10:21 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id e28so459177wra.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2019 13:35:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
+	Wed, 01 May 2019 15:10:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=kIXv/7TP3MXKs5wGbodnk/XqkcmeAC3093WoDqWOgk4=;
-	b=ZFEhpFzvn2DBVV6JVR74bCt3LVOb30wo7rbV90ALqc+sFURy0ME+dTLpBPYOMVqsZt
-	V1tpsQsjv36GMhzk3qNnaT/DeUATpQtKju0VCIXd/zoQ469pd1M85j340ZwgGy/MRH/Z
-	JCZM7n/y8ECqt5e7EkmTMTZingRT5addgTnrCdGBJdegExC4EGMYrXFS3VHvqHXKgdRb
-	1Y4SFag/eKaOCeCKdbWDdBJn0E2o7NA0qx1amFFGd6Tr6f+sMrircFors920Akxk2j4C
-	sMAQmTryesMS7q9MFv/0G7wRyqSD3QwQoW/swxd5s1Zv/crUtHnnQkqbwXgoZJmhF4Qg
-	9PIw==
+	bh=6c0Fa0IypUNZakpU6prIhig9LaPek68S6jZV01KKUxY=;
+	b=EVDUCxaxKej2v7lk/cyJQRsspgatjKAMuC5FGbY1GTDCt5a55pXjIXw/NRPGFsR+Q8
+	hNpHUHe3cWl5Cx/Y4HQzwXosA0bwKO7dyj+ADuuOFFhAxua+s4RF/4wqA/w4oh/dlMSB
+	akhnRI1H912yTzVR2ZPWi8R/JSrbrE9UBwXHs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=kIXv/7TP3MXKs5wGbodnk/XqkcmeAC3093WoDqWOgk4=;
-	b=GUJE4Y44CwvCYLrwEmIfx5Cii/F926aqB+NLQelw7C6ZzGZ/fFSOJ0J+AhOHwf+glA
-	H4+utQ5Fq46alLb4ROx+rNMWFccMa868CVvFuiNHmr0zQ0LT98Mjtd4B3bMnSwH/JyOB
-	OERu15ZnB/LJaMsuXch+RKsLz19auUi5Nj2il2S6MRgrJjDEOWUHsX5NtTPUpkw2OSh0
-	+dbKyT7o75q0qH4aoL0jpE7w5QlrtDdM1M4+RchbY7RmB4PjufNEcNMgG40CQlapUsMt
-	jySVsal/eZd3ELZdINVG0t0OtOUXu1ZSWRe+4m8vpqI5COi51TMfnMMpdK33MAIkzUkU
-	ILdw==
-X-Gm-Message-State: APjAAAXKfrXrhPQjh2TLhVlwcVSAMnp+b05bBRWy1l0czTOYJpFk9/Ri
-	JVAAc74C7fgEyRHikW5nhGw2P56JUfo=
-X-Google-Smtp-Source: APXvYqzyQRaZc3+WWPv+pUnUppuRRTd6isUISF6ADWxMTl6zKx4iLWGxMvSUQbEEgG88gmFqFc/ILg==
-X-Received: by 2002:a9d:2c45:: with SMTP id f63mr7296743otb.349.1556742927871; 
-	Wed, 01 May 2019 13:35:27 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	bh=6c0Fa0IypUNZakpU6prIhig9LaPek68S6jZV01KKUxY=;
+	b=PTcVqE0aBfjlhJSlbzLllt8bpDmQuH2QJ+3WgRnIRvgd0iWJ3ir5z0hkG8YsVMpLGj
+	Y7fTsZ0Jk5+8eEYQvGF6Kj4bIMlY0rxc8/eg2JPjjDIK3X0GNYBqEu2CP7RAof3VwS7w
+	GE5uAJF5Ld95tWtJngWPM2ECKEGQ0JmmKt1CEnNZKbnCj355PMLuHI94pqYni6Oh4y56
+	gG5W7Xg2Zv1LvLqB+ysfygZKnO92KWC1DkW3Fiort0EBczmetFspTA+9D2foLRoyx6RM
+	045wC+pP+Fcn3ywfEzbxC335U6GwPbWcd4ASmHHdJvYBndKHa1+hsJITyahqBPEEpdM6
+	hpfQ==
+X-Gm-Message-State: APjAAAV9NDz1ltCB9y4H4jIkKZW69+u9u0YoftsT6R0oJ2d78x65Fjtv
+	TxCPOzLFjroihHBszqXn/CiXHqEDzHw=
+X-Google-Smtp-Source: APXvYqwiNcy81TiShoo9liK/CgraIedkfwexNqDCN/7BzG49dn9aVQwNb1EzinDraKJ6HY/+JNQB3w==
+X-Received: by 2002:adf:b611:: with SMTP id f17mr282581wre.162.1556748622116; 
+	Wed, 01 May 2019 15:10:22 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	i203sm8636857oif.32.2019.05.01.13.35.26
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 13:35:27 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	c63sm9497720wma.29.2019.05.01.15.10.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 01 May 2019 15:10:21 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 May 2019 15:35:23 -0500
-Message-Id: <20190501203523.4833-1-JPEWhacker@gmail.com>
+Date: Wed,  1 May 2019 23:10:20 +0100
+Message-Id: <20190501221020.26623-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Cc: trini@konsulko.com
-Subject: [PATCH] bitbake.conf: Account for older versions of bitbake
+Subject: [PATCH] elfutils: Fix ptest compile failures on musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +56,122 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2019 20:35:27 -0000
+X-List-Received-Date: Wed, 01 May 2019 22:10:22 -0000
 Content-Transfer-Encoding: 8bit
 
-Older versions of bitbake (prior to 1.42) don't expose the BB_UNIHASH
-variable which is being used by sstate. For compatibility with these
-older versions of bitbake, set BB_UNIHASH to BB_TASKHASH (which is the
-value it should be for non-hash equivalent aware signature generators).
-if bitbake hasn't already set it.
-
-[YOCTO #13314]
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/conf/bitbake.conf | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../elfutils/elfutils_0.176.bb                |  1 +
+ ...-err-variable-and-function-conflicts.patch | 43 ++++++++++++++++---
+ .../elfutils/files/musl.patch                 | 29 +++++++++++++
+ 3 files changed, 66 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-devtools/elfutils/files/musl.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d35a6f64d97..14b0764f222 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -901,3 +901,9 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+index 19d27cd992a..157551e6af9 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+@@ -31,6 +31,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://0001-skip-the-test-when-gcc-not-deployed.patch \
+            file://run-ptest \
+            file://ptest.patch \
++           file://musl.patch \
+            "
+ SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch \
+                              file://0001-fix-err-variable-and-function-conflicts.patch \
+diff --git a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch b/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
+index 4cf54008b79..433db133b25 100644
+--- a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
++++ b/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
+@@ -39,10 +39,10 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+  tests/dwfl-proc-attach.c | 6 +++---
+  1 file changed, 3 insertions(+), 3 deletions(-)
  
- MLPREFIX ??= ""
- MULTILIB_VARIANTS ??= ""
+-diff --git a/tests/dwfl-proc-attach.c b/tests/dwfl-proc-attach.c
+-index 102ba18..ad4208e 100644
+---- a/tests/dwfl-proc-attach.c
+-+++ b/tests/dwfl-proc-attach.c
++Index: elfutils-0.176/tests/dwfl-proc-attach.c
++===================================================================
++--- elfutils-0.176.orig/tests/dwfl-proc-attach.c
+++++ elfutils-0.176/tests/dwfl-proc-attach.c
+ @@ -76,10 +76,10 @@ main (int argc __attribute__ ((unused)),
+        char **argv __attribute__ ((unused)))
+  {
+@@ -57,6 +57,35 @@ index 102ba18..ad4208e 100644
+      error (-1, err, "Couldn't create thread2");
+  
+    Dwfl *dwfl = dwfl_begin (&proc_callbacks);
+--- 
+-2.7.4
+-
++Index: elfutils-0.176/tests/backtrace.c
++===================================================================
++--- elfutils-0.176.orig/tests/backtrace.c
+++++ elfutils-0.176/tests/backtrace.c
++@@ -219,23 +219,23 @@ dump (Dwfl *dwfl)
++ {
++   ptrdiff_t ptrdiff = dwfl_getmodules (dwfl, dump_modules, NULL, 0);
++   assert (ptrdiff == 0);
++-  bool err = false;
+++  bool err1 = false;
++   switch (dwfl_getthreads (dwfl, thread_callback, NULL))
++     {
++     case 0:
++       break;
++     case DWARF_CB_ABORT:
++-      err = true;
+++      err1 = true;
++       break;
++     case -1:
++       error (0, 0, "dwfl_getthreads: %s", dwfl_errmsg (-1));
++-      err = true;
+++      err1 = true;
++       break;
++     default:
++       abort ();
++     }
++   callback_verify (0, 0, 0, NULL, dwfl);
++-  if (err)
+++  if (err1)
++     exit (EXIT_FAILURE);
++ }
++ 
+diff --git a/meta/recipes-devtools/elfutils/files/musl.patch b/meta/recipes-devtools/elfutils/files/musl.patch
+new file mode 100644
+index 00000000000..be35791b1af
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/musl.patch
+@@ -0,0 +1,29 @@
++Fix error on musl:
 +
-+# Older versions of bitbake (< 1.42) don't set BB_UNIHASH. For compatibility with these
-+# versions, set BB_UNIHASH equivalent to BB_TASKHASH if unspecified, which is
-+# what it would be anyway if the signature generator (e.g. OEEquivHash) doesn't
-+# support unihashes.
-+BB_UNIHASH ?= "${BB_TASKHASH}"
++| ../../elfutils-0.176/tests/elfstrmerge.c: In function 'main':
++| ../../elfutils-0.176/tests/elfstrmerge.c:370:60: error: 'ALLPERMS' undeclared (first use in this function); did you mean 'EPERM'?
++|        fdnew = open (fnew, O_WRONLY | O_CREAT, st.st_mode & ALLPERMS);
++|                                                             ^~~~~~~~
++|                                                             EPERM
++| ../../elfutils-0.176/tests/elfstrmerge.c:370:60: note: each undeclared identifier is reported only once for each function it appears in
++
++Upstream-Status: Inappropriate [workaround in musl]
++
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++
++Index: elfutils-0.176/tests/elfstrmerge.c
++===================================================================
++--- elfutils-0.176.orig/tests/elfstrmerge.c
+++++ elfutils-0.176/tests/elfstrmerge.c
++@@ -33,6 +33,11 @@
++ #include ELFUTILS_HEADER(dwelf)
++ #include "elf-knowledge.h"
++ 
+++/* for musl */
+++#ifndef ALLPERMS
+++# define ALLPERMS (S_ISUID|S_ISGID|S_ISVTX|S_IRWXU|S_IRWXG|S_IRWXO)/* 07777 */
+++#endif
+++
++ /* The original ELF file.  */
++ static int fd = -1;
++ static Elf *elf = NULL;
 -- 
 2.20.1
 
