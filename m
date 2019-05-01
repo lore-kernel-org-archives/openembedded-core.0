@@ -1,48 +1,39 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f171.google.com (mail-it1-f171.google.com
-	[209.85.166.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 9728E7D895
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 720177D458
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 May 2019 11:52:24 +0000 (UTC)
-Received: by mail-it1-f171.google.com with SMTP id v143so9435121itc.1
+	Wed,  1 May 2019 12:51:15 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id f7so15988532wrs.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2019 04:52:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ThX38akskneO29DAneZ05SrxBHOBDqTCm3izLRpK4xs=;
-	b=DkwIYNZJyCU+USI8AdUADAtneJGiJbyp+LA88P82R6sMAOIEJCsR01CRFQTWK0NDYC
-	96JzG/LPOyYMgaJBXCS0mtw8B3uCGiWeBUjoPeq/DDUtYZE3TJOTTBMWbLgdF/tPKjOP
-	F7xhBgHGanjQmd34wezG0qBiMCK1PBfUs20PeCUroJwOG4vVoRhIoa9EzDmD2ot/pSJ7
-	Z3kpfjW0z+yspzP7E8y+BCXXGejvCvIMU5TuuwkssYks3sghsD1Ni4L6mOaL1OSPNUbT
-	bBxBwGoMe/w5e1LQ5hwTwp0ZFjCnxFOqqF2Dkg3crNqoRVvwrCxKbW6H0UCotEYrIovS
-	ommA==
+	Wed, 01 May 2019 05:51:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ThX38akskneO29DAneZ05SrxBHOBDqTCm3izLRpK4xs=;
-	b=Y/E4zRrjaBfKWCHaFVG1a8+3r65vUrRkZPEDbtYzNPVaiPXj4ZAwQKlub5T9AZ/iPJ
-	K+4g2I+ezVvlGondwknDT+Szw/ylDqhyd+/PXNHo3HeJ2YHzx1OWsczFk5mQjSVlbjKF
-	AQ8mVSUgxwoU3kGW0loZFJhUwwfntxxxaIgEx3eksBbeJEDXDUX/Y0GEv7KyLP50v9l9
-	4DkIU/QwcrCgrLXpUjWLLbnuPGngjxbLluq+/j9mK+8CSAqyw+y5lXNSlXzUZ1PVG0A+
-	mXukTjZL7jF8xvv5E6BqmQ+TF/FsHYt8+ZnGxF2fQX0GdZ3QeJyjwrybR5RDsJpW6zND
-	/UFQ==
-X-Gm-Message-State: APjAAAXLJYRSClO056IMkco+3juxycH+kr+u5R+zGndx8sSU2mZLF3S7
-	K88zwibZIvRPA7+dYTHQzaZBru78gDTlkyPqUGVaDw==
-X-Google-Smtp-Source: APXvYqz0+pXka8pMsHH4UiMc6hm298Im8QSuccO+PZ+3dkqjPXmkHLe+Ca0f/dWSoCSNbRg4GcvodHZO2V85EejRPNc=
-X-Received: by 2002:a02:a812:: with SMTP id f18mr20464094jaj.31.1556711545380; 
-	Wed, 01 May 2019 04:52:25 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190430192414.43383-1-raj.khem@gmail.com>
-	<593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
-In-Reply-To: <593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 1 May 2019 12:52:14 +0100
-Message-ID: <CAJTo0LaUQQg2FW9ezwWCwswmJR=HRCpoxS2r3NkcGTqhDaFhYQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT][PATCH] gcc-9.0: Add recipes for upcoming gcc 9.0 release in mid-2019
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=F9pBsDHQRD+SDZKuXqPGuiN6BMGjMADN3CN/xQO3HEg=;
+	b=H9Xx8U28j0PVxVONnGuL+g+fZXBfHtxk7meeAOWThMGeXvDN6T/CnmrbK82VxL80Kg
+	Mif2dwxn3PX4VO1lRFV8huMIHFs7xhe5Ix+P6RmLjs0dtmThrWtsL5ij+4ifTlnUf7XL
+	lKiS9pF81mHGXjMsqwYOvHtd0O3JgKlgBeu0czYg5SWDvY6Gq6y8KQrjno/Uuu+jNYdX
+	5voPSonQllLbJ0juQJu5hkjIh1C1uboQ6EVS7Ekp1Ch+qZprhqIW9U/3gZTrW3sbgaeR
+	ZMlCPkN/D5kDchuHwQCJfdS9PUYJtiY02FYwuvpf4WKHo/3e5wEsUZzAU2RsIGnatFnv
+	F6ZQ==
+X-Gm-Message-State: APjAAAX+4QKMbo/693iKdO0yvIjrEBGukMWIK8GJ443t/zdVhvz0bIhN
+	LSAnU4XEOKqvW/ZF+RGnchpnMzA=
+X-Google-Smtp-Source: APXvYqzNtnuVi9fiu94bVm6pdOoXnIUuUC/SuqHm0MSS0hZPYijo5Asr8dyN1cWWX4uLwL/tIJ2kZg==
+X-Received: by 2002:a5d:4111:: with SMTP id l17mr27933918wrp.242.1556715075518;
+	Wed, 01 May 2019 05:51:15 -0700 (PDT)
+Received: from bill-the-cat.local (cpe-65-184-141-147.ec.res.rr.com.
+	[65.184.141.147])
+	by smtp.gmail.com with ESMTPSA id n6sm5677646wmn.48.2019.05.01.05.51.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 May 2019 05:51:14 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 May 2019 08:51:08 -0400
+Message-Id: <1556715069-14366-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCHv2 1/2] vim: Rework to not rely on relative directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,15 +46,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2019 11:52:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 01 May 2019 12:51:16 -0000
 
-On Wed, 1 May 2019 at 12:34, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> e) systemd fails to compile
+The vim recipe has all of the code inside the "src" subdirectory but
+other things we rely on, such as the license file in a subdirectory
+relative to the src.  However, as there is a top-level "configure"
+script that moves us down to the src directory, we can rework the recipe
+to be overall more simple and regularly laid out if we use that.
 
-Glanced upstream and couldn't see any obvious fixes so I filed
-https://github.com/systemd/systemd/issues/12454.
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+ meta/recipes-support/vim/vim-tiny_8.1.1017.bb |  2 +-
+ meta/recipes-support/vim/vim_8.1.1017.bb      | 18 ++++++++++--------
+ 2 files changed, 11 insertions(+), 9 deletions(-)
 
-Ross
+diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1017.bb b/meta/recipes-support/vim/vim-tiny_8.1.1017.bb
+index 8b1fb7b1158d..74464833adb5 100644
+--- a/meta/recipes-support/vim/vim-tiny_8.1.1017.bb
++++ b/meta/recipes-support/vim/vim-tiny_8.1.1017.bb
+@@ -8,7 +8,7 @@ ALTERNATIVE_${PN}_remove = "xxd"
+ PACKAGECONFIG += "tiny"
+ 
+ do_install() {
+-    install -D -m 0755 ${S}/vim ${D}/${bindir}/vim.tiny
++    install -D -m 0755 ${S}/src/vim ${D}/${bindir}/vim.tiny
+ }
+ 
+ ALTERNATIVE_PRIORITY = "90"
+diff --git a/meta/recipes-support/vim/vim_8.1.1017.bb b/meta/recipes-support/vim/vim_8.1.1017.bb
+index 7627d2844b79..4e3e663c5429 100644
+--- a/meta/recipes-support/vim/vim_8.1.1017.bb
++++ b/meta/recipes-support/vim/vim_8.1.1017.bb
+@@ -6,16 +6,16 @@ DEPENDS = "ncurses gettext-native"
+ # vimdiff doesn't like busybox diff
+ RSUGGESTS_${PN} = "diffutils"
+ LICENSE = "vim"
+-LIC_FILES_CHKSUM = "file://../runtime/doc/uganda.txt;endline=287;md5=f1f82b42360005c70b8c19b0ef493f72"
++LIC_FILES_CHKSUM = "file://runtime/doc/uganda.txt;endline=287;md5=f1f82b42360005c70b8c19b0ef493f72"
+ 
+ SRC_URI = "git://github.com/vim/vim.git \
+-           file://disable_acl_header_check.patch;patchdir=.. \
+-           file://vim-add-knob-whether-elf.h-are-checked.patch;patchdir=.. \
+-           file://0001-src-Makefile-improve-reproducibility.patch;patchdir=.. \
++           file://disable_acl_header_check.patch \
++           file://vim-add-knob-whether-elf.h-are-checked.patch \
++           file://0001-src-Makefile-improve-reproducibility.patch \
+ "
+ SRCREV = "493fbe4abee660d30b4f2aef87b754b0a720213c"
+ 
+-S = "${WORKDIR}/git/src"
++S = "${WORKDIR}/git"
+ 
+ VIMDIR = "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
+ 
+@@ -25,13 +25,15 @@ CLEANBROKEN = "1"
+ 
+ # vim configure.in contains functions which got 'dropped' by autotools.bbclass
+ do_configure () {
++    cd src
+     rm -f auto/*
+     touch auto/config.mk
+     aclocal
+     autoconf
++    cd ..
+     oe_runconf
+-    touch auto/configure
+-    touch auto/config.mk auto/config.h
++    touch src/auto/configure
++    touch src/auto/config.mk src/auto/config.h
+ }
+ 
+ #Available PACKAGECONFIG options are gtkgui, acl, x11, tiny
+@@ -76,7 +78,7 @@ do_install() {
+     chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.py
+ 
+     # Install example vimrc from runtime files
+-    install -m 0644 ../runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
++    install -m 0644 runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
+ 
+     # we use --with-features=big as default
+     mv ${D}${bindir}/${BPN} ${D}${bindir}/${BPN}.${BPN}
+-- 
+2.7.4
+
 
