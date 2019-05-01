@@ -1,49 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A98F7D906
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f171.google.com (mail-it1-f171.google.com
+	[209.85.166.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 9728E7D895
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 May 2019 11:34:38 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id k23so1338965wrd.4
+	Wed,  1 May 2019 11:52:24 +0000 (UTC)
+Received: by mail-it1-f171.google.com with SMTP id v143so9435121itc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2019 04:34:39 -0700 (PDT)
+	Wed, 01 May 2019 04:52:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=G3nAuvBmlsBheAA4Vwu4ndvSGRCTItRFo3+dorRSvVY=;
-	b=ReyORajUX81qS0+yD9FwadFD7wf/OsaEDaXIrFGfonDT15u865Htmo+L2Fzb0Mvofo
-	HBwlzPcrvz9oCF7g0AK98EO3N+H2+Nkfftg6gScBeoenNB3uq48zMDvoQOCzn4h3C0it
-	iC5Qn/CEbxZAzk0He2b32N23OqKUHswRH81lo=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ThX38akskneO29DAneZ05SrxBHOBDqTCm3izLRpK4xs=;
+	b=DkwIYNZJyCU+USI8AdUADAtneJGiJbyp+LA88P82R6sMAOIEJCsR01CRFQTWK0NDYC
+	96JzG/LPOyYMgaJBXCS0mtw8B3uCGiWeBUjoPeq/DDUtYZE3TJOTTBMWbLgdF/tPKjOP
+	F7xhBgHGanjQmd34wezG0qBiMCK1PBfUs20PeCUroJwOG4vVoRhIoa9EzDmD2ot/pSJ7
+	Z3kpfjW0z+yspzP7E8y+BCXXGejvCvIMU5TuuwkssYks3sghsD1Ni4L6mOaL1OSPNUbT
+	bBxBwGoMe/w5e1LQ5hwTwp0ZFjCnxFOqqF2Dkg3crNqoRVvwrCxKbW6H0UCotEYrIovS
+	ommA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=G3nAuvBmlsBheAA4Vwu4ndvSGRCTItRFo3+dorRSvVY=;
-	b=d8psPwvhnKMSXiuXOTNLh3+qFPtIzlZt7s8iik8EMeQNqd9+GuncqgHmqTQpXmsVGk
-	c/SYGXAUSOevzYwlhQ4NXPH4bTnPfYhM0w9ugkUhux9nXf231MPE3G4a8pl9+prgh+Hk
-	fGH5WK0TUvQW2ZZN+/1oVKw5AW7FTnDpO9/QMGdIvsYeaWSe0k/lPLQu3OBcPHwzQaJm
-	mXychj/ZDXTqCEziij9XJBx3wJbLWsqHwNQGnYodqDRAo1IYY3vxUQS70XIjJiu8qyxy
-	q6lei9y9OMa7HvupNTWbmZqlk66egykPaxFTwBCwArVlxHdGsXnX3u54UY6BYzk3b68L
-	0soA==
-X-Gm-Message-State: APjAAAWYzr6T9Gurnm0Jhus35am/+E2eyj4zJr1AlxO5fuhezCST7G1M
-	u4NdouH/buy2sbJ6pF4fFcfQiQ==
-X-Google-Smtp-Source: APXvYqzq4xxJEDYP+gt1e5Eo/ebV6mbAiKhBqHRuGjiPwIOQ9FtH+UAGUxEqiCqOGK8VU9y45FoZmA==
-X-Received: by 2002:adf:dcc7:: with SMTP id x7mr12961971wrm.197.1556710479099; 
-	Wed, 01 May 2019 04:34:39 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f128sm6235494wme.28.2019.05.01.04.34.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 04:34:38 -0700 (PDT)
-Message-ID: <593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 01 May 2019 12:34:37 +0100
-In-Reply-To: <20190430192414.43383-1-raj.khem@gmail.com>
-References: <20190430192414.43383-1-raj.khem@gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ThX38akskneO29DAneZ05SrxBHOBDqTCm3izLRpK4xs=;
+	b=Y/E4zRrjaBfKWCHaFVG1a8+3r65vUrRkZPEDbtYzNPVaiPXj4ZAwQKlub5T9AZ/iPJ
+	K+4g2I+ezVvlGondwknDT+Szw/ylDqhyd+/PXNHo3HeJ2YHzx1OWsczFk5mQjSVlbjKF
+	AQ8mVSUgxwoU3kGW0loZFJhUwwfntxxxaIgEx3eksBbeJEDXDUX/Y0GEv7KyLP50v9l9
+	4DkIU/QwcrCgrLXpUjWLLbnuPGngjxbLluq+/j9mK+8CSAqyw+y5lXNSlXzUZ1PVG0A+
+	mXukTjZL7jF8xvv5E6BqmQ+TF/FsHYt8+ZnGxF2fQX0GdZ3QeJyjwrybR5RDsJpW6zND
+	/UFQ==
+X-Gm-Message-State: APjAAAXLJYRSClO056IMkco+3juxycH+kr+u5R+zGndx8sSU2mZLF3S7
+	K88zwibZIvRPA7+dYTHQzaZBru78gDTlkyPqUGVaDw==
+X-Google-Smtp-Source: APXvYqz0+pXka8pMsHH4UiMc6hm298Im8QSuccO+PZ+3dkqjPXmkHLe+Ca0f/dWSoCSNbRg4GcvodHZO2V85EejRPNc=
+X-Received: by 2002:a02:a812:: with SMTP id f18mr20464094jaj.31.1556711545380; 
+	Wed, 01 May 2019 04:52:25 -0700 (PDT)
 MIME-Version: 1.0
+References: <20190430192414.43383-1-raj.khem@gmail.com>
+	<593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
+In-Reply-To: <593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 1 May 2019 12:52:14 +0100
+Message-ID: <CAJTo0LaUQQg2FW9ezwWCwswmJR=HRCpoxS2r3NkcGTqhDaFhYQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [RFT][PATCH] gcc-9.0: Add recipes for upcoming gcc 9.0 release in mid-2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,56 +55,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2019 11:34:38 -0000
+X-List-Received-Date: Wed, 01 May 2019 11:52:24 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-04-30 at 12:24 -0700, Khem Raj wrote:
-> Its already in RC phase now.
-> 
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+On Wed, 1 May 2019 at 12:34, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> e) systemd fails to compile
 
-I ran this on the autobuilder:
+Glanced upstream and couldn't see any obvious fixes so I filed
+https://github.com/systemd/systemd/issues/12454.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/429
-http://errors.yoctoproject.org/Errors/Details/238976/
-
-Basic summary:
-
-a) gcc-source needs a maintainers.inc entry (selftest fail)
-b) fortran selftest is broken
-c) mdadm fails to compile
-d) runtime test gpp2 fails
-e) systemd fails to compile
-f) on target runtime g++ compile tests fail
-
-
-error from f and d look related:
-
-Exception: Command cd ~/buildtest/lzip-1.19; make  failed with exit
-code 2: g++  -Wall -W -O2 -c -o arg_parser.o arg_parser.cc
-arg_parser.cc:20:10: fatal error: cstring: No such file or directory
-   20 | #include <cstring>
-      |          ^~~~~~~~~
-compilation terminated.
-
-
-DEBUG: Partial data from SSH call: /tmp/test.cpp:1:10: fatal error:
-limits: No such file or directory
-    1 | #include <limits>
-      |          ^~~~~~~~
-compilation terminated.
-
-DEBUG: time: 1556703543.2447464, endtime: 1556703843.2447433
-
-RESULTS - buildlzip.BuildLzipTest.test_lzip - Testcase 206: ERROR (0.79s)
-RESULTS - gcc.GccCompileTest.test_gpp2_compile - Testcase 1142: FAILED (0.71s)
-
-Build will look a lot happier with the on target C++ headers fixed! Not
-too bad for a first pass :)
-
-Cheers,
-
-Richard
-
+Ross
 
