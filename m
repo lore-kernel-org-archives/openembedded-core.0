@@ -1,56 +1,50 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A2857D9AD;
-	Wed,  1 May 2019 15:56:06 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id v10so14156056oib.1;
-	Wed, 01 May 2019 08:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:message-id:subject:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=tCHWP5J6VLdz2XwePBuWzlcBa52OX2EZBEDZMIQZgks=;
-	b=R9aAxBcTa09RvE579GMWDjWJd5RogZQh/bZZgg7KP87gsxbdCrh13t/vE5mGIYdtP8
-	AfqTdRbcHu/U9s1+9RLOELLxOJNQt6uKF79EfLFkBNER/uaqAqDKVlFWkciS0RWjJrHR
-	g1JRvakIs18q1MpRMHZsY6GbkJvIwDoQ6HoWL/s8QZ6ivUcritC8/QG1p8qSwDpayYcq
-	sxftkc2hTdlLg+aJ9se/JLAA+Aga0yi/F+0pchKp6L7tn7vA3rIUVtjE2mjkYmPX0Url
-	3s2/LQu4TGhbmNpbuY+sMvaQWdS/JlZMSG2iSR7/xSzngmaCQIIcCy4YA8cQwch7noXL
-	5Igw==
+Return-Path: <akshay.bhat@timesys.com>
+Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com
+	[209.85.222.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 23EA27D861
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  1 May 2019 18:46:12 +0000 (UTC)
+Received: by mail-qk1-f182.google.com with SMTP id k189so36048qkc.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 01 May 2019 11:46:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=timesys-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=YtWGpVMArR1ys0BPDsHNf6oRLePjWTM8xebjgTt1MgQ=;
+	b=tf+6sWo4ERHborPePDI5D1JrJKMrkCH//3WTc19mUFRNPJwJAC4y5Mi0aFieM/23ev
+	W3WPcrcZrnlXa1PLAc5vSAed8/7Ka9vcbWT5I/efb8qPVPfgkEBebYXqndS1rAUgHchE
+	v4xwsJ6C85FyNqSgrWGgWvY0I262kCRPbLcKffvXtu8FCQRdIgprvVLG/taMQq4fnm0C
+	C2xOJV74D2gw4Hz06uo0NhmyylHVN+0dRQCGrb5jpPu16rCV8TyMAo1+/Ihmhorvp6dy
+	3EQ4bsDHGUwOITMepQtfM/l8u7MM3Z1OiVNNMQdrufs+gx2gmppBtP9ZLUu0/emW3Nf8
+	Xcqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:message-id:subject:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tCHWP5J6VLdz2XwePBuWzlcBa52OX2EZBEDZMIQZgks=;
-	b=mjNEGhZUWaxtlpjJvkKHAnL4hl2yk5d1k/mU3h4icNtSuIh8+wtWZAKntCltl3GYVz
-	DYQZRQkoOcGzgTe2qR2ODwFHoCtKlK6bQV19VkW5wWKiCJgiasVuZfrzWQImaj+hf1+G
-	CyyvItBSqjM0Z9Y7aLFy+slMduMyiyJl8/wnUK4xME36+GcTfBim3Zk883tD9ZKxvud+
-	xefESA4B02UEwQoihnB0RP4Au0abNBSXjHz2q7wzJNpxYP7JeswdyF0haIkV2Msac72o
-	kpn1HZR8nrpyPCqE5Q6NO/bQgnWnx6Ifdl/y+Px02lf3nX29h8PoV41Hb6JHAQTRfbmK
-	jcHw==
-X-Gm-Message-State: APjAAAVe0RW+MTIu+KGWRcWS9ShTSqnMlAGcvnpxucHde9ncK3cdQ3st
-	79jBsDingqmZA1unsqZDekM=
-X-Google-Smtp-Source: APXvYqyWXgroJ1WjpimUE6qN8w5BJ10schY7pzSxAISWgYRabLXIMruh7Dsvg5UVJLB/Ty6vuxjLjQ==
-X-Received: by 2002:aca:5f88:: with SMTP id t130mr7269637oib.19.1556726167346; 
-	Wed, 01 May 2019 08:56:07 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.googlemail.com with ESMTPSA id
-	j96sm661619otj.62.2019.05.01.08.56.06
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 01 May 2019 08:56:06 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-Message-ID: <6b2775fcf074d183a37a6b8c83292ee019360653.camel@gmail.com>
-To: Tom Rini <trini@konsulko.com>
-Date: Wed, 01 May 2019 10:56:05 -0500
-In-Reply-To: <20190501154818.GZ31207@bill-the-cat>
-References: <1556722320-17827-1-git-send-email-akuster808@gmail.com>
-	<20190501152748.GY31207@bill-the-cat>
-	<f3d54ab2a6c9fd0f452483c86b4a1f84d31a8420.camel@gmail.com>
-	<20190501154818.GZ31207@bill-the-cat>
-User-Agent: Evolution 3.30.5 (3.30.5-1.fc29) 
-MIME-Version: 1.0
-Cc: openembedded-devel@lists.openembedded.org,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [oe] [warrior][PATCH] README: updated Maintainers list for Warrior
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=YtWGpVMArR1ys0BPDsHNf6oRLePjWTM8xebjgTt1MgQ=;
+	b=N+pKn+jM7HYaa1RbxbeOC8sFu+UGp4c9AmGrH9o089C96LDSpVDGIL0ch+lbm6W2SF
+	si+WlFM6+DdmrrO5kckunOucjzYbjakGlQib6JPatn4TYAiUM7+u+J7PH19gYHKz+fup
+	9jqeHQgV5HIDbzX8iygmZZJ3u6EmValaKdMWCUxNTSO325HntF4E804UIRZIXFTvbOEm
+	F9nGmEZIUofonax1nPRoiu0atPrUPnzgXbi6ZbbZ2ssbllfy2Ml71rjy0iskCDXCiHpr
+	Z7CZLn0PeUjqVLSn40pvSKLXuosuNMxTVkEOzRnlZUYeyhrZ/xPzU5HvlX+sLJCqqPst
+	vRmg==
+X-Gm-Message-State: APjAAAUSfSIssfusxGrs1jkNkU9BexDEoIJOCnWJii3YNq0ONsdq9tSL
+	bI1Y9PwPnNfCTuv9f7zlLMYg/o/Q1R3eiQ==
+X-Google-Smtp-Source: APXvYqy5bffAdrnk6qV4TInDb5MOA57DwX+dqYcFB+YRm19Tk862/58rgkBrOE9+AV/vbhMC3EdX4g==
+X-Received: by 2002:a05:620a:135b:: with SMTP id
+	c27mr39194713qkl.92.1556736373636; 
+	Wed, 01 May 2019 11:46:13 -0700 (PDT)
+Received: from timesysax.timesys.com
+	(96-94-100-129-static.hfc.comcastbusiness.net. [96.94.100.129])
+	by smtp.gmail.com with ESMTPSA id
+	o44sm2440144qto.36.2019.05.01.11.46.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 01 May 2019 11:46:12 -0700 (PDT)
+From: Akshay Bhat <akshay.bhat@timesys.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  1 May 2019 14:46:08 -0400
+Message-Id: <1556736368-1614-1-git-send-email-akshay.bhat@timesys.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [meta-python] python-urllib3: Set CVE_PRODUCT
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,88 +57,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2019 15:56:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 01 May 2019 18:46:13 -0000
 
-On Wed, 2019-05-01 at 11:48 -0400, Tom Rini wrote:
-> On Wed, May 01, 2019 at 10:45:03AM -0500, Joshua Watt wrote:
-> > On Wed, 2019-05-01 at 11:27 -0400, Tom Rini wrote:
-> > > On Wed, May 01, 2019 at 07:52:00AM -0700, Armin Kuster wrote:
-> > > > Signed-off-by: Armin Kuster <akuster808@gmail.com>
-> > > > ---
-> > > >  README                      |  2 +-
-> > > >  meta-filesystems/README     | 12 ++++++------
-> > > >  meta-gnome/README           | 10 +++++-----
-> > > >  meta-initramfs/README       |  8 ++++----
-> > > >  meta-multimedia/README      | 10 +++++-----
-> > > >  meta-networking/MAINTAINERS | 32 +++------------------------
-> > > > -----
-> > > >  meta-networking/README      |  6 +++---
-> > > >  meta-oe/README              |  8 ++++----
-> > > >  meta-perl/README            | 10 ++++------
-> > > >  meta-python/README          | 12 +++++-------
-> > > >  meta-webserver/README       |  8 ++++----
-> > > >  meta-xfce/README            | 10 +++++-----
-> > > >  12 files changed, 49 insertions(+), 79 deletions(-)
-> > > > 
-> > > > diff --git a/README b/README
-> > > > index 7318f09..881115e 100644
-> > > > --- a/README
-> > > > +++ b/README
-> > > > @@ -1,6 +1,6 @@
-> > > >  Collection of layers for the OE-core universe
-> > > >  
-> > > > -Main layer maintainer: Khem Raj <raj.khem@gmail.com>
-> > > > +Warrior maintainer: Armin Kuster  <akuster808@gmail.com>
-> > > >  
-> > > >  This repository is a collection of layers to suppliment OE-
-> > > > Core
-> > > >  with additional packages, Each layer have designated
-> > > > maintainer
-> > > > diff --git a/meta-filesystems/README b/meta-filesystems/README
-> > > > index 87cb685..d9f07df 100644
-> > > > --- a/meta-filesystems/README
-> > > > +++ b/meta-filesystems/README
-> > > > @@ -10,30 +10,30 @@ Dependencies
-> > > >  This layer depends on:
-> > > >  
-> > > >    URI: git://git.openembedded.org/bitbake
-> > > > -  branch: master
-> > > > +  branch: 1.40
-> > > 
-> > > I may be starting off on the wrong patch here, but, did 1.40 or
-> > > bitbake.conf ever get patched up such that rm_work doesn't cause
-> > > world-rebuilds every time?  I recall when digging into this
-> > > before
-> > > there
-> > > was a "maybe if we tweak $something it'll be happy again with
-> > > this
-> > > older
-> > > bitbake".  Thanks!
-> > 
-> > No it didn't... I seem to recall looking at it and it wasn't quite
-> > as
-> > trivial as I had assumed but got distracted; sorry about that. If
-> > we
-> > are still wanting to make oe-core backward compatible with older
-> > bitbake I can open a bugzilla. 
-> > 
-> > For reference, here is the discussion: 
-> > http://lists.openembedded.org/pipermail/openembedded-core/2019-March/279724.html
-> 
-> Please do, as IMHO we need to either fix the feature (rm_work +
-> sstate
-> equivalence) or mark a newer minimum bitbake version.  rm_work +
-> sstate
-> cache is part of the back-bone of internal deployments as there's
-> never
-> enough disk space and also never enough wall clock time.  Thanks!
+urllib3 is used in NVD for CVE's like:
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13314
+https://nvd.nist.gov/vuln/detail/CVE-2016-9015
 
-> 
+Signed-off-by: Akshay Bhat <akshay.bhat@timesys.com>
+---
+ meta-python/recipes-devtools/python/python-urllib3.inc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/meta-python/recipes-devtools/python/python-urllib3.inc b/meta-python/recipes-devtools/python/python-urllib3.inc
+index 288ed8b..34f1478 100644
+--- a/meta-python/recipes-devtools/python/python-urllib3.inc
++++ b/meta-python/recipes-devtools/python/python-urllib3.inc
+@@ -16,4 +16,6 @@ RDEPENDS_${PN} += "\
+     ${PYTHON_PN}-threading \
+ "
+ 
++CVE_PRODUCT = "urllib3"
++
+ BBCLASSEXTEND = "native nativesdk"
 -- 
-Joshua Watt <JPEWhacker@gmail.com>
+2.7.4
 
 
