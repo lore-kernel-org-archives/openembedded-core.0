@@ -1,50 +1,49 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vs1-f66.google.com (mail-vs1-f66.google.com
-	[209.85.217.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CFC97D70C
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D572B7D70C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 May 2019 19:12:19 +0000 (UTC)
-Received: by mail-vs1-f66.google.com with SMTP id g127so10188vsd.6
+	Wed,  1 May 2019 19:18:04 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id y6so15642001ior.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2019 12:12:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Wed, 01 May 2019 12:18:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=U+uBbES0Qhb55nS6Lvd/Uzcf1FakpDQ9fXC6VbdYNPE=;
-	b=OlbQt8iUpYXGP4ZhKuAAJcKpeX13T0XYjaKwH69hTp6gNnu7uGpPg8Wkt6XtEecpE8
-	LnBr0ATNOCiNBVzvzoojP2CAqHtwgOZChrdeumkxTcet9OW1gl5DctkvZEhJPjA2q3I7
-	bdE9i0NjUeatfSqmIzggFvLuFuT165ZUV5zjhz6uckTOibcWL/CtFTnkW4OK+luXvqVl
-	zjEHO4CPaSNl+WLvgZsT4v9CayFMRm6+7wQIffRW6k/MpOrmL+lwXHFDr5sNx9nJRCXD
-	s4+tA/wbSZNBXekScgCkkgacBpybb4Z8+r6xAh18q3QwlphmpyR63ej69U0ke0gpaYjz
-	5OLw==
+	:cc; bh=KHAmQ9aVleWilQRSs/2Wd5HWkplC2XChKid6VAJTM74=;
+	b=NYWg8odpHY6geQciGe37VyRvTgQiHSHFzeAMiu/gtix8Rpbuusl3QIwDfK4Dz70iqo
+	lgCGeD34zz28CjiAV455Sz9HMrIZfVAirqVC5s0LrSMNE2nWBeUKha0HvnQ7pv4pls90
+	uuBwqM/n6k3kXpIMCKBHrX+0m7lSLtd1y8ISQLeGGZUjfOK+XhU1BCsaaEr7tF4uv4fX
+	7UA1BTOEfHNqc1XByjqQcVNo4gBcvwMJY7ZAuYrHzwyzed3qPpcEq7F9ZpNTtQx5Qpuz
+	eQlhxNtV1QVtC/u3od8GyjccOyeAC8oYCAo4sZGtTWDr8VnpaHAnLluJwUdxwZl1hmGN
+	0Ywg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=U+uBbES0Qhb55nS6Lvd/Uzcf1FakpDQ9fXC6VbdYNPE=;
-	b=l7VV2NRv25kNYXB+oMQPzmJRr919viRdYZ/6pE4OnErGg7FuXS0DM85GmR0MFizU5J
-	Pu3Uk44KoTaWEkyovl8ex2dHzzNT1wms6NxsaounIyQHYIgnwSG9gx3SJebordyZU0Q/
-	QUhV2V04gaJ09R/XLkoYSYwebfDc0DytKlffWWfSLs+OfVfT3sbkBNhlpu/mYi6U2bL7
-	OBrhWUzL6sL5BUAYqSAp8/ULs3y+tbNiS93owahIe+iU/s5gR3+2iYCgLIKVwlyVWOp8
-	bL6gmg+QVkrU+KC8S8+7dLFnweComHG/iCOqbPttNyoaGEEUYD5wPB9zc2HtOodzKX0j
-	Sx9g==
-X-Gm-Message-State: APjAAAW9kWevNMVPK75k8R/zBHravt+5vFa99FJyPUJ/Nrd/nH/9NCaz
-	DBGFYCFIBVkbaWkodEmKclyoh0R3NM5zoaoSm4E=
-X-Google-Smtp-Source: APXvYqzLNRpL2Ryhwy3lsB1GXuDJ+NbnRxrsjTz/oZOP8v7Oc6vEIYbczF0nl2iwPwMYD+BgEGpB2TFSGhHFdANDmfw=
-X-Received: by 2002:a67:8988:: with SMTP id l130mr1380834vsd.137.1556737939820;
-	Wed, 01 May 2019 12:12:19 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=KHAmQ9aVleWilQRSs/2Wd5HWkplC2XChKid6VAJTM74=;
+	b=AFPaNHlD5hsofiD1TuMGVz0cRmnONmGgx3noP06c00cKISsAB2k1caU7XV9F30cVkX
+	KdQiOqodgH7b2MHzt9bCcL3amycp78lM0YJoF9JEDXImVYN6Vfd5WUN5JT/UmP3E8ZJl
+	ZjeUCQT1nFUcXM1Uw+ijTgWHlDscr/lwkHY5FkM7vO6y3pJWrk9c7+gO32KRZZr4wxps
+	2OT6eJAS2xAl/vvhD7VTEDODadvhB+plOeMtYPe8V1TVZi6Q8EKw3abpwAH/bqiiPs80
+	2kCUpRZbGPdhRcRxz4SAahnDTIgMwCGZwJZVU/2DjY4k5OvspwT/C3WNw7XKbYKGP8o4
+	9IAA==
+X-Gm-Message-State: APjAAAVhl2A3HgvpjK9gDCNuHcauPfa0vNd5fANabfi63lZxU0ugUlnA
+	YTmGp0KTGDNPMkN1AKmZw28ca2gixre6eTnNaYJbfg==
+X-Google-Smtp-Source: APXvYqy3rmXIaXJIWwucpObJmK8ptFBxatjWg36fJrIXLS79rjveCBFVdJ8Kv95iHvIGYZguQ2Ilyhb4HqLM3wLbzqg=
+X-Received: by 2002:a6b:8e05:: with SMTP id q5mr38360031iod.270.1556738285894; 
+	Wed, 01 May 2019 12:18:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <eb6e23843ff14f079f0218e579894f31@mtkmbs06n1.mediatek.inc>
-	<CAJTo0LbPQo6RDo02=rS+pJLJ5y22VHwQbgjJ6zLa35m59KDVPg@mail.gmail.com>
-In-Reply-To: <CAJTo0LbPQo6RDo02=rS+pJLJ5y22VHwQbgjJ6zLa35m59KDVPg@mail.gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Wed, 1 May 2019 12:12:08 -0700
-Message-ID: <CAJ86T=UM+kPXNm_zRyfHsBbRWhbdKuCcQk9GAZp4JuhcBoLOpw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: =?UTF-8?B?U3RldmVuIEh1bmcgKOa0quS6jueOiSk=?= <Steven.Hung@mediatek.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] musl: fix build failure when ld-is-gold is in DISTRO_FEATURES
+References: <20190430192414.43383-1-raj.khem@gmail.com>
+	<593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
+	<CAJTo0LaUQQg2FW9ezwWCwswmJR=HRCpoxS2r3NkcGTqhDaFhYQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LaUQQg2FW9ezwWCwswmJR=HRCpoxS2r3NkcGTqhDaFhYQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 1 May 2019 20:17:54 +0100
+Message-ID: <CAJTo0LaZR9bQbQpxfr9jb7BjZGXjWqpjP-Ge-3=xfz4VYmK2RQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT][PATCH] gcc-9.0: Add recipes for upcoming gcc 9.0 release in mid-2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,109 +56,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2019 19:12:19 -0000
+X-List-Received-Date: Wed, 01 May 2019 19:18:05 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 1, 2019 at 8:28 AM Burton, Ross <ross.burton@intel.com> wrote:
+On Wed, 1 May 2019 at 12:52, Burton, Ross <ross.burton@intel.com> wrote:
+> On Wed, 1 May 2019 at 12:34, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> > e) systemd fails to compile
 >
-> Can you send this using git-send-email so that your mailer doesn't
-> corrupt the patch?
+> Glanced upstream and couldn't see any obvious fixes so I filed
+> https://github.com/systemd/systemd/issues/12454.
 
-Even better would be to submit upstream to musl. Give or take some
-formatting tweaks (e.g. perhaps the .s file should be renamed to .S if
-it's going to rely on the C preprocessor?) it looks like this change
-should be acceptable upstream. OE would get the fix automatically
-during a version update without the effort of carrying a patch.
+Apparently this is possibly fixed in a newer snapshot of gcc:
+https://github.com/systemd/systemd/issues/12454#issuecomment-488362810
 
-> On Mon, 29 Apr 2019 at 09:36, Steven Hung (=E6=B4=AA=E4=BA=8E=E7=8E=89)
-> <Steven.Hung@mediatek.com> wrote:
-> >
-> > based on the solution: http://ffmpeg.org/pipermail/ffmpeg-devel/2018-Ap=
-ril/228246.html
-> >
-> > Signed-off-by: Steven Hung (=E6=B4=AA=E4=BA=8E=E7=8E=89) <Steven.Hung@m=
-ediatek.com>
-> > ---
-> >  ...branch-to-PLT-in-THUMB-2-not-support.patch | 34 +++++++++++++++++++
-> >  meta/recipes-core/musl/musl_git.bb            |  1 +
-> >  2 files changed, 35 insertions(+)
-> >  create mode 100644 meta/recipes-core/musl/musl/0003-fix-conditional-br=
-anch-to-PLT-in-THUMB-2-not-support.patch
-> >
-> > diff --git a/meta/recipes-core/musl/musl/0003-fix-conditional-branch-to=
--PLT-in-THUMB-2-not-support.patch b/meta/recipes-core/musl/musl/0003-fix-co=
-nditional-branch-to-PLT-in-THUMB-2-not-support.patch
-> > new file mode 100644
-> > index 0000000000..e1aa126b85
-> > --- /dev/null
-> > +++ b/meta/recipes-core/musl/musl/0003-fix-conditional-branch-to-PLT-in=
--THUMB-2-not-support.patch
-> > @@ -0,0 +1,34 @@
-> > +From ee3d6b0f35ec4e71cbc2ae4d1a7561f9cb27d51f Mon Sep 17 00:00:00 2001
-> > +From: =3D?UTF-8?q?Steven=3D20Hung=3D20=3D28=3DE6=3DB4=3DAA=3DE4=3DBA=
-=3D8E=3DE7=3D8E=3D89=3D29?=3D
-> > + <Steven.Hung@mediatek.com>
-> > +Date: Mon, 29 Apr 2019 16:25:17 +0800
-> > +Subject: [PATCH] fix conditional branch to PLT in THUMB-2 not supporte=
-d yet.
-> > +MIME-Version: 1.0
-> > +Content-Type: text/plain; charset=3DUTF-8
-> > +Content-Transfer-Encoding: 8bit
-> > +
-> > +based on the solution: http://ffmpeg.org/pipermail/ffmpeg-devel/2018-A=
-pril/228246.html
-> > +
-> > +Upstream-Status: Pending
-> > +Signed-off-by: Steven Hung (=E6=B4=AA=E4=BA=8E=E7=8E=89) <Steven.Hung@=
-mediatek.com>
-> > +---
-> > + src/signal/arm/sigsetjmp.s | 3 +++
-> > + 1 file changed, 3 insertions(+)
-> > +
-> > +diff --git a/src/signal/arm/sigsetjmp.s b/src/signal/arm/sigsetjmp.s
-> > +index 318addba..1ac79293 100644
-> > +--- a/src/signal/arm/sigsetjmp.s
-> > ++++ b/src/signal/arm/sigsetjmp.s
-> > +@@ -6,6 +6,9 @@
-> > + sigsetjmp:
-> > + __sigsetjmp:
-> > +       tst r1,r1
-> > ++#ifdef __thumb2__
-> > ++      it eq
-> > ++#endif
-> > +       beq setjmp
-> > +
-> > +       str lr,[r0,#256]
-> > +--
-> > +2.18.0
-> > +
-> > diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/mus=
-l/musl_git.bb
-> > index 1e324804e1..779e1dc751 100644
-> > --- a/meta/recipes-core/musl/musl_git.bb
-> > +++ b/meta/recipes-core/musl/musl_git.bb
-> > @@ -15,6 +15,7 @@ PV =3D "${BASEVER}+git${SRCPV}"
-> >  SRC_URI =3D "git://git.musl-libc.org/musl \
-> >             file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.=
-patch \
-> >             file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes=
--to-l.patch \
-> > +           file://0003-fix-conditional-branch-to-PLT-in-THUMB-2-not-su=
-pport.patch \
-> >            "
-> >
-> >  S =3D "${WORKDIR}/git"
-> > --
-> > 2.18.0
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
