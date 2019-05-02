@@ -1,47 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 3BFB27DA87
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 21C317C132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 May 2019 13:52:12 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id e9so3523098wrc.1
+	Thu,  2 May 2019 14:23:59 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id e9so3683197wrc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2019 06:52:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=84PJ28l1pNeI80eckJzZxRRm59PbBeWYCoKADTc0u0A=;
-	b=YLKnCkHePjXcYrcVHRZiWrESn4ZECpXdPDo6tlXSvAE0smW6Frwc3fXwnIHNb3ehAT
-	q9+5tdVAGJOfSIT4uKp47yEv20JdcPinduAiGSUXBAuTGWeUbEZKejZep2Woeveterfh
-	8pTluEeHrzxaZlqljnDmJQoPePAjgMqckL+7tt/DTqf0Gz1XCranuiF+dUq+C4jTqYit
-	Wc6rqWJ4LiyyEE6mdoL9EqvYu2tbM8fBJxXKhm8Gkwt4rLBfyeu6Wq0NcGzum6Z9pmU1
-	Mj7wqVi8BFXLsI5zbVTgiH6dPxgdAjTgan+9Et5Pr0OxelqCDfUl7CeV3FowMaWt5d5M
-	gZGA==
+	Thu, 02 May 2019 07:24:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=ZmdXqO2ZglbfHqV09TtohWKT3aYOgD64DqKZgBbvvns=;
+	b=QVGEyDqSpd+6kjp+RwYdZwuyELoYBfetACYrVvKnTC4OSKFMG87/F0ESqI14DCaDkZ
+	35DiVa3BCux+XFGEhrBAzUzGaTLO2dN/zEejRwV+F4Df57+6rhDdW6BawgxqtiAL6Jj3
+	B69TMakjsuRQpcyHQ8GTn0UtE/fodwZakjtR4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=84PJ28l1pNeI80eckJzZxRRm59PbBeWYCoKADTc0u0A=;
-	b=G8bx/4uZugDpO0yEcon0JEgandok8/S1narFvO+AGpLIitS5DJtodkGA1CM/zTkcif
-	c4hKSRn1JSUkXCZ3vHGKoyfuOeXk++tbhl/ihrrJK1U/cyU80HaKq7S7xS1P+/l3KkpK
-	30mcEpVhwd5+cA4iArSLQgKAKFFk8Eo/MLKbBwo+UA64z8wKKP/zQdkVL3qNiy5kTAm5
-	WAfx4i+4cCdCsLyj6EqPeuI+wdbhtkQPdHjqeSWr7EitN08irCv1t+8/tY16ZgoYQWBP
-	Rz+jvoN0OBffn6nOj0YhrGJomRBWcN5SlslaLGqLugiUcsrmHrVOHpu31gigTVShfroh
-	9MqA==
-X-Gm-Message-State: APjAAAWdbgGiPBIu3n0pbikYPgeffOdLRGxv4OJtpL13d6ZpY1tc0gp9
-	jNCM2h969AbDDZZ9oWm/KUA7MY/F
-X-Google-Smtp-Source: APXvYqw/O6GwnEgNvBTs33bjjlRq7S9D6/MhoHy8PTp1Y0sKppuzmn6ErZ+S7yk419UImyuaEax4Rg==
-X-Received: by 2002:adf:d84d:: with SMTP id k13mr3180621wrl.154.1556805132659; 
-	Thu, 02 May 2019 06:52:12 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id y7sm2869920wrg.45.2019.05.02.06.52.11
+	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=ZmdXqO2ZglbfHqV09TtohWKT3aYOgD64DqKZgBbvvns=;
+	b=YOm4W0nW1wEzm6f2qsvJJcL0dCZPOyrbFrqSq4oorNeCoh6BX+PuxkTIQa/y4nuE8h
+	PQUuEcEf/C0FlvxE+FgF4xE+v7QEVOqjwKKfMpPUzRhZz9Y60NrRjOtNmoYryns6wv+I
+	jXZ45b0T1hbjwhk+koiDvXwJR3JUcvsuG5EbSS7/Cju4txqvyTpINCjxqGsXwbMXgrnV
+	GeAz33XVintnpRsimnWT2Uew81jUc0qxuGnEZsYj0a3ihrIGAdlrDamYH7Wsyk0+TGYD
+	ZACWiC/9/bL7+Tw5pVeL0kt10gXJ+gzU4WcRggMaWrfLCMY0Zz68L5bD1lwRPKYBmySM
+	kUGw==
+X-Gm-Message-State: APjAAAVN6Iw0fgbCByjHBKFzjbqTOjvN7vfcJkDY5jDcXE6GQUkGZqdE
+	SRtn6uN4TyFAB5GOLg8m4gKA2A==
+X-Google-Smtp-Source: APXvYqzB9grO5PcMTRcq89MW15BIo6ewId++FrCA+dbLaWeJOxt3D7fXDqST6os9F3RvPGpHS14zKg==
+X-Received: by 2002:a05:6000:10cc:: with SMTP id
+	b12mr3226418wrx.182.1556807039989; 
+	Thu, 02 May 2019 07:23:59 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	c18sm25131320wrb.16.2019.05.02.07.23.58
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 06:52:11 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 May 2019 13:52:22 +0000
-Message-Id: <20190502135222.133-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] opkg: fix ptest packaging when OPKGLIBDIR == libdir
+	Thu, 02 May 2019 07:23:59 -0700 (PDT)
+Message-ID: <9d66b2dc947c7368a84285b8c1fb3ef30fdc5220.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-architecture
+	<openembedded-architecture@lists.openembedded.org>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, "yocto@lists.yoctoproject.org"
+	<yocto@lists.yoctoproject.org>
+Date: Thu, 02 May 2019 15:23:58 +0100
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Subject: Newcomer bugs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,74 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2019 13:52:12 -0000
+X-List-Received-Date: Thu, 02 May 2019 14:24:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-there is small issue with ptest packaging in cases where
-OPKGLIBDIR is set to /usr/lib.
+Apologies for cross posting but I wanted a wider audience to see this.
 
-Then all ptest files get packaged in libopkg instead of opkg-ptest and correct QA error is triggered:
-ERROR: QA Issue: /usr/lib/opkg/ptest/tests/opkgcl.py contained in package libopkg requires /usr/bin/python3, but no providers found in RDEPENDS_libopkg? [file-rdeps]
+The triage team is starting to try and collect up and classify bugs
+which a newcomer to the project would be able to work on in a way which
+means people can find them. They're being listed on the triage page
+under the appropriate heading:
 
-  # $FILES_libopkg
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/recipes-devtools/opkg/opkg_0.4.0.bb:62
-  #     "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
-  FILES_libopkg="/usr/lib/*.so.* /usr/lib/opkg/"
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
 
-  # $FILES_opkg-ptest [2 operations]
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/classes/ptest.bbclass:9
-  #     "${PTEST_PATH}"
-  #   rename from FILES_${PN}-ptest data.py:117 [expandKeys]
-  #     "${PTEST_PATH}"
-  # pre-expansion value:
-  #   "${PTEST_PATH}"
-  FILES_opkg-ptest="/usr/lib/opkg/ptest"
+The idea is these bugs should be straight forward for a person to help
+work on who doesn't have deep experience with the project.
 
-  # $PACKAGES [4 operations]
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/conf/bitbake.conf:292
-  #     "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/conf/documentation.conf:314
-  #     [doc] "The list of packages to be created from the recipe."
-  #   prepend /jenkins/mjansa/build-webos-master/oe-core/meta/classes/ptest.bbclass:20
-  #     "${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)}"
-  #   prepend /jenkins/mjansa/build-webos-master/oe-core/meta/recipes-devtools/opkg/opkg_0.4.0.bb:60
-  #     "libopkg"
-  # pre-expansion value:
-  #   "libopkg ${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)} ${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-  PACKAGES="libopkg opkg-ptest opkg-src opkg-dbg opkg-staticdev opkg-dev opkg-doc opkg-locale  opkg"
+If anyone can help, please take ownership of the bug and send patches!
 
-The easiest fix should be to reorder PACKAGES (the _prepends) so that ${PN}-ptest is prepended later -> ends before libopkg).
+If anyone needs help/advice there are people on irc who can likely do
+so, or some of the more experienced contributors will likely be happy
+to help too.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/opkg/opkg_0.4.0.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+Also, if there are people interested in helping mentor newcomers and
+help develop newcomer suited bugs, please talk to me about it as we
+could definitely do with help there. 
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.4.0.bb b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-index 20c2e0b72a..e2305d096a 100644
---- a/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-@@ -23,6 +23,11 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
- SRC_URI[md5sum] = "ae51d95fee599bb4dce08453529158f5"
- SRC_URI[sha256sum] = "f6c00515d8a2ad8f6742a8e73830315d1983ed0459cba77c4d656cfc9e7fe6fe"
- 
-+# This needs to be before ptest inherit, otherwise all ptest files end packaged
-+# in libopkg package if OPKGLIBDIR == libdir, because default
-+# PTEST_PATH ?= "${libdir}/${BPN}/ptest"
-+PACKAGES =+ "libopkg"
-+
- inherit autotools pkgconfig systemd ptest
- 
- target_localstatedir := "${localstatedir}"
-@@ -57,8 +62,6 @@ RREPLACES_${PN} = "opkg-nogpg opkg-collateral"
- RCONFLICTS_${PN} = "opkg-collateral"
- RPROVIDES_${PN} = "opkg-collateral"
- 
--PACKAGES =+ "libopkg"
--
- FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.17.1
+Other roles where we could do with particular help are toaster
+development, website improvements/maintenance, QA framework
+documentation/development + testcases and our CI testing along with the
+usual other things but these are not really suited to newcomers.
+
+Cheers,
+
+Richard
 
 
