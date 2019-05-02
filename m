@@ -1,47 +1,50 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AD3096BCA4
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ED0817D787
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 May 2019 21:10:01 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id w15so4388360wmc.3
+	Thu,  2 May 2019 21:10:04 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id y5so4406385wma.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2019 14:10:03 -0700 (PDT)
+	Thu, 02 May 2019 14:10:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=/0zCGYGJifzz88aWSxir+ii2D7b89BJ9LCXOEg0EvWk=;
-	b=P9RywaPFjbH+XzJT7D0BYCbw/V+9YA1gCCJKQ/DKk8MZZaPsdBfjJLIU9UlHlezzWc
-	i6ziPOAEczBhLfMba5FeZelhyAX5SVwdbyNbqQ1hHXJSm9mn+ZK57QhuQmts2MMWT4pD
-	Q5mBNwR/wiJtgFrZGuI+lnitIc/kthDrZk7b3oF8CO+j6S+S3ND04mCbUl1tgYyIO6dS
-	qBdONDbmILEJSUphVqSFPw+NUQVXZggfMmmTrpTAud2DZAbrdlLUa7oMDcBODbzyVzXT
-	0P+uOOcvQ0+9sGh2/zWNBPUXn9o/0Ye9W8vhZclboM+N4pdcCnyBAHJjkgjgWHkiZexm
-	bP1Q==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=BYcmCXDP8zA7aY5Ydf6exGUj2uHDlyC8/pj13HYpl2o=;
+	b=q5sdtVIBlvgrc83alY30GHilQRUZ9LnnZ6cW8uymwBc5L7gL+bl72v4RaH2unYv919
+	aGVORD3sOEmLo2UuyzzP9zQFdSpvpydzjfKQtPnmtJwJn9gLyGLXBDG7ef+zfZ4+AMxk
+	F3kyKMAa3szm4VA26t6+I1zDM8uOGZyO6hTqTXJ3fzjlELp063EJGIASkCAV/n6dYJxe
+	0sbyHJvYRTPmHMkZlL0fCCfgrv6jExt6LRA5AjaKhjkzY/2jIJQnA2OonIG3Qvw/0lxg
+	wGcGWCHXH1Gbr0KX8O37Tgvh6u+hy9A1qHg2ugChXr5qvXLOxE5lsq+WFjknvo5TQA8A
+	BEjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/0zCGYGJifzz88aWSxir+ii2D7b89BJ9LCXOEg0EvWk=;
-	b=cV+G2BsNJ9r9ogzB8GozlJajEUI7KaLmXMH1ez1737mSHARgkiw+9xwpEQm2vt95EW
-	MMCjQqNsHfaET+VRTrlwwA2kJE0QltBSfeOwJW+KNby5ZdTfV6nYdT1kZHujPq8zGMnZ
-	HSqp7hrRKvpollyJkkRfdEwEo75ZuRyPKwzoAlyMRaS7jHoPSY6Fxg53sPuZeKbDhkAI
-	FoxpLFFfFgXlOLlRfCmygAyiFKd3IrMLIYKUUb9IGWtgzq7VzHW8D52/ZYAkfX8cl+bs
-	YIgs904ATwV7JncKJ7pWBX0+oWHkQ/Obndb3MrrU7mpAWr28wzpWtFOb8/22QVRBBPpm
-	DMrA==
-X-Gm-Message-State: APjAAAXCfjjwN9YV6D5v0CNGLqjGshWiTbKZla7gN8aRL1W0ezcQVotW
-	9/x8O5Ghy2R2tKwq6Pmo9w+5l0E+
-X-Google-Smtp-Source: APXvYqxgy5I7Mp6kQEcH/SCgS6M1nh9Vdx0fEQO5qy6m5r+ThJcYLSnLMekcn1Ymd/DPFTq5mCF+og==
-X-Received: by 2002:a1c:eb07:: with SMTP id j7mr3704323wmh.138.1556831402168; 
-	Thu, 02 May 2019 14:10:02 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=BYcmCXDP8zA7aY5Ydf6exGUj2uHDlyC8/pj13HYpl2o=;
+	b=lXyBhKm8WBX7XqMfIL1Vi2DaKyMx8ns37rPTVfhAsXILYnCWpvGp8YQRGZSv+SVoyT
+	NgNom16tADgv/xQSYPyKi2LcoSV/KZ0b2DyecONszY+2gd3YqF5vc9Z7uk/ERoJyBT8Y
+	mXG7mBbJ9xnP+MOyxmZjxYXrMcXtTamabZDwF27ZhE05hOUuBAw+ndVq7LCv0gHpX5I5
+	49xkK2gD5p0slXH+HU3h+BvoQwESwmxHJcwmPAB5TLnKxFEh3U/gzIStaW8YMOq4Yfb0
+	drVHFYQvDrGIl4Jc1vCIeZeunIWrP9KaVWt6zpEnZKn2XGk1pdqLfHtg7AMXGqM/JV0O
+	F3nw==
+X-Gm-Message-State: APjAAAUSiPob1M0kVN7OQKfVN2BNnoMbiKrcetn0f8+0bT/HpbudBWe3
+	tC84VArzwzw1zxfOdIvwFKdua6Vw
+X-Google-Smtp-Source: APXvYqwWvtXvYYfLoI3lQoIqlq/uTREqzieYKhOWa0jYIqfiZ4buVIld32vZntGr+QGkHAg+fylOng==
+X-Received: by 2002:a1c:6304:: with SMTP id x4mr3688228wmb.34.1556831405435;
+	Thu, 02 May 2019 14:10:05 -0700 (PDT)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
 	[91.135.6.246])
-	by smtp.gmail.com with ESMTPSA id y184sm523486wmg.7.2019.05.02.14.10.01
+	by smtp.gmail.com with ESMTPSA id y184sm523486wmg.7.2019.05.02.14.10.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 May 2019 14:10:01 -0700 (PDT)
+	Thu, 02 May 2019 14:10:04 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 May 2019 22:09:38 +0100
-Message-Id: <20190502210944.62696-1-alex.kiernan@gmail.com>
+Date: Thu,  2 May 2019 22:09:39 +0100
+Message-Id: <20190502210944.62696-2-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v6 0/6] systemd stateless configuration
+In-Reply-To: <20190502210944.62696-1-alex.kiernan@gmail.com>
+References: <20190502210944.62696-1-alex.kiernan@gmail.com>
+Subject: [PATCH v6 1/6] systemd: don't build firstboot by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,86 +57,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2019 21:10:01 -0000
+X-List-Received-Date: Thu, 02 May 2019 21:10:05 -0000
 
+From: Jonas Bonn <jonas@norrbonn.se>
 
-This patch set is largely Jonas Bonn's to move towards a "stateless"
-configuration:
+The firstboot service prompts the user for information about the host at
+first boot.  Systemd determines whether or not a boot is a "first boot"
+by the existence of the file /etc/machine-id.  Since oe-core always
+includes this file (it is part of the systemd package), the firstboot
+service never runs so this service is being built but never run.
 
-  These patches make some modifications to systemd with the long-term goal
-  of being able to run OE in systemd's "stateless" configuration.
-  "Stateless" boils down to building an image with empty /etc and /var
-  directories so that volatile (tmpfs) filesystems can be mounted there;
-  this requires that the system subsequently be able to populate these
-  directories dynamically, which systemd mostly takes care of if things are
-  done right.
+A follow-up patch to this one will remove the machine-id from the
+systemd build and allow it to be created automatically by systemd at
+"first boot".  With that patch, we don't want the firstboot service to
+suddenly start being invoked and presenting a prompt to the user.
 
-  In these patches:
-  i)   Don't include machine-id in writable images so that systemd can run
-       its first-boot machinery
-  ii)  Move systemd configuration files out of /etc
-  iii) Allow systemd to dynamically enable services and populate
-       /etc/systemd/system via the presets mechanism
+With this patch, the firstboot service becomes a PACKAGECONFIG option
+that the user must actively select.
 
-  There's a long way to go to get to a working "stateless" configuration.
-  Getting to a "volatile" system (just empty /var) should be easier and I'll
-  post patches moving things in that direction shortly.
+Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
-However as a result of the systemd 242 upgrade, which includes 01d2041e41f4
-("meson: stop creating enablement symlinks in /etc during installation"),
-services such as systemd-networkd are no longer enabled in images.
-
-This patch set fixes this problem in addition to satisfying the goal of
-moving towards "stateless" configurations.
-
-The issue with respect to image testing during CI was caused by
-systemd-time-wait-sync.service being enabled due to the lack of a default
-preset policy:
-
-https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
-
-Changes in v6:
-- switch configuration to simple overrides in /usr/lib/systemd/*.conf.d
-- make systemd RRECOMMENDS rather than RDEPENDS on systemd-conf
-- don't exit in postinst as when that executes we're actually a
-  concatenation of all fragments
-- validate SYSTEMD_AUTO_ENABLE is `enable` or `disable`
-- rewrite systemctl-native in Python
-- moved systemctl preset-all to IMAGE_PREPROCESS so it runs after ROOTFS,
-  run for all images, not just read-only
-
+Changes in v6: None
 Changes in v5:
 - rebased for systemd 242
-- install default preset distribution policy of "enable nothing"
 
-Alex Kiernan (3):
-  systemd-conf: simplify creation of machine-specific configuration
-  systemctl-native: Rewrite in Python supporting preset-all and mask
-  image: call systemctl preset-all for images
+ meta/recipes-core/systemd/systemd_242.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Jonas Bonn (3):
-  systemd: don't build firstboot by default
-  systemd: do not create machine-id
-  systemd: create preset files instead of installing in image
-
- meta/classes/image.bbclass                    |   9 +-
- meta/classes/rootfs-postcommands.bbclass      |   6 +
- meta/classes/systemd.bbclass                  |  41 +-
- .../systemd/systemd-conf/journald.conf        |   3 +
- .../systemd/systemd-conf/logind.conf          |   2 +
- .../systemd/systemd-conf/system.conf          |   2 +
- .../systemd/systemd-conf/system.conf-qemuall  |   3 +
- meta/recipes-core/systemd/systemd-conf_242.bb |  61 +--
- .../systemd/systemd-systemctl/systemctl       | 476 ++++++++++--------
- .../systemd/systemd/99-default.preset         |   1 +
- meta/recipes-core/systemd/systemd_242.bb      |  26 +-
- 11 files changed, 360 insertions(+), 270 deletions(-)
- create mode 100644 meta/recipes-core/systemd/systemd-conf/journald.conf
- create mode 100644 meta/recipes-core/systemd/systemd-conf/logind.conf
- create mode 100644 meta/recipes-core/systemd/systemd-conf/system.conf
- create mode 100644 meta/recipes-core/systemd/systemd-conf/system.conf-qemuall
- create mode 100644 meta/recipes-core/systemd/systemd/99-default.preset
-
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 33d3e0b000d9..9f194f2b6ca1 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -66,7 +66,6 @@ PACKAGECONFIG ??= " \
+     acl \
+     backlight \
+     binfmt \
+-    firstboot \
+     gshadow \
+     hibernate \
+     hostnamed \
 -- 
 2.17.1
 
