@@ -1,53 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C54677D9ED
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E56BB60720
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 May 2019 09:38:18 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id k16so2362959wrn.5
+	Thu,  2 May 2019 11:00:15 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id t76so2179719wmt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2019 02:38:20 -0700 (PDT)
+	Thu, 02 May 2019 04:00:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=uUMlaTULfPJOxHTJeY1cq50BIuqoOlfUIB4GCHWvYrI=;
-	b=LxMaVCUkSqDlWP3qkeGAHyvzFfrJwZ4rlQy7KnPJgV6rQBNh4ltZCVd3K70a9dyfPz
-	vgvWoer5HjQi/9jumtqtkl2Ee0mJtr1iZoHFAUXDCx8EKOexJANt9zJsxiGs7FEHJoTg
-	+SG3hJAFSgES9tqMeGBY/gurRztQ5yq/wF5sg=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=cmo7lBHUde/7KdeC7PnjgLScjTgKr/o4QzCkPWw9IyA=;
+	b=FaajJqHuSG1kb2eJfiBAWFMvxfy3w5yTDHQNg8UOBs3QZNbTmJAK4EPN/hQcYueXzV
+	I1q0BsO9GZSL9YGzlH2Vw06L9/6UYWGKzDl91phk1T1Ys3+BZ9TTp67+8ughkV0gMOJq
+	S9F8/SktdwjlqNzm17ik+g847oTuUs8RWiPyc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=uUMlaTULfPJOxHTJeY1cq50BIuqoOlfUIB4GCHWvYrI=;
-	b=qquhLFVsk5Lg+Uda9NsCty4azWUXuw4n9DU8Gn4FdDVJQL9v2IJGa/NllCyTOsDv0U
-	hWcduTH5yVeuPn1PNySzyfs42c8mh76fKKKrGTyIfbvCK6J4A8burMqDbEjF48xdh4DP
-	J9klPCmhGqdIC2/NKYLRbEnw4eVU0cBalehK/WDT7P0tejPlpxHMYusK3x/jU2AsxwlO
-	Tkuu0qcXueiqrLbhCy37fh6mo9HEYv4J9Iq09qV0M4ap6r+d0mu6ADKUsdoxfBaiAy7H
-	fzwLX69KS7Atenl57JnenaGJa2uyj3HDV2cOLD6OQ9BGkq24SO0qW5d60l0n0yoH5OTs
-	zkwQ==
-X-Gm-Message-State: APjAAAXado3801E/48djul5rC/H8fOwHyeXy1qmEuQRaJbH3b2MEYv/U
-	X3zYg33TZMu9PoG6yPF2xAxzNq/H7ls=
-X-Google-Smtp-Source: APXvYqzgm62DzhAwZRLCBbmjyaxXIelW+acH0Cz0hNu/eY0CPQ5qnjNJqelN8s2D2loTGAcFcCaw2w==
-X-Received: by 2002:adf:c986:: with SMTP id f6mr1984930wrh.93.1556789899372;
-	Thu, 02 May 2019 02:38:19 -0700 (PDT)
+	bh=cmo7lBHUde/7KdeC7PnjgLScjTgKr/o4QzCkPWw9IyA=;
+	b=YH/6Dputw1JgAqwZlOH1DRaWyY8xyJQyBRLsIAFsn+i3NL9AmBZyuqgYA+GRVH+JIM
+	caqohn8n4Nd60CSsz/EJ8H0wn72mE9RU7knTysnNJJzTZJukjF311DrId1AxU3ELgy/w
+	pC8y+nWxmDdOVXVUlH6Yt+pz3CDjAoiDWkuCkcxo02UVPNmaRavjvNw+HIDJcq4LSYHi
+	VxoUWPqjZGMLpJ7BtbqlFs25RReDr06DOi7k4HCdz14OcdkF5rEyVT1Lm3RO4oQPO2oh
+	DPPVeDXsfT9MET/c0w/a0oyr6XLnIqycThhk2QV+xLF1imnKOG58CF5FHN7GIL7YJvCV
+	9alg==
+X-Gm-Message-State: APjAAAUHJp95crLKo542bBXLr+Tzy4hiV015OXfnFKDwK2NzM+N+2a+2
+	8F15wKjdNQhH/h3aCQyU7vIUUQ==
+X-Google-Smtp-Source: APXvYqx4qgndLXyRmQqlpeu5BaoCUyOn89Yi3q2rFmTP+3rP8hr/YJQtv0n2z+ZMMa3t095DDAQaZQ==
+X-Received: by 2002:a1c:f901:: with SMTP id x1mr1984920wmh.136.1556794815978; 
+	Thu, 02 May 2019 04:00:15 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id f2sm7178890wmh.3.2019.05.02.02.38.18
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 02 May 2019 02:38:18 -0700 (PDT)
-Message-ID: <c059b05e224a4b30d1c5e0fffd8db83e4de656fe.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 02 May 2019 10:38:16 +0100
-In-Reply-To: <CAMKF1sqEcbCW22kAMtDsv8sU8KVv0hkkbJXE0hs_MV7zeY5yXw@mail.gmail.com>
-References: <20190430192414.43383-1-raj.khem@gmail.com>
-	<593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
-	<CAMKF1sqEcbCW22kAMtDsv8sU8KVv0hkkbJXE0hs_MV7zeY5yXw@mail.gmail.com>
+	by smtp.gmail.com with ESMTPSA id x14sm6503589wmj.3.2019.05.02.04.00.13
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 02 May 2019 04:00:14 -0700 (PDT)
+Message-ID: <8f30a1ed263ebb9414f68a40edacbdd0a8da4cfb.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 02 May 2019 12:00:13 +0100
+In-Reply-To: <1556635619-32075-1-git-send-email-akuster808@gmail.com>
+References: <1556635619-32075-1-git-send-email-akuster808@gmail.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFT][PATCH] gcc-9.0: Add recipes for upcoming gcc 9.0 release in mid-2019
+Subject: Re: [v2][PATCH] manual tests migrate to selftest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,77 +57,157 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2019 09:38:19 -0000
+X-List-Received-Date: Thu, 02 May 2019 11:00:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-05-01 at 20:01 -0700, Khem Raj wrote:
-> On Wed, May 1, 2019 at 4:34 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Tue, 2019-04-30 at 12:24 -0700, Khem Raj wrote:
-> > > Its already in RC phase now.
-> > > 
-> > > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > 
-> > I ran this on the autobuilder:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/429
-> > http://errors.yoctoproject.org/Errors/Details/238976/
-> > 
-> > Basic summary:
-> > 
-> > a) gcc-source needs a maintainers.inc entry (selftest fail)
+Hi Armin,
+
+This patch needs quite a bit more work unfortunately.
+
+On Tue, 2019-04-30 at 07:46 -0700, Armin Kuster wrote:
+> [v2]
+> add check for python cairo module
+> pybootchartgui.py needs it
 > 
-> I will fix that in next rev.
+> don't use relative path to pybootchartgui.py, use absolute
 > 
-> > b) fortran selftest is broken
+> fix endline check data to reflect current output
 > 
-> some more details on this would be helpful.
-
-"oe-selftest -r buildoptions.ToolchainOptions.test_toolchain_fortran"
-should reproduce.
-
-| In file included from ../../../../../../../../work-shared/gcc-9.0.1-r0/official-gcc-7833ad1/libgfortran/runtime/backtrace.c:27:
-| ../../../../../../../../work-shared/gcc-9.0.1-r0/official-gcc-7833ad1/libgfortran/../libgcc/gthr.h:148:10: fatal error: gthr-default.h: No such file or directory
-|  #include "gthr-default.h"
-|           ^~~~~~~~~~~~~~~~
-| compilation terminated.
-| Makefile:2772: recipe for target 'backtrace.lo' failed
-
-from
-
-https://autobuilder.yoctoproject.org/typhoon/api/v2/logs/468206/raw
-
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/oescripts.py | 97 +++++++++++++++++++++++++++++++
+>  1 file changed, 97 insertions(+)
 > 
-> > c) mdadm fails to compile
-> 
-> Yes, this appeared in my builds too but got ignored since recent
-> builds are using clang
-> but I will look into fixing it.
-> 
-> > d) runtime test gpp2 fails
-> > e) systemd fails to compile
-> > f) on target runtime g++ compile tests fail
-> 
-> The headers include problem is interesting I will see if I can
-> reproduce it.
+> diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
+> index bcdc2d5..81dd786 100644
+> --- a/meta/lib/oeqa/selftest/cases/oescripts.py
+> +++ b/meta/lib/oeqa/selftest/cases/oescripts.py
+> @@ -1,8 +1,11 @@
+> +import os, sys
 
-"bitbake core-image-sato-sdk -c testimage"
+The convention is we put these on separate lines:
 
-should reproduce.
+import os
+import sys
 
-> > Build will look a lot happier with the on target C++ headers fixed! Not
-> > too bad for a first pass :)
->
-> This is because we can build master branch easily for toolchain
-> recipes. so a lot of pre-emptive work has happened already
+>  from oeqa.selftest.case import OESelftestTestCase
+> +from oeqa.core.decorator.depends import OETestDepends
+>  from oeqa.selftest.cases.buildhistory import BuildhistoryBase
+>  from oeqa.utils.commands import Command, runCmd, bitbake, get_bb_var, get_test_layer
+>  from oeqa.core.decorator.oeid import OETestID
+>  
+> +
+>  class BuildhistoryDiffTests(BuildhistoryBase):
+>  
+>      @OETestID(295)
+> @@ -26,3 +29,97 @@ class BuildhistoryDiffTests(BuildhistoryBase):
+>                  self.fail('Unexpected line:\n%s\nExpected line endings:\n  %s' % (line, '\n  '.join(expected_endlines)))
+>          if expected_endlines:
+>              self.fail('Missing expected line endings:\n  %s' % '\n  '.join(expected_endlines))
+> +
+> +class OEScriptTests(OESelftestTestCase):
+> +    def setUp(self):
+> +        try:
+> +            import cairo
+> +        except ImportError:
+> +            self.skipTest('Python module cairo is not present')
 
-I can imagine there was quite some work in that, nicely done! :)
+This breaks things for me:
+
+2019-05-02 10:37:00,488 - oe-selftest - INFO - ======================================================================
+2019-05-02 10:37:00,488 - oe-selftest - INFO - ERROR: test_packageconfig_flags_default (oescripts.OEListPackageconfigTests)
+2019-05-02 10:37:00,488 - oe-selftest - INFO - ----------------------------------------------------------------------
+2019-05-02 10:37:00,489 - oe-selftest - INFO - Traceback (most recent call last):
+  File "/media/build1/poky/meta/lib/oeqa/core/case.py", line 46, in _oeTearDown
+    self.tearDownMethod()
+  File "/media/build1/poky/meta/lib/oeqa/selftest/case.py", line 166, in tearDown
+    logit("Finishing %s (%ss)" % (self.id(), "{0:.2f}".format(self.endtime - self.starttime)))
+AttributeError: 'OEListPackageconfigTests' object has no attribute 'starttime'
+
+It needs something like:
+
+    @classmethod
+    def setUpClass(cls):
+        super(OEScriptTests, cls).setUpClass()
+
+adding to ensure we call the parent class function rather than replace
+it.
+
+> +
+> +    scripts_dir = os.path.join(get_bb_var('COREBASE'), 'scripts')
+> +
+> +    def check_endlines(self, results,  expected_endlines): 
+> +        for line in results.output.splitlines():
+
+I'd suggest adding:
+
+            # turn all duplicate spaces to single spaces
+            line = re.sub(' +', ' ', line)
+
+> +            for el in expected_endlines:
+> +                if line == el:
+> +                    expected_endlines.remove(el)
+> +                    break
+> +
+> +        if expected_endlines:
+> +            self.fail('Missing expected line endings:\n  %s' % '\n  '.join(expected_endlines))
+> +
+> +
+> +class OEPybootchartguyTests(OEScriptTests):
+> +
+> +    def test_pybootchartguy_help(self):
+> +        runCmd('%s/pybootchartgui/pybootchartgui.py  --help' % self.scripts_dir)
+> +
+> +    def test_pybootchartguy_to_generate_build_png_output(self):
+> +        tmpdir = get_bb_var('TMPDIR')
+> +        runCmd('%s/pybootchartgui/pybootchartgui.py  %s/buildstats -o %s/charts -f png' % (self.scripts_dir, tmpdir, tmpdir))
+> +
+> +    def test_pybootchartguy_to_generate_build_svg_output(self):
+> +        tmpdir = get_bb_var('TMPDIR')
+> +        runCmd('%s/pybootchartgui/pybootchartgui.py  %s/buildstats -o %s/charts -f svg' % (self.scripts_dir, tmpdir, tmpdir))
+> +
+> +    def test_pybootchartguy_to_generate_build_pdf_output(self):
+> +        tmpdir = get_bb_var('TMPDIR')
+> +        runCmd('%s/pybootchartgui/pybootchartgui.py  %s/buildstats -o %s/charts -f pdf' % (self.scripts_dir, tmpdir, tmpdir))
+> +
+> +
+> +class OEListPackageconfigTests(OEScriptTests):
+> +    #oe-core.scripts.List_all_the_PACKAGECONFIG's_flags
+> +    def test_packageconfig_flags_help(self):
+> +        runCmd('%s/contrib/list-packageconfig-flags.py -h' % self.scripts_dir)
+> +
+> +    def test_packageconfig_flags_default(self):
+> +        results = runCmd('%s/contrib/list-packageconfig-flags.py' % self.scripts_dir)
+> +        expected_endlines = []
+> +        expected_endlines.append("RECIPE NAME                                                        PACKAGECONFIG FLAGS")
+> +        expected_endlines.append("xserver-xorg-1.20.4                                                dri dri2 dri3 gcrypt glamor glx nettle openssl systemd systemd-logind udev unwind xinerama xmlto xshmfence xwayland")
+> +        expected_endlines.append("znc-1.7.1                                                          ipv6")
+
+with the above addition you can remove the duplicate whitespaces here
+and we're no longer reliant on the maximum recipe name+version string
+length.
+
+znc must come from meta-oe so adding that to an OE-Core test seems
+unusual? Could we test something else in OE-Core?
+
+I also don't like the idea of hardcoding the xserver-xorg version here
+as we'd have to remember to change it for every xserver-xorg version
+bump.
+
+Perhaps we should make the above regexs to avoid this?
+
+Whilst we're looking at the patch could you split it into two, one for
+the packageconfig tests and one for the pybootchart ones so one can
+merge without the other. The commit message also needs tweaking,
+something like:
+
+selftest: Convert manual packageconfig tests to automated selftest
+
+and you could delete the manual test case it covers in the same patch.
 
 Cheers,
 
 Richard
-
-
 
 
