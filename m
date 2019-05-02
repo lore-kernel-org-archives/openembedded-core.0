@@ -1,49 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C1CEB7D8DE
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com
+	[209.85.160.182])
+	by mail.openembedded.org (Postfix) with ESMTP id BE2CA7D592
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  1 May 2019 22:10:21 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id e28so459177wra.0
+	Thu,  2 May 2019 03:01:59 +0000 (UTC)
+Received: by mail-qt1-f182.google.com with SMTP id p20so870590qtc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 01 May 2019 15:10:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6c0Fa0IypUNZakpU6prIhig9LaPek68S6jZV01KKUxY=;
-	b=EVDUCxaxKej2v7lk/cyJQRsspgatjKAMuC5FGbY1GTDCt5a55pXjIXw/NRPGFsR+Q8
-	hNpHUHe3cWl5Cx/Y4HQzwXosA0bwKO7dyj+ADuuOFFhAxua+s4RF/4wqA/w4oh/dlMSB
-	akhnRI1H912yTzVR2ZPWi8R/JSrbrE9UBwXHs=
+	Wed, 01 May 2019 20:02:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hHegYxWCVjtDvLrH4pS3TQO+IlM8n5waoJ5fzHM7nX0=;
+	b=Tyl71DBkfuG/ZKag5mfEoVXQMAmSO4J9sCPN7VgIZQ4R4sx/f1K3g++31rlAD6oxfZ
+	VSbtoLXOBwBfWgvRNv88HcwhwA4JhSge4xJKPKKXLH/0UPHTy+nsJrjKMZGJGavlnwB0
+	AbUvNyVDXPpm19XOR7Zkfgls6mREY7mYUau0ECWB2/s5/39gRE/kWzMdvxO/hbY6dINb
+	0nxoipO5mYptoqtwB9yUFtnAUW1vNy4TIcMZ+UFLrjgoC6erJ84jzqLmVxSf9+pQjU2P
+	LCQfaU4SwRPJRmQOXCxZsHCbYHaXEbiZmxJXELx+kifGB6pYIvko2UORwkJqscRdofON
+	FUZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=6c0Fa0IypUNZakpU6prIhig9LaPek68S6jZV01KKUxY=;
-	b=PTcVqE0aBfjlhJSlbzLllt8bpDmQuH2QJ+3WgRnIRvgd0iWJ3ir5z0hkG8YsVMpLGj
-	Y7fTsZ0Jk5+8eEYQvGF6Kj4bIMlY0rxc8/eg2JPjjDIK3X0GNYBqEu2CP7RAof3VwS7w
-	GE5uAJF5Ld95tWtJngWPM2ECKEGQ0JmmKt1CEnNZKbnCj355PMLuHI94pqYni6Oh4y56
-	gG5W7Xg2Zv1LvLqB+ysfygZKnO92KWC1DkW3Fiort0EBczmetFspTA+9D2foLRoyx6RM
-	045wC+pP+Fcn3ywfEzbxC335U6GwPbWcd4ASmHHdJvYBndKHa1+hsJITyahqBPEEpdM6
-	hpfQ==
-X-Gm-Message-State: APjAAAV9NDz1ltCB9y4H4jIkKZW69+u9u0YoftsT6R0oJ2d78x65Fjtv
-	TxCPOzLFjroihHBszqXn/CiXHqEDzHw=
-X-Google-Smtp-Source: APXvYqwiNcy81TiShoo9liK/CgraIedkfwexNqDCN/7BzG49dn9aVQwNb1EzinDraKJ6HY/+JNQB3w==
-X-Received: by 2002:adf:b611:: with SMTP id f17mr282581wre.162.1556748622116; 
-	Wed, 01 May 2019 15:10:22 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c63sm9497720wma.29.2019.05.01.15.10.21
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 May 2019 15:10:21 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  1 May 2019 23:10:20 +0100
-Message-Id: <20190501221020.26623-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hHegYxWCVjtDvLrH4pS3TQO+IlM8n5waoJ5fzHM7nX0=;
+	b=tPhVi1Dh0V5xZuFSXa5Zu46lnZpc6phO0IyWdJd8REpW+NS8DvT2P5E0UaVjTNWvUz
+	z4ORk5snJPSJeY44/NUdT+nxPaKkCeHjhKgKBbYWOt0r0zQg+CfZok/E2ydS+1is2FL7
+	kpuJIIlugU1qI/TMin3MWCToEedm1+TleabSb9srE1XkE0+oikMh3TWj2wTwwr0Irv4q
+	oaCMBPX5XmYyLPVlspkELCLIpp4uVZaolhK3dBZK6jgVUmSAf59eoPU/t40gKAfdl8NR
+	K1S1ktjRdE6mkx9RiQwTXf71J+LCIR8NonwCEjSW+SZxZdoLQnMXmkjxd1OQgsO7/8ig
+	p8yQ==
+X-Gm-Message-State: APjAAAW/v2DrgOzKstSTbDgbiXY/qW7WrNPX9gCZ4b1CkILn5jb9naD+
+	axk6aaeCj0rJLEVk/lr/eTXefdG7DxyI+QsMoFU=
+X-Google-Smtp-Source: APXvYqyeJsipPWJmfCZW6VpHPLN8U2uSiHCJFbrW3oOWGlM45jtPcJY5tkzLeQQxr0+SKEbgLT7huntI9Mv9Ag9TKbM=
+X-Received: by 2002:ac8:810:: with SMTP id u16mr1244294qth.254.1556766120305; 
+	Wed, 01 May 2019 20:02:00 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] elfutils: Fix ptest compile failures on musl
+References: <20190430192414.43383-1-raj.khem@gmail.com>
+	<593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
+In-Reply-To: <593bdf6b788838c82d73a7bd7b8cce01a185ba13.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 1 May 2019 20:01:34 -0700
+Message-ID: <CAMKF1sqEcbCW22kAMtDsv8sU8KVv0hkkbJXE0hs_MV7zeY5yXw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [RFT][PATCH] gcc-9.0: Add recipes for upcoming gcc 9.0 release in mid-2019
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,123 +55,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 01 May 2019 22:10:22 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 02 May 2019 03:02:00 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../elfutils/elfutils_0.176.bb                |  1 +
- ...-err-variable-and-function-conflicts.patch | 43 ++++++++++++++++---
- .../elfutils/files/musl.patch                 | 29 +++++++++++++
- 3 files changed, 66 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-devtools/elfutils/files/musl.patch
+On Wed, May 1, 2019 at 4:34 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2019-04-30 at 12:24 -0700, Khem Raj wrote:
+> > Its already in RC phase now.
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>
+> I ran this on the autobuilder:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/429
+> http://errors.yoctoproject.org/Errors/Details/238976/
+>
+> Basic summary:
+>
+> a) gcc-source needs a maintainers.inc entry (selftest fail)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-index 19d27cd992a..157551e6af9 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-@@ -31,6 +31,7 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-            file://0001-skip-the-test-when-gcc-not-deployed.patch \
-            file://run-ptest \
-            file://ptest.patch \
-+           file://musl.patch \
-            "
- SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch \
-                              file://0001-fix-err-variable-and-function-conflicts.patch \
-diff --git a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch b/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
-index 4cf54008b79..433db133b25 100644
---- a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
-@@ -39,10 +39,10 @@ Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-  tests/dwfl-proc-attach.c | 6 +++---
-  1 file changed, 3 insertions(+), 3 deletions(-)
- 
--diff --git a/tests/dwfl-proc-attach.c b/tests/dwfl-proc-attach.c
--index 102ba18..ad4208e 100644
----- a/tests/dwfl-proc-attach.c
--+++ b/tests/dwfl-proc-attach.c
-+Index: elfutils-0.176/tests/dwfl-proc-attach.c
-+===================================================================
-+--- elfutils-0.176.orig/tests/dwfl-proc-attach.c
-++++ elfutils-0.176/tests/dwfl-proc-attach.c
- @@ -76,10 +76,10 @@ main (int argc __attribute__ ((unused)),
-        char **argv __attribute__ ((unused)))
-  {
-@@ -57,6 +57,35 @@ index 102ba18..ad4208e 100644
-      error (-1, err, "Couldn't create thread2");
-  
-    Dwfl *dwfl = dwfl_begin (&proc_callbacks);
---- 
--2.7.4
--
-+Index: elfutils-0.176/tests/backtrace.c
-+===================================================================
-+--- elfutils-0.176.orig/tests/backtrace.c
-++++ elfutils-0.176/tests/backtrace.c
-+@@ -219,23 +219,23 @@ dump (Dwfl *dwfl)
-+ {
-+   ptrdiff_t ptrdiff = dwfl_getmodules (dwfl, dump_modules, NULL, 0);
-+   assert (ptrdiff == 0);
-+-  bool err = false;
-++  bool err1 = false;
-+   switch (dwfl_getthreads (dwfl, thread_callback, NULL))
-+     {
-+     case 0:
-+       break;
-+     case DWARF_CB_ABORT:
-+-      err = true;
-++      err1 = true;
-+       break;
-+     case -1:
-+       error (0, 0, "dwfl_getthreads: %s", dwfl_errmsg (-1));
-+-      err = true;
-++      err1 = true;
-+       break;
-+     default:
-+       abort ();
-+     }
-+   callback_verify (0, 0, 0, NULL, dwfl);
-+-  if (err)
-++  if (err1)
-+     exit (EXIT_FAILURE);
-+ }
-+ 
-diff --git a/meta/recipes-devtools/elfutils/files/musl.patch b/meta/recipes-devtools/elfutils/files/musl.patch
-new file mode 100644
-index 00000000000..be35791b1af
---- /dev/null
-+++ b/meta/recipes-devtools/elfutils/files/musl.patch
-@@ -0,0 +1,29 @@
-+Fix error on musl:
-+
-+| ../../elfutils-0.176/tests/elfstrmerge.c: In function 'main':
-+| ../../elfutils-0.176/tests/elfstrmerge.c:370:60: error: 'ALLPERMS' undeclared (first use in this function); did you mean 'EPERM'?
-+|        fdnew = open (fnew, O_WRONLY | O_CREAT, st.st_mode & ALLPERMS);
-+|                                                             ^~~~~~~~
-+|                                                             EPERM
-+| ../../elfutils-0.176/tests/elfstrmerge.c:370:60: note: each undeclared identifier is reported only once for each function it appears in
-+
-+Upstream-Status: Inappropriate [workaround in musl]
-+
-+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-+
-+Index: elfutils-0.176/tests/elfstrmerge.c
-+===================================================================
-+--- elfutils-0.176.orig/tests/elfstrmerge.c
-++++ elfutils-0.176/tests/elfstrmerge.c
-+@@ -33,6 +33,11 @@
-+ #include ELFUTILS_HEADER(dwelf)
-+ #include "elf-knowledge.h"
-+ 
-++/* for musl */
-++#ifndef ALLPERMS
-++# define ALLPERMS (S_ISUID|S_ISGID|S_ISVTX|S_IRWXU|S_IRWXG|S_IRWXO)/* 07777 */
-++#endif
-++
-+ /* The original ELF file.  */
-+ static int fd = -1;
-+ static Elf *elf = NULL;
--- 
-2.20.1
+I will fix that in next rev.
 
+> b) fortran selftest is broken
+
+some more details on this would be helpful.
+
+> c) mdadm fails to compile
+
+Yes, this appeared in my builds too but got ignored since recent
+builds are using clang
+but I will look into fixing it.
+
+> d) runtime test gpp2 fails
+> e) systemd fails to compile
+> f) on target runtime g++ compile tests fail
+
+The headers include problem is interesting I will see if I can reproduce it.
+
+>
+>
+> error from f and d look related:
+>
+> Exception: Command cd ~/buildtest/lzip-1.19; make  failed with exit
+> code 2: g++  -Wall -W -O2 -c -o arg_parser.o arg_parser.cc
+> arg_parser.cc:20:10: fatal error: cstring: No such file or directory
+>    20 | #include <cstring>
+>       |          ^~~~~~~~~
+> compilation terminated.
+>
+>
+> DEBUG: Partial data from SSH call: /tmp/test.cpp:1:10: fatal error:
+> limits: No such file or directory
+>     1 | #include <limits>
+>       |          ^~~~~~~~
+> compilation terminated.
+>
+> DEBUG: time: 1556703543.2447464, endtime: 1556703843.2447433
+>
+> RESULTS - buildlzip.BuildLzipTest.test_lzip - Testcase 206: ERROR (0.79s)
+> RESULTS - gcc.GccCompileTest.test_gpp2_compile - Testcase 1142: FAILED (0.71s)
+>
+> Build will look a lot happier with the on target C++ headers fixed! Not
+> too bad for a first pass :)
+>
+
+This is because we can build master branch easily for toolchain
+recipes. so a lot
+of pre-emptive work has happened already
+
+> Cheers,
+>
+> Richard
+>
 
