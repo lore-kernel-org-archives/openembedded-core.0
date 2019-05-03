@@ -1,19 +1,50 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 9EE2371E5A
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CEAAF7D660
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 02:23:57 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 83DE91C0264;
-	Fri,  3 May 2019 14:23:56 +1200 (NZST)
-From: Douglas Royds <douglas.royds@taitradio.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 May 2019 14:23:50 +1200
-Message-Id: <20190503022350.26366-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190430023405.29459-1-douglas.royds@taitradio.com>
-References: <20190430023405.29459-1-douglas.royds@taitradio.com>
-Subject: [PATCH v2] distutils: Run python from the PATH in the -native case as well
+	Fri,  3 May 2019 05:05:12 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id k16so6116533wrn.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 02 May 2019 22:05:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=w/NQCs2fhqUbhZN7RjfM/rii63PQvUqzQJWbLkhrk/o=;
+	b=IrEPCHdULw6T9ytdmNafDFKd7IrF68Ps1i8Ms/GEzvg7W0QrqTEOAe8rbNbEaYXduN
+	rR8cu7uFtXq9hmVLejrPkP7lJz7jCdPXG2vZ6zaYWOUZS5sjCFgT7/oBvC0z5hV81Lal
+	wFADm3VTiZH1ByI5PM44JrRd7Ye/Aq5EN24Vw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=w/NQCs2fhqUbhZN7RjfM/rii63PQvUqzQJWbLkhrk/o=;
+	b=SHjfFiqdJW8pNLZjSkKAyTDO43mJKT9x0uLYsxx4Rkm+TCROah6sR/3ich1N9MZWKG
+	lwEMbeCTBOfOC6dVIS72ZILV7qB/zZ+AkM7PKKVEpyk2dhnmhKqOZRbfYoJUtEpRYInj
+	z5lqwajN7jJUruup2DNpdSHaF3bNtIUQoScFG5NblnNPuUerXsEFNgN4vCqTu5rJrgDF
+	p6oRkok1piuScCLH2OiQ0ziHoZMCILX5E31JwFLVu8Gaz/gJIMQWgnOvgUcnVNbRo2Pt
+	FXlhElyiUesXN3bGiIKVZrRuibyHOgoMGbHi4STUrPb6xpAkY+QtlzLdxnegmXPB8W4O
+	aTHw==
+X-Gm-Message-State: APjAAAXd9eZZzTeanDcjvMKoFXHx4qHldcvURiIYC3hIUDu0LBRK70Xt
+	2MSdQLIj27UXgWgh66bMWbSAlw==
+X-Google-Smtp-Source: APXvYqz1uBPvRIJ0vOREHR3LrCUJ+Zks9Ojarq+HzqfyUgzFp76r3Qk4bXBxCefPs4TovdTcleVKvQ==
+X-Received: by 2002:adf:90ef:: with SMTP id i102mr2720832wri.133.1556859913433;
+	Thu, 02 May 2019 22:05:13 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id o6sm983111wre.60.2019.05.02.22.05.12
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 02 May 2019 22:05:12 -0700 (PDT)
+Message-ID: <7a2175fe5786ab041053400f235ede965cee3bcd.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: paul@betafive.co.uk, openembedded-core@lists.openembedded.org
+Date: Fri, 03 May 2019 06:05:11 +0100
+In-Reply-To: <20190502213052.15962-2-paul@betafive.co.uk>
+References: <20190502213052.15962-1-paul@betafive.co.uk>
+	<20190502213052.15962-2-paul@betafive.co.uk>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] license_image: Don't try to hard link license files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,106 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 02:23:58 -0000
+X-List-Received-Date: Fri, 03 May 2019 05:05:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The python distutils generate a python wrapper script for each package,
-containing shebang lines pointing to the python executable.
-In our case, this is a fully-qualified path to python-native in the
-recipe-sysroot-native.
+On Thu, 2019-05-02 at 21:30 +0000, paul@betafive.co.uk wrote:
+> From: Paul Barker <paul@betafive.co.uk>
+> 
+> This change allows us to support the placement of WORKDIR and
+> DEPLOY_DIR
+> on different devices. As the license files are typically small, the
+> increase in disk usage and build time should be negligible.
+> 
+> Signed-off-by: Paul Barker <paul@betafive.co.uk>
+> ---
+>  meta/classes/license_image.bbclass | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 
-Ubuntu 18.04 restricts the useful length of the shebang line to 125
-characters, and Ubuntu 16.04 restricts it to 77. In both cases, the
-staged python script fails to run due to the length of the path to
-the python-native executable.
+We create a lot of hardlinks and its not negligible overall ;-).
 
-Replace the shebang line with nativepython or nativepython3 as appropriate.
-The nativepython symlink is installed by the python-native recipe:
+I'd prefer we continue to do so where we can. We should probably create
+a function similar to lib.oe.path.copyhardlinktree() and use that here
+rather than abandon the hardlinks.
 
-    #!/usr/bin/env nativepython
+Cheers,
 
-We were already doing this for on-target distutils components.
-This change applies the sed-line to -native distutils components as well.
-In this way, -native clients of these components can invoke the wrapper scripts
-directly, without themselves needing to inherit pythonnative.
+Richard
 
-This works around a known setuptools issue:
-https://github.com/pypa/setuptools/issues/494
-Even once this issue has been resolved upstream,
-we will still need to replace `python` with `nativepython`
 
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
----
- meta/classes/distutils.bbclass  | 11 +++++------
- meta/classes/distutils3.bbclass |  7 +++++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index 9862731493..8d258daea4 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -9,6 +9,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
- 
-+DISTUTILS_PYTHON = "${PYTHON_PN}"
-+DISTUTILS_PYTHON_class-native = "native${PYTHON_PN}"
-+
- distutils_do_configure() {
-         if [ "${CLEANBROKEN}" != "1" ] ; then
-                 NO_FETCH_BUILD=1 \
-@@ -53,18 +56,14 @@ distutils_do_install() {
- 
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
--                if [ ${PN} != "${BPN}-native" ]; then
--			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
--		fi
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if [ -e ${D}${sbindir} ]; then
-             for i in ${D}${sbindir}/* ; do \
--                if [ ${PN} != "${BPN}-native" ]; then
--			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
--		fi
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
-index 834e322474..bae536d343 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -10,6 +10,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
- 
-+DISTUTILS_PYTHON = "${PYTHON_PN}"
-+DISTUTILS_PYTHON_class-native = "native${PYTHON_PN}"
-+
- distutils3_do_configure() {
- 	if [ "${CLEANBROKEN}" != "1" ] ; then
- 		NO_FETCH_BUILD=1 \
-@@ -57,14 +60,14 @@ distutils3_do_install() {
- 
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if test -e ${D}${sbindir}; then
-             for i in ${D}${sbindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
--- 
-2.17.1
 
 
