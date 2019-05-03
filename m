@@ -1,45 +1,45 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
-	[209.85.166.169])
-	by mail.openembedded.org (Postfix) with ESMTP id BFF2B7DE3F
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
+	[209.85.217.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 1EA337DE17
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 17:34:15 +0000 (UTC)
-Received: by mail-it1-f169.google.com with SMTP id q65so8949268itg.2
+	Fri,  3 May 2019 18:32:29 +0000 (UTC)
+Received: by mail-vs1-f48.google.com with SMTP id o10so4197068vsp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 10:34:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 03 May 2019 11:32:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9Oezh/W7dC3SlwyBaoKuzalXtSVIZcPKlx2Hwu85Xkw=;
-	b=c8IojuhSxRwuKz4NJr8YxHYclOUynLP8Wi4thxB1YveUAabI8Sr+kxJ4M2RjGKgScp
-	1i1fCrVzEvbvhOa+xiC+xdeaNzD50Cn8+7fDAIvmYKsv5+dLkZXBuF1vjJveKFSumIn/
-	PvBLQRhfnGWCesW4rjO7+N/sy3q6SVQcwvL52cwW3x4wyvBtLCRzsxA70z0zJvTWTcid
-	9kgEv/fUtEwCQtc42v9UzWg8feooJh9DdsxhYHrtrAqHjU9hebtnaKhs4nG8eXKpVupK
-	yEQn0ktyeBbG+dTl/fJjZJROIDWV/nM5zxRbpCX+fXyn0zHd9kkt7OSZ2u489YZb2YWr
-	gf+g==
+	:cc; bh=OsdeFila2lrtuTk27JTU2EfibwLS4FJ6KlJ+Y/kcuKE=;
+	b=MiNE0d+moVdi+FQUrqT4JeO3XbeV6yLbFjOlbmFpOuK4vQFjIGPfktsWOAgxCpz5zs
+	Pf0eiVv/ypg+jdiaW4U5IOuqyTJjGgnBMeQFA+zrBmEmiLfNr1Gdp7UNW0rFf7x/Ttdo
+	aw03AKeFzVfwRD/Xq1tw/YYSOnsN29J6dk5TJPp6taokVulqavWzIi7NDJu/JLvUkjAH
+	KN9UdGVeorJW7Jl2bPdzJqe4BS4w4Mc8csOq5Hri3IWOXWMpCNUdc1HzYxD3ggdSqqrj
+	R1eByCcOHTvPSpJNae0MFI1PpGSiS4pUUegdck6dstsv7evHuH1X4xZlaMmVrUCf4nut
+	y9Uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=9Oezh/W7dC3SlwyBaoKuzalXtSVIZcPKlx2Hwu85Xkw=;
-	b=RTRruaudttPSbleY0SuE+0qI5ZbSEwzPFUetUO/498fxhz7n61tcFAzNY/729NSRId
-	5iPzdx+8zlqNWH6puJM5haxKZlBOrgRckS4ffLUCJnmFRpJJaiTZdi1Q9S+ubB72L0MX
-	q/jCe1KqTUg0/gvdcrH540lHtXztUkoJGi1qjLP+3eVGfIPzcXy5TcklXSIMrP8Snbfu
-	sMdBZk4ZX2zqutkOLtj6mgtA498n04q/XxfSSg423Z09m9+Ze+HNbf0u6aa/hFIQibMK
-	VcJnHkidtZectcme16MmvN10TTcZniRtPvA9IGYawFcMYAsaGMatj/gCKdkL9alNnDpx
-	EG/Q==
-X-Gm-Message-State: APjAAAWBWPsy6ZSIMlDlpKnycqH4jejvsr8/9jEKp2l/o3rekFLJaNXL
-	8RadysKDveps4AqwS91GA7PEzpsomxsV6en8fZdLtw==
-X-Google-Smtp-Source: APXvYqzWjxfqxvb2hX2Zmc7VqTf6hZytxTA16wd8/phqwEQaVbc6nbK5gUcyCyuoHr0c1O//65kSDWFxycYR7G6heLw=
-X-Received: by 2002:a24:4145:: with SMTP id x66mr8246248ita.130.1556904856683; 
-	Fri, 03 May 2019 10:34:16 -0700 (PDT)
+	bh=OsdeFila2lrtuTk27JTU2EfibwLS4FJ6KlJ+Y/kcuKE=;
+	b=HqRoP2WTIRIU6W+TBuJuch2+412eVSIjF5sGfa9elXwG1hSyDnx3gPQcsaFzQeLWy5
+	3w9TsYQSroszgSNpByHbhM0zMkKEMDvwSF5OqBdT8USNKGdy9OL5qdgxPZIBRcTBIX9a
+	l4AbhZVj87pd/Uuh0wssxW6NJsNn5X5m7pYu8oFjNZb34XsE4ecz5x+MNlx8lT4z9BYZ
+	AbZY67rCy+dBBUhcZng4/ueCjp9vSEmwCW6P9HqnbPjh5JXbImy694kpTOPNeOClGCTN
+	U6S0U7jWiryatLqxP10CjPhiFTfD5Pt/PZu4Uv8YFNXOSD2qdd7LCtw06Bx2PTKJ9Jr3
+	3e9w==
+X-Gm-Message-State: APjAAAUl6SPVjXLTDjDbkQr1HVxJfkyTr2hCoCSHuvy/UijSWVi0gn5f
+	2s0H6/OKz2YgZorpJ3Dx1i8Au0abMNB4C6ygkoU=
+X-Google-Smtp-Source: APXvYqzbOgHHyEGsteQieID6vaekrdeOmn6Tn9lB9Wka+OGPgRrPZvu7pVFJ8AkEzNLjd2FepDR6b3np62tNmYUMFwM=
+X-Received: by 2002:a67:af10:: with SMTP id v16mr365020vsl.149.1556908350917; 
+	Fri, 03 May 2019 11:32:30 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190503164734.130778-1-alex.kiernan@gmail.com>
-In-Reply-To: <20190503164734.130778-1-alex.kiernan@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 3 May 2019 18:34:05 +0100
-Message-ID: <CAJTo0La=VGkcFe+EZ49ki9Bb2-z7kVoOGDN7i8wcVcc6iVitMg@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
+	<CAJTo0La=VGkcFe+EZ49ki9Bb2-z7kVoOGDN7i8wcVcc6iVitMg@mail.gmail.com>
+In-Reply-To: <CAJTo0La=VGkcFe+EZ49ki9Bb2-z7kVoOGDN7i8wcVcc6iVitMg@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Fri, 3 May 2019 19:32:19 +0100
+Message-ID: <CAO5Uq5QRMd8w+apv6vYiOKAdvDdkFSB2oz1bWZfyX8G=hs2Vqw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] bmap-tools: Add RDEPENDS on python3-misc
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,27 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 17:34:15 -0000
+X-List-Received-Date: Fri, 03 May 2019 18:32:30 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 3 May 2019 at 17:48, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> The newer python3 recipe no longer includes python3-misc in target by
-> default, leading to failures:
+On Fri, May 3, 2019 at 6:34 PM Burton, Ross <ross.burton@intel.com> wrote:
 >
->   Traceback (most recent call last):
->     File "/usr/bin/bmaptool", line 6, in <module>
->       from pkg_resources import load_entry_point
->     File "/usr/lib/python3.7/site-packages/pkg_resources/__init__.py", line 42, in <module>
->       import ntpath
->   ModuleNotFoundError: No module named 'ntpath'
+> On Fri, 3 May 2019 at 17:48, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > The newer python3 recipe no longer includes python3-misc in target by
+> > default, leading to failures:
+> >
+> >   Traceback (most recent call last):
+> >     File "/usr/bin/bmaptool", line 6, in <module>
+> >       from pkg_resources import load_entry_point
+> >     File "/usr/lib/python3.7/site-packages/pkg_resources/__init__.py", line 42, in <module>
+> >       import ntpath
+> >   ModuleNotFoundError: No module named 'ntpath'
+>
+> Looks like ntpath should be in a different package if pkg_resources
+> won't run without it.
+>
 
-Looks like ntpath should be in a different package if pkg_resources
-won't run without it.
+Sorry, should've looked more closely... I'll take a look at it.
 
->  RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
-> +RDEPENDS_${PN}_append_class-target = " python3-misc"
+> >  RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
+> > +RDEPENDS_${PN}_append_class-target = " python3-misc"
+>
+> Why class-target only?
+>
 
-Why class-target only?
+It doesn't exist for native (which was a surprise).
 
-Ross
+-- 
+Alex Kiernan
 
