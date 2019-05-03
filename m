@@ -1,48 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B9297D543
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D5E5160272
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 09:58:33 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id s3so8201525itk.1
+	Fri,  3 May 2019 10:18:06 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id b18so4825029otq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 02:58:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 03 May 2019 03:18:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=flAR2zh3JD9fGvScadAa+wSlW8xS8Fyv+AdTp6feYjc=;
-	b=Dk+Gdj0L5FtJUy16NzA/5+nE3xlgHhEN1VeJzSlMDb51mQ9skuqeECKFRWUM7k/KDz
-	6itam91P492mzOfQrT/DagtOZmIdl1xmn14sPqMCZzK1/WKdvHQHPciTSyhRK561q61J
-	sstKu+CdpW2WLOkIgdyVWvaZSl+TcNjb0v1eIsJ2OENTf/SwsRKYQ6SHPXjf01RGiSBc
-	5IefcTMwT8fmmcNEeoIOSgqlOMGymAl5B5MrOca7niQ3ityrB11oamrP/aWMMU8snHd3
-	TAtpMMPGOTu7w6GG24wjG6pTdVgAEyGhvjeDdHf0B79cgK0WmONJEdgUNPVROcHlDK1U
-	t0PA==
+	:cc; bh=t1BnY46StCHf88IskFcujfK4R/5XacC78TAFef/dyOU=;
+	b=I2zvb6Yc85GsUg/u1iW0HVW+hniMDbmhRpBsGtpjbKKSto0+o6K010cvYYL2Ab7mQx
+	JURzJe4We+ZKjc+uJ0eBa9tqa8I1KoyMfX2l1fgiUsQwK4rJSbOWOqLe+IDvRl1MSgcC
+	msqUkH6Jw5D/97ezy9VNI5zbB7dWN1gpIiK6KXjaQ6cb6avVLufgY4Jhot7YQn3/+DKh
+	vp3ug3x1bHJJ8U+2XcXKdCav139DT24SMCF5CDO6pjpfNrSdfHZaIALvjrvfwacw3KSp
+	D27qoaJennQFT21wDXKugVU0fZHH7xmsbCk52KCxLp/Rq6nfjEGWlSqrXRPOGJWxcI5G
+	mm6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=flAR2zh3JD9fGvScadAa+wSlW8xS8Fyv+AdTp6feYjc=;
-	b=ULBlj75p+p1MyhLjm5wtzh/Lo8ssVoO0v9ahhodvs4blHQpn8DDcQJJp6qXVFUpDD9
-	tz0GFBndNpNn8xsvPKEtceilC1pTulrBMdwZ91vcZA8sdCW8OAY96qoRAf9R4HJAnMte
-	iXL250ov6KExSH0mMkZO+T85PVKLz0WKKdc5c+GNzvuO4t391i0SiWzqJ3XY6AINHXYy
-	7xijQXGWcRGdx1eZLxlRT7YTXOsCUfjhG4F4cl6N0Kg6w1U09fktr1+b6F8Jswa6pnJ+
-	WeT1mHD771dUMgcgb4CMxvYXI6raSTI1sKpGahTUiTlmxww4/FqnzQJi2rosndImi23h
-	1b3g==
-X-Gm-Message-State: APjAAAWJqZYnyFKWgPC+8acpw2kHU+c5CP6+2rqIpaPeLUvaOU1+oxpT
-	wcUSKZ5Kn1caNsT8Aq75zpE+PHuDtzoGgu0jcjNnXg==
-X-Google-Smtp-Source: APXvYqzYGPs23OnaQdVIj4NA19jP8MOyJbv02l5wSzIfYl0GDdgITV6xP5oEMxVBySBoFSRFbCnCvX1XeWSc2kCeC1M=
-X-Received: by 2002:a24:ad2:: with SMTP id 201mr5757242itw.26.1556877514403;
-	Fri, 03 May 2019 02:58:34 -0700 (PDT)
+	bh=t1BnY46StCHf88IskFcujfK4R/5XacC78TAFef/dyOU=;
+	b=VLEpdKcXBtxnwb/imBXhh2rPOCp2tir9qIZYrQ1L/62FbF7E8gYtowc29CbJm6+M46
+	bdrLSC9BH/Syfq+kmqzVlQ3WErY+jcdToN+8aFjuQiY9WK/c0PbY9VVSmkYA9TxFkWuu
+	QUey2d458N0utQm/Wwk2yOjIgcO+0nQd7V+3D/5fn5AtTs2I0ErVcQKZloS4T5qO27pI
+	Kx+MkbyAYh6lT5id2NRtN1MekjWfUPg5h7LhR071ltyD29NOENvlxvL7rOBdKtqXygY7
+	NYwBnoBJMIBwlfYeSnT/5UlNzZ8qt9stsZ3/qfcgAzfXeRjjIsuAba0cLr7D92BgOjG9
+	uIAQ==
+X-Gm-Message-State: APjAAAVpgMA+kv+4Ezfgk9ta/EfYIMsjBpG7bk5L6mjrlRzANv0VfkHR
+	OJYOoQrJWkrvQRLFqezzt0fefgDwMpWVg1MfWOxq3lzqBIQ=
+X-Google-Smtp-Source: APXvYqwcZ+NP2sZTDH5A8niL+lP3wLiwTAO5W/QFYp1chnIyxs3lhuysQPXV6uA89ddakFaAwSxdf/Rcs4BZmdUNtHA=
+X-Received: by 2002:a9d:6209:: with SMTP id g9mr729441otj.153.1556878687719;
+	Fri, 03 May 2019 03:18:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <1556826055-7896-1-git-send-email-liu.ming50@gmail.com>
-In-Reply-To: <1556826055-7896-1-git-send-email-liu.ming50@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 3 May 2019 10:58:23 +0100
-Message-ID: <CAJTo0LYPgt+hnVkvnMmt85eCW4bjq1rhugRNoXi5CQY+fQKz4g@mail.gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
-Cc: gerard.salvatella@toradex.com, Stefan Agner <stefan.agner@toradex.com>,
-	luka.pivk@toradex.com, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Fix a libxkbcommon runtime error
+References: <20190502180916.32114-1-m.felsch@pengutronix.de>
+	<20190502180916.32114-5-m.felsch@pengutronix.de>
+In-Reply-To: <20190502180916.32114-5-m.felsch@pengutronix.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 3 May 2019 12:17:56 +0200
+Message-ID: <CANNYZj-4tB-if4kC3NZ8UOAujCMDOa-9ePH=j50-9BzOU_OwLg@mail.gmail.com>
+To: Marco Felsch <m.felsch@pengutronix.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2 4/4] mesa: make gallium virgl optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,54 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 09:58:33 -0000
+X-List-Received-Date: Fri, 03 May 2019 10:18:07 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-I'd much prefer a dependency that is conditional on the
-DISTRO_FEATURES and have an alternative recipe that just ships the
-locale data.
+On Thu, 2 May 2019 at 20:09, Marco Felsch <m.felsch@pengutronix.de> wrote:
+> Same as for the swrast target it isn't a good solution to enable the
+> target per default since we compiling for embedded targets most the
+> time. Make this target optional to save some memory.
 
-Ross
+This will probably break virgl oe-selftests as they expect target mesa
+to be configured with virgl.
+Try 'oe-selftest -r runtime_test.TestImage.test_testimage_virgl_gtk'
+and 'oe-selftest -r
+runtime_test.TestImage.test_testimage_virgl_headless'
 
-On Thu, 2 May 2019 at 20:41, <liu.ming50@gmail.com> wrote:
->
-> From: Ming Liu <liu.ming50@gmail.com>
->
-> We had observed a runtime error when we run a QT application on weston
-> compositor, as follows:
-> | xkbcommon: ERROR: couldn't find a Compose file for locale "C"
->
-> after some investigation, we found the libx11-locale is being required
-> by libxkbcommon at runtime, or else we get the above error and the QT
-> widgets could not get the keyboard events.
->
-> To fix the issue, I think there might be two ways:
->
-> 1 Allow the libx11 to be built without the requirement for x11 being in
->   DISTRO_FEATURES, as this patch series are trying to do.
-> 2 Create another libx11-data recipe to provide the locales of libx11.
->
-> I would like to get your input about this fix, please kindly help me
-> review it.
->
-> Ming Liu (2):
->   meta: unset REQUIRED_DISTRO_FEATURES for libx11 and its dependents
->   libxkbcommon: RDEPENDS on libx11-locale
->
->  meta/recipes-graphics/xorg-lib/libx11_1.6.7.bb       | 2 ++
->  meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb       | 2 ++
->  meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb      | 4 ----
->  meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb     | 2 ++
->  meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.4.bb | 4 ++++
->  meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb       | 2 ++
->  6 files changed, 12 insertions(+), 4 deletions(-)
->
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+You can address this by setting PACKAGECONFIG_append_qemuall = " virgl".
+
+
+> Upstream-Status: Submitted [openembedded-core@lists.openembedded.org]
+
+This is not necessary. It is only used for patches to the recipes that
+live as files in the layer tree.
+
+Alex
 
