@@ -1,98 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
-	[209.85.210.181])
-	by mail.openembedded.org (Postfix) with ESMTP id C2CA77D714;
-	Fri,  3 May 2019 17:18:45 +0000 (UTC)
-Received: by mail-pf1-f181.google.com with SMTP id j11so3174073pff.13;
-	Fri, 03 May 2019 10:18:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=/zkBMMt5Gt9B4PEqjDvYLNG0yGxNhbokci4Hvv6JL1s=;
-	b=Qakopx7ZZ5arZGsXophhSCnfpJxDQZIAv8JNTKGhoKy1HYzHlF03EyXXtkjdofd9AI
-	L5/4BOFCuurATdRnGEiak8fa2nrc9UsbotSDtM0imP0Ehra73k+jh0Zgh8079u5gwPhS
-	Dd8pYkgmFlV6CZQxicSXASGajbjqsD1WKGwOo4cGMUoZQLJU8FBWzvNuR69CT7JJ3WGt
-	7u+17o0qshH3AQ1SgKAjgZRDnmeH44owdyscyem8E6XkN9MDlwf1r2qiehb3wci5MXD1
-	ZO8CyW1gJ9wFCnwj9uaBv/41Qor5bE6KQIyvHX9JZIf6CeujwTgeZ7hJAGrWrfU+Rw8+
-	KPfQ==
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
+	[209.85.166.169])
+	by mail.openembedded.org (Postfix) with ESMTP id BFF2B7DE3F
+	for <openembedded-core@lists.openembedded.org>;
+	Fri,  3 May 2019 17:34:15 +0000 (UTC)
+Received: by mail-it1-f169.google.com with SMTP id q65so8949268itg.2
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 May 2019 10:34:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9Oezh/W7dC3SlwyBaoKuzalXtSVIZcPKlx2Hwu85Xkw=;
+	b=c8IojuhSxRwuKz4NJr8YxHYclOUynLP8Wi4thxB1YveUAabI8Sr+kxJ4M2RjGKgScp
+	1i1fCrVzEvbvhOa+xiC+xdeaNzD50Cn8+7fDAIvmYKsv5+dLkZXBuF1vjJveKFSumIn/
+	PvBLQRhfnGWCesW4rjO7+N/sy3q6SVQcwvL52cwW3x4wyvBtLCRzsxA70z0zJvTWTcid
+	9kgEv/fUtEwCQtc42v9UzWg8feooJh9DdsxhYHrtrAqHjU9hebtnaKhs4nG8eXKpVupK
+	yEQn0ktyeBbG+dTl/fJjZJROIDWV/nM5zxRbpCX+fXyn0zHd9kkt7OSZ2u489YZb2YWr
+	gf+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:content-transfer-encoding
-	:content-language;
-	bh=/zkBMMt5Gt9B4PEqjDvYLNG0yGxNhbokci4Hvv6JL1s=;
-	b=XZRLthJ9+NjClIOIAz81S3d74CeMrTbXWjnbluh4PwsP7NBOKTMxgRBWFvgn1xQgOi
-	xJ24UQjh8fztYzUtpQdnQiJ2328rz+1RjETRpv0VfhcpW2BTMQ8Q8D3ncLSyaV7HsTP9
-	BMiqPYlgEEFtF2eZn9Ue+vSkoOc4LlP542DCnre3eFL3BYXmiriirHXLDjHm9o0sPoh4
-	utYP+Rqj6IbyydvlvsCuUkek1PoI8BxpOIXU2KlKE5AYjaF6xZXb76jUnQQNkjmWVO5E
-	p4zA+E5nSl+8PoebaxodzLRqXzBoeTah/JiDBSY28sCxYx08IAV7w5lNaBWcPY/fu7+Y
-	7JKg==
-X-Gm-Message-State: APjAAAWfMtUBw/PxItISl4dCYTLP3qVSd9sQymV1SgZTZw+TRGw/agDm
-	YDN9mDW14qTt+X1ELStN/9b8T6qp
-X-Google-Smtp-Source: APXvYqweX5HVusbdlLBFCpolNPcaGxkTx3nm70CwcvbYfR2MGRSr+yYOTnba1nbpvaAha5cGvQKPsQ==
-X-Received: by 2002:a63:3d4c:: with SMTP id k73mr11842770pga.154.1556903926805;
-	Fri, 03 May 2019 10:18:46 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:b9b3:5f13:7709:822d?
-	([2601:202:4180:c33:b9b3:5f13:7709:822d])
-	by smtp.gmail.com with ESMTPSA id
-	q144sm3188358pgq.76.2019.05.03.10.18.45
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 May 2019 10:18:46 -0700 (PDT)
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <e86cf937-5734-fc36-cd94-fad9b0155059@gmail.com>
-Date: Fri, 3 May 2019 10:18:44 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9Oezh/W7dC3SlwyBaoKuzalXtSVIZcPKlx2Hwu85Xkw=;
+	b=RTRruaudttPSbleY0SuE+0qI5ZbSEwzPFUetUO/498fxhz7n61tcFAzNY/729NSRId
+	5iPzdx+8zlqNWH6puJM5haxKZlBOrgRckS4ffLUCJnmFRpJJaiTZdi1Q9S+ubB72L0MX
+	q/jCe1KqTUg0/gvdcrH540lHtXztUkoJGi1qjLP+3eVGfIPzcXy5TcklXSIMrP8Snbfu
+	sMdBZk4ZX2zqutkOLtj6mgtA498n04q/XxfSSg423Z09m9+Ze+HNbf0u6aa/hFIQibMK
+	VcJnHkidtZectcme16MmvN10TTcZniRtPvA9IGYawFcMYAsaGMatj/gCKdkL9alNnDpx
+	EG/Q==
+X-Gm-Message-State: APjAAAWBWPsy6ZSIMlDlpKnycqH4jejvsr8/9jEKp2l/o3rekFLJaNXL
+	8RadysKDveps4AqwS91GA7PEzpsomxsV6en8fZdLtw==
+X-Google-Smtp-Source: APXvYqzWjxfqxvb2hX2Zmc7VqTf6hZytxTA16wd8/phqwEQaVbc6nbK5gUcyCyuoHr0c1O//65kSDWFxycYR7G6heLw=
+X-Received: by 2002:a24:4145:: with SMTP id x66mr8246248ita.130.1556904856683; 
+	Fri, 03 May 2019 10:34:16 -0700 (PDT)
 MIME-Version: 1.0
-Subject: patchwork
+References: <20190503164734.130778-1-alex.kiernan@gmail.com>
+In-Reply-To: <20190503164734.130778-1-alex.kiernan@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 3 May 2019 18:34:05 +0100
+Message-ID: <CAJTo0La=VGkcFe+EZ49ki9Bb2-z7kVoOGDN7i8wcVcc6iVitMg@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bmap-tools: Add RDEPENDS on python3-misc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,25 +54,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 17:18:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
+X-List-Received-Date: Fri, 03 May 2019 17:34:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hello OE folk,
+On Fri, 3 May 2019 at 17:48, Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> The newer python3 recipe no longer includes python3-misc in target by
+> default, leading to failures:
+>
+>   Traceback (most recent call last):
+>     File "/usr/bin/bmaptool", line 6, in <module>
+>       from pkg_resources import load_entry_point
+>     File "/usr/lib/python3.7/site-packages/pkg_resources/__init__.py", line 42, in <module>
+>       import ntpath
+>   ModuleNotFoundError: No module named 'ntpath'
 
-My apologies for cross posting.
+Looks like ntpath should be in a different package if pkg_resources
+won't run without it.
 
-Who is the Admin for Patchwork?
+>  RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
+> +RDEPENDS_${PN}_append_class-target = " python3-misc"
 
-I would like additional privileges to manage the "Yocto Project Layers"
-queue.
+Why class-target only?
 
-Also, I would like additional=C2=A0 privileges to add new branches for an=
-y
-oe, meta-oe queues & yp layers.
-
-kind regards,
-Armin
-
+Ross
 
