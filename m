@@ -1,47 +1,51 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f48.google.com (mail-vs1-f48.google.com
-	[209.85.217.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EA337DE17
+Return-Path: <philip@balister.org>
+Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
+	[216.168.135.167])
+	by mail.openembedded.org (Postfix) with ESMTP id 655E07DDD3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 18:32:29 +0000 (UTC)
-Received: by mail-vs1-f48.google.com with SMTP id o10so4197068vsp.12
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 11:32:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OsdeFila2lrtuTk27JTU2EfibwLS4FJ6KlJ+Y/kcuKE=;
-	b=MiNE0d+moVdi+FQUrqT4JeO3XbeV6yLbFjOlbmFpOuK4vQFjIGPfktsWOAgxCpz5zs
-	Pf0eiVv/ypg+jdiaW4U5IOuqyTJjGgnBMeQFA+zrBmEmiLfNr1Gdp7UNW0rFf7x/Ttdo
-	aw03AKeFzVfwRD/Xq1tw/YYSOnsN29J6dk5TJPp6taokVulqavWzIi7NDJu/JLvUkjAH
-	KN9UdGVeorJW7Jl2bPdzJqe4BS4w4Mc8csOq5Hri3IWOXWMpCNUdc1HzYxD3ggdSqqrj
-	R1eByCcOHTvPSpJNae0MFI1PpGSiS4pUUegdck6dstsv7evHuH1X4xZlaMmVrUCf4nut
-	y9Uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=OsdeFila2lrtuTk27JTU2EfibwLS4FJ6KlJ+Y/kcuKE=;
-	b=HqRoP2WTIRIU6W+TBuJuch2+412eVSIjF5sGfa9elXwG1hSyDnx3gPQcsaFzQeLWy5
-	3w9TsYQSroszgSNpByHbhM0zMkKEMDvwSF5OqBdT8USNKGdy9OL5qdgxPZIBRcTBIX9a
-	l4AbhZVj87pd/Uuh0wssxW6NJsNn5X5m7pYu8oFjNZb34XsE4ecz5x+MNlx8lT4z9BYZ
-	AbZY67rCy+dBBUhcZng4/ueCjp9vSEmwCW6P9HqnbPjh5JXbImy694kpTOPNeOClGCTN
-	U6S0U7jWiryatLqxP10CjPhiFTfD5Pt/PZu4Uv8YFNXOSD2qdd7LCtw06Bx2PTKJ9Jr3
-	3e9w==
-X-Gm-Message-State: APjAAAUl6SPVjXLTDjDbkQr1HVxJfkyTr2hCoCSHuvy/UijSWVi0gn5f
-	2s0H6/OKz2YgZorpJ3Dx1i8Au0abMNB4C6ygkoU=
-X-Google-Smtp-Source: APXvYqzbOgHHyEGsteQieID6vaekrdeOmn6Tn9lB9Wka+OGPgRrPZvu7pVFJ8AkEzNLjd2FepDR6b3np62tNmYUMFwM=
-X-Received: by 2002:a67:af10:: with SMTP id v16mr365020vsl.149.1556908350917; 
-	Fri, 03 May 2019 11:32:30 -0700 (PDT)
+	Fri,  3 May 2019 21:47:08 +0000 (UTC)
+Received: (qmail 10227 invoked by uid 1003); 3 May 2019 21:47:14 -0000
+Received: from unknown (HELO ?192.168.11.100?)
+	(philip@opensdr.com@73.152.143.112)
+	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
+	3 May 2019 21:47:14 -0000
+To: "openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-members@lists.openembedded.org"
+	<openembedded-members@lists.openembedded.org>
+From: Philip Balister <philip@balister.org>
+Openpgp: preference=signencrypt
+Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
+	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
+	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
+	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
+	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
+	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
+	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
+	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
+	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
+	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
+	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
+	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
+	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
+	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
+	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
+	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
+	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
+	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
+	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
+	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
+	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
+	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
+	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
+	6eUfr0u7CwnEyqiQ
+Message-ID: <2f5e2cdf-cd6c-8e59-5442-37c62ac9dbf0@balister.org>
+Date: Fri, 3 May 2019 17:47:06 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.5.2
 MIME-Version: 1.0
-References: <20190503164734.130778-1-alex.kiernan@gmail.com>
-	<CAJTo0La=VGkcFe+EZ49ki9Bb2-z7kVoOGDN7i8wcVcc6iVitMg@mail.gmail.com>
-In-Reply-To: <CAJTo0La=VGkcFe+EZ49ki9Bb2-z7kVoOGDN7i8wcVcc6iVitMg@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Fri, 3 May 2019 19:32:19 +0100
-Message-ID: <CAO5Uq5QRMd8w+apv6vYiOKAdvDdkFSB2oz1bWZfyX8G=hs2Vqw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bmap-tools: Add RDEPENDS on python3-misc
+Subject: Plans for ELC and ELCE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 18:32:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 03 May 2019 21:47:08 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-MW
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 3, 2019 at 6:34 PM Burton, Ross <ross.burton@intel.com> wrote:
->
-> On Fri, 3 May 2019 at 17:48, Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > The newer python3 recipe no longer includes python3-misc in target by
-> > default, leading to failures:
-> >
-> >   Traceback (most recent call last):
-> >     File "/usr/bin/bmaptool", line 6, in <module>
-> >       from pkg_resources import load_entry_point
-> >     File "/usr/lib/python3.7/site-packages/pkg_resources/__init__.py", line 42, in <module>
-> >       import ntpath
-> >   ModuleNotFoundError: No module named 'ntpath'
->
-> Looks like ntpath should be in a different package if pkg_resources
-> won't run without it.
->
+For the past few years, OpenEmbedded has held developer meetings at the
+LF Embedded conferences in the US and Europe. This year, since ELC is in
+late August, we will skip the developer meeting at ELC. There will be a
+Yocto Project day on Aug 20 before ELC.For ELCE, we are going to work
+with the Yocto project on a 2 day event after ELCE (Oct 31- Nov 1).
 
-Sorry, should've looked more closely... I'll take a look at it.
+The format of the ELC event will be more like the advanced track in
+prior years, which means we will need people to speak about their
+OpenEmbedded and Yocto Project work. Details later.
 
-> >  RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
-> > +RDEPENDS_${PN}_append_class-target = " python3-misc"
->
-> Why class-target only?
->
+For ELCE there will be two days, the first day is an auditorium, and the
+second day two smaller rooms. Day 1 is for talks, on Day2 we really need
+some ideas of events we can have to help get developers , maintainers
+and users working together. So if you have ideas, let me know and I can
+feed them to people planning the event.
 
-It doesn't exist for native (which was a surprise).
+Hopefully these formats start to address some of the themes coming from
+the last couple developer meetings and give us a chance to get more
+information to the larger community.
 
--- 
-Alex Kiernan
+Philip
 
