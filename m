@@ -1,49 +1,44 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 11B577DDCA
+Return-Path: <matthias.schiffer@ew.tq-group.com>
+X-Greylist: delayed 593 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 03 May 2019 14:37:48 UTC
+Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 37E177D70B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 14:22:23 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id t76so7370520wmt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 07:22:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dLAKPKb/tw2M5qUQ3sUUOxxn3cXTrNFJA/RF0xvaThs=;
-	b=W7Qcvx3Lw9d2O2npPtmdGJUF9DNpx0fpacezZ/Y4Gw/MPXO/RT0xGuzOpE5KWz8746
-	61gMeD46autT5vQEuKKI0xzmi/t5+6dpfUJUIwSprUS+BjlRRcDFs1CAyF8P47w03GdW
-	xkzBdDmauNuGO018AkYP2zoGWlM3U55m9BXLqb0AEexZlfYur0oCdWl2UxXriUBZywUf
-	n/URBVY5Rt6hRV6s1nAH9KUnEq1ik80+ipXvM/Jog7mHowbYzemZMXv7vjgm7uevcCEt
-	3SKaijVLf7Yrp0nUr3+eKDno2n2gKiBsUsxjRMcMAyyZWa0geA1qu8HUYAZGiurkAyd0
-	K28A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=dLAKPKb/tw2M5qUQ3sUUOxxn3cXTrNFJA/RF0xvaThs=;
-	b=CzGYKEu9chsfcpiV65kcrOecsXgs9FUUIcUmRQlp5OoKGkPkVG2BPEjLfaE8iLbWG0
-	DAb54uFnn/wDfxeJ0TkC1hfWPq8YQzmuZ/2LubrGibCgr7ZJ9t3x5gqjE9SdO+TpvowN
-	BrsUT4wuHlucXMNbA1ssE2TRZEUGEMMEQoZJtNkQyVEvfk7PzC0M4DGoLm9gicf01L0i
-	JzA8wmd2e5AnsaOG+h5AHT82VSkCNUV01j16dCW6In2s+s1xqVHlw9M1OH4rNSz7b+3v
-	nnCCYNb+lCfCgjSi133GUmdYPB8xpMa/VGxxYQBcUmRk0enRB5A81c3hKCP9XY2nhH0e
-	r61w==
-X-Gm-Message-State: APjAAAVn4Y6bho0J4EZQJg/Kf+KFInG/81szyXS5v4KoGw6k5QS9K+oo
-	MNu/3jDHhhNDLhXFY9dRzjdW4C5QF2gv45bP2qU=
-X-Google-Smtp-Source: APXvYqxEV+fHxkTZjnQvZTtRVjdF1bt9KD59xw2Zlz5n0DbynvaIOuGiKOBERs1O2MXlBUh5kb70+s65t4XK3eMdOgw=
-X-Received: by 2002:a1c:e3c4:: with SMTP id a187mr6804157wmh.87.1556893344593; 
-	Fri, 03 May 2019 07:22:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <1556826055-7896-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LYPgt+hnVkvnMmt85eCW4bjq1rhugRNoXi5CQY+fQKz4g@mail.gmail.com>
-In-Reply-To: <CAJTo0LYPgt+hnVkvnMmt85eCW4bjq1rhugRNoXi5CQY+fQKz4g@mail.gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Fri, 3 May 2019 16:22:13 +0200
-Message-ID: <CALatG=4JGQkQebOimNOJueDCUOUK=4jGKVTCEsVHbqO+P8TQaA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: gerard.salvatella@toradex.com, Stefan Agner <stefan.agner@toradex.com>,
-	Luka Pivk <luka.pivk@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/2] Fix a libxkbcommon runtime error
+	Fri,  3 May 2019 14:37:47 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,426,1549926000"; 
+   d="scan'208";a="7282713"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+	by mx1-pgp.tq-group.com with ESMTP; 03 May 2019 16:27:55 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+	by tq-pgp-pr1.tq-net.de (PGP Universal service);
+	Fri, 03 May 2019 16:27:55 +0200
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Fri, 03 May 2019 16:27:55 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+	t=1556893675; x=1588429675;
+	h=from:to:cc:subject:date:message-id;
+	bh=7pgLkJ+k+KeD/nZR5PtLSoco5PGic7ZxE+hZQr7l74o=;
+	b=ZNgtAREIEr4lRAVGLz7CWb9eU9LUkLDe50w/zj6H2kKuVFyulaDj6dvV
+	5qG01t4tAXDt+zIj5qJ6UJgf3O5njVWN0gJc9qDQncHdgNjZDXVYe2q4/
+	mLPOgaxk/STSFRkDE2ivKYaI7/m/EZLJMemp7GyVsqqcdbFRGN8E5nlLw
+	EIVbwUlyxKI+EOX0Lnniivg7eI2N1Y4+/HjSvg+cTjlBeDvg+sqKIdaA7
+	nePAo+xrmCueKWeyyImyCtfY7b6WQGWI/y5WVt/lQsL6hfzeA69/1gbkZ
+	WzBueeilJSAjk8Yow7ff6dItqEDOVOytVCYUs/EdjlI9SCPpGEWQ8Ws24 w==;
+X-IronPort-AV: E=Sophos;i="5.60,426,1549926000"; 
+   d="scan'208";a="7282712"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+	by mx1.tq-group.com with ESMTP; 03 May 2019 16:27:55 +0200
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+	[10.117.49.26])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id D5DE9280074;
+	Fri,  3 May 2019 16:27:54 +0200 (CEST)
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 May 2019 16:27:33 +0200
+Message-Id: <20190503142733.1974-1-matthias.schiffer@ew.tq-group.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] systemd: move "machines" symlinks to systemd-container
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,158 +51,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 14:22:24 -0000
-Content-Type: multipart/alternative; boundary="000000000000c1fd880587fc7a36"
+X-List-Received-Date: Fri, 03 May 2019 14:37:48 -0000
 
---000000000000c1fd880587fc7a36
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Move symlinks to the machines.target and var-lib-machines.mount units to
+the systemd-container package, where the pointed at units are located as
+well.
 
-Hi, Ross:
+This avoids an implicit dependency of the systemd package on
+systemd-container, which prevented the use of systemd without installing
+systemd-container.
 
-Copy that, will make a V2 soon.
+Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+---
 
-the best,
-thank you
+v2: rebased to master, slightly improved commit message wording.
 
-Burton, Ross <ross.burton@intel.com> =E6=96=BC 2019=E5=B9=B45=E6=9C=883=E6=
-=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=8811:58=E5=AF=AB=E9=81=93=EF=BC=
-=9A
+Applicable to all branches (at least back to Rocko) when the recipe name
+is adjusted to the used systemd version.
 
-> I'd much prefer a dependency that is conditional on the
-> DISTRO_FEATURES and have an alternative recipe that just ships the
-> locale data.
->
-> Ross
->
-> On Thu, 2 May 2019 at 20:41, <liu.ming50@gmail.com> wrote:
-> >
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > We had observed a runtime error when we run a QT application on weston
-> > compositor, as follows:
-> > | xkbcommon: ERROR: couldn't find a Compose file for locale "C"
-> >
-> > after some investigation, we found the libx11-locale is being required
-> > by libxkbcommon at runtime, or else we get the above error and the QT
-> > widgets could not get the keyboard events.
-> >
-> > To fix the issue, I think there might be two ways:
-> >
-> > 1 Allow the libx11 to be built without the requirement for x11 being in
-> >   DISTRO_FEATURES, as this patch series are trying to do.
-> > 2 Create another libx11-data recipe to provide the locales of libx11.
-> >
-> > I would like to get your input about this fix, please kindly help me
-> > review it.
-> >
-> > Ming Liu (2):
-> >   meta: unset REQUIRED_DISTRO_FEATURES for libx11 and its dependents
-> >   libxkbcommon: RDEPENDS on libx11-locale
-> >
-> >  meta/recipes-graphics/xorg-lib/libx11_1.6.7.bb       | 2 ++
-> >  meta/recipes-graphics/xorg-lib/libxau_1.0.9.bb       | 2 ++
-> >  meta/recipes-graphics/xorg-lib/libxcb_1.13.1.bb      | 4 ----
-> >  meta/recipes-graphics/xorg-lib/libxdmcp_1.1.3.bb     | 2 ++
-> >  meta/recipes-graphics/xorg-lib/libxkbcommon_0.8.4.bb | 4 ++++
-> >  meta/recipes-graphics/xorg-lib/xtrans_1.4.0.bb       | 2 ++
-> >  6 files changed, 12 insertions(+), 4 deletions(-)
-> >
-> > --
-> > 2.7.4
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
+ meta/recipes-core/systemd/systemd_242.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
---000000000000c1fd880587fc7a36
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index a6b39d57e8..b1c0fed72f 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -402,12 +402,15 @@ SYSTEMD_SERVICE_${PN}-remote = "systemd-journal-remote.socket"
+ 
+ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
+                          ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
++                         ${sysconfdir}/systemd/system/multi-user.target.wants/machines.target \
+                          ${base_bindir}/machinectl \
+                          ${bindir}/systemd-nspawn \
+                          ${nonarch_libdir}/systemd/import-pubring.gpg \
+                          ${systemd_system_unitdir}/busnames.target.wants/org.freedesktop.import1.busname \
+                          ${systemd_system_unitdir}/busnames.target.wants/org.freedesktop.machine1.busname \
+                          ${systemd_system_unitdir}/local-fs.target.wants/var-lib-machines.mount \
++                         ${systemd_system_unitdir}/machines.target.wants/var-lib-machines.mount \
++                         ${systemd_system_unitdir}/remote-fs.target.wants/var-lib-machines.mount \
+                          ${systemd_system_unitdir}/machine.slice \
+                          ${systemd_system_unitdir}/machines.target \
+                          ${systemd_system_unitdir}/org.freedesktop.import1.busname \
+-- 
+2.17.1
 
-<div dir=3D"ltr">Hi, Ross:<div><br></div><div>Copy that, will make a V2 soo=
-n.</div><div><br></div><div>the best,</div><div>thank you</div></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">Burton, Ross=
- &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt;=
- =E6=96=BC 2019=E5=B9=B45=E6=9C=883=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=
-=E5=8D=8811:58=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
-04,204);padding-left:1ex">I&#39;d much prefer a dependency that is conditio=
-nal on the<br>
-DISTRO_FEATURES and have an alternative recipe that just ships the<br>
-locale data.<br>
-<br>
-Ross<br>
-<br>
-On Thu, 2 May 2019 at 20:41, &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
-rget=3D"_blank">liu.ming50@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
-blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; We had observed a runtime error when we run a QT application on weston=
-<br>
-&gt; compositor, as follows:<br>
-&gt; | xkbcommon: ERROR: couldn&#39;t find a Compose file for locale &quot;=
-C&quot;<br>
-&gt;<br>
-&gt; after some investigation, we found the libx11-locale is being required=
-<br>
-&gt; by libxkbcommon at runtime, or else we get the above error and the QT<=
-br>
-&gt; widgets could not get the keyboard events.<br>
-&gt;<br>
-&gt; To fix the issue, I think there might be two ways:<br>
-&gt;<br>
-&gt; 1 Allow the libx11 to be built without the requirement for x11 being i=
-n<br>
-&gt;=C2=A0 =C2=A0DISTRO_FEATURES, as this patch series are trying to do.<br=
->
-&gt; 2 Create another libx11-data recipe to provide the locales of libx11.<=
-br>
-&gt;<br>
-&gt; I would like to get your input about this fix, please kindly help me<b=
-r>
-&gt; review it.<br>
-&gt;<br>
-&gt; Ming Liu (2):<br>
-&gt;=C2=A0 =C2=A0meta: unset REQUIRED_DISTRO_FEATURES for libx11 and its de=
-pendents<br>
-&gt;=C2=A0 =C2=A0libxkbcommon: RDEPENDS on libx11-locale<br>
-&gt;<br>
-&gt;=C2=A0 meta/recipes-graphics/xorg-lib/<a href=3D"http://libx11_1.6.7.bb=
-" rel=3D"noreferrer" target=3D"_blank">libx11_1.6.7.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 2 ++<br>
-&gt;=C2=A0 meta/recipes-graphics/xorg-lib/<a href=3D"http://libxau_1.0.9.bb=
-" rel=3D"noreferrer" target=3D"_blank">libxau_1.0.9.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 2 ++<br>
-&gt;=C2=A0 meta/recipes-graphics/xorg-lib/<a href=3D"http://libxcb_1.13.1.b=
-b" rel=3D"noreferrer" target=3D"_blank">libxcb_1.13.1.bb</a>=C2=A0 =C2=A0 =
-=C2=A0 | 4 ----<br>
-&gt;=C2=A0 meta/recipes-graphics/xorg-lib/<a href=3D"http://libxdmcp_1.1.3.=
-bb" rel=3D"noreferrer" target=3D"_blank">libxdmcp_1.1.3.bb</a>=C2=A0 =C2=A0=
- =C2=A0| 2 ++<br>
-&gt;=C2=A0 meta/recipes-graphics/xorg-lib/<a href=3D"http://libxkbcommon_0.=
-8.4.bb" rel=3D"noreferrer" target=3D"_blank">libxkbcommon_0.8.4.bb</a> | 4 =
-++++<br>
-&gt;=C2=A0 meta/recipes-graphics/xorg-lib/<a href=3D"http://xtrans_1.4.0.bb=
-" rel=3D"noreferrer" target=3D"_blank">xtrans_1.4.0.bb</a>=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0| 2 ++<br>
-&gt;=C2=A0 6 files changed, 12 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.7.4<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
 
---000000000000c1fd880587fc7a36--
