@@ -1,34 +1,34 @@
 Return-Path: <paul@betafive.co.uk>
 Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
 	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id 3D04A7DDB5
+	by mail.openembedded.org (Postfix) with ESMTP id B320C7DDBC
 	for <openembedded-core@lists.openembedded.org>;
 	Fri,  3 May 2019 11:54:58 +0000 (UTC)
 Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 7543921B2C;
+	by mailout.nyi.internal (Postfix) with ESMTP id EAFD322540;
 	Fri,  3 May 2019 07:54:59 -0400 (EDT)
 Received: from mailfrontend2 ([10.202.2.163])
 	by compute1.internal (MEProxy); Fri, 03 May 2019 07:54:59 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references; s=
-	fm1; bh=jHuWUuKgI8EJWWFY7Y2Ejhr4bU2i1i44rETnrvp9TNY=; b=w4kZFtF8
-	8WUu+Eb8dkOuywsVNsA4+EPOL6IDlWiOjMofjUacKVL31K/LX/6RjtX3q8blKiCU
-	tn/4T5s6agmPUDQUqWxqkvTUEAVfDG+PnqELaqZMmwKnnxQyQKU9LvUUveYxZWQf
-	DVJ4kVdMb59F6dUt0RtnyozCiu2F0tBoItNAC1fS1fth4fPHD9TQXjNm6KLH7bdh
-	p5WGV3qAgj1AOG7OwgBE/2OoBVC+7AxlBY4I2DLJN4qakM2AgeAygJz3Oy3XSrBJ
-	8OJc0+ClQrF6gPjBV910vbZGPwdlQC6zIxakWx4kw/lDJYep3TFpiB2XWLQxW4Kr
-	UhZZrz0SRiT0Tg==
+	fm1; bh=e0a2yICHHN1AMNdJ83PI7begPgLhJdmKDHp8m6kTDeE=; b=wYjKCfUu
+	BEqxM1HPeaKW5su5Gpk3Nxc6zh3qyNhr1b5YLbYFvX1rZEJQGNo7nJ4DXF9NIwYS
+	KqpJBgLEQMm70TMVzgVcu/v0rCyOyIcqTVmvlKHsCViF0Y1mTFSqn4tK9h1cdEwY
+	Rbvxw8aC0iLS5apCJgWFM6MCFGGPp1YPYV6ylWlmUPMQNCW7hRZ2n05QI1FnFkVd
+	yHGLAdFKEKdlDTUujOLMZMOyQ6GowcZ6OoLbmR62UiK2/Hm0G2OGB5HIJqct+clv
+	bQU6dgm+YMdsXqVCj+OKhpYu3Lv6cnLzuXxP5IpsLw1Z1pSQCUJjjO+SuTplqOgk
+	PcfUoRDsdccIRA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:date:from:in-reply-to:message-id
 	:references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; bh=jHuWUuKgI8EJWWFY7Y2Ejhr4bU2i1
-	i44rETnrvp9TNY=; b=WKpG4Vg7JUGiZatkq3J8KE4fPAW5IShLUVO9iGjU4pdf+
-	ffQdoYLGJCtAlxeu/heQnucxh1GeMALl/cIb6p7iwaCNkXuoQHOSMj1OjxZEzqZK
-	V9TAla8nJtyv1CTeP20L+FZOfBD7sZgfAzMW570+/O8hhxVq3aeDiKoUBXgs+tHs
-	dKyWQ/OaNcxBqNgON6KxVMq+H3O780XukZG9FQ9ofAGG4g/XkSGB6SwggPUBqAoy
-	eTevRK1gQ78lkC3Qp7xX8naW6cJXpZsm6TM3RoCkVXllC9R90itw1ZcRN5Mu8Ame
-	QRUgO7vtlV15V914OemL+W0jqocZiPct7EF4m5OyA==
-X-ME-Sender: <xms:EyzMXEKP1Hhfh5fqrt88x3gcbw1poAeJ67HYZrf9X_WARDG9cfnoyg>
+	:x-me-sender:x-sasl-enc; s=fm2; bh=e0a2yICHHN1AMNdJ83PI7begPgLhJ
+	dmKDHp8m6kTDeE=; b=TGgG+lxzKHb0V1Z3de2A699wc779NDB3MY0BvcbX0qxit
+	MFy/MXXOLkksSvh7kJRfwu9DNAWoDlye5ninBnJhIyDSuRmxzYmj9a34l6t+n5aP
+	VLkltu5E8uMnvYqk0pr7BSQtvszeJtV4C2i9TggwczEPRljuq1tZdTIXvEAFI4L8
+	Vf3ezDXJXZmZImRcyVz6GhIryGRQ+vyGeQe0S4dDUXBfhRKczqOzea25hImki2F0
+	y5msdC1e2Xud/wzOOlyfojr4vGYMfHppsOzOdr/hB1pexnv0ZTb5rDUdKMKdp0bZ
+	0Dv4Ak7NLJABPbidnCMZtuQ7Vg3HYHHlknwPoVYIw==
+X-ME-Sender: <xms:EyzMXBd11KHXuX-eE3e4Je5PE_j3T3Mdp_gd6Xx8aTRIpacLIah8CA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrjedugdeglecutefuodetggdotefrodftvf
 	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
 	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -36,21 +36,21 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrjedugdeglecutefuodetggdote
 	rghfihhvvgdrtghordhukhenucfkphepkedurddukeejrdefvddrudefkeenucfrrghrrg
 	hmpehmrghilhhfrhhomhepphgruhhlsegsvghtrghfihhvvgdrtghordhukhenucevlhhu
 	shhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:EyzMXIZAM1lzyP8VfiEgOz93Q3inptagFzqfBfLXZVIWDzoYNby4uQ>
-	<xmx:EyzMXPvJ_XcHKeFPIX4SRoRmRYu-slLePbvEfrcWbP9SIl5_-QPnAg>
-	<xmx:EyzMXFuL6QZdbvHhJsJY3qrBa6hhTBMu_AuiuNqVaktICT0zWZddyA>
-	<xmx:EyzMXFWTjyzt95zzqoAqRn3dpUs7OBhb1yjJOgTbzXrdHYAESAKCzQ>
+X-ME-Proxy: <xmx:EyzMXF4jCLWkWJ8PaVb3cSyaXl6TLH24Fp5Hfrrx9BuzLCLT3Qg8CA>
+	<xmx:EyzMXF5e_YXRYI2SsFXjmdqkazPqQ9YTOsKBD0LfqWuhWGXGint7Ag>
+	<xmx:EyzMXBPow_zOSVZuaxYirA3TQzW_1OFu5sJmH5infmfYebFaXD35uA>
+	<xmx:EyzMXOBYvWWqxjLRHwa3VqxWfVnxz-Z18ijORglRp3cgSY2YA-dE0w>
 Received: from alpha.home.b5net.uk (138.32.187.81.in-addr.arpa [81.187.32.138])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 7E503103D4;
-	Fri,  3 May 2019 07:54:58 -0400 (EDT)
+	by mail.messagingengine.com (Postfix) with ESMTPA id 3E7A5103D1;
+	Fri,  3 May 2019 07:54:59 -0400 (EDT)
 From: paul@betafive.co.uk
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 May 2019 11:54:47 +0000
-Message-Id: <20190503115448.10130-2-paul@betafive.co.uk>
+Date: Fri,  3 May 2019 11:54:48 +0000
+Message-Id: <20190503115448.10130-3-paul@betafive.co.uk>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190503115448.10130-1-paul@betafive.co.uk>
 References: <20190503115448.10130-1-paul@betafive.co.uk>
-Subject: [PATCH v2 1/2] oe.path: Add copyhardlink() helper function
+Subject: [PATCH v2 2/2] license_image: Use new oe.path.copyhardlink() helper
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,52 +63,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 11:54:58 -0000
+X-List-Received-Date: Fri, 03 May 2019 11:54:59 -0000
 
 From: Paul Barker <paul@betafive.co.uk>
 
-This function creates hard links if possible, falling back to copying
-the file if the destination is on a different volume to the source.
-
-The docstring for copyhardlinktree() is also updated to make the
-difference between the two functions a little clearer.
+This change allows us to support the placement of WORKDIR and DEPLOY_DIR
+on different devices.
 
 Signed-off-by: Paul Barker <paul@betafive.co.uk>
 ---
- meta/lib/oe/path.py | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ meta/classes/license_image.bbclass | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
-index 1e24d0586b..c09eda5c42 100644
---- a/meta/lib/oe/path.py
-+++ b/meta/lib/oe/path.py
-@@ -90,7 +90,7 @@ def copytree(src, dst):
-     subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 67500386bf..6fb76be48e 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -102,7 +102,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+         rootfs_license_manifest = os.path.join(rootfs_license_dir,
+                 os.path.split(license_manifest)[1])
+         if not os.path.exists(rootfs_license_manifest):
+-            os.link(license_manifest, rootfs_license_manifest)
++            oe.path.copyhardlink(license_manifest, rootfs_license_manifest)
  
- def copyhardlinktree(src, dst):
--    """ Make the hard link when possible, otherwise copy. """
-+    """Make a tree of hard links when possible, otherwise copy."""
-     bb.utils.mkdirhier(dst)
-     if os.path.isdir(src) and not len(os.listdir(src)):
-         return
-@@ -114,6 +114,17 @@ def copyhardlinktree(src, dst):
-     else:
-         copytree(src, dst)
+         if copy_lic_dirs == "1":
+             for pkg in sorted(pkg_dic):
+@@ -136,7 +136,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+                             continue
  
-+def copyhardlink(src, dst):
-+    """Make a hard link when possible, otherwise copy."""
-+
-+    # We need to stat the destination directory as the destination file probably
-+    # doesn't exist yet.
-+    dstdir = os.path.dirname(dst)
-+    if os.stat(src).st_dev == os.stat(dstdir).st_dev:
-+        os.link(src, dst)
-+    else:
-+        shutil.copy(src, dst)
-+
- def remove(path, recurse=True):
-     """
-     Equivalent to rm -f or rm -rf
+                         if not os.path.exists(rootfs_license):
+-                            os.link(pkg_license, rootfs_license)
++                            oe.path.copyhardlink(pkg_license, rootfs_license)
+ 
+                         if not os.path.exists(pkg_rootfs_license):
+                             os.symlink(os.path.join('..', lic), pkg_rootfs_license)
+@@ -146,7 +146,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+                                 os.path.exists(pkg_rootfs_license)):
+                             continue
+ 
+-                        os.link(pkg_license, pkg_rootfs_license)
++                        oe.path.copyhardlink(pkg_license, pkg_rootfs_license)
+             # Fixup file ownership and permissions
+             for walkroot, dirs, files in os.walk(rootfs_license_dir):
+                 for f in files:
 -- 
 2.17.1
 
