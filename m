@@ -1,49 +1,64 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 6A0796C1BE
+Return-Path: <paul@betafive.co.uk>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+	[66.111.4.29])
+	by mail.openembedded.org (Postfix) with ESMTP id 2AA897D414
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 06:29:34 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id p6so2233678pgh.9
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 02 May 2019 23:29:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1jnDQ+zJKuxRcyb1pblUiGWAsDQCICiydmKJ/RJ+870=;
-	b=FFPCBivy8wRzFDNzSOX8RKQEWr1KoqKouFyhOtxBfXmU/q1fGGyDoqceODHGS8ZyzI
-	DEQnjnjo6DRn2ns0q+vcUDKPY5YtikZh7Ry78rn/typ8budpULpG9OLMVf5MlepV5vmM
-	uTxTySG2OhymNC0FnT+Hj5Gsi0A6f/PHo+o81mpwRH+984SC5UJtfdGfv6mGpy5j27Wg
-	fXH/1JQIgZ7/apvNqe7coUWiSVkPcOd+BQsCcsvsWa/R4zB+8OGtsH2/xjwytdc6uib2
-	mfXGiNUYeLu4uMpH+1gmQgfoPVbVZxOcgR5cdtJtuSOV0AqYvUK3d0n487Vhbc83QGpr
-	j85Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=1jnDQ+zJKuxRcyb1pblUiGWAsDQCICiydmKJ/RJ+870=;
-	b=TgM4MATF7Cy3R6MHNjf0lN7Hxtp60c7JbwSJpxeZwpme3ne7dQHtNCEfkM/+yjSNvO
-	JmIGY15pIqqpnora+wogxgTRV65vcWxSB6JmEBBgGR16dKYwrameKUPCengt7RDGfB1k
-	FbYnHYKsL012MO0kKYg43mNm9ba9PgutTjFHH/vFH+zHtRs1UK9fZPIwEb7qqUAM0u4t
-	Bs68A9Zil5WnjJl0/rn+cSKIZSfdC0GSkFbIq+zMRRyJx2KC4FX7T/GLIlPfC1G2YeTV
-	r95h+0GXBFpmHKc5VOt8zpVp5Zr4XcOxiJXSsIGZALzHqMtMJ6zzPP9wl5lnefMVoOBI
-	zZwg==
-X-Gm-Message-State: APjAAAVBpc/foIXARirZ5msp1wkUQbFAk+fdy8JtaDYh9Q58XJ9Sbrve
-	uCl+cqR8cs8h1wEIExre1sA7O4/Po6U=
-X-Google-Smtp-Source: APXvYqwknUkpsBGwKrZItwBXwwH2zP77WqxRQ3PDTgZu8KH1VIOe7s8pn0Ysph1+HwDhVOAEcDr8pg==
-X-Received: by 2002:a63:58b:: with SMTP id 133mr8315698pgf.138.1556864974623; 
-	Thu, 02 May 2019 23:29:34 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::5848])
-	by smtp.gmail.com with ESMTPSA id k9sm1188012pga.22.2019.05.02.23.29.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 May 2019 23:29:34 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 May 2019 23:29:26 -0700
-Message-Id: <20190503062926.6933-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Fri,  3 May 2019 07:05:25 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 4B627222C9;
+	Fri,  3 May 2019 03:05:23 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+	by compute1.internal (MEProxy); Fri, 03 May 2019 03:05:23 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=subject:to:references:from:message-id:date:mime-version
+	:in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=h
+	WCVmjY3F9a7PMTPeBW819DK0mMJLik5PYOKP1xIngE=; b=ixVieqD0TEAe08iNn
+	uvnTyXl0sizJcHb06xVKFrpADP9HYYC2H0NKkR/bBIv8px/kUM2V3OpUQB2V6tqg
+	AT6W4nn1W1SdGn09pv97BpplbY+H8y2sHMkDzEecTKxtPinuTq8LMEX4OGRXVqa5
+	L54vZ6KydioS59zQHuNnKITkNtdxAwqD5PNWZ4ghO9tr6NI6vCSG+9iPXQweR3kl
+	4u+HNQSbaxI5hwiNqByYtAQaPOlEMWboFAbbQl+ow06nWtbXg1it+3JsZusEsz7Q
+	iwXM0Ktqb/oTNJpo4ybms/Vxk2PfQNaM8IrnwNf0YuNd4NX71E7osYEnrLnxuSys
+	0YVRQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-transfer-encoding:content-type
+	:date:from:in-reply-to:message-id:mime-version:references
+	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+	:x-sasl-enc; s=fm2; bh=hWCVmjY3F9a7PMTPeBW819DK0mMJLik5PYOKP1xIn
+	gE=; b=y9u1CeqffkE5qCCkDCQZPm2lcF1tBA06BbfP0ez0uY3pCbFH7FHXdw7bd
+	eEri4RvIX63NUIhNvVn6dX9TgqjcpWLzK1bMqPq/W5/epT3nFhhkPSkpwlLJbOa0
+	cujVNjaKV8C1jDYR2X5zFLQiYQLNtgjUjrzzJKv2H/6lT3Li/U/k53Owt52fkFwE
+	tnQWWNSYAVfrGdu7/pMJQxIfYj+WL1cEpx8dMJq3WIrztj8jycYTJZiQIYVMC1FU
+	+utYe5pgRcPShpK+LXpcdYYjHD9e7uRPjIIcAfua5fOCd6Lr/yj56u7CSRbwoYd5
+	7B5ebViIEjii1hR3YIaBm8qQBBWQQ==
+X-ME-Sender: <xms:MujLXKRiPz7rddH7G5NTv0F4Kgpjn2ojyxFKLARuZlDIMo3rL5j_2Q>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrjedtgdduudegucetufdoteggodetrfdotf
+	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+	cujfgurhepuffvfhfhohfkffgfgggjtgfgsehtjeertddtfeejnecuhfhrohhmpefrrghu
+	lhcuuegrrhhkvghruceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecukfhppe
+	ekuddrudekjedrfedvrddufeeknecurfgrrhgrmhepmhgrihhlfhhrohhmpehprghulhes
+	sggvthgrfhhivhgvrdgtohdruhhknecuvehluhhsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:MujLXJQ6PdavJ9L2iCTfqRtD51_Yp0gZSFsisKbVOvIIiyVWsdx9bA>
+	<xmx:MujLXMEV1sWlok_g79SG_uEX6HQWQxObb-wobKlGqHu-zaXKzb2yLQ>
+	<xmx:MujLXNnzG24LTRcad9RdUjoybcAs7_FNVT560xRW9OTC4-kK84qYCQ>
+	<xmx:M-jLXCvi3LM9wUSK-v1ADDmPEotxiQyqRXibBOUx9Uev4AhzoM0zSQ>
+Received: from [192.168.2.138] (138.32.187.81.in-addr.arpa [81.187.32.138])
+	by mail.messagingengine.com (Postfix) with ESMTPA id 4AB68103D5;
+	Fri,  3 May 2019 03:05:22 -0400 (EDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20190502213052.15962-1-paul@betafive.co.uk>
+	<20190502213052.15962-2-paul@betafive.co.uk>
+	<7a2175fe5786ab041053400f235ede965cee3bcd.camel@linuxfoundation.org>
+From: Paul Barker <paul@betafive.co.uk>
+Organization: Beta Five Ltd
+Message-ID: <ec9790bf-ea42-53a5-6a94-3e4884a39769@betafive.co.uk>
+Date: Fri, 3 May 2019 08:05:17 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.0
 MIME-Version: 1.0
-Subject: [PATCH] mdadm: Disable Werror
+In-Reply-To: <7a2175fe5786ab041053400f235ede965cee3bcd.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/1] license_image: Don't try to hard link license files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,67 +71,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 06:29:34 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 03 May 2019 07:05:25 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-Werror spews more warnings with gcc9, like other distros (
-debian/fedora) disable Warnings as errors
+On 03/05/2019 06:05, Richard Purdie wrote:
+> On Thu, 2019-05-02 at 21:30 +0000, paul@betafive.co.uk wrote:
+>> From: Paul Barker <paul@betafive.co.uk>
+>>
+>> This change allows us to support the placement of WORKDIR and
+>> DEPLOY_DIR
+>> on different devices. As the license files are typically small, the
+>> increase in disk usage and build time should be negligible.
+>>
+>> Signed-off-by: Paul Barker <paul@betafive.co.uk>
+>> ---
+>>   meta/classes/license_image.bbclass | 7 ++++---
+>>   1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> We create a lot of hardlinks and its not negligible overall ;-).
+> 
+> I'd prefer we continue to do so where we can. We should probably create
+> a function similar to lib.oe.path.copyhardlinktree() and use that here
+> rather than abandon the hardlinks.
+> 
 
-Fixes
+Ok, I'll throw together a copyhardlink() helper and send a v2 of this patch.
 
-super-intel.c:696:9: error: taking address of packed member of 'struct imsm_super' may result in an unaligned pointer value [-Werror=address-of-packed-member]
+Thanks,
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- .../mdadm/files/debian-no-Werror.patch        | 25 +++++++++++++++++++
- meta/recipes-extended/mdadm/mdadm_4.1.bb      |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-extended/mdadm/files/debian-no-Werror.patch
-
-diff --git a/meta/recipes-extended/mdadm/files/debian-no-Werror.patch b/meta/recipes-extended/mdadm/files/debian-no-Werror.patch
-new file mode 100644
-index 0000000000..e66a15cd79
---- /dev/null
-+++ b/meta/recipes-extended/mdadm/files/debian-no-Werror.patch
-@@ -0,0 +1,25 @@
-+From: martin f. krafft <madduck@debian.org>
-+Subject: Remove -Werror from compiler flags
-+
-+-Werror seems like a bad idea on released/packaged code because a toolchain
-+update (introducing new warnings) could break the build. We'll let upstream
-+use it to beautify the code, but remove it for out builds.
-+
-+Signed-off-by: martin f. krafft <madduck@debian.org>
-+
-+Upstream-Status: Pending
-+---
-+ Makefile |    2 +-
-+ 1 files changed, 1 insertions(+), 1 deletions(-)
-+
-+--- a/Makefile
-++++ b/Makefile
-+@@ -48,7 +48,7 @@ endif
-+ 
-+ CC ?= $(CROSS_COMPILE)gcc
-+ CXFLAGS ?= -ggdb
-+-CWFLAGS = -Wall -Werror -Wstrict-prototypes -Wextra -Wno-unused-parameter
-++CWFLAGS = -Wall -Wstrict-prototypes -Wextra -Wno-unused-parameter
-+ ifdef WARN_UNUSED
-+ CWFLAGS += -Wp,-D_FORTIFY_SOURCE=2 -O3
-+ endif
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 947706ff5f..ef5ddf55db 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -17,6 +17,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
-            file://0001-Use-CC-to-check-for-implicit-fallthrough-warning-sup.patch \
-            file://0001-Compute-abs-diff-in-a-standard-compliant-way.patch \
-            file://0001-fix-gcc-8-format-truncation-warning.patch \
-+           file://debian-no-Werror.patch \
- 	   file://mdadm.init \
- 	   file://mdmonitor.service \
-            "
 -- 
-2.21.0
-
+Paul Barker
+Managing Director & Principal Engineer
+Beta Five Ltd
 
