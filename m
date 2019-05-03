@@ -1,51 +1,48 @@
-Return-Path: <philip@balister.org>
-Received: from sanddollar.geekisp.com (sanddollar.geekisp.com
-	[216.168.135.167])
-	by mail.openembedded.org (Postfix) with ESMTP id 655E07DDD3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id C040D7D718
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 21:47:08 +0000 (UTC)
-Received: (qmail 10227 invoked by uid 1003); 3 May 2019 21:47:14 -0000
-Received: from unknown (HELO ?192.168.11.100?)
-	(philip@opensdr.com@73.152.143.112)
-	by mail.geekisp.com with (ECDHE-RSA-AES128-GCM-SHA256 encrypted) SMTP;
-	3 May 2019 21:47:14 -0000
-To: "openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-members@lists.openembedded.org"
-	<openembedded-members@lists.openembedded.org>
-From: Philip Balister <philip@balister.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=philip@balister.org; prefer-encrypt=mutual; keydata=
-	xsBNBE6PN4EBCADXwOSVOvTrJ370tH2RmiR22OuCBcKfnKTLztyV5zA0veDB1kmrIajh+sJe
-	HWNqsib0v19S3wdrvqzKrztSfNAgUctvkAuTOloU81dmbAjDSge6nFxjzIIz6XjNvmP5xl9J
-	rstPm4i4dhAs5436xf4Bh0vn3C/Bp4fKwXBSW/Xto7vuiuSK03ojon3F8O2WNEmKxHyubFP1
-	2tNvXOp/PeAR4LTnYq6fdAAofvbpbPDBg8qICe6j1UXaIyU93IbW+bJp1RFbeakWxiTw+eQ2
-	fVjG5XnubNX0YBlmjHDJhjeqV1uwkImNHlZknecLjT7g37vIMwz+PTfPIhmIGffzqtHlABEB
-	AAHNJVBoaWxpcCBCYWxpc3RlciA8cGhpbGlwQGJhbGlzdGVyLm9yZz7CwH4EEwECACgCGyMG
-	CwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJYM1D9BQkRKOdqAAoJEMDJd4rr0merDX4H/3Pr
-	nYKDnml7LRiikoOTFJb4r7ub04skrkGI2DAYvRUPH110KXaan84Qo2Yl4r/ma15Lpqx+cdPR
-	3KbFlSWyjgY6CMN/BclutsK4mFkoxnmhdYJvc5M2TDfZLxBPMTeQiHo0MwxUB5v81mv812bx
-	YKfEOg3ndk7C/TE0Q8ZER7p6fU3ol/e0ilLyaCpd85nkEcOEI7BdBBGhKWii+Cwvv8g2ofQZ
-	3wAsqQFp7PFxlEjo5Xc1QGqo7L+UlDG23QjUn33n+wZMZm9EUZFu1c1MAGZsvXiqKw8P07Mj
-	yyf6h6EMVP8wME7gnkxsZkpKv04mSvKpDLIInmRW9ZlHXaJ4YxjOwE0ETo83gQEIAPs+ZC0R
-	gF4blrRIiVHdkARncAxUwSUbti5Ku23dQ0iBizozh4YGucgW48gxsvJCkCc9s/4C9e3vYiCZ
-	GVGC8x6Ll3vE7xwRQ/euVqJ0mXG7tNK1zAPpSgI6aooPSZCW7PBvwY8uMvzzCzP+EBd0+oA5
-	uXQSEcyOJUYy4beferoHUiBjBkyNd+v2iaJf7KjAYYxJOcPvtnq/VL09hlmtCD5zghOn80rt
-	LqF66BJkHmATopSWyor1qz7gmowdCkFkUJDNW7yJT1wVANqDd9P5A8vYhngwJTHsvXVftmvB
-	gLiJjYuKst36G2AOHgm4ls5jRMa/k7jWue1RKM5LxzgBtLUAEQEAAcLAZQQYAQIADwIbDAUC
-	WDNRbAUJESjn5AAKCRDAyXeK69Jnq1qYB/93aiBdenAuu0H/zGWEFFB14cdhDR4S4q0EbfXl
-	1z9o3Irazw6WMtLe12zJ4/Xl41Mh/IH8/+AgDnigisrkKRN1TkiOGDUVnS0akkhML3ONbeFd
-	ocYEwBAPDTxAaWNoyjDe/bORokSJn31cFoG6QYyzUct79npHorbaXW0zW+KC77Do53yUKQ8+
-	icWpfiCMk1YzSHCr0y5NZNVxac9a0+IDzH/YBbNdJLNaMvXcuege1Qqz85pdR0P4XuCVRD2j
-	ZAbcGJzZXlu9ZzpIHjtZoyF8paJRMQwzWEO3/Txksmm7K8eu8Tz2JVpjiOIj44MOTKoRGKjO
-	6eUfr0u7CwnEyqiQ
-Message-ID: <2f5e2cdf-cd6c-8e59-5442-37c62ac9dbf0@balister.org>
-Date: Fri, 3 May 2019 17:47:06 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.5.2
+	Fri,  3 May 2019 23:31:49 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id t1so7966170qtc.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 03 May 2019 16:31:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=3vacLqYhS+sL+Ag0xoFUoMWQ1onV/nA5GgDT95SzvC8=;
+	b=Xuk1CWSQLhGr6dicoa+DxgeYDIvrGJqZlUG7zqEF+elkbKoOYXWLQJFALvCZIldVu5
+	2Al0D4SV+2f/m6IRxgaPcfZk7gDZueiMPcVQfxWmDYeKY3YAFCNgcjQTO5sORbBcginb
+	vRHMM3V+dl6VyZp/sbMJCCViKiRtdyE/PrKQCwWGQy2TbXaBuHzNF1EG56Kq3hniXVQp
+	g87j9SAGvqU2u4Dt6NlHn+0AZlQGQXTvA75PMUONQ4epo/ei1RVsWtsIkqVFdhPnTYov
+	HD30AOG0k+Z+rbJoBr9OUGW/DpAdXS3+a9akrsKe8q5HUhtsNHj7b3ZxO1q/dmG0H+4g
+	bz9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=3vacLqYhS+sL+Ag0xoFUoMWQ1onV/nA5GgDT95SzvC8=;
+	b=kDczhZpv7Uww2WLm8EIhd+GSLHpyAAC4BCO2fyhiP3A1AVO9MlCXNuvdI2E8Bdsv5y
+	uGCp4yZRJUYkLBWTQSNQ0qcIH3wpXGmJEPXewR1ZcwY4AvuPgxIMyNQceVeknmQ4ju30
+	CZHH13zOpSuT8cuhjXocbJt6Zp6ayi0EeNbegMjQsIrky1Nbhv13V9mxxzoDQKIwX/N9
+	voL+VMOYhXVsSyMRonFWAOl/OLa3Ii7C7xQqmYbFS6UlcCJJueGjZuA5t5NVxlbgTnWi
+	qid6sq/jU+tsyb5n0G2nzjyhv8Cliou0B3eZFw1vadUbmfMNmRNUapK7Qo7+fKuLeHTt
+	tU/Q==
+X-Gm-Message-State: APjAAAWLalSyz6rTKC/1fFqw+zmVTe4iqicx/tKKe6wpa9YX77ejupLF
+	zf6BeHAp6g67Wu8zGwzc3JwyKHInh244cK/R/w8=
+X-Google-Smtp-Source: APXvYqwtqSPjgL8CMJBX4gJF59nrmeXlRr1DZaz2VKLYYHbnQGli/VA1a4ceb4PM71X8+A6I/NguEvfUlMdHJmlT1Zg=
+X-Received: by 2002:a0c:b620:: with SMTP id f32mr10542975qve.228.1556926310325;
+	Fri, 03 May 2019 16:31:50 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Plans for ELC and ELCE
+References: <20190503092100.21596-1-s.mueller-klieser@phytec.de>
+In-Reply-To: <20190503092100.21596-1-s.mueller-klieser@phytec.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 3 May 2019 16:31:24 -0700
+Message-ID: <CAMKF1sozQ2pT0CWmA1XusPAK1+mxD1uP50y0rjKZJj9szSzi0Q@mail.gmail.com>
+To: =?UTF-8?Q?Stefan_M=C3=BCller=2DKlieser?= <s.mueller-klieser@phytec.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] cml1.bbclass: fix undefined behavior
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,30 +55,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 21:47:08 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-MW
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 03 May 2019 23:31:50 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-For the past few years, OpenEmbedded has held developer meetings at the
-LF Embedded conferences in the US and Europe. This year, since ELC is in
-late August, we will skip the developer meeting at ELC. There will be a
-Yocto Project day on Aug 20 before ELC.For ELCE, we are going to work
-with the Yocto project on a 2 day event after ELCE (Oct 31- Nov 1).
+On Fri, May 3, 2019 at 2:21 AM Stefan M=C3=BCller-Klieser
+<s.mueller-klieser@phytec.de> wrote:
+>
+> Whenever cml1 do_configure is used with a defconfig, oldconfig waits for
+> input. This silently fails with:
+> "Error in reading or end of file."
+> Replace the call with olddefconfig, which will have the same effect in
+> setting all defaults, but has a defined behavior.
+>
+> Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
+> ---
+>  meta/classes/cml1.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+> index 98d24cec746b..f3b8a84073c8 100644
+> --- a/meta/classes/cml1.bbclass
+> +++ b/meta/classes/cml1.bbclass
+> @@ -1,7 +1,7 @@
+>  cml1_do_configure() {
+>         set -e
+>         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+> -       oe_runmake oldconfig
+> +       oe_runmake olddefconfig
 
-The format of the ELC event will be more like the advanced track in
-prior years, which means we will need people to speak about their
-OpenEmbedded and Yocto Project work. Details later.
+This does not work for busybox/x86_64
 
-For ELCE there will be two days, the first day is an auditorium, and the
-second day two smaller rooms. Day 1 is for talks, on Day2 we really need
-some ideas of events we can have to help get developers , maintainers
-and users working together. So if you have ideas, let me know and I can
-feed them to people planning the event.
 
-Hopefully these formats start to address some of the themes coming from
-the last couple developer meetings and give us a chance to get more
-information to the larger community.
+| NOTE: make CC=3Dx86_64-yoe-linux-gcc  -m64 -march=3Dcore2 -mtune=3Dcore2
+-msse3 -mfpmath=3Dsse -fstack-protector-strong  -D_FORTIFY_SOURCE=3D2
+--sysroot=3D/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/=
+recipe-sysroot
+LD=3Dx86_64-yoe-linux-gcc  -m64 -march=3Dcore2 -mtun
+e=3Dcore2 -msse3 -mfpmath=3Dsse -fstack-protector-strong
+-D_FORTIFY_SOURCE=3D2
+--sysroot=3D/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/=
+recipe-sysroot
+V=3D1 ARCH=3Dx86_64 CROSS_COMPILE=3Dx86_64-yoe-linux- SKIP_STRIP=3Dy
+HOSTCC=3Dgcc  HOSTCPP=3Dgcc  -E olddefconfig
+| make -f scripts/Makefile.build obj=3Dscripts/basic
+| /mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/busybox-1.=
+30.1/scripts/gen_build_files.sh
+/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/busybox-1.30=
+.1
+/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/busybox-1.30=
+.1
+| mkdir -p include
+| make -f scripts/Makefile.build obj=3Dscripts/kconfig olddefconfig
+| make[1]: *** No rule to make target 'olddefconfig'.  Stop.
+| make: *** [Makefile:445: olddefconfig] Error 2
 
-Philip
+>  }
+>
+>  EXPORT_FUNCTIONS do_configure
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
