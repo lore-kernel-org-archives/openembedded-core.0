@@ -1,47 +1,98 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id A7BBD7DDE0
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 16:48:52 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id l2so8680183wrb.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 09:48:53 -0700 (PDT)
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com
+	[209.85.210.181])
+	by mail.openembedded.org (Postfix) with ESMTP id C2CA77D714;
+	Fri,  3 May 2019 17:18:45 +0000 (UTC)
+Received: by mail-pf1-f181.google.com with SMTP id j11so3174073pff.13;
+	Fri, 03 May 2019 10:18:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=CCr1KLrcUuMH0CIsUdLQIIfXssCw6iHUYuqOotoJsgI=;
-	b=lm4fkR3eM6/cHx9ZKVWGWcwzSRAXy1nwreGfKkm+DZBJdKZGnkcfPT6fCfUQTsa1cz
-	cw3qVlZw813AAud8HYsOvuI+5WOkLn0vdBKzZhPnniq3HlaHtajGPHQ4qeSFjQ/sMJR2
-	BiDkyEwtTrKfuK6Pw55hcTqolmbzAyIK6d8jmPiB7gMkDlbrEOts7eNYcVIzLXJ5snsC
-	e+ILPTs1N58Pe+yiEsp8Cnv5MAlBBjQKr+889v+OrYfOROs2VVz3vA4RFQZsYCtoG8YL
-	y3BeEPvXdP8VSsJzXlwOfLpCFZZBLlnksmj/9ymo5LLNw8Iij3L++kD9V81jb3QoQN/h
-	orLA==
+	h=to:from:subject:openpgp:autocrypt:message-id:date:user-agent
+	:mime-version:content-transfer-encoding:content-language;
+	bh=/zkBMMt5Gt9B4PEqjDvYLNG0yGxNhbokci4Hvv6JL1s=;
+	b=Qakopx7ZZ5arZGsXophhSCnfpJxDQZIAv8JNTKGhoKy1HYzHlF03EyXXtkjdofd9AI
+	L5/4BOFCuurATdRnGEiak8fa2nrc9UsbotSDtM0imP0Ehra73k+jh0Zgh8079u5gwPhS
+	Dd8pYkgmFlV6CZQxicSXASGajbjqsD1WKGwOo4cGMUoZQLJU8FBWzvNuR69CT7JJ3WGt
+	7u+17o0qshH3AQ1SgKAjgZRDnmeH44owdyscyem8E6XkN9MDlwf1r2qiehb3wci5MXD1
+	ZO8CyW1gJ9wFCnwj9uaBv/41Qor5bE6KQIyvHX9JZIf6CeujwTgeZ7hJAGrWrfU+Rw8+
+	KPfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=CCr1KLrcUuMH0CIsUdLQIIfXssCw6iHUYuqOotoJsgI=;
-	b=bfvvuSRR5V6ZAY7vXt3koAHcKfW5A5Uw0bHRh3EkhGL4ziq3pbwuq8lGxGy0168Izt
-	cC9QaO73IW3vkvgOrkkj+iDNF3Ruh02XTsTnKyNwxRPDs6qzKOBXWw0JUodc2OQ76Rei
-	YdhIZOZx7Qk/eJP5qWmLOpYJ459xCTJgqMkiKuj1G/hX8gAd5rD7JXwjvxQ5yESoRiqx
-	wfN7+CPWNWAtwqMxCyecx1YwvG+FqWTlXFPalZ4KkRx4vwz9LLoffN315tHLQpQpGPXp
-	CB61bepqlbOcvd4OQuWZwMZjFoVtW9kJrD9UtkHw/lt1fsNSnPD0VeAldnZkToGpGorI
-	PbrQ==
-X-Gm-Message-State: APjAAAVCnl1uVx5xB7XSGRjpDmILP+EsWN8VB07WeidbcIf406UH7t1j
-	SwVC6kFIkQ3X5C4zyPiZ2UUzVMbg
-X-Google-Smtp-Source: APXvYqxfGaUzHOefxwzVzf0tiOIyHgwlcxjrCCjhwFPgSgQ8r+5tc1a1N+zljvf70Yvjm+Rq1xzchQ==
-X-Received: by 2002:a5d:69cb:: with SMTP id s11mr7576174wrw.315.1556902133059; 
-	Fri, 03 May 2019 09:48:53 -0700 (PDT)
-Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18])
-	by smtp.gmail.com with ESMTPSA id 10sm3785321wmn.4.2019.05.03.09.48.51
+	h=x-gm-message-state:to:from:subject:openpgp:autocrypt:message-id
+	:date:user-agent:mime-version:content-transfer-encoding
+	:content-language;
+	bh=/zkBMMt5Gt9B4PEqjDvYLNG0yGxNhbokci4Hvv6JL1s=;
+	b=XZRLthJ9+NjClIOIAz81S3d74CeMrTbXWjnbluh4PwsP7NBOKTMxgRBWFvgn1xQgOi
+	xJ24UQjh8fztYzUtpQdnQiJ2328rz+1RjETRpv0VfhcpW2BTMQ8Q8D3ncLSyaV7HsTP9
+	BMiqPYlgEEFtF2eZn9Ue+vSkoOc4LlP542DCnre3eFL3BYXmiriirHXLDjHm9o0sPoh4
+	utYP+Rqj6IbyydvlvsCuUkek1PoI8BxpOIXU2KlKE5AYjaF6xZXb76jUnQQNkjmWVO5E
+	p4zA+E5nSl+8PoebaxodzLRqXzBoeTah/JiDBSY28sCxYx08IAV7w5lNaBWcPY/fu7+Y
+	7JKg==
+X-Gm-Message-State: APjAAAWfMtUBw/PxItISl4dCYTLP3qVSd9sQymV1SgZTZw+TRGw/agDm
+	YDN9mDW14qTt+X1ELStN/9b8T6qp
+X-Google-Smtp-Source: APXvYqweX5HVusbdlLBFCpolNPcaGxkTx3nm70CwcvbYfR2MGRSr+yYOTnba1nbpvaAha5cGvQKPsQ==
+X-Received: by 2002:a63:3d4c:: with SMTP id k73mr11842770pga.154.1556903926805;
+	Fri, 03 May 2019 10:18:46 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:b9b3:5f13:7709:822d?
+	([2601:202:4180:c33:b9b3:5f13:7709:822d])
+	by smtp.gmail.com with ESMTPSA id
+	q144sm3188358pgq.76.2019.05.03.10.18.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 May 2019 09:48:52 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 May 2019 17:48:50 +0100
-Message-Id: <20190503164850.130865-1-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] systemd: Default to non-stateless images
+	Fri, 03 May 2019 10:18:46 -0700 (PDT)
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>,
+	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
+	"yocto@yoctoproject.org" <yocto@yoctoproject.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <e86cf937-5734-fc36-cd94-fad9b0155059@gmail.com>
+Date: Fri, 3 May 2019 10:18:44 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+Subject: patchwork
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,71 +105,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 16:48:53 -0000
+X-List-Received-Date: Fri, 03 May 2019 17:18:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
 
-When creating images, for anything other than the explicitly stateless
-case, touch /etc/machine-id so that the images can be booted without an
-initramfs and with `ro` set on the kernel command line, otherwise system
-refuses to start:
+Hello OE folk,
 
-  [    7.222134] systemd[1]: No hostname configured.
-  [    7.227266] systemd[1]: Set hostname to <localhost>.
-  [    7.232622] systemd[1]: System cannot boot: Missing /etc/machine-id and /etc is mounted read-only.
-  [    7.241750] systemd[1]: Booting up is supported only when:
-  [    7.247362] systemd[1]: 1) /etc/machine-id exists and is populated.
-  [    7.253752] systemd[1]: 2) /etc/machine-id exists and is empty.
-  [    7.259757] systemd[1]: 3) /etc/machine-id is missing and /etc is writable.
+My apologies for cross posting.
 
-If DISTRO_FEATURES includes `stateless` then systemctl-native is not run
-on the image leaving the image for population at runtime by systemd.
+Who is the Admin for Patchwork?
 
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
----
+I would like additional privileges to manage the "Yocto Project Layers"
+queue.
 
- meta/classes/image.bbclass                            | 7 +++----
- meta/recipes-core/systemd/systemd-systemctl/systemctl | 8 ++++++++
- 2 files changed, 11 insertions(+), 4 deletions(-)
+Also, I would like additional=C2=A0 privileges to add new branches for an=
+y
+oe, meta-oe queues & yp layers.
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index a23403c0827a..3cb185dd2045 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -665,12 +665,11 @@ reproducible_final_image_task () {
-     fi
- }
- 
--IMAGE_EXTRADEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd-systemctl-native', '', d)}"
--
- systemd_preset_all () {
--	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
-+    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
- }
- 
--IMAGE_PREPROCESS_COMMAND_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd_preset_all;', '', d)} reproducible_final_image_task; "
-+IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('DISTRO_FEATURES', 'stateless', True, False, d) else ''}"
-+IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('DISTRO_FEATURES', 'stateless', True, False, d) else ''} reproducible_final_image_task; "
- 
- CVE_PRODUCT = ""
-diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-index d7d4e0d29a09..7da8f23ab893 100755
---- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
-+++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
-@@ -241,6 +241,14 @@ def preset_all(root):
-         if state == "enable" or state is None:
-             enable(root, service, location, services)
- 
-+    # If we populate the systemd links we also create /etc/machine-id, which
-+    # allows systemd to boot with the filesystem read-only before generating
-+    # a real value and then committing it back.
-+    #
-+    # For the stateless configuration, where /etc is generated at runtime
-+    # (for example on a tmpfs), this script shouldn't run at all and we
-+    # allow systemd to completely populate /etc.
-+    (root / SYSCONFDIR / "machine-id").touch()
- 
- def mask(root, *services):
-     systemdir = root / SYSCONFDIR / "systemd" / "system"
--- 
-2.17.1
+kind regards,
+Armin
 
 
