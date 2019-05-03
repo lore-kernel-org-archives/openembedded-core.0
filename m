@@ -1,56 +1,19 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 8A8BB7D9E5
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 9EE2371E5A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  2 May 2019 21:31:05 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id 80F8925CA2;
-	Thu,  2 May 2019 17:31:06 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute1.internal (MEProxy); Thu, 02 May 2019 17:31:06 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references; s=
-	fm1; bh=e/OVi6ZBQjRVhrpW0ZfIBiuqJlHxNJqgiOSbCcytX3k=; b=LtykXebq
-	/Ffk4GckzK1DWaBgNPGRstZzAkcq+UUVNEWrW/FCLd+NPghah57erUgbvSEUUQdv
-	WzRAuRoJ1aHJE96WwrbNlIGLBO3+ISsVYwtoAMfqhop2KHJP2Qj8620GqL4H1Zsz
-	LeucLnO00EDJSRAx/mYbZOMeMEHoXGAzZTpa9BfZjAbvdSqNwTEv4xOzIYhffd0i
-	oK2tRYwKtnsKk5l74b1CezYz4jORQMdskQQ7wRsJCrXGE9HBZrtky07Efebi/Np+
-	WdHlllznkTiJkOXy61wCW391V/ShGmH/ZpC0vToOsKeVd84ZDZlAVLzAVYDclhwx
-	ZNstZYf6kIgLzQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:in-reply-to:message-id
-	:references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; bh=e/OVi6ZBQjRVhrpW0ZfIBiuqJlHxN
-	JqgiOSbCcytX3k=; b=yOmrfROKA8UeZVh7dEvWCqtHPTMiSeG+94BUa601pYEOp
-	SWo1vcNESSmN4rT5u5Pah2kVAouS4ewIsW7Q4l8Fb/MaBnyf4fTxVmOILjDNQ2tJ
-	n1dItP3ukI/NqwtKIKlSN5/pS5cm6E7y/RKsBFd96IdGv0sYUaugjO73V7TrK0Fi
-	4svtBIUNmmTuYHxJjjxE+jKsvdxzCk4hSpBaygu3UpxtBs92VBUcjNtkkD4JipMN
-	OwvtVtLhXb2DbiVQqy3Fw6nbdzL4rFnjmZZn9V6oGZGgALmSEn+qwk2EPZXkqx7X
-	G63NZ7Ieo/kJF7BtoTVa5KVpFMtyXN11AJrChRW6Q==
-X-ME-Sender: <xms:mmHLXFV2f4BwUr4ParthFq4fniug-_zPHvOUGRjLP7JBRsV7l_L9eA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrieelgdduieehucetufdoteggodetrfdotf
-	fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-	uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-	cujfgurhephffvufffkffojghfsedttdertdertddtnecuhfhrohhmpehprghulhessggv
-	thgrfhhivhgvrdgtohdruhhknecukfhppeekuddrudekjedrfedvrddufeeknecurfgrrh
-	grmhepmhgrihhlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehl
-	uhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:mmHLXFzcRsReKInaeZ58da4ePD14FTtNdmE4oC90R7liKOfYj1_Npg>
-	<xmx:mmHLXEDg2Xz68n6ssHE5zoEKDSEtabPe-7HZ9z21Gb86JR6mMbQ--A>
-	<xmx:mmHLXD7yvXlXwaOQ7kao-ZULtTKfoP7PuNRl1SBnhmBIwETi7x5p_w>
-	<xmx:mmHLXF17sLhCTIylJp7u9F0J3sfxgmpfvAlTuC7iZwC-9ZDtL9NPVw>
-Received: from alpha.home.b5net.uk (138.32.187.81.in-addr.arpa [81.187.32.138])
-	by mail.messagingengine.com (Postfix) with ESMTPA id C04B8103CA;
-	Thu,  2 May 2019 17:31:05 -0400 (EDT)
-From: paul@betafive.co.uk
+	Fri,  3 May 2019 02:23:57 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id 83DE91C0264;
+	Fri,  3 May 2019 14:23:56 +1200 (NZST)
+From: Douglas Royds <douglas.royds@taitradio.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  2 May 2019 21:30:52 +0000
-Message-Id: <20190502213052.15962-2-paul@betafive.co.uk>
+Date: Fri,  3 May 2019 14:23:50 +1200
+Message-Id: <20190503022350.26366-1-douglas.royds@taitradio.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190502213052.15962-1-paul@betafive.co.uk>
-References: <20190502213052.15962-1-paul@betafive.co.uk>
-Subject: [PATCH 1/1] license_image: Don't try to hard link license files
+In-Reply-To: <20190430023405.29459-1-douglas.royds@taitradio.com>
+References: <20190430023405.29459-1-douglas.royds@taitradio.com>
+Subject: [PATCH v2] distutils: Run python from the PATH in the -native case as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,58 +26,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 02 May 2019 21:31:05 -0000
+X-List-Received-Date: Fri, 03 May 2019 02:23:58 -0000
 
-From: Paul Barker <paul@betafive.co.uk>
+The python distutils generate a python wrapper script for each package,
+containing shebang lines pointing to the python executable.
+In our case, this is a fully-qualified path to python-native in the
+recipe-sysroot-native.
 
-This change allows us to support the placement of WORKDIR and DEPLOY_DIR
-on different devices. As the license files are typically small, the
-increase in disk usage and build time should be negligible.
+Ubuntu 18.04 restricts the useful length of the shebang line to 125
+characters, and Ubuntu 16.04 restricts it to 77. In both cases, the
+staged python script fails to run due to the length of the path to
+the python-native executable.
 
-Signed-off-by: Paul Barker <paul@betafive.co.uk>
+Replace the shebang line with nativepython or nativepython3 as appropriate.
+The nativepython symlink is installed by the python-native recipe:
+
+    #!/usr/bin/env nativepython
+
+We were already doing this for on-target distutils components.
+This change applies the sed-line to -native distutils components as well.
+In this way, -native clients of these components can invoke the wrapper scripts
+directly, without themselves needing to inherit pythonnative.
+
+This works around a known setuptools issue:
+https://github.com/pypa/setuptools/issues/494
+Even once this issue has been resolved upstream,
+we will still need to replace `python` with `nativepython`
+
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- meta/classes/license_image.bbclass | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/classes/distutils.bbclass  | 11 +++++------
+ meta/classes/distutils3.bbclass |  7 +++++--
+ 2 files changed, 10 insertions(+), 8 deletions(-)
 
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 67500386bf..655b56347f 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -37,6 +37,7 @@ python license_create_manifest() {
+diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
+index 9862731493..8d258daea4 100644
+--- a/meta/classes/distutils.bbclass
++++ b/meta/classes/distutils.bbclass
+@@ -9,6 +9,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
+     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
+     --install-data=${datadir}"
  
- def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-     import re
-+    import shutil
-     import stat
++DISTUTILS_PYTHON = "${PYTHON_PN}"
++DISTUTILS_PYTHON_class-native = "native${PYTHON_PN}"
++
+ distutils_do_configure() {
+         if [ "${CLEANBROKEN}" != "1" ] ; then
+                 NO_FETCH_BUILD=1 \
+@@ -53,18 +56,14 @@ distutils_do_install() {
  
-     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
-@@ -102,7 +103,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-         rootfs_license_manifest = os.path.join(rootfs_license_dir,
-                 os.path.split(license_manifest)[1])
-         if not os.path.exists(rootfs_license_manifest):
--            os.link(license_manifest, rootfs_license_manifest)
-+            shutil.copy(license_manifest, rootfs_license_manifest)
+         if test -e ${D}${bindir} ; then	
+             for i in ${D}${bindir}/* ; do \
+-                if [ ${PN} != "${BPN}-native" ]; then
+-			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
+-		fi
++                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
  
-         if copy_lic_dirs == "1":
-             for pkg in sorted(pkg_dic):
-@@ -136,7 +137,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                             continue
+         if [ -e ${D}${sbindir} ]; then
+             for i in ${D}${sbindir}/* ; do \
+-                if [ ${PN} != "${BPN}-native" ]; then
+-			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
+-		fi
++                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
+diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
+index 834e322474..bae536d343 100644
+--- a/meta/classes/distutils3.bbclass
++++ b/meta/classes/distutils3.bbclass
+@@ -10,6 +10,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
+     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
+     --install-data=${datadir}"
  
-                         if not os.path.exists(rootfs_license):
--                            os.link(pkg_license, rootfs_license)
-+                            shutil.copy(pkg_license, rootfs_license)
++DISTUTILS_PYTHON = "${PYTHON_PN}"
++DISTUTILS_PYTHON_class-native = "native${PYTHON_PN}"
++
+ distutils3_do_configure() {
+ 	if [ "${CLEANBROKEN}" != "1" ] ; then
+ 		NO_FETCH_BUILD=1 \
+@@ -57,14 +60,14 @@ distutils3_do_install() {
  
-                         if not os.path.exists(pkg_rootfs_license):
-                             os.symlink(os.path.join('..', lic), pkg_rootfs_license)
-@@ -146,7 +147,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-                                 os.path.exists(pkg_rootfs_license)):
-                             continue
+         if test -e ${D}${bindir} ; then	
+             for i in ${D}${bindir}/* ; do \
+-                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
++                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
  
--                        os.link(pkg_license, pkg_rootfs_license)
-+                        shutil.copy(pkg_license, pkg_rootfs_license)
-             # Fixup file ownership and permissions
-             for walkroot, dirs, files in os.walk(rootfs_license_dir):
-                 for f in files:
+         if test -e ${D}${sbindir}; then
+             for i in ${D}${sbindir}/* ; do \
+-                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
++                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
+                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
+             done
+         fi
 -- 
 2.17.1
 
