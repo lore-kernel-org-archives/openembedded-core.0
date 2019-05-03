@@ -1,47 +1,47 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BEC626C0E5
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id A7BBD7DDE0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 16:47:59 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id p21so7860695wmc.0
+	Fri,  3 May 2019 16:48:52 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id l2so8680183wrb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 09:48:00 -0700 (PDT)
+	Fri, 03 May 2019 09:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=Fr5rJxP3k06o2QDJ7w87RvGzIaLkhI2xnW67j3CsIfU=;
-	b=WK0CqXpqJrbIvVigH5Z+uBsf5EIpBkj+JKSr27A4pWPJRUpObtuBsgzpS507Ys8Gco
-	f/w7rIMUIAZZ+CIN22sglDkzJE6ZgNqtUl4qDiMBrbXOPzjSQGsRvJZ3JSs704niJ/y6
-	Si362h2nnoacsG7ed02KlGyYPsBUNIsXpL7J2pmlT43LH9PoQGYdI+kwVN/OZM4SOSDG
-	iSgfUes9EKiZ1M8lT1ND/lZ3bh13pSCC8uo29WIIJ3Y2e0GF1I98zDMc7KhQBCC/809z
-	tSQxWhV+XUzMFIg2/nU+klcTrpF8rK3/LqKJBQFQhlbKUhWDiv249QWZjIBJeLHO8TGv
-	lvcg==
+	bh=CCr1KLrcUuMH0CIsUdLQIIfXssCw6iHUYuqOotoJsgI=;
+	b=lm4fkR3eM6/cHx9ZKVWGWcwzSRAXy1nwreGfKkm+DZBJdKZGnkcfPT6fCfUQTsa1cz
+	cw3qVlZw813AAud8HYsOvuI+5WOkLn0vdBKzZhPnniq3HlaHtajGPHQ4qeSFjQ/sMJR2
+	BiDkyEwtTrKfuK6Pw55hcTqolmbzAyIK6d8jmPiB7gMkDlbrEOts7eNYcVIzLXJ5snsC
+	e+ILPTs1N58Pe+yiEsp8Cnv5MAlBBjQKr+889v+OrYfOROs2VVz3vA4RFQZsYCtoG8YL
+	y3BeEPvXdP8VSsJzXlwOfLpCFZZBLlnksmj/9ymo5LLNw8Iij3L++kD9V81jb3QoQN/h
+	orLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Fr5rJxP3k06o2QDJ7w87RvGzIaLkhI2xnW67j3CsIfU=;
-	b=AJ4W1IaGd5PUAlmeWB3Aw/amSC/agjW+klE+uy+YTkBO6rdQPnvKiYpXcP8NynOOvH
-	Gfx81yQqPBxP52p6URIxaXuxk+5yZk4eTUC46Jev4wYFQKO0uX5taBSmniZg+OJcOWSc
-	5Myf8IxhQHZQVn8121j9RYhoXgkd6vmuVxoh/OzOKDCihZubaeMgY6gxwLEwB+ZwSq0l
-	ZUS+tCA1Uftfj+EAVVynXPH1SFYIgnvh4JYTwvNkiaP8whrRqTkzLBueKsWoHa+r8Rk4
-	N2TPCwxUAbjB685q6YUC0nuPnhXIS1E9sSVhzWh+qBGHK+Q2GA8T9e3E4dhVFD6kOew5
-	Eg4Q==
-X-Gm-Message-State: APjAAAUlAn2O6BXoDZ5YYpdt9bnjuW9+wxwZiyQrma5xNLiB0JxZu3Pc
-	tC+ewdL3bi0k7eul0gqR8zOVqU15
-X-Google-Smtp-Source: APXvYqxUYpajqcAE/U3BUX1w324AFuADHCEKzosY4zzfzScX5GVLPtlfgZcbLv/DQj6lZ5+ylMYQqg==
-X-Received: by 2002:a1c:c243:: with SMTP id s64mr7349673wmf.46.1556902080093; 
-	Fri, 03 May 2019 09:48:00 -0700 (PDT)
+	bh=CCr1KLrcUuMH0CIsUdLQIIfXssCw6iHUYuqOotoJsgI=;
+	b=bfvvuSRR5V6ZAY7vXt3koAHcKfW5A5Uw0bHRh3EkhGL4ziq3pbwuq8lGxGy0168Izt
+	cC9QaO73IW3vkvgOrkkj+iDNF3Ruh02XTsTnKyNwxRPDs6qzKOBXWw0JUodc2OQ76Rei
+	YdhIZOZx7Qk/eJP5qWmLOpYJ459xCTJgqMkiKuj1G/hX8gAd5rD7JXwjvxQ5yESoRiqx
+	wfN7+CPWNWAtwqMxCyecx1YwvG+FqWTlXFPalZ4KkRx4vwz9LLoffN315tHLQpQpGPXp
+	CB61bepqlbOcvd4OQuWZwMZjFoVtW9kJrD9UtkHw/lt1fsNSnPD0VeAldnZkToGpGorI
+	PbrQ==
+X-Gm-Message-State: APjAAAVCnl1uVx5xB7XSGRjpDmILP+EsWN8VB07WeidbcIf406UH7t1j
+	SwVC6kFIkQ3X5C4zyPiZ2UUzVMbg
+X-Google-Smtp-Source: APXvYqxfGaUzHOefxwzVzf0tiOIyHgwlcxjrCCjhwFPgSgQ8r+5tc1a1N+zljvf70Yvjm+Rq1xzchQ==
+X-Received: by 2002:a5d:69cb:: with SMTP id s11mr7576174wrw.315.1556902133059; 
+	Fri, 03 May 2019 09:48:53 -0700 (PDT)
 Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
-	j13sm5871038wrd.88.2019.05.03.09.47.59
+	[193.164.125.18])
+	by smtp.gmail.com with ESMTPSA id 10sm3785321wmn.4.2019.05.03.09.48.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 May 2019 09:47:59 -0700 (PDT)
+	Fri, 03 May 2019 09:48:52 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 May 2019 17:47:34 +0100
-Message-Id: <20190503164734.130778-1-alex.kiernan@gmail.com>
+Date: Fri,  3 May 2019 17:48:50 +0100
+Message-Id: <20190503164850.130865-1-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] bmap-tools: Add RDEPENDS on python3-misc
+Subject: [PATCH] systemd: Default to non-stateless images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +54,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 16:48:00 -0000
+X-List-Received-Date: Fri, 03 May 2019 16:48:53 -0000
 
-The newer python3 recipe no longer includes python3-misc in target by
-default, leading to failures:
+When creating images, for anything other than the explicitly stateless
+case, touch /etc/machine-id so that the images can be booted without an
+initramfs and with `ro` set on the kernel command line, otherwise system
+refuses to start:
 
-  Traceback (most recent call last):
-    File "/usr/bin/bmaptool", line 6, in <module>
-      from pkg_resources import load_entry_point
-    File "/usr/lib/python3.7/site-packages/pkg_resources/__init__.py", line 42, in <module>
-      import ntpath
-  ModuleNotFoundError: No module named 'ntpath'
+  [    7.222134] systemd[1]: No hostname configured.
+  [    7.227266] systemd[1]: Set hostname to <localhost>.
+  [    7.232622] systemd[1]: System cannot boot: Missing /etc/machine-id and /etc is mounted read-only.
+  [    7.241750] systemd[1]: Booting up is supported only when:
+  [    7.247362] systemd[1]: 1) /etc/machine-id exists and is populated.
+  [    7.253752] systemd[1]: 2) /etc/machine-id exists and is empty.
+  [    7.259757] systemd[1]: 3) /etc/machine-id is missing and /etc is writable.
+
+If DISTRO_FEATURES includes `stateless` then systemctl-native is not run
+on the image leaving the image for population at runtime by systemd.
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/recipes-support/bmap-tools/bmap-tools_3.5.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/image.bbclass                            | 7 +++----
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 8 ++++++++
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-index 7c4db85b32c2..2bb4a58d4cb3 100644
---- a/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-+++ b/meta/recipes-support/bmap-tools/bmap-tools_3.5.bb
-@@ -18,6 +18,7 @@ PV .= "+git${SRCPV}"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index a23403c0827a..3cb185dd2045 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -665,12 +665,11 @@ reproducible_final_image_task () {
+     fi
+ }
  
- RDEPENDS_${PN} = "python3-core python3-compression python3-mmap python3-setuptools python3-fcntl python3-six"
-+RDEPENDS_${PN}_append_class-target = " python3-misc"
+-IMAGE_EXTRADEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd-systemctl-native', '', d)}"
+-
+ systemd_preset_all () {
+-	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
++    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
+ }
  
- inherit python3native
- inherit setuptools3
+-IMAGE_PREPROCESS_COMMAND_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd_preset_all;', '', d)} reproducible_final_image_task; "
++IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('DISTRO_FEATURES', 'stateless', True, False, d) else ''}"
++IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('DISTRO_FEATURES', 'stateless', True, False, d) else ''} reproducible_final_image_task; "
+ 
+ CVE_PRODUCT = ""
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index d7d4e0d29a09..7da8f23ab893 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -241,6 +241,14 @@ def preset_all(root):
+         if state == "enable" or state is None:
+             enable(root, service, location, services)
+ 
++    # If we populate the systemd links we also create /etc/machine-id, which
++    # allows systemd to boot with the filesystem read-only before generating
++    # a real value and then committing it back.
++    #
++    # For the stateless configuration, where /etc is generated at runtime
++    # (for example on a tmpfs), this script shouldn't run at all and we
++    # allow systemd to completely populate /etc.
++    (root / SYSCONFDIR / "machine-id").touch()
+ 
+ def mask(root, *services):
+     systemdir = root / SYSCONFDIR / "systemd" / "system"
 -- 
 2.17.1
 
