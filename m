@@ -1,48 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id C040D7D718
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
+	[209.85.161.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 32D867CFE9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  3 May 2019 23:31:49 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id t1so7966170qtc.12
+	Sat,  4 May 2019 03:17:55 +0000 (UTC)
+Received: by mail-yw1-f67.google.com with SMTP id o65so4135009ywd.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 16:31:51 -0700 (PDT)
+	Fri, 03 May 2019 20:17:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=3vacLqYhS+sL+Ag0xoFUoMWQ1onV/nA5GgDT95SzvC8=;
-	b=Xuk1CWSQLhGr6dicoa+DxgeYDIvrGJqZlUG7zqEF+elkbKoOYXWLQJFALvCZIldVu5
-	2Al0D4SV+2f/m6IRxgaPcfZk7gDZueiMPcVQfxWmDYeKY3YAFCNgcjQTO5sORbBcginb
-	vRHMM3V+dl6VyZp/sbMJCCViKiRtdyE/PrKQCwWGQy2TbXaBuHzNF1EG56Kq3hniXVQp
-	g87j9SAGvqU2u4Dt6NlHn+0AZlQGQXTvA75PMUONQ4epo/ei1RVsWtsIkqVFdhPnTYov
-	HD30AOG0k+Z+rbJoBr9OUGW/DpAdXS3+a9akrsKe8q5HUhtsNHj7b3ZxO1q/dmG0H+4g
-	bz9Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cImnkCzFBPJnf8AkkomjEA5Un3dynQeTcM5XgFv+/Lg=;
+	b=NzxMe/mx6pHT0r81KPKdI+74swbpePtKx9Bw3+SZTfh9XrX3QuE1WxYkme4Pc7w1nC
+	/uXm0YuAxBwYHjXdIy4wTzkZko5buKR54KbD2n5YvCbdla8z+bjKCBllkCsI8nmMLUT4
+	5zk/6EP68P1ap3TH7dh0wdYq7XwSxwq0JkAbYmX8CY6gLojnuRVfKsxSEaWORIjvjSbY
+	ZG8JLwelvDfw4i817m/TS7am2nE6F+xiCKPx+h1CJ6BvQkmou06qJJXCzPLxxsT+r6iK
+	dAvBdzvaRL9A9NDOG0C6KI7V5WHczYP0iTiazqFQd5in7aD0k6Q88wSochRorxeWk5Cu
+	/Jvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=3vacLqYhS+sL+Ag0xoFUoMWQ1onV/nA5GgDT95SzvC8=;
-	b=kDczhZpv7Uww2WLm8EIhd+GSLHpyAAC4BCO2fyhiP3A1AVO9MlCXNuvdI2E8Bdsv5y
-	uGCp4yZRJUYkLBWTQSNQ0qcIH3wpXGmJEPXewR1ZcwY4AvuPgxIMyNQceVeknmQ4ju30
-	CZHH13zOpSuT8cuhjXocbJt6Zp6ayi0EeNbegMjQsIrky1Nbhv13V9mxxzoDQKIwX/N9
-	voL+VMOYhXVsSyMRonFWAOl/OLa3Ii7C7xQqmYbFS6UlcCJJueGjZuA5t5NVxlbgTnWi
-	qid6sq/jU+tsyb5n0G2nzjyhv8Cliou0B3eZFw1vadUbmfMNmRNUapK7Qo7+fKuLeHTt
-	tU/Q==
-X-Gm-Message-State: APjAAAWLalSyz6rTKC/1fFqw+zmVTe4iqicx/tKKe6wpa9YX77ejupLF
-	zf6BeHAp6g67Wu8zGwzc3JwyKHInh244cK/R/w8=
-X-Google-Smtp-Source: APXvYqwtqSPjgL8CMJBX4gJF59nrmeXlRr1DZaz2VKLYYHbnQGli/VA1a4ceb4PM71X8+A6I/NguEvfUlMdHJmlT1Zg=
-X-Received: by 2002:a0c:b620:: with SMTP id f32mr10542975qve.228.1556926310325;
-	Fri, 03 May 2019 16:31:50 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cImnkCzFBPJnf8AkkomjEA5Un3dynQeTcM5XgFv+/Lg=;
+	b=p00V5QkrrbHNTZscAiT5myztaMK921Bbscg6NYQXwtEfVpbY8M7Fn9QboQoNFOJc1Q
+	uNpv49jDdGTvcLrFcnulA9NGQiWSBLZlXYvlElla6U0JiH5+9zEmgFPk/KNqegSMH9ta
+	HxNPEPUn7yN53hQ3bINCTtIsEGgxqpV9S5p/H77pf8uknZe1uGRM25wjf8bcgG2WJKi1
+	aU74a/Ag96ozhnBKTv0/MtiPeIp7kcyJqnzJ1gL7JHXFa4olH8PRy4RSjdAgXl5ejBRi
+	oPENegU6MiiGzmW5wYnLOe5AJgphR5ByBIYrIp2eYi4aeDtSDGbY4xMRFLbxldMowZOl
+	XHig==
+X-Gm-Message-State: APjAAAVMnhAM9QQgb6+e2zs4UqX12ex7F9CzXipcuwRJ4Rf+E5sEpHU0
+	ShWAXjKFhIXlQ+PYHmnDXEPZTq6JNt0=
+X-Google-Smtp-Source: APXvYqztF9mCBXaXU6BXxRsp754FO9fq/Zg8FlJrupNoK02w4m4g2SsGNiG3Ti8LhyymkccjtHTYyA==
+X-Received: by 2002:a25:a1e1:: with SMTP id a88mr9649563ybi.158.1556939875826; 
+	Fri, 03 May 2019 20:17:55 -0700 (PDT)
+Received: from localhost.localdomain
+	([2605:a601:21d1:5200:620a:c230:ada8:3135])
+	by smtp.gmail.com with ESMTPSA id l17sm29664ywm.31.2019.05.03.20.17.54
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 03 May 2019 20:17:54 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  3 May 2019 22:17:52 -0500
+Message-Id: <20190504031752.20918-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190503092100.21596-1-s.mueller-klieser@phytec.de>
-In-Reply-To: <20190503092100.21596-1-s.mueller-klieser@phytec.de>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 3 May 2019 16:31:24 -0700
-Message-ID: <CAMKF1sozQ2pT0CWmA1XusPAK1+mxD1uP50y0rjKZJj9szSzi0Q@mail.gmail.com>
-To: =?UTF-8?Q?Stefan_M=C3=BCller=2DKlieser?= <s.mueller-klieser@phytec.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] cml1.bbclass: fix undefined behavior
+Subject: [PATCH] resulttool: Add option to dump all ptest logs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,70 +58,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 03 May 2019 23:31:50 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Sat, 04 May 2019 03:17:55 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 3, 2019 at 2:21 AM Stefan M=C3=BCller-Klieser
-<s.mueller-klieser@phytec.de> wrote:
->
-> Whenever cml1 do_configure is used with a defconfig, oldconfig waits for
-> input. This silently fails with:
-> "Error in reading or end of file."
-> Replace the call with olddefconfig, which will have the same effect in
-> setting all defaults, but has a defined behavior.
->
-> Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
-> ---
->  meta/classes/cml1.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-> index 98d24cec746b..f3b8a84073c8 100644
-> --- a/meta/classes/cml1.bbclass
-> +++ b/meta/classes/cml1.bbclass
-> @@ -1,7 +1,7 @@
->  cml1_do_configure() {
->         set -e
->         unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
-> -       oe_runmake oldconfig
-> +       oe_runmake olddefconfig
+Adds an option to dump all the ptest logs to individual files to a
+specified directory.
 
-This does not work for busybox/x86_64
+[YOCTO #13331]
 
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ scripts/lib/resulttool/log.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-| NOTE: make CC=3Dx86_64-yoe-linux-gcc  -m64 -march=3Dcore2 -mtune=3Dcore2
--msse3 -mfpmath=3Dsse -fstack-protector-strong  -D_FORTIFY_SOURCE=3D2
---sysroot=3D/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/=
-recipe-sysroot
-LD=3Dx86_64-yoe-linux-gcc  -m64 -march=3Dcore2 -mtun
-e=3Dcore2 -msse3 -mfpmath=3Dsse -fstack-protector-strong
--D_FORTIFY_SOURCE=3D2
---sysroot=3D/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/=
-recipe-sysroot
-V=3D1 ARCH=3Dx86_64 CROSS_COMPILE=3Dx86_64-yoe-linux- SKIP_STRIP=3Dy
-HOSTCC=3Dgcc  HOSTCPP=3Dgcc  -E olddefconfig
-| make -f scripts/Makefile.build obj=3Dscripts/basic
-| /mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/busybox-1.=
-30.1/scripts/gen_build_files.sh
-/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/busybox-1.30=
-.1
-/mnt/a/yoe/build/tmp/work/core2-64-yoe-linux/busybox/1.30.1-r0/busybox-1.30=
-.1
-| mkdir -p include
-| make -f scripts/Makefile.build obj=3Dscripts/kconfig olddefconfig
-| make[1]: *** No rule to make target 'olddefconfig'.  Stop.
-| make: *** [Makefile:445: olddefconfig] Error 2
+diff --git a/scripts/lib/resulttool/log.py b/scripts/lib/resulttool/log.py
+index 5584f2d0a99..18830409035 100644
+--- a/scripts/lib/resulttool/log.py
++++ b/scripts/lib/resulttool/log.py
+@@ -30,6 +30,15 @@ def log(args, logger):
+                 continue
+             r = results[path][res]['result']
+ 
++            if args.dump_ptest:
++                if 'ptestresult.sections' in r:
++                    for name, ptest in r['ptestresult.sections'].items():
++                        if 'log' in ptest:
++                            dest = os.path.join(args.dump_ptest, '%s.log' % name)
++                            print(dest)
++                            with open(dest, 'w') as f:
++                                f.write(ptest['log'])
++
+             if args.raw:
+                 if 'ptestresult.rawlogs' in r:
+                     print(r['ptestresult.rawlogs']['log'])
+@@ -51,6 +60,8 @@ def register_commands(subparsers):
+             help='the results file/directory/URL to import')
+     parser.add_argument('--ptest', action='append', default=[],
+             help='show logs for a ptest')
++    parser.add_argument('--dump-ptest', metavar='DIR',
++            help='Dump all ptest log files to the specified directory.')
+     parser.add_argument('--raw', action='store_true',
+             help='show raw logs')
+ 
+-- 
+2.20.1
 
->  }
->
->  EXPORT_FUNCTIONS do_configure
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
