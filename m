@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B2A877D7A0
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id AA5E87D7A0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 May 2019 15:27:53 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id x15so4160584pln.9
+	Sat,  4 May 2019 15:27:54 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id i21so4201795pgi.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2019 08:27:55 -0700 (PDT)
+	Sat, 04 May 2019 08:27:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=KKusKZu1WqWjl+eUF1KJPwFDOijJpwskoiihUfK9uGg=;
-	b=phesORjR0MScegfRqAzBb1TKD0seiyagsY7UGyhBF1Q/LyXxwCKwemo83Ebh4qVjqf
-	XcqlsfO5yeYb0b6GrukD3GsjpplAJXkOZm48AopLeony1jyD/JDMGF7VtqfX8r8HkHFW
-	rU586HwSCy35CJWusyNLQWKX/Sf55G428X5TbwyqvaMxKx4G/UVuREEs3dxCJybyX8f1
-	AmbgrpJW4gLFYB3GaqJajPiwHHIrBAh0SMKqMa1y9p5plIxpruoGfCA3fj0K2jxin9np
-	yqKS4MBVl4NjvqF4EtRgF2/yy2/kBvLBX+SED6zLkNvXkyWhu7riRQR9g+rkpdrk6t/n
-	eN0A==
+	bh=8FLz8WflWXIgh32ShZRC0ryVX5OJaQkRz+7XjhjySiU=;
+	b=reMT1GPAniyJ+c6todEQC/jzeWYSWHOgYpXlC5ofzA8wu2CJBeiuteTBg3A4kyplHB
+	adZGMonisRICf4tsjAeWNqpUAlPxTCexumqg6/69GIiUmGIJdwc76yK06HMREhLnPGUT
+	TcNew5r9JG8WlDccT05TzoIpwE8C3EyR5pGMiCoeNO8erb5QaD/J9KRahPY9AxMF25pJ
+	2h7jBhN2t5Vl08jWpCcVRL50HRoz16hDJUcmlfhnCMKaj2Utixh3lrIE6gfGVBNm+cld
+	7VCdwYtcFKhdV0qYdXyPQFKaUv4HArHL1WUEb4mh0GNmLPEEoRCtWGi5g3dMxByoq4iP
+	GoeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=KKusKZu1WqWjl+eUF1KJPwFDOijJpwskoiihUfK9uGg=;
-	b=bYSGAnJnskFgtHpyNeu3TMlP8MktspVP4qUFb+132KXHj44xCp2aJtQapeTT3/jvbA
-	akux9xB2ai8lrOwYRzVQuPUB3Taqee1xVCpdxSMlyu9EVdTQiEYz0oMVxZ2qnN83DnlC
-	TCII6qyphVnGjjquywifgaLZLfLrVd+kkcljIYfH5Q3XcrNY8W8VbweY21+EmpHMxcCs
-	Oht2p6cEuObIr0dzs95IuydKOBgBtCH24pTdfO4CDXaS1qRcIo3iTLez2UKUD9xTW8hq
-	cs+mzHBJ1w9v1uuYZ2JLHHCFhOEqtvkDu3TGsmueDNujbRycNhMt2OCw44berIfDzJZP
-	tvmg==
-X-Gm-Message-State: APjAAAUOdZW5agOVaM+09AsNrQxgd2EsSOXvea4ZB5iMGualxojNkZYb
-	S/BVeIAM1Nge7v+vSe1qKKO5LoAV
-X-Google-Smtp-Source: APXvYqxE4D+Tp3De7hUafCKXx8L3VNbUHjENcgvWMM3iZArgeCDMQ+aZZEt/68+w3Kgam6XPA1T/bw==
-X-Received: by 2002:a17:902:e091:: with SMTP id
-	cb17mr19099493plb.222.1556983674891; 
-	Sat, 04 May 2019 08:27:54 -0700 (PDT)
+	bh=8FLz8WflWXIgh32ShZRC0ryVX5OJaQkRz+7XjhjySiU=;
+	b=MqKfNCiINC98+gjQBq3PGO1gExmuonO5pYbwclUetjjfL/vgUHtOiwaKn1nCKp4Kd9
+	6ApQzCcYJ3ob4J9IeQaGcaIy0sbghA21E3DQ+S2xxElbBjW/4EGJMa386miEWQMIvUl+
+	UF5bNH6/yg3X1WdqVyf+fk80FZxEDw6I98h3bScnW3RG7czJgc/ucj1p62j46IU7PKsB
+	X5HkWJPEruzSN4oB1pzISo3ZhhJP68Q2w3LJYW/iJVZj6c0qC638FaByED5gShC45GgW
+	gOBMDvw0iHlXOZxN3PTCNWZmDYEYxCWLE5GSTpF6uQkBFR2eg/MtcqtAKIK7wk4w4MRx
+	tpgA==
+X-Gm-Message-State: APjAAAVqmPX5bfIqlLbSBroeu1GNfzM9fATI2LZaJr1ShgCzeExCEG20
+	t1BZE2Nef1z+4HYmtSCJI2sNxMeN
+X-Google-Smtp-Source: APXvYqxuFg27EotU5oMw/e0gBA4OL7UyyX6WQvMbtvGscyHP+fIeocvYPv7mI6EAGWfKU2TwiDDCaA==
+X-Received: by 2002:a62:570a:: with SMTP id l10mr9940062pfb.151.1556983675838; 
+	Sat, 04 May 2019 08:27:55 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:e5bb:fdcb:954:875c])
 	by smtp.gmail.com with ESMTPSA id
-	k12sm6394214pfk.86.2019.05.04.08.27.54
+	k12sm6394214pfk.86.2019.05.04.08.27.55
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 04 May 2019 08:27:54 -0700 (PDT)
+	Sat, 04 May 2019 08:27:55 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 May 2019 08:27:05 -0700
-Message-Id: <e3898996665591c2909208a629a14603941b6c28.1556983501.git.akuster808@gmail.com>
+Date: Sat,  4 May 2019 08:27:06 -0700
+Message-Id: <8a0b045e8c31a706f8254db971b0348c6f144758.1556983501.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1556983501.git.akuster808@gmail.com>
 References: <cover.1556983501.git.akuster808@gmail.com>
-Subject: [PATCH 29/43] linux-yocto-rt/4.19: fix merge conflict in lru_drain
+Subject: [PATCH 30/43] linux-yocto/5.0: port RAID configuration tweaks from master
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,73 +59,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2019 15:27:53 -0000
+X-List-Received-Date: Sat, 04 May 2019 15:27:54 -0000
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Paul Gortmaker sent along the following fixup for 4.19-rt:
+Porting the following three RAID config changes from master to
+the 5.0 branch:
 
-[
-  Author: Paul Gortmaker <paul.gortmaker@windriver.com>
-  Date:   Mon Apr 15 12:01:31 2019 -0400
+   ffd8cf5baf8 intel-x86: add Intel VMD support
+   8edf951a15c cfg/efi.cfg: built-in CONFIG_EFIVAR_FS to support Intel VROC
+   041a6c04244 intel-x86: built-in nvme driver to support boot from nvme disk
 
-    Revert "mm: handle lru_add_drain_all for UP properly"
-
-    This reverts commit e6e9d6e290028b0a6b83b563fad9fafa7f1d515e.
-
-    It was a 4.19.31 backport of commit 6ea183d60c46 ("mm: handle
-    lru_add_drain_all for UP properly").  In summary, what that did
-    was to fix a possible harmless WARN_ON on non-SMP, introduced at
-    commit 4d43d395fed1 ("workqueue: Try to catch flush_work() without
-    INIT_WORK().") by adding non-SMP variants of lru functions.
-
-    The combination of that, with the -rt commit 473f14a9f234 ("mm:
-    perform lru_add_drain_all() remotely") at the merge of the two
-    results in the following build failure:
-
-      mm/swap.c:736:2: error: #endif without #if
-
-    since the -rt change wants RT specific lru and the stable backport
-    wants non-SMP specific lru, and a chunk of the backport with
-    an #ifdef CONFIG_SMP is missing.
-
-    However, before we add a four way cluster of ifdeffery to handle all
-    cases, we note 4d43d395fed1 was added to the v5.1 release, and it
-    was not (currently) backported to any 4.19.x stable release - so it is
-    unclear to me why this commit was ever backported to 4.19.31 at all.
-
-    Further, we note this change was to mm/swap.c -- and by definition,
-    any preempt-rt deployment that uses swap for anything other than a
-    failure contingency mitigation is broken by design.
-
-    Given all that, I decided that the best path forward was to revert
-    the two of the three chunks of the backport that remain in the -rt
-    branch, and return us to the pre-4.19.31 merge behaviour for -rt.
-
-    Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-]
-
-Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-index cdba9d2..834b8fc 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-@@ -11,7 +11,7 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+index 842aa5b..07fa910 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+@@ -12,7 +12,7 @@ python () {
  }
  
--SRCREV_machine ?= "b0ea9ef736c8ab8695bdfba61cd121ce5aa47e49"
-+SRCREV_machine ?= "c279a81f1e654023c4cc78afa9f14350ee5f836f"
- SRCREV_meta ?= "9bda6190bfc9e7858c2f7588109a0ec966f37a09"
+ SRCREV_machine ?= "04585fb29f99725a27acb96fc25efa0a55a62a8a"
+-SRCREV_meta ?= "7477b32eaf608884be5664fadd79331b39afaaa6"
++SRCREV_meta ?= "ffd8cf5baf8e741b8987b72c942ce3b9cc7c7f30"
  
  SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+index eba6cc6..c1084f2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine_qemuarm ?= "e265300362d7004e3b57bb5cbcfc65fb469b9ce9"
+ SRCREV_machine ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
+-SRCREV_meta ?= "7477b32eaf608884be5664fadd79331b39afaaa6"
++SRCREV_meta ?= "ffd8cf5baf8e741b8987b72c942ce3b9cc7c7f30"
+ 
+ PV = "${LINUX_VERSION}+git${SRCPV}"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+index fe773be..01269dd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
+ SRCREV_machine_qemux86-64 ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
+ SRCREV_machine_qemumips64 ?= "437d99225c689f3f192bb834e4d649ea0467ac87"
+ SRCREV_machine ?= "9c40ed0d86ad87f48659aad4fdead2455e8b5db8"
+-SRCREV_meta ?= "7477b32eaf608884be5664fadd79331b39afaaa6"
++SRCREV_meta ?= "ffd8cf5baf8e741b8987b72c942ce3b9cc7c7f30"
+ 
+ # remap qemuarm to qemuarma15 for the 5.0 kernel
+ # KMACHINE_qemuarm ?= "qemuarma15"
 -- 
 2.7.4
 
