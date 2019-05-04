@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id B6FB77DD8C
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A4E257DD90
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 May 2019 15:28:00 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id p6so4206838pgh.9
+	Sat,  4 May 2019 15:28:01 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id d9so4162648pls.8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2019 08:28:02 -0700 (PDT)
+	Sat, 04 May 2019 08:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=H1yhHvNaEMLwmRgZdwveeCfz+qERzrJ1S+mwzWZwNCE=;
-	b=mwPlVTLADL1QyJAx1nrXxrykXU3Ei11+g/C7zgCcyjGaa99OyqlBUSa3x/5cVzotsJ
-	UwcaHGr7fq+LYaR4TwUbsLyIKvxtmSWkPXZLmmf7pBhmXaGuJLdI34sRieGOBQ79I428
-	G0OfXURg5eKRn/Cjtdh38PSIvqF10XOo9GAygDVNZdHPbPz4jQ/fZxwnPyuEq3PBvYp9
-	qWBKWuI5erJxvRuO0Wi7L+HhwcH/rLPoySlYp77EMQClDlv3mks+AWejlJ8ID5GuuAlU
-	tDNYKCmQ4t8qKjTmo4sZNt4ol7pleTp5lQUsVqONF8GfduBWHiVQ9y1RJ/VNi7CY10Bz
-	A34Q==
+	bh=Etn4QCDRacWisebdYwbQfpfzyaTHMibmxvj1MEq9rxI=;
+	b=QzfUf1Xa8S3RdXLMQ3gN+NaLEo5hE3UndLPpxHClEgEVthyYALcIH3tybyRlonrrGP
+	fdBo0na0hkDJ18wWcXXB7UPF/7JdY9GfR704vXSEMO8pRUNbbaz2wiIOr5GIixCmkeJH
+	bZFaR3KkcdaiTkAAfLJeS2ohWE/kvG/gCru32PMcMVo3ykyB5iZ0QgcKrKzSd+qDENq8
+	ZQsHUgSPoRd2YOSFkHZGHdBmFU0vzw6ye+CYe3kFHIRpFbhBxz0KiuU2wYXaEwVadGRJ
+	OFma0kymd7OTr6UJflMzCCma/u5Oic33XfTmsWuo4/pF8f6rW5yHUDN3QcxfDaEQpuJQ
+	Z9jQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=H1yhHvNaEMLwmRgZdwveeCfz+qERzrJ1S+mwzWZwNCE=;
-	b=fXSnZvjFQb3Bjtvz5LiiO9Nvtf+mSXew+T+prh2Rpe/wW6QA7uStC1p124xMuGGARb
-	P4w72bjKTK9gpOTQpFSu1O6+tPZ1nlVehyK1FC6Tc7QyQY847gJpjU3OHdFyyLJOK7nG
-	caz98ypJivJ8fW9Pf4mRN69CfoOXRLcZwTw9uZssYclAQVjZAttnv2g6aCCwh2Ql212W
-	4gbBkfttS2L9tRPiqfsf9/XE9ZAGvyD8Q3D7VsdOgHC3jKAi0aQjCmghB2txTKuWLDJv
-	mddik5oE4JZiWTRrzLviEvaA/nS/nxleqAMNA3JxxOM432DuyyW995aZhWewelMyMUs6
-	W7bA==
-X-Gm-Message-State: APjAAAXpNSR8RBVObkBfwFKsSOgWDv8bfvN5pyt+uBgfCTdbV5k9cy1G
-	31PWWbMPV3u8wxua2PS7KhxpO+Vc
-X-Google-Smtp-Source: APXvYqyihyedNg6pfbafPboXV8wx9z8Wn/ekcWfXyFkM5e9ebAOtUu+KJtgjK2jJkhHChDPy3obPRg==
-X-Received: by 2002:aa7:92d1:: with SMTP id k17mr20237922pfa.91.1556983681859; 
-	Sat, 04 May 2019 08:28:01 -0700 (PDT)
+	bh=Etn4QCDRacWisebdYwbQfpfzyaTHMibmxvj1MEq9rxI=;
+	b=bKcAhyYANbUPTsfMnpCq33xz1hatLAOR22LaziwkR7Z5qBMx3B1xO3pysA8Do7Cyqa
+	SoEdyFSwGVXaSJLFMW+jE/PxE3A4DVGCsRIqKKL7Ih3bwemaFJgaz0i+OU+CkIEb5aMP
+	4CxH+ulMtDMcRPgDGHMyB1g2oezAkphnId8LfIaiaLSFQuaKt7zzc4kKoZ75pZl6fYss
+	e6Xtp8+7U1Nmtct2Kd3SNTXnCbvQdQHSH55G6NZ6rYOktGGwim5j6mCtKxJOg6xQV68W
+	olujaolOifhEa5D9wXIp0JN5BaXmeccA8Aep9uJTwlgPP6+fmFypi/MRadOaNclfAyDo
+	RvZw==
+X-Gm-Message-State: APjAAAVXiRwAT7kLWmWijPN4p5hFipmTWuSJhOYKShcCUg/N9GfTHXYl
+	Ha2F0QO8uj+z7G17kKkohBlL1yox
+X-Google-Smtp-Source: APXvYqwMG/iN4Wv5GjD/s2/Tq0FG873cQuBPw3vlZmyQncEJTi7o0tuOmwIFYFyaAPcYC+krXX2V6Q==
+X-Received: by 2002:a17:902:b617:: with SMTP id
+	b23mr18482058pls.73.1556983682757; 
+	Sat, 04 May 2019 08:28:02 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:e5bb:fdcb:954:875c])
 	by smtp.gmail.com with ESMTPSA id
-	k12sm6394214pfk.86.2019.05.04.08.28.00
+	k12sm6394214pfk.86.2019.05.04.08.28.01
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 04 May 2019 08:28:01 -0700 (PDT)
+	Sat, 04 May 2019 08:28:02 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 May 2019 08:27:12 -0700
-Message-Id: <09dc0c4008bcc134d2424d7a9606a881baf6b79b.1556983501.git.akuster808@gmail.com>
+Date: Sat,  4 May 2019 08:27:13 -0700
+Message-Id: <5445c22361b55603f7bd2fabd2d36d280ebee51e.1556983501.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1556983501.git.akuster808@gmail.com>
 References: <cover.1556983501.git.akuster808@gmail.com>
-Subject: [PATCH 36/43] gdb: fix CVE-2017-9778
+Subject: [PATCH 37/43] binutils: fix CVE-2019-9074 CVE-2019-9075 CVE-2019-9076 CVE-2019-9077
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,7 +60,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2019 15:28:00 -0000
+X-List-Received-Date: Sat, 04 May 2019 15:28:02 -0000
 
 From: Anuj Mittal <anuj.mittal@intel.com>
 
@@ -67,125 +68,326 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/gdb/gdb-8.2.1.inc           |  1 +
- meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch | 99 +++++++++++++++++++++++
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |   4 +
+ .../binutils/binutils/CVE-2019-9074.patch          |  68 ++++++++++++
+ .../binutils/binutils/CVE-2019-9075.patch          | 119 +++++++++++++++++++++
+ .../binutils/binutils/CVE-2019-9076.patch          |  49 +++++++++
+ .../binutils/binutils/CVE-2019-9077.patch          |  37 +++++++
+ 5 files changed, 277 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9074.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9075.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9076.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9077.patch
 
-diff --git a/meta/recipes-devtools/gdb/gdb-8.2.1.inc b/meta/recipes-devtools/gdb/gdb-8.2.1.inc
-index 1fc1ec0..cb8d189 100644
---- a/meta/recipes-devtools/gdb/gdb-8.2.1.inc
-+++ b/meta/recipes-devtools/gdb/gdb-8.2.1.inc
-@@ -17,6 +17,7 @@ SRC_URI = "http://ftp.gnu.org/gnu/gdb/gdb-${PV}.tar.xz \
-            file://0011-Fix-invalid-sigprocmask-call.patch \
-            file://gdbserver-ctrl-c-handling.patch \
-            file://0001-Fix-build-with-latest-GCC-9.0-tree.patch \
-+           file://CVE-2017-9778.patch \
+diff --git a/meta/recipes-devtools/binutils/binutils-2.32.inc b/meta/recipes-devtools/binutils/binutils-2.32.inc
+index 5d0c16b..49e6827 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.32.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.32.inc
+@@ -44,6 +44,10 @@ SRC_URI = "\
+      file://0013-Detect-64-bit-MIPS-targets.patch \
+      file://0014-sync-with-OE-libtool-changes.patch \
+      file://0015-binutils-enable-x86_64-pep-for-producing-EFI-binarie.patch \
++     file://CVE-2019-9074.patch \
++     file://CVE-2019-9075.patch \
++     file://CVE-2019-9076.patch \
++     file://CVE-2019-9077.patch \
  "
- SRC_URI[md5sum] = "f8b2562e830a4098dd5b5ea9e9296c70"
- SRC_URI[sha256sum] = "0a6a432907a03c5c8eaad3c3cffd50c00a40c3a5e3c4039440624bae703f2202"
-diff --git a/meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch b/meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
+ S  = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-9074.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-9074.patch
 new file mode 100644
-index 0000000..935f266
+index 0000000..a11a512
 --- /dev/null
-+++ b/meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
-@@ -0,0 +1,99 @@
-+From a608b79f30ab3f670095e14ba3d3b5b24a19fe68 Mon Sep 17 00:00:00 2001
-+From: Sandra Loosemore <sandra@codesourcery.com>
-+Date: Thu, 25 Apr 2019 07:27:02 -0700
-+Subject: [PATCH] Detect invalid length field in debug frame FDE header.
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-9074.patch
+@@ -0,0 +1,68 @@
++From e2ebb3906432dcca2727186ad79415f920730fb2 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Tue, 19 Feb 2019 22:48:44 +1030
++Subject: [PATCH] PR24235, Read memory violation in pei-x86_64.c
 +
-+GDB was failing to catch cases where a corrupt ELF or core file
-+contained an invalid length value in a Dwarf debug frame FDE header.
-+It was checking for buffer overflow but not cases where the length was
-+negative or caused pointer wrap-around.
++	PR 24235
++	* pei-x86_64.c (pex64_bfd_print_pdata_section): Correct checks
++	attempting to prevent read past end of section.
 +
-+In addition to the additional validity check, this patch cleans up the
-+multiple signed/unsigned conversions on the length field so that an
-+unsigned representation is used consistently throughout.
-+
-+This patch fixes CVE-2017-9778 and PR gdb/21600.
-+
-+2019-04-25  Sandra Loosemore  <sandra@codesourcery.com>
-+	    Kang Li <kanglictf@gmail.com>
-+
-+	PR gdb/21600
-+
-+	* dwarf2-frame.c (read_initial_length): Be consistent about using
-+	unsigned representation of length.
-+	(decode_frame_entry_1): Likewise.  Check for wraparound of
-+	end pointer as well as buffer overflow.
-+
-+Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=binutils-gdb.git;h=723adb650a31859d7cc45832cb8adca0206455ed]
-+CVE: CVE-2017-9778
++Upstream-Status: Backport [https://github.com/bminor/binutils-gdb/commit/179f2db0d9c397d7dd8a59907b84208b79f7f48c]
++CVE: CVE-2019-9074
 +Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 +---
-+ gdb/ChangeLog      | 11 +++++++++++
-+ gdb/dwarf2-frame.c | 14 +++++++-------
-+ 2 files changed, 18 insertions(+), 7 deletions(-)
++ bfd/ChangeLog    | 6 ++++++
++ bfd/pei-x86_64.c | 9 ++++-----
++ 2 files changed, 10 insertions(+), 5 deletions(-)
 +
-+diff --git a/gdb/ChangeLog b/gdb/ChangeLog
-+index 3711dc7..0a9720b 100644
-+--- a/gdb/ChangeLog
-++++ b/gdb/ChangeLog
-+@@ -1,3 +1,14 @@
-++2019-04-25  Sandra Loosemore  <sandra@codesourcery.com>
-++	    Kang Li <kanglictf@gmail.com>
++diff --git a/bfd/ChangeLog b/bfd/ChangeLog
++index dd2c741..cbf30de 100644
++--- a/bfd/ChangeLog
+++++ b/bfd/ChangeLog
++@@ -1,3 +1,9 @@
+++2019-02-19  Alan Modra  <amodra@gmail.com>
 ++
-++	PR gdb/21600
+++	PR 24235
+++	* pei-x86_64.c (pex64_bfd_print_pdata_section): Correct checks
+++	attempting to prevent read past end of section.
 ++
-++	* dwarf2-frame.c (read_initial_length): Be consistent about using
-++	unsigned representation of length.
-++	(decode_frame_entry_1): Likewise.  Check for wraparound of
-++	end pointer as well as buffer overflow.
-++
-++
-+ 2018-12-23  Joel Brobecker  <brobecker@adacore.com>
++ 2019-02-04  Nick Clifton  <nickc@redhat.com>
 + 
-+ 	* version.in: Set GDB version number to 8.2.1.
-+diff --git a/gdb/dwarf2-frame.c b/gdb/dwarf2-frame.c
-+index 91e16cf..a7b99fd 100644
-+--- a/gdb/dwarf2-frame.c
-++++ b/gdb/dwarf2-frame.c
-+@@ -1477,7 +1477,7 @@ static ULONGEST
-+ read_initial_length (bfd *abfd, const gdb_byte *buf,
-+ 		     unsigned int *bytes_read_ptr)
-+ {
-+-  LONGEST result;
-++  ULONGEST result;
++ 	* development.sh (experimental) Set to false.
++diff --git a/bfd/pei-x86_64.c b/bfd/pei-x86_64.c
++index ff1093c..7e75104 100644
++--- a/bfd/pei-x86_64.c
+++++ b/bfd/pei-x86_64.c
++@@ -541,7 +541,7 @@ pex64_bfd_print_pdata_section (bfd *abfd, void *vfile, asection *pdata_section)
++   /* virt_size might be zero for objects.  */
++   if (stop == 0 && strcmp (abfd->xvec->name, "pe-x86-64") == 0)
++     {
++-      stop = (datasize / onaline) * onaline;
+++      stop = datasize;
++       virt_size_is_zero = TRUE;
++     }
++   else if (datasize < stop)
++@@ -551,8 +551,8 @@ pex64_bfd_print_pdata_section (bfd *abfd, void *vfile, asection *pdata_section)
++ 		 _("Warning: %s section size (%ld) is smaller than virtual size (%ld)\n"),
++ 		 pdata_section->name, (unsigned long) datasize,
++ 		 (unsigned long) stop);
++-	/* Be sure not to read passed datasize.  */
++-	stop = datasize / onaline;
+++	/* Be sure not to read past datasize.  */
+++	stop = datasize;
++       }
 + 
-+   result = bfd_get_32 (abfd, buf);
-+   if (result == 0xffffffff)
-+@@ -1780,7 +1780,7 @@ decode_frame_entry_1 (struct comp_unit *unit, const gdb_byte *start,
-+ {
-+   struct gdbarch *gdbarch = get_objfile_arch (unit->objfile);
-+   const gdb_byte *buf, *end;
-+-  LONGEST length;
-++  ULONGEST length;
-+   unsigned int bytes_read;
-+   int dwarf64_p;
-+   ULONGEST cie_id;
-+@@ -1791,15 +1791,15 @@ decode_frame_entry_1 (struct comp_unit *unit, const gdb_byte *start,
-+   buf = start;
-+   length = read_initial_length (unit->abfd, buf, &bytes_read);
-+   buf += bytes_read;
-+-  end = buf + length;
++   /* Display functions table.  */
++@@ -724,8 +724,7 @@ pex64_bfd_print_pdata_section (bfd *abfd, void *vfile, asection *pdata_section)
++ 	      altent += imagebase;
++ 
++ 	      if (altent >= pdata_vma
++-		  && (altent + PDATA_ROW_SIZE <= pdata_vma
++-		      + pei_section_data (abfd, pdata_section)->virt_size))
+++		  && altent - pdata_vma + PDATA_ROW_SIZE <= stop)
++ 		{
++ 		  pex64_get_runtime_function
++ 		    (abfd, &arf, &pdata[altent - pdata_vma]);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-9075.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-9075.patch
+new file mode 100644
+index 0000000..bcb1310
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-9075.patch
+@@ -0,0 +1,119 @@
++From 8abac8031ed369a2734b1cdb7df28a39a54b4b49 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 20 Feb 2019 08:21:24 +1030
++Subject: [PATCH] PR24236, Heap buffer overflow in
++ _bfd_archive_64_bit_slurp_armap
++
++	PR 24236
++	* archive64.c (_bfd_archive_64_bit_slurp_armap): Move code adding
++	sentinel NUL to string buffer nearer to loop where it is used.
++	Don't go past sentinel when scanning strings, and don't write
++	NUL again.
++	* archive.c (do_slurp_coff_armap): Simplify string handling to
++	archive64.c style.
++
++Upstream-Status: Backport [https://github.com/bminor/binutils-gdb/commit/8abac8031ed369a2734b1cdb7df28a39a54b4b49]
++CVE: CVE-2019-9075
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com> 
++---
++ bfd/ChangeLog   | 10 ++++++++++
++ bfd/archive.c   | 17 +++++++----------
++ bfd/archive64.c | 10 +++++-----
++ 3 files changed, 22 insertions(+), 15 deletions(-)
++
++diff --git a/bfd/ChangeLog b/bfd/ChangeLog
++index 72c87c7..e39bb12 100644
++--- a/bfd/ChangeLog
+++++ b/bfd/ChangeLog
++@@ -1,3 +1,13 @@
+++2019-02-20  Alan Modra  <amodra@gmail.com>
+++
+++	PR 24236
+++	* archive64.c (_bfd_archive_64_bit_slurp_armap): Move code adding
+++	sentinel NUL to string buffer nearer to loop where it is used.
+++	Don't go past sentinel when scanning strings, and don't write
+++	NUL again.
+++	* archive.c (do_slurp_coff_armap): Simplify string handling to
+++	archive64.c style.
+++
++ 2019-02-19  Alan Modra  <amodra@gmail.com>
++ 
++ 	PR 24235
++diff --git a/bfd/archive.c b/bfd/archive.c
++index d2d9b72..68a92a3 100644
++--- a/bfd/archive.c
+++++ b/bfd/archive.c
++@@ -1012,6 +1012,7 @@ do_slurp_coff_armap (bfd *abfd)
++   int *raw_armap, *rawptr;
++   struct artdata *ardata = bfd_ardata (abfd);
++   char *stringbase;
+++  char *stringend;
++   bfd_size_type stringsize;
++   bfd_size_type parsed_size;
++   carsym *carsyms;
++@@ -1071,22 +1072,18 @@ do_slurp_coff_armap (bfd *abfd)
++     }
++ 
++   /* OK, build the carsyms.  */
++-  for (i = 0; i < nsymz && stringsize > 0; i++)
+++  stringend = stringbase + stringsize;
+++  *stringend = 0;
+++  for (i = 0; i < nsymz; i++)
++     {
++-      bfd_size_type len;
 +-
-+-  /* Are we still within the section?  */
-+-  if (end > unit->dwarf_frame_buffer + unit->dwarf_frame_size)
-+-    return NULL;
-++  end = buf + (size_t) length;
++       rawptr = raw_armap + i;
++       carsyms->file_offset = swap ((bfd_byte *) rawptr);
++       carsyms->name = stringbase;
++-      /* PR 17512: file: 4a1d50c1.  */
++-      len = strnlen (stringbase, stringsize);
++-      if (len < stringsize)
++-	len ++;
++-      stringbase += len;
++-      stringsize -= len;
+++      stringbase += strlen (stringbase);
+++      if (stringbase != stringend)
+++	++stringbase;
++       carsyms++;
++     }
++-  *stringbase = 0;
 + 
-+   if (length == 0)
-+     return end;
++   ardata->symdef_count = nsymz;
++   ardata->first_file_filepos = bfd_tell (abfd);
++diff --git a/bfd/archive64.c b/bfd/archive64.c
++index 312bf82..42f6ed9 100644
++--- a/bfd/archive64.c
+++++ b/bfd/archive64.c
++@@ -100,8 +100,6 @@ _bfd_archive_64_bit_slurp_armap (bfd *abfd)
++     return FALSE;
++   carsyms = ardata->symdefs;
++   stringbase = ((char *) ardata->symdefs) + carsym_size;
++-  stringbase[stringsize] = 0;
++-  stringend = stringbase + stringsize;
 + 
-++  /* Are we still within the section?  */
-++  if (end <= buf || end > unit->dwarf_frame_buffer + unit->dwarf_frame_size)
-++    return NULL;
++   raw_armap = (bfd_byte *) bfd_alloc (abfd, ptrsize);
++   if (raw_armap == NULL)
++@@ -115,15 +113,17 @@ _bfd_archive_64_bit_slurp_armap (bfd *abfd)
++       goto release_raw_armap;
++     }
++ 
+++  stringend = stringbase + stringsize;
+++  *stringend = 0;
++   for (i = 0; i < nsymz; i++)
++     {
++       carsyms->file_offset = bfd_getb64 (raw_armap + i * 8);
++       carsyms->name = stringbase;
++-      if (stringbase < stringend)
++-	stringbase += strlen (stringbase) + 1;
+++      stringbase += strlen (stringbase);
+++      if (stringbase != stringend)
+++	++stringbase;
++       ++carsyms;
++     }
++-  *stringbase = '\0';
++ 
++   ardata->symdef_count = nsymz;
++   ardata->first_file_filepos = bfd_tell (abfd);
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-9076.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-9076.patch
+new file mode 100644
+index 0000000..ec8cde2
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-9076.patch
+@@ -0,0 +1,49 @@
++From 9f841c583880eb6d0194455c1583a766f853e628 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Wed, 20 Feb 2019 12:06:31 +1030
++Subject: [PATCH] PR24233, Out of memory
++
++	PR 24233
++	* objdump.c (dump_bfd_private_header): Print warning if
++	bfd_print_private_bfd_data returns false.
++
++Upstream-Status: Backport [https://github.com/bminor/binutils-gdb/commit/7d272a55caebfc26ab2e15d1e9439bac978b9bb7]
++CVE: CVE-2019-9076
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ binutils/ChangeLog | 6 ++++++
++ binutils/objdump.c | 4 +++-
++ 2 files changed, 9 insertions(+), 1 deletion(-)
++
++diff --git a/binutils/ChangeLog b/binutils/ChangeLog
++index f837c37..d5dd7cb 100644
++--- a/binutils/ChangeLog
+++++ b/binutils/ChangeLog
++@@ -1,3 +1,9 @@
+++2019-02-20  Alan Modra  <amodra@gmail.com>
 ++
-+   /* Distinguish between 32 and 64-bit encoded frame info.  */
-+   dwarf64_p = (bytes_read == 12);
+++	PR 24233
+++	* objdump.c (dump_bfd_private_header): Print warning if
+++	bfd_print_private_bfd_data returns false.
+++
++ 2019-02-02  Nick Clifton  <nickc@redhat.com>
 + 
++ 	* configure: Regenerate.
++diff --git a/binutils/objdump.c b/binutils/objdump.c
++index 8725390..7d0c6a4 100644
++--- a/binutils/objdump.c
+++++ b/binutils/objdump.c
++@@ -3178,7 +3178,9 @@ dump_bfd_header (bfd *abfd)
++ static void
++ dump_bfd_private_header (bfd *abfd)
++ {
++-  bfd_print_private_bfd_data (abfd, stdout);
+++  if (!bfd_print_private_bfd_data (abfd, stdout))
+++    non_fatal (_("warning: private headers incomplete: %s"),
+++	       bfd_errmsg (bfd_get_error ()));
++ }
++ 
++ static void
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2019-9077.patch b/meta/recipes-devtools/binutils/binutils/CVE-2019-9077.patch
+new file mode 100644
+index 0000000..11ecb71
+--- /dev/null
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2019-9077.patch
+@@ -0,0 +1,37 @@
++From f7bbc8890de45df6eda0ddef5dd04f835f54eecf Mon Sep 17 00:00:00 2001
++From: Nick Clifton <nickc@redhat.com>
++Date: Wed, 20 Feb 2019 17:03:47 +0000
++Subject: [PATCH] Fix a illegal memory access fault when parsing a corrupt MIPS
++ option section using readelf.
++
++	PR 24243
++	* readelf.c (process_mips_specific): Check for an options section
++	that is too small to even contain a single option.
++
++Upstream-Status: Backport [https://github.com/bminor/binutils-gdb/commit/7fc0c668f2aceb8582d74db1ad2528e2bba8a921]
++CVE: CVE-2019-9077
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ binutils/readelf.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
++
++diff --git a/binutils/readelf.c b/binutils/readelf.c
++index 9df3742..18ab806 100644
++--- a/binutils/readelf.c
+++++ b/binutils/readelf.c
++@@ -16179,6 +16179,12 @@ process_mips_specific (Filedata * filedata)
++ 	  error (_("No MIPS_OPTIONS header found\n"));
++ 	  return FALSE;
++ 	}
+++      /* PR 24243  */
+++      if (sect->sh_size < sizeof (* eopt))
+++	{
+++	  error (_("The MIPS options section is too small.\n"));
+++	  return FALSE;
+++	}
++ 
++       eopt = (Elf_External_Options *) get_data (NULL, filedata, options_offset, 1,
++                                                 sect->sh_size, _("options"));
 +-- 
 +2.7.4
 +
