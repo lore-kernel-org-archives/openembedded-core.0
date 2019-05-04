@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com
-	[209.85.214.179])
-	by mail.openembedded.org (Postfix) with ESMTP id DFDC67D7A0
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9BDAD7DD81
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 May 2019 15:27:48 +0000 (UTC)
-Received: by mail-pl1-f179.google.com with SMTP id e92so4165049plb.6
+	Sat,  4 May 2019 15:27:49 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id j11so4403748pff.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2019 08:27:50 -0700 (PDT)
+	Sat, 04 May 2019 08:27:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=bhtzeBtSvcmP+WEcBjFywS4fRGbhrBg1TeiStidS7R0=;
-	b=Cjj3jtLY0/9QOuZfWo7NVfZUNRbgnWfPCGCbiSA5QGfS5IIazl8wrKmnIn+BQSrgfc
-	FudS6EI2m9AUOlDbajZvqFkF1qBfLJRKLiDVG9bFmsX18C8/LXoyEYZ64NK7dAanM9fG
-	iJ743QU9U3s9/hAwo6SC6awaeEjlRGIJ13yDjE/CNS4w3usYHTjuWHneydzOdNGkK2qQ
-	/FC8/D7eaUSAor0U1ukugR+iq/50M2mv6tVcij0MxP2kjLfFgiRxRMLiA7sfIB5RDCti
-	SLseZ9Rpn8AiTehTdzOXPB5sz8zvdo7JgY+/zZkhqzLHOYAElauuD57j4lpohrnpCcfu
-	HMGQ==
+	bh=7rQL4WKpMg1abq4JeoWEEXWx8Z+BxdpXvc3+483p8U0=;
+	b=HtQDOKQnIJTOpNkVDDy+FAy6Ybzahs4bi1vMvfMBkCYa2dYev/vejlK6ukixhb6jA2
+	6VINKH9WQwguBRGpLYolKAEVyT6NDbXt6VSOrBMZ1ps7BSsk70DM7CnJaJqpLEUZvc4T
+	v16/fEGZuvbG6FD2eY20ea1AvL4L21+5ASqI0ltVzrUt1iQT9cuRFzl08JXIhxhLNHKv
+	01OUR4rS2er3LnPi3xBiOgcGXHfaLzzX497VrGe+5tAWMMRHZQ1CyDRXBFdvBrsHlcTN
+	rMEyJXi6Zrfu6mNL48YPG+Mi+PyRIc3MmVRMQ3YXpp4Ls2PGozyLL3XeVfjcorAvKVO0
+	x5MA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=bhtzeBtSvcmP+WEcBjFywS4fRGbhrBg1TeiStidS7R0=;
-	b=plQBMedx3eVf5QdxZAZyBjAdBc9G3x0h1Fm3kSNqkzhyrQ6wampFyZgbhXdfC/dVP1
-	lIZvvHE2QO//Nc+1ZDxkBGrz9Y/IFvGsTgLofMibVRyd3jf+2UBdVjiDkmOivLU/Ri37
-	0/mxGDpXLyMNQlqEYe1VKfKQGCvBHy1ByP3p8FtTE32r0JZxEPs7h9Qot3sj2MEMeryT
-	rSNEeqmeyesrMgDVC3+RE1d4TbxifbLNfHUwFY0w5qKcclIZzWXcWFVn6GbvrcjE7PjS
-	ZC3S50Fn67XJL4O1/RQ8ImCZmU0jd+p+VR3FqvOskJGoOtFfwKTW/Mp6jWRxkfLs63t3
-	xHXw==
-X-Gm-Message-State: APjAAAXE8AV1CGMsEDdcaPrLfP1xmBZDS02dU/WJF1Cyx8oG9xjfpfZv
-	j7HpDNXJ8ktWXWl1/SGLI1drrRAv
-X-Google-Smtp-Source: APXvYqyu5V/tXIVe6JsKxvpeMQokDUfAtIdlpqdELXKPc/h+qwL8RqKweFOldaTkDIPyR44jH6gLGA==
-X-Received: by 2002:a17:902:e283:: with SMTP id
-	cf3mr19729320plb.160.1556983669933; 
-	Sat, 04 May 2019 08:27:49 -0700 (PDT)
+	bh=7rQL4WKpMg1abq4JeoWEEXWx8Z+BxdpXvc3+483p8U0=;
+	b=HC8mRIvELI7BrCNfFF42U6jj/AVgrW0o/WTrChZFLYsmkEkH5cxX2xSIGtpbPCmNQi
+	5E/uMAwipZOn2htOP5IbIMmTxSLYK9nAWkqbthKC9P0guFY4/+tLxVVkP7WMYzzDaw/1
+	n08RZYkrRGRr02LMYQp7sj7IGTY95+72ohodjdYmehxDkxv+lWJGd9uXcb4rmrf+QO9K
+	CXiDPGSIjmnZj1Bp0hDk5O0Syo5Z68lg9JPdzBLopf4EEQv4OGqNbbZUdaHWU821FWwy
+	Uzd1jBmL962O+xX/TDit0uP0/YiywAbEssNb+gX1MRuk5PWWQzA8UGrJY+GS9ooKOR5P
+	nfTg==
+X-Gm-Message-State: APjAAAWITRfLtKFY87ocpvlmXWjPJdzntngtzulcCf18oacgEfIKbcyI
+	xUJFigQrtdO1O8gRrG04GAHHWVVJ
+X-Google-Smtp-Source: APXvYqzpDgeV/ZpC45pw63x/sqnylEk7ublzfvo3CuHTMG6Wqykan+HLy83tnAOMtBPCUPFQkAS5Vg==
+X-Received: by 2002:a63:b1d:: with SMTP id 29mr19276086pgl.103.1556983670835; 
+	Sat, 04 May 2019 08:27:50 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:e5bb:fdcb:954:875c])
 	by smtp.gmail.com with ESMTPSA id
 	k12sm6394214pfk.86.2019.05.04.08.27.49
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 04 May 2019 08:27:49 -0700 (PDT)
+	Sat, 04 May 2019 08:27:50 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 May 2019 08:27:00 -0700
-Message-Id: <d35de5383275a5d83317160ce3dc09a20661a572.1556983501.git.akuster808@gmail.com>
+Date: Sat,  4 May 2019 08:27:01 -0700
+Message-Id: <16c50cf4cd6a9a11ff47d0825e43f287f1fb2642.1556983501.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1556983501.git.akuster808@gmail.com>
 References: <cover.1556983501.git.akuster808@gmail.com>
-Subject: [PATCH 24/43] resulttool/manualexecution: Enable test case configuration option
+Subject: [PATCH 25/43] glibc: always use bfd linker
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,83 +61,36 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sat, 04 May 2019 15:27:49 -0000
 
-From: sangeeta jain <sangeeta.jain@intel.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Current manualexecution required user to exceute all test cases defined inside a "modulename.json" file in oeqa/manual
+* Work around broken ld-2.29.so when gold is used
+  causing qemu-arm to segfault during e.g. gobject-introspection
+  or postinst at do_rootfs time, more details in:
+  http://lists.openembedded.org/pipermail/openembedded-devel/2019-March/198937.html
+  https://sourceware.org/bugzilla/show_bug.cgi?id=24148
+  https://sourceware.org/bugzilla/show_bug.cgi?id=10937
+  https://sourceware.org/bugzilla/show_bug.cgi?id=18103
 
-There are cases when all test cases all not required to run for a module on specific DUT.
-
-Enable manualexecution to have the optional feature where it will use pre-defined json format test case configuration file
-where user will be able to select test cases from the "modulename.json" instead of running all of them. This will help
-in reducing testing time and reporting unneccesary skip or failures.
-
-Example pre-defined json format test case configuration file (for build-applince):
-
-{
-    "testcases" : [
-        "build-appliance.build-appliance.Create_core-image-sato-sdk_using_build_appliance",
-        "build-appliance.build-appliance.Build_a_image_without_error_(added_recipe)"
-    ]
-}
-
-Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/resulttool/manualexecution.py | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ meta/recipes-core/glibc/glibc_2.29.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index ea44219..dc368f3 100755
---- a/scripts/lib/resulttool/manualexecution.py
-+++ b/scripts/lib/resulttool/manualexecution.py
-@@ -17,6 +17,7 @@ import os
- import sys
- import datetime
- import re
-+import copy
- from oeqa.core.runner import OETestResultJSONHelper
+diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+index 9184c59..073d153 100644
+--- a/meta/recipes-core/glibc/glibc_2.29.bb
++++ b/meta/recipes-core/glibc/glibc_2.29.bb
+@@ -110,7 +110,7 @@ do_configure () {
  
- 
-@@ -123,7 +124,7 @@ class ManualTestRunner(object):
-     def _get_write_dir(self):
-         return os.environ['BUILDDIR'] + '/tmp/log/manual/'
- 
--    def run_test(self, case_file, config_options_file):
-+    def run_test(self, case_file, config_options_file, testcase_config_file):
-         test_module = self._get_test_module(case_file)
-         cases = load_json_file(case_file)
-         config_options = {}
-@@ -132,6 +133,13 @@ class ManualTestRunner(object):
-         configurations = self._get_config(config_options, test_module)
-         result_id = 'manual_%s_%s' % (test_module, configurations['STARTTIME'])
-         test_results = {}
-+        if testcase_config_file:
-+            test_case_config = load_json_file(testcase_config_file)
-+            test_case_to_execute = test_case_config['testcases']
-+            for case in copy.deepcopy(cases) :
-+                if case['test']['@alias'] not in test_case_to_execute:
-+                    cases.remove(case)
-+
-         print('\nTotal number of test cases in this test suite: %s\n' % len(cases))
-         for c in cases:
-             test_result = self._execute_test_steps(c)
-@@ -184,7 +192,7 @@ def manualexecution(args, logger):
-     if args.make_config_options_file:
-         testrunner.make_config_option_file(logger, args.file, args.config_options_file)
-         return 0
--    configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file)
-+    configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file, args.testcase_config_file)
-     resultjsonhelper = OETestResultJSONHelper()
-     resultjsonhelper.dump_testresult_file(write_dir, configurations, result_id, test_results)
-     return 0
-@@ -200,3 +208,5 @@ def register_commands(subparsers):
-                               help='the config options file to import and used as available configuration option selection or make config option file')
-     parser_build.add_argument('-m', '--make-config-options-file', action='store_true',
-                               help='make the configuration options file based on provided inputs')
-+    parser_build.add_argument('-t', '--testcase-config-file', default='',
-+                              help='the testcase configuration file to enable user to run a selected set of test case')
-\ No newline at end of file
+ do_compile () {
+ 	# -Wl,-rpath-link <staging>/lib in LDFLAGS can cause breakage if another glibc is in staging
+-	unset LDFLAGS
++	LDFLAGS="-fuse-ld=bfd"
+ 	base_do_compile
+ 	echo "Adjust ldd script"
+ 	if [ -n "${RTLDLIST}" ]
 -- 
 2.7.4
 
