@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 774D37D7A0
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com
+	[209.85.210.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 4A7F57D7A2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 May 2019 15:27:40 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id z26so4423620pfg.6
+	Sat,  4 May 2019 15:27:41 +0000 (UTC)
+Received: by mail-pf1-f180.google.com with SMTP id y13so4415190pfm.11
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2019 08:27:41 -0700 (PDT)
+	Sat, 04 May 2019 08:27:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=l/lhsiF+xPZki3adQE9Sd5n4t4JWe5Zz+sW6XiogbMI=;
-	b=oYG0fwdJaz1nPV6MPek8qB4MNO0iSt2O6e7uBHOVqG5BEppwmYtpI8lFYkWIvqHr2H
-	WDVmXe6+GiDvI1FOSqDk5wiXfQdbDB+d74zxq5UNMxZP2mM01wj5lSFdbXvX47r9RNE8
-	QbjThpFjdv3tnynxRjI99Gr/MdOD7V16nem39ABksycHs+SbyaZ5RalfUx4Qu1phLb2R
-	aipgoYy1OiiTseACrrlsEQBEP8LB6B9VhrWuYmlYeTdYjf1Duch7CqtQDYq9oJaPPlpV
-	hghoTNRnS8flfheJd8RElPrW/+MLRXmVVcDgG+sJSxDFJlCtTef4L+dMc/QhvLeTYFrs
-	zpEg==
+	bh=K+uX0DWB0ClzVZCFY0hsZm8Sr00NgJLsmiJTi0vWHc8=;
+	b=PeA/ajlKYtkAP3YuYwLkMe+ADwur8K+rQlipup9Ymls4Cclj+zN1XvumPQls6ZCZCh
+	Roqbgt2L/ali02zkjgFqNHwVnw4p3QyVZwPYnC1NTLuuUxW5D5KcDaFT4+rZlnMZ8QQo
+	2wHFuMnbhEYu89mRWhfoVYHQXzdFKWOhLYWE1+qkPbbh38sQaIbo8K5sbC7TT/TnPvy/
+	c4IOfhPgybO/pJ9K8QaJ/UUUCPHKcyBHRVv+/G7ZyOpsLPOjbbDAWVr8WXu8PADCFBJs
+	7+AwnJGogSFvUdmCaWzTd/o/fhyia9Lmc0P+ovH0pZdDOrpuTrJHY22+rNDhwXsHDN6s
+	IQmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=l/lhsiF+xPZki3adQE9Sd5n4t4JWe5Zz+sW6XiogbMI=;
-	b=a5r1pcdQNNYuM2b00AQxYLkN5wXwJ8PpjVBjlEyr+pNbKC1vPLsGacNMqAAGltMzJa
-	VhZHwPi9jHhUrWNctrEiAriEcRAAgn4i8xuH49k1aaRviodvlRYG28W0VXR/T+Y/rKjf
-	soNZPzSvdZ0Ak5ofJfQPnS/BjFBy0u/GGPKJ2dnvi2acERignLQGGSrHIZ8kNNA8wdIA
-	rGkpHwhWb10m8wOowMQ2vLhGYNhkJaUgs+UPTrCo0iUBIyWROu+ABcXKuwQ5sPWVrQXj
-	szw65WN/0sQZ5RE1hsRka+YyGLB2gYM4gx48omG1lLagxS/yzybawBuziy6H+D243yrN
-	LLMw==
-X-Gm-Message-State: APjAAAWuiZWMXlHmaN9s8CsXLBQWIjiJFeb28Eyv4YGYvnUMbHZ5broW
-	qBkdot/OnHcXMJvZEGOcNmqoShyC
-X-Google-Smtp-Source: APXvYqyPUtesbcHBGV2VDeZ1W6SkFg9mULxWjiIOqoLvyQQwwZhhY5/gDBo4ud8dEwP3tTDwVgqdGQ==
-X-Received: by 2002:a63:9dc8:: with SMTP id i191mr18738175pgd.91.1556983661320;
-	Sat, 04 May 2019 08:27:41 -0700 (PDT)
+	bh=K+uX0DWB0ClzVZCFY0hsZm8Sr00NgJLsmiJTi0vWHc8=;
+	b=OcZhE4VevOYp2Qh3A+qgCkl9ObbP63c9xwG3dut70ocvWi3ioy159tQU+Bl4Ae5UZZ
+	IZwp02IE7azDqf0RkWCYHUvobrabfWT7BA96KHyfBkD+2wEwFu+ekxjY7ky1V6rwkSLq
+	4i6kmzSjgGS/oHKMaGIT5fCOZipYqAnRUCUll4ZiWK7t6hADv4rhzQQ12TARb8Ezz0w3
+	wWqquisAETw5OFwdjlw+f/Zzg5hgbng9UnFX5UQriSEOnzPQuaxPNgHbr9VQR1+3tHD4
+	zd7cq99hWTZbfaTa4gLccY1lRE37hTHSpc8D/hihTmS0dvwuGbOZCO3sxDBChdSppg88
+	+jcg==
+X-Gm-Message-State: APjAAAVoxhGszNuLm55GKYy0+kfL8lNQOnmSvgpGQh84VQl1vKL+4SHL
+	cvhlWBIbZe4oyqJPVhQqElYW2Wju
+X-Google-Smtp-Source: APXvYqytAqfedSc5G5boclvhkwMrSSzfGp/3uJ1Kjnbzh+hPC5quef071aQR5nae9fQXR3OKGsHg/Q==
+X-Received: by 2002:a63:cd50:: with SMTP id a16mr18781907pgj.394.1556983662169;
+	Sat, 04 May 2019 08:27:42 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:e5bb:fdcb:954:875c])
 	by smtp.gmail.com with ESMTPSA id
-	k12sm6394214pfk.86.2019.05.04.08.27.40
+	k12sm6394214pfk.86.2019.05.04.08.27.41
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 04 May 2019 08:27:40 -0700 (PDT)
+	Sat, 04 May 2019 08:27:41 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 May 2019 08:26:51 -0700
-Message-Id: <8e2f0257e1e438b88e4298438d5bae5f7c3c0a7a.1556983501.git.akuster808@gmail.com>
+Date: Sat,  4 May 2019 08:26:52 -0700
+Message-Id: <2f6a02b0d0909b94e753ff00faae540fd0f85ba4.1556983501.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1556983501.git.akuster808@gmail.com>
 References: <cover.1556983501.git.akuster808@gmail.com>
-Subject: [PATCH 15/43] resulttool: Load results from URL
+Subject: [PATCH 16/43] resulttool: Add log subcommand
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,163 +59,117 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2019 15:27:40 -0000
+X-List-Received-Date: Sat, 04 May 2019 15:27:41 -0000
 
 From: Joshua Watt <jpewhacker@gmail.com>
 
-Adds support for resulttool to load JSON files directly from a http://
-or https:// URL
+Adds a subcommand for dumping various logs from test results
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/resulttool/merge.py       |  8 ++++----
- scripts/lib/resulttool/regression.py  |  4 ++--
- scripts/lib/resulttool/report.py      |  2 +-
- scripts/lib/resulttool/resultutils.py | 23 +++++++++++++++++++----
- scripts/lib/resulttool/store.py       |  4 ++--
- 5 files changed, 28 insertions(+), 13 deletions(-)
+ scripts/lib/resulttool/log.py        | 56 ++++++++++++++++++++++++++++++++++++
+ scripts/lib/resulttool/regression.py |  2 +-
+ scripts/resulttool                   |  2 ++
+ 3 files changed, 59 insertions(+), 1 deletion(-)
+ create mode 100644 scripts/lib/resulttool/log.py
 
-diff --git a/scripts/lib/resulttool/merge.py b/scripts/lib/resulttool/merge.py
-index 3e4b7a3..7159463 100644
---- a/scripts/lib/resulttool/merge.py
-+++ b/scripts/lib/resulttool/merge.py
-@@ -17,7 +17,7 @@ import json
- import resulttool.resultutils as resultutils
- 
- def merge(args, logger):
--    if os.path.isdir(args.target_results):
-+    if resultutils.is_url(args.target_results) or os.path.isdir(args.target_results):
-         results = resultutils.load_resultsdata(args.target_results, configmap=resultutils.store_map)
-         resultutils.append_resultsdata(results, args.base_results, configmap=resultutils.store_map)
-         resultutils.save_resultsdata(results, args.target_results)
-@@ -31,12 +31,12 @@ def merge(args, logger):
- 
- def register_commands(subparsers):
-     """Register subcommands from this plugin"""
--    parser_build = subparsers.add_parser('merge', help='merge test result files/directories',
--                                         description='merge the results from multiple files/directories into the target file or directory',
-+    parser_build = subparsers.add_parser('merge', help='merge test result files/directories/URLs',
-+                                         description='merge the results from multiple files/directories/URLs into the target file or directory',
-                                          group='setup')
-     parser_build.set_defaults(func=merge)
-     parser_build.add_argument('base_results',
--                              help='the results file/directory to import')
-+                              help='the results file/directory/URL to import')
-     parser_build.add_argument('target_results',
-                               help='the target file or directory to merge the base_results with')
- 
+diff --git a/scripts/lib/resulttool/log.py b/scripts/lib/resulttool/log.py
+new file mode 100644
+index 0000000..5584f2d
+--- /dev/null
++++ b/scripts/lib/resulttool/log.py
+@@ -0,0 +1,56 @@
++# resulttool - Show logs
++#
++# Copyright (c) 2019 Garmin International
++#
++# This program is free software; you can redistribute it and/or modify it
++# under the terms and conditions of the GNU General Public License,
++# version 2, as published by the Free Software Foundation.
++#
++# This program is distributed in the hope it will be useful, but WITHOUT
++# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
++# more details.
++#
++import resulttool.resultutils as resultutils
++
++def show_ptest(result, ptest, logger):
++    if 'ptestresult.sections' in result:
++        if ptest in result['ptestresult.sections'] and 'log' in result['ptestresult.sections'][ptest]:
++            print(result['ptestresult.sections'][ptest]['log'])
++            return 0
++
++    print("ptest '%s' not found" % ptest)
++    return 1
++
++def log(args, logger):
++    results = resultutils.load_resultsdata(args.source)
++    for path in results:
++        for res in results[path]:
++            if 'result' not in results[path][res]:
++                continue
++            r = results[path][res]['result']
++
++            if args.raw:
++                if 'ptestresult.rawlogs' in r:
++                    print(r['ptestresult.rawlogs']['log'])
++                else:
++                    print('Raw logs not found')
++                    return 1
++
++            for ptest in args.ptest:
++                if not show_ptest(r, ptest, logger):
++                    return 1
++
++def register_commands(subparsers):
++    """Register subcommands from this plugin"""
++    parser = subparsers.add_parser('log', help='show logs',
++                                         description='show the logs from test results',
++                                         group='analysis')
++    parser.set_defaults(func=log)
++    parser.add_argument('source',
++            help='the results file/directory/URL to import')
++    parser.add_argument('--ptest', action='append', default=[],
++            help='show logs for a ptest')
++    parser.add_argument('--raw', action='store_true',
++            help='show raw logs')
++
 diff --git a/scripts/lib/resulttool/regression.py b/scripts/lib/resulttool/regression.py
-index bdf531d..aecb9da 100644
+index aecb9da..fa90ab1 100644
 --- a/scripts/lib/resulttool/regression.py
 +++ b/scripts/lib/resulttool/regression.py
-@@ -161,9 +161,9 @@ def register_commands(subparsers):
-                                          group='analysis')
-     parser_build.set_defaults(func=regression)
-     parser_build.add_argument('base_result',
--                              help='base result file/directory for the comparison')
-+                              help='base result file/directory/URL for the comparison')
-     parser_build.add_argument('target_result',
--                              help='target result file/directory to compare with')
-+                              help='target result file/directory/URL to compare with')
-     parser_build.add_argument('-b', '--base-result-id', default='',
-                               help='(optional) filter the base results to this result ID')
-     parser_build.add_argument('-t', '--target-result-id', default='',
-diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index 9008620..8ae4272 100644
---- a/scripts/lib/resulttool/report.py
-+++ b/scripts/lib/resulttool/report.py
-@@ -143,7 +143,7 @@ def register_commands(subparsers):
-                                          group='analysis')
-     parser_build.set_defaults(func=report)
-     parser_build.add_argument('source_dir',
--                              help='source file/directory that contain the test result files to summarise')
-+                              help='source file/directory/URL that contain the test result files to summarise')
-     parser_build.add_argument('--branch', '-B', default='master', help="Branch to find commit in")
-     parser_build.add_argument('--commit', help="Revision to report")
-     parser_build.add_argument('-t', '--tag', default='',
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index ad40ac8..aab312d 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -16,6 +16,8 @@ import os
- import json
- import scriptpath
- import copy
-+import urllib
-+import posixpath
- scriptpath.add_oe_lib_path()
+@@ -64,7 +64,7 @@ def regression_common(args, logger, base_results, target_results):
+         if a in target_results:
+             base = list(base_results[a].keys())
+             target = list(target_results[a].keys())
+-            # We may have multiple base/targets which are for different configurations. Start by 
++            # We may have multiple base/targets which are for different configurations. Start by
+             # removing any pairs which match
+             for c in base.copy():
+                 for b in target.copy():
+diff --git a/scripts/resulttool b/scripts/resulttool
+index 18ac101..9477667 100755
+--- a/scripts/resulttool
++++ b/scripts/resulttool
+@@ -49,6 +49,7 @@ import resulttool.store
+ import resulttool.regression
+ import resulttool.report
+ import resulttool.manualexecution
++import resulttool.log
+ logger = scriptutils.logger_create('resulttool')
  
- flatten_map = {
-@@ -40,20 +42,33 @@ store_map = {
-     "manual": ['TEST_TYPE', 'TEST_MODULE', 'MACHINE', 'IMAGE_BASENAME']
- }
+ def main():
+@@ -66,6 +67,7 @@ def main():
+     subparsers.add_subparser_group('analysis', 'analysis', 100)
+     resulttool.regression.register_commands(subparsers)
+     resulttool.report.register_commands(subparsers)
++    resulttool.log.register_commands(subparsers)
  
-+def is_url(p):
-+    """
-+    Helper for determining if the given path is a URL
-+    """
-+    return p.startswith('http://') or p.startswith('https://')
-+
- #
- # Load the json file and append the results data into the provided results dict
- #
- def append_resultsdata(results, f, configmap=store_map):
-     if type(f) is str:
--        with open(f, "r") as filedata:
--            data = json.load(filedata)
-+        if is_url(f):
-+            with urllib.request.urlopen(f) as response:
-+                data = json.loads(response.read().decode('utf-8'))
-+            url = urllib.parse.urlparse(f)
-+            testseries = posixpath.basename(posixpath.dirname(url.path))
-+        else:
-+            with open(f, "r") as filedata:
-+                data = json.load(filedata)
-+            testseries = os.path.basename(os.path.dirname(f))
-     else:
-         data = f
-     for res in data:
-         if "configuration" not in data[res] or "result" not in data[res]:
-             raise ValueError("Test results data without configuration or result section?")
-         if "TESTSERIES" not in data[res]["configuration"]:
--            data[res]["configuration"]["TESTSERIES"] = os.path.basename(os.path.dirname(f))
-+            data[res]["configuration"]["TESTSERIES"] = testseries
-         testtype = data[res]["configuration"].get("TEST_TYPE")
-         if testtype not in configmap:
-             raise ValueError("Unknown test type %s" % testtype)
-@@ -69,7 +84,7 @@ def append_resultsdata(results, f, configmap=store_map):
- #
- def load_resultsdata(source, configmap=store_map):
-     results = {}
--    if os.path.isfile(source):
-+    if is_url(source) or os.path.isfile(source):
-         append_resultsdata(results, source, configmap)
-         return results
-     for root, dirs, files in os.walk(source):
-diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
-index e4a0807..acdfbd9 100644
---- a/scripts/lib/resulttool/store.py
-+++ b/scripts/lib/resulttool/store.py
-@@ -29,7 +29,7 @@ def store(args, logger):
-     try:
-         results = {}
-         logger.info('Reading files from %s' % args.source)
--        if os.path.isfile(args.source):
-+        if resultutils.is_url(args.source) or os.path.isfile(args.source):
-             resultutils.append_resultsdata(results, args.source)
-         else:
-             for root, dirs,  files in os.walk(args.source):
-@@ -92,7 +92,7 @@ def register_commands(subparsers):
-                                          group='setup')
-     parser_build.set_defaults(func=store)
-     parser_build.add_argument('source',
--                              help='source file or directory that contain the test result files to be stored')
-+                              help='source file/directory/URL that contain the test result files to be stored')
-     parser_build.add_argument('git_dir',
-                               help='the location of the git repository to store the results in')
-     parser_build.add_argument('-a', '--all', action='store_true',
+     args = parser.parse_args()
+     if args.debug:
 -- 
 2.7.4
 
