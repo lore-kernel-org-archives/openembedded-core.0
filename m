@@ -1,51 +1,52 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
-	[209.85.161.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 32D867CFE9
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
+	[209.85.215.180])
+	by mail.openembedded.org (Postfix) with ESMTP id 5BA7B745BF
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 May 2019 03:17:55 +0000 (UTC)
-Received: by mail-yw1-f67.google.com with SMTP id o65so4135009ywd.8
+	Sat,  4 May 2019 15:27:24 +0000 (UTC)
+Received: by mail-pg1-f180.google.com with SMTP id j26so4221440pgl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 03 May 2019 20:17:56 -0700 (PDT)
+	Sat, 04 May 2019 08:27:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=cImnkCzFBPJnf8AkkomjEA5Un3dynQeTcM5XgFv+/Lg=;
-	b=NzxMe/mx6pHT0r81KPKdI+74swbpePtKx9Bw3+SZTfh9XrX3QuE1WxYkme4Pc7w1nC
-	/uXm0YuAxBwYHjXdIy4wTzkZko5buKR54KbD2n5YvCbdla8z+bjKCBllkCsI8nmMLUT4
-	5zk/6EP68P1ap3TH7dh0wdYq7XwSxwq0JkAbYmX8CY6gLojnuRVfKsxSEaWORIjvjSbY
-	ZG8JLwelvDfw4i817m/TS7am2nE6F+xiCKPx+h1CJ6BvQkmou06qJJXCzPLxxsT+r6iK
-	dAvBdzvaRL9A9NDOG0C6KI7V5WHczYP0iTiazqFQd5in7aD0k6Q88wSochRorxeWk5Cu
-	/Jvg==
+	bh=vuAK49WEf1Km2QoX3WeV4V39X1I5RmQEYXh5V7y3b3A=;
+	b=NMUY9mLV5/RMRAI65yXbaDT7mdgY8hW64miSVFmVAKMxPN8h7LJiauDD2QYC/oP7iB
+	TTBmtyivUmmm78voB5wzKzB0iKFzl1ZkQK9wM4J2BJSN8q7C6ob0IxL7/llEUvJh0Y3r
+	NzpZOMn5S6tfSaEzFvJD8XAYWGkvDjcHTvp+EZPXfF9eUBLDpkBjuDnZ2Hw44a4Ycx7m
+	ND/elm2zODUoj1JfDrD/7UkNKwUbNKUtLq5p1X7NdtWik520czBjBAYf/fCRhSMy4+vO
+	hW39DMLIDYXHDWTk+fGhyEvvR4zF7rrDH8OwCHlorHr52hCN3ll5ETq35Ojp5rm+/7uD
+	ilfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=cImnkCzFBPJnf8AkkomjEA5Un3dynQeTcM5XgFv+/Lg=;
-	b=p00V5QkrrbHNTZscAiT5myztaMK921Bbscg6NYQXwtEfVpbY8M7Fn9QboQoNFOJc1Q
-	uNpv49jDdGTvcLrFcnulA9NGQiWSBLZlXYvlElla6U0JiH5+9zEmgFPk/KNqegSMH9ta
-	HxNPEPUn7yN53hQ3bINCTtIsEGgxqpV9S5p/H77pf8uknZe1uGRM25wjf8bcgG2WJKi1
-	aU74a/Ag96ozhnBKTv0/MtiPeIp7kcyJqnzJ1gL7JHXFa4olH8PRy4RSjdAgXl5ejBRi
-	oPENegU6MiiGzmW5wYnLOe5AJgphR5ByBIYrIp2eYi4aeDtSDGbY4xMRFLbxldMowZOl
-	XHig==
-X-Gm-Message-State: APjAAAVMnhAM9QQgb6+e2zs4UqX12ex7F9CzXipcuwRJ4Rf+E5sEpHU0
-	ShWAXjKFhIXlQ+PYHmnDXEPZTq6JNt0=
-X-Google-Smtp-Source: APXvYqztF9mCBXaXU6BXxRsp754FO9fq/Zg8FlJrupNoK02w4m4g2SsGNiG3Ti8LhyymkccjtHTYyA==
-X-Received: by 2002:a25:a1e1:: with SMTP id a88mr9649563ybi.158.1556939875826; 
-	Fri, 03 May 2019 20:17:55 -0700 (PDT)
-Received: from localhost.localdomain
-	([2605:a601:21d1:5200:620a:c230:ada8:3135])
-	by smtp.gmail.com with ESMTPSA id l17sm29664ywm.31.2019.05.03.20.17.54
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 03 May 2019 20:17:54 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	bh=vuAK49WEf1Km2QoX3WeV4V39X1I5RmQEYXh5V7y3b3A=;
+	b=RyJq7X9bfh/9p7ckoNlbBpQ2OcLcts2fXL7iB5HTWjgW/XYza+BtmGS78g4I2JRu8G
+	sUacdO4UmnwDjofI5I4sysblFCnRf5jYQB6fYjkgf3Pa2hrz8aZByvI9ulzCpVjfTHVo
+	Yzmk0iNUumo98q24jvBziQD+/mdZkdsfbKwUrmriqqqTR8ok9pI//uarGJlsehkuRYB6
+	P9bQCB3UyofuGvwndbT9JgDAk/3zT8JY5GAJV7SJcJSGwTZq8n485eaQhoy/1qHuH1QJ
+	RDALnllbLy55vTqSwxEOFllJ4rQBGCrSUVmdokgVf8CBqDhkh8nCYyuyMM3n4p2RdBOs
+	YOrA==
+X-Gm-Message-State: APjAAAU1St6+kudchrKbpqxz0tvPuI3Drbq3FgtsCY9iPnw4lF0+FHR7
+	DdIP6ck4Ui4S7+Zi32pH8Vd/41b/
+X-Google-Smtp-Source: APXvYqwuGEwCk5XCCcupqi+9HH2mPEUDwiz1QStDZHFlXzOY4TJGV3mbhv47yqYXallizGrDU5LGYA==
+X-Received: by 2002:aa7:9214:: with SMTP id 20mr19801521pfo.202.1556983645070; 
+	Sat, 04 May 2019 08:27:25 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:c33:e5bb:fdcb:954:875c])
+	by smtp.gmail.com with ESMTPSA id
+	k12sm6394214pfk.86.2019.05.04.08.27.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 04 May 2019 08:27:24 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri,  3 May 2019 22:17:52 -0500
-Message-Id: <20190504031752.20918-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.20.1
+Date: Sat,  4 May 2019 08:26:36 -0700
+Message-Id: <cover.1556983501.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] resulttool: Add option to dump all ptest logs
+Subject: [PATCH 00/43] Warrior patch review
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +59,192 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2019 03:17:55 -0000
+X-List-Received-Date: Sat, 04 May 2019 15:27:24 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Adds an option to dump all the ptest logs to individual files to a
-specified directory.
+Community patch review opportunity.
 
-[YOCTO #13331]
+The following changes since commit f571b188177788d8ed0a7f3efe3569f153b1b0d3:
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- scripts/lib/resulttool/log.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+  build-appliance-image: Update to warrior head revision (2019-04-14 21:27:58 +0100)
 
-diff --git a/scripts/lib/resulttool/log.py b/scripts/lib/resulttool/log.py
-index 5584f2d0a99..18830409035 100644
---- a/scripts/lib/resulttool/log.py
-+++ b/scripts/lib/resulttool/log.py
-@@ -30,6 +30,15 @@ def log(args, logger):
-                 continue
-             r = results[path][res]['result']
- 
-+            if args.dump_ptest:
-+                if 'ptestresult.sections' in r:
-+                    for name, ptest in r['ptestresult.sections'].items():
-+                        if 'log' in ptest:
-+                            dest = os.path.join(args.dump_ptest, '%s.log' % name)
-+                            print(dest)
-+                            with open(dest, 'w') as f:
-+                                f.write(ptest['log'])
-+
-             if args.raw:
-                 if 'ptestresult.rawlogs' in r:
-                     print(r['ptestresult.rawlogs']['log'])
-@@ -51,6 +60,8 @@ def register_commands(subparsers):
-             help='the results file/directory/URL to import')
-     parser.add_argument('--ptest', action='append', default=[],
-             help='show logs for a ptest')
-+    parser.add_argument('--dump-ptest', metavar='DIR',
-+            help='Dump all ptest log files to the specified directory.')
-     parser.add_argument('--raw', action='store_true',
-             help='show raw logs')
- 
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib stable/warrior-next
+  http://cgit.openembedded.org//log/?h=stable/warrior-next
+
+Adrian Bunk (3):
+  gnutls: upgrade 3.6.5 -> 3.6.7
+  dhcp: Replace OE specific patch for compatibility with latest bind
+    with upstream patch
+  gnome-doc-utils: Remove stale patch
+
+Alexander Kanavin (2):
+  python3: add another multilib fix
+  buildhistory: call a dependency parser only on actual dependency lists
+
+Anuj Mittal (4):
+  gcc: fix CVE-2018-18484
+  gdb: fix CVE-2017-9778
+  binutils: fix CVE-2019-9074 CVE-2019-9075 CVE-2019-9076 CVE-2019-9077
+  openssh: fix CVE-2018-20685, CVE-2019-6109, CVE-2019-6111
+
+Bruce Ashfield (8):
+  linux-yocto/5.0: update to v5.0.5
+  linux-yocto-rt: update to 5.0.5-rt3
+  linux-yocto/5.0: update to v5.0.7
+  linux-yocto/4.19: update to v4.19.34
+  linux-yocto-rt/4.19: fix merge conflict in lru_drain
+  linux-yocto/5.0: port RAID configuration tweaks from master
+  linux-yocto/5.0: integrate TCP timeout / hang fix
+  linux-yocto/5.0: update TCP patch to mainline version
+
+Changqing Li (2):
+  waffle: supprt build waffle without x11
+  piglit: support build piglit without x11
+
+Chen Qi (4):
+  busybox: fix ptest failure about 'dc'
+  base-files: move hostname operations out of issue file settings
+  dropbear: set CVE_PRODUCT
+  libsdl: set CVE_PRODUCT
+
+Dengke Du (1):
+  linux-yocto_5.0: set devicetree for armv5
+
+He Zhe (1):
+  ltp: Fix setrlimit03 call succeeded unexpectedly
+
+Jaewon Lee (1):
+  Adding back wrapper and using OEPYTHON3HOME variable for python3
+
+Jens Rehsack (1):
+  kernel-module-split.bbclass: support CONFIG_MODULE_COMPRESS=y
+
+Joshua Watt (2):
+  resulttool: Load results from URL
+  resulttool: Add log subcommand
+
+Kai Kang (1):
+  cryptodev: fix module loading error
+
+Mardegan, Alberto (1):
+  oeqa/core/runner: dump stdout and stderr of each test case
+
+Mariano Lopez (1):
+  ptest.bbclass: Use d.getVar instead of os.environ
+
+Martin Jansa (2):
+  icecc.bbclass: stop causing everything to be effectivelly MACHINE_ARCH
+  glibc: always use bfd linker
+
+Naveen Saini (2):
+  core-image-rt: make sure that we append to DEPENDS
+  core-image-rt-sdk: make sure that we append to DEPENDS
+
+Oleksandr Kravchuk (1):
+  curl: update to 7.64.1
+
+Richard Purdie (4):
+  core-image-sato-sdk-ptest: Try and keep image below 4GB limit
+  resultool/resultutils: Fix module import error
+  utils/multiprocess_launch: Improve failing subprocess output
+  python3: Drop ptest hack
+
+Steven Hung (洪于玉) (1):
+  kernel.bbclass: convert base_do_unpack_append() to a task
+
+sangeeta jain (1):
+  resulttool/manualexecution: Enable test case configuration option
+
+ meta/classes/icecc.bbclass                         |    1 +
+ meta/classes/kernel-module-split.bbclass           |   20 +-
+ meta/classes/kernel.bbclass                        |    3 +-
+ meta/classes/ptest.bbclass                         |    4 +-
+ meta/classes/testimage.bbclass                     |    3 +-
+ meta/lib/oe/buildhistory_analysis.py               |    2 +-
+ meta/lib/oe/utils.py                               |    7 +-
+ meta/lib/oeqa/core/runner.py                       |   20 +-
+ ...eplace-custom-isc_boolean_t-with-C-standa.patch | 2882 --------------------
+ ...d-includes-of-new-BIND9-compatibility-hea.patch |   79 +
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb       |    2 +-
+ ...ve-progressmeter-force-an-update-at-the-b.patch |  121 +
+ .../openssh/openssh/CVE-2018-20685.patch           |   40 +
+ .../openssh/openssh/CVE-2019-6109.patch            |  275 ++
+ .../openssh/openssh/CVE-2019-6111.patch            |  187 ++
+ meta/recipes-connectivity/openssh/openssh_7.9p1.bb |    4 +
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    7 +-
+ ...ix-two-test-case-to-also-depend-on-DC_BIG.patch |   39 +
+ meta/recipes-core/busybox/busybox_1.30.1.bb        |    1 +
+ meta/recipes-core/dropbear/dropbear.inc            |    2 +
+ meta/recipes-core/glibc/glibc_2.29.bb              |    2 +-
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |    4 +
+ .../binutils/binutils/CVE-2019-9074.patch          |   68 +
+ .../binutils/binutils/CVE-2019-9075.patch          |  119 +
+ .../binutils/binutils/CVE-2019-9076.patch          |   49 +
+ .../binutils/binutils/CVE-2019-9077.patch          |   37 +
+ meta/recipes-devtools/gcc/gcc-8.3.inc              |    1 +
+ ...sion-limit-to-libiberty-s-demangling-code.patch |  325 +++
+ meta/recipes-devtools/gdb/gdb-8.2.1.inc            |    1 +
+ meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch  |   99 +
+ ...ig.py-fix-another-place-where-lib-is-hard.patch |   31 +
+ ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch |   47 +
+ .../python/python3/ptesthack.patch                 |   60 -
+ meta/recipes-devtools/python/python3_3.7.2.bb      |    9 +-
+ ...trlimit03.c-read-proc-sys-fs-nr_open-for-.patch |   70 +
+ meta/recipes-extended/ltp/ltp_20190115.bb          |    1 +
+ ...t.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch |   40 -
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    2 +
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb     |    2 +
+ meta/recipes-graphics/piglit/piglit_git.bb         |   13 +-
+ meta/recipes-graphics/waffle/waffle_1.5.2.bb       |    7 +-
+ meta/recipes-kernel/cryptodev/cryptodev.inc        |    4 +-
+ ...01-Fix-module-loading-with-Linux-v5.0-rc5.patch |   59 +
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb    |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |    8 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb  |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb      |   20 +-
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb       |   21 +-
+ meta/recipes-rt/images/core-image-rt-sdk.bb        |    2 +-
+ meta/recipes-rt/images/core-image-rt.bb            |    2 +-
+ .../images/core-image-sato-sdk-ptest.bb            |    4 +-
+ .../curl/{curl_7.64.0.bb => curl_7.64.1.bb}        |    4 +-
+ .../gnutls/{gnutls_3.6.5.bb => gnutls_3.6.7.bb}    |    7 +-
+ scripts/lib/resulttool/log.py                      |   56 +
+ scripts/lib/resulttool/manualexecution.py          |   14 +-
+ scripts/lib/resulttool/merge.py                    |    8 +-
+ scripts/lib/resulttool/regression.py               |    6 +-
+ scripts/lib/resulttool/report.py                   |    2 +-
+ scripts/lib/resulttool/resultutils.py              |   23 +-
+ scripts/lib/resulttool/store.py                    |    4 +-
+ scripts/resulttool                                 |    2 +
+ 62 files changed, 1882 insertions(+), 3070 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-dhcpd-fix-Replace-custom-isc_boolean_t-with-C-standa.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-master-Added-includes-of-new-BIND9-compatibility-hea.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2019-6109.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-dc.tests-fix-two-test-case-to-also-depend-on-DC_BIG.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9074.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9075.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9076.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9077.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/ptesthack.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
+ rename meta/recipes-support/curl/{curl_7.64.0.bb => curl_7.64.1.bb} (95%)
+ rename meta/recipes-support/gnutls/{gnutls_3.6.5.bb => gnutls_3.6.7.bb} (88%)
+ create mode 100644 scripts/lib/resulttool/log.py
+
 -- 
-2.20.1
+2.7.4
 
 
