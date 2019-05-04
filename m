@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 28F737D7A0
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B72B7DBB8
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 May 2019 15:27:43 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id z3so509001pgp.8
+	Sat,  4 May 2019 15:27:44 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id z28so4439071pfk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2019 08:27:44 -0700 (PDT)
+	Sat, 04 May 2019 08:27:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=qQxCzIMju/4N0U2B3GqUBoH+ufq9omsvCSRYk2F5RWU=;
-	b=LM3JcNbFYxfCis6mMh47aiSsIgMseBP5ensMUd5P6smpWwvC20CQef7zJZtI0Qd3Wl
-	2h+4eQYYve3K/piVOp5YMlX55ri7ck53Rln7nq23nvQH2sG/fRgDoVNP+NJdYVjC8ksB
-	FLmxm/1O7WTwT0r/7tdAwYxccLPa6lZmsb585KH2yUJEDsC/eHz+/U49aqGEsuA2OOB7
-	cMO4J7W66SehPzx/9qtcdWGWqWhMuWUu2xg83R9Y0yxxs8B3XUm8sY4VLeBEnxnZaHr5
-	r/lN+OXpqWQBNRMaLrSz1TopoS4fr4UUOpifdPsbd+gRkbOaHhCS3/udnDZvUJVvoW6z
-	0QZg==
+	bh=9OjbYcYKdXxblCRT80tIDUT83IV0RixbUVwxumywORA=;
+	b=n5Q0nVPy9CIT2ckta1gH+rwqN4Nf3dibGIOT8VXwt2R7RaJAqQe+ilGESp1iRvKZTM
+	IN8ruUX8iBaE6GyVubnEqr4jWLVAjPPiM2iDWqR7QZx4klTOxvI0QdTT/2NWOXVpsc2L
+	vFtyRB9Lv4yXsYnl+e9G7gjLQhroFPG0OpVTPQhrVQkPAKjsspJqGfBaUtZV+i3Yhz4z
+	5PdrwhBSZzW8Qpwqw9/eZFnqJ3uYrMeU6lOj7dTko5sW+orjBX87Bi+ZrWyVoI6xO5YP
+	/bSLSJ40Lmd4r9AlSiHbgmFsLVJoDr17nvdHigij6mrcQM1UEUYT+1Z6F7r5RcHrjy1J
+	4EPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=qQxCzIMju/4N0U2B3GqUBoH+ufq9omsvCSRYk2F5RWU=;
-	b=Z+zGZ1W0aik+iq2rOo2UpufoCjyVszw6iXH/7Y7tUXIm6utqvSBjQ/dzg7vBRCOYT1
-	xphx87bKeP5mqhzkR36/GgvMdYDKze9eT1zBZjI2o90Y4e47hP2Rh8Myem+QHUKGMTey
-	hgwicx5Ce6T9An7v6ekIY1mDE+20UHkiQmTE3HUtIaQ2RQHBmIN71Hzzi1fAInXUfDDp
-	25m9k6sGN3hQWBcgA1xkUcrOe/eSRXLp4dUonDyvsQ8QsBEt4Qta1cPhF1zccTpssJ0g
-	q9ef8pVQK5SQOyDO9cTr2mOoJhUH9IPdqSbt/Wxpiy5XhBEMMzoCPaRKm/6PUn/Y0V18
-	WbgQ==
-X-Gm-Message-State: APjAAAX8CSuL8EcEm/IFggHKDp6j3EWs5W34NksmduTt7Z/cj+959/Zl
-	3cl4+qWZtvPdqWzzsBasHjDluRbg
-X-Google-Smtp-Source: APXvYqy9oKhpqD7Ws0uaZYk1yW40dIGIZjWkhvqX6kD92w57myjKPWUOQ4qnwVOLZFDDL5kkoDfYuQ==
-X-Received: by 2002:a63:4c06:: with SMTP id z6mr9318085pga.296.1556983664263; 
-	Sat, 04 May 2019 08:27:44 -0700 (PDT)
+	bh=9OjbYcYKdXxblCRT80tIDUT83IV0RixbUVwxumywORA=;
+	b=ngS7sUsyQ83T+vUHRHzFFInKPjR6F7mVM9JFy6UfJenByWGK9AcqpJ3JajvZNhfcFe
+	4WxJO6Z7ycOlremsAO7gUkb7mv1h0V/YULBYzEjy2vg8ARjgdrGELNUpOnbkxfvBhjQm
+	pttpyGoqs2pE1LEmSCyDGR5DN47b2iQRbhvJNipyybI9JEBon+IaM924biSCpj7Po0yw
+	rosE5HDMz52jAT/mqw0juuNYIHRMm/2u9lRQCF/Qzpor6fAg3bZQesx3i+lRsNIQhvla
+	i3PzvkA1OOCax30VwRS5cy4Std2+ieOrTwN0J6IOp/toNTkYHVoD3WDkvShWAyelove+
+	EJVg==
+X-Gm-Message-State: APjAAAWg1/080dTJCgXjHBMIxlSL4HzGTkGOXqhIj491+mMPt/3SaIsj
+	ntQ4xvROq4QKsuqMPc4IowmjvItG
+X-Google-Smtp-Source: APXvYqxVqYTvuNbP0EuqcfuSRwKW5Eoy5E/Q1qzmbMoNdHiB2OB3aAeOHUO2U8isvDCrsznqiK/QAw==
+X-Received: by 2002:a63:fb58:: with SMTP id w24mr19340794pgj.444.1556983665325;
+	Sat, 04 May 2019 08:27:45 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:e5bb:fdcb:954:875c])
 	by smtp.gmail.com with ESMTPSA id
-	k12sm6394214pfk.86.2019.05.04.08.27.43
+	k12sm6394214pfk.86.2019.05.04.08.27.44
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 04 May 2019 08:27:43 -0700 (PDT)
+	Sat, 04 May 2019 08:27:44 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 May 2019 08:26:54 -0700
-Message-Id: <e30cd19250c14112a96a2e89327fd75933016469.1556983501.git.akuster808@gmail.com>
+Date: Sat,  4 May 2019 08:26:55 -0700
+Message-Id: <ef6aacb0ed543c78172ae5af933eee32ac70e602.1556983501.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1556983501.git.akuster808@gmail.com>
 References: <cover.1556983501.git.akuster808@gmail.com>
-Subject: [PATCH 18/43] icecc.bbclass: stop causing everything to be effectivelly MACHINE_ARCH
+Subject: [PATCH 19/43] resultool/resultutils: Fix module import error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,61 +59,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2019 15:27:43 -0000
+X-List-Received-Date: Sat, 04 May 2019 15:27:44 -0000
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-* since this change:
-  commit d2fcaeb153fdc3f8d7143ea823139f1537055ff1
-  Author: Douglas Royds <douglas.royds@taitradio.com>
-  Date:   Thu Dec 20 11:59:47 2018 +1300
+Fix AttributeError: module 'urllib' has no attribute 'request' when
+using remote http urls.
 
-    icecc: Don't generate recipe-sysroot symlinks at recipe-parsing time
-
-  the set_icecc_env function depends on KERNEL_CC variable even for recipes
-  like linux-libc-headers
-
-* KERNEL_CC variable depends on STAGING_KERNEL_DIR:
-  Variable KERNEL_CC value is ${CCACHE}${HOST_PREFIX}gcc ${HOST_CC_KERNEL_ARCH} -fuse-ld=bfd ${DEBUG_PREFIX_MAP} -fdebug-prefix-map=${STAGING_KERNEL_DIR}=${KERNEL_SRC_PATH}
-  List of dependencies for variable KERNEL_CC is {'STAGING_KERNEL_DIR', 'HOST_PREFIX', 'DEBUG_PREFIX_MAP', 'HOST_CC_KERNEL_ARCH', 'KERNEL_SRC_PATH'}
-
-  which depends on MACHINE:
-  Variable STAGING_KERNEL_DIR value is ${TMPDIR}/work-shared/${MACHINE}/kernel-source
-  List of dependencies for variable STAGING_KERNEL_DIR is {'MACHINE'}
-
-* as detected with:
-  openembedded-core/scripts/sstate-diff-machines.sh --tmpdir=tmp-glibc --machines="qemux86 qemux86copy qemuarm" --targets=glibc --analyze
-
-  ERROR: linux-libc-headers different signature for task do_configure.sigdata between qemux86 and qemux86copy
-  NOTE: Starting bitbake server...
-  basehash changed from 3146f4ffeb002bd69fed7656a4b896365b2e2a00071c69e1afbb672889e754ee to f1a5160e39912e61389b6f9fe68d61146a2be91716ac37e4a32ecf4c09b2b5fa
-  Variable MACHINE value changed from 'qemux86' to 'qemux86copy'
-
-  $ bitbake-diffsigs /OE/build/oe-core/tmp-glibc/sstate-diff/1556122458/qemux86*/*/linux-libc-headers/*do_configure.sigdata*
-  NOTE: Starting bitbake server...
-  basehash changed from f1a5160e39912e61389b6f9fe68d61146a2be91716ac37e4a32ecf4c09b2b5fa to 3146f4ffeb002bd69fed7656a4b896365b2e2a00071c69e1afbb672889e754ee
-  Variable MACHINE value changed from 'qemux86copy' to 'qemux86'
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[commit in warrior]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/icecc.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ scripts/lib/resulttool/resultutils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
-index 6d003dc..edb0e10 100644
---- a/meta/classes/icecc.bbclass
-+++ b/meta/classes/icecc.bbclass
-@@ -312,6 +312,7 @@ def set_icecc_env():
-     # dummy python version of set_icecc_env
-     return
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index aab312d..8d17c7c 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -16,7 +16,7 @@ import os
+ import json
+ import scriptpath
+ import copy
+-import urllib
++import urllib.request
+ import posixpath
+ scriptpath.add_oe_lib_path()
  
-+set_icecc_env[vardepsexclude] += "KERNEL_CC"
- set_icecc_env() {
-     if [ "${@use_icecc(bb, d)}" = "no" ]
-     then
 -- 
 2.7.4
 
