@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 477CC7D7A0
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com
+	[209.85.210.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B9677D7A0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  4 May 2019 15:27:45 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id b3so4437510pfd.1
+	Sat,  4 May 2019 15:27:46 +0000 (UTC)
+Received: by mail-pf1-f174.google.com with SMTP id 13so4114494pfw.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2019 08:27:46 -0700 (PDT)
+	Sat, 04 May 2019 08:27:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=barJQWm87t7x1oxzIqoo1kNJSvM/4SsnalHxSmBU0D0=;
-	b=COrBQ8ejogbh82lbvhbSQub2rV3Eskr0I6v6K5fIxmFxVOed5uRKGIE2u32lsMBX4X
-	UOlITK+4/qvfzL6xuTAR8iqUJi26PYx1R/EMTwcBAcR6Waz9ocnTfhpc5R2wJyDWP/gV
-	UbSmf34fGjvUmFyKhsFiZeAG8/MGZPT9pg8+WBQW2mCg0iqXWi/XlyXUXxzqZDuwgzMX
-	spPa695m8x/Fenk7BGtC6/i+Qadm6+bFrBLrg1BTuMzG2cxU8z0STE/y27lOmgdsWucP
-	e45i66F780ga8jrOTKPLRH0hUFpZeYCc9aA2DSCJgBulIBFI6N/p6CFPRc4Q+TfxJWjR
-	u4vA==
+	bh=9OOy9dzNTfI9duH0hlf5rUqVraeVaHcFFOu3LVR3VfY=;
+	b=S7zkYakd6WVNyZ24YmpoiYRVqEqtSrnr+5N7qW+Pnc0y7Qd8JbJjrX9jeLBn9VpPvW
+	Dbb5imX6oJXJwL7+8QsD0y+CRt37B6YnCPHAJsVvrp1mjZePnzpVOWrWFOZNkNlyiM1x
+	0FDopGFQNFRg8lA26LkbsaGyNEb3zSCS0ewO8zfGn1/Zjm2LmED9+CXd/Kr/nXx1MoEJ
+	IZM3qhGY5wYlAAuF3VXQYYgAaj13ycHdAcrYZglqzlG7mFG9VQS5O9IlfH+MD4WmqjSt
+	UmcIhhBsITcsoTk7K+ussrWuBqv9N78lAu23S2u9j/HhmqF4QXdcrIkTphgTaGxKk3U5
+	A8UA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=barJQWm87t7x1oxzIqoo1kNJSvM/4SsnalHxSmBU0D0=;
-	b=IZFudxMaKTr3mQK+3bZK7LU+G86WZ47jneGK1TxOxe6kXbqSUrcT6LQvNf/mDKY0Aw
-	Sr7AtjwoJAX9dUy0rSZWET6jqy9lxU8uTXhF5O4hTiIXamSAcr3s8am5rsd5+4lKD39P
-	yWQsqj3nX/c5x7lKW/1I6F1Puv7pnKop5Pg+bHqF17HxCES0ggC7OqXnh1ZNYn0j6bD1
-	TGg7Ry4uZL0uaYZk1IUazgWHnNnHwTnsxIITrDzEO+xKazTDZeCKqB90BqLmmOvPiIG+
-	yd8hoC0u7UP/fCsvVnJTD/JolvfW6ZhPlxV4ZR13UJ5oQl5TQzwDzHIxG4VvKKiWuw+T
-	lXqA==
-X-Gm-Message-State: APjAAAWFUGqEateaZvtPLbUDZjA3BoZypjqWFn0hIuxtEWaG3u13zyQ8
-	Lp6mWgk8AlklzCc7PZ71PJ3DHYx5
-X-Google-Smtp-Source: APXvYqzqkxzlqc/Ox8LjYCf9wqp3RwpK8W+DV8iCT/ikPKnvy6phSGkLo1/XtwnkO02hfvUeKaTcMg==
-X-Received: by 2002:a63:8a4a:: with SMTP id y71mr19401096pgd.270.1556983666319;
-	Sat, 04 May 2019 08:27:46 -0700 (PDT)
+	bh=9OOy9dzNTfI9duH0hlf5rUqVraeVaHcFFOu3LVR3VfY=;
+	b=Fz88fk8+Ul/y+roJnep+V9sp8LwP4DYgLCBUubVYdK0ABZyYFgZUJ0XN9bg1COExAh
+	Fhy9ZRF5zxF12ejO4I1VssuC9EgEeZvfFBN1baS3MOriwFb2RW1FBO1/+cHrmxgIwZJ/
+	IpzbuIIt86lrUC+J9lAEHhh9P1qve+K6Q0KMI3HLpxWZRIkCdREJOzCkJ45PfpytBeMS
+	M3+8G4sfTFgR4jvSHzWNhvUklox8p8iy9n1L/QdOT7DrtTwYkPeAqmToP0n5teQ2LXIw
+	SojBp9iaKfnyqyP30MAOBOX7QOeGrqCG2aQ+C7pQJd2M+bwn4bBlQ1b0XGrmJF1OGZJ2
+	AHug==
+X-Gm-Message-State: APjAAAVEi8Pr/P2KBi4xWKn0opLDUjTRCafBW4MoCTOc2iRUXrodY/FS
+	qbsL2Hv8LBmTa3XojV/6SflKdwRT
+X-Google-Smtp-Source: APXvYqyNPUniJdpPDtI+ni7voqPbA4weuWPGH5kk3T7bm66ACC4j7VjmmHayBxkptEiVxIWsNXBPVQ==
+X-Received: by 2002:a65:43c3:: with SMTP id n3mr19017621pgp.375.1556983667230; 
+	Sat, 04 May 2019 08:27:47 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:e5bb:fdcb:954:875c])
 	by smtp.gmail.com with ESMTPSA id
-	k12sm6394214pfk.86.2019.05.04.08.27.45
+	k12sm6394214pfk.86.2019.05.04.08.27.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 04 May 2019 08:27:45 -0700 (PDT)
+	Sat, 04 May 2019 08:27:46 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  4 May 2019 08:26:56 -0700
-Message-Id: <ba56d8729a58d373bb301dda304c78702ded5869.1556983501.git.akuster808@gmail.com>
+Date: Sat,  4 May 2019 08:26:57 -0700
+Message-Id: <fd57b34d7c8a120273d65cd361be208fbdaeff50.1556983501.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1556983501.git.akuster808@gmail.com>
 References: <cover.1556983501.git.akuster808@gmail.com>
-Subject: [PATCH 20/43] cryptodev: fix module loading error
+Subject: [PATCH 21/43] oeqa/core/runner: dump stdout and stderr of each test case
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,101 +59,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 04 May 2019 15:27:45 -0000
+X-List-Received-Date: Sat, 04 May 2019 15:27:46 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+From: "Mardegan, Alberto" <AMardegan@luxoft.com>
 
-Backport patch from upstream to fix module cryptodev loading error.
+Some CI pipelines might perform further processing of the test output
+(for instance, to plot some metrics into a chart). However, Since `thud`
+we switched away from the XML-based jUnit reporting, and at the same
+time we lost the ability of collecting the stdout and stderr of the
+various tests.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+We now restore this functionality by adding `stdout` and `stderr` keys
+to the JSON reports. This behavior is off by default; in order to enable
+it, one must set the `TESTREPORT_FULLLOGS` variable in the bitbake
+configuration.
+
+Signed-off-by: Alberto Mardegan <amardegan@luxoft.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-kernel/cryptodev/cryptodev.inc        |  4 +-
- ...01-Fix-module-loading-with-Linux-v5.0-rc5.patch | 59 ++++++++++++++++++++++
- 2 files changed, 62 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
+ meta/classes/testimage.bbclass |  3 ++-
+ meta/lib/oeqa/core/runner.py   | 20 ++++++++++++++++----
+ 2 files changed, 18 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/cryptodev/cryptodev.inc b/meta/recipes-kernel/cryptodev/cryptodev.inc
-index 252d39d..9d8ba44 100644
---- a/meta/recipes-kernel/cryptodev/cryptodev.inc
-+++ b/meta/recipes-kernel/cryptodev/cryptodev.inc
-@@ -3,7 +3,9 @@ HOMEPAGE = "http://cryptodev-linux.org/"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+diff --git a/meta/classes/testimage.bbclass b/meta/classes/testimage.bbclass
+index ff1c53b..9bb5a5c 100644
+--- a/meta/classes/testimage.bbclass
++++ b/meta/classes/testimage.bbclass
+@@ -316,7 +316,8 @@ def testimage_main(d):
+     configuration = get_testimage_configuration(d, 'runtime', machine)
+     results.logDetails(get_testimage_json_result_dir(d),
+                        configuration,
+-                       get_testimage_result_id(configuration))
++                       get_testimage_result_id(configuration),
++                       dump_streams=d.getVar('TESTREPORT_FULLLOGS'))
+     results.logSummary(pn)
+     if not results.wasSuccessful():
+         bb.fatal('%s - FAILED - check the task log and the ssh log' % pn, forcelog=True)
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index df88b85..478b7b6 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -7,6 +7,7 @@ import unittest
+ import logging
+ import re
+ import json
++import sys
  
--SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux"
-+SRC_URI = "git://github.com/cryptodev-linux/cryptodev-linux \
-+           file://0001-Fix-module-loading-with-Linux-v5.0-rc5.patch \
-+           "
- SRCREV = "fd8b15ef1c8398a69a37932ee48c74ab40329a29"
+ from unittest import TextTestResult as _TestResult
+ from unittest import TextTestRunner as _TestRunner
+@@ -45,6 +46,9 @@ class OETestResult(_TestResult):
  
- S = "${WORKDIR}/git"
-diff --git a/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch b/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
-new file mode 100644
-index 0000000..34ec872
---- /dev/null
-+++ b/meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
-@@ -0,0 +1,59 @@
-+Upstream-Status: Backport [https://github.com/cryptodev-linux/cryptodev-linux/commit/f971e0c]
+         self.tc = tc
+ 
++        # stdout and stderr for each test case
++        self.logged_output = {}
 +
-+Backport patch from upstream to fix module cryptodev loading error.
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+
-+From f971e0cd4a0ebe59fb2e8e17240399bf6901b09b Mon Sep 17 00:00:00 2001
-+From: "Derald D. Woods" <woods.technical@gmail.com>
-+Date: Sun, 10 Feb 2019 13:22:19 -0600
-+Subject: [PATCH] Fix module loading with Linux v5.0-rc5
-+
-+This commit fixes this module load error:
-+[...]
-+[   29.112091] cryptodev: loading out-of-tree module taints kernel.
-+[   29.128906] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
-+[   29.188842] cryptodev: Unknown symbol crypto_givcipher_type (err -2)
-+modprobe: can't load module cryptodev (extra/cryptodev.ko): unknown symbol in module, or unknown parameter
-+[...]
-+
-+Upstream Linux support for unused GIVCIPHER, and others, was dropped here:
-+
-+c79b411eaa72 (crypto: skcipher - remove remnants of internal IV generators)
-+
-+Signed-off-by: Derald D. Woods <woods.technical@gmail.com>
-+---
-+ cryptlib.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/cryptlib.c b/cryptlib.c
-+index 6e66698..4a87037 100644
-+--- a/cryptlib.c
-++++ b/cryptlib.c
-+@@ -38,7 +38,9 @@
-+ #include "cryptodev_int.h"
-+ #include "cipherapi.h"
-+ 
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0))
-+ extern const struct crypto_type crypto_givcipher_type;
-++#endif
-+ 
-+ static void cryptodev_complete(struct crypto_async_request *req, int err)
-+ {
-+@@ -157,8 +159,11 @@ int cryptodev_cipher_init(struct cipher_data *out, const char *alg_name,
-+ 
-+ #if (LINUX_VERSION_CODE >= KERNEL_VERSION(4, 8, 0))
-+ 		tfm = crypto_skcipher_tfm(out->async.s);
-+-		if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type) ||
-+-		    (tfm->__crt_alg->cra_type == &crypto_givcipher_type)) {
-++		if ((tfm->__crt_alg->cra_type == &crypto_ablkcipher_type)
-++#if (LINUX_VERSION_CODE < KERNEL_VERSION(5, 0, 0))
-++		    || (tfm->__crt_alg->cra_type == &crypto_givcipher_type)
-++#endif
-++							) {
-+ 			struct ablkcipher_alg *alg;
-+ 
-+ 			alg = &tfm->__crt_alg->cra_ablkcipher;
-+-- 
-+2.20.0
-+
+     def startTest(self, test):
+         # May have been set by concurrencytest
+         if test.id() not in self.starttime:
+@@ -53,6 +57,9 @@ class OETestResult(_TestResult):
+ 
+     def stopTest(self, test):
+         self.endtime[test.id()] = time.time()
++        if self.buffer:
++            self.logged_output[test.id()] = (
++                    sys.stdout.getvalue(), sys.stderr.getvalue())
+         super(OETestResult, self).stopTest(test)
+         if test.id() in self.progressinfo:
+             self.tc.logger.info(self.progressinfo[test.id()])
+@@ -118,7 +125,8 @@ class OETestResult(_TestResult):
+         self.successes.append((test, None))
+         super(OETestResult, self).addSuccess(test)
+ 
+-    def logDetails(self, json_file_dir=None, configuration=None, result_id=None):
++    def logDetails(self, json_file_dir=None, configuration=None, result_id=None,
++            dump_streams=False):
+         self.tc.logger.info("RESULTS:")
+ 
+         result = {}
+@@ -144,10 +152,14 @@ class OETestResult(_TestResult):
+             if status not in logs:
+                 logs[status] = []
+             logs[status].append("RESULTS - %s - Testcase %s: %s%s" % (case.id(), oeid, status, t))
++            report = {'status': status}
+             if log:
+-                result[case.id()] = {'status': status, 'log': log}
+-            else:
+-                result[case.id()] = {'status': status}
++                report['log'] = log
++            if dump_streams and case.id() in self.logged_output:
++                (stdout, stderr) = self.logged_output[case.id()]
++                report['stdout'] = stdout
++                report['stderr'] = stderr
++            result[case.id()] = report
+ 
+         for i in ['PASSED', 'SKIPPED', 'EXPECTEDFAIL', 'ERROR', 'FAILED', 'UNKNOWN']:
+             if i not in logs:
 -- 
 2.7.4
 
