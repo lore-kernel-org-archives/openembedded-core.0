@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 84C887D434
+	by mail.openembedded.org (Postfix) with ESMTP id 83A5B6BA93
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  5 May 2019 20:18:14 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44xxyG4MFlz4x
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44xxyH0g4xz5l
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 May 2019 22:18:14 +0200 (CEST)
+	Sun,  5 May 2019 22:18:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1557087494;
-	bh=V7XxWkGCwN1Hl01QytV2YGq/8Rz7WC6rTuQ/9nOTj68=;
+	s=default; t=1557087495;
+	bh=1ly5pPxJzq2cDnPe2y86cjRz+71gRm0v0LTjxcinq48=;
 	h=From:To:Subject:Date:From;
-	b=E5gH7HeEZDpPwpP8lJH7H6i2t4GC1z9Vg7rgIwsNnRXrSWTeo3QkMkz9XEPl9C5P8
-	xdTATzbvp9erd0XljjhbnKBmkr0wDBIgFM2Fp0DEG7HrXegtjC32UWOiRw9jSy8VZ1
-	17RSIxZpYp/NdJird5hDz9H3yeqJdLxTIvdVuKN/7wdg0NUQ8SNBOeedRwq7qalgXd
-	NiTxAE5cw0LxubOJivFHyhQ2KL/bNDc+Oc8iBVsbFsGtuC6RmhW83MYQyFO18dH/Az
-	718y5u9R5T1Xe+yWOLoggSIzOvUDcp8JkM0X6F5dmqp3gwFY50y1Tjr8aH0/tdLWE3
-	cBSgc5Zz0csvU6yMJ1mLureLjdwPAiOJ7ZyljwjtKt72bVOH1bqacGxKHkEEeZCWSz
-	bOmHgHP5q8Tns/aP08rKad3o+ulzjXUvZQyjj1XSraG6yGQli4jf3DbqSJXY4tNwHu
-	JgCfEmWmWm7gJ2WMIf0sryv9ai7llfzGwSwNVOSpuxlztjQRymaz9Nn2XusoijA35R
-	qCc0XzWsi9vWzLC7WQ7wNpoPUvXNYs/n5qHmaqSoZRcnnU5alebwA8t2tjA0tP8RVO
-	mwq2RqX2At6ModHotf0Ri0Spnhy91PKt/a2cgtEfmDEv4GR6majV9jixcvQC+vBz/2
-	kMOzF5ka1+S5OQhLPHUecsiw=
+	b=K127G7pKCslOMSgWpzmLBCT3jMHPnuIvtrtW3St5Cct1cmYtr69zD1gnvKJmWy16N
+	OdaTUYBPhRQzJUOb9UlOqac1FCw4HPwX5xa+Sm6hWQR5I//f4dUoFd5LEQ8YBqnivk
+	ciKLlxljkevQ4z6KQPTHaHoMdh/Hu5F9gE9HTxWPD4ItUVwwHGnlpxI4oX/Dfes2C/
+	NAnkewM4L10PC6dHRyJZvoJSQVR/G5h7LTfirU8KE9r6hAdS6aVYdAaqbWeMpCtZhL
+	JEH7vzQmP0jK8e/WrWRCmp2enWvE6CiwBxHenQayBx1J3UDvDNY1gKtBiGW9v1vuym
+	dgP4w0qLMF2LWKM446ujrhfkmZ7ivzAcwjDnAoQWFDOfUOwBGwIGAvhalRkcrhNvp3
+	8Of2hj3o0bdqqKoroir6oX4CYmTN/B2p0oIfGCdUshylBZy5H1YFlbU3hkLBo9yOFU
+	58mWc1a174Z17kvf736RYWejHq960D4KR56kpwUU/rFQMmC1Ivrmned1jx6glXUYqI
+	8EbAPGKqCesobNsmcSvJPSvh9jhXp+iiIwUrpJvVsiWzuZxFKvtvJzbN7rLhQcoVao
+	kavBSPvHaBbM42o6mMavUWmzUKYGP2KMUU7iom8DFmjc+7ugrIrDYYFQgyC7uLBDV0
+	JD2GULyFU3XqCSlT3TtGBmps=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 May 2019 23:18:12 +0300
-Message-Id: <20190505201813.28881-1-bunk@stusta.de>
+Date: Sun,  5 May 2019 23:18:13 +0300
+Message-Id: <20190505201813.28881-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] libxcrypt: Stop adding -std=gnu99 to CPPFLAGS
+Subject: [PATCH] file: Stop adding -std=c99 to CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,22 +46,22 @@ Upstream now adds this automatically when required.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/file/file_5.36.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
-index e3c87b3e02..b44c07b4d0 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
-+++ b/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
-@@ -25,7 +25,7 @@ FILES_${PN} = "${libdir}/libcrypt*.so.* \
+diff --git a/meta/recipes-devtools/file/file_5.36.bb b/meta/recipes-devtools/file/file_5.36.bb
+index 1a81fde259..9a0e5bd220 100644
+--- a/meta/recipes-devtools/file/file_5.36.bb
++++ b/meta/recipes-devtools/file/file_5.36.bb
+@@ -27,8 +27,6 @@ ALTERNATIVE_LINK_NAME[file] = "${bindir}/file"
+ EXTRA_OEMAKE_append_class-target = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
+ EXTRA_OEMAKE_append_class-nativesdk = "-e FILE_COMPILE=${STAGING_BINDIR_NATIVE}/file-native/file"
  
- S = "${WORKDIR}/git"
+-CFLAGS_append = " -std=c99"
+-
+ FILES_${PN} += "${datadir}/misc/*.mgc"
  
--BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE} -std=gnu99"
-+BUILD_CPPFLAGS = "-I${STAGING_INCDIR_NATIVE}"
- TARGET_CPPFLAGS = "-I${STAGING_DIR_TARGET}${includedir} -Wno-error=missing-attributes"
- CPPFLAGS_append_class-nativesdk = " -Wno-error=missing-attributes"
- 
+ do_install_append_class-native() {
 -- 
 2.17.1
 
