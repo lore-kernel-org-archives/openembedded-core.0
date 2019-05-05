@@ -1,47 +1,47 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 813637D6A8
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 71ABB7D716
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 May 2019 05:23:15 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id f7so2560949wrq.1
+	Sun,  5 May 2019 05:23:34 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id o25so611114wmf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 04 May 2019 22:23:16 -0700 (PDT)
+	Sat, 04 May 2019 22:23:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=Cw4abVEKmtIn9MCsxLoxlfOrihn7dafVuVpXMMD24mo=;
-	b=DiqpwFip7RxkCjeoTGoKe/eUWTlYDhV4Tt2ZBf0hqGH+F1iFcNucuNvzoRugoEoM3U
-	eROdxsVIUJy1PchVpb7z2XsXjt2PZGu36MLYM9oaxchJ5KinxPziM2zMWEw0G2nT3Qkt
-	hbSMFGDu0t73gBiesgw3tqG1mSr25fK2lm75fysp7c0SEN2GHGKTdrACjqSXCPhAV3ci
-	EBOZKJP5VW9yN6ERPTBOSYTe/klT/FClj+aJGssdtte51stx3UG3CJ3UxxzmmIuQP7Cr
-	pMY96E4OKOjBm8cDQT0LKPifu9BziTL2+5EztkCiOp/Lj9T62RWzhp6ksY5DCGYTR3tj
-	qYPA==
+	bh=dHlf2jLguBWbaJVEihR2B5+x4sZWbFkUvgAbLyYkcxY=;
+	b=GCLCRYULjF3qwvQdQh3+/UJ+WkOCZScFXxJlN3KL0r4O5XY46PictxfVI7/MVCwKQs
+	QY+T4LzoGswmaDZAzhx6N+RNu2MPC6kuLHDcmZQB1H7KIUbIR/r825Ztx/IJBikXfFXF
+	opMoukYCK8s4mMCVpeOHsWtsrAzGjPYdqKNMMEukbKRGfVbmrik1vM2cneEifjjL0rE5
+	fDdZws/YnWkmZOUsVoBoh6qJMbtcwRzTZO55RyzGhI8sn1rlygA6RHffPXC/NIkbihE1
+	nL7Uv5PyIxDVPRjqc4PyASczZnDaJJdORJKqZhJQ66/mz+n2IrsDjPqeCPPm2XPDO+vi
+	2K6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Cw4abVEKmtIn9MCsxLoxlfOrihn7dafVuVpXMMD24mo=;
-	b=BngtqGlTngW4GGaAAnYWJalqNQE1fl7MDwjmqVFJXefsgH2eQ6mRq5j53aBWmJVtS0
-	TrGPL4bb2Gny/kWLqHMP/j8SwdTTlk/ZUHJNcijD5CbF3k/gai1FD6xXl5ksCccOGCPu
-	HOCRsm/+dkUYKtk2BdrIsFnuMA5+QhiTtNA7+/En8QZzfLLrACRsKE5rgTfgjgFA9xue
-	sAJzuzBX6j8YNDThl3bieJQaU+COn6cx2gLH21nuecjHKOsIseeFpqbhAQugCWFznRce
-	IbW+FpCFtromKiRDtEndqgWRVeQLXoUGw8E/GxgfHBxDMvtaY51oNIWP8jUCkdreljmc
-	6z6w==
-X-Gm-Message-State: APjAAAWNpCHYQ3D/hE64k6CgR2Y6sFE/68yQbnR+6py8uiv1NCruAq1V
-	y+PYx8kLpzeAZ2FloqCpGxsb9xSr
-X-Google-Smtp-Source: APXvYqyabAXRxtTWKrfsr7CtxNiFMn0eJ2uhuDfiuAwqKz5p6RaN3xKfy2OOFb6GGfduoUv1WdK54g==
-X-Received: by 2002:a5d:638c:: with SMTP id p12mr13273644wru.61.1557033796146; 
-	Sat, 04 May 2019 22:23:16 -0700 (PDT)
+	bh=dHlf2jLguBWbaJVEihR2B5+x4sZWbFkUvgAbLyYkcxY=;
+	b=Xn/ChQsSAjSMr1+P2+DhJNfXNDLoDKdfZPJI1qCzabagqst3PfYEbAPwqXUVqv6aq/
+	QEqtyQCALRs3byGExoouRLqc+IDHg/2M6BdANB3+bwCaj8d7pn67Zj5Ga2ZVkMbLyMfZ
+	9i9lZi5pcYYGqeQTDrc9Emnm0D0Q9+YkRTei3rJI3VDRHGkKiNX11Q9Uws9N3FVx4E6X
+	PfCROSYZy1O7bsfQcOx5Fp3iRArzseSEnJ8KJCJ8nLL4uRaHYZMYVc2X1QxNqlU+5q21
+	V5M+CQoEPoJfhX/0530+0EM34nQiNYZUGSzzH83mZmVrFzlATyDq51JsvuZl/AGvc93s
+	KAxw==
+X-Gm-Message-State: APjAAAWzAO2vzg171NPs3ZDWIAACNvY/GyYd54YKJ7wr8Wa5Zzck59KQ
+	QXp4XmDrcUkDpjmQmnCVOK5Mxv2o
+X-Google-Smtp-Source: APXvYqzd/n+hZseER/Gld+bSthdzVCnV11u+aBQl5do3yeZSJTF7Sw4r215atmNi1PS5g3ug1q2nLQ==
+X-Received: by 2002:a1c:eb07:: with SMTP id j7mr11727169wmh.138.1557033814959; 
+	Sat, 04 May 2019 22:23:34 -0700 (PDT)
 Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
 	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
-	c21sm9524260wme.36.2019.05.04.22.23.15
+	z5sm13323163wre.70.2019.05.04.22.23.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 04 May 2019 22:23:15 -0700 (PDT)
+	Sat, 04 May 2019 22:23:34 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 May 2019 06:23:13 +0100
-Message-Id: <20190505052313.21764-1-alex.kiernan@gmail.com>
+Date: Sun,  5 May 2019 06:23:32 +0100
+Message-Id: <20190505052332.21840-1-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] python3: Add ntpath.py to python core
+Subject: [PATCH] go: Exclude vcs files when installing deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,36 +54,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 May 2019 05:23:15 -0000
+X-List-Received-Date: Sun, 05 May 2019 05:23:34 -0000
 
-The newer python3 recipe no longer includes ntpath.py in core, leading
-to failures in pkg_resources:
+Because our clones use the host git, on (say) Ubuntu 18.04, the local
+git directories acquire perl scripts such as fsmonitor-watchman.sample.
+During packaging, this leads to failures:
 
-  Traceback (most recent call last):
-    File "/usr/bin/bmaptool", line 6, in <module>
-      from pkg_resources import load_entry_point
-    File "/usr/lib/python3.7/site-packages/pkg_resources/__init__.py", line 42, in <module>
-      import ntpath
-  ModuleNotFoundError: No module named 'ntpath'
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: QA Issue: /usr/lib/go/pkg/dep/sources/https---github.com-nsf-termbox--go/.git/hooks/fsmonitor-watchman.sample contained in package go-hsperfdata-staticdev requires /usr/bin/perl, but no providers found in RDEPENDS_go-hsperfdata-staticdev? [file-rdeps]
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa:
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: Function failed: do_package_qa
 
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 ---
 
- meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/go.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-index 0a4ab2cbe43e..0803ac00334e 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -281,6 +281,7 @@
-             "${libdir}/python${PYTHON_MAJMIN}/linecache.py",
-             "${libdir}/python${PYTHON_MAJMIN}/locale.py",
-             "${libdir}/python${PYTHON_MAJMIN}/new.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/ntpath.py",
-             "${libdir}/python${PYTHON_MAJMIN}/opcode.py",
-             "${libdir}/python${PYTHON_MAJMIN}/operator.py",
-             "${libdir}/python${PYTHON_MAJMIN}/optparse.py",
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 7f5e8b99bfc7..b6d9372c5696 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -130,7 +130,7 @@ go_do_install() {
+ 	install -d ${D}${libdir}/go/src/${GO_IMPORT}
+ 	tar -C ${S}/src/${GO_IMPORT} -cf - --exclude-vcs --exclude '*.test' --exclude 'testdata' . | \
+ 		tar -C ${D}${libdir}/go/src/${GO_IMPORT} --no-same-owner -xf -
+-	tar -C ${B} -cf - pkg | tar -C ${D}${libdir}/go --no-same-owner -xf -
++	tar -C ${B} -cf - --exclude-vcs pkg | tar -C ${D}${libdir}/go --no-same-owner -xf -
+ 
+ 	if [ -n "`ls ${B}/${GO_BUILD_BINDIR}/`" ]; then
+ 		install -d ${D}${bindir}
 -- 
 2.17.1
 
