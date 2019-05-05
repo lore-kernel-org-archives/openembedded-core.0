@@ -1,30 +1,22 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AA6CB7D69D
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 668747D088
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  5 May 2019 06:03:47 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4562p1O022314
+	Sun,  5 May 2019 10:04:27 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x45A4Rut008364
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sat, 4 May 2019 23:03:02 -0700
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Sat, 4 May 2019 23:02:41 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <5CC12A3E.4010702@windriver.com>
-	<1556610320-114012-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0LZnTfeC66-BWnhhXrb6w9eRsUH-hMostVgtKLY4mxwA3A@mail.gmail.com>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CCE7E2D.6050008@windriver.com>
-Date: Sun, 5 May 2019 14:09:49 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Sun, 5 May 2019 03:04:27 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Sun, 5 May 2019 03:04:26 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
+Date: Sun, 5 May 2019 18:04:24 +0800
+Message-ID: <1557050664-19389-1-git-send-email-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZnTfeC66-BWnhhXrb6w9eRsUH-hMostVgtKLY4mxwA3A@mail.gmail.com>
-X-Originating-IP: [128.224.162.170]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] glib-2.0: fix ptest failures
+Subject: [PATCH] cpio/tar/native.bbclass: move rmt to sbindir and add a prefix to avoid native clashing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,135 +29,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 05 May 2019 06:03:47 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 05 May 2019 10:04:27 -0000
+Content-Type: text/plain
 
+The rmt in cpio-native and tar-native is clashing, since
+tar-native has set var-NATIVE_PACKAGE_PATH_SUFFIX, we move rmt
+to sbindir, and add suffix NATIVE_PACKAGE_PATH_SUFFIX to sbindir
+could avoid the clashing.
 
+And in Ubuntu, rmt is in sbindir
+$ which rmt
+/usr/sbin/rmt
 
-On 2019年04月30日 21:16, Burton, Ross wrote:
-> On Tue, 30 Apr 2019 at 08:45, <mingli.yu@windriver.com> wrote:
->> From: Mingli Yu <Mingli.Yu@windriver.com>
->>
->> * Install 7 translation packages to fix 7 ptest
->>    failures such as:
->>    | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
->>    | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1716:test_month_names: assertion failed (p_casefold == (o_casefold)): ("nov" == "stu")
->>    | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1731:test_month_names: assertion failed (p_casefold == (o_casefold)): ("jul" == "liep.")
->
-> Would be better if we had a meta-package to install 'all
-> translations', but we don't.
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ meta/classes/native.bbclass             | 1 +
+ meta/recipes-extended/cpio/cpio_2.12.bb | 6 +++---
+ meta/recipes-extended/tar/tar_1.32.bb   | 6 +++---
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
->
->> * Increase the timeout to 15 minutes as the default
->>    timeout which is 5 minutes is not enough to fix below error:
->>    | Executing: glib/actions.test
->>    | Test timed out after 300 seconds
->>    | cleaning up pid 13050
->>    | FAIL: glib/actions.test (Child process killed by signal 9)
->
-> Looks like we're working around a test case that is going to fail
-> because it is timing out.  Let's investigate why it is taking so long
-> instead.
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index e9f6c74..d5b6f6a 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -89,6 +89,7 @@ export lt_cv_sys_lib_dlsearch_path_spec = "${libdir} ${base_libdir} /lib /lib64
+ 
+ NATIVE_PACKAGE_PATH_SUFFIX ?= ""
+ bindir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
++sbindir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+ base_libdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+ libdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+ libexecdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.12.bb
+index cb845c3..3713bf0 100644
+--- a/meta/recipes-extended/cpio/cpio_2.12.bb
++++ b/meta/recipes-extended/cpio/cpio_2.12.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713
+ 
+ inherit autotools gettext texinfo
+ 
+-EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
++EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
+ 
+ do_install () {
+     autotools_do_install
+@@ -34,7 +34,7 @@ do_install () {
+ 
+ PACKAGES =+ "${PN}-rmt"
+ 
+-FILES_${PN}-rmt = "${base_sbindir}/rmt*"
++FILES_${PN}-rmt = "${sbindir}/rmt*"
+ 
+ inherit update-alternatives
+ 
+@@ -46,6 +46,6 @@ ALTERNATIVE_${PN}-rmt = "rmt"
+ ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
+ 
+ ALTERNATIVE_PRIORITY[rmt] = "50"
+-ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
++ALTERNATIVE_LINK_NAME[rmt] = "${sbindir}/rmt"
+ 
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-extended/tar/tar_1.32.bb b/meta/recipes-extended/tar/tar_1.32.bb
+index d14aeb8..7240fdb 100644
+--- a/meta/recipes-extended/tar/tar_1.32.bb
++++ b/meta/recipes-extended/tar/tar_1.32.bb
+@@ -21,7 +21,7 @@ PACKAGECONFIG_append_class-target = " ${@bb.utils.filter('DISTRO_FEATURES', 'acl
+ 
+ PACKAGECONFIG[acl] = "--with-posix-acls,--without-posix-acls,acl"
+ 
+-EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
++EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
+ 
+ # Let aclocal use the relative path for the m4 file rather than the
+ # absolute since tar has a lot of m4 files, otherwise there might
+@@ -45,7 +45,7 @@ do_install_append_class-target() {
+ 
+ PACKAGES =+ "${PN}-rmt"
+ 
+-FILES_${PN}-rmt = "${base_sbindir}/rmt*"
++FILES_${PN}-rmt = "${sbindir}/rmt*"
+ 
+ inherit update-alternatives
+ 
+@@ -57,7 +57,7 @@ ALTERNATIVE_${PN}_class-nativesdk = ""
+ ALTERNATIVE_${PN}-rmt_class-nativesdk = ""
+ 
+ ALTERNATIVE_LINK_NAME[tar] = "${base_bindir}/tar"
+-ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
++ALTERNATIVE_LINK_NAME[rmt] = "${sbindir}/rmt"
+ 
+ PROVIDES_append_class-native = " tar-replacement-native"
+ NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+-- 
+2.7.4
 
-The sub-case named test_dbus_threaded[/actions/dbus/threaded] of 
-glib/actions.test takes almost most of the time, the more details as below.
-
-# time; /usr/libexec/installed-tests/glib/actions -p;time
-
-user	0m58.87s
-
-sys	0m16.89s
-
-/actions/basic: OK
-
-/actions/name: OK
-
-/actions/simplegroup: OK
-
-/actions/stateful: OK
-
-/actions/default-activate: OK
-
-/actions/entries: OK
-
-/actions/parse-detailed: OK
-
-/actions/property: OK
-
-/actions/dbus/export: OK
-
-/actions/dbus/threaded: OK
-
-/actions/dbus/bug679509: OK
-
-user	11m37.67
-s
-sys	2m20.77s
-
-
-
-# time; /usr/libexec/installed-tests/glib/actions -p; time
-user	0m0.11s
-sys	0m0.05s
-/actions/dbus/threaded: OK
-user	6m32.04s
-sys	0m55.54s
-
-
-About the /actions/dbus/threaded,  check 
-https://gitlab.gnome.org/GNOME/glib/blob/master/gio/tests/actions.c#L918 
-for more details.
-
-
-# gnome-desktop-testing-runner --help
-Usage:
-   gnome-desktop-testing-runner [OPTION?] [PREFIX...] - Run installed tests
-[snip]
--t, --timeout=TIMEOUT       Cancel test after timeout seconds; defaults 
-to 5 minutes
-[snip]
-
-
-If use gnome-desktop-testing-runner to run all the glib-2.0 test, we 
-should guarantee all the tests have enough time to run and I don't think 
-the below logic is a workaround, we should increase the timeout if use 
-gnome-desktop-testing-runner.
-
--su glib2-test -c gnome-desktop-testing-runner glib
-+su glib2-test -c "gnome-desktop-testing-runner glib -t 900"
-
-Thanks,
-
->
->> * There are 240+ ptest cases for glib-2.0 and one
->>    case is gdatetime.test. And there are 53 sub-cases
->>    under gdatetime.test.
->>
->>    Among of the 53 sub-cases of gdatetime.test, there
->>    is one sub-case named test_month_names.
->>
->>    For test_month_names case, there are also 64 cases
->>    against it. Comment 2 cases of test_month_names
->>    as a workaround to fix the below test_month_names
->>    failure as the issue also exists in the latest version:
->>    | GLib:ERROR:../glib-2.60.1/glib/tests
->>    /gdatetime.c:1702:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\316\261\317\205\316\263" == "\316\261\317\215\316\263")
->>    | GLib:ERROR:../glib-2.60.1/glib/tests/gdatetime.c:1765:test_month_names: assertion failed (p_casefold == (o_casefold)): ("\320\274\320\260\321\217" == "\320\274\320\260\320\271")
->>
->>    Have reported the above issues to upstream as
->>    https://gitlab.gnome.org/GNOME/glib/issues/1759
->>    and as the failure even exists on the latest version 2.60.1
->>    until now, so comment it as a workaround until the
->>    upstream fixs it.
->
-> The test is failing and we don't know why, so it should continue to
-> fail.  We don't get to 100% pass rate by disabling every test that
-> fails.
->
-> Can you drop the timeout and datetime test removal, leaving just the
-> translation additions?
->
-> Ross
->
 
