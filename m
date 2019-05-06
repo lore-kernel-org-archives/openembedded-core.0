@@ -1,50 +1,55 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f67.google.com (mail-vs1-f67.google.com
-	[209.85.217.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 567BC7C79F
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 136416BE39
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 13:09:30 +0000 (UTC)
-Received: by mail-vs1-f67.google.com with SMTP id g127so8075903vsd.6
+	Mon,  6 May 2019 14:36:16 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id k18so9307703lfj.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 May 2019 06:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fE32cCizL6gvao/DML9FcV7o3i4K04iDg+iuV9vi6VM=;
-	b=YEv+PyTGSI3H4t1xHR6fyCVfapERFpcKejovnv/QU1j63PXyLgaG7tHiJ+9WCZgTzX
-	qJ3F7b3k5hom4S4z4QHUUqB7i0T8zyIhULKvrXM3gSoiqNSJ8+MwlEjpDwhfAN2ugUUW
-	ymfffxaMuc7DzJAjOxEd+eMriETH5SNGLL1ZBG1nmm45jdO9rWrX2RVcQ2Oplxq5xYQl
-	N/7KGxZkCCjefTlGvH76gEPLnL6DXV6xoqM3ePRqYyvpTRxG5M+OnKmkwhSIsOPOWvDs
-	c76P4POcW9XndB0TjksSwk7nPhMlZDxDHlYQZun3TVwhAyrXg5D35X4DplJJeMsqxPpu
-	He0g==
+	Mon, 06 May 2019 07:36:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=XtTdvGePt3C9N0xOlvw5tC5A67edWZ2MDlDF3U9oMb8=;
+	b=giwpZKUG7DjE49GKclO79UB0QTqO60Alt49jvzPrzDoXuaK4YVzMY64khJnVXY4otL
+	5okyjfTZSu/8Pv4GjEdTs+uXN/1rZ7MJK517WSjf1rZkPv50iZ9D/k0T45VWzbqKFLNB
+	Ih142akWrgTWzLZoI7sF9E3qQfMxUIUAomoV7/+2NmC+PxU7rZT7DYX8fmV5VTU2ZB+A
+	EdZqJKATGF6OOKsEkEVSSJW6Q953HSSHhTT0q4vy+dtQsFs95tQ1W5+mqSJpgeZv39ui
+	RwYoD2p4srOl3kempNcgOb5HdeanBjYQ6UhCXTpxtXrUn9shoqcc1LTVfSD7nUbImAr4
+	g8Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=fE32cCizL6gvao/DML9FcV7o3i4K04iDg+iuV9vi6VM=;
-	b=OxUhpDbbCeRsdOrJNBLv49tYICuZrS2SCaNHsMn1ors4bEZ3ax5cOGzBrBJXNKRF5N
-	GPdMw0FNElWL8xno0LzOXR/HjKxDzfP283OzK3SlZVpxDY8tGgsbXnTRFm2TJenrerkn
-	xALQ1JSgVmPfL4uyUFVvReHfjVMU7Ijt6/kXpgBuzEVzHhgMwG/QLgZaAwJ31x8QNy46
-	/BIELijhrbR1RfPANcIEdO3VHzKS4SNSI5yveqSQu55WFLOo/U1L4IBlWTNeWWk/JqdK
-	ZzHqV35WuphUqDRl6UyBVxRB8dLjNpAKBiZHUyivT2lzzG/m/R+I6kgUJ0HRhHmOPJKd
-	pk5g==
-X-Gm-Message-State: APjAAAV1GMmkhalF7TksTgeNzlCuESzc7XyggnCmqNYit8nhaD9WCXMj
-	gmcQTztgXIFPPXCGScL1UJlHZ73KFcHnTLHMAgp0Ww==
-X-Google-Smtp-Source: APXvYqwpT7Degao/X6/y3DvBmDCJ53+2FLplu5ZFHNi9UMbR9UbHZ4djwuNBoLmqjqRNPkPBNivwNn6uuXfIrE84kxU=
-X-Received: by 2002:a67:ca8f:: with SMTP id a15mr10017253vsl.22.1557148171023; 
-	Mon, 06 May 2019 06:09:31 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=XtTdvGePt3C9N0xOlvw5tC5A67edWZ2MDlDF3U9oMb8=;
+	b=s0hDxk5gcFONahPa2si/6C/7e4RTboVcZMpC8gG+uc3VKOU8o8D4OhxaLdazaUQEv1
+	C6HIS4NFUSLoXiprrQOtEN38Esi0YB/jjFRueUjTy6fivuaT0GVnO8+NyrB3bLMEEfVO
+	yRmoPEdNuuEfaazVzbOHOHNZz7sFLU1iPhYH15oXbQEMrzCxt0Bi0o9658bkUszP0Gqe
+	a0lQdgAi91id0HLOjuQ8Z+yAkTUsbTRtgJvB8cc4XJIZjRbXp0G8A7HKzawVmJBDE/fZ
+	wQUtb+Bg+Syh+zZE1unRq/ubk8srDQjSDXmeJa7Vg80Rx4IAub3/hX6MlSHxxL5bv4pr
+	oOvg==
+X-Gm-Message-State: APjAAAXjFT6mFw2xTrXQMHy/uIsybqRYGO/0zXgNR6m+h5bonHCFGz6l
+	/FZKKaS5ew31CH9XGu70HPsYIw==
+X-Google-Smtp-Source: APXvYqy87Ty/PuB9B87Kx5tQX9W/6ltWj/hmHcPkgb/j3ZduHnyJbt35xd8z/f0+p9kq1jSrfQuMlQ==
+X-Received: by 2002:ac2:4186:: with SMTP id z6mr834295lfh.50.1557153377468;
+	Mon, 06 May 2019 07:36:17 -0700 (PDT)
+Received: from [192.168.0.8] (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	z12sm2638403lfh.72.2019.05.06.07.36.16
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 07:36:16 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>
+References: <20190424051620.10065-1-open.source@oleksandr-kravchuk.com>
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Message-ID: <bdd177a6-9d65-ed60-cb2f-20fea4effbea@oleksandr-kravchuk.com>
+Date: Mon, 6 May 2019 16:36:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190503164850.130865-1-alex.kiernan@gmail.com>
-	<3ddf9772-185b-2f7a-6a27-c8dffaf8bc62@norrbonn.se>
-	<CAO5Uq5QL1i3gBmprySJBHBRQRiRVjWbKL11+-vn7qsmLqRD9Mw@mail.gmail.com>
-	<db105b21-d7b8-9b51-e026-48199339e500@norrbonn.se>
-In-Reply-To: <db105b21-d7b8-9b51-e026-48199339e500@norrbonn.se>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Mon, 6 May 2019 14:09:19 +0100
-Message-ID: <CAO5Uq5Sh-un+M6y4DYAaLuUh_rN2JosRhmi9iBtrDokummmb_g@mail.gmail.com>
-To: Jonas Bonn <jonas@norrbonn.se>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Default to non-stateless images
+In-Reply-To: <20190424051620.10065-1-open.source@oleksandr-kravchuk.com>
+Subject: Re: [PATCH v2] ell: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,70 +62,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 13:09:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 06 May 2019 14:36:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Mon, May 6, 2019 at 12:18 PM Jonas Bonn <jonas@norrbonn.se> wrote:
+Khem -
+
+Is it being hold for a specific reason or it was just lost? Thanks.
+
+On 24/04/2019 07:16, Oleksandr Kravchuk wrote:
+> ELL has originally been part of meta-openembedded, but newer versions
+> of some of the oe-core components depend on it, e.g. ofono.
 >
-> Hi Alex,
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc |  1 +
+>  meta/recipes-core/ell/ell_0.19.bb        | 22 ++++++++++++++++++++++
+>  2 files changed, 23 insertions(+)
+>  create mode 100644 meta/recipes-core/ell/ell_0.19.bb
 >
-> On 06/05/2019 11:36, Alex Kiernan wrote:
-> > On Mon, May 6, 2019 at 5:54 AM Jonas Bonn <jonas@norrbonn.se> wrote:
-> >>
-> >> Hi Alex,
-> >>
-> >> The below is fine and looks good.  The one thing that bothers me about
-> >> this is that "stateless" isn't really a property of the "distro", rather
-> >> it's a property of the image/machine.
-> >
-> > I agree it should be part of image, I'll respin it.
-> >
-> >>   I suspect, in the same sense that
-> >> we have readonly-rootfs, that we should probably have image features
-> >> "stateless-rootfs" (no /etc, no /var) and "volatile-rootfs" (no /var).
-> >>
-> >
-> > That makes sense to me
-> >
-> >> Furthermore, if you want to boot with 'ro' on the command-line, I really
-> >> think you need to build your image with the "readonly-rootfs" feature
-> >> set.  The default should be writable+persistent /etc as that's the
-> >> configuration used 99% of the time (currently).  "readonly-rootfs" does
-> >> a bit more than just creating machine-id but it's all relevant to the
-> >> 'ro' case where /etc isn't writable.
-> >>
-> >
-> > I think there's (at least) two use cases for ro boot:
-> >
-> > - systems which boot ro and stay that way
-> > - systems which transition to rw during systemd-remount-fs
-> >
-> > I'm in the second case as I have no initramfs and need the filesystem
-> > readonly until it's fscked/remounted rw.
->
-> I'd argue that you are abusing systemd for this because systemd
-> explicity requires /etc to be writable.  The fact that it works on a
-> read-only /etc is both incidental and fragile.
->
-
-Not sure... systemd is explicit in its machinery for some parts of
-this ro->rw transition (e.g. systemd-machine-id-commit.service),
-though it's admittedly silent on what the state of the rest of /etc
-is.
-
-> That said, I understand why you want to do this.  Have you considered
-> putting the fsck in a "systemd generator" that doesn't return until fsck
-> finishes?  Generators are kind of like units that run before systemd
-> starts... or, at least, they can be (ab)used in this way.  Systemd won't
-> start until all the generators are finished (the idea being that the
-> generators may be responsible for creating units dynamically).
->
-
-If systemd comes along and breaks it yes... or I'll teach
-ostree-prepare-root how to do it, but right now the sequencing is all
-there in systemd.
-
-
---
-Alex Kiernan
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 41c2a95d53..c00e5b8c65 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -166,6 +166,7 @@ RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
+>  RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
+> +RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+>  RECIPE_MAINTAINER_pn-enchant = "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
+>  RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> diff --git a/meta/recipes-core/ell/ell_0.19.bb b/meta/recipes-core/ell/ell_0.19.bb
+> new file mode 100644
+> index 0000000000..8f635e673c
+> --- /dev/null
+> +++ b/meta/recipes-core/ell/ell_0.19.bb
+> @@ -0,0 +1,22 @@
+> +SUMMARY  = "Embedded Linux Library"
+> +DESCRIPTION = "The Embedded Linux Library (ELL) provides core, \
+> +low-level functionality for system daemons. It typically has no \
+> +dependencies other than the Linux kernel, C standard library, and \
+> +libdl (for dynamic linking). While ELL is designed to be efficient \
+> +and compact enough for use on embedded Linux platforms, it is not \
+> +limited to resource-constrained systems."
+> +SECTION = "libs"
+> +LICENSE  = "LGPLv2.1"
+> +LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
+> +
+> +DEPENDS = "dbus"
+> +
+> +inherit autotools pkgconfig
+> +
+> +SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+> +SRC_URI[md5sum] = "4356397ca11d5f8ec7f1aaf1e91ffea4"
+> +SRC_URI[sha256sum] = "a5a4d45ca002dd91560fcd565e696f59e82631e69c927115dafc640f0b8d779c"
+> +
+> +do_configure_prepend () {
+> +    mkdir -p ${S}/build-aux
+> +}
 
