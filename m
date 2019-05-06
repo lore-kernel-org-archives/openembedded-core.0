@@ -1,39 +1,62 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0E57D4C6
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 858AB7CBE4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 09:51:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44yJ065btCz54;
-	Mon,  6 May 2019 11:51:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1557136264;
-	bh=QsM+5mqEp5sdV0QrC9uThaQAoDGyTMV1foEsmAiPCvE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cXuWIItMG4mZ0fVwK4S4o9C1fycv3VQwhmbGRwhr1omlg9PR8phB/eHRs801KydiP
-	cV5Fwo0EnVah+XQZQ7/HjJidh3rQaUgkYE4fOSU8uqhNPw/ZHsptW46z4V72kyAV97
-	e+6rCXX582COrGcNftnr04mjIz+jGmjaL1/SzyqsyZnFsDiRO1jaIQO2b02/SOmJsE
-	qLD5ytQruUp0w9Zjca/xod+TlnFUQU7LrVDINcNqcnvfJvibYxwzQJb6aZaflgJ/NB
-	RAd9wpzYVTkyiqPd+D3SKv02POOFWIvCgSapyhmi76yQv28tvZxHbB2t+xDoAxyIB6
-	qgnrIDrVaTdq1XodHFJsA3iJ6DdUX/xV5sL0r9jGOv8k/viSCd5DlRMNdQi8lGcJYe
-	iubcapasn9d54FTyI5UXtPWxlI+wvnWpaFBobtMZruSQ8ZilC7wVoKbaMAZ6bi35Z8
-	WeQ4gf4x9qFZZkojdszJrkbkC0HyZl6I3uThNAQYA9+NcIlkK5EPgWzX3Jak2p5IGu
-	4JiM9LoBMJ4GQYFWhs8KbpMke9my5y6eSbLfbWIyTjRfJGLUG2uvaY6/XKbxRGu1PV
-	SeESi/mYXe9Q2NVJoksI32x/0p8d32k6q6IoTO9tlL1ziXrM6ZuJ0uL0Fb7mrQ3Om/
-	O6GchGL/xOOxheIwLY7wP2Mc=
-Date: Mon, 6 May 2019 12:50:59 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <20190506095059.GA11818@localhost>
-References: <5CC12A3E.4010702@windriver.com>
-	<1556610320-114012-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0LZnTfeC66-BWnhhXrb6w9eRsUH-hMostVgtKLY4mxwA3A@mail.gmail.com>
-	<5CCE7E2D.6050008@windriver.com>
+	Mon,  6 May 2019 10:28:19 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id E4F7018324;
+	Mon,  6 May 2019 12:28:19 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id 8jA0IqiKgJbp; Mon,  6 May 2019 12:28:19 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id F15DB1832D;
+	Mon,  6 May 2019 12:28:18 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id CE6921E077;
+	Mon,  6 May 2019 12:28:18 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C1ABD1E076;
+	Mon,  6 May 2019 12:28:18 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Mon,  6 May 2019 12:28:18 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id B4E482ABD;
+	Mon,  6 May 2019 12:28:18 +0200 (CEST)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Mon, 6 May 2019 12:28:18 +0200
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Mon, 6 May 2019 12:28:18 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Mon, 6 May 2019 12:28:18 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Jonas Bonn <jonas@norrbonn.se>, Alex Kiernan <alex.kiernan@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [OE-Core][PATCH] systemd: Default to non-stateless
+	images
+Thread-Index: AQHVAdAvgu2VlQXeoEC6gzcoE2PL1qZdamcAgAB6nVA=
+Date: Mon, 6 May 2019 10:28:18 +0000
+Message-ID: <a07a16cb88284954a5d1b3774a6b2fcd@XBOX04.axis.com>
+References: <20190503164850.130865-1-alex.kiernan@gmail.com>
+	<3ddf9772-185b-2f7a-6a27-c8dffaf8bc62@norrbonn.se>
+In-Reply-To: <3ddf9772-185b-2f7a-6a27-c8dffaf8bc62@norrbonn.se>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <5CCE7E2D.6050008@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] glib-2.0: fix ptest failures
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH] systemd: Default to non-stateless images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +69,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 09:51:04 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 06 May 2019 10:28:20 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, May 05, 2019 at 02:09:49PM +0800, Yu, Mingli wrote:
-> On 2019年04月30日 21:16, Burton, Ross wrote:
-> > On Tue, 30 Apr 2019 at 08:45, <mingli.yu@windriver.com> wrote:
->...
-> > > * Increase the timeout to 15 minutes as the default
-> > >    timeout which is 5 minutes is not enough to fix below error:
-> > >    | Executing: glib/actions.test
-> > >    | Test timed out after 300 seconds
-> > >    | cleaning up pid 13050
-> > >    | FAIL: glib/actions.test (Child process killed by signal 9)
-> > 
-> > Looks like we're working around a test case that is going to fail
-> > because it is timing out.  Let's investigate why it is taking so long
-> > instead.
-> 
-> The sub-case named test_dbus_threaded[/actions/dbus/threaded] of
-> glib/actions.test takes almost most of the time, the more details as below.
->...
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Jonas Bonn
+> Sent: den 6 maj 2019 06:54
+> To: Alex Kiernan <alex.kiernan@gmail.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [OE-Core][PATCH] systemd: Default to non-
+> stateless images
+>=20
+> Hi Alex,
+>=20
+> The below is fine and looks good.  The one thing that bothers me about
+> this is that "stateless" isn't really a property of the "distro",
+> rather
+> it's a property of the image/machine.  I suspect, in the same sense
+> that
+> we have readonly-rootfs, that we should probably have image features
+> "stateless-rootfs" (no /etc, no /var) and "volatile-rootfs" (no /var).
+>=20
+> Furthermore, if you want to boot with 'ro' on the command-line, I
+> really
+> think you need to build your image with the "readonly-rootfs" feature
+> set.  The default should be writable+persistent /etc as that's the
+> configuration used 99% of the time (currently).  "readonly-rootfs" does
+> a bit more than just creating machine-id but it's all relevant to the
+> 'ro' case where /etc isn't writable.
+>=20
+> Just for clarification:
+>=20
+> i)  volatile-rootfs:  means there's no point in prepopulating /var
+> because it's on a tmpfs and needs to be populated at boot time
 
-On what hardware it this?
+This doesn't really say anything about the state of the rootfs outside=20
+of /var, i.e., is it writable or read-only?
 
-cu
-Adrian
+> ii)  stateless-rootfs:  means there's no point in prepopulating neither
+> /etc nor /var because they are on a tmpfs and need to be populated at
+> boot time
 
--- 
+Same here.
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+> iii)  readonly-rootfs:  means that /etc is really not writable so it's
+> important that: the systemd first-boot stuff needs to be done at build
+> time:  machine-id, unit files set up, all tmpfiles.d snippets that
+> touch /etc and /var need to be done in advance.
+>=20
+> /Jonas
+
+Maybe we need some more generic way of describing the intended=20
+structure of the image? E.g., what are the expected behavior of=20
+/etc, /var and the rest of the rootfs? For each they can typically=20
+be "read-only", "persistent" (writable and survives reboots) or=20
+"volatile" (writable, but doesn't survive a reboot).
+
+//Peter
 
 
