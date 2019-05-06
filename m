@@ -1,48 +1,30 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id D08E06007A
+Return-Path: <Anton.Popov@t-platforms.ru>
+X-Greylist: delayed 516 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 06 May 2019 15:46:49 UTC
+Received: from mx1.t-platforms.ru (mx1.t-platforms.ru [80.85.246.77])
+	by mail.openembedded.org (Postfix) with ESMTP id 3042C6007A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 15:42:08 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id l203so9921782oia.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 06 May 2019 08:42:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=qza2iARJpTGgWIKcNtNXOGu9ggiqH7Ax+nFBimA/Dpw=;
-	b=QS6YiZiH36kN2j+5Si4oHMuewRCtYvum1aqyosJDGjw7YiQLis6dO1bxGfq0rQxIxl
-	e9Edt3Rc8/4Zx7gw/ulNbst8wCbYTD3oaNdMVYveJY1YAeaLzilwantBF2/R2ayDN+Kk
-	tckd+IgquoG+uq3aCnRnOEzGuW6+tzb4Q9SEjlRl5wIrzyhNaF5ekNXjGHX3lyXw9CfB
-	1TQTaMOkYXA1PX/n3EASAkD8L/7MYQKUKDsQExJ3aQ2/AFvkmzAeH18Z6T4V7KlWK+dW
-	IgRfDbmWOKko68gp9q/GBb1PPI8x9gsr7Ei195vB0uCuJg1Pv4yk905AOdgZ+8E7vlAQ
-	w7Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=qza2iARJpTGgWIKcNtNXOGu9ggiqH7Ax+nFBimA/Dpw=;
-	b=CpPOILsKb5WCrsUDCtHGiyjiIFwsZOkm2HsUom4idcad51AJ+v/sKCO/8EWyUerTcW
-	W2bxxnEDutPW2yeGf0IU88K1506/Y2i8RXNHIABQGlEwepHjsPKbaXlQKqO0+nNKJcHi
-	4K6+RL2R9g6V267+oiPuXfXz7zutSIoNqJ7WkGVz6SoMOJBIBxnqYglIQa2PT/XHZrGw
-	sVLiYXNVaGv9PpRn2Zxk3tIeYaNeVf0p33+wJWTtoglWfZcr7YkmfpzeKo+oNeH+4iQz
-	EkixiowOWHjMAfq1RVP2p5mNAWsnTPHDdVI9hurCF2ZNZC3UOc5alpQfmimOJZzGzNSk
-	hlaw==
-X-Gm-Message-State: APjAAAU0aQRoDOc75dkb7uQemh4rs/LAUxev+R1S7B6POsWNTFnARpNQ
-	ZbQGDqBXO0gTYIy80MUGJKt2lrb0XTLtg4MPD+A=
-X-Google-Smtp-Source: APXvYqzfoR8P7Sk9w8a4F+OmxXkJLFqMgK2Mvh3rsHLc7QazqouS3UfgIzDClnSaZmWshYsqcdRGht5K7rCrEANPuqo=
-X-Received: by 2002:a05:6808:18c:: with SMTP id
-	w12mr1611386oic.88.1557157329820; 
-	Mon, 06 May 2019 08:42:09 -0700 (PDT)
+	Mon,  6 May 2019 15:46:49 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at t-platforms.ru
+From: Popov Anton <Anton.Popov@t-platforms.ru>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] util-linux: fix owner and group for binaries
+	in resulting  image
+Thread-Index: AdUEIbXgybET3lDUTBqnGc0n+AxLOA==
+Date: Mon, 6 May 2019 15:38:10 +0000
+Message-ID: <B32C5021EF3D894688F75677907CBC734599A785@pvmmail.tp-local.ru>
+Accept-Language: ru-RU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-kse-attachmentfiltering-interceptor-info: protection disabled
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean, bases: 06.05.2019 11:11:00
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
 MIME-Version: 1.0
-References: <20190424051620.10065-1-open.source@oleksandr-kravchuk.com>
-	<bdd177a6-9d65-ed60-cb2f-20fea4effbea@oleksandr-kravchuk.com>
-In-Reply-To: <bdd177a6-9d65-ed60-cb2f-20fea4effbea@oleksandr-kravchuk.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 6 May 2019 17:41:58 +0200
-Message-ID: <CANNYZj9gNDaNgzx=240=thj_QA6h0Wrs_qvwfSabun72-r-Pog@mail.gmail.com>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] ell: add recipe
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+Subject: [PATCH] util-linux: fix owner and group for binaries in resulting image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,74 +37,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 15:42:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 06 May 2019 15:46:49 -0000
+Content-Language: ru-RU
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Please resend, patches do get lost sometimes.
-
-Alex
-
-On Mon, 6 May 2019 at 16:36, Oleksandr Kravchuk
-<open.source@oleksandr-kravchuk.com> wrote:
->
-> Khem -
->
-> Is it being hold for a specific reason or it was just lost? Thanks.
->
-> On 24/04/2019 07:16, Oleksandr Kravchuk wrote:
-> > ELL has originally been part of meta-openembedded, but newer versions
-> > of some of the oe-core components depend on it, e.g. ofono.
-> >
-> > Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> > ---
-> >  meta/conf/distro/include/maintainers.inc |  1 +
-> >  meta/recipes-core/ell/ell_0.19.bb        | 22 ++++++++++++++++++++++
-> >  2 files changed, 23 insertions(+)
-> >  create mode 100644 meta/recipes-core/ell/ell_0.19.bb
-> >
-> > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-> > index 41c2a95d53..c00e5b8c65 100644
-> > --- a/meta/conf/distro/include/maintainers.inc
-> > +++ b/meta/conf/distro/include/maintainers.inc
-> > @@ -166,6 +166,7 @@ RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> >  RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> >  RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> >  RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
-> > +RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
-> >  RECIPE_MAINTAINER_pn-enchant = "Anuj Mittal <anuj.mittal@intel.com>"
-> >  RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
-> >  RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
-> > diff --git a/meta/recipes-core/ell/ell_0.19.bb b/meta/recipes-core/ell/ell_0.19.bb
-> > new file mode 100644
-> > index 0000000000..8f635e673c
-> > --- /dev/null
-> > +++ b/meta/recipes-core/ell/ell_0.19.bb
-> > @@ -0,0 +1,22 @@
-> > +SUMMARY  = "Embedded Linux Library"
-> > +DESCRIPTION = "The Embedded Linux Library (ELL) provides core, \
-> > +low-level functionality for system daemons. It typically has no \
-> > +dependencies other than the Linux kernel, C standard library, and \
-> > +libdl (for dynamic linking). While ELL is designed to be efficient \
-> > +and compact enough for use on embedded Linux platforms, it is not \
-> > +limited to resource-constrained systems."
-> > +SECTION = "libs"
-> > +LICENSE  = "LGPLv2.1"
-> > +LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
-> > +
-> > +DEPENDS = "dbus"
-> > +
-> > +inherit autotools pkgconfig
-> > +
-> > +SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
-> > +SRC_URI[md5sum] = "4356397ca11d5f8ec7f1aaf1e91ffea4"
-> > +SRC_URI[sha256sum] = "a5a4d45ca002dd91560fcd565e696f59e82631e69c927115dafc640f0b8d779c"
-> > +
-> > +do_configure_prepend () {
-> > +    mkdir -p ${S}/build-aux
-> > +}
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+util-linux source produce some binaries with setuid bit set=0A=
+=0A=
+do_install function produce binaries in /sbin and /bin with uid:gid=0A=
+of user who build image this lead to messages like this:=0A=
+mount /dev/sdb1 /mnt/flash=0A=
+mount: only root can do that (effective UID is 1000)=0A=
+this patch changing owner of binaries in /bin and /sbin to 0:0=0A=
+=0A=
+Signed-off-by: Anton Popov <Anton.Popov@t-platforms.ru>=0A=
+---=0A=
+ meta/recipes-core/util-linux/util-linux.inc | 21 +++++++++++++++++++++=0A=
+ 1 file changed, 21 insertions(+)=0A=
+=0A=
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-cor=
+e/util-linux/util-linux.inc=0A=
+index 34255a2dec..d75a2dd399 100644=0A=
+--- a/meta/recipes-core/util-linux/util-linux.inc=0A=
++++ b/meta/recipes-core/util-linux/util-linux.inc=0A=
+@@ -201,6 +201,27 @@ do_install () {=0A=
+     fi=0A=
+ }=0A=
+ =0A=
++# when building yocto image with non-root user some binaries appears in re=
+sulting=0A=
++# image with rights of user who build image. This behaviour may lead to mi=
+sfunction =0A=
++# of some binaries like mount because of setuid bit on them:=0A=
++# mount /dev/sdb1 /mnt/flash                                              =
+                                                                           =
+                =0A=
++# mount: only root can do that (effective UID is 1000)=0A=
++# ls -ld which mount=0A=
++# lrwxrwxrwx    1 root     root            21 Jan  2  1970 /bin/mount -> /=
+bin/mount.util-linux                                                       =
+                                # root@mitx-fp32:/mnt/system/initrd# ls -ld=
+ /bin/mount.util-linux                                                     =
+                                                               # -rwsr-xr-x=
+    1 1000     1000         28020 Apr 23 12:49 /bin/mount.util-linux       =
+                                                                           =
+                     =0A=
++do_install_append_class-target () {=0A=
++    for p in $sbinprogs $sbinprogs_a; do=0A=
++        if [ -f "${D}${base_sbindir}/$p" ]; then=0A=
++            chown 0:0 "${D}${base_sbindir}/$p"=0A=
++        fi=0A=
++    done=0A=
++    for p in $binprogs_a; do=0A=
++        if [ -f "${D}${base_bindir}/$p" ]; then=0A=
++            chown 0:0 "${D}${base_bindir}/$p"=0A=
++        fi=0A=
++    done=0A=
++}=0A=
++=0A=
++=0A=
+ # nologin causes a conflict with shadow-native=0A=
+ # kill causes a conflict with coreutils-native (if ${bindir}=3D=3D${base_b=
+indir})=0A=
+ do_install_append_class-native () {=0A=
+-- =0A=
+2.20.1=0A=
 
