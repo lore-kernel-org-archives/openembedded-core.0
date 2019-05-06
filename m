@@ -1,50 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
-	[209.85.210.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 657EE7D0FB
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 77A9A7D391
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  6 May 2019 17:51:43 +0000 (UTC)
-Received: by mail-pf1-f176.google.com with SMTP id z26so7157230pfg.6
+Received: by mail-pf1-f195.google.com with SMTP id g3so7157118pfi.4
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 06 May 2019 10:51:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9yVjfFDv+uCbhxafIHG5t3LrTWEnU1DXIqhreRyr17w=;
-	b=kJg8aHJ/Hpa6oBZrFNd9kvRFDo5Cenl64LzYd5G5cl0/T6pd23ISrIkm5nxR/+AjuN
-	3Cw8xZAA0mgJj2jyx8NEE/UqLVy1vcQVlrcgea9d9bgwE6GTp457L5X7EaEdYA1EDM9R
-	mn/73tBGhZG27idPCKDS/b7d9GpPurBmCxazX5eURYAzDWrG5o3EUcHzev3vS7p9MGPg
-	OBVpM6urf7U2VY12fuDEo4wWx2jFnb+rTHGbl2YFi0n7v9me8lbGCJnGbCb7gBSKy4DG
-	R34WRYI/dBZxlG4KngBfLSZp9LkPFGH04qoVrPY9PfVxTS/WC1H9rg/JogDelMA5Q1DW
-	kRLw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=LEkfMaWY9uGXqW33P3GGSxP9mi6XMnIoV6MSqL99V6Y=;
+	b=gdh9F5XPZmkeSaMf0OtJPdL9a38Intze7aAgdX/SfwkF4D7cQGR5H6HkzWspzNJcVV
+	0Z5AYoXoGwi4q/2dZsqjXtiZ1m/rKH2ZaN7N8QMJHcQEPX7gpTGM5vyCaKM3qSft37iv
+	BZtpG21+l04lSpf4LQPnI7CWg42BgfRkv+jTs4k7Kfql98k7JUeJP3YNXwEMO9kvQ2wM
+	ElQtLGmZje933TJQ1wGZDpp1n/YLJP6YeTAUI4VOGZPEess/dddfB6jVExqFvnMR5T0O
+	WI76DeSOaBbCnnXvTZ1aQnGjLWsyotIJILbdU/Klfs9KImkNR+CmZ7ncol9wA43VW6mm
+	sfNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=9yVjfFDv+uCbhxafIHG5t3LrTWEnU1DXIqhreRyr17w=;
-	b=g9YHZ5J2aQTdDV/3eUGzy/uz8Wxt1UXzhqXfkdons5OK4XPJFOA9vG1U6+jc7dTHJR
-	9cie/+LS3J2OxaJkvt6KjjH1U4y+iFnikj8HCROZVcp0Q7qn0acjWom1fVLgG65hf4vR
-	eQbG/4qO/DdKzqe7e2tlg5ruao6oa+fQ/SqoAils/gd3VRZh0r3YMdgZS7kjzwPuxU4a
-	g2Co7q88Jq8y138BecD0QXRmEoAZgim/rwJaxIGrioHz0wFzFfMWOQSNE1toKwTEPuYC
-	vc/ZlBe4kpj5QmNwwIOvgdDLIOR4mlGiQ6qa9noanJ7woB7xLZ9DUFJuYKgnZyAOtbqc
-	lSpQ==
-X-Gm-Message-State: APjAAAXGjm/VpF9HkBuRyn6Quz9Wj9PMimgWyJrlwB7qF3Ut/L+F9iPz
-	Dddeg1RAQSYlHvHSfrCyHtSE/VOJYzs=
-X-Google-Smtp-Source: APXvYqzyuvtIEyfGo+vpiuyi1tXh1w0a02AyF/AWad816TKlGUF/RmSbX3HI8Hzaf/BTB1XEMcN3Ow==
-X-Received: by 2002:a62:582:: with SMTP id 124mr20237909pff.209.1557165103599; 
-	Mon, 06 May 2019 10:51:43 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=LEkfMaWY9uGXqW33P3GGSxP9mi6XMnIoV6MSqL99V6Y=;
+	b=GyOz9rB0GwRtvjmppO4ySXotC+N8Y4EbqAFQWYlP7mgxDr3CaKcJYOq1ElKSqttr4o
+	U5VocycSRPmfHjNCHUWLs9jqhBARyA6o25Ep3H/FPjmawZ1cG5jxzqqVE48eiPmSGBJp
+	Ei4cxdY1YjA1qOUw6Be4lMZZ2TMIq5fV507FaWaB31K5z0OgYup9zF5pMKUTPfkziAIb
+	24LEAXGtj4m3/m8BRkocQQaAly8gtnMgG4DUwCu0JhK8ABvgXdl7+b6eFZ1s4yUTwAyY
+	qPfeVOaqxC4ylYvCDfaHBcknO4C5RJN5laKFoIVeiVhjGpcX9qXyXwLOamm8SvXY7kFU
+	tP3A==
+X-Gm-Message-State: APjAAAUYEtb2Lt6+urxiqF2/5IpYTj0/BslLjYTSfQ5RiVuFarrEK+WS
+	/o8EHLEcOXQNhMOUbFwSZ2Fxd0t9BNg=
+X-Google-Smtp-Source: APXvYqws54O0B4XQRPESZA4uKXgknKqPweR7TJZHQG2Vt2vu7vG9OKYWXeBk7VuFZGNV0HN0P6NTXQ==
+X-Received: by 2002:a62:b602:: with SMTP id j2mr35092528pff.68.1557165104253; 
+	Mon, 06 May 2019 10:51:44 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::592a])
 	by smtp.gmail.com with ESMTPSA id
-	n7sm14764022pff.45.2019.05.06.10.51.42
+	n7sm14764022pff.45.2019.05.06.10.51.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Mon, 06 May 2019 10:51:43 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 May 2019 10:51:35 -0700
-Message-Id: <20190506175136.7594-1-raj.khem@gmail.com>
+Date: Mon,  6 May 2019 10:51:36 -0700
+Message-Id: <20190506175136.7594-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190506175136.7594-1-raj.khem@gmail.com>
+References: <20190506175136.7594-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] systemd: Fix build with gcc9
+Subject: [PATCH 2/2] gcc-target: Do not set --with-sysroot and gxx-include-dir paths
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,77 +60,42 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 06 May 2019 17:51:43 -0000
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-gcc9 throws additional warnings about format string overflow
+These options are not needed on target infact since the defaults would
+be good enough for compiler to find the relevant headers and libraries
+from compiler runtime
+
+with gcc9 it starts to strip the sysroot from gxx-include-dir which
+means it tries to look for gxx headers in localdir
+
+ignoring nonexistent directory "usr/include/c++/9.0.1"
+ignoring nonexistent directory "usr/include/c++/9.0.1/arm-yoe-linux-gnueabi"
+ignoring nonexistent directory "usr/include/c++/9.0.1/backward"
+
+instead of sysroot
+
+Removing these options make it behave normal
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...-format-overflow-warnings-with-gcc-9.patch | 41 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_242.bb      |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch
+ meta/recipes-devtools/gcc/gcc-target.inc | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch b/meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch
-new file mode 100644
-index 0000000000..510ac22150
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch
-@@ -0,0 +1,41 @@
-+From c8050da8b7b0e59e4d1d0e15a92b9ecad299dbbb Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 6 May 2019 10:41:15 -0700
-+Subject: [PATCH] Fix format-overflow warnings with gcc-9
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+gcc-9 has become a bit stricter and can check all kind of formatted
-+input/output functions which causes additional warnings when compiling
-+networkd
-+
-+/src/basic/log.h:104:9: error: ‘%s’ directive argument is null [-Werror=format-overflow=]
-+         log_internal_realm(LOG_REALM_PLUS_LEVEL(LOG_REALM, (level)), __VA_ARGS__)
-+
-+see https://github.com/systemd/systemd/issues/12454
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/network/networkd-link.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
-+index 533193ac93..976cbbeaaa 100644
-+--- a/src/network/networkd-link.c
-++++ b/src/network/networkd-link.c
-+@@ -339,7 +339,8 @@ static int link_enable_ipv6(Link *link) {
-+         r = sysctl_write_ip_property_boolean(AF_INET6, link->ifname, "disable_ipv6", disabled);
-+         if (r < 0)
-+                 log_link_warning_errno(link, r, "Cannot %s IPv6 for interface %s: %m",
-+-                                       enable_disable(!disabled), link->ifname);
-++                                       enable_disable(!disabled),
-++                                       (link->ifname) ? link->ifname : "<null>");
-+         else
-+                 log_link_info(link, "IPv6 successfully %sd", enable_disable(!disabled));
-+ 
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
-index a6b39d57e8..93c4472bab 100644
---- a/meta/recipes-core/systemd/systemd_242.bb
-+++ b/meta/recipes-core/systemd/systemd_242.bb
-@@ -22,6 +22,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0003-implment-systemd-sysv-install-for-OE.patch \
-            file://0004-rules-whitelist-hd-devices.patch \
-            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
-+           file://0006-Fix-format-overflow-warnings-with-gcc-9.patch \
-            file://99-default.preset \
-            "
+diff --git a/meta/recipes-devtools/gcc/gcc-target.inc b/meta/recipes-devtools/gcc/gcc-target.inc
+index 6270059644..bdc6ff658f 100644
+--- a/meta/recipes-devtools/gcc/gcc-target.inc
++++ b/meta/recipes-devtools/gcc/gcc-target.inc
+@@ -2,9 +2,7 @@ GCCMULTILIB = "--enable-multilib"
+ require gcc-configure-common.inc
  
+ EXTRA_OECONF_PATHS = "\
+-    --with-sysroot=/ \
+     --with-build-sysroot=${STAGING_DIR_TARGET} \
+-    --with-gxx-include-dir=${includedir}/c++/${BINV} \
+ "
+ 
+ EXTRA_OECONF_append_linuxstdbase = " --enable-clocale=gnu"
 -- 
 2.21.0
 
