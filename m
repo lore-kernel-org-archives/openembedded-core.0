@@ -1,48 +1,48 @@
-Return-Path: <s.mueller-klieser@phytec.de>
-Received: from mickerik.phytec.de (mickerik.phytec.de [195.145.39.210])
-	by mail.openembedded.org (Postfix) with ESMTP id 71EEE7D485
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B2717D4DE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 08:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
-	q=dns/txt; i=@phytec.de; t=1557131355; x=1559723355;
-	h=From:Sender:Reply-To:Subject:Date:Message-Id:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=gFKqiU1+q5Nln4P9disJbACrd69KXylWzOe7xvFUUNg=;
-	b=ReQdNrQbGGozdUPg4qyI0rNZcxpUZaw/dQghXk1+C/QKse1mxacQRb71xWSha2Hc
-	UnBnTDJByqBfMJhZm4HEtM1VDZsWB2eQQr1tN9hny8kRbEfVpoPFKy0DFbuOI4Aw
-	KaqniUEL1OsIRC7EsXVakymrBsQo1TgXp6VcjxY7Ht4=;
-X-AuditID: c39127d2-4f7ff70000000d5a-e7-5ccff05b6300
-Received: from idefix.phytec.de (idefix.phytec.de [172.16.0.10])
-	by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id
-	03.40.03418.B50FFCC5; Mon,  6 May 2019 10:29:15 +0200 (CEST)
-Received: from lws-mklieser.phytec.de ([172.16.21.77])
-	by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-	with ESMTP id 2019050610291496-314405 ;
-	Mon, 6 May 2019 10:29:14 +0200 
-From: =?UTF-8?q?Stefan=20M=C3=BCller-Klieser?= <s.mueller-klieser@phytec.de>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 6 May 2019 10:29:13 +0200
-Message-Id: <20190506082913.15560-1-s.mueller-klieser@phytec.de>
-X-Mailer: git-send-email 2.20.1
+	Mon,  6 May 2019 09:36:15 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id g127so7719152vsd.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 May 2019 02:36:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=mtreTOc4bEjPIVxDKwqk/iOjCghEYNRskv+XiPpapec=;
+	b=S9eZhd0PE7jGIBiETFwlT/nrIyD0nT+4FdF1VWc/eVM7BZ8CdgX1+kIk3JNZvZUbHb
+	PvMVXlljoly9aU4GxYKQ/rz9zbXE+glTWNXCCkTH6g21EKIQGvhQdUyINcABnSXX1GTM
+	bLaroQCj0EZKwiMrsS9Qy+w0BCQ4qFxNWQhqHyA1piGc1Y8eTp7XIqLuvNa0QIcHJcq7
+	kLZsARHb13f20qTKbnbpeACtP7pul3JLNOxB+lf/BUBI+DEkKyMuRycrOnzZMEjlCrWj
+	ST3rqUK1yKqeKNgzJ29kGxczw+DQyb5MmeeY0nZn6iXEmYeNL1k1nu+zLbOgBDjXwXAX
+	UHTg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=mtreTOc4bEjPIVxDKwqk/iOjCghEYNRskv+XiPpapec=;
+	b=nwXxJAbqj9DTSKfbDaI+iVQarImtv7qxbCibTunHDglSGEcL2UtmuXAuQ1fb9benYX
+	uZ5On5NY8MbxC/Xq+nVM12mTvC9NHcvopLkkHB/vWVYRS8ZLPhSKZ6/9QN1Xn68Oaq2e
+	G3lfGZDXr9rO8dRSdeSvmhIDtNPV4dPSIT5u81yBed6bNHUD7e83xc9xvDJsiapALzCd
+	7GVcR+w+PSwj/Q+nkqbUUEfI1N/aTYxRbK7nx7nXxmC5qBKCzzZUCKcE/xJBuC1MsLp9
+	P1I0a1iS2U9kxXH8KFBClSvt76EPpS+kYutcps/HOEzOwp75WjMtf/om18hJ+VNATLX/
+	8dXA==
+X-Gm-Message-State: APjAAAVwes88/kt8XwkE8o9fbS/TNSXHCSm0hdGWfdP8MyILQ24JLAh7
+	ZiBKDzEliEMhOfVsFIwagy9+2lUBZGW4PklDjs+m6Q==
+X-Google-Smtp-Source: APXvYqyvnK4HZw/FHbypqTzCS+yIOemxJOR50mVtxJJYmzd87gvLu7HHEDUUE9h8Znzdj9RrNOFbJ3/IBTV28ycGLAQ=
+X-Received: by 2002:a67:ca8f:: with SMTP id a15mr9501678vsl.22.1557135375966; 
+	Mon, 06 May 2019 02:36:15 -0700 (PDT)
 MIME-Version: 1.0
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August
-	17, 2016) at 06.05.2019 10:29:15,
-	Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17,
-	2016) at 06.05.2019 10:29:15
-X-TNEFEvaluated: 1
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFupmluLIzCtJLcpLzFFi42JZI8DApRv94XyMwb09/BZ3fr5jd2D0OLdx
-	BWMAYxSXTUpqTmZZapG+XQJXxuzX89gL5rBXLF8/g6mB8SdrFyMnh4SAiUTD/tvsILaQwA5G
-	iRPvzboYuYDsi4wSm092sHQxcnCwCfhILJ1pCWKKCOhIvPnoBWIKC1hIHJsmC9LJIqAisaT3
-	FhuIzSvgIPFl/wwmiOnyEud717FDxAUlTs58wgIyXULgCtD0Wb0sEEVCEqcXn2UGmcksoC6x
-	fp4QSJhZQFti2cLXzBMY+WYhaZ+FUDULSdUCRuZVjEK5mcnZqUWZ2XoFGZUlqcl6KambGIFB
-	dHii+qUdjH1zPA4xCnAwKvHweiidjxFiTSwrrsw9xCjBwawkwpv47FyMEG9KYmVValF+fFFp
-	TmrxIUZpDhYlcd4NvCVhQgLpiSWp2ampBalFMFkmDk6pBsY9Gkd0vrEknq+z41io9Gj2i5jH
-	b/c8zT4/R03Pq6G1suysYHpf1kzdUIf7USobis+WmR1l/ibm4Lp6QTv/zn5+bT4LzkhZL6t/
-	E4x3WxgpStfHXnwr8qtK8d+bebbSn+3mB1ZfsQ2e9Cr35Mf1Z9PUOL2VlM+VLnX6GS7INmu7
-	fIrmn68ttUosxRmJhlrMRcWJAPGsu2MeAgAA
-Subject: [PATCH v2] cml1.bbclass: fix undefined behavior
+References: <20190503164850.130865-1-alex.kiernan@gmail.com>
+	<3ddf9772-185b-2f7a-6a27-c8dffaf8bc62@norrbonn.se>
+In-Reply-To: <3ddf9772-185b-2f7a-6a27-c8dffaf8bc62@norrbonn.se>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Mon, 6 May 2019 10:36:04 +0100
+Message-ID: <CAO5Uq5QL1i3gBmprySJBHBRQRiRVjWbKL11+-vn7qsmLqRD9Mw@mail.gmail.com>
+To: Jonas Bonn <jonas@norrbonn.se>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Default to non-stateless images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,39 +55,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 08:29:15 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 06 May 2019 09:36:16 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Whenever cml1 do=5Fconfigure is used with a defconfig, oldconfig waits for
-input. This silently fails on recent kconfig projects with:
-"Error in reading or end of file."
-We cannot use a more up to date kconfig target such as olddefconfig,
-because busybox does not support it.
+On Mon, May 6, 2019 at 5:54 AM Jonas Bonn <jonas@norrbonn.se> wrote:
+>
+> Hi Alex,
+>
+> The below is fine and looks good.  The one thing that bothers me about
+> this is that "stateless" isn't really a property of the "distro", rather
+> it's a property of the image/machine.
 
-Signed-off-by: Stefan M=C3=BCller-Klieser <s.mueller-klieser@phytec.de>
----
-v2:
- - switch to good old yes '' | to support busybox
- - adapt commit message
+I agree it should be part of image, I'll respin it.
 
- meta/classes/cml1.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>  I suspect, in the same sense that
+> we have readonly-rootfs, that we should probably have image features
+> "stateless-rootfs" (no /etc, no /var) and "volatile-rootfs" (no /var).
+>
 
-diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
-index 98d24cec746b..c7f6723cb3de 100644
---- a/meta/classes/cml1.bbclass
-+++ b/meta/classes/cml1.bbclass
-@@ -1,7 +1,7 @@
- cml1=5Fdo=5Fconfigure() {
- 	set -e
- 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
--	oe=5Frunmake oldconfig
-+	yes '' | oe=5Frunmake oldconfig
- }
-=20
- EXPORT=5FFUNCTIONS do=5Fconfigure
---=20
-2.20.1
+That makes sense to me
 
+> Furthermore, if you want to boot with 'ro' on the command-line, I really
+> think you need to build your image with the "readonly-rootfs" feature
+> set.  The default should be writable+persistent /etc as that's the
+> configuration used 99% of the time (currently).  "readonly-rootfs" does
+> a bit more than just creating machine-id but it's all relevant to the
+> 'ro' case where /etc isn't writable.
+>
+
+I think there's (at least) two use cases for ro boot:
+
+- systems which boot ro and stay that way
+- systems which transition to rw during systemd-remount-fs
+
+I'm in the second case as I have no initramfs and need the filesystem
+readonly until it's fscked/remounted rw.
+
+> Just for clarification:
+>
+> i)  volatile-rootfs:  means there's no point in prepopulating /var
+> because it's on a tmpfs and needs to be populated at boot time
+>
+> ii)  stateless-rootfs:  means there's no point in prepopulating neither
+> /etc nor /var because they are on a tmpfs and need to be populated at
+> boot time
+>
+> iii)  readonly-rootfs:  means that /etc is really not writable so it's
+> important that: the systemd first-boot stuff needs to be done at build
+> time:  machine-id, unit files set up, all tmpfiles.d snippets that touch
+> /etc and /var need to be done in advance.
+>
+
+I'm assuming definitions from here?
+
+http://0pointer.net/blog/projects/stateless.html
+
+Either way, those work for me...
+
+
+
+
+--
+Alex Kiernan
 
