@@ -1,27 +1,48 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 923AD6C466
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D6CA6D9B6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 01:59:59 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x461xwtQ007099
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 5 May 2019 18:59:58 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 5 May 2019 18:59:57 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, <raj.khem@gmail.com>
-References: <20190430142351.92592-1-kai.kang@windriver.com>
-	<9686ed6db87337e7f1a6c8ab72555f5d2ebadd02.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <57ae95e7-939e-d5dc-983f-a35e8abfb13e@windriver.com>
-Date: Mon, 6 May 2019 09:56:39 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <9686ed6db87337e7f1a6c8ab72555f5d2ebadd02.camel@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2] virglrenderer: use gold linker for x86 if cflag -fvisibility=default set
+	Mon,  6 May 2019 02:19:56 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id 85so5690819pgc.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 05 May 2019 19:19:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=2LcIvJWsAhCYPd64XhXaqhMvH/xmb7EpEIef4QEj3aU=;
+	b=XY2DtPv+D533O+unsMz/SodNzR5gogma/Y2l24eDccKINMvjeKDQrefdVs/8+DuPse
+	1H0Hgb1tB9z6m1sP2esxZDv0g/zLyQhVg5YIaSzHUC6QXPbfiNP1yaxuXy7+MXlXhaMR
+	+VwRyX0EQsOXZYD/kiPX+HvFFW+rhY73WnLco25hOxKvn5eqJ6OfHlJNwuf+KOmc7jiI
+	9DqWC379c9vzIA2++dR28RI+s/qfTrmrTf4w6idugj4hFt3W2ACfmXH0sUShCMNVZ+0W
+	EYngSp5LTZzpB+gQqZwAeC692DOF2Ylcop40okd8qI5cPzsflezEVvO8hD4fesJ3Z/1A
+	pNow==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=2LcIvJWsAhCYPd64XhXaqhMvH/xmb7EpEIef4QEj3aU=;
+	b=AtdKNcileQdMyu9mPXc64NdSgpMAJdR++9G0ONLXN4t4+slhjyWXOKk4lmwuQVkVuB
+	x/lLUxxS9RIWjPwPCsXM/oa3Vc6PcN5G8rFgeJrTdySkNXriKSOrPlAjzWWO8cz4Ms3R
+	IlpgYzBt20gjHAhI2UJJ+Rd2qcBY3wgRqN51Ezx/dWncq+MyW45Sxrd6jGz3zlE08BjV
+	XGxHiNc7/rTHV9/McGeYDkHfmlTQzBkiKPTHewbW3MdzNXq1Ret6CgAYQ0Gc/i5K6sAf
+	0BIDTta0zsXFJqJAcaVmNTKOC0kc+zf+mEfRKkbg2U4j4DFz8uuROeDkt5hD8vc8zaM1
+	TKyQ==
+X-Gm-Message-State: APjAAAWhTT2CGfs6gRLPOhNKlfBxFSYX0TRo0hrvA+IGljEsujjyIwxV
+	Ct3IYfnXUt+PNy7pZYHxN1oAN86w
+X-Google-Smtp-Source: APXvYqx93m7xDxQgrR3zrnmpBgdkiqqBYueHxcYimOkAfg6DDKyZqMDyKERPU64nxe5DKhCP462a+g==
+X-Received: by 2002:a63:4621:: with SMTP id t33mr26437087pga.246.1557109197918;
+	Sun, 05 May 2019 19:19:57 -0700 (PDT)
+Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
+	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
+	v82sm18012067pfa.170.2019.05.05.19.19.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 05 May 2019 19:19:57 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  5 May 2019 19:19:54 -0700
+Message-Id: <20190506021955.26534-1-akuster808@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] nss: cleanup recipe to match OE style
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,82 +55,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 01:59:59 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 06 May 2019 02:19:57 -0000
 
-On 2019/4/30 下午10:46, Richard Purdie wrote:
-> On Tue, 2019-04-30 at 10:23 -0400, kai.kang@windriver.com wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> When gcc compile options '-fvisibility=default' is set in CFLAGS, it
->> fails to compile virglrenderer for x86:
->>
->>> i586-wrs-linux-libtool: link: i586-wrs-linux-gcc  -m32 -march=i586 ...
->>    -Wl,--whole-archive ./.libs/libvrend.a
->>    gallium/auxiliary/.libs/libgallium.a -Wl,--no-whole-archive ...
->>    -Wl,-Bsymbolic -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed
->>    -fstack-protector-strong -Wl,-z -Wl,relro -Wl,-z -Wl,now   -pthread
->>    -Wl,-soname -Wl,libvirglrenderer.so.0 -o .libs/libvirglrenderer.so.0.2.0
->>> ld: gallium/auxiliary/.libs/libgallium.a(u_cpu_detect.o): relocation
->>    R_386_GOTOFF against undefined symbol `util_cpu_caps' can not be used
->>    when making a shared object
->>> ld: final link failed: bad value
->>> collect2: error: ld returned 1 exit status
->> It seems GNU bfd linker doesn't work well to handle option '-Bsymbolic'
->> and gcc option '-fvisibility=default'. Use gold instead under this
->> circumstance.
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
->> index 225a0b8b0c..f72cfbd9b4 100644
->> --- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
->> +++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
->> @@ -15,6 +15,8 @@ S = "${WORKDIR}/git"
->>   
->>   inherit autotools pkgconfig distro_features_check
->>   
->> +EXTRA_OEMAKE_x86 = "${@bb.utils.contains('CFLAGS', '-fvisibility=default', 'GM_LDFLAGS+=-fuse-ld=gold', '', d)}"
->> +
->>   BBCLASSEXTEND = "native nativesdk"
->>   
->>   REQUIRED_DISTRO_FEATURES = "opengl"
-> Do we really want to start adding hacks to recipes to work around
-> linker bugs like this?
->
-> Has the bug been reported upstream? Why doesn't this happen on non-x86?
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+---
+ meta/recipes-support/nss/nss_3.43.bb | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-I have sent the v1 patch  to virglrenderer upstream
-
-https://gitlab.freedesktop.org/virgl/virglrenderer/merge_requests/213
-
-And they said that link option  '-Bsymbolic' " just checks that all 
-symbols are available, and if they are not you should hit a run-time 
-error when the symbol is used,
-in summary, the flag is there to make sure that we don't hit this kind 
-of run-time error."
-
-It also doesn't fail on x86-64. I suspect there is something wrong in 
-gnu bfd linker for x86.
-
-
-Regards,
-Kai
-
-
->
-> Cheers,
->
-> Richard
->
->
-
+diff --git a/meta/recipes-support/nss/nss_3.43.bb b/meta/recipes-support/nss/nss_3.43.bb
+index 14a17335a2..f8cf5a46af 100644
+--- a/meta/recipes-support/nss/nss_3.43.bb
++++ b/meta/recipes-support/nss/nss_3.43.bb
+@@ -8,6 +8,9 @@ v3 certificates, and other security standards."
+ HOMEPAGE = "http://www.mozilla.org/projects/security/pki/nss/"
+ SECTION = "libs"
+ 
++DEPENDS = "sqlite3 nspr zlib nss-native"
++DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
++
+ LICENSE = "MPL-2.0 | (MPL-2.0 & GPL-2.0+) | (MPL-2.0 & LGPL-2.1+)"
+ 
+ LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
+@@ -38,10 +41,6 @@ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+ 
+ inherit siteinfo
+ 
+-DEPENDS = "sqlite3 nspr zlib nss-native"
+-DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
+-RDEPENDS_${PN}-smime = "perl"
+-
+ TD = "${S}/tentative-dist"
+ TDS = "${S}/tentative-dist-staging"
+ 
+@@ -118,8 +117,8 @@ do_compile() {
+         OS_TEST=${OS_TEST} \
+         RPATH="${RPATH}"
+ }
+-do_compile[vardepsexclude] += "SITEINFO_BITS"
+ 
++do_compile[vardepsexclude] += "SITEINFO_BITS"
+ 
+ do_install_prepend_class-nativesdk() {
+     export LDFLAGS=""
+@@ -195,6 +194,7 @@ do_install() {
+         install -m 755 -t ${D}/${bindir} $binary
+     done
+ }
++
+ do_install[vardepsexclude] += "SITEINFO_BITS"
+ 
+ do_install_append() {
+@@ -248,17 +248,20 @@ PACKAGES =+ "${PN}-smime"
+ FILES_${PN}-smime = "\
+     ${bindir}/smime \
+ "
++
+ FILES_${PN} = "\
+     ${sysconfdir} \
+     ${bindir} \
+     ${libdir}/lib*.chk \
+     ${libdir}/lib*.so \
+     "
++
+ FILES_${PN}-dev = "\
+     ${libdir}/nss \
+     ${libdir}/pkgconfig/* \
+     ${includedir}/* \
+     "
+ 
+-BBCLASSEXTEND = "native nativesdk"
++RDEPENDS_${PN}-smime = "perl"
+ 
++BBCLASSEXTEND = "native nativesdk"
 -- 
-Kai Kang
+2.17.1
 
 
