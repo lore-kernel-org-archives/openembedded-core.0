@@ -1,48 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6CA6D9B6
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com
+	[209.85.215.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 10A136D9B6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 02:19:56 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id 85so5690819pgc.3
+	Mon,  6 May 2019 02:19:57 +0000 (UTC)
+Received: by mail-pg1-f177.google.com with SMTP id t187so1564062pgb.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 05 May 2019 19:19:58 -0700 (PDT)
+	Sun, 05 May 2019 19:19:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=2LcIvJWsAhCYPd64XhXaqhMvH/xmb7EpEIef4QEj3aU=;
-	b=XY2DtPv+D533O+unsMz/SodNzR5gogma/Y2l24eDccKINMvjeKDQrefdVs/8+DuPse
-	1H0Hgb1tB9z6m1sP2esxZDv0g/zLyQhVg5YIaSzHUC6QXPbfiNP1yaxuXy7+MXlXhaMR
-	+VwRyX0EQsOXZYD/kiPX+HvFFW+rhY73WnLco25hOxKvn5eqJ6OfHlJNwuf+KOmc7jiI
-	9DqWC379c9vzIA2++dR28RI+s/qfTrmrTf4w6idugj4hFt3W2ACfmXH0sUShCMNVZ+0W
-	EYngSp5LTZzpB+gQqZwAeC692DOF2Ylcop40okd8qI5cPzsflezEVvO8hD4fesJ3Z/1A
-	pNow==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=1wlBjAHDMB2JJmS4/fl19gH7QrVL4LSEnPT4fT5PyNA=;
+	b=Zlml0524m91AdfWEENqIVE2cEXE1aA2w8ZlbpWvhqf+Ehg4h/7lTvPpjAF+hjFNG5j
+	rzPhne3TYtFCRr8vz9qOFzDtGsZpwQwya1Sp2k0u+YW3UrzmgnHdeMwGWtTyqcsSGWiM
+	qCMwi/dpG3465uqTfAd/oot2jY2S1/C3r82aHUnCbznVPjbD7z3oFrvai3wH8+lMN0TQ
+	GFOgpXxflWEfzMUloh2uFVm2HyEa9IVH8YhdEbmcExW+BwOYSgR+MmxuIcecC1fq+qBM
+	Qp0fsx6BidieHVhBHK8VEWUWwOucHXX1dficfSx8ZZHdikdAkKCAM+ZMqIEvVyglHDoc
+	pSOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=2LcIvJWsAhCYPd64XhXaqhMvH/xmb7EpEIef4QEj3aU=;
-	b=AtdKNcileQdMyu9mPXc64NdSgpMAJdR++9G0ONLXN4t4+slhjyWXOKk4lmwuQVkVuB
-	x/lLUxxS9RIWjPwPCsXM/oa3Vc6PcN5G8rFgeJrTdySkNXriKSOrPlAjzWWO8cz4Ms3R
-	IlpgYzBt20gjHAhI2UJJ+Rd2qcBY3wgRqN51Ezx/dWncq+MyW45Sxrd6jGz3zlE08BjV
-	XGxHiNc7/rTHV9/McGeYDkHfmlTQzBkiKPTHewbW3MdzNXq1Ret6CgAYQ0Gc/i5K6sAf
-	0BIDTta0zsXFJqJAcaVmNTKOC0kc+zf+mEfRKkbg2U4j4DFz8uuROeDkt5hD8vc8zaM1
-	TKyQ==
-X-Gm-Message-State: APjAAAWhTT2CGfs6gRLPOhNKlfBxFSYX0TRo0hrvA+IGljEsujjyIwxV
-	Ct3IYfnXUt+PNy7pZYHxN1oAN86w
-X-Google-Smtp-Source: APXvYqx93m7xDxQgrR3zrnmpBgdkiqqBYueHxcYimOkAfg6DDKyZqMDyKERPU64nxe5DKhCP462a+g==
-X-Received: by 2002:a63:4621:: with SMTP id t33mr26437087pga.246.1557109197918;
-	Sun, 05 May 2019 19:19:57 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=1wlBjAHDMB2JJmS4/fl19gH7QrVL4LSEnPT4fT5PyNA=;
+	b=ZbQPHZKi8C45iyOKcx8gVWaYkQv1GP7caPgzdEt+0um0M1YRqrK2s40UrU+WZ48vDC
+	swFVLDYZuvup9AF8BeAJd+9dAso0KK7aY6xCpeH+xI/Ag9tj4d9EskU+KRtkCih+QXqq
+	c58dZtRMVHjY+VfSg0cD/eAkcfjWJ9FHdAUtHRrogKTjn513Sm36/agBxfQb9iq3/E+H
+	355kGZGtIAlxrFb9ZbyoHjCk51sZQ1qF40rhH5NixO599Zsd7mSQJ02mgTyelHj/5NPD
+	Q0VEbp71Ghp5we5UQNkTfL5S6eSKa2kqex/lYsXKV8I+WqzeTKoE98pzfMnT7keFqEMe
+	nGlA==
+X-Gm-Message-State: APjAAAXYfGOWCvzE91Au9xxoQDF0qcXsAHBaGeiEp8hN7nWlcwrK86oT
+	aLv0ozYZmEqHFZ8wZBFJxU6ekHc2
+X-Google-Smtp-Source: APXvYqxE/75dTLIlV0OOVdk5EugvUo2pEkosQJ4xLo5JkZOPZR+EjXLTazd1wsJYKguYSMkmsISmcQ==
+X-Received: by 2002:aa7:9095:: with SMTP id i21mr31201631pfa.134.1557109198954;
+	Sun, 05 May 2019 19:19:58 -0700 (PDT)
 Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
 	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
-	v82sm18012067pfa.170.2019.05.05.19.19.56
+	v82sm18012067pfa.170.2019.05.05.19.19.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 05 May 2019 19:19:57 -0700 (PDT)
+	Sun, 05 May 2019 19:19:58 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  5 May 2019 19:19:54 -0700
-Message-Id: <20190506021955.26534-1-akuster808@gmail.com>
+Date: Sun,  5 May 2019 19:19:55 -0700
+Message-Id: <20190506021955.26534-2-akuster808@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/2] nss: cleanup recipe to match OE style
+In-Reply-To: <20190506021955.26534-1-akuster808@gmail.com>
+References: <20190506021955.26534-1-akuster808@gmail.com>
+Subject: [PATCH 2/2] nss: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,78 +58,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 02:19:57 -0000
+X-List-Received-Date: Mon, 06 May 2019 02:19:58 -0000
+
+This belongs in the long test group
+
+Here is a baseline:
+
+Tests summary:
+--------------
+Passed:             9132
+Failed:             61
+Failed with core:   0
+ASan failures:      0
+Unknown status:     0
+
+DURATION: 15134
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-support/nss/nss_3.43.bb | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ .../nss/nss/oe_ptest_fixup.patch              | 34 +++++++++++++++++++
+ meta/recipes-support/nss/nss/run-ptest        |  3 ++
+ meta/recipes-support/nss/nss_3.43.bb          | 10 +++++-
+ 3 files changed, 46 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/nss/nss/oe_ptest_fixup.patch
+ create mode 100644 meta/recipes-support/nss/nss/run-ptest
 
+diff --git a/meta/recipes-support/nss/nss/oe_ptest_fixup.patch b/meta/recipes-support/nss/nss/oe_ptest_fixup.patch
+new file mode 100644
+index 0000000000..e8f64aad2b
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/oe_ptest_fixup.patch
+@@ -0,0 +1,34 @@
++
++Upstream-Status: OE specific
++
++remove some tests that currently hang
++Update DIST path /usr
++
++Signed-off-by: Armin Kuster <akuster808@gmail.com>
++
++Index: nss-3.43/nss/tests/common/init.sh
++===================================================================
++--- nss-3.43.orig/nss/tests/common/init.sh
+++++ nss-3.43/nss/tests/common/init.sh
++@@ -267,7 +267,7 @@ if [ -z "${INIT_SOURCED}" -o "${INIT_SOU
++     COMMON=${TEST_COMMON-$common}
++     export COMMON
++ 
++-    DIST=${DIST-${MOZILLA_ROOT}/dist}
+++    DIST=/usr
++     TESTDIR=${TESTDIR-${MOZILLA_ROOT}/tests_results/security}
++ 
++     # Allow for override options from a config file
++Index: nss-3.43/nss/tests/all.sh
++===================================================================
++--- nss-3.43.orig/nss/tests/all.sh
+++++ nss-3.43/nss/tests/all.sh
++@@ -303,7 +303,7 @@ if [ $NO_INIT_SUPPORT -eq 0 ]; then
++     RUN_FIPS="fips"
++ fi
++ 
++-tests="cipher lowhash libpkix cert dbtests tools $RUN_FIPS sdr crmf smime ssl ocsp merge pkits ec gtests ssl_gtests policy"
+++tests="cipher lowhash libpkix cert dbtests tools sdr crmf smime ocsp merge pkits ec policy"
++ # Don't run chains tests when we have a gyp build.
++ if [ "$OBJDIR" != "Debug" -a "$OBJDIR" != "Release" ]; then
++   tests="$tests chains"
+diff --git a/meta/recipes-support/nss/nss/run-ptest b/meta/recipes-support/nss/nss/run-ptest
+new file mode 100644
+index 0000000000..7cdfdea9e1
+--- /dev/null
++++ b/meta/recipes-support/nss/nss/run-ptest
+@@ -0,0 +1,3 @@
++#! /bin/sh
++
++HOST=localhost DOMSUF=localdomain ./tests/all.sh
 diff --git a/meta/recipes-support/nss/nss_3.43.bb b/meta/recipes-support/nss/nss_3.43.bb
-index 14a17335a2..f8cf5a46af 100644
+index f8cf5a46af..41e08cce0d 100644
 --- a/meta/recipes-support/nss/nss_3.43.bb
 +++ b/meta/recipes-support/nss/nss_3.43.bb
-@@ -8,6 +8,9 @@ v3 certificates, and other security standards."
- HOMEPAGE = "http://www.mozilla.org/projects/security/pki/nss/"
- SECTION = "libs"
+@@ -31,6 +31,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+            file://blank-cert9.db \
+            file://blank-key4.db \
+            file://system-pkcs11.txt \
++           file://oe_ptest_fixup.patch \
++           file://run-ptest \
+            "
  
-+DEPENDS = "sqlite3 nspr zlib nss-native"
-+DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
-+
- LICENSE = "MPL-2.0 | (MPL-2.0 & GPL-2.0+) | (MPL-2.0 & LGPL-2.1+)"
+ SRC_URI[md5sum] = "67c8fa282c32cb56117fdd530dd77001"
+@@ -39,7 +41,7 @@ SRC_URI[sha256sum] = "f30bc1b7330887b75de9fec37dbc173001758dc43fb095ffbc45dac409
+ UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
+ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
  
- LIC_FILES_CHKSUM = "file://nss/COPYING;md5=3b1e88e1b9c0b5a4b2881d46cce06a18 \
-@@ -38,10 +41,6 @@ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+-inherit siteinfo
++inherit siteinfo ptest
  
- inherit siteinfo
- 
--DEPENDS = "sqlite3 nspr zlib nss-native"
--DEPENDS_class-native = "sqlite3-native nspr-native zlib-native"
--RDEPENDS_${PN}-smime = "perl"
--
  TD = "${S}/tentative-dist"
  TDS = "${S}/tentative-dist-staging"
- 
-@@ -118,8 +117,8 @@ do_compile() {
-         OS_TEST=${OS_TEST} \
-         RPATH="${RPATH}"
+@@ -227,6 +229,11 @@ do_install_append_class-target() {
+     install -m 0644 ${WORKDIR}/system-pkcs11.txt ${D}${sysconfdir}/pki/nssdb/pkcs11.txt
  }
--do_compile[vardepsexclude] += "SITEINFO_BITS"
  
-+do_compile[vardepsexclude] += "SITEINFO_BITS"
- 
- do_install_prepend_class-nativesdk() {
-     export LDFLAGS=""
-@@ -195,6 +194,7 @@ do_install() {
-         install -m 755 -t ${D}/${bindir} $binary
-     done
- }
++do_install_ptest () {
++    install -d ${D}${PTEST_PATH}/tests
++    cp -a ${S}/nss/tests/* ${D}${PTEST_PATH}/tests/.
++}
 +
- do_install[vardepsexclude] += "SITEINFO_BITS"
- 
- do_install_append() {
-@@ -248,17 +248,20 @@ PACKAGES =+ "${PN}-smime"
- FILES_${PN}-smime = "\
-     ${bindir}/smime \
- "
-+
- FILES_${PN} = "\
-     ${sysconfdir} \
-     ${bindir} \
-     ${libdir}/lib*.chk \
-     ${libdir}/lib*.so \
-     "
-+
- FILES_${PN}-dev = "\
-     ${libdir}/nss \
-     ${libdir}/pkgconfig/* \
-     ${includedir}/* \
+ PACKAGE_WRITE_DEPS += "nss-native"
+ pkg_postinst_${PN} () {
+     if [ -n "$D" ]; then
+@@ -263,5 +270,6 @@ FILES_${PN}-dev = "\
      "
  
--BBCLASSEXTEND = "native nativesdk"
-+RDEPENDS_${PN}-smime = "perl"
+ RDEPENDS_${PN}-smime = "perl"
++RDEPENDS_${PN}-ptest = "nss bash tcsh make perl"
  
-+BBCLASSEXTEND = "native nativesdk"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.17.1
 
