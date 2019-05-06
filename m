@@ -1,30 +1,50 @@
-Return-Path: <Anton.Popov@t-platforms.ru>
-X-Greylist: delayed 516 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 06 May 2019 15:46:49 UTC
-Received: from mx1.t-platforms.ru (mx1.t-platforms.ru [80.85.246.77])
-	by mail.openembedded.org (Postfix) with ESMTP id 3042C6007A
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 657EE7D0FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 15:46:49 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at t-platforms.ru
-From: Popov Anton <Anton.Popov@t-platforms.ru>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] util-linux: fix owner and group for binaries
-	in resulting  image
-Thread-Index: AdUEIbXgybET3lDUTBqnGc0n+AxLOA==
-Date: Mon, 6 May 2019 15:38:10 +0000
-Message-ID: <B32C5021EF3D894688F75677907CBC734599A785@pvmmail.tp-local.ru>
-Accept-Language: ru-RU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-kse-attachmentfiltering-interceptor-info: protection disabled
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean, bases: 06.05.2019 11:11:00
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
+	Mon,  6 May 2019 17:51:43 +0000 (UTC)
+Received: by mail-pf1-f176.google.com with SMTP id z26so7157230pfg.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 06 May 2019 10:51:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9yVjfFDv+uCbhxafIHG5t3LrTWEnU1DXIqhreRyr17w=;
+	b=kJg8aHJ/Hpa6oBZrFNd9kvRFDo5Cenl64LzYd5G5cl0/T6pd23ISrIkm5nxR/+AjuN
+	3Cw8xZAA0mgJj2jyx8NEE/UqLVy1vcQVlrcgea9d9bgwE6GTp457L5X7EaEdYA1EDM9R
+	mn/73tBGhZG27idPCKDS/b7d9GpPurBmCxazX5eURYAzDWrG5o3EUcHzev3vS7p9MGPg
+	OBVpM6urf7U2VY12fuDEo4wWx2jFnb+rTHGbl2YFi0n7v9me8lbGCJnGbCb7gBSKy4DG
+	R34WRYI/dBZxlG4KngBfLSZp9LkPFGH04qoVrPY9PfVxTS/WC1H9rg/JogDelMA5Q1DW
+	kRLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=9yVjfFDv+uCbhxafIHG5t3LrTWEnU1DXIqhreRyr17w=;
+	b=g9YHZ5J2aQTdDV/3eUGzy/uz8Wxt1UXzhqXfkdons5OK4XPJFOA9vG1U6+jc7dTHJR
+	9cie/+LS3J2OxaJkvt6KjjH1U4y+iFnikj8HCROZVcp0Q7qn0acjWom1fVLgG65hf4vR
+	eQbG/4qO/DdKzqe7e2tlg5ruao6oa+fQ/SqoAils/gd3VRZh0r3YMdgZS7kjzwPuxU4a
+	g2Co7q88Jq8y138BecD0QXRmEoAZgim/rwJaxIGrioHz0wFzFfMWOQSNE1toKwTEPuYC
+	vc/ZlBe4kpj5QmNwwIOvgdDLIOR4mlGiQ6qa9noanJ7woB7xLZ9DUFJuYKgnZyAOtbqc
+	lSpQ==
+X-Gm-Message-State: APjAAAXGjm/VpF9HkBuRyn6Quz9Wj9PMimgWyJrlwB7qF3Ut/L+F9iPz
+	Dddeg1RAQSYlHvHSfrCyHtSE/VOJYzs=
+X-Google-Smtp-Source: APXvYqzyuvtIEyfGo+vpiuyi1tXh1w0a02AyF/AWad816TKlGUF/RmSbX3HI8Hzaf/BTB1XEMcN3Ow==
+X-Received: by 2002:a62:582:: with SMTP id 124mr20237909pff.209.1557165103599; 
+	Mon, 06 May 2019 10:51:43 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::592a])
+	by smtp.gmail.com with ESMTPSA id
+	n7sm14764022pff.45.2019.05.06.10.51.42
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 10:51:43 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  6 May 2019 10:51:35 -0700
+Message-Id: <20190506175136.7594-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
-Subject: [PATCH] util-linux: fix owner and group for binaries in resulting image
+Subject: [PATCH 1/2] systemd: Fix build with gcc9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,69 +57,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 15:46:49 -0000
-Content-Language: ru-RU
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Mon, 06 May 2019 17:51:43 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-util-linux source produce some binaries with setuid bit set=0A=
-=0A=
-do_install function produce binaries in /sbin and /bin with uid:gid=0A=
-of user who build image this lead to messages like this:=0A=
-mount /dev/sdb1 /mnt/flash=0A=
-mount: only root can do that (effective UID is 1000)=0A=
-this patch changing owner of binaries in /bin and /sbin to 0:0=0A=
-=0A=
-Signed-off-by: Anton Popov <Anton.Popov@t-platforms.ru>=0A=
----=0A=
- meta/recipes-core/util-linux/util-linux.inc | 21 +++++++++++++++++++++=0A=
- 1 file changed, 21 insertions(+)=0A=
-=0A=
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-cor=
-e/util-linux/util-linux.inc=0A=
-index 34255a2dec..d75a2dd399 100644=0A=
---- a/meta/recipes-core/util-linux/util-linux.inc=0A=
-+++ b/meta/recipes-core/util-linux/util-linux.inc=0A=
-@@ -201,6 +201,27 @@ do_install () {=0A=
-     fi=0A=
- }=0A=
- =0A=
-+# when building yocto image with non-root user some binaries appears in re=
-sulting=0A=
-+# image with rights of user who build image. This behaviour may lead to mi=
-sfunction =0A=
-+# of some binaries like mount because of setuid bit on them:=0A=
-+# mount /dev/sdb1 /mnt/flash                                              =
-                                                                           =
-                =0A=
-+# mount: only root can do that (effective UID is 1000)=0A=
-+# ls -ld which mount=0A=
-+# lrwxrwxrwx    1 root     root            21 Jan  2  1970 /bin/mount -> /=
-bin/mount.util-linux                                                       =
-                                # root@mitx-fp32:/mnt/system/initrd# ls -ld=
- /bin/mount.util-linux                                                     =
-                                                               # -rwsr-xr-x=
-    1 1000     1000         28020 Apr 23 12:49 /bin/mount.util-linux       =
-                                                                           =
-                     =0A=
-+do_install_append_class-target () {=0A=
-+    for p in $sbinprogs $sbinprogs_a; do=0A=
-+        if [ -f "${D}${base_sbindir}/$p" ]; then=0A=
-+            chown 0:0 "${D}${base_sbindir}/$p"=0A=
-+        fi=0A=
-+    done=0A=
-+    for p in $binprogs_a; do=0A=
-+        if [ -f "${D}${base_bindir}/$p" ]; then=0A=
-+            chown 0:0 "${D}${base_bindir}/$p"=0A=
-+        fi=0A=
-+    done=0A=
-+}=0A=
-+=0A=
-+=0A=
- # nologin causes a conflict with shadow-native=0A=
- # kill causes a conflict with coreutils-native (if ${bindir}=3D=3D${base_b=
-indir})=0A=
- do_install_append_class-native () {=0A=
--- =0A=
-2.20.1=0A=
+gcc9 throws additional warnings about format string overflow
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...-format-overflow-warnings-with-gcc-9.patch | 41 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_242.bb      |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch b/meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch
+new file mode 100644
+index 0000000000..510ac22150
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0006-Fix-format-overflow-warnings-with-gcc-9.patch
+@@ -0,0 +1,41 @@
++From c8050da8b7b0e59e4d1d0e15a92b9ecad299dbbb Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Mon, 6 May 2019 10:41:15 -0700
++Subject: [PATCH] Fix format-overflow warnings with gcc-9
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
++
++gcc-9 has become a bit stricter and can check all kind of formatted
++input/output functions which causes additional warnings when compiling
++networkd
++
++/src/basic/log.h:104:9: error: ‘%s’ directive argument is null [-Werror=format-overflow=]
++         log_internal_realm(LOG_REALM_PLUS_LEVEL(LOG_REALM, (level)), __VA_ARGS__)
++
++see https://github.com/systemd/systemd/issues/12454
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ src/network/networkd-link.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
++index 533193ac93..976cbbeaaa 100644
++--- a/src/network/networkd-link.c
+++++ b/src/network/networkd-link.c
++@@ -339,7 +339,8 @@ static int link_enable_ipv6(Link *link) {
++         r = sysctl_write_ip_property_boolean(AF_INET6, link->ifname, "disable_ipv6", disabled);
++         if (r < 0)
++                 log_link_warning_errno(link, r, "Cannot %s IPv6 for interface %s: %m",
++-                                       enable_disable(!disabled), link->ifname);
+++                                       enable_disable(!disabled),
+++                                       (link->ifname) ? link->ifname : "<null>");
++         else
++                 log_link_info(link, "IPv6 successfully %sd", enable_disable(!disabled));
++ 
++-- 
++2.21.0
++
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index a6b39d57e8..93c4472bab 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -22,6 +22,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0004-rules-whitelist-hd-devices.patch \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
++           file://0006-Fix-format-overflow-warnings-with-gcc-9.patch \
+            file://99-default.preset \
+            "
+ 
+-- 
+2.21.0
+
 
