@@ -1,19 +1,39 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id DD8647D4C6
+Return-Path: <prvs=0225f2d71=Richard.Leitner@skidata.com>
+X-Greylist: delayed 428 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 06 May 2019 07:53:30 UTC
+Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
+	by mail.openembedded.org (Postfix) with ESMTP id DF5576B436
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  6 May 2019 06:47:28 +0000 (UTC)
-Received: from acheron.taitradio.net (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 22A151C06D7;
-	Mon,  6 May 2019 18:47:28 +1200 (NZST)
-From: Douglas Royds <douglas.royds@taitradio.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  6 May 2019 18:47:25 +1200
-Message-Id: <20190506064725.22999-1-douglas.royds@taitradio.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190430023405.29459-1-douglas.royds@taitradio.com>
-References: <20190430023405.29459-1-douglas.royds@taitradio.com>
-Subject: [PATCH v3] distutils: Run python from the PATH in the -native case as well
+	Mon,  6 May 2019 07:53:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
+	t=1557129234; x=1588665234;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=6HB24vSSKHaT0Ogb3xhooMfXqagDyuh4zf6cGQzV+ek=;
+	b=tyd3FgGRasjh23Lwe9nnveu6IbUFIlHMIZxMnAfyG6/Fn3qiGRt5F6wy
+	C+EZ8RcIMk8eilATwbd1hh1wSdQ6oQsTTPoAqWNuYaaQ4xmjv2rW0/der
+	07BXaQpuEuLu4Pemb1rjt+g40ojqKt3LBnIaPfqGUAegwnM12pwfB9RbH
+	Mwe5OzLpM3WPpdpMQ9IC5n/VQ/G18rP6TuEsaOtEeA0MO9FarOMw3mCay
+	Y0b+hsndNmXHT6IXczBwsXLNn9WfzdZNO8wpXmpyoapuuxJxLtvSjx8yn
+	mZ0+ODNbkRpW4vTftHyt4+MC4uY3dn3GHii3l+J0/JBfkE90tXqJzlpbB g==;
+IronPort-SDR: cFL97e4wc17WNX42k6fLRzOELdvA/+3c+NJhQsRc0nr4XFTY3JeRQd/+VXrBsARkphJ9vdCEtA
+	TZQ6+WBY+oXgpXaq7eYGVEyhcqxSRmCIX/kns3VD+P5B1qqO6yR8s6IOU8SyOW63Ga4NAQJ8Xo
+	estsbXBYancO05UV6fWhRUEdTTvscyCULzMgUiwkMVP21y/1AsRqhAjyRxTLv9aD5YfrEAevjW
+	21xxtvkq9c9Wa2ip/+d482oTOvH6sAO4enP2fHR3NmonF78CI0uBBHuXRoxmY3Acp+lY7V48Hl
+	u7c=
+X-IronPort-AV: E=Sophos;i="5.60,437,1549926000"; 
+   d="scan'208";a="2122889"
+From: Richard Leitner <richard.leitner@skidata.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 6 May 2019 09:45:31 +0200
+Message-ID: <20190506074531.13459-1-richard.leitner@skidata.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+X-Originating-IP: [192.168.111.252]
+X-ClientProxiedBy: sdex6srv.skidata.net (192.168.111.84) To
+	sdex5srv.skidata.net (192.168.111.83)
+Subject: [warrior][PATCH] uboot-sign: add support for different u-boot configurations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,106 +46,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 06 May 2019 06:47:29 -0000
+X-List-Received-Date: Mon, 06 May 2019 07:53:31 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-The python distutils generate a python wrapper script for each package,
-containing shebang lines pointing to the python executable.
-In our case, this is a fully-qualified path to python-native in the
-recipe-sysroot-native.
+From: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
 
-Ubuntu 18.04 restricts the useful length of the shebang line to 125
-characters, and Ubuntu 16.04 restricts it to 77. In both cases, the
-staged python script fails to run due to the length of the path to
-the python-native executable.
+This is done by concatenating the DTB with the kernels public key
+to all built u-boot binaries. Furthermore the installation of all
+the binaries is required.
 
-Replace the shebang line with nativepython or nativepython3 as appropriate.
-The nativepython symlink is installed by the python-native recipe:
-
-    #!/usr/bin/env nativepython
-
-We were already doing this for on-target distutils components.
-This change applies the sed-line to -native distutils components as well.
-In this way, -native clients of these components can invoke the wrapper scripts
-directly, without themselves needing to inherit pythonnative.
-
-This works around a known setuptools issue:
-https://github.com/pypa/setuptools/issues/494
-Even once this issue has been resolved upstream,
-we will still need to replace `python` with `nativepython`
-
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+Signed-off-by: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 ---
- meta/classes/distutils.bbclass  | 11 +++++------
- meta/classes/distutils3.bbclass |  7 +++++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ meta/classes/uboot-sign.bbclass | 85 +++++++++++++++++++++------------
+ 1 file changed, 54 insertions(+), 31 deletions(-)
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index 9862731493..b5c9c2fbbd 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -9,6 +9,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 9e3d1d6fc1..2da43655aa 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -45,49 +45,72 @@ UBOOT_NODTB_SYMLINK ?= "u-boot-nodtb-${MACHINE}.${UBOOT_SUFFIX}"
+ # Functions in this bbclass is for u-boot only
+ UBOOT_PN = "${@d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'}"
  
-+DISTUTILS_PYTHON = "python"
-+DISTUTILS_PYTHON_class-native = "nativepython"
++concat_dtb_helper() {
++	if [ -e ${UBOOT_DTB_BINARY} ]; then
++		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
++		ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
++	fi
 +
- distutils_do_configure() {
-         if [ "${CLEANBROKEN}" != "1" ] ; then
-                 NO_FETCH_BUILD=1 \
-@@ -53,18 +56,14 @@ distutils_do_install() {
- 
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
--                if [ ${PN} != "${BPN}-native" ]; then
--			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
--		fi
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if [ -e ${D}${sbindir} ]; then
-             for i in ${D}${sbindir}/* ; do \
--                if [ ${PN} != "${BPN}-native" ]; then
--			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
--		fi
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
-index 834e322474..42e7f5ae53 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -10,6 +10,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
- 
-+DISTUTILS_PYTHON = "python3"
-+DISTUTILS_PYTHON_class-native = "nativepython3"
++	if [ -f ${UBOOT_NODTB_BINARY} ]; then
++		install ${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
++		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
++		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
++	fi
 +
- distutils3_do_configure() {
- 	if [ "${CLEANBROKEN}" != "1" ] ; then
- 		NO_FETCH_BUILD=1 \
-@@ -57,14 +60,14 @@ distutils3_do_install() {
++	# Concatenate U-Boot w/o DTB & DTB with public key
++	# (cf. kernel-fitimage.bbclass for more details)
++	deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
++	if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
++		[ -e "$deployed_uboot_dtb_binary" ]; then
++		oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
++		install ${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
++	elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
++		cd ${DEPLOYDIR}
++		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${UBOOT_BINARY} > ${UBOOT_IMAGE}
++	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
++		bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
++	fi
++}
++
+ concat_dtb() {
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
+ 		mkdir -p ${DEPLOYDIR}
+-		if [ -e ${B}/${UBOOT_DTB_BINARY} ]; then
+-			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_BINARY}
+-			ln -sf ${UBOOT_DTB_IMAGE} ${DEPLOYDIR}/${UBOOT_DTB_SYMLINK}
+-		fi
+-
+-		if [ -f ${B}/${UBOOT_NODTB_BINARY} ]; then
+-            install ${B}/${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
+-            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
+-            ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
+-		fi
+-
+-		# Concatenate U-Boot w/o DTB & DTB with public key
+-		# (cf. kernel-fitimage.bbclass for more details)
+-		deployed_uboot_dtb_binary='${DEPLOY_DIR_IMAGE}/${UBOOT_DTB_IMAGE}'
+-		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
+-			[ -e "$deployed_uboot_dtb_binary" ]; then
++		if [ -n "${UBOOT_CONFIG}" ]; then
++			for config in ${UBOOT_MACHINE}; do
++				cd ${B}/${config}
++				concat_dtb_helper
++			done
++		else
+ 			cd ${B}
+-			oe_runmake EXT_DTB=$deployed_uboot_dtb_binary
+-			install ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
+-		elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
+-			cd ${DEPLOYDIR}
+-			cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
+-		elif [ -n "${UBOOT_DTB_BINARY}" ]; then
+-			bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
++			concat_dtb_helper
+ 		fi
+ 	fi
+ }
  
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if test -e ${D}${sbindir}; then
-             for i in ${D}${sbindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
+ # Install UBOOT_DTB_BINARY to datadir, so that kernel can use it for
+ # signing, and kernel will deploy UBOOT_DTB_BINARY after signs it.
++install_helper() {
++	if [ -f ${UBOOT_DTB_BINARY} ]; then
++		install -d ${D}${datadir}
++		# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
++		# need both of them.
++		install ${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
++		ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
++	elif [ -n "${UBOOT_DTB_BINARY}" ]; then
++		bbwarn "${UBOOT_DTB_BINARY} not found"
++	fi
++}
++
+ do_install_append() {
+ 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a "${PN}" = "${UBOOT_PN}" ]; then
+-		if [ -f ${B}/${UBOOT_DTB_BINARY} ]; then
+-			install -d ${D}${datadir}
+-			# UBOOT_DTB_BINARY is a symlink to UBOOT_DTB_IMAGE, so we
+-			# need both of them.
+-			install ${B}/${UBOOT_DTB_BINARY} ${D}${datadir}/${UBOOT_DTB_IMAGE}
+-			ln -sf ${UBOOT_DTB_IMAGE} ${D}${datadir}/${UBOOT_DTB_BINARY}
+-		elif [ -n "${UBOOT_DTB_BINARY}" ]; then
+-			bbwarn "${B}/${UBOOT_DTB_BINARY} not found"
++		if [ -n "${UBOOT_CONFIG}" ]; then
++			for config in ${UBOOT_MACHINE}; do
++				cd ${B}/${config}
++				install_helper
++			done
++		else
++			cd ${B}
++			install_helper
+ 		fi
+ 	fi
+ }
 -- 
-2.17.1
+2.20.1
 
 
