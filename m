@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 76DDF7D7A2
+	by mail.openembedded.org (Postfix) with ESMTP id E60417D799
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 May 2019 13:11:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44z0PQ1G55z63
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44z0PQ6rNLz5l
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 May 2019 15:11:54 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1557234714;
-	bh=rc8CGgj0WKRmpv20PRAR1Q4+ILAEpleH38cB+duuzBg=;
+	s=default; t=1557234715;
+	bh=/2jgOcv+pw2dNAhLBlmzssgjMELYzBdyNrGn7TIAr94=;
 	h=From:To:Subject:Date:From;
-	b=cQGeufecB1hPty6ykMmDSUEfj0GBdI458m0ddZgxQ4Gnmo6YF7UrZXP65mPbdCeH9
-	sZqei2pUmlxXLOwDG5lhEhfeH6KhhTrcyGdmCSY+Ud2Vq5VVta0q+/+K9oP42t++pc
-	fGTphEY2tn/P5WM83jnNwwhyQKh/6zIHZJ1t+R4Dd5k8Ic2e2dbGQpHPk6uqkmwrZX
-	2k+fdaU9TQJwAJ+9AqPGvezcnhmqa5MTHSYynyBbAI1dfNYmTrwGceFN9//AFO7ABO
-	M3Suyy7YnDf3+CJGpbxFD2Km8Nib0Mq+tUfNfERsE/zUR/k2MWbqk+8Pgs3KJK8O5d
-	Gx3WfvIcIS6TjdjtdRbeT6TmlD1Io+Aa0xKWwwcY1dQdVNeU459YrwMxdugRD3RIWA
-	FuVaZnrAWuoLhz9AjWgppxhqK/n9PZN+rNwbgOzhOqinU02j1Bek03Sv+EpYlt153H
-	THSx+nqOCDIlNi3KmfMQoWBVSrDQ4PCykE4thleUJGYmFBCPMQOdAUaswJxOlx0D1F
-	epe2I442N8VWmHN2KN5Eu97kwqb6j7xHZ0Lg34SGTBe8TJ050hoAQ1pbrMn+3Hmp27
-	anOr3dh0Wp7tn/3ocMcO7cLfKWSiZaFJ/PDh0TO5ALXsaNxw+fz/F+nkzMfyUDHx/1
-	8u0AWRyPodgOf3/gUQUBfuNQ=
+	b=HsBok4496xP2vJvsku5lJZ+YwkhP4nN16KWeXkLpI2ZA2ZdyhLXSF1qpjKax9fXbW
+	RVpzBQatBTJEy1AKD697CumU8BGyNpKlkTOMeLRvj7RiY125BjHyUtCCKFOdkwcubO
+	569XUgmxwoS1y/udxNy+mCTzcMThApRksBgWU4E8G6yP9n0b7cLdwpX/MI9M6kc8jU
+	L3bEwXQ/ei9C+DWFens+TkN2ZV3cGp0k2+zA18uMQpDankafA4VOTlB6nZtkKb7yOI
+	tDVuWe8ehIcU33NR6X26jQhvhf5kr4uXaA+MsqhD1NgUipwtedH0+fBJRn68ntpTY/
+	bQ5HD7G4M2BbNkLoPjvJaa70JETLv1F9G+tBbawh3qJNXZTTrBnvMpEMsOwGYaIISo
+	6gklOgPh31IQWkNUujz03Kj5oQttXkWzRszFHN948SH9PIxv8NvosyzR3KTK08REo8
+	sePB5IG0xN/3OANHPh8d1Qob2HPOOHAt/X+GHZlr2h97/QjjMVS5XCKdH91bmy5Fsw
+	SWHYKHd/O1SJfXtTKX/wOk7sMxqPLQynaO/ZreC2oQoB42qJwdWT79lBi3IWljevCR
+	e1bzVcOn7l5gFofj3PrX1x7/NW0Mh9gKOpNAir6Wsh08DAHRFelp5s42sPNyaYaK+H
+	cbnIyn+AAQGds6mOgIBxVWtQ=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 16:11:46 +0300
-Message-Id: <20190507131151.31070-7-bunk@stusta.de>
+Date: Tue,  7 May 2019 16:11:47 +0300
+Message-Id: <20190507131151.31070-8-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] mmc-utils: update to the latest upstream code
+Subject: [PATCH] sysstat: inherit upstream-version-is-even
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,77 +42,26 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 May 2019 13:11:54 -0000
 
-mmc-utils doesn't do releases, add the git revision to PV.
-Remove patch for an issue now fixed upstream.
+Currently a development version is being used.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...rncpy-with-memmove-on-overlapping-me.patch | 36 -------------------
- meta/recipes-devtools/mmc/mmc-utils_git.bb    |  5 ++-
- 2 files changed, 2 insertions(+), 39 deletions(-)
- delete mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
+ meta/recipes-extended/sysstat/sysstat.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
-deleted file mode 100644
-index 62e25fde9b..0000000000
---- a/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 175ac0f362bf6121c3537e2f1760ad41c8f81367 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 29 Mar 2018 01:04:57 -0700
--Subject: [PATCH] lsmmc: replace strncpy with memmove on overlapping memory
-- copy
--
--here source and destination addresses are overlapping so using memmove is
--going to be more efficient.
--
--Additionally, the bounded size for copy is overflowing for first copy
--
--In function 'strncpy',
--    inlined from 'read_file' at lsmmc.c:356:3:
--/mnt/a/oe/build/tmp/work/cortexa7t2hf-neon-vfpv4-bec-linux-gnueabi/mmc-utils/0.1-r0/recipe-sysroot/usr/include/bits/string_fortified.h:106:10: error: '__builtin_strncpy' accessing 4096 bytes at offsets 0 and 1 overlaps 4095 bytes at offset 1 [-Werror=restrict]
--   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
--          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10314723/]
-- lsmmc.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lsmmc.c b/lsmmc.c
--index c4faa00..bcb854d 100644
----- a/lsmmc.c
--+++ b/lsmmc.c
--@@ -353,7 +353,7 @@ char *read_file(char *name)
-- 		line[strlen(line) - 1] = '\0';
-- 
-- 	while (isspace(line[0]))
---		strncpy(&line[0], &line[1], sizeof(line));
--+		memmove(&line[0], &line[1], sizeof(line)-1);
-- 
-- 	return strdup(line);
-- }
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 37a4755234..f3a7234670 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -4,12 +4,11 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 0bc7e14d36..e7ddc02b71 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -15,7 +15,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ DEPENDS += "base-passwd"
  
- SRCBRANCH ?= "master"
--SRCREV = "b4fe0c8c0e57a74c01755fa9362703b60d7ee49d"
-+SRCREV = "aef913e31b659462fe6b9320d241676cba97f67b"
+ # autotools-brokensep as this package doesn't use automake
+-inherit autotools-brokensep gettext systemd
++inherit autotools-brokensep gettext systemd upstream-version-is-even
  
--PV = "0.1"
-+PV = "0.1+git${SRCPV}"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
--           file://0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
 -- 
 2.17.1
 
