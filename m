@@ -1,42 +1,52 @@
-Return-Path: <prvs=023c109db=Richard.Leitner@skidata.com>
-Received: from mail2.skidata.com (mail2.skidata.com [91.230.2.91])
-	by mail.openembedded.org (Postfix) with ESMTP id E98CD7D688
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 8550C7D533
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 09:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=skidata.com; i=@skidata.com; q=dns/txt; s=selector1;
-	t=1557221083; x=1588757083;
-	h=subject:to:cc:references:from:message-id:date:
-	mime-version:in-reply-to:content-transfer-encoding;
-	bh=SftKVx34N7qcDRv5v1XfYRWfZR8KMsFkRt8zKPbr/j8=;
-	b=QKD3tzhr1JLvZqIwr1xJGtk+q1UncMKCcSgpa8bdAg/oBa0ajm6O9g38
-	mQx3iQCtMJ1FLfRr7ylR4HvbgvveifXjVCwc64LyuAr/hlWRE3aFscPyK
-	mMhH/sfvYcl4vDCaYqueF97weP19ZSfrE+wyQStPlinYDWjXYCFbiPQ/T
-	aKrSPLYxxAMsR7Hw0bk+yHa4IcK1JhC0eghuJWCrCo6ZVwJ4o6GNP3l5Z
-	AzF+zDVph9HG03CrAiXf02odfgIy23XxW94wRIAoUILtOQsV3AYMw55BD
-	EGqwhVh+x1Dha3lSw7JpY9lEFxgDQs60K4weZzGByonI4y4usbb+/PsaW Q==;
-IronPort-SDR: gP8GvR2qXzqj6hMY+50H5ME1TUTzkygFu1D5kEhgYeFYJk3H1KdHnuNuHIkrd09c+0u+AFdXSz
-	kmowfalZn88UTBf9DWNVDppxH0tVShEKm7mgjqrn3ZHk70K+Uw5t8FTzVql24Zh+/m47IhHG0m
-	22KRGKJtyazDoMm517VLCYqT7mlvZrfiL/7yvue3mi1R9YYymwcLsXradfcYUxJhDrbNrDTLaz
-	RYHGE5xB/MSmg3RbXK/zHggcmKAfxD+Gc+3qG30zslTiK4166qRBGU9aoZ5LP0i/r143wYEWxC
-	sBw=
-X-IronPort-AV: E=Sophos;i="5.60,441,1549926000"; 
-   d="scan'208";a="2125658"
-To: Alex Kiernan <alex.kiernan@gmail.com>
-References: <20190506074531.13459-1-richard.leitner@skidata.com>
-	<CAO5Uq5RJtfyFNkCL=L1Vgrv9cJ+Fu+J90+ecapg3bEupa5hjUg@mail.gmail.com>
-From: Richard Leitner <richard.leitner@skidata.com>
-Message-ID: <02708969-c94d-06f8-1a87-d3ee2239f6ad@skidata.com>
-Date: Tue, 7 May 2019 11:24:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Tue,  7 May 2019 09:40:32 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id d12so848292wrm.8
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 May 2019 02:40:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=tPEPVM+Rk5CBRND0Y0QROdU6zLNauh2yutooIQiSWN8=;
+	b=IGAqRat8Gafju24esBOKX1NZ+jKEaRRrOH/Wn8nh2LcZ7ZPXufkPMb6NS7iOI13vWJ
+	kJ0bw9fJeEcdWbuJcB6YSpNSLVAdTomqAEgNX5WTrdqjhHmZPpE5QhoJtBMuQA40kjoE
+	A/Dl6WKgOuPZ+An0mwRIUa6Np44sW2HR1ZRH8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=tPEPVM+Rk5CBRND0Y0QROdU6zLNauh2yutooIQiSWN8=;
+	b=FhAvmzuFC6jNT7AC1v0+MaO4ZD96Zkvzo91JWkPmbGLK2DU4MfhhanWt5j3GRGEsfT
+	xp9Obj5qDI0G/9//phA/OkqnP2XI6OO7LvyW6IKxtUACdTw69nhWq00zZITgKYyMVH9i
+	lxVLqo/trXg2TY3oM82Ap38PyAMHVfYcMRPYGKrDI1acgOyk+4IJNXu9T5eNmAR2ZqiO
+	a+xZaQnZPo5ZVJ/iL/PcwEVDpAM87z17dQg1c6XPY9VgB9e6h86dUGCIAKIF3NFYNp0h
+	wb3TP5cA+pEsAGHLIi4V/WLVrVVLd5p+XSca5a0XjJM4Se1CBq1Y31cBb+JmJC3k8cC3
+	SeYg==
+X-Gm-Message-State: APjAAAUqgrOr6ZnrnRqEPRo4hgErfi3eIaEWDLXQco/x7WhADkq+CgSQ
+	9LBI0ykNoYN6/jjjSpSGBYcvNg==
+X-Google-Smtp-Source: APXvYqwHLEdJKXdWVTihvvz9NFl3T4tsznpG8eYz/TOtCNuw9vyXOqdq5XQL7miH+46xSUDn417wjA==
+X-Received: by 2002:adf:df88:: with SMTP id z8mr21140486wrl.209.1557222033223; 
+	Tue, 07 May 2019 02:40:33 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	y4sm10665216wmj.20.2019.05.07.02.40.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 07 May 2019 02:40:32 -0700 (PDT)
+Message-ID: <f5b3478bfb63651712821e2acd6bfbe664c6e1ad.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 07 May 2019 10:40:30 +0100
+In-Reply-To: <20190506021955.26534-2-akuster808@gmail.com>
+References: <20190506021955.26534-1-akuster808@gmail.com>
+	<20190506021955.26534-2-akuster808@gmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CAO5Uq5RJtfyFNkCL=L1Vgrv9cJ+Fu+J90+ecapg3bEupa5hjUg@mail.gmail.com>
-X-Originating-IP: [192.168.111.252]
-X-ClientProxiedBy: sdex6srv.skidata.net (192.168.111.84) To
-	sdex5srv.skidata.net (192.168.111.83)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [warrior][PATCH] uboot-sign: add support for different u-boot configurations
+Subject: Re: [PATCH 2/2] nss: add ptest support
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,34 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 09:24:20 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Tue, 07 May 2019 09:40:32 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/05/2019 11:14, Alex Kiernan wrote:
-> On Mon, May 6, 2019 at 8:53 AM Richard Leitner
-> <richard.leitner@skidata.com> wrote:
->>
->> From: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
->>
->> This is done by concatenating the DTB with the kernels public key
->> to all built u-boot binaries. Furthermore the installation of all
->> the binaries is required.
->>
->> Signed-off-by: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
+On Sun, 2019-05-05 at 19:19 -0700, Armin Kuster wrote:
+> This belongs in the long test group
 > 
-> If this gets applied, please can we get:
+> Here is a baseline:
 > 
-> https://patchwork.openembedded.org/patch/160510/
+> Tests summary:
+> --------------
+> Passed:             9132
+> Failed:             61
+> Failed with core:   0
+> ASan failures:      0
+> Unknown status:     0
 > 
-> applied on top of it?
+> DURATION: 15134
 > 
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
 
-ACK. Thanks for the catch, I missed there is a fix on top of this patch 
-already.
 
-regards;Richard.L
+ERROR: Nothing RPROVIDES 'tcsh' (but /home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/nss/nss_3.43.bb RDEPENDS on or otherwise requires it)
+ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+ERROR: Nothing RPROVIDES 'tcsh' (but /home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/nss/nss_3.43.bb RDEPENDS on or otherwise requires it)
+ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
+
+That is also quite a long runtime (4 hours) which is longer than
+everything else we have combined :/
+
+Cheers,
+
+Richard
+
 
