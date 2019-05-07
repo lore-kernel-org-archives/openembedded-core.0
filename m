@@ -1,73 +1,50 @@
-Return-Path: <catalin-dan.udma@nxp.com>
-X-Greylist: delayed 21719 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 07 May 2019 22:25:38 UTC
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com
-	(mail-eopbgr60088.outbound.protection.outlook.com [40.107.6.88])
-	by mail.openembedded.org (Postfix) with ESMTP id AD6D27D68C
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 22:25:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=xb/BLCcAdzUoD+pBsupe/8LFWtLtYIN/9HfSRCUCXPU=;
-	b=nutOMPC44RtH69QUBaxNVz13QiDbjhM3YyEIbRuDc9coFBOJvAuJYLJy4rUTb58xfSp84Bt8SCtqBtdQi7t67Seh2xVC3HcQJfUlabDyzOKzzEhn3SuAbMNATIglzuzEBuO6xb2gzLGAqO4HUNcpaA15XJ3DH5YvmvZtGPlSpVU=
-Received: from VI1PR04MB5565.eurprd04.prod.outlook.com (20.178.123.19) by
-	VI1PR04MB3983.eurprd04.prod.outlook.com (10.171.182.16) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1856.12; Tue, 7 May 2019 07:50:47 +0000
-Received: from VI1PR04MB5565.eurprd04.prod.outlook.com
-	([fe80::c112:300f:480a:3995]) by
-	VI1PR04MB5565.eurprd04.prod.outlook.com
-	([fe80::c112:300f:480a:3995%3]) with mapi id 15.20.1856.012;
-	Tue, 7 May 2019 07:50:47 +0000
-From: Catalin Dan Udma <catalin-dan.udma@nxp.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [EXT] Re: [OE-core] [PATCH] insane.bbclass: fix QA-check to
-	consider the PREFERRED_RPROVIDER for RDEPENDS
-Thread-Index: AQHU/o8NOq+Ut6Odgkio0eJ63M4gQ6ZfVX8A
-Date: Tue, 7 May 2019 07:50:47 +0000
-Message-ID: <VI1PR04MB5565B9F1D7458A0608C96498DA310@VI1PR04MB5565.eurprd04.prod.outlook.com>
-References: <1551792970-1216-1-git-send-email-catalin-dan.udma@nxp.com>
-	<VI1PR04MB5565D1837E769E35CB840F41DA550@VI1PR04MB5565.eurprd04.prod.outlook.com>
-	<CAJTo0LbBGZz_71T4kF5yq7Lwj9Mta2k8K+wAEMo=KOYj48nnew@mail.gmail.com>
-In-Reply-To: <CAJTo0LbBGZz_71T4kF5yq7Lwj9Mta2k8K+wAEMo=KOYj48nnew@mail.gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: yes
-X-MS-TNEF-Correlator: 
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=catalin-dan.udma@nxp.com; 
-x-originating-ip: [212.146.100.6]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 5c4b00e5-06b1-45bb-093b-08d6d2c0b7ba
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(49563074)(7193020);
-	SRVR:VI1PR04MB3983; 
-x-ms-traffictypediagnostic: VI1PR04MB3983:
-x-ms-exchange-purlcount: 2
-x-microsoft-antispam-prvs: <VI1PR04MB3983B5FC959000AE0DD7115DDA310@VI1PR04MB3983.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:989;
-x-forefront-prvs: 0030839EEE
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(39860400002)(376002)(366004)(396003)(346002)(136003)(189003)(199004)(13464003)(4326008)(55016002)(478600001)(68736007)(9686003)(966005)(2906002)(81156014)(81166006)(14454004)(6306002)(33656002)(25786009)(305945005)(8676002)(99936001)(7736002)(74316002)(316002)(76176011)(45080400002)(86362001)(8936002)(5024004)(186003)(7696005)(52536014)(6246003)(66066001)(71200400001)(5660300002)(71190400001)(229853002)(11346002)(102836004)(99286004)(53936002)(446003)(53546011)(486006)(66946007)(73956011)(6506007)(476003)(6916009)(76116006)(66446008)(64756008)(66556008)(66616009)(66476007)(6436002)(256004)(26005)(6116002)(3846002);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR04MB3983;
-	H:VI1PR04MB5565.eurprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: nxp.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 7t6LOgKwpA3X8dIEtRkkKFeyKQSDkohgv51QCOENcMZNyYjJHuslWjZdNCT9pmC8q8vJSTTK9bl6bsD35/kTOhVIY9CDn0f2lJVEYwVi9PBLRcxsOFqxGZYcK+tYY0mpSxVNzbkvkE4uRfUJkH8l/SD6IF++0c7AJ69ji4bU6TDUWkHX2kRaiK1MFrKkMe6uK0BeFaQb3mddTihq4BbZ5g6vVGyvU5QRyTKIO9URWyCtoJKFZVPzcAdS4nKCaWWpBcxCZbyy4YEaeDQcRdkFHbR0KFFJdw7hxlfExGNSEE+Po1gVUNXsCKjAJ5f7Ut7Ag7jjKy9++PJTtzod50I0ecUdz0W3Zts4bTWsbqiDMhF4NCpgziCKJMl0N4/GwFy4UdFODcxxOFAoj9LS1iHV0h4YkH8PCbKyK9mP5c/LZfI=
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 9F9F77D57B
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  7 May 2019 23:53:48 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id 10so9479914pfo.5
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 May 2019 16:53:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=iCjFGRPbrTYjPQS4oXdKrAyiyeSan9ybvTxFJzx9igs=;
+	b=TDg7PC9ZRXdOqBFGlABAyid7njIn0pKvVEzWa4/CqU7/eYp5hejPS+q9Ua5TQTKB70
+	m6His0IIvnYLQSs4Y1pCKPy2UrY6HItCeGoUtyywAOGN0nIxZkypyzDPqJoh4V5GUOPR
+	APsUczAstdvLPePvISWNPlytGENqhJTEuBCdkwFM5SIzyHoHj1wASc0bkhmqSpNOxk/h
+	/v+G90e1A6UH5gEKbzmV3PWQheRkVhy6NLKJQa+0Nt24NEEsuzc09/BrYXO3GOJ+6Usz
+	LhPP/eHR8jxiuYt07S/ATGjn9JVn0toKAk6b6HicfJn2bXgHuVdhhgEGRoD0YoWyq/ur
+	p0kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=iCjFGRPbrTYjPQS4oXdKrAyiyeSan9ybvTxFJzx9igs=;
+	b=Kh2DWAHZhMTvuiWFU76JMwm1xoVQc4CWRRpULpOtQe8vdkuBYfqIX0otCeeS2DVAnp
+	UyPwg6U0KuTxpCujcaBzxHHMM+nlokFXpi1tJ4i4eMSzXVPLb4EgrR0FJHU9yj9re+Eh
+	cJAyfpOBgMQxTNNlIkdfl1bVJUo121AWGLBBMKLiMK+D6EfXhUWS764htkqJoQyfL+JU
+	jgL3P8p9TqlxQtC4vxTrOekJnozS8xlxD3IhLYUujmi7oehAHBTW5IIJfbwQLG7mHWYG
+	NIL1Jym8DWVSdS/1nfyrWqcwN3yBezsUL3h7aMGQ7xjeflKgu9PkRUGPD5AMd2r5Rs0q
+	UTVg==
+X-Gm-Message-State: APjAAAVVkwXBn/aWMgkR1PgqtRDC2vzqOLtR4e/bYjCNwvMPlDwi6c+i
+	fGx+ND00jCSWOAWfJfKaAy7zwt2QzkY=
+X-Google-Smtp-Source: APXvYqxvGNW5/SjPu2zC2/XwVxrBUJj/pvairERRz/bJU/IByTxjg7Ii5C0ysid93Rq6Udt7tlB50w==
+X-Received: by 2002:a62:87c6:: with SMTP id i189mr21775899pfe.65.1557273227908;
+	Tue, 07 May 2019 16:53:47 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::592a])
+	by smtp.gmail.com with ESMTPSA id
+	o6sm29118021pfh.97.2019.05.07.16.53.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 May 2019 16:53:46 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2019 16:53:39 -0700
+Message-Id: <20190507235339.19123-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5c4b00e5-06b1-45bb-093b-08d6d2c0b7ba
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2019 07:50:47.6229 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3983
-Cc: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>
-Subject: Re: [EXT] Re: [PATCH] insane.bbclass: fix QA-check to consider the PREFERRED_RPROVIDER for RDEPENDS
+Subject: [PATCH] systemd: Backport patch to fix build with gcc9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -80,142 +57,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 22:25:39 -0000
-X-Groupsio-MsgNum: 124128
-Content-Language: en-US
-Content-Type: multipart/mixed;
-	boundary="_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_"
+X-List-Received-Date: Tue, 07 May 2019 23:53:48 -0000
+Content-Transfer-Encoding: 8bit
 
---_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+Do not disable the warning as error for overflow, which was a workaround
+until the real fix came in.
 
-SGkgUm9zcywNCg0KSSBtYXkgYmUgbWlzc2luZyBzb21ldGhpbmcgaW4gaG93IHRvIGNvbnRyaWJ1
-dGUgdG8gb2UtY29yZS4gSSBjb3VsZCBhcHBseSB0aGUgcGF0Y2ggb24gbGF0ZXN0IA0KbWFzdGVy
-IChlYjhjN2I1IFJpY2hhcmQgUHVyZGllLCAiYml0YmFrZTogSEVBREVSOiBEcm9wIGl0Iikgb24g
-cG9reSBhbmQgcG9reS1jb250cmliOg0KLSBnaXQ6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9wb2t5
-DQotIGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvZ2l0L3Bva3ktY29udHJpYg0KDQpDb3Vs
-ZCB5b3UgcGxlYXNlIGhlbHAgbWUgdW5kZXJzdGFuZCB3aGVyZSBzaG91bGQgSSByZWJhc2U/DQpG
-b3IgcmVmZXJlbmNlLCBJIGF0dGFjaGVkIGFsc28gdGhlIHBhdGNoIEkgYXBwbGllZCB3aXRoICJn
-aXQgYW0iLg0KDQpUaGFuayB5b3UsDQpDYXRhbGluDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
-LS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29t
-XQ0KPiBTZW50OiBNb25kYXksIEFwcmlsIDI5LCAyMDE5IDQ6MjYgUE0NCj4gVG86IENhdGFsaW4g
-RGFuIFVkbWEgPGNhdGFsaW4tZGFuLnVkbWFAbnhwLmNvbT4NCj4gQ2M6IE9wZW5lbWJlZGRlZC1j
-b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogW0VYVF0gUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0hdIGluc2FuZS5iYmNsYXNzOiBmaXggUUEtY2hlY2sgdG8gY29uc2lkZXINCj4gdGhl
-IFBSRUZFUlJFRF9SUFJPVklERVIgZm9yIFJERVBFTkRTDQo+IA0KPiBDYXV0aW9uOiBFWFQgRW1h
-aWwNCj4gDQo+IEkganVzdCByYW4gaW50byB0aGlzLCBidXQgdGhlIHBhdGNoIGRvZXNuJ3QgYXBw
-bHkgdG8gbWFzdGVyIGFueW1vcmUuDQo+IENhbiB5b3UgcmViYXNlPw0KPiANCj4gVGhhbmtzLA0K
-PiBSb3NzDQo+IA0KPiBPbiBUdWUsIDIgQXByIDIwMTkgYXQgMjM6MzksIENhdGFsaW4gRGFuIFVk
-bWEgPGNhdGFsaW4tZGFuLnVkbWFAbnhwLmNvbT4NCj4gd3JvdGU6DQo+ID4NCj4gPiBQaW5nLg0K
-PiA+DQo+ID4gVGhhbmtzLA0KPiA+IENhdGFsaW4gVWRtYQ0KPiA+DQo+ID4gPiAtLS0tLU9yaWdp
-bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogQ2F0YWxpbiBEYW4gVWRtYQ0KPiA+ID4gU2Vu
-dDogVHVlc2RheSwgTWFyY2ggNSwgMjAxOSAzOjM2IFBNDQo+ID4gPiBUbzogT3BlbmVtYmVkZGVk
-LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gQ2M6IENhdGFsaW4gRGFuIFVkbWEg
-PGNhdGFsaW4tZGFuLnVkbWFAbnhwLmNvbT4NCj4gPiA+IFN1YmplY3Q6IFtPRS1jb3JlXVtQQVRD
-SF0gaW5zYW5lLmJiY2xhc3M6IGZpeCBRQS1jaGVjayB0byBjb25zaWRlciB0aGUNCj4gPiA+IFBS
-RUZFUlJFRF9SUFJPVklERVIgZm9yIFJERVBFTkRTDQo+ID4gPg0KPiA+ID4gUUEtY2hlY2sgbG9v
-a3MgaW4gdGhlIFJERVBFTkRTIGxpc3Qgd2l0aG91dCB0YWtpbmcgaW50byBjb25zaWRlcmF0aW9u
-DQo+IHRoYXQgYQ0KPiA+ID4gc3BlY2lmaWMgcGFja2FnZSBtYXkgaGF2ZSBhIFBSRUZFUlJFRF9S
-UFJPVklERVIgZGVmaW5lZC4NCj4gPiA+IElmIFBSRUZFUlJFRF9SUFJPVklERVIgaXMgc2V0LCBR
-QS1jaGVjayB3aWxsIGlnbm9yZSB0aGF0IHNldHRpbmdzIGFuZA0KPiB3aWxsDQo+ID4gPiBjb25z
-aWRlciB0aGUgb3JpZ2luYWwgcGFja2FnZSwgcmVzdWx0aW5nIGluIFFBLWNoZWNrIGVycm9yczoN
-Cj4gPiA+ICAgICAgIEVSUk9SOiBkb19wYWNrYXRlX3FhOiBRQSBJc3N1ZTogPC4uLj4sIGJ1dCBu
-byBwcm92aWRlcnMgZm91bmQgaW4NCj4gPiA+ICAgICAgIFJERVBFTkRTXzxwYWNrYWdlPj8gW2Zp
-bGUtcmRlcHNdDQo+ID4gPiBUaGUgZml4IGlzIHRvIHJlcGxhY2UgdGhlIG9yaWdpbmFsIHBhY2th
-Z2UgaW4gdGhlIFFBLWNoZWNrIHdpdGggdGhlIG5ldw0KPiA+ID4gcGFja2FnZSBkZWZpbmVkIGlu
-IFBSRUZFUlJFRF9SUFJPVklERVIsIGlmIGl04oCZcyBzZXQuDQo+ID4gPg0KPiA+ID4gU2lnbmVk
-LW9mZi1ieTogQ2F0YWxpbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54cC5jb20+DQo+ID4gPiAt
-LS0NCj4gPiA+ICBtZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xhc3MgfCA2ICsrKysrKw0KPiA+ID4g
-IDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0
-IGEvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNs
-YXNzDQo+ID4gPiBpbmRleCA2NDExODg0Li4xNjUyMzNiIDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0
-YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzDQo+ID4gPiArKysgYi9tZXRhL2NsYXNzZXMvaW5zYW5l
-LmJiY2xhc3MNCj4gPiA+IEBAIC02ODksNiArNjg5LDkgQEAgZGVmIHBhY2thZ2VfcWFfY2hlY2tf
-cmRlcGVuZHMocGtnLCBwa2dkZXN0LA0KPiBza2lwLA0KPiA+ID4gdGFza2RlcHMsIHBhY2thZ2Vz
-LCBkKToNCj4gPiA+ICAgICAgICAgICMgTm93IGRvIHRoZSBzYW5pdHkgY2hlY2shISENCj4gPiA+
-ICAgICAgICAgIGlmICJidWlsZC1kZXBzIiBub3QgaW4gc2tpcDoNCj4gPiA+ICAgICAgICAgICAg
-ICBmb3IgcmRlcGVuZCBpbiByZGVwZW5kczoNCj4gPiA+ICsgICAgICAgICAgICAgICAgcHJlZl9y
-ZGVwZW5kID0NCj4gbG9jYWxkYXRhLmdldFZhcigiUFJFRkVSUkVEX1JQUk9WSURFUl8lcyIgJQ0K
-PiA+ID4gcmRlcGVuZCkNCj4gPiA+ICsgICAgICAgICAgICAgICAgaWYgcHJlZl9yZGVwZW5kOg0K
-PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgcmRlcGVuZCA9IHByZWZfcmRlcGVuZA0KPiA+ID4g
-ICAgICAgICAgICAgICAgICBpZiAiLWRiZyIgaW4gcmRlcGVuZCBhbmQgImRlYnVnLWRlcHMiIG5v
-dCBpbiBza2lwOg0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAgZXJyb3JfbXNnID0gIiVzIHJk
-ZXBlbmRzIG9uICVzIiAlIChwa2cscmRlcGVuZCkNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAg
-IHBhY2thZ2VfcWFfaGFuZGxlX2Vycm9yKCJkZWJ1Zy1kZXBzIiwgZXJyb3JfbXNnLCBkKQ0KPiA+
-ID4gQEAgLTczOSw2ICs3NDIsOSBAQCBkZWYgcGFja2FnZV9xYV9jaGVja19yZGVwZW5kcyhwa2cs
-IHBrZ2Rlc3QsDQo+IHNraXAsDQo+ID4gPiB0YXNrZGVwcywgcGFja2FnZXMsIGQpOg0KPiA+ID4g
-ICAgICAgICAgICAgICAgICB3aGlsZSBuZXh0Og0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAg
-bmV3ID0gW10NCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgIGZvciByZGVwIGluIG5leHQ6DQo+
-ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgcHJlZl9yZGVwID0NCj4gbG9jYWxkYXRhLmdl
-dFZhcigiUFJFRkVSUkVEX1JQUk9WSURFUl8lcyIgJQ0KPiA+ID4gcmRlcCkNCj4gPiA+ICsgICAg
-ICAgICAgICAgICAgICAgICAgICBpZiBwcmVmX3JkZXA6DQo+ID4gPiArICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgIHJkZXAgPSBwcmVmX3JkZXANCj4gPiA+ICAgICAgICAgICAgICAgICAgICAg
-ICAgICByZGVwX2RhdGEgPSBvZS5wYWNrYWdlZGF0YS5yZWFkX3N1YnBrZ2RhdGEocmRlcCwgZCkN
-Cj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBzdWJfcmRlcHMgPSByZGVwX2RhdGEuZ2V0
-KCJSREVQRU5EU18iICsgcmRlcCkNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBu
-b3Qgc3ViX3JkZXBzOg0KPiA+ID4gLS0NCj4gPiA+IDIuNy40DQo+ID4NCj4gPiAtLQ0KPiA+IF9f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gT3BlbmVt
-YmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
-bmVtYmVkZGVkLm9yZw0KPiA+DQo+IGh0dHBzOi8vZXVyMDEuc2FmZWxpbmtzLnByb3RlY3Rpb24u
-b3V0bG9vay5jb20vP3VybD1odHRwJTNBJTJGJTJGbGlzdHMubw0KPiBwZW5lbWJlZGRlZC5vcmcl
-MkZtYWlsbWFuJTJGbGlzdGluZm8lMkZvcGVuZW1iZWRkZWQtDQo+IGNvcmUmYW1wO2RhdGE9MDIl
-N0MwMSU3Q2NhdGFsaW4tDQo+IGRhbi51ZG1hJTQwbnhwLmNvbSU3QzJlZDZlY2FlNjcyMjRjMThm
-NjkyMDhkNmNjYTYyZTk5JTdDNjg2ZWExZA0KPiAzYmMyYjRjNmZhOTJjZDk5YzVjMzAxNjM1JTdD
-MCU3QzElN0M2MzY5MjE0MTE0NTQ3MjYzNzQmYW1wO3NkYXRhDQo+ID1XOUtlJTJCJTJCJTJGWHNY
-VTIlMkJIdmQxWmg1TG5rV1lXaHliOG5BWDlpWVgzQ3V5JTJCWSUzRA0KPiAmYW1wO3Jlc2VydmVk
-PTANCg==
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...remove-redunant-link-name-in-message.patch | 41 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_242.bb      |  3 +-
+ 2 files changed, 42 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-core/systemd/systemd/0006-network-remove-redunant-link-name-in-message.patch
 
---_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_
-Content-Type: application/octet-stream;
-	name="0001-insane.bbclass-fix-QA-check-to-consider-the-PREFERRE.PATCH"
-Content-Description: 0001-insane.bbclass-fix-QA-check-to-consider-the-PREFERRE.PATCH
-Content-Disposition: attachment;
-	filename="0001-insane.bbclass-fix-QA-check-to-consider-the-PREFERRE.PATCH";
-	size=2292; creation-date="Tue, 07 May 2019 07:49:03 GMT";
-	modification-date="Tue, 07 May 2019 07:49:03 GMT"
-Content-Transfer-Encoding: base64
+diff --git a/meta/recipes-core/systemd/systemd/0006-network-remove-redunant-link-name-in-message.patch b/meta/recipes-core/systemd/systemd/0006-network-remove-redunant-link-name-in-message.patch
+new file mode 100644
+index 0000000000..33f482ae9b
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0006-network-remove-redunant-link-name-in-message.patch
+@@ -0,0 +1,41 @@
++From 9e6940858c7dbdd56b297bdf49f58d623e3430b7 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Zbigniew=20J=C4=99drzejewski-Szmek?= <zbyszek@in.waw.pl>
++Date: Tue, 7 May 2019 13:46:55 +0200
++Subject: [PATCH] network: remove redunant link name in message
++
++Fixes #12454.
++
++gcc was complaining that the link->ifname argument is NULL. Adding
++assert(link->ifname) right before the call has no effect. It seems that
++gcc is confused by the fact that log_link_warning_errno() internally
++calls log_object(), with link->ifname passed as the object. log_object()
++is also a macro and is does a check whether the passed object is NULL.
++So we have a check if something is NULL right next an unconditional use
++of it where it cannot be NULL. I think it's a bug in gcc.
++
++Anyway, we don't need to use link->ifname here. log_object() already prepends
++the object name to the message.
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++Upstream-Status: backport [https://github.com/systemd/systemd/commit/c98b3545008d8e984ab456dcf79787418fcbfe13]
++---
++ src/network/networkd-link.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
++index 3e334c8d29..a158c01bbd 100644
++--- a/src/network/networkd-link.c
+++++ b/src/network/networkd-link.c
++@@ -321,8 +321,7 @@ static int link_enable_ipv6(Link *link) {
++ 
++         r = sysctl_write_ip_property_boolean(AF_INET6, link->ifname, "disable_ipv6", disabled);
++         if (r < 0)
++-                log_link_warning_errno(link, r, "Cannot %s IPv6 for interface %s: %m",
++-                                       enable_disable(!disabled), link->ifname);
+++                log_link_warning_errno(link, r, "Cannot %s IPv6: %m", enable_disable(!disabled));
++         else
++                 log_link_info(link, "IPv6 successfully %sd", enable_disable(!disabled));
++ 
++-- 
++2.21.0
++
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 69b1f7ed0e..3012f20b11 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -22,6 +22,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0003-implment-systemd-sysv-install-for-OE.patch \
+            file://0004-rules-whitelist-hd-devices.patch \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
++           file://0006-network-remove-redunant-link-name-in-message.patch \
+            file://99-default.preset \
+            "
+ 
+@@ -204,8 +205,6 @@ EXTRA_OEMESON += "-Dkexec-path=${sbindir}/kexec \
+                   -Dsulogin-path=${base_sbindir}/sulogin \
+                   -Dumount-path=${base_bindir}/umount"
+ 
+-CFLAGS += "-Wno-error=format-overflow"
+-
+ do_install() {
+ 	meson_do_install
+ 	install -d ${D}/${base_sbindir}
+-- 
+2.21.0
 
-RnJvbSBhNzFkMGVhMTM5NmI0ODU0MWE1YTVkOTU3MTQ5YmFkYzEyZjliMjhhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBDYXRhbGluIERhbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54
-cC5jb20+CkRhdGU6IFR1ZSwgNSBNYXIgMjAxOSAxMzozNjoxOSArMDAwMApTdWJqZWN0OiBbUEFU
-Q0hdIGluc2FuZS5iYmNsYXNzOiBmaXggUUEtY2hlY2sgdG8gY29uc2lkZXIgdGhlCiBQUkVGRVJS
-RURfUlBST1ZJREVSIGZvciBSREVQRU5EUwpNSU1FLVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6
-IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJp
-dAoKUUEtY2hlY2sgbG9va3MgaW4gdGhlIFJERVBFTkRTIGxpc3Qgd2l0aG91dCB0YWtpbmcgaW50
-byBjb25zaWRlcmF0aW9uIHRoYXQgYQpzcGVjaWZpYyBwYWNrYWdlIG1heSBoYXZlIGEgUFJFRkVS
-UkVEX1JQUk9WSURFUiBkZWZpbmVkLgpJZiBQUkVGRVJSRURfUlBST1ZJREVSIGlzIHNldCwgUUEt
-Y2hlY2sgd2lsbCBpZ25vcmUgdGhhdCBzZXR0aW5ncyBhbmQgd2lsbApjb25zaWRlciB0aGUgb3Jp
-Z2luYWwgcGFja2FnZSwgcmVzdWx0aW5nIGluIFFBLWNoZWNrIGVycm9yczoKCUVSUk9SOiBkb19w
-YWNrYXRlX3FhOiBRQSBJc3N1ZTogPC4uLj4sIGJ1dCBubyBwcm92aWRlcnMgZm91bmQgaW4KCVJE
-RVBFTkRTXzxwYWNrYWdlPj8gW2ZpbGUtcmRlcHNdClRoZSBmaXggaXMgdG8gcmVwbGFjZSB0aGUg
-b3JpZ2luYWwgcGFja2FnZSBpbiB0aGUgUUEtY2hlY2sgd2l0aCB0aGUgbmV3CnBhY2thZ2UgZGVm
-aW5lZCBpbiBQUkVGRVJSRURfUlBST1ZJREVSLCBpZiBpdOKAmXMgc2V0LgoKU2lnbmVkLW9mZi1i
-eTogQ2F0YWxpbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54cC5jb20+Ci0tLQogbWV0YS9jbGFz
-c2VzL2luc2FuZS5iYmNsYXNzIHwgNiArKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlv
-bnMoKykKCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xhc3MgYi9tZXRhL2Ns
-YXNzZXMvaW5zYW5lLmJiY2xhc3MKaW5kZXggYTliZTg4ZS4uOWNhNWFlZiAxMDA2NDQKLS0tIGEv
-bWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzCisrKyBiL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJj
-bGFzcwpAQCAtNjg0LDYgKzY4NCw5IEBAIGRlZiBwYWNrYWdlX3FhX2NoZWNrX3JkZXBlbmRzKHBr
-ZywgcGtnZGVzdCwgc2tpcCwgdGFza2RlcHMsIHBhY2thZ2VzLCBkKToKICAgICAgICAgIyBOb3cg
-ZG8gdGhlIHNhbml0eSBjaGVjayEhIQogICAgICAgICBpZiAiYnVpbGQtZGVwcyIgbm90IGluIHNr
-aXA6CiAgICAgICAgICAgICBmb3IgcmRlcGVuZCBpbiByZGVwZW5kczoKKyAgICAgICAgICAgICAg
-ICBwcmVmX3JkZXBlbmQgPSBsb2NhbGRhdGEuZ2V0VmFyKCJQUkVGRVJSRURfUlBST1ZJREVSXyVz
-IiAlIHJkZXBlbmQpCisgICAgICAgICAgICAgICAgaWYgcHJlZl9yZGVwZW5kOgorICAgICAgICAg
-ICAgICAgICAgICByZGVwZW5kID0gcHJlZl9yZGVwZW5kCiAgICAgICAgICAgICAgICAgaWYgIi1k
-YmciIGluIHJkZXBlbmQgYW5kICJkZWJ1Zy1kZXBzIiBub3QgaW4gc2tpcDoKICAgICAgICAgICAg
-ICAgICAgICAgZXJyb3JfbXNnID0gIiVzIHJkZXBlbmRzIG9uICVzIiAlIChwa2cscmRlcGVuZCkK
-ICAgICAgICAgICAgICAgICAgICAgcGFja2FnZV9xYV9oYW5kbGVfZXJyb3IoImRlYnVnLWRlcHMi
-LCBlcnJvcl9tc2csIGQpCkBAIC03MzQsNiArNzM3LDkgQEAgZGVmIHBhY2thZ2VfcWFfY2hlY2tf
-cmRlcGVuZHMocGtnLCBwa2dkZXN0LCBza2lwLCB0YXNrZGVwcywgcGFja2FnZXMsIGQpOgogICAg
-ICAgICAgICAgICAgIHdoaWxlIG5leHQ6CiAgICAgICAgICAgICAgICAgICAgIG5ldyA9IFtdCiAg
-ICAgICAgICAgICAgICAgICAgIGZvciByZGVwIGluIG5leHQ6CisgICAgICAgICAgICAgICAgICAg
-ICAgICBwcmVmX3JkZXAgPSBsb2NhbGRhdGEuZ2V0VmFyKCJQUkVGRVJSRURfUlBST1ZJREVSXyVz
-IiAlIHJkZXApCisgICAgICAgICAgICAgICAgICAgICAgICBpZiBwcmVmX3JkZXA6CisgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgcmRlcCA9IHByZWZfcmRlcAogICAgICAgICAgICAgICAgICAg
-ICAgICAgcmRlcF9kYXRhID0gb2UucGFja2FnZWRhdGEucmVhZF9zdWJwa2dkYXRhKHJkZXAsIGQp
-CiAgICAgICAgICAgICAgICAgICAgICAgICBzdWJfcmRlcHMgPSByZGVwX2RhdGEuZ2V0KCJSREVQ
-RU5EU18iICsgcmRlcCkKICAgICAgICAgICAgICAgICAgICAgICAgIGlmIG5vdCBzdWJfcmRlcHM6
-Ci0tIAoyLjcuNAoK
 
---_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_--
