@@ -1,52 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 8550C7D533
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 999917D41E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 09:40:32 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id d12so848292wrm.8
+	Tue,  7 May 2019 10:44:45 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id q132so10337293itc.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 02:40:33 -0700 (PDT)
+	Tue, 07 May 2019 03:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=tPEPVM+Rk5CBRND0Y0QROdU6zLNauh2yutooIQiSWN8=;
-	b=IGAqRat8Gafju24esBOKX1NZ+jKEaRRrOH/Wn8nh2LcZ7ZPXufkPMb6NS7iOI13vWJ
-	kJ0bw9fJeEcdWbuJcB6YSpNSLVAdTomqAEgNX5WTrdqjhHmZPpE5QhoJtBMuQA40kjoE
-	A/Dl6WKgOuPZ+An0mwRIUa6Np44sW2HR1ZRH8=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=OqIEvMj83tHuHeIEf7iPTO2h9xxHQ5n2vdluUhycHVk=;
+	b=Og7JcoKCGwf8j5zkj0R45Y9Wac7efZ2U3rf4kpJz3Oa83jbo7aL3pQ1lXQGuXmj5uO
+	4R/0aNuv+pY5X65sL3PpJz2Dbj+aWAv0vtcGZm7dmbkNr6AoOiN583G1y4YVs8zLWOJ1
+	S9M/wrh4W6uKGBy7zpwbwNO8ikIW9JFyG4B2YZaOWWuaUAY4LvquuI/OIoFf0vJf/Siw
+	Q4LMB7Uieokjm1NhlbmzGAYiNpQEiGeErT/MEmrgVdSlf9ddRI22b315oqWuVgdHUB9j
+	X8M+XJ8CPFeszNqaJmbFqzPoup6URKReUykaDP+9/5JqIYuxp+D4VrnlikzTBJwAyn81
+	Qf0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=tPEPVM+Rk5CBRND0Y0QROdU6zLNauh2yutooIQiSWN8=;
-	b=FhAvmzuFC6jNT7AC1v0+MaO4ZD96Zkvzo91JWkPmbGLK2DU4MfhhanWt5j3GRGEsfT
-	xp9Obj5qDI0G/9//phA/OkqnP2XI6OO7LvyW6IKxtUACdTw69nhWq00zZITgKYyMVH9i
-	lxVLqo/trXg2TY3oM82Ap38PyAMHVfYcMRPYGKrDI1acgOyk+4IJNXu9T5eNmAR2ZqiO
-	a+xZaQnZPo5ZVJ/iL/PcwEVDpAM87z17dQg1c6XPY9VgB9e6h86dUGCIAKIF3NFYNp0h
-	wb3TP5cA+pEsAGHLIi4V/WLVrVVLd5p+XSca5a0XjJM4Se1CBq1Y31cBb+JmJC3k8cC3
-	SeYg==
-X-Gm-Message-State: APjAAAUqgrOr6ZnrnRqEPRo4hgErfi3eIaEWDLXQco/x7WhADkq+CgSQ
-	9LBI0ykNoYN6/jjjSpSGBYcvNg==
-X-Google-Smtp-Source: APXvYqwHLEdJKXdWVTihvvz9NFl3T4tsznpG8eYz/TOtCNuw9vyXOqdq5XQL7miH+46xSUDn417wjA==
-X-Received: by 2002:adf:df88:: with SMTP id z8mr21140486wrl.209.1557222033223; 
-	Tue, 07 May 2019 02:40:33 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	y4sm10665216wmj.20.2019.05.07.02.40.31
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 07 May 2019 02:40:32 -0700 (PDT)
-Message-ID: <f5b3478bfb63651712821e2acd6bfbe664c6e1ad.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Armin Kuster <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 07 May 2019 10:40:30 +0100
-In-Reply-To: <20190506021955.26534-2-akuster808@gmail.com>
-References: <20190506021955.26534-1-akuster808@gmail.com>
-	<20190506021955.26534-2-akuster808@gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=OqIEvMj83tHuHeIEf7iPTO2h9xxHQ5n2vdluUhycHVk=;
+	b=rogn3PV3tRgmvIYP4+dZSqL3xf73Wu/qTkSzXsAoy+frzFM4Xf5fL9dkl6KU4X4smW
+	06t0Kf01+G9SST11y0nyu+r1Gg8qEa+mCUkzP7VeJfmqLvtPxfM5R9tUU+APY7iYuD/P
+	o1mf/5IOM7tHIL7se0P3HViLfj549gPZ9jArE2tcJnWYroo8ZhM/FlIMRRlclrn6c04w
+	4/LGZ7XzcIMa1BLsSXCKwl6EaNw6LfahhlXXxwJRMJ5DPhYdwv84w3QRlF6XguRqBS8r
+	Y5BP+x5ja/PecvQ2e5/FQjYjyXoQgnjbeGUeIYzH0Lz0nkkWBjCgkUwTh9yliv0OZKHX
+	fC0g==
+X-Gm-Message-State: APjAAAW+2c7MkMGx2+FSkb4Sd4sD9u94XBf9gh5eYPu5FLo958jSKZJH
+	eoi2Vhov27zO+FHRBvVFy82N56E4s2IBW6gMH1HmrA==
+X-Google-Smtp-Source: APXvYqy+OijQ/PoLDXkWORwGIZ4S/vVYjOpH/RW++Hi6j2bvUK9GI+Z+fosScvofTjamN6OUdGvQrNepWkV35XtKCyM=
+X-Received: by 2002:a24:4145:: with SMTP id x66mr23159128ita.130.1557225886539;
+	Tue, 07 May 2019 03:44:46 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] nss: add ptest support
+References: <20190424051620.10065-1-open.source@oleksandr-kravchuk.com>
+	<bdd177a6-9d65-ed60-cb2f-20fea4effbea@oleksandr-kravchuk.com>
+	<CANNYZj9gNDaNgzx=240=thj_QA6h0Wrs_qvwfSabun72-r-Pog@mail.gmail.com>
+In-Reply-To: <CANNYZj9gNDaNgzx=240=thj_QA6h0Wrs_qvwfSabun72-r-Pog@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 May 2019 11:44:35 +0100
+Message-ID: <CAJTo0LbJghj1jokkpoKz1xwg+FTUckUMSxZQsWsj0wvgMFc2eg@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: Re: [PATCH v2] ell: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,38 +57,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 09:40:32 -0000
+X-List-Received-Date: Tue, 07 May 2019 10:44:45 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Sun, 2019-05-05 at 19:19 -0700, Armin Kuster wrote:
-> This belongs in the long test group
-> 
-> Here is a baseline:
-> 
-> Tests summary:
-> --------------
-> Passed:             9132
-> Failed:             61
-> Failed with core:   0
-> ASan failures:      0
-> Unknown status:     0
-> 
-> DURATION: 15134
-> 
-> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+It's sitting in mut, I'll prod RP today :)
 
-
-ERROR: Nothing RPROVIDES 'tcsh' (but /home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/nss/nss_3.43.bb RDEPENDS on or otherwise requires it)
-ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
-ERROR: Nothing RPROVIDES 'tcsh' (but /home/pokybuild/yocto-worker/a-quick/build/meta/recipes-support/nss/nss_3.43.bb RDEPENDS on or otherwise requires it)
-ERROR: Required build target 'meta-world-pkgdata' has no buildable providers.
-
-That is also quite a long runtime (4 hours) which is longer than
-everything else we have combined :/
-
-Cheers,
-
-Richard
-
+On Mon, 6 May 2019 at 16:42, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> Please resend, patches do get lost sometimes.
+>
+> Alex
+>
+> On Mon, 6 May 2019 at 16:36, Oleksandr Kravchuk
+> <open.source@oleksandr-kravchuk.com> wrote:
+> >
+> > Khem -
+> >
+> > Is it being hold for a specific reason or it was just lost? Thanks.
+> >
+> > On 24/04/2019 07:16, Oleksandr Kravchuk wrote:
+> > > ELL has originally been part of meta-openembedded, but newer versions
+> > > of some of the oe-core components depend on it, e.g. ofono.
+> > >
+> > > Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> > > ---
+> > >  meta/conf/distro/include/maintainers.inc |  1 +
+> > >  meta/recipes-core/ell/ell_0.19.bb        | 22 ++++++++++++++++++++++
+> > >  2 files changed, 23 insertions(+)
+> > >  create mode 100644 meta/recipes-core/ell/ell_0.19.bb
+> > >
+> > > diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> > > index 41c2a95d53..c00e5b8c65 100644
+> > > --- a/meta/conf/distro/include/maintainers.inc
+> > > +++ b/meta/conf/distro/include/maintainers.inc
+> > > @@ -166,6 +166,7 @@ RECIPE_MAINTAINER_pn-eglinfo-fb = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> > >  RECIPE_MAINTAINER_pn-eglinfo-x11 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> > >  RECIPE_MAINTAINER_pn-eglinfo-wayland = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> > >  RECIPE_MAINTAINER_pn-elfutils = "Hongxu Jia <hongxu.jia@windriver.com>"
+> > > +RECIPE_MAINTAINER_pn-ell = "Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>"
+> > >  RECIPE_MAINTAINER_pn-enchant = "Anuj Mittal <anuj.mittal@intel.com>"
+> > >  RECIPE_MAINTAINER_pn-encodings = "Armin Kuster <akuster808@gmail.com>"
+> > >  RECIPE_MAINTAINER_pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> > > diff --git a/meta/recipes-core/ell/ell_0.19.bb b/meta/recipes-core/ell/ell_0.19.bb
+> > > new file mode 100644
+> > > index 0000000000..8f635e673c
+> > > --- /dev/null
+> > > +++ b/meta/recipes-core/ell/ell_0.19.bb
+> > > @@ -0,0 +1,22 @@
+> > > +SUMMARY  = "Embedded Linux Library"
+> > > +DESCRIPTION = "The Embedded Linux Library (ELL) provides core, \
+> > > +low-level functionality for system daemons. It typically has no \
+> > > +dependencies other than the Linux kernel, C standard library, and \
+> > > +libdl (for dynamic linking). While ELL is designed to be efficient \
+> > > +and compact enough for use on embedded Linux platforms, it is not \
+> > > +limited to resource-constrained systems."
+> > > +SECTION = "libs"
+> > > +LICENSE  = "LGPLv2.1"
+> > > +LIC_FILES_CHKSUM = "file://COPYING;md5=fb504b67c50331fc78734fed90fb0e09"
+> > > +
+> > > +DEPENDS = "dbus"
+> > > +
+> > > +inherit autotools pkgconfig
+> > > +
+> > > +SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+> > > +SRC_URI[md5sum] = "4356397ca11d5f8ec7f1aaf1e91ffea4"
+> > > +SRC_URI[sha256sum] = "a5a4d45ca002dd91560fcd565e696f59e82631e69c927115dafc640f0b8d779c"
+> > > +
+> > > +do_configure_prepend () {
+> > > +    mkdir -p ${S}/build-aux
+> > > +}
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
