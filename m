@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D01007D90E
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7094B7D912
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 16:10:50 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id z5so9743265lji.10
+	Tue,  7 May 2019 16:11:11 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id n134so10448539lfn.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 09:10:52 -0700 (PDT)
+	Tue, 07 May 2019 09:11:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=v8TZM20+3D4zj04SkQ/Tuu17+y/jAg4ye0w+IN3AUCI=;
-	b=bLkPPaZTbYHA00azRZ9wIpcLOpGQ9sABQMm65ryMhHfn8btsR3EbjqsYX0ipp8jrQE
-	59L9gC4gR2qphLueLfjToa4VzYZIy14L8Q+QAamCVdcfPR//p+BGNDzBsxyIAX1ydL/Z
-	g3+lCVN/koDzisTUmrfqDD2aMtF3h6A1bvxUMjHKOG/henE8NdJEztFrkj53RMHj6BYJ
-	qPoLQzo2ejo4VgU7pmSW59jQfRxpmUmnGolQBrJesiqkUyNSjemB6Aoz42RE3gqPmqOa
-	tYTnrjtcfZwWLRnBrMGf7TBukuzfsEz1KrI72UFFvW1D07HDdRXghm7cUeKntjrAzw2T
-	3cRA==
+	bh=6mnywo+P4cmUKfbnnpcQv7Vl69Zk85rAmavYdZM/hlg=;
+	b=apEE7jNnx9NX8YQ4yb2tTy4XsTNiOS3jm9tfZCwcbb23dpOcNuQJO1ZobRIxMLieLf
+	zeOLRQLflBdRxwL5K+rSl269wxzDFXlVLhSiAByQDAB0PHEvgSCrX2yjkn0V86NSJH4a
+	mEKA7gg3CenIgJ9u94nsh5hF1j1sw1q5xzL+3zfP1kTpn2aqjbZKam3b78SSb8Oj3cj5
+	Y38DvKCJ9hwH6y1QyxK1xD+9K5k2MNd71fLws1yr26iC+29Y1Dap8jtbISsmgTn7crhG
+	mHxEK+/qKwp5nfS2dQ5HG+cV2YzOxU2vVRa8XAg/o7BwQnTsxcfCyNRyKUZxBuiFj1Eh
+	ifTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=v8TZM20+3D4zj04SkQ/Tuu17+y/jAg4ye0w+IN3AUCI=;
-	b=WZLjAPk+pBwz6/pLyEhhoLcX8ecvNE14zVoPWm2KLMxlVjpwzGC/CjxNqYfcoVD3tY
-	EHQw/o79lLVg3TR/nruzE3ja46cLGTBNJeR2c6wmYXCdB+kZT14ZMiWJjZBBCc9FZ0RF
-	rBrNBvScf4Z6Lkm+7WhPnqUMhUtLF7yv+M+z1s5ntulm/VDRt7tULQgqNAt4Gx1fnafP
-	qVnmyWSRLXbuHxHLesfeOa1L16Ta+LYEQ4MhDEZ0zTRD6cuR/7rO/oYK6qtBhD+bNzEw
-	mScg5/pEEOa13hMDl05jfsw74kJfegMBcWBGxhWV3kpHSS6KKV/WI4ehxt4f5H3LL7qU
-	UYJg==
-X-Gm-Message-State: APjAAAXz/DYowRsDgr8P0I31wywUtMmlLS0Nid65rWFMQX1b6Sd9nLUV
-	2SuWCQGR7yUxXqiKBxnFjFN7NDPejJU=
-X-Google-Smtp-Source: APXvYqxwlZL7U+32Cubiou8lL93n9+gX6PEbxLXyrB9VGR87pE61ogRg4rnGw6pnvDA/l6R6mIQ16Q==
-X-Received: by 2002:a2e:2413:: with SMTP id k19mr3279239ljk.121.1557245450920; 
-	Tue, 07 May 2019 09:10:50 -0700 (PDT)
+	bh=6mnywo+P4cmUKfbnnpcQv7Vl69Zk85rAmavYdZM/hlg=;
+	b=cv6ij/ACdA1UdT+1Lqem6ZVwDbrUXsqXqBi39urzJ+owektNeaQmFoyAJyqA8GuKvT
+	QZwd13o2f4egXWycN7UTLlHxcigjLwpErGUQ91q6hTQDgTPhhP+iAR7ijgkQcfrBvGnh
+	qeXF8mBVj2Ztno7Qx3db4aVecDTxOEg3ojILx+8jbt1RNhbEJdUluCQPYFUxfzi2ZNxm
+	WPv39EquZ/MAChzI4khQHHMXpNJhuMY/LlmLwJvrcl1onn4Xk59JPIrJCzW6HVghk7h5
+	vI+c+lDXykPcSMU5OdYTUOLbYaVDtRGXcPc3TIrEKhsbuO3QlH8O3hGR0ZIC66Co49K3
+	jvmA==
+X-Gm-Message-State: APjAAAWsldfSbl0FPTioptYeHIyW8w5+OS6LNpz4lblVQkWKycUUjW6r
+	9/UF99LHAjjMXDwtvyoN+LxfZJ4iD44=
+X-Google-Smtp-Source: APXvYqzjGKqUdQHJkFZ8c7+nqastWyT4Jnhh1WUyotrltqinjXzCgZ5MBopgWOZBEasPhVSxGmMwLA==
+X-Received: by 2002:a19:f243:: with SMTP id d3mr16540784lfk.168.1557245471476; 
+	Tue, 07 May 2019 09:11:11 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	t20sm3369891lfb.27.2019.05.07.09.10.49
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id c7sm3750455lja.90.2019.05.07.09.11.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 09:10:50 -0700 (PDT)
+	Tue, 07 May 2019 09:11:10 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 18:10:21 +0200
-Message-Id: <20190507161021.4893-1-open.source@oleksandr-kravchuk.com>
+Date: Tue,  7 May 2019 18:11:09 +0200
+Message-Id: <20190507161109.5420-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] socat: update to 1.7.3.3
+Subject: [PATCH] sqlite3: update to 3.28.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,140 +56,280 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 16:10:51 -0000
+X-List-Received-Date: Tue, 07 May 2019 16:11:11 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- ...ccess-c_ispeed-and-c_ospeed-via-APIs.patch | 52 -------------------
- .../Makefile.in-fix-for-parallel-build.patch  | 35 -------------
- .../{socat_1.7.3.2.bb => socat_1.7.3.3.bb}    |  6 +--
- 3 files changed, 2 insertions(+), 91 deletions(-)
- delete mode 100644 meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
- delete mode 100644 meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch
- rename meta/recipes-connectivity/socat/{socat_1.7.3.2.bb => socat_1.7.3.3.bb} (85%)
+ .../sqlite/sqlite3/CVE-2019-9936.patch        |  28 ---
+ .../sqlite/sqlite3/CVE-2019-9937.patch        | 187 ------------------
+ meta/recipes-support/sqlite/sqlite3_3.27.2.bb |  13 --
+ meta/recipes-support/sqlite/sqlite3_3.28.0.bb |   8 +
+ 4 files changed, 8 insertions(+), 228 deletions(-)
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-9936.patch
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2019-9937.patch
+ delete mode 100644 meta/recipes-support/sqlite/sqlite3_3.27.2.bb
+ create mode 100644 meta/recipes-support/sqlite/sqlite3_3.28.0.bb
 
-diff --git a/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch b/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-9936.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-9936.patch
 deleted file mode 100644
-index c0e27f3d78..0000000000
---- a/meta/recipes-connectivity/socat/socat/0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch
+index 1b907b9d4d..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3/CVE-2019-9936.patch
 +++ /dev/null
-@@ -1,52 +0,0 @@
--From fb10ab134d630705cae0c7be42437cc289af7d32 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Tue, 15 Mar 2016 21:36:02 +0000
--Subject: [PATCH] Use __c_ispeed and __c_ospeed on musl
+@@ -1,28 +0,0 @@
+-Running fts5 prefix queries inside a transaction could trigger a heap-based
+-buffer over-read in fts5HashEntrySort in sqlite3.c, which may lead to an
+-information leak.
 -
--Original intention of these asserts is to find if termios structure
--is mapped correctly to locally define union, the get* APIs for
--baudrate would not do the right thing since they do not return the
--value from c_ospeed/c_ispeed but the value which is stored in iflag
--for baudrate.
+-CVE: CVE-2019-9936
+-Upstream-Status: Backport [https://sqlite.org/src/vpatch?from=45c73deb440496e8&to=b3fa58dd7403dbd4]
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- sqlite3.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
 -
--So we check if we are on Linux but not using glibc then we use
--__c_ispeed and __c_ospeed as defined in musl, however these are
--internal elements of structs it should not have been used this
--way.
+-diff --git a/sqlite3.c b/sqlite3.c
+-index 4729f45..65527d8 100644
+---- a/sqlite3.c
+-+++ b/sqlite3.c
+-@@ -207759,7 +207759,9 @@ static int fts5HashEntrySort(
+-   for(iSlot=0; iSlot<pHash->nSlot; iSlot++){
+-     Fts5HashEntry *pIter;
+-     for(pIter=pHash->aSlot[iSlot]; pIter; pIter=pIter->pHashNext){
+--      if( pTerm==0 || 0==memcmp(fts5EntryKey(pIter), pTerm, nTerm) ){
+-+      if( pTerm==0
+-+       || (pIter->nKey+1>=nTerm && 0==memcmp(fts5EntryKey(pIter), pTerm, nTerm))
+-+      ){
+-         Fts5HashEntry *pEntry = pIter;
+-         pEntry->pScanNext = 0;
+-         for(i=0; ap[i]; i++){
+--- 
+-2.20.1
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2019-9937.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2019-9937.patch
+deleted file mode 100644
+index baa5666dda..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3/CVE-2019-9937.patch
++++ /dev/null
+@@ -1,187 +0,0 @@
+-Interleaving reads and writes in a single transaction with an fts5 virtual table
+-will lead to a NULL Pointer Dereference in fts5ChunkIterate in sqlite3.c.
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-CVE: CVE-2019-9937
+-Upstream-Status: Backport [https://sqlite.org/src/vpatch?from=c2f50aa4e7bad882&to=45c73deb440496e8]
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
 ----
--Upstream-Status: Pending
+- sqlite3.c | 83 ++++++++++++++++++++++++++++++++++++++-----------------
+- 1 file changed, 57 insertions(+), 26 deletions(-)
 -
-- xioinitialize.c | 7 +++++++
-- 1 file changed, 7 insertions(+)
--
--diff --git a/xioinitialize.c b/xioinitialize.c
--index 9f50155..8fb2e4c 100644
----- a/xioinitialize.c
--+++ b/xioinitialize.c
--@@ -65,6 +65,12 @@ int xioinitialize(void) {
-- #if HAVE_TERMIOS_ISPEED && (ISPEED_OFFSET != -1) && (OSPEED_OFFSET != -1)
-- #if defined(ISPEED_OFFSET) && (ISPEED_OFFSET != -1)
-- #if defined(OSPEED_OFFSET) && (OSPEED_OFFSET != -1)
--+#if defined(__linux__) && !defined(__GLIBC__)
--+      tdata.termarg.__c_ispeed = 0x56789abc;
--+      tdata.termarg.__c_ospeed = 0x6789abcd;
--+      assert(tdata.termarg.__c_ispeed == tdata.speeds[ISPEED_OFFSET]);
--+      assert(tdata.termarg.__c_ospeed == tdata.speeds[OSPEED_OFFSET]);
--+#else
--       tdata.termarg.c_ispeed = 0x56789abc;
--       tdata.termarg.c_ospeed = 0x6789abcd;
--       assert(tdata.termarg.c_ispeed == tdata.speeds[ISPEED_OFFSET]);
--@@ -72,6 +78,7 @@ int xioinitialize(void) {
-- #endif
-- #endif
-- #endif
--+#endif
--    }
-- #endif
+-diff --git a/sqlite3.c b/sqlite3.c
+-index 65527d8..b1a8799 100644
+---- a/sqlite3.c
+-+++ b/sqlite3.c
+-@@ -200668,8 +200668,9 @@ static void sqlite3Fts5HashClear(Fts5Hash*);
 - 
+- static int sqlite3Fts5HashQuery(
+-   Fts5Hash*,                      /* Hash table to query */
+-+  int nPre,
+-   const char *pTerm, int nTerm,   /* Query term */
+--  const u8 **ppDoclist,           /* OUT: Pointer to doclist for pTerm */
+-+  void **ppObj,			  /* OUT: Pointer to doclist for pTerm */
+-   int *pnDoclist                  /* OUT: Size of doclist in bytes */
+- );
+- 
+-@@ -207501,19 +207502,25 @@ static int fts5HashResize(Fts5Hash *pHash){
+-   return SQLITE_OK;
+- }
+- 
+--static void fts5HashAddPoslistSize(Fts5Hash *pHash, Fts5HashEntry *p){
+-+static int fts5HashAddPoslistSize(
+-+  Fts5Hash *pHash,
+-+  Fts5HashEntry *p,
+-+  Fts5HashEntry *p2
+-+){
+-+  int nRet = 0;
+-   if( p->iSzPoslist ){
+--    u8 *pPtr = (u8*)p;
+-+    u8 *pPtr = p2 ? (u8*)p2 : (u8*)p;
+-+    int nData = p->nData;
+-     if( pHash->eDetail==FTS5_DETAIL_NONE ){
+--      assert( p->nData==p->iSzPoslist );
+-+      assert( nData==p->iSzPosList );
+-       if( p->bDel ){
+--        pPtr[p->nData++] = 0x00;
+-+        pPtr[nData++] = 0x00;
+-         if( p->bContent ){
+--          pPtr[p->nData++] = 0x00;
+-+          pPtr[nData++] = 0x00;
+-         }
+-       }
+-     }else{
+--      int nSz = (p->nData - p->iSzPoslist - 1);       /* Size in bytes */
+-+      int nSz = (nData - p->iSzPoslist - 1);       /* Size in bytes */
+-       int nPos = nSz*2 + p->bDel;                     /* Value of nPos field */
+- 
+-       assert( p->bDel==0 || p->bDel==1 );
+-@@ -207523,14 +207530,19 @@ static void fts5HashAddPoslistSize(Fts5Hash *pHash, Fts5HashEntry *p){
+-         int nByte = sqlite3Fts5GetVarintLen((u32)nPos);
+-         memmove(&pPtr[p->iSzPoslist + nByte], &pPtr[p->iSzPoslist + 1], nSz);
+-         sqlite3Fts5PutVarint(&pPtr[p->iSzPoslist], nPos);
+--        p->nData += (nByte-1);
+-+        nData += (nByte-1);
+-       }
+-     }
+- 
+--    p->iSzPoslist = 0;
+--    p->bDel = 0;
+--    p->bContent = 0;
+-+    nRet = nData - p->nData;
+-+    if( p2 == 0 ){
+-+      p->iSzPoslist = 0;
+-+      p->bDel = 0;
+-+      p->bContent = 0;
+-+      p->nData = nData;
+-+    }
+-   }
+-+  return nRet;
+- }
+- 
+- /*
+-@@ -207642,7 +207654,7 @@ static int sqlite3Fts5HashWrite(
+-   /* If this is a new rowid, append the 4-byte size field for the previous
+-   ** entry, and the new rowid for this entry.  */
+-   if( iRowid!=p->iRowid ){
+--    fts5HashAddPoslistSize(pHash, p);
+-+    fts5HashAddPoslistSize(pHash, p, 0);
+-     p->nData += sqlite3Fts5PutVarint(&pPtr[p->nData], iRowid - p->iRowid);
+-     p->iRowid = iRowid;
+-     bNew = 1;
+-@@ -207789,8 +207801,9 @@ static int fts5HashEntrySort(
+- */
+- static int sqlite3Fts5HashQuery(
+-   Fts5Hash *pHash,                /* Hash table to query */
+-+  int nPre,
+-   const char *pTerm, int nTerm,   /* Query term */
+--  const u8 **ppDoclist,           /* OUT: Pointer to doclist for pTerm */
+-+  void **ppOut,			  /* OUT: Pointer to new object */
+-   int *pnDoclist                  /* OUT: Size of doclist in bytes */
+- ){
+-   unsigned int iHash = fts5HashKey(pHash->nSlot, (const u8*)pTerm, nTerm);
+-@@ -207804,11 +207817,20 @@ static int sqlite3Fts5HashQuery(
+-   }
+- 
+-   if( p ){
+--    fts5HashAddPoslistSize(pHash, p);
+--    *ppDoclist = (const u8*)&zKey[nTerm+1];
+--    *pnDoclist = p->nData - (sizeof(Fts5HashEntry) + nTerm + 1);
+-+    int nHashPre = sizeof(Fts5HashEntry) + nTerm + 1;
+-+    int nList = p->nData - nHashPre;
+-+    u8 *pRet = (u8*)(*ppOut = sqlite3_malloc64(nPre + nList + 10));
+-+    if ( pRet ){
+-+       Fts5HashEntry *pFaux = (Fts5HashEntry*)&pRet[nPre-nHashPre];
+-+       memcpy(&pRet[nPre], &((u8*)p)[nHashPre], nList);
+-+       nList += fts5HashAddPoslistSize(pHash, p, pFaux);
+-+       *pnDoclist = nList;
+-+    }else{
+-+       *pnDoclist = 0;
+-+       return SQLITE_NOMEM;
+-+    }
+-   }else{
+--    *ppDoclist = 0;
+-+    *ppOut = 0;
+-     *pnDoclist = 0;
+-   }
+- 
+-@@ -207841,7 +207863,7 @@ static void sqlite3Fts5HashScanEntry(
+-   if( (p = pHash->pScan) ){
+-     char *zKey = fts5EntryKey(p);
+-     int nTerm = (int)strlen(zKey);
+--    fts5HashAddPoslistSize(pHash, p);
+-+    fts5HashAddPoslistSize(pHash, p, 0);
+-     *pzTerm = zKey;
+-     *ppDoclist = (const u8*)&zKey[nTerm+1];
+-     *pnDoclist = p->nData - (sizeof(Fts5HashEntry) + nTerm + 1);
+-@@ -210311,31 +210333,40 @@ static void fts5SegIterHashInit(
+-   int flags,                      /* Mask of FTS5INDEX_XXX flags */
+-   Fts5SegIter *pIter              /* Object to populate */
+- ){
+--  const u8 *pList = 0;
+-   int nList = 0;
+-   const u8 *z = 0;
+-   int n = 0;
+-+  Fts5Data *pLeaf = 0;
+- 
+-   assert( p->pHash );
+-   assert( p->rc==SQLITE_OK );
+- 
+-   if( pTerm==0 || (flags & FTS5INDEX_QUERY_SCAN) ){
+-+    const u8 *pList = 0;
+-+
+-     p->rc = sqlite3Fts5HashScanInit(p->pHash, (const char*)pTerm, nTerm);
+-     sqlite3Fts5HashScanEntry(p->pHash, (const char**)&z, &pList, &nList);
+-     n = (z ? (int)strlen((const char*)z) : 0);
+-+    if ( pList ){
+-+      pLeaf = fts5IdxMalloc(p, sizeof(Fts5Data));
+-+      if ( pLeaf ){
+-+        pLeaf->p = pList;
+-+      }
+-+    }
+-   }else{
+--    pIter->flags |= FTS5_SEGITER_ONETERM;
+--    sqlite3Fts5HashQuery(p->pHash, (const char*)pTerm, nTerm, &pList, &nList);
+-+    p->rc = sqlite3Fts5HashQuery(p->pHash, sizeof(Fts5Data),
+-+        (const char*)pTerm, nTerm, (void**)&pLeaf, &nList
+-+    );
+-+    if( pLeaf ){
+-+      pLeaf->p = (u8*)&pLeaf[1];
+-+    }
+-     z = pTerm;
+-     n = nTerm;
+-+    pIter->flags |= FTS5_SEGITER_ONETERM;
+-   }
+- 
+--  if( pList ){
+--    Fts5Data *pLeaf;
+-+  if( pLeaf ){
+-     sqlite3Fts5BufferSet(&p->rc, &pIter->term, n, z);
+--    pLeaf = fts5IdxMalloc(p, sizeof(Fts5Data));
+--    if( pLeaf==0 ) return;
+--    pLeaf->p = (u8*)pList;
+-     pLeaf->nn = pLeaf->szLeaf = nList;
+-     pIter->pLeaf = pLeaf;
+-     pIter->iLeafOffset = fts5GetVarint(pLeaf->p, (u64*)&pIter->iRowid);
 --- 
--2.8.0
--
-diff --git a/meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch b/meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch
+-2.20.1
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.27.2.bb b/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
 deleted file mode 100644
-index aa4db65a79..0000000000
---- a/meta/recipes-connectivity/socat/socat/Makefile.in-fix-for-parallel-build.patch
+index 4bdb04f4d1..0000000000
+--- a/meta/recipes-support/sqlite/sqlite3_3.27.2.bb
 +++ /dev/null
-@@ -1,35 +0,0 @@
--From c6f0080b55679b6e8b5d332d6e05fdcbda1e4064 Mon Sep 17 00:00:00 2001
--From: Robert Yang <liezhi.yang@windriver.com>
--Date: Mon, 4 May 2015 00:58:47 -0700
--Subject: [PATCH] Makefile.in: fix for parallel build
+@@ -1,13 +0,0 @@
+-require sqlite3.inc
 -
--Fixed:
--vsnprintf_r.o: file not recognized: File truncated
--collect2: error: ld returned 3 exit status
--Makefile:122: recipe for target 'filan' failed
+-LICENSE = "PD"
+-LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
 -
--Let filan depend on vsnprintf_r.o and snprinterr.o to fix the issue.
+-SRC_URI = "\
+-  http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+-  file://CVE-2019-9936.patch \
+-  file://CVE-2019-9937.patch \
+-  "
 -
--Upstream-Status: Pending
--
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-----
-- Makefile.in |    2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/Makefile.in b/Makefile.in
--index f2a6edb..88b784b 100644
----- a/Makefile.in
--+++ b/Makefile.in
--@@ -118,7 +118,7 @@ PROCAN_OBJS=procan_main.o procan.o procan-cdefs.o hostan.o error.o sycls.o sysut
-- procan: $(PROCAN_OBJS)
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(PROCAN_OBJS) $(CLIBS)
-- 
---filan: filan_main.o filan.o fdname.o error.o sycls.o sysutils.o utils.o
--+filan: filan_main.o filan.o fdname.o error.o sycls.o sysutils.o utils.o vsnprintf_r.o snprinterr.o
-- 	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ filan_main.o filan.o fdname.o error.o sycls.o sysutils.o utils.o vsnprintf_r.o snprinterr.o $(CLIBS)
-- 
-- libxio.a: $(XIOOBJS) $(UTLOBJS)
---- 
--1.7.9.5
--
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.2.bb b/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
-similarity index 85%
-rename from meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-rename to meta/recipes-connectivity/socat/socat_1.7.3.3.bb
-index b2d6b1dea4..7a889a3801 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.3.2.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
-@@ -12,13 +12,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
- 
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
--           file://Makefile.in-fix-for-parallel-build.patch \
-            file://0001-define-NETDB_INTERNAL-to-1-if-not-available.patch \
--           file://0001-Access-c_ispeed-and-c_ospeed-via-APIs.patch \
- "
- 
--SRC_URI[md5sum] = "607a24c15bd2cb54e9328bfbbd3a1ae9"
--SRC_URI[sha256sum] = "e3561f808739383eb10fada1e5d4f26883f0311b34fd0af7837d0c95ef379251"
-+SRC_URI[md5sum] = "b2a032a47b8b89a18485697fa975154f"
-+SRC_URI[sha256sum] = "0dd63ffe498168a4aac41d307594c5076ff307aa0ac04b141f8f1cec6594d04a"
- 
- inherit autotools
- 
+-SRC_URI[md5sum] = "1f72631ce6e8efa5b4a6e55a43b3bdc0"
+-SRC_URI[sha256sum] = "50c39e85ea28b5ecfdb3f9e860afe9ba606381e21836b2849efca6a0bfe6ef6e"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.28.0.bb b/meta/recipes-support/sqlite/sqlite3_3.28.0.bb
+new file mode 100644
+index 0000000000..438a4ea471
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3_3.28.0.bb
+@@ -0,0 +1,8 @@
++require sqlite3.inc
++
++LICENSE = "PD"
++LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
++
++SRC_URI = "http://www.sqlite.org/2019/sqlite-autoconf-${SQLITE_PV}.tar.gz"
++SRC_URI[md5sum] = "3c68eb400f8354605736cd55400e1572"
++SRC_URI[sha256sum] = "d61b5286f062adfce5125eaf544d495300656908e61fca143517afcc0a89b7c3"
 -- 
 2.17.1
 
