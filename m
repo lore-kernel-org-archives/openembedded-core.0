@@ -1,48 +1,32 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
-	[209.85.166.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 508F07D41E
+Return-Path: <Anton.Popov@t-platforms.ru>
+Received: from mx1.t-platforms.ru (mx1.t-platforms.ru [80.85.246.77])
+	by mail.openembedded.org (Postfix) with ESMTP id 999AB7D6A3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 10:52:00 +0000 (UTC)
-Received: by mail-io1-f45.google.com with SMTP id v9so9960956ion.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 03:52:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:content-transfer-encoding;
-	bh=SLGLAzsGbDUhEoOUTjr1ZjovpxTBqkR2P76Srj/9oEM=;
-	b=pVm5JZTPw1JTJb4MC8w3MFzcxv199lvyPig/J9paxCiu9kDfg0lk0AgARX5kRAXiG1
-	vSuy8HolrOlbMH8MNipy7e2cmLNFiVPSlrKiykS0ZXgYEzjYZp2q4yKKWcK5Z8Czizpl
-	bdH3d4HEY2Id2pT1AFavb7wZRmQarV0bZdYXJBjhnZqTxO5e42HhAqFsv3wzjlCliLGY
-	UU6sOb3w2p4G+3CskyIB1d6TCNGhrtuvxrQMCQPMtAGzl+Hq5IRfPvffLIkLPJ95cuhx
-	ZPJ7f9hbEbseimpL7XXw00Of5Uv3cdPuddSoqrJYaSbSdTVzbCAyE8Iq/d3MlK834lc5
-	qzbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:content-transfer-encoding;
-	bh=SLGLAzsGbDUhEoOUTjr1ZjovpxTBqkR2P76Srj/9oEM=;
-	b=Gcp9HKPd5eA4GHYDRHEyoH/0EfGg09iImAnyfhxsmW6+vaS98tLY9o9ZRDFA+tenNL
-	FXVVdhUAb8rLjGkuBtnvgbNat965/cDCU6tVyyXGbZPXCigsF6iFqvuiD1RzoZlxBvxP
-	W6BB/ekylyOG6WDTt2PSaEkGiMn0JxChO/CSx4NzhZihlSLoRZ5v3QEggawmdWRzhRHL
-	Sn0I7zZJ+WN3ePM5AOvr6fxwDF8fD2QPuYjUSVV7ZPgxjce97hF+3Ikol/flH2NhRgz6
-	oimTPZ5lUdD84j21qFjdR1ykXsfayCnecBUR9lOs4ozwH1ndM130fWQTz3UD1n+B4/DR
-	L9lQ==
-X-Gm-Message-State: APjAAAX3GiEHGl1r39xeT8x+Hl9GjwqF1SHjiTuI/5oqCrcSKqi/pL0N
-	gXXglIPE90oOcJ0Mbv+OAZUX3pmCxCZqKHgN5EGmlg==
-X-Google-Smtp-Source: APXvYqwRcDjMt9xj1rse7LDjvvMWcMjE2lgnDz1mUsyzp0WWPNaDRUpcJcX/Fi20Ca8BgbvM3foKYDlNTIqO9QJHT+U=
-X-Received: by 2002:a5d:9cd0:: with SMTP id w16mr4268634iow.272.1557226320855; 
-	Tue, 07 May 2019 03:52:00 -0700 (PDT)
+	Tue,  7 May 2019 12:47:20 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at t-platforms.ru
+From: Popov Anton <Anton.Popov@t-platforms.ru>
+To: Jacob Kroon <jacob.kroon@gmail.com>
+Thread-Topic: [OE-core] [PATCH] util-linux: fix owner and group for binaries
+	in resulting image
+Thread-Index: AQHVBJJU49+ZiPrOxk+oar4SvjsIy6Zfi6sL
+Date: Tue, 7 May 2019 12:47:17 +0000
+Message-ID: <B32C5021EF3D894688F75677907CBC734599A8AD@pvmmail.tp-local.ru>
+References: <B32C5021EF3D894688F75677907CBC734599A785@pvmmail.tp-local.ru>,
+	<CAPbeDCmBbidMPu4NMb-vGEUKBLNBj2_reFarAguMXOENphzALg@mail.gmail.com>
+In-Reply-To: <CAPbeDCmBbidMPu4NMb-vGEUKBLNBj2_reFarAguMXOENphzALg@mail.gmail.com>
+Accept-Language: ru-RU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-kse-attachmentfiltering-interceptor-info: protection disabled
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean, bases: 07.05.2019 11:08:00
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
 MIME-Version: 1.0
-References: <20190417133941.31087-1-schnitzeltony@gmail.com>
-	<CALbNGRSJs_KncbefGSSPN_u_KYOrCnEsfSTeLJKLXeFQ7guEPQ@mail.gmail.com>
-In-Reply-To: <CALbNGRSJs_KncbefGSSPN_u_KYOrCnEsfSTeLJKLXeFQ7guEPQ@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Tue, 7 May 2019 12:51:45 +0200
-Message-ID: <CALbNGRSC=NjtUg=JxzmaZbjEj8BhH1NGPTRTs=iU34ftM8s=JQ@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH][thud] adwaita-icon-theme: do not delete symbolic svg but pack them in ${PN}-symbolic
+Subject: HA: [PATCH] util-linux: fix owner and group for binaries in resulting image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,34 +39,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 10:52:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 07 May 2019 12:47:22 -0000
+Content-Language: ru-RU
+Content-Type: text/plain; charset="koi8-r"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 30, 2019 at 8:20 AM Andreas M=C3=BCller <schnitzeltony@gmail.co=
-m> wrote:
->
-> On Wed, Apr 17, 2019 at 3:39 PM Andreas M=C3=BCller <schnitzeltony@gmail.=
-com> wrote:
-> >
-> > This fixes:
-> > * gtk-icon-browser: for symbolic view almost all icons were missing
-> > * xfce's thunar: 'home' and 'up' icons were missing. Had a long discuss=
-ion with
-> >   XFCE-people [1] and asked here [2].
-> >
-> > How could I overlook the most obvious...
-> >
-> > [1] https://bugzilla.xfce.org/show_bug.cgi?id=3D14443
-> > [2] http://lists.openembedded.org/pipermail/openembedded-core/2018-Nove=
-mber/275815.html
-> >
-> > (From OE-Core rev: 0911e7d2f5443210b594a198ada8465af7a2fc78)
-> >
-> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ping?
-Something wrong with this bugfix?
-
-Andreas
+Hi,=0A=
+=0A=
+I don't think so. At the moment we are using rocko release and found this p=
+roblem in util-linux-2.30 recipe.=0A=
+=0A=
+the problem is that util-linux builds with regular user permissions and res=
+ult files are owned by user with uid 1000 in our case. for most of binaries=
+ in /bin and /sbin generated by util-linux this permissions issue is not a =
+problem (Because all binaries has o+x set). But for those of them who have =
+suid bit setted it became a real trouble.=0A=
+=0A=
+With best regards,=0A=
+Anton Popov=0A=
+=0A=
+________________________________________=0A=
+=EF=D4: Jacob Kroon [jacob.kroon@gmail.com]=0A=
+=EF=D4=D0=D2=C1=D7=CC=C5=CE=CF: 7 =CD=C1=D1 2019 =C7. 8:04=0A=
+=EB=CF=CD=D5: Popov Anton=0A=
+=EB=CF=D0=C9=D1: openembedded-core@lists.openembedded.org=0A=
+=F4=C5=CD=C1: Re: [OE-core] [PATCH] util-linux: fix owner and group for bin=
+aries in resulting image=0A=
+=0A=
+Hi,=0A=
+Are we sure this is not caused by the new glibc2.29/pseudo problems=0A=
+that has been seen previously ?=0A=
+Which distro are you building on, and which version of poky/oe are you usin=
+g ?=0A=
+/Jacob=0A=
+=0A=
+On Mon, May 6, 2019 at 5:46 PM Popov Anton <Anton.Popov@t-platforms.ru> wro=
+te:=0A=
+>=0A=
+> util-linux source produce some binaries with setuid bit set=0A=
+>=0A=
+> do_install function produce binaries in /sbin and /bin with uid:gid=0A=
+> of user who build image this lead to messages like this:=0A=
+> mount /dev/sdb1 /mnt/flash=0A=
+> mount: only root can do that (effective UID is 1000)=0A=
+> this patch changing owner of binaries in /bin and /sbin to 0:0=0A=
+>=0A=
+> Signed-off-by: Anton Popov <Anton.Popov@t-platforms.ru>=0A=
+> ---=0A=
+>  meta/recipes-core/util-linux/util-linux.inc | 21 +++++++++++++++++++++=
+=0A=
+>  1 file changed, 21 insertions(+)=0A=
+>=0A=
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc=0A=
+> index 34255a2dec..d75a2dd399 100644=0A=
+> --- a/meta/recipes-core/util-linux/util-linux.inc=0A=
+> +++ b/meta/recipes-core/util-linux/util-linux.inc=0A=
+> @@ -201,6 +201,27 @@ do_install () {=0A=
+>      fi=0A=
+>  }=0A=
+>=0A=
+> +# when building yocto image with non-root user some binaries appears in =
+resulting=0A=
+> +# image with rights of user who build image. This behaviour may lead to =
+misfunction=0A=
+> +# of some binaries like mount because of setuid bit on them:=0A=
+> +# mount /dev/sdb1 /mnt/flash=0A=
+> +# mount: only root can do that (effective UID is 1000)=0A=
+> +# ls -ld which mount=0A=
+> +# lrwxrwxrwx    1 root     root            21 Jan  2  1970 /bin/mount ->=
+ /bin/mount.util-linux                                                     =
+                                  # root@mitx-fp32:/mnt/system/initrd# ls -=
+ld /bin/mount.util-linux                                                   =
+                                                                 # -rwsr-xr=
+-x    1 1000     1000         28020 Apr 23 12:49 /bin/mount.util-linux=0A=
+> +do_install_append_class-target () {=0A=
+> +    for p in $sbinprogs $sbinprogs_a; do=0A=
+> +        if [ -f "${D}${base_sbindir}/$p" ]; then=0A=
+> +            chown 0:0 "${D}${base_sbindir}/$p"=0A=
+> +        fi=0A=
+> +    done=0A=
+> +    for p in $binprogs_a; do=0A=
+> +        if [ -f "${D}${base_bindir}/$p" ]; then=0A=
+> +            chown 0:0 "${D}${base_bindir}/$p"=0A=
+> +        fi=0A=
+> +    done=0A=
+> +}=0A=
+> +=0A=
+> +=0A=
+>  # nologin causes a conflict with shadow-native=0A=
+>  # kill causes a conflict with coreutils-native (if ${bindir}=3D=3D${base=
+_bindir})=0A=
+>  do_install_append_class-native () {=0A=
+> --=0A=
+> 2.20.1=0A=
+> --=0A=
+> _______________________________________________=0A=
+> Openembedded-core mailing list=0A=
+> Openembedded-core@lists.openembedded.org=0A=
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
