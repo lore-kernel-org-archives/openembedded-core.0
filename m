@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id A078E7D718
+	by mail.openembedded.org (Postfix) with ESMTP id 23E157D718
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 13:11:52 +0000 (UTC)
+	Tue,  7 May 2019 13:11:53 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44z0PP2Nk8z5l
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44z0PP5W6Bz60
 	for <openembedded-core@lists.openembedded.org>;
 	Tue,  7 May 2019 15:11:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1557234713;
-	bh=qG4ARj8sjNtB73CFr17wkf9aFskgaIX/O/OC9eWZrfA=;
+	bh=XeHpXrcp/uYAlb1HHaBd+1IK5cAH5fyaTRiXCzPa1Jc=;
 	h=From:To:Subject:Date:From;
-	b=UfzmTH0QuxV9t0pkN2b4LWs5I8+4Q0KFk5a6QC5da3vz3xeryYCATHNTDFvvB5Bh5
-	UZ+h8oxP1nJE5jelXFtYYpeRGzSoQiCtWiU7FwivRYYVosJmUJ86kS0HBOcbrZSqgx
-	l7VpC71SSe39OJ+HZfNJP60+il75Seyo6jFgoPR/V/C7/IJxMMqC+BP/emn99mG5FY
-	fa3vZJnHlYk2Ynx9Dnp0tGIrOLn7mE4FfqSB3yNdKILqO9PLVkyLqRUG9syu3ZZ8vR
-	v8SHuTF+18s0ns+5B/5FE0AvX682Qn1iigATSk/HvxLhNltr9fqetJxK4QyUrX7ZK1
-	p3Tt6p4WI0Fe8whD7HfIGJ9dTS1mdsRxy4Et/ibMGOgssXRwPVP1All0zBLu63ZDpo
-	id9L+GFbs8vcj+30+X2NMo9ay1UnBN61gdtX0z2KOnbhCHcdEUrTmKjx5zx8ROaLw+
-	LmwaiLsUXQJUDaC1ESQ6BANVQVY1FYQljSREUwROYV5pwULdS8e1a+n/vp8HtTyLB4
-	8Bqee2N0JKzK3/FyE+t7QZ0pjuKcovX0UaCOXOewHqWw4WTl2U17taACNlAwJkUXI8
-	VFgZqBEn4rMSi3O90Nts5JILjsf4rD5GZa4B66cJ6Rfr5b+XRRfil0r/Q8owgyJXzE
-	t5/9VgA+9nRt0GDdXIOzcX6A=
+	b=f9pVkIHg12b9ONRM7yseA63QMp2N9pXfCGZ+oXA3ZOJ+ouj7o+9CfmA3a7FbTY0en
+	+wthq5/wViwtBqFZR9Nn10pY4mAOPrmTOfxDfV/MTFhRtQF/yvH7Q65MIwgfELlDoH
+	PZR130BpS8UKc/v1kxts+OckimEYZa50jksa6bm6p/ugMnJcPmOuw3aci6WVJbFCFq
+	HadGBW9eM/qoZw3+221tuHzujjFpMShyPkqwP5YLmYzz1C9MKgOC5ywOlznH2nMkzg
+	h6S6vXXA89c7tmiio2laNyg1ErOBVtFwhEFcCkiaoVUGsVBXG8oO82KeftgCngf5Xj
+	eYI0qqD2VqCI2S+wrev99CicZxk1XAUJOkksaN4EvbhNTtdcXlgAB1YewS/PTSg8zf
+	DXmh7stK0t5uAXLxwTlcPZZlnYOGH5HXVmI9AyGKSboXIeBNdAbJmIz0dlD5wr2xl0
+	UHg2D8rspkPdBw649nAH9saTUxVqP9tSzbHRUAtAs7Un9SoSUKUj9u2IDYbH0j4DuV
+	ayV+KT2iQAeTTbIYxhfb5Oo8B0Xc6SYofLESQwihnaRMKDio87ur3UTV3v4UP8IRK0
+	s8IUg6sn67l9NViflQ5cVBt3W+5WWzfV7B/pRLipUsYK31S1wQPqQ2rWI3MbAidJAQ
+	Qd8NY4q2EtzWmnr/09UBMylU=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 16:11:44 +0300
-Message-Id: <20190507131151.31070-5-bunk@stusta.de>
+Date: Tue,  7 May 2019 16:11:45 +0300
+Message-Id: <20190507131151.31070-6-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] bison: upgrade 3.0.4 -> 3.1
+Subject: [PATCH] ccache: upgrade 3.6 -> 3.7.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,154 +42,187 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 07 May 2019 13:11:53 -0000
 
-Remove patches applied upstream.
+Remove backported patches.
+Switch to new download location.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...charset_alias-when-building-for-musl.patch | 33 ------------------
- ...0001-src-local.mk-fix-parallel-issue.patch | 34 -------------------
- .../recipes-devtools/bison/bison/gnulib.patch | 21 ------------
- .../bison/{bison_3.0.4.bb => bison_3.1.bb}    |  7 ++--
- 4 files changed, 2 insertions(+), 93 deletions(-)
- delete mode 100644 meta/recipes-devtools/bison/bison/0001-Unset-need_charset_alias-when-building-for-musl.patch
- delete mode 100644 meta/recipes-devtools/bison/bison/0001-src-local.mk-fix-parallel-issue.patch
- delete mode 100644 meta/recipes-devtools/bison/bison/gnulib.patch
- rename meta/recipes-devtools/bison/{bison_3.0.4.bb => bison_3.1.bb} (81%)
+ meta/recipes-devtools/ccache/ccache.inc       |  2 +-
+ meta/recipes-devtools/ccache/ccache_3.6.bb    | 12 ---
+ meta/recipes-devtools/ccache/ccache_3.7.1.bb  |  7 ++
+ ...002-dev.mk.in-fix-file-name-too-long.patch | 30 -------
+ ...tion-fault-error-when-gcc-o-dev-null.patch | 79 -------------------
+ 5 files changed, 8 insertions(+), 122 deletions(-)
+ delete mode 100644 meta/recipes-devtools/ccache/ccache_3.6.bb
+ create mode 100644 meta/recipes-devtools/ccache/ccache_3.7.1.bb
+ delete mode 100644 meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
+ delete mode 100644 meta/recipes-devtools/ccache/files/0003-Fix-Segmentation-fault-error-when-gcc-o-dev-null.patch
 
-diff --git a/meta/recipes-devtools/bison/bison/0001-Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-devtools/bison/bison/0001-Unset-need_charset_alias-when-building-for-musl.patch
+diff --git a/meta/recipes-devtools/ccache/ccache.inc b/meta/recipes-devtools/ccache/ccache.inc
+index 7f800659a3..e8676437fb 100644
+--- a/meta/recipes-devtools/ccache/ccache.inc
++++ b/meta/recipes-devtools/ccache/ccache.inc
+@@ -9,7 +9,7 @@ LICENSE = "GPLv3+"
+ 
+ DEPENDS = "zlib"
+ 
+-SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz"
++SRC_URI = "https://github.com/ccache/ccache/releases/download/v${PV}/${BP}.tar.xz"
+ 
+ inherit autotools
+ 
+diff --git a/meta/recipes-devtools/ccache/ccache_3.6.bb b/meta/recipes-devtools/ccache/ccache_3.6.bb
 deleted file mode 100644
-index ba1a4bab4c..0000000000
---- a/meta/recipes-devtools/bison/bison/0001-Unset-need_charset_alias-when-building-for-musl.patch
+index 60807be0ae..0000000000
+--- a/meta/recipes-devtools/ccache/ccache_3.6.bb
 +++ /dev/null
-@@ -1,33 +0,0 @@
--From b9565dc2fe0c4f7daaec91b7e83bc7313dee2f4a Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 13 Apr 2015 17:02:13 -0700
--Subject: [PATCH] Unset need_charset_alias when building for musl
+@@ -1,12 +0,0 @@
+-require ccache.inc
 -
--localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
--which actually shoudl be fixed in gnulib and then all downstream
--projects will get it eventually. For now we apply the fix to
--coreutils
+-LICENSE = "GPLv3+"
+-LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=70762511f9c509cc2a4e4ba2ef687ae3"
 -
--Upstream-Status: Pending
+-SRC_URI[md5sum] = "bd6fd69db28426baf22ec0acdd5c4b2a"
+-SRC_URI[sha256sum] = "a3f2b91a2353b65a863c5901251efe48060ecdebec46b5eaec8ea8e092b9e871"
 -
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
-- lib/gnulib.mk | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lib/gnulib.mk b/lib/gnulib.mk
--index e1d74db..c0e92dd 100644
----- a/lib/gnulib.mk
--+++ b/lib/gnulib.mk
--@@ -1882,7 +1882,7 @@ install-exec-localcharset: all-local
-- 	  case '$(host_os)' in \
-- 	    darwin[56]*) \
-- 	      need_charset_alias=true ;; \
---	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
--+	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-- 	      need_charset_alias=false ;; \
-- 	    *) \
-- 	      need_charset_alias=true ;; \
---- 
--2.1.4
--
-diff --git a/meta/recipes-devtools/bison/bison/0001-src-local.mk-fix-parallel-issue.patch b/meta/recipes-devtools/bison/bison/0001-src-local.mk-fix-parallel-issue.patch
+-SRC_URI += " \
+-            file://0002-dev.mk.in-fix-file-name-too-long.patch \
+-            file://0003-Fix-Segmentation-fault-error-when-gcc-o-dev-null.patch \
+-"
+diff --git a/meta/recipes-devtools/ccache/ccache_3.7.1.bb b/meta/recipes-devtools/ccache/ccache_3.7.1.bb
+new file mode 100644
+index 0000000000..d2bd7ac903
+--- /dev/null
++++ b/meta/recipes-devtools/ccache/ccache_3.7.1.bb
+@@ -0,0 +1,7 @@
++require ccache.inc
++
++LICENSE = "GPLv3+"
++LIC_FILES_CHKSUM = "file://LICENSE.adoc;md5=0094c59039cec66b8a4c905204333514"
++
++SRC_URI[md5sum] = "30f5f6fa06a95bba94695e8fa6a05899"
++SRC_URI[sha256sum] = "66fc121a2a33968f9ec428e02f48ff4b8896fbabb759e9c09352267014dcbe65"
+diff --git a/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch b/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
 deleted file mode 100644
-index 1e86f55220..0000000000
---- a/meta/recipes-devtools/bison/bison/0001-src-local.mk-fix-parallel-issue.patch
+index 16a6e9d80f..0000000000
+--- a/meta/recipes-devtools/ccache/files/0002-dev.mk.in-fix-file-name-too-long.patch
 +++ /dev/null
-@@ -1,34 +0,0 @@
--From 5b9204eee4b06b48d54ecc3ef3a0b56fc5cc84f8 Mon Sep 17 00:00:00 2001
+@@ -1,30 +0,0 @@
+-From 7dab2995ed8eeccd7b0acd79668bc28f3a2427d5 Mon Sep 17 00:00:00 2001
 -From: Robert Yang <liezhi.yang@windriver.com>
--Date: Fri, 24 Apr 2015 00:38:32 -0700
--Subject: [PATCH] src/local.mk: fix parallel issue
+-Date: Wed, 16 Sep 2015 19:45:40 -0700
+-Subject: [PATCH] dev.mk.in: fix file name too long error
 -
--Fixed:
--rm -f src/yacc src/yacc.tmp
--echo '#! /bin/sh' >src/yacc.tmp
--/bin/bash: src/yacc.tmp: No such file or directory
--Makefile:6670: recipe for target 'src/yacc' failed
+-The all_cppflags changes path to filename which causes file name too long
+-error when the path is longer than NAME_MAX (usually 255). Strip srcdir
+-to fix the problem.
 -
--Upstream-Status: Submitted [ http://lists.gnu.org/archive/html/bison-patches/2017-07/msg00000.html ]
+-Upstream-Status: Backport [https://github.com/ccache/ccache/commit/4d86e884d07ba1853a0c70507cc4d04107f57c29]
 -
 -Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--Signed-off-by: Dengke Du <dengke.du@windriver.com>
+-
 ----
-- src/local.mk | 1 +
-- 1 file changed, 1 insertion(+)
+- dev.mk.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/src/local.mk b/src/local.mk
--index 573ad00..28bfae4 100644
----- a/src/local.mk
--+++ b/src/local.mk
--@@ -119,6 +119,7 @@ MOSTLYCLEANFILES += src/yacc
+-diff --git a/dev.mk.in b/dev.mk.in
+-index 91b0a57..583ade0 100644
+---- a/dev.mk.in
+-+++ b/dev.mk.in
+-@@ -1,7 +1,7 @@
+- # GNU make syntax reigns in this file.
 - 
-- src/yacc:
-- 	$(AM_V_GEN)rm -f $@ $@.tmp
--+	$(AM_V_at)$(MKDIR_P) src
-- 	$(AM_V_at)echo '#! /bin/sh' >$@.tmp
-- 	$(AM_V_at)echo "exec '$(bindir)/bison' -y "'"$$@"' >>$@.tmp
-- 	$(AM_V_at)chmod a+x $@.tmp
---- 
--2.8.1
--
-diff --git a/meta/recipes-devtools/bison/bison/gnulib.patch b/meta/recipes-devtools/bison/bison/gnulib.patch
+- all_cflags += -Werror @more_warnings@
+--all_cppflags += -MD -MP -MF .deps/$(subst .._,,$(subst /,_,$<)).d
+-+all_cppflags += -MD -MP -MF .deps/$(subst .._,,$(subst /,_,$(subst $(srcdir)/,,$<))).d
+- 
+- A2X = a2x
+- ASCIIDOC = asciidoc
+diff --git a/meta/recipes-devtools/ccache/files/0003-Fix-Segmentation-fault-error-when-gcc-o-dev-null.patch b/meta/recipes-devtools/ccache/files/0003-Fix-Segmentation-fault-error-when-gcc-o-dev-null.patch
 deleted file mode 100644
-index 7eaf0ce0fa..0000000000
---- a/meta/recipes-devtools/bison/bison/gnulib.patch
+index b3012b7e89..0000000000
+--- a/meta/recipes-devtools/ccache/files/0003-Fix-Segmentation-fault-error-when-gcc-o-dev-null.patch
 +++ /dev/null
-@@ -1,21 +0,0 @@
--Fix gnulib issues found with glibc 2.28 libio.h removal
+@@ -1,79 +0,0 @@
+-From c51b63758e95247e3c1e2f06e5f5bfb49849e66d Mon Sep 17 00:00:00 2001
+-From: Robert Yang <liezhi.yang@windriver.com>
+-Date: Tue, 22 Jan 2019 16:30:52 +0800
+-Subject: [PATCH] Fix Segmentation fault error when gcc -o /dev/null
 -
--see
--https://lists.gnu.org/r/bug-gnulib/2018-03/msg00000.html
+-Fixed:
+-$ export CCACHE_DEBUG=1
+-$ ccache gcc -c hello.c -o /dev/null
 -
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Segmentation fault (core dumped)
 -
--Index: bison-3.0.4/lib/fseterr.c
--===================================================================
----- bison-3.0.4.orig/lib/fseterr.c
--+++ bison-3.0.4/lib/fseterr.c
--@@ -29,7 +29,7 @@ fseterr (FILE *fp)
--   /* Most systems provide FILE as a struct and the necessary bitmask in
--      <stdio.h>, because they need it for implementing getc() and putc() as
--      fast macros.  */
---#if defined _IO_ftrylockfile || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--+#if defined _IO_EOF_SEEN || __GNU_LIBRARY__ == 1 /* GNU libc, BeOS, Haiku, Linux libc5 */
--   fp->_flags |= _IO_ERR_SEEN;
-- #elif defined __sferror || defined __DragonFly__ /* FreeBSD, NetBSD, OpenBSD, DragonFly, Mac OS X, Cygwin */
--   fp_->_flags |= __SERR;
-diff --git a/meta/recipes-devtools/bison/bison_3.0.4.bb b/meta/recipes-devtools/bison/bison_3.1.bb
-similarity index 81%
-rename from meta/recipes-devtools/bison/bison_3.0.4.bb
-rename to meta/recipes-devtools/bison/bison_3.1.bb
-index f1b05da416..a743bfdb81 100644
---- a/meta/recipes-devtools/bison/bison_3.0.4.bb
-+++ b/meta/recipes-devtools/bison/bison_3.1.bb
-@@ -10,18 +10,15 @@ SECTION = "devel"
- DEPENDS = "bison-native flex-native"
- 
- SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
--           file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://dont-depend-on-help2man.patch.patch \
--           file://0001-src-local.mk-fix-parallel-issue.patch \
-            file://add-with-bisonlocaledir.patch \
--           file://gnulib.patch \
- "
- 
- # No point in hardcoding path to m4, just use PATH
- EXTRA_OECONF += "M4=m4"
- 
--SRC_URI[md5sum] = "c342201de104cc9ce0a21e0ad10d4021"
--SRC_URI[sha256sum] = "a72428c7917bdf9fa93cb8181c971b6e22834125848cf1d03ce10b1bb0716fe1"
-+SRC_URI[md5sum] = "db7e431785ad96870bfa570a15cab079"
-+SRC_URI[sha256sum] = "7c2464ad6cb7b513b2c350a092d919327e1f63d12ff024836acbb504475da5c6"
- 
- inherit autotools gettext texinfo
- 
+-This is because failed to open /dev/null.foo (Permission denied), check file
+-stream before write to it can fix the problem.
+-
+-Upstream-Status: Backport [https://github.com/ccache/ccache/commit/4d86e884d07ba1853a0c70507cc4d04107f57c29]
+-
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+----
+- src/ccache.c | 15 ++++++++++++---
+- src/util.c   |  8 ++++++--
+- 2 files changed, 18 insertions(+), 5 deletions(-)
+-
+-diff --git a/src/ccache.c b/src/ccache.c
+-index b4cdb86..8c227df 100644
+---- a/src/ccache.c
+-+++ b/src/ccache.c
+-@@ -521,9 +521,13 @@ init_hash_debug(struct hash *hash, const char *obj_path, char type,
+- 
+- 	char *path = format("%s.ccache-input-%c", obj_path, type);
+- 	FILE *debug_binary_file = fopen(path, "wb");
+--	hash_enable_debug(hash, section_name, debug_binary_file, debug_text_file);
+-+	if (debug_binary_file) {
+-+		hash_enable_debug(hash, section_name, debug_binary_file, debug_text_file);
+-+		exitfn_add(fclose_exitfn, debug_binary_file);
+-+	} else {
+-+		cc_log("Failed to open %s: %s", path, strerror(errno));
+-+	}
+- 	free(path);
+--	exitfn_add(fclose_exitfn, debug_binary_file);
+- }
+- 
+- static enum guessed_compiler
+-@@ -3670,8 +3674,13 @@ ccache(int argc, char *argv[])
+- 	if (conf->debug) {
+- 		char *path = format("%s.ccache-input-text", output_obj);
+- 		debug_text_file = fopen(path, "w");
+-+		if (debug_text_file) {
+-+			exitfn_add(fclose_exitfn, debug_text_file);
+-+		}
+-+		else {
+-+			cc_log("Failed to open %s: %s", path, strerror(errno));
+-+		}
+- 		free(path);
+--		exitfn_add(fclose_exitfn, debug_text_file);
+- 	}
+- 
+- 	struct hash *common_hash = hash_init();
+-diff --git a/src/util.c b/src/util.c
+-index e442cc4..a49fb4c 100644
+---- a/src/util.c
+-+++ b/src/util.c
+-@@ -219,8 +219,12 @@ void
+- cc_dump_log_buffer(const char *path)
+- {
+- 	FILE *file = fopen(path, "w");
+--	(void) fwrite(logbuffer, 1, logsize, file);
+--	fclose(file);
+-+	if (file) {
+-+		(void) fwrite(logbuffer, 1, logsize, file);
+-+		fclose(file);
+-+	} else {
+-+		cc_log("Failed to open %s: %s", path, strerror(errno));
+-+	}
+- }
+- 
+- // Something went badly wrong!
+--- 
+-2.7.4
+-
 -- 
 2.17.1
 
