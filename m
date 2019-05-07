@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DE1817D3F4
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f65.google.com (mail-vs1-f65.google.com
+	[209.85.217.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4798E6C44A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 09:11:20 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id o25so8305809wmf.2
+	Tue,  7 May 2019 09:15:07 +0000 (UTC)
+Received: by mail-vs1-f65.google.com with SMTP id o10so9900844vsp.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 02:11:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=QdaDfmgL7JCGDHjRWWNzYuJoeHQyCJWJ98ot//yHbiw=;
-	b=HLvZqXIDtZhD0woIPeUUHckJGdXSsUZiLayPeUmlRtmd3TwsmsPhx4ig4yVzh61aDA
-	3usx4ieWl+RwVDorZ9vMNGgVe3xyMDMUVkHqLcDu91wVBOPaOciPV2s7dKWa7m3JEQXH
-	pc//Wh9EI/rMbmyV0jcwDsyp9md3BETpR7hWU=
+	Tue, 07 May 2019 02:15:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=VRkVTlVoauxTEZzx3ikEfq/Cdel/sCVOr4iaDd4kek4=;
+	b=ARP4rN7EyVN1/RjRpEPX8QThxRokC9Qz1Op/7D2XL1P3n+rtjX0JeWDEkU4RpCFI8E
+	nmH7xjImGh8ky0BpfFd0vU8Xo1ZpNrCcqd2uyFGryR7RjuniHP23xqxy/rIQMTImliOs
+	ufHtvGAFNcf/PwQ/RrInpTjC7hDYm1M59zMQ+x0EuKTNMnNly3g4rkkUJB0NowqSEHYL
+	rtoOtb3rIT5KobIxyigngviHP7ND6qgMO8qVp5ldN4bvxGOlMrfos5oCshVsC549Kuyd
+	S3tyzTnCjUsaa6nr2e9jjNu6KRvcvre01f8K8YoSFFTzR8d8/4RqIGKSfpO9Tu5fKSpm
+	dppg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=QdaDfmgL7JCGDHjRWWNzYuJoeHQyCJWJ98ot//yHbiw=;
-	b=drpHhv8AJzz9ZuD0Om+wUBiIfLdYzetD9msMNAoMA2N/KPnpWb6NiZZj3eawhDX5vZ
-	XYkuRd2XBuMJucoFnomUOinEct/L9fJDk0ZhFdPfAX6wHhnOXMFhbgeno2dGNeo3Je5i
-	ZRYBdr3gMsQvjsjIvjfER3EP14dAj6KHzn4Pw9nJfiR657QCjq+haXBFusp8mQfemDJJ
-	rH1HD9uthd+0ILUXUE0M5IJk15mOi5R0EAeicyw6K5H1ROe31WL7WrVmwJylu0B10I8J
-	oaO+0hgRM2bvEhZkSuKRCk26+LBPLYL95NL5tZIeut3MEE1bPaIEYpRfsfgqpQrX80yy
-	HAXA==
-X-Gm-Message-State: APjAAAXVZPI59kNayQOETSJBpZMZ9hdyeQIzMDd4LoVcbSu9w9qp3Umj
-	qOoUsUoHMOBqX5IUqqZ7e/UwOw==
-X-Google-Smtp-Source: APXvYqxfIddsYq2p0N4mtF5Dlo2PeuVeabc0wVkQL/fvdQN7bqRyUyHwCnIIS2ULgpGvbuN5PhBqvQ==
-X-Received: by 2002:a1c:dcc2:: with SMTP id
-	t185mr21319930wmg.143.1557220281418; 
-	Tue, 07 May 2019 02:11:21 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h12sm8922278wrq.95.2019.05.07.02.11.18
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 07 May 2019 02:11:19 -0700 (PDT)
-Message-ID: <b0de3994461222d72afa80ec291874c609d7ba93.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Rui Wang <rui.wang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 07 May 2019 10:11:18 +0100
-In-Reply-To: <1557198375-4569-1-git-send-email-rui.wang@windriver.com>
-References: <1557198375-4569-1-git-send-email-rui.wang@windriver.com>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=VRkVTlVoauxTEZzx3ikEfq/Cdel/sCVOr4iaDd4kek4=;
+	b=hnlnKLCAQnw+BrRc4EvjD8o5SPp8PaDAS5D1YyU2vwNT35+B4eLmtJPzxqsnIUYoYC
+	KI6iDhQT4VOFVRWatTENIn3rU25kuIuKgPLsUA17PK3+hcig6o8XCPJ6sYkRTjwUuf8n
+	SYjC3oAFxZiJZsTicfCMaigwvFDSnG9jabUY+48O45q1/q9NMBADHkrSuRBmCO83+I6z
+	dwQcxMH5O0XIr6ak+NL3grW4XnM63V+ID2H5jywmKChr2W0xx3+peuGCk+nO4O0h1ydM
+	YvS5jmtYYRLLs3nq5bYvagU+WL8IomdF5Xax1G2XaZjtaeUm+bV6MjwhSCGMaCVJpRJk
+	LKhQ==
+X-Gm-Message-State: APjAAAVoeVGVsJcGpo1Q+omx9/MFvQczaDHfwDSFJDRnLbVGvvT4DxkC
+	JsCFvLQTgTxMqgX3vb1qUgxrLXYMQxvOzbPNprUesWVH
+X-Google-Smtp-Source: APXvYqz8cCah8jOf5RKwNrVRP3LJPCj2q6IgKPEpB0FnGiNfRRHzT0FckC1sXNwamY8KGtMpILSk98WfVFeWP2BYSt0=
+X-Received: by 2002:a67:ea0a:: with SMTP id g10mr15725292vso.77.1557220508099; 
+	Tue, 07 May 2019 02:15:08 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] dhcp: Revert "dhcp: enable gentle shutdown" and reset handler
+References: <20190506074531.13459-1-richard.leitner@skidata.com>
+In-Reply-To: <20190506074531.13459-1-richard.leitner@skidata.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Tue, 7 May 2019 10:14:56 +0100
+Message-ID: <CAO5Uq5RJtfyFNkCL=L1Vgrv9cJ+Fu+J90+ecapg3bEupa5hjUg@mail.gmail.com>
+To: Richard Leitner <richard.leitner@skidata.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [warrior][PATCH] uboot-sign: add support for different u-boot configurations
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 09:11:21 -0000
+X-List-Received-Date: Tue, 07 May 2019 09:15:07 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-05-07 at 11:06 +0800, Rui Wang wrote:
-> This reverts commit 4653fdd4b4cf13543e32fbcf09e50f60c1719a34
-> 
-> This patch is used to solve the problem in which dhcpd can not
-> be killed by SIGINT and SIGTERM. But it seems not good to rely
-> on ENABLE_GENTLE_SHUTDOWN, which is an "undesireable feature"
-> and will release its address after receive both signal, accoring
-> to the comment in "includes/site.h". Then there is no difference
-> between "dhclient -x" and "dhclient -r". We can find following
-> call trace from source code:
-> 
-> main() -> dhcp_context_create() -> isc_app_ctxstart()
-> -> isc__app_ctxstart()
-> 
-> The root cause is that exit_action() is registered as the signal
-> handler for SIGTERM and SIGINT, which do-nothing as the comment says.
-> 
-> To fix this problem, we could simply set the default action for
-> these two signals if ENABLE_GENTLE_SHUTDOWN is not set.
-> 
-> Signed-off-by: Rui Wang <rui.wang@windriver.com>
+On Mon, May 6, 2019 at 8:53 AM Richard Leitner
+<richard.leitner@skidata.com> wrote:
+>
+> From: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
+>
+> This is done by concatenating the DTB with the kernels public key
+> to all built u-boot binaries. Furthermore the installation of all
+> the binaries is required.
+>
+> Signed-off-by: Andreas Obergschwandtner <andreas.obergschwandtner@skidata.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Richard Leitner <richard.leitner@skidata.com>
 
-The new patch is missing an Upstream-Status?
+If this gets applied, please can we get:
 
-Cheers,
+https://patchwork.openembedded.org/patch/160510/
 
-Richard
+applied on top of it?
 
+-- 
+Alex Kiernan
 
