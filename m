@@ -1,49 +1,51 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3626A6BC7A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CF9BD7D9B6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 20:00:58 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id r76so4381397lja.12
+	Tue,  7 May 2019 20:08:25 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id o190so267335itc.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 13:01:00 -0700 (PDT)
+	Tue, 07 May 2019 13:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=QTQL89zFJ863xt8e9ndfbMYTmVuu/NuaNJjqIH3IxxU=;
-	b=EFfGAoNw5R3TLG+Y73xWnkVWYJxURBVIc8zPl5qA1a6lBUhnQTFhzFMfVlkD09soAM
-	rbmJe+2WgdhaVqdsvwrwQ2cxNrQoKJhZtOFr/FZcQw9Nq/bD1yMzSBxgbTuCMA/ygbWs
-	r5uh5IWp/DNK2ggQGGQT8tQGJxBebDSBuRa86RlZQuswR3m2SnrqbjD+hzY4XfriO1MM
-	S+cIUbVWn0cPT5xbLhOigD8at0SwlIQdJ9xnBmCQ5CNjK/DJnp7SRh8GPvgytYQeJZzI
-	TtZnlFAV6m0Y1yWPB/3YrSRYHppA6xM1cuI0UBIYwrHDO13EeGSlIHEFtwGyvEi23U83
-	u8Qw==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=jZ51/66UrsXEE3syRUSh7T/IiOKzYzRzyiy6WrtM51Y=;
+	b=TSvRg96bi5D8dNKrxzxhXqeP0f7dXk4DT+PFr9dmBZZs8ZcdzFQniGI+wMtaeQfrsV
+	unILPATuLD0rRxqiT0kfTJqS5q2Fyanbjo38vs6Qs8ZYuP76TOycNWKSEOD0cx33nGXP
+	oZcYFFb8SQffkg1C5tsO6dpsE08ZU6i1zGutDFMZNMLrRfZfKjJzdF2ZmD909c2Ppp6H
+	Bxxe/P8HIxUtzHq4ilREfSA6FaDFkNqoZcoLbmM5FS0AqvaO3QFZ6zxkv36IntkZuGrQ
+	UBIyzY37Kj4vEXx6kUr/WQBkKxysrnkxJmhnYtyVhli7ZtOqlEGSBvs+qOFJI9xeYIZt
+	PCYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=QTQL89zFJ863xt8e9ndfbMYTmVuu/NuaNJjqIH3IxxU=;
-	b=CiD8aEycrIjW9C3NBThFuT65rakS3CRm7dnusM8onPp/97NPJ0CCtzYrStiFO7s5LX
-	q4oh/6izqp6EDK/ffwYfue04qHytxDpM/UfuVaVSDL+rVad0g66ow1EnPuEsI46SnKlS
-	ICIN5+3CJ5Wr1Frw74S1xBYjUiwxJ08xI93tz8vIQmaKLnMCtsgSoU1IpRwyjJXziN7f
-	kmK62sqzOJsY8uWfIj81uWeK7dWXlA0SF4mlqFu9T11RyNj3znCNE1Z169PXeYKseJMI
-	+shYXxxR/jczibRJYh1gMaMEbzcYr37sungWZ5zDfc5pmNrJb0TTX1PutpocwkkIYlMs
-	hOow==
-X-Gm-Message-State: APjAAAVcc6UlIl0YIbptoWH98qQ+w9KBVRxmcQz39lJFnDCbtyyiHfhc
-	YRcxj+mFxON3klpyuDB5uBPKzcfTXLg=
-X-Google-Smtp-Source: APXvYqy7ygcf6mFdUN0ruir/1UaaWaxKyu1z+29ClF4YKo1SLeHZP7w4OBORcoTPwvXWr38N0dFfhw==
-X-Received: by 2002:a2e:82cb:: with SMTP id n11mr18504038ljh.183.1557259259368;
-	Tue, 07 May 2019 13:00:59 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	s17sm2402734lfb.66.2019.05.07.13.00.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 13:00:58 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 22:00:56 +0200
-Message-Id: <20190507200056.18766-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] mmc-utils: update to latest revision
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=jZ51/66UrsXEE3syRUSh7T/IiOKzYzRzyiy6WrtM51Y=;
+	b=kLfmf9BUzdWAiLd/O3Oov6ueJ7OsAlfqVpcY4QB9chFRYAe3ScycjDFR8WgXbs4vUv
+	f7yL7LRZr6QbtG0BaSQ7piDtOH5TiFeqSQ4MXuyuitUCST+3/ljNeVSG3exa6xrT+s2i
+	J8Ei9bY6j4x/0pjeCdvFfjrz8a7Em6QjhotYfspbldpStVI16qI7ze09x83sZvP07YG/
+	uy/BtnAFh6j4s+MoYKE9pSNSJzN8HbkyvNGPSsIuvUqjO/rX8D+EEtWO4QTNF9E/+gr7
+	cSBn2cS9Zp1sXKGSdthMOrM8Nim3ef1dLs61HbRct6sDaws/dhYfpJ14gF+7KfRHwXoq
+	hbeg==
+X-Gm-Message-State: APjAAAUkUxubWiKV/Nobi9dISGYuk11s6og2KEYgH+7L5iBnihpaM7u8
+	K818Uw2Zfymc8rV0KInh8CJYGrhgYCCw/6z8fBWn7A==
+X-Google-Smtp-Source: APXvYqzZfuyS3EDTHeslQfDCjEWtI3QdKVV2y+V4M2s7z9qeVb1BpejgJZLzfTbzxPa6Urt82mLKJEAaOPv8JmoTX8M=
+X-Received: by 2002:a24:4145:: with SMTP id x66mr224104ita.130.1557259706862; 
+	Tue, 07 May 2019 13:08:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <B32C5021EF3D894688F75677907CBC734599A785@pvmmail.tp-local.ru>
+	<CAPbeDCmBbidMPu4NMb-vGEUKBLNBj2_reFarAguMXOENphzALg@mail.gmail.com>
+	<B32C5021EF3D894688F75677907CBC734599A8AD@pvmmail.tp-local.ru>
+In-Reply-To: <B32C5021EF3D894688F75677907CBC734599A8AD@pvmmail.tp-local.ru>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 7 May 2019 21:08:16 +0100
+Message-ID: <CAJTo0LZ01sF+XHGomO4Wm1M-iaL5aJwqAd_hLALEKFwPGDBGXw@mail.gmail.com>
+To: Popov Anton <Anton.Popov@t-platforms.ru>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: HA: [PATCH] util-linux: fix owner and group for binaries in resulting image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,80 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 20:00:59 -0000
+X-List-Received-Date: Tue, 07 May 2019 20:08:26 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Removed patch is not appropriate anymore.
+On Tue, 7 May 2019 at 13:47, Popov Anton <Anton.Popov@t-platforms.ru> wrote=
+:
+> I don't think so. At the moment we are using rocko release and found this=
+ problem in util-linux-2.30 recipe.
+>
+> the problem is that util-linux builds with regular user permissions and r=
+esult files are owned by user with uid 1000 in our case. for most of binari=
+es in /bin and /sbin generated by util-linux this permissions issue is not =
+a problem (Because all binaries has o+x set). But for those of them who hav=
+e suid bit setted it became a real trouble.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- ...rncpy-with-memmove-on-overlapping-me.patch | 36 -------------------
- meta/recipes-devtools/mmc/mmc-utils_git.bb    |  8 ++---
- 2 files changed, 2 insertions(+), 42 deletions(-)
- delete mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
+Can you give an example of a concrete filename and demonstrate this by
+e.g. listing the contents of a package from deploy?  For example with
+master:
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
-deleted file mode 100644
-index 62e25fde9b..0000000000
---- a/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 175ac0f362bf6121c3537e2f1760ad41c8f81367 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Thu, 29 Mar 2018 01:04:57 -0700
--Subject: [PATCH] lsmmc: replace strncpy with memmove on overlapping memory
-- copy
--
--here source and destination addresses are overlapping so using memmove is
--going to be more efficient.
--
--Additionally, the bounded size for copy is overflowing for first copy
--
--In function 'strncpy',
--    inlined from 'read_file' at lsmmc.c:356:3:
--/mnt/a/oe/build/tmp/work/cortexa7t2hf-neon-vfpv4-bec-linux-gnueabi/mmc-utils/0.1-r0/recipe-sysroot/usr/include/bits/string_fortified.h:106:10: error: '__builtin_strncpy' accessing 4096 bytes at offsets 0 and 1 overlaps 4095 bytes at offset 1 [-Werror=restrict]
--   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
--          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10314723/]
-- lsmmc.c | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/lsmmc.c b/lsmmc.c
--index c4faa00..bcb854d 100644
----- a/lsmmc.c
--+++ b/lsmmc.c
--@@ -353,7 +353,7 @@ char *read_file(char *name)
-- 		line[strlen(line) - 1] = '\0';
-- 
-- 	while (isspace(line[0]))
---		strncpy(&line[0], &line[1], sizeof(line));
--+		memmove(&line[0], &line[1], sizeof(line)-1);
-- 
-- 	return strdup(line);
-- }
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index 37a4755234..69b230e54e 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -4,13 +4,9 @@ LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
- 
- SRCBRANCH ?= "master"
--SRCREV = "b4fe0c8c0e57a74c01755fa9362703b60d7ee49d"
-+SRCREV = "aef913e31b659462fe6b9320d241676cba97f67b"
- 
--PV = "0.1"
--
--SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
--           file://0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch \
--           "
-+SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH}"
- UPSTREAM_CHECK_COMMITS = "1"
- 
- S = "${WORKDIR}/git"
--- 
-2.17.1
+$ dpkg-deb  -c util-linux-mount_2.32.1-r0_corei7-64.ipk
+-rwsr-xr-x root/root     47152 2019-05-07 14:40 ./bin/mount.util-linux
 
+Permissions look right to me.
+
+Ross
 
