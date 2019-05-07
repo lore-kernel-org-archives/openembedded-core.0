@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CF0C7D7AD
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D507E7D7AD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 16:17:59 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id z124so6155175lfd.6
+	Tue,  7 May 2019 16:29:36 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id w23so12315318lfc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 09:18:01 -0700 (PDT)
+	Tue, 07 May 2019 09:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=YX7GXRYC9VKw3b0h1zC8nagajE8Ior/NxOSfuIpLKGk=;
-	b=ULvZ+Q8IhD0bz/JyFdEm1Ht1pZnpl+S1oDsFnxBe7It3FPBLysLcuzPfIk7XCxK1CS
-	vIJnUfMptomXin0OOXXc5bOVaOJf1XI6OlHgkMX66YSYlle9oYjPJDlJFv8bQH7GXVvQ
-	8bVwVuYzvfTvXpOMNwW+cIjAJOZRRlWlb0FXnFfloEcOC9xICV1T6RZSvNhWq3Hz+YVB
-	CXsEIcm5I35LahxfWHJ0QOvn52y0Y8baYRVsaCbn+V3ZKOFxw14kcTmBHuqeXlLXn3kf
-	hWutdaEVGs5H356AlbMI0+y8GI5ffuIbNvRvv9i6FscTWOHJZVdoslUMd7J6T35Y+LnT
-	cN8Q==
+	bh=KEZYnu0NrfMjXhTS5BM+3kjsw3fYJhkHeFr8Yk6XZm0=;
+	b=HmgiLVyZssaA/Vjnbi0ITlaCp9stytGlx7TwnEHWS7sXBC68MLILHL8Yi4bpe7aduX
+	njzNv1jl5g9IGh2mxoAFM2ggPfVjbP4rd6if8aBnBVhaVtNZgUnYGfLxPPVKxzBHkWLt
+	SFjRxM+2kjYhW1zbqdbJjcH5wcEX0cGoJSKLmLw6m2R42r2MCbwyGbEjRZQpZQeuDYAQ
+	fEpkmRI07iCz0yF4Zvz5iZklTYWMVwTQRWNUPTj5Ez2qEseFbHDFlGqWeV+PxBSw7OY4
+	ffZPZPOqj/9D4oafP1GUUs0tQ+alxtwk3VT1aMbNIHBoQ4h2Ng0A5Cr9RPi+uVjWIWUi
+	SGMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=YX7GXRYC9VKw3b0h1zC8nagajE8Ior/NxOSfuIpLKGk=;
-	b=eN8LPxxgEg5mps7bZt1oRPLlDQlDJtSuyEVG8WAM7nneZBZbLnnaTdHMO6H3RvneXp
-	EM/vGS5hKVyMvqmGKRTDzz0webZJrb2md8mf7q4sScUuKcten7MIwfrxXdwFty3ysuL4
-	w1MmV20C38kTW3F82pSfxqFoKeibdJS7958FFiwiWfXz1R8Q9u0S1UBlt9ItZKKyp82o
-	fts2Rnab0E3RBFnDR6DcU1aOEXGRXHNI31jgTVnTw7EogiXdhMMn4ibmxD48hMuDZwm9
-	0nGQ8TcJhE4tRJ5FIy8qqWKggZ42Lg6NbiJZAjo/XyWNV7dgSibSn66Dji0DIbDDB0RO
-	qPbw==
-X-Gm-Message-State: APjAAAUaRsBmK4VDrZFd1WhoKzgTwIusczz3SK6ipvzc4H7WhHeZFCDr
-	+5h9OavvdGEekuHxN/9fIgERschTwnM=
-X-Google-Smtp-Source: APXvYqyFbwQJAqFNn20J6pa8ih8Bv84+gfn6vwxI4Yo4NQerC5C6yM0WLvl92S72IRIXTZxIzE3KrA==
-X-Received: by 2002:a19:f50e:: with SMTP id j14mr16938603lfb.11.1557245880251; 
-	Tue, 07 May 2019 09:18:00 -0700 (PDT)
+	bh=KEZYnu0NrfMjXhTS5BM+3kjsw3fYJhkHeFr8Yk6XZm0=;
+	b=oFeHdAAphaMb2vOwd8820ehKGey+uJwTDXcoCRr6/oFAPB3WFNYaW/0z1sbtuurmHQ
+	bsp9ymZ5w6a7r/zV2/vBo/q/z34ruzyY46rQiiCiaPpL4Igq3o7wjVIyOFlv2A5mf8Jl
+	R4b8uxszKEhv96YljmV9VcVw5xlyg/TlEQqDWpX4lgm2AuOjBgWjsAcbsDnKU4i0U5nC
+	qhvaFHGomVwjL0k324qgxzJfEINZ+ZW/KA/hvcEEYtD2IXpNsvFsbrrAS7ktsdgRYLKc
+	P1JBQugJMGpLtVHyq2Ad4H08Y6/oPuXzZ21VpZr1RlSeHRRiJ8+fltQ2pOmew0uKXz8n
+	MdPw==
+X-Gm-Message-State: APjAAAXxCfAWzsiblpg0o4k0VpRP1NNANLmcEbPlzvUqfVU6YywZ6Hvh
+	Ioi1CFT0+9bZIQdtNCY9xZemId6zvh0=
+X-Google-Smtp-Source: APXvYqzUZoMAS6uYW0+phFO7T6h+ub7BwnMzxfIoS8NHjO17qnecKbe7HSZA69qKDonsg8VDT+KJiQ==
+X-Received: by 2002:ac2:5621:: with SMTP id b1mr7121680lff.27.1557246576902;
+	Tue, 07 May 2019 09:29:36 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id 10sm3260596ljv.47.2019.05.07.09.17.59
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	n12sm2881155lfk.95.2019.05.07.09.29.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 09:17:59 -0700 (PDT)
+	Tue, 07 May 2019 09:29:36 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 18:17:57 +0200
-Message-Id: <20190507161757.8105-1-open.source@oleksandr-kravchuk.com>
+Date: Tue,  7 May 2019 18:29:33 +0200
+Message-Id: <20190507162933.10665-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] kmscube: update to latest revision
+Subject: [PATCH v3] coreutils: update to 8.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,26 +56,112 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 16:18:00 -0000
+X-List-Received-Date: Tue, 07 May 2019 16:29:37 -0000
+
+ls.c license checksum changed due to modified copyright year.
+
+musl fix was backported from RHEL5 and is musl specific as the patched
+file is autogenerated during configure phase.
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/recipes-graphics/kmscube/kmscube_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../strtod_fix_clash_with_strtold.patch       | 56 +++++++++++++++++++
+ .../{coreutils_8.30.bb => coreutils_8.31.bb}  |  8 ++-
+ 2 files changed, 61 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+ rename meta/recipes-core/coreutils/{coreutils_8.30.bb => coreutils_8.31.bb} (94%)
 
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index b2dd6b30b0..513148f9e0 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -6,7 +6,7 @@ DEPENDS = "virtual/libgles2 virtual/egl libdrm"
+diff --git a/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch b/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+new file mode 100644
+index 0000000000..19410715f5
+--- /dev/null
++++ b/meta/recipes-core/coreutils/coreutils/strtod_fix_clash_with_strtold.patch
+@@ -0,0 +1,56 @@
++From 0562b040fa17f1722ba2b3096067b45d0582ca53 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Mon, 11 Mar 2019 16:40:29 -0700
++Subject: [PATCH] strtod: fix clash with strtold
++
++Problem reported for RHEL 5 by Jesse Caldwell (Bug#34817).
++* lib/strtod.c (compute_minus_zero, minus_zero):
++Simplify by remving the macro / external variable,
++and having just a function.  User changed.  This avoids
++the need for an external variable that might clash.
++
++Upstream-Status: Backported [rhel5]
++
++Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
++
++---
++ ChangeLog    |  9 +++++++++
++ lib/strtod.c | 11 +++++------
++ 2 files changed, 14 insertions(+), 6 deletions(-)
++
++diff --git a/lib/strtod.c b/lib/strtod.c
++index b9eaa51b4..69b1564e1 100644
++--- a/lib/strtod.c
+++++ b/lib/strtod.c
++@@ -294,16 +294,15 @@ parse_number (const char *nptr,
++    ICC 10.0 has a bug when optimizing the expression -zero.
++    The expression -MIN * MIN does not work when cross-compiling
++    to PowerPC on Mac OS X 10.5.  */
++-#if defined __hpux || defined __sgi || defined __ICC
++ static DOUBLE
++-compute_minus_zero (void)
+++minus_zero (void)
++ {
+++#if defined __hpux || defined __sgi || defined __ICC
++   return -MIN * MIN;
++-}
++-# define minus_zero compute_minus_zero ()
++ #else
++-DOUBLE minus_zero = -0.0;
+++  return -0.0;
++ #endif
+++}
++ 
++ /* Convert NPTR to a DOUBLE.  If ENDPTR is not NULL, a pointer to the
++    character after the last one used in the number is put in *ENDPTR.  */
++@@ -479,6 +478,6 @@ STRTOD (const char *nptr, char **endptr)
++   /* Special case -0.0, since at least ICC miscompiles negation.  We
++      can't use copysign(), as that drags in -lm on some platforms.  */
++   if (!num && negative)
++-    return minus_zero;
+++    return minus_zero ();
++   return negative ? -num : num;
++ }
++-- 
++2.20.1
++
+diff --git a/meta/recipes-core/coreutils/coreutils_8.30.bb b/meta/recipes-core/coreutils/coreutils_8.31.bb
+similarity index 94%
+rename from meta/recipes-core/coreutils/coreutils_8.30.bb
+rename to meta/recipes-core/coreutils/coreutils_8.31.bb
+index 8f4ee55712..4a74f619af 100644
+--- a/meta/recipes-core/coreutils/coreutils_8.30.bb
++++ b/meta/recipes-core/coreutils/coreutils_8.31.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "http://www.gnu.org/software/coreutils/"
+ BUGTRACKER = "http://debbugs.gnu.org/coreutils"
+ LICENSE = "GPLv3+"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504\
+-                    file://src/ls.c;beginline=1;endline=15;md5=dbe356a88b09c29232b083d1ff8ac82a"
++                    file://src/ls.c;beginline=1;endline=15;md5=c456f9896277a0543e3866777ccc0255"
+ DEPENDS = "gmp libcap"
+ DEPENDS_class-native = ""
  
- LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
+@@ -20,8 +20,10 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
+            file://0001-local.mk-fix-cross-compiling-problem.patch \
+           "
  
--SRCREV = "d8da3dcfdfe33ee525cf562e928a5266ac69843c"
-+SRCREV = "485b385e966a63cecc143765d112d267b299ffe5"
- SRC_URI = "git://anongit.freedesktop.org/mesa/kmscube;branch=master;protocol=git \
-     file://detect-gst_bo_map-_unmap-and-use-it-or-avoid-it.patch"
- UPSTREAM_CHECK_COMMITS = "1"
+-SRC_URI[md5sum] = "ab06d68949758971fe744db66b572816"
+-SRC_URI[sha256sum] = "e831b3a86091496cdba720411f9748de81507798f6130adeaef872d206e1b057"
++SRC_URI_append_libc-musl = "file://strtod_fix_clash_with_strtold.patch"
++
++SRC_URI[md5sum] = "0009a224d8e288e8ec406ef0161f9293"
++SRC_URI[sha256sum] = "ff7a9c918edce6b4f4b2725e3f9b37b0c4d193531cac49a48b56c4d0d3a9e9fd"
+ 
+ EXTRA_OECONF_class-native = "--without-gmp"
+ EXTRA_OECONF_class-target = "--enable-install-program=arch,hostname --libexecdir=${libdir}"
 -- 
 2.17.1
 
