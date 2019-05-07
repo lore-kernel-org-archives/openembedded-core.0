@@ -1,48 +1,49 @@
-Return-Path: <jacob.kroon@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F0017D697
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3626A6BC7A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 19:54:03 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id u186so104986ith.0
+	Tue,  7 May 2019 20:00:58 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id r76so4381397lja.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 12:54:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9rMVrObPR86R7B1mc4bzp2MTAdw90TcmKqmIyRoUEXU=;
-	b=dgs3HIsONZ01i8z7m91WTSA7pxy2TWzUfQZwPPDi2u4UPUD/NCTR78OwmBcjie9RnA
-	C4CizZr4oId8SKraYx0NsOwPUx2UqewyU9jo2XZPF7u/woIykqdjv9/laVwsrX2widAO
-	36J8rNyBEa2h4MN0bTHfSvyF5h6SZyF63hQ+6pdBIzrqLkOwxcmGr13KdcwN38bYAzhw
-	4pMlNcnwidB/v+aBApba4QGO9WlkPWmalPU+qduE8TAT5TmhGuDM0INrH4KZpPJyXCZW
-	lnVbi98fzcQ7cLNZASeGqz74zRDUemiH6zfNMNOjBsNncO9RhHe7pOt75oadDJBvyNnP
-	QvFQ==
+	Tue, 07 May 2019 13:01:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=QTQL89zFJ863xt8e9ndfbMYTmVuu/NuaNJjqIH3IxxU=;
+	b=EFfGAoNw5R3TLG+Y73xWnkVWYJxURBVIc8zPl5qA1a6lBUhnQTFhzFMfVlkD09soAM
+	rbmJe+2WgdhaVqdsvwrwQ2cxNrQoKJhZtOFr/FZcQw9Nq/bD1yMzSBxgbTuCMA/ygbWs
+	r5uh5IWp/DNK2ggQGGQT8tQGJxBebDSBuRa86RlZQuswR3m2SnrqbjD+hzY4XfriO1MM
+	S+cIUbVWn0cPT5xbLhOigD8at0SwlIQdJ9xnBmCQ5CNjK/DJnp7SRh8GPvgytYQeJZzI
+	TtZnlFAV6m0Y1yWPB/3YrSRYHppA6xM1cuI0UBIYwrHDO13EeGSlIHEFtwGyvEi23U83
+	u8Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9rMVrObPR86R7B1mc4bzp2MTAdw90TcmKqmIyRoUEXU=;
-	b=dbQ51CGtzL4CdRZe0Crhu7UXTiu0wXLWYwizFRVqKxllD+r52LO2Xy5GtHZZzlh4ZE
-	zhGBCL5kWSPML8WxEuPART46OjDr+k6Zp0/xUfxjVgb9OapDMrbvE0DnWctPM90dSkYC
-	Msa+v1uhtngc+ctJr7O68fZ2f+dhsuqLugwIukoEFxnIsciCBszaFkxULR9J/42o+hWE
-	XHIVxl0ayrn8jtB24Yp9txS38RIz2ly7d+Uzx/djhKh10O10jZA2eVzfrspgLC+9BW+7
-	K+R+DdinnCC26FUyGkGhmqB/dri61AnMqANIEytAS9nsNE9XKoIF1AICCzX8QqRUho+T
-	PmUA==
-X-Gm-Message-State: APjAAAVgR22Yf3gl3W3qyJ9pXnGFDmP/YzluAr7xPC5xI8JYTvkkKhY3
-	/6O1hQhQ4ZpYs6kVLpB3vGltaFRWNNoj3C4fYTYvxg==
-X-Google-Smtp-Source: APXvYqzxYPVbzQhZVAw69M6TDNjvjCxVhu/VYY8I2m8L8cZIDhEfZNyp0EN4bpT50C+4GMykUNyQhWW8IP+eUJPpPag=
-X-Received: by 2002:a24:59c1:: with SMTP id p184mr163077itb.158.1557258844996; 
-	Tue, 07 May 2019 12:54:04 -0700 (PDT)
-MIME-Version: 1.0
-References: <B32C5021EF3D894688F75677907CBC734599A785@pvmmail.tp-local.ru>
-	<CAPbeDCmBbidMPu4NMb-vGEUKBLNBj2_reFarAguMXOENphzALg@mail.gmail.com>
-	<B32C5021EF3D894688F75677907CBC734599A8AD@pvmmail.tp-local.ru>
-In-Reply-To: <B32C5021EF3D894688F75677907CBC734599A8AD@pvmmail.tp-local.ru>
-From: Jacob Kroon <jacob.kroon@gmail.com>
-Date: Tue, 7 May 2019 21:53:52 +0200
-Message-ID: <CAPbeDC=UAxCbUogfFdN9k8Ketquz46uTF6bPh_K1Qbcg_yM+tA@mail.gmail.com>
-To: Popov Anton <Anton.Popov@t-platforms.ru>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] util-linux: fix owner and group for binaries in resulting image
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=QTQL89zFJ863xt8e9ndfbMYTmVuu/NuaNJjqIH3IxxU=;
+	b=CiD8aEycrIjW9C3NBThFuT65rakS3CRm7dnusM8onPp/97NPJ0CCtzYrStiFO7s5LX
+	q4oh/6izqp6EDK/ffwYfue04qHytxDpM/UfuVaVSDL+rVad0g66ow1EnPuEsI46SnKlS
+	ICIN5+3CJ5Wr1Frw74S1xBYjUiwxJ08xI93tz8vIQmaKLnMCtsgSoU1IpRwyjJXziN7f
+	kmK62sqzOJsY8uWfIj81uWeK7dWXlA0SF4mlqFu9T11RyNj3znCNE1Z169PXeYKseJMI
+	+shYXxxR/jczibRJYh1gMaMEbzcYr37sungWZ5zDfc5pmNrJb0TTX1PutpocwkkIYlMs
+	hOow==
+X-Gm-Message-State: APjAAAVcc6UlIl0YIbptoWH98qQ+w9KBVRxmcQz39lJFnDCbtyyiHfhc
+	YRcxj+mFxON3klpyuDB5uBPKzcfTXLg=
+X-Google-Smtp-Source: APXvYqy7ygcf6mFdUN0ruir/1UaaWaxKyu1z+29ClF4YKo1SLeHZP7w4OBORcoTPwvXWr38N0dFfhw==
+X-Received: by 2002:a2e:82cb:: with SMTP id n11mr18504038ljh.183.1557259259368;
+	Tue, 07 May 2019 13:00:59 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	s17sm2402734lfb.66.2019.05.07.13.00.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 May 2019 13:00:58 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2019 22:00:56 +0200
+Message-Id: <20190507200056.18766-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] mmc-utils: update to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,245 +56,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 19:54:04 -0000
-Content-Type: multipart/alternative; boundary="0000000000004787ce0588519413"
+X-List-Received-Date: Tue, 07 May 2019 20:00:59 -0000
 
---0000000000004787ce0588519413
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Removed patch is not appropriate anymore.
 
-Which host distributionen are you using?
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ ...rncpy-with-memmove-on-overlapping-me.patch | 36 -------------------
+ meta/recipes-devtools/mmc/mmc-utils_git.bb    |  8 ++---
+ 2 files changed, 2 insertions(+), 42 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
 
-On Tue, 7 May 2019, 14:47 Popov Anton, <Anton.Popov@t-platforms.ru> wrote:
+diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
+deleted file mode 100644
+index 62e25fde9b..0000000000
+--- a/meta/recipes-devtools/mmc/mmc-utils/0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 175ac0f362bf6121c3537e2f1760ad41c8f81367 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 29 Mar 2018 01:04:57 -0700
+-Subject: [PATCH] lsmmc: replace strncpy with memmove on overlapping memory
+- copy
+-
+-here source and destination addresses are overlapping so using memmove is
+-going to be more efficient.
+-
+-Additionally, the bounded size for copy is overflowing for first copy
+-
+-In function 'strncpy',
+-    inlined from 'read_file' at lsmmc.c:356:3:
+-/mnt/a/oe/build/tmp/work/cortexa7t2hf-neon-vfpv4-bec-linux-gnueabi/mmc-utils/0.1-r0/recipe-sysroot/usr/include/bits/string_fortified.h:106:10: error: '__builtin_strncpy' accessing 4096 bytes at offsets 0 and 1 overlaps 4095 bytes at offset 1 [-Werror=restrict]
+-   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
+-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Submitted [https://patchwork.kernel.org/patch/10314723/]
+- lsmmc.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lsmmc.c b/lsmmc.c
+-index c4faa00..bcb854d 100644
+---- a/lsmmc.c
+-+++ b/lsmmc.c
+-@@ -353,7 +353,7 @@ char *read_file(char *name)
+- 		line[strlen(line) - 1] = '\0';
+- 
+- 	while (isspace(line[0]))
+--		strncpy(&line[0], &line[1], sizeof(line));
+-+		memmove(&line[0], &line[1], sizeof(line)-1);
+- 
+- 	return strdup(line);
+- }
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index 37a4755234..69b230e54e 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -4,13 +4,9 @@ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://mmc.c;beginline=1;endline=20;md5=fae32792e20f4d27ade1c5a762d16b7d"
+ 
+ SRCBRANCH ?= "master"
+-SRCREV = "b4fe0c8c0e57a74c01755fa9362703b60d7ee49d"
++SRCREV = "aef913e31b659462fe6b9320d241676cba97f67b"
+ 
+-PV = "0.1"
+-
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
+-           file://0001-lsmmc-replace-strncpy-with-memmove-on-overlapping-me.patch \
+-           "
++SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH}"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.17.1
 
-> Hi,
->
-> I don't think so. At the moment we are using rocko release and found this
-> problem in util-linux-2.30 recipe.
->
-> the problem is that util-linux builds with regular user permissions and
-> result files are owned by user with uid 1000 in our case. for most of
-> binaries in /bin and /sbin generated by util-linux this permissions issue
-> is not a problem (Because all binaries has o+x set). But for those of the=
-m
-> who have suid bit setted it became a real trouble.
->
-> With best regards,
-> Anton Popov
->
-> ________________________________________
-> =D0=9E=D1=82: Jacob Kroon [jacob.kroon@gmail.com]
-> =D0=9E=D1=82=D0=BF=D1=80=D0=B0=D0=B2=D0=BB=D0=B5=D0=BD=D0=BE: 7 =D0=BC=D0=
-=B0=D1=8F 2019 =D0=B3. 8:04
-> =D0=9A=D0=BE=D0=BC=D1=83: Popov Anton
-> =D0=9A=D0=BE=D0=BF=D0=B8=D1=8F: openembedded-core@lists.openembedded.org
-> =D0=A2=D0=B5=D0=BC=D0=B0: Re: [OE-core] [PATCH] util-linux: fix owner and=
- group for binaries
-> in resulting image
->
-> Hi,
-> Are we sure this is not caused by the new glibc2.29/pseudo problems
-> that has been seen previously ?
-> Which distro are you building on, and which version of poky/oe are you
-> using ?
-> /Jacob
->
-> On Mon, May 6, 2019 at 5:46 PM Popov Anton <Anton.Popov@t-platforms.ru>
-> wrote:
-> >
-> > util-linux source produce some binaries with setuid bit set
-> >
-> > do_install function produce binaries in /sbin and /bin with uid:gid
-> > of user who build image this lead to messages like this:
-> > mount /dev/sdb1 /mnt/flash
-> > mount: only root can do that (effective UID is 1000)
-> > this patch changing owner of binaries in /bin and /sbin to 0:0
-> >
-> > Signed-off-by: Anton Popov <Anton.Popov@t-platforms.ru>
-> > ---
-> >  meta/recipes-core/util-linux/util-linux.inc | 21 +++++++++++++++++++++
-> >  1 file changed, 21 insertions(+)
-> >
-> > diff --git a/meta/recipes-core/util-linux/util-linux.inc
-> b/meta/recipes-core/util-linux/util-linux.inc
-> > index 34255a2dec..d75a2dd399 100644
-> > --- a/meta/recipes-core/util-linux/util-linux.inc
-> > +++ b/meta/recipes-core/util-linux/util-linux.inc
-> > @@ -201,6 +201,27 @@ do_install () {
-> >      fi
-> >  }
-> >
-> > +# when building yocto image with non-root user some binaries appears i=
-n
-> resulting
-> > +# image with rights of user who build image. This behaviour may lead t=
-o
-> misfunction
-> > +# of some binaries like mount because of setuid bit on them:
-> > +# mount /dev/sdb1 /mnt/flash
-> > +# mount: only root can do that (effective UID is 1000)
-> > +# ls -ld which mount
-> > +# lrwxrwxrwx    1 root     root            21 Jan  2  1970 /bin/mount
-> -> /bin/mount.util-linux
->                                    # root@mitx-fp32:/mnt/system/initrd#
-> ls -ld /bin/mount.util-linux
->                                                                     #
-> -rwsr-xr-x    1 1000     1000         28020 Apr 23 12:49
-> /bin/mount.util-linux
-> > +do_install_append_class-target () {
-> > +    for p in $sbinprogs $sbinprogs_a; do
-> > +        if [ -f "${D}${base_sbindir}/$p" ]; then
-> > +            chown 0:0 "${D}${base_sbindir}/$p"
-> > +        fi
-> > +    done
-> > +    for p in $binprogs_a; do
-> > +        if [ -f "${D}${base_bindir}/$p" ]; then
-> > +            chown 0:0 "${D}${base_bindir}/$p"
-> > +        fi
-> > +    done
-> > +}
-> > +
-> > +
-> >  # nologin causes a conflict with shadow-native
-> >  # kill causes a conflict with coreutils-native (if
-> ${bindir}=3D=3D${base_bindir})
-> >  do_install_append_class-native () {
-> > --
-> > 2.20.1
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---0000000000004787ce0588519413
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Which host distributionen are you using?=C2=A0</div><br><=
-div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 7 M=
-ay 2019, 14:47 Popov Anton, &lt;<a href=3D"mailto:Anton.Popov@t-platforms.r=
-u">Anton.Popov@t-platforms.ru</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-=
-left:1ex">Hi,<br>
-<br>
-I don&#39;t think so. At the moment we are using rocko release and found th=
-is problem in util-linux-2.30 recipe.<br>
-<br>
-the problem is that util-linux builds with regular user permissions and res=
-ult files are owned by user with uid 1000 in our case. for most of binaries=
- in /bin and /sbin generated by util-linux this permissions issue is not a =
-problem (Because all binaries has o+x set). But for those of them who have =
-suid bit setted it became a real trouble.<br>
-<br>
-With best regards,<br>
-Anton Popov<br>
-<br>
-________________________________________<br>
-=D0=9E=D1=82: Jacob Kroon [<a href=3D"mailto:jacob.kroon@gmail.com" target=
-=3D"_blank" rel=3D"noreferrer">jacob.kroon@gmail.com</a>]<br>
-=D0=9E=D1=82=D0=BF=D1=80=D0=B0=D0=B2=D0=BB=D0=B5=D0=BD=D0=BE: 7 =D0=BC=D0=
-=B0=D1=8F 2019 =D0=B3. 8:04<br>
-=D0=9A=D0=BE=D0=BC=D1=83: Popov Anton<br>
-=D0=9A=D0=BE=D0=BF=D0=B8=D1=8F: <a href=3D"mailto:openembedded-core@lists.o=
-penembedded.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core@lis=
-ts.openembedded.org</a><br>
-=D0=A2=D0=B5=D0=BC=D0=B0: Re: [OE-core] [PATCH] util-linux: fix owner and g=
-roup for binaries in resulting image<br>
-<br>
-Hi,<br>
-Are we sure this is not caused by the new glibc2.29/pseudo problems<br>
-that has been seen previously ?<br>
-Which distro are you building on, and which version of poky/oe are you usin=
-g ?<br>
-/Jacob<br>
-<br>
-On Mon, May 6, 2019 at 5:46 PM Popov Anton &lt;<a href=3D"mailto:Anton.Popo=
-v@t-platforms.ru" target=3D"_blank" rel=3D"noreferrer">Anton.Popov@t-platfo=
-rms.ru</a>&gt; wrote:<br>
-&gt;<br>
-&gt; util-linux source produce some binaries with setuid bit set<br>
-&gt;<br>
-&gt; do_install function produce binaries in /sbin and /bin with uid:gid<br=
->
-&gt; of user who build image this lead to messages like this:<br>
-&gt; mount /dev/sdb1 /mnt/flash<br>
-&gt; mount: only root can do that (effective UID is 1000)<br>
-&gt; this patch changing owner of binaries in /bin and /sbin to 0:0<br>
-&gt;<br>
-&gt; Signed-off-by: Anton Popov &lt;<a href=3D"mailto:Anton.Popov@t-platfor=
-ms.ru" target=3D"_blank" rel=3D"noreferrer">Anton.Popov@t-platforms.ru</a>&=
-gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-core/util-linux/util-linux.inc | 21 +++++++++++++++=
-++++++<br>
-&gt;=C2=A0 1 file changed, 21 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipe=
-s-core/util-linux/util-linux.inc<br>
-&gt; index 34255a2dec..d75a2dd399 100644<br>
-&gt; --- a/meta/recipes-core/util-linux/util-linux.inc<br>
-&gt; +++ b/meta/recipes-core/util-linux/util-linux.inc<br>
-&gt; @@ -201,6 +201,27 @@ do_install () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; +# when building yocto image with non-root user some binaries appears =
-in resulting<br>
-&gt; +# image with rights of user who build image. This behaviour may lead =
-to misfunction<br>
-&gt; +# of some binaries like mount because of setuid bit on them:<br>
-&gt; +# mount /dev/sdb1 /mnt/flash<br>
-&gt; +# mount: only root can do that (effective UID is 1000)<br>
-&gt; +# ls -ld which mount<br>
-&gt; +# lrwxrwxrwx=C2=A0 =C2=A0 1 root=C2=A0 =C2=A0 =C2=A0root=C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 21 Jan=C2=A0 2=C2=A0 1970 /bin/mount -&gt; /bi=
-n/mount.util-linux=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# root@mitx-fp32:/mnt/system/initrd# ls -ld =
-/bin/mount.util-linux=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 # -rwsr-xr-x=C2=
-=A0 =C2=A0 1 1000=C2=A0 =C2=A0 =C2=A01000=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-28020 Apr 23 12:49 /bin/mount.util-linux<br>
-&gt; +do_install_append_class-target () {<br>
-&gt; +=C2=A0 =C2=A0 for p in $sbinprogs $sbinprogs_a; do<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -f &quot;${D}${base_sbindir}/$p&quot=
-; ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chown 0:0 &quot;${D}${base_=
-sbindir}/$p&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt; +=C2=A0 =C2=A0 done<br>
-&gt; +=C2=A0 =C2=A0 for p in $binprogs_a; do<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -f &quot;${D}${base_bindir}/$p&quot;=
- ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 chown 0:0 &quot;${D}${base_=
-bindir}/$p&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-&gt; +=C2=A0 =C2=A0 done<br>
-&gt; +}<br>
-&gt; +<br>
-&gt; +<br>
-&gt;=C2=A0 # nologin causes a conflict with shadow-native<br>
-&gt;=C2=A0 # kill causes a conflict with coreutils-native (if ${bindir}=3D=
-=3D${base_bindir})<br>
-&gt;=C2=A0 do_install_append_class-native () {<br>
-&gt; --<br>
-&gt; 2.20.1<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openemb=
-edded.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div>
-
---0000000000004787ce0588519413--
