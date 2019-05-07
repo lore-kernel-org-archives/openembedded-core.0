@@ -1,56 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id B068A7D5A4
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f45.google.com (mail-io1-f45.google.com
+	[209.85.166.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 508F07D41E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 10:48:22 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id v11so1509487wru.5
+	Tue,  7 May 2019 10:52:00 +0000 (UTC)
+Received: by mail-io1-f45.google.com with SMTP id v9so9960956ion.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 03:48:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=OS0m8icEZIlVtysX/BwXw2dP+j8/U6HMsUwMvDDBpb4=;
-	b=DL/y4yxaZeYrZkR8gcVrUoGWUcrquRqsxA6/9Tweg7vsapDwhShpscaQ3cQ1C1P6wj
-	iAjMfgGiwNi6YknMvjtZurY2TE+MxXRxLCNhGFks4HUnZqESlAzSHTjGsTb3HA+vL4Mx
-	aa/BB3F336stnmdc0/IVgqU3ED94amph947oc=
+	Tue, 07 May 2019 03:52:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=SLGLAzsGbDUhEoOUTjr1ZjovpxTBqkR2P76Srj/9oEM=;
+	b=pVm5JZTPw1JTJb4MC8w3MFzcxv199lvyPig/J9paxCiu9kDfg0lk0AgARX5kRAXiG1
+	vSuy8HolrOlbMH8MNipy7e2cmLNFiVPSlrKiykS0ZXgYEzjYZp2q4yKKWcK5Z8Czizpl
+	bdH3d4HEY2Id2pT1AFavb7wZRmQarV0bZdYXJBjhnZqTxO5e42HhAqFsv3wzjlCliLGY
+	UU6sOb3w2p4G+3CskyIB1d6TCNGhrtuvxrQMCQPMtAGzl+Hq5IRfPvffLIkLPJ95cuhx
+	ZPJ7f9hbEbseimpL7XXw00Of5Uv3cdPuddSoqrJYaSbSdTVzbCAyE8Iq/d3MlK834lc5
+	qzbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=OS0m8icEZIlVtysX/BwXw2dP+j8/U6HMsUwMvDDBpb4=;
-	b=QziuRTevSSG0bj1C5VEhJOaKaTP95YFiR78g7302ilOU5ztJMlxtmNk//1so5pcdu6
-	LSyeX4hG9+BnnLGokZyNkBMDmTQRis205E12x9HEMvoSKQ8Czbd1kEXKjWV9KiAGIB+3
-	6BmsALXB6WBPhbpMmhHkH/bPCYZ22bv4iUbcHQp9rnU2dBix0uavoUvMS2pU9vsh3Sfm
-	wJ1BbIGBSCQXOUgNY5v2b0RDbdQ7f7S/JUPie182r3k9qB3tkFrNu/c3Bm7KvnLdKkLD
-	pWHKKDUglSwDiZWtbmgxGsmi+tORj9IqO8RiXaHJpaVZ2f+zVhqZI9z3896n28lRh/XF
-	oxKg==
-X-Gm-Message-State: APjAAAWrgq7J/CpumIgpe64ial25G5sVXtRFocyQ4Z7RTWm12Y4wP08E
-	s/sBJhE9O+A2NLGFusd0BF8oqA==
-X-Google-Smtp-Source: APXvYqwbeMpZ8G/HuGKfMHeVib/WeFwFabzxA3IBfLe/CNNe+SyeGiOqqrKV+J37ILwpGL2UxIQvYQ==
-X-Received: by 2002:a5d:668f:: with SMTP id l15mr1354944wru.125.1557226103460; 
-	Tue, 07 May 2019 03:48:23 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	91sm22048616wrs.43.2019.05.07.03.48.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 07 May 2019 03:48:22 -0700 (PDT)
-Message-ID: <92e3b103977d63c437fa5ab667e1d1ad99900e58.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Burton, Ross" <ross.burton@intel.com>, Alexander Kanavin
-	<alex.kanavin@gmail.com>
-Date: Tue, 07 May 2019 11:48:21 +0100
-In-Reply-To: <CAJTo0LbJghj1jokkpoKz1xwg+FTUckUMSxZQsWsj0wvgMFc2eg@mail.gmail.com>
-References: <20190424051620.10065-1-open.source@oleksandr-kravchuk.com>
-	<bdd177a6-9d65-ed60-cb2f-20fea4effbea@oleksandr-kravchuk.com>
-	<CANNYZj9gNDaNgzx=240=thj_QA6h0Wrs_qvwfSabun72-r-Pog@mail.gmail.com>
-	<CAJTo0LbJghj1jokkpoKz1xwg+FTUckUMSxZQsWsj0wvgMFc2eg@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=SLGLAzsGbDUhEoOUTjr1ZjovpxTBqkR2P76Srj/9oEM=;
+	b=Gcp9HKPd5eA4GHYDRHEyoH/0EfGg09iImAnyfhxsmW6+vaS98tLY9o9ZRDFA+tenNL
+	FXVVdhUAb8rLjGkuBtnvgbNat965/cDCU6tVyyXGbZPXCigsF6iFqvuiD1RzoZlxBvxP
+	W6BB/ekylyOG6WDTt2PSaEkGiMn0JxChO/CSx4NzhZihlSLoRZ5v3QEggawmdWRzhRHL
+	Sn0I7zZJ+WN3ePM5AOvr6fxwDF8fD2QPuYjUSVV7ZPgxjce97hF+3Ikol/flH2NhRgz6
+	oimTPZ5lUdD84j21qFjdR1ykXsfayCnecBUR9lOs4ozwH1ndM130fWQTz3UD1n+B4/DR
+	L9lQ==
+X-Gm-Message-State: APjAAAX3GiEHGl1r39xeT8x+Hl9GjwqF1SHjiTuI/5oqCrcSKqi/pL0N
+	gXXglIPE90oOcJ0Mbv+OAZUX3pmCxCZqKHgN5EGmlg==
+X-Google-Smtp-Source: APXvYqwRcDjMt9xj1rse7LDjvvMWcMjE2lgnDz1mUsyzp0WWPNaDRUpcJcX/Fi20Ca8BgbvM3foKYDlNTIqO9QJHT+U=
+X-Received: by 2002:a5d:9cd0:: with SMTP id w16mr4268634iow.272.1557226320855; 
+	Tue, 07 May 2019 03:52:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] ell: add recipe
+References: <20190417133941.31087-1-schnitzeltony@gmail.com>
+	<CALbNGRSJs_KncbefGSSPN_u_KYOrCnEsfSTeLJKLXeFQ7guEPQ@mail.gmail.com>
+In-Reply-To: <CALbNGRSJs_KncbefGSSPN_u_KYOrCnEsfSTeLJKLXeFQ7guEPQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 7 May 2019 12:51:45 +0200
+Message-ID: <CALbNGRSC=NjtUg=JxzmaZbjEj8BhH1NGPTRTs=iU34ftM8s=JQ@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][thud] adwaita-icon-theme: do not delete symbolic svg but pack them in ${PN}-symbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,18 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 10:48:22 -0000
+X-List-Received-Date: Tue, 07 May 2019 10:52:00 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 2019-05-07 at 11:44 +0100, Burton, Ross wrote:
-> It's sitting in mut, I'll prod RP today :)
+On Tue, Apr 30, 2019 at 8:20 AM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+>
+> On Wed, Apr 17, 2019 at 3:39 PM Andreas M=C3=BCller <schnitzeltony@gmail.=
+com> wrote:
+> >
+> > This fixes:
+> > * gtk-icon-browser: for symbolic view almost all icons were missing
+> > * xfce's thunar: 'home' and 'up' icons were missing. Had a long discuss=
+ion with
+> >   XFCE-people [1] and asked here [2].
+> >
+> > How could I overlook the most obvious...
+> >
+> > [1] https://bugzilla.xfce.org/show_bug.cgi?id=3D14443
+> > [2] http://lists.openembedded.org/pipermail/openembedded-core/2018-Nove=
+mber/275815.html
+> >
+> > (From OE-Core rev: 0911e7d2f5443210b594a198ada8465af7a2fc78)
+> >
+> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ping?
+Something wrong with this bugfix?
 
-You can prod me but it tested in -next over the weekend and merged 1.5
-hours ago...
-
-Cheers,
-
-Richard
-
+Andreas
 
