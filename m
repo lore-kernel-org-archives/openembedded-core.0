@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A13B7D42D
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 78B427D42D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 20:55:52 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id x132so1944462lfd.0
+	Tue,  7 May 2019 21:01:36 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id j20so12902193lfh.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 13:55:53 -0700 (PDT)
+	Tue, 07 May 2019 14:01:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=RaveMAlw8hfurblxUX4osqdmVgEn1D+SAhZuUgRIK6U=;
-	b=OU2hih3WllwA+a5tNss7Rf6EPVbMpRazE4NKbBxU+2r7FseC5mlLU6Lal7DViaTGkY
-	SfaRT9x9jbHTCOLvDGBjbeAhWqj2R6EIFdsAsR2Sl1NMtuTt3ptMBf7cHt8dixca/ozm
-	VJ60JMZ35qzJnwfbK0FzDYxC9NJ/z+jzoXMvUQC5qGZhAY5H2HwwxTZOU/nbugkcw5H5
-	onVNEoZ04vuT76OeIpfrH4hMFJyViQqe0VhokwcztT4ztZSXM04meWEzBKZ2sAAMRbgk
-	h1CKaNg+bncwjIysrqxkyo4FUjnz1x8RqiiQBWlsBEqSdgcqu3/LxijOUA5uCJQTAzD2
-	VtQA==
+	bh=w2N5pO8q2qMElitsKxM96YKB/X/378u0wmsSVTabnWI=;
+	b=sK6Ds6EDXjp5rDqyZxKUgHve9Yq1aTtCa5A2oX5c1zJieShHqBUbyU35enbbmGpJ1V
+	fkjr5pYxV/cHvUPZeScSrsmqYxRdDgV/7DwRqXjXT8Ks+UbO5ZloRkigx+70pvK3J9sB
+	Nd6K8Zt+Gycgt+BpOxPaAArwZ5EDqlWJPIt++K0LrliXnJ1vjI2gHpw8ps9k8+AJfYVM
+	9p1qIyibjUFkwtT1S72EojiaCwbGpGo9MdGWtUSPpt2nBi8rblmpLPy3ZLOCiBBzKhBa
+	/mOjM1khQ6mA7DsvoDaPM/pAy3p/phs9Oe9vyiBXanLS5f0Uc76XlUD1rBEN9AniE/Kw
+	azuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=RaveMAlw8hfurblxUX4osqdmVgEn1D+SAhZuUgRIK6U=;
-	b=p+SYq6ZefzeMl/CFOxrpT3omNRynQ9tws8d2xBsMkeYhTa5mi2C/kO34c9wP7WQPsk
-	5goNrxhH4yMYX8EFX85evNcBfobK2hD+0RBmvqQu6vU4zs1gAln7gCpuJlP46tiKOh0P
-	tyUVAdFafP6n7Z+BQUTcURgpfi1/yHiDoasiyWqlvbPC6G7PAriFpIGd69CLYEvfhI3J
-	jdthwpUoCru6WXMEEmXBNwHlhhklxx/ZJCHnfR4dRCyFw1xUR6v4xAx3pXPxJq76x/Td
-	TKjg+EdiXqfw743YyCDtI2UsvREmtN6FW0snPFoRuNE/7QOfiYDntZ+aN32QI5LUsnjh
-	WFJA==
-X-Gm-Message-State: APjAAAXsW8rKM1EE2t5WFqw6bgdraLHgldYkpg5QKluFLwI/mmBgKoDF
-	gJs695crQlPWE5vpOLeyz65OfpqEok8=
-X-Google-Smtp-Source: APXvYqx9n4DpEEDtzqOYqCd+llb+xNkxtWcLDlyKAzZvk+bsA/FQs5eLhqVG+FwTwFggCLOlBg7uAg==
-X-Received: by 2002:ac2:560b:: with SMTP id v11mr295696lfd.151.1557262552674; 
-	Tue, 07 May 2019 13:55:52 -0700 (PDT)
+	bh=w2N5pO8q2qMElitsKxM96YKB/X/378u0wmsSVTabnWI=;
+	b=Av0Sr2i2H9TK3DQB8cF8tzrXIOh/Qd4kgYxmbGRR95DZfWk1IDcWq2dlpk3DDTpTTg
+	B+URMoFvficQMauaBzrXYmVCEIXAD7wWPFBVJOt+OAHPSPEepRxjk0P8qAN84kI+kWCI
+	eSC/uogRPwTeLHKmi/mIL3sz25/9bdk86+stpALOkqm+mg0Ri1fR9W4s8mq3k/Th1uTn
+	wPWSGqSPFoasqwWoyYY5DVZ3wwveqsR2fw2LkeFHwJT9Cj0bobwoa05UMci07kYXubN5
+	w2DHbFeCzfd6Prv+DBw5IDFdH9a9TBrOiLlElAzl2cuHKDZjChUPzNOTdLA4Ge9Ucx9f
+	1WLg==
+X-Gm-Message-State: APjAAAV6s60V8AXBZ3Tbm0boqxDnaxvY+tMMQbymqk0AhbM0qCWVZK45
+	1wvXd+u/5WsiQAfMus8FZEiVwUsm7kQ=
+X-Google-Smtp-Source: APXvYqy40G8RVCzvuFQ6EE0n1SnQc3i+EXa2zmUVUmP0/j4MqTPsmMtxsTEPdVT3gEp0nG9sBfitGQ==
+X-Received: by 2002:a19:fc19:: with SMTP id a25mr17624284lfi.128.1557262896358;
+	Tue, 07 May 2019 14:01:36 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id m29sm805248lfj.43.2019.05.07.13.55.51
+	by smtp.gmail.com with ESMTPSA id p5sm147415lfc.80.2019.05.07.14.01.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 13:55:52 -0700 (PDT)
+	Tue, 07 May 2019 14:01:35 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 22:55:50 +0200
-Message-Id: <20190507205550.24763-1-open.source@oleksandr-kravchuk.com>
+Date: Tue,  7 May 2019 23:01:33 +0200
+Message-Id: <20190507210133.11454-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] msmtp: update to 1.8.4
+Subject: [PATCH] wpa-supplicant: update to 2.8
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 20:55:52 -0000
+X-List-Received-Date: Tue, 07 May 2019 21:01:36 -0000
+
+License checksums were changed due to modified copyright years.
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../msmtp/{msmtp_1.8.3.bb => msmtp_1.8.4.bb}              | 8 +++-----
- 1 file changed, 3 insertions(+), 5 deletions(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.8.3.bb => msmtp_1.8.4.bb} (84%)
+ .../{wpa-supplicant_2.7.bb => wpa-supplicant_2.8.bb}   | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-connectivity/wpa-supplicant/{wpa-supplicant_2.7.bb => wpa-supplicant_2.8.bb} (90%)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.3.bb b/meta/recipes-extended/msmtp/msmtp_1.8.4.bb
-similarity index 84%
-rename from meta/recipes-extended/msmtp/msmtp_1.8.3.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.8.4.bb
-index 9f28d6ac25..888c1bbb5a 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.8.3.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.8.4.bb
-@@ -6,15 +6,13 @@ SECTION = "console/network"
- LICENSE = "GPLv3"
- DEPENDS = "zlib gnutls"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.8.bb
+similarity index 90%
+rename from meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
+rename to meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.8.bb
+index fe5fa2b82e..bd4167c314 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.7.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.8.bb
+@@ -3,9 +3,9 @@ HOMEPAGE = "http://w1.fi/wpa_supplicant/"
+ BUGTRACKER = "http://w1.fi/security/"
+ SECTION = "network"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a3791c270ad6bb026707d17bf750e5ef \
+-                    file://README;beginline=1;endline=56;md5=495cbce6008253de4b4d8f4cdfae9f4f \
+-                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=a5687903a31b8679e6a06b3afa5c819e"
++LIC_FILES_CHKSUM = "file://COPYING;md5=279b4f5abb9c153c285221855ddb78cc \
++                    file://README;beginline=1;endline=56;md5=e7d3dbb01f75f0b9799e192731d1e1ff \
++                    file://wpa_supplicant/wpa_supplicant.c;beginline=1;endline=12;md5=0a8b56d3543498b742b9c0e94cc2d18b"
+ DEPENDS = "dbus libnl"
+ RRECOMMENDS_${PN} = "wpa-supplicant-passphrase wpa-supplicant-cli"
  
--#COPYING or Licence
- LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+@@ -26,8 +26,8 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://99_wpa_supplicant \
+            file://0001-replace-systemd-install-Alias-with-WantedBy.patch \
+           "
+-SRC_URI[md5sum] = "a68538fb62766f40f890125026c42c10"
+-SRC_URI[sha256sum] = "76ea6b06b7a2ea8e6d9eb1a9166166f1656e6d48c7508914f592100c95c73074"
++SRC_URI[md5sum] = "0af5998c5d924e985cab16b9a1c77904"
++SRC_URI[sha256sum] = "a689336a12a99151b9de5e25bfccadb88438f4f4438eb8db331cd94346fd3d96"
  
--SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
--
- UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
- 
--SRC_URI[md5sum] = "0c0be51e6872e818f78bd6924636327b"
--SRC_URI[sha256sum] = "3cb2eefd33d048f0f82de100ef39a494e44fd1485e376ead31f733d2f36b92b4"
-+SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
-+SRC_URI[md5sum] = "abfabb92f0461137f3c09cd16d98fc9b"
-+SRC_URI[sha256sum] = "e5dd7fe95bc8e2f5eea3e4894ec9628252f30bd700a7fd1a568b10efa91129f7"
- 
- inherit gettext autotools update-alternatives pkgconfig
+ CVE_PRODUCT = "wpa_supplicant"
  
 -- 
 2.17.1
