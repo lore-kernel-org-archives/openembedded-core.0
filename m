@@ -1,47 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 828CE7D71B
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4CF637D697
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 14:43:02 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id a12so12624734wrn.4
+	Tue,  7 May 2019 15:47:25 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id m20so5575210lji.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 07:43:03 -0700 (PDT)
+	Tue, 07 May 2019 08:47:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:user-agent:mime-version;
-	bh=J/QsZOtbOYS13mD6dEhE7vf9PyHuczouDBJQj71Uw3Y=;
-	b=ZGCAmEhocc51zkItE0vDtZ02Hi31Hi9J5zF4D5pJNe9XdiKydatUaLzvVuR8I9vm/G
-	FqJfdQ6KTmKGocHB6rF7AWPoZoImEzlD5Nizi+q0AlMh8s3Zzoht5efKlrLt8qIVXTn3
-	p5o83098zPi144BJi2xNAxwices9Caji/vfQ8=
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=Krz2wwcbpXAfXvBsYrGInCw77k704DdbFcsPmjep1Tc=;
+	b=z0oGPGjHNXVHA/Bt0JLroDMUQVZCXa96ar8s5w8Yg+mP8xSWzg25ChHbt2CPFxaaJK
+	hBLfT+g4z5h0WOGu6+2MFUPst3N2Spc7As26aIcKE7+cXmZL8UBBy19w0Tet0qLwLEEM
+	o/6Wez98d77GO8k9LRy1MjzCyQLiW1bti5ZloRhCPcIDKkeZZsXIxqPPL68yc0JSWWs9
+	8CVoNxMhkTVNNEe78ivwalCyyJqjDBh5ohGxZRv9LkR32a3b+jD/61ad5yLcEo2OLqlV
+	hAFfdmivqOsSvHeQGYw5knrtLF4dykgNaTyOkIhkwkd7VPpV9z7qbnhbOxm7B7GmGC6B
+	u0Yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version;
-	bh=J/QsZOtbOYS13mD6dEhE7vf9PyHuczouDBJQj71Uw3Y=;
-	b=Dzu5HDf7Gi+yMin2g8HxMnMj3v34bFDAya8icMEFKJ0drlZ8VAB8Omr3ee+A6Px5+Z
-	Y63sJihusW3ZFahD7s6UnL/5HRpuqhKKRHhXYMX6iAypsVEaH17/u+PB6PXuAYrxpJgT
-	GQruo6OnOofqvnPn5DKuBl5XvRL6LPRzqW5oMdKaOQh/8ZdkbZc4cz5W5RnPGzOqB9cP
-	FxsJc9MWj+tLnP45977gr0IYTfG5cV8gIo0wa8lFDCBGtk2HOHeARoLb/fGEQoonlE5G
-	OLa2I7LX9xsRuG2jyCN7xiWgmDkuHf7ppP7bLkF/dr811o/mGPT50vhZd1Pc4kYmjKTc
-	7HZQ==
-X-Gm-Message-State: APjAAAWLuy8f/2HQX6tgmzD9cWGnsnVtzLYg0BFcANFMgaAgha7ryS4V
-	DB9hno7+GGuYfKXX8RODIsiG0g==
-X-Google-Smtp-Source: APXvYqxHO/4bAZkPs+xdEwYIa9bGeUOHg9OWZB4GW1hiZ/NV476NjLg4qyOo7o7IwfLFPTEgu6kVUQ==
-X-Received: by 2002:a5d:4445:: with SMTP id x5mr10285187wrr.120.1557240182952; 
-	Tue, 07 May 2019 07:43:02 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b184sm19821663wmh.17.2019.05.07.07.43.01
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 07 May 2019 07:43:02 -0700 (PDT)
-Message-ID: <bc464027bd8df4d402b4cc476f856a5276e09c74.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yocto@yoctoproject.org, openembedded-core@lists.openembedded.org
-Date: Tue, 07 May 2019 15:43:00 +0100
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Subject: Yocto Project Status WW19'19
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Krz2wwcbpXAfXvBsYrGInCw77k704DdbFcsPmjep1Tc=;
+	b=rSvTyMspefIGPtbWvTCzQ5Dk+GCEPqZGzZKcsvJEamxr/CvkooAIoe/Uzg7fmjr3Fv
+	dTDH/CqYd7vwTwNiCEfZcmvV8kr3rl4sgnTJB3p1h9iT4MYkxgyfqx95gm/FGJV4iNDn
+	INftoarHsoF/mg30NRKY9eY7FqSuVOB8QTsJkFu6n9Hj1liW3ZofHckqEaPdMybxXsgS
+	LXu050P8pNlRECWxOTN21vVh5V5I5lN5kNWxpyEfy0TcJo1xveU7bo99/OAHkbnMgzHA
+	7dNsaFb16uwxrZRyG4GILjpQIJI3YeNJWTiAHgtfwE5vHXE/TRcKbyJ5nBojlGXIf6oB
+	Dziw==
+X-Gm-Message-State: APjAAAVDy+YbfCq6sbUbHuxAuwkXilKyMx4Z9Z2vTXS1njK0C2nI2wzd
+	nUZJMwLzFZLhfA00Vqrr2N8r4g1ZW6c=
+X-Google-Smtp-Source: APXvYqxVLf5E+tSclmx6rZtpzab5L/BXVel8/y5ctYdA7nf+iJg6NTRudzSRa/h6xKRg8KWvj/chhA==
+X-Received: by 2002:a2e:8957:: with SMTP id b23mr5930444ljk.30.1557244046307; 
+	Tue, 07 May 2019 08:47:26 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id o7sm1655416lfl.13.2019.05.07.08.47.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 May 2019 08:47:25 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  7 May 2019 17:47:24 +0200
+Message-Id: <20190507154724.13992-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] cogl-1.0: update to 1.22.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,373 +56,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 14:43:03 -0000
-Content-Type: multipart/alternative; boundary="=-OmSsQp0P6FMHP0iD37VK"
+X-List-Received-Date: Tue, 07 May 2019 15:47:26 -0000
 
---=-OmSsQp0P6FMHP0iD37VK
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ ...n-incorrect-preprocessor-conditional.patch | 32 -------------------
+ meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb |  8 -----
+ meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb |  7 ++++
+ 3 files changed, 7 insertions(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0/0001-Fix-an-incorrect-preprocessor-conditional.patch
+ delete mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+ create mode 100644 meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
 
-Current Dev Position: YP 2.8 M1
-Next Deadline: YP 2.8 Milestone 1 Target May ??, 2019
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0/0001-Fix-an-incorrect-preprocessor-conditional.patch b/meta/recipes-graphics/cogl/cogl-1.0/0001-Fix-an-incorrect-preprocessor-conditional.patch
+deleted file mode 100644
+index 2a9d8f829b..0000000000
+--- a/meta/recipes-graphics/cogl/cogl-1.0/0001-Fix-an-incorrect-preprocessor-conditional.patch
++++ /dev/null
+@@ -1,32 +0,0 @@
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Upstream-Status: Backport
+-
+-
+-Original upstream commit follows:
+-
+-From b583e21d8698dbd58013320cfb47739102efdea7 Mon Sep 17 00:00:00 2001
+-From: Kalev Lember <klember@redhat.com>
+-Date: Wed, 19 Oct 2016 23:38:28 +0200
+-Subject: [PATCH] Fix an incorrect preprocessor conditional
+-
+-This fixes the build with wayland wayland egl server support disabled.
+----
+- cogl/winsys/cogl-winsys-egl.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/cogl/winsys/cogl-winsys-egl.c b/cogl/winsys/cogl-winsys-egl.c
+-index 39bfd884..4a9f3aa6 100644
+---- a/cogl/winsys/cogl-winsys-egl.c
+-+++ b/cogl/winsys/cogl-winsys-egl.c
+-@@ -1029,7 +1029,7 @@ _cogl_egl_create_image (CoglContext *ctx,
+-     egl_ctx = EGL_NO_CONTEXT;
+-   else
+- #endif
+--#if COGL_HAS_WAYLAND_EGL_SERVER_SUPPORT
+-+#ifdef COGL_HAS_WAYLAND_EGL_SERVER_SUPPORT
+-   /* The WL_bind_wayland_display spec states that EGL_NO_CONTEXT is to be used
+-    * in conjunction with the EGL_WAYLAND_BUFFER_WL target */
+-   if (target == EGL_WAYLAND_BUFFER_WL)
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
+deleted file mode 100644
+index 5901062a4c..0000000000
+--- a/meta/recipes-graphics/cogl/cogl-1.0_1.22.2.bb
++++ /dev/null
+@@ -1,8 +0,0 @@
+-require cogl-1.0.inc
+-
+-SRC_URI += "file://test-backface-culling.c-fix-may-be-used-uninitialize.patch \
+-            file://0001-Fix-an-incorrect-preprocessor-conditional.patch"
+-SRC_URI[archive.md5sum] = "d53b708ca7c4af03d7254e46945d6b33"
+-SRC_URI[archive.sha256sum] = "39a718cdb64ea45225a7e94f88dddec1869ab37a21b339ad058a9d898782c00d"
+-
+-LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
+diff --git a/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb b/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
+new file mode 100644
+index 0000000000..f1753d5409
+--- /dev/null
++++ b/meta/recipes-graphics/cogl/cogl-1.0_1.22.4.bb
+@@ -0,0 +1,7 @@
++require cogl-1.0.inc
++
++SRC_URI += "file://test-backface-culling.c-fix-may-be-used-uninitialize.patch"
++SRC_URI[archive.md5sum] = "31755015a865c4af51ac84f6e53af8ab"
++SRC_URI[archive.sha256sum] = "5217bf94cbca3df63268a3b79d017725382b9e592b891d1e7dc6212590ce0de0"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=1b1a508d91d25ca607c83f92f3e31c84"
+-- 
+2.17.1
 
-SWAT Team Rotation:
- * SWAT lead is currently: Anuj
- * SWAT team rotation: Anuj -> Ross on May. 10, 2019
- * SWAT team rotation: Ross -> Amanda on May. 17, 2019
- * https://wiki.yoctoproject.org/wiki/Yocto_Build_Failure_Swat_Team
 
-Next Team Meetings:
- * YP 2.8 Planning meeting Tuesday May 7th at 8am PDT (
-https://zoom.us/j/990892712) 
- * Bug Triage meeting Thursday May 9th at 7:30am PDT (
-https://zoom.us/j/454367603)
-
-Key Status/Updates:
- * Stephen is going to be unavailable for several weeks, please refer
-any queries to Richard
- * YP 2.7 was released
- * The 2.8 planning discussions are starting and there is a google doc
-summarising the discussions so far: 
-https://docs.google.com/document/d/1CNEKA4d0eT6-e0hnS2pwi7xdZ5_t6smpZO2HbaJGXbU/
-If people are planning to work on specific things in 2.8 please let us
-know so we can incorporate this into our plans. If you’re interested in
-working on anything in the document, please also let us know or talk
-with us in one of the planning meetings.
- * At this point we believe we’ve made our final release for the sumo
-(2.5) series
- * The project is planning to adopt SPDX license headers in its source
-code where practical, bitbake has had these merged as a first step.
- * We have a new “newcomer” bug category which are bugs suited to
-someone new to the project. These can be seen here: 
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
-Planned Releases for YP 2.8:
- * TBA
-
-Planned upcoming dot releases:
- * YP 2.6.3 (Thud) is in planning
- * YP 2.7.1 (Warrior) is in planning
-
-Tracking Metrics:
- * WDD 2602 (last week 2593) (
-https://wiki.yoctoproject.org/charts/combo.html)
- * Poky Patch Metrics  
-    * Total patches found: 1558 (last week 1565)
-    * Patches in the Pending State: 655 (42%) [last week 655 (42%)]
-
-Key Status Links for YP:
-https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status
-https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule
-https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features
-
-The Status reports are now stored on the wiki at: 
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
-[If anyone has suggestions for other information you’d like to see on
-this weekly status update, let us know!]
-
---=-OmSsQp0P6FMHP0iD37VK
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html dir=3D"ltr"><head></head><body style=3D"text-align:left; direction:lt=
-r;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0=
-pt;" id=3D"docs-internal-guid-2db1137b-7fff-38f1-ed75-840a6d9ce2bd"><span s=
-tyle=3D"font-size: 11pt; font-family: Arial; background-color: transparent;=
- font-variant-ligatures: normal; font-variant-east-asian: normal; font-vari=
-ant-position: normal; vertical-align: baseline; white-space: pre-wrap;">Cur=
-rent Dev Position: YP 2.8 M1</span></p><p dir=3D"ltr" style=3D"line-height:=
-1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; fon=
-t-family: Arial; background-color: transparent; font-variant-ligatures: nor=
-mal; font-variant-east-asian: normal; font-variant-position: normal; vertic=
-al-align: baseline; white-space: pre-wrap;">Next Deadline: YP 2.8 Milestone=
- 1 Target May ??, 2019</span></p><br><p dir=3D"ltr" style=3D"line-height:1.=
-38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-=
-family: Arial; background-color: transparent; font-variant-ligatures: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; vertical=
--align: baseline; white-space: pre-wrap;">SWAT Team Rotation:</span></p><ul=
- style=3D"margin-top:0pt;margin-bottom:0pt;"><li dir=3D"ltr" style=3D"list-=
-style-type: disc; font-size: 11pt; font-family: Arial; background-color: tr=
-ansparent; font-variant-ligatures: normal; font-variant-east-asian: normal;=
- font-variant-position: normal; vertical-align: baseline; white-space: pre;=
-"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt=
-;"><span style=3D"font-size: 11pt; background-color: transparent; font-vari=
-ant-ligatures: normal; font-variant-east-asian: normal; font-variant-positi=
-on: normal; vertical-align: baseline; white-space: pre-wrap;">SWAT lead is =
-currently: Anuj</span></p></li><li dir=3D"ltr" style=3D"list-style-type: di=
-sc; font-size: 11pt; font-family: Arial; background-color: transparent; fon=
-t-variant-ligatures: normal; font-variant-east-asian: normal; font-variant-=
-position: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"lt=
-r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=
-=3D"font-size: 11pt; background-color: transparent; font-variant-ligatures:=
- normal; font-variant-east-asian: normal; font-variant-position: normal; ve=
-rtical-align: baseline; white-space: pre-wrap;">SWAT team rotation: Anuj -&=
-gt; Ross on May. 10, 2019</span></p></li><li dir=3D"ltr" style=3D"list-styl=
-e-type: disc; font-size: 11pt; font-family: Arial; background-color: transp=
-arent; font-variant-ligatures: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; vertical-align: baseline; white-space: pre;"><p=
- dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><=
-span style=3D"font-size: 11pt; background-color: transparent; font-variant-=
-ligatures: normal; font-variant-east-asian: normal; font-variant-position: =
-normal; vertical-align: baseline; white-space: pre-wrap;">SWAT team rotatio=
-n: Ross -&gt; Amanda on May. 17, 2019</span></p></li><li dir=3D"ltr" style=
-=3D"list-style-type: disc; font-size: 11pt; font-family: Consolas; backgrou=
-nd-color: transparent; font-variant-ligatures: normal; font-variant-east-as=
-ian: normal; font-variant-position: normal; vertical-align: baseline; white=
--space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margi=
-n-bottom:0pt;"><a href=3D"https://wiki.yoctoproject.org/wiki/Yocto_Build_Fa=
-ilure_Swat_Team" style=3D"text-decoration:none;"><span style=3D"font-size: =
-11pt; color: rgb(17, 85, 204); background-color: transparent; font-variant-=
-ligatures: normal; font-variant-east-asian: normal; font-variant-position: =
-normal; text-decoration: underline; text-decoration-skip: none; vertical-al=
-ign: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki/Y=
-octo_Build_Failure_Swat_Team</span></a></p></li></ul><br><p dir=3D"ltr" sty=
-le=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"fo=
-nt-size: 11pt; font-family: Arial; background-color: transparent; font-vari=
-ant-ligatures: normal; font-variant-east-asian: normal; font-variant-positi=
-on: normal; vertical-align: baseline; white-space: pre-wrap;">Next Team Mee=
-tings:</span></p><ul style=3D"margin-top:0pt;margin-bottom:0pt;"><li dir=3D=
-"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; =
-background-color: transparent; font-variant-ligatures: normal; font-variant=
--east-asian: normal; font-variant-position: normal; vertical-align: baselin=
-e; white-space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0=
-pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: tr=
-ansparent; font-variant-ligatures: normal; font-variant-east-asian: normal;=
- font-variant-position: normal; vertical-align: baseline; white-space: pre-=
-wrap;">YP 2.8 Planning meeting Tuesday May 7th at 8am PDT (</span><a href=
-=3D"https://zoom.us/j/990892712" style=3D"text-decoration:none;"><span styl=
-e=3D"font-size: 11pt; color: rgb(17, 85, 204); background-color: transparen=
-t; font-variant-ligatures: normal; font-variant-east-asian: normal; font-va=
-riant-position: normal; text-decoration: underline; text-decoration-skip: n=
-one; vertical-align: baseline; white-space: pre-wrap;">https://zoom.us/j/99=
-0892712)</span></a><span style=3D"font-size: 11pt; background-color: transp=
-arent; font-variant-ligatures: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; vertical-align: baseline; white-space: pre-wrap=
-;"> </span></p></li><li dir=3D"ltr" style=3D"list-style-type: disc; font-si=
-ze: 11pt; font-family: Arial; background-color: transparent; font-variant-l=
-igatures: normal; font-variant-east-asian: normal; font-variant-position: n=
-ormal; vertical-align: baseline; white-space: pre;"><p dir=3D"ltr" style=3D=
-"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-si=
-ze: 11pt; background-color: transparent; font-variant-ligatures: normal; fo=
-nt-variant-east-asian: normal; font-variant-position: normal; vertical-alig=
-n: baseline; white-space: pre-wrap;">Bug Triage meeting Thursday May 9th at=
- 7:30am PDT (</span><a href=3D"https://zoom.us/j/454367603" style=3D"text-d=
-ecoration:none;"><span style=3D"font-size: 10pt; color: rgb(17, 85, 204); b=
-ackground-color: transparent; font-variant-ligatures: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; text-decoration: underli=
-ne; text-decoration-skip: none; vertical-align: baseline; white-space: pre-=
-wrap;">https://zoom.us/j/454367603</span></a><span style=3D"font-size: 11pt=
-; background-color: transparent; font-variant-ligatures: normal; font-varia=
-nt-east-asian: normal; font-variant-position: normal; vertical-align: basel=
-ine; white-space: pre-wrap;">)</span></p></li></ul><br><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font=
--size: 11pt; font-family: Arial; background-color: transparent; font-varian=
-t-ligatures: normal; font-variant-east-asian: normal; font-variant-position=
-: normal; vertical-align: baseline; white-space: pre-wrap;">Key Status/Upda=
-tes:</span></p><ul style=3D"margin-top:0pt;margin-bottom:0pt;"><li dir=3D"l=
-tr" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; ba=
-ckground-color: transparent; font-variant-ligatures: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; vertical-align: baseline;=
- white-space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt=
-;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: tran=
-sparent; font-variant-ligatures: normal; font-variant-east-asian: normal; f=
-ont-variant-position: normal; vertical-align: baseline; white-space: pre-wr=
-ap;">Stephen is going to be unavailable for several weeks, please refer any=
- queries to Richard</span></p></li><li dir=3D"ltr" style=3D"list-style-type=
-: disc; font-size: 11pt; font-family: Arial; background-color: transparent;=
- font-variant-ligatures: normal; font-variant-east-asian: normal; font-vari=
-ant-position: normal; vertical-align: baseline; white-space: pre;"><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span=
- style=3D"font-size: 11pt; background-color: transparent; font-variant-liga=
-tures: normal; font-variant-east-asian: normal; font-variant-position: norm=
-al; vertical-align: baseline; white-space: pre-wrap;">YP 2.7 was released</=
-span></p></li><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11=
-pt; font-family: Arial; background-color: transparent; font-variant-ligatur=
-es: normal; font-variant-east-asian: normal; font-variant-position: normal;=
- vertical-align: baseline; white-space: pre;"><p dir=3D"ltr" style=3D"line-=
-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11=
-pt; background-color: transparent; font-variant-ligatures: normal; font-var=
-iant-east-asian: normal; font-variant-position: normal; vertical-align: bas=
-eline; white-space: pre-wrap;">The 2.8 planning discussions are starting an=
-d there is a google doc summarising the discussions so far: </span><a href=
-=3D"https://docs.google.com/document/d/1CNEKA4d0eT6-e0hnS2pwi7xdZ5_t6smpZO2=
-HbaJGXbU/" style=3D"text-decoration:none;"><span style=3D"font-size: 11pt; =
-color: rgb(17, 85, 204); background-color: transparent; font-variant-ligatu=
-res: normal; font-variant-east-asian: normal; font-variant-position: normal=
-; text-decoration: underline; text-decoration-skip: none; vertical-align: b=
-aseline; white-space: pre-wrap;">https://docs.google.com/document/d/1CNEKA4=
-d0eT6-e0hnS2pwi7xdZ5_t6smpZO2HbaJGXbU/</span></a></p></li></ul><p dir=3D"lt=
-r" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;margin-left: =
-36pt;"><span style=3D"font-size: 11pt; font-family: Arial; background-color=
-: transparent; font-variant-ligatures: normal; font-variant-east-asian: nor=
-mal; font-variant-position: normal; vertical-align: baseline; white-space: =
-pre-wrap;">If people are planning to work on specific things in 2.8 please =
-let us know so we can incorporate this into our plans. If you=E2=80=99re in=
-terested in working on anything in the document, please also let us know or=
- talk with us in one of the planning meetings.</span></p><ul style=3D"margi=
-n-top:0pt;margin-bottom:0pt;"><li dir=3D"ltr" style=3D"list-style-type: dis=
-c; font-size: 11pt; font-family: Arial; background-color: transparent; font=
--variant-ligatures: normal; font-variant-east-asian: normal; font-variant-p=
-osition: normal; vertical-align: baseline; white-space: pre;"><p dir=3D"ltr=
-" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=
-=3D"font-size: 11pt; background-color: transparent; font-variant-ligatures:=
- normal; font-variant-east-asian: normal; font-variant-position: normal; ve=
-rtical-align: baseline; white-space: pre-wrap;">At this point we believe we=
-=E2=80=99ve made our final release for the sumo (2.5) series</span></p></li=
-><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-fami=
-ly: Arial; background-color: transparent; font-variant-ligatures: normal; f=
-ont-variant-east-asian: normal; font-variant-position: normal; vertical-ali=
-gn: baseline; white-space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;m=
-argin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; backgroun=
-d-color: transparent; font-variant-ligatures: normal; font-variant-east-asi=
-an: normal; font-variant-position: normal; vertical-align: baseline; white-=
-space: pre-wrap;">The project is planning to adopt SPDX license headers in =
-its source code where practical, bitbake has had these merged as a first st=
-ep.</span></p></li><li dir=3D"ltr" style=3D"list-style-type: disc; font-siz=
-e: 11pt; font-family: Arial; background-color: transparent; font-variant-li=
-gatures: normal; font-variant-east-asian: normal; font-variant-position: no=
-rmal; vertical-align: baseline; white-space: pre;"><p dir=3D"ltr" style=3D"=
-line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-siz=
-e: 11pt; background-color: transparent; font-variant-ligatures: normal; fon=
-t-variant-east-asian: normal; font-variant-position: normal; vertical-align=
-: baseline; white-space: pre-wrap;">We have a new =E2=80=9Cnewcomer=E2=80=
-=9D bug category which are bugs suited to someone new to the project. These=
- can be seen here: </span><a href=3D"https://wiki.yoctoproject.org/wiki/Bug=
-_Triage#Newcomer_Bugs" style=3D"text-decoration:none;"><span style=3D"font-=
-size: 11pt; color: rgb(17, 85, 204); background-color: transparent; font-va=
-riant-ligatures: normal; font-variant-east-asian: normal; font-variant-posi=
-tion: normal; text-decoration: underline; text-decoration-skip: none; verti=
-cal-align: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/=
-wiki/Bug_Triage#Newcomer_Bugs</span></a></p></li></ul><br><p dir=3D"ltr" st=
-yle=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"f=
-ont-size: 11pt; font-family: Arial; background-color: transparent; font-var=
-iant-ligatures: normal; font-variant-east-asian: normal; font-variant-posit=
-ion: normal; vertical-align: baseline; white-space: pre-wrap;">Planned Rele=
-ases for YP 2.8:</span></p><ul style=3D"margin-top:0pt;margin-bottom:0pt;">=
-<li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-famil=
-y: Arial; background-color: transparent; font-variant-ligatures: normal; fo=
-nt-variant-east-asian: normal; font-variant-position: normal; vertical-alig=
-n: baseline; white-space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;ma=
-rgin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background=
--color: transparent; font-variant-ligatures: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; vertical-align: baseline; white-s=
-pace: pre-wrap;">TBA</span></p></li></ul><br><p dir=3D"ltr" style=3D"line-h=
-eight:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11p=
-t; font-family: Arial; background-color: transparent; font-variant-ligature=
-s: normal; font-variant-east-asian: normal; font-variant-position: normal; =
-vertical-align: baseline; white-space: pre-wrap;">Planned upcoming dot rele=
-ases:</span></p><ul style=3D"margin-top:0pt;margin-bottom:0pt;"><li dir=3D"=
-ltr" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; b=
-ackground-color: transparent; font-variant-ligatures: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; vertical-align: baseline=
-; white-space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0p=
-t;margin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: tra=
-nsparent; font-variant-ligatures: normal; font-variant-east-asian: normal; =
-font-variant-position: normal; vertical-align: baseline; white-space: pre-w=
-rap;">YP 2.6.3 (Thud) is in planning</span></p></li><li dir=3D"ltr" style=
-=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; background-=
-color: transparent; font-variant-ligatures: normal; font-variant-east-asian=
-: normal; font-variant-position: normal; vertical-align: baseline; white-sp=
-ace: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-b=
-ottom:0pt;"><span style=3D"font-size: 11pt; background-color: transparent; =
-font-variant-ligatures: normal; font-variant-east-asian: normal; font-varia=
-nt-position: normal; vertical-align: baseline; white-space: pre-wrap;">YP 2=
-.7.1 (Warrior) is in planning</span></p></li></ul><br><p dir=3D"ltr" style=
-=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font=
--size: 11pt; font-family: Arial; background-color: transparent; font-varian=
-t-ligatures: normal; font-variant-east-asian: normal; font-variant-position=
-: normal; vertical-align: baseline; white-space: pre-wrap;">Tracking Metric=
-s:</span></p><ul style=3D"margin-top:0pt;margin-bottom:0pt;"><li dir=3D"ltr=
-" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial; back=
-ground-color: transparent; font-variant-ligatures: normal; font-variant-eas=
-t-asian: normal; font-variant-position: normal; vertical-align: baseline; w=
-hite-space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;m=
-argin-bottom:0pt;"><span style=3D"font-size: 11pt; background-color: transp=
-arent; font-variant-ligatures: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; vertical-align: baseline; white-space: pre-wrap=
-;">WDD 2602 (last week 2593)</span><span style=3D"font-size: 11pt; font-fam=
-ily: Consolas; background-color: transparent; font-variant-ligatures: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; vertical=
--align: baseline; white-space: pre-wrap;"> (</span><a href=3D"https://wiki.=
-yoctoproject.org/charts/combo.html" style=3D"text-decoration:none;"><span s=
-tyle=3D"font-size: 11pt; color: rgb(17, 85, 204); background-color: transpa=
-rent; font-variant-ligatures: normal; font-variant-east-asian: normal; font=
--variant-position: normal; text-decoration: underline; text-decoration-skip=
-: none; vertical-align: baseline; white-space: pre-wrap;">https://wiki.yoct=
-oproject.org/charts/combo.html</span></a><span style=3D"font-size: 11pt; fo=
-nt-family: Consolas; background-color: transparent; font-variant-ligatures:=
- normal; font-variant-east-asian: normal; font-variant-position: normal; ve=
-rtical-align: baseline; white-space: pre-wrap;">)</span></p></li><li dir=3D=
-"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-family: Consola=
-s; background-color: transparent; font-variant-ligatures: normal; font-vari=
-ant-east-asian: normal; font-variant-position: normal; vertical-align: base=
-line; white-space: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-to=
-p:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: Aria=
-l; background-color: transparent; font-variant-ligatures: normal; font-vari=
-ant-east-asian: normal; font-variant-position: normal; vertical-align: base=
-line; white-space: pre-wrap;">Poky Patch Metrics &nbsp;</span></p></li><ul =
-style=3D"margin-top:0pt;margin-bottom:0pt;"><li dir=3D"ltr" style=3D"list-s=
-tyle-type: circle; font-size: 11pt; font-family: Arial; background-color: t=
-ransparent; font-variant-ligatures: normal; font-variant-east-asian: normal=
-; font-variant-position: normal; vertical-align: baseline; white-space: pre=
-;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0p=
-t;"><span style=3D"font-size: 11pt; background-color: transparent; font-var=
-iant-ligatures: normal; font-variant-east-asian: normal; font-variant-posit=
-ion: normal; vertical-align: baseline; white-space: pre-wrap;">Total patche=
-s found: 1558 (last week 1565)</span></p></li><li dir=3D"ltr" style=3D"list=
--style-type: circle; font-size: 11pt; font-family: Consolas; background-col=
-or: transparent; font-variant-ligatures: normal; font-variant-east-asian: n=
-ormal; font-variant-position: normal; vertical-align: baseline; white-space=
-: pre;"><p dir=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bott=
-om:0pt;"><span style=3D"font-size: 11pt; font-family: Arial; background-col=
-or: transparent; font-variant-ligatures: normal; font-variant-east-asian: n=
-ormal; font-variant-position: normal; vertical-align: baseline; white-space=
-: pre-wrap;">Patches in the Pending State: 655 (42%) [last week 655 (42%)]<=
-/span></p></li></ul></ul><br><p dir=3D"ltr" style=3D"line-height:1.38;margi=
-n-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: =
-Arial; background-color: transparent; font-variant-ligatures: normal; font-=
-variant-east-asian: normal; font-variant-position: normal; vertical-align: =
-baseline; white-space: pre-wrap;">Key Status Links for YP:</span></p><p dir=
-=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><a hr=
-ef=3D"https://wiki.yoctoproject.org/wiki/Yocto_Project_v2.7_Status" style=
-=3D"text-decoration:none;"><span style=3D"font-size: 11pt; font-family: Con=
-solas; color: rgb(17, 85, 204); background-color: transparent; font-variant=
--ligatures: normal; font-variant-east-asian: normal; font-variant-position:=
- normal; text-decoration: underline; text-decoration-skip: none; vertical-a=
-lign: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki/=
-Yocto_Project_v2.7_Status</span></a></p><p dir=3D"ltr" style=3D"line-height=
-:1.38;margin-top:0pt;margin-bottom:0pt;"><a href=3D"https://wiki.yoctoproje=
-ct.org/wiki/Yocto_2.7_Schedule" style=3D"text-decoration:none;"><span style=
-=3D"font-size: 11pt; font-family: Consolas; color: rgb(17, 85, 204); backgr=
-ound-color: transparent; font-variant-ligatures: normal; font-variant-east-=
-asian: normal; font-variant-position: normal; text-decoration: underline; t=
-ext-decoration-skip: none; vertical-align: baseline; white-space: pre-wrap;=
-">https://wiki.yoctoproject.org/wiki/Yocto_2.7_Schedule</span></a></p><p di=
-r=3D"ltr" style=3D"line-height:1.38;margin-top:0pt;margin-bottom:0pt;"><a h=
-ref=3D"https://wiki.yoctoproject.org/wiki/Yocto_2.7_Features" style=3D"text=
--decoration:none;"><span style=3D"font-size: 11pt; font-family: Consolas; c=
-olor: rgb(17, 85, 204); background-color: transparent; font-variant-ligatur=
-es: normal; font-variant-east-asian: normal; font-variant-position: normal;=
- text-decoration: underline; text-decoration-skip: none; vertical-align: ba=
-seline; white-space: pre-wrap;">https://wiki.yoctoproject.org/wiki/Yocto_2.=
-7_Features</span></a></p><br><p dir=3D"ltr" style=3D"line-height:1.38;margi=
-n-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-family: =
-Arial; background-color: transparent; font-variant-ligatures: normal; font-=
-variant-east-asian: normal; font-variant-position: normal; vertical-align: =
-baseline; white-space: pre-wrap;">The Status reports are now stored on the =
-wiki at: </span><a href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status=
-" style=3D"text-decoration:none;"><span style=3D"font-size: 11pt; font-fami=
-ly: Arial; color: rgb(17, 85, 204); background-color: transparent; font-var=
-iant-ligatures: normal; font-variant-east-asian: normal; font-variant-posit=
-ion: normal; text-decoration: underline; text-decoration-skip: none; vertic=
-al-align: baseline; white-space: pre-wrap;">https://wiki.yoctoproject.org/w=
-iki/Weekly_Status</span></a></p><br><p dir=3D"ltr" style=3D"line-height:1.3=
-8;margin-top:0pt;margin-bottom:0pt;"><span style=3D"font-size: 11pt; font-f=
-amily: Arial; background-color: transparent; font-variant-ligatures: normal=
-; font-variant-east-asian: normal; font-variant-position: normal; vertical-=
-align: baseline; white-space: pre-wrap;">[If anyone has suggestions for oth=
-er information you=E2=80=99d like to see on this weekly status update, let =
-us know!]</span></p></body></html>
-
---=-OmSsQp0P6FMHP0iD37VK--
