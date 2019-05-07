@@ -1,30 +1,52 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 579A67C132
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id DE1817D3F4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 07:23:27 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x477NR6u028931
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 7 May 2019 00:23:27 -0700 (PDT)
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Tue, 7 May 2019 00:23:26 -0700
-To: Adrian Bunk <bunk@stusta.de>
-References: <5CC12A3E.4010702@windriver.com>
-	<1556610320-114012-1-git-send-email-mingli.yu@windriver.com>
-	<CAJTo0LZnTfeC66-BWnhhXrb6w9eRsUH-hMostVgtKLY4mxwA3A@mail.gmail.com>
-	<5CCE7E2D.6050008@windriver.com> <20190506095059.GA11818@localhost>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CD13414.9060408@windriver.com>
-Date: Tue, 7 May 2019 15:30:28 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Tue,  7 May 2019 09:11:20 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id o25so8305809wmf.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 07 May 2019 02:11:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=QdaDfmgL7JCGDHjRWWNzYuJoeHQyCJWJ98ot//yHbiw=;
+	b=HLvZqXIDtZhD0woIPeUUHckJGdXSsUZiLayPeUmlRtmd3TwsmsPhx4ig4yVzh61aDA
+	3usx4ieWl+RwVDorZ9vMNGgVe3xyMDMUVkHqLcDu91wVBOPaOciPV2s7dKWa7m3JEQXH
+	pc//Wh9EI/rMbmyV0jcwDsyp9md3BETpR7hWU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=QdaDfmgL7JCGDHjRWWNzYuJoeHQyCJWJ98ot//yHbiw=;
+	b=drpHhv8AJzz9ZuD0Om+wUBiIfLdYzetD9msMNAoMA2N/KPnpWb6NiZZj3eawhDX5vZ
+	XYkuRd2XBuMJucoFnomUOinEct/L9fJDk0ZhFdPfAX6wHhnOXMFhbgeno2dGNeo3Je5i
+	ZRYBdr3gMsQvjsjIvjfER3EP14dAj6KHzn4Pw9nJfiR657QCjq+haXBFusp8mQfemDJJ
+	rH1HD9uthd+0ILUXUE0M5IJk15mOi5R0EAeicyw6K5H1ROe31WL7WrVmwJylu0B10I8J
+	oaO+0hgRM2bvEhZkSuKRCk26+LBPLYL95NL5tZIeut3MEE1bPaIEYpRfsfgqpQrX80yy
+	HAXA==
+X-Gm-Message-State: APjAAAXVZPI59kNayQOETSJBpZMZ9hdyeQIzMDd4LoVcbSu9w9qp3Umj
+	qOoUsUoHMOBqX5IUqqZ7e/UwOw==
+X-Google-Smtp-Source: APXvYqxfIddsYq2p0N4mtF5Dlo2PeuVeabc0wVkQL/fvdQN7bqRyUyHwCnIIS2ULgpGvbuN5PhBqvQ==
+X-Received: by 2002:a1c:dcc2:: with SMTP id
+	t185mr21319930wmg.143.1557220281418; 
+	Tue, 07 May 2019 02:11:21 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h12sm8922278wrq.95.2019.05.07.02.11.18
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 07 May 2019 02:11:19 -0700 (PDT)
+Message-ID: <b0de3994461222d72afa80ec291874c609d7ba93.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Rui Wang <rui.wang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 07 May 2019 10:11:18 +0100
+In-Reply-To: <1557198375-4569-1-git-send-email-rui.wang@windriver.com>
+References: <1557198375-4569-1-git-send-email-rui.wang@windriver.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20190506095059.GA11818@localhost>
-X-Originating-IP: [128.224.162.170]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] glib-2.0: fix ptest failures
+Subject: Re: [PATCH] dhcp: Revert "dhcp: enable gentle shutdown" and reset handler
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,120 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 07:23:27 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 07 May 2019 09:11:21 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
+On Tue, 2019-05-07 at 11:06 +0800, Rui Wang wrote:
+> This reverts commit 4653fdd4b4cf13543e32fbcf09e50f60c1719a34
+> 
+> This patch is used to solve the problem in which dhcpd can not
+> be killed by SIGINT and SIGTERM. But it seems not good to rely
+> on ENABLE_GENTLE_SHUTDOWN, which is an "undesireable feature"
+> and will release its address after receive both signal, accoring
+> to the comment in "includes/site.h". Then there is no difference
+> between "dhclient -x" and "dhclient -r". We can find following
+> call trace from source code:
+> 
+> main() -> dhcp_context_create() -> isc_app_ctxstart()
+> -> isc__app_ctxstart()
+> 
+> The root cause is that exit_action() is registered as the signal
+> handler for SIGTERM and SIGINT, which do-nothing as the comment says.
+> 
+> To fix this problem, we could simply set the default action for
+> these two signals if ENABLE_GENTLE_SHUTDOWN is not set.
+> 
+> Signed-off-by: Rui Wang <rui.wang@windriver.com>
 
+The new patch is missing an Upstream-Status?
 
-On 2019年05月06日 17:50, Adrian Bunk wrote:
-> On Sun, May 05, 2019 at 02:09:49PM +0800, Yu, Mingli wrote:
->> On 2019年04月30日 21:16, Burton, Ross wrote:
->>> On Tue, 30 Apr 2019 at 08:45, <mingli.yu@windriver.com> wrote:
->> ...
->>>> * Increase the timeout to 15 minutes as the default
->>>>     timeout which is 5 minutes is not enough to fix below error:
->>>>     | Executing: glib/actions.test
->>>>     | Test timed out after 300 seconds
->>>>     | cleaning up pid 13050
->>>>     | FAIL: glib/actions.test (Child process killed by signal 9)
->>>
->>> Looks like we're working around a test case that is going to fail
->>> because it is timing out.  Let's investigate why it is taking so long
->>> instead.
->>
->> The sub-case named test_dbus_threaded[/actions/dbus/threaded] of
->> glib/actions.test takes almost most of the time, the more details as below.
->> ...
->
-> On what hardware it this?
+Cheers,
 
+Richard
 
-Hi Adrian,
-
-I run the test in qemu and the resource info for the qemu target as below:
-
-# time; /usr/libexec/installed-tests/glib/actions -p;time
-user	0m0.11s
-sys	0m0.03s
-/actions/dbus/threaded: OK
-user	6m21.03s
-sys	0m45.91s
-
-
-# cat /proc/cpuinfo
-processor	: 0
-vendor_id	: GenuineIntel
-cpu family	: 6
-model		: 15
-model name	: Intel(R) Core(TM)2 Duo CPU     T7700  @ 2.40GHz
-stepping	: 11
-cpu MHz		: 3192.391
-cache size	: 16384 KB
-physical id	: 0
-siblings	: 1
-core id		: 0
-cpu cores	: 1
-apicid		: 0
-initial apicid	: 0
-fpu		: yes
-fpu_exception	: yes
-cpuid level	: 10
-wp		: yes
-flags		: fpu de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat 
-pse36 clflush acpi mmx fxsr sse sse2 ss syscall nx lm constant_tsc rep_gi
-bugs		: cpu_meltdown spectre_v1 spectre_v2 spec_store_bypass l1tf
-bogomips	: 6384.78
-clflush size	: 64
-cache_alignment	: 64
-address sizes	: 40 bits physical, 48 bits virtual
-power management:
-
-
-# cat /proc/meminfo
-MemTotal:        3071748 kB
-MemFree:         2899224 kB
-MemAvailable:    2917468 kB
-Buffers:            5044 kB
-Cached:            49976 kB
-SwapCached:            0 kB
-Active:            94872 kB
-Inactive:          35160 kB
-Active(anon):      75484 kB
-Inactive(anon):     8428 kB
-Active(file):      19388 kB
-Inactive(file):    26732 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-SwapTotal:             0 kB
-SwapFree:              0 kB
-Dirty:                 0 kB
-Writeback:             0 kB
-AnonPages:         75008 kB
-Mapped:            23808 kB
-Shmem:              8904 kB
-KReclaimable:      14436 kB
-Slab:              27836 kB
-SReclaimable:      14436 kB
-SUnreclaim:        13400 kB
-KernelStack:        1360 kB
-PageTables:          976 kB
-NFS_Unstable:          0 kB
-Bounce:                0 kB
-WritebackTmp:          0 kB
-CommitLimit:     1535872 kB
-Committed_AS:     181504 kB
-VmallocTotal:   34359738367 kB
-VmallocUsed:           0 kB
-VmallocChunk:          0 kB
-Percpu:              296 kB
-DirectMap4k:       30576 kB
-DirectMap2M:     3115008 kB
-
-Thanks,
-
->
-> cu
-> Adrian
->
 
