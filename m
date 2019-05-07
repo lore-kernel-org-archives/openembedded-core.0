@@ -1,49 +1,73 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id DD0D87D697
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 21:41:29 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id n134so11120287lfn.11
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 14:41:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=W/GsNA+LUI32iGYfQLL6kXC8z4BAUDjJDvlY37yvmms=;
-	b=b0QSXoEfSXcVOVBcy7pzeg9wc0O3MOaoEowoOAL/PgA9DXf4UQV4V7qk9APtZ30mf1
-	dEXdTAzxVGKQJouArW/2CdTN7UKRVYNLoOpg5mzqlxBO+e7duXlJE+Ah60xw11r4HEID
-	9WyDFU+00jMvzvLJCLN1mCHYzCDaT/jhSn/yPgaBBpjNaaqtNpSYwHKWYCFM2ZvX3QhW
-	zVYUORlvK+LeoWl6fJ9go3KOLOBY8dmlYHw7Xprr9S/ir5p4n0+syi7a1o5HHP2Qkomn
-	tZLqnmsaCjf634CXdBYY4K/FXsYmoF3kc6VXFI3xzhcLcsCgcc5wzXbUVWKKBW+0efOX
-	WQQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=W/GsNA+LUI32iGYfQLL6kXC8z4BAUDjJDvlY37yvmms=;
-	b=tkY2rol3Abg0ykOvr/B/rEY1J5F5y4KsQ/dJFyLJOxJV9S4n/tWYkt+ni8+h6W0bw7
-	6b6B4uMw4aOFxzEaRv0VtCY95pDv9syZ4XXgmAwwlni2VeV8sMs/VJzxiUo/MmIZbm0t
-	+RxlV+HAPy7LCMseOcezaGHl60P/kttwhsbho4fq310DNvogwRxZFB6eoMonyyecTfk3
-	ST3I8rU9wz52jjrb9Q7ulAgwBE6nqkBopLKS94R78COiFK/tArEGMl/2kjZflAD7ziXL
-	C6JCEuSzO4jOf9xZECl/43WbQ5QFjyPIgKLDDBQ2W96YnEyUmyrjUnRP+Y9nva85NxB2
-	xhbg==
-X-Gm-Message-State: APjAAAWW9BOXYQ1cc/9+QgyfLmn0loeuu7joDwR6co1yRwiDYWnmdfqL
-	SkOPUvrQbMcf1s4T13vllZ8VPVwM4Gg=
-X-Google-Smtp-Source: APXvYqxOs+pEpUf4JA6gPxoCJVXr+y0P3SkZVItAd415V0mD4JpEzkUbaBGPrGJfy1XxCmOl8XN1oA==
-X-Received: by 2002:ac2:42c8:: with SMTP id n8mr5223260lfl.28.1557265289805;
-	Tue, 07 May 2019 14:41:29 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id l5sm3570777lfh.70.2019.05.07.14.41.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 14:41:29 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 23:41:27 +0200
-Message-Id: <20190507214127.25189-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] atftp: update to 0.7.2
+Return-Path: <catalin-dan.udma@nxp.com>
+X-Greylist: delayed 21719 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 07 May 2019 22:25:38 UTC
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com
+	(mail-eopbgr60088.outbound.protection.outlook.com [40.107.6.88])
+	by mail.openembedded.org (Postfix) with ESMTP id AD6D27D68C
+	for <Openembedded-core@lists.openembedded.org>;
+	Tue,  7 May 2019 22:25:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1; 
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=xb/BLCcAdzUoD+pBsupe/8LFWtLtYIN/9HfSRCUCXPU=;
+	b=nutOMPC44RtH69QUBaxNVz13QiDbjhM3YyEIbRuDc9coFBOJvAuJYLJy4rUTb58xfSp84Bt8SCtqBtdQi7t67Seh2xVC3HcQJfUlabDyzOKzzEhn3SuAbMNATIglzuzEBuO6xb2gzLGAqO4HUNcpaA15XJ3DH5YvmvZtGPlSpVU=
+Received: from VI1PR04MB5565.eurprd04.prod.outlook.com (20.178.123.19) by
+	VI1PR04MB3983.eurprd04.prod.outlook.com (10.171.182.16) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1856.12; Tue, 7 May 2019 07:50:47 +0000
+Received: from VI1PR04MB5565.eurprd04.prod.outlook.com
+	([fe80::c112:300f:480a:3995]) by
+	VI1PR04MB5565.eurprd04.prod.outlook.com
+	([fe80::c112:300f:480a:3995%3]) with mapi id 15.20.1856.012;
+	Tue, 7 May 2019 07:50:47 +0000
+From: Catalin Dan Udma <catalin-dan.udma@nxp.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [EXT] Re: [OE-core] [PATCH] insane.bbclass: fix QA-check to
+	consider the PREFERRED_RPROVIDER for RDEPENDS
+Thread-Index: AQHU/o8NOq+Ut6Odgkio0eJ63M4gQ6ZfVX8A
+Date: Tue, 7 May 2019 07:50:47 +0000
+Message-ID: <VI1PR04MB5565B9F1D7458A0608C96498DA310@VI1PR04MB5565.eurprd04.prod.outlook.com>
+References: <1551792970-1216-1-git-send-email-catalin-dan.udma@nxp.com>
+	<VI1PR04MB5565D1837E769E35CB840F41DA550@VI1PR04MB5565.eurprd04.prod.outlook.com>
+	<CAJTo0LbBGZz_71T4kF5yq7Lwj9Mta2k8K+wAEMo=KOYj48nnew@mail.gmail.com>
+In-Reply-To: <CAJTo0LbBGZz_71T4kF5yq7Lwj9Mta2k8K+wAEMo=KOYj48nnew@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=catalin-dan.udma@nxp.com; 
+x-originating-ip: [212.146.100.6]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 5c4b00e5-06b1-45bb-093b-08d6d2c0b7ba
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(49563074)(7193020);
+	SRVR:VI1PR04MB3983; 
+x-ms-traffictypediagnostic: VI1PR04MB3983:
+x-ms-exchange-purlcount: 2
+x-microsoft-antispam-prvs: <VI1PR04MB3983B5FC959000AE0DD7115DDA310@VI1PR04MB3983.eurprd04.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:989;
+x-forefront-prvs: 0030839EEE
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(39860400002)(376002)(366004)(396003)(346002)(136003)(189003)(199004)(13464003)(4326008)(55016002)(478600001)(68736007)(9686003)(966005)(2906002)(81156014)(81166006)(14454004)(6306002)(33656002)(25786009)(305945005)(8676002)(99936001)(7736002)(74316002)(316002)(76176011)(45080400002)(86362001)(8936002)(5024004)(186003)(7696005)(52536014)(6246003)(66066001)(71200400001)(5660300002)(71190400001)(229853002)(11346002)(102836004)(99286004)(53936002)(446003)(53546011)(486006)(66946007)(73956011)(6506007)(476003)(6916009)(76116006)(66446008)(64756008)(66556008)(66616009)(66476007)(6436002)(256004)(26005)(6116002)(3846002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR04MB3983;
+	H:VI1PR04MB5565.eurprd04.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: nxp.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: 7t6LOgKwpA3X8dIEtRkkKFeyKQSDkohgv51QCOENcMZNyYjJHuslWjZdNCT9pmC8q8vJSTTK9bl6bsD35/kTOhVIY9CDn0f2lJVEYwVi9PBLRcxsOFqxGZYcK+tYY0mpSxVNzbkvkE4uRfUJkH8l/SD6IF++0c7AJ69ji4bU6TDUWkHX2kRaiK1MFrKkMe6uK0BeFaQb3mddTihq4BbZ5g6vVGyvU5QRyTKIO9URWyCtoJKFZVPzcAdS4nKCaWWpBcxCZbyy4YEaeDQcRdkFHbR0KFFJdw7hxlfExGNSEE+Po1gVUNXsCKjAJ5f7Ut7Ag7jjKy9++PJTtzod50I0ecUdz0W3Zts4bTWsbqiDMhF4NCpgziCKJMl0N4/GwFy4UdFODcxxOFAoj9LS1iHV0h4YkH8PCbKyK9mP5c/LZfI=
+MIME-Version: 1.0
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5c4b00e5-06b1-45bb-093b-08d6d2c0b7ba
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2019 07:50:47.6229 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB3983
+Cc: "Openembedded-core@lists.openembedded.org"
+	<Openembedded-core@lists.openembedded.org>
+Subject: Re: [EXT] Re: [PATCH] insane.bbclass: fix QA-check to consider the PREFERRED_RPROVIDER for RDEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,476 +80,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 21:41:30 -0000
+X-List-Received-Date: Tue, 07 May 2019 22:25:39 -0000
+X-Groupsio-MsgNum: 124128
+Content-Language: en-US
+Content-Type: multipart/mixed;
+	boundary="_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_"
 
-Removed patches were upstreamed.
+--_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- .../atftp/{atftp_git.bb => atftp_0.7.2.bb}    |   7 +-
- .../atftp-0.7-sorcerers_apprentice.patch      |  94 ----------
- ....7_circumvent_tftp_size_restrictions.patch | 163 ------------------
- ...pd-0.7_unprotected_assignments_crash.patch | 152 ----------------
- 4 files changed, 1 insertion(+), 415 deletions(-)
- rename meta-networking/recipes-daemons/atftp/{atftp_git.bb => atftp_0.7.2.bb} (85%)
- delete mode 100644 meta-networking/recipes-daemons/atftp/files/atftp-0.7-sorcerers_apprentice.patch
- delete mode 100644 meta-networking/recipes-daemons/atftp/files/atftpd-0.7_circumvent_tftp_size_restrictions.patch
- delete mode 100644 meta-networking/recipes-daemons/atftp/files/atftpd-0.7_unprotected_assignments_crash.patch
+SGkgUm9zcywNCg0KSSBtYXkgYmUgbWlzc2luZyBzb21ldGhpbmcgaW4gaG93IHRvIGNvbnRyaWJ1
+dGUgdG8gb2UtY29yZS4gSSBjb3VsZCBhcHBseSB0aGUgcGF0Y2ggb24gbGF0ZXN0IA0KbWFzdGVy
+IChlYjhjN2I1IFJpY2hhcmQgUHVyZGllLCAiYml0YmFrZTogSEVBREVSOiBEcm9wIGl0Iikgb24g
+cG9reSBhbmQgcG9reS1jb250cmliOg0KLSBnaXQ6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy9wb2t5
+DQotIGh0dHBzOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvZ2l0L3Bva3ktY29udHJpYg0KDQpDb3Vs
+ZCB5b3UgcGxlYXNlIGhlbHAgbWUgdW5kZXJzdGFuZCB3aGVyZSBzaG91bGQgSSByZWJhc2U/DQpG
+b3IgcmVmZXJlbmNlLCBJIGF0dGFjaGVkIGFsc28gdGhlIHBhdGNoIEkgYXBwbGllZCB3aXRoICJn
+aXQgYW0iLg0KDQpUaGFuayB5b3UsDQpDYXRhbGluDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdl
+LS0tLS0NCj4gRnJvbTogQnVydG9uLCBSb3NzIFttYWlsdG86cm9zcy5idXJ0b25AaW50ZWwuY29t
+XQ0KPiBTZW50OiBNb25kYXksIEFwcmlsIDI5LCAyMDE5IDQ6MjYgUE0NCj4gVG86IENhdGFsaW4g
+RGFuIFVkbWEgPGNhdGFsaW4tZGFuLnVkbWFAbnhwLmNvbT4NCj4gQ2M6IE9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogW0VYVF0gUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0hdIGluc2FuZS5iYmNsYXNzOiBmaXggUUEtY2hlY2sgdG8gY29uc2lkZXINCj4gdGhl
+IFBSRUZFUlJFRF9SUFJPVklERVIgZm9yIFJERVBFTkRTDQo+IA0KPiBDYXV0aW9uOiBFWFQgRW1h
+aWwNCj4gDQo+IEkganVzdCByYW4gaW50byB0aGlzLCBidXQgdGhlIHBhdGNoIGRvZXNuJ3QgYXBw
+bHkgdG8gbWFzdGVyIGFueW1vcmUuDQo+IENhbiB5b3UgcmViYXNlPw0KPiANCj4gVGhhbmtzLA0K
+PiBSb3NzDQo+IA0KPiBPbiBUdWUsIDIgQXByIDIwMTkgYXQgMjM6MzksIENhdGFsaW4gRGFuIFVk
+bWEgPGNhdGFsaW4tZGFuLnVkbWFAbnhwLmNvbT4NCj4gd3JvdGU6DQo+ID4NCj4gPiBQaW5nLg0K
+PiA+DQo+ID4gVGhhbmtzLA0KPiA+IENhdGFsaW4gVWRtYQ0KPiA+DQo+ID4gPiAtLS0tLU9yaWdp
+bmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4gRnJvbTogQ2F0YWxpbiBEYW4gVWRtYQ0KPiA+ID4gU2Vu
+dDogVHVlc2RheSwgTWFyY2ggNSwgMjAxOSAzOjM2IFBNDQo+ID4gPiBUbzogT3BlbmVtYmVkZGVk
+LWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gQ2M6IENhdGFsaW4gRGFuIFVkbWEg
+PGNhdGFsaW4tZGFuLnVkbWFAbnhwLmNvbT4NCj4gPiA+IFN1YmplY3Q6IFtPRS1jb3JlXVtQQVRD
+SF0gaW5zYW5lLmJiY2xhc3M6IGZpeCBRQS1jaGVjayB0byBjb25zaWRlciB0aGUNCj4gPiA+IFBS
+RUZFUlJFRF9SUFJPVklERVIgZm9yIFJERVBFTkRTDQo+ID4gPg0KPiA+ID4gUUEtY2hlY2sgbG9v
+a3MgaW4gdGhlIFJERVBFTkRTIGxpc3Qgd2l0aG91dCB0YWtpbmcgaW50byBjb25zaWRlcmF0aW9u
+DQo+IHRoYXQgYQ0KPiA+ID4gc3BlY2lmaWMgcGFja2FnZSBtYXkgaGF2ZSBhIFBSRUZFUlJFRF9S
+UFJPVklERVIgZGVmaW5lZC4NCj4gPiA+IElmIFBSRUZFUlJFRF9SUFJPVklERVIgaXMgc2V0LCBR
+QS1jaGVjayB3aWxsIGlnbm9yZSB0aGF0IHNldHRpbmdzIGFuZA0KPiB3aWxsDQo+ID4gPiBjb25z
+aWRlciB0aGUgb3JpZ2luYWwgcGFja2FnZSwgcmVzdWx0aW5nIGluIFFBLWNoZWNrIGVycm9yczoN
+Cj4gPiA+ICAgICAgIEVSUk9SOiBkb19wYWNrYXRlX3FhOiBRQSBJc3N1ZTogPC4uLj4sIGJ1dCBu
+byBwcm92aWRlcnMgZm91bmQgaW4NCj4gPiA+ICAgICAgIFJERVBFTkRTXzxwYWNrYWdlPj8gW2Zp
+bGUtcmRlcHNdDQo+ID4gPiBUaGUgZml4IGlzIHRvIHJlcGxhY2UgdGhlIG9yaWdpbmFsIHBhY2th
+Z2UgaW4gdGhlIFFBLWNoZWNrIHdpdGggdGhlIG5ldw0KPiA+ID4gcGFja2FnZSBkZWZpbmVkIGlu
+IFBSRUZFUlJFRF9SUFJPVklERVIsIGlmIGl04oCZcyBzZXQuDQo+ID4gPg0KPiA+ID4gU2lnbmVk
+LW9mZi1ieTogQ2F0YWxpbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54cC5jb20+DQo+ID4gPiAt
+LS0NCj4gPiA+ICBtZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xhc3MgfCA2ICsrKysrKw0KPiA+ID4g
+IDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKykNCj4gPiA+DQo+ID4gPiBkaWZmIC0tZ2l0
+IGEvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzIGIvbWV0YS9jbGFzc2VzL2luc2FuZS5iYmNs
+YXNzDQo+ID4gPiBpbmRleCA2NDExODg0Li4xNjUyMzNiIDEwMDY0NA0KPiA+ID4gLS0tIGEvbWV0
+YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzDQo+ID4gPiArKysgYi9tZXRhL2NsYXNzZXMvaW5zYW5l
+LmJiY2xhc3MNCj4gPiA+IEBAIC02ODksNiArNjg5LDkgQEAgZGVmIHBhY2thZ2VfcWFfY2hlY2tf
+cmRlcGVuZHMocGtnLCBwa2dkZXN0LA0KPiBza2lwLA0KPiA+ID4gdGFza2RlcHMsIHBhY2thZ2Vz
+LCBkKToNCj4gPiA+ICAgICAgICAgICMgTm93IGRvIHRoZSBzYW5pdHkgY2hlY2shISENCj4gPiA+
+ICAgICAgICAgIGlmICJidWlsZC1kZXBzIiBub3QgaW4gc2tpcDoNCj4gPiA+ICAgICAgICAgICAg
+ICBmb3IgcmRlcGVuZCBpbiByZGVwZW5kczoNCj4gPiA+ICsgICAgICAgICAgICAgICAgcHJlZl9y
+ZGVwZW5kID0NCj4gbG9jYWxkYXRhLmdldFZhcigiUFJFRkVSUkVEX1JQUk9WSURFUl8lcyIgJQ0K
+PiA+ID4gcmRlcGVuZCkNCj4gPiA+ICsgICAgICAgICAgICAgICAgaWYgcHJlZl9yZGVwZW5kOg0K
+PiA+ID4gKyAgICAgICAgICAgICAgICAgICAgcmRlcGVuZCA9IHByZWZfcmRlcGVuZA0KPiA+ID4g
+ICAgICAgICAgICAgICAgICBpZiAiLWRiZyIgaW4gcmRlcGVuZCBhbmQgImRlYnVnLWRlcHMiIG5v
+dCBpbiBza2lwOg0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAgZXJyb3JfbXNnID0gIiVzIHJk
+ZXBlbmRzIG9uICVzIiAlIChwa2cscmRlcGVuZCkNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAg
+IHBhY2thZ2VfcWFfaGFuZGxlX2Vycm9yKCJkZWJ1Zy1kZXBzIiwgZXJyb3JfbXNnLCBkKQ0KPiA+
+ID4gQEAgLTczOSw2ICs3NDIsOSBAQCBkZWYgcGFja2FnZV9xYV9jaGVja19yZGVwZW5kcyhwa2cs
+IHBrZ2Rlc3QsDQo+IHNraXAsDQo+ID4gPiB0YXNrZGVwcywgcGFja2FnZXMsIGQpOg0KPiA+ID4g
+ICAgICAgICAgICAgICAgICB3aGlsZSBuZXh0Og0KPiA+ID4gICAgICAgICAgICAgICAgICAgICAg
+bmV3ID0gW10NCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgIGZvciByZGVwIGluIG5leHQ6DQo+
+ID4gPiArICAgICAgICAgICAgICAgICAgICAgICAgcHJlZl9yZGVwID0NCj4gbG9jYWxkYXRhLmdl
+dFZhcigiUFJFRkVSUkVEX1JQUk9WSURFUl8lcyIgJQ0KPiA+ID4gcmRlcCkNCj4gPiA+ICsgICAg
+ICAgICAgICAgICAgICAgICAgICBpZiBwcmVmX3JkZXA6DQo+ID4gPiArICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHJkZXAgPSBwcmVmX3JkZXANCj4gPiA+ICAgICAgICAgICAgICAgICAgICAg
+ICAgICByZGVwX2RhdGEgPSBvZS5wYWNrYWdlZGF0YS5yZWFkX3N1YnBrZ2RhdGEocmRlcCwgZCkN
+Cj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBzdWJfcmRlcHMgPSByZGVwX2RhdGEuZ2V0
+KCJSREVQRU5EU18iICsgcmRlcCkNCj4gPiA+ICAgICAgICAgICAgICAgICAgICAgICAgICBpZiBu
+b3Qgc3ViX3JkZXBzOg0KPiA+ID4gLS0NCj4gPiA+IDIuNy40DQo+ID4NCj4gPiAtLQ0KPiA+IF9f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQo+ID4gT3BlbmVt
+YmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KPiA+DQo+IGh0dHBzOi8vZXVyMDEuc2FmZWxpbmtzLnByb3RlY3Rpb24u
+b3V0bG9vay5jb20vP3VybD1odHRwJTNBJTJGJTJGbGlzdHMubw0KPiBwZW5lbWJlZGRlZC5vcmcl
+MkZtYWlsbWFuJTJGbGlzdGluZm8lMkZvcGVuZW1iZWRkZWQtDQo+IGNvcmUmYW1wO2RhdGE9MDIl
+N0MwMSU3Q2NhdGFsaW4tDQo+IGRhbi51ZG1hJTQwbnhwLmNvbSU3QzJlZDZlY2FlNjcyMjRjMThm
+NjkyMDhkNmNjYTYyZTk5JTdDNjg2ZWExZA0KPiAzYmMyYjRjNmZhOTJjZDk5YzVjMzAxNjM1JTdD
+MCU3QzElN0M2MzY5MjE0MTE0NTQ3MjYzNzQmYW1wO3NkYXRhDQo+ID1XOUtlJTJCJTJCJTJGWHNY
+VTIlMkJIdmQxWmg1TG5rV1lXaHliOG5BWDlpWVgzQ3V5JTJCWSUzRA0KPiAmYW1wO3Jlc2VydmVk
+PTANCg==
 
-diff --git a/meta-networking/recipes-daemons/atftp/atftp_git.bb b/meta-networking/recipes-daemons/atftp/atftp_0.7.2.bb
-similarity index 85%
-rename from meta-networking/recipes-daemons/atftp/atftp_git.bb
-rename to meta-networking/recipes-daemons/atftp/atftp_0.7.2.bb
-index a9949d59a..ff9084dbf 100644
---- a/meta-networking/recipes-daemons/atftp/atftp_git.bb
-+++ b/meta-networking/recipes-daemons/atftp/atftp_0.7.2.bb
-@@ -3,17 +3,12 @@ SECTION = "net"
- HOMEPAGE = "http://packages.debian.org/atftp"
- LICENSE = "GPLv2"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=94d55d512a9ba36caa9b7df079bae19f"
--PV = "0.7.1+git${SRCPV}"
--PR = "r3"
- 
--SRCREV = "be3291a18c069ae23a124ffdc56d64a5ff0bbec7"
-+SRCREV = "52b71f0831dcbde508bd3a961d84abb80a62480f"
- 
- SRC_URI = "git://git.code.sf.net/p/atftp/code \
--           file://atftpd-0.7_circumvent_tftp_size_restrictions.patch \
--           file://atftpd-0.7_unprotected_assignments_crash.patch \
-            file://atftpd.init \
-            file://atftpd.service \
--           file://atftp-0.7-sorcerers_apprentice.patch \
- "
- SRC_URI_append_libc-musl = " file://0001-argz.h-fix-musl-compile-add-missing-defines.patch \
-                              file://0002-tftp.h-tftpd.h-fix-musl-compile-missing-include.patch \
-diff --git a/meta-networking/recipes-daemons/atftp/files/atftp-0.7-sorcerers_apprentice.patch b/meta-networking/recipes-daemons/atftp/files/atftp-0.7-sorcerers_apprentice.patch
-deleted file mode 100644
-index fc64291cd..000000000
---- a/meta-networking/recipes-daemons/atftp/files/atftp-0.7-sorcerers_apprentice.patch
-+++ /dev/null
-@@ -1,94 +0,0 @@
--atftp exhibits the well known "Sorcerer's Apprentice Syndrome"(SAS) problem.
--According to RFC 1350, the fix to SAS is quite simple: further copies of the
--acknowledgment for a particular data block would be ignored.
--
--Patch originally from OpenSUSE:
--https://build.opensuse.org/package/view_file?file=atftp-0.7-sorcerers_apprentice.patch&package=atftp.539&project=openSUSE%3A12.1%3AUpdate&rev=84569792975e00573d7df597d2a6e895
--
--Upstream-Status: Pending
--
--Signed-off-by: Roy.Li <rongqing.li@windriver.com>
--Index: atftp-0.7/tftp_file.c
--===================================================================
----- atftp-0.7.orig/tftp_file.c	2011-11-22 15:12:53.792744083 +0100
--+++ atftp-0.7/tftp_file.c	2011-11-22 15:13:51.706421893 +0100
--@@ -605,6 +605,7 @@
--      int timeout_state = state; /* what state should we go on when timeout */
--      int result;
--      long block_number = 0;
--+     long last_requested_block = -1;
--      long last_block = -1;
--      int data_size;             /* size of data received */
--      int sockfd = data->sockfd; /* just to simplify calls */
--@@ -765,6 +766,17 @@
--                          connected = 1;
--                     }
--                     block_number = ntohs(tftphdr->th_block);
--+
--+                    if (last_requested_block >= block_number)
--+                    {
--+                        if (data->trace)
--+                            fprintf(stderr, "received duplicated ACK <block: %ld >= %ld>\n",
--+                                    last_requested_block, block_number);
--+                        break;
--+                    }
--+                    else
--+                        last_requested_block = block_number;
--+
--                     if (data->trace)
--                          fprintf(stderr, "received ACK <block: %ld>\n",
--                                  block_number);
--Index: atftp-0.7/tftpd_file.c
--===================================================================
----- atftp-0.7.orig/tftpd_file.c	2011-11-22 15:12:53.793744112 +0100
--+++ atftp-0.7/tftpd_file.c	2011-11-22 15:15:04.617534260 +0100
--@@ -403,6 +403,7 @@
--      int timeout_state = state;
--      int result;
--      long block_number = 0;
--+     long last_requested_block = -1;
--      long last_block = -1;
--      int block_loops = 0;
--      int data_size;
--@@ -859,6 +860,32 @@
--                     {
--                          logger(LOG_DEBUG, "received ACK <block: %d>", block_number);
--                     }
--+
--+		    /* check whether the block request isn't already fulfilled */
--+
--+                    /* multicast, block numbers could contain gaps */
--+                    if (multicast) {
--+                        if (last_requested_block >= block_number)
--+                        {
--+                            if (data->trace)
--+                                logger(LOG_DEBUG, "received duplicated ACK <block: %d >= %d>", last_requested_block, block_number);
--+                            break;
--+                        }
--+                        else
--+                            last_requested_block = block_number;
--+                    /* unicast, blocks should be requested one after another */
--+		    } else {
--+                        if (last_requested_block + 1 != block_number && last_requested_block != -1)
--+                        {
--+                            if (data->trace)
--+                                logger(LOG_DEBUG, "received out of order ACK <block: %d != %d>", last_requested_block + 1, block_number);
--+                            break;
--+                        }
--+                        else
--+                            last_requested_block = block_number;
--+                    }
--+
--+
--                     if (ntohs(tftphdr->th_block) == 65535)
--                     {
--                          block_loops++;
--@@ -958,6 +985,8 @@
--                          /* nedd to send an oack to that client */
--                          state = S_SEND_OACK;                
--                          fseek(fp, 0, SEEK_SET);
--+			 /* reset the last block received counter */
--+			 last_requested_block = -1;
--                     }
--                     else
--                     {
-diff --git a/meta-networking/recipes-daemons/atftp/files/atftpd-0.7_circumvent_tftp_size_restrictions.patch b/meta-networking/recipes-daemons/atftp/files/atftpd-0.7_circumvent_tftp_size_restrictions.patch
-deleted file mode 100644
-index 280b570b2..000000000
---- a/meta-networking/recipes-daemons/atftp/files/atftpd-0.7_circumvent_tftp_size_restrictions.patch
-+++ /dev/null
-@@ -1,163 +0,0 @@
--Fate #303031: Circumvent TFTP size restrictions in atftpd
--The size of a single image file that can be transferred with TFTP is limited to
--2^(2*8) *BLOCKSIZE (as per RFC 1350 there are only two bytes for the block
--counter). This is problematic for one of our customers who needs to transfer
--100+ MB Windows images using a TFTP client (NT bootloader) which has a
--hardwared BLOCKSIZE setting of 1432).
--
--block rollover
--http://www.compuphase.com/tftp.htm
--
--Patch originally from OpenSUSE:
--https://build.opensuse.org/package/show?package=atftp&project=openSUSE%3A12.2
--
--Upstream-Status: Pending
--
--Index: git/tftp_def.h
--===================================================================
----- git.orig/tftp_def.h	2012-11-19 16:28:50.221027144 -0800
--+++ git/tftp_def.h	2012-11-20 17:40:54.391206979 -0800
--@@ -32,6 +32,7 @@
-- #define TIMEOUT       5         /* Client timeout */
-- #define S_TIMEOUT     5         /* Server timout. */
-- #define NB_OF_RETRY   5
--+#define MAXBLOCKS   1000000      /* maximum number of blocks in a download */
-- 
-- /* definition to use tftp_options structure */
-- #define OPT_FILENAME  0
--Index: git/tftp_file.c
--===================================================================
----- git.orig/tftp_file.c	2012-11-19 16:28:50.221027144 -0800
--+++ git/tftp_file.c	2012-11-19 16:28:51.201027167 -0800
--@@ -622,8 +622,8 @@
--      int state = S_SEND_REQ;    /* current state in the state machine */
--      int timeout_state = state; /* what state should we go on when timeout */
--      int result;
---     int block_number = 0;
---     int last_block = -1;
--+     long block_number = 0;
--+     long last_block = -1;
--      int data_size;             /* size of data received */
--      int sockfd = data->sockfd; /* just to simplify calls */
--      struct sockaddr_storage sa; /* a copy of data.sa_peer */
--@@ -637,8 +637,8 @@
--      int convert = 0;           /* if true, do netascii convertion */
--      char string[MAXLEN];
-- 
---     int prev_block_number = 0; /* needed to support netascii convertion */
---     int prev_file_pos = 0;
--+     long prev_block_number = 0; /* needed to support netascii convertion */
--+     long prev_file_pos = 0;
--      int temp = 0;
-- 
--      data->file_size = 0;
--@@ -745,7 +745,7 @@
--                               data_size, data->data_buffer);
--                data->file_size += data_size;
--                if (data->trace)
---                    fprintf(stderr, "sent DATA <block: %d, size: %d>\n",
--+                    fprintf(stderr, "sent DATA <block: %ld, size: %d>\n",
--                             block_number + 1, data_size - 4);
--                state = S_WAIT_PACKET;
--                break;
--@@ -785,7 +785,7 @@
--                     }
--                     block_number = ntohs(tftphdr->th_block);
--                     if (data->trace)
---                         fprintf(stderr, "received ACK <block: %d>\n",
--+                         fprintf(stderr, "received ACK <block: %ld>\n",
--                                  block_number);
--                     if ((last_block != -1) && (block_number > last_block))
--                     {
--Index: git/tftp_io.c
--===================================================================
----- git.orig/tftp_io.c	2012-11-19 16:28:50.221027144 -0800
--+++ git/tftp_io.c	2012-11-19 16:28:51.201027167 -0800
--@@ -350,8 +350,8 @@
-- /*
--  * Read from file and do netascii conversion if needed
--  */
---int tftp_file_read(FILE *fp, char *data_buffer, int data_buffer_size, int block_number,
---                   int convert, int *prev_block_number, int *prev_file_pos, int *temp)
--+int tftp_file_read(FILE *fp, char *data_buffer, int data_buffer_size, long block_number,
--+                   int convert, long *prev_block_number, long *prev_file_pos, int *temp)
-- {
--      int i;
--      int c;
--Index: git/tftp_io.h
--===================================================================
----- git.orig/tftp_io.h	2012-11-19 16:28:50.221027144 -0800
--+++ git/tftp_io.h	2012-11-19 16:28:51.201027167 -0800
--@@ -52,8 +52,8 @@
-- int tftp_get_packet(int sock1, int sock2, int *sock, struct sockaddr_storage *sa,
--                     struct sockaddr_storage *from, struct sockaddr_storage *to,
--                     int timeout, int *size, char *data);
---int tftp_file_read(FILE *fp, char *buffer, int buffer_size, int block_number, int convert,
---                   int *prev_block_number, int *prev_file_pos, int *temp);
--+int tftp_file_read(FILE *fp, char *buffer, int buffer_size, long block_number, int convert,
--+                   long *prev_block_number, long *prev_file_pos, int *temp);
-- int tftp_file_write(FILE *fp, char *data_buffer, int data_buffer_size, int block_number,
--                     int data_size, int convert, int *prev_block_number, int *temp);
-- #endif
--Index: git/tftpd_file.c
--===================================================================
----- git.orig/tftpd_file.c	2012-11-19 16:28:50.225027144 -0800
--+++ git/tftpd_file.c	2012-11-19 16:28:51.201027167 -0800
--@@ -407,8 +407,9 @@
--      int state = S_BEGIN;
--      int timeout_state = state;
--      int result;
---     int block_number = 0;
---     int last_block = -1;
--+     long block_number = 0;
--+     long last_block = -1;
--+     int block_loops = 0;
--      int data_size;
--      struct sockaddr_storage *sa = &data->client_info->client;
--      struct sockaddr_storage from;
--@@ -431,8 +432,8 @@
--      struct client_info *client_old = NULL;
--      struct tftp_opt options[OPT_NUMBER];
-- 
---     int prev_block_number = 0; /* needed to support netascii convertion */
---     int prev_file_pos = 0;
--+     long prev_block_number = 0; /* needed to support netascii convertion */
--+     long prev_file_pos = 0;
--      int temp = 0;
-- 
--      /* look for mode option */
--@@ -565,11 +566,12 @@
--           logger(LOG_INFO, "blksize option -> %d", result);
--      }
-- 
---     /* Verify that the file can be sent in 2^16 block of BLKSIZE octets */
---     if ((file_stat.st_size / (data->data_buffer_size - 4)) > 65535)
--+     /* Verify that the file can be sent in MAXBLOCKS blocks of BLKSIZE octets */
--+     if ((file_stat.st_size / (data->data_buffer_size - 4)) > MAXBLOCKS)
--      {
--           tftp_send_error(sockfd, sa, EUNDEF, data->data_buffer, data->data_buffer_size);
---          logger(LOG_NOTICE, "Requested file to big, increase BLKSIZE");
--+          logger(LOG_NOTICE, "Requested file too big, increase BLKSIZE");
--+          logger(LOG_NOTICE, "Only %d blocks of %d bytes can be served.", MAXBLOCKS, data->data_buffer_size);
--           if (data->trace)
--                logger(LOG_DEBUG, "sent ERROR <code: %d, msg: %s>", EUNDEF,
--                       tftp_errmsg[EUNDEF]);
--@@ -880,10 +882,15 @@
--                     }
--                     /* The ACK is from the current client */
--                     number_of_timeout = 0;
---                    block_number = ntohs(tftphdr->th_block);
--+                    block_number = (block_loops * 65536) + ntohs(tftphdr->th_block);
--                     if (data->trace)
---                         logger(LOG_DEBUG, "received ACK <block: %d>",
---                                block_number);
--+                    {
--+                         logger(LOG_DEBUG, "received ACK <block: %d>", block_number);
--+                    }
--+                    if (ntohs(tftphdr->th_block) == 65535)
--+                    {
--+                         block_loops++;
--+                    };
--                     if ((last_block != -1) && (block_number > last_block))
--                     {
--                          state = S_END;
-diff --git a/meta-networking/recipes-daemons/atftp/files/atftpd-0.7_unprotected_assignments_crash.patch b/meta-networking/recipes-daemons/atftp/files/atftpd-0.7_unprotected_assignments_crash.patch
-deleted file mode 100644
-index 28fba6cf5..000000000
---- a/meta-networking/recipes-daemons/atftp/files/atftpd-0.7_unprotected_assignments_crash.patch
-+++ /dev/null
-@@ -1,152 +0,0 @@
--Avoid assigning thread data outside of mutex lock
--
--Patch originally from OpenSUSE:
--https://build.opensuse.org/package/show?package=atftp&project=openSUSE%3A12.2
--
--Upstream-Status: Pending
--
--Index: git/tftpd_list.c
--===================================================================
----- git.orig/tftpd_list.c	2012-10-24 21:48:47.000000000 -0700
--+++ git/tftpd_list.c	2012-10-24 21:52:04.266205076 -0700
--@@ -49,11 +49,11 @@
--  */
-- int tftpd_list_add(struct thread_data *new)
-- {
---     struct thread_data *current = thread_data;
--+     struct thread_data *current;
--      int ret;
-- 
--      pthread_mutex_lock(&thread_list_mutex);
---
--+     current = thread_data;
--      number_of_thread++;
--      
--      ret = number_of_thread;
--@@ -81,11 +81,13 @@
--  */
-- int tftpd_list_remove(struct thread_data *old)
-- {
---     struct thread_data *current = thread_data;
--+     struct thread_data *current;
--      int ret;
-- 
--      pthread_mutex_lock(&thread_list_mutex);
-- 
--+     current = thread_data;
--+
--      number_of_thread--;
--      ret = number_of_thread;
--     
--@@ -137,23 +139,26 @@
--                                              struct thread_data *data,
--                                              struct client_info *client)
-- {
---     struct thread_data *current = thread_data; /* head of the list */
---     struct tftp_opt *tftp_options = data->tftp_options;
--+     struct thread_data *current; /* head of the list */
--+     struct tftp_opt *tftp_options;
--      struct client_info *tmp;
--      char options[MAXLEN];
--      char string[MAXLEN];
--      char *index;
--      int len;
-- 
--+     /* lock the whole list before walking it */
--+     pthread_mutex_lock(&thread_list_mutex);
--+
--      *thread = NULL;
-- 
--+     current = thread_data;
--+     tftp_options = data->tftp_options;
--+
--      opt_request_to_string(tftp_options, options, MAXLEN);
--      index = strstr(options, "multicast");
--      len = (int)index - (int)options;
-- 
---     /* lock the whole list before walking it */
---     pthread_mutex_lock(&thread_list_mutex);
---
--      while (current)
--      {
--           if (current != data)
--@@ -214,9 +219,10 @@
-- void tftpd_clientlist_remove(struct thread_data *thread,
--                              struct client_info *client)
-- {
---     struct client_info *tmp = thread->client_info;
--+     struct client_info *tmp;
-- 
--      pthread_mutex_lock(&thread->client_mutex);
--+     tmp = thread->client_info;
--      while ((tmp->next != client) && (tmp->next != NULL))
--           tmp = tmp->next;
--      if (tmp->next == NULL)
--@@ -231,9 +237,11 @@
-- void tftpd_clientlist_free(struct thread_data *thread)
-- {
--      struct client_info *tmp;
---     struct client_info *head = thread->client_info;
--+     struct client_info *head;
-- 
--      pthread_mutex_lock(&thread->client_mutex);
--+     head = thread->client_info;
--+
--      while (head)
--      {
--           tmp = head;
--@@ -250,9 +258,10 @@
--                           struct client_info *client,
--                           struct sockaddr_storage *sock)
-- {
---     struct client_info *head = thread->client_info;
--+     struct client_info *head;
-- 
--      pthread_mutex_lock(&thread->client_mutex);
--+     head = thread->client_info;
-- 
--      if (client)
--      {
--@@ -334,10 +343,10 @@
-- 
-- void tftpd_list_kill_threads(void)
-- {
---     struct thread_data *current = thread_data; /* head of list */
--+     struct thread_data *current; /* head of list */
-- 
--      pthread_mutex_lock(&thread_list_mutex);
---
--+     current = thread_data;
-- 
--      while (current != NULL)
--      {
--Index: git/tftpd_mcast.c
--===================================================================
----- git.orig/tftpd_mcast.c	2012-10-24 21:48:47.000000000 -0700
--+++ git/tftpd_mcast.c	2012-10-24 21:49:11.570201582 -0700
--@@ -51,9 +51,11 @@
--  */
-- int tftpd_mcast_get_tid(char **addr, short *port)
-- {
---     struct tid *current = tid_list;
--+     struct tid *current;
-- 
--      pthread_mutex_lock(&mcast_tid_list);
--+     current = tid_list;
--+
--      /* walk the list for a free tid */
--      while (current != NULL)
--      {
--@@ -74,9 +76,11 @@
-- 
-- int tftpd_mcast_free_tid(char *addr, short port)
-- {
---     struct tid *current = tid_list;
--+     struct tid *current;
-- 
--      pthread_mutex_lock(&mcast_tid_list);
--+     current = tid_list;
--+
--      while (current != NULL)
--      {
-- 	  if ((current->used == 1) && (current->port == port) &&
--- 
-2.17.1
+--_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_
+Content-Type: application/octet-stream;
+	name="0001-insane.bbclass-fix-QA-check-to-consider-the-PREFERRE.PATCH"
+Content-Description: 0001-insane.bbclass-fix-QA-check-to-consider-the-PREFERRE.PATCH
+Content-Disposition: attachment;
+	filename="0001-insane.bbclass-fix-QA-check-to-consider-the-PREFERRE.PATCH";
+	size=2292; creation-date="Tue, 07 May 2019 07:49:03 GMT";
+	modification-date="Tue, 07 May 2019 07:49:03 GMT"
+Content-Transfer-Encoding: base64
 
+RnJvbSBhNzFkMGVhMTM5NmI0ODU0MWE1YTVkOTU3MTQ5YmFkYzEyZjliMjhhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBDYXRhbGluIERhbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54
+cC5jb20+CkRhdGU6IFR1ZSwgNSBNYXIgMjAxOSAxMzozNjoxOSArMDAwMApTdWJqZWN0OiBbUEFU
+Q0hdIGluc2FuZS5iYmNsYXNzOiBmaXggUUEtY2hlY2sgdG8gY29uc2lkZXIgdGhlCiBQUkVGRVJS
+RURfUlBST1ZJREVSIGZvciBSREVQRU5EUwpNSU1FLVZlcnNpb246IDEuMApDb250ZW50LVR5cGU6
+IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzogOGJp
+dAoKUUEtY2hlY2sgbG9va3MgaW4gdGhlIFJERVBFTkRTIGxpc3Qgd2l0aG91dCB0YWtpbmcgaW50
+byBjb25zaWRlcmF0aW9uIHRoYXQgYQpzcGVjaWZpYyBwYWNrYWdlIG1heSBoYXZlIGEgUFJFRkVS
+UkVEX1JQUk9WSURFUiBkZWZpbmVkLgpJZiBQUkVGRVJSRURfUlBST1ZJREVSIGlzIHNldCwgUUEt
+Y2hlY2sgd2lsbCBpZ25vcmUgdGhhdCBzZXR0aW5ncyBhbmQgd2lsbApjb25zaWRlciB0aGUgb3Jp
+Z2luYWwgcGFja2FnZSwgcmVzdWx0aW5nIGluIFFBLWNoZWNrIGVycm9yczoKCUVSUk9SOiBkb19w
+YWNrYXRlX3FhOiBRQSBJc3N1ZTogPC4uLj4sIGJ1dCBubyBwcm92aWRlcnMgZm91bmQgaW4KCVJE
+RVBFTkRTXzxwYWNrYWdlPj8gW2ZpbGUtcmRlcHNdClRoZSBmaXggaXMgdG8gcmVwbGFjZSB0aGUg
+b3JpZ2luYWwgcGFja2FnZSBpbiB0aGUgUUEtY2hlY2sgd2l0aCB0aGUgbmV3CnBhY2thZ2UgZGVm
+aW5lZCBpbiBQUkVGRVJSRURfUlBST1ZJREVSLCBpZiBpdOKAmXMgc2V0LgoKU2lnbmVkLW9mZi1i
+eTogQ2F0YWxpbiBVZG1hIDxjYXRhbGluLWRhbi51ZG1hQG54cC5jb20+Ci0tLQogbWV0YS9jbGFz
+c2VzL2luc2FuZS5iYmNsYXNzIHwgNiArKysrKysKIDEgZmlsZSBjaGFuZ2VkLCA2IGluc2VydGlv
+bnMoKykKCmRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvaW5zYW5lLmJiY2xhc3MgYi9tZXRhL2Ns
+YXNzZXMvaW5zYW5lLmJiY2xhc3MKaW5kZXggYTliZTg4ZS4uOWNhNWFlZiAxMDA2NDQKLS0tIGEv
+bWV0YS9jbGFzc2VzL2luc2FuZS5iYmNsYXNzCisrKyBiL21ldGEvY2xhc3Nlcy9pbnNhbmUuYmJj
+bGFzcwpAQCAtNjg0LDYgKzY4NCw5IEBAIGRlZiBwYWNrYWdlX3FhX2NoZWNrX3JkZXBlbmRzKHBr
+ZywgcGtnZGVzdCwgc2tpcCwgdGFza2RlcHMsIHBhY2thZ2VzLCBkKToKICAgICAgICAgIyBOb3cg
+ZG8gdGhlIHNhbml0eSBjaGVjayEhIQogICAgICAgICBpZiAiYnVpbGQtZGVwcyIgbm90IGluIHNr
+aXA6CiAgICAgICAgICAgICBmb3IgcmRlcGVuZCBpbiByZGVwZW5kczoKKyAgICAgICAgICAgICAg
+ICBwcmVmX3JkZXBlbmQgPSBsb2NhbGRhdGEuZ2V0VmFyKCJQUkVGRVJSRURfUlBST1ZJREVSXyVz
+IiAlIHJkZXBlbmQpCisgICAgICAgICAgICAgICAgaWYgcHJlZl9yZGVwZW5kOgorICAgICAgICAg
+ICAgICAgICAgICByZGVwZW5kID0gcHJlZl9yZGVwZW5kCiAgICAgICAgICAgICAgICAgaWYgIi1k
+YmciIGluIHJkZXBlbmQgYW5kICJkZWJ1Zy1kZXBzIiBub3QgaW4gc2tpcDoKICAgICAgICAgICAg
+ICAgICAgICAgZXJyb3JfbXNnID0gIiVzIHJkZXBlbmRzIG9uICVzIiAlIChwa2cscmRlcGVuZCkK
+ICAgICAgICAgICAgICAgICAgICAgcGFja2FnZV9xYV9oYW5kbGVfZXJyb3IoImRlYnVnLWRlcHMi
+LCBlcnJvcl9tc2csIGQpCkBAIC03MzQsNiArNzM3LDkgQEAgZGVmIHBhY2thZ2VfcWFfY2hlY2tf
+cmRlcGVuZHMocGtnLCBwa2dkZXN0LCBza2lwLCB0YXNrZGVwcywgcGFja2FnZXMsIGQpOgogICAg
+ICAgICAgICAgICAgIHdoaWxlIG5leHQ6CiAgICAgICAgICAgICAgICAgICAgIG5ldyA9IFtdCiAg
+ICAgICAgICAgICAgICAgICAgIGZvciByZGVwIGluIG5leHQ6CisgICAgICAgICAgICAgICAgICAg
+ICAgICBwcmVmX3JkZXAgPSBsb2NhbGRhdGEuZ2V0VmFyKCJQUkVGRVJSRURfUlBST1ZJREVSXyVz
+IiAlIHJkZXApCisgICAgICAgICAgICAgICAgICAgICAgICBpZiBwcmVmX3JkZXA6CisgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgcmRlcCA9IHByZWZfcmRlcAogICAgICAgICAgICAgICAgICAg
+ICAgICAgcmRlcF9kYXRhID0gb2UucGFja2FnZWRhdGEucmVhZF9zdWJwa2dkYXRhKHJkZXAsIGQp
+CiAgICAgICAgICAgICAgICAgICAgICAgICBzdWJfcmRlcHMgPSByZGVwX2RhdGEuZ2V0KCJSREVQ
+RU5EU18iICsgcmRlcCkKICAgICAgICAgICAgICAgICAgICAgICAgIGlmIG5vdCBzdWJfcmRlcHM6
+Ci0tIAoyLjcuNAoK
 
+--_002_VI1PR04MB5565B9F1D7458A0608C96498DA310VI1PR04MB5565eurp_--
