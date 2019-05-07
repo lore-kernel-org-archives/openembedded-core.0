@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 452787DD5C
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A31D37D476
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  7 May 2019 21:12:55 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id x132so1974859lfd.0
+	Tue,  7 May 2019 21:19:56 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id 132so7892427ljj.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 14:12:56 -0700 (PDT)
+	Tue, 07 May 2019 14:19:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=LSzioJlsC38DUpxeAavfAfjUh2GJ4SxdBfQG2i22bDE=;
-	b=NawIUCy2SzEYwukjQ6nXP2Uppos8A5RjoUtaW+GJjGDSJRvj9WsQe39ahAlLgCR5hS
-	iMnsW9mdNA4yp7sO6oND2eflvL2rm3lwZpo1p8/GVq9CPi4P6QvWIBdrXhLWUXHLtN2u
-	UV2kvrbv8SA8dGeFDsNJ3mH0M++vKX7d4MP9dT129Zm6YPRWn15gdVtKMOym5eng5vNm
-	LT6M77YF/WmiAKNF0QA2x+8atRtb0eIM3AW975PyOeTd3Pjid5OpcLwFUWwC8PXFWfCV
-	1ICz8KKSKsSZeQcMyZk4D/TrFZUgxvF/Lc8XdlupGrfn7KsLiXQlPqsEY0t3QAjh9or9
-	+fEA==
+	bh=K/I93DBn7sDf4BkdcKHEzGSMoNDbuA/irtIGwr0L84E=;
+	b=i45tRUuYjDlhPhKCoLxCwT9AAuEyvNIgzjKXSSeJR8D5D6ZJPp6ExOQnHimhmogWLv
+	2TqElZnF/kFo91qBeIcgycTbB+s90JIyEEponfj4uCCzkwKDUdcJp5sKcoWGy5saeTN3
+	Vttg5D7oPoJSGtkK0dSbEWLV52dOvpQhWfshrppgp8Dzy2QuX7p8ueTpSGqW7JaMtG89
+	+PMKGKA3wqTuKQO8VtV5C/XZUTTl5GWT3PXQE11HbAfexGaGqtUl/E4ybIkAnLmIOeU5
+	NxX79lzpF7F8lPDehDv/nvm7gWv2ujku5/3nhKL+boxTPviKjLmo+f6NhUwYWlHaJrvp
+	oQ4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=LSzioJlsC38DUpxeAavfAfjUh2GJ4SxdBfQG2i22bDE=;
-	b=WrdQE2p9KRLoop5hESMQdTeqbb2o9Ly/NOiRI50Mmj/fCkZwzoJoCHMcsFWHZRAisX
-	vY3lZfEDtrJX7GqljAOTOIhAuVs8z0c6LnPukS0ktzZ0Zs64vQqsT6Ec9JIbv4ZdreCH
-	hcqUOPWwfm3JntffTke82lfXdeVpHVoZpMlsEE5wPTL4qO3hoSEf4Nu/fZ8L2JywTza3
-	H5xVYi7G9EPxuskRcdR7eWjffEXPSX6eirWaWpYF5z5l0lw4MK/jiTci2pHz8Usz3Bxz
-	ZNVtgSnF8+87AZW6o8YHQE7/nQySbGSK919nUWYmbVVLEo8ez5bde53/InzzsrEoazQ0
-	ErXg==
-X-Gm-Message-State: APjAAAVmyeRrYFxbMP6go1Fg8t9cBE/AHnqQWsQfFKPON2kxNkvBi6t6
-	Lc2YnsCjfIZhFV7fM5A+rOeIxv5vSFU=
-X-Google-Smtp-Source: APXvYqyhzkXm0NH5S3aYOrgGDXMHSvjVgWYiJi0mMq3zhDtyp/Y27Vifq9HXrnxslW0hLaUN2qnXcA==
-X-Received: by 2002:a19:81c7:: with SMTP id c190mr18120261lfd.55.1557263575631;
-	Tue, 07 May 2019 14:12:55 -0700 (PDT)
+	bh=K/I93DBn7sDf4BkdcKHEzGSMoNDbuA/irtIGwr0L84E=;
+	b=dLluwRvmGRU1riTZBeDwXqmBd0iSyr1EKDR5CbnTmBa9zRY84QYxZlH1pRX+TneHII
+	uNr0Ir/CnCQoJfAvXgJ8wuSQgI0uh4ikzUy60UUrN4OPcZLAuvMHhMFV7kVgtIPQooyx
+	Qzq19zr5RGOvLdkL62IvU3sabodr8RqsSxrlhJbpOQVsi+5EjOnn1P5orwmxBgbcpePD
+	fPuTddz1FWhy6bfWYDyZtLxS2UIkCQksSKg+Xg2kwFjtstyh/XH7XE6+GnRVm/lnbsDz
+	HIW/QY4PQGWViLCtU/txLy9VQJa2aPH8PdUSt7/wfNFqCqFOoE0Z+Caw7V1IhwyOhDx2
+	Y/oQ==
+X-Gm-Message-State: APjAAAWOMxW+zpVRDxZ3un6RVCzWqJ0jePuqPV7wKI0GXFis+3vvWpMy
+	r8ebujZShRQVioSXQ3DjeikZ+Vh7L5g=
+X-Google-Smtp-Source: APXvYqwfQJfmubzv0BT3zp4q4QOxQqDqs0fGSbY3UFiQvsiTF7Zwki/TCTUZLfVUEkrU32XTnB6Onw==
+X-Received: by 2002:a2e:810d:: with SMTP id d13mr17376325ljg.93.1557263996918; 
+	Tue, 07 May 2019 14:19:56 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	j19sm3537484lfj.52.2019.05.07.14.12.54
+	h24sm3381953ljk.10.2019.05.07.14.19.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 14:12:54 -0700 (PDT)
+	Tue, 07 May 2019 14:19:56 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue,  7 May 2019 23:12:52 +0200
-Message-Id: <20190507211252.19378-1-open.source@oleksandr-kravchuk.com>
+Date: Tue,  7 May 2019 23:19:54 +0200
+Message-Id: <20190507211954.10762-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] bitbake.conf: use https instead of http
+Subject: [PATCH] bitbake.conf: remove GPE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,58 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 07 May 2019 21:12:56 -0000
+X-List-Received-Date: Tue, 07 May 2019 21:19:56 -0000
 
-Use HTTPS instead of HTTP whenever one is available.
+The site is down and no recipe is this variable.
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/conf/bitbake.conf | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ meta/conf/bitbake.conf | 2 --
+ 1 file changed, 2 deletions(-)
 
 diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 14b0764f22..c13e4f3f71 100644
+index 14b0764f22..790d088dc0 100644
 --- a/meta/conf/bitbake.conf
 +++ b/meta/conf/bitbake.conf
-@@ -631,28 +631,28 @@ BUILD_OPTIMIZATION[vardeps] += "DEBUG_BUILD"
- ##################################################################
- # Settings used by bitbake-layers.
- ##################################################################
--BBLAYERS_LAYERINDEX_URL ??= "http://layers.openembedded.org/layerindex/"
-+BBLAYERS_LAYERINDEX_URL ??= "https://layers.openembedded.org/layerindex/"
- BBLAYERS_FETCH_DIR ??= "${COREBASE}"
- 
- ##################################################################
- # Download locations and utilities.
- ##################################################################
- 
--APACHE_MIRROR = "http://archive.apache.org/dist"
-+APACHE_MIRROR = "https://archive.apache.org/dist"
- DEBIAN_MIRROR = "http://ftp.debian.org/debian/pool"
- GENTOO_MIRROR = "http://distfiles.gentoo.org/distfiles"
- GNOME_GIT = "git://gitlab.gnome.org/GNOME"
--GNOME_MIRROR = "http://ftp.gnome.org/pub/GNOME/sources"
--GNU_MIRROR = "http://ftp.gnu.org/gnu"
-+GNOME_MIRROR = "https://ftp.gnome.org/pub/GNOME/sources"
-+GNU_MIRROR = "https://ftp.gnu.org/gnu"
+@@ -645,7 +645,6 @@ GNOME_GIT = "git://gitlab.gnome.org/GNOME"
+ GNOME_MIRROR = "http://ftp.gnome.org/pub/GNOME/sources"
+ GNU_MIRROR = "http://ftp.gnu.org/gnu"
  GNUPG_MIRROR = "https://www.gnupg.org/ftp/gcrypt"
- GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
--KERNELORG_MIRROR = "http://cdn.kernel.org/pub"
--SOURCEFORGE_MIRROR = "http://downloads.sourceforge.net"
--XLIBS_MIRROR = "http://xlibs.freedesktop.org/release"
-+KERNELORG_MIRROR = "https://cdn.kernel.org/pub"
-+SOURCEFORGE_MIRROR = "https://downloads.sourceforge.net"
-+XLIBS_MIRROR = "https://xlibs.freedesktop.org/release"
- XORG_MIRROR = "http://xorg.freedesktop.org/releases"
--SAVANNAH_GNU_MIRROR = "http://download.savannah.gnu.org/releases"
--SAVANNAH_NONGNU_MIRROR = "http://download.savannah.nongnu.org/releases"
--CPAN_MIRROR = "http://search.cpan.org/CPAN"
-+SAVANNAH_GNU_MIRROR = "https://download.savannah.gnu.org/releases"
-+SAVANNAH_NONGNU_MIRROR = "https://download.savannah.nongnu.org/releases"
-+CPAN_MIRROR = "https://search.cpan.org/CPAN"
- 
- SRC_URI[vardepsexclude] += "\
-     APACHE_MIRROR \
+-GPE_MIRROR = "http://gpe.linuxtogo.org/download/source"
+ KERNELORG_MIRROR = "http://cdn.kernel.org/pub"
+ SOURCEFORGE_MIRROR = "http://downloads.sourceforge.net"
+ XLIBS_MIRROR = "http://xlibs.freedesktop.org/release"
+@@ -663,7 +662,6 @@ SRC_URI[vardepsexclude] += "\
+     GNOME_MIRROR \
+     GNU_MIRROR \
+     GNUPG_MIRROR \
+-    GPE_MIRROR \
+     KERNELORG_MIRROR \
+     SAVANNAH_GNU_MIRROR \
+     SAVANNAH_NONGNU_MIRROR \
 -- 
 2.17.1
 
