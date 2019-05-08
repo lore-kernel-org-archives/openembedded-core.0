@@ -1,50 +1,54 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A71567DE64
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+	[209.85.167.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 949CC7DE4A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 15:57:49 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id f7so17576099wrq.1
+	Wed,  8 May 2019 16:16:52 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id 203so1974830oid.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 08:57:51 -0700 (PDT)
+	Wed, 08 May 2019 09:16:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+WG6++7RkWrgWwQnhFHxY3u+cDzYuWtEI1bhf51lrbE=;
-	b=pHoWcQGl2XJDKaYLnTOXaK71c+REdgxBljc5g4zHCVq7ERqHw6e6R8+YmtEP1MgL1k
-	jVWU1gehKRV6OkiT7EqPRLXGcV7iyexnFnN0AKdf9pfGXaRJuTWxzOPIQeU9MY7zTpkc
-	x/DhNmBhdl+9Aqz9/3+gqUl8Gk4/QyVZxyfYahOSuEiUkBwymU/Xbntef55f32bbk/eh
-	PCvey07iZsc/ejaaqtlpqaEJjb0akiaf2Kr57NvCPggR609xLBnMoKeIAvkN1MZYG2XO
-	FODYR5YFnmw3pWUISiYDc7wSHYdOwsxGCMbCio37TjEl/M+SeDd8LnQ+hKYfx3v/wgL9
-	kXkg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=9gYVCqadHr5YuhqvdKtiFrsOFumnaCAB7qSIpnDPQ0Y=;
+	b=BHB7hxPPmvqNwZUlBSoBj/aPL7wsOLJ+rAJ5mlwZYk+E1OA7EQrwg342JiAlLi0mpW
+	QB+Bbt1kfADQ36VPv6L0hgwMwgeWTDL0wzSD4KrsD61VWXQPhTqOn0fjrTSOtuOBtV70
+	eV7AAxYFrpYn3ylQmj4hChQYDLjnC0JAqsF7i35r3vlVBHp86zzIbpPiMPYdzolhJyUB
+	OirpSj4UmP1cacXW7jr9aRcDIkkFKmY3z6AKpozgSf6FP9thsJFx1slmtxXJErCCjjBI
+	MD1Pus8yrp0jN24aFkpYd8hZwx3/mVvYEiy82pZBInO3F62yvhxsD0i3CkQHrggpcCli
+	NkSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=+WG6++7RkWrgWwQnhFHxY3u+cDzYuWtEI1bhf51lrbE=;
-	b=Pzy4vxBNn6SGOd1YcSjjpUNBcViSZ2EELwohRMp0skFfHXy8lW9ycVPT7Bew6K2Ylz
-	OXrBR4xYtm74O8y8vzHdb/x5hXlv2/InAti17ah0P0CAtQOAHAacuKnfawIr7QYJ+VpI
-	G8XfMSi8V/dIp/KmifVQSXgKzyQPlYfNm4ei3tfMRz45+q5cSxOEtHD+wdiWrTpGl7Zw
-	OjZv0krtx2AyD9Ym0kfvbtkeV2Vv0eBAXDURKrtqe52CQDtww/c8fLANmpqzAJRdpj9B
-	cBikOrB5oYhCAYHPaWE2XWPprLFEa/fTNnCd3Ol+B+KQJFF59B0ypGFEvRx5ZnQiq7bN
-	s7Uw==
-X-Gm-Message-State: APjAAAUVKszxNqICeQYDVeT8XXu+Izp1pdiQXQOCZjIKxuaAaPPAmoJj
-	Hf5mrjEuZXNzN6WipMlCIWLc41D5
-X-Google-Smtp-Source: APXvYqw19OTCl4du+Htj5aVl2A+8VInJsQ4iLS1efyxk8OR5g/cC/U0Bqj/IqJ/VW/b6v5iLdrHW/g==
-X-Received: by 2002:a5d:4711:: with SMTP id y17mr29330138wrq.122.1557331070242;
-	Wed, 08 May 2019 08:57:50 -0700 (PDT)
-Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
-	[193.164.125.18])
-	by smtp.gmail.com with ESMTPSA id m6sm4027175wmc.32.2019.05.08.08.57.49
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 08:57:49 -0700 (PDT)
-From: Alex Kiernan <alex.kiernan@gmail.com>
+	:references:mime-version:content-transfer-encoding;
+	bh=9gYVCqadHr5YuhqvdKtiFrsOFumnaCAB7qSIpnDPQ0Y=;
+	b=StJj5pt51wXCxkDecnf3bVGvBLIt2sXHbG+3G7ceD+196MHFjLPNAbsudLbShFfkQq
+	rXZWdR3l/GmCCxDZ9sL9EGyuuMlAt1rQKpZNHxOyrweQONdBamR8us3Gb9oKJJQAvW2v
+	YSuNSSh00YnGrrWBT5VfZI1nTqKXRvqqrR0KRazqEFtvcSatoZ5h0Od2QJb7gAts0wQy
+	OVO9Zj64n+nfCw9xJfEvo3t0fHi3Y1SftM2vQjH8RalgRlrEEXW08lJ6FmZL0aQTWEM3
+	ZMvvMSbnzitNV0w+7kwrqj92HGJU/MybgaKXPGtRv+zM29A/fdgipv2mR18RVUqLmlDU
+	oeQQ==
+X-Gm-Message-State: APjAAAXgso5B5HvjG5EVRZntb7sLQpdD03eqAhTQqW+hXt2qGWkMXrU0
+	pOoyJSqhaKiCc/cVj0jhAOG4iGHSpDs=
+X-Google-Smtp-Source: APXvYqzzbpLLlx2rN1Hx4hkf1GnjrWPuLIE2LQSyw0wQLgI4g+spBUN/sxtBP0ifGOUA41GMx8+/qg==
+X-Received: by 2002:a05:6808:10f:: with SMTP id
+	b15mr2665241oie.119.1557332212867; 
+	Wed, 08 May 2019 09:16:52 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	o66sm7240869oig.11.2019.05.08.09.16.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 08 May 2019 09:16:52 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 16:57:28 +0100
-Message-Id: <20190508155728.66729-4-alex.kiernan@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190508155728.66729-1-alex.kiernan@gmail.com>
-References: <20190508155728.66729-1-alex.kiernan@gmail.com>
-Subject: [PATCH v2 3/3] systemd: Restore mask and preset targets, fix instance creation
+Date: Wed,  8 May 2019 11:16:23 -0500
+Message-Id: <20190508161623.27592-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190504031752.20918-1-JPEWhacker@gmail.com>
+References: <20190504031752.20918-1-JPEWhacker@gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH v2] resulttool: Add option to dump all ptest logs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,106 +61,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 15:57:49 -0000
+X-List-Received-Date: Wed, 08 May 2019 16:16:52 -0000
+Content-Transfer-Encoding: 8bit
 
-Ensure that anyone who sets SYSTEMD_AUTO_ENABLE_${PN} = "mask" (or
-"preset") retains the previous behaviour. In addition fix "enable" so it
-can (again) create instance units out of templates.
+Adds an option to dump all the ptest logs to individual files in a
+specified directory. If multiple test runs are present, the
+'--prepend-run' argument will create separate directories for each test
+run under the target directory and put the logs there to prevent each
+test run from clobbering the others.
 
-Remove over-zealous quoting of SYSTEMD_SERVICE_ESCAPED as it's already
-safely escaped (and can be multiple arguments).
+[YOCTO #13331]
 
-Reported-by: Paul Barker <paul@betafive.co.uk>
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
+ scripts/lib/resulttool/log.py         | 54 +++++++++++++++++++--------
+ scripts/lib/resulttool/resultutils.py | 16 ++++++++
+ 2 files changed, 54 insertions(+), 16 deletions(-)
 
-Changes in v2:
-- restore mask and preset targets, fix instance creation
-
- meta/classes/systemd.bbclass | 37 +++++++++++++++++++++++++++---------
- 1 file changed, 28 insertions(+), 9 deletions(-)
-
-diff --git a/meta/classes/systemd.bbclass b/meta/classes/systemd.bbclass
-index 3935685c18cb..d1cb17dc8db3 100644
---- a/meta/classes/systemd.bbclass
-+++ b/meta/classes/systemd.bbclass
-@@ -16,18 +16,36 @@ python __anonymous() {
-     # from doing any work so that pure-systemd images don't have redundant init
-     # files.
-     if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d):
-+        d.appendVar("DEPENDS", " systemd-systemctl-native")
-+        d.appendVar("PACKAGE_WRITE_DEPS", " systemd-systemctl-native")
-         if not bb.utils.contains('DISTRO_FEATURES', 'sysvinit', True, False, d):
-             d.setVar("INHIBIT_UPDATERCD_BBCLASS", "1")
- }
+diff --git a/scripts/lib/resulttool/log.py b/scripts/lib/resulttool/log.py
+index 5584f2d0a99..49816357cda 100644
+--- a/scripts/lib/resulttool/log.py
++++ b/scripts/lib/resulttool/log.py
+@@ -11,6 +11,7 @@
+ # FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ # more details.
+ #
++import os
+ import resulttool.resultutils as resultutils
  
- systemd_postinst() {
- if type systemctl >/dev/null 2>/dev/null; then
-+	OPTS=""
+ def show_ptest(result, ptest, logger):
+@@ -24,22 +25,38 @@ def show_ptest(result, ptest, logger):
+ 
+ def log(args, logger):
+     results = resultutils.load_resultsdata(args.source)
+-    for path in results:
+-        for res in results[path]:
+-            if 'result' not in results[path][res]:
+-                continue
+-            r = results[path][res]['result']
+-
+-            if args.raw:
+-                if 'ptestresult.rawlogs' in r:
+-                    print(r['ptestresult.rawlogs']['log'])
+-                else:
+-                    print('Raw logs not found')
+-                    return 1
+-
+-            for ptest in args.ptest:
+-                if not show_ptest(r, ptest, logger):
+-                    return 1
 +
-+	if [ -n "$D" ]; then
-+		OPTS="--root=$D"
-+	fi
++    ptest_count = sum(1 for _, _, _, r in resultutils.test_run_results(results) if 'ptestresult.sections' in r)
++    if ptest_count > 1 and not args.prepend_run:
++        print("%i ptest sections found. '--prepend-run' is required" % ptest_count)
++        return 1
 +
-+	if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
-+		for service in ${SYSTEMD_SERVICE_ESCAPED}; do
-+			case "${service}" in
-+			*@*)
-+				systemctl ${OPTS} enable "${service}"
-+				;;
-+			esac
-+		done
-+	fi
++    for _, run_name, _, r in resultutils.test_run_results(results):
++        if args.dump_ptest:
++            if 'ptestresult.sections' in r:
++                for name, ptest in r['ptestresult.sections'].items():
++                    if 'log' in ptest:
++                        dest_dir = args.dump_ptest
++                        if args.prepend_run:
++                            dest_dir = os.path.join(dest_dir, run_name)
 +
- 	if [ -z "$D" ]; then
- 		systemctl daemon-reload
--		systemctl preset "${SYSTEMD_SERVICE_ESCAPED}"
-+		systemctl preset ${SYSTEMD_SERVICE_ESCAPED}
++                        os.makedirs(dest_dir, exist_ok=True)
++
++                        dest = os.path.join(dest_dir, '%s.log' % name)
++                        print(dest)
++                        with open(dest, 'w') as f:
++                            f.write(ptest['log'])
++
++        if args.raw:
++            if 'ptestresult.rawlogs' in r:
++                print(r['ptestresult.rawlogs']['log'])
++            else:
++                print('Raw logs not found')
++                return 1
++
++        for ptest in args.ptest:
++            if not show_ptest(r, ptest, logger):
++                return 1
  
- 		if [ "${SYSTEMD_AUTO_ENABLE}" = "enable" ]; then
--			systemctl --no-block restart "${SYSTEMD_SERVICE_ESCAPED}"
-+			systemctl --no-block restart ${SYSTEMD_SERVICE_ESCAPED}
- 		fi
- 	fi
- fi
-@@ -36,9 +54,9 @@ fi
- systemd_prerm() {
- if type systemctl >/dev/null 2>/dev/null; then
- 	if [ -z "$D" ]; then
--		systemctl stop "${SYSTEMD_SERVICE_ESCAPED}"
-+		systemctl stop ${SYSTEMD_SERVICE_ESCAPED}
+ def register_commands(subparsers):
+     """Register subcommands from this plugin"""
+@@ -51,6 +68,11 @@ def register_commands(subparsers):
+             help='the results file/directory/URL to import')
+     parser.add_argument('--ptest', action='append', default=[],
+             help='show logs for a ptest')
++    parser.add_argument('--dump-ptest', metavar='DIR',
++            help='Dump all ptest log files to the specified directory.')
++    parser.add_argument('--prepend-run', action='store_true',
++            help='''Dump ptest results to a subdirectory named after the test run when using --dump-ptest.
++                    Required if more than one test run is present in the result file''')
+     parser.add_argument('--raw', action='store_true',
+             help='show raw logs')
  
--		systemctl disable "${SYSTEMD_SERVICE_ESCAPED}"
-+		systemctl disable ${SYSTEMD_SERVICE_ESCAPED}
- 	fi
- fi
- }
-@@ -162,10 +180,7 @@ python systemd_populate_packages() {
-                 else:
-                     bb.fatal("SYSTEMD_SERVICE_%s value %s does not exist" % (pkg_systemd, service))
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index 8d17c7cd658..07dab4cbd31 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -167,3 +167,19 @@ def git_get_result(repo, tags):
+         append_resultsdata(results, obj)
  
--    def systemd_create_presets(pkg):
--        action = get_package_var(d, 'SYSTEMD_AUTO_ENABLE', pkg)
--        if action not in ("enable", "disable"):
--            bb.fatal("SYSTEMD_AUTO_ENABLE_%s '%s' is not 'enable' or 'disable'" % (pkg, action))
-+    def systemd_create_presets(pkg, action):
-         presetf = oe.path.join(d.getVar("PKGD"), d.getVar("systemd_unitdir"), "system-preset/98-%s.preset" % pkg)
-         bb.utils.mkdirhier(os.path.dirname(presetf))
-         with open(presetf, 'a') as fd:
-@@ -179,7 +194,11 @@ python systemd_populate_packages() {
-             systemd_check_package(pkg)
-             if d.getVar('SYSTEMD_SERVICE_' + pkg):
-                 systemd_generate_package_scripts(pkg)
--                systemd_create_presets(pkg)
-+                action = get_package_var(d, 'SYSTEMD_AUTO_ENABLE', pkg)
-+                if action in ("enable", "disable"):
-+                    systemd_create_presets(pkg, action)
-+                elif action not in ("mask", "preset"):
-+                    bb.fatal("SYSTEMD_AUTO_ENABLE_%s '%s' is not 'enable', 'disable', 'mask' or 'preset'" % (pkg, action))
-         systemd_check_services()
- }
- 
+     return results
++
++def test_run_results(results):
++    """
++    Convenient generator function that iterates over all test runs that have a
++    result section.
++
++    Generates a tuple of:
++        (result json file path, test run name, test run (dict), test run "results" (dict))
++    for each test run that has a "result" section
++    """
++    for path in results:
++        for run_name, test_run in results[path].items():
++            if not 'result' in test_run:
++                continue
++            yield path, run_name, test_run, test_run['result']
++
 -- 
-2.17.1
+2.20.1
 
 
