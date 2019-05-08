@@ -1,49 +1,49 @@
-Return-Path: <ross.burton@intel.com>
+Return-Path: <jdmason@kudzu.us>
 Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
 	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 873787DE4A
+	by mail.openembedded.org (Postfix) with ESMTP id 008757DADF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 16:22:18 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id l7so4893401ite.2
+	Wed,  8 May 2019 17:05:20 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id s3so5273964itk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 09:22:19 -0700 (PDT)
+	Wed, 08 May 2019 10:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hj/bPQW2I/TwTtWwWiuQgmy5Nw9YzTJNuD5HjV7aZOM=;
-	b=uc1TbzZvQM8Sv0nc3njwdb62b2yDNClbi2+qfvgXoHasNCy+8j2RR8/US8el85cfXQ
-	xjAHs8FFzr9uXDkesDPKSYx9nzpbZ3fTdluGb6j/Gtfx9fNh6SO/tLX7vvFtqr27qLzR
-	fGDQoEJVFHh/FrFnSxKoyCGwYlY8ccrWP/nfFfn6tz2UI3LmU8bFvTp3GGWRjkDcg0GN
-	k5uE2aZJ2pDv+XPRDAaDK0hA/a3gNkX4xOmdWL57DzpdNRWeS1FPhVGBb7gtGMlEKeqy
-	UcvZgjfUjyEBUrrRf49Le+ZJPtFwUOei4ej07k01aWKCmbXhrWuVdMrkjauksnFLrIVS
-	k/1g==
+	:cc:content-transfer-encoding;
+	bh=nH0YbneI7d8YLRIU2acvndT+kijTrW+bFhEMzDRn5UU=;
+	b=yb3IiGE7IfZghhdI6RA9TArm2Ah/z8aCKhhgq3Bn67WZBZR0o3FZE4hN6PvmdOsF89
+	FEf0M+dqwgbXuVrE3J4C1b8y795IUVgSr2B/5yYN57kLmGGEwX1y69j3BVxpN0S4HzCa
+	BvHIFFloaak7YhQzVpV3Qi0INii51RlSBjYbADBEBQjRNFqnZjdzHkaxoBYWRQAyhb20
+	5WfyCHsTcn9HMx0WEOKy30byXR+xiJ0KLAtirT9lNjoga0xWP43E47i4tHGOSiux8/Aw
+	xtrJ1xSaO1cT8vBRa457FC7O+c19tECY39CJNY5tkxMn7oiR0rKUWtCrALJ8B5p21eUE
+	Xd3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=hj/bPQW2I/TwTtWwWiuQgmy5Nw9YzTJNuD5HjV7aZOM=;
-	b=YPaPVLsRLVWk7ZWNKDsGmFZshJhWTUCdK6l24wKgaNMXind16+YntSaf20FOvY5+cK
-	HDAASH+mzgLHsXZIaHLyGmXfLA6CNqXlXrhUJgUlsN7yRAExyoiXO3Tsqhki6uSeEGW8
-	qt2xq/NMdW7zmqblls2jaQq/+mdaUMq0U+EIcOojiIBdsRhe0GZ25pC7wNjzFpCJ4fp+
-	AZ09U9fTTVvXRrKHPa5wzkMuSRIqI6bIksma2FR67DW0TK9oKx8OQ1UjSkhXbRbBIct7
-	kZr1Y56exXtw1YwkdilxAas18ro1xGm/1rD3icBHEISmZhDdReX5sjiLMiWXkJJPHQ74
-	+tqw==
-X-Gm-Message-State: APjAAAUsshgYPlxxzIdMWchX8J1iUiqpFiG4phR9yA/8vzWtOwodf56c
-	hVnotTEYsw2QSHpRcOpJyO+lZELH/Y/a78ZnpR7d/g==
-X-Google-Smtp-Source: APXvYqySQw5ZESR5SmoUQuzsFfJT7jzmhoSBn2N+RbG0vwEV+U7r/Yd3nKnssA3uu0qc4GPZ7NzgcC4YRuAfwT4Op2Y=
-X-Received: by 2002:a24:4cd2:: with SMTP id a201mr3994757itb.26.1557332539207; 
-	Wed, 08 May 2019 09:22:19 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=nH0YbneI7d8YLRIU2acvndT+kijTrW+bFhEMzDRn5UU=;
+	b=A3fXFY9DHg1nDum06Pe8bHTxOa/SKKsxcnmqOkvWx1GWuUIBUU31yYs4ToKH3t8k9A
+	1tSx9804EkLuhzMPWA0DG8aqkRFtLEyNDJT98PQIPGEs+KQWAIRhPyL/hH0D7/rFA/hk
+	k3d9JdMJmtJS3m/IRgzFLoFhu6ZkNcTpBGrIq6M4duzDqcbwu4nApvtwZjyRnqpPCkKv
+	tr4qelPyMN88zvzzqRSgUhuvCWRsgSFKHKSyyshXdg2pFqxlTeWcbqcGeDMqFDcB/F5r
+	ut005vx+SSmyUasVy6gIhm8He74FC32S3mCZtCSydjUlUC0uaz8COvnwDCphxGC4zrGF
+	5CSg==
+X-Gm-Message-State: APjAAAUYOPQ8SsG4TTSLaYd4n/F4Q0kA44SiF7vMMfQqDqInwxdWzKE3
+	FsuNBMsk06EY2vZjWeMu5PCB4/i1lJk/OLv8BXOjTg==
+X-Google-Smtp-Source: APXvYqxtUU97BNRe29X6BLMbh5pIEaeXe0Zz9q/qafiWF4SGYkKO2+PNXVhgGdVstWLUk/mcHI5LlsIE8qa8wqbVUdU=
+X-Received: by 2002:a24:ca05:: with SMTP id k5mr4818130itg.71.1557335121797;
+	Wed, 08 May 2019 10:05:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190424065603.20591-1-open.source@oleksandr-kravchuk.com>
-	<CAJO0J4jEMBF8nHWazEE08LhNF2y1xgKvnvNPxPCreYPKadQvwA@mail.gmail.com>
-In-Reply-To: <CAJO0J4jEMBF8nHWazEE08LhNF2y1xgKvnvNPxPCreYPKadQvwA@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Wed, 8 May 2019 17:22:07 +0100
-Message-ID: <CAJTo0LZCs5nj-LTW5ZfE0JXiG0iHw4kEpqGA3e_88qDRrnxEiA@mail.gmail.com>
-To: Paulo Neves <ptsneves@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: Re: [PATCH] wget: update to 1.20.3
+References: <AM6PR08MB3685C976E13C7FEE91C8529C95350@AM6PR08MB3685.eurprd08.prod.outlook.com>
+In-Reply-To: <AM6PR08MB3685C976E13C7FEE91C8529C95350@AM6PR08MB3685.eurprd08.prod.outlook.com>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Wed, 8 May 2019 18:05:11 +0100
+Message-ID: <CAPoiz9yw6Ya8qzPOYkUoiGQkXSsSbAxSRC4NYOOL=5mbmo9GGQ@mail.gmail.com>
+To: Rob Walton <Rob.Walton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: automated license reporting
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +56,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 16:22:18 -0000
+X-List-Received-Date: Wed, 08 May 2019 17:05:21 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 8 May 2019 at 14:35, Paulo Neves <ptsneves@gmail.com> wrote:
-> Should this version bump be backported or the patch
-> http://git.savannah.gnu.org/cgit/wget.git/commit/?id=692d5c5215de0db482c252492a92fc424cc6a97c
-> be applied in older versions?
+On Sat, May 4, 2019 at 8:50 PM Rob Walton <Rob.Walton@arm.com> wrote:
+>
+> Hi,
+>
+>
+> We're working with OpenEmbedded/yocto in a project; we're trying to creat=
+e an HTML license report for our users, leveraging the license.manifest fil=
+es output from license_image.bbclass.
+>
+>
+> However some relatively crucial information relevant to the report isn't =
+provided in the manifests. The extra information I'm interested in is the c=
+ontents of the HOMEPAGE and SUMMARY variables for each package/blob recorde=
+d by the manifest.
+>
+>
+> I'm proposing to submit a patch to add the following to `write_license_fi=
+les`:
+>
+>
+> -                license_file.write("LICENSE: %s\n\n" % pkg_dic[pkg]["LIC=
+ENSE"])
+> -
+> +                license_file.write("LICENSE: %s\n" % pkg_dic[pkg]["LICEN=
+SE"])
+> +                license_file.write("SUMMARY: %s\n" % pkg_dic[pkg].get("S=
+UMMARY", ""))
+> +                license_file.write("HOMEPAGE: %s\n\n" % pkg_dic[pkg].get=
+("HOMEPAGE", ""))
+>
+> At the moment it isn't a problem for us if this extra information is miss=
+ing for /some/ packages, as long as it is included at least once per recipe=
+ (which is the case).
 
-The CVE should be backported.
+Sorry, but why is this a problem?  Is there some legal requirement
+this fulfills, or does is this an internal standard?
 
-Ross
+> The above patch would rely on another patch to add extra output in packag=
+e.bbclass::emit_pkg_data
+>
+>
+> +        write_if_exists(sf, pkg, 'HOMEPAGE')
+>
+> We also have a bbclass to convert the license.manifest(s) to JSON format =
+for easier machine readability, so we can automate this process in our buil=
+d system. This bbclass is also potentially upstreamable.
+>
+> My questions are: Would members of the community object to these patches?=
+ Are there any other suggestions for grabbing this extra info without submi=
+tting the patches? Would anyone else in the community find this useful?
+
+IMHO, the license file is for only the licenses of the relevant
+projects.  This would muddy the waters.  Perhaps creating another file
+that has all of the relevant information you desire would be better.
+
+Thanks,
+Jon
+
+>
+> Thanks,
+>
+>
+> Rob
+>
+> IMPORTANT NOTICE: The contents of this email and any attachments are conf=
+idential and may also be privileged. If you are not the intended recipient,=
+ please notify the sender immediately and do not disclose the contents to a=
+ny other person, use it for any purpose, or store or copy the information i=
+n any medium. Thank you.
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
