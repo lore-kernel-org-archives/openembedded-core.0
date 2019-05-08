@@ -1,36 +1,37 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5071C7DE5A
+Return-Path: <mcfrisk@kapsi.fi>
+Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
+	by mail.openembedded.org (Postfix) with ESMTP id 834057DE53
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 13:12:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44zcMb5fjZz1M;
-	Wed,  8 May 2019 15:12:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1557321148;
-	bh=EQLFoqXoUdmy97X9b2MVUTWkiq/9QShPwo1Ats7dhFg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QbBPAxCuOSYel7q/VjKyNCZrrG7bdqY1JwiRmy1PSAhJUwHYeLJXglZJF+oVbtWDC
-	+BS+f3qzISHLcyccL+/xXpqgJew/jfnOSdXRt8qE65DiYNDv5F5jialmHIAun1W2R2
-	yHLUOiRU/UewYNqDHTlvfLVIvuPP2S4jO6DqSojbbIej1pwHu9VsMQW7cQXAZlcLkF
-	P+hf8mjmbws2JmrHKCUFfxP5rSjoJD8aNAP17XoNfDA2qkG7M8RPHOn//H9nJJbtlm
-	Bh4maArlNQtsSvI86ivXdH2D/6CDoSLFgF79Ixd12g9onB2fHXB2ZDFMucGKuwHSdf
-	DO2DXhaJbtB1OlN+NcpvCaaIt/bpWuKVN/pUKErIu1jk12isTydn/2vyTtkAkfKahn
-	AfCAPmdAo4z9EMxcgS2I1rpTZqPXMgbsBLu8aPGHCq3c1zXspDRjqQckJEdWiMsDaq
-	63OVEu3Jw2rH9sGR3ZH4qMOqvPZonDdmtF3OgUexBZKA3t+IRkeHalqr/DfyuT5DFN
-	S6z7SSmF1y7vO222yNS2iu/odMst7qCeTtaWGreiiB4VM0rerFSz5wwT19iFz8byam
-	oyEiDzKdpg8svV6r317cq3FHkoGX4zav6+8Cz3fqXuoHcitn8Mp47TWSuHNMOCQAzB
-	/yzfkqVrzknf+ynVuaMHDSUc=
-Date: Wed, 8 May 2019 16:12:25 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Message-ID: <20190508131225.GB25917@localhost>
-References: <20190507211954.10762-1-open.source@oleksandr-kravchuk.com>
-MIME-Version: 1.0
-In-Reply-To: <20190507211954.10762-1-open.source@oleksandr-kravchuk.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: remove GPE_MIRROR
+	Wed,  8 May 2019 13:26:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
+	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=V1vCW0lRPrwMvjTSb2GVov2UIWoNzLsjXCd5I9Ss98s=;
+	b=YyGMd/mAql2sq2osB8yXXL9vue
+	LSYbbR0yASbUiTbh2MFesRAQdPvG1M7wy8SSQJpXZuVn1oaBo4PBygLg47bbmU4O0WHn8Z5G/s08I
+	4Rl49+xlLbm+QSLFfg7MIYU3hhBxccxnMBv0IXSMqdEh6Bb8ISS2rqXv7g8aEeJVp7r+moGhtGsNe
+	OUAnRnPQimJFN/Oh+4zgFD3SDvqm5+dTyDNjiZHaB13YWJbBySGynsh7f2NS7hmu7sqdNbKuEB0zN
+	4b2UArbq7/cIOc7TNsndDnUmOPcro2mdiYvaqOOrlp4zewARZrDFuMu1rJl1USvtPRzs5i8pqhQ8C
+	BCOaPSpg==;
+Received: from lakka.kapsi.fi ([2001:67c:1be8::1] ident=Debian-exim)
+	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
+	id 1hOMaX-0001w8-2Q; Wed, 08 May 2019 16:26:25 +0300
+Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
+	(envelope-from <mcfrisk@lakka.kapsi.fi>)
+	id 1hOMaX-0007xy-0o; Wed, 08 May 2019 16:26:25 +0300
+From: Mikko Rapeli <mikko.rapeli@bmw.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 May 2019 16:26:08 +0300
+Message-Id: <1557321969-28686-1-git-send-email-mikko.rapeli@bmw.de>
+X-Mailer: git-send-email 2.1.4
+X-SA-Exim-Connect-IP: 2001:67c:1be8::1
+X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
+X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Subject: [PATCH 1/2] eoqa: use bash to execute SDK test commands
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,27 +44,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 13:12:28 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 08 May 2019 13:26:25 -0000
 
-On Tue, May 07, 2019 at 11:19:54PM +0200, Oleksandr Kravchuk wrote:
-> The site is down and no recipe is this variable.
->...
+The commands only work with with bash. If /bin/sh is
+dash like in Debian, the command execution fails with
+errors like:
 
-Not in OE-Core, but
-meta-openembedded/meta-oe/classes/gpe.bbclass:SRC_URI = "${GPE_MIRROR}/${BP}.tar.${GPE_TARBALL_SUFFIX}"
-meta-openembedded/meta-oe/recipes-graphics/xserver-common/xserver-common_1.34.bb:inherit distro_features_check gpe
+Standard Output: /bin/sh: 5: export: --sysroot: bad variable name
 
+and all SDK tests fail.
 
-cu
-Adrian
+Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
+---
+ meta/lib/oeqa/sdk/case.py                  | 2 +-
+ meta/lib/oeqa/sdk/utils/sdkbuildproject.py | 3 ++-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
+diff --git a/meta/lib/oeqa/sdk/case.py b/meta/lib/oeqa/sdk/case.py
+index d8611c8..5334237 100644
+--- a/meta/lib/oeqa/sdk/case.py
++++ b/meta/lib/oeqa/sdk/case.py
+@@ -9,7 +9,7 @@ from oeqa.core.case import OETestCase
+ class OESDKTestCase(OETestCase):
+     def _run(self, cmd):
+         return subprocess.check_output(". %s > /dev/null; %s;" % \
+-                (self.tc.sdk_env, cmd), shell=True,
++                (self.tc.sdk_env, cmd), shell=True, executable="/bin/bash",
+                 stderr=subprocess.STDOUT, universal_newlines=True)
+ 
+     def fetch(self, workdir, dl_dir, url, archive=None):
+diff --git a/meta/lib/oeqa/sdk/utils/sdkbuildproject.py b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+index 6fed73e..eafbd7a 100644
+--- a/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
++++ b/meta/lib/oeqa/sdk/utils/sdkbuildproject.py
+@@ -42,7 +42,8 @@ class SDKBuildProject(BuildProject):
+     def _run(self, cmd):
+         self.log("Running . %s; " % self.sdkenv + cmd)
+         try:
+-            output = subprocess.check_output(". %s; " % self.sdkenv + cmd, shell=True, stderr=subprocess.STDOUT)
++            output = subprocess.check_output(". %s; " % self.sdkenv + cmd, shell=True,
++                                             executable='/bin/bash', stderr=subprocess.STDOUT)
+         except subprocess.CalledProcessError as exc:
+             print(exc.output.decode('utf-8'))
+             return exc.returncode
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+1.9.1
 
 
