@@ -1,50 +1,49 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E7AD7DDA8
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id F04A67DDBA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 10:13:35 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id d12so5949176wrm.8
+	Wed,  8 May 2019 10:40:26 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id r4so11225622wro.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 03:13:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=h4Cotz79RFxLyUpgJ1emBo/wfR7GOCYWlDJFhb/cmu4=;
-	b=jHSP9zrCPgm2OgJUw4pzM6yxC4sSl8U+ANcLYjHHve69MGjSI8fbe329vwPsgjL54M
-	N/TaTz2vA4OyqQSPBsOk8TDhZxo4SaWDDUZNmRCTuTah8M7v6ogdghLFaWsnXT/SiLAk
-	WcKjwIuEIvEJ4zs8UpHSprICqUaBVo35fNC1zzMzXC5YAM72Gk0oLLro7X/hEIRMMq3h
-	DcR46y6xcAJbbpSlKoK7UIadDVYNDHImtBEwYcK0ca/4PNnaAbjtY+ItdAIp+mhanaPo
-	p5LILY6BNLIDmU2ys03vUsaPZzLUrC5feQvKcPAXnaFbql0Px96Q3AWHJDQCCsSd+Vqr
-	fSRQ==
+	Wed, 08 May 2019 03:40:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=DNpcP986id228eE9VVIFwcEm0wIeByahaDK6nfaMEo0=;
+	b=FzQE26cQI9Tbbi0wZQPPg41oXOS+cSglVdMHhCDxE721EdpanZn7iAKYNJjOhhHaPQ
+	IyQjnxiLNsdag6Z6J5wvFtZ9IDJ79euMgJYW7kycnQe1wDlbInJyB3/oB+uoszM8jA9a
+	hJjBlharcclpD784XEgs6nCEYNmpwMDkE5TiauP7P2ch5tEOooN+wASaJZBBy0pgFnjE
+	llmPpOWmFQN4ahSeo0yRUTXXnCVfdlvJ5LCROgM3F51lMQCha+zIrgavXHNolY15clry
+	5cBu7mXoYu2IbZ8udytcUDOLjxd1qh0YGVoa172sC4R1OfLDGf4L1rNIpm2XXTEDzEV9
+	dpLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=h4Cotz79RFxLyUpgJ1emBo/wfR7GOCYWlDJFhb/cmu4=;
-	b=FAhA6YZiZflDeZwap2Clcd3OOl/tn+PItFJ6QcrZyaTsjI4Pu7+e4Rdf886LJZwC4x
-	SpvgWIikREydEh47YY89twNu0JPe73TZSy1tpl2eO0oXoDfoMXyTuzpPvVSddMA8WV4i
-	FJpFFOhex4W6nnFpmhVmU4GhbFvcAz+sRxk4dWl+ekoJdVv3cS0nQPT4xs8GjtMxog9/
-	TlPgM2kn+zpQXc3drmyHZae9DI7YwnpAxvzWS31xy2e0PKgf9I+EoVzx1JMNjbduKGKQ
-	f/FIqvWJNOmgy050KWpBVAZ2FFEGDAyHASx6pAYGZcBW4G/jFVVAogZnIE8VcG59grzg
-	ukhA==
-X-Gm-Message-State: APjAAAVgLx4nhT5HzQTpjN4NGk2FpRtC6noZ0KbxNnfvnzkmY/2qBaSd
-	CXBug/w7HcoSZ2fqgbC8pZK4EWtV
-X-Google-Smtp-Source: APXvYqznKnrvHrqcjuwxHxlsgA/Xl5l2zF0YI+5+v8U5rsrvfT58w6/3dBRVq75NZ7CE/CdPQt8H+w==
-X-Received: by 2002:a5d:570e:: with SMTP id a14mr18698220wrv.111.1557310415876;
-	Wed, 08 May 2019 03:13:35 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	c20sm19088365wre.28.2019.05.08.03.13.34
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=DNpcP986id228eE9VVIFwcEm0wIeByahaDK6nfaMEo0=;
+	b=easIBX0g0enEWliDSgmySlZnkXsSMcwZBccSmLlzG2w6pwGJFSjsmXNhyZ+pK2WFDY
+	WNr4T18rmYrHau+iQg+cToCaezF8IFpTkcJMxdaJtzSR9E9Ja877HCYSkQdqI2J6NuX8
+	Xd2qOleLx5shujw0aLPUof1wcNInenz2x994Da92RO3OeucRV2tgqKZjwCLrPZgRzU23
+	cr0stjb0qHM5pgnav5D0O6ypehOQH7kKhwrh6DHfAraGTE7U6SVmnZpGOo6+Q5m89t7a
+	cDh6KSHbuRHdQdm2dJndIHZog5473H6Vyl9DdHpbzG5KwvEc54nlhdP5z8Dst3kJAd1q
+	KXaQ==
+X-Gm-Message-State: APjAAAULzbD/35DJyX+SLGwmsogblloGvqxcfckOJFYd/I+3yh00m8ly
+	tDXyn/GV7Zm6aDJaIiA9zb1X8tWsVlE=
+X-Google-Smtp-Source: APXvYqzK7iYrxggJ29Buy1U8+z/Z0m+d3R1OgmLxLH6moiPljgEKtFjB9diKoja1tOrmxSWxv4dPug==
+X-Received: by 2002:adf:ce88:: with SMTP id r8mr12260691wrn.191.1557312027442; 
+	Wed, 08 May 2019 03:40:27 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	q2sm21242517wrd.48.2019.05.08.03.40.25
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 03:13:35 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+	Wed, 08 May 2019 03:40:25 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 12:13:25 +0200
-Message-Id: <20190508101325.51102-5-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190508101325.51102-1-alex.kanavin@gmail.com>
-References: <20190508101325.51102-1-alex.kanavin@gmail.com>
-Subject: [PATCH 5/5] local.conf.sample: enable gtk+ frontend in addition to sdl
+Date: Wed,  8 May 2019 11:40:24 +0100
+Message-Id: <20190508104024.26159-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] patch: add minver and maxver parameters
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +56,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 10:13:35 -0000
+X-List-Received-Date: Wed, 08 May 2019 10:40:27 -0000
 
-As SDL was found to be buggy for virgl-based GL passthrough,
-gtk+ is enabled to allow that use case.
+Add minver/maxver parameters to limit patch application by comparing PV.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta-poky/conf/local.conf.sample | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meta/lib/oe/patch.py | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
-index 9068e567dcd..2775e15d748 100644
---- a/meta-poky/conf/local.conf.sample
-+++ b/meta-poky/conf/local.conf.sample
-@@ -238,11 +238,12 @@ BB_DISKMON_DIRS ??= "\
- # Qemu configuration
- #
- # By default qemu will build with a builtin VNC server where graphical output can be
--# seen. The two lines below enable the SDL backend too. By default libsdl2-native will
--# be built, if you want to use your host's libSDL instead of the minimal libsdl built
--# by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
--PACKAGECONFIG_append_pn-qemu-system-native = " sdl"
--PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
-+# seen. The two lines below enable the SDL and Gtk UI frontends as well.
-+#
-+# By default libsdl2-native will be built, if you want to use your host's libSDL instead
-+# of the minimal libsdl built by libsdl2-native then uncomment the ASSUME_PROVIDED line below.
-+PACKAGECONFIG_append_pn-qemu-system-native = " sdl gtk+"
-+PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl gtk+"
- #ASSUME_PROVIDED += "libsdl2-native"
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index f43cf047c06..91624e26ddb 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -847,6 +847,7 @@ def src_patches(d, all=False, expand=True):
  
- # CONF_VERSION is increased each time build/conf/ changes incompatibly and is used to
+ 
+ def should_apply(parm, d):
++    import bb.utils
+     if "mindate" in parm or "maxdate" in parm:
+         pn = d.getVar('PN')
+         srcdate = d.getVar('SRCDATE_%s' % pn)
+@@ -883,5 +884,15 @@ def should_apply(parm, d):
+         if srcrev and parm["notrev"] in srcrev:
+             return False, "doesn't apply to revision"
+ 
++    if "maxver" in parm:
++        pv = d.getVar('PV')
++        if bb.utils.vercmp_string_op(pv, parm["maxver"], ">"):
++            return False, "applies to earlier version"
++
++    if "minver" in parm:
++        pv = d.getVar('PV')
++        if bb.utils.vercmp_string_op(pv, parm["minver"], "<"):
++            return False, "applies to later version"
++
+     return True, None
+ 
 -- 
-2.17.1
+2.11.0
 
 
