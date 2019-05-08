@@ -1,49 +1,23 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 848A77D67C
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D39147DD9F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 09:41:51 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f2so2371338wmj.3
+	Wed,  8 May 2019 10:05:28 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x48A5SPH019106
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 02:41:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wjhrskZOC60B/SbKU7JXLImYiEE7BXgMIZpE4In7EBo=;
-	b=K4P+9xAVWb6z/gBZu7Re2J6a8n97+M7UZRqw/nCtgpfPFD0B5URcl8ZzjVHAJMTvXv
-	peH5qkvpiaMhU/1/CM1WZwBvVc1BgJQ76HD8eHDcY5hddZOXhBeIgfSxKbZ6GaJP0P1y
-	Ln1hiO977+3p3VIr4TEOPWEY7UdDhmBFPakKc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=wjhrskZOC60B/SbKU7JXLImYiEE7BXgMIZpE4In7EBo=;
-	b=CZKCu4HfxGnmkcqHVO1Llb2VVVTKcC9R8XPm/UqGckA93PXSaBsMfdsREVVkhGL7Nf
-	n9axSX4D4JBY6TZeRIpQS2tnqOCdhiDghwmuuNV/x2pf7LstAqV6BfW1ALFuyzL+Jy1x
-	Z3SceWaYOSzzzAjq/aCkKxOCD6fCOdkY5aeHTNQQsaJ/v+2qQV2hTAOZtvt/gDJLUXy1
-	hdhMexxJnrDqDePUpJJD6gjawo9Ch771myxmhLsU1DZXQ5dMn/jYv7E1h3oXDjrniqWB
-	AA+9j8ajzUfURkOkaXLyKvaH9n1oYrtwHP0wYZ/LzlI/VTuKlURyOAj5y+MS2R1wE/3i
-	YFbw==
-X-Gm-Message-State: APjAAAUoCyZUqfCcLsy3B0OsgSrevQxu99GO+m8bnItXfDBF2glOXfBI
-	qvnf50/2A0zFQ4PYfNde2FDAw6fky8U=
-X-Google-Smtp-Source: APXvYqxUnez6JveUVAO4ST28OsoQXde4+jcQf6O109gV2YvLnAwbh8X3Fq9qhARq9gGX1rnByZwajg==
-X-Received: by 2002:a7b:c844:: with SMTP id c4mr2262196wml.108.1557308511924; 
-	Wed, 08 May 2019 02:41:51 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	15sm3689806wmx.23.2019.05.08.02.41.50
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 02:41:50 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 10:41:49 +0100
-Message-Id: <20190508094149.19945-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	Wed, 8 May 2019 03:05:29 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 8 May 2019 03:05:28 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 May 2019 18:05:27 +0800
+Message-ID: <1557309927-99133-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH] openssh/systemd/python/qemu: Fix patch Upstream-Status
+Subject: [PATCH] python3: fix do_install fail for parallel buiild
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,100 +30,77 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 09:41:51 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 May 2019 10:05:29 -0000
+Content-Type: text/plain
 
-Fix some missing or corrupted patch Upstream-Status values.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+When using make -j with the 'install' target, it's possible for altbininstall
+(which normally creates BINDIR) and libainstall (which doesn't, though it
+installs python-config there) to race, resulting in a failure due to
+attempting to install python-config into a nonexistent BINDIR. Ensure it also
+exists in the libainstall target.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- ...1-upstream-Have-progressmeter-force-an-update-at-the-b.patch | 2 +-
- meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch  | 2 +-
- meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch   | 2 +-
- .../systemd/0025-fs-utilh-add-missing-sys-stat-include.patch    | 2 ++
- ...1-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch | 2 ++
- ...3-Revert-target-arm-Use-vector-operations-for-saturati.patch | 2 +-
- 6 files changed, 8 insertions(+), 4 deletions(-)
+ ...ix-Issue36464-parallel-build-race-problem.patch | 34 ++++++++++++++++++++++
+ meta/recipes-devtools/python/python3_3.7.3.bb      |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch b/meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
-index 2fb57da635a..4c9d574421d 100644
---- a/meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
-@@ -8,7 +8,7 @@ end of each transfer.  Fixes the problem recently introduces where very quick
- transfers do not display the progressmeter at all.  Spotted by naddy@
- 
- OpenBSD-Commit-ID: 68dc46c259e8fdd4f5db3ec2a130f8e4590a7a9a
--Ustream-Status: Backport
-+Upstream-Status: Backport
- Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
- ---
-  progressmeter.c | 13 +++++--------
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
-index e2fc607ff82..c5b3baece99 100644
---- a/meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
-@@ -9,7 +9,7 @@ current directory; based on report/patch from Harry Sintonen
- OpenBSD-Commit-ID: f27651b30eaee2df49540ab68d030865c04f6de9
- 
- CVE: CVE-2018-20685
--Ustream-Status: Backport
-+Upstream-Status: Backport
- Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
- ---
-  scp.c | 5 +++--
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
-index 80cf39b9230..e498da38194 100644
---- a/meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
-@@ -18,7 +18,7 @@ has been in snaps for ~1wk courtesy deraadt@
- OpenBSD-Commit-ID: 00f44b50d2be8e321973f3c6d014260f8f7a8eda
- 
- CVE: CVE-2019-6111
--Ustream-Status: Backport
-+Upstream-Status: Backport
- Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
- ---
-  scp.1 | 12 +++++++++++-
-diff --git a/meta/recipes-core/systemd/systemd/0025-fs-utilh-add-missing-sys-stat-include.patch b/meta/recipes-core/systemd/systemd/0025-fs-utilh-add-missing-sys-stat-include.patch
-index 1c6a6f50de3..bae9d3eaad4 100644
---- a/meta/recipes-core/systemd/systemd/0025-fs-utilh-add-missing-sys-stat-include.patch
-+++ b/meta/recipes-core/systemd/systemd/0025-fs-utilh-add-missing-sys-stat-include.patch
-@@ -7,6 +7,8 @@ fix error:
- | error: passing argument 5 of 'chase_symlinks_and_stat' from incompatible pointer type [-Werror=incompatible-pointer-types]
- 
- Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+diff --git a/meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch b/meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
+new file mode 100644
+index 0000000..237645b
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
+@@ -0,0 +1,34 @@
++From 840fda32c82550259d02a7a56a78a9c05162b1a1 Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Wed, 8 May 2019 16:10:29 +0800
++Subject: [PATCH] Makefile: fix Issue36464 (parallel build race problem)
 +
-+Upstream-Status: Pending
- ---
-  src/basic/fs-util.h | 1 +
-  1 file changed, 1 insertion(+)
-diff --git a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-index 06eb2bd35bd..a0ed7cc830e 100644
---- a/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-+++ b/meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
-@@ -10,6 +10,8 @@ PYTHONHOME. Creating another variable OEPYTHON3HOME to allow for a way
- to set a different path for python3
- 
- Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
++When using make -j with the 'install' target, it's possible for altbininstall
++(which normally creates BINDIR) and libainstall (which doesn't, though it
++installs python-config there) to race, resulting in a failure due to
++attempting to install python-config into a nonexistent BINDIR. Ensure it also
++exists in the libainstall target.
 +
-+Upstream-Status: Inappropriate [OE specific configuration]
- ---
-  Modules/main.c | 17 +++++++++++++----
-  1 file changed, 13 insertions(+), 4 deletions(-)
-diff --git a/meta/recipes-devtools/qemu/qemu/0013-Revert-target-arm-Use-vector-operations-for-saturati.patch b/meta/recipes-devtools/qemu/qemu/0013-Revert-target-arm-Use-vector-operations-for-saturati.patch
-index c38b547e2c3..3d018a74d9c 100644
---- a/meta/recipes-devtools/qemu/qemu/0013-Revert-target-arm-Use-vector-operations-for-saturati.patch
-+++ b/meta/recipes-devtools/qemu/qemu/0013-Revert-target-arm-Use-vector-operations-for-saturati.patch
-@@ -8,7 +8,7 @@ This reverts commit 89e68b575e138d0af1435f11a8ffcd8779c237bd.
- This fixes QEMU aborts when running the qemuarm machine.
++Upstream-Status: Submitted [https://github.com/python/cpython/pull/13186]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ Makefile.pre.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Makefile.pre.in b/Makefile.pre.in
++index 15f3687..7e9f173 100644
++--- a/Makefile.pre.in
+++++ b/Makefile.pre.in
++@@ -1456,7 +1456,7 @@ LIBPL=		@LIBPL@
++ LIBPC=		$(LIBDIR)/pkgconfig
++ 
++ libainstall:	@DEF_MAKE_RULE@ python-config
++-	@for i in $(LIBDIR) $(LIBPL) $(LIBPC); \
+++	@for i in $(LIBDIR) $(LIBPL) $(LIBPC) $(BINDIR); \
++ 	do \
++ 		if test ! -d $(DESTDIR)$$i; then \
++ 			echo "Creating directory $$i"; \
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
+index 081ecf4..413d35a 100644
+--- a/meta/recipes-devtools/python/python3_3.7.3.bb
++++ b/meta/recipes-devtools/python/python3_3.7.3.bb
+@@ -22,6 +22,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0002-Don-t-do-runtime-test-to-get-float-byte-order.patch \
+            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
+            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
++           file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
+            "
  
- Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
--Upstream-status: Pending
-+Upstream-Status: Pending
- ---
-  target/arm/helper.h        |  33 -------
-  target/arm/translate-a64.c |  36 ++++----
+ SRC_URI_append_class-native = " \
 -- 
-2.20.1
+2.7.4
 
 
