@@ -1,49 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id F04A67DDBA
+Return-Path: <grandpaul@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id BBF767D71B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 10:40:26 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id r4so11225622wro.10
+	Wed,  8 May 2019 10:53:54 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id c13so9934778pgt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 03:40:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=DNpcP986id228eE9VVIFwcEm0wIeByahaDK6nfaMEo0=;
-	b=FzQE26cQI9Tbbi0wZQPPg41oXOS+cSglVdMHhCDxE721EdpanZn7iAKYNJjOhhHaPQ
-	IyQjnxiLNsdag6Z6J5wvFtZ9IDJ79euMgJYW7kycnQe1wDlbInJyB3/oB+uoszM8jA9a
-	hJjBlharcclpD784XEgs6nCEYNmpwMDkE5TiauP7P2ch5tEOooN+wASaJZBBy0pgFnjE
-	llmPpOWmFQN4ahSeo0yRUTXXnCVfdlvJ5LCROgM3F51lMQCha+zIrgavXHNolY15clry
-	5cBu7mXoYu2IbZ8udytcUDOLjxd1qh0YGVoa172sC4R1OfLDGf4L1rNIpm2XXTEDzEV9
-	dpLw==
+	Wed, 08 May 2019 03:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=S+BvfSjt0nh3Ek6Zkuuxz348UWbv+2ZjlSAqF9xUv7k=;
+	b=NJOCYBoT8EnzsDdREPA5Y4zr7hSn0LFLT1MIsh8M07b+2CTKExTFbi2w66a5b3Mv10
+	2i6uJ6HDks1lXQWwiBa92POZs58dk+tb3RX4ryXgDWL56+y1Qz/PXaY/48T8fs5nyWOd
+	PbiFYQVOJhIYJk3X95BZTjnkCWyUwHUe9CCJfuE6V4aMeGou5PMfadlEHNjwQrETLEbr
+	UNmCvSuY2CUU7kHjGnYmobzqk1kyYteahQqvDSWZK+gcNGpyZPPA6+D8bpNxLZfwhzmm
+	aNiXThBwmpyU7cnInessNEz6i6+fV5KMAs8wrNfvt4GxeRJ0cFTKaOle75PDf6qFHChx
+	msCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=DNpcP986id228eE9VVIFwcEm0wIeByahaDK6nfaMEo0=;
-	b=easIBX0g0enEWliDSgmySlZnkXsSMcwZBccSmLlzG2w6pwGJFSjsmXNhyZ+pK2WFDY
-	WNr4T18rmYrHau+iQg+cToCaezF8IFpTkcJMxdaJtzSR9E9Ja877HCYSkQdqI2J6NuX8
-	Xd2qOleLx5shujw0aLPUof1wcNInenz2x994Da92RO3OeucRV2tgqKZjwCLrPZgRzU23
-	cr0stjb0qHM5pgnav5D0O6ypehOQH7kKhwrh6DHfAraGTE7U6SVmnZpGOo6+Q5m89t7a
-	cDh6KSHbuRHdQdm2dJndIHZog5473H6Vyl9DdHpbzG5KwvEc54nlhdP5z8Dst3kJAd1q
-	KXaQ==
-X-Gm-Message-State: APjAAAULzbD/35DJyX+SLGwmsogblloGvqxcfckOJFYd/I+3yh00m8ly
-	tDXyn/GV7Zm6aDJaIiA9zb1X8tWsVlE=
-X-Google-Smtp-Source: APXvYqzK7iYrxggJ29Buy1U8+z/Z0m+d3R1OgmLxLH6moiPljgEKtFjB9diKoja1tOrmxSWxv4dPug==
-X-Received: by 2002:adf:ce88:: with SMTP id r8mr12260691wrn.191.1557312027442; 
-	Wed, 08 May 2019 03:40:27 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	q2sm21242517wrd.48.2019.05.08.03.40.25
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=S+BvfSjt0nh3Ek6Zkuuxz348UWbv+2ZjlSAqF9xUv7k=;
+	b=eLln2BNtVYdLK4fFL/twOKLfgrVGDtsw+cCU/G4WZz1LLhqZ1LhddMz7rVGlU7Gn/m
+	0keQMTSeNFEUosojmX5mS8+OeNRuuQVO7ZA4btQQQnn1ENDxMIou61JHQ2h2S5NNEwil
+	Hh2a16RLMMwQAnQwTsixKfcsMpxxNMlr167O3L2bnNKC6FLuhMKXtoXMB6SB6ey5S6sd
+	49/3a4NKg6Z329JRYiSRi/mv+REGWjVb6Qco/YdPNQqSNW+N8Sko+cb7eRiOI9yGTQe8
+	aqt6UewIu9Ulh64oxlu0pKOqRMT+2gMZcn2qh4+lk+lsHF+mXYfmvQJMDg5SwJs4SOe8
+	yEwQ==
+X-Gm-Message-State: APjAAAV3AIARrx4K0YqAjv0e4Nxl1tS0HhVh6jxOypbumZvzZRBT8e6P
+	pWieJLYVG21VrwfxQPQiM21qmkXJNHo=
+X-Google-Smtp-Source: APXvYqwwB1gcJnw58YEBTQu9Laaoz0aVfrAjRlRmEsfKmUn/jmn2z7gMzwF3BzNsAE1KHuG9uipMgA==
+X-Received: by 2002:a63:2cc9:: with SMTP id s192mr42019027pgs.24.1557312835434;
+	Wed, 08 May 2019 03:53:55 -0700 (PDT)
+Received: from freya.lan (123-192-177-76.dynamic.kbronet.com.tw.
+	[123.192.177.76]) by smtp.gmail.com with ESMTPSA id
+	b18sm17976195pfp.32.2019.05.08.03.53.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 03:40:25 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	Wed, 08 May 2019 03:53:54 -0700 (PDT)
+Sender: PaulLiu <grandpaul@gmail.com>
+From: "Ying-Chun Liu (PaulLiu)" <paulliu@debian.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 11:40:24 +0100
-Message-Id: <20190508104024.26159-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] patch: add minver and maxver parameters
+Date: Wed,  8 May 2019 18:53:25 +0800
+Message-Id: <20190508105325.12842-1-paulliu@debian.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] uboot-sign: Fix u-boot-nodtb symlinks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +58,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 10:40:27 -0000
+X-List-Received-Date: Wed, 08 May 2019 10:53:54 -0000
+Content-Transfer-Encoding: 8bit
 
-Add minver/maxver parameters to limit patch application by comparing PV.
+When using u-boot-nodtb, the symlink didn't install correctly to the
+${DEPLOYDIR}. This commit fixes this bug.
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Ying-Chun Liu (PaulLiu) <paulliu@debian.org>
 ---
- meta/lib/oe/patch.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ meta/classes/uboot-sign.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
-index f43cf047c06..91624e26ddb 100644
---- a/meta/lib/oe/patch.py
-+++ b/meta/lib/oe/patch.py
-@@ -847,6 +847,7 @@ def src_patches(d, all=False, expand=True):
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 6385a06c13..8beafff7c0 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -53,8 +53,8 @@ concat_dtb_helper() {
  
+ 	if [ -f "${UBOOT_NODTB_BINARY}" ]; then
+ 		install ${UBOOT_NODTB_BINARY} ${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_SYMLINK}
+-		ln -sf ${UBOOT_NODTB_IMAGE} ${UBOOT_NODTB_BINARY}
++		ln -sf ${UBOOT_NODTB_IMAGE} ${DEPLOYDIR}/${UBOOT_NODTB_SYMLINK}
++		ln -sf ${UBOOT_NODTB_IMAGE} ${DEPLOYDIR}/${UBOOT_NODTB_BINARY}
+ 	fi
  
- def should_apply(parm, d):
-+    import bb.utils
-     if "mindate" in parm or "maxdate" in parm:
-         pn = d.getVar('PN')
-         srcdate = d.getVar('SRCDATE_%s' % pn)
-@@ -883,5 +884,15 @@ def should_apply(parm, d):
-         if srcrev and parm["notrev"] in srcrev:
-             return False, "doesn't apply to revision"
- 
-+    if "maxver" in parm:
-+        pv = d.getVar('PV')
-+        if bb.utils.vercmp_string_op(pv, parm["maxver"], ">"):
-+            return False, "applies to earlier version"
-+
-+    if "minver" in parm:
-+        pv = d.getVar('PV')
-+        if bb.utils.vercmp_string_op(pv, parm["minver"], "<"):
-+            return False, "applies to later version"
-+
-     return True, None
- 
+ 	# Concatenate U-Boot w/o DTB & DTB with public key
 -- 
-2.11.0
+2.20.1
 
 
