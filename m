@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com
-	[209.85.221.49])
-	by mail.openembedded.org (Postfix) with ESMTP id 88A777DDB5
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 991357DDC2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 10:59:56 +0000 (UTC)
-Received: by mail-wr1-f49.google.com with SMTP id l2so26621975wrb.9
+	Wed,  8 May 2019 10:59:57 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id f7so16291902wrq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 03:59:57 -0700 (PDT)
+	Wed, 08 May 2019 03:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=qTvwIws4neQeXH6S+MNGA+D6MR7YqcVBjh7VmqX7PSM=;
-	b=IyTMQJBNghnsmwf8oBSL7zQHdgiRgezoqkHeZAQqhqaTnrwqAmpZMFla3gRKprCPSx
-	RSOZehJT2/+ec6HJit0uUzsPeWocVK+0xHny7FKXC4zT5yA6n8+z+FDJNJdp785rOLN0
-	fBWXdsFHw6pi9rR9kVrGez8k043cv/TrQN9sA=
+	bh=yZb44e2qVfpjS/H9qKP5QYKTvToR6i2bucMBJW2TeAc=;
+	b=NfFMgkZUgL+kYvQk/WV5O38iy/Y+Bt3kBmoZLuESMM5I/VlkyZz16XlXs73lYnO76Q
+	PdMRE/MAsdXz+op26OMzikUSOZg9FGsjPBb0IpIQjTPQIWqP15QakbblrTAEeVMduo+5
+	Wf6I5Pn5KcmMYZvtcqsmAEs9VxSYw1bCabcCI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=qTvwIws4neQeXH6S+MNGA+D6MR7YqcVBjh7VmqX7PSM=;
-	b=qpiBLw2+USGqFbJunLbqrCtkRQPwcIk8bRV7zSypTedjQtuklVtWth5pC9eccWK9xc
-	MRc6H6cmpg7ql+a7XqxYP3Hf2mB17GArsaIYHP+pgLRZEqicM4R55cttOzyCZrGKhT71
-	VOUmYq6ak/n97XkqURG7S/C6xCiebOA25o4AiBfooEayW6nl4QK2ghmqRYWOLmwZA8c9
-	Je3k17jqZU9RWoHarr9+j43VdThBDnct15j5jUlZhK6EtML+XzokC9nl2pkIq4eWO5kR
-	x1o0oHxpTIa8S6KQukBqE7XMa8uqrG483Tj8lPDZRskw6PrGGRIN1N+sQE+cx3NHMf5A
-	Z0mw==
-X-Gm-Message-State: APjAAAXje9dbqscXn1yKr9qUXa/n2pXM9ay6SiSakwWJKWm6IUYUAHqw
-	5/bRkg43G9/JfxUC3YqHpF+zamWUoC0=
-X-Google-Smtp-Source: APXvYqzlsWu6IZMxWd3IqVNeVYuOKcaEK9cffQiYrl96ECvmndAZQfGR9UQ9Lt+H1GRSKqZ4LumnZw==
-X-Received: by 2002:adf:8b0b:: with SMTP id n11mr28471885wra.149.1557313197063;
-	Wed, 08 May 2019 03:59:57 -0700 (PDT)
+	bh=yZb44e2qVfpjS/H9qKP5QYKTvToR6i2bucMBJW2TeAc=;
+	b=ZD8mtZXXwNaz+6d2nSCSJSMkZSy8ju3mSiPw6sYXAj61IifKIRbn6pgWb7rubjaj9p
+	NfiEVS65guEvcw9oZavhQmPxKLN5jqXCICfXY21ypr/8whQPA0NA9kmpHfhMwdjlj3Zx
+	/9nJ+DprqQ7WRSDHtCvQ2GSXUkw0EAIDhpLCCIaFqwx2ktSIZTa1SzFPUvsu7T57XXHX
+	avM/XojwI0nHTi1KhGzU1LR/s9UXtW+bZO7/Rk8POqhjGP9HPbHKLk13sI8LcW6kbRUj
+	iYYd1V9OmCDrvejf9xN51NY7g1Ztqz7BbtOOYGBz60jpUEd3/SFJ4CBG51s2wsl+OQhL
+	BuVw==
+X-Gm-Message-State: APjAAAXfDfYde05CsUQU6KlhkgZeFneMNSA5FDZzvMr+qNEZ+Uay2tjo
+	5f/nnheHZ2oHzgJpf9mZAJMmn64/a8s=
+X-Google-Smtp-Source: APXvYqxjIeo4MoBfRCFs8L7SvQMqaZzqbpx02QSoUNhGtuezepKhLpu6WYrQ6a1zRNRiAwzjGozxOg==
+X-Received: by 2002:adf:8122:: with SMTP id 31mr16545201wrm.112.1557313198188; 
+	Wed, 08 May 2019 03:59:58 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	p13sm2911053wmb.0.2019.05.08.03.59.55
+	p13sm2911053wmb.0.2019.05.08.03.59.57
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 03:59:56 -0700 (PDT)
+	Wed, 08 May 2019 03:59:57 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 11:59:48 +0100
-Message-Id: <20190508105949.24942-3-richard.purdie@linuxfoundation.org>
+Date: Wed,  8 May 2019 11:59:49 +0100
+Message-Id: <20190508105949.24942-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190508105949.24942-1-richard.purdie@linuxfoundation.org>
 References: <20190508105949.24942-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] scripts/pybootchart/draw: Clarify some variable names
+Subject: [PATCH 4/4] scripts/pybootchart/draw: Fix some bounding problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,58 +58,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 10:59:57 -0000
+X-List-Received-Date: Wed, 08 May 2019 10:59:58 -0000
 Content-Transfer-Encoding: 8bit
 
-This tweaks some intermediate variable names to make it clearer what
-is being done.
+The chart size extents were being incorrectly reported, not accounting for the
+width of the legend. Set a minimum width to account for that (its fixed size).
+
+Also stop printing the chart background off the bottom of the chart extents.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/pybootchartgui/pybootchartgui/draw.py | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ scripts/pybootchartgui/pybootchartgui/draw.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
-index 99b3caacc7f..b3184411cbc 100644
+index b3184411cbc..add5c538821 100644
 --- a/scripts/pybootchartgui/pybootchartgui/draw.py
 +++ b/scripts/pybootchartgui/pybootchartgui/draw.py
-@@ -513,18 +513,19 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
-     y = curr_y+header_h
+@@ -342,6 +342,10 @@ def extents(options, xscale, trace):
+         if trace.mem_stats:
+             h += meminfo_bar_h
  
-     offset = trace.min or min(trace.start.keys())
--    for s in sorted(trace.start.keys()):
--        for val in sorted(trace.start[s]):
-+    for start in sorted(trace.start.keys()):
-+        for process in sorted(trace.start[start]):
-             if not options.app_options.show_all and \
--                    trace.processes[val][1] - s < options.app_options.mintime:
-+                    trace.processes[process][1] - start < options.app_options.mintime:
-                 continue
--            task = val.split(":")[1]
--            #print(val)
--            #print(trace.processes[val][1])
-+            task = process.split(":")[1]
++    # Allow for width of process legend and offset
++    if w < (720 + off_x):
++        w = 720 + off_x
 +
-+            #print(process)
-+            #print(trace.processes[process][1])
-             #print(s)
+     return (w, h)
  
--            x = chart_rect[0] + (s - offset) * sec_w
--            w = ((trace.processes[val][1] - s) * sec_w)
-+            x = chart_rect[0] + (start - offset) * sec_w
-+            w = ((trace.processes[process][1] - start) * sec_w)
- 
-             #print("proc at %s %s %s %s" % (x, y, w, proc_h))
-             col = None
-@@ -549,7 +550,7 @@ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
-                 draw_fill_rect(ctx, col, (x, y, w, proc_h))
-             draw_rect(ctx, PROC_BORDER_COLOR, (x, y, w, proc_h))
- 
--            draw_label_in_box(ctx, PROC_TEXT_COLOR, val, x, y + proc_h - 4, w, proc_h)
-+            draw_label_in_box(ctx, PROC_TEXT_COLOR, process, x, y + proc_h - 4, w, proc_h)
-             y = y + proc_h
- 
+ def clip_visible(clip, rect):
+@@ -490,7 +494,7 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
      return curr_y
+ 
+ def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
+-    chart_rect = [off_x, curr_y+header_h, w, h - 2 * off_y - header_h - leg_s + proc_h]
++    chart_rect = [off_x, curr_y+header_h, w, h - curr_y - 1 * off_y - header_h  ]
+ 
+     draw_legend_box (ctx, "Configure", \
+              TASK_COLOR_CONFIGURE, off_x  , curr_y + 45, leg_s)
 -- 
 2.20.1
 
