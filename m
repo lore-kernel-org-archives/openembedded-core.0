@@ -1,50 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 62BC47D589
+Return-Path: <Anton.Popov@t-platforms.ru>
+Received: from mx1.t-platforms.ru (mx1.t-platforms.ru [80.85.246.77])
+	by mail.openembedded.org (Postfix) with ESMTP id D85B77D589
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 12:48:18 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id w12so13598311wrp.2
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 05:48:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=J4g6988Xvmh+XTUk49O3ulfdrRrfqHpHuAZUm9Z7grU=;
-	b=GJKveR8pQ5UCbqG14UZmltpzZ/N1D3igqb+XZD3LSvibSsTQAK99/HgxkVajdNb15q
-	FxF56IVXQ5FbvWSd3WHNmd9mxzvoc+smX8o4HK6T4O9dLwHlk7ftdy14dSKtxuTfS9ux
-	QACanaiupZuGCoiIsxIzOvZ/IH0ae5xwZ8dT8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=J4g6988Xvmh+XTUk49O3ulfdrRrfqHpHuAZUm9Z7grU=;
-	b=Uf2cmihKcu9xTQdy10CIwrb+Nb1CtoS2s+QnyxEIRTl61063Dy3Ioj2NA2IXe5zE5I
-	TU2iJQttNRo+/4IbWy90rcS7UE1/is/9g/E7nlQ6K/UPRRC2ocTjEv4UTa4om0Dwq5u7
-	O44hFb/bn78kWZl4hpf6aErEohZgIyW87bn8Iccg9S5KqE0Zyc+TEb4fwiTqic1qtjYJ
-	DGmz8U2RxS5UxHnx+80YdZ4c3o6uP/JW8zipQduTmkK0zSsGGZyyT83sf2l7RBmEIKtn
-	2ajApeJ1EPF9fByCFg4zHZLjVoah6OYzE/pKNNX8F16b5yG9IaF7FZch7oKJqXj+WzOE
-	jLUw==
-X-Gm-Message-State: APjAAAX3ZaPkkWEM6WCiexG7gWQuD2fwWOmo4152tZScZIVX+KpBeycN
-	zo+sN+evZetLrzGzZrWdnDdGmp6dlKU=
-X-Google-Smtp-Source: APXvYqxNx/Cl94+YheI9Os546z/tqMfLc0/KvAWVL+EVpfWR186oQ5GlyMAv/2PjR/UIwOpAp8epjQ==
-X-Received: by 2002:adf:9c87:: with SMTP id d7mr147011wre.68.1557319699063;
-	Wed, 08 May 2019 05:48:19 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id k1sm1510031wmi.48.2019.05.08.05.48.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 08 May 2019 05:48:18 -0700 (PDT)
-Message-ID: <9e94caa227eac98a7a48a6433c722e2a309663de.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
-Date: Wed, 08 May 2019 13:48:14 +0100
-In-Reply-To: <ac92e6664c5856848367f40fddbdc53391f0388a.camel@linuxfoundation.org>
-References: <20190507131151.31070-3-bunk@stusta.de>
-	<ac92e6664c5856848367f40fddbdc53391f0388a.camel@linuxfoundation.org>
-User-Agent: Evolution 3.32.1-2 
+	Wed,  8 May 2019 12:53:45 +0000 (UTC)
+X-Virus-Scanned: amavisd-new at t-platforms.ru
+From: Popov Anton <Anton.Popov@t-platforms.ru>
+To: "Burton, Ross" <ross.burton@intel.com>
+Thread-Topic: [OE-core] HA: [PATCH] util-linux: fix owner and group for
+	binaries in resulting image
+Thread-Index: AQHVBRG7JUT714MXmECp9f1yev2yNKZhKt4/
+Date: Wed, 8 May 2019 12:53:44 +0000
+Message-ID: <B32C5021EF3D894688F75677907CBC734599AA28@pvmmail.tp-local.ru>
+References: <B32C5021EF3D894688F75677907CBC734599A785@pvmmail.tp-local.ru>
+	<CAPbeDCmBbidMPu4NMb-vGEUKBLNBj2_reFarAguMXOENphzALg@mail.gmail.com>
+	<B32C5021EF3D894688F75677907CBC734599A8AD@pvmmail.tp-local.ru>,
+	<CAJTo0LZ01sF+XHGomO4Wm1M-iaL5aJwqAd_hLALEKFwPGDBGXw@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ01sF+XHGomO4Wm1M-iaL5aJwqAd_hLALEKFwPGDBGXw@mail.gmail.com>
+Accept-Language: ru-RU, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-kse-attachmentfiltering-interceptor-info: protection disabled
+x-kse-antivirus-interceptor-info: scan successful
+x-kse-antivirus-info: Clean, bases: 08.05.2019 10:18:00
+x-kse-bulkmessagesfiltering-scan-result: protection disabled
 MIME-Version: 1.0
-Subject: Re: [PATCH] ofono: upgrade 1.25 -> 1.29
+X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
+X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: HA: HA: [PATCH] util-linux: fix owner and group for binaries in resulting image
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +41,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 12:48:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 08 May 2019 12:53:46 -0000
+Content-Language: ru-RU
+Content-Type: text/plain; charset="koi8-r"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2019-05-08 at 13:32 +0100, Richard Purdie wrote:
-> On Tue, 2019-05-07 at 16:11 +0300, Adrian Bunk wrote:
-> > Remove patch applied upstream.
-> > 
-> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > ---
-> >  .../ofono/ofono/use-python3.patch             | 27 ---------------
-> > ----
-> >  meta/recipes-connectivity/ofono/ofono_1.25.bb |  9 -------
-> >  meta/recipes-connectivity/ofono/ofono_1.29.bb |  8 ++++++
-> >  3 files changed, 8 insertions(+), 36 deletions(-)
-> >  delete mode 100644 meta/recipes-connectivity/ofono/ofono/use-
-> > python3.patch
-> >  delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.25.bb
-> >  create mode 100644 meta/recipes-connectivity/ofono/ofono_1.29.bb
-> 
-> A local build of this failed with what looks like a race:
-
-Also on the autobuilder:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/570
-
-I also confirmed that rerunning the compile did succeed confirming it
-is a race of some kind.
-
-Cheers,
-
-Richard
-
+Good day!=0A=
+=0A=
+Sorry guys, It looks like that the problem is not in recipe but somehow con=
+ected with host distro:=0A=
+we can not reproduce problem on linux mint 19.1 host distro=0A=
+but steel face problem with permissions on CentOS Linux release 7.6.1810 (C=
+ore)=0A=
+=0A=
+requested output of package content:=0A=
+dpkg -c util-linux-mount_2.30-r0_mipsel.deb =0A=
+drwxrwxrwx root/root         0 2019-05-08 14:58 ./=0A=
+drwxr-xr-x root/root         0 2019-05-08 14:58 ./bin/=0A=
+-rwsr-xr-x 1000/1000     27956 2019-05-08 14:58 ./bin/mount.util-linux=0A=
+=0A=
+=0A=
+=0A=
+With best regards,=0A=
+Popov Anton=0A=
+=0A=
+________________________________________=0A=
+=EF=D4: Burton, Ross [ross.burton@intel.com]=0A=
+=EF=D4=D0=D2=C1=D7=CC=C5=CE=CF: 7 =CD=C1=D1 2019 =C7. 23:08=0A=
+=EB=CF=CD=D5: Popov Anton=0A=
+=EB=CF=D0=C9=D1: Jacob Kroon; openembedded-core@lists.openembedded.org=0A=
+=F4=C5=CD=C1: Re: [OE-core] HA: [PATCH] util-linux: fix owner and group for=
+ binaries in resulting image=0A=
+=0A=
+On Tue, 7 May 2019 at 13:47, Popov Anton <Anton.Popov@t-platforms.ru> wrote=
+:=0A=
+> I don't think so. At the moment we are using rocko release and found this=
+ problem in util-linux-2.30 recipe.=0A=
+>=0A=
+> the problem is that util-linux builds with regular user permissions and r=
+esult files are owned by user with uid 1000 in our case. for most of binari=
+es in /bin and /sbin generated by util-linux this permissions issue is not =
+a problem (Because all binaries has o+x set). But for those of them who hav=
+e suid bit setted it became a real trouble.=0A=
+=0A=
+Can you give an example of a concrete filename and demonstrate this by=0A=
+e.g. listing the contents of a package from deploy?  For example with=0A=
+master:=0A=
+=0A=
+$ dpkg-deb  -c util-linux-mount_2.32.1-r0_corei7-64.ipk=0A=
+-rwsr-xr-x root/root     47152 2019-05-07 14:40 ./bin/mount.util-linux=0A=
+=0A=
+Permissions look right to me.=0A=
+=0A=
+Ross=0A=
 
