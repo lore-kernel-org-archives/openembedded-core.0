@@ -1,53 +1,25 @@
-Return-Path: <rudolf.streif@ibeeto.com>
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com
-	[209.85.215.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 883BB7D6A3
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B86C6D666
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 00:19:56 +0000 (UTC)
-Received: by mail-pg1-f169.google.com with SMTP id h17so3151769pgv.0
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 07 May 2019 17:19:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ibeeto-com.20150623.gappssmtp.com; s=20150623;
-	h=to:from:subject:message-id:date:user-agent:mime-version
-	:content-language;
-	bh=tuffvTme8PKSgCzPLeh3Jimhqy5pu58TgLC4MfxpupU=;
-	b=PwzpWTdgVTeWWGP3G6pzrQLSQGTLpEeF3i60zztMB2ce77FbWBmOba2uK1HXA0Z+7D
-	RtiDRF5r6TqkF1ZQ91LP5i2fKwydbapWVnsAKr09yr/vBDJvaNLQkowdAwE1ppczMPMW
-	j6yfg+I2qGiviM4lKK9lB3hJzH8xi7u19AVYLhrrnv2x1Q8jgqwFsTGQmv8PcP4qi1aw
-	zNKoYYpsbHf69jgtF1LoYxLpUn2TPtJ9AGsmyLODQGpjuJ99UlyIUqyPiFnTb43zf23w
-	3/JRNKXQEkdcQQi4hs4afT5vjMM7jW0pJ5szPGmf6oyetTYFhdIAivskDVr2OEtMJvwY
-	27hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-	:mime-version:content-language;
-	bh=tuffvTme8PKSgCzPLeh3Jimhqy5pu58TgLC4MfxpupU=;
-	b=rN9YbpJOT6XCA8vjlZpKYRNT7LrZfK+1pKgfImJH+r8Y+f09mm5ilQ4byaE8rDtXiO
-	9W8gx2bfQRzY4ia/17JLLaCJXiUhpcXiNIyilNxz9CKzfuvtrGMCvZTmnSsVwOlmoiVP
-	bjJfV2cmRqaTupukSOVGPfJRJnSTfsEzpGMXAG07eFmpOYb/pVfk0cyJKn3pYl2QZv7X
-	VxPWGlVYQ/AsE7NkhSQjWv6gwFRfQ2QbRZehnXMmGMUIfKooVNgXIleu2mEx8BKaa2ne
-	thdyOX99PIJMRQJ4KNpxadVWUnUykTlPSrzLfE/D8yGWVcnkmlVr65vN24+v6Olu0qiJ
-	0QWA==
-X-Gm-Message-State: APjAAAVazi9NHy9Pqm2G+OeEdJZF7OaI92zsq/FCa3o8iJW0kylEQEKO
-	u/NpfWrcYBc8xu2mWSLZwvB+G9AQzIg=
-X-Google-Smtp-Source: APXvYqzAnM01LIFxn8y2B3iqEwXeF9/7OmM04K3MvIE3ufv0w4ea3ZUC4ynVIpglH0fzF+S9J2aF2g==
-X-Received: by 2002:a63:6981:: with SMTP id e123mr43050975pgc.28.1557274796929;
-	Tue, 07 May 2019 17:19:56 -0700 (PDT)
-Received: from rjs-zotac.ibeeto.com (ip68-7-84-58.sd.sd.cox.net. [68.7.84.58])
-	by smtp.gmail.com with ESMTPSA id
-	a129sm18301631pfa.152.2019.05.07.17.19.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 17:19:55 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-From: Rudolf J Streif <rudolf.streif@ibeeto.com>
-Message-ID: <ae370e65-a910-2964-b31a-bb5b1b3636d6@ibeeto.com>
-Date: Tue, 7 May 2019 17:19:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	Wed,  8 May 2019 03:05:49 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4835lDh020142
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 7 May 2019 20:05:47 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Tue, 7 May 2019 20:05:40 -0700
+From: <mingli.yu@windriver.com>
+To: <ross.burton@intel.com>, <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Wed, 8 May 2019 11:05:39 +0800
+Message-ID: <20190508030539.448075-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.18.1
+In-Reply-To: <5CD13414.9060408@windriver.com>
+References: <5CD13414.9060408@windriver.com>
 MIME-Version: 1.0
-Subject: [meta-oe] sip/sip3
+Subject: [PATCH v3] glib-2.0: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,105 +32,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 00:19:56 -0000
-Content-Type: multipart/alternative;
-	boundary="------------A30639AF236F4CCD4C791AD9"
-Content-Language: en-US
+X-List-Received-Date: Wed, 08 May 2019 03:05:50 -0000
+Content-Type: text/plain
 
---------------A30639AF236F4CCD4C791AD9
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-With the recent update of sip/sip3 from 4.19.13 to 4.19.16 FILES has 
-changed:
+* Install 7 translation packages to fix 7 ptest
+  failures such as:
+  | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1477:test_non_utf8_printf: assertion failed (__p == ("10\346\234\210")): ("Oct" == "10\346\234\210")
+  | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1716:test_month_names: assertion failed (p_casefold == (o_casefold)): ("nov" == "stu")
+  | GLib:ERROR:../glib-2.58.3/glib/tests/gdatetime.c:1731:test_month_names: assertion failed (p_casefold == (o_casefold)): ("jul" == "liep.")
 
-4.19.13:
+* Increase the timeout to 15 minutes as the default
+  timeout which is 5 minutes is not enough to fix below error:
+  | Executing: glib/actions.test
+  | Test timed out after 300 seconds
+  | cleaning up pid 13050
+  | FAIL: glib/actions.test (Child process killed by signal 9)
 
-|
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+---
+ meta/recipes-core/glib-2.0/glib-2.0/run-ptest | 2 +-
+ meta/recipes-core/glib-2.0/glib.inc           | 7 +++++++
+ 2 files changed, 8 insertions(+), 1 deletion(-)
 
-FILES_python3-sip3  =  "${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/"
-FILES_${PN}-dbg  +=  "${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/.debug"|
-
-4.19.16 (meta-openembedded @ 50108c18):
-
-|
-
-FILES_python-sip  =  "${libdir}/${PYTHON_DIR}/site-packages/"
-FILES_${PN}-dbg  +=  "${libdir}/${PYTHON_DIR}/site-packages/.debug"|
-
-|
-
-|
-
-|
-
-|
-
-That causes an issue with PyQt5 which is installed in (python-pyqt5.inc, 
-meta-qt5 @ f4531ec8):
-
-echo "py_pylib_dir = 
-%(sysroot)/${libdir}/python${PYTHON_BASEVERSION}${PYTHON_ABI}" >> pyqt.cfg
-
-PYTHON_BASEVERSION = "3.7"
-PYTHON_ABI = "m"
-
-This can obviously be fixed on either end, but I am not quite sure what 
-the right approach is.
-
-Thanks,
-
-Rudi
-
-
-  -----
-Rudolf J Streif
-CEO/CTO ibeeto
-+1.855.442.3396 x700
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+index 8f082d34f6..893125d772 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
++++ b/meta/recipes-core/glib-2.0/glib-2.0/run-ptest
+@@ -2,5 +2,5 @@
+ 
+ set -eux
+ useradd glib2-test
+-su glib2-test -c gnome-desktop-testing-runner glib
++su glib2-test -c "gnome-desktop-testing-runner glib -t 900"
+ userdel glib2-test
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 574bb38557..1e8fea2df1 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -152,6 +152,13 @@ RDEPENDS_${PN}-ptest += "\
+             tzdata-europe \
+             tzdata-posix \
+             shared-mime-info \
++            ${PN}-locale-ja \
++            ${PN}-locale-fr \
++            ${PN}-locale-el \
++            ${PN}-locale-hr \
++            ${PN}-locale-lt \
++            ${PN}-locale-pl \
++            ${PN}-locale-ru \
+            "
+ 
+ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+-- 
+2.18.1
 
 
---------------A30639AF236F4CCD4C791AD9
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>With the recent update of sip/sip3 from 4.19.13 to 4.19.16 FILES
-      has changed:</p>
-    <p>4.19.13:</p>
-    <pre><code><pre><span class="nv">FILES_python3</span><span class="o">-</span><span class="nv">sip3</span> <span class="o">=</span> <span class="s2">"${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/"</span>
-<span class="nv">FILES_</span><span class="kt">$</span><span class="err">{</span><span class="nv">PN</span><span class="err">}</span><span class="o">-</span><span class="nv">dbg</span> <span class="o">+=</span> <span class="s2">"${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/.debug"</span></pre></code></pre>
-    <p>4.19.16 (meta-openembedded @ 50108c18):</p>
-    <pre><code><pre><span class="nv">FILES_python</span><span class="o">-</span><span class="nv">sip</span> <span class="o">=</span> <span class="s2">"${libdir}/${PYTHON_DIR}/site-packages/"</span>
-<span class="nv">FILES_</span><span class="kt">$</span><span class="err">{</span><span class="nv">PN</span><span class="err">}</span><span class="o">-</span><span class="nv">dbg</span> <span class="o">+=</span> <span class="s2">"${libdir}/${PYTHON_DIR}/site-packages/.debug"</span></pre></code></pre>
-    <pre><code><pre><span class="nv"></span></pre></code></pre>
-    <code>
-      <pre><span class="nv"></span></pre>
-    </code>
-    <p>That causes an issue with PyQt5 which is installed in
-      (python-pyqt5.inc, meta-qt5 @ f4531ec8):</p>
-    <p><tt>echo "py_pylib_dir =
-        %(sysroot)/${libdir}/python${PYTHON_BASEVERSION}${PYTHON_ABI}"
-        &gt;&gt; pyqt.cfg</tt></p>
-    <p>PYTHON_BASEVERSION = "3.7"<br>
-      PYTHON_ABI = "m"<br>
-    </p>
-    <p>This can obviously be fixed on either end, but I am not quite
-      sure what the right approach is. <br>
-    </p>
-    <p>Thanks,</p>
-    <p>Rudi<br>
-    </p>
-    <br>
-    <pre class="moz-signature" cols="72"> -----
-Rudolf J Streif
-CEO/CTO ibeeto
-+1.855.442.3396 x700</pre>
-  </body>
-</html>
-
---------------A30639AF236F4CCD4C791AD9--
