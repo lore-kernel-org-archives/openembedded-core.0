@@ -1,53 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D7717DDF6
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com
+	[209.85.221.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 13BCA7DDBA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 12:25:44 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id y197so3028177wmd.0
+	Wed,  8 May 2019 12:32:46 +0000 (UTC)
+Received: by mail-wr1-f54.google.com with SMTP id d12so6515232wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 05:25:45 -0700 (PDT)
+	Wed, 08 May 2019 05:32:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=fI4+Ry6teTcgTCkok0l2wSLJi8dImnCEyOTW3vqa8fo=;
-	b=SBWIQE48VlTrSyyjcp0vaEdRobA7mBtzVdHt1coAFYkCwwuvny6AOceuAlbte4JnLy
-	JIXsC2J+QKrqmHa0i9VUv39yxNWtWEx+lZr3iJcKpoUX6+VZ0J3ENVRd+NkTAe64v9In
-	2rMa4Va+eUmKOkhlceLOQ5RBBKJ/8uSj8dTpM=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=+WIt3BncwGqf2x2Bj/c1eEeOdORvkMcvWX5rJgSvQhE=;
+	b=YJ0m5hXAt3CX3DFMzhngrzcKX1IDV3BaHuejzC0bGSkEGfRFQiJ3IDr5u2EQFWAx2g
+	aC77Fsg/7fz8PaIjMnC6pFI9tfelEZ8yPA2smvC2lPxLCoN/FH3W1H2slJlm8HSwvXwi
+	E/yqHxgIHBHUWk2AeNvURuOc/lEZEVteDI0bg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=fI4+Ry6teTcgTCkok0l2wSLJi8dImnCEyOTW3vqa8fo=;
-	b=BtO2usS6Scy2btRB5eeJdvoAxWeEPncZVRAR+K6pODC4ixTvx6j2h2IkilIkg0anPJ
-	RsEslsPwfQfmHMG2CUTMfSWjNLXkoGKB6Ew/pEcwBSZ7J+zOx3ac0lSdLLjhU/Ii0Did
-	CuXQGR35JHGjCQJuABoVo8+essW/BGYinxwmKn281oc40IqJXv5wsUONGZGaTfOKJGsj
-	xjFFSo2vOFwNVGcbivUnznnulZetSPU/R01Mv4jKAU4TdPfu4Q26F8GRIdDVOa6pcb3I
-	f48dMEaGyGmNndTVgsK7lh+duF8dnNR6hyHiTG17OCQduLZ4caEuoo5aF3wy/w8N5pLH
-	PF2A==
-X-Gm-Message-State: APjAAAVfAB0HWV/mFxe0eKwMNSs5TKdMRe9j5jZydbv6RKARNiXtC7Uh
-	cKxgn9Pal4LjpsvVyheUtAeqqQ==
-X-Google-Smtp-Source: APXvYqxXRh+tMiq/FxL3nG7W4xT6aJXosF/kCUHtO99p2AakrbIa2RngHb1vevyagd2ZF7PA579gbA==
-X-Received: by 2002:a1c:cc18:: with SMTP id h24mr2827933wmb.13.1557318344862; 
-	Wed, 08 May 2019 05:25:44 -0700 (PDT)
+	bh=+WIt3BncwGqf2x2Bj/c1eEeOdORvkMcvWX5rJgSvQhE=;
+	b=TMfMrprEDuYelMm+LCBqsf9QcXQoiv/Qg7AXrtfzX9/CVREcjKFx7cw+0R6Arj+dXj
+	tn29kEoJ4lgW/UIqlxF7KIJuFgQIJC7hpVSeOSqIKSFYj3lO/aCUzZxcNe0/vnXEKREu
+	q/rMb29w7ybT7ObDfMYGfYE3H3w6gcxmi62bLrL88KAPNnrkU4hFKIOTdOfnQc2+/UND
+	8Kb8DP6j4G2g7cwLTWS0ApvEh0iASY3D5pWIrEwIHP5ahlIROxoM+uwh/t6jGuaICLaW
+	p82jMe+cgt2DKXt1D3jrhxLOl/T97fIw8FQrBM56sJ0WBgm+fz89BoOKiNIY7+ozgZej
+	kNzg==
+X-Gm-Message-State: APjAAAW/UcCzVUnVpGuIUi1AX/QjQW5SxWrRGS1yYBRup28/byHfQvMx
+	KEFwFqC+QV72fBThbSzgTuFCFUf9eRs=
+X-Google-Smtp-Source: APXvYqypjCphV7SU6iHOaOaEs1bKlluDJBlAiDNKVMGRgxZtKL3OVp0gRZigYfOyNu46ZLvW3HYZCg==
+X-Received: by 2002:adf:b446:: with SMTP id v6mr11260591wrd.30.1557318766971; 
+	Wed, 08 May 2019 05:32:46 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	o16sm24640093wro.63.2019.05.08.05.25.43
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 08 May 2019 05:25:44 -0700 (PDT)
-Message-ID: <eb9506045669eaf6dc51f56fab72195c7cdba6b3.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Burton, Ross" <ross.burton@intel.com>, Mingli Yu <mingli.yu@windriver.com>
-Date: Wed, 08 May 2019 13:25:42 +0100
-In-Reply-To: <CAJTo0LbWzug_9N5eZwaaWNX3w6wRfOCNx379DYkpODf=t71KbA@mail.gmail.com>
-References: <5CD13414.9060408@windriver.com>
-	<20190508030539.448075-1-mingli.yu@windriver.com>
-	<CAJTo0LbWzug_9N5eZwaaWNX3w6wRfOCNx379DYkpODf=t71KbA@mail.gmail.com>
+	v192sm2515935wme.24.2019.05.08.05.32.45
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 08 May 2019 05:32:45 -0700 (PDT)
+Message-ID: <ac92e6664c5856848367f40fddbdc53391f0388a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
+Date: Wed, 08 May 2019 13:32:44 +0100
+In-Reply-To: <20190507131151.31070-3-bunk@stusta.de>
+References: <20190507131151.31070-3-bunk@stusta.de>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] glib-2.0: fix ptest failures
+Subject: Re: [PATCH] ofono: upgrade 1.25 -> 1.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +57,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 12:25:44 -0000
+X-List-Received-Date: Wed, 08 May 2019 12:32:47 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-05-08 at 12:54 +0100, Burton, Ross wrote:
-> On Wed, 8 May 2019 at 04:06, <mingli.yu@windriver.com> wrote:
-> > * Increase the timeout to 15 minutes as the default
-> >   timeout which is 5 minutes is not enough to fix below error:
-> >   | Executing: glib/actions.test
-> >   | Test timed out after 300 seconds
-> >   | cleaning up pid 13050
-> >   | FAIL: glib/actions.test (Child process killed by signal 9)
+On Tue, 2019-05-07 at 16:11 +0300, Adrian Bunk wrote:
+> Remove patch applied upstream.
 > 
-> My Debian machine runs that test in 20 seconds.
-> 
-> Maybe we're missing dependencies to get a working session dbus up?
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  .../ofono/ofono/use-python3.patch             | 27 ---------------
+> ----
+>  meta/recipes-connectivity/ofono/ofono_1.25.bb |  9 -------
+>  meta/recipes-connectivity/ofono/ofono_1.29.bb |  8 ++++++
+>  3 files changed, 8 insertions(+), 36 deletions(-)
+>  delete mode 100644 meta/recipes-connectivity/ofono/ofono/use-
+> python3.patch
+>  delete mode 100644 meta/recipes-connectivity/ofono/ofono_1.25.bb
+>  create mode 100644 meta/recipes-connectivity/ofono/ofono_1.29.bb
 
-That seems likely. I'd note that we see:
+A local build of this failed with what looks like a race:
 
-https://autobuilder.yocto.io/pub/non-release/20190502-12/testresults/testresult-report.txt
-
-
-Recipe                       | Passed      | Failed   | Skipped   | Time(s)    
-glib-2.0                     | 290         | 1        | 0         | 427
-
-and the failing test is:
-
-    ptestresult.glib-2.0.glib/gdatetime.test__Child_process_killed_by_signal_6_
-
-so it would seem this is working on our autobuilder tests? That would
-seem to back up Ross' comments.
+| ln -s /media/build1/poky/build/tmp/work/core2-64-poky-linux/ofono/1.29-r0/build/../ofono-1.29/include/netmon.h include/ofono/netmon.h
+| /media/build1/poky/build/tmp/hosttools/mkdir -p ell
+| echo -n > ell/ell.h
+| ln -s /media/build1/poky/build/tmp/work/core2-64-poky-linux/ofono/1.29-r0/build/../ofono-1.29/include/lte.h include/ofono/lte.h
+| ../ofono-1.29/src/genbuiltin udevng rildev ril infineon ril_intel rilmodem isimodem isiusb n900 u8500 qmimodem gobi mbimmodem mbim atmodem nwmodem swmodem ztemodem iceramodem huaweimodem calypsomodem mbmmodem telitmodem hsomodem ifxmodem stemodem dunmodem hfpmodem speedupmodem ubloxmodem gemaltomodem xmm7modem phonesim cdmamodem g1 wavecom calypso mbm hso zte huawei sierra novatel palmpre ifx ste stemgr caif cinterion gemalto nokia nokiacdma linktop icera alcatel speedup speedupcdma samsung sim900 sim7100 connman telit quectel ublox xmm7xxx  hfp_bluez5 dun_gw_bluez5  bluez5 hfp_ag_bluez5 upower provision cdma_provision file_provision  smart_messaging push_notification allowed_apns > src/builtin.h
+| ln -s /media/build1/poky/build/tmp/work/core2-64-poky-linux/ofono/1.29-r0/build/../ofono-1.29/include/ims.h include/ofono/ims.h
+| ln -s /media/build1/poky/build/tmp/work/core2-64-poky-linux/ofono/1.29-r0/build/include/version.h include/ofono/version.h
+| /bin/bash: ell/ell.h: No such file or directory
+| ln -s /media/build1/poky/build/tmp/work/core2-64-poky-linux/ofono/1.29-r0/build/../ofono-1.29/include/storage.h include/ofono/storage.h
+| Makefile:5722: recipe for target 'ell/ell.h' failed
+| make: *** [ell/ell.h] Error 1
+| make: *** Waiting for unfinished jobs....
 
 Cheers,
 
