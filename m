@@ -1,51 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 991357DDC2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C3007DE5E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 10:59:57 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id f7so16291902wrq.1
+	Wed,  8 May 2019 11:55:00 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id m186so3443534itd.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 03:59:59 -0700 (PDT)
+	Wed, 08 May 2019 04:55:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=yZb44e2qVfpjS/H9qKP5QYKTvToR6i2bucMBJW2TeAc=;
-	b=NfFMgkZUgL+kYvQk/WV5O38iy/Y+Bt3kBmoZLuESMM5I/VlkyZz16XlXs73lYnO76Q
-	PdMRE/MAsdXz+op26OMzikUSOZg9FGsjPBb0IpIQjTPQIWqP15QakbblrTAEeVMduo+5
-	Wf6I5Pn5KcmMYZvtcqsmAEs9VxSYw1bCabcCI=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2KVeMXDyZDcLRN9VPfxP8P3DSaHU2zXbhHzMUNvSuKQ=;
+	b=HR78AkvUGjBGBJZ0No9u/Szgr5RH2iuSwIOpD45v1Omdamg1KXU5gkMXdi5G4O42Yh
+	CUlJnwzNyXe256OpuBw+S1e+tg915kTRza6JtYzI5W7Sxv6GOVaAa8eMFwoPLw6/Nghr
+	8DCcYthi6YDzbOcwNeF8HqF/m1Vc1clwjpAJescWjlrIbzU/DAopfs8YImx705inJFKO
+	4CNZTVgWMK4B21V8J3iakUAExuMbyTXajovwwoEK0zMgKsCx3TkWRqoDpwr0vb1vnJu9
+	QK+vx+GgHjIMRTjUE+w4yydh+eQmnYH0nBXIO7WfmjdnCqlX8Lyn++HQzJW10L19HbN5
+	PfUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=yZb44e2qVfpjS/H9qKP5QYKTvToR6i2bucMBJW2TeAc=;
-	b=ZD8mtZXXwNaz+6d2nSCSJSMkZSy8ju3mSiPw6sYXAj61IifKIRbn6pgWb7rubjaj9p
-	NfiEVS65guEvcw9oZavhQmPxKLN5jqXCICfXY21ypr/8whQPA0NA9kmpHfhMwdjlj3Zx
-	/9nJ+DprqQ7WRSDHtCvQ2GSXUkw0EAIDhpLCCIaFqwx2ktSIZTa1SzFPUvsu7T57XXHX
-	avM/XojwI0nHTi1KhGzU1LR/s9UXtW+bZO7/Rk8POqhjGP9HPbHKLk13sI8LcW6kbRUj
-	iYYd1V9OmCDrvejf9xN51NY7g1Ztqz7BbtOOYGBz60jpUEd3/SFJ4CBG51s2wsl+OQhL
-	BuVw==
-X-Gm-Message-State: APjAAAXfDfYde05CsUQU6KlhkgZeFneMNSA5FDZzvMr+qNEZ+Uay2tjo
-	5f/nnheHZ2oHzgJpf9mZAJMmn64/a8s=
-X-Google-Smtp-Source: APXvYqxjIeo4MoBfRCFs8L7SvQMqaZzqbpx02QSoUNhGtuezepKhLpu6WYrQ6a1zRNRiAwzjGozxOg==
-X-Received: by 2002:adf:8122:: with SMTP id 31mr16545201wrm.112.1557313198188; 
-	Wed, 08 May 2019 03:59:58 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p13sm2911053wmb.0.2019.05.08.03.59.57
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 03:59:57 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 11:59:49 +0100
-Message-Id: <20190508105949.24942-4-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190508105949.24942-1-richard.purdie@linuxfoundation.org>
-References: <20190508105949.24942-1-richard.purdie@linuxfoundation.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2KVeMXDyZDcLRN9VPfxP8P3DSaHU2zXbhHzMUNvSuKQ=;
+	b=tejCVjph0E2OztkVI+lhhXvcChYo/fPAdyKofa/Ti6sdMGdheJuL9tnDkKwZugPaEu
+	W84y04Fr3sPvZb7vBioTslbDfnN7Og/PbJyiqz6H22z7DS+Sc53h7camJpbVvFq+igxu
+	41lPhiLm3s0TbCV0AX8sp6YCit/vHloygBhnMmKFqNV3f2FiYfkoyVp/SiDrFLui2z4Y
+	P0qt2RxYMc1PUOsMzWCPGej4k8xnaS/7hv+jZGd5KM7PD6pn02jT8VEtfhsK3w5kBIiZ
+	lwr07saPv/JtMfOMIZPX0o8VSUUfk4vY5Ii/6riRWLtJuY5ooD4EVs7b9xs3N9Rr/j+K
+	bNBA==
+X-Gm-Message-State: APjAAAUzFGB+l7J5m3a4AkOlOyqzE0eb37oN2+dH27FolmRTcEj6o1EF
+	grPELFpLnzUH0X/6UU0+d7fj02tqHjRjG5D21+ma9pWr
+X-Google-Smtp-Source: APXvYqzB2tkQbe1XHTupfTAfdOYu84lMr8yfadYgk2IrbhJ9q1bjJs5hOflb5fCz+MCd5w/cB4Lx+OpMmbEAitIS1Uw=
+X-Received: by 2002:a24:4cd2:: with SMTP id a201mr2958634itb.26.1557316501886; 
+	Wed, 08 May 2019 04:55:01 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 4/4] scripts/pybootchart/draw: Fix some bounding problems
+References: <5CD13414.9060408@windriver.com>
+	<20190508030539.448075-1-mingli.yu@windriver.com>
+In-Reply-To: <20190508030539.448075-1-mingli.yu@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 8 May 2019 12:54:51 +0100
+Message-ID: <CAJTo0LbWzug_9N5eZwaaWNX3w6wRfOCNx379DYkpODf=t71KbA@mail.gmail.com>
+To: Mingli Yu <mingli.yu@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] glib-2.0: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,44 +55,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 10:59:58 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 08 May 2019 11:55:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The chart size extents were being incorrectly reported, not accounting for the
-width of the legend. Set a minimum width to account for that (its fixed size).
+On Wed, 8 May 2019 at 04:06, <mingli.yu@windriver.com> wrote:
+> * Increase the timeout to 15 minutes as the default
+>   timeout which is 5 minutes is not enough to fix below error:
+>   | Executing: glib/actions.test
+>   | Test timed out after 300 seconds
+>   | cleaning up pid 13050
+>   | FAIL: glib/actions.test (Child process killed by signal 9)
 
-Also stop printing the chart background off the bottom of the chart extents.
+My Debian machine runs that test in 20 seconds.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/pybootchartgui/pybootchartgui/draw.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Maybe we're missing dependencies to get a working session dbus up?
 
-diff --git a/scripts/pybootchartgui/pybootchartgui/draw.py b/scripts/pybootchartgui/pybootchartgui/draw.py
-index b3184411cbc..add5c538821 100644
---- a/scripts/pybootchartgui/pybootchartgui/draw.py
-+++ b/scripts/pybootchartgui/pybootchartgui/draw.py
-@@ -342,6 +342,10 @@ def extents(options, xscale, trace):
-         if trace.mem_stats:
-             h += meminfo_bar_h
- 
-+    # Allow for width of process legend and offset
-+    if w < (720 + off_x):
-+        w = 720 + off_x
-+
-     return (w, h)
- 
- def clip_visible(clip, rect):
-@@ -490,7 +494,7 @@ def render_charts(ctx, options, clip, trace, curr_y, w, h, sec_w):
-     return curr_y
- 
- def render_processes_chart(ctx, options, trace, curr_y, w, h, sec_w):
--    chart_rect = [off_x, curr_y+header_h, w, h - 2 * off_y - header_h - leg_s + proc_h]
-+    chart_rect = [off_x, curr_y+header_h, w, h - curr_y - 1 * off_y - header_h  ]
- 
-     draw_legend_box (ctx, "Configure", \
-              TASK_COLOR_CONFIGURE, off_x  , curr_y + 45, leg_s)
--- 
-2.20.1
-
+Ross
 
