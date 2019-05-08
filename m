@@ -1,47 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 0B4DF7DE51
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 073617DE64
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 13:55:05 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id y5so3395144wma.2
+	Wed,  8 May 2019 13:55:06 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 198so3407002wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 06:55:07 -0700 (PDT)
+	Wed, 08 May 2019 06:55:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=7j8WeKy4yqCXFZCt1pG4e95e89eGP+QzqfvbB/8IWSc=;
-	b=aC83p7Oode05AFfWHqhfAgFOSIvHcKx7coXV36fnMXg/QTx3cvzz75BTL0k10RnidG
-	vGHrotRJPdHuXLgLEsz7ej67zbg1qKSEZTTShFl+EMpElHGehPvVhbg7ME0lu+iGn7L7
-	F04YLVA069kHdmG+VtvMTnfFzlVB0kLmXmz4diY0oCbyeJ8FW8+PCsukdrfMoZ/0qjtJ
-	dN+T7Kqffpb2PW1m37aRlVTi0m3ERiVHTdGcfxj34K7HPEyhUJ1QJ3trHZ2mUXSninVX
-	ok88WR13lL/7aYAspsT2kDactff0OLdesum1rjDY/JTUIZXOWBOh70PINjh0hR+PIjzQ
-	lExA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=mLAdDCKz/0fOHmMCNpp9ucYvnfwXe48j0m6c+inalOE=;
+	b=Rw5r2wMkb2Hyv4dLXvD7NUoVAgdtZfLCTLJwpvV7n7gueeyPF8cCD8ByirVs1PlEvG
+	VFR4dPCcc2wXUCJLUeC6OWNvKWaTmjFtTPMK49+7L+B3VuDzl7W5SdreldhxP1tKTtmK
+	u+gChOFXoAdqb6FQETMkxSm+2yK4wgEeAuku/dxlVEM09xiuzGX0UW+IFpL+IWf559CM
+	3Jcut3TVqkol2lnBpEG96PXPT0LdhP7sTFsq/FT5bA3pq9cuhuPDVBp1bNGfyHJLs2yi
+	U9Ayw8naNYWPsR2xFpzfTZFomzRQLs7pwwvYdTBy92SVVADXN0c7GB8OsgulFYpTKoTb
+	FLlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=7j8WeKy4yqCXFZCt1pG4e95e89eGP+QzqfvbB/8IWSc=;
-	b=c0be+jGnpcF0PPUBwBQhSAUVQsxiV2L0rojygFSht27yu4D2cA3tBqxAC7l0Eb0+CF
-	0W6wx7flsaEe94W75/tmZiEWOgz1RQ9qvflnflrxId3diE2kCAOlAxKOyMO64PqrvvVp
-	+/iuwhwaBmHN+Sz6mMIAkA15JFYG0tJzAjEPtWPr9v4NtbrfsRRP6fg55ifb7eICa0yE
-	35n+P6F4f6F68Dbx9o/JC6TzDgin133z6TQSWKY8PQo1CBQVfcZCj4DqA3JRgy8AccZ3
-	wQ7+s7qDCDJJaTEjJ/wMMk9jf+75KS82kHiG64EO0gCMCN6mdP9fLcTONReKwkaue54I
-	b2mw==
-X-Gm-Message-State: APjAAAUCRCEk9evSQV/K/xC71aBWRevIHCIEXqFt4DOfMPjKZUVBy5S3
-	ztU+7F9oJ6TZU2oypkLFBDIw+UZT
-X-Google-Smtp-Source: APXvYqw824ZhyPvA+l16kkZnDbzbOW6JF2LFz+be7o65klWVMcb8xIBC2KkrhL7IDmvi55MSJ2eurQ==
-X-Received: by 2002:a1c:80d7:: with SMTP id b206mr3082738wmd.48.1557323706298; 
-	Wed, 08 May 2019 06:55:06 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=mLAdDCKz/0fOHmMCNpp9ucYvnfwXe48j0m6c+inalOE=;
+	b=XfJ9mo2o5fXVqZBZiexIHwVzrbt4DR9WUVPaLjf3/1wDvDIPftHRVUXBSxEL3nnpGd
+	GIU6Bs6drkPII/vWbhUy1opuWFvQHDXSGIaI4Ay9oSDfMZgJlGUXD83CmWUNsQkfmDNS
+	3d6zLTolOtA2CHfEbP0jS+HVOnP10J12R214rb/Sv9lDdeC7lMF5CnuwdQaqQAzOAStz
+	VyDyHoZjHRykYHfhq0k8OkWoh1hU7BHdWPLyG/6MZc+b1HHJwcxxG7JtaeK9e4FD55/y
+	oIJ1tXwLz6AKq8KyIQRczLLDdPcYJQpxWdmt2wJDlGL30aHQOP23E/dHUDrDnDIFO1I9
+	enEw==
+X-Gm-Message-State: APjAAAWKG1dagpt51gC8OPjMDEGTkXqvGgMSnBsJ5ELQp0PhDH19grsn
+	7ON1Gee5WYL+7mPFwNoEUZWJWVCH
+X-Google-Smtp-Source: APXvYqxCOiDLJP+2OFe6eUc8JANHG8Z5mto85riKqEscLS9BhUXGoQoDa4E0bIKVHD8Hm+G5y09eOw==
+X-Received: by 2002:a7b:c309:: with SMTP id k9mr3450948wmj.45.1557323707595;
+	Wed, 08 May 2019 06:55:07 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	j190sm4212478wmb.19.2019.05.08.06.55.05
+	j190sm4212478wmb.19.2019.05.08.06.55.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 06:55:05 -0700 (PDT)
+	Wed, 08 May 2019 06:55:06 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 15:54:57 +0200
-Message-Id: <20190508135459.84886-1-alex.kanavin@gmail.com>
+Date: Wed,  8 May 2019 15:54:58 +0200
+Message-Id: <20190508135459.84886-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 1/3] meson: update to 0.50.1
+In-Reply-To: <20190508135459.84886-1-alex.kanavin@gmail.com>
+References: <20190508135459.84886-1-alex.kanavin@gmail.com>
+Subject: [PATCH 2/3] perl: update to 5.28.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,103 +57,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 13:55:06 -0000
-
-None of the backported patches actually made it into this release.
+X-List-Received-Date: Wed, 08 May 2019 13:55:07 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/meson/meson.inc                |  4 ++--
- .../meson/0001-Make-CPU-family-warnings-fatal.patch  |  2 +-
- ...d-environment.py-do-not-determine-whether-a.patch | 12 +++++-------
- ...0002-Support-building-allarch-recipes-again.patch |  2 +-
- .../meson/{meson_0.50.0.bb => meson_0.50.1.bb}       |  0
- ...sdk-meson_0.50.0.bb => nativesdk-meson_0.50.1.bb} |  0
- 6 files changed, 9 insertions(+), 11 deletions(-)
- rename meta/recipes-devtools/meson/{meson_0.50.0.bb => meson_0.50.1.bb} (100%)
- rename meta/recipes-devtools/meson/{nativesdk-meson_0.50.0.bb => nativesdk-meson_0.50.1.bb} (100%)
+ .../perl-sanity/{perl_5.28.1.bb => perl_5.28.2.bb}     | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-devtools/perl-sanity/{perl_5.28.1.bb => perl_5.28.2.bb} (97%)
 
-diff --git a/meta/recipes-devtools/meson/meson.inc b/meta/recipes-devtools/meson/meson.inc
-index 21d34da6adf..6a723683cc0 100644
---- a/meta/recipes-devtools/meson/meson.inc
-+++ b/meta/recipes-devtools/meson/meson.inc
-@@ -18,8 +18,8 @@ SRC_URI = "https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${P
-            file://0001-mesonbuild-environment.py-check-environment-for-vari.patch \
-            file://0001-modules-python.py-do-not-substitute-python-s-install.patch \
-            "
--SRC_URI[sha256sum] = "2a1bc42dda58206fb922cda5e1ca95cc03ad126321d26acc47d3493ec4e7021f"
--SRC_URI[md5sum] = "433483107fda4616eaf33de7e7083a84"
-+SRC_URI[sha256sum] = "f68f56d60c80a77df8fc08fa1016bc5831605d4717b622c96212573271e14ecc"
-+SRC_URI[md5sum] = "24a6527796115828d2ebc75880e18d62"
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
+similarity index 97%
+rename from meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
+rename to meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
+index f3948a5f8d4..12b220a4d80 100644
+--- a/meta/recipes-devtools/perl-sanity/perl_5.28.1.bb
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://Copying;md5=5b122a36d0f6dc55279a0ebc69f3c60b \
  
- SRC_URI_append_class-native = " \
-     file://0001-Make-CPU-family-warnings-fatal.patch \
-diff --git a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-index 9e90b72f313..adde1e271f1 100644
---- a/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-Make-CPU-family-warnings-fatal.patch
-@@ -1,4 +1,4 @@
--From 1ec44c955f45f3787aaf92edd70dec5bcf03f665 Mon Sep 17 00:00:00 2001
-+From 4b4b3d4932d928f05dbd74d730a3c8a5ac371e1d Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Tue, 3 Jul 2018 13:59:09 +0100
- Subject: [PATCH] Make CPU family warnings fatal
-diff --git a/meta/recipes-devtools/meson/meson/0001-mesonbuild-environment.py-do-not-determine-whether-a.patch b/meta/recipes-devtools/meson/meson/0001-mesonbuild-environment.py-do-not-determine-whether-a.patch
-index e64e13b8360..83347145417 100644
---- a/meta/recipes-devtools/meson/meson/0001-mesonbuild-environment.py-do-not-determine-whether-a.patch
-+++ b/meta/recipes-devtools/meson/meson/0001-mesonbuild-environment.py-do-not-determine-whether-a.patch
-@@ -1,4 +1,4 @@
--From c040f0dbace3259c80f3710bc019433b9c817940 Mon Sep 17 00:00:00 2001
-+From d9da5e7a16a9397e22a8900fac4b60b40d7f00de Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 25 Mar 2019 18:18:33 +0100
- Subject: [PATCH] mesonbuild/environment.py: do not determine whether a build
-@@ -8,23 +8,21 @@ This can, and does, go wrong when our host architecture is same as the target on
  
- Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+
- ---
-  mesonbuild/environment.py | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+-           https://github.com/arsv/perl-cross/releases/download/1.2.2/perl-cross-1.2.2.tar.gz;name=perl-cross \
++           https://github.com/arsv/perl-cross/releases/download/1.2.3/perl-cross-1.2.3.tar.gz;name=perl-cross \
+            file://perl-rdepends.txt \
+            file://0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch \
+            file://0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch \
+@@ -23,10 +23,10 @@ SRC_URI_append_class-native = " \
+            file://perl-configpm-switch.patch \
+ "
  
- diff --git a/mesonbuild/environment.py b/mesonbuild/environment.py
--index 4c1c5ac..6e5d689 100644
-+index d4f0630..c584fa4 100644
- --- a/mesonbuild/environment.py
- +++ b/mesonbuild/environment.py
--@@ -478,7 +478,7 @@ class Environment:
-+@@ -483,7 +483,7 @@ class Environment:
-          self.first_invocation = True
-  
-      def is_cross_build(self):
---        return not self.machines.matches_build_machine(MachineChoice.HOST)
-+-        return self.coredata.cross_file is not None
- +        return self.need_exe_wrapper()
-  
-      def dump_coredata(self):
-          return coredata.save(self.coredata, self.get_build_dir())
---- 
--2.17.1
--
-diff --git a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-index 323e21d8f6e..e47e555324f 100644
---- a/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-+++ b/meta/recipes-devtools/meson/meson/0002-Support-building-allarch-recipes-again.patch
-@@ -1,4 +1,4 @@
--From a4bce582c1f13f48b329526aa81710405c4c691e Mon Sep 17 00:00:00 2001
-+From 2164655328ec4e47335fc9033813274365491ad8 Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Thu, 26 Jul 2018 16:32:49 +0200
- Subject: [PATCH] Support building allarch recipes again
-diff --git a/meta/recipes-devtools/meson/meson_0.50.0.bb b/meta/recipes-devtools/meson/meson_0.50.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/meson/meson_0.50.0.bb
-rename to meta/recipes-devtools/meson/meson_0.50.1.bb
-diff --git a/meta/recipes-devtools/meson/nativesdk-meson_0.50.0.bb b/meta/recipes-devtools/meson/nativesdk-meson_0.50.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/meson/nativesdk-meson_0.50.0.bb
-rename to meta/recipes-devtools/meson/nativesdk-meson_0.50.1.bb
+-SRC_URI[perl.md5sum] = "838198c43d4f39d7af797e2f59c2bee5"
+-SRC_URI[perl.sha256sum] = "3ebf85fe65df2ee165b22596540b7d5d42f84d4b72d84834f74e2e0b8956c347"
+-SRC_URI[perl-cross.md5sum] = "9a6c05497bdde9a3106e3be9246f4da1"
+-SRC_URI[perl-cross.sha256sum] = "e6987838f27d8cd3368ea68fc56a68cc52371505950927b8b7c5cb76e3a94caa"
++SRC_URI[perl.md5sum] = "1323e7581fbedf3791d2843f4ccaec4b"
++SRC_URI[perl.sha256sum] = "aa95456dddb3eb1cc5475fed4e08f91876bea71fb636fba6399054dfbabed6c7"
++SRC_URI[perl-cross.md5sum] = "03d9eafd71161eb5d1f80434e8b49dbc"
++SRC_URI[perl-cross.sha256sum] = "84583a1bb5f3a2c64d13d031386c114382e5c62955c6f84a27cec8318536627c"
+ 
+ PR = "r1"
+ 
 -- 
 2.17.1
 
