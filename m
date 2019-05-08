@@ -1,23 +1,47 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D39147DD9F
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 41CD57D8DC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 10:05:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x48A5SPH019106
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed,  8 May 2019 10:13:31 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id d12so5948856wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 8 May 2019 03:05:29 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 8 May 2019 03:05:28 -0700
-From: <changqing.li@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 8 May 2019 18:05:27 +0800
-Message-ID: <1557309927-99133-1-git-send-email-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
-Subject: [PATCH] python3: fix do_install fail for parallel buiild
+	Wed, 08 May 2019 03:13:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=knzHpoFAM1+ErQcnPvYECD3wdqr8AsYBomTfc03Pffk=;
+	b=e5Gao9r6d1CYgpLEw1zX/QoTt926rl/w38hkz4KNQUmfQEVt58TfTNtJJ0oGBpx20w
+	B0vsotx/YFBfYFi0RCjvkOhPeG/VJjrZBsfIuKaGnj5x3J2swCjwCzcYG5Mq0mKZqoO2
+	j8ElEJwz1bQltWZkoIKPWyTEiCQ/d8OVksne9C3HLBhN8NISb6W32l5h/y9xj801ym8Q
+	Th91kpUi3D0jtqRjXzUKRLCGBddICrPNcPqIO2k1gign6SQe1pPjkZXCpccVkCvXqDSq
+	lrxSERf5Ar61Y8RylXTdvwOVSOlu/lRG01ieqd/IiU+lUGqfQqqgO/d+iHDDI9NWxwRd
+	XRBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=knzHpoFAM1+ErQcnPvYECD3wdqr8AsYBomTfc03Pffk=;
+	b=tpkfpryl9GUb/vOHnEBHCpOdQIsP624v2ck5A+TFvjEdIfkbYEUP44/wQrNLSPZ8Oh
+	DpKRctQr1RuxqjqWfCI39pnlKc+tn1UZ5oER9D/jhzn2FWEhiD8pEa8AV9lKTvFilH4T
+	oaZMEG0UG1x7xaTWVSxm+qi9K+gVtRWdotV+bL+4NbSsn2uAG9hoi3HQm12i4M45LC9L
+	4xIrqJUUafq+0Naa63f2oaKhzM9H2X5e5b7PZTqIjceGpJWoMPKZJBw3OizgD2LMm2n3
+	jk1630j4uuVj2bnuv1/g352aGjTnOX7hZMDxjvHbHJ2An6/Guudmu4subfb/nArGnL36
+	woow==
+X-Gm-Message-State: APjAAAVCc0iEeYgpnb/Jpws0vgpt4nSmUb0DN7hsbC9q/YpJLwFjdcIK
+	YKPHKPth4sX0VWjg8jlylg5RqOR6
+X-Google-Smtp-Source: APXvYqyLk80sJadib16Hp6Zl23AprKvlQfkOvSw75CHKmQfOYaw+TTwVN5L/LzS0FbiQKSNuZZiiMA==
+X-Received: by 2002:adf:c788:: with SMTP id l8mr19346805wrg.143.1557310411661; 
+	Wed, 08 May 2019 03:13:31 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	c20sm19088365wre.28.2019.05.08.03.13.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 May 2019 03:13:30 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  8 May 2019 12:13:21 +0200
+Message-Id: <20190508101325.51102-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/5] bitbake.conf: propagate 'opengl' DISTRO_FEATURE to native/nativesdk from target
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,77 +54,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 10:05:29 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 08 May 2019 10:13:31 -0000
 
-From: Changqing Li <changqing.li@windriver.com>
+This will allow better control over native virgl/qemu configurations.
 
-When using make -j with the 'install' target, it's possible for altbininstall
-(which normally creates BINDIR) and libainstall (which doesn't, though it
-installs python-config there) to race, resulting in a failure due to
-attempting to install python-config into a nonexistent BINDIR. Ensure it also
-exists in the libainstall target.
+Adjust gtk+3/cairo native configurations to actually ignore opengl
+when building for -native: we do not need it, and it would cause build
+failures as only a limited subset of mesa-native is currently built.
 
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Drop native/nativesdk overrides from virglrenderer/libepoxy recipes
+as opengl feature is now correctly set for those variants.
+
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...ix-Issue36464-parallel-build-race-problem.patch | 34 ++++++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.3.bb      |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
+ meta/conf/bitbake.conf                                     | 4 ++--
+ meta/recipes-gnome/gtk+/gtk+3.inc                          | 2 ++
+ meta/recipes-graphics/cairo/cairo_1.16.0.bb                | 2 ++
+ meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb           | 2 --
+ meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb | 2 --
+ 5 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch b/meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
-new file mode 100644
-index 0000000..237645b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch
-@@ -0,0 +1,34 @@
-+From 840fda32c82550259d02a7a56a78a9c05162b1a1 Mon Sep 17 00:00:00 2001
-+From: Changqing Li <changqing.li@windriver.com>
-+Date: Wed, 8 May 2019 16:10:29 +0800
-+Subject: [PATCH] Makefile: fix Issue36464 (parallel build race problem)
-+
-+When using make -j with the 'install' target, it's possible for altbininstall
-+(which normally creates BINDIR) and libainstall (which doesn't, though it
-+installs python-config there) to race, resulting in a failure due to
-+attempting to install python-config into a nonexistent BINDIR. Ensure it also
-+exists in the libainstall target.
-+
-+Upstream-Status: Submitted [https://github.com/python/cpython/pull/13186]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ Makefile.pre.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile.pre.in b/Makefile.pre.in
-+index 15f3687..7e9f173 100644
-+--- a/Makefile.pre.in
-++++ b/Makefile.pre.in
-+@@ -1456,7 +1456,7 @@ LIBPL=		@LIBPL@
-+ LIBPC=		$(LIBDIR)/pkgconfig
-+ 
-+ libainstall:	@DEF_MAKE_RULE@ python-config
-+-	@for i in $(LIBDIR) $(LIBPL) $(LIBPC); \
-++	@for i in $(LIBDIR) $(LIBPL) $(LIBPC) $(BINDIR); \
-+ 	do \
-+ 		if test ! -d $(DESTDIR)$$i; then \
-+ 			echo "Creating directory $$i"; \
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
-index 081ecf4..413d35a 100644
---- a/meta/recipes-devtools/python/python3_3.7.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.3.bb
-@@ -22,6 +22,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0002-Don-t-do-runtime-test-to-get-float-byte-order.patch \
-            file://0003-setup.py-pass-missing-libraries-to-Extension-for-mul.patch \
-            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
-+           file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
-            "
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 14b0764f222..66a0bf2be10 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -836,8 +836,8 @@ DISTRO_FEATURES_NATIVESDK ?= "x11"
  
- SRC_URI_append_class-native = " \
+ # Normally target distro features will not be applied to native builds:
+ # Native distro features on this list will use the target feature value
+-DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation"
+-DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation"
++DISTRO_FEATURES_FILTER_NATIVE ?= "api-documentation opengl"
++DISTRO_FEATURES_FILTER_NATIVESDK ?= "api-documentation opengl"
+ 
+ DISTRO_FEATURES_BACKFILL = "pulseaudio sysvinit bluez5 gobject-introspection-data ldconfig"
+ MACHINE_FEATURES_BACKFILL = "rtc qemu-usermode"
+diff --git a/meta/recipes-gnome/gtk+/gtk+3.inc b/meta/recipes-gnome/gtk+/gtk+3.inc
+index 77b6c31536b..2f9e05b1cd4 100644
+--- a/meta/recipes-gnome/gtk+/gtk+3.inc
++++ b/meta/recipes-gnome/gtk+/gtk+3.inc
+@@ -47,6 +47,8 @@ do_compile_prepend() {
+ 
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'opengl wayland x11', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'opengl x11', 'glx', '', d)}"
++PACKAGECONFIG_class-native = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
++PACKAGECONFIG_class-nativesdk = "${@bb.utils.filter('DISTRO_FEATURES', 'x11', d)}"
+ 
+ PACKAGECONFIG[x11] = "--enable-x11-backend,--disable-x11-backend,at-spi2-atk fontconfig libx11 libxext libxcursor libxi libxdamage libxrandr libxrender libxcomposite libxfixes"
+ # this is provided by oe-core patch that removes epoxy/gl dependency from a X11 build
+diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+index c2628ae0ca0..e875180f6e6 100644
+--- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
++++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
+@@ -41,6 +41,8 @@ X11DEPENDS = "virtual/libx11 libsm libxrender libxext"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'directfb', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)} \
+                    ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'opengl', '', d)}"
++PACKAGECONFIG_class-native = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
++PACKAGECONFIG_class-nativesdk = "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 xcb', '', d)}"
+ 
+ PACKAGECONFIG[x11] = "--with-x=yes -enable-xlib,--with-x=no --disable-xlib,${X11DEPENDS}"
+ PACKAGECONFIG[xcb] = "--enable-xcb,--disable-xcb,libxcb"
+diff --git a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+index dd706a96063..66e8b476dcc 100644
+--- a/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
++++ b/meta/recipes-graphics/libepoxy/libepoxy_1.5.3.bb
+@@ -14,8 +14,6 @@ UPSTREAM_CHECK_URI = "https://github.com/anholt/libepoxy/releases"
+ inherit meson pkgconfig distro_features_check
+ 
+ REQUIRED_DISTRO_FEATURES = "opengl"
+-REQUIRED_DISTRO_FEATURES_class-native = ""
+-REQUIRED_DISTRO_FEATURES_class-nativesdk = ""
+ 
+ PACKAGECONFIG[egl] = "-Degl=yes, -Degl=no, virtual/egl"
+ PACKAGECONFIG[x11] = "-Dglx=yes, -Dglx=no, virtual/libx11 virtual/libgl"
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+index 225a0b8b0c9..b1dfb85c49e 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_0.7.0.bb
+@@ -18,5 +18,3 @@ inherit autotools pkgconfig distro_features_check
+ BBCLASSEXTEND = "native nativesdk"
+ 
+ REQUIRED_DISTRO_FEATURES = "opengl"
+-REQUIRED_DISTRO_FEATURES_class-native = ""
+-REQUIRED_DISTRO_FEATURES_class-nativesdk = ""
 -- 
-2.7.4
+2.17.1
 
 
