@@ -1,24 +1,24 @@
 Return-Path: <chee.yang.lee@intel.com>
 Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 8103A7D719
+	by mail.openembedded.org (Postfix) with ESMTP id 4AAE77D719
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 07:11:54 +0000 (UTC)
+	Wed,  8 May 2019 07:11:55 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga006.fm.intel.com ([10.253.24.20])
 	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	08 May 2019 00:11:55 -0700
+	08 May 2019 00:11:56 -0700
 X-ExtLoop1: 1
 Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by fmsmga006.fm.intel.com with ESMTP; 08 May 2019 00:11:55 -0700
+	by fmsmga006.fm.intel.com with ESMTP; 08 May 2019 00:11:56 -0700
 From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 14:41:01 +0800
-Message-Id: <1557297662-16300-4-git-send-email-chee.yang.lee@intel.com>
+Date: Wed,  8 May 2019 14:41:02 +0800
+Message-Id: <1557297662-16300-5-git-send-email-chee.yang.lee@intel.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1557297662-16300-1-git-send-email-chee.yang.lee@intel.com>
 References: <1557297662-16300-1-git-send-email-chee.yang.lee@intel.com>
-Subject: [PATCH 3/4] wic: add new wic-installer.wks for wic based image installer
+Subject: [PATCH 4/4] image_types_wic: add dependency for wic based image installer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,29 +31,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 07:11:54 -0000
+X-List-Received-Date: Wed, 08 May 2019 07:11:55 -0000
 
 From: Chee Yang Lee <chee.yang.lee@intel.com>
 
+initramfs and rootfs image are required to build wic based
+image installer, add both as dependency for do_image_wic.
+
+initiate default value for LIVE_ROOTFS_TYPE, INITRD_IMAGE_LIVE
+and INITRD_LIVE
+
 Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- scripts/lib/wic/canned-wks/wic-installer.wks.in | 7 +++++++
- 1 file changed, 7 insertions(+)
- create mode 100644 scripts/lib/wic/canned-wks/wic-installer.wks.in
+ meta/classes/image_types_wic.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/scripts/lib/wic/canned-wks/wic-installer.wks.in b/scripts/lib/wic/canned-wks/wic-installer.wks.in
-new file mode 100644
-index 0000000..a7b018d
---- /dev/null
-+++ b/scripts/lib/wic/canned-wks/wic-installer.wks.in
-@@ -0,0 +1,7 @@
-+# description: Create wic installable image
+diff --git a/meta/classes/image_types_wic.bbclass b/meta/classes/image_types_wic.bbclass
+index 5b40a9e..e4f2b8f 100644
+--- a/meta/classes/image_types_wic.bbclass
++++ b/meta/classes/image_types_wic.bbclass
+@@ -102,9 +102,15 @@ python () {
+                 # a variable and let the metadata deal with the deps.
+                 d.setVar('_WKS_TEMPLATE', body)
+                 bb.build.addtask('do_write_wks_template', 'do_image_wic', None, d)
++        d.appendVarFlag('do_image_wic', 'depends', ' %s:do_image_complete' % d.getVar('INITRD_IMAGE_LIVE'))
+         bb.build.addtask('do_image_wic', 'do_image_complete', None, d)
+ }
+ 
++LIVE_ROOTFS_TYPE ?= "ext4"
++INITRD_IMAGE_LIVE ?= "${MLPREFIX}core-image-minimal-initramfs"
++INITRD_LIVE ?= "${DEPLOY_DIR_IMAGE}/${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_FSTYPES}"
++IMAGE_TYPEDEP_wic = "${LIVE_ROOTFS_TYPE}"
 +
-+part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,title=install,label=install-efi,initrd=${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_FSTYPES}" --ondisk sda --label install --active --align 1024 --use-uuid
-+
-+part / --source installer-partition --ondisk sda --fstype=ext4 --label image --use-uuid
-+
-+bootloader --ptable gpt --timeout=5 --append="rootwait console=ttyS0,115200 console=tty0"
+ #
+ # Write environment variables used by wic
+ # to tmp/sysroots/<machine>/imgdata/<image>.env
 -- 
 2.7.4
 
