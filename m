@@ -1,48 +1,62 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
-	[209.85.217.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D56F7DEA1
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 472F07DEA1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 20:44:15 +0000 (UTC)
-Received: by mail-vs1-f68.google.com with SMTP id r62so6727400vsc.9
+	Wed,  8 May 2019 20:46:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id C734F18525
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 13:44:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=DeQxCpR17M9godNPQzaZi+vZyUJIixYgD4/vK8pnkco=;
-	b=LRUSG0XQ8ReDSMb/aPFENC0UKHvc/rJL3fHpyRbzjhwP0o4pbiI61CZAzx+Kfjncka
-	OqS0Lnx2/uBHNzGcs8ixgcxcMejK9xI6kGAiD3kMDdhs9Y1i0LbHYgObJmbGsKy6sAhb
-	Bz/3CnPPquG3e1JOQ8I+xwwVlWjqDhJRsqDEkzZbTUbG0pTlCnOhvpQCbYMZHW7IH37Y
-	HNxXOkhOgeXwTJrHF2htu+N8DXWtDynfIz51ReyUynpPwutSA1JtzOTMtQJfUOksMEK/
-	Kp2RPU5LVPpXiz/XPYdEsUgYT5Cz25xCt55+TJD336vjFsY33TIlb90RJXVCPya0dTj5
-	VDmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=DeQxCpR17M9godNPQzaZi+vZyUJIixYgD4/vK8pnkco=;
-	b=lzvjIeB1HOi1nKsJ/MWZslkR9dG7Z/2Kb8ZwKgT6noqed9uA8Wuv7e+rALKI8dH0ji
-	EwZcRGau6wTZt9ALOJt5eDc/ad25MERSBJoy1cyZkFb7TcZnfdZJ3h0qOrlTQpjDN2V8
-	ag41XIg2q+7FfmX9gah/KX5ATTK75LyHHjaGdSG2XA5Dr5XCg/3CLM0u9YvZk53DznIS
-	6LkfrlV58mBvESBkLF1Jj8mL9w6lfryKwe+6J6f+2Uucq9nKNrswQA/KbdBof3q2jC/D
-	/i/UE9G6MhgEMLpgYHXthnUoZluX2qBFZpa71H1/F+QaESBlM1YszdUABovw4sIRy9XQ
-	eZ3A==
-X-Gm-Message-State: APjAAAU33hqS5xwdaA9/a3Crc4clrXaVIsGfCkAtJEAj094eSNbcCoyG
-	xF1SH6cidq2kOh8XiA3MNWmvz36RhxmCvc75YL8=
-X-Google-Smtp-Source: APXvYqyFkwsRyi8b4bk4NL5Bcn7c9ocbqnwCxidWGGZazipxZgxLMIQK6vfcUaXFZBb5P+wDHgy86ytW7XSlmV8rxdo=
-X-Received: by 2002:a67:af10:: with SMTP id v16mr145606vsl.149.1557348255944; 
-	Wed, 08 May 2019 13:44:15 -0700 (PDT)
+	Wed,  8 May 2019 22:46:09 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id CwebNRRrqa3T
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 May 2019 22:46:08 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id C75341850D
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 May 2019 22:46:08 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B66611A06B
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 May 2019 22:46:08 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AA2FD1A040
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 May 2019 22:46:08 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 May 2019 22:46:08 +0200 (CEST)
+Received: from XBOX04.axis.com (xbox04.axis.com [10.0.5.18])
+	by thoth.se.axis.com (Postfix) with ESMTP id 9E9112C47
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  8 May 2019 22:46:08 +0200 (CEST)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX04.axis.com (10.0.5.18) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 8 May 2019 22:46:08 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Wed, 8 May 2019 22:46:08 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [master][warrior][PATCH] systemd: Use PACKAGECONFIG
+	definition to depend on libnss-myhostname
+Thread-Index: AdUF3whlluP2/CK+QXGE9CY4te/epg==
+Date: Wed, 8 May 2019 20:46:08 +0000
+Message-ID: <8b54668a7b384c489842b3c25c1bf3bf@XBOX04.axis.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20190502210944.62696-1-alex.kiernan@gmail.com>
-	<20190502210944.62696-3-alex.kiernan@gmail.com>
-	<CAKmqyKMDa1gW4ib+3TdJ5v6-58bNjQWmo6GV_6LxkcxpitZNaA@mail.gmail.com>
-In-Reply-To: <CAKmqyKMDa1gW4ib+3TdJ5v6-58bNjQWmo6GV_6LxkcxpitZNaA@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 8 May 2019 21:44:04 +0100
-Message-ID: <CAO5Uq5TdwdWLiymaOQ91Y3uugg5vzR1EPWGtiRrRE49ktihgUg@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 2/6] systemd: do not create machine-id
+X-TM-AS-GCONF: 00
+Subject: Re: [master][warrior][PATCH] systemd: Use PACKAGECONFIG definition to depend on libnss-myhostname
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,41 +69,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 20:44:15 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 08 May 2019 20:46:09 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 8, 2019 at 9:19 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Thu, May 2, 2019 at 2:10 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> >
-> > From: Jonas Bonn <jonas@norrbonn.se>
-> >
-> > There is no reason to have an emtpy machine-id as part of the systemd
-> > package.  Either:
-> >
-> > i)  the filesystem is writable and the file will be created
-> > automatically; or
-> > ii) the filesystem is read-only, in which case the empty machine-id file
-> > should be created as part of the read-only-rootfs tweaks.
-> >
-> > Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
->
-> This patch now results in no "/etc/machine-id" being created which
-> breaks systemd-networkd WiFi connections.
->
-> I now always see this error when trying to connect to WiFi with
-> wpa_supplicant: "DHCP4 CLIENT: Failed to set IAID+DUID"
->
+*ping*
 
-I posted this series earlier that fixes everything I know about
-(including the lack of /etc/machine-id in the stateful case):
+//Peter
 
-https://patchwork.openembedded.org/series/17495/
-
-If you can test and I'll have a look if there's anything else that
-needs addressing?
-
--- 
-Alex Kiernan
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of Peter Kjellerstedt
+> Sent: den 12 april 2019 18:15
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [master][warrior][PATCH] systemd: Use PACKAGECONFIG
+> definition to depend on libnss-myhostname
+>=20
+> Rather than adding the dependency on libnss-myhostname to
+> RDEPENDS_${PN} if the myhostname PACKAGECONFIG is set, add the runtime
+> dependency to myhostname's PACKAGECONFIG definition.
+>=20
+> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> ---
+>=20
+> This is just a clean up of the last commit to systemd.
+>=20
+> meta/recipes-core/systemd/systemd_241.bb | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>=20
+> diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-
+> core/systemd/systemd_241.bb
+> index 3a58f44a3b..562cdc3316 100644
+> --- a/meta/recipes-core/systemd/systemd_241.bb
+> +++ b/meta/recipes-core/systemd/systemd_241.bb
+> @@ -144,7 +144,7 @@ PACKAGECONFIG[lz4] =3D "-Dlz4=3Dtrue,-Dlz4=3Dfalse,lz=
+4"
+>  PACKAGECONFIG[machined] =3D "-Dmachined=3Dtrue,-Dmachined=3Dfalse"
+>  PACKAGECONFIG[manpages] =3D "-Dman=3Dtrue,-Dman=3Dfalse,libxslt-native
+> xmlto-native docbook-xml-dtd4-native docbook-xsl-stylesheets-native"
+>  PACKAGECONFIG[microhttpd] =3D "-Dmicrohttpd=3Dtrue,-
+> Dmicrohttpd=3Dfalse,libmicrohttpd"
+> -PACKAGECONFIG[myhostname] =3D "-Dnss-myhostname=3Dtrue,-Dnss-
+> myhostname=3Dfalse"
+> +PACKAGECONFIG[myhostname] =3D "-Dnss-myhostname=3Dtrue,-Dnss-
+> myhostname=3Dfalse,,libnss-myhostname"
+>  PACKAGECONFIG[networkd] =3D "-Dnetworkd=3Dtrue,-Dnetworkd=3Dfalse"
+>  PACKAGECONFIG[nss] =3D "-Dnss-systemd=3Dtrue,-Dnss-systemd=3Dfalse"
+>  PACKAGECONFIG[nss-mymachines] =3D "-Dnss-mymachines=3Dtrue,-Dnss-
+> mymachines=3Dfalse"
+> @@ -547,7 +547,6 @@ FILES_${PN}-dev +=3D "${base_libdir}/security/*.la
+> ${datadir}/dbus-1/interfaces/ $
+>  RDEPENDS_${PN} +=3D "kmod dbus util-linux-mount util-linux-umount udev
+> (=3D ${EXTENDPKGV}) util-linux-agetty util-linux-fsck"
+>  RDEPENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'serial-
+> getty-generator', '', 'systemd-serialgetty', d)}"
+>  RDEPENDS_${PN} +=3D "volatile-binds update-rc.d systemd-conf"
+> -RDEPENDS_${PN} +=3D "${@bb.utils.contains('PACKAGECONFIG', 'myhostname',
+> 'libnss-myhostname', '', d)}"
+>=20
+>  RRECOMMENDS_${PN} +=3D "systemd-extra-utils \
+>                        systemd-compat-units udev-hwdb \
+> --
+> 2.12.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
