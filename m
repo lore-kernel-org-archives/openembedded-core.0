@@ -1,52 +1,87 @@
-Return-Path: <mike@foundries.io>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D034F6C227
+Return-Path: <ckalluri@xilinx.com>
+Received: from NAM03-CO1-obe.outbound.protection.outlook.com
+	(mail-eopbgr790058.outbound.protection.outlook.com [40.107.79.58])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D9997DFBA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 18:06:52 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id n8so1509735plp.10
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2019 11:06:54 -0700 (PDT)
+	Thu,  9 May 2019 19:01:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=foundries-io.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=SlEBM++bL3YPzt7j7o316lY7808aKHHoPZwTB5htYkU=;
-	b=StqQlrayN88cQjcGNBxr/FCk9oeUTZf3fRoDAKj96Lh9y4K1zb+Th0Jl26/iA8DcBO
-	oPskgcsgSK2E3o4fbxz2I9po0mE4IFe37ex+jJKHKT3y5YRB1c3oZoNw2SO3TtVdwtZi
-	/x3JOUqoYxUH0Xi0BX882LV1XY8QODyBMbv9V0oMnPioL2sIUcOgivELeTEraH4Ev03s
-	BooHJTfZCeWmCFc0jUM89qBMkT1GpeWyn/dP6iTh1bmIlBP2ff2i5ohDtdK91GwFwoww
-	8KAjtrA/V/p0P6Q7HQ9cCKxjIZvpr4uKNA8xtB9+4f3EXjMmkkWK5yI/3Dzk6bKylX+t
-	CiaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=SlEBM++bL3YPzt7j7o316lY7808aKHHoPZwTB5htYkU=;
-	b=A7RH7DkKVPOtn6LabU5k8iiOMQo1Z9EjXpxK8YlLGST3+XTft/efSQsGZWce4cC8ZK
-	X7EbpGttMAWPf1rjJ1kRAqrrMhB3r1HLhk6OAW8mjtUey8U9D6d8HPq4e4ucFBHS9pWa
-	CkOBCrHuKhB3dz0v4IAwfsF1ewNxcPvKsFPiPyuNUh49eokGyYEnuIUeF7a/3XoAJZbo
-	T2SCEPL/hhhE+Aqs0XWeiL3j3ai9oC78RJ4DpYCY/aem/t+ODabWT+OEyReU9XeUY5pu
-	Q8HFq1gFvY5FeOz7banxF5Ew0KlvYkJnXeU+KxtJvtT2nHHa2ZEdFMIWfXidO306K3vn
-	qcmQ==
-X-Gm-Message-State: APjAAAWAQd5rx6xgw7jbsDaxqQbRCaK0fIwMDnBmphCg1Hzb7apJEx5D
-	1sKq7gvmyiAWGMrOSMqtDqqvIn9PBmU=
-X-Google-Smtp-Source: APXvYqzUC9fKHNBNixCeyEH0W0EWQMmqdVSI1GDa0M44elRqhfRC90LmfH9lyjXQgXJD7pqQBWRZZg==
-X-Received: by 2002:a17:902:9a4a:: with SMTP id
-	x10mr6978787plv.113.1557425213248; 
-	Thu, 09 May 2019 11:06:53 -0700 (PDT)
-Received: from scottml-arch.lan (107-198-5-8.lightspeed.irvnca.sbcglobal.net.
-	[107.198.5.8]) by smtp.googlemail.com with ESMTPSA id
-	l129sm6179413pfc.61.2019.05.09.11.06.52
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 11:06:52 -0700 (PDT)
-From: Michael Scott <mike@foundries.io>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2019 11:06:41 -0700
-Message-Id: <20190509180641.20659-1-mike@foundries.io>
-X-Mailer: git-send-email 2.21.0
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=SOoUEY3DlOuRE5SVaGJYhxLfKdsVDitW9lGdcnT/y4E=;
+	b=IcJc40IQHxdwF00m6TFrwn7bKpoqO3dIjS4veWuirKrZwPkJTzaW+tAgiNsJ2+venA6lXeKTXYlNoF8qQtjfx3pyHwPwoADHvV5bmXofpx/mfyvF98+DSPlV/wq8DCMf4GaQubuUGrPBWCzCe7mWiPzJrSoEgym+bm2CejxHPgE=
+Received: from CY4PR02CA0030.namprd02.prod.outlook.com (2603:10b6:903:117::16)
+	by DM6PR02MB6027.namprd02.prod.outlook.com (2603:10b6:5:1f5::13) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1878.21;
+	Wed, 8 May 2019 19:04:18 +0000
+Received: from SN1NAM02FT063.eop-nam02.prod.protection.outlook.com
+	(2a01:111:f400:7e44::208) by CY4PR02CA0030.outlook.office365.com
+	(2603:10b6:903:117::16) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1856.11 via
+	Frontend Transport; Wed, 8 May 2019 19:04:18 +0000
+Authentication-Results: spf=pass (sender IP is 149.199.60.100)
+	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
+	signed) header.d=none; lists.openembedded.org;
+	dmarc=bestguesspass action=none header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
+	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
+Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
+	SN1NAM02FT063.mail.protection.outlook.com (10.152.72.213) with
+	Microsoft SMTP Server (version=TLS1_0,
+	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1856.11
+	via Frontend Transport; Wed, 8 May 2019 19:04:17 +0000
+Received: from unknown-38-66.xilinx.com ([149.199.38.66]:50358
+	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>) id 1hORrV-0001BA-94
+	for openembedded-core@lists.openembedded.org;
+	Wed, 08 May 2019 12:04:17 -0700
+Received: from [127.0.0.1] (helo=localhost)
+	by xsj-pvapsmtp01 with smtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>) id 1hORrQ-0005Iv-4i
+	for openembedded-core@lists.openembedded.org;
+	Wed, 08 May 2019 12:04:12 -0700
+Received: from [172.19.2.12] (helo=xsjckalluri50.xilinx.com)
+	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
+	(envelope-from <chandana.kalluri@xilinx.com>)
+	id 1hORrG-0005Gg-Ow; Wed, 08 May 2019 12:04:02 -0700
+From: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 8 May 2019 12:04:01 -0700
+Message-ID: <1557342241-12116-1-git-send-email-chandana.kalluri@xilinx.com>
+X-Mailer: git-send-email 2.7.4
+X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
+X-TM-AS-User-Approved-Sender: Yes;Yes
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
+	SFV:NSPM;
+	SFS:(10009020)(979002)(346002)(396003)(39860400002)(136003)(376002)(2980300002)(199004)(189003)(77096007)(2351001)(63266004)(26005)(9786002)(14444005)(81166006)(476003)(126002)(81156014)(8936002)(2616005)(8676002)(2906002)(50226002)(486006)(6916009)(305945005)(50466002)(186003)(426003)(478600001)(48376002)(336012)(47776003)(356004)(4326008)(16586007)(316002)(70206006)(70586007)(51416003)(7696005)(106002)(36756003)(5660300002)(36386004)(107886003)(5001870100001)(969003)(989001)(999001)(1009001)(1019001);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR02MB6027; H:xsj-pvapsmtpgw02;
+	FPR:; SPF:Pass; LANG:en;
+	PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com; A:1; MX:1; 
 MIME-Version: 1.0
-Subject: [PATCH] procps: update legacy sysctl.conf to fix rp_filter sysctl issue
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 5effa11f-a259-48ed-ef1d-08d6d3e7f862
+X-Microsoft-Antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);
+	SRVR:DM6PR02MB6027; 
+X-MS-TrafficTypeDiagnostic: DM6PR02MB6027:|DM6PR02MB6027:|DM6PR02MB6027:|DM6PR02MB6027:
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-Microsoft-Antispam-PRVS: <DM6PR02MB602757905D3E47CEF3F8044AB0320@DM6PR02MB6027.namprd02.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Forefront-PRVS: 0031A0FFAF
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam-Message-Info: /PzD2fxFR6I/9vZ5iaOYFsHnqODQmTs2HCG+hLFrxfgqiZLT+ZTPF6YgTS/XXCQIRITrQ8JI2GaoLGm5ZbqBx1hWop+zCCpNMKXUQzAY0rd5KcGtuugPZW3QUhNCaZoLptrq8v7o5dzohnttKQJliFrAEOp1on27D+3rpGb9Wg3UmGo5VWiI7jRk+4sOXPA8GUXIEoe7s4VIG6FmGGTG4UVKtAKFYPuJQc55154mCoQunqjbL6Exysf+Bvagi7UFZV5JMjsYzhC6CpYzA7kNf7SF33If6j9xh18lzjZSShNh3CEAVyoFpDNEP2GUPkRKSTsRktdbyRiXLfY7TKeeWXA+mZ6f3EVw726Uhfm0Dag9FuNQaz33RzCJ2NYSfVqAakrfA62QR/1OndTupEnVOUgMx53ed7y1xWV0BPHl3Tg=
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2019 19:04:17.6302 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5effa11f-a259-48ed-ef1d-08d6d3e7f862
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
+	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6027
+X-OriginatorOrg: xilinx.com
+Subject: [PATCH v2] run-postinsts: Fix full execution of scripts at first boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,174 +94,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 18:06:52 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 09 May 2019 19:01:51 -0000
+Content-Type: text/plain
 
-The sysctl.conf file for procps is very outdated:
-https://git.openembedded.org/openembedded-core/commit/?id=8a9b9a323f4363e27138077e3e3dce8139a36708
-(circa 2014)
+From: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
 
-The origin of this file is hard to determine and due to it's age
-is causing a routing issue when both wifi and ethernet are enabled.
-This manifested during an update from thud -> warrior due to the
-following:
-- upstream change in NetworkManager during 1.16 cycle removes the
-  dynamic setting of rp_filter sysctl when more than one interface
-  is enabled:
-  https://cgit.freedesktop.org/NetworkManager/NetworkManager/commit/?id=b1082aa9a711deb96652e5b2fcaefcf399d127b8
-- open-embedded updated to NetworkManager 1.16 in March 2019:
-  https://git.openembedded.org/meta-openembedded/commit/meta-networking/recipes-connectivity/networkmanager?id=5509328af9e4fab267251456f4d6e7bd51df779a
-- setting in legacy sysctl.conf sets rp_filter to 1 which blocks
-  packets with different inbound and outbound addresses.
+run-postinsts runs a given set of scripts during the first boot of the
+device, when one of these scripts prints something to stdout (isnt
+daemonized correctly), since stdout is not available at that time,
+the script execution immediately returns with an error (exit_group()),
+this error causes the script to terminate all threads within the process,
+causing undesired behavior since the script might still had to execute
+some other code.
 
-Documentation of rp_filter setting from kernel.org:
+Replace eval built-in with (), since () executes in a subshell,
+even if one of the scripts exits, all threads of that process will only
+be within that session, this ensures other scripts meant to be run are
+still run afterwards.
 
-rp_filter - INTEGER
-0 - No source validation.
-1 - Strict mode as defined in RFC3704 Strict Reverse Path
-    Each incoming packet is tested against the FIB and if the interface
-    is not the best reverse path the packet check will fail.
-    By default failed packets are discarded.
-2 - Loose mode as defined in RFC3704 Loose Reverse Path
-    Each incoming packet's source address is also tested against the FIB
-    and if the source address is not reachable via any interface
-    the packet check will fail.
+[YOCTO #13266]
 
-This patch updates the sysctl.conf file to current which doesn't set
-the rp_filter mode explicity (2 is the default).
-
-NOTE: The kernel/pid_max=10000 setting has been commented out as this
-may not be desired by default.
-
-Signed-off-by: Michael Scott <mike@foundries.io>
+Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
 ---
- .../procps/procps/sysctl.conf                 | 105 +++++++++---------
- 1 file changed, 54 insertions(+), 51 deletions(-)
+ meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/procps/procps/sysctl.conf b/meta/recipes-extended/procps/procps/sysctl.conf
-index 34e7488bf7..253f3701bd 100644
---- a/meta/recipes-extended/procps/procps/sysctl.conf
-+++ b/meta/recipes-extended/procps/procps/sysctl.conf
-@@ -1,64 +1,67 @@
--# This configuration file is taken from Debian.
-+# This configuration taken from procps v3.3.15
-+# Commented out kernel/pid_max=10000 line
- #
- # /etc/sysctl.conf - Configuration file for setting system variables
- # See sysctl.conf (5) for information.
--#
- 
--#kernel.domainname = example.com
-+# you can have the CD-ROM close when you use it, and open
-+# when you are done.
-+#dev.cdrom.autoeject = 1
-+#dev.cdrom.autoclose = 1
- 
--# Uncomment the following to stop low-level messages on console
--#kernel.printk = 4 4 1 7
-+# protection from the SYN flood attack
-+net/ipv4/tcp_syncookies=1
- 
--##############################################################3
--# Functions previously found in netbase
--#
-+# see the evil packets in your log files
-+net/ipv4/conf/all/log_martians=1
- 
--# Uncomment the next two lines to enable Spoof protection (reverse-path filter)
--# Turn on Source Address Verification in all interfaces to
--# prevent some spoofing attacks
--net.ipv4.conf.default.rp_filter=1
--net.ipv4.conf.all.rp_filter=1
-+# makes you vulnerable or not :-)
-+net/ipv4/conf/all/accept_redirects=0
-+net/ipv4/conf/all/accept_source_route=0
-+net/ipv4/icmp_echo_ignore_broadcasts =1
- 
--# Uncomment the next line to enable TCP/IP SYN cookies
--#net.ipv4.tcp_syncookies=1
-+# needed for routing, including masquerading or NAT
-+#net/ipv4/ip_forward=1
- 
--# Uncomment the next line to enable packet forwarding for IPv4
--#net.ipv4.ip_forward=1
-+# sets the port range used for outgoing connections
-+#net.ipv4.ip_local_port_range = 32768    61000
- 
--# Uncomment the next line to enable packet forwarding for IPv6
--#net.ipv6.conf.all.forwarding=1
-+# Broken routers and obsolete firewalls will corrupt the window scaling
-+# and ECN. Set these values to 0 to disable window scaling and ECN.
-+# This may, rarely, cause some performance loss when running high-speed
-+# TCP/IP over huge distances or running TCP/IP over connections with high
-+# packet loss and modern routers. This sure beats dropped connections.
-+#net.ipv4.tcp_ecn = 0
- 
-+# Swapping too much or not enough? Disks spinning up when you'd
-+# rather they didn't? Tweak these.
-+#vm.vfs_cache_pressure = 100
-+#vm.laptop_mode = 0
-+#vm.swappiness = 60
- 
--###################################################################
--# Additional settings - these settings can improve the network
--# security of the host and prevent against some network attacks
--# including spoofing attacks and man in the middle attacks through
--# redirection. Some network environments, however, require that these
--# settings are disabled so review and enable them as needed.
--#
--# Ignore ICMP broadcasts
--#net.ipv4.icmp_echo_ignore_broadcasts = 1
--#
--# Ignore bogus ICMP errors
--#net.ipv4.icmp_ignore_bogus_error_responses = 1
--#
--# Do not accept ICMP redirects (prevent MITM attacks)
--#net.ipv4.conf.all.accept_redirects = 0
--#net.ipv6.conf.all.accept_redirects = 0
--# _or_
--# Accept ICMP redirects only for gateways listed in our default
--# gateway list (enabled by default)
--# net.ipv4.conf.all.secure_redirects = 1
--#
--# Do not send ICMP redirects (we are not a router)
--#net.ipv4.conf.all.send_redirects = 0
--#
--# Do not accept IP source route packets (we are not a router)
--#net.ipv4.conf.all.accept_source_route = 0
--#net.ipv6.conf.all.accept_source_route = 0
--#
--# Log Martian Packets
--#net.ipv4.conf.all.log_martians = 1
--#
-+#kernel.printk_ratelimit_burst = 10
-+#kernel.printk_ratelimit = 5
-+#kernel.panic_on_oops = 0
-+
-+# Reboot 600 seconds after a panic
-+#kernel.panic = 600
-+
-+# enable SysRq key (note: console security issues)
-+#kernel.sysrq = 1
-+
-+# Change name of core file to start with the command name
-+# so you get things like: emacs.core mozilla-bin.core X.core
-+#kernel.core_pattern = %e.core
-+
-+# NIS/YP domain (not always equal to DNS domain)
-+#kernel.domainname = example.com
-+#kernel.hostname = darkstar
-+
-+# This limits PID values to 4 digits, which allows tools like ps
-+# to save screen space.
-+#kernel/pid_max=10000
- 
--#kernel.shmmax = 141762560
-+# Protects against creating or following links under certain conditions
-+# See https://www.kernel.org/doc/Documentation/sysctl/fs.txt
-+#fs.protected_hardlinks = 1
-+#fs.protected_symlinks = 1
+diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+index 95eff04..f84a7e1 100755
+--- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
++++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
+@@ -67,7 +67,7 @@ exec_postinst_scriptlets() {
+ 		echo "Running postinst $i..."
+ 		[ "$POSTINST_LOGGING" = "1" ] && eval echo "Running postinst $i..." $append_log
+ 		if [ -x $i ]; then
+-			eval sh -c $i $append_log
++			(sh -c $i $append_log)
+ 			rm $i
+ 		else
+ 			echo "ERROR: postinst $i failed."
 -- 
-2.21.0
+2.7.4
 
 
