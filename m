@@ -1,57 +1,53 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from out2-smtp.messagingengine.com (out2-smtp.messagingengine.com
-	[66.111.4.26])
-	by mail.openembedded.org (Postfix) with ESMTP id 799EA7DE62
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D7717DDF6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 11:58:45 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id B44822204E;
-	Wed,  8 May 2019 07:58:46 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute1.internal (MEProxy); Wed, 08 May 2019 07:58:46 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references; s=
-	fm1; bh=iDIzqVVb2TPfq4s5MNSNFNofMICyngK4gmsLZxHcYEM=; b=lhw1cy5d
-	iH1BxewbasvPGCMDKoavZtFvDXLJYms9+NSiidOpxf9SpJf3iYmWzZ2EhcKjTxPt
-	uri8df3W1fd1ZipHOv3oE7qXzrr0+bebtvlVArTKhgl55HgYB5vhLKRnfwsB2zcl
-	+8du16gnzkLSP6u5pKtPsVrjTSG0k5ZXemHvvCmzGwBkZi4q1VITDFjMQExfotuO
-	4DOC56+zU9BTt0idhDZUGuD9mYtzQ2zOA8bev0qauQGe2BHOc8PEsy7zmBA/Wft1
-	DWWF3MvWwfYZhPhrmfCnJKtOjuoj3SW+XjNajUA2dgC4y37NSvR9jhCAlt+DoPMz
-	kfJbsvEoIQXhSw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:date:from:in-reply-to:message-id
-	:references:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm2; bh=iDIzqVVb2TPfq4s5MNSNFNofMICyn
-	gK4gmsLZxHcYEM=; b=wXH/PkizvYM1zNGXk9ZlbTfeXGm5UJGvpV+/bkoF8z/Wi
-	pSmkL0dkqD9CYWbWu3YMGjQOt070qF7LH4M1thzMNEBlLnZVU5dPuuDnY0PpN9U3
-	QeTb3zbeUwy+rF0ozVaoyeZ3O3M5pgBXY8xL75fZ/2Niozhe9S02Oy1O7hTqnOd+
-	/FADU9y7Uyv1LNcKe+q8VUHb07+BZKTrqOPwmHnXHPdC+UyVdRGuaetwn1vTSQH5
-	qy485KhWPUeBtYe+b+j8B/bYRt1Du0GdOye+86E5/T++uuPS/512HWOEKX9tcERO
-	t0zljuZ8V1sN1GcU13I+x7qUS4FVmf7wNpeRrIkLg==
-X-ME-Sender: <xms:dsTSXGkSXDLTAKv1-bmyOum57ijRBK5FIoX5EJ3Lbb35H3T1d4qY3Q>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrkeefgdeghecutefuodetggdotefrodftvf
-	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-	fjughrpefhvffufffkofgjfhestddtredtredttdenucfhrhhomhepphgruhhlsegsvght
-	rghfihhvvgdrtghordhukhenucffohhmrghinhepghhithhhuhgsrdgtohhmpdhsthhrrg
-	gtvgdrihhonecukfhppeekuddrudekjedrfedvrddufeeknecurfgrrhgrmhepmhgrihhl
-	fhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehluhhsthgvrhfuih
-	iivgeptd
-X-ME-Proxy: <xmx:dsTSXCLOPY7IM_NCAsHsT-oxWA-3r3xPbPY7hh5w_AIf3HYmpL4zdw>
-	<xmx:dsTSXPDfTU5hFYrQPj7KEnRor6qYD0o_r9xngQnjZa07dmm6NX1QYg>
-	<xmx:dsTSXImPQ1-D-5Cldx7rHE-4Q1GKAmatL00mvhXtqDiL-u9QUaGziw>
-	<xmx:dsTSXKFYuGrBfmKAtNE1br5mNTCX-BxSeRncbRotmvMYpFhXoCuJ2g>
-Received: from alpha.home.b5net.uk (138.32.187.81.in-addr.arpa [81.187.32.138])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 03394103CC;
-	Wed,  8 May 2019 07:58:45 -0400 (EDT)
-From: paul@betafive.co.uk
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 11:58:36 +0000
-Message-Id: <20190508115836.15758-3-paul@betafive.co.uk>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190508115836.15758-1-paul@betafive.co.uk>
-References: <20190508115836.15758-1-paul@betafive.co.uk>
-Subject: [PATCH 2/2] strace: Fix aarch64 build with musl
+	Wed,  8 May 2019 12:25:44 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id y197so3028177wmd.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 May 2019 05:25:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=fI4+Ry6teTcgTCkok0l2wSLJi8dImnCEyOTW3vqa8fo=;
+	b=SBWIQE48VlTrSyyjcp0vaEdRobA7mBtzVdHt1coAFYkCwwuvny6AOceuAlbte4JnLy
+	JIXsC2J+QKrqmHa0i9VUv39yxNWtWEx+lZr3iJcKpoUX6+VZ0J3ENVRd+NkTAe64v9In
+	2rMa4Va+eUmKOkhlceLOQ5RBBKJ/8uSj8dTpM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=fI4+Ry6teTcgTCkok0l2wSLJi8dImnCEyOTW3vqa8fo=;
+	b=BtO2usS6Scy2btRB5eeJdvoAxWeEPncZVRAR+K6pODC4ixTvx6j2h2IkilIkg0anPJ
+	RsEslsPwfQfmHMG2CUTMfSWjNLXkoGKB6Ew/pEcwBSZ7J+zOx3ac0lSdLLjhU/Ii0Did
+	CuXQGR35JHGjCQJuABoVo8+essW/BGYinxwmKn281oc40IqJXv5wsUONGZGaTfOKJGsj
+	xjFFSo2vOFwNVGcbivUnznnulZetSPU/R01Mv4jKAU4TdPfu4Q26F8GRIdDVOa6pcb3I
+	f48dMEaGyGmNndTVgsK7lh+duF8dnNR6hyHiTG17OCQduLZ4caEuoo5aF3wy/w8N5pLH
+	PF2A==
+X-Gm-Message-State: APjAAAVfAB0HWV/mFxe0eKwMNSs5TKdMRe9j5jZydbv6RKARNiXtC7Uh
+	cKxgn9Pal4LjpsvVyheUtAeqqQ==
+X-Google-Smtp-Source: APXvYqxXRh+tMiq/FxL3nG7W4xT6aJXosF/kCUHtO99p2AakrbIa2RngHb1vevyagd2ZF7PA579gbA==
+X-Received: by 2002:a1c:cc18:: with SMTP id h24mr2827933wmb.13.1557318344862; 
+	Wed, 08 May 2019 05:25:44 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o16sm24640093wro.63.2019.05.08.05.25.43
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 08 May 2019 05:25:44 -0700 (PDT)
+Message-ID: <eb9506045669eaf6dc51f56fab72195c7cdba6b3.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: "Burton, Ross" <ross.burton@intel.com>, Mingli Yu <mingli.yu@windriver.com>
+Date: Wed, 08 May 2019 13:25:42 +0100
+In-Reply-To: <CAJTo0LbWzug_9N5eZwaaWNX3w6wRfOCNx379DYkpODf=t71KbA@mail.gmail.com>
+References: <5CD13414.9060408@windriver.com>
+	<20190508030539.448075-1-mingli.yu@windriver.com>
+	<CAJTo0LbWzug_9N5eZwaaWNX3w6wRfOCNx379DYkpODf=t71KbA@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] glib-2.0: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,65 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 11:58:45 -0000
+X-List-Received-Date: Wed, 08 May 2019 12:25:44 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Paul Barker <paul@betafive.co.uk>
+On Wed, 2019-05-08 at 12:54 +0100, Burton, Ross wrote:
+> On Wed, 8 May 2019 at 04:06, <mingli.yu@windriver.com> wrote:
+> > * Increase the timeout to 15 minutes as the default
+> >   timeout which is 5 minutes is not enough to fix below error:
+> >   | Executing: glib/actions.test
+> >   | Test timed out after 300 seconds
+> >   | cleaning up pid 13050
+> >   | FAIL: glib/actions.test (Child process killed by signal 9)
+> 
+> My Debian machine runs that test in 20 seconds.
+> 
+> Maybe we're missing dependencies to get a working session dbus up?
 
-Signed-off-by: Paul Barker <paul@betafive.co.uk>
----
- .../strace/strace/musl-fixes-armv8.patch      | 29 +++++++++++++++++++
- meta/recipes-devtools/strace/strace_4.26.bb   |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/musl-fixes-armv8.patch
+That seems likely. I'd note that we see:
 
-diff --git a/meta/recipes-devtools/strace/strace/musl-fixes-armv8.patch b/meta/recipes-devtools/strace/strace/musl-fixes-armv8.patch
-new file mode 100644
-index 0000000000..185d1bef56
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/musl-fixes-armv8.patch
-@@ -0,0 +1,29 @@
-+Fixes on musl + armv8:
-+
-+error: redefinition of 'struct prctl_mm_map'
-+ struct prctl_mm_map {
-+        ^~~~~~~~~~~~
-+In file included from work/aarch64-lmp-linux-musl/strace/4.26-r0/recipe-sysroot/usr/include/asm/ptrace.h:67,
-+                 from work/aarch64-lmp-linux-musl/strace/4.26-r0/recipe-sysroot/usr/include/linux/ptrace.h:107,
-+                 from ../strace-4.26/ptrace.h:36,
-+                 from ../strace-4.26/strace.c:16:
-+work/aarch64-lmp-linux-musl/strace/4.26-r0/recipe-sysroot/usr/include/linux/prctl.h:134:8: note: originally defined here
-+ struct prctl_mm_map {
-+        ^~~~~~~~~~~~
-+
-+[From: https://github.com/foundriesio/meta-lmp, thanks to Ricardo Salveti]
-+Upstream-status: Pending
-+Signed-off-by: Paul Barker <paul@betafive.co.uk>
-+
-+Index: strace-4.26/strace.c
-+===================================================================
-+--- strace-4.26.orig/strace.c
-++++ strace-4.26/strace.c
-+@@ -26,7 +26,7 @@
-+ #include <locale.h>
-+ #include <sys/utsname.h>
-+ #ifdef HAVE_PRCTL
-+-# include <sys/prctl.h>
-++# include <linux/prctl.h>
-+ #endif
-+ #include <asm/unistd.h>
-diff --git a/meta/recipes-devtools/strace/strace_4.26.bb b/meta/recipes-devtools/strace/strace_4.26.bb
-index 24f92c99e5..b71122babf 100644
---- a/meta/recipes-devtools/strace/strace_4.26.bb
-+++ b/meta/recipes-devtools/strace/strace_4.26.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
-            file://0001-mips-o32-fix-build.patch \
-+           file://musl-fixes-armv8.patch \
-            "
- SRC_URI[md5sum] = "daa51acc0c7c696221ec03cf0b30a7af"
- SRC_URI[sha256sum] = "7c4d2ffeef4f7d1cdc71062ca78d1130eb52f947c2fca82f59f6a1183bfa1e1c"
--- 
-2.17.1
+https://autobuilder.yocto.io/pub/non-release/20190502-12/testresults/testresult-report.txt
+
+
+Recipe                       | Passed      | Failed   | Skipped   | Time(s)    
+glib-2.0                     | 290         | 1        | 0         | 427
+
+and the failing test is:
+
+    ptestresult.glib-2.0.glib/gdatetime.test__Child_process_killed_by_signal_6_
+
+so it would seem this is working on our autobuilder tests? That would
+seem to back up Ross' comments.
+
+Cheers,
+
+Richard
 
 
