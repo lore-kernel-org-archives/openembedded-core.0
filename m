@@ -1,53 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E8DA7DEA1
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D56F7DEA1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 20:38:52 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id m20so2689098wmg.1
+	Wed,  8 May 2019 20:44:15 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id r62so6727400vsc.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 13:38:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ruCOXyhyM20vQJfmbZW3/2QfIglMC4oBbckmmElCN6Y=;
-	b=EP6bXv3jPc/1QtBFTZhmNHz+bbww2oANxTwOuTx65vyNclusfR4i/G/D2TDJiNMHxQ
-	nzawNobP8Rp2qAmNe0AYZ/ga1UwuoE32VkfX9WOXE8CbyxHWgCeXVztlmeG0enHfj7C6
-	DIOPX+Jp2eayZ4UsNzq4YJ8yXojsGycYxDHV4=
+	Wed, 08 May 2019 13:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=DeQxCpR17M9godNPQzaZi+vZyUJIixYgD4/vK8pnkco=;
+	b=LRUSG0XQ8ReDSMb/aPFENC0UKHvc/rJL3fHpyRbzjhwP0o4pbiI61CZAzx+Kfjncka
+	OqS0Lnx2/uBHNzGcs8ixgcxcMejK9xI6kGAiD3kMDdhs9Y1i0LbHYgObJmbGsKy6sAhb
+	Bz/3CnPPquG3e1JOQ8I+xwwVlWjqDhJRsqDEkzZbTUbG0pTlCnOhvpQCbYMZHW7IH37Y
+	HNxXOkhOgeXwTJrHF2htu+N8DXWtDynfIz51ReyUynpPwutSA1JtzOTMtQJfUOksMEK/
+	Kp2RPU5LVPpXiz/XPYdEsUgYT5Cz25xCt55+TJD336vjFsY33TIlb90RJXVCPya0dTj5
+	VDmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ruCOXyhyM20vQJfmbZW3/2QfIglMC4oBbckmmElCN6Y=;
-	b=k4k/hDKGJWD19PpfYnlvpQF7JNzeeZ88QhUPUlHuuUpX6iCagL20swB+OJTnjN02lX
-	goQslc8Vp9niyxvp3a3uHA+tKtcgt4ackpslrVw5wcPwK6dBZICtWdmcBDgcMNjF60Gi
-	Y5KpzWU8ikmuGTv0eIBkJV5LU7IKuKOg3e0hJrQBcrJ19LaCdGXSCfCYGoXyhDMtmQ3I
-	ltvfzV5/EI/KjzN4Fp4UiTFrPybKvUzcLwQ6WyZn14nBnf4/xQ9weLdaiLw2IQaYrfq0
-	e/U+sjNRXTz+iPlwRJ4CiM4/6WfE9ybHdsbyPXmcaYYg5VxVacRfn50zGGe/V/s5+G0Y
-	xP+A==
-X-Gm-Message-State: APjAAAVHRs/kca1RHguCu6OJZiqPQ69GzokM702sOZO+k1t4HW5QLZyJ
-	tZNrZTdRU22sjjczHlW94Gpqbw==
-X-Google-Smtp-Source: APXvYqzWXfjx0q9Rv0NJJA/rLYJgoBrZD4ExtaWMhEWGKRcb3Tfyo/fBiQYxYsQJQMCGo7F6pR0YAQ==
-X-Received: by 2002:a1c:9689:: with SMTP id y131mr151261wmd.74.1557347933204; 
-	Wed, 08 May 2019 13:38:53 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r64sm10578806wmr.0.2019.05.08.13.38.51
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 08 May 2019 13:38:52 -0700 (PDT)
-Message-ID: <7f99a5accb9261548f88e3f2787bad806eb5dd05.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Adrian Bunk <bunk@stusta.de>
-Date: Wed, 08 May 2019 21:38:50 +0100
-In-Reply-To: <20190508203052.GC18736@localhost>
-References: <20190507131151.31070-12-bunk@stusta.de>
-	<2396569c84a5fa3ababe93d837c025bce876cd40.camel@linuxfoundation.org>
-	<20190508203052.GC18736@localhost>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=DeQxCpR17M9godNPQzaZi+vZyUJIixYgD4/vK8pnkco=;
+	b=lzvjIeB1HOi1nKsJ/MWZslkR9dG7Z/2Kb8ZwKgT6noqed9uA8Wuv7e+rALKI8dH0ji
+	EwZcRGau6wTZt9ALOJt5eDc/ad25MERSBJoy1cyZkFb7TcZnfdZJ3h0qOrlTQpjDN2V8
+	ag41XIg2q+7FfmX9gah/KX5ATTK75LyHHjaGdSG2XA5Dr5XCg/3CLM0u9YvZk53DznIS
+	6LkfrlV58mBvESBkLF1Jj8mL9w6lfryKwe+6J6f+2Uucq9nKNrswQA/KbdBof3q2jC/D
+	/i/UE9G6MhgEMLpgYHXthnUoZluX2qBFZpa71H1/F+QaESBlM1YszdUABovw4sIRy9XQ
+	eZ3A==
+X-Gm-Message-State: APjAAAU33hqS5xwdaA9/a3Crc4clrXaVIsGfCkAtJEAj094eSNbcCoyG
+	xF1SH6cidq2kOh8XiA3MNWmvz36RhxmCvc75YL8=
+X-Google-Smtp-Source: APXvYqyFkwsRyi8b4bk4NL5Bcn7c9ocbqnwCxidWGGZazipxZgxLMIQK6vfcUaXFZBb5P+wDHgy86ytW7XSlmV8rxdo=
+X-Received: by 2002:a67:af10:: with SMTP id v16mr145606vsl.149.1557348255944; 
+	Wed, 08 May 2019 13:44:15 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lttng-modules: upgrade 2.10.8 -> 2.10.9
+References: <20190502210944.62696-1-alex.kiernan@gmail.com>
+	<20190502210944.62696-3-alex.kiernan@gmail.com>
+	<CAKmqyKMDa1gW4ib+3TdJ5v6-58bNjQWmo6GV_6LxkcxpitZNaA@mail.gmail.com>
+In-Reply-To: <CAKmqyKMDa1gW4ib+3TdJ5v6-58bNjQWmo6GV_6LxkcxpitZNaA@mail.gmail.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 8 May 2019 21:44:04 +0100
+Message-ID: <CAO5Uq5TdwdWLiymaOQ91Y3uugg5vzR1EPWGtiRrRE49ktihgUg@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6 2/6] systemd: do not create machine-id
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,48 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 20:38:52 -0000
+X-List-Received-Date: Wed, 08 May 2019 20:44:15 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-05-08 at 23:30 +0300, Adrian Bunk wrote:
-> On Wed, May 08, 2019 at 09:06:19PM +0100, Richard Purdie wrote:
-> > On Tue, 2019-05-07 at 16:11 +0300, Adrian Bunk wrote:
-> > > Remove the backported patches.
-> > > 
-> > > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > 
-> > Unfortunately this seemed to cause:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/574
-> 
-> ...
-> recipe linux-yocto-4.19.14+gitAUTOINC+9bda6190bf_eebb51300a-r0: task do_compile: Succeeded
-> ...
->  In file included from /home/pokybuild/yocto-worker/beaglebone-lsb/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/lttng-modules/2.10.9-r0/lttng-modules-2.10.9/probes/lttng-kprobes.c:31:
-> > /home/pokybuild/yocto-worker/beaglebone-lsb/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/lttng-modules/2.10.9-r0/lttng-modules-2.10.9/probes/../blacklist/kprobes.h:19:4: error: #error "Your kernel is known to have buggy optimized kprobes implementation. Fixed by commit 0ac569bf6a7983c0c5747d6df8db9dc05bc92b6c \"ARM: 8834/1: Fix: kprobes: optimized kprobes illegal instruction\" in Linux. Disable CONFIG_OPTPROBES or upgrade your kernel."
-> >  #  error "Your kernel is known to have buggy optimized kprobes implementation. Fixed by commit 0ac569bf6a7983c0c5747d6df8db9dc05bc92b6c \"ARM: 8834/1: Fix: kprobes: optimized kprobes illegal instruction\" in Linux. Disable CONFIG_OPTPROBES or upgrade your kernel."
-> >     ^~~~~
-> > make[4]: *** 
-> [/home/pokybuild/yocto-worker/beaglebone-lsb/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/lttng-modules/2.10.9-r0/lttng-modules-2.10.9/probes/lttng-kprobes.o] Error 1
-> ...
-> 
-> 
-> Upstream turned a runtime breakage into a build failure:
-> http://git.lttng.org/?p=lttng-modules.git;a=commit;h=2d16de12b197aed57212826187bcb0ab24ad071e
-> 
-> IOW, this needs an update of beaglebone-yocto in
-> meta-yocto-bsp/recipes-kernel/linux/linux-yocto_4.19.bbappend
-> (4.19.34 already seems to be in the git tree).
+On Wed, May 8, 2019 at 9:19 PM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Thu, May 2, 2019 at 2:10 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> >
+> > From: Jonas Bonn <jonas@norrbonn.se>
+> >
+> > There is no reason to have an emtpy machine-id as part of the systemd
+> > package.  Either:
+> >
+> > i)  the filesystem is writable and the file will be created
+> > automatically; or
+> > ii) the filesystem is read-only, in which case the empty machine-id file
+> > should be created as part of the read-only-rootfs tweaks.
+> >
+> > Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+>
+> This patch now results in no "/etc/machine-id" being created which
+> breaks systemd-networkd WiFi connections.
+>
+> I now always see this error when trying to connect to WiFi with
+> wpa_supplicant: "DHCP4 CLIENT: Failed to set IAID+DUID"
+>
 
-Right, sorry, I hadn't actually read the error :/.
+I posted this series earlier that fixes everything I know about
+(including the lack of /etc/machine-id in the stateful case):
 
-CCing Kevin/Bruce.
+https://patchwork.openembedded.org/series/17495/
 
-Cheers,
+If you can test and I'll have a look if there's anything else that
+needs addressing?
 
-Richard
-
-
-
+-- 
+Alex Kiernan
 
