@@ -1,34 +1,37 @@
-Return-Path: <Anton.Popov@t-platforms.ru>
-Received: from mx1.t-platforms.ru (mx1.t-platforms.ru [80.85.246.77])
-	by mail.openembedded.org (Postfix) with ESMTP id D85B77D589
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F6907DE5B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 12:53:45 +0000 (UTC)
-X-Virus-Scanned: amavisd-new at t-platforms.ru
-From: Popov Anton <Anton.Popov@t-platforms.ru>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] HA: [PATCH] util-linux: fix owner and group for
-	binaries in resulting image
-Thread-Index: AQHVBRG7JUT714MXmECp9f1yev2yNKZhKt4/
-Date: Wed, 8 May 2019 12:53:44 +0000
-Message-ID: <B32C5021EF3D894688F75677907CBC734599AA28@pvmmail.tp-local.ru>
-References: <B32C5021EF3D894688F75677907CBC734599A785@pvmmail.tp-local.ru>
-	<CAPbeDCmBbidMPu4NMb-vGEUKBLNBj2_reFarAguMXOENphzALg@mail.gmail.com>
-	<B32C5021EF3D894688F75677907CBC734599A8AD@pvmmail.tp-local.ru>,
-	<CAJTo0LZ01sF+XHGomO4Wm1M-iaL5aJwqAd_hLALEKFwPGDBGXw@mail.gmail.com>
-In-Reply-To: <CAJTo0LZ01sF+XHGomO4Wm1M-iaL5aJwqAd_hLALEKFwPGDBGXw@mail.gmail.com>
-Accept-Language: ru-RU, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-kse-attachmentfiltering-interceptor-info: protection disabled
-x-kse-antivirus-interceptor-info: scan successful
-x-kse-antivirus-info: Clean, bases: 08.05.2019 10:18:00
-x-kse-bulkmessagesfiltering-scan-result: protection disabled
+	Wed,  8 May 2019 13:02:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 44zc8W6RX1z5w;
+	Wed,  8 May 2019 15:02:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1557320572;
+	bh=GAXqAikAO7+ms/J8C45ExJSSUtU+rK/GY1pFSmY/6r8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kQrBHR+YtxhsNLAW068KZV4GATaxLUesxSDx4ScFYuBopahYajNLMt0S20PZguFIW
+	lF/SjdrZI5+wtz+LUm7fdM4CAiyHh9/TMdo0X37C1iyapyZpuQ22E6qaxl1Ap53I61
+	qFwKC8740MkSK8DmFrLjBarf2L8Z/VeB79M3lKxm3MqWE6H1NBF5Sk3wYLvc4R4C8A
+	kKbmF6CETx3dMNYgdPBIj2TnPHiZJGyS61pLj1+DMwnaiGIKiplJv+6J1kN1IdzMHK
+	Ei5HbFVUL7JD3hbfizpOpjhp252fVdrJBqwEAczv4GcZTpdD5s15grPvZL01p9yYPp
+	0nzXjWRAQzN3tMbNy1mwe5EPBC4zst4RBBLpisqIRM7OVxt0zTcLdhx3QtseQCcy0t
+	J8T3Q12yOeyV0yzVTs2tiIiTcir3uDqIqID7VCo34jAZorlIDrnMV3uHyzh8qihzLT
+	BFJE0FK1IzCl6ixYFv7GMIn7Hkl/yB6chAc9DtwM6/cEh8Ldx7YQmeIwND75sGr23i
+	Ce9gc7ZuLm3BIwjATMyIeFiJMdeU6DFEQxvK0X7bvEgcdgmwnQo6W/2rmAm5MmKOOg
+	wD8iqi+UkFZ2myRB/cBE/07uZR4Edxjc1BrlaWrUf4xuhlajONbpjUt0MhtxP38fF0
+	qJWgWjR4WEQxyGDCkeQrQHcQ=
+Date: Wed, 8 May 2019 16:02:49 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: paul@betafive.co.uk
+Message-ID: <20190508130249.GA25917@localhost>
+References: <20190508115836.15758-1-paul@betafive.co.uk>
+	<20190508115836.15758-3-paul@betafive.co.uk>
 MIME-Version: 1.0
-X-KSE-AttachmentFiltering-Interceptor-Info: protection disabled
-X-KSE-BulkMessagesFiltering-Scan-Result: protection disabled
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: HA: HA: [PATCH] util-linux: fix owner and group for binaries in resulting image
+In-Reply-To: <20190508115836.15758-3-paul@betafive.co.uk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] strace: Fix aarch64 build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,57 +44,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 12:53:46 -0000
-Content-Language: ru-RU
-Content-Type: text/plain; charset="koi8-r"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 08 May 2019 13:02:53 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Good day!=0A=
-=0A=
-Sorry guys, It looks like that the problem is not in recipe but somehow con=
-ected with host distro:=0A=
-we can not reproduce problem on linux mint 19.1 host distro=0A=
-but steel face problem with permissions on CentOS Linux release 7.6.1810 (C=
-ore)=0A=
-=0A=
-requested output of package content:=0A=
-dpkg -c util-linux-mount_2.30-r0_mipsel.deb =0A=
-drwxrwxrwx root/root         0 2019-05-08 14:58 ./=0A=
-drwxr-xr-x root/root         0 2019-05-08 14:58 ./bin/=0A=
--rwsr-xr-x 1000/1000     27956 2019-05-08 14:58 ./bin/mount.util-linux=0A=
-=0A=
-=0A=
-=0A=
-With best regards,=0A=
-Popov Anton=0A=
-=0A=
-________________________________________=0A=
-=EF=D4: Burton, Ross [ross.burton@intel.com]=0A=
-=EF=D4=D0=D2=C1=D7=CC=C5=CE=CF: 7 =CD=C1=D1 2019 =C7. 23:08=0A=
-=EB=CF=CD=D5: Popov Anton=0A=
-=EB=CF=D0=C9=D1: Jacob Kroon; openembedded-core@lists.openembedded.org=0A=
-=F4=C5=CD=C1: Re: [OE-core] HA: [PATCH] util-linux: fix owner and group for=
- binaries in resulting image=0A=
-=0A=
-On Tue, 7 May 2019 at 13:47, Popov Anton <Anton.Popov@t-platforms.ru> wrote=
-:=0A=
-> I don't think so. At the moment we are using rocko release and found this=
- problem in util-linux-2.30 recipe.=0A=
->=0A=
-> the problem is that util-linux builds with regular user permissions and r=
-esult files are owned by user with uid 1000 in our case. for most of binari=
-es in /bin and /sbin generated by util-linux this permissions issue is not =
-a problem (Because all binaries has o+x set). But for those of them who hav=
-e suid bit setted it became a real trouble.=0A=
-=0A=
-Can you give an example of a concrete filename and demonstrate this by=0A=
-e.g. listing the contents of a package from deploy?  For example with=0A=
-master:=0A=
-=0A=
-$ dpkg-deb  -c util-linux-mount_2.32.1-r0_corei7-64.ipk=0A=
--rwsr-xr-x root/root     47152 2019-05-07 14:40 ./bin/mount.util-linux=0A=
-=0A=
-Permissions look right to me.=0A=
-=0A=
-Ross=0A=
+On Wed, May 08, 2019 at 11:58:36AM +0000, paul@betafive.co.uk wrote:
+>...
+> +--- strace-4.26.orig/strace.c
+> ++++ strace-4.26/strace.c
+> +@@ -26,7 +26,7 @@
+> + #include <locale.h>
+> + #include <sys/utsname.h>
+> + #ifdef HAVE_PRCTL
+> +-# include <sys/prctl.h>
+> ++# include <linux/prctl.h>
+> + #endif
+> + #include <asm/unistd.h>
+> diff --git a/meta/recipes-devtools/strace/strace_4.26.bb b/meta/recipes-devtools/strace/strace_4.26.bb
+> index 24f92c99e5..b71122babf 100644
+> --- a/meta/recipes-devtools/strace/strace_4.26.bb
+> +++ b/meta/recipes-devtools/strace/strace_4.26.bb
+> @@ -15,6 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+>             file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+>             file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
+>             file://0001-mips-o32-fix-build.patch \
+> +           file://musl-fixes-armv8.patch \
+>             "
+>...
+
+#include <sys/prctl.h> is the documented way for getting the prototype 
+of prctl(), which cannot be in linux/prctl.h for obvious reasons.
+
+This patch creates the following problem:
+
+../strace-4.26/strace.c: In function 'startup_child':
+../strace-4.26/strace.c:1355:3: warning: implicit declaration of function 'prctl' [-Wimplicit-function-declaration]
+   prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY);
+   ^~~~~
+
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
