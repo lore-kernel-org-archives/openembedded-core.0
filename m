@@ -1,39 +1,46 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id 33F537DE60
+Return-Path: <ptsneves@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DFC2D7DE52
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 13:26:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
-	Sender:Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=KznRG8kB9okSWRhxWHtNv+3NyvLGgHFt1UcJzTmeQzE=;
-	b=Vumwktthi/kukGYR7XFwCwQ+n0
-	mtcz23/tFMtqY/cu0K6AqcB18DeFO+/J19351OVS7P+0T5Tv2iALi2PQCdRyPWKpgr9ouO+FTPyLF
-	xs+7A8oyzemeA+NwAO/kEVg3WyXZoDWXIcS+rQEDl3gA6NzL0gEM1WTii5SV8x+AAkYTL/0MaV76K
-	+ObC4tj1eF/kMuYZVr/tJ9NTGfNirmA2uRJtWmQCBmuDttSgylPh7gTKskdEFB3R8osNbDNbirSdh
-	Pri/aejWskSyRRwr4co69aumIgoKDShXrZdgm8UTpxJFY97UDFCaL2dKsnaCWkLI5PO8/71O6z1pn
-	VZajecrg==;
-Received: from lakka.kapsi.fi ([2001:67c:1be8::1] ident=Debian-exim)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1hOMae-00023r-T8; Wed, 08 May 2019 16:26:32 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1hOMae-0008Do-QT; Wed, 08 May 2019 16:26:32 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 16:26:09 +0300
-Message-Id: <1557321969-28686-2-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-In-Reply-To: <1557321969-28686-1-git-send-email-mikko.rapeli@bmw.de>
-References: <1557321969-28686-1-git-send-email-mikko.rapeli@bmw.de>
-X-SA-Exim-Connect-IP: 2001:67c:1be8::1
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Subject: [PATCH 2/2] openssh: usable sshd depends on rngd from rng-tools
+	Wed,  8 May 2019 13:35:33 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 198so3324639wme.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 08 May 2019 06:35:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YzyRxNVSfJLROCm4NrVKvn3mHSxyxPxKZ/cf+k0XPP8=;
+	b=AwyOTcZNigGbUL8j5hGAuzVYBq4o8aeN+hIbc4llJ3kaBeYNTkK3GuZjCmQn3lc6jK
+	mR0lj6Sd5AjQHVmeYeYoyOIw6AjtMqroT8bHirZMGLAz8q/70FsGnfpDr3YUat0xhw/W
+	p/Wm18a71QfQj36+AwRHdyvHV5IUto/ve+hgSoyJqFf4oqTJhlXDd5tXSuJFaFO3+Yq2
+	Mif7pvN7i03GgPmTfzC38kbgI77OcyIuAiLkAhGja/mm4bfKEAmkRYGJEkks39gbp/L1
+	BWZHDbhXaHSpQ4A2nEfYa2ZXwyAqKB2w2oOc6DP6ln3AzKjf7akMocIL0wImxhvMWkcN
+	u2dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YzyRxNVSfJLROCm4NrVKvn3mHSxyxPxKZ/cf+k0XPP8=;
+	b=FEYa1uOmzKSQilONC2S+adhzpxiwteTOgDqJXzAFtz/ImBTrb3rzm/fcioDRlpiHza
+	nfaiHHe4gfa1L8Tphgc650UIcfqtbCOSPMKz0RW7svD/5NR3Q0mrpTZMEFq5SZ6jASez
+	YVEXK1e52M1MT7Xtgb99I4VE6g3m6x85SypctA+XQdU9xm3HN9mBBy8dkyw2dE5lKgPY
+	Iy7TJWX2MNelqvz5vrlq0LZtGQet3E1VFb5wCAcA7IQDAHm8fkekTd/B9m99NUXnujV2
+	58fu7YaF45Xjy1nEeqync9GKmpdA32KCGA5iYxxaz+2akcTvRlCWnPAfp7575WQ2jzhT
+	ANjw==
+X-Gm-Message-State: APjAAAV9oR4nJ9HMBVwXo1Bo3675gUSIDlt3Ec2gsXEns6sfl1GoMviE
+	zGbd9RdJbnr9vJ7walqhP0j/JEqblFmsZWf3ErIwcwVI3Q==
+X-Google-Smtp-Source: APXvYqx6anUfDARsR7lUJTW2tsNcE14txIq/v2uxM8Xi/TowT0N/Z+dmX7E2+re3wMhknS5bZabIPPHbx8OT/+l2px8=
+X-Received: by 2002:a1c:ef18:: with SMTP id n24mr2987267wmh.94.1557322534480; 
+	Wed, 08 May 2019 06:35:34 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190424065603.20591-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190424065603.20591-1-open.source@oleksandr-kravchuk.com>
+From: Paulo Neves <ptsneves@gmail.com>
+Date: Wed, 8 May 2019 15:32:50 +0200
+Message-ID: <CAJO0J4jEMBF8nHWazEE08LhNF2y1xgKvnvNPxPCreYPKadQvwA@mail.gmail.com>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wget: update to 1.20.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,55 +53,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 13:26:32 -0000
+X-List-Received-Date: Wed, 08 May 2019 13:35:34 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Since openssl 1.1.1 and openssh which uses it, sshd
-startup is delayed. The delays range from few seconds
-to minutes and even to hours. The delays are visible
-in host keys generation and when sshd process is started
-in response to incoming TCP connection but is failing
-to provide SSH version string and clients or tests time out.
+This patch is useful to go around CVE-2019-5953 but other versions of
+poky, like the thud do not have the correction.
 
-In all cases traces show that sshd is waiting for getentropy()
-system call to return from Linux kernel, which returns only
-after kernel side random number pool is initialized. The pool
-is initialized via various entropy source which may be
-missing on embedded development boards or via rngd from
-rng-tools package from userspace. HW random number generation
-and kernel support help but rngd is till needed to feed that data
-back to the Linux kernel.
+Should this version bump be backported or the patch
+http://git.savannah.gnu.org/cgit/wget.git/commit/?id=692d5c5215de0db482c252492a92fc424cc6a97c
+be applied in older versions?
 
-Example from an NXP imx8 board shows that kernel random number pool
-initialization can take over 400 seconds without rngd,
-and with rngd it is initialized at around 4 seconds after boot.
-The completion of initialization is visible in kernel dmesg with line
-"random: crng init done".
-
-More details are available from:
-
- * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=912087
- * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=897572
- * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=43838a23a05fbd13e47d750d3dfd77001536dd33
- * http://www.man7.org/linux/man-pages/man2/getrandom.2.html
-
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
----
- meta/recipes-connectivity/openssh/openssh_7.9p1.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-index b971b2b..567790c 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-@@ -148,6 +148,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
-+RDEPENDS_${PN}-sshd += "rng-tools"
- RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed"
- 
- RPROVIDES_${PN}-ssh = "ssh"
--- 
-1.9.1
-
+On Wed, Apr 24, 2019 at 8:56 AM Oleksandr Kravchuk
+<open.source@oleksandr-kravchuk.com> wrote:
+>
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+> ---
+>  meta/recipes-extended/wget/wget_1.20.2.bb | 8 --------
+>  meta/recipes-extended/wget/wget_1.20.3.bb | 8 ++++++++
+>  2 files changed, 8 insertions(+), 8 deletions(-)
+>  delete mode 100644 meta/recipes-extended/wget/wget_1.20.2.bb
+>  create mode 100644 meta/recipes-extended/wget/wget_1.20.3.bb
+>
+> diff --git a/meta/recipes-extended/wget/wget_1.20.2.bb b/meta/recipes-extended/wget/wget_1.20.2.bb
+> deleted file mode 100644
+> index cd20785259..0000000000
+> --- a/meta/recipes-extended/wget/wget_1.20.2.bb
+> +++ /dev/null
+> @@ -1,8 +0,0 @@
+> -SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+> -           file://0002-improve-reproducibility.patch \
+> -          "
+> -
+> -SRC_URI[md5sum] = "2692f6678e93601441306b5c1fc6a77a"
+> -SRC_URI[sha256sum] = "7e43b98cb5e10234836ebef6faf24c4d96c0ae7a480e49ff658117cc4793d166"
+> -
+> -require wget.inc
+> diff --git a/meta/recipes-extended/wget/wget_1.20.3.bb b/meta/recipes-extended/wget/wget_1.20.3.bb
+> new file mode 100644
+> index 0000000000..4fa273d093
+> --- /dev/null
+> +++ b/meta/recipes-extended/wget/wget_1.20.3.bb
+> @@ -0,0 +1,8 @@
+> +SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+> +           file://0002-improve-reproducibility.patch \
+> +          "
+> +
+> +SRC_URI[md5sum] = "db4e6dc7977cbddcd543b240079a4899"
+> +SRC_URI[sha256sum] = "31cccfc6630528db1c8e3a06f6decf2a370060b982841cfab2b8677400a5092e"
+> +
+> +require wget.inc
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
