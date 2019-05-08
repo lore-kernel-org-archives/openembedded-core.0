@@ -1,47 +1,50 @@
 Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id 9531A7DDDC
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A6AD17DE6F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  8 May 2019 15:57:42 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id 198so3928351wme.3
+	Wed,  8 May 2019 15:57:46 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id v10so2655356wrt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 08 May 2019 08:57:43 -0700 (PDT)
+	Wed, 08 May 2019 08:57:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=u93S2Mr9HZX8F7JhUTE24sPjgF7wAPGPXZ2de/J2CVM=;
-	b=duqRkGV5W6m4uLVcqbE7ESgFZIsYiYT/PNCRA3RmkOnSRbL2RvBTzgDkP0AGQmZgNX
-	vyXP0akZAaDBa9Zlmmsul7P1wiJggC1Ms0p66vl8ypVhj/QUZS5tzO7aQUsjR2I1wsw2
-	r4HFCp6XSzQVu8unYuPo6acxNC2ylAOeUGX5MQuWj0c9tH6wRhjAwtt5HCOvbwUL6vHH
-	KEx3MGv490b5Vwt8DLfK8cO6J3QhviIBBM2mdiTW34y/9rbNNndTVltJMoO4mNZGhcOu
-	QPVKlaOdL8cLA1lAxvuDVpd+/4kxjt9mx/6oTWkwkUikM219BzR5xBVgkDjsd9YKsV56
-	TgHw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=iXzhoG012yHgAF0q8DYNl21wliZrhSpIc32XDcAGDgo=;
+	b=iUPDiqkSpPcWk8iKZAZASxekXSmg9JEkHe89FYJe/sbIV/X29qO9hsvqy5HEntMOr/
+	wijtNuj0sTnHkTFiptAVpXB0vGTnvkrEKrKO4OnMVsqD8hcEiGs+upoZGlaxreNwDesW
+	bPanES2G6ePpPqNguiain168hu1I8gm5t9fSE85++FMVuPx89IyOqqBzLZT5ArluTCHc
+	fRhD7hvyBCOKUJNYZ2SqGQLh37MnCVh/nN+fhMC/TIslE5ij5UI7mE1s7rUq0FUF9L/K
+	EmYVzKjeGG6kedFm6UFmuJXXzMo8YLd76Xl9R9ESWCPFVkP4rC700TNtsIHZxIavbZov
+	SA/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=u93S2Mr9HZX8F7JhUTE24sPjgF7wAPGPXZ2de/J2CVM=;
-	b=ETPAcbBUbGCjEiVCGJHhdI6DE0mi31Z+OkJxBbShDYvmMNcOnziy4sLebgj0gTtvO1
-	yobP0DYje4n4buQDwdMbFsx9rtFtH2/IctZ3R9unrCjaJDQgbaFYuatXXypLZSURmfm5
-	/2isj6k5xroXdI6YhMmY8Zbh0LdGHXx97DW5FA5TVLAA4fidII0XHsF7DEplftPnYtno
-	jCOyu+rNVfchKjgvWtTBrp0b3MDUs9oGCVRP+Il4kZt+eo7K3CgaqrgYIu9dLMWIGt80
-	7QPGYFFkNyRD0kFrZyBQqbERnIAm/u018oLAef34F1RuZ8pvyO01rTSBWDgKsWjBMFse
-	YANg==
-X-Gm-Message-State: APjAAAWrHB22meiDf7LZ0+yXf2WSDCKckA2QNF84VIvc6WEXqy7W1RS2
-	wI5Z+8NsieXc5t4UQoeS6rTAvkPv
-X-Google-Smtp-Source: APXvYqzZJvH2u5fNbH57hqN+6DXdpxBPxOpWkamsva8bDbmdWZDhuNu/D5qTwD+OGPh2Yuput7PoNw==
-X-Received: by 2002:a1c:cc18:: with SMTP id h24mr3549161wmb.13.1557331063024; 
-	Wed, 08 May 2019 08:57:43 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=iXzhoG012yHgAF0q8DYNl21wliZrhSpIc32XDcAGDgo=;
+	b=YiTlsjWsQM6BkJ0mAQgYwuA1ateblKhgJikrOI5g9CdSEI3L0LS0v+OomjB6307dK8
+	6Fl9qeNMV3ZIgJ/wHEwjO25NWwK58udR1ZJUpZ5sA2N+BEhJMwxoRs0LdrnM/tARMEqF
+	ydHy5Ot4fFfC2youyddCIZvAOPuGqa5z7NmOZ8A2cFhrxnZDG1FGbTzR5PwiKYQ4moE1
+	Kbn3Fauvpk4Oc0p507PxH2M+4mMSefr7AvkCV1oYjXEisTIAQNdXFOovq1Alk3GPgVie
+	16Jm81ybe8rDck01FwsKm8Iyug8FshBrtoI9z2dL8vkCjJ65ap0+b0qcKN58feZ8RkQC
+	4pdg==
+X-Gm-Message-State: APjAAAVymuxhYQNQxH8IHiZYGlvMkGJbqje5ag39GOBGAxxKX1s5emyB
+	r8hT6gjJtgO6GZgegyth1/+eKX/A
+X-Google-Smtp-Source: APXvYqyCY6+5D4kit122KExjgjH1tp648pJzos5opLpVvj2dQOS/i8oFio+9KxGt4FKVjYQlN+4iKA==
+X-Received: by 2002:adf:e44b:: with SMTP id t11mr6158657wrm.151.1557331067385; 
+	Wed, 08 May 2019 08:57:47 -0700 (PDT)
 Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
 	[193.164.125.18])
-	by smtp.gmail.com with ESMTPSA id m6sm4027175wmc.32.2019.05.08.08.57.41
+	by smtp.gmail.com with ESMTPSA id m6sm4027175wmc.32.2019.05.08.08.57.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 08:57:42 -0700 (PDT)
+	Wed, 08 May 2019 08:57:46 -0700 (PDT)
 From: Alex Kiernan <alex.kiernan@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  8 May 2019 16:57:25 +0100
-Message-Id: <20190508155728.66729-1-alex.kiernan@gmail.com>
+Date: Wed,  8 May 2019 16:57:26 +0100
+Message-Id: <20190508155728.66729-2-alex.kiernan@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2 0/3] Fix mask, preset, enable and restore /etc/machine-id in stateful images
+In-Reply-To: <20190508155728.66729-1-alex.kiernan@gmail.com>
+References: <20190508155728.66729-1-alex.kiernan@gmail.com>
+Subject: [PATCH v2 1/3] systemd: Default to non-stateless images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +57,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 08 May 2019 15:57:43 -0000
+X-List-Received-Date: Wed, 08 May 2019 15:57:47 -0000
 
+When creating images, for anything other than the explicitly stateless
+case, touch /etc/machine-id so that the images can be booted without an
+initramfs and with `ro` set on the kernel command line, otherwise system
+refuses to start:
 
-The recent changes to systemd.bbclass broke support for
-SYSTEMD_AUTO_ENABLE set to anything other than "enable" or "disable",
-whereas there are existing users for "mask" and "preset".
+  [    7.222134] systemd[1]: No hostname configured.
+  [    7.227266] systemd[1]: Set hostname to <localhost>.
+  [    7.232622] systemd[1]: System cannot boot: Missing /etc/machine-id and /etc is mounted read-only.
+  [    7.241750] systemd[1]: Booting up is supported only when:
+  [    7.247362] systemd[1]: 1) /etc/machine-id exists and is populated.
+  [    7.253752] systemd[1]: 2) /etc/machine-id exists and is empty.
+  [    7.259757] systemd[1]: 3) /etc/machine-id is missing and /etc is writable.
 
-In addition /etc/machine-id was not created as an empty file which
-caused systemd to fail to do it's boot time update of it if the rootfs
-was ro at boot.
+If IMAGE_FEATURES includes `stateless-rootfs` then systemctl-native is
+not run on the image leaving the image for population at runtime by
+systemd.
 
-Finally instance creation from templates whilst present was no longer
-correctly exposed.
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
 Changes in v2:
 - use stateless-rootfs in IMAGE_FEATURES, not DISTRO_FEATURES
-- restore support for enable command
-- restore mask and preset targets, fix instance creation
 
-Alex Kiernan (3):
-  systemd: Default to non-stateless images
-  systemd-systemctl: Restore support for enable command
-  systemd: Restore mask and preset targets, fix instance creation
+ meta/classes/image.bbclass                            | 9 ++++-----
+ meta/recipes-core/systemd/systemd-systemctl/systemctl | 9 +++++++++
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
- meta/classes/image.bbclass                    |   9 +-
- meta/classes/systemd.bbclass                  |  37 +++-
- .../systemd/systemd-systemctl/systemctl       | 186 +++++++++++-------
- 3 files changed, 142 insertions(+), 90 deletions(-)
-
+diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+index a23403c0827a..d2b2fb979e5f 100644
+--- a/meta/classes/image.bbclass
++++ b/meta/classes/image.bbclass
+@@ -33,7 +33,7 @@ INHIBIT_DEFAULT_DEPS = "1"
+ # IMAGE_FEATURES may contain any available package group
+ IMAGE_FEATURES ?= ""
+ IMAGE_FEATURES[type] = "list"
+-IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging"
++IMAGE_FEATURES[validitems] += "debug-tweaks read-only-rootfs stateless-rootfs empty-root-password allow-empty-password allow-root-login post-install-logging"
+ 
+ # Generate companion debugfs?
+ IMAGE_GEN_DEBUGFS ?= "0"
+@@ -665,12 +665,11 @@ reproducible_final_image_task () {
+     fi
+ }
+ 
+-IMAGE_EXTRADEPENDS += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd-systemctl-native', '', d)}"
+-
+ systemd_preset_all () {
+-	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
++    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
+ }
+ 
+-IMAGE_PREPROCESS_COMMAND_append = " ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd_preset_all;', '', d)} reproducible_final_image_task; "
++IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''}"
++IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} reproducible_final_image_task; "
+ 
+ CVE_PRODUCT = ""
+diff --git a/meta/recipes-core/systemd/systemd-systemctl/systemctl b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+index d7d4e0d29a09..7fdaf8ce03d9 100755
+--- a/meta/recipes-core/systemd/systemd-systemctl/systemctl
++++ b/meta/recipes-core/systemd/systemd-systemctl/systemctl
+@@ -241,6 +241,15 @@ def preset_all(root):
+         if state == "enable" or state is None:
+             enable(root, service, location, services)
+ 
++    # If we populate the systemd links we also create /etc/machine-id, which
++    # allows systemd to boot with the filesystem read-only before generating
++    # a real value and then committing it back.
++    #
++    # For the stateless configuration, where /etc is generated at runtime
++    # (for example on a tmpfs), this script shouldn't run at all and we
++    # allow systemd to completely populate /etc.
++    (root / SYSCONFDIR / "machine-id").touch()
++
+ 
+ def mask(root, *services):
+     systemdir = root / SYSCONFDIR / "systemd" / "system"
 -- 
 2.17.1
 
