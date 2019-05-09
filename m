@@ -1,41 +1,58 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B12127DFEF
+Return-Path: <rudolf.streif@ibeeto.com>
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
+	[209.85.214.181])
+	by mail.openembedded.org (Postfix) with ESMTP id 355A77DE92
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 14:31:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 450G4V58Rpz5c;
-	Thu,  9 May 2019 16:31:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1557412299;
-	bh=679l9ZQoIsqV540uY1mZEZdqwzk5Sy8Hrn82QcW6cRU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CPuH4r/kLmkO8TsFqwFX3aY++NoBgFAO6ELIjkVNg9ni640pJM0whU2gIG4fbEPKZ
-	qedtZAn/lgojSWKOVqAmjGHkVX8dIqMBrOlB1zVfXZ49i0gzWlemdKIQ2AHpKP0IJW
-	1RGgqJOBp+tbFUQT4ReDs6qyrZhzJxDTM/JeBkTcALNjcgVIPRzUMcT+sdnynOQdGk
-	CiGqHqlV92C8hNZCbvnWw386g3wq5OZKHPYHS8DU9nGa5F+J65Y6+Tih/N1MqVVJV6
-	55dsgTDEv4eCbOWTEvY7xGAzhXYwqlniQ8OCJoeyuQYJB7yv2QJgAimcYhlncCvLF8
-	FVmWFJvGOLwSL4sMue7SIsaXEYT8Lhn4oKp2NbsMDSSMd62eWzxR+lDiL580kbQonz
-	j0nHULLoFM1xtMY+mkHBj28PSF2ZYW6Onu8XER7ftOWzzcZPrlPRXOQRzFc7BsUmZT
-	ZvTp16Saau8xkOI0rk+WxClPrQyubCRiHZAgcGW6N0LnG+SXJRmFOqY9fhV+R6wqPq
-	9MaIIuHJc2cCZHfq7cMHiVk7nTQS1wcPSDS2Pi96LKihRh2hgQqlqk+ukFnLFsTuy5
-	3Iz1l2SlhOFwVhGAHw+Rt5kCr80Vvokdy7Hy6kst7fP2R1ptacfyLuABf2yviukzVs
-	vHuGTnQVuKYMOpNp9mgobOoI=
-Date: Thu, 9 May 2019 17:31:35 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190509143135.GA25228@localhost>
-References: <20190508115836.15758-1-paul@betafive.co.uk>
-	<20190508115836.15758-3-paul@betafive.co.uk>
-	<20190508130249.GA25917@localhost>
-	<7a1b1694-9c7c-40eb-a998-343879c0283d@www.fastmail.com>
-	<ba43a2fb-4c12-4b35-bb40-b58ccf18ad83@www.fastmail.com>
-	<74876e92becd2c2b04831dc4776faabd87fc53c9.camel@linuxfoundation.org>
+	Thu,  9 May 2019 15:20:56 +0000 (UTC)
+Received: by mail-pl1-f181.google.com with SMTP id n8so1306451plp.10
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 May 2019 08:20:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=ibeeto-com.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:references:from:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=zAGMcYEF7/HeUsk4olsmJjp3zz5o+ISqN6a3vpAITZ0=;
+	b=ED/1HuNAvXBYsOWjzzRq5l/fpzqSb6YbHMK4MmMx+pmVtFWDqtfPJD9kgSkqfCcQd4
+	unfmwk6Le8QjBu9SE3hxWaWmkSE3Yi1IcbdUL3Ki/LCmV9rqTCSD4RnPg0pMiCJZDP39
+	D3APmixuP4tLPokYKoOoTda1h7hkDZ9jP95oHs7uZhIVVRrVZRmSppgQCreCXl2YyOuf
+	wKfR9QQ7M3meByufD6qH3ZlwAZ4GoLiDWcBvn24lYFd1WXEpB8TwkVUXXRm8DbiE0rAJ
+	pgLOK4gdwu/DFihOvBe4FPY/siw8q5M6Gdj+DXoDlT8RU1GqmkF4Pji4HLS0yNRMJF0X
+	fk3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=zAGMcYEF7/HeUsk4olsmJjp3zz5o+ISqN6a3vpAITZ0=;
+	b=HZ1+412uudiBr9Ucxgp7e22cmx2AE6+djiZqfTwg3RhHqPOTja7UC1b1LI13CwAvj+
+	QKnWF6BXk4TD5ZNsn2cHdJbIWOe8XtO3jK6fWL3PtGs7VK2ynpAEzwni9yvxK1zbYpOE
+	W8axt85wySeqNpjfkDJXwz3hU67XRa9glgsBUtbwbXg1w+FzMJSvvcg07F/DevAem2aX
+	dlp6O6yEDEmNrw1MN38YyU80ztUGdPZm4gCEX7E1bf+xgLEs0PJAuFxWIJdMhyO8Njc5
+	pubsKXioRA7Sa4EdEXZ4zRh4LuxnJEFMobCWkqsA1YNBjvynAPzQM/4OS0kRhk5zEPS5
+	MENQ==
+X-Gm-Message-State: APjAAAWDSYeuYsS87nGaBjos4ZIbwFnj7dc4Xgw5zhOknTyoxVJo5YK3
+	SEpkXbyO9gmcDso7sMN/tm/X+Xc/7QU=
+X-Google-Smtp-Source: APXvYqxgN/AWU9CGgMGbbNToEMQxvqcN0Lm1pPuJWw9i4J93DwbQXEbOP0ardEy9M+b1vPqO9TgE5A==
+X-Received: by 2002:a17:902:f208:: with SMTP id
+	gn8mr5974536plb.312.1557415256574; 
+	Thu, 09 May 2019 08:20:56 -0700 (PDT)
+Received: from rjs-zotac.ibeeto.com (ip68-7-84-58.sd.sd.cox.net. [68.7.84.58])
+	by smtp.gmail.com with ESMTPSA id
+	a80sm8506923pfj.105.2019.05.09.08.20.55
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 May 2019 08:20:55 -0700 (PDT)
+To: Philip Balister <philip@balister.org>,
+	openembedded-core@lists.openembedded.org
+References: <ae370e65-a910-2964-b31a-bb5b1b3636d6@ibeeto.com>
+	<0d613343-91fb-8e22-ce9c-a23f2d98a4a9@balister.org>
+From: Rudolf J Streif <rudolf.streif@ibeeto.com>
+Message-ID: <401f16e3-a616-916b-8e2d-6f6c66d55f12@ibeeto.com>
+Date: Thu, 9 May 2019 08:20:54 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.1
 MIME-Version: 1.0
-In-Reply-To: <74876e92becd2c2b04831dc4776faabd87fc53c9.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] strace: Fix aarch64 build with musl
+In-Reply-To: <0d613343-91fb-8e22-ce9c-a23f2d98a4a9@balister.org>
+Subject: Re: [meta-oe] sip/sip3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,55 +65,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 14:31:39 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 May 2019 15:20:56 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Thu, May 09, 2019 at 02:43:54PM +0100, Richard Purdie wrote:
-> On Thu, 2019-05-09 at 08:08 -0400, Paul Barker wrote:
->...
-> > So alpine fixes this by patching the linux headers: 
-> > https://git.alpinelinux.org/aports/tree/main/linux-headers/fix-aarch64-asm-ptrace.patch
-> > 
-> > I think that should be acceptable here if we just do it when building
-> > with musl libc.
-> > 
-> > Any thoughts on that before I work up a v2 patch?
-> 
-> This really needs to get fixed upstream. I don't mind a patch but only
-> if its gone upstream, we don't want to be carrying patches to libc-
-> headers.
+Thank you, Philip. Yes, that worked fine. It's the solution I preferred.
 
-The root problem is that musl upstream has the opinion that the kernel 
-headers are unfixably broken, and therefore the musl headers contain
-own definitions of structs that are part of the kernel<->userspace ABI:
-  https://wiki.musl-libc.org/faq.html#Q:-Why-am-I-getting-
+:rjs
 
-The kernel headers were in a bad state 20 years ago, but are pretty 
-usable today - which doesn't help since musl won't even try to be
-cooperative and work towards using everything from the kernel headers
-that belongs there.
-
-And the lack of a __MUSL__ define makes it impossible to work around all
-this musl-specific breakage in an upstreamable way in the kernel headers.
-There are actually workarounds for musl in the upstream kernel headers,
-but they can break depending on the #include order.
-
-The FAQ above suggests using the patched headers from sabotage linux,
-but they are from kernel 3.12.
-
-> Cheers,
-> 
-> Richard
-
-cu
-Adrian
-
+On 5/8/19 8:22 AM, Philip Balister wrote:
+> On 05/07/2019 08:19 PM, Rudolf J Streif wrote:
+>> With the recent update of sip/sip3 from 4.19.13 to 4.19.16 FILES has
+>> changed:
+>>
+>> 4.19.13:
+>>
+>> |
+>>
+>> FILES_python3-sip3  =
+>> "${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/"
+>> FILES_${PN}-dbg  +=
+>> "${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/.debug"|
+>>
+>> 4.19.16 (meta-openembedded @ 50108c18):
+>>
+>> |
+>>
+>> FILES_python-sip  =  "${libdir}/${PYTHON_DIR}/site-packages/"
+>> FILES_${PN}-dbg  +=  "${libdir}/${PYTHON_DIR}/site-packages/.debug"|
+>>
+>> |
+>>
+>> |
+>>
+>> |
+>>
+>> |
+>>
+>> That causes an issue with PyQt5 which is installed in (python-pyqt5.inc,
+>> meta-qt5 @ f4531ec8):
+>>
+>> echo "py_pylib_dir =
+>> %(sysroot)/${libdir}/python${PYTHON_BASEVERSION}${PYTHON_ABI}" >> pyqt.cfg
+>>
+>> PYTHON_BASEVERSION = "3.7"
+>> PYTHON_ABI = "m"
+>>
+>> This can obviously be fixed on either end, but I am not quite sure what
+>> the right approach is.
+> Does this help?
+>
+> https://github.com/meta-qt5/meta-qt5/pull/202
+>
+> Thanks for seeing this. Having these tools across two layers is tricky.
+> The problem is the pyqt can be either in a qt4 layer or a qt 5 later.
+> And python 2/3 versions.
+>
+> And the sip recipe really needs to spit out the module used for pyqt.
+>
+> Philip
+>
+>
+>> Thanks,
+>>
+>> Rudi
+>>
+>>
+>>   -----
+>> Rudolf J Streif
+>> CEO/CTO ibeeto
+>> +1.855.442.3396 x700
+>>
+>>
+>>
+>>
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+-----
+Rudolf J Streif
+CEO/CTO ibeeto
++1.855.442.3396 x700
 
 
