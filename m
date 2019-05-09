@@ -1,51 +1,67 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 543DC7DFEE
+Return-Path: <paul@betafive.co.uk>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+	[66.111.4.29])
+	by mail.openembedded.org (Postfix) with ESMTP id CCA9B7DEBA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 13:55:45 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id c5so3164920wrs.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2019 06:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=yTS2RtGylFLn/oFoeUGAH06l0bE6CmHYW/YC8EKaXrU=;
-	b=QA2rH2HBRaEwW7CNgKdDM9kHvM42FQFzja1jVDFKvPjN6ihyFDjdTJVGDgmkMWTXmk
-	/CThGdnxzctQyAN2huqHVYi0RkMQ++ZlBk9VUnnIKzS41m4YyN05lTI5nhBLfr8YoqKu
-	Rh8YuvAd30VA/oAhptPb/YwTAywmE//oAXhWE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=yTS2RtGylFLn/oFoeUGAH06l0bE6CmHYW/YC8EKaXrU=;
-	b=IevtothIYRwIqgl2NAxCuae7DeuHjKmRFIJy8DNctVrxTp0Xsdm/nhcl3BsVrBcpFP
-	Uh1UzdUUkAD6Syn66tqnEdEapSvFyRW/+2f+gw4rK0J2c41qGXcJ5KEqlwOCt/yyT4LH
-	R2nP/SZ0D/RMi9lLJISvyRzTE/H46GEFqHe8c3mdrnlonydpwNhA0+qx4BaNhBHEKzEj
-	AOMDEmgzykVQBDcHAKQJENMri30rTISe8VMawZbDP79YiJcSwyaYME+SI3MQ76kx0UYS
-	Xq6yFJ8nZESozQVwq7mkasKZZJpVJCUtZek90qk3yJ22SbEnO2KiQ2Nduk2693hKTkSo
-	ctDA==
-X-Gm-Message-State: APjAAAXLzzDbb3ArwXPSGwQilu6VlqznCTv+wxX3TQ/z+5xzZj39pJxa
-	hjBW3pGrTSE2zS6X2yO4pvd3tyK6l/0=
-X-Google-Smtp-Source: APXvYqyMG6DTvfE3T8hyti0zUGsXU6bSHdqTSwaKHT0IP4sxkI14B1dqGN5Si5Ao9kV9JkZYbWxOpA==
-X-Received: by 2002:adf:9084:: with SMTP id i4mr3097387wri.259.1557410146006; 
-	Thu, 09 May 2019 06:55:46 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c131sm2625095wma.31.2019.05.09.06.55.45
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 06:55:45 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2019 14:55:42 +0100
-Message-Id: <20190509135542.6033-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190509135542.6033-1-richard.purdie@linuxfoundation.org>
-References: <20190509135542.6033-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa/concurrenttest: Patch subunit module to handle classSetup failures
+	Thu,  9 May 2019 14:00:50 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id D50C3245DC;
+	Thu,  9 May 2019 10:00:51 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+	by compute1.internal (MEProxy); Thu, 09 May 2019 10:00:51 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=mime-version:message-id:in-reply-to:references:date:from:to
+	:cc:subject:content-type; s=fm1; bh=ABaWyYFqrSnf9oGolyhTwCmDfK+B
+	b2s+Dq9NepzoC8o=; b=Np1j7XuzcXjA2pZ+yRi4mxMosdjxRJXhUKOOD8+ouwVM
+	nzB0ok1O/8YieSQRYvKqSuAOYlYuxAYl0FN62MjlrAkk14QJNfEo+uiyuWc4Sprl
+	n4HSYLxr0BMGbVkN6zztsm3QV9ewLWrIvCVfNApDpyts15def07LrLwgdRI2HSoL
+	AQY4+qSkKSVFedvdjlX+NJuw9QsaqQJcd+Kyfvay7YxtL3HpZpXH+rd91tOom9/W
+	dJ261cJOKhtKOYeVaTlO5QQJwpqAEjGwQ0FJNDslFZLlNqq22Wo1r3QFlKLl+wbX
+	a7VGyIDRn45RKpR4LJqhnrysXVy5D+A7T1yEbORjHw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ABaWyY
+	FqrSnf9oGolyhTwCmDfK+Bb2s+Dq9NepzoC8o=; b=zcCj2yIqdI1vjFhFBGt/1g
+	CF+zvc6dbTb21NbDmSac5zLrYTNkDQ2+Nj+UF2P4K+YxeWnCRiDKFKF3TJhvfNRq
+	oJBr4mD4QKU9gPpCy8/UCyr8QYOKAvpGOR+aASvny5UwOYUg3WZjw2X+zTHMqRif
+	+ipUaP6NInj3AtnjRbgud68O2oWBuudoqBjl1vAV32yDWi/CYAKFr1BmjVtDD1M/
+	tYz6YfGxYDPTB8HV2MQ5yAqyptuMdWGBePxY1gEqxfkoUW7Y/SEycykgr+9W+Ea8
+	0x8ZEPFmq0/+xEFDKW+hfp9LDJ/Exf8Y4bILlcHbiVkV1UXRFXRvPr5ECPgpRTDA
+	==
+X-ME-Sender: <xms:kzLUXLKegPCrvi-cklEof3JJ593OI6YKxfWMfHAGJ2lrp2w5I9C3AA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrkeeigddtlecutefuodetggdotefrodftvf
+	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+	fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfrfgruhhl
+	uceurghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecuffhomh
+	grihhnpegrlhhpihhnvghlihhnuhigrdhorhhgpdhsphhinhhitghsrdhnvghtpdhgihht
+	hhhusgdrtghomhdpshhtrhgrtggvrdhiohenucfrrghrrghmpehmrghilhhfrhhomhepph
+	gruhhlsegsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghrufhiiigvpedt
+X-ME-Proxy: <xmx:kzLUXCN_5M1DksRIzNOAMivR2JtoX-Mg9TlOxBtMRn4fwstq1xOwUw>
+	<xmx:kzLUXOVr5d7tpT3yNeZvq5znPKKFFcnEpHkgqFJ2gl9SL4shbIC6qA>
+	<xmx:kzLUXAkmvezkbsEk3wBGepbWve4f_1shp2w7UOW5pUw29zg2V06cpA>
+	<xmx:kzLUXP0FQHSUQzxQjla3CWoNW7KkeAvfXuoueBzHTYngCNTLubHq6g>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id 61ECC7C6D9; Thu,  9 May 2019 10:00:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
+Mime-Version: 1.0
+Message-Id: <eca8b6ab-8d60-4a83-b0b2-9803913f4895@www.fastmail.com>
+In-Reply-To: <CADkTA4O16TV+7Dj11c9MwjRGQWXSAto+L6Y3xbn4hu3U2D1NKA@mail.gmail.com>
+References: <20190508115836.15758-1-paul@betafive.co.uk>
+	<20190508115836.15758-3-paul@betafive.co.uk>
+	<20190508130249.GA25917@localhost>
+	<7a1b1694-9c7c-40eb-a998-343879c0283d@www.fastmail.com>
+	<ba43a2fb-4c12-4b35-bb40-b58ccf18ad83@www.fastmail.com>
+	<74876e92becd2c2b04831dc4776faabd87fc53c9.camel@linuxfoundation.org>
+	<CADkTA4O16TV+7Dj11c9MwjRGQWXSAto+L6Y3xbn4hu3U2D1NKA@mail.gmail.com>
+Date: Thu, 09 May 2019 10:00:50 -0400
+From: "Paul Barker" <paul@betafive.co.uk>
+To: "Bruce Ashfield" <bruce.ashfield@gmail.com>,
+	"Richard Purdie" <richard.purdie@linuxfoundation.org>
+Cc: OE Core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] strace: Fix aarch64 build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,83 +74,96 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 13:55:46 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 09 May 2019 14:00:51 -0000
+Content-Type: text/plain
 
-Currently setupClass errors were not being mapped back to the failing tests
-and they were hence being marked as UNKNOWN and the test statistics were
-inaccurate.
+On Thu, 9 May 2019, at 14:48, Bruce Ashfield wrote:
+> 
+> 
+> On Thu, May 9, 2019 at 9:43 AM Richard Purdie 
+> <richard.purdie@linuxfoundation.org> wrote:
+> > On Thu, 2019-05-09 at 08:08 -0400, Paul Barker wrote:
+> >  > On Thu, 9 May 2019, at 11:13, Paul Barker wrote:
+> >  > > On Wed, 8 May 2019, at 14:02, Adrian Bunk wrote:
+> >  > > > On Wed, May 08, 2019 at 11:58:36AM +0000, paul@betafive.co.uk
+> >  > > > wrote:
+> >  > > > > ...
+> >  > > > > +--- strace-4.26.orig/strace.c
+> >  > > > > ++++ strace-4.26/strace.c
+> >  > > > > +@@ -26,7 +26,7 @@
+> >  > > > > + #include <locale.h>
+> >  > > > > + #include <sys/utsname.h>
+> >  > > > > + #ifdef HAVE_PRCTL
+> >  > > > > +-# include <sys/prctl.h>
+> >  > > > > ++# include <linux/prctl.h>
+> >  > > > > + #endif
+> >  > > > > + #include <asm/unistd.h>
+> >  > > > > diff --git a/meta/recipes-devtools/strace/strace_4.26.bb
+> >  > > > > b/meta/recipes-devtools/strace/strace_4.26.bb
+> >  > > > > index 24f92c99e5..b71122babf 100644
+> >  > > > > --- a/meta/recipes-devtools/strace/strace_4.26.bb
+> >  > > > > +++ b/meta/recipes-devtools/strace/strace_4.26.bb
+> >  > > > > @@ -15,6 +15,7 @@ SRC_URI = "
+> >  > > > > https://strace.io/files/${PV}/strace-${PV}.tar.xz <https://strace.io/files/$%7BPV%7D/strace-$%7BPV%7D.tar.xz> \
+> >  > > > > file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+> >  > > > > file://0001-tests-sigaction-Check-for-mips-and-
+> >  > > > > alpha-before-usin.patch \
+> >  > > > > file://0001-mips-o32-fix-build.patch \
+> >  > > > > + file://musl-fixes-armv8.patch \
+> >  > > > > "
+> >  > > > > ...
+> >  > > > 
+> >  > > > #include <sys/prctl.h> is the documented way for getting the
+> >  > > > prototype 
+> >  > > > of prctl(), which cannot be in linux/prctl.h for obvious reasons.
+> >  > > > 
+> >  > > > This patch creates the following problem:
+> >  > > > 
+> >  > > > ../strace-4.26/strace.c: In function 'startup_child':
+> >  > > > ../strace-4.26/strace.c:1355:3: warning: implicit declaration of 
+> >  > > > function 'prctl' [-Wimplicit-function-declaration]
+> >  > > > prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY);
+> >  > > > ^~~~~
+> >  > > > 
+> >  > > 
+> >  > > Ah that's definitely not a solution then. I'll have to look into
+> >  > > this 
+> >  > > further and see if I can come up with a v2 patch that doesn't
+> >  > > cause 
+> >  > > this warning.
+> >  > > 
+> >  > 
+> >  > So alpine fixes this by patching the linux headers: 
+> >  > https://git.alpinelinux.org/aports/tree/main/linux-headers/fix-aarch64-asm-ptrace.patch
+> >  > 
+> >  > I think that should be acceptable here if we just do it when building
+> >  > with musl libc.
+> >  > 
+> >  > Any thoughts on that before I work up a v2 patch?
+> > 
+> >  This really needs to get fixed upstream. I don't mind a patch but only
+> >  if its gone upstream, we don't want to be carrying patches to libc-
+> >  headers.
+> 
+> I can live with that as well, we have carried them just for musl in the 
+> past, but yes, we should at least know that someone is trying to 
+> upstream it. I can't get the alpine linux git to come in right now, so 
+> I can't check the referenced change to see how it looks.
+> 
+> I'm going to do new libc-headers when I get the -dev kernel up and 
+> running with the 5.2-rc kernels, so I can watch to see that it 
+> continues to apply. I can also do some extra build testing here, if you 
+> want the headers change to come through my next pull request.
+> 
 
-This is because whilst the errors were being encoded into the test results
-stream, the decoder doesn't cope with an error outside a testStart event.
+There's a lot of redefinition between musl and the kernel headers that hasn't been reconciled yet (see https://www.spinics.net/lists/y2038/msg03836.html for some discussion) so I think there's much more to be done upstream than just fixing this one instance.
 
-We patch in an addError handler to the outsideTest parser so that this
-does get handled in a way similar to the non-concurrent case.
+I'm now dropping the `#include <linux/prctl.h>` line in arch/arm64/include/uapi/asm/ptrace.h (https://github.com/torvalds/linux/blob/v5.1/arch/arm64/include/uapi/asm/ptrace.h#L68) in linux-libc-headers and that's giving working builds for me but I'm not sure how universally it can be applied. I'm happy to carry that as a bbappend in our distro layer for now but that will leave strace broke on aarch64 when using musl for others.
 
-It would be nice if we didn't have to do this but there doesn't seem
-to be any other way to fix this other than forking subunit.
+Thanks,
 
-We also make a minor change so another of our changes can cope with
-tests without a start time.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/core/utils/concurrencytest.py | 27 ++++++++++++++++++---
- 1 file changed, 23 insertions(+), 4 deletions(-)
-
-diff --git a/meta/lib/oeqa/core/utils/concurrencytest.py b/meta/lib/oeqa/core/utils/concurrencytest.py
-index 535b11e2d95..6bf7718863f 100644
---- a/meta/lib/oeqa/core/utils/concurrencytest.py
-+++ b/meta/lib/oeqa/core/utils/concurrencytest.py
-@@ -21,6 +21,7 @@ import testtools
- import threading
- import time
- import io
-+import subunit
- 
- from queue import Queue
- from itertools import cycle
-@@ -53,10 +54,11 @@ class BBThreadsafeForwardingResult(ThreadsafeForwardingResult):
-     def _add_result_with_semaphore(self, method, test, *args, **kwargs):
-         self.semaphore.acquire()
-         try:
--            self.result.starttime[test.id()] = self._test_start.timestamp()
--            self.result.threadprogress[self.threadnum].append(test.id())
--            totalprogress = sum(len(x) for x in self.result.threadprogress.values())
--            self.result.progressinfo[test.id()] = "%s: %s/%s %s/%s (%ss) (%s)" % (
-+            if self._test_start:
-+                self.result.starttime[test.id()] = self._test_start.timestamp()
-+                self.result.threadprogress[self.threadnum].append(test.id())
-+                totalprogress = sum(len(x) for x in self.result.threadprogress.values())
-+                self.result.progressinfo[test.id()] = "%s: %s/%s %s/%s (%ss) (%s)" % (
-                     self.threadnum,
-                     len(self.result.threadprogress[self.threadnum]),
-                     self.totalinprocess,
-@@ -68,6 +70,23 @@ class BBThreadsafeForwardingResult(ThreadsafeForwardingResult):
-             self.semaphore.release()
-         super(BBThreadsafeForwardingResult, self)._add_result_with_semaphore(method, test, *args, **kwargs)
- 
-+#
-+# We have to patch subunit since it doesn't understand how to handle addError
-+# outside of a running test case. This can happen if classSetUp() fails
-+# for a class of tests. This unfortunately has horrible internal knowledge.
-+#
-+def outSideTestaddError(self, offset, line):
-+    """An 'error:' directive has been read."""
-+    test_name = line[offset:-1].decode('utf8')
-+    self.parser._current_test = subunit.RemotedTestCase(test_name)
-+    self.parser.current_test_description = test_name
-+    self.parser._state = self.parser._reading_error_details
-+    self.parser._reading_error_details.set_simple()
-+    self.parser.subunitLineReceived(line)
-+
-+subunit._OutSideTest.addError = outSideTestaddError
-+
-+
- #
- # A dummy structure to add to io.StringIO so that the .buffer object
- # is available and accepts writes. This allows unittest with buffer=True
 -- 
-2.20.1
-
+Paul Barker
+Managing Director & Principal Engineer
+Beta Five Ltd
 
