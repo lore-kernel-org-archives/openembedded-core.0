@@ -1,67 +1,48 @@
-Return-Path: <paul@betafive.co.uk>
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
-	[66.111.4.29])
-	by mail.openembedded.org (Postfix) with ESMTP id CCA9B7DEBA
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 692597DFE2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 14:00:50 +0000 (UTC)
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
-	by mailout.nyi.internal (Postfix) with ESMTP id D50C3245DC;
-	Thu,  9 May 2019 10:00:51 -0400 (EDT)
-Received: from imap2 ([10.202.2.52])
-	by compute1.internal (MEProxy); Thu, 09 May 2019 10:00:51 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
-	h=mime-version:message-id:in-reply-to:references:date:from:to
-	:cc:subject:content-type; s=fm1; bh=ABaWyYFqrSnf9oGolyhTwCmDfK+B
-	b2s+Dq9NepzoC8o=; b=Np1j7XuzcXjA2pZ+yRi4mxMosdjxRJXhUKOOD8+ouwVM
-	nzB0ok1O/8YieSQRYvKqSuAOYlYuxAYl0FN62MjlrAkk14QJNfEo+uiyuWc4Sprl
-	n4HSYLxr0BMGbVkN6zztsm3QV9ewLWrIvCVfNApDpyts15def07LrLwgdRI2HSoL
-	AQY4+qSkKSVFedvdjlX+NJuw9QsaqQJcd+Kyfvay7YxtL3HpZpXH+rd91tOom9/W
-	dJ261cJOKhtKOYeVaTlO5QQJwpqAEjGwQ0FJNDslFZLlNqq22Wo1r3QFlKLl+wbX
-	a7VGyIDRn45RKpR4LJqhnrysXVy5D+A7T1yEbORjHw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to:x-me-proxy
-	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=ABaWyY
-	FqrSnf9oGolyhTwCmDfK+Bb2s+Dq9NepzoC8o=; b=zcCj2yIqdI1vjFhFBGt/1g
-	CF+zvc6dbTb21NbDmSac5zLrYTNkDQ2+Nj+UF2P4K+YxeWnCRiDKFKF3TJhvfNRq
-	oJBr4mD4QKU9gPpCy8/UCyr8QYOKAvpGOR+aASvny5UwOYUg3WZjw2X+zTHMqRif
-	+ipUaP6NInj3AtnjRbgud68O2oWBuudoqBjl1vAV32yDWi/CYAKFr1BmjVtDD1M/
-	tYz6YfGxYDPTB8HV2MQ5yAqyptuMdWGBePxY1gEqxfkoUW7Y/SEycykgr+9W+Ea8
-	0x8ZEPFmq0/+xEFDKW+hfp9LDJ/Exf8Y4bILlcHbiVkV1UXRFXRvPr5ECPgpRTDA
-	==
-X-ME-Sender: <xms:kzLUXLKegPCrvi-cklEof3JJ593OI6YKxfWMfHAGJ2lrp2w5I9C3AA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrkeeigddtlecutefuodetggdotefrodftvf
-	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-	fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfrfgruhhl
-	uceurghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecuffhomh
-	grihhnpegrlhhpihhnvghlihhnuhigrdhorhhgpdhsphhinhhitghsrdhnvghtpdhgihht
-	hhhusgdrtghomhdpshhtrhgrtggvrdhiohenucfrrghrrghmpehmrghilhhfrhhomhepph
-	gruhhlsegsvghtrghfihhvvgdrtghordhukhenucevlhhushhtvghrufhiiigvpedt
-X-ME-Proxy: <xmx:kzLUXCN_5M1DksRIzNOAMivR2JtoX-Mg9TlOxBtMRn4fwstq1xOwUw>
-	<xmx:kzLUXOVr5d7tpT3yNeZvq5znPKKFFcnEpHkgqFJ2gl9SL4shbIC6qA>
-	<xmx:kzLUXAkmvezkbsEk3wBGepbWve4f_1shp2w7UOW5pUw29zg2V06cpA>
-	<xmx:kzLUXP0FQHSUQzxQjla3CWoNW7KkeAvfXuoueBzHTYngCNTLubHq6g>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-	id 61ECC7C6D9; Thu,  9 May 2019 10:00:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
-Mime-Version: 1.0
-Message-Id: <eca8b6ab-8d60-4a83-b0b2-9803913f4895@www.fastmail.com>
-In-Reply-To: <CADkTA4O16TV+7Dj11c9MwjRGQWXSAto+L6Y3xbn4hu3U2D1NKA@mail.gmail.com>
-References: <20190508115836.15758-1-paul@betafive.co.uk>
-	<20190508115836.15758-3-paul@betafive.co.uk>
-	<20190508130249.GA25917@localhost>
-	<7a1b1694-9c7c-40eb-a998-343879c0283d@www.fastmail.com>
-	<ba43a2fb-4c12-4b35-bb40-b58ccf18ad83@www.fastmail.com>
-	<74876e92becd2c2b04831dc4776faabd87fc53c9.camel@linuxfoundation.org>
-	<CADkTA4O16TV+7Dj11c9MwjRGQWXSAto+L6Y3xbn4hu3U2D1NKA@mail.gmail.com>
-Date: Thu, 09 May 2019 10:00:50 -0400
-From: "Paul Barker" <paul@betafive.co.uk>
-To: "Bruce Ashfield" <bruce.ashfield@gmail.com>,
-	"Richard Purdie" <richard.purdie@linuxfoundation.org>
-Cc: OE Core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] strace: Fix aarch64 build with musl
+	Thu,  9 May 2019 14:01:10 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id g84so1701608ioa.1
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 May 2019 07:01:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=J+KfOlJenZ3NselAezKgV31MOTZbRbP9htiS43ehWT4=;
+	b=qw9PNGYWH6ZSX47Q9dLwCUJl7QfIQcwgK85T5WAGaaO4WzN7CyJ2+1gwLv63uZCxeK
+	i3IjB/An7Bq9x911FwnyibuJqmFL1Koxzlhbf75KHWihfxaJcHq6gu+Ed8Fi1OIRA85k
+	pSr7d0T2Y+2axuQB8y1WLqMr9S51agG2SmH89sLO+YQcZaI52u/Ly03uuNim+gtatkef
+	w07wPcfoxxz0fKVhFnCHDdZXVb5oerCYjmlsOxBAyA/x5+cIHZ2fFtqdeaLos075NbNc
+	uGHZVuJ9ZbRsHEPCQEBsMAt6nG60m1rjXWtWiQ8UB47Hn6Jw4YX8pgxh97+UaUMEzTAP
+	WfBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=J+KfOlJenZ3NselAezKgV31MOTZbRbP9htiS43ehWT4=;
+	b=qE611I2NZPLUHDb0ep5pBeMWVjkKrEANUWMJm3CRGjldcvtUKh1KDH2jmK/B7jr9O1
+	OIcYtF6pxtcGYSBCP/f25cjJVySjQa6+PJa5Q2sls8kuDNcWU+67KAqKHM1pFx/oNd+2
+	EQcGc4b/Q32fTzE4KBqsiwtH7SSk5Dgl5yvdXtLMv6Pt+U1Cfwdfp0b6HAobiiTJIhFj
+	eCLpOxjnKl1jq4JxK0zBubTxr8qhaCxk89UEdTRE6HzZxlvRZ7V8yfWAVQ8UTK4buEg2
+	Gp5QLnmZS9RyAtkQSmLWPIapqhk5Yx3NEn525zLXGsMSp0Z0ZBDjCpGjXIpuLJZnjbm0
+	sIEw==
+X-Gm-Message-State: APjAAAVq7NgpKwL4S5aY7I0emDuWRXuEFErDvVbGYDuxkXLq4EKyXBvn
+	Wk7EbP6Ljeqz+ROGF8SW7x+D0e6bXuizEEvEjiQ=
+X-Google-Smtp-Source: APXvYqwE6HOfwGjRNPHGK0V/ATR/03S2bDezIMbJ2nFNIyLr4w5SjjGMbDEuIYQWk5+HBKYArq//DZZcoy0lR9wYM+Q=
+X-Received: by 2002:a5e:8708:: with SMTP id y8mr2480221ioj.272.1557410471498; 
+	Thu, 09 May 2019 07:01:11 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190508201335.1732-1-schnitzeltony@gmail.com>
+	<CAJTo0LYRyARnYkRfumy_hXXNb6otVKhr0di0fyptBb208wQ4mA@mail.gmail.com>
+In-Reply-To: <CAJTo0LYRyARnYkRfumy_hXXNb6otVKhr0di0fyptBb208wQ4mA@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 9 May 2019 16:01:00 +0200
+Message-ID: <CALbNGRQE6Pk_mYjjKCyPug0ti=Ogy6UyTYOfLej5fTHFP5Oc6Q@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] meson.bbclass: add MESON_CROSS_EXTRA_PROPS to inject properties into meson.cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -74,96 +55,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 14:00:51 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 09 May 2019 14:01:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 9 May 2019, at 14:48, Bruce Ashfield wrote:
-> 
-> 
-> On Thu, May 9, 2019 at 9:43 AM Richard Purdie 
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Thu, 2019-05-09 at 08:08 -0400, Paul Barker wrote:
-> >  > On Thu, 9 May 2019, at 11:13, Paul Barker wrote:
-> >  > > On Wed, 8 May 2019, at 14:02, Adrian Bunk wrote:
-> >  > > > On Wed, May 08, 2019 at 11:58:36AM +0000, paul@betafive.co.uk
-> >  > > > wrote:
-> >  > > > > ...
-> >  > > > > +--- strace-4.26.orig/strace.c
-> >  > > > > ++++ strace-4.26/strace.c
-> >  > > > > +@@ -26,7 +26,7 @@
-> >  > > > > + #include <locale.h>
-> >  > > > > + #include <sys/utsname.h>
-> >  > > > > + #ifdef HAVE_PRCTL
-> >  > > > > +-# include <sys/prctl.h>
-> >  > > > > ++# include <linux/prctl.h>
-> >  > > > > + #endif
-> >  > > > > + #include <asm/unistd.h>
-> >  > > > > diff --git a/meta/recipes-devtools/strace/strace_4.26.bb
-> >  > > > > b/meta/recipes-devtools/strace/strace_4.26.bb
-> >  > > > > index 24f92c99e5..b71122babf 100644
-> >  > > > > --- a/meta/recipes-devtools/strace/strace_4.26.bb
-> >  > > > > +++ b/meta/recipes-devtools/strace/strace_4.26.bb
-> >  > > > > @@ -15,6 +15,7 @@ SRC_URI = "
-> >  > > > > https://strace.io/files/${PV}/strace-${PV}.tar.xz <https://strace.io/files/$%7BPV%7D/strace-$%7BPV%7D.tar.xz> \
-> >  > > > > file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
-> >  > > > > file://0001-tests-sigaction-Check-for-mips-and-
-> >  > > > > alpha-before-usin.patch \
-> >  > > > > file://0001-mips-o32-fix-build.patch \
-> >  > > > > + file://musl-fixes-armv8.patch \
-> >  > > > > "
-> >  > > > > ...
-> >  > > > 
-> >  > > > #include <sys/prctl.h> is the documented way for getting the
-> >  > > > prototype 
-> >  > > > of prctl(), which cannot be in linux/prctl.h for obvious reasons.
-> >  > > > 
-> >  > > > This patch creates the following problem:
-> >  > > > 
-> >  > > > ../strace-4.26/strace.c: In function 'startup_child':
-> >  > > > ../strace-4.26/strace.c:1355:3: warning: implicit declaration of 
-> >  > > > function 'prctl' [-Wimplicit-function-declaration]
-> >  > > > prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY);
-> >  > > > ^~~~~
-> >  > > > 
-> >  > > 
-> >  > > Ah that's definitely not a solution then. I'll have to look into
-> >  > > this 
-> >  > > further and see if I can come up with a v2 patch that doesn't
-> >  > > cause 
-> >  > > this warning.
-> >  > > 
-> >  > 
-> >  > So alpine fixes this by patching the linux headers: 
-> >  > https://git.alpinelinux.org/aports/tree/main/linux-headers/fix-aarch64-asm-ptrace.patch
-> >  > 
-> >  > I think that should be acceptable here if we just do it when building
-> >  > with musl libc.
-> >  > 
-> >  > Any thoughts on that before I work up a v2 patch?
-> > 
-> >  This really needs to get fixed upstream. I don't mind a patch but only
-> >  if its gone upstream, we don't want to be carrying patches to libc-
-> >  headers.
-> 
-> I can live with that as well, we have carried them just for musl in the 
-> past, but yes, we should at least know that someone is trying to 
-> upstream it. I can't get the alpine linux git to come in right now, so 
-> I can't check the referenced change to see how it looks.
-> 
-> I'm going to do new libc-headers when I get the -dev kernel up and 
-> running with the 5.2-rc kernels, so I can watch to see that it 
-> continues to apply. I can also do some extra build testing here, if you 
-> want the headers change to come through my next pull request.
-> 
+On Thu, May 9, 2019 at 1:04 PM Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Wed, 8 May 2019 at 21:14, Andreas M=C3=BCller <schnitzeltony@gmail.com=
+> wrote:
+> > Some projects rely on (cross)specific properties e.g [1]. By setting
+> >
+> > MESON_CROSS_EXTRA_PROPS=3D"var1=3D'value1' var2=3Dtrue"
+> >
+> > the required properties can be passed to meson.build. The contents of
+> > MESON_CROSS_EXTRA_PROPS behave same as known by e.g EXTRA_OEMESON.
+> >
+> > [1] https://gitlab.gnome.org/GNOME/tracker/blob/master/meson.build#L91
+>
+> Or see https://git.openembedded.org/openembedded-core/commit/?id=3De04e0a=
+20cab04966698c50dc79195a8f159248d3
+> for an example of how this is done already.
+>
+> Ross
+I have to get back to this.
 
-There's a lot of redefinition between musl and the kernel headers that hasn't been reconciled yet (see https://www.spinics.net/lists/y2038/msg03836.html for some discussion) so I think there's much more to be done upstream than just fixing this one instance.
+For the gnome tracker case I have in the recipe
 
-I'm now dropping the `#include <linux/prctl.h>` line in arch/arm64/include/uapi/asm/ptrace.h (https://github.com/torvalds/linux/blob/v5.1/arch/arm64/include/uapi/asm/ptrace.h#L68) in linux-libc-headers and that's giving working builds for me but I'm not sure how universally it can be applied. I'm happy to carry that as a bbappend in our distro layer for now but that will leave strace broke on aarch64 when using musl for others.
+| # full text search requires sqlite3 build with PACKAGECONFIG[fts5] set
+| PACKAGECONFIG[fts] =3D "-Dfts=3Dtrue,-Dfts=3Dfalse"
 
-Thanks,
+and was happy to handle it correctly the OE way
 
--- 
-Paul Barker
-Managing Director & Principal Engineer
-Beta Five Ltd
+| MESON_CROSS_EXTRA_PROPS =3D
+"sqlite3_has_fts5=3D'${@bb.utils.contains('PACKAGECONFIG', 'fts',
+'true', 'false', d)}'"
+
+Andreas
 
