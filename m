@@ -1,27 +1,23 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 14AE07D3E6
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id E39C07D3E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 09:53:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x499qvBF005927
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 9 May 2019 02:53:12 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 9 May 2019 02:53:05 -0700
-To: <raj.khem@gmail.com>
-References: <20190423101216.188441-1-kai.kang@windriver.com>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <47ad9bdd-b906-1386-1692-fda26a80e301@windriver.com>
-Date: Thu, 9 May 2019 17:53:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Thu,  9 May 2019 09:54:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x499t00l008723
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 9 May 2019 02:55:00 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Thu, 9 May 2019 02:54:59 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 9 May 2019 17:54:57 +0800
+Message-ID: <1557395697-62248-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20190423101216.188441-1-kai.kang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] webkitgtk: fix compile error for arm64
+Subject: [PATCH] systemd: Bump up SRCREV to systemd-stable top to include the fix for shutdown now hang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,54 +30,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 09:53:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 09 May 2019 09:55:00 -0000
+Content-Type: text/plain
 
-On 2019/4/23 下午6:12, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
->
-> It removes function JSC::AssemblerBuffer::data() for ARM64 in commit
-> https://trac.webkit.org/changeset/236589/webkit. But it is required by
-> Cortex A53 from https://trac.webkit.org/changeset/175514/webkit and
-> fails to compile for arm64:
->
-> | .../tmp/work/aarch64-poky-linux/webkitgtk/2.24.0-r0/webkitgtk-2.24.0/Source/JavaScriptCore/assembler/ARM64Assembler.h:3769:100: error: 'class JSC::AssemblerBuffer' has no member named 'data'
-> |     if (UNLIKELY((*reinterpret_cast_ptr<int32_t*>(reinterpret_cast_ptr<char*>(m_buffer.data()) + m_buffer.codeSize() - sizeof(int32_t)) & 0x0a000000) == 0x08000000))
->
-> Not set WTF_CPU_ARM64_CORTEXA53 for arm64 to fix the failure.
+From: He Zhe <zhe.he@windriver.com>
 
-Any comment please? It still fails even apply the patch to update to 
-2.24.1 for qemuarm64.
+"shutdown now" makes systemd hang at the following line.
+[  OK  ] Stopped Session c1 of user root.
 
-Regards,
-Kai
+It's already been fixed by 03cb25525423 ("socket-util: make sure flush_accept() doesn't hang on unexpected EOPNOTSUPP")
 
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-core/systemd/systemd.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->   meta/recipes-sato/webkit/webkitgtk_2.24.0.bb | 2 --
->   1 file changed, 2 deletions(-)
->
-> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
-> index 4a82dae9ef..54daa217bb 100644
-> --- a/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
-> +++ b/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
-> @@ -92,8 +92,6 @@ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
->   EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
->   EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
->   
-> -EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
-> -
->   # JIT not supported on MIPS either
->   EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
->   
-
-
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index 193087a..3a353b0 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -14,7 +14,7 @@ LICENSE = "GPLv2 & LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "1e5d2d656420d0e755dbcf72aeba3c3aba54e956"
++SRCREV = "db2e367bfc3b119609f837eb973d915f6c550b2f"
+ SRCBRANCH = "v242-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=git;branch=${SRCBRANCH}"
+ 
 -- 
-Kai Kang
+2.7.4
 
 
