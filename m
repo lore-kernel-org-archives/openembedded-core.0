@@ -1,40 +1,54 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 77B9D7DFE3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 945E37DF2A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 12:23:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 450CDG4cyyz5c;
-	Thu,  9 May 2019 14:23:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1557404592;
-	bh=/jlSkTuG0TtJ1Fej3Sj41CMIV/t/LSMSxDSPKn9EtMM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=beKYVFdeGFO3GVkWv/dt0hvdftOPdL+0GiuKaCsKxOPsiqFALbDZyHVHKOO1D4afj
-	tPYgSe1YHp441PJOy1bshY+wdRuuM4HMl6DhiudqefaTZuqJgHbpY1p9Pr3dfRzRAn
-	tKZ+e0CQB85jQlfk3DjQ/Pri+ofXU20/dU/pc7JNV/gLQfKDjv3apPIIIiu1qCKdnJ
-	cJbXpydR+K+nieuTn0YBPkTjFuunmw+dDOfxgKcvvGNo2OFjlVaUbK52guMunZqT8G
-	34V5EAx/7WcZOyFX7bdRZWIQ/plTqg3SeUuu9JePqFC4RzNbwkgkE3n7w8PyogspGR
-	n5X3NP6nyTB+aT44hLOPPC8NAJ8+WQidsCR6JKhteufssyU5kDBG/m1JJ3mxLmE6Yq
-	V6x8eP3y0uSE4VxtLPKQh65t0TVExwUncnMy3TzaQsAISmNc2Caw7zhIVsjjv9boQH
-	VnBHlzhlmgcgb0mM44b9FuY+n+FnXjWDbFd1qoe08LHCqBz4dYUXq0iAe3hSowdKdz
-	/iaD1NfzQ91jwEKmlbLjAkcEdMrOIpOrlwTEYQ3/TN02n2VJyejrO/YoGTKo9QM97z
-	clluLyxVHN7bnA5W31aNyKf8QMYPbvHskm4rJALc9qHoADsXJR5wOdwEtlzAVHfclK
-	Uo759sQEebWyp34+7WyEpBtM=
-Date: Thu, 9 May 2019 15:23:08 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Kevin Hao <kexin.hao@windriver.com>
-Message-ID: <20190509122308.GA24554@localhost>
-References: <20190507131151.31070-12-bunk@stusta.de>
-	<2396569c84a5fa3ababe93d837c025bce876cd40.camel@linuxfoundation.org>
-	<20190508203052.GC18736@localhost>
-	<7f99a5accb9261548f88e3f2787bad806eb5dd05.camel@linuxfoundation.org>
-	<20190509120954.GV803@pek-khao-d2.corp.ad.wrs.com>
+	Thu,  9 May 2019 13:43:55 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id v11so3157701wru.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 May 2019 06:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=3qpyfLyr9JJDmVULdXpCz4fhDQ9xwmrrAiEOuBf+XY0=;
+	b=CzCCGONwmHtR60c+oxrGnasNqCnd+sxFA01f0FHcpR//LJxD1minRE8+d3U/8+7yaQ
+	VOu6zyZhp55sf4LuF8xZD2+BCnKZd7wciZTIaq9o3UmnL66IinXpVa+gymsXAiB+Fw0o
+	VxsfB+4J5tqJvqYRlG/eoZwi9743x1zYj2zOI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=3qpyfLyr9JJDmVULdXpCz4fhDQ9xwmrrAiEOuBf+XY0=;
+	b=rErifRy3A3EMpjONTn8eOQWiMFwXvEi9Bw2ifNys++TJ+pRZC5Q7Oz+5XP77qrtbDP
+	7fL54lLS/GZsPbh/2+sl7PYqD3Xf/Tx/ESfXu6AKGcis2DKIIQjDQkrTrOXbVMVa2LXv
+	pxTq/dou8aIhkojXknoFK6UVbBBWfZKPZRUkSFkQo8E9ViNpTazQZ7nsLc7k4FUOos3g
+	pJCrx5UEnWG75D6qnbi3gimeNDrPw2jLuyJfWa/42z3+21XyU7mWeEIlyESMeCL2AjWI
+	1AL62ZDPlnN57ckOptI0ArQCiXAVzpbmvYShaqEi1UhNzZ2AKYxUBjLC/2xKPsOtTAOL
+	iVlg==
+X-Gm-Message-State: APjAAAVCEEtVSjatEGpsROa48tcEYGbLIlTEPTz7EnQxXb2lMK6ybzow
+	k6pmbQiZtzQY0Vptey9/T1PVcQ==
+X-Google-Smtp-Source: APXvYqw5ZdKzbPRHGM22ifgrmlAqJaWhvFqLfDvbUbTrJ/cpB1q3FqsKDM/lrvd+lYHBT9ZBW6yznw==
+X-Received: by 2002:adf:dbcc:: with SMTP id e12mr3142909wrj.134.1557409436353; 
+	Thu, 09 May 2019 06:43:56 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 4sm3267539wrf.61.2019.05.09.06.43.54
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 May 2019 06:43:55 -0700 (PDT)
+Message-ID: <74876e92becd2c2b04831dc4776faabd87fc53c9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Paul Barker <paul@betafive.co.uk>, OE Core
+	<openembedded-core@lists.openembedded.org>
+Date: Thu, 09 May 2019 14:43:54 +0100
+In-Reply-To: <ba43a2fb-4c12-4b35-bb40-b58ccf18ad83@www.fastmail.com>
+References: <20190508115836.15758-1-paul@betafive.co.uk>
+	<20190508115836.15758-3-paul@betafive.co.uk>
+	<20190508130249.GA25917@localhost>
+	<7a1b1694-9c7c-40eb-a998-343879c0283d@www.fastmail.com>
+	<ba43a2fb-4c12-4b35-bb40-b58ccf18ad83@www.fastmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <20190509120954.GV803@pek-khao-d2.corp.ad.wrs.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lttng-modules: upgrade 2.10.8 -> 2.10.9
+Subject: Re: [PATCH 2/2] strace: Fix aarch64 build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,27 +61,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 12:23:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 09 May 2019 13:43:55 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 09, 2019 at 08:09:54PM +0800, Kevin Hao wrote:
+On Thu, 2019-05-09 at 08:08 -0400, Paul Barker wrote:
+> On Thu, 9 May 2019, at 11:13, Paul Barker wrote:
+> > On Wed, 8 May 2019, at 14:02, Adrian Bunk wrote:
+> > > On Wed, May 08, 2019 at 11:58:36AM +0000, paul@betafive.co.uk
+> > > wrote:
+> > > > ...
+> > > > +--- strace-4.26.orig/strace.c
+> > > > ++++ strace-4.26/strace.c
+> > > > +@@ -26,7 +26,7 @@
+> > > > + #include <locale.h>
+> > > > + #include <sys/utsname.h>
+> > > > + #ifdef HAVE_PRCTL
+> > > > +-# include <sys/prctl.h>
+> > > > ++# include <linux/prctl.h>
+> > > > + #endif
+> > > > + #include <asm/unistd.h>
+> > > > diff --git a/meta/recipes-devtools/strace/strace_4.26.bb
+> > > > b/meta/recipes-devtools/strace/strace_4.26.bb
+> > > > index 24f92c99e5..b71122babf 100644
+> > > > --- a/meta/recipes-devtools/strace/strace_4.26.bb
+> > > > +++ b/meta/recipes-devtools/strace/strace_4.26.bb
+> > > > @@ -15,6 +15,7 @@ SRC_URI = "
+> > > > https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+> > > >             file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+> > > >             file://0001-tests-sigaction-Check-for-mips-and-
+> > > > alpha-before-usin.patch \
+> > > >             file://0001-mips-o32-fix-build.patch \
+> > > > +           file://musl-fixes-armv8.patch \
+> > > >             "
+> > > > ...
+> > > 
+> > > #include <sys/prctl.h> is the documented way for getting the
+> > > prototype 
+> > > of prctl(), which cannot be in linux/prctl.h for obvious reasons.
+> > > 
+> > > This patch creates the following problem:
+> > > 
+> > > ../strace-4.26/strace.c: In function 'startup_child':
+> > > ../strace-4.26/strace.c:1355:3: warning: implicit declaration of 
+> > > function 'prctl' [-Wimplicit-function-declaration]
+> > >    prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY);
+> > >    ^~~~~
+> > > 
+> > 
+> > Ah that's definitely not a solution then. I'll have to look into
+> > this 
+> > further and see if I can come up with a v2 patch that doesn't
+> > cause 
+> > this warning.
+> > 
 > 
-> I just sent out a patch to bump the kernel version for these BSPs.
+> So alpine fixes this by patching the linux headers: 
+> https://git.alpinelinux.org/aports/tree/main/linux-headers/fix-aarch64-asm-ptrace.patch
+> 
+> I think that should be acceptable here if we just do it when building
+> with musl libc.
+> 
+> Any thoughts on that before I work up a v2 patch?
 
-Thanks a lot!
+This really needs to get fixed upstream. I don't mind a patch but only
+if its gone upstream, we don't want to be carrying patches to libc-
+headers.
 
-> Thanks,
-> Kevin
+Cheers,
 
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Richard
 
 
