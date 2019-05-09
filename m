@@ -1,50 +1,42 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B5A37E04D
+Return-Path: <guslees@gmail.com>
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com
+	[209.85.167.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B7A67E03B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 21:40:14 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id r7so4358247wrr.13
+	Thu,  9 May 2019 22:30:55 +0000 (UTC)
+Received: by mail-lf1-f41.google.com with SMTP id h126so2707253lfh.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2019 14:40:16 -0700 (PDT)
+	Thu, 09 May 2019 15:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lYLgE8oDCblQM0nZlXOQN97a+Oz6CTb3WQw+XCboE2E=;
-	b=J9z4S5TrATQKJfmaKEWQar5HU9XZwBvL1Laz39aS3Ng1J8mXVCRLcWKvB4q/M7pQFK
-	VH1XlP9ZtEWaiUXy7FhN6WYbOmUfMnYgbwiRU32ck+SBAUSse+he21vinBdPRztpHyFB
-	6qhNSIvqqH6p2RdS8WHYWLgnt5WeomXKMjurm/c2XkbI/XNot7859XcEWoHEgIxLlHzU
-	REuEeW8vxFwQAX371i6fGL3TEZXRADkgSd4kts2GGyYB8xbrJlYKQxHFrhVxNE3SnxNK
-	S2BQMGLTh4sZSs0bho8qZgBahDZ7odYlmhXoaoR4QGiI3454MRYO0dKCMRw9JqsfAabm
-	2I/Q==
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=l4Sip+WN8K1xRsVUR7EP4EyCXkk+ZijpHwRsIxeItMQ=;
+	b=V1pLwzw9xUwYrL5ilB1nVeAkt7Wfpi12Uj+0vcg4Ij+RNguAUGFCfJ4zSJ65M3Pu0w
+	ibHq3/Qps5jEpVdZkKrkbk9hV6BpxjRv8bPmgzF2r6A7wF3n4psNnjuiHFI8/vV4OzOY
+	+vjHsve+uRv0VMiauLwUh2PjYl2JLIkxYMi3+nqbcW47gmevrW11bi6hemoXEhdgLggY
+	W+WWr95h5jeRyVhEfjmz4LiZMhrS29zZWHp6U4v9JbAmFleXVR0aWjeKG5Fumge0Hmtr
+	ohyHM0Vlwd3eeXRV/HWvdPXjargKYbJo78Mqv/U7EdhpK/N4m0rxalT01EDQn3vaVnfh
+	2S7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lYLgE8oDCblQM0nZlXOQN97a+Oz6CTb3WQw+XCboE2E=;
-	b=Rp8TDIfD/fZsU/1BcS2Olku3Mb64Qt/jC/PrpzOAlD1RNHoftmwTsYQIfzfFavr7m+
-	rkO2/G8jGCwa5r290qU+Cwy+Q49bj9NRw9fjgls20q73EDkYJp+mhn1Neyo2+Qh4BPis
-	iINi9LmJdOX0RokRPivr8wes1ZZTHYrMLdRh0g6OidVtXsSGwfZ0ldhnCIXFcsDC6iaF
-	d3j4uZEw2aJZbHS3ATMQV/OZtVrBKDQivm0v5UBJrZWGgktxfoaZVQKxEgkvd1bhLpgS
-	/+jHZD6dNYf048QTcNKj4YWHWfO/hkV4VrBRUVM6h3e3JAQdyjsq8YzhB6PmAOlcczJ6
-	lJ0w==
-X-Gm-Message-State: APjAAAVY5SYokxqLpJJAk8noUTtrcvMu58efESyd65hcByrrZhLZXM0p
-	nf2igLiZ8c4cr6RE54Sxp3of0AASMxY=
-X-Google-Smtp-Source: APXvYqx4lIajCjB9vuqG6421SRNje5q+5MtJQApMEPJ+G4Pvgk/988RzCoe/0dHjFiUcF3rjJPfBbw==
-X-Received: by 2002:adf:eb44:: with SMTP id u4mr4868122wrn.83.1557438015135;
-	Thu, 09 May 2019 14:40:15 -0700 (PDT)
-Received: from localhost ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
-	k206sm7690619wmk.16.2019.05.09.14.40.13
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 14:40:14 -0700 (PDT)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2019 22:40:07 +0100
-Message-Id: <20190509214007.13927-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=l4Sip+WN8K1xRsVUR7EP4EyCXkk+ZijpHwRsIxeItMQ=;
+	b=kZ1LFK0quwRkC/wPaKWXJih9fWS2my7HOfTojIFnNQ3roc+K5kzKwSd0IjJoccc+nA
+	0VYK6XFiZjKWFDWw6TGouD9Dz6jJA7dReSWkrQvTvqAoh3mXD+4QDpxeMw9ZBCGswaep
+	+QOqO06y3uA5HF24K4ouMN1FEG7u+Poh4pmQpaUTOts610UnGR9DBjwb4kJ3B3TGoIIy
+	Y71EAH6OBiswgweuJ8O4lT135R830/EAcs7spyin/foIbHEsazf2+jVbFOmq1KEXRk0u
+	c3nTLoFZvo+twqbmraRcwJMzQttG7p3fsvDRqn+N1N9930pvI5OoX5pxTe/cHBoz7QbX
+	rOqg==
+X-Gm-Message-State: APjAAAU9mjGoa1DeGGnWZm5oLE9JXrRS2gCwgiz1Qzv1J2DG3e9FwI5A
+	Ld8/ncULVWlD/1GtzgKaH2hb8TmZoCSfJitYYJugHEkjrtA=
+X-Google-Smtp-Source: APXvYqx7/cYHLccpUvIv7tv5JuXCV4w9ChvuSy/O8GIN+M3YS70g8KSkv2DRUL25s5ZxFuYxNX1uIxYVbgozF0vtZI0=
+X-Received: by 2002:ac2:41da:: with SMTP id d26mr3842672lfi.34.1557441055291; 
+	Thu, 09 May 2019 15:30:55 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] systemd: enable portabled by default and install utilities in systemd-container
+From: Angus Lees <guslees@gmail.com>
+Date: Fri, 10 May 2019 08:30:42 +1000
+Message-ID: <CAPA_H3enhkzkA0gpnWrEDr5MxmMWMk_XuxWW_xr_JGth1P7a9w@mail.gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [thud] Backport "package_manager.py: Use data.tar.xz for ipkg too"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,72 +49,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 21:40:15 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 09 May 2019 22:30:55 -0000
+Content-Type: multipart/alternative; boundary="000000000000dbfdec05887c00da"
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
+--000000000000dbfdec05887c00da
+Content-Type: text/plain; charset="UTF-8"
 
-portable services have been declared production ready with v241, so enable
-by default and install the files in the container package.
+Please cherry-pick c09a22c421a57701f6b943eb50b9bae1545e5b39
+ onto thud release branch.  (Note warrior already has this commit)
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
- meta/recipes-core/systemd/systemd_242.bb | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+The fix should also be applied to sumo, if we're still making changes
+there.  (Any branch that includes b95b6ba1a2959e2294a8848fa35f20163388eb06)
 
-diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
-index 73e03c7a77..83b00ba785 100644
---- a/meta/recipes-core/systemd/systemd_242.bb
-+++ b/meta/recipes-core/systemd/systemd_242.bb
-@@ -81,6 +81,7 @@ PACKAGECONFIG ??= " \
-     nss \
-     nss-mymachines \
-     nss-resolve \
-+    portabled \
-     quotacheck \
-     randomseed \
-     resolved \
-@@ -403,8 +404,10 @@ SYSTEMD_SERVICE_${PN}-remote = "systemd-journal-remote.socket"
- 
- FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
-                          ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-+                         ${sysconfdir}/dbus-1/system.d/org.freedesktop.portable1.conf \
-                          ${sysconfdir}/systemd/system/multi-user.target.wants/machines.target \
-                          ${base_bindir}/machinectl \
-+                         ${base_bindir}/portablectl \
-                          ${bindir}/systemd-nspawn \
-                          ${nonarch_libdir}/systemd/import-pubring.gpg \
-                          ${systemd_system_unitdir}/busnames.target.wants/org.freedesktop.import1.busname \
-@@ -418,21 +421,28 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
-                          ${systemd_system_unitdir}/org.freedesktop.machine1.busname \
-                          ${systemd_system_unitdir}/systemd-importd.service \
-                          ${systemd_system_unitdir}/systemd-machined.service \
-+                         ${systemd_system_unitdir}/systemd-portabled.service \
-                          ${systemd_system_unitdir}/dbus-org.freedesktop.machine1.service \
-+                         ${systemd_system_unitdir}/dbus-org.freedesktop.portable1.service \
-                          ${systemd_system_unitdir}/var-lib-machines.mount \
-                          ${rootlibexecdir}/systemd/systemd-import \
-                          ${rootlibexecdir}/systemd/systemd-importd \
-                          ${rootlibexecdir}/systemd/systemd-machined \
-+                         ${rootlibexecdir}/systemd/systemd-portabled \
-                          ${rootlibexecdir}/systemd/systemd-pull \
-+                         ${exec_prefix}/lib/tmpfiles.d/portables.conf \
-                          ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
-                          ${systemd_system_unitdir}/systemd-nspawn@.service \
-                          ${libdir}/libnss_mymachines.so.2 \
-                          ${datadir}/dbus-1/system-services/org.freedesktop.import1.service \
-                          ${datadir}/dbus-1/system-services/org.freedesktop.machine1.service \
-+                         ${datadir}/dbus-1/system-services/org.freedesktop.portable1.service \
-                          ${datadir}/dbus-1/system.d/org.freedesktop.import1.conf \
-                          ${datadir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-+                         ${datadir}/dbus-1/system.d/org.freedesktop.portable1.conf \
-                          ${datadir}/polkit-1/actions/org.freedesktop.import1.policy \
-                          ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
-+                         ${datadir}/polkit-1/actions/org.freedesktop.portable1.policy \
-                         "
- 
- RRECOMMENDS_${PN}-container += "\
 -- 
-2.20.1
+Thanks,
+ - Gus
 
+--000000000000dbfdec05887c00da
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><span style=3D"font-family:monospace"><span style=3D"color=
+:rgb(178,104,24)">Please cherry-pick=C2=A0</span></span><span style=3D"font=
+-family:monospace"><span style=3D"color:rgb(178,104,24)">c09a22c421a57701f6=
+b943eb50b9bae1545e5b39</span><br></span><span style=3D"font-family:monospac=
+e"><span style=3D"color:rgb(178,104,24)">=C2=A0onto thud release branch.=C2=
+=A0 (Note warrior already has this commit)</span><br></span><div><br></div>=
+<div>The fix should also be applied to sumo, if we&#39;re still making chan=
+ges there.=C2=A0 (Any branch that includes=C2=A0<span style=3D"color:rgb(17=
+8,104,24);font-family:monospace">b95b6ba1a2959e2294a8848fa35f20163388eb06)<=
+/span></div><div><br></div>--=C2=A0<div>Thanks,<br><div dir=3D"ltr" class=
+=3D"gmail_signature" data-smartmail=3D"gmail_signature">=C2=A0- Gus</div></=
+div></div>
+
+--000000000000dbfdec05887c00da--
