@@ -1,28 +1,27 @@
-Return-Path: <Zhe.He@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9D5E37D3E6
+	by mail.openembedded.org (Postfix) with ESMTP id 14AE07D3E6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 09:52:31 +0000 (UTC)
+	Thu,  9 May 2019 09:53:36 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x499q7jv005912
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 9 May 2019 02:52:22 -0700
-Received: from [128.224.162.146] (128.224.162.146) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 9 May 2019 02:52:05 -0700
-To: <openembedded-core@lists.openembedded.org>
-References: <1557395383-6322-1-git-send-email-zhe.he@windriver.com>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <32c3ac4e-d226-0256-ae43-0b80979913f0@windriver.com>
-Date: Thu, 9 May 2019 17:52:02 +0800
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x499qvBF005927
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 9 May 2019 02:53:12 -0700
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 9 May 2019 02:53:05 -0700
+To: <raj.khem@gmail.com>
+References: <20190423101216.188441-1-kai.kang@windriver.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <47ad9bdd-b906-1386-1692-fda26a80e301@windriver.com>
+Date: Thu, 9 May 2019 17:53:03 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1557395383-6322-1-git-send-email-zhe.he@windriver.com>
-X-Originating-IP: [128.224.162.146]
-Subject: Re: Review request 0/1: LIN1019-1252 run 'shutdown -P now' on vm and shutdown failed
+In-Reply-To: <20190423101216.188441-1-kai.kang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] webkitgtk: fix compile error for arm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,101 +34,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 09:52:31 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 09 May 2019 09:53:37 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 Content-Language: en-US
 
-Please ignore.
+On 2019/4/23 下午6:12, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> It removes function JSC::AssemblerBuffer::data() for ARM64 in commit
+> https://trac.webkit.org/changeset/236589/webkit. But it is required by
+> Cortex A53 from https://trac.webkit.org/changeset/175514/webkit and
+> fails to compile for arm64:
+>
+> | .../tmp/work/aarch64-poky-linux/webkitgtk/2.24.0-r0/webkitgtk-2.24.0/Source/JavaScriptCore/assembler/ARM64Assembler.h:3769:100: error: 'class JSC::AssemblerBuffer' has no member named 'data'
+> |     if (UNLIKELY((*reinterpret_cast_ptr<int32_t*>(reinterpret_cast_ptr<char*>(m_buffer.data()) + m_buffer.codeSize() - sizeof(int32_t)) & 0x0a000000) == 0x08000000))
+>
+> Not set WTF_CPU_ARM64_CORTEXA53 for arm64 to fix the failure.
 
-Thanks,
-Zhe
+Any comment please? It still fails even apply the patch to update to 
+2.24.1 for qemuarm64.
 
-On 5/9/19 5:49 PM, zhe.he@windriver.com wrote:
-> From: zhe.he@windriver.com Mon Sep 17 00:00:00 2001
+Regards,
+Kai
+
+
+
 >
-> Summary: LIN1019-1252 run 'shutdown -P now' on vm and shutdown failed
-> Tech Review: Qi Chen
-> Gatekeeper: Robert
-> Lockdown Approval (if needed): 
-> Branch Tag: wr-10.19-20190505
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>   meta/recipes-sato/webkit/webkitgtk_2.24.0.bb | 2 --
+>   1 file changed, 2 deletions(-)
 >
-> IP Statement (form link or license statement, usually automated):
-> Crypto URL(s) (if needed): see http://wiki.wrs.com/PBUeng/LinuxProductDivisionExportProcess
-> Parent Template (where applicable):
->
->
-> ====== Sanity Issues: (DO NOT EDIT this section) ======
->
->
->
-> ====== Impacted area             Impact y/n ======
-> docs/tech-pubs                      n
-> tests                               n
-> build system                        n
-> host dependencies                   n
-> RPM/packaging                       n
-> toolchain                           n
-> kernel code                         n
-> user code                           y
-> configuration files                 n
-> target configuration                n
-> Applicable to Yocto/upstream        n
-> New Kernel Warnings                 n
-> Other                               n
->
->
-> ====== Comments (indicate scope for each "y" above) ======
-> * Conditions of submission
->
-> * Documentation Changes/Release Notes
->   = Doc changes
->
->   = Release notes
->
-> * Git logs
->
->
-> ====== Testing ======
-> * Commands
-> setup.sh --machine qemux86-64 --distro wrlinux --dl-layers
-> . ./oe-init-build-env
-> bitbake wrlinux-image-glibc-std
-> runqemu qemux86-64 nographic
-> root
-> shutdown now
->
-> * Expected Results
-> shut down successfully
->
-> * Applicable to
->
-> * Tested configurations
->
->   Arch    built      boot     boardname
->   -------------------------------------
->   MIPS      n         n
->   MIPS64    n         n
->   MIPS64n32 n         n
->   ARM32     n         n
->   ARM64     n         n
->   x86       n         n
->   x86_64    n         y       22015
->   PPC       n         n
->   PPC64     n         n
->   SPARC64   n         n
->
->
-> ====== Reviewer Checklist ======
-> [Submitters: make sure that your review doesn't trigger any checkmarks!]
-> http://lxgit.wrs.com/cgit/bin.git/tree/etc/review.txt
->
->
-> ====== PULLs ======
-> * The branch is made of: <branch_name>_<commits_count>_<date>
->   git://128.224.158.51/git/oe-core zhe/wr-10.19-20190505__1__20190509174633
->
-> * WRH-PULLs ("wrh -m" can merge it):
->   git://128.224.158.51/git/oe-core__s__zhe/wr-10.19-20190505__1__20190509174633
+> diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
+> index 4a82dae9ef..54daa217bb 100644
+> --- a/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
+> +++ b/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
+> @@ -92,8 +92,6 @@ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+>   EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+>   EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+>   
+> -EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
+> -
+>   # JIT not supported on MIPS either
+>   EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
+>   
+
+
+-- 
+Kai Kang
 
 
