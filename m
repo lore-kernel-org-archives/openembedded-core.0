@@ -1,50 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 52BDA7E01F
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 3B5A37E04D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 20:34:53 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id a64so2339895qkg.5
+	Thu,  9 May 2019 21:40:14 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id r7so4358247wrr.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2019 13:34:54 -0700 (PDT)
+	Thu, 09 May 2019 14:40:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=iBagKAIGGyk8xG/JKMLhvMmFZDVCn+nD5AIBQiYQzrk=;
-	b=PGe3/UNMjGXa+4Bit2FYAYhhiyZjm/n8fkmz+IhrOWjxHhcWmVqtI7o232zWgyHVCO
-	qYOZgzTfINwetzZ4UA1uf+SNdzmubFw+ierM5SxJpz/Mi9si2ILd3ZZ+Lvz8wiyl5o+K
-	hzpj5SjKZ+dtere2tMPuRc/9G2lXh32DdEO2IfHBE0c6c3NKaBHyzY5VzNLcqY5xdguq
-	Ah0oyDSXStaVnX/Zexa2PCbWoQ5WjexyzNE9W+aeaYSB4UBD1Ndc0+mfCL8VnpGafqV+
-	TFpvVsXq13zYA1echGUXyJMnHo55hWqi0gImuS2XlxYNjcj8wN9xHDxHT+k2hzz6GvN+
-	Px1A==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lYLgE8oDCblQM0nZlXOQN97a+Oz6CTb3WQw+XCboE2E=;
+	b=J9z4S5TrATQKJfmaKEWQar5HU9XZwBvL1Laz39aS3Ng1J8mXVCRLcWKvB4q/M7pQFK
+	VH1XlP9ZtEWaiUXy7FhN6WYbOmUfMnYgbwiRU32ck+SBAUSse+he21vinBdPRztpHyFB
+	6qhNSIvqqH6p2RdS8WHYWLgnt5WeomXKMjurm/c2XkbI/XNot7859XcEWoHEgIxLlHzU
+	REuEeW8vxFwQAX371i6fGL3TEZXRADkgSd4kts2GGyYB8xbrJlYKQxHFrhVxNE3SnxNK
+	S2BQMGLTh4sZSs0bho8qZgBahDZ7odYlmhXoaoR4QGiI3454MRYO0dKCMRw9JqsfAabm
+	2I/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=iBagKAIGGyk8xG/JKMLhvMmFZDVCn+nD5AIBQiYQzrk=;
-	b=ND9bTfG9dnMUN8BKjtHl4fNp6qGpxAgZS5FP4CClZk4EDvDHx9PtUOWuDwtTRRs3Ca
-	QKxaV8gq+B5lVURjejzRiayYDQrnqoSAbaVcMlCaNUb2DUtM+CTI5SV/XWBU4NNetUUk
-	knyqQqPl4vGNsN/zYkGRJ8N+xjzDNV29ik3drvCuLDgFV8XnwNYsbPJfqMfoSLlt2luN
-	guAYjG7kfnF1+6Z80oyN5W7KaQhE5KZXYG2urfSztHAXfUrYpMnGFEJS7gXBCvnCn1RQ
-	4v4f1RDJXSc1RdnRi0mZEagMgPhcmK2xAlZDODW5X2ktENpienAXBCzuhI+NWwMO6v1V
-	V+1w==
-X-Gm-Message-State: APjAAAXN4y3xN4yuk+g6nBDNKABYB9/X4RwDGjzhCCdpjSzxt05bs4GL
-	kEPKllRfMAISj6U9VVUDCvDiw1Giun5wwC98tk4=
-X-Google-Smtp-Source: APXvYqyqIZqKKssBz51kXZlLhv0kMmmPd2WxgoAzSvU93zfhB7knSnpVuXbj+cyqqfLMDnmbl9V4dbMPZV9sAxjcGd4=
-X-Received: by 2002:a37:8d06:: with SMTP id p6mr5322824qkd.315.1557434093793; 
-	Thu, 09 May 2019 13:34:53 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lYLgE8oDCblQM0nZlXOQN97a+Oz6CTb3WQw+XCboE2E=;
+	b=Rp8TDIfD/fZsU/1BcS2Olku3Mb64Qt/jC/PrpzOAlD1RNHoftmwTsYQIfzfFavr7m+
+	rkO2/G8jGCwa5r290qU+Cwy+Q49bj9NRw9fjgls20q73EDkYJp+mhn1Neyo2+Qh4BPis
+	iINi9LmJdOX0RokRPivr8wes1ZZTHYrMLdRh0g6OidVtXsSGwfZ0ldhnCIXFcsDC6iaF
+	d3j4uZEw2aJZbHS3ATMQV/OZtVrBKDQivm0v5UBJrZWGgktxfoaZVQKxEgkvd1bhLpgS
+	/+jHZD6dNYf048QTcNKj4YWHWfO/hkV4VrBRUVM6h3e3JAQdyjsq8YzhB6PmAOlcczJ6
+	lJ0w==
+X-Gm-Message-State: APjAAAVY5SYokxqLpJJAk8noUTtrcvMu58efESyd65hcByrrZhLZXM0p
+	nf2igLiZ8c4cr6RE54Sxp3of0AASMxY=
+X-Google-Smtp-Source: APXvYqx4lIajCjB9vuqG6421SRNje5q+5MtJQApMEPJ+G4Pvgk/988RzCoe/0dHjFiUcF3rjJPfBbw==
+X-Received: by 2002:adf:eb44:: with SMTP id u4mr4868122wrn.83.1557438015135;
+	Thu, 09 May 2019 14:40:15 -0700 (PDT)
+Received: from localhost ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
+	k206sm7690619wmk.16.2019.05.09.14.40.13
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 May 2019 14:40:14 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 May 2019 22:40:07 +0100
+Message-Id: <20190509214007.13927-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190507210338.17788-1-raj.khem@gmail.com>
-	<4fba9588af56d66a633fde9dba8e1a4176ed234e.camel@intel.com>
-	<CAMKF1sqcCNx6M8Ve8YTzMDCGaZdvBU4LQYhxKgEcH2Q6FyeeCA@mail.gmail.com>
-	<047c54ca3988760cad94a11a511219887edc8980.camel@linuxfoundation.org>
-In-Reply-To: <047c54ca3988760cad94a11a511219887edc8980.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 9 May 2019 13:34:42 -0700
-Message-ID: <CAMKF1spJZF6C0jFrKdO=YN2h1DXOPf-Lvpxe=S0twHQh9PY1zA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] gcc-9: Add recipes for gcc 9.1 release
+Subject: [PATCH] systemd: enable portabled by default and install utilities in systemd-container
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,114 +57,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 20:34:53 -0000
-Content-Type: multipart/alternative; boundary="000000000000ebf81805887a61fc"
+X-List-Received-Date: Thu, 09 May 2019 21:40:15 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000ebf81805887a61fc
-Content-Type: text/plain; charset="UTF-8"
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-On Thu, May 9, 2019 at 1:19 PM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+portable services have been declared production ready with v241, so enable
+by default and install the files in the container package.
 
-> On Thu, 2019-05-09 at 11:05 -0700, Khem Raj wrote:
-> > On Wed, May 8, 2019 at 11:55 PM Mittal, Anuj <anuj.mittal@intel.com>
-> > wrote:
-> > > This is probably causing selftest failure for fortran
-> > > (test_toolchain_fortran):
-> > >
-> > > ERROR: libgfortran-9.1.0-r0 do_package: QA Issue: libgfortran:
-> > > Files/directories were installed but not shipped in any package:
-> > >   /usr/lib/gcc/x86_64-poky-linux/9.1.0/include
-> > >   /usr/lib/gcc/x86_64-poky-
-> > > linux/9.1.0/include/ISO_Fortran_binding.h
-> > >
-> > >
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/162/steps/7/logs/step2d
-> > >
-> >
-> > fortran is not in default set of languages to build so sent a
-> > separate
-> > patch for this here.
-> > https://patchwork.openembedded.org/patch/161101/
->
->
-> There is a second issue which is why was this mixing gcc 8 and 9 in the
-> same build. I've sent a patch to add a missing PREFERRED_VERSION.
->
-> We've not run another gcc 9 test, I'll likely merge the gcc 9 version
-> as non-default and then we can keep testing until it works and we can
-> make it the default.
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-core/systemd/systemd_242.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 73e03c7a77..83b00ba785 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -81,6 +81,7 @@ PACKAGECONFIG ??= " \
+     nss \
+     nss-mymachines \
+     nss-resolve \
++    portabled \
+     quotacheck \
+     randomseed \
+     resolved \
+@@ -403,8 +404,10 @@ SYSTEMD_SERVICE_${PN}-remote = "systemd-journal-remote.socket"
+ 
+ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
+                          ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
++                         ${sysconfdir}/dbus-1/system.d/org.freedesktop.portable1.conf \
+                          ${sysconfdir}/systemd/system/multi-user.target.wants/machines.target \
+                          ${base_bindir}/machinectl \
++                         ${base_bindir}/portablectl \
+                          ${bindir}/systemd-nspawn \
+                          ${nonarch_libdir}/systemd/import-pubring.gpg \
+                          ${systemd_system_unitdir}/busnames.target.wants/org.freedesktop.import1.busname \
+@@ -418,21 +421,28 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
+                          ${systemd_system_unitdir}/org.freedesktop.machine1.busname \
+                          ${systemd_system_unitdir}/systemd-importd.service \
+                          ${systemd_system_unitdir}/systemd-machined.service \
++                         ${systemd_system_unitdir}/systemd-portabled.service \
+                          ${systemd_system_unitdir}/dbus-org.freedesktop.machine1.service \
++                         ${systemd_system_unitdir}/dbus-org.freedesktop.portable1.service \
+                          ${systemd_system_unitdir}/var-lib-machines.mount \
+                          ${rootlibexecdir}/systemd/systemd-import \
+                          ${rootlibexecdir}/systemd/systemd-importd \
+                          ${rootlibexecdir}/systemd/systemd-machined \
++                         ${rootlibexecdir}/systemd/systemd-portabled \
+                          ${rootlibexecdir}/systemd/systemd-pull \
++                         ${exec_prefix}/lib/tmpfiles.d/portables.conf \
+                          ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
+                          ${systemd_system_unitdir}/systemd-nspawn@.service \
+                          ${libdir}/libnss_mymachines.so.2 \
+                          ${datadir}/dbus-1/system-services/org.freedesktop.import1.service \
+                          ${datadir}/dbus-1/system-services/org.freedesktop.machine1.service \
++                         ${datadir}/dbus-1/system-services/org.freedesktop.portable1.service \
+                          ${datadir}/dbus-1/system.d/org.freedesktop.import1.conf \
+                          ${datadir}/dbus-1/system.d/org.freedesktop.machine1.conf \
++                         ${datadir}/dbus-1/system.d/org.freedesktop.portable1.conf \
+                          ${datadir}/polkit-1/actions/org.freedesktop.import1.policy \
+                          ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
++                         ${datadir}/polkit-1/actions/org.freedesktop.portable1.policy \
+                         "
+ 
+ RRECOMMENDS_${PN}-container += "\
+-- 
+2.20.1
 
 
-Yes I have left switching  the default for another day intentionally
-
-Doing that as a separate patch is right approach I think here and we can
-push it once all is good
-
-
->
-> Cheers,
->
-> Richard
->
->
-
---000000000000ebf81805887a61fc
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, May 9, 2019 at 1:19 PM Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, 2019-=
-05-09 at 11:05 -0700, Khem Raj wrote:<br>
-&gt; On Wed, May 8, 2019 at 11:55 PM Mittal, Anuj &lt;<a href=3D"mailto:anu=
-j.mittal@intel.com" target=3D"_blank">anuj.mittal@intel.com</a>&gt;<br>
-&gt; wrote:<br>
-&gt; &gt; This is probably causing selftest failure for fortran<br>
-&gt; &gt; (test_toolchain_fortran):<br>
-&gt; &gt; <br>
-&gt; &gt; ERROR: libgfortran-9.1.0-r0 do_package: QA Issue: libgfortran:<br=
->
-&gt; &gt; Files/directories were installed but not shipped in any package:<=
-br>
-&gt; &gt;=C2=A0 =C2=A0/usr/lib/gcc/x86_64-poky-linux/9.1.0/include<br>
-&gt; &gt;=C2=A0 =C2=A0/usr/lib/gcc/x86_64-poky-<br>
-&gt; &gt; linux/9.1.0/include/ISO_Fortran_binding.h<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builder=
-s/79/builds/162/steps/7/logs/step2d" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://autobuilder.yoctoproject.org/typhoon/#/builders/79/builds/162/steps/=
-7/logs/step2d</a><br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; fortran is not in default set of languages to build so sent a<br>
-&gt; separate<br>
-&gt; patch for this here.<br>
-&gt; <a href=3D"https://patchwork.openembedded.org/patch/161101/" rel=3D"no=
-referrer" target=3D"_blank">https://patchwork.openembedded.org/patch/161101=
-/</a><br>
-<br>
-<br>
-There is a second issue which is why was this mixing gcc 8 and 9 in the<br>
-same build. I&#39;ve sent a patch to add a missing PREFERRED_VERSION.<br>
-<br>
-We&#39;ve not run another gcc 9 test, I&#39;ll likely merge the gcc 9 versi=
-on<br>
-as non-default and then we can keep testing until it works and we can<br>
-make it the default.</blockquote><div dir=3D"auto"><br></div><div dir=3D"au=
-to">Yes I have left switching =C2=A0the default for another day intentional=
-ly</div><div dir=3D"auto"><br></div><div dir=3D"auto">Doing that as a separ=
-ate patch is right approach I think here and we can push it once all is goo=
-d=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br=
->
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div></div>
-
---000000000000ebf81805887a61fc--
