@@ -1,49 +1,63 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E3C77D58A
+Return-Path: <paul@betafive.co.uk>
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com
+	[66.111.4.29])
+	by mail.openembedded.org (Postfix) with ESMTP id 31BAD7D712
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 12:03:15 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id m186so2896913itd.4
+	Thu,  9 May 2019 12:08:51 +0000 (UTC)
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+	by mailout.nyi.internal (Postfix) with ESMTP id 4A342236D8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2019 05:03:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=MSDWiA7DDZncqv94113M7ENv8fiTbcXOdWf3ABhhxyI=;
-	b=G02EayjTqmn0juvXn/7pjcTKD4Af1MdPo6HDjfGFgpm432WUfto2DJjW29Gy0MYbEl
-	AmRxWMiRR6mwrLUgwHielQ8QhKsr+6yiEowEMnymCne9P80sRLlZtjmgSa1OX90BvC96
-	At4htLMjMAPIT4G/E0J9JlekTB8FP9P1P/jZjT0RejZ8TBBzbxX0uUlJlyVP57ZfMuNP
-	mfAC2LOCnNK1xqa48De2T6r10mfI+aTs0MIAdLlBdbrf8OWD4XOX2czfA0eQ8lolt6T/
-	YpQgkrsGzxyysKTkoquF/4ctbH9KpI/44R3y71UScXZ0gkX36PjOFo2zHH/KczFdBZ91
-	SNPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=MSDWiA7DDZncqv94113M7ENv8fiTbcXOdWf3ABhhxyI=;
-	b=ndGXQLTBxo2zvzdv5drRbZNFgx/x0oFlw2WaL6uf3mnTJv9omyNSilsztB+LEqErMg
-	IktTLuCCS2blJYSNACrIH6EsodmjCrHKIGYSrPQ8OBEPLoMT1RjMlkRM6fS2WCQoEhpT
-	IhFFhqXZjw6V792AMcEpZ57A0a7xZu3DJe/HjK9twt9oownOO80Yw7OBVxSK6tqK0TEm
-	O+0qzcBDkscETd0Lj0R5rgHId2QdtscFqVwAjSJZG6t11rm7yTUJmbdThg1i1+gtuA+t
-	IQhgZDR5z3WWImHPlQxWQXAYpjxV80lkHQ09A16/i2HyIH2IUHy7acLWVYTsOSvEOrsw
-	i55A==
-X-Gm-Message-State: APjAAAVqLTFzVrkNyO2tmjM/QpC9wtEZqyDGGEuO1BPYcUCx8kmp2U/A
-	K4kwwOmi+bwhZA+RXrmsvBgAMEtLG9LZGcZBNBg=
-X-Google-Smtp-Source: APXvYqz8Iq48++Aqa6trzBJTQMtvTgZBAQWRRwhTNnYH0vdIsSOXfvePfgsb2p7FcWIJzJRLvbQH0Cx6KOYaTFHLeMo=
-X-Received: by 2002:a24:9d46:: with SMTP id f67mr2544564itd.58.1557403397011; 
-	Thu, 09 May 2019 05:03:17 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190508201335.1732-1-schnitzeltony@gmail.com>
-	<CAJTo0LYRyARnYkRfumy_hXXNb6otVKhr0di0fyptBb208wQ4mA@mail.gmail.com>
-	<CALbNGRRzzJQVM7-bt6hsq_FQzHxJ+QTjrwfj9NFgmuUWKvQKZw@mail.gmail.com>
-In-Reply-To: <CALbNGRRzzJQVM7-bt6hsq_FQzHxJ+QTjrwfj9NFgmuUWKvQKZw@mail.gmail.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 9 May 2019 14:03:03 +0200
-Message-ID: <CALbNGRTqaL-N0hgTrSywEvnuE_wAkP0+CvNssXp0V2AEucXJ+Q@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meson.bbclass: add MESON_CROSS_EXTRA_PROPS to inject properties into meson.cross
+	Thu,  9 May 2019 08:08:52 -0400 (EDT)
+Received: from imap2 ([10.202.2.52])
+	by compute1.internal (MEProxy); Thu, 09 May 2019 08:08:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=betafive.co.uk;
+	h=mime-version:message-id:in-reply-to:references:date:from:to
+	:subject:content-type; s=fm1; bh=QoiAiV0A0eH079XqJUMAh91TxVfAOav
+	EoCabmvbGwy0=; b=lPLhqbEbsIwW/F2YTJxrl0vb4Wm5ZIHqbLJ6oxIkoXU7dnW
+	N5AfNeZs10ccG4WTC+tQCi2zSzxXdgbeRHgcB7MDkfgXEBL5FoEuiz/vSwCpe0SP
+	+kTEWSc5IThj7szO2WW1TNI7N6FHNuQZSubl08eVsx+EVX5SESuFM4rC6spy0NcW
+	9u+BljYX44qhUXHA0kWXJjgVd3O4hj4xSvXjm9wrGkdoZ8qDIE04O4aPjMON4HJX
+	emG5o40ZbZxNX4CH4RP+CY8b7kJy7j75IwtZVF2NS+EAUQJXAhbRVFOEvTH3i4pM
+	P7haFDDY3DZTIYACxz36RVzwnZ8aUungJxjn3MA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; bh=QoiAiV
+	0A0eH079XqJUMAh91TxVfAOavEoCabmvbGwy0=; b=TeS6M+Uy5kU5Ikfx9HOZlw
+	7uh+h7yrHd3ZaMB52Ik+7ZDp4eJWmZCUPl77NMxABgBz0+HK/d1KPhdcGCDGemr4
+	ONp0SmwJ2Mylpzw1vWI9tzgaX8Bzufg4ti6X3LMtwys7tibTCxBEuwP/tBgwF4p4
+	FCOiT0cZ7bqwZny1RLre87Xky6WVyf8oz5UcAQPZTOzfscafVATZGgrq4M266QsJ
+	88XVcuCO7OtTF9/vn7cKpmOy9k0EYmjd6ZpzmLcnbPliZ0Oe7hocQPxyywoOC1AK
+	49GL/3cpJHpDoLOpEJTK13ATmq5afiHglOEOrg61GRJhNPrUzavV+6sB826pnyHg
+	==
+X-ME-Sender: <xms:VBjUXM03_dMvfDq-mQ9VhB_Acry1eSCSFdc4UrQdsjKYxICEB-oXqQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrkeehgdehudcutefuodetggdotefrodftvf
+	curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+	uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+	fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedfrfgruhhl
+	uceurghrkhgvrhdfuceophgruhhlsegsvghtrghfihhvvgdrtghordhukheqnecuffhomh
+	grihhnpegrlhhpihhnvghlihhnuhigrdhorhhgpdhsthhrrggtvgdrihhonecurfgrrhgr
+	mhepmhgrihhlfhhrohhmpehprghulhessggvthgrfhhivhgvrdgtohdruhhknecuvehluh
+	hsthgvrhfuihiivgeptd
+X-ME-Proxy: <xmx:VBjUXFkahIeuI9Pf5jcfIpBDG02L9te04-8w6FU6PMBN2LJQ3zT-iQ>
+	<xmx:VBjUXPtUZ97LUVkTGiJMdTI-VppdI2CIA33-D2xl1rwWQTNC7riQRg>
+	<xmx:VBjUXMA8M29WisXDDug98udhWosbkTJmFxNShgChvJGMYau2SYblEw>
+	<xmx:VBjUXMA3uoGOjnNHTJmRRiwWRWEvBhQadXw9vKONmcRZ3X9LBW0tFg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id E89457C3DB; Thu,  9 May 2019 08:08:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.1.6-449-gfb3fc5a-fmstable-20190430v1
+Mime-Version: 1.0
+Message-Id: <ba43a2fb-4c12-4b35-bb40-b58ccf18ad83@www.fastmail.com>
+In-Reply-To: <7a1b1694-9c7c-40eb-a998-343879c0283d@www.fastmail.com>
+References: <20190508115836.15758-1-paul@betafive.co.uk>
+	<20190508115836.15758-3-paul@betafive.co.uk>
+	<20190508130249.GA25917@localhost>
+	<7a1b1694-9c7c-40eb-a998-343879c0283d@www.fastmail.com>
+Date: Thu, 09 May 2019 08:08:51 -0400
+From: "Paul Barker" <paul@betafive.co.uk>
+To: "OE Core" <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] strace: Fix aarch64 build with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +70,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 12:03:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 09 May 2019 12:08:51 -0000
+Content-Type: text/plain
 
-On Thu, May 9, 2019 at 1:41 PM Andreas M=C3=BCller <schnitzeltony@gmail.com=
-> wrote:
->
-> On Thu, May 9, 2019 at 1:04 PM Burton, Ross <ross.burton@intel.com> wrote=
-:
-> >
-> > On Wed, 8 May 2019 at 21:14, Andreas M=C3=BCller <schnitzeltony@gmail.c=
-om> wrote:
-> > > Some projects rely on (cross)specific properties e.g [1]. By setting
-> > >
-> > > MESON_CROSS_EXTRA_PROPS=3D"var1=3D'value1' var2=3Dtrue"
-> > >
-> > > the required properties can be passed to meson.build. The contents of
-> > > MESON_CROSS_EXTRA_PROPS behave same as known by e.g EXTRA_OEMESON.
-> > >
-> > > [1] https://gitlab.gnome.org/GNOME/tracker/blob/master/meson.build#L9=
-1
-> >
-> > Or see https://git.openembedded.org/openembedded-core/commit/?id=3De04e=
-0a20cab04966698c50dc79195a8f159248d3
-> > for an example of how this is done already.
-> >
-> Sometimes the sending of patches is the secret attempt to gather informat=
-ion :)
->
-> Thanks
->
-So for me to understand it correctly: adding multiple '--cross-file'
-entries in commandline accumulates the contents of the files and it is
-not the last that wins?
+On Thu, 9 May 2019, at 11:13, Paul Barker wrote:
+> On Wed, 8 May 2019, at 14:02, Adrian Bunk wrote:
+> > On Wed, May 08, 2019 at 11:58:36AM +0000, paul@betafive.co.uk wrote:
+> > >...
+> > > +--- strace-4.26.orig/strace.c
+> > > ++++ strace-4.26/strace.c
+> > > +@@ -26,7 +26,7 @@
+> > > + #include <locale.h>
+> > > + #include <sys/utsname.h>
+> > > + #ifdef HAVE_PRCTL
+> > > +-# include <sys/prctl.h>
+> > > ++# include <linux/prctl.h>
+> > > + #endif
+> > > + #include <asm/unistd.h>
+> > > diff --git a/meta/recipes-devtools/strace/strace_4.26.bb b/meta/recipes-devtools/strace/strace_4.26.bb
+> > > index 24f92c99e5..b71122babf 100644
+> > > --- a/meta/recipes-devtools/strace/strace_4.26.bb
+> > > +++ b/meta/recipes-devtools/strace/strace_4.26.bb
+> > > @@ -15,6 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+> > >             file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+> > >             file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
+> > >             file://0001-mips-o32-fix-build.patch \
+> > > +           file://musl-fixes-armv8.patch \
+> > >             "
+> > >...
+> > 
+> > #include <sys/prctl.h> is the documented way for getting the prototype 
+> > of prctl(), which cannot be in linux/prctl.h for obvious reasons.
+> > 
+> > This patch creates the following problem:
+> > 
+> > ../strace-4.26/strace.c: In function 'startup_child':
+> > ../strace-4.26/strace.c:1355:3: warning: implicit declaration of 
+> > function 'prctl' [-Wimplicit-function-declaration]
+> >    prctl(PR_SET_PTRACER, PR_SET_PTRACER_ANY);
+> >    ^~~~~
+> > 
+> 
+> Ah that's definitely not a solution then. I'll have to look into this 
+> further and see if I can come up with a v2 patch that doesn't cause 
+> this warning.
+> 
 
-I am asking because help says 'File describing cross compilation
-environment.' so I wouldn't expect this behaviour.
+So alpine fixes this by patching the linux headers: https://git.alpinelinux.org/aports/tree/main/linux-headers/fix-aarch64-asm-ptrace.patch
 
-Andreas
+I think that should be acceptable here if we just do it when building with musl libc.
+
+Any thoughts on that before I work up a v2 patch?
+
+Thanks,
+
+-- 
+Paul Barker
+Managing Director & Principal Engineer
+Beta Five Ltd
 
