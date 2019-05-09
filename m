@@ -1,58 +1,49 @@
-Return-Path: <rudolf.streif@ibeeto.com>
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com
-	[209.85.214.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 355A77DE92
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0A0947DE7F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 15:20:56 +0000 (UTC)
-Received: by mail-pl1-f181.google.com with SMTP id n8so1306451plp.10
+	Thu,  9 May 2019 16:58:37 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id b203so4151216wmb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2019 08:20:57 -0700 (PDT)
+	Thu, 09 May 2019 09:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ibeeto-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=zAGMcYEF7/HeUsk4olsmJjp3zz5o+ISqN6a3vpAITZ0=;
-	b=ED/1HuNAvXBYsOWjzzRq5l/fpzqSb6YbHMK4MmMx+pmVtFWDqtfPJD9kgSkqfCcQd4
-	unfmwk6Le8QjBu9SE3hxWaWmkSE3Yi1IcbdUL3Ki/LCmV9rqTCSD4RnPg0pMiCJZDP39
-	D3APmixuP4tLPokYKoOoTda1h7hkDZ9jP95oHs7uZhIVVRrVZRmSppgQCreCXl2YyOuf
-	wKfR9QQ7M3meByufD6qH3ZlwAZ4GoLiDWcBvn24lYFd1WXEpB8TwkVUXXRm8DbiE0rAJ
-	pgLOK4gdwu/DFihOvBe4FPY/siw8q5M6Gdj+DXoDlT8RU1GqmkF4Pji4HLS0yNRMJF0X
-	fk3g==
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4qpPsIuj1cC4DUqvwmIIHa/xe2173qTN7KPv21qf6qM=;
+	b=GQLTWz6XRC0QCzYd/VwH015Y/QHWebQpZrMZAX4GEwnciCwNyll3RwPGB5TO/CtDyz
+	nsBkpY2Y5WRDyBIHqfezQpOiIm4TYViYUkieDD0CHjF6vITj8CFPlMU4YWkndkcqERMR
+	zDGQBcRegI/o4z3+hTDOd+zxFS+Q4866+8KpA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=zAGMcYEF7/HeUsk4olsmJjp3zz5o+ISqN6a3vpAITZ0=;
-	b=HZ1+412uudiBr9Ucxgp7e22cmx2AE6+djiZqfTwg3RhHqPOTja7UC1b1LI13CwAvj+
-	QKnWF6BXk4TD5ZNsn2cHdJbIWOe8XtO3jK6fWL3PtGs7VK2ynpAEzwni9yvxK1zbYpOE
-	W8axt85wySeqNpjfkDJXwz3hU67XRa9glgsBUtbwbXg1w+FzMJSvvcg07F/DevAem2aX
-	dlp6O6yEDEmNrw1MN38YyU80ztUGdPZm4gCEX7E1bf+xgLEs0PJAuFxWIJdMhyO8Njc5
-	pubsKXioRA7Sa4EdEXZ4zRh4LuxnJEFMobCWkqsA1YNBjvynAPzQM/4OS0kRhk5zEPS5
-	MENQ==
-X-Gm-Message-State: APjAAAWDSYeuYsS87nGaBjos4ZIbwFnj7dc4Xgw5zhOknTyoxVJo5YK3
-	SEpkXbyO9gmcDso7sMN/tm/X+Xc/7QU=
-X-Google-Smtp-Source: APXvYqxgN/AWU9CGgMGbbNToEMQxvqcN0Lm1pPuJWw9i4J93DwbQXEbOP0ardEy9M+b1vPqO9TgE5A==
-X-Received: by 2002:a17:902:f208:: with SMTP id
-	gn8mr5974536plb.312.1557415256574; 
-	Thu, 09 May 2019 08:20:56 -0700 (PDT)
-Received: from rjs-zotac.ibeeto.com (ip68-7-84-58.sd.sd.cox.net. [68.7.84.58])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4qpPsIuj1cC4DUqvwmIIHa/xe2173qTN7KPv21qf6qM=;
+	b=QDZYBrpuJyNsQr28VrWfp/uJDOYsUNrLLlr1prdRTOuGtO9oULDMrmcqKCBuSR0uZQ
+	KiOKrTiqCaf0bvaBhQq0rX4GKuJHtBAFNzpKuDZaiMtBT25HJFAw64LlRjlDzbWNvGbw
+	66wyU11iF5HjxEagPEUwyrwarBrImeL2bjMZ6VWknxvhcFc4Nya28ntkbuYw2rHaDBYm
+	Hj+tTSlywGcaNINhy4TWAL2euePgzI88ai++v3HFPs6y5kEZUkT9H0TkNWrMXB+avL34
+	n5gV/vc3EKjn0vDFJmSn2As67CL4GSrhFkLGrtcvRzvM1dMD+a39ktwtHU6wtQmIPwe/
+	iK3Q==
+X-Gm-Message-State: APjAAAWwp46hTXEQPUb8OKga6dW+nmhhVpUp3PlLsS84SZjQr53gcaLc
+	0D0MOr9Pd8bw+YQO//EBS7Wu65J2ZGU=
+X-Google-Smtp-Source: APXvYqzZQy7x4JAZFqhVij93KG89tAbgZ9yXS/QYCzPzdUWNErX2HzrEQItZJFMbH6RcsrMg22klUA==
+X-Received: by 2002:a1c:7c18:: with SMTP id x24mr3746562wmc.15.1557421118513; 
+	Thu, 09 May 2019 09:58:38 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	a80sm8506923pfj.105.2019.05.09.08.20.55
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 08:20:55 -0700 (PDT)
-To: Philip Balister <philip@balister.org>,
-	openembedded-core@lists.openembedded.org
-References: <ae370e65-a910-2964-b31a-bb5b1b3636d6@ibeeto.com>
-	<0d613343-91fb-8e22-ce9c-a23f2d98a4a9@balister.org>
-From: Rudolf J Streif <rudolf.streif@ibeeto.com>
-Message-ID: <401f16e3-a616-916b-8e2d-6f6c66d55f12@ibeeto.com>
-Date: Thu, 9 May 2019 08:20:54 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.5.1
+	a125sm4588609wmc.47.2019.05.09.09.58.37
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 May 2019 09:58:37 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  9 May 2019 17:58:36 +0100
+Message-Id: <20190509165836.14877-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <0d613343-91fb-8e22-ce9c-a23f2d98a4a9@balister.org>
-Subject: Re: [meta-oe] sip/sip3
+Subject: [PATCH] oeqa/selftest: Automate manual pybootchart tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,85 +56,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 15:20:56 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 09 May 2019 16:58:39 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
-Thank you, Philip. Yes, that worked fine. It's the solution I preferred.
+Automate the current manual pybootchart tests. This includes a check
+for the cairo dependency, skipping the test if appropriate.
 
-:rjs
+Based on original patch from Armin Kuster <akuster808@gmail.com>
 
-On 5/8/19 8:22 AM, Philip Balister wrote:
-> On 05/07/2019 08:19 PM, Rudolf J Streif wrote:
->> With the recent update of sip/sip3 from 4.19.13 to 4.19.16 FILES has
->> changed:
->>
->> 4.19.13:
->>
->> |
->>
->> FILES_python3-sip3  =
->> "${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/"
->> FILES_${PN}-dbg  +=
->> "${libdir}/${PYTHON_DIR}${PYTHON_ABI}/site-packages/.debug"|
->>
->> 4.19.16 (meta-openembedded @ 50108c18):
->>
->> |
->>
->> FILES_python-sip  =  "${libdir}/${PYTHON_DIR}/site-packages/"
->> FILES_${PN}-dbg  +=  "${libdir}/${PYTHON_DIR}/site-packages/.debug"|
->>
->> |
->>
->> |
->>
->> |
->>
->> |
->>
->> That causes an issue with PyQt5 which is installed in (python-pyqt5.inc,
->> meta-qt5 @ f4531ec8):
->>
->> echo "py_pylib_dir =
->> %(sysroot)/${libdir}/python${PYTHON_BASEVERSION}${PYTHON_ABI}" >> pyqt.cfg
->>
->> PYTHON_BASEVERSION = "3.7"
->> PYTHON_ABI = "m"
->>
->> This can obviously be fixed on either end, but I am not quite sure what
->> the right approach is.
-> Does this help?
->
-> https://github.com/meta-qt5/meta-qt5/pull/202
->
-> Thanks for seeing this. Having these tools across two layers is tricky.
-> The problem is the pyqt can be either in a qt4 layer or a qt 5 later.
-> And python 2/3 versions.
->
-> And the sip recipe really needs to spit out the module used for pyqt.
->
-> Philip
->
->
->> Thanks,
->>
->> Rudi
->>
->>
->>   -----
->> Rudolf J Streif
->> CEO/CTO ibeeto
->> +1.855.442.3396 x700
->>
->>
->>
->>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/manual/oe-core.json         | 26 -----------------
+ meta/lib/oeqa/selftest/cases/oescripts.py | 34 +++++++++++++++++++++++
+ 2 files changed, 34 insertions(+), 26 deletions(-)
+
+diff --git a/meta/lib/oeqa/manual/oe-core.json b/meta/lib/oeqa/manual/oe-core.json
+index d893d849fb3..3ee0aa95f93 100644
+--- a/meta/lib/oeqa/manual/oe-core.json
++++ b/meta/lib/oeqa/manual/oe-core.json
+@@ -1,30 +1,4 @@
+ [
+-  {
+-    "test": {
+-      "@alias": "oe-core.scripts.Use_scripts/pybootchartgui/pybootchartgui.py_to_generate_build_profiles",
+-      "author": [
+-        {
+-          "email": "alexandru.c.georgescu@intel.com",
+-          "name": "alexandru.c.georgescu@intel.com"
+-        }
+-      ],
+-      "execution": {
+-        "1": {
+-          "action": "Run a build for a recipe (e.g. core-image-minimal)",
+-          "expected_results": ""
+-        },
+-        "2": {
+-          "action": "Run the profiling script, ../scripts/pybootchartgui/pybootchartgui.py  tmp/buildstats/    \n\n",
+-          "expected_results": ""
+-        },
+-        "3": {
+-          "action": "Verify the results ",
+-          "expected_results": "The scripts generates svg files with the profiling results . "
+-        }
+-      },
+-      "summary": "Use_scripts/pybootchartgui/pybootchartgui.py_to_generate_build_profiles"
+-    }
+-  },
+   {
+     "test": {
+       "@alias": "oe-core.scripts.Crosstap_script_check",
+diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
+index 56b35b59eb8..217afe3775b 100644
+--- a/meta/lib/oeqa/selftest/cases/oescripts.py
++++ b/meta/lib/oeqa/selftest/cases/oescripts.py
+@@ -2,6 +2,7 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
++import os
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.selftest.cases.buildhistory import BuildhistoryBase
+ from oeqa.utils.commands import Command, runCmd, bitbake, get_bb_var, get_test_layer
+@@ -28,3 +29,36 @@ class BuildhistoryDiffTests(BuildhistoryBase):
+                 self.fail('Unexpected line:\n%s\nExpected line endings:\n  %s' % (line, '\n  '.join(expected_endlines)))
+         if expected_endlines:
+             self.fail('Missing expected line endings:\n  %s' % '\n  '.join(expected_endlines))
++
++class OEScriptTests(OESelftestTestCase):
++
++    @classmethod
++    def setUpClass(cls):
++        super(OEScriptTests, cls).setUpClass()
++        try:
++            import cairo
++        except ImportError:
++            cls.skipTest('Python module cairo is not present')
++        bitbake("core-image-minimal -c rootfs -f")
++        cls.tmpdir = get_bb_var('TMPDIR')
++        cls.buildstats = cls.tmpdir + "/buildstats/" + sorted(os.listdir(cls.tmpdir + "/buildstats"))[-1]
++
++    scripts_dir = os.path.join(get_bb_var('COREBASE'), 'scripts')
++
++class OEPybootchartguyTests(OEScriptTests):
++
++    def test_pybootchartguy_help(self):
++        runCmd('%s/pybootchartgui/pybootchartgui.py  --help' % self.scripts_dir)
++
++    def test_pybootchartguy_to_generate_build_png_output(self):
++        runCmd('%s/pybootchartgui/pybootchartgui.py  %s -o %s/charts -f png' % (self.scripts_dir, self.buildstats, self.tmpdir))
++        self.assertTrue(os.path.exists(self.tmpdir + "/charts.png"))
++
++    def test_pybootchartguy_to_generate_build_svg_output(self):
++        runCmd('%s/pybootchartgui/pybootchartgui.py  %s -o %s/charts -f svg' % (self.scripts_dir, self.buildstats, self.tmpdir))
++        self.assertTrue(os.path.exists(self.tmpdir + "/charts.svg"))
++
++    def test_pybootchartguy_to_generate_build_pdf_output(self):
++        runCmd('%s/pybootchartgui/pybootchartgui.py  %s -o %s/charts -f pdf' % (self.scripts_dir, self.buildstats, self.tmpdir))
++        self.assertTrue(os.path.exists(self.tmpdir + "/charts.pdf"))
++
 -- 
------
-Rudolf J Streif
-CEO/CTO ibeeto
-+1.855.442.3396 x700
+2.20.1
 
 
