@@ -1,38 +1,38 @@
-Return-Path: <mcfrisk@kapsi.fi>
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.25])
-	by mail.openembedded.org (Postfix) with ESMTP id C38937CF1B
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A2567DFA2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 07:22:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
-	MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=mngBVKHct9H4tKISuTU3NeNJuCHn5ZJb48Y+4XdfNEo=;
-	b=fQwMlDhb1A01bnIcmqHfHKX2yX
-	r/fISxOC4hrVObAxMe4+VqJ9cXFkMV1Bl3yH//WGY1ePKph/q76XE6RUvRzqrKT9D0/TU2JGNzldt
-	be102r9QPMoBN3clxVWSaROCc9M00voRXhxqULO8dtM+1dahUDSNPr+A+3Fv4lQf1S427BrWh9Nwp
-	wPnPUnkm3W19+ItPjdDMNQoTl1EQOIhbwXO1ktud52HzCDdUFBruh/aYFUSkkPeZNbGjMA3MVbIpH
-	oCPSF0rrgxHjBW9daWhEyd+nkxw8FaiogGuSEYeVuoCiSajd8SoV5rWAljWYmPMralUr/atUQLjba
-	42ONER2Q==;
-Received: from lakka.kapsi.fi ([2001:67c:1be8::1] ident=Debian-exim)
-	by mail.kapsi.fi with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
-	(Exim 4.89) (envelope-from <mcfrisk@kapsi.fi>)
-	id 1hOdOH-0006aS-Co; Thu, 09 May 2019 10:22:53 +0300
-Received: from mcfrisk by lakka.kapsi.fi with local (Exim 4.84_2)
-	(envelope-from <mcfrisk@lakka.kapsi.fi>)
-	id 1hOdOH-0001Um-AK; Thu, 09 May 2019 10:22:53 +0300
-From: Mikko Rapeli <mikko.rapeli@bmw.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  9 May 2019 10:22:44 +0300
-Message-Id: <1557386564-4581-1-git-send-email-mikko.rapeli@bmw.de>
-X-Mailer: git-send-email 2.1.4
-X-SA-Exim-Connect-IP: 2001:67c:1be8::1
-X-SA-Exim-Mail-From: mcfrisk@kapsi.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
-Cc: Adrian Bunk <bunk@stusta.de>
-Subject: [PATCH v2] openssh: recommend rng-tools with sshd
+	Thu,  9 May 2019 07:50:23 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45059V64nwz2s;
+	Thu,  9 May 2019 09:50:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1557388223;
+	bh=KOXgH33LpeEEFpSq2GdFTVI59dE/ifT+u+2iv9Rk4o8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kG2SamOjJeRRyIC/HfZ2hsjDHPry7238gnVztuD+we1POAaUYIqfDd3DcU6VoCZ6J
+	mnADJaVc8XtdNBI3AV6UtDpEuy+dAj3TGpH8AXBtsOnHEbX0Lq367juepJ6UXcXVOc
+	WEeT5iIRFuhdYH2N+QBCpoyyfjhedKiLUO9aBPm7VSCAznlD4ldNAw2C2fXyXugcrs
+	vSEnj5h3XcrzUOtedbBvtoLjz4XvJw1qR+KqqIz5ZSgRoR5bab2mTIOqsk1glG75Gk
+	viGIWXVUuNSAd6joX1m1cKG0NTcvt88Nz/BRHGS7pMHiMtHCt8Kbb6V3kM0Raok4mi
+	pRqvIExZu10m6zqPRXHl+g6t7vV3KV2MSUm8nQPA3mgr1hbEQjOJInJr5P3n4IPt08
+	7ueNNKMf21Fe/HF/J2WlaeEq93/cNCxmy8wMWEqTCB7XUOKKxL0aJowC3zfMehwmi4
+	iW+Tr+GlpcQRbh+lRrB7eH8lpiiyHbLBWOJjFHEhpW/79L2VTFhCgwwaT3HT9sJ62v
+	Dl0HfTecwZRaBJkF8i5GgzO3SZ9SsG1voA9d8ut/IJe8OS2LJdaG+seN3N6g4t4Vjq
+	Lq2tzqO3IIRRsgFWkzgwS/xktvJjcm03jqumfu7C8joUsUi2vx5Xjlz1wfEFiSumFR
+	aJvEQgGNw1GN/x/Bnc1e3BeY=
+Date: Thu, 9 May 2019 10:50:19 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Message-ID: <20190509075019.GA27775@localhost>
+References: <20190508200134.28907-2-bunk@stusta.de>
+	<1ab1997fb1983851d5173408f1e16c60f9a53d05.camel@intel.com>
+MIME-Version: 1.0
+In-Reply-To: <1ab1997fb1983851d5173408f1e16c60f9a53d05.camel@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] ofono: upgrade 1.25 -> 1.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,63 +45,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 07:22:57 -0000
+X-List-Received-Date: Thu, 09 May 2019 07:50:23 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Since openssl 1.1.1 and openssh which uses it, sshd
-startup is delayed. The delays range from few seconds
-to minutes and even to hours. The delays are visible
-in host keys generation and when sshd process is started
-in response to incoming TCP connection but is failing
-to provide SSH version string and clients or tests time out.
+On Thu, May 09, 2019 at 06:48:38AM +0000, Mittal, Anuj wrote:
+> This is failing with error:
+> 
+> | In file included from ../ofono-1.29/ell/random.c:34:
+> | ../ofono-1.29/ell/missing.h:59:20: error: static declaration of
+> 'explicit_bzero' follows non-static declaration
+> |  static inline void explicit_bzero(void *s, size_t n)
+> |                     ^~~~~~~~~~~~~~
+> | In file included from ../ofono-1.29/ell/util.h:26,
+> |                  from ../ofono-1.29/ell/private.h:26,
+> |                  from ../ofono-1.29/ell/random.c:33:
+> | /home/pokybuild/yocto-worker/musl-qemux86-
+> 64/build/build/tmp/work/core2-64-poky-linux-musl/ofono/1.29-r0/recipe-
+> sysroot/usr/include/string.h:85:6: note: previous declaration of
+> 'explicit_bzero' was here
+> |  void explicit_bzero (void *, size_t);
+> |       ^~~~~~~~~~~~~~
+> | make[1]: *** [ell/random.lo] Error 1
+> | make[1]: *** Waiting for unfinished jobs....
+> 
+> Logs here:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/578/steps/7/logs/step1b
 
-In all cases traces show that sshd is waiting for getentropy()
-system call to return from Linux kernel, which returns only
-after kernel side random number pool is initialized. The pool
-is initialized via various entropy source which may be
-missing on embedded development boards or via rngd from
-rng-tools package from userspace. HW random number generation
-and kernel support help but rngd is till needed to feed that data
-back to the Linux kernel.
+Thanks, got a fix for that one now.
 
-Example from an NXP imx8 board shows that kernel random number pool
-initialization can take over 400 seconds without rngd,
-and with rngd it is initialized at around 4 seconds after boot.
-The completion of initialization is visible in kernel dmesg with line
-"random: crng init done".
+The next problem is that musl does not currently provide 
+TEMP_FAILURE_RETRY, and the correct fix for that will be
+that I'll try to get this fixed in musl instead of creating
+yet another copy of the glibc macro.
 
-More details are available from:
+I'll come back to ofono after that.
 
- * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=912087
- * https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=897572
- * https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=43838a23a05fbd13e47d750d3dfd77001536dd33
- * http://www.man7.org/linux/man-pages/man2/getrandom.2.html
+> Thanks,
+> 
+> Anuj
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@bmw.de>
-Cc: Mark Hatle <mark.hatle@windriver.com>
-Cc: Rasmus Villemoes <rasmus.villemoes@prevas.dk>
-Cc: Adrian Bunk <bunk@stusta.de>
----
+cu
+Adrian
 
-v2: switch from RDEPENDS to RRECOMMENDS based on review comments
-
-v1: http://lists.openembedded.org/pipermail/openembedded-core/2019-May/282021.html
-
- meta/recipes-connectivity/openssh/openssh_7.9p1.bb | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-index b971b2b..976bcc5 100644
---- a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
-@@ -148,6 +148,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
- 
- RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
- RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
-+RRECOMMENDS_${PN}-sshd += "rng-tools"
- RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed"
- 
- RPROVIDES_${PN}-ssh = "ssh"
 -- 
-1.9.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
