@@ -1,52 +1,35 @@
-Return-Path: <andrej.valek@siemens.com>
-Received: from gecko.sbs.de (gecko.sbs.de [194.138.37.40])
-	by mail.openembedded.org (Postfix) with ESMTP id C81617DE37
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id A1F787DD66
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  9 May 2019 06:14:53 +0000 (UTC)
-Received: from mail1.sbs.de (mail1.sbs.de [192.129.41.35])
-	by gecko.sbs.de (8.15.2/8.15.2) with ESMTPS id x496ErLX024370
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK); 
-	Thu, 9 May 2019 08:14:53 +0200
-Received: from [192.168.20.128] (md1wg6qc.ad001.siemens.net [163.242.44.88])
-	by mail1.sbs.de (8.15.2/8.15.2) with ESMTP id x496Erxm022045;
-	Thu, 9 May 2019 08:14:53 +0200
-To: ChenQi <Qi.Chen@windriver.com>, He Zhe <zhe.he@windriver.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-References: <7165aa71-35c4-dad0-d5ec-ec5712d5bcf1@windriver.com>
-	<fc52d898-4651-2628-6394-51c84df1021c@windriver.com>
-From: Andrej Valek <andrej.valek@siemens.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=andrej.valek@siemens.com; prefer-encrypt=mutual; keydata=
-	mQENBFkSzTcBCADSJTRk7YudjxZ/ma2IXPV4Y5gkACJKDOYAZcRqNjDbIFUmc7ck3KeuUGKy
-	ifrpWD6/7YPXbixv4sAlFly6sNL31agVHLO4BCCE77DaZ2smiN0JaLYzmMdr0BPLMsL96nBO
-	UDo8o2a1NwU+GpD8a0/vcovro+NgLvfk9xP4rYAve09VYvF4DbQNW9Y+8reqWFnBI8EN5Fps
-	vPCUr/TSuxk3VpU//8QtP7WqyRA31qiWFDxE2dqSnrpUBojxQMY94tDP7kjQtzD2ZpaDt1oL
-	PDE/n6qtYG792JVvNjuo1QpfPo8a8I4HvMmbh/Orv0fniauB229OaWNPp27ln55xG8FvABEB
-	AAG0J0FuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMuY29tPokBPgQTAQIAKAUC
-	WRLNNwIbAwUJA8JnAAYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQ3npj5PmioO8DZQgA
-	ibpOwfxDw3qlSEHDE395Tf+bEAYWjjNz9OQB4nnhq1Ql9jbUhfQQk/equaxoIfNHyLNDbeUU
-	8ULLXJS+nDRi13yf2w/9L386fd5V63cdP6no2dpnEhwOKV1miiUtvcjDCe3bjm7WHVfg9OsF
-	4AWox+/GR6sGJHRestHeXIJthmru8dB57oKy2fPgPpY1Ld1Wwb4okZgIi+1sKx19fk2xX9lc
-	KpdvCXx+6FB3a9+sJTmb12meeGtKWC7BeElM2sG5NK7yx9zFNqSRebilwNankSE0QzWwmu4M
-	bW6OTuxv/3qeHIvFH3EhrEmnd68Zm4+/jx2ZN5Ax23ZaGD8pabuO57kBDQRZEs03AQgA0oCu
-	faa9qlV0iYK+XlLcW6u55/o5psqtwoUCo8u18v8j4qB80r9latFKsO/SOjhVOYgIuzTTftQs
-	Di71i9GJwK8Kk2FMo0YuJ9J9xdcvmjUI2vNUbOcaz2V0tRC9P/P5UaIltQAMVxbFHDwj17UA
-	7YpEUL3ixxMs/usIKKGA+jIvsBdcn1WFji/NXLffwQ+zrAoT3q8EuGn4jSdROND16e9ynKgk
-	D5D+EoA5RoFi8y3tRHJsi/dNlaUISsQOux/MgXsk1UU2lkmq7uxddRw8xwzG5dhx79sQp4Dt
-	YpSfZBylD3DnCTg3ajdWCHGVyBdMLVncfj8sPDsVkCozTaSqFwARAQABiQElBBgBAgAPBQJZ
-	Es03AhsMBQkDwmcAAAoJEN56Y+T5oqDv8EEH/0qUECI1OpJS5R9Di9yc6YOfyNdCFHJ5rnUx
-	dTr5+U3z30HBpzv1yPtO0fRQPulFRp2T81nhzT07B6Jce/pPUPE4QUVuwkM80KUbveJSNVHH
-	Vp+9MGHEmpSevVHGKwzr+/7n5KJd5+SX3Y0mFxbu7GUZTMvM9Ra/p7lu0DsAH1CgEzKf3KTx
-	FrUN9oSYETbN3l6+pxO3RYAxtCVRMCOCJ7skHkfPH0ADxsbecaKo2CHqcDJigqZBKxjnWYsm
-	0+8mRhIQs3JuF0z7hKJGRacdGvKdQbCo0swLT9NVWU0IcUc/gwsCzQu/0Iml1x6MbgameiX4
-	emYHzsJ3+vLapH+kAEI=
-Message-ID: <787731b1-0892-bd82-4019-34ea122d4dc0@siemens.com>
-Date: Thu, 9 May 2019 08:14:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Thu,  9 May 2019 06:48:40 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 May 2019 23:48:41 -0700
+X-ExtLoop1: 1
+Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
+	by fmsmga006.fm.intel.com with ESMTP; 08 May 2019 23:48:39 -0700
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.8]) by
+	PGSMSX104.gar.corp.intel.com ([169.254.3.129]) with mapi id
+	14.03.0415.000; Thu, 9 May 2019 14:48:39 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"bunk@stusta.de" <bunk@stusta.de>
+Thread-Topic: [OE-core] [PATCH v2] ofono: upgrade 1.25 -> 1.29
+Thread-Index: AQHVBdjlgpK0fYRmcEutCX4MbqHLyqZh1KaA
+Date: Thu, 9 May 2019 06:48:38 +0000
+Message-ID: <1ab1997fb1983851d5173408f1e16c60f9a53d05.camel@intel.com>
+References: <20190508200134.28907-2-bunk@stusta.de>
+In-Reply-To: <20190508200134.28907-2-bunk@stusta.de>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.221.20.101]
 MIME-Version: 1.0
-In-Reply-To: <fc52d898-4651-2628-6394-51c84df1021c@windriver.com>
-Subject: Re: "shutdown now" Hangs Since 1d453c9087f9 ("systemd: upgrade to 242")
+Subject: Re: [PATCH v2] ofono: upgrade 1.25 -> 1.29
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,72 +42,105 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 09 May 2019 06:14:54 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Thu, 09 May 2019 06:48:41 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <51F9606F33C0E9439743C6C76B332E8F@intel.com>
+Content-Transfer-Encoding: base64
 
-Hi,
-
-Which version did you use? From the OE, or the last one from upstream
-"v242-stable" repo? I am not sure, how long it will take, but... Isn't
-possible to test it with master from dev repo?
-
-Regards,
-Andrej
-
-On 5/9/19 8:19 AM, ChenQi wrote:
-> I also just did a simple test, v242 without any oe patches has the same 
-> problem.
-> It seems that it's a change in systemd upstream.
-> I'm wondering why oe-selftest did not discover this problem.
-> 
-> Best Regards,
-> Chen Qi
-> 
-> On 05/09/2019 01:18 PM, He Zhe wrote:
->> Hi,
->>
->>
->> Since 1d453c9087f9 ("systemd: upgrade to 242"), "shutdown now" hangs like below where I enable systemd debug information print.
->>
->> Any idea? Thanks.
->>
->>
->> [  OK  ] Stopped NFS status monitor for NFSv2/3 locking..
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/nfs_2dstatd_2eservice interface=org.freedesktop.DBusa
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/nfs_2dstatd_2eservice interface=org.freedesktop.DBusa
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1 interface=org.freedesktop.systemd1.Manager member=JobRemoa
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/nfs_2dstatd_2eservice interface=org.freedesktop.DBusa
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/nfs_2dstatd_2eservice interface=org.freedesktop.DBusa
->> Child 410 (sh) died (code=killed, status=1/HUP)
->> session-c1.scope: Child 410 belongs to session-c1.scope.
->> Child 299 (avahi-daemon) died (code=killed, status=15/TERM)
->> system.slice: Child 299 belongs to system.slice.
->> session-c1.scope: cgroup is empty
->> session-c1.scope: Succeeded.
->> session-c1.scope changed stop-sigterm -> dead
->> session-c1.scope: Job 277 session-c1.scope/stop finished, result=done
->> [  OK  ] Stopped Session c1 of user root.
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/session_2dc1_2escope interface=org.freedesktop.DBus.a
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/session_2dc1_2escope interface=org.freedesktop.DBus.a
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1 interface=org.freedesktop.systemd1.Manager member=JobRemoa
->> session-c1.scope: Collecting.
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/session_2dc1_2escope interface=org.freedesktop.DBus.a
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1/unit/session_2dc1_2escope interface=org.freedesktop.DBus.a
->> Sent message type=signal sender=n/a destination=n/a path=/org/freedesktop/systemd1 interface=org.freedesktop.systemd1.Manager member=UnitRema
->> systemd-journald.service: Received EPOLLHUP on stored fd 56 (stored), closing.
->> systemd-journald.service: Received EPOLLHUP on stored fd 58 (stored), closing.
->> systemd-journald.service: Received EPOLLHUP on stored fd 65 (stored), closing.
->> Got message type=signal sender=org.freedesktop.DBus destination=n/a path=/org/freedesktop/DBus interface=org.freedesktop.DBus member=NameOwna
->> avahi-daemon.service: D-Bus name org.freedesktop.Avahi no longer registered by :1.1
->> systemd-journald.service: Received EPOLLHUP on stored fd 55 (stored), closing.
->> syslog.socket: Incoming traffic
->> syslog.socket: Suppressing connection request since unit stop is scheduled.
->>
->>
->>
->> Zhe
-> 
-> 
+VGhpcyBpcyBmYWlsaW5nIHdpdGggZXJyb3I6DQoNCnwgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4u
+L29mb25vLTEuMjkvZWxsL3JhbmRvbS5jOjM0Og0KfCAuLi9vZm9uby0xLjI5L2VsbC9taXNzaW5n
+Lmg6NTk6MjA6IGVycm9yOiBzdGF0aWMgZGVjbGFyYXRpb24gb2YNCidleHBsaWNpdF9iemVybycg
+Zm9sbG93cyBub24tc3RhdGljIGRlY2xhcmF0aW9uDQp8ICBzdGF0aWMgaW5saW5lIHZvaWQgZXhw
+bGljaXRfYnplcm8odm9pZCAqcywgc2l6ZV90IG4pDQp8ICAgICAgICAgICAgICAgICAgICAgXn5+
+fn5+fn5+fn5+fn4NCnwgSW4gZmlsZSBpbmNsdWRlZCBmcm9tIC4uL29mb25vLTEuMjkvZWxsL3V0
+aWwuaDoyNiwNCnwgICAgICAgICAgICAgICAgICBmcm9tIC4uL29mb25vLTEuMjkvZWxsL3ByaXZh
+dGUuaDoyNiwNCnwgICAgICAgICAgICAgICAgICBmcm9tIC4uL29mb25vLTEuMjkvZWxsL3JhbmRv
+bS5jOjMzOg0KfCAvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL211c2wtcWVtdXg4Ni0NCjY0
+L2J1aWxkL2J1aWxkL3RtcC93b3JrL2NvcmUyLTY0LXBva3ktbGludXgtbXVzbC9vZm9uby8xLjI5
+LXIwL3JlY2lwZS0NCnN5c3Jvb3QvdXNyL2luY2x1ZGUvc3RyaW5nLmg6ODU6Njogbm90ZTogcHJl
+dmlvdXMgZGVjbGFyYXRpb24gb2YNCidleHBsaWNpdF9iemVybycgd2FzIGhlcmUNCnwgIHZvaWQg
+ZXhwbGljaXRfYnplcm8gKHZvaWQgKiwgc2l6ZV90KTsNCnwgICAgICAgXn5+fn5+fn5+fn5+fn4N
+CnwgbWFrZVsxXTogKioqIFtlbGwvcmFuZG9tLmxvXSBFcnJvciAxDQp8IG1ha2VbMV06ICoqKiBX
+YWl0aW5nIGZvciB1bmZpbmlzaGVkIGpvYnMuLi4uDQoNCkxvZ3MgaGVyZToNCg0KaHR0cHM6Ly9h
+dXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy80NS9idWlsZHMv
+NTc4L3N0ZXBzLzcvbG9ncy9zdGVwMWINCg0KVGhhbmtzLA0KDQpBbnVqDQoNCk9uIFdlZCwgMjAx
+OS0wNS0wOCBhdCAyMzowMSArMDMwMCwgQWRyaWFuIEJ1bmsgd3JvdGU6DQo+IFJlbW92ZSBwYXRj
+aCBhcHBsaWVkIHVwc3RyZWFtLg0KPiBGaXggYSBuZXcgcGFyYWxsZWwgYnVpbGQgZmFpbHVyZS4N
+Cj4gDQo+IFNpZ25lZC1vZmYtYnk6IEFkcmlhbiBCdW5rIDxidW5rQHN0dXN0YS5kZT4NCj4gLS0t
+DQo+ICAuLi5hLXJhY2UtY29uZGl0aW9uLXdoZXJlLWVsbC1lbGwuaC13YXMucGF0Y2ggfCAyOA0K
+PiArKysrKysrKysrKysrKysrKysrDQo+ICAuLi4vb2Zvbm8vb2Zvbm8vdXNlLXB5dGhvbjMucGF0
+Y2ggICAgICAgICAgICAgfCAyNyAtLS0tLS0tLS0tLS0tLS0NCj4gLS0tDQo+ICBtZXRhL3JlY2lw
+ZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vXzEuMjUuYmIgfCAgOSAtLS0tLS0NCj4gIG1ldGEv
+cmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMS4yOS5iYiB8ICA5ICsrKysrKw0KPiAg
+NCBmaWxlcyBjaGFuZ2VkLCAzNyBpbnNlcnRpb25zKCspLCAzNiBkZWxldGlvbnMoLSkNCj4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25vL29mb25vLzAw
+MDEtDQo+IE1ha2VmaWxlLmFtLUZpeC1hLXJhY2UtY29uZGl0aW9uLXdoZXJlLWVsbC1lbGwuaC13
+YXMucGF0Y2gNCj4gIGRlbGV0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L29mb25vL29mb25vL3VzZS0NCj4gcHl0aG9uMy5wYXRjaA0KPiAgZGVsZXRlIG1vZGUgMTAwNjQ0
+IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMS4yNS5iYg0KPiAgY3JlYXRl
+IG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMS4yOS5i
+Yg0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zv
+bm8vMDAwMS1NYWtlZmlsZS5hbS0NCj4gRml4LWEtcmFjZS1jb25kaXRpb24td2hlcmUtZWxsLWVs
+bC5oLXdhcy5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gY29ubmVjdGl2aXR5L29mb25vL29mb25v
+LzAwMDEtTWFrZWZpbGUuYW0tRml4LWEtcmFjZS1jb25kaXRpb24td2hlcmUtDQo+IGVsbC1lbGwu
+aC13YXMucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAwMDAwMDAwMC4u
+MWRmYzk3N2FkZA0KPiAtLS0gL2Rldi9udWxsDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvb2Zvbm8vb2Zvbm8vMDAwMS1NYWtlZmlsZS5hbS1GaXgtYS0NCj4gcmFjZS1jb25kaXRp
+b24td2hlcmUtZWxsLWVsbC5oLXdhcy5wYXRjaA0KPiBAQCAtMCwwICsxLDI4IEBADQo+ICtGcm9t
+IDYxYzc4OTc5ZWFiMzllYWQ0N2E5MWFlYWNhZDQzYWQ3MmQxNjIwNTIgTW9uIFNlcCAxNyAwMDow
+MDowMA0KPiAyMDAxDQo+ICtGcm9tOiBBZHJpYW4gQnVuayA8YnVua0BrZXJuZWwub3JnPg0KPiAr
+RGF0ZTogV2VkLCA4IE1heSAyMDE5IDIxOjU4OjQ0ICswMzAwDQo+ICtTdWJqZWN0OiBNYWtlZmls
+ZS5hbTogRml4IGEgcmFjZSBjb25kaXRpb24gd2hlcmUgZWxsL2VsbC5oIHdhcw0KPiB3cml0dGVu
+IGJlZm9yZQ0KPiArIGVsbC8gZXhpc3RlZA0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBBZHJpYW4g
+QnVuayA8YnVua0BrZXJuZWwub3JnPg0KPiArVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5nDQo+ICsN
+Cj4gKy0tLQ0KPiArIE1ha2VmaWxlLmFtIHwgMSArDQo+ICsgMSBmaWxlIGNoYW5nZWQsIDEgaW5z
+ZXJ0aW9uKCspDQo+ICsNCj4gK2RpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFt
+DQo+ICtpbmRleCBhNTY5YzRhMy4uZDJlMzEwZDUgMTAwNjQ0DQo+ICstLS0gYS9NYWtlZmlsZS5h
+bQ0KPiArKysrIGIvTWFrZWZpbGUuYW0NCj4gK0BAIC0xMTA3LDYgKzExMDcsNyBAQCBlbGwvaW50
+ZXJuYWw6IE1ha2VmaWxlDQo+ICsgCWRvbmUgPiAkQA0KPiArIA0KPiArIGVsbC9lbGwuaDogTWFr
+ZWZpbGUNCj4gKysJJChBTV9WX2F0KSQoTUtESVJfUCkgZWxsDQo+ICsgCSQoQU1fVl9hdCllY2hv
+IC1uID4gJEANCj4gKyAJJChBTV9WX0dFTilmb3IgZiBpbiAkKGVsbF9oZWFkZXJzKSA7IGRvIFwN
+Cj4gKyAJCWVjaG8gIiNpbmNsdWRlIDwkJGY+IiA+PiAkQCA7IFwNCj4gKy0tIA0KPiArMi4yMC4x
+DQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zv
+bm8vdXNlLXB5dGhvbjMucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29mb25v
+L29mb25vL3VzZS1weXRob24zLnBhdGNoDQo+IGRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NA0KPiBp
+bmRleCA3Yjg0MDc1MjU3Li4wMDAwMDAwMDAwDQo+IC0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0
+aXZpdHkvb2Zvbm8vb2Zvbm8vdXNlLXB5dGhvbjMucGF0Y2gNCj4gKysrIC9kZXYvbnVsbA0KPiBA
+QCAtMSwyNyArMCwwIEBADQo+IC1zZXQtZGRyIHNob3VsZCB1c2UgUHl0aG9uMyBsaWtlIGFsbCB0
+aGUgb3RoZXIgdGVzdHMuDQo+IC0NCj4gLVVwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkDQo+IC1T
+aWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPg0KPiAtDQo+
+IC1Gcm9tIDE3YjY5Y2QxZGE0YzVjNWY3MzJhY2IzOGNhMTYwMjQ0NmM1NjdlZTcgTW9uIFNlcCAx
+NyAwMDowMDowMA0KPiAyMDAxDQo+IC1Gcm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50
+ZWwuY29tPg0KPiAtRGF0ZTogTW9uLCAyOSBKYW4gMjAxOCAxMTozMToyNSArMDAwMA0KPiAtU3Vi
+amVjdDogW1BBVENIXSB0ZXN0L3NldGRkcjogdXNlIFB5dGhvbiAzDQo+IC0NCj4gLUFsbCB0aGUg
+b3RoZXIgdGVzdHMgdXNlIFB5dGhvbiAzLCBzbyB0aGlzIHNob3VsZCB0by4NCj4gLS0tLQ0KPiAt
+IHRlc3Qvc2V0LWRkciB8IDIgKy0NCj4gLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
+IDEgZGVsZXRpb24oLSkNCj4gLQ0KPiAtZGlmZiAtLWdpdCBhL3Rlc3Qvc2V0LWRkciBiL3Rlc3Qv
+c2V0LWRkcg0KPiAtaW5kZXggNWQwNjFiOTUuLjMzNjMxZjMxIDEwMDc1NQ0KPiAtLS0tIGEvdGVz
+dC9zZXQtZGRyDQo+IC0rKysgYi90ZXN0L3NldC1kZHINCj4gLUBAIC0xLDQgKzEsNCBAQA0KPiAt
+LSMhL3Vzci9iaW4vcHl0aG9uDQo+IC0rIyEvdXNyL2Jpbi9weXRob24zDQo+IC0gDQo+IC0gaW1w
+b3J0IHN5cw0KPiAtIGltcG9ydCBkYnVzDQo+IC0tLSANCj4gLTIuMTEuMA0KPiBkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18xLjI1LmJiDQo+IGIvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9vZm9ub18xLjI1LmJiDQo+IGRlbGV0ZWQgZmls
+ZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAzNjg4YjlkMmZjLi4wMDAwMDAwMDAwDQo+IC0tLSBhL21l
+dGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMS4yNS5iYg0KPiArKysgL2Rldi9u
+dWxsDQo+IEBAIC0xLDkgKzAsMCBAQA0KPiAtcmVxdWlyZSBvZm9uby5pbmMNCj4gLQ0KPiAtU1JD
+X1VSSSAgPSAiXA0KPiAtICAke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L25ldHdvcmsvJHtCUE59
+LyR7QlB9LnRhci54eiBcDQo+IC0gIGZpbGU6Ly9vZm9ubyBcDQo+IC0gIGZpbGU6Ly91c2UtcHl0
+aG9uMy5wYXRjaCBcDQo+IC0iDQo+IC1TUkNfVVJJW21kNXN1bV0gPSAiMzE0NTBjYWJkZDhkYmJm
+M2Y4MDhlYTJmMmYwNjY4NjMiDQo+IC1TUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiZWIwMTFmY2Qz
+MDgwZTkzZjNhNTZmOTZiZTYwMzUwYjY1OTVhOGI1ZjM2YjYxNjQ2MzEyYmE0MWIwYmNiMGQ3NSIN
+Cj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMS4y
+OS5iYg0KPiBiL21ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvb2Zvbm8vb2Zvbm9fMS4yOS5iYg0K
+PiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwLi44NTM5YWExMzcyDQo+
+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vZm9uby9v
+Zm9ub18xLjI5LmJiDQo+IEBAIC0wLDAgKzEsOSBAQA0KPiArcmVxdWlyZSBvZm9uby5pbmMNCj4g
+Kw0KPiArU1JDX1VSSSAgPSAiXA0KPiArICAke0tFUk5FTE9SR19NSVJST1J9L2xpbnV4L25ldHdv
+cmsvJHtCUE59LyR7QlB9LnRhci54eiBcDQo+ICsgIGZpbGU6Ly9vZm9ubyBcDQo+ICsgIGZpbGU6
+Ly8wMDAxLU1ha2VmaWxlLmFtLUZpeC1hLXJhY2UtY29uZGl0aW9uLXdoZXJlLWVsbC1lbGwuaC0N
+Cj4gd2FzLnBhdGNoIFwNCj4gKyINCj4gK1NSQ19VUklbbWQ1c3VtXSA9ICI0ZmEwMzcyNjMwZmYw
+M2YyMjM0NTJlNGQwNWVmYThmOCINCj4gK1NSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICI2N2YwZjhl
+NTc0MGRlYTViNDYzMDllNDA2NjdkMWU1NjBiZTM5YzkwZWYwOGRkMDFmZjllOWNlOGU2MWYwNjc5
+Ig0KPiAtLSANCj4gMi4xNy4xDQo+IA0KDQo=
 
