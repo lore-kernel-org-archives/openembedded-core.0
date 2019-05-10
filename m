@@ -1,48 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
-	[209.85.221.42])
-	by mail.openembedded.org (Postfix) with ESMTP id D70B97E0CD
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id CD8E67E0CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 18:20:12 +0000 (UTC)
-Received: by mail-wr1-f42.google.com with SMTP id d12so8883306wrm.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 11:20:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=84PJ28l1pNeI80eckJzZxRRm59PbBeWYCoKADTc0u0A=;
-	b=mjmTWudCX9npkviWS+e2ivNqEocXTNmd1dblqqMSgdHdV9RYLl8lE6nnjVhbK1whUb
-	ZV0hxMp424NzUPJ9cK8vtbXoMP85BekbtQ7bvchWVIRx80VYpwHz0FRgk/U4d9h623yH
-	ar/fuqw7bXM0KsSfD4eMdDeMCekIbRPM/KTGL1Vl9cVkYkLsUCO1gwcVCT/D/dVn8OlV
-	nzfWLoRL/INXlCICQW4wRXqbZBxfNq3MCG89jSs/RBcyEMAPlvx/tQcupdNrZQ9ycy4/
-	ABFPCfwdRtxyNNBAkDg+sDQJ+mRe/9/oahjJzYYzY93yGQ2AjPYQkUSKJDqKeoJwRfRx
-	qtag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=84PJ28l1pNeI80eckJzZxRRm59PbBeWYCoKADTc0u0A=;
-	b=qr+XBHxQJYA6q4mZoUTuAsd1Jhs60z+L4Ch+7t07ImQrXgdl9IUqJ8Tob+wdxYPPhp
-	1CEydSftchY2WDmTVZPsLP8pEYWK1sMUi1Wi+tqbc0gc2jFWkOIvGLfQJxKIFSq4ReQV
-	j2QqZOBL4QcbwTHrPre8CTjxmZbEZEp7yupDphS9xKVGRLQRWSSVM3FNq98sEC4AaJ6C
-	pm4xezQ7/C2J8QQ2jRBHFwyi3dvf43TdSWyI1Uw1BEc8Kgw5eCTmNPlzYOP2x5vrjk3e
-	cr98IRCa/74E7scdv/KGE2UhcBPzemqH2+28tCZW7acez7Gf0JKcoV3f872I0zX5hEva
-	WFVA==
-X-Gm-Message-State: APjAAAVNQYROBN+eKAKSn3+/fZUWGU5GmLIbOhlWj2eN38FUT9KRsOp4
-	Xy0p4f2TKuOl8NAVjsTxzK5RgXlC
-X-Google-Smtp-Source: APXvYqz5zP/dpEk54DANKvKILZIUV+pzPjgz7x51AfcgICK/rRkbnqJaNzX1HCoCPrfyIo89vROhVA==
-X-Received: by 2002:a5d:434c:: with SMTP id u12mr9258217wrr.92.1557512413008; 
-	Fri, 10 May 2019 11:20:13 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	c20sm8806315wre.28.2019.05.10.11.20.12
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 10 May 2019 11:20:12 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Fri, 10 May 2019 18:35:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 450zRm49yGz3r;
+	Fri, 10 May 2019 20:35:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1557513349;
+	bh=+AjN3iud/rhKDeG3Ui1gbMYOXz9vTJoRNO34gw7JPn4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fZGuZJgMUnG/jlG0aSc2JNU9fe9D9sNVTl72RESuvRszTh57EFAVuT34nj9VAcyjt
+	0ePfSOkV3kbwqOXubZdG3DSP4OgOh/hujMmuzqWvcN7hvssAKBf8Dq2zOVidjFSVay
+	sbxERxuxzvl9N6yS5lcf7EvnYNlkoKJ/X6kCMBsmplzaF+B7ORsMUs9K96z9naEGe2
+	dAEyJxynzbgJ491LT3zlJwAwqI3ivFKCBVFxEksk8BS7532+PsmRYafJwXDR5KiIf8
+	zTRarXiSi7z0Oi3JX0w+/gzbQnPi95DhyeTk1aNfFzJVfBfSxFQT/2B3PW5mQBo4ld
+	K/vpf20drbAog1B8C3OYadj5qG/fAuwXUgknBlGyyfmItkJi6GOQsJYucRb3PNZHk8
+	1+7zzoVWL2s8RwywLRQOOsE4l9oGFNXdVE2ymGw1GbZSTHSlMx7DaVLy4Pz2HreNXf
+	ee+SsifsKysHVkAHnwroIIdZFQn5OEyKzMp/AF6OcSzO+TisyqHp5E2tRf6E7J/H/5
+	BXFT65AFgMzQDlgmbWyb1phf3gAHIZXEZ/HZvqgE+blfCuxMrA2LMn+UrlMinQ8NwU
+	tZYFoM6+fGyJFA85Z0V5DiYxJM31OxwrLbevwo72rfgBcRvZbqVgTTaGJyYeO6ZlEj
+	9SuteaHGKttoiD/qF0/fLfEo=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 May 2019 18:20:18 +0000
-Message-Id: <20190510182018.15979-1-Martin.Jansa@gmail.com>
+Date: Fri, 10 May 2019 21:35:47 +0300
+Message-Id: <20190510183547.32012-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] opkg: fix ptest packaging when OPKGLIBDIR == libdir
+Cc: yocto@yoctoproject.org
+Subject: [RFC][PATCH] Remove irda-utils and the irda feature
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,73 +40,400 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 18:20:13 -0000
+X-List-Received-Date: Fri, 10 May 2019 18:35:49 -0000
 
-there is small issue with ptest packaging in cases where
-OPKGLIBDIR is set to /usr/lib.
+IrDA support was removed in kernel 4.17.
 
-Then all ptest files get packaged in libopkg instead of opkg-ptest and correct QA error is triggered:
-ERROR: QA Issue: /usr/lib/opkg/ptest/tests/opkgcl.py contained in package libopkg requires /usr/bin/python3, but no providers found in RDEPENDS_libopkg? [file-rdeps]
-
-  # $FILES_libopkg
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/recipes-devtools/opkg/opkg_0.4.0.bb:62
-  #     "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
-  FILES_libopkg="/usr/lib/*.so.* /usr/lib/opkg/"
-
-  # $FILES_opkg-ptest [2 operations]
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/classes/ptest.bbclass:9
-  #     "${PTEST_PATH}"
-  #   rename from FILES_${PN}-ptest data.py:117 [expandKeys]
-  #     "${PTEST_PATH}"
-  # pre-expansion value:
-  #   "${PTEST_PATH}"
-  FILES_opkg-ptest="/usr/lib/opkg/ptest"
-
-  # $PACKAGES [4 operations]
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/conf/bitbake.conf:292
-  #     "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-  #   set /jenkins/mjansa/build-webos-master/oe-core/meta/conf/documentation.conf:314
-  #     [doc] "The list of packages to be created from the recipe."
-  #   prepend /jenkins/mjansa/build-webos-master/oe-core/meta/classes/ptest.bbclass:20
-  #     "${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)}"
-  #   prepend /jenkins/mjansa/build-webos-master/oe-core/meta/recipes-devtools/opkg/opkg_0.4.0.bb:60
-  #     "libopkg"
-  # pre-expansion value:
-  #   "libopkg ${@bb.utils.contains('PTEST_ENABLED', '1', '${PN}-ptest', '', d)} ${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
-  PACKAGES="libopkg opkg-ptest opkg-src opkg-dbg opkg-staticdev opkg-dev opkg-doc opkg-locale  opkg"
-
-The easiest fix should be to reorder PACKAGES (the _prepends) so that ${PN}-ptest is prepended later -> ends before libopkg).
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-devtools/opkg/opkg_0.4.0.bb | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ documentation/ref-manual/ref-features.xml     |  4 -
+ meta-poky/conf/distro/poky-tiny.conf          |  2 +-
+ .../distro/include/default-distrovars.inc     |  2 +-
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../irda-utils/irda-utils-0.9.18/init         | 78 -----------------
+ .../irda-utils-0.9.18/ldflags.patch           | 87 -------------------
+ .../irda-utils/irda-utils-0.9.18/musl.patch   | 29 -------
+ .../irda-utils/irda-utils_0.9.18.bb           | 51 -----------
+ .../packagegroups/packagegroup-base.bb        | 19 ----
+ 9 files changed, 2 insertions(+), 271 deletions(-)
+ delete mode 100755 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init
+ delete mode 100644 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch
+ delete mode 100644 meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
+ delete mode 100644 meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
 
-diff --git a/meta/recipes-devtools/opkg/opkg_0.4.0.bb b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-index 20c2e0b72a..e2305d096a 100644
---- a/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-+++ b/meta/recipes-devtools/opkg/opkg_0.4.0.bb
-@@ -23,6 +23,11 @@ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz
- SRC_URI[md5sum] = "ae51d95fee599bb4dce08453529158f5"
- SRC_URI[sha256sum] = "f6c00515d8a2ad8f6742a8e73830315d1983ed0459cba77c4d656cfc9e7fe6fe"
+diff --git a/documentation/ref-manual/ref-features.xml b/documentation/ref-manual/ref-features.xml
+index 7a3555d0b9..b057d2d040 100644
+--- a/documentation/ref-manual/ref-features.xml
++++ b/documentation/ref-manual/ref-features.xml
+@@ -76,8 +76,6 @@
+                     </para></listitem>
+                 <listitem><para><emphasis>ext2:</emphasis> Hardware HDD or Microdrive
+                     </para></listitem>
+-                <listitem><para><emphasis>irda:</emphasis> Hardware has IrDA support
+-                    </para></listitem>
+                 <listitem><para><emphasis>keyboard:</emphasis> Hardware has a keyboard
+                     </para></listitem>
+                 <listitem><para><emphasis>pcbios:</emphasis> Support for booting through BIOS
+@@ -190,8 +188,6 @@
+                     support.</para></listitem>
+                 <listitem><para><emphasis>ipv6:</emphasis> Include IPv6 support.
+                     </para></listitem>
+-                <listitem><para><emphasis>irda:</emphasis> Include IrDA support.
+-                    </para></listitem>
+                 <listitem><para><emphasis>keyboard:</emphasis> Include keyboard
+                     support (e.g. keymaps will be loaded during boot).
+                     </para></listitem>
+diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
+index a82d043e48..1f8b6e8ff3 100644
+--- a/meta-poky/conf/distro/poky-tiny.conf
++++ b/meta-poky/conf/distro/poky-tiny.conf
+@@ -60,7 +60,7 @@ USE_NLS="no"
  
-+# This needs to be before ptest inherit, otherwise all ptest files end packaged
-+# in libopkg package if OPKGLIBDIR == libdir, because default
-+# PTEST_PATH ?= "${libdir}/${BPN}/ptest"
-+PACKAGES =+ "libopkg"
-+
- inherit autotools pkgconfig systemd ptest
+ # Comment out any of the lines below to disable them in the build
+ # DISTRO_FEATURES options:
+-# alsa bluetooth ext2 irda pcmcia usbgadget usbhost wifi nfs zeroconf pci
++# alsa bluetooth ext2 pcmcia usbgadget usbhost wifi nfs zeroconf pci
+ DISTRO_FEATURES_TINY = "pci"
+ DISTRO_FEATURES_NET = "ipv4 ipv6"
+ DISTRO_FEATURES_USB = "usbhost"
+diff --git a/meta/conf/distro/include/default-distrovars.inc b/meta/conf/distro/include/default-distrovars.inc
+index 7a0baf3260..10d86cf7b1 100644
+--- a/meta/conf/distro/include/default-distrovars.inc
++++ b/meta/conf/distro/include/default-distrovars.inc
+@@ -10,7 +10,7 @@ LOCALE_UTF8_ONLY ?= "0"
+ LOCALE_UTF8_IS_DEFAULT ?= "1"
+ LOCALE_UTF8_IS_DEFAULT_class-nativesdk = "0"
  
- target_localstatedir := "${localstatedir}"
-@@ -57,8 +62,6 @@ RREPLACES_${PN} = "opkg-nogpg opkg-collateral"
- RCONFLICTS_${PN} = "opkg-collateral"
- RPROVIDES_${PN} = "opkg-collateral"
+-DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 irda largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
++DISTRO_FEATURES_DEFAULT ?= "acl alsa argp bluetooth ext2 ipv4 ipv6 largefile pcmcia usbgadget usbhost wifi xattr nfs zeroconf pci 3g nfc x11"
+ DISTRO_FEATURES ?= "${DISTRO_FEATURES_DEFAULT}"
+ IMAGE_FEATURES ?= ""
  
--PACKAGES =+ "libopkg"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 00b7914fff..8d72f52e3e 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -286,7 +286,6 @@ RECIPE_MAINTAINER_pn-intltool = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-iproute2 = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-iptables = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-iputils = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+-RECIPE_MAINTAINER_pn-irda-utils = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-iso-codes = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-iw = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-libjpeg-turbo = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init
+deleted file mode 100755
+index 6f29e9c6ed..0000000000
+--- a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/init
++++ /dev/null
+@@ -1,78 +0,0 @@
+-#! /bin/sh
+-### BEGIN INIT INFO
+-# Provides:          irda
+-# Required-Start:    $network $remote_fs
+-# Required-Stop:     $network $remote_fs
+-# Default-Start:     2 3 4 5
+-# Default-Stop:      0 1 6
+-# Short-Description: Infrared port support
+-### END INIT INFO
 -
- FILES_libopkg = "${libdir}/*.so.* ${OPKGLIBDIR}/opkg/"
+-NAME="irattach"
+-test -x "$IRDA_DAEMON" || IRDA_DAEMON=/usr/sbin/irattach
+-test -z "$IRATTACH_PID" && IRATTACH_PID=/var/run/irattach.pid
+-
+-# Source function library.
+-. /etc/init.d/functions
+-
+-module_id() {
+-        awk 'BEGIN { FS=": " } /Hardware/ { print $2 } ' </proc/cpuinfo
+-}
+-
+-if [ ! -f /etc/sysconfig/irda ]; then
+-    case `module_id` in
+-	"HP iPAQ H2200" | "HP iPAQ HX4700" | "HTC Universal")
+-	    IRDA=yes
+-	    DEVICE=/dev/ttyS2
+-	    DONGLE=
+-	    DISCOVERY=
+-	    ;;
+-	*)
+-	    IRDA=yes
+-	    DEVICE=/dev/ttyS1
+-	    DONGLE=
+-	    DISCOVERY=
+-	    ;;
+-    esac
+-else
+-    . /etc/sysconfig/irda
+-fi
+-
+-# Check that irda is up.
+-[ ${IRDA} = "no" ] && exit 0
+-
+-[ -f /usr/sbin/irattach ] || exit 0
+-
+-ARGS=
+-if [ $DONGLE ]; then
+-	ARGS="$ARGS -d $DONGLE"
+-fi
+-if [ "$DISCOVERY" = "yes" ];then
+-	ARGS="$ARGS -s"
+-fi
+-
+-case "$1" in
+-  start)
+-	echo -n "Starting IrDA: $NAME"
+-	start-stop-daemon --start --quiet --exec "$IRDA_DAEMON" ${DEVICE} ${ARGS} --pidfile "$IRATTACH_PID"
+-	sleep 1
+-	[ -f /var/run/irattach.pid ] && echo " done" || echo " fail"
+-	;;
+-  stop)
+-	echo "Stopping IrDA: $NAME"
+-	start-stop-daemon --stop --quiet --exec "$IRDA_DAEMON" --pidfile "$IRATTACH_PID"
+-	;;
+-  restart|force-reload)
+-	$0 stop
+-	$0 start
+-	;;
+-  status)
+-	status irattach
+-	exit $?
+-	;;
+-  *)
+-	N=/etc/init.d/$NAME
+-	echo "Usage: $N {start|stop|restart|force-reload|status}" >&2
+-	exit 1
+-	;;
+-esac
+diff --git a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch
+deleted file mode 100644
+index b246de8f5f..0000000000
+--- a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/ldflags.patch
++++ /dev/null
+@@ -1,87 +0,0 @@
+-Obey LDFLAGS
+-
+-Signed-off-by: Christopher Larson <chris_larson@mentor.com>
+-Upstream-Status: Pending
+-
+-Index: irda-utils-0.9.18/findchip/Makefile
+-===================================================================
+---- irda-utils-0.9.18.orig/findchip/Makefile
+-+++ irda-utils-0.9.18/findchip/Makefile
+-@@ -65,5 +65,5 @@ install: findchip
+- 
+- gfindchip: gfindchip.c 
+- 	$(prn_cc)
+--	$(ECMD))$(CC) $(CFLAGS) `gtk-config --cflags`  $< -o $@ `gtk-config --libs`
+-+	$(ECMD)$(CC) $(CFLAGS) $(LDFLAGS) `gtk-config --cflags`  $< -o $@ `gtk-config --libs`
+- 
+-Index: irda-utils-0.9.18/irattach/Makefile
+-===================================================================
+---- irda-utils-0.9.18.orig/irattach/Makefile
+-+++ irda-utils-0.9.18/irattach/Makefile
+-@@ -49,13 +49,13 @@ all: $(TARGETS)
+- 
+- irattach: irattach.o util.o
+- 	$(prn_cc_o)
+--	$(ECMD)$(CC) $(CFLAGS) irattach.o util.o -o $@
+-+	$(ECMD)$(CC) $(CFLAGS) $(LDFLAGS) irattach.o util.o -o $@
+- 
+- 
+- 
+- dongle_attach: dongle_attach.o
+- 	$(prn_cc_o)
+--	$(ECMD)$(CC) $(CFLAGS) dongle_attach.o -o $@
+-+	$(ECMD)$(CC) $(CFLAGS) $(LDFLAGS) dongle_attach.o -o $@
+- 
+- 
+- install: $(TARGETS)
+-Index: irda-utils-0.9.18/irdadump/Makefile
+-===================================================================
+---- irda-utils-0.9.18.orig/irdadump/Makefile
+-+++ irda-utils-0.9.18/irdadump/Makefile
+-@@ -40,7 +40,7 @@ lib_irdadump.a: $(LIBIRDADUMP_OBJS)
+- 
+- irdadump: $(IRDADUMP_OBJS) $(LIBIRDADUMP_TARGET)
+- 	$(prn_cc_o)
+--	$(ECMD)$(CC) $(CFLAGS) `pkg-config --libs glib-2.0` -o  $(IRDADUMP_TARGET) $< $(LIBIRDADUMP_TARGET)
+-+	$(ECMD)$(CC) $(CFLAGS) $(LDFLAGS) `pkg-config --libs glib-2.0` -o  $(IRDADUMP_TARGET) $< $(LIBIRDADUMP_TARGET)
+- 
+- 
+- .c.o:
+-Index: irda-utils-0.9.18/irdaping/Makefile
+-===================================================================
+---- irda-utils-0.9.18.orig/irdaping/Makefile
+-+++ irda-utils-0.9.18/irdaping/Makefile
+-@@ -56,7 +56,7 @@ all: $(TARGETS)
+- 
+- irdaping: $(OBJS)
+- 	$(prn_cc_o)
+--	$(ECMD)$(CC) $(CFLAGS) $(OBJS) -o $@
+-+	$(ECMD)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
+- 
+- 
+- .c.o:
+-Index: irda-utils-0.9.18/irnetd/Makefile
+-===================================================================
+---- irda-utils-0.9.18.orig/irnetd/Makefile
+-+++ irda-utils-0.9.18/irnetd/Makefile
+-@@ -50,7 +50,7 @@ all: $(TARGETS)
+- 
+- irnetd: $(OBJS)
+- 	$(prn_cc_o)
+--	$(ECMD)$(CC) $(CFLAGS) $(OBJS) -o $@
+-+	$(ECMD)$(CC) $(CFLAGS) $(LDFLAGS) $(OBJS) -o $@
+- 
+- 
+- install: irnetd
+-Index: irda-utils-0.9.18/psion/Makefile
+-===================================================================
+---- irda-utils-0.9.18.orig/psion/Makefile
+-+++ irda-utils-0.9.18/psion/Makefile
+-@@ -25,4 +25,4 @@ install: $(PSION_TARGETS)
+- CFLAGS += -g -I../include -Wall -Wstrict-prototypes $(RPM_OPT_FLAGS)
+- irpsion5: 
+- 	$(prn_cc_o)
+--	$(ECMD)$(CC) $(CFLAGS) $(PSION_SRC) -o $@
+-\ No newline at end of file
+-+	$(ECMD)$(CC) $(CFLAGS) $(LDFLAGS) $(PSION_SRC) -o $@
+-\ No newline at end of file
+diff --git a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch b/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
+deleted file mode 100644
+index 97eb975023..0000000000
+--- a/meta/recipes-connectivity/irda-utils/irda-utils-0.9.18/musl.patch
++++ /dev/null
+@@ -1,29 +0,0 @@
+-Replace use of <net/if_packet.h> with <linux/if_packet.h>.
+-
+-kernel headers <linux/if_packet.h> already provides the
+-needed definitions, moreover not all libc implementations
+-provide if_packet.h e.g. musl
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Upstream-Status: Pending
+-
+-Index: irda-utils-0.9.18/irdaping/irdaping.c
+-===================================================================
+---- irda-utils-0.9.18.orig/irdaping/irdaping.c
+-+++ irda-utils-0.9.18/irdaping/irdaping.c
+-@@ -33,7 +33,6 @@
+- #include <sys/socket.h>
+- #include <sys/ioctl.h>
+- #include <net/if.h>		/* For struct ifreq */
+--#include <net/if_packet.h>	/* For struct sockaddr_pkt */
+- #include <net/if_arp.h>		/* For ARPHRD_IRDA */
+- #include <netinet/if_ether.h>	/* For ETH_P_ALL */
+- #include <netinet/in.h>		/* For htons */
+-@@ -46,6 +45,7 @@
+- #include <asm/byteorder.h>	/* __cpu_to_le32 and co. */
+- 
+- #include <linux/types.h>	/* For __u8 and co. */
+-+#include <linux/if_packet.h>	/* For struct sockaddr_pkt */
+- #include <irda.h>
+- 
+- #ifndef AF_IRDA
+diff --git a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb b/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
+deleted file mode 100644
+index 11b2ee9117..0000000000
+--- a/meta/recipes-connectivity/irda-utils/irda-utils_0.9.18.bb
++++ /dev/null
+@@ -1,51 +0,0 @@
+-SUMMARY = "Common files for IrDA"
+-DESCRIPTION = "Provides common files needed to use IrDA. \
+-IrDA allows communication over Infrared with other devices \
+-such as phones and laptops."
+-HOMEPAGE = "http://irda.sourceforge.net/"
+-BUGTRACKER = "http://sourceforge.net/p/irda/bugs/"
+-SECTION = "base"
+-LICENSE = "GPLv2+"
+-LIC_FILES_CHKSUM = "file://irdadump/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://smcinit/COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+-                    file://man/COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-                    file://irdadump/irdadump.c;beginline=1;endline=24;md5=d78b9dce3cd78c2220250c9c7a2be178"
+-
+-SRC_URI = "${SOURCEFORGE_MIRROR}/irda/irda-utils-${PV}.tar.gz \
+-           file://ldflags.patch \
+-           file://musl.patch \
+-           file://init"
+-
+-SRC_URI[md5sum] = "84dc12aa4c3f61fccb8d8919bf4079bb"
+-SRC_URI[sha256sum] = "61980551e46b2eaa9e17ad31cbc1a638074611fc33bff34163d10c7a67a9fdc6"
+-
+-inherit update-rc.d
+-
+-EXTRA_OEMAKE = "\
+-    'CC=${CC}' \
+-    'LD=${LD}' \
+-    'CFLAGS=${CFLAGS}' \
+-    'LDFLAGS=${LDFLAGS}' \
+-    'SYS_INCLUDES=' \
+-    'V=1' \
+-"
+-
+-INITSCRIPT_NAME = "irattach"
+-INITSCRIPT_PARAMS = "defaults 20"
+-
+-TARGETS ??= "irattach irdaping"
+-do_compile () {
+-	for t in ${TARGETS}; do
+-		oe_runmake -C $t
+-	done
+-}
+-
+-do_install () {
+-	install -d ${D}${sbindir}
+-	for t in ${TARGETS}; do
+-		oe_runmake -C $t ROOT="${D}" install
+-	done
+-
+-	install -d ${D}${sysconfdir}/init.d
+-	install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/${INITSCRIPT_NAME}
+-}
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index 442201c9ef..cae704aa24 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -21,7 +21,6 @@ PACKAGES = ' \
+             ${@bb.utils.contains("MACHINE_FEATURES", "apm", "packagegroup-base-apm", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "ext2", "packagegroup-base-ext2", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "vfat", "packagegroup-base-vfat", "", d)} \
+-            ${@bb.utils.contains("MACHINE_FEATURES", "irda", "packagegroup-base-irda", "",d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "keyboard", "packagegroup-base-keyboard", "", d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "pci", "packagegroup-base-pci", "",d)} \
+             ${@bb.utils.contains("MACHINE_FEATURES", "pcmcia", "packagegroup-base-pcmcia", "", d)} \
+@@ -63,7 +62,6 @@ RDEPENDS_packagegroup-base = "\
+     ${@bb.utils.contains('COMBINED_FEATURES', 'alsa', 'packagegroup-base-alsa', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'ext2', 'packagegroup-base-ext2', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'vfat', 'packagegroup-base-vfat', '',d)} \
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'irda', 'packagegroup-base-irda', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'pci', 'packagegroup-base-pci', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'pcmcia', 'packagegroup-base-pcmcia', '',d)} \
+     ${@bb.utils.contains('COMBINED_FEATURES', 'usbgadget', 'packagegroup-base-usbgadget', '',d)} \
+@@ -221,23 +219,6 @@ RRECOMMENDS_packagegroup-base-bluetooth = "\
+     ${@bb.utils.contains('COMBINED_FEATURES', 'pcmcia', 'kernel-module-dtl1-cs', '',d)} \
+     "
  
- BBCLASSEXTEND = "native nativesdk"
+-SUMMARY_packagegroup-base-irda = "IrDA support"
+-RDEPENDS_packagegroup-base-irda = "\
+-    irda-utils"
+-
+-RRECOMMENDS_packagegroup-base-irda = "\
+-    kernel-module-pxaficp-ir \
+-    kernel-module-irda \
+-    kernel-module-ircomm \
+-    kernel-module-ircomm-tty \
+-    kernel-module-irlan \
+-    ${@bb.utils.contains('DISTRO_FEATURES', 'ppp', 'kernel-module-irnet', '',d)} \
+-    kernel-module-irport \
+-    kernel-module-irtty \
+-    kernel-module-irtty-sir \
+-    kernel-module-sir-dev \
+-    ${@bb.utils.contains('COMBINED_FEATURES', 'usbhost', 'kernel-module-ir-usb', '',d)} "
+-
+ SUMMARY_packagegroup-base-usbgadget = "USB gadget support"
+ RRECOMMENDS_packagegroup-base-usbgadget = "\
+     kernel-module-pxa27x_udc \
 -- 
 2.17.1
 
