@@ -1,57 +1,60 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 766047D3F6
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 92DCE7C39B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 19:56:40 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id d21so3311772plr.3
+	Fri, 10 May 2019 20:18:23 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id x15so3308642pln.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 12:56:41 -0700 (PDT)
+	Fri, 10 May 2019 13:18:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=hZTiQgum1TCBrFufU5yk3em+aQxdA9rOPZm1LMIM+hY=;
-	b=d9ipaztFHWR4dxpSJr8Fd7E6t5GfnJp7PKOpxotdSWss+IwAOZzJLEQFDbzG2kp4NK
-	G+yx+r6ZNxe9vuIaMR0lGuUVijecdZbxI7wE9EiOW4YXN7JmvBYqdzRllVT/OsqxgNsZ
-	1aps/anM6mOMVS4+nI97ObtVpy+BPPOWnltrUjinvWhhJSfQqTEB3hHZfAX4FICcwUHM
-	aWmE9VwVR6oIzzbxcLjuzhT+/s9a5UY92YM51a5p+5hplXbueG1VPmIYZIaLZjgJuzy6
-	LH66sd4fwxq3YOGLhRx9uoGP33l9iDEy3vT8AkIG8j6G2Igvo7h0XuAtdZXbyt2F3dD3
-	ifzA==
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=nnpvx+LIVw6b7a2/3Du3aRCeRnxx368bwH824JVQj8o=;
+	b=qcaRzMTPX9r1uyEt8z4KHOkDtnIc9QWVNMHsj1GOZiBoTJRjcjnAwGcicxTIqsp+LS
+	XHa+JHegupOX+rDdhvGl4abMVJJ9j5dMxw73/4fWDmI64Q5e/35T5GGJ79hqMeSSMJOt
+	aPDewIqqaD6V2Z2wBiioE5C3GGfxnfnGhDV1ZUNdmPGPin725lFeVHtnhF2mWYuOexH0
+	K3hk/YIhSNPRPVStM8aVxFnFFMKe3pcyxfeL3wBwFuCZMRt6ZlTTdgMR9dHPiWi8kpSS
+	REicpuYj+yyG3fX01+ZvvQMymMTET0FEucpVXgotahuG0NGKYfbfQkjuKADtrkQUtP7m
+	MVlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
+	h=x-gm-message-state:subject:to:cc:references:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language:content-transfer-encoding;
-	bh=hZTiQgum1TCBrFufU5yk3em+aQxdA9rOPZm1LMIM+hY=;
-	b=f7PgLJsvMQVOh344WBun1Ry1i3qXo51IEFTbyk03Tt8ZDBcG24JbBWVHu+P1QLBSnX
-	jjuUsyizsT9Y5sobIf2qZKDVTCMdL7x90FstQI4f8ORhiRzPzf53Jkegu4BQq7RXKM+I
-	JzZYMJwggeKxwHMENwtpWfOQtDlPWL20kV+734My1/8ja8bu/CKMfHkDWljb6OWR9wd/
-	XOTF2S3LfZ31wYcx++kRERAL95BS4sXBCjkiOLAyvL9Uzm/OJsFNzYi8PS2tsjok9iVs
-	AEiKph5oPGa5tHZn5xNnliXAGNHknd/DPTRRuFU138hk3y5nT+afvJ84THWUkPPi8Sp7
-	c/iQ==
-X-Gm-Message-State: APjAAAXC6Ls2f+zwK3nTu0TcWPnEPquZ98RCFzqBicyH0bFsZgFn2mB3
-	qiGIMervfDzI0J87TNZDIalN1nWmOpE=
-X-Google-Smtp-Source: APXvYqw2xV1YXVcmyfdRDyLXm3inRLXaWIV1w+uCntvOkXL2LkcGrbRbLXIDRkHqyztZORyoFO0k3Q==
-X-Received: by 2002:a17:902:2847:: with SMTP id
-	e65mr15454083plb.319.1557518200889; 
-	Fri, 10 May 2019 12:56:40 -0700 (PDT)
+	bh=nnpvx+LIVw6b7a2/3Du3aRCeRnxx368bwH824JVQj8o=;
+	b=nccZeitPFmCYAHulA77y+tEDCjgcxvSdw55VHPS8KXePTsemlEZsM6Ck4tOXwPIqQ/
+	sPRkYT71uwrsVYP7Kz00OPuwngnOdsTzlZefAIYzRugTTxvmPN6jbM32W8DCbSlko079
+	yhF2WoVHonWPm8Iuh5Ht7VTApH5vp6XdlP/fjXnySFmMVud8JrAHKDvv+nkZqzIk7b2c
+	4eVP7LEcZmyDtgVx1aPVqQPoEdVLYUuKU0x2x8BWlzXhnSuEiv9MhXMhSt0eCQ7G0Rps
+	Vy2W8iL71yiETh0OQR17LYERSaIo5qeuOt4AabUi+7LrNoV9Ss2F1N8PweuKWvHXOME+
+	upwA==
+X-Gm-Message-State: APjAAAVhprfv4Pc5PiQg/R/WJVykZNLHrm7UuxaYfBL91wnJ4BwTHNfl
+	N0peWMAqaX2czXRdWJSlPpO3osx3wkw=
+X-Google-Smtp-Source: APXvYqwftl7wSwd2922yucLa0X8+0cmrfCc3k407fQoL8iUtR9DAmLZaR2JROTutID7GHFmvsM31GA==
+X-Received: by 2002:a17:902:7241:: with SMTP id
+	c1mr15437131pll.326.1557519503674; 
+	Fri, 10 May 2019 13:18:23 -0700 (PDT)
 Received: from hermes.local ([2601:646:8500:6bc6:6095:8839:3497:2f69])
 	by smtp.gmail.com with ESMTPSA id
-	t65sm15106447pfa.175.2019.05.10.12.56.40
+	v64sm8223083pfv.106.2019.05.10.13.18.22
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 12:56:40 -0700 (PDT)
-To: Rob Walton <Rob.Walton@arm.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <AM6PR08MB3685C976E13C7FEE91C8529C95350@AM6PR08MB3685.eurprd08.prod.outlook.com>
+	Fri, 10 May 2019 13:18:23 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>,
+	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+References: <20190507211954.10762-1-open.source@oleksandr-kravchuk.com>
+	<20190508131225.GB25917@localhost>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <5bc3fff6-1a03-4571-0c90-7746eff7148b@gmail.com>
-Date: Fri, 10 May 2019 12:56:39 -0700
+Message-ID: <8fa36d98-3590-e106-30ce-9f3a6fbee532@gmail.com>
+Date: Fri, 10 May 2019 13:18:21 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
 	Gecko/20100101 Thunderbird/67.0
 MIME-Version: 1.0
-In-Reply-To: <AM6PR08MB3685C976E13C7FEE91C8529C95350@AM6PR08MB3685.eurprd08.prod.outlook.com>
-Subject: Re: automated license reporting
+In-Reply-To: <20190508131225.GB25917@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] bitbake.conf: remove GPE_MIRROR
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,83 +67,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 19:56:40 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
+X-List-Received-Date: Fri, 10 May 2019 20:18:23 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 5/3/19 4:14 AM, Rob Walton wrote:
-> Hi,
+On 5/8/19 6:12 AM, Adrian Bunk wrote:
+> On Tue, May 07, 2019 at 11:19:54PM +0200, Oleksandr Kravchuk wrote:
+>> The site is down and no recipe is this variable.
+>> ...
 > 
+> Not in OE-Core, but
+> meta-openembedded/meta-oe/classes/gpe.bbclass:SRC_URI = "${GPE_MIRROR}/${BP}.tar.${GPE_TARBALL_SUFFIX}"
+> meta-openembedded/meta-oe/recipes-graphics/xserver-common/xserver-common_1.34.bb:inherit distro_features_check gpe
 > 
-> We're working with OpenEmbedded/yocto in a project; we're trying to 
-> create an HTML license report for our users, leveraging the 
-> license.manifest files output from license_image.bbclass.
-> 
-> 
-> However some relatively crucial information relevant to the report isn't 
-> provided in the manifests. The extra information I'm interested in is 
-> the contents of the HOMEPAGE and SUMMARY variables for each package/blob 
-> recorded by the manifest.
-> 
-> 
-> I'm proposing to submit a patch to add the following to 
-> `write_license_files`:
-> 
-> 
-> -                license_file.write("LICENSE: %s\n\n" % 
-> pkg_dic[pkg]["LICENSE"])
-> -
-> +                license_file.write("LICENSE: %s\n" % 
-> pkg_dic[pkg]["LICENSE"])
-> +                license_file.write("SUMMARY: %s\n" % 
-> pkg_dic[pkg].get("SUMMARY", ""))
-> +                license_file.write("HOMEPAGE: %s\n\n" % 
-> pkg_dic[pkg].get("HOMEPAGE", ""))
-> 
-> At the moment it isn't a problem for us if this extra information is 
-> missing for /some/ packages, as long as it is included at least once per 
-> recipe (which is the case).
-> 
-> 
-> The above patch would rely on another patch to add extra output in 
-> package.bbclass::emit_pkg_data
-> 
-> 
-> +        write_if_exists(sf, pkg, 'HOMEPAGE')
-> 
-> We also have a bbclass to convert the license.manifest(s) to JSON format 
-> for easier machine readability, so we can automate this process in our 
-> build system. This bbclass is also potentially upstreamable.
 
-Please propose it for review.
+ltg.org is long dead, this patch should go in.
+I think meta-oe recipes should be changed and pointing to something 
+accessible, we have copies of the tars in sources.openembedded.org
+
 
 > 
-> My questions are: Would members of the community object to these 
-> patches? Are there any other suggestions for grabbing this extra info 
-> without submitting the patches? Would anyone else in the community find 
-> this useful?
-
-These are probably fine, as there is no standard manifest requirements 
-around what this proposal is achieving, but having it covered via a knob
-(variable) and turned off by default is probably fine. Eventually if it
-is deemed useful we can make it default, this is to consider the fact 
-that people might have their own post processing tools which are built 
-around current format of the manifest file.
-
-> 
-> 
-> Thanks,
-> 
-> 
-> Rob
-> 
-> IMPORTANT NOTICE: The contents of this email and any attachments are 
-> confidential and may also be privileged. If you are not the intended 
-> recipient, please notify the sender immediately and do not disclose the 
-> contents to any other person, use it for any purpose, or store or copy 
-> the information in any medium. Thank you.
+> cu
+> Adrian
 > 
 
