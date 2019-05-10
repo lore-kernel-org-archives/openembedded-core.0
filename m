@@ -1,60 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com
-	[209.85.214.196])
-	by mail.openembedded.org (Postfix) with ESMTP id EC10C7CFEE
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 127467E0FA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 22:20:23 +0000 (UTC)
-Received: by mail-pl1-f196.google.com with SMTP id g5so3441055plt.2
+	Fri, 10 May 2019 22:27:11 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id v80so3934399pfa.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 15:20:25 -0700 (PDT)
+	Fri, 10 May 2019 15:27:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=ndTSqubDltXZOpAUs3EYNlgUiz9YyjONJE7wOdjoctM=;
-	b=SNn49qReQhRaHM0ASdESz526XvJqJ0T5AzLFPbmfKqoLag3LasHhbLNflhO/LZpUNt
-	mrckgfe9s+M8kkPrJpINK75JaYH2I+fuv9fwnu4I5gonhD6/lYAIqKf7t5DN4d0AiQzD
-	W6sx+Wbg+wMhmgEj/Bq6nSXT8MyfmGIe+LkhdSFyA+nOEoFdzsU2PQw1JpODNkQLskc4
-	MpTzP1ES8Nrj81gJGTnSlNRhWu3JW7BMxCqPETRjEdHmXYm1GGk3y8Hfzm0YMVb1eZgN
-	CasO5P4rwYwHqGTY0MPY5OK/7WZ7OaHoqPjajDmuK3nRZT4DYWbzPqoxkUrtDSEU5/Qo
-	DoVA==
+	bh=ekwllWUr6fFFUewIYy1MCZmdSr7EVZLiuHy89vzvzjQ=;
+	b=viJO88DpDOcGXba7q+7FrsmBPb/0/CmYAVffNkhZIdeYjg0rJRlQgWiAprDExuJOUL
+	Q45w/BdMcqVZuBr31BuxjWdkg89HDyYNXkYgB3nYwzrqeAjHTJjMGDHnLDKRXf+Lj80K
+	yJy2Isvazq2jfDHqT26/XIy3zi2w/x3CtcogKoLJpGtmelToavIGy4vQ5q7Ce3J/ny6m
+	beH+puXuCKECTsM3J9la0Rm7wbthX6VuT6xMP7VOPClEhGz2YlC1I+BRysR4mvmfUFz/
+	SgC40BEpjFEgaLpcPf7IKfBcVzhK38Q7cUMnnEzqGy4uFqg4DfcXSJJ/JwaViWkuOv2F
+	9qjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=ndTSqubDltXZOpAUs3EYNlgUiz9YyjONJE7wOdjoctM=;
-	b=I98LgjlOfYX5uHzVxqQXOBZDHK83JMPCiOjzLEh+3gTreLOAgfG7ZeG5BZIyMd6VPC
-	yQ8T7K8yWWivQn00uTRXbxbLxz2JK5tmnP3nrphN/0OWIdAGZC7X/T63EQg0loRjnFAR
-	DrS+xc0RcnB2uK7KQu5VVikHqWfV/FvBPSfODoK9VPt4SVEqjmoZsuMnh/vmRiNjfyxb
-	IJo73ihmvUFm8eg1U8eHfOfSN4Nppn6kdmlJgUaVNPx4etu5sftwZ67+bXiG3fz8fD6d
-	Q7dm84ERZFEHoJ7cyUAh0zag8WPi8ZEyOUTJSzMpL/V1pWBtwJfT/59zDN3M/U/j1RuV
-	agOA==
-X-Gm-Message-State: APjAAAUF2Egg7LbtHCDVoq7d699lvULY1mVAvcj5ZnUCINj/RYejNJjE
-	LoGz5dOPcdEOn0CemVnXMYwREpNXCSE=
-X-Google-Smtp-Source: APXvYqyGhnHC+CRUIf9FeyHMHJdziCCmN9dBRncfcUoODcEVn1ul8cMC8GjxJNyExYePbKbE/aUu/Q==
-X-Received: by 2002:a17:902:84:: with SMTP id
-	a4mr16121640pla.210.1557526824694; 
-	Fri, 10 May 2019 15:20:24 -0700 (PDT)
-Received: from hermes.local ([2601:646:8500:6bc6:6095:8839:3497:2f69])
-	by smtp.gmail.com with ESMTPSA id
-	f71sm13158388pfc.109.2019.05.10.15.20.23
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 15:20:24 -0700 (PDT)
-To: Adrian Bunk <bunk@stusta.de>
-References: <20190510204954.33591-1-raj.khem@gmail.com>
-	<20190510204954.33591-2-raj.khem@gmail.com>
-	<20190510221726.GA20997@localhost>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ekwllWUr6fFFUewIYy1MCZmdSr7EVZLiuHy89vzvzjQ=;
+	b=I0Z5SLQkv8Gfm59UzrAvzcubGCQCUm2eBmDtdRsdlpLN3bBS8gHtp4iQLOgI6k7i0t
+	UZaXFhvbOfdBYHoxdKJGVukqg13wqc2PCDt3vXOkJELU48o1DFEVvHjiljGNUk+mUsir
+	IoOE1OH+K0/V1XxvwvukRuTEqV4PCn6/saWDu2XsIj5VjkNuV+KPfh0elABFbWb+8eRy
+	XE8OzSmSatlvRJEgYA/od3tmEoVmc0CJ0f+jdY3q+VCjcdukJ0maV1VKUfrVrmpCnrnI
+	aDHdhijSuyT/UXtvhWQMWWzldx+421batpeLOc9qiZ5+QKSV+qhfe1y4tva0E2o8bemt
+	eqBQ==
+X-Gm-Message-State: APjAAAW9XFkjYAKaTaibzs7IZ1LmDwL77OojamWbZIozLmzXQTf7rVjT
+	Wi7NDU6kqte+W8vN+0ygTfgMd3jNTY0=
+X-Google-Smtp-Source: APXvYqxfvlL9lyOcOpUo9tglXMRfap1LV/9LKTMykpUld9Z4mrA3pPm4Eo49l2/CVuvY6HRO+XLN/A==
+X-Received: by 2002:a62:6b44:: with SMTP id g65mr17480678pfc.27.1557527232647; 
+	Fri, 10 May 2019 15:27:12 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::592a])
+	by smtp.gmail.com with ESMTPSA id n7sm8385370pff.45.2019.05.10.15.27.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 15:27:12 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <e23fddb4-f2f2-6865-2a55-1824811b0c95@gmail.com>
-Date: Fri, 10 May 2019 15:20:22 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
-	Gecko/20100101 Thunderbird/67.0
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 May 2019 15:26:53 -0700
+Message-Id: <20190510222653.41487-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190510221726.GA20997@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] epiphany: Fix build with clang
+Subject: [PATCH V2 2/2] epiphany: Do not bypass initialization of variable with __attribute__((cleanup))
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,26 +56,131 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 22:20:24 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 May 2019 22:27:12 -0000
+Content-Transfer-Encoding: 8bit
 
+This is reported with clang e.g.
+../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:391:5: error: cannot jump from this goto statement to its label
+    goto out;
+    ^
+../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:398:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
+  g_autofree char *app_file = g_build_filename (profile_dir, ".app", NULL);
+                   ^
+../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:385:5: error: cannot jump from this goto statement to its label
+    goto out;
+    ^
+../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:398:20: note: jump bypasses initialization of variable with __attribute__((cleanup))                                                                                                                     g_autofree char *app_file = g_build_filename (profile_dir, ".app", NULL);
+                   ^
 
+Ensure that the initialization is deterministic for goto to work reliably
 
-On 5/10/19 3:17 PM, Adrian Bunk wrote:
-> On Fri, May 10, 2019 at 01:49:54PM -0700, Khem Raj wrote:
->> This patch is upstreamable, issue is not caught by gcc
->> ...
-> 
-> Upstream already has a different fix for this:
-> https://gitlab.gnome.org/GNOME/epiphany/commit/a6a022c9c498ad5dcf7f2220644a7520df74ca31
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Backport a patch instead of doing own
 
-ah thanks, I did not find it when I checked last time. but I guess I 
-will try a backport and send v2
+ .../epiphany/epiphany_3.32.1.2.bb             |  1 +
+ ...Clean-up-ephy_web_application_create.patch | 79 +++++++++++++++++++
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch
 
-> 
-> cu
-> Adrian
-> 
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
+index ba2e851bb6..49631d92d7 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
+@@ -12,6 +12,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
++           file://0001-web-app-utils-Clean-up-ephy_web_application_create.patch \
+            "
+ SRC_URI[archive.md5sum] = "93faec353e9f62519859e6164350fd5d"
+ SRC_URI[archive.sha256sum] = "a8284fb9bbc8b7914a154a8eac1598c8b59ae421e0d685146fb48198427926be"
+diff --git a/meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch b/meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch
+new file mode 100644
+index 0000000000..ea644fb985
+--- /dev/null
++++ b/meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch
+@@ -0,0 +1,79 @@
++From 49f435217873e679b142f64d3e7def919fb642bb Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@igalia.com>
++Date: Wed, 8 May 2019 15:58:32 +0000
++Subject: [PATCH] web-app-utils: Clean up ephy_web_application_create()
++
++Fixes #764
++
++(cherry picked from commit 4e998d45e4cc549a7ca561a33895b0fbcf7ba6bb)
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/commit/a6a022c9c498ad5dcf7f2220644a7520df74ca31]
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/ephy-web-app-utils.c | 24 ++++++++++--------------
++ 1 file changed, 10 insertions(+), 14 deletions(-)
++
++diff --git a/lib/ephy-web-app-utils.c b/lib/ephy-web-app-utils.c
++index 97f3f24..fc68a96 100644
++--- a/lib/ephy-web-app-utils.c
+++++ b/lib/ephy-web-app-utils.c
++@@ -374,46 +374,42 @@ ephy_web_application_create (const char *id,
++                              const char *name,
++                              GdkPixbuf  *icon)
++ {
++-  char *profile_dir;
++-  char *desktop_file_path = NULL;
+++  g_autofree char *app_file = NULL;
+++  g_autofree char *profile_dir = NULL;
+++  g_autofree char *desktop_file_path = NULL;
++ 
++   /* If there's already a WebApp profile for the contents of this
++    * view, do nothing. */
++   profile_dir = ephy_web_application_get_profile_directory (id);
++   if (g_file_test (profile_dir, G_FILE_TEST_IS_DIR)) {
++     g_warning ("Profile directory %s already exists", profile_dir);
++-    goto out;
+++    return NULL;
++   }
++ 
++   /* Create the profile directory, populate it. */
++   if (g_mkdir_with_parents (profile_dir, 488) == -1) {
++     g_warning ("Failed to create directory %s", profile_dir);
++-    goto out;
+++    return NULL;
++   }
++ 
++   /* Skip migration for new web apps. */
++   ephy_profile_utils_set_migration_version_for_profile_dir (EPHY_PROFILE_MIGRATION_VERSION, profile_dir);
++ 
++   /* Create an .app file. */
++-  g_autofree char *app_file = g_build_filename (profile_dir, ".app", NULL);
+++  app_file = g_build_filename (profile_dir, ".app", NULL);
++   int fd = g_open (app_file, O_WRONLY|O_CREAT|O_TRUNC, 0644);
++   if (fd < 0) {
++-    LOG ("Failed to create .app file: %s", g_strerror (errno));
++-    goto out;
++-  } else {
++-    close (fd);
+++    g_warning ("Failed to create .app file: %s", g_strerror (errno));
+++    return NULL;
++   }
+++  close (fd);
++ 
++   /* Create the deskop file. */
++   desktop_file_path = create_desktop_file (id, name, address, profile_dir, icon);
++   if (desktop_file_path)
++     ephy_web_application_initialize_settings (profile_dir);
++ 
++- out:
++-  if (profile_dir)
++-    g_free (profile_dir);
++-
++-  return desktop_file_path;
+++  return g_steal_pointer (&desktop_file_path);
++ }
++ 
++ char *
++-- 
++2.21.0
++
+-- 
+2.21.0
+
 
