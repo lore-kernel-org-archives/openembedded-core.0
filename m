@@ -1,37 +1,49 @@
-Return-Path: <martin@geanix.com>
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 39CB77D2AE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 379627E047
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 10:46:34 +0000 (UTC)
-Received: from [10.0.0.10] (unknown [85.184.147.232])
-	by first.geanix.com (Postfix) with ESMTPSA id 723C4949;
-	Fri, 10 May 2019 10:45:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1557485140; bh=ZUbshL+9FQNPWn/WUsQWssTR3Xc29uU751nmEzBgbNs=;
-	h=Subject:To:References:From:Date:In-Reply-To;
-	b=Z4o7ePiLalnW0Mwu9VT9Unshu6ilHEqt/ycAwKzCpP+skmawmeAUb0vQOK4nnTDWn
-	bMKHE5ADL40+5dzYizr1bRoiWWLYn5o3rxOTwB96UWvBAl42YFBuwKnghejUvDQOAp
-	rYUqSoNAGtJnVMCSCpDtfaSSBrgK2fe3Ak06qqlcj15KjlW2d+y3zbpZNvhGcgjbJw
-	+GCN+yrp9odq9t16KsO/ssy1AwwqvwG1JQaeTcnyiuqiwoAJKz8XPyyMUEulKYZarT
-	QvMRsIAQagIYwewihj29idYfbS7OW+rWk1knPLusxjy8CQUXnrfbcI9OURjs8Wo2+g
-	CXoysp6+wpWdA==
-To: Luca Boccassi <luca.boccassi@gmail.com>,
-	openembedded-core@lists.openembedded.org
-References: <20190509214007.13927-1-luca.boccassi@gmail.com>
-	<f2b0a420-ed6c-91e2-dd88-399169363349@geanix.com>
-	<8c442a101d981e309ce28c8c74ec64fbc849bd6c.camel@gmail.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
-Message-ID: <9fcbc179-921d-177f-63f6-05aa37b4bddd@geanix.com>
-Date: Fri, 10 May 2019 12:46:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <8c442a101d981e309ce28c8c74ec64fbc849bd6c.camel@gmail.com>
-X-Spam-Status: No, score=-3.1 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,URIBL_BLOCKED
-	autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 9cf0eadf640b
-Subject: Re: [PATCH] systemd: enable portabled by default and install utilities in systemd-container
+	Fri, 10 May 2019 10:59:41 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c5so7305464wrs.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 10 May 2019 03:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=7PLLkepuKC1MGOkIEYwHupm/AOVjVql69BSWzQ9r4i0=;
+	b=FHKdKjKRMdpa3r2d3+pnz1edlcoBthTr7L7k1W6szWjGzMC4fxvm7wVJQEb14JDKcn
+	Lo84TKA84aJMJZPiV2UvuULkxq2Ncc9aoq5F+KqN/qNWPtlYg475fNtgVJrX732aUWty
+	THSVk6dr8roZTqy56FWacKHaRhIiNns9puKrmqlGFiFEoRWSpbZm4P5scfimjj7HRApR
+	xuJdmyv9+ny0vy55FcID5hvJ0JftYED/Nyh/zbNbFSIxupr+3jKLtQKoam4QRcZXCvlS
+	1UpM6raesgchHoryVcAa5Pic3R0cGEdeovUssiFRKfYFEKw0SEoUcLr+MQY+wJ+oGiX9
+	8plQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=7PLLkepuKC1MGOkIEYwHupm/AOVjVql69BSWzQ9r4i0=;
+	b=tXwkvXiZcdgCdM8vWAS0ftyObzzlWCm4AloM7VBK3VhgpsFN+R4IKyiZNrt55AgBz9
+	9Qsr5BtggmaJ10fGPX6ZsOvf5x4MJox8iRjKRp2Y/pDp0EKMLdUMe1VoBh1PPMcBP3dW
+	RgUV0bbYdrB/UsWSBNIR6GXHPlxKlwzVM3qPqnyTwvig5ygKGE3cTZDhKWiRcDyDTrU/
+	ueyW/FZPExjAKPMawKeh7y35xV+f9inTVmOErmsZhEsaek/EQUL9tm1hbB2VFruOOuTS
+	0zJLq1R7ehPRa8wzqDT3Eb3VcBfsw8BQBaqK+TiWU2bXmg/8rNwGb2BVaitwwsavSEMB
+	k3Bg==
+X-Gm-Message-State: APjAAAWkSuy61Tbhd6zhHRrP4WyaDDddF2Pua8S5kLj9mEmYXwINXyL2
+	H66W66WlIHBm/VA6A0gban6kSRLCrOg=
+X-Google-Smtp-Source: APXvYqxy3988YpuPE2+DVDXFsZ2oDRNAxdzsxlgaw4T+bSaOz0KFLa87wo5YUqG/AOoozOUbM5T2nw==
+X-Received: by 2002:a5d:61c4:: with SMTP id q4mr6924396wrv.295.1557485982587; 
+	Fri, 10 May 2019 03:59:42 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id y6sm5035497wrw.60.2019.05.10.03.59.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 03:59:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 May 2019 11:59:39 +0100
+Message-Id: <20190510105939.25524-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] glib-2.0: add missing locales for the tests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,154 +56,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 10:46:34 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US-large
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 10 May 2019 10:59:42 -0000
 
-Hi Luca,
+Some tests are either failing or skipping due to missing locales.
 
-On 10/05/2019 12.45, Luca Boccassi wrote:
-> On Fri, 2019-05-10 at 07:23 +0200, Martin Hundebøll wrote:
->> Hi Luca,
->>
->> On 09/05/2019 23.40,
->> luca.boccassi@gmail.com
->>   wrote:
->>> From: Luca Boccassi <
->>> luca.boccassi@microsoft.com
->>>>
->>>
->>> portable services have been declared production ready with v241, so
->>> enable
->>> by default and install the files in the container package.
->>
->> The systemd portables feature is not really related to
->> containers/VM's,
->> so I think it should stay in the primary package; or alternatively in
->> a
->> separate package.
->>
->> // Martin
-> 
-> Hello Martin,
-> 
-> IMHO if VM tools and containers tool can go together in this package,
-> then portable services utilities can too - they are at different
-> positions on the same scale after all :-)
-> 
-> But I've got no strong opinion, so I'll send a v2 with them moved to
-> the main package.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-core/glib-2.0/glib.inc | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-I am planning to use portable services instead of going full container, 
-so I would prefer not having the container/vm utils on target :)
-
-// Martin
-
->>> Signed-off-by: Luca Boccassi <
->>> luca.boccassi@microsoft.com
->>>>
->>> ---
->>>    meta/recipes-core/systemd/systemd_242.bb | 10 ++++++++++
->>>    1 file changed, 10 insertions(+)
->>>
->>> diff --git a/meta/recipes-core/systemd/systemd_242.bb
->>> b/meta/recipes-core/systemd/systemd_242.bb
->>> index 73e03c7a77..83b00ba785 100644
->>> --- a/meta/recipes-core/systemd/systemd_242.bb
->>> +++ b/meta/recipes-core/systemd/systemd_242.bb
->>> @@ -81,6 +81,7 @@ PACKAGECONFIG ??= " \
->>>        nss \
->>>        nss-mymachines \
->>>        nss-resolve \
->>> +    portabled \
->>>        quotacheck \
->>>        randomseed \
->>>        resolved \
->>> @@ -403,8 +404,10 @@ SYSTEMD_SERVICE_${PN}-remote = "systemd-
->>> journal-remote.socket"
->>>    
->>>    FILES_${PN}-container = "${sysconfdir}/dbus-
->>> 1/system.d/org.freedesktop.import1.conf \
->>>                             ${sysconfdir}/dbus-
->>> 1/system.d/org.freedesktop.machine1.conf \
->>> +                         ${sysconfdir}/dbus-
->>> 1/system.d/org.freedesktop.portable1.conf \
->>>                             ${sysconfdir}/systemd/system/multi-
->>> user.target.wants/machines.target \
->>>                             ${base_bindir}/machinectl \
->>> +                         ${base_bindir}/portablectl \
->>>                             ${bindir}/systemd-nspawn \
->>>                             ${nonarch_libdir}/systemd/import-
->>> pubring.gpg \
->>>                             ${systemd_system_unitdir}/busnames.targe
->>> t.wants/org.freedesktop.import1.busname \
->>> @@ -418,21 +421,28 @@ FILES_${PN}-container = "${sysconfdir}/dbus-
->>> 1/system.d/org.freedesktop.import1.c
->>>                             ${systemd_system_unitdir}/org.freedeskto
->>> p.machine1.busname \
->>>                             ${systemd_system_unitdir}/systemd-
->>> importd.service \
->>>                             ${systemd_system_unitdir}/systemd-
->>> machined.service \
->>> +                         ${systemd_system_unitdir}/systemd-
->>> portabled.service \
->>>                             ${systemd_system_unitdir}/dbus-
->>> org.freedesktop.machine1.service \
->>> +                         ${systemd_system_unitdir}/dbus-
->>> org.freedesktop.portable1.service \
->>>                             ${systemd_system_unitdir}/var-lib-
->>> machines.mount \
->>>                             ${rootlibexecdir}/systemd/systemd-import
->>> \
->>>                             ${rootlibexecdir}/systemd/systemd-
->>> importd \
->>>                             ${rootlibexecdir}/systemd/systemd-
->>> machined \
->>> +                         ${rootlibexecdir}/systemd/systemd-
->>> portabled \
->>>                             ${rootlibexecdir}/systemd/systemd-pull \
->>> +                         ${exec_prefix}/lib/tmpfiles.d/portables.c
->>> onf \
->>>                             ${exec_prefix}/lib/tmpfiles.d/systemd-
->>> nspawn.conf \
->>>                             ${systemd_system_unitdir}/systemd-
->>> nspawn@.service \
->>>                             ${libdir}/libnss_mymachines.so.2 \
->>>                             ${datadir}/dbus-1/system-
->>> services/org.freedesktop.import1.service \
->>>                             ${datadir}/dbus-1/system-
->>> services/org.freedesktop.machine1.service \
->>> +                         ${datadir}/dbus-1/system-
->>> services/org.freedesktop.portable1.service \
->>>                             ${datadir}/dbus-
->>> 1/system.d/org.freedesktop.import1.conf \
->>>                             ${datadir}/dbus-
->>> 1/system.d/org.freedesktop.machine1.conf \
->>> +                         ${datadir}/dbus-
->>> 1/system.d/org.freedesktop.portable1.conf \
->>>                             ${datadir}/polkit-
->>> 1/actions/org.freedesktop.import1.policy \
->>>                             ${datadir}/polkit-
->>> 1/actions/org.freedesktop.machine1.policy \
->>> +                         ${datadir}/polkit-
->>> 1/actions/org.freedesktop.portable1.policy \
->>>                            "
->>>    
->>>    RRECOMMENDS_${PN}-container += "\
->>>
->>
->>
-
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+index 69bcd0dd1d0..9ffc4560a9e 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -148,6 +148,14 @@ RDEPENDS_${PN}-ptest += "\
+             tzdata-europe \
+             tzdata-posix \
+             shared-mime-info \
++            ${PN}-locale-ja \
++            ${PN}-locale-fr \
++            ${PN}-locale-el \
++            ${PN}-locale-hr \
++            ${PN}-locale-lt \
++            ${PN}-locale-pl \
++            ${PN}-locale-ru \
++            ${PN}-locale-th \
+            "
+ 
+ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+@@ -173,5 +181,7 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+             locale-base-fr-fr \
+             locale-base-es-es \
+             locale-base-en-gb \
++            locale-base-en-us \
+             locale-base-pl-pl \
++            locale-base-pl-pl.iso-8859-2 \
+            "
 -- 
-Kind regards,
-Martin Hundebøll
-Embedded Linux Consultant
+2.11.0
 
-+45 61 65 54 61
-martin@geanix.com
-
-Geanix ApS
-https://geanix.com
-DK39600706
 
