@@ -1,60 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 92DCE7C39B
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C9966004D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 20:18:23 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id x15so3308642pln.9
+	Fri, 10 May 2019 20:50:10 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id t22so3543452pgi.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 13:18:24 -0700 (PDT)
+	Fri, 10 May 2019 13:50:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
+	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=nnpvx+LIVw6b7a2/3Du3aRCeRnxx368bwH824JVQj8o=;
-	b=qcaRzMTPX9r1uyEt8z4KHOkDtnIc9QWVNMHsj1GOZiBoTJRjcjnAwGcicxTIqsp+LS
-	XHa+JHegupOX+rDdhvGl4abMVJJ9j5dMxw73/4fWDmI64Q5e/35T5GGJ79hqMeSSMJOt
-	aPDewIqqaD6V2Z2wBiioE5C3GGfxnfnGhDV1ZUNdmPGPin725lFeVHtnhF2mWYuOexH0
-	K3hk/YIhSNPRPVStM8aVxFnFFMKe3pcyxfeL3wBwFuCZMRt6ZlTTdgMR9dHPiWi8kpSS
-	REicpuYj+yyG3fX01+ZvvQMymMTET0FEucpVXgotahuG0NGKYfbfQkjuKADtrkQUtP7m
-	MVlQ==
+	bh=zl5143rxrym+K3rVfcxwCvkgIQ1d9IxqPQgArV5zBKk=;
+	b=c3uKBLl378AOGFmboay3i+ODcS0HpNXGzGLVu2wYwFUn8ArvrnCftPgpTMTS9vY542
+	Yr2g0LN8RHhv/RDzq0K8AB2Ss53Q4p3Y8gTJ89IckL351JBqjnmJ/HTNIWIToIQtUS4j
+	yRTH8vDy0E0163YZN4si7L0Hva9rUsIJsj6j5YYccEhzuaArOCXEhGZcwclXD7ud2lB+
+	wCy6YPwcyr7wYRizBNfp9wASU3x26c2KpPLoS3DCPANicbVsN0PV5apbEpQFMx/Qef2+
+	f2t4cRSbPCXYuK7umSMO5zma5tjmhEy7kh3p6QNXxSdlGuRfQEPc19RtXZg4mymbw9wf
+	pwUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=nnpvx+LIVw6b7a2/3Du3aRCeRnxx368bwH824JVQj8o=;
-	b=nccZeitPFmCYAHulA77y+tEDCjgcxvSdw55VHPS8KXePTsemlEZsM6Ck4tOXwPIqQ/
-	sPRkYT71uwrsVYP7Kz00OPuwngnOdsTzlZefAIYzRugTTxvmPN6jbM32W8DCbSlko079
-	yhF2WoVHonWPm8Iuh5Ht7VTApH5vp6XdlP/fjXnySFmMVud8JrAHKDvv+nkZqzIk7b2c
-	4eVP7LEcZmyDtgVx1aPVqQPoEdVLYUuKU0x2x8BWlzXhnSuEiv9MhXMhSt0eCQ7G0Rps
-	Vy2W8iL71yiETh0OQR17LYERSaIo5qeuOt4AabUi+7LrNoV9Ss2F1N8PweuKWvHXOME+
-	upwA==
-X-Gm-Message-State: APjAAAVhprfv4Pc5PiQg/R/WJVykZNLHrm7UuxaYfBL91wnJ4BwTHNfl
-	N0peWMAqaX2czXRdWJSlPpO3osx3wkw=
-X-Google-Smtp-Source: APXvYqwftl7wSwd2922yucLa0X8+0cmrfCc3k407fQoL8iUtR9DAmLZaR2JROTutID7GHFmvsM31GA==
-X-Received: by 2002:a17:902:7241:: with SMTP id
-	c1mr15437131pll.326.1557519503674; 
-	Fri, 10 May 2019 13:18:23 -0700 (PDT)
-Received: from hermes.local ([2601:646:8500:6bc6:6095:8839:3497:2f69])
-	by smtp.gmail.com with ESMTPSA id
-	v64sm8223083pfv.106.2019.05.10.13.18.22
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 13:18:23 -0700 (PDT)
-To: Adrian Bunk <bunk@stusta.de>,
-	Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-References: <20190507211954.10762-1-open.source@oleksandr-kravchuk.com>
-	<20190508131225.GB25917@localhost>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zl5143rxrym+K3rVfcxwCvkgIQ1d9IxqPQgArV5zBKk=;
+	b=X3sH8Sg5aBDz6RtGKartSeicChSy9IWuPDz+7QfM53UUU7T5syuBf2VEpZmsack0qc
+	8nRzEpGoGi7gr+6KdFPdZxTm2SAw/NN+lO5yoQSTbRUJLRJ9uCzgD/GYena3gY06Jpv/
+	Mk9YPo/lK30f2odcNGHdeEfqkOIsoIsocVH3l0Wt4lmr+Eo6VD+N5/wxq4BGIbLevg8T
+	N5xHK0iPrkZMbPsdvr3zyl1s22z0AtyFwGBqfIo8YAI79ro8kl9vFzADNEAjKmwDcX0i
+	Y3zDlDbFsdDqdriwJ5JYeldnU0zlkxK7xjt+bI8itTf/j0S6vPy8m0XGIHAgBMCC+zvt
+	ur2Q==
+X-Gm-Message-State: APjAAAV7OunZYhmNsXTm+FnqA6SjJhxhogRDX2tkUoFqeZylBnm0cAQ2
+	q9N6TBazK6i20NEENMZmADull7uTfmg=
+X-Google-Smtp-Source: APXvYqwtfAPH5mAj+OpnYUhfMNnynEmc21048hj7kRkdCLP/rIhvKWwFcVkGX6O4VLM+SVkg2JqHGg==
+X-Received: by 2002:a63:e417:: with SMTP id a23mr15806676pgi.224.1557521410806;
+	Fri, 10 May 2019 13:50:10 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::592a])
+	by smtp.gmail.com with ESMTPSA id l1sm7477044pgp.9.2019.05.10.13.50.09
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 13:50:10 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <8fa36d98-3590-e106-30ce-9f3a6fbee532@gmail.com>
-Date: Fri, 10 May 2019 13:18:21 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
-	Gecko/20100101 Thunderbird/67.0
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 May 2019 13:49:53 -0700
+Message-Id: <20190510204954.33591-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190508131225.GB25917@localhost>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bitbake.conf: remove GPE_MIRROR
+Subject: [PATCH 1/2] mmc-utils: Fix build with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,30 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 20:18:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 10 May 2019 20:50:10 -0000
+Content-Transfer-Encoding: 8bit
 
+clang has more warnings to report, lets fix them
 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...tra-braces-when-initializing-subobje.patch | 32 +++++++++++++++++++
+ meta/recipes-devtools/mmc/mmc-utils_git.bb    |  1 +
+ 2 files changed, 33 insertions(+)
+ create mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch
 
-On 5/8/19 6:12 AM, Adrian Bunk wrote:
-> On Tue, May 07, 2019 at 11:19:54PM +0200, Oleksandr Kravchuk wrote:
->> The site is down and no recipe is this variable.
->> ...
-> 
-> Not in OE-Core, but
-> meta-openembedded/meta-oe/classes/gpe.bbclass:SRC_URI = "${GPE_MIRROR}/${BP}.tar.${GPE_TARBALL_SUFFIX}"
-> meta-openembedded/meta-oe/recipes-graphics/xserver-common/xserver-common_1.34.bb:inherit distro_features_check gpe
-> 
+diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch
+new file mode 100644
+index 0000000000..12707357b2
+--- /dev/null
++++ b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch
+@@ -0,0 +1,32 @@
++From 04fbe6ddb5f1e02efbcae3cdf5beb16757a98948 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Fri, 10 May 2019 12:58:01 -0700
++Subject: [PATCH] mmc_cmd.c: Use extra braces when initializing subobjects
++
++clang warns with -Werror,-Wmissing-braces, as following error
++| mmc_cmds.c:1886:36: error: suggest braces around initialization of subobject [-Werror,-W
++missing-braces]
++|         struct rpmb_frame frame_status = {0};
++|                                           ^
++|                                           {}
++
++Upstream-Status: Pending
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ mmc_cmds.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/mmc_cmds.c b/mmc_cmds.c
++index 19a9da1..838e8c3 100644
++--- a/mmc_cmds.c
+++++ b/mmc_cmds.c
++@@ -1883,7 +1883,7 @@ static int do_rpmb_op(int fd,
++ 	u_int16_t rpmb_type;
++ 	struct mmc_ioc_multi_cmd *mioc;
++ 	struct mmc_ioc_cmd *ioc;
++-	struct rpmb_frame frame_status = {0};
+++	struct rpmb_frame frame_status = {{0}};
++ 
++ 	if (!frame_in || !frame_out || !out_cnt)
++ 		return -EINVAL;
+diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+index f3a7234670..0c401c86fa 100644
+--- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
++++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
+@@ -9,6 +9,7 @@ SRCREV = "aef913e31b659462fe6b9320d241676cba97f67b"
+ PV = "0.1+git${SRCPV}"
+ 
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
++           file://0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+-- 
+2.21.0
 
-ltg.org is long dead, this patch should go in.
-I think meta-oe recipes should be changed and pointing to something 
-accessible, we have copies of the tars in sources.openembedded.org
-
-
-> 
-> cu
-> Adrian
-> 
 
