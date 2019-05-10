@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
+Return-Path: <luca.boccassi@gmail.com>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 379627E047
+	by mail.openembedded.org (Postfix) with ESMTP id 8D7147E09C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 10:59:41 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c5so7305464wrs.11
+	Fri, 10 May 2019 12:09:53 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c5so7589788wrs.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 03:59:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=7PLLkepuKC1MGOkIEYwHupm/AOVjVql69BSWzQ9r4i0=;
-	b=FHKdKjKRMdpa3r2d3+pnz1edlcoBthTr7L7k1W6szWjGzMC4fxvm7wVJQEb14JDKcn
-	Lo84TKA84aJMJZPiV2UvuULkxq2Ncc9aoq5F+KqN/qNWPtlYg475fNtgVJrX732aUWty
-	THSVk6dr8roZTqy56FWacKHaRhIiNns9puKrmqlGFiFEoRWSpbZm4P5scfimjj7HRApR
-	xuJdmyv9+ny0vy55FcID5hvJ0JftYED/Nyh/zbNbFSIxupr+3jKLtQKoam4QRcZXCvlS
-	1UpM6raesgchHoryVcAa5Pic3R0cGEdeovUssiFRKfYFEKw0SEoUcLr+MQY+wJ+oGiX9
-	8plQ==
+	Fri, 10 May 2019 05:09:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=D0BnixtiQqr/G8MDyNPBC1iF2xAlGpf9U7/LaCcSPMc=;
+	b=ItZCmYdHQLUMCl+e5a48Cz6etwKrONDU76Mfy3M66u6BBT2UxoRmBK9ddxMeONYFyf
+	mFbt4syNCZYhQvF3wN5fhYlEnfck6FZDDMuo42WOUJR90CD1A3F9f74bGDQaafOSWp0N
+	/EQhpa5upVLhgWCsgCI8aT5yYhZ9KcB7jfxrgEagj1neaHSXzEcydLhKTaXaEzgE3qyF
+	0lWzD1B6lf+gpdH0hHeyqe0SsZkO6gfuggqOaAdrN6qzB2jq9O7BBWIv75hJLPdU8OA0
+	yW7mLGId1FiM2EqTcgyROu/ppxJMn+kcc+dl08aJK/RTeUJ/hMOCMqvWn56BGby3Cp8M
+	lLbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=7PLLkepuKC1MGOkIEYwHupm/AOVjVql69BSWzQ9r4i0=;
-	b=tXwkvXiZcdgCdM8vWAS0ftyObzzlWCm4AloM7VBK3VhgpsFN+R4IKyiZNrt55AgBz9
-	9Qsr5BtggmaJ10fGPX6ZsOvf5x4MJox8iRjKRp2Y/pDp0EKMLdUMe1VoBh1PPMcBP3dW
-	RgUV0bbYdrB/UsWSBNIR6GXHPlxKlwzVM3qPqnyTwvig5ygKGE3cTZDhKWiRcDyDTrU/
-	ueyW/FZPExjAKPMawKeh7y35xV+f9inTVmOErmsZhEsaek/EQUL9tm1hbB2VFruOOuTS
-	0zJLq1R7ehPRa8wzqDT3Eb3VcBfsw8BQBaqK+TiWU2bXmg/8rNwGb2BVaitwwsavSEMB
-	k3Bg==
-X-Gm-Message-State: APjAAAWkSuy61Tbhd6zhHRrP4WyaDDddF2Pua8S5kLj9mEmYXwINXyL2
-	H66W66WlIHBm/VA6A0gban6kSRLCrOg=
-X-Google-Smtp-Source: APXvYqxy3988YpuPE2+DVDXFsZ2oDRNAxdzsxlgaw4T+bSaOz0KFLa87wo5YUqG/AOoozOUbM5T2nw==
-X-Received: by 2002:a5d:61c4:: with SMTP id q4mr6924396wrv.295.1557485982587; 
-	Fri, 10 May 2019 03:59:42 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35])
-	by smtp.gmail.com with ESMTPSA id y6sm5035497wrw.60.2019.05.10.03.59.41
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=D0BnixtiQqr/G8MDyNPBC1iF2xAlGpf9U7/LaCcSPMc=;
+	b=Nn936gtnVy0BCgekKr/DMYIrakwkzcmgvdtImAdNY/mKKI6rAVeJp/QqXU9DCUySbt
+	/7XN7f0aXVzK+IDb8PGLnI2b1412f6RRoCqrqwL59TBNiwL8j1UFe6N33snNXq1A1l63
+	iS2A8In75SC8u2DlPKr/xi2JBF+sPkF6H6sQLDd18Hx1VyF/TsFk6rCgCRU0vaeTXcTv
+	xRvf2L0oVGyHFXPNtzw85lzpPZrwR29qcdVgFTtd6vYQ9ud5LagTrXPHS8ogZxx8dyts
+	T1qiJtqUdUnrXPkclceYwyx+GDMUWAg1euvi3R5vF8HQ4Pr3IZBRnmhx+WbkXqCC/Y4F
+	SWrQ==
+X-Gm-Message-State: APjAAAXceYiFErBVsrxBMbbS3eV1lGqYueXnptlmYyepalO8jtNtLq6V
+	Shmp10M16Bqt7gSYlsWpHn0qlH/h1xg=
+X-Google-Smtp-Source: APXvYqwx9lrDQiKGaDKH24IlHa5KZ1VXaprORA99u3kei7piLKiLcwhP0YfjVr9eXnUNp2sM6sE4Zw==
+X-Received: by 2002:adf:ef48:: with SMTP id c8mr1566249wrp.298.1557490193780; 
+	Fri, 10 May 2019 05:09:53 -0700 (PDT)
+Received: from localhost ([88.98.246.218])
+	by smtp.gmail.com with ESMTPSA id n4sm9656479wmb.22.2019.05.10.05.09.52
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 03:59:41 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 10 May 2019 05:09:52 -0700 (PDT)
+From: luca.boccassi@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 May 2019 11:59:39 +0100
-Message-Id: <20190510105939.25524-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] glib-2.0: add missing locales for the tests
+Date: Fri, 10 May 2019 13:09:32 +0100
+Message-Id: <20190510120932.29765-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190509214007.13927-1-luca.boccassi@gmail.com>
+References: <20190509214007.13927-1-luca.boccassi@gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH v2] systemd: enable portabled by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,43 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 10:59:42 -0000
+X-List-Received-Date: Fri, 10 May 2019 12:09:53 -0000
+Content-Transfer-Encoding: 8bit
 
-Some tests are either failing or skipping due to missing locales.
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+portable services have been declared production ready with v241, so enable
+by default and install the files in the main package.
+
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+v2: Just enable by default, and let the files be installed in the main package
+    as requested by reviewers.
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 69bcd0dd1d0..9ffc4560a9e 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -148,6 +148,14 @@ RDEPENDS_${PN}-ptest += "\
-             tzdata-europe \
-             tzdata-posix \
-             shared-mime-info \
-+            ${PN}-locale-ja \
-+            ${PN}-locale-fr \
-+            ${PN}-locale-el \
-+            ${PN}-locale-hr \
-+            ${PN}-locale-lt \
-+            ${PN}-locale-pl \
-+            ${PN}-locale-ru \
-+            ${PN}-locale-th \
-            "
- 
- RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-@@ -173,5 +181,7 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
-             locale-base-fr-fr \
-             locale-base-es-es \
-             locale-base-en-gb \
-+            locale-base-en-us \
-             locale-base-pl-pl \
-+            locale-base-pl-pl.iso-8859-2 \
-            "
+ meta/recipes-core/systemd/systemd_242.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 73e03c7a77..f15d125bf8 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -81,6 +81,7 @@ PACKAGECONFIG ??= " \
+     nss \
+     nss-mymachines \
+     nss-resolve \
++    portabled \
+     quotacheck \
+     randomseed \
+     resolved \
 -- 
-2.11.0
+2.20.1
 
 
