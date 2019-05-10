@@ -1,36 +1,49 @@
-Return-Path: <martin@geanix.com>
-X-Greylist: delayed 545 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 10 May 2019 05:32:32 UTC
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 965077D584
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C7677D9CD
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 05:32:32 +0000 (UTC)
-Received: from [10.0.0.10] (unknown [85.184.147.232])
-	by first.geanix.com (Postfix) with ESMTPSA id ECB07903;
-	Fri, 10 May 2019 05:22:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1557465755; bh=9jQoTSSxNFfC1XDd9ky2vwU6HMJusyf9PRoJk/BInsY=;
-	h=Subject:To:References:From:Date:In-Reply-To;
-	b=ZMDDf3msuxo6TznEPFlfd2vPoH/AE/zvWKxjoIxPTEjYZuijqNFKE2Sf6mrMNnbsQ
-	Iwk/H01zCOu63Eb1roAH2AxqFTb7FOv2sKO/6NhR6JURkY6LjwuD/DyxlvS3Peb/Fh
-	AFbD1BkUxE3HA7JBIw5wYhxVa9sUz7W7EWZROp7ZU1PzPy8wqb79eOgp9Eh3IAuKJ3
-	P/pQQz4hq8m+tyidKkK0HebrENqpss5fUB3tijo6ZLv20zMi+uYO4mt/ZqayrFnh4m
-	GXJqdOraZ6B/kHh/7MC+5X0VaHYzOPTlO7KbTMEaeQuI+86K8ixJX7luGsKP6G4MDM
-	jVs1bPojPDAVQ==
-To: luca.boccassi@gmail.com, openembedded-core@lists.openembedded.org
-References: <20190509214007.13927-1-luca.boccassi@gmail.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
-Message-ID: <f2b0a420-ed6c-91e2-dd88-399169363349@geanix.com>
-Date: Fri, 10 May 2019 07:23:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Fri, 10 May 2019 06:16:36 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id h126so3279575lfh.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 09 May 2019 23:16:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=207q0e/h+TICr2HOSlPrtkpcPj6kBk/zCjsDM+vHHCg=;
+	b=bWDncByWCcyjLUvSk1QyhxLuwntzkYZIbBMUHXm+R6AHsQjt+nj0VVfLJedvr03B/f
+	o6hQ8hruzJQHa9CKvAIYekWR5d5BpK4EMyns/F3hL+HsyKoBQ+ulJzg3uYBCWPtOpcqZ
+	Z/17Ct2+CxAlF2+zSMPK2DpBkemPYpip1UOjrOY74LSxeMCwugq3+9aPwCuSMVABe0jW
+	r9GVgTI0SsF0TkbdqqFbo9BOEmcjpA5Nfo94V3/Yj4OQq3dVqHMxatn4gDiZdi7cZ4f7
+	nRLHwTvWEfwQLreyc6HgxqC+6xL4XaY21k3GdJYDYWtT8xwc2n5qz4/xb20I0gF1Ohj0
+	Zlmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=207q0e/h+TICr2HOSlPrtkpcPj6kBk/zCjsDM+vHHCg=;
+	b=IF5b3nxe3ZavLB7j0FZwhnxEnBD9oCrkHPBdtbiA37/mHUkEN5CrrfkUC2iaMqvsOX
+	g8Xw21HeiiGuxxkDTbUbzzctilfA5v6Ysi2RoWfOu6uT4SJJQKJHNQDI9zv967R/jyzK
+	HskWWuUnxJdaQzo+a1NvN7uVqHFRvtb75Oo+vkYwIkB/LCkuoKwa51zU6LRD/hFIVdB9
+	3c6MCDWa2QauIdQCW+6cP2n3Nh3hXvmgx8epPudmVUVamoqFmYvbJjECJ1+0i06+Ntzc
+	tI2KER4k+z49cGNSHY5odsnLQeg7a4dED5S2yJRSgEfsDXNYkcZg61tarembdOSKaf9U
+	719w==
+X-Gm-Message-State: APjAAAUyLOo4URXf1MPcbH3fQoIKrHjkrFXZVgV8l8JctpINPEzACZ3a
+	q95eiwgD7hutkG6XQSz6aJuCQ0GFxPHueP0O/24=
+X-Google-Smtp-Source: APXvYqwdUpRkoxB+/5u+n05bQuXQEKVRuFEvhOcOD+oZeBWLkDKEXt/q8VaT0DGHoUVUby/b81D+qk9x/n7a8OHJzPQ=
+X-Received: by 2002:ac2:523a:: with SMTP id i26mr4768863lfl.118.1557468997560; 
+	Thu, 09 May 2019 23:16:37 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190509214007.13927-1-luca.boccassi@gmail.com>
-X-Spam-Status: No, score=-3.1 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,URIBL_BLOCKED
-	autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 9cf0eadf640b
-Subject: Re: [PATCH] systemd: enable portabled by default and install utilities in systemd-container
+References: <20190502210944.62696-1-alex.kiernan@gmail.com>
+	<20190502210944.62696-3-alex.kiernan@gmail.com>
+	<CAKmqyKMDa1gW4ib+3TdJ5v6-58bNjQWmo6GV_6LxkcxpitZNaA@mail.gmail.com>
+	<CAO5Uq5TdwdWLiymaOQ91Y3uugg5vzR1EPWGtiRrRE49ktihgUg@mail.gmail.com>
+In-Reply-To: <CAO5Uq5TdwdWLiymaOQ91Y3uugg5vzR1EPWGtiRrRE49ktihgUg@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 May 2019 23:16:10 -0700
+Message-ID: <CAKmqyKM3MPvJu5PGLZbeV2yyGUQr1C4UfHrt38HGK_BUykE4CA@mail.gmail.com>
+To: Alex Kiernan <alex.kiernan@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v6 2/6] systemd: do not create machine-id
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,93 +56,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 05:32:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US-large
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 10 May 2019 06:16:37 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Luca,
+On Wed, May 8, 2019 at 1:44 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+>
+> On Wed, May 8, 2019 at 9:19 PM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Thu, May 2, 2019 at 2:10 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
+> > >
+> > > From: Jonas Bonn <jonas@norrbonn.se>
+> > >
+> > > There is no reason to have an emtpy machine-id as part of the systemd
+> > > package.  Either:
+> > >
+> > > i)  the filesystem is writable and the file will be created
+> > > automatically; or
+> > > ii) the filesystem is read-only, in which case the empty machine-id file
+> > > should be created as part of the read-only-rootfs tweaks.
+> > >
+> > > Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
+> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+> >
+> > This patch now results in no "/etc/machine-id" being created which
+> > breaks systemd-networkd WiFi connections.
+> >
+> > I now always see this error when trying to connect to WiFi with
+> > wpa_supplicant: "DHCP4 CLIENT: Failed to set IAID+DUID"
+> >
+>
+> I posted this series earlier that fixes everything I know about
+> (including the lack of /etc/machine-id in the stateful case):
+>
+> https://patchwork.openembedded.org/series/17495/
+>
+> If you can test and I'll have a look if there's anything else that
+> needs addressing?
 
-On 09/05/2019 23.40, luca.boccassi@gmail.com wrote:
-> From: Luca Boccassi <luca.boccassi@microsoft.com>
-> 
-> portable services have been declared production ready with v241, so enable
-> by default and install the files in the container package.
+Sorry for the long delay, I didn't get a chance to test it until now.
+It's all fixed on master now with your patches.
 
-The systemd portables feature is not really related to containers/VM's, 
-so I think it should stay in the primary package; or alternatively in a 
-separate package.
+Alistair
 
-// Martin
-
-> Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
-> ---
->   meta/recipes-core/systemd/systemd_242.bb | 10 ++++++++++
->   1 file changed, 10 insertions(+)
-> 
-> diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
-> index 73e03c7a77..83b00ba785 100644
-> --- a/meta/recipes-core/systemd/systemd_242.bb
-> +++ b/meta/recipes-core/systemd/systemd_242.bb
-> @@ -81,6 +81,7 @@ PACKAGECONFIG ??= " \
->       nss \
->       nss-mymachines \
->       nss-resolve \
-> +    portabled \
->       quotacheck \
->       randomseed \
->       resolved \
-> @@ -403,8 +404,10 @@ SYSTEMD_SERVICE_${PN}-remote = "systemd-journal-remote.socket"
->   
->   FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.conf \
->                            ${sysconfdir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-> +                         ${sysconfdir}/dbus-1/system.d/org.freedesktop.portable1.conf \
->                            ${sysconfdir}/systemd/system/multi-user.target.wants/machines.target \
->                            ${base_bindir}/machinectl \
-> +                         ${base_bindir}/portablectl \
->                            ${bindir}/systemd-nspawn \
->                            ${nonarch_libdir}/systemd/import-pubring.gpg \
->                            ${systemd_system_unitdir}/busnames.target.wants/org.freedesktop.import1.busname \
-> @@ -418,21 +421,28 @@ FILES_${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
->                            ${systemd_system_unitdir}/org.freedesktop.machine1.busname \
->                            ${systemd_system_unitdir}/systemd-importd.service \
->                            ${systemd_system_unitdir}/systemd-machined.service \
-> +                         ${systemd_system_unitdir}/systemd-portabled.service \
->                            ${systemd_system_unitdir}/dbus-org.freedesktop.machine1.service \
-> +                         ${systemd_system_unitdir}/dbus-org.freedesktop.portable1.service \
->                            ${systemd_system_unitdir}/var-lib-machines.mount \
->                            ${rootlibexecdir}/systemd/systemd-import \
->                            ${rootlibexecdir}/systemd/systemd-importd \
->                            ${rootlibexecdir}/systemd/systemd-machined \
-> +                         ${rootlibexecdir}/systemd/systemd-portabled \
->                            ${rootlibexecdir}/systemd/systemd-pull \
-> +                         ${exec_prefix}/lib/tmpfiles.d/portables.conf \
->                            ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
->                            ${systemd_system_unitdir}/systemd-nspawn@.service \
->                            ${libdir}/libnss_mymachines.so.2 \
->                            ${datadir}/dbus-1/system-services/org.freedesktop.import1.service \
->                            ${datadir}/dbus-1/system-services/org.freedesktop.machine1.service \
-> +                         ${datadir}/dbus-1/system-services/org.freedesktop.portable1.service \
->                            ${datadir}/dbus-1/system.d/org.freedesktop.import1.conf \
->                            ${datadir}/dbus-1/system.d/org.freedesktop.machine1.conf \
-> +                         ${datadir}/dbus-1/system.d/org.freedesktop.portable1.conf \
->                            ${datadir}/polkit-1/actions/org.freedesktop.import1.policy \
->                            ${datadir}/polkit-1/actions/org.freedesktop.machine1.policy \
-> +                         ${datadir}/polkit-1/actions/org.freedesktop.portable1.policy \
->                           "
->   
->   RRECOMMENDS_${PN}-container += "\
-> 
-
--- 
-Kind regards,
-Martin Hundebøll
-Embedded Linux Consultant
-
-+45 61 65 54 61
-martin@geanix.com
-
-Geanix ApS
-https://geanix.com
-DK39600706
+>
+> --
+> Alex Kiernan
 
