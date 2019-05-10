@@ -1,49 +1,49 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 0C7677D9CD
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 436D66C1C3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 06:16:36 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id h126so3279575lfh.4
+	Fri, 10 May 2019 09:58:30 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w8so4657316wrl.6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 09 May 2019 23:16:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=207q0e/h+TICr2HOSlPrtkpcPj6kBk/zCjsDM+vHHCg=;
-	b=bWDncByWCcyjLUvSk1QyhxLuwntzkYZIbBMUHXm+R6AHsQjt+nj0VVfLJedvr03B/f
-	o6hQ8hruzJQHa9CKvAIYekWR5d5BpK4EMyns/F3hL+HsyKoBQ+ulJzg3uYBCWPtOpcqZ
-	Z/17Ct2+CxAlF2+zSMPK2DpBkemPYpip1UOjrOY74LSxeMCwugq3+9aPwCuSMVABe0jW
-	r9GVgTI0SsF0TkbdqqFbo9BOEmcjpA5Nfo94V3/Yj4OQq3dVqHMxatn4gDiZdi7cZ4f7
-	nRLHwTvWEfwQLreyc6HgxqC+6xL4XaY21k3GdJYDYWtT8xwc2n5qz4/xb20I0gF1Ohj0
-	Zlmg==
+	Fri, 10 May 2019 02:58:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=V+yxmTUlh7j5j1yVUhUJsvmJ1qWgI+zq3SdtRFEtLdc=;
+	b=nxd84W6ieloSfBrtLDONr6ajL0jv33Lp29n/Idr2um1x8X1968uSJY5dL+l1qRgU0H
+	jl8XlgMnxu36pZ0rdgDR7p+yF/5vn9dGei6p9rZyesU9T9wSkXeu/jepgeW2OLq4SfON
+	/jZ3Q/T6QR8yMS7YTtzvxL3ocb/xzmlyOR8/UEjwN/bUAB7+DhcmBR5ZpR1kfIt+bDec
+	1nQ2m/90h506pA4VEZW5M03OnUu82+SrHsiDDEIoctrUSU2BIh2+ljDZICPzajE8p84g
+	IFHCSKFetmyLt4NQNqtTr7d3Rj86LNFaks7b/sUJXeHKgfvK/KcdukSjO7cfvwL7uL+a
+	U0ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=207q0e/h+TICr2HOSlPrtkpcPj6kBk/zCjsDM+vHHCg=;
-	b=IF5b3nxe3ZavLB7j0FZwhnxEnBD9oCrkHPBdtbiA37/mHUkEN5CrrfkUC2iaMqvsOX
-	g8Xw21HeiiGuxxkDTbUbzzctilfA5v6Ysi2RoWfOu6uT4SJJQKJHNQDI9zv967R/jyzK
-	HskWWuUnxJdaQzo+a1NvN7uVqHFRvtb75Oo+vkYwIkB/LCkuoKwa51zU6LRD/hFIVdB9
-	3c6MCDWa2QauIdQCW+6cP2n3Nh3hXvmgx8epPudmVUVamoqFmYvbJjECJ1+0i06+Ntzc
-	tI2KER4k+z49cGNSHY5odsnLQeg7a4dED5S2yJRSgEfsDXNYkcZg61tarembdOSKaf9U
-	719w==
-X-Gm-Message-State: APjAAAUyLOo4URXf1MPcbH3fQoIKrHjkrFXZVgV8l8JctpINPEzACZ3a
-	q95eiwgD7hutkG6XQSz6aJuCQ0GFxPHueP0O/24=
-X-Google-Smtp-Source: APXvYqwdUpRkoxB+/5u+n05bQuXQEKVRuFEvhOcOD+oZeBWLkDKEXt/q8VaT0DGHoUVUby/b81D+qk9x/n7a8OHJzPQ=
-X-Received: by 2002:ac2:523a:: with SMTP id i26mr4768863lfl.118.1557468997560; 
-	Thu, 09 May 2019 23:16:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190502210944.62696-1-alex.kiernan@gmail.com>
-	<20190502210944.62696-3-alex.kiernan@gmail.com>
-	<CAKmqyKMDa1gW4ib+3TdJ5v6-58bNjQWmo6GV_6LxkcxpitZNaA@mail.gmail.com>
-	<CAO5Uq5TdwdWLiymaOQ91Y3uugg5vzR1EPWGtiRrRE49ktihgUg@mail.gmail.com>
-In-Reply-To: <CAO5Uq5TdwdWLiymaOQ91Y3uugg5vzR1EPWGtiRrRE49ktihgUg@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 9 May 2019 23:16:10 -0700
-Message-ID: <CAKmqyKM3MPvJu5PGLZbeV2yyGUQr1C4UfHrt38HGK_BUykE4CA@mail.gmail.com>
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v6 2/6] systemd: do not create machine-id
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=V+yxmTUlh7j5j1yVUhUJsvmJ1qWgI+zq3SdtRFEtLdc=;
+	b=DtuiruFCG6mV4F1ETXGMvdlUPNbtTVLB/6ztdXCiOAq0Yc5g6hDx2TWd6r7DLWGzSi
+	aMAMee5TIWBi1dAXjbvSN71tNMxPNYDtmrmyNPVDkOCSxl1YUFwuveD/ALZ6p38qnGvM
+	TSdeXGF6/ezwdOqunIkGMnQtAzGrr9sucg4WRDzKju2oy2pVcpdR+9npXLhzqTnY0nvD
+	zK7StKzQHCwhdLjFAUaPbzNFZsDE8zC/On7qh6gUnQIQC/plAOgtZqmfSUK/zct5ld9C
+	Tkiapq/lc2uaUIcvMslfkWyRIIPojvRdEw13wPmPOdl9edOihMNP48FNPaHM+4WV31yv
+	sVTQ==
+X-Gm-Message-State: APjAAAX1+eYBuzzw1bRqcu3ZzCeTapcKDMXZPx0gzy5SDg7ImRqs18Yj
+	tTVzB+TfQsA+UcFpKpCWvIaN7LhIINE=
+X-Google-Smtp-Source: APXvYqw9mucYGJKMMCiGRXO53VUH29lprAY8btl4BfBPv8/f2kiqSFyllx6fx+0TQkkaoK4tweBQNQ==
+X-Received: by 2002:adf:b645:: with SMTP id i5mr7203914wre.272.1557482310755; 
+	Fri, 10 May 2019 02:58:30 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	c20sm7037474wre.28.2019.05.10.02.58.29
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 02:58:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 10 May 2019 10:58:27 +0100
+Message-Id: <20190510095827.18896-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] glib-2.0: fix locale handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,49 +56,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 06:16:37 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 10 May 2019 09:58:30 -0000
 
-On Wed, May 8, 2019 at 1:44 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
->
-> On Wed, May 8, 2019 at 9:19 PM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Thu, May 2, 2019 at 2:10 PM Alex Kiernan <alex.kiernan@gmail.com> wrote:
-> > >
-> > > From: Jonas Bonn <jonas@norrbonn.se>
-> > >
-> > > There is no reason to have an emtpy machine-id as part of the systemd
-> > > package.  Either:
-> > >
-> > > i)  the filesystem is writable and the file will be created
-> > > automatically; or
-> > > ii) the filesystem is read-only, in which case the empty machine-id file
-> > > should be created as part of the read-only-rootfs tweaks.
-> > >
-> > > Signed-off-by: Jonas Bonn <jonas@norrbonn.se>
-> > > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> >
-> > This patch now results in no "/etc/machine-id" being created which
-> > breaks systemd-networkd WiFi connections.
-> >
-> > I now always see this error when trying to connect to WiFi with
-> > wpa_supplicant: "DHCP4 CLIENT: Failed to set IAID+DUID"
-> >
->
-> I posted this series earlier that fixes everything I know about
-> (including the lack of /etc/machine-id in the stateful case):
->
-> https://patchwork.openembedded.org/series/17495/
->
-> If you can test and I'll have a look if there's anything else that
-> needs addressing?
+A bug upstream resulted in broken locale handling with the new glibc we have, so
+the test suite was failing.
 
-Sorry for the long delay, I didn't get a chance to test it until now.
-It's all fixed on master now with your patches.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../glib-2.0/glib-2.0/fix-nl-abaltmon.patch        | 62 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb      |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/fix-nl-abaltmon.patch
 
-Alistair
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/fix-nl-abaltmon.patch b/meta/recipes-core/glib-2.0/glib-2.0/fix-nl-abaltmon.patch
+new file mode 100644
+index 00000000000..5c1488bc41d
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/fix-nl-abaltmon.patch
+@@ -0,0 +1,62 @@
++Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib/merge_requests/828]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 93d8482384ebc5c7d1f3d92b0190db0371269663 Mon Sep 17 00:00:00 2001
++From: Rafal Luzynski <digitalfreak@lingonborough.com>
++Date: Fri, 10 May 2019 00:40:27 +0200
++Subject: [PATCH] build: Fix a typo in the test whether _NL_ABALTMON_n is
++ supported
++
++The correct spelling is "_NL_ABALTMON_n" rather than "_NL_ALTMON_n".
++The typo made Meson build think that _NL_ABALTMON_n constants are
++not supported which was totally wrong. This made g_date_time_format()
++output incorrect abbreviated month names in some languages.
++The old configure.ac script was correct here.
++
++Bug introduced in commit be4f96b6502c01d2a51d60b7a669c8ef82e22a4d.
++
++Closes: #1759
++---
++ meson.build | 26 +++++++++++++-------------
++ 1 file changed, 13 insertions(+), 13 deletions(-)
++
++diff --git a/meson.build b/meson.build
++index c5d2ce5f8..08fa40ac5 100644
++--- a/meson.build
+++++ b/meson.build
++@@ -1002,20 +1002,20 @@ if cc.links('''#ifndef _GNU_SOURCE
++               #include <langinfo.h>
++                int main (int argc, char ** argv) {
++                  char *str;
++-                 str = nl_langinfo (_NL_ALTMON_1);
++-                 str = nl_langinfo (_NL_ALTMON_2);
++-                 str = nl_langinfo (_NL_ALTMON_3);
++-                 str = nl_langinfo (_NL_ALTMON_4);
++-                 str = nl_langinfo (_NL_ALTMON_5);
++-                 str = nl_langinfo (_NL_ALTMON_6);
++-                 str = nl_langinfo (_NL_ALTMON_7);
++-                 str = nl_langinfo (_NL_ALTMON_8);
++-                 str = nl_langinfo (_NL_ALTMON_9);
++-                 str = nl_langinfo (_NL_ALTMON_10);
++-                 str = nl_langinfo (_NL_ALTMON_11);
++-                 str = nl_langinfo (_NL_ALTMON_12);
+++                 str = nl_langinfo (_NL_ABALTMON_1);
+++                 str = nl_langinfo (_NL_ABALTMON_2);
+++                 str = nl_langinfo (_NL_ABALTMON_3);
+++                 str = nl_langinfo (_NL_ABALTMON_4);
+++                 str = nl_langinfo (_NL_ABALTMON_5);
+++                 str = nl_langinfo (_NL_ABALTMON_6);
+++                 str = nl_langinfo (_NL_ABALTMON_7);
+++                 str = nl_langinfo (_NL_ABALTMON_8);
+++                 str = nl_langinfo (_NL_ABALTMON_9);
+++                 str = nl_langinfo (_NL_ABALTMON_10);
+++                 str = nl_langinfo (_NL_ABALTMON_11);
+++                 str = nl_langinfo (_NL_ABALTMON_12);
++                  return 0;
++-               }''', name : 'nl_langinfo (_NL_ALTMON_n)')
+++               }''', name : 'nl_langinfo (_NL_ABALTMON_n)')
++   glib_conf.set('HAVE_LANGINFO_ABALTMON', 1)
++ endif
++ 
++-- 
++2.18.1
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+index 733a2d46d98..d749be34ee8 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.3.bb
+@@ -17,6 +17,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+            file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
++           file://fix-nl-abaltmon.patch \
+            file://glib-meson.cross \
+            "
+ 
+-- 
+2.11.0
 
->
-> --
-> Alex Kiernan
 
