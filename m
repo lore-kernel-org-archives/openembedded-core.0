@@ -1,49 +1,52 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C9966004D
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E18B16004D
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 10 May 2019 20:50:10 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id t22so3543452pgi.10
+Received: by mail-pl1-f194.google.com with SMTP id p15so3349677pll.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 13:50:11 -0700 (PDT)
+	Fri, 10 May 2019 13:50:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zl5143rxrym+K3rVfcxwCvkgIQ1d9IxqPQgArV5zBKk=;
-	b=c3uKBLl378AOGFmboay3i+ODcS0HpNXGzGLVu2wYwFUn8ArvrnCftPgpTMTS9vY542
-	Yr2g0LN8RHhv/RDzq0K8AB2Ss53Q4p3Y8gTJ89IckL351JBqjnmJ/HTNIWIToIQtUS4j
-	yRTH8vDy0E0163YZN4si7L0Hva9rUsIJsj6j5YYccEhzuaArOCXEhGZcwclXD7ud2lB+
-	wCy6YPwcyr7wYRizBNfp9wASU3x26c2KpPLoS3DCPANicbVsN0PV5apbEpQFMx/Qef2+
-	f2t4cRSbPCXYuK7umSMO5zma5tjmhEy7kh3p6QNXxSdlGuRfQEPc19RtXZg4mymbw9wf
-	pwUA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=ppsxKO8xblriy2JBFqE5R90yyrME2ecLnMDuOUDpa98=;
+	b=LDOnxMNXil5BoujrONoNK9B5XMtu+JFabrKQdES5Ud1s4vsPcIYHMapEFPn+Llqw7o
+	eBxemmVEJHRN15mtmAvJ0EJPpnfGH4YGPo24DzcZ+TfaYze5cFjyOX5vDMDi4TqZr+wf
+	bb/hZLGvXRfwGO0V2r+i6wkSXOwkAY6J9yph8G1bkogl+J1QAkTdDhKlQGaNz0BPG8J4
+	EuRtPZhZFEchmXzPHGu7OilCr+4A95ana3DZIR74Osd1jfmfQGpgqyb64KdAlPxJuzwq
+	57dnSXKqkB512TP1ZYP7QGYAfUq3WPQtxMjRpkisvvffLsJ6DeMo1MHoiEyVtx6cSNTf
+	o6Fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=zl5143rxrym+K3rVfcxwCvkgIQ1d9IxqPQgArV5zBKk=;
-	b=X3sH8Sg5aBDz6RtGKartSeicChSy9IWuPDz+7QfM53UUU7T5syuBf2VEpZmsack0qc
-	8nRzEpGoGi7gr+6KdFPdZxTm2SAw/NN+lO5yoQSTbRUJLRJ9uCzgD/GYena3gY06Jpv/
-	Mk9YPo/lK30f2odcNGHdeEfqkOIsoIsocVH3l0Wt4lmr+Eo6VD+N5/wxq4BGIbLevg8T
-	N5xHK0iPrkZMbPsdvr3zyl1s22z0AtyFwGBqfIo8YAI79ro8kl9vFzADNEAjKmwDcX0i
-	Y3zDlDbFsdDqdriwJ5JYeldnU0zlkxK7xjt+bI8itTf/j0S6vPy8m0XGIHAgBMCC+zvt
-	ur2Q==
-X-Gm-Message-State: APjAAAV7OunZYhmNsXTm+FnqA6SjJhxhogRDX2tkUoFqeZylBnm0cAQ2
-	q9N6TBazK6i20NEENMZmADull7uTfmg=
-X-Google-Smtp-Source: APXvYqwtfAPH5mAj+OpnYUhfMNnynEmc21048hj7kRkdCLP/rIhvKWwFcVkGX6O4VLM+SVkg2JqHGg==
-X-Received: by 2002:a63:e417:: with SMTP id a23mr15806676pgi.224.1557521410806;
-	Fri, 10 May 2019 13:50:10 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=ppsxKO8xblriy2JBFqE5R90yyrME2ecLnMDuOUDpa98=;
+	b=iOrHy7ulLTNulnqp8gCRYa8MgubMtBJtZLCn7sVAMm/f5mMTYV377Mt0LqxSm2pkOf
+	+5k2jec8zJiakbtaVxVpgEii1FLxE2/2jil5f5yJO7CEAwQDqutsDqUIcBHEpxKghlrI
+	rpFhLtJF6FOIvl3kSdWU4q7g/OB0lmjR/U5VVf08j7fD6RZllqe31qM6xMc3gsmGIdcr
+	xVGkYtBjFGDZ9TDrVczsi7ZeFOaypllfkVSrYhkBWLEhuu7lzxExQLdees5VXv59+K4G
+	pAWduDvWq6Dq4ENeoTAFLfsJcxqgAJVFVl9FdukHdRw48+sqk1oizaQLDM2Xfcw1w3tW
+	qHCw==
+X-Gm-Message-State: APjAAAX4KqX05yGL9tuplVyxEcDpo++81lmSZqtOF1nf7rzVlgN77rNO
+	RRyL7CM5L0NDi1yYFqnzgqFM2lkgclM=
+X-Google-Smtp-Source: APXvYqxJ5k6jwC0swneeQ6ERKvkNNaZc9Mr/Etri9aQyrQSiMfK2GCisDUVs94tVzy5cVlsPcGq4gg==
+X-Received: by 2002:a17:902:2962:: with SMTP id
+	g89mr15649914plb.190.1557521411591; 
+	Fri, 10 May 2019 13:50:11 -0700 (PDT)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::592a])
-	by smtp.gmail.com with ESMTPSA id l1sm7477044pgp.9.2019.05.10.13.50.09
+	by smtp.gmail.com with ESMTPSA id l1sm7477044pgp.9.2019.05.10.13.50.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 13:50:10 -0700 (PDT)
+	Fri, 10 May 2019 13:50:11 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 10 May 2019 13:49:53 -0700
-Message-Id: <20190510204954.33591-1-raj.khem@gmail.com>
+Date: Fri, 10 May 2019 13:49:54 -0700
+Message-Id: <20190510204954.33591-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190510204954.33591-1-raj.khem@gmail.com>
+References: <20190510204954.33591-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] mmc-utils: Fix build with clang
+Subject: [PATCH 2/2] epiphany: Fix build with clang
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,68 +59,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 10 May 2019 20:50:10 -0000
+X-List-Received-Date: Fri, 10 May 2019 20:50:11 -0000
 Content-Transfer-Encoding: 8bit
 
-clang has more warnings to report, lets fix them
+This patch is upstreamable, issue is not caught by gcc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...tra-braces-when-initializing-subobje.patch | 32 +++++++++++++++++++
- meta/recipes-devtools/mmc/mmc-utils_git.bb    |  1 +
- 2 files changed, 33 insertions(+)
- create mode 100644 meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch
+ .../epiphany/epiphany_3.32.1.2.bb             |  1 +
+ ...itialization-of-variable-with-__attr.patch | 54 +++++++++++++++++++
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-gnome/epiphany/files/0001-Do-not-bypass-initialization-of-variable-with-__attr.patch
 
-diff --git a/meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch
+diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
+index ba2e851bb6..fc26a878d6 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_3.32.1.2.bb
+@@ -12,6 +12,7 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
+ 
+ SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
+            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
++           file://0001-Do-not-bypass-initialization-of-variable-with-__attr.patch \
+            "
+ SRC_URI[archive.md5sum] = "93faec353e9f62519859e6164350fd5d"
+ SRC_URI[archive.sha256sum] = "a8284fb9bbc8b7914a154a8eac1598c8b59ae421e0d685146fb48198427926be"
+diff --git a/meta/recipes-gnome/epiphany/files/0001-Do-not-bypass-initialization-of-variable-with-__attr.patch b/meta/recipes-gnome/epiphany/files/0001-Do-not-bypass-initialization-of-variable-with-__attr.patch
 new file mode 100644
-index 0000000000..12707357b2
+index 0000000000..35821e3c06
 --- /dev/null
-+++ b/meta/recipes-devtools/mmc/mmc-utils/0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch
-@@ -0,0 +1,32 @@
-+From 04fbe6ddb5f1e02efbcae3cdf5beb16757a98948 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-gnome/epiphany/files/0001-Do-not-bypass-initialization-of-variable-with-__attr.patch
+@@ -0,0 +1,54 @@
++From 1c35833385f5a193513888ba40791ceaa64d575b Mon Sep 17 00:00:00 2001
 +From: Khem Raj <raj.khem@gmail.com>
-+Date: Fri, 10 May 2019 12:58:01 -0700
-+Subject: [PATCH] mmc_cmd.c: Use extra braces when initializing subobjects
++Date: Fri, 10 May 2019 13:41:52 -0700
++Subject: [PATCH] Do not bypass initialization of variable with
++ __attribute__((cleanup))
 +
-+clang warns with -Werror,-Wmissing-braces, as following error
-+| mmc_cmds.c:1886:36: error: suggest braces around initialization of subobject [-Werror,-W
-+missing-braces]
-+|         struct rpmb_frame frame_status = {0};
-+|                                           ^
-+|                                           {}
++This is reported with clang e.g.
++../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:391:5: error: cannot jump from this goto statement to its label
++    goto out;
++    ^
++../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:398:20: note: jump bypasses initialization of variable with __attribute__((cleanup))
++  g_autofree char *app_file = g_build_filename (profile_dir, ".app", NULL);
++                   ^
++../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:385:5: error: cannot jump from this goto statement to its label
++    goto out;
++    ^
++../../../../../../../workspace/sources/epiphany/lib/ephy-web-app-utils.c:398:20: note: jump bypasses initialization of variable with __attribute__((cleanup))                                                                                                                     g_autofree char *app_file = g_build_filename (profile_dir, ".app", NULL);
++                   ^
++
++Ensure that the initialization is deterministic for goto to work
++reliably
 +
 +Upstream-Status: Pending
 +
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ mmc_cmds.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ lib/ephy-web-app-utils.c | 7 ++++---
++ 1 file changed, 4 insertions(+), 3 deletions(-)
 +
-+diff --git a/mmc_cmds.c b/mmc_cmds.c
-+index 19a9da1..838e8c3 100644
-+--- a/mmc_cmds.c
-++++ b/mmc_cmds.c
-+@@ -1883,7 +1883,7 @@ static int do_rpmb_op(int fd,
-+ 	u_int16_t rpmb_type;
-+ 	struct mmc_ioc_multi_cmd *mioc;
-+ 	struct mmc_ioc_cmd *ioc;
-+-	struct rpmb_frame frame_status = {0};
-++	struct rpmb_frame frame_status = {{0}};
++diff --git a/lib/ephy-web-app-utils.c b/lib/ephy-web-app-utils.c
++index 97f3f24..fb1f732 100644
++--- a/lib/ephy-web-app-utils.c
+++++ b/lib/ephy-web-app-utils.c
++@@ -376,7 +376,8 @@ ephy_web_application_create (const char *id,
++ {
++   char *profile_dir;
++   char *desktop_file_path = NULL;
++-
+++  g_autofree char *app_file = NULL;
+++  int fd;
++   /* If there's already a WebApp profile for the contents of this
++    * view, do nothing. */
++   profile_dir = ephy_web_application_get_profile_directory (id);
++@@ -395,8 +396,8 @@ ephy_web_application_create (const char *id,
++   ephy_profile_utils_set_migration_version_for_profile_dir (EPHY_PROFILE_MIGRATION_VERSION, profile_dir);
 + 
-+ 	if (!frame_in || !frame_out || !out_cnt)
-+ 		return -EINVAL;
-diff --git a/meta/recipes-devtools/mmc/mmc-utils_git.bb b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-index f3a7234670..0c401c86fa 100644
---- a/meta/recipes-devtools/mmc/mmc-utils_git.bb
-+++ b/meta/recipes-devtools/mmc/mmc-utils_git.bb
-@@ -9,6 +9,7 @@ SRCREV = "aef913e31b659462fe6b9320d241676cba97f67b"
- PV = "0.1+git${SRCPV}"
- 
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/cjb/mmc-utils.git;branch=${SRCBRANCH} \
-+           file://0001-mmc_cmd.c-Use-extra-braces-when-initializing-subobje.patch \
-            "
- UPSTREAM_CHECK_COMMITS = "1"
- 
++   /* Create an .app file. */
++-  g_autofree char *app_file = g_build_filename (profile_dir, ".app", NULL);
++-  int fd = g_open (app_file, O_WRONLY|O_CREAT|O_TRUNC, 0644);
+++  app_file = g_build_filename (profile_dir, ".app", NULL);
+++  fd = g_open (app_file, O_WRONLY|O_CREAT|O_TRUNC, 0644);
++   if (fd < 0) {
++     LOG ("Failed to create .app file: %s", g_strerror (errno));
++     goto out;
 -- 
 2.21.0
 
