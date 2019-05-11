@@ -1,51 +1,57 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 787BD7DE0E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 15A927C345
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 01:18:02 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 198so9090054wme.3
+	Sat, 11 May 2019 01:27:34 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id h1so3814209pgs.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 18:18:03 -0700 (PDT)
+	Fri, 10 May 2019 18:27:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=kfRvLpHn7aEf6dvdAQKWMRrx7Agfkdz5KQroZiXeFYk=;
-	b=d6wYs8RURc3H0B8jYZaDDNSFk2Ktzx6fzSxxs6hlfrGGNgQsd+/6P2035lcrjjZIQu
-	pC+ix7JcVb7Gnpz3Y4TjQrXQsREeySaxZ+blrI2rROWiPF3AjCV1pfT9Rq0iQFwQaEWD
-	jokc7/BCVv0Vr97PxnMbR5DIXy5pxeP0TwDy9svx6SDB23gCwBH0oHSb8RI/wQjHUr8B
-	wTyx47zNqCxF5VGLto/VGs7+q0JeAWq8A1XWq22DojL3GYhHQOsKDEEZ5R/8QsJl7KAL
-	uVr0ujplOLumN2oVaw7fyrnHC/cNawFtp4Y8A0uA1RExDUMD/BCIXDxeugk4Vs/0oRDq
-	rqoA==
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=XQduhJsBEr9m05JPXoGXDCjRbiMfipKS06v0P+az/Jo=;
+	b=iLTa8RqcS/wbRrPpPioKNnme1TSRKpH2QdsmZSHW8sxJjNxRTY5IYxkf0eRoihilFw
+	msRRBMWgbNTFfhnfEfNIwhWF06XpF2LMf1QZN4UjxVFfYmV13FI2UiumFNV+4v2pb5Hp
+	o/Ad8dp28dxGXKDHXqaTrvpjiGrAQetm+mCrPpC+7ltuqHYo4Zz4E14r3tIUNycBLmJP
+	1GB7CWRswElXSIcYCvuCTL8AIlpghKYbXYJO28l5PjURQHy7Teuf1C61F6zOBCj78Egj
+	vc70zEWe0ZPxfKYKbjJ4nWqFW2lYjC/pNJnjePljlEa3kwP3P6q5NDVCO73FKZShHuYO
+	zkWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=kfRvLpHn7aEf6dvdAQKWMRrx7Agfkdz5KQroZiXeFYk=;
-	b=Sd0lDPxUXYik5ivXoUhDevKDyRMefLpJ9ldUUNUQ6EQqRaqZTFjlV8hngy0TUc+KuN
-	6AN7O+C2DvcSgx3qHflIFH4yCq2iWcdNIb9bK5pbMxOO8GHSXb1qluctqlRLgSZxSdSA
-	3vuJSRCTDCaRu0EduyHmWPwlWBZYDlCISWDbzhk+iir+hEAd94TNFNTKASR4ob3aJEyu
-	1dpwwM1KTWxwkxMR5Rq0vxVO9rgzgRdbDcYSxAuXwe92feLDHbt8V/PLJxYocS97jAXk
-	RD9TRAjhp8GpQyhFHgxMEStOms0iIRdH+ueRvifJDjxs9adVOun6yF/caNxpqPhyXEO7
-	6JSg==
-X-Gm-Message-State: APjAAAU//ixQtyccwmXqCcwGx9UZPbqLLzDtaSnlIGhFI3wFo6LLyGEZ
-	dYW85ZURnltNi78icSGO9aCYJ2lFyAHDzJrha9d664yC
-X-Google-Smtp-Source: APXvYqx6VxpbfQZ9EyuPARHGXdDaTeI96YZLE4z2k+DpmO2tjZhFAdkkewboXH5jLfqpS769A1N6QG/Is6SBxJZbbPY=
-X-Received: by 2002:a1c:be16:: with SMTP id o22mr8474098wmf.1.1557537482935;
-	Fri, 10 May 2019 18:18:02 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=XQduhJsBEr9m05JPXoGXDCjRbiMfipKS06v0P+az/Jo=;
+	b=totQ5XhGoih7BO7ptgFu16aH2DFS/pm9l+5wq2pmDKr1n1YKTNSwIaQckX+59ruJbi
+	y8Bsn90J3jVkxAIQaeEF2MynScTIO/WG68UHlfskEhIc+uc1uG3PrAMWRDRR5L2ZSEVm
+	hb7MBSz2mEwrZ4M5kmgfd+ZJ0MFZq6JglL7xoUmhqSlEfxtv4QWN7T5JPIf5ldMoWzO8
+	k4fwC/6+Ge67DhC46by6Df7jA3EFMfcvaikxtN5WCHeJuBubapipsMvDGM/A0optfamf
+	zWKIbwPuUecCIa3GIM412oH3/StCr4DXbu7RgNRJG888KCpGgfGC+NLj/g1xsxD9Svrq
+	IM1Q==
+X-Gm-Message-State: APjAAAUCN6Yzsj38msBSMItf401xpeQGA6jQ+j+ZE46ALVqmrSb7cC9T
+	ixdh2lbwaMXv3OMSPMy9oE40kIWcuAM=
+X-Google-Smtp-Source: APXvYqwsqBSz9PQr0JRgLtR9WGsdKZOcAuafBF1Uz2faiP9Pez52K4cOdu0RmxM95ERy3cOtWn9pUw==
+X-Received: by 2002:a62:6fc6:: with SMTP id
+	k189mr18083649pfc.154.1557538055475; 
+	Fri, 10 May 2019 18:27:35 -0700 (PDT)
+Received: from hermes.local ([2601:646:8500:6bc6:6095:8839:3497:2f69])
+	by smtp.gmail.com with ESMTPSA id c5sm7172038pgh.86.2019.05.10.18.27.34
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 18:27:34 -0700 (PDT)
+To: mingli.yu@windriver.com, richard.purdie@linuxfoundation.org,
+	openembedded-core@lists.openembedded.org
+References: <5CB80B5D.40800@windriver.com>
+	<1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <cd89447f-ff89-4f84-be9b-4a1c61f5941a@gmail.com>
+Date: Fri, 10 May 2019 18:27:33 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
+	Gecko/20100101 Thunderbird/67.0
 MIME-Version: 1.0
-References: <20190510215500.18914-1-Martin.Jansa@gmail.com>
-	<283277a6-b6d3-a1c8-b0dc-cd4e37232fc5@gmail.com>
-	<5f672760-135c-2ebc-aef1-65af6b1e9d4f@gmail.com>
-	<CAJ86T=V98Sv8re5sTq8w8KHAvHJKi2uSvDs4itO69SgXbi1JGQ@mail.gmail.com>
-	<3b7d605c-ac73-6edf-7b39-598d451a4453@gmail.com>
-	<20190511010421.GA1523@jama>
-In-Reply-To: <20190511010421.GA1523@jama>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 10 May 2019 20:17:50 -0500
-Message-ID: <CAJdd5GYVfHO8Hs21P0Ohun12nEEqcgwBeWdYtsUPdtLGLi6MXQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glib-networking: add PACKAGECONFIG for openssl
+In-Reply-To: <1556095261-171895-1-git-send-email-mingli.yu@windriver.com>
+Subject: Re: [PATCH v4 1/2] nettle: fix the Segmentation fault
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,260 +64,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 May 2019 01:18:03 -0000
-Content-Type: multipart/alternative; boundary="0000000000006513ee058892742f"
-
---0000000000006513ee058892742f
-Content-Type: text/plain; charset="UTF-8"
-
-On Fri, May 10, 2019, 8:04 PM Martin Jansa <martin.jansa@gmail.com> wrote:
-
-> On Fri, May 10, 2019 at 04:54:57PM -0700, Khem Raj wrote:
-> >
-> >
-> > On 5/10/19 4:00 PM, Andre McCurdy wrote:
-> > > On Fri, May 10, 2019 at 3:16 PM Khem Raj <raj.khem@gmail.com> wrote:
-> > >>
-> > >> On 5/10/19 3:13 PM, akuster808 wrote:
-> > >>> should we change the default to openssl ?
-> > >>
-> > >> I dont think so. Since newer versions of gnuTLS works okay.
-> > >
-> > > Isn't one of the goals for OE 2.8 to replace dependencies on [L]GPLv3
-> > > components with non-[L]GPLv3 alternatives so that meta-gplv2 can be
-> > > deprecated? This would seem to fit that goal exactly.
-> >
-> > Is that stated somewhere ? while I like the goal probably I missed the
-> > memo, my suggestion was just to give openssl backend some time to mature
-> > since its relatively new, and maybe give it some soak time
-> >
-> > >
-> > > It wasn't possible to build glib-networking with openssl until very
-> > > recently but now that it's supported upstream I think we should
-> > > switch.
-> > >
-> > >    https://github.com/GNOME/glib-networking/blob/master/NEWS
->
-> I don't have strong opinion either way.
->
-> I didn't want to change the default, because my only motivation was the
-> license issue with the newer gnutls, with the PACKAGECONFIG available
-> it's easy to change the TLS backend and that's all I need.
->
-> Will send v2 if there is some consensus from glib-networking users that
-> it should be changed and someone provides me the reasoning for the
-> commit message.
->
-
-FWIW, moving away from GPLv3 and/or meta-gplv2 has been discussed in the
-2.8 planning meetings:
-https://docs.google.com/document/d/1CNEKA4d0eT6-e0hnS2pwi7xdZ5_t6smpZO2HbaJGXbU/edit?usp=drivesdk
-
-Not that it needs to be done right now. It is nice to at least have the
-option.
+X-List-Received-Date: Sat, 11 May 2019 01:27:35 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
-> Cheers,
->
-> > >
-> > >>> - armin
-> > >>>
-> > >>> On 5/10/19 2:55 PM, Martin Jansa wrote:
-> > >>>> * gnutls from meta-gplv2 isn't new enough for this version of
-> glib-networking:
-> > >>>>     meson.build:74:0: ERROR:  Invalid version of dependency, need
-> 'gnutls' ['>= 3.4.6'] found '3.3.30'
-> > >>>>
-> > >>>> * disabling gnutls PACKAGECONFIG isn't an option either:
-> > >>>>     meson.build:131:2: ERROR:  Problem encountered: No TLS backends
-> enabled. Please enable at least one TLS backend
-> > >>>>
-> > >>>> * add an option to replace gnutls with openssl
-> > >>>>
-> > >>>> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> > >>>> ---
-> > >>>>    meta/recipes-core/glib-networking/glib-networking_2.60.1.bb | 1
-> +
-> > >>>>    1 file changed, 1 insertion(+)
-> > >>>>
-> > >>>> diff --git a/meta/recipes-core/glib-networking/
-> glib-networking_2.60.1.bb b/meta/recipes-core/glib-networking/
-> glib-networking_2.60.1.bb
-> > >>>> index 09af229d69..e2b4cffb2b 100644
-> > >>>> --- a/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
-> > >>>> +++ b/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
-> > >>>> @@ -15,6 +15,7 @@ SRC_URI[archive.sha256sum] =
-> "d71c6b2faa5ac29100314f08a1be020a2afd0291f025614c0a
-> > >>>>    PACKAGECONFIG ??= "gnutls"
-> > >>>>
-> > >>>>    PACKAGECONFIG[gnutls] =
-> "-Dgnutls=enabled,-Dgnutls=disabled,gnutls"
-> > >>>> +PACKAGECONFIG[openssl] =
-> "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
-> > >>>>    PACKAGECONFIG[libproxy] =
-> "-Dlibproxy=enabled,-Dlibproxy=disabled,libproxy"
-> > >>>>
-> > >>>>    EXTRA_OEMESON = "-Dgnome_proxy=disabled"
-> > >>>
-> > >> --
-> > >> _______________________________________________
-> > >> Openembedded-core mailing list
-> > >> Openembedded-core@lists.openembedded.org
-> > >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-> --
-> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
 
---0000000000006513ee058892742f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 4/24/19 1:41 AM, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+> 
+> The commit[8ac8fa8ee1 nettle: update to 3.4.1]
+> add CFLAGS_append = " -std=c99" to silence the
+> below error for native build:
+> | ../nettle-3.4.1/rsa-sign-tr.c: In function 'sec_equal':
+> | ../nettle-3.4.1/rsa-sign-tr.c:243:3: error: 'for' loop initial declarations are only allowed in C99 mode
+>     for (size_t i = 0; i < limbs; i++)
+>     ^
+> | ../nettle-3.4.1/rsa-sign-tr.c:243:3: note: use option -std=c99 or -std=gnu99 to compile your code
+> | Makefile:263: recipe for target 'rsa-sign-tr.o' failed
+> 
+> But the above change will trigger below Segmentation
+> fault:
+>   # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
+>   [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
+>   [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
+>   Segmentation fault
+> 
+> So update the logic to CFLAGS_append = " -std=gnu99"
+> to fix the issue.
+> 
+> Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> ---
+>   meta/recipes-support/nettle/nettle_3.4.1.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
+> index dd49c30..8375fcf 100644
+> --- a/meta/recipes-support/nettle/nettle_3.4.1.bb
+> +++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
+> @@ -30,7 +30,7 @@ inherit autotools ptest multilib_header
+>   EXTRA_AUTORECONF += "--exclude=aclocal"
+>   
+>   EXTRA_OECONF = "--disable-openssl"
+> -CFLAGS_append = " -std=c99"
+> +CFLAGS_append = " -std=gnu99"
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Fri, May 10, 2019, 8:04 PM Martin Jansa &lt;<a href=
-=3D"mailto:martin.jansa@gmail.com">martin.jansa@gmail.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">On Fri, May 10, 2019 at 04:54:57PM -0=
-700, Khem Raj wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; On 5/10/19 4:00 PM, Andre McCurdy wrote:<br>
-&gt; &gt; On Fri, May 10, 2019 at 3:16 PM Khem Raj &lt;<a href=3D"mailto:ra=
-j.khem@gmail.com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail.com</=
-a>&gt; wrote:<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; On 5/10/19 3:13 PM, akuster808 wrote:<br>
-&gt; &gt;&gt;&gt; should we change the default to openssl ?<br>
-&gt; &gt;&gt;<br>
-&gt; &gt;&gt; I dont think so. Since newer versions of gnuTLS works okay.<b=
-r>
-&gt; &gt; <br>
-&gt; &gt; Isn&#39;t one of the goals for OE 2.8 to replace dependencies on =
-[L]GPLv3<br>
-&gt; &gt; components with non-[L]GPLv3 alternatives so that meta-gplv2 can =
-be<br>
-&gt; &gt; deprecated? This would seem to fit that goal exactly.<br>
-&gt; <br>
-&gt; Is that stated somewhere ? while I like the goal probably I missed the=
- <br>
-&gt; memo, my suggestion was just to give openssl backend some time to matu=
-re <br>
-&gt; since its relatively new, and maybe give it some soak time<br>
-&gt; <br>
-&gt; &gt; <br>
-&gt; &gt; It wasn&#39;t possible to build glib-networking with openssl unti=
-l very<br>
-&gt; &gt; recently but now that it&#39;s supported upstream I think we shou=
-ld<br>
-&gt; &gt; switch.<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 =C2=A0 <a href=3D"https://github.com/GNOME/glib-networking/=
-blob/master/NEWS" rel=3D"noreferrer noreferrer" target=3D"_blank">https://g=
-ithub.com/GNOME/glib-networking/blob/master/NEWS</a><br>
-<br>
-I don&#39;t have strong opinion either way.<br>
-<br>
-I didn&#39;t want to change the default, because my only motivation was the=
-<br>
-license issue with the newer gnutls, with the PACKAGECONFIG available<br>
-it&#39;s easy to change the TLS backend and that&#39;s all I need.<br>
-<br>
-Will send v2 if there is some consensus from glib-networking users that<br>
-it should be changed and someone provides me the reasoning for the<br>
-commit message.<br></blockquote></div></div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">FWIW, moving away from GPLv3 and/or meta-gplv2 has been disc=
-ussed in the 2.8 planning meetings:=C2=A0<a href=3D"https://docs.google.com=
-/document/d/1CNEKA4d0eT6-e0hnS2pwi7xdZ5_t6smpZO2HbaJGXbU/edit?usp=3Ddrivesd=
-k">https://docs.google.com/document/d/1CNEKA4d0eT6-e0hnS2pwi7xdZ5_t6smpZO2H=
-baJGXbU/edit?usp=3Ddrivesdk</a></div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Not that it needs to be done right now. It is nice to at least ha=
-ve the option.</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div clas=
-s=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .=
-8ex;border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-&gt; &gt; <br>
-&gt; &gt;&gt;&gt; - armin<br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt; On 5/10/19 2:55 PM, Martin Jansa wrote:<br>
-&gt; &gt;&gt;&gt;&gt; * gnutls from meta-gplv2 isn&#39;t new enough for thi=
-s version of glib-networking:<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0meson.build:74:0: ERROR:=C2=A0 Inv=
-alid version of dependency, need &#39;gnutls&#39; [&#39;&gt;=3D 3.4.6&#39;]=
- found &#39;3.3.30&#39;<br>
-&gt; &gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt; * disabling gnutls PACKAGECONFIG isn&#39;t an option =
-either:<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 =C2=A0meson.build:131:2: ERROR:=C2=A0 Pr=
-oblem encountered: No TLS backends enabled. Please enable at least one TLS =
-backend<br>
-&gt; &gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt; * add an option to replace gnutls with openssl<br>
-&gt; &gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt; Signed-off-by: Martin Jansa &lt;<a href=3D"mailto:Mar=
-tin.Jansa@gmail.com" target=3D"_blank" rel=3D"noreferrer">Martin.Jansa@gmai=
-l.com</a>&gt;<br>
-&gt; &gt;&gt;&gt;&gt; ---<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 meta/recipes-core/glib-networking/<a hre=
-f=3D"http://glib-networking_2.60.1.bb" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">glib-networking_2.60.1.bb</a> | 1 +<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 1 file changed, 1 insertion(+)<br>
-&gt; &gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt; diff --git a/meta/recipes-core/glib-networking/<a hre=
-f=3D"http://glib-networking_2.60.1.bb" rel=3D"noreferrer noreferrer" target=
-=3D"_blank">glib-networking_2.60.1.bb</a> b/meta/recipes-core/glib-networki=
-ng/<a href=3D"http://glib-networking_2.60.1.bb" rel=3D"noreferrer noreferre=
-r" target=3D"_blank">glib-networking_2.60.1.bb</a><br>
-&gt; &gt;&gt;&gt;&gt; index 09af229d69..e2b4cffb2b 100644<br>
-&gt; &gt;&gt;&gt;&gt; --- a/meta/recipes-core/glib-networking/<a href=3D"ht=
-tp://glib-networking_2.60.1.bb" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">glib-networking_2.60.1.bb</a><br>
-&gt; &gt;&gt;&gt;&gt; +++ b/meta/recipes-core/glib-networking/<a href=3D"ht=
-tp://glib-networking_2.60.1.bb" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">glib-networking_2.60.1.bb</a><br>
-&gt; &gt;&gt;&gt;&gt; @@ -15,6 +15,7 @@ SRC_URI[archive.sha256sum] =3D &quo=
-t;d71c6b2faa5ac29100314f08a1be020a2afd0291f025614c0a<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 PACKAGECONFIG ??=3D &quot;gnutls&quot;<b=
-r>
-&gt; &gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 PACKAGECONFIG[gnutls] =3D &quot;-Dgnutls=
-=3Denabled,-Dgnutls=3Ddisabled,gnutls&quot;<br>
-&gt; &gt;&gt;&gt;&gt; +PACKAGECONFIG[openssl] =3D &quot;-Dopenssl=3Denabled=
-,-Dopenssl=3Ddisabled,openssl&quot;<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 PACKAGECONFIG[libproxy] =3D &quot;-Dlibp=
-roxy=3Denabled,-Dlibproxy=3Ddisabled,libproxy&quot;<br>
-&gt; &gt;&gt;&gt;&gt;<br>
-&gt; &gt;&gt;&gt;&gt;=C2=A0 =C2=A0 EXTRA_OEMESON =3D &quot;-Dgnome_proxy=3D=
-disabled&quot;<br>
-&gt; &gt;&gt;&gt;<br>
-&gt; &gt;&gt; --<br>
-&gt; &gt;&gt; _______________________________________________<br>
-&gt; &gt;&gt; Openembedded-core mailing list<br>
-&gt; &gt;&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" t=
-arget=3D"_blank" rel=3D"noreferrer">Openembedded-core@lists.openembedded.or=
-g</a><br>
-&gt; &gt;&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/ope=
-nembedded-core" rel=3D"noreferrer noreferrer" target=3D"_blank">http://list=
-s.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-<br>
--- <br>
-Martin &#39;JaMa&#39; Jansa=C2=A0 =C2=A0 =C2=A0jabber: <a href=3D"mailto:Ma=
-rtin.Jansa@gmail.com" target=3D"_blank" rel=3D"noreferrer">Martin.Jansa@gma=
-il.com</a><br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openembedded=
-.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div></div></div>
+Is this flag needed for native build on distros using really old gcc ?
 
---0000000000006513ee058892742f--
+then I think we should add it to BUILD_CFLAGS and let default standard 
+prevail that gcc/clang selects in target case.
+
+>   
+>   do_compile_ptest() {
+>           oe_runmake buildtest
+> 
+
