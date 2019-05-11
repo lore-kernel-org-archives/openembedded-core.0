@@ -1,66 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 721D37E066
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id D27867DDBC
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 01:42:10 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id c6so4097892pfa.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 10 May 2019 18:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=/0ZsesYnMsDFEWbJoIMmDy+c2/KlTs/VS2DYIpRzdzA=;
-	b=tBkseicWvqRP3rOAdbahJIfcYo82c6O8ltehf/m694W0Ra+cn7VAHUdqGiR9eNCgSf
-	t1ECPK3esw16uvz//nKLDkHpBcBWc1RGiJ69vLb4ORa3kMX/oL47mTTpxNycDdSs4Pj7
-	wQI4T+/JiRYmd3pkL1wtAORZUxQhr2wVGU1PNgdgyt0thDe9G4tMgMne6t2/XEWGPlWF
-	wpvMCIHaZu7U5zhECr7ejYPLHJBx5c1FPuXnJNrgmpedWa1Jr20IhqPP7BSnnCDqQjz0
-	ppSUBwuIpydonp7ZjFU4QRkiNkxUYku+kaFwPF8XN0qvZcf5IgSCWK25wVCibpxR6G0r
-	aR5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=/0ZsesYnMsDFEWbJoIMmDy+c2/KlTs/VS2DYIpRzdzA=;
-	b=OsKGVoyEvGaLw1lK6jYrUzaY58Ddzr9S3Icfw80fKLHRFbRjEQMoYIzTgr+ZUvDzxd
-	zhaJQB4IHKGmpBQsp2aBAVWxFaYBKI7PsXZeXiTwU9NVNY6dZfB+cwOrhW3XGbpPhLw6
-	T+yml1H7/qxPOJGhGZY6uDxFAb79NY4HrZr6cUKZURrV/Pq+JfBy5fFYuQtz9d1X3Ev1
-	XYju465vfXurpoSRZ9AdHyNN/xCbRJu2rVec/Ypbn+zl+r6Wsy0t8+sFvawKUQcfUxko
-	Fu9K9QLotfyNN51k/qWjPuB7TxC3mZbLk0WLr/byAnOK5fS+dEpmGQaN30Aff4tejQYQ
-	l2gg==
-X-Gm-Message-State: APjAAAWzKa3MZfNyFTmI0aJD0wtT4tjiKFi1kt4CaNwetA6akaboCm3s
-	NcV10nqvE1ACLxhYoLiRiTqKIO+TyHk=
-X-Google-Smtp-Source: APXvYqwjOmpHiulD4K4QWDfwbY33L7ib+5kgOoA3dpK9wiPpgGiFYnyJPOo34nZdkyegOquoJ4lc7Q==
-X-Received: by 2002:a63:6a41:: with SMTP id f62mr17329228pgc.392.1557538931081;
-	Fri, 10 May 2019 18:42:11 -0700 (PDT)
-Received: from hermes.local ([2601:646:8500:6bc6:6095:8839:3497:2f69])
-	by smtp.gmail.com with ESMTPSA id
-	o20sm5903043pgj.70.2019.05.10.18.42.10
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 18:42:10 -0700 (PDT)
-To: richard.purdie@linuxfoundation.org,
-	=?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>,
-	Bas Mevissen <abuse@basmevissen.nl>
-References: <20190427113714.30173-1-schnitzeltony@gmail.com>
-	<d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
-	<CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
-	<a45f59b03312a7693bd5d4e4ae04c600@basmevissen.nl>
-	<CALbNGRT_FRQfA0jpP7DHsFOxnt97JW-KEjyGXOkW9V2w+Ujgyw@mail.gmail.com>
-	<CALbNGRR_YxL=+u7Kc5x8OiTXLFhRjqK_jp53xB5Q_9WZS-rZ+Q@mail.gmail.com>
-	<ec77d08feb85f543bbc79372d276092c10336035.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <b53e6c90-2a8d-7ae7-b5f7-e7a80b258da3@gmail.com>
-Date: Fri, 10 May 2019 18:42:09 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
-	Gecko/20100101 Thunderbird/67.0
+	Sat, 11 May 2019 06:58:51 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 451Hx72V49z4x;
+	Sat, 11 May 2019 08:58:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1557557931;
+	bh=PxrejHfMes5cUgKlhc6+GOta4PLSjdckUqrj7EbZNbI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=q3K7Dxvz9b+ceOt7R3a9yQN7qNuXUKdDXq7BTXV7Z1VOeX+zoTmFN1z6hj/yHo/Qj
+	3acze1YhS82jb/LX6NTnOhV6Ooo05WxTj3uiMsHutwjVGRchiBDtR1G1yVl9u3rnni
+	27JaC0slSOzSwEoDoSNHyO1ZxRbkJ0SqrT0ZQTiaqDf5GjMTuI760esxiGzdWsVcUm
+	ZsKwT3XX/Wl1dRrkO2hjEoZuAciLkfvmPDcNKgHcjQhhAvTGaXW+Tp06dtGzrdH8lc
+	lWsTO2UTezHcs1YtOF4tY5tgFr5XKAzYmFozICJJQVlI97waXsz5W8a7olSmCVNTaE
+	95O/DZyWPbwrKrgajjGp68RimsGBGaIb/qzrmstZ12fVYXG4tl4ZpvXkmrwgTrcjpj
+	k8twonEq3JHC+P0616cHtyb7NYqQatzA96bVLPDpCNYFoD4+/0drunqmnmEC97o5Dl
+	DkDV+j57hPsONYGHqN0qxk2yTdox9mfs0HC+5oiPZG9k5XCn+Vt3IvkZqrFPGanLy+
+	fOgDIZPffYV3mlopAM6j65qkquhEuj+7N+HJA07EnGyGmslP9YVfywiXlBVA/FMnMf
+	rddhk167/rJ7hogQnBwDIBQDCikbfQs92Z3JKwlAD4NEZ09y72D+/sZHtCc+iv21gd
+	3BBojNoF90vM6ux2A4jGA6oU=
+Date: Sat, 11 May 2019 09:58:49 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20190511065849.GA24494@localhost>
+References: <20190510215500.18914-1-Martin.Jansa@gmail.com>
+	<283277a6-b6d3-a1c8-b0dc-cd4e37232fc5@gmail.com>
+	<5f672760-135c-2ebc-aef1-65af6b1e9d4f@gmail.com>
+	<CAJ86T=V98Sv8re5sTq8w8KHAvHJKi2uSvDs4itO69SgXbi1JGQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ec77d08feb85f543bbc79372d276092c10336035.camel@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
+In-Reply-To: <CAJ86T=V98Sv8re5sTq8w8KHAvHJKi2uSvDs4itO69SgXbi1JGQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glib-networking: add PACKAGECONFIG for openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -73,85 +46,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 May 2019 01:42:10 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 11 May 2019 06:58:52 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-
-
-On 4/29/19 6:51 AM, richard.purdie@linuxfoundation.org wrote:
-> On Mon, 2019-04-29 at 15:47 +0200, Andreas Müller wrote:
->> On Mon, Apr 29, 2019 at 2:21 PM Andreas Müller <
->> schnitzeltony@gmail.com> wrote:
->>> On Mon, Apr 29, 2019 at 12:56 PM Bas Mevissen <abuse@basmevissen.nl
->>>> wrote:
->>>> On 2019-04-29 11:29, Andreas Müller wrote:
->>>>
->>>> (...)
->>>>
->>>>> Understood - hope to find time till tomorrow for this. Need to
->>>>> find an
->>>>> old machine for test because otherwise further fixes might
->>>>> remain
->>>>> incomplete again.
->>>>>
->>>>
->>>> Why not add the g++ option --std=c++11 when test building this
->>>> recipe?
->>>>
->>>> $cat test.cc
->>>>
->>>> #include <string>
->>>>
->>>> using namespace std::literals;
->>>>
->>>> int main()
->>>> {
->>>>          return 0;
->>>> }
->>>>
->>>>
->>>> $ g++ --std=c++17 test.cc -o test
->>>> $ g++ --std=c++11 test.cc -o test
->>>> test.cc:5:22: error: ‘literals’ is not a namespace-name
->>>>       5 | using namespace std::literals;
->>>>         |                      ^~~~~~~~
->>>>
->>>> -- Bas.
->>> Did that but on CFLAGS (copy & paste from another place in recipe)
->>> and
->>> since issues popped up I thought it was right :(
->>>
->> Looked into:
->>
->> There is no easy way to get vte-native to build with c++11. Even if -
->> patches possibly introduce functional changes/errors (and the result
->> of oe-selftest is questionable with a massively patched vte).
->>
->> So I see two ways to go:
->>
->> 1. set vte-native requirements to c++14. That worked here with
->> CXXFLAGS_append_class-native = " --std=c++14" but looking into logs
->> of
->> centos 7 there are several '--std=gnu++11'. Have no idea where they
->> come from so chances are high this patch is going fail with c++14.
->> 2. revert vte back to 0.52.2 and forget the idea to get recent
->> gnome-terminal back in near future. That requires vte 0.56.1 and was
->> the reason I sent the update here.
->>
->> My preference is 2.
+On Fri, May 10, 2019 at 04:00:45PM -0700, Andre McCurdy wrote:
+>...
+> It wasn't possible to build glib-networking with openssl until very
+> recently but now that it's supported upstream I think we should
+> switch.
 > 
-> I'm willing to try testing a c++14 patch if that helps, we can fall
-> back to 2 if that fails?
-> 
+>   https://github.com/GNOME/glib-networking/blob/master/NEWS
 
-Can we require centos7 and other hosts which use old compilers to 
-install the additional packages to have newer compilers ? e.g. for 
-centos installing devtoolset-7 will fix this issue
+This states clearly that we should not switch:
 
-> Cheers,
-> 
-> Richard
-> 
+  This is the first stable release featuring the new OpenSSL backend.
+  Please be advised that this new backend is still experimental and
+  known to not work on some systems, including Debian. Linux
+  distributions are encouraged to stick to the default build options,
+  where OpenSSL is not yet enabled.
+
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
