@@ -1,50 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 63AFA7DADF
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C15D67D723
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 16:36:13 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id b18so900157wrq.12
+	Sat, 11 May 2019 19:07:27 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 451c5q2c08z23
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 09:36:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Gm/z7LxNvSI3Pj1W6v57CDnQFHVMvcB0JcMX0DHUNWQ=;
-	b=IX+mzpuWmLAMwy2ky5h9XzrQ1R7OWEX8ReOSA74a85KKSd2JQxRACed52uoNsav26W
-	N6U+bw0z21to+qBjskgL6RDpMEKr54Ni6kN3VexLFT5aZOY7QKC6wEwKl3L3r+oQbRc/
-	jcOk4BIsExCiBOoCno6vQDcqr4oPGGbOW5G5JSnsWmp4SYiXSSvrUwQqvlWC5tOADN86
-	c0RtOFKiHUDXYsskLJi0ofMKvMd/177DTuYpX3KGs0+4QUGJqAiwiMa75F9Y8YVwvxw9
-	9o91tQp11Is3zgQEAQnU0BiF2MaGHGB8Uvyq7GqsdmPkXGHRg1ikyc9jOGMOAiZpwPWj
-	RebQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Gm/z7LxNvSI3Pj1W6v57CDnQFHVMvcB0JcMX0DHUNWQ=;
-	b=lcEt2ZDSWZl2RuYTVe4+sXpX9BXZqGSF6gNW6GB2BMOnXDl7FEm5cnsqK8b8YYN0An
-	RO1v6oFZmZP431DqwaHev9exrg1Ztq0xwJbBgUyHiGg4dDXmZ9JW/3MBmowK+PHQfpZi
-	YCQPdtkP6vIGdNM6xub0/PTqfFwp+ijL94Of1kqRIGhyfEa5SGfVBCawRT4BRWXiAGiJ
-	Jksl6jJp/7LRtwqouMfZie+BE+BUE5Z1QQUW7SPgOfJKCMDTdAAeMBD74tvIn2Cb9BX3
-	F4Q0EoAx++7fC7LCud4DTpbjl9c7V2bAXK2+CK4f49cWrfNgPITKiALIw0BuJybCPern
-	4OEQ==
-X-Gm-Message-State: APjAAAWZyuH8FHUB79xEgsBT6lQLX60JaZQ/laO8O6rAbHkFRTnRQkHY
-	wJIqcxjbsQ1bvUu5jvBBTqs4I5ML
-X-Google-Smtp-Source: APXvYqzhCkS9I9vl8AQt+ZTKBE0MAchwOxigr0itPm8X6ihAKY3g7ChlrHxVVnxN/dZWmehlnbxPkw==
-X-Received: by 2002:adf:ebd2:: with SMTP id v18mr11112398wrn.108.1557592573760;
-	Sat, 11 May 2019 09:36:13 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id b2sm6878781wma.41.2019.05.11.09.36.13
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 11 May 2019 09:36:13 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Sat, 11 May 2019 21:07:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1557601647;
+	bh=Kll2uxEyHQWPcpIFd2BDwVE6Qq+vK/R79N8HFywjS6A=;
+	h=From:To:Subject:Date:From;
+	b=iKerrMwqjTsI1sctOsjnsuWqVYwkEvlDa1pipEHlJgpM9GnqYSy2aYmqVrdgcv1Ci
+	JcWnDP1eAFbO6Tp781C+ZF6fkMtomVtvqJMQRlzvX9r2lrSanDDHwF4MLE0p8yb6IJ
+	q7wm2mQz+GaqOPC/GYWe3xGWn4LyjHktd8Pq6avSQvOGt6Ka6iYA1ynFkFEYlsXoL1
+	tQEPZO35IqnCIXpucsW4O6jB6JKkDzSoCDh7b7iSdlL4wP8fqVT6jfjoyJOMJNenOb
+	Kc5plg27xxZf1GwcKO0u9X5PhYBaFou2ldR7TyfaDdgrwNli4TFHF6E6fA3mSYlHKe
+	U6cZ5kH0qV8S3yd+qWPAhQvnnYfLgTh7DtbXe40bvQWHiMeWUMjs6IRjTxRv0G6u2A
+	pyTcQ91PZ5/rv2S9JvXfHBBk05F24W3ZZvCxn/C8qjfu5EFNLKEGkkECyPkk5rrkYF
+	8mj0EKrd4rcDmsu+t/6Be5BVv4mlnhCWlFCCAaPWm9nnhVU4/Fm9lXwGKauU7MB6of
+	JNN2CzOgQpA6O4Tb3xwwk5jl0e+QBmz/V89u5uz2vZuKBglLVPmEiUe3oDw+Du2U1i
+	id+dw3rdWgjZjd4buhyqD7zgq9IZMFAt2HDScjVLdSERPpsWzjxH4nSUpA8NEhX0NX
+	7Vh8EKyFSCA6v35UpJHaP3NY=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 May 2019 16:36:18 +0000
-Message-Id: <20190511163618.11829-1-Martin.Jansa@gmail.com>
+Date: Sat, 11 May 2019 22:07:25 +0300
+Message-Id: <20190511190725.5758-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAMKF1spT7=rt=JrAqT44h7KjqAHr342Ew5SxrcPJB0EA3bXJPA@mail.gmail.com>
-References: <CAMKF1spT7=rt=JrAqT44h7KjqAHr342Ew5SxrcPJB0EA3bXJPA@mail.gmail.com>
-Subject: [PATCHv2] perf: make sure that the tools/include/uapi/asm-generic directory exists
+Subject: [PATCH] iproute2: Remove bogus workaround patch for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,39 +40,74 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 May 2019 16:36:13 -0000
+X-List-Received-Date: Sat, 11 May 2019 19:07:28 -0000
 
-* before trying to copy unistd.h into it
+This patch worked around a problem in musl but caused
+the following:
 
-* older kernels don't have uapi in tools/include and do_configure fails
-  with:
-  DEBUG: Executing shell function do_configure
-  cp: cannot create regular file '.../perf/1.0-r9/perf-1.0/tools/include/uapi/asm-generic/unistd.h':
-  No such file or directory
-  WARNING: exit code 1 from a shell command.
+iplink_bridge.c: In function 'br_dump_bridge_id':
+iplink_bridge.c:77:2: warning: implicit declaration of function 'ether_ntoa_r'; did you mean 'inet_ntoa'? [-Wimplicit-function-declaration]
+  ether_ntoa_r((const struct ether_addr *)id->addr, eaddr);
+  ^~~~~~~~~~~~
 
-* tools/include/uapi was added in kernel 4.8 with
-  https://github.com/torvalds/linux/commit/c4b6014e8bb0c8d47fe5c71ebc604f31091e5d3f
-  tools: Add copy of perf_event.h to tools/include/linux/
+In the meantime upstream has already implemented a different
+workaround for musl, so this patch can just be dropped.
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-kernel/perf/perf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../0001-ip-Remove-unneed-header.patch        | 30 -------------------
+ .../iproute2/iproute2_5.0.0.bb                |  1 -
+ 2 files changed, 31 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 546076f84b..774894166c 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -238,7 +238,7 @@ do_configure_prepend () {
+diff --git a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch b/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
+deleted file mode 100644
+index a9027c5b58..0000000000
+--- a/meta/recipes-connectivity/iproute2/iproute2/0001-ip-Remove-unneed-header.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 02ed10fc5215c4a32e6740b0a0c2439659be6801 Mon Sep 17 00:00:00 2001
+-From: Changhyeok Bae <changhyeok.bae@gmail.com>
+-Date: Mon, 13 Nov 2017 15:59:35 +0000
+-Subject: [PATCH] ip: Remove unneed header
+-
+-Fix redefinition of struct ethhdr with a suitably patched musl libc
+-that suppresses the kernel if_ether.h.
+-
+-Signed-off-by: Changhyeok Bae <changhyeok.bae@gmail.com>
+-
+-Upstream-Status: Pending [netdev@vger.kernel.org]
+----
+- ip/iplink_bridge.c | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/ip/iplink_bridge.c b/ip/iplink_bridge.c
+-index cccdec1..f065b22 100644
+---- a/ip/iplink_bridge.c
+-+++ b/ip/iplink_bridge.c
+-@@ -13,7 +13,6 @@
+- #include <stdlib.h>
+- #include <string.h>
+- #include <netinet/in.h>
+--#include <netinet/ether.h>
+- #include <linux/if_link.h>
+- #include <linux/if_bridge.h>
+- #include <net/if.h>
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.0.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.0.0.bb
+index c5ac987b6f..8f33c7fe19 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_5.0.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_5.0.0.bb
+@@ -3,7 +3,6 @@ require iproute2.inc
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://configure-cross.patch \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+-           file://0001-ip-Remove-unneed-header.patch \
+           "
  
-     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-     # so we copy it from the sysroot unistd.h to the perf unistd.h
--    cp ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
-+    install -D 0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
- }
- 
- python do_package_prepend() {
+ SRC_URI[md5sum] = "d22107b4d7cfb999eeb8ad8a0aec1124"
 -- 
 2.17.1
 
