@@ -1,48 +1,53 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
-	[209.85.128.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C98C6C3E1
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E944C7DF6A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 14:08:17 +0000 (UTC)
-Received: by mail-wm1-f53.google.com with SMTP id n25so9816378wmk.4
+	Sat, 11 May 2019 14:28:47 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id a59so4187816pla.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 07:08:19 -0700 (PDT)
+	Sat, 11 May 2019 07:28:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=klFiMW7qRtj4fLk63o/7c6cv4/QaXptApK8gM+BTWOE=;
-	b=clIgdoqKNMZXbUyA/KXgC9mqtlH/xUd4Mx8iK+5kM5RjK0ESUCdZ4p0axQIwcLGlb7
-	FYND2fhxFLkd2n66grdclwXLtfyVRukQ+Q6tC0BussCOFfpE3McVD4YhrXM0V5yZGwkD
-	BrPRxAD1U8tzhrCq0Djtc83Fq3R0UWt011JeAhoODiPVLg+GYYqlMjjqumWVoRK/DUbe
-	YdCqD+cnQWOdMGoihrhMyjHA0lG8RlCM2l1B/wGnnjrp5NlXYBEqP9DPRSZLXOf7hJK4
-	Ye7EOQWlHzI8fbmQ+0lQSieQBA6DOgBSeGXXzhaDA7j2BIata5HSduvz+vlT2bjqNbBQ
-	0MCg==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4Gvsw4Atpx1PuquRvIzbBN4VeogNxHfKQtFKD94/Ges=;
+	b=Xg/g4Md61k9CGPgHdAhUxq/o06I1VDkrOJorJpx2QlHHd7lkgd/lBDQImenN+dstX/
+	46j7Kv641yHts5PQEz7fCfDIaKbww5EO07+4BFGcbatOTE27PNavWdMcoD/zXFhynFWC
+	5cyoVxWItaIBXUBf02uPLXjZku2WXQGnolljjnTRdbdQeZW8/CmzLjUYwd2ZAPZSzJ9h
+	zgjBceqto1UoiS32nFwI304mduH/xS3tF9zhdxN8UataCpVio0q6bcBBbd7phP3cEVA4
+	8Xt3HnymzOjyej+XmkRES0QOzjuVQf8uZ0SlHyBLfXfLXB6pJ6GPMvre/vsgPL6k13u9
+	vBqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=klFiMW7qRtj4fLk63o/7c6cv4/QaXptApK8gM+BTWOE=;
-	b=m25VnByEZWlOmCLit/S/j4/NliMyQfdTXc4bIwLdh9mjqXblxcT7bABhA2zH/5+1i7
-	glveIIpJkeGke1Od2kN6tJOqY/HkzmNe5RWPrpuo1VSGQ/2zcfUS17rDd6SpM1tUDSy8
-	EffAi8ytbKzYQPyNnRi9HjJEyu1jzaYdgdAbW2yNa4j0ImE2qO6plM/Xy3ocfBwX5k3D
-	UDNrj8Wk3FBAQvP0fkHIfScN/pzVcMvzz33kw+ja74WW4OOPcLgbiIC6CtYvnHSoeqs6
-	F552iL2VWm8osT2hGvUbRJOk06wrgktmV4P+eyY2hsu95lxE6G5bYHDOw9nr/Xl03bsz
-	t5zQ==
-X-Gm-Message-State: APjAAAWTZuOj73H4DR4FWeQ7BYL9Ryjb4SpKUTeJQDOP3myPT+xOHDTo
-	jK8ctG6ulZOLV2OdxjwknJN2GPyQ
-X-Google-Smtp-Source: APXvYqxSEAepzSQ7mnbeMxdR1Yhw6LcB1VUmQdF5m9RdP4urvmK8zzbFMHBbihmUStxXzqr1JwWu9g==
-X-Received: by 2002:a1c:c004:: with SMTP id q4mr9666017wmf.131.1557583698494; 
-	Sat, 11 May 2019 07:08:18 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4Gvsw4Atpx1PuquRvIzbBN4VeogNxHfKQtFKD94/Ges=;
+	b=jkrGsVzV3UeA3lyfP5RQ3GdFE0+8lMEWOOkZcTBNX0KPGgIWAZTZr7s35TPeeF8T2G
+	ToDIi5SbdF46dG54p8z8OBR2dyGr7ILXo06XVeKFQNIMrblxl8NLPmHjzgO4sEZBNMag
+	Q52b1gbomB7skvc+eayJwHtbpQaSuNikFi2Rp3U/rPLPyjYf7kPl4QvoMc3ZVRsUYWGN
+	m/OxY9deZ1TUW+jp0ugBZNbaV218u/RDxT3VkQRnMcrMwVWnRO6am+Lg3zhIRmkehflQ
+	/fjaz6SoJ3Bxpix2lB+s1vKQTb9X/YzWvbzOwcm+9xA8PeoDVB+kseGJIV/I5TIjRDFU
+	KRug==
+X-Gm-Message-State: APjAAAWkLh5SnWAc9QOy9iy1TgP3v0kIqWmsdN8CIROlzzSSFXwsTCHr
+	N+wHSTlsAEFxgAd64AMagZZQg+PK
+X-Google-Smtp-Source: APXvYqwjYsA8R1PNbKUF+f9apVgEpqx7MK++uSFNUOQXSunnK1mLXsrNXuXwA+JzKOA8Dw0QuvXaIQ==
+X-Received: by 2002:a17:902:6b49:: with SMTP id
+	g9mr20218198plt.298.1557584928663; 
+	Sat, 11 May 2019 07:28:48 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:2909:a937:370d:1a54])
 	by smtp.gmail.com with ESMTPSA id
-	s3sm12671248wre.97.2019.05.11.07.08.17
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 11 May 2019 07:08:17 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	z22sm8633758pgv.23.2019.05.11.07.28.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 11 May 2019 07:28:47 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 11 May 2019 14:08:24 +0000
-Message-Id: <20190511140824.4624-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] perf: make sure that the tools/include/uapi/asm-generic directory exists
+Date: Sat, 11 May 2019 07:27:51 -0700
+Message-Id: <cover.1557584714.git.akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Subject: [PATCH 00/41] Warrior pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,39 +60,186 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 May 2019 14:08:18 -0000
+X-List-Received-Date: Sat, 11 May 2019 14:28:48 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* before trying to copy unistd.h into it
+Past due pull request for warrior-next
 
-* older kernels don't have uapi in tools/include and do_configure fails
-  with:
-  DEBUG: Executing shell function do_configure
-  cp: cannot create regular file '.../perf/1.0-r9/perf-1.0/tools/include/uapi/asm-generic/unistd.h':
-  No such file or directory
-  WARNING: exit code 1 from a shell command.
+The following changes since commit f571b188177788d8ed0a7f3efe3569f153b1b0d3:
 
-* tools/include/uapi was added in kernel 4.8 with
-  https://github.com/torvalds/linux/commit/c4b6014e8bb0c8d47fe5c71ebc604f31091e5d3f
-  tools: Add copy of perf_event.h to tools/include/linux/
+  build-appliance-image: Update to warrior head revision (2019-04-14 21:27:58 +0100)
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 1 +
- 1 file changed, 1 insertion(+)
+are available in the git repository at:
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 546076f84b..215d0a38f9 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -238,6 +238,7 @@ do_configure_prepend () {
- 
-     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-     # so we copy it from the sysroot unistd.h to the perf unistd.h
-+    [ -d ${S}/tools/include/uapi/asm-generic/ ] || mkdir -p ${S}/tools/include/uapi/asm-generic/
-     cp ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
- }
- 
+  git://git.openembedded.org/openembedded-core-contrib stable/warrior-next
+  http://cgit.openembedded.org//log/?h=stable/warrior-next
+
+Adrian Bunk (3):
+  gnutls: upgrade 3.6.5 -> 3.6.7
+  dhcp: Replace OE specific patch for compatibility with latest bind
+    with upstream patch
+  gnome-doc-utils: Remove stale patch
+
+Alexander Kanavin (2):
+  python3: add another multilib fix
+  buildhistory: call a dependency parser only on actual dependency lists
+
+Anuj Mittal (4):
+  gcc: fix CVE-2018-18484
+  gdb: fix CVE-2017-9778
+  binutils: fix CVE-2019-9074 CVE-2019-9075 CVE-2019-9076 CVE-2019-9077
+  openssh: fix CVE-2018-20685, CVE-2019-6109, CVE-2019-6111
+
+Bruce Ashfield (8):
+  linux-yocto/5.0: update to v5.0.5
+  linux-yocto-rt: update to 5.0.5-rt3
+  linux-yocto/5.0: update to v5.0.7
+  linux-yocto/4.19: update to v4.19.34
+  linux-yocto-rt/4.19: fix merge conflict in lru_drain
+  linux-yocto/5.0: port RAID configuration tweaks from master
+  linux-yocto/5.0: integrate TCP timeout / hang fix
+  linux-yocto/5.0: update TCP patch to mainline version
+
+Chen Qi (4):
+  busybox: fix ptest failure about 'dc'
+  base-files: move hostname operations out of issue file settings
+  dropbear: set CVE_PRODUCT
+  libsdl: set CVE_PRODUCT
+
+Dengke Du (1):
+  linux-yocto_5.0: set devicetree for armv5
+
+He Zhe (1):
+  ltp: Fix setrlimit03 call succeeded unexpectedly
+
+Jaewon Lee (1):
+  Adding back wrapper and using OEPYTHON3HOME variable for python3
+
+Jens Rehsack (1):
+  kernel-module-split.bbclass: support CONFIG_MODULE_COMPRESS=y
+
+Joshua Watt (2):
+  resulttool: Load results from URL
+  resulttool: Add log subcommand
+
+Kai Kang (1):
+  cryptodev: fix module loading error
+
+Mardegan, Alberto (1):
+  oeqa/core/runner: dump stdout and stderr of each test case
+
+Mariano Lopez (1):
+  ptest.bbclass: Use d.getVar instead of os.environ
+
+Martin Jansa (2):
+  icecc.bbclass: stop causing everything to be effectivelly MACHINE_ARCH
+  glibc: always use bfd linker
+
+Naveen Saini (2):
+  core-image-rt: make sure that we append to DEPENDS
+  core-image-rt-sdk: make sure that we append to DEPENDS
+
+Oleksandr Kravchuk (1):
+  curl: update to 7.64.1
+
+Richard Purdie (4):
+  core-image-sato-sdk-ptest: Try and keep image below 4GB limit
+  resultool/resultutils: Fix module import error
+  utils/multiprocess_launch: Improve failing subprocess output
+  python3: Drop ptest hack
+
+Steven Hung (洪于玉) (1):
+  kernel.bbclass: convert base_do_unpack_append() to a task
+
+sangeeta jain (1):
+  resulttool/manualexecution: Enable test case configuration option
+
+ meta/classes/icecc.bbclass                         |    1 +
+ meta/classes/kernel-module-split.bbclass           |   20 +-
+ meta/classes/kernel.bbclass                        |    3 +-
+ meta/classes/ptest.bbclass                         |    4 +-
+ meta/classes/testimage.bbclass                     |    3 +-
+ meta/lib/oe/buildhistory_analysis.py               |    2 +-
+ meta/lib/oe/utils.py                               |    7 +-
+ meta/lib/oeqa/core/runner.py                       |   20 +-
+ ...eplace-custom-isc_boolean_t-with-C-standa.patch | 2882 --------------------
+ ...d-includes-of-new-BIND9-compatibility-hea.patch |   79 +
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb       |    2 +-
+ ...ve-progressmeter-force-an-update-at-the-b.patch |  121 +
+ .../openssh/openssh/CVE-2018-20685.patch           |   40 +
+ .../openssh/openssh/CVE-2019-6109.patch            |  275 ++
+ .../openssh/openssh/CVE-2019-6111.patch            |  187 ++
+ meta/recipes-connectivity/openssh/openssh_7.9p1.bb |    4 +
+ meta/recipes-core/base-files/base-files_3.0.14.bb  |    7 +-
+ ...ix-two-test-case-to-also-depend-on-DC_BIG.patch |   39 +
+ meta/recipes-core/busybox/busybox_1.30.1.bb        |    1 +
+ meta/recipes-core/dropbear/dropbear.inc            |    2 +
+ meta/recipes-core/glibc/glibc_2.29.bb              |    2 +-
+ meta/recipes-devtools/binutils/binutils-2.32.inc   |    4 +
+ .../binutils/binutils/CVE-2019-9074.patch          |   68 +
+ .../binutils/binutils/CVE-2019-9075.patch          |  119 +
+ .../binutils/binutils/CVE-2019-9076.patch          |   49 +
+ .../binutils/binutils/CVE-2019-9077.patch          |   37 +
+ meta/recipes-devtools/gcc/gcc-8.3.inc              |    1 +
+ ...sion-limit-to-libiberty-s-demangling-code.patch |  325 +++
+ meta/recipes-devtools/gdb/gdb-8.2.1.inc            |    1 +
+ meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch  |   99 +
+ ...ig.py-fix-another-place-where-lib-is-hard.patch |   31 +
+ ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch |   47 +
+ .../python/python3/ptesthack.patch                 |   60 -
+ meta/recipes-devtools/python/python3_3.7.2.bb      |    9 +-
+ ...trlimit03.c-read-proc-sys-fs-nr_open-for-.patch |   70 +
+ meta/recipes-extended/ltp/ltp_20190115.bb          |    1 +
+ ...t.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch |   40 -
+ meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    2 +
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb     |    2 +
+ meta/recipes-kernel/cryptodev/cryptodev.inc        |    4 +-
+ ...01-Fix-module-loading-with-Linux-v5.0-rc5.patch |   59 +
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb    |    6 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |    8 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb  |    8 +-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb      |   20 +-
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb       |   21 +-
+ meta/recipes-rt/images/core-image-rt-sdk.bb        |    2 +-
+ meta/recipes-rt/images/core-image-rt.bb            |    2 +-
+ .../images/core-image-sato-sdk-ptest.bb            |    4 +-
+ .../curl/{curl_7.64.0.bb => curl_7.64.1.bb}        |    4 +-
+ .../gnutls/{gnutls_3.6.5.bb => gnutls_3.6.7.bb}    |    7 +-
+ scripts/lib/resulttool/log.py                      |   56 +
+ scripts/lib/resulttool/manualexecution.py          |   14 +-
+ scripts/lib/resulttool/merge.py                    |    8 +-
+ scripts/lib/resulttool/regression.py               |    6 +-
+ scripts/lib/resulttool/report.py                   |    2 +-
+ scripts/lib/resulttool/resultutils.py              |   23 +-
+ scripts/lib/resulttool/store.py                    |    4 +-
+ scripts/resulttool                                 |    2 +
+ 60 files changed, 1871 insertions(+), 3061 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-dhcpd-fix-Replace-custom-isc_boolean_t-with-C-standa.patch
+ create mode 100644 meta/recipes-connectivity/dhcp/dhcp/0001-master-Added-includes-of-new-BIND9-compatibility-hea.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2019-6109.patch
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-dc.tests-fix-two-test-case-to-also-depend-on-DC_BIG.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9074.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9075.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9076.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2019-9077.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch
+ create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch
+ create mode 100644 meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/ptesthack.patch
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
+ delete mode 100644 meta/recipes-gnome/gnome/gnome-doc-utils/0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch
+ create mode 100644 meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
+ rename meta/recipes-support/curl/{curl_7.64.0.bb => curl_7.64.1.bb} (95%)
+ rename meta/recipes-support/gnutls/{gnutls_3.6.5.bb => gnutls_3.6.7.bb} (88%)
+ create mode 100644 scripts/lib/resulttool/log.py
+
 -- 
-2.17.1
+2.7.4
 
 
