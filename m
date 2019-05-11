@@ -1,101 +1,50 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0447DED0
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CBFD07DED0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 16:06:48 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id a3so4516463pgb.3
+	Sat, 11 May 2019 16:16:51 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id w8so8412405wrl.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 11 May 2019 09:06:49 -0700 (PDT)
+	Sat, 11 May 2019 09:16:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=n8u+GJX6/exE4ZTRMTgPSKInZtyJHutSqEmZIzpKLNc=;
-	b=MYsfvWXFqZrJOKlUijHK+rfJasNGKTOiGusYTTaRDeDP0b+OzEbyu75UAg6vm/UO0n
-	7DSuxr9NzdOsxfRIadlepOTuKkEQ3AU9klaW3m7ZJKyACzvzEkEbtECjpyLVOiYtC0/Y
-	uCqbYIlg3AY+uJx++tdITnS8NrrQ8OKu/mtnMGVUbZxnWbXtPFIZNVzy8nBrdSMXSnG8
-	bXMwM8BsSLtGpUYpAtH2BOIdZT45SRPWcmBRfBzKwrvuMj15wD4+rUg/5Xj8HjnAdhGH
-	RBf5cqzpMSe7NMPtiKWDXRm/1lsace+OSdYkSlugpLt13xLxoc9/UnniHzyn7nI/lzdZ
-	TR2w==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5WnKEti/kBO4Lk2M557PV9Q3+pQncNf51Hs56qlpFRI=;
+	b=O/Q+IWo3Boh1h901oMlLHsOZssl6EnRJp4xWCiniMzKmNDw+3mU/SdfLSuTqa2xpk+
+	pryDACk/M4rWNzAl1X0CwEsHNg0oaPOnXwOo1YP/nXgedFDTrvwTFiUfzQfyhH92F728
+	jj8Dx7CeF8NzQbKFU8611w1hFz6yAfHvwqY97tlNIS5sESGoeHXg3gxym4eXWzZXdrJv
+	gTOTnhjyhBUCkAyfTwAAI215HW6e2McI07Q74pndkkRJAKMn2juG4QrlwlUf9uiJoO2k
+	GMJ9dzeNTTiy/b47kpRvEa+s9ouYBM9izj/IGZ8hSjkqfMB4YeSGZOJYWhMlqNf+KsVP
+	IYlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=n8u+GJX6/exE4ZTRMTgPSKInZtyJHutSqEmZIzpKLNc=;
-	b=IYQHYddIporiHUnXc2Ew2UQ+ue1iqYDNaBYto+ARpn6zQVzL5X9itsXYWVgGhmWe9j
-	ETtDmIBaAr8bCzZw8iA1Mpvq4joBGWoB+jrI4O8va/RWxnzP78x99cNxWc48u+w2MWSO
-	LtjwgB8dBN9hCP1dAg1hv9djAh0c0QqFczSOzLvscaQOV5u3QBCb3WBcAzclPPCV8y7Y
-	E12KuXQ4E3fCr6QP37C8FVueSPZPlGKKi+Mc9yx4jHgwVie2eSwK+7sAffCcHdHbmuO+
-	vuEQI1YOwvrKToyM/dNttmaKpBrPtZO3ilooAUbbGBq06wm04OBWhYu45gEzA+jChGkb
-	fGLg==
-X-Gm-Message-State: APjAAAXT5P2+qYlgDjOyU4swA+15RN4KuUs9ehoVTiS694O3ILZrrGcZ
-	GRErm6NUGiN0Lr89ka+rwLDzD195
-X-Google-Smtp-Source: APXvYqyYMXjcccI5cRAJHs5fx6+/XVx11fYMQW9c04eIRNpuKnswiooC+gNimq6hHPTvxzQ2OrIMsA==
-X-Received: by 2002:a63:e956:: with SMTP id q22mr21593295pgj.277.1557590809043;
-	Sat, 11 May 2019 09:06:49 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:2909:a937:370d:1a54?
-	([2601:202:4180:c33:2909:a937:370d:1a54])
-	by smtp.gmail.com with ESMTPSA id
-	q5sm11466131pfb.51.2019.05.11.09.06.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 11 May 2019 09:06:48 -0700 (PDT)
-To: Paul Barker <paul@betafive.co.uk>, openembedded-core@lists.openembedded.org
-References: <cover.1557584714.git.akuster808@gmail.com>
-	<54934103-7a6c-ebb0-ba90-8ef87251616f@betafive.co.uk>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <bed43f9f-78e3-46e2-934e-c2622ada1b0e@gmail.com>
-Date: Sat, 11 May 2019 09:06:39 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5WnKEti/kBO4Lk2M557PV9Q3+pQncNf51Hs56qlpFRI=;
+	b=Egr8xrzCry9m2ZMBfaj2tEf6o5ArJCEi+X9SStMmeISqxpAM7PwC2SH6cS/67zFVbj
+	msNNFqanTBEYQA71ogRY9Dwd3zqOJ29Db1O0EhnOjjPDiFhkQQBhlZVAMh6MMHFhohP8
+	kLorD1F5fwWvbZlFDeqePqZF4MzFlkO2ppcBuWlp41wS3RtzcGItjYSyD3WrTOIsFvFg
+	OMaPaNLaTCvRLroBgZCk7tyvJZ04OIYssmYCCwZt3D5oC5pgZJySK2biqrWJXuLRjWlW
+	1DuAnh1/jTDvQAhTwX7Rn8FVW3IaJ3+bXXWfNDfoxNLaX/qblejMGgSmwZPCL+UDylKS
+	Eacw==
+X-Gm-Message-State: APjAAAWhQYmiqQ+9Tj6k/a0UKp+lWLg+tOA6Yb3c8Ey3Vjl28AwyrgT2
+	ijAmw1jQ0XOBlHGpp3yNiItYzqm2
+X-Google-Smtp-Source: APXvYqzXJTxpOpSxda42jztvLGvhM74PVCBL4jjIsWNSwygbrxK4yXiVRfXZB/EUqWeiWtn1ILX6mg==
+X-Received: by 2002:adf:b645:: with SMTP id i5mr12065158wre.272.1557591412235; 
+	Sat, 11 May 2019 09:16:52 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id b8sm7334437wrr.64.2019.05.11.09.16.51
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 11 May 2019 09:16:51 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 11 May 2019 16:16:56 +0000
+Message-Id: <20190511161656.2005-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <54934103-7a6c-ebb0-ba90-8ef87251616f@betafive.co.uk>
-Subject: Re: [PATCH 00/41] Warrior pull request
+Subject: [PATCH] kexec-tools: refresh patches with devtool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -108,227 +57,280 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 11 May 2019 16:06:48 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Sat, 11 May 2019 16:16:52 -0000
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
+* to make it easier to rebase
 
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...owerpc-change-the-memory-size-limit.patch} | 12 ++---
+ ...purgatory-Pass-r-directly-to-linker.patch} | 13 ++---
+ ...ix-add_buffer_phys_virt-align-issue.patch} |  7 +--
+ ...t-to-build-kexec-tools-with-x32-ABI.patch} | 47 ++++++++++---------
+ ...tch => 0005-Disable-PIE-during-link.patch} |  7 +--
+ .../kexec/kexec-tools_2.0.19.bb               | 18 +++----
+ 6 files changed, 50 insertions(+), 54 deletions(-)
+ rename meta/recipes-kernel/kexec/kexec-tools/{0002-powerpc-change-the-memory-size-limit.patch => 0001-powerpc-change-the-memory-size-limit.patch} (75%)
+ rename meta/recipes-kernel/kexec/kexec-tools/{0001-purgatory-Pass-r-directly-to-linker.patch => 0002-purgatory-Pass-r-directly-to-linker.patch} (83%)
+ rename meta/recipes-kernel/kexec/kexec-tools/{0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch => 0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch} (94%)
+ rename meta/recipes-kernel/kexec/kexec-tools/{kexec-x32.patch => 0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch} (59%)
+ rename meta/recipes-kernel/kexec/kexec-tools/{0001-Disable-PIE-during-link.patch => 0005-Disable-PIE-during-link.patch} (88%)
 
-On 5/11/19 9:00 AM, Paul Barker wrote:
-> On 11/05/2019 15:27, Armin Kuster wrote:
->> Past due pull request for warrior-next
->>
->> The following changes since commit
->> f571b188177788d8ed0a7f3efe3569f153b1b0d3:
->>
->>    build-appliance-image: Update to warrior head revision (2019-04-14
->> 21:27:58 +0100)
->>
->> are available in the git repository at:
->>
->>    git://git.openembedded.org/openembedded-core-contrib
->> stable/warrior-next
->>    http://cgit.openembedded.org//log/?h=stable/warrior-next
->>
->> Adrian Bunk (3):
->>    gnutls: upgrade 3.6.5 -> 3.6.7
->>    dhcp: Replace OE specific patch for compatibility with latest bind
->>      with upstream patch
->>    gnome-doc-utils: Remove stale patch
->>
->> Alexander Kanavin (2):
->>    python3: add another multilib fix
->>    buildhistory: call a dependency parser only on actual dependency
->> lists
->>
->> Anuj Mittal (4):
->>    gcc: fix CVE-2018-18484
->>    gdb: fix CVE-2017-9778
->>    binutils: fix CVE-2019-9074 CVE-2019-9075 CVE-2019-9076 CVE-2019-9077
->>    openssh: fix CVE-2018-20685, CVE-2019-6109, CVE-2019-6111
->>
->> Bruce Ashfield (8):
->>    linux-yocto/5.0: update to v5.0.5
->>    linux-yocto-rt: update to 5.0.5-rt3
->>    linux-yocto/5.0: update to v5.0.7
->>    linux-yocto/4.19: update to v4.19.34
->>    linux-yocto-rt/4.19: fix merge conflict in lru_drain
->>    linux-yocto/5.0: port RAID configuration tweaks from master
->>    linux-yocto/5.0: integrate TCP timeout / hang fix
->>    linux-yocto/5.0: update TCP patch to mainline version
->>
->> Chen Qi (4):
->>    busybox: fix ptest failure about 'dc'
->>    base-files: move hostname operations out of issue file settings
->>    dropbear: set CVE_PRODUCT
->>    libsdl: set CVE_PRODUCT
->>
->> Dengke Du (1):
->>    linux-yocto_5.0: set devicetree for armv5
->>
->> He Zhe (1):
->>    ltp: Fix setrlimit03 call succeeded unexpectedly
->>
->> Jaewon Lee (1):
->>    Adding back wrapper and using OEPYTHON3HOME variable for python3
->>
->> Jens Rehsack (1):
->>    kernel-module-split.bbclass: support CONFIG_MODULE_COMPRESS=y
->>
->> Joshua Watt (2):
->>    resulttool: Load results from URL
->>    resulttool: Add log subcommand
->>
->> Kai Kang (1):
->>    cryptodev: fix module loading error
->>
->> Mardegan, Alberto (1):
->>    oeqa/core/runner: dump stdout and stderr of each test case
->>
->> Mariano Lopez (1):
->>    ptest.bbclass: Use d.getVar instead of os.environ
->>
->> Martin Jansa (2):
->>    icecc.bbclass: stop causing everything to be effectivelly
->> MACHINE_ARCH
->>    glibc: always use bfd linker
->>
->> Naveen Saini (2):
->>    core-image-rt: make sure that we append to DEPENDS
->>    core-image-rt-sdk: make sure that we append to DEPENDS
->>
->> Oleksandr Kravchuk (1):
->>    curl: update to 7.64.1
->>
->> Richard Purdie (4):
->>    core-image-sato-sdk-ptest: Try and keep image below 4GB limit
->>    resultool/resultutils: Fix module import error
->>    utils/multiprocess_launch: Improve failing subprocess output
->>    python3: Drop ptest hack
->>
->> Steven Hung (洪于玉) (1):
->>    kernel.bbclass: convert base_do_unpack_append() to a task
->>
->> sangeeta jain (1):
->>    resulttool/manualexecution: Enable test case configuration option
->>
->>   meta/classes/icecc.bbclass                         |    1 +
->>   meta/classes/kernel-module-split.bbclass           |   20 +-
->>   meta/classes/kernel.bbclass                        |    3 +-
->>   meta/classes/ptest.bbclass                         |    4 +-
->>   meta/classes/testimage.bbclass                     |    3 +-
->>   meta/lib/oe/buildhistory_analysis.py               |    2 +-
->>   meta/lib/oe/utils.py                               |    7 +-
->>   meta/lib/oeqa/core/runner.py                       |   20 +-
->>   ...eplace-custom-isc_boolean_t-with-C-standa.patch | 2882
->> --------------------
->>   ...d-includes-of-new-BIND9-compatibility-hea.patch |   79 +
->>   meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb       |    2 +-
->>   ...ve-progressmeter-force-an-update-at-the-b.patch |  121 +
->>   .../openssh/openssh/CVE-2018-20685.patch           |   40 +
->>   .../openssh/openssh/CVE-2019-6109.patch            |  275 ++
->>   .../openssh/openssh/CVE-2019-6111.patch            |  187 ++
->>   meta/recipes-connectivity/openssh/openssh_7.9p1.bb |    4 +
->>   meta/recipes-core/base-files/base-files_3.0.14.bb  |    7 +-
->>   ...ix-two-test-case-to-also-depend-on-DC_BIG.patch |   39 +
->>   meta/recipes-core/busybox/busybox_1.30.1.bb        |    1 +
->>   meta/recipes-core/dropbear/dropbear.inc            |    2 +
->>   meta/recipes-core/glibc/glibc_2.29.bb              |    2 +-
->>   meta/recipes-devtools/binutils/binutils-2.32.inc   |    4 +
->>   .../binutils/binutils/CVE-2019-9074.patch          |   68 +
->>   .../binutils/binutils/CVE-2019-9075.patch          |  119 +
->>   .../binutils/binutils/CVE-2019-9076.patch          |   49 +
->>   .../binutils/binutils/CVE-2019-9077.patch          |   37 +
->>   meta/recipes-devtools/gcc/gcc-8.3.inc              |    1 +
->>   ...sion-limit-to-libiberty-s-demangling-code.patch |  325 +++
->>   meta/recipes-devtools/gdb/gdb-8.2.1.inc            |    1 +
->>   meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch  |   99 +
->>   ...ig.py-fix-another-place-where-lib-is-hard.patch |   31 +
->>   ...EPYTHON3HOME-is-set-use-instead-of-PYTHON.patch |   47 +
->>   .../python/python3/ptesthack.patch                 |   60 -
->>   meta/recipes-devtools/python/python3_3.7.2.bb      |    9 +-
->>   ...trlimit03.c-read-proc-sys-fs-nr_open-for-.patch |   70 +
->>   meta/recipes-extended/ltp/ltp_20190115.bb          |    1 +
->>   ...t.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch |   40 -
->>   meta/recipes-graphics/libsdl/libsdl_1.2.15.bb      |    2 +
->>   meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb     |    2 +
->>   meta/recipes-kernel/cryptodev/cryptodev.inc        |    4 +-
->>   ...01-Fix-module-loading-with-Linux-v5.0-rc5.patch |   59 +
->>   meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   |    6 +-
->>   meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb    |    6 +-
->>   meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb |    8 +-
->>   meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb  |    8 +-
->>   meta/recipes-kernel/linux/linux-yocto_4.19.bb      |   20 +-
->>   meta/recipes-kernel/linux/linux-yocto_5.0.bb       |   21 +-
->>   meta/recipes-rt/images/core-image-rt-sdk.bb        |    2 +-
->>   meta/recipes-rt/images/core-image-rt.bb            |    2 +-
->>   .../images/core-image-sato-sdk-ptest.bb            |    4 +-
->>   .../curl/{curl_7.64.0.bb => curl_7.64.1.bb}        |    4 +-
->>   .../gnutls/{gnutls_3.6.5.bb => gnutls_3.6.7.bb}    |    7 +-
->>   scripts/lib/resulttool/log.py                      |   56 +
->>   scripts/lib/resulttool/manualexecution.py          |   14 +-
->>   scripts/lib/resulttool/merge.py                    |    8 +-
->>   scripts/lib/resulttool/regression.py               |    6 +-
->>   scripts/lib/resulttool/report.py                   |    2 +-
->>   scripts/lib/resulttool/resultutils.py              |   23 +-
->>   scripts/lib/resulttool/store.py                    |    4 +-
->>   scripts/resulttool                                 |    2 +
->>   60 files changed, 1871 insertions(+), 3061 deletions(-)
->>   delete mode 100644
->> meta/recipes-connectivity/dhcp/dhcp/0001-dhcpd-fix-Replace-custom-isc_boolean_t-with-C-standa.patch
->>   create mode 100644
->> meta/recipes-connectivity/dhcp/dhcp/0001-master-Added-includes-of-new-BIND9-compatibility-hea.patch
->>   create mode 100644
->> meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
->>   create mode 100644
->> meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
->>   create mode 100644
->> meta/recipes-connectivity/openssh/openssh/CVE-2019-6109.patch
->>   create mode 100644
->> meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
->>   create mode 100644
->> meta/recipes-core/busybox/busybox/0001-dc.tests-fix-two-test-case-to-also-depend-on-DC_BIG.patch
->>   create mode 100644
->> meta/recipes-devtools/binutils/binutils/CVE-2019-9074.patch
->>   create mode 100644
->> meta/recipes-devtools/binutils/binutils/CVE-2019-9075.patch
->>   create mode 100644
->> meta/recipes-devtools/binutils/binutils/CVE-2019-9076.patch
->>   create mode 100644
->> meta/recipes-devtools/binutils/binutils/CVE-2019-9077.patch
->>   create mode 100644
->> meta/recipes-devtools/gcc/gcc-8.3/0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch
->>   create mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
->>   create mode 100644
->> meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch
->>   create mode 100644
->> meta/recipes-devtools/python/python3/0001-main.c-if-OEPYTHON3HOME-is-set-use-instead-of-PYTHON.patch
->>   delete mode 100644
->> meta/recipes-devtools/python/python3/ptesthack.patch
->>   create mode 100644
->> meta/recipes-extended/ltp/ltp/0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch
->>   delete mode 100644
->> meta/recipes-gnome/gnome/gnome-doc-utils/0001-glib-gettext.m4-Update-AM_GLIB_GNU_GETTEXT-to-match-.patch
->>   create mode 100644
->> meta/recipes-kernel/cryptodev/files/0001-Fix-module-loading-with-Linux-v5.0-rc5.patch
->>   rename meta/recipes-support/curl/{curl_7.64.0.bb => curl_7.64.1.bb}
->> (95%)
->>   rename meta/recipes-support/gnutls/{gnutls_3.6.5.bb =>
->> gnutls_3.6.7.bb} (88%)
->>   create mode 100644 scripts/lib/resulttool/log.py
->>
->
-> Could we also include
-> https://git.openembedded.org/openembedded-core/commit/?id=f178990495c773b4b36b1be6aafc2da158b76894
-> please?
-Not in this one as this is a late pull request for the review done last
-week. This commit is in the next series being worked on.
-
-Thanks,
-- armin
->
-> Thanks,
->
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0002-powerpc-change-the-memory-size-limit.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
+similarity index 75%
+rename from meta/recipes-kernel/kexec/kexec-tools/0002-powerpc-change-the-memory-size-limit.patch
+rename to meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
+index dc97d930e9..029650f35c 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0002-powerpc-change-the-memory-size-limit.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0001-powerpc-change-the-memory-size-limit.patch
+@@ -1,4 +1,4 @@
+-From b19b68eab567aa534cf8dec79fe18e3dc0e14043 Mon Sep 17 00:00:00 2001
++From 211cae4b6a02a4d9d37bfcd76f3702696e095fc3 Mon Sep 17 00:00:00 2001
+ From: Quanyang Wang <quanyang.wang@windriver.com>
+ Date: Tue, 16 Jun 2015 12:59:57 +0800
+ Subject: [PATCH] powerpc: change the memory size limit
+@@ -20,11 +20,11 @@ Signed-off-by: Quanyang Wang <quanyang.wang@windriver.com>
+  kexec/arch/ppc/kexec-ppc.h | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+-Index: kexec-tools-2.0.10/kexec/arch/ppc/kexec-ppc.h
+-===================================================================
+---- kexec-tools-2.0.10.orig/kexec/arch/ppc/kexec-ppc.h
+-+++ kexec-tools-2.0.10/kexec/arch/ppc/kexec-ppc.h
+-@@ -42,7 +42,7 @@ void dol_ppc_usage(void);
++diff --git a/kexec/arch/ppc/kexec-ppc.h b/kexec/arch/ppc/kexec-ppc.h
++index 04e728e..6bae9ec 100644
++--- a/kexec/arch/ppc/kexec-ppc.h
+++++ b/kexec/arch/ppc/kexec-ppc.h
++@@ -44,7 +44,7 @@ void dol_ppc_usage(void);
+   * During inital setup the kernel does not map the whole memory but a part of
+   * it. On Book-E that is 64MiB, 601 24MiB or 256MiB (if possible).
+   */
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-Pass-r-directly-to-linker.patch b/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
+similarity index 83%
+rename from meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-Pass-r-directly-to-linker.patch
+rename to meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
+index bfd077daf0..363d5da4ae 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-Pass-r-directly-to-linker.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0002-purgatory-Pass-r-directly-to-linker.patch
+@@ -1,4 +1,4 @@
+-From a1135b3170963ba956f2364c1283864c35541295 Mon Sep 17 00:00:00 2001
++From a04bcf8f683c1a5a7d015920124457ad56fb7cf0 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 7 Sep 2015 07:59:45 +0000
+ Subject: [PATCH] purgatory: Pass -r directly to linker
+@@ -8,17 +8,17 @@ where as gcc knows how to deal with it and passes it down to linker
+ unfiltered
+ 
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+-Upstream-Status: Pending
+ 
++Upstream-Status: Pending
++---
+  purgatory/Makefile | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/purgatory/Makefile b/purgatory/Makefile
+-index 2b5c061..b251353 100644
++index 2dd6c47..416e6b9 100644
+ --- a/purgatory/Makefile
+ +++ b/purgatory/Makefile
+-@@ -61,7 +61,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS) \
++@@ -60,7 +60,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS) \
+  			-I$(shell $(CC) -print-file-name=include)
+  $(PURGATORY): LDFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS)\
+  			-Wl,--no-undefined -nostartfiles -nostdlib \
+@@ -27,6 +27,3 @@ index 2b5c061..b251353 100644
+  			-Wl,-Map=$(PURGATORY_MAP)
+  
+  $(PURGATORY): $(PURGATORY_OBJS)
+--- 
+-2.5.1
+-
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch b/meta/recipes-kernel/kexec/kexec-tools/0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
+similarity index 94%
+rename from meta/recipes-kernel/kexec/kexec-tools/0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
+rename to meta/recipes-kernel/kexec/kexec-tools/0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
+index 6c6c66d885..832fe67716 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch
+@@ -1,4 +1,4 @@
+-From 78e497fb69950665e639cfab8f4fb50cc404a1eb Mon Sep 17 00:00:00 2001
++From 55e583d20651e829afbbc8dba0f8ec3017cda2d5 Mon Sep 17 00:00:00 2001
+ From: Haiqing Bai <Haiqing.Bai@windriver.com>
+ Date: Mon, 9 Jan 2017 15:26:29 +0800
+ Subject: [PATCH] kexec: ARM: Fix add_buffer_phys_virt() align issue
+@@ -17,7 +17,7 @@ Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+  1 file changed, 4 insertions(+), 1 deletion(-)
+ 
+ diff --git a/kexec/arch/arm/crashdump-arm.c b/kexec/arch/arm/crashdump-arm.c
+-index 245c21a..12139c3 100644
++index daa4788..3f72b38 100644
+ --- a/kexec/arch/arm/crashdump-arm.c
+ +++ b/kexec/arch/arm/crashdump-arm.c
+ @@ -240,6 +240,7 @@ int load_crashdump_segments(struct kexec_info *info, char *mod_cmdline)
+@@ -47,6 +47,3 @@ index 245c21a..12139c3 100644
+  					  crash_kernel_mem.start,
+  					  crash_kernel_mem.end, -1, 0);
+  
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch b/meta/recipes-kernel/kexec/kexec-tools/0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch
+similarity index 59%
+rename from meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
+rename to meta/recipes-kernel/kexec/kexec-tools/0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch
+index 26d18eb6fe..a809d5ba8e 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/kexec-x32.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch
+@@ -1,4 +1,10 @@
+-x86_64: Add support to build kexec-tools with x32 ABI
++From 8c9a5076543eb3d497e016b3d7707e93d6311883 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linux.intel.com>
++Date: Mon, 15 Jul 2013 23:32:36 -0700
++Subject: [PATCH] x86_64: Add support to build kexec-tools with x32 ABI
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
+ 
+ Summary of changes,
+ 
+@@ -13,7 +19,6 @@ Upstream-Status: Submitted
+ 
+ Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+ Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+-
+ ---
+  configure.ac                             | 9 +++++++++
+  kexec/arch/x86_64/kexec-elf-rel-x86_64.c | 4 ++++
+@@ -21,11 +26,11 @@ Signed-off-by: Mariano Lopez <mariano.lopez@linux.intel.com>
+  purgatory/arch/x86_64/Makefile           | 4 +++-
+  4 files changed, 20 insertions(+), 1 deletion(-)
+ 
+-Index: kexec-tools-2.0.10/configure.ac
+-===================================================================
+---- kexec-tools-2.0.10.orig/configure.ac
+-+++ kexec-tools-2.0.10/configure.ac
+-@@ -56,6 +56,15 @@ case $target_cpu in
++diff --git a/configure.ac b/configure.ac
++index c2b0c68..60882b8 100644
++--- a/configure.ac
+++++ b/configure.ac
++@@ -54,6 +54,15 @@ case $target_cpu in
+  		;;
+  	ia64|x86_64|alpha|m68k )
+  		ARCH="$target_cpu"
+@@ -41,11 +46,11 @@ Index: kexec-tools-2.0.10/configure.ac
+  		;;
+  	* )
+  		AC_MSG_ERROR([unsupported architecture $target_cpu])
+-Index: kexec-tools-2.0.10/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+-===================================================================
+---- kexec-tools-2.0.10.orig/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+-+++ kexec-tools-2.0.10/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+-@@ -8,7 +8,11 @@ int machine_verify_elf_rel(struct mem_eh
++diff --git a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
++index db85b44..0ce1172 100644
++--- a/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+++++ b/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
++@@ -8,7 +8,11 @@ int machine_verify_elf_rel(struct mem_ehdr *ehdr)
+  	if (ehdr->ei_data != ELFDATA2LSB) {
+  		return 0;
+  	}
+@@ -57,10 +62,10 @@ Index: kexec-tools-2.0.10/kexec/arch/x86_64/kexec-elf-rel-x86_64.c
+  		return 0;
+  	}
+  	if (ehdr->e_machine != EM_X86_64) {
+-Index: kexec-tools-2.0.10/kexec/kexec-syscall.h
+-===================================================================
+---- kexec-tools-2.0.10.orig/kexec/kexec-syscall.h
+-+++ kexec-tools-2.0.10/kexec/kexec-syscall.h
++diff --git a/kexec/kexec-syscall.h b/kexec/kexec-syscall.h
++index dac1c1f..e9479b7 100644
++--- a/kexec/kexec-syscall.h
+++++ b/kexec/kexec-syscall.h
+ @@ -31,8 +31,12 @@
+  #define __NR_kexec_load		268
+  #endif
+@@ -74,11 +79,11 @@ Index: kexec-tools-2.0.10/kexec/kexec-syscall.h
+  #ifdef __s390x__
+  #define __NR_kexec_load		277
+  #endif
+-Index: kexec-tools-2.0.10/purgatory/arch/x86_64/Makefile
+-===================================================================
+---- kexec-tools-2.0.10.orig/purgatory/arch/x86_64/Makefile
+-+++ kexec-tools-2.0.10/purgatory/arch/x86_64/Makefile
+-@@ -23,4 +23,6 @@ x86_64_PURGATORY_SRCS += purgatory/arch/
++diff --git a/purgatory/arch/x86_64/Makefile b/purgatory/arch/x86_64/Makefile
++index 7300937..4af11e4 100644
++--- a/purgatory/arch/x86_64/Makefile
+++++ b/purgatory/arch/x86_64/Makefile
++@@ -23,4 +23,6 @@ x86_64_PURGATORY_SRCS += purgatory/arch/i386/console-x86.c
+  x86_64_PURGATORY_SRCS += purgatory/arch/i386/vga.c
+  x86_64_PURGATORY_SRCS += purgatory/arch/i386/pic.c
+  
+diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-Disable-PIE-during-link.patch b/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
+similarity index 88%
+rename from meta/recipes-kernel/kexec/kexec-tools/0001-Disable-PIE-during-link.patch
+rename to meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
+index 3f2f85e337..7a4b8548ca 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools/0001-Disable-PIE-during-link.patch
++++ b/meta/recipes-kernel/kexec/kexec-tools/0005-Disable-PIE-during-link.patch
+@@ -1,4 +1,4 @@
+-From ea7be6d71b85880e8e8a2c8a4f49a696c5f31ae4 Mon Sep 17 00:00:00 2001
++From c54488ad5fd657e0f154d76d7456d9080be24836 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Sat, 10 Jun 2017 11:18:49 -0700
+ Subject: [PATCH] Disable PIE during link
+@@ -14,7 +14,7 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/purgatory/Makefile b/purgatory/Makefile
+-index 564bdb7..a08e41f 100644
++index 416e6b9..f00edb4 100644
+ --- a/purgatory/Makefile
+ +++ b/purgatory/Makefile
+ @@ -59,7 +59,7 @@ $(PURGATORY): CPPFLAGS=$($(ARCH)_PURGATORY_EXTRA_CFLAGS) \
+@@ -26,6 +26,3 @@ index 564bdb7..a08e41f 100644
+  			-nodefaultlibs -e purgatory_start -Wl,-r \
+  			-Wl,-Map=$(PURGATORY_MAP)
+  
+--- 
+-2.13.1
+-
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+index f65cd9f106..3439899070 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
+@@ -10,15 +10,15 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=ea5bed2f60d357618ca161ad539f7c0a \
+ DEPENDS = "zlib xz"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz \
+-           file://kdump \
+-           file://kdump.conf \
+-           file://kdump.service \
+-           file://0002-powerpc-change-the-memory-size-limit.patch \
+-           file://0001-purgatory-Pass-r-directly-to-linker.patch \
+-           file://0010-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
+-           file://kexec-x32.patch \
+-           file://0001-Disable-PIE-during-link.patch \
+-           "
++    file://kdump \
++    file://kdump.conf \
++    file://kdump.service \
++    file://0001-powerpc-change-the-memory-size-limit.patch \
++    file://0002-purgatory-Pass-r-directly-to-linker.patch \
++    file://0003-kexec-ARM-Fix-add_buffer_phys_virt-align-issue.patch \
++    file://0004-x86_64-Add-support-to-build-kexec-tools-with-x32-ABI.patch \
++    file://0005-Disable-PIE-during-link.patch \
++"
+ 
+ SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
+ SRC_URI[sha256sum] = "913c8dee918e5855a4ba60d609371390978144b4c8d15d6446ca0057b7bc5e58"
+-- 
+2.17.1
 
 
