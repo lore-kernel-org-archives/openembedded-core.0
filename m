@@ -1,25 +1,25 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AC33F7E07D
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D06E57E0DC
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 12 May 2019 08:17:06 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4C8H5kQ018103
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4C8H7jS024232
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 12 May 2019 01:17:06 -0700 (PDT)
+	Sun, 12 May 2019 01:17:07 -0700 (PDT)
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 12 May 2019 01:17:05 -0700
+	14.3.439.0; Sun, 12 May 2019 01:17:06 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Sun, 12 May 2019 16:16:22 +0800
-Message-ID: <a8b0b93137089a0a8d470edc2a073c25f1f7573f.1557628550.git.hongxu.jia@windriver.com>
+Date: Sun, 12 May 2019 16:16:23 +0800
+Message-ID: <3a6210cb6b75224895cc07d93f7b29a4c46d9a83.1557628550.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557628550.git.hongxu.jia@windriver.com>
 References: <cover.1557628550.git.hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 02/10] man-pages: upgrade 4.16 -> 5.01
+Subject: [PATCH 03/10] man-db: upgrade 2.8.4 -> 2.8.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +32,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 May 2019 08:17:06 -0000
+X-List-Received-Date: Sun, 12 May 2019 08:17:07 -0000
 Content-Type: text/plain
+
+Upstream shipped a systemd service in the following commit
+[bc52248 Ship a systemd timer for daily DB maintenance]
+Backward compatible, disable it by default
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../man-pages/{man-pages_4.16.bb => man-pages_5.01.bb}                | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/man-pages/{man-pages_4.16.bb => man-pages_5.01.bb} (87%)
+ .../recipes-extended/man-db/{man-db_2.8.4.bb => man-db_2.8.5.bb} | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
+ rename meta/recipes-extended/man-db/{man-db_2.8.4.bb => man-db_2.8.5.bb} (86%)
 
-diff --git a/meta/recipes-extended/man-pages/man-pages_4.16.bb b/meta/recipes-extended/man-pages/man-pages_5.01.bb
-similarity index 87%
-rename from meta/recipes-extended/man-pages/man-pages_4.16.bb
-rename to meta/recipes-extended/man-pages/man-pages_5.01.bb
-index 1f14c89..28525f4 100644
---- a/meta/recipes-extended/man-pages/man-pages_4.16.bb
-+++ b/meta/recipes-extended/man-pages/man-pages_5.01.bb
-@@ -7,8 +7,8 @@ LICENSE = "GPLv2+"
- LIC_FILES_CHKSUM = "file://README;md5=794f701617cc03fe50c53257660d8ec4"
- SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/Archive/${BP}.tar.gz"
+diff --git a/meta/recipes-extended/man-db/man-db_2.8.4.bb b/meta/recipes-extended/man-db/man-db_2.8.5.bb
+similarity index 86%
+rename from meta/recipes-extended/man-db/man-db_2.8.4.bb
+rename to meta/recipes-extended/man-db/man-db_2.8.5.bb
+index aa36465..441e2f4 100644
+--- a/meta/recipes-extended/man-db/man-db_2.8.4.bb
++++ b/meta/recipes-extended/man-db/man-db_2.8.5.bb
+@@ -7,8 +7,8 @@ LIC_FILES_CHKSUM = "file://docs/COPYING.LIB;md5=a6f89e2100d9b6cdffcea4f398e37343
+ SRC_URI = "${SAVANNAH_NONGNU_MIRROR}/man-db/man-db-${PV}.tar.xz \
+            file://99_mandb \
+            file://man_db.conf-avoid-multilib-install-file-conflict.patch"
+-SRC_URI[md5sum] = "ab41db551f500e4a595b11203b86c67a"
+-SRC_URI[sha256sum] = "103c185f9d8269b9ee3b8a4cb27912b3aa393e952731ef96fedc880723472bc3"
++SRC_URI[md5sum] = "c5c6c3434be14a5527d43b5ad0f09a13"
++SRC_URI[sha256sum] = "b64d52747534f1fe873b2876eb7f01319985309d5d7da319d2bc52ba1e73f6c1"
  
--SRC_URI[md5sum] = "d1fb8ba312a1c15e0bfda911a98c5544"
--SRC_URI[sha256sum] = "d38b0460bf3f35c95faf7f8cf52dac1216d86a47866f5e5f2fda88c61da04960"
-+SRC_URI[md5sum] = "38abead776a506109e128ab96bcbbe58"
-+SRC_URI[sha256sum] = "070bef794c6826b3fb3965d1a2efdb46c25cb37c06c715987f88a50906cd5b6f"
+ DEPENDS = "libpipeline gdbm groff-native base-passwd"
+ RDEPENDS_${PN} += "base-passwd"
+@@ -16,7 +16,7 @@ RDEPENDS_${PN} += "base-passwd"
+ # | /usr/src/debug/man-db/2.8.0-r0/man-db-2.8.0/src/whatis.c:939: undefined reference to `_nl_msg_cat_cntr'
+ USE_NLS_libc-musl = "no"
  
- inherit manpages
+-inherit gettext pkgconfig autotools
++inherit gettext pkgconfig autotools systemd
  
+ EXTRA_OECONF = "--with-pager=less"
+ EXTRA_AUTORECONF += "-I ${S}/gl/m4"
+@@ -54,3 +54,6 @@ def compress_pkg(d):
+     return ""
+ 
+ RDEPENDS_${PN} += "${@compress_pkg(d)}"
++
++SYSTEMD_SERVICE_${PN} = "man-db.timer man-db.service"
++SYSTEMD_AUTO_ENABLE ?= "disable"
 -- 
 2.7.4
 
