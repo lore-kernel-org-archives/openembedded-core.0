@@ -1,25 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id DC3D27E0DD
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5D6057E102
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 12 May 2019 08:18:05 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4C8I6IN024239
+	Sun, 12 May 2019 08:18:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4C8HmIP008560
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 12 May 2019 01:18:06 -0700 (PDT)
+	Sun, 12 May 2019 01:17:58 -0700
 Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 12 May 2019 01:18:05 -0700
+	14.3.439.0; Sun, 12 May 2019 01:17:37 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>,
 	<richard.purdie@linuxfoundation.org>
-Date: Sun, 12 May 2019 16:16:29 +0800
-Message-ID: <46dd87d8d61ddc5841542a97f8b365b93978ce5d.1557628550.git.hongxu.jia@windriver.com>
+Date: Sun, 12 May 2019 16:16:27 +0800
+Message-ID: <a9c3abc462dc109a31dfeea79eca8a6058eda23f.1557628550.git.hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
-MIME-Version: 1.0
 In-Reply-To: <cover.1557628550.git.hongxu.jia@windriver.com>
 References: <cover.1557628550.git.hongxu.jia@windriver.com>
-Subject: [PATCH 09/10] libxml2: upgrade 2.9.8 -> 2.9.9
+MIME-Version: 1.0
+Subject: [PATCH 07/10] subversion: upgrade 1.11.1 -> 1.12.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,948 +33,296 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 12 May 2019 08:18:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 12 May 2019 08:18:23 -0000
+Content-Type: text/plain
 
-- Drop backported fix-CVE-2017-8872.patch,
-  fix-CVE-2018-14404.patch and
-  0001-Fix-infinite-loop-in-LZMA-decompression.patch
+- Backport a patch to fix build failure while APR 1.7.0
+...
+checking for apr_int64_t Python/C API format string...
+configure: error: failed to recognize APR_INT64_T_FMT on this platform
+...
+
+- Rebase disable_macos.patch and serfmacro.patch
+
+License-update: no change, declare two new added file
+* in build/ac-macros/ax_boost_base.m4
+* in build/ac-macros/ax_boost_unit_test_framework.m4
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- ...1-Fix-infinite-loop-in-LZMA-decompression.patch |  55 ------
- .../libxml/libxml2/fix-CVE-2017-8872.patch         |  65 -------
- .../libxml/libxml2/fix-CVE-2018-14404.patch        |  45 -----
- .../libxml/libxml2/fix-execution-of-ptests.patch   |  24 ++-
- .../recipes-core/libxml/libxml2/libxml-64bit.patch |  24 ++-
- .../libxml/libxml2/libxml-m4-use-pkgconfig.patch   |  16 +-
- .../libxml/libxml2/python-sitepackages-dir.patch   |  13 +-
- meta/recipes-core/libxml/libxml2/runtest.patch     | 204 ++++++++++++---------
- .../libxml/{libxml2_2.9.8.bb => libxml2_2.9.9.bb}  |   7 +-
- 9 files changed, 172 insertions(+), 281 deletions(-)
- delete mode 100644 meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch
- delete mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch
- delete mode 100644 meta/recipes-core/libxml/libxml2/fix-CVE-2018-14404.patch
- rename meta/recipes-core/libxml/{libxml2_2.9.8.bb => libxml2_2.9.9.bb} (93%)
+ .../subversion/subversion/disable_macos.patch      |  45 +++++----
+ .../subversion/subversion/serfmacro.patch          |  27 ++++--
+ .../subversion-1.12.0-apr_1.7.0_fix-1.patch        | 107 +++++++++++++++++++++
+ .../{subversion_1.11.1.bb => subversion_1.12.0.bb} |   7 +-
+ 4 files changed, 153 insertions(+), 33 deletions(-)
+ create mode 100644 meta/recipes-devtools/subversion/subversion/subversion-1.12.0-apr_1.7.0_fix-1.patch
+ rename meta/recipes-devtools/subversion/{subversion_1.11.1.bb => subversion_1.12.0.bb} (92%)
 
-diff --git a/meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch b/meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch
-deleted file mode 100644
-index 16c2295..0000000
---- a/meta/recipes-core/libxml/libxml2/0001-Fix-infinite-loop-in-LZMA-decompression.patch
-+++ /dev/null
-@@ -1,55 +0,0 @@
--From 28a9dc642ffd759df1e48be247a114f440a6c16e Mon Sep 17 00:00:00 2001
--From: Nick Wellnhofer <wellnhofer@aevum.de>
--Date: Mon, 30 Jul 2018 13:14:11 +0200
--Subject: [PATCH] Fix infinite loop in LZMA decompression
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Check the liblzma error code more thoroughly to avoid infinite loops.
--
--Closes: https://gitlab.gnome.org/GNOME/libxml2/issues/13
--Closes: https://bugzilla.gnome.org/show_bug.cgi?id=794914
--
--This is CVE-2018-9251 and CVE-2018-14567.
--
--Thanks to Dongliang Mu and Simon Wörner for the reports.
--
--CVE: CVE-2018-9251
--CVE: CVE-2018-14567
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/2240fbf5912054af025fb6e01e26375100275e74]
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- xzlib.c | 9 +++++++++
-- 1 file changed, 9 insertions(+)
--
--diff --git a/xzlib.c b/xzlib.c
--index a839169..0ba88cf 100644
----- a/xzlib.c
--+++ b/xzlib.c
--@@ -562,6 +562,10 @@ xz_decomp(xz_statep state)
--                          "internal error: inflate stream corrupt");
--                 return -1;
--             }
--+            /*
--+             * FIXME: Remapping a couple of error codes and falling through
--+             * to the LZMA error handling looks fragile.
--+             */
--             if (ret == Z_MEM_ERROR)
--                 ret = LZMA_MEM_ERROR;
--             if (ret == Z_DATA_ERROR)
--@@ -587,6 +591,11 @@ xz_decomp(xz_statep state)
--             xz_error(state, LZMA_PROG_ERROR, "compression error");
--             return -1;
--         }
--+        if ((state->how != GZIP) &&
--+            (ret != LZMA_OK) && (ret != LZMA_STREAM_END)) {
--+            xz_error(state, ret, "lzma error");
--+            return -1;
--+        }
--     } while (strm->avail_out && ret != LZMA_STREAM_END);
-- 
--     /* update available output and crc check value */
---- 
--2.7.4
--
-diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch b/meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch
-deleted file mode 100644
-index 42a4b0e..0000000
---- a/meta/recipes-core/libxml/libxml2/fix-CVE-2017-8872.patch
-+++ /dev/null
-@@ -1,65 +0,0 @@
--Upstream-Status: Backport
--CVE: CVE-2017-8872
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 123234f2cfcd9e9b9f83047eee1dc17b4c3f4407 Mon Sep 17 00:00:00 2001
--From: Nick Wellnhofer <wellnhofer@aevum.de>
--Date: Tue, 11 Sep 2018 14:52:07 +0200
--Subject: [PATCH] Free input buffer in xmlHaltParser
--
--This avoids miscalculation of available bytes.
--
--Thanks to Yunho Kim for the report.
--
--Closes: #26
-----
-- parser.c                     |  5 +++++
-- result/errors/759573.xml.err | 17 +++++++----------
-- 2 files changed, 12 insertions(+), 10 deletions(-)
--
--diff --git a/parser.c b/parser.c
--index ca9fde2c..5813a664 100644
----- a/parser.c
--+++ b/parser.c
--@@ -12462,7 +12462,12 @@ xmlHaltParser(xmlParserCtxtPtr ctxt) {
-- 	    ctxt->input->free((xmlChar *) ctxt->input->base);
-- 	    ctxt->input->free = NULL;
-- 	}
--+        if (ctxt->input->buf != NULL) {
--+            xmlFreeParserInputBuffer(ctxt->input->buf);
--+            ctxt->input->buf = NULL;
--+        }
-- 	ctxt->input->cur = BAD_CAST"";
--+        ctxt->input->length = 0;
-- 	ctxt->input->base = ctxt->input->cur;
--         ctxt->input->end = ctxt->input->cur;
--     }
--diff --git a/result/errors/759573.xml.err b/result/errors/759573.xml.err
--index 554039f6..38ef5c40 100644
----- a/result/errors/759573.xml.err
--+++ b/result/errors/759573.xml.err
--@@ -21,14 +21,11 @@ Entity: line 1:
--             ^
-- ./test/errors/759573.xml:1: parser error : internal error: xmlParseInternalSubset: error detected in Markup declaration
-- 
---<?h?><!DOCTYPEt[<!ELEMENT t (A)><!ENTITY % xx '&#37;<![INCLUDE[000&#37;&#3000;00
---     ^
--+
--+^
-- ./test/errors/759573.xml:1: parser error : DOCTYPE improperly terminated
---<?h?><!DOCTYPEt[<!ELEMENT t (A)><!ENTITY % xx '&#37;<![INCLUDE[000&#37;&#3000;00
---     ^
---./test/errors/759573.xml:1: parser error : StartTag: invalid element name
---<?h?><!DOCTYPEt[<!ELEMENT t (A)><!ENTITY % xx '&#37;<![INCLUDE[000&#37;&#3000;00
---      ^
---./test/errors/759573.xml:1: parser error : Extra content at the end of the document
---<?h?><!DOCTYPEt[<!ELEMENT t (A)><!ENTITY % xx '&#37;<![INCLUDE[000&#37;&#3000;00
---      ^
--+
--+^
--+./test/errors/759573.xml:1: parser error : Start tag expected, '<' not found
--+
--+^
---- 
--2.11.0
--
-diff --git a/meta/recipes-core/libxml/libxml2/fix-CVE-2018-14404.patch b/meta/recipes-core/libxml/libxml2/fix-CVE-2018-14404.patch
-deleted file mode 100644
-index 21668e2..0000000
---- a/meta/recipes-core/libxml/libxml2/fix-CVE-2018-14404.patch
-+++ /dev/null
-@@ -1,45 +0,0 @@
--libxml2-2.9.8: Fix CVE-2018-14404
--
--[No upstream tracking] -- https://gitlab.gnome.org/GNOME/libxml2/issues/5
-- -- https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=901817
-- -- https://bugzilla.redhat.com/show_bug.cgi?id=1595985
--
--xpath: Fix nullptr deref with XPath logic ops
--
--If the XPath stack is corrupted, for example by a misbehaving extension
--function, the "and" and "or" XPath operators could dereference NULL
--pointers. Check that the XPath stack isn't empty and optimize the
--logic operators slightly.
--
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/commit/a436374994c47b12d5de1b8b1d191a098fa23594]
--CVE: CVE-2018-14404
--Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
--
--diff --git a/xpath.c b/xpath.c
--index f440696..75cac5c 100644
----- a/xpath.c
--+++ b/xpath.c
--@@ -13297,9 +13297,8 @@ xmlXPathCompOpEval(xmlXPathParserContextPtr ctxt, xmlXPathStepOpPtr op)
-- 		return(0);
-- 	    }
--             xmlXPathBooleanFunction(ctxt, 1);
---            arg1 = valuePop(ctxt);
---            arg1->boolval &= arg2->boolval;
---            valuePush(ctxt, arg1);
--+	    if (ctxt->value != NULL)
--+		ctxt->value->boolval &= arg2->boolval;
-- 	    xmlXPathReleaseObject(ctxt->context, arg2);
--             return (total);
--         case XPATH_OP_OR:
--@@ -13323,9 +13322,8 @@ xmlXPathCompOpEval(xmlXPathParserContextPtr ctxt, xmlXPathStepOpPtr op)
-- 		return(0);
-- 	    }
--             xmlXPathBooleanFunction(ctxt, 1);
---            arg1 = valuePop(ctxt);
---            arg1->boolval |= arg2->boolval;
---            valuePush(ctxt, arg1);
--+	    if (ctxt->value != NULL)
--+		ctxt->value->boolval |= arg2->boolval;
-- 	    xmlXPathReleaseObject(ctxt->context, arg2);
--             return (total);
--         case XPATH_OP_EQUAL:
-diff --git a/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch b/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
-index 51a9e19..ad719d4 100644
---- a/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
-+++ b/meta/recipes-core/libxml/libxml2/fix-execution-of-ptests.patch
-@@ -1,14 +1,23 @@
--Make sure that Makefile doesn't try to compile these tests again
--on the target where the source dependencies won't be available.
-+From 395c0f53ec226aaabedb166e6b3a7f8590b95a5f Mon Sep 17 00:00:00 2001
+diff --git a/meta/recipes-devtools/subversion/subversion/disable_macos.patch b/meta/recipes-devtools/subversion/subversion/disable_macos.patch
+index ec3be49..8d2d635 100644
+--- a/meta/recipes-devtools/subversion/subversion/disable_macos.patch
++++ b/meta/recipes-devtools/subversion/subversion/disable_macos.patch
+@@ -1,15 +1,25 @@
+-These tests don't work in cross compiling, just disable them for now, we don't
+-build subversion on OS-X at this time.
++From 9c350c037ca3489dbeece6ecc2d7e2e5dbb177e9 Mon Sep 17 00:00:00 2001
 +From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 11 May 2019 20:39:15 +0800
-+Subject: [PATCH] Make sure that Makefile doesn't try to compile these tests
-+ again on the target where the source dependencies won't be available.
++Date: Sat, 11 May 2019 15:21:46 +0800
++Subject: [PATCH] These tests don't work in cross compiling, just disable them
++ for now, we don't build subversion on OS-X at this time.
  
- Upstream-Status: Inappropriate [cross-compile specific]
+ RP 1014/7/16
  
- Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+ Upstream-Status: Pending [needs a rewrite to support a cache value]
  
--Index: libxml2-2.9.7/Makefile.am
+-Index: subversion-1.8.9/build/ac-macros/macosx.m4
 -===================================================================
----- libxml2-2.9.7.orig/Makefile.am
--+++ libxml2-2.9.7/Makefile.am
-+Rebase to 2.9.9
+---- subversion-1.8.9.orig/build/ac-macros/macosx.m4	2012-11-26 03:04:27.000000000 +0000
+-+++ subversion-1.8.9/build/ac-macros/macosx.m4	2014-07-16 12:28:58.357300403 +0000
+-@@ -24,21 +24,7 @@
++Rebase to 1.12.0
++
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ Makefile.am | 3 +--
-+ 1 file changed, 1 insertion(+), 2 deletions(-)
++ build/ac-macros/macosx.m4 | 31 +------------------------------
++ 1 file changed, 1 insertion(+), 30 deletions(-)
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index 8f4e43d..5edb930 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
- @@ -211,8 +211,7 @@ install-ptest:
-  	sed -i -e 's|^Makefile:|_Makefile:|' $(DESTDIR)/Makefile
-  	$(MAKE) -C python install-ptest
-@@ -19,3 +28,6 @@ Index: libxml2-2.9.7/Makefile.am
-  	[ -d test   ] || $(LN_S) $(srcdir)/test   .
-  	[ -d result ] || $(LN_S) $(srcdir)/result .
-  	$(CHECKER) ./runtest$(EXEEXT) && \
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/libxml/libxml2/libxml-64bit.patch b/meta/recipes-core/libxml/libxml2/libxml-64bit.patch
-index 1147017..fd8e469 100644
---- a/meta/recipes-core/libxml/libxml2/libxml-64bit.patch
-+++ b/meta/recipes-core/libxml/libxml2/libxml-64bit.patch
-@@ -1,14 +1,19 @@
--Upstream-Status: Backport [from debian: bugs.debian.org/439843]
-+From 056b14345b1abd76a761ab14538f1bc21302781a Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 11 May 2019 20:26:51 +0800
-+Subject: [PATCH] libxml 64bit
- 
-+Upstream-Status: Backport [from debian: bugs.debian.org/439843]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-- libxml.h |    3 +++
-+ libxml.h | 3 +++
-  1 file changed, 3 insertions(+)
- 
----- libxml2-2.6.29.orig/libxml.h
--+++ libxml2-2.6.29/libxml.h
--@@ -11,10 +11,13 @@
-- 
-- #ifndef NO_LARGEFILE_SOURCE
-+diff --git a/libxml.h b/libxml.h
-+index 64e30f7..4e80d90 100644
-+--- a/libxml.h
-++++ b/libxml.h
-+@@ -15,6 +15,9 @@
-  #ifndef _LARGEFILE_SOURCE
-  #define _LARGEFILE_SOURCE
-  #endif
-@@ -18,5 +23,6 @@ Upstream-Status: Backport [from debian: bugs.debian.org/439843]
-  #ifndef _FILE_OFFSET_BITS
-  #define _FILE_OFFSET_BITS 64
-  #endif
-- #endif
-- 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-index d9ed151..e6998f6 100644
---- a/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-+++ b/meta/recipes-core/libxml/libxml2/libxml-m4-use-pkgconfig.patch
-@@ -1,11 +1,20 @@
--AM_PATH_XML2 uses xml-config which we disable through
-+From 43edc9a445ed66cceb7533eadeef242940b4592c Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 11 May 2019 20:37:12 +0800
-+Subject: [PATCH] AM_PATH_XML2 uses xml-config which we disable through
- binconfig-disabled.bbclass, so port it to use pkg-config instead.
- 
- Upstream-Status: Pending
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
-+Rebase to 2.9.9
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ libxml.m4 | 186 ++------------------------------------------------------------
-+ 1 file changed, 5 insertions(+), 181 deletions(-)
-+
- diff --git a/libxml.m4 b/libxml.m4
--index 68cd824..5fa0a9b 100644
-+index 2d7a6f5..1c53585 100644
- --- a/libxml.m4
- +++ b/libxml.m4
- @@ -1,188 +1,12 @@
-@@ -202,3 +211,6 @@ index 68cd824..5fa0a9b 100644
- -  AC_SUBST(XML_LIBS)
- -  rm -f conf.xmltest
++diff --git a/build/ac-macros/macosx.m4 b/build/ac-macros/macosx.m4
++index 92fa58e..a568e1c 100644
++--- a/build/ac-macros/macosx.m4
+++++ b/build/ac-macros/macosx.m4
++@@ -24,21 +24,7 @@ dnl Check for _dyld_image_name and _dyld_image_header availability
+  AC_DEFUN(SVN_LIB_MACHO_ITERATE,
+  [
+    AC_MSG_CHECKING([for Mach-O dynamic module iteration functions])
+@@ -31,7 +41,7 @@ Index: subversion-1.8.9/build/ac-macros/macosx.m4
   ])
+  
+  dnl SVN_LIB_MACOS_PLIST
+-@@ -46,34 +32,7 @@
++@@ -46,23 +32,8 @@ dnl Assign variables for Mac OS property list support
+  AC_DEFUN(SVN_LIB_MACOS_PLIST,
+  [
+    AC_MSG_CHECKING([for Mac OS property list utilities])
+@@ -44,25 +54,18 @@ Index: subversion-1.8.9/build/ac-macros/macosx.m4
+ -    #error ProperyList API unavailable.
+ -    #endif
+ -  ]],[[]])],[
+--    dnl ### Hack.  We should only need to pass the -framework options when
+--    dnl linking libsvn_subr, since it is the only library that uses Keychain.
+--    dnl
+--    dnl Unfortunately, libtool 1.5.x doesn't track transitive dependencies for
+--    dnl OS X frameworks like it does for normal libraries, so we need to
+--    dnl explicitly pass the option to all the users of libsvn_subr to allow
+--    dnl static builds to link successfully.
+--    dnl
+--    dnl This does mean that all executables we link will be linked directly
+--    dnl to these frameworks - even when building shared libraries - but that
+--    dnl shouldn't cause any problems.
+--
+--    LIBS="$LIBS -framework CoreFoundation"
++-    SVN_MACOS_PLIST_LIBS="-framework CoreFoundation"
++-    AC_SUBST(SVN_MACOS_PLIST_LIBS)
+ -    AC_DEFINE([SVN_HAVE_MACOS_PLIST], [1],
+ -              [Is Mac OS property list API available?])
+ -    AC_MSG_RESULT([yes])
+ -  ],[
+++  AC_SUBST([SVN_MACOS_PLIST_LIBS], [""])
+      AC_MSG_RESULT([no])
+ -  ])
+  ])
+  
+  dnl SVN_LIB_MACOS_KEYCHAIN
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-index e83c832..956ff3f 100644
---- a/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-+++ b/meta/recipes-core/libxml/libxml2/python-sitepackages-dir.patch
-@@ -1,4 +1,7 @@
--Allow us to pass in PYTHON_SITE_PACKAGES
-+From b038c3452667ed17ddb0e791cd7bdc7f8774ac29 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Sat, 11 May 2019 20:35:20 +0800
-+Subject: [PATCH] Allow us to pass in PYTHON_SITE_PACKAGES
+diff --git a/meta/recipes-devtools/subversion/subversion/serfmacro.patch b/meta/recipes-devtools/subversion/subversion/serfmacro.patch
+index 9a45cb9..507de0f 100644
+--- a/meta/recipes-devtools/subversion/subversion/serfmacro.patch
++++ b/meta/recipes-devtools/subversion/subversion/serfmacro.patch
+@@ -1,22 +1,31 @@
+-The existing sed expression can match expressions like 
+---sysroot=/some/path/xxx-linux/ which clearly isn't intended and 
+-injects incorrect paths into LDFLAGS.
++The existing sed expression can match expressions like
++--sysroot=/some/path/xxx-linux/ which clearly isn't intended and injects
++incorrect paths into LDFLAGS.
  
- The python binary used when building for nativesdk doesn't give us the
- correct path here so we need to be able to specify it ourselves.
-@@ -6,16 +9,18 @@ correct path here so we need to be able to specify it ourselves.
- Upstream-Status: Inappropriate [config]
- Signed-off-by: Paul Eggleton <paul.eggleton@linux.intel.com>
+ Fix this in the same way we address the problem in CFLAGS.
  
--Rebase to 2.9.2
-+Rebase to 2.9.9
-+
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-  configure.ac | 3 ++-
-  1 file changed, 2 insertions(+), 1 deletion(-)
+ RP 2016/12/7
+ Upstream-Status: Pending
  
- diff --git a/configure.ac b/configure.ac
-+index ca911f3..3bbd654 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -813,7 +813,8 @@ dnl
-+@@ -808,7 +808,8 @@ dnl
-  
-  PYTHON_VERSION=
-  PYTHON_INCLUDES=
-@@ -26,5 +31,5 @@ diff --git a/configure.ac b/configure.ac
-  pythondir=
-  if test "$with_python" != "no" ; then
- -- 
--1.9.1
-+2.7.4
- 
-diff --git a/meta/recipes-core/libxml/libxml2/runtest.patch b/meta/recipes-core/libxml/libxml2/runtest.patch
-index 544dc05..0dbb353 100644
---- a/meta/recipes-core/libxml/libxml2/runtest.patch
-+++ b/meta/recipes-core/libxml/libxml2/runtest.patch
-@@ -1,14 +1,28 @@
--Add 'install-ptest' rule.
--Print a standard result line for each test.
-+Add 'install-ptest' rule. Print a standard result line for
-+each test.
- 
- Signed-off-by: Mihaela Sendrea <mihaela.sendrea@enea.com>
- Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
- Upstream-Status: Backport
- 
--diff -uNr a/Makefile.am b/Makefile.am
----- a/Makefile.am	2017-12-02 09:58:10.000000000 +0100
--+++ b/Makefile.am	2018-03-20 08:27:34.360505864 +0100
--@@ -202,6 +202,15 @@
+-Index: subversion-1.9.4/build/ac-macros/serf.m4
+-===================================================================
+---- subversion-1.9.4.orig/build/ac-macros/serf.m4
+-+++ subversion-1.9.4/build/ac-macros/serf.m4
++Rebase 1.12.0
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ Makefile.am   |   9 ++++
-+ runsuite.c    |   1 +
-+ runtest.c     |   2 +
-+ runxmlconf.c  |   1 +
-+ testapi.c     | 122 ++++++++++++++++++++++++++++++---------------
-+ testchar.c    | 156 +++++++++++++++++++++++++++++++++++++++++-----------------
-+ testdict.c    |   1 +
-+ testlimits.c  |   1 +
-+ testrecurse.c |   2 +
-+ 9 files changed, 210 insertions(+), 85 deletions(-)
++ build/ac-macros/serf.m4 | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index 9c630be..7cfd04b 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -202,6 +202,15 @@ runxmlconf_LDADD= $(LDADDS)
-  #testOOM_DEPENDENCIES = $(DEPS)
-  #testOOM_LDADD= $(LDADDS)
-  
-@@ -24,10 +38,11 @@ diff -uNr a/Makefile.am b/Makefile.am
-  runtests: runtest$(EXEEXT) testrecurse$(EXEEXT) testapi$(EXEEXT) \
-            testchar$(EXEEXT) testdict$(EXEEXT) runxmlconf$(EXEEXT)
-  	[ -d test   ] || $(LN_S) $(srcdir)/test   .
--diff -uNr a/runsuite.c b/runsuite.c
----- a/runsuite.c	2016-06-07 12:04:14.000000000 +0200
--+++ b/runsuite.c	2018-03-20 08:27:57.478817247 +0100
--@@ -1162,6 +1162,7 @@
-+diff --git a/runsuite.c b/runsuite.c
-+index aaab13e..9ba2c5d 100644
-+--- a/runsuite.c
-++++ b/runsuite.c
-+@@ -1162,6 +1162,7 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
-  
-      if (logfile != NULL)
-          fclose(logfile);
-@@ -35,20 +50,19 @@ diff -uNr a/runsuite.c b/runsuite.c
-      return(ret);
-  }
-  #else /* !SCHEMAS */
--diff -uNr a/runtest.c b/runtest.c
----- a/runtest.c	2017-11-13 22:00:17.000000000 +0100
--+++ b/runtest.c	2018-03-20 08:28:50.859047551 +0100
--@@ -4496,7 +4496,8 @@
--     }
-- 
-+diff --git a/runtest.c b/runtest.c
-+index addda5c..8ba5d59 100644
-+--- a/runtest.c
-++++ b/runtest.c
-+@@ -4501,6 +4501,7 @@ launchTests(testDescPtr tst) {
-      xmlCharEncCloseFunc(ebcdicHandler);
---
--+    
-+     xmlCharEncCloseFunc(eucJpHandler);
-+ 
- +    printf("%s: %s\n", (err == 0) ? "PASS" : "FAIL", tst->desc);
-      return(err);
-  }
-  
--@@ -4573,6 +4574,7 @@
-+@@ -4577,6 +4578,7 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
-      xmlCleanupParser();
-      xmlMemoryDump();
-  
-@@ -56,10 +70,11 @@ diff -uNr a/runtest.c b/runtest.c
-      return(ret);
-  }
-  
--diff -uNr a/runxmlconf.c b/runxmlconf.c
----- a/runxmlconf.c	2016-06-07 12:04:14.000000000 +0200
--+++ b/runxmlconf.c	2018-03-20 08:29:17.944862893 +0100
--@@ -595,6 +595,7 @@
-+diff --git a/runxmlconf.c b/runxmlconf.c
-+index cef20f4..4f291fb 100644
-+--- a/runxmlconf.c
-++++ b/runxmlconf.c
-+@@ -595,6 +595,7 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
-  
-      if (logfile != NULL)
-          fclose(logfile);
-@@ -67,15 +82,15 @@ diff -uNr a/runxmlconf.c b/runxmlconf.c
-      return(ret);
-  }
-  
--diff -uNr a/testapi.c b/testapi.c
----- a/testapi.c	2018-01-25 07:39:15.000000000 +0100
--+++ b/testapi.c	2018-03-20 09:08:35.323980145 +0100
--@@ -1246,49 +1246,91 @@
-+diff --git a/testapi.c b/testapi.c
-+index 4a751e2..7ccc066 100644
-+--- a/testapi.c
-++++ b/testapi.c
-+@@ -1246,49 +1246,91 @@ static int
-  testlibxml2(void)
-  {
-      int test_ret = 0;
--+    int ret = 0;
-- 
-+-
- -    test_ret += test_HTMLparser();
- -    test_ret += test_HTMLtree();
- -    test_ret += test_SAX2();
-@@ -115,6 +130,8 @@ diff -uNr a/testapi.c b/testapi.c
- -    test_ret += test_xpath();
- -    test_ret += test_xpathInternals();
- -    test_ret += test_xpointer();
-++    int ret = 0;
-++
- +    test_ret += (ret = test_HTMLparser());
- +    printf("%s: HTMLparser\n", (ret == 0) ? "PASS" : "FAIL");
- +    test_ret += (ret = test_HTMLtree());
-@@ -201,20 +218,11 @@ diff -uNr a/testapi.c b/testapi.c
-      return(test_ret);
-  }
-  
--diff -uNr a/testdict.c b/testdict.c
----- a/testdict.c	2016-06-07 12:04:14.000000000 +0200
--+++ b/testdict.c	2018-03-20 08:59:16.864275812 +0100
--@@ -440,5 +440,6 @@
--     clean_strings();
--     xmlCleanupParser();
--     xmlMemoryDump();
--+    printf("%s: testdict\n\n", (ret == 0) ? "PASS" : "FAIL");
--     return(ret);
-- }
--diff -uNr a/testchar.c b/testchar.c
----- a/testchar.c	2016-06-07 12:04:14.000000000 +0200
--+++ b/testchar.c	2018-03-20 09:11:20.383573912 +0100
--@@ -23,7 +23,7 @@
-+diff --git a/testchar.c b/testchar.c
-+index 0d08792..f555d3b 100644
-+--- a/testchar.c
-++++ b/testchar.c
-+@@ -23,7 +23,7 @@ static void errorHandler(void *unused, xmlErrorPtr err) {
-  char document1[100] = "<doc>XXXX</doc>";
-  char document2[100] = "<doc foo='XXXX'/>";
-  
-@@ -223,7 +231,7 @@ diff -uNr a/testchar.c b/testchar.c
-                    int len,  char *data, int forbid1, int forbid2) {
-      int i;
-      xmlDocPtr res;
--@@ -37,33 +37,41 @@
-+@@ -37,33 +37,41 @@ static void testDocumentRangeByte1(xmlParserCtxtPtr ctxt, char *document,
-  	res = xmlReadMemory(document, len, "test", NULL, 0);
-  
-  	if ((i == forbid1) || (i == forbid2)) {
-@@ -269,7 +277,7 @@ diff -uNr a/testchar.c b/testchar.c
-                    int len,  char *data) {
-      int i, j;
-      xmlDocPtr res;
--@@ -80,10 +88,12 @@
-+@@ -80,10 +88,12 @@ static void testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
-  
-  	/* if first bit of first char is set, then second bit must too */
-  	if ((i & 0x80) && ((i & 0x40) == 0)) {
-@@ -283,7 +291,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -91,10 +101,12 @@
-+@@ -91,10 +101,12 @@ static void testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
-  	 * bits must be 10
-  	 */
-  	else if ((i & 0x80) && ((j & 0xC0) != 0x80)) {
-@@ -297,7 +305,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -102,10 +114,12 @@
-+@@ -102,10 +114,12 @@ static void testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
-  	 * than 0x80, i.e. one of bits 5 to 1 of i must be set
-  	 */
-  	else if ((i & 0x80) && ((i & 0x1E) == 0)) {
-@@ -311,7 +319,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -113,10 +127,12 @@
-+@@ -113,10 +127,12 @@ static void testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
-  	 * at least 3 bytes, but we give only 2 !
-  	 */
-  	else if ((i & 0xE0) == 0xE0) {
-@@ -325,7 +333,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -125,11 +141,13 @@
-+@@ -125,11 +141,13 @@ static void testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
-  	else if ((lastError != 0) || (res == NULL)) {
-  	    fprintf(stderr,
-  		"Failed to parse document for Bytes 0x%02X 0x%02X\n", i, j);
-@@ -339,7 +347,7 @@ diff -uNr a/testchar.c b/testchar.c
-  }
-  
-  /**
--@@ -141,9 +159,10 @@
-+@@ -141,9 +159,10 @@ static void testDocumentRangeByte2(xmlParserCtxtPtr ctxt, char *document,
-   * CDATA in text or in attribute values.
-   */
-  
-@@ -351,7 +359,7 @@ diff -uNr a/testchar.c b/testchar.c
-  
-      /*
-       * Set up a parsing context using the first document as
--@@ -152,7 +171,7 @@
-+@@ -152,7 +171,7 @@ static void testDocumentRanges(void) {
-      ctxt = xmlNewParserCtxt();
-      if (ctxt == NULL) {
-          fprintf(stderr, "Failed to allocate parser context\n");
-@@ -360,7 +368,7 @@ diff -uNr a/testchar.c b/testchar.c
-      }
-  
-      printf("testing 1 byte char in document: 1");
--@@ -163,7 +182,7 @@
-+@@ -163,7 +182,7 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 1 byte injection at beginning of area */
-@@ -369,7 +377,7 @@ diff -uNr a/testchar.c b/testchar.c
-                             data, -1, -1);
-      printf(" 2");
-      fflush(stdout);
--@@ -172,7 +191,7 @@
-+@@ -172,7 +191,7 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 1 byte injection at end of area */
-@@ -378,7 +386,7 @@ diff -uNr a/testchar.c b/testchar.c
-                             data + 3, -1, -1);
-  
-      printf(" 3");
--@@ -183,7 +202,7 @@
-+@@ -183,7 +202,7 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 1 byte injection at beginning of area */
-@@ -387,7 +395,7 @@ diff -uNr a/testchar.c b/testchar.c
-                             data, '\'', -1);
-      printf(" 4");
-      fflush(stdout);
--@@ -192,7 +211,7 @@
-+@@ -192,7 +211,7 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 1 byte injection at end of area */
-@@ -396,7 +404,7 @@ diff -uNr a/testchar.c b/testchar.c
-                             data + 3, '\'', -1);
-      printf(" done\n");
-  
--@@ -204,7 +223,7 @@
-+@@ -204,7 +223,7 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 2 byte injection at beginning of area */
-@@ -405,7 +413,7 @@ diff -uNr a/testchar.c b/testchar.c
-                             data);
-      printf(" 2");
-      fflush(stdout);
--@@ -213,7 +232,7 @@
-+@@ -213,7 +232,7 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 2 byte injection at end of area */
-@@ -414,7 +422,7 @@ diff -uNr a/testchar.c b/testchar.c
-                             data + 2);
-  
-      printf(" 3");
--@@ -224,7 +243,7 @@
-+@@ -224,7 +243,7 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 2 byte injection at beginning of area */
-@@ -423,7 +431,7 @@ diff -uNr a/testchar.c b/testchar.c
-                             data);
-      printf(" 4");
-      fflush(stdout);
--@@ -233,14 +252,15 @@
-+@@ -233,14 +252,15 @@ static void testDocumentRanges(void) {
-      data[2] = ' ';
-      data[3] = ' ';
-      /* test 2 byte injection at end of area */
-@@ -441,7 +449,7 @@ diff -uNr a/testchar.c b/testchar.c
-      int i = 0;
-      int len, c;
-  
--@@ -255,19 +275,25 @@
-+@@ -255,19 +275,25 @@ static void testCharRangeByte1(xmlParserCtxtPtr ctxt, char *data) {
-          c = xmlCurrentChar(ctxt, &len);
-  	if ((i == 0) || (i >= 0x80)) {
-  	    /* we must see an error there */
-@@ -470,7 +478,7 @@ diff -uNr a/testchar.c b/testchar.c
-      int i, j;
-      int len, c;
-  
--@@ -284,10 +310,12 @@
-+@@ -284,10 +310,12 @@ static void testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
-  
-  	    /* if first bit of first char is set, then second bit must too */
-  	    if ((i & 0x80) && ((i & 0x40) == 0)) {
-@@ -484,7 +492,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	    }
-  
-  	    /*
--@@ -295,10 +323,12 @@
-+@@ -295,10 +323,12 @@ static void testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
-  	     * bits must be 10
-  	     */
-  	    else if ((i & 0x80) && ((j & 0xC0) != 0x80)) {
-@@ -498,7 +506,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	    }
-  
-  	    /*
--@@ -306,10 +336,12 @@
-+@@ -306,10 +336,12 @@ static void testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
-  	     * than 0x80, i.e. one of bits 5 to 1 of i must be set
-  	     */
-  	    else if ((i & 0x80) && ((i & 0x1E) == 0)) {
-@@ -512,7 +520,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	    }
-  
-  	    /*
--@@ -317,10 +349,12 @@
-+@@ -317,10 +349,12 @@ static void testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
-  	     * at least 3 bytes, but we give only 2 !
-  	     */
-  	    else if ((i & 0xE0) == 0xE0) {
-@@ -526,7 +534,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	    }
-  
-              /*
--@@ -329,6 +363,7 @@
-+@@ -329,6 +363,7 @@ static void testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
-  	    else if ((lastError != 0) || (len != 2)) {
-  		fprintf(stderr,
-  		    "Failed to parse char for Bytes 0x%02X 0x%02X\n", i, j);
-@@ -534,7 +542,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	    }
-  
-              /*
--@@ -338,12 +373,14 @@
-+@@ -338,12 +373,14 @@ static void testCharRangeByte2(xmlParserCtxtPtr ctxt, char *data) {
-  		fprintf(stderr,
-  	"Failed to parse char for Bytes 0x%02X 0x%02X: expect %d got %d\n",
-  	                i, j, ((j & 0x3F) + ((i & 0x1F) << 6)), c);
-@@ -550,7 +558,7 @@ diff -uNr a/testchar.c b/testchar.c
-      int i, j, k, K;
-      int len, c;
-      unsigned char lows[6] = {0, 0x80, 0x81, 0xC1, 0xFF, 0xBF};
--@@ -368,20 +405,24 @@
-+@@ -368,20 +405,24 @@ static void testCharRangeByte3(xmlParserCtxtPtr ctxt, char *data) {
-  	 * at least 4 bytes, but we give only 3 !
-  	 */
-  	if ((i & 0xF0) == 0xF0) {
-@@ -577,7 +585,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -390,10 +431,12 @@
-+@@ -390,10 +431,12 @@ static void testCharRangeByte3(xmlParserCtxtPtr ctxt, char *data) {
-  	 * the 6th byte of data[1] must be set
-  	 */
-  	else if (((i & 0xF) == 0) && ((j & 0x20) == 0)) {
-@@ -591,7 +599,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-          /*
--@@ -401,10 +444,12 @@
-+@@ -401,10 +444,12 @@ static void testCharRangeByte3(xmlParserCtxtPtr ctxt, char *data) {
-  	 */
-  	else if (((value > 0xD7FF) && (value <0xE000)) ||
-  	         ((value > 0xFFFD) && (value <0x10000))) {
-@@ -605,7 +613,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -414,6 +459,7 @@
-+@@ -414,6 +459,7 @@ static void testCharRangeByte3(xmlParserCtxtPtr ctxt, char *data) {
-  	    fprintf(stderr,
-  		"Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X\n",
-  		    i, j, K);
-@@ -613,7 +621,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -423,13 +469,15 @@
-+@@ -423,13 +469,15 @@ static void testCharRangeByte3(xmlParserCtxtPtr ctxt, char *data) {
-  	    fprintf(stderr,
-      "Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X: expect %d got %d\n",
-  		i, j, data[2], value, c);
-@@ -630,7 +638,7 @@ diff -uNr a/testchar.c b/testchar.c
-      int i, j, k, K, l, L;
-      int len, c;
-      unsigned char lows[6] = {0, 0x80, 0x81, 0xC1, 0xFF, 0xBF};
--@@ -458,10 +506,12 @@
-+@@ -458,10 +506,12 @@ static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
-  	 * at least 5 bytes, but we give only 4 !
-  	 */
-  	if ((i & 0xF8) == 0xF8) {
-@@ -644,7 +652,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-          /*
--@@ -469,10 +519,12 @@
-+@@ -469,10 +519,12 @@ static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
-  	 */
-  	else if (((j & 0xC0) != 0x80) || ((K & 0xC0) != 0x80) ||
-  	         ((L & 0xC0) != 0x80)) {
-@@ -658,7 +666,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -481,10 +533,12 @@
-+@@ -481,10 +533,12 @@ static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
-  	 * the 6 or 5th byte of j must be set
-  	 */
-  	else if (((i & 0x7) == 0) && ((j & 0x30) == 0)) {
-@@ -672,7 +680,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-          /*
--@@ -493,10 +547,12 @@
-+@@ -493,10 +547,12 @@ static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
-  	else if (((value > 0xD7FF) && (value <0xE000)) ||
-  	         ((value > 0xFFFD) && (value <0x10000)) ||
-  		 (value > 0x10FFFF)) {
-@@ -686,7 +694,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -506,6 +562,7 @@
-+@@ -506,6 +562,7 @@ static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
-  	    fprintf(stderr,
-  		"Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X\n",
-  		    i, j, K);
-@@ -694,7 +702,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	}
-  
-  	/*
--@@ -515,11 +572,13 @@
-+@@ -515,11 +572,13 @@ static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
-  	    fprintf(stderr,
-      "Failed to parse char for Bytes 0x%02X 0x%02X 0x%02X: expect %d got %d\n",
-  		i, j, data[2], value, c);
-@@ -708,7 +716,7 @@ diff -uNr a/testchar.c b/testchar.c
-  }
-  
-  /**
--@@ -530,11 +589,12 @@
-+@@ -530,11 +589,12 @@ static void testCharRangeByte4(xmlParserCtxtPtr ctxt, char *data) {
-   * cover the full range of UTF-8 chars accepted by XML-1.0
-   */
-  
-@@ -722,7 +730,7 @@ diff -uNr a/testchar.c b/testchar.c
-  
-      memset(data, 0, 5);
-  
--@@ -545,17 +605,19 @@
-+@@ -545,17 +605,19 @@ static void testCharRanges(void) {
-      ctxt = xmlNewParserCtxt();
-      if (ctxt == NULL) {
-          fprintf(stderr, "Failed to allocate parser context\n");
-@@ -743,7 +751,7 @@ diff -uNr a/testchar.c b/testchar.c
-  	goto error;
-      }
-      input->filename = NULL;
--@@ -567,25 +629,28 @@
-+@@ -567,25 +629,28 @@ static void testCharRanges(void) {
-  
-      printf("testing char range: 1");
-      fflush(stdout);
-@@ -776,7 +784,7 @@ diff -uNr a/testchar.c b/testchar.c
-      /*
-       * this initialize the library and check potential ABI mismatches
-       * between the version it was compiled for and the actual shared
--@@ -602,8 +667,9 @@
-+@@ -602,8 +667,9 @@ int main(void) {
-      /*
-       * Run the tests
-       */
-@@ -788,20 +796,33 @@ diff -uNr a/testchar.c b/testchar.c
-  
-      /*
-       * Cleanup function for the XML library.
--diff -uNr a/testlimits.c b/testlimits.c
----- a/testlimits.c	2016-11-07 09:41:40.000000000 +0100
--+++ b/testlimits.c	2018-03-20 08:59:38.965581280 +0100
--@@ -1634,5 +1634,6 @@
-+diff --git a/testdict.c b/testdict.c
-+index 40bebd0..114b934 100644
-+--- a/testdict.c
-++++ b/testdict.c
-+@@ -440,5 +440,6 @@ int main(void)
-+     clean_strings();
-+     xmlCleanupParser();
-+     xmlMemoryDump();
-++    printf("%s: testdict\n\n", (ret == 0) ? "PASS" : "FAIL");
-+     return(ret);
-+ }
-+diff --git a/testlimits.c b/testlimits.c
-+index 68c94db..1584434 100644
-+--- a/testlimits.c
-++++ b/testlimits.c
-+@@ -1634,5 +1634,6 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
-      xmlCleanupParser();
-      xmlMemoryDump();
-  
- +    printf("%s: testlimits\n", (ret == 0) ? "PASS" : "FAIL");
-      return(ret);
-  }
--diff -uNr a/testrecurse.c b/testrecurse.c
----- a/testrecurse.c	2017-10-26 09:54:40.000000000 +0200
--+++ b/testrecurse.c	2018-03-20 09:00:46.781628749 +0100
--@@ -892,6 +892,7 @@
-+diff --git a/testrecurse.c b/testrecurse.c
-+index f95ae1c..74c8f8b 100644
-+--- a/testrecurse.c
-++++ b/testrecurse.c
-+@@ -892,6 +892,7 @@ launchTests(testDescPtr tst) {
-  	    err++;
-  	}
-      }
-@@ -809,10 +830,13 @@ diff -uNr a/testrecurse.c b/testrecurse.c
-      return(err);
-  }
-  
--@@ -961,5 +962,6 @@
-+@@ -961,5 +962,6 @@ main(int argc ATTRIBUTE_UNUSED, char **argv ATTRIBUTE_UNUSED) {
-      xmlCleanupParser();
-      xmlMemoryDump();
-  
- +    printf("%s: testrecurse\n\n", (ret == 0) ? "PASS" : "FAIL");
-      return(ret);
-  }
++diff --git a/build/ac-macros/serf.m4 b/build/ac-macros/serf.m4
++index 0a549b3..3a069ac 100644
++--- a/build/ac-macros/serf.m4
+++++ b/build/ac-macros/serf.m4
+ @@ -171,7 +171,7 @@ AC_DEFUN(SVN_SERF_PKG_CONFIG,
+-           SVN_SERF_INCLUDES=[`$PKG_CONFIG $serf_pc_arg --cflags | $SED -e 's/ -D[^ ]*//g' -e 's/^-D[^ ]*//g'`]
+-           SVN_SERF_LIBS=`$PKG_CONFIG $serf_pc_arg --libs-only-l` 
++           SVN_SERF_INCLUDES=[`$PKG_CONFIG $serf_pc_arg --cflags-only-I`]
++           SVN_SERF_LIBS=[`$PKG_CONFIG $serf_pc_arg --libs-only-l`]
+            dnl don't use --libs-only-L because then we might miss some options
+ -          LDFLAGS=["$LDFLAGS `$PKG_CONFIG $serf_pc_arg --libs | $SED -e 's/-l[^ ]*//g'`"]
+ +          LDFLAGS=["$LDFLAGS `$PKG_CONFIG $serf_pc_arg --libs | $SED -e 's/ -l[^ ]*//g' -e 's/^-l[^ ]*//g'`"]
+            break
+          else
+            AC_MSG_RESULT([no])
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-core/libxml/libxml2_2.9.8.bb b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-similarity index 93%
-rename from meta/recipes-core/libxml/libxml2_2.9.8.bb
-rename to meta/recipes-core/libxml/libxml2_2.9.9.bb
-index 62643bc..c38f883 100644
---- a/meta/recipes-core/libxml/libxml2_2.9.8.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.9.9.bb
-@@ -20,13 +20,10 @@ SRC_URI = "http://www.xmlsoft.org/sources/libxml2-${PV}.tar.gz;name=libtar \
-            file://libxml-m4-use-pkgconfig.patch \
-            file://0001-Make-ptest-run-the-python-tests-if-python-is-enabled.patch \
-            file://fix-execution-of-ptests.patch \
--           file://fix-CVE-2017-8872.patch \
--           file://fix-CVE-2018-14404.patch \
--           file://0001-Fix-infinite-loop-in-LZMA-decompression.patch \
+diff --git a/meta/recipes-devtools/subversion/subversion/subversion-1.12.0-apr_1.7.0_fix-1.patch b/meta/recipes-devtools/subversion/subversion/subversion-1.12.0-apr_1.7.0_fix-1.patch
+new file mode 100644
+index 0000000..f0edd5f
+--- /dev/null
++++ b/meta/recipes-devtools/subversion/subversion/subversion-1.12.0-apr_1.7.0_fix-1.patch
+@@ -0,0 +1,107 @@
++From b147803553237654f8268e831dee8fed4989ad3b Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Sat, 11 May 2019 14:46:39 +0800
++Subject: [PATCH] Submitted By: Pierre Labastie (pierre dot labastie at neuf
++ dot fr) Date: 2019-04-17 Initial Package Version: 1.11.1 Origin: Upstream
++ revision 1857391 Upstream Status: Committed Description: Get rid of
++ apr_int64_t format string check in swig py configure.
++
++This check relied on APR implementation details and broke with APR 1.7.0.
++Rather than trying to guess a perfect format string to use, just use the
++largest possible format and cast the argument accordingly.
++
++Should fix build against APR 1.7.0 and later.
++
++Suggested by: brane
++
++* build/ac-macros/swig.m4: Remove code related to SVN_APR_INT64_T_PYCFMT.
++
++* subversion/bindings/swig/python/libsvn_swig_py/swigutil_py.c
++  (svn_swig_py_client_blame_receiver_func): Stop relying on the
++   SVN_APR_INT64_T_PYCFMT constant from configure. Use "L" and
++   acast to PY_LONG_LONG instead.
++
++Upstream-Status: Backport [www.linuxfromscratch.org/patches/blfs/svn/subversion-1.12.0-apr_1.7.0_fix-1.patch]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ build/ac-macros/swig.m4                            | 35 ----------------------
++ .../swig/python/libsvn_swig_py/swigutil_py.c       |  9 +++---
++ 2 files changed, 4 insertions(+), 40 deletions(-)
++
++diff --git a/build/ac-macros/swig.m4 b/build/ac-macros/swig.m4
++index 55501fb..2963872 100644
++--- a/build/ac-macros/swig.m4
+++++ b/build/ac-macros/swig.m4
++@@ -128,41 +128,6 @@ AC_DEFUN(SVN_FIND_SWIG,
++       ac_cv_python_libs="`$PYTHON ${abs_srcdir}/build/get-py-info.py --libs`"
++     ])
++     SWIG_PY_LIBS="`SVN_REMOVE_STANDARD_LIB_DIRS($ac_cv_python_libs)`"
++-
++-    dnl Sun Forte adds an extra space before substituting APR_INT64_T_FMT
++-    dnl gcc-2.95 adds an extra space after substituting APR_INT64_T_FMT
++-    dnl thus the egrep patterns have a + in them.
++-    SVN_PYCFMT_SAVE_CPPFLAGS="$CPPFLAGS"
++-    CPPFLAGS="$CPPFLAGS $SVN_APR_INCLUDES"
++-    AC_CACHE_CHECK([for apr_int64_t Python/C API format string],
++-                   [svn_cv_pycfmt_apr_int64_t], [
++-      if test "x$svn_cv_pycfmt_apr_int64_t" = "x"; then
++-        AC_EGREP_CPP([MaTcHtHiS +\"lld\" +EnDeNd],
++-                     [#include <apr.h>
++-                      MaTcHtHiS APR_INT64_T_FMT EnDeNd],
++-                     [svn_cv_pycfmt_apr_int64_t="L"])
++-      fi
++-      if test "x$svn_cv_pycfmt_apr_int64_t" = "x"; then
++-        AC_EGREP_CPP([MaTcHtHiS +\"ld\" +EnDeNd],r
++-                     [#include <apr.h>
++-                      MaTcHtHiS APR_INT64_T_FMT EnDeNd],
++-                     [svn_cv_pycfmt_apr_int64_t="l"])
++-      fi
++-      if test "x$svn_cv_pycfmt_apr_int64_t" = "x"; then
++-        AC_EGREP_CPP([MaTcHtHiS +\"d\" +EnDeNd],
++-                     [#include <apr.h>
++-                      MaTcHtHiS APR_INT64_T_FMT EnDeNd],
++-                     [svn_cv_pycfmt_apr_int64_t="i"])
++-      fi
++-    ])
++-    CPPFLAGS="$SVN_PYCFMT_SAVE_CPPFLAGS"
++-    if test "x$svn_cv_pycfmt_apr_int64_t" = "x"; then
++-      AC_MSG_ERROR([failed to recognize APR_INT64_T_FMT on this platform])
++-    fi
++-    AC_DEFINE_UNQUOTED([SVN_APR_INT64_T_PYCFMT],
++-                       ["$svn_cv_pycfmt_apr_int64_t"],
++-                       [Define to the Python/C API format character suitable]
++-                       [ for apr_int64_t])
++   fi
++ 
++   if test "$PERL" != "none"; then
++diff --git a/subversion/bindings/swig/python/libsvn_swig_py/swigutil_py.c b/subversion/bindings/swig/python/libsvn_swig_py/swigutil_py.c
++index 2c90a6a..abe5a2a 100644
++--- a/subversion/bindings/swig/python/libsvn_swig_py/swigutil_py.c
+++++ b/subversion/bindings/swig/python/libsvn_swig_py/swigutil_py.c
++@@ -46,7 +46,7 @@
++ #include "svn_mergeinfo.h"
++ #include "svn_types.h"
++ 
++-#include "svn_private_config.h" /* for SVN_APR_INT64_T_PYCFMT */
+++#include "svn_private_config.h"
++ 
++ #include "swig_python_external_runtime.swg"
++ #include "swigutil_py.h"
++@@ -3394,10 +3394,9 @@ svn_error_t *svn_swig_py_client_blame_receiver_func(void *baton,
++   svn_swig_py_acquire_py_lock();
++ 
++   if ((result = PyObject_CallFunction(receiver,
++-                                      (char *)
++-                                      (SVN_APR_INT64_T_PYCFMT "lsssO&"),
++-                                      line_no, revision, author, date, line,
++-                                      make_ob_pool, pool)) == NULL)
+++                                      (char *)"LlsssO&",
+++                                      (PY_LONG_LONG)line_no, revision, author,
+++                                      date, line, make_ob_pool, pool)) == NULL)
++     {
++       err = callback_exception_error();
++     }
++-- 
++2.7.4
++
+diff --git a/meta/recipes-devtools/subversion/subversion_1.11.1.bb b/meta/recipes-devtools/subversion/subversion_1.12.0.bb
+similarity index 92%
+rename from meta/recipes-devtools/subversion/subversion_1.11.1.bb
+rename to meta/recipes-devtools/subversion/subversion_1.12.0.bb
+index 8abac74..f059ff9 100644
+--- a/meta/recipes-devtools/subversion/subversion_1.11.1.bb
++++ b/meta/recipes-devtools/subversion/subversion_1.12.0.bb
+@@ -2,7 +2,7 @@ SUMMARY = "Subversion (svn) version control system client"
+ HOMEPAGE = "http://subversion.apache.org"
+ SECTION = "console/network"
+ LICENSE = "Apache-2 & MIT"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=83206f39819e7a4dfca2ff7c190f6ce0"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=6487ae7094d359fa90fb9c4096e52e2b"
+ 
+ DEPENDS = "apr-util serf sqlite3 file lz4"
+ DEPENDS_append_class-native = " file-replacement-native"
+@@ -11,10 +11,11 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://disable_macos.patch \
+            file://0001-Fix-libtool-name-in-configure.ac.patch \
+            file://serfmacro.patch \
++           file://subversion-1.12.0-apr_1.7.0_fix-1.patch \
             "
  
--SRC_URI[libtar.md5sum] = "b786e353e2aa1b872d70d5d1ca0c740d"
--SRC_URI[libtar.sha256sum] = "0b74e51595654f958148759cfef0993114ddccccbb6f31aee018f3558e8e2732"
-+SRC_URI[libtar.md5sum] = "c04a5a0a042eaa157e8e8c9eabe76bd6"
-+SRC_URI[libtar.sha256sum] = "94fb70890143e3c6549f265cee93ec064c80a84c42ad0f23e85ee1fd6540a871"
- SRC_URI[testtar.md5sum] = "ae3d1ebe000a3972afa104ca7f0e1b4a"
- SRC_URI[testtar.sha256sum] = "96151685cec997e1f9f3387e3626d61e6284d4d6e66e0e440c209286c03e9cc7"
+-SRC_URI[md5sum] = "5797bf701d2d868fa964c7bbc4931267"
+-SRC_URI[sha256sum] = "9efd2750ca4d72ec903431a24b9c732b6cbb84aad9b7563f59dd96dea5be60bb"
++SRC_URI[md5sum] = "be4f5c0b1b38a5d82bd6d16a16ff1346"
++SRC_URI[sha256sum] = "7fae7c73d8a007c107c0ae5eb372bc0bb013dbfe966fcd5c59cd5a195a5e2edf"
+ 
+ inherit autotools pkgconfig gettext
  
 -- 
 2.7.4
