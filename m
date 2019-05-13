@@ -1,55 +1,25 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B0D597E071
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A350E7DFF4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 09:40:24 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id e15so2035285wrs.4
+	Mon, 13 May 2019 09:53:26 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4D9rRq5010076
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 02:40:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=hwLoTCMcnyM8x/P9NgTeJhz+ls5b2zT0wNAKgjiH3X4=;
-	b=BAA0ipNLGWpb+YeMGGTne62Jp1SphjMpWlmN3Rx15EqwSAyOt3z5I1SD/1ytOfl2uu
-	JfvISqAfPgIgnkfuiJ789uzwzUCxu0Y7hNujLGBH25+sOJBLRtUIol+0RvkGh5eH0ByO
-	jL/Arr14cWLdUs0x1nRpuqAbkVqo+6astgR7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=hwLoTCMcnyM8x/P9NgTeJhz+ls5b2zT0wNAKgjiH3X4=;
-	b=JX7YUqBJAkUL2f7h6p2v85HNK6KPjZNUCl3KkovjyeL/fJCuJx1DB0UMA/A6/IkLzt
-	ODYHayLULmaR059X0B7dcdpJvWZegrsZ+pGN3THVAsQO//N1ZjmQiM9oilGsQRW42M5e
-	g2KO6gD/7JkQ7xbjIpWZMHlr+AFYjQlEoXQR2bQsg4e89CXZPMI2EHEX6yeB48j+8gr4
-	WUWp8CxocQppOZsItRHLPkO34FBE6q2sbKM0pMA8t5vDk2ORqmr1XFwCJajF9YUmblAV
-	+1fDsgam3ba8z4CIQApPBakq0GCoXTBF2LiNOishlKFvZsxe8UhW9l7TVve1zyBpEpuA
-	Yayw==
-X-Gm-Message-State: APjAAAVnWTQaAVy4BKgmaLazL2aTqZR0q6arTfkbi8edlO0DnFA2b8GW
-	uXmtp0J+Mmc/Rs3bLi9lzUMR3g==
-X-Google-Smtp-Source: APXvYqwDLAX6wtNbQJZZDF0jk5iiXqJl20FRO7NlgDpMKbONmHhsxCKtRhSTJzQKuM5huBZKKkNTAw==
-X-Received: by 2002:a5d:4cc4:: with SMTP id c4mr3969459wrt.164.1557740425383; 
-	Mon, 13 May 2019 02:40:25 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id f2sm20376119wmh.3.2019.05.13.02.40.23
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 13 May 2019 02:40:24 -0700 (PDT)
-Message-ID: <eaaab67f52892780cfcc2cb8359dabe5ab365931.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Yu, Mingli" <mingli.yu@windriver.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Mon, 13 May 2019 10:40:23 +0100
-In-Reply-To: <5CD93813.1060907@windriver.com>
-References: <5CD13414.9060408@windriver.com>
-	<20190508030539.448075-1-mingli.yu@windriver.com>
-	<CAJTo0LbWzug_9N5eZwaaWNX3w6wRfOCNx379DYkpODf=t71KbA@mail.gmail.com>
-	<eb9506045669eaf6dc51f56fab72195c7cdba6b3.camel@linuxfoundation.org>
-	<5CD93813.1060907@windriver.com>
-User-Agent: Evolution 3.32.1-2 
+	Mon, 13 May 2019 02:53:27 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 13 May 2019 02:53:26 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 13 May 2019 05:52:55 -0400
+Message-ID: <20190513095255.157287-2-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20190513095255.157287-1-kai.kang@windriver.com>
+References: <20190513095255.157287-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] glib-2.0: fix ptest failures
+Subject: [PATCH 1/1] webkitgtk: fix compile error for arm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,66 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 09:40:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 13 May 2019 09:53:26 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Mon, 2019-05-13 at 17:25 +0800, Yu, Mingli wrote:
-> 
-> On 2019年05月08日 20:25, richard.purdie@linuxfoundation.org wrote:
-> > On Wed, 2019-05-08 at 12:54 +0100, Burton, Ross wrote:
-> > > On Wed, 8 May 2019 at 04:06, <mingli.yu@windriver.com> wrote:
-> > > > * Increase the timeout to 15 minutes as the default
-> > > >    timeout which is 5 minutes is not enough to fix below error:
-> > > >    | Executing: glib/actions.test
-> > > >    | Test timed out after 300 seconds
-> > > >    | cleaning up pid 13050
-> > > >    | FAIL: glib/actions.test (Child process killed by signal 9)
-> > > 
-> > > My Debian machine runs that test in 20 seconds.
-> > > 
-> > > Maybe we're missing dependencies to get a working session dbus
-> > > up?
-> > 
-> > That seems likely. I'd note that we see:
-> > 
-> > https://autobuilder.yocto.io/pub/non-release/20190502-12/testresults/testresult-report.txt
-> > 
-> > 
-> > Recipe                       | Passed      | Failed   | Skipped   |
-> > Time(s)
-> > glib-2.0                     | 290         | 1        | 0         |
-> > 427
-> > 
-> > and the failing test is:
-> > 
-> >      ptestresult.glib-
-> > 2.0.glib/gdatetime.test__Child_process_killed_by_signal_6_
-> > 
-> > so it would seem this is working on our autobuilder tests? That
-> > would
-> > seem to back up Ross' comments.
-> 
-> Thanks Ross and RP's comments!
-> 
-> It's weird! Seems it succeeds in autobuilder, but I can reproduce
-> the 
-> glib/actions.test failure steadily in my env as below:
-> # time; /usr/libexec/installed-tests/glib/actions -p;time
-> user	0m0.13s
-> sys	0m0.07s
-> /actions/dbus/threaded: OK
-> user	6m29.03s
-> sys	0m50.46s
+From: Kai Kang <kai.kang@windriver.com>
 
-I suspect its a dependency such as the dbus session Ross mentioned.
-Which image are you running this test in? Have you tried testing in
-something like a core-image-sato for comparison?
+It removes function JSC::AssemblerBuffer::data() for ARM64 in commit
+https://trac.webkit.org/changeset/236589/webkit. But the function is
+still required by Cortex A53 and fails to compile for arm64:
 
-It would be good to narrow down the missing dependency.
+| .../tmp/work/aarch64-poky-linux/webkitgtk/2.24.1-r0/webkitgtk-2.24.1/Source/JavaScriptCore/assembler/ARM64Assembler.h:3769:100: error: 'class JSC::AssemblerBuffer' has no member named 'data'
+|     if (UNLIKELY((*reinterpret_cast_ptr<int32_t*>(reinterpret_cast_ptr<char*>(m_buffer.data()) + m_buffer.codeSize() - sizeof(int32_t)) & 0x0a000000) == 0x08000000))
 
-Cheers,
+Not set WTF_CPU_ARM64_CORTEXA53 for arm64 to fix the failure.
 
-Richard
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-sato/webkit/webkitgtk_2.24.1.bb | 2 --
+ 1 file changed, 2 deletions(-)
+
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
+index 771a893a6b..a57a3c058c 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
+@@ -98,8 +98,6 @@ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+ EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+ 
+-EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
+-
+ # JIT not supported on MIPS either
+ EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
+ 
+-- 
+2.20.0
 
 
