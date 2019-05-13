@@ -1,47 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DCD97D5A1
+Return-Path: <abuse@basmevissen.nl>
+Received: from hosting.emcodev.net (hosting.emcodev.net [178.18.92.162])
+	by mail.openembedded.org (Postfix) with ESMTP id 35F6E7DD82
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 11:40:55 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id c5so14834328wrs.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 04:40:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=D9ynKfhNbtUiEj8Ju3LNHdh4LqkYgZ4BhYwtUkr2Ud8=;
-	b=UdYSASHQLMqrH9woSK5G/5XG3PwBdeRIvV2KsBCS2taDSwzvNRrvv+PJofh+SawT9E
-	AjelflWEP17R2pffyhnjb0M+MQitDGaRaAnC0wapkMReFQHBA5ujlHxYvkdEgJH+LRfc
-	c9Ad7tqxMPn/HcJLmjZfVP0IwGL0q/FgMwKAs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=D9ynKfhNbtUiEj8Ju3LNHdh4LqkYgZ4BhYwtUkr2Ud8=;
-	b=QHfRU/JwZNYJNeUQGCd1wb8WWP48oLCDuubbrnCZ6RU3vb/deCg8wxg1m8trUvgvJb
-	j/lj8MYuf35f8OvYdoOflS7OWYYjJZt6/eL4I6/+5SwAB4j9aBardNOQHglMtHaLoPIQ
-	PU8QkyJasLrTjppIQGD726931++vWkGmtPpWjwAoE74aTjc7lFEn+5xRcGfMJ9qWvB5s
-	V+Refp4ubeppWW8lT1SwcRiIcVzvkABPuNABi8VwNydgrTXKiyYDzLXavf4pX9zgyiPI
-	YjDc4SycuIOPQ/mc2V/aZTw0kv1J1Wn7CmZIk7rlJMnPemJjLa5RiAXVVAHRmDX7jxXS
-	+QkQ==
-X-Gm-Message-State: APjAAAVovdW+Qje8eSbB8IR00mOcCQmNc9Pgx408dfDSBsWcztYJc7mS
-	WeLUTpnnl15wulSnrrGq2UBHug==
-X-Google-Smtp-Source: APXvYqyGIvLa6k5YDunCCBkHEvGt+O6NXgMQHGoyJcWbrlwyh4tvbQlXlmRovM+/hcr4Ehwh+KKVfw==
-X-Received: by 2002:adf:d4ca:: with SMTP id w10mr16926540wrk.293.1557747655961;
-	Mon, 13 May 2019 04:40:55 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t10sm12362360wmj.17.2019.05.13.04.40.54
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 13 May 2019 04:40:55 -0700 (PDT)
-Message-ID: <2bb4d4b8a5c395ed9f0647bcbd1945cf2ef280bd.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Mark Hatle <mark.hatle@windriver.com>, Khem Raj <raj.khem@gmail.com>, 
-	Andreas =?ISO-8859-1?Q?M=FCller?=
-	<schnitzeltony@gmail.com>, Bas Mevissen <abuse@basmevissen.nl>
-Date: Mon, 13 May 2019 12:40:53 +0100
+	Mon, 13 May 2019 11:57:04 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id AA97E212003;
+	Mon, 13 May 2019 13:57:05 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at hosting.emcodev.net
+Received: from hosting.emcodev.net ([127.0.0.1])
+	by localhost (hosting.emcodev.net [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id OWcPdGsw23yI; Mon, 13 May 2019 13:57:05 +0200 (CEST)
+Received: from emcodev.nl (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id F1D8B212001;
+	Mon, 13 May 2019 13:57:04 +0200 (CEST)
+MIME-Version: 1.0
+Date: Mon, 13 May 2019 13:57:04 +0200
+From: Bas Mevissen <abuse@basmevissen.nl>
+To: Mark Hatle <mark.hatle@windriver.com>
 In-Reply-To: <ceb5ee6b-3965-de63-4237-805a6a97e92b@windriver.com>
 References: <20190427113714.30173-1-schnitzeltony@gmail.com>
 	<d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
@@ -52,8 +27,9 @@ References: <20190427113714.30173-1-schnitzeltony@gmail.com>
 	<ec77d08feb85f543bbc79372d276092c10336035.camel@linuxfoundation.org>
 	<b53e6c90-2a8d-7ae7-b5f7-e7a80b258da3@gmail.com>
 	<ceb5ee6b-3965-de63-4237-805a6a97e92b@windriver.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
+Message-ID: <255904c59d132d543a4c13945a7dff77@basmevissen.nl>
+X-Sender: abuse@basmevissen.nl
+User-Agent: Roundcube Webmail/1.3.7
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
@@ -69,62 +45,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 11:40:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2019 11:57:05 -0000
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 2019-05-13 at 14:34 +0300, Mark Hatle wrote:
+On 2019-05-13 13:34, Mark Hatle wrote:
 > On 5/11/19 4:42 AM, Khem Raj wrote:
-> > 
-> > Can we require centos7 and other hosts which use old compilers to 
-> > install the additional packages to have newer compilers ? e.g. for 
-> > centos installing devtoolset-7 will fix this issue
-> 
-> I think we need to consider disabling this by default, as Ross
+>>=20
+>>=20
+>> On 4/29/19 6:51 AM, richard.purdie@linuxfoundation.org wrote:
+>>> On Mon, 2019-04-29 at 15:47 +0200, Andreas M=C3=BCller wrote:
+>>>> On Mon, Apr 29, 2019 at 2:21 PM Andreas M=C3=BCller <
+>>>> schnitzeltony@gmail.com> wrote:
+>>>>> On Mon, Apr 29, 2019 at 12:56 PM Bas Mevissen <abuse@basmevissen.nl
+>>>>>> wrote:
+>>>>>> On 2019-04-29 11:29, Andreas M=C3=BCller wrote:
+>>>>>>=20
+>>>>>> (...)
+>>>>>>=20
+>>>>>>> Understood - hope to find time till tomorrow for this. Need to
+>>>>>>> find an
+>>>>>>> old machine for test because otherwise further fixes might
+>>>>>>> remain
+>>>>>>> incomplete again.
+>>>>>>>=20
+>>>>>>=20
+>>>>>> Why not add the g++ option --std=3Dc++11 when test building this
+>>>>>> recipe?
+>>>>>>=20
+>>>>>> $cat test.cc
+>>>>>>=20
+>>>>>> #include <string>
+>>>>>>=20
+>>>>>> using namespace std::literals;
+>>>>>>=20
+>>>>>> int main()
+>>>>>> {
+>>>>>>          return 0;
+>>>>>> }
+>>>>>>=20
+>>>>>>=20
+>>>>>> $ g++ --std=3Dc++17 test.cc -o test
+>>>>>> $ g++ --std=3Dc++11 test.cc -o test
+>>>>>> test.cc:5:22: error: =E2=80=98literals=E2=80=99 is not a namespace=
+-name
+>>>>>>       5 | using namespace std::literals;
+>>>>>>         |                      ^~~~~~~~
+>>>>>>=20
+>>>>>> -- Bas.
+>>>>> Did that but on CFLAGS (copy & paste from another place in recipe)
+>>>>> and
+>>>>> since issues popped up I thought it was right :(
+>>>>>=20
+>>>> Looked into:
+>>>>=20
+>>>> There is no easy way to get vte-native to build with c++11. Even if=20
+>>>> -
+>>>> patches possibly introduce functional changes/errors (and the result
+>>>> of oe-selftest is questionable with a massively patched vte).
+>>>>=20
+>>>> So I see two ways to go:
+>>>>=20
+>>>> 1. set vte-native requirements to c++14. That worked here with
+>>>> CXXFLAGS_append_class-native =3D " --std=3Dc++14" but looking into l=
+ogs
+>>>> of
+>>>> centos 7 there are several '--std=3Dgnu++11'. Have no idea where the=
+y
+>>>> come from so chances are high this patch is going fail with c++14.
+>>>> 2. revert vte back to 0.52.2 and forget the idea to get recent
+>>>> gnome-terminal back in near future. That requires vte 0.56.1 and was
+>>>> the reason I sent the update here.
+>>>>=20
+>>>> My preference is 2.
+>>>=20
+>>> I'm willing to try testing a c++14 patch if that helps, we can fall
+>>> back to 2 if that fails?
+>>>=20
+>>=20
+>> Can we require centos7 and other hosts which use old compilers to
+>> install the additional packages to have newer compilers ? e.g. for
+>> centos installing devtoolset-7 will fix this issue
+>=20
+> I think we need to consider disabling this by default, as Ross=20
 > indicated he
-> wasn't sure it was really required, as well as consider the c++14
-> patch (if
+> wasn't sure it was really required, as well as consider the c++14 patch=
+=20
+> (if
 > standard CentOS supports C++-14).
-> 
-> I do think it's reasonable to try to patch this component, assuming
-> it can be
-> done in a reasonable way with a reasonable end result.  (10-lines is
+>=20
+
+If I recall correctly, CentOS properly only supports up to C++-11.
+
+> I do think it's reasonable to try to patch this component, assuming it=20
+> can be
+> done in a reasonable way with a reasonable end result.  (10-lines is=20
 > pretty easy
 > to understand/support, 1000 lines... no so much.)
-> 
-> However, once we get past one component into multiples, then we need
-> a better
-> answer.  Either a set of buildtools the user can build/download, or
+>=20
+
+Agreed. But that was attempted already and seemed to fail.
+
+> However, once we get past one component into multiples, then we need a=20
+> better
+> answer.  Either a set of buildtools the user can build/download, or=20
 > items
 > standard distributions have that they can install.
-> 
-> Unfortunately CentOS 7 (and corresponding RHEL) is ancient by
-> compiler
-> standards, but is heavily used as a replacement is not yet ready.  So
+>=20
+
+Or simply build a gcc{,-c++}-native on platforms where the existing host=20
+compiler is too old?
+
+It might even be a way to be able to build _older_ OE/Yocto on newer=20
+distros. For example, I now use a CentOS 7 systemd container to build=20
+Morty stuff on my Fedora 30 build host as some older stuff does not=20
+build on the newer build environment of Fedora since some time.
+
+> Unfortunately CentOS 7 (and corresponding RHEL) is ancient by compiler
+> standards, but is heavily used as a replacement is not yet ready.  So=20
 > this is a
-> problem we'll need to deal with for a while still.  Until CentOS 7
-> era is really
-> no longer heavily used I think we don't have a choice here but to
-> deal with this
+> problem we'll need to deal with for a while still.  Until CentOS 7 era=20
+> is really
+> no longer heavily used I think we don't have a choice here but to deal=20
+> with this
 > one way or another.
+>=20
 
-We avoided the problem by dropping the dependency so we're ok again for
-now. We haven't required special things be installed on hosts as it
-increases the documentation problem quite a lot. We run our autobuilder
-test workers fairly standard for this reason.
+Yes, RHEL/CentOS 7 has been great, but RHEL/CentOS 8 to me feel like a=20
+year late. I hope with "8" we can leverage the modular repository=20
+function to keep the devtools updated.
 
-The problem is going to get worse over time and the other solution
-could be we require one of our own buildtools-tarballs installed too.
-We have used this approach on our autobuilder workers in the past.
+Given the wide spread in host environments (origin and age), one could=20
+wonder whether more of the host build environment should be simply part=20
+of OE/Yocto build system as native packages. This will make development=20
+definitely easier. The only expense is a larger host environment for the=20
+user.
 
-I am keen to avoid extra distro specific documentaiton (and patches to
-detect the conditions) if we can help it...
+-- bas.
 
-Cheers,
-
-Richard
-
-
-
-
+> --Mark
+>=20
+>>> Cheers,
+>>>=20
+>>> Richard
+>>>=20
 
