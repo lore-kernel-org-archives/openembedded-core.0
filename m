@@ -1,46 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 7BFEA7DFD3
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 045337DFD3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 16:00:23 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id g71so21143150ita.5
+	Mon, 13 May 2019 16:02:08 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id t1so6432463qtc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 09:00:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 13 May 2019 09:02:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=U5RkrYf3tiQatIUo3XN32r7or/7iH4X80pI4Y28fWZk=;
-	b=Hbl/H+OwyQ1SB5ewkfPwhZ3go3TFiwOhtRMjuNrnTsj/y14fBDLFwsRlW1uE1kZ4LN
-	OXrqi3BecyQxPTjvVtcJsKNCZaibxELVRo9nIYsxSvrHbbDsXpeMSx4kbTn/O6ERj5/M
-	zy+vU5JMc7dmRWaUELmfT0SipZHOESaBV4JndNScZkf8hjDKM8wHi8NgD0fxR/tC9mkN
-	hOFrM4vT5novKa8HhDm6omcKX51LJinPKcMClTylO/W3eell+HqzEJ4SM0XfPoZsbADa
-	TNKyPS58bADsd3nozPq+FOa5h0dWWhxSI9R/5dozRyb1eXI1jrHm+3JYw2JecDjw5fia
-	Fibw==
+	:cc; bh=dwoI9oq4HbwXI/PznTMx5c+48lkk1sYrKV0wLJQAJIE=;
+	b=KYcKUhSOrENaCQsCnQKdvU439ezocYkLJIO6tosmIXmn4DD/KDa/kcP8nJHTFeJMwo
+	MmJ3nT8EEE6OM2y6iACBQUGHewxdwiEuo3dWPJPqjjE4xS+Tbcw+qA215SfsOS6//Lvy
+	7NEkElEtE/v4W+zOlIEzbOgtU3Xb3Z5C4O+/0C4Fb3+fzHmTxdBIwrXwQyiTigjidgna
+	87TyngExNDonRXLa3qxqjXLlmSl5pnyARC2EawKWpemjCVrY5+f+nWjd94Cre9ypbRY/
+	fzZ+eyZKTTgrS1I51XN1bFRkaJXpgi5s3jLMku6bGEj5TCdK8RC1fvElX/T/qevOCHAX
+	MCCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=U5RkrYf3tiQatIUo3XN32r7or/7iH4X80pI4Y28fWZk=;
-	b=tBp5G0/0vDXaxt/Pc7wDuQIdMmtguowc4AZQu8hcrvCgNm2qCdFvrpP/nJ1QtMkrT+
-	ifg5LiEc6+0QfbkJis/4zI+B7DkUvuLIfURZtJI4u0hx3vXQMgeUNXqlBM7QUZO8u/cg
-	Z1htvecYh3Q9inRfUG+okbTRlHrE0+YR90NpiQRdgiiC9svoOAJe90/gb7R78iRNb1/u
-	Uwt2XkBGkEKVc0d3XoJ2XEHzleEd8k4JOycZ6cMXfsV/GGfQ7fvi/nGMmjTh4p23DuMV
-	iO2mKbhTcwI2Nf8XqTIlq/yMyb2trT0ZXceySL3IcBjptffYbtgjSQKeiUQQZOFSkJLd
-	OOUQ==
-X-Gm-Message-State: APjAAAURo4Op6bquyaBFqSGz+6Ae+IVfCOYZ1vr6jgtG6mtVjbFRcued
-	eM+IKdSxXKexVBJ8QWw2A4Ew5WTERVzjidcz2UJMAA==
-X-Google-Smtp-Source: APXvYqxyq1V7A+d8YpXtINDh4zvmgP31CQnMyJOoC8UVin1RH3J7LdnLM3QTr6qx427b8WIL5Uxq12aXAdtpUovx0s0=
-X-Received: by 2002:a02:a812:: with SMTP id f18mr19860795jaj.31.1557763224463; 
-	Mon, 13 May 2019 09:00:24 -0700 (PDT)
+	bh=dwoI9oq4HbwXI/PznTMx5c+48lkk1sYrKV0wLJQAJIE=;
+	b=gT2hmlTICIb9u0uT4FCwsYHNbu2ksNO5GZPmbJuyNFFG18R6Z+o62fRxdlb8Q4ItE/
+	1imcYM6tJWPjBhyKhw9tdYc5S7GiW12CN1ZYSJwEDnwi/YHLBuF791+UYceer/ImuT4D
+	JYdvT3usn1r9Z2IX7gTpdjBTzjoc5VN7iTh/VGF9A5y0ZOY9rCOJ5uw+47+T/cPISHY9
+	FJmW9y3anvbTWGghpmYvN6HJXSnIMzd06epgsPkY3AjTGi4pePZRPjp9y3pDyaH9URUR
+	4KXy7fGhTVKl7m6otTW9vonK143ZGSfGfni9cto1pDK6aVOJ3YfS4z+Z6XxL9dC7lq+F
+	mEBA==
+X-Gm-Message-State: APjAAAX62Uo5/brB638VjKLcYlAA3po3Rx6jDwByVy4oOOenpAoXf+gB
+	eF/ZhzJANep6U/Hn7f3VJbR9EtoU6pSBwN28zwY=
+X-Google-Smtp-Source: APXvYqz9DifUI6/8ddfZ5A+99MIUeitOvVl00K3SVN2+zsg5FpVXt5xiWCCuissrter200UjFdwQUBHUYBN2z++nf6Y=
+X-Received: by 2002:a0c:a361:: with SMTP id u88mr22928592qvu.224.1557763329764;
+	Mon, 13 May 2019 09:02:09 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190513153303.50095-1-alex.kanavin@gmail.com>
 	<CAMKF1srh_U0ge_1VkPJ0TAS6hKPkybyADUXaTp7SqRnFCmPm=Q@mail.gmail.com>
-In-Reply-To: <CAMKF1srh_U0ge_1VkPJ0TAS6hKPkybyADUXaTp7SqRnFCmPm=Q@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 May 2019 09:00:13 -0700
-Message-ID: <CAJTo0LZ=yDqyaZYv0PEOokt=6prPMa_gA=hnsYuNRA1oqw9TUQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
+	<CAJTo0LZ=yDqyaZYv0PEOokt=6prPMa_gA=hnsYuNRA1oqw9TUQ@mail.gmail.com>
+In-Reply-To: <CAJTo0LZ=yDqyaZYv0PEOokt=6prPMa_gA=hnsYuNRA1oqw9TUQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 13 May 2019 09:01:59 -0700
+Message-ID: <CAMKF1sorBuvDn0kmuPfn24t=vnM3QT_rT358REmcZkmZZS1T-A@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] qemux86: use a Core 2 Duo CPU instead of the original circa-1993 Pentium
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,15 +55,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 16:00:23 -0000
+X-List-Received-Date: Mon, 13 May 2019 16:02:09 -0000
+Content-Type: multipart/alternative; boundary="000000000000ea31fb0588c70935"
+
+--000000000000ea31fb0588c70935
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, 13 May 2019 at 08:55, Khem Raj <raj.khem@gmail.com> wrote:
-> While I like this change I also worry if we are leaving out any significant x86 implementation out there in embedded space x86-64 is relatively newer compared to 32 bit which was long stable
+On Mon, May 13, 2019 at 9:00 AM Burton, Ross <ross.burton@intel.com> wrote:
 
-core2duo isn't exactly a modern chipset though, first released in
-2006.  Does anyone *know* of any significant 32-bit x86 deployments
-which are using significantly older hardware?
+> On Mon, 13 May 2019 at 08:55, Khem Raj <raj.khem@gmail.com> wrote:
+> > While I like this change I also worry if we are leaving out any
+> significant x86 implementation out there in embedded space x86-64 is
+> relatively newer compared to 32 bit which was long stable
+>
+> core2duo isn't exactly a modern chipset though, first released in
+> 2006.  Does anyone *know* of any significant 32-bit x86 deployments
+> which are using significantly older hardware?
+>
 
-Ross
+If intel bsp folks are okay with this then let=E2=80=99s go for it
 
+>
+> Ross
+>
+
+--000000000000ea31fb0588c70935
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Mon, May 13, 2019 at 9:00 AM Burton, Ross &lt;<a href=3D=
+"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></di=
+v><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:=
+1px #ccc solid;padding-left:1ex">On Mon, 13 May 2019 at 08:55, Khem Raj &lt=
+;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com=
+</a>&gt; wrote:<br>
+&gt; While I like this change I also worry if we are leaving out any signif=
+icant x86 implementation out there in embedded space x86-64 is relatively n=
+ewer compared to 32 bit which was long stable<br>
+<br>
+core2duo isn&#39;t exactly a modern chipset though, first released in<br>
+2006.=C2=A0 Does anyone *know* of any significant 32-bit x86 deployments<br=
+>
+which are using significantly older hardware?<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">If intel bsp fol=
+ks are okay with this then let=E2=80=99s go for it=C2=A0</div><blockquote c=
+lass=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;=
+padding-left:1ex"><br>
+Ross<br>
+</blockquote></div></div>
+
+--000000000000ea31fb0588c70935--
