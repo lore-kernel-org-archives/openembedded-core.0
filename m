@@ -1,55 +1,37 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 28D977DFF4
+Return-Path: <abuse@basmevissen.nl>
+Received: from hosting.emcodev.net (hosting.emcodev.net [178.18.92.162])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C2DB7DD91
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 10:10:38 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id o4so14565367wra.3
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 03:10:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=AAS6cUPoczNI218GSX4C8/F/Wh357QL5KWGALF52NpM=;
-	b=WrIqVN0qUwGHR/7IblElnCmVSKGRzsbY6fuDQbJ+qpUBe/QMhIwaF2uyMc9gMJPiLR
-	x4WeuDjKIjTcyLa1Il2xA5O7+IR97tDiMnh+uahmQeuRkGbuJbO8s0ShAJ4sF0gj5n7l
-	xxTKKMbqORTJz6Dtn8BD9ZgDx84uXUWjwqKLMzh/aM7sq5/t6hqYrRB/8CIK/xwuunFq
-	VBfC3ti8afNNOW4q7G4aKsvCgJ9CXMio59KG6aKYoCjZSfNircmRKQCIL3qpFZTYUjvo
-	nqRHcmALS39aUxIPUfgAD8wWkJmir8QOY6cKkaARWo6SfFFWNIsf1uOI1lm9E51Grwxt
-	D8bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=AAS6cUPoczNI218GSX4C8/F/Wh357QL5KWGALF52NpM=;
-	b=CUIXfJEdpFrCHr9raecjoplYrnZCa1CqG/dMsGB3V4eZXhtEC+A1UuJXLbJNPAhdi1
-	MvmOJOUEQzqYchta6uXbn6QMTRaWGRfPwa0ta4GxqsR62EJKkDoIO9IiR9EdcGuXIJAg
-	q3e3kVbKvdRmXiQdTS/ERL0r8vldt+UEXdAIPtAYXGhQdYlS2ZBo51pOTbGHVB0bfPs3
-	i0hbFkuneUjVB60FIfX6nTyq/gGa+pMU7G8ws+a3gxE9hWvpKtLpvsJPT9tnhf6X3dtx
-	c4rRsoR7YmPZnxXSH6wa9OaD9b355wJP1iHtaeoGuQf/HxmOJAUCAuVtFXY31NaVC6+0
-	EuBw==
-X-Gm-Message-State: APjAAAV+Ef/aaNltF9/uT34SgVq6RulbfxU2zvYAO2iEp0Bs1oAYaANF
-	LlnW/JlP+MwS9SOiwwQ/fuk=
-X-Google-Smtp-Source: APXvYqwQmMExUp1MNk1Jb1SdY/V5byrm5toVaAznmmFCnt2XrlHQWyfW/LM2LF0SDGP/+GnyMtSAYw==
-X-Received: by 2002:adf:dd43:: with SMTP id u3mr17637659wrm.302.1557742238722; 
-	Mon, 13 May 2019 03:10:38 -0700 (PDT)
-Received: from bluca-lenovo ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
-	x9sm15626315wmf.27.2019.05.13.03.10.37
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 13 May 2019 03:10:37 -0700 (PDT)
-Message-ID: <41ac4abea0dd66e99d21bdda69acd08ef81807e7.camel@gmail.com>
-From: Luca Boccassi <luca.boccassi@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 May 2019 11:10:36 +0100
-In-Reply-To: <CAMKF1spVZzywgp8PE3OuZ+x60tkyXgHCD3QpDfMfkVFefEMZrw@mail.gmail.com>
-References: <20190509214007.13927-1-luca.boccassi@gmail.com>
-	<20190510120932.29765-1-luca.boccassi@gmail.com>
-	<CAMKF1spVZzywgp8PE3OuZ+x60tkyXgHCD3QpDfMfkVFefEMZrw@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1 
+	Mon, 13 May 2019 11:21:23 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id 32841212003;
+	Mon, 13 May 2019 13:21:23 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at hosting.emcodev.net
+Received: from hosting.emcodev.net ([127.0.0.1])
+	by localhost (hosting.emcodev.net [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id v_QUMdJI9MiG; Mon, 13 May 2019 13:21:20 +0200 (CEST)
+Received: from emcodev.nl (localhost [127.0.0.1])
+	by hosting.emcodev.net (Postfix) with ESMTP id CC00E212001;
+	Mon, 13 May 2019 13:21:20 +0200 (CEST)
 MIME-Version: 1.0
+Date: Mon, 13 May 2019 13:21:20 +0200
+From: Bas Mevissen <abuse@basmevissen.nl>
+To: Khem Raj <raj.khem@gmail.com>
+In-Reply-To: <b53e6c90-2a8d-7ae7-b5f7-e7a80b258da3@gmail.com>
+References: <20190427113714.30173-1-schnitzeltony@gmail.com>
+	<d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
+	<CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
+	<a45f59b03312a7693bd5d4e4ae04c600@basmevissen.nl>
+	<CALbNGRT_FRQfA0jpP7DHsFOxnt97JW-KEjyGXOkW9V2w+Ujgyw@mail.gmail.com>
+	<CALbNGRR_YxL=+u7Kc5x8OiTXLFhRjqK_jp53xB5Q_9WZS-rZ+Q@mail.gmail.com>
+	<ec77d08feb85f543bbc79372d276092c10336035.camel@linuxfoundation.org>
+	<b53e6c90-2a8d-7ae7-b5f7-e7a80b258da3@gmail.com>
+Message-ID: <880385fd89953494847818f104c6f642@basmevissen.nl>
+X-Sender: abuse@basmevissen.nl
+User-Agent: Roundcube Webmail/1.3.7
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd: enable portabled by default
+Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,72 +44,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 10:10:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2019 11:21:24 -0000
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2019-05-10 at 09:45 -0700, Khem Raj wrote:
-> On Fri, May 10, 2019 at 5:10 AM <
-> luca.boccassi@gmail.com
-> > wrote:
-> > From: Luca Boccassi <
-> > luca.boccassi@microsoft.com
-> > >
-> > 
-> > portable services have been declared production ready with v241, so
-> > enable
-> > by default and install the files in the main package.
-> > 
-> 
-> what is the rationale to enable it by default ?
+On 2019-05-11 03:42, Khem Raj wrote:
+> On 4/29/19 6:51 AM, richard.purdie@linuxfoundation.org wrote:
+>> On Mon, 2019-04-29 at 15:47 +0200, Andreas M=C3=BCller wrote:
+>>> On Mon, Apr 29, 2019 at 2:21 PM Andreas M=C3=BCller <
+>>> schnitzeltony@gmail.com> wrote:
+>>>> On Mon, Apr 29, 2019 at 12:56 PM Bas Mevissen <abuse@basmevissen.nl
+>>>>> wrote:
+>>>>> On 2019-04-29 11:29, Andreas M=C3=BCller wrote:
+>>>>>=20
+>>>>> (...)
+>>>>>=20
+>>>>>> Understood - hope to find time till tomorrow for this. Need to
+>>>>>> find an
+>>>>>> old machine for test because otherwise further fixes might
+>>>>>> remain
+>>>>>> incomplete again.
+>>>>>>=20
+>>>>>=20
+>>>>> Why not add the g++ option --std=3Dc++11 when test building this
+>>>>> recipe?
+>>>>>=20
+>>>>> $cat test.cc
+>>>>>=20
+>>>>> #include <string>
+>>>>>=20
+>>>>> using namespace std::literals;
+>>>>>=20
+>>>>> int main()
+>>>>> {
+>>>>>          return 0;
+>>>>> }
+>>>>>=20
+>>>>>=20
+>>>>> $ g++ --std=3Dc++17 test.cc -o test
+>>>>> $ g++ --std=3Dc++11 test.cc -o test
+>>>>> test.cc:5:22: error: =E2=80=98literals=E2=80=99 is not a namespace-=
+name
+>>>>>       5 | using namespace std::literals;
+>>>>>         |                      ^~~~~~~~
+>>>>>=20
+>>>>> -- Bas.
+>>>> Did that but on CFLAGS (copy & paste from another place in recipe)
+>>>> and
+>>>> since issues popped up I thought it was right :(
+>>>>=20
+>>> Looked into:
+>>>=20
+>>> There is no easy way to get vte-native to build with c++11. Even if -
+>>> patches possibly introduce functional changes/errors (and the result
+>>> of oe-selftest is questionable with a massively patched vte).
+>>>=20
+>>> So I see two ways to go:
+>>>=20
+>>> 1. set vte-native requirements to c++14. That worked here with
+>>> CXXFLAGS_append_class-native =3D " --std=3Dc++14" but looking into lo=
+gs
+>>> of
+>>> centos 7 there are several '--std=3Dgnu++11'. Have no idea where they
+>>> come from so chances are high this patch is going fail with c++14.
+>>> 2. revert vte back to 0.52.2 and forget the idea to get recent
+>>> gnome-terminal back in near future. That requires vte 0.56.1 and was
+>>> the reason I sent the update here.
+>>>=20
+>>> My preference is 2.
+>>=20
+>> I'm willing to try testing a c++14 patch if that helps, we can fall
+>> back to 2 if that fails?
+>>=20
+>=20
+> Can we require centos7 and other hosts which use old compilers to
+> install the additional packages to have newer compilers ? e.g. for
+> centos installing devtoolset-7 will fix this issue
+>=20
 
-Hi,
+Apparently [1], there is already a devtoolset-8 [2] with gcc 8.2.
+So if going this step, lets directly go to the latest devtoolset version=20
+available.
 
-commit ada8a5d9175b disabled it by default because it was experimental:
-"Add a new PACKAGECONFIG item 'portabled'. Default to disable it
-because it's still experimental, according to the announcement letter."
+The only question is whether only this issue with 1 native package is=20
+sufficient justification to impose the additional burden to the users.=20
+If it would make further OE/Yocto core development easier, it would be a=20
+great way to keep supporting RHEL/CentOS 7 until "8" is mainstream.
 
-Now it's been declared as stable by upstream, and also given machined
-and nspawn are enabled by default I don't see a reason why this
-shouldn't be as well, as they all provide the same "kind" of
-feature/functionality, albeit on a different level.
+(the "scl enable devtoolset-8 <shell>" command could be incorporated=20
+into the oe-init script to make the burden less)
 
-> > Signed-off-by: Luca Boccassi <
-> > luca.boccassi@microsoft.com
-> > >
-> > ---
-> > v2: Just enable by default, and let the files be installed in the
-> > main package
-> >     as requested by reviewers.
-> > 
-> >  meta/recipes-core/systemd/systemd_242.bb | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/meta/recipes-core/systemd/systemd_242.bb
-> > b/meta/recipes-core/systemd/systemd_242.bb
-> > index 73e03c7a77..f15d125bf8 100644
-> > --- a/meta/recipes-core/systemd/systemd_242.bb
-> > +++ b/meta/recipes-core/systemd/systemd_242.bb
-> > @@ -81,6 +81,7 @@ PACKAGECONFIG ??= " \
-> >      nss \
-> >      nss-mymachines \
-> >      nss-resolve \
-> > +    portabled \
-> >      quotacheck \
-> >      randomseed \
-> >      resolved \
-> > --
-> > 2.20.1
-> > 
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > 
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > 
--- 
-Kind regards,
-Luca Boccassi
+[1] the collections browser at softwarecollections.org seems to be=20
+broken or unmaintained, reported this to the appropriate list already
+[2] http://mirror.centos.org/centos/7/sclo/x86_64/rh/devtoolset-8/
 
+>> Cheers,
+>>=20
+>> Richard
+>>=20
+
+BR,
+
+Bas.
 
