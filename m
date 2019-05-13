@@ -1,131 +1,50 @@
-Return-Path: <mhalstead@linuxfoundation.org>
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com
-	[209.85.214.173])
-	by mail.openembedded.org (Postfix) with ESMTP id D460A7C7A0
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id C85C87D593
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 16:56:37 +0000 (UTC)
-Received: by mail-pl1-f173.google.com with SMTP id x15so6758019pln.9
+	Mon, 13 May 2019 17:19:27 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id y22so12223193qtn.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 09:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=subject:to:references:from:openpgp:autocrypt:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=zOEIS2vsRBZQtZVUpRdmXqBa2UPpM1lHklGm1w43KAk=;
-	b=OfkyAvXjLekoNWqx2y1wmt21VbwlWH3eiVimk6LdEdkV02QZGLftbWsjKGq16iUp+U
-	yNw5tQuXiyTZA7JMLPfbr0HCKbnPRHSicRpcwe88Z/JQ8ZUCcdX/ic4+lz31Ouznu9Wv
-	aEsbs3ugP9OAiaTFo2u4pGBDYJoETc1kML3tY=
+	Mon, 13 May 2019 10:19:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Ocectig0oM02CWoAW5XAF4WvUI73jfG1uBB71edf8AE=;
+	b=sCt7qHRXEydWwfqw9vg2wj267iXx1kG2YalwYRIp5h5TX8CXgHzRJHmILu9EE0gfnF
+	+NnGJ2FiLmmndcmex1T0oJ63b6Fzn3UtG7xq8XsUdmGpOpcp5u0Mrs7yTpYWHKxn6WtG
+	1z8dPGfgyOJqLp27YI/qAqrMdsHDn4TZp8rdt4cWwPdsA2sXmjV/iHaxbahZ3amKIJcE
+	wGAKFOFjkaICyFzlR7MD/MSxk63B9e46l9ANbN2ukGW6m95ph2mrbVmX69/TGXMPhGiE
+	JbDIr38yNLv+BuS8o3jsQf/pyJSg9n1Qx/w+el3f+G99xoMAXQSAVhKf+RTHQeodthK/
+	NO1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:organization:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=zOEIS2vsRBZQtZVUpRdmXqBa2UPpM1lHklGm1w43KAk=;
-	b=iAbchjfXP2e5v8U9+yELUIN++puYVKeEsbtyHFwI+aOdnkJcnEmdaN6F5zqtikThMB
-	PVdaXw9wamEKlUP+kHb6wRwKZkaoqU4lvPxqcy3J7IKJ44gx3AYarQ2VjmU0uyMcaPfT
-	l/O7bFtW0RzwUrDU5pSxF3r1IYwiQp/gZsg62c60FN1iyknT110zLONvOHG+2hogmCBO
-	zAiCAmGR5yXAX9m7nz42FTH1A+m2nrY04xWRPOb9bC9N3euMDoPz19FvyFP2dM0OTTlL
-	LKIb6JRA15y6pZ+Ze1WUBvhLPwK/SNkv3tA9ZLrJHKxynlTLZanunft4SWIeEQ3fHdEL
-	36PA==
-X-Gm-Message-State: APjAAAUXb7aFpVtKpG6Reo7YQVrxyYzo99K+aLcuptRu9B/Ysf8+Rmpr
-	MIHslTKVa9muOHIg2Ev176jbuWvspkQ=
-X-Google-Smtp-Source: APXvYqwutK8pDWRRvrHICCdvdPIRHUJIs7Hfui1+4i4S5Ll9T2cx8Qy7CCSsiVO7En786pn2DeJctQ==
-X-Received: by 2002:a17:902:b492:: with SMTP id
-	y18mr27258155plr.96.1557766598421; 
-	Mon, 13 May 2019 09:56:38 -0700 (PDT)
-Received: from [10.0.0.244] (c-67-189-24-112.hsd1.or.comcast.net.
-	[67.189.24.112]) by smtp.gmail.com with ESMTPSA id
-	79sm13119872pfz.144.2019.05.13.09.56.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 09:56:37 -0700 (PDT)
-To: openembedded-core@lists.openembedded.org
-References: <e86cf937-5734-fc36-cd94-fad9b0155059@gmail.com>
-	<65432636-c595-ed39-28f3-efb7a0d565da@gmail.com>
-	<bf12fd00-e786-25dc-4b10-056ce5adffb4@windriver.com>
-	<20190513074620.GA14282@localhost>
-	<24c5b8fb-38eb-acb0-3e2a-97e63df0e8d9@windriver.com>
-From: Michael Halstead <mhalstead@linuxfoundation.org>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mhalstead@linuxfoundation.org; prefer-encrypt=mutual; keydata=
-	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
-	6RA=
-Organization: Linux Foundation
-Message-ID: <59838dfa-09d6-2789-f096-5fefe89f48b7@linuxfoundation.org>
-Date: Mon, 13 May 2019 09:56:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Ocectig0oM02CWoAW5XAF4WvUI73jfG1uBB71edf8AE=;
+	b=KdhcHCv5E8ylL11/r4LqwTU3U3OTj5u2k1unzvj3Fas/24edOTfj/K8yBykR0ZplgB
+	ZUKgeUbDAhoTH/KFesXPkKffRZtQEGcZexAElzVOQhiOOSwFvCjunnnfIihkDNoxlvMw
+	wfMj+kD43pbuxJHviRfYUBy+bsf9Zdz9Hmr4QJ29jBu7SBZdjdmk1Jlthfq1PEAXn647
+	pBzGzYDPpDk7dRp8VsgYY1JIJnuNyRF4B8GN9eI0Tff4LBdFMMWXuGVGLC4fKYICXrMp
+	dVA01SJs4ZUya71cCU6suBYIJA83H2rjtDQF57TSrUbMQonsuc6HyEFl1g66cSTfZ/eP
+	70QA==
+X-Gm-Message-State: APjAAAUo2oj+prYvaIMHajGlUUhSJyj7HCPOV2Tuc4UY/HvQJ1d7gmBh
+	N3grCcSvyvZCdezOmuX1LVX6Xa1DLgIf0HHuEhk=
+X-Google-Smtp-Source: APXvYqzURXuQJKPIXf1/fh1OJ3ScNIwFYH1MdILMVcw6MGYPba5k6AEP0iHRYID9TQEABCDEcYEx5J++wYOX3OHQ3tw=
+X-Received: by 2002:a0c:93e1:: with SMTP id g30mr17368677qvg.194.1557767968372;
+	Mon, 13 May 2019 10:19:28 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <24c5b8fb-38eb-acb0-3e2a-97e63df0e8d9@windriver.com>
-Subject: Re: [yocto] patchwork
+References: <20190513153303.50095-1-alex.kanavin@gmail.com>
+	<CAMKF1srh_U0ge_1VkPJ0TAS6hKPkybyADUXaTp7SqRnFCmPm=Q@mail.gmail.com>
+	<CAJTo0LZ=yDqyaZYv0PEOokt=6prPMa_gA=hnsYuNRA1oqw9TUQ@mail.gmail.com>
+	<CAMKF1sorBuvDn0kmuPfn24t=vnM3QT_rT358REmcZkmZZS1T-A@mail.gmail.com>
+	<CANNYZj8wfJ6wQYHSc1c71BU1DCS=ymz+Dbkz=+0sEsGmo-O3jQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8wfJ6wQYHSc1c71BU1DCS=ymz+Dbkz=+0sEsGmo-O3jQ@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 13 May 2019 10:19:07 -0700
+Message-ID: <CAMKF1sq2LcZFZm-iPPiXLeZAnTf-ELHBOzwNBWJAeUQz++_+6A@mail.gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] qemux86: use a Core 2 Duo CPU instead of the original circa-1993 Pentium
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -138,39 +57,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 16:56:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 13 May 2019 17:19:28 -0000
+Content-Type: multipart/alternative; boundary="00000000000065bc8d0588c81e97"
 
+--00000000000065bc8d0588c81e97
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 5/13/19 1:59 AM, Mark Hatle wrote:
-> On 5/13/19 10:46 AM, Adrian Bunk wrote:
->> On Mon, May 13, 2019 at 10:32:48AM +0300, Mark Hatle wrote:
->>> On 5/12/19 9:04 PM, akuster808 wrote:
->>>> ok, so no Admins. This is unexceptionable.
->>>>
->>>> OE TSC and Board, I believe its your time to get involved.
->>> I've not used patchwork before, do you know who originally configured it?  Was
->>> it Paul Eggleton, or Richard, or?  If I have an idea who was originally
->>> responsible, I'm pretty sure we can figure out a handoff plan to someone else.
->> http://git.yoctoproject.org/cgit/cgit.cgi/patchwork/
-> No I mean who set it up for OE (or the YP) to use.  I don't even know at this
-> point whose infrastructure the component runs on.  If I had that I'd know to
-> start with either Tom or Michael.
+Sounds good then unless someone else has more
+Info
+
+On Mon, May 13, 2019 at 9:07 AM Alexander Kanavin <alex.kanavin@gmail.com>
+wrote:
+
+> Note that the 32 bit machine from meta-intel has actually been using
+> core2-32 tune for a while, so we are simply catching up here.
 >
-> --Mark
+> Alex
+>
+> On Mon, 13 May 2019 at 18:02, Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> >
+> >
+> > On Mon, May 13, 2019 at 9:00 AM Burton, Ross <ross.burton@intel.com>
+> wrote:
+> >>
+> >> On Mon, 13 May 2019 at 08:55, Khem Raj <raj.khem@gmail.com> wrote:
+> >> > While I like this change I also worry if we are leaving out any
+> significant x86 implementation out there in embedded space x86-64 is
+> relatively newer compared to 32 bit which was long stable
+> >>
+> >> core2duo isn't exactly a modern chipset though, first released in
+> >> 2006.  Does anyone *know* of any significant 32-bit x86 deployments
+> >> which are using significantly older hardware?
+> >
+> >
+> > If intel bsp folks are okay with this then let=E2=80=99s go for it
+> >>
+> >>
+> >> Ross
+>
 
-I set the OE Patchwork up with Jose Lamego's help and maintain that
-server now.
+--00000000000065bc8d0588c81e97
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div><div dir=3D"auto">Sounds good then unless someone else has more</div><=
+/div><div dir=3D"auto">Info=C2=A0</div><div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Mon, May 13, 2019 at 9:07 AM Alexa=
+nder Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gma=
+il.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
+argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">Note that the=
+ 32 bit machine from meta-intel has actually been using<br>
+core2-32 tune for a while, so we are simply catching up here.<br>
+<br>
+Alex<br>
+<br>
+On Mon, 13 May 2019 at 18:02, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail=
+.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; On Mon, May 13, 2019 at 9:00 AM Burton, Ross &lt;<a href=3D"mailto:ros=
+s.burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<=
+br>
+&gt;&gt;<br>
+&gt;&gt; On Mon, 13 May 2019 at 08:55, Khem Raj &lt;<a href=3D"mailto:raj.k=
+hem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt;&gt; &gt; While I like this change I also worry if we are leaving out a=
+ny significant x86 implementation out there in embedded space x86-64 is rel=
+atively newer compared to 32 bit which was long stable<br>
+&gt;&gt;<br>
+&gt;&gt; core2duo isn&#39;t exactly a modern chipset though, first released=
+ in<br>
+&gt;&gt; 2006.=C2=A0 Does anyone *know* of any significant 32-bit x86 deplo=
+yments<br>
+&gt;&gt; which are using significantly older hardware?<br>
+&gt;<br>
+&gt;<br>
+&gt; If intel bsp folks are okay with this then let=E2=80=99s go for it<br>
+&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Ross<br>
+</blockquote></div></div>
 
->>> --Mark
->> cu
->> Adrian
->>
--- 
-Michael Halstead
-Linux Foundation / SysAdmin
-
-
+--00000000000065bc8d0588c81e97--
