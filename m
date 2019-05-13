@@ -1,23 +1,39 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B4BEE7CB4F
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BF217DDB3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 02:30:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4D2Uci5003977
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 12 May 2019 19:30:38 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 12 May 2019 19:30:37 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>, <bunk@stusta.de>
-Date: Mon, 13 May 2019 10:30:36 +0800
-Message-ID: <1557714636-7436-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Mon, 13 May 2019 03:51:48 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 May 2019 20:51:49 -0700
+X-ExtLoop1: 1
+Received: from pgsmsx112-dag.png.intel.com (HELO PGSMSX112.gar.corp.intel.com)
+	([10.108.55.234])
+	by fmsmga004.fm.intel.com with ESMTP; 12 May 2019 20:51:48 -0700
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.111]) by
+	PGSMSX112.gar.corp.intel.com ([169.254.3.40]) with mapi id
+	14.03.0415.000; Mon, 13 May 2019 11:50:03 +0800
+From: "Lee, Chee Yang" <chee.yang.lee@intel.com>
+To: Tom Rini <trini@konsulko.com>
+Thread-Topic: [OE-core] [PATCH] wic/bootimg-efi: replace hardcoded volume
+	name with label
+Thread-Index: AQHVBzl2Q2DVaLSMi06vjz7Sorp1QaZob28A
+Date: Mon, 13 May 2019 03:50:02 +0000
+Message-ID: <B3C79C78-9EDF-4441-96DA-15794255FC8D@intel.com>
+References: <1557457245-17482-1-git-send-email-chee.yang.lee@intel.com>
+	<20190510140521.GA6312@bill-the-cat>
+In-Reply-To: <20190510140521.GA6312@bill-the-cat>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/10.10.9.190412
+x-originating-ip: [172.30.199.115]
 MIME-Version: 1.0
-Subject: [PATCH] groff: imporve musl support
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] wic/bootimg-efi: replace hardcoded volume name with label
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,78 +46,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 02:30:39 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 13 May 2019 03:51:48 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <9CF2A6DD4E31044380366E87CFC36B06@intel.com>
+Content-Transfer-Encoding: base64
 
-Drop local fix, backport upstream gnulib fix and translate to tarball groff.
-
-Suggested-by: Adrian Bunk <bunk@stusta.de>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../groff/files/0001-support-musl.patch            | 39 ++++++++++------------
- 1 file changed, 17 insertions(+), 22 deletions(-)
-
-diff --git a/meta/recipes-extended/groff/files/0001-support-musl.patch b/meta/recipes-extended/groff/files/0001-support-musl.patch
-index e5c817c..a837b11 100644
---- a/meta/recipes-extended/groff/files/0001-support-musl.patch
-+++ b/meta/recipes-extended/groff/files/0001-support-musl.patch
-@@ -1,6 +1,6 @@
--From f73df5196c35ef9c4531e4b6b26800c41954fd77 Mon Sep 17 00:00:00 2001
-+From 695965c27be74acb5968f19d51af86065c4b71a9 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Sat, 11 May 2019 20:00:29 +0800
-+Date: Mon, 13 May 2019 09:48:14 +0800
- Subject: [PATCH] support musl
- 
- ...
-@@ -16,31 +16,26 @@ Subject: [PATCH] support musl
- |   ^~~~~~~
- ...
- 
--Upstream-Status: Pending
-+Upstream-Status: Backport [http://git.savannah.gnu.org/gitweb/?p=gnulib.git;a=commit;h=453ff940449bbbde9ec00f0bbf82a359c5598fc7]
- 
- Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-- lib/math.in.h | 2 ++
-+ gnulib_m4/signbit.m4 | 2 ++
-  1 file changed, 2 insertions(+)
- 
--diff --git a/lib/math.in.h b/lib/math.in.h
--index c30fc20..16e406a 100644
----- a/lib/math.in.h
--+++ b/lib/math.in.h
--@@ -2397,11 +2397,13 @@ _GL_EXTERN_C int gl_signbitl (long double arg);
--     gl_signbitf (x))
-- # endif
-- # ifdef __cplusplus
--+#if defined(__GLIBC__)
-- #  if defined signbit || defined GNULIB_NAMESPACE
-- _GL_MATH_CXX_REAL_FLOATING_DECL_1 (signbit)
-- #   undef signbit
-- _GL_MATH_CXX_REAL_FLOATING_DECL_2 (signbit)
-- #  endif
--+# endif //if defined(__GLIBC__)
-- # endif
-- #elif defined GNULIB_POSIXCHECK
-- # if defined signbit
-+diff --git a/gnulib_m4/signbit.m4 b/gnulib_m4/signbit.m4
-+index 9e7884d..8b9c70c 100644
-+--- a/gnulib_m4/signbit.m4
-++++ b/gnulib_m4/signbit.m4
-+@@ -31,6 +31,8 @@ AC_DEFUN([gl_SIGNBIT],
-+         [case "$host_os" in
-+                           # Guess yes on glibc systems.
-+            *-gnu* | gnu*) gl_cv_func_signbit="guessing yes" ;;
-++                          # Guess yes on musl systems.
-++           *-musl*)       gl_cv_func_signbit="guessing yes" ;;
-+                           # Guess yes on native Windows.
-+            mingw*)        gl_cv_func_signbit="guessing yes" ;;
-+                           # If we don't know, assume the worst.
- -- 
- 2.7.4
- 
--- 
-2.7.4
-
+SSBndWVzcyBubyANCiJFU1AiIGFyZSBmaW5lIHRvIG1lIA0KDQrvu79PbiA1LzEwLzE5LCAxMDow
+NSBQTSwgIlRvbSBSaW5pIiA8dHJpbmlAa29uc3Vsa28uY29tPiB3cm90ZToNCg0KICAgIERvZXMg
+dGhlIG5hbWUgImVmaSIgY29tZSBmcm9tIHNvbWUgc3BlYz8gIEkgd291bGQgZXhwZWN0IHRoZSBk
+ZWZhdWx0DQogICAgbmFtZSBoZXJlIHRvIGJlICJFU1AiLiAgVGhhbmtzIQ0KICAgIA0KICAgIC0t
+IA0KICAgIFRvbQ0KICAgIA0KICAgIA0KDQo=
 
