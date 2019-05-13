@@ -1,57 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D82197DF5B
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C23C7DF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 14:03:13 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id l2so15413363wrb.9
+	Mon, 13 May 2019 14:11:23 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id w1so8543894ljw.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 07:03:15 -0700 (PDT)
+	Mon, 13 May 2019 07:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=u7s17vTTRIe5IQlanpY2BGTtIgOHeaeokCGEpm1BLhg=;
-	b=VkIskcw/xGQSukO8rG01xMt9bGLY/K87MkRg2nLqCn/NI164n9XFhvpavd0xOOCViJ
-	MR7046BHA82izZo50nRK6P4WOSugkTS8YP6KveClJrhckq4OkAwE1RFSXOI/B8YFWmNe
-	xuzMprX2S1x0sUd0Hs0h1kCF3JS0/MRGHDIn8=
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=HZpgMeZR6KvcMtCVGSVQxtbVs9k3aWT12LHIZHS+EfU=;
+	b=c1fluSh8IwXUEJWgLQDeHXRt5a4dnSzCV1yrj5jqR5cp0I+iFm9uu1Ha5hxGQPuq0J
+	l2GAd6cEuQmWcnq5u6KecFCd3PgsSALc5hjePRZ7IgkzWZ0FaUo9zgizMFHFAwpW++K4
+	vD39VfLnfQxNAg9WtxJCj5lBhlAnCzyhwDlJbYOuoTumDd5MmYW9WrgfpOZi14BSpfJx
+	Ui0CcpYlQmvDisMa8bUd79OUOkzWdYjTzD+TI3d6xRI/kJ9JPx8xIhgcnn9mw3f3noQe
+	jBRYXAvXTbTX0Tjsf9kamKa2y4h3Yp0HQFDi7WYSSgxARTzguNH/hqpCgNRPolt8E3iD
+	0/3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=u7s17vTTRIe5IQlanpY2BGTtIgOHeaeokCGEpm1BLhg=;
-	b=WeKL6oKGYpNCciyEgKMuoMbfQ9cVuB6BaYsEtNhQipIA8uEdcjTY4SsGV9CAiGtJiV
-	y2K6d0/pVZE/gUpSoENoyPlPMxhkfSO7KWfneHM0WujiSB0o28sil2mhnhtSypMm6Vlp
-	WF528wh2BWn3XOKEIJzatuRRXlZ59QV/TKh1YjG0VLW1CIu7pedmALlCV8Jz5oO3lfA4
-	rc2tmp0K0a1+ZKLNvJ0et1rppBYj0Hcy6SzQmfzEDb9Mf1CzrgoIiYmrzj3r1uHK2YPG
-	6M+Un6L831jVjl9zztBNXBgfTCROYD3zPzwYvOa/wHsHGUUWGz84Zb0glKn1YdG9kRH/
-	z0aQ==
-X-Gm-Message-State: APjAAAX2fsgRNrRzjG+z5KB2e1Lui3sHjm8+itM/p924ACsK20gnUsG/
-	XRsv3d/Gx00FVRJMUW01OJBnpA==
-X-Google-Smtp-Source: APXvYqw9FUCiCLT+9w2AfVKKJeCiu1o7hM3KUtcKa8gKs6mk3ZY/fcF2icC/1K/V0yXi+UW70hG0bw==
-X-Received: by 2002:a5d:6710:: with SMTP id o16mr15208275wru.173.1557756194553;
-	Mon, 13 May 2019 07:03:14 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t13sm16538956wra.81.2019.05.13.07.03.13
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 13 May 2019 07:03:13 -0700 (PDT)
-Message-ID: <22400f2278d5502b4576bc75faae09d69fe4c887.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>, "Burton, Ross"
-	<ross.burton@intel.com>
-Date: Mon, 13 May 2019 15:03:12 +0100
-In-Reply-To: <CANNYZj-g5RMyUwkx9SHgXmOut8VngL70tfW++x9jziYTURZcjA@mail.gmail.com>
-References: <20190508135459.84886-1-alex.kanavin@gmail.com>
-	<20190508135459.84886-3-alex.kanavin@gmail.com>
-	<000386a97aab0dc593e908b4d7f50f1c8a079be9.camel@linuxfoundation.org>
-	<CANNYZj8WQasbaiPZnifQ474QMPyNS-YZC3fgqbK7eMZSWCenig@mail.gmail.com>
-	<c1411d0a06b8e9778f581247d4fa9fb20859021c.camel@linuxfoundation.org>
-	<CANNYZj-g5RMyUwkx9SHgXmOut8VngL70tfW++x9jziYTURZcjA@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] webkitgtk: update to 2.24.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=HZpgMeZR6KvcMtCVGSVQxtbVs9k3aWT12LHIZHS+EfU=;
+	b=A25EDj1OTqoVz+aEaT7K4x1Pq/sZXHMfea8NtRngzvtePkdhFjRGoxiClWMsaZFn2a
+	NfyYMub9Ek59Xu+YERXLNf8sVvaoHjFqP+HCVyzuHJCBfs98VfOgiw18aJaU7hZBH1c+
+	em/jS5J9Yk4Jc1IB5B3KIs+IXNhlmyr/5ZPBpyjP6kDTq0JwOxoLIn/ELhAjpOFTwHb9
+	EVlaD0bnH1YvYG2ePr8/yeaqEpbx3hEK4pumMRciYD/PJl1PUe3/kKrz2uA2QZCgwGS+
+	74gyoUQ2zfVjMgioM41ANd9Cj+WgJpuFdxy3XqfwJhZzmvvAQnRntAI4gH8ljwZD7K3x
+	BLvQ==
+X-Gm-Message-State: APjAAAV9VBmr3j+GfgNGwohAYzZ/kKRqMbkVS0s6OR5lyr8gn52Z1E7l
+	qbuFY0wok7bhBJWt77X/ojFeqAc5qBs=
+X-Google-Smtp-Source: APXvYqxxf+3seSXrZPl60pGQPUlVHphLZtaS5GIZ9hjN4G8xDxlyJOtEpFHH/lB2TssV/+tLYHScCQ==
+X-Received: by 2002:a2e:9b0b:: with SMTP id u11mr2535174lji.57.1557756684242; 
+	Mon, 13 May 2019 07:11:24 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	e12sm1113916lfb.70.2019.05.13.07.11.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 May 2019 07:11:23 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 13 May 2019 16:11:16 +0200
+Message-Id: <20190513141116.21351-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ell: update to 0.20
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,30 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 14:03:14 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2019 14:11:24 -0000
 
-On Mon, 2019-05-13 at 15:56 +0200, Alexander Kanavin wrote:
-> On Mon, 13 May 2019 at 15:46, <richard.purdie@linuxfoundation.org>
-> wrote:
-> > I agree it shouldn't be in self hosted which should be more
-> > minimal. I
-> > think we do need a webbrowser image which we test *somewhere* and
-> > this
-> > ties into the discussion we had in the bug triage meeting regarding
-> > bug
-> > 12991.
-> 
-> The problem with the web browser is that webkitgtk is one of the
-> heaviest things in oe-core to build (in time, RAM and disk space).
-> Otherwise I would just stick it into core-image-sato, and write
-> something reasonable for testimage to try doing at runtime. Tips?
+Changelog:
+- Fix issue with DHCP client and handling renewing state
+- Fix issue with DHCP client and handling rebinding state
+- Fix issue with DHCP client and recommended retry timeouts
+- Fix issue with Generic Netlink and family discovery
 
-We create a core-image-sato-webkiosk image and only test it on x86/arm?
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-core/ell/{ell_0.19.bb => ell_0.20.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-core/ell/{ell_0.19.bb => ell_0.20.bb} (83%)
 
-Cheers,
-
-Richard
+diff --git a/meta/recipes-core/ell/ell_0.19.bb b/meta/recipes-core/ell/ell_0.20.bb
+similarity index 83%
+rename from meta/recipes-core/ell/ell_0.19.bb
+rename to meta/recipes-core/ell/ell_0.20.bb
+index 8f635e673c..81caa80fab 100644
+--- a/meta/recipes-core/ell/ell_0.19.bb
++++ b/meta/recipes-core/ell/ell_0.20.bb
+@@ -14,8 +14,8 @@ DEPENDS = "dbus"
+ inherit autotools pkgconfig
+ 
+ SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
+-SRC_URI[md5sum] = "4356397ca11d5f8ec7f1aaf1e91ffea4"
+-SRC_URI[sha256sum] = "a5a4d45ca002dd91560fcd565e696f59e82631e69c927115dafc640f0b8d779c"
++SRC_URI[md5sum] = "920189f5be4ee4cd72d610baeb20da65"
++SRC_URI[sha256sum] = "d4aa08915f4058ecaab509dffbe22665d71dba6fe9626caff63c0e5f4b78a394"
+ 
+ do_configure_prepend () {
+     mkdir -p ${S}/build-aux
+-- 
+2.17.1
 
 
