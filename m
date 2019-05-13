@@ -1,50 +1,56 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A33FD6C129
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id C3AB77DF0B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 15:24:48 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id a17so13928008qth.3
+	Mon, 13 May 2019 15:29:41 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id g190so6131178qkf.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 08:24:50 -0700 (PDT)
+	Mon, 13 May 2019 08:29:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=nWS2Y5R8aZiTaBczn1b7JyUhpi0RUYgoiFjUwbdltI8=;
-	b=dIaljj+jVTrCBoSJ2EG+/F+W8DajM4vRyr46TNLG/NK9kP05QxiiwJYaXCyXfl7UgQ
-	8ZVsadzIlF7S9zCn/NcIiHpkBmq+cK47NTmPcwgWHAFhNXM997qUdOm44vlQaUMr6ixD
-	9cCyoZMgwCexZTCusvbXFGAfl+wp1UnEYhG01Gujt8HYcF/DSGOpPN/eF8HrMv1F0Gga
-	ZECIkXSm6c0mEiABOGIGmufMX+jzp2AfVl82OF4ErixuBUCNG8tMEXrAOwunMStfg5Pb
-	4lRmtaKwfkdVPaqGNE60BzMBp17Bkz2c3qHdtx/PRu3cZs7O4JcZNh+qddL4s72ADEAU
-	JqXA==
+	:cc; bh=Jh2hgMuCnB5uci6pRXzNrQxkWv/NHIZ/icSPVw7W9dI=;
+	b=QYUffoborJbzZE4XV5z9+Us8oZ1zEAfSfccmmBF5LWf1Iakt1riljnPETNSgiMV1Cr
+	y7vDxaDieXIV9+ZvDXS3iLk9tIxzJbGRAHmPlLBdwSSDk6VdZUAz4S/DvXk8DctR8O14
+	zFO7rpdY1VS27aY2ilSOmeozLzN508MZbFOhMrzgadO/TFWV9FgVDFnltYbeoHOYmwqg
+	DRRe8MXEuF3c6csHPth+MWdzLYMDK/aH9VfihjxICKDSme3JFg9u3mO4OdhVgpYWyW6k
+	Nb4NZ/FLaBm7XVpaMyJtzvRVARH2yIfmHy85mcKrLVzlv0u8aJJgcNm0LrvdYiNIGPM6
+	2c9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=nWS2Y5R8aZiTaBczn1b7JyUhpi0RUYgoiFjUwbdltI8=;
-	b=ccoSS0kOvDUOvZmrjbAHhspdNmFjJdR2n9Gf2kyWXeFUXSiCgDjqAGf2p4bTKjodYz
-	zeU0B0d+IdAqJqMKsS+2mmX3+qcef/mkxGQseM9euddbQnPTDjDptv1K0EFAZvNQIDS6
-	oSdap6hPRPaYEWgN0YPe7XUxSCcS7sjVZYKFZhTtzvW2IeKuaK/1OVmUGstfoYqXiEAF
-	kXwfgQWLTIbNSqWm7JgSHQrDNgjLHdxKzsEAgAg0nFWACe8ZHMgKrPAj44jrMq+vQK0Q
-	UuJMUm2u+J5go+5D2EA7kYwSykSqo4FBQ7sXesg+zK1WQiSI/U6KtdW6h1p4FySNw9RD
-	ME4w==
-X-Gm-Message-State: APjAAAXlHu5jpvh5xA8VMZUeWLBvH0ztsQyhGbyADr6MRW+DJ5wMMf87
-	biUE2mlt1a3N/1vzegcg9ijRQX/HIXLxDfZ7VCs=
-X-Google-Smtp-Source: APXvYqzZX8mOXi/8NH7CycqiS+pvDvYavMF7/rmF+bvdtwmGaWNc5eSKmOrqa5s76lCGzeRRRYa4kxbo8avYHlD2miE=
-X-Received: by 2002:aed:3827:: with SMTP id j36mr23866418qte.196.1557761089272;
-	Mon, 13 May 2019 08:24:49 -0700 (PDT)
+	bh=Jh2hgMuCnB5uci6pRXzNrQxkWv/NHIZ/icSPVw7W9dI=;
+	b=rOG7wB2Vw1jiAXst58LXtItgz7YmkuqV0KqtQk4Boj3WJNBoXN1U29pEGfAzeRdr6W
+	ooLAUPbYMDKYo264UoKMXWkvgzcTTT7/rcSstAw9FWe2RG3q31D9lDviUvufpPpm0MZC
+	2+qETU0d0NirI1e4RF3kX9A2oYimIVGL8ejaCV4J4LeDOXLqbmiWUYG1u+XN9QnJ6/u2
+	T9Vqhsjn0rMM2kPzYS5ZaoQjXCJXoNGJ3fVV37/kZR+MA6iJ/mVe0q9QmQ5GuP2J0sy5
+	L/YimqWsk7FPkGJt8tooCpN/bddrJykJ/w15RQhkJwk+RIcADZzhEnuorWooHaDArSJT
+	TSrA==
+X-Gm-Message-State: APjAAAWNdZ/XSVgIu4IEkq7PKR3MkKPB6jxsC2pXYogA+488weruAKgF
+	YfyumKFxZLk1ZZOAh1+yvQcuMp7NhVwmaGb3Otc=
+X-Google-Smtp-Source: APXvYqwLUAwJnTZAV7ZS+YBLlqvz4BDoxo8nY1ZJJOj0StQfMFSjFtWs4PrZbS0XXQAVScHWFaCLVQNLNMlsF9h14gg=
+X-Received: by 2002:a37:8d06:: with SMTP id p6mr23173535qkd.315.1557761382331; 
+	Mon, 13 May 2019 08:29:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190509214007.13927-1-luca.boccassi@gmail.com>
-	<20190510120932.29765-1-luca.boccassi@gmail.com>
-	<CAMKF1spVZzywgp8PE3OuZ+x60tkyXgHCD3QpDfMfkVFefEMZrw@mail.gmail.com>
-	<41ac4abea0dd66e99d21bdda69acd08ef81807e7.camel@gmail.com>
-In-Reply-To: <41ac4abea0dd66e99d21bdda69acd08ef81807e7.camel@gmail.com>
+References: <20190427113714.30173-1-schnitzeltony@gmail.com>
+	<d935a0811d57ce8681e7aeeedaf2722233242ae4.camel@linuxfoundation.org>
+	<CALbNGRSBsq7c8AAdpHUfkYytbeBMddDns5R7HeQ=9bWZU_OLyA@mail.gmail.com>
+	<a45f59b03312a7693bd5d4e4ae04c600@basmevissen.nl>
+	<CALbNGRT_FRQfA0jpP7DHsFOxnt97JW-KEjyGXOkW9V2w+Ujgyw@mail.gmail.com>
+	<CALbNGRR_YxL=+u7Kc5x8OiTXLFhRjqK_jp53xB5Q_9WZS-rZ+Q@mail.gmail.com>
+	<ec77d08feb85f543bbc79372d276092c10336035.camel@linuxfoundation.org>
+	<b53e6c90-2a8d-7ae7-b5f7-e7a80b258da3@gmail.com>
+	<ceb5ee6b-3965-de63-4237-805a6a97e92b@windriver.com>
+	<2bb4d4b8a5c395ed9f0647bcbd1945cf2ef280bd.camel@linuxfoundation.org>
+In-Reply-To: <2bb4d4b8a5c395ed9f0647bcbd1945cf2ef280bd.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 May 2019 08:24:38 -0700
-Message-ID: <CAMKF1so-_bkEVm7cze8tdy9xhY6PE0H3uWRjEaB1+j02T4eg8g@mail.gmail.com>
-To: Luca Boccassi <luca.boccassi@gmail.com>
+Date: Mon, 13 May 2019 08:29:31 -0700
+Message-ID: <CAMKF1soG8dkt-TRfddXxFLEq5RwkgjTtGmuNteSwtVtgXD16bA@mail.gmail.com>
+To: richard.purdie@linuxfoundation.org
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] systemd: enable portabled by default
+Subject: Re: [PATCH] vte-native: reduce c++ requirements from c++17 -> c++11
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,180 +63,161 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 15:24:48 -0000
-Content-Type: multipart/alternative; boundary="0000000000005f02430588c684cc"
+X-List-Received-Date: Mon, 13 May 2019 15:29:42 -0000
+Content-Type: multipart/alternative; boundary="000000000000d6b9800588c695f2"
 
---0000000000005f02430588c684cc
+--000000000000d6b9800588c695f2
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 13, 2019 at 3:10 AM Luca Boccassi <luca.boccassi@gmail.com>
-wrote:
+On Mon, May 13, 2019 at 4:40 AM <richard.purdie@linuxfoundation.org> wrote:
 
-> On Fri, 2019-05-10 at 09:45 -0700, Khem Raj wrote:
-> > On Fri, May 10, 2019 at 5:10 AM <
-> > luca.boccassi@gmail.com
-> > > wrote:
-> > > From: Luca Boccassi <
-> > > luca.boccassi@microsoft.com
-> > > >
+> On Mon, 2019-05-13 at 14:34 +0300, Mark Hatle wrote:
+> > On 5/11/19 4:42 AM, Khem Raj wrote:
 > > >
-> > > portable services have been declared production ready with v241, so
-> > > enable
-> > > by default and install the files in the main package.
-> > >
+> > > Can we require centos7 and other hosts which use old compilers to
+> > > install the additional packages to have newer compilers ? e.g. for
+> > > centos installing devtoolset-7 will fix this issue
 > >
-> > what is the rationale to enable it by default ?
+> > I think we need to consider disabling this by default, as Ross
+> > indicated he
+> > wasn't sure it was really required, as well as consider the c++14
+> > patch (if
+> > standard CentOS supports C++-14).
+> >
+> > I do think it's reasonable to try to patch this component, assuming
+> > it can be
+> > done in a reasonable way with a reasonable end result.  (10-lines is
+> > pretty easy
+> > to understand/support, 1000 lines... no so much.)
+> >
+> > However, once we get past one component into multiples, then we need
+> > a better
+> > answer.  Either a set of buildtools the user can build/download, or
+> > items
+> > standard distributions have that they can install.
+> >
+> > Unfortunately CentOS 7 (and corresponding RHEL) is ancient by
+> > compiler
+> > standards, but is heavily used as a replacement is not yet ready.  So
+> > this is a
+> > problem we'll need to deal with for a while still.  Until CentOS 7
+> > era is really
+> > no longer heavily used I think we don't have a choice here but to
+> > deal with this
+> > one way or another.
 >
-> Hi,
+> We avoided the problem by dropping the dependency so we're ok again for
+> now. We haven't required special things be installed on hosts as it
+> increases the documentation problem quite a lot. We run our autobuilder
+> test workers fairly standard for this reason.
 >
-> commit ada8a5d9175b disabled it by default because it was experimental:
-> "Add a new PACKAGECONFIG item 'portabled'. Default to disable it
-> because it's still experimental, according to the announcement letter."
+> The problem is going to get worse over time and the other solution
+> could be we require one of our own buildtools-tarballs installed too.
+> We have used this approach on our autobuilder workers in the past.
 >
-> Now it's been declared as stable by upstream, and also given machined
-> and nspawn are enabled by default I don't see a reason why this
-> shouldn't be as well, as they all provide the same "kind" of
-> feature/functionality, albeit on a different level.
->
-
-Ok being stable is a good thing I agree but I still fail to understand why
-make it default I am for disabling nspawn and machined as well
-
->
-> > > Signed-off-by: Luca Boccassi <
-> > > luca.boccassi@microsoft.com
-> > > >
-> > > ---
-> > > v2: Just enable by default, and let the files be installed in the
-> > > main package
-> > >     as requested by reviewers.
-> > >
-> > >  meta/recipes-core/systemd/systemd_242.bb | 1 +
-> > >  1 file changed, 1 insertion(+)
-> > >
-> > > diff --git a/meta/recipes-core/systemd/systemd_242.bb
-> > > b/meta/recipes-core/systemd/systemd_242.bb
-> > > index 73e03c7a77..f15d125bf8 100644
-> > > --- a/meta/recipes-core/systemd/systemd_242.bb
-> > > +++ b/meta/recipes-core/systemd/systemd_242.bb
-> > > @@ -81,6 +81,7 @@ PACKAGECONFIG ??= " \
-> > >      nss \
-> > >      nss-mymachines \
-> > >      nss-resolve \
-> > > +    portabled \
-> > >      quotacheck \
-> > >      randomseed \
-> > >      resolved \
-> > > --
-> > > 2.20.1
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > >
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> > >
-> --
-> Kind regards,
-> Luca Boccassi
->
+> I am keen to avoid extra distro specific documentaiton (and patches to
+> detect the conditions) if we can help it...
 >
 
---0000000000005f02430588c684cc
+It=E2=80=99s a balance to strike in my opinion sometimes we go out of way t=
+o keep
+supporting ancient compilers that has its own disadvantages At the same
+time if we ask for additional packages for certain hosts this could also
+mean that if they were building older releases those may not build anymore
+with new compiler so it=E2=80=99s a dicey situation
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
+
+--000000000000d6b9800588c695f2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, May 13, 2019 at 3:10 AM Luca Boccassi &lt;<a href=
-=3D"mailto:luca.boccassi@gmail.com">luca.boccassi@gmail.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">On Fri, 2019-05-10 at 09:45 -0700, =
-Khem Raj wrote:<br>
-&gt; On Fri, May 10, 2019 at 5:10 AM &lt;<br>
-&gt; <a href=3D"mailto:luca.boccassi@gmail.com" target=3D"_blank">luca.bocc=
-assi@gmail.com</a><br>
-&gt; &gt; wrote:<br>
-&gt; &gt; From: Luca Boccassi &lt;<br>
-&gt; &gt; <a href=3D"mailto:luca.boccassi@microsoft.com" target=3D"_blank">=
-luca.boccassi@microsoft.com</a><br>
-&gt; &gt; &gt;<br>
+=3D"gmail_attr">On Mon, May 13, 2019 at 4:40 AM &lt;<a href=3D"mailto:richa=
+rd.purdie@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
+;border-left:1px #ccc solid;padding-left:1ex">On Mon, 2019-05-13 at 14:34 +=
+0300, Mark Hatle wrote:<br>
+&gt; On 5/11/19 4:42 AM, Khem Raj wrote:<br>
 &gt; &gt; <br>
-&gt; &gt; portable services have been declared production ready with v241, =
-so<br>
-&gt; &gt; enable<br>
-&gt; &gt; by default and install the files in the main package.<br>
-&gt; &gt; <br>
+&gt; &gt; Can we require centos7 and other hosts which use old compilers to=
+ <br>
+&gt; &gt; install the additional packages to have newer compilers ? e.g. fo=
+r <br>
+&gt; &gt; centos installing devtoolset-7 will fix this issue<br>
 &gt; <br>
-&gt; what is the rationale to enable it by default ?<br>
-<br>
-Hi,<br>
-<br>
-commit ada8a5d9175b disabled it by default because it was experimental:<br>
-&quot;Add a new PACKAGECONFIG item &#39;portabled&#39;. Default to disable =
-it<br>
-because it&#39;s still experimental, according to the announcement letter.&=
-quot;<br>
-<br>
-Now it&#39;s been declared as stable by upstream, and also given machined<b=
-r>
-and nspawn are enabled by default I don&#39;t see a reason why this<br>
-shouldn&#39;t be as well, as they all provide the same &quot;kind&quot; of<=
+&gt; I think we need to consider disabling this by default, as Ross<br>
+&gt; indicated he<br>
+&gt; wasn&#39;t sure it was really required, as well as consider the c++14<=
 br>
-feature/functionality, albeit on a different level.<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Ok being stable =
-is a good thing I agree but I still fail to understand why make it default =
-I am for disabling nspawn and machined as well=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padd=
-ing-left:1ex"><br>
-&gt; &gt; Signed-off-by: Luca Boccassi &lt;<br>
-&gt; &gt; <a href=3D"mailto:luca.boccassi@microsoft.com" target=3D"_blank">=
-luca.boccassi@microsoft.com</a><br>
-&gt; &gt; &gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; v2: Just enable by default, and let the files be installed in the=
+&gt; patch (if<br>
+&gt; standard CentOS supports C++-14).<br>
+&gt; <br>
+&gt; I do think it&#39;s reasonable to try to patch this component, assumin=
+g<br>
+&gt; it can be<br>
+&gt; done in a reasonable way with a reasonable end result.=C2=A0 (10-lines=
+ is<br>
+&gt; pretty easy<br>
+&gt; to understand/support, 1000 lines... no so much.)<br>
+&gt; <br>
+&gt; However, once we get past one component into multiples, then we need<b=
+r>
+&gt; a better<br>
+&gt; answer.=C2=A0 Either a set of buildtools the user can build/download, =
+or<br>
+&gt; items<br>
+&gt; standard distributions have that they can install.<br>
+&gt; <br>
+&gt; Unfortunately CentOS 7 (and corresponding RHEL) is ancient by<br>
+&gt; compiler<br>
+&gt; standards, but is heavily used as a replacement is not yet ready.=C2=
+=A0 So<br>
+&gt; this is a<br>
+&gt; problem we&#39;ll need to deal with for a while still.=C2=A0 Until Cen=
+tOS 7<br>
+&gt; era is really<br>
+&gt; no longer heavily used I think we don&#39;t have a choice here but to<=
+br>
+&gt; deal with this<br>
+&gt; one way or another.<br>
 <br>
-&gt; &gt; main package<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0as requested by reviewers.<br>
-&gt; &gt; <br>
-&gt; &gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_242.bb"=
- rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a> | 1 +<br>
-&gt; &gt;=C2=A0 1 file changed, 1 insertion(+)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_=
-242.bb" rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a><br>
-&gt; &gt; b/meta/recipes-core/systemd/<a href=3D"http://systemd_242.bb" rel=
-=3D"noreferrer" target=3D"_blank">systemd_242.bb</a><br>
-&gt; &gt; index 73e03c7a77..f15d125bf8 100644<br>
-&gt; &gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_242.bb"=
- rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a><br>
-&gt; &gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_242.bb"=
- rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a><br>
-&gt; &gt; @@ -81,6 +81,7 @@ PACKAGECONFIG ??=3D &quot; \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 nss \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 nss-mymachines \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 nss-resolve \<br>
-&gt; &gt; +=C2=A0 =C2=A0 portabled \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 quotacheck \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 randomseed \<br>
-&gt; &gt;=C2=A0 =C2=A0 =C2=A0 resolved \<br>
-&gt; &gt; --<br>
-&gt; &gt; 2.20.1<br>
-&gt; &gt; <br>
-&gt; &gt; --<br>
-&gt; &gt; _______________________________________________<br>
-&gt; &gt; Openembedded-core mailing list<br>
-&gt; &gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" targe=
-t=3D"_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openemb=
-edded-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.=
-org/mailman/listinfo/openembedded-core</a><br>
-&gt; &gt; <br>
--- <br>
-Kind regards,<br>
-Luca Boccassi<br>
+We avoided the problem by dropping the dependency so we&#39;re ok again for=
+<br>
+now. We haven&#39;t required special things be installed on hosts as it<br>
+increases the documentation problem quite a lot. We run our autobuilder<br>
+test workers fairly standard for this reason.<br>
+<br>
+The problem is going to get worse over time and the other solution<br>
+could be we require one of our own buildtools-tarballs installed too.<br>
+We have used this approach on our autobuilder workers in the past.<br>
+<br>
+I am keen to avoid extra distro specific documentaiton (and patches to<br>
+detect the conditions) if we can help it...<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">It=E2=80=99s a b=
+alance to strike in my opinion sometimes we go out of way to keep supportin=
+g ancient compilers that has its own disadvantages At the same time if we a=
+sk for additional packages for certain hosts this could also mean that if t=
+hey were building older releases those may not build anymore with new compi=
+ler so it=E2=80=99s a dicey situation=C2=A0</div><blockquote class=3D"gmail=
+_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:=
+1ex"><br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
 <br>
 </blockquote></div></div>
 
---0000000000005f02430588c684cc--
+--000000000000d6b9800588c695f2--
