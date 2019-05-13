@@ -1,49 +1,49 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 4C23C7DF5B
+Return-Path: <breno.debian@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 386F37DF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 14:11:23 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id w1so8543894ljw.0
+	Mon, 13 May 2019 14:26:56 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id l2so15515905wrb.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 07:11:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=HZpgMeZR6KvcMtCVGSVQxtbVs9k3aWT12LHIZHS+EfU=;
-	b=c1fluSh8IwXUEJWgLQDeHXRt5a4dnSzCV1yrj5jqR5cp0I+iFm9uu1Ha5hxGQPuq0J
-	l2GAd6cEuQmWcnq5u6KecFCd3PgsSALc5hjePRZ7IgkzWZ0FaUo9zgizMFHFAwpW++K4
-	vD39VfLnfQxNAg9WtxJCj5lBhlAnCzyhwDlJbYOuoTumDd5MmYW9WrgfpOZi14BSpfJx
-	Ui0CcpYlQmvDisMa8bUd79OUOkzWdYjTzD+TI3d6xRI/kJ9JPx8xIhgcnn9mw3f3noQe
-	jBRYXAvXTbTX0Tjsf9kamKa2y4h3Yp0HQFDi7WYSSgxARTzguNH/hqpCgNRPolt8E3iD
-	0/3Q==
+	Mon, 13 May 2019 07:26:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id;
+	bh=cn3RsGTRBdOhDbNeTaR/svH7TD33xflW/YXImozJR7U=;
+	b=b0c3yedMI0foDB9iixsEnBOJTexE9HsU24YaiiuPt8iZyiJFbzZXHkkg8lQERdeHDC
+	Z7eG37mIZmiHBCQS5UJ24uJaY0zVy4Uch79ku6v4vnXocYCkXu3B/m21toIJV1kXpT4t
+	45HfzZKcgYWruX35J7MeAVdYOE2ANRWratnqpLpKv2EZ4eICEL3jHjQuHdfRu4yqqHVC
+	+nqjl8w5uWHVDZPgtWZvjJrNSQ5o8b1yKsw6zRcjy0AjcO3tGhHMamUXreTz1T0VyANp
+	8db3ha2DUFTSXlFXH5mhFCH+ZDdnN7fTixEJv5XhIJj39ZnQ0o4HDeVnVehEmzK728ib
+	geJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=HZpgMeZR6KvcMtCVGSVQxtbVs9k3aWT12LHIZHS+EfU=;
-	b=A25EDj1OTqoVz+aEaT7K4x1Pq/sZXHMfea8NtRngzvtePkdhFjRGoxiClWMsaZFn2a
-	NfyYMub9Ek59Xu+YERXLNf8sVvaoHjFqP+HCVyzuHJCBfs98VfOgiw18aJaU7hZBH1c+
-	em/jS5J9Yk4Jc1IB5B3KIs+IXNhlmyr/5ZPBpyjP6kDTq0JwOxoLIn/ELhAjpOFTwHb9
-	EVlaD0bnH1YvYG2ePr8/yeaqEpbx3hEK4pumMRciYD/PJl1PUe3/kKrz2uA2QZCgwGS+
-	74gyoUQ2zfVjMgioM41ANd9Cj+WgJpuFdxy3XqfwJhZzmvvAQnRntAI4gH8ljwZD7K3x
-	BLvQ==
-X-Gm-Message-State: APjAAAV9VBmr3j+GfgNGwohAYzZ/kKRqMbkVS0s6OR5lyr8gn52Z1E7l
-	qbuFY0wok7bhBJWt77X/ojFeqAc5qBs=
-X-Google-Smtp-Source: APXvYqxxf+3seSXrZPl60pGQPUlVHphLZtaS5GIZ9hjN4G8xDxlyJOtEpFHH/lB2TssV/+tLYHScCQ==
-X-Received: by 2002:a2e:9b0b:: with SMTP id u11mr2535174lji.57.1557756684242; 
-	Mon, 13 May 2019 07:11:24 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	e12sm1113916lfb.70.2019.05.13.07.11.22
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id;
+	bh=cn3RsGTRBdOhDbNeTaR/svH7TD33xflW/YXImozJR7U=;
+	b=l3dXt132Q7Tly//9o+u9VZ9XIVqzefei3A2t/T1sOfmAjptJH3dLu/RFoZYotBWfJE
+	8b95SFtP+NyHS2U3xNCub4EZl5KSY+iitIkjzlwMr29Y8+twBsK7lOlHc+fkf+Zpw3sr
+	mYvtokDqZ6P63FnWqbQndVSkZ9idlPDJZ5QcTxP0dUnKvt3sjNgqw0qwM13RVC+CwLXz
+	rgkCcM0fk0AI+oGYcgXa2DDTiwdCvFxqp8amyB7eJvW2OBy01eSEVhCV0RMmy/Mt0Zn6
+	c/m6+mJGX34UN8xa0ezQn3/YR/8O9sKnvL0Ky2yFFk5OU55x+HVN3VY61e89XtNHPOe2
+	e2wQ==
+X-Gm-Message-State: APjAAAWoA4Q/xyRsigWDiQpA0nrJjPOXtFoR5SP3x7NqsXwRJSE4mFvS
+	pxLAHIcwWqGs6UvIUwemIWPzYjfZ
+X-Google-Smtp-Source: APXvYqzXOC+C8MSfEBeLcCugVbyJeeVpWlHXuUxc5PEJb4EKhfCY2XS2hkwgvCTVIDBJnu95S2jUDw==
+X-Received: by 2002:a5d:658f:: with SMTP id q15mr7610001wru.213.1557757617526; 
+	Mon, 13 May 2019 07:26:57 -0700 (PDT)
+Received: from leit-mbp.thefacebook.com ([199.201.66.0])
+	by smtp.gmail.com with ESMTPSA id
+	d16sm11586582wrs.68.2019.05.13.07.26.56
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 07:11:23 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Mon, 13 May 2019 07:26:56 -0700 (PDT)
+Sender: Breno Leitao <breno.debian@gmail.com>
+From: Breno Leitao <leitao@debian.org>
+X-Google-Original-From: Breno Leitao <leit@fb.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 16:11:16 +0200
-Message-Id: <20190513141116.21351-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] ell: update to 0.20
+Date: Mon, 13 May 2019 15:26:52 +0100
+Message-Id: <20190513142652.77287-1-leit@fb.com>
+X-Mailer: git-send-email 2.13.5
+Subject: [PATCH] weston-init: Fix WESTON_USER typo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,38 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 14:11:24 -0000
+X-List-Received-Date: Mon, 13 May 2019 14:26:57 -0000
 
-Changelog:
-- Fix issue with DHCP client and handling renewing state
-- Fix issue with DHCP client and handling rebinding state
-- Fix issue with DHCP client and recommended retry timeouts
-- Fix issue with Generic Netlink and family discovery
+From: Breno Leitao <leitao@debian.org>
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Commit 837c786d600ba69('weston-init: Add support for non-root start') added a
+typo that uses WEST_USER instead of WESTON_USER variable when chwon'ing the
+XDG_RUNTIME_DIR directory. Since WEST_USER is not defined, it will `chown
+:$WESTON_USER file`, which will work, but that is not 100% correctly and should
+be fixed.
+
+This patch basically fix the typo and now the file will be chown'ed to the
+WESTON_USER user.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
 ---
- meta/recipes-core/ell/{ell_0.19.bb => ell_0.20.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/ell/{ell_0.19.bb => ell_0.20.bb} (83%)
+ meta/recipes-graphics/wayland/weston-init/weston-start | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/ell/ell_0.19.bb b/meta/recipes-core/ell/ell_0.20.bb
-similarity index 83%
-rename from meta/recipes-core/ell/ell_0.19.bb
-rename to meta/recipes-core/ell/ell_0.20.bb
-index 8f635e673c..81caa80fab 100644
---- a/meta/recipes-core/ell/ell_0.19.bb
-+++ b/meta/recipes-core/ell/ell_0.20.bb
-@@ -14,8 +14,8 @@ DEPENDS = "dbus"
- inherit autotools pkgconfig
+diff --git a/meta/recipes-graphics/wayland/weston-init/weston-start b/meta/recipes-graphics/wayland/weston-init/weston-start
+index d19dbcbf75..ccc7093425 100755
+--- a/meta/recipes-graphics/wayland/weston-init/weston-start
++++ b/meta/recipes-graphics/wayland/weston-init/weston-start
+@@ -75,7 +75,7 @@ if test -z "$XDG_RUNTIME_DIR"; then
+ 	fi
+ 	if [ -n "$WESTON_USER" ]
+ 	then
+-		chown $WEST_USER:$WESTON_USER $XDG_RUNTIME_DIR
++		chown $WESTON_USER:$WESTON_USER $XDG_RUNTIME_DIR
+ 	fi
+ fi
  
- SRC_URI = "https://mirrors.edge.kernel.org/pub/linux/libs/${BPN}/${BPN}-${PV}.tar.xz"
--SRC_URI[md5sum] = "4356397ca11d5f8ec7f1aaf1e91ffea4"
--SRC_URI[sha256sum] = "a5a4d45ca002dd91560fcd565e696f59e82631e69c927115dafc640f0b8d779c"
-+SRC_URI[md5sum] = "920189f5be4ee4cd72d610baeb20da65"
-+SRC_URI[sha256sum] = "d4aa08915f4058ecaab509dffbe22665d71dba6fe9626caff63c0e5f4b78a394"
- 
- do_configure_prepend () {
-     mkdir -p ${S}/build-aux
 -- 
 2.17.1
 
