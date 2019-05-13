@@ -1,52 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 60ED27D723
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E77527D723
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 13:46:20 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id r4so15334426wro.10
+	Mon, 13 May 2019 13:56:52 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id f4so2026635oib.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 06:46:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=lMwcE6+DnXxXGi40kiLGRycJaPrr1e8yVzM6PCQdwHM=;
-	b=ReC99quOgEGJGScKVjPfiusAwyW7oLxjqMX0vh5v971URrpaQ3q9r++WmRH8EAiPWt
-	Z11GkDbWAPkfcuXKFWfdPdChxMyoUBVpxWCA7LoK2YvSW5nDXUGHB40mfrkoRTpbRrKD
-	24u1ezdqxMimzwexEXyl4i0WlV0sNZGSYTg5E=
+	Mon, 13 May 2019 06:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Lq525XsdrKOLe2RfgfCSBzngeIHgiripYU9MLeabpeI=;
+	b=KYd+ZYWOGEms4UXCX3jMuPMIFwwoE8KP7qfe6XZBZMmJXfyJUmE31UUswchYi4w/Kc
+	en/V5x4rYU5NBSwuMMm+yDgpRWEF1E+soGab8oAsvGBqDIXN8/r/jK/IAYQ1eTmWsMYY
+	TaEbfJEhAnKQy5w4KWOFrq/L5MAG+Aa3xZv8G5tIoNTOGKg0FnqiqEOXGQ9u10Q3JSEa
+	93tWkT6aWt4AQGvaY9lkMl9tzfLs7Aihhw8u+adhkDucgupcSA21l9OdPBo0ZWud5keW
+	a7ti8TJ4B8wWiVtWDwJG+dvBdReZ2PYMt505mRTUTEKAvE4kweTUhpWZRBSAIhhn2gAo
+	sgaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=lMwcE6+DnXxXGi40kiLGRycJaPrr1e8yVzM6PCQdwHM=;
-	b=HQrXKmhE3koO2Vzt2atxQxspTAbD4WxRap9zVNW1CrpQalQGcpBVo1uKRI7T9nqPCu
-	voiJmLYr3wbR4/WY/fewWW6Y0T0SvkaoDIoczxNqIKNRBnF1As9y+V7qOZvhVVAndEG7
-	bnG0CmTCA0v2oSYdBTll1LNg23NTXHRVwMUzkABgJRy1ZgkmKAAWz1XsE5J1Ov1Sz0K7
-	jo6vOfzqet+9Wr5U6kCQrdzq+cPvVCJ0PnejN7g+jxHf3+bkEB49UUYAzi3v4UZ6ej1o
-	3J69ECFz14Ws7gDNQ12zkIDwVr8cmWYYCC0nB9qBXGNe9bg3LdoHa2cVBp2sNP4YHECo
-	0nRw==
-X-Gm-Message-State: APjAAAUuspSgCws+rLA8EmNSn+tuOixIie9R8k0lHHPG4m0AbIOLwT8R
-	QTL4myVmivp/9hb2z/2W7ZkzDw==
-X-Google-Smtp-Source: APXvYqxHL/WdH1daiUmHMOYk0AaATj7JPT2nbnvOtmNYydYB5i9iCYjpqONjVQrdrTjyYQfDNz/p/w==
-X-Received: by 2002:adf:dbc1:: with SMTP id e1mr18645733wrj.203.1557755181027; 
-	Mon, 13 May 2019 06:46:21 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u17sm12474313wmj.1.2019.05.13.06.46.19
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 13 May 2019 06:46:20 -0700 (PDT)
-Message-ID: <c1411d0a06b8e9778f581247d4fa9fb20859021c.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 13 May 2019 14:46:18 +0100
-In-Reply-To: <CANNYZj8WQasbaiPZnifQ474QMPyNS-YZC3fgqbK7eMZSWCenig@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Lq525XsdrKOLe2RfgfCSBzngeIHgiripYU9MLeabpeI=;
+	b=twA35GX54SIorIU/UgpCvL1Xj/eKKACixU/7KoKbdsoQSe1h1NPw1QeFV2vq8BF44R
+	5eT0zzcfkRaN5WEVUldbb+hpdsJJ5rI7O2lCAUFFF4gAP9+EgVqytE9t6dXuA3EBrr3x
+	7iTQVicpm8grlxGWblHbO75dRrEciOhIj7x86FYn+qIwdQjFTW5JfKNpM//bUaZN7gKt
+	idfdNewdPV2MMiPRMbIJjhRjWwUkXfp9SxD4CzNUotN/c7hKZXvAqwcq1ArZXTBA1pTP
+	RLp1JYMFFIF2l47Xll6/PDVj5uTEb0zt3K8R24JLYrLDAJAikPMB3XnLQ77HDgvJfBqh
+	ZcDw==
+X-Gm-Message-State: APjAAAWi0feL8VO8FejKs/Ra60wCaN+Y/pCXVj3GD/BAcWuVx4Co7xf+
+	sBCO9S6nbWjlmO5AQxbUv/FRZKbNBe3gcREb1F8=
+X-Google-Smtp-Source: APXvYqxIf+VSEyde5qh8dfR15ny6z07qJXYBp7QDmGIV621QODOboKeKubtny9YBokDIdvpI7Yd2K4Zbdy5//a4Lwps=
+X-Received: by 2002:aca:d40b:: with SMTP id l11mr14634839oig.132.1557755813979;
+	Mon, 13 May 2019 06:56:53 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190508135459.84886-1-alex.kanavin@gmail.com>
 	<20190508135459.84886-3-alex.kanavin@gmail.com>
 	<000386a97aab0dc593e908b4d7f50f1c8a079be9.camel@linuxfoundation.org>
 	<CANNYZj8WQasbaiPZnifQ474QMPyNS-YZC3fgqbK7eMZSWCenig@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
+	<c1411d0a06b8e9778f581247d4fa9fb20859021c.camel@linuxfoundation.org>
+In-Reply-To: <c1411d0a06b8e9778f581247d4fa9fb20859021c.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 13 May 2019 15:56:42 +0200
+Message-ID: <CANNYZj-g5RMyUwkx9SHgXmOut8VngL70tfW++x9jziYTURZcjA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 3/3] webkitgtk: update to 2.24.1
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -61,58 +58,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 13:46:20 -0000
+X-List-Received-Date: Mon, 13 May 2019 13:56:53 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-05-13 at 15:39 +0200, Alexander Kanavin wrote:
-> On Mon, 13 May 2019 at 13:36, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Wed, 2019-05-08 at 15:54 +0200, Alexander Kanavin wrote:
-> > > Add a patch to address a missing format string error.
-> > > 
-> > > Disable the recipe on 32 bit x86, as SSE2 is now required
-> > > unconditionally.
-> > 
-> > Unfortunately this isn't quite that simple since just disabling it
-> > triggers:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/445
-> > 
-> > (errors in world builds)
-> > 
-> > It might be time to optimise qemux86 slightly more which would help
-> > avoid this?
-> 
-> Yes, we should certainly move qemux86 to something less vintage than
-> the original Pentium CPU. I'll make a patch.
+On Mon, 13 May 2019 at 15:46, <richard.purdie@linuxfoundation.org> wrote:
+> I agree it shouldn't be in self hosted which should be more minimal. I
+> think we do need a webbrowser image which we test *somewhere* and this
+> ties into the discussion we had in the bug triage meeting regarding bug
+> 12991.
 
-Sounds good thanks.
+The problem with the web browser is that webkitgtk is one of the
+heaviest things in oe-core to build (in time, RAM and disk space).
+Otherwise I would just stick it into core-image-sato, and write
+something reasonable for testimage to try doing at runtime. Tips?
 
-> Another issue is 'packagegroup-self-hosted' including epiphany, and
-> build-appliance-image pulling that packagegroup in. Tracing back the
-> history, it seems that epiphany is there because long time ago Hob UI
-> made use of a 'web browser' for some tasks. With Hob long gone, and
-> its replacement Toaster accessible across the network (or from outside
-> the VM), I think there is not any more a use case for including a web
-> browser into the image?
-
-I agree it shouldn't be in self hosted which should be more minimal. I
-think we do need a webbrowser image which we test *somewhere* and this
-ties into the discussion we had in the bug triage meeting regarding bug
-12991.
-
-Basically "build-appliance" was designed to test whether toaster/hob
-could rebuild the build-appliance image (and hence be self hosting).
-I'd like to see this split up so that the self hosting is commandline
-and we have a web browser test somewhere else.
-
-An added complication is that the test also tests VMWare :/. Tesing
-multiple things with one operation has its drawbacks...
-
-Cheers,
-
-Richard
-
-
+Alex
 
