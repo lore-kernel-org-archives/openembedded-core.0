@@ -1,56 +1,31 @@
-Return-Path: <mark.hatle@windriver.com>
+Return-Path: <Mingli.Yu@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F7FC6B073;
-	Mon, 13 May 2019 08:59:18 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id D686B60229
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 13 May 2019 09:18:57 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4D8xHHk002655
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4D9IvXZ005875
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 13 May 2019 01:59:17 -0700 (PDT)
-Received: from soho-mhatle-m.local (147.11.117.151) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 13 May 2019 01:59:16 -0700
-To: Adrian Bunk <bunk@stusta.de>
-References: <e86cf937-5734-fc36-cd94-fad9b0155059@gmail.com>
-	<65432636-c595-ed39-28f3-efb7a0d565da@gmail.com>
-	<bf12fd00-e786-25dc-4b10-056ce5adffb4@windriver.com>
-	<20190513074620.GA14282@localhost>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <24c5b8fb-38eb-acb0-3e2a-97e63df0e8d9@windriver.com>
-Date: Mon, 13 May 2019 11:59:14 +0300
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.6.1
+	Mon, 13 May 2019 02:18:57 -0700 (PDT)
+Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 13 May 2019 02:18:56 -0700
+To: <richard.purdie@linuxfoundation.org>, "Burton, Ross"
+	<ross.burton@intel.com>
+References: <5CD13414.9060408@windriver.com>
+	<20190508030539.448075-1-mingli.yu@windriver.com>
+	<CAJTo0LbWzug_9N5eZwaaWNX3w6wRfOCNx379DYkpODf=t71KbA@mail.gmail.com>
+	<eb9506045669eaf6dc51f56fab72195c7cdba6b3.camel@linuxfoundation.org>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5CD93813.1060907@windriver.com>
+Date: Mon, 13 May 2019 17:25:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-In-Reply-To: <20190513074620.GA14282@localhost>
-Cc: "yocto@yoctoproject.org" <yocto@yoctoproject.org>,
-	OpenEmbedded Devel List <openembedded-devel@lists.openembedded.org>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [yocto] patchwork
+In-Reply-To: <eb9506045669eaf6dc51f56fab72195c7cdba6b3.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.170]
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3] glib-2.0: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,34 +38,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 08:59:18 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 13 May 2019 09:18:58 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 5/13/19 10:46 AM, Adrian Bunk wrote:
-> On Mon, May 13, 2019 at 10:32:48AM +0300, Mark Hatle wrote:
->> On 5/12/19 9:04 PM, akuster808 wrote:
->>> ok, so no Admins. This is unexceptionable.
->>>
->>> OE TSC and Board, I believe its your time to get involved.
+
+
+On 2019年05月08日 20:25, richard.purdie@linuxfoundation.org wrote:
+> On Wed, 2019-05-08 at 12:54 +0100, Burton, Ross wrote:
+>> On Wed, 8 May 2019 at 04:06, <mingli.yu@windriver.com> wrote:
+>>> * Increase the timeout to 15 minutes as the default
+>>>    timeout which is 5 minutes is not enough to fix below error:
+>>>    | Executing: glib/actions.test
+>>>    | Test timed out after 300 seconds
+>>>    | cleaning up pid 13050
+>>>    | FAIL: glib/actions.test (Child process killed by signal 9)
 >>
->> I've not used patchwork before, do you know who originally configured it?  Was
->> it Paul Eggleton, or Richard, or?  If I have an idea who was originally
->> responsible, I'm pretty sure we can figure out a handoff plan to someone else.
-> 
-> http://git.yoctoproject.org/cgit/cgit.cgi/patchwork/
+>> My Debian machine runs that test in 20 seconds.
+>>
+>> Maybe we're missing dependencies to get a working session dbus up?
+>
+> That seems likely. I'd note that we see:
+>
+> https://autobuilder.yocto.io/pub/non-release/20190502-12/testresults/testresult-report.txt
+>
+>
+> Recipe                       | Passed      | Failed   | Skipped   | Time(s)
+> glib-2.0                     | 290         | 1        | 0         | 427
+>
+> and the failing test is:
+>
+>      ptestresult.glib-2.0.glib/gdatetime.test__Child_process_killed_by_signal_6_
+>
+> so it would seem this is working on our autobuilder tests? That would
+> seem to back up Ross' comments.
 
-No I mean who set it up for OE (or the YP) to use.  I don't even know at this
-point whose infrastructure the component runs on.  If I had that I'd know to
-start with either Tom or Michael.
+Thanks Ross and RP's comments!
 
---Mark
+It's weird! Seems it succeeds in autobuilder, but I can reproduce the 
+glib/actions.test failure steadily in my env as below:
+# time; /usr/libexec/installed-tests/glib/actions -p;time
+user	0m0.13s
+sys	0m0.07s
+/actions/dbus/threaded: OK
+user	6m29.03s
+sys	0m50.46s
 
->> --Mark
-> 
-> cu
-> Adrian
-> 
+Thanks,
 
+>
+> Cheers,
+>
+> Richard
+>
+>
 
