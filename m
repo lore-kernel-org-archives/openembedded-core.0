@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id A98117DEAB
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 5068E7DEA7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 04:54:11 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id z28so8440987pfk.0
+	Tue, 14 May 2019 04:54:12 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id z3so7940219pgp.8
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 May 2019 21:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=DxTd7anJuOjCYPVlKRwJh46GZioAtAkkacAWQB4ofnQ=;
-	b=KhCkgu0Rk4oYHLd4L0jRonDq5LTc1Iux3pkvDlviq4NExot/ViXv7LrfrMGUXQ+a30
-	/R+5sOjZOq4tVzDNJ6AAuJ49uzGXQ4Bd1kE8DrrShjFiyUrM+si9Jhh/+d7c+3b/hCCx
-	z6w56rli1lUR7b2YujjxmyQ3wUYAJDqqvh1a1sQV2NsRN7H/q92YJS9X8XUQrDdif0Wu
-	jERXcRDzBCEuPbhw2t6fC6PS5oPmFB9Io3hnLe4TrRPAivkXz0O8qtIC0jmQU0dJQrtD
-	4cNsPFv5in+TkJXy9Ki52p9c3BD/yC0Mf895/bkWblYIclkHzlhLZiLlwSa8yIU+ErLc
-	pLjQ==
+	bh=oX7yI3Htksusv1XzaLD0zgUAZ9GbK8jc80frYgO9vTc=;
+	b=Q6bsv3tc3bvQSUVlUx9dr2jHmnK1GRoKfClZsm23DAsRwhMOus9wrByEF45ykYGS3O
+	KzX3qhk1kK3IImNizHMjEUqxlI3QBtqIOHc+0zsvyF/oSlSYwBx1P+iUMrR2HzIbb6DJ
+	sMAHpKFaGI78XMliPonVtFRZmwQ47NweAPtmtiy6BwieMRN/e6exqJMRZ/brz1f2v/qB
+	lcAUBwGcJvioq1RhmpJEtjg6eYn7aFOSIK2VDT9GCP1hXwrPu2aCieTN6jIFxLm0dK0j
+	C8hzCVbMWXrMkWq4AfKyVYz1+10THmxedy+kO6nSy4gHBAx3ctx3X/wGOTRd6O/sSRTk
+	9TTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=DxTd7anJuOjCYPVlKRwJh46GZioAtAkkacAWQB4ofnQ=;
-	b=OBvgZvrvAtLl+u4fPeuOl7HNMsTd7s6YyVpjNJeus8zMh97iDHVHxPVRKdE0oP9HJX
-	z92gMVM/hWFl/qUW0KMtA/bG/j1Li3Mnkz/FP3pPJZsZjet4rvR9i/cjFoKx9unBLvZ7
-	4YVc+A/RzdTHkeN+/BctZRX+7yegS0dNqVmeslyTArAMEMxfdF99oraUpC8fXWRWKXT4
-	gWuUJkD+343IAdMCHHrt5kNI4vSE/CGedPKFUx8UbbkJwScDnT2sFHkptakxjLwqWOB3
-	m4Xp60Wi9nK1DDxBut9gLrx1FyGFeiwdj9PJIR9nelJea7TZOydjsbGmtCKIH6/HzNDm
-	REGw==
-X-Gm-Message-State: APjAAAVbDvdXnNiU/iRo+HY+mNt+hrGjS6jhdpb2e9Xhq25ijYrsmFpF
-	noQ+lBiw39FH6XQhlvF5Z1cWftKu
-X-Google-Smtp-Source: APXvYqxb8R7QuhKJPaPYDzjNXY1SFmohTdJzUWAwdJlb7IzUng5Ynpus/qXhvJZGCa6mzlMIZDMKOw==
-X-Received: by 2002:a63:1e5b:: with SMTP id p27mr34906981pgm.213.1557809652719;
-	Mon, 13 May 2019 21:54:12 -0700 (PDT)
+	bh=oX7yI3Htksusv1XzaLD0zgUAZ9GbK8jc80frYgO9vTc=;
+	b=t4KprQcx0KTZ25vTGnUJ+UHRSoBC8hqAlL4yxgAg15B2T4kfyWp2X10+jdnSnmrG12
+	PjUJQPvvE4pgwxP/1+sOSqlSU04G+IgI5gbCkF+x10+4COG68cBaExO+XJntgIa8j5Cq
+	I481x3X3q4Ff01XBqpFmlrX1bb+KusyepPEERc5umTnMYZq9qAWyYeaMlPv7otEikCw/
+	6Myweho3GOqf6jqgSF4nOecndgAn7hb9jhM2H3lrg9DgYR7PMbSVRoEKEDmsimIrfF4C
+	x/KtWAd8uAErYKJ57Qs+IbTrv+41bswVRPLIfe5ufRF56BESMVlMHdsbrytNwmaPRe9y
+	SRyg==
+X-Gm-Message-State: APjAAAWd7ko445sfUtqX6dC80a+tMVPGi5zDca9zUj9wrXFWgSj7yvSi
+	nKQJ2DAeZ9xa/+ROKFw5wphy93md
+X-Google-Smtp-Source: APXvYqw9YGeONk/cbDDEDQ8HBADf1VClB+eIYieKxKkSrGqHUt74LaQtw6pe0yA3GpJajhZJuZU9wA==
+X-Received: by 2002:a63:ce43:: with SMTP id r3mr17821738pgi.368.1557809653379; 
+	Mon, 13 May 2019 21:54:13 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:d909:eb3d:d2ab:fd1d])
 	by smtp.gmail.com with ESMTPSA id
-	q75sm5698451pfa.175.2019.05.13.21.54.11
+	q75sm5698451pfa.175.2019.05.13.21.54.12
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 May 2019 21:54:12 -0700 (PDT)
+	Mon, 13 May 2019 21:54:13 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 21:53:45 -0700
-Message-Id: <9f47cea3c58a53db8599f1be4ff4401406c00928.1557809500.git.akuster808@gmail.com>
+Date: Mon, 13 May 2019 21:53:46 -0700
+Message-Id: <0da5f86e05ff63e9362cc9b216c7e6007c0de26f.1557809500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557809500.git.akuster808@gmail.com>
 References: <cover.1557809500.git.akuster808@gmail.com>
-Subject: [PATCH 03/23] cpio/tar/native.bbclass: move rmt to sbindir and add a prefix to avoid native clashing
+Subject: [PATCH 04/23] go: Exclude vcs files when installing deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,101 +59,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 04:54:11 -0000
+X-List-Received-Date: Tue, 14 May 2019 04:54:12 -0000
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Alex Kiernan <alex.kiernan@gmail.com>
 
-The rmt in cpio-native and tar-native is clashing, since
-tar-native has set var-NATIVE_PACKAGE_PATH_SUFFIX, we move rmt
-to sbindir, and add suffix NATIVE_PACKAGE_PATH_SUFFIX to sbindir
-could avoid the clashing.
+Because our clones use the host git, on (say) Ubuntu 18.04, the local
+git directories acquire perl scripts such as fsmonitor-watchman.sample.
+During packaging, this leads to failures:
 
-And in Ubuntu, rmt is in sbindir
-$ which rmt
-/usr/sbin/rmt
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: QA Issue: /usr/lib/go/pkg/dep/sources/https---github.com-nsf-termbox--go/.git/hooks/fsmonitor-watchman.sample contained in package go-hsperfdata-staticdev requires /usr/bin/perl, but no providers found in RDEPENDS_go-hsperfdata-staticdev? [file-rdeps]
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa:
+  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: Function failed: do_package_qa
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/native.bbclass             | 1 +
- meta/recipes-extended/cpio/cpio_2.12.bb | 6 +++---
- meta/recipes-extended/tar/tar_1.31.bb   | 6 +++---
- 3 files changed, 7 insertions(+), 6 deletions(-)
+ meta/classes/go.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
-index e9f6c74..d5b6f6a 100644
---- a/meta/classes/native.bbclass
-+++ b/meta/classes/native.bbclass
-@@ -89,6 +89,7 @@ export lt_cv_sys_lib_dlsearch_path_spec = "${libdir} ${base_libdir} /lib /lib64
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index 7f5e8b9..b6d9372 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -130,7 +130,7 @@ go_do_install() {
+ 	install -d ${D}${libdir}/go/src/${GO_IMPORT}
+ 	tar -C ${S}/src/${GO_IMPORT} -cf - --exclude-vcs --exclude '*.test' --exclude 'testdata' . | \
+ 		tar -C ${D}${libdir}/go/src/${GO_IMPORT} --no-same-owner -xf -
+-	tar -C ${B} -cf - pkg | tar -C ${D}${libdir}/go --no-same-owner -xf -
++	tar -C ${B} -cf - --exclude-vcs pkg | tar -C ${D}${libdir}/go --no-same-owner -xf -
  
- NATIVE_PACKAGE_PATH_SUFFIX ?= ""
- bindir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
-+sbindir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
- base_libdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
- libdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
- libexecdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
-diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.12.bb
-index cb845c3..3713bf0 100644
---- a/meta/recipes-extended/cpio/cpio_2.12.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.12.bb
-@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713
- 
- inherit autotools gettext texinfo
- 
--EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
-+EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
- 
- do_install () {
-     autotools_do_install
-@@ -34,7 +34,7 @@ do_install () {
- 
- PACKAGES =+ "${PN}-rmt"
- 
--FILES_${PN}-rmt = "${base_sbindir}/rmt*"
-+FILES_${PN}-rmt = "${sbindir}/rmt*"
- 
- inherit update-alternatives
- 
-@@ -46,6 +46,6 @@ ALTERNATIVE_${PN}-rmt = "rmt"
- ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
- 
- ALTERNATIVE_PRIORITY[rmt] = "50"
--ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
-+ALTERNATIVE_LINK_NAME[rmt] = "${sbindir}/rmt"
- 
- BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-extended/tar/tar_1.31.bb b/meta/recipes-extended/tar/tar_1.31.bb
-index a785042..353617e 100644
---- a/meta/recipes-extended/tar/tar_1.31.bb
-+++ b/meta/recipes-extended/tar/tar_1.31.bb
-@@ -21,7 +21,7 @@ PACKAGECONFIG_append_class-target = " ${@bb.utils.filter('DISTRO_FEATURES', 'acl
- 
- PACKAGECONFIG[acl] = "--with-posix-acls,--without-posix-acls,acl"
- 
--EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
-+EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
- 
- # Let aclocal use the relative path for the m4 file rather than the
- # absolute since tar has a lot of m4 files, otherwise there might
-@@ -45,7 +45,7 @@ do_install_append_class-target() {
- 
- PACKAGES =+ "${PN}-rmt"
- 
--FILES_${PN}-rmt = "${base_sbindir}/rmt*"
-+FILES_${PN}-rmt = "${sbindir}/rmt*"
- 
- inherit update-alternatives
- 
-@@ -57,7 +57,7 @@ ALTERNATIVE_${PN}_class-nativesdk = ""
- ALTERNATIVE_${PN}-rmt_class-nativesdk = ""
- 
- ALTERNATIVE_LINK_NAME[tar] = "${base_bindir}/tar"
--ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
-+ALTERNATIVE_LINK_NAME[rmt] = "${sbindir}/rmt"
- 
- PROVIDES_append_class-native = " tar-replacement-native"
- NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
+ 	if [ -n "`ls ${B}/${GO_BUILD_BINDIR}/`" ]; then
+ 		install -d ${D}${bindir}
 -- 
 2.7.4
 
