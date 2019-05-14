@@ -1,52 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 97A2A7DEDA
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4B3A57DF1C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 04:54:14 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id h17so7957987pgv.0
+	Tue, 14 May 2019 04:54:15 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id t22so7931042pgi.10
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 May 2019 21:54:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=AV8lItFCDIOZXvEtE40oWFba2L81W2MGNyW+RjMi6H0=;
-	b=tG9iRdc4cFUrYvTrkrmfVFgyV3rhAXsGcT3MtBiFbEAKp4GQhJmcFV0EUR8pOyLmSv
-	xjzwonQQm/HRSi9wbnLdzvM9WHuJy/U9/If6fbbkdMcnr8sDNIHtybEhV7CAqIKP4gDi
-	+xo264rWHPeFgOMLX5qv/N3YnhcW8BLSrXYMT8wHdCI899/uZUmHA2QI+Puxm9kDVyQn
-	4997IG1qHeQq3G1+CJ+O6b4OuGI4o7O8Ed5zasgJMfPR4WIfc4sDQAmFieN6YdIbVeBs
-	aXU/OslJx9F0Cw8ieN6P+tLCRTpcONdRm4cRhv7zVbwW2eQrcue6H1cHXc1CZ4zOUozn
-	uf1Q==
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=pqzBDB8EIdl+QR2aI4wXoQ4jx1yTLn0qW5g2/Ikz6Ak=;
+	b=Yr+w/J1Vf6+ONDI1jHeKl5YYvyqfM5A8vaz+ViI4ePS26S0UPRJgNf6QL3UFPUmp0A
+	xDDz7VN+vfOkqD0egiDNFRq9aCBM1+Yqd4JutGetBnDZmEHm2B+hdcvPZtenzlMm4aqv
+	G5vbclvguVEKeW75xhg3E65D51molfjRBmFT66NAvXKB7EE2NA6UWNbkJCyBs2+FWuCC
+	GjX6vX9JuB87oW+Q649u02q4YWPCYOqZu7qFvIE3Tk5IBKykJIciKqTaeJ1Z1oBf/hYB
+	aclOYgdgEhmyY2ZY4jpwRAWiQE5ohvh1pshPWxMqMcpSwFuk+EjGgYa2ae8T59hEQ+YN
+	wWcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=AV8lItFCDIOZXvEtE40oWFba2L81W2MGNyW+RjMi6H0=;
-	b=qUSUxY9OUoTs9sU1emhuAFrlaMBE1AA/dEN1Bf63gY8qEdOxSR73+Wpo/YCZXZqCPd
-	gAHEOIiffeHTnDgiJtWf/f4B+jxZ/EvN1TxtALD02TjDvFyiWp//+IhCaNGqBFkF/XWA
-	MfxsQDWXguF6mASBCV41S14kxm7HMYsKo2UMs6UT4IMEzNFnMDAJ76rail8kICocXULV
-	Xu/LKsi6CaaVSzk8IWOK0KGky0xGIggy4aZUbQsQjE405jboDKTwdr9gda0PT0HzdZ9I
-	g/f9QVqN83YFTvyWq6kMeENdJw6jdREQmCZSVgYiqwOCaHBUQXmlBaQkg6Hrv58k4TJK
-	krOw==
-X-Gm-Message-State: APjAAAUd3HDMab3MTz26HHno3EF2HB7SMiWEgYuycIlqGH1qU+2KcaR9
-	P30B+qk6qLKrzcgfkBIRck7TkNPF
-X-Google-Smtp-Source: APXvYqyhaUIJ7AAyHuFHM2N5Qgz/VaiVhUeYD+020DCRlWrFtsJerLSI3GhrWNAhsqFidxXJtN2uyg==
-X-Received: by 2002:a65:578b:: with SMTP id b11mr36166456pgr.446.1557809655604;
-	Mon, 13 May 2019 21:54:15 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=pqzBDB8EIdl+QR2aI4wXoQ4jx1yTLn0qW5g2/Ikz6Ak=;
+	b=KkN3pIVK28nY3Pif65pccfOdVxEKqkgDEKLBaRLFQ+pBCMEEAcBXcJ7x7194CT2B7h
+	X5lgVFNHeg/kihqn9Ye0DZU5Xd2j0nwIr3N8sE02J6ahTVe6zvvuf7yVNMi2G5Zn75gW
+	JKMXq7aQyLEPoIC6vnntzG79YRZhVTl+frDfPeJ9wg98zt9nIuabtemn5hztMDA6fq5U
+	HCE2CCcMRfyfv8J9U6xL4Pi3jWL4BOb0CRCzcQKWxRlR4jZ5V6rsDdQ7kLFmnxO+YXKx
+	OjgQKf7qK2GEJfWpW3mgQNiV0lWqgiOIoWIooJ1Df+cJU3ERPD5oepFRn4lSvVG7iE6J
+	D3hA==
+X-Gm-Message-State: APjAAAVjERQzD+aufrOk4BUj5HgY2UBZOsLAGCRAd0GWcDcAAo2u44cc
+	UtAVHHprKkA7GCLWxq591BATkEKy
+X-Google-Smtp-Source: APXvYqyi6FD6XbjJ5QNX0mSj0pNYU/05fiW2d3APomiNB2Tmui+hieNR5ZjxX4QlmlwYB0/vxs8pDg==
+X-Received: by 2002:a63:c94a:: with SMTP id y10mr35599013pgg.168.1557809656301;
+	Mon, 13 May 2019 21:54:16 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:d909:eb3d:d2ab:fd1d])
 	by smtp.gmail.com with ESMTPSA id
-	q75sm5698451pfa.175.2019.05.13.21.54.14
+	q75sm5698451pfa.175.2019.05.13.21.54.15
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 13 May 2019 21:54:15 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 21:53:49 -0700
-Message-Id: <d32cd33b5aeaa8859cfd68b9167a3ab3b892e710.1557809500.git.akuster808@gmail.com>
+Date: Mon, 13 May 2019 21:53:50 -0700
+Message-Id: <bbce28b31e2d575fec0ffe8c94d6ffcb76849810.1557809500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557809500.git.akuster808@gmail.com>
 References: <cover.1557809500.git.akuster808@gmail.com>
-Subject: [PATCH 07/23] distutils: Run python from the PATH in the -native case as well
+MIME-Version: 1.0
+Subject: [PATCH 08/23] cml1.bbclass: fix undefined behavior
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,109 +61,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 04:54:14 -0000
+X-List-Received-Date: Tue, 14 May 2019 04:54:15 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Douglas Royds <douglas.royds@taitradio.com>
+From: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
 
-The python distutils generate a python wrapper script for each package,
-containing shebang lines pointing to the python executable.
-In our case, this is a fully-qualified path to python-native in the
-recipe-sysroot-native.
+Whenever cml1 do_configure is used with a defconfig, oldconfig waits for
+input. This silently fails on recent kconfig projects with:
+"Error in reading or end of file."
+We cannot use a more up to date kconfig target such as olddefconfig,
+because busybox does not support it.
 
-Ubuntu 18.04 restricts the useful length of the shebang line to 125
-characters, and Ubuntu 16.04 restricts it to 77. In both cases, the
-staged python script fails to run due to the length of the path to
-the python-native executable.
-
-Replace the shebang line with nativepython or nativepython3 as appropriate.
-The nativepython symlink is installed by the python-native recipe:
-
-    #!/usr/bin/env nativepython
-
-We were already doing this for on-target distutils components.
-This change applies the sed-line to -native distutils components as well.
-In this way, -native clients of these components can invoke the wrapper scripts
-directly, without themselves needing to inherit pythonnative.
-
-This works around a known setuptools issue:
-https://github.com/pypa/setuptools/issues/494
-Even once this issue has been resolved upstream,
-we will still need to replace `python` with `nativepython`
-
-Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+Signed-off-by: Stefan Müller-Klieser <s.mueller-klieser@phytec.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/distutils.bbclass  | 11 +++++------
- meta/classes/distutils3.bbclass |  7 +++++--
- 2 files changed, 10 insertions(+), 8 deletions(-)
+ meta/classes/cml1.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/distutils.bbclass b/meta/classes/distutils.bbclass
-index 9862731..b5c9c2f 100644
---- a/meta/classes/distutils.bbclass
-+++ b/meta/classes/distutils.bbclass
-@@ -9,6 +9,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
+diff --git a/meta/classes/cml1.bbclass b/meta/classes/cml1.bbclass
+index 98d24ce..c7f6723 100644
+--- a/meta/classes/cml1.bbclass
++++ b/meta/classes/cml1.bbclass
+@@ -1,7 +1,7 @@
+ cml1_do_configure() {
+ 	set -e
+ 	unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS
+-	oe_runmake oldconfig
++	yes '' | oe_runmake oldconfig
+ }
  
-+DISTUTILS_PYTHON = "python"
-+DISTUTILS_PYTHON_class-native = "nativepython"
-+
- distutils_do_configure() {
-         if [ "${CLEANBROKEN}" != "1" ] ; then
-                 NO_FETCH_BUILD=1 \
-@@ -53,18 +56,14 @@ distutils_do_install() {
- 
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
--                if [ ${PN} != "${BPN}-native" ]; then
--			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
--		fi
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if [ -e ${D}${sbindir} ]; then
-             for i in ${D}${sbindir}/* ; do \
--                if [ ${PN} != "${BPN}-native" ]; then
--			sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ python:g $i
--		fi
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-native/python:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
-diff --git a/meta/classes/distutils3.bbclass b/meta/classes/distutils3.bbclass
-index 834e322..42e7f5a 100644
---- a/meta/classes/distutils3.bbclass
-+++ b/meta/classes/distutils3.bbclass
-@@ -10,6 +10,9 @@ DISTUTILS_INSTALL_ARGS ?= "--root=${D} \
-     --install-lib=${PYTHON_SITEPACKAGES_DIR} \
-     --install-data=${datadir}"
- 
-+DISTUTILS_PYTHON = "python3"
-+DISTUTILS_PYTHON_class-native = "nativepython3"
-+
- distutils3_do_configure() {
- 	if [ "${CLEANBROKEN}" != "1" ] ; then
- 		NO_FETCH_BUILD=1 \
-@@ -57,14 +60,14 @@ distutils3_do_install() {
- 
-         if test -e ${D}${bindir} ; then	
-             for i in ${D}${bindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/${PYTHON_PN}-native/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
- 
-         if test -e ${D}${sbindir}; then
-             for i in ${D}${sbindir}/* ; do \
--                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${PYTHON_PN}:g $i
-+                sed -i -e s:${STAGING_BINDIR_NATIVE}/python-${PYTHON_PN}/${PYTHON_PN}:${USRBINPATH}/env\ ${DISTUTILS_PYTHON}:g $i
-                 sed -i -e s:${STAGING_BINDIR_NATIVE}:${bindir}:g $i
-             done
-         fi
+ EXPORT_FUNCTIONS do_configure
 -- 
 2.7.4
 
