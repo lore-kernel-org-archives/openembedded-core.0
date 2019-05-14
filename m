@@ -1,36 +1,51 @@
-Return-Path: <martin@geanix.com>
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 91A0B7DF0E
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id E5C4C7DF0B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 06:41:27 +0000 (UTC)
-Received: from [172.21.3.80] (unknown [87.54.42.112])
-	by first.geanix.com (Postfix) with ESMTPSA id 564148D9;
-	Tue, 14 May 2019 06:41:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1557816082; bh=qx3bDOAaEzMfZAxjBYCYELRjW+RGlQUVQn0SKk7obiE=;
-	h=Subject:To:References:From:Date:In-Reply-To;
-	b=GzRfb/FlIjrn2hbZPm7PcwdtHsQ5Esq/jzNFKt7eXbR/uAmCA+9gZvMu/iAOiTwRG
-	wy0Uiu0Ccqsszgp/I0VH/h7qDq0Ikb3E2xAHq57iGVfFwiIRjSYoZk2OBkTO+LtBfV
-	2PmW3GugBNcAEylYDGnFhBLGWhShSyzos2cudwXhl0tQv5pwIgp1RnoQqyEFeaqB5L
-	JAeB/TxDu/H3HYGyJcGBtiAfLNu6SlucRBiJmRwIju67uyDVq3AwEh+vav3mX4uB90
-	EgVL0dLHzYnpOxiA6GHFsI3jR5jcX8gxH20QRHbhRu1CknPFJjV9hI9RVpEbFKdbIb
-	74Zda5CWwhmuA==
-To: Douglas Royds <douglas.royds@taitradio.com>,
-	openembedded-core@lists.openembedded.org
-References: <20190514055559.17676-1-douglas.royds@taitradio.com>
-	<5d269448-8fac-8405-7315-1f97786e04c9@taitradio.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
-Message-ID: <6aabd03c-d747-4a4f-4c9d-7496abf5fee4@geanix.com>
-Date: Tue, 14 May 2019 08:41:21 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <5d269448-8fac-8405-7315-1f97786e04c9@taitradio.com>
-X-Spam-Status: No, score=-3.1 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,URIBL_BLOCKED
-	autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 796779db2bec
-Subject: Re: [PATCH] distutils: Tidy and simplify for readability
+	Tue, 14 May 2019 07:30:32 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 7so1639186wmo.2
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2019 00:30:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=MlbUE161WhrudfO5pVmfpramT6giB3aGM+9Pc0iDaFs=;
+	b=lGX7Uqrpix6GF8LPfBFldRReO/YbWVymosRlQjij+scOT3eoOCyQyvK0QYwTi15eqv
+	UrucxbHMrreKpcqiwyrjJlDq//s1h2RhFzvR+gCWjONcvSreVejea0McQFwxR+ORoFbb
+	2AQzq64PzZcVleYcYXGuBDTD5mH6TKPeI9lFFetj40VSi0l/MRNUf6jQhYHjh9nNFBJa
+	3SWkUn1N1LP2WZHv8g7ebRCNTT5UZETiAyRCpQTHQTTKEkIctSJM5LW6Cs4J/cU5ZwO4
+	rYDFuHCC2H0UzqzbIRRq1f8zoZm9A+POHpvsfLnNx7dMKqnWQzAq5RXEYq5Wg1a8C3XG
+	6AFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=MlbUE161WhrudfO5pVmfpramT6giB3aGM+9Pc0iDaFs=;
+	b=YGGyJLWzLH/B/6V0U9C/6SBppkXOqxFRZdwHtRXIMh1+uCqULe2ZLiNNAamAACqA6Z
+	wzYy2raJoggJFrEKiB7UDBa0INn1pZXq+NbuUV25gMnH4Lo+hmHETBzfb34yyYZ8gt5i
+	K7KwC0PtVzQU95YjBnNfbJxaIzeoKr2FHm+G0q+FRS2kiuiW0h2pGS74tk2a0HPzuKAb
+	XmlfCOIevXJdU3MhBwrWEU4U6TYSuE2O65PtaZ1p+TXdDjMzetiToLkhofj4H6xTnj0U
+	kyCp8fSuLFHaPf8AOLoSdv795hiAND8jTsbCU7O30HpaomErtJsaI2FvQKriHHUHxo0r
+	CGug==
+X-Gm-Message-State: APjAAAXNNCcqxZ3sn+MfvBkhtdLp81pSHY3NG5mUeNAMGRMMB5U6m71U
+	XltPqrv0aChp6DGN4/znYfvW1g4t
+X-Google-Smtp-Source: APXvYqy97xATdOMz8ts5MVQYIxATHIC1Y+cvJpUxHMPKQAYwFXtvaxLM2o3db5FATpOkhows/ZnmFA==
+X-Received: by 2002:a1c:9d0f:: with SMTP id g15mr18787539wme.97.1557819033543; 
+	Tue, 14 May 2019 00:30:33 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	t13sm23092076wra.81.2019.05.14.00.30.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 14 May 2019 00:30:32 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 May 2019 07:30:30 +0000
+Message-Id: <20190514073030.30203-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CA+chaQe1LaMWsVVyyC9CGjGBAT2BGrcc+fjvdCEaThP7WGzN_Q@mail.gmail.com>
+References: <CA+chaQe1LaMWsVVyyC9CGjGBAT2BGrcc+fjvdCEaThP7WGzN_Q@mail.gmail.com>
+Subject: [PATCHv3] perf: make sure that the tools/include/uapi/asm-generic directory exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,42 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 06:41:27 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US-large
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 14 May 2019 07:30:34 -0000
 
-On 14/05/2019 08.16, Douglas Royds via Openembedded-core wrote:
-> Can anyone explain why I appear on patchwork as "Andrii Bordunov via 
-> Openembedded-core"?
+* before trying to copy unistd.h into it
 
-Yes.
+* older kernels don't have uapi in tools/include and do_configure fails
+  with:
+  DEBUG: Executing shell function do_configure
+  cp: cannot create regular file '.../perf/1.0-r9/perf-1.0/tools/include/uapi/asm-generic/unistd.h':
+  No such file or directory
+  WARNING: exit code 1 from a shell command.
 
-Because the DMARC policy for your domain is "quarantine":
+* tools/include/uapi was added in kernel 4.8 with
+  https://github.com/torvalds/linux/commit/c4b6014e8bb0c8d47fe5c71ebc604f31091e5d3f
+  tools: Add copy of perf_event.h to tools/include/linux/
 
-   % dig _dmarc.taitradio.com TXT | grep -oE 'p=(reject|quarantine|none)'
-   p=quarantine
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-kernel/perf/perf.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-If the mailing list simply forwards your mails, they will fail 
-validation, and thus be held back by the receiving mail servers. To 
-avoid this, Mailman changes the "From:" header to "Douglas Royds via 
-Openembedded-core <openembedded-core@lists.openembedded.org>".
-
-Now the email address seen by patchwork is the same for everyone with 
-either "reject" or "quarantine" as DMARC policy. I guess patchwork has 
-that address associated with Andrii (maybe he came first).
-
-More info from mailman: https://wiki.list.org/DEV/DMARC
-
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 546076f84b..4e603f1a32 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -238,7 +238,7 @@ do_configure_prepend () {
+ 
+     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
+     # so we copy it from the sysroot unistd.h to the perf unistd.h
+-    cp ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
++    install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
+ }
+ 
+ python do_package_prepend() {
 -- 
-Kind regards,
-Martin Hundebøll
-Embedded Linux Consultant
+2.17.1
 
-+45 61 65 54 61
-martin@geanix.com
-
-Geanix ApS
-https://geanix.com
-DK39600706
 
