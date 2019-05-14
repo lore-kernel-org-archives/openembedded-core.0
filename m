@@ -1,48 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com
-	[209.85.222.175])
-	by mail.openembedded.org (Postfix) with ESMTP id B15677BD97
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BE80D7DEBB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 03:40:02 +0000 (UTC)
-Received: by mail-qk1-f175.google.com with SMTP id z6so8603348qkl.10
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 20:40:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=01NCBoD63rpXTrWbcNTPgE8Ew1xkHsvXSCitfmhp960=;
-	b=CMlLrCzzdTr+u+xsKOxCavdxdJXTGya6ZtGKeiEirfiX8AvOIw8933RDBmoZMvHQhz
-	tgvFWMmAjN86vNb6y/szmrGTNkV20yC5Twyw0FTmlDW0HG6slx8Bhq90O1c5AV9BKbVp
-	OQGBv93qU5ADFLp0CYJb2V6uCFFNGvEGZA6jnAbXLS4aSDvsL1Flrb4P9Ziql23RWXrk
-	hxvF8JaAn5z1m4/n9/UDkTRUMCHWJhPmBD+IIQrTX/n+qWcuAbe+Va7wAoPoBRJgjGKW
-	gWEH4+aEvJzHbiD8E0o1flL085MwTwhKFeM+pssa4C4DCpeDm7TnJL7+3jfsnsIY3YJz
-	xKVA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=01NCBoD63rpXTrWbcNTPgE8Ew1xkHsvXSCitfmhp960=;
-	b=ApLzABJls8nX+VgDDgz4lpC36tiBLuFwJ0215VtJ8x9CEleAXLbQCzC+YPIV3z+mmF
-	HMADfWxeE1J2Bdp3tWwhQWhQ/q1NgxdZmJMw7Tq375MZnqREAfF+MujQmO8MfjcfF7du
-	ubJNqDR1j246cHFLOz3bLEcK96tNk3LhI26OABEedPvzmmHfrgDQJrT71hxHroSvGXtO
-	Sn6QKY9aKl2X/WbIWsS2Bbq+50DyMG4gxAWcZILQ/WszWErRMkL2ZMaKxnkleSrzRNUD
-	J/r9/KMnJkv6OpSjwUkyr0g4jI2JCXr6DyhzdEIAgF8IZZCyh3aX6OnLXYI/5aCY+Mih
-	iaLA==
-X-Gm-Message-State: APjAAAVbxd5tIhuAwq1dXqyO4eLtJim4aAvCwMFgvpXLsOoF5s7d/T+2
-	i+r6gMVz+KlCpn15kPxvvqtoRanc7oZHfiISBMaK//er
-X-Google-Smtp-Source: APXvYqwNsrgv3NNFRSyjoeFzSuN7061xgBnyfXAR+ZG6OQS8/3xV4FBfwXqtzq/OMaQ2hQ/0HUSqkCmugWljjgWpi6U=
-X-Received: by 2002:a37:8d06:: with SMTP id p6mr26051509qkd.315.1557805203437; 
-	Mon, 13 May 2019 20:40:03 -0700 (PDT)
+	Tue, 14 May 2019 03:41:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4E3fLFg017854
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 13 May 2019 20:41:21 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 13 May 2019 20:41:20 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <20190513095255.157287-1-kai.kang@windriver.com>
+	<20190513095255.157287-2-kai.kang@windriver.com>
+	<CAMKF1spxtnvC4VvwbecRijr=_H7pKDzFzQ3vj7PnBytUAByGRA@mail.gmail.com>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <0dad34dc-9c84-0320-e03c-db58a4943482@windriver.com>
+Date: Tue, 14 May 2019 11:41:01 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <736954077d40261a25f189a4d459c8cede0f8d99.camel@linuxfoundation.org>
-	<CAMKF1sp4uGcuL38vPsfcF6rm0sCvXjY9GDBuMckW4RM7Kzs-Ew@mail.gmail.com>
-In-Reply-To: <CAMKF1sp4uGcuL38vPsfcF6rm0sCvXjY9GDBuMckW4RM7Kzs-Ew@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 13 May 2019 23:39:37 -0400
-Message-ID: <CAMKF1spLF_rzm3Vet3Lq+DjCxF96koSORHLukxjmiVX2Csapzg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: OE-Core status with gcc9
+In-Reply-To: <CAMKF1spxtnvC4VvwbecRijr=_H7pKDzFzQ3vj7PnBytUAByGRA@mail.gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] webkitgtk: fix compile error for arm64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,46 +35,207 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 03:40:02 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 14 May 2019 03:41:24 -0000
+Content-Type: multipart/alternative;
+	boundary="------------C09284007C35A989BB3F7BDB"
+Content-Language: en-US
 
-On Sun, May 12, 2019 at 1:14 PM Khem Raj <raj.khem@gmail.com> wrote:
+--------------C09284007C35A989BB3F7BDB
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 2019/5/13 下午11:43, Khem Raj wrote:
+> Can you test this on say rpi3 in 64bit mode and see all is ok ?
+
+It is ok to build 64-bit rpi3 from layer 
+git://git.yoctoproject.org/meta-raspberrypi
+with configurations:
+
+MACHINE = "raspberrypi3-64"
+LICENSE_FLAGS_WHITELIST_append = " commercial"
+
+Regards,
+Kai
+
+
 >
-> On Sun, May 12, 2019 at 6:21 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > I've run some tests and think we're now down to one remaining issue
-> > with gcc 9:
-> >
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/60/builds/579
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/55/builds/145
-> >
+> On Mon, May 13, 2019 at 2:53 AM <kai.kang@windriver.com 
+> <mailto:kai.kang@windriver.com>> wrote:
 >
-> Assembler is not liking what gcc9 is generating
+>     From: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
 >
-> HOSTCC scripts/kconfig/conf.o
-> /tmp/ccnMW5be.s: Assembler messages:
-> /tmp/ccnMW5be.s: Internal error (Segmentation fault).
+>     It removes function JSC::AssemblerBuffer::data() for ARM64 in commit
+>     https://trac.webkit.org/changeset/236589/webkit. But the function is
+>     still required by Cortex A53 and fails to compile for arm64:
 >
-> I wonder if its a common case or specific here?
-> I will try to reproduce it as well
+>     |
+>     .../tmp/work/aarch64-poky-linux/webkitgtk/2.24.1-r0/webkitgtk-2.24.1/Source/JavaScriptCore/assembler/ARM64Assembler.h:3769:100:
+>     error: 'class JSC::AssemblerBuffer' has no member named 'data'
+>     |     if
+>     (UNLIKELY((*reinterpret_cast_ptr<int32_t*>(reinterpret_cast_ptr<char*>(m_buffer.data())
+>     + m_buffer.codeSize() - sizeof(int32_t)) & 0x0a000000) == 0x08000000))
+>
+>     Not set WTF_CPU_ARM64_CORTEXA53 for arm64 to fix the failure.
+>
+>     Signed-off-by: Kai Kang <kai.kang@windriver.com
+>     <mailto:kai.kang@windriver.com>>
+>     ---
+>      meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
+>     <http://webkitgtk_2.24.1.bb> | 2 --
+>      1 file changed, 2 deletions(-)
+>
+>     diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
+>     <http://webkitgtk_2.24.1.bb>
+>     b/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
+>     <http://webkitgtk_2.24.1.bb>
+>     index 771a893a6b..a57a3c058c 100644
+>     --- a/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
+>     <http://webkitgtk_2.24.1.bb>
+>     +++ b/meta/recipes-sato/webkit/webkitgtk_2.24.1.bb
+>     <http://webkitgtk_2.24.1.bb>
+>     @@ -98,8 +98,6 @@ EXTRA_OECMAKE_append_aarch64 = " -DUSE_LD_GOLD=OFF "
+>      EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "
+>      EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "
+>
+>     -EXTRA_OECMAKE_append_aarch64 = " -DWTF_CPU_ARM64_CORTEXA53=ON"
+>     -
+>      # JIT not supported on MIPS either
+>      EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "
+>
+>     -- 
+>     2.20.0
+>
+>     -- 
+>     _______________________________________________
+>     Openembedded-core mailing list
+>     Openembedded-core@lists.openembedded.org
+>     <mailto:Openembedded-core@lists.openembedded.org>
+>     http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
-I am able to get a .s file which crashes assembler on
-qemu. Same file assembles ok with mips cross assembler
-so next I want to get hold of a mips hardware and try
-it on the real h/w, meanwhile if someone has easy access
-to mips and can load core-image-sato-sdk on it then I can
-provide the asm file which crashes assembler
+-- 
+Kai Kang
 
-> > which is a kernel "make scripts" segfaulting on target on mips and
-> > hence failing to build kernel modules. If we can get that one fixed
-> > we're good from an OE-Core perspective to move to gcc 9.
-> >
-> > I have to recognise the work Khem has put in getting us this close!
-> >
-> > Cheers,
-> >
-> > Richard
-> >
 
+--------------C09284007C35A989BB3F7BDB
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body bgcolor="#FFFFFF" text="#000000">
+    <div class="moz-cite-prefix">On 2019/5/13 下午11:43, Khem Raj wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CAMKF1spxtnvC4VvwbecRijr=_H7pKDzFzQ3vj7PnBytUAByGRA@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div>
+        <div dir="auto">Can you test this on say rpi3 in 64bit mode and
+          see all is ok ?</div>
+      </div>
+    </blockquote>
+    <p>It is ok to build 64-bit rpi3 from layer
+      git://git.yoctoproject.org/meta-raspberrypi<br>
+      with configurations:</p>
+    <p>MACHINE =
+"raspberrypi3-64"                                                                                                                      
+      <br>
+      LICENSE_FLAGS_WHITELIST_append = " commercial"</p>
+    <p>Regards,<br>
+      Kai<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CAMKF1spxtnvC4VvwbecRijr=_H7pKDzFzQ3vj7PnBytUAByGRA@mail.gmail.com">
+      <div><br>
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">On Mon, May 13, 2019 at 2:53
+            AM &lt;<a href="mailto:kai.kang@windriver.com"
+              moz-do-not-send="true">kai.kang@windriver.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0 0 0
+            .8ex;border-left:1px #ccc solid;padding-left:1ex">From: Kai
+            Kang &lt;<a href="mailto:kai.kang@windriver.com"
+              target="_blank" moz-do-not-send="true">kai.kang@windriver.com</a>&gt;<br>
+            <br>
+            It removes function JSC::AssemblerBuffer::data() for ARM64
+            in commit<br>
+            <a href="https://trac.webkit.org/changeset/236589/webkit"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">https://trac.webkit.org/changeset/236589/webkit</a>.
+            But the function is<br>
+            still required by Cortex A53 and fails to compile for arm64:<br>
+            <br>
+            |
+.../tmp/work/aarch64-poky-linux/webkitgtk/2.24.1-r0/webkitgtk-2.24.1/Source/JavaScriptCore/assembler/ARM64Assembler.h:3769:100:
+            error: 'class JSC::AssemblerBuffer' has no member named
+            'data'<br>
+            |     if
+(UNLIKELY((*reinterpret_cast_ptr&lt;int32_t*&gt;(reinterpret_cast_ptr&lt;char*&gt;(m_buffer.data())
+            + m_buffer.codeSize() - sizeof(int32_t)) &amp; 0x0a000000)
+            == 0x08000000))<br>
+            <br>
+            Not set WTF_CPU_ARM64_CORTEXA53 for arm64 to fix the
+            failure.<br>
+            <br>
+            Signed-off-by: Kai Kang &lt;<a
+              href="mailto:kai.kang@windriver.com" target="_blank"
+              moz-do-not-send="true">kai.kang@windriver.com</a>&gt;<br>
+            ---<br>
+             meta/recipes-sato/webkit/<a
+              href="http://webkitgtk_2.24.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">webkitgtk_2.24.1.bb</a>
+            | 2 --<br>
+             1 file changed, 2 deletions(-)<br>
+            <br>
+            diff --git a/meta/recipes-sato/webkit/<a
+              href="http://webkitgtk_2.24.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">webkitgtk_2.24.1.bb</a>
+            b/meta/recipes-sato/webkit/<a
+              href="http://webkitgtk_2.24.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">webkitgtk_2.24.1.bb</a><br>
+            index 771a893a6b..a57a3c058c 100644<br>
+            --- a/meta/recipes-sato/webkit/<a
+              href="http://webkitgtk_2.24.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">webkitgtk_2.24.1.bb</a><br>
+            +++ b/meta/recipes-sato/webkit/<a
+              href="http://webkitgtk_2.24.1.bb" rel="noreferrer"
+              target="_blank" moz-do-not-send="true">webkitgtk_2.24.1.bb</a><br>
+            @@ -98,8 +98,6 @@ EXTRA_OECMAKE_append_aarch64 = "
+            -DUSE_LD_GOLD=OFF "<br>
+             EXTRA_OECMAKE_append_mipsarch = " -DUSE_LD_GOLD=OFF "<br>
+             EXTRA_OECMAKE_append_powerpc = " -DUSE_LD_GOLD=OFF "<br>
+            <br>
+            -EXTRA_OECMAKE_append_aarch64 = "
+            -DWTF_CPU_ARM64_CORTEXA53=ON"<br>
+            -<br>
+             # JIT not supported on MIPS either<br>
+             EXTRA_OECMAKE_append_mipsarch = " -DENABLE_JIT=OFF "<br>
+            <br>
+            -- <br>
+            2.20.0<br>
+            <br>
+            -- <br>
+            _______________________________________________<br>
+            Openembedded-core mailing list<br>
+            <a href="mailto:Openembedded-core@lists.openembedded.org"
+              target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
+            <a
+              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
+              rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+          </blockquote>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class="moz-signature" cols="72">-- 
+Kai Kang</pre>
+  </body>
+</html>
+
+--------------C09284007C35A989BB3F7BDB--
