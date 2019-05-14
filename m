@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 370947DED6
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B068D7DF2F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 12:26:46 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id f204so2678650wme.0
+	Tue, 14 May 2019 12:26:47 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id w12so19013885wrp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 05:26:47 -0700 (PDT)
+	Tue, 14 May 2019 05:26:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=q2IM6Sb2wy2ahaVRW3NsNmm7HaIaiJHxg/nghv3KBqo=;
-	b=QGmkOUO0nMSaG0ECMIEGzy7lXNNmmU9SaejIZpPsKNwn431Ak/1g1InP44G9LYqiSY
-	omBCyKKzgFeQbd6kbU3BD6S1qSKEbis3ePREWmFW2Xa6pbw74SsB+4vwCY9hW8k8mHaW
-	pEWJAG+N0TBlIOuC4VS0KUq4N8SdBATV6aWdV98rKDd+iAJ4pL1K84jVrej+GPh5pxU6
-	JywStRzuvgh6X+f+eBqezaLrzJrtHptzhq2zSuSJqS8JOsxwZtszE/GhKiezuufw4QfJ
-	yTQpozrMuxBxBqupJyJVmdwDdYabu+4K8dZ92tNM04obhC4Izk/bNf/Emv0N8zvigEBq
-	Zqaw==
+	bh=0ZghqI/bxy9oC+rsHTjxaBZnMy/FWzJPvfX+6Sg3oZo=;
+	b=JG0gYvwUtKRUnET2JpCi2KT642qqWpvU8B7A0RsPrvyBSQD2IPPrZ9pTcYrOlVzmgm
+	m01kXF2ADWgMP38GZrZ6qhaIu8zEaxPy4CjZiSwC6Ta+R9Go6VBvkxVCmsh5qWUOKB4H
+	hjm4gKNTp1Adn4ntSAvQYkyk1vNA/JMrXRj94Pp9z3KjLwJ6vNrtb7A1h6GZnWQq6Hz3
+	xBho2hNUet3lk7By+aggWPpzCvx5HgXISGTG40/V4FcZ+mW7hdnFrVF8funui/FW1EPf
+	a07mcNGhtjBQRbmsuHa95aKnEJciemPyZ/R4vtgcOhL2RksgXvUrYenOATpIh+IbQav5
+	Mb+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=q2IM6Sb2wy2ahaVRW3NsNmm7HaIaiJHxg/nghv3KBqo=;
-	b=jwuwgndHWnsbRcXG2ZzI+EkBMREWFXQKmJfDbKgb4KwrreFEPg78LFbATkTo9F+Omr
-	6Y3aJDi83d9+aa7znhEvl30Zo8PvCT+XcMWrTJmWiNDL+jk1dZMUmiiqGvsriPYUmw2h
-	tY5irYDR9W8DWx6DLho6XnLy3tfRqrvbxg5Jo9jZPqbz9flPFYo4m0bJRJNHwkNwWN7p
-	5AH8R9XZ6R1MEX+38HX2og6BUfyW3qAzbTixtSarcC7ZmXw35EGICBSOHBqHxVMQ5xAw
-	CXurlPNW/oSAACJdvcGj7+v+NCWSob/FuEfO7kl7eAc6jYy397oGzlJKJ9VtnoPaUMPy
-	TItQ==
-X-Gm-Message-State: APjAAAXldCBokUQPGI7pI+bNVYgx1nUlemkT87Xb5EDbKuMqqMdc99ss
-	zE7gitpp49wN/Mg/si/KlSk6BBVLcCc=
-X-Google-Smtp-Source: APXvYqy6iScI+lc6LaEF0oH2ni/bDwcyx8iSZrNqY404pfeiPbmpsHZjHL7DDqyJ3vH8FEFrU8/HZA==
-X-Received: by 2002:a1c:e916:: with SMTP id q22mr19231863wmc.148.1557836806869;
-	Tue, 14 May 2019 05:26:46 -0700 (PDT)
+	bh=0ZghqI/bxy9oC+rsHTjxaBZnMy/FWzJPvfX+6Sg3oZo=;
+	b=A+77IfT19yXbPNDOww3C4Kg029+UhGqmdkyebpTb47bjCSFWAJgvEFQ3ueDUIwXSWC
+	yTXeMDBqJtr6M/r0oS9sNWYRungfrvBwQIY3nrfdK7SHBuQLCn/Qt7KiqAGhFPd7Mnl/
+	R9SBTpZ6pCujmXcDHw5dq+u2CHL8SyTVYdVDWxxfMeueOEValxApkjHxF6aRZMdV9Sau
+	EalX7XxU5iFjmC8mNZDWd0MCeFpXvPmjw+0QBcdR8Wd0baCCBy8D2ly4HbTSOehCmg/V
+	R0cMoh6kd/HSiCOPrLKGn/ICyIn/6RNmviDVlgietvudtzR3prbboikBYlQLbVPJSTeO
+	q5XA==
+X-Gm-Message-State: APjAAAVm564evS3a92sPSdIWtO3AGFOTCsTfuiCAzlKWLOEE//vz8OIt
+	ofxYB+XPT0j5CX/cfHxcnQN5lH2PnNM=
+X-Google-Smtp-Source: APXvYqxox0T63A5ne+WbwfZgpBRFqJttNXvXP7LtBpQv1A1JetGv6rPMZuHlZjGZuwrHOXAtNex75w==
+X-Received: by 2002:adf:db4e:: with SMTP id f14mr21228250wrj.35.1557836808178; 
+	Tue, 14 May 2019 05:26:48 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id g2sm8124457wru.37.2019.05.14.05.26.45
+	by smtp.gmail.com with ESMTPSA id g2sm8124457wru.37.2019.05.14.05.26.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 05:26:46 -0700 (PDT)
+	Tue, 14 May 2019 05:26:47 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2019 14:26:38 +0200
-Message-Id: <20190514122639.102946-2-alex.kanavin@gmail.com>
+Date: Tue, 14 May 2019 14:26:39 +0200
+Message-Id: <20190514122639.102946-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190514122639.102946-1-alex.kanavin@gmail.com>
 References: <20190514122639.102946-1-alex.kanavin@gmail.com>
-Subject: [PATCH 2/3] packagegroup-cross-canadian: repackage when TUNE_ARCH changes
+Subject: [PATCH 3/3] qemux86: use a Core 2 Duo CPU instead of the original circa-1993 Pentium
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,27 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 12:26:46 -0000
+X-List-Received-Date: Tue, 14 May 2019 12:26:48 -0000
+
+This matches what the qemux86_64 is currently using, and
+will allow testing the instructions added in the meantime;
+particularly various SSE extensions are now enabled.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../packagegroups/packagegroup-cross-canadian.bb            | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/conf/machine/include/qemuboot-x86.inc | 4 ++--
+ meta/conf/machine/qemux86.conf             | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
-index d551147b5a4..3b430c08148 100644
---- a/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-cross-canadian.bb
-@@ -16,3 +16,9 @@ RDEPENDS_${PN} = "\
-     ${@all_multilib_tune_values(d, 'GDB')} \
-     meta-environment-${MACHINE} \
-     "
-+
-+# When TUNE_ARCH changes but MACHINE does not (for example when a machine definition is updated), 
-+# cross-canadian.bbclass prevents variable dependency propagation to TRANSLATED_TARGET_ARCH
-+# This will result in erroneous reuse of previous sstate packages. The following line
-+# establishes a direct dependency instead.
-+do_package[vardeps] += "TUNE_ARCH"
+diff --git a/meta/conf/machine/include/qemuboot-x86.inc b/meta/conf/machine/include/qemuboot-x86.inc
+index 5fdbe4df50e..82ce46d8604 100644
+--- a/meta/conf/machine/include/qemuboot-x86.inc
++++ b/meta/conf/machine/include/qemuboot-x86.inc
+@@ -1,8 +1,8 @@
+ # For runqemu
+ IMAGE_CLASSES += "qemuboot"
+ QB_SYSTEM_NAME_x86 = "qemu-system-i386"
+-QB_CPU_x86 = "-cpu pentium2"
+-QB_CPU_KVM_x86 = "-cpu pentium2"
++QB_CPU_x86 = "-cpu core2duo"
++QB_CPU_KVM_x86 = "-cpu core2duo"
+ 
+ QB_SYSTEM_NAME_x86-64 = "qemu-system-x86_64"
+ QB_CPU_x86-64 = "-cpu core2duo"
+diff --git a/meta/conf/machine/qemux86.conf b/meta/conf/machine/qemux86.conf
+index f2434a4b5f5..272ad1e1870 100644
+--- a/meta/conf/machine/qemux86.conf
++++ b/meta/conf/machine/qemux86.conf
+@@ -8,8 +8,7 @@ PREFERRED_PROVIDER_virtual/libgles1 ?= "mesa"
+ PREFERRED_PROVIDER_virtual/libgles2 ?= "mesa"
+ 
+ require conf/machine/include/qemu.inc
+-DEFAULTTUNE ?= "i586"
+-X86ARCH32 ?= "i586"
++DEFAULTTUNE ?= "core2-32"
+ require conf/machine/include/tune-corei7.inc
+ require conf/machine/include/qemuboot-x86.inc
+ 
 -- 
 2.17.1
 
