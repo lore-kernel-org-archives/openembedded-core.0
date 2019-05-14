@@ -1,53 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 005ED7DEBE
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
+	[209.85.221.41])
+	by mail.openembedded.org (Postfix) with ESMTP id 51B047DEA6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 09:16:51 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id f8so484095wrt.1
+	Tue, 14 May 2019 10:08:20 +0000 (UTC)
+Received: by mail-wr1-f41.google.com with SMTP id c5so18465817wrs.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 02:16:53 -0700 (PDT)
+	Tue, 14 May 2019 03:08:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=YHh79fBm9VGPfGbZQV8/frpDbR1htV4waY74Idsj14w=;
-	b=hCsXeOx/xSYlcTqX4IuyApngvMea2NFgvmHeAARqo42ADvmRJ126QaUUvXN67PzRCy
-	w78eN6qpkOTKF95C+C2ma5tAgsIPr/38tNF2bbGYCGwnK7gmVqFGS1FoYrQnrBNh+sdn
-	Q8IHsXUIePQU+TKo/IVImO3rPS0jwjK80WPuI=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=xrc5Ou7WNa3G+5LsrMZa3RD09g7vSSjh0yTyEvwKTns=;
+	b=bw8dWBOeV0qj5yCvq41XYhI8qOcGiVP7rXy5ouVvC7QzFWTmiaeRD5YkvEVGK7y+K0
+	iigufnnajdPhOuU8f0C8G+mYfa2A2z2f+ZBfO43l/RdnobQ0OdULC8pswH6LFY5qZ2WX
+	Aagm4l2Mm7z3OyHwcarX3P15jLXLlx2jdgAPY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=YHh79fBm9VGPfGbZQV8/frpDbR1htV4waY74Idsj14w=;
-	b=mQ0Ykmoyph48kMhKSCKxHKnrYlGISLnoL7U6QMBCWm6+H64Amw/9onUotcQkwNhVS/
-	IdSPbS7ZjDUtHUpa3TKmgEvC5E1CaQBdX/NYgM2G443BmGDl0oaJi+6VviPUVndk8O+B
-	0XGRG+xJAQpyd2x3I93XJGuHAy7i5P0A1Ynl+/YExWDSDyhA/XBQgK5IlJunTmeSzSF8
-	k0vxBeAsdePTnkicrNqUP1eHtGqLzaWcIHHd4nk45AISZiSrE+0/tE7036d8qVNdhXOa
-	MwZBIpdQQ35MYGMomzv4Z3D0wb+2KbfIgz+qWEfVuYm5A5gFrrsOOxhortfs0f+SNOy5
-	0XjQ==
-X-Gm-Message-State: APjAAAW2SFkq0omtpleUH8ReKbATWjFj9w+nx/Ib0iGbTupZq2Gxb0ux
-	prxug5fyt0bdPmuMIJfRO7JI1g==
-X-Google-Smtp-Source: APXvYqzSou/ogrAcbof/XIH4BHEwZF64czoOltCs6RJGR/tk6G/RNFnEFoOAVhSVpP0CnTodna59GQ==
-X-Received: by 2002:adf:c98f:: with SMTP id f15mr21382892wrh.279.1557825412624;
-	Tue, 14 May 2019 02:16:52 -0700 (PDT)
+	bh=xrc5Ou7WNa3G+5LsrMZa3RD09g7vSSjh0yTyEvwKTns=;
+	b=uDBxtrLeQtuZ0M/0v/5FLZh9PVf94gYxlQ5PInpD4cMsbc9EBgbwxLCuI9LzLFXEWe
+	pra98CipnKByZKU1uamdSZkW2ax3Vsaei6q7VNZq/rba31GJBDvQzSttNkP0cubgawdy
+	etqMy10d5Owe1BkL6rMU8GVfUpQS89ybu8YWsYiJT6d9Qq1A+HlOGXNsgGKfgXHeYf9e
+	uwQnHK7ZqV7wqe34BN+d3guKrPfJftvvGtZssEe8oxVSyn4O63buMD9n6+ODf7CAbkfr
+	9ROVNeqlAckcFyAuAFne+XFkT0S+LE/z+us8f02nGWCG4zqqFgW8wFxITvSL69R0u1Jq
+	+5YQ==
+X-Gm-Message-State: APjAAAXbKs0FeFDQ5PdQmQkJNcWg1N+KVDl6SGNC9QT/P7XldpKKZsjr
+	vJTXBlDL+IFU9nRNQLQgvzC3Qw==
+X-Google-Smtp-Source: APXvYqxqa+wBA7sntQJEUjeJbo0TjkzbvNWpw1Kah4417tU7IpvAtntFzinMmqwk69MWONOLqfFd/A==
+X-Received: by 2002:a5d:400b:: with SMTP id n11mr19577710wrp.123.1557828500904;
+	Tue, 14 May 2019 03:08:20 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	s3sm28239187wre.97.2019.05.14.02.16.51
+	by smtp.gmail.com with ESMTPSA id 19sm2420781wmk.3.2019.05.14.03.08.19
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 May 2019 02:16:51 -0700 (PDT)
-Message-ID: <f6605ac30b4e5ab7b57cfb2b16b6e443d01d1ee3.camel@linuxfoundation.org>
+	Tue, 14 May 2019 03:08:20 -0700 (PDT)
+Message-ID: <11653b239bb09ddb35bccb03f22ea47ec60cbf60.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, Armin Kuster <akuster808@gmail.com>
-Date: Tue, 14 May 2019 10:16:50 +0100
-In-Reply-To: <20190514083019.GB11298@localhost>
-References: <cover.1557809500.git.akuster808@gmail.com>
-	<551153b0bd1ebbc05582f6014e3d88b9ce4a46d0.1557809500.git.akuster808@gmail.com>
-	<20190514083019.GB11298@localhost>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 14 May 2019 11:08:19 +0100
+In-Reply-To: <20190513153303.50095-1-alex.kanavin@gmail.com>
+References: <20190513153303.50095-1-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 21/23] oeqa: Drop OETestID
+Subject: Re: [PATCH 1/2] qemux86: use a Core 2 Duo CPU instead of the original circa-1993 Pentium
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,35 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 09:16:52 -0000
+X-List-Received-Date: Tue, 14 May 2019 10:08:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-05-14 at 11:30 +0300, Adrian Bunk wrote:
-> On Mon, May 13, 2019 at 09:54:03PM -0700, Armin Kuster wrote:
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > 
-> > These IDs refer to testopia which we're no longer using. We would
-> > now use the test
-> > names to definitively reference tests and the IDs can be dropped,
-> > along with their
-> > supporting code.
-> > ...
+On Mon, 2019-05-13 at 17:33 +0200, Alexander Kanavin wrote:
+> This matches what the qemux86_64 is currently using, and
+> will allow testing the instructions added in the meantime;
+> particularly various SSE extensions are now enabled.
 > 
-> Is this bringing any benefits for a stable branch or was it just a
-> cleanup?
-> 
-> And AFAIR this needs "oeqa/systemd_boot: Drop OETestID" or it might 
-> cause a regression.
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/conf/machine/include/qemuboot-x86.inc | 4 ++--
+>  meta/conf/machine/qemux86.conf             | 3 +--
+>  2 files changed, 3 insertions(+), 4 deletions(-)
 
-Yes, this change is more risky. We might want to drop the test IDs but
-leave the core class code so that other layers don't break if they
-still have OETestID tags?
+There is some kind of bad assumption somewhere in the sdk/mingw code:
 
-In hindsight I probably should have done it in two steps in core.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/152
 
-I'm suspecting Armin is doing this to easy porting of other QA
-patches...
+and another glitch somewhere in the SDK code:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/588
+
+I was also worried that:
+
+http://git.yoctoproject.org/cgit.cgi/yocto-autobuilder-helper/tree/scripts/publish-artefacts
+may need fixes but it looks like it might be ok.
 
 Cheers,
 
