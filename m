@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5068E7DEA7
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 9B8477DF0E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 04:54:12 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id z3so7940219pgp.8
+	Tue, 14 May 2019 04:54:13 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id l132so8416211pfc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 21:54:13 -0700 (PDT)
+	Mon, 13 May 2019 21:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=oX7yI3Htksusv1XzaLD0zgUAZ9GbK8jc80frYgO9vTc=;
-	b=Q6bsv3tc3bvQSUVlUx9dr2jHmnK1GRoKfClZsm23DAsRwhMOus9wrByEF45ykYGS3O
-	KzX3qhk1kK3IImNizHMjEUqxlI3QBtqIOHc+0zsvyF/oSlSYwBx1P+iUMrR2HzIbb6DJ
-	sMAHpKFaGI78XMliPonVtFRZmwQ47NweAPtmtiy6BwieMRN/e6exqJMRZ/brz1f2v/qB
-	lcAUBwGcJvioq1RhmpJEtjg6eYn7aFOSIK2VDT9GCP1hXwrPu2aCieTN6jIFxLm0dK0j
-	C8hzCVbMWXrMkWq4AfKyVYz1+10THmxedy+kO6nSy4gHBAx3ctx3X/wGOTRd6O/sSRTk
-	9TTA==
+	bh=BSccZykAnyIx9jjZTo2W6mTcY5mjRetGCKF1zHpGC1g=;
+	b=uFQh1X+n25E6o5asNJib07RYiKpiLbXeIPWr0TQ850BOapSgdDV0rNd7Up/ux08k1p
+	YH1xP/xRTasfoiTIP8olhim+Ae5StsYteNShyS26E0jHb2MdFXXTvuJ+W/YgGtlt11Le
+	iqx1iJNx3ozaLAB7bqdy+uOoeZHR4ibD+rNZ3fowTgd8l8tso3RN8v2m7PtDFHHsU7/l
+	99kP0/lVNGOa/iV6Q6q1tOmDT6WHFGLeoRndzcPp5J+HHZEuxvueuflQjOzOVpduXhV+
+	U8QrP2nA9VkyLeHgRunfjK4+qzvWRbvC5VGp2JWUjixWogwOtgpI7zEk2TohNQBxf7On
+	LbJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=oX7yI3Htksusv1XzaLD0zgUAZ9GbK8jc80frYgO9vTc=;
-	b=t4KprQcx0KTZ25vTGnUJ+UHRSoBC8hqAlL4yxgAg15B2T4kfyWp2X10+jdnSnmrG12
-	PjUJQPvvE4pgwxP/1+sOSqlSU04G+IgI5gbCkF+x10+4COG68cBaExO+XJntgIa8j5Cq
-	I481x3X3q4Ff01XBqpFmlrX1bb+KusyepPEERc5umTnMYZq9qAWyYeaMlPv7otEikCw/
-	6Myweho3GOqf6jqgSF4nOecndgAn7hb9jhM2H3lrg9DgYR7PMbSVRoEKEDmsimIrfF4C
-	x/KtWAd8uAErYKJ57Qs+IbTrv+41bswVRPLIfe5ufRF56BESMVlMHdsbrytNwmaPRe9y
-	SRyg==
-X-Gm-Message-State: APjAAAWd7ko445sfUtqX6dC80a+tMVPGi5zDca9zUj9wrXFWgSj7yvSi
-	nKQJ2DAeZ9xa/+ROKFw5wphy93md
-X-Google-Smtp-Source: APXvYqw9YGeONk/cbDDEDQ8HBADf1VClB+eIYieKxKkSrGqHUt74LaQtw6pe0yA3GpJajhZJuZU9wA==
-X-Received: by 2002:a63:ce43:: with SMTP id r3mr17821738pgi.368.1557809653379; 
-	Mon, 13 May 2019 21:54:13 -0700 (PDT)
+	bh=BSccZykAnyIx9jjZTo2W6mTcY5mjRetGCKF1zHpGC1g=;
+	b=qBwO6y/b46wvoCAVsrFVNRVOgHRBMlzNOtLlWbQBuCONzF8XXIPJCOek0wuTL46+af
+	+st6DzvKfGDC6wqciO4li/lgyApz+Ohr3EwxBWyVg689izjNamO3Ljtx0A5oxvGw5Kpj
+	SmH2lU/DEAf+l2SshUmun496wsB3cRN9IFPpIJer68PrQluLpp+/gW+/MiL2hG4ldDCo
+	hA3dcvs30Ux7LuEyWGfza3GnsQy59DWxNhAzvt4HedoJvawqMIm02fZbzGKi1ENsid5k
+	ybdcw7ygWJngeU0hvsfS7xQFMve7E99lGAEnacAwNI5kNTiJ5uYIM6skoxvKZMS8R+h0
+	EY7A==
+X-Gm-Message-State: APjAAAWB70F7Mm6FKLIsR7lx/Z/9UOFvp4IJivXpR6M4V8AjBjeVLxKb
+	qHUyhpaJnYkG6OWUgsfS/9A/nLmZ
+X-Google-Smtp-Source: APXvYqydbqIq7IWpPsKOx488w6yJHr6JMAY5HrgJTDqnv8x9CUcyorLi3+uP7mXGPdMxJIVGdT8ANA==
+X-Received: by 2002:a63:e94e:: with SMTP id q14mr35354207pgj.110.1557809654059;
+	Mon, 13 May 2019 21:54:14 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:d909:eb3d:d2ab:fd1d])
 	by smtp.gmail.com with ESMTPSA id
-	q75sm5698451pfa.175.2019.05.13.21.54.12
+	q75sm5698451pfa.175.2019.05.13.21.54.13
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 13 May 2019 21:54:13 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 21:53:46 -0700
-Message-Id: <0da5f86e05ff63e9362cc9b216c7e6007c0de26f.1557809500.git.akuster808@gmail.com>
+Date: Mon, 13 May 2019 21:53:47 -0700
+Message-Id: <326188e1e2424bdabe9cf83a8087b5ee046aa7f6.1557809500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557809500.git.akuster808@gmail.com>
 References: <cover.1557809500.git.akuster808@gmail.com>
-Subject: [PATCH 04/23] go: Exclude vcs files when installing deps
+Subject: [PATCH 05/23] recipetool: fix unbound variable when fixed SRCREV can't be found
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +59,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 04:54:12 -0000
+X-List-Received-Date: Tue, 14 May 2019 04:54:14 -0000
 
 From: Alex Kiernan <alex.kiernan@gmail.com>
 
-Because our clones use the host git, on (say) Ubuntu 18.04, the local
-git directories acquire perl scripts such as fsmonitor-watchman.sample.
-During packaging, this leads to failures:
+If attempting to find a fixed SRCREV fails because the directory doesn't exit,
+avoid failing with:
 
-  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: QA Issue: /usr/lib/go/pkg/dep/sources/https---github.com-nsf-termbox--go/.git/hooks/fsmonitor-watchman.sample contained in package go-hsperfdata-staticdev requires /usr/bin/perl, but no providers found in RDEPENDS_go-hsperfdata-staticdev? [file-rdeps]
-  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: QA run found fatal errors. Please consider fixing them.
-  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa:
-  ERROR: go-hsperfdata-1.0.3+gitAUTOINC+b58598ac84-r0 do_package_qa: Function failed: do_package_qa
+  Traceback (most recent call last):
+    File "/home/vagrant/poky/scripts/recipetool", line 121, in <module>
+      ret = main()
+    File "/home/vagrant/poky/scripts/recipetool", line 110, in main
+      ret = args.func(args)
+    File "/home/vagrant/poky/scripts/lib/recipetool/create.py", line 707, in create_recipe
+      srcrev = stdout.rstrip()
+  UnboundLocalError: local variable 'stdout' referenced before assignment
 
+Fixes: 000480c42797 ("recipetool / devtool: set a fixed SRCREV by default when fetching from git")
 Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/go.bbclass | 2 +-
+ scripts/lib/recipetool/create.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-index 7f5e8b9..b6d9372 100644
---- a/meta/classes/go.bbclass
-+++ b/meta/classes/go.bbclass
-@@ -130,7 +130,7 @@ go_do_install() {
- 	install -d ${D}${libdir}/go/src/${GO_IMPORT}
- 	tar -C ${S}/src/${GO_IMPORT} -cf - --exclude-vcs --exclude '*.test' --exclude 'testdata' . | \
- 		tar -C ${D}${libdir}/go/src/${GO_IMPORT} --no-same-owner -xf -
--	tar -C ${B} -cf - pkg | tar -C ${D}${libdir}/go --no-same-owner -xf -
-+	tar -C ${B} -cf - --exclude-vcs pkg | tar -C ${D}${libdir}/go --no-same-owner -xf -
- 
- 	if [ -n "`ls ${B}/${GO_BUILD_BINDIR}/`" ]; then
- 		install -d ${D}${bindir}
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 1810c70..dbd74a1 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -704,7 +704,7 @@ def create_recipe(args):
+         if not args.autorev and srcrev == '${AUTOREV}':
+             if os.path.exists(os.path.join(srctree, '.git')):
+                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
+-            srcrev = stdout.rstrip()
++                srcrev = stdout.rstrip()
+         lines_before.append('SRCREV = "%s"' % srcrev)
+     if args.provides:
+         lines_before.append('PROVIDES = "%s"' % args.provides)
 -- 
 2.7.4
 
