@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 08FB27DE54
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D17057C861
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 16:44:15 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id q132so6077281itc.5
+	Tue, 14 May 2019 17:36:30 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 7so3658512wmo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 09:44:17 -0700 (PDT)
+	Tue, 14 May 2019 10:36:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xZeWgVmZ4/fOW6lB1J0SPvi5ayt7psDJjSF2S0zhEKU=;
-	b=Q5SY+YOgo4gyiEIrtGGViheM8K4yMUGoWUClZ8+BoY+r0AdszLHb2uCi6p9cEwJv7J
-	ssJ85WBuDj6YbgH3v4Cz34yVvjpPR+db4nIUck5QUQpFVHxkq4QTsakyXp42FhnsdqfU
-	sOOGdbO0KVy9z28JICf8Dd1s1JIjQyplDXEqXCRWtlgTr7KC1/FGFzsXB19QETK1A15c
-	+KkpbMPh9vjh7MVauM/zdbHGPbcuat7a3AginSLHgUUuYl/KIjcz4CtjW5zqI/KCJKro
-	jtNd6Ae1dELNTERN5f6CScwa/4fqMOjJc8go+DeKMmxnZzx2RLZvA/1hjvNnULBDuUcJ
-	GtcA==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=5O7oydJ8FXNOSi6tUXdfLngjPqajehBfTeBpiTLVTJE=;
+	b=djYHRfABVbtVh+ngrHTq4axvTNISLOYuJ+iKYs6FkXaVg2jNiE/ian/jGdYrl5AAdC
+	x2DeFBGDQoOJr/i7mcq85Hpkk0fW+uoeRjk2g6TQdnDTQe+nxUoFBL5+iBebvWyqw/mb
+	AKjScFjKlzYgOR08OmfpqZBMNYOEXUbkvk1hc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xZeWgVmZ4/fOW6lB1J0SPvi5ayt7psDJjSF2S0zhEKU=;
-	b=ou0sAUrbAWQMokPziHTI0XnBaMQWpqI2HZuXnl+6+rYC7V7fQc7HBD61+rNjFgBp8Y
-	4uGJQ5LPXM15fAecZaTUhVLwJVbQ+X4lQ2RKMwqJ8Sp8jCuIQFVTJXqeyK688rtPoVaK
-	7LYAdNfFmlYqQjcyHHS8lRZ4q063GEgNrjwD39S3ZCLd6vxYKKhJ9uw8IEofLl9T365G
-	3htyGlm23XHJzIwKVyWdgJBBNyY6peQLqaQL0+6qI1m1GlQNKJ67S9FuUyqTRJaIFzr/
-	e8TF3Qu9myvXmXitnPAWF3qGnPBFlSlY+OtdyJ6pZ+2qOnBxjcOMTIMXr03RCnIm0Bxm
-	L9rg==
-X-Gm-Message-State: APjAAAUKHc9W/I/EpAbIpUS5rY1w8bcQb1V6nkfQSeI+2ODXIZgrDldd
-	UMZCEWPm35lzBaxvDU/PgxaHukuAROYISD2IKHVmCg==
-X-Google-Smtp-Source: APXvYqyFl6F2Z9YRBs5EL8ptOcosXDrxrsHdzuYWs8jVrxbjTGmlxoL20wNjqN29n5jpzT0XrOUa8qaXHpZ+7PGG9Ms=
-X-Received: by 2002:a24:4145:: with SMTP id x66mr4585386ita.130.1557852257025; 
-	Tue, 14 May 2019 09:44:17 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=5O7oydJ8FXNOSi6tUXdfLngjPqajehBfTeBpiTLVTJE=;
+	b=hsUNduXqkYUsupWrirnkfavku0G0MotoovYpw8nCSBYQy3N8sY2HwALRvm5PN1+19L
+	RhQhVVC2uVIUJFGvVkfFth9pIaFTEXlSpypLxPBGD9/sSMYky0as2Vumbp4IPi3eepVn
+	w3slwUOIxB2Zp8fJDRkBCX9uijjw9223aK27n8wAvBur7l3/UscHJSi9obGgjhbOnaWz
+	QbRQm9HsVRTjwzhnwOu0lBd0nRACxQYhSaBD4jxzK0qAXzu54fQE73/aim9keMo2GQAc
+	M656noPH3Yo2G/NncFUAtzH1hESkmTKHc2yZ4LmwqoPuM4l5idP6YqGU2d+deEDF+4rS
+	3qcA==
+X-Gm-Message-State: APjAAAWiX/idGjcP3a54zNMaew8bhwUiyL2clLWOZmcooF1TLiKDHeUi
+	6HfR1tF52Sc9eVLYIKSyBpGRJg==
+X-Google-Smtp-Source: APXvYqx9cpkf04a3mO7gMdxkZTZs3AbrvhYOas8ueSo1JTr9LpJ+/biCO5pKPDB+mXV3fBMxdjJtCQ==
+X-Received: by 2002:a1c:80d7:: with SMTP id b206mr19331494wmd.48.1557855391588;
+	Tue, 14 May 2019 10:36:31 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	r2sm42185591wrr.65.2019.05.14.10.36.30
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 14 May 2019 10:36:30 -0700 (PDT)
+Message-ID: <d2813cd316e8c8574f532727cb464d2a6e0bd796.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alistair Francis <Alistair.Francis@wdc.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 14 May 2019 18:36:29 +0100
+In-Reply-To: <20190513225205.14791-1-alistair.francis@wdc.com>
+References: <20190513225205.14791-1-alistair.francis@wdc.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-References: <20190514035716.27376-1-Randy.MacLeod@windriver.com>
-	<20190514035716.27376-2-Randy.MacLeod@windriver.com>
-In-Reply-To: <20190514035716.27376-2-Randy.MacLeod@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 14 May 2019 09:44:05 -0700
-Message-ID: <CAJTo0LZ1Lf_eyr9ERBntSKhkAuifcE99o3=uO8Lgji30WsGxJg@mail.gmail.com>
-To: Randy MacLeod <Randy.MacLeod@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/5] valgrind: do not strip the package or ptests
+Subject: Re: [PATCH] gdb: Upgrade from 8.2.1 to 8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,16 +59,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 16:44:16 -0000
+X-List-Received-Date: Tue, 14 May 2019 17:36:31 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, 13 May 2019 at 20:57, Randy MacLeod <Randy.MacLeod@windriver.com> wrote:
-> About half the ptests will fail if the executables deployed
-> as part of the ptest package are stripped. Currently
-> there is no easy way to only strip the main valgrind
-> package so leave it and the ptests *all* unstripped.
+On Mon, 2019-05-13 at 22:53 +0000, Alistair Francis wrote:
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+> If there are issues with the patch the branch is avaliable here:
+> https://github.com/alistair23/openembedded-core/tree/alistair/gdb-8.3
 
-What's the disk usage impact of an unstripped valgrind package?
+Seems there is a problem in oe-selftest:
 
-Ross
+https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/174/steps/7/logs/step2d
+
+"oe-selftest -r package.PackageTests.test_gdb_hardlink_debug" should
+reproduce and it seemed to happen on more than one host.
+
+Cheers,
+
+Richard
+
 
