@@ -1,51 +1,49 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id E5C4C7DF0B
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f174.google.com (mail-it1-f174.google.com
+	[209.85.166.174])
+	by mail.openembedded.org (Postfix) with ESMTP id 7DB017DF0B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 07:30:32 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id 7so1639186wmo.2
+	Tue, 14 May 2019 07:47:56 +0000 (UTC)
+Received: by mail-it1-f174.google.com with SMTP id i63so3204631ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 00:30:34 -0700 (PDT)
+	Tue, 14 May 2019 00:47:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MlbUE161WhrudfO5pVmfpramT6giB3aGM+9Pc0iDaFs=;
-	b=lGX7Uqrpix6GF8LPfBFldRReO/YbWVymosRlQjij+scOT3eoOCyQyvK0QYwTi15eqv
-	UrucxbHMrreKpcqiwyrjJlDq//s1h2RhFzvR+gCWjONcvSreVejea0McQFwxR+ORoFbb
-	2AQzq64PzZcVleYcYXGuBDTD5mH6TKPeI9lFFetj40VSi0l/MRNUf6jQhYHjh9nNFBJa
-	3SWkUn1N1LP2WZHv8g7ebRCNTT5UZETiAyRCpQTHQTTKEkIctSJM5LW6Cs4J/cU5ZwO4
-	rYDFuHCC2H0UzqzbIRRq1f8zoZm9A+POHpvsfLnNx7dMKqnWQzAq5RXEYq5Wg1a8C3XG
-	6AFw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:content-transfer-encoding;
+	bh=1Vpz3SwkAu6OtMuK8D/EyCDCP/rnkIc84b2aR7ZczXs=;
+	b=ou5fWNnPf5cv8f64cEYybjnMM/MzqShWWiSOM42euqPiNQEVrAOCsZo+jyJa4QDpTe
+	szqJqORdVS2ctFCmA/hIB6iU7PoVZYp1st0kElrfRaGmoOKwHMcsvRZAaQwg5CfB/3kq
+	FGSGSOMKJ39h7l0ruxj+FK49eNEXYCDmN4RzNQGpLqWO3HMRvAlPKAHCbynO7u/vDNhw
+	e/MgaqyLRt5768+/8/cH1fZLvEqI1+Pxwmbrvqdk5EVyWDt5PQCI7l4nbfBRnEvx/j58
+	b+jKRsCC6EYAaANaZmiWucWwE5o+jzRWPpWWQyKhtbTtkgqZrJQS86qcjspZYkNE15YD
+	Xr0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=MlbUE161WhrudfO5pVmfpramT6giB3aGM+9Pc0iDaFs=;
-	b=YGGyJLWzLH/B/6V0U9C/6SBppkXOqxFRZdwHtRXIMh1+uCqULe2ZLiNNAamAACqA6Z
-	wzYy2raJoggJFrEKiB7UDBa0INn1pZXq+NbuUV25gMnH4Lo+hmHETBzfb34yyYZ8gt5i
-	K7KwC0PtVzQU95YjBnNfbJxaIzeoKr2FHm+G0q+FRS2kiuiW0h2pGS74tk2a0HPzuKAb
-	XmlfCOIevXJdU3MhBwrWEU4U6TYSuE2O65PtaZ1p+TXdDjMzetiToLkhofj4H6xTnj0U
-	kyCp8fSuLFHaPf8AOLoSdv795hiAND8jTsbCU7O30HpaomErtJsaI2FvQKriHHUHxo0r
-	CGug==
-X-Gm-Message-State: APjAAAXNNCcqxZ3sn+MfvBkhtdLp81pSHY3NG5mUeNAMGRMMB5U6m71U
-	XltPqrv0aChp6DGN4/znYfvW1g4t
-X-Google-Smtp-Source: APXvYqy97xATdOMz8ts5MVQYIxATHIC1Y+cvJpUxHMPKQAYwFXtvaxLM2o3db5FATpOkhows/ZnmFA==
-X-Received: by 2002:a1c:9d0f:: with SMTP id g15mr18787539wme.97.1557819033543; 
-	Tue, 14 May 2019 00:30:33 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	t13sm23092076wra.81.2019.05.14.00.30.32
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 May 2019 00:30:32 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2019 07:30:30 +0000
-Message-Id: <20190514073030.30203-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CA+chaQe1LaMWsVVyyC9CGjGBAT2BGrcc+fjvdCEaThP7WGzN_Q@mail.gmail.com>
-References: <CA+chaQe1LaMWsVVyyC9CGjGBAT2BGrcc+fjvdCEaThP7WGzN_Q@mail.gmail.com>
-Subject: [PATCHv3] perf: make sure that the tools/include/uapi/asm-generic directory exists
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=1Vpz3SwkAu6OtMuK8D/EyCDCP/rnkIc84b2aR7ZczXs=;
+	b=JRcxgbHKWS4tYMsjqsPejStorzaIgcXBoKJY0i4txdT6BT+2QeV3nwTGWL+0A+UZyo
+	2YgP3d8wNzX9SYRRRzjkUk/iKuCzoK8cjRNwG8vqML4VbYUrxr8rvS3QcLO0Jt6R8HJt
+	B0L8v6dD7Wn2IvoW0z3FgPEQLRb9zLuWxd/TK+Z/3tyc+1hqOtVwJXrNmWJWflCoAkA/
+	35H65kQxlPgoIhCT7dOcFitmVX9I8B9IxOrnOD7+gebgbUrb1M8cO3zGJYQEz1ndNWpj
+	x8B9jvDBsxhavccEQ6FPLGddNR1cmZYwh7/wNsp0+RCEEH5wGTuq4tBc6XwbM0FmHI5h
+	QL7Q==
+X-Gm-Message-State: APjAAAVtWYMeVB4z5pQkWPYr4YURVAKJgqbCXizySyph2PyVkUtDd31D
+	uBKwwQILY/+6KHbr6wV1oz/q1lp0V3fIRce1EI0NkA==
+X-Google-Smtp-Source: APXvYqwtG9RU+1SHsZSdpDlHLo3BZY2ajtZe1pats0KwWvvxNPuk+xM3JzwzmOSA/+32qUddgwPNoANq8a0FOaXQ2bA=
+X-Received: by 2002:a02:1a45:: with SMTP id 66mr20402990jai.124.1557820077338; 
+	Tue, 14 May 2019 00:47:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190417133941.31087-1-schnitzeltony@gmail.com>
+	<CALbNGRSJs_KncbefGSSPN_u_KYOrCnEsfSTeLJKLXeFQ7guEPQ@mail.gmail.com>
+	<CALbNGRSC=NjtUg=JxzmaZbjEj8BhH1NGPTRTs=iU34ftM8s=JQ@mail.gmail.com>
+In-Reply-To: <CALbNGRSC=NjtUg=JxzmaZbjEj8BhH1NGPTRTs=iU34ftM8s=JQ@mail.gmail.com>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 14 May 2019 09:47:45 +0200
+Message-ID: <CALbNGRTCng3BDqz-Phy2chgUQJYuwHmcymmL0z+ad+YGy+nd-A@mail.gmail.com>
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH][thud] adwaita-icon-theme: do not delete symbolic svg but pack them in ${PN}-symbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,40 +56,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 07:30:34 -0000
+X-List-Received-Date: Tue, 14 May 2019 07:47:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* before trying to copy unistd.h into it
-
-* older kernels don't have uapi in tools/include and do_configure fails
-  with:
-  DEBUG: Executing shell function do_configure
-  cp: cannot create regular file '.../perf/1.0-r9/perf-1.0/tools/include/uapi/asm-generic/unistd.h':
-  No such file or directory
-  WARNING: exit code 1 from a shell command.
-
-* tools/include/uapi was added in kernel 4.8 with
-  https://github.com/torvalds/linux/commit/c4b6014e8bb0c8d47fe5c71ebc604f31091e5d3f
-  tools: Add copy of perf_event.h to tools/include/linux/
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-kernel/perf/perf.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 546076f84b..4e603f1a32 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -238,7 +238,7 @@ do_configure_prepend () {
- 
-     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
-     # so we copy it from the sysroot unistd.h to the perf unistd.h
--    cp ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
-+    install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
- }
- 
- python do_package_prepend() {
--- 
-2.17.1
-
+On Tue, May 7, 2019 at 12:51 PM Andreas M=C3=BCller <schnitzeltony@gmail.co=
+m> wrote:
+>
+> On Tue, Apr 30, 2019 at 8:20 AM Andreas M=C3=BCller <schnitzeltony@gmail.=
+com> wrote:
+> >
+> > On Wed, Apr 17, 2019 at 3:39 PM Andreas M=C3=BCller <schnitzeltony@gmai=
+l.com> wrote:
+> > >
+> > > This fixes:
+> > > * gtk-icon-browser: for symbolic view almost all icons were missing
+> > > * xfce's thunar: 'home' and 'up' icons were missing. Had a long discu=
+ssion with
+> > >   XFCE-people [1] and asked here [2].
+> > >
+> > > How could I overlook the most obvious...
+> > >
+> > > [1] https://bugzilla.xfce.org/show_bug.cgi?id=3D14443
+> > > [2] http://lists.openembedded.org/pipermail/openembedded-core/2018-No=
+vember/275815.html
+> > >
+> > > (From OE-Core rev: 0911e7d2f5443210b594a198ada8465af7a2fc78)
+> > >
+> > > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ping?
+> Something wrong with this bugfix?
+>
+pingediping
 
