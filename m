@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com
-	[209.85.214.178])
-	by mail.openembedded.org (Postfix) with ESMTP id CE81E6C216
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CBC9C7DEEC
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 04:54:09 +0000 (UTC)
-Received: by mail-pl1-f178.google.com with SMTP id g69so199198plb.7
+	Tue, 14 May 2019 04:54:10 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id d3so7583814plj.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 21:54:11 -0700 (PDT)
+	Mon, 13 May 2019 21:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=n8OEwc3HA/kI8yYqNROmKVS9UXVyVVNxNEznZXTPAgw=;
-	b=dfBayTfQWjBN6xsIlhlLHKFjm3h3KkbjR+kbzfOjLq+R0Dv5254/HALBl8BgFHVlVE
-	HOXWyb8yaVsFj8JppBffNoAjxCoLXjBs9AdfEVgYVce/JJyhzM/jT0XqHnb9kPmsPc1c
-	cqXArXl/O0rpWUlcnHnK8ILGzb33LowBBBq2BSpXESRkmQ3yJ5IpLzvNGdhov7hK5BWt
-	3cUIHzjcQKieqJQzYSd55ZyR/eQ4GxA41kVX1OnezuYyq00sBX0jY6JMyd0kLsib5zT7
-	pPnFKwrxFrzg4sZLu9oSsI5WfsWJhUBzjuVl+lrS8pvu6cOcDbymIRVMwN7R8p4qmeXj
-	MK7g==
+	bh=1FQnNnM1NtgN8Wi/Oim4NXCX98rfFIdZMbZh1z4Ywl0=;
+	b=JGLrenu4UMFKReMWYIHoKPVTnEkjp2UTi4MvNQGrjmqeimIXA1sHiYcIWJmfBTagO/
+	zVuwyXujGVCsxQ8aIk6GgxRzGiIXANVJZXc7Xg06po2TXr8S4nUYeePzMx2THtBWFTum
+	bN5VYHH8ZF1XC5bn1S98cCaAQ44pAZPlF9yKxCWjyBu9u73TamYFd9t4RGaq1Jl2dQ92
+	WmI5buKSe1Jer7WTjv9NvrCHZ0BLxgTk31zB6G8lW5tjuOuj8Wc2Y0zy/9UIiCN29avx
+	eCk846+XOqwfcLMKmUw5Nzsh/1n6M6GWcWzZ2wmHCpWp8+/rv6KG82H9rFGCvKFi4kTG
+	qARA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=n8OEwc3HA/kI8yYqNROmKVS9UXVyVVNxNEznZXTPAgw=;
-	b=VDaV/CVbL8HpSjh+5zZzHhcmYtgf4Dr7yQlqCALeAKMGv375P6dQLwaiVy4qpVzyR7
-	jbrRY5WOsZjNUDOvrgfj6i5O5zCkzJQj37uVfibeA94MmsCm8Lgv8i8PZXOlO2bSPAmy
-	po8OrQ/HhLf8pX0xqX7hktqJcmREuhuc3loBJSmaaSsFptg/5D/R9r8F3PttaNKpLPAe
-	mvJfSQtm2A7+LEo6xATr3YEDSuLczCWZkCCF12MFtaglTABEtHLNAiqjqZqYqQWfVLIl
-	rXrMPM2Dc7s6KvRKzPoLgvDD2m4VZilBKDTDYKGulnjfg2HORZ500AOsStzDvPXsy2uw
-	IM4Q==
-X-Gm-Message-State: APjAAAX9HkPKBcVL/lRaaDcktM94koaGQI2Zy2qx1pixFg03mcb2x2HS
-	pREddrFRL47aEmjc0nVDIfvSgpsH
-X-Google-Smtp-Source: APXvYqwEeoQEz93A8EZT1PBUs3S0U9/sjZrLwGpy2ZPTT59hNp+V4aK2U96g3+oszPKEvDzMpBaJxQ==
-X-Received: by 2002:a17:902:2bca:: with SMTP id
-	l68mr34136129plb.301.1557809650792; 
-	Mon, 13 May 2019 21:54:10 -0700 (PDT)
+	bh=1FQnNnM1NtgN8Wi/Oim4NXCX98rfFIdZMbZh1z4Ywl0=;
+	b=CBqKZ2b3tCa2o796vDNg+l9FW/hVQvEfZUt+qUrH8K2KyhUVuiR5ZAtSZ2tqCjyyAp
+	NTh1ZSSCK0YQ9tAxczpG9O6dit+9RPzYveHNA6Z0wivjSDu599C7I+nVrJjEnCu3rkq1
+	Kxm8dDlptfPLgqpBRzZlNXZ8T1BwgzDoJRw5CEbg4A3683/NzB/JXeRDty3dhO269Tnq
+	4abbkM7ZGjutF13CnksiqQLGABzxvHsePqaZ7gleNXp7nRBbt3YUVZfuhx0mb1LMI7Lj
+	D66xUfsWb1jqR0SXQHzF5E/zkZ7UjEZbidaXZb4OdYD6V0bQmIkxdWcQ10nAL6TexlOK
+	7gXA==
+X-Gm-Message-State: APjAAAXgfg+QPoZPjSbzteEVr81wNA/pFdXbAl4nXss3ealENiQCHcoj
+	y0LqbgClqBxhy+QBsAA/LXI8jRdF
+X-Google-Smtp-Source: APXvYqyqG9Sl4IPnvbKUlsjAkDvy1VrNlRm+onSMWd4BBpESvVX1dk7cp9+EPhLyaun54hKOVc+qcQ==
+X-Received: by 2002:a17:902:e287:: with SMTP id
+	cf7mr35749785plb.217.1557809651879; 
+	Mon, 13 May 2019 21:54:11 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:d909:eb3d:d2ab:fd1d])
 	by smtp.gmail.com with ESMTPSA id
 	q75sm5698451pfa.175.2019.05.13.21.54.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 May 2019 21:54:10 -0700 (PDT)
+	Mon, 13 May 2019 21:54:11 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 21:53:43 -0700
-Message-Id: <cccf000f07eb8b60874c66c60a47c46d546e5ca0.1557809500.git.akuster808@gmail.com>
+Date: Mon, 13 May 2019 21:53:44 -0700
+Message-Id: <ca38b2f88f640579703486645b0c4d9ecef78e47.1557809500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557809500.git.akuster808@gmail.com>
 References: <cover.1557809500.git.akuster808@gmail.com>
-Subject: [PATCH 01/23] nettle: fix the Segmentation fault
+Subject: [PATCH 02/23] bitbake.conf: Account for older versions of bitbake
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,53 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 04:54:09 -0000
+X-List-Received-Date: Tue, 14 May 2019 04:54:11 -0000
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+From: Joshua Watt <jpewhacker@gmail.com>
 
-The commit[8ac8fa8ee1 nettle: update to 3.4.1]
-add CFLAGS_append = " -std=c99" to silence the
-below error for native build:
-| ../nettle-3.4.1/rsa-sign-tr.c: In function 'sec_equal':
-| ../nettle-3.4.1/rsa-sign-tr.c:243:3: error: 'for' loop initial declarations are only allowed in C99 mode
-   for (size_t i = 0; i < limbs; i++)
-   ^
-| ../nettle-3.4.1/rsa-sign-tr.c:243:3: note: use option -std=c99 or -std=gnu99 to compile your code
-| Makefile:263: recipe for target 'rsa-sign-tr.o' failed
+Older versions of bitbake (prior to 1.42) don't expose the BB_UNIHASH
+variable which is being used by sstate. For compatibility with these
+older versions of bitbake, set BB_UNIHASH to BB_TASKHASH (which is the
+value it should be for non-hash equivalent aware signature generators).
+if bitbake hasn't already set it.
 
-But the above change will trigger below Segmentation
-fault:
- # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
- [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
- [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
- Segmentation fault
+[YOCTO #13314]
 
-So update the logic to CFLAGS_append = " -std=gnu99"
-to fix the issue.
-
-(From OE-Core rev: 91359a91b8c89dc5e1f3a946137204156c47a3af)
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-support/nettle/nettle_3.4.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-index dd49c30..8375fcf 100644
---- a/meta/recipes-support/nettle/nettle_3.4.1.bb
-+++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-@@ -30,7 +30,7 @@ inherit autotools ptest multilib_header
- EXTRA_AUTORECONF += "--exclude=aclocal"
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 7f8b043..b4e8990 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -898,3 +898,9 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
  
- EXTRA_OECONF = "--disable-openssl"
--CFLAGS_append = " -std=c99"
-+CFLAGS_append = " -std=gnu99"
- 
- do_compile_ptest() {
-         oe_runmake buildtest
+ MLPREFIX ??= ""
+ MULTILIB_VARIANTS ??= ""
++
++# Older versions of bitbake (< 1.42) don't set BB_UNIHASH. For compatibility with these
++# versions, set BB_UNIHASH equivalent to BB_TASKHASH if unspecified, which is
++# what it would be anyway if the signature generator (e.g. OEEquivHash) doesn't
++# support unihashes.
++BB_UNIHASH ?= "${BB_TASKHASH}"
 -- 
 2.7.4
 
