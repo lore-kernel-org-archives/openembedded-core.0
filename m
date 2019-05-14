@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
-	[209.85.214.193])
-	by mail.openembedded.org (Postfix) with ESMTP id CBC9C7DEEC
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A98117DEAB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 04:54:10 +0000 (UTC)
-Received: by mail-pl1-f193.google.com with SMTP id d3so7583814plj.11
+	Tue, 14 May 2019 04:54:11 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id z28so8440987pfk.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 21:54:12 -0700 (PDT)
+	Mon, 13 May 2019 21:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1FQnNnM1NtgN8Wi/Oim4NXCX98rfFIdZMbZh1z4Ywl0=;
-	b=JGLrenu4UMFKReMWYIHoKPVTnEkjp2UTi4MvNQGrjmqeimIXA1sHiYcIWJmfBTagO/
-	zVuwyXujGVCsxQ8aIk6GgxRzGiIXANVJZXc7Xg06po2TXr8S4nUYeePzMx2THtBWFTum
-	bN5VYHH8ZF1XC5bn1S98cCaAQ44pAZPlF9yKxCWjyBu9u73TamYFd9t4RGaq1Jl2dQ92
-	WmI5buKSe1Jer7WTjv9NvrCHZ0BLxgTk31zB6G8lW5tjuOuj8Wc2Y0zy/9UIiCN29avx
-	eCk846+XOqwfcLMKmUw5Nzsh/1n6M6GWcWzZ2wmHCpWp8+/rv6KG82H9rFGCvKFi4kTG
-	qARA==
+	bh=DxTd7anJuOjCYPVlKRwJh46GZioAtAkkacAWQB4ofnQ=;
+	b=KhCkgu0Rk4oYHLd4L0jRonDq5LTc1Iux3pkvDlviq4NExot/ViXv7LrfrMGUXQ+a30
+	/R+5sOjZOq4tVzDNJ6AAuJ49uzGXQ4Bd1kE8DrrShjFiyUrM+si9Jhh/+d7c+3b/hCCx
+	z6w56rli1lUR7b2YujjxmyQ3wUYAJDqqvh1a1sQV2NsRN7H/q92YJS9X8XUQrDdif0Wu
+	jERXcRDzBCEuPbhw2t6fC6PS5oPmFB9Io3hnLe4TrRPAivkXz0O8qtIC0jmQU0dJQrtD
+	4cNsPFv5in+TkJXy9Ki52p9c3BD/yC0Mf895/bkWblYIclkHzlhLZiLlwSa8yIU+ErLc
+	pLjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=1FQnNnM1NtgN8Wi/Oim4NXCX98rfFIdZMbZh1z4Ywl0=;
-	b=CBqKZ2b3tCa2o796vDNg+l9FW/hVQvEfZUt+qUrH8K2KyhUVuiR5ZAtSZ2tqCjyyAp
-	NTh1ZSSCK0YQ9tAxczpG9O6dit+9RPzYveHNA6Z0wivjSDu599C7I+nVrJjEnCu3rkq1
-	Kxm8dDlptfPLgqpBRzZlNXZ8T1BwgzDoJRw5CEbg4A3683/NzB/JXeRDty3dhO269Tnq
-	4abbkM7ZGjutF13CnksiqQLGABzxvHsePqaZ7gleNXp7nRBbt3YUVZfuhx0mb1LMI7Lj
-	D66xUfsWb1jqR0SXQHzF5E/zkZ7UjEZbidaXZb4OdYD6V0bQmIkxdWcQ10nAL6TexlOK
-	7gXA==
-X-Gm-Message-State: APjAAAXgfg+QPoZPjSbzteEVr81wNA/pFdXbAl4nXss3ealENiQCHcoj
-	y0LqbgClqBxhy+QBsAA/LXI8jRdF
-X-Google-Smtp-Source: APXvYqyqG9Sl4IPnvbKUlsjAkDvy1VrNlRm+onSMWd4BBpESvVX1dk7cp9+EPhLyaun54hKOVc+qcQ==
-X-Received: by 2002:a17:902:e287:: with SMTP id
-	cf7mr35749785plb.217.1557809651879; 
-	Mon, 13 May 2019 21:54:11 -0700 (PDT)
+	bh=DxTd7anJuOjCYPVlKRwJh46GZioAtAkkacAWQB4ofnQ=;
+	b=OBvgZvrvAtLl+u4fPeuOl7HNMsTd7s6YyVpjNJeus8zMh97iDHVHxPVRKdE0oP9HJX
+	z92gMVM/hWFl/qUW0KMtA/bG/j1Li3Mnkz/FP3pPJZsZjet4rvR9i/cjFoKx9unBLvZ7
+	4YVc+A/RzdTHkeN+/BctZRX+7yegS0dNqVmeslyTArAMEMxfdF99oraUpC8fXWRWKXT4
+	gWuUJkD+343IAdMCHHrt5kNI4vSE/CGedPKFUx8UbbkJwScDnT2sFHkptakxjLwqWOB3
+	m4Xp60Wi9nK1DDxBut9gLrx1FyGFeiwdj9PJIR9nelJea7TZOydjsbGmtCKIH6/HzNDm
+	REGw==
+X-Gm-Message-State: APjAAAVbDvdXnNiU/iRo+HY+mNt+hrGjS6jhdpb2e9Xhq25ijYrsmFpF
+	noQ+lBiw39FH6XQhlvF5Z1cWftKu
+X-Google-Smtp-Source: APXvYqxb8R7QuhKJPaPYDzjNXY1SFmohTdJzUWAwdJlb7IzUng5Ynpus/qXhvJZGCa6mzlMIZDMKOw==
+X-Received: by 2002:a63:1e5b:: with SMTP id p27mr34906981pgm.213.1557809652719;
+	Mon, 13 May 2019 21:54:12 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:d909:eb3d:d2ab:fd1d])
 	by smtp.gmail.com with ESMTPSA id
-	q75sm5698451pfa.175.2019.05.13.21.54.10
+	q75sm5698451pfa.175.2019.05.13.21.54.11
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 May 2019 21:54:11 -0700 (PDT)
+	Mon, 13 May 2019 21:54:12 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 21:53:44 -0700
-Message-Id: <ca38b2f88f640579703486645b0c4d9ecef78e47.1557809500.git.akuster808@gmail.com>
+Date: Mon, 13 May 2019 21:53:45 -0700
+Message-Id: <9f47cea3c58a53db8599f1be4ff4401406c00928.1557809500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557809500.git.akuster808@gmail.com>
 References: <cover.1557809500.git.akuster808@gmail.com>
-Subject: [PATCH 02/23] bitbake.conf: Account for older versions of bitbake
+Subject: [PATCH 03/23] cpio/tar/native.bbclass: move rmt to sbindir and add a prefix to avoid native clashing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,37 +61,99 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 May 2019 04:54:11 -0000
 
-From: Joshua Watt <jpewhacker@gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Older versions of bitbake (prior to 1.42) don't expose the BB_UNIHASH
-variable which is being used by sstate. For compatibility with these
-older versions of bitbake, set BB_UNIHASH to BB_TASKHASH (which is the
-value it should be for non-hash equivalent aware signature generators).
-if bitbake hasn't already set it.
+The rmt in cpio-native and tar-native is clashing, since
+tar-native has set var-NATIVE_PACKAGE_PATH_SUFFIX, we move rmt
+to sbindir, and add suffix NATIVE_PACKAGE_PATH_SUFFIX to sbindir
+could avoid the clashing.
 
-[YOCTO #13314]
+And in Ubuntu, rmt is in sbindir
+$ which rmt
+/usr/sbin/rmt
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/conf/bitbake.conf | 6 ++++++
- 1 file changed, 6 insertions(+)
+ meta/classes/native.bbclass             | 1 +
+ meta/recipes-extended/cpio/cpio_2.12.bb | 6 +++---
+ meta/recipes-extended/tar/tar_1.31.bb   | 6 +++---
+ 3 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 7f8b043..b4e8990 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -898,3 +898,9 @@ BB_SIGNATURE_EXCLUDE_FLAGS ?= "doc deps depends \
+diff --git a/meta/classes/native.bbclass b/meta/classes/native.bbclass
+index e9f6c74..d5b6f6a 100644
+--- a/meta/classes/native.bbclass
++++ b/meta/classes/native.bbclass
+@@ -89,6 +89,7 @@ export lt_cv_sys_lib_dlsearch_path_spec = "${libdir} ${base_libdir} /lib /lib64
  
- MLPREFIX ??= ""
- MULTILIB_VARIANTS ??= ""
-+
-+# Older versions of bitbake (< 1.42) don't set BB_UNIHASH. For compatibility with these
-+# versions, set BB_UNIHASH equivalent to BB_TASKHASH if unspecified, which is
-+# what it would be anyway if the signature generator (e.g. OEEquivHash) doesn't
-+# support unihashes.
-+BB_UNIHASH ?= "${BB_TASKHASH}"
+ NATIVE_PACKAGE_PATH_SUFFIX ?= ""
+ bindir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
++sbindir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+ base_libdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+ libdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+ libexecdir .= "${NATIVE_PACKAGE_PATH_SUFFIX}"
+diff --git a/meta/recipes-extended/cpio/cpio_2.12.bb b/meta/recipes-extended/cpio/cpio_2.12.bb
+index cb845c3..3713bf0 100644
+--- a/meta/recipes-extended/cpio/cpio_2.12.bb
++++ b/meta/recipes-extended/cpio/cpio_2.12.bb
+@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "08a35e92deb3c85d269a0059a27d4140a9667a6369459299d08c17f713
+ 
+ inherit autotools gettext texinfo
+ 
+-EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
++EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
+ 
+ do_install () {
+     autotools_do_install
+@@ -34,7 +34,7 @@ do_install () {
+ 
+ PACKAGES =+ "${PN}-rmt"
+ 
+-FILES_${PN}-rmt = "${base_sbindir}/rmt*"
++FILES_${PN}-rmt = "${sbindir}/rmt*"
+ 
+ inherit update-alternatives
+ 
+@@ -46,6 +46,6 @@ ALTERNATIVE_${PN}-rmt = "rmt"
+ ALTERNATIVE_LINK_NAME[cpio] = "${base_bindir}/cpio"
+ 
+ ALTERNATIVE_PRIORITY[rmt] = "50"
+-ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
++ALTERNATIVE_LINK_NAME[rmt] = "${sbindir}/rmt"
+ 
+ BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-extended/tar/tar_1.31.bb b/meta/recipes-extended/tar/tar_1.31.bb
+index a785042..353617e 100644
+--- a/meta/recipes-extended/tar/tar_1.31.bb
++++ b/meta/recipes-extended/tar/tar_1.31.bb
+@@ -21,7 +21,7 @@ PACKAGECONFIG_append_class-target = " ${@bb.utils.filter('DISTRO_FEATURES', 'acl
+ 
+ PACKAGECONFIG[acl] = "--with-posix-acls,--without-posix-acls,acl"
+ 
+-EXTRA_OECONF += "DEFAULT_RMT_DIR=${base_sbindir}"
++EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
+ 
+ # Let aclocal use the relative path for the m4 file rather than the
+ # absolute since tar has a lot of m4 files, otherwise there might
+@@ -45,7 +45,7 @@ do_install_append_class-target() {
+ 
+ PACKAGES =+ "${PN}-rmt"
+ 
+-FILES_${PN}-rmt = "${base_sbindir}/rmt*"
++FILES_${PN}-rmt = "${sbindir}/rmt*"
+ 
+ inherit update-alternatives
+ 
+@@ -57,7 +57,7 @@ ALTERNATIVE_${PN}_class-nativesdk = ""
+ ALTERNATIVE_${PN}-rmt_class-nativesdk = ""
+ 
+ ALTERNATIVE_LINK_NAME[tar] = "${base_bindir}/tar"
+-ALTERNATIVE_LINK_NAME[rmt] = "${base_sbindir}/rmt"
++ALTERNATIVE_LINK_NAME[rmt] = "${sbindir}/rmt"
+ 
+ PROVIDES_append_class-native = " tar-replacement-native"
+ NATIVE_PACKAGE_PATH_SUFFIX = "/${PN}"
 -- 
 2.7.4
 
