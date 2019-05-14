@@ -1,41 +1,52 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com
-	[209.85.160.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 1EFEE7D71B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 074456BCE7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 13:35:50 +0000 (UTC)
-Received: by mail-qt1-f172.google.com with SMTP id h1so11163333qtp.1
+	Tue, 14 May 2019 14:08:34 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f2so2977036wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 06:35:52 -0700 (PDT)
+	Tue, 14 May 2019 07:08:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=JZT5LxYKOt2ObGEz6ycMtpmCwI/vp0u/jOUz3OeItWo=;
+	b=ZZupegtpJiYV6+wyDe1IhXPaNsWpvVZL2R5wnSiO7tlX9tg6waJ3yJu1jLJbAf0lOi
+	0Wbtk4qNn9bcuodODFGWFRT2GB+qxLNukP70Eu4VGwxH4FE1+INF5TBH7GL4dSq4GeEK
+	vejn7hm1I3DQa8ls3n8f9d2YS4fu7ONRd2RwE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=CyBkZPbO0j2oXlRAQyD5S/lNa6TDVX333/W35Ts0Qbs=;
-	b=b0KUe/LKt+NybSunx6ey2y3lBPolAN1aYUVjbHHUYr/zcn3yobije4/EyBydNMpqJh
-	jPSe7xA5wwivA8+3V4dP3MNWHyeAhZLpG6foxEkV29J/XzTtl/E7XITanhzaFlo6OjJL
-	FR3xtRSizNJFoblnBKT+PD5ZdbRRc+12ngs4LEuerlPVmOLG18oUYm1NntYqqDoRqrq/
-	HtGNPByWYhNTlV38ENMjIaCqkw2/7LWqFmfW3bnM3NY+bYyt+e7fvT8j5+hE6BnTTOoW
-	mM2ZneOFibNCtCq0Z0CpUkIGdZ4Kw/5DmewNwA8rjKA1eV3KMDpV33ZeYc4jQvoM2OYk
-	UfVg==
-X-Gm-Message-State: APjAAAUSPebNNqtLgnblQGxWi4/q/riMqXiSgEjLh1KGErdVP6tZcbz5
-	HhYGhuIRJZd0qEVjBg0yltPE3rOgLCA=
-X-Google-Smtp-Source: APXvYqz3gnmqqCDHVjlrx2IlsYpbD6+EhNofmR6BFG0PnUa1usS8C4IHByEt6aFzILQD2OjwZG/Ffw==
-X-Received: by 2002:ac8:294c:: with SMTP id z12mr29910705qtz.79.1557840951750; 
-	Tue, 14 May 2019 06:35:51 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=JZT5LxYKOt2ObGEz6ycMtpmCwI/vp0u/jOUz3OeItWo=;
+	b=rfEXYh+WGEbAk7ZaMQpZHRMmyN52vSHnJnhjc6nqGBmequ50KI2LCswlI2r8h8Z7qR
+	55rWXhIodp8pXEW+XJ75Vu4q7wEMQWtlaD+Gl8XaOnr2DjF3s28WRvgabTdyb0y1yGUj
+	lX8qPGJwzVg/iXCVyvekUpZcN3tO1Re0GA3SUGebxCBaIxO81v84lGMmoyXBhIxTm4YA
+	aT1pMvumiIMFaGIIsHBTsBj0RODVrcXMnEDMhr2rZuWBqpC4agGJAwqsogOSrYm4kWn4
+	eJ/5sMRZaB5D63I2wiMvYstFrONCYK8NilDIx9gKi78lyD1HGe48W62ihOhLhwt901UP
+	lswA==
+X-Gm-Message-State: APjAAAXnzFnSZJWqQK+HLjuVnN3xBMBMXJPoguCU3z0s2wINOhfPJdFp
+	TMTgkg7lUr2uwHc3yPJRONIEheslpT4=
+X-Google-Smtp-Source: APXvYqwvc92UAhLKP4oFUpr7fbLEKNnMU/GrpUiizVM/iJvPnGrHbqrRqkuVkHRFBVWjs3xnIddG0g==
+X-Received: by 2002:a1c:9c42:: with SMTP id f63mr5528720wme.23.1557842915712; 
+	Tue, 14 May 2019 07:08:35 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	p37sm13866594qtj.90.2019.05.14.06.35.49
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 14 May 2019 06:35:50 -0700 (PDT)
-Message-ID: <4ac2274b49372290718a2b59175407bc736118ff.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2019 14:35:48 +0100
-User-Agent: Evolution 3.30.5-1 
+	j82sm7088210wmj.40.2019.05.14.07.08.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 14 May 2019 07:08:34 -0700 (PDT)
+Message-ID: <4588fa927b2e10223bab39d65aab4184db783f49.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 14 May 2019 15:08:33 +0100
+In-Reply-To: <20190514035716.27376-2-Randy.MacLeod@windriver.com>
+References: <20190514035716.27376-1-Randy.MacLeod@windriver.com>
+	<20190514035716.27376-2-Randy.MacLeod@windriver.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: RDEPENDS kernel-image-zimage & kernel.bbclass PKG name
+Subject: Re: [PATCH 2/5] valgrind: do not strip the package or ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,44 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 13:35:51 -0000
+X-List-Received-Date: Tue, 14 May 2019 14:08:35 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Mon, 2019-05-13 at 23:57 -0400, Randy MacLeod wrote:
+> About half the ptests will fail if the executables deployed
+> as part of the ptest package are stripped. Currently
+> there is no easy way to only strip the main valgrind
+> package so leave it and the ptests *all* unstripped.
+> 
+> There is an enhancement filed to enable wildcard stripping:
+>    https://bugzilla.yoctoproject.org/show_bug.cgi?id=13343
+> so this recipe can be fixed once that is implemented.
+> 
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
+> ---
+>  meta/recipes-devtools/valgrind/valgrind_3.15.0.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-As part of the build, kernel packages are renamed, e.g.
-kernel-image-zimage basically becomes
-kernel-image-zimage-${KERNEL_VERSION}
+I did test whether we could get away with a dependency on valgrind-dbg
+as in theory that should behave the same way. It doesn't which means
+the debug symbol linkage isn't being honoured by valgrind and that is
+something we need to look into too :/.
 
-When a package created by recipe B RDEPENDS on kernel-image-zimage,
-the ipk generated ultimately depends on
-kernel-image-zimage-${KERNEL_VERSION} (not kernel-image-zimage).
-Once the kernel is updated, it appears as though recipe B is not
-repackaged, so the package still runtime depends on the original
-kernel, which doesn't exist anymore, and thus building the image
-fails.
-
-Specifically, I have
-MACHINE_EXTRA_RDEPENDS += "kernel-image-zimage"
-in my BSP, and hence packagegroup-machine-base runtime depends on
-kernel-image-zimage-4.9.11-cl-som-imx7-5.1+gc27010d99a3d.
-Updating the kernel doesn't trigger a rebuild of packagegroup-machine-base,
-so things fail for me.
-
-
-Am I missing something in my BSP? I could probably do a bbappend
-on packagegroup-base.bb and add something like
-do_packagedata[depends] += "virtual/kernel:do_packagedata"
-
-This doesn't seem right, though.
-
-
-Any ideas or thoughts?
-
+I'm torn on whether to accept this patch or try and fix partial
+stripping...
 
 Cheers,
-Andre'
 
+Richard
 
 
