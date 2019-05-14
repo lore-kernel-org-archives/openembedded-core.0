@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 45E4A7DF2B
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2C03F7DF1A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 04:54:23 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id t87so8435087pfa.2
+	Tue, 14 May 2019 04:54:24 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id z26so8429077pfg.6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 21:54:24 -0700 (PDT)
+	Mon, 13 May 2019 21:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=JRI0uU7uOx+0Dgi8YNhQ3RLo3tHtLrV9AW9dHLPI8DY=;
-	b=BAJghpTNYOl1Had92Lwgkp7EisRo6pNcxgePYlT/qp20Bo7zXw2hjjzcUpCY0gjAwU
-	kveYQqhe4p1ahgfLOBb1ULEued2M54QR3RhTLT+Q3saz56oG+DLuhXs8A5T425W+Q9xb
-	RXh8H7vYOAd4Ni/PzuHkMja26n29ptxBBkk94TAqnZ6Ga8uMMCW9o9OHGSI98KZhDVZ1
-	C2ERdPjObJmI7F+cgc3yLaqxMMewx45qTjLkdiwU7ulGpAWpDgMjJSVLVQcX9yA0jzaN
-	/iq8PSAN+DRoii48ZGZ6olEaToBqjd2CoNEH9tsFytS66QuJ2F7rv4s7LOn0E57v/Dzs
-	2Brg==
+	bh=JLaEt9Vg8M2wa6MTuZTEdtJcvrhIOEiJQyp4qU8HFVE=;
+	b=SKtbR9NbEV/rsX60LbtTaCe7p9nTbudQ/QD1dfZh1+KQzi8s92b24wKxjPgH+iaWiP
+	rrkNpSkS97Wfz09365PAQT8pRFdG7unumvXv/sCi8ErhdksnMZNqEugumwa0Y7x9i6Pe
+	bcuPfeHrPrQFGgkY4a/bICwmkRKGyqomL9gRQy+ZP+obWAykzuf+/zDiwejAoEHKooJw
+	0F5c0zsaHJD9KB77pkLuWVGC2brJet44MAEDFifBqePfxJns8MabL4FgjYCdhEdOxDSg
+	3+l6SjuuMAIqD67t/thlAkX/LNyuZ+udThJiKEDmKQqKaCJ54jSyvo9ONj/ZGWVQhWIU
+	W8dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=JRI0uU7uOx+0Dgi8YNhQ3RLo3tHtLrV9AW9dHLPI8DY=;
-	b=q6bn5O/RhNBILMYhZFr+nQi4X6stWVLHP39UelXGBiyW50d2BPNEp/L5dITJCAIwC9
-	9Q5iHGBcK3etygiO6uR+xzQs9ZDQwMogkTnxam0F776LEH8i6fyLc16de7eT9y2UMNxw
-	h2i3ZLuiBqGbOxaD2ql3u+MWrZtoaSl0IIUAtQzhUcs/Z+lQJblpWYASTmtoFs6fqCSL
-	H6Fh47R0wl4NSQ57NE0lLUvnFrbyI5CvkIlxoNguakX+n3Cj4MfxszmzArGxCiPeVNy8
-	V9aa6DGt9flJmlsPNO3TRg8hKW9dfnUH3vJE8haIiNFC02FLZZ33U/t0gqTpSvEO5C53
-	j0zg==
-X-Gm-Message-State: APjAAAX5QoykOwZeZPqVhGSbcoUnj2Fti0dL3N+WMFtJVxSzSTnfv4Sv
-	wceyhKlUchKEuaFPI8WFQ3CHhKDn
-X-Google-Smtp-Source: APXvYqzuc2TPTKSx2BBjsQVIv/cnli1KXHsA4SF/q1Fj145e8ja5h6ti3m/V3ocvOwIMgxvFFdcTxA==
-X-Received: by 2002:a63:a54:: with SMTP id z20mr35517272pgk.27.1557809664336; 
-	Mon, 13 May 2019 21:54:24 -0700 (PDT)
+	bh=JLaEt9Vg8M2wa6MTuZTEdtJcvrhIOEiJQyp4qU8HFVE=;
+	b=CU7wUdtN0Igy8nX2+pjRHJaOGf5g67aaO7EjZboPnTrvdIB+1NcUvHhhN4PQWKlRU2
+	gu3px06ZMf2jUiDx+Wtz6dYCmnZrcbSFLZpUun81K9sPSgiGkPGSVPj94K68cOy/cptM
+	ssU4h0cM0qzlNyuIOewyqxCV3OgFaCO04qHhwUp+gTHb1MuP++21lo2j/1G9cEz5XRfG
+	18gBpW+KVtNI+ATHaz/WsSVlJr/YVj4RT4pcg6XmgA69irKriUikRfxk1g/CvhqAbz4D
+	ezkYwHRLtqZAKpQBRviqtV7H8mFdTlsHy8PIFmx4GoOGw5e+wg6UF4dqVJ8meeEHU9wT
+	BtuQ==
+X-Gm-Message-State: APjAAAWvhBi4T0ffJk9k+qqPiyCQkaOh3xP66uxxT0GQFtBOIePTh3vH
+	vX1TPq1pgMAyImm2uC1mHXfDFkid
+X-Google-Smtp-Source: APXvYqxGxalfgNwUUbzDeYAgg9rW6f7VaXEXsBvXVyItM6/YpM+kTGW8yuTtPAR2cwzv6gr3wcIQEQ==
+X-Received: by 2002:a63:1316:: with SMTP id i22mr35811812pgl.274.1557809665231;
+	Mon, 13 May 2019 21:54:25 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:d909:eb3d:d2ab:fd1d])
 	by smtp.gmail.com with ESMTPSA id
-	q75sm5698451pfa.175.2019.05.13.21.54.23
+	q75sm5698451pfa.175.2019.05.13.21.54.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 May 2019 21:54:23 -0700 (PDT)
+	Mon, 13 May 2019 21:54:24 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 21:54:00 -0700
-Message-Id: <6694be65f542eb35f4d1ed432d7ae89d7f1453cd.1557809500.git.akuster808@gmail.com>
+Date: Mon, 13 May 2019 21:54:01 -0700
+Message-Id: <c3a325b5c2d9315629d014e5ebba552fe045171c.1557809500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557809500.git.akuster808@gmail.com>
 References: <cover.1557809500.git.akuster808@gmail.com>
-Subject: [PATCH 18/23] squashfs-tools: set CVE_PRODUCT
+Subject: [PATCH 19/23] acpica: use update-alternatives for acpidump
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,27 +59,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 04:54:23 -0000
+X-List-Received-Date: Tue, 14 May 2019 04:54:24 -0000
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+acpidump is both provided by acpica and pmtools, so use
+update-alternatives to fix conflicts:
+...
+|Error: Transaction check error:
+|  file /usr/bin/acpidump conflicts between attempted installs of
+pmtools-20130209+git0+3ebe0e54c5-r0.i586 and acpica-20190405-r0.i586
+...
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/acpica/acpica_20180508.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-index e871f1c..5a8b5f7 100644
---- a/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-+++ b/meta/recipes-devtools/squashfs-tools/squashfs-tools_git.bb
-@@ -44,3 +44,5 @@ ARM_INSTRUCTION_SET_armv5 = "arm"
- ARM_INSTRUCTION_SET_armv6 = "arm"
+diff --git a/meta/recipes-extended/acpica/acpica_20180508.bb b/meta/recipes-extended/acpica/acpica_20180508.bb
+index b5c89fa..cd5f466 100644
+--- a/meta/recipes-extended/acpica/acpica_20180508.bb
++++ b/meta/recipes-extended/acpica/acpica_20180508.bb
+@@ -29,7 +29,7 @@ S = "${WORKDIR}/acpica-unix2-${PV}"
+ inherit update-alternatives
  
- BBCLASSEXTEND = "native nativesdk"
-+
-+CVE_PRODUCT = "squashfs"
+ ALTERNATIVE_PRIORITY = "100"
+-ALTERNATIVE_${PN} = "acpixtract"
++ALTERNATIVE_${PN} = "acpixtract acpidump"
+ 
+ EXTRA_OEMAKE = "CC='${CC}' 'OPT_CFLAGS=-Wall'"
+ 
 -- 
 2.7.4
 
