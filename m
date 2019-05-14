@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B8477DF0E
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A6A627DF03
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 14 May 2019 04:54:13 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id l132so8416211pfc.8
+Received: by mail-pg1-f195.google.com with SMTP id t187so7926587pgb.13
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 13 May 2019 21:54:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=BSccZykAnyIx9jjZTo2W6mTcY5mjRetGCKF1zHpGC1g=;
-	b=uFQh1X+n25E6o5asNJib07RYiKpiLbXeIPWr0TQ850BOapSgdDV0rNd7Up/ux08k1p
-	YH1xP/xRTasfoiTIP8olhim+Ae5StsYteNShyS26E0jHb2MdFXXTvuJ+W/YgGtlt11Le
-	iqx1iJNx3ozaLAB7bqdy+uOoeZHR4ibD+rNZ3fowTgd8l8tso3RN8v2m7PtDFHHsU7/l
-	99kP0/lVNGOa/iV6Q6q1tOmDT6WHFGLeoRndzcPp5J+HHZEuxvueuflQjOzOVpduXhV+
-	U8QrP2nA9VkyLeHgRunfjK4+qzvWRbvC5VGp2JWUjixWogwOtgpI7zEk2TohNQBxf7On
-	LbJA==
+	bh=oWbnlQ+MD8VzDhdVUS0jbKWbOG3hDeMshik4kk0kajM=;
+	b=FYES8TmxkHFTJLRL0i5LRR/daGzWopG9AAqUP5Ns1loCalLYUXlrfx+kbJJL70rP9M
+	SAO1StcGTBzHtAnJGgv0t1mwSDPw1Iircx+efhCI6fk+/WGFFbRfkqO44OdHueUZvSUq
+	Xpx/DL0Ktx4TvyfIezUn6JA2ADzPmEMt2VtiBbXsKRVspK9+PTZOEhDlDw9GqCv4d3BO
+	t5l79czKtvBQZLcI+9taZ+y5aU/SUmcBZOV1rfOQwtrsbTJT7tmRPjr2julHc6MG3VfZ
+	dX/33/rvtbcFC9DYAPqI7LUY0xHpj5aq7scvjAoUQfKUjKOBpt+SYzDallhAiaKP8Wtq
+	vgCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=BSccZykAnyIx9jjZTo2W6mTcY5mjRetGCKF1zHpGC1g=;
-	b=qBwO6y/b46wvoCAVsrFVNRVOgHRBMlzNOtLlWbQBuCONzF8XXIPJCOek0wuTL46+af
-	+st6DzvKfGDC6wqciO4li/lgyApz+Ohr3EwxBWyVg689izjNamO3Ljtx0A5oxvGw5Kpj
-	SmH2lU/DEAf+l2SshUmun496wsB3cRN9IFPpIJer68PrQluLpp+/gW+/MiL2hG4ldDCo
-	hA3dcvs30Ux7LuEyWGfza3GnsQy59DWxNhAzvt4HedoJvawqMIm02fZbzGKi1ENsid5k
-	ybdcw7ygWJngeU0hvsfS7xQFMve7E99lGAEnacAwNI5kNTiJ5uYIM6skoxvKZMS8R+h0
-	EY7A==
-X-Gm-Message-State: APjAAAWB70F7Mm6FKLIsR7lx/Z/9UOFvp4IJivXpR6M4V8AjBjeVLxKb
-	qHUyhpaJnYkG6OWUgsfS/9A/nLmZ
-X-Google-Smtp-Source: APXvYqydbqIq7IWpPsKOx488w6yJHr6JMAY5HrgJTDqnv8x9CUcyorLi3+uP7mXGPdMxJIVGdT8ANA==
-X-Received: by 2002:a63:e94e:: with SMTP id q14mr35354207pgj.110.1557809654059;
+	bh=oWbnlQ+MD8VzDhdVUS0jbKWbOG3hDeMshik4kk0kajM=;
+	b=FleK4HWxxa/Nwqq598QixEqYO+M3AYjgMzHaIUG2f4rovEl6YYIJv8A8r/qoNWJO6C
+	suGHAXfpck7IxoeptM7sopszR/M/nON2Q4MNvRkpNF72hC2dcKSActsgsnT29RHo3N0H
+	61YBdAYzVofdoro53Omt6+5aWgIO6tQ6AGklvQD7kPU3Q3dMcdpo0Nt0y0vYsbff/uKf
+	4wJVinTpSHyQCVKUIC0IlEIek2LSybDR2S+wMOhCZyYvJgSzioMrKgLGZhILRvIMGjpS
+	3tNbiGnEAZqdihMtEcmDzreI/kOm5XwhpPhcwNSwXl35GX2PD+AaI2JVQeyJe2Dvl8ZU
+	/2Yw==
+X-Gm-Message-State: APjAAAU7JwZ6isQNPgO7NWTK+qPePwbYOhFYSXAK9BvWyBASZmKmyQ23
+	5hZdmP6YiGcHaWjohTHsww7NxUHh
+X-Google-Smtp-Source: APXvYqzurdFF0NrKgTEzATN4XiHA0hHSEisCpVxLbMDySFQaC5GlpRSnDo49eX9hpKJdvkFyt8QufA==
+X-Received: by 2002:a63:a08:: with SMTP id 8mr35492830pgk.46.1557809654741;
 	Mon, 13 May 2019 21:54:14 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:d909:eb3d:d2ab:fd1d])
 	by smtp.gmail.com with ESMTPSA id
-	q75sm5698451pfa.175.2019.05.13.21.54.13
+	q75sm5698451pfa.175.2019.05.13.21.54.14
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 May 2019 21:54:13 -0700 (PDT)
+	Mon, 13 May 2019 21:54:14 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 13 May 2019 21:53:47 -0700
-Message-Id: <326188e1e2424bdabe9cf83a8087b5ee046aa7f6.1557809500.git.akuster808@gmail.com>
+Date: Mon, 13 May 2019 21:53:48 -0700
+Message-Id: <6d86d126121cd15c7e9832b24106332ab439beeb.1557809500.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1557809500.git.akuster808@gmail.com>
 References: <cover.1557809500.git.akuster808@gmail.com>
-Subject: [PATCH 05/23] recipetool: fix unbound variable when fixed SRCREV can't be found
+Subject: [PATCH 06/23] wic: change expand behaviour to match docs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,41 +61,34 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 14 May 2019 04:54:14 -0000
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+From: Ross Burton <ross.burton@intel.com>
 
-If attempting to find a fixed SRCREV fails because the directory doesn't exit,
-avoid failing with:
+The documentation says that --expand takes a comma-separated list of
+partition:size pairs, but the code was splitting on hyphens.
 
-  Traceback (most recent call last):
-    File "/home/vagrant/poky/scripts/recipetool", line 121, in <module>
-      ret = main()
-    File "/home/vagrant/poky/scripts/recipetool", line 110, in main
-      ret = args.func(args)
-    File "/home/vagrant/poky/scripts/lib/recipetool/create.py", line 707, in create_recipe
-      srcrev = stdout.rstrip()
-  UnboundLocalError: local variable 'stdout' referenced before assignment
+Hyphens are not a transitional separator for a list of items, so change the code
+to reflect the documentation.
 
-Fixes: 000480c42797 ("recipetool / devtool: set a fixed SRCREV by default when fetching from git")
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/recipetool/create.py | 2 +-
+ scripts/wic | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
-index 1810c70..dbd74a1 100644
---- a/scripts/lib/recipetool/create.py
-+++ b/scripts/lib/recipetool/create.py
-@@ -704,7 +704,7 @@ def create_recipe(args):
-         if not args.autorev and srcrev == '${AUTOREV}':
-             if os.path.exists(os.path.join(srctree, '.git')):
-                 (stdout, _) = bb.process.run('git rev-parse HEAD', cwd=srctree)
--            srcrev = stdout.rstrip()
-+                srcrev = stdout.rstrip()
-         lines_before.append('SRCREV = "%s"' % srcrev)
-     if args.provides:
-         lines_before.append('PROVIDES = "%s"' % args.provides)
+diff --git a/scripts/wic b/scripts/wic
+index b4b7212..a3c0f73 100755
+--- a/scripts/wic
++++ b/scripts/wic
+@@ -426,7 +426,7 @@ def expandtype(rules):
+     if rules == 'auto':
+         return {}
+     result = {}
+-    for rule in rules.split('-'):
++    for rule in rules.split(','):
+         try:
+             part, size = rule.split(':')
+         except ValueError:
 -- 
 2.7.4
 
