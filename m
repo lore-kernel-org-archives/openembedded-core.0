@@ -1,49 +1,50 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BB277D40E
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EF9B6C135
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 23:27:48 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id f22so11315957iol.11
+	Tue, 14 May 2019 03:22:11 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id j1so9397375qkk.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 13 May 2019 16:27:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Mon, 13 May 2019 20:22:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=GtnxYIIP37Tc4j7RHIirjIckY8nLdFB5yTTBGo6EBAs=;
-	b=u0oAZhoDJwj9yUmaS69PyNY+bjBqAMb6J6f+lZoWVlMfbuUY9luT6qtKSQn1rMS95c
-	XHylE0MuWHaGU06+s1cZD00CHohaoDQh3Wor5EMQ8wV5TCbzJitlt/afyS4l8Is7w5XJ
-	vRqUCtWzc0yeQMWnjbWTGnZZWldGVb6SXoc4jyLhe0oyPHcGN1oy+lzynNPDSX+QRyG8
-	9gXvOzvroKunUotNVkFIcwoMNm82B56NOgBcBfIo4WG5skZEyPh9hwWxiykTRYRDLQsv
-	E+zurZwVY7re3/8nO/hwSd4DBhpiRKiJaT6pFlxvQ/1FvnGfjoJ3w9yh0yYAebM760Hq
-	l/bw==
+	bh=M11EpIRwe2v1Az0nDp5T70prOntmcm8Hv21YN7XS77A=;
+	b=ZG5v1k4/EA+4pybCzE8CaUq1V5gcmRREUGrZYL/hAT+s6+0gMHDRv7jX4voK8u6vZ0
+	JqOqQGHFBXhhvkB2RMDlXBfN83Cz7dlDmHs1wimqiE6/mq+xW6DFWdj22DhzhguJkXou
+	2FJW0EWBTr12DVG7ue7LHOYcAWEQegicqr3m/BV4aZtXWDan2MSGBOFPl+et9GA/LK6p
+	CLlVrb5Dr/iFE7qqXGOPdHeQHfi0McQ26MOm7sEPZoArSzlYKRvVp4/FeX2r5UxQtr0S
+	NgylmUaXf7X8oEPHFrduGT5KP+GMkRII5QrazfRsJwDLWUc8iKetT0C2Laj+7ILWnDGq
+	T/Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=GtnxYIIP37Tc4j7RHIirjIckY8nLdFB5yTTBGo6EBAs=;
-	b=n5zGPCas6xZjaZxRoxntIDwq/hKFS0odtcGCLay7DH8iQ3NPiEnWd/fd9QgmwEinhL
-	c9/4+Ori0lXW6YST4KO3B3jhZc8LdHKMU26td9sFGhdHq4/ragb3XUEO8yAne3pJWnRW
-	Q9JKpfchZj8maqqORPf303FTEiWWq7kvM++rMxzIPDZTeKZdbNrFtFcQ6S025Kl784BT
-	w+BALazeBb3O3otErQRr7T5KPFaLf2eoVvflIoi4m6Pz2GjPs2fr4sBlyMnI73x+uX2y
-	HignpQEUNR5FvxpO2/NCakassGci7k+RkSuAxFg3pbTGyfIMqVAR56HC6VUX2Pc7i2nK
-	PoCA==
-X-Gm-Message-State: APjAAAWam2ZaKqN7S4nqtQBnXXh+M+cj9DnBR1iiWxzo9SqHUdxu5pQh
-	zFdY/9FYNtXSy74Lfh8S1Sxj9TuWWki38sMu4BYrHg==
-X-Google-Smtp-Source: APXvYqzxusHxokajctaVoV8YRd44pkXnjkkg1Vs0rqgVzXvMIKy5XmsJiqeBNa3lagB+TyME4/fSCcfqoVuCEZsNa0A=
-X-Received: by 2002:a05:6602:11a:: with SMTP id
-	s26mr17106741iot.201.1557790070110; 
-	Mon, 13 May 2019 16:27:50 -0700 (PDT)
+	bh=M11EpIRwe2v1Az0nDp5T70prOntmcm8Hv21YN7XS77A=;
+	b=IEePzKBCIc1673Rtr2YM3e7tOMNPr9qGAG3FIrG5ezOCA7dgx73CSN0xC0P1Ds92Us
+	P/9+iubvDNo4V7fM0Qf1+1jl3UWlkcYF+z1PSuKYFN+KcKMEMX4E9ag7YJv5XTii4E5Y
+	2T2P72SD0lKXpdyvy/Yrm+DZYEfL0ACxxLaK0aWJSwVsy3SU88QLGwe46t0LXEMOUYK4
+	EtmB1nHsLOV4k3dgQ7DTbvSQCTrOhpQZxeYUJp171eec9aJBAjf9I0vhPa0qijSw7G33
+	970Nz7/YvFRQl6LS2d2vlp/SJpkGrbkw7ne8oEisQiv72rsM6Pgmy9S6X6p/JVqtjxJ5
+	3qpA==
+X-Gm-Message-State: APjAAAV0MvC8Sz/Kf5hen53284I+lb6fVqcYvpyyV/4Rag8V36nS9wfm
+	u6ch12Ln809xtS9USGIFhzjBKaqhspdgCyA9Vbw=
+X-Google-Smtp-Source: APXvYqwOccDyWZ1Znhc9KfNBPMnQFsc9ydufKo4YNNOY/O/irCkoLn3wXHBsPPxuVSa+lmEB2bAI3289zAzOP9guUQM=
+X-Received: by 2002:a05:620a:39b:: with SMTP id
+	q27mr25342811qkm.223.1557804132592; 
+	Mon, 13 May 2019 20:22:12 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190506175136.7594-1-raj.khem@gmail.com>
 	<20190506182339.GA21306@localhost>
-In-Reply-To: <20190506182339.GA21306@localhost>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 13 May 2019 16:27:38 -0700
-Message-ID: <CAJTo0LY0O4Va07qZ+Nq+YXmkM7GXhSbB9e1bZ_P17vPuv657_g@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LY0O4Va07qZ+Nq+YXmkM7GXhSbB9e1bZ_P17vPuv657_g@mail.gmail.com>
+In-Reply-To: <CAJTo0LY0O4Va07qZ+Nq+YXmkM7GXhSbB9e1bZ_P17vPuv657_g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 13 May 2019 23:21:46 -0400
+Message-ID: <CAMKF1sphAThZQNBwaNo3tP8v8G+cmimD8SiteCbgBEyQEL_q8g@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Adrian Bunk <bunk@stusta.de>
 Subject: Re: [PATCH 1/2] systemd: Fix build with gcc9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,60 +58,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 13 May 2019 23:27:49 -0000
+X-List-Received-Date: Tue, 14 May 2019 03:22:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-https://github.com/systemd/systemd/commit/c98b3545008d8e984ab456dcf79787418=
-fcbfe13
-is the upstream fix, so lets use this instead.
+you are late to party but its already applied see oe-core/d5e999616e
 
-Ross
-
-On Mon, 6 May 2019 at 11:24, Adrian Bunk <bunk@stusta.de> wrote:
+On Mon, May 13, 2019 at 7:27 PM Burton, Ross <ross.burton@intel.com> wrote:
 >
-> On Mon, May 06, 2019 at 10:51:35AM -0700, Khem Raj wrote:
-> >...
-> > +gcc-9 has become a bit stricter and can check all kind of formatted
-> > +input/output functions which causes additional warnings when compiling
-> > +networkd
-> > +
-> > +/src/basic/log.h:104:9: error: =E2=80=98%s=E2=80=99 directive argument=
- is null [-Werror=3Dformat-overflow=3D]
-> > +         log_internal_realm(LOG_REALM_PLUS_LEVEL(LOG_REALM, (level)), =
-__VA_ARGS__)
-> >...
-> > +         if (r < 0)
-> > +                 log_link_warning_errno(link, r, "Cannot %s IPv6 for i=
-nterface %s: %m",
-> > +-                                       enable_disable(!disabled), lin=
-k->ifname);
-> > ++                                       enable_disable(!disabled),
-> > ++                                       (link->ifname) ? link->ifname =
-: "<null>");
-> >...
+> https://github.com/systemd/systemd/commit/c98b3545008d8e984ab456dcf797874=
+18fcbfe13
+> is the upstream fix, so lets use this instead.
 >
-> The fix doesn't look correct to me:
-> gcc says it "is null", so checking whether or not it is null doesn't
-> match the error message.
+> Ross
 >
-> If it is a compiler bug as was at some point mentioned upstream,
-> a better temporary workaround would be to stop making this an error
-> with -Wno-error=3Dformat-overflow (untested).
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On Mon, 6 May 2019 at 11:24, Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Mon, May 06, 2019 at 10:51:35AM -0700, Khem Raj wrote:
+> > >...
+> > > +gcc-9 has become a bit stricter and can check all kind of formatted
+> > > +input/output functions which causes additional warnings when compili=
+ng
+> > > +networkd
+> > > +
+> > > +/src/basic/log.h:104:9: error: =E2=80=98%s=E2=80=99 directive argume=
+nt is null [-Werror=3Dformat-overflow=3D]
+> > > +         log_internal_realm(LOG_REALM_PLUS_LEVEL(LOG_REALM, (level))=
+, __VA_ARGS__)
+> > >...
+> > > +         if (r < 0)
+> > > +                 log_link_warning_errno(link, r, "Cannot %s IPv6 for=
+ interface %s: %m",
+> > > +-                                       enable_disable(!disabled), l=
+ink->ifname);
+> > > ++                                       enable_disable(!disabled),
+> > > ++                                       (link->ifname) ? link->ifnam=
+e : "<null>");
+> > >...
+> >
+> > The fix doesn't look correct to me:
+> > gcc says it "is null", so checking whether or not it is null doesn't
+> > match the error message.
+> >
+> > If it is a compiler bug as was at some point mentioned upstream,
+> > a better temporary workaround would be to stop making this an error
+> > with -Wno-error=3Dformat-overflow (untested).
+> >
+> > cu
+> > Adrian
+> >
+> > --
+> >
+> >        "Is there not promise of rain?" Ling Tan asked suddenly out
+> >         of the darkness. There had been need of rain for many days.
+> >        "Only a promise," Lao Er said.
+> >                                        Pearl S. Buck - Dragon Seed
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
