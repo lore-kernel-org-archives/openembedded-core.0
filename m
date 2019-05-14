@@ -1,48 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7922F7DBB8
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7190F7DBB8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 21:56:06 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id h4so408829wre.7
+	Tue, 14 May 2019 21:56:07 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id j187so545992wmj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 14:56:07 -0700 (PDT)
+	Tue, 14 May 2019 14:56:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=3Mxr+cQSdw7dUrdd0LubG2Tntn0RNpKXFqF6NgdZ3hA=;
-	b=aM9QGuOeAskVfjDTpAovlwrjqUQTmNlmXuc1czTZSZvLSlSGw2Dp1gO5QgAgdBYU6O
-	P7P9DIaVEU/TJrf8M60/hGUIxxfCZSFttf3lwTtoYRmv9I29FdjhQok7KW7c8cDl0+Qm
-	p/u6W1IpTBojIK+wEA70GomegdHaD6saaakcc=
+	bh=ujaXc0iYMms/IKip5sWv3WTQWs5WN1RDYrzRP4k1y08=;
+	b=CKT+r3a9yXA1QP2RSdWid7d1g1SCppc6i5lt3xgz0lRWvpp33G0Prp6VGoL2GamwWP
+	eGeuK0/hxTOrUUN21qHr1WbCIs7+DNkH17vkVq+fD63nHq66DRkxVFpC1xQ7iBrIJOdJ
+	THmfCMQYVDbNom6YwiqXbCKkIofSTSaaaQw3c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=3Mxr+cQSdw7dUrdd0LubG2Tntn0RNpKXFqF6NgdZ3hA=;
-	b=smHmXAW++vw7Y4AKMWYq5QJGCPTkaZaLLbslqKESXsvAdelY2HsHUaopGvkecixyBu
-	E5DHeHR5jvLbsUlmWz09MOEEwS7G7cOZR0xd3+SO4Iy3ZNRX4nMtom3MKqyjqlC7XukN
-	S20mSNrGj77dKx/kSR1ExJEV92UMBaFz/zB+bHdQvAjpVwgBArDx5yCIt34N/y/KftnL
-	46EidW2WNI12YItoxWbEF7ybVNUJfM2BDARUAxPLxPhxMPpxJcCelrdnzUjM72wnSQUZ
-	iVjzj0KwMLOUO9lRD3Yh1dVkPUenwnQDcUTJYrDhqGLTexPNcDTNZRGXtEni5ufWNMhP
-	VKVw==
-X-Gm-Message-State: APjAAAXNCB0H3MVc9khXxYacLFUUMQAVHs+rjRGGk0Us7puuePVczsuJ
-	aebd6i0oG4bpqBue092aMgnTc77vRh4=
-X-Google-Smtp-Source: APXvYqxAp5hvUodr7vlXUTvnZe+7d9QfM9zbiMpq4gsI++jf0njHwtOSRI8mrdfVXB+cErAFrKZtdQ==
-X-Received: by 2002:a5d:49d0:: with SMTP id t16mr13712142wrs.324.1557870966974;
-	Tue, 14 May 2019 14:56:06 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=ujaXc0iYMms/IKip5sWv3WTQWs5WN1RDYrzRP4k1y08=;
+	b=ul2r94hnnG+bjNu0L7FdaU/O5WMVG/5qAYC6vxr8c/07b9s/5eXEgXuCObmb5rOeK5
+	t30oxVON1fgnMltOQfiEDr5jnU8jzyxLC3Vj1jJoF88KPEsCTzrYX24i5HOkxqdoU4bb
+	6kY9aAqTTQ5zhOssQjc04p4p5HksGIXPDfucJ84OktYQQezTfe1DHiLmNQ3SL+D5/SoQ
+	4MVjXG/inR/XM1zCSY4tjw18mci4BE7J/c1fd6904zYzqLX7S1UoIg8xFm6AeVoYSJ11
+	VRYo65DNQ1+6b6XZvnZ4x4Zk4ZsHOFacb9MBMfiAxTIOneiW1CZ3D3aZMnpG2Jmn56eq
+	2WNA==
+X-Gm-Message-State: APjAAAU3UJbyH55rAjRW59D9GgsA85KskqMwz/BrYlCXslEUEiwVVdH7
+	TgN51irRwhVDfVBMF06faOt/CSgBbJU=
+X-Google-Smtp-Source: APXvYqyrfekJYw5Zsv18UxLQGegrOr0JQeIgAXJD/hLGsSZl/SkKgtD0MChM8f9t9flGMQI6NY0IgA==
+X-Received: by 2002:a1c:6206:: with SMTP id w6mr14452833wmb.56.1557870967978; 
+	Tue, 14 May 2019 14:56:07 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id d6sm126130wrp.9.2019.05.14.14.56.05
+	by smtp.gmail.com with ESMTPSA id d6sm126130wrp.9.2019.05.14.14.56.07
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 14:56:06 -0700 (PDT)
+	Tue, 14 May 2019 14:56:07 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2019 22:56:03 +0100
-Message-Id: <20190514215604.24839-1-richard.purdie@linuxfoundation.org>
+Date: Tue, 14 May 2019 22:56:04 +0100
+Message-Id: <20190514215604.24839-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190514215604.24839-1-richard.purdie@linuxfoundation.org>
+References: <20190514215604.24839-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] dbus-test: Improve ptest dependencies dependencies
+Subject: [PATCH 2/2] ptest: Add RDEPENDS frpm PN-ptest to PN package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +57,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 21:56:06 -0000
+X-List-Received-Date: Tue, 14 May 2019 21:56:07 -0000
 Content-Transfer-Encoding: 8bit
 
-The dbus-test package is empty, move its dependencies to the ${PN}-ptest
-package. Also ensure that it doesn't depend on the empty ${PN} package
-which is about to start causing image failures in the following commit.
-In this case the correct dependency is dbus itself.
+Many different ptests are breaking as they assume that ${PN}-ptest
+depends on ${PN}. It doesn't currently but should. If we fix this, many
+different ptests start passing when they previously failed.
+
+It does depend on fixing an issue in the dbus-test recipe which is done
+in the preceeding patch (mentioned in case this gets backported).
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/dbus/dbus-test_1.12.12.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/classes/ptest.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.12.bb b/meta/recipes-core/dbus/dbus-test_1.12.12.bb
-index 0502c449171..f95b31a8630 100644
---- a/meta/recipes-core/dbus/dbus-test_1.12.12.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.12.12.bb
-@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
- 
- DEPENDS = "dbus glib-2.0"
- 
--RDEPENDS_${PN} += "make"
- RDEPENDS_${PN}-dev = ""
- 
- SRC_URI = "http://dbus.freedesktop.org/releases/dbus/dbus-${PV}.tar.gz \
-@@ -85,6 +84,7 @@ do_install_ptest() {
-         sed -i -e 's;@PTEST_PATH@;${PTEST_PATH};g'  ${D}${PTEST_PATH}/run-ptest
- }
- 
--RDEPENDS_${PN}-ptest += "bash"
-+RDEPENDS_${PN}-ptest += "bash make dbus"
-+RDEPENDS_${PN}-ptest_remove = "${PN}"
- 
- PRIVATE_LIBS_${PN}-ptest = "libdbus-1.so.3"
+diff --git a/meta/classes/ptest.bbclass b/meta/classes/ptest.bbclass
+index 936bf82736e..fa4c36ec769 100644
+--- a/meta/classes/ptest.bbclass
++++ b/meta/classes/ptest.bbclass
+@@ -13,6 +13,7 @@ PTEST_ENABLED = "${@bb.utils.contains('DISTRO_FEATURES', 'ptest', '1', '0', d)}"
+ PTEST_ENABLED_class-native = ""
+ PTEST_ENABLED_class-nativesdk = ""
+ PTEST_ENABLED_class-cross-canadian = ""
++RDEPENDS_${PN}-ptest += "${PN}"
+ RDEPENDS_${PN}-ptest_class-native = ""
+ RDEPENDS_${PN}-ptest_class-nativesdk = ""
+ RRECOMMENDS_${PN}-ptest += "ptest-runner"
 -- 
 2.20.1
 
