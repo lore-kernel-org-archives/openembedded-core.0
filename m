@@ -1,50 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 51B047DEA6
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com
+	[209.85.167.177])
+	by mail.openembedded.org (Postfix) with ESMTP id 2E5E97DE36
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 10:08:20 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id c5so18465817wrs.11
+	Tue, 14 May 2019 10:21:33 +0000 (UTC)
+Received: by mail-oi1-f177.google.com with SMTP id t187so8369039oie.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 03:08:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=xrc5Ou7WNa3G+5LsrMZa3RD09g7vSSjh0yTyEvwKTns=;
-	b=bw8dWBOeV0qj5yCvq41XYhI8qOcGiVP7rXy5ouVvC7QzFWTmiaeRD5YkvEVGK7y+K0
-	iigufnnajdPhOuU8f0C8G+mYfa2A2z2f+ZBfO43l/RdnobQ0OdULC8pswH6LFY5qZ2WX
-	Aagm4l2Mm7z3OyHwcarX3P15jLXLlx2jdgAPY=
+	Tue, 14 May 2019 03:21:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=G6AZ4Xsa2T06ELPMX0bY8g6BHV4Pum+z5+tgCqu2YWw=;
+	b=XkHzDKS+XxFzoiQY3MGAX0T/KZTg2z8LnvJ6pcAqhIvL+kEdP5QK/89m4IO0Y/yC8r
+	4ZQ9EIBGOlkJzPpikaOMXDOhOgiUUID9vxJqBKxcGlS1r4m2BylajtgyTbFz6wC6OmoH
+	7k/dfPT448ovksrCGH2Z9sR/1ChKIJxeGoOGGbDNpHOXzmGkdnXpJk8fPlH3119TDTLK
+	ad0WDm1T9G/6sxSKMPb3fFy21VvhiG0kMmLp0+n8p+7SVrq9IejKQIJ9HaKnlVbruZKi
+	V48Pc/i9qyJLh48e7c776SmgR1mqI+/dL03/ssuYIr8h0nSAGbPzimIHloATBTylm0wG
+	QVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=xrc5Ou7WNa3G+5LsrMZa3RD09g7vSSjh0yTyEvwKTns=;
-	b=uDBxtrLeQtuZ0M/0v/5FLZh9PVf94gYxlQ5PInpD4cMsbc9EBgbwxLCuI9LzLFXEWe
-	pra98CipnKByZKU1uamdSZkW2ax3Vsaei6q7VNZq/rba31GJBDvQzSttNkP0cubgawdy
-	etqMy10d5Owe1BkL6rMU8GVfUpQS89ybu8YWsYiJT6d9Qq1A+HlOGXNsgGKfgXHeYf9e
-	uwQnHK7ZqV7wqe34BN+d3guKrPfJftvvGtZssEe8oxVSyn4O63buMD9n6+ODf7CAbkfr
-	9ROVNeqlAckcFyAuAFne+XFkT0S+LE/z+us8f02nGWCG4zqqFgW8wFxITvSL69R0u1Jq
-	+5YQ==
-X-Gm-Message-State: APjAAAXbKs0FeFDQ5PdQmQkJNcWg1N+KVDl6SGNC9QT/P7XldpKKZsjr
-	vJTXBlDL+IFU9nRNQLQgvzC3Qw==
-X-Google-Smtp-Source: APXvYqxqa+wBA7sntQJEUjeJbo0TjkzbvNWpw1Kah4417tU7IpvAtntFzinMmqwk69MWONOLqfFd/A==
-X-Received: by 2002:a5d:400b:: with SMTP id n11mr19577710wrp.123.1557828500904;
-	Tue, 14 May 2019 03:08:20 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id 19sm2420781wmk.3.2019.05.14.03.08.19
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 May 2019 03:08:20 -0700 (PDT)
-Message-ID: <11653b239bb09ddb35bccb03f22ea47ec60cbf60.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 14 May 2019 11:08:19 +0100
-In-Reply-To: <20190513153303.50095-1-alex.kanavin@gmail.com>
-References: <20190513153303.50095-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=G6AZ4Xsa2T06ELPMX0bY8g6BHV4Pum+z5+tgCqu2YWw=;
+	b=GCPm7ulns5iU0Xu1xFm1WyV5n+7g6swVA+4WUA9OBrfbUgaYFz6lixcrEsYM8Is/j+
+	bj3bGXhcExsrw8qCf3OZ6uWJRfTBSv3UwrcavOgqpF6Ctt9NL4T0RWp+5hdlwJogEM3n
+	zMwmB8sUyHFEog1LY+j2nva+TrnilK7sAnf9qfdPNVcC5l/afmhBG4ufl57naI0UJ+eg
+	Ou4ESc5vVDKwv9NrDTb3yz8FeE3MuGPboCkZ0O8cWcGZYZv5BSYuCn/NfhtY31G2j+Bw
+	iuXhMHEwBt8VZHdpKIkI2Swl5ZYgvMk47YYynKN4WVpSTbZ2Z39XWXDGEPRhZbZ3xnPK
+	aAiw==
+X-Gm-Message-State: APjAAAWPJIxpByCUQEJyu+hagCnRqmmaCWg67cDW7GVG552bO5sVXufW
+	P6F7FZfUpoLBNZHJaj5FKw1Pi3Xt+alhNK1RKQXb9A==
+X-Google-Smtp-Source: APXvYqzNdPX0yiVMOzsfZdqezZ7UaqCVO5AKEnQ6L0jCaut0WQEtiUgxOzJzEY4mi+ZraCfmsgHzHWVLZfO6EKv0gFk=
+X-Received: by 2002:aca:dfc4:: with SMTP id w187mr2393031oig.70.1557829294185; 
+	Tue, 14 May 2019 03:21:34 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] qemux86: use a Core 2 Duo CPU instead of the original circa-1993 Pentium
+References: <3fbd04e5-296a-ad1c-6456-a33b7273dc66@pseudoterminal.org>
+In-Reply-To: <3fbd04e5-296a-ad1c-6456-a33b7273dc66@pseudoterminal.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 14 May 2019 12:21:23 +0200
+Message-ID: <CANNYZj_akDX1GqRvVfAqLQeei5fOxTet_RrVh2wc4=ySETXGtA@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Switching GStreamer recipes from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,36 +54,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 10:08:20 -0000
+X-List-Received-Date: Tue, 14 May 2019 10:21:33 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-05-13 at 17:33 +0200, Alexander Kanavin wrote:
-> This matches what the qemux86_64 is currently using, and
-> will allow testing the instructions added in the meantime;
-> particularly various SSE extensions are now enabled.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/conf/machine/include/qemuboot-x86.inc | 4 ++--
->  meta/conf/machine/qemux86.conf             | 3 +--
->  2 files changed, 3 insertions(+), 4 deletions(-)
+On Tue, 14 May 2019 at 10:19, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+> GStreamer recipe upgrades to 1.16.0 have been sent in as a pull request
+> to meta-gstreamer1.0 . Once these are in, I'm considering to switch the
+> recipes to meson. Are there any potential issues with that? For example,
+> anything special about meson and GObject introspection I should know about?
 
-There is some kind of bad assumption somewhere in the sdk/mingw code:
+Actually, yes. Unlike autotools, meson does not have a standard option
+to enable/disable gobject-introspection, or gtk-doc.
+So most of the time you need to inherit the class (as before), and set
+GIR_MESON_OPTION to the name of the meson option that controls g-i,
+and/or GTKDOC_MESON_OPTION to the name of the option that controls
+gtk-doc.
+There are plenty of example in oe-core for this.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/152
+Also, gstreamer recipes have a few patches that deal with
+autotools-specific g-i support, I guess those can be dropped.
 
-and another glitch somewhere in the SDK code:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/588
-
-I was also worried that:
-
-http://git.yoctoproject.org/cgit.cgi/yocto-autobuilder-helper/tree/scripts/publish-artefacts
-may need fixes but it looks like it might be ok.
-
-Cheers,
-
-Richard
-
+Alex
 
