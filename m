@@ -1,29 +1,48 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D191160102
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C0D2E7DE68
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 18:24:41 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4EIOe8t028056
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 14 May 2019 11:24:40 -0700 (PDT)
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Tue, 14 May 2019 11:24:40 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Alistair Francis
-	<Alistair.Francis@wdc.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20190513225205.14791-1-alistair.francis@wdc.com>
-	<d2813cd316e8c8574f532727cb464d2a6e0bd796.camel@linuxfoundation.org>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <a0e0cda1-dd25-5347-fcc2-c01a5de3cc04@windriver.com>
-Date: Tue, 14 May 2019 14:24:39 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <d2813cd316e8c8574f532727cb464d2a6e0bd796.camel@linuxfoundation.org>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH] gdb: Upgrade from 8.2.1 to 8.3
+	Tue, 14 May 2019 18:31:56 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id g57so239522edc.12
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 14 May 2019 11:31:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=I77hqNKmAA3zrFQICUootNWoFGAEBrBIzcnEBGf7MVs=;
+	b=Vr295OxEkaG4YoxJ+pfeGaPAfA3/9cjUnODEGdXI26x0qfYQeBphRJ6047GdHVenpT
+	81jQZZE22Eu8CD7qHmhtOD6DVIse3Xd+nt9vdo+7DpplsU/33MIo0qwt2vbDEuFXMiEd
+	bbH5rHeSyWoTsPLL0YVyJjwJwMGtUcrs11jW8ioxgv4GGW1oLRcheKeX9hBJ1pYdDbqO
+	CLxKRZQI1RZ1q19aBO1QNKrC0Sd26ftKUF5NbYWZtTSGqvumW5LQ4/PnMSbmuq+fIr0q
+	xM8z2zpQH8zrM/9GywrNeiYZhkXpLR0qW2NMnGKe5KNprlnN9xYBSCJTAGz7fHdAOWjP
+	vr1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=I77hqNKmAA3zrFQICUootNWoFGAEBrBIzcnEBGf7MVs=;
+	b=V00tE3jWsdVRCYAURlJlHFqNGJ1/PocR97NwYZqLCuq4GYtRTmoDxLlSlyI7YMk8mQ
+	2hw0GKunJ8DLMsxHT/GuUwSrfii/bwO3pCJmtVx0ZqZ32G489b339u6P4hyYEDw6JReG
+	DgDyb0wa4q5aI5kuVJiGaVzEjVIq+hIeJ0Wk9/RszYF2SeRo2WZGfB1T/r5VDhI8Luxf
+	Ujhu2/WbutAcEDnM/RHQNd55IAscmxR7v2lOKQS8f0ReHIjlzKIGdJKDkyS5OzblE29P
+	kR6i+KN46mcRRInC94J7G/CAB4u9kLnn3Hu+Rssylw/ySwDgj/k5yXgVsjpR19NrtS4B
+	XXsw==
+X-Gm-Message-State: APjAAAWdkJ4dvMS4YH24lCj1tk6vkTloVJgmSOZT1VUFnls1/BMHUPqu
+	bF1HQOxRQUEky3JA58nwjAtH8jGkEbkUfQ==
+X-Google-Smtp-Source: APXvYqyHqTQ0I/XG20aDzLsvh1IxRq3F3wZLgTS22IyvdHim9HYT3yIZ86rSA3lBwjTnv9GH+KhtuQ==
+X-Received: by 2002:a50:908a:: with SMTP id c10mr37690774eda.226.1557858717275;
+	Tue, 14 May 2019 11:31:57 -0700 (PDT)
+Received: from peterliu-Precision-M4800.toradex.int
+	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
+	by smtp.gmail.com with ESMTPSA id d4sm853661edk.46.2019.05.14.11.31.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 14 May 2019 11:31:56 -0700 (PDT)
+From: liu.ming50@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 May 2019 20:31:50 +0200
+Message-Id: <1557858710-2880-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [PATCH] kernel.bbclass: adjust a condition checking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,67 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 18:24:42 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 14 May 2019 18:31:57 -0000
 
-On 5/14/19 1:36 PM, Richard Purdie wrote:
-> On Mon, 2019-05-13 at 22:53 +0000, Alistair Francis wrote:
->> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->> ---
->> If there are issues with the patch the branch is avaliable here:
->> https://github.com/alistair23/openembedded-core/tree/alistair/gdb-8.3
-> 
-> Seems there is a problem in oe-selftest:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/174/steps/7/logs/step2d
-> 
-> "oe-selftest -r package.PackageTests.test_gdb_hardlink_debug" should
-> reproduce and it seemed to happen on more than one host.
+From: Ming Liu <liu.ming50@gmail.com>
 
-I have some off-list notes, show below, for a bug that I haven't
-gotten to yet.
+do_bundle_initramfs does not have to depend on
+${INITRAMFS_IMAGE}:do_image_complete if INITRAMFS_IMAGE_BUNDLE is not
+set.
 
-Alistair,
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+---
+ meta/classes/kernel.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Could you adjust the oeqa match criteria based on the info below?
-
-../Randy
-
-
-The oe-selftest:
-    https://bugzilla.yoctoproject.org/show_bug.cgi?id=13123
-is failing because the check at:
-    meta/lib/oeqa/selftest/cases/package.py:
-                elif "Breakpoint 1, main () at hello.c:4" in l:
-is too precise. (This wasn't obvious to me for quite a
-while based on the defect report!)
-
-Anyway, at times, the test would pass for me other times
-it would not as you may have noticed. For interactive tests, gdb
-always functions properly but the breakpoint doesn't always
-result in the *exact* string:
-    "Breakpoint 1, main () at hello.c:4"
-sometimes (with glibc-dev, iirc) it's:
-    "Breakpoint 1, 0x0804905e in main () at hello.c:4"
-and sometimes it's just:
-    "Breakpoint 1, 0x0804905e: file hello.c, line 4"
-
-so unless Khem or someone knows how to ensure
-100% consistent behaviour, perhaps we should search for:
-
-    "Breakpoint 1, .* hello.c.*4"   ( I'm not sure of the proper regex.)
-since that will confirm that a breakpoint was hit at the proper file/line.
-
-> 
-> Cheers,
-> 
-> Richard
-> 
-
-
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index b346a60..437b8c7 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -95,7 +95,8 @@ python __anonymous () {
+         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
+ 
+     image = d.getVar('INITRAMFS_IMAGE')
+-    if image:
++    image_bundle = d.getVar('INITRAMFS_IMAGE_BUNDLE')
++    if image and bb.utils.to_boolean(image_bundle, False):
+         d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
+ 
+     # NOTE: setting INITRAMFS_TASK is for backward compatibility
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.7.4
+
 
