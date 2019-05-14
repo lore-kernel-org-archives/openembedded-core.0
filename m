@@ -1,47 +1,46 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DD017DEC6
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 628AC7DEDB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 12:26:07 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id g18so14780006otj.11
+	Tue, 14 May 2019 12:26:45 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id h4so19004152wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 14 May 2019 05:26:08 -0700 (PDT)
+	Tue, 14 May 2019 05:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Yhsmzpl1Wz2JnMwO/wT2pqGGzucYZAmZ1qHhQSY194I=;
-	b=YLaeGTthqSRZvCx0fyLVqwOHCnIaVCWvC+av8s2tdBVop7ZtnnZqJEomvSq/RN/rgb
-	2SzwvcSsO/ANkm0ESsf5QCEib9pIP6WQcY96eCoNqgfJ97KmhKA4NXUVvhEkcKj4TnBH
-	s64UEdOp59ymPP3iJyM6CDdeQmpjsXDz6ltYfZMx60FtMfNcnh+EQrGm6/EkIHnkEXix
-	WsR0Z+FOuhFmjLYpHklJizganEjAvV09mbigkfOxS5RsNsrmz5ovj9e0hHrUa9xvh254
-	AR+qzIcJClmRW4r24y2c36+VZkmv7quBamTZIT0e5odZbWTXCEk4BbMVTL0zoULZhM2m
-	FCSg==
+	h=from:to:cc:subject:date:message-id;
+	bh=G8+PS9L1tjKVrKOxIHu69zIixAqLx4PCjDBB6Z5icWM=;
+	b=bZVSNk9VZ0dZYTREzeSfABJzDfW4Xg0sWZggnTXbPpNJKLn2i8z2fdbg7alNUIzoaS
+	0dAN3WpG3xSv0NExmDiyLrqiJKc4IJAltwCoqNZpRlxq9R/6R4R4TnAr3JjJ895ENW04
+	/OMLG/ofWFdm7SEakCrHjqYkh3adMzZC0y11N/RG5Ond43Xbv2PGauZeRS63fMnwgClO
+	dONiygDuH4oTAeyjeK36x12yypwK88WacfDLmVp335ADWEm7Kr2VJ3kH3jytu3N4lmhM
+	gioX2uzd8Iy6WVPHFfJAMMJpyGx4oX62gGsTAoW5ZYHdr1vicnOZUNgFLv6Z8G8pillO
+	B6Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Yhsmzpl1Wz2JnMwO/wT2pqGGzucYZAmZ1qHhQSY194I=;
-	b=d3ioAK13R5+xP4ypQTahVMpAcGd1pHeFGK9XDR1QwY71CRoOVN2xsQ/ryX5kfLCq13
-	pS8zqp2qjRrdxz3XSQOGORVB1j9qGI4p6eNH4p57PRmqBKTRy/lLdcCBe92sV8h/iXNK
-	r2etNCmjN8gIxKnqw2CSDaKke9y7dTgXEwiFMntW1J3dP7RGH6ozzTQc5eBplbsczNEZ
-	+pbwF699Nkv47XgZH75BMdo+4/yGIasuSZH56MkH+oHXzCzXlpkF+fft/DbGjaMRSR4P
-	pLfPzA63h05S7y1pzq/0F1CpssqIFJHfL4BdH7EXjZ+i9l8b1qjVX4/YedFmiTEl0q2u
-	kFmA==
-X-Gm-Message-State: APjAAAXxzRl4p0oTiWyvwHWefmq7mI7J5UVwhq4HImUofvaqVBsF+PmW
-	Uck0jadQZAn7yV0d45r2Bjq2/+COBNyybT/7k60=
-X-Google-Smtp-Source: APXvYqxF1mj4LO4eXFHs19RoIf9kNUQLEpYDN2OZaSaGaVkoSqVv5u6jnAGl8CVlWCzwowPU5cIIzSgJYmz2dYtSkRQ=
-X-Received: by 2002:a9d:7c84:: with SMTP id q4mr14243947otn.98.1557836767609; 
-	Tue, 14 May 2019 05:26:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190513153303.50095-1-alex.kanavin@gmail.com>
-	<11653b239bb09ddb35bccb03f22ea47ec60cbf60.camel@linuxfoundation.org>
-In-Reply-To: <11653b239bb09ddb35bccb03f22ea47ec60cbf60.camel@linuxfoundation.org>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=G8+PS9L1tjKVrKOxIHu69zIixAqLx4PCjDBB6Z5icWM=;
+	b=JqiPQqzWBCTX+3ruf/Muv6YQTrVAtZVyeUqRTyT1/zPOoLN3zZhhST2lLBvb2Yx8FI
+	U2Q3J7XfW/SL4K22vVTYIsBukIovWJBfjUqttOILbNjzFqj/HnR5e8ppHGp7ArfqcJQp
+	BdRhifOMOZ9XigKXOlFpwednZ9h15V7YtYsAu8mQKgnPBVTAfEh8KA/Jy1PU6ZjAuxe2
+	8nDwFiJfCAiBqyASJTCpuZMLBuzCS13HfZbsDNDpAgdhmjEBz6Vw1Xcu/3NTHZZIKB19
+	flfggzV5b9wfEpf74ACDOxH/OuP7AVlMy517/ViaiCL0U66hpwXb9JhezZFam1Ih1JGw
+	TPYg==
+X-Gm-Message-State: APjAAAVB3CjUCVTb0qoU2qzACmZJVk6rjQnUWhWYfetkk/RZz2lyJxZh
+	ezEHlSgiSnL42TASGZ3MTfIBaV++zMQ=
+X-Google-Smtp-Source: APXvYqwpMvvI+BxH6+rNNdwpDhPYK9oy6ABa48T+uHBjejgi2La+N8vY/4R9VVOH97CWSVJAqFE54g==
+X-Received: by 2002:adf:fb47:: with SMTP id c7mr6894013wrs.116.1557836805936; 
+	Tue, 14 May 2019 05:26:45 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id g2sm8124457wru.37.2019.05.14.05.26.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 May 2019 05:26:45 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 14 May 2019 14:25:56 +0200
-Message-ID: <CANNYZj9y+AXFX-HDcJP=hSsxfgFQ6=a+YWtq-MZ3y9toPP=xRQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] qemux86: use a Core 2 Duo CPU instead of the original circa-1993 Pentium
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 14 May 2019 14:26:37 +0200
+Message-Id: <20190514122639.102946-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/3] packagegroup-self-hosted: drop epiphany
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +53,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 14 May 2019 12:26:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 14 May 2019 12:26:45 -0000
 
-On Tue, 14 May 2019 at 12:08, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2019-05-13 at 17:33 +0200, Alexander Kanavin wrote:
-> > This matches what the qemux86_64 is currently using, and
-> > will allow testing the instructions added in the meantime;
-> > particularly various SSE extensions are now enabled.
-> >
-> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/conf/machine/include/qemuboot-x86.inc | 4 ++--
-> >  meta/conf/machine/qemux86.conf             | 3 +--
-> >  2 files changed, 3 insertions(+), 4 deletions(-)
->
-> There is some kind of bad assumption somewhere in the sdk/mingw code:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/152
->
-> and another glitch somewhere in the SDK code:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/588
+Originally a web browser was added to build-appliance-image to
+enable Hob's use cases that involve opening a URI; with Hob long gone,
+a web browser is no longer necessary to have in build-appliance-image.
 
-Seems like packagegroup-cross-canadian is erroneously taken from
-sstate, instead of being repackaged when TUNE_ARCH changes but MACHINE
-does not. I will send a fix in a moment, even though I am not totally
-sure if it's the correct one.
+This will also address the out-of-resources problem when
+build-appliance-image builds itself in a VM, as a test case.
 
-Alex
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-self-hosted.bb | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+index b296db5457e..f206cee3731 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-self-hosted.bb
+@@ -189,7 +189,6 @@ RDEPENDS_packagegroup-self-hosted-graphics = "\
+     libx11-dev \
+     adwaita-icon-theme \
+     xdg-utils \
+-    epiphany \
+     l3afpad \
+     pcmanfm \
+     vte \
+-- 
+2.17.1
+
 
