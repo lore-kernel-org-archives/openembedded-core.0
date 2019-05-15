@@ -1,30 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 984AD7DE28
+Return-Path: <Ovidiu.Panait@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 39CAE6C106
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 12:30:07 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4FCU6AJ009358
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 15 May 2019 05:30:06 -0700 (PDT)
-Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 15 May 2019 05:30:05 -0700
-To: Adrian Bunk <bunk@stusta.de>
-References: <1557912193-40178-1-git-send-email-hongxu.jia@windriver.com>
-	<CALbNGRT7NFoRN8EXYDiQ64+0g-bB=jvd7HcfUCRn+_26iRQX4Q@mail.gmail.com>
-	<0ffc3e2e-2321-0edb-c90a-76225017472d@windriver.com>
-	<20190515110813.GA13420@localhost>
-From: Hongxu Jia <hongxu.jia@windriver.com>
-Message-ID: <6e3c7d20-a86b-9487-5640-0de47f716d95@windriver.com>
-Date: Wed, 15 May 2019 20:30:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Wed, 15 May 2019 12:53:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4FCrU6k023636
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 15 May 2019 05:53:40 -0700
+Received: from otp-opanait-l1.corp.ad.wrs.com (128.224.124.169) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 15 May 2019 05:53:19 -0700
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 15 May 2019 15:52:01 +0300
+Message-ID: <20190515125201.12639-1-ovidiu.panait@windriver.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <20190515110813.GA13420@localhost>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools.bbclass: output failed config.log
+Subject: [PATCH] grub-mkconfig: Use -c instead of --printf for stat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,87 +31,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 12:30:07 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 15 May 2019 12:53:50 -0000
+Content-Type: text/plain
 
-On 5/15/19 7:08 PM, Adrian Bunk wrote:
-> The end of config.log often contains expected error messages completely
-> unrelated to the actual problem.
+"--printf" only works with the stat variant provided by coreutils.
 
-I am afraid you did not suffer pain from it, the most related message
+With busybox, when running grub-mkconfig, stat will fail with the
+following error:
+stat: unrecognized option '--printf=%T'
 
-with do_configure failure is config.log. Take a example, as my previous
+Usage: stat [OPTIONS] FILE...
 
-commit [grub/grub-efi: fix unrecognized command line option
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+---
+ ...fig-Use-c-instead-of-printf-for-stat.patch | 36 +++++++++++++++++++
+ meta/recipes-bsp/grub/grub2.inc               |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-bsp/grub/files/0001-grub-mkconfig-Use-c-instead-of-printf-for-stat.patch
 
-'-pipe-Wno-error' in CFLAGS]
-
-It takes me hours to reproduce grub/grub-efi build faiure (only
-
-happen while DEBUG_BUILD = "1"), and from log.do_configure, I can't
-
-tell the root cause
-
-...
-
-checking for i586-wrs-linux-gcc... i586-wrs-linux-gcc  -m32 -march=i586 
---sysroot=TOPDIR/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0/recipe-sysroot
-checking whether the C compiler works... no
-configure: error: in 
-`TOPDIR/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0/build':
-configure: error: C compiler cannot create executables
-
-...
-
-
-But from config.log, I got more detail '-pipe-Wno-error'
-
-which helps me to locate the issue
-
-...
-
-configure:5094: i586-wrs-linux-gcc  -m32 -march=i586 
---sysroot=/buildarea1/hjia/wrlinux-1019/build_master-wr_qemux86_2019051509/build/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0/recipe-sysroot 
--Og -g -feliminate-unused-debug-types 
--fmacro-prefix-map=/buildarea1/hjia/wrlinux-1019/build_master-wr_qemux86_2019051509/build/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0=/usr/src/debug/grub/2.02-r0 
--fdebug-prefix-map=/buildarea1/hjia/wrlinux-1019/build_master-wr_qemux86_2019051509/build/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0=/usr/src/debug/grub/2.02-r0 
--fdebug-prefix-map=/buildarea1/hjia/wrlinux-1019/build_master-wr_qemux86_2019051509/build/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0/recipe-sysroot= 
--fdebug-prefix-map=/buildarea1/hjia/wrlinux-1019/build_master-wr_qemux86_2019051509/build/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0/recipe-sysroot-native= 
--pipe-Wno-error  -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed 
--fstack-protector-strong -Wl,-z,relro,-z,now conftest.c >&5
-i586-wrs-linux-gcc: error: unrecognized command line option 
-'-pipe-Wno-error'; did you mean '-Wno-error'?
-...
-configure:5141: error: in 
-`/buildarea1/hjia/wrlinux-1019/build_master-wr_qemux86_2019051509/build/tmp-glibc/work/i586-wrs-linux/grub/2.02-r0/build':
-configure:5143: error: C compiler cannot create executables
-
-...
-
-
-> Debian autobuilders already dump config.log when when configuring failed,
-> and there it is a common problem that people end up searching for the
-> problem in the wrong places due to that.
-
-It's another story, it is better that autobuilder provide sufficient and
-
-necessary info and data, not only config.log, but also local.conf,
-
-all available log.do_***, sources in ${B} and ${S}, even data in ${WORKDIR},
-
-result of `bitbake -e'
-
-but before we got there, the fix is best choice for do_configure failure
-
-//Hongxu
-
-i
-
-//Hongxu
-
-> If possible, it would therefore be better to make it accessible separately.
-
+diff --git a/meta/recipes-bsp/grub/files/0001-grub-mkconfig-Use-c-instead-of-printf-for-stat.patch b/meta/recipes-bsp/grub/files/0001-grub-mkconfig-Use-c-instead-of-printf-for-stat.patch
+new file mode 100644
+index 0000000000..9acddb73c8
+--- /dev/null
++++ b/meta/recipes-bsp/grub/files/0001-grub-mkconfig-Use-c-instead-of-printf-for-stat.patch
+@@ -0,0 +1,36 @@
++From b5011ea2bc57d80b3e5a42bc308fa2000e85eab1 Mon Sep 17 00:00:00 2001
++From: Ovidiu Panait <ovidiu.panait@windriver.com>
++Date: Wed, 17 Apr 2019 12:10:28 +0300
++Subject: [PATCH] grub-mkconfig: Use -c instead of --printf for stat
++
++"--printf" only works with the stat variant provided by coreutils.
++
++With busybox, when running grub-mkconfig, stat will fail with the
++following error:
++stat: unrecognized option '--printf=%T'
++
++Usage: stat [OPTIONS] FILE...
++
++Upstream-Status: Submitted [http://lists.gnu.org/archive/html/grub-devel/2019-05/msg00079.html]
++
++Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
++---
++ util/grub-mkconfig.in | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/util/grub-mkconfig.in b/util/grub-mkconfig.in
++index f8496d2..628706d 100644
++--- a/util/grub-mkconfig.in
+++++ b/util/grub-mkconfig.in
++@@ -144,7 +144,7 @@ GRUB_DEVICE_BOOT_UUID="`${grub_probe} --device ${GRUB_DEVICE_BOOT} --target=fs_u
++ GRUB_FS="`${grub_probe} --device ${GRUB_DEVICE} --target=fs 2> /dev/null || echo unknown`"
++ 
++ if [ x"$GRUB_FS" = xunknown ]; then
++-    GRUB_FS="$(stat -f --printf=%T / || echo unknown)"
+++    GRUB_FS="$(stat -f -c %T / || echo unknown)"
++ fi
++ 
++ if test -f ${sysconfdir}/default/grub ; then
++-- 
++2.20.1
++
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 7d8c280b3f..7eb9e9c491 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -20,6 +20,7 @@ SRC_URI = "https://ftp.gnu.org/gnu/grub/grub-${PV}.tar.gz \
+            file://gcc8.patch \
+            file://0001-x86-64-Treat-R_X86_64_PLT32-as-R_X86_64_PC32.patch \
+            file://0001-grub-setup-Debug-message-cleanup.patch \
++           file://0001-grub-mkconfig-Use-c-instead-of-printf-for-stat.patch \
+ "
+ SRC_URI[md5sum] = "1116d1f60c840e6dbd67abbc99acb45d"
+ SRC_URI[sha256sum] = "660ee136fbcee08858516ed4de2ad87068bfe1b6b8b37896ce3529ff054a726d"
+-- 
+2.20.1
 
 
