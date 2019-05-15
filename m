@@ -1,49 +1,46 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
-	[209.85.208.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C80AD7DEB3
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id AFB897DEF2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 19:22:43 +0000 (UTC)
-Received: by mail-ed1-f68.google.com with SMTP id b8so1344629edm.11
+	Wed, 15 May 2019 19:43:13 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id w144so660372oie.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 12:22:45 -0700 (PDT)
+	Wed, 15 May 2019 12:43:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=r22cN/Y5mc5++WPZreLfzuZ4mj7Am2r7CgdDSy2Jiw8=;
-	b=ktpzcLmbmycGuXc//IG3qVSlTSMHx9F4PkteQ6wa+iWr52u5RnJOtovIovFDn+CPbW
-	L2GFJ79ij5Kp262ZWH7atZOdjO/clsrudlpIxakV3WPqeEXOGILT1dC5iiftj93V/YI9
-	smeEvz2BICpkL9QjSZ6nXprNQvI/g6X2HDalYcL0h3IpYZJbZhpEcFTftoJn7+VJ7YlH
-	JmtAZ3ssbzf4ZJjs70PHrMJnRMzWzzfbvPIbOtwp6b+4NrhDLcA0oi87rj3vjsW4JNHJ
-	WuL1FQNXI++ZDQECME/u9jucwCv6I/D9qV+jh/6q7G/eSDYp//V8QinyyDnuQEdlcm9h
-	V7IQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=iC5ALgbuKRiwcMpPy6hYfRlCqQ6RcUJI0UJSlsVxujM=;
+	b=Ix+nhKtJo5HiuNg6sqhaj6myusQi15dwO7ouOogDNkxP8aBkV4eXO+I7xqqQ6JuAWz
+	Wt5PE8uWKwKgfQEQhzOaGGpRpe3ZYmHrECzaw7P5PtGzVs9aNHsIbujAvyZYQECdmiey
+	NkeUFDYlT8tbXttWA+R6O2mnWVv+jK4voos4jrcag9zWweyNsn8aR4dk++HnonF7RFbY
+	jy4QiuBh/T22Y4UZurp7DwcVIWmAtOmaO0Mz3DMZ5XzB4w0XF8To/WfgO6zwX8fT2Wc8
+	JCiuGEa5AChM5I+FzQaZuMh3qaNUe1imCS5qp+KCL5Pm1PSKhTwpSYyfOo8E7p7VkOMa
+	NHnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=r22cN/Y5mc5++WPZreLfzuZ4mj7Am2r7CgdDSy2Jiw8=;
-	b=R1J9y0a9aTUeYYz6p1FI5SH0DVEhumTKuM5dtqTolnk+uJKMxjIamj1PaJFHk8rTbL
-	9SJelce/Y3y8MKcReiFOMEWoQwt+Ia9xaH4/qqZiss39tJgChOpfm0+nrtn8DvU06GTg
-	5mwzBXrMm+7n6r+BfxvRtOELcoXZQAohuQL4S4InzeuS+hDvqhV+7lY4wf3kAML+oTMR
-	1ph+jAhTM3Ae1qc0Wg1x7E9CsNW4oMDw8lT79ulow4DWYsJ/r+VWymNr0RMLPgXnnyAK
-	+OBKHibUe08eX/RR8xyWHAIiydEV6ILgkL/fo6+XEFJxgrtC5qHqgIYCFJZM/3jK0S/O
-	QbAA==
-X-Gm-Message-State: APjAAAXqFj4e0LqFPCNUBUqHiOVieacUS2oWfWsDF3r9h4lvsGvaz6NO
-	Bgdcp7V20VRX4kJ89tdLkKMO52yNmJA1gg==
-X-Google-Smtp-Source: APXvYqzsx/xoeGLza9zOVb20T7aleUVfkGH4tDeq4i8l3rjqL3Qx5TrsUeE+RvwTZzpfWMwlUGDDGA==
-X-Received: by 2002:a50:982f:: with SMTP id g44mr45839847edb.278.1557948164311;
-	Wed, 15 May 2019 12:22:44 -0700 (PDT)
-Received: from peterliu-Precision-M4800.toradex.int
-	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
-	by smtp.gmail.com with ESMTPSA id i5sm630225ejb.24.2019.05.15.12.22.43
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 15 May 2019 12:22:43 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 May 2019 21:22:36 +0200
-Message-Id: <1557948156-10879-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: luka.pivk@toradex.com, stefan.agner@toradex.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] meta: handle UBOOT_CONFIG in image.bbclass
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=iC5ALgbuKRiwcMpPy6hYfRlCqQ6RcUJI0UJSlsVxujM=;
+	b=c0owqwbEbFdUYdiTOsOYFV6BvJwyxHSxXgLm5GDZVYU/3/jS9qY7xa1xnrxuTp0HFF
+	Oi02WCM1rHHRPTNerJGjlNrVsHyscnVkY0xfJjwYuKz6xv7qxQaplU0lstJqncvZZx/9
+	UYRFYNWWZPaaAI/7nMHSzNnDVW3fdMDrrt/y7ScKfkBTsITA7MG9DfJcYtNj9VU/9TIH
+	/c/sd7jlmF56wfeSW97JsGxnACxyrfKkVcIu7R7rJrNN30dP36DEfQZLqta8EelR+ipQ
+	voh1wtRkqLFFWuQOocPHjqYNgEo8wzkEcegzW75MPvzf1yXHiY7Ztj1o/jNsa/BzVtqE
+	1PAQ==
+X-Gm-Message-State: APjAAAUd+qLDO8Lala5abKtazoqCHmbOaxPODzPj7SCD4JPkEBenQkyU
+	7WpMXuRe+G+wQcr+4jJV87Y6qTDB+ztD/1QHFfI=
+X-Google-Smtp-Source: APXvYqwoGDB4S+9fs4Ymxl3SV6QxM5XITr4eFZLxGlw/tdw8ODGzIGZn84iKIEcn2ddFocBcVO18LSTfzejSQt8ZZas=
+X-Received: by 2002:aca:dfc4:: with SMTP id w187mr7720354oig.70.1557949394628; 
+	Wed, 15 May 2019 12:43:14 -0700 (PDT)
+MIME-Version: 1.0
+References: <1557888470-57934-1-git-send-email-ee.peng.yeoh@intel.com>
+In-Reply-To: <1557888470-57934-1-git-send-email-ee.peng.yeoh@intel.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 15 May 2019 21:43:02 +0200
+Message-ID: <CANNYZj_kU12GxGk8Mi2gOyPNuQVyRbe+9BzCpxvOYKdJ3UEKMQ@mail.gmail.com>
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] oeqa/runtime/cases/rpm.py: Enable rpm install dependency testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,109 +53,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 19:22:44 -0000
+X-List-Received-Date: Wed, 15 May 2019 19:43:13 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ming Liu <liu.ming50@gmail.com>
+This needs the same condition guard as other rpm tests, e.g.
 
-The code dealing with IMAGE_FSTYPES in uboot-config.bbclass would not
-take any effect since it's in a uboot particular class, but it's not
-being inherited by any image recipes.
+@OETestDepends(['rpm.RpmBasicTest.test_rpm_query'])
 
-Move the IMAGE_FSTYPES handling part to image.bbclass would make it
-really work.
+should be enough.
 
-Also drop some trivial debug code.
+Alex
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/image.bbclass        | 12 ++++++++++++
- meta/classes/uboot-config.bbclass | 17 ++++-------------
- meta/conf/documentation.conf      |  2 +-
- 3 files changed, 17 insertions(+), 14 deletions(-)
-
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index d2b2fb9..b1d63c6 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -365,6 +365,18 @@ python () {
- 
-         return basetype
- 
-+    # Check UBOOT_CONFIG
-+    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
-+    ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-+    ubootconfigflags.pop('doc', None)
-+    if len(ubootconfig) > 0:
-+        for config in ubootconfig:
-+            for f, v in ubootconfigflags.items():
-+                if config == f:
-+                    items = v.split(',')
-+                    if len(items) > 1 and items[1]:
-+                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-+
-     basetypes = {}
-     alltypes = d.getVar('IMAGE_FSTYPES').split()
-     typedeps = {}
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 89ff970..59dcd04 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -15,18 +15,15 @@ UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
- 
- python () {
-     ubootmachine = d.getVar("UBOOT_MACHINE")
--    ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-     ubootbinary = d.getVar('UBOOT_BINARY')
-     ubootbinaries = d.getVar('UBOOT_BINARIES')
-+    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
-+    ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-+
-     # The "doc" varflag is special, we don't want to see it here
-     ubootconfigflags.pop('doc', None)
--    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
- 
-     if not ubootmachine and not ubootconfig:
--        PN = d.getVar("PN")
--        FILE = os.path.basename(d.getVar("FILE"))
--        bb.debug(1, "To build %s, see %s for instructions on \
--                 setting up your machine config" % (PN, FILE))
-         raise bb.parse.SkipRecipe("Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the %s machine configuration." % d.getVar("MACHINE"))
- 
-     if ubootmachine and ubootconfig:
-@@ -40,18 +37,12 @@ python () {
-             for f, v in ubootconfigflags.items():
-                 if config == f: 
-                     items = v.split(',')
--                    if items[0] and len(items) > 3:
-+                    if len(items) == 0 or len(items) > 3:
-                         raise bb.parse.SkipRecipe('Only config,images,binary can be specified!')
-                     d.appendVar('UBOOT_MACHINE', ' ' + items[0])
--                    # IMAGE_FSTYPES appending
--                    if len(items) > 1 and items[1]:
--                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
--                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-                     if len(items) > 2 and items[2]:
--                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % items[2])
-                         d.appendVar('UBOOT_BINARIES', ' ' + items[2])
-                     else:
--                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % ubootbinary)
-                         d.appendVar('UBOOT_BINARIES', ' ' + ubootbinary)
-                     break
- }
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 550df20..048ce12 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -439,7 +439,7 @@ TUNEVALID[doc] = "Descriptions, stored as flags, of valid tuning features."
- 
- #U
- 
--UBOOT_CONFIG[doc] = "Configures the UBOOT_MACHINE and can also define IMAGE_FSTYPES for individual cases."
-+UBOOT_CONFIG[doc] = "Configures the UBOOT_MACHINE and can also define IMAGE_FSTYPES, UBOOT_BINARIES for individual cases."
- UBOOT_ENTRYPOINT[doc] = "Specifies the entry point for the U-Boot image."
- UBOOT_LOADADDRESS[doc] = "Specifies the load address for the U-Boot image."
- UBOOT_LOCALVERSION[doc] = "Appends a string to the name of the local version of the U-Boot image."
--- 
-2.7.4
-
+On Wed, 15 May 2019 at 04:48, Yeoh Ee Peng <ee.peng.yeoh@intel.com> wrote:
+>
+> Convert manual testcase bsps-hw.bsps-hw.rpm_-__install_dependency_package
+> from oeqa/manual/bsp-hw.json to runtime automated test.
+>
+> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+> ---
+>  meta/lib/oeqa/runtime/cases/rpm.py | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>
+> diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+> index d8cabd3..fe1b489 100644
+> --- a/meta/lib/oeqa/runtime/cases/rpm.py
+> +++ b/meta/lib/oeqa/runtime/cases/rpm.py
+> @@ -135,3 +135,32 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
+>          # Check that there's enough of them
+>          self.assertGreaterEqual(int(output), 80,
+>                                     'Cound not find sufficient amount of rpm entries in /var/log/messages, found {} entries'.format(output))
+> +
+> +    def test_rpm_install_dependency(self):
+> +        rpmdir = os.path.join(self.tc.td['DEPLOY_DIR'], 'rpm', 'noarch')
+> +        rpm_tests = {'run-postinsts-dev': '', 'run-postinsts': ''}
+> +        rpm_pattern = 'run-postinsts-*.noarch.rpm'
+> +        for f in fnmatch.filter(os.listdir(rpmdir), rpm_pattern):
+> +            if 'run-postinsts-dev' not in f and 'run-postinsts-dbg' not in f:
+> +                rpm_tests['run-postinsts'] = f
+> +                continue
+> +            if 'run-postinsts-dev' in f:
+> +                rpm_tests['run-postinsts-dev'] = f
+> +                continue
+> +        rpm_dest_dir = '/tmp'
+> +        for rpm in rpm_tests:
+> +            self.tc.target.copyTo(os.path.join(rpmdir, rpm_tests[rpm]), os.path.join(rpm_dest_dir, rpm_tests[rpm]))
+> +        # remove existing rpm before testing install with dependency
+> +        self.tc.target.run('rpm -e %s' % 'run-postinsts-dev')
+> +        self.tc.target.run('rpm -e %s' % 'run-postinsts')
+> +        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts-dev']))
+> +        self.assertTrue(status == 1, 'rpm installed should have failed but it was getting %s' % status)
+> +        self.assertTrue('error: Failed dependencies:' in output,
+> +                        'rpm installed should have failed with error but it was getting: %s' % output)
+> +        # reinstall rpm with dependency
+> +        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts']))
+> +        self.assertTrue(status == 0, 'rpm (%s) installed with error: %s (%s)' % (rpm_tests['run-postinsts'], status, output))
+> +        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts-dev']))
+> +        self.assertTrue(status == 0, 'rpm (%s) installed with error: %s (%s)' % (rpm_tests['run-postinsts-dev'], status, output))
+> +        for rpm in rpm_tests:
+> +            self.tc.target.run('rm -f %s' % os.path.join(rpm_dest_dir, rpm_tests[rpm]))
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
