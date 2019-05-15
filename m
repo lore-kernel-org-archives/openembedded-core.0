@@ -1,50 +1,50 @@
 Return-Path: <trini@konsulko.com>
 Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
 	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E1587C89C
+	by mail.openembedded.org (Postfix) with ESMTP id 261427C89C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 15:33:45 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id p2so2593283iol.2
+	Wed, 15 May 2019 15:34:21 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id v7so2556169iob.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 08:33:47 -0700 (PDT)
+	Wed, 15 May 2019 08:34:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=bQYiTeKz8MQVr73VmLv1XgIqkeGHk2gW4rICAFTs3Ss=;
-	b=X0GSwxK7ynBhnf/yWzZFiY3NnxkRN8iZRdFPqGKCLLP4xbracF8V+1zw8wrBN7W95k
-	K+rPhqQ4n3v3PEAsXguxgQZv3bql5x1t14IcKOyRAK8wAccrt3pAy6pFDAWdG1UkwhTX
-	kn0E1u1bRYCIPVrukJLN0gZIp0LVY84fF54cQ=
+	bh=S9dvB5ArDNeVYCPToxok3/QuZnsINNkNtJlIyNduoT4=;
+	b=Us1NEw+wg8603IUPpVZjdPlZS7ZN4oI+svUtWjAheQy9yMcvdcQJNvm9idzJ4PcJGR
+	m2C12uEr3D1CVXEh430af+ZpZ+4VDZYvJmBRXuUTXM8Ch7h9zkGfXh8uAfwflmqZ+oR3
+	rANVuDe2uyPoc/yyZZX/Shek9eDV9TsXI+YMY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=bQYiTeKz8MQVr73VmLv1XgIqkeGHk2gW4rICAFTs3Ss=;
-	b=oYpCCS9JSvi2hEdJ1QGTYlUcVBhLNHDQQ3/Dkua2lbITN/nSG5zKUFtSCHQOe9zS8j
-	oAAp48zrQErAcwOl9+GzJYj8IRf02eGGTlbt5OBNHGlo9229b40KfBDWQGRFDckuNg7s
-	60LVNEc7OL7MKtkmlgtOaqmkL6DQjOGeYT1M2pUz1Ekbz+vXNxcmy8okPNNfK27/UUSM
-	xxdoQ2nLFhAmKDorHdF0RFo0y2lUwY5TnerE6ayXTDsZIpB1fZ/m/PNIyvnxwgHzmnnD
-	jP8U1UQIz0GnE/l0rwW9rZegJjiJKSIgF4ZeEmWuHK94ofR4LE4Cq8aYhN8rlbAtfGZo
-	+ezA==
-X-Gm-Message-State: APjAAAXGaqylZye6bmqlsV68jMV6LU6Ang/4imJrVuCKUjVI5tgoKjUJ
-	u7reUxwzSts5+SzFWHwK/dDYIA==
-X-Google-Smtp-Source: APXvYqw3fMkfoMEXG8NW85T1OqWQVbIKRKNSzb4PLLpQm2I/fmaORwVKliR4DL6yXdm5DjwUlxvWmA==
-X-Received: by 2002:a5e:df4a:: with SMTP id g10mr23072612ioq.94.1557934426973; 
-	Wed, 15 May 2019 08:33:46 -0700 (PDT)
+	bh=S9dvB5ArDNeVYCPToxok3/QuZnsINNkNtJlIyNduoT4=;
+	b=FdyzI1WBOBsIRO/g7pkT1JFOguAu67JrGSZfHE5A21pbu5T0QHSE85AgGFHdsC9H5k
+	WcO1DCd5ZZ9BKgpDBv+/6ZSpDtTZq9Cbcyh+jYkpPr+fL73SKDMv1IgGQI/htNomXj8k
+	beLzRGMoMpaJTeMyAe3aQkJOT2lilGI58pUjO7j5Nsc93Y6vCPqfDII42QAiE+riiMxc
+	6E70xUxnXLY1X5pLxGeLy7T5XIlyc4UDtjjp4t/+Ryg3zFsqt/G6KUfTsArMqhVFkk05
+	HTt+7pzHywb0M8cdInPBpAcDScpHEPkvoJ96FDSCT3BphpZnfX9ZKa1tpHV+kylBQ27k
+	OuVw==
+X-Gm-Message-State: APjAAAUmWiE+ytlRjfQdzCRBNEvRmIW14eT+63jJB8PufpPGiwnNsZiX
+	lJqtoPeOtuXwGAnTJmYuHvFL6KHQflvZDw==
+X-Google-Smtp-Source: APXvYqz8DkSC7aKqJEAPYQH2zg0d355YSiRLR6HqzBbq/FKbUUS2SyiHEo/F50i2FGAUtUUrvTLhWQ==
+X-Received: by 2002:a5d:9bcb:: with SMTP id d11mr2463520ion.247.1557934463062; 
+	Wed, 15 May 2019 08:34:23 -0700 (PDT)
 Received: from bill-the-cat (cpe-65-184-141-147.ec.res.rr.com.
-	[65.184.141.147])
-	by smtp.gmail.com with ESMTPSA id b10sm708082iok.62.2019.05.15.08.33.45
+	[65.184.141.147]) by smtp.gmail.com with ESMTPSA id
+	p129sm240270itg.14.2019.05.15.08.34.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 May 2019 08:33:46 -0700 (PDT)
-Date: Wed, 15 May 2019 11:33:43 -0400
+	Wed, 15 May 2019 08:34:22 -0700 (PDT)
+Date: Wed, 15 May 2019 11:34:19 -0400
 From: Tom Rini <trini@konsulko.com>
 To: chee.yang.lee@intel.com
-Message-ID: <20190515153343.GI22232@bill-the-cat>
-References: <1557297662-16300-1-git-send-email-chee.yang.lee@intel.com>
+Message-ID: <20190515153419.GJ22232@bill-the-cat>
+References: <1557720429-21169-1-git-send-email-chee.yang.lee@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1557297662-16300-1-git-send-email-chee.yang.lee@intel.com>
+In-Reply-To: <1557720429-21169-1-git-send-email-chee.yang.lee@intel.com>
 User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/4] add wic based image installer
+Subject: Re: [PATCH v2] wic/bootimg-efi: replace hardcoded volume name with label
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,68 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 15:33:46 -0000
-X-Groupsio-MsgNum: 124480
+X-List-Received-Date: Wed, 15 May 2019 15:34:22 -0000
+X-Groupsio-MsgNum: 124481
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="WG0/bXtUnGTsWt66"
+	protocol="application/pgp-signature"; boundary="vN1VrOpIkjMGbM/7"
 Content-Disposition: inline
 
---WG0/bXtUnGTsWt66
+--vN1VrOpIkjMGbM/7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 08, 2019 at 02:40:58PM +0800, chee.yang.lee@intel.com wrote:
+On Mon, May 13, 2019 at 12:07:09PM +0800, chee.yang.lee@intel.com wrote:
 
 > From: Chee Yang Lee <chee.yang.lee@intel.com>
 >=20
-> Existing installable image (hddimg/ISO) has limit of 4GB size, so to buil=
-d larger installable image, we can build it in wic based image.
+> volume name should refer to --label in .wks.
+> Replace the hardcoded volume name  with label.
+> set "ESP" as default name when no lable specified.
 >=20
-> 2 partition needed for installable image
->  - first partition build using source plugin bootimg-efi and configure to=
- run install
->  - second partition build with root.img, systemd-boot and kernel to be in=
-stall on target machine (this partition build using new source plugin insta=
-ller-partition)
->=20
-> These patches:
->  - add new source plugin for second partition
->  - add new .wks
->  - add new wic dependency and set default value for required variable
->  - allow source plugin bootimg-efi to configure to install
->=20
->=20
-> To build the image, set WKS_FILE=3D"wic-installer.wks.in" in local.conf.
+> Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 
-I'm confused as to why we need most of these changes to support the end
-goal.  The enhancement to bootimg-efi makes conceptual sense.  I don't
-see why we need a new plugin to do the rest, however.  What's being done
-here that we don't already do today?  I say this having made installer
-images for EFI machines using wic (in sumo, even).  Thanks!
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
 --=20
 Tom
 
---WG0/bXtUnGTsWt66
+--vN1VrOpIkjMGbM/7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1
 
-iQIcBAEBAgAGBQJc3DFXAAoJEIf59jXTHXZSwzIP/0Ke5Nju8R7oWMUMVXIC9lUU
-i1xAulOR1AO8jw64ostZ8dJ3mUWERov8cFqLFEKSXHgoRgx+QORxfBdgFVUdMR0B
-cyE+JIX0ZK1s1f3cYn+Kz8DpOMiEVytO7RiUfPEEOscaJnKgZV3s640S1w33Ycpp
-QR16rIv+nuVqRgEVZaTqgGJTLzA0LUN0EL5TlyXpGpX69g0YNUB1V9zUf/pP/EVY
-9FR762iUTUEu5WoCnmePh3vukBeYLmGPS7MpmLWPwCExMrJUm/I4D4f0mSV47a8B
-rr23JiWkaIV/1XbpP+fWbi+A/QmOxaNUr2aO1EajZEKGZOkPcHjKWAqd0gq6Kc1V
-WtTHvvyA0EmXKdF0QVAPgT3ykmOTy6/JGrBui3aWQk2e6cKrn03woo/5GHexS4u7
-VO/XnWpVS5EGHgVRw1cisU/IOAtfcEEaZ8mzmU+Xop4dxZHTf4bjxTXEX/ST+90W
-GJyVbEHdhVrAe7mqbPfvsamshox37yUDj/HI0ink201N4WGm7opbOaaqFHkKqTZe
-LObfIDtHzEYNNofzxiuID9PoiKee2YgXGD9RK+Gg0wLjSnd7N7RnwcJDqlGxpf0M
-Js7d3n1Y1cP8VilJgZsTsEN6NE399FhoTkXC2MhM+pj36JgZ+K0VpIOQK17mLuMs
-UQ4sU8AyWxFA+5r7TBJc
-=dvLI
+iQIcBAEBAgAGBQJc3DF7AAoJEIf59jXTHXZSEtoP/3Ay5cEIdl+06KyxLzCoKJcD
+p9A/QSA9lXR931lgvcBM8bfiBadL4UsB/UCEP8oW0gYsv1ah6mJcueD+KqcVjHNg
+P3X6Xn35nTwPxgZNiDYA/vIx6OA6JLjoFzDbSlR0Mrw7yYkpIf56LSQlYaraCGtS
+cxiTi++geyhPhLFFbkDshLTwZLNrmUAKyo0ZRlNgDBiZorr2/TOKglheT3ZgNAOk
+9I9csfg4Nbt8/4hQYiypesdjul42uaaESqZ932E0v5igB0xFGu1IjHXMnsO7IzQn
+wi9EQvmEUzU8XGvJToUAE5IzKEuQffpKuqOol6NjjS7PGAmWZVCn+G2SMU3I6P18
+c7qMdAdbsZN7Irec756ZV7XoCe7pa//EwfhCwlqZjpQSjoG2zaVwYvRtkMeZ/+y/
+ybF6JISDPmd8JS8eB8M9ND3eJ0rz7mr7Ti4gC5IuiNSb7x0BjhuSAekEWUTSQW71
+9iErGEnasn5sExoNii3fwHd8WQOIUtI0NAIWPbmHw8BbybKgzS6mxffaR8Ko5r4b
+sSAUvwk+7aDeML3xYcDEoUR8ZU21rg9Y2qzUCY7aMrvWe++Zas1fwv2zZpaz3fp8
+hoAdkjsOTMyk3sxhNVbvAlHZwF0Id5YDFzGoq/eaQpbtbg8Ui9iBNrIBVJhjK4sD
+5CdWm+TArXYkBuKNvCHu
+=tTxh
 -----END PGP SIGNATURE-----
 
---WG0/bXtUnGTsWt66--
+--vN1VrOpIkjMGbM/7--
