@@ -1,44 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
-	[209.85.167.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AFB897DEF2
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5F4F47BD72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 19:43:13 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id w144so660372oie.12
+	Wed, 15 May 2019 20:07:51 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id o189so1311826wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 12:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=iC5ALgbuKRiwcMpPy6hYfRlCqQ6RcUJI0UJSlsVxujM=;
-	b=Ix+nhKtJo5HiuNg6sqhaj6myusQi15dwO7ouOogDNkxP8aBkV4eXO+I7xqqQ6JuAWz
-	Wt5PE8uWKwKgfQEQhzOaGGpRpe3ZYmHrECzaw7P5PtGzVs9aNHsIbujAvyZYQECdmiey
-	NkeUFDYlT8tbXttWA+R6O2mnWVv+jK4voos4jrcag9zWweyNsn8aR4dk++HnonF7RFbY
-	jy4QiuBh/T22Y4UZurp7DwcVIWmAtOmaO0Mz3DMZ5XzB4w0XF8To/WfgO6zwX8fT2Wc8
-	JCiuGEa5AChM5I+FzQaZuMh3qaNUe1imCS5qp+KCL5Pm1PSKhTwpSYyfOo8E7p7VkOMa
-	NHnw==
+	Wed, 15 May 2019 13:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=9uHI4FHawzqbKBlpEkcr00vVyP0nHFoduQh6pzExho4=;
+	b=RVhjQGU+sjA+TJCfvWNSZHv4O/Dzb48lKeWyRGMThQLvPpUs7eDKZWDGIpeVT0W3Oy
+	6K8GPCb8ACT/7jrIql2N9bTxFUtC0pabqD5txjkPj9bS6LJ6JsKn3ngkFd3d60urDTaC
+	YdGDh0ed5M/sLG3cjPnXXP/Ku7hGFYO6q/374=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=iC5ALgbuKRiwcMpPy6hYfRlCqQ6RcUJI0UJSlsVxujM=;
-	b=c0owqwbEbFdUYdiTOsOYFV6BvJwyxHSxXgLm5GDZVYU/3/jS9qY7xa1xnrxuTp0HFF
-	Oi02WCM1rHHRPTNerJGjlNrVsHyscnVkY0xfJjwYuKz6xv7qxQaplU0lstJqncvZZx/9
-	UYRFYNWWZPaaAI/7nMHSzNnDVW3fdMDrrt/y7ScKfkBTsITA7MG9DfJcYtNj9VU/9TIH
-	/c/sd7jlmF56wfeSW97JsGxnACxyrfKkVcIu7R7rJrNN30dP36DEfQZLqta8EelR+ipQ
-	voh1wtRkqLFFWuQOocPHjqYNgEo8wzkEcegzW75MPvzf1yXHiY7Ztj1o/jNsa/BzVtqE
-	1PAQ==
-X-Gm-Message-State: APjAAAUd+qLDO8Lala5abKtazoqCHmbOaxPODzPj7SCD4JPkEBenQkyU
-	7WpMXuRe+G+wQcr+4jJV87Y6qTDB+ztD/1QHFfI=
-X-Google-Smtp-Source: APXvYqwoGDB4S+9fs4Ymxl3SV6QxM5XITr4eFZLxGlw/tdw8ODGzIGZn84iKIEcn2ddFocBcVO18LSTfzejSQt8ZZas=
-X-Received: by 2002:aca:dfc4:: with SMTP id w187mr7720354oig.70.1557949394628; 
-	Wed, 15 May 2019 12:43:14 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=9uHI4FHawzqbKBlpEkcr00vVyP0nHFoduQh6pzExho4=;
+	b=kVY99HGDZRA8LC+4Xg1wbrRx355gwDiQObf9gqIqvo3QUKzBJEKvgg+KxELpL68JIc
+	a3oMjRnrnB2N0KJTzzhLx8cA6Ux9DbLlknHVD2y6UbjlbXh3wrp5AXS+ETBOTwcZNymB
+	kq5mtpqmqP8D293nQDxhrOceVDZIFd4SdUVBcLnCA03jvz47m2LT4M6STKZQxEb4yc7E
+	YEnY5HEvPuMG5EgtrlnDGZ5EWNVwnzI2qgScb3UfgO2ztdNCbSRHMdNg4lwKP5jdZmjP
+	G7uzepyS9aQOvdRz4l+Q9MlG4WyEAP+UXD1VGaX05oQIL1ihNZbZew8E4xomf7jLLcRx
+	VBNg==
+X-Gm-Message-State: APjAAAVKFWFor48eDUWMhQHN4IpVkkUzVl1Lt4JCtibbI94Zzh7NRbNV
+	t6IxSt7TA2L8LIJcgLCZAJGy4g==
+X-Google-Smtp-Source: APXvYqz4B/Gi5xFULLH/uDUFLCROVPjTwD5LIfELlBd2sGSX6keBcqTdqckdFzBA1jTX2Jq2Zk8HTg==
+X-Received: by 2002:a1c:3c2:: with SMTP id 185mr7020131wmd.91.1557950872083;
+	Wed, 15 May 2019 13:07:52 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b10sm6612466wrh.59.2019.05.15.13.07.50
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 15 May 2019 13:07:51 -0700 (PDT)
+Message-ID: <b578fb2cf8678888f069c7565d9a94c89c1adab0.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Yeoh Ee Peng
+	<ee.peng.yeoh@intel.com>
+Date: Wed, 15 May 2019 21:07:49 +0100
+In-Reply-To: <CANNYZj_kU12GxGk8Mi2gOyPNuQVyRbe+9BzCpxvOYKdJ3UEKMQ@mail.gmail.com>
 References: <1557888470-57934-1-git-send-email-ee.peng.yeoh@intel.com>
-In-Reply-To: <1557888470-57934-1-git-send-email-ee.peng.yeoh@intel.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 15 May 2019 21:43:02 +0200
-Message-ID: <CANNYZj_kU12GxGk8Mi2gOyPNuQVyRbe+9BzCpxvOYKdJ3UEKMQ@mail.gmail.com>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+	<CANNYZj_kU12GxGk8Mi2gOyPNuQVyRbe+9BzCpxvOYKdJ3UEKMQ@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] oeqa/runtime/cases/rpm.py: Enable rpm install dependency testing
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -53,70 +60,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 19:43:13 -0000
+X-List-Received-Date: Wed, 15 May 2019 20:07:51 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This needs the same condition guard as other rpm tests, e.g.
+On Wed, 2019-05-15 at 21:43 +0200, Alexander Kanavin wrote:
+> This needs the same condition guard as other rpm tests, e.g.
+> 
+> @OETestDepends(['rpm.RpmBasicTest.test_rpm_query'])
+> 
+> should be enough.
 
-@OETestDepends(['rpm.RpmBasicTest.test_rpm_query'])
+Yes, there were failures on the autobuilder from this, e.g.:
 
-should be enough.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/602
 
-Alex
+https://autobuilder.yoctoproject.org/typhoon/#/builders/59/builds/596
 
-On Wed, 15 May 2019 at 04:48, Yeoh Ee Peng <ee.peng.yeoh@intel.com> wrote:
->
-> Convert manual testcase bsps-hw.bsps-hw.rpm_-__install_dependency_package
-> from oeqa/manual/bsp-hw.json to runtime automated test.
->
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> ---
->  meta/lib/oeqa/runtime/cases/rpm.py | 29 +++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->
-> diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-> index d8cabd3..fe1b489 100644
-> --- a/meta/lib/oeqa/runtime/cases/rpm.py
-> +++ b/meta/lib/oeqa/runtime/cases/rpm.py
-> @@ -135,3 +135,32 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
->          # Check that there's enough of them
->          self.assertGreaterEqual(int(output), 80,
->                                     'Cound not find sufficient amount of rpm entries in /var/log/messages, found {} entries'.format(output))
-> +
-> +    def test_rpm_install_dependency(self):
-> +        rpmdir = os.path.join(self.tc.td['DEPLOY_DIR'], 'rpm', 'noarch')
-> +        rpm_tests = {'run-postinsts-dev': '', 'run-postinsts': ''}
-> +        rpm_pattern = 'run-postinsts-*.noarch.rpm'
-> +        for f in fnmatch.filter(os.listdir(rpmdir), rpm_pattern):
-> +            if 'run-postinsts-dev' not in f and 'run-postinsts-dbg' not in f:
-> +                rpm_tests['run-postinsts'] = f
-> +                continue
-> +            if 'run-postinsts-dev' in f:
-> +                rpm_tests['run-postinsts-dev'] = f
-> +                continue
-> +        rpm_dest_dir = '/tmp'
-> +        for rpm in rpm_tests:
-> +            self.tc.target.copyTo(os.path.join(rpmdir, rpm_tests[rpm]), os.path.join(rpm_dest_dir, rpm_tests[rpm]))
-> +        # remove existing rpm before testing install with dependency
-> +        self.tc.target.run('rpm -e %s' % 'run-postinsts-dev')
-> +        self.tc.target.run('rpm -e %s' % 'run-postinsts')
-> +        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts-dev']))
-> +        self.assertTrue(status == 1, 'rpm installed should have failed but it was getting %s' % status)
-> +        self.assertTrue('error: Failed dependencies:' in output,
-> +                        'rpm installed should have failed with error but it was getting: %s' % output)
-> +        # reinstall rpm with dependency
-> +        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts']))
-> +        self.assertTrue(status == 0, 'rpm (%s) installed with error: %s (%s)' % (rpm_tests['run-postinsts'], status, output))
-> +        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts-dev']))
-> +        self.assertTrue(status == 0, 'rpm (%s) installed with error: %s (%s)' % (rpm_tests['run-postinsts-dev'], status, output))
-> +        for rpm in rpm_tests:
-> +            self.tc.target.run('rm -f %s' % os.path.join(rpm_dest_dir, rpm_tests[rpm]))
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+and so on.
+
+Cheers,
+
+Richard
+
 
