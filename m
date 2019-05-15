@@ -1,49 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com
-	[209.85.128.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 92D326D666
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 3186E7DE8C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 16:52:25 +0000 (UTC)
-Received: by mail-wm1-f45.google.com with SMTP id f2so720271wmj.3
+	Wed, 15 May 2019 18:40:07 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id o189so1073936wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 09:52:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=xc78NcHcEgAhndj7jVh9908JEWWty75GUBCBn9Hd03I=;
-	b=X1I+NvPIBmIk/xXjp5nmvPh6qWxTbSx2SIYOT9PDB5Zc8gRaFUg37VcwjGkt646bMU
-	KzsGCU+ZjhGHyY/a7RJHM0DK2iztwYjKhiknNMp8JxlUZcz4P2W0KB26SpvEnSpoHNFW
-	JKfO3DeP2D9xeJ+IPfKIdThADvhur65f1vgms=
+	Wed, 15 May 2019 11:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=X7sxWL/tCl4jF+JeOUz+srdq1kW7clp8Q3RfOcfNaJk=;
+	b=p6jf9yaX3m11s71KYZfsL8dUkvLRf5U2ycddiDBj2xmXuqZw/qA8e8GQNRQlUXLibD
+	plM2CaJ0B4vYPvEc/elymHORhD9SqMKU5/FTkVmzerAjkuGqmHblsz7lVU6QjUhdYmCA
+	93Nxcp5mWOSkc/8Fogivk/CT27NIR/XHSulbef12QZFDcDX+ps+xQf6KnpbAPPE7xp51
+	i+SHwO4BhpS9zn+COQ9y+EP02VEhZ08sMsZbsN0HI5QJEHL1SeScTy5jeEoLK4siJbzI
+	ABC3Y2nvEL7fY7bCjTsOJOfsFKViFMWVwYaiLeXbz6pnpIXCJvDB7McQLdo86HbZwCOU
+	n4gA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=xc78NcHcEgAhndj7jVh9908JEWWty75GUBCBn9Hd03I=;
-	b=oXwoCEaY1sqjbf8X/szfOTCyi3+u+57IAuvjLjAECk//QmEmsxi+tGHHmByehZgUbf
-	pW+98qwFqBwzTWKt9fga84asw/5typDkbBe9O++4PJY2+GfBvT2cfjREgT+trEiaxB9v
-	z3z2JKrN0jeApxkZPY8rBqD8XX0z3w5YbAqbIM7W1VkNuFgTkS/jI5gFDkRZKNIz9vTy
-	XwxY/vHIg/VuWd439MxwYJw8a0oNfE0lK9uQdQtXca2kw5xh8aSeMxp8BPW6AhhyA009
-	wA8K2aPiXCfGwRukttzxoa2vy8GtLNCqJIflRLwivBmf3s+kEGyBdUAsL43V8L98+xCT
-	To+Q==
-X-Gm-Message-State: APjAAAX1J6WV04ONPQrXYfyHf0JbdLQbLd7N5kaAe3R2QUMCQtwfIXD8
-	9XkPsXKE5ayp3Sx/yECToDOKo4uNy6E=
-X-Google-Smtp-Source: APXvYqwYp9fgv9XOb12S6L5LXusV/rx8b4B4JGiUuULiNoyPS+kQZQxG5eYVZ/HLDOx9O6dC6snqvA==
-X-Received: by 2002:a1c:c8:: with SMTP id 191mr16942381wma.6.1557939145839;
-	Wed, 15 May 2019 09:52:25 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=X7sxWL/tCl4jF+JeOUz+srdq1kW7clp8Q3RfOcfNaJk=;
+	b=tVSLC5R7d2vNyyom2phsd57KObfVwAfMDPGKjrAqBPFxjebBORmG5IRfX2rgOOuvoN
+	69AANyi4xA+cYI2/8lfQGvsxHRQgBxAYNmomAh4bTTxO6U/snlnbVHyT7SEaaN6pCjKe
+	qks0tVj2iC82EGbTX4DSkxmAEEDqIMQ482Ki1Bpxz30bbTu7NaWZHY8GW4j7wSel8lX2
+	/nTG+c9nmlZ7nTl4vUgeBFwNfbUCtLcEopJoP0NmjZqwhMKHKViGY2n4mTykUeAxWnc4
+	xK7EDu04r7N7gpDwp9YujJVZa0BDGL/ush0uviVpWVx+SeID2Qv8JOKPUIP3qJFDZrDc
+	PeNw==
+X-Gm-Message-State: APjAAAUVYgq8RBJ3u3OiS3MHDXF7VvQ7e5iJDpVT/p/fs5c7yKMiMJzJ
+	BC50O28uQRmBKd9NFBJnaxRa93Bj
+X-Google-Smtp-Source: APXvYqw8tk+wnYsVQmCmqEuwRrXTpSe8IrK8NfIo3hyyXbsiLGXPx5oxmxPFog7nwRQXt52t8szL3Q==
+X-Received: by 2002:a7b:c5c4:: with SMTP id n4mr24814892wmk.151.1557945607600; 
+	Wed, 15 May 2019 11:40:07 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
 	by smtp.gmail.com with ESMTPSA id
-	u14sm2444679wrr.1.2019.05.15.09.52.24
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 15 May 2019 09:52:25 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+	y40sm4743764wrd.96.2019.05.15.11.40.06
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 15 May 2019 11:40:06 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 May 2019 17:52:23 +0100
-Message-Id: <20190515165223.10152-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] core-image-sato-sdk-ptest: Tweak size to stay within 4GB limit
+Date: Wed, 15 May 2019 18:40:03 +0000
+Message-Id: <20190515184004.20564-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior][PATCH 1/2] glib-networking: add PACKAGECONFIG for openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,36 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 16:52:25 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 May 2019 18:40:07 -0000
 
-Adding the valgrind debug symbol information caused the genericx86-64 image to
-overflow the 4GB boundary. Tweak the sizes to avoid autobuilder failures yet
-leave enough space all the tests still run successfully.
+* gnutls from meta-gplv2 isn't new enough for this version of glib-networking:
+  meson.build:74:0: ERROR:  Invalid version of dependency, need 'gnutls' ['>= 3.4.6'] found '3.3.30'
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+* disabling gnutls PACKAGECONFIG isn't an option either:
+  meson.build:131:2: ERROR:  Problem encountered: No TLS backends enabled. Please enable at least one TLS backend
+
+* add an option to replace gnutls with openssl
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-sato/images/core-image-sato-sdk-ptest.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/glib-networking/glib-networking_2.60.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-index 2497fc42aee..e84beda6ce1 100644
---- a/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-+++ b/meta/recipes-sato/images/core-image-sato-sdk-ptest.bb
-@@ -12,10 +12,10 @@ IMAGE_INSTALL += "${PTESTS_FAST} ${PTESTS_SLOW}"
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
+index 09af229d69..e2b4cffb2b 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
+@@ -15,6 +15,7 @@ SRC_URI[archive.sha256sum] = "d71c6b2faa5ac29100314f08a1be020a2afd0291f025614c0a
+ PACKAGECONFIG ??= "gnutls"
  
- # This image is sufficiently large (~1.8GB) that we need to be careful that it fits in a live
- # image (which has a 4GB limit), so nullify the overhead factor (1.3x out of the
--# box) and explicitly add just 1300MB.
-+# box) and explicitly add just 1200MB.
- # strace-ptest in particular needs more than 500MB
- IMAGE_OVERHEAD_FACTOR = "1.0"
--IMAGE_ROOTFS_EXTRA_SPACE = "1324288"
-+IMAGE_ROOTFS_EXTRA_SPACE = "1224288"
+ PACKAGECONFIG[gnutls] = "-Dgnutls=enabled,-Dgnutls=disabled,gnutls"
++PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
+ PACKAGECONFIG[libproxy] = "-Dlibproxy=enabled,-Dlibproxy=disabled,libproxy"
  
- # ptests need more memory than standard to avoid the OOM killer
- QB_MEM = "-m 1024"
+ EXTRA_OEMESON = "-Dgnome_proxy=disabled"
 -- 
-2.20.1
+2.17.1
 
 
