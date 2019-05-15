@@ -1,24 +1,23 @@
-Return-Path: <ee.peng.yeoh@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FC057DEA7
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 00BA76B96C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 02:47:54 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 May 2019 19:47:55 -0700
-X-ExtLoop1: 1
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga006.jf.intel.com with ESMTP; 14 May 2019 19:47:54 -0700
-From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 15 May 2019 10:47:50 +0800
-Message-Id: <1557888470-57934-2-git-send-email-ee.peng.yeoh@intel.com>
+	Wed, 15 May 2019 03:17:59 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4F3Hxp0017299
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 14 May 2019 20:17:59 -0700 (PDT)
+Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Tue, 14 May 2019 20:17:57 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+Date: Wed, 15 May 2019 11:17:56 +0800
+Message-ID: <1557890276-2264-1-git-send-email-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1557888470-57934-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1557888470-57934-1-git-send-email-ee.peng.yeoh@intel.com>
-Subject: [PATCH 2/2] oeqa/manual/bsp-hw.json: Remove rpm install dependency
+MIME-Version: 1.0
+Subject: [PATCH] grub/grub-efi: fix unrecognized command line option '-pipe-Wno-error' in CFLAGS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,54 +30,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 02:47:54 -0000
+X-List-Received-Date: Wed, 15 May 2019 03:18:00 -0000
+Content-Type: text/plain
 
-Remove the bsps-hw.bsps-hw.rpm_-__install_dependency_package
-as it was replaced by the test_rpm_install_dependency inside
-oeqa/runtime/cases/rpm.py.
+Since commit [330fc83 grub: Use -Wno-error instead of doing this
+on a per-warning basis] applied in oe-core, it missed a space
+in append.
 
-Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/lib/oeqa/manual/bsp-hw.json | 26 --------------------------
- 1 file changed, 26 deletions(-)
+ meta/recipes-bsp/grub/grub2.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/manual/bsp-hw.json b/meta/lib/oeqa/manual/bsp-hw.json
-index 4b7c76f..017de9d 100644
---- a/meta/lib/oeqa/manual/bsp-hw.json
-+++ b/meta/lib/oeqa/manual/bsp-hw.json
-@@ -1,32 +1,6 @@
- [
-     {
-         "test": {
--            "@alias": "bsps-hw.bsps-hw.rpm_-__install_dependency_package",
--            "author": [
--                {
--                    "email": "alexandru.c.georgescu@intel.com",
--                    "name": "alexandru.c.georgescu@intel.com"
--                }
--            ],
--            "execution": {
--                "1": {
--                    "action": "Get a not previously installed RPM package or build one on local machine, which should have run-time dependency.For example, \"mc\" (Midnight Commander, which is a visual file manager) should depend on \"ncurses-terminfo\".   \n\n$ bitbake mc  \n\n\n",
--                    "expected_results": ""
--                },
--                "2": {
--                    "action": "Copy the package into a system folder (for example /home/root/rpm_packages).  \n\n\n",
--                    "expected_results": ""
--                },
--                "3": {
--                    "action": "Run \"rpm -ivh package_name\" and check the output, for example \"rpm -ivh mc.rpm*\" should report the dependency on \"ncurses-terminfo\".\n\n\n\n",
--                    "expected_results": "3 . rpm command should report message when some RPM installation depends on other packages."
--                }
--            },
--            "summary": "rpm_-__install_dependency_package"
--        }
--    },
--    {
--        "test": {
-             "@alias": "bsps-hw.bsps-hw.boot_and_install_from_USB",
-             "author": [
-                 {
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index 7d8c280..bac2d7d 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -60,7 +60,7 @@ BUILD_CFLAGS = ""
+ BUILD_CXXFLAGS = ""
+ BUILD_LDFLAGS = ""
+ 
+-CFLAGS_append = "-Wno-error"
++CFLAGS_append = " -Wno-error"
+ 
+ do_configure_prepend() {
+ 	# The grub2 configure script uses variables such as TARGET_CFLAGS etc
 -- 
 2.7.4
 
