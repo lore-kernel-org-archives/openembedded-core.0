@@ -1,46 +1,49 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com
-	[209.85.222.178])
-	by mail.openembedded.org (Postfix) with ESMTP id 8C52060557
+Return-Path: <peter.griffin@linaro.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A0A497D10D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 07:42:39 +0000 (UTC)
-Received: by mail-qk1-f178.google.com with SMTP id z6so886234qkl.10
+	Wed, 15 May 2019 09:07:13 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id o189so1805626wmb.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 00:42:40 -0700 (PDT)
+	Wed, 15 May 2019 02:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=c7IMP/3hc94JsYmdSwnbB2SB0D5Upp0wtqpZp2Ig1uc=;
+	b=TRSFs6YdTk04DvuLz6hhcL+hlhtLuyTniZSLo9xbXBk0jy8oFm4I5ErUOKGwOgxva1
+	xaBZg1/2ZkMgd+pbtDzNC8Maqh2i8n6CPNO32o2/jq9gKfrRQ3DKd81lSTg622iTTGKW
+	ZZxwr56XQi3W5hlh8ys28IlRaq5+CE71nQbuJX4CckMi7ICBef2XFX3czSSd4M5BZDuM
+	YYLD+LFVR3QhcdZSoz4Eukb0A7wybVlau19W5VzYXVXXhv1nkDo7K5OE6WFXNcn25Zoo
+	JEePH/eVJS7M9cy8N9kWsROxgAvQaBacJUOJnEaGYWgPtNUkohXRv6zQLYBwIY8HxHoK
+	OL0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=4YDnJxwRM68x8CZrG8a3gBoigmGpMuqmmg1HVd28N74=;
-	b=KEEMhmp16ImUNqAqwbv8udhaGaFO37bElE5mswSZ/Lwvc/B+MR9WHtWiTjXNWwKQ6/
-	GJuZeRAotSSfUSdP34fVNEZ9A2hVAxbKssUgjzuh5u91TmKlXKkkD/c8FnryYHzACDSz
-	gRSCLWOq6N3GmymQRYNZAkP1VbcY3ds9d4tez3Q/HpSM0pITSjVAVMK9fhp99cbLHmil
-	nHSk3lJdbB4flrXfdRM8O0H8hUpduBNKhmsPIWTbKHskZ2h3lBp+LUr+5u9hh4ne4N5Q
-	dtdBvKAU9Y7URX2je58hKak0wrvsy74l6giKPw+8o7JCWKpFG1UVYf9LHBxhU2E6CvJ5
-	evlg==
-X-Gm-Message-State: APjAAAWEed0Nr06oAIko4U10hhQW8OS5zgTOqgjPQNyvrQ3dULy38IeV
-	g/vgT7CvHSp3vYRkQZWrwr6PbKrWUnY=
-X-Google-Smtp-Source: APXvYqw8xqfCF1ejjhcO8quo2g8k1O6p64bUrOFuQ20yhUbdeQQVVC3goPXlWdVMFJrRcWvfCGUBOA==
-X-Received: by 2002:a05:620a:103c:: with SMTP id
-	a28mr32335589qkk.246.1557906160605; 
-	Wed, 15 May 2019 00:42:40 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id z38sm789459qtz.13.2019.05.15.00.42.39
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 15 May 2019 00:42:40 -0700 (PDT)
-Message-ID: <1c75084ba7c59399d92ebc24cb443aea92402442.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 15 May 2019 08:42:38 +0100
-In-Reply-To: <CADkTA4PNCf7+vw8i89R0OaZb_Swkp1tn6as557pHFRR7WbE+Yg@mail.gmail.com>
-References: <4ac2274b49372290718a2b59175407bc736118ff.camel@andred.net>
-	<d5bed9dff4f06727fe947fa8516d1b8e537c159e.camel@andred.net>
-	<CADkTA4PNCf7+vw8i89R0OaZb_Swkp1tn6as557pHFRR7WbE+Yg@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1 
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: RDEPENDS kernel-image-zimage & kernel.bbclass PKG name
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=c7IMP/3hc94JsYmdSwnbB2SB0D5Upp0wtqpZp2Ig1uc=;
+	b=mftwJsjw0hy7KTZMhpDs34+csY4o1akRWIGydtQN3mWUR7Grntul4IdZSyJlXPpwog
+	2M4VmAAUaQvfESk6C8m4/jtrUywCGLUNUwvOGKMK2ZkgfTRqddJD0mTUtnV5IOuHWn0r
+	xVN9aFCuvd2EFHYHVDdrBSpKAV6LSh+6d84zGQFFSFhKE3EVUsJpLUaoMC0U8VGrHT8J
+	7y2EzPQzkfJJDbdOy0XC0EShnfbDr4xaPu/HrGNBRxvqNQOk3c79dy5Mjlx0C33ysgxi
+	Dknk403QchJMb43FYL76PM9A00B6xa8tvhY3urkTHDyw+sIm5uWTgyTPr2gyNmqbrJ6G
+	XvRw==
+X-Gm-Message-State: APjAAAXyJLbAT6Q3+U0GJ3zoKF0cSy+ouluLofUgf34mKJReyMwUOOdx
+	yAXJgmJUR6LDxNQU99glAHsEvrCzP78=
+X-Google-Smtp-Source: APXvYqxix04RDcHL3y2+al8RfwxOqBtysHJ8PhS9cNgJbLqGhw+zr3WTe7RMEN6nWZkTJCnO4QhoVw==
+X-Received: by 2002:a7b:c76b:: with SMTP id x11mr13528714wmk.22.1557911233719; 
+	Wed, 15 May 2019 02:07:13 -0700 (PDT)
+Received: from localhost.localdomain
+	(cpc89244-aztw30-2-0-cust4998.18-1.cable.virginm.net.
+	[86.31.179.135])
+	by smtp.gmail.com with ESMTPSA id o4sm1252766wmc.38.2019.05.15.02.07.12
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 15 May 2019 02:07:12 -0700 (PDT)
+From: Peter Griffin <peter.griffin@linaro.org>
+To: openembedded-core@lists.openembedded.org,
+	nicolas.dechesne@linaro.org
+Date: Wed, 15 May 2019 10:05:10 +0100
+Message-Id: <1557911110-10999-1-git-send-email-peter.griffin@linaro.org>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] mesa: Add backport of freedreno dmabuf modifiers patch.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,68 +56,289 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 07:42:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 15 May 2019 09:07:13 -0000
 
-Hi Bruce,
+This is required to get weston-simple-dmabuf-drm to work
+and also now required by Chromium v73 ozone-wayland backend.
 
-On Tue, 2019-05-14 at 20:50 -0400, Bruce Ashfield wrote:
-> 
-> 
-> On Tue, May 14, 2019 at 12:32 PM André Draszik <git@andred.net> wrote:
-> > On Tue, 2019-05-14 at 14:35 +0100, André Draszik wrote:
-> > > Hi,
-> > > 
-> > > As part of the build, kernel packages are renamed, e.g.
-> > > kernel-image-zimage basically becomes
-> > > kernel-image-zimage-${KERNEL_VERSION}
-> > > 
-> > > When a package created by recipe B RDEPENDS on kernel-image-zimage,
-> > > the ipk generated ultimately depends on
-> > > kernel-image-zimage-${KERNEL_VERSION} (not kernel-image-zimage).
-> > > Once the kernel is updated, it appears as though recipe B is not
-> > > repackaged, so the package still runtime depends on the original
-> > > kernel, which doesn't exist anymore, and thus building the image
-> > > fails.
-> > > 
-> > > Specifically, I have
-> > > MACHINE_EXTRA_RDEPENDS += "kernel-image-zimage"
-> > > in my BSP, and hence packagegroup-machine-base runtime depends on
-> > > kernel-image-zimage-4.9.11-cl-som-imx7-5.1+gc27010d99a3d.
-> > > Updating the kernel doesn't trigger a rebuild of packagegroup-machine-base,
-> > > so things fail for me.
-> > > 
-> > > 
-> > > Am I missing something in my BSP? I could probably do a bbappend
-> > > on packagegroup-base.bb and add something like
-> > > do_packagedata[depends] += "virtual/kernel:do_packagedata"
-> > 
-> > BTW, I've tried the following packagegroup-base.bbappend to no avail:
-> > 
-> > python do_get_kernel_zimage_name() {
-> >     new_dep = get_package_mapping('kernel-image-zimage', 'packagegroup-machine-base', d)
-> >     d.appendVarFlag('do_package_write_ipk', 'vardeps', new_dep)
-> > }
-> > addtask get_kernel_zimage_name after do_package before do_package_write_ipk
-> > do_get_kernel_zimage_name[depends] += "virtual/kernel:do_packagedata"
-> > 
-> 
-> 
-> Hi Andre,
-> 
-> I chased (And fixed) something very similar to this with postinst scripts and kernel-image that showed a similar
-> symptom (you couldn't add a postinst to kernel-image-<type> without throwing an error since the PKG_ variables change
-> the package name to kernel-image-<type>-version).
-> 
-> My fix was specific to the postinst, but I bet this would be a similar fix.
-> 
-> I don't suppose you have a sample set of layers and a build config that I could kick off here ? That would make it a
-> lot easier to test my theory.
+It is present in mesa 19.0, backporting to Thud which is
+on 18.1.9.
 
-Thanks for the offer Bruce, I'll try. Shouldn't be too hard I hope.
+Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+---
+ ...ckport-of-freedreno-dmabuf-modifiers-patc.patch | 140 +++++++++++++++++++++
+ ...-freedreno-add-query-for-dmabuf-modifiers.patch | 101 +++++++++++++++
+ meta/recipes-graphics/mesa/mesa_18.1.9.bb          |   1 +
+ 3 files changed, 242 insertions(+)
+ create mode 100644 meta/recipes-graphics/mesa/0001-mesa-Add-backport-of-freedreno-dmabuf-modifiers-patc.patch
+ create mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch
 
-A.
-
+diff --git a/meta/recipes-graphics/mesa/0001-mesa-Add-backport-of-freedreno-dmabuf-modifiers-patc.patch b/meta/recipes-graphics/mesa/0001-mesa-Add-backport-of-freedreno-dmabuf-modifiers-patc.patch
+new file mode 100644
+index 0000000..1a5aa68
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/0001-mesa-Add-backport-of-freedreno-dmabuf-modifiers-patc.patch
+@@ -0,0 +1,140 @@
++From 6de2fe7bdd1bbe7a1d56c91fabe32a3dbcb736ac Mon Sep 17 00:00:00 2001
++From: Peter Griffin <peter.griffin@linaro.org>
++Date: Wed, 15 May 2019 10:07:49 +0200
++Subject: [PATCH] mesa: Add backport of freedreno dmabuf modifiers patch.
++
++This is required to get weston-simple-dmabuf-drm to work
++and also now required by Chromium v73 ozone-wayland backend.
++
++It is present in mesa 19.0, backporting to Thud which is
++on 18.1.9.
++
++Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
++---
++ ...-freedreno-add-query-for-dmabuf-modifiers.patch | 101 +++++++++++++++++++++
++ meta/recipes-graphics/mesa/mesa_18.1.9.bb          |   1 +
++ 2 files changed, 102 insertions(+)
++ create mode 100644 meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch
++
++diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch
++new file mode 100644
++index 0000000..57ebd8f
++--- /dev/null
+++++ b/meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch
++@@ -0,0 +1,101 @@
+++From c4bee1a1b3fb224002fe8c263bedbce1b705ed49 Mon Sep 17 00:00:00 2001
+++From: Peter Griffin <peter.griffin@linaro.org>
+++Date: Mon, 13 May 2019 19:18:56 +0100
+++Subject: [PATCH] freedreno: add query for dmabuf modifiers
+++
+++Backport of mesa 7c4b9510d by Fritz Koenig. Tested with Weston
+++and weston-simple-dmabuf-drm client.
+++
+++Upstream-Status: Backport from 19.0
+++
+++Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
+++---
+++ src/gallium/drivers/freedreno/freedreno_screen.c | 43 ++++++++++++++++++++++++
+++ src/gallium/drivers/freedreno/freedreno_screen.h |  3 ++
+++ 2 files changed, 46 insertions(+)
+++
+++diff --git a/src/gallium/drivers/freedreno/freedreno_screen.c b/src/gallium/drivers/freedreno/freedreno_screen.c
+++index f338d75..cbb5b8a 100644
+++--- a/src/gallium/drivers/freedreno/freedreno_screen.c
++++++ b/src/gallium/drivers/freedreno/freedreno_screen.c
+++@@ -40,6 +40,7 @@
+++ 
+++ #include "util/os_time.h"
+++ 
++++#include <drm_fourcc.h>
+++ #include <errno.h>
+++ #include <stdio.h>
+++ #include <stdlib.h>
+++@@ -732,6 +733,37 @@ fd_screen_bo_get_handle(struct pipe_screen *pscreen,
+++ 	}
+++ }
+++ 
++++static void
++++fd_screen_query_dmabuf_modifiers(struct pipe_screen *pscreen,
++++		enum pipe_format format,
++++		int max, uint64_t *modifiers,
++++		unsigned int *external_only,
++++		int *count)
++++{
++++	struct fd_screen *screen = fd_screen(pscreen);
++++	int i, num = 0;
++++
++++	max = MIN2(max, screen->num_supported_modifiers);
++++
++++	if (!max) {
++++		max = screen->num_supported_modifiers;
++++		external_only = NULL;
++++		modifiers = NULL;
++++	}
++++
++++	for (i = 0; i < max; i++) {
++++		if (modifiers)
++++			modifiers[num] = screen->supported_modifiers[i];
++++
++++		if (external_only)
++++			external_only[num] = 0;
++++
++++		num++;
++++	}
++++
++++	*count = num;
++++}
++++
+++ struct fd_bo *
+++ fd_screen_bo_from_handle(struct pipe_screen *pscreen,
+++ 		struct winsys_handle *whandle)
+++@@ -921,6 +953,17 @@ fd_screen_create(struct fd_device *dev)
+++ 	pscreen->fence_finish = fd_fence_finish;
+++ 	pscreen->fence_get_fd = fd_fence_get_fd;
+++ 
++++	pscreen->query_dmabuf_modifiers = fd_screen_query_dmabuf_modifiers;
++++
++++	if (!screen->supported_modifiers) {
++++		static const uint64_t supported_modifiers[] = {
++++			DRM_FORMAT_MOD_LINEAR,
++++		};
++++
++++		screen->supported_modifiers = supported_modifiers;
++++		screen->num_supported_modifiers = ARRAY_SIZE(supported_modifiers);
++++	}
++++
+++ 	slab_create_parent(&screen->transfer_pool, sizeof(struct fd_transfer), 16);
+++ 
+++ 	return pscreen;
+++diff --git a/src/gallium/drivers/freedreno/freedreno_screen.h b/src/gallium/drivers/freedreno/freedreno_screen.h
+++index 6be739a..5558066 100644
+++--- a/src/gallium/drivers/freedreno/freedreno_screen.h
++++++ b/src/gallium/drivers/freedreno/freedreno_screen.h
+++@@ -89,6 +89,9 @@ struct fd_screen {
+++ 	struct fd_batch_cache batch_cache;
+++ 
+++ 	bool reorder;
++++
++++	unsigned num_supported_modifiers;
++++	const uint64_t *supported_modifiers;	
+++ };
+++ 
+++ static inline struct fd_screen *
+++-- 
+++2.7.4
+++
++diff --git a/meta/recipes-graphics/mesa/mesa_18.1.9.bb b/meta/recipes-graphics/mesa/mesa_18.1.9.bb
++index 86d6a6b..0558690 100644
++--- a/meta/recipes-graphics/mesa/mesa_18.1.9.bb
+++++ b/meta/recipes-graphics/mesa/mesa_18.1.9.bb
++@@ -7,6 +7,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
++            file://0004-Use-Python-3-to-execute-the-scripts.patch \
++            file://0005-dri-i965-Add-missing-time.h-include.patch \
++            file://0006-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
+++           file://0001-freedreno-add-query-for-dmabuf-modifiers.patch \
++ "
++ 
++ SRC_URI[md5sum] = "2f8d2098ab478bc3907e42130577b54a"
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch
+new file mode 100644
+index 0000000..57ebd8f
+--- /dev/null
++++ b/meta/recipes-graphics/mesa/files/0001-freedreno-add-query-for-dmabuf-modifiers.patch
+@@ -0,0 +1,101 @@
++From c4bee1a1b3fb224002fe8c263bedbce1b705ed49 Mon Sep 17 00:00:00 2001
++From: Peter Griffin <peter.griffin@linaro.org>
++Date: Mon, 13 May 2019 19:18:56 +0100
++Subject: [PATCH] freedreno: add query for dmabuf modifiers
++
++Backport of mesa 7c4b9510d by Fritz Koenig. Tested with Weston
++and weston-simple-dmabuf-drm client.
++
++Upstream-Status: Backport from 19.0
++
++Signed-off-by: Peter Griffin <peter.griffin@linaro.org>
++---
++ src/gallium/drivers/freedreno/freedreno_screen.c | 43 ++++++++++++++++++++++++
++ src/gallium/drivers/freedreno/freedreno_screen.h |  3 ++
++ 2 files changed, 46 insertions(+)
++
++diff --git a/src/gallium/drivers/freedreno/freedreno_screen.c b/src/gallium/drivers/freedreno/freedreno_screen.c
++index f338d75..cbb5b8a 100644
++--- a/src/gallium/drivers/freedreno/freedreno_screen.c
+++++ b/src/gallium/drivers/freedreno/freedreno_screen.c
++@@ -40,6 +40,7 @@
++ 
++ #include "util/os_time.h"
++ 
+++#include <drm_fourcc.h>
++ #include <errno.h>
++ #include <stdio.h>
++ #include <stdlib.h>
++@@ -732,6 +733,37 @@ fd_screen_bo_get_handle(struct pipe_screen *pscreen,
++ 	}
++ }
++ 
+++static void
+++fd_screen_query_dmabuf_modifiers(struct pipe_screen *pscreen,
+++		enum pipe_format format,
+++		int max, uint64_t *modifiers,
+++		unsigned int *external_only,
+++		int *count)
+++{
+++	struct fd_screen *screen = fd_screen(pscreen);
+++	int i, num = 0;
+++
+++	max = MIN2(max, screen->num_supported_modifiers);
+++
+++	if (!max) {
+++		max = screen->num_supported_modifiers;
+++		external_only = NULL;
+++		modifiers = NULL;
+++	}
+++
+++	for (i = 0; i < max; i++) {
+++		if (modifiers)
+++			modifiers[num] = screen->supported_modifiers[i];
+++
+++		if (external_only)
+++			external_only[num] = 0;
+++
+++		num++;
+++	}
+++
+++	*count = num;
+++}
+++
++ struct fd_bo *
++ fd_screen_bo_from_handle(struct pipe_screen *pscreen,
++ 		struct winsys_handle *whandle)
++@@ -921,6 +953,17 @@ fd_screen_create(struct fd_device *dev)
++ 	pscreen->fence_finish = fd_fence_finish;
++ 	pscreen->fence_get_fd = fd_fence_get_fd;
++ 
+++	pscreen->query_dmabuf_modifiers = fd_screen_query_dmabuf_modifiers;
+++
+++	if (!screen->supported_modifiers) {
+++		static const uint64_t supported_modifiers[] = {
+++			DRM_FORMAT_MOD_LINEAR,
+++		};
+++
+++		screen->supported_modifiers = supported_modifiers;
+++		screen->num_supported_modifiers = ARRAY_SIZE(supported_modifiers);
+++	}
+++
++ 	slab_create_parent(&screen->transfer_pool, sizeof(struct fd_transfer), 16);
++ 
++ 	return pscreen;
++diff --git a/src/gallium/drivers/freedreno/freedreno_screen.h b/src/gallium/drivers/freedreno/freedreno_screen.h
++index 6be739a..5558066 100644
++--- a/src/gallium/drivers/freedreno/freedreno_screen.h
+++++ b/src/gallium/drivers/freedreno/freedreno_screen.h
++@@ -89,6 +89,9 @@ struct fd_screen {
++ 	struct fd_batch_cache batch_cache;
++ 
++ 	bool reorder;
+++
+++	unsigned num_supported_modifiers;
+++	const uint64_t *supported_modifiers;	
++ };
++ 
++ static inline struct fd_screen *
++-- 
++2.7.4
++
+diff --git a/meta/recipes-graphics/mesa/mesa_18.1.9.bb b/meta/recipes-graphics/mesa/mesa_18.1.9.bb
+index 86d6a6b..0558690 100644
+--- a/meta/recipes-graphics/mesa/mesa_18.1.9.bb
++++ b/meta/recipes-graphics/mesa/mesa_18.1.9.bb
+@@ -7,6 +7,7 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
+            file://0004-Use-Python-3-to-execute-the-scripts.patch \
+            file://0005-dri-i965-Add-missing-time.h-include.patch \
+            file://0006-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
++           file://0001-freedreno-add-query-for-dmabuf-modifiers.patch \
+ "
+ 
+ SRC_URI[md5sum] = "2f8d2098ab478bc3907e42130577b54a"
+-- 
+2.7.4
 
 
