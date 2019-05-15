@@ -1,44 +1,25 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id F1AAA7DE81
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 424EA7DDC4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 09:32:59 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id f22so1645535iol.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 15 May 2019 02:33:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8RpAOIJpEf5ozPDeXa2RxQZK9A1jsk3hUrbxK+jTMVw=;
-	b=ffE8qaYflUs1zFEv005JDNxeDWt6wvagElSPCwJXPlqgv0lR1bLj+Uelc1+tRMWTQ2
-	Pnkz1ZztHvMyY/fy4L09xQgAxwTHNnWVGAqd8XEGV+/EQrGhFRut4++L097SSTStiHiC
-	QIGCWQdfp21ZSPtt0dHIU22+nFkbeDwgTEn7at1k+Shn75E6TZNxCWcjAdcxVmMaOV23
-	LSr4rdzBg8BRLJs8zGd6zm0TcNvlx1lNOlwSSjJH7+IsF6sogcijVGmozCUqM4c7/I7j
-	0FUhvLKFbmKByOoHtbtc/Au3UHNcx+pUFt/BiQdoP/O6ggG8Gf5s4aWxPN68JkNStzyZ
-	5goA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8RpAOIJpEf5ozPDeXa2RxQZK9A1jsk3hUrbxK+jTMVw=;
-	b=q7ijZFUlIvTNQEv+1t3A4LqTipooBOTkTnmF5OLfVW/EL4Nj8/ufDUqqjclpG2vmdQ
-	pU036MBvdxiZvWCldPs+9SqZY66JcswULueCefnBK6n/cfQ4WocrkfJ0H5JUojq+EwTM
-	lrT92JDsHsPmJecBgzvma3jNd5nTRR4BTkFIzBokH8/g/dklDlhRyC/ugEvlmQ19M5fI
-	XP2T8SAq6OYrgb5/9Seq0K7DoSZuTz8PBhKjFHMx090wmy7sFXJF8vzoYdpSNAJLWvLK
-	OC6byHcDicj4Qmq8KEeoKfwdYl1eAPuFmf9plXruw25TkmGAT6px+hLyi2NGoExXFpSX
-	GiNw==
-X-Gm-Message-State: APjAAAWN2hjerGCOBeNIovCN1QbFpeBUcwpOELCeQSz+YdqphCroQi/B
-	Ud8dzitrXoLpClCfLEUkoCFLQApN81UEVAZuRr87aw==
-X-Google-Smtp-Source: APXvYqyJQeMrJgM3MZdIIwTHFmNagN4NkFt9V1e0BxRlCWniFNAAAIEdtlH/tYJe3Z01A6f/3bIQFQEJVUXjYyCo2V4=
-X-Received: by 2002:a6b:740a:: with SMTP id s10mr20189916iog.99.1557912780790; 
-	Wed, 15 May 2019 02:33:00 -0700 (PDT)
-MIME-Version: 1.0
+	Wed, 15 May 2019 09:50:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4F9okJT003747
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 15 May 2019 02:50:46 -0700 (PDT)
+Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 15 May 2019 02:50:45 -0700
+To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>
 References: <1557912193-40178-1-git-send-email-hongxu.jia@windriver.com>
-In-Reply-To: <1557912193-40178-1-git-send-email-hongxu.jia@windriver.com>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Wed, 15 May 2019 11:32:49 +0200
-Message-ID: <CALbNGRT7NFoRN8EXYDiQ64+0g-bB=jvd7HcfUCRn+_26iRQX4Q@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+	<CALbNGRT7NFoRN8EXYDiQ64+0g-bB=jvd7HcfUCRn+_26iRQX4Q@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <0ffc3e2e-2321-0edb-c90a-76225017472d@windriver.com>
+Date: Wed, 15 May 2019 17:50:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CALbNGRT7NFoRN8EXYDiQ64+0g-bB=jvd7HcfUCRn+_26iRQX4Q@mail.gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] autotools.bbclass: output failed config.log
@@ -54,45 +35,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 15 May 2019 09:33:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 15 May 2019 09:50:48 -0000
+Content-Type: multipart/alternative;
+	boundary="------------A29464203F2034C1FAC722DB"
+Content-Language: en-US
 
-On Wed, May 15, 2019 at 11:23 AM Hongxu Jia <hongxu.jia@windriver.com> wrote:
->
-> If do_configure failed, output content of config.log
-> to configure log, it is helpful to trace the do_configure
-> failure on the build system which is hard to login.
-> (such as autobuilder)
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/classes/autotools.bbclass | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index 8768a6a..03cbe1b 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -90,7 +90,11 @@ oe_runconf () {
->                 bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
->                 if ! ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
->                         bbnote "The following config.log files may provide further information."
-> -                       bbnote `find ${B} -ignore_readdir_race -type f -name config.log`
-> +                       config_log="`find ${B} -ignore_readdir_race -type f -name config.log`"
-> +                       bbnote "$config_log"
-> +                       [ -e "$config_log" ] && cat "$config_log" | while read line; do
-> +                               bbnote "$line"
-> +                       done
->                         bbfatal_log "configure failed"
->                 fi
->         else
-> --
-> 2.7.4
->
-That output is useful only sometimes and extremly verbose. I'd suggest
+--------------A29464203F2034C1FAC722DB
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+
+On 5/15/19 5:32 PM, Andreas Müller wrote:
+>> --- a/meta/classes/autotools.bbclass
+>> +++ b/meta/classes/autotools.bbclass
+>> @@ -90,7 +90,11 @@ oe_runconf () {
+>>                  bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+>>                  if ! ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
+>>                          bbnote "The following config.log files may provide further information."
+>> -                       bbnote `find ${B} -ignore_readdir_race -type f -name config.log`
+>> +                       config_log="`find ${B} -ignore_readdir_race -type f -name config.log`"
+>> +                       bbnote "$config_log"
+>> +                       [ -e "$config_log" ] && cat "$config_log" | while read line; do
+>> +                               bbnote "$line"
+>> +                       done
+>>                          bbfatal_log "configure failed"
+>>                  fi
+>>          else
+>> --
+>> 2.7.4
+>>
+> That output is useful only sometimes and extremly verbose. I'd suggest
+> to introduce a switch to enable/disable (even as newbie user I am able
+> to find config.log). How about making autobuilder's WORKDIR
+> accessible?
+
+The output only happens while do_configure failure, it does nothing when 
+build succeed,
+
+while failure occurs, I believe related message is the more the better.
+
+The autobuilder is just an example, for community development, it is 
+hard to login
+
+others build host to debug issue, and we have to take time to reproduce it
+
+if we could trace it with a simple glance from the log, why not
+
+
+//Hongxu
+
+
+> Andreas
+
+
+
+--------------A29464203F2034C1FAC722DB
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 5/15/19 5:32 PM, Andreas Müller
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CALbNGRT7NFoRN8EXYDiQ64+0g-bB=jvd7HcfUCRn+_26iRQX4Q@mail.gmail.com">
+      <blockquote type="cite" style="color: #000000;">
+        <pre class="moz-quote-pre" wrap="">--- a/meta/classes/autotools.bbclass
++++ b/meta/classes/autotools.bbclass
+@@ -90,7 +90,11 @@ oe_runconf () {
+                bbnote "Running $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} $@"
+                if ! ${CACHED_CONFIGUREVARS} $cfgscript ${CONFIGUREOPTS} ${EXTRA_OECONF} "$@"; then
+                        bbnote "The following config.log files may provide further information."
+-                       bbnote `find ${B} -ignore_readdir_race -type f -name config.log`
++                       config_log="`find ${B} -ignore_readdir_race -type f -name config.log`"
++                       bbnote "$config_log"
++                       [ -e "$config_log" ] &amp;&amp; cat "$config_log" | while read line; do
++                               bbnote "$line"
++                       done
+                        bbfatal_log "configure failed"
+                fi
+        else
+--
+2.7.4
+
+</pre>
+      </blockquote>
+      <pre class="moz-quote-pre" wrap="">That output is useful only sometimes and extremly verbose. I'd suggest
 to introduce a switch to enable/disable (even as newbie user I am able
 to find config.log). How about making autobuilder's WORKDIR
 accessible?
-
+</pre>
+    </blockquote>
+    <p>The output only happens while do_configure failure, it does
+      nothing when build succeed,<br>
+    </p>
+    <p>while failure occurs, I believe related message is the more the
+      better.</p>
+    <p>The autobuilder is just an example, for community development, it
+      is hard to login</p>
+    <p>others build host to debug issue, and we have to take time to
+      reproduce it<br>
+    </p>
+    <p>if we could trace it with a simple glance from the log, why not<br>
+    </p>
+    <p><br>
+    </p>
+    <p>//Hongxu<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CALbNGRT7NFoRN8EXYDiQ64+0g-bB=jvd7HcfUCRn+_26iRQX4Q@mail.gmail.com">
+      <pre class="moz-quote-pre" wrap="">
 Andreas
+</pre>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
 
+--------------A29464203F2034C1FAC722DB--
