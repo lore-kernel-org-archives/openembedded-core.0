@@ -1,48 +1,49 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id ADEC27DFD3
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com
+	[209.85.128.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B0FB6C466
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 08:56:40 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id h4so2420599wre.7
+	Thu, 16 May 2019 10:54:13 +0000 (UTC)
+Received: by mail-wm1-f43.google.com with SMTP id h11so2962980wmb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 01:56:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=JKv7ZMGiuHKD+JDX/iK49pOMBKRcJjIoSKmFSv1eK7Q=;
-	b=qmLdBVojnqFC+AN9FqqQb6494xjXMXwdOfdKVPDjq+/6tqVr13SaOu3CrSnC3w21wK
-	FEHu9C3dMwfZqv39vdWUJQj3dtMiT6xWqkmbK8vWlJcs0oJJ3C9N93nZso8OGayv+Lwg
-	ujtbXt0n8+0U9qDb1aG5luydG0kQbfab/K2J3YhPWVFvrhVmVIWTR2LJNcHoQP3dDByM
-	jGxeydejYW3KkO2tUIhe73A1Gktkn6NFVpLV63ODCtUq34MPpO/tCgmswPbPaTsc3HSf
-	oePXVmVVbMhNl0pVDgSKkWg3MvZhH9CrsONaUZ/FN34Inp9hEbQvNnrwIDTbG5p0DCay
-	WLQQ==
+	Thu, 16 May 2019 03:54:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:user-agent:mime-version
+	:content-transfer-encoding;
+	bh=noBEK7XOtj2eX9fr1SpCAlWSlL91mCUjmB0eOzCcV+0=;
+	b=DHMJ6p6SlYy9dPjoV7hxAE3LB1/a4Z3VwWX9k8ZSI60RlMrT5j9w5vwZR/qdMnGuQY
+	ea/YKdr9CqAOv/2+fO87s9YrHhQAUyMSxpUB+IFCnmOLq7MxzNSlwMLyIBEIhpyuVrJ2
+	WPF1GU3D6Xsu2qaJLvZUuHbcJZhmZgn4DVFNw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=JKv7ZMGiuHKD+JDX/iK49pOMBKRcJjIoSKmFSv1eK7Q=;
-	b=qN10I9xBzrTbOvzIf4CeGJqXbOxquIYWIS4lX7yNoimexkZLW0AAZccRZzEvc/8ict
-	WOqRwbauiQIN4+zpor+/vUsxQUFGiKXtAZWxw4ps6Q19tGFfFt3hiKO5oWadXjgKm9i4
-	zyIjQ1GosdhryTVqWGoKzXFzP5meah+Hob0NUlG2rsDCPgbpnSkJ7zzjMQ/wGckGMEA3
-	upD7QABhn5IZEQRw5IviGLJgaRF6dxc/eUYPLtPD2eMJKoRCogTi6PVxZyFRlr6ilNd/
-	wYMu3OsYIAwpyf6DTK3Unfz0IcyvsAaDQCFivTFECjUPGghfrCF4qw8H5LsQZFsi+sEp
-	wdrQ==
-X-Gm-Message-State: APjAAAXoESnBxX7akfdqcKcnKJjtWBoSg4b4gnY6Eh3ONXcJTH3djADi
-	Bw8dWDW15FxssLKxRmtNkVr79BE3Fh7ZBBddDgg=
-X-Google-Smtp-Source: APXvYqxrbzWuOZ41qgCBRuWDwvMhMqcjm8qk8BppHG0OE4fFQ1BGT6s7Z1G4biwYEY60Vb3MEmr3ZWqExGi7/NI49lM=
-X-Received: by 2002:adf:eb89:: with SMTP id t9mr26294419wrn.109.1557997001296; 
-	Thu, 16 May 2019 01:56:41 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=noBEK7XOtj2eX9fr1SpCAlWSlL91mCUjmB0eOzCcV+0=;
+	b=WQsKkD0RdCNSi7xX5LKc21ApCkx5IZj/S/2l2pkpGzuAey3OelRdNq36iLkpoKTK0V
+	UIFvfR6rKeRdL3WMcq/OOr1qnOxkT8U+1f0daM8BVWBoR/6nIfaYXGcvvxi5ul+1lXo4
+	qpHPzoCLGhE1UmW0bZB70R2dfrwxiM5jncV2xy7rRCRzMcQxPZAwEhKaaxIzq2G3NYpk
+	Sp7gxL7Fw1SnoE/2a61hlQq5Hpn4d7vsTVbV5uNWr5zHc54VJzpDSPQl3aDa+OVAIg0e
+	MN33wyrQ+Jls3iHKPrLglakaaCYp7t+qRfPKbAcimnNCYIdV1LgjQasUHqoo+8zEJ5/p
+	a5Hg==
+X-Gm-Message-State: APjAAAUougfthf049sh4woJOfXvSfjlav7eK9KnTmE9rHdtw5//+gVvY
+	UzFRhKv9b9qVRY2TsLCrSjLWSqdHdXw=
+X-Google-Smtp-Source: APXvYqzi79lWHQBLfyyUmRi1UrGCZdrAdCgw1LirZ923LKtlR3FtGUOo/yXVVDgJrJSu7quIvmPRuQ==
+X-Received: by 2002:a1c:f916:: with SMTP id x22mr2358412wmh.81.1558004053623; 
+	Thu, 16 May 2019 03:54:13 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d72sm4582849wmd.12.2019.05.16.03.54.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 16 May 2019 03:54:12 -0700 (PDT)
+Message-ID: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Date: Thu, 16 May 2019 11:54:09 +0100
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-References: <1557948156-10879-1-git-send-email-liu.ming50@gmail.com>
-	<9c2a9bbda97c6540061fd7a945f9d3eba0f1453c.camel@linuxfoundation.org>
-In-Reply-To: <9c2a9bbda97c6540061fd7a945f9d3eba0f1453c.camel@linuxfoundation.org>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Thu, 16 May 2019 10:56:30 +0200
-Message-ID: <CALatG=6FxLPZi00XyRWrbrcsZcnYxjqCJ_ogJK_7q9BwLBWLtg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Stefan Agner <stefan.agner@toradex.com>, Luka Pivk <luka.pivk@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: handle UBOOT_CONFIG in image.bbclass
+Subject: ptest with BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,134 +56,189 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 08:56:40 -0000
-Content-Type: multipart/alternative; boundary="000000000000d2d2880588fd71cf"
-
---000000000000d2d2880588fd71cf
+X-List-Received-Date: Thu, 16 May 2019 10:54:13 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-Hi, Richard:
+We have a need to check the dependencies of our ptest packages. The
+best way to do that is to take a minimal image and run them under that
+in isolation. That would be a bit tedious and boring.
 
-> I'd imagine the code is designed so you'd inherit uboot-config in the
-machine and this therefore could be made to work as is.
+It got me thinking about creative ways to do that and I thought I'd
+share the result.
 
-Yes, that probably is how the author intended it to be used, but
-unfortunately, that's not how it's being used in BSP layers, that fact is,
-in most BSP meta layers, they do not put it into INHERIT, only u-boot
-recipes are inheriting uboot-config.
+I created an image recipe:
 
-I am on board there is no need to set IMAGE_FSTYPES in
-uboot-config.bbclass, maybe we should drop it from UBOOT_CONFIG and it
-would be like: 'UBOOT_CONFIG =3D "config,,binary"', there will be a empty
-item in the middle, so the BSP meta layers would work as usual.
+$ cat p-t-image.bb 
+require recipes-core/images/core-image-minimal.bb
 
-Will send a V2 if you agree with this.
+require conf/distro/include/ptest-packagelists.inc
 
-//Ming Liu
+PTESTS = "${PTESTS_SLOW} ${PTESTS_FAST}"
+ALL_PTESTS = "${@' '.join(['p-t-image-'+x for x in d.getVar('PTESTS').split()])}"
 
-Richard Purdie <richard.purdie@linuxfoundation.org> =E6=96=BC 2019=E5=B9=B4=
-5=E6=9C=8816=E6=97=A5 =E9=80=B1=E5=9B=9B
-=E4=B8=8A=E5=8D=8810:23=E5=AF=AB=E9=81=93=EF=BC=9A
+IMAGE_INSTALL_append = " ${MCNAME} openssh"
 
-> On Wed, 2019-05-15 at 21:22 +0200, liu.ming50@gmail.com wrote:
-> > From: Ming Liu <liu.ming50@gmail.com>
-> >
-> > The code dealing with IMAGE_FSTYPES in uboot-config.bbclass would not
-> > take any effect since it's in a uboot particular class, but it's not
-> > being inherited by any image recipes.
-> >
-> > Move the IMAGE_FSTYPES handling part to image.bbclass would make it
-> > really work.
-> >
-> > Also drop some trivial debug code.
-> >
-> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-> > ---
-> >  meta/classes/image.bbclass        | 12 ++++++++++++
-> >  meta/classes/uboot-config.bbclass | 17 ++++-------------
-> >  meta/conf/documentation.conf      |  2 +-
-> >  3 files changed, 17 insertions(+), 14 deletions(-)
->
-> This doesn't make sense, if we want to set IMAGE_FSTYPES, lets just set
-> that.
->
-> I'd imagine the code is designed so you'd inherit uboot-config in the
-> machine and this therefore could be made to work as is.
->
-> Moving the code to image.bbclass is the wrong thing to do though and
-> I'd question whether we want UBOOT_CONFIG doing this at all...
->
-> Cheers,
->
-> Richard
->
->
+BBCLASSEXTEND = "${@' '.join(['mcextend:'+x for x in d.getVar('PTESTS').split()])}"
 
---000000000000d2d2880588fd71cf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+IMAGE_OVERHEAD_FACTOR = "1.0"
+IMAGE_ROOTFS_EXTRA_SPACE = "1324288"
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div>Hi, Richard:</div><div><br></div><di=
-v>&gt; I&#39;d imagine the code is designed so you&#39;d inherit uboot-conf=
-ig in the machine and this therefore could be made to work as is.</div><div=
-><br></div><div>Yes, that probably is how the author intended it to be used=
-, but unfortunately, that&#39;s not how it&#39;s being used in BSP layers, =
-that fact is, in most BSP meta layers, they do not put it into INHERIT, onl=
-y u-boot recipes are inheriting uboot-config.</div><div><br></div><div>I am=
- on board there is no need to set IMAGE_FSTYPES in uboot-config.bbclass, ma=
-ybe we should drop it from UBOOT_CONFIG and it would be like: &#39;UBOOT_CO=
-NFIG =3D &quot;config,,binary&quot;&#39;, there will be a empty item in the=
- middle, so the BSP meta layers would work as usual.</div><div><br></div><d=
-iv>Will send a V2 if you agree with this.</div><div><br></div><div>//Ming L=
-iu</div></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfo=
-undation.org">richard.purdie@linuxfoundation.org</a>&gt; =E6=96=BC 2019=E5=
-=B9=B45=E6=9C=8816=E6=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8A=E5=8D=8810:23=E5=
-=AF=AB=E9=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">On Wed, 2019-05-15 at 21:22 +0200, <a href=3D"mailto:liu.ming50@=
-gmail.com" target=3D"_blank">liu.ming50@gmail.com</a> wrote:<br>
-&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
-blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; <br>
-&gt; The code dealing with IMAGE_FSTYPES in uboot-config.bbclass would not<=
-br>
-&gt; take any effect since it&#39;s in a uboot particular class, but it&#39=
-;s not<br>
-&gt; being inherited by any image recipes.<br>
-&gt; <br>
-&gt; Move the IMAGE_FSTYPES handling part to image.bbclass would make it<br=
->
-&gt; really work.<br>
-&gt; <br>
-&gt; Also drop some trivial debug code.<br>
-&gt; <br>
-&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
-rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/image.bbclass=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 12 +++++=
-+++++++<br>
-&gt;=C2=A0 meta/classes/uboot-config.bbclass | 17 ++++-------------<br>
-&gt;=C2=A0 meta/conf/documentation.conf=C2=A0 =C2=A0 =C2=A0 |=C2=A0 2 +-<br=
->
-&gt;=C2=A0 3 files changed, 17 insertions(+), 14 deletions(-)<br>
-<br>
-This doesn&#39;t make sense, if we want to set IMAGE_FSTYPES, lets just set=
-<br>
-that.<br>
-<br>
-I&#39;d imagine the code is designed so you&#39;d inherit uboot-config in t=
-he<br>
-machine and this therefore could be made to work as is.<br>
-<br>
-Moving the code to image.bbclass is the wrong thing to do though and<br>
-I&#39;d question whether we want UBOOT_CONFIG doing this at all...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
+# ptests need more memory than standard to avoid the OOM killer
+QB_MEM = "-m 1024"
 
---000000000000d2d2880588fd71cf--
+
+Its not fast to parse this creates about 59 variants of the image. Its
+(ab)using the mcextend class to an image and add the ptest to that
+image for each ptest in the PTESTS_SLOW and PTESTS_FAST variables. It
+also adds openssh since we need an ssh client in the images for
+testimage to work. I also had to add extra space and memory to the
+image config so all the tests could work.
+
+You can get a list of the target images with:
+
+bitbake p-t-image-elfutils-ptest -e | grep ALL_PTESTS=
+
+then run:
+
+bitbake <targets>
+
+and then
+
+bitbake <targets> -c testimage
+
+which batch build and then runs all the images in parallel.
+
+The results also get aggregated automatically into the json file so if
+you delete it before starting, the json file is equavalient from a
+ptest perspective to if they'd all been run in the same image.
+
+The results I got from this are:
+
+--------------------------------------------------------------------------------------------------------------
+Recipe                       | Passed      | Failed    | Skipped   | Time(s)   
+--------------------------------------------------------------------------------------------------------------
+acl                          | 1           | 1         | 0         | 0
+apr                          | 0           | 0         | 0         | -
+apr-util                     | 4           | 0         | 0         | -
+attr                         | 0           | 0         | 0         | 0
+bash                         | 36          | 8         | 0         | 107 T
+bluez5                       | 23          | 2         | 0         | 5
+busybox                      | 528         | 4         | 76        | 4
+bzip2                        | 0           | 0         | 0         | 1
+dbus-test                    | 0           | 0         | 0         | 91 T
+diffstat                     | 439         | 0         | 0         | 4
+diffutils                    | 19          | 0         | 2         | 2
+e2fsprogs                    | 0           | 0         | 0         | 78
+elfutils                     | 172         | 24        | 7         | 21
+ethtool                      | 2           | 0         | 0         | 0
+flex                         | 0           | 0         | 0         | 1
+gawk                         | 342         | 0         | 0         | 2
+gdbm                         | 24          | 0         | 0         | 1
+gdk-pixbuf                   | 20          | 0         | 0         | 39
+gettext                      | 0           | 0         | 0         | 1
+glib-2.0                     | 242         | 3         | 0         | 344
+gstreamer1.0                 | 103         | 1         | 0         | 105
+gzip                         | 0           | 0         | 0         | 1
+json-glib                    | 14          | 0         | 0         | 1
+kbd                          | 5           | 2         | 0         | 0
+libconvert-asn1-perl         | 0           | 22        | 0         | 0
+liberror-perl                | 0           | 15        | 0         | 1
+libevent                     | 1           | 0         | 0         | 86
+libpcre                      | 0           | 0         | 0         | 0
+libtest-needs-perl           | 0           | 2         | 0         | 0
+libtimedate-perl             | 3           | 2         | 0         | 0
+liburi-perl                  | 0           | 39        | 2         | 0
+libusb1                      | 4           | 0         | 0         | 6
+libxml-namespacesupport-perl | 0           | 1         | 0         | 0
+libxml-parser-perl           | 0           | 15        | 0         | 0
+libxml-perl                  | 0           | 6         | 0         | 0
+libxml-sax-base-perl         | 0           | 19        | 0         | 1
+libxml-sax-perl              | 0           | 14        | 0         | 0
+libxml-simple-perl           | 0           | 14        | 0         | 0
+libxml2                      | 134         | 0         | 0         | 16
+lttng-tools                  | 3397        | 626       | 1         | 348 T
+lzo                          | 5           | 0         | 0         | 2
+m4                           | 0           | 0         | 0         | 1
+nettle                       | 97          | 0         | 2         | 10
+openssh                      | 0           | 0         | 1         | 1
+openssl                      | 146         | 1         | 8         | 78
+opkg                         | 0           | 0         | 0         | 11
+pango                        | 12          | 0         | 0         | 1
+parted                       | 0           | 0         | 0         | 0
+perl                         | 2423        | 19        | 238       | 703
+python                       | 302         | 5         | 41        | 330
+python3                      | 30277       | 2         | 1043      | 1005
+quilt                        | 0           | 57        | 0         | 1
+sed                          | 86          | 0         | 0         | 4
+slang                        | 0           | 0         | 0         | 1
+strace                       | 466         | 18        | 147       | 179
+tcl                          | 149         | 0         | 0         | 183
+util-linux                   | 336         | 2         | 80        | 40
+valgrind                     | 149         | 1         | 9         | 537
+zlib                         | 1           | 0         | 0         | 1
+
+which can be compared against:
+
+https://autobuilder.yocto.io/pub/non-release/20190514-14/testresults/testresult-report.txt
+
+which means we have a fair number of ptest recipes with dependency problems:
+
+--------------------------------------------------------------------------------------------------------------
+Recipe                       | Passed      | Failed    | Skipped   | Time(s)   
+--------------------------------------------------------------------------------------------------------------
+acl                          | 1           | 1         | 0         | 0
+apr                          | 0           | 0         | 0         | -
+apr-util                     | 4           | 0         | 0         | -
+attr                         | 0           | 0         | 0         | 0
+bash                         | 36          | 8         | 0         | 107 T
+bluez5                       | 23          | 2         | 0         | 5
+bzip2                        | 0           | 0         | 0         | 1
+dbus-test                    | 0           | 0         | 0         | 91 T
+diffutils                    | 19          | 0         | 2         | 2
+e2fsprogs                    | 0           | 0         | 0         | 78
+elfutils                     | 172         | 24        | 7         | 21
+ethtool                      | 2           | 0         | 0         | 0
+flex                         | 0           | 0         | 0         | 1
+gettext                      | 0           | 0         | 0         | 1
+glib-2.0                     | 242         | 3         | 0         | 344
+gzip                         | 0           | 0         | 0         | 1
+kbd                          | 5           | 2         | 0         | 0
+libconvert-asn1-perl         | 0           | 22        | 0         | 0
+liberror-perl                | 0           | 15        | 0         | 1
+libpcre                      | 0           | 0         | 0         | 0
+libtest-needs-perl           | 0           | 2         | 0         | 0
+libtimedate-perl             | 3           | 2         | 0         | 0
+liburi-perl                  | 0           | 39        | 2         | 0
+libxml-namespacesupport-perl | 0           | 1         | 0         | 0
+libxml-parser-perl           | 0           | 15        | 0         | 0
+libxml-perl                  | 0           | 6         | 0         | 0
+libxml-sax-base-perl         | 0           | 19        | 0         | 1
+libxml-sax-perl              | 0           | 14        | 0         | 0
+libxml-simple-perl           | 0           | 14        | 0         | 0
+lttng-tools                  | 3397        | 626       | 1         | 348 T
+m4                           | 0           | 0         | 0         | 1
+openssh                      | 0           | 0         | 1         | 1
+opkg                         | 0           | 0         | 0         | 11
+parted                       | 0           | 0         | 0         | 0
+python                       | 302         | 5         | 41        | 330
+python3                      | 30277       | 2         | 1043      | 1005
+quilt                        | 0           | 57        | 0         | 1
+slang                        | 0           | 0         | 0         | 1
+util-linux                   | 336         | 2         | 80        | 40
+
+The logs from this are available here:
+
+https://www.rpsys.net/wp/rp/testresults.json.gz
+
+(can be extracted with resulttool log)
+
+
+Anyhow, I thought I'd share this slightly crazy but IMO fairly neat
+trick :)
+
+Cheers,
+
+Richard
+
+
