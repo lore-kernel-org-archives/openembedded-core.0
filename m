@@ -1,48 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 56E7E7D86E
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6D6057DF1D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 07:03:35 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id m3so1866010wrv.2
+	Thu, 16 May 2019 07:48:35 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 454NpC5KGcz8m
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 00:03:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=kgI9hBZaaOgt/VR0/f0Z7pc+D24ej5zWrVaczEdXQ74=;
-	b=MV2Iruh4cg8Slh902+WStaTyuC5NOp8wnoDwswkPmK5JWyVZyjCEx+cw1Z7wDk6Snw
-	I/wSGPrBi5xyOthcVMj4y7nWvYfaTbHE977bSzsDO6onmOm6tSHUXxkTF20Y7xd8Wml+
-	fCheyKC1MTDg+6VvLVPrJtIwJOfE78QFLMBliU4JZQAOZYadUGfE1oLvB/xLSeqWTqrn
-	YNJTYfhcgAncSe5RevPDYloj7TQCmFdxvlfJv7RFAswtP6MXsRdXXBr+7IUghXw3zKZq
-	O82pOgVaKJqrSYznLwB/KCT3qAUUnnKZM20bHAzxlbC6Cyz7oL0BzNV1visvF+qzsCPy
-	0v4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kgI9hBZaaOgt/VR0/f0Z7pc+D24ej5zWrVaczEdXQ74=;
-	b=Z7N0uc+if2P6LAYotGfIvaqzRqUvehUUifM5Kjwnz6Em6ildhjTB0jObLXRd9jkBpJ
-	qUj2+TMDeGowIfmMvDZHGBjMTGVw6qJXlp5ncbVzZoPZM9/zqucPrS83gkghHTWMBYgX
-	FYRHgjzgmYSUkJGNfHD4ZbOVAhHKMqyhUstxwYD1MoxrcSzJv4Rb4L6YGVW4NVnWSvve
-	toSk37mx7jY1k0eDqC7B6+JoK3v3B0H0g31t1Bz5Z5dUqUIKMSr0aR++alDvGFrnMgIr
-	HYp1vMIWuvX4Dx/ud1sx89pz5tu6vZvEUpHvNGZn8YWBqLND13IH87W3wV66IVww/2zn
-	f37A==
-X-Gm-Message-State: APjAAAVj6CBm0gLpVIEN20I24pPjXWFJwGts1uOE/B/bUvcTTxfvyxnr
-	owW+S58Cou6WT0LG/5clwLStI4Nv
-X-Google-Smtp-Source: APXvYqwAv9akr6Marq89XAAByTqTVCvQ03/9fiocUO76EVXbaA86uwFKGWJCSZeuy+89uiZc93AjLA==
-X-Received: by 2002:adf:ec06:: with SMTP id x6mr27632600wrn.159.1557990215659; 
-	Thu, 16 May 2019 00:03:35 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	q16sm4860146wmj.17.2019.05.16.00.03.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 16 May 2019 00:03:35 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Thu, 16 May 2019 09:48:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1557992915;
+	bh=ApTw/Gxc6Y4uN9Iyxj9vzig7Vneyisd4PN+40YLqWio=;
+	h=From:To:Subject:Date:From;
+	b=L5ej2oFq6ZGhTIbH+PFcm3KpYKYuy7nyZ+MwKhjvCymUFvCaRRfey5691zMEUxwD9
+	I8zVNBbKQTmDQe17liVLLbZtOIrvWKzd5wt2LfMuuUO5HxmYZluIhViFZN+M1SxeOf
+	WtJ0eTl0DVIbooxTHhryF3f1VT9wTio0VgtCMt18qpuw0caaWkUG62ts/hgAjP+o0v
+	Zb00ygCJCriWH4QYElVgRFD9fX2TQCY2m4TTgxZ/lJ1Ew3sIWrQ57K3hYedFDEXqpY
+	cRt0a7bs9GF28zg2UFzw5WCVzUUQ8H8r1PzIr6r0SO9UNL3cceqnNvRDG639SKTg2y
+	6xne6cqSzfELnNR5kFjShPkZBTI6tZDpJ8mmzAIJxcuwvjGaN5bEp9HcHWdsPJ0bxK
+	23YWe6Asa/6z8UIUrk22qaRGHBBQ/cYH3AFJWU/MJvzg9frwA9w8PeKT7+Svyano6z
+	5iEaTr9YH2SwmuHPFj2LIrWt34CQ+tlMe7gaUwJ1+tcUK0vkVwoCu12QMoNuM+4hrw
+	IMFZKx7mIq1o8s2W6A8WHzWCHhifImlJ4zWYP3TEs4ayYOQklyS6hoA95C18+wpUwl
+	8tF/OHMir6y0fP1I1ZW4gn3BboSfqVQGcMpiEn+KXCrsI/P3BOxhbNiXk51FPRoWDM
+	VK4R4nJh37SHntLPjgKalI3U=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 May 2019 07:03:34 +0000
-Message-Id: <20190516070334.24298-1-Martin.Jansa@gmail.com>
+Date: Thu, 16 May 2019 10:48:34 +0300
+Message-Id: <20190516074834.3014-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] grub-efi-cfg, systemd-boot-cfg: use MACHINE_ARCH
+Subject: [PATCH] musl: Add TEMP_FAILURE_RETRY from glibc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,57 +40,124 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 07:03:35 -0000
+X-List-Received-Date: Thu, 16 May 2019 07:48:35 -0000
 
-* both use KERNEL_IMAGETYPE variable which is MACHINE specific
-* fixes:
+Patch it into musl instead of patching all users
+(currently elfutils and next ofono).
 
-  === Comparing signatures for task do_configure.sigdata between hammerhead and mako ===
-  ERROR: grub-bootconf different signature for task do_configure.sigdata between hammerhead and mako
-  basehash changed from 710332f3ec15670302dd690708730c9e418d53790ce36d6a91b049ae4f7069b1 to c9a46e58b4634b5fd47d20683f8320e15f5c4cb7628e3a62ed97d8528d7aabd2
-  Variable KERNEL_IMAGETYPE value changed from 'zImage-dtb' to 'zImage'
-
-  ERROR: systemd-bootconf different signature for task do_configure.sigdata between hammerhead and mako
-  basehash changed from 2abbaf6d7760696fbf1ff5df5705239b475ccbf6f0c831fc4031984c0ce0e9f2 to 24f1e7886dee02b04bc180acc1c946ad82ce842655e5a5f4a8006f4a8490f985
-  Variable KERNEL_IMAGETYPE value changed from 'zImage-dtb' to 'zImage'
-
-  detected with:
-  openembedded-core/scripts/sstate-diff-machines.sh --targets=world --tmpdir=tmp-glibc/ --analyze --machines="hammerhead mako qemux86"
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/classes/grub-efi-cfg.bbclass     | 3 +++
- meta/classes/systemd-boot-cfg.bbclass | 3 +++
- 2 files changed, 6 insertions(+)
+ ...0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch | 36 +++++++++++++++++++
+ meta/recipes-core/musl/musl_git.bb            |  1 +
+ ...ternatives-for-glibc-assumptions-hel.patch | 30 +---------------
+ 3 files changed, 38 insertions(+), 29 deletions(-)
+ create mode 100644 meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
 
-diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
-index 5eeee6c2e3..f661a69f83 100644
---- a/meta/classes/grub-efi-cfg.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -27,6 +27,9 @@ EFIDIR = "/EFI/BOOT"
- GRUB_ROOT ?= "${ROOT}"
- APPEND ?= ""
- 
-+# Uses MACHINE specific KERNEL_IMAGETYPE
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
+diff --git a/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch b/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
+new file mode 100644
+index 0000000000..4d48d61651
+--- /dev/null
++++ b/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
+@@ -0,0 +1,36 @@
++From 19cbebc3fa33c6a1a71a6036da4d67c98f859f06 Mon Sep 17 00:00:00 2001
++From: Adrian Bunk <bunk@stusta.de>
++Date: Wed, 15 May 2019 16:08:33 +0300
++Subject: unistd.h: Add TEMP_FAILURE_RETRY
 +
- # Need UUID utility code.
- inherit fs-uuid
- 
-diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
-index 021c9f9331..b3e0e6ad41 100644
---- a/meta/classes/systemd-boot-cfg.bbclass
-+++ b/meta/classes/systemd-boot-cfg.bbclass
-@@ -2,6 +2,9 @@ SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
- SYSTEMD_BOOT_ENTRIES ?= ""
- SYSTEMD_BOOT_TIMEOUT ?= "10"
- 
-+# Uses MACHINE specific KERNEL_IMAGETYPE
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
++Signed-off-by: Adrian Bunk <bunk@stusta.de>
++Upstream-Status: Inappropriate [oe-specific]
++---
++ include/unistd.h | 11 +++++++++++
++ 1 file changed, 11 insertions(+)
 +
- # Need UUID utility code.
- inherit fs-uuid
++diff --git a/include/unistd.h b/include/unistd.h
++index 9485da7a..8a75af57 100644
++--- a/include/unistd.h
+++++ b/include/unistd.h
++@@ -460,6 +460,17 @@ int eaccess(const char *, int);
++ #define _CS_V6_ENV	1148
++ #define _CS_V7_ENV	1149
++ 
+++#ifdef _GNU_SOURCE
+++#ifndef TEMP_FAILURE_RETRY
+++# define TEMP_FAILURE_RETRY(expression) \
+++  (__extension__                                                              \
+++    ({ long int __result;                                                     \
+++       do __result = (long int) (expression);                                 \
+++       while (__result == -1L && errno == EINTR);                             \
+++       __result; }))
+++#endif
+++#endif
+++
++ #ifdef __cplusplus
++ }
++ #endif
++-- 
++2.20.1
++
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 1e324804e1..2b433aed8c 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -15,6 +15,7 @@ PV = "${BASEVER}+git${SRCPV}"
+ SRC_URI = "git://git.musl-libc.org/musl \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
++           file://0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch \
+           "
  
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch b/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+index a4f301d9da..10cdac646c 100644
+--- a/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
++++ b/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+@@ -64,18 +64,10 @@ index 292082b..308a762 100644
+  #include <stddef.h>
+  #include <stdint.h>
+  #include <sys/param.h>
+-@@ -51,6 +51,16 @@
++@@ -51,6 +51,8 @@
+  #else
+  # error "Unknown byte order"
+  #endif
+-+#ifndef TEMP_FAILURE_RETRY
+-+#define TEMP_FAILURE_RETRY(expression) \
+-+  (__extension__							      \
+-+    ({ long int __result;						      \
+-+       do __result = (long int) (expression);				      \
+-+       while (__result == -1L && errno == EINTR);			      \
+-+       __result; }))
+-+#endif
+ +
+ +#define error(status, errno, ...) err(status, __VA_ARGS__)
+  
+@@ -141,26 +133,6 @@ index 56e6105..f4a0649 100644
+  #include "../libdw/libdwP.h"	/* DWARF_E_* values are here.  */
+  #include "../libelf/libelfP.h"
+  #include "system.h"
+-diff --git a/libdwfl/libdwfl_crc32_file.c b/libdwfl/libdwfl_crc32_file.c
+-index f849128..6f0aca1 100644
+---- a/libdwfl/libdwfl_crc32_file.c
+-+++ b/libdwfl/libdwfl_crc32_file.c
+-@@ -29,6 +29,15 @@
+- # include <config.h>
+- #endif
+- 
+-+#ifndef TEMP_FAILURE_RETRY
+-+#define TEMP_FAILURE_RETRY(expression) \
+-+  (__extension__                                                             \
+-+    ({ long int __result;                                                    \
+-+       do __result = (long int) (expression);                                \
+-+       while (__result == -1L && errno == EINTR);                            \
+-+       __result; }))
+-+#endif
+-+
+- #define crc32_file attribute_hidden __libdwfl_crc32_file
+- #define crc32 __libdwfl_crc32
+- #include <libdwflP.h>
+ diff --git a/libdwfl/linux-kernel-modules.c b/libdwfl/linux-kernel-modules.c
+ index 360e4ee..b5aa397 100644
+ --- a/libdwfl/linux-kernel-modules.c
 -- 
 2.17.1
 
