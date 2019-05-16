@@ -1,54 +1,49 @@
-Return-Path: <oobitots@cisco.com>
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
-	by mail.openembedded.org (Postfix) with ESMTP id 25A917D28D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F7277DF86
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 08:32:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=1529; q=dns/txt; s=iport;
-	t=1557995575; x=1559205175;
-	h=from:to:subject:date:message-id:references:
-	content-transfer-encoding:mime-version;
-	bh=ehUH9nUPoa2Y6r2GbBU+ieIZEfcP0pDRnWk56epP3m0=;
-	b=bGnSpBzDjUU+V+yriFE0MeFxqyTEZZXrQWwbeYlcP6v3gERs4YwfMSoq
-	2VmhDFleo4BCipvi4X6GblDxMpByao7Xe7tN+7ljbc+99ybVuctuT2pos
-	J7yfzmSbOYGKjUZw+gORM37L2yOQxruA0J5lrQPt1Mhxdspxm02Yqh9mP 0=;
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BdAAAtH91c/4sNJK1kHQEBBQEHBQG?=
-	=?us-ascii?q?BUgcBCwGCEGlUMCgKlw6CDZhTgXsJAQEBDAEBHxABAYRAgi0jNQgOAQMBAQQ?=
-	=?us-ascii?q?BAQIBBG0dC4VLAQU6EQE9AgEIGB4QMiUCBBMIgxuCCqxQg38BhjWBMwGLThe?=
-	=?us-ascii?q?Bf4QjPoREhWIEp1kJAh2BbIYhjDUjghSTWow0gSKTaAIRFYEwIQE1gVdwFYM?=
-	=?us-ascii?q?nCZBIQTEBj02BIQEB?=
-X-IronPort-AV: E=Sophos;i="5.60,476,1549929600"; d="scan'208";a="271230194"
-Received: from alln-core-6.cisco.com ([173.36.13.139])
-	by alln-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
-	16 May 2019 08:32:54 +0000
-Received: from XCH-ALN-006.cisco.com (xch-aln-006.cisco.com [173.36.7.16])
-	by alln-core-6.cisco.com (8.15.2/8.15.2) with ESMTPS id x4G8Ws4a011093
-	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL)
+	Thu, 16 May 2019 08:36:19 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id r7so2296636wrr.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 08:32:54 GMT
-Received: from xch-rcd-007.cisco.com (173.37.102.17) by XCH-ALN-006.cisco.com
-	(173.36.7.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Thu, 16 May 2019 03:32:54 -0500
-Received: from xch-rcd-007.cisco.com ([173.37.102.17]) by
-	XCH-RCD-007.cisco.com ([173.37.102.17]) with mapi id 15.00.1473.003;
-	Thu, 16 May 2019 03:32:54 -0500
-From: "Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC@Cisco)" <oobitots@cisco.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [meta-oe][PATCH] protobuf: Fix ptest compilation
-Thread-Index: AQHU9GntQc8J3s294UGkpb5K2Wk/XA==
-Date: Thu, 16 May 2019 08:32:53 +0000
-Message-ID: <d0be2f64c3564298aca4a3598fb5c9d9@XCH-RCD-007.cisco.com>
+	Thu, 16 May 2019 01:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=ac+IDUkQylJaTgNfEe/SifotT9pAq6hcfIc858McXwU=;
+	b=T4roLl0+j6ZUZbalWgz4OXKk06v2VzPpEDmhW38xTDpJCKUprAREoIDWRorvRGL9Kc
+	BBZd2SKTCe8AVw+vC2Bkz6RszLO5DCjp5bMu8mA71zezjVaEGqj14xb5vyBa4gAETHzT
+	nYrLWmrwWV3bx5FtRyS2CA8WczF+WJ23GnTBI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=ac+IDUkQylJaTgNfEe/SifotT9pAq6hcfIc858McXwU=;
+	b=lPSj4DnqqW5qmqiUtbYEwqeZ1dGGwXPapoqw01YDtv9ij8MeF7JDB7IPdZydRfU1tp
+	ZrNrZMI1LI8pssGCeMcYxXf7vAn0MjViuWf1tfOrHVLbIU8Lo2c2mr80miWOhQC0WNxt
+	oomzrajo2KJxAa3oLRgO5H7bSdR9kNV2vTT5w/tyX8JbYyD/0o4zd1KA1mu5I8mNyLi1
+	Mj9CrQB26oQG740wnr9SKA9aNo4q4exXQjIsX6Bjsdp18mZnE1GKeifkfAYPya7BaVyb
+	PztgoilCEZpJ8Bgbxe1XDNhxKEYoy02V7nEgk95amJvjghodcoGMztSSmX5gG2u7JH7D
+	myUQ==
+X-Gm-Message-State: APjAAAWzvxEvzvPLbVTzL6dRIjJfA3FjYFbb8JucaOlSr7CdJntTVXo0
+	xu14q1bmQmgmAO6pSl4pj4V4Tw==
+X-Google-Smtp-Source: APXvYqwuXmlnRoWEaePq+7NnRKspRIwgaAWcCjt5gwNwWVpiA6TtgVqJcSNkkzxEE05H7XSP8v5oKw==
+X-Received: by 2002:a5d:54c9:: with SMTP id x9mr10370462wrv.266.1557995780083; 
+	Thu, 16 May 2019 01:36:20 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id c2sm3091485wrr.13.2019.05.16.01.36.18
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 16 May 2019 01:36:19 -0700 (PDT)
+Message-ID: <8090e1dda78942a654410f6546407dcfb38f54b3.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC@Cisco)" <oobitots@cisco.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Date: Thu, 16 May 2019 09:36:18 +0100
+In-Reply-To: <d0be2f64c3564298aca4a3598fb5c9d9@XCH-RCD-007.cisco.com>
 References: <20190416153442.26880-1-oobitots@cisco.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.63.15.143]
+	<d0be2f64c3564298aca4a3598fb5c9d9@XCH-RCD-007.cisco.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 173.36.7.16, xch-aln-006.cisco.com
-X-Outbound-Node: alln-core-6.cisco.com
 Subject: Re: [meta-oe][PATCH] protobuf: Fix ptest compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -62,46 +57,20 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 08:32:54 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 16 May 2019 08:36:19 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Any comments?=0A=
-=0A=
-Regards,=0A=
-Oleksiy=0A=
-=0A=
-On 16.04.19 18:34, Oleksiy Obitotskyy wrote:=0A=
-> Tests require c++11 support, so add -std=3Dc++11=0A=
-> to compiler flags.=0A=
->=0A=
-> Upstream-Status: Pending=0A=
-> Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>=0A=
-> ---=0A=
->  meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb | 4 ++--=0A=
->  1 file changed, 2 insertions(+), 2 deletions(-)=0A=
->=0A=
-> diff --git a/meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb b/meta-o=
-e/recipes-devtools/protobuf/protobuf_3.6.1.bb=0A=
-> index cf72d9ca7..4791e13ca 100644=0A=
-> --- a/meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb=0A=
-> +++ b/meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb=0A=
-> @@ -40,8 +40,8 @@ do_compile_ptest() {=0A=
->  	# which haven't been installed yet.=0A=
->  	cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"=0A=
->  	sed -e 's|libdir=3D|libdir=3D${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TES=
-T_SRC_DIR}/protobuf.pc"=0A=
-> -	sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobu=
-f.pc"=0A=
-> -	sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/proto=
-buf.pc"=0A=
-> +	sed -e 's|Cflags:|Cflags: -std=3Dc++11 -I${S}/src|' -i "${B}/${TEST_SRC=
-_DIR}/protobuf.pc"=0A=
-> +	sed -e 's|Libs:|Libs: -std=3Dc++11 -L${B}/src/.libs|' -i "${B}/${TEST_S=
-RC_DIR}/protobuf.pc"=0A=
->  	export PKG_CONFIG_PATH=3D"${B}/${TEST_SRC_DIR}"=0A=
->  =0A=
->  	# Save the pkgcfg sysroot variable, and update it to nothing so=0A=
-=0A=
+On Thu, 2019-05-16 at 08:32 +0000, Oleksiy Obitotskyi -X (oobitots -
+GLOBALLOGIC INC at Cisco) via Openembedded-core wrote:
+> Any comments?
+
+meta-oe changes need to go to openembedded-devel, not openembedded-
+core.
+
+Cheers,
+
+Richard
+
+
 
