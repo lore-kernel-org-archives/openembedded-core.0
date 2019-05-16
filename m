@@ -1,47 +1,33 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 3EB7D7D007
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6BDD37E054
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 16:56:24 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id j187so4206386wmj.1
+	Thu, 16 May 2019 17:16:13 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 454dP92w5yz7P
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 09:56:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=kJwUiiJdi8MVQZLcO8AeHuenWWQbRD/W+ATvGlefHgo=;
-	b=JGfQ6bXXWIa3/YFFRSuejW3bGCLfLQojyZKeUFV4FRsAGGoLyL0Pg10m8muuEmSUDV
-	sBcM97I6/0FKjZjLHBwUiMcJg5TQ/zyxIB+Z+U5vE4uhb9l5gdyFhwjHcbM6hsL9zLH4
-	LfAR+I5Ebz2yAabIp6zB7CtcuOKyCaXlAXH1yIsUdr0C+778JUSuBSFUe9Jpm5z6d0S5
-	atdjIqghDHpR7u0tQYo8DCdrcKCo0O+vprzsEzWHbc4P/lSk9bvlZMoRHzjCtgsTDJT3
-	ALk0wyUy2TvHRMp4sbmpE5T9BKEAOL6sHXrWwDhfAx+KAXNHcbOkEU3+Oe821sEpT/60
-	Fg6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kJwUiiJdi8MVQZLcO8AeHuenWWQbRD/W+ATvGlefHgo=;
-	b=CeB+Juho4K/TPIYR3cXE4CEBPLrscbjzswDeTYvf0/LMpQGeoi6tWiHOSbIyN8YhCS
-	bdfCvZUuoQgE255B5EjB/pV3zEBGxWpG3iV+RPuca+R80jQ9qUO7KvcS4KKNoKEq15AH
-	MkNXIaxNziIISMFYMKV22wFn+2oIb8P4pxkHsmptctSd+TRhW8aM7/mqlQUnHzQ5c5A7
-	TyMm2ZSHujbzawfsma48OR9jV0a+gPmC8Eiq0L4uDt9OEaIr/Uy/7erBzOVoZRyIJ2PP
-	BDhPvakk1N7mmhqb8Nlz6LnX17lmN0SrN12at3e6Xw8MKJDPsfTBFrjSbNaEMq7E8rMW
-	iLSA==
-X-Gm-Message-State: APjAAAX0ydOSdMf0z+x39Jcd943QLUqTVi/7fqeVTH79xwjtGR/2A2AO
-	RBFGNcJUdjg2WFehMBVlADYJGOdz
-X-Google-Smtp-Source: APXvYqw36iXbazzsnRI4rvjRp9vPdAldphykwp95KfSlxYVK1IkUs4TOeUIjR8ZFM/d5rZGeLhiNaQ==
-X-Received: by 2002:a1c:e386:: with SMTP id a128mr22208944wmh.69.1558025784591;
-	Thu, 16 May 2019 09:56:24 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id g6sm7762359wro.29.2019.05.16.09.56.23
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 16 May 2019 09:56:23 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+	Thu, 16 May 2019 19:16:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558026973;
+	bh=hEHIZg7Ydmm1+F88FLyNaKgUALipB1IN5fIVEZq8BLA=;
+	h=From:To:Subject:Date:From;
+	b=HRo6CkkEbHc4RoqtpY+ex2UJtyCBNSWsXic8rrTzSuH2fTmpGittedKsRZiaO4O7n
+	PDde2T9xQpzXAgWnIvYxrxjreHRyspXs7DFvN+dDZ2j2qeg/v8RF/5W6I/II+egoph
+	+ZrXRi1q64hV8BTt94pWp+oqowDxjNyhdwyhKQWTeDB+8/XfXJuJFZWlP04WZiS9Kr
+	QGLFtgzsvWUZ1olBdm6b/HTqI3TQp/Ook+PK/Rhd+Yj/z+edMbSELgJJy/ikqMQphB
+	FzoJfDzLZSC/LpJzYcEisOKUtCxmaPS515C3DRQ3lCjr91P6844beGj0eKxgDutJ1g
+	flL2mn8jdie772+UUhtCxR5dhSPY/a8XGjVG6yd4VduhDdZ5i/f6/ovzp/J4T2O5jn
+	5v01lGBqTIfnG8vTfLLkzdNlvcWhvVs6+fz1hEqT+9EhF6gd2Fweue3tdl8f2dMdVg
+	pmAoZAc8SCMLfTwkSSWX9pXC5eR+WjsW6nGebH4cHIlJkNZMGqTJhlahrrkNBnzkKY
+	17y/GiyaYaQashCw0bKvcLML6LMlsX3hsVEyTgvYMAHbpfcEf7wwLO6FbU/cj8ffJ1
+	AU69/QCI0c9CIq+vwOJCzx0mrxorXXuuepFbTceWkpTsP0X6nVF6RQf41XwoxjWItj
+	nlttHXcOPM28jffhOeRQIY74=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 May 2019 16:56:24 +0000
-Message-Id: <20190516165624.24188-1-Martin.Jansa@gmail.com>
+Date: Thu, 16 May 2019 20:16:11 +0300
+Message-Id: <20190516171611.13983-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [RFC][PATCH] tcmode-default.inc: use the same TUNE_PKGARCH variable as PN set in go-cross
+Subject: [PATCH] systemd: Disable idn properly for musl instead of NI_IDN workarounds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,40 +40,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 16:56:24 -0000
+X-List-Received-Date: Thu, 16 May 2019 17:16:13 -0000
 
-* otherwise P_V might be set for i686 and PN and RECIPE_MAINTAINER for i586
-  from bitbake -e lib32-gcc-cross-i686:
-
-  PREFERRED_VERSION_lib32-go-cross-i686="1.12%"
-  RECIPE_MAINTAINER_pn-go-cross-i586="Khem Raj <raj.khem@gmail.com>"
-
-  $ git grep 'go-cross-${'
-  meta/conf/distro/include/maintainers.inc:RECIPE_MAINTAINER_pn-go-cross-${TUNE_PKGARCH} = "Khem Raj <raj.khem@gmail.com>"
-  meta/conf/distro/include/tcmode-default.inc:PREFERRED_VERSION_go-cross-${TARGET_ARCH} ?= "${GOVERSION}"
-  meta/recipes-devtools/go/go-cross.inc:PN = "go-cross-${TUNE_PKGARCH}"
-
-* actually is there a reson to use TUNE_PKGARCH here (unlike other cross/canadian-cross recipes
-  which are using TARGET_ARCH/TRANSLATED_TARGET_ARCH)?
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/conf/distro/include/tcmode-default.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...n-t-fail-if-libc-doesn-t-support-IDN.patch | 38 -------------------
+ meta/recipes-core/systemd/systemd_242.bb      |  4 +-
+ 2 files changed, 3 insertions(+), 39 deletions(-)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index daacfe28c4..668f31324e 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -68,7 +68,7 @@ PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
- PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
+diff --git a/meta/recipes-core/systemd/systemd/0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch b/meta/recipes-core/systemd/systemd/0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
+deleted file mode 100644
+index 1dedbd3b9b..0000000000
+--- a/meta/recipes-core/systemd/systemd/0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 6a2cadd6b70cb40ac74fc0d0f8557b914bd38ac2 Mon Sep 17 00:00:00 2001
+-From: Chen Qi <Qi.Chen@windriver.com>
+-Date: Mon, 2 Jul 2018 13:22:41 +0800
+-Subject: [PATCH 09/24] socket-util: don't fail if libc doesn't support IDN
+-
+-Upstream-Status: Inappropriate [musl specific]
+-
+-Signed-off-by: Emil Renner Berthing <systemd@esmil.dk>
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- src/basic/socket-util.c | 10 ++++++++++
+- 1 file changed, 10 insertions(+)
+-
+-diff --git a/src/basic/socket-util.c b/src/basic/socket-util.c
+-index 904bafb..a7a009d 100644
+---- a/src/basic/socket-util.c
+-+++ b/src/basic/socket-util.c
+-@@ -34,6 +34,16 @@
+- #include "user-util.h"
+- #include "utf8.h"
+- 
+-+/* Don't fail if the standard library
+-+ * doesn't support IDN */
+-+#ifndef NI_IDN
+-+#define NI_IDN 0
+-+#endif
+-+
+-+#ifndef NI_IDN_USE_STD3_ASCII_RULES
+-+#define NI_IDN_USE_STD3_ASCII_RULES 0
+-+#endif
+-+
+- #if ENABLE_IDN
+- #  define IDN_FLAGS NI_IDN
+- #else
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 73e03c7a77..20714fc70a 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -36,7 +36,6 @@ SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.pa
+                file://0006-Include-netinet-if_ether.h.patch \
+                file://0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch \
+                file://0008-add-missing-FTW_-macros-for-musl.patch \
+-               file://0009-socket-util-don-t-fail-if-libc-doesn-t-support-IDN.patch \
+                file://0010-fix-missing-of-__register_atfork-for-non-glibc-build.patch \
+                file://0011-Use-uintmax_t-for-handling-rlim_t.patch \
+                file://0012-fix-missing-ULONG_LONG_MAX-definition-in-case-of-mus.patch \
+@@ -71,6 +70,7 @@ PACKAGECONFIG ??= " \
+     gshadow \
+     hibernate \
+     hostnamed \
++    idn \
+     ima \
+     kmod \
+     localed \
+@@ -95,6 +95,7 @@ PACKAGECONFIG ??= " \
  
- PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
--PREFERRED_VERSION_go-cross-${TARGET_ARCH} ?= "${GOVERSION}"
-+PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?= "${GOVERSION}"
- PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
- PREFERRED_VERSION_go-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GOVERSION}"
- PREFERRED_VERSION_go ?= "${GOVERSION}"
+ PACKAGECONFIG_remove_libc-musl = " \
+     gshadow \
++    idn \
+     localed \
+     myhostname \
+     nss \
+@@ -129,6 +130,7 @@ PACKAGECONFIG[gnutls] = "-Dgnutls=true,-Dgnutls=false,gnutls"
+ PACKAGECONFIG[gshadow] = "-Dgshadow=true,-Dgshadow=false"
+ PACKAGECONFIG[hibernate] = "-Dhibernate=true,-Dhibernate=false"
+ PACKAGECONFIG[hostnamed] = "-Dhostnamed=true,-Dhostnamed=false"
++PACKAGECONFIG[idn] = "-Didn=true,-Didn=false"
+ PACKAGECONFIG[ima] = "-Dima=true,-Dima=false"
+ # importd requires curl/xz/zlib/bzip2/gcrypt
+ PACKAGECONFIG[importd] = "-Dimportd=true,-Dimportd=false"
 -- 
 2.17.1
 
