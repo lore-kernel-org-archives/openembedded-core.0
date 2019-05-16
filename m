@@ -1,51 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DCE2F6C132
+Return-Path: <luca.boccassi@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 688397E077
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 19:29:12 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 15so545120wmg.5
+	Thu, 16 May 2019 21:09:59 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id m3so4719296wrv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 12:29:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=OzLwSuY99I8xvt+rHiRLgs+xklfZj/KidzVF/Q4D0sM=;
-	b=CSRsm7nsCCp5C/6e7txu0SWsbKzX/KwlGlpDYmVo7gM1X0O8wWnohuwGcC0X85vcLI
-	jJmHQkesp4/8jjEXpkns+B9vJAtJakgj5x07RlnI04pWBc3hxFhTUI5W4elC/CrnGn8c
-	ytHM6WVuqByEZVyLKAdgxDAJsPsJRtzFRvEEk=
+	Thu, 16 May 2019 14:10:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X4vL4sgXvgcOajbIAF/gYMLgnT/Mtd76H/mqHCouBus=;
+	b=M2IeuKTESZpF4tyuHjN0Y2TJeIrSEZuCgwQ53P1JNb6dXUAzrQZ3LPBxG3Ne9R+Cnt
+	Mh6yAjGe2U9uVdARu05tFvqEK72AwEt03Acj9tpTFNwIg0DhfcNWMyWFlRuTJzTs0lV7
+	Mg3PeYCJH5we+CGt60eHjqNlhtokTsq+H2mlM/3knHDWKlQ7WndmoV+iDDWaw414c4MN
+	qjdPDIBetc0z+R1yl2Q3HjCvGozmtJIJHszTASlbjOpFbm4UDqLqh4phM2Qwj73J0opz
+	ENA0sdHZaXiQxFSnTZ+/5UYkIV1HzCeGVwqqpn/BL7fPi96bLkFPub4w5e+p8eCJOdL+
+	aVmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=OzLwSuY99I8xvt+rHiRLgs+xklfZj/KidzVF/Q4D0sM=;
-	b=X6EyEG0Q1F/OgoH+k+FPSvbVgOoqfWhBSwOwhMOxcnlrgArJJ2lYSEkAuIrOZX7qgd
-	lDhwulsZnDS1df/gJSdWXwW0qzr0ZyrAISXoCqTP6r/OOGmcv9U1EfcCc5ZKz/j4fW/C
-	85IIkUndShmk8CRo4jXL/pSuAoToPe7SBOt5o4/UNJnJ0vRZxFIH11LfQ18HvWdyeu68
-	YB1jbah1Gu1y5P6sCaO/ElvcBdK/yCI3rlPtY6JwqsmeTMS5UaFDXT47MWcqs8zC13EC
-	Ifwxs9ulzIP5ExE8q1e4S10FK6/f97LfrhsQUg+HVs+y9RMdFraZ8KXynylygq2UqblS
-	rfmA==
-X-Gm-Message-State: APjAAAX8nhwRvAua2c06qX8VIzTuLVt6nKYD14Fx3Gh8EHMyU4d045hg
-	yxLqSnX3975Hn6y0muwgSyauJA==
-X-Google-Smtp-Source: APXvYqxSTOXxvhpLkUMV3YNq0VxmNWcbGEosaYUNTmy9nRmTPhvjX2sLTrc8P56VaP1gBgu/Lz0Q9w==
-X-Received: by 2002:a7b:c053:: with SMTP id u19mr27591529wmc.63.1558034953597; 
-	Thu, 16 May 2019 12:29:13 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j46sm11732574wre.54.2019.05.16.12.29.12
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=X4vL4sgXvgcOajbIAF/gYMLgnT/Mtd76H/mqHCouBus=;
+	b=H1BcUf6bi2bViLcQScbvqYIqprFBDfl8iBU301H8t4dT8CN+tu4XJ1Lx8AXW+kijrw
+	/0vvDUCFhOHnhb+bhTjAxs9TJCX0FAXWOLOpKdWpasod3fluBbjSI3a1xZHwcQ7NPoSo
+	B7+xGtNVbsQVt0Pn85hbJvQM82Pw3kAKxHv0zp3AWDxj4xXU61OgFGhfePdhK/O2J7lF
+	OnNgv0Hf5jy4VPAJO35K3sI5sWrJ1stVR7jgIfGaZA6fCeGVlv5V8gMq0lsTe6QOJuri
+	z/AayiEsG9TdiuxbTGqE00LbStkjfzttBSqX0YtEFB5AEZry8TrulV7RzaczuZdORZTz
+	r2Jg==
+X-Gm-Message-State: APjAAAW+6yJRWiyiiyMPO1puviVwLTQG/zKA6fkG9EDw2hVkoSt7DsLz
+	ZqzJ11uJ+PevRfjQI6qEKdJ+lydV6N8=
+X-Google-Smtp-Source: APXvYqyKAzFnWBpsxULj6ezIHCjL0cZc31MCvkUhA5gWKaTmYYW5uZot+yEph/5yyRokxLLsvgJmjw==
+X-Received: by 2002:adf:e691:: with SMTP id r17mr13546658wrm.50.1558040999582; 
+	Thu, 16 May 2019 14:09:59 -0700 (PDT)
+Received: from localhost ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
+	k184sm11413541wmk.0.2019.05.16.14.09.58
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 16 May 2019 12:29:13 -0700 (PDT)
-Message-ID: <6e9630df6d8d4bd8f436526f440cf5f2f107bb31.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 16 May 2019 20:29:11 +0100
-In-Reply-To: <1557969749-80524-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1557969749-80524-1-git-send-email-ee.peng.yeoh@intel.com>
-User-Agent: Evolution 3.32.1-2 
+	Thu, 16 May 2019 14:09:58 -0700 (PDT)
+From: luca.boccassi@gmail.com
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 May 2019 22:09:56 +0100
+Message-Id: <20190516210956.19906-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2 v2] oeqa/runtime/cases/rpm.py: Enable rpm install dependency testing
+Subject: [PATCH] python*-setuptools: add separate packages for pkg_resources module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +57,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 19:29:13 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 16 May 2019 21:10:00 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-05-16 at 09:22 +0800, Yeoh Ee Peng wrote:
-> Convert manual testcase bsps-hw.bsps-hw.rpm_-
-> __install_dependency_package
-> from oeqa/manual/bsp-hw.json to runtime automated test.
-> 
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> ---
->  meta/lib/oeqa/runtime/cases/rpm.py | 30
-> ++++++++++++++++++++++++++++++
->  1 file changed, 30 insertions(+)
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Much better, only one failure this time in multilib:
+The pkg_resources Python module is useful by itself, for example for
+automatic loading of resources shipped in a Python package.
+Add separate packages for it, so that users can depend on them
+individually and avoid pulling in the entire setuptools, which
+include scripts to download other packages, which might not be
+desired on minimal images.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/612
+Other distributions like Debian and Ubuntu already split setuptools
+and pkg-resources in this way.
 
-Cheers,
+The setuptools packages now depend on the new pkg-resources packages,
+to avoid regressions for other packages that depend on them
+already.
 
-Richard
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+ meta/recipes-devtools/python/python-setuptools.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 357aa07086..ad00cbe0ef 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -24,6 +24,7 @@ RDEPENDS_${PN} = "\
+   ${PYTHON_PN}-html \
+   ${PYTHON_PN}-netserver \
+   ${PYTHON_PN}-numbers \
++  ${PYTHON_PN}-pkg-resources \
+   ${PYTHON_PN}-pkgutil \
+   ${PYTHON_PN}-plistlib \
+   ${PYTHON_PN}-shell \
+@@ -37,3 +38,6 @@ do_install_prepend() {
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++PACKAGES =+ "${PYTHON_PN}-pkg-resources "
++FILES_${PYTHON_PN}-pkg-resources = "${PYTHON_SITEPACKAGES_DIR}/pkg_resources/*"
+-- 
+2.20.1
 
 
