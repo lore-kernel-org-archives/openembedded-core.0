@@ -1,54 +1,47 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BD627E061
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 359CB7D40F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 19:01:10 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id g69so2066889plb.7
+	Thu, 16 May 2019 19:14:47 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id m140so8135165itg.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 12:01:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Mm1MStAlhH+zmPxzdDFuQ0HhaCGHNRpqcMMZBBO93yY=;
-	b=Aw2SWcy//LLQAOWJDXSpT2jaF76yX9mTN2R827fC53ZF/Dj399GClbCU+n1xcbJKs8
-	Qi7mCi+zAu/aTg2lhlmG2iQreNQ5b1YU4G+gnKJppAi2b0CKEaXVJb0FEnlPVuiG2hXV
-	egEi76JKjJdTmW7kowh7Ub3Y2eGdB9LtzTuR+KYov3G5tdzL5vWjimxIe6blTAoMEZ5u
-	AOkDtnWwzTQ5LNw4Js/whIXe46r5nldCeEgFzSlqb0Lif4f29azzMbDZmfx3FLD8F6fl
-	g9qc0eelqMKaC/JNen6iBDUz0EfPTtby/cvbyzb2xF4lc8o6rYyeL/HJHO/yLOzvHAJ9
-	KS3Q==
+	Thu, 16 May 2019 12:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=uOzC59CoYbs1SwRh6Vz5muKiNYhd2WHCEbUIOZbIWEQ=;
+	b=vUfW82jRtvWVmVL6pPPhKy++Sl2DRisHuQK8+tS1OlqZNXb4JmOx9RZ9toj9mrt0Sg
+	6FEAzEoyLpS3L4C9JG+AQtwWD4QSbGZjYp0HWWsxlUslNVp40q3A6jO6UnZeBjAinD5A
+	0k0UP38e31N1W+YKFgCtH4LZcx5hVNmZbKxYqjh/I6aiXKFd21rVHRNRcG7o78iD+GKz
+	mfwKb5I/UCYqTf1vuGYJZ6eakAGy0hKIpkGvCxqdw5QKqLBNZqaHQ+m12sRKDLyA+BAp
+	O/CPBkSfpMvbPTEAb8SKGT5Rc8L9a6VUl4Lat3X3IPrs5T2QvnqmegU5kLwprXWtiOJ+
+	KR/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Mm1MStAlhH+zmPxzdDFuQ0HhaCGHNRpqcMMZBBO93yY=;
-	b=Uko1xfzmi3+6v0aun/piWKvu66ovLXzERbFtzUPBf5FJ/OBWQwZNTowvgmaHjUb3xw
-	8/2C/Ln+NuiJt5XDCkS1qgwAkNZ3u0QWujwks26L5AsWBfRwtFD6ijQh1D8FMwCA5HV+
-	XBTb3okBhCi2jMJSPkI19b5848jfedVtaABS36lsrKZi/tB6N35z35n0Mt2MMgqp0bDl
-	x3T5V54gq7Nak+SdUs9XUetkit6X0Hr8XXFuCKDyH5u3gY5mUxRjSuGNY8w1O3/WAnAU
-	Yq+pcahis5vQVFrW55Lmj+2NxhybpT9hGQUoMlfDZz1Mbo8SkV+1SVAycIjmHfTUcjkq
-	8t9g==
-X-Gm-Message-State: APjAAAU5bIkDu0n1Ck1iVYeIBi3dZ076WWH898Z+u7jKKIOSuopAbdKw
-	hCU3owBigiwH7EbYm6UOm+e80s/6Vbo=
-X-Google-Smtp-Source: APXvYqw87nLtPRvEDJGp9aBXou6fhF+UTj2sFxhDbWxsU4KgTUA1RXpv1uV7FJawt5nMXeFX3W+O1A==
-X-Received: by 2002:a17:902:2a28:: with SMTP id
-	i37mr49787385plb.47.1558033271474; 
-	Thu, 16 May 2019 12:01:11 -0700 (PDT)
-Received: from 172-10-18-22.lightspeed.clmasc.sbcglobal.net
-	(24-113-124-115.wavecable.com. [24.113.124.115])
-	by smtp.gmail.com with ESMTPSA id
-	u134sm10233560pfc.61.2019.05.16.12.01.10
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 16 May 2019 12:01:10 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 May 2019 12:01:05 -0700
-Message-Id: <20190516190105.2576-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.20.1 (Apple Git-117)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=uOzC59CoYbs1SwRh6Vz5muKiNYhd2WHCEbUIOZbIWEQ=;
+	b=CLyUgcFAmUUvVmAHwRqTjZ9VdQIlYicnvZLC7oqzI0bJUlfVQjMhP4qUC2yEMECmBz
+	Jbn6FBCInXG5OIKCDRwXvHNAhUQVWZk3GYDVC5KBsYSJzMoRstG9o8+q4LCXayS8kEsg
+	1dtd6NQdsqBOwnBU56u/Z4JVcrDmCD5sDuDJFv8aKTWrL5jrvygRNOTZDK83J4j3To5A
+	GpGyEuUizKpenwfBUx5cAopwhz93UDB0E+JdCq0LT+vbkkimeiXcsGA5NOT9LfDYI9CB
+	BMQB0Jo9gqRSwqYHQeEnUsv+H8p84DSwApheS8GXte6Sk2JUwJFK4ciiwamgdI0Ev19W
+	2Bvw==
+X-Gm-Message-State: APjAAAX1Y4uJAA46FnRRka7LsMG9ZXfSs2BMNEtjMqHykGZ8s/RWo57l
+	G4lmc5Tr4kTdfDGptS7r+++cfho35KNl8JVUA3nnNeMx
+X-Google-Smtp-Source: APXvYqw5TqoQosW2mpEjvCBXfXsfpnWWofwDnQqcG6KTKjhmvWpNp6Qy5rpxc2BfK5C7BaXoR0VK3eCcg6Fha4WJCgI=
+X-Received: by 2002:a02:b088:: with SMTP id v8mr35054954jah.21.1558034088301; 
+	Thu, 16 May 2019 12:14:48 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] glib-2.0: add missing libgcc dependency to glib-2.0-ptest
+References: <20190516171611.13983-1-bunk@stusta.de>
+In-Reply-To: <20190516171611.13983-1-bunk@stusta.de>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Thu, 16 May 2019 21:14:36 +0200
+Message-ID: <CALbNGRRPz+UQKDu8+7_TVOK6EDAyocMHBqU0W7eOtmB+WQz1aQ@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] systemd: Disable idn properly for musl instead of NI_IDN workarounds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,29 +54,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 19:01:10 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 16 May 2019 19:14:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-The thread tests need libgcc for pthread_cancel to work.
+On Thu, May 16, 2019 at 7:16 PM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Think I saw similar for other recipes. Your journey cleaning up musl
+is highly appreciated!
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-core/glib-2.0/glib.inc | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 9ffc4560a9e..82107a8a188 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -140,6 +140,7 @@ CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
- RDEPENDS_${PN}-codegen += "${CODEGEN_PYTHON_RDEPENDS}"
- 
- RDEPENDS_${PN}-ptest += "\
-+            libgcc \
-             dbus \
-             gnome-desktop-testing \
-             tzdata \
--- 
-2.20.1 (Apple Git-117)
-
+Andreas
 
