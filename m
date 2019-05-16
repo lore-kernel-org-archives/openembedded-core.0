@@ -1,50 +1,49 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
-	[209.85.128.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 1143F7DF5B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B3F67DF5B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 11:48:41 +0000 (UTC)
-Received: by mail-wm1-f54.google.com with SMTP id n25so2777814wmk.4
+	Thu, 16 May 2019 11:49:15 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id g12so2762065wro.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 04:48:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ky3P9Dwn6xAKfd2mRHuDNh3ilhw+og2TEyqUYx6fKIw=;
-	b=k5ClgbXK9Ki7cDIO15RbHnQ8h0RHr4t6SA+G7PJu40m2otZZVqMMJV5nMG4zuwbFAf
-	5PMBmNxEFvRh+oTGrXXIWLBaBwYCjH8GgQ88IeELHKdDoW3/4j4/47NyKQuToksO2k7A
-	07IMKXqQkSx4m5UPj52NA7KjDRfDIXo052tiyiV52zEdVdtP5nVG4BHuZo0rEZGCwxYZ
-	c6A0RWPgwOdluZHk6dBxgalKixVk269ghK7lDzEqu7Gq9mr7aldYQxjTqyuQtsTwhPQQ
-	6MrkHNmmqfMLpqUxUofz2GWeFcbZnpNlNnn41rAIQ2KRKpT8emZZaEi2SoS34N+MEEYd
-	A6jg==
+	Thu, 16 May 2019 04:49:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Gkk1+EWZBgwNFXtMeN6PVaNDGO2RlbWb5lCYcdXAWsY=;
+	b=DBw2SoAJ3waSj+VaV5J8EJMV5g7KbCO3/BsfK3UQd+xFpQFIUUL409hkRkCYgVEs8M
+	v+niOIJkYJY6Wf8slfURhilq0W26inTeMnSZ0JH5Tsq3MXmRBXq24jJRohk4TZpCcw8i
+	lGw2D9/LO/DRPVME1vCbbupRhqut1RTPxGACs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ky3P9Dwn6xAKfd2mRHuDNh3ilhw+og2TEyqUYx6fKIw=;
-	b=S42WAyK27XRLnhJjuTHypWDSAKHro1NytgcVV3/ldCy92O6FKfSICtdJ36EH36Ky5W
-	sweSoWflXRjL53W3UTERul8FkR5jw6eoVJPjsDBGZA3kgvpgqrYOEyUXTU3Si8oGfQ76
-	ryYzMCGkaK+CWOPfXem9Gx/anoQmAOfRgFM5obbttfjOTLCckyeoLNjHX7kdhTSoC+2B
-	3lpAI4U9eu9wAjZCFgjL+tcrA1htYiQ0GXq1KTy0ptE9C91JWofa0SBrByKVXozKG+Tr
-	gzb5YF6JZ8v78c9ISBTZv26sNLGLA43w/vpEDaaofc0NwypG89K2xw6VYAG0DWeBKEMu
-	TM0Q==
-X-Gm-Message-State: APjAAAVH95XygkjgJtx9CH3zGbmU3kTTglevdtIdkVUbBtlcK78inuAX
-	Tfx98c4IFDRzRJJuMIsb/7ufCzWh//boeF2/SbwCYCIp2JEH5w==
-X-Google-Smtp-Source: APXvYqy4jDBBKnIydYnxuyiLPFJaNzgP5hhdaLUrAjnQePzeelk+TQkQdj/5ZTwNceWJRx1X1J48CEyWczFIC2Gus34=
-X-Received: by 2002:a1c:7dcf:: with SMTP id y198mr15505857wmc.94.1558007322557;
-	Thu, 16 May 2019 04:48:42 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Gkk1+EWZBgwNFXtMeN6PVaNDGO2RlbWb5lCYcdXAWsY=;
+	b=XwoMUfbn1+FlISmC55RANlTUfDngL4C/hQwqdT+1HhZDawkgbWX3DAQiVu21+sFaI1
+	zkIWgxwQpbGeR5YSdy/S+BVp1fuoLcAi7E2qKRfOa55nICZYc8XQ/ueY8slOyWENcUMB
+	USDK7qwpBdLUNfcc+qHUeeI/0ZX1yZFzxVRLNLpRCcq5yE1Do17pCj47MkYujWonayE+
+	VrqdSZ5r03BLw/jqx5eLCO8bkM9qre/qd4r+wnnEU1eEMU9QRuuZhSgzPpwYIyXITgEU
+	JZwOKn1N4kpe1rmkxrtS9Rvic5mXx68AoIwi12M3R/RLIig4gofhrmm6tOTcJ7EX98Ep
+	hbDw==
+X-Gm-Message-State: APjAAAVcsmjvJp27VvN6jDTZff+QyopGQN9+3IYMLqbyZgEvmWEmlwZg
+	Kt0aHC4X51iPnu6UowrhC+2N+dveMFg=
+X-Google-Smtp-Source: APXvYqyhqcPOLbgt9Aw5XQoXJPUTxsJfB7sFbCDGuUMxWzgT0lVtCwGfd3qO44mdN5B5CKM/I/PtUQ==
+X-Received: by 2002:a5d:4b81:: with SMTP id b1mr6056740wrt.217.1558007355924; 
+	Thu, 16 May 2019 04:49:15 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	f6sm5561990wro.12.2019.05.16.04.49.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 May 2019 04:49:15 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 16 May 2019 12:49:13 +0100
+Message-Id: <20190516114914.12427-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1557948156-10879-1-git-send-email-liu.ming50@gmail.com>
-	<9c2a9bbda97c6540061fd7a945f9d3eba0f1453c.camel@linuxfoundation.org>
-	<CALatG=6FxLPZi00XyRWrbrcsZcnYxjqCJ_ogJK_7q9BwLBWLtg@mail.gmail.com>
-	<46f68dd583b461731b675936391cd031d8331cf3.camel@linuxfoundation.org>
-In-Reply-To: <46f68dd583b461731b675936391cd031d8331cf3.camel@linuxfoundation.org>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Thu, 16 May 2019 13:48:31 +0200
-Message-ID: <CALatG=618wgNHnAoRj+sRUDb9fip5vKzw1fMcNbpMzFrFQK2MQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Stefan Agner <stefan.agner@toradex.com>, Luka Pivk <luka.pivk@toradex.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] meta: handle UBOOT_CONFIG in image.bbclass
+Subject: [PATCH 1/2] gettext/flex/m4/bzip2/gzip/parted/slang/attr: Add make to -ptest packages
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,93 +56,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 11:48:42 -0000
-Content-Type: multipart/alternative; boundary="00000000000004c3090588ffd9ce"
+X-List-Received-Date: Thu, 16 May 2019 11:49:15 -0000
+Content-Transfer-Encoding: 8bit
 
---00000000000004c3090588ffd9ce
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+This solves ptest runtime errors where make was missing causing the ptests
+to fail.
 
-> I wonder if we need to make it warn about missing functionality if
-someone is using the old option though?
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-core/gettext/gettext_0.19.8.1.bb | 1 +
+ meta/recipes-devtools/flex/flex_2.6.0.bb      | 2 +-
+ meta/recipes-devtools/m4/m4-1.4.18.inc        | 2 ++
+ meta/recipes-extended/bzip2/bzip2_1.0.6.bb    | 2 ++
+ meta/recipes-extended/gzip/gzip_1.10.bb       | 2 ++
+ meta/recipes-extended/parted/parted_3.2.bb    | 2 +-
+ meta/recipes-extended/slang/slang_2.3.2.bb    | 2 ++
+ meta/recipes-support/attr/attr.inc            | 2 +-
+ 8 files changed, 12 insertions(+), 3 deletions(-)
 
-Agreed, will do that in V2.
+diff --git a/meta/recipes-core/gettext/gettext_0.19.8.1.bb b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+index 627568bc3f7..30121ad23e1 100644
+--- a/meta/recipes-core/gettext/gettext_0.19.8.1.bb
++++ b/meta/recipes-core/gettext/gettext_0.19.8.1.bb
+@@ -166,6 +166,7 @@ do_install_ptest() {
+     fi
+ }
+ 
++RDEPENDS_${PN}-ptest += "make"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+     glibc-gconv-big5 \
+     glibc-charmap-big5 \
+diff --git a/meta/recipes-devtools/flex/flex_2.6.0.bb b/meta/recipes-devtools/flex/flex_2.6.0.bb
+index b89b7515b56..b477cd8c7f2 100644
+--- a/meta/recipes-devtools/flex/flex_2.6.0.bb
++++ b/meta/recipes-devtools/flex/flex_2.6.0.bb
+@@ -48,7 +48,7 @@ PACKAGES =+ "${PN}-libfl"
+ FILES_${PN}-libfl = "${libdir}/libfl.so.* ${libdir}/libfl_pic.so.*"
+ 
+ RDEPENDS_${PN} += "m4"
+-RDEPENDS_${PN}-ptest += "bash gawk"
++RDEPENDS_${PN}-ptest += "bash gawk make"
+ 
+ do_compile_ptest() {
+ 	oe_runmake -C ${B}/tests -f ${B}/tests/Makefile top_builddir=${B} INCLUDES=-I${S}/src buildtests
+diff --git a/meta/recipes-devtools/m4/m4-1.4.18.inc b/meta/recipes-devtools/m4/m4-1.4.18.inc
+index f433b3f2dd0..af0ff45863c 100644
+--- a/meta/recipes-devtools/m4/m4-1.4.18.inc
++++ b/meta/recipes-devtools/m4/m4-1.4.18.inc
+@@ -52,6 +52,8 @@ do_install_ptest() {
+                      ${D}${PTEST_PATH}/tests/test-xalloc-die
+ }
+ 
++
++RDEPENDS_${PN}-ptest += "make"
+ RDEPENDS_${PN}-ptest_append_libc-glibc = "\
+      locale-base-fr-fr.iso-8859-1 \
+ "
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+index 7d04e30d536..15a8e51550a 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.6.bb
+@@ -40,6 +40,8 @@ do_install_ptest () {
+ 
+ FILES_libbz2 = "${libdir}/lib*${SOLIBS}"
+ 
++RDEPENDS_${PN}-ptest += "make"
++
+ PROVIDES_append_class-native = " bzip2-replacement-native"
+ BBCLASSEXTEND = "native nativesdk"
+ 
+diff --git a/meta/recipes-extended/gzip/gzip_1.10.bb b/meta/recipes-extended/gzip/gzip_1.10.bb
+index 75de9706310..6a5b2459e6d 100644
+--- a/meta/recipes-extended/gzip/gzip_1.10.bb
++++ b/meta/recipes-extended/gzip/gzip_1.10.bb
+@@ -12,6 +12,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+ 
+ PROVIDES_append_class-native = " gzip-replacement-native"
+ 
++RDEPENDS_${PN}-ptest += "make"
++
+ BBCLASSEXTEND = "native"
+ 
+ inherit ptest
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index 6189fd22465..ceac52892db 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -47,7 +47,7 @@ do_install_ptest() {
+ 	sed -e 's| ../parted||' -i $t/tests/*.sh
+ }
+ 
+-RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup python3"
++RDEPENDS_${PN}-ptest = "bash coreutils perl util-linux-losetup python3 make"
+ 
+ inherit update-alternatives
+ 
+diff --git a/meta/recipes-extended/slang/slang_2.3.2.bb b/meta/recipes-extended/slang/slang_2.3.2.bb
+index e53c4321b9a..e3293109379 100644
+--- a/meta/recipes-extended/slang/slang_2.3.2.bb
++++ b/meta/recipes-extended/slang/slang_2.3.2.bb
+@@ -75,6 +75,8 @@ do_install_ptest() {
+ 
+ FILES_${PN} += "${libdir}/${BPN}/v2/modules/ ${datadir}/slsh/"
+ 
++RDEPENDS_${PN}-ptest += "make"
++
+ PARALLEL_MAKE = ""
+ PARALLEL_MAKEINST = ""
+ 
+diff --git a/meta/recipes-support/attr/attr.inc b/meta/recipes-support/attr/attr.inc
+index cfa38a71964..1a29eb339e7 100644
+--- a/meta/recipes-support/attr/attr.inc
++++ b/meta/recipes-support/attr/attr.inc
+@@ -41,6 +41,6 @@ do_install_ptest() {
+ 	sed -e 's|; @echo|; echo|' -i ${D}${PTEST_PATH}/test/Makefile
+ }
+ 
+-RDEPENDS_${PN}-ptest = "attr coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix"
++RDEPENDS_${PN}-ptest = "attr coreutils perl-module-filehandle perl-module-getopt-std perl-module-posix make"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.20.1
 
-//Ming Liu
 
-<richard.purdie@linuxfoundation.org> =E6=96=BC 2019=E5=B9=B45=E6=9C=8816=E6=
-=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8812:55=E5=AF=AB=E9=81=93=EF=BC=
-=9A
-
-> On Thu, 2019-05-16 at 10:56 +0200, Ming Liu wrote:
-> > Hi, Richard:
-> >
-> > > I'd imagine the code is designed so you'd inherit uboot-config in
-> > the machine and this therefore could be made to work as is.
-> >
-> > Yes, that probably is how the author intended it to be used, but
-> > unfortunately, that's not how it's being used in BSP layers, that
-> > fact is, in most BSP meta layers, they do not put it into INHERIT,
-> > only u-boot recipes are inheriting uboot-config.
-> >
-> > I am on board there is no need to set IMAGE_FSTYPES in uboot-
-> > config.bbclass, maybe we should drop it from UBOOT_CONFIG and it
-> > would be like: 'UBOOT_CONFIG =3D "config,,binary"', there will be a
-> > empty item in the middle, so the BSP meta layers would work as usual.
-> >
-> > Will send a V2 if you agree with this.
->
-> I agree, I wonder if we need to make it warn about missing
-> functionality if someone is using the old option though?
->
-> Cheers,
->
-> Richard
->
->
-
---00000000000004c3090588ffd9ce
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>&gt; I wonder if we need to make it warn about missin=
-g functionality if someone is using the old option though?<br></div><div><b=
-r></div>Agreed, will do that in V2.<div><br></div><div>//Ming Liu</div></di=
-v><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">&lt;=
-<a href=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxf=
-oundation.org</a>&gt; =E6=96=BC 2019=E5=B9=B45=E6=9C=8816=E6=97=A5 =E9=80=
-=B1=E5=9B=9B =E4=B8=8B=E5=8D=8812:55=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">On Thu, 2019-05-16 at 10:56=
- +0200, Ming Liu wrote:<br>
-&gt; Hi, Richard:<br>
-&gt; <br>
-&gt; &gt; I&#39;d imagine the code is designed so you&#39;d inherit uboot-c=
-onfig in<br>
-&gt; the machine and this therefore could be made to work as is.<br>
-&gt; <br>
-&gt; Yes, that probably is how the author intended it to be used, but<br>
-&gt; unfortunately, that&#39;s not how it&#39;s being used in BSP layers, t=
-hat<br>
-&gt; fact is, in most BSP meta layers, they do not put it into INHERIT,<br>
-&gt; only u-boot recipes are inheriting uboot-config.<br>
-&gt; <br>
-&gt; I am on board there is no need to set IMAGE_FSTYPES in uboot-<br>
-&gt; config.bbclass, maybe we should drop it from UBOOT_CONFIG and it<br>
-&gt; would be like: &#39;UBOOT_CONFIG =3D &quot;config,,binary&quot;&#39;, =
-there will be a<br>
-&gt; empty item in the middle, so the BSP meta layers would work as usual.<=
-br>
-&gt; <br>
-&gt; Will send a V2 if you agree with this.<br>
-<br>
-I agree, I wonder if we need to make it warn about missing<br>
-functionality if someone is using the old option though?<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-
---00000000000004c3090588ffd9ce--
