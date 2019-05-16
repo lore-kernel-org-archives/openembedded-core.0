@@ -1,55 +1,55 @@
 Return-Path: <oobitots@cisco.com>
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C0327DEA5
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+	by mail.openembedded.org (Postfix) with ESMTP id 25A917D28D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 08:32:09 +0000 (UTC)
+	Thu, 16 May 2019 08:32:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=cisco.com; i=@cisco.com; l=3174; q=dns/txt; s=iport;
-	t=1557995531; x=1559205131;
+	d=cisco.com; i=@cisco.com; l=1529; q=dns/txt; s=iport;
+	t=1557995575; x=1559205175;
 	h=from:to:subject:date:message-id:references:
 	content-transfer-encoding:mime-version;
-	bh=Aljy9XKSvpHjGJeeqENxEMHKiymDk92Vq8fFcCIUnpo=;
-	b=cFmfGYKZko1qYsmKkjurxwVwjearJIayAfkm8L1FKjpoegIK0DLIFfIx
-	VF6DUAZQ6m1U1AgtA2l/5jzL3r+eyq8vvNX/gWf29heoA0CG7N4vYVM82
-	jYe9GoAYXjo/539m4LjvonIuXxnN2eAhziGM1C8WjHcAsEz9MhCR5up0h w=;
+	bh=ehUH9nUPoa2Y6r2GbBU+ieIZEfcP0pDRnWk56epP3m0=;
+	b=bGnSpBzDjUU+V+yriFE0MeFxqyTEZZXrQWwbeYlcP6v3gERs4YwfMSoq
+	2VmhDFleo4BCipvi4X6GblDxMpByao7Xe7tN+7ljbc+99ybVuctuT2pos
+	J7yfzmSbOYGKjUZw+gORM37L2yOQxruA0J5lrQPt1Mhxdspxm02Yqh9mP 0=;
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BAAACwHt1c/5BdJa1kHAEBAQQBAQc?=
-	=?us-ascii?q?EAQGBUgYBAQsBghBpVDAoCpcOgSVomFOBewkBAQEMAQEfEAEBhECCLSM1CA4?=
-	=?us-ascii?q?BAwEBBAEBAgEEbR0LhUsBBToRAT0CAQgYHhAyJQIEEwiDG4IKrFGDfwGGNYE?=
-	=?us-ascii?q?zAYtOF4F/gRGDEj6ERIViBKdZCQIdgWyGIYw1I5VujDSVCgIRFYEwIQE1gVd?=
-	=?us-ascii?q?wFYMnCYITFo4fQTEBj02BIQEB?=
-X-IronPort-AV: E=Sophos;i="5.60,476,1549929600"; d="scan'208";a="273466269"
-Received: from rcdn-core-8.cisco.com ([173.37.93.144])
-	by alln-iport-5.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
-	16 May 2019 08:32:10 +0000
-Received: from XCH-ALN-010.cisco.com (xch-aln-010.cisco.com [173.36.7.20])
-	by rcdn-core-8.cisco.com (8.15.2/8.15.2) with ESMTPS id x4G8WA3E017791
+X-IronPort-Anti-Spam-Result: =?us-ascii?q?A0BdAAAtH91c/4sNJK1kHQEBBQEHBQG?=
+	=?us-ascii?q?BUgcBCwGCEGlUMCgKlw6CDZhTgXsJAQEBDAEBHxABAYRAgi0jNQgOAQMBAQQ?=
+	=?us-ascii?q?BAQIBBG0dC4VLAQU6EQE9AgEIGB4QMiUCBBMIgxuCCqxQg38BhjWBMwGLThe?=
+	=?us-ascii?q?Bf4QjPoREhWIEp1kJAh2BbIYhjDUjghSTWow0gSKTaAIRFYEwIQE1gVdwFYM?=
+	=?us-ascii?q?nCZBIQTEBj02BIQEB?=
+X-IronPort-AV: E=Sophos;i="5.60,476,1549929600"; d="scan'208";a="271230194"
+Received: from alln-core-6.cisco.com ([173.36.13.139])
+	by alln-iport-7.cisco.com with ESMTP/TLS/DHE-RSA-SEED-SHA;
+	16 May 2019 08:32:54 +0000
+Received: from XCH-ALN-006.cisco.com (xch-aln-006.cisco.com [173.36.7.16])
+	by alln-core-6.cisco.com (8.15.2/8.15.2) with ESMTPS id x4G8Ws4a011093
 	(version=TLSv1.2 cipher=AES256-SHA bits=256 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 08:32:10 GMT
-Received: from xch-rcd-007.cisco.com (173.37.102.17) by XCH-ALN-010.cisco.com
-	(173.36.7.20) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
-	Thu, 16 May 2019 03:32:09 -0500
+	Thu, 16 May 2019 08:32:54 GMT
+Received: from xch-rcd-007.cisco.com (173.37.102.17) by XCH-ALN-006.cisco.com
+	(173.36.7.16) with Microsoft SMTP Server (TLS) id 15.0.1473.3;
+	Thu, 16 May 2019 03:32:54 -0500
 Received: from xch-rcd-007.cisco.com ([173.37.102.17]) by
 	XCH-RCD-007.cisco.com ([173.37.102.17]) with mapi id 15.00.1473.003;
-	Thu, 16 May 2019 03:32:09 -0500
+	Thu, 16 May 2019 03:32:54 -0500
 From: "Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC@Cisco)" <oobitots@cisco.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] kexec-tools: Fix compilation with clang
-Thread-Index: AQHU9Gk9aB2rYyJCzk6QwFBovLEDEQ==
-Date: Thu, 16 May 2019 08:32:09 +0000
-Message-ID: <a06cf453e2f54afbb2a1ccdaf325179f@XCH-RCD-007.cisco.com>
-References: <20190416152935.25062-1-oobitots@cisco.com>
+Thread-Topic: [meta-oe][PATCH] protobuf: Fix ptest compilation
+Thread-Index: AQHU9GntQc8J3s294UGkpb5K2Wk/XA==
+Date: Thu, 16 May 2019 08:32:53 +0000
+Message-ID: <d0be2f64c3564298aca4a3598fb5c9d9@XCH-RCD-007.cisco.com>
+References: <20190416153442.26880-1-oobitots@cisco.com>
 Accept-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 x-ms-exchange-transport-fromentityheader: Hosted
 x-originating-ip: [10.63.15.143]
 MIME-Version: 1.0
-X-Outbound-SMTP-Client: 173.36.7.20, xch-aln-010.cisco.com
-X-Outbound-Node: rcdn-core-8.cisco.com
-Subject: Re: [PATCH] kexec-tools: Fix compilation with clang
+X-Outbound-SMTP-Client: 173.36.7.16, xch-aln-006.cisco.com
+X-Outbound-Node: alln-core-6.cisco.com
+Subject: Re: [meta-oe][PATCH] protobuf: Fix ptest compilation
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,7 +62,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 08:32:10 -0000
+X-List-Received-Date: Thu, 16 May 2019 08:32:54 -0000
 Content-Language: en-US
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
@@ -72,78 +72,36 @@ Any comments?=0A=
 Regards,=0A=
 Oleksiy=0A=
 =0A=
-On 16.04.19 18:29, Oleksiy Obitotskyy wrote:=0A=
-> clang assembler do not understand some directives e.g.=0A=
->=0A=
-> ../kexec-tools-2.0.17/purgatory/arch/i386/entry32-16.S:23:2: error: unkno=
-wn directive=0A=
-> .arch i386=0A=
-> ^ ../kexec-tools-2.0.17/purgatory/arch/i386/entry32-16.S:115:11: error: u=
-nknown token in expression=0A=
-> ljmp %cs:*(realdest - entry16)=0A=
-> ^=0A=
->=0A=
-> Force external assembler for purgatory and tests.=0A=
+On 16.04.19 18:34, Oleksiy Obitotskyy wrote:=0A=
+> Tests require c++11 support, so add -std=3Dc++11=0A=
+> to compiler flags.=0A=
 >=0A=
 > Upstream-Status: Pending=0A=
 > Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>=0A=
 > ---=0A=
->  ..._64-Makefile-fix-assemble-with-clang.patch | 23 +++++++++++++++++++=
-=0A=
->  .../kexec/kexec-tools_2.0.19.bb               |  2 ++=0A=
->  2 files changed, 25 insertions(+)=0A=
->  create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-=
-x86_64-Makefile-fix-assemble-with-clang.patch=0A=
+>  meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb | 4 ++--=0A=
+>  1 file changed, 2 insertions(+), 2 deletions(-)=0A=
 >=0A=
-> diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-x86_64-=
-Makefile-fix-assemble-with-clang.patch b/meta/recipes-kernel/kexec/kexec-to=
-ols/0001-purgatory-x86_64-Makefile-fix-assemble-with-clang.patch=0A=
-> new file mode 100644=0A=
-> index 0000000000..13f247982a=0A=
-> --- /dev/null=0A=
-> +++ b/meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-x86_64-Makefil=
-e-fix-assemble-with-clang.patch=0A=
-> @@ -0,0 +1,23 @@=0A=
-> +--- a/purgatory/Makefile	2019-03-05 07:47:03.190429822 -0800=0A=
-> ++++ b/purgatory/Makefile	2019-03-05 07:42:52.167623612 -0800=0A=
-> +@@ -31,6 +31,9 @@ include $(srcdir)/purgatory/arch/x86_64/=0A=
-> + =0A=
-> + PURGATORY_SRCS+=3D$($(ARCH)_PURGATORY_SRCS)=0A=
-> + =0A=
-> ++PURGATORY_EXTRA_CFLAGS +=3D -no-integrated-as=0A=
-> ++$(ARCH)_PURGATORY_EXTRA_CFLAGS +=3D -no-integrated-as=0A=
-> ++=0A=
-> + PURGATORY_OBJS =3D $(call objify, $(PURGATORY_SRCS)) purgatory/sha256.o=
-=0A=
-> + PURGATORY_DEPS =3D $(call depify, $(PURGATORY_OBJS))=0A=
-> + =0A=
-> +--- a/kexec_test/Makefile	2019-03-05 07:45:14.757353575 -0800=0A=
-> ++++ b/kexec_test/Makefile	2019-03-05 07:45:57.567173264 -0800=0A=
-> +@@ -17,6 +17,8 @@ endif=0A=
-> + =0A=
-> + ifeq ($(BUILD_KEXEC_TEST),yes)=0A=
-> + =0A=
-> ++CPPFLAGS +=3D -no-integrated-as=0A=
-> ++=0A=
-> + KEXEC_TEST_OBJS =3D $(call objify, $(KEXEC_TEST_SRCS))=0A=
-> + KEXEC_TEST_DEPS =3D $(call depify, $(KEXEC_TEST_OBJS))=0A=
-> + =0A=
-> diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb b/meta/recip=
-es-kernel/kexec/kexec-tools_2.0.19.bb=0A=
-> index f65cd9f106..c229097d5b 100644=0A=
-> --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb=0A=
-> +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb=0A=
-> @@ -20,6 +20,8 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/kernel/kex=
-ec/kexec-tools-${PV}.tar.gz=0A=
->             file://0001-Disable-PIE-during-link.patch \=0A=
->             "=0A=
+> diff --git a/meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb b/meta-o=
+e/recipes-devtools/protobuf/protobuf_3.6.1.bb=0A=
+> index cf72d9ca7..4791e13ca 100644=0A=
+> --- a/meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb=0A=
+> +++ b/meta-oe/recipes-devtools/protobuf/protobuf_3.6.1.bb=0A=
+> @@ -40,8 +40,8 @@ do_compile_ptest() {=0A=
+>  	# which haven't been installed yet.=0A=
+>  	cp "${B}/protobuf.pc" "${B}/${TEST_SRC_DIR}/protobuf.pc"=0A=
+>  	sed -e 's|libdir=3D|libdir=3D${PKG_CONFIG_SYSROOT_DIR}|' -i "${B}/${TES=
+T_SRC_DIR}/protobuf.pc"=0A=
+> -	sed -e 's|Cflags:|Cflags: -I${S}/src|' -i "${B}/${TEST_SRC_DIR}/protobu=
+f.pc"=0A=
+> -	sed -e 's|Libs:|Libs: -L${B}/src/.libs|' -i "${B}/${TEST_SRC_DIR}/proto=
+buf.pc"=0A=
+> +	sed -e 's|Cflags:|Cflags: -std=3Dc++11 -I${S}/src|' -i "${B}/${TEST_SRC=
+_DIR}/protobuf.pc"=0A=
+> +	sed -e 's|Libs:|Libs: -std=3Dc++11 -L${B}/src/.libs|' -i "${B}/${TEST_S=
+RC_DIR}/protobuf.pc"=0A=
+>  	export PKG_CONFIG_PATH=3D"${B}/${TEST_SRC_DIR}"=0A=
 >  =0A=
-> +SRC_URI_append_toolchain-clang =3D " file://0001-purgatory-x86_64-Makefi=
-le-fix-assemble-with-clang.patch"=0A=
-> +=0A=
->  SRC_URI[md5sum] =3D "052458f0a35c2a3b0d2302caa3318e9f"=0A=
->  SRC_URI[sha256sum] =3D "913c8dee918e5855a4ba60d609371390978144b4c8d15d64=
-46ca0057b7bc5e58"=0A=
->  =0A=
+>  	# Save the pkgcfg sysroot variable, and update it to nothing so=0A=
 =0A=
 
