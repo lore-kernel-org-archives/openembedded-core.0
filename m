@@ -1,36 +1,50 @@
-Return-Path: <chee.yang.lee@intel.com>
-X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 16 May 2019 11:55:10 UTC
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 1CDAA6B067
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw1-f68.google.com (mail-yw1-f68.google.com
+	[209.85.161.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 00B377DF13
 	for <Openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 11:55:10 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	16 May 2019 04:48:05 -0700
-X-ExtLoop1: 1
-Received: from pgsmsx108.gar.corp.intel.com ([10.221.44.103])
-	by fmsmga006.fm.intel.com with ESMTP; 16 May 2019 04:48:04 -0700
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.93]) by
-	PGSMSX108.gar.corp.intel.com ([169.254.8.77]) with mapi id
-	14.03.0415.000; Thu, 16 May 2019 19:48:03 +0800
-From: "Lee, Chee Yang" <chee.yang.lee@intel.com>
-To: "trini@konsulko.com" <trini@konsulko.com>
-Thread-Topic: [OE-core] [PATCH 0/4] add wic based image installer
-Thread-Index: AQHVC45LE07e76mEQUyhb0dZOcItrqZsg4eAgAEfygA=
-Date: Thu, 16 May 2019 11:48:02 +0000
-Message-ID: <04877C8C-9026-4832-9B81-49E0B07DB163@intel.com>
+	Thu, 16 May 2019 12:20:01 +0000 (UTC)
+Received: by mail-yw1-f68.google.com with SMTP id q11so1284182ywb.0
+	for <Openembedded-core@lists.openembedded.org>;
+	Thu, 16 May 2019 05:20:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=H+nAnIxUlcLObcIanh1mLlNrayS5dOAJb/ORXbMLsPE=;
+	b=Ke5ZTfzP7NGAVCNeWdzgLosUJzxteKFzCw2HUD0KMY97KZXGTRfKqckLypEk1XiLjh
+	R1kS2cUk0UgzxidGA5fB2JTIndscnw9KS1hxwBhRsh4sFN+1n88smSMlcTWXpd9LtgKA
+	kOPypnBhL2Xpfa6jRlUWclYcPQHzlQBiDGcHI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=H+nAnIxUlcLObcIanh1mLlNrayS5dOAJb/ORXbMLsPE=;
+	b=qBU8Q5XeUhdbkyz7rnd106TIQg6gcuB7rrSy+EKETtZAa9NlmpI4OvoSp5oohZ/pZ+
+	mQyhDUoHNsynugirI2LrTKAxSd8LcAN8G8Wjyb7pzOeJ/2qFpuBrpo7n8NLE1qZc9kmL
+	qAuIeaSDPo5JFSe7CKCPEuoG2gH9OlQ01VpWstJjbr3qec3YAIsak+Ckng+DKe4mo2L3
+	UmeoR7ST1LQtik2q2cgYKANpeSV5NipibdUhe0uTLCT/fQPVWkB1o77NyOb2nEkKbLun
+	NTRpUOass8csKarFqISk4tv7KyB7rTCEijEc9aUDmyUlamlJkmhZGcjLd6qF2I2CuCOj
+	RAFQ==
+X-Gm-Message-State: APjAAAVP/s9kUywhJ0m/oe6tbYue2W7QzBEjEOQitokrpTR3kTxkJc0q
+	eleZpGH9m+58+XQtJ9a+0xNUTKpGCRWP6w==
+X-Google-Smtp-Source: APXvYqwpDFgluzrEIMZtCeF1QXhi4IGeyw27aY8Qh6pOhxuj+fFiAfmalNC4cc+M3juWKDJ4Im7JtA==
+X-Received: by 2002:a81:ac4f:: with SMTP id z15mr20418340ywj.324.1558009202436;
+	Thu, 16 May 2019 05:20:02 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-141-147.ec.res.rr.com.
+	[65.184.141.147]) by smtp.gmail.com with ESMTPSA id
+	v144sm1764056ywv.15.2019.05.16.05.20.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 May 2019 05:20:01 -0700 (PDT)
+Date: Thu, 16 May 2019 08:19:59 -0400
+From: Tom Rini <trini@konsulko.com>
+To: "Lee, Chee Yang" <chee.yang.lee@intel.com>
+Message-ID: <20190516121959.GT22232@bill-the-cat>
 References: <F8C782DB-A692-407F-A6DF-AFAC51D14854@intel.com>
 	<20190516023759.GP22232@bill-the-cat>
-In-Reply-To: <20190516023759.GP22232@bill-the-cat>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.10.a.190512
-x-originating-ip: [172.30.199.100]
+	<04877C8C-9026-4832-9B81-49E0B07DB163@intel.com>
 MIME-Version: 1.0
+In-Reply-To: <04877C8C-9026-4832-9B81-49E0B07DB163@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
 Cc: "Openembedded-core@lists.openembedded.org"
 	<Openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 0/4] add wic based image installer
@@ -46,70 +60,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 11:55:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <178C4C97FF078043BD061136E3971171@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 16 May 2019 12:20:02 -0000
+X-Groupsio-MsgNum: 124514
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="sKHNLc4rGJHGY5Sn"
+Content-Disposition: inline
 
-SSBjb3VsZG7igJl0IGZpZ3VyZSBvdXQgaG93IHRvIG1ha2UgaXQgd2l0aCBzZGltYWdlLWJvb3Rw
-YXJ0LndrcywgY2FuIHlvdSB0ZWxsIG1lIHdoYXQgZGlkIHlvdSBzZXQgZm9yIElNQUdFX0JPT1Rf
-RklMRVMgPw0KDQpUbyBmdXJ0aGVyIGV4cGxhaW4gdGhlIGlkZWEsICBJJ20gdHJ5aW5nIHRvIHVz
-ZSB0aGUgbmV3IHNvdXJjZSBwbHVnaW4gYW5kIC53a3MuaW4gdG8gYnVpbGQgYSB3aWMgaW1hZ2Ug
-dGhhdCAibWltaWMiIGEgaGRkaW1nLCB3aGVyZSBJIGNhbiBkZCB0aGUgd2ljIGltYWdlIHRvIGFu
-IFVTQiBkcml2ZSBhbmQgdXNlIHRoYXQgdXNiIGRyaXZlIHRvIGluc3RhbGwgaW1hZ2UgdG8gbXkg
-dGFyZ2V0IG1hY2hpbmUgKGxpa2UgaGRkaW1nIGRpZCApLiANCmZpcnN0IHBhcnRpdGlvbiBhbGxv
-dyB0byBib290IGludG8gaW5pdHJhbWZzIGFuZCBpdCB3aWxsIGV4ZWN1dGUgdGhlIGluc3RhbGwg
-c2NyaXB0LiBUaGUgc2NyaXB0IHdpbGwgdGhlbiBpbnN0YWxsIHN5c3RlbS1ib290IGNvbmZpZ3Vy
-YXRpb24sIGVmaSwga2VybmVsLCByb290ZnMuaW1nIGFuZCBpbml0cmQgZnJvbSBzZWNvbmQgcGFy
-dGl0aW9uIHRvIHRhcmdldCBtYWNoaW5lLiANCg0KTXkgc2FtcGxlIGltYWdlIGhlcmU6IA0KaHR0
-cHM6Ly9kcml2ZS5nb29nbGUuY29tL2ZpbGUvZC8xYzFGQ0oyZ2hXTnpzWEsxemJPQVZ6MWJ6Nkcz
-SDV6eDUvdmlldz91c3A9c2hhcmluZw0KDQoNCu+7v09uIDUvMTYvMTksIDEwOjM4IEFNLCAiVG9t
-IFJpbmkiIDx0cmluaUBrb25zdWxrby5jb20+IHdyb3RlOg0KDQogICAgT24gVGh1LCBNYXkgMTYs
-IDIwMTkgYXQgMDI6MjM6MDVBTSArMDAwMCwgTGVlLCBDaGVlIFlhbmcgd3JvdGU6DQogICAgPiBI
-aSBUb20sIA0KICAgID4gDQogICAgPiBXb3VsZCB5b3UgbWluZCB0byBzaGFyZSB3aXRoIG1lIGhv
-dyB5b3UgbWFrZSB0aGUgaW5zdGFsbGVyIGltYWdlIHVzaW5nIHdpYz8gDQogICAgDQogICAgSSBl
-bmRlZCB1cCB1c2luZyBzZGltYWdlLWJvb3RwYXJ0LndrcyBhbmQgSU1BR0VfQk9PVF9GSUxFUyB0
-byBwb3B1bGF0ZQ0KICAgIHRoZSBwYXJ0aXRpb24gYXMgbmVlZGVkLiAgSSBjYW4ndCBwYXN0ZSB0
-aGUgZXhhY3QgaW1hZ2UgYXMgaXQgd2FzIGRvbmUNCiAgICBmb3IgYSBjdXN0b21lci4NCiAgICAN
-CiAgICA+IA0KICAgID4gICAgIC0tLS0tLS0tIEZvcndhcmRlZCBNZXNzYWdlIC0tLS0tLS0tDQog
-ICAgPiAgICAgRnJvbTogVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4NCiAgICA+ICAgICBU
-bzogY2hlZS55YW5nLmxlZUBpbnRlbC5jb20NCiAgICA+ICAgICBDYzogb3BlbmVtYmVkZGVkLWNv
-cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KICAgID4gICAgIFN1YmplY3Q6IFJlOiBbT0UtY29y
-ZV0gW1BBVENIIDAvNF0gYWRkIHdpYyBiYXNlZCBpbWFnZSBpbnN0YWxsZXINCiAgICA+ICAgICBE
-YXRlOiBXZWQsIDE1IE1heSAyMDE5IDExOjMzOjQzIC0wNDAwDQogICAgPiAgICAgDQogICAgPiAg
-ICAgT24gV2VkLCBNYXkgMDgsIDIwMTkgYXQgMDI6NDA6NThQTSArMDgwMCwgY2hlZS55YW5nLmxl
-ZUBpbnRlbC5jb20NCiAgICA+ICAgICB3cm90ZToNCiAgICA+ICAgICANCiAgICA+ICAgICA+IEZy
-b206IENoZWUgWWFuZyBMZWUgPGNoZWUueWFuZy5sZWVAaW50ZWwuY29tPg0KICAgID4gICAgID4g
-DQogICAgPiAgICAgPiBFeGlzdGluZyBpbnN0YWxsYWJsZSBpbWFnZSAoaGRkaW1nL0lTTykgaGFz
-IGxpbWl0IG9mIDRHQiBzaXplLCBzbyB0bw0KICAgID4gICAgID4gYnVpbGQgbGFyZ2VyIGluc3Rh
-bGxhYmxlIGltYWdlLCB3ZSBjYW4gYnVpbGQgaXQgaW4gd2ljIGJhc2VkIGltYWdlLg0KICAgID4g
-ICAgID4gDQogICAgPiAgICAgPiAyIHBhcnRpdGlvbiBuZWVkZWQgZm9yIGluc3RhbGxhYmxlIGlt
-YWdlDQogICAgPiAgICAgPiAgLSBmaXJzdCBwYXJ0aXRpb24gYnVpbGQgdXNpbmcgc291cmNlIHBs
-dWdpbiBib290aW1nLWVmaSBhbmQNCiAgICA+ICAgICA+IGNvbmZpZ3VyZSB0byBydW4gaW5zdGFs
-bA0KICAgID4gICAgID4gIC0gc2Vjb25kIHBhcnRpdGlvbiBidWlsZCB3aXRoIHJvb3QuaW1nLCBz
-eXN0ZW1kLWJvb3QgYW5kIGtlcm5lbCB0bw0KICAgID4gICAgID4gYmUgaW5zdGFsbCBvbiB0YXJn
-ZXQgbWFjaGluZSAodGhpcyBwYXJ0aXRpb24gYnVpbGQgdXNpbmcgbmV3IHNvdXJjZQ0KICAgID4g
-ICAgID4gcGx1Z2luIGluc3RhbGxlci1wYXJ0aXRpb24pDQogICAgPiAgICAgPiANCiAgICA+ICAg
-ICA+IFRoZXNlIHBhdGNoZXM6DQogICAgPiAgICAgPiAgLSBhZGQgbmV3IHNvdXJjZSBwbHVnaW4g
-Zm9yIHNlY29uZCBwYXJ0aXRpb24NCiAgICA+ICAgICA+ICAtIGFkZCBuZXcgLndrcw0KICAgID4g
-ICAgID4gIC0gYWRkIG5ldyB3aWMgZGVwZW5kZW5jeSBhbmQgc2V0IGRlZmF1bHQgdmFsdWUgZm9y
-IHJlcXVpcmVkIHZhcmlhYmxlDQogICAgPiAgICAgPiAgLSBhbGxvdyBzb3VyY2UgcGx1Z2luIGJv
-b3RpbWctZWZpIHRvIGNvbmZpZ3VyZSB0byBpbnN0YWxsDQogICAgPiAgICAgPiANCiAgICA+ICAg
-ICA+IA0KICAgID4gICAgID4gVG8gYnVpbGQgdGhlIGltYWdlLCBzZXQgV0tTX0ZJTEU9IndpYy1p
-bnN0YWxsZXIud2tzLmluIiBpbg0KICAgID4gICAgID4gbG9jYWwuY29uZi4NCiAgICA+ICAgICAN
-CiAgICA+ICAgICBJJ20gY29uZnVzZWQgYXMgdG8gd2h5IHdlIG5lZWQgbW9zdCBvZiB0aGVzZSBj
-aGFuZ2VzIHRvIHN1cHBvcnQgdGhlIGVuZA0KICAgID4gICAgIGdvYWwuICBUaGUgZW5oYW5jZW1l
-bnQgdG8gYm9vdGltZy1lZmkgbWFrZXMgY29uY2VwdHVhbCBzZW5zZS4gIEkgZG9uJ3QNCiAgICA+
-ICAgICBzZWUgd2h5IHdlIG5lZWQgYSBuZXcgcGx1Z2luIHRvIGRvIHRoZSByZXN0LCBob3dldmVy
-LiAgV2hhdCdzIGJlaW5nDQogICAgPiAgICAgZG9uZQ0KICAgID4gICAgIGhlcmUgdGhhdCB3ZSBk
-b24ndCBhbHJlYWR5IGRvIHRvZGF5PyAgSSBzYXkgdGhpcyBoYXZpbmcgbWFkZSBpbnN0YWxsZXIN
-CiAgICA+ICAgICBpbWFnZXMgZm9yIEVGSSBtYWNoaW5lcyB1c2luZyB3aWMgKGluIHN1bW8sIGV2
-ZW4pLiAgVGhhbmtzIQ0KICAgID4gICAgIA0KICAgID4gICAgIC0tIA0KICAgID4gICAgIFRvbQ0K
-ICAgID4gICAgIC0tIA0KICAgID4gICAgIF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fDQogICAgPiAgICAgT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0
-DQogICAgPiAgICAgT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KICAg
-ID4gICAgIGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3Bl
-bmVtYmVkZGVkLWNvcmUNCiAgICA+ICAgICANCiAgICA+ICAgICANCiAgICA+IA0KICAgIA0KICAg
-IC0tIA0KICAgIFRvbQ0KICAgIA0KDQo=
+--sKHNLc4rGJHGY5Sn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 16, 2019 at 11:48:02AM +0000, Lee, Chee Yang wrote:
+
+> I couldn=E2=80=99t figure out how to make it with sdimage-bootpart.wks, c=
+an
+> you tell me what did you set for IMAGE_BOOT_FILES ?
+>=20
+> To further explain the idea,  I'm trying to use the new source plugin
+> and .wks.in to build a wic image that "mimic" a hddimg, where I can dd
+> the wic image to an USB drive and use that usb drive to install image
+> to my target machine (like hddimg did ).=20
+> first partition allow to boot into initramfs and it will execute the
+> install script. The script will then install system-boot
+> configuration, efi, kernel, rootfs.img and initrd from second
+> partition to target machine.=20
+>=20
+> My sample image here:=20
+> https://drive.google.com/file/d/1c1FCJ2ghWNzsXK1zbOAVz1bz6G3H5zx5/view?us=
+p=3Dsharing
+
+OK, so some cleaned up snippets from the installer image recipe:
+# List of external things we must have had complete.
+do_rootfs[depends] +=3D "core-image-minimal-initramfs:do_image_complete"
+do_rootfs[depends] +=3D "full-image-to-install:do_image_complete"
+do_rootfs[depends] +=3D "grub-efi:do_deploy"
+do_rootfs[depends] +=3D "virtual/kernel:do_deploy"
+
+WKS_FILE =3D "sdimage-bootpart.wks"
+
+IMAGE_BOOT_FILES_append =3D "\
+    ${KERNEL_IMAGETYPE};EFI/BOOT/${KERNEL_IMAGETYPE} \
+    core-image-minimal-initramfs-${MACHINE}.cpio.gz;EFI/BOOT/initrd \
+    full-image-to-install-${MACHINE}.wic.xz;rootfs.img \
+    grub-efi-bootx64.efi;EFI/BOOT/bootx64.efi \
+    grub-installer.cfg;EFI/BOOT/grub.cfg \
+    "
+
+And note that I reworked the installer for our case to write then update
+the real image's wic image rather than copy contents and then modify
+files due to other constraints (this project is also why I was pushing
+various changes to meta-secure-core).
+
+>=20
+>=20
+> =EF=BB=BFOn 5/16/19, 10:38 AM, "Tom Rini" <trini@konsulko.com> wrote:
+>=20
+>     On Thu, May 16, 2019 at 02:23:05AM +0000, Lee, Chee Yang wrote:
+>     > Hi Tom,=20
+>     >=20
+>     > Would you mind to share with me how you make the installer image us=
+ing wic?=20
+>    =20
+>     I ended up using sdimage-bootpart.wks and IMAGE_BOOT_FILES to populate
+>     the partition as needed.  I can't paste the exact image as it was done
+>     for a customer.
+>    =20
+>     >=20
+>     >     -------- Forwarded Message --------
+>     >     From: Tom Rini <trini@konsulko.com>
+>     >     To: chee.yang.lee@intel.com
+>     >     Cc: openembedded-core@lists.openembedded.org
+>     >     Subject: Re: [OE-core] [PATCH 0/4] add wic based image installer
+>     >     Date: Wed, 15 May 2019 11:33:43 -0400
+>     >    =20
+>     >     On Wed, May 08, 2019 at 02:40:58PM +0800, chee.yang.lee@intel.c=
+om
+>     >     wrote:
+>     >    =20
+>     >     > From: Chee Yang Lee <chee.yang.lee@intel.com>
+>     >     >=20
+>     >     > Existing installable image (hddimg/ISO) has limit of 4GB size=
+, so to
+>     >     > build larger installable image, we can build it in wic based =
+image.
+>     >     >=20
+>     >     > 2 partition needed for installable image
+>     >     >  - first partition build using source plugin bootimg-efi and
+>     >     > configure to run install
+>     >     >  - second partition build with root.img, systemd-boot and ker=
+nel to
+>     >     > be install on target machine (this partition build using new =
+source
+>     >     > plugin installer-partition)
+>     >     >=20
+>     >     > These patches:
+>     >     >  - add new source plugin for second partition
+>     >     >  - add new .wks
+>     >     >  - add new wic dependency and set default value for required =
+variable
+>     >     >  - allow source plugin bootimg-efi to configure to install
+>     >     >=20
+>     >     >=20
+>     >     > To build the image, set WKS_FILE=3D"wic-installer.wks.in" in
+>     >     > local.conf.
+>     >    =20
+>     >     I'm confused as to why we need most of these changes to support=
+ the end
+>     >     goal.  The enhancement to bootimg-efi makes conceptual sense.  =
+I don't
+>     >     see why we need a new plugin to do the rest, however.  What's b=
+eing
+>     >     done
+>     >     here that we don't already do today?  I say this having made in=
+staller
+>     >     images for EFI machines using wic (in sumo, even).  Thanks!
+>     >    =20
+>     >     --=20
+>     >     Tom
+>     >     --=20
+>     >     _______________________________________________
+>     >     Openembedded-core mailing list
+>     >     Openembedded-core@lists.openembedded.org
+>     >     http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>     >    =20
+>     >    =20
+>     >=20
+>    =20
+>     --=20
+>     Tom
+>    =20
+>=20
+
+--=20
+Tom
+
+--sKHNLc4rGJHGY5Sn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQIcBAEBAgAGBQJc3VVvAAoJEIf59jXTHXZSHnkP/RHrFz220KejSopG7c8YZtr3
+wDCq7MnYoFZ10aDuSov3stOnbQQk88FCl4peInssmWCmnzXQVmqchpsVlULDVAT3
+ODz/sjhkuptgZLTxOMYKtz1DV56X8f3FBy8xKFismRv2KgJrpz91lh9FFOcqhL1o
+QjQqQaxhz5Rsl8YD+PSgoK8Koc2ImJRkJWW/MC1qwJq1c8bL/HAngfvjOAlaoYk7
+VF7vEAtlC9kKwGw+/H2zGFxmH2ZU44KXoKQX608t+LWj51EmqEDkYBGBNCswGc8m
+XZEvYphtpJUrUAMYrbEl6KuHO9vXrK255YO737pe/TaEeLaZfzWwTt/dZa66Rc29
+m0PEZr6ctlJi9GB9lzmwqh3fpEr7qz5yOuvWvEEFH5iOMORl28XQBAFmaPbrhZt4
+nrh40ws26lbs/Pmwn7HLVrC88nhTG08zU192dzYfqQ4Uo01VduhsdKtjJiSyCegk
+rjjejYrGuiavp3PPaVwhhibh9CxLkP3abdowfuM32fOCQBePLcVupUhH5LqqxECv
+DWKTKsB9qF4uVRSysZ4eIHYyTNAUOVJsuLEV5kb+0npfrnhegnFU0y2VwslfPFfp
+YrOqA0Ir45hxpdiMY2r7Fg0Fkg3hsMqcV81GLfNW6EHwPyqrgPYU6G95B0yfvvBd
+oYvVYrgfJ/jHKrlupt4Q
+=gH9R
+-----END PGP SIGNATURE-----
+
+--sKHNLc4rGJHGY5Sn--
