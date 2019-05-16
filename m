@@ -1,47 +1,51 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 359CB7D40F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DCE2F6C132
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 19:14:47 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id m140so8135165itg.2
+	Thu, 16 May 2019 19:29:12 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 15so545120wmg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 12:14:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=uOzC59CoYbs1SwRh6Vz5muKiNYhd2WHCEbUIOZbIWEQ=;
-	b=vUfW82jRtvWVmVL6pPPhKy++Sl2DRisHuQK8+tS1OlqZNXb4JmOx9RZ9toj9mrt0Sg
-	6FEAzEoyLpS3L4C9JG+AQtwWD4QSbGZjYp0HWWsxlUslNVp40q3A6jO6UnZeBjAinD5A
-	0k0UP38e31N1W+YKFgCtH4LZcx5hVNmZbKxYqjh/I6aiXKFd21rVHRNRcG7o78iD+GKz
-	mfwKb5I/UCYqTf1vuGYJZ6eakAGy0hKIpkGvCxqdw5QKqLBNZqaHQ+m12sRKDLyA+BAp
-	O/CPBkSfpMvbPTEAb8SKGT5Rc8L9a6VUl4Lat3X3IPrs5T2QvnqmegU5kLwprXWtiOJ+
-	KR/g==
+	Thu, 16 May 2019 12:29:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=OzLwSuY99I8xvt+rHiRLgs+xklfZj/KidzVF/Q4D0sM=;
+	b=CSRsm7nsCCp5C/6e7txu0SWsbKzX/KwlGlpDYmVo7gM1X0O8wWnohuwGcC0X85vcLI
+	jJmHQkesp4/8jjEXpkns+B9vJAtJakgj5x07RlnI04pWBc3hxFhTUI5W4elC/CrnGn8c
+	ytHM6WVuqByEZVyLKAdgxDAJsPsJRtzFRvEEk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=uOzC59CoYbs1SwRh6Vz5muKiNYhd2WHCEbUIOZbIWEQ=;
-	b=CLyUgcFAmUUvVmAHwRqTjZ9VdQIlYicnvZLC7oqzI0bJUlfVQjMhP4qUC2yEMECmBz
-	Jbn6FBCInXG5OIKCDRwXvHNAhUQVWZk3GYDVC5KBsYSJzMoRstG9o8+q4LCXayS8kEsg
-	1dtd6NQdsqBOwnBU56u/Z4JVcrDmCD5sDuDJFv8aKTWrL5jrvygRNOTZDK83J4j3To5A
-	GpGyEuUizKpenwfBUx5cAopwhz93UDB0E+JdCq0LT+vbkkimeiXcsGA5NOT9LfDYI9CB
-	BMQB0Jo9gqRSwqYHQeEnUsv+H8p84DSwApheS8GXte6Sk2JUwJFK4ciiwamgdI0Ev19W
-	2Bvw==
-X-Gm-Message-State: APjAAAX1Y4uJAA46FnRRka7LsMG9ZXfSs2BMNEtjMqHykGZ8s/RWo57l
-	G4lmc5Tr4kTdfDGptS7r+++cfho35KNl8JVUA3nnNeMx
-X-Google-Smtp-Source: APXvYqw5TqoQosW2mpEjvCBXfXsfpnWWofwDnQqcG6KTKjhmvWpNp6Qy5rpxc2BfK5C7BaXoR0VK3eCcg6Fha4WJCgI=
-X-Received: by 2002:a02:b088:: with SMTP id v8mr35054954jah.21.1558034088301; 
-	Thu, 16 May 2019 12:14:48 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=OzLwSuY99I8xvt+rHiRLgs+xklfZj/KidzVF/Q4D0sM=;
+	b=X6EyEG0Q1F/OgoH+k+FPSvbVgOoqfWhBSwOwhMOxcnlrgArJJ2lYSEkAuIrOZX7qgd
+	lDhwulsZnDS1df/gJSdWXwW0qzr0ZyrAISXoCqTP6r/OOGmcv9U1EfcCc5ZKz/j4fW/C
+	85IIkUndShmk8CRo4jXL/pSuAoToPe7SBOt5o4/UNJnJ0vRZxFIH11LfQ18HvWdyeu68
+	YB1jbah1Gu1y5P6sCaO/ElvcBdK/yCI3rlPtY6JwqsmeTMS5UaFDXT47MWcqs8zC13EC
+	Ifwxs9ulzIP5ExE8q1e4S10FK6/f97LfrhsQUg+HVs+y9RMdFraZ8KXynylygq2UqblS
+	rfmA==
+X-Gm-Message-State: APjAAAX8nhwRvAua2c06qX8VIzTuLVt6nKYD14Fx3Gh8EHMyU4d045hg
+	yxLqSnX3975Hn6y0muwgSyauJA==
+X-Google-Smtp-Source: APXvYqxSTOXxvhpLkUMV3YNq0VxmNWcbGEosaYUNTmy9nRmTPhvjX2sLTrc8P56VaP1gBgu/Lz0Q9w==
+X-Received: by 2002:a7b:c053:: with SMTP id u19mr27591529wmc.63.1558034953597; 
+	Thu, 16 May 2019 12:29:13 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	j46sm11732574wre.54.2019.05.16.12.29.12
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 16 May 2019 12:29:13 -0700 (PDT)
+Message-ID: <6e9630df6d8d4bd8f436526f440cf5f2f107bb31.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 16 May 2019 20:29:11 +0100
+In-Reply-To: <1557969749-80524-1-git-send-email-ee.peng.yeoh@intel.com>
+References: <1557969749-80524-1-git-send-email-ee.peng.yeoh@intel.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-References: <20190516171611.13983-1-bunk@stusta.de>
-In-Reply-To: <20190516171611.13983-1-bunk@stusta.de>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Thu, 16 May 2019 21:14:36 +0200
-Message-ID: <CALbNGRRPz+UQKDu8+7_TVOK6EDAyocMHBqU0W7eOtmB+WQz1aQ@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Disable idn properly for musl instead of NI_IDN workarounds
+Subject: Re: [PATCH 1/2 v2] oeqa/runtime/cases/rpm.py: Enable rpm install dependency testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,14 +58,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 19:14:47 -0000
+X-List-Received-Date: Thu, 16 May 2019 19:29:13 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 16, 2019 at 7:16 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Think I saw similar for other recipes. Your journey cleaning up musl
-is highly appreciated!
+On Thu, 2019-05-16 at 09:22 +0800, Yeoh Ee Peng wrote:
+> Convert manual testcase bsps-hw.bsps-hw.rpm_-
+> __install_dependency_package
+> from oeqa/manual/bsp-hw.json to runtime automated test.
+> 
+> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+> ---
+>  meta/lib/oeqa/runtime/cases/rpm.py | 30
+> ++++++++++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
 
-Andreas
+Much better, only one failure this time in multilib:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/44/builds/612
+
+Cheers,
+
+Richard
+
 
