@@ -1,51 +1,47 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id AE28A7E06F
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com
+	[209.85.128.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 3EB7D7D007
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 16:07:03 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id s11so2069552pfm.12
+	Thu, 16 May 2019 16:56:24 +0000 (UTC)
+Received: by mail-wm1-f54.google.com with SMTP id j187so4206386wmj.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 09:07:05 -0700 (PDT)
+	Thu, 16 May 2019 09:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=+g3nFL9lNMxkPhx88gUdmTaVp8tfyfXYuV4nKSqplXU=;
-	b=BuuR3T8906AsT+yR7rEsS1VGlsA8NXeSA/5q2gkTflDROU6xfZIQg+Jzww70L31UaA
-	UEihPtYMdFcsinc/o4Ja/wot00hc6cflmtr39Ic5o5VIjVwQ3M4OoNAgnNVN2n95s7GF
-	zP8D9SnD3pt6xUaO+f4bbbov+JGiQGefws33GYYj2/tN24HEabC4HA1whzeRSZcZjDop
-	gDQk8TGjLq+eBoHd7t/ugD2L6R3uT+0fJ1H5iqxQWETc7t2z4nilGEQR5MYqBrtKzzWF
-	yO4xaHF+I7C0RdftjHjJzAlbAXJBVFPta/pf4m2xkIDKGoEMptY2geE3KxqWjsP7DFw3
-	/S1w==
+	h=from:to:cc:subject:date:message-id;
+	bh=kJwUiiJdi8MVQZLcO8AeHuenWWQbRD/W+ATvGlefHgo=;
+	b=JGfQ6bXXWIa3/YFFRSuejW3bGCLfLQojyZKeUFV4FRsAGGoLyL0Pg10m8muuEmSUDV
+	sBcM97I6/0FKjZjLHBwUiMcJg5TQ/zyxIB+Z+U5vE4uhb9l5gdyFhwjHcbM6hsL9zLH4
+	LfAR+I5Ebz2yAabIp6zB7CtcuOKyCaXlAXH1yIsUdr0C+778JUSuBSFUe9Jpm5z6d0S5
+	atdjIqghDHpR7u0tQYo8DCdrcKCo0O+vprzsEzWHbc4P/lSk9bvlZMoRHzjCtgsTDJT3
+	ALk0wyUy2TvHRMp4sbmpE5T9BKEAOL6sHXrWwDhfAx+KAXNHcbOkEU3+Oe821sEpT/60
+	Fg6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=+g3nFL9lNMxkPhx88gUdmTaVp8tfyfXYuV4nKSqplXU=;
-	b=kCls7r2GMVHsdAYRu5b3Qw4rGcFxgaOHg12nRfERUKJZe9KCgqkEUHgkvobPSABugS
-	Qs5Kkc/5BVIvNr/qJjNVzCDwYWJgAEeLK5ABHoCSg4idUH0fJylvOkeAKvg8qBe2liEo
-	9Fm0bj4NGk+iEOOQiWL3XyOMZeqs3qBJC+OutVb3oj1mJtVANf1zcvC7sDZ7BiGP55xv
-	bo2/ri7w9cDmJ63p8kBPJc0keKurAMdKeVNun5fr8Xs5I1ewU02pUYtendBZoKesAFxp
-	zReGlZc7YSc3mXX7ao8g3XRpSoBJfkYvrTDobu5uYxpvOH1+rBnQmzrKpG4upWhDO931
-	iCig==
-X-Gm-Message-State: APjAAAV6wC6S3CG2RlHMyxrtiGSskIuQJT8PXKJYNdSBcr15UiHi2QDk
-	/nosRSY89Vd77Owr1Lt0WYRGsn/y
-X-Google-Smtp-Source: APXvYqxV8W8jkxx0EAwMxI+5dr8ZedT4VTC9TzzETnD+qGroa4/FLcbqqOOkEHih5ZZ9GtceKAwthw==
-X-Received: by 2002:a62:62c3:: with SMTP id w186mr53562592pfb.73.1558022824691;
-	Thu, 16 May 2019 09:07:04 -0700 (PDT)
-Received: from pahoa2.kama-aina.net (c-67-181-203-136.hsd1.ca.comcast.net.
-	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
-	q10sm6156148pgh.93.2019.05.16.09.07.03
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 09:07:04 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=kJwUiiJdi8MVQZLcO8AeHuenWWQbRD/W+ATvGlefHgo=;
+	b=CeB+Juho4K/TPIYR3cXE4CEBPLrscbjzswDeTYvf0/LMpQGeoi6tWiHOSbIyN8YhCS
+	bdfCvZUuoQgE255B5EjB/pV3zEBGxWpG3iV+RPuca+R80jQ9qUO7KvcS4KKNoKEq15AH
+	MkNXIaxNziIISMFYMKV22wFn+2oIb8P4pxkHsmptctSd+TRhW8aM7/mqlQUnHzQ5c5A7
+	TyMm2ZSHujbzawfsma48OR9jV0a+gPmC8Eiq0L4uDt9OEaIr/Uy/7erBzOVoZRyIJ2PP
+	BDhPvakk1N7mmhqb8Nlz6LnX17lmN0SrN12at3e6Xw8MKJDPsfTBFrjSbNaEMq7E8rMW
+	iLSA==
+X-Gm-Message-State: APjAAAX0ydOSdMf0z+x39Jcd943QLUqTVi/7fqeVTH79xwjtGR/2A2AO
+	RBFGNcJUdjg2WFehMBVlADYJGOdz
+X-Google-Smtp-Source: APXvYqw36iXbazzsnRI4rvjRp9vPdAldphykwp95KfSlxYVK1IkUs4TOeUIjR8ZFM/d5rZGeLhiNaQ==
+X-Received: by 2002:a1c:e386:: with SMTP id a128mr22208944wmh.69.1558025784591;
+	Thu, 16 May 2019 09:56:24 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id g6sm7762359wro.29.2019.05.16.09.56.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 16 May 2019 09:56:23 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 16 May 2019 09:07:00 -0700
-Message-Id: <20190516160700.20685-3-akuster808@gmail.com>
+Date: Thu, 16 May 2019 16:56:24 +0000
+Message-Id: <20190516165624.24188-1-Martin.Jansa@gmail.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190516160700.20685-1-akuster808@gmail.com>
-References: <20190516160700.20685-1-akuster808@gmail.com>
-Subject: [PATCH 2/2] runtime ptest: run each ptest separately
+Subject: [RFC][PATCH] tcmode-default.inc: use the same TUNE_PKGARCH variable as PN set in go-cross
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,132 +54,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 16:07:03 -0000
+X-List-Received-Date: Thu, 16 May 2019 16:56:24 -0000
 
-resulttool still working
+* otherwise P_V might be set for i686 and PN and RECIPE_MAINTAINER for i586
+  from bitbake -e lib32-gcc-cross-i686:
 
-Recipe  | Passed    | Failed | Skipped | Time(s)
-------------------------------------------------
-openssh | 0         | 0      | 1      | 1
-openssl | 146       | 1      | 8      | 80
-python  | 0         | 0      | 0      | 21
+  PREFERRED_VERSION_lib32-go-cross-i686="1.12%"
+  RECIPE_MAINTAINER_pn-go-cross-i586="Khem Raj <raj.khem@gmail.com>"
 
-[v2]
-Lets pass ptest name to ptest-runner in the loop
-Add check if test times out
-Add saving raw info on per test bases {ptest}-raw.log.
+  $ git grep 'go-cross-${'
+  meta/conf/distro/include/maintainers.inc:RECIPE_MAINTAINER_pn-go-cross-${TUNE_PKGARCH} = "Khem Raj <raj.khem@gmail.com>"
+  meta/conf/distro/include/tcmode-default.inc:PREFERRED_VERSION_go-cross-${TARGET_ARCH} ?= "${GOVERSION}"
+  meta/recipes-devtools/go/go-cross.inc:PN = "go-cross-${TUNE_PKGARCH}"
 
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+* actually is there a reson to use TUNE_PKGARCH here (unlike other cross/canadian-cross recipes
+  which are using TARGET_ARCH/TRANSLATED_TARGET_ARCH)?
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/lib/oeqa/runtime/cases/ptest.py | 64 ++++++++++++++++++----------
- 1 file changed, 41 insertions(+), 23 deletions(-)
+ meta/conf/distro/include/tcmode-default.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/ptest.py b/meta/lib/oeqa/runtime/cases/ptest.py
-index fa95fefe011..de24a3586d4 100644
---- a/meta/lib/oeqa/runtime/cases/ptest.py
-+++ b/meta/lib/oeqa/runtime/cases/ptest.py
-@@ -5,6 +5,7 @@
- import unittest
- import pprint
- import datetime
-+import bb
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
+index daacfe28c4..668f31324e 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -68,7 +68,7 @@ PREFERRED_VERSION_qemu-native ?= "${QEMUVERSION}"
+ PREFERRED_VERSION_nativesdk-qemu ?= "${QEMUVERSION}"
  
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
-@@ -26,6 +27,7 @@ class PTestBase(OERuntimeTestCase):
-     @classmethod
-     def ptest_startup(cls):
-         cls.failmsg = ""
-+        cls.ptests = []
- 
-         cls.test_log_dir = cls.td.get('TEST_LOG_DIR', '')
-         # The TEST_LOG_DIR maybe NULL when testimage is added after
-@@ -46,6 +48,8 @@ class PTestBase(OERuntimeTestCase):
-             cls.tc.extraresults = {}
- 
-         cls.extras = cls.tc.extraresults
-+        cls.extras['ptestresult.rawlogs'] = {'log': ""}
-+        cls.extras['ptestresult.sections'] = {}
- 
-     @classmethod
-     def ptest_finishup(cls):
-@@ -60,35 +64,23 @@ class PTestBase(OERuntimeTestCase):
-             cls.fail(cls.failmsg)
- 
- class PtestRunnerTest(PTestBase):
--
--    @skipIfNotFeature('ptest', 'Test requires ptest to be in DISTRO_FEATURES')
--    @OETestDepends(['ssh.SSHTest.test_ssh'])
--    @OEHasPackage(['ptest-runner'])
--    def test_ptestrunner_check(self):
--        status, output = self.target.run('which ptest-runner')
--        msg = 'ptest-runner not installed .  %s' % output
--        self.assertEqual(status, 0, msg=msg)
--
--    @OETestDepends(['ptest.PtestRunnerTest.test_ptestrunner_check'])
--    def test_ptests_installed(self):
--        status, output = self.target.run('ptest-runner -l')
--        msg = 'No ptests found.  %s' % output
--        self.assertEqual(status, 0, msg=msg)
--
--    @OETestDepends(['ptest.PtestRunnerTest.test_ptests_installed'])
--    @unittest.expectedFailure
--    def test_ptestrunner(self):
--        status, output = self.target.run('ptest-runner', 0)
--        with open(self.ptest_runner_log, 'w') as f:
-+    def run_ptest(self, ptest):
-+        status, output = self.target.run('ptest-runner %s' % ptest, 0)
-+        ptest_raw_log = os.path.join(self.ptest_log_dir, "%s-raw.log" % ptest)
-+        with open(ptest_raw_log, 'w') as f:
-             f.write(output)
- 
-         # Parse and save results
-         parser = PtestParser()
--        results, sections = parser.parse(self.ptest_runner_log)
-+        results, sections = parser.parse(ptest_raw_log)
-         parser.results_as_files(self.ptest_log_dir)
- 
--        self.extras['ptestresult.rawlogs'] = {'log': output}
--        self.extras['ptestresult.sections'] = sections
-+        self.extras['ptestresult.rawlogs']['log']  = self.extras['ptestresult.rawlogs']['log'] + output
-+        try:
-+            self.extras['ptestresult.sections'][ptest]  = sections[ptest]
-+        except KeyError:
-+            bb.warn("ptest %s timedout or crashed for some reason. Check the log: %s" % (ptest, self.ptest_log_dir))
-+            return
- 
-         trans = str.maketrans("()", "__")
-         for section in results:
-@@ -110,3 +102,29 @@ class PtestRunnerTest(PTestBase):
-         if failed_tests:
-             self.failmsg = self.failmsg + "Failed ptests:\n%s" % pprint.pformat(failed_tests)
- 
-+
-+    @skipIfNotFeature('ptest', 'Test requires ptest to be in DISTRO_FEATURES')
-+    @OETestDepends(['ssh.SSHTest.test_ssh'])
-+    @OEHasPackage(['ptest-runner'])
-+    def test_ptestrunner_check(self):
-+        status, output = self.target.run('which ptest-runner')
-+        msg = 'ptest-runner not installed .  %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+    @OETestDepends(['ptest.PtestRunnerTest.test_ptestrunner_check'])
-+    def test_ptests_installed(self):
-+        status, output = self.target.run('ptest-runner -l')
-+        msg = 'No ptests found.  %s' % output
-+        self.assertEqual(status, 0, msg=msg)
-+
-+        # built ptest list
-+        for ptest in output.split("\n"):
-+            if ptest.startswith("Available"):
-+                continue
-+            self.ptests.append(ptest.split()[0])
-+
-+    @OETestDepends(['ptest.PtestRunnerTest.test_ptests_installed'])
-+    @unittest.expectedFailure
-+    def test_ptestrunner(self):
-+        for ptest in self.ptests:
-+            self.run_ptest(ptest)
+ PREFERRED_VERSION_virtual/${TARGET_PREFIX}go ?= "${GOVERSION}"
+-PREFERRED_VERSION_go-cross-${TARGET_ARCH} ?= "${GOVERSION}"
++PREFERRED_VERSION_go-cross-${TUNE_PKGARCH} ?= "${GOVERSION}"
+ PREFERRED_VERSION_go-crosssdk-${SDK_ARCH} ?= "${GOVERSION}"
+ PREFERRED_VERSION_go-cross-canadian-${TRANSLATED_TARGET_ARCH} ?= "${GOVERSION}"
+ PREFERRED_VERSION_go ?= "${GOVERSION}"
 -- 
 2.17.1
 
