@@ -1,49 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B7DF27E033
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 2DF836AC00
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 23:38:18 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id p2so6822606iol.2
+	Fri, 17 May 2019 23:53:55 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id 14so7704939ljj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 16:38:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 17 May 2019 16:53:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fKaj+xmJ9vHFsCglmxzInubqdO68a9x2WZ88wH4EB38=;
-	b=VZON4G0Ixz+58nLGUc9Lfh+4dPjIlAvpC9xmCZ3GiiQiyMpzaQVluQ7LpgVgfRq9DS
-	todKMMOTk9EkdWi/OBI64L4X1olKO7o9eBMB/nm3L/3P8myTQAlHvpDLt6FOJ2R2Wds0
-	CQmGsyMTplVHlofBMs7Sq/j6/VSqU5mzKW6EgqyoA/7UmVV/OIIDhFbMNXuQ5sv8/AR5
-	uENooGIvpSPILVpIjre5wUdaVp9CjIQeMrG6g7I0atDdDbu+dICWKNQBEtblQT8DaMPv
-	EdrXiB494pB5c+i17lk/TaQ9wNPCfHFfYWcl82TWV0jw25y13AaWJ3xVsVlJpIHSlaHc
-	OabA==
+	:cc; bh=QDAl2T6zIfhzm2RDyAUgHtl4Hp9ujiHk8Jgs7b0QNu4=;
+	b=qZiOa1j6sb+u+V+7xTx5OGTNADkQhlS1sUUw2J7VPP1CmX4eB+jvVY6s8D1aafq9XO
+	1FziT4gqn1Owv0+4cUYiUs/tg7jBMWObIIwXOwSfjZogXKNw9QzyQJ8G/fD8z6RVXBPA
+	7+qGMg8otkPJCo015v2gpLimK9hFK8WzH4UKY/YkoSoWhm2a2KgF5PIpUjoND2UAGVdW
+	x2B5/Mt9koixzZrGxJSEwdgD2kSHzmzZYVZ3u+7JIaYN8JWJ54a/PChhHDRkQnB66Jq0
+	NGxN0SDHKA25ZA79UwlJLeLYDNmHh+xNghPbepMsfduE7bROjI9XW7qw249RipV9TlJV
+	tU2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=fKaj+xmJ9vHFsCglmxzInubqdO68a9x2WZ88wH4EB38=;
-	b=Au58TOwIIf+hOrm7u42zA9NBrZU+XE6qdrxi0ArUGZ0MSaoR1UqJrmyTxud9ElBQzo
-	MCZgcFCnjqI/0bqaOHF6wfLVHZbBZqXcTbrW2KwB9RdyJL/PbXNbHqB9EwMka8YFJM37
-	8phASmyOqA3YXBLPy368Xd4HTKEsO1K+V08RzESY+PBC8Zs45RiOH9bsvOCVRDi61qHa
-	WnRMqXa2aZVURQtmI7gIBA1DnKzLu+dX8/PbmqVaMX2OBupuNLPy9As273whRZ46Mchp
-	UEMz1srVg+CRP94zt3GfS0dJfKqBbZZoXFj/Y1ECNsEeTyPU6YZpXXRqAzCRGH+f0dRZ
-	XuXg==
-X-Gm-Message-State: APjAAAUe8Rhk7ZaVMm7oQv1VIylj0+eoxoe1GjSP28b9Qz0Liq+o0PKs
-	DUtLjKvfky7QGm3xW7soQLjTURZGIKe1qtNXCp6A/unu
-X-Google-Smtp-Source: APXvYqxOOK84ijumYi1yHgtjgcA0wKOurt5/dicvT6TjbGITHFHcCLAIJtLzXvm0ADRC0gfiOgphrWyB8qgm8nFbL20=
-X-Received: by 2002:a6b:d91a:: with SMTP id r26mr1535769ioc.25.1558136299905; 
-	Fri, 17 May 2019 16:38:19 -0700 (PDT)
+	bh=QDAl2T6zIfhzm2RDyAUgHtl4Hp9ujiHk8Jgs7b0QNu4=;
+	b=HSS5+9MjfbANa2UTFlOrgZBK9IbQa7/r3sZ6RCKQzoBp15+PPVoao+nhk3EIlFGhO9
+	cvkwcNzKJ9QEHLNUSers0jpnIOXm3qYsoS5WBNsJGMorIHwCu8IEULq4frkgKHCIW1tE
+	L1aBSUjmRy81JV3Cp34MBoTfH2nznxORhS7HKLyfHb20h3y4r5s1b5teh/CCT8423P5H
+	01cnw3+1wFL8wg7065xzZ45avaWBmYgxd+Ya1wBj9L7h0tbz03FBzGV+mzol/pe9CRj5
+	L7va2eRw7zKSeRGvyMrddyS78UkSAFECAcp3iYOdYCAqDpjnB0f9mCD6eiio1cZtd77J
+	p1WQ==
+X-Gm-Message-State: APjAAAX7C+fo1cI7AA7pbNRTiTA8I3seYhA0/ef15DmyynMD19mkX7ft
+	Aq2G2n+mUxcy2MhtQB1Z0KlrT3C3WY3Q/A9fq7M=
+X-Google-Smtp-Source: APXvYqwKr80YvTQVAaoefjjUoqqeGC9HUcI0zvqUlDXWErfg36fZkDu/ZbQGZod/mIxFEAx+QnkQYyYIJlqiz9/o6IQ=
+X-Received: by 2002:a2e:2b81:: with SMTP id r1mr27588329ljr.138.1558137235871; 
+	Fri, 17 May 2019 16:53:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190517224859.8270-1-ross.burton@intel.com>
-	<c400aa2a-4685-edd7-88ce-dcf5f13d4349@mikrodidakt.se>
-In-Reply-To: <c400aa2a-4685-edd7-88ce-dcf5f13d4349@mikrodidakt.se>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 17 May 2019 16:38:08 -0700
-Message-ID: <CAJTo0LbOa8U7m--g453CQTR8hrXw0T+jtKpT6j_aNPf=qndmKQ@mail.gmail.com>
-To: Jacob Kroon <jacob.kroon@mikrodidakt.se>
+References: <20190513225205.14791-1-alistair.francis@wdc.com>
+	<d2813cd316e8c8574f532727cb464d2a6e0bd796.camel@linuxfoundation.org>
+	<a0e0cda1-dd25-5347-fcc2-c01a5de3cc04@windriver.com>
+In-Reply-To: <a0e0cda1-dd25-5347-fcc2-c01a5de3cc04@windriver.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 17 May 2019 16:51:42 -0700
+Message-ID: <CAKmqyKN4LiW2aS76+19-0oJV1AJJyaaxh1UbpSjZ2PWSccKjDg@mail.gmail.com>
+To: Randy MacLeod <randy.macleod@windriver.com>
 Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] insane: add sanity checks to SRC_URI
+Subject: Re: [PATCH] gdb: Upgrade from 8.2.1 to 8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +56,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 23:38:19 -0000
+X-List-Received-Date: Fri, 17 May 2019 23:53:55 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 17 May 2019 at 16:24, Jacob Kroon <jacob.kroon@mikrodidakt.se> wrote:
-> On 5/18/19 12:48 AM, Ross Burton wrote:
-> > The SRC_URI almost definitely shouldn't be using ${BPN}, and GitHub */archive/*
-> "... shouldn't be using ${PN} ..." ?
+On Tue, May 14, 2019 at 11:24 AM Randy MacLeod
+<randy.macleod@windriver.com> wrote:
+>
+> On 5/14/19 1:36 PM, Richard Purdie wrote:
+> > On Mon, 2019-05-13 at 22:53 +0000, Alistair Francis wrote:
+> >> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> >> ---
+> >> If there are issues with the patch the branch is avaliable here:
+> >> https://github.com/alistair23/openembedded-core/tree/alistair/gdb-8.3
+> >
+> > Seems there is a problem in oe-selftest:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/174/steps/7/logs/step2d
+> >
+> > "oe-selftest -r package.PackageTests.test_gdb_hardlink_debug" should
+> > reproduce and it seemed to happen on more than one host.
+>
+> I have some off-list notes, show below, for a bug that I haven't
+> gotten to yet.
+>
+> Alistair,
+>
+> Could you adjust the oeqa match criteria based on the info below?
+>
+> ../Randy
+>
+>
+> The oe-selftest:
+>     https://bugzilla.yoctoproject.org/show_bug.cgi?id=13123
+> is failing because the check at:
+>     meta/lib/oeqa/selftest/cases/package.py:
+>                 elif "Breakpoint 1, main () at hello.c:4" in l:
+> is too precise. (This wasn't obvious to me for quite a
+> while based on the defect report!)
+>
+> Anyway, at times, the test would pass for me other times
+> it would not as you may have noticed. For interactive tests, gdb
+> always functions properly but the breakpoint doesn't always
+> result in the *exact* string:
+>     "Breakpoint 1, main () at hello.c:4"
+> sometimes (with glibc-dev, iirc) it's:
+>     "Breakpoint 1, 0x0804905e in main () at hello.c:4"
+> and sometimes it's just:
+>     "Breakpoint 1, 0x0804905e: file hello.c, line 4"
+>
+> so unless Khem or someone knows how to ensure
+> 100% consistent behaviour, perhaps we should search for:
+>
+>     "Breakpoint 1, .* hello.c.*4"   ( I'm not sure of the proper regex.)
+> since that will confirm that a breakpoint was hit at the proper file/line.
 
-Whoops!  Fixed.
+I am unable to reproduce the failure, so I can't check if this is the
+correct fix. I'm going to send a v2 with your fix and hopefully that
+fixes the autobuilder failures.
 
-Ross
+Alistair
+
+>
+> >
+> > Cheers,
+> >
+> > Richard
+> >
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
