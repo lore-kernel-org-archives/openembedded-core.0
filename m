@@ -1,51 +1,22 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E21997CFEE
+Return-Path: <ee.peng.yeoh@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 274757E0CC
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 06:01:38 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 198so5662125wme.3
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 23:01:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=D6pWJ0VNFDGDfzYu+HEz1MtzSbR6wW1oIx+MBneupi8=;
-	b=Ssqoge187PrfwYf/h3bcufQFlPC0k2iRe7E3jB8JgPNVWtvq1c9aXH80uE4wXxcbr+
-	aJKraThDFkWTAhXinYtfZ5xARxJY9SRVYy/icCHSTGKYuDX4DRKWE1WA/+VUcTetJNG1
-	cU00vXZoXFXVFb0rLngcS/K5NQOh0Tnj16hlo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=D6pWJ0VNFDGDfzYu+HEz1MtzSbR6wW1oIx+MBneupi8=;
-	b=fdPao80S++TaeIhgQi+Gr3mBH9sfuWtJgYXJApTp3lEEwjnSpVybSPNg1ZSydpeC8P
-	glHYZScglm5KvitNspWNrRX0T1zGOjB5zoXMIfqJ6gXUl3NqU5+La3Ak2xg4HMIS7j02
-	3/SXCWNUQQXXEew2n/E5HPTrfQfDVnPLr2yUaBBNLWmlE4vAfotGpBzdL4DCitcF7vza
-	xWuJlZ8mVmR4GC3Zn8CtGl2+Tni54c7pXoIL9RSSX3cfcblvy5nxdH1+tLX1CgTJwhbF
-	NheYoVGCMGoSLdpHQ0PR3L1Ldxs4Ni+f1PPG/jYqAGxpHA2OmZq6mpZcpjjzmUTxD5KI
-	cFAg==
-X-Gm-Message-State: APjAAAX5v3hCFft/8K499huRFDREHBa8FtqqyAGxIJ1xTBodRY6fBF8f
-	Y3aN3E7WeofhAPju/LtrBXSDlA==
-X-Google-Smtp-Source: APXvYqxMqirc5SGG6Q6xYwNxSWm9PybZqhqR3K3po/D/D83xjrTP8C/b0FJwdaXVdHF+pJ3rLAZGrw==
-X-Received: by 2002:a1c:20d7:: with SMTP id g206mr754527wmg.136.1558072899576; 
-	Thu, 16 May 2019 23:01:39 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	c131sm8392748wma.31.2019.05.16.23.01.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 16 May 2019 23:01:38 -0700 (PDT)
-Message-ID: <fe1b8cfea44ceae5c688b4603f4b72ed3aa64c8c.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yeoh Ee Peng <ee.peng.yeoh@intel.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 07:01:37 +0100
-In-Reply-To: <1558058834-5442-1-git-send-email-ee.peng.yeoh@intel.com>
-References: <1558058834-5442-1-git-send-email-ee.peng.yeoh@intel.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH 1/2 v3] oeqa/runtime/cases/rpm.py: Enable rpm install dependency testing
+	Fri, 17 May 2019 07:03:53 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 May 2019 00:03:54 -0700
+X-ExtLoop1: 1
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga007.jf.intel.com with ESMTP; 17 May 2019 00:03:53 -0700
+From: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 May 2019 15:03:50 +0800
+Message-Id: <1558076631-17503-1-git-send-email-ee.peng.yeoh@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH 1/2 v4] oeqa/runtime/cases/rpm.py: Enable rpm install dependency testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,56 +29,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 06:01:39 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 May 2019 07:03:54 -0000
 
-Hi Ee Peng,
+Convert manual testcase bsps-hw.bsps-hw.rpm_-__install_dependency_package
+from oeqa/manual/bsp-hw.json to runtime automated test.
 
-On Fri, 2019-05-17 at 10:07 +0800, Yeoh Ee Peng wrote:
-> Convert manual testcase bsps-hw.bsps-hw.rpm_-
-> __install_dependency_package
-> from oeqa/manual/bsp-hw.json to runtime automated test.
-> 
-> Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
-> ---
->  meta/lib/oeqa/runtime/cases/rpm.py | 34
-> ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/meta/lib/oeqa/runtime/cases/rpm.py
-> b/meta/lib/oeqa/runtime/cases/rpm.py
-> index d8cabd3..ce3fce1 100644
-> --- a/meta/lib/oeqa/runtime/cases/rpm.py
-> +++ b/meta/lib/oeqa/runtime/cases/rpm.py
-> @@ -135,3 +135,37 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
->          # Check that there's enough of them
->          self.assertGreaterEqual(int(output), 80,
->                                     'Cound not find sufficient amount
-> of rpm entries in /var/log/messages, found {}
-> entries'.format(output))
-> +
-> +    @OETestDepends(['rpm.RpmBasicTest.test_rpm_query'])
-> +    def test_rpm_install_dependency(self):
-> +        rpmdir = os.path.join(self.tc.td['DEPLOY_DIR'], 'rpm',
-> 'noarch')
-> +        if not os.path.exists(rpmdir):
-> +            self.skipTest('No %s on target' % rpmdir)
+Signed-off-by: Yeoh Ee Peng <ee.peng.yeoh@intel.com>
+---
+ meta/lib/oeqa/runtime/cases/rpm.py | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-This message doesn't sound quite right as you're checking for rpmdir
-locally on the build server, not on target? Could you clarify that
-please?
-
+diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
+index d8cabd3..692e925 100644
+--- a/meta/lib/oeqa/runtime/cases/rpm.py
++++ b/meta/lib/oeqa/runtime/cases/rpm.py
+@@ -135,3 +135,37 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
+         # Check that there's enough of them
+         self.assertGreaterEqual(int(output), 80,
+                                    'Cound not find sufficient amount of rpm entries in /var/log/messages, found {} entries'.format(output))
++
++    @OETestDepends(['rpm.RpmBasicTest.test_rpm_query'])
++    def test_rpm_install_dependency(self):
++        rpmdir = os.path.join(self.tc.td['DEPLOY_DIR'], 'rpm', 'noarch')
++        if not os.path.exists(rpmdir):
++            self.skipTest('No %s on host machine' % rpmdir)
++        rpm_tests = {'run-postinsts-dev': '', 'run-postinsts': ''}
++        rpm_pattern = 'run-postinsts-*.noarch.rpm'
++        for f in fnmatch.filter(os.listdir(rpmdir), rpm_pattern):
++            if 'run-postinsts-dev' not in f and 'run-postinsts-dbg' not in f:
++                rpm_tests['run-postinsts'] = f
++                continue
++            if 'run-postinsts-dev' in f:
++                rpm_tests['run-postinsts-dev'] = f
++                continue
++        rpm_dest_dir = '/tmp'
++        for rpm in rpm_tests:
 +            if not rpm_tests[rpm]:
-+                self.skipTest('No %s on target' % os.path.join(rpmdir, rpm))
-
-The same issue here, these files are not being searched for "on
-target".
-
-Cheers,
-
-Richard
-
-
++                self.skipTest('No %s on host machine' % os.path.join(rpmdir, rpm))
++            self.tc.target.copyTo(os.path.join(rpmdir, rpm_tests[rpm]), os.path.join(rpm_dest_dir, rpm_tests[rpm]))
++        # remove existing rpm before testing install with dependency
++        self.tc.target.run('rpm -e %s' % 'run-postinsts-dev')
++        self.tc.target.run('rpm -e %s' % 'run-postinsts')
++        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts-dev']))
++        self.assertTrue(status == 1, 'rpm installed should have failed but it was getting %s' % status)
++        self.assertTrue('error: Failed dependencies:' in output,
++                        'rpm installed should have failed with error but it was getting: %s' % output)
++        # reinstall rpm with dependency
++        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts']))
++        self.assertTrue(status == 0, 'rpm (%s) installed with error: %s (%s)' % (rpm_tests['run-postinsts'], status, output))
++        status, output = self.tc.target.run('rpm -ivh %s' % os.path.join(rpm_dest_dir, rpm_tests['run-postinsts-dev']))
++        self.assertTrue(status == 0, 'rpm (%s) installed with error: %s (%s)' % (rpm_tests['run-postinsts-dev'], status, output))
++        for rpm in rpm_tests:
++            self.tc.target.run('rm -f %s' % os.path.join(rpm_dest_dir, rpm_tests[rpm]))
+-- 
+2.7.4
 
 
