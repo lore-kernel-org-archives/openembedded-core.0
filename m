@@ -1,53 +1,30 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 276017E061
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D8E77D07D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 22:28:51 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id m3so4876362wrv.2
+	Fri, 17 May 2019 01:43:23 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4H1h4l3014595
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 16 May 2019 15:28:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=L+jCLJ7aYuXhr69DP6cZcgjbzauwZmNqxqYYrDRWp4o=;
-	b=SGP7v/nqKatLRmz3HD71lqQWPCu2x6W0MhVg2Pf5zOz6cmqassU4wNsc/drNzURT48
-	P0m7N44pKQW8DATaG4O3pzFE7A6N/H+8uTz5A0i4k8OI6RicElYh4GwYvSC/DZPgTXJ6
-	OCN9eR4/zBUi9TQdvzZ0AxC0VlaUuRFjakTEk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=L+jCLJ7aYuXhr69DP6cZcgjbzauwZmNqxqYYrDRWp4o=;
-	b=do6XpXkA7RsFhC6GzHHJR7LZi7j7sk4hNpBZuwqG2R54eR0kcEZe1aOForEOUpWLAT
-	SgYd9WGqvy2SOiUQWDiji0M7jQ838jhr+SybwKDdCcgWnP7NWCyq3zUCK0FOotbdlBCI
-	etXxWXhlP65v+wn/zdmMYV8Wba7jb7pkRzYJI+YTGnX3b8H4v62HhYg6hMbCKMB7L0LO
-	xMdyW9nnuvQa9tvu+JHQJblMt6cg4fM6niQiPHpmTIaVsHXhm5revMB2NfjNz6Nxeg58
-	Ytgh/38Sj/q3V5fZIwjv8Mi6JdK7rvJ/y60LzF4USOO7Dn/SmLgId1pvpFXSorx0z+Eb
-	w9NQ==
-X-Gm-Message-State: APjAAAUxAWGld6ZhGpFcXCtzVezozgkPCTUtWIKDODELZ3IwzP0yGWOS
-	NtsUHlQmATIml8oI835mWUSLAiKGOo4=
-X-Google-Smtp-Source: APXvYqyyxSrCClcrRontPCca1pCXo0jp0I/usN2QJD3ZZ0Jq7dl6J2YCGS4wHzFh+g8/4fvfUVUDcw==
-X-Received: by 2002:adf:f34e:: with SMTP id e14mr12037281wrp.215.1558045731803;
-	Thu, 16 May 2019 15:28:51 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id o8sm9547263wra.4.2019.05.16.15.28.50
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 15:28:50 -0700 (PDT)
-Message-ID: <7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Randy MacLeod <randy.macleod@windriver.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, "Li, Changqing"
-	<changqing.li@windriver.com>, Sakib Sajal <sakib.sajal@windriver.com>
-Date: Thu, 16 May 2019 23:28:49 +0100
-In-Reply-To: <2b4e8d0f-cbb9-d2e4-c17d-33950d3cf9df@windriver.com>
-References: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
-	<6ed430aa3e5e722cd75b1798cacab3f92eb71b71.camel@linuxfoundation.org>
-	<2b4e8d0f-cbb9-d2e4-c17d-33950d3cf9df@windriver.com>
-User-Agent: Evolution 3.32.1-2 
+	Thu, 16 May 2019 18:43:14 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.163]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0439.000;
+	Thu, 16 May 2019 18:42:42 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: sysstat and sysvinit
+Thread-Index: AdUMUSF2jR8ZzBXGQsi5b+sTMk6Odw==
+Date: Fri, 17 May 2019 01:42:41 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84F37A4344@ALA-MBD.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.117.172]
 MIME-Version: 1.0
-Subject: Re: ptest with BBCLASSEXTEND
+Subject: sysstat and sysvinit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,132 +37,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 16 May 2019 22:28:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 17 May 2019 01:43:24 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_007BD92917A2324FA403BCF9A464CF84F37A4344ALAMBDcorpadwrs_"
 
-On Thu, 2019-05-16 at 17:13 -0400, Randy MacLeod wrote:
-> On 5/16/19 8:36 AM, Richard Purdie wrote:
-> > On Thu, 2019-05-16 at 11:54 +0100, Richard Purdie wrote:
-> > > https://autobuilder.yocto.io/pub/non-release/20190514-14/testresults/testresult-report.txt
-> > 
-> > A couple of patches (on the list) gets us to the results below which is
-> > better. The perl module failures and quilt are from missing perl module
-> > dependencies.
-> > 
-> > --------------------------------------------------------------------------------------------------------------
-> > Recipe                       | Passed      | Failed    | Skipped   | Time(s)
-> > --------------------------------------------------------------------------------------------------------------
-> > acl                          | 3           | 0         | 0         | 0
-> > apr                          | 44          | 0         | 0         | 58
-> > apr-util                     | 19          | 0         | 0         | 8
-> > attr                         | 0           | 0         | 0         | 0
-> > bash                         | 36          | 8         | 0         | 108 T
-> > bluez5                       | 23          | 2         | 0         | 5
-> > busybox                      | 528         | 4         | 76        | 4
-> > bzip2                        | 6           | 0         | 0         | 1
-> > dbus-test                    | 0           | 0         | 0         | 91 T
-> > diffstat                     | 439         | 0         | 0         | 3
-> > diffutils                    | 19          | 0         | 2         | 2
-> > e2fsprogs                    | 0           | 0         | 0         | 108 T
-> > elfutils                     | 172         | 24        | 7         | 20
-> > ethtool                      | 2           | 0         | 0         | 1
-> > flex                         | 114         | 0         | 0         | 2
-> > gawk                         | 342         | 0         | 0         | 2
-> > gdbm                         | 24          | 0         | 0         | 2
-> > gdk-pixbuf                   | 20          | 0         | 0         | 39
-> > gettext                      | 354         | 21        | 37        | 33
-> > glib-2.0                     | 242         | 3         | 0         | 347
-> > gstreamer1.0                 | 103         | 1         | 0         | 104
-> > gzip                         | 19          | 0         | 3         | 4
-> > json-glib                    | 14          | 0         | 0         | 0
-> > kbd                          | 5           | 2         | 0         | 1
-> > libconvert-asn1-perl         | 0           | 22        | 0         | 0
-> > liberror-perl                | 0           | 15        | 0         | 0
-> > libevent                     | 1           | 0         | 0         | 86
-> > libpcre                      | 0           | 0         | 0         | 1
-> > libtest-needs-perl           | 0           | 2         | 0         | 0
-> > libtimedate-perl             | 3           | 2         | 0         | 0
-> > liburi-perl                  | 0           | 39        | 2         | 0
-> > libusb1                      | 4           | 0         | 0         | 6
-> > libxml-namespacesupport-perl | 0           | 1         | 0         | 0
-> > libxml-parser-perl           | 0           | 15        | 0         | 0
-> > libxml-perl                  | 0           | 6         | 0         | 0
-> > libxml-sax-base-perl         | 0           | 19        | 0         | 0
-> > libxml-sax-perl              | 0           | 14        | 0         | 0
-> > libxml-simple-perl           | 0           | 14        | 0         | 0
-> > libxml2                      | 134         | 0         | 0         | 17
-> > lttng-tools                  | 3397        | 626       | 1         | 350 T
-> > lzo                          | 5           | 0         | 0         | 2
-> > m4                           | 144         | 8         | 18        | 5
-> > nettle                       | 97          | 0         | 2         | 9
-> > openssh                      | 0           | 0         | 1         | 1
-> > openssl                      | 146         | 1         | 8         | 91
-> > opkg                         | 0           | 0         | 0         | 11
-> > pango                        | 12          | 0         | 0         | 1
-> > parted                       | 41          | 1         | 22        | 5
-> > perl                         | 2423        | 19        | 238       | 713
-> > python                       | 301         | 6         | 41        | 325
-> > python3                      | 30277       | 2         | 1043      | 990
-> > quilt                        | 0           | 57        | 0         | 0
-> > sed                          | 86          | 0         | 0         | 4
-> > slang                        | 97          | 0         | 0         | 22
-> > strace                       | 466         | 18        | 147       | 176
-> > tcl                          | 149         | 0         | 0         | 179
-> > util-linux                   | 336         | 2         | 80        | 41
-> > valgrind                     | 149         | 1         | 9         | 544
-> > zlib                         | 1           | 0         | 0         | 1
-> > 
-> > Cheers,
-> > 
-> > Richard
-> > 
-> 
-> During the weekly YP bug review meeting, we discussed creating a
-> defect per package for each of these ptest failures and marking them
-> each as NEWCOMER bugs but we really need to keep working on ptest
-> improvements. I'd like Sandy (Changqing), Sajal and perhaps others
-> at Wind River (or elsewhere!) to split up the list above to fix
-> any missing dependencies.
-> 
-> Sajal is a new student working at working from Ottawa. He has some
-> experience with Yocto from a previous student placement. I've asked him
-> to work on the bash package ptest errors and I'll add quilt and strace
-> as well.
-> 
-> For the rest of the list, Sandy can pick a few and see if there's
-> a pattern to the failures or not. Once we have that info we can
-> decide how many people we need to deal with the rest of the
-> packages for fix most of the dependency issues over the coming
-> weeks. It would be nice to have most of them wrapped up for 2.8-M1.
+--_000_007BD92917A2324FA403BCF9A464CF84F37A4344ALAMBDcorpadwrs_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks Randy!
+Although the exact issues have changed over releases, I think that sysstat =
+has dependencies on host /etc files or directories when using sysvinit inst=
+ead of systemd.   Since any "fixes" would potentially change target behavio=
+r, what are we looking for?
 
-Just to update from my perspective:
+Joe
 
-quilt and lib*-perl all look like missing perl module dependencies. The
-place those dependencies are missing may be for the ptest or may be the
-actual PN package itself, depending on where the module dependency is.
+--_000_007BD92917A2324FA403BCF9A464CF84F37A4344ALAMBDcorpadwrs_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 
-Ross looks like he's looking at the glib-2.0 issues.
+<html dir=3D"ltr">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" id=3D"owaParaStyle"></style>
+</head>
+<body fpstyle=3D"1" ocsi=3D"0">
+<div style=3D"direction: ltr;font-family: Tahoma;color: #000000;font-size: =
+10pt;">Although the exact issues have changed over releases, I think that s=
+ysstat has dependencies on host /etc files or directories when using sysvin=
+it instead of systemd. &nbsp; Since any
+ &quot;fixes&quot; would potentially change target behavior, what are we lo=
+oking for?
+<div><br>
+</div>
+<div>Joe</div>
+</div>
+</body>
+</html>
 
-I think Jonathan Rajotte might be able to help us with lttng-tools.
-
-I have a local patch for acl which looks like a missing e2fsprogs-
-mke2fs and make dependencies but I've not tested it yet.
-
-The failures with timeouts (T next to them) are the ones which worry me
-most of all.
-
-Cheers,
-
-Richard
-
-
-
-
-
-
-
-
-
+--_000_007BD92917A2324FA403BCF9A464CF84F37A4344ALAMBDcorpadwrs_--
