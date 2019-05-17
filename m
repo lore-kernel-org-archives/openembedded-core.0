@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B9F07DFDB
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id DBFCF7DEC6
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 May 2019 18:12:28 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id c77so6288576wmd.1
+Received: by mail-wm1-f51.google.com with SMTP id y3so7781838wmm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:29 -0700 (PDT)
+	Fri, 17 May 2019 11:12:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=pK7XsuEB2f2MCPBh304bN3RIsoFpDFuKC+m5fJSl24M=;
-	b=GZMz85ArYxd3s2zSK6NL8mufPOF/YkExQoVYJbt9L5/OlfVYSYQCSijdNWXOHz+0Lp
-	3GfLleVFK/KxMsqqwHIbtNjdLcLadUoa+VOGytShrf1Vrax161Vy3dvnYTrMdmJ6QAn3
-	vrFe5+WMdVUrGGmu6NsUxg8ACtUWKNZrrJhYOH0lWcehZgMlpFjLI/yriRwCs73eZgJX
-	uebiFR/LrB9ak43U7+cDVN8kdshRMwAfSqqPxWBNlbWxi7mp8M0dr4TYGOYsxCYbujZ5
-	aXH5/FV5/hDjFLzXi85xrQv29oEVgAiN8oft26c735KCp/xd0RZlhERZzQTZG/uQrwum
-	KGuA==
+	bh=7bJ9j593n3NTDlhsrvmCd3AwG1JEaJIQfPDmZSsy25w=;
+	b=ipo7VQ+fEqYHKndlCD6lwtaz76XV6Rh/AIrkIxjmQs91uVcOMloEJC2emzaOiE01Kn
+	aZXTRw7qoMR3EuoanDtxBuyk7Aia9RIBI8N6+0hjPhByK25w5632yyfjdx2pUMGPV+t1
+	1lPIEw2r+J3IKsDarRL4M0PIrphdirwqsovxH0P78Ej/QPnFs23Awg88F1XBfAhVHCBD
+	66aM/q7c2SKfUgGUYGbc8cRFLQ/yioxHiILsvqYyv3QSL4a973p42TU3OzLgFsZUiJx1
+	wEeBZYiAB6LOpgHYkKFM7VkM1o/lLT+CXBiO/0S/3jlChYmBDEutVG6sCa4lWQ4CDgcL
+	JPVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=pK7XsuEB2f2MCPBh304bN3RIsoFpDFuKC+m5fJSl24M=;
-	b=rFVf95H4xtucXz0pGD6kM5TJkP6Vh5afle0kl7W8kyt8URWqM6C6gMa6CfNAW278T4
-	36KN+5ERHyQLVqd+WLNpXU0Ny6g8KMhSsBZrgYttDtDYkOtZ/XwMyuFjujyx0FKwini7
-	4gFPhgxNtIvvn8gvsMiXRGLXn0ZmZFnFQf4/nT2cRJdAaHjCrpeMUuQg72M0QKn8Po/2
-	n7niF4gB+wj5Tn6bLhIUo3RORFE2UnsPdJhX4xWQKKEQHiJuYZBKwwg0GHQAW83SE08M
-	jQkgjR6rS8/E8Kxzvu2jNCMm+cQ1lHHl1PXS3Qz0nWr/Ir8iWXimV74KbKU5M3mF/E96
-	uRPw==
-X-Gm-Message-State: APjAAAXz19UchhrWgpEK2pZYlPZTbqVRlj3XFbJcgYL8ItK8oWww2wGr
-	GW8gkSLmXDPzlDu2NrHLRv4J197K
-X-Google-Smtp-Source: APXvYqw8VnVUrLTITvA4jR32rbaBuoBVqN17MF3qFl9fgi51JcdOMmNgVQGkGJm1tnsv6zgGQGHIlA==
-X-Received: by 2002:a1c:ac8a:: with SMTP id v132mr4562wme.1.1558116748782;
-	Fri, 17 May 2019 11:12:28 -0700 (PDT)
+	bh=7bJ9j593n3NTDlhsrvmCd3AwG1JEaJIQfPDmZSsy25w=;
+	b=L9YGYVZSIQijwIktRKbuOI/rJYta9vXnPifXP8wV794CDr++C4YOaQYCFZZM5nUh6O
+	jEPe7Gl+bysvUUqOb8hcbYutRj0AK/674JTyjDrWUFACEUHVa8uw+1Jw4JIXpIXV7n5/
+	rGXGzUynsQ1EWChRCI1T6aaZ0JANb5ZL+xE5iQl6+Ptnm6Pdzhoa7Dc8yQnwxvejh/BN
+	7CKoFXaWKWohyky5/wtZ4V4mEoulbsAIeN300ojZpF0vG40pp9LvFz925VwiLcoLhyQr
+	PayTgC2V0anCGGwaPI4e/xt4JnzmHj5WZWcdDjnuKMktf6oMHnfsZY+xaa2UWCV1LCr3
+	4JyQ==
+X-Gm-Message-State: APjAAAXC9Z57pZsnO1mNVLGKtU0Udd3UcAcYXUE+jJxO29aK05QZAI6P
+	OCmvWjhkXNV1Zk20vYsMnIDmMCjH
+X-Google-Smtp-Source: APXvYqy7y7BGlopJcl7sjRluXmSje85MvJ4koyXSeQXC+X0xoBaph/+UwIX9buCYhpBemVZ6N/Uqfw==
+X-Received: by 2002:a1c:96d3:: with SMTP id y202mr3297155wmd.139.1558116749576;
+	Fri, 17 May 2019 11:12:29 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.27
+	c63sm10188093wma.29.2019.05.17.11.12.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:12:28 -0700 (PDT)
+	Fri, 17 May 2019 11:12:29 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:49 +0200
-Message-Id: <20190517181151.44001-35-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:50 +0200
+Message-Id: <20190517181151.44001-36-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 35/37] freetype: upgrade 2.9.1 -> 2.10.0
+Subject: [PATCH 36/37] dnf: upgrade 4.2.2 -> 4.2.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +57,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:28 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:12:30 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../freetype/{freetype_2.9.1.bb => freetype_2.10.0.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/freetype/{freetype_2.9.1.bb => freetype_2.10.0.bb} (93%)
+ meta/recipes-devtools/dnf/{dnf_4.2.2.bb => dnf_4.2.6.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/dnf/{dnf_4.2.2.bb => dnf_4.2.6.bb} (98%)
 
-diff --git a/meta/recipes-graphics/freetype/freetype_2.9.1.bb b/meta/recipes-graphics/freetype/freetype_2.10.0.bb
-similarity index 93%
-rename from meta/recipes-graphics/freetype/freetype_2.9.1.bb
-rename to meta/recipes-graphics/freetype/freetype_2.10.0.bb
-index 1e6f66ee9ff..200f43c21be 100644
---- a/meta/recipes-graphics/freetype/freetype_2.9.1.bb
-+++ b/meta/recipes-graphics/freetype/freetype_2.10.0.bb
-@@ -19,8 +19,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/freetype/freetype-${PV}.tar.bz2 \
- UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/freetype/files/freetype2/"
- UPSTREAM_CHECK_REGEX = "freetype-(?P<pver>\d+(\.\d+)+)"
+diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-devtools/dnf/dnf_4.2.6.bb
+similarity index 98%
+rename from meta/recipes-devtools/dnf/dnf_4.2.2.bb
+rename to meta/recipes-devtools/dnf/dnf_4.2.6.bb
+index c77773332c1..769aa001707 100644
+--- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
++++ b/meta/recipes-devtools/dnf/dnf_4.2.6.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/rpm-software-management/dnf.git \
+            file://0030-Run-python-scripts-using-env.patch \
+            "
  
--SRC_URI[md5sum] = "60ef7d8160cd4bf8cb118ee9d65367ca"
--SRC_URI[sha256sum] = "db8d87ea720ea9d5edc5388fc7a0497bb11ba9fe972245e0f7f4c7e8b1e1e84d"
-+SRC_URI[md5sum] = "a717e6925b61b9dda946322ecd278a42"
-+SRC_URI[sha256sum] = "fccc62928c65192fff6c98847233b28eb7ce05f12d2fea3f6cc90e8b4e5fbe06"
+-SRCREV = "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
++SRCREV = "30fa5051fc26f9866a271fbdb768d3c2524706d5"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
- inherit autotools pkgconfig multilib_header
- 
+ S = "${WORKDIR}/git"
 -- 
 2.17.1
 
