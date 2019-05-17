@@ -1,58 +1,102 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 57DD97DF84
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A527E7DF84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:28:04 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 09D2518501;
-	Fri, 17 May 2019 20:28:05 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id Jg4irObetO7B; Fri, 17 May 2019 20:28:02 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 6CCCB18618;
-	Fri, 17 May 2019 20:28:02 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4B4111A07F;
-	Fri, 17 May 2019 20:28:02 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3FC231A065;
-	Fri, 17 May 2019 20:28:02 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Fri, 17 May 2019 20:28:02 +0200 (CEST)
-Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
-	by thoth.se.axis.com (Postfix) with ESMTP id 33D052FFC;
-	Fri, 17 May 2019 20:28:02 +0200 (CEST)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX03.axis.com (10.0.5.17) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Fri, 17 May 2019 20:28:02 +0200
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Fri, 17 May 2019 20:28:01 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH 17/37] libpcre2: upgrade 10.32 -> 10.33
-Thread-Index: AQHVDNxer2i6pVrwKEmFEI93J+kAYKZvodxw
-Date: Fri, 17 May 2019 18:28:01 +0000
-Message-ID: <c581181a21a04db892a1e2239c6201ec@XBOX04.axis.com>
+	Fri, 17 May 2019 18:29:14 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id c6so4056831pfa.10
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 May 2019 11:29:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=w8qMsoFgWusNeVpZKPwrM623591WN9lXejbXMgNmnYs=;
+	b=qNxawxRxOKSrFN4xcqAzBxEO7zZX6wMAkUTbO7wylMhlJRsZsxthLmyC4VaUpjH1Z+
+	gX7x6KRGC/cC479B3VKzc8c/28pB+E57u+3VvrpHdwutqC8JURaTIn9ushfQGcxZE5rF
+	mNH/HPBo+b4YQqDh13ptlvUCOwtqnO/gdD/7Rx8Ykw+g88RlVF1R+6hxplBjadlZxX2x
+	gpdTV++GwDUELs5brAliYZnG11A1fYo6lPHEYsXf129Vm7Y0wyRTWpSnErhGcEl8NgQ3
+	RdkiVL5zIApKoI6gTPxu1x1LYecXBu8jcxnPo2Zq8JMCb7CQ1RF44tRWo45AB3sZowbm
+	J/2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=w8qMsoFgWusNeVpZKPwrM623591WN9lXejbXMgNmnYs=;
+	b=MCGZ3LBunJUT2r8k//Ro3MPwsOGDB9ElPMV5U91QaxDRnK2K9Jdo8sjuEt/GyIZc2z
+	3DLcHq5Jf5c8FmtbLQ9Zz4ctkDcUU5njMlHl7vUZUN5pczZe3IkhDjOl4+9SWFQyimvR
+	hKposUbf8ifpf4MNkl4yXUxYanON8s6mXsW4sGC3GpRhS3LVXxkh30rgk82aJ0kSv9EN
+	4cTKSnl9H9ZEGe4lw4oOyrUGd4PnEFlEKUY9MqVZ1QkMtT3j2N/xq24hyDaxOUUWmPGn
+	S+BZO6fptMU73E2O4tZ9q0LvLU03+0GLMzYfkbl5hgobZBdyomp6H9/qYoDWdJZvALPE
+	cY8Q==
+X-Gm-Message-State: APjAAAXW7mhcQxHKFTSjp9YhNoLOwLW/UPJMy04rzYcqJOayZ/xTKljM
+	NAmh8i6ltbrg3MdKrquRwqAMNU35
+X-Google-Smtp-Source: APXvYqw5MCPzt4XLcewfn1+CnLPJMPsZbY11JDt4q325CtZnboALEa1feHaxbaxJUFptLaOelaKc+A==
+X-Received: by 2002:aa7:99dd:: with SMTP id v29mr64327278pfi.252.1558117755727;
+	Fri, 17 May 2019 11:29:15 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:2c77:e1be:f825:40e5?
+	([2601:202:4180:c33:2c77:e1be:f825:40e5])
+	by smtp.gmail.com with ESMTPSA id
+	5sm11336912pfh.109.2019.05.17.11.29.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 May 2019 11:29:15 -0700 (PDT)
+To: openembedded-core@lists.openembedded.org
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-	<20190517181151.44001-17-alex.kanavin@gmail.com>
-In-Reply-To: <20190517181151.44001-17-alex.kanavin@gmail.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	<20190517181151.44001-12-alex.kanavin@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <6bf67e9f-d806-5d06-a455-44211956df94@gmail.com>
+Date: Fri, 17 May 2019 11:29:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH 17/37] libpcre2: upgrade 10.32 -> 10.33
+In-Reply-To: <20190517181151.44001-12-alex.kanavin@gmail.com>
+Subject: Re: [PATCH 12/37] systemtap: upgrade 4.0 -> 4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,114 +109,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:28:04 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:29:14 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Alexander Kanavin
-> Sent: den 17 maj 2019 20:12
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 17/37] libpcre2: upgrade 10.32 -> 10.33
->=20
+
+
+On 5/17/19 11:11 AM, Alexander Kanavin wrote:
 > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+
+was stap.py test run?
+
+Have you tried this on Beaglebone. Its has been broken on the bsp before?
+
+- armin
 > ---
->  .../{libpcre2_10.32.bb =3D> libpcre2_10.33.bb}  | 46 +++++++++++++++++--
->  1 file changed, 43 insertions(+), 3 deletions(-)
->  rename meta/recipes-support/libpcre/{libpcre2_10.32.bb =3D>
-> libpcre2_10.33.bb} (61%)
->=20
-> diff --git a/meta/recipes-support/libpcre/libpcre2_10.32.bb
-> b/meta/recipes-support/libpcre/libpcre2_10.33.bb
-> similarity index 61%
-> rename from meta/recipes-support/libpcre/libpcre2_10.32.bb
-> rename to meta/recipes-support/libpcre/libpcre2_10.33.bb
-> index 3a0aa53029f..604f81a8f33 100644
-> --- a/meta/recipes-support/libpcre/libpcre2_10.32.bb
-> +++ b/meta/recipes-support/libpcre/libpcre2_10.33.bb
-> @@ -1,3 +1,43 @@
-
-A bit too much automation here I guess. ;)
-Replace the below with an appropriate:
-
-License-Update: Copyright years updated
-
-in the commit message.
-
-> +# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgra=
-de'.
-> +# The following is the difference between the old and the new license te=
-xt.
-> +# Please update the LICENSE value if needed, and summarize the changes i=
-n
-> +# the commit message via 'License-Update:' tag.
-> +# (example: 'License-Update: copyright years updated.')
-> +#
-> +# The changes:
-> +#
-> +# --- LICENCE
-> +# +++ LICENCE
-> +# @@ -26,7 +26,7 @@
-> +#  University of Cambridge Computing Service,
-> +#  Cambridge, England.
-> +#
-> +# -Copyright (c) 1997-2018 University of Cambridge
-> +# +Copyright (c) 1997-2019 University of Cambridge
-> +#  All rights reserved.
-> +#
-> +#
-> +# @@ -37,7 +37,7 @@
-> +#  Email local part: hzmester
-> +#  Email domain:     freemail.hu
-> +#
-> +# -Copyright(c) 2010-2018 Zoltan Herczeg
-> +# +Copyright(c) 2010-2019 Zoltan Herczeg
-> +#  All rights reserved.
-> +#
-> +#
-> +# @@ -48,7 +48,7 @@
-> +#  Email local part: hzmester
-> +#  Email domain:     freemail.hu
-> +#
-> +# -Copyright(c) 2009-2018 Zoltan Herczeg
-> +# +Copyright(c) 2009-2019 Zoltan Herczeg
-> +#  All rights reserved.
-> +#
-> +#
-> +#
-> +#
-> +
->  DESCRIPTION =3D "There are two major versions of the PCRE library. The \
->  newest version is PCRE2, which is a re-working of the original PCRE \
->  library to provide an entirely new API. The original, very widely \
-> @@ -8,14 +48,14 @@ SUMMARY =3D "Perl Compatible Regular Expressions versi=
-on 2"
->  HOMEPAGE =3D "http://www.pcre.org"
->  SECTION =3D "devel"
->  LICENSE =3D "BSD"
-> -LIC_FILES_CHKSUM =3D "file://LICENCE;md5=3Dcf66d307bf03bae65d413eb7a8e60=
-3a0"
-> +LIC_FILES_CHKSUM =3D "file://LICENCE;md5=3Db1588d3bb4cb0e1f5a597d908f8c5=
-b37"
->=20
->  SRC_URI =3D "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
->             file://pcre-cross.patch \
->  "
->=20
-> -SRC_URI[md5sum] =3D "8a096287153fb994970df3570e90fcb5"
-> -SRC_URI[sha256sum] =3D "f29e89cc5de813f45786580101aaee3984a65818631d4ddb=
-da7b32f699b87c2e"
-> +SRC_URI[md5sum] =3D "80b355f2dce909a2e2424f5c79eddb44"
-> +SRC_URI[sha256sum] =3D "35514dff0ccdf02b55bd2e9fa586a1b9d01f62332c3356e3=
-79eabb75f789d8aa"
->=20
->  CVE_PRODUCT =3D "pcre2"
->=20
-> --
-> 2.17.1
-
-//Peter
+>  meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> index 54de7226608..c5348b3204b 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> @@ -1,7 +1,7 @@
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> -SRCREV = "90ff34ac0506f0d5440393a4c78565f6aaf9b726"
+> -PV = "4.0"
+> +SRCREV = "984d6d1696ed06626b07cb65ab55d6ae0ece1131"
+> +PV = "4.1"
+>  
+>  SRC_URI = "git://sourceware.org/git/systemtap.git \
+>             file://configure-allow-to-disable-libvirt.patch \
 
 
