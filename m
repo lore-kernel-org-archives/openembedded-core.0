@@ -1,50 +1,102 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BFC67E031
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 1802B7DFCF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:12:30 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 15so3540844wmg.5
+	Fri, 17 May 2019 18:25:48 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id h17so3687536pgv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:31 -0700 (PDT)
+	Fri, 17 May 2019 11:25:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=edUBYEJ31PBb44Kv/1inSR//w8LuDHLgET7+j3KgiGQ=;
-	b=D0f7TTb+O4sQ/TZI16hmyG5j6+evEGzGoxiDo+rPsBXwF4rIWvrHTFrth4aScJJI6U
-	NAq2CIe2HaaE94qTzBbl1JVy91WoJRZXDcaJ6FMx0rUPcNNUkIY0i08dlpAxfXtZZi9m
-	P4cS+l/RIl1GmhlPCy66YpQeZMRN/Z2HAxupQaR+nJdg3+VzPjVZUwMorj2A3bjvVvBJ
-	hZSYia8r52AIv7DHTqxqTz5sf3JIEdjEtYf0dVWBn/dVc2c/DFO7TC5Bp67psSFKi3yP
-	OFuGRjXFeVS3GYkvRx9rXlCHhOeuVBO90wsfetyq3X8E1wjGhQzREAxUW+3Qh7dy8P3E
-	3t+w==
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=w89VbBhz4FroRhsQyZWzrv8ySD6DhGl8zJI3b4FZ63c=;
+	b=nhsLIzNXOis+hJjHWyqO+BojVyuvWOBuwi80Gz5vN5/wfm6HmMWHvcJ4S4blOpKLGQ
+	ckRzYwxIRAOsDmFjWv4U4F5hHQ4NbkJYYiCRKkduw+Spp6z2KwtkPcMdrk0tV2dfxWwP
+	V/OFUsHsT7XLUKmuJha+GyZ2UASdyh4zmkABRptHFIzsYkAWu6Qx4yWi13AMZnqD4mNf
+	/ozK5eyJ5Fp9q4AEaVoA6d6g8oXEcP1wjantQaqpQMz2TLX1v6yUmIzUSbO6HH62ncdn
+	VjfNpYcxVWK29QkW7RlYCrbWYiu9x3teVanNDv0bBLdV2ZvfS2czCGETsiIOHQJK8J0B
+	+4BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=edUBYEJ31PBb44Kv/1inSR//w8LuDHLgET7+j3KgiGQ=;
-	b=JXjPtGxJKBRn/CJYIMynJnxRKUG0jAH9CcMwikiOX629maRqY6QahTE9p3u11vFLsW
-	BGOgZZkoH4SZwkDkCUjczndfw88QrG1kzYsjQBVFZ4rMhgclpSpji5mbuVyFF+M0VOwm
-	c4r0+zF0TbF0jrR3aG+DXo80JTieto9C2KvJG3R3DQ/cKBKN4x+6eW7xFRx2Dz8YqT28
-	s1z9N48P4UBdEPrKxlgoJCAuPkfz+Xd+scPALUdDqO9vg42ZIQ6BJdTkk5ACJuuuqE9L
-	H2f7+d5BQ6sH7vG87aLDPJ+E7RWYmP5EpEDp5gAtDSmOiOCWICI+dEoLbSHj2YoakaSK
-	7Mng==
-X-Gm-Message-State: APjAAAXF92b/bZ+wQMXE7RyARoyIz7/lpCuWfcPdN3oGKRo+TspQG3ep
-	oA8WQGWOWi76sa0cbkBN1O22/ftC
-X-Google-Smtp-Source: APXvYqzZkX+D2u2YXphM01F7FYXE3NBTACJMFWPu2YPDIYvAmnPhPQ4FCunFdVNna4c7yglbgdlbOw==
-X-Received: by 2002:a1c:4045:: with SMTP id n66mr3195476wma.142.1558116750690; 
-	Fri, 17 May 2019 11:12:30 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=w89VbBhz4FroRhsQyZWzrv8ySD6DhGl8zJI3b4FZ63c=;
+	b=ZIuPcMNnloFTIsfYOceA1Jh5otGJ6bbQSErGtjyqyJyewhKHH7GT3cpmoGAgdssgLe
+	j1D/MoUKcyVMjrttQladds2ntMqnuPPgnla4i082VRDZVh9x5YTiHd9zWiTBrCh5lw/s
+	0gnnxXtAxLHXTqdDPuriIEAEAPmSnr2yVwpCtQl5Bt8I+vFIQVor7Sii+Cifq6OxEPTe
+	QG0OgBP3MNC5sXzIYQp5PWRJ89In8LMGXD6McS2xmJ2XmxEJDyUcS27Rqa2rlOmBxuBZ
+	dDEoBdiFSviavhKKUH+C6Sp7cxmCfkg7vatQEAPFAf7iHj/itDoS5XcLbfTT3yNNv3Lz
+	LmEA==
+X-Gm-Message-State: APjAAAWqHclueV0zOO5NWMYc+CT4hQDqDAnURNb87E+NIjL4EG9R71Z/
+	M6cwRpQrVcGM4LTy4odAvRegGAjZ
+X-Google-Smtp-Source: APXvYqxSQFTE12w6ACJPb+VBZ6fZbawWG+mJxCC8jEKxEMXAElrL4GpeldOvhtvl1nWD8WeO5LVSHw==
+X-Received: by 2002:a65:63c8:: with SMTP id n8mr54934678pgv.96.1558117549994; 
+	Fri, 17 May 2019 11:25:49 -0700 (PDT)
+Received: from ?IPv6:2601:202:4180:c33:2c77:e1be:f825:40e5?
+	([2601:202:4180:c33:2c77:e1be:f825:40e5])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.29
+	r185sm15576250pfc.167.2019.05.17.11.25.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:12:29 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:51 +0200
-Message-Id: <20190517181151.44001-37-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
+	Fri, 17 May 2019 11:25:49 -0700 (PDT)
+To: Alexander Kanavin <alex.kanavin@gmail.com>,
+	openembedded-core@lists.openembedded.org
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 37/37] usbutils: upgrade 010->012
+	<20190517181151.44001-11-alex.kanavin@gmail.com>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <4723f59c-19d4-fafe-fa56-ee0e564d220b@gmail.com>
+Date: Fri, 17 May 2019 11:25:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190517181151.44001-11-alex.kanavin@gmail.com>
+Subject: Re: [PATCH 11/37] go: update 1.12.1->1.12.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,73 +109,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:30 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:25:49 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...usb-devices-avoid-dependency-on-bash.patch | 30 -------------------
- .../{usbutils_010.bb => usbutils_012.bb}      |  5 ++--
- 2 files changed, 2 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
- rename meta/recipes-bsp/usbutils/{usbutils_010.bb => usbutils_012.bb} (83%)
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch b/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
-deleted file mode 100644
-index 7edff2614a8..00000000000
---- a/meta/recipes-bsp/usbutils/usbutils/usb-devices-avoid-dependency-on-bash.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--Upstream-Status: Backport (https://github.com/gregkh/usbutils/commit/508d1acf42e1bfd470c6bf1a188574c69c20aeed)
--Signed-off-by: Ross Burton <ross.burton@intel.com>
--
--From 1c9162a5b30550aec8fa163906067bc179291b57 Mon Sep 17 00:00:00 2001
--From: Ross Burton <ross.burton@intel.com>
--Date: Fri, 27 Jul 2018 15:28:34 +0100
--Subject: [PATCH] usb-devices: use /bin/sh
--
--This script doesn't use any bashisms, so change the hashbang to /bin/sh.
--
--Fixes #73.
--
--Signed-off-by: Ross Burton <ross.burton@intel.com>
-----
-- usb-devices | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/usb-devices b/usb-devices
--index afb4217..89d1b7d 100755
----- a/usb-devices
--+++ b/usb-devices
--@@ -1,4 +1,4 @@
---#!/bin/bash
--+#!/bin/sh
-- # SPDX-License-Identifier: GPL-2.0+
-- #
-- # Copyright (c) 2009 Greg Kroah-Hartman <greg@kroah.com>
---- 
--2.11.0
--
-diff --git a/meta/recipes-bsp/usbutils/usbutils_010.bb b/meta/recipes-bsp/usbutils/usbutils_012.bb
-similarity index 83%
-rename from meta/recipes-bsp/usbutils/usbutils_010.bb
-rename to meta/recipes-bsp/usbutils/usbutils_012.bb
-index e6d05b8e87c..0213e7af63d 100644
---- a/meta/recipes-bsp/usbutils/usbutils_010.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_012.bb
-@@ -11,10 +11,9 @@ LIC_FILES_CHKSUM = "file://lsusb.c;endline=1;md5=7d4861d978ff5ba7cb2b319ed1d4afe
- DEPENDS = "libusb1 virtual/libiconv udev"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
--           file://usb-devices-avoid-dependency-on-bash.patch \
-           "
--SRC_URI[md5sum] = "5eb2d2d68f9ed6dc3e9659a5988f7ed6"
--SRC_URI[sha256sum] = "881ba47fb2df10c3ba54a4cd6755a90377180890788e476f99d480ea9bc8bb58"
-+SRC_URI[md5sum] = "7484445cbcf04b3eacac892fe58f8d9f"
-+SRC_URI[sha256sum] = "ae2e10aad530d95839b6f4d46cd41715eae6f0f1789310d793e9be21b3e7ae20"
- 
- inherit autotools pkgconfig distro_features_check update-alternatives
- 
--- 
-2.17.1
+
+On 5/17/19 11:11 AM, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-devtools/go/go-1.12.inc | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
+> index 0cf0a63ff65..7c4cac1fc25 100644
+> --- a/meta/recipes-devtools/go/go-1.12.inc
+> +++ b/meta/recipes-devtools/go/go-1.12.inc
+any indication on testing?
+
+any reason why 1.11 can't be dropped?
+
+- armin
+> @@ -1,7 +1,7 @@
+>  require go-common.inc
+>  
+>  GO_BASEVERSION = "1.12"
+> -GO_MINOR = ".1"
+> +GO_MINOR = ".5"
+>  PV .= "${GO_MINOR}"
+>  FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+>  
+> @@ -19,5 +19,5 @@ SRC_URI += "\
+>  "
+>  SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+>  
+> -SRC_URI[main.md5sum] = "09fe592343465560b4b8431d870b3df3"
+> -SRC_URI[main.sha256sum] = "0be127684df4b842a64e58093154f9d15422f1405f1fcff4b2c36ffc6a15818a"
+> +SRC_URI[main.md5sum] = "cb6f594d22dd79af4fff9779607b1b47"
+> +SRC_URI[main.sha256sum] = "2aa5f088cbb332e73fc3def546800616b38d3bfe6b8713b8a6404060f22503e8"
 
 
