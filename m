@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A677B7DEC6
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 821147DFD8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:12:13 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id d18so8080254wrs.5
+	Fri, 17 May 2019 18:12:15 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id c77so6288061wmd.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:15 -0700 (PDT)
+	Fri, 17 May 2019 11:12:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=vq0JpLhcgOIGC//q6TalpI0EQCxWF6zKRhQNOEc02BQ=;
-	b=QqkZsjUObet2Ec5cRBjRU383vZcw4DwzxPTFC8K0qpQaICgYV1rpWbDpfdYtxQUalR
-	uGWw4Cr4LDL/nlylO6xSUurBvC3elJHbEYRG03qsNRU9HT+6YuTLu542g+qFrfrlv8fY
-	ZDk5nQGZzEEgW1DTPG3P0VfmjCq5ZbsuEPwC2SHAXQQUM30467ivypxvBtq5W/xhymcG
-	7S0UtL394HAA6v3nWdNAXRYOJBZO9SJ8Q3Tc3no+7VT/E5LF2iixG68p+dAehZcdIF9F
-	s+qsPPk+/1E0BbBB80fm8YIlUrlaGxkXnQmmT/12Sjd5BCFhHXa1IEMQJhNBXms/Qe1C
-	FnUA==
+	bh=QoffO7mYodqILjYVGdd3LSE2oVnMLO8SED8ubUWM3cY=;
+	b=moZ3WHWrl99i1UZJ5x09bDWxIX3FGkKoolg0FE/oobCkJfd7t+03FovuYuMCK7qyIm
+	98UvDJLuTXODF3/eZKmiiCKBPD/yf1DOe6B2RTgj3O/8yyF/kizrdm1REZKe568WaxNc
+	ZkzcBANBrZZMlfP17s8FD2GN6tevRYTp8MJqQmtjjrxkHBrsTDB/rkm0bQfqv+wQRWpO
+	kY0t49jGYQnbit8dqHeVlF5QaaZPZKZrQyrl+WB2gBkKUwVAYWIQkUkcZmZLkGSZCWvu
+	RWU/AaJZAGP4rA9vmXQnixsIv7kHe0VAtfGxOtIRkrXtGoZHnXQJaULVV7ApjqFQrCps
+	ALIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=vq0JpLhcgOIGC//q6TalpI0EQCxWF6zKRhQNOEc02BQ=;
-	b=m2DLTlyc8GyL9Y7wcPdWKtowrhlMuRAogBCS8bOPX6K4RAYCNuvtzEmTYLhRBIBr2b
-	w/aq6Fp55F8uvy31FaM5fHPYIsekMgLuep4lD9C4gr6Na6jMBD4koDCQ+FZvxYPFjugh
-	BO57N3HkNdLbqgJXq4lrBVasNSBbxDT7JzsxfIB/Hx/4QJJfZtxaTvMfP8Vt6VkYw+IA
-	s3f5AW/wheKfE0Q9pM6nvheAJLhB4R3z8UMJ3Fzvw3RO60eoTw0KV4hjgX0r27rm4iPS
-	pMZ46lp4U9/Yz8AYCM+0fF0issF2loEB3fq6IB7tFh6itLf7j8ihL+v49jKOypIlDmQj
-	NzxQ==
-X-Gm-Message-State: APjAAAXUTAD37cpdlNNqfeUL+D8qY4T2dRckP4Ldy7Bnr2dHp8TACx63
-	dV4/xD+1rlTYD5YbllDYXK+2FcoP
-X-Google-Smtp-Source: APXvYqx2RuE/oRev5/1qk8Bbk2zErrU1lIR1/p8yv3IniNq6N4RbtR2gHtZSGCkzAvscQ3gcx7+LUQ==
-X-Received: by 2002:a5d:4104:: with SMTP id l4mr19425060wrp.302.1558116734216; 
-	Fri, 17 May 2019 11:12:14 -0700 (PDT)
+	bh=QoffO7mYodqILjYVGdd3LSE2oVnMLO8SED8ubUWM3cY=;
+	b=epQSICB1/Sg5VjEpMvbzZkhHiLqrIBl6WGF2BEGrIzoTv8fJurFwwUkx8+fs34i/Au
+	KlSgHS07IsIMmKb56rJbY6G1/UQxaojXEeaGY+W39DLgRpcrrY7kQEZgdgirTML6kH2Y
+	VKX3sAtJDnstIK+pko9KS1ywZpxj6wmjUtACcuBZmOp+jr7Yn2EcaBuHQTG6ny/iTYnU
+	GbmGZsMEb+I7a1YUQZPUiOhIZQcJOJ0fuij7D+4oySOs2elB6ZffXU3NRFyQR+BVEglS
+	QAJI4Kbutkunu+c1dlFxvpmc9pAxaFc09O8EpFd/XlO5II799Q7SSPv91KH7aeberpL3
+	A1tw==
+X-Gm-Message-State: APjAAAWjBsvNMS4eut7oClmt/IieAzxO8+1tSHpRRE+1S72LTcL2sxNH
+	jWJy8j1qx6XF8DfA8Eu8fbvacQ7a
+X-Google-Smtp-Source: APXvYqwRdXgWodEifIqx1Jqg7KC6eXk3+MFzPn2b0WePyVGrPmYhL1kik+nmZznREyFF6iQtg9FdTw==
+X-Received: by 2002:a1c:c909:: with SMTP id f9mr3113256wmb.115.1558116736238; 
+	Fri, 17 May 2019 11:12:16 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.13
+	c63sm10188093wma.29.2019.05.17.11.12.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:12:13 -0700 (PDT)
+	Fri, 17 May 2019 11:12:15 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:32 +0200
-Message-Id: <20190517181151.44001-18-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:34 +0200
+Message-Id: <20190517181151.44001-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 18/37] lz4: upgrade 1.9.0 -> 1.9.1
+Subject: [PATCH 20/37] gnu-config: upgrade to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +57,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:14 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:12:16 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/lz4/{lz4_1.9.0.bb => lz4_1.9.1.bb} | 2 +-
+ meta/recipes-devtools/gnu-config/gnu-config_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/lz4/{lz4_1.9.0.bb => lz4_1.9.1.bb} (94%)
 
-diff --git a/meta/recipes-support/lz4/lz4_1.9.0.bb b/meta/recipes-support/lz4/lz4_1.9.1.bb
-similarity index 94%
-rename from meta/recipes-support/lz4/lz4_1.9.0.bb
-rename to meta/recipes-support/lz4/lz4_1.9.1.bb
-index 744a1bf4709..de1f970247e 100644
---- a/meta/recipes-support/lz4/lz4_1.9.0.bb
-+++ b/meta/recipes-support/lz4/lz4_1.9.1.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://lib/LICENSE;md5=ebc2ea4814a64de7708f1571904b32cc \
+diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+index e597ebedbc1..f52597936db 100644
+--- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
++++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
+@@ -8,7 +8,7 @@ DEPENDS_class-native = "hostperl-runtime-native"
  
- PE = "1"
+ INHIBIT_DEFAULT_DEPS = "1"
  
--SRCREV = "131896ab9d4fc9b8c606616327ed223d5d86472b"
-+SRCREV = "398e36c756a3067de8e2b35dd380baef040dfe0d"
+-SRCREV = "058639be227bbe8f03cc39f79f7ce84918012143"
++SRCREV = "b98424c249119b79d3f709e26eb86f2fd4d5e5f3"
+ PV = "20181128+git${SRCPV}"
  
- SRC_URI = "git://github.com/lz4/lz4.git \
-            file://run-ptest \
+ SRC_URI = "git://git.savannah.gnu.org/config.git \
 -- 
 2.17.1
 
