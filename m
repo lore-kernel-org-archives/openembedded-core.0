@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 04BC17DF4A
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id E2F737DF4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:12:11 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id c77so6287920wmd.1
+	Fri, 17 May 2019 18:12:12 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id 198so7761031wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:13 -0700 (PDT)
+	Fri, 17 May 2019 11:12:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Zho+xkwaFapAQnWhnA+/O01w2ciMq33OVkNnRt8Ez+0=;
-	b=Xvq8jQrXLDhle9x7PVRX5Rgav4yz2qaV29priA94aGd/Z8JB9CG6pNsrF9eBSrO4Ip
-	ms4iLd/LzGKIxMXREyoSgUWORCZj73LD7j+fI4llk14ZxgKIPY6TiahmFAmqhzYWYkZU
-	u/rP5LpvcmpHTHKnIAX2sQ5G9SRrxZ2w0RKavuaHrNA488BxHr0iKchaAB8WAUg2ARp6
-	xJsLXNIEenMBG/svw75/UAeUS6nLxPyBlJjSB1qa8Q32t5FiB2s4xzd0BIARclhb63wG
-	5bunWDR56GBv3Url3TbSbrIWG6hA65/5/MBl4D36L1mi2u3zT5O1VMZAYzLsbW0PjLWp
-	bwMA==
+	bh=o3sCKKtz/+t6iFJ0IQIAF8v2yMK+HvFMk/qzF74oiFA=;
+	b=qUr9cwD4mVVhWzaK/4G06AXC2Ic8luDdFehIe/dJkeaWn0UlIudeqUmK/JLnfHbnqi
+	lghz/bOXFtbPCYx+xS4XVNdJ8Ml5/3eXbbAhMr6LVAlN+Ck+sNUG5LzAiwkP8b13dtlF
+	nOo5dNrTRkSFyKW6INe8nFbUsX7exwRWsxqenweoZJqeB6sAteNYOssnqQ+QpSKD+cm/
+	kz/rhcCXTn6myBb4YmfWEgE3jrgSZoKddVpWhDgo3b/02Ewszj5LmmlX2z3fpzUoXMzo
+	t8OefTsa8MBm6VREFHYVrgklD9D5n3eNk27/sZXrv1v4qCC2b7+qxMH2EGoHOSZQMoGS
+	nSDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Zho+xkwaFapAQnWhnA+/O01w2ciMq33OVkNnRt8Ez+0=;
-	b=mFOXLuw6SWZ7lMX7fhQSAuUnP/vE89+pkB71PUEQ48rKgjAntfbbFZpqM3NbZvShFT
-	q1TWD5MjQPM+f9EHQ5GUg3t5Ycw2n2Ltga1GpmLkWrIAQk0JdAQdcxGfuzi65fYAy44B
-	4IVw+8+qjF9v30Kv0g87mcbthF/rHiK0QUnjCcJJcHEDKvKlb9xxa98wi9Xdn/bl7TGk
-	pM5+Xi7R1pel0qnZdk8NJkTvzMJlD8Ms93L2Shq4tokAnqmZQ9YZdBQQGRTqYjmOXRi4
-	Z5NQZOJ7HXegPtmiOlBmrvxCTJlYqjjM4bsSX/Wxi54ifK/HC5soZKYejNJbX2Np1bUb
-	WxkA==
-X-Gm-Message-State: APjAAAU3UTsL24DF+ro8Z8pNoDSxlpPgtn0Ws3uoPk7oIyxqe+uxglmt
-	pI9RsCJLwnCyrT9I5aim1jlTowxI
-X-Google-Smtp-Source: APXvYqxt/y3ooLdvr02pRLpcZ97nBxhf8z0bSn6wwIWtHhp0qTKstCMVn3kDEvSzva1sSPnqR4W9xg==
-X-Received: by 2002:a05:600c:23ce:: with SMTP id
-	p14mr18299850wmb.36.1558116732554; 
-	Fri, 17 May 2019 11:12:12 -0700 (PDT)
+	bh=o3sCKKtz/+t6iFJ0IQIAF8v2yMK+HvFMk/qzF74oiFA=;
+	b=t6b9sUWuzcK7jC4yrVGqa4/pU1aQqQyBlJxRz9keYyi8TGKw0HMOS3xDyflB+DNQ/v
+	ujtEyJ9Vn+ta3mZ/aBhD2/a1KU4bE6d7vFRYq2tUFiL8P5U81agpw4J8cVWW0m1gSMss
+	B3EiSoTLb9m0fKTlaha8vTKD+6HTbpBHppNre8t9KWabE3O8IrCS2S6pw4AFDz13p/Hv
+	VhCKNhicx77cABDZPGPoMNXBtd3H5smTewhYZ73bX83IG+1I1SQtSzKfdsBuRwu15mON
+	FRJEbH0acnexRobrv11Am4X9k74UXJPQryxmutWVZKfltHBtTrK/dHrktAtP6rPI9SjT
+	NMVg==
+X-Gm-Message-State: APjAAAUtdDy+/piByjrgC7UOHVnGkoelDse894QhxUZSmUZS8PQ2+cKJ
+	vJGSxm+k+5XLDDuy7gb9rhmQdBfe
+X-Google-Smtp-Source: APXvYqybPwTnzC6y8VPZWuxSuK/d0UHr84eNbg0T6pWLW/GAEJ6Hry+NOzr/dByOMjFI+3fMtcPaGQ==
+X-Received: by 2002:a1c:20c9:: with SMTP id g192mr31876831wmg.76.1558116733432;
+	Fri, 17 May 2019 11:12:13 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.11
+	c63sm10188093wma.29.2019.05.17.11.12.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Fri, 17 May 2019 11:12:12 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:30 +0200
-Message-Id: <20190517181151.44001-16-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:31 +0200
+Message-Id: <20190517181151.44001-17-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 16/37] alsa-lib: upgrade 1.1.8 -> 1.1.9
+Subject: [PATCH 17/37] libpcre2: upgrade 10.32 -> 10.33
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +57,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:12 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:12:13 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../alsa/{alsa-lib_1.1.8.bb => alsa-lib_1.1.9.bb}             | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-lib_1.1.8.bb => alsa-lib_1.1.9.bb} (89%)
+ .../{libpcre2_10.32.bb => libpcre2_10.33.bb}  | 46 +++++++++++++++++--
+ 1 file changed, 43 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libpcre/{libpcre2_10.32.bb => libpcre2_10.33.bb} (61%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.1.8.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.1.9.bb
-similarity index 89%
-rename from meta/recipes-multimedia/alsa/alsa-lib_1.1.8.bb
-rename to meta/recipes-multimedia/alsa/alsa-lib_1.1.9.bb
-index 76cc9627e5b..2c63ee75222 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.1.8.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.1.9.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
-                     "
+diff --git a/meta/recipes-support/libpcre/libpcre2_10.32.bb b/meta/recipes-support/libpcre/libpcre2_10.33.bb
+similarity index 61%
+rename from meta/recipes-support/libpcre/libpcre2_10.32.bb
+rename to meta/recipes-support/libpcre/libpcre2_10.33.bb
+index 3a0aa53029f..604f81a8f33 100644
+--- a/meta/recipes-support/libpcre/libpcre2_10.32.bb
++++ b/meta/recipes-support/libpcre/libpcre2_10.33.bb
+@@ -1,3 +1,43 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- LICENCE
++# +++ LICENCE
++# @@ -26,7 +26,7 @@
++#  University of Cambridge Computing Service,
++#  Cambridge, England.
++#  
++# -Copyright (c) 1997-2018 University of Cambridge
++# +Copyright (c) 1997-2019 University of Cambridge
++#  All rights reserved.
++#  
++#  
++# @@ -37,7 +37,7 @@
++#  Email local part: hzmester
++#  Email domain:     freemail.hu
++#  
++# -Copyright(c) 2010-2018 Zoltan Herczeg
++# +Copyright(c) 2010-2019 Zoltan Herczeg
++#  All rights reserved.
++#  
++#  
++# @@ -48,7 +48,7 @@
++#  Email local part: hzmester
++#  Email domain:     freemail.hu
++#  
++# -Copyright(c) 2009-2018 Zoltan Herczeg
++# +Copyright(c) 2009-2019 Zoltan Herczeg
++#  All rights reserved.
++#  
++#  
++# 
++#
++
+ DESCRIPTION = "There are two major versions of the PCRE library. The \
+ newest version is PCRE2, which is a re-working of the original PCRE \
+ library to provide an entirely new API. The original, very widely \
+@@ -8,14 +48,14 @@ SUMMARY = "Perl Compatible Regular Expressions version 2"
+ HOMEPAGE = "http://www.pcre.org"
+ SECTION = "devel"
+ LICENSE = "BSD"
+-LIC_FILES_CHKSUM = "file://LICENCE;md5=cf66d307bf03bae65d413eb7a8e603a0"
++LIC_FILES_CHKSUM = "file://LICENCE;md5=b1588d3bb4cb0e1f5a597d908f8c5b37"
  
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
--SRC_URI[md5sum] = "0eec0d657a07927795809c8f87fb76ca"
--SRC_URI[sha256sum] = "3cdc3a93a6427a26d8efab4ada2152e64dd89140d981f6ffa003e85be707aedf"
-+SRC_URI[md5sum] = "e6d429dbdcfaa0f034d907fa6dc3735e"
-+SRC_URI[sha256sum] = "488373aef5396682f3a411a6d064ae0ad196b9c96269d0bb912fbdeec94b994b"
+ SRC_URI = "https://ftp.pcre.org/pub/pcre/pcre2-${PV}.tar.bz2 \
+            file://pcre-cross.patch \
+ "
  
- inherit autotools pkgconfig
+-SRC_URI[md5sum] = "8a096287153fb994970df3570e90fcb5"
+-SRC_URI[sha256sum] = "f29e89cc5de813f45786580101aaee3984a65818631d4ddbda7b32f699b87c2e"
++SRC_URI[md5sum] = "80b355f2dce909a2e2424f5c79eddb44"
++SRC_URI[sha256sum] = "35514dff0ccdf02b55bd2e9fa586a1b9d01f62332c3356e379eabb75f789d8aa"
+ 
+ CVE_PRODUCT = "pcre2"
  
 -- 
 2.17.1
