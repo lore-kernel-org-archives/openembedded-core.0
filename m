@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 80BF57DF4A
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 13E887DF4A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:12:16 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id b18so8029908wrq.12
+	Fri, 17 May 2019 18:12:17 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id i3so7764745wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:17 -0700 (PDT)
+	Fri, 17 May 2019 11:12:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Wpz5yItpWG8G1ChGFCjOdWQEOgjrEYPjWhvr1drR6Qk=;
-	b=cciwPaZNC+LUmBTVz30UX6oaMWUWN6lr4b/JlCsarZAISiUSJZvXR7yF4uA3v3JcnE
-	6jLk/M183Jn3klEyxAcjvUB1a/TyzlV6x3YqPJ/o7Mej4CGsOiPvEF8aJPwucPprLZoZ
-	SSw2YcM4Yq1GMjd4SjpvDnjoEGKP8hP1N/tKlLWQuRFPZzQJwJR3yMtsXxN2IZwDX5is
-	MFt8sY9oKtyKUTPqgbcd9lucleUjDZE7p3LC0pAagxnZYbQxOSGnA+bkKTuZ8ho1H2pq
-	RMJd6VCx31vGh6wwIlHX31iVr6Ht+hFHzCQqboAUYAmF33HAg4Euz6eEa8844UXWBhrW
-	zBpw==
+	bh=2KjVEFMpcobrpC1g88bYQbGIrcMqPqWOZpQuIZohnPA=;
+	b=DK+oDcZhNLgONd11hSYRWabzw/gWy4CyMWBTdbPdjBCYe6zv5tLeWYngtRoQ/Erfl7
+	AMOeEvjBnD73uLRvkVC5bG797Wv7yA9m8X58ZXkU3LGNeoORO5ZVkRLiDlcfS1MIsZpK
+	RVOU4lDEm2qmZ7ZgTnk66xxKGpkG9jUBPT9ay80tQablweZacg6Psx/IFXOtTxp58Epc
+	q6Mb/SGieD/SmeETBfCwNEL2Nsdk+FdHVRZnV8LsG4kuELNRsU3v66cv6vjBLOfE1fts
+	Quep2BfnlEtzW9TiqQcuRaIt+vE7N1hqbHGS6+SgJVjdvboJxAWpIx6YhgWg7z9l/mcf
+	CU7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Wpz5yItpWG8G1ChGFCjOdWQEOgjrEYPjWhvr1drR6Qk=;
-	b=rW8BAMLTGItlr6URC3+GpJ/w8nZtEVAtJIbmtYnaUiKrMefkDFrLFwF4l//NIjeqFk
-	3M8CnB2a03t5LKSTKwLbETb6lu+nKCAfxiTg2TWlOksePtwQnW9Lu7x/HedWrWk3X55i
-	sBNhxk56BDCDcGPo+5DgYyTZ4agTKok5ppnMFlwJw1lZYwEegLl8b1uWJZ166/sLMQHC
-	RjU/u88GBdFlEB4nv4hMiAIg2Tjc6c+9enXwYrqt23Wz4YlRkXDGHlceKho45Jd+xWNI
-	GR40MnnjyoRsk+xrBjfXXB40I8gbmN295b9O9OQUhvtghNcbV6mVThfEaBw9eMCaNUPY
-	NqQA==
-X-Gm-Message-State: APjAAAVGjGSjUhmO+7As8kt3k+ak/ssqKokGtRW7IhVg+IcHhf8NtlpE
-	x/JUdFvdlKQV5cXpmzcGeB7TeIq3
-X-Google-Smtp-Source: APXvYqyLmaRo6FWF5vn+WPhweuvFcw79uQThqKDJePsGGJxc+3i19YXW8fXDfuixOKY1nclAs51MJQ==
-X-Received: by 2002:a5d:4a44:: with SMTP id v4mr35129754wrs.84.1558116737024; 
+	bh=2KjVEFMpcobrpC1g88bYQbGIrcMqPqWOZpQuIZohnPA=;
+	b=UGMK3WLbldQnEdp9xzRWS6/Ew0ibHMefUFk1Pi7+F+rrUDRSyQtUVPtPhDGJsqAiPX
+	+YOze7+7Ry4N3T9y1sdP9eIxjJkoo33ML7oybjKXklVMWLJY6s6/FMlzgOjTe57ditnu
+	CaNUxLeDtfiALfyPVTl7SdZfDsQxBKoqiCiWDDFqNE9q8ktj1P2w/mpAK4450wetOfKK
+	tFLt0UYcK7gHHZDKS33dxSsR3FBGl68LAsJn7tmxmCxxUw9hAUcyboHf/2v0yqyhfr9H
+	0NTIi9JRrpC2Oc8c3dSZRJ38/suNh2YpYiLNGH59xQoR4auNpLL8DfTOzdvxlhI9btsC
+	8Aaw==
+X-Gm-Message-State: APjAAAXh9iqVd4rQiLDP9u9om0bdoZkIl4JFO8vbHB8n8Tnh84lc/Y9O
+	YIsMXKhcUWyMwHYG+rgD53gGbP8s
+X-Google-Smtp-Source: APXvYqylx7MVlAALiyjR9qFXVWc5/geGgw5Dvz9bAXZchI7cZ263JUtJN0dsCwFRvPnJ7GEz4pjTlA==
+X-Received: by 2002:a1c:7e10:: with SMTP id z16mr3319851wmc.98.1558116737764; 
 	Fri, 17 May 2019 11:12:17 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.16
+	c63sm10188093wma.29.2019.05.17.11.12.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:12:16 -0700 (PDT)
+	Fri, 17 May 2019 11:12:17 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:35 +0200
-Message-Id: <20190517181151.44001-21-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:36 +0200
+Message-Id: <20190517181151.44001-22-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 21/37] python3-pip: upgrade 19.0.3 -> 19.1.1
+Subject: [PATCH 22/37] iproute2: upgrade 5.0.0 -> 5.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:16 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:12:17 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../python/{python3-pip_19.0.3.bb => python3-pip_19.1.1.bb}   | 4 ++--
+ .../iproute2/{iproute2_5.0.0.bb => iproute2_5.1.0.bb}         | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-pip_19.0.3.bb => python3-pip_19.1.1.bb} (81%)
+ rename meta/recipes-connectivity/iproute2/{iproute2_5.0.0.bb => iproute2_5.1.0.bb} (68%)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_19.0.3.bb b/meta/recipes-devtools/python/python3-pip_19.1.1.bb
-similarity index 81%
-rename from meta/recipes-devtools/python/python3-pip_19.0.3.bb
-rename to meta/recipes-devtools/python/python3-pip_19.1.1.bb
-index 4fdc7ee244f..baf32f4724e 100644
---- a/meta/recipes-devtools/python/python3-pip_19.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pip_19.1.1.bb
-@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
+diff --git a/meta/recipes-connectivity/iproute2/iproute2_5.0.0.bb b/meta/recipes-connectivity/iproute2/iproute2_5.1.0.bb
+similarity index 68%
+rename from meta/recipes-connectivity/iproute2/iproute2_5.0.0.bb
+rename to meta/recipes-connectivity/iproute2/iproute2_5.1.0.bb
+index 8f33c7fe194..6854a130042 100644
+--- a/meta/recipes-connectivity/iproute2/iproute2_5.0.0.bb
++++ b/meta/recipes-connectivity/iproute2/iproute2_5.1.0.bb
+@@ -5,8 +5,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/net/${BPN}/${BP}.tar.xz \
+            file://0001-libc-compat.h-add-musl-workaround.patch \
+           "
  
- DEPENDS += "python3 python3-setuptools-native"
+-SRC_URI[md5sum] = "d22107b4d7cfb999eeb8ad8a0aec1124"
+-SRC_URI[sha256sum] = "df047302a39650ef832c07e8dab5df7a23218cd398bd310c8628e386161d20ba"
++SRC_URI[md5sum] = "a2b8349abf4ae00e92155fda22de4d5e"
++SRC_URI[sha256sum] = "dc5a980873eabf6b00c0be976b6e5562b1400d47d1d07d2ac35d5e5acbcf7bcf"
  
--SRC_URI[md5sum] = "1c5edb0924a0d7d79f3a2e3df05009b4"
--SRC_URI[sha256sum] = "6e6f197a1abfb45118dbb878b5c859a0edbdd33fd250100bc015b67fded4b9f2"
-+SRC_URI[md5sum] = "4fb98a060f21c731d6743b90a714fc73"
-+SRC_URI[sha256sum] = "44d3d7d3d30a1eb65c7e5ff1173cdf8f7467850605ac7cc3707b6064bddd0958"
- 
- inherit pypi distutils3
- 
+ # CFLAGS are computed in Makefile and reference CCOPTS
+ #
 -- 
 2.17.1
 
