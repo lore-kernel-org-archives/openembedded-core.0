@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
-	[209.85.221.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 9F6EE7DFB2
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 6832F7DFB2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:12:07 +0000 (UTC)
-Received: by mail-wr1-f43.google.com with SMTP id h4so8080865wre.7
+	Fri, 17 May 2019 18:12:08 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id i3so7764390wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:08 -0700 (PDT)
+	Fri, 17 May 2019 11:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tokA5tjB6GMsI3SDTwZjT4GBZEOA7iVB67BbBd1XGmQ=;
-	b=dzn2RWWdOYnSSVuDrXlpaxgAnGvLfIbmFwfy3QqnVNADMWdUARDS28wGK7/2M3EkrK
-	ATgPciQEIkDwEJWhCe+EaDHF3MTTj/5y79sFVLUnLwwHKvZX+uDowNf7O2FiuUoaNdJB
-	b7a4ltEwinwoNV4Bpk2g0wi4kd0Y2CPgkZrkg660PSTA8tVLKGkkL8sErVk2equzkqzY
-	AnnIPtDDuX+mvABXh6RF9IdNjNXHAWJOfD3n01Ncl/PwkWgBqaDgF138dKTNWgFIE8lw
-	eWTZrG/E52qIEmR12NC+cnfh498EG1WUhYN+IfraQq2U7JasRWOPuy2QghZDlMhB/HcM
-	kKPA==
+	bh=gjTzYDu+cCWG3OG3izgrClo4VJ3URUBmY7SewjGUzTA=;
+	b=Fv2xIMMmFVp5B3SM8WNWuHtvZ0PdRPyPi8cRE4Hy7v8TxgV/m0HK8QL4wsqIeIwV+j
+	ORxSr4QRml0kzqRJM4hyELTRcCTVHfd/RVWX+hb9LeM1xpZ0v6M4IyuOyeWdrJ9jsbKu
+	AmNJL3ea4W5+wodXS/2T8zVcwqTqwApgwI6apzExLlDsQos7/ZKkBLVERB12giDpTlAD
+	esIaltrk3lKaHDdwVKoJPzpJVqK7ibNRkdC99RLBZwsR9vNPWcXBTFP43H/nNBpReH+C
+	EElQI1CM6dfjmWvSB/MsolUfWcUXA/efqT3YhdWB5XzyRUMJtKVra1XNbtUZlOCIYCZ4
+	LtLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=tokA5tjB6GMsI3SDTwZjT4GBZEOA7iVB67BbBd1XGmQ=;
-	b=exE1a01ES0NpvpJF9vif0dQk2MidNw8zHsRoVcHLSmXZbJ8ZO87AGmSueCj8Doe6Sz
-	s6e0N6PMtV2LIAPjmrhCGS5MWzVv/qOpoUNh0n8K+YWiy4NqzmrCAe4A98cOPuNQb4Li
-	FQd4U9HV+KhMXeR/FkVjMbjSLhbeKsMLmvwhvuvf8zDIIw2mqxWtHB6XcVR3qouyAo0/
-	wKkHVOLEefAdIH3l3KDmjlvRufAlUJdI+Xp9otuvGujYSDIP7ruMWEjJ5yiqX1TrLV7C
-	JNPYbeXjevUGtjwyqHe/ql7INABSPlQcxhkdmyZB/5+AhaQnqR1bvmKwMgmbQ+81Dene
-	bLhw==
-X-Gm-Message-State: APjAAAVmQezumKxyuevo86emf6KJWSBf79jHay49ZaOfy2fWdc4HZ4eE
-	Qm4hqKyZ5pgRBX0Q/MQdKjOJVfCx
-X-Google-Smtp-Source: APXvYqw9R8CijKKWFq42LqlVecUtwH93Vjv+VBifcjS7/Kzt23z4ZQZIRsjZmUhZKVtYPfSGmIFUwg==
-X-Received: by 2002:adf:f2c7:: with SMTP id d7mr32985665wrp.320.1558116728172; 
-	Fri, 17 May 2019 11:12:08 -0700 (PDT)
+	bh=gjTzYDu+cCWG3OG3izgrClo4VJ3URUBmY7SewjGUzTA=;
+	b=Pvy6JmThFMMRn39ddUzmzTnewwtgwCkI3GOHrVhX5KRLxSHL9jO1qxxydRASm7RIMu
+	dOzU2m0XwhTXYKszR/N3/IIK+gITmmj15hOegd/U1x33DC9x/dYGKAa3NKOLdCEMsxcl
+	r2QX/SsowJMoVSR/rypKiKpau1UDlY3clzEufQG8cY5akhsgX24pi2KMpcDZJoe9X/Qj
+	yOBWLHcgmcZcejNNmxu/noS70Sb+fV9Wt/dtF82KbT+hJbq1qpotVN6Co4cMFAD2Kmek
+	yodcKMwrWF8c65xR9AtYkAvcJ9VPTDimSNfagGxGtLYlZ2nwXrT/QtLZdFbUMSVDN5mp
+	YczA==
+X-Gm-Message-State: APjAAAWbSY+WvLOn289KewXKXrgOfs3rc2F7P2EgcPfLgIZ2oaFqXMhB
+	v+0Iue16yWnI8m+pUnIWeTGyzDpB
+X-Google-Smtp-Source: APXvYqw+dwdvQ8/I96pY3qhDlYUloFO0fvklExe74Dj6d9VbuR3YTXMxvRgf+GhCHEktDdMUFwx7Rg==
+X-Received: by 2002:a1c:b789:: with SMTP id h131mr3150000wmf.71.1558116729038; 
+	Fri, 17 May 2019 11:12:09 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.06
+	c63sm10188093wma.29.2019.05.17.11.12.08
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:12:07 -0700 (PDT)
+	Fri, 17 May 2019 11:12:08 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:25 +0200
-Message-Id: <20190517181151.44001-11-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:26 +0200
+Message-Id: <20190517181151.44001-12-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 11/37] go: update 1.12.1->1.12.5
+Subject: [PATCH 12/37] systemtap: upgrade 4.0 -> 4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +57,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:07 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:12:08 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/go/go-1.12.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
-index 0cf0a63ff65..7c4cac1fc25 100644
---- a/meta/recipes-devtools/go/go-1.12.inc
-+++ b/meta/recipes-devtools/go/go-1.12.inc
+diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+index 54de7226608..c5348b3204b 100644
+--- a/meta/recipes-kernel/systemtap/systemtap_git.inc
++++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
 @@ -1,7 +1,7 @@
- require go-common.inc
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-SRCREV = "90ff34ac0506f0d5440393a4c78565f6aaf9b726"
+-PV = "4.0"
++SRCREV = "984d6d1696ed06626b07cb65ab55d6ae0ece1131"
++PV = "4.1"
  
- GO_BASEVERSION = "1.12"
--GO_MINOR = ".1"
-+GO_MINOR = ".5"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
-@@ -19,5 +19,5 @@ SRC_URI += "\
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- 
--SRC_URI[main.md5sum] = "09fe592343465560b4b8431d870b3df3"
--SRC_URI[main.sha256sum] = "0be127684df4b842a64e58093154f9d15422f1405f1fcff4b2c36ffc6a15818a"
-+SRC_URI[main.md5sum] = "cb6f594d22dd79af4fff9779607b1b47"
-+SRC_URI[main.sha256sum] = "2aa5f088cbb332e73fc3def546800616b38d3bfe6b8713b8a6404060f22503e8"
+ SRC_URI = "git://sourceware.org/git/systemtap.git \
+            file://configure-allow-to-disable-libvirt.patch \
 -- 
 2.17.1
 
