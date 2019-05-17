@@ -1,49 +1,42 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 34D897D2FD
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 21FC06D409
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 14:34:24 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id c3so6927459otr.3
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 07:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2ZDDbdUD6YymrngP8LJLLSgvhN9f+NntRccwNdBEtoI=;
-	b=q6ZyUN3AbxQo4xMtOUAVAoR5kLPjz/jdgx+mvSkHbc1Hi6AyYpWiAwK59ci/DlzxzB
-	dzp03zecVH/qND4zMQRkTZszZMolHeUpf+ZWruMi2FaI9UeoFNx5V/evk7f+huwagBpj
-	ACG3BaJkKxV8Jegr+maqqZ1uC88byx4AW0ZD9/lVfNgMu1UMoBljjAU7/juRVfjf5692
-	6td5xPc1v0hvVBL7cOO7UooSVn87G00DN731McC0NcVu+4kXofmmvmGntLTBHHm9gupC
-	pnpotExgyC/mp1d+ZFs/MvYPtJG7MZga9YKSi5Od4HmTUoeA8IxyQCt21F4Re4Ywlwa8
-	9Dgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=2ZDDbdUD6YymrngP8LJLLSgvhN9f+NntRccwNdBEtoI=;
-	b=K/Qmdwh4Q02//UuxFipIy7oRBcV2he0H8DPrKwXBIMIxQ5JsHL55KkDB39mcbSrG2y
-	9uZuyzyBcMoBkgjnR7z/Tkm8+aaU9qHBvRyKuMusWnKBmTeP67qXjrpBSi31BPjkg6SJ
-	CsemC/nlatQU2ANg4A3ykgk7zrT0Av2BxHMa023Vxl0gLJEcpruM7nv06MIUiTw4T1HM
-	QYEQwe0UG306FUxh5eLBUftA/DCXmpoQDQ2P1l/YoXoEjAOo+257R8OQy2GvHxq+FdRo
-	FrL2TP6Y/4r/Dgp12OD24pff59JvuwlkM8hO3KYNVEBHenLHz00QzqafqnNsXa9wm7Jy
-	46uQ==
-X-Gm-Message-State: APjAAAUEMu8xxYa/l4DL89aEYu3xMktWxmZruVJp0gKAOvhe348M+Qqx
-	l28mZusvuGRh/shDd4p0/OQylA1scedTWIoXak4R1Q==
-X-Google-Smtp-Source: APXvYqwI+MvQjAR8Q3pUKVxLf8erquWmZSaxALPM3ZwubrDGXov0ktZi5a+FYV0WoppO+mqRvsnBxnKKVB1i+en6EA0=
-X-Received: by 2002:a9d:7dd5:: with SMTP id k21mr8642764otn.167.1558103664992; 
-	Fri, 17 May 2019 07:34:24 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190517135309.116495-1-alex.kanavin@gmail.com>
-	<CA+chaQd2qTqLDpNsvHY1q8MBnnXduMZhapj0S_njo73rHgOBUA@mail.gmail.com>
-	<CA+chaQcOHXLusqEgMc78w4Hd3jB=ykt2wd8mxiMF3LZXSgEfLg@mail.gmail.com>
-In-Reply-To: <CA+chaQcOHXLusqEgMc78w4Hd3jB=ykt2wd8mxiMF3LZXSgEfLg@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 17 May 2019 16:34:14 +0200
-Message-ID: <CANNYZj-8GjgDdbczLDhXajzuAiYYNpAbSZg-_xPxcMPd=nVjSw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>, Tom Rini <trini@konsulko.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] vim: split the common part into vim.inc
+	Fri, 17 May 2019 15:53:09 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id DE64C1E52FE;
+	Fri, 17 May 2019 11:53:10 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id VxefrFkEeF3q; Fri, 17 May 2019 11:53:09 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id C17531E52FA;
+	Fri, 17 May 2019 11:53:09 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com C17531E52FA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1558108389;
+	bh=U77hAqrg1cPrVh4MdAZ4v3hy7UdpsC5u5xHsXaIIYts=;
+	h=From:To:Date:Message-Id;
+	b=NybvIZkCY/VMvojXxoFiRWbR/pskkth7I8hVzodhi6lIdN7y66Rf0Z0gYiSqg+eV7
+	c7NzA4xDGzqBN7IvtAirJVve7INjs2vE6Z1073UKlc/9dtiSXmVAuhibVdly//0gIW
+	WddvzlO9TnYd11Q54WR9ZIeEscs4xDoNd2wVM+NftgPmh0+XuXsTe4cGfSjZ1vAtKZ
+	umiONkneP8Fa/6GKJy6xAEb7yt+BRv8clVcFL8+B9x6bsX8/zAti5+7PD1NTWW+c7T
+	H53/LqCvRngwpip5x2QC9/xFnZJ5OmDPxk3EFMnGz14mPClcgv9Ds998vZ6ofn20IL
+	7AmoPl9YfG8Gw==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id AYDeR4pPlqk0; Fri, 17 May 2019 11:53:09 -0400 (EDT)
+Received: from joraj-yocto-dev.internal.efficios.com
+	(192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+	by mail.efficios.com (Postfix) with ESMTPSA id 9AC181E52F5;
+	Fri, 17 May 2019 11:53:09 -0400 (EDT)
+From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 May 2019 15:52:52 +0000
+Message-Id: <20190517155252.867-1-jonathan.rajotte-julien@efficios.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] liburcu: update to 0.11.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,353 +49,210 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 14:34:24 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 17 May 2019 15:53:10 -0000
 
-This is up to the recipe maintainer (Tom) to do; I only want to ensure
-AUH does not choke on the recipe.
+Drop backported patch.
+Update paths to files that establish the licensing.
 
-Alex
+Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+---
+ ...-support-for-the-RISC-V-architecture.patch | 157 ------------------
+ .../{liburcu_0.10.2.bb => liburcu_0.11.0.bb}  |  10 +-
+ 2 files changed, 4 insertions(+), 163 deletions(-)
+ delete mode 100644 meta/recipes-support/liburcu/files/Add-support-for-the-RISC-V-architecture.patch
+ rename meta/recipes-support/liburcu/{liburcu_0.10.2.bb => liburcu_0.11.0.bb} (65%)
 
-On Fri, 17 May 2019 at 16:29, Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> Actually the BBCLASSEXTEND = "native" as well, as we don't need both vim recipes to provide xxd-native.
->
-> On Fri, May 17, 2019 at 4:27 PM Martin Jansa <martin.jansa@gmail.com> wrote:
->>
->> To simplify meta/recipes-support/vim/vim-tiny_8.1.1240.bb which currently has:
->>
->> PROVIDES_remove = "xxd"
->> ALTERNATIVE_${PN}_remove = "xxd"
->>
->> Can you move xxd from the .inc file and put it only in vim_8.1.1240.bb?
->>
->>
->> On Fri, May 17, 2019 at 3:53 PM Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->>>
->>> Previously vim-tiny would include the vim recipe wholesale;
->>> this meant that they had to be upgraded in a single transaction
->>> which devtool cannot cope with. This thwarted the latest AUH
->>> run in particular.
->>>
->>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
->>> ---
->>>  meta/recipes-support/vim/vim-tiny_8.1.1240.bb |   2 +-
->>>  meta/recipes-support/vim/vim.inc              | 141 +++++++++++++++++
->>>  meta/recipes-support/vim/vim_8.1.1240.bb      | 142 +-----------------
->>>  3 files changed, 143 insertions(+), 142 deletions(-)
->>>  create mode 100644 meta/recipes-support/vim/vim.inc
->>>
->>> diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
->>> index 74464833adb..139e626e444 100644
->>> --- a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
->>> +++ b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
->>> @@ -1,4 +1,4 @@
->>> -require vim_${PV}.bb
->>> +require vim.inc
->>>
->>>  SUMMARY += " (with tiny features)"
->>>
->>> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
->>> new file mode 100644
->>> index 00000000000..f5c74684bfa
->>> --- /dev/null
->>> +++ b/meta/recipes-support/vim/vim.inc
->>> @@ -0,0 +1,141 @@
->>> +SUMMARY = "Vi IMproved - enhanced vi editor"
->>> +SECTION = "console/utils"
->>> +
->>> +PROVIDES = "xxd"
->>> +DEPENDS = "ncurses gettext-native"
->>> +# vimdiff doesn't like busybox diff
->>> +RSUGGESTS_${PN} = "diffutils"
->>> +LICENSE = "vim"
->>> +LIC_FILES_CHKSUM = "file://runtime/doc/uganda.txt;endline=287;md5=f1f82b42360005c70b8c19b0ef493f72"
->>> +
->>> +SRC_URI = "git://github.com/vim/vim.git \
->>> +           file://disable_acl_header_check.patch \
->>> +           file://vim-add-knob-whether-elf.h-are-checked.patch \
->>> +           file://0001-src-Makefile-improve-reproducibility.patch \
->>> +"
->>> +SRCREV = "d96dbd6f95ea22f609042cc9c6272f14a21ff1a5"
->>> +
->>> +S = "${WORKDIR}/git"
->>> +
->>> +VIMDIR = "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
->>> +
->>> +inherit autotools-brokensep update-alternatives
->>> +
->>> +CLEANBROKEN = "1"
->>> +
->>> +# vim configure.in contains functions which got 'dropped' by autotools.bbclass
->>> +do_configure () {
->>> +    cd src
->>> +    rm -f auto/*
->>> +    touch auto/config.mk
->>> +    aclocal
->>> +    autoconf
->>> +    cd ..
->>> +    oe_runconf
->>> +    touch src/auto/configure
->>> +    touch src/auto/config.mk src/auto/config.h
->>> +}
->>> +
->>> +do_compile() {
->>> +    # We do not support fully / correctly the following locales.  Attempting
->>> +    # to use these with msgfmt in order to update the ".desktop" files exposes
->>> +    # this problem and leads to the compile failing.
->>> +    for LOCALE in cs fr ko pl sk zh_CN zh_TW;do
->>> +        echo -n > src/po/${LOCALE}.po
->>> +    done
->>> +    autotools_do_compile
->>> +}
->>> +
->>> +#Available PACKAGECONFIG options are gtkgui, acl, x11, tiny
->>> +PACKAGECONFIG ??= ""
->>> +PACKAGECONFIG += " \
->>> +    ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
->>> +    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '', d)} \
->>> +"
->>> +PACKAGECONFIG_class-native = ""
->>> +
->>> +PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
->>> +PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
->>> +PACKAGECONFIG[x11] = "--with-x,--without-x,xt,"
->>> +PACKAGECONFIG[tiny] = "--with-features=tiny,--with-features=big,,"
->>> +PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,"
->>> +PACKAGECONFIG[elfutils] = "--enable-elf-check,,elfutils,"
->>> +
->>> +EXTRA_OECONF = " \
->>> +    --disable-gpm \
->>> +    --disable-gtktest \
->>> +    --disable-xim \
->>> +    --disable-netbeans \
->>> +    --with-tlib=ncurses \
->>> +    ac_cv_small_wchar_t=no \
->>> +    vim_cv_getcwd_broken=no \
->>> +    vim_cv_memmove_handles_overlap=yes \
->>> +    vim_cv_stat_ignores_slash=no \
->>> +    vim_cv_terminfo=yes \
->>> +    vim_cv_tgetent=non-zero \
->>> +    vim_cv_toupper_broken=no \
->>> +    vim_cv_tty_group=world \
->>> +    STRIP=/bin/true \
->>> +"
->>> +
->>> +do_install() {
->>> +    autotools_do_install
->>> +
->>> +    # Work around file-rdeps picking up csh, awk, perl or python as a dep
->>> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/vim132
->>> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/mve.awk
->>> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.pl
->>> +    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.py
->>> +
->>> +    # Install example vimrc from runtime files
->>> +    install -m 0644 runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
->>> +
->>> +    # we use --with-features=big as default
->>> +    mv ${D}${bindir}/${BPN} ${D}${bindir}/${BPN}.${BPN}
->>> +
->>> +    if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'true', 'false', d)}; then
->>> +       # The mouse being autoenabled is just annoying in xfce4-terminal (mouse
->>> +       # drag make vim go into visual mode and there is no right click menu),
->>> +       # delete the block.
->>> +       sed -i '/the mouse works just fine/,+4d' ${D}/${datadir}/${BPN}/vimrc
->>> +    fi
->>> +}
->>> +
->>> +PARALLEL_MAKEINST = ""
->>> +
->>> +PACKAGES =+ "${PN}-common ${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-tools"
->>> +FILES_${PN}-syntax = "${datadir}/${BPN}/${VIMDIR}/syntax"
->>> +FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
->>> +FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
->>> +FILES_${PN}-vimrc = "${datadir}/${BPN}/vimrc"
->>> +FILES_${PN}-data = "${datadir}/${BPN}"
->>> +FILES_${PN}-tools = "${datadir}/${BPN}/${VIMDIR}/tools"
->>> +FILES_${PN}-common = " \
->>> +    ${datadir}/${BPN}/${VIMDIR}/*.vim \
->>> +    ${datadir}/${BPN}/${VIMDIR}/autoload \
->>> +    ${datadir}/${BPN}/${VIMDIR}/colors \
->>> +    ${datadir}/${BPN}/${VIMDIR}/compiler \
->>> +    ${datadir}/${BPN}/${VIMDIR}/ftplugin \
->>> +    ${datadir}/${BPN}/${VIMDIR}/indent \
->>> +    ${datadir}/${BPN}/${VIMDIR}/keymap \
->>> +    ${datadir}/${BPN}/${VIMDIR}/lang \
->>> +    ${datadir}/${BPN}/${VIMDIR}/macros \
->>> +    ${datadir}/${BPN}/${VIMDIR}/plugin \
->>> +    ${datadir}/${BPN}/${VIMDIR}/print \
->>> +    ${datadir}/${BPN}/${VIMDIR}/spell \
->>> +    ${datadir}/icons \
->>> +"
->>> +
->>> +RDEPENDS_${BPN} = "ncurses-terminfo-base"
->>> +# Recommend that runtime data is installed along with vim
->>> +RRECOMMENDS_${BPN} = "${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-common"
->>> +
->>> +ALTERNATIVE_${PN} = "vi vim xxd"
->>> +ALTERNATIVE_PRIORITY = "100"
->>> +ALTERNATIVE_TARGET = "${bindir}/${BPN}.${BPN}"
->>> +ALTERNATIVE_LINK_NAME[vi] = "${base_bindir}/vi"
->>> +ALTERNATIVE_LINK_NAME[vim] = "${bindir}/vim"
->>> +ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
->>> +ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
->>> +
->>> +BBCLASSEXTEND = "native"
->>> diff --git a/meta/recipes-support/vim/vim_8.1.1240.bb b/meta/recipes-support/vim/vim_8.1.1240.bb
->>> index f5c74684bfa..baaaacc0b77 100644
->>> --- a/meta/recipes-support/vim/vim_8.1.1240.bb
->>> +++ b/meta/recipes-support/vim/vim_8.1.1240.bb
->>> @@ -1,141 +1 @@
->>> -SUMMARY = "Vi IMproved - enhanced vi editor"
->>> -SECTION = "console/utils"
->>> -
->>> -PROVIDES = "xxd"
->>> -DEPENDS = "ncurses gettext-native"
->>> -# vimdiff doesn't like busybox diff
->>> -RSUGGESTS_${PN} = "diffutils"
->>> -LICENSE = "vim"
->>> -LIC_FILES_CHKSUM = "file://runtime/doc/uganda.txt;endline=287;md5=f1f82b42360005c70b8c19b0ef493f72"
->>> -
->>> -SRC_URI = "git://github.com/vim/vim.git \
->>> -           file://disable_acl_header_check.patch \
->>> -           file://vim-add-knob-whether-elf.h-are-checked.patch \
->>> -           file://0001-src-Makefile-improve-reproducibility.patch \
->>> -"
->>> -SRCREV = "d96dbd6f95ea22f609042cc9c6272f14a21ff1a5"
->>> -
->>> -S = "${WORKDIR}/git"
->>> -
->>> -VIMDIR = "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('.')[1]}"
->>> -
->>> -inherit autotools-brokensep update-alternatives
->>> -
->>> -CLEANBROKEN = "1"
->>> -
->>> -# vim configure.in contains functions which got 'dropped' by autotools.bbclass
->>> -do_configure () {
->>> -    cd src
->>> -    rm -f auto/*
->>> -    touch auto/config.mk
->>> -    aclocal
->>> -    autoconf
->>> -    cd ..
->>> -    oe_runconf
->>> -    touch src/auto/configure
->>> -    touch src/auto/config.mk src/auto/config.h
->>> -}
->>> -
->>> -do_compile() {
->>> -    # We do not support fully / correctly the following locales.  Attempting
->>> -    # to use these with msgfmt in order to update the ".desktop" files exposes
->>> -    # this problem and leads to the compile failing.
->>> -    for LOCALE in cs fr ko pl sk zh_CN zh_TW;do
->>> -        echo -n > src/po/${LOCALE}.po
->>> -    done
->>> -    autotools_do_compile
->>> -}
->>> -
->>> -#Available PACKAGECONFIG options are gtkgui, acl, x11, tiny
->>> -PACKAGECONFIG ??= ""
->>> -PACKAGECONFIG += " \
->>> -    ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
->>> -    ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '', d)} \
->>> -"
->>> -PACKAGECONFIG_class-native = ""
->>> -
->>> -PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
->>> -PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
->>> -PACKAGECONFIG[x11] = "--with-x,--without-x,xt,"
->>> -PACKAGECONFIG[tiny] = "--with-features=tiny,--with-features=big,,"
->>> -PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux,libselinux,"
->>> -PACKAGECONFIG[elfutils] = "--enable-elf-check,,elfutils,"
->>> -
->>> -EXTRA_OECONF = " \
->>> -    --disable-gpm \
->>> -    --disable-gtktest \
->>> -    --disable-xim \
->>> -    --disable-netbeans \
->>> -    --with-tlib=ncurses \
->>> -    ac_cv_small_wchar_t=no \
->>> -    vim_cv_getcwd_broken=no \
->>> -    vim_cv_memmove_handles_overlap=yes \
->>> -    vim_cv_stat_ignores_slash=no \
->>> -    vim_cv_terminfo=yes \
->>> -    vim_cv_tgetent=non-zero \
->>> -    vim_cv_toupper_broken=no \
->>> -    vim_cv_tty_group=world \
->>> -    STRIP=/bin/true \
->>> -"
->>> -
->>> -do_install() {
->>> -    autotools_do_install
->>> -
->>> -    # Work around file-rdeps picking up csh, awk, perl or python as a dep
->>> -    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/vim132
->>> -    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/mve.awk
->>> -    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.pl
->>> -    chmod -x ${D}${datadir}/${BPN}/${VIMDIR}/tools/*.py
->>> -
->>> -    # Install example vimrc from runtime files
->>> -    install -m 0644 runtime/vimrc_example.vim ${D}/${datadir}/${BPN}/vimrc
->>> -
->>> -    # we use --with-features=big as default
->>> -    mv ${D}${bindir}/${BPN} ${D}${bindir}/${BPN}.${BPN}
->>> -
->>> -    if ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'true', 'false', d)}; then
->>> -       # The mouse being autoenabled is just annoying in xfce4-terminal (mouse
->>> -       # drag make vim go into visual mode and there is no right click menu),
->>> -       # delete the block.
->>> -       sed -i '/the mouse works just fine/,+4d' ${D}/${datadir}/${BPN}/vimrc
->>> -    fi
->>> -}
->>> -
->>> -PARALLEL_MAKEINST = ""
->>> -
->>> -PACKAGES =+ "${PN}-common ${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-tools"
->>> -FILES_${PN}-syntax = "${datadir}/${BPN}/${VIMDIR}/syntax"
->>> -FILES_${PN}-help = "${datadir}/${BPN}/${VIMDIR}/doc"
->>> -FILES_${PN}-tutor = "${datadir}/${BPN}/${VIMDIR}/tutor ${bindir}/${BPN}tutor"
->>> -FILES_${PN}-vimrc = "${datadir}/${BPN}/vimrc"
->>> -FILES_${PN}-data = "${datadir}/${BPN}"
->>> -FILES_${PN}-tools = "${datadir}/${BPN}/${VIMDIR}/tools"
->>> -FILES_${PN}-common = " \
->>> -    ${datadir}/${BPN}/${VIMDIR}/*.vim \
->>> -    ${datadir}/${BPN}/${VIMDIR}/autoload \
->>> -    ${datadir}/${BPN}/${VIMDIR}/colors \
->>> -    ${datadir}/${BPN}/${VIMDIR}/compiler \
->>> -    ${datadir}/${BPN}/${VIMDIR}/ftplugin \
->>> -    ${datadir}/${BPN}/${VIMDIR}/indent \
->>> -    ${datadir}/${BPN}/${VIMDIR}/keymap \
->>> -    ${datadir}/${BPN}/${VIMDIR}/lang \
->>> -    ${datadir}/${BPN}/${VIMDIR}/macros \
->>> -    ${datadir}/${BPN}/${VIMDIR}/plugin \
->>> -    ${datadir}/${BPN}/${VIMDIR}/print \
->>> -    ${datadir}/${BPN}/${VIMDIR}/spell \
->>> -    ${datadir}/icons \
->>> -"
->>> -
->>> -RDEPENDS_${BPN} = "ncurses-terminfo-base"
->>> -# Recommend that runtime data is installed along with vim
->>> -RRECOMMENDS_${BPN} = "${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-common"
->>> -
->>> -ALTERNATIVE_${PN} = "vi vim xxd"
->>> -ALTERNATIVE_PRIORITY = "100"
->>> -ALTERNATIVE_TARGET = "${bindir}/${BPN}.${BPN}"
->>> -ALTERNATIVE_LINK_NAME[vi] = "${base_bindir}/vi"
->>> -ALTERNATIVE_LINK_NAME[vim] = "${bindir}/vim"
->>> -ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
->>> -ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
->>> -
->>> -BBCLASSEXTEND = "native"
->>> +require vim.inc
->>> --
->>> 2.17.1
->>>
->>> --
->>> _______________________________________________
->>> Openembedded-core mailing list
->>> Openembedded-core@lists.openembedded.org
->>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-support/liburcu/files/Add-support-for-the-RISC-V-architecture.patch b/meta/recipes-support/liburcu/files/Add-support-for-the-RISC-V-architecture.patch
+deleted file mode 100644
+index b026782bd5..0000000000
+--- a/meta/recipes-support/liburcu/files/Add-support-for-the-RISC-V-architecture.patch
++++ /dev/null
+@@ -1,157 +0,0 @@
+-From fdfad81006c2c964781b616f0a75578507be809c Mon Sep 17 00:00:00 2001
+-From: Michael Jeanson <mjeanson@efficios.com>
+-Date: Wed, 21 Mar 2018 17:38:41 -0400
+-Subject: [PATCH] Add support for the RISC-V architecture
+-
+-Tested in QEMU 2.12.0-rc0, requires --disable-compiler-tls to go
+-through the benchmarks reliably.
+-
+-Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
+-Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+-Upstream-Status: Backport
+----
+- configure.ac                 |  1 +
+- include/Makefile.am          |  2 ++
+- include/urcu/arch/riscv.h    | 49 ++++++++++++++++++++++++++++++++++++++++++++
+- include/urcu/uatomic/riscv.h | 44 +++++++++++++++++++++++++++++++++++++++
+- 4 files changed, 96 insertions(+)
+- create mode 100644 include/urcu/arch/riscv.h
+- create mode 100644 include/urcu/uatomic/riscv.h
+-
+-diff --git a/configure.ac b/configure.ac
+-index d0b4a9ac..9145081a 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -151,6 +151,7 @@ AS_CASE([$host_cpu],
+- 	[tile*], [ARCHTYPE="tile"],
+- 	[hppa*], [ARCHTYPE="hppa"],
+- 	[m68k], [ARCHTYPE="m68k"],
+-+	[riscv*], [ARCHTYPE="riscv"],
+- 	[ARCHTYPE="unknown"]
+- )
+- 
+-diff --git a/include/Makefile.am b/include/Makefile.am
+-index dcdf304b..36667b43 100644
+---- a/include/Makefile.am
+-+++ b/include/Makefile.am
+-@@ -27,6 +27,7 @@ EXTRA_DIST = urcu/arch/aarch64.h \
+- 	urcu/arch/mips.h \
+- 	urcu/arch/nios2.h \
+- 	urcu/arch/ppc.h \
+-+	urcu/arch/riscv.h \
+- 	urcu/arch/s390.h \
+- 	urcu/arch/sparc64.h \
+- 	urcu/arch/tile.h \
+-@@ -43,6 +44,7 @@ EXTRA_DIST = urcu/arch/aarch64.h \
+- 	urcu/uatomic/mips.h \
+- 	urcu/uatomic/nios2.h \
+- 	urcu/uatomic/ppc.h \
+-+	urcu/uatomic/riscv.h \
+- 	urcu/uatomic/s390.h \
+- 	urcu/uatomic/sparc64.h \
+- 	urcu/uatomic/tile.h \
+-diff --git a/include/urcu/arch/riscv.h b/include/urcu/arch/riscv.h
+-new file mode 100644
+-index 00000000..1fd7d62b
+---- /dev/null
+-+++ b/include/urcu/arch/riscv.h
+-@@ -0,0 +1,49 @@
+-+#ifndef _URCU_ARCH_RISCV_H
+-+#define _URCU_ARCH_RISCV_H
+-+
+-+/*
+-+ * arch/riscv.h: definitions for the RISC-V architecture
+-+ *
+-+ * Copyright (c) 2018 Michael Jeanson <mjeanson@efficios.com>
+-+ *
+-+ * This library is free software; you can redistribute it and/or
+-+ * modify it under the terms of the GNU Lesser General Public
+-+ * License as published by the Free Software Foundation; either
+-+ * version 2.1 of the License, or (at your option) any later version.
+-+ *
+-+ * This library is distributed in the hope that it will be useful,
+-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-+ * Lesser General Public License for more details.
+-+ *
+-+ * You should have received a copy of the GNU Lesser General Public
+-+ * License along with this library; if not, write to the Free Software
+-+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+-+ */
+-+
+-+#include <urcu/compiler.h>
+-+#include <urcu/config.h>
+-+#include <urcu/syscall-compat.h>
+-+
+-+#ifdef __cplusplus
+-+extern "C" {
+-+#endif
+-+
+-+#include <stdlib.h>
+-+#include <sys/time.h>
+-+
+-+/*
+-+ * On Linux, define the membarrier system call number if not yet available in
+-+ * the system headers.
+-+ */
+-+#if (defined(__linux__) && !defined(__NR_membarrier))
+-+#define __NR_membarrier		283
+-+#endif
+-+
+-+#ifdef __cplusplus
+-+}
+-+#endif
+-+
+-+#include <urcu/arch/generic.h>
+-+
+-+#endif /* _URCU_ARCH_RISCV_H */
+-diff --git a/include/urcu/uatomic/riscv.h b/include/urcu/uatomic/riscv.h
+-new file mode 100644
+-index 00000000..a6700e17
+---- /dev/null
+-+++ b/include/urcu/uatomic/riscv.h
+-@@ -0,0 +1,44 @@
+-+/*
+-+ * Atomic exchange operations for the RISC-V architecture. Let GCC do it.
+-+ *
+-+ * Copyright (c) 2018 Michael Jeanson <mjeanson@efficios.com>
+-+ *
+-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+-+ * of this software and associated documentation files (the "Software"), to
+-+ * deal in the Software without restriction, including without limitation the
+-+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+-+ * sell copies of the Software, and to permit persons to whom the Software is
+-+ * furnished to do so, subject to the following conditions:
+-+ *
+-+ * The above copyright notice and this permission notice shall be included in
+-+ * all copies or substantial portions of the Software.
+-+ *
+-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+-+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+-+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+-+ * IN THE SOFTWARE.
+-+ */
+-+
+-+#ifndef _URCU_ARCH_UATOMIC_RISCV_H
+-+#define _URCU_ARCH_UATOMIC_RISCV_H
+-+
+-+#include <urcu/compiler.h>
+-+#include <urcu/system.h>
+-+
+-+#ifdef __cplusplus
+-+extern "C" {
+-+#endif
+-+
+-+#define UATOMIC_HAS_ATOMIC_BYTE
+-+#define UATOMIC_HAS_ATOMIC_SHORT
+-+
+-+#ifdef __cplusplus
+-+}
+-+#endif
+-+
+-+#include <urcu/uatomic/generic.h>
+-+
+-+#endif /* _URCU_ARCH_UATOMIC_RISCV_H */
+diff --git a/meta/recipes-support/liburcu/liburcu_0.10.2.bb b/meta/recipes-support/liburcu/liburcu_0.11.0.bb
+similarity index 65%
+rename from meta/recipes-support/liburcu/liburcu_0.10.2.bb
+rename to meta/recipes-support/liburcu/liburcu_0.11.0.bb
+index b4b6e2323d..df41ffc73e 100644
+--- a/meta/recipes-support/liburcu/liburcu_0.10.2.bb
++++ b/meta/recipes-support/liburcu/liburcu_0.11.0.bb
+@@ -4,15 +4,13 @@ BUGTRACKER = "http://lttng.org/project/issues"
+ 
+ LICENSE = "LGPLv2.1+ & MIT-style"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e548d28737289d75a8f1e01ba2fd7825 \
+-                    file://src/urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
++                    file://include/urcu/urcu.h;beginline=4;endline=32;md5=4de0d68d3a997643715036d2209ae1d9 \
+                     file://include/urcu/uatomic/x86.h;beginline=4;endline=21;md5=58e50bbd8a2f073bb5500e6554af0d0b"
+ 
+-SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2 \
+-           file://Add-support-for-the-RISC-V-architecture.patch \
+-           "
++SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
+ 
+-SRC_URI[md5sum] = "7c424c5183ec009d87e0f70c23e92f1b"
+-SRC_URI[sha256sum] = "b3f6888daf6fe02c1f8097f4a0898e41b5fe9975e121dc792b9ddef4b17261cc"
++SRC_URI[md5sum] = "102184afa99e64e3ecefb320092ac1e4"
++SRC_URI[sha256sum] = "1af5694c4f6266f4eba5eb4b832daee600d1e7055fce6da5d514d735d72eb3e7"
+ 
+ S = "${WORKDIR}/userspace-rcu-${PV}"
+ inherit autotools multilib_header
+-- 
+2.17.1
+
 
