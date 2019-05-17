@@ -1,52 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id D98847DF84
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id DF3097CFF8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 22:49:06 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id i21so3932415pgi.12
+	Fri, 17 May 2019 23:37:47 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 145so3981214pgg.9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 15:49:08 -0700 (PDT)
+	Fri, 17 May 2019 16:37:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=a4RpvoDG91oue+ZpGvhXtVjzqC0PzdZfM0vUyMmi9qM=;
-	b=RziiYO8CvKa5k3aytkxVIsrNCZ47jDjPoZ28qa94nZ8sqzBgbNUCcVLn1l+RB6wwju
-	bgIkKiNCbmmeMSX4UKfwLyYDHyZs4JqTz4K9aXL0fLlVfA3HbhyNKvR7+j1a9n9ysAsM
-	Oy7SMKYtBFMfAoy/AUZQHUUmaeOzi1GCTRI/JbdnBB3pIpHMAx5lOLeNUUzd1cP5iD7G
-	/gHX0DsUcG+KCnBYS0WX6QjH5drfBfG/y+JWKdA5++GQaqQq74tet8PidrDqVqAjJzbR
-	RkE0JVmmUgEpyxHP36EOAzfOODuHn66nS+GwrxqastmH5WIGDUmqbyipICvR/UvX388y
-	9kDQ==
+	bh=dl5sliaXb7sIYiMQ6MQvajX5QPzo2QhReiOI0mJxMlU=;
+	b=Hb5Z0zBx0taasZwdg4fLE4tX2m3/NLkindKEfA4FPMeRVY+8Z7vdneGngkVhIN5Ayv
+	QPDaZLVbBPC2n2VMaMX8g6CwuP/cdMPPxgcW5C+8sSozP/bPP0qw8b1f6C2Pw43n9col
+	I2zGL9OKXohG/ydKCz9+DdAdLRJRy2lJr+r1YBOzjSa2MG+vZFA5/vw0MXyqVMMUHhcR
+	x4k0+L/MF5gJt4dKsVW1vd6FBhDt/XpA0E0wuh9hCxDhFWOMkkaA5kUn5xAVhbDuir/6
+	pLjiUwx7WM+whxKtuoI07PjsV7yA5wleQGA+Ugag/v7J0kBM2gHzpwW4an6Co3Zrg5J/
+	5WfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=a4RpvoDG91oue+ZpGvhXtVjzqC0PzdZfM0vUyMmi9qM=;
-	b=hF4e4jcdyfl2g3IJwnMSxtZDfxyeuhxTHFReSRxWzVI6H8LqF3t10pUGX79th0DXth
-	xD9Sw36fW5kQi6AiSMgll2kj8KEivmlC91WdFPv1GNZJoITLuOyibYQZbhUvezjz+Wtp
-	v77fbiCnLmbMYqNXv3Shyr2qor/hCINZGvyPuQOYMdrHnyQfNpkwX9xOuY/EpdSz53TW
-	3Vz5LCaJSlvlG3hFcHAhRr9a2pW1EwbD8QgVHd2YEkDxKizxgoakGXC+7vCQBQdS5bUL
-	DIF4a7EGtrOd0Dm5Jjh40g3j2Sb7GVQ+bgkvzhkF7JtayybQdK4FFXx+3zGpMzygHiFm
-	82sQ==
-X-Gm-Message-State: APjAAAVU8JhTR3pMZf3O4cp1OgtzF6ZY30FX2mzkjpwWQY5b2ClaHB0j
-	k9m+CCNU2UghMIzacQII+vDVRkqkpeI=
-X-Google-Smtp-Source: APXvYqyc0fQRhb6CBye8hTaMLiCsgG0bY0ggYF3+BbbSTBBOBUhhm6FC3br1V/6B+cGgt2rJoqEb2w==
-X-Received: by 2002:a62:198e:: with SMTP id 136mr45245391pfz.180.1558133347606;
-	Fri, 17 May 2019 15:49:07 -0700 (PDT)
-Received: from blackadder.jf.intel.com (jfdmzpr05-ext.jf.intel.com.
-	[134.134.139.74]) by smtp.gmail.com with ESMTPSA id
-	a6sm12024913pgd.67.2019.05.17.15.49.04
+	bh=dl5sliaXb7sIYiMQ6MQvajX5QPzo2QhReiOI0mJxMlU=;
+	b=MTSP/E6+1kPy33nuRJUzTTPhRsTaTDpQeQQyJ+AJxPX6FDENhWezMlcKMyUecdiU/m
+	cvY2ZbEC6fvmZieEp9k5YmksDeiuQJ52FMpYniZS0innegmvg7eyK8lgFp5RBb96aojq
+	q+gkrTif1gvqk4clPhZRsNm+IG6yFaEQYqEGprSuWuH/Dmr45aYSV979Hpiw6iqSMDg1
+	v6PDbd/F6W2V2zeSSaYg/pU/BtrsZfwWlcSdm6IWZ2EfsvEmc989OJYhUvPgttXlK2r2
+	Pz5Ffz+ObdxZlwwtTlA1NEDw3daXfcGGc34arAWCu7Vcv7oY4Migkc2RaN6YdRE+pNsy
+	H8Jg==
+X-Gm-Message-State: APjAAAVXetM8KZzTVhPkUJB8WRRAZNk8+NyCqSjn3bQ83d5OiGJX4PzA
+	Ov2nredukOrCysJmvcJg5lbRkX7Ao20=
+X-Google-Smtp-Source: APXvYqzmj+tkfTGt459AKpYjcsYJCGmsmNz3YK5xbGAowzMT/+iL+9kd66ZnHp17fFyM5HcfPO0i5A==
+X-Received: by 2002:aa7:90ce:: with SMTP id k14mr62698461pfk.239.1558136268694;
+	Fri, 17 May 2019 16:37:48 -0700 (PDT)
+Received: from blackadder.jf.intel.com (fmdmzpr04-ext.fm.intel.com.
+	[192.55.54.39]) by smtp.gmail.com with ESMTPSA id
+	s18sm14734195pgg.64.2019.05.17.16.37.47
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 17 May 2019 15:49:05 -0700 (PDT)
+	Fri, 17 May 2019 16:37:47 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 15:48:59 -0700
-Message-Id: <20190517224859.8270-1-ross.burton@intel.com>
+Date: Fri, 17 May 2019 16:37:43 -0700
+Message-Id: <20190517233743.9646-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1 (Apple Git-117)
 MIME-Version: 1.0
-Subject: [PATCH] insane: add sanity checks to SRC_URI
+Subject: [PATCH v2] insane: add sanity checks to SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,10 +59,10 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 22:49:07 -0000
+X-List-Received-Date: Fri, 17 May 2019 23:37:48 -0000
 Content-Transfer-Encoding: 8bit
 
-The SRC_URI almost definitely shouldn't be using ${BPN}, and GitHub */archive/*
+The SRC_URI almost definitely shouldn't be using ${PN}, and GitHub */archive/*
 tarballs are dynamically generated so the checksums will change over time.
 
 Detect both of these, and emit a QA warning if found.
