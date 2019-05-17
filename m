@@ -1,45 +1,47 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 13F276C0EB
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D966F7DEA5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 16:22:10 +0000 (UTC)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 0643B1E5951;
-	Fri, 17 May 2019 12:22:12 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id BbeTCPc08ohv; Fri, 17 May 2019 12:22:11 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id C3F531E594E;
-	Fri, 17 May 2019 12:22:11 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com C3F531E594E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1558110131;
-	bh=n+mlj/PvZUt7+JmKcxH5SwgQYG1I/u7HAzsM4pljiVs=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=RwWnAtqnghtxgYdEfrmFekJIOKzLkg3Ozel1clch6+n0/9C+tECfhSuEd7QTe/ZMr
-	sgdVT0Zmwy95llrqowU+FNYLuQ/I+PU9g+vKH7+0Owny98LrH587SIjt3yLpG6BekI
-	WpZzam5La6guUr/NE25LwdTw24qfge4LQ2PwmvavD8GlxfWmyRKxfXpBdelIRaBi5r
-	pgpgkUA8UGRRkMNX3o0c67WbxvczxAbsDW7awjMEambaraDRBvSYGSi0TWlTUeY1BT
-	omIF0lcd7mbUWq8PpHCw32NWmZh2GamDlFVmVqazuSKaFsmNVSMbjFQYFUNv4WK33k
-	diQU7o/lWK5mA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id xSLTepOdgB1L; Fri, 17 May 2019 12:22:11 -0400 (EDT)
-Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id A682F1E5949;
-	Fri, 17 May 2019 12:22:11 -0400 (EDT)
-Date: Fri, 17 May 2019 12:22:08 -0400
-From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190517162208.GA9052@joraj-alpa>
-References: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ptest with BBCLASSEXTEND
+	Fri, 17 May 2019 18:11:57 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id d9so8126748wrx.0
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 May 2019 11:11:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=6gIxFNxnyonxuOCQiF2D7NeACZiBm3vfujnRqjAN42o=;
+	b=kNaw/m/eneSM8gwfHpb18ABCV4jY1lJCGBjB+16i5bK57j17i4ffn/jZLjdINNA44s
+	KN5L799Mh5t5niQw4lfmmpTR5661IfZyw4kv0/OhpEkHvYFU+gWvjp8yvYyHPY88C/xg
+	Ukg0l/d5Tk/d+ukKn885qmzEm/YDBxgAv3ZGAB6OeVw6ZoogiwJZTl0bsCVCeFt8rhwR
+	npIuuxELqTAtYQXKrrMLdR9gs7M6X8UXzdeGGgva+xDGZRYkkvPozOqUpBlrpfNt00EY
+	iBVKiXWV08w0VvBBIx4kzUVuYrdQrUEN0RyQuA0bHwaTX9jwCd89gwrxB2PfEJB6Rain
+	IlrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6gIxFNxnyonxuOCQiF2D7NeACZiBm3vfujnRqjAN42o=;
+	b=Tll9D0bRFSBzAhDA3QiY/GmQdBKkJoz+8XJAVpCTseC5Yop+oXOIJw9zMlFaCnsDB/
+	Jv3760f/yjch/Z/L7grH7g0iXESSgYye8XAkjSZk5xQg8hUpvAEn9Hya+vSMlNKSUFhz
+	wilrjENo/3Z/obbzW5QJxTWwWEyVFU7hv3glWVfCx4wAzhedkg6B7vK0k2PKS9TI8ZLM
+	/gOz96YlYf5awVl/OY7pRtOGMDtNXdn04Yunz2XLgVqvJHVAgBHh+tAFtYnNJjj901pt
+	6ygQc8yarzwLELzwls5rTiwlmb8D+8QZq41JJwU5/Rd1FK0fEVFsfP8f15yXu8jSh6pu
+	/tog==
+X-Gm-Message-State: APjAAAVARy6nTA0F9s1d5MkCaYDSo01IBGX9sbaEFic9UrIACj8DoCjJ
+	CJYrSa9NXuLrgGgtTkWlvQ0FkPwV
+X-Google-Smtp-Source: APXvYqxKFGY0mClZPg24DMXr4bM0AB1c1H8fLDe7CaKtni5KnaTWgQxj8sG3AF8UnP0G4xaqcX9rCg==
+X-Received: by 2002:a5d:4604:: with SMTP id t4mr35167371wrq.93.1558116718329; 
+	Fri, 17 May 2019 11:11:58 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	c63sm10188093wma.29.2019.05.17.11.11.56
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 May 2019 11:11:57 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 May 2019 20:11:15 +0200
+Message-Id: <20190517181151.44001-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 01/37] librepo: upgrade 1.9.6 -> 1.10.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,31 +54,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 16:22:12 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 17 May 2019 18:11:58 -0000
 
-> Its not fast to parse this creates about 59 variants of the image. Its
-> (ab)using the mcextend class to an image and add the ptest to that
-> image for each ptest in the PTESTS_SLOW and PTESTS_FAST variables. It
-> also adds openssh since we need an ssh client in the images for
-> testimage to work. I also had to add extra space and memory to the
-> image config so all the tests could work.
-> 
-> You can get a list of the target images with:
-> 
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../librepo/{librepo_1.9.6.bb => librepo_1.10.2.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.9.6.bb => librepo_1.10.2.bb} (93%)
 
-For the non-initiated, you will need to have the following in your local.conf
-for this to work.
-
-DISTRO_FEATURES_append = " ptest"
-
-That said, I should be able to take a look at the problem related to
-lttng-tools.
-
-Thanks
-
+diff --git a/meta/recipes-devtools/librepo/librepo_1.9.6.bb b/meta/recipes-devtools/librepo/librepo_1.10.2.bb
+similarity index 93%
+rename from meta/recipes-devtools/librepo/librepo_1.9.6.bb
+rename to meta/recipes-devtools/librepo/librepo_1.10.2.bb
+index fecedc981f6..43c1967c2ba 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.9.6.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.10.2.bb
+@@ -7,7 +7,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
+            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+            "
+ 
+-SRCREV = "7d8acd45eb09809a5ab729c312744da4b2fe92bb"
++SRCREV = "91ebe846b0320751a264116c36a665a8facf9e0e"
+ 
+ S = "${WORKDIR}/git"
+ 
 -- 
-Jonathan Rajotte-Julien
-EfficiOS
+2.17.1
+
 
