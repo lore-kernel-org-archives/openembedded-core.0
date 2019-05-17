@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id B47727DF13
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 6E78A7DF61
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:11:59 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id t5so6235579wmh.3
+	Fri, 17 May 2019 18:12:00 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id c77so6287478wmd.1
 	for <openembedded-core@lists.openembedded.org>;
 	Fri, 17 May 2019 11:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=+/hvThw8Q7Sk1Lpt3E0FaG+nIPlginPE/xhswSLUKSQ=;
-	b=Mjfuh9ak3ScYmSXO+cTKoX5NfuJIsDpFNc69bgcgh6MgrYtqJOwehmiX9XXgoep83Q
-	/8NP9V7sij/W1Ka9/rWuBQov/Zw/qFSBS5mOQQltcc6j5AHJ9IK0jk/dHuCL0Ytg4i3y
-	jrepYOT8ICBMzqXIrmpf6RZo2NSvu6GlfyIgd+w92dRC/W/GCJXJm5R30BOX9L6CdZPM
-	wGg3nYdzCKBcEFvEB81BaZu3U00YAhG6smlGpvF+jf2bVwhqVQDgPvwPo29JYDt1Ri4l
-	91Cgh5lcheSTjbgYOluXSQIlNiBosWdGeIUdLpPIGpk4mMr4ethXR5YtYrboB4W/k5ZG
-	jTFg==
+	bh=QIWyWB/k+WztqpIU4hcQ/9w9DWBJlUJOF/km4/2q/Ws=;
+	b=G13eHY6VnS9i4xgnjpHgEA4FwPVSSJbZaxE8htMOp+Pl2FaCfzy1kBKPVGv7LMUDjQ
+	1puBUt+k543lv/8sOLh2/SkC9sv6GyyIyw6FCUgFujeZSvpD9Y2cnCI25dXthJoNMMNE
+	l408pu0KI/HV2gLZUdRCVCclpL3chDjXMwcfzrCs6ZSwycfOncXzkYf9ttqqvfF1+rak
+	7KhXxUeOjQIU7BL14D3CbhFa2GInIjUUkWN9oXLgN1wS0onHEKltJyTPyJcYfyuC5Bp+
+	IAnSLTRV3+m89EJqGXxAQMUnp43dGnyYfKgDiNJCpMD0C3hK4+xVl9zSEA37lIkqyQTz
+	7flw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=+/hvThw8Q7Sk1Lpt3E0FaG+nIPlginPE/xhswSLUKSQ=;
-	b=q1qu0kWFwI3KEjRTkzv77DcId8q9+7ERNpTEwLCT/2r2fOWrEcYXFg9ayCRpTH5/pm
-	h8ggWCr63j7bx44CdKdWCrKIXAdg2IRjE0zav+Dzzi1EtEA7grNJIA8E3Ma6tcOT8A7S
-	Bl8BEvtGR/S77lxy9TiX1wz/uof9GgXxdCXBr1mMlaRXhcb/y2P8OsUyGw9x9TC+ZwGO
-	cu1JfEkGwKSbLAx7acLZv7PC2MoEGZiOpinm450lD6P1Otbq2r7TdN1vZ0hCT17OFWNm
-	oyhdJ8upUfolmBIGtUP6nzav19NZFmGgEz4P3bdgJTJO6H1DNd9iEecSRGq8Q2Np3MCY
-	emEA==
-X-Gm-Message-State: APjAAAWihllTQTFQxvwVTTDw5qELDMbX3H1gaiPtjyNS/TzYMgKbAHFP
-	MsnHpda/W5qC6SiHMUXv40TEUB9f
-X-Google-Smtp-Source: APXvYqymRBe8qicK08EhDjj6rIqhnzbCGPF1uDDqrsNVY/5s/+8CNL2zLED3UEf7xHFta8D7h9ULyA==
-X-Received: by 2002:a7b:c084:: with SMTP id r4mr3044663wmh.14.1558116720224;
-	Fri, 17 May 2019 11:12:00 -0700 (PDT)
+	bh=QIWyWB/k+WztqpIU4hcQ/9w9DWBJlUJOF/km4/2q/Ws=;
+	b=XP7deopM/q6+LOHZ861ly9ZZdVjDqmfjZTKySUQEDCJJ5CwMnk+cT78CAt6+OGpklB
+	w6QtwVu+ySE22Lofuvj2f4FUYV8hSSotaR51rcNecV3bhCkEndB7c57AuFg38MxXpH13
+	IIEtt9isTR64OiBGEfF4erwdjTyCw0V0WidxnC+2JGDT7wJI6Dr8zMG0LKA2tj/RI7zf
+	4MLU1QPxUeL0wvzHKWXa7e+wXjwiQeta3yOLjxJYYL+hiv2FRq7PCJ6mDgH+wsCjTTVD
+	g9fsJcxbzrOQe27uVOLcWQZkY1eUymZ1HUB98gI0xUM7Wvo6xGamS4sQcE0Ts6TABJGa
+	LX2g==
+X-Gm-Message-State: APjAAAUoMa8ZpFLkaVcAxZNfjhu4QOfF81FCXfybHyRLcf0sGa4yE+eX
+	6dtWMUp15bbG6JDNk+rzRK/ReBqT
+X-Google-Smtp-Source: APXvYqwDNRsK7gHEUM9yBX/JO+Z4YBLL4AntVWcCxhJmjZhXU2+mEDEsqJUnHck8eIyyhkQMzRensA==
+X-Received: by 2002:a1c:f515:: with SMTP id t21mr2612370wmh.0.1558116721010;
+	Fri, 17 May 2019 11:12:01 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.11.59
+	c63sm10188093wma.29.2019.05.17.11.12.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:11:59 -0700 (PDT)
+	Fri, 17 May 2019 11:12:00 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:17 +0200
-Message-Id: <20190517181151.44001-3-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:18 +0200
+Message-Id: <20190517181151.44001-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 03/37] createrepo-c: upgrade 0.12.2 -> 0.14.0
+Subject: [PATCH 04/37] libdazzle: upgrade 3.32.1 -> 3.32.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,31 +61,28 @@ X-List-Received-Date: Fri, 17 May 2019 18:12:00 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../{createrepo-c_0.12.2.bb => createrepo-c_0.14.0.bb}        | 4 ++--
+ .../libdazzle/{libdazzle_3.32.1.bb => libdazzle_3.32.2.bb}    | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.12.2.bb => createrepo-c_0.14.0.bb} (93%)
+ rename meta/recipes-gnome/libdazzle/{libdazzle_3.32.1.bb => libdazzle_3.32.2.bb} (73%)
 
-diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.12.2.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.0.bb
-similarity index 93%
-rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.12.2.bb
-rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.14.0.bb
-index c70523dca66..2a3007c38df 100644
---- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.12.2.bb
-+++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.0.bb
-@@ -8,11 +8,11 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
-            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
-            "
+diff --git a/meta/recipes-gnome/libdazzle/libdazzle_3.32.1.bb b/meta/recipes-gnome/libdazzle/libdazzle_3.32.2.bb
+similarity index 73%
+rename from meta/recipes-gnome/libdazzle/libdazzle_3.32.1.bb
+rename to meta/recipes-gnome/libdazzle/libdazzle_3.32.2.bb
+index dac59f86b31..58e78a5b789 100644
+--- a/meta/recipes-gnome/libdazzle/libdazzle_3.32.1.bb
++++ b/meta/recipes-gnome/libdazzle/libdazzle_3.32.2.bb
+@@ -7,8 +7,8 @@ inherit gnomebase upstream-version-is-even vala distro_features_check gobject-in
  
--SRCREV = "5b4c06f6af24633f667da37455281f24a4abd461"
-+SRCREV = "8cffea9751b14366a7f6f3664f5d39fe4f0f9253"
+ DEPENDS = "glib-2.0-native glib-2.0 gtk+3"
  
- S = "${WORKDIR}/git"
+-SRC_URI[archive.md5sum] = "5f6455ebc47e86f63b9579997137f391"
+-SRC_URI[archive.sha256sum] = "238da19fdcc3ae9bb0c2d781d099fb8c6ec70c4dd3dffad80d230344ecc3f972"
++SRC_URI[archive.md5sum] = "b5c99a8f483a0defe7c7124a3220e412"
++SRC_URI[archive.sha256sum] = "413f8dfb8706760e0c649e2994bd10524ac0736601dd03ad2036293bed3bf141"
  
--DEPENDS = "expat curl glib-2.0 libxml2 openssl bzip2 zlib file sqlite3 xz rpm"
-+DEPENDS = "expat curl glib-2.0 libxml2 openssl bzip2 zlib file sqlite3 xz rpm libmodulemd"
- DEPENDS_append_class-native = " file-replacement-native"
+ GIR_MESON_OPTION = 'with_introspection'
  
- inherit cmake pkgconfig bash-completion distutils3-base
 -- 
 2.17.1
 
