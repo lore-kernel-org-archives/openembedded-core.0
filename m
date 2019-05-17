@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 640017DF84
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 29B1A7E01C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:12:21 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id j187so9851982wma.1
+	Fri, 17 May 2019 18:12:22 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id c66so9845926wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:22 -0700 (PDT)
+	Fri, 17 May 2019 11:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=i3XHOkztN77p4HC7OxZvSCYxfHm6G/rqhxlYabHQsAU=;
-	b=AWi3OaXZhY3kS1KAAIzFruf6JfBgqb0fHK/6R9a2mo5sst6z4iFY9efQHKV+JljhAU
-	eSACI9bm0mje+htYgPdDbtbYrxlu2hRELvsPZyKW36gz1weAdbpw+CWyaeMkKHXiHpiY
-	5qlZlcmurwcJryYkQMkb/uapqEdJ4AYszvOMepRt9d82nHXvJiuS6U+sy9pZPk8hE8xy
-	Q4YYxxNfRhEg22HYc3PvbTtaDuNDCzSy7KcViqeRhlqFBLqyAEsOZ7q6e2phZFX4XEdR
-	ObSL8CTJuMF3FI0cHBB0sTo27tEoLqFTLW7qsgOk1JEkCPlFjO4xZIvy9dzUmBbHqSew
-	TIug==
+	bh=025G51MF9QDvO0idZFPwxclL6HxAGRdn6e8ltjaqy/g=;
+	b=Go6mHqtSPrshgVfCi2qscj0RKVzLWj/v0cVh3/PHJc6xbohLxJIElURAK8Y1a4QV9q
+	60ZueA3PI1OCqtRw/Mm25unqBPte+qjGJ5INCsky/xuPIQ+JhlpGynKENnC5vbemiBXE
+	Z3Q6sahA2bkn1qWy9RR+vEoGryOrArzQ/nroh9fDRbjfzEuxk6EirdsQOqKasAHsj5F5
+	+HI67sDsv4X3TLIbMe1rDUr0Da4vZcnfiqACsAgqt6sObMqNWWyR4dOxD/gpunJGlvSa
+	X2wntZ18RWde4gjz1AHK6rLOnHv0q3SlD2s0eIVRxPPLPaTkUb5D6l2bONi1zLhPXXZI
+	EzzQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=i3XHOkztN77p4HC7OxZvSCYxfHm6G/rqhxlYabHQsAU=;
-	b=iBUTZIC0j/OPGVOumkE12DVHrzzEO18yvu81unl98D5QRlbL3kXcnEhos1bAiRJFvQ
-	hMJmj+vfnP2V/TKOCkzeQ6Ul5+MasB4EeJ5iX19k7UAfK/qmqs1xvd7/bzXTx8oCwNfO
-	UeuX6WCfI9hSb0xDDOtqME4KyCfVRES3KKg398B/TiHVNaEUKpwNh+RD82hJPIbiWtZ+
-	H1s9y3sAbiwGngt0ozES0TqZiAA0S6WHh+3Qf2rSy5Il3fo7JXn2eKq4yv1yNd2zVVXd
-	jjgg0olKRpPiSTmTrqQa1j+b/BBFjDiIMtxkX25g2fZemAS1eF7dgeOlPxGX7xE5eKLp
-	2Azg==
-X-Gm-Message-State: APjAAAU1qByDN9KQeo5DDCBnYp4hU9ORyZMfLOaf0ngdVcQwV2WrK03l
-	DkXZ//2qlclD6R4DafdK5/3NEXuf
-X-Google-Smtp-Source: APXvYqx69XP3MF8IalMGcrwyWvUKgF/zTBgJDXtYIEV4zHVN12PCVKEGGaHslqh5N61lggcv75iP8g==
-X-Received: by 2002:a1c:1a47:: with SMTP id a68mr3076671wma.88.1558116742074; 
+	bh=025G51MF9QDvO0idZFPwxclL6HxAGRdn6e8ltjaqy/g=;
+	b=KaxtCtyH58+nldTBUceOeqF4DAZg043w3IAUJQLLMoZVwwph1qF8ulcc31Y+rdLRJI
+	iYbH2t4WGDnz+68prnWuY7UxmiYCCUwmSebQ9Xw6my7LmBxiPkkhKHaXGgUR+wfyLPBU
+	qMEMZxthpASyJSsCNTmXT2bIeDKZ4zPyTnEbGlJ14VkVkJ1dGiK0/I4HpoVagFxt4ka+
+	5V2WTH32JFK7QdFlxRrZsYyA9JC+/MWFFrXq2NfmS5sPoX68VHCGCqvLhS4Hp30kiaTe
+	optxnGFPBCVZReJ53A6u3mixf2S1GxNl4O33NDTrQPUZVErIXZ36HFY+Wt3/PybU/Pgc
+	/Onw==
+X-Gm-Message-State: APjAAAVZ4z2HSusZMrXId0AfNxAv0qtUH5+dii4OX/8RokLh2OB9SI+B
+	In4Kl9ngxMhpotVFQ/QAWPvdfyCQ
+X-Google-Smtp-Source: APXvYqz1qQ2tWh9OF37dVcQxAGd49LPkvSq+6fq+sXZ+f1LaVwsxk0QpZhql4WjMH+lyvG9uHlTSrQ==
+X-Received: by 2002:a1c:c8:: with SMTP id 191mr3019542wma.6.1558116742788;
 	Fri, 17 May 2019 11:12:22 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.21
+	c63sm10188093wma.29.2019.05.17.11.12.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:12:21 -0700 (PDT)
+	Fri, 17 May 2019 11:12:22 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:41 +0200
-Message-Id: <20190517181151.44001-27-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:42 +0200
+Message-Id: <20190517181151.44001-28-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 27/37] libsoup-2.4: upgrade 2.66.1 -> 2.66.2
+Subject: [PATCH 28/37] x264: upgrade to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:21 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:12:22 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libsoup/{libsoup-2.4_2.66.1.bb => libsoup-2.4_2.66.2.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.66.1.bb => libsoup-2.4_2.66.2.bb} (90%)
+ meta/recipes-multimedia/x264/x264_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-similarity index 90%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-index f0043f80b3e..c4715a04125 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-@@ -12,8 +12,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-Do-not-enforce-no-introspection-when-cross-building.patch \
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index 34c7dc4f789..f22930a0ee2 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
             "
--SRC_URI[md5sum] = "5f04c09a06f6dbe4c4d3f003992145ce"
--SRC_URI[sha256sum] = "4a2cb6c1174540af13661636035992c2b179dfcb39f4d3fa7bee3c7e355c43ff"
-+SRC_URI[md5sum] = "66c2ae89d6031b01337d78a2c57c75d5"
-+SRC_URI[sha256sum] = "bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a"
+ UPSTREAM_CHECK_COMMITS = "1"
  
- S = "${WORKDIR}/libsoup-${PV}"
+-SRCREV = "0a84d986e7020f8344f00752e3600b9769cc1e85"
++SRCREV = "72db437770fd1ce3961f624dd57a8e75ff65ae0b"
+ 
+ PV = "r2917+git${SRCPV}"
  
 -- 
 2.17.1
