@@ -1,47 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D966F7DEA5
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BEDC97DEA5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:11:57 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id d9so8126748wrx.0
+	Fri, 17 May 2019 18:11:58 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id b18so8029113wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:11:59 -0700 (PDT)
+	Fri, 17 May 2019 11:12:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=6gIxFNxnyonxuOCQiF2D7NeACZiBm3vfujnRqjAN42o=;
-	b=kNaw/m/eneSM8gwfHpb18ABCV4jY1lJCGBjB+16i5bK57j17i4ffn/jZLjdINNA44s
-	KN5L799Mh5t5niQw4lfmmpTR5661IfZyw4kv0/OhpEkHvYFU+gWvjp8yvYyHPY88C/xg
-	Ukg0l/d5Tk/d+ukKn885qmzEm/YDBxgAv3ZGAB6OeVw6ZoogiwJZTl0bsCVCeFt8rhwR
-	npIuuxELqTAtYQXKrrMLdR9gs7M6X8UXzdeGGgva+xDGZRYkkvPozOqUpBlrpfNt00EY
-	iBVKiXWV08w0VvBBIx4kzUVuYrdQrUEN0RyQuA0bHwaTX9jwCd89gwrxB2PfEJB6Rain
-	IlrA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=+dB1dlYscQjhsAYOuCVXPLo7IQpT07Qu3Lj0QblzC40=;
+	b=O4+rAzztZsR7eNL3DV5lKQIuaJLWTbQ7rsNUH6Z1UM5hhh5TWr8EUwA/GKc4GQ9ODD
+	80o/JKrgfes8goro2I+/gFGcxOcKCJm2BOqFsNFshb86qeFJqSFy141No3YyeyndkYs0
+	iqy2lGHr940f+MaDQsHrEQ4wSlO2XjgoMP6oiU7sV6+gi6yH9C5u6mXJ2yAeeONsRhI6
+	y28YhFlx+Pn88vFCLvzJus8c51m43m37uLRagDtYZN3rMcdiqprJozFEdT9EgUwNuSZ8
+	dODFPaoaAhMIOJXKqbP+mu31PkgGdQV3Uovmzjn9OdA/yItsxvDC69kwJ8E63mdd28mt
+	5UuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6gIxFNxnyonxuOCQiF2D7NeACZiBm3vfujnRqjAN42o=;
-	b=Tll9D0bRFSBzAhDA3QiY/GmQdBKkJoz+8XJAVpCTseC5Yop+oXOIJw9zMlFaCnsDB/
-	Jv3760f/yjch/Z/L7grH7g0iXESSgYye8XAkjSZk5xQg8hUpvAEn9Hya+vSMlNKSUFhz
-	wilrjENo/3Z/obbzW5QJxTWwWEyVFU7hv3glWVfCx4wAzhedkg6B7vK0k2PKS9TI8ZLM
-	/gOz96YlYf5awVl/OY7pRtOGMDtNXdn04Yunz2XLgVqvJHVAgBHh+tAFtYnNJjj901pt
-	6ygQc8yarzwLELzwls5rTiwlmb8D+8QZq41JJwU5/Rd1FK0fEVFsfP8f15yXu8jSh6pu
-	/tog==
-X-Gm-Message-State: APjAAAVARy6nTA0F9s1d5MkCaYDSo01IBGX9sbaEFic9UrIACj8DoCjJ
-	CJYrSa9NXuLrgGgtTkWlvQ0FkPwV
-X-Google-Smtp-Source: APXvYqxKFGY0mClZPg24DMXr4bM0AB1c1H8fLDe7CaKtni5KnaTWgQxj8sG3AF8UnP0G4xaqcX9rCg==
-X-Received: by 2002:a5d:4604:: with SMTP id t4mr35167371wrq.93.1558116718329; 
-	Fri, 17 May 2019 11:11:58 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=+dB1dlYscQjhsAYOuCVXPLo7IQpT07Qu3Lj0QblzC40=;
+	b=ZDOvprx2IybjtGqsZTixYAegPaSKnKiJRcShto4dE45lkWJ4JKimsKhv3LWQl1XT2x
+	tOyMP/xktekIBN/LakzoHK/rFt1zkzJ5lbS4zqnIURlZHk5pw3dBEIJHlQ7uAUhnEFG3
+	i/aQ2n7B85CVAkNIF1Cd0z+mxyY7Z2fFf/a/bDXMudD2Y1BO2F623crCmryMePxxSeRe
+	dce+61c8mcVkET3udSLCXyEBiZSOHcf1CaJOjjNIJw6llBjMRl13/Krq1yTW2hBq+Xw2
+	DEQ8QmpirTWr4TNbvfuHxPLQE/fmkQ57I4K1rBcaBDvdI1MbAFbfYWOeRlneaJc+HXx2
+	PLKA==
+X-Gm-Message-State: APjAAAUNwkz9lT7NYX+Q22C5b9J5JrwMv1t6XYFqyYYzpwwQmDs/nl3W
+	P1Vu93LXxHl9jYBezARFATF+5EBm
+X-Google-Smtp-Source: APXvYqwsiugmcfzCh9iKfITmDONbyyMEx2yainGcBir9Yceb7j0/oJ86HOIm2EtnFHXF1R7wY6SakA==
+X-Received: by 2002:adf:ebd2:: with SMTP id v18mr17031863wrn.108.1558116719279;
+	Fri, 17 May 2019 11:11:59 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.11.56
+	c63sm10188093wma.29.2019.05.17.11.11.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:11:57 -0700 (PDT)
+	Fri, 17 May 2019 11:11:58 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:15 +0200
-Message-Id: <20190517181151.44001-1-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:16 +0200
+Message-Id: <20190517181151.44001-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH 01/37] librepo: upgrade 1.9.6 -> 1.10.2
+In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
+References: <20190517181151.44001-1-alex.kanavin@gmail.com>
+Subject: [PATCH 02/37] libmodulemd: upgrade 2.2.3 -> 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,29 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:11:58 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:11:59 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../librepo/{librepo_1.9.6.bb => librepo_1.10.2.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/librepo/{librepo_1.9.6.bb => librepo_1.10.2.bb} (93%)
+ meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/librepo/librepo_1.9.6.bb b/meta/recipes-devtools/librepo/librepo_1.10.2.bb
-similarity index 93%
-rename from meta/recipes-devtools/librepo/librepo_1.9.6.bb
-rename to meta/recipes-devtools/librepo/librepo_1.10.2.bb
-index fecedc981f6..43c1967c2ba 100644
---- a/meta/recipes-devtools/librepo/librepo_1.9.6.bb
-+++ b/meta/recipes-devtools/librepo/librepo_1.10.2.bb
-@@ -7,7 +7,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
-            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index 40715c06ee2..d7f486868b8 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -7,14 +7,14 @@ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https \
+            file://0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch \
             "
  
--SRCREV = "7d8acd45eb09809a5ab729c312744da4b2fe92bb"
-+SRCREV = "91ebe846b0320751a264116c36a665a8facf9e0e"
+-PV = "2.2.3"
+-SRCREV = "4c75c6f8b39ee57aebe8fd36ef84808e893048c0"
++PV = "2.4.0"
++SRCREV = "d0a3eda45e083e8fe8b329a2310a53abdbf1e4d6"
  
  S = "${WORKDIR}/git"
+ 
+ inherit meson gobject-introspection
+ 
+-EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true -Dbuild_api_v2=false"
++EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true -Dbuild_api_v2=true"
+ 
+ DEPENDS += "glib-2.0 libyaml glib-2.0-native"
  
 -- 
 2.17.1
