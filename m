@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 650307DF4A
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 441727DFE4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:12:10 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id i3so7764458wml.4
+	Fri, 17 May 2019 18:12:11 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id n25so7198231wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:12:11 -0700 (PDT)
+	Fri, 17 May 2019 11:12:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=8BETtvugiOtbAQV9qFZGMN2OEwpDaIAl4W1lmGnJvec=;
-	b=QYxoQ6pYx3L7pdNP1+VSH/NAAQtCc1FprQ3sidEj/Rv1N07Sj0qrui4OKnRsc9FAAs
-	ZAWsVu0sWLn+7Jy6moUynPuQdf1KO/yMq0k37mCZ4VN+6z7myX7PpkOAj+h1CbcOYk7V
-	U0QFik6HDLgUR3yFrDV6ytzQCzTIXHJkv6PuXnng43rtUgei5fPBAqcvqXc23yHjehV3
-	szSOiQGTbLFhys0qYHfm8kZgxOeH1ZS+E1//S5puLNfkjPhiwOhxnSsWf0jywK442uWw
-	IzdbIUjssCyjFmZNt/bQ0i0xdvbloYaYiJ1hjmJ9BtmvGLkDNqdOqX+dw0xYU9Cz1G6d
-	aMGQ==
+	bh=ftRfGxdBJT+99sQO8E6+WQFGCCkvx6E+Shf3kld6pYk=;
+	b=lMLH9f5Epn7xgxfLVWYUbcPuimQLzasqPO4gB3+wTIgUtWu4X08HgdllatnsOHQsWO
+	L5H0U9RfbPeaXajenKJPF82otTeUPDY57fy0FZo3dwpNIA5d9S4P66YGQ75wyRsOkyHY
+	a1RbzJky3sTr2jy84iepg/llJ4w0+y5gJDfnMBcUm1t9ENF8UhcXZTzo2ACc6qb6eS0k
+	IdofNLPjWUSult/mR7ijbmgwm+qWa3kvPabwQXGY64PiLiSvHSk3pxeyGPJrFbR4jHoR
+	9iFGP1biFz3iEOHPn5Jv8ve1Uhw6wEmyT3L6uBmdn4HZmSSfexE9i4AaH71rPaOeliSr
+	UUCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=8BETtvugiOtbAQV9qFZGMN2OEwpDaIAl4W1lmGnJvec=;
-	b=hv8rl4/HSVlc0vaqqSYXKxaEtQGd024ZC4YQEbwRu73Td8HNnC/3Yh8Muh9dBW0IMl
-	PYC/wTGj76hXCd3/8LDhIqxCQAoqmxd7c/iOI3xxIwF3NluQbEoAJ17g3zlwpgeR4MgE
-	zmShym+Azqzy2ui6Ezdmv31VqL+Abb7zyrCBrzqvAtHbV4p8/OQgefgj/lIx/WbW/0bh
-	fPTjsfpwo/Q2kvHvR+FH5kErszvNWuBIfz7IeufzgYDaoVRWWEooLGO0/KGmHVuxWHlE
-	YQDNSD4rimPr5ms6E5zRHVBeAbCSeNGKsQeUnBL7Rz1DJmQ/iQrdRWzN+XIXgpLYBhQh
-	TObQ==
-X-Gm-Message-State: APjAAAW8IAKzmmWa0haBWnAap78bK3m1ulYzs3NCZCdvVJ4WSRCgt/h3
-	AQfodBq1KU70FW0W+c64YL90ee9j
-X-Google-Smtp-Source: APXvYqzlQtJCd5lRQDtnbXs5LTLAxpYRHqTY1s4LEDJQZYImS00N9r1+opNz0m9wRM/Rxeuo7jqXoQ==
-X-Received: by 2002:a1c:9689:: with SMTP id y131mr34420377wmd.74.1558116731013;
+	bh=ftRfGxdBJT+99sQO8E6+WQFGCCkvx6E+Shf3kld6pYk=;
+	b=AkBngUmo7DepSsko6d6N/vhl1flqdkX+Ok5eYIMPTtNXpSJ5PNY6M2ouNgamrEIpod
+	DjzxxbqyM1Cz1IdJ7J+sSkWd/f/BKq/XSzjlWGHQQgHL29+dR06yQ07mhxt9vPKT0G7z
+	sXrkZCvBKd8a2Ysg0GaIc/vj2XVqmW5izlWwdrsCKyHqfc4vy+n0rirEUV0wuI1stZmN
+	me1WQ6v2+5Rz2FFs5R5gHOpECrldvBEoTXaicxpPsPKG8q/BcklcY0MB0rWuDrj/TNKM
+	D9ksMc6y4oOh9sQSCIxMRYiLFy5QYW7Enwopol/qqK7woSzxQNcB/7E5qWoiLp+Gzbj3
+	SL+A==
+X-Gm-Message-State: APjAAAW6z02HUM7E5db1PTlf6L+8sARp6drRE4Bz7vR513j2eU+FuwGW
+	KoC57QBDf/AYbrpuwdYx+FcHSJTk
+X-Google-Smtp-Source: APXvYqzxM9dNu8dzV/xFwhHM/A4SnhPapGf6qa5m5z9tYiBn+VeOEGm5/eMIMEvRf5NaNEcjHCJh6w==
+X-Received: by 2002:a7b:ce84:: with SMTP id q4mr3124646wmj.41.1558116731783;
 	Fri, 17 May 2019 11:12:11 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	c63sm10188093wma.29.2019.05.17.11.12.09
+	c63sm10188093wma.29.2019.05.17.11.12.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:12:10 -0700 (PDT)
+	Fri, 17 May 2019 11:12:11 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 17 May 2019 20:11:28 +0200
-Message-Id: <20190517181151.44001-14-alex.kanavin@gmail.com>
+Date: Fri, 17 May 2019 20:11:29 +0200
+Message-Id: <20190517181151.44001-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517181151.44001-1-alex.kanavin@gmail.com>
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-Subject: [PATCH 14/37] alsa-plugins: upgrade 1.1.8 -> 1.1.9
+Subject: [PATCH 15/37] alsa-utils: upgrade 1.1.8 -> 1.1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +57,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:12:10 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:12:11 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../alsa/{alsa-plugins_1.1.8.bb => alsa-plugins_1.1.9.bb}     | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.8.bb => alsa-plugins_1.1.9.bb} (98%)
+ ...lsa-utils-scripts_1.1.8.bb => alsa-utils-scripts_1.1.9.bb} | 0
+ .../alsa/{alsa-utils_1.1.8.bb => alsa-utils_1.1.9.bb}         | 4 ++--
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/alsa/{alsa-utils-scripts_1.1.8.bb => alsa-utils-scripts_1.1.9.bb} (100%)
+ rename meta/recipes-multimedia/alsa/{alsa-utils_1.1.8.bb => alsa-utils_1.1.9.bb} (97%)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.8.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
-similarity index 98%
-rename from meta/recipes-multimedia/alsa/alsa-plugins_1.1.8.bb
-rename to meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
-index 2d9cc06f585..b94fc5cee32 100644
---- a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.8.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
-@@ -21,8 +21,8 @@ LIC_FILES_CHKSUM = "\
- "
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.8.bb b/meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.9.bb
+similarity index 100%
+rename from meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.8.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils-scripts_1.1.9.bb
+diff --git a/meta/recipes-multimedia/alsa/alsa-utils_1.1.8.bb b/meta/recipes-multimedia/alsa/alsa-utils_1.1.9.bb
+similarity index 97%
+rename from meta/recipes-multimedia/alsa/alsa-utils_1.1.8.bb
+rename to meta/recipes-multimedia/alsa/alsa-utils_1.1.9.bb
+index 96d54e593ad..03b5c8de30e 100644
+--- a/meta/recipes-multimedia/alsa/alsa-utils_1.1.8.bb
++++ b/meta/recipes-multimedia/alsa/alsa-utils_1.1.9.bb
+@@ -21,8 +21,8 @@ PACKAGECONFIG[manpages] = "--enable-xmlto, --disable-xmlto, xmlto-native docbook
  
- SRC_URI = "https://www.alsa-project.org/files/pub/plugins/${BP}.tar.bz2"
--SRC_URI[md5sum] = "d0f87211d1560f2c07c8eae4297bc4f6"
--SRC_URI[sha256sum] = "7f77df171685ccec918268477623a39db4d9f32d5dc5e76874ef2467a2405994"
-+SRC_URI[md5sum] = "e0caffbd849c51ed81751378f56cb563"
-+SRC_URI[sha256sum] = "161772303da521abbbf1d91f63b470c4791392d5728f2192a42d71292078f907"
+ # alsa-utils specified in SRC_URI due to alsa-utils-scripts recipe
+ SRC_URI = "https://www.alsa-project.org/files/pub/utils/alsa-utils-${PV}.tar.bz2"
+-SRC_URI[md5sum] = "54d6f9b483144823d0fc0c26e8cea028"
+-SRC_URI[sha256sum] = "fd9bf528922b3829a91913b89a1858c58a0b24271a7b5f529923aa9ea12fa4cf"
++SRC_URI[md5sum] = "5ed21c3e296c06046cc986e732f625f6"
++SRC_URI[sha256sum] = "5ddf2cbddb4bd1a4a2a6492a09c25898b08c3ad64893c3655be14194cf0a213a"
  
- DEPENDS += "alsa-lib"
- 
+ # On build machines with python-docutils (not python3-docutils !!) installed
+ # rst2man (not rst2man.py) is detected and compile fails with
 -- 
 2.17.1
 
