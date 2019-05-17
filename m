@@ -1,48 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
-	[209.85.167.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 0FE797D44D
+Received: from mail-oi1-f193.google.com (mail-oi1-f193.google.com
+	[209.85.167.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C70B7DEB1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 18:42:58 +0000 (UTC)
-Received: by mail-oi1-f196.google.com with SMTP id m204so5926495oib.0
+	Fri, 17 May 2019 18:44:16 +0000 (UTC)
+Received: by mail-oi1-f193.google.com with SMTP id z65so5856026oia.11
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 11:43:00 -0700 (PDT)
+	Fri, 17 May 2019 11:44:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1NzzmhNuso2pbliLKVq2LFxGmIYUBfqRy2awsKfIgGA=;
-	b=hcQj5IV52A7j+e/aMDhF04ahIZs46wOGS4X8+3GIbfX8+GvCH52S+FTArKYnBHydjd
-	bQn0Cbr4V8hvtgFhc+RPEcJSBjjahE5Zs7U16AE0bZ6zgrYHVvkHrlzGUjnNgtn82Xvj
-	fGC2y/qclUepARSzCPUxqAgo7Wbuy3st3kAfYxWQMO96J3lqKFXTT2AVgr+5jtquQfBQ
-	crK427bEATDcObiFjpIjrnnm+OpFHGzaqV/SLXhWZ40948MIYKHCX0recK/ha12onAe8
-	FD/JBSF7NEyfbLh8/Q/8qTPWCWsvNc93TUur/dLvN2MtXGvUVPDrzDN7kLCNJrF5RiW3
-	2/rg==
+	:cc; bh=HPQ0FGiIif7JXAM1lk/OuT2uSzqFaWPOy6NX/YSSHtM=;
+	b=ZWB3GKHVQtbZc1I7H8jd84SNydZDzrXwB+8uudUWpgAogQzv3xEsAIU4DMRpRMaBOg
+	EL3PwG/KOC6yeN4TxLqc1wezI/bw0BPjY2y6KOR4rkDoN/qUi1NzKk+8iHxSuKtJvFeB
+	MMGEzZ52cjZhLdiftjUUtZ/UQC2V7QqaoPdw+PpGhd+yRe4K918pjvc7j7d0csPVS/oo
+	qSP3jRut0I/nV3i1eE+joQ9B6A0KJ+lDFk2ADWPQ3Nz+3ZPJY59phHgCRee7QuEHjyvy
+	AmMS4F3wLHdtp4zckmajiboc+Cpv+d8ocIAiPKkeF/9fLIZ4lMhx+R150/pX0au8V434
+	oaVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=1NzzmhNuso2pbliLKVq2LFxGmIYUBfqRy2awsKfIgGA=;
-	b=JF4+ANYZibC4h5TMAug687pAyzy7kBEDyMJVKpdgEPM8drUtRwA+6eRmsY974NBdVW
-	hLQgeULKvzp+Ft9QZD4+eDOxzNqTQYDuydiS833e/Mq+AXhZt7yyailAATYFc2RooLSv
-	cLfT2ar8Eobd9xt70O6xc5cUOtWXK7xFMhTo8KpUa3WzlmbUGUO+DFZQtfnzlj1KQGSO
-	BFDgtIOgtKbRWsVQbLdtXV1o8xp4nYGQVWC/SO/szyN9iQim715ZapiTcA/y/CVS0lX6
-	u1u/88bSFWljklQO2D5uSlcZ7jmjEzOssvqtNQH4Fpk3D75Ll2wSX+ZHJtBdgbZGzn2O
-	9jSQ==
-X-Gm-Message-State: APjAAAUxidh2YfEdiPjqWnGgwuvqUpgBmn9iiisRNMnMA0cLAZz8nqIu
-	XlE0+eFZyoJa5JbvtC1JoVKNYX192b6qrfuf+yE=
-X-Google-Smtp-Source: APXvYqwnTSHREsD9toNUKncrPXw62bfi5Gmk9b4l1X5DXqMjgET9z6tFNRkpOpFAkOhQa0iV9vOxtAIHvpdH83Qo+uA=
-X-Received: by 2002:aca:50d3:: with SMTP id e202mr15040488oib.88.1558118580037;
-	Fri, 17 May 2019 11:43:00 -0700 (PDT)
+	bh=HPQ0FGiIif7JXAM1lk/OuT2uSzqFaWPOy6NX/YSSHtM=;
+	b=VPmqvOZncXnjHqGkBq34Qf+yJBfLbJ5rTiaaT76MSw7wxTYJxzIVOW6b+OsxJYA3nm
+	rHHfOR9SP8/rfWSwM0Tc2HPprTcctOV6AcQ8ndHTjn2LJsPhv+azHEtOBKdxK4Ej7FxF
+	RJTO0F2e5QMb6OIXIaHERTrURGr5XERwKk1Vxhbism0hwJVNdnFYKMoO05441cMGczi4
+	l326ZLnd6AYVVwDHG/ZyeROZOOX+uF4lJIZJfEIiTxP/HiU+ymWPhL3tKe40wj0Jt8OZ
+	kc0GWfdQqQ4oB9rHzD1vOZbRX2CxHQ66Ewmi7RM55y5XzWPqvJAFOTNIKG3fU/wZJvs6
+	JCBQ==
+X-Gm-Message-State: APjAAAVFZL1O3Z7PMkM/FtQ8xj1kw/j0/BGHEUsv9bDlOViQIOWVQOJk
+	Gt8PadSRk4yKGKEGW0ivfl6sJISWq8lU2A/7655b/Q==
+X-Google-Smtp-Source: APXvYqz6N1YVsL3BUNVpRGQVNC5BFMid866P8StbCRDWjyx3+iBaylNdasIpZo1IIPAuo2sNlZqdW0th22jcnHS1r6I=
+X-Received: by 2002:aca:c450:: with SMTP id u77mr3368795oif.119.1558118657611; 
+	Fri, 17 May 2019 11:44:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-	<20190517181151.44001-11-alex.kanavin@gmail.com>
-	<4723f59c-19d4-fafe-fa56-ee0e564d220b@gmail.com>
-In-Reply-To: <4723f59c-19d4-fafe-fa56-ee0e564d220b@gmail.com>
+	<20190517181151.44001-12-alex.kanavin@gmail.com>
+	<6bf67e9f-d806-5d06-a455-44211956df94@gmail.com>
+In-Reply-To: <6bf67e9f-d806-5d06-a455-44211956df94@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 17 May 2019 20:42:49 +0200
-Message-ID: <CANNYZj9WHrGT8gaBXRA4vcM7kEe6kLsDmdnZVfgd-BnTMymmXw@mail.gmail.com>
+Date: Fri, 17 May 2019 20:44:06 +0200
+Message-ID: <CANNYZj8Yb9Da6y_S2mdvvVM4XsCw7wB-cmWu2Fis7C4EqExjHA@mail.gmail.com>
 To: akuster808 <akuster808@gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 11/37] go: update 1.12.1->1.12.5
+Subject: Re: [PATCH 12/37] systemtap: upgrade 4.0 -> 4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +55,18 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 18:42:59 -0000
+X-List-Received-Date: Fri, 17 May 2019 18:44:16 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 17 May 2019 at 20:25, akuster808 <akuster808@gmail.com> wrote:
+On Fri, 17 May 2019 at 20:29, akuster808 <akuster808@gmail.com> wrote:
 > On 5/17/19 11:11 AM, Alexander Kanavin wrote:
 > > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > ---
-> >  meta/recipes-devtools/go/go-1.12.inc | 6 +++---
-> >  1 file changed, 3 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
-> > index 0cf0a63ff65..7c4cac1fc25 100644
-> > --- a/meta/recipes-devtools/go/go-1.12.inc
-> > +++ b/meta/recipes-devtools/go/go-1.12.inc
-> any indication on testing?
+>
+> was stap.py test run?
 
-go-helloworld builds, and so do various variants of go recipe itself.
-
-> any reason why 1.11 can't be dropped?
-
-This is up to Khem to decide. I just wanted to not throw away AUH
-patches that were verified to build without errors, because due to the
-vim snag they weren't mailed to maintainers.
+I assume the autobuilder will take care of this. For this batch I only
+checked that things build, otherwise it'd be just too much time to
+verify each update at runtime.
 
 Alex
 
