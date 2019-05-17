@@ -1,37 +1,52 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B94007E02A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
+	[209.85.215.174])
+	by mail.openembedded.org (Postfix) with ESMTP id D98847DF84
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 17 May 2019 21:43:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 455MGs1rhKz63;
-	Fri, 17 May 2019 23:43:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558129397;
-	bh=NE8zTw33nFM/VGILko3UXPFIkcXbaob88nbqta8+TYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ABbl/NLNo+/4PW1OuZtKmyLb78MdPlxsRafKIlltUX9MuFjFP1s0fbR7vYz3VKmiX
-	Xmm+Lap38UUlW7r7xjCy92ytdZwnl1KvJn4nXxYYYuGQzaT557DSccjxZGHyFYFKFR
-	O+QNKHHH/KD4y7iGIwo+Xe5gRBhyLsj0jga4qNfK/GCphyOZJY+kLLqVXFRoopOEZY
-	znDxGC7VBD7VyC2nN7IMjTG85QPHdXKEe5WOpqi3YZTqFhkFIoam9eUj/XHvF+/iMH
-	tLbZLBPzKDzbjzcOVGAlaiw7bcV6gPNLFUINk0fklf7WffRX1mB2ZM26AKIZQJxZEb
-	IGlOuiof+EiByXaj1UIZT0HkicUZkiGjdkjEvDzmHHYzCPgDS9epqfycPAxsX27UYg
-	+czJ0Si/xrtyrgUSg96birZ42KTY4UEVzuvuRwmFX4cpsiZvIHxs/q05v/NzBS6JFG
-	MgzEvKiz1iLvb9CbPAZolOv2ssLmuqzeCXsTWId/kK+wG9orPw1itypJQrniyZfeZN
-	7RQeh9DbpS5+DLZLBnDDaIJKzoGTxx7GlGYWEYopCIpJHuA1DkCsMEYTbm2AhQRUoC
-	LzxaHWdDLfTpl0wF/sSB3vft73IEikshe4yNwgdI7VnOOfEtW90J0jl9w9q6wj+/xu
-	glVQeHD2joEz/2ZZIoiZr88A=
-Date: Sat, 18 May 2019 00:43:15 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Message-ID: <20190517214315.GB1047@localhost>
-References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-	<20190517181151.44001-33-alex.kanavin@gmail.com>
+	Fri, 17 May 2019 22:49:06 +0000 (UTC)
+Received: by mail-pg1-f174.google.com with SMTP id i21so3932415pgi.12
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 17 May 2019 15:49:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=a4RpvoDG91oue+ZpGvhXtVjzqC0PzdZfM0vUyMmi9qM=;
+	b=RziiYO8CvKa5k3aytkxVIsrNCZ47jDjPoZ28qa94nZ8sqzBgbNUCcVLn1l+RB6wwju
+	bgIkKiNCbmmeMSX4UKfwLyYDHyZs4JqTz4K9aXL0fLlVfA3HbhyNKvR7+j1a9n9ysAsM
+	Oy7SMKYtBFMfAoy/AUZQHUUmaeOzi1GCTRI/JbdnBB3pIpHMAx5lOLeNUUzd1cP5iD7G
+	/gHX0DsUcG+KCnBYS0WX6QjH5drfBfG/y+JWKdA5++GQaqQq74tet8PidrDqVqAjJzbR
+	RkE0JVmmUgEpyxHP36EOAzfOODuHn66nS+GwrxqastmH5WIGDUmqbyipICvR/UvX388y
+	9kDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=a4RpvoDG91oue+ZpGvhXtVjzqC0PzdZfM0vUyMmi9qM=;
+	b=hF4e4jcdyfl2g3IJwnMSxtZDfxyeuhxTHFReSRxWzVI6H8LqF3t10pUGX79th0DXth
+	xD9Sw36fW5kQi6AiSMgll2kj8KEivmlC91WdFPv1GNZJoITLuOyibYQZbhUvezjz+Wtp
+	v77fbiCnLmbMYqNXv3Shyr2qor/hCINZGvyPuQOYMdrHnyQfNpkwX9xOuY/EpdSz53TW
+	3Vz5LCaJSlvlG3hFcHAhRr9a2pW1EwbD8QgVHd2YEkDxKizxgoakGXC+7vCQBQdS5bUL
+	DIF4a7EGtrOd0Dm5Jjh40g3j2Sb7GVQ+bgkvzhkF7JtayybQdK4FFXx+3zGpMzygHiFm
+	82sQ==
+X-Gm-Message-State: APjAAAVU8JhTR3pMZf3O4cp1OgtzF6ZY30FX2mzkjpwWQY5b2ClaHB0j
+	k9m+CCNU2UghMIzacQII+vDVRkqkpeI=
+X-Google-Smtp-Source: APXvYqyc0fQRhb6CBye8hTaMLiCsgG0bY0ggYF3+BbbSTBBOBUhhm6FC3br1V/6B+cGgt2rJoqEb2w==
+X-Received: by 2002:a62:198e:: with SMTP id 136mr45245391pfz.180.1558133347606;
+	Fri, 17 May 2019 15:49:07 -0700 (PDT)
+Received: from blackadder.jf.intel.com (jfdmzpr05-ext.jf.intel.com.
+	[134.134.139.74]) by smtp.gmail.com with ESMTPSA id
+	a6sm12024913pgd.67.2019.05.17.15.49.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 17 May 2019 15:49:05 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 17 May 2019 15:48:59 -0700
+Message-Id: <20190517224859.8270-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1 (Apple Git-117)
 MIME-Version: 1.0
-In-Reply-To: <20190517181151.44001-33-alex.kanavin@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 33/37] gst-examples: upgrade to latest revision
+Subject: [PATCH] insane: add sanity checks to SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,39 +59,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 17 May 2019 21:43:17 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 17 May 2019 22:49:07 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 17, 2019 at 08:11:47PM +0200, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-multimedia/gstreamer/gst-examples_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_git.bb b/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-> index 75ac9b75c13..e572ec8db8d 100644
-> --- a/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-> +++ b/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-> @@ -8,7 +8,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=http
->             file://0001-Make-player-examples-installable.patch \
->             file://gst-player.desktop"
->  
-> -SRCREV = "2b3fc175c252cd5a537e4b2864b572a8372473d6"
-> +SRCREV = "3f51023aca06d28ccfb1d5383d99ca7fbfb287c8"
->  PV = "0.0.1+git${SRCPV}"
->  UPSTREAM_CHECK_COMMITS = "1"
+The SRC_URI almost definitely shouldn't be using ${BPN}, and GitHub */archive/*
+tarballs are dynamically generated so the checksums will change over time.
 
-Upstream git contains a tagged 1.16.0 release.
+Detect both of these, and emit a QA warning if found.
 
-cu
-Adrian
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/insane.bbclass | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
+diff --git a/meta/classes/insane.bbclass b/meta/classes/insane.bbclass
+index 9ca5aefe544..59bb8be5470 100644
+--- a/meta/classes/insane.bbclass
++++ b/meta/classes/insane.bbclass
+@@ -25,7 +25,7 @@ QA_SANE = "True"
+ WARN_QA ?= "ldflags useless-rpaths rpaths staticdev libdir xorg-driver-abi \
+             textrel already-stripped incompatible-license files-invalid \
+             installed-vs-shipped compile-host-path install-host-path \
+-            pn-overrides infodir build-deps \
++            pn-overrides infodir build-deps src-uri-bad \
+             unknown-configure-option symlink-to-sysroot multilib \
+             invalid-packageconfig host-user-contaminated uppercase-pn patch-fuzz \
+             "
+@@ -898,6 +898,17 @@ def package_qa_check_host_user(path, name, d, elf, messages):
+             return False
+     return True
+ 
++QARECIPETEST[src-uri-bad] = "package_qa_check_src_uri"
++def package_qa_check_src_uri(pn, d, messages):
++    import re
++
++    if "${PN}" in d.getVar("SRC_URI", False):
++        package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses PN not BPN" % pn, d)
++
++    pn = d.getVar("SRC_URI")
++    if re.search(r"github\.com/.+/.+/archive/.+", pn):
++        package_qa_handle_error("src-uri-bad", "%s: SRC_URI uses unstable GitHub archives" % pn, d)
++
+ 
+ # The PACKAGE FUNC to scan each package
+ python do_package_qa () {
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1 (Apple Git-117)
 
 
