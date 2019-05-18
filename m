@@ -1,52 +1,52 @@
 Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
-	[209.85.208.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C4CF7DFB6
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 06E107DF86
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 21:12:39 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id w1so9232538ljw.0
+	Sat, 18 May 2019 21:12:41 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id c17so7682701lfi.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 14:12:40 -0700 (PDT)
+	Sat, 18 May 2019 14:12:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=1m505wlK4e9OxmI/di2aS9026jc1r7qOsOgKLDR4tQc=;
-	b=m39x90Tg5G9rms79pb3J8Qjnm1Pk1F7V9NLPjXqIzyEmMaVyQCD6LeRSFtmAGUpimk
-	+fqI3wRLh9VLcQYP03A+z4YMfUlz6MyicN+GuAcJhHjcfRygdYpKqwLTIfjkT9gyRmga
-	lZ8nsdsQdINJBAzYY/mQEOk7u7j936mKJ4mCURTFcwRzuSDMpkXCWTxVGg/nkyQEGnJs
-	aLu3nB53zd4sBRklnoTvmouqeJ2qy+tEKRosnuf/z7mEuFSeSmorbNIEDGwe8UuRb907
-	oB+54t/5TuIV0w25KDVNlR3hhBbGt+GvxK6S9Mz/Ax84tvdtyNQTmmasAY3CIh2fetuY
-	uLrA==
+	bh=EKhGbtiscWWkt7Iu6morul1KxfhL4Fp0We52bJnDoOs=;
+	b=njkiBgn1x/pncCHQxxj4fOH8Ah+Y4UqgHNervsye+n7xhx4VPz7gOOS0U/77ubPqSv
+	ldg81JCDJCZlzuGjFukgrEpUhMRimQSwgSka+aWh3+eziSoVnM1BqeZXNGQArxXufp5q
+	GPbO97eejWf1hB8+uRvfsremtWNXEsNRTI4vK2dPpIxKxgoQ/+kV1bWfrmL/J+fLQ9Eq
+	Ykdbd6kSly7oCE7MhjVFSDzBOjQfy8Np2IGxADjwCiD6d0gumynARajJlPhr7KnCvkmk
+	x1uA5c5SjRsKA5XQsckc9uJcd+A1z0MXU6Samb1xDnjR5Uskz+QtWLVwIA8wtHYyjPVN
+	6++A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=1m505wlK4e9OxmI/di2aS9026jc1r7qOsOgKLDR4tQc=;
-	b=jnLOx0FvS54zrUID69ByhJWduLAn8KfGuYM4WX+g3GwMfl+9Zim+79o46k7zPbpQ2m
-	rMKMlgIWZJzrAwxcVQLvwxS866SZv/nlDXc9e7/1pZd9JFOEehqQaLUD6eLGHGCAc9Rt
-	7oXYXNHU3mP2ZjtQJPOPedTi3AVwhzIHmhS7IagS7CnqYisgsJWVXgz8jyKRax4o2Ss5
-	Uh0fSa0ANVKsMgVn6+qmIWOiRU+QJHUgRXl+qyPxcF+f2W9qnkbboh/REKCAocHMFvxX
-	2w1TdLsi+wYoJLBvOreQ/3HaiFP1Hx/ZzWklzE5kIC5NDtTprE+Jyt3jjSq5w480b8Ar
-	SWUA==
-X-Gm-Message-State: APjAAAUQV+sZWmrC/6rGWRdmMREx9eQgxQyw5uqSAnp9L2sLpSxBEzSH
-	PYUzCIQggiTNLTkH6oiCNEm+o35IyzI=
-X-Google-Smtp-Source: APXvYqy5drFw511QVOJZ3dLNS/gg/t6a06/AmezTIRMrLd3iEHyRSK8jojS2VhjGR0P6HNeRooDkHw==
-X-Received: by 2002:a2e:9a94:: with SMTP id p20mr21366830lji.2.1558213959546; 
-	Sat, 18 May 2019 14:12:39 -0700 (PDT)
+	bh=EKhGbtiscWWkt7Iu6morul1KxfhL4Fp0We52bJnDoOs=;
+	b=t9ulued53cmPpupa2z7kqXRUmjKRz13FRQnbHw+NsFn2VpHRegSShWMm/jRl9FfQ+z
+	XmhoJi8kh30U16zmrxEO7jY6BfoJ4e9O2RtcJvwieM1scrHtN6nqVBJCWuRdYuzI9N0I
+	ICS/YdpOd9AOENSDsme3N9RznNwvBVPOznu7MScvl523ZlMzUv2c0j0pjf7gQwbYNPjR
+	YysX00URif+K9JDX3z3APR40WCgfKQXUelHiHc4JMQxK5EY63Jiczq7scIqgDoozscpz
+	BNzHaAu16VDdv/Z926d8N3+g85anYSNpWrsAByM0cS3HHW7v3m020E4UyD+LSPUJzkwA
+	hqQQ==
+X-Gm-Message-State: APjAAAWtod26RJZfQxH2Uu/lXx1/Yr6eEBb9Cc/MWhAAL4laE33a4TS5
+	zl0vELfw1I4agBjecU2mvv4V22byq4A=
+X-Google-Smtp-Source: APXvYqw7YU8N2S6P0yEKIzTh8vnT2agg2HMg8A1WKIe0mj6N9m3NcGPZ2D0Vyb8zKbz+zCvZCX1a6w==
+X-Received: by 2002:a19:771c:: with SMTP id s28mr6114301lfc.140.1558213962399; 
+	Sat, 18 May 2019 14:12:42 -0700 (PDT)
 Received: from peterliu-Precision-M4800.lan
 	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
-	by smtp.gmail.com with ESMTPSA id f16sm953723lfk.75.2019.05.18.14.12.38
+	by smtp.gmail.com with ESMTPSA id f16sm953723lfk.75.2019.05.18.14.12.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 18 May 2019 14:12:39 -0700 (PDT)
+	Sat, 18 May 2019 14:12:41 -0700 (PDT)
 From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 May 2019 23:12:24 +0200
-Message-Id: <1558213945-10235-2-git-send-email-liu.ming50@gmail.com>
+Date: Sat, 18 May 2019 23:12:25 +0200
+Message-Id: <1558213945-10235-3-git-send-email-liu.ming50@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558213945-10235-1-git-send-email-liu.ming50@gmail.com>
 References: <1558213945-10235-1-git-send-email-liu.ming50@gmail.com>
 Cc: gerard.salvatella@toradex.com, luka.pivk@toradex.com,
 	stefan.agner@toradex.com, Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH V2 1/2] u-boot: clean up some redundant code
+Subject: [PATCH V2 2/2] meta: drop IMAGE_FSTYPES from UBOOT_CONFIG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,99 +59,163 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 May 2019 21:12:39 -0000
+X-List-Received-Date: Sat, 18 May 2019 21:12:42 -0000
 
 From: Ming Liu <liu.ming50@gmail.com>
 
-- Merge some DEPENDS lines.
-- Drop some unnecessary 'cd ${DEPLOYDIR}' and 'rm -f'.
+Currently, in most BSP layers, the uboot-config.bbclass is not being
+inherited in machine conf, so the IMAGE_FSTYPES item would not take
+effect since it's a image specific variable, So we can drop it from
+UBOOT_CONFIG.
+
+Instead, we introduce a new item 'env', it could be used to deploy
+environment files to '/boot' directory and also to deploy directory.
+
+To give a example, now the UBOOT_CONFIG could be set like this:
+```
+UBOOT_CONFIG ??= "emmc rawnand"
+UBOOT_CONFIG[emmc] = "imx7_emmc_defconfig,uEnv-emmc.txt,u-boot.imx"
+UBOOT_CONFIG[nand] = "imx7_defconfig,uEnv-nand.txt,u-boot-nand.imx"
+```
+
+It would not conflict with the current UBOOT_ENV variable, the later
+has higher priority to override environment setting in UBOOT_CONFIG.
+
+Also drop some trivial debug code in this patch.
 
 Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 25 ++++++++-----------------
- 1 file changed, 8 insertions(+), 17 deletions(-)
+ meta/classes/uboot-config.bbclass  | 25 +++++++++++--------------
+ meta/conf/documentation.conf       |  2 +-
+ meta/recipes-bsp/u-boot/u-boot.inc | 22 ++++++++++++++++++++++
+ 3 files changed, 34 insertions(+), 15 deletions(-)
 
+diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
+index 89ff970..af609fc 100644
+--- a/meta/classes/uboot-config.bbclass
++++ b/meta/classes/uboot-config.bbclass
+@@ -3,7 +3,7 @@
+ # The format to specify it, in the machine, is:
+ #
+ # UBOOT_CONFIG ??= <default>
+-# UBOOT_CONFIG[foo] = "config,images,binary"
++# UBOOT_CONFIG[foo] = "config,env,binary"
+ #
+ # or
+ #
+@@ -15,23 +15,24 @@ UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
+ 
+ python () {
+     ubootmachine = d.getVar("UBOOT_MACHINE")
+-    ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
+     ubootbinary = d.getVar('UBOOT_BINARY')
+     ubootbinaries = d.getVar('UBOOT_BINARIES')
++    ubootenvs = d.getVar('UBOOT_ENVS')
++    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
++    ubootconfigflags = d.getVarFlags('UBOOT_CONFIG') or {}
++
+     # The "doc" varflag is special, we don't want to see it here
+     ubootconfigflags.pop('doc', None)
+-    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
+ 
+     if not ubootmachine and not ubootconfig:
+-        PN = d.getVar("PN")
+-        FILE = os.path.basename(d.getVar("FILE"))
+-        bb.debug(1, "To build %s, see %s for instructions on \
+-                 setting up your machine config" % (PN, FILE))
+         raise bb.parse.SkipRecipe("Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the %s machine configuration." % d.getVar("MACHINE"))
+ 
+     if ubootmachine and ubootconfig:
+         raise bb.parse.SkipRecipe("You cannot use UBOOT_MACHINE and UBOOT_CONFIG at the same time.")
+ 
++    if ubootconfigflags and ubootenvs:
++        raise bb.parse.SkipRecipe("You cannot use UBOOT_ENVS as it is internal to uboot_config.bbclass.")
++
+     if ubootconfigflags and ubootbinaries:
+         raise bb.parse.SkipRecipe("You cannot use UBOOT_BINARIES as it is internal to uboot_config.bbclass.")
+ 
+@@ -40,18 +41,14 @@ python () {
+             for f, v in ubootconfigflags.items():
+                 if config == f: 
+                     items = v.split(',')
+-                    if items[0] and len(items) > 3:
+-                        raise bb.parse.SkipRecipe('Only config,images,binary can be specified!')
++                    if len(items) == 0 or len(items) > 3:
++                        raise bb.parse.SkipRecipe('Only config,env,binary can be specified!')
+                     d.appendVar('UBOOT_MACHINE', ' ' + items[0])
+-                    # IMAGE_FSTYPES appending
+                     if len(items) > 1 and items[1]:
+-                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
+-                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
++                        d.appendVar('UBOOT_ENVS', ' ' + items[1])
+                     if len(items) > 2 and items[2]:
+-                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % items[2])
+                         d.appendVar('UBOOT_BINARIES', ' ' + items[2])
+                     else:
+-                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % ubootbinary)
+                         d.appendVar('UBOOT_BINARIES', ' ' + ubootbinary)
+                     break
+ }
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index 550df20..5da7eb8 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -439,7 +439,7 @@ TUNEVALID[doc] = "Descriptions, stored as flags, of valid tuning features."
+ 
+ #U
+ 
+-UBOOT_CONFIG[doc] = "Configures the UBOOT_MACHINE and can also define IMAGE_FSTYPES for individual cases."
++UBOOT_CONFIG[doc] = "Configures the UBOOT_MACHINE and can also define UBOOT_ENVS, UBOOT_BINARIES for individual cases."
+ UBOOT_ENTRYPOINT[doc] = "Specifies the entry point for the U-Boot image."
+ UBOOT_LOADADDRESS[doc] = "Specifies the load address for the U-Boot image."
+ UBOOT_LOCALVERSION[doc] = "Appends a string to the name of the local version of the U-Boot image."
 diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 9a754fd..e5af762 100644
+index e5af762..3b22e6e 100644
 --- a/meta/recipes-bsp/u-boot/u-boot.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -5,11 +5,9 @@ B = "${WORKDIR}/build"
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
--DEPENDS += "kern-tools-native"
--
- inherit uboot-config uboot-extlinux-config uboot-sign deploy cml1
- 
--DEPENDS += "swig-native python-native"
-+DEPENDS += "kern-tools-native swig-native python-native"
- 
- EXTRA_OEMAKE = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${TARGET_PREFIX}gcc ${TOOLCHAIN_OPTIONS}" V=1'
- EXTRA_OEMAKE += 'HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}"'
-@@ -227,6 +225,7 @@ do_install () {
- FILES_${PN} = "/boot ${sysconfdir} ${datadir}"
- 
- do_deploy () {
-+    install -d ${DEPLOYDIR}
-     if [ -n "${UBOOT_CONFIG}" ]
-     then
-         for config in ${UBOOT_MACHINE}; do
-@@ -235,25 +234,20 @@ do_deploy () {
-                 j=$(expr $j + 1);
-                 if [ $j -eq $i ]
-                 then
--                    install -d ${DEPLOYDIR}
-                     install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
--                    cd ${DEPLOYDIR}
--                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}-${type}
--                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_SYMLINK}
--                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}-${type}
--                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${UBOOT_BINARY}
-+                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_SYMLINK}-${type}
-+                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_SYMLINK}
-+                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARY}-${type}
-+                    ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARY}
+@@ -121,6 +121,13 @@ do_compile () {
+                         fi
+                     done
+                     unset k
++                    for env in ${UBOOT_ENVS}; do
++                        k=$(expr $k + 1);
++                        if [ $k -eq $i ]; then
++                            ${S}/scripts/get_default_envs.sh ${B}/${config} > ${B}/${config}/${env}
++                        fi
++                    done
++                    unset k
                  fi
              done
              unset  j
-         done
-         unset  i
-     else
--        install -d ${DEPLOYDIR}
-         install -m 644 ${B}/${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
--        cd ${DEPLOYDIR}
--        rm -f ${UBOOT_BINARY} ${UBOOT_SYMLINK}
--        ln -sf ${UBOOT_IMAGE} ${UBOOT_SYMLINK}
--        ln -sf ${UBOOT_IMAGE} ${UBOOT_BINARY}
-+        ln -sf ${UBOOT_IMAGE} ${DEPLOYDIR}/${UBOOT_SYMLINK}
-+        ln -sf ${UBOOT_IMAGE} ${DEPLOYDIR}/${UBOOT_BINARY}
-     fi
- 
-     if [ -n "${UBOOT_ELF}" ]
-@@ -295,7 +289,6 @@ do_deploy () {
-                     if [ $j -eq $i ]
-                     then
-                         install -m 644 ${B}/${config}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}-${type}-${PV}-${PR}
--                        rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDIR}/${SPL_BINARYNAME}-${type}
-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDIR}/${SPL_BINARYNAME}
-                         ln -sf ${SPL_IMAGE}-${type}-${PV}-${PR} ${DEPLOYDIR}/${SPL_SYMLINK}-${type}
-@@ -307,7 +300,6 @@ do_deploy () {
-             unset  i
-         else
-             install -m 644 ${B}/${SPL_BINARY} ${DEPLOYDIR}/${SPL_IMAGE}
--            rm -f ${DEPLOYDIR}/${SPL_BINARYNAME} ${DEPLOYDIR}/${SPL_SYMLINK}
-             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_BINARYNAME}
-             ln -sf ${SPL_IMAGE} ${DEPLOYDIR}/${SPL_SYMLINK}
-         fi
-@@ -317,7 +309,6 @@ do_deploy () {
-     if [ -n "${UBOOT_ENV}" ]
-     then
-         install -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_IMAGE}
--        rm -f ${DEPLOYDIR}/${UBOOT_ENV_BINARY} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
-         ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_BINARY}
-         ln -sf ${UBOOT_ENV_IMAGE} ${DEPLOYDIR}/${UBOOT_ENV_SYMLINK}
-     fi
+@@ -145,6 +152,13 @@ do_install () {
+                     install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
++                    for env in ${UBOOT_ENVS}; do
++                        k=$(expr $k + 1);
++                        if [ $k -eq $i ]; then
++                            install -m 0644 ${B}/${config}/${env} ${D}/boot/${env}
++                        fi
++                    done
++                    unset k
+                 fi
+             done
+             unset  j
+@@ -235,6 +249,14 @@ do_deploy () {
+                 if [ $j -eq $i ]
+                 then
+                     install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
++                    for env in ${UBOOT_ENVS}; do
++                        k=$(expr $k + 1);
++                        if [ $k -eq $i ]; then
++                            install -m 0644 ${B}/${config}/${env} ${DEPLOYDIR}/${env}
++                        fi
++                    done
++                    unset k
++
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_SYMLINK}-${type}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_SYMLINK}
+                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARY}-${type}
 -- 
 2.7.4
 
