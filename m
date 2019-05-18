@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E71F60234
+	by mail.openembedded.org (Postfix) with ESMTP id B6BD27D5A1
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 17:21:37 +0000 (UTC)
+	Sat, 18 May 2019 18:05:12 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 455sQV1Gvkz5w
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 455tNm1pkHz5R
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 19:21:38 +0200 (CEST)
+	Sat, 18 May 2019 20:05:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558200098;
-	bh=IzjbrhXSQl90yoTRKUED/HMuR4F2fjgJx17H/KWV+8g=;
+	s=default; t=1558202712;
+	bh=dzV3dOFMpVzelmZCtVyqtQOqSX0MSQKZUSnmsCpxlrM=;
 	h=From:To:Subject:Date:From;
-	b=eZtQKg4UdiMfHXg1sZ/aKRWGo87n+8SVuk2L5kJcB+FE85v/5BCnCiYdH3wY/clFG
-	3yBT04yYRRXOHzwXrSCFPqElZu7od92+bu8kisP8UJSdeV3q4IEuBPp79X86rpT8iB
-	npKcu80nfziiCUYV2N+naARYn4f0a3BBoe8krMnQVAP1JbVW8EBwAe5KG6aEAVUig+
-	+1L24OA8ErkVHuutp+D6IWTqc6gA62KtfeB1SWVB5miN8wVockSv1zWEJH5zKHtHHo
-	+hIZZ1X6AeMp9kdL8DGamgc2hW8N3vTiM65uAvTn+CX3/cWf054+HtXZvlRkc1V1Wr
-	q22b4Z7HWnf+H1BF0064s7JKxwVwUFknrI9MlYXhwQSTnL61+a03qRUpd4AznhE4Va
-	vJNYHJoZ4OcR1rYKeanMwRm7l1H+mOWGV/ki42L6d8jVvG24k2Uz4a8UI6WC/e5zzN
-	iDv2n7kO+C5SODCRuqdYJMRbaXqXQb+pkVFQCh2v3gVJsrbdDhvSiX8g8lNSBGZP1V
-	qcwBcSGfJbat/H5Dc7NT6E3kSY6sfQWFBTi6pG8LuVrXQ3FMyT+jgd7na87Wdh89t4
-	fbYG4NTCxtUI7T+BlEzZANu/PEsUAHLhlbkx9GeJAjRP8N25uXX1ufP4zA/heHdoCO
-	DoV5NZbhMCOPZGbghql9RdBQ=
+	b=BoogO36GHI2BFWQJd+UWCI4of0IzfaU4XFDPXO4Z0KswiBf8S3XM3flZboOMZ6Azi
+	e1QOe/spn55mxWjHe+lh3E65SWNV9X1A7Uqd+aa1SrDLvNSmcXScV2JnBnGvuJ5krZ
+	yIjR7GVfbJVcFejOveYqjPUVsaOABSni+arsA5QYWO1bxUxaJ1SjjtWRZi7uQ17GU4
+	nZsGbpF6XojDyMqEEth5O0s1/UU4vKOG93Z3cdvRwOdWBNMTAHReR64ZYAn/iPdO09
+	zsupK5De1Z6R3mKr7O8a2oAi9DLp4/94ZQMhsf9Zcq0w9/b8yB+2kjXHzTg5aeRx+z
+	XlY3OmqFjCSeeQAkLsD+ybT0IxkNp6t6NXOrVsWuB32FtJzPCEGVSbl1JRidDN12+I
+	+LEu3dBTwiync436fYnSR9eGA8sRWN+YvAf2xDOJB31NS+pjOgn2IXGEzUXI9RHwo7
+	Q9uHmorsdpWaH7SOYbdMHyPmdjC0esMXGZsHA7US4z9Frt4aJ7znzWJPl1c/jIM+Lh
+	hgxQY16621a2CjB21t+13m8KiqZBRxT4bCDjsjNxEqxkiCWhxVGZd8iQhIi0Y1RgFa
+	8oe3wt2udPSwmjhQEGhgdBrCwbEhOwUsv4kYZmHyh3zqX9MA1GHKPT2k9MuN2vMVoX
+	EPGJ4T9Ocna9JZwQ/ZpI1vcI=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 May 2019 20:21:36 +0300
-Message-Id: <20190518172136.11368-2-bunk@stusta.de>
+Date: Sat, 18 May 2019 21:05:11 +0300
+Message-Id: <20190518180511.12157-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] nss-myhostname: Stop trying to build for musl
+Subject: [PATCH] socat: Remove workaround for musl issue now fixed upstream
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,98 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 May 2019 17:21:38 -0000
-
-There's no point in building an NSS module for a C library
-that doesn't support NSS.
+X-List-Received-Date: Sat, 18 May 2019 18:05:13 -0000
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...-Check-for-nss.h-presense-before-use.patch | 53 -------------------
- .../nss-myhostname/nss-myhostname_0.3.bb      |  3 +-
- 2 files changed, 2 insertions(+), 54 deletions(-)
- delete mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+ ...NETDB_INTERNAL-to-1-if-not-available.patch | 32 -------------------
+ .../socat/socat_1.7.3.3.bb                    |  1 -
+ 2 files changed, 33 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
 
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+diff --git a/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch b/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
 deleted file mode 100644
-index 82f25743af..0000000000
---- a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
+index 4bbd36766d..0000000000
+--- a/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
 +++ /dev/null
-@@ -1,53 +0,0 @@
--From d1345871b992f9a055c968963967e728da1a7ffb Mon Sep 17 00:00:00 2001
+@@ -1,32 +0,0 @@
+-From e6a7d96fa3675bdd3f4d7a3d7682381789eef22f Mon Sep 17 00:00:00 2001
 -From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 30 Jan 2016 20:29:06 +0000
--Subject: [PATCH] nss-myhostname: Check for nss.h presense before use
+-Date: Mon, 15 Feb 2016 20:25:34 +0000
+-Subject: [PATCH] define NETDB_INTERNAL to -1 if not available
 -
--We do not have nss.h on musl e.g. and configury is already checking for
--nss.h presence, use this to define needed data structures if nss.h is
--missing on a given libc implementation on a platform
--
--include stdint.h for uint32_h definition
+-helps build with musl
 -
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
 -Upstream-Status: Pending
 -
-- nss-myhostname.c | 20 ++++++++++++++++++++
-- 1 file changed, 20 insertions(+)
+- compat.h | 4 ++++
+- 1 file changed, 4 insertions(+)
 -
--diff --git a/nss-myhostname.c b/nss-myhostname.c
--index 293166c..6f287f5 100644
----- a/nss-myhostname.c
--+++ b/nss-myhostname.c
--@@ -21,7 +21,27 @@
-- ***/
+-diff --git a/compat.h b/compat.h
+-index c8bee4d..bfb013a 100644
+---- a/compat.h
+-+++ b/compat.h
+-@@ -666,6 +666,10 @@ typedef int sig_atomic_t;
+- #  define NETDB_INTERNAL h_NETDB_INTERNAL
+- #endif
 - 
-- #include <limits.h>
--+#include <stdint.h>
--+#ifdef HAVE_NSS_H
-- #include <nss.h>
--+#else
--+enum nss_status {
--+    NSS_STATUS_TRYAGAIN = -2,
--+    NSS_STATUS_UNAVAIL,
--+    NSS_STATUS_NOTFOUND,
--+    NSS_STATUS_SUCCESS,
--+    NSS_STATUS_RETURN
--+};
--+/* Data structure used for the 'gethostbyname4_r' function.  */
--+struct gaih_addrtuple
--+  {
--+    struct gaih_addrtuple *next;
--+    char *name;
--+    int family;
--+    uint32_t addr[4];
--+    uint32_t scopeid;
--+  };
+-+#if !defined(NETDB_INTERNAL)
+-+#  define NETDB_INTERNAL (-1)
 -+#endif
-- #include <sys/types.h>
-- #include <netdb.h>
-- #include <errno.h>
+-+
+- #ifndef INET_ADDRSTRLEN
+- #  define INET_ADDRSTRLEN sizeof(struct sockaddr_in)
+- #endif
 --- 
--2.7.0
+-2.7.1
 -
-diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-index de5b7cf598..244d9e204e 100644
---- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-+++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
-@@ -7,7 +7,6 @@ LICENSE = "LGPLv2.1"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
+diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.3.bb b/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
+index 7a889a3801..067f7c6444 100644
+--- a/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
++++ b/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
+@@ -12,7 +12,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
  
- SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz \
--           file://0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch \
-            "
+ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+-           file://0001-define-NETDB_INTERNAL-to-1-if-not-available.patch \
+ "
  
- SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
-@@ -15,6 +14,8 @@ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67
- 
- inherit autotools distro_features_check
- 
-+COMPATIBLE_HOST_libc-musl = 'null'
-+
- # The systemd has its own copy of nss-myhostname
- CONFLICT_DISTRO_FEATURES = "systemd"
- 
+ SRC_URI[md5sum] = "b2a032a47b8b89a18485697fa975154f"
 -- 
 2.17.1
 
