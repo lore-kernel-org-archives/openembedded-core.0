@@ -1,33 +1,43 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B6BD27D5A1
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-yw1-f52.google.com (mail-yw1-f52.google.com
+	[209.85.161.52])
+	by mail.openembedded.org (Postfix) with ESMTP id E54D47D533
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 18:05:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 455tNm1pkHz5R
+	Sat, 18 May 2019 18:34:17 +0000 (UTC)
+Received: by mail-yw1-f52.google.com with SMTP id 186so4106112ywo.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 20:05:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558202712;
-	bh=dzV3dOFMpVzelmZCtVyqtQOqSX0MSQKZUSnmsCpxlrM=;
-	h=From:To:Subject:Date:From;
-	b=BoogO36GHI2BFWQJd+UWCI4of0IzfaU4XFDPXO4Z0KswiBf8S3XM3flZboOMZ6Azi
-	e1QOe/spn55mxWjHe+lh3E65SWNV9X1A7Uqd+aa1SrDLvNSmcXScV2JnBnGvuJ5krZ
-	yIjR7GVfbJVcFejOveYqjPUVsaOABSni+arsA5QYWO1bxUxaJ1SjjtWRZi7uQ17GU4
-	nZsGbpF6XojDyMqEEth5O0s1/UU4vKOG93Z3cdvRwOdWBNMTAHReR64ZYAn/iPdO09
-	zsupK5De1Z6R3mKr7O8a2oAi9DLp4/94ZQMhsf9Zcq0w9/b8yB+2kjXHzTg5aeRx+z
-	XlY3OmqFjCSeeQAkLsD+ybT0IxkNp6t6NXOrVsWuB32FtJzPCEGVSbl1JRidDN12+I
-	+LEu3dBTwiync436fYnSR9eGA8sRWN+YvAf2xDOJB31NS+pjOgn2IXGEzUXI9RHwo7
-	Q9uHmorsdpWaH7SOYbdMHyPmdjC0esMXGZsHA7US4z9Frt4aJ7znzWJPl1c/jIM+Lh
-	hgxQY16621a2CjB21t+13m8KiqZBRxT4bCDjsjNxEqxkiCWhxVGZd8iQhIi0Y1RgFa
-	8oe3wt2udPSwmjhQEGhgdBrCwbEhOwUsv4kYZmHyh3zqX9MA1GHKPT2k9MuN2vMVoX
-	EPGJ4T9Ocna9JZwQ/ZpI1vcI=
-From: Adrian Bunk <bunk@stusta.de>
+	Sat, 18 May 2019 11:34:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=xkoBFZeIhmCZXGzn9wTIXpDWkOZ29md7zClP6CEX0dg=;
+	b=tJq7CeTF0TnN8KPIfea+fFpKaslz0qjJ4uBBxbEYsTGJ+Q8tnQkh+lAuxE1F3THwvX
+	Uz5nFLoFmDlvat9ncfcC/CxhBmaJQ0EOx7zvmlbP0ijZ0WWHobfdKnV5Z2DXEwx0DFM2
+	PckzaHBbfK3TByL7P0K282bIjfJjA3tJbRe7XrSFy0O8KUq7/LCmORGoy+jTFIIr9dWh
+	4ww/WTsoYX8WbpbrQUKphvMuqUZsZNWyMIHd7LRnaS2KBaqdC5P2BkiwY1uUX9+8IVNP
+	2pMpPyzbpfL0N9cqMwM5gCBpl1ZylZSa4tkzG8zwMXqBjsw/c7d287gSZ+DIFmylOH4+
+	Ao5Q==
+X-Gm-Message-State: APjAAAUEwbhzxHHoX6QdPQ0Rqk3Qk8a3cgGjsmq++TLcV4di/3AODmRq
+	UAzw+iMxFEviKuysiJdfYOeKMGs=
+X-Google-Smtp-Source: APXvYqzEy7DybmdEPr+GUOlnRcuhxhM2/VXqHGT1hqCsdt9nBKnIl8KZE3SQ/MTlGnQjwiMjW54bXA==
+X-Received: by 2002:a0d:eb89:: with SMTP id
+	u131mr18331318ywe.190.1558204458582; 
+	Sat, 18 May 2019 11:34:18 -0700 (PDT)
+Received: from bill-the-cat.local (cpe-65-184-141-147.ec.res.rr.com.
+	[65.184.141.147]) by smtp.gmail.com with ESMTPSA id
+	t203sm5556388ywt.6.2019.05.18.11.34.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sat, 18 May 2019 11:34:17 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 May 2019 21:05:11 +0300
-Message-Id: <20190518180511.12157-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] socat: Remove workaround for musl issue now fixed upstream
+Date: Sat, 18 May 2019 14:34:13 -0400
+Message-Id: <1558204453-8142-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20190517135309.116495-1-alex.kanavin@gmail.com>
+References: <20190517135309.116495-1-alex.kanavin@gmail.com>
+Subject: [PATCH] vim: Rework things so vim adds features not vim-tiny removes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,66 +50,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 May 2019 18:05:13 -0000
+X-List-Received-Date: Sat, 18 May 2019 18:34:18 -0000
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Now that we have a common inc file for both vim and vim-tiny move a few
+bits of logic out of vim.inc and in to vim_$VER.bb so that vim adds
+things rather than vim-tiny removes them.
+
+Suggested-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
- ...NETDB_INTERNAL-to-1-if-not-available.patch | 32 -------------------
- .../socat/socat_1.7.3.3.bb                    |  1 -
- 2 files changed, 33 deletions(-)
- delete mode 100644 meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
+ meta/recipes-support/vim/vim-tiny_8.1.1240.bb | 3 ---
+ meta/recipes-support/vim/vim.inc              | 8 +-------
+ meta/recipes-support/vim/vim_8.1.1240.bb      | 9 +++++++++
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch b/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
-deleted file mode 100644
-index 4bbd36766d..0000000000
---- a/meta/recipes-connectivity/socat/socat/0001-define-NETDB_INTERNAL-to-1-if-not-available.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From e6a7d96fa3675bdd3f4d7a3d7682381789eef22f Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Mon, 15 Feb 2016 20:25:34 +0000
--Subject: [PATCH] define NETDB_INTERNAL to -1 if not available
--
--helps build with musl
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
-----
--Upstream-Status: Pending
--
-- compat.h | 4 ++++
-- 1 file changed, 4 insertions(+)
--
--diff --git a/compat.h b/compat.h
--index c8bee4d..bfb013a 100644
----- a/compat.h
--+++ b/compat.h
--@@ -666,6 +666,10 @@ typedef int sig_atomic_t;
-- #  define NETDB_INTERNAL h_NETDB_INTERNAL
-- #endif
-- 
--+#if !defined(NETDB_INTERNAL)
--+#  define NETDB_INTERNAL (-1)
--+#endif
--+
-- #ifndef INET_ADDRSTRLEN
-- #  define INET_ADDRSTRLEN sizeof(struct sockaddr_in)
-- #endif
---- 
--2.7.1
--
-diff --git a/meta/recipes-connectivity/socat/socat_1.7.3.3.bb b/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
-index 7a889a3801..067f7c6444 100644
---- a/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.7.3.3.bb
-@@ -12,7 +12,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
-                     file://README;beginline=257;endline=287;md5=338c05eadd013872abb1d6e198e10a3f"
+diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
+index 139e626e4444..e4c26d23f69d 100644
+--- a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
++++ b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
+@@ -2,9 +2,6 @@ require vim.inc
  
- SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
--           file://0001-define-NETDB_INTERNAL-to-1-if-not-available.patch \
+ SUMMARY += " (with tiny features)"
+ 
+-PROVIDES_remove = "xxd"
+-ALTERNATIVE_${PN}_remove = "xxd"
+-
+ PACKAGECONFIG += "tiny"
+ 
+ do_install() {
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index f5c74684bfa7..433f23344826 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -1,7 +1,6 @@
+ SUMMARY = "Vi IMproved - enhanced vi editor"
+ SECTION = "console/utils"
+ 
+-PROVIDES = "xxd"
+ DEPENDS = "ncurses gettext-native"
+ # vimdiff doesn't like busybox diff
+ RSUGGESTS_${PN} = "diffutils"
+@@ -52,7 +51,6 @@ PACKAGECONFIG += " \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '', d)} \
  "
+-PACKAGECONFIG_class-native = ""
  
- SRC_URI[md5sum] = "b2a032a47b8b89a18485697fa975154f"
+ PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
+@@ -130,12 +128,8 @@ RDEPENDS_${BPN} = "ncurses-terminfo-base"
+ # Recommend that runtime data is installed along with vim
+ RRECOMMENDS_${BPN} = "${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-common"
+ 
+-ALTERNATIVE_${PN} = "vi vim xxd"
++ALTERNATIVE_${PN} = "vi vim"
+ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_TARGET = "${bindir}/${BPN}.${BPN}"
+ ALTERNATIVE_LINK_NAME[vi] = "${base_bindir}/vi"
+ ALTERNATIVE_LINK_NAME[vim] = "${bindir}/vim"
+-ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
+-ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/vim/vim_8.1.1240.bb b/meta/recipes-support/vim/vim_8.1.1240.bb
+index baaaacc0b77f..60946a181f42 100644
+--- a/meta/recipes-support/vim/vim_8.1.1240.bb
++++ b/meta/recipes-support/vim/vim_8.1.1240.bb
+@@ -1 +1,10 @@
+ require vim.inc
++
++PROVIDES = "xxd"
++
++PACKAGECONFIG_class-native = ""
++BBCLASSEXTEND = "native"
++
++ALTERNATIVE_${PN}_append = " xxd"
++ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
++ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
 -- 
-2.17.1
+2.7.4
 
 
