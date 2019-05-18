@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 106867DEA5
+	by mail.openembedded.org (Postfix) with ESMTP id 0E71F60234
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 18 May 2019 17:21:37 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 455sQT5gmMz5R
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 455sQV1Gvkz5w
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 19:21:37 +0200 (CEST)
+	Sat, 18 May 2019 19:21:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558200097;
-	bh=QvNHzk9rsCOkhQZx3/R9vSjdgXmOBRcZx7LbH8qjMfA=;
+	s=default; t=1558200098;
+	bh=IzjbrhXSQl90yoTRKUED/HMuR4F2fjgJx17H/KWV+8g=;
 	h=From:To:Subject:Date:From;
-	b=Qt5CTkdRoQjGETXG+pN+DxfQxJbB3qGGbnBioolkv6eh6CoKGAbYtm7JUNmiqQlVg
-	tN6SxCVSnetZzoAN5nHGPd2/56KQIQeQeq0I2XZk57fSQCkNPphrOShD8bc/3ZBTCZ
-	1Aa2KrMTzNVcxdq/SbV/ctmdQud7uCTZOD9f6qkV82JxvQoWpxCCBxKjAdqiSMw7nz
-	UPAmsa86aLAeOo6W3EtI0aMp2tInC1PxcKqJd8Dj5HVKB5MGLxUNDL0Ek2aynxkXJn
-	Z/QmQrZQpj1bYjLnlugsiTpPg2Icr3+8PKBRYIvDaYhVgJP/PmZhfXFzcOv9NO3mzR
-	wRFx1E96PjTUlBvDMIRclrhWLtb9xzrmEtEUaawwF9FxTVHg8Vh1bA19G9KZ3nySZZ
-	bIyKXCGru9mKiS9tSZZt6Zf99CtoIwcC7ewJxCcscyv8b7iFbvN4PwHTuPogDvw/vn
-	ZMikH7MgrzPXUzxh7hPFbICQUEqyV/6n5FiKOuDLwtrE2g2j3Qw2EDO7B65a9oz1M1
-	ymbglPFpJXCV3JO6YkX3Z3G+m3JiSRoWOsWD7dI4G9VrpQ8+XMDxIvvSB/vJL/NDnw
-	RJUOLG1SPxhwU2NqU7FcMgOFUGA+yJxpHsp3gIdMguVraeQD1U6ywEmFPO9tVS5NIB
-	WTs8gU6dzMecp0KvK897pg+Y=
+	b=eZtQKg4UdiMfHXg1sZ/aKRWGo87n+8SVuk2L5kJcB+FE85v/5BCnCiYdH3wY/clFG
+	3yBT04yYRRXOHzwXrSCFPqElZu7od92+bu8kisP8UJSdeV3q4IEuBPp79X86rpT8iB
+	npKcu80nfziiCUYV2N+naARYn4f0a3BBoe8krMnQVAP1JbVW8EBwAe5KG6aEAVUig+
+	+1L24OA8ErkVHuutp+D6IWTqc6gA62KtfeB1SWVB5miN8wVockSv1zWEJH5zKHtHHo
+	+hIZZ1X6AeMp9kdL8DGamgc2hW8N3vTiM65uAvTn+CX3/cWf054+HtXZvlRkc1V1Wr
+	q22b4Z7HWnf+H1BF0064s7JKxwVwUFknrI9MlYXhwQSTnL61+a03qRUpd4AznhE4Va
+	vJNYHJoZ4OcR1rYKeanMwRm7l1H+mOWGV/ki42L6d8jVvG24k2Uz4a8UI6WC/e5zzN
+	iDv2n7kO+C5SODCRuqdYJMRbaXqXQb+pkVFQCh2v3gVJsrbdDhvSiX8g8lNSBGZP1V
+	qcwBcSGfJbat/H5Dc7NT6E3kSY6sfQWFBTi6pG8LuVrXQ3FMyT+jgd7na87Wdh89t4
+	fbYG4NTCxtUI7T+BlEzZANu/PEsUAHLhlbkx9GeJAjRP8N25uXX1ufP4zA/heHdoCO
+	DoV5NZbhMCOPZGbghql9RdBQ=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 May 2019 20:21:35 +0300
-Message-Id: <20190518172136.11368-1-bunk@stusta.de>
+Date: Sat, 18 May 2019 20:21:36 +0300
+Message-Id: <20190518172136.11368-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] libnss-mdns: Stop trying to build for musl
+Subject: [PATCH] nss-myhostname: Stop trying to build for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,55 +47,44 @@ that doesn't support NSS.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../libnss-mdns/0001-check-for-nss.h.patch    | 56 -------------------
- .../libnss-mdns/libnss-mdns_0.10.bb           |  3 +-
- 2 files changed, 2 insertions(+), 57 deletions(-)
- delete mode 100644 meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch
+ ...-Check-for-nss.h-presense-before-use.patch | 53 -------------------
+ .../nss-myhostname/nss-myhostname_0.3.bb      |  3 +-
+ 2 files changed, 2 insertions(+), 54 deletions(-)
+ delete mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 
-diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch b/meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 deleted file mode 100644
-index f63eb90cdc..0000000000
---- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch
+index 82f25743af..0000000000
+--- a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 +++ /dev/null
-@@ -1,56 +0,0 @@
--From bdf01a581d58eb5340e9238d143dbcac9db5b11c Mon Sep 17 00:00:00 2001
+@@ -1,53 +0,0 @@
+-From d1345871b992f9a055c968963967e728da1a7ffb Mon Sep 17 00:00:00 2001
 -From: Khem Raj <raj.khem@gmail.com>
--Date: Sat, 30 Jan 2016 19:29:45 +0000
--Subject: [PATCH] check for nss.h
+-Date: Sat, 30 Jan 2016 20:29:06 +0000
+-Subject: [PATCH] nss-myhostname: Check for nss.h presense before use
 -
--nss.h may not available on all libc implementations, e.g. musl does not
--have this header, this patch detects nss.h presence and defines the data
--types that are required if nss.h is missing on platform
+-We do not have nss.h on musl e.g. and configury is already checking for
+-nss.h presence, use this to define needed data structures if nss.h is
+-missing on a given libc implementation on a platform
+-
+-include stdint.h for uint32_h definition
 -
 -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
 -Upstream-Status: Pending
 -
-- configure.ac |  2 +-
-- src/nss.c    | 11 +++++++++++
-- 2 files changed, 12 insertions(+), 1 deletion(-)
+- nss-myhostname.c | 20 ++++++++++++++++++++
+- 1 file changed, 20 insertions(+)
 -
--diff --git a/configure.ac b/configure.ac
--index aa66bc6..ce19b07 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -71,7 +71,7 @@ AC_PROG_LIBTOOL
+-diff --git a/nss-myhostname.c b/nss-myhostname.c
+-index 293166c..6f287f5 100644
+---- a/nss-myhostname.c
+-+++ b/nss-myhostname.c
+-@@ -21,7 +21,27 @@
+- ***/
 - 
-- # Checks for header files.
-- AC_HEADER_STDC
---AC_CHECK_HEADERS([arpa/inet.h fcntl.h inttypes.h netdb.h netinet/in.h stdlib.h string.h sys/socket.h sys/time.h unistd.h nss.h sys/ioctl.h])
--+AC_CHECK_HEADERS([arpa/inet.h fcntl.h inttypes.h netdb.h netinet/in.h stdlib.h string.h sys/socket.h sys/time.h unistd.h nss.h sys/ioctl.h nss.h])
-- 
-- # Checks for typedefs, structures, and compiler characteristics.
-- AC_C_CONST
--diff --git a/src/nss.c b/src/nss.c
--index e48e315..406733b 100644
----- a/src/nss.c
--+++ b/src/nss.c
--@@ -29,7 +29,18 @@
-- #include <assert.h>
-- #include <netdb.h>
-- #include <sys/socket.h>
+- #include <limits.h>
+-+#include <stdint.h>
 -+#ifdef HAVE_NSS_H
 - #include <nss.h>
 -+#else
@@ -106,35 +95,43 @@ index f63eb90cdc..0000000000
 -+    NSS_STATUS_SUCCESS,
 -+    NSS_STATUS_RETURN
 -+};
+-+/* Data structure used for the 'gethostbyname4_r' function.  */
+-+struct gaih_addrtuple
+-+  {
+-+    struct gaih_addrtuple *next;
+-+    char *name;
+-+    int family;
+-+    uint32_t addr[4];
+-+    uint32_t scopeid;
+-+  };
 -+#endif
--+
-- #include <stdio.h>
-- #include <stdlib.h>
-- 
+- #include <sys/types.h>
+- #include <netdb.h>
+- #include <errno.h>
 --- 
 -2.7.0
 -
-diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-index d0eb2768d1..953505971a 100644
---- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-+++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-@@ -9,7 +9,6 @@ DEPENDS = "avahi"
- PR = "r7"
+diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+index de5b7cf598..244d9e204e 100644
+--- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
++++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+@@ -7,7 +7,6 @@ LICENSE = "LGPLv2.1"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
  
- SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz \
--           file://0001-check-for-nss.h.patch \
+ SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz \
+-           file://0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch \
             "
  
- SRC_URI[md5sum] = "03938f17646efbb50aa70ba5f99f51d7"
-@@ -21,6 +20,8 @@ localstatedir = "/"
+ SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
+@@ -15,6 +14,8 @@ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67
  
- inherit autotools
+ inherit autotools distro_features_check
  
 +COMPATIBLE_HOST_libc-musl = 'null'
 +
- EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
+ # The systemd has its own copy of nss-myhostname
+ CONFLICT_DISTRO_FEATURES = "systemd"
  
- # suppress warning, but don't bother with autonamer
 -- 
 2.17.1
 
