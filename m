@@ -1,57 +1,37 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A9C397DDAC
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E1057D6B5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2019 05:09:33 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id u17so5610491pfn.7
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 22:09:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=EdAfXYygFzt7isTXq8iVPtiINdWCQ+QOCho17zxdYbM=;
-	b=i1JS0122iTvvxIZLs1EGQNGp5XNLzS46lOSESUKXxwvMTmmPxT6M4EMqJKYCeEk/da
-	fiz076rwi7jLeH0nOmL9WEMKL5trlNw6bKFQsq6AfdAobr88otaH2dBwjedTNFS4VM6K
-	FG49fKxsOylpPzJchmlK2svB0Gzri2ZLpcqd/C2G80Onfh8BB8Tw2PfT8pmrC5/ei+M+
-	fT83KTz1RDoW6ZzG87t7myNvnFhuUkWRta3VhmVjCvjbEtwuxtnPgBNeDz/nOQow+0Iz
-	ZK0oKO1hobQbD0SCpJ4kHg5lovWtkhHqhqZAN4y2VkK8J5QEityrwNUdyl00HULww/Mt
-	P3Gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=EdAfXYygFzt7isTXq8iVPtiINdWCQ+QOCho17zxdYbM=;
-	b=UjweClD4G78a6fCollIRJr9QH5vQBiD63Xq+tmrla1CuKZx0Rtd1igHzZ4sph158OM
-	ZNgnJCAwdkLc+yLu02LnAxqD+K/ctMRL38MHLxpX3yzbSu4rmiKTwmCXxzgF393YOJ7K
-	yr6fAnvm88LxhZp0t+5mqZngO2+A3Jz1IW+vSjjqAr09DCteyeOzLr6YbWY9k73g32HT
-	XyayaUC7d3sK6inmPgPV917Qkxv0j+t2Vlfe02zhh2juIdKmI0IkxBvoxfbFtrgydJhv
-	AlavW77VhKW/Xarny/Jxi8GmzDV7SmZ5xcdScPilmppSFB9cZ/slP+d6WtEoxZMU8nQy
-	2HrA==
-X-Gm-Message-State: APjAAAV8TqOhVhEb8Tcs1yLRKJBDSSiMUIyt2uXkQRDelZONYmPnNcy5
-	GMQSlnT+FAQslagKFjVvaVxafJRfACc=
-X-Google-Smtp-Source: APXvYqwNH4VCKGOa2GYrOpzwzDUnU+95M82IrNs0nHtOvNaaq05QfvppaxqIy1SstuUN7mL480zjYw==
-X-Received: by 2002:aa7:8652:: with SMTP id a18mr70792937pfo.167.1558242574422;
-	Sat, 18 May 2019 22:09:34 -0700 (PDT)
-Received: from hermes.local ([2601:646:8500:6bc6:2991:b26a:5bdc:753c])
-	by smtp.gmail.com with ESMTPSA id
-	f67sm121158pfa.149.2019.05.18.22.09.33
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 22:09:33 -0700 (PDT)
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
-	openembedded-core@lists.openembedded.org
-References: <1558136952-13094-1-git-send-email-alejandr@xilinx.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <d77e4aca-3f48-5acf-058e-8dc3ffba5cf2@gmail.com>
-Date: Sat, 18 May 2019 22:09:32 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
-	Gecko/20100101 Thunderbird/67.0
+	Sun, 19 May 2019 08:37:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 456Fkm6rVHz5c;
+	Sun, 19 May 2019 10:37:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558255025;
+	bh=qAKYd3u6cCcSwwvefRLgMnhPfSj388kTPoyCRabKPQ0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BRFe4jW4KD+UkyZGg4uVoSpE8ZaVJH3rxh0YR80SpTgRoWIIL7fWBic4b+RYqIrk4
+	rRk9g+JZ1+C5JihBAadLbLK7FWq9kHWGliDO5d04lfoGrqiVKaIVrdivLWdsjKaP4w
+	GFZ4sw3BBUTcmW2ymZNy9PuiytIzQ4nqD660GmbXYY0wcePSHGbBZimNfsPlQw0Cbo
+	iyPHdDoX1UdE8B9cn2vmeP8IHsMbpIimmPGj1vTiC7irhWXRkiECZpVqzH4TWzpPHG
+	Woc4XBcXx/wZB6AmE5MiEdLnypg16ZIPdNMvkKVArbY7aNudosENxZNxKeUoOMqb2j
+	W8H8I6uSt5c5ixTCPDgoE7MWvP2q+NpbfFc3oBRqAIhRIO2ddZLjMTxQGN6OLEZ3XA
+	ziNDryo8/cbxNQfHAA1MuIHIDb5ElPo6Vh4OMlSt8fcwArbNHN9Gd05TUR5nvmMDa6
+	oHXDDx0WZxCtoXJfklH/aVNeEJzCk/e1Gc5Kehtq4halX1+1YTrWge97pCjWd5zWe/
+	z+UY3U9qXjC/oHuwmY//3G9zE4U3rtYI4EXvIu0wtgKE7uP67S10AmjoKGl9pzGJ8Z
+	bFU4ZIvNEWpCbFVW7Kj8pIY0I/8XBawTxxulFR0140KDjVw07HTkuYqk2Dw0NcGym5
+	zxCKQtylQg6JxGsKDdBgpBaY=
+Date: Sun, 19 May 2019 11:37:02 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190519083702.GA23436@localhost>
+References: <20190518172136.11368-1-bunk@stusta.de>
+	<c5b0bf78-e579-4f77-c4f2-b16e9ee49eda@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1558136952-13094-1-git-send-email-alejandr@xilinx.com>
-Subject: Re: [PATCH] python-numpy: Avoid installing copy of f2py script
+In-Reply-To: <c5b0bf78-e579-4f77-c4f2-b16e9ee49eda@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] libnss-mdns: Stop trying to build for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,49 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2019 05:09:33 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 19 May 2019 08:37:07 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+On Sat, May 18, 2019 at 09:56:04PM -0700, Khem Raj wrote:
+> 
+> 
+> On 5/18/19 10:21 AM, Adrian Bunk wrote:
+> > There's no point in building an NSS module for a C library
+> > that doesn't support NSS.
+> > 
+> 
+> Fundamentally this change looks ok however
+> have you tried using avahi after this change ?
 
+No.
 
-On 5/17/19 4:49 PM, Alejandro Enedino Hernandez Samaniego wrote:
-> Both python-numpy and python3-numpy try to install the file:
-> 
-> ${D}/${bindir}/f2py
-> 
-> which causes an error during do_rootfs since the package manager complains about that.
-> 
-> The numpy packages create basically copies of f2py script with the following names:
-> f2py (on both)
-> f2py2 (on python 2)
-> f2py2.7 (on python 2)
-> f2py3 (on python 3)
-> f2py3.7 (on python 3)
-> 
-> Remove the copy of f2py from python-numpy in favor of using the one from python3
-> to avoid installation issues at do_rootfs().
-> 
+The RRECOMMENDS in avahi are already _append_libc-glibc,
+and libnss-mdns simply cannot work with musl.
 
-what if one does not install py3 ?
+How well Avahi works with musl is therefore invariant.
 
-> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
-> ---
->   meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb | 4 ++++
->   1 file changed, 4 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
-> index 5013789..a1133da 100644
-> --- a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
-> +++ b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
-> @@ -4,3 +4,7 @@ require python-numpy.inc
->   RDEPENDS_${PN}_class-target_append = " \
->       ${PYTHON_PN}-subprocess \
->   "
-> +
-> +do_install_append(){
-> +        rm ${D}/${bindir}/f2py
-> +}
-> 
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
