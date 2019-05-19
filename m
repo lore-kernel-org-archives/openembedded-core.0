@@ -1,37 +1,55 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E1057D6B5
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id D65D372EB7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2019 08:37:05 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 456Fkm6rVHz5c;
-	Sun, 19 May 2019 10:37:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558255025;
-	bh=qAKYd3u6cCcSwwvefRLgMnhPfSj388kTPoyCRabKPQ0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BRFe4jW4KD+UkyZGg4uVoSpE8ZaVJH3rxh0YR80SpTgRoWIIL7fWBic4b+RYqIrk4
-	rRk9g+JZ1+C5JihBAadLbLK7FWq9kHWGliDO5d04lfoGrqiVKaIVrdivLWdsjKaP4w
-	GFZ4sw3BBUTcmW2ymZNy9PuiytIzQ4nqD660GmbXYY0wcePSHGbBZimNfsPlQw0Cbo
-	iyPHdDoX1UdE8B9cn2vmeP8IHsMbpIimmPGj1vTiC7irhWXRkiECZpVqzH4TWzpPHG
-	Woc4XBcXx/wZB6AmE5MiEdLnypg16ZIPdNMvkKVArbY7aNudosENxZNxKeUoOMqb2j
-	W8H8I6uSt5c5ixTCPDgoE7MWvP2q+NpbfFc3oBRqAIhRIO2ddZLjMTxQGN6OLEZ3XA
-	ziNDryo8/cbxNQfHAA1MuIHIDb5ElPo6Vh4OMlSt8fcwArbNHN9Gd05TUR5nvmMDa6
-	oHXDDx0WZxCtoXJfklH/aVNeEJzCk/e1Gc5Kehtq4halX1+1YTrWge97pCjWd5zWe/
-	z+UY3U9qXjC/oHuwmY//3G9zE4U3rtYI4EXvIu0wtgKE7uP67S10AmjoKGl9pzGJ8Z
-	bFU4ZIvNEWpCbFVW7Kj8pIY0I/8XBawTxxulFR0140KDjVw07HTkuYqk2Dw0NcGym5
-	zxCKQtylQg6JxGsKDdBgpBaY=
-Date: Sun, 19 May 2019 11:37:02 +0300
-From: Adrian Bunk <bunk@stusta.de>
+	Sun, 19 May 2019 09:58:09 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id y3so10479366wmm.2
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 19 May 2019 02:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=9P+xWdSBsBCQWHnfi37qLLe5EbB2VNYos804FhuurEs=;
+	b=tWqyUJ78ID69IfJOE24L3/IdPXLh0xaEauAJfk+Q5/vWLYXcoAmI0p7VfimPK0LeFY
+	ulNphAe95gK2WGJ3oaitBV4zmr/cu05brdDeScaquWS5xKmnKgYXI1qVJVN+zo4PxVnT
+	oCi1k/U2VvY9BFw98Y2ttTfe+EyLXuXeKv0VRAACU2pv6vcMg8BEPymi9jGomENNSrU+
+	EEomBPtMcev1TM86hwBg6R5D8LOiSdTMn8mnB/TgEJim83WW2HcjtU1JNaUH55pNXwT4
+	QmVkroN1zIAyP2Pu12AeUg8QPczYLHKW6Qc108x26t/u2Senfc4RNoyIed88b5Ob/iZF
+	rspw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+	:content-transfer-encoding:message-id:references:to;
+	bh=9P+xWdSBsBCQWHnfi37qLLe5EbB2VNYos804FhuurEs=;
+	b=Bg/c4kVbB7Mx1RlFBSgwysfQdEEl/mH0SpeSjid+leHZuyGvIiv5vaHCX08oV+cpT4
+	q40AGimao+5EQOXWqKsIc4pg3lrpyswXev0dvWDxqYnthsbcmaiBx+Rbgsg0cviLJJaG
+	AmGoR7TauRv30heau3FqQ2VlvuPPo6V9PO3JFNJ2hvFSjCYIo1LxZVUwrMopacdHTcXv
+	4uk7vbrnbwlLEZSkHSC996mbILGDBErHgNWElu5meNs4bo2QZIzO1hw/LBzV+syXJiVi
+	LEOJjHPBoVJkUS3UGOKqKVUvH0Qb7/Z9QXElD5X7VCnAQKaqmzHxPmWzx1iJgQD9Xw/H
+	LNVQ==
+X-Gm-Message-State: APjAAAU/vwrMXoL1hQhMMU6TR9M6Xff8ENQojwdw6Eyp8rzY6efZ4lYY
+	8RupUYVl6tdDfmFgZK6EFL13e0oA
+X-Google-Smtp-Source: APXvYqzU5QaGoigmWV8msi3Pq4WPFnQaJU5HgYbJR0YU/BYsnsXm1sTRqhZP+JhVZj+lTFtn7wX+uw==
+X-Received: by 2002:a1c:dcc2:: with SMTP id t185mr7552906wmg.143.1558259890071;
+	Sun, 19 May 2019 02:58:10 -0700 (PDT)
+Received: from ?IPv6:2a02:8109:b5c0:1267:38a9:dc4c:af62:603?
+	([2a02:8109:b5c0:1267:38a9:dc4c:af62:603])
+	by smtp.gmail.com with ESMTPSA id 9sm6134897wmi.24.2019.05.19.02.58.08
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 19 May 2019 02:58:08 -0700 (PDT)
+Mime-Version: 1.0 (1.0)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+X-Mailer: iPhone Mail (16E227)
+In-Reply-To: <07b946fc-bd26-fd7a-e4c4-1cbb782db4f1@gmail.com>
+Date: Sun, 19 May 2019 11:58:08 +0200
+Message-Id: <90586B6E-70A7-4F92-98F1-2D822116DE48@gmail.com>
+References: <20190517181151.44001-1-alex.kanavin@gmail.com>
+	<20190517181151.44001-31-alex.kanavin@gmail.com>
+	<07b946fc-bd26-fd7a-e4c4-1cbb782db4f1@gmail.com>
 To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190519083702.GA23436@localhost>
-References: <20190518172136.11368-1-bunk@stusta.de>
-	<c5b0bf78-e579-4f77-c4f2-b16e9ee49eda@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <c5b0bf78-e579-4f77-c4f2-b16e9ee49eda@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libnss-mdns: Stop trying to build for musl
+Subject: Re: [PATCH 31/37] bash-completion: upgrade 2.8 -> 2.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +62,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2019 08:37:07 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 19 May 2019 09:58:10 -0000
+Content-Type: text/plain;
+	charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, May 18, 2019 at 09:56:04PM -0700, Khem Raj wrote:
-> 
-> 
-> On 5/18/19 10:21 AM, Adrian Bunk wrote:
-> > There's no point in building an NSS module for a C library
-> > that doesn't support NSS.
-> > 
-> 
-> Fundamentally this change looks ok however
-> have you tried using avahi after this change ?
+Because the files are no longer included in bash-completion. They are provid=
+ed only by util-linux now, previously they were provided by both.
 
-No.
+Alex
 
-The RRECOMMENDS in avahi are already _append_libc-glibc,
-and libnss-mdns simply cannot work with musl.
+> On 19 May 2019, at 6.48, Khem Raj <raj.khem@gmail.com> wrote:
+>=20
+>=20
+>=20
+>> On 5/17/19 11:11 AM, Alexander Kanavin wrote:
+>> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+>> ---
+>>  .../{bash-completion_2.8.bb =3D> bash-completion_2.9.bb}     | 7 ++-----=
 
-How well Avahi works with musl is therefore invariant.
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+>>  1 file changed, 2 insertions(+), 5 deletions(-)
+>>  rename meta/recipes-support/bash-completion/{bash-completion_2.8.bb =3D>=
+ bash-completion_2.9.bb} (82%)
+>> diff --git a/meta/recipes-support/bash-completion/bash-completion_2.8.bb b=
+/meta/recipes-support/bash-completion/bash-completion_2.9.bb
+>> similarity index 82%
+>> rename from meta/recipes-support/bash-completion/bash-completion_2.8.bb
+>> rename to meta/recipes-support/bash-completion/bash-completion_2.9.bb
+>> index 85064343e30..ce66ba5a2a8 100644
+>> --- a/meta/recipes-support/bash-completion/bash-completion_2.8.bb
+>> +++ b/meta/recipes-support/bash-completion/bash-completion_2.9.bb
+>> @@ -9,8 +9,8 @@ SECTION =3D "console/utils"
+>>    SRC_URI =3D "https://github.com/scop/bash-completion/releases/download=
+/${PV}/${BPN}-${PV}.tar.xz"
+>>  -SRC_URI[md5sum] =3D "201b6ae62f7d5fb5b1b25e34427db919"
+>> -SRC_URI[sha256sum] =3D "c01f5570f5698a0dda8dc9cfb2a83744daa1ec54758373a6=
+e349bd903375f54d"
+>> +SRC_URI[md5sum] =3D "60139333b25c4d54ad40323b701be130"
+>> +SRC_URI[sha256sum] =3D "d48fe378e731062f479c5f8802ffa9d3c40a275a19e6e0f6=
+f6cc4b90fa12b2f5"
+>>  UPSTREAM_CHECK_REGEX =3D "bash-completion-(?P<pver>(?!2008).+)\.tar"
+>>  UPSTREAM_CHECK_URI =3D "https://github.com/scop/bash-completion/releases=
+"
+>>  @@ -25,9 +25,6 @@ do_install_append() {
+>>        # Delete files already provided by util-linux
+>>      local i
+>> -    for i in mount umount; do
+>> -        rm ${D}${datadir}/${BPN}/completions/$i
+>> -    done
+>=20
+> why is this deleted ?
+>=20
+>>  }
+>>    RDEPENDS_${PN} =3D "bash"
 
