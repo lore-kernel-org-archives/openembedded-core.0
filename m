@@ -1,55 +1,55 @@
 Return-Path: <raj.khem@gmail.com>
 Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
 	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 48A237D68C
+	by mail.openembedded.org (Postfix) with ESMTP id 72AD47D68C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2019 04:56:05 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id w22so5174442pgi.6
+	Sun, 19 May 2019 05:00:17 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id 145so5173401pgg.9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 21:56:06 -0700 (PDT)
+	Sat, 18 May 2019 22:00:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:organization:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=jVu7m6HogFRTb6rWtjQs9q69/cBTk1CdXVkZjCIIMJU=;
-	b=XI79nYvFG/3HRxZpC9UjIm3M58VrLOTRGtg3p3Aua3RBYORRqiuobLBLlFJkJ7oQB7
-	LKOJq+RvfI7a/Xvkq9/fcVCbS4v46ZZXIsS4SfI9dKiLFLlIME7kmYPeA4GXhSodG6vb
-	YJn49VWQIP3a448SunDN6BDndIb9tTKz1YfFap8PXiyWBV8HyJfGOYvoIHTi0WvCbyos
-	A0drjiURuzcY/qUjr7QYMbtPFws+fInZ6Ic7C5kXWFFyrkR7agogW6oD5DQ95g/wl3wE
-	IIfMp1K3Psho2G8hcOXfAdXIBNFrYlT2b+LLvHecikJ9c/sjtkETYTEh4WoSh9Lra4K/
-	B0Cw==
+	bh=6wiwsgJPlHWfIUHp35xmZbariLloGayg+BEmKsNewD0=;
+	b=ifaNqKclxzL7lvNYxT/0gm7qITQFPG8bYmZQBUUmS93YPyzLDlGhkwSjI3VGQuucAW
+	af975keHMm2WQmFucBjIhLRuYz0E2T2Q1OE1O4TE+aimQfI5+/MNiJUnVzX2ugRSpqKu
+	SEJOp2ddo/par+hi9J0a74uhn39ctQf+7CuvTjS1iuB75DmWXPyyQiLpw6nfKneCCUAK
+	BSEhM7ulkHfuem0MNpPDvVkLhvy/U0gYyIZinWxknSWxX2fvoEaTCNJ6rOmJhow1LFn/
+	dVKc56qlRtMSdvuyQTbmmv+YT7Jcp34ZiAZoI4Y/y/gZ2Gt+0iDviE5v5MX6AresBJa4
+	HXrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language:content-transfer-encoding;
-	bh=jVu7m6HogFRTb6rWtjQs9q69/cBTk1CdXVkZjCIIMJU=;
-	b=V2jtBbZMcBOkDhrzIg3cipTnxUtarq59bmNr5teDviyEpD4EOcD430VGQfSIPu/Hgl
-	eAZXC73yvCIc27cHUOj4EJIN3v68dhrqFeB6deiXbgXZXrKNDBPzxBqADMFjtVM8Gj/H
-	rDX6AhyDp2ffKpL7fqg4QayaRVax11vhfdppYMiZTLcmt+xzO7P5Yb/EWqB2b/46XxeW
-	Vr7qwafRHwOLBCol1i9DpILT4RD7zzrBLUxghC9q2Bekzgcv+JsKWr67dy9avgoHU1vq
-	9SZW7ev+Rezvm0MCh4iMlme7xfyigl0M9JiU0A/gU8HmnDwbIeAPQatQLBYdEUgGYPRm
-	qDNw==
-X-Gm-Message-State: APjAAAXfVW1WPDvGbELiK+7txBWatsfKUhXYilsQD5GN8JVMb9iBUGKQ
-	TGxdWjNIR5Z5uzaAzHVzNW/l1GVbJCE=
-X-Google-Smtp-Source: APXvYqxDN6wRRpE06sh91Fs2TBGYU71DWDCIGsRbCqg5fjEFBXiwr7BPc+tJDvgO34HMASRf68MgQA==
-X-Received: by 2002:a63:1460:: with SMTP id 32mr68249465pgu.319.1558241765954; 
-	Sat, 18 May 2019 21:56:05 -0700 (PDT)
+	bh=6wiwsgJPlHWfIUHp35xmZbariLloGayg+BEmKsNewD0=;
+	b=WWtVZvfbSxTVeY66nTKK1AKOgIXZugHRMLED52Q/xcHhcrieiLFeA4uZl7h3uAGMfv
+	xmtFxgVCSdHwHVfB7aL4AC7wVbCEiB1ik/fLJ7WaFG9Pt7YKpHuQyNhrurhRT349KG8I
+	GyyqdyC1neiZdWN/GU/R6DwnQZYsvaIg4PHiLTqyLPvT8HquKGiv2M0ZQFbBXa8s30FT
+	EI6YcyHFzlmqnqEaggzolzySm6kKAbR0UuThATYo8CCdYKN1e9Br8y3IhQsNM9gSYvBu
+	VsNLkrn/qFe2WyCFaFq6UMt9h9AX5i28Qu4R8r1xWTeRrxYYqVDx03kZdjoorRCdgrys
+	133w==
+X-Gm-Message-State: APjAAAVTfCmXWlfzXudj9Tjgdugq2d4OXXsiMT13oWhFpqvH9fiavddU
+	Y2Yp0IOc9jHjr+/Tm7ZRXkGOCX67ewY=
+X-Google-Smtp-Source: APXvYqw33hV+JYh0BVECXXWhV8Rh/pAAsQysU7N43ASrn/UodjM1eLV5VWoC9NZt6PpHdOroerKnMA==
+X-Received: by 2002:a62:7793:: with SMTP id s141mr6804517pfc.21.1558242017641; 
+	Sat, 18 May 2019 22:00:17 -0700 (PDT)
 Received: from hermes.local ([2601:646:8500:6bc6:2991:b26a:5bdc:753c])
 	by smtp.gmail.com with ESMTPSA id
-	p64sm19967722pfp.72.2019.05.18.21.56.04
+	u134sm20596333pfc.61.2019.05.18.22.00.16
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 21:56:05 -0700 (PDT)
+	Sat, 18 May 2019 22:00:16 -0700 (PDT)
 To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
-References: <20190518172136.11368-1-bunk@stusta.de>
+References: <20190518172136.11368-2-bunk@stusta.de>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <c5b0bf78-e579-4f77-c4f2-b16e9ee49eda@gmail.com>
-Date: Sat, 18 May 2019 21:56:04 -0700
+Message-ID: <c2bfa479-c46a-4d5e-d8d8-8b9c5bf02809@gmail.com>
+Date: Sat, 18 May 2019 22:00:15 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
 	Gecko/20100101 Thunderbird/67.0
 MIME-Version: 1.0
-In-Reply-To: <20190518172136.11368-1-bunk@stusta.de>
-Subject: Re: [PATCH] libnss-mdns: Stop trying to build for musl
+In-Reply-To: <20190518172136.11368-2-bunk@stusta.de>
+Subject: Re: [PATCH] nss-myhostname: Stop trying to build for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,7 +62,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2019 04:56:05 -0000
+X-List-Received-Date: Sun, 19 May 2019 05:00:17 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -74,60 +74,49 @@ On 5/18/19 10:21 AM, Adrian Bunk wrote:
 > that doesn't support NSS.
 > 
 
-Fundamentally this change looks ok however
-have you tried using avahi after this change ?
+this patch is ok
+
 
 > Signed-off-by: Adrian Bunk <bunk@stusta.de>
 > ---
->   .../libnss-mdns/0001-check-for-nss.h.patch    | 56 -------------------
->   .../libnss-mdns/libnss-mdns_0.10.bb           |  3 +-
->   2 files changed, 2 insertions(+), 57 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch
+>   ...-Check-for-nss.h-presense-before-use.patch | 53 -------------------
+>   .../nss-myhostname/nss-myhostname_0.3.bb      |  3 +-
+>   2 files changed, 2 insertions(+), 54 deletions(-)
+>   delete mode 100644 meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 > 
-> diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch b/meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch
+> diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch b/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 > deleted file mode 100644
-> index f63eb90cdc..0000000000
-> --- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns/0001-check-for-nss.h.patch
+> index 82f25743af..0000000000
+> --- a/meta/recipes-support/nss-myhostname/nss-myhostname/0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch
 > +++ /dev/null
-> @@ -1,56 +0,0 @@
-> -From bdf01a581d58eb5340e9238d143dbcac9db5b11c Mon Sep 17 00:00:00 2001
+> @@ -1,53 +0,0 @@
+> -From d1345871b992f9a055c968963967e728da1a7ffb Mon Sep 17 00:00:00 2001
 > -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Sat, 30 Jan 2016 19:29:45 +0000
-> -Subject: [PATCH] check for nss.h
+> -Date: Sat, 30 Jan 2016 20:29:06 +0000
+> -Subject: [PATCH] nss-myhostname: Check for nss.h presense before use
 > -
-> -nss.h may not available on all libc implementations, e.g. musl does not
-> -have this header, this patch detects nss.h presence and defines the data
-> -types that are required if nss.h is missing on platform
+> -We do not have nss.h on musl e.g. and configury is already checking for
+> -nss.h presence, use this to define needed data structures if nss.h is
+> -missing on a given libc implementation on a platform
+> -
+> -include stdint.h for uint32_h definition
 > -
 > -Signed-off-by: Khem Raj <raj.khem@gmail.com>
 > ----
 > -Upstream-Status: Pending
 > -
-> - configure.ac |  2 +-
-> - src/nss.c    | 11 +++++++++++
-> - 2 files changed, 12 insertions(+), 1 deletion(-)
+> - nss-myhostname.c | 20 ++++++++++++++++++++
+> - 1 file changed, 20 insertions(+)
 > -
-> -diff --git a/configure.ac b/configure.ac
-> -index aa66bc6..ce19b07 100644
-> ---- a/configure.ac
-> -+++ b/configure.ac
-> -@@ -71,7 +71,7 @@ AC_PROG_LIBTOOL
+> -diff --git a/nss-myhostname.c b/nss-myhostname.c
+> -index 293166c..6f287f5 100644
+> ---- a/nss-myhostname.c
+> -+++ b/nss-myhostname.c
+> -@@ -21,7 +21,27 @@
+> - ***/
 > -
-> - # Checks for header files.
-> - AC_HEADER_STDC
-> --AC_CHECK_HEADERS([arpa/inet.h fcntl.h inttypes.h netdb.h netinet/in.h stdlib.h string.h sys/socket.h sys/time.h unistd.h nss.h sys/ioctl.h])
-> -+AC_CHECK_HEADERS([arpa/inet.h fcntl.h inttypes.h netdb.h netinet/in.h stdlib.h string.h sys/socket.h sys/time.h unistd.h nss.h sys/ioctl.h nss.h])
-> -
-> - # Checks for typedefs, structures, and compiler characteristics.
-> - AC_C_CONST
-> -diff --git a/src/nss.c b/src/nss.c
-> -index e48e315..406733b 100644
-> ---- a/src/nss.c
-> -+++ b/src/nss.c
-> -@@ -29,7 +29,18 @@
-> - #include <assert.h>
-> - #include <netdb.h>
-> - #include <sys/socket.h>
+> - #include <limits.h>
+> -+#include <stdint.h>
 > -+#ifdef HAVE_NSS_H
 > - #include <nss.h>
 > -+#else
@@ -138,34 +127,42 @@ have you tried using avahi after this change ?
 > -+    NSS_STATUS_SUCCESS,
 > -+    NSS_STATUS_RETURN
 > -+};
+> -+/* Data structure used for the 'gethostbyname4_r' function.  */
+> -+struct gaih_addrtuple
+> -+  {
+> -+    struct gaih_addrtuple *next;
+> -+    char *name;
+> -+    int family;
+> -+    uint32_t addr[4];
+> -+    uint32_t scopeid;
+> -+  };
 > -+#endif
-> -+
-> - #include <stdio.h>
-> - #include <stdlib.h>
-> -
+> - #include <sys/types.h>
+> - #include <netdb.h>
+> - #include <errno.h>
 > ---
 > -2.7.0
 > -
-> diff --git a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-> index d0eb2768d1..953505971a 100644
-> --- a/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-> +++ b/meta/recipes-connectivity/libnss-mdns/libnss-mdns_0.10.bb
-> @@ -9,7 +9,6 @@ DEPENDS = "avahi"
->   PR = "r7"
+> diff --git a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+> index de5b7cf598..244d9e204e 100644
+> --- a/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+> +++ b/meta/recipes-support/nss-myhostname/nss-myhostname_0.3.bb
+> @@ -7,7 +7,6 @@ LICENSE = "LGPLv2.1"
+>   LIC_FILES_CHKSUM = "file://LICENSE;md5=2d5025d4aa3495befef8f17206a5b0a1"
 >   
->   SRC_URI = "http://0pointer.de/lennart/projects/nss-mdns/nss-mdns-${PV}.tar.gz \
-> -           file://0001-check-for-nss.h.patch \
+>   SRC_URI = "http://0pointer.de/lennart/projects/nss-myhostname/nss-myhostname-${PV}.tar.gz \
+> -           file://0001-nss-myhostname-Check-for-nss.h-presense-before-use.patch \
 >              "
 >   
->   SRC_URI[md5sum] = "03938f17646efbb50aa70ba5f99f51d7"
-> @@ -21,6 +20,8 @@ localstatedir = "/"
+>   SRC_URI[md5sum] = "d4ab9ac36c053ab8fb836db1cbd4a48f"
+> @@ -15,6 +14,8 @@ SRC_URI[sha256sum] = "2ba744ea8d578d1c57c85884e94a3042ee17843a5294434d3a7f6c4d67
 >   
->   inherit autotools
+>   inherit autotools distro_features_check
 >   
 > +COMPATIBLE_HOST_libc-musl = 'null'
 > +
->   EXTRA_OECONF = "--libdir=${base_libdir} --disable-lynx --enable-avahi"
+>   # The systemd has its own copy of nss-myhostname
+>   CONFLICT_DISTRO_FEATURES = "systemd"
 >   
->   # suppress warning, but don't bother with autonamer
 > 
 
