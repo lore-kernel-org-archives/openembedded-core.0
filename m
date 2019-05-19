@@ -1,52 +1,54 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 06E107DF86
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
+	[209.85.161.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 174FF6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 21:12:41 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id c17so7682701lfi.2
+	Sun, 19 May 2019 00:13:30 +0000 (UTC)
+Received: by mail-yw1-f66.google.com with SMTP id k128so2086193ywf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 14:12:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=EKhGbtiscWWkt7Iu6morul1KxfhL4Fp0We52bJnDoOs=;
-	b=njkiBgn1x/pncCHQxxj4fOH8Ah+Y4UqgHNervsye+n7xhx4VPz7gOOS0U/77ubPqSv
-	ldg81JCDJCZlzuGjFukgrEpUhMRimQSwgSka+aWh3+eziSoVnM1BqeZXNGQArxXufp5q
-	GPbO97eejWf1hB8+uRvfsremtWNXEsNRTI4vK2dPpIxKxgoQ/+kV1bWfrmL/J+fLQ9Eq
-	Ykdbd6kSly7oCE7MhjVFSDzBOjQfy8Np2IGxADjwCiD6d0gumynARajJlPhr7KnCvkmk
-	x1uA5c5SjRsKA5XQsckc9uJcd+A1z0MXU6Samb1xDnjR5Uskz+QtWLVwIA8wtHYyjPVN
-	6++A==
+	Sat, 18 May 2019 17:13:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=hpczqDSYKlkvCWlbolYLWYzn+L9FJ9vyZfCe7a/qcF4=;
+	b=Y/swram+iqc4GO8T9psLfGC9QdYhoq9wvMYkSOGMVz0e85fAn6HFH7wBCU8BaPJxJ3
+	gSvBNn46IX7BkZABO5wI1ryYXBL1IWbgE2Ih+H0/8cdwhC3AcEFuJqZ9rBgGN4K2b4fQ
+	OKunc44axBIOGpGLd4PztkrejJQ5/6TtnCx18=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=EKhGbtiscWWkt7Iu6morul1KxfhL4Fp0We52bJnDoOs=;
-	b=t9ulued53cmPpupa2z7kqXRUmjKRz13FRQnbHw+NsFn2VpHRegSShWMm/jRl9FfQ+z
-	XmhoJi8kh30U16zmrxEO7jY6BfoJ4e9O2RtcJvwieM1scrHtN6nqVBJCWuRdYuzI9N0I
-	ICS/YdpOd9AOENSDsme3N9RznNwvBVPOznu7MScvl523ZlMzUv2c0j0pjf7gQwbYNPjR
-	YysX00URif+K9JDX3z3APR40WCgfKQXUelHiHc4JMQxK5EY63Jiczq7scIqgDoozscpz
-	BNzHaAu16VDdv/Z926d8N3+g85anYSNpWrsAByM0cS3HHW7v3m020E4UyD+LSPUJzkwA
-	hqQQ==
-X-Gm-Message-State: APjAAAWtod26RJZfQxH2Uu/lXx1/Yr6eEBb9Cc/MWhAAL4laE33a4TS5
-	zl0vELfw1I4agBjecU2mvv4V22byq4A=
-X-Google-Smtp-Source: APXvYqw7YU8N2S6P0yEKIzTh8vnT2agg2HMg8A1WKIe0mj6N9m3NcGPZ2D0Vyb8zKbz+zCvZCX1a6w==
-X-Received: by 2002:a19:771c:: with SMTP id s28mr6114301lfc.140.1558213962399; 
-	Sat, 18 May 2019 14:12:42 -0700 (PDT)
-Received: from peterliu-Precision-M4800.lan
-	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
-	by smtp.gmail.com with ESMTPSA id f16sm953723lfk.75.2019.05.18.14.12.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sat, 18 May 2019 14:12:41 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 18 May 2019 23:12:25 +0200
-Message-Id: <1558213945-10235-3-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558213945-10235-1-git-send-email-liu.ming50@gmail.com>
-References: <1558213945-10235-1-git-send-email-liu.ming50@gmail.com>
-Cc: gerard.salvatella@toradex.com, luka.pivk@toradex.com,
-	stefan.agner@toradex.com, Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH V2 2/2] meta: drop IMAGE_FSTYPES from UBOOT_CONFIG
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=hpczqDSYKlkvCWlbolYLWYzn+L9FJ9vyZfCe7a/qcF4=;
+	b=kU77ycKhf49XlNgg/XTIJQOSdrY0u2xOQepDVCZF4vrnWmmUenQSNbzoUsck35c5Kb
+	82QtiYAevwpqQqkVGCxxBSune8podgeFqXhTsE2U9+HDyhrlU0ge4bugxcH2g6jPubVJ
+	c4PGIYpv5SiO3GRZqQV9FScVuh81j3t7+l1D3DO/RViQdNqdn7gx6P98/dlZVh5C5s94
+	jEaMR2Gn3ObmNuLPS62fkD3H6mvAV6UKj9QzaZFpnmWzrTsCzF2s4lV005UF8hROhxGb
+	202WTI0sSSoc/s5g6/Ofa3uSRqjNtSakyhSDyo3/5oYhNDONzwit3kpGOrxJzFrV0hG4
+	viVw==
+X-Gm-Message-State: APjAAAWbS8BWXnKhfeREqKpRvO2fmUEcEWGLgBAp7Rkk0qSETeqlNXbV
+	evlUni8KtR+l8kF9UTjn2CbjMQ==
+X-Google-Smtp-Source: APXvYqyrmsTbmUqqoq4ktjhVMKfJF0UCzT9oLswjE+VxkEW6VN+4DI+zr3h4vmxJPOX4yPeXuMIUdw==
+X-Received: by 2002:a81:616:: with SMTP id 22mr31927482ywg.234.1558224811757; 
+	Sat, 18 May 2019 17:13:31 -0700 (PDT)
+Received: from bill-the-cat (cpe-65-184-141-147.ec.res.rr.com.
+	[65.184.141.147]) by smtp.gmail.com with ESMTPSA id
+	s17sm3729350ywg.70.2019.05.18.17.13.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 18 May 2019 17:13:30 -0700 (PDT)
+Date: Sat, 18 May 2019 20:13:28 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20190519001328.GM22232@bill-the-cat>
+References: <20190517135309.116495-1-alex.kanavin@gmail.com>
+	<1558204453-8142-1-git-send-email-trini@konsulko.com>
+	<CA+chaQdA-jTDBMz_S9gMDLzSU8NWd3b4tvfyRPVdLkq46_vKSQ@mail.gmail.com>
+	<20190518190327.GL22232@bill-the-cat>
+MIME-Version: 1.0
+In-Reply-To: <20190518190327.GL22232@bill-the-cat>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] vim: Rework things so vim adds features not vim-tiny removes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,164 +61,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 18 May 2019 21:12:42 -0000
+X-List-Received-Date: Sun, 19 May 2019 00:13:31 -0000
+X-Groupsio-MsgNum: 124630
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="c5s4KQzYKKhDo6IA"
+Content-Disposition: inline
 
-From: Ming Liu <liu.ming50@gmail.com>
+--c5s4KQzYKKhDo6IA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Currently, in most BSP layers, the uboot-config.bbclass is not being
-inherited in machine conf, so the IMAGE_FSTYPES item would not take
-effect since it's a image specific variable, So we can drop it from
-UBOOT_CONFIG.
+On Sat, May 18, 2019 at 03:03:27PM -0400, Tom Rini wrote:
+> On Sat, May 18, 2019 at 08:57:02PM +0200, Martin Jansa wrote:
+> > Thanks Tom for quick update.
+> >=20
+> > ALTERNATIVE_TARGET[xxd] =3D "${bindir}/xxd"
+> > ALTERNATIVE_LINK_NAME[xxd] =3D "${bindir}/xxd"
+> > looks strange, IIRC TARGET and LINK_NAME should always point to differe=
+nt
+> > filepath, it was added in meta-oe commit:
+> >=20
+> > commit 897c10b7c17c138a85bdeb36cf72e7201daf0e0e
+> > Author: Dan McGregor <dan.mcgregor@usask.ca>
+> > Date:   Thu Oct 18 09:46:27 2018 -0600
+> >=20
+> >     vim: alternatify xxd
+> >=20
+> >     toybox also provides xxd.
+> >=20
+> > but I wonder what u-a does (or is supposed to do in this scenario). May=
+be
+> > u-a bbclass automatically adds .${BPN} suffix to TARGET and renames the
+> > installed file?
+>=20
+> I'll double check, but also toybox doesn't have anything for xxd today,
+> so I'll add that into my build and come up with something sane for both
+> if needed, thanks!
 
-Instead, we introduce a new item 'env', it could be used to deploy
-environment files to '/boot' directory and also to deploy directory.
+OK, so busybox, toybox and vim all provide "xxd" and busybox/toybox
+setup u-a with their normal method.  With what vim has (today and also
+with this patch) we end up with /usr/bin/xxd.vim, which is what we want.
+I inspected the ipk for that, and then putting all 3 in
+core-image-minimal looks sane too.
 
-To give a example, now the UBOOT_CONFIG could be set like this:
-```
-UBOOT_CONFIG ??= "emmc rawnand"
-UBOOT_CONFIG[emmc] = "imx7_emmc_defconfig,uEnv-emmc.txt,u-boot.imx"
-UBOOT_CONFIG[nand] = "imx7_defconfig,uEnv-nand.txt,u-boot-nand.imx"
-```
+--=20
+Tom
 
-It would not conflict with the current UBOOT_ENV variable, the later
-has higher priority to override environment setting in UBOOT_CONFIG.
+--c5s4KQzYKKhDo6IA
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Also drop some trivial debug code in this patch.
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes/uboot-config.bbclass  | 25 +++++++++++--------------
- meta/conf/documentation.conf       |  2 +-
- meta/recipes-bsp/u-boot/u-boot.inc | 22 ++++++++++++++++++++++
- 3 files changed, 34 insertions(+), 15 deletions(-)
+iQIcBAEBAgAGBQJc4J+nAAoJEIf59jXTHXZSDDAP/iDO24MZla9f65zphEIWoUnx
+0meSVK+agoNw3N0UR0sjnksTUWHIziVp+mp5MgxHgQX1q6895X9oOWV6vRT9q0aF
+/7BU1/ZbmlCEUZ3i1O8tfWwAS38EJqPL/HHJszNfpzy10RWmwNC1chtVjI6C49i4
+jmBmSw80LhlQoZlERNo8NSxvldYAWoEV3D4iOg6oWlR0B8IH9vcoANNW92F8awNT
+bi13Aewnw+XwKY2Pw5d9FUg9tKm/C+JKJg0jnx1BX7BI7on8se66Xj8SZouIqMms
+ZTTSf1yx9afDGiGlpuv7S0rhvMhu1vBF0nPH2d9loFskfWYnMmAnTLO5vFjQhTj0
+BDtV6nlCKxu+1fCjsrjHfCHOwjdM7cdWFV1QA4krtiF5BaAag1ttewFQGsuhQe4C
+NJtwiG+NoKyq4VsuLmES140L6vWw3d4yC46nYyDbQ/PPqwFGkkEPTI+jnYlX6xrO
+fppaYFHRyCaFmieHQ+otL2as7LaCzDmQbOuGkBYBufnXMttsnBtfiudMMc7V7Gm0
+q6PZpaNvCjQNgIcTYb8nXRmzrv+8NTNJnzyKZ6JEyziu49eaeqMNIx6pkIlAZVTa
+k/bYMpEcIcaQjoky1co5w5wdSnDONyosPvw4e0m2FyHhHGEzZWtV//BpBH8UIg8N
+j1wQCsC0x/RNpGuy9niZ
+=bfbk
+-----END PGP SIGNATURE-----
 
-diff --git a/meta/classes/uboot-config.bbclass b/meta/classes/uboot-config.bbclass
-index 89ff970..af609fc 100644
---- a/meta/classes/uboot-config.bbclass
-+++ b/meta/classes/uboot-config.bbclass
-@@ -3,7 +3,7 @@
- # The format to specify it, in the machine, is:
- #
- # UBOOT_CONFIG ??= <default>
--# UBOOT_CONFIG[foo] = "config,images,binary"
-+# UBOOT_CONFIG[foo] = "config,env,binary"
- #
- # or
- #
-@@ -15,23 +15,24 @@ UBOOT_BINARY ?= "u-boot.${UBOOT_SUFFIX}"
- 
- python () {
-     ubootmachine = d.getVar("UBOOT_MACHINE")
--    ubootconfigflags = d.getVarFlags('UBOOT_CONFIG')
-     ubootbinary = d.getVar('UBOOT_BINARY')
-     ubootbinaries = d.getVar('UBOOT_BINARIES')
-+    ubootenvs = d.getVar('UBOOT_ENVS')
-+    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
-+    ubootconfigflags = d.getVarFlags('UBOOT_CONFIG') or {}
-+
-     # The "doc" varflag is special, we don't want to see it here
-     ubootconfigflags.pop('doc', None)
--    ubootconfig = (d.getVar('UBOOT_CONFIG') or "").split()
- 
-     if not ubootmachine and not ubootconfig:
--        PN = d.getVar("PN")
--        FILE = os.path.basename(d.getVar("FILE"))
--        bb.debug(1, "To build %s, see %s for instructions on \
--                 setting up your machine config" % (PN, FILE))
-         raise bb.parse.SkipRecipe("Either UBOOT_MACHINE or UBOOT_CONFIG must be set in the %s machine configuration." % d.getVar("MACHINE"))
- 
-     if ubootmachine and ubootconfig:
-         raise bb.parse.SkipRecipe("You cannot use UBOOT_MACHINE and UBOOT_CONFIG at the same time.")
- 
-+    if ubootconfigflags and ubootenvs:
-+        raise bb.parse.SkipRecipe("You cannot use UBOOT_ENVS as it is internal to uboot_config.bbclass.")
-+
-     if ubootconfigflags and ubootbinaries:
-         raise bb.parse.SkipRecipe("You cannot use UBOOT_BINARIES as it is internal to uboot_config.bbclass.")
- 
-@@ -40,18 +41,14 @@ python () {
-             for f, v in ubootconfigflags.items():
-                 if config == f: 
-                     items = v.split(',')
--                    if items[0] and len(items) > 3:
--                        raise bb.parse.SkipRecipe('Only config,images,binary can be specified!')
-+                    if len(items) == 0 or len(items) > 3:
-+                        raise bb.parse.SkipRecipe('Only config,env,binary can be specified!')
-                     d.appendVar('UBOOT_MACHINE', ' ' + items[0])
--                    # IMAGE_FSTYPES appending
-                     if len(items) > 1 and items[1]:
--                        bb.debug(1, "Appending '%s' to IMAGE_FSTYPES." % items[1])
--                        d.appendVar('IMAGE_FSTYPES', ' ' + items[1])
-+                        d.appendVar('UBOOT_ENVS', ' ' + items[1])
-                     if len(items) > 2 and items[2]:
--                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % items[2])
-                         d.appendVar('UBOOT_BINARIES', ' ' + items[2])
-                     else:
--                        bb.debug(1, "Appending '%s' to UBOOT_BINARIES." % ubootbinary)
-                         d.appendVar('UBOOT_BINARIES', ' ' + ubootbinary)
-                     break
- }
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 550df20..5da7eb8 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -439,7 +439,7 @@ TUNEVALID[doc] = "Descriptions, stored as flags, of valid tuning features."
- 
- #U
- 
--UBOOT_CONFIG[doc] = "Configures the UBOOT_MACHINE and can also define IMAGE_FSTYPES for individual cases."
-+UBOOT_CONFIG[doc] = "Configures the UBOOT_MACHINE and can also define UBOOT_ENVS, UBOOT_BINARIES for individual cases."
- UBOOT_ENTRYPOINT[doc] = "Specifies the entry point for the U-Boot image."
- UBOOT_LOADADDRESS[doc] = "Specifies the load address for the U-Boot image."
- UBOOT_LOCALVERSION[doc] = "Appends a string to the name of the local version of the U-Boot image."
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index e5af762..3b22e6e 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -121,6 +121,13 @@ do_compile () {
-                         fi
-                     done
-                     unset k
-+                    for env in ${UBOOT_ENVS}; do
-+                        k=$(expr $k + 1);
-+                        if [ $k -eq $i ]; then
-+                            ${S}/scripts/get_default_envs.sh ${B}/${config} > ${B}/${config}/${env}
-+                        fi
-+                    done
-+                    unset k
-                 fi
-             done
-             unset  j
-@@ -145,6 +152,13 @@ do_install () {
-                     install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${D}/boot/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}-${type}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${D}/boot/${UBOOT_BINARY}
-+                    for env in ${UBOOT_ENVS}; do
-+                        k=$(expr $k + 1);
-+                        if [ $k -eq $i ]; then
-+                            install -m 0644 ${B}/${config}/${env} ${D}/boot/${env}
-+                        fi
-+                    done
-+                    unset k
-                 fi
-             done
-             unset  j
-@@ -235,6 +249,14 @@ do_deploy () {
-                 if [ $j -eq $i ]
-                 then
-                     install -m 644 ${B}/${config}/u-boot-${type}.${UBOOT_SUFFIX} ${DEPLOYDIR}/u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX}
-+                    for env in ${UBOOT_ENVS}; do
-+                        k=$(expr $k + 1);
-+                        if [ $k -eq $i ]; then
-+                            install -m 0644 ${B}/${config}/${env} ${DEPLOYDIR}/${env}
-+                        fi
-+                    done
-+                    unset k
-+
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_SYMLINK}-${type}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_SYMLINK}
-                     ln -sf u-boot-${type}-${PV}-${PR}.${UBOOT_SUFFIX} ${DEPLOYDIR}/${UBOOT_BINARY}-${type}
--- 
-2.7.4
-
-
+--c5s4KQzYKKhDo6IA--
