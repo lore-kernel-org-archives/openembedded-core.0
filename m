@@ -1,61 +1,57 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E258F7D712
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A9C397DDAC
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2019 05:08:16 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id t1so3769290pgc.2
+	Sun, 19 May 2019 05:09:33 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id u17so5610491pfn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 18 May 2019 22:08:18 -0700 (PDT)
+	Sat, 18 May 2019 22:09:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=subject:to:references:from:organization:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=S7ENGnPqCe0bFjTSVSNkkcSjIJEp9tO6pmbkybi82WM=;
-	b=Rto8x1Vih0RvGYH7Dx2NrWylAKNKbVwTy5vAwh95CZoGmzpaPXbMGIlX+KhaTKGC1a
-	CgxP+gezNEdsV9s1Oqz5P+szC9ceWv8+F08gImOwECOfc+mkMByI1skHG2/Kzl70bUkO
-	vGbllBrZjWHnAL6UlGDf1cc/m2ryLTAtiOhA691S13WHnMAokM65MatKUNboq/72Z6L1
-	ekiy34K40n9aMlXRIDoP6t6fkM4yaBlSdNFpgCjDzC3lbQwNRSmZKbr/frmaUY+0P6vu
-	YcYnQKR+Pz97LNQXnssst6dVb8VfyryqVhlC2Y+q+dU+ZJQm8aZC0jJfKnbnDYrKMkpI
-	9ILQ==
+	bh=EdAfXYygFzt7isTXq8iVPtiINdWCQ+QOCho17zxdYbM=;
+	b=i1JS0122iTvvxIZLs1EGQNGp5XNLzS46lOSESUKXxwvMTmmPxT6M4EMqJKYCeEk/da
+	fiz076rwi7jLeH0nOmL9WEMKL5trlNw6bKFQsq6AfdAobr88otaH2dBwjedTNFS4VM6K
+	FG49fKxsOylpPzJchmlK2svB0Gzri2ZLpcqd/C2G80Onfh8BB8Tw2PfT8pmrC5/ei+M+
+	fT83KTz1RDoW6ZzG87t7myNvnFhuUkWRta3VhmVjCvjbEtwuxtnPgBNeDz/nOQow+0Iz
+	ZK0oKO1hobQbD0SCpJ4kHg5lovWtkhHqhqZAN4y2VkK8J5QEityrwNUdyl00HULww/Mt
+	P3Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language:content-transfer-encoding;
-	bh=S7ENGnPqCe0bFjTSVSNkkcSjIJEp9tO6pmbkybi82WM=;
-	b=VjIQcqMJCd1zm0siA0psOWn7HxNdXrCSyYqzZpi+DVhFMJF/cwWjVUaBchLoy+43Jg
-	LhKiHakEJroFFK1ofVGkET+XCzdPDzN5kgNkp/0kr3o5imw5aUTk1gZ+DuogI0NW5g10
-	IzsOqsmZ9VazBp0rHdkuBPlUVZJToqgrDwj4MhqgmzPkFWgkNoeaRl4asS9XR9W3N9+q
-	39eQD/Wnhp3b2xogyzOsDtxMnmRcl4p8AbhzHS901BPLN0p94EaP5IMBKWjbwOOzRE0v
-	EEO+IIRq6ww3q9bmPVeadTCLW4/9kGJg2PUsJjzbbfAp8RZJ1kv6fAXMjg5rQacSHQW1
-	/w+Q==
-X-Gm-Message-State: APjAAAV9eQjpiUrikgGi2htNSpDjbXhv9kLnhE+HaLa2zeUY0wc8ImoQ
-	5cdQZymBTiZ5fl/joaBk39rdb+f2PwQ=
-X-Google-Smtp-Source: APXvYqyNuK1DhWifF/eNAhhIrMCSpjOMf21ENMF5ZVbo7AgB7jX2Evb2x4q8Eo/eDt5OI9g8iT8//Q==
-X-Received: by 2002:a62:e205:: with SMTP id a5mr34895187pfi.40.1558242497440; 
-	Sat, 18 May 2019 22:08:17 -0700 (PDT)
+	bh=EdAfXYygFzt7isTXq8iVPtiINdWCQ+QOCho17zxdYbM=;
+	b=UjweClD4G78a6fCollIRJr9QH5vQBiD63Xq+tmrla1CuKZx0Rtd1igHzZ4sph158OM
+	ZNgnJCAwdkLc+yLu02LnAxqD+K/ctMRL38MHLxpX3yzbSu4rmiKTwmCXxzgF393YOJ7K
+	yr6fAnvm88LxhZp0t+5mqZngO2+A3Jz1IW+vSjjqAr09DCteyeOzLr6YbWY9k73g32HT
+	XyayaUC7d3sK6inmPgPV917Qkxv0j+t2Vlfe02zhh2juIdKmI0IkxBvoxfbFtrgydJhv
+	AlavW77VhKW/Xarny/Jxi8GmzDV7SmZ5xcdScPilmppSFB9cZ/slP+d6WtEoxZMU8nQy
+	2HrA==
+X-Gm-Message-State: APjAAAV8TqOhVhEb8Tcs1yLRKJBDSSiMUIyt2uXkQRDelZONYmPnNcy5
+	GMQSlnT+FAQslagKFjVvaVxafJRfACc=
+X-Google-Smtp-Source: APXvYqwNH4VCKGOa2GYrOpzwzDUnU+95M82IrNs0nHtOvNaaq05QfvppaxqIy1SstuUN7mL480zjYw==
+X-Received: by 2002:aa7:8652:: with SMTP id a18mr70792937pfo.167.1558242574422;
+	Sat, 18 May 2019 22:09:34 -0700 (PDT)
 Received: from hermes.local ([2601:646:8500:6bc6:2991:b26a:5bdc:753c])
 	by smtp.gmail.com with ESMTPSA id
-	k30sm8183929pgl.89.2019.05.18.22.08.16
+	f67sm121158pfa.149.2019.05.18.22.09.33
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 22:08:16 -0700 (PDT)
-To: Randy MacLeod <randy.macleod@windriver.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <20190513225205.14791-1-alistair.francis@wdc.com>
-	<d2813cd316e8c8574f532727cb464d2a6e0bd796.camel@linuxfoundation.org>
-	<a0e0cda1-dd25-5347-fcc2-c01a5de3cc04@windriver.com>
+	Sat, 18 May 2019 22:09:33 -0700 (PDT)
+To: Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>,
+	openembedded-core@lists.openembedded.org
+References: <1558136952-13094-1-git-send-email-alejandr@xilinx.com>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <b11a59ff-bc90-57fd-e2ef-8dd353df7fde@gmail.com>
-Date: Sat, 18 May 2019 22:08:15 -0700
+Message-ID: <d77e4aca-3f48-5acf-058e-8dc3ffba5cf2@gmail.com>
+Date: Sat, 18 May 2019 22:09:32 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
 	Gecko/20100101 Thunderbird/67.0
 MIME-Version: 1.0
-In-Reply-To: <a0e0cda1-dd25-5347-fcc2-c01a5de3cc04@windriver.com>
-Subject: Re: [PATCH] gdb: Upgrade from 8.2.1 to 8.3
+In-Reply-To: <1558136952-13094-1-git-send-email-alejandr@xilinx.com>
+Subject: Re: [PATCH] python-numpy: Avoid installing copy of f2py script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,75 +64,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2019 05:08:17 -0000
+X-List-Received-Date: Sun, 19 May 2019 05:09:33 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
 
 
-On 5/14/19 11:24 AM, Randy MacLeod wrote:
-> On 5/14/19 1:36 PM, Richard Purdie wrote:
->> On Mon, 2019-05-13 at 22:53 +0000, Alistair Francis wrote:
->>> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
->>> ---
->>> If there are issues with the patch the branch is avaliable here:
->>> https://github.com/alistair23/openembedded-core/tree/alistair/gdb-8.3
->>
->> Seems there is a problem in oe-selftest:
->>
->> https://autobuilder.yoctoproject.org/typhoon/#/builders/86/builds/174/steps/7/logs/step2d 
->>
->>
->> "oe-selftest -r package.PackageTests.test_gdb_hardlink_debug" should
->> reproduce and it seemed to happen on more than one host.
+On 5/17/19 4:49 PM, Alejandro Enedino Hernandez Samaniego wrote:
+> Both python-numpy and python3-numpy try to install the file:
 > 
-> I have some off-list notes, show below, for a bug that I haven't
-> gotten to yet.
+> ${D}/${bindir}/f2py
 > 
-> Alistair,
+> which causes an error during do_rootfs since the package manager complains about that.
 > 
-> Could you adjust the oeqa match criteria based on the info below?
+> The numpy packages create basically copies of f2py script with the following names:
+> f2py (on both)
+> f2py2 (on python 2)
+> f2py2.7 (on python 2)
+> f2py3 (on python 3)
+> f2py3.7 (on python 3)
 > 
-> ../Randy
-> 
-> 
-> The oe-selftest:
->     https://bugzilla.yoctoproject.org/show_bug.cgi?id=13123
-> is failing because the check at:
->     meta/lib/oeqa/selftest/cases/package.py:
->                 elif "Breakpoint 1, main () at hello.c:4" in l:
-> is too precise. (This wasn't obvious to me for quite a
-> while based on the defect report!)
-> 
-> Anyway, at times, the test would pass for me other times
-> it would not as you may have noticed. For interactive tests, gdb
-> always functions properly but the breakpoint doesn't always
-> result in the *exact* string:
->     "Breakpoint 1, main () at hello.c:4"
-> sometimes (with glibc-dev, iirc) it's:
->     "Breakpoint 1, 0x0804905e in main () at hello.c:4"
-> and sometimes it's just:
->     "Breakpoint 1, 0x0804905e: file hello.c, line 4"
+> Remove the copy of f2py from python-numpy in favor of using the one from python3
+> to avoid installation issues at do_rootfs().
 > 
 
-perhaps its better to check output of
+what if one does not install py3 ?
 
-i b 1
-
-instead of relying on output of setting the breakpoint.
-
-> so unless Khem or someone knows how to ensure
-> 100% consistent behaviour, perhaps we should search for:
+> Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+> ---
+>   meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
->     "Breakpoint 1, .* hello.c.*4"   ( I'm not sure of the proper regex.)
-> since that will confirm that a breakpoint was hit at the proper file/line.
-> 
->>
->> Cheers,
->>
->> Richard
->>
-> 
+> diff --git a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
+> index 5013789..a1133da 100644
+> --- a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
+> +++ b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
+> @@ -4,3 +4,7 @@ require python-numpy.inc
+>   RDEPENDS_${PN}_class-target_append = " \
+>       ${PYTHON_PN}-subprocess \
+>   "
+> +
+> +do_install_append(){
+> +        rm ${D}/${bindir}/f2py
+> +}
 > 
 
