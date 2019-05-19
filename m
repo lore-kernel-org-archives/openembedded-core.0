@@ -1,50 +1,53 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
-	[209.85.222.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 63C5D6BE2D
+Return-Path: <just.another.mariano@gmail.com>
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+	[209.85.167.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 266907BD72
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2019 16:13:38 +0000 (UTC)
-Received: by mail-qk1-f194.google.com with SMTP id c15so7430316qkl.2
+	Sun, 19 May 2019 21:21:38 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id 203so8567516oid.13
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 19 May 2019 09:13:39 -0700 (PDT)
+	Sun, 19 May 2019 14:21:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ueZb66LA/v80wJNcUTUSxMXdu6xQlWQQu6/tDE3xt5U=;
-	b=KL2K+EF39JMp2r2cKjHYjhOOsSAI+kH7z+r/WSB1J8Vta4PTMaRWsJW8zRdoHfQW7L
-	Kq77X9nBoYRyp8iElZ4kLasMc8OgKyc3le3z+RSA90yXqmHOlRZt79/EE9yY1MwXq/LS
-	bvYdl0owtuuT/bhkXV0n8TSkZ31VIyUdIBU2YYgajGiuHe7bF/VZEyOEGeJrdQg/Uk+3
-	tecQI4ZGNcdBKtguwBOpnrnLjcQ+K8mp/jR/cTpW1p2Gitg1jOFyx/YZzX0rVESIpbX7
-	+vOtYzJ5K562H2ykIaa5Iyr4+qbGpm43ipEcuOag1LNMoqewr+AYJylTsulYBbVbBu0k
-	aK0A==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=nMOTncl3MLtLforAkiCRcErqQn8JXDb4x1h+l3GCYr8=;
+	b=dFZYHE2JLOE+uJQJw6tuyPuuMFgfJ/bvLUKP2LGXJ1cCm2Sd4eTwoo4yS1ZpTiHZO8
+	ElbjxjXMnFQbrgOzET2z8QHJOeC5M4L6z9hBna9RCSmcl/0CC42Ic+4kusPczdtf8hiG
+	whlp9NF2ZxXzJIkhWeEdrghvhtkRfXOh0HMAdE+XmgUDBTPNU4gDkBf7qZApRC4S08HC
+	DEcEk1cVoVA5LxfRhMsO/9XErT3Vnnf33BiYiqAHkVpeTohaLM0cx7SVmL1DWsZLI3uz
+	zu2samw1Ft72987FTHlncMISKpFSsk7phLKw8j2ypMC86rvkYRNBjBxdOZdn8bawVyJ5
+	DIZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ueZb66LA/v80wJNcUTUSxMXdu6xQlWQQu6/tDE3xt5U=;
-	b=kL2bnL+5fyVBN3htcoiiG9Fgni5KzcFmJEqSV+9zxaYtCWlXlqa40G4LAyLhDkZjQm
-	uxmbMtxNkv0lvTSLENCCh7YwmKdMbobHpBfVzNCn7pf9CTS9xNTSNkqDz0+fzSnW825c
-	fYySrSsX7bLKHXsh+XXSAYCl9zlkbF2gV2vCDVPMCsBR7cLArTBAjiqQchyvf0r4VnG1
-	7kEfvFdGgU2AL/UdyQOlHVwxr1TuQ7L60eXK7bo+I11BpSnQEbxZXg4i1l3Y5fo6y2u6
-	54Lj75mD02KMBDQnYnS/FizN3RccwK3Jyx3D3dTx8RRAY+MuXJgVqRBn6c4CziSLws3G
-	KDXA==
-X-Gm-Message-State: APjAAAXD45rsOdDGyk8qqZodBAktxU3AUGuRTlm0f9WLVzmLoolN3mQm
-	LjBdkNg7k8G6dk0UPCAfGe3s5KvS495dmBzVP6w=
-X-Google-Smtp-Source: APXvYqyXxGxon1r2l/qXEGMWqVo2DTsx8HCHBHRKf9QQBUd6sXhVqw3SerD52E2FWIF3qV0BC1eu5cQjfBwSu/AqNGg=
-X-Received: by 2002:a05:620a:14a1:: with SMTP id
-	x1mr38504815qkj.312.1558282419109; 
-	Sun, 19 May 2019 09:13:39 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=nMOTncl3MLtLforAkiCRcErqQn8JXDb4x1h+l3GCYr8=;
+	b=B3xH9ZA/hzdDRCKdQjPMlj5TBKMty2X7P1h2fohJ6grRXoV8oc8h05VOTSX24pBUe8
+	J3MFKLhyHD0s8dEoJYkYmRzwDrPrAwzBLMtf71muYda3dRAvcmp1ZC11yCbijw7o7itt
+	iJNaNjRHkKwr/i4UlyKB49UEfvKxiPXmzhpoi2dpDwRBBH9h4UTAi6zseR2DVBNdzaAx
+	pD2UpHyMp95bqED0oE2q1uUJUTLIEs3AGFSu/X6DYrwBqdICJ/fCFW13aMYfy0EndXLE
+	CgkmBnbMjRf8X1gE/1u1jdHbc+4vDsxvbfKJW20mJD/vlGXpGeWU3CuBPuAcxf4zW37R
+	TM5Q==
+X-Gm-Message-State: APjAAAU9Vc7O6CWqXR5Y5Bom1w7HuBQcnV5NFq9nsquEjdpGROqFzKcn
+	XsWQ0Glkp3YSZmdF5e9AhTKnbPBh
+X-Google-Smtp-Source: APXvYqwIsqksgLSoEr4YXqFdSGUgOf6j+qkqeo/f9sfgE8Z/r65zyYuvahnd9cVzQ25gDUAOiEZIkQ==
+X-Received: by 2002:aca:dac3:: with SMTP id r186mr20668064oig.94.1558300899916;
+	Sun, 19 May 2019 14:21:39 -0700 (PDT)
+Received: from ultima.ninicasiopea.net
+	([2605:a601:43d5:f700:215:17ff:fe90:1065])
+	by smtp.googlemail.com with ESMTPSA id
+	z20sm5292939otm.33.2019.05.19.14.21.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 19 May 2019 14:21:39 -0700 (PDT)
+From: =?UTF-8?q?Mariano=20L=C3=B3pez?= <just.another.mariano@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 19 May 2019 16:21:18 -0500
+Message-Id: <c7d776cebebd9bf2c28d43aad3fd911101283572.1558300553.git.just.another.mariano@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1558300553.git.just.another.mariano@gmail.com>
+References: <cover.1558300553.git.just.another.mariano@gmail.com>
 MIME-Version: 1.0
-References: <20190517181151.44001-1-alex.kanavin@gmail.com>
-	<20190517181151.44001-31-alex.kanavin@gmail.com>
-	<07b946fc-bd26-fd7a-e4c4-1cbb782db4f1@gmail.com>
-	<90586B6E-70A7-4F92-98F1-2D822116DE48@gmail.com>
-In-Reply-To: <90586B6E-70A7-4F92-98F1-2D822116DE48@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 19 May 2019 09:13:28 -0700
-Message-ID: <CAMKF1srea8B09zCaq1=sfLVQzSLSKgFs9xO27BHjEWLdWW6Mhw@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 31/37] bash-completion: upgrade 2.8 -> 2.9
+Subject: [PATCH 1/1] util-linux: Add missing ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,159 +60,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 19 May 2019 16:13:38 -0000
-Content-Type: multipart/alternative; boundary="0000000000000d01db05893fe607"
+X-List-Received-Date: Sun, 19 May 2019 21:21:39 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---0000000000000d01db05893fe607
-Content-Type: text/plain; charset="UTF-8"
+There are some missing dependencies for the util-linux-ptest package
+that causes inconsistencies in the package tests run in different images.
 
-On Sun, May 19, 2019 at 2:58 AM Alexander Kanavin <alex.kanavin@gmail.com>
-wrote:
+The kernel module in RRECOMMENDS is not build at this time, it needs
+more testing and check if the configuration change can be part of the
+yocto-kernel-cache repository.
 
-> Because the files are no longer included in bash-completion. They are
-> provided only by util-linux now, previously they were provided by both.
+Signed-off-by: Mariano López <just.another.mariano@gmail.com>
+---
+ meta/recipes-core/util-linux/util-linux.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 34255a2dec..6dfbe0b683 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -142,7 +142,8 @@ RDEPENDS_${PN}_class-nativesdk = ""
+ RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
+ 
+ RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
+-RDEPENDS_${PN}-ptest = "bash grep coreutils which btrfs-tools ${PN} sed"
++RDEPENDS_${PN}-ptest = "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm ${PN} procps sed socat which xz"
++RRECOMMENDS_${PN}-ptest = "kernel-module-scsi-debug"
+ RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
+ ALLOW_EMPTY_${PN}-swaponoff = "1"
+ 
+-- 
+2.21.0
 
 
-Thanks for explaining it would be good to note in commit secondly the
-comment and variable i seems to be redundant as well so please remove them
-too
-
->
->
-> Alex
->
-> > On 19 May 2019, at 6.48, Khem Raj <raj.khem@gmail.com> wrote:
-> >
-> >
-> >
-> >> On 5/17/19 11:11 AM, Alexander Kanavin wrote:
-> >> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> >> ---
-> >>  .../{bash-completion_2.8.bb => bash-completion_2.9.bb}     | 7 ++-----
-> >>  1 file changed, 2 insertions(+), 5 deletions(-)
-> >>  rename meta/recipes-support/bash-completion/{bash-completion_2.8.bb
-> => bash-completion_2.9.bb} (82%)
-> >> diff --git a/meta/recipes-support/bash-completion/
-> bash-completion_2.8.bb b/meta/recipes-support/bash-completion/
-> bash-completion_2.9.bb
-> >> similarity index 82%
-> >> rename from meta/recipes-support/bash-completion/bash-completion_2.8.bb
-> >> rename to meta/recipes-support/bash-completion/bash-completion_2.9.bb
-> >> index 85064343e30..ce66ba5a2a8 100644
-> >> --- a/meta/recipes-support/bash-completion/bash-completion_2.8.bb
-> >> +++ b/meta/recipes-support/bash-completion/bash-completion_2.9.bb
-> >> @@ -9,8 +9,8 @@ SECTION = "console/utils"
-> >>    SRC_URI = "
-> https://github.com/scop/bash-completion/releases/download/${PV}/${BPN}-${PV}.tar.xz
-> "
-> >>  -SRC_URI[md5sum] = "201b6ae62f7d5fb5b1b25e34427db919"
-> >> -SRC_URI[sha256sum] =
-> "c01f5570f5698a0dda8dc9cfb2a83744daa1ec54758373a6e349bd903375f54d"
-> >> +SRC_URI[md5sum] = "60139333b25c4d54ad40323b701be130"
-> >> +SRC_URI[sha256sum] =
-> "d48fe378e731062f479c5f8802ffa9d3c40a275a19e6e0f6f6cc4b90fa12b2f5"
-> >>  UPSTREAM_CHECK_REGEX = "bash-completion-(?P<pver>(?!2008).+)\.tar"
-> >>  UPSTREAM_CHECK_URI = "https://github.com/scop/bash-completion/releases
-> "
-> >>  @@ -25,9 +25,6 @@ do_install_append() {
-> >>        # Delete files already provided by util-linux
-> >>      local i
-> >> -    for i in mount umount; do
-> >> -        rm ${D}${datadir}/${BPN}/completions/$i
-> >> -    done
-> >
-> > why is this deleted ?
-> >
-> >>  }
-> >>    RDEPENDS_${PN} = "bash"
->
-
---0000000000000d01db05893fe607
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, May 19, 2019 at 2:58 AM Alexander Kanavin &lt;<a hr=
-ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">Because the files are no longer inc=
-luded in bash-completion. They are provided only by util-linux now, previou=
-sly they were provided by both.</blockquote><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Thanks for explaining it would be good to note in commit sec=
-ondly the comment and variable i seems to be redundant as well so please re=
-move them too=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:=
-0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-Alex<br>
-<br>
-&gt; On 19 May 2019, at 6.48, Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail=
-.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt; <br>
-&gt;&gt; On 5/17/19 11:11 AM, Alexander Kanavin wrote:<br>
-&gt;&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavi=
-n@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt;=C2=A0 .../{<a href=3D"http://bash-completion_2.8.bb" rel=3D"norefe=
-rrer" target=3D"_blank">bash-completion_2.8.bb</a> =3D&gt; <a href=3D"http:=
-//bash-completion_2.9.bb" rel=3D"noreferrer" target=3D"_blank">bash-complet=
-ion_2.9.bb</a>}=C2=A0 =C2=A0 =C2=A0| 7 ++-----<br>
-&gt;&gt;=C2=A0 1 file changed, 2 insertions(+), 5 deletions(-)<br>
-&gt;&gt;=C2=A0 rename meta/recipes-support/bash-completion/{<a href=3D"http=
-://bash-completion_2.8.bb" rel=3D"noreferrer" target=3D"_blank">bash-comple=
-tion_2.8.bb</a> =3D&gt; <a href=3D"http://bash-completion_2.9.bb" rel=3D"no=
-referrer" target=3D"_blank">bash-completion_2.9.bb</a>} (82%)<br>
-&gt;&gt; diff --git a/meta/recipes-support/bash-completion/<a href=3D"http:=
-//bash-completion_2.8.bb" rel=3D"noreferrer" target=3D"_blank">bash-complet=
-ion_2.8.bb</a> b/meta/recipes-support/bash-completion/<a href=3D"http://bas=
-h-completion_2.9.bb" rel=3D"noreferrer" target=3D"_blank">bash-completion_2=
-.9.bb</a><br>
-&gt;&gt; similarity index 82%<br>
-&gt;&gt; rename from meta/recipes-support/bash-completion/<a href=3D"http:/=
-/bash-completion_2.8.bb" rel=3D"noreferrer" target=3D"_blank">bash-completi=
-on_2.8.bb</a><br>
-&gt;&gt; rename to meta/recipes-support/bash-completion/<a href=3D"http://b=
-ash-completion_2.9.bb" rel=3D"noreferrer" target=3D"_blank">bash-completion=
-_2.9.bb</a><br>
-&gt;&gt; index 85064343e30..ce66ba5a2a8 100644<br>
-&gt;&gt; --- a/meta/recipes-support/bash-completion/<a href=3D"http://bash-=
-completion_2.8.bb" rel=3D"noreferrer" target=3D"_blank">bash-completion_2.8=
-.bb</a><br>
-&gt;&gt; +++ b/meta/recipes-support/bash-completion/<a href=3D"http://bash-=
-completion_2.9.bb" rel=3D"noreferrer" target=3D"_blank">bash-completion_2.9=
-.bb</a><br>
-&gt;&gt; @@ -9,8 +9,8 @@ SECTION =3D &quot;console/utils&quot;<br>
-&gt;&gt;=C2=A0 =C2=A0 SRC_URI =3D &quot;<a href=3D"https://github.com/scop/=
-bash-completion/releases/download/$%7BPV%7D/$%7BBPN%7D-$%7BPV%7D.tar.xz" re=
-l=3D"noreferrer" target=3D"_blank">https://github.com/scop/bash-completion/=
-releases/download/${PV}/${BPN}-${PV}.tar.xz</a>&quot;<br>
-&gt;&gt;=C2=A0 -SRC_URI[md5sum] =3D &quot;201b6ae62f7d5fb5b1b25e34427db919&=
-quot;<br>
-&gt;&gt; -SRC_URI[sha256sum] =3D &quot;c01f5570f5698a0dda8dc9cfb2a83744daa1=
-ec54758373a6e349bd903375f54d&quot;<br>
-&gt;&gt; +SRC_URI[md5sum] =3D &quot;60139333b25c4d54ad40323b701be130&quot;<=
-br>
-&gt;&gt; +SRC_URI[sha256sum] =3D &quot;d48fe378e731062f479c5f8802ffa9d3c40a=
-275a19e6e0f6f6cc4b90fa12b2f5&quot;<br>
-&gt;&gt;=C2=A0 UPSTREAM_CHECK_REGEX =3D &quot;bash-completion-(?P&lt;pver&g=
-t;(?!2008).+)\.tar&quot;<br>
-&gt;&gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://github.com/s=
-cop/bash-completion/releases" rel=3D"noreferrer" target=3D"_blank">https://=
-github.com/scop/bash-completion/releases</a>&quot;<br>
-&gt;&gt;=C2=A0 @@ -25,9 +25,6 @@ do_install_append() {<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 # Delete files already provided by util=
--linux<br>
-&gt;&gt;=C2=A0 =C2=A0 =C2=A0 local i<br>
-&gt;&gt; -=C2=A0 =C2=A0 for i in mount umount; do<br>
-&gt;&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm ${D}${datadir}/${BPN}/completions/=
-$i<br>
-&gt;&gt; -=C2=A0 =C2=A0 done<br>
-&gt; <br>
-&gt; why is this deleted ?<br>
-&gt; <br>
-&gt;&gt;=C2=A0 }<br>
-&gt;&gt;=C2=A0 =C2=A0 RDEPENDS_${PN} =3D &quot;bash&quot;<br>
-</blockquote></div></div>
-
---0000000000000d01db05893fe607--
