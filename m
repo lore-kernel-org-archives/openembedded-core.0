@@ -1,56 +1,47 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7A7597E080
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EA4C07E094
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 20:14:28 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id u17so7764508pfn.7
+	Mon, 20 May 2019 20:14:52 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id f204so639613wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 13:14:29 -0700 (PDT)
+	Mon, 20 May 2019 13:14:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:organization:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=1On+2dJvFiohadq/vLOSNZSc4Z6bcFdlJffalN4Ivbk=;
-	b=sNk1KyYwwyd2d5gp5iq340pIgK8cPSPDE1l36l4gOUwVrPZ/CJ4mumGN44Z3bnv7Cf
-	nmq/D1+NXU+0YSPNrVUPxFF1VEUZGvClvEzOh2oyKpA3jK5K7ZH3LjaNN4Lib5WYR8un
-	t41oynd71VSofHKxj66xLR8Dhv6vv/qfMajU8JecpdkKKkZhY/U7B9HrREv8/ZU20E0p
-	cepCAafuNzc/oZCY0TNgFsb7ZopwiLO87UdgPQs7/MYa/f7Htv7PxhvcvzKshNt7CKlR
-	X4DW6Gyv6Ci00msyhMxr01Ay+kRgRLLO0ONfTa8/XsflXQ5aJbnUoEOks+qVyE5bhTgC
-	fO1g==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=cbXcwaZC084YOuHa9nlc7Z1fcVHELcPG2A4DupiAlKg=;
+	b=cTLYIUy0kzZMynxTV6SJPBPT7/9VB7eTraPDKqwxqK5GYGnVCMFY5Wom8vCW9G0RIj
+	IHsCXZh7NV7yAv5ut38L1sV85Bhz4ZYf+DDnhj0FGS8CrzFEnjUHIrAZDyPRkgQs0kmu
+	664iNYtJ1BB1k6kAuafrV5UVh5TbPgmCoxR2MOMcJH2M9mC+N9k5zOGIqxV2tl2ygJBr
+	Sc6h13uR/+dtoYTUrrKfwyre8GR3AZKT4XD29p7KaqoVVrJBtgzvUiDVD/oCGLlQSvfl
+	jUtqnlyTEK5dH9Vkqu2/Ss2WBFLQfTC+TSfzWqoU+4SsvZntvIzXjjaeJFyph25EvtCW
+	QTEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=1On+2dJvFiohadq/vLOSNZSc4Z6bcFdlJffalN4Ivbk=;
-	b=Pn+SjtFUu9w+8w3qFvJUZBWPlramDqESmJnQsdggHqqX/wQ8v7sSQ2WcLOREyb6qt1
-	1DSlPuPqCc39WFcbG+dgGrC2el4uFacF6NLEad51YcCB8RPjntYzdPSlovaMdy79grmX
-	K+VXbXfj4+B5vgmzLa1FxfK8itk0fV/NUvFaE2JtLYFF2sDLgRiCffywjztIAGzP/KHH
-	3cSHKKf2PFIUZ13awYJi6WxWwN18oM3yHsKvWEa9m3PL5QRo7L08bxX+MDTxH2q0y8XV
-	GIPn8Z43fp67nl5VrSR6t1As7odD1iKHfvfVlpH5oRLQkJVRE7sWMwRmX04q+z8dnqOG
-	AHBQ==
-X-Gm-Message-State: APjAAAXJGH+8mDKwskVnoN9tcSzIXNesCXhIvVUGbkt2OQo+eu2aRDl1
-	ZQZE0Y6RpcUQAt+tsOkflAlCQV8+9lI=
-X-Google-Smtp-Source: APXvYqywNta3UW4xI6IMLorUFz1dBDk4/CFi1cs/x9csTXtfKd9fNtlDzVccMBQ49L9eZPQff8+Vow==
-X-Received: by 2002:a62:14d6:: with SMTP id 205mr82465383pfu.4.1558383268803; 
-	Mon, 20 May 2019 13:14:28 -0700 (PDT)
-Received: from hermes.local ([2601:646:8500:6bc6:74d7:3fa5:f6a5:ec10])
-	by smtp.gmail.com with ESMTPSA id
-	c5sm20397055pgh.86.2019.05.20.13.14.28
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 13:14:28 -0700 (PDT)
-To: "Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC@Cisco)" <oobitots@cisco.com>, "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-References: <20190416152935.25062-1-oobitots@cisco.com>
-	<a06cf453e2f54afbb2a1ccdaf325179f@XCH-RCD-007.cisco.com>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <ee4c71d8-fa1e-06e3-82c9-4a51d77f5c53@gmail.com>
-Date: Mon, 20 May 2019 13:14:27 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
-	Gecko/20100101 Thunderbird/67.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=cbXcwaZC084YOuHa9nlc7Z1fcVHELcPG2A4DupiAlKg=;
+	b=g8mWyGvF9gkdrrGoPSLesmUEOhBFRIUJkyyzSrQZEZgYhy+XJP1MdGv3YqE3BgrkQr
+	HRJSCj/Gs8qXOEioq/jYLp97KP7y1VG8B1q4b5L9b9E14zGaYbRGhaAa8R19S6Gupphe
+	7w8PlwEujp8xmHOm9XD+p9/Ty8ZhP5e6YJ2NBA5B/SVojeI+vDHDhF5oIgx/JnmBzMdM
+	i608gC8f6jHAowBiI6oqcEeHfHjZd4EbFoEa/O7sA6VxtIQt0lgOKlSInJAV5wXdWxh8
+	lemBXAdDvZIH72O7AD51DZy/+lj/e5KnhOubMcrv/pZxIiQqbsqkGxnbfhUO95b0yIPJ
+	LhKw==
+X-Gm-Message-State: APjAAAVm0lxWU4LSjKCAMlOhq2Tjn7UdbuN85HluDa6guYlquJkFdtQb
+	/pO3yKmjTOwf2k0/pDBb9nWT/JFrHG8ygTHm9NQ=
+X-Google-Smtp-Source: APXvYqytP/THGCCXFAdDOxt93blJP/OFAZugpHeZ0ZRTQNbVBluogvY3VVWWjFzBaKFdygAGlrS+j74gTh2K0iWNBPE=
+X-Received: by 2002:a1c:7ed2:: with SMTP id z201mr603862wmc.113.1558383293488; 
+	Mon, 20 May 2019 13:14:53 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <a06cf453e2f54afbb2a1ccdaf325179f@XCH-RCD-007.cisco.com>
-Subject: Re: [PATCH] kexec-tools: Fix compilation with clang
+References: <1558213634-6468-1-git-send-email-liu.ming50@gmail.com>
+	<1448604b61e334191648073b44d0f4ce0d773859.camel@linuxfoundation.org>
+In-Reply-To: <1448604b61e334191648073b44d0f4ce0d773859.camel@linuxfoundation.org>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Mon, 20 May 2019 22:14:42 +0200
+Message-ID: <CALatG=5MJ1GPuAMGbKn4SOfUAo7j9fun_7zRUns4MN4xEdzn6Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] alsa-utils: replace hard-coded alsa-utils with PN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,92 +54,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 20:14:28 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 20 May 2019 20:14:53 -0000
+Content-Type: multipart/alternative; boundary="000000000000a1eb130589576269"
 
+--000000000000a1eb130589576269
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Hi, Richard:
 
-On 5/16/19 1:32 AM, Oleksiy Obitotskyi -X (oobitots - GLOBALLOGIC INC at 
-Cisco) via Openembedded-core wrote:
-> Any comments?
-> 
+you are right, it will break alsa-utils-scripts, will send a V2 soon.
 
-This is same as https://bugzilla.kernel.org/show_bug.cgi?id=177321
+//Ming Liu
 
-and I think the below should have helped.
+Richard Purdie <richard.purdie@linuxfoundation.org> =E6=96=BC 2019=E5=B9=B4=
+5=E6=9C=8820=E6=97=A5 =E9=80=B1=E4=B8=80
+=E4=B8=8B=E5=8D=881:55=E5=AF=AB=E9=81=93=EF=BC=9A
 
-https://github.com/kraj/meta-clang/blob/master/conf/nonclangable.conf#L152-L158
+> On Sat, 2019-05-18 at 23:07 +0200, liu.ming50@gmail.com wrote:
+> > From: Ming Liu <liu.ming50@gmail.com>
+> >
+> > This is mandatory to support multilib build, and also to avoid being
+> > redundant with plenty of hard-coded alsa-utils references.
+> >
+> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+>
+> Doesn't this break the alsa-utils-scripts recipe?
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
 
-If thats not helping then I would like to understand why
+--000000000000a1eb130589576269
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-So lets try to fix the problem upstream first and meanwhile make fixes 
-in meta-clang.
+<div dir=3D"ltr">Hi, Richard:<div><br></div><div>you are right, it will bre=
+ak alsa-utils-scripts, will send a V2 soon.</div><div><br></div><div>//Ming=
+ Liu</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gm=
+ail_attr">Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundati=
+on.org">richard.purdie@linuxfoundation.org</a>&gt; =E6=96=BC 2019=E5=B9=B45=
+=E6=9C=8820=E6=97=A5 =E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=881:55=E5=AF=AB=E9=
+=81=93=EF=BC=9A<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On Sat, 2019-05-18 at 23:07 +0200, <a href=3D"mailto:liu.ming50@gmail.com" =
+target=3D"_blank">liu.ming50@gmail.com</a> wrote:<br>
+&gt; From: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_=
+blank">liu.ming50@gmail.com</a>&gt;<br>
+&gt; <br>
+&gt; This is mandatory to support multilib build, and also to avoid being<b=
+r>
+&gt; redundant with plenty of hard-coded alsa-utils references.<br>
+&gt; <br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
+rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
+<br>
+Doesn&#39;t this break the alsa-utils-scripts recipe?<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div>
 
-> Regards,
-> Oleksiy
-> 
-> On 16.04.19 18:29, Oleksiy Obitotskyy wrote:
->> clang assembler do not understand some directives e.g.
->>
->> ../kexec-tools-2.0.17/purgatory/arch/i386/entry32-16.S:23:2: error: unknown directive
->> .arch i386
->> ^ ../kexec-tools-2.0.17/purgatory/arch/i386/entry32-16.S:115:11: error: unknown token in expression
->> ljmp %cs:*(realdest - entry16)
->> ^
->>
->> Force external assembler for purgatory and tests.
->>
->> Upstream-Status: Pending
->> Signed-off-by: Oleksiy Obitotskyy <oobitots@cisco.com>
->> ---
->>   ..._64-Makefile-fix-assemble-with-clang.patch | 23 +++++++++++++++++++
->>   .../kexec/kexec-tools_2.0.19.bb               |  2 ++
->>   2 files changed, 25 insertions(+)
->>   create mode 100644 meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-x86_64-Makefile-fix-assemble-with-clang.patch
->>
->> diff --git a/meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-x86_64-Makefile-fix-assemble-with-clang.patch b/meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-x86_64-Makefile-fix-assemble-with-clang.patch
->> new file mode 100644
->> index 0000000000..13f247982a
->> --- /dev/null
->> +++ b/meta/recipes-kernel/kexec/kexec-tools/0001-purgatory-x86_64-Makefile-fix-assemble-with-clang.patch
->> @@ -0,0 +1,23 @@
->> +--- a/purgatory/Makefile	2019-03-05 07:47:03.190429822 -0800
->> ++++ b/purgatory/Makefile	2019-03-05 07:42:52.167623612 -0800
->> +@@ -31,6 +31,9 @@ include $(srcdir)/purgatory/arch/x86_64/
->> +
->> + PURGATORY_SRCS+=$($(ARCH)_PURGATORY_SRCS)
->> +
->> ++PURGATORY_EXTRA_CFLAGS += -no-integrated-as
->> ++$(ARCH)_PURGATORY_EXTRA_CFLAGS += -no-integrated-as
->> ++
->> + PURGATORY_OBJS = $(call objify, $(PURGATORY_SRCS)) purgatory/sha256.o
->> + PURGATORY_DEPS = $(call depify, $(PURGATORY_OBJS))
->> +
->> +--- a/kexec_test/Makefile	2019-03-05 07:45:14.757353575 -0800
->> ++++ b/kexec_test/Makefile	2019-03-05 07:45:57.567173264 -0800
->> +@@ -17,6 +17,8 @@ endif
->> +
->> + ifeq ($(BUILD_KEXEC_TEST),yes)
->> +
->> ++CPPFLAGS += -no-integrated-as
->> ++
->> + KEXEC_TEST_OBJS = $(call objify, $(KEXEC_TEST_SRCS))
->> + KEXEC_TEST_DEPS = $(call depify, $(KEXEC_TEST_OBJS))
->> +
->> diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
->> index f65cd9f106..c229097d5b 100644
->> --- a/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
->> +++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.19.bb
->> @@ -20,6 +20,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz
->>              file://0001-Disable-PIE-during-link.patch \
->>              "
->>   
->> +SRC_URI_append_toolchain-clang = " file://0001-purgatory-x86_64-Makefile-fix-assemble-with-clang.patch"
->> +
->>   SRC_URI[md5sum] = "052458f0a35c2a3b0d2302caa3318e9f"
->>   SRC_URI[sha256sum] = "913c8dee918e5855a4ba60d609371390978144b4c8d15d6446ca0057b7bc5e58"
->>   
-> 
-
+--000000000000a1eb130589576269--
