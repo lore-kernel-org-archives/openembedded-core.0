@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C84AB7E024
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AAA37DECF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 14:12:03 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id h4so14804337wre.7
+	Mon, 20 May 2019 14:12:05 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id e15so14808236wrs.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:12:05 -0700 (PDT)
+	Mon, 20 May 2019 07:12:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=8p+/GD6CrOfipRBHgQ7sbwnejcB+fIp+L4EOEinzx6c=;
-	b=fipgKhoGIInO4fo68/sgr+AjXu0yS2NN++XT3od8vYuaKjijnsEawA/0PnSVNCn6SA
-	yLYlGK+sffDFlhHBp4bZI9UGBKCxfQJRMBeQ6NedYg9M9oNdIV7uxRNyniBHABWROVfC
-	M0GIw8ZSerpVpdTvJl4+B5gf5gp5ng9cLlzV1B4Yictm2Pcl3X+6Qz31xTTV3atn5G0K
-	ZpQAfzerdhc5YczU3j5AVPFKbpzRqCMrn07tDPKIkWlTDJA4BWZISb4eACL6yfNzr2p4
-	NP5jnp0jWFRSmiKDhrJNu+FbRzECeXu0Cl548gcSWbZYOSChIiTOOrX2RS+fXRhgduBz
-	C+4g==
+	bh=4FQD9lmprEllL1iDkIXd0V6rcKjHcSjA5v5WJ2rmdCs=;
+	b=k9oppXfQ1Ro8jIVofA+HW0fq945IMv1ndTpBGxDmh1TpBwQG1Pw37s43l+DmdeZOo8
+	VpL4Ivhe1bFNiLhnMPbzr87U7W+GNxxIfhUhbhKAxrJ9YilAYvZ0RFZpwHgy3q0oRerW
+	6ntF5MKQWVfFC/oLv5D30Cr41sXKmyX7j/D+lpCEQDsLUKypBrpDkxhNpCvK8voO55Xy
+	ThnvvkVXyXLXIShAJzl8rLr+R3zUb+Zzi/POJwOljx0JWSfXnCxrq/ySXp5LhZN+p7o9
+	IEelSWowOXbKid8EPYSaKCdfhOV/N+9sAhTRhhyJ5u4v7QvlRAZBFaHPI1uR6c5hzA6a
+	HIaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=8p+/GD6CrOfipRBHgQ7sbwnejcB+fIp+L4EOEinzx6c=;
-	b=JozZKdZViMvB5/fNF3UH7/y9aF7uGNwR5Y0LNp4CKMVj8961GnxSgCin8+SnZltGBs
-	1N87pbN9ZEqwOWeOXm0+jnVsc3yp4Y6MuBmjQWcTo2vVGQygAyiwU2aUOmr5tdZJcPHj
-	DMViuau8n0+s4ocZRDSm/EQBgx/5K6/6ohuoUfIS7KtjjnpQwktEvMsheWhd2yNgb4ja
-	it1g/yaQXJV1y2o443HqD6TshZgAhAQRm0rePMMvVzAet1P8A/LcrTIHucOIE84ahnnS
-	uGpGJfznBszfVerE+EHFTjwmjbP0XhjbU90P8tHSutNGruXxdZ4hQp+Tl2tTMxxvJQ0v
-	mmsw==
-X-Gm-Message-State: APjAAAVHTpfCAQL3bMqgnpfIOHpuR8YThJ4v+Y9qlD1PLNq5VLSYM4N0
-	kfXFv2hOCBaSqxwFw/4c6ddrCp7X
-X-Google-Smtp-Source: APXvYqxi3sslLvOXb4cs5O27L9D5PmXDPzvgRGPqTsB5gGGgRR43vfu66MfuxCG86T6tnDDvpDd2CQ==
-X-Received: by 2002:a5d:4cc4:: with SMTP id c4mr33941665wrt.164.1558361524519; 
-	Mon, 20 May 2019 07:12:04 -0700 (PDT)
+	bh=4FQD9lmprEllL1iDkIXd0V6rcKjHcSjA5v5WJ2rmdCs=;
+	b=lQXJ6yDDH8X0C5DW1QYDHKWx6f748fg43yyvqGxuLFZAYF2H1HJu6MHONYBGooalOv
+	s32WxxkHrMQ1DxkhRiQ3JD08gc2/E/fJ/qJomb4LJUh1jHplnl/F6ifMWkVTj7BwobBf
+	3DE38wc3haZP5sBGDrwWjtXUo5JJA13SpsBecKs6MeqZ5eOSNBnziUJgj87M56DUUfcJ
+	VPqQTifAA0mZIcngqaT0hNowZ/mVc4Pg91PuCuFeykfvTae/8YGPBTDMws/DbxK5ri+D
+	auv/jWBSb6ML0nVllGLGlcZGf72DWOjMiqbgJQkOqNZiou6SlF3GcNk/P3kOb7JvjgCO
+	27mQ==
+X-Gm-Message-State: APjAAAW6sY3jdvaEENHO0FXwOqkzTPNnMws4S2mkcqSlWGJ6LyKgVcHz
+	oPLeK5XddZmQimPIK5v3HTAvLbC2
+X-Google-Smtp-Source: APXvYqz5N7CXHdc4EcPfjM/6jXCN8ZMTBE6Tv+wtPtCwRHOLaq5Bxy/wGXVcTklR0hl4CW0+qR64HQ==
+X-Received: by 2002:adf:ec0f:: with SMTP id x15mr45428317wrn.120.1558361525765;
+	Mon, 20 May 2019 07:12:05 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	v5sm36242015wra.83.2019.05.20.07.12.03
+	v5sm36242015wra.83.2019.05.20.07.12.04
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 07:12:04 -0700 (PDT)
+	Mon, 20 May 2019 07:12:05 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 16:11:16 +0200
-Message-Id: <20190520141125.10805-33-alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 16:11:17 +0200
+Message-Id: <20190520141125.10805-34-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190520141125.10805-1-alex.kanavin@gmail.com>
 References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-Subject: [PATCH 33/42] gst-examples: upgrade to 1.16.0
+Subject: [PATCH 34/42] acpica: upgrade 20190405 -> 20190509
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,35 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 14:12:04 -0000
-
-Upstream has started to tag releases, so drop UPSTREAM_CHECK_COMMITS
+X-List-Received-Date: Mon, 20 May 2019 14:12:05 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-multimedia/gstreamer/gst-examples_git.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../acpica/{acpica_20190405.bb => acpica_20190509.bb}         | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/acpica/{acpica_20190405.bb => acpica_20190509.bb} (91%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_git.bb b/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-index 75ac9b75c13..f2a3afbbfe3 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_git.bb
-@@ -6,11 +6,11 @@ DEPENDS = "glib-2.0 gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-
+diff --git a/meta/recipes-extended/acpica/acpica_20190405.bb b/meta/recipes-extended/acpica/acpica_20190509.bb
+similarity index 91%
+rename from meta/recipes-extended/acpica/acpica_20190405.bb
+rename to meta/recipes-extended/acpica/acpica_20190509.bb
+index 25ad7ce31c9..cf6db336a6f 100644
+--- a/meta/recipes-extended/acpica/acpica_20190405.bb
++++ b/meta/recipes-extended/acpica/acpica_20190509.bb
+@@ -17,8 +17,8 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ DEPENDS = "bison flex bison-native"
  
- SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gst-examples.git;protocol=https \
-            file://0001-Make-player-examples-installable.patch \
--           file://gst-player.desktop"
-+           file://gst-player.desktop \
-+           "
+ SRC_URI = "https://acpica.org/sites/acpica/files/acpica-unix2-${PV}.tar.gz"
+-SRC_URI[md5sum] = "9ee30c8ff3012e213bc3b21a9d632215"
+-SRC_URI[sha256sum] = "7e144fd011c23a0a10be0b0d7448c527a4c0f621f1f835a271636e448bc96643"
++SRC_URI[md5sum] = "dd1f8240f924b12b0a0de0c31ab26ab1"
++SRC_URI[sha256sum] = "860b5f94a0590b278592acf16a4556b05ff0309c08e8c48aa29827cfa02c8e9d"
+ UPSTREAM_CHECK_URI = "https://acpica.org/downloads"
  
--SRCREV = "2b3fc175c252cd5a537e4b2864b572a8372473d6"
--PV = "0.0.1+git${SRCPV}"
--UPSTREAM_CHECK_COMMITS = "1"
-+SRCREV = "d953c127c1146b50d5676618299933950685dcd7"
-+PV = "1.16.0"
- 
- S = "${WORKDIR}/git"
- 
+ S = "${WORKDIR}/acpica-unix2-${PV}"
 -- 
 2.17.1
 
