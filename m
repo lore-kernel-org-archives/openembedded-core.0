@@ -1,47 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 0473D7E075
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 78DC07DF42
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 14:52:46 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id z19so16551419qtz.13
+	Mon, 20 May 2019 14:58:38 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id b18so14935057wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TMZWPmOk+w97dhgT201HiX6o2NS4WWdivfMuzPzQ3eE=;
-	b=plIfS/zLKW0SRqdbnC3FJ97oR+zRJsYHgArx0ErsCZ7BbXjwqIGBGnxGccSXqF4B7R
-	lqFY+wiAXeNZYQsnph7CCzCjmVEfaaZJBs05X7DE8CBfm+y1mXUHcSaKL4xV+yYzO3Ei
-	ttdQX2LlQcTKrXKaJqSpGu9NX2pA+wE4Y8RRjcgd0DpQhSFN5Nfu3kfU3HjbLZZ97cp9
-	cO5Mhe+oscxCS9wALHfRDwGyskYX1r/kXM8avOprizdOFoCxOu9RFOGYYpQwKkSjiYot
-	scEr+tbJ2qrxQCNN9ezcAdSoAZlRNyrjVh6yT1f+Vg/ZxBdN3cDeZvfg5uZ8+09tKtQo
-	DR2w==
+	Mon, 20 May 2019 07:58:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=FtYu7r+iG5GR1a0jgSXZ7f1RMsBVtr7Enph21BNvNgw=;
+	b=ZxebEpx2k9jFa1L3HQvlVSF6pT4qMPBcb+ectW97lzI2mb4y3aVQG1VngMY+CeBClD
+	I11+Qftgg25T9Q2vV/+2ckO1Mfiqp1TUzJS3bv1C+tqcGAZJYK5RHgQDYp85h0B2gQnA
+	IFDZe8emVem0238IA99mTiYtGmTGzkz4Yx1us=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TMZWPmOk+w97dhgT201HiX6o2NS4WWdivfMuzPzQ3eE=;
-	b=tKAhf7VVvfBm/UD+pX8J7EzjYxj7C3MeeEjK0dw94+C+EtPqTIDLsUbPOgu+z+LTKv
-	vq65GAWQROrLz5URKbC+4G1fz8V3Q7gw9D/QHFNdJyqiEWMfU7ijUAZnmk/Ws8n40cZL
-	ppQGxpQs5sxzGALHJaUdEOwsROhbpI2aw9+Y3u67D9kLKQpUpQbV8kZ87fn83O82mtvk
-	jjCcihTuVi4O/ZJL3E3ILwMBxbOhccNrSEDL8vpUSAQ6jIeurmvn7kTr6scC7rS9I8a7
-	Yq95XMqfq/sPCrC2gw/OvbJS9U4UlBwhoAc44PAFQLWQNhVBkVhrH6HPCQvRUDcIu+DY
-	rOTQ==
-X-Gm-Message-State: APjAAAWGdBzLhHPrri9eFwcJPE9lmMPx3gkVWIE9SJ4PmTgjYkomuGxl
-	h4CFwzi34mADrWNiKW0+OIQ7Z0CoJFW5R7J/EkY=
-X-Google-Smtp-Source: APXvYqw1Vzt3qRYrVMv4ZB1sQF7fyQfOQ58TACPw5PC2m+yc7Ps/x/v/LRV8vdnqbTk3fjK8C9dAPBCLyhn5vLOJOJA=
-X-Received: by 2002:aed:3b0a:: with SMTP id p10mr41678132qte.194.1558363967554;
-	Mon, 20 May 2019 07:52:47 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=FtYu7r+iG5GR1a0jgSXZ7f1RMsBVtr7Enph21BNvNgw=;
+	b=G9ag+DfanY5L15YkH4yUaeMzKITZh09glR7atqksUAgJA6z+bqXINWYp4SxPZROl+c
+	wi1PFl0GhmeBj7NF7VrjwgFk2mGltfZRi/R9dZb+2QkT/di8UfyyamoKNUkn1ZXSRS8+
+	vuD34KS1nTao8SDtS+cxftLSBG65ybb2PBb41e5MJgqhDCuK6UCFScLTEj7rEDYnpWg/
+	B10PhYdRuLAD7vSGPL+MFEs+i5Z0nm5w3dPde3GBIEEb26NaUV7voqZT1rjTNhONCJIa
+	15xyEq+wAJAKj8h48Ptj6vFgauBNXGh13+5jfvPMeUAn7K6VbxTiq9HgegyDTFGX2w9l
+	0HTA==
+X-Gm-Message-State: APjAAAXSVi33pBHMBgSfxQlm25ahjy4UZB3axFjK6IXli2MN02Zgb7vO
+	PKULrtuwDYoIi/HcokIp6k4T1Q==
+X-Google-Smtp-Source: APXvYqw1/D3xnAJINcnI08Og/EjSENGKKFLMGwxxcXaBMGMKGq19mLj7TSrw5BCSchd/XrW5js9pQw==
+X-Received: by 2002:a5d:4206:: with SMTP id n6mr1105466wrq.58.1558364319148;
+	Mon, 20 May 2019 07:58:39 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id x2sm5485507wrs.39.2019.05.20.07.58.35
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 20 May 2019 07:58:38 -0700 (PDT)
+Message-ID: <f30563b2fc509da84367d21c936b83afc7a84c25.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>, Alejandro Enedino Hernandez Samaniego
+	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+Date: Mon, 20 May 2019 15:58:31 +0100
+In-Reply-To: <CAMKF1sqHGoGBJC24_Btcfk3pyV1O_QOmpqy7SzndGZNyJToD=w@mail.gmail.com>
 References: <1558136952-13094-1-git-send-email-alejandr@xilinx.com>
 	<d77e4aca-3f48-5acf-058e-8dc3ffba5cf2@gmail.com>
 	<fc518454-2565-ec27-8f0b-8c1c5832c2df@xilinx.com>
-In-Reply-To: <fc518454-2565-ec27-8f0b-8c1c5832c2df@xilinx.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 May 2019 07:52:36 -0700
-Message-ID: <CAMKF1sqHGoGBJC24_Btcfk3pyV1O_QOmpqy7SzndGZNyJToD=w@mail.gmail.com>
-To: Alejandro Enedino Hernandez Samaniego
-	<alejandro.enedino.hernandez-samaniego@xilinx.com>
+	<CAMKF1sqHGoGBJC24_Btcfk3pyV1O_QOmpqy7SzndGZNyJToD=w@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] python-numpy: Avoid installing copy of f2py script
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -56,182 +61,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 14:52:47 -0000
-Content-Type: multipart/alternative; boundary="000000000000b78829058952e2aa"
-
---000000000000b78829058952e2aa
+X-List-Received-Date: Mon, 20 May 2019 14:58:38 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 19, 2019 at 11:56 PM Alejandro Enedino Hernandez Samaniego <
-alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
+On Mon, 2019-05-20 at 07:52 -0700, Khem Raj wrote:
+> On Sun, May 19, 2019 at 11:56 PM Alejandro Enedino Hernandez
+> Samaniego <alejandro.enedino.hernandez-samaniego@xilinx.com> wrote:
+> > Hey Khem,
+> > 
+> > 
+> > On 5/18/19 10:09 PM, Khem Raj wrote:
+> > >
+> > >
+> > > On 5/17/19 4:49 PM, Alejandro Enedino Hernandez Samaniego wrote:
+> > >> Both python-numpy and python3-numpy try to install the file:
+> > >>
+> > >> ${D}/${bindir}/f2py
+> > >>
+> > >> which causes an error during do_rootfs since the package
+> > manager 
+> > >> complains about that.
+> > >>
+> > >> The numpy packages create basically copies of f2py script with
+> > the 
+> > >> following names:
+> > >> f2py (on both)
+> > >> f2py2 (on python 2)
+> > >> f2py2.7 (on python 2)
+> > >> f2py3 (on python 3)
+> > >> f2py3.7 (on python 3)
+> > >>
+> > >> Remove the copy of f2py from python-numpy in favor of using the
+> > one 
+> > >> from python3
+> > >> to avoid installation issues at do_rootfs().
+> > >>
+> > >
+> > > what if one does not install py3 ?
+> > 
+> > 
+> > If you only install py2, you could still execute f2py2 or f2py2.7,
+> > I'm 
+> > simply
+> > 
+> > favoring the py3 installation by default but it should be mostly
+> > harmless
+> > 
+> > since there's still two other copies of the script with different
+> > names.
+> 
+> I think it should be such that it’s used from py2 if py3 is not
+> installed since otherwise it might break scripts 
 
-> Hey Khem,
->
->
-> On 5/18/19 10:09 PM, Khem Raj wrote:
-> >
-> >
-> > On 5/17/19 4:49 PM, Alejandro Enedino Hernandez Samaniego wrote:
-> >> Both python-numpy and python3-numpy try to install the file:
-> >>
-> >> ${D}/${bindir}/f2py
-> >>
-> >> which causes an error during do_rootfs since the package manager
-> >> complains about that.
-> >>
-> >> The numpy packages create basically copies of f2py script with the
-> >> following names:
-> >> f2py (on both)
-> >> f2py2 (on python 2)
-> >> f2py2.7 (on python 2)
-> >> f2py3 (on python 3)
-> >> f2py3.7 (on python 3)
-> >>
-> >> Remove the copy of f2py from python-numpy in favor of using the one
-> >> from python3
-> >> to avoid installation issues at do_rootfs().
-> >>
-> >
-> > what if one does not install py3 ?
->
->
-> If you only install py2, you could still execute f2py2 or f2py2.7, I'm
-> simply
->
-> favoring the py3 installation by default but it should be mostly harmless
->
-> since there's still two other copies of the script with different names.
+Given we're strongly favouring py3 now, I'd hope there aren't many such
+users and if there are, this might encourage them to move to py3? I'm
+not too worried about the lack of a py2 case for this as do we really
+want to add the complexity?
+
+If there are a load of py2 users and this will break things for them,
+fine but are there such users?
+
+Cheers,
+
+Richard
 
 
-I think it should be such that it=E2=80=99s used from py2 if py3 is not ins=
-talled
-since otherwise it might break scripts
-
->
->
-> Cheers,
->
-> Alejandro
->
-> >
-> >> Signed-off-by: Alejandro Enedino Hernandez Samaniego
-> >> <alejandr@xilinx.com>
-> >> ---
-> >>   meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb | 4 ++++
-> >>   1 file changed, 4 insertions(+)
-> >>
-> >> diff --git
-> >> a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
-> >> b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
-> >> index 5013789..a1133da 100644
-> >> --- a/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
-> >> +++ b/meta/recipes-devtools/python-numpy/python-numpy_1.16.3.bb
-> >> @@ -4,3 +4,7 @@ require python-numpy.inc
-> >>   RDEPENDS_${PN}_class-target_append =3D " \
-> >>       ${PYTHON_PN}-subprocess \
-> >>   "
-> >> +
-> >> +do_install_append(){
-> >> +        rm ${D}/${bindir}/f2py
-> >> +}
-> >>
->
-
---000000000000b78829058952e2aa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Sun, May 19, 2019 at 11:56 PM Alejandro Enedino Hernande=
-z Samaniego &lt;<a href=3D"mailto:alejandro.enedino.hernandez-samaniego@xil=
-inx.com">alejandro.enedino.hernandez-samaniego@xilinx.com</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex">Hey Khem,<br>
-<br>
-<br>
-On 5/18/19 10:09 PM, Khem Raj wrote:<br>
-&gt;<br>
-&gt;<br>
-&gt; On 5/17/19 4:49 PM, Alejandro Enedino Hernandez Samaniego wrote:<br>
-&gt;&gt; Both python-numpy and python3-numpy try to install the file:<br>
-&gt;&gt;<br>
-&gt;&gt; ${D}/${bindir}/f2py<br>
-&gt;&gt;<br>
-&gt;&gt; which causes an error during do_rootfs since the package manager <=
-br>
-&gt;&gt; complains about that.<br>
-&gt;&gt;<br>
-&gt;&gt; The numpy packages create basically copies of f2py script with the=
- <br>
-&gt;&gt; following names:<br>
-&gt;&gt; f2py (on both)<br>
-&gt;&gt; f2py2 (on python 2)<br>
-&gt;&gt; f2py2.7 (on python 2)<br>
-&gt;&gt; f2py3 (on python 3)<br>
-&gt;&gt; f2py3.7 (on python 3)<br>
-&gt;&gt;<br>
-&gt;&gt; Remove the copy of f2py from python-numpy in favor of using the on=
-e <br>
-&gt;&gt; from python3<br>
-&gt;&gt; to avoid installation issues at do_rootfs().<br>
-&gt;&gt;<br>
-&gt;<br>
-&gt; what if one does not install py3 ?<br>
-<br>
-<br>
-If you only install py2, you could still execute f2py2 or f2py2.7, I&#39;m =
-<br>
-simply<br>
-<br>
-favoring the py3 installation by default but it should be mostly harmless<b=
-r>
-<br>
-since there&#39;s still two other copies of the script with different names=
-.</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I think it shou=
-ld be such that it=E2=80=99s used from py2 if py3 is not installed since ot=
-herwise it might break scripts=C2=A0</div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><b=
-r>
-<br>
-Cheers,<br>
-<br>
-Alejandro<br>
-<br>
-&gt;<br>
-&gt;&gt; Signed-off-by: Alejandro Enedino Hernandez Samaniego <br>
-&gt;&gt; &lt;<a href=3D"mailto:alejandr@xilinx.com" target=3D"_blank">aleja=
-ndr@xilinx.com</a>&gt;<br>
-&gt;&gt; ---<br>
-&gt;&gt; =C2=A0 meta/recipes-devtools/python-numpy/<a href=3D"http://python=
--numpy_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python-numpy_1.16.3.=
-bb</a> | 4 ++++<br>
-&gt;&gt; =C2=A0 1 file changed, 4 insertions(+)<br>
-&gt;&gt;<br>
-&gt;&gt; diff --git <br>
-&gt;&gt; a/meta/recipes-devtools/python-numpy/<a href=3D"http://python-nump=
-y_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python-numpy_1.16.3.bb</a=
-> <br>
-&gt;&gt; b/meta/recipes-devtools/python-numpy/<a href=3D"http://python-nump=
-y_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python-numpy_1.16.3.bb</a=
-><br>
-&gt;&gt; index 5013789..a1133da 100644<br>
-&gt;&gt; --- a/meta/recipes-devtools/python-numpy/<a href=3D"http://python-=
-numpy_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python-numpy_1.16.3.b=
-b</a><br>
-&gt;&gt; +++ b/meta/recipes-devtools/python-numpy/<a href=3D"http://python-=
-numpy_1.16.3.bb" rel=3D"noreferrer" target=3D"_blank">python-numpy_1.16.3.b=
-b</a><br>
-&gt;&gt; @@ -4,3 +4,7 @@ require python-numpy.inc<br>
-&gt;&gt; =C2=A0 RDEPENDS_${PN}_class-target_append =3D &quot; \<br>
-&gt;&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${PYTHON_PN}-subprocess \<br>
-&gt;&gt; =C2=A0 &quot;<br>
-&gt;&gt; +<br>
-&gt;&gt; +do_install_append(){<br>
-&gt;&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 rm ${D}/${bindir}/f2py=
-<br>
-&gt;&gt; +}<br>
-&gt;&gt;<br>
-</blockquote></div></div>
-
---000000000000b78829058952e2aa--
