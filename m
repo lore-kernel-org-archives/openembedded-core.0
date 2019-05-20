@@ -1,48 +1,33 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F94D7E0D3
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 56FE67E07D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 18:57:25 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id e9so5657231uar.9
+	Mon, 20 May 2019 18:58:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4577Tf2mgsz54
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 11:57:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wZvoiO/EWE+Q9GVW5L46KMzcSiL1N4DVa9eaipvWDsI=;
-	b=kS2I/BUQew5ZfXqi42TRBJ+fqzxuGXq5t683Z7u7M9rdvs39SJF4Ce0tEwcqUVVR3e
-	8LJ0a32PIxhhbSccaVWhlhzERsJrlfCzt8PccpDVWkf9Ru1xT3PMLym7JKF6HF4dCuZR
-	1A1NBY4y8mPQ7sFKBBuXqyPfLxkxg1I46xEioqhGhXrlFXOqsdgOAtnFvdTY+oSLEzak
-	+PRYPoH9L4AmoSU9T5VTRMjs8z0Af5D2QrMc9rIE9gDxNHI5YNLq6KJoUC6g6lYYZMF/
-	OgMzpTH/OZBBbUjHdx8CpO7eEJsTU3aTL60rRKBdqI3MfFqBTWKh16lsLTb4KEs6hEau
-	7VAQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=wZvoiO/EWE+Q9GVW5L46KMzcSiL1N4DVa9eaipvWDsI=;
-	b=nq9NcG70RnygfXOxQDXL6CeyLrZ9YvSzQmBYGrYvDzNDOd4njVrnpcAeWyettVfQuz
-	rriBHHA5qP1rYC6/X577g5aEtFdz1KCbIckHEL3D+pqHPVlegPVsp4isgpG8DKBMqF8L
-	yABym4id6bSY6ifBy8Yyw4O2/oxZYJawa6FnuO3plF7/+4YnEIu+R0mrmlY7lluKd2mF
-	7S+FB9Ufc25JC/IqKl11Bg2I7ENpRAmChnHJMhmcZyIqSd35cvC9XgqmCneAyyb4P0x6
-	kWa4EGFneNCgGCBrLFw47/I/ICztoM8biHWweQQqddf2yy/GF1UlPCRZy8Mjf7QR3xRH
-	chFQ==
-X-Gm-Message-State: APjAAAVNAdsYiwR+e5/76EoMdDgx8+laTvbew2+gkC4Pc7+GaY1yeKnK
-	u8xhDyslGFDzKcQDjUdduizEuhG0azMxLvhovRE=
-X-Google-Smtp-Source: APXvYqxyv0dMWQIYH8YJfnvrWF4dupabmZbNqgVWYPHJ/I5JruGkmJ4ACwyjxl4ZigEmfV8SOTRAJfpij/ZcFd7F75k=
-X-Received: by 2002:a9f:3045:: with SMTP id i5mr24246234uab.81.1558378646014; 
-	Mon, 20 May 2019 11:57:26 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190516114914.12427-1-richard.purdie@linuxfoundation.org>
-	<20190516114914.12427-2-richard.purdie@linuxfoundation.org>
-	<4744125d-7cce-3325-414b-f05c5fe01a52@gmail.com>
-In-Reply-To: <4744125d-7cce-3325-414b-f05c5fe01a52@gmail.com>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Mon, 20 May 2019 11:57:14 -0700
-Message-ID: <CAJ86T=WLB8HGdDC-YEOvAp7zdB77Es-QhbQs10c0kXeHPP3v7A@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] apr/apr-util: Add ptest dependency on libgcc
+	Mon, 20 May 2019 20:58:46 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558378726;
+	bh=jNMruVKq9S0lckLCQYM0dyqHPvQt59IuH/928rA7rEs=;
+	h=From:To:Subject:Date:From;
+	b=jMwkHd0vmx27FVH8TuLInvxzVLZ7HdPxNatRbdjd52OdyLDw7UJPq1dsQTMbW6YMr
+	v1QITzRE9DCl7v6N/Lxw3xferMg4TY9Pp8/pA55sgyP/R4OiAaNrmJjhB2+X7w3ajy
+	4tMFw+C/J0kBfuP5uoed4jkcApi6RwofxGwdohMt0ZIlRfqmYLcrmd8mFaRMYTeaYW
+	ePw99xCCY/ravG4cOGeEnrDPKLEzmHNHgd45KrN+7OXXXwqV2Siy48OPhBs9i3K2VN
+	G9I0lW//tn2x0FK5eEY4ugibt6KK9lkRDGeCgeqzbWmIZ+kvm0dfYn46e99yVbN5Og
+	IYeTM3IGntAHzm4LTlIhsG4Ea3lQr5UxR5UHkMdNpbhMAkUQKdGZj/1k7FHkodU1Se
+	0y9RPyJByROvIIOMBPxCsMO048987psXZCY/bvjv3zvNPjPGxhGd7o8/JSNA1bEp3S
+	Gro4p9EgzC1y/iFcOHrhgZvHN3EgYCkoxhl122wP6GOAbovvAFPbarXAJDA6Qcb+jv
+	0wIsstsyuC3tr9nYJKtCK7iwRMK3Esmh1HikaRBw3JJE9F0HRWHwhEx3ls8/JQ0abp
+	Hkmx9RAUetLFFD3BDeJPVLBR+uQkxqYJobBP6hbj4AeYmqxrmQxG8xMsgK6g7LfWbO
+	t8rF3h9BFqs1ZujCBmLvuY6M=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 20 May 2019 21:58:45 +0300
+Message-Id: <20190520185845.17979-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [warrior][PATCH] dropbear: update to 2019.78
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +40,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 18:57:25 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 20 May 2019 18:58:46 -0000
 
-On Mon, May 20, 2019 at 11:43 AM Khem Raj <raj.khem@gmail.com> wrote:
-> On 5/16/19 4:49 AM, Richard Purdie wrote:
-> > Avoid:
-> >
-> > libgcc_s.so.1 must be installed for pthread_cancel to work
-> >
-> > when running the ptest without libgcc.
->
-> this is interesting, do we get this error explicitly from running some
-> tests ?
->
-> I wonder why libgcc is not detected during rdep calculation time.
+From: Andrej Valek <andrej.valek@siemens.com>
 
-Other questions... why does it only affect ptest and not other use
-cases? Is calling dlopen() on libgcc glibc specific? If so, perhaps a
-better fix would be to add the rdep to the glibc pthreads library?
+The only change is a regression fix:
+- Fix dbclient regression in 2019.77. After exiting the terminal would be left
+  in a bad state. Reported by Ryan Woodsmall
 
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > ---
-> >   meta/recipes-support/apr/apr-util_1.6.1.bb | 1 +
-> >   meta/recipes-support/apr/apr_1.7.0.bb      | 2 ++
-> >   2 files changed, 3 insertions(+)
-> >
-> > diff --git a/meta/recipes-support/apr/apr-util_1.6.1.bb b/meta/recipes-support/apr/apr-util_1.6.1.bb
-> > index 0c90f8d2527..1f9fea25d87 100644
-> > --- a/meta/recipes-support/apr/apr-util_1.6.1.bb
-> > +++ b/meta/recipes-support/apr/apr-util_1.6.1.bb
-> > @@ -79,6 +79,7 @@ INSANE_SKIP_${PN} += "dev-so"
-> >   inherit ptest
-> >
-> >   RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-gconv-iso8859-1 glibc-gconv-iso8859-2 glibc-gconv-utf-7"
-> > +RDEPENDS_${PN}-ptest += "libgcc"
-> >
-> >   do_compile_ptest() {
-> >       cd ${B}/test
-> > diff --git a/meta/recipes-support/apr/apr_1.7.0.bb b/meta/recipes-support/apr/apr_1.7.0.bb
-> > index a58651d0774..09a65bfdd68 100644
-> > --- a/meta/recipes-support/apr/apr_1.7.0.bb
-> > +++ b/meta/recipes-support/apr/apr_1.7.0.bb
-> > @@ -53,6 +53,8 @@ do_configure_prepend() {
-> >   FILES_${PN}-dev += "${libdir}/apr.exp ${datadir}/build-1/*"
-> >   RDEPENDS_${PN}-dev += "bash"
-> >
-> > +RDEPENDS_${PN}-ptest += "libgcc"
-> > +
-> >   #for some reason, build/libtool.m4 handled by buildconf still be overwritten
-> >   #when autoconf, so handle it again.
-> >   do_configure_append() {
-> >
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-core/dropbear/dropbear_2019.77.bb | 4 ----
+ meta/recipes-core/dropbear/dropbear_2019.78.bb | 4 ++++
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ delete mode 100644 meta/recipes-core/dropbear/dropbear_2019.77.bb
+ create mode 100644 meta/recipes-core/dropbear/dropbear_2019.78.bb
+
+diff --git a/meta/recipes-core/dropbear/dropbear_2019.77.bb b/meta/recipes-core/dropbear/dropbear_2019.77.bb
+deleted file mode 100644
+index d2a71ba647..0000000000
+--- a/meta/recipes-core/dropbear/dropbear_2019.77.bb
++++ /dev/null
+@@ -1,4 +0,0 @@
+-require dropbear.inc
+-
+-SRC_URI[md5sum] = "5d4f0256c5d13820b0a3eaadb1a0bc1a"
+-SRC_URI[sha256sum] = "d91f78ebe633be1d071fd1b7e5535b9693794048b019e9f4bea257e1992b458d"
+diff --git a/meta/recipes-core/dropbear/dropbear_2019.78.bb b/meta/recipes-core/dropbear/dropbear_2019.78.bb
+new file mode 100644
+index 0000000000..d2cd8161bf
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear_2019.78.bb
+@@ -0,0 +1,4 @@
++require dropbear.inc
++
++SRC_URI[md5sum] = "a972c85ed678ad0fdcb7844e1294fb54"
++SRC_URI[sha256sum] = "525965971272270995364a0eb01f35180d793182e63dd0b0c3eb0292291644a4"
+-- 
+2.17.1
+
 
