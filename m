@@ -1,52 +1,48 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 358797E07C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+	[209.85.167.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D3C7B7E0AC
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 15:48:14 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id m141so23675096ita.3
+	Mon, 20 May 2019 16:28:28 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id u64so1235590oib.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 08:48:15 -0700 (PDT)
+	Mon, 20 May 2019 09:28:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5lyb/LE4zvC9IdDDJrXwu1GamAaqnXoZhoiTHvKiOa8=;
-	b=mbq2Q9FSDDt1dUfYJ86Hp7fI7Z7X4VsCbwgCkivVOuN16cAza9oaykHPecUViDUqzi
-	KBYKficvt8yelDQw2T6dbr2rS0gOyySVfVKZfgu7RcKPwvgniFcx8XGRWIcs/6a0tMX7
-	t8HUqtHHefkoWVzEV4aHlbf4igee+hIURdVm2VVwZq8+7Kbr04r+EU2B1PHOd8zCS47D
-	RQTQmsNalfiNBXHyhDhfnaL1qx089rDFwfNN366cZLwwdb/sk71cEukVWd8Sg2BnKiCK
-	WJ6i03K2qDDhC7fLBpnBKQHzmf0mBCNMNXan3rBvmHvcs2UFJI3yKHviOcmTpTT1Mzj8
-	tOmw==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=rvnVrxlxKUzJUODAPKcQJBnFfkUdAV7dYwgRJ/gP9BU=;
+	b=CNkxp56Na5+TDQkF+zcVgns6L/gRx/T00krewf30i2ALrUB81nJRf5QMTB1qwhIlWm
+	C2z0DrkXoKbhMWwK+nrMFg36GyfYY4m5oZhQAzwkQt2uZ42cwLa1icgcktv/D6TMUGWK
+	X4Lz/6Rkw8qt8rHw2hOIQKuG1A+g79YUj77llTqAzSqzwxw92OIu8JOoKYp3OSqRi1ZQ
+	k18LsYz76K9txkesnuik2Eh58H9yT8TjcbLp4bKp4qpr/1islk3d6/MNk8PNiHBnY0eQ
+	0xCP6vxK3mq43hd0/MkBj7V1YVif42yrk7Rg7WEewwVyXfhP7br5S3DPn/L4kfM4nw7y
+	wkog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5lyb/LE4zvC9IdDDJrXwu1GamAaqnXoZhoiTHvKiOa8=;
-	b=EQipKljtuofm2IKJF16EKkw4hH+/5UV3RnIn3fQx7FVKe9WfitBOjmCztLyC/XHKhW
-	o+iiejO+7V7IHHoJk0D2dfasiA+Zly6rK3QqcUyo4t5v1U/DQ9ItHnOYayghwj8WY11G
-	SDi6tK/hoR1RpW1Ym0ETzpFT/Dn6xF5i8U6/jRSpgo8IesAA1YddQ9UVMjOK2anKgOYb
-	wT5Lil13C0aVv6P+LsifPWhEVXU2+R0EGnixQoZOGkEnRX3+ZlJFv1gKXQLgiFmlCYH1
-	LrJW8L6oKizzc0bO+cVi4Vw5vxFIlIj4aNtNfj1uhZJKnULIiqHOTZtxeo6lIdK6+1Ze
-	1XQw==
-X-Gm-Message-State: APjAAAXDkzyLJ2sEiWA1oYq4oU3Xt+lIPeakpzjewjK2HWwRn8A82xOa
-	DU7AP/LpljqbRBR5/WuzV/zQDbxe
-X-Google-Smtp-Source: APXvYqy2ufF+ljpMbDE7SWNVzbqjUjxoEMD2ya9rG2Y8+KLKGpBHkH5JIlc13MjrNC2DrECMezRxYg==
-X-Received: by 2002:a05:6638:518:: with SMTP id
-	i24mr15375294jar.3.1558367294837; 
-	Mon, 20 May 2019 08:48:14 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	x20sm5765983ioa.40.2019.05.20.08.48.13
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 20 May 2019 08:48:14 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 10:48:12 -0500
-Message-Id: <20190520154812.17088-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=rvnVrxlxKUzJUODAPKcQJBnFfkUdAV7dYwgRJ/gP9BU=;
+	b=FvFquGddtEFR6HNM36Ex5c3gOuYjHwHMVZdU/C6jRGB1Ro2nmgLyrjqtUMcVGCeDS7
+	wpzh/RlysTkhpfSVB+rOXNm/JzvZiKH+4wERo7i4ZiN3hE/ZEpAEY7Xagn0OEn1PA5Ow
+	J+albjXD6kGa+ksmlcgG0Fj1RR51AgJBTOMIjH0K2zylyqdAyLCps+Z6ZEmglDb3UJqV
+	GhgLgjxv0/+DcsK8TFPwDUdG5Cne+NQ7UUK+vZCOhoIacLFjKHdgcLe5ahYHzGa6dEKK
+	MLuoFmcfXy+Kc92FOgwgTsyVgbCjYHrhXAxB4dz3Kp4x+gfaZ15bY8vxa7Oii2AezWyN
+	Pc4A==
+X-Gm-Message-State: APjAAAVBbTJxOObLdkFpc5Hjb01KGUYOAoRuXtFjRiiwSzqetLJFDFjI
+	p6ybHZURGFr8G2pI2d3/auTrf0yQl9/S4jzzkSE=
+X-Google-Smtp-Source: APXvYqzcIJryU4W7+yzP1phylYWNpdH/wcJK9cCJ4etPNKm3BlV6ceX7u1WAoJXmXj27cZvWUzhvNrX+qMAeDFbR2rU=
+X-Received: by 2002:aca:d40b:: with SMTP id l11mr5763oig.132.1558369709905;
+	Mon, 20 May 2019 09:28:29 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] zip: Remove build date to improve reproducibility
+References: <20190516210956.19906-1-luca.boccassi@gmail.com>
+	<e8e8d3b516e2a0e3b30fe2aa1882700f3ad5df43.camel@linuxfoundation.org>
+	<9ca3cf5a62ce6c2aaee7e15b68be684184644200.camel@gmail.com>
+In-Reply-To: <9ca3cf5a62ce6c2aaee7e15b68be684184644200.camel@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 18:28:18 +0200
+Message-ID: <CANNYZj-i_B7Rd3Po7nVboKpTCgx4AUu-iUDxJqQBSJJSubuO4w@mail.gmail.com>
+To: Luca Boccassi <luca.boccassi@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] python*-setuptools: add separate packages for pkg_resources module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,59 +55,95 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 15:48:14 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 20 May 2019 16:28:29 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Applies a patch from Debian to remove the build date from zip.
+I think you need to reset RDEPENDS to an empty string for the native
+class. This is a long-standing problem, where bitbake is not able to
+fulfil RDEPENDS for native variants, if said RDEPENDS contains
+anything except recipe names.
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- .../zip/zip-3.0/10-remove-build-date.patch    | 19 +++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |  4 +++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
+Alex
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch b/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
-new file mode 100644
-index 00000000000..244ddea363a
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
-@@ -0,0 +1,19 @@
-+From: Santiago Vila <sanvila@debian.org>
-+Subject: Remove (optional) build date to make the build reproducible
-+Bug-Debian: http://bugs.debian.org/779042
-+
-+Upstream-Status: Inappropriate [no upstream]
-+
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+
-+--- a/unix/unix.c
-++++ b/unix/unix.c
-+@@ -1020,7 +1020,7 @@
-+ 
-+ 
-+ /* Define the compile date string */
-+-#ifdef __DATE__
-++#if 0
-+ #  define COMPILE_DATE " on " __DATE__
-+ #else
-+ #  define COMPILE_DATE ""
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index de779e94aae..a2cd7717caf 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -10,7 +10,9 @@ PR = "r2"
- S = "${WORKDIR}/zip30"
- 
- SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz \
--           file://fix-security-format.patch"
-+           file://fix-security-format.patch \
-+           file://10-remove-build-date.patch \
-+           "
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
- SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
--- 
-2.21.0
-
+On Mon, 20 May 2019 at 17:05, Luca Boccassi <luca.boccassi@gmail.com> wrote:
+>
+> On Mon, 2019-05-20 at 15:14 +0100, Richard Purdie wrote:
+> > On Thu, 2019-05-16 at 22:09 +0100,
+> > luca.boccassi@gmail.com
+> >  wrote:
+> > > From: Luca Boccassi <
+> > > luca.boccassi@microsoft.com
+> > > >
+> > >
+> > > The pkg_resources Python module is useful by itself, for example
+> > > for
+> > > automatic loading of resources shipped in a Python package.
+> > > Add separate packages for it, so that users can depend on them
+> > > individually and avoid pulling in the entire setuptools, which
+> > > include scripts to download other packages, which might not be
+> > > desired on minimal images.
+> > >
+> > > Other distributions like Debian and Ubuntu already split setuptools
+> > > and pkg-resources in this way.
+> > >
+> > > The setuptools packages now depend on the new pkg-resources
+> > > packages,
+> > > to avoid regressions for other packages that depend on them
+> > > already.
+> > >
+> > > Signed-off-by: Luca Boccassi <
+> > > luca.boccassi@microsoft.com
+> > > >
+> > > ---
+> > >  meta/recipes-devtools/python/python-setuptools.inc | 4 ++++
+> > >  1 file changed, 4 insertions(+)
+> > >
+> > > diff --git a/meta/recipes-devtools/python/python-setuptools.inc
+> > > b/meta/recipes-devtools/python/python-setuptools.inc
+> > > index 357aa07086..ad00cbe0ef 100644
+> > > --- a/meta/recipes-devtools/python/python-setuptools.inc
+> > > +++ b/meta/recipes-devtools/python/python-setuptools.inc
+> > > @@ -24,6 +24,7 @@ RDEPENDS_${PN} = "\
+> > >    ${PYTHON_PN}-html \
+> > >    ${PYTHON_PN}-netserver \
+> > >    ${PYTHON_PN}-numbers \
+> > > +  ${PYTHON_PN}-pkg-resources \
+> > >    ${PYTHON_PN}-pkgutil \
+> > >    ${PYTHON_PN}-plistlib \
+> > >    ${PYTHON_PN}-shell \
+> > > @@ -37,3 +38,6 @@ do_install_prepend() {
+> > >  }
+> > >
+> > >  BBCLASSEXTEND = "native nativesdk"
+> > > +
+> > > +PACKAGES =+ "${PYTHON_PN}-pkg-resources "
+> > > +FILES_${PYTHON_PN}-pkg-resources =
+> > > "${PYTHON_SITEPACKAGES_DIR}/pkg_resources/*"
+> >
+> >
+> > This breaks native builds:
+> >
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/614
+> >
+> >
+> > (and many other similar failures)
+> >
+> > Cheers,
+> >
+> > Richard
+>
+> Hello Richard,
+>
+> Thanks for the heads-up, any suggestion as to why the above patch
+> wouldn't be enough to build both native and target binary packages for $python-pkg-resources?
+>
+> --
+> Kind regards,
+> Luca Boccassi
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
