@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 9AFA57E051
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C6AC7E07F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 14:12:10 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id e15so14808622wrs.4
+	Mon, 20 May 2019 14:12:12 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id e15so14808714wrs.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:12:11 -0700 (PDT)
+	Mon, 20 May 2019 07:12:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=SNQxXDkfkm8tZeKBQZ/TP9mRogF1EMjRp1xdnNM/+Qg=;
-	b=Wl1ELRyvT+35utMG3rfZpRwR9WB2Wv9eMgenVV2f7qlEAP8zdR6YhNQn8/EtWQq8t1
-	AsqrrpUr3BmY4v4/T/CLluAMAKww9BSHpeWEFNWv8D/3VUcMN1x5MDO734J7ttOVUsIk
-	GGJi3mQpb8u2hX6bVQFBmNcmSJl5yl0L8W3/sj909IhlVfGFPrXa2fTKdBYCdWO7Nkyz
-	eNtqCc2qbXWzW6I25DkOJEAFl64fdoAlIVYmS3h9Pd0TprXdHUMPRxI+pBLFot2PHJUQ
-	fOUjJEaCz+ImcaHrzl4chicfQS9ApVgXA+SQ7ptc6Qfu8enuY+GL4WPJT2cvOIFCLDqO
-	Giqg==
+	bh=bJY/dB0EGfN0tWHD7VwIYk3U9dXqUzkcfscttxxdQNU=;
+	b=HUM3FPg0u16D972xVeahXr35+vGa44RKiQq2JQWyedSZSdyL1+yOHohT3BBUDDG5HH
+	ZEAAw7b9oO/xOmIZUHrOqUsYVTg5+bzdHJgjLQJak4msG/v60MhNTh6y0sTBQkDnglx6
+	Pcm9NAd1zpPLfEFv1srKQ8TvkTvQFZ+ll4BQCWJM5cVTTy6IUcwIPmHUbPDZp1Pha/u9
+	s7kg3nF3cI/Riu9A+ETVhxFXxXEETzETZk9K4Y5rSy2YKZ/V7jeDrTy/x2guszaTF90A
+	Zmns7lTjDhK8m+0vrnnbhehDA4l+c3AoCXgoerPQx6nvBQ+gHJcFs2QkpQhIkrCzR4ew
+	bpTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=SNQxXDkfkm8tZeKBQZ/TP9mRogF1EMjRp1xdnNM/+Qg=;
-	b=fD/FxKJRrDu967ntyfwxIZIoZdgs4X7MwaowZqxTXHwYb3KWzG0sgFYCzoq/cPxqfk
-	b4jU3wJ2JzFQpQog0la3kGK8ZPI/3cjyCn0jcbOkcJv8gnb43eDODUBg5V9kRPJyOhnl
-	yHII2jH5FImxwAz0dKOl9nblJLlQ9lXn2B9iia3Mgs+kWHeD8BqPZ9K14j5E3UDO6CmM
-	LKICyht0fcNn2547BgvP0mlMiGP73DgdEubHwA9fNRmQrWyr0CrHfZM/mW+NEx/HVmoY
-	c8Jc9Jkv+xCgYt7M4BPmQFbrytU0R7Z9oBZJxbMG/kK1RNPZgkU/WiOwLbGVbhZkcUOb
-	fCSA==
-X-Gm-Message-State: APjAAAX9gLubSRgJyYQkJEWoJYYo4xkrmAoz/nb84rRy+jFBoMG/G1LB
-	n6YS367chktkC/9b8JAB/roQrh9t
-X-Google-Smtp-Source: APXvYqzpGs8b2vXnMZCjNiRQBsxRocx52r79/kqUcoyU5bknwriaXPCzLeI61+fpu7yBym1EJb6btw==
-X-Received: by 2002:a5d:4647:: with SMTP id j7mr10810392wrs.280.1558361531157; 
-	Mon, 20 May 2019 07:12:11 -0700 (PDT)
+	bh=bJY/dB0EGfN0tWHD7VwIYk3U9dXqUzkcfscttxxdQNU=;
+	b=fTPMw8L6d5MKOeAVBcl1ja2ctZv78JXsDg6ms6f335uVq4ecJ7YOTRFzZsm+jCEqnI
+	+YtW9O40dRhxCiB7eODNsVtpBsdHMK3rYwoCrQ5rm3yWZ9jOf0Uxt3SGD+1xG4xBozY1
+	ezZ6LnNvzX9UukUZnHM73DVEz3gKJrn+86WsVxk7rCKLey9W/j4LPF0iT55awLWY88Mm
+	LzSNmza7fjR0Btqdsj9mGYitlDnOX309Q4Ky1iYjqod3pdcQ7zaj3KpRqiB5ecsS8TZ8
+	zC0FJdyMswsIDuzCvdvbmswG3xK+wSoTlgI+ttUG3UJsMeggzsEVcL/3mIpSEN8A1h1Y
+	YJMg==
+X-Gm-Message-State: APjAAAX+H0tg3jPI48zTteJhsBNwNkN/ajQB1BTVIDPsB3ABu6tdOc1a
+	lb7bB+LJBV3sp2o8RGi0ix7vejNl
+X-Google-Smtp-Source: APXvYqzRl4CnlxdAfaLZvncn2xo8oJvhEXHNebfPVbm3ereBx1Qb/O13Mr9UszzkQNi8BOCHEOnF4w==
+X-Received: by 2002:adf:b3d4:: with SMTP id x20mr48457310wrd.284.1558361532717;
+	Mon, 20 May 2019 07:12:12 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	v5sm36242015wra.83.2019.05.20.07.12.10
+	v5sm36242015wra.83.2019.05.20.07.12.11
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 07:12:10 -0700 (PDT)
+	Mon, 20 May 2019 07:12:11 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 16:11:22 +0200
-Message-Id: <20190520141125.10805-39-alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 16:11:23 +0200
+Message-Id: <20190520141125.10805-40-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190520141125.10805-1-alex.kanavin@gmail.com>
 References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-Cc: Tom Rini <trini@konsulko.com>
-Subject: [PATCH 39/42] vim: Rework things so vim adds features not vim-tiny removes
+Subject: [PATCH 40/42] webkitgtk: update to 2.24.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,85 +57,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 14:12:10 -0000
+X-List-Received-Date: Mon, 20 May 2019 14:12:12 -0000
 
-From: Tom Rini <trini@konsulko.com>
+Add a patch to address a missing format string error.
 
-Now that we have a common inc file for both vim and vim-tiny move a few
-bits of logic out of vim.inc and in to vim_$VER.bb so that vim adds
-things rather than vim-tiny removes them.
+Drop the x86-specifc setting for GSTREAMER_GL as it is no longer needed.
 
-Suggested-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Tom Rini <trini@konsulko.com>
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-support/vim/vim-tiny_8.1.1240.bb | 3 ---
- meta/recipes-support/vim/vim.inc              | 8 +-------
- meta/recipes-support/vim/vim_8.1.1240.bb      | 9 +++++++++
- 3 files changed, 10 insertions(+), 10 deletions(-)
+ ...streamer-add-a-missing-format-string.patch | 24 +++++++++++++++++++
+ ...ebkitgtk_2.24.0.bb => webkitgtk_2.24.2.bb} |  9 +++----
+ 2 files changed, 27 insertions(+), 6 deletions(-)
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch
+ rename meta/recipes-sato/webkit/{webkitgtk_2.24.0.bb => webkitgtk_2.24.2.bb} (94%)
 
-diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
-index 139e626e444..e4c26d23f69 100644
---- a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
-+++ b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
-@@ -2,9 +2,6 @@ require vim.inc
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch b/meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch
+new file mode 100644
+index 00000000000..bd4ac1e3538
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-gstreamer-add-a-missing-format-string.patch
+@@ -0,0 +1,24 @@
++From 2d9687840b97186b80053dd262209e39455ac876 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Wed, 8 May 2019 15:31:23 +0200
++Subject: [PATCH] gstreamer: add a missing format string
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ .../platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp    | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp b/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp
++index e1e497ee..483fd65c 100644
++--- a/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp
+++++ b/Source/WebCore/platform/graphics/gstreamer/WebKitWebSourceGStreamer.cpp
++@@ -738,7 +738,7 @@ static GstStateChangeReturn webKitWebSrcChangeState(GstElement* element, GstStat
++     WebKitWebSrc* src = WEBKIT_WEB_SRC(element);
++ 
++ #if GST_CHECK_VERSION(1, 14, 0)
++-    GST_DEBUG_OBJECT(src, gst_state_change_get_name(transition));
+++    GST_DEBUG_OBJECT(src, "%s", gst_state_change_get_name(transition));
++ #endif
++     switch (transition) {
++     case GST_STATE_CHANGE_READY_TO_NULL:
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
+similarity index 94%
+rename from meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
+index 96ac5ac18f3..056334fff5e 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.24.0.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.24.2.bb
+@@ -23,10 +23,11 @@ SRC_URI = "http://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://include_array.patch \
+            file://narrowing.patch \
+            file://snprintf.patch \
++           file://0001-gstreamer-add-a-missing-format-string.patch \
+            "
  
- SUMMARY += " (with tiny features)"
+-SRC_URI[md5sum] = "576d69c598b3e36c73441052d02466de"
+-SRC_URI[sha256sum] = "2e4ad1503fe482ceb5a83cf70ac9cd42f37eb718555a4d6844fe4c59a9214407"
++SRC_URI[md5sum] = "83012998e1b9f71abb37d8baf6f9c7e6"
++SRC_URI[sha256sum] = "019cb1f0d05bf6148b72c7a85734bcd006388a1c14132843ef9a1b2cb7b4321c"
  
--PROVIDES_remove = "xxd"
--ALTERNATIVE_${PN}_remove = "xxd"
+ inherit cmake pkgconfig gobject-introspection perlnative distro_features_check upstream-version-is-even gtk-doc
+ 
+@@ -71,10 +72,6 @@ EXTRA_OECMAKE = " \
+                 -DPYTHON_EXECUTABLE=`which python` \
+ 		"
+ 
+-# GL/GLES header clash: both define the same thing, differently, on 32 bit x86
+-EXTRA_OECMAKE_append_x86 = " -DUSE_GSTREAMER_GL=OFF "
+-EXTRA_OECMAKE_append_x86-x32 = " -DUSE_GSTREAMER_GL=OFF "
 -
- PACKAGECONFIG += "tiny"
- 
- do_install() {
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f5c74684bfa..433f2334482 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -1,7 +1,6 @@
- SUMMARY = "Vi IMproved - enhanced vi editor"
- SECTION = "console/utils"
- 
--PROVIDES = "xxd"
- DEPENDS = "ncurses gettext-native"
- # vimdiff doesn't like busybox diff
- RSUGGESTS_${PN} = "diffutils"
-@@ -52,7 +51,6 @@ PACKAGECONFIG += " \
-     ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
-     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '', d)} \
- "
--PACKAGECONFIG_class-native = ""
- 
- PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
- PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
-@@ -130,12 +128,8 @@ RDEPENDS_${BPN} = "ncurses-terminfo-base"
- # Recommend that runtime data is installed along with vim
- RRECOMMENDS_${BPN} = "${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-common"
- 
--ALTERNATIVE_${PN} = "vi vim xxd"
-+ALTERNATIVE_${PN} = "vi vim"
- ALTERNATIVE_PRIORITY = "100"
- ALTERNATIVE_TARGET = "${bindir}/${BPN}.${BPN}"
- ALTERNATIVE_LINK_NAME[vi] = "${base_bindir}/vi"
- ALTERNATIVE_LINK_NAME[vim] = "${bindir}/vim"
--ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
--ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
--
--BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-support/vim/vim_8.1.1240.bb b/meta/recipes-support/vim/vim_8.1.1240.bb
-index baaaacc0b77..60946a181f4 100644
---- a/meta/recipes-support/vim/vim_8.1.1240.bb
-+++ b/meta/recipes-support/vim/vim_8.1.1240.bb
-@@ -1 +1,10 @@
- require vim.inc
-+
-+PROVIDES = "xxd"
-+
-+PACKAGECONFIG_class-native = ""
-+BBCLASSEXTEND = "native"
-+
-+ALTERNATIVE_${PN}_append = " xxd"
-+ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
-+ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+ # Javascript JIT is not supported on ARC
+ EXTRA_OECMAKE_append_arc = " -DENABLE_JIT=OFF "
+ # By default 25-bit "medium" calls are used on ARC
 -- 
 2.17.1
 
