@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B96FA7E024
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
+	[209.85.128.44])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AFF07DF46
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 14:11:58 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id e15so14807778wrs.4
+	Mon, 20 May 2019 14:11:59 +0000 (UTC)
+Received: by mail-wm1-f44.google.com with SMTP id y3so13497965wmm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:12:00 -0700 (PDT)
+	Mon, 20 May 2019 07:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=i3XHOkztN77p4HC7OxZvSCYxfHm6G/rqhxlYabHQsAU=;
-	b=OiWk77gnBF9fyDXMSZvdzcTKEhX3gh80adhASBM0bd6f3mhMb5K0A73L1KD/lkidvW
-	6AAOvNBUQ3Y0OUBYpul68UgCPDe7LacE2xcgySUz4UmuXMk1E2WxYVvgxUCweHG435d1
-	mPwkE/jq2b4e7+FRzMrCHBkPdssQqTOxUyAVle1m8VwFp3PSvnZP2yjm25Cx+lr+W9BK
-	7o2MkX6UsDqMl6uNsCEQdcXtluBtaXQNn9zM60eVKokD+RPu6dC8N9a8/0IDaB88TQCu
-	isj39h1Rb1Y6BDVicg2+5pHacqfwOEh9Z/g5cWUDfBFnO47kvpsczh4sVEbWgeRZct0y
-	eFGQ==
+	bh=025G51MF9QDvO0idZFPwxclL6HxAGRdn6e8ltjaqy/g=;
+	b=oLXOh4AuUscBN41q8HULgJdfqxwutlpKqpO5EE6KmUD231ZJTniJLEkUEbh6mkq9As
+	AdbD7awF+m6VGiY9YiLkqq1AmyVHncYbgF+b3Abllafx43C760xwEjMhIs/kCoMJeeLY
+	wsP91RLL9WaUEWfM1RU9G2/PQ3/5jq4UKZ4MAKiwbzmYNze8sUI5wIQq3/dY4cCSyJ9q
+	i9nEiKhsVHv6KNKvMOrx9OlOzrpDoNP5RP5nhui4Gdro+7h1okyzzE7CuCiMYQC//Wlj
+	D/jhXQhAVhN7b0SVpgWFjMoaoPCXNxxT6myAsC/m7/yOsHBuereEb521BUjVC2XLhpd3
+	g/Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=i3XHOkztN77p4HC7OxZvSCYxfHm6G/rqhxlYabHQsAU=;
-	b=C+7fD0Ut7jBjyIsPCPrIPS9cunp6hyZKw3xCLxSD24Fw13mD+COVcje9vLH7/bv5+y
-	Dc4nNSxcyK3jeRalDSDL7jb08S7o9S5dw2QPYogCQF8UAhTUfrLCH/1g7S7bxNEMtPkX
-	jdUt677ssr/kYHxiXYuvyPd5RPATB/jIDDgold31LyiVMvMagmivOgMM5hxdMJiHXYXM
-	SY4gFxF/nrtcAZmZdPaZ0l0LCIYI3eg97QAjKVocogWFMJx8AAenjEO0jsR4ilt6DYkN
-	9kgZHXNvQoSBfA/BdsCbF3GdmBNmNYAflSCMblMkkdbuwwEY4/mCIPvjmtWjRfSbUOiA
-	JALw==
-X-Gm-Message-State: APjAAAWpm0jaMYm0pyncCHGpIFy3EJ0g8N32RrvIBOTRcH8MTQHNl8SD
-	lLef2uUHoVwN4uyJuaqyiwomM6ML
-X-Google-Smtp-Source: APXvYqwMKbPSTe31Omd3u5rNkblnRl1wTqdpdvb3Ux33Tr1vdvPOxalV9VWGqk9gJ+EMYILCurwILg==
-X-Received: by 2002:a5d:6703:: with SMTP id o3mr715511wru.183.1558361519509;
-	Mon, 20 May 2019 07:11:59 -0700 (PDT)
+	bh=025G51MF9QDvO0idZFPwxclL6HxAGRdn6e8ltjaqy/g=;
+	b=ZN0plN2Ujb0FgicKXa+MFfe8fPogbP9gK9uu88diqSL2sMn1TMULvQEzyGHPHA7rx9
+	ZzG/wExTI/KgWnoDeRiAF7pljojBRSLsxuU2FVGTJpHZ4f4yruanoBPGHs0tNh+0KQKY
+	7QocrEeQcChrKMedyiGEscmKWlVtCi7TjYrpDkqq563Go6f4OV/umAdVGtGloAT+7U3H
+	2wmGQUEt6GJN+Ak3haq64OhHkQBuW1ayf8FY9/UoP0VD5TOYAoC/8vEaKHVLtHWS02Q2
+	kPWLH/FBg1YEBdD6A9+1YpruZ8QnAP0hiNn8FX28RUHcc+W5av4oFyt1rD7T7XzqXkdx
+	hZBg==
+X-Gm-Message-State: APjAAAVmxt9JGz9kFQLs2DIaClBdoXb1xg59P7/bp1Z6BCXPW8wriw5/
+	idl0q9asTiGM7Dgxcv3PvLxRntzm
+X-Google-Smtp-Source: APXvYqxn0CQe3+eaiDfjjXiusQONPkEVkgUsfApCZbVP6DF42JLjg4SIFlmmjgGqCjEVz390fraYgw==
+X-Received: by 2002:a7b:c4d1:: with SMTP id g17mr12549771wmk.103.1558361520223;
+	Mon, 20 May 2019 07:12:00 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	v5sm36242015wra.83.2019.05.20.07.11.58
+	v5sm36242015wra.83.2019.05.20.07.11.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 07:11:58 -0700 (PDT)
+	Mon, 20 May 2019 07:11:59 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 16:11:10 +0200
-Message-Id: <20190520141125.10805-27-alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 16:11:11 +0200
+Message-Id: <20190520141125.10805-28-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190520141125.10805-1-alex.kanavin@gmail.com>
 References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-Subject: [PATCH 27/42] libsoup-2.4: upgrade 2.66.1 -> 2.66.2
+Subject: [PATCH 28/42] x264: upgrade to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,27 +61,21 @@ X-List-Received-Date: Mon, 20 May 2019 14:11:59 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libsoup/{libsoup-2.4_2.66.1.bb => libsoup-2.4_2.66.2.bb}  | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/libsoup/{libsoup-2.4_2.66.1.bb => libsoup-2.4_2.66.2.bb} (90%)
+ meta/recipes-multimedia/x264/x264_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-similarity index 90%
-rename from meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-rename to meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-index f0043f80b3e..c4715a04125 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.66.1.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.66.2.bb
-@@ -12,8 +12,8 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-Do-not-enforce-no-introspection-when-cross-building.patch \
+diff --git a/meta/recipes-multimedia/x264/x264_git.bb b/meta/recipes-multimedia/x264/x264_git.bb
+index 34c7dc4f789..f22930a0ee2 100644
+--- a/meta/recipes-multimedia/x264/x264_git.bb
++++ b/meta/recipes-multimedia/x264/x264_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://github.com/mirror/x264;branch=stable \
             "
--SRC_URI[md5sum] = "5f04c09a06f6dbe4c4d3f003992145ce"
--SRC_URI[sha256sum] = "4a2cb6c1174540af13661636035992c2b179dfcb39f4d3fa7bee3c7e355c43ff"
-+SRC_URI[md5sum] = "66c2ae89d6031b01337d78a2c57c75d5"
-+SRC_URI[sha256sum] = "bd2ea602eba642509672812f3c99b77cbec2f3de02ba1cc8cb7206bf7de0ae2a"
+ UPSTREAM_CHECK_COMMITS = "1"
  
- S = "${WORKDIR}/libsoup-${PV}"
+-SRCREV = "0a84d986e7020f8344f00752e3600b9769cc1e85"
++SRCREV = "72db437770fd1ce3961f624dd57a8e75ff65ae0b"
+ 
+ PV = "r2917+git${SRCPV}"
  
 -- 
 2.17.1
