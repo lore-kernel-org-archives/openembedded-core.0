@@ -1,50 +1,51 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 74D1D7DF46
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 9AFA57E051
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 14:12:09 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id d9so1840309wrx.0
+	Mon, 20 May 2019 14:12:10 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id e15so14808622wrs.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:12:10 -0700 (PDT)
+	Mon, 20 May 2019 07:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=JwFvjQ39cG8RQTRao1mfkM/IXiB6okM5u41ABHs8JUA=;
-	b=V7YRVf2TgrRiqNSUii4NB0M5m59XsfKR1/d2dJpQ/frTLwH6+GNrwyyWUl4PfQOJwT
-	epJg+TwgufSzb1+hhmnlfPnWlyHCRrfZoBGtnCa7VEuaD/2V/0dInyaEx/Rip+OlAObo
-	R8BY8HNNwNjjWr3OOR3vyJAYrev13vyfNtyBJy/CdB9H1prbv55qIKARC2FwT0n++vIN
-	DZB4RjDq6nw2iV+mKeugta7O8J5tl8641br9N+AuPUsFT2oCQfsglP9/+6c10IV7OamR
-	NF/2sWecApN4wy04NofsihOL+plSL6Pmv/2eyWCPAFe64TLv6DFa0C10II3LrlFnawW+
-	THEw==
+	bh=SNQxXDkfkm8tZeKBQZ/TP9mRogF1EMjRp1xdnNM/+Qg=;
+	b=Wl1ELRyvT+35utMG3rfZpRwR9WB2Wv9eMgenVV2f7qlEAP8zdR6YhNQn8/EtWQq8t1
+	AsqrrpUr3BmY4v4/T/CLluAMAKww9BSHpeWEFNWv8D/3VUcMN1x5MDO734J7ttOVUsIk
+	GGJi3mQpb8u2hX6bVQFBmNcmSJl5yl0L8W3/sj909IhlVfGFPrXa2fTKdBYCdWO7Nkyz
+	eNtqCc2qbXWzW6I25DkOJEAFl64fdoAlIVYmS3h9Pd0TprXdHUMPRxI+pBLFot2PHJUQ
+	fOUjJEaCz+ImcaHrzl4chicfQS9ApVgXA+SQ7ptc6Qfu8enuY+GL4WPJT2cvOIFCLDqO
+	Giqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=JwFvjQ39cG8RQTRao1mfkM/IXiB6okM5u41ABHs8JUA=;
-	b=nrH0NmMID6ahxLUqaJRuWOZBnfEdS9f49jdY7/+HH7osc+AMElc/YNEPfy2MzmGRwI
-	lVYVnRuzlDIn9jdZ9uN87fKZpIxBCK0D+twao9K66eIP2Ru5ZK17vD5zXd53Bf9khLw/
-	5zZwgH/A5xatu27QFQ7nKHqo+swu9VZPjBbOQsq1lsg7nGf1vOgpAatBfYf6jUJa0hJd
-	VayRdAOVEUG7dqNzvicThZhna5rKCkdIsFbrSA9uNOJ/VmMYDltLb9h8xQrOFg1eU7km
-	b9o34iP1k1fFv1zqUV6aJL2iqC8GSQM6sxUPQBtmEMdilxII17WeFg190nQsguD19krc
-	MIGw==
-X-Gm-Message-State: APjAAAUIJ95MCE1T2jijAgH0hhLqHZM8RnyXyG81BJXqahc3U+J+wHBj
-	EoifD+ndCzceboyoWpQHt+SuuN+w
-X-Google-Smtp-Source: APXvYqz5Wv57CxNgeXEqjVyD+d3iTexGTMBbTT7wgSXT1gHAo2XVCYUBFoGXOWSWTChNdiVOgF9IUw==
-X-Received: by 2002:adf:e850:: with SMTP id d16mr31832871wrn.269.1558361530225;
-	Mon, 20 May 2019 07:12:10 -0700 (PDT)
+	bh=SNQxXDkfkm8tZeKBQZ/TP9mRogF1EMjRp1xdnNM/+Qg=;
+	b=fD/FxKJRrDu967ntyfwxIZIoZdgs4X7MwaowZqxTXHwYb3KWzG0sgFYCzoq/cPxqfk
+	b4jU3wJ2JzFQpQog0la3kGK8ZPI/3cjyCn0jcbOkcJv8gnb43eDODUBg5V9kRPJyOhnl
+	yHII2jH5FImxwAz0dKOl9nblJLlQ9lXn2B9iia3Mgs+kWHeD8BqPZ9K14j5E3UDO6CmM
+	LKICyht0fcNn2547BgvP0mlMiGP73DgdEubHwA9fNRmQrWyr0CrHfZM/mW+NEx/HVmoY
+	c8Jc9Jkv+xCgYt7M4BPmQFbrytU0R7Z9oBZJxbMG/kK1RNPZgkU/WiOwLbGVbhZkcUOb
+	fCSA==
+X-Gm-Message-State: APjAAAX9gLubSRgJyYQkJEWoJYYo4xkrmAoz/nb84rRy+jFBoMG/G1LB
+	n6YS367chktkC/9b8JAB/roQrh9t
+X-Google-Smtp-Source: APXvYqzpGs8b2vXnMZCjNiRQBsxRocx52r79/kqUcoyU5bknwriaXPCzLeI61+fpu7yBym1EJb6btw==
+X-Received: by 2002:a5d:4647:: with SMTP id j7mr10810392wrs.280.1558361531157; 
+	Mon, 20 May 2019 07:12:11 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	v5sm36242015wra.83.2019.05.20.07.12.09
+	v5sm36242015wra.83.2019.05.20.07.12.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 07:12:09 -0700 (PDT)
+	Mon, 20 May 2019 07:12:10 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 16:11:21 +0200
-Message-Id: <20190520141125.10805-38-alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 16:11:22 +0200
+Message-Id: <20190520141125.10805-39-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190520141125.10805-1-alex.kanavin@gmail.com>
 References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-Subject: [PATCH 38/42] gnu-config: Update to latest SHA
+Cc: Tom Rini <trini@konsulko.com>
+Subject: [PATCH 39/42] vim: Rework things so vim adds features not vim-tiny removes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +58,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 14:12:09 -0000
+X-List-Received-Date: Mon, 20 May 2019 14:12:10 -0000
 
-From: Alistair Francis <alistair.francis@wdc.com>
+From: Tom Rini <trini@konsulko.com>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Now that we have a common inc file for both vim and vim-tiny move a few
+bits of logic out of vim.inc and in to vim_$VER.bb so that vim adds
+things rather than vim-tiny removes them.
+
+Suggested-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Tom Rini <trini@konsulko.com>
 ---
- meta/recipes-devtools/gnu-config/gnu-config_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/vim/vim-tiny_8.1.1240.bb | 3 ---
+ meta/recipes-support/vim/vim.inc              | 8 +-------
+ meta/recipes-support/vim/vim_8.1.1240.bb      | 9 +++++++++
+ 3 files changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/gnu-config/gnu-config_git.bb b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-index e597ebedbc1..1630c128235 100644
---- a/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-+++ b/meta/recipes-devtools/gnu-config/gnu-config_git.bb
-@@ -8,8 +8,8 @@ DEPENDS_class-native = "hostperl-runtime-native"
+diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
+index 139e626e444..e4c26d23f69 100644
+--- a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
++++ b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
+@@ -2,9 +2,6 @@ require vim.inc
  
- INHIBIT_DEFAULT_DEPS = "1"
+ SUMMARY += " (with tiny features)"
  
--SRCREV = "058639be227bbe8f03cc39f79f7ce84918012143"
--PV = "20181128+git${SRCPV}"
-+SRCREV = "b98424c249119b79d3f709e26eb86f2fd4d5e5f3"
-+PV = "20190501+git${SRCPV}"
+-PROVIDES_remove = "xxd"
+-ALTERNATIVE_${PN}_remove = "xxd"
+-
+ PACKAGECONFIG += "tiny"
  
- SRC_URI = "git://git.savannah.gnu.org/config.git \
-            file://gnu-configize.in"
+ do_install() {
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index f5c74684bfa..433f2334482 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -1,7 +1,6 @@
+ SUMMARY = "Vi IMproved - enhanced vi editor"
+ SECTION = "console/utils"
+ 
+-PROVIDES = "xxd"
+ DEPENDS = "ncurses gettext-native"
+ # vimdiff doesn't like busybox diff
+ RSUGGESTS_${PN} = "diffutils"
+@@ -52,7 +51,6 @@ PACKAGECONFIG += " \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '', d)} \
+ "
+-PACKAGECONFIG_class-native = ""
+ 
+ PACKAGECONFIG[gtkgui] = "--enable-gui=gtk2,--enable-gui=no,gtk+,"
+ PACKAGECONFIG[acl] = "--enable-acl,--disable-acl,acl,"
+@@ -130,12 +128,8 @@ RDEPENDS_${BPN} = "ncurses-terminfo-base"
+ # Recommend that runtime data is installed along with vim
+ RRECOMMENDS_${BPN} = "${PN}-syntax ${PN}-help ${PN}-tutor ${PN}-vimrc ${PN}-common"
+ 
+-ALTERNATIVE_${PN} = "vi vim xxd"
++ALTERNATIVE_${PN} = "vi vim"
+ ALTERNATIVE_PRIORITY = "100"
+ ALTERNATIVE_TARGET = "${bindir}/${BPN}.${BPN}"
+ ALTERNATIVE_LINK_NAME[vi] = "${base_bindir}/vi"
+ ALTERNATIVE_LINK_NAME[vim] = "${bindir}/vim"
+-ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
+-ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+-
+-BBCLASSEXTEND = "native"
+diff --git a/meta/recipes-support/vim/vim_8.1.1240.bb b/meta/recipes-support/vim/vim_8.1.1240.bb
+index baaaacc0b77..60946a181f4 100644
+--- a/meta/recipes-support/vim/vim_8.1.1240.bb
++++ b/meta/recipes-support/vim/vim_8.1.1240.bb
+@@ -1 +1,10 @@
+ require vim.inc
++
++PROVIDES = "xxd"
++
++PACKAGECONFIG_class-native = ""
++BBCLASSEXTEND = "native"
++
++ALTERNATIVE_${PN}_append = " xxd"
++ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
++ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
 -- 
 2.17.1
 
