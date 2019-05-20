@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 0ABF27DECF
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id CE71D7DF85
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 14:11:41 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id s17so14819766wru.3
+	Mon, 20 May 2019 14:11:42 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r4so14764151wro.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:11:43 -0700 (PDT)
+	Mon, 20 May 2019 07:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=VeDZrZEkikt4/Ph08iANpbCDaVcUcT7widJ05AoRd3M=;
-	b=DKn4ukXXZrDrIzd6G34B9dT5vnONDEDQfCLxWAZvU+m0JMGuIjBGrhFyHJC3ZjnWtE
-	YMR4TCT9sPstTzvRbj//h/fmVHf1irhIs9XB5tZY9NIZc9U6xMJe/yZkUPXgaSqGvyOS
-	7w1+2cVzRxRjOYjDFDGk7KK2DLMTYsMp3Q6Eiffd91lYTd0O4tubkZ0KkvMWFGPW4a0i
-	qBIBJYaU3YCpZRxRVQ1Vz91WQvRJYCRj7doiID5yIYrnbdCX93AHAP65wAYQtgczBOfJ
-	A3YVonGZxlQeVvfnt1eK0o2GH8yvh9C6TFihnGiAovZCeWgCINFMtwUHRiYOXgMD4q6n
-	lIWg==
+	bh=JZcO0BwK3t23xoOeLjfj9k/OZ6UK+SCICkpQi9jQ4IM=;
+	b=T1QZ1oSrRlymlBGxM3/be5fMa92OakI21UUhz0LcZegzPHU9G8NgxpG8TXYQ5/mY7y
+	9QUBCVUJVcVBbJiUqpM0255ASZYMjPPNBpwCijg2Izw2HPv6RuNK252Tv04hOYgMjed/
+	RcSWrYe/v63FtxdzM/6co9NX7Lop59R2y8rdaog6GQYL6yrjUb/XE1CercoSbXUhLTRn
+	PFA4cRMUEPUZwAeHeL/vBTGwSB0UyyyNplupHARjwniSyfx+jPJth/N98TDZeBnxSe+S
+	6ViUli5Oit5TM6sWhwLYR7xF13R2LfxqeX0ihh6zGWvX+aCK7gVnINs3Ftf2jGjsEv9G
+	XUNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=VeDZrZEkikt4/Ph08iANpbCDaVcUcT7widJ05AoRd3M=;
-	b=nLFlBPTQTgVILgVgG8Kohs9q2EVU5++gu8tWgy/2M7VM5M779RkQWjFUa6HU6j59yY
-	U4oa5e8bgTjgrFSt6N8xvVWMcHbr+Q4MRBlwfRJ0Iq0LkzOgPgBa+U0kEVk0nRpePvED
-	djpXeFFf98HheyqVZ41Mu2If7hpmBp0Kk89i1wuimmjuK0oQhlQVPMuQLtpiFO00Ada4
-	ouVrAzXHK5Rt6fJVdVyYAiGbB2Tn6u4NoQuTMP5DgTydtSO4o+8MPCeve23G9BNXznSv
-	5Eo1l1IRV+Dh02LpFW2L7AQiTWC7ggL7Kw0ijfEeLBHgDzgCuvFgGVrAy44h+fq8YmOE
-	pj8w==
-X-Gm-Message-State: APjAAAVRRsx//uWYN+C9/HeEtzO9DXwbKi1BTW8piouvql6WaoWuZwsu
-	10H9E9Ki5DngGGawCtugIy1ppnXe
-X-Google-Smtp-Source: APXvYqy8Hyl7Wtpc7hA9ACHaw10g5yweVF5POpn4bEmSJyGCJFmYjbapfZt/lWP6EF1FaIAagq+oRg==
-X-Received: by 2002:a5d:6703:: with SMTP id o3mr714469wru.183.1558361502660;
-	Mon, 20 May 2019 07:11:42 -0700 (PDT)
+	bh=JZcO0BwK3t23xoOeLjfj9k/OZ6UK+SCICkpQi9jQ4IM=;
+	b=O3CazkP18Rm0SEB5uodfYdkoS9f2Rwa2WXu2Iw7d6BMZ9jjQH9VGYdSWXTtYfYSUO0
+	pdHsKf5N5LS3sBKcSCxkNKketyxx+PSlF9QeexViSzmMqJimXtfS6NWXSlKfipGSSJd3
+	w967HXtINXrSWk7Y/ScnGpLfjxrEFf4Z0MCxR3O3XuUaw+uf7aUa7PTp4aFpb+B9rrlK
+	xKuviOSQAxLUNnWYQ98nuJLCoHBsAV1J/VIQcWTGZbIf5X3so5eJY7xSntlAG8trmX3j
+	8kY0cJJXIYSbQzOlBOsfXsKL2MMGpf0wELG0mJvExd+0weZFv99SP2E3alei6HJdNZHd
+	OOVg==
+X-Gm-Message-State: APjAAAWRhRj3S9biELGgOh9JmHtJblH+WY1jAnEiShEzLiBswBFg3lmZ
+	2MaIe+KDKCpt3XAVkWDMCyLnB2Q/
+X-Google-Smtp-Source: APXvYqyyZn07Xx5EGKVOYZdxMJ8I1nZWnhgUl4YaeB2ALfZypgdsYiOIZb1TXp0IgU1qrqoxAGewSQ==
+X-Received: by 2002:adf:ec8e:: with SMTP id z14mr17709159wrn.198.1558361503483;
+	Mon, 20 May 2019 07:11:43 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	v5sm36242015wra.83.2019.05.20.07.11.41
+	v5sm36242015wra.83.2019.05.20.07.11.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Mon, 20 May 2019 07:11:42 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 16:10:53 +0200
-Message-Id: <20190520141125.10805-10-alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 16:10:54 +0200
+Message-Id: <20190520141125.10805-11-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190520141125.10805-1-alex.kanavin@gmail.com>
 References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-Subject: [PATCH 10/42] python3-mako: upgrade 1.0.9 -> 1.0.10
+Subject: [PATCH 11/42] nss: upgrade 3.43 -> 3.44
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 14:11:42 -0000
+X-List-Received-Date: Mon, 20 May 2019 14:11:43 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/python/python-mako.inc                  | 4 ++--
- .../python/{python3-mako_1.0.9.bb => python3-mako_1.0.10.bb}  | 0
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-mako_1.0.9.bb => python3-mako_1.0.10.bb} (100%)
+ meta/recipes-support/nss/{nss_3.43.bb => nss_3.44.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nss/{nss_3.43.bb => nss_3.44.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python-mako.inc b/meta/recipes-devtools/python/python-mako.inc
-index 97c624bbc66..20808fe5aca 100644
---- a/meta/recipes-devtools/python/python-mako.inc
-+++ b/meta/recipes-devtools/python/python-mako.inc
-@@ -8,8 +8,8 @@ PYPI_PACKAGE = "Mako"
+diff --git a/meta/recipes-support/nss/nss_3.43.bb b/meta/recipes-support/nss/nss_3.44.bb
+similarity index 98%
+rename from meta/recipes-support/nss/nss_3.43.bb
+rename to meta/recipes-support/nss/nss_3.44.bb
+index f8cf5a46afb..4205d79485e 100644
+--- a/meta/recipes-support/nss/nss_3.43.bb
++++ b/meta/recipes-support/nss/nss_3.44.bb
+@@ -33,8 +33,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+            file://system-pkcs11.txt \
+            "
  
- inherit pypi
+-SRC_URI[md5sum] = "67c8fa282c32cb56117fdd530dd77001"
+-SRC_URI[sha256sum] = "f30bc1b7330887b75de9fec37dbc173001758dc43fb095ffbc45dac4093fe2ca"
++SRC_URI[md5sum] = "e9222b9573452b9f4e6ff4915d6407c2"
++SRC_URI[sha256sum] = "a5620e59b6eeedfd5a12c9298b50ad92e9898b223e214eb675e36f4ffb5b6aff"
  
--SRC_URI[md5sum] = "d739720f3f0d6a1cb6a96ea7a4760c3e"
--SRC_URI[sha256sum] = "0728c404877cd4ca72c409c0ea372dc5f3b53fa1ad2bb434e1d216c0444ff1fd"
-+SRC_URI[md5sum] = "a94d376078dda65f834ea5049a81ebb5"
-+SRC_URI[sha256sum] = "7165919e78e1feb68b4dbe829871ea9941398178fa58e6beedb9ba14acf63965"
- 
- RDEPENDS_${PN} = "${PYTHON_PN}-html \
-                   ${PYTHON_PN}-netclient \
-diff --git a/meta/recipes-devtools/python/python3-mako_1.0.9.bb b/meta/recipes-devtools/python/python3-mako_1.0.10.bb
-similarity index 100%
-rename from meta/recipes-devtools/python/python3-mako_1.0.9.bb
-rename to meta/recipes-devtools/python/python3-mako_1.0.10.bb
+ UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
+ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
 -- 
 2.17.1
 
