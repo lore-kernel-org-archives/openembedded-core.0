@@ -1,51 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 443C17D735
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 0023B7D735
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 20 May 2019 14:11:52 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 15so9167439wmg.5
+Received: by mail-wr1-f43.google.com with SMTP id b18so14744046wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:11:53 -0700 (PDT)
+	Mon, 20 May 2019 07:11:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=4SVmrIuJLbmrXgGXSxG+ohGOOolfaynwpA/FlgNrPYY=;
-	b=NeIZfWnGL9GRd9FoClWqiPTRAuEyEys4CFQS/yNOo/EyLeXxQGPWOg8FaAx5HtohIQ
-	QNUy7MjKy4j93tiVv+fqey9q6N1IDm3v2cBpyzPuAzCeHkxQBqpEp59zh96Jlv92VHfp
-	Ir7EaD+b9N0sOvw9Ael9QEOAbQDSaacNoWk8ppMsWA5yKqxib59mspjMm1OLwJVK7H3I
-	BiMo6nHHYw+hUelK8KWOc1aN5leq9POR1pEh3ha3kHlvTKJ/N+8F4z6pGaCI50Fb1BEP
-	sULJkMTXtkL1ZVvBAIF1N2jEiHEMAxuBCQTDyWVscVv03yAzacStZ/KELwsUDsdcQ2do
-	KBlw==
+	bh=Wpz5yItpWG8G1ChGFCjOdWQEOgjrEYPjWhvr1drR6Qk=;
+	b=DC0VB9RXQLlg06pGaAIJxOq3bjqrjaeqC64AKrQhfF6KMHUqoh784Zx3L0iAaKDaTt
+	c+fa9nCpzNZry/Pq79+lMtSL2IaUlG191D6voAq/VbSW2pqtolOXBpbvwhmfomiEP59M
+	dyGsj6QwiFMTWXSjUtfJ39hoyR3IeKba66j370a60w7pl76/Rcw7oO10DkzQHTFUoYqs
+	0TswnJO/bCIEZDn0lIy1JywU1dbbNwbZNpgMWLEpAdBgdmcbqICcIZRc7dSUEpVDuVib
+	Uu19gleraDXGg8b9iEyD+LyHPNy2sfQ+UwXIr4YHppXouKEljAuqfi/R4KU4KYehe8LG
+	HLbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=4SVmrIuJLbmrXgGXSxG+ohGOOolfaynwpA/FlgNrPYY=;
-	b=g0nnZg2oH15MErtMDYusFbzNtm5/Yk684Z2sifGZArN0xWKPDlRudf5lbIE4B/TYv5
-	QcSNk+/AeRwOslFkRbN4qHAGQ1KLtq0L+/Qb2yC6iOmlYNyPYMpliu6RYdW9CDZd4ekK
-	R06x2Olg/T/kvVKFxzMdbuNYTzSqDjC5sRSVLJy+EDi5HHB+CqOjGUgDUeeTHRDZtfnn
-	vlIlY4WDGFWMVocUQzN4dRBsDHNVTuW/9FIEfYvU9tYYXkKvtWkRPuXr5LBe9Q+YpGfh
-	oucLwAo6JdB3oQwlMSKT12hemEu4km5nR4YI8iGzg+a2mIUjrNT+9CYxfPq/wd5x5hDS
-	1EJA==
-X-Gm-Message-State: APjAAAX02qCHd0oXdgpYrE7usQwMqybYoiXL7Mz8bs1lCts7lIs2CDhU
-	MTUVZlJAqwQE9ZvKQ+srr1lXEID/
-X-Google-Smtp-Source: APXvYqzaTAvoGUNWr/eN3vX/M++FqHwT4NWbOwV3Gl0+tq7sk8vb0omEG4h/vlBUU15bDgL/wiMQeg==
-X-Received: by 2002:a1c:2dd2:: with SMTP id
-	t201mr30686100wmt.136.1558361512569; 
-	Mon, 20 May 2019 07:11:52 -0700 (PDT)
+	bh=Wpz5yItpWG8G1ChGFCjOdWQEOgjrEYPjWhvr1drR6Qk=;
+	b=hQvE+fhMAofY0qEpFqzLJ+soelsFaKvsdv8lhlgxpuRughj6qIHqbbwbTMWHUT+syB
+	DIA+b5uQ/Kv5XQJFaPx+yyXRaq1C16bjiCItsQQlldSY+AQ/hB/G387iMs48mwFpmwhW
+	ph4FANGZJhRNj5L9ebOFEb/jYKlHx2jXCKmjNj7ARR/XT3ZzQbC2LzfuMuWdKjSWyQrG
+	9clH0hIgOGOua0DFRl4//7zlVxYzaeSqAdm3N7Z6Dyw2oTYQHHS6RMzLtSzsr6RdUCdy
+	Xbp7XVaXvaB0+T6no63SFR3pAIIocmlaVpLayR2Y9sRKFCjXnalyUjxJEXjZhnShBzBp
+	xWVg==
+X-Gm-Message-State: APjAAAXI1r8xivnNUk4KQRYUlPT9jQy1nQIrVpTQbVPqFUfaNBUA0sKA
+	Wq8eavToH9LU9LNFRU7v/H/u6S21
+X-Google-Smtp-Source: APXvYqy895xAfz2z3FWsa4z5N7aJVeUWUkX4tRJmJECYiQwgVN82TVXNVRdD/KfuY/7Llzb17pkCqA==
+X-Received: by 2002:adf:ec8e:: with SMTP id z14mr17709804wrn.198.1558361513543;
+	Mon, 20 May 2019 07:11:53 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	v5sm36242015wra.83.2019.05.20.07.11.51
+	v5sm36242015wra.83.2019.05.20.07.11.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
 	Mon, 20 May 2019 07:11:52 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 16:11:03 +0200
-Message-Id: <20190520141125.10805-20-alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 16:11:04 +0200
+Message-Id: <20190520141125.10805-21-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190520141125.10805-1-alex.kanavin@gmail.com>
 References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-Subject: [PATCH 20/42] libxcrypt: upgrade 4.4.4 -> 4.4.6
+Subject: [PATCH 21/42] python3-pip: upgrade 19.0.3 -> 19.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +57,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 14:11:52 -0000
+X-List-Received-Date: Mon, 20 May 2019 14:11:53 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- .../libxcrypt/{libxcrypt_4.4.4.bb => libxcrypt_4.4.6.bb}      | 4 ++--
+ .../python/{python3-pip_19.0.3.bb => python3-pip_19.1.1.bb}   | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-core/libxcrypt/{libxcrypt_4.4.4.bb => libxcrypt_4.4.6.bb} (93%)
+ rename meta/recipes-devtools/python/{python3-pip_19.0.3.bb => python3-pip_19.1.1.bb} (81%)
 
-diff --git a/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb b/meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb
-similarity index 93%
-rename from meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
-rename to meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb
-index b44c07b4d0b..637c0e6ffbd 100644
---- a/meta/recipes-core/libxcrypt/libxcrypt_4.4.4.bb
-+++ b/meta/recipes-core/libxcrypt/libxcrypt_4.4.6.bb
-@@ -9,10 +9,10 @@ LIC_FILES_CHKSUM ?= "file://LICENSING;md5=be275bc7f91642efe7709a8ae7a1433b \
+diff --git a/meta/recipes-devtools/python/python3-pip_19.0.3.bb b/meta/recipes-devtools/python/python3-pip_19.1.1.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-pip_19.0.3.bb
+rename to meta/recipes-devtools/python/python3-pip_19.1.1.bb
+index 4fdc7ee244f..baf32f4724e 100644
+--- a/meta/recipes-devtools/python/python3-pip_19.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_19.1.1.bb
+@@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=8ba06d529c955048e5ddd7c45459eb2e"
  
- inherit autotools pkgconfig
+ DEPENDS += "python3 python3-setuptools-native"
  
--PV = "4.4.4"
-+PV = "4.4.6"
+-SRC_URI[md5sum] = "1c5edb0924a0d7d79f3a2e3df05009b4"
+-SRC_URI[sha256sum] = "6e6f197a1abfb45118dbb878b5c859a0edbdd33fd250100bc015b67fded4b9f2"
++SRC_URI[md5sum] = "4fb98a060f21c731d6743b90a714fc73"
++SRC_URI[sha256sum] = "44d3d7d3d30a1eb65c7e5ff1173cdf8f7467850605ac7cc3707b6064bddd0958"
  
- SRC_URI = "git://github.com/besser82/libxcrypt.git;branch=${SRCBRANCH}"
--SRCREV = "3b251d4e1af66aa7697c4ac96c689f996fa90c32"
-+SRCREV = "398943774c5ff38baf1bc5ee088855fd8983bb05"
- SRCBRANCH ?= "develop"
+ inherit pypi distutils3
  
- PROVIDES = "virtual/crypt"
 -- 
 2.17.1
 
