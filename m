@@ -1,37 +1,56 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 2033F7E075
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 45D317E073
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 21:16:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 457BXj4Xsqz63;
-	Mon, 20 May 2019 23:16:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558386998;
-	bh=gWqs+FVU+ZPccApWaqjL/lXb1eyAdskWFHaVMHdq6yU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mxu3VvGnZVshB7TBcp6rR+uaf2CcUvM7V+3U4hsVeHljr3KXC/UWbMdGj+ANHDNcL
-	eEgRLDPAXxmWRTuGzrM+j8jYPBAiSsvVW2Bm0xscNKx20XKLYxRK72Dwyh6O9aJDir
-	6IMeqs7hLx7O4sZ5+ezGlbUNMnfxQWe4t+Oj7xniUzuftKGS+dPTurQU72F7i0b2No
-	6EF7c9/rlYPaS5RUQ/iAJfKFlBljVk6J6IYPQmr5LUuxOa1Pl8JWEi4tv6A7FrvGCd
-	jH5Wbahd8DMPXS6JsBUPT4M7qcisQAyxNdxsH6SHdCKgFrdX0piDT+7GmJrqewqsbk
-	Nn2Qxwi3Hye2/UebTc+v+HFOpRBUWiF8ExswBorXvFFqN2BCSOhhdVC2T0FaU1WlRk
-	5DA3o2sRyECc+/3/RpOjDSjXfLi9tfEFCe6+UaT2z1qmXcJwTIHxV8Fa//cgv+tenX
-	DUgqkX+7WmHWhSzFNN1qdSuK5HGLlKZ6scNrr8rJPUN5BqRZ5vqZWvU7tq5NFvs+1I
-	JThg7Iic3jp2m/SaOrptLRlIy19YOTMFp0U6nIhDcH4AdC2EksTi6O+BgdO7F7kCWy
-	fM4FWTQWWpLzx4S54uPHOBjhkzwnzqhXBVxgknKVsVDvMY34PB0XUECWPsfyWdsolr
-	S2x1j3UDt0W9jpM6kyJNECvA=
-Date: Tue, 21 May 2019 00:16:35 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190520211635.GA22230@localhost>
-References: <20190516074834.3014-1-bunk@stusta.de>
-	<8e01a707-fda6-ba0e-5731-4fdc337b09b3@gmail.com>
+	Mon, 20 May 2019 21:18:21 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id g3so7846130pfi.4
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 May 2019 14:18:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=DpRVNYHiWZ91jUbCwiQfoHD+cFI5mhQU4cH0FvG0kkc=;
+	b=FUJeZunLd1ulJaCiED/BKSET8mbNjiL0Gnmj4ayqCNGwoiFZqjNz8MfvwP2FJ2YiUe
+	4gQmHRjfQWn8ucFMu5eG9Ydrv7WpvQNeBL6TVYUXp6sbHSou3zsZqVk8tmZQ+Mhf0Tt7
+	OgxygiN7MoNDvIC89m9yjYV5hrSK400HpaHwm650ApBjVRO6vyGCMiGSvA0jAcOtpK/g
+	JEIBWA9NZudef2ZJQOr6FvwjvI8zhNcQu5xNxVba1HqU7Y/swsHMk2q/f6eL9gzw04vE
+	lUA3aDnxs3QuaKVn5BQ16HAobDrMiMCIa52bJ9AZi0SwbDrnNEs3qnFQ6k3GubHi2z1V
+	hJ+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=DpRVNYHiWZ91jUbCwiQfoHD+cFI5mhQU4cH0FvG0kkc=;
+	b=LeUKg/LANKFBgx+ExV8e5JqOfUfesplXWLoZgFFphjIihuOf1XurelrVgzt2xhKNEJ
+	7YQFCFhHrIdL7wvOd8xWe3HOBOm5gq+6nDfVUZjRCwsMB+Sy086/ZN6ALj5FXLMvZoD8
+	oPIMS2n3ai3a+xuPPKpElvIC9l9aFfv9e6/kSaVEndzR1EKi4WDi8VBCxrYgJ0e4rC6Q
+	eqh8+Irs7vmiFSWXrZHJLcb8HeV1mL5TbZ2vJfBTezaD0RbO12Vu4Kg9Ccm+icr84EMH
+	Yc8NsMnPR3Jl94ieDX6J51+gF/XuokXtvHfdRdbqwPV5oJxEcqFKUhHLqaJW/PJh6tlu
+	3S3A==
+X-Gm-Message-State: APjAAAW72IgiJRs3G9jh41c893luQu38YTuklq6OSfOtB5+/kZ45BZJ3
+	mSyXnwIP5uXJ52TvVBaqSrk9lsnv1J4=
+X-Google-Smtp-Source: APXvYqyzewuZ10auyUFvL4KAeF0kPHK/Sz9x+6sGANsOcAhd5An0Fig5thMzwRvvmP/10ZhJ4b25aA==
+X-Received: by 2002:a63:2107:: with SMTP id h7mr5354771pgh.330.1558387102110; 
+	Mon, 20 May 2019 14:18:22 -0700 (PDT)
+Received: from hermes.local ([2601:646:8500:6bc6:74d7:3fa5:f6a5:ec10])
+	by smtp.gmail.com with ESMTPSA id
+	m1sm37022968pga.22.2019.05.20.14.18.21
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 May 2019 14:18:21 -0700 (PDT)
+To: Liwei Song <liwei.song@windriver.com>,
+	oe-core <openembedded-core@lists.openembedded.org>
+References: <1557974500-224120-1-git-send-email-liwei.song@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <9ad65fe0-8a88-9413-7f2d-0cc855395721@gmail.com>
+Date: Mon, 20 May 2019 14:18:20 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
+	Gecko/20100101 Thunderbird/67.0
 MIME-Version: 1.0
-In-Reply-To: <8e01a707-fda6-ba0e-5731-4fdc337b09b3@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] musl: Add TEMP_FAILURE_RETRY from glibc
+In-Reply-To: <1557974500-224120-1-git-send-email-liwei.song@windriver.com>
+Subject: Re: [PATCH] mdadm: install the systemd service through Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,59 +63,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 21:16:38 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 20 May 2019 21:18:21 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 20, 2019 at 01:19:38PM -0700, Khem Raj wrote:
+
+
+On 5/15/19 7:41 PM, Liwei Song wrote:
+> The original mdadm service may include variable like BINDIR,
+> It should use the real value of it, since the install method
+> "install-systemd" in Makefile can easily do such work, so don't
+> install it in bb file manually, use "make install-systemd" to
+> install all the service of mdadm.
 > 
+> Signed-off-by: Liwei Song <liwei.song@windriver.com>
+> ---
+>   meta/recipes-extended/mdadm/mdadm_4.1.bb | 10 +++++++---
+>   1 file changed, 7 insertions(+), 3 deletions(-)
 > 
-> On 5/16/19 12:48 AM, Adrian Bunk wrote:
-> > Patch it into musl instead of patching all users
-> > (currently elfutils and next ofono).
+> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+> index 4168ce4d0cb8..a4b9ef94799f 100644
+> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
+> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+> @@ -55,13 +55,15 @@ do_install() {
+>   do_install_append() {
+>           install -d ${D}/${sysconfdir}/
+>           install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
+> -        install -d ${D}/${systemd_unitdir}/system
+> -        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir}/system
+> -        install -m 644 ${S}/systemd/mdmon@.service ${D}/${systemd_unitdir}/system
+>           install -d ${D}/${sysconfdir}/init.d
+>           install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
+>   }
+>   
+> +do_install_append() {
+> +        oe_runmake install-systemd DESTDIR=${D}
+> +}
+
+perhaps this should be guarded with systemd being in DISTRO_FEATURES check.
+
+> +
+> +
+>   do_compile_ptest() {
+>   	oe_runmake test
+>   }
+> @@ -88,3 +90,5 @@ RRECOMMENDS_${PN}-ptest += " \
+>       kernel-module-raid10 \
+>       kernel-module-raid456 \
+>   "
+> +
+> +FILES_${PN} += "/lib/systemd/*"
 > 
-> this violates musl philosophy, and I would like to stay as close as we can,
-> so I would suggest that you propose this patch to upstream musl first and
-> get an opinion, if it gets accepted, we can change OE
-
-"musl philosophy" is that musl does include the GNU extensions Rich Felker 
-likes, and does not include the GNU extensions Rich Felker dislikes.[1]
-
-TEMP_FAILURE_RETRY is in the latter category.
-
-For TEMP_FAILURE_RETRY it's either patching musl once or patching random 
-packages all the time, and the patch is not invasive.
-
-> Richard,
-> 
-> Please revert this patch, I know its now in master, but we should wait until
-> upstream agrees to apply this, we are trying to extend C library which would
-> fall on us eventually forever if upstream does not accept it.
-
-What is actually the strategy for handling musl changes that will have 
-to be shipped in OE forever?
-
-Especially systemd/musl is a combination that will bring an ever-growing 
-amount of changes that cannot be upstreamed on either side.
-
-And some of the OE patches to systemd make things compile but are of the
-"I wonder if I can get a CVE for that" kind.
-
-The alternative would be to mark systemd as incompatible with musl,
-which might be the sustainable thing to do.
-
-cu
-Adrian
-
-[1] There seem to be sound technical reasons behind what he likes,
-    but this doesn't help when a distribution wants to get existing
-    software building with musl.
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
 
