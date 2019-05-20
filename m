@@ -1,25 +1,48 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D6E717C85D
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f196.google.com (mail-oi1-f196.google.com
+	[209.85.167.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 7851571CBD
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 09:46:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4K9kPrc012494
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 May 2019 02:46:25 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 20 May 2019 02:46:25 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 20 May 2019 05:46:21 -0400
-Message-ID: <20190520094621.94652-2-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190520094621.94652-1-kai.kang@windriver.com>
-References: <20190520094621.94652-1-kai.kang@windriver.com>
+	Mon, 20 May 2019 10:17:56 +0000 (UTC)
+Received: by mail-oi1-f196.google.com with SMTP id w144so9507732oie.12
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 20 May 2019 03:17:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=T2qymNMFCqu06P/1jN2ISI/kWiPSSKu6m8vCHKDoC30=;
+	b=SMLknu5979qcnePqYEqUyKJPJy3aHH5ciP8KvPTpZrHBLOr9Ov4LINfMczH2hiluXK
+	yUQJxhkv+CE+NWHPlvIi7BztlwTllFoIfeJ65oUwN5mPnLyFDGw1j+5yrQCLzPX+Mz2D
+	G6DrcCiHxd7QXZsnPYAueiNo4Y4Z2z20v5LIrV7W1ZMvw4Bc01Mw4WTgusx2ti+9ZBnQ
+	ZghWDtDfY1kwjfQs0JaiGG82YUMAiDLxcvXO2P08mNZcPN7kBT6bEJX+Mxat2c+QnIX5
+	ZS1DXOI9mQ0CWye422TvncBWGJvQtKpwSvdWcL9p7OgItz9MI3vqCvAFXSVjkncqrzsq
+	fdEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=T2qymNMFCqu06P/1jN2ISI/kWiPSSKu6m8vCHKDoC30=;
+	b=Y5bvJIe2GHROQQ38vul2fOTZIUiIuzY/0yd6GmlHWXnByf30aqjemSEcb14mRlU9nZ
+	dsONUk53g9mNC3K0QMxmAmnzQ3UsZnMjz1xKYSexzgr4fdZkhrWF32OTsqpt6GiKXRzj
+	p+kKLmuiCtG4T5P1d5dHywJk3ANMFwv91hkI2yyR3VywVkvO3/jB2u0b4sV5xosOnydH
+	0TmYwoKNc6FHaK2UhNIFNDHyzu6VBs72IKw465hqU3FI6o+yLat1Kwg6lNSQBFXzaMgn
+	UeGZX5E8RFqWtEszDFsHxdUp282SzXYZn4YkljMQIesFOs1Wjl1rzti+xYtfJODRWi9J
+	cegQ==
+X-Gm-Message-State: APjAAAX/FYYQzwH+gDTM/K1GxZZ0rtdYkDhX9usnuTwjSIzkjUWqfZg1
+	gV/qlEfp4ffl5u3qCQELEzIHXUXfo6/FCGA4ruEcug==
+X-Google-Smtp-Source: APXvYqyuizJ0uwDCaI0Qki9ONNQuEyGr72xqry/LXGzu5gZ6EMESRXm5D0s9MKyTAp70XseR9kZvX9d2iA2rVBpq+w0=
+X-Received: by 2002:aca:d40b:: with SMTP id l11mr9090442oig.132.1558347477424; 
+	Mon, 20 May 2019 03:17:57 -0700 (PDT)
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com
-Subject: [PATCH 1/1] systemd-conf: configure wired network with dhcp
+References: <3fbd04e5-296a-ad1c-6456-a33b7273dc66@pseudoterminal.org>
+	<CANNYZj_akDX1GqRvVfAqLQeei5fOxTet_RrVh2wc4=ySETXGtA@mail.gmail.com>
+In-Reply-To: <CANNYZj_akDX1GqRvVfAqLQeei5fOxTet_RrVh2wc4=ySETXGtA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 12:17:46 +0200
+Message-ID: <CANNYZj8xxwv+Ej+pgxM0TtkbVMXZwnBqUeGJFazXbi4ecPJXGg@mail.gmail.com>
+To: Carlos Rafael Giani <dv@pseudoterminal.org>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: Switching GStreamer recipes from autotools to meson
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 20 May 2019 09:46:26 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Mon, 20 May 2019 10:17:56 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Kai Kang <kai.kang@windriver.com>
+By the way, if you don't mind, I would like to reassign the
+mainteinrs.inc entry for the gstreamer recipes to you. You'll be
+getting notifications from AUH when a new version of gstreamer is out
+(with patches if it can be trivially updated to).
 
-Add a configure file for systemd.networkd to configure wired network
-interfaces with dhcp. It works with common network interfaces such eth0
-and eno1.
+Alex
 
-[YOCTO #13057]
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/systemd/systemd-conf/dhcp.network | 5 +++++
- meta/recipes-core/systemd/systemd-conf_242.bb       | 3 +++
- 2 files changed, 8 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd-conf/dhcp.network
-
-diff --git a/meta/recipes-core/systemd/systemd-conf/dhcp.network b/meta/recipes-core/systemd/systemd-conf/dhcp.network
-new file mode 100644
-index 0000000000..81f36ebaa5
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd-conf/dhcp.network
-@@ -0,0 +1,5 @@
-+[Match]
-+Name=en* eth*
-+
-+[Network]
-+DHCP=yes
-diff --git a/meta/recipes-core/systemd/systemd-conf_242.bb b/meta/recipes-core/systemd/systemd-conf_242.bb
-index 96beea53a7..094f03e195 100644
---- a/meta/recipes-core/systemd/systemd-conf_242.bb
-+++ b/meta/recipes-core/systemd/systemd-conf_242.bb
-@@ -10,12 +10,14 @@ SRC_URI = "\
-     file://logind.conf \
-     file://system.conf \
-     file://system.conf-qemuall \
-+    file://dhcp.network \
- "
- 
- do_install() {
- 	install -D -m0644 ${WORKDIR}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
- 	install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
- 	install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
-+	install -D -m0644 ${WORKDIR}/dhcp.network ${D}${systemd_unitdir}/network/80-dhcp.network
- }
- 
- # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
-@@ -29,4 +31,5 @@ FILES_${PN} = "\
-     ${systemd_unitdir}/journald.conf.d/ \
-     ${systemd_unitdir}/logind.conf.d/ \
-     ${systemd_unitdir}/system.conf.d/ \
-+    ${systemd_unitdir}/network/ \
- "
--- 
-2.20.0
-
+On Tue, 14 May 2019 at 12:21, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>
+> On Tue, 14 May 2019 at 10:19, Carlos Rafael Giani <dv@pseudoterminal.org> wrote:
+> > GStreamer recipe upgrades to 1.16.0 have been sent in as a pull request
+> > to meta-gstreamer1.0 . Once these are in, I'm considering to switch the
+> > recipes to meson. Are there any potential issues with that? For example,
+> > anything special about meson and GObject introspection I should know about?
+>
+> Actually, yes. Unlike autotools, meson does not have a standard option
+> to enable/disable gobject-introspection, or gtk-doc.
+> So most of the time you need to inherit the class (as before), and set
+> GIR_MESON_OPTION to the name of the meson option that controls g-i,
+> and/or GTKDOC_MESON_OPTION to the name of the option that controls
+> gtk-doc.
+> There are plenty of example in oe-core for this.
+>
+> Also, gstreamer recipes have a few patches that deal with
+> autotools-specific g-i support, I guess those can be dropped.
+>
+> Alex
 
