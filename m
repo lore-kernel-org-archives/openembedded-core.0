@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B3E8C7E042
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 986D57D735
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 14:11:46 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id f8so8399728wrt.1
+	Mon, 20 May 2019 14:11:47 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id b18so14743716wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 07:11:48 -0700 (PDT)
+	Mon, 20 May 2019 07:11:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=p7nqd8Kwzn35oAPigPApPXlCBVAuEKBf8HQsrvE35Dk=;
-	b=KvTE0fUDrWIKW+lkqXNbb3hLdqiEmiN9jfkR7jeTs6+H5esQ+mOd3ljl4VIytLaA7+
-	OBBJ7Wzpb9RfATj2lkuENCufbzT8ySFOQTcmKIVHCEuGD2Z0dAf2/QbOA4NxjNeqV+f9
-	QdUBEpuao3W7YkJE8ivLocw+Ewn919NZzbRdoYmZbOewuLjGjn/ZLjXQX9I76BQ8z5Hy
-	8TbIKmm4pAr80GqKpIbOmwDVG5QCAuy8XS8MutbOXjmnpbW3/xpu4OfHF1WYaEoeuro9
-	7GXlZVljDRNxDGdLEtZHjC8nZJADQ8N2DRQbMcK65Em3BuS3lUf89uhVZUsEnOlb9iNX
-	SL2A==
+	bh=8BETtvugiOtbAQV9qFZGMN2OEwpDaIAl4W1lmGnJvec=;
+	b=gwwto5Lp6VCxU8WevGJtXgNJuZ5mAr2x4uTL6CZ+4aPqaGqz4a6IxQpvN+l+qvFphi
+	zGl1M69lswFE+RE59gR8sOYXK38gEt/g/lBZj/7pTHC5TaId9A/2KkRqOTss5cwO3vXN
+	KcCrDenBzPdoEixQqvZB9luTrZuK214fGjdwsjlYwgMDcy+YKlQZfEyNLH/LZp1Ufhht
+	0iTcxgHjg7QqwkL3XPpjh5MjW5dCRAHaA7uHZYtyma2aNOOOu7Lu7l9XOnBIPLvsYgpq
+	cCShPELuPnS3wBPQuhmizbTln215FvonfbL3d3zFr0bN/PRpAnj154JCT49Ldvvcn+uh
+	wHIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=p7nqd8Kwzn35oAPigPApPXlCBVAuEKBf8HQsrvE35Dk=;
-	b=rj6tkJsZACtzMd1mYe3/bczjh/dnYIJy0ZAIZdgzPlCGT3g7pGHiTFMem3dLK5SPI+
-	1Mgz6ohZmnbNW3KYDr3Y4sq4Mjrmzrg/4X6g7hgCVvSLs0QCaGlsK65ULe9Xbz6qvT3c
-	8VsSkNO/ouRWBHoH77IIQK6nc9ao45E284+xEoyCqk5up6L9G63jROR2ok+llk4WYy30
-	FpvB6RW4e4OiRhrMGFPXkhXRC7Eho2u0WaSwAfee+TKnuqZa9tpcYKzKw2qMSJA1dzF9
-	iWuWA9LgL1PmjUeNwDsT4gkNHsDAorgaAEqiBiRA09XjbnH85olOKOlJwntJIZTuk+y+
-	uwSA==
-X-Gm-Message-State: APjAAAX9OXMoZbMZ4EcqvQ4+ydOudPkrCIy9ENyRVbqwE7ZhwgOGqzQc
-	RfilLOHJWnN0TWTQYInCwULEYUZY
-X-Google-Smtp-Source: APXvYqx74bglVla36F8JizxvXI0i3g39vAsQHaJuRo4uTY5Fi54jlYLeSSxKv44oqvySxUW4AsJnoQ==
-X-Received: by 2002:adf:b3d4:: with SMTP id x20mr48455693wrd.284.1558361507318;
-	Mon, 20 May 2019 07:11:47 -0700 (PDT)
+	bh=8BETtvugiOtbAQV9qFZGMN2OEwpDaIAl4W1lmGnJvec=;
+	b=nlEmxyLYqdoU3Mis42zwbbqanJH+P9lXTeDC7l8mVS16I7s8PwX6TBzkDFiOmz9/KO
+	RmV0GO5U1UCT5tc9isQtVXQcGNIU5ggVIXbTeauxEpMwk0casLv8d3hRJGf+Xk3Sa4Qz
+	uEh7tk8kp1ZPUh4xHt/wc2KmYqFK+n+8VqCG19U3En6EpERuALJ7wh40pkT09XCzQl9s
+	S6fj9HS/CShrMLxgg6tjAvCVgJAeh5I0WA8GL4/UnwdwHZT6+lcHilBwzy+JIobuSFO9
+	cEOjH4X80cmsPLZvVWdrk8AvBflTYKuIX9w0ENPFg7FBQOrTLwAJhvCecjYByj5vhCM9
+	T0Tg==
+X-Gm-Message-State: APjAAAVqTz0SvxGskvEf8XMdNNmkdZr/RlL6E2gqoZj8F9YG8sFDfE3K
+	Ia1jfh8qFYwer6dOn4uArzihcvUQ
+X-Google-Smtp-Source: APXvYqzFTAwvaIqayT6NH6no7C+O4CNnXPck/YR7sG8LOG2D4G+MnFzUGr7B8IGozTs1JFfEoav3zQ==
+X-Received: by 2002:adf:afcb:: with SMTP id y11mr41314170wrd.97.1558361508089; 
+	Mon, 20 May 2019 07:11:48 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	v5sm36242015wra.83.2019.05.20.07.11.46
+	v5sm36242015wra.83.2019.05.20.07.11.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 07:11:46 -0700 (PDT)
+	Mon, 20 May 2019 07:11:47 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 16:10:57 +0200
-Message-Id: <20190520141125.10805-14-alex.kanavin@gmail.com>
+Date: Mon, 20 May 2019 16:10:58 +0200
+Message-Id: <20190520141125.10805-15-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190520141125.10805-1-alex.kanavin@gmail.com>
 References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-Subject: [PATCH 14/42] gawk: upgrade 4.2.1 -> 5.0.0
+Subject: [PATCH 15/42] alsa-plugins: upgrade 1.1.8 -> 1.1.9
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,27 +61,27 @@ X-List-Received-Date: Mon, 20 May 2019 14:11:47 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/gawk/{gawk_4.2.1.bb => gawk_5.0.0.bb} | 4 ++--
+ .../alsa/{alsa-plugins_1.1.8.bb => alsa-plugins_1.1.9.bb}     | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/gawk/{gawk_4.2.1.bb => gawk_5.0.0.bb} (90%)
+ rename meta/recipes-multimedia/alsa/{alsa-plugins_1.1.8.bb => alsa-plugins_1.1.9.bb} (98%)
 
-diff --git a/meta/recipes-extended/gawk/gawk_4.2.1.bb b/meta/recipes-extended/gawk/gawk_5.0.0.bb
-similarity index 90%
-rename from meta/recipes-extended/gawk/gawk_4.2.1.bb
-rename to meta/recipes-extended/gawk/gawk_5.0.0.bb
-index 96637523947..b1e1b212a3a 100644
---- a/meta/recipes-extended/gawk/gawk_4.2.1.bb
-+++ b/meta/recipes-extended/gawk/gawk_5.0.0.bb
-@@ -19,8 +19,8 @@ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
-            file://run-ptest \
+diff --git a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.8.bb b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
+similarity index 98%
+rename from meta/recipes-multimedia/alsa/alsa-plugins_1.1.8.bb
+rename to meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
+index 2d9cc06f585..b94fc5cee32 100644
+--- a/meta/recipes-multimedia/alsa/alsa-plugins_1.1.8.bb
++++ b/meta/recipes-multimedia/alsa/alsa-plugins_1.1.9.bb
+@@ -21,8 +21,8 @@ LIC_FILES_CHKSUM = "\
  "
  
--SRC_URI[md5sum] = "0256724a0af50cb83ac92f833488673d"
--SRC_URI[sha256sum] = "2b23d51503b2df9a41aa6fddc6002ad7ebf2a386ac19dc1b6be0dd48b0acf6db"
-+SRC_URI[md5sum] = "45366249c13aae2bfb00e8e97c3f39b7"
-+SRC_URI[sha256sum] = "2d686c9a5b7ba292bc3fa56bc84a1959d721a9d57970a76413156d4b8f1fc67d"
+ SRC_URI = "https://www.alsa-project.org/files/pub/plugins/${BP}.tar.bz2"
+-SRC_URI[md5sum] = "d0f87211d1560f2c07c8eae4297bc4f6"
+-SRC_URI[sha256sum] = "7f77df171685ccec918268477623a39db4d9f32d5dc5e76874ef2467a2405994"
++SRC_URI[md5sum] = "e0caffbd849c51ed81751378f56cb563"
++SRC_URI[sha256sum] = "161772303da521abbbf1d91f63b470c4791392d5728f2192a42d71292078f907"
  
- inherit autotools gettext texinfo update-alternatives
+ DEPENDS += "alsa-lib"
  
 -- 
 2.17.1
