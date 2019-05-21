@@ -1,51 +1,56 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F6F97E1E1
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 7599C7E259
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 12:09:51 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id m3so5361634wrv.2
+	Tue, 21 May 2019 12:27:32 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id b18so18335315wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 05:09:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ntfvXDiOb3bG4C0kvjsD/FgUWp8bFsMETPMMXy3s0c0=;
-	b=eExsoVpxeqjTDmPAtTBQwyS9R6uGI2n9gjXC811IuvIb4gccZA6nId9+IcmZpgmi6k
-	CIyBeRKU8qWhoxlKWiFsXtBEpt2cXQXEPu2CEyq2Iy0d/1dBE6OwMMLIGoh1PAngSry9
-	O6LUxRv3CcgsgaqSXgMHOAGhrMjblCxdhHwag=
+	Tue, 21 May 2019 05:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=uFzIgsGUgRfU/lh6DCaUitDrSXnzqX0elIIO/Q4U7DU=;
+	b=jyB10cGgkV7fd6XZUvE3d9FEUhnMr23LiE5je3obcoqyhaMz3LiuWSUlE4MDUrR9Ea
+	9utKPUhRfp7L1n9jc4BD67dRPvyvh3jxZqLzo10BZhWV299ktsA3UEg+94hvfNB08sRM
+	6tAi7SIYLdVjpyh5PRaVtBro/vN+0Z3sAJ1AJYf/B6l6M7sTCvneMiixvEmvpifrTPIy
+	IwEe7Xft/dZq5q0Qz/Myst9fbBnHjB9Yo9rXb3VvY72SUez3rt9/Tv1YMoarFc5tMItw
+	26mf4aHjYlnSMO9RU9VNIBEMF5b5MVSrS77jmmCjKYnJkvPOBM6JUVrPzqSY35xi5VKO
+	J6Fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ntfvXDiOb3bG4C0kvjsD/FgUWp8bFsMETPMMXy3s0c0=;
-	b=XXmjPB/GCDqlBVm/ptJ23D9wB7YGfw2saLs3HYky+PQvRFeyffzjEQLfcLbXzaJbVt
-	9/VOHeJtVjRWL86AlLf1ffB1r6e1MBdsoH9CTkXY4xnHfrRiGFzLxBXsEUR0BsZMZMFn
-	wnL4aQpuIXusucsXoaq5edXWfHuBdYKrrctkOTWDvhtOxEYZhbMgd6DHlh+HkaixWg53
-	FwIzV32qBDRmn2R2DA5AcAtE8TD32S7GfM2YBrufR63kwKlHuEEjHwt+C7l3HrzhoL1y
-	vcKMDZEG8JV0T6tZ88xIx4i9e2xQ/t10Zx5XJ5snZ4/QJJoqXoiCT952BqskV/be26sQ
-	bUGg==
-X-Gm-Message-State: APjAAAWohl+P4c1/bxw8bsVnEi1ujAPSZsx6nJzgW1u2v5ulQtB1Cd3H
-	125x6bZ3G1HvtydyUmSbTxxYTw==
-X-Google-Smtp-Source: APXvYqyJlYtIC0a1neZo3ZSeA/YEDZgHV7j4VrT2MqxbNWHVLSVpWtbhFWAtwggAtTl3eaX6DiqElw==
-X-Received: by 2002:adf:f38a:: with SMTP id m10mr3013422wro.81.1558440592737; 
-	Tue, 21 May 2019 05:09:52 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id o4sm3251561wmo.20.2019.05.21.05.09.46
+	h=x-gm-message-state:from:date:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=uFzIgsGUgRfU/lh6DCaUitDrSXnzqX0elIIO/Q4U7DU=;
+	b=oqVpI05dQsE3J4/vqFmPId8TcjDqaSnd5XUFmkayOGvxuKkQD4C6Cr1bmS7397jm80
+	9oueNXmpsFD/DSGPu2Eci3XpcMsWUjelDbvpisbh/4RHrrLeWIYza2/lXR2ECIqGmDbc
+	NWCsE+zJgkM3tBZhyW0DyHu+KxZkf+cw3KACoRQvlMMX0nNHgnKGSN4tlOubzfJQhYjK
+	f+mAgDVWnatwpI1jW/H2qYJn0gud7zHH7Miy9ThJR07RzJrkIIbsRX5A/WwLTkqGX/OM
+	XgL9LMR7ANnfkVV8ywARGgCB5dIsWRcx0Qnr0Q1AKb9oprei4vF4wa5QY+txd3ylgOUY
+	ushA==
+X-Gm-Message-State: APjAAAWuetL9YBdEZU9xGq03KWHEoiwrJsObKUi640w0FOhiMx3F6xEL
+	n0PV2sVtSn0ADRZYN9WyI7i09h0l
+X-Google-Smtp-Source: APXvYqyKST9bLKuj9YmMVd5V1eyx8gn0CtmDgZmsgaZoKCYwAGBqaF/lnMj6ZxWKDLUTTtgubiFcKg==
+X-Received: by 2002:adf:8306:: with SMTP id 6mr37292943wrd.155.1558441652891; 
+	Tue, 21 May 2019 05:27:32 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	h188sm5421963wmf.48.2019.05.21.05.27.31
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 05:09:49 -0700 (PDT)
-Message-ID: <e82f3bf27fdc19d7fc434d4be43661dc166dd8aa.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: kai.kang@windriver.com, alex.kiernan@gmail.com, raj.khem@gmail.com
-Date: Tue, 21 May 2019 13:09:43 +0100
-In-Reply-To: <20190521092249.175461-2-kai.kang@windriver.com>
-References: <20190521092249.175461-1-kai.kang@windriver.com>
-	<20190521092249.175461-2-kai.kang@windriver.com>
-User-Agent: Evolution 3.32.1-2 
+	Tue, 21 May 2019 05:27:31 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 21 May 2019 14:27:40 +0200
+To: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Message-ID: <20190521122740.GB23597@jama>
+References: <20190510215500.18914-1-Martin.Jansa@gmail.com>
+	<CA+chaQc=0udH-S+KDne=EEy73aUt1boJX7+2Ah3Q9v048aomMA@mail.gmail.com>
 MIME-Version: 1.0
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] systemd-conf: configure wired network with dhcp
+In-Reply-To: <CA+chaQc=0udH-S+KDne=EEy73aUt1boJX7+2Ah3Q9v048aomMA@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Subject: Re: [PATCH] glib-networking: add PACKAGECONFIG for openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,37 +63,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 12:09:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 May 2019 12:27:32 -0000
+X-Groupsio-MsgNum: 124786
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="nVMJ2NtxeReIH9PS"
+Content-Disposition: inline
 
-On Tue, 2019-05-21 at 05:22 -0400, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> Add a configure file for systemd.networkd to configure wired network
-> interfaces with dhcp. It works with common network interfaces such
-> eth0
-> and eno1.
-> 
-> Refer to
-> https://github.com/YoeDistro/meta-yoe/tree/master/recipes-core/systemd
-> 
-> [YOCTO #13057]
-> 
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-core/systemd/systemd-conf/dhcp.network | 9 +++++++++
->  meta/recipes-core/systemd/systemd-conf_242.bb       | 5 +++++
->  2 files changed, 14 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd-
-> conf/dhcp.network
+--nVMJ2NtxeReIH9PS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This seems to result in the failures in:
+On Tue, May 14, 2019 at 02:02:10PM +0200, Martin Jansa wrote:
+> Thanks all, I think the discussion made it clear that we shouldn't change
+> the default yet.
+>=20
+> Makes it easier for me as I'll need this PACKAGECONFIG backported to
+> warrior as well (and we shouldn't change the default there for sure).
+>=20
+> RP: please take this for some next master-next.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/617
+Ping?
 
-Cheers,
+--nVMJ2NtxeReIH9PS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Richard
+-----BEGIN PGP SIGNATURE-----
 
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXOPuuwAKCRA3VSO3ZXaA
+HHDpAJ94aSypsu00ZFdeYPFQnRf7nlzuOACgr5EcyIaspYBRQ2fB4PNwqxraDT0=
+=k9n1
+-----END PGP SIGNATURE-----
 
+--nVMJ2NtxeReIH9PS--
