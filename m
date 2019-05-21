@@ -1,39 +1,29 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id B31767E17D
-	for <Openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 07:46:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 May 2019 00:46:55 -0700
-X-ExtLoop1: 1
-Received: from pgsmsx105.gar.corp.intel.com ([10.221.44.96])
-	by orsmga002.jf.intel.com with ESMTP; 21 May 2019 00:46:53 -0700
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.93]) by
-	PGSMSX105.gar.corp.intel.com ([169.254.4.53]) with mapi id
-	14.03.0415.000; Tue, 21 May 2019 15:46:53 +0800
-From: "Lee, Chee Yang" <chee.yang.lee@intel.com>
-To: "Openembedded-core@lists.openembedded.org"
-	<Openembedded-core@lists.openembedded.org>, "trini@konsulko.com"
-	<trini@konsulko.com>
-Thread-Topic: [OE-core] [PATCH 0/4] add wic based image installer
-Thread-Index: AQHVC45LE07e76mEQUyhb0dZOcItrqZsg4eAgAEfygD//4LRgIAIFXYA
-Date: Tue, 21 May 2019 07:46:52 +0000
-Message-ID: <D9DC9B27-ED05-4463-BCD6-F389587C7985@intel.com>
-References: <F8C782DB-A692-407F-A6DF-AFAC51D14854@intel.com>
-	<20190516023759.GP22232@bill-the-cat>
-	<04877C8C-9026-4832-9B81-49E0B07DB163@intel.com>
-	<20190516121959.GT22232@bill-the-cat>
-In-Reply-To: <20190516121959.GT22232@bill-the-cat>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.10.a.190512
-x-originating-ip: [172.30.199.104]
+Return-Path: <Liwei.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 14D187E169
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 21 May 2019 07:52:18 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4L7qIK1001192
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 21 May 2019 00:52:19 -0700 (PDT)
+Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 21 May 2019 00:52:18 -0700
+Message-ID: <5CE3AE31.9050909@windriver.com>
+Date: Tue, 21 May 2019 15:52:17 +0800
+From: Liwei Song <liwei.song@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 0/4] add wic based image installer
+To: Khem Raj <raj.khem@gmail.com>
+References: <1557974500-224120-1-git-send-email-liwei.song@windriver.com>
+	<9ad65fe0-8a88-9413-7f2d-0cc855395721@gmail.com>
+	<5CE360A2.10907@windriver.com>
+	<CAMKF1srS9Dh2D+ufQhgNKkEV5zP7=moVe1R83B811bTQHe4A+A@mail.gmail.com>
+In-Reply-To: <CAMKF1srS9Dh2D+ufQhgNKkEV5zP7=moVe1R83B811bTQHe4A+A@mail.gmail.com>
+Cc: oe-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] mdadm: install the systemd service through Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,110 +36,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 07:46:59 -0000
-Content-Language: en-US
+X-List-Received-Date: Tue, 21 May 2019 07:52:19 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-ID: <5CAF345B50EBE4409168DE5D351F051E@intel.com>
-Content-Transfer-Encoding: base64
+Content-Transfer-Encoding: 7bit
 
-VG9tLCBUaGFua3MgZm9yIHRoZSBzaGFyaW5nDQpJIHRyeSBvdXQgdGhpcyBtZXRob2QgYW5kIGl0
-IHdvcmtzIA0KaG93ZXZlciBJIG5vdGljZSB0aGF0IHNkaW1hZ2UtYm9vdHBhcnQud2tzIGZvcm1h
-dCBib290aW1nLXBhcnRpdGlvbiB3aXRoIHZmYXQgc3RpbGwgbGltaXQgdGhlIHJvb3Rmcy5pbWcg
-c2l6ZSB0byA0R0IuDQpBbnl3YXksIHdpdGggdGhlIHNpbWlsYXIgdHJpY2sgYW5kIHVzaW5nIGEg
-bmV3IC53a3Mgd2l0aCBjb21iaW5hdGlvbiBvZiAyIHBhcnRpdGlvbiBiZWxvdyBjb3VsZCBidWls
-ZCB0aGUgaW5zdGFsbGVyIGltYWdlIGZvciBpbWFnZSBncmVhdGVyIHRoYW4gNEdCLg0KLSBib290
-aW1nLWVmaSB3aXRoICJ3aWM6IGJvb3RpbWctZWZpOiBhZGQgbGFiZWwgc291cmNlIHBhcmFtZXRl
-ciIgcGF0Y2ggDQotIGJvb3RpbWctcGFydGl0aW9uICggZm9ybWF0IGluIGV4dDQgKSANCnNvIEkg
-dGhpbmsgaXQgd291bGQgYmUgZ3JlYXQgdG8ga2VlcCB0aGUgZW5oYW5jZW1lbnQgZm9yIGJvb3Rp
-bWctZWZpIHdoaWxlIGlnbm9yZSB0aGUgb3RoZXIgMyBwYXRjaGVzLiANCg0KDQrvu79PbiA1LzE2
-LzE5LCA4OjIwIFBNLCAiVG9tIFJpbmkiIDx0cmluaUBrb25zdWxrby5jb20+IHdyb3RlOg0KDQog
-ICAgT24gVGh1LCBNYXkgMTYsIDIwMTkgYXQgMTE6NDg6MDJBTSArMDAwMCwgTGVlLCBDaGVlIFlh
-bmcgd3JvdGU6DQogICAgDQogICAgPiBJIGNvdWxkbuKAmXQgZmlndXJlIG91dCBob3cgdG8gbWFr
-ZSBpdCB3aXRoIHNkaW1hZ2UtYm9vdHBhcnQud2tzLCBjYW4NCiAgICA+IHlvdSB0ZWxsIG1lIHdo
-YXQgZGlkIHlvdSBzZXQgZm9yIElNQUdFX0JPT1RfRklMRVMgPw0KICAgID4gDQogICAgPiBUbyBm
-dXJ0aGVyIGV4cGxhaW4gdGhlIGlkZWEsICBJJ20gdHJ5aW5nIHRvIHVzZSB0aGUgbmV3IHNvdXJj
-ZSBwbHVnaW4NCiAgICA+IGFuZCAud2tzLmluIHRvIGJ1aWxkIGEgd2ljIGltYWdlIHRoYXQgIm1p
-bWljIiBhIGhkZGltZywgd2hlcmUgSSBjYW4gZGQNCiAgICA+IHRoZSB3aWMgaW1hZ2UgdG8gYW4g
-VVNCIGRyaXZlIGFuZCB1c2UgdGhhdCB1c2IgZHJpdmUgdG8gaW5zdGFsbCBpbWFnZQ0KICAgID4g
-dG8gbXkgdGFyZ2V0IG1hY2hpbmUgKGxpa2UgaGRkaW1nIGRpZCApLiANCiAgICA+IGZpcnN0IHBh
-cnRpdGlvbiBhbGxvdyB0byBib290IGludG8gaW5pdHJhbWZzIGFuZCBpdCB3aWxsIGV4ZWN1dGUg
-dGhlDQogICAgPiBpbnN0YWxsIHNjcmlwdC4gVGhlIHNjcmlwdCB3aWxsIHRoZW4gaW5zdGFsbCBz
-eXN0ZW0tYm9vdA0KICAgID4gY29uZmlndXJhdGlvbiwgZWZpLCBrZXJuZWwsIHJvb3Rmcy5pbWcg
-YW5kIGluaXRyZCBmcm9tIHNlY29uZA0KICAgID4gcGFydGl0aW9uIHRvIHRhcmdldCBtYWNoaW5l
-LiANCiAgICA+IA0KICAgID4gTXkgc2FtcGxlIGltYWdlIGhlcmU6IA0KICAgID4gaHR0cHM6Ly9k
-cml2ZS5nb29nbGUuY29tL2ZpbGUvZC8xYzFGQ0oyZ2hXTnpzWEsxemJPQVZ6MWJ6NkczSDV6eDUv
-dmlldz91c3A9c2hhcmluZw0KICAgIA0KICAgIE9LLCBzbyBzb21lIGNsZWFuZWQgdXAgc25pcHBl
-dHMgZnJvbSB0aGUgaW5zdGFsbGVyIGltYWdlIHJlY2lwZToNCiAgICAjIExpc3Qgb2YgZXh0ZXJu
-YWwgdGhpbmdzIHdlIG11c3QgaGF2ZSBoYWQgY29tcGxldGUuDQogICAgZG9fcm9vdGZzW2RlcGVu
-ZHNdICs9ICJjb3JlLWltYWdlLW1pbmltYWwtaW5pdHJhbWZzOmRvX2ltYWdlX2NvbXBsZXRlIg0K
-ICAgIGRvX3Jvb3Rmc1tkZXBlbmRzXSArPSAiZnVsbC1pbWFnZS10by1pbnN0YWxsOmRvX2ltYWdl
-X2NvbXBsZXRlIg0KICAgIGRvX3Jvb3Rmc1tkZXBlbmRzXSArPSAiZ3J1Yi1lZmk6ZG9fZGVwbG95
-Ig0KICAgIGRvX3Jvb3Rmc1tkZXBlbmRzXSArPSAidmlydHVhbC9rZXJuZWw6ZG9fZGVwbG95Ig0K
-ICAgIA0KICAgIFdLU19GSUxFID0gInNkaW1hZ2UtYm9vdHBhcnQud2tzIg0KICAgIA0KICAgIElN
-QUdFX0JPT1RfRklMRVNfYXBwZW5kID0gIlwNCiAgICAgICAgJHtLRVJORUxfSU1BR0VUWVBFfTtF
-RkkvQk9PVC8ke0tFUk5FTF9JTUFHRVRZUEV9IFwNCiAgICAgICAgY29yZS1pbWFnZS1taW5pbWFs
-LWluaXRyYW1mcy0ke01BQ0hJTkV9LmNwaW8uZ3o7RUZJL0JPT1QvaW5pdHJkIFwNCiAgICAgICAg
-ZnVsbC1pbWFnZS10by1pbnN0YWxsLSR7TUFDSElORX0ud2ljLnh6O3Jvb3Rmcy5pbWcgXA0KICAg
-ICAgICBncnViLWVmaS1ib290eDY0LmVmaTtFRkkvQk9PVC9ib290eDY0LmVmaSBcDQogICAgICAg
-IGdydWItaW5zdGFsbGVyLmNmZztFRkkvQk9PVC9ncnViLmNmZyBcDQogICAgICAgICINCiAgICAN
-CiAgICBBbmQgbm90ZSB0aGF0IEkgcmV3b3JrZWQgdGhlIGluc3RhbGxlciBmb3Igb3VyIGNhc2Ug
-dG8gd3JpdGUgdGhlbiB1cGRhdGUNCiAgICB0aGUgcmVhbCBpbWFnZSdzIHdpYyBpbWFnZSByYXRo
-ZXIgdGhhbiBjb3B5IGNvbnRlbnRzIGFuZCB0aGVuIG1vZGlmeQ0KICAgIGZpbGVzIGR1ZSB0byBv
-dGhlciBjb25zdHJhaW50cyAodGhpcyBwcm9qZWN0IGlzIGFsc28gd2h5IEkgd2FzIHB1c2hpbmcN
-CiAgICB2YXJpb3VzIGNoYW5nZXMgdG8gbWV0YS1zZWN1cmUtY29yZSkuDQogICAgDQogICAgPiAN
-CiAgICA+IA0KICAgID4g77u/T24gNS8xNi8xOSwgMTA6MzggQU0sICJUb20gUmluaSIgPHRyaW5p
-QGtvbnN1bGtvLmNvbT4gd3JvdGU6DQogICAgPiANCiAgICA+ICAgICBPbiBUaHUsIE1heSAxNiwg
-MjAxOSBhdCAwMjoyMzowNUFNICswMDAwLCBMZWUsIENoZWUgWWFuZyB3cm90ZToNCiAgICA+ICAg
-ICA+IEhpIFRvbSwgDQogICAgPiAgICAgPiANCiAgICA+ICAgICA+IFdvdWxkIHlvdSBtaW5kIHRv
-IHNoYXJlIHdpdGggbWUgaG93IHlvdSBtYWtlIHRoZSBpbnN0YWxsZXIgaW1hZ2UgdXNpbmcgd2lj
-PyANCiAgICA+ICAgICANCiAgICA+ICAgICBJIGVuZGVkIHVwIHVzaW5nIHNkaW1hZ2UtYm9vdHBh
-cnQud2tzIGFuZCBJTUFHRV9CT09UX0ZJTEVTIHRvIHBvcHVsYXRlDQogICAgPiAgICAgdGhlIHBh
-cnRpdGlvbiBhcyBuZWVkZWQuICBJIGNhbid0IHBhc3RlIHRoZSBleGFjdCBpbWFnZSBhcyBpdCB3
-YXMgZG9uZQ0KICAgID4gICAgIGZvciBhIGN1c3RvbWVyLg0KICAgID4gICAgIA0KICAgID4gICAg
-ID4gDQogICAgPiAgICAgPiAgICAgLS0tLS0tLS0gRm9yd2FyZGVkIE1lc3NhZ2UgLS0tLS0tLS0N
-CiAgICA+ICAgICA+ICAgICBGcm9tOiBUb20gUmluaSA8dHJpbmlAa29uc3Vsa28uY29tPg0KICAg
-ID4gICAgID4gICAgIFRvOiBjaGVlLnlhbmcubGVlQGludGVsLmNvbQ0KICAgID4gICAgID4gICAg
-IENjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQogICAgPiAgICAg
-PiAgICAgU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0ggMC80XSBhZGQgd2ljIGJhc2VkIGlt
-YWdlIGluc3RhbGxlcg0KICAgID4gICAgID4gICAgIERhdGU6IFdlZCwgMTUgTWF5IDIwMTkgMTE6
-MzM6NDMgLTA0MDANCiAgICA+ICAgICA+ICAgICANCiAgICA+ICAgICA+ICAgICBPbiBXZWQsIE1h
-eSAwOCwgMjAxOSBhdCAwMjo0MDo1OFBNICswODAwLCBjaGVlLnlhbmcubGVlQGludGVsLmNvbQ0K
-ICAgID4gICAgID4gICAgIHdyb3RlOg0KICAgID4gICAgID4gICAgIA0KICAgID4gICAgID4gICAg
-ID4gRnJvbTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55YW5nLmxlZUBpbnRlbC5jb20+DQogICAgPiAg
-ICAgPiAgICAgPiANCiAgICA+ICAgICA+ICAgICA+IEV4aXN0aW5nIGluc3RhbGxhYmxlIGltYWdl
-IChoZGRpbWcvSVNPKSBoYXMgbGltaXQgb2YgNEdCIHNpemUsIHNvIHRvDQogICAgPiAgICAgPiAg
-ICAgPiBidWlsZCBsYXJnZXIgaW5zdGFsbGFibGUgaW1hZ2UsIHdlIGNhbiBidWlsZCBpdCBpbiB3
-aWMgYmFzZWQgaW1hZ2UuDQogICAgPiAgICAgPiAgICAgPiANCiAgICA+ICAgICA+ICAgICA+IDIg
-cGFydGl0aW9uIG5lZWRlZCBmb3IgaW5zdGFsbGFibGUgaW1hZ2UNCiAgICA+ICAgICA+ICAgICA+
-ICAtIGZpcnN0IHBhcnRpdGlvbiBidWlsZCB1c2luZyBzb3VyY2UgcGx1Z2luIGJvb3RpbWctZWZp
-IGFuZA0KICAgID4gICAgID4gICAgID4gY29uZmlndXJlIHRvIHJ1biBpbnN0YWxsDQogICAgPiAg
-ICAgPiAgICAgPiAgLSBzZWNvbmQgcGFydGl0aW9uIGJ1aWxkIHdpdGggcm9vdC5pbWcsIHN5c3Rl
-bWQtYm9vdCBhbmQga2VybmVsIHRvDQogICAgPiAgICAgPiAgICAgPiBiZSBpbnN0YWxsIG9uIHRh
-cmdldCBtYWNoaW5lICh0aGlzIHBhcnRpdGlvbiBidWlsZCB1c2luZyBuZXcgc291cmNlDQogICAg
-PiAgICAgPiAgICAgPiBwbHVnaW4gaW5zdGFsbGVyLXBhcnRpdGlvbikNCiAgICA+ICAgICA+ICAg
-ICA+IA0KICAgID4gICAgID4gICAgID4gVGhlc2UgcGF0Y2hlczoNCiAgICA+ICAgICA+ICAgICA+
-ICAtIGFkZCBuZXcgc291cmNlIHBsdWdpbiBmb3Igc2Vjb25kIHBhcnRpdGlvbg0KICAgID4gICAg
-ID4gICAgID4gIC0gYWRkIG5ldyAud2tzDQogICAgPiAgICAgPiAgICAgPiAgLSBhZGQgbmV3IHdp
-YyBkZXBlbmRlbmN5IGFuZCBzZXQgZGVmYXVsdCB2YWx1ZSBmb3IgcmVxdWlyZWQgdmFyaWFibGUN
-CiAgICA+ICAgICA+ICAgICA+ICAtIGFsbG93IHNvdXJjZSBwbHVnaW4gYm9vdGltZy1lZmkgdG8g
-Y29uZmlndXJlIHRvIGluc3RhbGwNCiAgICA+ICAgICA+ICAgICA+IA0KICAgID4gICAgID4gICAg
-ID4gDQogICAgPiAgICAgPiAgICAgPiBUbyBidWlsZCB0aGUgaW1hZ2UsIHNldCBXS1NfRklMRT0i
-d2ljLWluc3RhbGxlci53a3MuaW4iIGluDQogICAgPiAgICAgPiAgICAgPiBsb2NhbC5jb25mLg0K
-ICAgID4gICAgID4gICAgIA0KICAgID4gICAgID4gICAgIEknbSBjb25mdXNlZCBhcyB0byB3aHkg
-d2UgbmVlZCBtb3N0IG9mIHRoZXNlIGNoYW5nZXMgdG8gc3VwcG9ydCB0aGUgZW5kDQogICAgPiAg
-ICAgPiAgICAgZ29hbC4gIFRoZSBlbmhhbmNlbWVudCB0byBib290aW1nLWVmaSBtYWtlcyBjb25j
-ZXB0dWFsIHNlbnNlLiAgSSBkb24ndA0KICAgID4gICAgID4gICAgIHNlZSB3aHkgd2UgbmVlZCBh
-IG5ldyBwbHVnaW4gdG8gZG8gdGhlIHJlc3QsIGhvd2V2ZXIuICBXaGF0J3MgYmVpbmcNCiAgICA+
-ICAgICA+ICAgICBkb25lDQogICAgPiAgICAgPiAgICAgaGVyZSB0aGF0IHdlIGRvbid0IGFscmVh
-ZHkgZG8gdG9kYXk/ICBJIHNheSB0aGlzIGhhdmluZyBtYWRlIGluc3RhbGxlcg0KICAgID4gICAg
-ID4gICAgIGltYWdlcyBmb3IgRUZJIG1hY2hpbmVzIHVzaW5nIHdpYyAoaW4gc3VtbywgZXZlbiku
-ICBUaGFua3MhDQogICAgPiAgICAgPiAgICAgDQogICAgPiAgICAgPiAgICAgLS0gDQogICAgPiAg
-ICAgPiAgICAgVG9tDQogICAgPiAgICAgPiAgICAgLS0gDQogICAgPiAgICAgPiAgICAgX19fX19f
-X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18NCiAgICA+ICAgICA+ICAg
-ICBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxpc3QNCiAgICA+ICAgICA+ICAgICBPcGVuZW1i
-ZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQogICAgPiAgICAgPiAgICAgaHR0cDov
-L2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29y
-ZQ0KICAgID4gICAgID4gICAgIA0KICAgID4gICAgID4gICAgIA0KICAgID4gICAgID4gDQogICAg
-PiAgICAgDQogICAgPiAgICAgLS0gDQogICAgPiAgICAgVG9tDQogICAgPiAgICAgDQogICAgPiAN
-CiAgICANCiAgICAtLSANCiAgICBUb20NCiAgICANCg0K
+
+
+On 05/21/2019 02:43 PM, Khem Raj wrote:
+> On Mon, May 20, 2019 at 7:21 PM Liwei Song <liwei.song@windriver.com> wrote:
+>>
+>>
+>>
+>> On 05/21/2019 05:18 AM, Khem Raj wrote:
+>>>
+>>>
+>>> On 5/15/19 7:41 PM, Liwei Song wrote:
+>>>> The original mdadm service may include variable like BINDIR,
+>>>> It should use the real value of it, since the install method
+>>>> "install-systemd" in Makefile can easily do such work, so don't
+>>>> install it in bb file manually, use "make install-systemd" to
+>>>> install all the service of mdadm.
+>>>>
+>>>> Signed-off-by: Liwei Song <liwei.song@windriver.com>
+>>>> ---
+>>>>   meta/recipes-extended/mdadm/mdadm_4.1.bb | 10 +++++++---
+>>>>   1 file changed, 7 insertions(+), 3 deletions(-)
+>>>>
+>>>> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+>>>> index 4168ce4d0cb8..a4b9ef94799f 100644
+>>>> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
+>>>> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+>>>> @@ -55,13 +55,15 @@ do_install() {
+>>>>   do_install_append() {
+>>>>           install -d ${D}/${sysconfdir}/
+>>>>           install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
+>>>> -        install -d ${D}/${systemd_unitdir}/system
+>>>> -        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir}/system
+>>>> -        install -m 644 ${S}/systemd/mdmon@.service ${D}/${systemd_unitdir}/system
+>>>>           install -d ${D}/${sysconfdir}/init.d
+>>>>           install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
+>>>>   }
+>>>>   +do_install_append() {
+>>>> +        oe_runmake install-systemd DESTDIR=${D}
+>>>> +}
+>>>
+>>> perhaps this should be guarded with systemd being in DISTRO_FEATURES check.
+>>
+>> Hi Khem,
+>>
+>> Do you mean all the service file need to be added to SYSTEMD_SERVICE_${PN} ?
+>>
+> 
+> I mean to check for systemd in DISTRO_FEATURE like
+> if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
+> ...
+> else
+> ...
+> fi
+
+Understand, thanks.
+
+Liwei.
+
+
+> 
+>> Thanks,
+>> Liwei.
+>>
+>>
+>>>
+>>>> +
+>>>> +
+>>>>   do_compile_ptest() {
+>>>>       oe_runmake test
+>>>>   }
+>>>> @@ -88,3 +90,5 @@ RRECOMMENDS_${PN}-ptest += " \
+>>>>       kernel-module-raid10 \
+>>>>       kernel-module-raid456 \
+>>>>   "
+>>>> +
+>>>> +FILES_${PN} += "/lib/systemd/*"
+>>>>
+>>>
+>>>
+> 
+> 
 
