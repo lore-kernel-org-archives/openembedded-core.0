@@ -1,53 +1,51 @@
 Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 829E47E25D
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 04EB27E25C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 12:35:23 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 15so2712412wmg.5
+	Tue, 21 May 2019 12:36:44 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id n25so894166wmk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 05:35:24 -0700 (PDT)
+	Tue, 21 May 2019 05:36:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=/vCaDkh6Ss4+vnnxwWHI9ybpR5SV7/9xwf99yTEFHrQ=;
-	b=Nz/bjpfQtNhGRdpoHRAWMG8rXodQib1phhhQDBkkG8mIigPd/0mWi1PVpbmMDKlkel
-	OwuD45cDV8NPZJab8AW+VFsSrKzjX1moXboR8yloqN8p/6z3odN60DlVlYFeA9xE2kl2
-	nIXknJehNtDnKLqukPu6kTXwVYOEsEEAeNSwMJdmbolPJfsHKu+yhsYd5FzcSqku9J8R
-	NB2cEk8W0sdoKDlZrXyTZtsQfvjrNUcKEubXNuQZnbHDGuZXcgoURSnG99eqEC/GSAV9
-	O4wL47Vvh9ow+262cDWoGi1s3+aqIU2Z87OSBCTRFd5lUOf8ef2M3p1CzJenzQ4zbU2X
-	stZg==
+	bh=DFh/aacANZhe+y+4kt8taxl3+o9hywR2GYkoWNVU8D0=;
+	b=YyMVfUuz/5MA022zZt32BLFvg9EWy9RUaQjNyM0/TjzYjBL9dMM2G/B8qjITsauLK1
+	wttp2FF0Uzb0zskgiLoQLinyarriDaFtiBFRZBizoNQatBExWSSvrUoHLwR1l56/n1wW
+	CMLioz6Uq/DkeBl2nuKeGPP5wOMHe/ITz4heXDam2zRXxW/4xSaKnawO47N5UeEgKPmR
+	n/ciMHU11b68R9kugzLFtQcB0Wl0u4HoRW6xN2cpWn3qMI3mCAT6L7wWqOzjx/Kt1IKh
+	IhtPxIKNWseODlvwGp3H3TadcZ4GDBDjw47FcD7uFfXF4qxf7v9dhg6TRtbHnnC3sVZH
+	/nYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=/vCaDkh6Ss4+vnnxwWHI9ybpR5SV7/9xwf99yTEFHrQ=;
-	b=HPec1Gb+WCzNsANlYU3fgDobkfLntuxCSAiyWShTEU6yWC+9BHIxsjG1CSwEmaN/JD
-	7zfNlwtkE5Namfhif2Hr+fQNBfxbdJ7jEg7GCTWppf7O9cbd3PI1/BWIPILlwGlovmuv
-	kvLSyzkxaJolJhY9j/xT3KKPZYlLZB4X+L3WNnKWtz35gH+/X8wpaZM2lniQMRzFnkcD
-	k7b7+3nMt2IwNfyTt2F4Mmoy8LgcUQHMHwOMJT9rZULtk52yQGl9CdISaBAPrunnRHyo
-	IBtp+wpa86ZbtoE+DEJUUStZOO+vUrKX4eQfA1qZtm1NJkjb5cPdpUKk1Y5Hv7Rmxf1I
-	uHxw==
-X-Gm-Message-State: APjAAAW8+JlZRkNQIWdr3eujLnNv1ngCr1ZDVaen9U4uIG8wTrbWGrXj
-	ZW6qprVALx4j5oDPq2QOBAHa8jno
-X-Google-Smtp-Source: APXvYqwZMaWwBXx9eZMPa2y9ZKuv3+yj6Hs0qIsGmjeDfPpmYrDAe0xHllGJWhf8b0L1UfThkd7d7Q==
-X-Received: by 2002:a1c:9c8c:: with SMTP id f134mr3109846wme.95.1558442123624; 
-	Tue, 21 May 2019 05:35:23 -0700 (PDT)
-Received: from bluca-lenovo ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
-	b18sm18642720wrx.75.2019.05.21.05.35.22
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 21 May 2019 05:35:22 -0700 (PDT)
-Message-ID: <3824e96c3c191f5df0432ef98b0c210312ea0e78.camel@gmail.com>
-From: Luca Boccassi <luca.boccassi@gmail.com>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=DFh/aacANZhe+y+4kt8taxl3+o9hywR2GYkoWNVU8D0=;
+	b=hZN7DC8I7Y4Ln1bMpNhsiAbbnV1/Hkv3OwxifnMvmRLsUOyFOxWCAtW9yLrrMbVEzV
+	n5/4TVMC1M00bKPu2p7OuGLn/2S6yuiXq5+SefKtQaQ4U/tElYPtdaCz3QMDoyjFIykA
+	61pQpH4MdFZjBGqrRFszmh+R69jbaDd48SDs9aukCTy3qH8VqULjcUfLfNa9hwVgKViQ
+	smYUizcXsm4TVOvK0Vb3VFjl1S+p9tUG8PmrLtsk9QXzVOEH9aJDlT4y6LYZ+uBGn+PD
+	fiRGSqgZomqchV59duj7SPM3NDwZWHMTfQAr4dOF7QozzshSoWD4q6Smd1yPCWDnsa/a
+	eF6Q==
+X-Gm-Message-State: APjAAAV4g6kOIuPCVT03lNeZi31DBtiA2urA4ZFXA+849T0fGjs8Em4j
+	pTe9v59GS6qFBbyNaGH/SGAvl9nD
+X-Google-Smtp-Source: APXvYqy4h2G+5UGBHa2S93q0UTgCgzt1K4L4t5DxQ1djQC2XQhrfHF6IFHqQ10jbEbuibzAfOJSKvQ==
+X-Received: by 2002:a1c:7e10:: with SMTP id z16mr3399679wmc.98.1558442205393; 
+	Tue, 21 May 2019 05:36:45 -0700 (PDT)
+Received: from localhost ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
+	n15sm23118514wru.67.2019.05.21.05.36.44
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 May 2019 05:36:44 -0700 (PDT)
+From: luca.boccassi@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 13:35:22 +0100
-In-Reply-To: <20190521123418.16290-1-luca.boccassi@gmail.com>
-References: <20190509214007.13927-1-luca.boccassi@gmail.com>
-	<20190521123418.16290-1-luca.boccassi@gmail.com>
-User-Agent: Evolution 3.30.5-1 
+Date: Tue, 21 May 2019 13:36:41 +0100
+Message-Id: <20190521123641.16768-1-luca.boccassi@gmail.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190516210956.19906-1-luca.boccassi@gmail.com>
+References: <20190516210956.19906-1-luca.boccassi@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] python*-setuptools: add separate packages for pkg_resources module
+Subject: [PATCH v4] python*-setuptools: add separate packages for pkg_resources module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,79 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 12:35:23 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 May 2019 12:36:45 -0000
+Content-Transfer-Encoding: 8bit
 
-On Tue, 2019-05-21 at 13:34 +0100, luca.boccassi@gmail.com wrote:
-> From: Luca Boccassi <
-> luca.boccassi@microsoft.com
-> >
-> 
-> The pkg_resources Python module is useful by itself, for example for
-> automatic loading of resources shipped in a Python package.
-> Add separate packages for it, so that users can depend on them
-> individually and avoid pulling in the entire setuptools, which
-> include scripts to download other packages, which might not be
-> desired on minimal images.
-> 
-> Other distributions like Debian and Ubuntu already split setuptools
-> and pkg-resources in this way.
-> 
-> The setuptools packages now depend on the new pkg-resources packages,
-> to avoid regressions for other packages that depend on them
-> already.
-> 
-> Signed-off-by: Luca Boccassi <
-> luca.boccassi@microsoft.com
-> >
-> ---
-> 
-> v2: restrict new RDEPENDS to class-target. As advised by Alexander,
-> bitbake
->     cannot resolve native rdeps that mention package names rather
-> than
->     recipe names.
-> v3: manually add RPROVIDES to the native class instead of restricting
-> the
->     RDEPENDS to the target class as a better workaround. Also
-> document why
->     the package is being split.
-> 
->  meta/recipes-devtools/python/python-setuptools.inc | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/meta/recipes-devtools/python/python-setuptools.inc
-> b/meta/recipes-devtools/python/python-setuptools.inc
-> index 357aa07086..f49e078697 100644
-> --- a/meta/recipes-devtools/python/python-setuptools.inc
-> +++ b/meta/recipes-devtools/python/python-setuptools.inc
-> @@ -37,3 +37,14 @@ do_install_prepend() {
->  }
->  
->  BBCLASSEXTEND = "native nativesdk"
-> +
-> +# The pkg-resources module can be used by itself, without the
-> package downloader
-> +# and easy_install. Ship it in a separate package so that it can be
-> used by
-> +# minimal distributions.
-> +PACKAGES =+ "${PYTHON_PN}-pkg-resources "
-> +FILES_${PYTHON_PN}-pkg-resources =
-> "${PYTHON_SITEPACKAGES_DIR}/pkg_resources/*"
-> +# Due to the way OE-Core implemented native recipes, the native
-> class cannot
-> +# have a dependency on something that is not a recipe name. Work
-> around that by
-> +# manually setting RPROVIDES.
-> +RDEPENDS_${PN}_append = " ${PYTHON_PN}-pkg-resources"
-> +RPROVIDES_append_class-native = " ${PYTHON_PN}-pkg-resources-native"
-> 
+From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Sorry, wrong in-reply-to, resending.
+The pkg_resources Python module is useful by itself, for example for
+automatic loading of resources shipped in a Python package.
+Add separate packages for it, so that users can depend on them
+individually and avoid pulling in the entire setuptools, which
+include scripts to download other packages, which might not be
+desired on minimal images.
 
+Other distributions like Debian and Ubuntu already split setuptools
+and pkg-resources in this way.
+
+The setuptools packages now depend on the new pkg-resources packages,
+to avoid regressions for other packages that depend on them
+already.
+
+Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
+---
+v2: restrict new RDEPENDS to class-target. As advised by Alexander, bitbake
+    cannot resolve native rdeps that mention package names rather than
+    recipe names.
+v3: manually add RPROVIDES to the native class instead of restricting the
+    RDEPENDS to the target class as a better workaround. Also document why
+    the package is being split.
+v4: re-send to the correct thread, no changes.
+
+ meta/recipes-devtools/python/python-setuptools.inc | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python-setuptools.inc b/meta/recipes-devtools/python/python-setuptools.inc
+index 357aa07086..f49e078697 100644
+--- a/meta/recipes-devtools/python/python-setuptools.inc
++++ b/meta/recipes-devtools/python/python-setuptools.inc
+@@ -37,3 +37,14 @@ do_install_prepend() {
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++# The pkg-resources module can be used by itself, without the package downloader
++# and easy_install. Ship it in a separate package so that it can be used by
++# minimal distributions.
++PACKAGES =+ "${PYTHON_PN}-pkg-resources "
++FILES_${PYTHON_PN}-pkg-resources = "${PYTHON_SITEPACKAGES_DIR}/pkg_resources/*"
++# Due to the way OE-Core implemented native recipes, the native class cannot
++# have a dependency on something that is not a recipe name. Work around that by
++# manually setting RPROVIDES.
++RDEPENDS_${PN}_append = " ${PYTHON_PN}-pkg-resources"
++RPROVIDES_append_class-native = " ${PYTHON_PN}-pkg-resources-native"
 -- 
-Kind regards,
-Luca Boccassi
+2.20.1
 
 
