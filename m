@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
-	[209.85.210.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 89F977E138
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 4836A7E146
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 01:43:31 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id s11so8131286pfm.12
+	Tue, 21 May 2019 01:43:32 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 145so7666302pgg.9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 18:43:32 -0700 (PDT)
+	Mon, 20 May 2019 18:43:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=e8viqatV1XILVibamkzGDgzFkJSZVWzO0eFgf4VlP84=;
-	b=oSZq24IwVrzccMVtxpxo5ubYuTbVEMMg2G1D/lCn4NbptJiYmkzpVevs9O2ra77EhD
-	QJmj+bnXsMxKj73ICrVKpRhOl4yJzIhReMVVdGnyXnJtf1lINx+DByCZNPIjP39bGBVp
-	mfEQhMBvR1APygj5nmOsvvrXm+TsdYjbVbUJnK67QkK4VyIE3Ducav7n+7bd89IC8b9V
-	vsTPFEnhH+QpNZoulQNZwzZRHNTxtLnUHmecj4rPvQqsENkB1iSCrvh9Z2tBjMVQ3s3Q
-	elY7j/x9v4APBRFXI0qJqh5ecEp2bsIcCY/bZWavr58dIGotC6ynPnPkxd0Eh5sr4R2j
-	/y1g==
+	bh=jrrvmbokfUjmaAMuk3AnYgnkH65B2BkeBzJ0s7XK0dI=;
+	b=C6k07WVYGwrKe+Z6YgN4er84gYu0rHysvevzTuYYYHC+tuGYEmXkVa3pqcsjR9a0xy
+	DbJx4otmfXFkJBvkrYMZYbQ8Jy3TczRtyA1q/GNFvf47j0alOy5xhxhRes8tMIq5eY9A
+	T+LIWIVRXZAVKtg4sIXB0v/ENxe1MokBeZfKu/vQXY/6hPv0qLaokhLViTzxpI3zcTGt
+	kZsUNE18l47XneAjKQuM9sO4NhGNDq8EMdoXCc3FFEJDwuyPyl9Vu4xqHGopCZlPYlsw
+	gyLoTkREUkxVW3OcWzxRJ5c21gVSjYMymxPoEE1WGhr5E2nxi8um1WjBJReGC0L2eW6h
+	2ztA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=e8viqatV1XILVibamkzGDgzFkJSZVWzO0eFgf4VlP84=;
-	b=X8fSlJL4GEWW59G4JHW0b7jUldPwyGruKuJbhbA4z1POH5vksKwFolEcSPVLqzSuGb
-	LC1Pw4ji0J83Tt0mesrKpPlmku6l2HzqWUc1tK9fi1gw+OcnCKxctggnZItH+HQ6OsI6
-	0C+mNxBpnsOyCqefnOZa6crYEKjQxzHhw6kranWCru+wpoQaPwKHuiQT4CW6och/N14g
-	o/RTezntboMUSEiZLqICVG9IkarWPr72S89mwytVZiM5TXluvExK0kv+ws6u6EdQfZbL
-	/yc6RRb8HMO9oYXK+xtjUDb2ow8dZgCRdyDQjWNkh4LV9I7W3CnWIt7i1WMLfq8QXKaB
-	69bA==
-X-Gm-Message-State: APjAAAWoLl96MrHbWXReq6HQ1RHqJyCDBZmtyxG6zVdL1yxctv4c7rAW
-	BNMGWzNsMiibe6R15n0FsRS8DJgN
-X-Google-Smtp-Source: APXvYqxG+OuLXEJOd185YBO0igi+aG6x0VBgU1htdIPV5fwGppSl2PsMrPlBizuBvpK2KFWXzOoQgQ==
-X-Received: by 2002:a63:c046:: with SMTP id z6mr78858839pgi.387.1558403012307; 
-	Mon, 20 May 2019 18:43:32 -0700 (PDT)
+	bh=jrrvmbokfUjmaAMuk3AnYgnkH65B2BkeBzJ0s7XK0dI=;
+	b=iocY+01tVcaIBEBGOXRmWFzQMcE5MJurAmez//VRnOaHYLWkXhtHKlrL8DMk3KDLbV
+	k+KtuuCBwW7HKawUCXDZOMM1OiK1l0bovBhC0i72BkgVnaqYdXitn5+YD8WP/RdyimnB
+	q8G+Vhr+y0R519Fh3Pv1Gtg3AtDdcIDNE0FdchDi+MOeXApISCen8YLV4Ry6diDcU40K
+	ogO0ubU/O+rpOlvSPc76Y55t68GRUQkB/gyckGZrCzgLDorXltC1qhWNMq/4AATruZRi
+	a4chMiFz9KkITnuEoBu8m4nZUjV3j+BJXqXT3SOQEzHRDdno3EWDNDSUATFKNAI7D4rs
+	VEcw==
+X-Gm-Message-State: APjAAAVBnHPosre4bASbWRd1kegr/KQZb8ISfYKKW54HRmwKeFxppgVC
+	rVuz+RbdF5baczV7PnK0iIgtXNfm
+X-Google-Smtp-Source: APXvYqxqGlY36H4CLEYMsn7D0TtDZBnhkIztUFyB+f5dGWbMA6/sPphaZICF5v8cvx8XSUP2RWjomw==
+X-Received: by 2002:a63:f44b:: with SMTP id p11mr76660495pgk.225.1558403013301;
+	Mon, 20 May 2019 18:43:33 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:503:adbf:6ea3:61d2])
 	by smtp.gmail.com with ESMTPSA id
-	q5sm23079547pfb.51.2019.05.20.18.43.31
+	q5sm23079547pfb.51.2019.05.20.18.43.32
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 May 2019 18:43:31 -0700 (PDT)
+	Mon, 20 May 2019 18:43:32 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 18:43:14 -0700
-Message-Id: <65ee4f853aeeec6e8232985e37bd5d0accdb0fa8.1558402534.git.akuster808@gmail.com>
+Date: Mon, 20 May 2019 18:43:15 -0700
+Message-Id: <bf91c5f02aa0ace2ceecdce40ab95bbdb7c3f46b.1558402534.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1558402534.git.akuster808@gmail.com>
 References: <cover.1558402534.git.akuster808@gmail.com>
-Subject: [PATCH 12/15] glib-networking: add PACKAGECONFIG for openssl
+Subject: [PATCH 13/15] perf: make sure that the tools/include/uapi/asm-generic directory exists
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,36 +59,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 01:43:31 -0000
+X-List-Received-Date: Tue, 21 May 2019 01:43:32 -0000
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-* gnutls from meta-gplv2 isn't new enough for this version of glib-networking:
-  meson.build:74:0: ERROR:  Invalid version of dependency, need 'gnutls' ['>= 3.4.6'] found '3.3.30'
+* before trying to copy unistd.h into it
 
-* disabling gnutls PACKAGECONFIG isn't an option either:
-  meson.build:131:2: ERROR:  Problem encountered: No TLS backends enabled. Please enable at least one TLS backend
+* older kernels don't have uapi in tools/include and do_configure fails
+  with:
+  DEBUG: Executing shell function do_configure
+  cp: cannot create regular file '.../perf/1.0-r9/perf-1.0/tools/include/uapi/asm-generic/unistd.h':
+  No such file or directory
+  WARNING: exit code 1 from a shell command.
 
-* add an option to replace gnutls with openssl
+* tools/include/uapi was added in kernel 4.8 with
+  https://github.com/torvalds/linux/commit/c4b6014e8bb0c8d47fe5c71ebc604f31091e5d3f
+  tools: Add copy of perf_event.h to tools/include/linux/
 
 Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/glib-networking/glib-networking_2.60.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-kernel/perf/perf.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
-index 09af229..e2b4cff 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
-@@ -15,6 +15,7 @@ SRC_URI[archive.sha256sum] = "d71c6b2faa5ac29100314f08a1be020a2afd0291f025614c0a
- PACKAGECONFIG ??= "gnutls"
+diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
+index 546076f..4e603f1 100644
+--- a/meta/recipes-kernel/perf/perf.bb
++++ b/meta/recipes-kernel/perf/perf.bb
+@@ -238,7 +238,7 @@ do_configure_prepend () {
  
- PACKAGECONFIG[gnutls] = "-Dgnutls=enabled,-Dgnutls=disabled,gnutls"
-+PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
- PACKAGECONFIG[libproxy] = "-Dlibproxy=enabled,-Dlibproxy=disabled,libproxy"
+     # unistd.h can be out of sync between libc-headers and the captured version in the perf source
+     # so we copy it from the sysroot unistd.h to the perf unistd.h
+-    cp ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
++    install -D -m0644 ${STAGING_INCDIR}/asm-generic/unistd.h ${S}/tools/include/uapi/asm-generic/unistd.h
+ }
  
- EXTRA_OEMESON = "-Dgnome_proxy=disabled"
+ python do_package_prepend() {
 -- 
 2.7.4
 
