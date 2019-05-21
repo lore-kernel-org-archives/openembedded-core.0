@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B4307E073
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+	[209.85.210.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 89F977E138
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 01:43:30 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id z3so7671475pgp.8
+	Tue, 21 May 2019 01:43:31 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id s11so8131286pfm.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 18:43:31 -0700 (PDT)
+	Mon, 20 May 2019 18:43:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=eS+TpnDfmc5bgtdL+ga8EknybPK4sJgGhaKmDYrJNO0=;
-	b=bHD6ovRET8PZJUoM9OZP/yvw30FqNiadze/4fbRzOVAyzmuGKi9AtW/0ci8iS89fkO
-	SBbZtgDa6Ui21wtbktquEhPrSbi/2x//c23en4a09vXPjPhRXTZlc9i5/bcyHW4z1k8i
-	lnF6vXL5tgiUqLKNlBO44Aa6zYFL2gzZrUSofP8CceUUNNtB5LGSrbUVSg7L6cQictkn
-	IZU5TKvv2WsOXUcGUctgc1KpDeq5aaVh53qmjX2EmibeLxixL93sIrp0pwmaLYsfcs9Q
-	XsWscQMupxOdrHIRqAmmGrPzBa9cvgghTUzE96jwLSp6fLFVOkfAb5TG/H06L8KSyf7P
-	/gJQ==
+	bh=e8viqatV1XILVibamkzGDgzFkJSZVWzO0eFgf4VlP84=;
+	b=oSZq24IwVrzccMVtxpxo5ubYuTbVEMMg2G1D/lCn4NbptJiYmkzpVevs9O2ra77EhD
+	QJmj+bnXsMxKj73ICrVKpRhOl4yJzIhReMVVdGnyXnJtf1lINx+DByCZNPIjP39bGBVp
+	mfEQhMBvR1APygj5nmOsvvrXm+TsdYjbVbUJnK67QkK4VyIE3Ducav7n+7bd89IC8b9V
+	vsTPFEnhH+QpNZoulQNZwzZRHNTxtLnUHmecj4rPvQqsENkB1iSCrvh9Z2tBjMVQ3s3Q
+	elY7j/x9v4APBRFXI0qJqh5ecEp2bsIcCY/bZWavr58dIGotC6ynPnPkxd0Eh5sr4R2j
+	/y1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=eS+TpnDfmc5bgtdL+ga8EknybPK4sJgGhaKmDYrJNO0=;
-	b=pfpbYnUnXrDoxzUxPEqHOHWjtrUOWnEL6oSFc/l+WDI9c9jW3SkizFT/ncspw8z3SY
-	OrnBnTbrGLJYJysFI+B5/18JXFJKDoFdr6bOIODWgxUoHobYB/go06bO/1xiM6bCQCit
-	t8PcQ1PQ0gaJsWUIKi7WNC543popTTgtcehC07027sYq0aJry54SUNShvHb4MDHaEDSf
-	KglxNfNELTd+6frPvrjJvNEIb45jw1olMNyL6s0GgP/+Z5HCLcpys64TW6oERNotYU+M
-	2hGiCiQpL9rd4alEo5n/xoiBAnDw8/zoHkxjdvqccNQ+fRgTqG6MYJJ9u1qzG3CjTfsx
-	b74A==
-X-Gm-Message-State: APjAAAVwTKhKd3csWbGI5pdrfiXNKSzcAgvf1Hiqm85D20M3up1AyFw3
-	x12y8jvtcs3OhBaKoPnh+7kJ7IFx
-X-Google-Smtp-Source: APXvYqyypaz81WKysZ16Gtq4aEutLe882YrftyY4TbSB/6Acii+wMOO8w/brQGPISRqeD81CoFQmBw==
-X-Received: by 2002:a63:fd4a:: with SMTP id m10mr78075575pgj.302.1558403011264;
-	Mon, 20 May 2019 18:43:31 -0700 (PDT)
+	bh=e8viqatV1XILVibamkzGDgzFkJSZVWzO0eFgf4VlP84=;
+	b=X8fSlJL4GEWW59G4JHW0b7jUldPwyGruKuJbhbA4z1POH5vksKwFolEcSPVLqzSuGb
+	LC1Pw4ji0J83Tt0mesrKpPlmku6l2HzqWUc1tK9fi1gw+OcnCKxctggnZItH+HQ6OsI6
+	0C+mNxBpnsOyCqefnOZa6crYEKjQxzHhw6kranWCru+wpoQaPwKHuiQT4CW6och/N14g
+	o/RTezntboMUSEiZLqICVG9IkarWPr72S89mwytVZiM5TXluvExK0kv+ws6u6EdQfZbL
+	/yc6RRb8HMO9oYXK+xtjUDb2ow8dZgCRdyDQjWNkh4LV9I7W3CnWIt7i1WMLfq8QXKaB
+	69bA==
+X-Gm-Message-State: APjAAAWoLl96MrHbWXReq6HQ1RHqJyCDBZmtyxG6zVdL1yxctv4c7rAW
+	BNMGWzNsMiibe6R15n0FsRS8DJgN
+X-Google-Smtp-Source: APXvYqxG+OuLXEJOd185YBO0igi+aG6x0VBgU1htdIPV5fwGppSl2PsMrPlBizuBvpK2KFWXzOoQgQ==
+X-Received: by 2002:a63:c046:: with SMTP id z6mr78858839pgi.387.1558403012307; 
+	Mon, 20 May 2019 18:43:32 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:503:adbf:6ea3:61d2])
 	by smtp.gmail.com with ESMTPSA id
-	q5sm23079547pfb.51.2019.05.20.18.43.30
+	q5sm23079547pfb.51.2019.05.20.18.43.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 May 2019 18:43:30 -0700 (PDT)
+	Mon, 20 May 2019 18:43:31 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 18:43:13 -0700
-Message-Id: <34c283af5ae1b83fcc7cf07942df7a659bfaa921.1558402534.git.akuster808@gmail.com>
+Date: Mon, 20 May 2019 18:43:14 -0700
+Message-Id: <65ee4f853aeeec6e8232985e37bd5d0accdb0fa8.1558402534.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1558402534.git.akuster808@gmail.com>
 References: <cover.1558402534.git.akuster808@gmail.com>
-Subject: [PATCH 11/15] wic/bootimg-efi: replace hardcoded volume name with label
+Subject: [PATCH 12/15] glib-networking: add PACKAGECONFIG for openssl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,38 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 01:43:30 -0000
+X-List-Received-Date: Tue, 21 May 2019 01:43:31 -0000
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-volume name should refer to --label in .wks.
-Replace the hardcoded volume name  with label.
-set "ESP" as default name when no lable specified.
+* gnutls from meta-gplv2 isn't new enough for this version of glib-networking:
+  meson.build:74:0: ERROR:  Invalid version of dependency, need 'gnutls' ['>= 3.4.6'] found '3.3.30'
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+* disabling gnutls PACKAGECONFIG isn't an option either:
+  meson.build:131:2: ERROR:  Problem encountered: No TLS backends enabled. Please enable at least one TLS backend
+
+* add an option to replace gnutls with openssl
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meta/recipes-core/glib-networking/glib-networking_2.60.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 83a7e18..19328ce 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -258,8 +258,10 @@ class BootimgEFIPlugin(SourcePlugin):
-         # dosfs image, created by mkdosfs
-         bootimg = "%s/boot.img" % cr_workdir
+diff --git a/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
+index 09af229..e2b4cff 100644
+--- a/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
++++ b/meta/recipes-core/glib-networking/glib-networking_2.60.1.bb
+@@ -15,6 +15,7 @@ SRC_URI[archive.sha256sum] = "d71c6b2faa5ac29100314f08a1be020a2afd0291f025614c0a
+ PACKAGECONFIG ??= "gnutls"
  
--        dosfs_cmd = "mkdosfs -n efi -i %s -C %s %d" % \
--                    (part.fsuuid, bootimg, blocks)
-+        label = part.label if part.label else "ESP"
-+
-+        dosfs_cmd = "mkdosfs -n %s -i %s -C %s %d" % \
-+                    (label, part.fsuuid, bootimg, blocks)
-         exec_native_cmd(dosfs_cmd, native_sysroot)
+ PACKAGECONFIG[gnutls] = "-Dgnutls=enabled,-Dgnutls=disabled,gnutls"
++PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
+ PACKAGECONFIG[libproxy] = "-Dlibproxy=enabled,-Dlibproxy=disabled,libproxy"
  
-         mcopy_cmd = "mcopy -i %s -s %s/* ::/" % (bootimg, hdddir)
+ EXTRA_OEMESON = "-Dgnome_proxy=disabled"
 -- 
 2.7.4
 
