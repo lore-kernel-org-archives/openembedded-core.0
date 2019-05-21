@@ -1,49 +1,54 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 88F3C7E294
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 7C87E7E279
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 21:00:08 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id g16so60636iom.9
+	Tue, 21 May 2019 21:44:15 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id i3so112352wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 14:00:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=D3UXdFOyNGdQc6ip+fj1ExtiJocPIaZqUsdN9E3Uxow=;
-	b=DSY53pQU7dAZY089Qpk2f3U1cPeGXLGx5nD72/Kt/erBDiomvwAcxJZ8NG0LTsLyRH
-	Gps3046zW73cdYAb/7E5JxuRoAReC5RwlsCqa3rBcxDEgw8jSZam+AFoFStXjg5kqXJ2
-	mLLheGg3F8C6h3Rhg5tE3zeYZmZRmYFbdG11D/aR6dnUKtKdT6ejrPT2MYKHGeNtecjd
-	ogbB0AiUEeb8RbF2Gq689kchNIoy0alFu98fpm30xarAgY38ECYi3iKQ2mph2+oJxBsv
-	0oOGTnRiQLULxHTTA4uPdY9qxH4Z321KfhUIcvpoTPjrwRn0wG+QRiVqcpDWOl5nXdkA
-	2nCw==
+	Tue, 21 May 2019 14:44:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=wRSDR4TuGgIhGdbqGIv0DcmgC8tU7VCYaADkYFEOPj0=;
+	b=bok/Z8vQMPVk5UyHmad9FD5pzGxpRJXZ60+1kkc3EYu98JuzzqKZwKAr1NQ0hRb5Ac
+	80it6qysuE+UwAtmFdUxzyMZy4dgUBL9Hs1CWr0HaMpHjcpTGsACPgQyrxRX+SzhoX6J
+	xdeXYzqaMuSIKEHUxrtFeA9YHiwzgFiREWyKA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=D3UXdFOyNGdQc6ip+fj1ExtiJocPIaZqUsdN9E3Uxow=;
-	b=jTNn7KgpDdu4Eyhk2G60+TuyfMZRKtdhWegvdclfkGuxcK7dQ4TsGbbv/kBhlk+dP9
-	VOvKSliEsqtqBTYIAtykgo2STTlGI9TsL83GrZH2A9MPzZLqnvNwd4v9mC1m7ZnPVANG
-	zReJ7h4HsT3rOLNiaxeHg3KXPmjibXBdizirMqXOG8x50jMhs7ufFOugCf6rm0r9HCrS
-	xUOfoDBabfBS9vriuwB3JMYBVwufLhwCpOIOiFYprSL9VjvczYQ0oKm6U8kqJkEfMHMD
-	oeY2il2D5vSDgJSKxNldfr/n5GWqpWlYPzDr9fFQH33RadaurWucnqN59Q/iEeoTxP3E
-	wasQ==
-X-Gm-Message-State: APjAAAWk6Ezhv6aVvnbPD0WUjDruVak2zZm6mOWXcOFMTHyyfz9wrO9r
-	v0gdih6vd+h7BlBf5DxIbL0WAaOjYiKbEMxw8RE=
-X-Google-Smtp-Source: APXvYqw2Pag8xjkX5zqBi8KZ5aXOAf8CaP+I5azZ4QpI2w/6EymLEiFgdFJPaf4oyoP8NX/nQKYOKNPnGZ5pmOI3lpM=
-X-Received: by 2002:a05:6602:4f:: with SMTP id
-	z15mr6913617ioz.108.1558472409516; 
-	Tue, 21 May 2019 14:00:09 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=wRSDR4TuGgIhGdbqGIv0DcmgC8tU7VCYaADkYFEOPj0=;
+	b=WgQC5yZbztZRT/Ja2JSIcaxR7i4IAUcBJ/QxOlWJifV0EiqDW40QzqWSbxzQ0Utoly
+	8Buhng1IzfVQMKFXWV8ZVMZIeRsgjWu61UwQIlQg1FH03AuzJ5Oo0144qTOdfSie7WF0
+	3AKzL+V8JIkVCXRmvigNY9kDFhPS2bjnTlk70C6jkFM7zxSODWwo40yG6xiOXv6BYMi6
+	NudNNGku11qHk/aKndjkhdL6VfAyLI1U1Zat/BaEF+NvW19cewE7RCaqkxAGhNCWo2Gu
+	bDKV6PjGZ3rloDnZS4SpYiro6JBasETRj4bcoElmrslKH+N555E4zBitwiIu7fTOZKey
+	XQyg==
+X-Gm-Message-State: APjAAAWNWYABTZBtFcnrZx4tZ0Gi6uHfsd6YKKa8lRzc1egcZNLoPSDZ
+	xPyFjmhpOj8RrOZX594DL1Px0w==
+X-Google-Smtp-Source: APXvYqwmVPhsjRF9pwv5Pbfh8cA7GJ4/YEhhYkKcIxRVVeesJmGMkJ1IJP4ygxdStcotNGP3MuCbBQ==
+X-Received: by 2002:a1c:63d5:: with SMTP id x204mr5015013wmb.3.1558475056066; 
+	Tue, 21 May 2019 14:44:16 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	o6sm47233243wrh.55.2019.05.21.14.44.14
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 21 May 2019 14:44:15 -0700 (PDT)
+Message-ID: <1cee8ee543463712e25b4ea4450fb40242a9e84e.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>
+Date: Tue, 21 May 2019 22:44:13 +0100
+In-Reply-To: <CALbNGRRcmwVcVD3ytdb32RkmgyFTLJ3dsKiC+iLDK36s1DBwGw@mail.gmail.com>
 References: <20190521090032.14859-1-schnitzeltony@gmail.com>
 	<20190521090032.14859-2-schnitzeltony@gmail.com>
 	<03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
 	<CALbNGRQjahbkMzBmqFG4QQE4moF-qTFJrDDMzBVUnXBCTwGFMA@mail.gmail.com>
 	<b182fad0b95201771a7c01ab2d71aaba73810399.camel@linuxfoundation.org>
-In-Reply-To: <b182fad0b95201771a7c01ab2d71aaba73810399.camel@linuxfoundation.org>
-From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
-Date: Tue, 21 May 2019 22:59:57 +0200
-Message-ID: <CALbNGRRcmwVcVD3ytdb32RkmgyFTLJ3dsKiC+iLDK36s1DBwGw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CALbNGRRcmwVcVD3ytdb32RkmgyFTLJ3dsKiC+iLDK36s1DBwGw@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 2/2] python-six: put python2/3 variant together
@@ -59,33 +64,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 21:00:08 -0000
+X-List-Received-Date: Tue, 21 May 2019 21:44:15 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 21, 2019 at 8:38 PM <richard.purdie@linuxfoundation.org> wrote:
-> > No sorry mozjs uses old crap in their configurations scripts nobody
-> > else does (python which) and ask for python2 explicitly.
->
-> I've been giving this a bit more thought and its our intent to try and
-> remove python2 from OE-Core entirely so adding py2 modules back seems
-> like a backwards step.
->
-> I think this will therefore need to go to one of the other layers,
-> painful as that might be from an include perspective.
-Yeah a new burden out of thin air is born. You know what I do: Create
-my own layers and am happy as I am with my other layers.
+On Tue, 2019-05-21 at 22:59 +0200, Andreas Müller wrote:
+> On Tue, May 21, 2019 at 8:38 PM <richard.purdie@linuxfoundation.org>
+> wrote:
+> > > No sorry mozjs uses old crap in their configurations scripts
+> > > nobody
+> > > else does (python which) and ask for python2 explicitly.
+> > 
+> > I've been giving this a bit more thought and its our intent to try
+> > and
+> > remove python2 from OE-Core entirely so adding py2 modules back
+> > seems
+> > like a backwards step.
+> > 
+> > I think this will therefore need to go to one of the other layers,
+> > painful as that might be from an include perspective.
+> Yeah a new burden out of thin air is born. You know what I do: Create
+> my own layers and am happy as I am with my other layers.
+> 
+> Bye
 
-Bye
+Its not "out of thin air". It was discussed over two years ago when we
+started a plan of trying to remove python2 dependencies:
 
-Andreas
->
-> Upstream are only going to keep py2 compatibility to the end of the
-> year, if that so the recipes will have to fork sooner or later anyway.
->
-> Cheers,
->
-> Richard
->
->
->
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=1fc2c9315faf65ea05fecf81450dd40b9a330435
+
+This was in line with what upstream python recommended. Upstream python
+has made a clear statement on this too:
+
+https://python3statement.org/
+
+For a release that will ship 3 months before that deadline, it seems
+unreasonable to add this back to oe-core, no?
+
+Cheers,
+
+Richard
+
+
+
+
+
 
