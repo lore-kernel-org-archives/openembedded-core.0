@@ -1,47 +1,48 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id DED5D7E25D
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+	[209.85.167.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 5839C7E25C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 16:12:04 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id x64so3578055wmb.5
+	Tue, 21 May 2019 16:15:18 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id y124so8919930oiy.3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 09:12:06 -0700 (PDT)
+	Tue, 21 May 2019 09:15:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=/bUspo3h6RLE1PoWk8Mjucv2zX3RPi1NfQVVSw9WYKk=;
-	b=WCUkqWtHFforp1MYpRUL3wdGakpSDBy46fhQvl6N+vJLnVKenaLQdhzEzQsGRFeqTz
-	0rJBq4DODt5wJtkg3W0Arcr+XfD3MYnUPkhRXe2s1YKI/cX2/+YzFEk/oX+5ekqr1GbS
-	kMzuswIvpL5uGBC9TZ/YskBjjVFUESC1wO1bQQRKiEt7VRhaYtNAaCh+9aBoa4uP1Lg5
-	3jQjTolXrO2SIa91K2UqgzHJJPi0EQR2m7/Uuk21YRor9n+5Av5RKzfDtgRuarfsJkvw
-	xonIJxRtgF6arlnqFg4XA+sKu3vJVbMGktlC2q0bq6qPSDoh1TDbqVd50Yl+V3lR/qJP
-	i71g==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=g3vgJr9WtX9bGe6rwfqQtp0fwgle+wkmq/KW31XYyhI=;
+	b=TCNwJH6eoXXExUveHFany3TNmoiIZleT2WjCsa+Ew1gnSDspQoK/U33807uy9dDWUW
+	hTuhicW2XS1jfzSfa9EayYDG5VZ1Lm436GCKxI/JdBiGhVzWk5JcWLvEP7bv1fhGEmVZ
+	HWnjLxjUVFhOzI7DLTbY4GvIsCIoGWC/zHTWCuxgKuXqHlnaJplnZdAy+0qDj7XXONze
+	p3j2AyRKus/0w97yQ13xr6Lv+4B3x015zMWlf3J5aesXBOwa3qGUIQKoPgbw48xVCn2d
+	nZnzp9/5q+svxHcl+d3OHxAf+vVNyvSoyKJUBrotU/LfKG3T+4J0vK+7FYKtWTzy55zE
+	kYxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=/bUspo3h6RLE1PoWk8Mjucv2zX3RPi1NfQVVSw9WYKk=;
-	b=LmnfEnSHhms2Ri+qyGKerFmgKgPU6uMhyIf4yZrVThDSU9JBNbZr6TWuUnhI3/nVcW
-	J9fyBEVQGFm7IVUWClJxRsF0IGTLoturtNbL5BrahfjkIz4tJlBBE9OZBY4A6ysZSP4s
-	8b/db0DwPx8to92xmeHo8YpHWlekAxG4D1WldOvVF3Q8YlR1VtyME4m1OEHpTEBec1KM
-	CNgHLnH/Z/akjl+OH5tZV5eUbjmh9Q+0OcVrp0W9t04CfEVlvaWkf1LQ9Rw1eK8xxDeX
-	L5j002UPf0XQEPp5DepTCnEe/cDXd+3vhVgVCaFPvVSEGcMdKKeTtVnyi87iFGeVJQyn
-	y4WA==
-X-Gm-Message-State: APjAAAXRkWpf8VAaA/ehscTp/+kLTe3CQ+l1nIQFMnzug/F30VxfD7gZ
-	/Hz21tj+uZnmuVG6NRZSyVd+csKG
-X-Google-Smtp-Source: APXvYqxKwAB2HHlGf10UZnzWs7l/GiSN0YIbHq2B3KhS+FU4lgLfnOApJM8FfBMvUH0awWiAJCJXLw==
-X-Received: by 2002:a1c:b743:: with SMTP id h64mr4279642wmf.16.1558455125285; 
-	Tue, 21 May 2019 09:12:05 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	j82sm3917055wmj.40.2019.05.21.09.12.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 09:12:04 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=g3vgJr9WtX9bGe6rwfqQtp0fwgle+wkmq/KW31XYyhI=;
+	b=lr8c4FjDw0HC4RxUJkBK3XpG+A2OjKF1SX/sj1QRqq6j38xgWsWJ4zCrV7D4BoMLVZ
+	rnt577EMRrIlGxrkQQmRNecgMUN0fPa+Qir9Vl2wTc1AdoSXUddkde8UmCjAGUE265yh
+	2ELpwGahNvrIsZHT6f6kMu9sRaUw5ow950wTqQyZxVgD1pJxmfW/+NsyEQgQ5O4WbvcU
+	zb0nTLQX0NJsW4rqysgug06Ei/TX0iv0DAm8ikXsvUtj1QwWnYqkrhl94pUUji5RGY0s
+	sM1agFDYONojkcKuSwjtF0uQytG3x/EF+CgPthCn3mxZnpVL5veOm10QCWAgOZHGNB19
+	IrIw==
+X-Gm-Message-State: APjAAAXHuJM+fkYJw7UFAXwStQQxvpjrS3aRjP68Cd0nKF5do1kOHLNm
+	ayNsKumry2eRq3LYD5FQ9SsBE0XIqYh9/6pTt84=
+X-Google-Smtp-Source: APXvYqwKhe7Zlm8Ps3POwSW208CdD9smf2PtoALCWZzut1uIwmoj8Y7EGzuL4blP1DPIuZY1nvLoPzwTP2vkH2yvkIM=
+X-Received: by 2002:aca:d40b:: with SMTP id l11mr4178500oig.132.1558455318316; 
+	Tue, 21 May 2019 09:15:18 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190520141125.10805-1-alex.kanavin@gmail.com>
+	<20190520141125.10805-3-alex.kanavin@gmail.com>
+	<6e8560511f994e0df99f20048fa7540c509cd960.camel@linuxfoundation.org>
+In-Reply-To: <6e8560511f994e0df99f20048fa7540c509cd960.camel@linuxfoundation.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 18:11:58 +0200
-Message-Id: <20190521161158.45329-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] libmodulemd: fix erroneous linking against v2 library when v1 was requested
+Date: Tue, 21 May 2019 18:15:06 +0200
+Message-ID: <CANNYZj-B1+p7Tw4DYJs0g9E7dDY-Exk_RzcauM04f9+AxgCihg@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 03/42] libmodulemd: upgrade 2.2.3 -> 2.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +55,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 16:12:05 -0000
+X-List-Received-Date: Tue, 21 May 2019 16:15:18 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...xplicitly-specify-the-v1-library-in-.patch | 28 +++++++++++++++++++
- .../libmodulemd/libmodulemd_git.bb            |  1 +
- 2 files changed, 29 insertions(+)
- create mode 100644 meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch
+Yes - I just sent a patch for the issue. libmodulemd comes in v2 and
+v1 flavours, and there was confusion about which one to link to
+(libdnf needs v1, createrepo-c wants v2).
 
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch b/meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch
-new file mode 100644
-index 00000000000..1568d25f9d8
---- /dev/null
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch
-@@ -0,0 +1,28 @@
-+From b651551134cf170038b3e01812e3767969506491 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 21 May 2019 17:59:26 +0200
-+Subject: [PATCH] v1/meson.build: explicitly specify the v1 library in
-+ pkgconfig
-+
-+Otherwise there would be '-lmodulemd' which resolves
-+to v2 version if both v2 and v1 are present in the sysroot.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ modulemd/v1/meson.build | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/modulemd/v1/meson.build b/modulemd/v1/meson.build
-+index 4d54e69..9144ca2 100644
-+--- a/modulemd/v1/meson.build
-++++ b/modulemd/v1/meson.build
-+@@ -325,7 +325,7 @@ configure_file(
-+ )
-+ 
-+ pkg.generate(
-+-    libraries : modulemd_v1_lib,
-++    libraries : '-l:libmodulemd.so.1',
-+     subdirs : v1_header_path,
-+     version : libmodulemd_v1_version,
-+     name : 'modulemd',
-diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-index d7f486868b8..d4ffd281b5f 100644
---- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-+++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=25a3927bff3ee4f5b21bcb0ed3fcd6bb"
- SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https \
-            file://0001-spec_tmpl.sh-use-bin-sh-not-usr-bin-sh.patch \
-            file://0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch \
-+           file://0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch \
-            "
- 
- PV = "2.4.0"
--- 
-2.17.1
+Alex
 
+On Tue, 21 May 2019 at 16:41, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2019-05-20 at 16:10 +0200, Alexander Kanavin wrote:
+> > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > ---
+> >  meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 6 +++---
+> >  1 file changed, 3 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+> > b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+> > index 40715c06ee2..d7f486868b8 100644
+> > --- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+> > +++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+> > @@ -7,14 +7,14 @@ SRC_URI = "git://github.com/fedora-
+> > modularity/libmodulemd;protocol=https \
+> >             file://0002-modulemd-v1-meson.build-do-not-generate-gir-
+> > or-gtkdo.patch \
+> >             "
+> >
+> > -PV = "2.2.3"
+> > -SRCREV = "4c75c6f8b39ee57aebe8fd36ef84808e893048c0"
+> > +PV = "2.4.0"
+> > +SRCREV = "d0a3eda45e083e8fe8b329a2310a53abdbf1e4d6"
+> >
+> >  S = "${WORKDIR}/git"
+> >
+> >  inherit meson gobject-introspection
+> >
+> > -EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true
+> > -Dbuild_api_v2=false"
+> > +EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true
+> > -Dbuild_api_v2=true"
+> >
+> >  DEPENDS += "glib-2.0 libyaml glib-2.0-native"
+>
+> I'm wondering if this caused:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/852
+>
+> ?
+>
+> I think its something in this series...
+>
+> Cheers,
+>
+> Richard
+>
+>
 
