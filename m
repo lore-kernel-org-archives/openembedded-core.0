@@ -1,53 +1,27 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com
-	[209.85.214.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 24C647E078
+Return-Path: <Liwei.Song@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D10BF7E088
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 01:43:34 +0000 (UTC)
-Received: by mail-pl1-f174.google.com with SMTP id x15so7573302pln.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 18:43:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=iUm8pk+D9srK9v5+9Cft1Qt4GvcZFAyb24s18sugLv4=;
-	b=HOUyKqsZ6MLjvmXBxlyWwpuXh6fGWlZsrmtHXkpinqGmDGWdhYwnXOSBVtaUuG2D1w
-	N2Va/J/9knAMZX2YFWMsmfohVFlIRQuTIMKYA9u6e2XSLafiLHPdcElqsl3I9O4zSDoh
-	DzeH/Cht1OE23Rh7r/hN7lGH8lQvgkzKPT0EXkglVWmzsR8l9SIdo8Az4UuIaj7e4C8d
-	OTD9qEgvxvV38sxOdevREVG5Yh/bo3gucuATpJ3Sws3BiieSi7OnJLsl8bjBj1s+QhqB
-	7QA3VWhwFP4cEy4xoUEiTA7xS1A09uYaFUNCy89Pwticgnu2f6oFZYGLZWKB9M6B1sc9
-	Zybw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=iUm8pk+D9srK9v5+9Cft1Qt4GvcZFAyb24s18sugLv4=;
-	b=KOnS0pJXlnBsiF3V4zocHrDXSoLA/NAu/Eb0/zJOAqOCc5LXZ2/SvjyIYhjXQ2LwlC
-	MmbVMySEFQu6EpOGvDPO75eT0e2HmWhdl9RmV58cfTidlxXaFaPS3h43x2vwJD4qN5O+
-	sz6itxeIHvDgUPD34ZbFLizCeB/AOdG8EJIb1zWO3x6l9duiGkTWpVxrogEVta/eM4Zm
-	pzuzgQ8zCMLvZ9le3yOfJM5D7g0RUZa7xrZMoNenhiiVhJdkia8mPP9ZEo5gvai5VFCF
-	sOtRa9STh+D0noI/JREgfjEKQc+7I4UJIjpA8LBZVWvHdfQOEVcDw+yb1xOfbgqSs57s
-	rh1w==
-X-Gm-Message-State: APjAAAUI1Xt6ZQ6Wz2VKZzVogW9B+sQtr0BHf9zZgWJMtK2vQ549bRH1
-	TtNM9ErIQEJBVHYdYaCMVpPFKbBe
-X-Google-Smtp-Source: APXvYqz6PwGmFp1+053pHkmhGLKgQiwaDsdsvZuobSf1cDXUGlLfwYgF3THytWf8Xs0A3t5ijSe77w==
-X-Received: by 2002:a17:902:694b:: with SMTP id
-	k11mr5927496plt.307.1558403015173; 
-	Mon, 20 May 2019 18:43:35 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:503:adbf:6ea3:61d2])
-	by smtp.gmail.com with ESMTPSA id
-	q5sm23079547pfb.51.2019.05.20.18.43.34
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 May 2019 18:43:34 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 18:43:17 -0700
-Message-Id: <58bfdca84606b1f4967298980ce4a5a8ad4fa2bb.1558402534.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1558402534.git.akuster808@gmail.com>
-References: <cover.1558402534.git.akuster808@gmail.com>
-Subject: [PATCH 15/15] kernel.bbclass: adjust a condition checking
+	Tue, 21 May 2019 02:21:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4L2LOIM002093
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 20 May 2019 19:21:24 -0700 (PDT)
+Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 20 May 2019 19:21:23 -0700
+Message-ID: <5CE360A2.10907@windriver.com>
+Date: Tue, 21 May 2019 10:21:22 +0800
+From: Liwei Song <liwei.song@windriver.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64;
+	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+MIME-Version: 1.0
+To: Khem Raj <raj.khem@gmail.com>, oe-core
+	<openembedded-core@lists.openembedded.org>
+References: <1557974500-224120-1-git-send-email-liwei.song@windriver.com>
+	<9ad65fe0-8a88-9413-7f2d-0cc855395721@gmail.com>
+In-Reply-To: <9ad65fe0-8a88-9413-7f2d-0cc855395721@gmail.com>
+Subject: Re: [PATCH] mdadm: install the systemd service through Makefile
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,36 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 01:43:34 -0000
+X-List-Received-Date: Tue, 21 May 2019 02:21:25 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Ming Liu <liu.ming50@gmail.com>
 
-do_bundle_initramfs does not have to depend on
-${INITRAMFS_IMAGE}:do_image_complete if INITRAMFS_IMAGE_BUNDLE is not
-set.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
----
- meta/classes/kernel.bbclass | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+On 05/21/2019 05:18 AM, Khem Raj wrote:
+> 
+> 
+> On 5/15/19 7:41 PM, Liwei Song wrote:
+>> The original mdadm service may include variable like BINDIR,
+>> It should use the real value of it, since the install method
+>> "install-systemd" in Makefile can easily do such work, so don't
+>> install it in bb file manually, use "make install-systemd" to
+>> install all the service of mdadm.
+>>
+>> Signed-off-by: Liwei Song <liwei.song@windriver.com>
+>> ---
+>>   meta/recipes-extended/mdadm/mdadm_4.1.bb | 10 +++++++---
+>>   1 file changed, 7 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+>> index 4168ce4d0cb8..a4b9ef94799f 100644
+>> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
+>> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+>> @@ -55,13 +55,15 @@ do_install() {
+>>   do_install_append() {
+>>           install -d ${D}/${sysconfdir}/
+>>           install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
+>> -        install -d ${D}/${systemd_unitdir}/system
+>> -        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir}/system
+>> -        install -m 644 ${S}/systemd/mdmon@.service ${D}/${systemd_unitdir}/system
+>>           install -d ${D}/${sysconfdir}/init.d
+>>           install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
+>>   }
+>>   +do_install_append() {
+>> +        oe_runmake install-systemd DESTDIR=${D}
+>> +}
+> 
+> perhaps this should be guarded with systemd being in DISTRO_FEATURES check.
 
-diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-index b346a60..437b8c7 100644
---- a/meta/classes/kernel.bbclass
-+++ b/meta/classes/kernel.bbclass
-@@ -95,7 +95,8 @@ python __anonymous () {
-         d.setVar('ALLOW_EMPTY_%s-image-%s' % (kname, typelower), '1')
- 
-     image = d.getVar('INITRAMFS_IMAGE')
--    if image:
-+    image_bundle = d.getVar('INITRAMFS_IMAGE_BUNDLE')
-+    if image and bb.utils.to_boolean(image_bundle, False):
-         d.appendVarFlag('do_bundle_initramfs', 'depends', ' ${INITRAMFS_IMAGE}:do_image_complete')
- 
-     # NOTE: setting INITRAMFS_TASK is for backward compatibility
--- 
-2.7.4
+Hi Khem,
 
+Do you mean all the service file need to be added to SYSTEMD_SERVICE_${PN} ?
+
+Thanks,
+Liwei.
+
+
+> 
+>> +
+>> +
+>>   do_compile_ptest() {
+>>       oe_runmake test
+>>   }
+>> @@ -88,3 +90,5 @@ RRECOMMENDS_${PN}-ptest += " \
+>>       kernel-module-raid10 \
+>>       kernel-module-raid456 \
+>>   "
+>> +
+>> +FILES_${PN} += "/lib/systemd/*"
+>>
+> 
+> 
 
