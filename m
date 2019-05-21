@@ -1,49 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A8C607DF94
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
+	[209.85.221.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 835FE7DF94
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 22:28:36 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id w13so34795wru.11
+	Tue, 21 May 2019 22:28:37 +0000 (UTC)
+Received: by mail-wr1-f46.google.com with SMTP id g12so46188wro.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 15:28:37 -0700 (PDT)
+	Tue, 21 May 2019 15:28:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=qgadRS03rjljhEqcsqmsF2PbVBjDA7X71IxjiH9kaeE=;
-	b=cofp1oOu46KYoXsWfFU3L6qo7Vhp2y4YNjMxJFu0dwMuaXub5UjqNVg3FY0Yy5DSo0
-	KFPUoIX0Z9FjmhvO/XBN29dBFtQXGqoq+M7YC/rzbH0DsKhxxfrz+1qpWBCyxZhhSyLr
-	7+t6lJGM0dUV7UZtp4R8GoptIkuYNUcBkL6q4=
+	bh=aqcjJTVv8nqhsVhQRu16iJhlwySkua2k84gaqbzcJAM=;
+	b=hq2ONYa+ljTHUeivrxoJk13Oy/zZ16SU0TL0No/5ocWg9b9UJO2AOzMj1oN/J9uqI5
+	Ij7ht5V1r5SWThSOsl3En+/albsdDDlgkdkL67sDYEUOOO0pzZ4KB5bUhuOpw2+y4SRE
+	7q2f1ezZp94hunjZwozsJHGcHs7OvBmTR9ww0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qgadRS03rjljhEqcsqmsF2PbVBjDA7X71IxjiH9kaeE=;
-	b=Sr6Fv/IoxoTRcVqQvl+Hhf83bCw1E5xCs8T+IR3Lg2xsK2+01ejH/L891Oo8iAAquk
-	v3t3E119IPU56WjvJ+pUmp+7S8iwQFA6D5p9yTeH9fIA7NfepnUB30K33qxTBMvuM9LX
-	ERgR0ApIM+eOMSyFZTNQ30Jagz9UAOLJhAY3ybe8SHWEhw/G+/qRVi9fGZr7gH+wEB2x
-	zpQfDnp2/qkZHpH/D/5Nd6KfTkErBoXZ6p1xkv1t+h6YxkWhqkT+4tf1VHxlBAr1isuR
-	l3auPqneg9o8Djpg8hlLAwfy7JUK1HViDxMFlVR+eAAzMYALM0jyfhc4vyofpqH/4o7i
-	kK/g==
-X-Gm-Message-State: APjAAAV6KuNzjmHp32Npeuwu8FK5AivktALcDHuli9NQ/avjUb0Z1Wok
-	/OS4/gt8bFwmf0nUp24gClS4sZWulUM=
-X-Google-Smtp-Source: APXvYqwcoeMCDPjCtVmUvqHb64g7152SJk8cFylq7+xGQ15gc9OcSE+S5oJDk5n2vGkrwOeWGLKE7A==
-X-Received: by 2002:adf:f909:: with SMTP id b9mr8377179wrr.119.1558477717080; 
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=aqcjJTVv8nqhsVhQRu16iJhlwySkua2k84gaqbzcJAM=;
+	b=DQBEmFGj9KI11QV9YZEJ0E6YgMbq48Er+rlU/vvbkE30+5BD6xD2QEjyb4l1W+TLDU
+	/JV2ilnv5q7vZ/oUysQ5ldDwxb2EwhBFU0lkPZRawR3yBPTP1LUngXrqiXyqoqzW5EUp
+	WtfJ1dpf0AKlcEOF+8GPUESnNYshWumyilTNgbh7swelqWohYD00PeNKldgNDNgMXGVR
+	Pd1Z36ZQLSJJ4tnFFo7WI2qZt5z+3Hr0WMqfrJ5TbKRF8o1/wwFDBL7mZkJ3Sh+3MwyO
+	3rUm76X44amiMCThj5aUbBnY+i1op/q/kUoMQ4NdYJ5fWq83dirMr5klEu45L/n2ZKZ9
+	ZgIw==
+X-Gm-Message-State: APjAAAW/JuSHq99/nXai+JiO8gyjX41LtX4Jj01lCtU5ZeXhnIDapxsK
+	EgLRPSw2cyrdsv5XzLJVhmGyVl0k7vE=
+X-Google-Smtp-Source: APXvYqw60MyfWkSZXhn2MlAfdh+OAA6SBmS9nYeSo3W6+QJ9nJFW6ZwENRBLvRH8XkVgl2d8dWJ23g==
+X-Received: by 2002:adf:cc8b:: with SMTP id p11mr36683077wrj.13.1558477717994; 
 	Tue, 21 May 2019 15:28:37 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z74sm5585446wmc.2.2019.05.21.15.28.36
+	z74sm5585446wmc.2.2019.05.21.15.28.37
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 15:28:36 -0700 (PDT)
+	Tue, 21 May 2019 15:28:37 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 23:28:30 +0100
-Message-Id: <20190521222835.23928-1-richard.purdie@linuxfoundation.org>
+Date: Tue, 21 May 2019 23:28:31 +0100
+Message-Id: <20190521222835.23928-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190521222835.23928-1-richard.purdie@linuxfoundation.org>
+References: <20190521222835.23928-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/6] perl-rdepends: Add missing module dependencies
+Subject: [PATCH 2/6] bash: Fix bash-ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 22:28:36 -0000
+X-List-Received-Date: Tue, 21 May 2019 22:28:37 -0000
 Content-Transfer-Encoding: 8bit
 
-Adding these fixes the acl and attr ptests to work within minimal images.
+Bash's ptest needs glibc-utils (for locale), some extra locales for various tests
+it uses options busybox doesn't support for some tools, hence coreutils and also runs
+perl for some tests.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-extended/bash/bash.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
-index f93bbc76463..362d317da7d 100644
---- a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
-+++ b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
-@@ -954,11 +954,13 @@ RDEPENDS_perl-module-io-dir += "perl-module-file-stat"
- RDEPENDS_perl-module-io-dir += "perl-module-io-file"
- RDEPENDS_perl-module-io-dir += "perl-module-strict"
- RDEPENDS_perl-module-io-dir += "perl-module-tie-hash"
-+RDEPENDS_perl-module-io-file += "perl-module-carp"
- RDEPENDS_perl-module-io-file += "perl-module-exporter"
- RDEPENDS_perl-module-io-file += "perl-module-fcntl"
- RDEPENDS_perl-module-io-file += "perl-module-io-seekable"
- RDEPENDS_perl-module-io-file += "perl-module-selectsaver"
- RDEPENDS_perl-module-io-file += "perl-module-strict"
-+RDEPENDS_perl-module-io-file += "perl-module-symbol"
- RDEPENDS_perl-module-io-handle += "perl-module-exporter"
- RDEPENDS_perl-module-io-handle += "perl-module-io"
- RDEPENDS_perl-module-io-handle += "perl-module-io-file"
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index 2e7f261a2e7..4b3692c6139 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -23,10 +23,10 @@ ALTERNATIVE_PRIORITY = "100"
+ 
+ RDEPENDS_${PN} += "base-files"
+ RDEPENDS_${PN}_class-nativesdk = ""
+-RDEPENDS_${PN}-ptest += "make"
++RDEPENDS_${PN}-ptest += "make coreutils perl"
+ 
+ DEPENDS_append_libc-glibc = " virtual/libc-locale"
+-RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-fr-fr locale-base-de-de"
++RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-en-us locale-base-fr-fr locale-base-fr-fr.iso-8859-1 locale-base-de-de locale-base-zh-hk.big5-hkscs glibc-utils"
+ 
+ USERADD_PACKAGES = "${PN}-ptest"
+ USERADD_PARAM_${PN}-ptest = "--create-home --user-group test"
 -- 
 2.20.1
 
