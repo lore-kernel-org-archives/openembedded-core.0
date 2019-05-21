@@ -1,51 +1,55 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6718F7E2B3
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com
+	[209.85.128.53])
+	by mail.openembedded.org (Postfix) with ESMTP id ADE0E7DF94
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 22:28:41 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id f204so211629wme.0
+	Tue, 21 May 2019 22:31:55 +0000 (UTC)
+Received: by mail-wm1-f53.google.com with SMTP id i3so197406wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 15:28:42 -0700 (PDT)
+	Tue, 21 May 2019 15:31:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=0W29VGW1gy1m0YdiYy+6BT/4+6NOa8eR95FghLDZghw=;
-	b=aAZ6xgjWpuF6eM5uMNc8KebUhSik3/Xk3SAaN3183Kea3DikXuLizGAWuP1cNDh1Oc
-	UYPIEUGfNGdN6IbbyOcszUjyqanZ536ZyryGu0DVeZJ6aUb827o9tfd4J7CxzmoQxLXI
-	/1cLzkI7uaVbQH7HpwfVt9kBRBDBOqhbI9R6k=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=no8XGxoJfWCEf1OwmCamdd8A72KvbtpzN+EN0K0jGiQ=;
+	b=bN0Ow3fEhC2ZYOFxQvuX+z3/+UqvLfKecm8q7K9+9c6RF8VKJodVSsxlJuYorSlKN+
+	vaVMKMbPFwWf3VgkdJFyj7Uw+w3xUGvVkKKI1PGmANfiyTqgQe5P4ZD4EhFmfM66sHtE
+	7eiqKBGNSCjUJFagRWJRoRgFmhuMYXbzqJW/w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=0W29VGW1gy1m0YdiYy+6BT/4+6NOa8eR95FghLDZghw=;
-	b=gPLHjO1FqUMng20jxExppgiBxJ8DVgPur0+SAfupIn2DiOQC+9vnQ+0pIMzXaQ9IqU
-	ipB0ObElQP450npblTlMKmAE2UcdSCZlvyoVYSsMc/THux4HmwF2sef4i2meDCe/saeL
-	9uOApQNgG+2SeuozvM52Q1l8QV4ivbzBaDS2V4is40qA8UfHI1X4500DQIPI8nGZFgc2
-	TE+1ttznTGvZDDzvRbBzE2/N7hzTnawvePul0+cebcsOdCR9+zv1+ZtpNnOGOBqiv2g6
-	yRST2qGVIL7i/pLMKPpS4STOT4f8fdjvj/9w6CXpccRcuoMtYR8ri3DdZv+EyBPgZ02I
-	f0vw==
-X-Gm-Message-State: APjAAAWHmSY1i7vvhtdUJMcxhYhvgtLOTYV7cjlfo9cIdraQvPeiEJVa
-	rgG4gRCWqsI+AsC3DR19mnG5VAGOWCg=
-X-Google-Smtp-Source: APXvYqymANOuShaG0Jw0E5NWCdM7/8Zfz5CkwB3MjHBXd3/qX9ypQaSFi+T5Mr+E3NvbF4HjyGLJvg==
-X-Received: by 2002:a1c:5f02:: with SMTP id t2mr5214759wmb.19.1558477721860;
-	Tue, 21 May 2019 15:28:41 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=no8XGxoJfWCEf1OwmCamdd8A72KvbtpzN+EN0K0jGiQ=;
+	b=oVnKinPP1Jyfsa3ugPbR3ODxfPJwWMtS6v1b9l0g2NrHeOk/RKu4dAzgf9bPcme8ZT
+	2EzuCCcRrDgxlM+yKcnQMRvuePoMzBHM3nRtyj/Tdctn8ukdGXh9CaxZ3DTVoQd7qT+t
+	1KWkexdj9jp1ML3cXpdC71ZCz9pKOCbCnyTsCqXfA+wD0wew/d4/FEGtWEZQVY+48U9T
+	BW0EEpfvldkdivhnd6kAqIEw5NBveHSbpLzyZLJ5y+oUBj1/9betwpOqzY5MJuaXpAyU
+	TS68YGXHmuPFi8VWLnv/oyUxd344Eitb9V5wUW8G6sVA1l9J2k0Z+2W+I9+hcRdA6zB0
+	Hb8Q==
+X-Gm-Message-State: APjAAAUSckgUzwj18b20WSGHgz9aBTMCs7vOAK6lUZwW2cxP7DqRXdnn
+	v+nHaz1YFXuKKPT9Mhm3eednIaw81s8=
+X-Google-Smtp-Source: APXvYqwIxRnaHuy1D5+KRdLjzmRiMPxFZAKo2IEv4VWS3th6czQc/NYVDTJS8ikKur9Dsflx4cQTGA==
+X-Received: by 2002:a1c:e386:: with SMTP id a128mr5089117wmh.69.1558477916436; 
+	Tue, 21 May 2019 15:31:56 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	z74sm5585446wmc.2.2019.05.21.15.28.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 15:28:41 -0700 (PDT)
+	k184sm10147410wmk.0.2019.05.21.15.31.55
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 May 2019 15:31:55 -0700 (PDT)
+Message-ID: <090bebe4dfd6ba60188c0476aea5469787a94822.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 23:28:35 +0100
-Message-Id: <20190521222835.23928-6-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190521222835.23928-1-richard.purdie@linuxfoundation.org>
-References: <20190521222835.23928-1-richard.purdie@linuxfoundation.org>
+To: Randy MacLeod <randy.macleod@windriver.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, "Li, Changqing"
+	<changqing.li@windriver.com>, Sakib Sajal <sakib.sajal@windriver.com>
+Date: Tue, 21 May 2019 23:31:54 +0100
+In-Reply-To: <7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
+References: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
+	<6ed430aa3e5e722cd75b1798cacab3f92eb71b71.camel@linuxfoundation.org>
+	<2b4e8d0f-cbb9-d2e4-c17d-33950d3cf9df@windriver.com>
+	<7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: [PATCH 6/6] perl/modules: Add various missing ptest perl module dependencies
+Subject: Re: ptest with BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,124 +62,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 22:28:41 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 21 May 2019 22:31:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Whilst not complete, this resolves some module dependency failures being seen
-by various lib*-perl ptests and in quilt.
+On Thu, 2019-05-16 at 23:28 +0100, richard.purdie@linuxfoundation.org
+wrote:
+> Just to update from my perspective:
+> 
+> quilt and lib*-perl all look like missing perl module dependencies.
+> The place those dependencies are missing may be for the ptest or may
+> be the actual PN package itself, depending on where the module
+> dependency is.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt | 5 +++++
- meta/recipes-devtools/perl/liburi-perl_1.74.bb            | 2 +-
- meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb     | 2 ++
- meta/recipes-devtools/perl/libxml-perl_0.08.bb            | 1 +
- meta/recipes-extended/perl/libtimedate-perl_2.30.bb       | 1 +
- meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb   | 2 ++
- meta/recipes-extended/perl/libxml-sax-perl_1.00.bb        | 2 ++
- 7 files changed, 14 insertions(+), 1 deletion(-)
+I've sent out a further patch series which resolves some of the issues.
+Some quilt tests now pass, some still fail. The perl modules fail in
+different ways to before, there are clearly more missing dependencies
+to be added.
 
-diff --git a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
-index 362d317da7d..3efc3f7b34b 100644
---- a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
-+++ b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
-@@ -1484,6 +1484,7 @@ RDEPENDS_perl-module-overloading += "perl-module-overload-numbers"
- RDEPENDS_perl-module-overloading += "perl-module-warnings"
- RDEPENDS_perl-module-overload += "perl-module-mro"
- RDEPENDS_perl-module-overload += "perl-module-warnings-register"
-+RDEPENDS_perl-module-overload += "perl-module-overloading"
- RDEPENDS_perl-module-params-check += "perl-module-exporter"
- RDEPENDS_perl-module-params-check += "perl-module-locale-maketext-simple"
- RDEPENDS_perl-module-params-check += "perl-module-strict"
-@@ -1968,10 +1969,13 @@ RDEPENDS_perl-module-test-builder-module += "perl-module-exporter"
- RDEPENDS_perl-module-test-builder-module += "perl-module-strict"
- RDEPENDS_perl-module-test-builder-module += "perl-module-test-builder"
- RDEPENDS_perl-module-test-builder += "perl-module-data-dumper"
-+RDEPENDS_perl-module-test-builder += "perl-module-list-util"
- RDEPENDS_perl-module-test-builder += "perl-module-overload"
- RDEPENDS_perl-module-test-builder += "perl-module-strict"
-+RDEPENDS_perl-module-test-builder += "perl-module-scalar-util"
- RDEPENDS_perl-module-test-builder += "perl-module-test-builder-formatter"
- RDEPENDS_perl-module-test-builder += "perl-module-test-builder-tododiag"
-+RDEPENDS_perl-module-test-builder += "perl-module-test2-util"
- RDEPENDS_perl-module-test-builder += "perl-module-warnings"
- RDEPENDS_perl-module-test-builder-tester-color += "perl-module-strict"
- RDEPENDS_perl-module-test-builder-tester-color += "perl-module-test-builder-tester"
-@@ -2961,6 +2965,7 @@ RDEPENDS_perl-module-file-temp += "perl-module-io-seekable"
- RDEPENDS_perl-module-file-temp += "perl-module-overload"
- RDEPENDS_perl-module-file-temp += "perl-module-parent"
- RDEPENDS_perl-module-file-temp += "perl-module-posix"
-+RDEPENDS_perl-module-file-temp += "perl-module-file-spec"
- RDEPENDS_perl-module-file-temp += "perl-module-strict"
- RDEPENDS_perl-module-file-temp += "perl-module-vars"
- RDEPENDS_perl-module-filter-simple += "perl-module-filter-util-call"
-diff --git a/meta/recipes-devtools/perl/liburi-perl_1.74.bb b/meta/recipes-devtools/perl/liburi-perl_1.74.bb
-index a7cfa0fbe3c..fea4d2490e4 100644
---- a/meta/recipes-devtools/perl/liburi-perl_1.74.bb
-+++ b/meta/recipes-devtools/perl/liburi-perl_1.74.bb
-@@ -33,6 +33,6 @@ do_install_prepend() {
- 	rm -rf ${B}/t/file.t
- }
- 
--RDEPENDS_${PN}-ptest += "libtest-needs-perl"
-+RDEPENDS_${PN}-ptest += "libtest-needs-perl perl-module-test-more"
- 
- BBCLASSEXTEND = "native"
-diff --git a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-index 95af4d1de65..4cfd28a9dad 100644
---- a/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-+++ b/meta/recipes-devtools/perl/libxml-parser-perl_2.44.bb
-@@ -50,4 +50,6 @@ do_install_ptest() {
- 	chown -R root:root ${D}${PTEST_PATH}/samples
- }
- 
-+RDEPENDS_${PN}-ptest += "perl-module-test-more"
-+
- BBCLASSEXTEND="native nativesdk"
-diff --git a/meta/recipes-devtools/perl/libxml-perl_0.08.bb b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
-index 0f6099868a7..a2eee9aa6e4 100644
---- a/meta/recipes-devtools/perl/libxml-perl_0.08.bb
-+++ b/meta/recipes-devtools/perl/libxml-perl_0.08.bb
-@@ -26,3 +26,4 @@ do_compile() {
- 	cpan_do_compile
- }
- 
-+RDEPENDS_${PN}-ptest += "libxml-parser-perl"
-diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-index 8e1461ceb9b..7129c647cb3 100644
---- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-+++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-@@ -15,6 +15,7 @@ BBCLASSEXTEND = "native"
- 
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN} += "perl-module-carp perl-module-exporter perl-module-strict perl-module-time-local"
-+RDEPENDS_${PN}-ptest += "perl-module-test-more"
- 
- SRC_URI[md5sum] = "b1d91153ac971347aee84292ed886c1c"
- SRC_URI[sha256sum] = "75bd254871cb5853a6aa0403ac0be270cdd75c9d1b6639f18ecba63c15298e86"
-diff --git a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
-index 373b522d6ac..2bff65a082d 100644
---- a/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
-+++ b/meta/recipes-extended/perl/libxml-sax-base-perl_1.09.bb
-@@ -21,4 +21,6 @@ S = "${WORKDIR}/XML-SAX-Base-${PV}"
- 
- inherit cpan ptest-perl
- 
-+RDEPENDS_${PN}-ptest += "perl-module-test perl-module-test-more"
-+
- BBCLASSEXTEND = "native nativesdk"
-diff --git a/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb b/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
-index eccd0ad6b4b..fd3a2a0ee70 100644
---- a/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
-+++ b/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
-@@ -29,4 +29,6 @@ do_install_ptest() {
- 	chown -R root:root ${D}${PTEST_PATH}/testfiles
- }
- 
-+RDEPENDS_${PN}-ptest += "perl-module-test"
-+
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.20.1
+A quick summary of roughly the recipes still with problems (not 100%
+accurately filtered):
+
+==============================================================================================================
+PTest Result Summary
+==============================================================================================================
+--------------------------------------------------------------------------------------------------------------
+Recipe                       | Passed      | Failed    | Skipped   | Time(s)   
+--------------------------------------------------------------------------------------------------------------
+bash                         | 41          | 3         | 0         | 107 T
+bluez5                       | 23          | 2         | 0         | 5
+dbus-test                    | 0           | 0         | 0         | 91 T
+diffutils                    | 19          | 0         | 2         | 1
+e2fsprogs                    | 0           | 0         | 0         | 108 T
+elfutils                     | 172         | 24        | 7         | 19
+gettext                      | 354         | 21        | 37        | 33
+glib-2.0                     | 245         | 0         | 0         | 367
+gstreamer1.0                 | 103         | 1         | 0         | 103
+gzip                         | 19          | 0         | 3         | 3
+kbd                          | 5           | 2         | 0         | 0
+libconvert-asn1-perl         | 0           | 22        | 0         | 0
+liberror-perl                | 2           | 13        | 0         | 0
+libpcre                      | 3           | 0         | 0         | 2
+libtest-needs-perl           | 0           | 2         | 0         | 0
+libtimedate-perl             | 3           | 2         | 0         | 0
+liburi-perl                  | 0           | 39        | 2         | 0
+libxml-namespacesupport-perl | 0           | 1         | 0         | 0
+libxml-parser-perl           | 0           | 15        | 0         | 0
+libxml-perl                  | 0           | 6         | 0         | 0
+libxml-sax-base-perl         | 2           | 17        | 0         | 1
+libxml-sax-perl              | 0           | 14        | 0         | 0
+libxml-simple-perl           | 0           | 14        | 0         | 0
+lttng-tools                  | 3397        | 626       | 1         | 350 T
+m4                           | 144         | 8         | 18        | 5
+nettle                       | 97          | 0         | 2         | 8
+openssh                      | 15          | 1         | 1         | 138
+openssl                      | 146         | 1         | 8         | 87
+opkg                         | 0           | 0         | 0         | 9
+parted                       | 41          | 1         | 22        | 4
+perl                         | 2423        | 19        | 238       | 727
+python                       | 301         | 6         | 41        | 325
+python3                      | 30277       | 2         | 1043      | 1005
+quilt                        | 10          | 47        | 0         | 24
+tcl                          | 149         | 0         | 0         | 177
+valgrind                     | 149         | 1         | 9         | 552
+--------------------------------------------------------------------------------------------------------------
+
+Cheers,
+
+Richard
 
 
