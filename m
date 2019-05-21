@@ -1,52 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2546C7E207
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id D21A87E271
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 16:41:56 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id d9so6436349wrx.0
+	Tue, 21 May 2019 17:26:16 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id y22so21404834qtn.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 09:41:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=TVN4TF7pe94+s9tB8iIGyOARxqsQGxZU4pjo+kHuBvk=;
-	b=b6CNIyp9pkytALAYD72MvV0DUiP2KNR+eB4RY6MXJapRWiFj+WoN13lRRrQ4CyyXaa
-	M7XlfkSOZ6nXt8crMC4vdL9wEB60XRW87eH2fflkE46InhKVb8dn4qZhtB1okn3COdAY
-	ZBpQVptDR1gDVB87XjsocCWG+54pKlNU3EFl4=
+	Tue, 21 May 2019 10:26:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=OwbCU52rfmPWKVA9ss1UJS06vD90uYcq2HK2wCmzl4c=;
+	b=qNkXTSCuaha/A4W2H0be22Rk1LSB+etrNj3MDfO4z8UVchCK5zbOVvyZOEfGsSw2gZ
+	QsEZ4VRh6jBL72+XiQKu35QJIldRJpXB6Jfz7R4cAxfwQWEtvWKStAP5oMEDOU8VRCAl
+	3oWf2Lc6NCFLwo34GybRTTD+PFIAgoP8/w8TV+GTQkCHi0FbJE+06pKeuCc1TO55NrhZ
+	mJbFSPTD85Kib4m6L7lfAf432XUzZQ+Jib4PwDzwxRonIdbscV5lFtRTjKLu34LatVBy
+	vPBy74/g+dZQo4mVa4wpCL9qcIjxL+jtUqzNnJmLMB3u2DO6T4Fv9GV2Ypvs7vx1nUhJ
+	6org==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=TVN4TF7pe94+s9tB8iIGyOARxqsQGxZU4pjo+kHuBvk=;
-	b=t+lb1wT4TFjecz2Tqt2KZSwiJfDiVSffMJqTQzAeN8wK5FAwKmmYsQl6DZsy1AeUOA
-	lREp2kEjOk13aLl+0Cm6oc/HRlcGd0rMrdi45gkeemcxdX5/I10MRKNyTdXD9KvYWtbV
-	yjYCi7y7z+uIZ3eNYwu6foXY13gLIJZFBalVFH+lk3Z26ewobi+OEcxKlRdEfv4wbSQl
-	mT+TN87lIGHK7CxlwezNPOmNPfDH4WR4ZnLuGO6XphSGqIHTXzVgq+VX63QukkUbZfs/
-	ZH5P14x25bs4Uj2BUnSfpwRRyuSpQEhq2eP1M4+hZePPvQqDevj5qUrocWa83Os27Aab
-	KygA==
-X-Gm-Message-State: APjAAAUmVKN/GNqC6Adc5B3s68ak6QrTxACR5WB1tSRangHPthOamXkG
-	aGfaBiUi0wbASAdwc2L6PolS/Q==
-X-Google-Smtp-Source: APXvYqzVUGb1mURzxoz1Azr+NS5iLL7AEdVu6CfQbSvP1vVVRwqxyZgFmo2Jr8s6JuczJghbnxN63w==
-X-Received: by 2002:adf:f250:: with SMTP id b16mr19120354wrp.24.1558456917713; 
-	Tue, 21 May 2019 09:41:57 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j28sm38277907wrd.64.2019.05.21.09.41.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 09:41:57 -0700 (PDT)
-Message-ID: <03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andreas =?ISO-8859-1?Q?M=FCller?= <schnitzeltony@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 17:41:56 +0100
-In-Reply-To: <20190521090032.14859-2-schnitzeltony@gmail.com>
-References: <20190521090032.14859-1-schnitzeltony@gmail.com>
-	<20190521090032.14859-2-schnitzeltony@gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=OwbCU52rfmPWKVA9ss1UJS06vD90uYcq2HK2wCmzl4c=;
+	b=X4U4rIaR/cjPGOYCbhmG1bmYxM/PXSQ0WJKB0Web0a0nWRsU0RsiAnppj4CU7BZu1g
+	rtaWS0lxrmyklEXB2idkwlj1FGKMF1vqJ0AueAXPjNtK96c5ZHUOaG+9sSHj0oouJ79z
+	y91/TNeSy/qceOreCqGkZG0/FJutAjDhCMzFRqyW/aOjo4pNiX7uNF5S9da3whtpiph9
+	k3DB+xdnGYGBRxZr3fyuWXruuN0iJvL0z2/lqnistn6U2e4atKz++nSk6HkwmWt5CpFy
+	LbxxSvSWqj7vypj7rukqGZA7WK4NDQQgSyI1LCaelj1ElfoUPBpironv80s1YMBSAFMk
+	xAnA==
+X-Gm-Message-State: APjAAAXvt9qm0LXo6beWI2dSbM/vBaN3tk5+8LxwhhhevBGTZ58GWVm7
+	SThKqwYafq8wI4+ZiJLUQyIHyGnx0NydpJOqR1Q=
+X-Google-Smtp-Source: APXvYqxlAlxMZE0mig2pLt9bL1pS2ptByOOotWvfSNsMADaVisb1FEZSPo8Xrg2+w0Cm66gsVKuHKr7oabXTdjPX6hY=
+X-Received: by 2002:a0c:b09a:: with SMTP id o26mr66154837qvc.68.1558459577354; 
+	Tue, 21 May 2019 10:26:17 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] python-six: put python2/3 variant together
+References: <20190516114914.12427-1-richard.purdie@linuxfoundation.org>
+	<20190516114914.12427-2-richard.purdie@linuxfoundation.org>
+	<4744125d-7cce-3325-414b-f05c5fe01a52@gmail.com>
+	<8fdfdc3ba62711c9c3e6e391c8444e18d22e93b0.camel@linuxfoundation.org>
+In-Reply-To: <8fdfdc3ba62711c9c3e6e391c8444e18d22e93b0.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 21 May 2019 10:25:51 -0700
+Message-ID: <CAMKF1sqPXU0V=+t0-kfcoF6uLPDm8tDOgRd2xSc6a3wbvjt4PA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] apr/apr-util: Add ptest dependency on libgcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 16:41:57 -0000
+X-List-Received-Date: Tue, 21 May 2019 17:26:17 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Tue, 2019-05-21 at 11:00 +0200, Andreas Müller wrote:
-> Upcoming 60.2.3 mozjs (meta-oe) requires python(2)-six-native for its
-> configuration. Currently python(2)-six lives in meta-python and it
-> could be
-> moved to mozjs's home meta-oe but that would be just further clutter.
-> 
-> Once applied here patch to meta-python will be send.
-> 
-> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-> ---
->  meta/recipes-devtools/python/python-six_1.12.0.bb | 2 ++
->  1 file changed, 2 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python-six_1.12.0.bb
-> 
-> diff --git a/meta/recipes-devtools/python/python-six_1.12.0.bb
-> b/meta/recipes-devtools/python/python-six_1.12.0.bb
-> new file mode 100644
-> index 0000000000..9075745d74
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python-six_1.12.0.bb
-> @@ -0,0 +1,2 @@
-> +inherit pypi setuptools
-> +require python-six.inc
+On Tue, May 21, 2019 at 5:29 AM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Mon, 2019-05-20 at 11:43 -0700, Khem Raj wrote:
+> >
+> > On 5/16/19 4:49 AM, Richard Purdie wrote:
+> > > Avoid:
+> > >
+> > > libgcc_s.so.1 must be installed for pthread_cancel to work
+> > >
+> > > when running the ptest without libgcc.
+> > >
+> >
+> > this is interesting, do we get this error explicitly from running
+> > some
+> > tests ?
+> >
+> > I wonder why libgcc is not detected during rdep calculation time.
+>
+> pthread_cancel doesn't directly link to anything in libgcc so there
+> isn't a dependency for the rdep calculations to find.
+>
+> Ross has a work in progress where we'd notice binaries using
+> pthread_cancel and automatically add a libgcc dependency but its not
+> ready yet.
+>
 
-Can it not use python3? Python2 is rapidly running out of time at this
-point and I'd not expect new dependencies on python2 to be appearing...
+are we running into this case
+https://bugs.launchpad.net/ubuntu/+source/gcc-3.3/+bug/40285/comments/30
 
-Cheers,
-
-Richard
-
+> Cheers,
+>
+> Richard
+>
 
