@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
 Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
 	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2FB737E094
+	by mail.openembedded.org (Postfix) with ESMTP id DA1867E106
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 21 May 2019 01:43:28 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id f97so7573748plb.5
+Received: by mail-pl1-f195.google.com with SMTP id y3so7609165plp.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 18:43:29 -0700 (PDT)
+	Mon, 20 May 2019 18:43:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=c7FbYcn7+UL73B2gCD4/NEB5CQtcFAeRALx3g6Loq94=;
-	b=ekieQO6zVs2iiFb9C0KH1JOrUSqwjA3VR/4Etpc5Ze2YAVK2nyQH6A47HjmOT4gCXd
-	tStgsAm3O9k7tEkgmHpAqxYoNv5vCsdNqUswK4ROHpUQOyj+K0mS+tZU2W3S+OYV11TZ
-	F7A98+KglqbDr7euND/zgy4RabBlWI+afg5SrgALaiVtRzITzKzXBUl43PomDzbyhCdf
-	Rqryjgk9mWTVik2e8R08Z6RPRcueaOaRHGJrFDEN/xiEFYAWFi0wqQ3dwqfsehOugRrT
-	0BYnpo6K08aVhL1/LqzoSoy0xVk+Ozqhm5mjkAplOk+pP8R64V678l2PEVDaEvMTANzS
-	SCrA==
+	bh=fr2d/sPQB/XuxpwSFSDFbPtebD0MOa3P/PD14KGrmc8=;
+	b=R3238ZGwstm7kaSjv4FoOgxGWTwc4nETjSy8p6mM69SQPwu1bhzxcG45X4yzWgKjB0
+	on2upVjpOx4kNaYxPJVpKMV4hCTyjqCKxJmlXpOvgfW9LG0skHeeHwVMluZ3Z5quSIpk
+	QoqRmIVQmU8ZaBSgBWd1SkBlRB/aAYvNlwXwigPaOESYc6SLC+QOIxLIU1w+PizqlGL+
+	BmGWQjIIgF6wyaECHeEBc1R4FSaGIUlwGlDMrXMzaOgS+GyK2JHQbsCC8+KQMTZYArgK
+	4v/z5os4SvPeMykRznGPTdgn0X1hTbhJfIBrg3cTWHsk9mw8bGJLAb5mTnYK6M4obAZB
+	TlVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=c7FbYcn7+UL73B2gCD4/NEB5CQtcFAeRALx3g6Loq94=;
-	b=RrsMl4x8DpdJHESI7i15z+3v9Od0Z4iNsC+ORb4KvqwM9NxKuuKaUUauMKrf4dlAuH
-	1Ry9s2DQN7+ArN7dZHmbXx9E9Ip2Y9VJqsZMrfPCGX+XZyKZ83ZqZEfVTBi2mCgnvgx1
-	D9jYW8sKo7m/g7wadym1aCfkrqEYFgq4r7NTWfL1cOqZpzy27YDn3Tbvyi+guytCavpl
-	4dqTkovxwOmgn7kAo9LbLW9SF0EV6u7mZsBtcFjibmqz3+ZTAM/+vI4F6q7e6BUQhXDv
-	sG6dAwdJ/SCX9RQECGZcFOqVCzqExqj6FyuA7rEJ+acfb3RY2/7N/m6X6XNH0xPY8a3z
-	aCrw==
-X-Gm-Message-State: APjAAAXuntGVl6O0YS3ALN5W1DEAru97+LdbSex1TZLh5R4dycI15ose
-	F487pLMwtCjRMNLrwTOic5+7bYqv
-X-Google-Smtp-Source: APXvYqxfFgdD/onEoWby04Zfd3zuRaenMU2n5JqUClvNb9dxPfi/vT8xvg5p1D/aCkMzQYOAMHx+CA==
-X-Received: by 2002:a17:902:b581:: with SMTP id
-	a1mr78121291pls.206.1558403009324; 
-	Mon, 20 May 2019 18:43:29 -0700 (PDT)
+	bh=fr2d/sPQB/XuxpwSFSDFbPtebD0MOa3P/PD14KGrmc8=;
+	b=JdDIEhtR3aBl8l718UXY/GzKzaex3cRsnNch8gukY+4OuDvN+X2tbsHsWPA7LQwqBS
+	V5ikneCN1ol0SajaPGJSzQg7Xmn3jWCQ80py5ZeIyR5x9NtBmAgt9jQuiCME0KSLIyns
+	xIgb6RrSxdrL+OAA+dyyGE8u4r9vDnMG2aesTSj5jPy0fKKscAyRwR+WSpBXjdiM1fpu
+	faGnUaMr5dF/Lfyf6iK8TaIq7mtFoVT4tdJx1wsF5n2cjIrTbUpAJvdp7lE2de2sI0iQ
+	vseJAq0MxOJIwOIYpjxJui/mgjH1bqEeUY7OM+jH4nTp/dmj0Z20b9GAobQFsGcZtoka
+	UVBw==
+X-Gm-Message-State: APjAAAXXx0gHq5uZGJJOlE10kvWycJtG7NO7XUT3pKmOqOz28mD2xyQd
+	4+zlFqzXcAJM+PrtLbMuPD0gIzB0
+X-Google-Smtp-Source: APXvYqzeRkSi/W0U0EuAr4/ddlYywgFDpGfT/ibTtEvs5vq4tZbVqa2XBQrTKIQqd1N6WP7+d9IoTA==
+X-Received: by 2002:a17:902:22:: with SMTP id 31mr79584520pla.15.1558403010030;
+	Mon, 20 May 2019 18:43:30 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:503:adbf:6ea3:61d2])
 	by smtp.gmail.com with ESMTPSA id
-	q5sm23079547pfb.51.2019.05.20.18.43.28
+	q5sm23079547pfb.51.2019.05.20.18.43.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 20 May 2019 18:43:28 -0700 (PDT)
+	Mon, 20 May 2019 18:43:29 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 18:43:11 -0700
-Message-Id: <b876f5b6154ba2773e3ab717556e7e1a6f083b74.1558402534.git.akuster808@gmail.com>
+Date: Mon, 20 May 2019 18:43:12 -0700
+Message-Id: <49ce92883d3e67c2da434666df6d69d3a0943689.1558402534.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1558402534.git.akuster808@gmail.com>
 References: <cover.1558402534.git.akuster808@gmail.com>
-Subject: [PATCH 09/15] oeqa/target/ssh: Replace suggogatepass with ignoring errors
+Subject: [PATCH 10/15] oeqa/targetcontrol.py: fix qemuparams not work in runqemu with launch_cmd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,43 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 01:43:28 -0000
+X-List-Received-Date: Tue, 21 May 2019 01:43:29 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-We continued to see encoding problems with ssh commands run in oeqa. After much
-research the conclusion was we should use ignore the errors since some occasional bad
-locale encoding is better than the unicode decoding issues we were seeing which crashed
-large parts of tests.
+As runqemu with launch_cmd means directly run the command, don't need set
+rootfs or env vars.
 
+Since commit [a847dd7202 runqemu: Let qemuparams override default settings]
+applied in oe-core, if launch_cmd contains "qemuparams='***'", it does not
+work, which is overridden by latter qemuparams="-serial tcp:127.0.0.1" in
+QemuRunner.launch();
+
+So we set qemuparams as a parameter in runqemu, the fix makes it work
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/core/target/ssh.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/targetcontrol.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
-index 2adbb30..0c09ddf 100644
---- a/meta/lib/oeqa/core/target/ssh.py
-+++ b/meta/lib/oeqa/core/target/ssh.py
-@@ -207,7 +207,7 @@ def SSHCall(command, logger, timeout=None, **opts):
-                 logger.debug('time: %s, endtime: %s' % (time.time(), endtime))
-                 try:
-                     if select.select([process.stdout], [], [], 5)[0] != []:
--                        reader = codecs.getreader('utf-8')(process.stdout, 'surrogatepass')
-+                        reader = codecs.getreader('utf-8')(process.stdout, 'ignore')
-                         data = reader.read(1024, 4096)
-                         if not data:
-                             process.stdout.close()
-@@ -234,7 +234,7 @@ def SSHCall(command, logger, timeout=None, **opts):
-                 output += lastline
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 1868ad3..b98b183 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -159,7 +159,7 @@ class QemuTarget(BaseTarget):
  
+     def start(self, params=None, ssh=True, extra_bootparams='', runqemuparams='', launch_cmd='', discard_writes=True):
+         if launch_cmd:
+-            start = self.runner.launch(get_ip=ssh, launch_cmd=launch_cmd)
++            start = self.runner.launch(get_ip=ssh, launch_cmd=launch_cmd, qemuparams=params)
          else:
--            output = process.communicate()[0].decode("utf-8", errors='surrogatepass')
-+            output = process.communicate()[0].decode('utf-8', errors='ignore')
-             logger.debug('Data from SSH call: %s' % output.rstrip())
+             start = self.runner.start(params, get_ip=ssh, extra_bootparams=extra_bootparams, runqemuparams=runqemuparams, discard_writes=discard_writes)
  
-     options = {
 -- 
 2.7.4
 
