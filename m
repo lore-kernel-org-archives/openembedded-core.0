@@ -1,56 +1,52 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com
-	[209.85.221.46])
-	by mail.openembedded.org (Postfix) with ESMTP id 7599C7E259
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id E71FE7E25A
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 12:27:32 +0000 (UTC)
-Received: by mail-wr1-f46.google.com with SMTP id b18so18335315wrq.12
+	Tue, 21 May 2019 12:28:59 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id x64so2790528wmb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 05:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=uFzIgsGUgRfU/lh6DCaUitDrSXnzqX0elIIO/Q4U7DU=;
-	b=jyB10cGgkV7fd6XZUvE3d9FEUhnMr23LiE5je3obcoqyhaMz3LiuWSUlE4MDUrR9Ea
-	9utKPUhRfp7L1n9jc4BD67dRPvyvh3jxZqLzo10BZhWV299ktsA3UEg+94hvfNB08sRM
-	6tAi7SIYLdVjpyh5PRaVtBro/vN+0Z3sAJ1AJYf/B6l6M7sTCvneMiixvEmvpifrTPIy
-	IwEe7Xft/dZq5q0Qz/Myst9fbBnHjB9Yo9rXb3VvY72SUez3rt9/Tv1YMoarFc5tMItw
-	26mf4aHjYlnSMO9RU9VNIBEMF5b5MVSrS77jmmCjKYnJkvPOBM6JUVrPzqSY35xi5VKO
-	J6Fw==
+	Tue, 21 May 2019 05:29:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=uy4lSuEQBauSBld6dW4jX7Wm4hdaPRHUO+hyje237Ak=;
+	b=BkfKF3z1+xJ9sKMyPbn4pMdE+3aBcqoZdPEIZeEuk6VZDzrlICWxGV2a6lp81hZ1Wj
+	u/uli1PnK3S1pNqtF0AkS1/xeZtzd48/dwSMgYv8bhv7eGRK0upjWs2jzmJMGbeIIGeX
+	F9aO4DoUSejNfNxExWsCIwUTfYdie4oLutp90=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=uFzIgsGUgRfU/lh6DCaUitDrSXnzqX0elIIO/Q4U7DU=;
-	b=oqVpI05dQsE3J4/vqFmPId8TcjDqaSnd5XUFmkayOGvxuKkQD4C6Cr1bmS7397jm80
-	9oueNXmpsFD/DSGPu2Eci3XpcMsWUjelDbvpisbh/4RHrrLeWIYza2/lXR2ECIqGmDbc
-	NWCsE+zJgkM3tBZhyW0DyHu+KxZkf+cw3KACoRQvlMMX0nNHgnKGSN4tlOubzfJQhYjK
-	f+mAgDVWnatwpI1jW/H2qYJn0gud7zHH7Miy9ThJR07RzJrkIIbsRX5A/WwLTkqGX/OM
-	XgL9LMR7ANnfkVV8ywARGgCB5dIsWRcx0Qnr0Q1AKb9oprei4vF4wa5QY+txd3ylgOUY
-	ushA==
-X-Gm-Message-State: APjAAAWuetL9YBdEZU9xGq03KWHEoiwrJsObKUi640w0FOhiMx3F6xEL
-	n0PV2sVtSn0ADRZYN9WyI7i09h0l
-X-Google-Smtp-Source: APXvYqyKST9bLKuj9YmMVd5V1eyx8gn0CtmDgZmsgaZoKCYwAGBqaF/lnMj6ZxWKDLUTTtgubiFcKg==
-X-Received: by 2002:adf:8306:: with SMTP id 6mr37292943wrd.155.1558441652891; 
-	Tue, 21 May 2019 05:27:32 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=uy4lSuEQBauSBld6dW4jX7Wm4hdaPRHUO+hyje237Ak=;
+	b=dsILfWXbHdRvEtebTLcaqkRy2StSqHksl0SFdWz+C0oUmz6qxF19OSz0bfK8stRnx8
+	+I7w6WnRX3R2R8AB0pxdBaMWHE85NQ8k7G2RcYUuUqvOKXPyU2oVAeF8psZlEQ2EIKaF
+	RIrWxCREzCcNsU+883VMd5xQuY9tbcieBWNPmSlCS/dM7U90aQzaB9ogX/tcbjDh+Spy
+	xRZu6+Fmbm/eDAq1LDaZlEos99nkAM4Ed9Rj7XPBcx5m+XE+9Cx0+N6QDfj7YPPYrnEe
+	hdEGzEGR60pfDkQrPceqhTFvKLrKK16I+/s9X0+Fm5d7228gPKguRHf/bgl2PyofBNnv
+	yPHQ==
+X-Gm-Message-State: APjAAAXmQag4Rd2w0srYwXu+p2VupnXMNb8fTnV+4/5PyAKnKqlJqOoh
+	5U6uhwuTmmrMfX+yXb+9lf6OxA==
+X-Google-Smtp-Source: APXvYqyZi9koeCtLAgFOIg+TQ1xLowpCbfXrLx6/z/qc6KAfnxJa9OLVm97hYiZ/u2WuH7d5XxPiQQ==
+X-Received: by 2002:a1c:3:: with SMTP id 3mr3442119wma.44.1558441740611;
+	Tue, 21 May 2019 05:29:00 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	h188sm5421963wmf.48.2019.05.21.05.27.31
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 05:27:31 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 21 May 2019 14:27:40 +0200
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Message-ID: <20190521122740.GB23597@jama>
-References: <20190510215500.18914-1-Martin.Jansa@gmail.com>
-	<CA+chaQc=0udH-S+KDne=EEy73aUt1boJX7+2Ah3Q9v048aomMA@mail.gmail.com>
+	j13sm17858059wru.78.2019.05.21.05.28.59
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 21 May 2019 05:29:00 -0700 (PDT)
+Message-ID: <8fdfdc3ba62711c9c3e6e391c8444e18d22e93b0.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Tue, 21 May 2019 13:28:58 +0100
+In-Reply-To: <4744125d-7cce-3325-414b-f05c5fe01a52@gmail.com>
+References: <20190516114914.12427-1-richard.purdie@linuxfoundation.org>
+	<20190516114914.12427-2-richard.purdie@linuxfoundation.org>
+	<4744125d-7cce-3325-414b-f05c5fe01a52@gmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQc=0udH-S+KDne=EEy73aUt1boJX7+2Ah3Q9v048aomMA@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Subject: Re: [PATCH] glib-networking: add PACKAGECONFIG for openssl
+Subject: Re: [PATCH 2/2] apr/apr-util: Add ptest dependency on libgcc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,37 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 12:27:32 -0000
-X-Groupsio-MsgNum: 124786
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="nVMJ2NtxeReIH9PS"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 21 May 2019 12:29:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---nVMJ2NtxeReIH9PS
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Mon, 2019-05-20 at 11:43 -0700, Khem Raj wrote:
+> 
+> On 5/16/19 4:49 AM, Richard Purdie wrote:
+> > Avoid:
+> > 
+> > libgcc_s.so.1 must be installed for pthread_cancel to work
+> > 
+> > when running the ptest without libgcc.
+> > 
+> 
+> this is interesting, do we get this error explicitly from running
+> some 
+> tests ?
+> 
+> I wonder why libgcc is not detected during rdep calculation time.
 
-On Tue, May 14, 2019 at 02:02:10PM +0200, Martin Jansa wrote:
-> Thanks all, I think the discussion made it clear that we shouldn't change
-> the default yet.
->=20
-> Makes it easier for me as I'll need this PACKAGECONFIG backported to
-> warrior as well (and we shouldn't change the default there for sure).
->=20
-> RP: please take this for some next master-next.
+pthread_cancel doesn't directly link to anything in libgcc so there
+isn't a dependency for the rdep calculations to find.
 
-Ping?
+Ross has a work in progress where we'd notice binaries using
+pthread_cancel and automatically add a libgcc dependency but its not
+ready yet.
 
---nVMJ2NtxeReIH9PS
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
+Cheers,
 
------BEGIN PGP SIGNATURE-----
+Richard
 
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXOPuuwAKCRA3VSO3ZXaA
-HHDpAJ94aSypsu00ZFdeYPFQnRf7nlzuOACgr5EcyIaspYBRQ2fB4PNwqxraDT0=
-=k9n1
------END PGP SIGNATURE-----
 
---nVMJ2NtxeReIH9PS--
