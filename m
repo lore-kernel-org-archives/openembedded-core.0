@@ -1,53 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CBF27E075
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 2FB737E094
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 01:43:27 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id d30so7675259pgm.7
+	Tue, 21 May 2019 01:43:28 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id f97so7573748plb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 18:43:28 -0700 (PDT)
+	Mon, 20 May 2019 18:43:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=4nUTIh1NDHCoVIy3g7YHwwq3RBH8vgDz+8vOE/1iElA=;
-	b=inz/LzVLKB1YzGBxE6K0bsRFGIDSyIJfWK+uMMchLsEBoeg7oE/Hxx3mmcE60kthUb
-	jAzLeCJ0ADc7SY0xLEVxba+uBapMejv3JYMtY3/+m4wMJ3EtTyRDiUdi1HRN5/QZNty0
-	d24XhAenGcEfHAlIjbgfa1+XnfT473mIDtM3vr4VDD36Ob8pNEyoQ10Owz0mX00o/7hF
-	qP3aSymTB12WwW+i4gFk7bUtxcze5JsTzRa8Y0PqPZ7SEVGl0b0gOxCnV0j0nzsNoLiW
-	4Ilai2jWpEsL5CxqLih3I4ZTCqGjzLsXyALvd4qm1bb2pFTuZeMwn33RIg4LQ2bMwZZl
-	/78A==
+	bh=c7FbYcn7+UL73B2gCD4/NEB5CQtcFAeRALx3g6Loq94=;
+	b=ekieQO6zVs2iiFb9C0KH1JOrUSqwjA3VR/4Etpc5Ze2YAVK2nyQH6A47HjmOT4gCXd
+	tStgsAm3O9k7tEkgmHpAqxYoNv5vCsdNqUswK4ROHpUQOyj+K0mS+tZU2W3S+OYV11TZ
+	F7A98+KglqbDr7euND/zgy4RabBlWI+afg5SrgALaiVtRzITzKzXBUl43PomDzbyhCdf
+	Rqryjgk9mWTVik2e8R08Z6RPRcueaOaRHGJrFDEN/xiEFYAWFi0wqQ3dwqfsehOugRrT
+	0BYnpo6K08aVhL1/LqzoSoy0xVk+Ozqhm5mjkAplOk+pP8R64V678l2PEVDaEvMTANzS
+	SCrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=4nUTIh1NDHCoVIy3g7YHwwq3RBH8vgDz+8vOE/1iElA=;
-	b=twLtt+WoeMV90N6CbfBSFa/kZZPCZFgkTFH2yaKbQEjZhuNOp5dU1OtaNYZlJ8APWV
-	F/nmwZIIRXhDqJ1RmX5cZjfrwFu5AyXDxAvec1InVqG7LJu/mY1A4VspXfdaEZBeZIpD
-	yAWhEIHxVQFaz56jokHhDLEAn+kElDoMlds9+LiajRXC8MyhTR1GyNT0/RoOQA9wZuYS
-	DNsySpX0k5nsTSfo0igehqZOT9LRyiQy4Iqn0xYXxuaAIwSM2lmDnl4+D3V030jAT7Pp
-	esssEJ+HtKwRFN2XVC4Etp5ECghd66OISOpttkqWsK6O1FH0/4UVXG9F2hOehgzeWmMy
-	qN2w==
-X-Gm-Message-State: APjAAAXV97zT0PUhNBFgYMffU6gsL9fJRJ0K7Pgthwl4vNqfyC7SlpnF
-	/1x7eexY1mGzwyRq15S9xfW8QIqw
-X-Google-Smtp-Source: APXvYqytnJUt8klHVBHH/EXoqatJeZvkJYFhOBjtx1jtyAZf/mQDWh7iYjq2ieHWEysdpjGnhzOWZw==
-X-Received: by 2002:a62:1ec1:: with SMTP id
-	e184mr16984618pfe.185.1558403008522; 
-	Mon, 20 May 2019 18:43:28 -0700 (PDT)
+	bh=c7FbYcn7+UL73B2gCD4/NEB5CQtcFAeRALx3g6Loq94=;
+	b=RrsMl4x8DpdJHESI7i15z+3v9Od0Z4iNsC+ORb4KvqwM9NxKuuKaUUauMKrf4dlAuH
+	1Ry9s2DQN7+ArN7dZHmbXx9E9Ip2Y9VJqsZMrfPCGX+XZyKZ83ZqZEfVTBi2mCgnvgx1
+	D9jYW8sKo7m/g7wadym1aCfkrqEYFgq4r7NTWfL1cOqZpzy27YDn3Tbvyi+guytCavpl
+	4dqTkovxwOmgn7kAo9LbLW9SF0EV6u7mZsBtcFjibmqz3+ZTAM/+vI4F6q7e6BUQhXDv
+	sG6dAwdJ/SCX9RQECGZcFOqVCzqExqj6FyuA7rEJ+acfb3RY2/7N/m6X6XNH0xPY8a3z
+	aCrw==
+X-Gm-Message-State: APjAAAXuntGVl6O0YS3ALN5W1DEAru97+LdbSex1TZLh5R4dycI15ose
+	F487pLMwtCjRMNLrwTOic5+7bYqv
+X-Google-Smtp-Source: APXvYqxfFgdD/onEoWby04Zfd3zuRaenMU2n5JqUClvNb9dxPfi/vT8xvg5p1D/aCkMzQYOAMHx+CA==
+X-Received: by 2002:a17:902:b581:: with SMTP id
+	a1mr78121291pls.206.1558403009324; 
+	Mon, 20 May 2019 18:43:29 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:503:adbf:6ea3:61d2])
 	by smtp.gmail.com with ESMTPSA id
-	q5sm23079547pfb.51.2019.05.20.18.43.27
+	q5sm23079547pfb.51.2019.05.20.18.43.28
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 20 May 2019 18:43:28 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 20 May 2019 18:43:10 -0700
-Message-Id: <48f745041af3a01173dc2ad755cf8538a99028a4.1558402534.git.akuster808@gmail.com>
+Date: Mon, 20 May 2019 18:43:11 -0700
+Message-Id: <b876f5b6154ba2773e3ab717556e7e1a6f083b74.1558402534.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1558402534.git.akuster808@gmail.com>
 References: <cover.1558402534.git.akuster808@gmail.com>
-Subject: [PATCH 08/15] run-postinsts: Fix full execution of scripts at first boot
+Subject: [PATCH 09/15] oeqa/target/ssh: Replace suggogatepass with ignoring errors
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,45 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 01:43:27 -0000
+X-List-Received-Date: Tue, 21 May 2019 01:43:28 -0000
 
-From: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-run-postinsts runs a given set of scripts during the first boot of the
-device, when one of these scripts prints something to stdout (isnt
-daemonized correctly), since stdout is not available at that time,
-the script execution immediately returns with an error (exit_group()),
-this error causes the script to terminate all threads within the process,
-causing undesired behavior since the script might still had to execute
-some other code.
+We continued to see encoding problems with ssh commands run in oeqa. After much
+research the conclusion was we should use ignore the errors since some occasional bad
+locale encoding is better than the unicode decoding issues we were seeing which crashed
+large parts of tests.
 
-Replace eval built-in with (), since () executes in a subshell,
-even if one of the scripts exits, all threads of that process will only
-be within that session, this ensures other scripts meant to be run are
-still run afterwards.
-
-[YOCTO #13266]
-
-Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandr@xilinx.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/core/target/ssh.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-index 95eff04..f84a7e1 100755
---- a/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-+++ b/meta/recipes-devtools/run-postinsts/run-postinsts/run-postinsts
-@@ -67,7 +67,7 @@ exec_postinst_scriptlets() {
- 		echo "Running postinst $i..."
- 		[ "$POSTINST_LOGGING" = "1" ] && eval echo "Running postinst $i..." $append_log
- 		if [ -x $i ]; then
--			eval sh -c $i $append_log
-+			(sh -c $i $append_log)
- 			rm $i
- 		else
- 			echo "ERROR: postinst $i failed."
+diff --git a/meta/lib/oeqa/core/target/ssh.py b/meta/lib/oeqa/core/target/ssh.py
+index 2adbb30..0c09ddf 100644
+--- a/meta/lib/oeqa/core/target/ssh.py
++++ b/meta/lib/oeqa/core/target/ssh.py
+@@ -207,7 +207,7 @@ def SSHCall(command, logger, timeout=None, **opts):
+                 logger.debug('time: %s, endtime: %s' % (time.time(), endtime))
+                 try:
+                     if select.select([process.stdout], [], [], 5)[0] != []:
+-                        reader = codecs.getreader('utf-8')(process.stdout, 'surrogatepass')
++                        reader = codecs.getreader('utf-8')(process.stdout, 'ignore')
+                         data = reader.read(1024, 4096)
+                         if not data:
+                             process.stdout.close()
+@@ -234,7 +234,7 @@ def SSHCall(command, logger, timeout=None, **opts):
+                 output += lastline
+ 
+         else:
+-            output = process.communicate()[0].decode("utf-8", errors='surrogatepass')
++            output = process.communicate()[0].decode('utf-8', errors='ignore')
+             logger.debug('Data from SSH call: %s' % output.rstrip())
+ 
+     options = {
 -- 
 2.7.4
 
