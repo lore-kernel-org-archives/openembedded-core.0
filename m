@@ -1,53 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 974D17E262
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DED5D7E25D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 15:51:41 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id f204so3531371wme.0
+	Tue, 21 May 2019 16:12:04 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id x64so3578055wmb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 08:51:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=jcistXys5iocJiO0PXIHEr8zFYxGrasd7dWyFNX2wAg=;
-	b=Kvc5B5MJFmyqnjsbHnhCWtgk3EQAZdfvVgsZh/8vU9oIP+VR9Z6tDJzrcNZSn9pFK3
-	2t+rUPsybTr3usi6AIPWpa5gwfUlb2gmvdB/YD6gbrPfyyeCmcZZ7yrT0y5yc+BnqAzU
-	BbtpkaddR7MhC7b1vU65cEaVey0FswXwG0mGs=
+	Tue, 21 May 2019 09:12:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=/bUspo3h6RLE1PoWk8Mjucv2zX3RPi1NfQVVSw9WYKk=;
+	b=WCUkqWtHFforp1MYpRUL3wdGakpSDBy46fhQvl6N+vJLnVKenaLQdhzEzQsGRFeqTz
+	0rJBq4DODt5wJtkg3W0Arcr+XfD3MYnUPkhRXe2s1YKI/cX2/+YzFEk/oX+5ekqr1GbS
+	kMzuswIvpL5uGBC9TZ/YskBjjVFUESC1wO1bQQRKiEt7VRhaYtNAaCh+9aBoa4uP1Lg5
+	3jQjTolXrO2SIa91K2UqgzHJJPi0EQR2m7/Uuk21YRor9n+5Av5RKzfDtgRuarfsJkvw
+	xonIJxRtgF6arlnqFg4XA+sKu3vJVbMGktlC2q0bq6qPSDoh1TDbqVd50Yl+V3lR/qJP
+	i71g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=jcistXys5iocJiO0PXIHEr8zFYxGrasd7dWyFNX2wAg=;
-	b=Ry01k0yzpANZvgKkhOMfLPBO8ElbJTdatSvyrkKtxMqP1nx4S+HXtN9nkTrPZqomQb
-	mzyZJJdzrgL9625SJoEvoxNwSBh0nqK/Hc3Gi8mBJszDyWGF/JDkuVZ31PzcO9kePKTP
-	iJ9pjIHT8UP/5QDzPDYr5MmqD+rqIQYOnOmxXJs5/ChOtgNdpMd582nl4/QqVf3UeoBk
-	6myY5Fh65J+4C7t5VRjZQwuTpc0/qAIU86YKzTZ+2TbMx8Jn/nlsFHP+RT5r062D1Zlr
-	oW6gfxEJigkH7gCPqGoYMKZwW46oEuQvGMfeDZiuR+pVEttpQLGy/uTEsQLzyklnx4Pj
-	coKg==
-X-Gm-Message-State: APjAAAVKRKOVAi8JVATaQNxV6KGrKc3upqZff5MW0cFNcxkfJJto7uuB
-	YpkIDgz0eTqP1lu1dVb7/YE5Lw==
-X-Google-Smtp-Source: APXvYqxJt6iGTcv4s4qE1pctTCx6HjHm89K0Nqu4rGUG8B6KsdVbJwdDiW4OHumXQ3QMhiEgz0IH+g==
-X-Received: by 2002:a1c:f102:: with SMTP id p2mr3751808wmh.126.1558453902263; 
-	Tue, 21 May 2019 08:51:42 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/bUspo3h6RLE1PoWk8Mjucv2zX3RPi1NfQVVSw9WYKk=;
+	b=LmnfEnSHhms2Ri+qyGKerFmgKgPU6uMhyIf4yZrVThDSU9JBNbZr6TWuUnhI3/nVcW
+	J9fyBEVQGFm7IVUWClJxRsF0IGTLoturtNbL5BrahfjkIz4tJlBBE9OZBY4A6ysZSP4s
+	8b/db0DwPx8to92xmeHo8YpHWlekAxG4D1WldOvVF3Q8YlR1VtyME4m1OEHpTEBec1KM
+	CNgHLnH/Z/akjl+OH5tZV5eUbjmh9Q+0OcVrp0W9t04CfEVlvaWkf1LQ9Rw1eK8xxDeX
+	L5j002UPf0XQEPp5DepTCnEe/cDXd+3vhVgVCaFPvVSEGcMdKKeTtVnyi87iFGeVJQyn
+	y4WA==
+X-Gm-Message-State: APjAAAXRkWpf8VAaA/ehscTp/+kLTe3CQ+l1nIQFMnzug/F30VxfD7gZ
+	/Hz21tj+uZnmuVG6NRZSyVd+csKG
+X-Google-Smtp-Source: APXvYqxKwAB2HHlGf10UZnzWs7l/GiSN0YIbHq2B3KhS+FU4lgLfnOApJM8FfBMvUH0awWiAJCJXLw==
+X-Received: by 2002:a1c:b743:: with SMTP id h64mr4279642wmf.16.1558455125285; 
+	Tue, 21 May 2019 09:12:05 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	n15sm23814371wru.67.2019.05.21.08.51.40
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 21 May 2019 08:51:41 -0700 (PDT)
-Message-ID: <a98f26e5f0a5cd5eb0cd0949bc739512d7c5b821.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 21 May 2019 16:51:40 +0100
-In-Reply-To: <CAKmqyKNx0ygQ=0+24x3A8K4HjuZo1oWZ+0dtkd1RCZpKSxSx0A@mail.gmail.com>
-References: <20190517235308.4139-1-alistair.francis@wdc.com>
-	<5677817951fee18102345b773c66546f550bb3e6.camel@linuxfoundation.org>
-	<CAKmqyKNx0ygQ=0+24x3A8K4HjuZo1oWZ+0dtkd1RCZpKSxSx0A@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] gdb: Upgrade from 8.2.1 to 8.3
+	j82sm3917055wmj.40.2019.05.21.09.12.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 May 2019 09:12:04 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 May 2019 18:11:58 +0200
+Message-Id: <20190521161158.45329-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] libmodulemd: fix erroneous linking against v2 library when v1 was requested
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,46 +54,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 15:51:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 May 2019 16:12:05 -0000
 
-On Tue, 2019-05-21 at 08:37 -0700, Alistair Francis wrote:
-> On Tue, May 21, 2019 at 12:32 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > 2019-05-20 19:03:42,463 - oe-selftest - INFO -
-> > ===================================================================
-> > ===
-> > 2019-05-20 19:03:42,463 - oe-selftest - INFO - ERROR:
-> > package.PackageTests.test_gdb_hardlink_debug
-> > (subunit.RemotedTestCase)
-> > 2019-05-20 19:03:42,464 - oe-selftest - INFO - --------------------
-> > --------------------------------------------------
-> > 2019-05-20 19:03:42,464 - oe-selftest - INFO -
-> > testtools.testresult.real._StringException: Traceback (most recent
-> > call last):
-> >   File "/home/pokybuild/yocto-worker/oe-selftest-
-> > ubuntu/build/meta/lib/oeqa/selftest/cases/package.py", line 148, in
-> > test_gdb_hardlink_debug
-> >     if not gdbtest(qemu, binary):
-> >   File "/home/pokybuild/yocto-worker/oe-selftest-
-> > ubuntu/build/meta/lib/oeqa/selftest/cases/package.py", line 137, in
-> > gdbtest
-> >     elif re.match("Breakpoint 1.*hello\.c.*4", l):
-> > NameError: name 're' is not defined
-> 
-> Argh! I ran the tests but it must not have trigger the GDB test. I
-> see
-> that you fixed it and pushed it to master, thanks for that.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...xplicitly-specify-the-v1-library-in-.patch | 28 +++++++++++++++++++
+ .../libmodulemd/libmodulemd_git.bb            |  1 +
+ 2 files changed, 29 insertions(+)
+ create mode 100644 meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch
 
-Sorry, I was going to reply that I'd tried the obvious fix and it fixed
-so it merged with the other patches it was tested with. I'd got
-distracted before I'd done that :(
-
-So yes, its sorted now, thanks!
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch b/meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch
+new file mode 100644
+index 00000000000..1568d25f9d8
+--- /dev/null
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd/0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch
+@@ -0,0 +1,28 @@
++From b651551134cf170038b3e01812e3767969506491 Mon Sep 17 00:00:00 2001
++From: Alexander Kanavin <alex.kanavin@gmail.com>
++Date: Tue, 21 May 2019 17:59:26 +0200
++Subject: [PATCH] v1/meson.build: explicitly specify the v1 library in
++ pkgconfig
++
++Otherwise there would be '-lmodulemd' which resolves
++to v2 version if both v2 and v1 are present in the sysroot.
++
++Upstream-Status: Pending
++Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
++---
++ modulemd/v1/meson.build | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/modulemd/v1/meson.build b/modulemd/v1/meson.build
++index 4d54e69..9144ca2 100644
++--- a/modulemd/v1/meson.build
+++++ b/modulemd/v1/meson.build
++@@ -325,7 +325,7 @@ configure_file(
++ )
++ 
++ pkg.generate(
++-    libraries : modulemd_v1_lib,
+++    libraries : '-l:libmodulemd.so.1',
++     subdirs : v1_header_path,
++     version : libmodulemd_v1_version,
++     name : 'modulemd',
+diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+index d7f486868b8..d4ffd281b5f 100644
+--- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
++++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
+@@ -5,6 +5,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=25a3927bff3ee4f5b21bcb0ed3fcd6bb"
+ SRC_URI = "git://github.com/fedora-modularity/libmodulemd;protocol=https \
+            file://0001-spec_tmpl.sh-use-bin-sh-not-usr-bin-sh.patch \
+            file://0002-modulemd-v1-meson.build-do-not-generate-gir-or-gtkdo.patch \
++           file://0001-v1-meson.build-explicitly-specify-the-v1-library-in-.patch \
+            "
+ 
+ PV = "2.4.0"
+-- 
+2.17.1
 
 
