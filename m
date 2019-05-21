@@ -1,49 +1,50 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 67EFD7E26C
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C94F7E273
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 17:37:29 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id d10so11599854qko.4
+	Tue, 21 May 2019 18:00:44 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id m7so14678898ioa.6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 10:37:30 -0700 (PDT)
+	Tue, 21 May 2019 11:00:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=6TR29ZoRo9XP9BUSVa7rY59hmLCpe14kREXwe1AIGKs=;
-	b=sPQBoem9qJExYCO4o8hDbYtAM+/xviwbFc4DlnEQBJyHhtf4oQPoLT4YSTpHlQQfJi
-	Gepr1/qGFPwrIoX7e5sRU5FmnoERCvBESx4B8EPoZLTLQaUIED+MxRiK0gA/y9XOYuxu
-	vlZWFdka/yiZdPaVMg120MwZ04ZaEAlJ52ySd9tPHb9Hqp4X6K9QnJ1YmUM6oF1k0r0H
-	3rdnvoAbWHXUEU2c+CwokML3qCVvV7RJW3VYk9d3LuGWo84Oa4EbUHcoXdQsjitOPsoL
-	9mdCPrpjV6EEiqO05Kf9v0tNP95ySKnN/NfbAyBgZgXpw7UUmwasrcKr5i2R6psRwTKy
-	6BFw==
+	:cc:content-transfer-encoding;
+	bh=7iRCSxkbe4lx2aMALWcK/Kg9+K2qSRjOY20K+Uhv4TM=;
+	b=REVX2c3IPG+24vWYp4HrkuASK60/UFeCwLDDSH95U1KZfDeWPznf3o3X40FM9ZcvWJ
+	D+9nMTHk/shkUFYIcXXIf2YLe7FAVJBXnVMBlVkwsVf6lZ4jHl9rNHFV2ZCAo2OaOn9w
+	zLUXsEgWWAkKksp21xtyj/r0HjRAI4JOVV2ATL4Ji9b3pdd/TfXUJ3SDyEoycPT47Spw
+	TGx3ZGjT/023RAcVRGkJXvJdDfc4MAeSsZubgS354X1XIjq6vqnmjlPtCx9eR2ADSpKt
+	DsMtsNm82zjionJnep8KZtAy3EQbFeIg0GqVNxWqdE9VFtSagzWgZJyWCM3meeEqObKr
+	cxtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=6TR29ZoRo9XP9BUSVa7rY59hmLCpe14kREXwe1AIGKs=;
-	b=XTXajHsszNLrVQGhf4/EyEzuOaGdyEWpNTIXfy15/yfhMu4sxDUTV9v+qVI4RPwWgR
-	j/FJWHHCQzn+KR/zxRm/z+RvRoubbEEnHd0TM6FzQzgBbfumyUi0WxSGfwk47sFl1jJE
-	Q7aNjWS8rvg+swGNVoKL/yXFxdhPRYsmpPs5A/UMUDlDjwEm2HvSFFWmbQFeiJSd9+MB
-	NzuWMuyuvD6Fb2Tth4RbC16K3lm0+h7iqC1HGXLRRnM3z6rNWKz6baxNq4du2LwrQ2IG
-	DQ60rghOP/v47jHTxr8zml/yXoq4oNkUQAfotJ5qwsgqcC7vkM56Z7lc4incxh74igIg
-	k4Qw==
-X-Gm-Message-State: APjAAAVMOUTZM1l37rYGiWYHt2VM+RsZ4o3uD36lxQ0XVuJvnMxe1/di
-	DFJ66hFC31cQmHF5kGSOXfqosYRuEDFXjVdsjII=
-X-Google-Smtp-Source: APXvYqxdcG9+36NyrncCiJapDHqXG8ur5lbrggNEQbFUjcAvyCpWyPygNGKQS5J/cRYm13Wyk45NgYQ/dEIph/dIsRQ=
-X-Received: by 2002:a37:59c7:: with SMTP id n190mr65354693qkb.24.1558460249988;
-	Tue, 21 May 2019 10:37:29 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=7iRCSxkbe4lx2aMALWcK/Kg9+K2qSRjOY20K+Uhv4TM=;
+	b=OnCNnVmc7u0SnUryH5aXoIU3szVMFH2nm1rpyA5CUxyebdXibNqvP3+LFOdLnuf5S/
+	NAbt3uhGItJepqJRY5/ynA3/7a9/ry5BbHIJRydqhmtmAG+r0XCWbMXrC9cCSnrm3i16
+	v4L5eMlcomzSneaBUd3TMXnhgtMF13z9aJzvAz1f6jOb7PcIvsqnAsMI5rxh2NpUFT85
+	3xaU/HgFzBa1JBNJ9CIDqLlyK7RIS8u/+vRcawHn9i3l4Xn77ALpoL8gDVHWEnWXB9L6
+	GQLm9R5wSKza5zXmM2MEZPllND4GIIzzOGMDvCqU2+EVDWPFXoqopZN+IGGJ10ptFTWt
+	05/w==
+X-Gm-Message-State: APjAAAWTzq5D/+kO4csDi2or+1oY1/JpxsRwxxA9CMj+uCz+oUDa+dsa
+	BclyCQlHiRoWn6XscWrV/xztupYSS8ZkXC5+YNA=
+X-Google-Smtp-Source: APXvYqwFJ/JXCR7vHdcm1Pvp5tTuRfFQXmZGVQKT1OJLdRwuaiP1KlMD0SCRINS8BaL9uhRuOKDAhFBF5qKFHc7NFdU=
+X-Received: by 2002:a5d:9a11:: with SMTP id s17mr20867776iol.267.1558461645459;
+	Tue, 21 May 2019 11:00:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190521092249.175461-1-kai.kang@windriver.com>
-	<20190521092249.175461-2-kai.kang@windriver.com>
-In-Reply-To: <20190521092249.175461-2-kai.kang@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 May 2019 10:37:04 -0700
-Message-ID: <CAMKF1srDq6skmDUZqYSE2rYnFQC4DCrdP3Oc4xifOHsSiWbW3A@mail.gmail.com>
-To: Kang Kai <kai.kang@windriver.com>
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
-	Patches and discussions about the oe-core layer
+References: <20190521090032.14859-1-schnitzeltony@gmail.com>
+	<20190521090032.14859-2-schnitzeltony@gmail.com>
+	<03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
+In-Reply-To: <03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 21 May 2019 20:00:34 +0200
+Message-ID: <CALbNGRQjahbkMzBmqFG4QQE4moF-qTFJrDDMzBVUnXBCTwGFMA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2 1/1] systemd-conf: configure wired network with dhcp
+Subject: Re: [PATCH 2/2] python-six: put python2/3 variant together
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,82 +57,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 17:37:29 -0000
+X-List-Received-Date: Tue, 21 May 2019 18:00:44 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-just copy paste from meta-yoe, that has been long working.
+On Tue, May 21, 2019 at 6:41 PM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2019-05-21 at 11:00 +0200, Andreas M=C3=BCller wrote:
+> > Upcoming 60.2.3 mozjs (meta-oe) requires python(2)-six-native for its
+> > configuration. Currently python(2)-six lives in meta-python and it
+> > could be
+> > moved to mozjs's home meta-oe but that would be just further clutter.
+> >
+> > Once applied here patch to meta-python will be send.
+> >
+> > Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> > ---
+> >  meta/recipes-devtools/python/python-six_1.12.0.bb | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >  create mode 100644 meta/recipes-devtools/python/python-six_1.12.0.bb
+> >
+> > diff --git a/meta/recipes-devtools/python/python-six_1.12.0.bb
+> > b/meta/recipes-devtools/python/python-six_1.12.0.bb
+> > new file mode 100644
+> > index 0000000000..9075745d74
+> > --- /dev/null
+> > +++ b/meta/recipes-devtools/python/python-six_1.12.0.bb
+> > @@ -0,0 +1,2 @@
+> > +inherit pypi setuptools
+> > +require python-six.inc
+>
+> Can it not use python3? Python2 is rapidly running out of time at this
+> point and I'd not expect new dependencies on python2 to be appearing...
+>
+> Cheers,
+>
+No sorry mozjs uses old crap in their configurations scripts nobody
+else does (python which) and ask for python2 explicitly.
 
-On Tue, May 21, 2019 at 2:23 AM <kai.kang@windriver.com> wrote:
->
-> From: Kai Kang <kai.kang@windriver.com>
->
-> Add a configure file for systemd.networkd to configure wired network
-> interfaces with dhcp. It works with common network interfaces such eth0
-> and eno1.
->
-> Refer to
-> https://github.com/YoeDistro/meta-yoe/tree/master/recipes-core/systemd
->
-> [YOCTO #13057]
->
-> Signed-off-by: Kai Kang <kai.kang@windriver.com>
-> ---
->  meta/recipes-core/systemd/systemd-conf/dhcp.network | 9 +++++++++
->  meta/recipes-core/systemd/systemd-conf_242.bb       | 5 +++++
->  2 files changed, 14 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd-conf/dhcp.network
->
-> diff --git a/meta/recipes-core/systemd/systemd-conf/dhcp.network b/meta/recipes-core/systemd/systemd-conf/dhcp.network
-> new file mode 100644
-> index 0000000000..253aee9382
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd-conf/dhcp.network
-> @@ -0,0 +1,9 @@
-> +[Match]
-> +Name=en* eth*
-
-I think this is better put
-Name=en*
-Name=eth*
-
-> +
-> +[Network]
-> +DHCP=yes
-> +
-> +[DHCP]
-> +RouteMetric=10
-> +ClientIdentifier=mac
-> diff --git a/meta/recipes-core/systemd/systemd-conf_242.bb b/meta/recipes-core/systemd/systemd-conf_242.bb
-> index 96beea53a7..105ee3ceed 100644
-> --- a/meta/recipes-core/systemd/systemd-conf_242.bb
-> +++ b/meta/recipes-core/systemd/systemd-conf_242.bb
-> @@ -10,12 +10,16 @@ SRC_URI = "\
->      file://logind.conf \
->      file://system.conf \
->      file://system.conf-qemuall \
-> +    file://dhcp.network \
-
-better to call it wired or something
-
->  "
->
->  do_install() {
->         install -D -m0644 ${WORKDIR}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
->         install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
->         install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
-> +       if ${@bb.utils.contains('OVERRIDES', 'qemuall', 'false', 'true', d)}; then
-> +               install -D -m0644 ${WORKDIR}/dhcp.network ${D}${systemd_unitdir}/network/80-dhcp.network
-> +       fi
->  }
->
->  # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
-> @@ -29,4 +33,5 @@ FILES_${PN} = "\
->      ${systemd_unitdir}/journald.conf.d/ \
->      ${systemd_unitdir}/logind.conf.d/ \
->      ${systemd_unitdir}/system.conf.d/ \
-> +    ${systemd_unitdir}/network/ \
->  "
-> --
-> 2.20.0
->
+Andreas
 
