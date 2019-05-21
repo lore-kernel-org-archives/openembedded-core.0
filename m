@@ -1,48 +1,51 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FE7D7E168
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B3C987E182
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 06:44:18 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id z19so19167519qtz.13
+	Tue, 21 May 2019 07:32:25 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id f204so1782244wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 20 May 2019 23:44:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pbRKAN/UyZGm2HLOYz9zz2pbUEY1lH5lhwnr63ZFl6I=;
-	b=XnSaE9A2AVSRh1I5WU5oMRD867f1GyXcNrnVlrd5fpkibi2pifFTVavtB6YMAVjtcz
-	7GGeG3WV7Jp1fmHwYlG07rto3IIqjx6Td8aGv/rqywlSNdbzRuHDNOsnl8JXLlkCD9Y0
-	dr8W9mUSTQVvW3IVtcdJo/qjXTpCptGdvTMF8+nxf+4YNI5VxQYYf3Uaw6tRO3MUbnVT
-	nKMUsa1qRuIVWadAXr+Qhy0b85thfcegjZezSFlVa0olzazTq3mqSUB03IWaqie2pAA5
-	KfIkkG1MDeb4q9ZrR6GID8BdlxYdPieJYw2LFyUXvq9E8HJbqVtuT7UDqmA0U723bsZx
-	gBgA==
+	Tue, 21 May 2019 00:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=FcPiZG8DRM1r7r81P6OSzKK4Suw5ojO/D1pzCTIhYa8=;
+	b=Fitry+nwZ4gLFcduT6kT9TNwkTEUKpWM9Nx4D7Wbc0XGScO3KvO4VJn9uP2f+QR6k1
+	sl1YqAPjNPyPmId6lf+9O7QTkvNEwENZStrj+xUKLkwHhi1ZNV9ajQH9WsjVBEKLzFyf
+	zvIRvtKP3Xp8FLeLTFEcjEjIYuuOm7BWkQelY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pbRKAN/UyZGm2HLOYz9zz2pbUEY1lH5lhwnr63ZFl6I=;
-	b=iwV6VYDaqAg6TMlI2sSLisckuhlBnP3NPHApserAJiiFV+lnUNbJ/3BXCpOphpVUcI
-	ahloIjsnLdjBCZwGqACei1n+S0ijoiFVnQjXyjMljLnn/h9wA3YTRAiYBgJAKB4FuRyp
-	ymGQzQx1CvhWo2FcihzSNaCnUDnIpHwJ19AY5EgD9nKv2cK0cmqDknDN96RlqUrM+Nix
-	FPyHDiaivk+SdNSV83rX6bAIGF3pASj6eA8XMCZBDnGHxn/DJxgWedVFRHDHa3pYk3uI
-	lfTCH/zZ1b6WxzdiJUxNYsJPXH14t2wiAfFWAc1SAfrzq3RoNsa40LqbA92dPuuWPcpt
-	bG6g==
-X-Gm-Message-State: APjAAAXv6LqCVgrOYqWePWm1sMlkmy2Us2ePKsQC6/y5moorQjKN/F99
-	2bv7ZmPSbSGEnzLWYfbna/nUp2NL9gtS2ZVuBGZ2udgVx5Y=
-X-Google-Smtp-Source: APXvYqzK7sfSE5mi1pJsi3Xbeuwa0r/Ecro5tA1u3lb0R2IONYFNiQ8gDhGmF8mYVXq93ImIIspY1iPlk9WvUCOGkAY=
-X-Received: by 2002:a0c:be87:: with SMTP id n7mr26764966qvi.65.1558421059250; 
-	Mon, 20 May 2019 23:44:19 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=FcPiZG8DRM1r7r81P6OSzKK4Suw5ojO/D1pzCTIhYa8=;
+	b=gKxcWK2uzecK9rG9bNPTR21NfBufzkxGN96+LXViaEtiM9l4H1jRGx3bc/tG+wQV8m
+	75iwt7X3AVXgEuB1M+5iz3VbZAyFGFXRNFm71YFwCk/23iCMMXjiBorKvBSbArLGhOl0
+	jYXtvypdNNhjUzEVrAkgOHsulgNeqPiT5+8Q+iyk06dqOlw7C5hBsbRR9n0QwhHCE4IO
+	zQL9agSzs26bo6+Z5x0wGHOsSoAhA9SckyqJwYteLWp1So4+nKxUtRElw+dLF/8uXCO0
+	PTwAX4pMNrK35Oh/Sbq9XTEA8K7wgRXyxzwvcIpLsLufJeKOGHbwCOXhMet7PyJ8+D7I
+	PCfg==
+X-Gm-Message-State: APjAAAXmXp6M4HbhAXmTnsRg1YaSW/ijT9m0S8jpOfymIxmADMnCbwoN
+	2UPsqYHMrM36Uc+d1+KdvcXB8A==
+X-Google-Smtp-Source: APXvYqyFVtryeC/YMtRGvFN4oZgftgFaAQSRlwgdu+2qqV1FwQJmxc0iHeRHmZL/TfG6TTLI21/gvA==
+X-Received: by 2002:a1c:f314:: with SMTP id q20mr2331966wmq.74.1558423946363; 
+	Tue, 21 May 2019 00:32:26 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	h17sm1880350wrq.79.2019.05.21.00.32.25
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 May 2019 00:32:25 -0700 (PDT)
+Message-ID: <5677817951fee18102345b773c66546f550bb3e6.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alistair Francis <alistair.francis@wdc.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 21 May 2019 08:32:24 +0100
+In-Reply-To: <20190517235308.4139-1-alistair.francis@wdc.com>
+References: <20190517235308.4139-1-alistair.francis@wdc.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-References: <1557974500-224120-1-git-send-email-liwei.song@windriver.com>
-	<9ad65fe0-8a88-9413-7f2d-0cc855395721@gmail.com>
-	<5CE360A2.10907@windriver.com>
-In-Reply-To: <5CE360A2.10907@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 20 May 2019 23:43:53 -0700
-Message-ID: <CAMKF1srS9Dh2D+ufQhgNKkEV5zP7=moVe1R83B811bTQHe4A+A@mail.gmail.com>
-To: Liwei Song <liwei.song@windriver.com>
-Cc: oe-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] mdadm: install the systemd service through Makefile
+Subject: Re: [PATCH v2] gdb: Upgrade from 8.2.1 to 8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,77 +58,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 06:44:18 -0000
+X-List-Received-Date: Tue, 21 May 2019 07:32:26 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 20, 2019 at 7:21 PM Liwei Song <liwei.song@windriver.com> wrote:
->
->
->
-> On 05/21/2019 05:18 AM, Khem Raj wrote:
-> >
-> >
-> > On 5/15/19 7:41 PM, Liwei Song wrote:
-> >> The original mdadm service may include variable like BINDIR,
-> >> It should use the real value of it, since the install method
-> >> "install-systemd" in Makefile can easily do such work, so don't
-> >> install it in bb file manually, use "make install-systemd" to
-> >> install all the service of mdadm.
-> >>
-> >> Signed-off-by: Liwei Song <liwei.song@windriver.com>
-> >> ---
-> >>   meta/recipes-extended/mdadm/mdadm_4.1.bb | 10 +++++++---
-> >>   1 file changed, 7 insertions(+), 3 deletions(-)
-> >>
-> >> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> >> index 4168ce4d0cb8..a4b9ef94799f 100644
-> >> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> >> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> >> @@ -55,13 +55,15 @@ do_install() {
-> >>   do_install_append() {
-> >>           install -d ${D}/${sysconfdir}/
-> >>           install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
-> >> -        install -d ${D}/${systemd_unitdir}/system
-> >> -        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir}/system
-> >> -        install -m 644 ${S}/systemd/mdmon@.service ${D}/${systemd_unitdir}/system
-> >>           install -d ${D}/${sysconfdir}/init.d
-> >>           install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
-> >>   }
-> >>   +do_install_append() {
-> >> +        oe_runmake install-systemd DESTDIR=${D}
-> >> +}
-> >
-> > perhaps this should be guarded with systemd being in DISTRO_FEATURES check.
->
-> Hi Khem,
->
-> Do you mean all the service file need to be added to SYSTEMD_SERVICE_${PN} ?
->
+On Fri, 2019-05-17 at 16:53 -0700, Alistair Francis wrote:
+> Bump GDB and change the oeqa selftest expression to allow ptests to
+> pass.
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  meta/conf/distro/include/tcmode-default.inc   |  2 +-
+>  meta/lib/oeqa/selftest/cases/package.py       |  2 +-
+>  .../gdb/{gdb-8.2.1.inc => gdb-8.3.inc}        | 12 +--
+>  .../gdb/gdb-cross-canadian.inc                |  1 -
+>  ...ian_8.2.1.bb => gdb-cross-canadian_8.3.bb} |  0
+>  .../{gdb-cross_8.2.1.bb => gdb-cross_8.3.bb}  |  0
+>  ...1-Fix-build-with-latest-GCC-9.0-tree.patch | 50 ----------
+>  ...h => 0001-gdbserver-ctrl-c-handling.patch} |  0
+>  ...e-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch | 23 ++---
+>  ...-Use-exorted-definitions-of-SIGRTMIN.patch | 16 ++-
+>  ...h64-Fix-the-gdb-build-with-musl-libc.patch | 52 ----------
+>  .../gdb/gdb/CVE-2017-9778.patch               | 99 ---------------
+> ----
+>  .../gdb/{gdb_8.2.1.bb => gdb_8.3.bb}          |  0
+>  13 files changed, 23 insertions(+), 234 deletions(-)
+>  rename meta/recipes-devtools/gdb/{gdb-8.2.1.inc => gdb-8.3.inc}
+> (73%)
+>  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.2.1.bb =>
+> gdb-cross-canadian_8.3.bb} (100%)
+>  rename meta/recipes-devtools/gdb/{gdb-cross_8.2.1.bb => gdb-
+> cross_8.3.bb} (100%)
+>  delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-Fix-build-
+> with-latest-GCC-9.0-tree.patch
+>  rename meta/recipes-devtools/gdb/gdb/{gdbserver-ctrl-c-
+> handling.patch => 0001-gdbserver-ctrl-c-handling.patch} (100%)
+>  delete mode 100644 meta/recipes-devtools/gdb/gdb/0012-AArch64-Fix-
+> the-gdb-build-with-musl-libc.patch
+>  delete mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
+>  rename meta/recipes-devtools/gdb/{gdb_8.2.1.bb => gdb_8.3.bb} (100%)
+> 
+> diff --git a/meta/conf/distro/include/tcmode-default.inc
+> b/meta/conf/distro/include/tcmode-default.inc
+> index 668f31324e..744c6c3247 100644
+> --- a/meta/conf/distro/include/tcmode-default.inc
+> +++ b/meta/conf/distro/include/tcmode-default.inc
+> @@ -21,7 +21,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+>  GCCVERSION ?= "8.%"
+>  SDKGCCVERSION ?= "${GCCVERSION}"
+>  BINUVERSION ?= "2.32%"
+> -GDBVERSION ?= "8.2%"
+> +GDBVERSION ?= "8.3%"
+>  GLIBCVERSION ?= "2.29%"
+>  LINUXLIBCVERSION ?= "5.0%"
+>  QEMUVERSION ?= "4.0%"
+> diff --git a/meta/lib/oeqa/selftest/cases/package.py
+> b/meta/lib/oeqa/selftest/cases/package.py
+> index 7a00753821..aa13a8df76 100644
+> --- a/meta/lib/oeqa/selftest/cases/package.py
+> +++ b/meta/lib/oeqa/selftest/cases/package.py
+> @@ -134,7 +134,7 @@ class PackageTests(OESelftestTestCase):
+>                      return False
+>  
+>                  # Check debugging symbols works correctly
+> -                elif "Breakpoint 1, main () at hello.c:4" in l:
+> +                elif re.match("Breakpoint 1.*hello\.c.*4", l):
+>                      return True
+>  
+>              self.logger.error("GDB result:\n%d: %s", status, output)
 
-I mean to check for systemd in DISTRO_FEATURE like
-if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
-...
-else
-...
-fi
 
-> Thanks,
-> Liwei.
->
->
-> >
-> >> +
-> >> +
-> >>   do_compile_ptest() {
-> >>       oe_runmake test
-> >>   }
-> >> @@ -88,3 +90,5 @@ RRECOMMENDS_${PN}-ptest += " \
-> >>       kernel-module-raid10 \
-> >>       kernel-module-raid456 \
-> >>   "
-> >> +
-> >> +FILES_${PN} += "/lib/systemd/*"
-> >>
-> >
-> >
+2019-05-20 19:03:42,463 - oe-selftest - INFO - ======================================================================
+2019-05-20 19:03:42,463 - oe-selftest - INFO - ERROR: package.PackageTests.test_gdb_hardlink_debug (subunit.RemotedTestCase)
+2019-05-20 19:03:42,464 - oe-selftest - INFO - ----------------------------------------------------------------------
+2019-05-20 19:03:42,464 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/package.py", line 148, in test_gdb_hardlink_debug
+    if not gdbtest(qemu, binary):
+  File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/package.py", line 137, in gdbtest
+    elif re.match("Breakpoint 1.*hello\.c.*4", l):
+NameError: name 're' is not defined
+
+Cheers,
+
+Richard
+
+
 
