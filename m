@@ -1,53 +1,26 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
-	[209.85.128.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 08B097D672
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D72367D674
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 09:00:46 +0000 (UTC)
-Received: by mail-wm1-f50.google.com with SMTP id f204so2091733wme.0
+	Tue, 21 May 2019 09:01:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4L91Yo1010922
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 02:00:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=t11rmxyIrEuR9W25PCdK+vSdCqX7AZlvqUjmV9Eqi4c=;
-	b=VgBEwxeDsMjON2aVQIYvG6jq9Hriwue9j9jmkzO2QLMF5+a9XdKO9Fy9YSKWxLveZv
-	S78pncNsOc/Iw4YY2dn+IdOIT/lvuqkHnXBJHQzx/4ahL3jmCScQen+emVhuO7/NhSnn
-	Fk51jAq5tdRVvu0S1e3oSAXSlf/ldizfK6lV8BsdjrgN5csXlYLL22Pt13Y3Z6/7wRgk
-	SlBZOEtA0kpx0bGhGhm1mnxeH6mA0YxGnHoxSJNqha2/xxWUQ2/dw2uIvcDvvB4L2fTp
-	qB9ayNjWT2jJpoBX+3+MMMxNcsPs2/f9XRRK3JNm+LYi+vyUrIBEvG28OHzaR/jn+V/J
-	QMFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=t11rmxyIrEuR9W25PCdK+vSdCqX7AZlvqUjmV9Eqi4c=;
-	b=AmVsidssYrj9pI/W0pl0dWa8rptMjRC5Bx5/Pli4eUlobWehxUzRCrOYTK7LGBHHsZ
-	bFqcWUFiJ6CPFZax1f/U0ILs5nTiAJfpjIUQSA5gVhkVQSO9fT8JJEY8aoYRjElUkxbm
-	KnrEOGqH1GTemUXzlUVGN/2wNgu4VmIjKUvhzDOVEKk3UUvLRb8iy97973pMXog1FbRl
-	4BpMGpjURKumptVpBY3k7bHTYmD80l41OmVw1cm/HAt/qNcBvKG3kYiMKjjXUbTwDy+1
-	+5ur9MXd9IGg80b4ptFJmYm0fHS6apxwFDFtq7iBTErLS/F9dXvPbz+0SSy810XJyt+E
-	kvZg==
-X-Gm-Message-State: APjAAAWNb8UGdxpizKvd19HDgHy/vp+HlOkdxIfYGrN8M1HlLPWKBWtV
-	5FEtoCwJTCVTs6gItQF5rbV6Q5Cv
-X-Google-Smtp-Source: APXvYqw0lOam1j0cVawe2vbUBVKIrLKyuldwhuCGd/1vKtRSyJPlssDCp5qAn3vFjpzNVrMxlz4goA==
-X-Received: by 2002:a1c:ca01:: with SMTP id a1mr2397399wmg.30.1558429247439;
-	Tue, 21 May 2019 02:00:47 -0700 (PDT)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	f20sm2194838wmh.22.2019.05.21.02.00.46
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 02:00:46 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 11:00:32 +0200
-Message-Id: <20190521090032.14859-2-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190521090032.14859-1-schnitzeltony@gmail.com>
-References: <20190521090032.14859-1-schnitzeltony@gmail.com>
+	Tue, 21 May 2019 02:01:35 -0700 (PDT)
+Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 21 May 2019 02:01:34 -0700
+To: <openembedded-core@lists.openembedded.org>
+References: <1558428555-24836-1-git-send-email-hongxu.jia@windriver.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <ac48b674-4eae-9bda-d9aa-162027c91390@windriver.com>
+Date: Tue, 21 May 2019 17:01:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Subject: [PATCH 2/2] python-six: put python2/3 variant together
+In-Reply-To: <1558428555-24836-1-git-send-email-hongxu.jia@windriver.com>
+Subject: Re: [PATCH] xmlto: set CLEANBROKEN = "1"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,31 +33,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 09:00:47 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 21 May 2019 09:01:34 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Upcoming 60.2.3 mozjs (meta-oe) requires python(2)-six-native for its
-configuration. Currently python(2)-six lives in meta-python and it could be
-moved to mozjs's home meta-oe but that would be just further clutter.
+On 5/21/19 4:49 PM, Hongxu Jia wrote:
+> While rebuilding xmlto or xmlto-native, `make clean' in do_configure
+> will remove man/man1/xmlif.1 which triger failure in do_compile
+>
+> $ bitbake xmlto-native
+> $ bitbake xmlto-native -cconfigure -f
+> $ bitbake xmlto-native -ccompile -f
 
-Once applied here patch to meta-python will be send.
+Clarify two thing someone may ask:
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- meta/recipes-devtools/python/python-six_1.12.0.bb | 2 ++
- 1 file changed, 2 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python-six_1.12.0.bb
+1. The reproduce steps seems a bit weird
 
-diff --git a/meta/recipes-devtools/python/python-six_1.12.0.bb b/meta/recipes-devtools/python/python-six_1.12.0.bb
-new file mode 100644
-index 0000000000..9075745d74
---- /dev/null
-+++ b/meta/recipes-devtools/python/python-six_1.12.0.bb
-@@ -0,0 +1,2 @@
-+inherit pypi setuptools
-+require python-six.inc
--- 
-2.20.1
+It just simplify the problem, the real environment is multiple build
+
+share a common sstate, and the latter one trigger xmlto rebuilt
+
+> ...
+> |FORMAT_DIR=./format /bin/bash ./xmlto -o man/man1 man doc/xmlif.xml
+> |xmlto: tmp-glibc/work/x86_64-linux/xmlto-native/0.0.28-r0/xmlto-0.0.28/
+> doc/xmlif.xml does not validate (status 3)
+> |xmlto: Fix document syntax or use --skip-validation option
+> I/O error : Attempt to load network entity http://www.oasis-open.org/
+> docbook/xml/4.2/docbookx.dtd
+> ...
+
+2. The issue seems upstream problem, why not fix it.
+
+The failure is to regenerate the missing document, I don't think
+
+it worth to take time on it
+
+
+//Hongxu
+
+
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> index df798df..7d27c43 100644
+> --- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> @@ -13,6 +13,8 @@ SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51f
+>   
+>   inherit autotools
+>   
+> +CLEANBROKEN = "1"
+> +
+>   DEPENDS = "libxml2-native"
+>   
+>   RDEPENDS_${PN} = "docbook-xml-dtd4 \
+
 
 
