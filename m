@@ -1,27 +1,31 @@
-Return-Path: <Liwei.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D10BF7E088
+Return-Path: <okaya@kernel.org>
+X-Greylist: delayed 339 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 21 May 2019 02:47:20 UTC
+Received: from mail.kernel.org (mail.kernel.org [198.145.29.99])
+	by mail.openembedded.org (Postfix) with ESMTP id DAF127E07F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 02:21:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4L2LOIM002093
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 20 May 2019 19:21:24 -0700 (PDT)
-Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 20 May 2019 19:21:23 -0700
-Message-ID: <5CE360A2.10907@windriver.com>
-Date: Tue, 21 May 2019 10:21:22 +0800
-From: Liwei Song <liwei.song@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+	Tue, 21 May 2019 02:47:20 +0000 (UTC)
+Received: from
+	sinanubuntu1604.mkjiurmyylmellclgttazegk5f.bx.internal.cloudapp.net
+	(unknown [104.45.139.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by mail.kernel.org (Postfix) with ESMTPSA id ECE2E2173C;
+	Tue, 21 May 2019 02:41:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=default; t=1558406503;
+	bh=czmpvpDsjDrANBFWNZ1M8A8jh69bVDHAF/uEDRRAwIY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QN1osNZKN44mJJ0k9XXaf/n8A0+bnTAqgKHd3I+OuLYPkjHGJiPP5E8NqN9UDx+dS
+	hQrPceqzDMyocax2csPp924MTPIf0VoURPg+pv+ZlNNDrwFsEEYx7znGelH5Lpo7x8
+	L0oGJK4rzo7Ud/SI4q8JoZpjk1lZd4jpJyPid4qA=
+From: Sinan Kaya <okaya@kernel.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 21 May 2019 02:41:36 +0000
+Message-Id: <20190521024136.51351-1-okaya@kernel.org>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-To: Khem Raj <raj.khem@gmail.com>, oe-core
-	<openembedded-core@lists.openembedded.org>
-References: <1557974500-224120-1-git-send-email-liwei.song@windriver.com>
-	<9ad65fe0-8a88-9413-7f2d-0cc855395721@gmail.com>
-In-Reply-To: <9ad65fe0-8a88-9413-7f2d-0cc855395721@gmail.com>
-Subject: Re: [PATCH] mdadm: install the systemd service through Makefile
+Subject: [sumo] [PATCH v1] systemd: Assertion 'fd' failed at ../systemd/src/basic/socket-util.c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,68 +38,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 02:21:25 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 21 May 2019 02:47:21 -0000
+Content-Transfer-Encoding: 8bit
 
+Signed-off-by: Sinan Kaya <okaya@kernel.org>
+---
+ ...ket-util-fix-getpeergroups-assert-fd.patch | 30 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_237.bb      |  1 +
+ 2 files changed, 31 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0036-socket-util-fix-getpeergroups-assert-fd.patch
 
+diff --git a/meta/recipes-core/systemd/systemd/0036-socket-util-fix-getpeergroups-assert-fd.patch b/meta/recipes-core/systemd/systemd/0036-socket-util-fix-getpeergroups-assert-fd.patch
+new file mode 100644
+index 00000000000..af26c2cd44e
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0036-socket-util-fix-getpeergroups-assert-fd.patch
+@@ -0,0 +1,30 @@
++From 7f5128ee70ea66281edc1d3188b1b305662f4fd5 Mon Sep 17 00:00:00 2001
++From: Vito Caputo <vcaputo@pengaru.com>
++Date: Fri, 2 Feb 2018 20:28:21 -0800
++Subject: [PATCH] socket-util: fix getpeergroups() assert(fd)
++
++Don't assert on zero-value fds.
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/pull/8080/commits/e8dbdb02ed8483a359c1e4c2f28fff526f950a82]
++
++Signed-off-by: Sinan Kaya <okaya@kernel.org>
++---
++ src/basic/socket-util.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/basic/socket-util.c b/src/basic/socket-util.c
++index 67aedadd45..39eb2fdea1 100644
++--- a/src/basic/socket-util.c
+++++ b/src/basic/socket-util.c
++@@ -1018,7 +1018,7 @@ int getpeergroups(int fd, gid_t **ret) {
++         socklen_t n = sizeof(gid_t) * 64;
++         _cleanup_free_ gid_t *d = NULL;
++ 
++-        assert(fd);
+++        assert(fd >= 0);
++         assert(ret);
++ 
++         for (;;) {
++-- 
++2.21.0
++
+diff --git a/meta/recipes-core/systemd/systemd_237.bb b/meta/recipes-core/systemd/systemd_237.bb
+index a409b182979..d84c50c713a 100644
+--- a/meta/recipes-core/systemd/systemd_237.bb
++++ b/meta/recipes-core/systemd/systemd_237.bb
+@@ -54,6 +54,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://libmount.patch \
+            file://0034-Fix-format-truncation-compile-failure-by-typecasting.patch \
+            file://0035-Define-glibc-compatible-basename-for-non-glibc-syste.patch \
++           file://0036-socket-util-fix-getpeergroups-assert-fd.patch \
+            "
+ SRC_URI_append_qemuall = " file://0001-core-device.c-Change-the-default-device-timeout-to-2.patch"
+ 
+-- 
+2.21.0
 
-On 05/21/2019 05:18 AM, Khem Raj wrote:
-> 
-> 
-> On 5/15/19 7:41 PM, Liwei Song wrote:
->> The original mdadm service may include variable like BINDIR,
->> It should use the real value of it, since the install method
->> "install-systemd" in Makefile can easily do such work, so don't
->> install it in bb file manually, use "make install-systemd" to
->> install all the service of mdadm.
->>
->> Signed-off-by: Liwei Song <liwei.song@windriver.com>
->> ---
->>   meta/recipes-extended/mdadm/mdadm_4.1.bb | 10 +++++++---
->>   1 file changed, 7 insertions(+), 3 deletions(-)
->>
->> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
->> index 4168ce4d0cb8..a4b9ef94799f 100644
->> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
->> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
->> @@ -55,13 +55,15 @@ do_install() {
->>   do_install_append() {
->>           install -d ${D}/${sysconfdir}/
->>           install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
->> -        install -d ${D}/${systemd_unitdir}/system
->> -        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir}/system
->> -        install -m 644 ${S}/systemd/mdmon@.service ${D}/${systemd_unitdir}/system
->>           install -d ${D}/${sysconfdir}/init.d
->>           install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
->>   }
->>   +do_install_append() {
->> +        oe_runmake install-systemd DESTDIR=${D}
->> +}
-> 
-> perhaps this should be guarded with systemd being in DISTRO_FEATURES check.
-
-Hi Khem,
-
-Do you mean all the service file need to be added to SYSTEMD_SERVICE_${PN} ?
-
-Thanks,
-Liwei.
-
-
-> 
->> +
->> +
->>   do_compile_ptest() {
->>       oe_runmake test
->>   }
->> @@ -88,3 +90,5 @@ RRECOMMENDS_${PN}-ptest += " \
->>       kernel-module-raid10 \
->>       kernel-module-raid456 \
->>   "
->> +
->> +FILES_${PN} += "/lib/systemd/*"
->>
-> 
-> 
 
