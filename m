@@ -1,52 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 097917E176
+Return-Path: <alistair23@gmail.com>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D80D77E226
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 14:41:23 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id w8so18941816wrl.6
+	Tue, 21 May 2019 15:40:06 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id q17so13493157lfo.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 07:41:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=eWOvxQscLfWyRhpUV1IVycIJjSXG8OGBPEZjpmO8nDY=;
-	b=K8vACpfpUwxHVmYysywklG0KNGjs+TXucswxwb2IFZG/Hpemdg9maI8kxpKerRUDyt
-	6Tahs4I4WImdGyJk3eC6Kd6ZWfW2C82jChXQa8Zjn+120vlLktDkgt8Jyz7b0bIPzmfU
-	v3rIlvy+SXmTzandhLpEhapnVMyq6ibdalUFU=
+	Tue, 21 May 2019 08:40:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=8Vd+XuFjoQ0q0GaXNsb0DfEcLTrDVo2LcInOZ72qN3E=;
+	b=eqIZKEuEAk0ObeLf5nimolaaF4T9HQNMMWpQ3O+tQcuMLGYDwBdUSH7Ls6JKgpZqo5
+	I5DcwZp6BAbkrtZKeD2oQzzEasF9YlG2zaIntWqddOEg1mqVOBUYKk+LpNlE5iE3E7Y3
+	Y0OXSadwCwVwhCNEPW4I4rT7StHt3cjxCiu/r50rMOiVSdFtaikyNjfepgUDhjd5blSh
+	sLBgUviPbF1pEl2Y3daaMaQ22+gjcn7Mk5j2TmJiZMdg05nxF1Ur/+QANCE4uh3rpYNh
+	sfZtNINjgODsWOmua/Wbpvs8175VX+gPrj+7wrFMglwNzt9kc+0l68U5pk90Ytcw9GTO
+	qN4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=eWOvxQscLfWyRhpUV1IVycIJjSXG8OGBPEZjpmO8nDY=;
-	b=Skhchx0wz56GiaqLCElGyh6wipyRGinyfvHFuK8Lo47S0SjDfcnmD/9Ww40ZaKK8gc
-	EcbbHbBiodIKYeUKgEcq3H7RdV7KkAz9EGkTVmj0P2ORrsxDx66vgqPFZigPmZLGsNqt
-	WkqiBhZEgqwEOlo4yzYJYhjdg7NbxU7xp1tdLq8gAQtk5KoVMboEfotrUj38Lnc09Xxw
-	l+SnFKiw6SQQgqLFF9HDnRePL77KE0yJhzsCVsWKoUqtnepmJYD2Zf92e4MoTyvwDZo+
-	7BAOx553sHCfclZbWtspKkNh/XjKIzCo53OlJTeCdRpkYlaVWmJCT/LaB6Q6exeHBwnB
-	qchg==
-X-Gm-Message-State: APjAAAVoiwwKqN0v1JsgKo+zTieYVlQs/q9sdXuRk456fVUkC4bEuAhg
-	/fxF+ejFYuMDjVH1a/FAakUU5w==
-X-Google-Smtp-Source: APXvYqxgrrSPicX2GdXHukCFrBpdPFIekJJqxObdd85sU/O2SrNmO0v++oHkmlFyajNUGQ2eVstjyw==
-X-Received: by 2002:adf:b446:: with SMTP id v6mr50485948wrd.30.1558449684781; 
-	Tue, 21 May 2019 07:41:24 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	k17sm19050661wrm.73.2019.05.21.07.41.23
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 07:41:24 -0700 (PDT)
-Message-ID: <6e8560511f994e0df99f20048fa7540c509cd960.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 15:41:23 +0100
-In-Reply-To: <20190520141125.10805-3-alex.kanavin@gmail.com>
-References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-	<20190520141125.10805-3-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8Vd+XuFjoQ0q0GaXNsb0DfEcLTrDVo2LcInOZ72qN3E=;
+	b=Ui2WOiX5Abpf6GpbRlv40nvtPnMK8ym0dnvShfMHdxeiMGKW8x9h1cCd3cXvgYBWlS
+	G5K3yzCGj8TsQxuXYSSO+3thMH059VnlqART14RbqLzLvHOegRTKE1TSPheM7IPrYLek
+	UucffRiI+dLrQUuo6hT4F7DvodBr6t/mxdvZ2bATg6A1GGdoyrlO/k+RO+bJLKvkS1MF
+	ef7mlNfF7n8v8dfjof769QxLhvp5esyTH/0K3d20nB6OUvwH7YdJGz/wI0A248H3a9LJ
+	WS8HsmRlPyaf8x1seHZLHqAKcaonaBTSmwJdZtVrTSGKDk1JvBY0GmT3il97QEFiPy3N
+	XtXw==
+X-Gm-Message-State: APjAAAUv55Eie2RXUphIkZAdLfEq812WsaT40+zCR1nL88UGpR+NPcUM
+	1JMgOFcOZQbqqfhHxfzCRWyGLvohfndpT2w40fo=
+X-Google-Smtp-Source: APXvYqy8lp2jOqGod88pdhArfhdsaABJP07wK2FLBOZLn/RfvVCpZ8QSPkZAuuhFlTKlX8llIpSpBwRnUZPibLNTAKE=
+X-Received: by 2002:ac2:518e:: with SMTP id u14mr3164162lfi.120.1558453207258; 
+	Tue, 21 May 2019 08:40:07 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 03/42] libmodulemd: upgrade 2.2.3 -> 2.4.0
+References: <20190517235308.4139-1-alistair.francis@wdc.com>
+	<5677817951fee18102345b773c66546f550bb3e6.camel@linuxfoundation.org>
+In-Reply-To: <5677817951fee18102345b773c66546f550bb3e6.camel@linuxfoundation.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 21 May 2019 08:37:51 -0700
+Message-ID: <CAKmqyKNx0ygQ=0+24x3A8K4HjuZo1oWZ+0dtkd1RCZpKSxSx0A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] gdb: Upgrade from 8.2.1 to 8.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,54 +54,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 14:41:24 -0000
+X-List-Received-Date: Tue, 21 May 2019 15:40:07 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-05-20 at 16:10 +0200, Alexander Kanavin wrote:
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-devtools/libmodulemd/libmodulemd_git.bb | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-> b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-> index 40715c06ee2..d7f486868b8 100644
-> --- a/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-> +++ b/meta/recipes-devtools/libmodulemd/libmodulemd_git.bb
-> @@ -7,14 +7,14 @@ SRC_URI = "git://github.com/fedora-
-> modularity/libmodulemd;protocol=https \
->             file://0002-modulemd-v1-meson.build-do-not-generate-gir-
-> or-gtkdo.patch \
->             "
->  
-> -PV = "2.2.3"
-> -SRCREV = "4c75c6f8b39ee57aebe8fd36ef84808e893048c0"
-> +PV = "2.4.0"
-> +SRCREV = "d0a3eda45e083e8fe8b329a2310a53abdbf1e4d6"
->  
->  S = "${WORKDIR}/git"
->  
->  inherit meson gobject-introspection
->  
-> -EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true
-> -Dbuild_api_v2=false"
-> +EXTRA_OEMESON = "-Ddeveloper_build=false -Dbuild_api_v1=true
-> -Dbuild_api_v2=true"
->  
->  DEPENDS += "glib-2.0 libyaml glib-2.0-native"
+On Tue, May 21, 2019 at 12:32 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2019-05-17 at 16:53 -0700, Alistair Francis wrote:
+> > Bump GDB and change the oeqa selftest expression to allow ptests to
+> > pass.
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  meta/conf/distro/include/tcmode-default.inc   |  2 +-
+> >  meta/lib/oeqa/selftest/cases/package.py       |  2 +-
+> >  .../gdb/{gdb-8.2.1.inc => gdb-8.3.inc}        | 12 +--
+> >  .../gdb/gdb-cross-canadian.inc                |  1 -
+> >  ...ian_8.2.1.bb => gdb-cross-canadian_8.3.bb} |  0
+> >  .../{gdb-cross_8.2.1.bb => gdb-cross_8.3.bb}  |  0
+> >  ...1-Fix-build-with-latest-GCC-9.0-tree.patch | 50 ----------
+> >  ...h => 0001-gdbserver-ctrl-c-handling.patch} |  0
+> >  ...e-pt_regs-uapi_pt_regs-on-GLIBC-syst.patch | 23 ++---
+> >  ...-Use-exorted-definitions-of-SIGRTMIN.patch | 16 ++-
+> >  ...h64-Fix-the-gdb-build-with-musl-libc.patch | 52 ----------
+> >  .../gdb/gdb/CVE-2017-9778.patch               | 99 ---------------
+> > ----
+> >  .../gdb/{gdb_8.2.1.bb => gdb_8.3.bb}          |  0
+> >  13 files changed, 23 insertions(+), 234 deletions(-)
+> >  rename meta/recipes-devtools/gdb/{gdb-8.2.1.inc => gdb-8.3.inc}
+> > (73%)
+> >  rename meta/recipes-devtools/gdb/{gdb-cross-canadian_8.2.1.bb =>
+> > gdb-cross-canadian_8.3.bb} (100%)
+> >  rename meta/recipes-devtools/gdb/{gdb-cross_8.2.1.bb => gdb-
+> > cross_8.3.bb} (100%)
+> >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0001-Fix-build-
+> > with-latest-GCC-9.0-tree.patch
+> >  rename meta/recipes-devtools/gdb/gdb/{gdbserver-ctrl-c-
+> > handling.patch => 0001-gdbserver-ctrl-c-handling.patch} (100%)
+> >  delete mode 100644 meta/recipes-devtools/gdb/gdb/0012-AArch64-Fix-
+> > the-gdb-build-with-musl-libc.patch
+> >  delete mode 100644 meta/recipes-devtools/gdb/gdb/CVE-2017-9778.patch
+> >  rename meta/recipes-devtools/gdb/{gdb_8.2.1.bb => gdb_8.3.bb} (100%)
+> >
+> > diff --git a/meta/conf/distro/include/tcmode-default.inc
+> > b/meta/conf/distro/include/tcmode-default.inc
+> > index 668f31324e..744c6c3247 100644
+> > --- a/meta/conf/distro/include/tcmode-default.inc
+> > +++ b/meta/conf/distro/include/tcmode-default.inc
+> > @@ -21,7 +21,7 @@ PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
+> >  GCCVERSION ?= "8.%"
+> >  SDKGCCVERSION ?= "${GCCVERSION}"
+> >  BINUVERSION ?= "2.32%"
+> > -GDBVERSION ?= "8.2%"
+> > +GDBVERSION ?= "8.3%"
+> >  GLIBCVERSION ?= "2.29%"
+> >  LINUXLIBCVERSION ?= "5.0%"
+> >  QEMUVERSION ?= "4.0%"
+> > diff --git a/meta/lib/oeqa/selftest/cases/package.py
+> > b/meta/lib/oeqa/selftest/cases/package.py
+> > index 7a00753821..aa13a8df76 100644
+> > --- a/meta/lib/oeqa/selftest/cases/package.py
+> > +++ b/meta/lib/oeqa/selftest/cases/package.py
+> > @@ -134,7 +134,7 @@ class PackageTests(OESelftestTestCase):
+> >                      return False
+> >
+> >                  # Check debugging symbols works correctly
+> > -                elif "Breakpoint 1, main () at hello.c:4" in l:
+> > +                elif re.match("Breakpoint 1.*hello\.c.*4", l):
+> >                      return True
+> >
+> >              self.logger.error("GDB result:\n%d: %s", status, output)
+>
+>
+> 2019-05-20 19:03:42,463 - oe-selftest - INFO - ======================================================================
+> 2019-05-20 19:03:42,463 - oe-selftest - INFO - ERROR: package.PackageTests.test_gdb_hardlink_debug (subunit.RemotedTestCase)
+> 2019-05-20 19:03:42,464 - oe-selftest - INFO - ----------------------------------------------------------------------
+> 2019-05-20 19:03:42,464 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/package.py", line 148, in test_gdb_hardlink_debug
+>     if not gdbtest(qemu, binary):
+>   File "/home/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/package.py", line 137, in gdbtest
+>     elif re.match("Breakpoint 1.*hello\.c.*4", l):
+> NameError: name 're' is not defined
 
-I'm wondering if this caused:
+Argh! I ran the tests but it must not have trigger the GDB test. I see
+that you fixed it and pushed it to master, thanks for that.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/852
+Alistair
 
-?
-
-I think its something in this series...
-
-Cheers,
-
-Richard
-
-
+>
+> Cheers,
+>
+> Richard
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
