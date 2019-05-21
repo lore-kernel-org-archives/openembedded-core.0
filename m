@@ -1,49 +1,52 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E82F7C861
+Return-Path: <schnitzeltony@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 88F3C7E294
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 20:36:08 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id j12so266719eds.7
+	Tue, 21 May 2019 21:00:08 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id g16so60636iom.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 13:36:09 -0700 (PDT)
+	Tue, 21 May 2019 14:00:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=ffiGuVIjsmZ0qiZLDtHd/F9UHUsXq6ccW4viUsJc/q4=;
-	b=agHE7Tad/dbWUxkQB8gHLy//qfgiXL4iDl1uGQZG04/dFRMwOu+INP9pyRgDp2O8CX
-	iApB3tFPW+49AbYF5Pp1DocBQiqqY70EgwCnEdK2nLv2oIEgaNF5QqkOJh/U9jEDE2Ir
-	riy8AbaCBjdMiU9iB+0BySq6vGX/+hokPWPvjYUP+QIgUhTc3lzWAC/knmOTBVCIuha4
-	2q2N0pkeoXhbfuIqKcXnUPsTnyf0Lx+PtEebMxn91pROExlZ580YESYAk8Q/86Y4cYsO
-	KpgcMm3AKiCSq9/eEUAthc8mNmBhMKBIhG8zZIp6vLGAWVbg0xOiWbnHdLvUd/HswAro
-	imtA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=D3UXdFOyNGdQc6ip+fj1ExtiJocPIaZqUsdN9E3Uxow=;
+	b=DSY53pQU7dAZY089Qpk2f3U1cPeGXLGx5nD72/Kt/erBDiomvwAcxJZ8NG0LTsLyRH
+	Gps3046zW73cdYAb/7E5JxuRoAReC5RwlsCqa3rBcxDEgw8jSZam+AFoFStXjg5kqXJ2
+	mLLheGg3F8C6h3Rhg5tE3zeYZmZRmYFbdG11D/aR6dnUKtKdT6ejrPT2MYKHGeNtecjd
+	ogbB0AiUEeb8RbF2Gq689kchNIoy0alFu98fpm30xarAgY38ECYi3iKQ2mph2+oJxBsv
+	0oOGTnRiQLULxHTTA4uPdY9qxH4Z321KfhUIcvpoTPjrwRn0wG+QRiVqcpDWOl5nXdkA
+	2nCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=ffiGuVIjsmZ0qiZLDtHd/F9UHUsXq6ccW4viUsJc/q4=;
-	b=EiQwGt2pwyGFXCa5VguCYntz2v3WhmsYl2b0r10cMNJ3Nadacenor5RVs5h0mcbepq
-	icKeiwSkhPdxVZKQ/pAydAlxc1pXOLo4WSt3KlIFjMX1Ufc6Ajr4oKlzlnH19T14S0wp
-	U4N8M38+7Yc2BHq4ntgtQqI9XLypNok8OIwXNNzmtAeerV1L5aUEY4ksS+z3EEcQ3dNg
-	vejWMG53OmOm4YoeebpGS3L4U+H/nSy23Ftx3yLeAjSPDQEWtV27AZ0s3uZLrKALX1/F
-	LKVQ7Qmxo3IQd65+s4R4ASIFkKjsMYgoWIUMccGtpZryfqkHVN/1aI7dLEL6yA5n9pXL
-	y+FA==
-X-Gm-Message-State: APjAAAU4biKERqIFT/5uxK0en+2flUw4BV1UWOvjGTgreURlYelXb9tX
-	BqmZjOUh/A36zGK9GX5UX3HDemsWQOR19g==
-X-Google-Smtp-Source: APXvYqyV+Vw9AVFzsnei5h/RHRO2lXHmKWtkSt7seOXPWADrm/0bWOPEU3NjLK1oKi/vB0wLbkNnZg==
-X-Received: by 2002:a50:ad42:: with SMTP id z2mr86505274edc.9.1558470968691;
-	Tue, 21 May 2019 13:36:08 -0700 (PDT)
-Received: from peterliu-Precision-M4800.toradex.int
-	(c-b09ee253.022-417-73746f13.bbcust.telenor.se. [83.226.158.176])
-	by smtp.gmail.com with ESMTPSA id h5sm6520296ede.74.2019.05.21.13.36.07
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 21 May 2019 13:36:08 -0700 (PDT)
-From: liu.ming50@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 21 May 2019 22:36:05 +0200
-Message-Id: <1558470965-11823-1-git-send-email-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: luka.pivk@toradex.com, stefan.agner@toradex.com,
-	Ming Liu <liu.ming50@gmail.com>
-Subject: [PATCH] meta: avoid depending on EXTRA_IMAGEDEPENDS for initramfs
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=D3UXdFOyNGdQc6ip+fj1ExtiJocPIaZqUsdN9E3Uxow=;
+	b=jTNn7KgpDdu4Eyhk2G60+TuyfMZRKtdhWegvdclfkGuxcK7dQ4TsGbbv/kBhlk+dP9
+	VOvKSliEsqtqBTYIAtykgo2STTlGI9TsL83GrZH2A9MPzZLqnvNwd4v9mC1m7ZnPVANG
+	zReJ7h4HsT3rOLNiaxeHg3KXPmjibXBdizirMqXOG8x50jMhs7ufFOugCf6rm0r9HCrS
+	xUOfoDBabfBS9vriuwB3JMYBVwufLhwCpOIOiFYprSL9VjvczYQ0oKm6U8kqJkEfMHMD
+	oeY2il2D5vSDgJSKxNldfr/n5GWqpWlYPzDr9fFQH33RadaurWucnqN59Q/iEeoTxP3E
+	wasQ==
+X-Gm-Message-State: APjAAAWk6Ezhv6aVvnbPD0WUjDruVak2zZm6mOWXcOFMTHyyfz9wrO9r
+	v0gdih6vd+h7BlBf5DxIbL0WAaOjYiKbEMxw8RE=
+X-Google-Smtp-Source: APXvYqw2Pag8xjkX5zqBi8KZ5aXOAf8CaP+I5azZ4QpI2w/6EymLEiFgdFJPaf4oyoP8NX/nQKYOKNPnGZ5pmOI3lpM=
+X-Received: by 2002:a05:6602:4f:: with SMTP id
+	z15mr6913617ioz.108.1558472409516; 
+	Tue, 21 May 2019 14:00:09 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190521090032.14859-1-schnitzeltony@gmail.com>
+	<20190521090032.14859-2-schnitzeltony@gmail.com>
+	<03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
+	<CALbNGRQjahbkMzBmqFG4QQE4moF-qTFJrDDMzBVUnXBCTwGFMA@mail.gmail.com>
+	<b182fad0b95201771a7c01ab2d71aaba73810399.camel@linuxfoundation.org>
+In-Reply-To: <b182fad0b95201771a7c01ab2d71aaba73810399.camel@linuxfoundation.org>
+From: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Date: Tue, 21 May 2019 22:59:57 +0200
+Message-ID: <CALbNGRRcmwVcVD3ytdb32RkmgyFTLJ3dsKiC+iLDK36s1DBwGw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] python-six: put python2/3 variant together
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,64 +59,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 20:36:08 -0000
+X-List-Received-Date: Tue, 21 May 2019 21:00:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ming Liu <liu.ming50@gmail.com>
+On Tue, May 21, 2019 at 8:38 PM <richard.purdie@linuxfoundation.org> wrote:
+> > No sorry mozjs uses old crap in their configurations scripts nobody
+> > else does (python which) and ask for python2 explicitly.
+>
+> I've been giving this a bit more thought and its our intent to try and
+> remove python2 from OE-Core entirely so adding py2 modules back seems
+> like a backwards step.
+>
+> I think this will therefore need to go to one of the other layers,
+> painful as that might be from an include perspective.
+Yeah a new burden out of thin air is born. You know what I do: Create
+my own layers and am happy as I am with my other layers.
 
-The dependencies in EXTRA_IMAGEDEPENDS should not be depended by
-initramfs image recipes, that would introduce risk of circular
-dependency issues.
+Bye
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/recipes-core/images/core-image-minimal-initramfs.bb        | 3 +++
- meta/recipes-core/images/core-image-tiny-initramfs.bb           | 3 +++
- meta/recipes-extended/images/core-image-testmaster-initramfs.bb | 3 +++
- 3 files changed, 9 insertions(+)
-
-diff --git a/meta/recipes-core/images/core-image-minimal-initramfs.bb b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-index 7df8ab1..1172ae7 100644
---- a/meta/recipes-core/images/core-image-minimal-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-minimal-initramfs.bb
-@@ -16,6 +16,9 @@ PACKAGE_INSTALL = "${INITRAMFS_SCRIPTS} ${VIRTUAL-RUNTIME_base-utils} udev base-
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
- 
-+# Do not depend on extra image dependencies
-+EXTRA_IMAGEDEPENDS_forcevariable = ""
-+
- export IMAGE_BASENAME = "${MLPREFIX}core-image-minimal-initramfs"
- IMAGE_LINGUAS = ""
- 
-diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-index 0eca6d9..2e330ad 100644
---- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
-+++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
-@@ -12,6 +12,9 @@ PACKAGE_INSTALL = "initramfs-live-boot-tiny packagegroup-core-boot dropbear ${VI
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
- 
-+# Do not depend on extra image dependencies
-+EXTRA_IMAGEDEPENDS_forcevariable = ""
-+
- export IMAGE_BASENAME = "core-image-tiny-initramfs"
- IMAGE_LINGUAS = ""
- 
-diff --git a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-index 09a6d16..bbf4162 100644
---- a/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-+++ b/meta/recipes-extended/images/core-image-testmaster-initramfs.bb
-@@ -7,6 +7,9 @@ PACKAGE_INSTALL = "initramfs-live-boot initramfs-live-install-testfs initramfs-l
- # Do not pollute the initrd image with rootfs features
- IMAGE_FEATURES = ""
- 
-+# Do not depend on extra image dependencies
-+EXTRA_IMAGEDEPENDS_forcevariable = ""
-+
- export IMAGE_BASENAME = "core-image-testmaster-initramfs"
- IMAGE_LINGUAS = ""
- 
--- 
-2.7.4
-
+Andreas
+>
+> Upstream are only going to keep py2 compatibility to the end of the
+> year, if that so the recipes will have to fork sooner or later anyway.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
 
