@@ -1,50 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D21A87E271
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
+	[209.85.222.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 67EFD7E26C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 17:26:16 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id y22so21404834qtn.8
+	Tue, 21 May 2019 17:37:29 +0000 (UTC)
+Received: by mail-qk1-f195.google.com with SMTP id d10so11599854qko.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 10:26:18 -0700 (PDT)
+	Tue, 21 May 2019 10:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=OwbCU52rfmPWKVA9ss1UJS06vD90uYcq2HK2wCmzl4c=;
-	b=qNkXTSCuaha/A4W2H0be22Rk1LSB+etrNj3MDfO4z8UVchCK5zbOVvyZOEfGsSw2gZ
-	QsEZ4VRh6jBL72+XiQKu35QJIldRJpXB6Jfz7R4cAxfwQWEtvWKStAP5oMEDOU8VRCAl
-	3oWf2Lc6NCFLwo34GybRTTD+PFIAgoP8/w8TV+GTQkCHi0FbJE+06pKeuCc1TO55NrhZ
-	mJbFSPTD85Kib4m6L7lfAf432XUzZQ+Jib4PwDzwxRonIdbscV5lFtRTjKLu34LatVBy
-	vPBy74/g+dZQo4mVa4wpCL9qcIjxL+jtUqzNnJmLMB3u2DO6T4Fv9GV2Ypvs7vx1nUhJ
-	6org==
+	:cc; bh=6TR29ZoRo9XP9BUSVa7rY59hmLCpe14kREXwe1AIGKs=;
+	b=sPQBoem9qJExYCO4o8hDbYtAM+/xviwbFc4DlnEQBJyHhtf4oQPoLT4YSTpHlQQfJi
+	Gepr1/qGFPwrIoX7e5sRU5FmnoERCvBESx4B8EPoZLTLQaUIED+MxRiK0gA/y9XOYuxu
+	vlZWFdka/yiZdPaVMg120MwZ04ZaEAlJ52ySd9tPHb9Hqp4X6K9QnJ1YmUM6oF1k0r0H
+	3rdnvoAbWHXUEU2c+CwokML3qCVvV7RJW3VYk9d3LuGWo84Oa4EbUHcoXdQsjitOPsoL
+	9mdCPrpjV6EEiqO05Kf9v0tNP95ySKnN/NfbAyBgZgXpw7UUmwasrcKr5i2R6psRwTKy
+	6BFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=OwbCU52rfmPWKVA9ss1UJS06vD90uYcq2HK2wCmzl4c=;
-	b=X4U4rIaR/cjPGOYCbhmG1bmYxM/PXSQ0WJKB0Web0a0nWRsU0RsiAnppj4CU7BZu1g
-	rtaWS0lxrmyklEXB2idkwlj1FGKMF1vqJ0AueAXPjNtK96c5ZHUOaG+9sSHj0oouJ79z
-	y91/TNeSy/qceOreCqGkZG0/FJutAjDhCMzFRqyW/aOjo4pNiX7uNF5S9da3whtpiph9
-	k3DB+xdnGYGBRxZr3fyuWXruuN0iJvL0z2/lqnistn6U2e4atKz++nSk6HkwmWt5CpFy
-	LbxxSvSWqj7vypj7rukqGZA7WK4NDQQgSyI1LCaelj1ElfoUPBpironv80s1YMBSAFMk
-	xAnA==
-X-Gm-Message-State: APjAAAXvt9qm0LXo6beWI2dSbM/vBaN3tk5+8LxwhhhevBGTZ58GWVm7
-	SThKqwYafq8wI4+ZiJLUQyIHyGnx0NydpJOqR1Q=
-X-Google-Smtp-Source: APXvYqxlAlxMZE0mig2pLt9bL1pS2ptByOOotWvfSNsMADaVisb1FEZSPo8Xrg2+w0Cm66gsVKuHKr7oabXTdjPX6hY=
-X-Received: by 2002:a0c:b09a:: with SMTP id o26mr66154837qvc.68.1558459577354; 
-	Tue, 21 May 2019 10:26:17 -0700 (PDT)
+	bh=6TR29ZoRo9XP9BUSVa7rY59hmLCpe14kREXwe1AIGKs=;
+	b=XTXajHsszNLrVQGhf4/EyEzuOaGdyEWpNTIXfy15/yfhMu4sxDUTV9v+qVI4RPwWgR
+	j/FJWHHCQzn+KR/zxRm/z+RvRoubbEEnHd0TM6FzQzgBbfumyUi0WxSGfwk47sFl1jJE
+	Q7aNjWS8rvg+swGNVoKL/yXFxdhPRYsmpPs5A/UMUDlDjwEm2HvSFFWmbQFeiJSd9+MB
+	NzuWMuyuvD6Fb2Tth4RbC16K3lm0+h7iqC1HGXLRRnM3z6rNWKz6baxNq4du2LwrQ2IG
+	DQ60rghOP/v47jHTxr8zml/yXoq4oNkUQAfotJ5qwsgqcC7vkM56Z7lc4incxh74igIg
+	k4Qw==
+X-Gm-Message-State: APjAAAVMOUTZM1l37rYGiWYHt2VM+RsZ4o3uD36lxQ0XVuJvnMxe1/di
+	DFJ66hFC31cQmHF5kGSOXfqosYRuEDFXjVdsjII=
+X-Google-Smtp-Source: APXvYqxdcG9+36NyrncCiJapDHqXG8ur5lbrggNEQbFUjcAvyCpWyPygNGKQS5J/cRYm13Wyk45NgYQ/dEIph/dIsRQ=
+X-Received: by 2002:a37:59c7:: with SMTP id n190mr65354693qkb.24.1558460249988;
+	Tue, 21 May 2019 10:37:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190516114914.12427-1-richard.purdie@linuxfoundation.org>
-	<20190516114914.12427-2-richard.purdie@linuxfoundation.org>
-	<4744125d-7cce-3325-414b-f05c5fe01a52@gmail.com>
-	<8fdfdc3ba62711c9c3e6e391c8444e18d22e93b0.camel@linuxfoundation.org>
-In-Reply-To: <8fdfdc3ba62711c9c3e6e391c8444e18d22e93b0.camel@linuxfoundation.org>
+References: <20190521092249.175461-1-kai.kang@windriver.com>
+	<20190521092249.175461-2-kai.kang@windriver.com>
+In-Reply-To: <20190521092249.175461-2-kai.kang@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 21 May 2019 10:25:51 -0700
-Message-ID: <CAMKF1sqPXU0V=+t0-kfcoF6uLPDm8tDOgRd2xSc6a3wbvjt4PA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Date: Tue, 21 May 2019 10:37:04 -0700
+Message-ID: <CAMKF1srDq6skmDUZqYSE2rYnFQC4DCrdP3Oc4xifOHsSiWbW3A@mail.gmail.com>
+To: Kang Kai <kai.kang@windriver.com>
+Cc: Paul Eggleton <paul.eggleton@linux.intel.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] apr/apr-util: Add ptest dependency on libgcc
+Subject: Re: [PATCH v2 1/1] systemd-conf: configure wired network with dhcp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,40 +56,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 17:26:17 -0000
+X-List-Received-Date: Tue, 21 May 2019 17:37:29 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, May 21, 2019 at 5:29 AM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2019-05-20 at 11:43 -0700, Khem Raj wrote:
-> >
-> > On 5/16/19 4:49 AM, Richard Purdie wrote:
-> > > Avoid:
-> > >
-> > > libgcc_s.so.1 must be installed for pthread_cancel to work
-> > >
-> > > when running the ptest without libgcc.
-> > >
-> >
-> > this is interesting, do we get this error explicitly from running
-> > some
-> > tests ?
-> >
-> > I wonder why libgcc is not detected during rdep calculation time.
->
-> pthread_cancel doesn't directly link to anything in libgcc so there
-> isn't a dependency for the rdep calculations to find.
->
-> Ross has a work in progress where we'd notice binaries using
-> pthread_cancel and automatically add a libgcc dependency but its not
-> ready yet.
->
+just copy paste from meta-yoe, that has been long working.
 
-are we running into this case
-https://bugs.launchpad.net/ubuntu/+source/gcc-3.3/+bug/40285/comments/30
-
-> Cheers,
+On Tue, May 21, 2019 at 2:23 AM <kai.kang@windriver.com> wrote:
 >
-> Richard
+> From: Kai Kang <kai.kang@windriver.com>
+>
+> Add a configure file for systemd.networkd to configure wired network
+> interfaces with dhcp. It works with common network interfaces such eth0
+> and eno1.
+>
+> Refer to
+> https://github.com/YoeDistro/meta-yoe/tree/master/recipes-core/systemd
+>
+> [YOCTO #13057]
+>
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta/recipes-core/systemd/systemd-conf/dhcp.network | 9 +++++++++
+>  meta/recipes-core/systemd/systemd-conf_242.bb       | 5 +++++
+>  2 files changed, 14 insertions(+)
+>  create mode 100644 meta/recipes-core/systemd/systemd-conf/dhcp.network
+>
+> diff --git a/meta/recipes-core/systemd/systemd-conf/dhcp.network b/meta/recipes-core/systemd/systemd-conf/dhcp.network
+> new file mode 100644
+> index 0000000000..253aee9382
+> --- /dev/null
+> +++ b/meta/recipes-core/systemd/systemd-conf/dhcp.network
+> @@ -0,0 +1,9 @@
+> +[Match]
+> +Name=en* eth*
+
+I think this is better put
+Name=en*
+Name=eth*
+
+> +
+> +[Network]
+> +DHCP=yes
+> +
+> +[DHCP]
+> +RouteMetric=10
+> +ClientIdentifier=mac
+> diff --git a/meta/recipes-core/systemd/systemd-conf_242.bb b/meta/recipes-core/systemd/systemd-conf_242.bb
+> index 96beea53a7..105ee3ceed 100644
+> --- a/meta/recipes-core/systemd/systemd-conf_242.bb
+> +++ b/meta/recipes-core/systemd/systemd-conf_242.bb
+> @@ -10,12 +10,16 @@ SRC_URI = "\
+>      file://logind.conf \
+>      file://system.conf \
+>      file://system.conf-qemuall \
+> +    file://dhcp.network \
+
+better to call it wired or something
+
+>  "
+>
+>  do_install() {
+>         install -D -m0644 ${WORKDIR}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
+>         install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
+>         install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
+> +       if ${@bb.utils.contains('OVERRIDES', 'qemuall', 'false', 'true', d)}; then
+> +               install -D -m0644 ${WORKDIR}/dhcp.network ${D}${systemd_unitdir}/network/80-dhcp.network
+> +       fi
+>  }
+>
+>  # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
+> @@ -29,4 +33,5 @@ FILES_${PN} = "\
+>      ${systemd_unitdir}/journald.conf.d/ \
+>      ${systemd_unitdir}/logind.conf.d/ \
+>      ${systemd_unitdir}/system.conf.d/ \
+> +    ${systemd_unitdir}/network/ \
+>  "
+> --
+> 2.20.0
 >
 
