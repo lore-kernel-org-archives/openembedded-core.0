@@ -1,31 +1,29 @@
 Return-Path: <pn@denx.de>
-X-Greylist: delayed 543 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 21 May 2019 09:03:49 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id 9FCEA7D674
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 001617D672
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 09:03:49 +0000 (UTC)
+	Tue, 21 May 2019 09:08:00 +0000 (UTC)
 Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 457V2G6Mcyz1rJgl;
-	Tue, 21 May 2019 10:54:46 +0200 (CEST)
+	by mail-out.m-online.net (Postfix) with ESMTP id 457V6t2Lf6z1rZS1;
+	Tue, 21 May 2019 10:58:46 +0200 (CEST)
 Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 457V2G67Hgz1qql1;
-	Tue, 21 May 2019 10:54:46 +0200 (CEST)
+	by mail.m-online.net (Postfix) with ESMTP id 457V6t23Xgz1qql6;
+	Tue, 21 May 2019 10:58:46 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at mnet-online.de
 Received: from mail.mnet-online.de ([192.168.8.182])
 	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
 	port 10024)
-	with ESMTP id 6hGIhvBqubol; Tue, 21 May 2019 10:54:45 +0200 (CEST)
-X-Auth-Info: bf4QDpx1/YIWPqXPHGztSE8fYh5vHvrQ/AsmX+N8psk=
+	with ESMTP id 6EduYy8DZVp2; Tue, 21 May 2019 10:58:43 +0200 (CEST)
+X-Auth-Info: wLxCFsCrINoWSZR/Ob9dnqVQOfFR3qxDgc4vfgAgYUA=
 Received: from antares.denx.de (unknown [62.91.23.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
 	by mail.mnet-online.de (Postfix) with ESMTPSA;
-	Tue, 21 May 2019 10:54:45 +0200 (CEST)
+	Tue, 21 May 2019 10:58:43 +0200 (CEST)
 To: openembedded-core@lists.openembedded.org
 From: Parthiban Nallathambi <pn@denx.de>
-Message-ID: <6fb3f28f-fa50-ba0e-34ff-a3a0787b8518@denx.de>
-Date: Tue, 21 May 2019 10:54:45 +0200
+Message-ID: <7d85c581-a717-f2db-b76f-207035472582@denx.de>
+Date: Tue, 21 May 2019 10:58:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
@@ -43,7 +41,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 21 May 2019 09:03:50 -0000
+X-List-Received-Date: Tue, 21 May 2019 09:08:01 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -87,7 +85,7 @@ NOTE: Tasks Summary: Attempted 1367 tasks of which 710 didn't need to be
 rerun and 1 failed.
 
 Summary: 1 task failed:
- 
+
 /work/rpi/poky/meta/recipes-devtools/cmake/cmake-native_3.14.1.bb:do_configure
 Summary: There was 1 WARNING message shown.
 Summary: There was 1 ERROR message shown, returning a non-zero exit code.
@@ -99,16 +97,14 @@ $ l
 /work/rpi/zero/tmp/sysroots-uninative/x86_64-linux/usr/lib/libstdc++.so.6.0.25
 $
 $ file 
-/work/rpi/zero/tmp/sysroots-uninative/x86_64-linux/usr/lib/libstdc++.so.6.0.25 
-
+/work/rpi/zero/tmp/sysroots-uninative/x86_64-linux/usr/lib/libstdc++.so.6.0.25
 /work/rpi/zero/tmp/sysroots-uninative/x86_64-linux/usr/lib/libstdc++.so.6.0.25: 
 ELF 64-bit LSB shared object, x86-64, version 1 (GNU/Linux), dynamically 
 linked, BuildID[sha1]=d0e848faaac570e8ceca884083b6e09e23cb9e2b, stripped
 $
 $
 $ ldd 
-/work/rpi/zero/tmp/sysroots-uninative/x86_64-linux/usr/lib/libstdc++.so.6.0.25 
-
+/work/rpi/zero/tmp/sysroots-uninative/x86_64-linux/usr/lib/libstdc++.so.6.0.25
          linux-vdso.so.1 (0x00007fffc3901000)
          libm.so.6 => /lib64/libm.so.6 (0x00007f341ea84000)
          libc.so.6 => /lib64/libc.so.6 (0x00007f341e8be000)
