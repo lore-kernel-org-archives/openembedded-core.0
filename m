@@ -1,37 +1,30 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id CF3EB7E33C
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 2ED2C7E3C1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 06:49:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4583Bv3Gxpz63;
-	Wed, 22 May 2019 08:49:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558507751;
-	bh=u7RU0GBDVvgIFEG7nbuoTA3Zsu4jXuIOIhf/SpTjr4A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QcDRMDithzEqVkUk530nW9Pk6YjrJMj2+4hRT5D0bBO+BHVV9siJdv4IHniglLVep
-	2BHLxGSa4xsB4aHUpC8vnjN3rtCpvB2U6KoY/j88iwB7CdYfZ4O+Z2+bmHKc71E3Mc
-	CKQ54WvEhV4eFC0JxcJx1hKvmLic1pQcQAi2VFB7zxDafxgG5DjXsyH9mt7zkkh7zy
-	6Of1xLO2JjprrSYGFzkoi7gvUV5HQ0yeJmuAeYnptzabH5T64cIeJqnQ+AVZOZumze
-	DXzDVdtQ+SdIKtLKd/6MnaIvhgB18ntiDw59aWG+vCaoj5Rql+1GCVNoulr2ssHxwS
-	f/dyIgfNMs/f8TObq6XjIRfnHbL0zZX1H4EXLAxP4yVNDlo27EBKXzi21m0ehpe/Lr
-	Afb/hr1uSDQhe2OPiwl1N6ilI8Xs0vezuJz4F/S30+nyZrDXHE5omNBYgA24BNsta2
-	gIpw2mW9JETalCQnrE6rAx7riwClfjatVSjOEc4IlDFLLF8csTUvFzCxDtAmrFbdcs
-	CyxJNvqamU8Z5m/yA7CqpwUosXYph/VP3ZNIyVRQ8jHS6hEMAbcf5dMFr6KtfdoAMT
-	TriXDzqRSctm//KR0nyh795MMgJpyuuknsUlCmv123xcH2M4YKCjfsqn885mSmhkuS
-	oLEi+x2XAycITAnt3BnFCz6I=
-Date: Wed, 22 May 2019 09:49:09 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190522064909.GA9621@localhost>
-References: <20190522013228.7591-1-raj.khem@gmail.com>
-	<20190522013228.7591-3-raj.khem@gmail.com>
+	Wed, 22 May 2019 07:17:39 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,498,1549900800"; d="scan'208";a="64142268"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 22 May 2019 15:17:39 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id C99F74CD81AE
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 15:17:37 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Wed, 22 May 2019 15:17:47 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 May 2019 15:17:44 +0800
+Message-ID: <1558509464-60442-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <20190522013228.7591-3-raj.khem@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 3/3] elfutils: Fix eu-* utils builds for musl
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: C99F74CD81AE.A0560
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] meson.bbclass: Make meson support aarch64_be.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,36 +37,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 06:49:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 May 2019 07:17:40 -0000
+Content-Type: text/plain
 
-On Tue, May 21, 2019 at 06:32:28PM -0700, Khem Raj wrote:
->...
-> PN and PN-binutils is not empty anymore on musl
->...
-> ++#if !defined(FNM_EXTMATCH)
-> ++# define FNM_EXTMATCH (1 << 5) /* Use ksh-like extended matching. */
-> ++#endif
->...
+Added aarch64_be into cpu family.
 
-This might fix the compilation, but it is horribly wrong.
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+---
+ meta/classes/meson.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-It passes a flag to a function that this function does not understand.
-
-In the best case the function returns with an error on unknown flags.
-
-In the worst case the function does silently something different from
-what the caller expects it to do.
-
-cu
-Adrian
-
+diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
+index 115d1ae..0edbfc1 100644
+--- a/meta/classes/meson.bbclass
++++ b/meta/classes/meson.bbclass
+@@ -56,6 +56,8 @@ def meson_cpu_family(var, d):
+         return 'ppc64'
+     elif arch == 'armeb':
+         return 'arm'
++    elif arch == 'aarch64_be':
++        return 'aarch64'
+     elif arch == 'mipsel':
+         return 'mips'
+     elif arch == 'mips64el':
 -- 
+2.7.4
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+
 
 
