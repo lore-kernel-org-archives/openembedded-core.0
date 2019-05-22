@@ -1,51 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
-	[209.85.160.176])
-	by mail.openembedded.org (Postfix) with ESMTP id 9380D6BA10
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id F05317E3B9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 13:48:35 +0000 (UTC)
-Received: by mail-qt1-f176.google.com with SMTP id o7so2389363qtp.4
+	Wed, 22 May 2019 14:01:43 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id m3so3696819itl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 06:48:36 -0700 (PDT)
+	Wed, 22 May 2019 07:01:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5os/GSpRObxdjTvIlHBZg5pIEYv0kokQuNIJVKDgSmk=;
-	b=hT/sHxHuSel110i3vIFBHUziOWuJZvSZxqZayr30mY4R/PaUSbj+Ex8W8tBPc6V/Sr
-	9LddUKEAY32q/OaT1s9fHnRlGj56BFXEo27ZwrdVAzWNjJTGzcZV6RhO10Spn+ii3B6Y
-	VUE2KJ24kDow+kdbBpxtXyqUYjuaGqRPLOFL7Vz3dkCaECN51Arq0WRUPJVcL9qNG0vL
-	OEiNymtJRpMm0340s0zOAO/zSvcQ38TdZaDQEP7eRQ64Kxg0hW+Aa6lDf8Cp0UuSSUM7
-	4gDXZIkTi9iALbTGPagM6hS9WBQW4gOQpob+D8J2GC0zZWNzpzFQvAAgYoFS5wRVpRQr
-	askg==
+	:cc; bh=cV+WgIB20SQOAN1r+oFAg6HSrsDZN7BpFq4ZIRMY40I=;
+	b=gy/izLCld1TsdVCDdzlbvoa+CLfdoYOquBmxi5RDvNesM35pSKa2TMJKOXmbF+Be39
+	a3g6vTrv/bfawwfYbt0XodIhBshaLQbkLbZznLPqKmxOsVlsYzHSf53CEU8FrCFgfz7o
+	x289qomm1EaYc3yvGPAGo78tbQZCehH0EkozxEx0aTIuhrhLe+3Gwk/QJ9JZvjpwPlvp
+	yvqOyHkhQna61avOCj16HjeDE5P448tfGXZL/5U1+od9Hiq4jTf37eDAcBwcGMUPAEE+
+	4HIYEE19l6Kgr6HLPJ6gEEeDS2uEEDcURxibfOv+0dSLQCB1nAG+vsMiKXMCAuHDyIvS
+	6+NA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5os/GSpRObxdjTvIlHBZg5pIEYv0kokQuNIJVKDgSmk=;
-	b=EbcKZwuUaqUFpYI4uA51Wfehy/mJ78t9LHFwso2zDiFbn1plO+xn0hjsZ7EX3wkwPH
-	SkqEoxfkOKt6bqwQEozuoHCw4Oy6vT7GMK0tTnO8UcYbeSpaJOWqZ4mlMCWqhnsywCdO
-	aiV/ngySlXj2LAExF0e09FvUjSn/T6A0OeJvRtzSWsH4eBHUqUXLofp297Nh+mGgPPf3
-	+1jdupRA5DYHd394VvxVoJA/fxwX1Jzd14m0GtKY0uAV8rtB9Df2jZWnDWeJSu1aJcIS
-	InNTUwMJvDwENfxMi+S7bqnbrKkRmzCKYWaWt6CiZcho6Hfp5Pz1ityjinY9qXdICk4U
-	FS2g==
-X-Gm-Message-State: APjAAAXMxyUhuGcFoHCrUJGcgUNAh4VGr6ulBE0hnXJT/3NNthHmKxt2
-	rOPVQNh2iSy1d34ez8B7L9qA+bWwKjQjDnr4gDg=
-X-Google-Smtp-Source: APXvYqzdLbbTLqQzKzkDd1mFXQyzT164AYPVEnkfX2sE5OGMUsNhXpR318BcGYFikr9wc1ccI6A1CCwElPv/MFt5NUg=
-X-Received: by 2002:a0c:d251:: with SMTP id o17mr69688562qvh.181.1558532916203;
-	Wed, 22 May 2019 06:48:36 -0700 (PDT)
+	bh=cV+WgIB20SQOAN1r+oFAg6HSrsDZN7BpFq4ZIRMY40I=;
+	b=iOBmIHdu1lcwbOpQiUIpo6+Ze2UasUhaKHqW9R8hhqoX/dGRkehKbSAyL54KSTGimW
+	/p1mjY0q1o/nQY/4Bi3xKLfHEeZ2newulfvD8nI8R8DbrH3lFpqW/uQ0gvXkB4ah/Bf5
+	DcJ+9z2RMlJpmKja0BcJ7KS1pykFM8gZT1GwuoqqsXiUguZDCQldkmjypNk+hcvjU3KN
+	9Zz+cbbPVrxG+8D95aGmF5kO8FyirZpiMXaHTLCbc7s7dW1WeXLigo9KWeHKN5HbOu9L
+	DGF8a6NVyGs6uubuoi1owLNvnUJkQKcUOwZmEXqHhantqQpo9W5mGcty2XeNk+iUgcX7
+	cENA==
+X-Gm-Message-State: APjAAAVW4ZT/DweItpgFJFi90bZXurUNF/5cJw5K5HgdJSb7z/CCNoAF
+	A+qeyE9rpCEmP9nJ4IMnjH2hhIBC8eHnXEvGZv0=
+X-Google-Smtp-Source: APXvYqy7Iaf1Yt4U+6YiC9rZMsUOERSSInwEXxUeuKc2sIXwjqgfcokHXNUUglZcOJodNqS9T5Fs2GMnXBUefQZ3YIY=
+X-Received: by 2002:a24:1796:: with SMTP id 144mr8313894ith.18.1558533704768; 
+	Wed, 22 May 2019 07:01:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190521161158.45329-1-alex.kanavin@gmail.com>
-	<CAMKF1so7ASfBEknz4t727WGHvSOvJ2z=v87m0o=iZW4VdqFztw@mail.gmail.com>
-	<CANNYZj8cSb0_7fRhG=bbizctTnaQg53hVwSzOu5WoWr9ywbMKQ@mail.gmail.com>
-	<33700e11097f8b98ea98acfce06977e24c3bfb8d.camel@linuxfoundation.org>
-	<CANNYZj-v5GzbKcoX1_WF=nUosLPkXBT3tovmHvXZ2hFLocu0+g@mail.gmail.com>
-In-Reply-To: <CANNYZj-v5GzbKcoX1_WF=nUosLPkXBT3tovmHvXZ2hFLocu0+g@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 May 2019 06:48:10 -0700
-Message-ID: <CAMKF1spjL+ZYrpkSGNcFOJuTF8XLcYUHPu=vvHXjY0XQ4Z8GtQ@mail.gmail.com>
+References: <20190521090032.14859-1-schnitzeltony@gmail.com>
+	<20190521090032.14859-2-schnitzeltony@gmail.com>
+	<03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
+	<CALbNGRQjahbkMzBmqFG4QQE4moF-qTFJrDDMzBVUnXBCTwGFMA@mail.gmail.com>
+	<b182fad0b95201771a7c01ab2d71aaba73810399.camel@linuxfoundation.org>
+	<CALbNGRRcmwVcVD3ytdb32RkmgyFTLJ3dsKiC+iLDK36s1DBwGw@mail.gmail.com>
+	<1cee8ee543463712e25b4ea4450fb40242a9e84e.camel@linuxfoundation.org>
+	<CAMKF1srz+_Tk5=GNWzBLpNRXoqdCYOmLyNm6XKkFJQFvGcpX=Q@mail.gmail.com>
+	<f10bbaa1a0d8ef62f7b7ffd8dfae101b906fafce.camel@linuxfoundation.org>
+	<CANNYZj89w2eT2bN=8SmSwmAPzYADLPk=GmajvNJTif+0q3eO+g@mail.gmail.com>
+In-Reply-To: <CANNYZj89w2eT2bN=8SmSwmAPzYADLPk=GmajvNJTif+0q3eO+g@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Wed, 22 May 2019 07:01:33 -0700
+Message-ID: <CANx9H-D0E+ixNv3Tj4ZBir3Z8xv0=G_1nkufvML7CwA=4RigZw@mail.gmail.com>
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libmodulemd: fix erroneous linking against v2 library when v1 was requested
+Subject: Re: [PATCH 2/2] python-six: put python2/3 variant together
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,166 +63,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 13:48:35 -0000
-Content-Type: multipart/alternative; boundary="000000000000d7559d05897a38d6"
+X-List-Received-Date: Wed, 22 May 2019 14:01:44 -0000
+Content-Type: multipart/alternative; boundary="000000000000d7e22c05897a67e7"
 
---000000000000d7559d05897a38d6
+--000000000000d7e22c05897a67e7
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, May 22, 2019 at 4:21 AM Alexander Kanavin <alex.kanavin@gmail.com>
+On Wed, May 22, 2019 at 4:27 AM Alexander Kanavin <alex.kanavin@gmail.com>
 wrote:
 
-> I'm not sure that would work, as at do_rootfs time both createrepo_c
-> (v2 user) and libdnf (v1 user) need to be present in the
-> sysroot-native, and so v1 and v2 files would clash at that point
-> (libmodulemd.so would be provided by both).
+> On Wed, 22 May 2019 at 13:05, <richard.purdie@linuxfoundation.org> wrote:
 >
-> I am kind of hoping that libdnf would migrate off v1 to v2, and we
-> could then simply disable v1 altogether. So far it hasn't happened,
-> and libdnf update is now also blocked by the c++ code that older
-> compilers don't like, so I'd leave thing as they are for now.
+> > I don't think we need to switch our default, just be able to build say
+> > oe-core without python/python2 in HOSTTOOLS and without needing python
+> > 2.7 in OE-Core either.
+> >
+> > > Its good that project is taking lead here but we might leave many
+> > > users behind.
+> >
+> > I suspect python2 will end up in a layer of its down which I'm fine
+> > with, dependencies can then be clearly seen.
 >
+> For what it's worth, Fedora is getting serious about Python 2 removal,
+> and they have a plan for it:
+> https://fedoraproject.org/wiki/Changes/RetirePython2
 >
-conflicts will happen only when dev packages
-are bundled into image.
+> "All packages in Fedora that need Python 2 to run will be removed from
+> Fedora 32 regardless of their dependencies. All packages in Fedora
+> that need Python 2 to build will be removed from Fedora 32 regardless
+> of their dependencies. "
+>
 
-we probably need something like libusb for this case and then remove the
-compat package when its
-no longer needed.
 
+We have discussed moving meta-python to its own repository (not under
+meta-openembedded). As part of that move, I am proposing the existing
+python2 recipes move to a separate (deprecated) layer, as RP mentioned
+earlier. Then meta-python will become python3 only. We will also move
+recipetool/devtool to provide python3 (only) support. People that need
+python2 will very soon have to live with older stable branches. This should
+not be a surprise.
+
+We also need to do whatever we can with upstream projects that are not
+feeling an urgency to move to python3. They should likewise not be
+surprised at the need to switch.
 
 
 > Alex
->
-> On Wed, 22 May 2019 at 13:08, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >
-> > On Wed, 2019-05-22 at 12:28 +0200, Alexander Kanavin wrote:
-> > > On Wed, 22 May 2019 at 04:04, Khem Raj <raj.khem@gmail.com> wrote:
-> > > > > +
-> > > > > + pkg.generate(
-> > > > > +-    libraries : modulemd_v1_lib,
-> > > > > ++    libraries : '-l:libmodulemd.so.1',
-> > > >
-> > > > shouldn't it be generating a separate package for v1 ?
-> > > > hardcoding linker paths seems a bit hackish here, is it going
-> > > > to generate a .pc file with .so.1 version ?
-> > >
-> > > The problem is that both v2 and v1 are installed into the sysroot; we
-> > > don't have a mechanism to choose one or the other via DEPENDS (unlike
-> > > desktop distros where you can install -v1-dev or -v2-dev package for
-> > > your build).
-> > > Then both v2 and v1 .pc files (without this patch) refer to
-> > > '-lmodulemd' which in our case always resolves to v2 library.
-> > >
-> > > Wth the patch the generated v1 .pc will look like this, while v2
-> > > continues to use the original '-lmodlulemd' in Libs:
-> > >
-> > > prefix=${pcfiledir}/../../../usr
-> > > libdir=${prefix}/lib
-> > > includedir=${prefix}/include
-> > >
-> > > Name: modulemd
-> > > Description: Module metadata manipulation library
-> > > Version: 1.8.10
-> > > Requires: glib-2.0, gobject-2.0
-> > > Libs: -l:libmodulemd.so.1
-> > > Cflags: -I${includedir}/modulemd
-> >
-> > FWIW I think if there were two different recipes we could select which
-> > was in the sysroot through DEPENDS?
-> >
-> > Cheers,
-> >
-> > Richard
-> >
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---000000000000d7559d05897a38d6
+--000000000000d7e22c05897a67e7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div dir=3D"auto"><br></div></div><div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, =
-May 22, 2019 at 4:21 AM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavi=
-n@gmail.com" target=3D"_blank">alex.kanavin@gmail.com</a>&gt; wrote:<br></d=
-iv><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;bord=
-er-left:1px solid rgb(204,204,204);padding-left:1ex">I&#39;m not sure that =
-would work, as at do_rootfs time both createrepo_c<br>
-(v2 user) and libdnf (v1 user) need to be present in the<br>
-sysroot-native, and so v1 and v2 files would clash at that point<br>
-(libmodulemd.so would be provided by both).<br>
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, May 22, 2019 at 4:27 AM Alexander Kanavin &lt;<a hr=
+ef=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt; wrote:<=
+br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
+r-left:1px #ccc solid;padding-left:1ex">On Wed, 22 May 2019 at 13:05, &lt;<=
+a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank">rich=
+ard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
 <br>
-I am kind of hoping that libdnf would migrate off v1 to v2, and we<br>
-could then simply disable v1 altogether. So far it hasn&#39;t happened,<br>
-and libdnf update is now also blocked by the c++ code that older<br>
-compilers don&#39;t like, so I&#39;d leave thing as they are for now.<br>
-<br></blockquote><div><br></div><div><div class=3D"gmail_default" style=3D"=
-font-family:monospace,monospace">conflicts will happen only when dev packag=
-es</div><div class=3D"gmail_default" style=3D"font-family:monospace,monospa=
-ce">are bundled into image.</div><br></div><div><div class=3D"gmail_default=
-" style=3D"font-family:monospace,monospace">we probably need something like=
- libusb for this case and then remove the compat package when its</div><div=
- class=3D"gmail_default" style=3D"font-family:monospace,monospace">no longe=
-r needed.</div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote"=
- style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">
-Alex<br>
+&gt; I don&#39;t think we need to switch our default, just be able to build=
+ say<br>
+&gt; oe-core without python/python2 in HOSTTOOLS and without needing python=
 <br>
-On Wed, 22 May 2019 at 13:08, Richard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt; 2.7 in OE-Core either.<br>
 &gt;<br>
-&gt; On Wed, 2019-05-22 at 12:28 +0200, Alexander Kanavin wrote:<br>
-&gt; &gt; On Wed, 22 May 2019 at 04:04, Khem Raj &lt;<a href=3D"mailto:raj.=
-khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
-&gt; &gt; &gt; &gt; +<br>
-&gt; &gt; &gt; &gt; + pkg.generate(<br>
-&gt; &gt; &gt; &gt; +-=C2=A0 =C2=A0 libraries : modulemd_v1_lib,<br>
-&gt; &gt; &gt; &gt; ++=C2=A0 =C2=A0 libraries : &#39;-l:libmodulemd.so.1&#3=
-9;,<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; shouldn&#39;t it be generating a separate package for v1 ?<b=
-r>
-&gt; &gt; &gt; hardcoding linker paths seems a bit hackish here, is it goin=
-g<br>
-&gt; &gt; &gt; to generate a .pc file with .so.1 version ?<br>
-&gt; &gt;<br>
-&gt; &gt; The problem is that both v2 and v1 are installed into the sysroot=
-; we<br>
-&gt; &gt; don&#39;t have a mechanism to choose one or the other via DEPENDS=
- (unlike<br>
-&gt; &gt; desktop distros where you can install -v1-dev or -v2-dev package =
-for<br>
-&gt; &gt; your build).<br>
-&gt; &gt; Then both v2 and v1 .pc files (without this patch) refer to<br>
-&gt; &gt; &#39;-lmodulemd&#39; which in our case always resolves to v2 libr=
-ary.<br>
-&gt; &gt;<br>
-&gt; &gt; Wth the patch the generated v1 .pc will look like this, while v2<=
+&gt; &gt; Its good that project is taking lead here but we might leave many=
+<br>
+&gt; &gt; users behind.<br>
+&gt;<br>
+&gt; I suspect python2 will end up in a layer of its down which I&#39;m fin=
+e<br>
+&gt; with, dependencies can then be clearly seen.<br>
+<br>
+For what it&#39;s worth, Fedora is getting serious about Python 2 removal,<=
 br>
-&gt; &gt; continues to use the original &#39;-lmodlulemd&#39; in Libs:<br>
-&gt; &gt;<br>
-&gt; &gt; prefix=3D${pcfiledir}/../../../usr<br>
-&gt; &gt; libdir=3D${prefix}/lib<br>
-&gt; &gt; includedir=3D${prefix}/include<br>
-&gt; &gt;<br>
-&gt; &gt; Name: modulemd<br>
-&gt; &gt; Description: Module metadata manipulation library<br>
-&gt; &gt; Version: 1.8.10<br>
-&gt; &gt; Requires: glib-2.0, gobject-2.0<br>
-&gt; &gt; Libs: -l:libmodulemd.so.1<br>
-&gt; &gt; Cflags: -I${includedir}/modulemd<br>
-&gt;<br>
-&gt; FWIW I think if there were two different recipes we could select which=
+and they have a plan for it:<br>
+<a href=3D"https://fedoraproject.org/wiki/Changes/RetirePython2" rel=3D"nor=
+eferrer" target=3D"_blank">https://fedoraproject.org/wiki/Changes/RetirePyt=
+hon2</a><br>
 <br>
-&gt; was in the sysroot through DEPENDS?<br>
-&gt;<br>
-&gt; Cheers,<br>
-&gt;<br>
-&gt; Richard<br>
-&gt;<br>
+&quot;All packages in Fedora that need Python 2 to run will be removed from=
+<br>
+Fedora 32 regardless of their dependencies. All packages in Fedora<br>
+that need Python 2 to build will be removed from Fedora 32 regardless<br>
+of their dependencies. &quot;<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div d=
+ir=3D"auto">We have discussed moving meta-python to its own repository (not=
+ under meta-openembedded). As part of that move, I am proposing the existin=
+g python2 recipes move to a separate (deprecated) layer, as RP mentioned ea=
+rlier. Then meta-python will become python3 only. We will also move recipet=
+ool/devtool to provide python3 (only) support. People that need python2 wil=
+l very soon have to live with older stable branches. This should not be a s=
+urprise.</div><div dir=3D"auto"><br></div><div dir=3D"auto">We also need to=
+ do whatever we can with upstream projects that are not feeling an urgency =
+to move to python3. They should likewise not be surprised at the need to sw=
+itch.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+Alex<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
 </blockquote></div></div>
-</div>
 
---000000000000d7559d05897a38d6--
+--000000000000d7e22c05897a67e7--
