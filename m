@@ -1,49 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D64A7E3BF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
+	[209.85.128.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 5039C7E3DF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 23:29:59 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id z6so2655090qkl.10
+	Wed, 22 May 2019 23:30:05 +0000 (UTC)
+Received: by mail-wm1-f47.google.com with SMTP id y3so3885349wmm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 16:30:00 -0700 (PDT)
+	Wed, 22 May 2019 16:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ecd6AD2pbmr9xcR1IpJ0uSZAazFp/JnzLVHI01ILZd0=;
-	b=NisfOMMUpl9rCbBBnwqiyAs/pz4GvT9xTOBzzNx3+IXYjoz4G+ZKkE+mheT+umri6i
-	iEraNnwUFT2T/3gwUaSRugDG+0sM408zM5A8qZe7f0WFNzwxAAOZ0rjNGDGNKAdV8cGa
-	T7lm6lhTTnTYtQMGz3LTbxHH/y/CjUIZ8cNkDDnYcHePMSB6Vi+Q0oP/Ew3+zxkc/wyg
-	HwiefTAcoQ+UgcnJd1CMrQLy6DVoxuO4o9S02KxWzKoPB2D2kRUUVKyA35Dn2V9J6cm4
-	NPF+UfAmL1kxCtHS9GGHaDx8ypX6OI8e3PAEaBLXbVXDeFUGyPndnWyI6DpDr9d6DCb0
-	ntzg==
+	h=from:to:cc:subject:date:message-id;
+	bh=8MDwPsAn2EhwkxTt30NtyJdRSj0lZM972n5Cfz8EpZA=;
+	b=GnQm6yJof+XeWxJFG7lCwXVj22zRm/4BiVIONLS7wyIOwFCEFROe/6ghP95DzHxutz
+	K800l7CZUugoc7u2NV99m0UzOc2eCDcrIww+9oQaIyG+aGC09sxJB5YTASqhKyhzHRGk
+	MEfbef+G79Ik1hSHFDv3HZrX/EFxPw6vMAWobZPB7v3MOVXO3wCEaI9++bRm0HYVdP5G
+	FZyZ6xJmYQ9jAVY2iSRYiLqcZRSi3B0hNKwz6Qp1ow+5eXfBWgsEjJR0P5TItawuobOX
+	g6XktOscrXCyU+RR7hZKJOoLgcIWkfc3EJIaBrfPakwurXgVbwaVcfYQz+znZXJwCeVq
+	LBrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Ecd6AD2pbmr9xcR1IpJ0uSZAazFp/JnzLVHI01ILZd0=;
-	b=emZTws5SRqopQkaRzoQrY+fhM/0Jz77jIfhLXxSm9YsqeJHZR4R/BbAAP9fQb2dQFe
-	DDyWqxh5BPe+BZBw0Afgt/0kWb0FvJdj50PXaUDncnDjUg/3kw+2YzKwMXK4A/jApELt
-	UPFD1UYr28CgdZroLNcmF0J1gFODmspZGLQ7O50zvW0fE05zYut8sHdu7erxQ4sCpzV7
-	ndCcpGNDUmmX1t2tjyG+hnIzSj7H1s41Em0ARGFEaAIkSQhxI3RCnnDsLigE8X65z2f2
-	iwOi2rzIyg/ilA9rM6i+FJH2JaKaXSSJXPoi+FwyRDd9ZRn4TMM9nGcy0HVr4yHRVkt0
-	zs3g==
-X-Gm-Message-State: APjAAAUM4SCiOZ7UbghAysbJANVZkaFTicnXX56LYIfPzwxdlJDdVUKV
-	fgEj5qagBm/ahxHj+J5lmJ9nOEysGrl0X/GN/lwFJOR5
-X-Google-Smtp-Source: APXvYqzrk7ml5N04aCoc+r1LRo/secV/RzTOeFaGtRVqYNlEat1VGCbHDCngKr6HZPY5dsPVPTyJXP+fi37i+jrVlNs=
-X-Received: by 2002:a37:b287:: with SMTP id b129mr63148325qkf.20.1558567800061;
-	Wed, 22 May 2019 16:30:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190522013228.7591-1-raj.khem@gmail.com>
-	<20190522013228.7591-3-raj.khem@gmail.com>
-	<20190522064909.GA9621@localhost>
-In-Reply-To: <20190522064909.GA9621@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 May 2019 16:29:33 -0700
-Message-ID: <CAMKF1sqj0+y_55xVf6SRjS1czodtioUYxVv1tbWU4_7AKYrzLw@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] elfutils: Fix eu-* utils builds for musl
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=8MDwPsAn2EhwkxTt30NtyJdRSj0lZM972n5Cfz8EpZA=;
+	b=Gon+XKJp/bKvGXCQA9mCxSiqndK1qYAk4YExi98uAFuEMRD5/ezvPx4jUJADTBGi30
+	ApHYYdb7gGFce3qrgzhSoCD+h1hmAI9l4VQmqwoIg6TEihoeXfcoy9qKHfJquFJ0y6cR
+	tsHv+tCaQ4iLPRBP+mEzigFb7Y8kwvXDCQl8FbT7poOWZ8HDRDil3+I0/9Q3M/t9N+hg
+	TjDmAogDBy0Ddwenl+eN6aNESyAB/dQpqlro+Iim7nBqE9o99ah23Rb2B3oR3ugYU4jd
+	xVXKrJJtcoqO7cH4j6X52SJnZDS+3aTXRQ/5gfLqlx/VDfKuUt9EFvUI+myIkw3n9MOz
+	qpAA==
+X-Gm-Message-State: APjAAAWfmjrXx//zU/DI5NvcTn0KBLx+2TeZK6vm++DjJfO18h4JJ/lU
+	Li9ihVnocv4GIIDGw57QdDruDH5Z
+X-Google-Smtp-Source: APXvYqzNygl75sox4bp90Htt91P0WcRU5jOBEa0CO63dSK48cdIIRvq1YAftQm0RKdt9x8T4I5j9XA==
+X-Received: by 2002:a7b:c444:: with SMTP id l4mr9764715wmi.15.1558567805711;
+	Wed, 22 May 2019 16:30:05 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	p17sm9437460wrq.95.2019.05.22.16.30.05
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 May 2019 16:30:05 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 May 2019 23:30:14 +0000
+Message-Id: <20190522233014.25325-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] bc: use u-a for bc as well
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,45 +55,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 23:29:59 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 22 May 2019 23:30:05 -0000
 
-On Tue, May 21, 2019 at 11:49 PM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Tue, May 21, 2019 at 06:32:28PM -0700, Khem Raj wrote:
-> >...
-> > PN and PN-binutils is not empty anymore on musl
-> >...
-> > ++#if !defined(FNM_EXTMATCH)
-> > ++# define FNM_EXTMATCH (1 << 5) /* Use ksh-like extended matching. */
-> > ++#endif
-> >...
->
-> This might fix the compilation, but it is horribly wrong.
->
-> It passes a flag to a function that this function does not understand.
->
-> In the best case the function returns with an error on unknown flags.
->
-> In the worst case the function does silently something different from
-> what the caller expects it to do.
->
+* bc can be provided by busybox as well (e.g. if you have your own
+  defconfig and forget to explicitly disable it:
+  ...
+  *
+  * Miscellaneous Utilities
+  *
+  adjtimex (4.7 kb) (ADJTIMEX) [N/y/?] n
+  bbconfig (9.7 kb) (BBCONFIG) [N/y/?] n
+  bc (45 kb) (BC) [Y/n/?] (NEW) dc (36 kb) (DC) [Y/n/?] y
+    Use bc code base for dc (larger, more features) (FEATURE_DC_BIG) [Y] (NEW) y
+      Interactive mode (+4kb) (FEATURE_BC_INTERACTIVE) [Y/n/?] (NEW)     Enable bc/dc long options (FEATURE_BC_LONG_OPTIONS) [Y/n] (NEW) beep (2.4 kb) (BEEP) [N/y/?] n
+  chat (6.3 kb) (CHAT) [N/y/?] n
+  conspy (10 kb) (CONSPY) [N/y/?] n
+  ...
+  ), causing conflict in u-a:
 
-I forgot that the API is provided by libc here so mimic'ing the define
-infact could
-cause pain. I think its better to nullify it in this case where it is
-being used in these
-files.
+  update-alternatives: Error: not linking /usr/bin/bc to /bin/busybox.nosuid since /usr/bin/bc exists and is not a link
 
+  and then whole do_rootfs or do_populate_sdk to fail because busybox postinst is failing:
 
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+  do_populate_sdk: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
+  then please place them into pkg_postinst_ontarget_${PN} (). Deferring to first boot via 'exit 1' is no longer supported.
+
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ meta/recipes-extended/bc/bc_1.07.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extended/bc/bc_1.07.1.bb
+index e80857745e..809b864c1a 100644
+--- a/meta/recipes-extended/bc/bc_1.07.1.bb
++++ b/meta/recipes-extended/bc/bc_1.07.1.bb
+@@ -27,7 +27,7 @@ do_compile_prepend() {
+     cp -f ${WORKDIR}/libmath.h ${B}/bc/libmath.h
+ }
+ 
+-ALTERNATIVE_${PN} = "dc"
++ALTERNATIVE_${PN} = "bc dc"
+ ALTERNATIVE_PRIORITY = "100"
+ 
+-BBCLASSEXTEND = "native"
+\ No newline at end of file
++BBCLASSEXTEND = "native"
+-- 
+2.17.1
+
 
