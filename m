@@ -1,34 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id CF2987E3B8
+	by mail.openembedded.org (Postfix) with ESMTP id D01147E3BE
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 May 2019 10:58:48 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4588kw5gN7z4q
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4588kw2mg0z3G
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 May 2019 12:58:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1558522728;
-	bh=DtiCx6eAaVe02dh5YCy8QGvN/O990hpA5BkLc08ea98=;
+	bh=9AKDIdvYUcjwmSLl+I5nt50BWXjbumPLB0iwl6KqbdE=;
 	h=From:To:Subject:Date:From;
-	b=oKXeQAbAGeFfkjic3uO7X2s75W11sXcgWTgaZTn46HTru0SWzmeEQdWoXKqgc6+iW
-	8TdYOSVVVFOBV14Hj6gnZqEPqyRC3EbRD8pU21MfK4MIZwrxQhtSIwt4aBSH1O/pdK
-	lxuWEDafXZJCnv2IElxogswxQg3Y6TgmkdMErKdnZ6FdFg5UTLcl+jV3We7h9mNtXK
-	WGmk4gpHbCEBqPA8MJS40+Mwqcb8CyePK3h9e3b4h0C+zfK3m1uUnZUZW1e4hMbxqn
-	2qjR+yYV82J1G3l7Y0xWVmpsw6HQFMaXXlP1zLWht214zMfETo3dsoFVQObWpxIgjH
-	sAoNNpIYAJ+habtT7FFr6kc+tBRQHx42pwOJAhWorSvOw3i63Psbkgh/FbykbxfneS
-	BXttGy4qSurRC7SytlhX8tSxARohFaOh7vsDxuXQJopeWqJM8+3R2fRFPiDTUOyAtP
-	yBajWVlwocEiLEFwJNLnK2lTo2xFtHjM2SthzqtgSHDjlWGkEVZ7pPbtUbE9K6+D9F
-	jWQxzfA16vU48XUjKAGMFY9wrQ8GMPrkifTlQex2Yc8pnRytJrYUJ5X0V7fyJ4w7ec
-	ViIO6w82hXo0k3JEBrXsr1bOi5x5zAKUqBqtFO0FNxGV5JwCbuN2ESLowEfJMFYrnY
-	EWWs9dZkaEbvu/khl4fEZYK4=
+	b=kN/Qeoec46LkOaXpPykmr7ibkzj1xyQ0T1LT6YStQDbtp+dM+Fr8gzRbsP2F2b8+v
+	dzJmo2ElhKT7Wm/7K1c0r/Nqo083uAgbk8ZfCSihdUrWRHRIsHzqq5JgEJoLVaD+Hj
+	XWf9x/9O3V3GiVGXl32T0iYdLvpI1hf2VKgIAfBCrehGdFetc/g/nRgYz9YGcTHmCI
+	fGP5hfTyx3OadhkyAbjtPPS5PmwiLkL5D1YmGz286pto0iRvwmvD4+Z6u+j5EnKnfv
+	DbJ2XuTifUq7gLtTD478z+XDHQRFN9ca2ltVmtyLo2NZLZ1225cJfz7KKvLEtaRS8O
+	TylROAzZhPdWvqgCiFQQNzpb8bgYRoMjQ0XoEEya2pTFp26KN7+zfGEUk+pQwM93GA
+	RWTNjo5fFqSXto0UOxA8g7W0EzrfEQHK5zjHYDyvVdqNdRn++p7c0G56jsLW6DitNi
+	N+NlfMmooae+ZcEaSsGTmHOvLKWV6/Q83s7AZbpKZKCGrLqP8vubnVTruwkNQh/x9d
+	ldgw0eY0rM+UPbZdDO5/g2aMl3yD+Cgi/8oYCVfG0cwp+lQ6wZztcBEfpaImkftOHm
+	HsePrygawU8b0kIbY1vclX2uQxBNSz08Oqy3wEEVQNcMRpQKHI/dXQExFu+O826fc0
+	rRPPfF9bFxjU8gRhr907EgR4=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 May 2019 13:58:46 +0300
-Message-Id: <20190522105847.6512-2-bunk@stusta.de>
+Date: Wed, 22 May 2019 13:58:45 +0300
+Message-Id: <20190522105847.6512-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Subject: [PATCH] dpkg: Remove workaround patches for no longer supported host distributions
+Subject: [PATCH] apt: Remove workaround patches for no longer supported host distributions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,188 +41,160 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 May 2019 10:58:49 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+
+All still supported host distributions have gcc >= 4.8.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../0005-dpkg-compiler.m4-remove-Wvla.patch   |  40 -------
- .../dpkg/dpkg/glibc2.5-sync_file_range.patch  | 100 ------------------
- meta/recipes-devtools/dpkg/dpkg_1.19.4.bb     |   3 +-
- 3 files changed, 1 insertion(+), 142 deletions(-)
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
- delete mode 100644 meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
+ meta/recipes-devtools/apt/apt-native.inc      |  2 -
+ .../apt/0001-fix-the-gcc-version-check.patch  | 74 -------------------
+ ...emove-Wsuggest-attribute-from-CFLAGS.patch | 43 -----------
+ 3 files changed, 119 deletions(-)
+ delete mode 100644 meta/recipes-devtools/apt/apt/0001-fix-the-gcc-version-check.patch
+ delete mode 100644 meta/recipes-devtools/apt/apt/0001-remove-Wsuggest-attribute-from-CFLAGS.patch
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch b/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
+diff --git a/meta/recipes-devtools/apt/apt-native.inc b/meta/recipes-devtools/apt/apt-native.inc
+index ef232c1eb6..d826786329 100644
+--- a/meta/recipes-devtools/apt/apt-native.inc
++++ b/meta/recipes-devtools/apt/apt-native.inc
+@@ -7,8 +7,6 @@ USE_NLS = "yes"
+ 
+ SRC_URI += "file://db_linking_hack.patch \
+             file://0001-Revert-always-run-dpkg-configure-a-at-the-end-of-our.patch \
+-            file://0001-remove-Wsuggest-attribute-from-CFLAGS.patch \
+-            file://0001-fix-the-gcc-version-check.patch \
+ "
+ 
+ python do_install () {
+diff --git a/meta/recipes-devtools/apt/apt/0001-fix-the-gcc-version-check.patch b/meta/recipes-devtools/apt/apt/0001-fix-the-gcc-version-check.patch
 deleted file mode 100644
-index b368508862..0000000000
---- a/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
+index 3ac92462c5..0000000000
+--- a/meta/recipes-devtools/apt/apt/0001-fix-the-gcc-version-check.patch
 +++ /dev/null
-@@ -1,40 +0,0 @@
--From 0ad7bba80d5b9035089ff2b2f77a774b5b201915 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Wed, 26 Aug 2015 16:28:59 +0300
--Subject: [PATCH 5/5] dpkg-compiler.m4: remove -Wvla
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
+@@ -1,74 +0,0 @@
+-From 53c5d0982f03fd0e24c4195d6e1e42b9ade9d500 Mon Sep 17 00:00:00 2001
+-From: Roy Li <rongqing.li@windriver.com>
+-Date: Wed, 27 May 2015 14:30:28 +0800
+-Subject: [PATCH] fix the gcc version check
 -
--Remove the -Wvla flag from the set of compiler warning flags, since gcc
--on old host systems such as CentOS 5.8 doesn't support it, and it
--causes a build error for dpkg-native.
+-Upstream-Status: pending
 -
--Upstream-Status: Pending
+-"GCC diagnostic push" is gcc 4.6 feature, gcc 4.4.7 on centos did not know it
 -
--Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
--Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
--Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
--
--Update patch context for dpkg 1.19.4.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ----
-- m4/dpkg-compiler.m4 | 1 -
-- 1 file changed, 1 deletion(-)
+- apt-pkg/contrib/macros.h     | 2 +-
+- apt-pkg/deb/debsrcrecords.cc | 4 ++--
+- apt-pkg/srcrecords.cc        | 4 ++--
+- 3 files changed, 5 insertions(+), 5 deletions(-)
 -
--diff --git a/m4/dpkg-compiler.m4 b/m4/dpkg-compiler.m4
--index a6192f6..4c7bf2e 100644
----- a/m4/dpkg-compiler.m4
--+++ b/m4/dpkg-compiler.m4
--@@ -67,7 +67,6 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
--   DPKG_CHECK_COMPILER_FLAG([-Wshift-negative-value])
--   DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
--   DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
---  DPKG_CHECK_COMPILER_FLAG([-Wvla])
--   DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
+-diff --git a/apt-pkg/contrib/macros.h b/apt-pkg/contrib/macros.h
+-index 2727fd8..0ecae50 100644
+---- a/apt-pkg/contrib/macros.h
+-+++ b/apt-pkg/contrib/macros.h
+-@@ -136,7 +136,7 @@
+- #endif
+- #endif
 - 
--   AC_LANG_CASE(
+--#if __GNUC__ >= 4
+-+#if __GNUC__ >= 4 + (6 >= __GNUC_MINOR__)
+- 	#define APT_IGNORE_DEPRECATED_PUSH \
+- 		_Pragma("GCC diagnostic push") \
+- 		_Pragma("GCC diagnostic ignored \"-Wdeprecated-declarations\"")
+-diff --git a/apt-pkg/deb/debsrcrecords.cc b/apt-pkg/deb/debsrcrecords.cc
+-index e8295de..40160b2 100644
+---- a/apt-pkg/deb/debsrcrecords.cc
+-+++ b/apt-pkg/deb/debsrcrecords.cc
+-@@ -139,13 +139,13 @@ bool debSrcRecordParser::Files(std::vector<pkgSrcRecords::File> &F)
+-    for (std::vector<pkgSrcRecords::File2>::const_iterator f2 = F2.begin(); f2 != F2.end(); ++f2)
+-    {
+-       pkgSrcRecords::File2 f;
+--#if __GNUC__ >= 4
+-+#if __GNUC__ >= 4 + (6 >= __GNUC_MINOR__)
+- 	#pragma GCC diagnostic push
+- 	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+- #endif
+-       f.MD5Hash = f2->MD5Hash;
+-       f.Size = f2->Size;
+--#if __GNUC__ >= 4
+-+#if __GNUC__ >= 4 + (6 >= __GNUC_MINOR__)
+- 	#pragma GCC diagnostic pop
+- #endif
+-       f.Path = f2->Path;
+-diff --git a/apt-pkg/srcrecords.cc b/apt-pkg/srcrecords.cc
+-index 53d7e60..1484828 100644
+---- a/apt-pkg/srcrecords.cc
+-+++ b/apt-pkg/srcrecords.cc
+-@@ -157,7 +157,7 @@ bool pkgSrcRecords::Parser::Files2(std::vector<pkgSrcRecords::File2> &F2)/*{{{*/
+-    for (std::vector<pkgSrcRecords::File>::const_iterator f = F.begin(); f != F.end(); ++f)
+-    {
+-       pkgSrcRecords::File2 f2;
+--#if __GNUC__ >= 4
+-+#if __GNUC__ >= 4 + (6 >= __GNUC_MINOR__)
+- 	#pragma GCC diagnostic push
+- 	#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+- #endif
+-@@ -165,7 +165,7 @@ bool pkgSrcRecords::Parser::Files2(std::vector<pkgSrcRecords::File2> &F2)/*{{{*/
+-       f2.Size = f->Size;
+-       f2.Hashes.push_back(HashString("MD5Sum", f->MD5Hash));
+-       f2.FileSize = f->Size;
+--#if __GNUC__ >= 4
+-+#if __GNUC__ >= 4 + (6 >= __GNUC_MINOR__)
+- 	#pragma GCC diagnostic pop
+- #endif
+-       f2.Path = f->Path;
 --- 
 -2.1.4
 -
-diff --git a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
+diff --git a/meta/recipes-devtools/apt/apt/0001-remove-Wsuggest-attribute-from-CFLAGS.patch b/meta/recipes-devtools/apt/apt/0001-remove-Wsuggest-attribute-from-CFLAGS.patch
 deleted file mode 100644
-index 5debcc5209..0000000000
---- a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
+index 47870e3c8b..0000000000
+--- a/meta/recipes-devtools/apt/apt/0001-remove-Wsuggest-attribute-from-CFLAGS.patch
 +++ /dev/null
-@@ -1,100 +0,0 @@
--From 9d260d408f9e17abd1d1dccd685bd7e80a3655a9 Mon Sep 17 00:00:00 2001
--From: Donn Seeley <donn.seeley@windriver.com>
--Date: Tue, 25 Feb 2014 17:44:04 +0800
--Subject: [PATCH] dpkg: fix a link problem for dpkg-native on CentOS 5.8
+@@ -1,43 +0,0 @@
+-From 9fdf50d63df08ee65e7d8e62c35f19ac4841bca9 Mon Sep 17 00:00:00 2001
+-From: Roy Li <rongqing.li@windriver.com>
+-Date: Wed, 27 May 2015 09:48:45 +0800
+-Subject: [PATCH] remove Wsuggest-attribute from CXXFLAGS
 -
--CentOS 5.8 kernels and headers support the sync_file_range() system call,
--but glibc 2.5 doesn't provide the syscall stub.  It appears that this
--problem is known but will never be fixed:
+-Upstream-Status: Inappropriate
 -
--  https://bugzilla.redhat.com/show_bug.cgi?id=518581
+-Wsuggest-attribute is GCC 4.6 feature, centos6 is using GCC
+-4.4.7 which unknown this flag, so remove it from CXXFLAGS
 -
--  Bug 518581 - [RHEL5] glibc misses sync_file_range syscall interface
--
--  Status:       CLOSED CANTFIX
--  Last Closed:  2009-11-22 22:19:55
--
--  Kirby Zhou 2009-08-20 23:37:55 EDT
--
--  Description of problem:
--
--  glibc misses sync_file_range syscall interface.  The header file and
--  man page both say 'sync_file_range' should exist.  From man page,
--  sync_file_range should exist sinc kernel-2.6.17
--
--  Andreas Schwab 2009-08-21 03:24:24 EDT
--
--  It has only been added to glibc 2.6, and cannot be backported due to
--  ABI breakage.  You can always fall back to syscall(3).
--
--  Ulrich Drepper 2009-11-22 22:19:55 EST
--
--  As comment #1 says, no chance to backport this.
--
--  See the syscall man page for instructions.
--
--  Jon E 2010-03-19 10:32:37 EDT
--
--  then why document it if it's broken and you're not going to fix it?
--  .. might want to FTFM over at sync_file_range(2) - in the meantime -
--  borrowing from glibc 2.6 .. any thoughts on this implementation for a
--  hacky workaround for those still on your "ancient releases" .. (eg:
--  RHEL5.3)?:
--
--  #ifdef ULI_WONT_FIX_THIS_IN_GLIBC2.5
--  #define NR_sync_file_range 277
--  int sync_file_range (int fd, __off64_t from, __off64_t to, unsigned int flags)
--  {
--    return syscall (NR_sync_file_range, fd,
--                           __LONG_LONG_PAIR ((long) (from >> 32), (long) from),
--                           __LONG_LONG_PAIR ((long) (to >> 32), (long) to),
--                           flags);
--  }
--  #endif
--
--  assuming of course that you're on an x86_64 and include/asm-
--  x86_64/unistd.h has the correct entry
--
--  (fwiw - fio is starting to use this now)
--
--Rather than attempting to provide an implementation using syscall(),
--we take the more conservative route and ignore header support for
--sync_file_range() flags when the glibc version is <= 2.5.
--
--Upstream-Status: Inappropriate [everyone else builds on newer hosts :-)]
--
--Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
--Signed-off-by: Lei Liu <lei.liu2@windriver.com>
--
--Update patch context for dpkg 1.19.4.
--
--Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-Signed-off-by: Roy Li <rongqing.li@windriver.com>
 ----
-- src/archives.c | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
+- buildlib/environment.mak.in | 1 -
+- test/libapt/makefile        | 1 -
+- 2 files changed, 2 deletions(-)
 -
--diff --git a/src/archives.c b/src/archives.c
--index 8476a5c..b05a63f 100644
----- a/src/archives.c
--+++ b/src/archives.c
--@@ -68,7 +68,7 @@ fd_writeback_init(int fd)
--   /* Ignore the return code as it should be considered equivalent to an
--    * asynchronous hint for the kernel, we are doing an fsync() later on
--    * anyway. */
---#if defined(SYNC_FILE_RANGE_WRITE)
--+#if defined(SYNC_FILE_RANGE_WRITE) && __GLIBC_PREREQ(2, 6)
--   sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
-- #elif defined(HAVE_POSIX_FADVISE)
--   posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
--@@ -1093,7 +1093,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
--   return 0;
-- }
+-diff --git a/buildlib/environment.mak.in b/buildlib/environment.mak.in
+-index 9620722..c344d01 100644
+---- a/buildlib/environment.mak.in
+-+++ b/buildlib/environment.mak.in
+-@@ -14,7 +14,6 @@ CXXFLAGS+= @CXXFLAGS@ -Wall -Wextra
+- CXXFLAGS+= -Wcast-align -Wlogical-op -Wredundant-decls -Wmissing-declarations -Wunsafe-loop-optimizations
+- CXXFLAGS+= -Wctor-dtor-privacy -Wdisabled-optimization -Winit-self -Wmissing-include-dirs -Wnoexcept -Wsign-promo -Wundef
+- # suggests methods which already have such an attribute
+--#CXXFLAGS+= -Wsuggest-attribute=pure -Wsuggest-attribute=const -Wsuggest-attribute=noreturn
+- # sanitize options to be enabled for testing
+- #CXXFLAGS+= -fsanitize=address -fsanitize=undefined -fno-sanitize=vptr
+- # a bit too pedantic to be run by default
+-diff --git a/test/libapt/makefile b/test/libapt/makefile
+-index 5ff9cf6..c5b5190 100644
+---- a/test/libapt/makefile
+-+++ b/test/libapt/makefile
+-@@ -40,7 +40,6 @@ CXXFLAGS += -pthread
+- # disable some flags for gtest again
+- CXXFLAGS+= -Wno-missing-declarations
+- CXXFLAGS+= -Wno-missing-field-initializers
+--CXXFLAGS+= -Wno-suggest-attribute=pure -Wno-suggest-attribute=const -Wno-suggest-attribute=noreturn
+- CXXFLAGS+= -Wno-undef
 - 
---#if defined(SYNC_FILE_RANGE_WAIT_BEFORE)
--+#if defined(SYNC_FILE_RANGE_WAIT_BEFORE) && __GLIBC_PREREQ(2, 6)
-- static void
-- tar_writeback_barrier(struct fsys_namenode_list *files, struct pkginfo *pkg)
-- {
+- # All Google Test headers.  Usually you shouldn't change this definition.
 --- 
--2.16.2
+-2.1.4
 -
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-index c3dbda77a4..77fbfb5c91 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-@@ -9,12 +9,11 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
-            file://0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch \
-            file://0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch \
-            file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
--           file://0005-dpkg-compiler.m4-remove-Wvla.patch \
-            file://0006-add-musleabi-to-known-target-tripets.patch \
-            file://0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch \
-            file://0001-dpkg-Support-muslx32-build.patch \
-            "
--SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch \
-+SRC_URI_append_class-native = " \
-                                 file://tweak-options-require-tar-1.27.patch \
- "
- 
 -- 
 2.17.1
 
