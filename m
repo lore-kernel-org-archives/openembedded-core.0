@@ -1,55 +1,47 @@
-Return-Path: <luca.boccassi@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
 	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D060F7E3C5
+	by mail.openembedded.org (Postfix) with ESMTP id 99DF27D8EC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 10:58:57 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id s17so1780185wru.3
+	Wed, 22 May 2019 11:02:44 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id d9so1802998wrx.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 03:58:59 -0700 (PDT)
+	Wed, 22 May 2019 04:02:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=kUJgMqHMm2a4ONx+JUXmqZgGtE+cMZC+oywBkU77TLg=;
-	b=URCh/ElEFRAHZ4Mk492HPlZ2K9e/272e3EGNdMPzTNpQp/5Ipz8Bsah3FlAy/f0aDf
-	TeSWWVAj+XavabeCqLmki86xbiHDxR6ija0ZQy6oPPHdwgnPT9fqhOWYbIUnQBxz3bf2
-	MXle4Tinlp8PfkVIxaM+LrR0czE3whWnJJjGAdZm6IkqSUsp4gsnNOhmJu+Mi8SFTqxT
-	2JYYEjFrWekc5HlodnpXEIqcDByYhAL/eCq6NjmQwLrKjwAffcObHnSOpCPMeMS5mZ2T
-	gtd3P/NnsT1m1PUfDkz7SLDqQ/cXztTwdsYi3sUr+vpTduKJd8UX/06Szq4O0tKf75bU
-	GADA==
+	h=from:to:cc:subject:date:message-id;
+	bh=MKFKuuEy2xDk2AOGjBqJqtw+69VSvXeUr1anCg5NkDo=;
+	b=dbfrY3y9sR+ovhkAGSi2/Pcp2aJM1M4duMt+nLPzw2eesAZ2v+X0wA+N3blU/Azosc
+	vP9fRh2cC8bO0wmUvjsJYXEgf10wGgQevp5FcpLekgbKclYqpSkW6bKQMcojq4bW+hm+
+	a3VHVqLcmVWo663kPkqs+tXW7daT5Y9wBrGFCxnqd+Q7FHivCMFOA1v4SdogFqiRI6c7
+	+n0rjdkqk/FZbPQBGY1KBncE51MLPoMGpFFifesN2FZbKu4QYER2pc6WKYPPDf2vYNn+
+	TwcJhoBANvCUKye1ZkgRIK2jy7c3dwRNd3fswVKpGGS7E8VKt/M5K/JP3uFX59FElbDF
+	SsdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=kUJgMqHMm2a4ONx+JUXmqZgGtE+cMZC+oywBkU77TLg=;
-	b=V35H/gPsRfCFM4FWZT48ZAWy8+114dO1TWuOjN0cYrxWhBpCtIqvec1qkapmzGe0L1
-	h9T32VqypQuV8IFT9xsCNY6prlYwjGLh08LPpee88xlac+De1fFp22xqW787M/lH8pnr
-	FY8+ZY3SNa8Ni4mLA12tfVqabnZNOcMVH1jTW9e2k/DbJMA+pgmVbgF2OzruJmidYwZU
-	bhDJhLgGI8K0B4dl32uh9H1ZfAT5OoIbm49wuCG3w/XevvD2CQrVC8sUMP+GqfzElF9K
-	AnoIJBC0OqbnJQryAdqlSs6nvFQ2YqYPsxnpmvj38uZ4SJAT3d3xn1oiP6Ggv8O05A7Q
-	V9Fw==
-X-Gm-Message-State: APjAAAX0JdRK+9YMBeknPlBiTCV52rUbdxvJW0gmVwnZyZZjtQohgzAh
-	ccf/DDYn2CGHCrCdEM8BIeQ=
-X-Google-Smtp-Source: APXvYqwDMmu2UWPM19rOoJqvlXBH/s0yOiJwgqUPHFiKqZ0yhdCvxfbHbEWhN85KRQTaIL9agCp0cw==
-X-Received: by 2002:a5d:63d2:: with SMTP id c18mr2583051wrw.134.1558522738431; 
-	Wed, 22 May 2019 03:58:58 -0700 (PDT)
-Received: from bluca-lenovo ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
-	m206sm7297799wmf.21.2019.05.22.03.58.57
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 22 May 2019 03:58:57 -0700 (PDT)
-Message-ID: <ee8e59bddf657fa7736a713cc3c9db16c97091ca.camel@gmail.com>
-From: Luca Boccassi <luca.boccassi@gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 May 2019 11:58:56 +0100
-In-Reply-To: <CAMKF1so9O7VG2VrXRCu260FiZzeL5ywTbr1y9CeVpou6T1reAg@mail.gmail.com>
-References: <20190516210956.19906-1-luca.boccassi@gmail.com>
-	<20190521123641.16768-1-luca.boccassi@gmail.com>
-	<CAMKF1so9O7VG2VrXRCu260FiZzeL5ywTbr1y9CeVpou6T1reAg@mail.gmail.com>
-User-Agent: Evolution 3.30.5-1 
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v4] python*-setuptools: add separate packages for pkg_resources module
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MKFKuuEy2xDk2AOGjBqJqtw+69VSvXeUr1anCg5NkDo=;
+	b=JWdbv+CpZLXW7kr8dIdgY65B1CFzoWrIGeMw5X2oBwUFI/1LJCLXquyF3bEwW8+8HV
+	OO/6BLn3l9MGI4XSis4UijG63a0kjgchFRFXGfrCMuZVRUwV5S9hOBqb/onb9YwsbjBp
+	VRFiQuycAr92+1pTYfmmUH2fNpHFBahmMIJp0We3IdqwLUeVIh3l0NAmUed9ioWDT/Ys
+	NsHv7LS8fFTMgZ1omDAVZJIhjeHhNcJRG3s1MNnYbClgnLVSNkKxOmcU4jv6o090/+yt
+	r4ZnP7hd3KsFv24sRue9TJXIgtVCfYOaHIsvm8MFgd9pnIpuIRl+LzdTFGD8WBR3rrBD
+	6QMw==
+X-Gm-Message-State: APjAAAXt1F+KvsIeLvE+tSjcffsp7LCMupdY1MK1d3V+3c4WUXTl1oe4
+	FcV7PVkyLp+g6Kk7gjkascj4rI+u
+X-Google-Smtp-Source: APXvYqwkX/n5/XZi09ts0Jdg7ILZQV+eTakhVlZJPv9qGo0moSa50AAdZrvfVoUYxdTWHxVfefEYSA==
+X-Received: by 2002:adf:dd51:: with SMTP id u17mr49603815wrm.150.1558522965036;
+	Wed, 22 May 2019 04:02:45 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	l8sm27439501wrw.56.2019.05.22.04.02.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 04:02:44 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 May 2019 13:02:38 +0200
+Message-Id: <20190522110239.52521-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] piglit: upgrade to latest revision
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,93 +54,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 10:58:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 May 2019 11:02:44 -0000
 
-On Tue, 2019-05-21 at 19:06 -0700, Khem Raj wrote:
-> On Tue, May 21, 2019 at 5:36 AM <
-> luca.boccassi@gmail.com
-> > wrote:
-> > From: Luca Boccassi <
-> > luca.boccassi@microsoft.com
-> > >
-> > 
-> > The pkg_resources Python module is useful by itself, for example
-> > for
-> > automatic loading of resources shipped in a Python package.
-> > Add separate packages for it, so that users can depend on them
-> > individually and avoid pulling in the entire setuptools, which
-> > include scripts to download other packages, which might not be
-> > desired on minimal images.
-> > 
-> > Other distributions like Debian and Ubuntu already split setuptools
-> > and pkg-resources in this way.
-> > 
-> > The setuptools packages now depend on the new pkg-resources
-> > packages,
-> > to avoid regressions for other packages that depend on them
-> > already.
-> > 
-> > Signed-off-by: Luca Boccassi <
-> > luca.boccassi@microsoft.com
-> > >
-> > ---
-> > v2: restrict new RDEPENDS to class-target. As advised by Alexander,
-> > bitbake
-> >     cannot resolve native rdeps that mention package names rather
-> > than
-> >     recipe names.
-> > v3: manually add RPROVIDES to the native class instead of
-> > restricting the
-> >     RDEPENDS to the target class as a better workaround. Also
-> > document why
-> >     the package is being split.
-> > v4: re-send to the correct thread, no changes.
-> > 
-> >  meta/recipes-devtools/python/python-setuptools.inc | 11
-> > +++++++++++
-> >  1 file changed, 11 insertions(+)
-> > 
-> > diff --git a/meta/recipes-devtools/python/python-setuptools.inc
-> > b/meta/recipes-devtools/python/python-setuptools.inc
-> > index 357aa07086..f49e078697 100644
-> > --- a/meta/recipes-devtools/python/python-setuptools.inc
-> > +++ b/meta/recipes-devtools/python/python-setuptools.inc
-> > @@ -37,3 +37,14 @@ do_install_prepend() {
-> >  }
-> > 
-> >  BBCLASSEXTEND = "native nativesdk"
-> > +
-> > +# The pkg-resources module can be used by itself, without the
-> > package downloader
-> > +# and easy_install. Ship it in a separate package so that it can
-> > be used by
-> > +# minimal distributions.
-> > +PACKAGES =+ "${PYTHON_PN}-pkg-resources "
-> > +FILES_${PYTHON_PN}-pkg-resources =
-> > "${PYTHON_SITEPACKAGES_DIR}/pkg_resources/*"
-> > +# Due to the way OE-Core implemented native recipes, the native
-> > class cannot
-> > +# have a dependency on something that is not a recipe name. Work
-> > around that by
-> > +# manually setting RPROVIDES.
-> > +RDEPENDS_${PN}_append = " ${PYTHON_PN}-pkg-resources"
-> > +RPROVIDES_append_class-native = " ${PYTHON_PN}-pkg-resources-
-> > native"
-> 
-> do we need to handle nativesdk case ?
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ ...UPWARD-only-if-its-defined-in-fenv.h.patch | 75 -------------------
+ .../piglit/piglit/format-fix.patch            | 69 -----------------
+ meta/recipes-graphics/piglit/piglit_git.bb    |  5 +-
+ 3 files changed, 1 insertion(+), 148 deletions(-)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/format-fix.patch
 
-Hi,
-
-The parsing step of "bitbake core-image-minimal -c populate_sdk" works,
-while without the append_class-native workaround it fails immediately.
-Is this enough or is there something else I should run to check?
-
-Thanks!
-
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch
+deleted file mode 100644
+index 57eda2e207b..00000000000
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-Upstream-Status: Submitted [mailing list]
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From 0e0a2a69261031d55d52b6045990e8982ea12912 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sat, 9 Jul 2016 07:52:19 +0000
+-Subject: [PATCH] tests: only run rounding tests if FE_UPWARD is present
+-
+-On ARM, musl does not define FE_* when the architecture does not have VFP (which
+-is the right interpretation).
+-
+-As these tests depend on calling fesetround(), skip the test if FE_UPWARD isn't
+-available.
+-
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- tests/general/roundmode-getintegerv.c | 12 ++++++++----
+- tests/general/roundmode-pixelstore.c  | 12 ++++++++----
+- 2 files changed, 16 insertions(+), 8 deletions(-)
+-
+-diff --git a/tests/general/roundmode-getintegerv.c b/tests/general/roundmode-getintegerv.c
+-index 28ecfaf55..aa99044a1 100644
+---- a/tests/general/roundmode-getintegerv.c
+-+++ b/tests/general/roundmode-getintegerv.c
+-@@ -79,13 +79,17 @@ test(float val, int expect)
+- void
+- piglit_init(int argc, char **argv)
+- {
+--	int ret;
+- 	bool pass = true;
+--	ret = fesetround(FE_UPWARD);
+--	if (ret != 0) {
+--		printf("Couldn't set rounding mode\n");
+-+
+-+#ifdef FE_UPWARD
+-+	if (fesetround(FE_UPWARD) != 0) {
+-+		printf("Setting rounding mode failed\n");
+- 		piglit_report_result(PIGLIT_SKIP);
+- 	}
+-+#else
+-+	printf("Cannot set rounding mode\n");
+-+	piglit_report_result(PIGLIT_SKIP);
+-+#endif
+- 
+- 	pass = test(2.2, 2) && pass;
+- 	pass = test(2.8, 3) && pass;
+-diff --git a/tests/general/roundmode-pixelstore.c b/tests/general/roundmode-pixelstore.c
+-index 8a029b257..57ec11c09 100644
+---- a/tests/general/roundmode-pixelstore.c
+-+++ b/tests/general/roundmode-pixelstore.c
+-@@ -79,13 +79,17 @@ test(float val, int expect)
+- void
+- piglit_init(int argc, char **argv)
+- {
+--	int ret;
+- 	bool pass = true;
+--	ret = fesetround(FE_UPWARD);
+--	if (ret != 0) {
+--		printf("Couldn't set rounding mode\n");
+-+
+-+#ifdef FE_UPWARD
+-+	if (fesetround(FE_UPWARD) != 0) {
+-+		printf("Setting rounding mode failed\n");
+- 		piglit_report_result(PIGLIT_SKIP);
+- 	}
+-+#else
+-+	printf("Cannot set rounding mode\n");
+-+	piglit_report_result(PIGLIT_SKIP);
+-+#endif
+- 
+- 	pass = test(2.2, 2) && pass;
+- 	pass = test(2.8, 3) && pass;
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-graphics/piglit/piglit/format-fix.patch b/meta/recipes-graphics/piglit/piglit/format-fix.patch
+deleted file mode 100644
+index 73d539fef27..00000000000
+--- a/meta/recipes-graphics/piglit/piglit/format-fix.patch
++++ /dev/null
+@@ -1,69 +0,0 @@
+-Upstream-Status: Submitted [mailing list]
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+-
+-From f0c6981322807e179e39ce67aeebd42cf7a54d36 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@intel.com>
+-Date: Wed, 21 Nov 2018 12:44:36 +0000
+-Subject: [PATCH] arb_texture_view: fix security format warnings
+-
+-If built with -Werror=format-security then Piglit fails to build:
+-
+-/tests/spec/arb_texture_view/rendering-layers-image.c:150:8:
+-error: format not a string literal and no format arguments [-Werror=format-security]
+-         (desc)); \
+-         ^~~~~~
+-
+-In this case test->uniform_type is being turned into a string using snprintf()
+-and then passed to piglit_report_subtest_result() which takes a format string,
+-but GCC can't verify the format.
+-
+-As _subtest_report() takes a format string, we can just remove the snprintf()
+-and let it construct the label.
+-
+-Also as X is used once and doesn't make the code clearer, just inline it.
+-
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
+----
+- tests/spec/arb_texture_view/rendering-layers-image.c | 19 ++++++-------------
+- 1 file changed, 6 insertions(+), 13 deletions(-)
+-
+-diff --git a/tests/spec/arb_texture_view/rendering-layers-image.c b/tests/spec/arb_texture_view/rendering-layers-image.c
+-index 415b01657..86148075b 100644
+---- a/tests/spec/arb_texture_view/rendering-layers-image.c
+-+++ b/tests/spec/arb_texture_view/rendering-layers-image.c
+-@@ -142,26 +142,19 @@ test_render_layers(const struct test_info *test)
+- 	return pass;
+- }
+- 
+--#define X(f, desc) \
+--	do { \
+--		const bool subtest_pass = (f); \
+--		piglit_report_subtest_result(subtest_pass \
+--						 ? PIGLIT_PASS : PIGLIT_FAIL, \
+--						 (desc)); \
+--		pass = pass && subtest_pass; \
+--	} while (0)
+--
+- enum piglit_result
+- piglit_display(void)
+- {
+- 	bool pass = true;
+- 	for (int test_idx = 0; test_idx < ARRAY_SIZE(tests); test_idx++) {
+- 		const struct test_info *test = &tests[test_idx];
+--		char test_name[128];
+--		snprintf(test_name, sizeof(test_name), "layers rendering of %s", test->uniform_type);
+--		X(test_render_layers(test), test_name);
+-+
+-+		const bool subtest_pass = test_render_layers(test);
+-+
+-+		piglit_report_subtest_result(subtest_pass ? PIGLIT_PASS : PIGLIT_FAIL,
+-+					     "layers rendering of %s", test->uniform_type);
+-+		pass = pass && subtest_pass;
+- 	}
+--#undef X
+- 	pass = piglit_check_gl_error(GL_NO_ERROR) && pass;
+- 	return pass ? PIGLIT_PASS : PIGLIT_FAIL;
+- }
+--- 
+-2.11.0
+-
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index b6542a191cf..97ebd96619e 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -4,14 +4,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b2beded7103a3d8a442a2a0391d607b0"
+ 
+ SRC_URI = "git://anongit.freedesktop.org/piglit \
+            file://0001-cmake-install-bash-completions-in-the-right-place.patch \
+-           file://0001-tests-Use-FE_UPWARD-only-if-its-defined-in-fenv.h.patch \
+            file://0001-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch \
+-           file://format-fix.patch \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+-# From 2018-10-26
+-SRCREV = "b9066c7717af1d169a616c9e61706b99ff8515b5"
++SRCREV = "ac955893c92591c4542439665cae2c3fb79de9dd"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr${SRCPV}"
+ 
 -- 
-Kind regards,
-Luca Boccassi
+2.17.1
 
 
