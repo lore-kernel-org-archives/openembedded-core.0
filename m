@@ -1,50 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
-	[209.85.210.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 658777E34A
+Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
+	[209.85.210.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FE957E38A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 10:09:40 +0000 (UTC)
-Received: by mail-ot1-f67.google.com with SMTP id n14so1559871otk.2
+	Wed, 22 May 2019 10:28:18 +0000 (UTC)
+Received: by mail-ot1-f68.google.com with SMTP id i8so1556887oth.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 03:09:41 -0700 (PDT)
+	Wed, 22 May 2019 03:28:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=hIzpvpxKoMnypDgqVtWaRluj1iDQNAIwXQsUnEQ7RHE=;
-	b=V3byiUYU4YlicE7kn0ZlTONp7V6LJE6Sl4WV9i0M6ZUVheSOGZjHzmoB7322F5O62f
-	reckkHaudYhRjR2JwtwgsJDxF/DAq5GHAesILp3gJJbx+XJJra+mBUpCnfSAdrpYNjiD
-	D3ILh7xaRrEpilJUr+z4eNxt6RfseQNSBDGm087HvO0r1hZMxkuMjbJabUS12FIsS+84
-	nfyPUjBhHftpJ/mM/h5e8g18KUvYGR+FnyYZe3+8ZO4sqRJ7V8YhwQTTWrf7Yh9R796f
-	4jgdYOQG/IINPrPcoOohkLm2fpW7UgQViS2ansCAor9WHZcrlUSbCkdNv5NY4wUJylQE
-	A2aQ==
+	:cc; bh=7hll9qiVmyx9oUR6A3USwT72Un4xrSXdIFPmHraCHwY=;
+	b=EukX9t4iqnwE9POjWAog/AD0lUTvgZmzNHBCjE9Js/HKx5Pb5Y2SHGwKv30mzgzTwr
+	ihpPKVlNFN8L1YyewnGOe3bNKvZO0NrWcVkCTYSxP5nUi+4qyOskCpMQkFqNZLC04VHN
+	IAaKXv4VMLqNFpR3JPiKa++orvGCUDpaV99Lxeg9CQbcZsPlgGLJ07Q2sFoG998fBGCB
+	hqqpwDWPkhtX3UIOUtWm5WjCTSm2LDChsogXbtGPbL1PyYdI4kD00ank6oiF/maW0oxG
+	cua64BOvC4HscLDF5ps/YhKgAhuV2p1g+9ndAHyHMPCHrUT828ZLITsH3axprINtWKTy
+	r1zw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=hIzpvpxKoMnypDgqVtWaRluj1iDQNAIwXQsUnEQ7RHE=;
-	b=GZ3/7ZtcYvEHPvGi2QIMdHhbWKihK5tF7uUIV2eeNkVwskxZiVMZEwAJ3zYa+1STIe
-	xAeJIgybrYK7OHfHAiVlW3nGXBLBiH3SjUqIZmiwAoiZvjTAg/At5d8qV917/5KkFsVC
-	bd70YvdiKcJRSrwRbAQ/IQgnQtEyrD2d769uoPg5jdBvFxZNZuxMO5jZ3v0E4GYYal2b
-	wMGJakcEIPV+FbZ0UJJN12dlqOs3+LFJXKDA9ZF4VMIp6otPpVQMu3G2G90z82BtBe+O
-	4blRgz5BSd2rCGDGbKvo8fRZoUTGRiKLLpHi7yLDRZyNlbFR3BvNl6juORGMbOrHuDP/
-	OLZg==
-X-Gm-Message-State: APjAAAX9sA821x3PdRxN9MVj8khP72I/wV8IedbfpNYJxj21HyPA0CPk
-	fL53NZCswJgroIc3G3JWBOBjjeR4xRpP9AogwOw=
-X-Google-Smtp-Source: APXvYqy/qWSRq+8B9XqgRR0fYnFDIYArUBwchsn8SAqAN4Mpwjqjf+4kLrZJptYOjFtXW+7Qn6uEcPB8EVfht1PCTw0=
+	bh=7hll9qiVmyx9oUR6A3USwT72Un4xrSXdIFPmHraCHwY=;
+	b=rIQsG5OjXmKcNP/mitJQFr28XzGCpRbNvta+egKbtNjCyzOe8td+lilMER3TQfjzz5
+	DHZaUb5kOErO+4AZ1Zqm74uYISih7GO86Ni8lN0SmbI7CzlO+9OXYMQ1ZS+D1RE2S1lw
+	i0w6wRdp2tOPgoEmSAOahkt5yJeanVSwvIMcEjlW4kQ3LMLTibL+h/vOnV65OSK2sSrS
+	AnYZ5mpqf+aaeQpC0vfzuPtienXBKm2H7TjYEjetO5GFjK7dDod1YGxFOCNxoqsLsY8s
+	sCp/JcT1X/N1oCsVhIookRceoFntwNA89Ch8yb3Z2Opy5U7PWhHaYbvSGOLafT86dTHW
+	mkBg==
+X-Gm-Message-State: APjAAAW/ScgRLb1/7EHPsO5BUJDUx78nUaxO47vDBKhLGcf5NCdWy8qU
+	VGMBVdDrTNuqC3Mvxj/ASyS4k9cfwZw80WI6dlg=
+X-Google-Smtp-Source: APXvYqzLJ4szOysPu6nqfDg5sT9WiLDk6Zi3FzJ6H7lkaQ4zyjNFdMo8ODw+FRCwVJWdY0WHbG/hSWk6iHUo+sfnEgU=
 X-Received: by 2002:a05:6830:1541:: with SMTP id
-	l1mr24566926otp.350.1558519781393; 
-	Wed, 22 May 2019 03:09:41 -0700 (PDT)
+	l1mr24618461otp.350.1558520899464; 
+	Wed, 22 May 2019 03:28:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190520141125.10805-1-alex.kanavin@gmail.com>
-	<20190520141125.10805-13-alex.kanavin@gmail.com>
-	<BYAPR11MB3653872C0E596E71869D90C7CD070@BYAPR11MB3653.namprd11.prod.outlook.com>
-In-Reply-To: <BYAPR11MB3653872C0E596E71869D90C7CD070@BYAPR11MB3653.namprd11.prod.outlook.com>
+References: <20190521161158.45329-1-alex.kanavin@gmail.com>
+	<CAMKF1so7ASfBEknz4t727WGHvSOvJ2z=v87m0o=iZW4VdqFztw@mail.gmail.com>
+In-Reply-To: <CAMKF1so7ASfBEknz4t727WGHvSOvJ2z=v87m0o=iZW4VdqFztw@mail.gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 22 May 2019 12:09:30 +0200
-Message-ID: <CANNYZj9SFZg7HzmYX+xXcxypS18keNALFPMPU2UDzSYVLVmg7w@mail.gmail.com>
-To: "Victor Kamensky (kamensky)" <kamensky@cisco.com>
-Cc: "openembedded-core@lists.openembedded.org"
+Date: Wed, 22 May 2019 12:28:08 +0200
+Message-ID: <CANNYZj8cSb0_7fRhG=bbizctTnaQg53hVwSzOu5WoWr9ywbMKQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 13/42] systemtap: upgrade 4.0 -> 4.1
+Subject: Re: [PATCH] libmodulemd: fix erroneous linking against v2 library when v1 was requested
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,57 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 10:09:40 -0000
+X-List-Received-Date: Wed, 22 May 2019 10:28:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Didn't test it at all; the patch was produced by AUH, so I simply picked it up.
+On Wed, 22 May 2019 at 04:04, Khem Raj <raj.khem@gmail.com> wrote:
+> > +
+> > + pkg.generate(
+> > +-    libraries : modulemd_v1_lib,
+> > ++    libraries : '-l:libmodulemd.so.1',
+>
+> shouldn't it be generating a separate package for v1 ?
+> hardcoding linker paths seems a bit hackish here, is it going
+> to generate a .pc file with .so.1 version ?
 
-Do we have anything in the autobuilder for it?
+The problem is that both v2 and v1 are installed into the sysroot; we
+don't have a mechanism to choose one or the other via DEPENDS (unlike
+desktop distros where you can install -v1-dev or -v2-dev package for
+your build).
+Then both v2 and v1 .pc files (without this patch) refer to
+'-lmodulemd' which in our case always resolves to v2 library.
+
+Wth the patch the generated v1 .pc will look like this, while v2
+continues to use the original '-lmodlulemd' in Libs:
+
+prefix=${pcfiledir}/../../../usr
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+Name: modulemd
+Description: Module metadata manipulation library
+Version: 1.8.10
+Requires: glib-2.0, gobject-2.0
+Libs: -l:libmodulemd.so.1
+Cflags: -I${includedir}/modulemd
+
 
 Alex
-
-On Tue, 21 May 2019 at 23:37, Victor Kamensky (kamensky)
-<kamensky@cisco.com> wrote:
->
-> Hi Alexander,
->
-> I am curios how much did you test it? I had the same patch for
-> a while, waited to post it till proper regressions are done.
->
-> Thanks,
-> Victor
->
-> ________________________________________
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-bounces@lists.openembedded.org> on behalf of Alexander Kanavin <alex.kanavin@gmail.com>
-> Sent: Monday, May 20, 2019 7:10 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH 13/42] systemtap: upgrade 4.0 -> 4.1
->
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> ---
->  meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-> index 54de7226608..c5348b3204b 100644
-> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-> @@ -1,7 +1,7 @@
->  LICENSE = "GPLv2"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-> -SRCREV = "90ff34ac0506f0d5440393a4c78565f6aaf9b726"
-> -PV = "4.0"
-> +SRCREV = "984d6d1696ed06626b07cb65ab55d6ae0ece1131"
-> +PV = "4.1"
->
->  SRC_URI = "git://sourceware.org/git/systemtap.git \
->             file://configure-allow-to-disable-libvirt.patch \
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
