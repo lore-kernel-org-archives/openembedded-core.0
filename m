@@ -1,58 +1,53 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 943F87D8EC
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 21E137E3CC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 11:05:44 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id c66so4457833wme.0
+	Wed, 22 May 2019 11:08:28 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f204so1786322wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 04:05:45 -0700 (PDT)
+	Wed, 22 May 2019 04:08:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=ZfBL+hbgNK7z221D7kkTgtGXi8/k5E0NaQpZn4X1p/k=;
-	b=H6sp4gZD0ZCogr54vjQijQb9ggqK+co535LqwPUE60vPCnNk+YjRCU8yXn72is2kv0
-	xA31//CuHffkjQQe0MD5kPBILj6dJyXu81KQ4mXlse9FoqR6HqzwkLftRPGgbRZGOdSE
-	yOi4EI8xxbfggOXSguYRWEonK2l5TZ1Jsg19M=
+	bh=KZN9XR15leWaUYqE6spIyeGhiTXb3JG3ifVillQOpJY=;
+	b=Y/YW7fYz+f26eBFtzeBP058ldq9/Zj+l1uVY7B+VVW/EWDgO7lNXke+kc1a+43p/Ot
+	qKOWMgKkSAJE9aAZ/82ZhNk8ssY1vI5FfFvUmFK28bmYlPS9TLRfq3lmSIFXW/s6j8NC
+	kH12hMSstC4sukvxdB3hZ8+beBtQCKlg2CiDQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ZfBL+hbgNK7z221D7kkTgtGXi8/k5E0NaQpZn4X1p/k=;
-	b=IRZPAEvnTnabQW4F8qRbvezN3t4Xj9gDTKfOC/wnkiX02t4s7q7d9yTqP+DPETI4wk
-	M1n8AoltXFXG95kriKBn1gvtIF11LPITeb8UC8FiygYGVn+bF92Dv2RubmCkixZJ9GgU
-	Hz3T1aAvDULcLJSaD1SgWEJj5grbsXefiixeR+F7CvUEH+nFSBFTF79t4sw7iix6NWcw
-	ooCcFc5JmcA7XHu1CzIfBDxkiql2ItSZgJ62euC09whTre5vR5uXCJaUHOzPWcWNx8hj
-	fmTzx3hSM5+zDOjdOshqeQgVurd7mKFMjWJtPbFYcbJTsfAkmVqxpAIopf0QkU20EaNa
-	QMXA==
-X-Gm-Message-State: APjAAAVbFwKlq9OMwcCLr62jBmnJNOFf3huH1q04D4b+8zgbBUH3A9Qd
-	fG3vHXu5D+vdqkWtVi/gf5w+bA==
-X-Google-Smtp-Source: APXvYqzNlK2xwiENbyeA96TZcfTtOePNKVTJGSvixTzEKAJsYyo8M1iAeT4hUkwt0rjH4wbQH2O9tQ==
-X-Received: by 2002:a7b:ce10:: with SMTP id m16mr7137310wmc.10.1558523145204; 
-	Wed, 22 May 2019 04:05:45 -0700 (PDT)
+	bh=KZN9XR15leWaUYqE6spIyeGhiTXb3JG3ifVillQOpJY=;
+	b=fZbUwV8zo9hl3MNCugfW8aeEKfWcvReDU8+4aXJxHM69l/mCBhLdRistcve0fUlAYY
+	JsMw1SMVYM/VlWb0PQLtgI5VCwsKy63fl8Cgev+cblSusbOZoL7g2tPZWm9iwwV+ehAr
+	ec511EblNYC4i5P0hVNIvKIBJ9ctkpM1cpKji4hZUxU8MxH+PQt/l0AVCRKM7Il6KWUb
+	XCoCJ51+bCT/sVhImTQrvYxf9/DrH/AfBMg2UzDNSL84q3dintAl214EkxrbOVVq14ra
+	N2bvKkUdga73/MqZGsJxzQwZFToSy7HcMA5Mz57wAGenl5RxOn32qIcsQ0gI9sItCRq6
+	VEzg==
+X-Gm-Message-State: APjAAAXIpYjfsmwCIhrI/VvrHVqMRnh074QKIY84TtsZvPCATmh3df8P
+	rBmiDmrNWrQXWQBx2vgaXwvCRX/qYrs=
+X-Google-Smtp-Source: APXvYqzlfWhPZQd85r3AvB2GybRb7O4yj7od7Ao7ccvc1qHIofuaeN5i0KkNBCAmCz1lyLISnyqbvg==
+X-Received: by 2002:a1c:cb0e:: with SMTP id b14mr6722321wmg.61.1558523309888; 
+	Wed, 22 May 2019 04:08:29 -0700 (PDT)
 Received: from hex ([85.255.234.137])
-	by smtp.gmail.com with ESMTPSA id n2sm2594037wro.13.2019.05.22.04.05.44
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 22 May 2019 04:05:44 -0700 (PDT)
-Message-ID: <f10bbaa1a0d8ef62f7b7ffd8dfae101b906fafce.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 May 2019 12:05:41 +0100
-In-Reply-To: <CAMKF1srz+_Tk5=GNWzBLpNRXoqdCYOmLyNm6XKkFJQFvGcpX=Q@mail.gmail.com>
-References: <20190521090032.14859-1-schnitzeltony@gmail.com>
-	<20190521090032.14859-2-schnitzeltony@gmail.com>
-	<03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
-	<CALbNGRQjahbkMzBmqFG4QQE4moF-qTFJrDDMzBVUnXBCTwGFMA@mail.gmail.com>
-	<b182fad0b95201771a7c01ab2d71aaba73810399.camel@linuxfoundation.org>
-	<CALbNGRRcmwVcVD3ytdb32RkmgyFTLJ3dsKiC+iLDK36s1DBwGw@mail.gmail.com>
-	<1cee8ee543463712e25b4ea4450fb40242a9e84e.camel@linuxfoundation.org>
-	<CAMKF1srz+_Tk5=GNWzBLpNRXoqdCYOmLyNm6XKkFJQFvGcpX=Q@mail.gmail.com>
+	by smtp.gmail.com with ESMTPSA id o4sm7212808wmo.20.2019.05.22.04.08.28
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 May 2019 04:08:29 -0700 (PDT)
+Message-ID: <33700e11097f8b98ea98acfce06977e24c3bfb8d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 May 2019 12:08:21 +0100
+In-Reply-To: <CANNYZj8cSb0_7fRhG=bbizctTnaQg53hVwSzOu5WoWr9ywbMKQ@mail.gmail.com>
+References: <20190521161158.45329-1-alex.kanavin@gmail.com>
+	<CAMKF1so7ASfBEknz4t727WGHvSOvJ2z=v87m0o=iZW4VdqFztw@mail.gmail.com>
+	<CANNYZj8cSb0_7fRhG=bbizctTnaQg53hVwSzOu5WoWr9ywbMKQ@mail.gmail.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] python-six: put python2/3 variant together
+Subject: Re: [PATCH] libmodulemd: fix erroneous linking against v2 library when v1 was requested
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,72 +60,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 11:05:44 -0000
+X-List-Received-Date: Wed, 22 May 2019 11:08:29 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-05-21 at 18:49 -0700, Khem Raj wrote:
-> On Tue, May 21, 2019 at 2:44 PM <richard.purdie@linuxfoundation.org>
-> wrote:
-> > On Tue, 2019-05-21 at 22:59 +0200, Andreas Müller wrote:
-> > > On Tue, May 21, 2019 at 8:38 PM <
-> > > richard.purdie@linuxfoundation.org>
-> > > wrote:
-> > > > > No sorry mozjs uses old crap in their configurations scripts
-> > > > > nobody
-> > > > > else does (python which) and ask for python2 explicitly.
-> > > > 
-> > > > I've been giving this a bit more thought and its our intent to
-> > > > try
-> > > > and
-> > > > remove python2 from OE-Core entirely so adding py2 modules back
-> > > > seems
-> > > > like a backwards step.
-> > > > 
-> > > > I think this will therefore need to go to one of the other
-> > > > layers,
-> > > > painful as that might be from an include perspective.
-> > > Yeah a new burden out of thin air is born. You know what I do:
-> > > Create
-> > > my own layers and am happy as I am with my other layers.
-> > > 
-> > > Bye
+On Wed, 2019-05-22 at 12:28 +0200, Alexander Kanavin wrote:
+> On Wed, 22 May 2019 at 04:04, Khem Raj <raj.khem@gmail.com> wrote:
+> > > +
+> > > + pkg.generate(
+> > > +-    libraries : modulemd_v1_lib,
+> > > ++    libraries : '-l:libmodulemd.so.1',
 > > 
-> > Its not "out of thin air". It was discussed over two years ago when
-> > we
-> > started a plan of trying to remove python2 dependencies:
-> > 
-> > http://git.yoctoproject.org/cgit.cgi/poky/commit/?id=1fc2c9315faf65ea05fecf81450dd40b9a330435
-> > 
-> > This was in line with what upstream python recommended. Upstream
-> > python
-> > has made a clear statement on this too:
-> > 
-> > https://python3statement.org/
-> > 
-> > For a release that will ship 3 months before that deadline, it
-> > seems
-> > unreasonable to add this back to oe-core, no?
-> > 
+> > shouldn't it be generating a separate package for v1 ?
+> > hardcoding linker paths seems a bit hackish here, is it going
+> > to generate a .pc file with .so.1 version ?
 > 
-> the EOL is expected to be Jan 2020, lets see what happens but I think
-> it would be good for us
-> to first switch default python to be python3 and then remove python2
-> completely IMO, I do not
-> see any major distro planning to drop py2 at the stroke of it going
-> EOL as of now, situation might
-> change in coming months but many of them haven't even switched
-> defaults.
+> The problem is that both v2 and v1 are installed into the sysroot; we
+> don't have a mechanism to choose one or the other via DEPENDS (unlike
+> desktop distros where you can install -v1-dev or -v2-dev package for
+> your build).
+> Then both v2 and v1 .pc files (without this patch) refer to
+> '-lmodulemd' which in our case always resolves to v2 library.
+> 
+> Wth the patch the generated v1 .pc will look like this, while v2
+> continues to use the original '-lmodlulemd' in Libs:
+> 
+> prefix=${pcfiledir}/../../../usr
+> libdir=${prefix}/lib
+> includedir=${prefix}/include
+> 
+> Name: modulemd
+> Description: Module metadata manipulation library
+> Version: 1.8.10
+> Requires: glib-2.0, gobject-2.0
+> Libs: -l:libmodulemd.so.1
+> Cflags: -I${includedir}/modulemd
 
-I don't think we need to switch our default, just be able to build say
-oe-core without python/python2 in HOSTTOOLS and without needing python
-2.7 in OE-Core either. 
-
-> Its good that project is taking lead here but we might leave many
-> users behind.
-
-I suspect python2 will end up in a layer of its down which I'm fine
-with, dependencies can then be clearly seen.
+FWIW I think if there were two different recipes we could select which
+was in the sysroot through DEPENDS?
 
 Cheers,
 
