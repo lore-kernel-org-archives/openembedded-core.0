@@ -1,36 +1,43 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B9F957E294
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id AE9EC7E294
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 22:03:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458RTy0k8cz9W;
-	Thu, 23 May 2019 00:03:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558562614;
-	bh=1+cBOhWrC0zyr01TA/3dcJNpSwFM6RZzbekVEf+FzfY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MSkgQAuEQi2CCySx5mckkWdJrpYGvcOxBATxXzNNO9sdNaKVmWoX10l0s1Y92v5pT
-	N2Pz3N29vLjVUIRF5NbB3YX92F2oLxMv1X82B2w6HVBsPfcOj0QdiHj3uhrQ38vfR7
-	iRdxPuf1+erNrFKXqhEiu4gj+mCqSHsCURLlH900aTC5FnWn773hjtl50tHGx2Emr4
-	M+1NvJ86RzZM1+TwS5KgyTXpUgFe3BVf98o0DtwIxaYIslrlvPMn17k4UbAOfxOERR
-	ex0H8wzGfQZyHYsxLJs9SKBMmWo0sNIMKzee2mc80fp5MZP9HQTCFsRXsoSy6T5lps
-	QcJ3ZSzpyoGm25LnedLXImQDq8Xvn2QyXkfXIigfTkS2YLL4qzryE/qEmSHRPliWRM
-	Cjcr7erNmj6kAaOJb5ao/gQ+/SHhBa6lBMh64YIIL9e+2SQ+eHKF/4/1W+oAY5tIp1
-	LbHwA9ILIcGXabFDPVwpf+Pm4sXW5yMGZBCEPXeSRDuEFYd9i1JAn5mImXHFiVTY3L
-	bhqMwmt1r7maG27xviuba+kYzj4/siWSN8avHgMj8V52oXrCjcYkQxZE/WpLRwxrtf
-	9kXy20JCxu1OWXI+gUfmUoSYNx03N393Tly5fgPI7+/6Ci9lzvnODXnCRkPWqrRief
-	rCUZwBc3pQLe1q2a42p1ak6k=
-Date: Thu, 23 May 2019 01:03:31 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: David Frey <dpfrey@gmail.com>
-Message-ID: <20190522220331.GA4681@localhost>
-References: <20190522215541.9689-1-dpfrey@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <20190522215541.9689-1-dpfrey@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] bluez5: remove udev dependency
+	Wed, 22 May 2019 22:06:58 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 44A001E51D6
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 18:06:59 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id gksQsjQhAe2L; Wed, 22 May 2019 18:06:58 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id A8F0C1E51D2;
+	Wed, 22 May 2019 18:06:58 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com A8F0C1E51D2
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1558562818;
+	bh=1WvcL+PyIvkNtadhX7ls6ao1BW7ykeu+yCHKrUe2fJY=;
+	h=From:To:Date:Message-Id;
+	b=pY/2OqZ8CUSV/5ZmiN5z2emUcGVNAaXc93qaRmDRPOXPb8YSbGO3NfWhnvDMw4RE8
+	C1HsneoD+itocITLpQg7thc62rvvO5ePLgjsX5h5Rfjj9gC7vwz4XDUA4tK2Nv9qKf
+	OK5Ef2PlaMd2nKqzzuSzV2BJYfbl6vYp5wNbQWFfF5x9WMk7eVECD2uLWP1Arhk+p8
+	e2HWjZEbZLyPR1mAg8kJ2hwGjBq0SZZeVoOuynWZnvFoQRZd7xpDLpYHUX4f+XwnyG
+	6RCXhFrBN0hOKI3CbqUbA/gLbe6rjBC30HUprF8ElcGR5CAFc1h7z9iEqN3GC39UJo
+	p4wu10IaywTSQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id Hnhul1Q86gaz; Wed, 22 May 2019 18:06:58 -0400 (EDT)
+Received: from joraj-yocto-dev.internal.efficios.com
+	(192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+	by mail.efficios.com (Postfix) with ESMTPSA id 8770E1E51CC;
+	Wed, 22 May 2019 18:06:58 -0400 (EDT)
+From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 May 2019 22:06:44 +0000
+Message-Id: <20190522220645.4412-1-jonathan.rajotte-julien@efficios.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/2] lttng-tools: prevent test timeout when lttng-modules is not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,51 +50,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 22:03:34 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 May 2019 22:06:58 -0000
 
-On Wed, May 22, 2019 at 02:55:41PM -0700, David Frey wrote:
-> udev is an optional dependency of bluez5, so use PACKAGECONFIG to allow
-> users to decide if they want udev support.
-> 
-> Signed-off-by: David Frey <dpfrey@gmail.com>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-> index aaf2af975d..568de86d6d 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->                      file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
->                      file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
-> -DEPENDS = "udev dbus-glib glib-2.0"
-> +DEPENDS = "dbus-glib glib-2.0"
->  PROVIDES += "bluez-hcidump"
->  RPROVIDES_${PN} += "bluez-hcidump"
->  
-> @@ -43,6 +43,7 @@ PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
->  PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
->  PACKAGECONFIG[mesh] = "--enable-mesh,--disable-mesh, json-c ell"
->  PACKAGECONFIG[btpclient] = "--enable-btpclient,--disable-btpclient, ell"
-> +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
->...
+Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+---
+ meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Unless there is a good reason to do otherwise, this should be added to 
-the default PACKAGECONFIG so that the set of features enabled by default 
-stays the same.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+index a3fabb20ec..f1bb7224f3 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+@@ -39,6 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://0005-Tests-use-modprobe-to-test-for-the-presence-of-lttng.patch \
+            file://0006-Tests-check-for-lttng-modules-presence.patch \
+            file://0007-Fix-getgrnam-is-not-MT-Safe-use-getgrnam_r.patch \
++           file://0008-Fix-check-for-lttng-modules-presence-before-testing.patch \
+            "
+ 
+ SRC_URI[md5sum] = "e88c521b5da6bb48a8187af633336ecc"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
