@@ -1,39 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id A905D7E2A9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 20DA17D32D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 14:18:27 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458F9H57b9z6p;
-	Wed, 22 May 2019 16:18:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558534708;
-	bh=cYdIGMyas4TWjZOgE0PJVkvJUMT35IZtYLMmeH+24Qc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RNSGm4lsTaffXQLDZt0dzzhw9fWUmxG76GYknCSlG4UqqMenVVPe3MjFGj/rljIHZ
-	4RZiTB4spM5SRG+6kljI7VHldXQHhB69sqr3eyjc4rwX02mVB38Nap7MlxyJPbgDE1
-	g9VkOWp0FVwNKQ16+Jc+txun8SHZhbdiF5CSqElA8W5pFalexYQho80KjPCYbDl2lO
-	UZlPRNXturZmUlQJ3xk9esA76ZktJQqse3RS5QXQZg5kheGd9IXmmsdo9N1MUJzzTW
-	tw6T+lpThGFk//saadXrnxswFSRrM4R7D887KMkwlSkJRLtiGMU71AKjJzRbu0txEi
-	zY1jcIrw0O6yjsRGfLQCP535CRJxHPFQYuAc75xr3jvZNZj9SJt5jAEA+1QZihiZvZ
-	gCJhDfAToqE+/31toTNeGPdzAWtXhsd1sMAQbIipS644baDueop+YcgQqYg04EiQEm
-	UhDsl95F9NVxW1b+kfDWXnzBIGbz9lPGK/cyT3H/hG9+iuW9UalTFWG8ZNIHCWtaQr
-	ZPqsscL44y1UklbVG5Q+4Jj7pwGsqHLPchXX+L84xdZXmcipQRHoeg1xsmguc8T9sY
-	J8cbtMv2sBNE1ceogpEtTAUnMbCT0DsoIhdgvoEY5UKblAjXzSODkC/sp2FVISFJoS
-	dbiulQ+TwS8UFgP7PHI2UW+Q=
-Date: Wed, 22 May 2019 17:18:25 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20190522141825.GA7379@localhost>
-References: <cover.1558300553.git.just.another.mariano@gmail.com>
-	<c7d776cebebd9bf2c28d43aad3fd911101283572.1558300553.git.just.another.mariano@gmail.com>
-	<CA+chaQdu3hKa6ogM=9_iG1GS67YdrwoF=J2YWdh6RX3V1r7qbA@mail.gmail.com>
+	Wed, 22 May 2019 15:38:44 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id a3so1519486pgb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 08:38:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=WbY46uMcCp97CnzqG8XhqUO20RDSjPeln2xh7bI+GAo=;
+	b=cyjUYjx6WIkOGNa01ECaqBb3bPALf0C1FgHCKZjLpZuDq9wNCmusZ6kYOLSyVZC+f6
+	Of8d/1sXdNpxPOOoMWqWeH3qoerPe6a6ATXoHy9avd/Ux2+YxLn6BWFgEy9OAHG3RdAY
+	9dsTw4fs0f3cg97u3dw1dzR3wkx7EgZqORyen3YZUmibB/CTY1GQRKLgVeLGQOFQlucg
+	UV1426t94wIKnD71O/kPFr74XmZN2fRmQ7vYcj84+KB6Bx98/2ZCH8vmpPQrWl8hqHAK
+	lvb9CPE+hfmSa3mSkwYzyNRPNzICl8Zj2nIiBvgRJMyRYzXa81dZPQZquvwwJINiCx7B
+	PfTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=WbY46uMcCp97CnzqG8XhqUO20RDSjPeln2xh7bI+GAo=;
+	b=KsnrLmH4SQ3GC4kimSxMwhKGgX/X+wVuPSIraMeARdWfo63DLJs1V+o7C4+3iPFSnw
+	O1yLIpARrZchaA8cUWgaj0Kh34xTLfeIQap1PdEK1bSsXweTy9rFxRDBE+jrtvntLPpp
+	7tPOW3X5CX6Bb1p65JDG5KvV3050RGQxOBkZYBXvL1ClqXxP6Fa6LNAw1zxWGtYpWbka
+	o+LuBXHlP2WLrURmoA+CQF9BQ4hH/BHwXh8h3EniXs2xiYgVrLwFRLvUimBF/SBt/65Y
+	mvf5MX/c6sS/i3NrHlQ/5n4ge+AkH2D1uuXJ4yKfNRr5I3d5dAUGMOixZ1HSW9IQOAao
+	WKHA==
+X-Gm-Message-State: APjAAAVsbPYwXTUagw+65oryiZ8CMt5DvTdlNHQpE+WTKl6wI8hkWXX6
+	4hdFbRo+1AQ3uOkEf2CbzqJkm0sozAI=
+X-Google-Smtp-Source: APXvYqwoBhm62V7Zxqa42YTMT1j7/4AKNszN5iAFaQUIhpZw++un+sG+4Y6cfgf+HL9bsxYyCbXgLw==
+X-Received: by 2002:a62:5f02:: with SMTP id t2mr57231425pfb.7.1558539525679;
+	Wed, 22 May 2019 08:38:45 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::3506])
+	by smtp.gmail.com with ESMTPSA id
+	w6sm30001490pge.30.2019.05.22.08.38.44
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 08:38:45 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 22 May 2019 08:38:37 -0700
+Message-Id: <20190522153837.18578-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQdu3hKa6ogM=9_iG1GS67YdrwoF=J2YWdh6RX3V1r7qbA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] util-linux: Add missing ptest dependencies
+Subject: [PATCH V2] musl-obstack: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,40 +57,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 14:18:27 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 22 May 2019 15:38:45 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 22, 2019 at 01:03:37PM +0200, Martin Jansa wrote:
-> This pulls bc to many images with busybox, causing busybox postinst to fail
-> with:
-> 
-> update-alternatives: Error: not linking /usr/bin/bc to /bin/busybox.nosuid
-> since /usr/bin/bc exists and is not a link
+obstacks from GNUlib is used in some OE-Core packages e.g. elfutils
+and other packages outside OE-Core, this recipe helps provide this
+functionality standalone on musl systems, and helps in getting full
+versions of dependent packages
 
-Are you enabling CONFIG_BC in your busybox config?
-It is not enabled in meta/recipes-core/busybox/busybox/defconfig
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Inherit pkgconfig
 
-> I'll check which busybox defconfig entry enables BC and send patch to use
-> u-a for bc in ./meta/recipes-extended/bc/bc_1.07.1.bb
-> 
-> There already is:
-> ALTERNATIVE_${PN} = "dc"
-> ALTERNATIVE_PRIORITY = "100"
-> but maybe dc is a typo.
+ meta/recipes-core/musl/musl-obstack.bb | 22 ++++++++++++++++++++++
+ 1 file changed, 22 insertions(+)
+ create mode 100644 meta/recipes-core/musl/musl-obstack.bb
 
-bc and dc are two different binaries built from bc.
-
-busybox used to only have dc, bc was added 6 months ago.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-core/musl/musl-obstack.bb b/meta/recipes-core/musl/musl-obstack.bb
+new file mode 100644
+index 0000000000..3003935fe5
+--- /dev/null
++++ b/meta/recipes-core/musl/musl-obstack.bb
+@@ -0,0 +1,22 @@
++# Copyright (C) 2019 Khem Raj <raj.khem@gmail.com>
++# Released under the MIT license (see COPYING.MIT for the terms)
++
++SUMMARY = "A standalone library to implement GNU libc's obstack"
++DESCRIPTION = "copy + paste of the obstack functions and macros found in GNU gcc libiberty library for use with musl libc"
++HOMEPAGE = "https://github.com/pullmoll/musl-obstack"
++LICENSE = "GPL-2.0+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=3d23e4eef8243efcaab6f0a438078932"
++SECTION = "libs"
++
++PV = "1.1"
++SRCREV = "d2ad66b0df44a4b784956f7f7f2717131ddc05f4"
++SRC_URI = "git://github.com/pullmoll/musl-obstack"
++
++UPSTREAM_CHECK_COMMITS = "1"
++
++inherit autotools pkgconfig
++
++S = "${WORKDIR}/git"
++
++COMPATIBLE_HOST = ".*-musl.*"
++
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.21.0
 
 
