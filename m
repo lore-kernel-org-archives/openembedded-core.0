@@ -1,56 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A22837E318
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id CF3EB7E33C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 05:38:58 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id x64so752891wmb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 22:39:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=AFSPW8AXOBmHbT98tP6dK9tjJGqdp3izu+VV7rFbbag=;
-	b=Gn2cxhmSQ985Wnu0re8NKv0AEjMaRDrlIN6V4lBoL3txT3GBkBWsNesEzddxF9Z7wz
-	sbWQUP+bGZjLiCNK7UNtKODJhmUdjsLi/7d6S7GWmWsblL/vky0pBBHcUFprIvUbmYqE
-	vXVPKNQ7S2JQp+qBTensB9u2kzZiXjFpbzGqk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=AFSPW8AXOBmHbT98tP6dK9tjJGqdp3izu+VV7rFbbag=;
-	b=DzRmBUZUahcRbPQ6N0HFPp2cu+YmYtRHJ6RfwNLmIzgVhp4N2qzfa8hqm7fcx7QPEV
-	iv65FCLfrhGUfAsRjH6jl/KdYb3MCikRE+h5shol8Vc3jOQfzXxaoaL3JwQ98ddAZ/l+
-	ukCXmokskcKmXGVpMlVMPDVCI0tEkaZkzbtQTXs9/LqubHjdlN0VHsI6t27UsnsMa9bS
-	BztUm6hcSJtyTNY90dxbqdVU50LXA9Xr4WbMbo6y9jjnYDWx69Z8qFh5+yLMlJAtLTE3
-	15a+RnAMgn84rFmL1b2tJAlF2Ilgy5ITwPlur/01PtWrhj4347Ych53FRs8tKMDdHPJ0
-	8k/A==
-X-Gm-Message-State: APjAAAVPzEuoyD7DzkiQ59zy+3QEeCPr+WY7PF5c906ZkA7a5E1sNart
-	ZTCQiy97zGFaugDz80OhieYWVQ==
-X-Google-Smtp-Source: APXvYqxOI2M15k77egptnQd2TTSNV7ef8mSbaX4m966Cb83VuWTFDVSP9TvSyWwRE6OY+idRYyjw/g==
-X-Received: by 2002:a1c:a804:: with SMTP id r4mr5801227wme.21.1558503539377;
-	Tue, 21 May 2019 22:38:59 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id h6sm1487991wrm.47.2019.05.21.22.38.58
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 22:38:58 -0700 (PDT)
-Message-ID: <d5956d477c49d8cc5b2f62da24ef608f47dee275.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: akuster808 <akuster808@gmail.com>, Andreas =?ISO-8859-1?Q?M=FCller?=
-	<schnitzeltony@gmail.com>, Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 22 May 2019 06:38:57 +0100
-In-Reply-To: <7abe103b-a8cd-e625-8175-57322800ce14@gmail.com>
-References: <20190417133941.31087-1-schnitzeltony@gmail.com>
-	<CALbNGRSJs_KncbefGSSPN_u_KYOrCnEsfSTeLJKLXeFQ7guEPQ@mail.gmail.com>
-	<CALbNGRSC=NjtUg=JxzmaZbjEj8BhH1NGPTRTs=iU34ftM8s=JQ@mail.gmail.com>
-	<CALbNGRTCng3BDqz-Phy2chgUQJYuwHmcymmL0z+ad+YGy+nd-A@mail.gmail.com>
-	<CALbNGRSN609Q1RHAkFODAh-3mTtRENdMv52XWJEv9RnUiLsxmw@mail.gmail.com>
-	<7abe103b-a8cd-e625-8175-57322800ce14@gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	Wed, 22 May 2019 06:49:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4583Bv3Gxpz63;
+	Wed, 22 May 2019 08:49:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558507751;
+	bh=u7RU0GBDVvgIFEG7nbuoTA3Zsu4jXuIOIhf/SpTjr4A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QcDRMDithzEqVkUk530nW9Pk6YjrJMj2+4hRT5D0bBO+BHVV9siJdv4IHniglLVep
+	2BHLxGSa4xsB4aHUpC8vnjN3rtCpvB2U6KoY/j88iwB7CdYfZ4O+Z2+bmHKc71E3Mc
+	CKQ54WvEhV4eFC0JxcJx1hKvmLic1pQcQAi2VFB7zxDafxgG5DjXsyH9mt7zkkh7zy
+	6Of1xLO2JjprrSYGFzkoi7gvUV5HQ0yeJmuAeYnptzabH5T64cIeJqnQ+AVZOZumze
+	DXzDVdtQ+SdIKtLKd/6MnaIvhgB18ntiDw59aWG+vCaoj5Rql+1GCVNoulr2ssHxwS
+	f/dyIgfNMs/f8TObq6XjIRfnHbL0zZX1H4EXLAxP4yVNDlo27EBKXzi21m0ehpe/Lr
+	Afb/hr1uSDQhe2OPiwl1N6ilI8Xs0vezuJz4F/S30+nyZrDXHE5omNBYgA24BNsta2
+	gIpw2mW9JETalCQnrE6rAx7riwClfjatVSjOEc4IlDFLLF8csTUvFzCxDtAmrFbdcs
+	CyxJNvqamU8Z5m/yA7CqpwUosXYph/VP3ZNIyVRQ8jHS6hEMAbcf5dMFr6KtfdoAMT
+	TriXDzqRSctm//KR0nyh795MMgJpyuuknsUlCmv123xcH2M4YKCjfsqn885mSmhkuS
+	oLEi+x2XAycITAnt3BnFCz6I=
+Date: Wed, 22 May 2019 09:49:09 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190522064909.GA9621@localhost>
+References: <20190522013228.7591-1-raj.khem@gmail.com>
+	<20190522013228.7591-3-raj.khem@gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH][thud] adwaita-icon-theme: do not delete symbolic svg but pack them in ${PN}-symbolic
+In-Reply-To: <20190522013228.7591-3-raj.khem@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 3/3] elfutils: Fix eu-* utils builds for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,58 +44,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 05:38:58 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 22 May 2019 06:49:12 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Tue, 2019-05-21 at 21:47 -0700, akuster808 wrote:
-> 
-> On 5/21/19 2:42 AM, Andreas Müller wrote:
-> > On Tue, May 14, 2019 at 9:47 AM Andreas Müller <
-> > schnitzeltony@gmail.com> wrote:
-> > > On Tue, May 7, 2019 at 12:51 PM Andreas Müller <
-> > > schnitzeltony@gmail.com> wrote:
-> > > > On Tue, Apr 30, 2019 at 8:20 AM Andreas Müller <
-> > > > schnitzeltony@gmail.com> wrote:
-> > > > > On Wed, Apr 17, 2019 at 3:39 PM Andreas Müller <
-> > > > > schnitzeltony@gmail.com> wrote:
-> > > > > > This fixes:
-> > > > > > * gtk-icon-browser: for symbolic view almost all icons were
-> > > > > > missing
-> > > > > > * xfce's thunar: 'home' and 'up' icons were missing. Had a
-> > > > > > long discussion with
-> > > > > >   XFCE-people [1] and asked here [2].
-> > > > > > 
-> > > > > > How could I overlook the most obvious...
-> > > > > > 
-> > > > > > [1] https://bugzilla.xfce.org/show_bug.cgi?id=14443
-> > > > > > [2] 
-> > > > > > http://lists.openembedded.org/pipermail/openembedded-core/2018-November/275815.html
-> > > > > > 
-> > > > > > (From OE-Core rev:
-> > > > > > 0911e7d2f5443210b594a198ada8465af7a2fc78)
-> > > > > > 
-> > > > > > Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
-> > > > > > Signed-off-by: Richard Purdie <
-> > > > > > richard.purdie@linuxfoundation.org>
-> > > > > ping?
-> > > > Something wrong with this bugfix?
-> > > > 
-> > > pingediping
-> > Should write some auto-ping script..
-> 
-> correction.. its in thud proper. I didn't send a patch review nor pull
-> request so I wasn't expecting it there.
-> 
-> https://git.openembedded.org/openembedded-core/commit/?h=thud&id=9c63433010aae6891149a7605a637bee879dc4ef
+On Tue, May 21, 2019 at 06:32:28PM -0700, Khem Raj wrote:
+>...
+> PN and PN-binutils is not empty anymore on musl
+>...
+> ++#if !defined(FNM_EXTMATCH)
+> ++# define FNM_EXTMATCH (1 << 5) /* Use ksh-like extended matching. */
+> ++#endif
+>...
 
-Sorry, somehow I was thinking I'd somehow missed a pull request and
-that needed merging :/
+This might fix the compilation, but it is horribly wrong.
 
-Cheers,
+It passes a flag to a function that this function does not understand.
 
-Richard
+In the best case the function returns with an error on unknown flags.
 
+In the worst case the function does silently something different from
+what the caller expects it to do.
 
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
