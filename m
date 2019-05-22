@@ -1,23 +1,50 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AEF37D69E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com
+	[209.85.210.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 658777E34A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 09:11:37 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4M9BbJ8005311
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 May 2019 02:11:37 -0700 (PDT)
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 22 May 2019 02:11:36 -0700
-From: <mingli.yu@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 22 May 2019 17:11:35 +0800
-Message-ID: <1558516295-289667-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 22 May 2019 10:09:40 +0000 (UTC)
+Received: by mail-ot1-f67.google.com with SMTP id n14so1559871otk.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 03:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hIzpvpxKoMnypDgqVtWaRluj1iDQNAIwXQsUnEQ7RHE=;
+	b=V3byiUYU4YlicE7kn0ZlTONp7V6LJE6Sl4WV9i0M6ZUVheSOGZjHzmoB7322F5O62f
+	reckkHaudYhRjR2JwtwgsJDxF/DAq5GHAesILp3gJJbx+XJJra+mBUpCnfSAdrpYNjiD
+	D3ILh7xaRrEpilJUr+z4eNxt6RfseQNSBDGm087HvO0r1hZMxkuMjbJabUS12FIsS+84
+	nfyPUjBhHftpJ/mM/h5e8g18KUvYGR+FnyYZe3+8ZO4sqRJ7V8YhwQTTWrf7Yh9R796f
+	4jgdYOQG/IINPrPcoOohkLm2fpW7UgQViS2ansCAor9WHZcrlUSbCkdNv5NY4wUJylQE
+	A2aQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hIzpvpxKoMnypDgqVtWaRluj1iDQNAIwXQsUnEQ7RHE=;
+	b=GZ3/7ZtcYvEHPvGi2QIMdHhbWKihK5tF7uUIV2eeNkVwskxZiVMZEwAJ3zYa+1STIe
+	xAeJIgybrYK7OHfHAiVlW3nGXBLBiH3SjUqIZmiwAoiZvjTAg/At5d8qV917/5KkFsVC
+	bd70YvdiKcJRSrwRbAQ/IQgnQtEyrD2d769uoPg5jdBvFxZNZuxMO5jZ3v0E4GYYal2b
+	wMGJakcEIPV+FbZ0UJJN12dlqOs3+LFJXKDA9ZF4VMIp6otPpVQMu3G2G90z82BtBe+O
+	4blRgz5BSd2rCGDGbKvo8fRZoUTGRiKLLpHi7yLDRZyNlbFR3BvNl6juORGMbOrHuDP/
+	OLZg==
+X-Gm-Message-State: APjAAAX9sA821x3PdRxN9MVj8khP72I/wV8IedbfpNYJxj21HyPA0CPk
+	fL53NZCswJgroIc3G3JWBOBjjeR4xRpP9AogwOw=
+X-Google-Smtp-Source: APXvYqy/qWSRq+8B9XqgRR0fYnFDIYArUBwchsn8SAqAN4Mpwjqjf+4kLrZJptYOjFtXW+7Qn6uEcPB8EVfht1PCTw0=
+X-Received: by 2002:a05:6830:1541:: with SMTP id
+	l1mr24566926otp.350.1558519781393; 
+	Wed, 22 May 2019 03:09:41 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] elfutils: fix ptest failures
+References: <20190520141125.10805-1-alex.kanavin@gmail.com>
+	<20190520141125.10805-13-alex.kanavin@gmail.com>
+	<BYAPR11MB3653872C0E596E71869D90C7CD070@BYAPR11MB3653.namprd11.prod.outlook.com>
+In-Reply-To: <BYAPR11MB3653872C0E596E71869D90C7CD070@BYAPR11MB3653.namprd11.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 22 May 2019 12:09:30 +0200
+Message-ID: <CANNYZj9SFZg7HzmYX+xXcxypS18keNALFPMPU2UDzSYVLVmg7w@mail.gmail.com>
+To: "Victor Kamensky (kamensky)" <kamensky@cisco.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 13/42] systemtap: upgrade 4.0 -> 4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,130 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 09:11:37 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 22 May 2019 10:09:40 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+Didn't test it at all; the patch was produced by AUH, so I simply picked it up.
 
-* Add missing -ptest package dependencies (needs
-  ${PN}-dbg)
+Do we have anything in the autobuilder for it?
 
-* Add missing files which needed by ptest test
-  to fix below failures:
-  | ./run-ar.sh: line 23: cd: /usr/lib64/elfutils/ptest/tests/..//src: No such file or directory
-  | FAIL: run-ar.sh
+Alex
 
-  | sh: ../src/elflint: No such file or directory
-  | FAIL: asm-tst4
-
-* Rework 0001-skip-the-test-when-gcc-not-deployed.patch
-  to skip the tests which depend on gcc
-
-Before:
---------------------------------------------
-Recipe   | Passed    | Failed   | Skipped
---------------------------------------------
-elfutils | 176       | 23       | 4
---------------------------------------------
-
-After:
---------------------------------------------
-Recipe   | Passed    | Failed   | Skipped
---------------------------------------------
-elfutils | 184       | 15       | 4
---------------------------------------------
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- meta/recipes-devtools/elfutils/elfutils_0.176.bb   |  5 ++-
- .../0001-skip-the-test-when-gcc-not-deployed.patch | 38 +++++++++++++++++++---
- 2 files changed, 37 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-index 157551e..85ff5f3 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-@@ -44,7 +44,7 @@ inherit autotools gettext ptest
- 
- EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
- EXTRA_OECONF_append_class-native = " --without-bzlib"
--RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN}"
-+RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN} ${PN}-dbg"
- 
- EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
- 
-@@ -61,6 +61,8 @@ do_compile_ptest() {
- 
- do_install_ptest() {
- 	if [ ${PTEST_ENABLED} = "1" ]; then
-+		install -d -m 755                       ${D}${PTEST_PATH}/src
-+		cp -r ${B}/src/*                        ${D}${PTEST_PATH}/src
- 		cp -r ${S}/tests/                       ${D}${PTEST_PATH}
- 		cp -r ${B}/tests/*                      ${D}${PTEST_PATH}/tests
- 		cp -r ${B}/config.h                     ${D}${PTEST_PATH}
-@@ -109,3 +111,4 @@ FILES_libdw  = "${libdir}/libdw-${PV}.so ${libdir}/libdw.so.* ${libdir}/elfutils
- 
- # The package contains symlinks that trip up insane
- INSANE_SKIP_${MLPREFIX}libdw = "dev-so"
-+INSANE_SKIP_${PN}-ptest += "debug-deps"
-diff --git a/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch b/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-index 67ca0e4..de8c05f 100644
---- a/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-@@ -1,19 +1,47 @@
--From 61939d2e552e7645ecd671fa01cf1c7a72caa82a Mon Sep 17 00:00:00 2001
-+From e82a055f85e398cb03a4eaf5faf351a3a1f19344 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <Mingli.Yu@windriver.com>
--Date: Fri, 12 Apr 2019 16:29:58 +0800
--Subject: [PATCH] skip the test when gcc not deployed
-+Date: Tue, 21 May 2019 15:20:34 +0800
-+Subject: [PATCH v2] skip the test when gcc not deployed
- 
- Skip the tests which depend on gcc when
- gcc not deployed.
- 
--Upstream-Status: Inappropriate [oe specific]
-+Upstream-Status: Submitted[https://sourceware.org/ml/elfutils-devel/2019-q2/msg00091.html]
- 
- Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
- ---
-+ tests/run-disasm-x86-64.sh | 2 ++
-+ tests/run-disasm-x86.sh    | 2 ++
-  tests/run-strip-g.sh       | 2 ++
-  tests/run-strip-nothing.sh | 2 ++
-- 2 files changed, 4 insertions(+)
-+ 4 files changed, 8 insertions(+)
- 
-+diff --git a/tests/run-disasm-x86-64.sh b/tests/run-disasm-x86-64.sh
-+index a6be62b..c3ef238 100755
-+--- a/tests/run-disasm-x86-64.sh
-++++ b/tests/run-disasm-x86-64.sh
-+@@ -22,6 +22,8 @@ case "`uname -m`" in
-+   x86_64)
-+     tempfiles testfile45.o
-+     testfiles testfile45.S testfile45.expect
-++    # skip the case if no gcc deployed
-++    which gcc || exit 77
-+     gcc -m64 -c -o testfile45.o testfile45.S
-+     testrun_compare ${abs_top_builddir}/src/objdump -d testfile45.o < testfile45.expect
-+     ;;
-+diff --git a/tests/run-disasm-x86.sh b/tests/run-disasm-x86.sh
-+index 28a3df7..544fc28 100755
-+--- a/tests/run-disasm-x86.sh
-++++ b/tests/run-disasm-x86.sh
-+@@ -22,6 +22,8 @@ case "`uname -m`" in
-+   x86_64 | i?86 )
-+     tempfiles testfile44.o
-+     testfiles testfile44.S testfile44.expect
-++    # skip the case if no gcc deployed
-++    which gcc || exit 77
-+     gcc -m32 -c -o testfile44.o testfile44.S
-+     testrun_compare ${abs_top_builddir}/src/objdump -d testfile44.o < testfile44.expect
-+     ;;
- diff --git a/tests/run-strip-g.sh b/tests/run-strip-g.sh
- index 1303819..a943dec 100755
- --- a/tests/run-strip-g.sh
--- 
-2.7.4
-
+On Tue, 21 May 2019 at 23:37, Victor Kamensky (kamensky)
+<kamensky@cisco.com> wrote:
+>
+> Hi Alexander,
+>
+> I am curios how much did you test it? I had the same patch for
+> a while, waited to post it till proper regressions are done.
+>
+> Thanks,
+> Victor
+>
+> ________________________________________
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-bounces@lists.openembedded.org> on behalf of Alexander Kanavin <alex.kanavin@gmail.com>
+> Sent: Monday, May 20, 2019 7:10 AM
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 13/42] systemtap: upgrade 4.0 -> 4.1
+>
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-kernel/systemtap/systemtap_git.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> index 54de7226608..c5348b3204b 100644
+> --- a/meta/recipes-kernel/systemtap/systemtap_git.inc
+> +++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
+> @@ -1,7 +1,7 @@
+>  LICENSE = "GPLv2"
+>  LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+> -SRCREV = "90ff34ac0506f0d5440393a4c78565f6aaf9b726"
+> -PV = "4.0"
+> +SRCREV = "984d6d1696ed06626b07cb65ab55d6ae0ece1131"
+> +PV = "4.1"
+>
+>  SRC_URI = "git://sourceware.org/git/systemtap.git \
+>             file://configure-allow-to-disable-libvirt.patch \
+> --
+> 2.17.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
