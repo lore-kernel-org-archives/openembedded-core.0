@@ -1,106 +1,55 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id CA6377E316
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A22837E318
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 04:47:17 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id g21so445987plq.0
+	Wed, 22 May 2019 05:38:58 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id x64so752891wmb.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 21 May 2019 21:47:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=O3yYSYzPhfQHM24Y1RNj3zq1cBfThL7LjY/Q7LIPjVk=;
-	b=BDzIh6beIyJSAO8BkhIYPVL9YVIy1FereXQIZ6KCnBP9ClWG9WnU6hjF2o6KqTX2Pd
-	iAzd9WfdPXt062w8WcABmgtxJBjzLVyr3aWbHQLiFlj0TELBOrAcOMIWnwulpCDgvKh0
-	PgX1N1IHgMXTq8a7e6hSFLTpLrfduHECpWic54c/aWybB3S4jI5k7XMVG09kC3pXvcTi
-	Ob10g7Maf8VBtZBni8B9UPeop+hQTgfmtbP6jPPF5hfzW+C+p4QkiHGkplSm5POdMAFt
-	5d8ZJj70hOUlZN7mnaQrNmmCuXsdcwnRv64xhYI2g2X4MmMtww8frx6syEmwVi2Sus+f
-	uX/g==
+	Tue, 21 May 2019 22:39:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=AFSPW8AXOBmHbT98tP6dK9tjJGqdp3izu+VV7rFbbag=;
+	b=Gn2cxhmSQ985Wnu0re8NKv0AEjMaRDrlIN6V4lBoL3txT3GBkBWsNesEzddxF9Z7wz
+	sbWQUP+bGZjLiCNK7UNtKODJhmUdjsLi/7d6S7GWmWsblL/vky0pBBHcUFprIvUbmYqE
+	vXVPKNQ7S2JQp+qBTensB9u2kzZiXjFpbzGqk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=O3yYSYzPhfQHM24Y1RNj3zq1cBfThL7LjY/Q7LIPjVk=;
-	b=T9MsLWbT6bCmnj16xKIWO3WSbMdfnDWJ0GtxArpxq9K3Su7ub89Blas9q56F/3AnLY
-	r8Q8Wrc49DzPY31AcesMUTwPAhw3Zr8zciRLhIX3xHgeAMimUkNqZLmUBlP3Azx7HND1
-	l3/H3MhyZ4ajQ/AkkFT3SnSpiTjLRg30exP6YBtB1mDXKwrHYrau5YtC6lJJq7gio1Zq
-	VV6uuWEcmGmgOUIYhn9/PE4Sru9+FxybJMVUqoBJKS8XLZdddxDYYrffCx34hw5yumdQ
-	VMehtJ4ayPV4RegCIuxjbj0FyN8ztmCwP8+qOlNyj52TzlGhoI3BhYbuBBKqf1wsvvfo
-	WwHQ==
-X-Gm-Message-State: APjAAAWbm1km6MVxpa60f2fMloDrO0jaa5YuGEaDk6chxOVPnmG7qbYB
-	xIXEqdpSj3GTpDmp7giIZstzCIhI
-X-Google-Smtp-Source: APXvYqzCDHz4eE3at4xqyA/bhcQTNR6p0Hs4UrRoXRCYVh7i1XIxdLfhPbnFC8y4yBupgdg0Dywstg==
-X-Received: by 2002:a17:902:8698:: with SMTP id
-	g24mr90192588plo.151.1558500438655; 
-	Tue, 21 May 2019 21:47:18 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:2860:271b:b317:9673?
-	([2601:202:4180:c33:2860:271b:b317:9673])
-	by smtp.gmail.com with ESMTPSA id
-	a8sm13473167pfk.14.2019.05.21.21.47.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 21:47:17 -0700 (PDT)
-To: =?UTF-8?Q?Andreas_M=c3=bcller?= <schnitzeltony@gmail.com>,
-	Patches and discussions about the oe-core layer
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=AFSPW8AXOBmHbT98tP6dK9tjJGqdp3izu+VV7rFbbag=;
+	b=DzRmBUZUahcRbPQ6N0HFPp2cu+YmYtRHJ6RfwNLmIzgVhp4N2qzfa8hqm7fcx7QPEV
+	iv65FCLfrhGUfAsRjH6jl/KdYb3MCikRE+h5shol8Vc3jOQfzXxaoaL3JwQ98ddAZ/l+
+	ukCXmokskcKmXGVpMlVMPDVCI0tEkaZkzbtQTXs9/LqubHjdlN0VHsI6t27UsnsMa9bS
+	BztUm6hcSJtyTNY90dxbqdVU50LXA9Xr4WbMbo6y9jjnYDWx69Z8qFh5+yLMlJAtLTE3
+	15a+RnAMgn84rFmL1b2tJAlF2Ilgy5ITwPlur/01PtWrhj4347Ych53FRs8tKMDdHPJ0
+	8k/A==
+X-Gm-Message-State: APjAAAVPzEuoyD7DzkiQ59zy+3QEeCPr+WY7PF5c906ZkA7a5E1sNart
+	ZTCQiy97zGFaugDz80OhieYWVQ==
+X-Google-Smtp-Source: APXvYqxOI2M15k77egptnQd2TTSNV7ef8mSbaX4m966Cb83VuWTFDVSP9TvSyWwRE6OY+idRYyjw/g==
+X-Received: by 2002:a1c:a804:: with SMTP id r4mr5801227wme.21.1558503539377;
+	Tue, 21 May 2019 22:38:59 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id h6sm1487991wrm.47.2019.05.21.22.38.58
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 21 May 2019 22:38:58 -0700 (PDT)
+Message-ID: <d5956d477c49d8cc5b2f62da24ef608f47dee275.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: akuster808 <akuster808@gmail.com>, Andreas =?ISO-8859-1?Q?M=FCller?=
+	<schnitzeltony@gmail.com>, Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
+Date: Wed, 22 May 2019 06:38:57 +0100
+In-Reply-To: <7abe103b-a8cd-e625-8175-57322800ce14@gmail.com>
 References: <20190417133941.31087-1-schnitzeltony@gmail.com>
 	<CALbNGRSJs_KncbefGSSPN_u_KYOrCnEsfSTeLJKLXeFQ7guEPQ@mail.gmail.com>
 	<CALbNGRSC=NjtUg=JxzmaZbjEj8BhH1NGPTRTs=iU34ftM8s=JQ@mail.gmail.com>
 	<CALbNGRTCng3BDqz-Phy2chgUQJYuwHmcymmL0z+ad+YGy+nd-A@mail.gmail.com>
 	<CALbNGRSN609Q1RHAkFODAh-3mTtRENdMv52XWJEv9RnUiLsxmw@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <7abe103b-a8cd-e625-8175-57322800ce14@gmail.com>
-Date: Tue, 21 May 2019 21:47:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	<7abe103b-a8cd-e625-8175-57322800ce14@gmail.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <CALbNGRSN609Q1RHAkFODAh-3mTtRENdMv52XWJEv9RnUiLsxmw@mail.gmail.com>
 Subject: Re: [PATCH][thud] adwaita-icon-theme: do not delete symbolic svg but pack them in ${PN}-symbolic
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -114,45 +63,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 04:47:17 -0000
-Content-Type: text/plain; charset=utf-8
+X-List-Received-Date: Wed, 22 May 2019 05:38:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+
+On Tue, 2019-05-21 at 21:47 -0700, akuster808 wrote:
+> 
+> On 5/21/19 2:42 AM, Andreas Müller wrote:
+> > On Tue, May 14, 2019 at 9:47 AM Andreas Müller <
+> > schnitzeltony@gmail.com> wrote:
+> > > On Tue, May 7, 2019 at 12:51 PM Andreas Müller <
+> > > schnitzeltony@gmail.com> wrote:
+> > > > On Tue, Apr 30, 2019 at 8:20 AM Andreas Müller <
+> > > > schnitzeltony@gmail.com> wrote:
+> > > > > On Wed, Apr 17, 2019 at 3:39 PM Andreas Müller <
+> > > > > schnitzeltony@gmail.com> wrote:
+> > > > > > This fixes:
+> > > > > > * gtk-icon-browser: for symbolic view almost all icons were
+> > > > > > missing
+> > > > > > * xfce's thunar: 'home' and 'up' icons were missing. Had a
+> > > > > > long discussion with
+> > > > > >   XFCE-people [1] and asked here [2].
+> > > > > > 
+> > > > > > How could I overlook the most obvious...
+> > > > > > 
+> > > > > > [1] https://bugzilla.xfce.org/show_bug.cgi?id=14443
+> > > > > > [2] 
+> > > > > > http://lists.openembedded.org/pipermail/openembedded-core/2018-November/275815.html
+> > > > > > 
+> > > > > > (From OE-Core rev:
+> > > > > > 0911e7d2f5443210b594a198ada8465af7a2fc78)
+> > > > > > 
+> > > > > > Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
+> > > > > > Signed-off-by: Richard Purdie <
+> > > > > > richard.purdie@linuxfoundation.org>
+> > > > > ping?
+> > > > Something wrong with this bugfix?
+> > > > 
+> > > pingediping
+> > Should write some auto-ping script..
+> 
+> correction.. its in thud proper. I didn't send a patch review nor pull
+> request so I wasn't expecting it there.
+> 
+> https://git.openembedded.org/openembedded-core/commit/?h=thud&id=9c63433010aae6891149a7605a637bee879dc4ef
+
+Sorry, somehow I was thinking I'd somehow missed a pull request and
+that needed merging :/
+
+Cheers,
+
+Richard
 
 
-
-On 5/21/19 2:42 AM, Andreas Müller wrote:
-> On Tue, May 14, 2019 at 9:47 AM Andreas Müller <schnitzeltony@gmail.com> wrote:
->> On Tue, May 7, 2019 at 12:51 PM Andreas Müller <schnitzeltony@gmail.com> wrote:
->>> On Tue, Apr 30, 2019 at 8:20 AM Andreas Müller <schnitzeltony@gmail.com> wrote:
->>>> On Wed, Apr 17, 2019 at 3:39 PM Andreas Müller <schnitzeltony@gmail.com> wrote:
->>>>> This fixes:
->>>>> * gtk-icon-browser: for symbolic view almost all icons were missing
->>>>> * xfce's thunar: 'home' and 'up' icons were missing. Had a long discussion with
->>>>>   XFCE-people [1] and asked here [2].
->>>>>
->>>>> How could I overlook the most obvious...
->>>>>
->>>>> [1] https://bugzilla.xfce.org/show_bug.cgi?id=14443
->>>>> [2] http://lists.openembedded.org/pipermail/openembedded-core/2018-November/275815.html
->>>>>
->>>>> (From OE-Core rev: 0911e7d2f5443210b594a198ada8465af7a2fc78)
->>>>>
->>>>> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
->>>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>>> ping?
->>> Something wrong with this bugfix?
->>>
->> pingediping
-> Should write some auto-ping script..
-
-correction.. its in thud proper. I didn't send a patch review nor pull
-request so I wasn't expecting it there.
-
-https://git.openembedded.org/openembedded-core/commit/?h=thud&id=9c63433010aae6891149a7605a637bee879dc4ef
-
-
->
-> PING
 
 
