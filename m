@@ -1,26 +1,25 @@
 Return-Path: <Liwei.Song@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 20E3C7D68F
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D8BA27D68F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 09:01:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4M91Jm7017757
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 May 2019 02:01:20 -0700 (PDT)
-Received: from [128.224.162.229] (128.224.162.229) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 22 May 2019 02:01:19 -0700
-Message-ID: <5CE50FDD.9050602@windriver.com>
-Date: Wed, 22 May 2019 17:01:17 +0800
+	Wed, 22 May 2019 09:06:03 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4M96405004797
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 02:06:04 -0700 (PDT)
+Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 22 May 2019 02:06:03 -0700
 From: Liwei Song <liwei.song@windriver.com>
-User-Agent: Mozilla/5.0 (X11; Linux x86_64;
-	rv:31.0) Gecko/20100101 Thunderbird/31.3.0
+To: oe-core <openembedded-core@lists.openembedded.org>
+Date: Wed, 22 May 2019 05:04:25 -0400
+Message-ID: <1558515865-69865-2-git-send-email-liwei.song@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1558515865-69865-1-git-send-email-liwei.song@windriver.com>
+References: <1558515865-69865-1-git-send-email-liwei.song@windriver.com>
 MIME-Version: 1.0
-To: oe-core <openembedded-core@lists.openembedded.org>, Khem Raj
-	<raj.khem@gmail.com>
-References: <1558428876-169757-1-git-send-email-liwei.song@windriver.com>
-In-Reply-To: <1558428876-169757-1-git-send-email-liwei.song@windriver.com>
-Subject: Re: [PATCH v2] mdadm: install the systemd service through Makefile
+Subject: [PATCH 2/2] mdadm: define MAILADDR for mdmonitor service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,56 +32,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 09:01:20 -0000
-Content-Type: text/plain; charset="windows-1252"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 May 2019 09:06:04 -0000
+Content-Type: text/plain
 
-Please ignore this one.
+by default in mdmonitor.service it use mail address to report alerts
+but this need to set MAILADDR in /etc/mdadm.conf, or the service
+will be failed excuted.
 
-Because the v1 patch has been applied, so this one is not applicable now,
-will send it together with another patch to cover the systemd related change.
+This patch will set MAILADD to "root" in /etc/mdadm.conf
+to aviod service run with error.
 
-Thanks,
-Liwei.
+Signed-off-by: Liwei Song <liwei.song@windriver.com>
+---
+ meta/recipes-extended/mdadm/mdadm_4.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 8ca42a89ddc5..8ec1c22a0c62 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -57,6 +57,7 @@ do_install() {
+ do_install_append() {
+         install -d ${D}/${sysconfdir}/
+         install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
++        sed -i "s/#MAILADDR root@mydomain.tld/MAILADDR root/" ${D}${sysconfdir}/mdadm.conf
+         install -d ${D}/${sysconfdir}/init.d
+         install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
+         if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true', 'false', d)}; then
+-- 
+2.7.4
 
-
-On 05/21/2019 04:54 PM, Liwei Song wrote:
-> The original mdadm service may include variable like BINDIR,
-> It should use the real value of it, since the install method
-> "install-systemd" in Makefile can easily do such work, so don't
-> install it in bb file manually, use "make install-systemd" to
-> install all the service of mdadm.
-> 
-> Signed-off-by: Liwei Song <liwei.song@windriver.com>
-> ---
->  meta/recipes-extended/mdadm/mdadm_4.1.bb | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> index ef5ddf55db39..8ca42a89ddc5 100644
-> --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-> @@ -57,11 +57,11 @@ do_install() {
->  do_install_append() {
->          install -d ${D}/${sysconfdir}/
->          install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
-> -        install -d ${D}/${systemd_unitdir}/system
-> -        install -m 644 ${WORKDIR}/mdmonitor.service ${D}/${systemd_unitdir}/system
-> -        install -m 644 ${S}/systemd/mdmon@.service ${D}/${systemd_unitdir}/system
->          install -d ${D}/${sysconfdir}/init.d
->          install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
-> +        if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true', 'false', d)}; then
-> +               oe_runmake install-systemd DESTDIR=${D}
-> +        fi
->  }
->  
->  do_compile_ptest() {
-> @@ -90,3 +90,5 @@ RRECOMMENDS_${PN}-ptest += " \
->      kernel-module-raid10 \
->      kernel-module-raid456 \
->  "
-> +
-> +FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','/lib/systemd/*', '', d)}"
-> 
 
