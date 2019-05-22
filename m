@@ -1,45 +1,51 @@
 Return-Path: <jonathan.rajotte-julien@efficios.com>
 Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id EED287E3BC
+	by mail.openembedded.org (Postfix) with ESMTP id F0BC37E294
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 22:06:59 +0000 (UTC)
+	Wed, 22 May 2019 22:08:53 +0000 (UTC)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 168EE1E51E9
+	by mail.efficios.com (Postfix) with ESMTP id 2ACF11E529D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 18:07:01 -0400 (EDT)
+	Wed, 22 May 2019 18:08:55 -0400 (EDT)
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id pRsorK2KZ7x1; Wed, 22 May 2019 18:07:00 -0400 (EDT)
+	with ESMTP id 2liYTRG75riJ
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 18:08:54 -0400 (EDT)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id B04171E51E2;
-	Wed, 22 May 2019 18:07:00 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com B04171E51E2
+	by mail.efficios.com (Postfix) with ESMTP id D74CF1E529A
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 18:08:54 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com D74CF1E529A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1558562820;
-	bh=Zgj2XzXozbER2JTfxlA9DTq+BVjPcb3E3jmRHGhe4wE=;
-	h=From:To:Date:Message-Id;
-	b=dEX2CFSlALRwHMXkPhEJoSCiknmvDVUashtnZldBZSfu6FFK0/33sNVijEazZGUGy
-	bQwHoW7cCN+uxXf+cdiXZaRnXwXTRwkctKVZyq4bz8mRzHsmEtOJxZByja1ULN3SDK
-	Z5kom4/n7HSy2wZ5OOC/k9xtSUnEeO0zN/xckZ3+G8FCvYC2G3r99PPQslql+OOi2+
-	sb8OUAlb3RmfqXjIFKTvVvI0fb+aWRV9P9lc3Hk8azYB557/l9Cr9B8qfk5veWETIv
-	0uFBg29XEMW0vmlEkI5JLRt/s+PwoOSpcH1C+viS+n6Di3LqMwb5xQTbraQdWc4iKY
-	hMM6LU1dt7Lmg==
+	s=default; t=1558562934;
+	bh=mj6k8KctX+i6naAk5n5vih6gr/xVbVCejVvwcEeyKsQ=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=h/q0m2S5xxYTYQ24MtPNuLpoyCPLjR8HXPSx8rSFwb0jcWnSogMkqOjDtRSACemUp
+	y7cBYaKUWdZryEkFMGhoKxm9WnFYGTFh+nxCkccnxpTtHDVGrSFh03CqxIxBl9+7Te
+	le2W7EyeNa3W0XfKkgDhAqvLQxHOpwISwU5nXQLkEkX8slVKd6fb1vVsnizOrcpu2P
+	yJm810xWducbcDMGQzOtqj5xGyiYTZWOhYYDJjvJlrj+qBCdVJyxe3o21WwkX33YJb
+	jSYxV9bFhhSCLEskcXT29TKYNXL1nfB0HVT2j4KJvyo5aFgT1+aHSog3RHzWwop3tj
+	RMRhgvvs4+xrg==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id j9TJSNvG3LBe; Wed, 22 May 2019 18:07:00 -0400 (EDT)
-Received: from joraj-yocto-dev.internal.efficios.com
-	(192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id 8F7141E51DD;
-	Wed, 22 May 2019 18:07:00 -0400 (EDT)
-From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+	with ESMTP id 2B9TKQIWbnJw
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 18:08:54 -0400 (EDT)
+Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+	by mail.efficios.com (Postfix) with ESMTPSA id B80A81E5295
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 18:08:54 -0400 (EDT)
+Date: Wed, 22 May 2019 18:08:54 -0400
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 May 2019 22:06:45 +0000
-Message-Id: <20190522220645.4412-2-jonathan.rajotte-julien@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190522220645.4412-1-jonathan.rajotte-julien@efficios.com>
+Message-ID: <20190522220854.GB4732@joraj-alpa>
 References: <20190522220645.4412-1-jonathan.rajotte-julien@efficios.com>
-Subject: [PATCH 2/2] lttng-tools: add lttng-modules to ptest dependencies
+MIME-Version: 1.0
+In-Reply-To: <20190522220645.4412-1-jonathan.rajotte-julien@efficios.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Subject: Re: [PATCH 1/2] lttng-tools: prevent test timeout when lttng-modules is not present
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +58,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 22:07:00 -0000
+X-List-Received-Date: Wed, 22 May 2019 22:08:54 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-The lttng-tools project is essentially a "tracer" controller, the tests
-depends heavily on lttng-ust and lttng-modules presence.
+Clearly the actual patch is missing, sending v2 shortly.
 
-Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
----
- meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-index f1bb7224f3..7e80bb45d1 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- 
- DEPENDS = "liburcu popt libxml2 util-linux"
- RDEPENDS_${PN} = "libgcc"
--RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
- RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
- # babelstats.pl wants getopt-long
+On Wed, May 22, 2019 at 10:06:44PM +0000, Jonathan Rajotte wrote:
+> Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+> ---
+>  meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> index a3fabb20ec..f1bb7224f3 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> @@ -39,6 +39,7 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+>             file://0005-Tests-use-modprobe-to-test-for-the-presence-of-lttng.patch \
+>             file://0006-Tests-check-for-lttng-modules-presence.patch \
+>             file://0007-Fix-getgrnam-is-not-MT-Safe-use-getgrnam_r.patch \
+> +           file://0008-Fix-check-for-lttng-modules-presence-before-testing.patch \
+>             "
+>  
+>  SRC_URI[md5sum] = "e88c521b5da6bb48a8187af633336ecc"
+> -- 
+> 2.17.1
+> 
+
 -- 
-2.17.1
-
+Jonathan Rajotte-Julien
+EfficiOS
 
