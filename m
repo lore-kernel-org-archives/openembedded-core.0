@@ -1,54 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com
-	[209.85.221.41])
-	by mail.openembedded.org (Postfix) with ESMTP id 42FCC7E3A1
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
+	[209.85.222.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D64A7E3BF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 22:33:05 +0000 (UTC)
-Received: by mail-wr1-f41.google.com with SMTP id f8so4052767wrt.1
+	Wed, 22 May 2019 23:29:59 +0000 (UTC)
+Received: by mail-qk1-f193.google.com with SMTP id z6so2655090qkl.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 15:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Qtf/S2HcB8tyY2pZu6v5e5LwkRHWL26XnNvjLnPIOrc=;
-	b=Z8fhHH5WUrRVtVt9GohKgZ/tPuE0bbTvvj2C37ckdmFFdnh9fKMoMZoXwKD9ZlUtgb
-	AWqsQhwMYJS9TP2CQceNmQiOk3sKyY6ymPB75H7ZhGVX9b9ARLM/TQr7D8aKMslt7p5c
-	Pz8ha6jW419tOzqvwAm/9cSoGMBpRwHOWx0x0=
+	Wed, 22 May 2019 16:30:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Ecd6AD2pbmr9xcR1IpJ0uSZAazFp/JnzLVHI01ILZd0=;
+	b=NisfOMMUpl9rCbBBnwqiyAs/pz4GvT9xTOBzzNx3+IXYjoz4G+ZKkE+mheT+umri6i
+	iEraNnwUFT2T/3gwUaSRugDG+0sM408zM5A8qZe7f0WFNzwxAAOZ0rjNGDGNKAdV8cGa
+	T7lm6lhTTnTYtQMGz3LTbxHH/y/CjUIZ8cNkDDnYcHePMSB6Vi+Q0oP/Ew3+zxkc/wyg
+	HwiefTAcoQ+UgcnJd1CMrQLy6DVoxuO4o9S02KxWzKoPB2D2kRUUVKyA35Dn2V9J6cm4
+	NPF+UfAmL1kxCtHS9GGHaDx8ypX6OI8e3PAEaBLXbVXDeFUGyPndnWyI6DpDr9d6DCb0
+	ntzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Qtf/S2HcB8tyY2pZu6v5e5LwkRHWL26XnNvjLnPIOrc=;
-	b=lDvZTUbZOah1UC8ZGSHOsfxGEpaqVXAPA8i/nPoFjRu6ixvnkZBiOcYv7lNZ0mTGGp
-	XUM8vm9fJPmANrYsRUtgga+CCBd5N4QTM6kQDZNkI0rBQ162w4lJliy+omBJh7hs7Bf9
-	TkJzcV+ylNpBps1/gwI3tkwjHgzX97TOh+THgtLTySG7CdtmoHlYasCryH8ugIbaHDbJ
-	ttWQcyc7I0pdEmv0jxjgzWizefN+flOwZyLm+gfX8aFLW8cvyXEs5Bj0GnEl24FkguYJ
-	R4uiqccwjlacx6ouqZ0DueqDmBJ+qnwr3GTLJ7a7JRZ7rvz0BZniWVeAhSLsqL/pDpP4
-	376g==
-X-Gm-Message-State: APjAAAX2cZN4Ada43irAeu+Yrl9JVOv2T7fzYGH69mT6Sy382rYqUAs4
-	0Hz8Do7kp0hJk2uYnyyJeYwUAA==
-X-Google-Smtp-Source: APXvYqx5HYPchtoKmosNXLhgkPp/9HgIRqfkzT0aPRWQCa/KVM+kyMAkAWmS6TawfYSXFoYqresGlA==
-X-Received: by 2002:a5d:4e50:: with SMTP id r16mr18459411wrt.197.1558564386028;
-	Wed, 22 May 2019 15:33:06 -0700 (PDT)
-Received: from hex ([85.255.236.24])
-	by smtp.gmail.com with ESMTPSA id n1sm5332856wmc.19.2019.05.22.15.33.04
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 22 May 2019 15:33:05 -0700 (PDT)
-Message-ID: <ebf8b3bb8feeef00089804b75da63f7985e6d43f.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-Date: Wed, 22 May 2019 23:33:01 +0100
-In-Reply-To: <20190522222807.GC4732@joraj-alpa>
-References: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
-	<6ed430aa3e5e722cd75b1798cacab3f92eb71b71.camel@linuxfoundation.org>
-	<2b4e8d0f-cbb9-d2e4-c17d-33950d3cf9df@windriver.com>
-	<7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
-	<20190522222807.GC4732@joraj-alpa>
-User-Agent: Evolution 3.32.1-2 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Ecd6AD2pbmr9xcR1IpJ0uSZAazFp/JnzLVHI01ILZd0=;
+	b=emZTws5SRqopQkaRzoQrY+fhM/0Jz77jIfhLXxSm9YsqeJHZR4R/BbAAP9fQb2dQFe
+	DDyWqxh5BPe+BZBw0Afgt/0kWb0FvJdj50PXaUDncnDjUg/3kw+2YzKwMXK4A/jApELt
+	UPFD1UYr28CgdZroLNcmF0J1gFODmspZGLQ7O50zvW0fE05zYut8sHdu7erxQ4sCpzV7
+	ndCcpGNDUmmX1t2tjyG+hnIzSj7H1s41Em0ARGFEaAIkSQhxI3RCnnDsLigE8X65z2f2
+	iwOi2rzIyg/ilA9rM6i+FJH2JaKaXSSJXPoi+FwyRDd9ZRn4TMM9nGcy0HVr4yHRVkt0
+	zs3g==
+X-Gm-Message-State: APjAAAUM4SCiOZ7UbghAysbJANVZkaFTicnXX56LYIfPzwxdlJDdVUKV
+	fgEj5qagBm/ahxHj+J5lmJ9nOEysGrl0X/GN/lwFJOR5
+X-Google-Smtp-Source: APXvYqzrk7ml5N04aCoc+r1LRo/secV/RzTOeFaGtRVqYNlEat1VGCbHDCngKr6HZPY5dsPVPTyJXP+fi37i+jrVlNs=
+X-Received: by 2002:a37:b287:: with SMTP id b129mr63148325qkf.20.1558567800061;
+	Wed, 22 May 2019 16:30:00 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: ptest with BBCLASSEXTEND
+References: <20190522013228.7591-1-raj.khem@gmail.com>
+	<20190522013228.7591-3-raj.khem@gmail.com>
+	<20190522064909.GA9621@localhost>
+In-Reply-To: <20190522064909.GA9621@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 22 May 2019 16:29:33 -0700
+Message-ID: <CAMKF1sqj0+y_55xVf6SRjS1czodtioUYxVv1tbWU4_7AKYrzLw@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] elfutils: Fix eu-* utils builds for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,40 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 22:33:05 -0000
+X-List-Received-Date: Wed, 22 May 2019 23:29:59 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-05-22 at 18:28 -0400, Jonathan Rajotte-Julien wrote:
-> Hi,
-> 
-> > I think Jonathan Rajotte might be able to help us with lttng-tools.
-> 
-> Finally had some time for this.
-> 
-> See [1][2].
-> 
-> [2] does bring the matter of forcing lttng-ust support of lttng-tools 
-> when ptest
-> is deployed. "lttng-ust" is already set in PACKAGECONFIG by default
-> but is there any
-> way to "enforce" the lttng-ust config & dependency when lttng-tools-
-> ptest is used?
-> 
-> [1] http://lists.openembedded.org/pipermail/openembedded-core/2019-May/282733.html
-> [2] http://lists.openembedded.org/pipermail/openembedded-core/2019-May/282734.html
+On Tue, May 21, 2019 at 11:49 PM Adrian Bunk <bunk@stusta.de> wrote:
+>
+> On Tue, May 21, 2019 at 06:32:28PM -0700, Khem Raj wrote:
+> >...
+> > PN and PN-binutils is not empty anymore on musl
+> >...
+> > ++#if !defined(FNM_EXTMATCH)
+> > ++# define FNM_EXTMATCH (1 << 5) /* Use ksh-like extended matching. */
+> > ++#endif
+> >...
+>
+> This might fix the compilation, but it is horribly wrong.
+>
+> It passes a flag to a function that this function does not understand.
+>
+> In the best case the function returns with an error on unknown flags.
+>
+> In the worst case the function does silently something different from
+> what the caller expects it to do.
+>
 
-Thanks for looking at this. It sounds like we need some runtime
-dependencies as well as the PACKAGECONFIG option. I think the lttng-
-tool ust option should be changed:
+I forgot that the API is provided by libc here so mimic'ing the define
+infact could
+cause pain. I think its better to nullify it in this case where it is
+being used in these
+files.
 
--PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust"
-+PACKAGECONFIG[lttng-ust] = "--with-lttng-ust, --without-lttng-ust, lttng-ust,lttng-ust"
 
-i.e. force the dependency at runtime as well as buildtime.
-
-Cheers,
-
-Richard
-
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
 
