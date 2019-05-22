@@ -1,33 +1,34 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id CDD577D8EC
+	by mail.openembedded.org (Postfix) with ESMTP id CF2987E3B8
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 22 May 2019 10:58:48 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4588kx1NN7z60
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 4588kw5gN7z4q
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 12:58:49 +0200 (CEST)
+	Wed, 22 May 2019 12:58:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558522729;
-	bh=XpX9I/6VgbbpwfzmMd5hCpjQECgXzuQI0gNDJ+r3Ub4=;
+	s=default; t=1558522728;
+	bh=DtiCx6eAaVe02dh5YCy8QGvN/O990hpA5BkLc08ea98=;
 	h=From:To:Subject:Date:From;
-	b=m3INGdu2DtQv7bDNkHhjOv84a20KY6SQZ1wc1NLBaq5Dn5XYxtN97rT1RNQPNEyH0
-	dEImpues+W+i3v+QGq5LwjUJTmBDqQus4KHKMWEEhY+LChnhcGiTF5F6pgaOayQwuc
-	eu2ANuAdoBwkgIHCyAsZsbaoGM9qhX4PzaYSGtISyeQU5O2eIKBOzdLzLFqKsJ9BPu
-	4gLeDJ6EAFTlsTyTqHU/xmLlteQA13h4wj7EhP2ImgyTjmlWvVi+kkBvF7AMvPxeSo
-	cyQPGNi9HaL9poYBB5U3X7nmpYZ8BoUmikz3CKoCyREuOkjDCXAbp1uc/v9ot4ai3N
-	YOrFkW60MzOxRAuRYZbh/BkHBN2Fuh55FAFU75MiQ3q20q+Sn3KNqm4O5/q0B+wqh6
-	2oB6u0wxZhLo6lJp/+HBnyat4qvlp0EZ2c3Lirwn4NdJfuprc8R7AIyrOLucf5lLPr
-	sHitRHMskDfD9O50D0hqLLDfNC4VGEiftHmINRpTAM3pNxqsie99aCOiYzNfSCE5g9
-	EY/Yw0PRCQzuU4hJWCPXTkvcE9IQXkkBsM53r36/DEZHnMez7mnT+R9plnFtfMx5xT
-	jtFASi5gXqC025hDVVwQrgTXCKZAi7XSBnS6SH0iOJVuUv1dWNaU2yjQyzsxse5ORo
-	5STfwGpvn32YsEXnz5Kiyf+k=
+	b=oKXeQAbAGeFfkjic3uO7X2s75W11sXcgWTgaZTn46HTru0SWzmeEQdWoXKqgc6+iW
+	8TdYOSVVVFOBV14Hj6gnZqEPqyRC3EbRD8pU21MfK4MIZwrxQhtSIwt4aBSH1O/pdK
+	lxuWEDafXZJCnv2IElxogswxQg3Y6TgmkdMErKdnZ6FdFg5UTLcl+jV3We7h9mNtXK
+	WGmk4gpHbCEBqPA8MJS40+Mwqcb8CyePK3h9e3b4h0C+zfK3m1uUnZUZW1e4hMbxqn
+	2qjR+yYV82J1G3l7Y0xWVmpsw6HQFMaXXlP1zLWht214zMfETo3dsoFVQObWpxIgjH
+	sAoNNpIYAJ+habtT7FFr6kc+tBRQHx42pwOJAhWorSvOw3i63Psbkgh/FbykbxfneS
+	BXttGy4qSurRC7SytlhX8tSxARohFaOh7vsDxuXQJopeWqJM8+3R2fRFPiDTUOyAtP
+	yBajWVlwocEiLEFwJNLnK2lTo2xFtHjM2SthzqtgSHDjlWGkEVZ7pPbtUbE9K6+D9F
+	jWQxzfA16vU48XUjKAGMFY9wrQ8GMPrkifTlQex2Yc8pnRytJrYUJ5X0V7fyJ4w7ec
+	ViIO6w82hXo0k3JEBrXsr1bOi5x5zAKUqBqtFO0FNxGV5JwCbuN2ESLowEfJMFYrnY
+	EWWs9dZkaEbvu/khl4fEZYK4=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 May 2019 13:58:47 +0300
-Message-Id: <20190522105847.6512-3-bunk@stusta.de>
+Date: Wed, 22 May 2019 13:58:46 +0300
+Message-Id: <20190522105847.6512-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] librsvg: Replace workaround for old host systems with upstream fix
+MIME-Version: 1.0
+Subject: [PATCH] dpkg: Remove workaround patches for no longer supported host distributions
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,80 +42,188 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 22 May 2019 10:58:49 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- ...t-Bsymbolic-fixes-configure-on-macOS.patch | 35 +++++++++++++++++++
- meta/recipes-gnome/librsvg/librsvg_2.40.20.bb |  8 ++---
- 2 files changed, 38 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-gnome/librsvg/librsvg/0001-Auto-detect-Bsymbolic-fixes-configure-on-macOS.patch
+ .../0005-dpkg-compiler.m4-remove-Wvla.patch   |  40 -------
+ .../dpkg/dpkg/glibc2.5-sync_file_range.patch  | 100 ------------------
+ meta/recipes-devtools/dpkg/dpkg_1.19.4.bb     |   3 +-
+ 3 files changed, 1 insertion(+), 142 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
+ delete mode 100644 meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
 
-diff --git a/meta/recipes-gnome/librsvg/librsvg/0001-Auto-detect-Bsymbolic-fixes-configure-on-macOS.patch b/meta/recipes-gnome/librsvg/librsvg/0001-Auto-detect-Bsymbolic-fixes-configure-on-macOS.patch
-new file mode 100644
-index 0000000000..954bb60880
---- /dev/null
-+++ b/meta/recipes-gnome/librsvg/librsvg/0001-Auto-detect-Bsymbolic-fixes-configure-on-macOS.patch
-@@ -0,0 +1,35 @@
-+From b99891e31eb6ce550e7e1cb2ca592095b3050a93 Mon Sep 17 00:00:00 2001
-+From: Brion Vibber <brion@pobox.com>
-+Date: Sun, 25 Feb 2018 18:42:36 -0800
-+Subject: Auto-detect -Bsymbolic, fixes configure on macOS
-+
-+The -Bsymbolic linker option is ELF-specific, and was breaking
-+configure on macOS unless --disable-Bsymbolic was explicitly passed.
-+
-+Switching the behavior from requiring -Bsymbolic to be available
-+by default to just warning and continuing on without.
-+
-+Fixes https://gitlab.gnome.org/GNOME/librsvg/issues/211
-+
-+Upstream-Status: Backport
-+Signed-off-by: Adrian Bunk <bunk@stusta.de>
-+---
-+ configure.ac | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/configure.ac b/configure.ac
-+index 15b26b2d..9f8dce29 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -216,7 +216,7 @@ AM_CONDITIONAL([ENABLE_PIXBUF_LOADER],[test "$enable_pixbuf_loader" = "yes"])
-+ AC_ARG_ENABLE([Bsymbolic],
-+   [AS_HELP_STRING([--disable-Bsymbolic],
-+                   [disable linking with -Bsymbolic])],
-+-  [],[enable_Bsymbolic=yes])
-++  [enable_Bsymbolic=no],[enable_Bsymbolic=auto])
-+ 
-+ BSYMBOLIC_LDFLAG=
-+ if test "$enable_Bsymbolic" != "no"; then
-+-- 
-+2.20.1
-+
-diff --git a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb b/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-index e376d52ef3..6a798e6a91 100644
---- a/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-+++ b/meta/recipes-gnome/librsvg/librsvg_2.40.20.bb
-@@ -14,17 +14,15 @@ BBCLASSEXTEND = "native"
- 
- inherit gnomebase gtk-doc pixbufcache upstream-version-is-even gobject-introspection
- 
--SRC_URI += "file://gtk-option.patch"
-+SRC_URI += "file://gtk-option.patch \
-+            file://0001-Auto-detect-Bsymbolic-fixes-configure-on-macOS.patch \
-+"
- 
- SRC_URI[archive.md5sum] = "4949d313b0c5d9161a5c259104af5568"
- SRC_URI[archive.sha256sum] = "cff4dd3c3b78bfe99d8fcfad3b8ba1eee3289a0823c0e118d78106be6b84c92b"
- 
- CACHED_CONFIGUREVARS = "ac_cv_path_GDK_PIXBUF_QUERYLOADERS=${STAGING_LIBDIR_NATIVE}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders"
- 
--# The older ld (2.22) on the host (Centos 6.5) doesn't have the
--# -Bsymbolic-functions option, we can disable it for native.
--EXTRA_OECONF_append_class-native = " --enable-Bsymbolic=auto"
+diff --git a/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch b/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
+deleted file mode 100644
+index b368508862..0000000000
+--- a/meta/recipes-devtools/dpkg/dpkg/0005-dpkg-compiler.m4-remove-Wvla.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 0ad7bba80d5b9035089ff2b2f77a774b5b201915 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Wed, 26 Aug 2015 16:28:59 +0300
+-Subject: [PATCH 5/5] dpkg-compiler.m4: remove -Wvla
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
 -
- PACKAGECONFIG ??= "gdkpixbuf"
- # The gdk-pixbuf loader
- PACKAGECONFIG[gdkpixbuf] = "--enable-pixbuf-loader,--disable-pixbuf-loader,gdk-pixbuf-native"
+-Remove the -Wvla flag from the set of compiler warning flags, since gcc
+-on old host systems such as CentOS 5.8 doesn't support it, and it
+-causes a build error for dpkg-native.
+-
+-Upstream-Status: Pending
+-
+-Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
+-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+-Signed-off-by: Aníbal Limón <anibal.limon@linux.intel.com>
+-
+-Update patch context for dpkg 1.19.4.
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+- m4/dpkg-compiler.m4 | 1 -
+- 1 file changed, 1 deletion(-)
+-
+-diff --git a/m4/dpkg-compiler.m4 b/m4/dpkg-compiler.m4
+-index a6192f6..4c7bf2e 100644
+---- a/m4/dpkg-compiler.m4
+-+++ b/m4/dpkg-compiler.m4
+-@@ -67,7 +67,6 @@ AC_DEFUN([DPKG_CHECK_COMPILER_WARNINGS], [
+-   DPKG_CHECK_COMPILER_FLAG([-Wshift-negative-value])
+-   DPKG_CHECK_COMPILER_FLAG([-Wsizeof-array-argument])
+-   DPKG_CHECK_COMPILER_FLAG([-Wswitch-bool])
+--  DPKG_CHECK_COMPILER_FLAG([-Wvla])
+-   DPKG_CHECK_COMPILER_FLAG([-Wwrite-strings])
+- 
+-   AC_LANG_CASE(
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch b/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
+deleted file mode 100644
+index 5debcc5209..0000000000
+--- a/meta/recipes-devtools/dpkg/dpkg/glibc2.5-sync_file_range.patch
++++ /dev/null
+@@ -1,100 +0,0 @@
+-From 9d260d408f9e17abd1d1dccd685bd7e80a3655a9 Mon Sep 17 00:00:00 2001
+-From: Donn Seeley <donn.seeley@windriver.com>
+-Date: Tue, 25 Feb 2014 17:44:04 +0800
+-Subject: [PATCH] dpkg: fix a link problem for dpkg-native on CentOS 5.8
+-
+-CentOS 5.8 kernels and headers support the sync_file_range() system call,
+-but glibc 2.5 doesn't provide the syscall stub.  It appears that this
+-problem is known but will never be fixed:
+-
+-  https://bugzilla.redhat.com/show_bug.cgi?id=518581
+-
+-  Bug 518581 - [RHEL5] glibc misses sync_file_range syscall interface
+-
+-  Status:       CLOSED CANTFIX
+-  Last Closed:  2009-11-22 22:19:55
+-
+-  Kirby Zhou 2009-08-20 23:37:55 EDT
+-
+-  Description of problem:
+-
+-  glibc misses sync_file_range syscall interface.  The header file and
+-  man page both say 'sync_file_range' should exist.  From man page,
+-  sync_file_range should exist sinc kernel-2.6.17
+-
+-  Andreas Schwab 2009-08-21 03:24:24 EDT
+-
+-  It has only been added to glibc 2.6, and cannot be backported due to
+-  ABI breakage.  You can always fall back to syscall(3).
+-
+-  Ulrich Drepper 2009-11-22 22:19:55 EST
+-
+-  As comment #1 says, no chance to backport this.
+-
+-  See the syscall man page for instructions.
+-
+-  Jon E 2010-03-19 10:32:37 EDT
+-
+-  then why document it if it's broken and you're not going to fix it?
+-  .. might want to FTFM over at sync_file_range(2) - in the meantime -
+-  borrowing from glibc 2.6 .. any thoughts on this implementation for a
+-  hacky workaround for those still on your "ancient releases" .. (eg:
+-  RHEL5.3)?:
+-
+-  #ifdef ULI_WONT_FIX_THIS_IN_GLIBC2.5
+-  #define NR_sync_file_range 277
+-  int sync_file_range (int fd, __off64_t from, __off64_t to, unsigned int flags)
+-  {
+-    return syscall (NR_sync_file_range, fd,
+-                           __LONG_LONG_PAIR ((long) (from >> 32), (long) from),
+-                           __LONG_LONG_PAIR ((long) (to >> 32), (long) to),
+-                           flags);
+-  }
+-  #endif
+-
+-  assuming of course that you're on an x86_64 and include/asm-
+-  x86_64/unistd.h has the correct entry
+-
+-  (fwiw - fio is starting to use this now)
+-
+-Rather than attempting to provide an implementation using syscall(),
+-we take the more conservative route and ignore header support for
+-sync_file_range() flags when the glibc version is <= 2.5.
+-
+-Upstream-Status: Inappropriate [everyone else builds on newer hosts :-)]
+-
+-Signed-off-by: Donn Seeley <donn.seeley@windriver.com>
+-Signed-off-by: Lei Liu <lei.liu2@windriver.com>
+-
+-Update patch context for dpkg 1.19.4.
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+- src/archives.c | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/src/archives.c b/src/archives.c
+-index 8476a5c..b05a63f 100644
+---- a/src/archives.c
+-+++ b/src/archives.c
+-@@ -68,7 +68,7 @@ fd_writeback_init(int fd)
+-   /* Ignore the return code as it should be considered equivalent to an
+-    * asynchronous hint for the kernel, we are doing an fsync() later on
+-    * anyway. */
+--#if defined(SYNC_FILE_RANGE_WRITE)
+-+#if defined(SYNC_FILE_RANGE_WRITE) && __GLIBC_PREREQ(2, 6)
+-   sync_file_range(fd, 0, 0, SYNC_FILE_RANGE_WRITE);
+- #elif defined(HAVE_POSIX_FADVISE)
+-   posix_fadvise(fd, 0, 0, POSIX_FADV_DONTNEED);
+-@@ -1093,7 +1093,7 @@ tarobject(struct tar_archive *tar, struct tar_entry *ti)
+-   return 0;
+- }
+- 
+--#if defined(SYNC_FILE_RANGE_WAIT_BEFORE)
+-+#if defined(SYNC_FILE_RANGE_WAIT_BEFORE) && __GLIBC_PREREQ(2, 6)
+- static void
+- tar_writeback_barrier(struct fsys_namenode_list *files, struct pkginfo *pkg)
+- {
+--- 
+-2.16.2
+-
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
+index c3dbda77a4..77fbfb5c91 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
+@@ -9,12 +9,11 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
+            file://0002-Adapt-to-linux-wrs-kernel-version-which-has-characte.patch \
+            file://0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch \
+            file://0004-The-lutimes-function-doesn-t-work-properly-for-all-s.patch \
+-           file://0005-dpkg-compiler.m4-remove-Wvla.patch \
+            file://0006-add-musleabi-to-known-target-tripets.patch \
+            file://0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch \
+            file://0001-dpkg-Support-muslx32-build.patch \
+            "
+-SRC_URI_append_class-native = " file://glibc2.5-sync_file_range.patch \
++SRC_URI_append_class-native = " \
+                                 file://tweak-options-require-tar-1.27.patch \
+ "
+ 
 -- 
 2.17.1
 
