@@ -1,52 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id BDECE7E3B8
+Return-Path: <jonathan.rajotte-julien@efficios.com>
+Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
+	by mail.openembedded.org (Postfix) with ESMTP id 356737E3A7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 22:24:02 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id t5so3780202wmh.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 15:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=rfFyeiHZnlohhtCJCSzUBOR3czXvvdkl3tvNDWn8xZI=;
-	b=baoK2KtzMMzqBKS5Y2h+aGlyxYYhwhOhTp/HOdepdzWDzBXr5LrPd/8xL1dq2tHIDA
-	qp4VHhmsZLfZPRhoiiu7Vs+PfaJk9AbxWht8cvyz+dIsVccygXcKmOtlwJtgrj3TxTmi
-	J8ZMYAyVvi4PUdI97tCl/7FMMlmhmwgpae+No=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=rfFyeiHZnlohhtCJCSzUBOR3czXvvdkl3tvNDWn8xZI=;
-	b=JnQQGWUrT5L2lzkMtnt5SqTj7zGKrEPoyfQdEk/t0ZSoocWOLQ5R+IN2a18t9Y/FeO
-	VnPXIJsXDvTPCiUR/9qAzN6Jhi7fGhDyNPQ8ZzuB4XjisBwMN6yrS6jqGrqVWTC0Tuup
-	BICEYLKj3HgIfp0/02EwmEOwySnE//MDLzeixkLVVYy8nCNdfW/70RkcTQvrxxvPOfus
-	lJo+UKw3Z6lTkwpgi8YHDmMIprdF+q9sMFFf1KchoGAN6DuDVBMvxNpEGMMYt5zYaiC6
-	VLohJgLM0W0frJBrxmA4he8NTTt/hqPVurndrkBeuma+MSKPvSvKfuSsDlyq/K+9dJ/H
-	3yVA==
-X-Gm-Message-State: APjAAAW1Na3GyiP9IjbeOIGTm5O0+K6wovTExVI/95aLbSoSj7vWRNH6
-	n86yqXBNc0+4xKuTYNKRLqdm2g==
-X-Google-Smtp-Source: APXvYqxnDmjgAl8j5qXISNZ+uqUgai87eY3JwHoTfnIUwxe6QteQYzMhuusDVT5VTbP9Wyk2eXw7+Q==
-X-Received: by 2002:a1c:98cf:: with SMTP id a198mr9696951wme.51.1558563843543; 
-	Wed, 22 May 2019 15:24:03 -0700 (PDT)
-Received: from hex ([85.255.236.24]) by smtp.gmail.com with ESMTPSA id
-	x187sm9985637wmb.33.2019.05.22.15.24.02
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 22 May 2019 15:24:02 -0700 (PDT)
-Message-ID: <e24b3dc06a6e7545cab9a5be19f2803df3f6f10b.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Martin Jansa <martin.jansa@gmail.com>, Ross Burton <ross.burton@intel.com>
-Date: Wed, 22 May 2019 23:23:59 +0100
-In-Reply-To: <CA+chaQdQSk_WCyJC+beE7i+Y8fuqSZxA_-tR4yGXYfDVsRKQaA@mail.gmail.com>
-References: <20190517233743.9646-1-ross.burton@intel.com>
-	<CA+chaQdQSk_WCyJC+beE7i+Y8fuqSZxA_-tR4yGXYfDVsRKQaA@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	Wed, 22 May 2019 22:28:07 +0000 (UTC)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id 5D3CB1E59FA;
+	Wed, 22 May 2019 18:28:08 -0400 (EDT)
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
+	with ESMTP id Y4C_Xpprc6ed; Wed, 22 May 2019 18:28:08 -0400 (EDT)
+Received: from localhost (ip6-localhost [IPv6:::1])
+	by mail.efficios.com (Postfix) with ESMTP id E2B3A1E59F7;
+	Wed, 22 May 2019 18:28:07 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com E2B3A1E59F7
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
+	s=default; t=1558564087;
+	bh=TfVWWfTnuoZ8BBwW/e0j5i+C+VSQGIk6502ak9MCfOw=;
+	h=Date:From:To:Message-ID:MIME-Version;
+	b=YDtZKdDaOQUkoBvaSylMTmM3XcYlsX8FwEOU52Lj/JRoh2qxoaMFmUSloYd4I2jHf
+	Hs7NDsIld18kMataqSKq9qKgbnrV/9bJ2vOAWDBJmQHUUPQvUREJhrKFOXpMy1t+Pc
+	E7tEDcz19QQg7UMmc0zS4EzqXuvAVKspB3/FMzwTpSgR9Cj4KY293EVp3kO69HVHlm
+	2AW75UDxGZjykxdhA/GbOBkRC+j57ClKOieFAzCz81kXITuq02ZVKR852UiFG7VEj8
+	7hL2WyCGfTZ5eE/HX0CIYUQxUnMkUpfLn2KghDs6S4rosN0PgG43rej1DCwj3lPOaF
+	PS0zjiskBmQzQ==
+X-Virus-Scanned: amavisd-new at efficios.com
+Received: from mail.efficios.com ([IPv6:::1])
+	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
+	with ESMTP id 1OAqtuKBRwaZ; Wed, 22 May 2019 18:28:07 -0400 (EDT)
+Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+	by mail.efficios.com (Postfix) with ESMTPSA id B3B981E59F2;
+	Wed, 22 May 2019 18:28:07 -0400 (EDT)
+Date: Wed, 22 May 2019 18:28:07 -0400
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190522222807.GC4732@joraj-alpa>
+References: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
+	<6ed430aa3e5e722cd75b1798cacab3f92eb71b71.camel@linuxfoundation.org>
+	<2b4e8d0f-cbb9-d2e4-c17d-33950d3cf9df@windriver.com>
+	<7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] insane: add sanity checks to SRC_URI
+In-Reply-To: <7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: ptest with BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,26 +55,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 22:24:03 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 22 May 2019 22:28:07 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2019-05-22 at 17:48 +0200, Martin Jansa wrote:
-> Can we add an option to skip this with INSANE_SKIP?
-> 
-> It looks like QARECIPETEST doesn't use INSANE_SKIP or I don't see
-> how.
-> 
-> Removing src-uri-bad from ERROR_QA/WARN_QA for some recipes works as
-> well, is it worth adding INSANE_SKIP for consistency with other
-> checks or not?
+Hi,
 
-Ultimately I'd say that all these checks should work with INSANE_SKIP.
-I was just wondering about this issue myself for the chkconfig
-autobuilder warnings...
+> I think Jonathan Rajotte might be able to help us with lttng-tools.
 
-Cheers,
+Finally had some time for this.
 
-Richard
+See [1][2].
 
+[2] does bring the matter of forcing lttng-ust support of lttng-tools when ptest
+is deployed. "lttng-ust" is already set in PACKAGECONFIG by default but is there any
+way to "enforce" the lttng-ust config & dependency when lttng-tools-ptest is used?
+
+[1] http://lists.openembedded.org/pipermail/openembedded-core/2019-May/282733.html
+[2] http://lists.openembedded.org/pipermail/openembedded-core/2019-May/282734.html
+
+Cheers
+-- 
+Jonathan Rajotte-Julien
+EfficiOS
 
