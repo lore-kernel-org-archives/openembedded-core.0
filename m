@@ -1,25 +1,24 @@
 Return-Path: <Liwei.Song@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D8BA27D68F
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C3A687E3B5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 09:06:03 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4M96405004797
+	Wed, 22 May 2019 09:06:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4M95q41002714
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 02:06:04 -0700 (PDT)
+	Wed, 22 May 2019 02:06:02 -0700
 Received: from pek-lpggp3.wrs.com (128.224.153.76) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 22 May 2019 02:06:03 -0700
+	Wed, 22 May 2019 02:05:41 -0700
 From: Liwei Song <liwei.song@windriver.com>
 To: oe-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 22 May 2019 05:04:25 -0400
-Message-ID: <1558515865-69865-2-git-send-email-liwei.song@windriver.com>
+Date: Wed, 22 May 2019 05:04:24 -0400
+Message-ID: <1558515865-69865-1-git-send-email-liwei.song@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558515865-69865-1-git-send-email-liwei.song@windriver.com>
-References: <1558515865-69865-1-git-send-email-liwei.song@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] mdadm: define MAILADDR for mdmonitor service
+Subject: [PATCH 1/2] mdadm: guarded with systemd when install mdadm service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,33 +31,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 09:06:04 -0000
+X-List-Received-Date: Wed, 22 May 2019 09:06:11 -0000
 Content-Type: text/plain
 
-by default in mdmonitor.service it use mail address to report alerts
-but this need to set MAILADDR in /etc/mdadm.conf, or the service
-will be failed excuted.
-
-This patch will set MAILADD to "root" in /etc/mdadm.conf
-to aviod service run with error.
+install mdadm related service only when systemd was included
+in DISTRO_FEATURES.
 
 Signed-off-by: Liwei Song <liwei.song@windriver.com>
 ---
- meta/recipes-extended/mdadm/mdadm_4.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-extended/mdadm/mdadm_4.1.bb | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 8ca42a89ddc5..8ec1c22a0c62 100644
+index 597faf787a67..8ca42a89ddc5 100644
 --- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
 +++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -57,6 +57,7 @@ do_install() {
- do_install_append() {
-         install -d ${D}/${sysconfdir}/
+@@ -59,13 +59,11 @@ do_install_append() {
          install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
-+        sed -i "s/#MAILADDR root@mydomain.tld/MAILADDR root/" ${D}${sysconfdir}/mdadm.conf
          install -d ${D}/${sysconfdir}/init.d
          install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
-         if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true', 'false', d)}; then
++        if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true', 'false', d)}; then
++               oe_runmake install-systemd DESTDIR=${D}
++        fi
+ }
+ 
+-do_install_append() {
+-        oe_runmake install-systemd DESTDIR=${D}
+-}
+-
+-
+ do_compile_ptest() {
+ 	oe_runmake test
+ }
+@@ -93,4 +91,4 @@ RRECOMMENDS_${PN}-ptest += " \
+     kernel-module-raid456 \
+ "
+ 
+-FILES_${PN} += "/lib/systemd/*"
++FILES_${PN} += "${@bb.utils.contains('DISTRO_FEATURES','systemd','/lib/systemd/*', '', d)}"
 -- 
 2.7.4
 
