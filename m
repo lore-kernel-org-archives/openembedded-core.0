@@ -1,53 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 21E137E3CC
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AAFE7E3B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 11:08:28 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f204so1786322wme.0
+	Wed, 22 May 2019 11:10:33 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w13so1789857wru.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 04:08:30 -0700 (PDT)
+	Wed, 22 May 2019 04:10:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=KZN9XR15leWaUYqE6spIyeGhiTXb3JG3ifVillQOpJY=;
-	b=Y/YW7fYz+f26eBFtzeBP058ldq9/Zj+l1uVY7B+VVW/EWDgO7lNXke+kc1a+43p/Ot
-	qKOWMgKkSAJE9aAZ/82ZhNk8ssY1vI5FfFvUmFK28bmYlPS9TLRfq3lmSIFXW/s6j8NC
-	kH12hMSstC4sukvxdB3hZ8+beBtQCKlg2CiDQ=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=xR45wl9YdQHHafIyaXfX7VK2004k9ZMhjAnGXWCPw6k=;
+	b=Jj3cXl4uPJ36AJ6NKiglEkMTG4/cg/rKfiX5817dFXJ3t+Sq4zqI99hd9cP8xDFRlX
+	tJPZTnz+2NHgGZMk7bTQa+PZDnGsrcqTdAUJr8Qpf8JhNWgHhqEg/5CNErlzwoy9Ty2z
+	7x+uT+S0+ALaTOjkkMQ052B7h3ZItxk5uZyrQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=KZN9XR15leWaUYqE6spIyeGhiTXb3JG3ifVillQOpJY=;
-	b=fZbUwV8zo9hl3MNCugfW8aeEKfWcvReDU8+4aXJxHM69l/mCBhLdRistcve0fUlAYY
-	JsMw1SMVYM/VlWb0PQLtgI5VCwsKy63fl8Cgev+cblSusbOZoL7g2tPZWm9iwwV+ehAr
-	ec511EblNYC4i5P0hVNIvKIBJ9ctkpM1cpKji4hZUxU8MxH+PQt/l0AVCRKM7Il6KWUb
-	XCoCJ51+bCT/sVhImTQrvYxf9/DrH/AfBMg2UzDNSL84q3dintAl214EkxrbOVVq14ra
-	N2bvKkUdga73/MqZGsJxzQwZFToSy7HcMA5Mz57wAGenl5RxOn32qIcsQ0gI9sItCRq6
-	VEzg==
-X-Gm-Message-State: APjAAAXIpYjfsmwCIhrI/VvrHVqMRnh074QKIY84TtsZvPCATmh3df8P
-	rBmiDmrNWrQXWQBx2vgaXwvCRX/qYrs=
-X-Google-Smtp-Source: APXvYqzlfWhPZQd85r3AvB2GybRb7O4yj7od7Ao7ccvc1qHIofuaeN5i0KkNBCAmCz1lyLISnyqbvg==
-X-Received: by 2002:a1c:cb0e:: with SMTP id b14mr6722321wmg.61.1558523309888; 
-	Wed, 22 May 2019 04:08:29 -0700 (PDT)
-Received: from hex ([85.255.234.137])
-	by smtp.gmail.com with ESMTPSA id o4sm7212808wmo.20.2019.05.22.04.08.28
+	bh=xR45wl9YdQHHafIyaXfX7VK2004k9ZMhjAnGXWCPw6k=;
+	b=qLlsmy8mmAWDo6uEuxunRwrYQ0NyqfetfsSp7kFVK5t23LSyisPxPcAo5utjh/mh5S
+	J371EAryuArYedQQQDZwMZBJz4YoUi8eCdNao3NlRo8Xf1cs/8QJumk03CLibmy0qofV
+	YPxlJg3fcb3mmp78puuoH1k30gnRM4WUsLqc9U8ziR3r6nCF+ozLdjKs4FMTbb9Vtsvq
+	J+D+7gJqd2wtIrrnY6vGOIGpSHdOrF6FqrS5BasrxwnQRHuKAVLMG8zt5sYYXW8M9Jk+
+	TChj10DW16NklbkmbAhjYPSv5GIGNj+laZZzVxEXRXxZePMDkUwZ8IT7hCQMcWtXB+Ur
+	H68w==
+X-Gm-Message-State: APjAAAWc8jagoKRFqkRSEdb1uHQlY5KcCV592S25gSqlJ4+jUd136FFd
+	vykvaZTLgFxnL0jdEywM+72qXg==
+X-Google-Smtp-Source: APXvYqwbcAVyDNnqHdBLNr9hfrJI/ezTvx9AowXybtXwgD+e0cXMZIaq+Na1A6gcfiTx0L7tx+8Z3A==
+X-Received: by 2002:a05:6000:1284:: with SMTP id
+	f4mr42610567wrx.325.1558523434146; 
+	Wed, 22 May 2019 04:10:34 -0700 (PDT)
+Received: from hex ([85.255.234.137]) by smtp.gmail.com with ESMTPSA id
+	o6sm51922047wrh.55.2019.05.22.04.10.32
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 22 May 2019 04:08:29 -0700 (PDT)
-Message-ID: <33700e11097f8b98ea98acfce06977e24c3bfb8d.camel@linuxfoundation.org>
+	Wed, 22 May 2019 04:10:33 -0700 (PDT)
+Message-ID: <f3fecc483c5b64b3f2743cee80ebad3c2f798548.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, Khem Raj <raj.khem@gmail.com>
-Date: Wed, 22 May 2019 12:08:21 +0100
-In-Reply-To: <CANNYZj8cSb0_7fRhG=bbizctTnaQg53hVwSzOu5WoWr9ywbMKQ@mail.gmail.com>
-References: <20190521161158.45329-1-alex.kanavin@gmail.com>
-	<CAMKF1so7ASfBEknz4t727WGHvSOvJ2z=v87m0o=iZW4VdqFztw@mail.gmail.com>
-	<CANNYZj8cSb0_7fRhG=bbizctTnaQg53hVwSzOu5WoWr9ywbMKQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Wed, 22 May 2019 12:10:29 +0100
+In-Reply-To: <20190522013228.7591-1-raj.khem@gmail.com>
+References: <20190522013228.7591-1-raj.khem@gmail.com>
 User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] libmodulemd: fix erroneous linking against v2 library when v1 was requested
+Subject: Re: [PATCH 1/3] musl-obstack: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,44 +57,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 11:08:29 -0000
+X-List-Received-Date: Wed, 22 May 2019 11:10:33 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-05-22 at 12:28 +0200, Alexander Kanavin wrote:
-> On Wed, 22 May 2019 at 04:04, Khem Raj <raj.khem@gmail.com> wrote:
-> > > +
-> > > + pkg.generate(
-> > > +-    libraries : modulemd_v1_lib,
-> > > ++    libraries : '-l:libmodulemd.so.1',
-> > 
-> > shouldn't it be generating a separate package for v1 ?
-> > hardcoding linker paths seems a bit hackish here, is it going
-> > to generate a .pc file with .so.1 version ?
+On Tue, 2019-05-21 at 18:32 -0700, Khem Raj wrote:
+> obstacks from GNUlib is used in some OE-Core packages e.g. elfutils
+> and other packages outside OE-Core, this recipe helps provide this
+> functionality standalone on musl systems, and helps in getting full
+> versions of dependent packages
 > 
-> The problem is that both v2 and v1 are installed into the sysroot; we
-> don't have a mechanism to choose one or the other via DEPENDS (unlike
-> desktop distros where you can install -v1-dev or -v2-dev package for
-> your build).
-> Then both v2 and v1 .pc files (without this patch) refer to
-> '-lmodulemd' which in our case always resolves to v2 library.
-> 
-> Wth the patch the generated v1 .pc will look like this, while v2
-> continues to use the original '-lmodlulemd' in Libs:
-> 
-> prefix=${pcfiledir}/../../../usr
-> libdir=${prefix}/lib
-> includedir=${prefix}/include
-> 
-> Name: modulemd
-> Description: Module metadata manipulation library
-> Version: 1.8.10
-> Requires: glib-2.0, gobject-2.0
-> Libs: -l:libmodulemd.so.1
-> Cflags: -I${includedir}/modulemd
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+>  meta/recipes-core/musl/musl-obstack.bb | 22 ++++++++++++++++++++++
+>  1 file changed, 22 insertions(+)
+>  create mode 100644 meta/recipes-core/musl/musl-obstack.bb
 
-FWIW I think if there were two different recipes we could select which
-was in the sysroot through DEPENDS?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/623
 
 Cheers,
 
