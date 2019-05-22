@@ -1,100 +1,58 @@
-Return-Path: <alejandr@xilinx.com>
-Received: from NAM03-DM3-obe.outbound.protection.outlook.com
-	(mail-eopbgr800074.outbound.protection.outlook.com [40.107.80.74])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A6E46B96C
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CE8A17D40F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 20:21:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=0GFUi+gYUeV+mMt6TlnrHNkz9vabEdbZuUSOzEDSY5g=;
-	b=cjDrelCoLiK5BN5nU9QcwG/NvItYohVmYhd6Kztu3XDh7uqcvnUVzkNNwT938jtAYrYYykmz0XO2XzRvvxZ2sRnH7kCYJryY/7yu0PF7mTbrxkrq1LCXltwYXoatlz8DfMeczmgwx9kC+yuE3RBeo4kI326J45tQzuUH3kffajE=
-Received: from BL0PR02CA0032.namprd02.prod.outlook.com (2603:10b6:207:3c::45)
-	by CY4PR02MB2678.namprd02.prod.outlook.com (2603:10b6:903:124::19)
-	with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1900.17;
-	Wed, 22 May 2019 16:45:06 +0000
-Received: from CY1NAM02FT019.eop-nam02.prod.protection.outlook.com
-	(2a01:111:f400:7e45::209) by BL0PR02CA0032.outlook.office365.com
-	(2603:10b6:207:3c::45) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1922.15 via
-	Frontend Transport; Wed, 22 May 2019 16:45:06 +0000
-Authentication-Results: spf=pass (sender IP is 149.199.60.100)
-	smtp.mailfrom=xilinx.com; lists.openembedded.org; dkim=none (message not
-	signed) header.d=none; lists.openembedded.org;
-	dmarc=bestguesspass action=none header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
-	149.199.60.100 as permitted sender) receiver=protection.outlook.com;
-	client-ip=149.199.60.100; helo=xsj-pvapsmtpgw02;
-Received: from xsj-pvapsmtpgw02 (149.199.60.100) by
-	CY1NAM02FT019.mail.protection.outlook.com (10.152.75.177) with
-	Microsoft SMTP Server (version=TLS1_0,
-	cipher=TLS_RSA_WITH_AES_256_CBC_SHA) id 15.20.1922.16
-	via Frontend Transport; Wed, 22 May 2019 16:45:05 +0000
-Received: from unknown-38-66.xilinx.com ([149.199.38.66]:54851
-	helo=xsj-pvapsmtp01) by xsj-pvapsmtpgw02 with esmtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1hTUMT-0003LI-7f; Wed, 22 May 2019 09:45:05 -0700
-Received: from localhost ([127.0.0.1] helo=xsj-pvapsmtp01)
-	by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandro.enedino.hernandez-samaniego@xilinx.com>)
-	id 1hTUMO-0004iP-5Y; Wed, 22 May 2019 09:45:00 -0700
-Received: from [10.23.116.38] by xsj-pvapsmtp01 with esmtp (Exim 4.63)
-	(envelope-from <alejandr@xilinx.com>)
-	id 1hTUMN-0004iM-Qf; Wed, 22 May 2019 09:44:59 -0700
-To: Tim Orling <ticotimo@gmail.com>, Alexander Kanavin <alex.kanavin@gmail.com>
-References: <20190521090032.14859-1-schnitzeltony@gmail.com>
-	<20190521090032.14859-2-schnitzeltony@gmail.com>
-	<03af571c3019042cff91f2703b15edb139661144.camel@linuxfoundation.org>
-	<CALbNGRQjahbkMzBmqFG4QQE4moF-qTFJrDDMzBVUnXBCTwGFMA@mail.gmail.com>
-	<b182fad0b95201771a7c01ab2d71aaba73810399.camel@linuxfoundation.org>
-	<CALbNGRRcmwVcVD3ytdb32RkmgyFTLJ3dsKiC+iLDK36s1DBwGw@mail.gmail.com>
-	<1cee8ee543463712e25b4ea4450fb40242a9e84e.camel@linuxfoundation.org>
-	<CAMKF1srz+_Tk5=GNWzBLpNRXoqdCYOmLyNm6XKkFJQFvGcpX=Q@mail.gmail.com>
-	<f10bbaa1a0d8ef62f7b7ffd8dfae101b906fafce.camel@linuxfoundation.org>
-	<CANNYZj89w2eT2bN=8SmSwmAPzYADLPk=GmajvNJTif+0q3eO+g@mail.gmail.com>
-	<CANx9H-D0E+ixNv3Tj4ZBir3Z8xv0=G_1nkufvML7CwA=4RigZw@mail.gmail.com>
-From: Alejandro Hernandez <alejandro.enedino.hernandez-samaniego@xilinx.com>
-Message-ID: <ae6df54d-31f2-ef8a-2c58-e8a873752904@xilinx.com>
-Date: Wed, 22 May 2019 09:44:59 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Wed, 22 May 2019 20:48:11 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id n25so3560321wmk.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 13:48:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=M/Q274CQ7RvJY0UrKRoggH73qSoYOzmx4wd0goMb7w4=;
+	b=pJYhpVBhOfpyO4iSPabZ/RrmW4NgmUM3kN/9WE5ZJvJ62ZGp3hN2nfPa03yhrIWMx/
+	8mJ2hiTnNc0JmjQAZfHKdPurinD2y7Mva783eFSPIpxVsBWuWFwgEwhDTMxYvToMbN2m
+	tjFxBeGbNy7mXqK41J5+6F4oZHxTxMPq+8LTZUugD1kQcUNA6tzDzv9P2MDP8bUu7UDy
+	cgkpwg8jr3e4SN7KZC5sdqiaj9FterQgqhR1N7BWec6HQFrx3ftPyYW0x9kk1AETPeWd
+	HfZO+lkFOwKqqDF6i8fRUCoBYh7D+epQnHjmehShszTu5xQM3TrHn6zpF+5wuyNHwZwE
+	Ug7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=M/Q274CQ7RvJY0UrKRoggH73qSoYOzmx4wd0goMb7w4=;
+	b=XyCN5+DGW+e94aK/+tE11sFQmfCwaP6NnMQgZDkvf1iV0ja5WSxnztlCMvcj9TNYxm
+	/Rz+cIQmIBl8dAhgsJmJYh0GQWxCqRlmoNNr/gXSYo0+VisIo+ZPpmih+nO/YWw4ybph
+	RrnntLFZth5qTX6LAoEEdNpPSoY6SvACkvf5DJpnTf2d476Id8K9WhR7jpGNpu85XrbE
+	Hdi66Xtu5ZZ0d2Kx85YTy4QlnS443wqtN2nGA9syoM9TUx6MiEzrjFgwrJf/7ibFIb7I
+	Rvsez3Edse7rcraCOiQ+dLJRKE+cu3REQLzgv8zpZ9K0SgwbSe/QiGrLRXk5fIxfeza5
+	x2AQ==
+X-Gm-Message-State: APjAAAVTIjiWykuyW2nSDypFdN1cLvgBJF9UfEj20NHmZe+IXZfxzJw1
+	7vfXDqMOxRgAipDCDcxmQmw=
+X-Google-Smtp-Source: APXvYqzFWHDUboBc6/TR9Fw98FNN2NbKTmNqwzdwTNggW0SVUxZpsubHd5knfvp7usOCZWWEoovRFA==
+X-Received: by 2002:a1c:6c1a:: with SMTP id h26mr8643410wmc.89.1558558092532; 
+	Wed, 22 May 2019 13:48:12 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	f6sm27029779wro.12.2019.05.22.13.48.11
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 May 2019 13:48:11 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 22 May 2019 22:48:21 +0200
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190522204821.GB1421@jama>
+References: <cover.1558300553.git.just.another.mariano@gmail.com>
+	<c7d776cebebd9bf2c28d43aad3fd911101283572.1558300553.git.just.another.mariano@gmail.com>
+	<CA+chaQdu3hKa6ogM=9_iG1GS67YdrwoF=J2YWdh6RX3V1r7qbA@mail.gmail.com>
+	<20190522141825.GA7379@localhost> <20190522200916.GA1421@jama>
 MIME-Version: 1.0
-In-Reply-To: <CANx9H-D0E+ixNv3Tj4ZBir3Z8xv0=G_1nkufvML7CwA=4RigZw@mail.gmail.com>
-X-TM-AS-Product-Ver: IMSS-7.1.0.1224-8.2.0.1013-23620.005
-X-TM-AS-User-Approved-Sender: Yes;Yes
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-Forefront-Antispam-Report: CIP:149.199.60.100; IPV:NLI; CTRY:US; EFV:NLI;
-	SFV:NSPM;
-	SFS:(10009020)(346002)(136003)(376002)(396003)(39860400002)(2980300002)(199004)(189003)(9786002)(70206006)(966005)(336012)(8936002)(81156014)(81166006)(486006)(4326008)(70586007)(71190400001)(446003)(426003)(316002)(16586007)(6246003)(126002)(476003)(2616005)(11346002)(356004)(8676002)(65806001)(65956001)(478600001)(186003)(606006)(229853002)(31686004)(236005)(54896002)(6306002)(64126003)(31696002)(26005)(84326002)(5660300002)(77096007)(36756003)(65826007)(53546011)(33964004)(76176011)(110136005)(37036004)(58126008)(106002)(2906002)(5001870100001);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:CY4PR02MB2678; H:xsj-pvapsmtpgw02;
-	FPR:; SPF:Pass; LANG:en;
-	PTR:xapps1.xilinx.com,unknown-60-100.xilinx.com; A:1; MX:1; 
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5f7a8053-5c55-469c-5b4a-08d6ded4d81b
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4709054)(2017052603328);
-	SRVR:CY4PR02MB2678; 
-X-MS-TrafficTypeDiagnostic: CY4PR02MB2678:
-X-MS-Exchange-PUrlCount: 2
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-Microsoft-Antispam-PRVS: <CY4PR02MB2678846CD5F6371653C79984AC000@CY4PR02MB2678.namprd02.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-Forefront-PRVS: 0045236D47
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: vEwCAB53VtNeoVAuUpqF+Ox8rrKhrFPmbI7LDIKhhgicnlfcKigRDFSNXBzyRF+5SQHvvl2n0CAtfGgSzhjJqVTFp0xNaXiML+urGwZck4CzU+QyFC6Y+2U4r0cordgzRV3Mq2yH3YfR5CCE7AyYFIDEDfLyIqxrMRQWRSV8d8PBIivWRHIEeGfFpsM2D6dxuGhTT8kopv0wDjjqi8xtBISA6AfVf8z1k6NfnkfbY2r6ySE6lx5TBJFcumQPEhG+mp594yYhZY7h0jPX2wD6DoftFUfXF3IODzqzqieZvMZbAjGjAjDzit+ZHciuyn0sn8GQURdfFUFXfaDJD5oUHpsjtcIPF9V4hRlB87QxHdv3EgMR41d+Cvtq80KBqXDGW9CqQLLGTyYy+g8MkD9XWkinv0zG4rV/zSYyD3a+6kE=
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 May 2019 16:45:05.6665 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5f7a8053-5c55-469c-5b4a-08d6ded4d81b
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;
-	Ip=[149.199.60.100]; Helo=[xsj-pvapsmtpgw02]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY4PR02MB2678
+In-Reply-To: <20190522200916.GA1421@jama>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] python-six: put python2/3 variant together
+Subject: Re: [PATCH 1/1] util-linux: Add missing ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -107,198 +65,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 20:21:45 -0000
-Content-Type: multipart/alternative;
-	boundary="------------FC5A3343BD83B0E2B632829B"
-Content-Language: en-US
+X-List-Received-Date: Wed, 22 May 2019 20:48:12 -0000
+X-Groupsio-MsgNum: 124870
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="QKdGvSO+nmPlgiQ/"
+Content-Disposition: inline
 
---------------FC5A3343BD83B0E2B632829B
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+--QKdGvSO+nmPlgiQ/
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Wed, May 22, 2019 at 10:09:16PM +0200, Martin Jansa wrote:
+> On Wed, May 22, 2019 at 05:18:25PM +0300, Adrian Bunk wrote:
+> > On Wed, May 22, 2019 at 01:03:37PM +0200, Martin Jansa wrote:
+> > > This pulls bc to many images with busybox, causing busybox postinst t=
+o fail
+> > > with:
+> > >=20
+> > > update-alternatives: Error: not linking /usr/bin/bc to /bin/busybox.n=
+osuid
+> > > since /usr/bin/bc exists and is not a link
+> >=20
+> > Are you enabling CONFIG_BC in your busybox config?
+> > It is not enabled in meta/recipes-core/busybox/busybox/defconfig
+>=20
+> It's not disabled in my defconfig like it is in
+> meta/recipes-core/busybox/busybox/defconfig, maybe it got auto enabled.
+>=20
+> In log.do_configure I see:
+> ...
+> *
+> * Miscellaneous Utilities
+> *
+> adjtimex (4.7 kb) (ADJTIMEX) [N/y/?] n
+> bbconfig (9.7 kb) (BBCONFIG) [N/y/?] n
+> bc (45 kb) (BC) [Y/n/?] (NEW) dc (36 kb) (DC) [Y/n/?] y
+>   Use bc code base for dc (larger, more features) (FEATURE_DC_BIG) [Y] (N=
+EW) y
+>     Interactive mode (+4kb) (FEATURE_BC_INTERACTIVE) [Y/n/?] (NEW)     En=
+able bc/dc long options (FEATURE_BC_LONG_OPTIONS) [Y/n] (NEW) beep (2.4 kb)=
+ (BEEP) [N/y/?] n
+> chat (6.3 kb) (CHAT) [N/y/?] n
+> conspy (10 kb) (CONSPY) [N/y/?] n
+> ...
+>=20
+> > > I'll check which busybox defconfig entry enables BC and send patch to=
+ use
+> > > u-a for bc in ./meta/recipes-extended/bc/bc_1.07.1.bb
+> > >=20
+> > > There already is:
+> > > ALTERNATIVE_${PN} =3D "dc"
+> > > ALTERNATIVE_PRIORITY =3D "100"
+> > > but maybe dc is a typo.
+> >=20
+> > bc and dc are two different binaries built from bc.
+> >=20
+> > busybox used to only have dc, bc was added 6 months ago.
+>=20
+> Thanks I've never noticed dc before.
+>=20
+> I see both dc and bc in 1.06 version from meta-gplv2 which was released
+> on 2000-11-15
+>=20
+> bc/1.06-r3/image/usr/bin/bc
+
+Ah you were talking about busybox having only dc until 6 months ago.
+
+Makes sense now, thanks.
+
+> As there is already u-a for dc, I will sent u-a for bc as well.
+> --=20
+> Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
 
-On 5/22/2019 7:01 AM, Tim Orling wrote:
->
->
-> On Wed, May 22, 2019 at 4:27 AM Alexander Kanavin 
-> <alex.kanavin@gmail.com <mailto:alex.kanavin@gmail.com>> wrote:
->
->     On Wed, 22 May 2019 at 13:05, <richard.purdie@linuxfoundation.org
->     <mailto:richard.purdie@linuxfoundation.org>> wrote:
->
->     > I don't think we need to switch our default, just be able to
->     build say
->     > oe-core without python/python2 in HOSTTOOLS and without needing
->     python
->     > 2.7 in OE-Core either.
->     >
->     > > Its good that project is taking lead here but we might leave many
->     > > users behind.
->     >
->     > I suspect python2 will end up in a layer of its down which I'm fine
->     > with, dependencies can then be clearly seen.
->
->     For what it's worth, Fedora is getting serious about Python 2 removal,
->     and they have a plan for it:
->     https://fedoraproject.org/wiki/Changes/RetirePython2
->
->     "All packages in Fedora that need Python 2 to run will be removed from
->     Fedora 32 regardless of their dependencies. All packages in Fedora
->     that need Python 2 to build will be removed from Fedora 32 regardless
->     of their dependencies. "
->
->
->
-> We have discussed moving meta-python to its own repository (not under 
-> meta-openembedded). As part of that move, I am proposing the existing 
-> python2 recipes move to a separate (deprecated) layer, as RP mentioned 
-> earlier. Then meta-python will become python3 only. We will also move 
-> recipetool/devtool to provide python3 (only) support. People that need 
-> python2 will very soon have to live with older stable branches. This 
-> should not be a surprise.
->
-> We also need to do whatever we can with upstream projects that are not 
-> feeling an urgency to move to python3. They should likewise not be 
-> surprised at the need to switch.
 
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-I would agree with this as well.
+--QKdGvSO+nmPlgiQ/
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
+-----BEGIN PGP SIGNATURE-----
 
-Cheers,
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXOW1lQAKCRA3VSO3ZXaA
+HMN4AJ4+8qYUUh0FCsjYSX4p7rkplY0KrwCbBBSGpXBxJS4U3ocYWLYLBfIseu0=
+=z+1C
+-----END PGP SIGNATURE-----
 
-Alejandro
-
-
->
->
->     Alex
->     -- 
->     _______________________________________________
->     Openembedded-core mailing list
->     Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->
-
---------------FC5A3343BD83B0E2B632829B
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 5/22/2019 7:01 AM, Tim Orling wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CANx9H-D0E+ixNv3Tj4ZBir3Z8xv0=G_1nkufvML7CwA=4RigZw@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div><br>
-      </div>
-      <div><br>
-        <div class="gmail_quote">
-          <div dir="ltr" class="gmail_attr">On Wed, May 22, 2019 at 4:27
-            AM Alexander Kanavin &lt;<a
-              href="mailto:alex.kanavin@gmail.com"
-              moz-do-not-send="true">alex.kanavin@gmail.com</a>&gt;
-            wrote:<br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 22
-            May 2019 at 13:05, &lt;<a
-              href="mailto:richard.purdie@linuxfoundation.org"
-              target="_blank" moz-do-not-send="true">richard.purdie@linuxfoundation.org</a>&gt;
-            wrote:<br>
-            <br>
-            &gt; I don't think we need to switch our default, just be
-            able to build say<br>
-            &gt; oe-core without python/python2 in HOSTTOOLS and without
-            needing python<br>
-            &gt; 2.7 in OE-Core either.<br>
-            &gt;<br>
-            &gt; &gt; Its good that project is taking lead here but we
-            might leave many<br>
-            &gt; &gt; users behind.<br>
-            &gt;<br>
-            &gt; I suspect python2 will end up in a layer of its down
-            which I'm fine<br>
-            &gt; with, dependencies can then be clearly seen.<br>
-            <br>
-            For what it's worth, Fedora is getting serious about Python
-            2 removal,<br>
-            and they have a plan for it:<br>
-            <a
-              href="https://fedoraproject.org/wiki/Changes/RetirePython2"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">https://fedoraproject.org/wiki/Changes/RetirePython2</a><br>
-            <br>
-            "All packages in Fedora that need Python 2 to run will be
-            removed from<br>
-            Fedora 32 regardless of their dependencies. All packages in
-            Fedora<br>
-            that need Python 2 to build will be removed from Fedora 32
-            regardless<br>
-            of their dependencies. "<br>
-          </blockquote>
-          <div dir="auto"><br>
-          </div>
-          <div dir="auto"><br>
-          </div>
-          <div dir="auto">We have discussed moving meta-python to its
-            own repository (not under meta-openembedded). As part of
-            that move, I am proposing the existing python2 recipes move
-            to a separate (deprecated) layer, as RP mentioned earlier.
-            Then meta-python will become python3 only. We will also move
-            recipetool/devtool to provide python3 (only) support. People
-            that need python2 will very soon have to live with older
-            stable branches. This should not be a surprise.</div>
-          <div dir="auto"><br>
-          </div>
-          <div dir="auto">We also need to do whatever we can with
-            upstream projects that are not feeling an urgency to move to
-            python3. They should likewise not be surprised at the need
-            to switch.</div>
-        </div>
-      </div>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>I would agree with this as well.</p>
-    <p><br>
-    </p>
-    <p>Cheers,</p>
-    <p>Alejandro<br>
-    </p>
-    <p><br>
-    </p>
-    <blockquote type="cite"
-cite="mid:CANx9H-D0E+ixNv3Tj4ZBir3Z8xv0=G_1nkufvML7CwA=4RigZw@mail.gmail.com">
-      <div>
-        <div class="gmail_quote">
-          <div dir="auto"><br>
-          </div>
-          <blockquote class="gmail_quote" style="margin:0 0 0
-            .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-            Alex<br>
-            -- <br>
-            _______________________________________________<br>
-            Openembedded-core mailing list<br>
-            <a href="mailto:Openembedded-core@lists.openembedded.org"
-              target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-            <a
-              href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-              rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-          </blockquote>
-        </div>
-      </div>
-      <br>
-      <fieldset class="mimeAttachmentHeader"></fieldset>
-    </blockquote>
-  </body>
-</html>
-
---------------FC5A3343BD83B0E2B632829B--
+--QKdGvSO+nmPlgiQ/--
