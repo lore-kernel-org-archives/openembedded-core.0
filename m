@@ -1,45 +1,52 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id A2AB67E3B8
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BDECE7E3B8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 22:21:46 +0000 (UTC)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id E88BE1E5748
+	Wed, 22 May 2019 22:24:02 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id t5so3780202wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 18:21:47 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id clZeSM_hL6m5; Wed, 22 May 2019 18:21:47 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id A93E81E5743;
-	Wed, 22 May 2019 18:21:47 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com A93E81E5743
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1558563707;
-	bh=Zgj2XzXozbER2JTfxlA9DTq+BVjPcb3E3jmRHGhe4wE=;
-	h=From:To:Date:Message-Id;
-	b=scwd7PfcD46e542Bt6VyJEn/lZGHhUV6k+JuV56FEvc6ALV/wKwXn8wBU5ZKqBHgX
-	EzASRf7cxTUtKx5fm8Z3vhDQMis/kQz+SIDSQ4ua7SjyUyAsSPGMZ2G1K+DifoerwF
-	KonLDqiDv2ft09K7AuEqU5wwGX8W3Q89f0+7X5TIRqvu/tuEbnXyOT1jQ/Jwlh1Nb6
-	JN32v1sDVPOzkwuCXaVySG5AxKG6WWH0E6JabQzLY1lyiwhB5RTzE5kgkvu550zGL+
-	5G0L7HuvgO4i36wJFEM0FNEfyfWMiKYXdL9f+aAy9Bu3pe6TlNVddpPAa8F1XZDNrx
-	sybOroCqV+FTA==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id GXrBrkIvCVLF; Wed, 22 May 2019 18:21:47 -0400 (EDT)
-Received: from joraj-yocto-dev.internal.efficios.com
-	(192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id 8AB1F1E573C;
-	Wed, 22 May 2019 18:21:47 -0400 (EDT)
-From: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 22 May 2019 22:21:32 +0000
-Message-Id: <20190522222132.25731-2-jonathan.rajotte-julien@efficios.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190522222132.25731-1-jonathan.rajotte-julien@efficios.com>
-References: <20190522222132.25731-1-jonathan.rajotte-julien@efficios.com>
-Subject: [PATCH v2 2/2] lttng-tools: add lttng-modules to ptest dependencies
+	Wed, 22 May 2019 15:24:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=rfFyeiHZnlohhtCJCSzUBOR3czXvvdkl3tvNDWn8xZI=;
+	b=baoK2KtzMMzqBKS5Y2h+aGlyxYYhwhOhTp/HOdepdzWDzBXr5LrPd/8xL1dq2tHIDA
+	qp4VHhmsZLfZPRhoiiu7Vs+PfaJk9AbxWht8cvyz+dIsVccygXcKmOtlwJtgrj3TxTmi
+	J8ZMYAyVvi4PUdI97tCl/7FMMlmhmwgpae+No=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=rfFyeiHZnlohhtCJCSzUBOR3czXvvdkl3tvNDWn8xZI=;
+	b=JnQQGWUrT5L2lzkMtnt5SqTj7zGKrEPoyfQdEk/t0ZSoocWOLQ5R+IN2a18t9Y/FeO
+	VnPXIJsXDvTPCiUR/9qAzN6Jhi7fGhDyNPQ8ZzuB4XjisBwMN6yrS6jqGrqVWTC0Tuup
+	BICEYLKj3HgIfp0/02EwmEOwySnE//MDLzeixkLVVYy8nCNdfW/70RkcTQvrxxvPOfus
+	lJo+UKw3Z6lTkwpgi8YHDmMIprdF+q9sMFFf1KchoGAN6DuDVBMvxNpEGMMYt5zYaiC6
+	VLohJgLM0W0frJBrxmA4he8NTTt/hqPVurndrkBeuma+MSKPvSvKfuSsDlyq/K+9dJ/H
+	3yVA==
+X-Gm-Message-State: APjAAAW1Na3GyiP9IjbeOIGTm5O0+K6wovTExVI/95aLbSoSj7vWRNH6
+	n86yqXBNc0+4xKuTYNKRLqdm2g==
+X-Google-Smtp-Source: APXvYqxnDmjgAl8j5qXISNZ+uqUgai87eY3JwHoTfnIUwxe6QteQYzMhuusDVT5VTbP9Wyk2eXw7+Q==
+X-Received: by 2002:a1c:98cf:: with SMTP id a198mr9696951wme.51.1558563843543; 
+	Wed, 22 May 2019 15:24:03 -0700 (PDT)
+Received: from hex ([85.255.236.24]) by smtp.gmail.com with ESMTPSA id
+	x187sm9985637wmb.33.2019.05.22.15.24.02
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 22 May 2019 15:24:02 -0700 (PDT)
+Message-ID: <e24b3dc06a6e7545cab9a5be19f2803df3f6f10b.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Martin Jansa <martin.jansa@gmail.com>, Ross Burton <ross.burton@intel.com>
+Date: Wed, 22 May 2019 23:23:59 +0100
+In-Reply-To: <CA+chaQdQSk_WCyJC+beE7i+Y8fuqSZxA_-tR4yGXYfDVsRKQaA@mail.gmail.com>
+References: <20190517233743.9646-1-ross.burton@intel.com>
+	<CA+chaQdQSk_WCyJC+beE7i+Y8fuqSZxA_-tR4yGXYfDVsRKQaA@mail.gmail.com>
+User-Agent: Evolution 3.32.1-2 
+MIME-Version: 1.0
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] insane: add sanity checks to SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,30 +59,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 22 May 2019 22:21:46 -0000
+X-List-Received-Date: Wed, 22 May 2019 22:24:03 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The lttng-tools project is essentially a "tracer" controller, the tests
-depends heavily on lttng-ust and lttng-modules presence.
+On Wed, 2019-05-22 at 17:48 +0200, Martin Jansa wrote:
+> Can we add an option to skip this with INSANE_SKIP?
+> 
+> It looks like QARECIPETEST doesn't use INSANE_SKIP or I don't see
+> how.
+> 
+> Removing src-uri-bad from ERROR_QA/WARN_QA for some recipes works as
+> well, is it worth adding INSANE_SKIP for consistency with other
+> checks or not?
 
-Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
----
- meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ultimately I'd say that all these checks should work with INSANE_SKIP.
+I was just wondering about this issue myself for the chkconfig
+autobuilder warnings...
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-index f1bb7224f3..7e80bb45d1 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- 
- DEPENDS = "liburcu popt libxml2 util-linux"
- RDEPENDS_${PN} = "libgcc"
--RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
- RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
- # babelstats.pl wants getopt-long
--- 
-2.17.1
+Cheers,
+
+Richard
 
 
