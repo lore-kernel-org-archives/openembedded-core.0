@@ -1,47 +1,51 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B6B37E424
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 129007E3FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 14:21:09 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id i63so8763150ita.3
+	Thu, 23 May 2019 14:58:25 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id o11so3083374pgm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 07:21:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=FZDjfS8bPxyS24AI5UgAEh3ISbwrE3RpOUtKcR8fXMU=;
-	b=hLXV0lR+wQTaxNp9Quf8cahuawMmCQHTcRY9Tw5B1Ukvr0dIcBANttNrbOFrKcVGXs
-	2t3RnFO4/erJgv0BsZjdZO21WO8yg3kJw93+SgwUINpNklXUZ/qCXvlwkAzIaXYAhC8Y
-	yBeMfVNhfsETjcAErD8K7feAkuWtPOImB6TFunqpvap6DZl0wjzY5p4kAbVhPLtI5a2c
-	t7UxZRMYolOQw/QpSL3r3S/XO2ZEWGyK8Frc6ApWMVK1+ClVJT9Q58QzJ04UCwjctqvI
-	0zT5Zuvs3JsbqPmy6fc4LG2g7bIoaJZ+V+mqneWc+R7EfsI96oZo9o4pEfXIDe5EZln9
-	f+uQ==
+	Thu, 23 May 2019 07:58:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cPaxnXaaDPCLxcu29V16ALcltJKS/r83NuxKgzjkzt0=;
+	b=Hkj6zwCcM73mesC7Rc0bu4LMhAjO99ZHzGCEF+Zv6FFY0OPDtsqnkAVLCwBkxy8HJF
+	K2KhRybFp/Ptvr1yxgqF9CCbzdGCVEcy1p/vufRwXWccRDC2MNVMd0SSf8nez9bX+H2N
+	8m8h7jZfaBmKlDWUzLkFlfYs8JUxBkPYcIQAs0AG5wl2HT7y5bIJeiP43IiQorqNs7J/
+	TdwIDufyfPHEuWb8wnRLlRZTa0hhInXfpdsZUNekB/Gtp1dbe4JxtHwxKHHul13SylRB
+	DLQYw7UQMhPXlSwUTStvwfg3qxYzAlYJ2+QpVejdU2cy2ZbryMzVT3/qjBclstzfbwsH
+	+w7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=FZDjfS8bPxyS24AI5UgAEh3ISbwrE3RpOUtKcR8fXMU=;
-	b=oe4uqY9aSh0yUoO87ujdHlGW76qc+1FbI/eLW/R4Z9k7tZtWSwxdZYmCihhacBMR+K
-	rN4ilG8tHFWDR2nmqe+maL+Slh+QfsNAAV8cORDemRhZMEWcE4wmGzdArSNpCMqTUd7t
-	IKp2ISq+Z0D3QyTNMl5GPVOX6lXlkz0+aM6bwNI3koRZV2gyNOipHxd4UiDrEytCQvUy
-	LTrtcoOfjvqMstzvt236YXm6XWV0QtaUjmQRzUc41nTY2W+ujof4KOvdXWbujilVKHLi
-	0C2NjgoWgaqV35ImhKDpWxFjxc92/rGxZNK79a/E2wHAvvy9mMuXkyvY/DUgmx1Fk9/f
-	Ucyg==
-X-Gm-Message-State: APjAAAV981u0zUlr3BAzzvMnFF03UEKjlEJkNb6iF92/SYfFQfFjH+j2
-	+hJ7JAoLnK2+On9PbAwtGy1tqbzi5/7DkrADF5Sl7HV7c9c=
-X-Google-Smtp-Source: APXvYqzpm2qhqFC/bgctcm+dhZAZLKqesiL4W1vn/EHB8MKEdnRjBa15wjuC6BXBniuPivm+JTiqmDM05puS50dS8yU=
-X-Received: by 2002:a02:781c:: with SMTP id p28mr20313471jac.31.1558621270534; 
-	Thu, 23 May 2019 07:21:10 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cPaxnXaaDPCLxcu29V16ALcltJKS/r83NuxKgzjkzt0=;
+	b=YV7fTFW4ceav80x1Pv4ycnt6CdATh5a3xKjNy7RR3WAFo1qZeFxB4wyJF1fxpusiMr
+	8nB6UAl91okfJcPwgJRB5iNYHXaBJpK56ePKVpTS2yqEDdIRZYI82ca0E0nqLp4n+9sI
+	pYdSWGSe8nrnZ3vr99r0TWBRGGaIDjqMur+NPDJgL/kRppjPHLdnMgmXUqhuIpS/f6hd
+	F3n92U/M6e05IcNbDHsgaGrTP8uPQ/tcgftc/FBCmYE8OjS3vBP1vltGapURSsiT6yZD
+	NPLNkK2vhGgT71jcSdJPQkkMgtVv0070S2i2xTpVoJaFw2zgwxCsBMNe7zGdLy2hqOnY
+	iFbw==
+X-Gm-Message-State: APjAAAUGEGc2y1Q9aSTxHZ+UReryyJ3U5kQUoO3EE84lpYBo8SmD/3rk
+	YviaaY8uWpBvIUsLi+XmUuOGp9QG5Cg=
+X-Google-Smtp-Source: APXvYqz1jn3OGpwIYMe6yHQdgjfDe3My9vYdDKSPzZUhKHaLdBM/oaNAg1Y4mWCSqdNWbKt4B3yA1w==
+X-Received: by 2002:a65:42cd:: with SMTP id l13mr44794242pgp.72.1558623506425; 
+	Thu, 23 May 2019 07:58:26 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::e252])
+	by smtp.gmail.com with ESMTPSA id
+	v1sm29519925pgb.85.2019.05.23.07.58.25
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 07:58:25 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 May 2019 07:58:19 -0700
+Message-Id: <20190523145819.23329-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190523135514.20622-1-Martin.Jansa@gmail.com>
-In-Reply-To: <20190523135514.20622-1-Martin.Jansa@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 23 May 2019 15:20:59 +0100
-Message-ID: <CAJTo0LZf4a-p2RpMbdL6Vch+UHC69b3Jm1z5-Gz7LaGq6RZCKA@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] autotools, cmake, meson, waf: define PACKAGECONFIG_CONFARGS before appending it
+Cc: Adrian Bunk <bunk@stusta.de>
+Subject: [PATCH] Revert "musl: Add TEMP_FAILURE_RETRY from glibc"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,95 +58,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 14:21:09 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 May 2019 14:58:26 -0000
+Content-Transfer-Encoding: 8bit
 
-I think a neater solution might be to just aways set that when
-handling PACKAGECONFIG in base.bbclass.  Presumably the problem here
-is that if PACKAGECONFIG isn't set then PACKAGECONFIG_CONFARGS is
-never set, so lets ensure it is always set.
+This reverts commit 0c68c621d3b8690e3a346170006f75b032511a8a.
 
-Ross
+It should be upstreamed first
 
-On Thu, 23 May 2019 at 14:55, Martin Jansa <martin.jansa@gmail.com> wrote:
->
-> * just to make sure it's expaned by bitbake before it gets executed in shell
-> * e.g. with cmake.bbclass and cmake recipe (any recipe without
->   PACKAGECONFIG options have this issue) it looks like this:
->   bitbake -e cmake | grep EXTRA_OECMAKE=
->   EXTRA_OECMAKE="     -DCMAKE_DOC_DIR=share/doc/cmake-3.14
->     -DCMAKE_USE_SYSTEM_LIBRARIES=1     -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0
->     -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0
->     -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0     -DKWSYS_CHAR_IS_SIGNED=1
->     -DBUILD_CursesDialog=0     -DKWSYS_LFS_WORKS=1
->     \${PACKAGECONFIG_CONFARGS}"
->
-> * there are some other places where PACKAGECONFIG_CONFARGS is used, but
->   looks like all of them started to use it only after adding
->   PACKAGECONFIG options in the recipe
->
-> Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-> ---
->  meta/classes/autotools.bbclass | 1 +
->  meta/classes/cmake.bbclass     | 1 +
->  meta/classes/meson.bbclass     | 1 +
->  meta/classes/waf.bbclass       | 1 +
->  4 files changed, 4 insertions(+)
->
-> diff --git a/meta/classes/autotools.bbclass b/meta/classes/autotools.bbclass
-> index 8768a6ad68..32961320a5 100644
-> --- a/meta/classes/autotools.bbclass
-> +++ b/meta/classes/autotools.bbclass
-> @@ -129,6 +129,7 @@ autotools_postconfigure(){
->
->  EXTRACONFFUNCS ??= ""
->
-> +PACKAGECONFIG_CONFARGS ??= ""
->  EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
->
->  do_configure[prefuncs] += "autotools_preconfigure autotools_aclocals ${EXTRACONFFUNCS}"
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index d3f0d70847..b5deb7da70 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -56,6 +56,7 @@ OECMAKE_EXTRA_ROOT_PATH ?= ""
->  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM = "ONLY"
->  OECMAKE_FIND_ROOT_PATH_MODE_PROGRAM_class-native = "BOTH"
->
-> +PACKAGECONFIG_CONFARGS ??= ""
->  EXTRA_OECMAKE_append = " ${PACKAGECONFIG_CONFARGS}"
->
->  EXTRA_OECMAKE_BUILD_prepend_task-compile = "${PARALLEL_MAKE} "
-> diff --git a/meta/classes/meson.bbclass b/meta/classes/meson.bbclass
-> index 115d1aedcb..4f03a51e09 100644
-> --- a/meta/classes/meson.bbclass
-> +++ b/meta/classes/meson.bbclass
-> @@ -35,6 +35,7 @@ MESON_C_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CFLAGS}"
->  MESON_CPP_ARGS = "${MESON_TOOLCHAIN_ARGS} ${CXXFLAGS}"
->  MESON_LINK_ARGS = "${MESON_TOOLCHAIN_ARGS} ${LDFLAGS}"
->
-> +PACKAGECONFIG_CONFARGS ??= ""
->  EXTRA_OEMESON_append = " ${PACKAGECONFIG_CONFARGS}"
->
->  MESON_CROSS_FILE = ""
-> diff --git a/meta/classes/waf.bbclass b/meta/classes/waf.bbclass
-> index 900244004e..f7178b28e9 100644
-> --- a/meta/classes/waf.bbclass
-> +++ b/meta/classes/waf.bbclass
-> @@ -3,6 +3,7 @@ DISABLE_STATIC = ""
->
->  B = "${WORKDIR}/build"
->
-> +PACKAGECONFIG_CONFARGS ??= ""
->  EXTRA_OECONF_append = " ${PACKAGECONFIG_CONFARGS}"
->
->  def waflock_hash(d):
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Secondly, musl and glibc are under different licenses and importing
+code from one to other could taint it.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ ...0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch | 36 -------------------
+ meta/recipes-core/musl/musl_git.bb            |  1 -
+ 2 files changed, 37 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
+
+diff --git a/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch b/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
+deleted file mode 100644
+index 4d48d61651..0000000000
+--- a/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
++++ /dev/null
+@@ -1,36 +0,0 @@
+-From 19cbebc3fa33c6a1a71a6036da4d67c98f859f06 Mon Sep 17 00:00:00 2001
+-From: Adrian Bunk <bunk@stusta.de>
+-Date: Wed, 15 May 2019 16:08:33 +0300
+-Subject: unistd.h: Add TEMP_FAILURE_RETRY
+-
+-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+-Upstream-Status: Inappropriate [oe-specific]
+----
+- include/unistd.h | 11 +++++++++++
+- 1 file changed, 11 insertions(+)
+-
+-diff --git a/include/unistd.h b/include/unistd.h
+-index 9485da7a..8a75af57 100644
+---- a/include/unistd.h
+-+++ b/include/unistd.h
+-@@ -460,6 +460,17 @@ int eaccess(const char *, int);
+- #define _CS_V6_ENV	1148
+- #define _CS_V7_ENV	1149
+- 
+-+#ifdef _GNU_SOURCE
+-+#ifndef TEMP_FAILURE_RETRY
+-+# define TEMP_FAILURE_RETRY(expression) \
+-+  (__extension__                                                              \
+-+    ({ long int __result;                                                     \
+-+       do __result = (long int) (expression);                                 \
+-+       while (__result == -1L && errno == EINTR);                             \
+-+       __result; }))
+-+#endif
+-+#endif
+-+
+- #ifdef __cplusplus
+- }
+- #endif
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 2b433aed8c..1e324804e1 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -15,7 +15,6 @@ PV = "${BASEVER}+git${SRCPV}"
+ SRC_URI = "git://git.musl-libc.org/musl \
+            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
+            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
+-           file://0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch \
+           "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.21.0
+
 
