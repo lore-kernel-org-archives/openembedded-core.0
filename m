@@ -1,59 +1,60 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8971E7E470
+	by mail.openembedded.org (Postfix) with ESMTP id 273BA79980
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 18:42:58 +0000 (UTC)
+	Thu, 23 May 2019 20:40:44 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 528DA18343
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:59 +0200 (CEST)
+	by bastet.se.axis.com (Postfix) with ESMTP id 91122185B9;
+	Thu, 23 May 2019 22:40:45 +0200 (CEST)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id 2CPKZaYX0De8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:58 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 5F0E7185DC
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:58 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 498D21A07C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:58 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3E1B31A077
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:58 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:58 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 323B6186C
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:58 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x4NIgwZE015047
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 20:42:58 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x4NIgw5k015046
-	for openembedded-core@lists.openembedded.org;
-	Thu, 23 May 2019 20:42:58 +0200
+	port 10024)
+	with LMTP id SW6lUvREqEdo; Thu, 23 May 2019 22:40:44 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 0DCC0185A2;
+	Thu, 23 May 2019 22:40:44 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EDB171E088;
+	Thu, 23 May 2019 22:40:43 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E1CB41E054;
+	Thu, 23 May 2019 22:40:43 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu, 23 May 2019 22:40:43 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by thoth.se.axis.com (Postfix) with ESMTP id D538F1F7F;
+	Thu, 23 May 2019 22:40:43 +0200 (CEST)
+Received: from XBOX04.axis.com (10.0.5.18) by XBOX03.axis.com (10.0.5.17) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 23 May 2019 22:40:43 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Thu, 23 May 2019 22:40:43 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2019 20:42:54 +0200
-Message-Id: <20190523184254.14995-2-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190523184254.14995-1-pkj@axis.com>
-References: <20190523184254.14995-1-pkj@axis.com>
+To: "kai.kang@windriver.com" <kai.kang@windriver.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH v3 1/2] local.conf.sample: make systemd as
+	default	init manager
+Thread-Index: AQHVEUh28jtg/3pblUmMg2dCp4NCO6Z5Kp2A
+Date: Thu, 23 May 2019 20:40:43 +0000
+Message-ID: <36fa4c4d62d448588b54a0a4b0a5c92a@XBOX04.axis.com>
+References: <20190523082558.3805-1-kai.kang@windriver.com>
+	<20190523082558.3805-2-kai.kang@windriver.com>
+In-Reply-To: <20190523082558.3805-2-kai.kang@windriver.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [PATCH 2/2] texinfo-dummy-native: Rewrite template.py to use argparse
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v3 1/2] local.conf.sample: make systemd as default	init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,112 +67,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 18:42:59 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 May 2019 20:40:45 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-The original version of template.py parses the arguments manually. This
-fails when looking for the -E option if, e.g., an -I option is specified
-without any space before its argument, and that argument contains the
-letter 'E'.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of
+> kai.kang@windriver.com
+> Sent: den 23 maj 2019 10:26
+> To: richard.purdie@linuxfoundation.org
+> Cc: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH v3 1/2] local.conf.sample: make systemd as
+> default init manager
+>=20
+> From: Kai Kang <kai.kang@windriver.com>
+>=20
+> Move configurations from local.conf.sample.extended to local.conf.sample
+> to make systemd as default init manager for poky.
 
-A minor difference to the original version is that it parsed the
-arguments in the order they were specified on the command line whereas
-this version will always handle -E before -o.
+If we're going to change the default init manager to be systemd, wouldn't=20
+it be more appropriate to change the real default values in bitbake.conf=20
+and packagegroup-core-boot.bb? And then include an example in=20
+local.conf.sample.extended to show how to configure sysvinit as init manage=
+r?
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- .../texinfo-dummy/template.py                 | 55 ++++++-------------
- 1 file changed, 18 insertions(+), 37 deletions(-)
-
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-index fcc28548af..86c7c1811a 100644
---- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-@@ -28,10 +28,8 @@
- # of the executable from argv[0] and emulate the corresponding program, so
- # multiple copies of this script will exist under different names.
- 
--import sys, os
-+import sys, os, argparse
- 
--olong = "--output="
--Elong = "--macro-expand="
- 
- this_binary = sys.argv[0].split("/")[-1]
- 
-@@ -61,18 +59,9 @@ complex_binaries = "makeinfo texi2any".split()
- 
- valid_binaries = simple_binaries + complex_binaries
- 
--# For generating blank output files.
--def touch_file(path):
--    with open(path, "w"):
--        pass
--
- assert this_binary in valid_binaries, \
-        this_binary + " is not one of " + ', '.join(valid_binaries)
- 
--if "--version" in sys.argv:
--    print(version_str)
--    sys.exit(0)
--
- # For debugging
- log_interceptions = False
- if log_interceptions:
-@@ -81,35 +70,27 @@ if log_interceptions:
- 
- # Look through the options and flags, and if necessary, touch any output
- # files.
--arg_idx = 1
--while arg_idx < len(sys.argv):
--    arg = sys.argv [arg_idx]
--
--    if arg == "--":
--        break
-+p = argparse.ArgumentParser()
-+if this_binary in complex_binaries:
-+    p.add_argument('-E', '--macro-expand', metavar='FILE')
-+p.add_argument('-o', '--output', metavar='DEST')
-+p.add_argument('--version', action='store_true')
- 
--    # Something like -I . can result in a need for this (specifically the .)
--    elif len(arg) < 2:
--        pass
--
--    # Check if -o or --output is specified. These can be used at most once.
--    elif arg[0] == '-' and arg[1] != '-' and arg[len(arg) - 1] == 'o':
--        touch_file(sys.argv[arg_idx + 1])
--        sys.exit(0)
--    elif arg.startswith(olong):
--        touch_file(arg.split("=")[1])
--        sys.exit(0)
-+args, unknown = p.parse_known_args()
- 
--    # Check for functionality that isn't implemented yet.
--    else:
--        assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
--               this_binary in simple_binaries, \
--               "-E option not yet supported" + stub_msg
-+if args.version:
-+    print(version_str)
-+    sys.exit(0)
- 
--        assert not arg.startswith(Elong), \
--               Elong[:-1] + " option not yet supported" + stub_msg
-+# Check for functionality that isn't implemented yet.
-+assert not getattr(args, 'macro_expand', None), \
-+    "-E/--macro-expand option not yet supported" + stub_msg
- 
--    arg_idx += 1
-+# Check if -o or --output is specified.
-+if args.output:
-+    with open(args.output, 'w'):
-+        pass
-+    sys.exit(0)
- 
- # The -o/--output option overrides the default. For makeinfo and texi2any,
- # that default is to look for a @setfilename command in the input file.
--- 
-2.21.0
-
+>=20
+> [YOCTO #13031]
+>=20
+> Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> ---
+>  meta-poky/conf/local.conf.sample          | 9 +++++++++
+>  meta-poky/conf/local.conf.sample.extended | 9 ---------
+>  2 files changed, 9 insertions(+), 9 deletions(-)
+>=20
+> diff --git a/meta-poky/conf/local.conf.sample b/meta-
+> poky/conf/local.conf.sample
+> index 9068e567dc..3a07105e44 100644
+> --- a/meta-poky/conf/local.conf.sample
+> +++ b/meta-poky/conf/local.conf.sample
+> @@ -249,3 +249,12 @@ PACKAGECONFIG_append_pn-nativesdk-qemu =3D " sdl"
+>  # track the version of this file when it was generated. This can
+> safely be ignored if
+>  # this doesn't mean anything to you.
+>  CONF_VERSION =3D "1"
+> +
+> +#
+> +# Use systemd for system initialization
+> +#
+> +DISTRO_FEATURES_append =3D " systemd"
+> +DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
+> +VIRTUAL-RUNTIME_login_manager =3D "shadow-base"
+> +VIRTUAL-RUNTIME_init_manager =3D "systemd"
+> +VIRTUAL-RUNTIME_initscripts =3D "systemd-compat-units"
+> diff --git a/meta-poky/conf/local.conf.sample.extended b/meta-
+> poky/conf/local.conf.sample.extended
+> index 26603debe6..e20fc5dbf3 100644
+> --- a/meta-poky/conf/local.conf.sample.extended
+> +++ b/meta-poky/conf/local.conf.sample.extended
+> @@ -377,12 +377,3 @@ DISTRO_FEATURES_remove =3D "x11"
+>  #VIRTUAL-RUNTIME_initscripts =3D "initscripts"
+>  #VIRTUAL-RUNTIME_keymaps =3D "keymaps"
+>  #DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
+> -
+> -#
+> -# Use systemd for system initialization
+> -#
+> -#DISTRO_FEATURES_append =3D " systemd"
+> -#DISTRO_FEATURES_BACKFILL_CONSIDERED +=3D "sysvinit"
+> -#VIRTUAL-RUNTIME_login_manager =3D "shadow-base"
+> -#VIRTUAL-RUNTIME_init_manager =3D "systemd"
+> -#VIRTUAL-RUNTIME_initscripts =3D "systemd-compat-units"
+> --
+> 2.18.0
+>=20
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
