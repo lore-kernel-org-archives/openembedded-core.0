@@ -1,51 +1,39 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 129007E3FA
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C9A5A7E323
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 14:58:25 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id o11so3083374pgm.13
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 07:58:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=cPaxnXaaDPCLxcu29V16ALcltJKS/r83NuxKgzjkzt0=;
-	b=Hkj6zwCcM73mesC7Rc0bu4LMhAjO99ZHzGCEF+Zv6FFY0OPDtsqnkAVLCwBkxy8HJF
-	K2KhRybFp/Ptvr1yxgqF9CCbzdGCVEcy1p/vufRwXWccRDC2MNVMd0SSf8nez9bX+H2N
-	8m8h7jZfaBmKlDWUzLkFlfYs8JUxBkPYcIQAs0AG5wl2HT7y5bIJeiP43IiQorqNs7J/
-	TdwIDufyfPHEuWb8wnRLlRZTa0hhInXfpdsZUNekB/Gtp1dbe4JxtHwxKHHul13SylRB
-	DLQYw7UQMhPXlSwUTStvwfg3qxYzAlYJ2+QpVejdU2cy2ZbryMzVT3/qjBclstzfbwsH
-	+w7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=cPaxnXaaDPCLxcu29V16ALcltJKS/r83NuxKgzjkzt0=;
-	b=YV7fTFW4ceav80x1Pv4ycnt6CdATh5a3xKjNy7RR3WAFo1qZeFxB4wyJF1fxpusiMr
-	8nB6UAl91okfJcPwgJRB5iNYHXaBJpK56ePKVpTS2yqEDdIRZYI82ca0E0nqLp4n+9sI
-	pYdSWGSe8nrnZ3vr99r0TWBRGGaIDjqMur+NPDJgL/kRppjPHLdnMgmXUqhuIpS/f6hd
-	F3n92U/M6e05IcNbDHsgaGrTP8uPQ/tcgftc/FBCmYE8OjS3vBP1vltGapURSsiT6yZD
-	NPLNkK2vhGgT71jcSdJPQkkMgtVv0070S2i2xTpVoJaFw2zgwxCsBMNe7zGdLy2hqOnY
-	iFbw==
-X-Gm-Message-State: APjAAAUGEGc2y1Q9aSTxHZ+UReryyJ3U5kQUoO3EE84lpYBo8SmD/3rk
-	YviaaY8uWpBvIUsLi+XmUuOGp9QG5Cg=
-X-Google-Smtp-Source: APXvYqz1jn3OGpwIYMe6yHQdgjfDe3My9vYdDKSPzZUhKHaLdBM/oaNAg1Y4mWCSqdNWbKt4B3yA1w==
-X-Received: by 2002:a65:42cd:: with SMTP id l13mr44794242pgp.72.1558623506425; 
-	Thu, 23 May 2019 07:58:26 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::e252])
-	by smtp.gmail.com with ESMTPSA id
-	v1sm29519925pgb.85.2019.05.23.07.58.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 07:58:25 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2019 07:58:19 -0700
-Message-Id: <20190523145819.23329-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Thu, 23 May 2019 15:31:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458tkf5S6jz63;
+	Thu, 23 May 2019 17:31:06 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558625467;
+	bh=39D3ean6hMTCDrNs3EceuoGQ5AGGntIZUsWvA8RQzMI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=a+YHKLtX6c8aWDtBZ4E3kW139TlCcbu/PoxoTf/XxAXv/OOOZPYDfjYc6BJc2UtVZ
+	r3BiMu5gtRKm61z38/v4AYiLTNhbK+CCj2Zc/j9Jt3YkteyC+oQTofW3uzEFfIB0Vf
+	gcELw1fwWuMGcFL1i5XKxQzYatHnWg8Z6lU4IXc9b7RgUUyqz00emDzQE4NE7zHBEs
+	57dBsUw0cv68MnopRRqJ4W4OEVYWbMcbJrBdTW9BpLXCKl0wsKsAX/6xmW+KQkuAEQ
+	npL0xZ/Ca5lMULIyU9J/TM/vocom6dSDpWNh1dVBgYny93j4ZwgOocI8WY2KSyAJXd
+	GKRvZqcQQd9Fz/yFuN4xZ4ebiTdbMc048wmsp13VhTzlouJhheBzLl/iYM2PRjqHzs
+	OZaq2rKodsScw+IyrpNxQX0oyYTgpj4MMJ0rxalGA2zKXibGX5eJqCbNK/mLiE1p3/
+	6gz/oiQ/xpCzGPof6FIIutpgeohxVBoFdqNP505eBI4Gzv9pvDE7KG29hquWK9tuvr
+	V45INBrctn9mdH1I8UOOdBFRE90IvRamuDgXo0Oa2862ypjAJL0dbaGeN6wD0T+NHA
+	Vahvo5LQOYrfa3hsYXItE8OvUAkwHtyPqmJ+5oyWIN4uS/3ywIRpgvrMXT6ChwUGz0
+	EYDFtYXVDaazSvSl+QQoDVts=
+Date: Thu, 23 May 2019 18:31:04 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: =?utf-8?B?QW5kcsOp?= Draszik <git@andred.net>
+Message-ID: <20190523153104.GA3348@localhost>
+References: <20190523074703.17145-1-nick83ola@gmail.com>
+	<7193bf9fbc6d557744214a3dc82ded086f441f0d.camel@andred.net>
+	<CABPh3UNdOXZraHAurMyH+x3YSJbnQJif6Ff_oHTU2W+8t=0hDg@mail.gmail.com>
+	<33eea54007fc51700266a93daf84496a5fd405fb.camel@andred.net>
 MIME-Version: 1.0
-Cc: Adrian Bunk <bunk@stusta.de>
-Subject: [PATCH] Revert "musl: Add TEMP_FAILURE_RETRY from glibc"
+In-Reply-To: <33eea54007fc51700266a93daf84496a5fd405fb.camel@andred.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] connman: fix segfault with musl >2.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,78 +46,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 14:58:26 -0000
+X-List-Received-Date: Thu, 23 May 2019 15:31:07 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-This reverts commit 0c68c621d3b8690e3a346170006f75b032511a8a.
+On Thu, May 23, 2019 at 02:56:11PM +0100, André Draszik wrote:
+>...
+> Also, in connman's gweb.c 'addr' is initialised to NULL. Again,
+> NULL isn't anything 'returned by getaddrinfo()', so even in glibc
+> it only works by pure luck.
+>...
 
-It should be upstreamed first
+Not pure luck, free(NULL) is valid but passing random garbage to 
+freeaddrinfo() would always fail.[1]
 
-Secondly, musl and glibc are under different licenses and importing
-code from one to other could taint it.
+The critical point is that freeaddrinfo(NULL) working with a C library
+is only an implementation detail of this specific version of the library,
+not something a C library has to support according to POSIX.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch | 36 -------------------
- meta/recipes-core/musl/musl_git.bb            |  1 -
- 2 files changed, 37 deletions(-)
- delete mode 100644 meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
+> Cheers,
+> Andre'
 
-diff --git a/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch b/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
-deleted file mode 100644
-index 4d48d61651..0000000000
---- a/meta/recipes-core/musl/musl/0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From 19cbebc3fa33c6a1a71a6036da4d67c98f859f06 Mon Sep 17 00:00:00 2001
--From: Adrian Bunk <bunk@stusta.de>
--Date: Wed, 15 May 2019 16:08:33 +0300
--Subject: unistd.h: Add TEMP_FAILURE_RETRY
--
--Signed-off-by: Adrian Bunk <bunk@stusta.de>
--Upstream-Status: Inappropriate [oe-specific]
-----
-- include/unistd.h | 11 +++++++++++
-- 1 file changed, 11 insertions(+)
--
--diff --git a/include/unistd.h b/include/unistd.h
--index 9485da7a..8a75af57 100644
----- a/include/unistd.h
--+++ b/include/unistd.h
--@@ -460,6 +460,17 @@ int eaccess(const char *, int);
-- #define _CS_V6_ENV	1148
-- #define _CS_V7_ENV	1149
-- 
--+#ifdef _GNU_SOURCE
--+#ifndef TEMP_FAILURE_RETRY
--+# define TEMP_FAILURE_RETRY(expression) \
--+  (__extension__                                                              \
--+    ({ long int __result;                                                     \
--+       do __result = (long int) (expression);                                 \
--+       while (__result == -1L && errno == EINTR);                             \
--+       __result; }))
--+#endif
--+#endif
--+
-- #ifdef __cplusplus
-- }
-- #endif
---- 
--2.20.1
--
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 2b433aed8c..1e324804e1 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -15,7 +15,6 @@ PV = "${BASEVER}+git${SRCPV}"
- SRC_URI = "git://git.musl-libc.org/musl \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
--           file://0001-unistd.h-Add-TEMP_FAILURE_RETRY.patch \
-           "
- 
- S = "${WORKDIR}/git"
+cu
+Adrian
+
+[1] unless the garbage happens to be NULL
+
 -- 
-2.21.0
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
