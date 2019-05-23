@@ -1,36 +1,57 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D37A37E452
+Return-Path: <dpfrey@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B48C17E141
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 16:06:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458vX103gJz4f;
-	Thu, 23 May 2019 18:06:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558627617;
-	bh=cOISFFhThM+H9gNZBtK/bRuG+EgmPYWiMxAKv8sApwY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NmmkWlBLF2yaeoE0rfZdZ6klciojf/nIRJCvDPFy0HYh2RR+BHjSaIQM6NwMmv/YL
-	qktuRtwS2NCyH0rxsQ/GA3Inp8toFMJSTciqdwJLZxJkQQ/p62vjCU0Ii12d4iXGhC
-	/qzj+Q3/nHfobCkrnAt6DBcB3BLnxuzO0x3gDWEXV9A51ERa3D+kvITm0fefJ6yQx5
-	Ta+NgIU9YhKHdVIGRym9WQ5Q4SMZJ8wnUQRs9nh48wpc2UKYrcwUwSRe3iWHK7aLnr
-	+JyIQcqK+l/fPbcDlVbtNrAiOEqZkG2lgjnKHYjZf4TLP+H8b1fnLcj4gxIPXdPyGj
-	n12zGyjgZbtd0xVVCQ4rCyJfJdKSavvgBtoO4QN8L7cCI5I2q54hkW822CfAz0nrZk
-	BupDTEQkB1W6w0V/MsA2ZTtCSLp2wR5l8/8l7oH2Z9WJa1dCopmZbRjU0FbS1wHjDE
-	V/5ZJoKs1+L2zofGuII1f4d+1fDTVxy2G8fLH6udDTj6fwjZBFV7CAJonIHxyMN3Ot
-	MyVLySQrMDbG0L49TBrm6hY8nItoEH3Jz0gS2YyttAbY5bKaGHres43GRz4wmttnl1
-	HTsVM0FKxcJHb382yBbxhz/02BBNSPNVifNdz57A6Q9v2WHSY8ET/P0UDnZOs6ismD
-	7anVjYxbrLNSNEViSDuKFwdc=
-Date: Thu, 23 May 2019 19:06:54 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190523160654.GC3348@localhost>
-References: <20190523145819.23329-1-raj.khem@gmail.com>
+	Thu, 23 May 2019 16:12:06 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id a23so3507352pff.4
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 09:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=v9Y3WtmYARPCY6qhBb5ETh8N/fsNtyKD9Q/sV1cWRMQ=;
+	b=sJsQ+Wt8N8RUZS10zZM7kxUvj/PB3AXPNJPI4X2uqSF5ZgxFytX4sCRxNiov1BnR+H
+	WrOWyjlMxutWt4lInGM4blc+0L7e8PnQcs/Ooj+Izy6U30morZkhgMQQcBqznj9VIupo
+	eV4CCdiCDyx6xU+NlYAtXcObm64qeDORmzz8EaG/EBQM81cgUlFHy7wXrXAywAO3LGqa
+	hwoh1OTOI1SVs8+16h+02meuKIAD+ZaEhoxO7bTBmsM9bnKRDJ/CIy6yZerfmohNL7Dq
+	CGH7QZLrKg2pt9pts2XQ91ZJsedpSIPILv3dDZO3d7vyUotmqBLq0Ma4gILeXzNOt7Gl
+	yOOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=v9Y3WtmYARPCY6qhBb5ETh8N/fsNtyKD9Q/sV1cWRMQ=;
+	b=AmrerM15pLdRlcnTL0ce4wtwCQdWXiF65TJKmQyVmLnAlyln6/zKEhetXTXapHHwb6
+	5rfJtaxxX7XhyWF3TGYOa5e7LvlGZyUbMIn3B9dEQn7vVohpElFo5GDPbmUH+ek1LpbV
+	feFqUrM1cgi5H8z1LI1mqWby/Y7JDuJbfOLt9OzNgcl/OP85UN5yRad25BbW9EZWZvbe
+	dNj1MFShamGBzDphQtlbCxvqCooSDhN11FaI60az+waM5iSPW4HSqX119iGBqXjk/NGS
+	CuMdm8QmhQ+fjg+7dtQNlfVDfJMVgtj7UW8cD80U/AYPbKAcK/mKnh+9sqK1FbfzWlKu
+	cYHQ==
+X-Gm-Message-State: APjAAAVMdaXqlY0QunJ6WFK2XEBs1Q/3let5HFmqjoXmy63ZalecDVDw
+	8Pkv+qNR2tQ68zY93FWuMuTrZCJtxn8=
+X-Google-Smtp-Source: APXvYqwmvA0yUxSMscjoWi7c+S2j6i0xDJ0392woXzNrox0/WzCXfclos75hiF80EpLn8mXZbnP2+Q==
+X-Received: by 2002:a62:38cc:: with SMTP id
+	f195mr104582033pfa.15.1558627927809; 
+	Thu, 23 May 2019 09:12:07 -0700 (PDT)
+Received: from [192.168.1.13] ([172.103.152.101])
+	by smtp.gmail.com with ESMTPSA id
+	q125sm46373226pfq.62.2019.05.23.09.12.06
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 09:12:07 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>
+References: <20190522215541.9689-1-dpfrey@gmail.com>
+	<20190522220331.GA4681@localhost>
+From: David Frey <dpfrey@gmail.com>
+Message-ID: <8a1d53dd-926e-5576-3655-089583d0da4a@gmail.com>
+Date: Thu, 23 May 2019 09:12:05 -0700
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190523145819.23329-1-raj.khem@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20190522220331.GA4681@localhost>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] Revert "musl: Add TEMP_FAILURE_RETRY from glibc"
+Subject: Re: [PATCH] bluez5: remove udev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,33 +64,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 16:06:58 -0000
+X-List-Received-Date: Thu, 23 May 2019 16:12:06 -0000
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 23, 2019 at 07:58:19AM -0700, Khem Raj wrote:
->...
-> Secondly, musl and glibc are under different licenses and importing
-> code from one to other could taint it.
->...
+On 5/22/2019 3:03 PM, Adrian Bunk wrote:
+> On Wed, May 22, 2019 at 02:55:41PM -0700, David Frey wrote:
+>> udev is an optional dependency of bluez5, so use PACKAGECONFIG to allow
+>> users to decide if they want udev support.
+>>
+>> Signed-off-by: David Frey <dpfrey@gmail.com>
+>> ---
+>>  meta/recipes-connectivity/bluez5/bluez5.inc | 3 ++-
+>>  1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+>> index aaf2af975d..568de86d6d 100644
+>> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+>> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+>> @@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
+>>  LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>>                      file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+>>                      file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
+>> -DEPENDS = "udev dbus-glib glib-2.0"
+>> +DEPENDS = "dbus-glib glib-2.0"
+>>  PROVIDES += "bluez-hcidump"
+>>  RPROVIDES_${PN} += "bluez-hcidump"
+>>  
+>> @@ -43,6 +43,7 @@ PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
+>>  PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
+>>  PACKAGECONFIG[mesh] = "--enable-mesh,--disable-mesh, json-c ell"
+>>  PACKAGECONFIG[btpclient] = "--enable-btpclient,--disable-btpclient, ell"
+>> +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+>> ...
+> 
+> Unless there is a good reason to do otherwise, this should be added to 
+> the default PACKAGECONFIG so that the set of features enabled by default 
+> stays the same.
 
-How many LOC are considered the legal limit in OE for that?
+I think bluez5 should be built with udev support if udev is going to be
+part of the system, but I don't think udev should be brought in as a
+dependency of bluez5 by default.  How can I express this?  I *think*
+this is what is done for systemd in the PACKAGECONFIG with this fragment:
+  ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}
 
-Many of the musl support patches (e.g. [1]) contain more LOC from glibc 
-headers,[2] so if these are considered a problem there might be more
-legal review ahead.
+This uses DISTRO_FEATURES and based on this
+(https://www.yoctoproject.org/docs/2.7/mega-manual/mega-manual.html#ref-features-distro),
+it seems that there is no "udev" distro feature, so I'm not sure how to
+proceed.
 
-cu
-Adrian
-
-[1] meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
-[2] https://sourceware.org/git/?p=glibc.git;a=blame;f=string/string.h;hb=0a54e4010fe0085cd36deaff9442a7e88de3270d#l131
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Thanks,
+David
 
