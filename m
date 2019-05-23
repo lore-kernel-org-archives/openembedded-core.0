@@ -1,54 +1,50 @@
-Return-Path: <mark.hatle@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EED6E7E43F
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9E0727E43F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 12:59:08 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4NCwGXN012625
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 May 2019 05:58:27 -0700
-Received: from soho-mhatle-m.local (147.11.117.224) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 23 May 2019 05:58:06 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, =?UTF-8?Q?Andreas_M=c3=bcller?=
-	<schnitzeltony@gmail.com>
-References: <20190523122941.21058-1-schnitzeltony@gmail.com>
-	<CAJTo0La2B39+ZuN6t40xz_g2MoDo44kow6g4RA6L_8YGfin0VQ@mail.gmail.com>
-From: Mark Hatle <mark.hatle@windriver.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.hatle@windriver.com; prefer-encrypt=mutual; keydata=
-	mQENBFYKxFgBCACt/pzutBp6p/xVKTFJjHbM3KpQKCblyot/YP+bpTr51Hrc5xDXBQhoG7TC
-	aIRvRIvbhEevEQK9y04gW3JK/5lobq5ORebolcsHlYBUvpNeIPjupLQwGvz/TPtrLRNGLqDC
-	rvsM6OA2XbQ2bwzxWaSQS3ImE2O2iXOZn9HhThMGeDB4Nff3fgUvXOTDIrgWOn9K2DgLL7Yc
-	zkUIlFdj+Nraksd/7BSk8oH6tjeBVhFqSFvKta9QxWgdr58oPaTYaW/xNqUjlLrbJuMw/MSe
-	xzuYfdfDfm6J8kRjMOnwQ0n8svJElzqAk+d83ow38gpGQ+LkjGgnf8ZFJ4rUJFADroX3ABEB
-	AAG0JU1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVyLmNvbT6JATcEEwEIACEFAlYK
-	xFgCGwMFCwkIBwIGFQgJCgsCBBYCAwECHgECF4AACgkQfv796/r0vvlvZAf9Gs+eN320yhRW
-	V/fZCsngKhmOK4v3HrTwFrkSmoD9QHQiE/5IPdNacHwIPwZx07tNBohB8xOeNqCPRYRBwGhA
-	AnxKOPyd0nnm6ZhPzbA57v4x3IGRQr4QzvcBTASJq91l3Ew4lpAslyx5w1DPPqRD7G8ycDKg
-	peKyDwmdkvCunVisSAQI3XIMq2y230biTO98tDPEezg+lg+yTsz9ZT33F5KNuWrpf8VL5fG/
-	mt+kAv7wtsx/KTRbqhH3iFXF6eBSwMjAfTXFlkLfbM9riJGXrWEl9n2S2R3cDHNHug0lb8f4
-	whK370KEO4OwRKIYW/VUBmzk5XZUE9DTlDSV8ycsrrkBDQRWCsRYAQgAwK3FuHCE+HW3YWdH
-	PUjeSn5p//xJ57u8g2rng8zm9zNjmYgpPv5UxozaD9i2jf4mlQLHGGOezhHae8K4Nj70oVcv
-	8AmwcrJa9i9WL1oy/9R3fHMWf/Ctt9VXTO0qlCuq6PDzaUfvsXR61aJIjTKNQTOjCLjY1vXm
-	VSewUgARysmA8WrjTfwGBihMBxAX0+kIjx8nOlam0WvekMBXZ0AbS56oTLRxYao6DI3GeB/N
-	oWPy/5DfuTKaSdM0Pf8al20x9RuNN5/HLMlyDH/k8bIa1xd9aAqW+Feiw5gC107V2E6ULyIy
-	q6em2UrsmIRxrvpHqbNgQKqvTehJ+V/i4g/uOwARAQABiQEfBBgBCAAJBQJWCsRYAhsMAAoJ
-	EH7+/ev69L755XAH/3ZcNhooqd9OBhFkvXm1iWZ8EoC7motWqVn2oEyxoonsg8AD9kFXiN+T
-	dYp7dH99EZu9q4ptj56AXm4uHzOgywL/5/V2TY6twCGAjUGzDjAB5gzoi+JLIBlDiyOip0eL
-	QswIhRk473xy3j8DA4oVamnSPWgyNJ+qsdt37YWDzoDFFvtDoRU7Eb+znfIMDKzlny0XU/8L
-	cW1bNHJlpv/78GPdfP4tjysEd8MuA5jf5o5w4XqcwTqalffEJtQ/s3pbkstEi7qm5uPui5Kt
-	gq6YYLSqcSNe0GWAF9/T+qwyo7burSTxUWCWtMmlXdAQLW9SynLhB3Jbch0nFAh0fCKi6yY=
-Organization: Wind River Systems
-Message-ID: <a544a405-565e-f870-e773-19ec5536696b@windriver.com>
-Date: Thu, 23 May 2019 14:58:04 +0200
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.6.1
+	Thu, 23 May 2019 13:27:32 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 7so5790667wmo.2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 06:27:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Un0rUssYa2Ko4cpG6Z/tu48qe+s64kecE/OaID0WLI0=;
+	b=Ehc4c4GzoC4xXRb0J2IfWUlToakExCIVl2w7n4KPAIQmFN7u4R/FCFRwTnebdF02mQ
+	9/yNhf18/UvMfOrWlJla40C3kyZimJLUT432pmUk76va5hz55bfD4Wj/16AFvFNnEy/L
+	gFkrob5H0AHrh2JCv4rycosFsMg1qNf6EZBsF1G84eFjfrUrXfzbx92VCvDAuraBWQm3
+	0L9STPA/+/rDAuLPEfAiJReVaNbxAmKled6HoREhWwwk3cwKc4zVvFAQTWt1IJeWa4Sr
+	KNfJobvKkYsusy2maYdgFLpYPG4RPAcxx3IAbW+ki+T+Onn+5nJ0UHVIWSnoLev5nemY
+	1VTA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Un0rUssYa2Ko4cpG6Z/tu48qe+s64kecE/OaID0WLI0=;
+	b=d8bxSeTq5cGTx9PMk/GuZBhEoGor7Dut1TMrkwlH4D9PWoKBYZIyGmtzRTo2GHqe8o
+	Ai2tCcKdKNf2JzcWIb1vTyaVxhTifnaiw35MR6J+kGSbIPRtzr71J+3IkLYu4Cc0bepg
+	n1AxGRacqCRHNgcxLp9/+6qrDSeL8viouAiPAe23xYkTLChkkzn/g9GJocavpFD95iJw
+	vvVFXZE8F8OfmX8F7vCDWMcPkOlQhELz+/rYOMvPgbagebvHDYeSTGErg59en5Q3PmED
+	ExG/IyjELAJzmWdYsBfZ3F6ZelGFDYFGrEs0OHSRrQM158cAT2aNwtDWMzlB8Dzy61XD
+	/atw==
+X-Gm-Message-State: APjAAAX+7PMJe32B3NIEK7+4O7324vn55r3+vQbkVNJrlDt5QZBDcJcT
+	8m5yU85iJk0t9Jr/KoYqZ2kZY4NA9FU=
+X-Google-Smtp-Source: APXvYqzhlSyaraZZwgs3VI7zWAvBcwf6zmePixKMBCiUzluV01i89sL7vAItv/mu98YS6vjEclF2iw==
+X-Received: by 2002:a7b:c458:: with SMTP id l24mr11632341wmi.53.1558618052842; 
+	Thu, 23 May 2019 06:27:32 -0700 (PDT)
+Received: from nick-beastie.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id
+	k63sm10405386wmf.35.2019.05.23.06.27.31
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 06:27:32 -0700 (PDT)
+From: Nicola Lunghi <nick83ola@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 23 May 2019 14:26:15 +0100
+Message-Id: <20190523132614.32213-1-nick83ola@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0La2B39+ZuN6t40xz_g2MoDo44kow6g4RA6L_8YGfin0VQ@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] package_manager: add help packages based on languages selected in IMAGE_LINGUAS
+Subject: [PATCH v2] connman: fix segfault with musl >v1.1.21
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,55 +57,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 12:59:09 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+X-List-Received-Date: Thu, 23 May 2019 13:27:32 -0000
 Content-Transfer-Encoding: 8bit
 
-On 5/23/19 2:39 PM, Burton, Ross wrote:
-> Why -help- and not -doc?
+musl > v1.1.21 changed the implementation of the freeaddrinfo() function
+not allowing anymore to pass null pointers to it.
+This was causing a segmentation fault in connman.
 
-I was thinking it may make better sense to have a variable that DEFAULTS to
-"*-locale-%s", but can be extended to have other locale based files.. Such as a
-*-doc-%s, or *-man-%s, etc...
+Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+---
+ ...-gweb-fix-segfault-with-musl-v1.1.21.patch | 34 +++++++++++++++++++
+ .../connman/connman_1.37.bb                   |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-connectivity/connman/connman/0001-gweb-fix-segfault-with-musl-v1.1.21.patch
 
-(We will -never- get all of the possible ones, unless they all have 'locale' in
-the names or similar.)
-
---Mark
-
-> Ross
-> 
-> On Thu, 23 May 2019 at 13:30, Andreas Müller <schnitzeltony@gmail.com> wrote:
->>
->> This is the one-line mentioned in [1].
->>
->> [1] http://lists.openembedded.org/pipermail/openembedded-devel/2019-May/199769.html
->>
->> Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
->> ---
->>  meta/lib/oe/package_manager.py | 1 +
->>  1 file changed, 1 insertion(+)
->>
->> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
->> index 2835c1ddf8..bd2432f6d3 100644
->> --- a/meta/lib/oe/package_manager.py
->> +++ b/meta/lib/oe/package_manager.py
->> @@ -566,6 +566,7 @@ class PackageManager(object, metaclass=ABCMeta):
->>
->>              for lang in split_linguas:
->>                  globs += " *-locale-%s" % lang
->> +                globs += " *-help-%s" % lang
->>
->>          if globs is None:
->>              return
->> --
->> 2.20.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+diff --git a/meta/recipes-connectivity/connman/connman/0001-gweb-fix-segfault-with-musl-v1.1.21.patch b/meta/recipes-connectivity/connman/connman/0001-gweb-fix-segfault-with-musl-v1.1.21.patch
+new file mode 100644
+index 0000000000..43b43bc9f8
+--- /dev/null
++++ b/meta/recipes-connectivity/connman/connman/0001-gweb-fix-segfault-with-musl-v1.1.21.patch
+@@ -0,0 +1,34 @@
++From f0a8c69971b30ea7ca255bb885fdd1179fa5d298 Mon Sep 17 00:00:00 2001
++From: Nicola Lunghi <nick83ola@gmail.com>
++Date: Thu, 23 May 2019 07:55:25 +0100
++Subject: [PATCH] gweb: fix segfault with musl v1.1.21
++
++In musl > v1.1.21 freeaddrinfo() implementation changed and
++was causing a segmentation fault on recent Yocto using musl.
++
++See this commit:
++
++ https://git.musl-libc.org/cgit/musl/commit/src/network/freeaddrinfo.c?id=d1395c43c019aec6b855cf3c656bf47c8a719e7f
++
++Upstream-Status: Submitted
++---
++ gweb/gweb.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/gweb/gweb.c b/gweb/gweb.c
++index 393afe0a..12fcb1d8 100644
++--- a/gweb/gweb.c
+++++ b/gweb/gweb.c
++@@ -1274,7 +1274,8 @@ static bool is_ip_address(const char *host)
++ 	addr = NULL;
++ 
++ 	result = getaddrinfo(host, NULL, &hints, &addr);
++-	freeaddrinfo(addr);
+++	if(!result)
+++		freeaddrinfo(addr);
++ 
++ 	return result == 0;
++ }
++-- 
++2.19.1
++
+diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
+index 2cf904cd85..12650329c5 100644
+--- a/meta/recipes-connectivity/connman/connman_1.37.bb
++++ b/meta/recipes-connectivity/connman/connman_1.37.bb
+@@ -3,6 +3,7 @@ require connman.inc
+ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
+             file://0001-plugin.h-Change-visibility-to-default-for-debug-symb.patch \
+             file://0001-connman.service-stop-systemd-resolved-when-we-use-co.patch \
++            file://0001-gweb-fix-segfault-with-musl-v1.1.21.patch \
+             file://connman \
+             file://no-version-scripts.patch \
+ "
+-- 
+2.20.1
 
 
