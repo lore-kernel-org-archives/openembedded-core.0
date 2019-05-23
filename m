@@ -1,51 +1,48 @@
-Return-Path: <schnitzeltony@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 267287C446
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 80F6D7C446
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 12:29:56 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 15so5577869wmg.5
+	Thu, 23 May 2019 12:39:27 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id i10so9415094ite.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 05:29:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qkSz99cOzmESW5cOnOsRj2ICs4FEK3DUpZ/P848dkUQ=;
-	b=eZuRKLX/NU4xEoXCaOh/7WlgZFWptdzVYmeM+Ud/Z6jUtg3/ohuZNnjE/4HAC6xHZU
-	aHIRRXNCKLr4aQEOJGVp2BNv7LVd/uxbWrXw/RplAGN/7Do8hasJG1TDXdZXDR6sTByA
-	szMAXTm20ZFsVQygv4n1u0uPhkUFDydhQJK4ENTGfC4IVxM4wWrQHvOjYEHaV6GDSWdq
-	TS0C2XamVa7KcQX1EtYi7Qm7tpGYPsaUFb3Ykl/m0bZlnAPbbEtZYWJgKfucpLfib+1q
-	jC12d+DWosKwdHWRDsE3GTehdBeZxK1j8J+o8Cv0NzCLlAI5M0/4R0WIHl9HTUehLsVN
-	rArA==
+	Thu, 23 May 2019 05:39:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=R8WF5Xp9xFWM4oYH5CXQZJ/A0KgsyIstCnPxr7hzJfE=;
+	b=Igzh3Ga69kKN3efLQyRuYj+eMBrG5nr7hAlLFTyRShjR6CBNIVLpSl6GcAtOqgruWK
+	j0L0TstsWGL7DlLirgjKzSdduW8FobJWXw5BEe7MZwuKGyNrNQM+IKxJVS/37Anxggiu
+	Oz96sbnh8xbA1gReCgc5rHmLklf6MHLakpZmrU8S4fV5gJfxXiN9Yo6pcUlyaxI5974w
+	Ri0OypBcAZ05WpZWsfI3Rng6vdPvjsz40YcnDva2i1KML2bjQ55RnTFMN7bHBY/ZYKb4
+	zLSaC8dW0qh61e75lZzfd5Z6EzOBSOE7oPSj70qK7Kox7oiNd8xp7WSSNgTNw9GopBjB
+	AbbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=qkSz99cOzmESW5cOnOsRj2ICs4FEK3DUpZ/P848dkUQ=;
-	b=Kj5sEmT9f9XY6Prd8YLSizCz68fHsNXAfvSnkg2ywgcQkE4n9vekAYSjBIsRV/LY6M
-	TW6hNWXr6oc2Uo6DuPrV454rCvZp+iPaW7a/iGLlaSuc4Hk5PpohHGv34QYdqvkqRS0B
-	IinzSI13n6YUlkXRUHa2XSgZrt4s0gtQEMGvE4hQic1xy3tIrOED6gmjAXblxcsIj1HJ
-	4O2JNcaF9o46MLb2H3s9ibTQ+/oHwOPCpfkLpzIxCJkkL/ZWihCsc5/QM/8m9tKPYXi/
-	TtIYGB8i47gdkbm3AfFcVSnGgFNyjNnTOX4hLBxrqM4jjyKPo7f+C+1eqbqX8ggWZ2WY
-	RByg==
-X-Gm-Message-State: APjAAAWXZp20esKX9PJOyKiV9cjj/FIp/GAoGmrzRZBEqxOHiGrxyCUN
-	u7KpB1UXLbtflQmnoFE6GgD/CWPO
-X-Google-Smtp-Source: APXvYqxVOGwj75cLkc9QzOplBP7QokL4JgGvsqm6eC7D4cCUgtqgsq+XPj7WfASIZ70Jnhlq9HHaGw==
-X-Received: by 2002:a1c:dc46:: with SMTP id t67mr12093273wmg.140.1558614596652;
-	Thu, 23 May 2019 05:29:56 -0700 (PDT)
-Received: from localhost.localdomain (p509737a3.dip0.t-ipconnect.de.
-	[80.151.55.163]) by smtp.gmail.com with ESMTPSA id
-	p17sm11282112wrq.95.2019.05.23.05.29.55
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 23 May 2019 05:29:56 -0700 (PDT)
-From: =?UTF-8?q?Andreas=20M=C3=BCller?= <schnitzeltony@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2019 14:29:41 +0200
-Message-Id: <20190523122941.21058-1-schnitzeltony@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=R8WF5Xp9xFWM4oYH5CXQZJ/A0KgsyIstCnPxr7hzJfE=;
+	b=r+2SkEs6y4eRfwbImMGf9FJQu3r/hYl5/swvGLsZDMdoN2yTUYYGE/K17FTdAK6Fo7
+	pmuWm60oYQudOT6GuGkjy/6XEO38sK/OSQoJk2G+017DirClNRrHovD/1GSu9BwoeywR
+	5SfJZOGtQO4+yWF5+MVBczhuFRr+VCIoqCQPW5kWhWCphQe27pSi8ILMMZx8f5TfAdhg
+	BAoSvH7lFFGxsSU/r3r8kOamcfz+HHGLG1vOmWHVOkfB6ftffuoTTS40IEWckR0xRrCJ
+	6nv5qwkq1UOzQgJbYA6YvrmpRvRXBn0J5G0YWmcAMFp7KVLgBAlMxCreuDCJKiBOEAS0
+	uAJA==
+X-Gm-Message-State: APjAAAW5t+MQr0NXfB5yY216caPKpl8ydubjLziB2dCyJizjUuBRtx04
+	WhmvDslFEM8a7p6IHiWnHcz/og77sm3qT1sjtz+MrzXTJAg=
+X-Google-Smtp-Source: APXvYqzcOArJoXtt1C/W8Hpx3lOhDPsaqQhZqIDUnXdHOP0oguhHg+VX16djB9Xm4C7fUSQwD10DJ87KJB7EJdBcr6g=
+X-Received: by 2002:a24:c204:: with SMTP id i4mr12926191itg.83.1558615168645; 
+	Thu, 23 May 2019 05:39:28 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] package_manager: add help packages based on languages selected in IMAGE_LINGUAS
+References: <20190523122941.21058-1-schnitzeltony@gmail.com>
+In-Reply-To: <20190523122941.21058-1-schnitzeltony@gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 23 May 2019 13:39:17 +0100
+Message-ID: <CAJTo0La2B39+ZuN6t40xz_g2MoDo44kow6g4RA6L_8YGfin0VQ@mail.gmail.com>
+To: =?UTF-8?Q?Andreas_M=C3=BCller?= <schnitzeltony@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] package_manager: add help packages based on languages selected in IMAGE_LINGUAS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,32 +55,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 12:29:56 -0000
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 23 May 2019 12:39:27 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is the one-line mentioned in [1].
+Why -help- and not -doc?
 
-[1] http://lists.openembedded.org/pipermail/openembedded-devel/2019-May/199769.html
+Ross
 
-Signed-off-by: Andreas Müller <schnitzeltony@gmail.com>
----
- meta/lib/oe/package_manager.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager.py
-index 2835c1ddf8..bd2432f6d3 100644
---- a/meta/lib/oe/package_manager.py
-+++ b/meta/lib/oe/package_manager.py
-@@ -566,6 +566,7 @@ class PackageManager(object, metaclass=ABCMeta):
- 
-             for lang in split_linguas:
-                 globs += " *-locale-%s" % lang
-+                globs += " *-help-%s" % lang
- 
-         if globs is None:
-             return
--- 
-2.20.1
-
+On Thu, 23 May 2019 at 13:30, Andreas M=C3=BCller <schnitzeltony@gmail.com>=
+ wrote:
+>
+> This is the one-line mentioned in [1].
+>
+> [1] http://lists.openembedded.org/pipermail/openembedded-devel/2019-May/1=
+99769.html
+>
+> Signed-off-by: Andreas M=C3=BCller <schnitzeltony@gmail.com>
+> ---
+>  meta/lib/oe/package_manager.py | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/lib/oe/package_manager.py b/meta/lib/oe/package_manager=
+.py
+> index 2835c1ddf8..bd2432f6d3 100644
+> --- a/meta/lib/oe/package_manager.py
+> +++ b/meta/lib/oe/package_manager.py
+> @@ -566,6 +566,7 @@ class PackageManager(object, metaclass=3DABCMeta):
+>
+>              for lang in split_linguas:
+>                  globs +=3D " *-locale-%s" % lang
+> +                globs +=3D " *-help-%s" % lang
+>
+>          if globs is None:
+>              return
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
