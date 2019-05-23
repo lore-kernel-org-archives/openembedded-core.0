@@ -1,43 +1,27 @@
-Return-Path: <nicolas.dechesne@linaro.org>
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com
-	[209.85.167.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 35EA37E400
+Return-Path: <jma1@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id A08017E3FC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 06:53:50 +0000 (UTC)
-Received: by mail-lf1-f47.google.com with SMTP id d8so3542294lfb.8
+	Thu, 23 May 2019 07:21:36 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4N7LbhR005483
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 22 May 2019 23:53:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=T2DIxuuqPN/2+5tG9JAjv8X+OwXmCIFFHBsTjKCq/Dc=;
-	b=uS7AP7fUEV3hqxYqEkgA2kbqlGjOTtynUy5OFYsn46onTvgawbJZ82l8mTOUmOnKOC
-	KU07/UxpZXT53OVerrgwCrIngcBps2F21kF33AqbnB+PrywQoc3vc7XcOPB5nT+CZwvm
-	rpkDiYchIriuebvY25jfpg5OqsjUn9cVCg8jJQQPijmkw6MKBuRwpJQKpkfzpb1xh6TU
-	vDzkOY09vm72GtRBnKGgR9Ctg/9iso0RZ00+k2uWkhAXoLlVotgs4xKRlXTT3Nm11XIU
-	qOuRr00uD/9KaPPyPOjkQsoCNr1lExIof20KJDH/MxB2AdUWUwrh12GFKIWw26snUvfx
-	D7Zw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=T2DIxuuqPN/2+5tG9JAjv8X+OwXmCIFFHBsTjKCq/Dc=;
-	b=uDRTeE0Q/QgDohM8FUHXHV4J0i7rZOIEraSeMALinE6+jx+P0FIhQxoLML5bS8mscn
-	Hk8XQ6zTIErHWFZcl/7jcffP8kwgQCjI3E31aJpnpcGbGD/uKexXIpB04lycyN5gvweo
-	Q/LSXnnKTmdfFUkktSWREq7RIw13VEoW3X1NQwAQx86anVXP5OWYZ9qDIiI+Bxz3yLeF
-	OD8a56WIMI8RIpNK/sWVtgMXC6mJsmGqHXJYSW+d+7p0xSG3PLJml6BMKcvtjT6QqKrC
-	6OpL5t39sh9FMcUe376UyLHWwS/UHxds8UuVSgUZcGCFZpAfQ/nw07UGmX9jYtVjacJi
-	k+Lg==
-X-Gm-Message-State: APjAAAX6sXTMlEiGjRQ/OAlQu0u6RNTiB4fNd+xkkyEGdqp3Zk5zBfNp
-	11ZM9GvPz8ywQQHK0x6HpKLvKAB3DMrrkoHIDdkKxqe9hMI=
-X-Google-Smtp-Source: APXvYqwO6kgjvzWlGmQZVZT1EmaHL6Ps7Fd6olEKLSVYzfcENRGs0GTlu8h58z9yJhgyfaQpU/9HY3cVSAy6RL5kF04=
-X-Received: by 2002:ac2:4c38:: with SMTP id u24mr28974716lfq.168.1558594430216;
-	Wed, 22 May 2019 23:53:50 -0700 (PDT)
+	Thu, 23 May 2019 00:21:37 -0700 (PDT)
+Received: from pek-lpggp2 (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 23 May 2019 00:21:36 -0700
+Received: by pek-lpggp2 (Postfix, from userid 20544)	id 04B38721632; Thu, 23
+	May 2019 15:04:01 +0800 (CST)
+From: Jiping Ma <jiping.ma2@windriver.com>
+To: <openembedded-core@lists.openembedded.org>, <jiping.ma2@windriver.com>
+Date: Thu, 23 May 2019 15:03:56 +0800
+Message-ID: <1558595036-35165-2-git-send-email-jiping.ma2@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <1558595036-35165-1-git-send-email-jiping.ma2@windriver.com>
+References: <1558595036-35165-1-git-send-email-jiping.ma2@windriver.com>
 MIME-Version: 1.0
-From: Nicolas Dechesne <nicolas.dechesne@linaro.org>
-Date: Thu, 23 May 2019 08:53:39 +0200
-Message-ID: <CAP71WjzDVJuGSVmOErD9bpH+Wv=MHTLJXVt3rp=8mOF8MKMiHA@mail.gmail.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: possible issue with buildhistory?
+Subject: [PATCH] [V2][PATCH] dhcp:"dhclient -x eth0" action is not correct.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,70 +34,68 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 06:53:50 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 May 2019 07:21:36 -0000
+Content-Type: text/plain
 
-hi,
+Please ignore V1 of [OE-core][PATCH] dhcp:"dhclient -x eth0" action is not correct.
 
-not sure if it's been discussed reported before. but i ended up in a
-situation where a package is "empty" (e.g. it's not created) even
-though "files-in-packages.txt" in its buildhistory folder shows it
-should contain a file.
+The action of "dhclient -x eth0" and "dhclient -r eth0" is
+same when enable ENABLE_GENTLE_SHUTDOWN. Disable ENABLE_GENTLE_SHUTDOWN
+that will use the default signal hander.
 
-I have a synthetic example:
+Signed-off-by: Jiping Ma <jiping.ma2@windriver.com>
+---
+ .../dhcp/0006-site.h-enable-gentle-shutdown.patch  | 27 ----------------------
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb       |  1 -
+ 2 files changed, 28 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
 
-$ cat buildhistory/packages/aarch64-linaro-linux/helloworld/latest
-PV = 1.0
-PR = r0
-DEPENDS = autoconf-native automake-native gnu-config-native
-libtool-cross libtool-native virtual/aarch64-linaro-linux-compilerlibs
-virtual/aarch64-linaro-linux-gcc virtual/libc
-PACKAGES = helloworld-src helloworld-dbg helloworld-staticdev
-helloworld-dev helloworld-doc helloworld-locale helloworld
-goodbyeworld
-LAYER = meta-rpb
+diff --git a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch b/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
+deleted file mode 100644
+index 6ef70cc..0000000
+--- a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 01641d146e4e6bea954e4a4ee1f6230b822665b4 Mon Sep 17 00:00:00 2001
+-From: Chen Qi <Qi.Chen@windriver.com>
+-Date: Tue, 15 Aug 2017 15:37:49 +0800
+-Subject: [PATCH 06/11] site.h: enable gentle shutdown
+-
+-Upstream-Status: Inappropriate [configuration]
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+-
+-Rebase to 4.3.6
+-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+----
+- includes/site.h | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-Index: dhcp-4.4.1/includes/site.h
+-===================================================================
+---- dhcp-4.4.1.orig/includes/site.h
+-+++ dhcp-4.4.1/includes/site.h
+-@@ -295,7 +295,7 @@
+-    situations.  We plan to revisit this feature and may
+-    make non-backwards compatible changes including the
+-    removal of this define.  Use at your own risk.  */
+--/* #define ENABLE_GENTLE_SHUTDOWN */
+-+#define ENABLE_GENTLE_SHUTDOWN
+- 
+- /* Include old error codes.  This is provided in case you
+-    are building an external program similar to omshell for
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+index ca0daa1..b4c0d5d 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+@@ -5,7 +5,6 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0003-link-with-lcrypto.patch \
+             file://0004-Fix-out-of-tree-builds.patch \
+             file://0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch \
+-            file://0006-site.h-enable-gentle-shutdown.patch \
+             file://0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch \
+             file://0009-remove-dhclient-script-bash-dependency.patch \
+             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
+-- 
+1.9.1
 
-then:
-
-$ cat buildhistory/packages/aarch64-linaro-linux/helloworld/goodbyeworld/files-in-package.txt
-drwxr-xr-x root       root             4096 ./usr
-drwxr-xr-x root       root             4096 ./usr/bin
--rwxr-xr-x root       root             6144 ./usr/bin/goodbyeworld
-
-However goodbyeworld package does not exist, and /usr/bin/goodbyeworld
-is in the helloworld package:
-
-$ dpkg -c tmp-rpb-glibc/deploy/ipk/aarch64/helloworld_1.0-r0_aarch64.ipk
-drwxrwxrwx root/root         0 2019-05-23 08:25 ./
-drwxr-xr-x root/root         0 2019-05-23 08:25 ./usr/
-drwxr-xr-x root/root         0 2019-05-23 08:25 ./usr/bin/
--rwxr-xr-x root/root      6144 2019-05-23 08:25 ./usr/bin/goodbyeworld
--rwxr-xr-x root/root      6144 2019-05-23 08:25 ./usr/bin/helloworld
-
-It is worth saying that the file should indeed be in helloworld
-package since there was a bug in my recipe! So buildhistory is wrong
-here.
-
-The recipe is a simple one:
-
-SRC_URI = "file://helloworld.c \
-  file://goodbyeworld.c \
-  file://Makefile.am \
-  file://configure.ac \
-  file://COPYING"
-S = "${WORKDIR}"
-inherit autotools
-PACKAGES += "goodbyeworld"
-FILES_goodbyeworld += "${bindir}/goodbyeworld"
-
-Clearly the recipe has a bug, and if I do this instead:
-PACKAGES =+ "goodbyeworld"
-
-/usr/bin/goodbyeworld ends up in the right package... however I think
-in the previous case, buildhistory should have shown
-/usb/bin/goodbyeworld in helloworld package, not goodbyeworld...
-
-I was testing on warrior, but i can try to reproduce on master if needed..
-
-thanks!
 
