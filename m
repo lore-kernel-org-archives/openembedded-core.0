@@ -1,33 +1,57 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 1259E7E486
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 0B4B07E470
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 18:23:54 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id 6AB30E00BAA; Thu, 23 May 2019 11:23:56 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F2312E00DC2
+	Thu, 23 May 2019 18:42:57 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 5DC58185C7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 11:23:52 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id EAB2D440002
+	Thu, 23 May 2019 20:42:58 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id TKyHPbaWVtcY
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 11:23:52 -0700 (PDT)
-MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
+	Thu, 23 May 2019 20:42:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 5115B18343
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 20:42:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 26F581E087
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 20:42:57 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1B5C71E086
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 20:42:57 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 20:42:57 +0200 (CEST)
+Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
+	by thoth.se.axis.com (Postfix) with ESMTP id 0F25D1E43
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 20:42:57 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x4NIguax015041
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 20:42:56 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x4NIgufJ015040
+	for openembedded-core@lists.openembedded.org;
+	Thu, 23 May 2019 20:42:56 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Message-Id: <20190523182352.EAB2D440002@auh.yoctoproject.org>
-Date: Thu, 23 May 2019 11:23:52 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2019-05-23
+Date: Thu, 23 May 2019 20:42:53 +0200
+Message-Id: <20190523184254.14995-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: [PATCH 1/2] texinfo-dummy-native: A little clean up of template.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,125 +64,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 18:23:56 -0000
-Content-Type: multipart/mixed; boundary="===============7078816018705817977=="
+X-List-Received-Date: Thu, 23 May 2019 18:42:58 -0000
+Content-Transfer-Encoding: 8bit
 
---===============7078816018705817977==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+This is mainly whitespace clean up, plus using the with statement when
+writing files.
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
-IDM4CiAgICAgICAgYXB0LCAxLjguMSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFp
-bC5jb20+CiAgICAgICAgb3BlbnNzaCwgOC4wcDEsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBn
-bWFpbC5jb20+CiAgICAgICAgZ2V0dGV4dCwgMC4yMC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlh
-bmdAd2luZHJpdmVyLmNvbT4KICAgICAgICB2dWxrYW4sIDEuMS4xMDYuMCwgUm9zcyBCdXJ0b24g
-PHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBzeXNrbG9nZCwgMS42LCBDaGVuIFFpIDxR
-aS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgaWZ1cGRvd24sIDAuOC4zNSwgQW51aiBNaXR0
-YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBzeXN2aW5pdCwgMi45NCwgUm9zcyBC
-dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBsaWJpZG4yLCAyLjEuMWEsIFJv
-c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgZmxleCwgMi42LjQsIENo
-ZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnZGstcGl4YnVmLCAyLjM4LjEs
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgcnVieSwgMi42LjMs
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgaXB1dGlscywgczIw
-MTkwNTE1LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAg
-IGx0cCwgMjAxOTA1MTcsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBl
-MmZzcHJvZ3MsIDEuNDUuMSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+
-CiAgICAgICAgc3RyYWNlLCA1LjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIu
-Y29tPgogICAgICAgIGdvLWRlcCwgMC41LjMsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZh
-ZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgdnVsa2FuLWRlbW9zLCBnaXQtbmV3LWNvbW1p
-dHMtYXZhaWxhYmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAg
-IHNlZCwgNC43LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgcHV6emxl
-cywgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGlu
-dGVsLmNvbT4KICAgICAgICB0ZXhpbmZvLCA2LjYsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBp
-bnRlbC5jb20+CiAgICAgICAga21zY3ViZSwgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQ2Fy
-bG9zIFJhZmFlbCBHaWFuaSA8ZHZAcHNldWRvdGVybWluYWwub3JnPgogICAgICAgIGxpYnVyY3Us
-IDAuMTEuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAg
-ICAgYXR0ciwgMi40LjQ4LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAg
-cm5nLXRvb2xzLCA2LjcsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAg
-ICAgZ2xpYi0yLjAsIDIuNjAuMywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4K
-ICAgICAgICBhY2wsIDIuMi41MywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAg
-ICAgIHV0aWwtbGludXgsIDIuMzMuMiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
-ICAgICAgIHNxdWFzaGZzLXRvb2xzLCA0LjMtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQg
-WWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBuZnMtdXRpbHMsIDIuMy40
-LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBsc2Jpbml0
-c2NyaXB0cywgMTAuMDEsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAg
-ICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLCAxLjE2LjAsIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbEBpbnRlbC5jb20+CiAgICAgICAgcXVpbHQsIDAuNjYsIFJvYmVydCBZYW5nIDxsaWV6aGku
-eWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGRwa2csIDEuMTkuNiwgQW7DrWJhbCBMaW3Ds24g
-PGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
-ZSwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGJ1
-aWxkLWNvbXBhcmUsIDIwMTUuMDIuMTAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBQYXVsIEVnZ2xl
-dG9uIDxwYXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNvbT4KICAgICAgICBsaWJpY2FsLCAzLjAu
-NSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBndGsrMywgMy4y
-NC44LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1l
-cjEuMC1ydHNwLXNlcnZlciwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
-Y29tPgogICAgKiBTdWNjZWVkZWQ6IDE0CiAgICAgICAgaXByb3V0ZTIsIDUuMS4wLCBDaGFuZ2h5
-ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAgIGRidXMtdGVzdCwgMS4x
-Mi4xNCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHBpZ2xpdCwgMS4w
-LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNv
-bT4KICAgICAgICBjdXJsLCA3LjY1LjAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5j
-b20+CiAgICAgICAgZG5mLCA0LjIuNiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
-bWFpbC5jb20+CiAgICAgICAgZGJ1cywgMS4xMi4xNCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2
-ZXIuY29tPgogICAgICAgIGxpYnZhLCAyLjQuMSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGlu
-dGVsLmNvbT4KICAgICAgICBmaWxlLCA1LjM3LCBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5j
-b20+CiAgICAgICAgdmltLXRpbnksIDguMS4xMzY0LCBUb20gUmluaSA8dHJpbmlAa29uc3Vsa28u
-Y29tPgogICAgICAgIHZ0ZSwgMC41Ni4zLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
-Y29tPgogICAgICAgIGJpc29uLCAzLjQsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4K
-ICAgICAgICB2aW0sIDguMS4xMzY0LCBUb20gUmluaSA8dHJpbmlAa29uc3Vsa28uY29tPgogICAg
-ICAgIGV1ZGV2LCAzLjIuOCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAg
-ICAgICBsaWJkbmYsIDAuMzMuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFp
-bC5jb20+CiAgICAqIEZhaWxlZChvdGhlciBlcnJvcnMpOiAxCiAgICAgICAgZ2NjLXNvdXJjZS04
-LjMuMCwgOS4xLjAsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAqIEZhaWxlZChk
-b19jb21waWxlKTogMTkKICAgICAgICBtZXNhLCAxOS4wLjUsIE90YXZpbyBTYWx2YWRvciA8b3Rh
-dmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXZhYXBp
-LCAxLjE2LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgZ3Nl
-dHRpbmdzLWRlc2t0b3Atc2NoZW1hcywgMy4zMi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
-aW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1weXRob24sIDEuMTYuMCwgQW51aiBNaXR0
-YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBta2ZvbnRzY2FsZSwgMS4yLjEsIEFy
-bWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgYXV0b2NvbmYtYXJjaGl2
-ZSwgMjAxOS4wMS4wNiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAg
-ICAgICAgY21ha2UsIDMuMTQuNCwgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29t
-PgogICAgICAgIGdzdC12YWxpZGF0ZSwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
-aW50ZWwuY29tPgogICAgICAgIG10ZC11dGlscywgMi4xLjAsIERlbnlzIERteXRyaXllbmtvIDxk
-ZW55c0B0aS5jb20+CiAgICAgICAgcHJlbGluaywgMS4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwg
-TWFyayBIYXRsZSA8bWFyay5oYXRsZUB3aW5kcml2ZXIuY29tPgogICAgICAgIGV0aHRvb2wsIDUu
-MSwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAgICBndGst
-ZG9jLCAxLjMwLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAg
-ICAgICBnbnV0bHMsIDMuNi43LjEsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+
-CiAgICAgICAgZ3N0cmVhbWVyMS4wLWxpYmF2LCAxLjE2LjAsIEFudWogTWl0dGFsIDxhbnVqLm1p
-dHRhbEBpbnRlbC5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseSwgMS4xNi4w
-LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGJvb3N0LCAxLjcw
-LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdz
-dHJlYW1lcjEuMCwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgog
-ICAgICAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2QsIDEuMTYuMCwgQW51aiBNaXR0YWwgPGFu
-dWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAtb214LCAxLjE2LjAsIEFu
-dWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CgogICAgVE9UQUw6IGF0dGVtcHRlZD03
-MiBzdWNjZWVkZWQ9MTQoMTkuNDQlKSBmYWlsZWQ9NTgoODAuNTYlKQoKUmVjaXBlIHVwZ3JhZGUg
-c3RhdGlzdGljcyBwZXIgTWFpbnRhaW5lcjoKCiAgICBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVv
-ay5iYWU6IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkgZmFpbGVkPTIoNjYuNjclKQog
-ICAgRGVueXMgRG15dHJpeWVua28gPGRlbnlzOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAw
-JSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGU6IGF0dGVtcHRl
-ZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgUm9iZXJ0IFlhbmcg
-PGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTcoMTAw
-LjAwJSkKICAgIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbDogYXR0ZW1wdGVkPTIwIHN1Y2NlZWRl
-ZD0zKDE1LjAwJSkgZmFpbGVkPTE3KDg1LjAwJSkKICAgIE90YXZpbyBTYWx2YWRvciA8b3Rhdmlv
-LnNhbHZhZG9yOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAw
-JSkKICAgIEFybWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTEo
-MjUuMDAlKSBmYWlsZWQ9Myg3NS4wMCUpCiAgICBUb20gUmluaSA8dHJpbmk6IGF0dGVtcHRlZD0y
-IHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgUm9zcyBCdXJ0b24gPHJv
-c3MuYnVydG9uOiBhdHRlbXB0ZWQ9MTAgc3VjY2VlZGVkPTEoMTAuMDAlKSBmYWlsZWQ9OSg5MC4w
-MCUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MiBzdWNjZWVk
-ZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIENoZW4gUWkgPFFpLkNoZW46IGF0dGVt
-cHRlZD05IHN1Y2NlZWRlZD0zKDMzLjMzJSkgZmFpbGVkPTYoNjYuNjclKQogICAgQWxleGFuZGVy
-IEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTIoNDAuMDAlKSBm
-YWlsZWQ9Myg2MC4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uOiBhdHRlbXB0
-ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFlpIFpoYW8gPHlp
-LnpoYW86IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQog
-ICAgQ2FybG9zIFJhZmFlbCBHaWFuaSA8ZHY6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAl
-KSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgS2hlbSBSYWogPHJhai5raGVtOiBhdHRlbXB0ZWQ9MSBz
-dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFBhc2NhbCBCYWNoIDxwYXNj
-YWwuYmFjaDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUp
-Cg==
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ .../texinfo-dummy/template.py                 | 63 +++++++++----------
+ 1 file changed, 30 insertions(+), 33 deletions(-)
 
---===============7078816018705817977==--
+diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+index e369f74455..fcc28548af 100644
+--- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
++++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+@@ -33,21 +33,20 @@ import sys, os
+ olong = "--output="
+ Elong = "--macro-expand="
+ 
+-
+-this_binary = sys.argv[0].split ("/")[-1]
++this_binary = sys.argv[0].split("/")[-1]
+ 
+ # To be outputted if functionality that hasn't been stubbed yet is invoked.
+ stub_msg = """
+-This stand-in version of %s is not yet fully capable of emulating the real
+-version from the GNU texinfo suite. If you see this message, file a bug report
+-with details on the recipe that failed.
++This stand-in version of %s is not yet fully capable of emulating
++the real version from the GNU texinfo suite. If you see this message, file a
++bug report with details on the recipe that failed.
+ """ % this_binary
+ 
+ # Autotools setups query the version, so this is actually necessary. Some of
+ # them (lookin' at you, glibc) actually look for the substring "GNU texinfo,"
+ # so we put that substring in there without actually telling a lie.
+-version_str = """ %s (fake texinfo, emulating GNU texinfo) 5.2
+- 
++version_str = """%s (fake texinfo, emulating GNU texinfo) 5.2
++
+ Super amazing version which is totally not fake in any way whatsoever.
+ Copyright (C) 2014 Intel Corp. Distributed under the terms of the MIT
+ license.
+@@ -55,62 +54,61 @@ license.
+ 
+ simple_binaries = "pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
+                    txixml2texi install-info ginstall-info \
+-                   update-info-dir".split ()
++                   update-info-dir".split()
+ 
+ # These utilities use a slightly different set of options and flags.
+-complex_binaries = "makeinfo texi2any".split ()
++complex_binaries = "makeinfo texi2any".split()
+ 
+ valid_binaries = simple_binaries + complex_binaries
+ 
+ # For generating blank output files.
+-def touch_file (path):
+-    f = open (path, "w")
+-    f.close ()
++def touch_file(path):
++    with open(path, "w"):
++        pass
+ 
+ assert this_binary in valid_binaries, \
+-       this_binary + " is not one of " + ', '.join (valid_binaries)
++       this_binary + " is not one of " + ', '.join(valid_binaries)
+ 
+ if "--version" in sys.argv:
+     print(version_str)
+-    sys.exit (0)
++    sys.exit(0)
+ 
+ # For debugging
+ log_interceptions = False
+ if log_interceptions:
+-    f = open ("/tmp/intercepted_" + this_binary, "a")
+-    f.write (' '.join ([this_binary] + sys.argv[1:]) + '\n')
+-    f.close ()
++    with open("/tmp/intercepted_" + this_binary, "a") as f:
++        f.write(' '.join([this_binary] + sys.argv[1:]) + '\n')
+ 
+ # Look through the options and flags, and if necessary, touch any output
+ # files.
+ arg_idx = 1
+-while arg_idx < len (sys.argv):
++while arg_idx < len(sys.argv):
+     arg = sys.argv [arg_idx]
+-    
++
+     if arg == "--":
+         break
+-    
++
+     # Something like -I . can result in a need for this (specifically the .)
+-    elif len (arg) < 2:
++    elif len(arg) < 2:
+         pass
+-    
++
+     # Check if -o or --output is specified. These can be used at most once.
+-    elif arg[0] == '-' and arg[1] != '-' and arg[len (arg) - 1] == 'o':
+-        touch_file (sys.argv[arg_idx + 1])
+-        sys.exit (0)
+-    elif arg.startswith (olong):
+-        touch_file (arg.split ("=")[1])
+-        sys.exit (0)
+-    
++    elif arg[0] == '-' and arg[1] != '-' and arg[len(arg) - 1] == 'o':
++        touch_file(sys.argv[arg_idx + 1])
++        sys.exit(0)
++    elif arg.startswith(olong):
++        touch_file(arg.split("=")[1])
++        sys.exit(0)
++
+     # Check for functionality that isn't implemented yet.
+     else:
+         assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
+                this_binary in simple_binaries, \
+                "-E option not yet supported" + stub_msg
+-        
+-        assert not arg.startswith (Elong), \
++
++        assert not arg.startswith(Elong), \
+                Elong[:-1] + " option not yet supported" + stub_msg
+-    
++
+     arg_idx += 1
+ 
+ # The -o/--output option overrides the default. For makeinfo and texi2any,
+@@ -119,4 +117,3 @@ while arg_idx < len (sys.argv):
+ assert this_binary in simple_binaries, \
+        "Don't know how to get default output file name from input file!" + \
+        stub_msg
+-
+-- 
+2.21.0
+
+
