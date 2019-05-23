@@ -1,34 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C00AC7E20E
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A9C117E417
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 10:33:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458m7q6KDVz4q
+	Thu, 23 May 2019 10:34:59 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 7so5228172wmo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 12:33:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558607640;
-	bh=+wifbf4AmOJ+2bpIkZXOwms+56muCCVCnv93CaB1xRU=;
-	h=Date:From:To:Subject:From;
-	b=dYMSsKgRv6CGAusLmFgns4AFkjToIf43OYeq0ScZZKuBodamO2U5jwCfYZJztbzRU
-	NVHl217CG+SOhBgaz4T0+arcDcuELQ2vykOFqd8hOYgkHfR+C14L08Nqi1corBDvGi
-	6YeE+RbcuS3VR/BsdcbIXYtz5baKktwZv350AAL9v1VvvSCwRbSTaz9avxjPS7UCKU
-	nbEugGEX+MOcYDLuqWA5ZRyHM2Tl6OsekX3aCfRNECXvDxQm2EfBlt/pWTn0cmh85D
-	nK3k2VsQYg3Jd5WgJzhI0HjmjZK+TPYSgg1HEUxJuNtYNFSGB0zvRN7ldCY7RvsUYh
-	ARQJSupSIvOjJ3r41MTt4ukQ3FYlJD4iUnLYEXYLZmGwrPdF3x9AIyKH2BjavaR6jV
-	8NLYtPdab3FOeuvajE9rvkPr8R+gkyrZxio94s5rrWhzK0mWvWadqAfUisi/KI7Q0Z
-	DK0fiL+/2VsaLrJTx9ze+SluHIAEXqu5msG8VcqAKwotGFSxlwGhpNqLc86ZmzVQwx
-	s447zKMPHqe2QL5NbtZ9R+NxXtbe8vtC9UbwuzJBzJpCRQ17M0axZpsFkZ4gMoM81m
-	FYIIjN3Sl3z+R5u9cM+p+A6XqX3c4oDv4iJFT2h+V6WCs1Rey1xJcPwQuzSCjvUjeT
-	OLKMDEVuIrl/vxzZ9KvJfFI4=
-Date: Thu, 23 May 2019 13:33:52 +0300
-From: Adrian Bunk <bunk@stusta.de>
+	Thu, 23 May 2019 03:35:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=1AB8JZSwBP/Pjd7oZW/pXdaeWfOs+2gKO/RMqjBMLQo=;
+	b=KW4biKvR2zPddbDWv078IRGvg4e//4u6GK2BFfroup5wHljmgO14fsD1SkT9L8gyHY
+	CweHsvFWct3O1XjR9UhL0H/EIBbrmyT/zFbrMCQRpBOjiFzgf6xfZZAknHNu8kO2AKV+
+	3zrB5fvyxovmTxrl1/7ZFffV8ilYvY/hFYIAonN/2XNcHhDAnT68vCXI22fUYQmV602g
+	1XU05qvDQvuOgxPM9Rw4gQkeAP1QbvXNjEvA129jMmPB101Zy4UNeTL1W1cZiCWJC9M1
+	nOP1iScP5hJZOmT9bn6LQJ6sdRe4g1yhCsvRStgp4uSNf+JcYIsnUS0KrY2r4Ui3oE9+
+	L0+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=1AB8JZSwBP/Pjd7oZW/pXdaeWfOs+2gKO/RMqjBMLQo=;
+	b=I06IgRSbVzCoHM29jX00kBtmzYCXUILGTT+GDeO2Q2Gl1JhNga9j0G7yZZu8gsdNrc
+	ZGRXorAHz3R09lRbvl8fQWfg26JnLWtZIn6PX3oktqS3ACGx/cNDDk05uf7y+b1WS6BO
+	fWW1dsubW/p+xdbspYoSRGyX0kGC6ceYA49ccTCHa8bZ1+05+HQECqIyGsXTocGlI3Ge
+	+tJ+zytG33Ti54eS/l0GETBak8f7imSu7+LWBHmtvfInsI+ZgJo3Ph2CBzLv+oZz+JNJ
+	fQ6PTYmr1RcPgpZ2rhPA1CNW9Ax6DE+HjxBppjONtZptn7Oxkcwp5XtBAC/nq6/GNVfS
+	TRCw==
+X-Gm-Message-State: APjAAAUAFOkgxZ13J+m+GBNVb/igyhnjk9ny/VdmyzTI+dMW2DE/X4fQ
+	yKI6gTwqSyYFX9wyRZ7z3FO4mlogfTI=
+X-Google-Smtp-Source: APXvYqwjFClv+9EXkNiqY+mBidWPfik5WXkqwvstqhEJ7Vp+4AtBDKwB5cegR0geFxj87/QRMwL8Fg==
+X-Received: by 2002:a7b:c40e:: with SMTP id k14mr10735201wmi.114.1558607700448;
+	Thu, 23 May 2019 03:35:00 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	o8sm22794075wrx.50.2019.05.23.03.34.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 03:34:59 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20190523103352.GA25084@localhost>
-MIME-Version: 1.0
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Subject: Should systemd be marked as incompatible with musl?
+Date: Thu, 23 May 2019 12:34:55 +0200
+Message-Id: <20190523103455.93827-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] chkconfig: do not use unstable github archive tarballs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,64 +54,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 10:34:00 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 May 2019 10:35:00 -0000
 
-systemd is fundamentally Linux-only and not portable to other kernels.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-systemd upstream is using glibc extensions not present in other
-C libraries.
-
-systemd upstream is accepting technically correct patches that help 
-building with musl, but there is no interest upstream in keeping systemd 
-working with non-glibc C libraries.
-
-The way things currently go, systemd/musl will require an ever-growing 
-amount of not upstreamable patches - and this is not sustainable.
-
-It is also not clear where the systemd/musl combination makes sense:
-If an embedded system is so size limited that the size of glibc matters, 
-then systemd is unlikely to be an option.
-
-Other musl-using distribution also seem to favour more lightweight
-init systems.
-
-If someone has important usecases for using systemd with musl it might 
-be possible to solve find solutions in an upstreamable way, but this 
-would require a significant longterm commitment.
-
-The current state is rather bad, some examples:
-
-0001-Use-getenv-when-secure-versions-are-not-available.patch
-looks like waiting for a CVE number.
-
-0008-add-missing-FTW_-macros-for-musl.patch seems to break code in areas 
-(rng, smack, selinux) where breakages can have security implications.
-
-0002-don-t-use-glibc-specific-qsort_r.patch might introduce race 
-conditions that cause data corruption.
-
-0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch makes 
-some functions behave different from what is expected by callers.
-
-0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch and
-0001-do-not-disable-buffer-in-writing-files.patch seems like an issue
-that would require debugging the root cause and then addressing it.
-
-All this looks bad, and is expected to become worse.
-
-In this situation it would be better to not claim that using systemd
-with musl would be a supported option.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+index 2f1f6c02640..788a37b6ed0 100644
+--- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
++++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
+@@ -18,14 +18,13 @@ PR = "r7"
+ 
+ S = "${WORKDIR}/${BPN}-${BPN}-${PV}"
+ 
+-UPSTREAM_CHECK_URI = "https://github.com/fedora-sysv/${BPN}/releases"
+-
+-SRC_URI = "https://github.com/fedora-sysv/chkconfig/archive/chkconfig-${PV}.tar.gz \
++SRC_URI = "git://github.com/fedora-sysv/chkconfig.git \
+            file://replace_caddr_t.patch \
+           "
+ 
+-SRC_URI[md5sum] = "3f51ac38a234be5278b3a2d9705eda5e"
+-SRC_URI[sha256sum] = "bf1e81f0d7cc999b536c9fe7877abf584a4082fd03c9d2597b6f090966579b40"
++SRCREV = "3e0b3909ff6328d232b27b9c32f1a9309c6cd0a4"
++
++S = "${WORKDIR}/git"
+ 
+ inherit gettext
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
