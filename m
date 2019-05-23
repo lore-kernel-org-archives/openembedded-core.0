@@ -1,43 +1,34 @@
-Return-Path: <andre.draszik@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 392197E417
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C00AC7E20E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 10:17:57 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id f8so5645034wrt.1
+	Thu, 23 May 2019 10:33:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458m7q6KDVz4q
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 03:17:58 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=U86rvebNoWFJ6+CVjEYHf/0kyfOoxmUpQeAf9jPSmRY=;
-	b=S89vmnyOZb3TuUUfM3fzwWtbmxtJhn0qGcAeG7W3hhHLA+eK4Uesg35eRv46VdQSvh
-	Uba4/rWa9+Bc+sLEyKYjqXQClodk1MYcKhmzOS3v4vhOaKlQq32rihF4GmE01ay7zGwd
-	L3uijLM374k6vE7OC4f3Y96hg8RR8ZlHLwU64j5Fko7eYeFCYS+hH3bzMiq+PL4ikoph
-	tzWFBBaj+92srGnDJ9LYwXpX0VAb8ua8mnekt6nKd8NYZBurFKt2eihiUOk8Ud0+XdPx
-	fTJX5ickLsHDlUoQSfuNvBE3PuaYY2pN7QL+8DHzORjPmMtI83i4WkBgLq09jLX4VqXx
-	0s6w==
-X-Gm-Message-State: APjAAAXbC+mYEkmQUx3PsDGrPFw/g3hobbH8cmCcLdbLuGNv9Kpa77sH
-	x1R+UGGgW1Y9gxjeqWGILVQKLT4a8m8=
-X-Google-Smtp-Source: APXvYqxL+itR/FOyuEoeRzNQaATn2xEofeUP9x/VG9uYfpr9e4Yej8mt/triR7DylAP7Lf8FG8zdPQ==
-X-Received: by 2002:a5d:5743:: with SMTP id q3mr18225830wrw.92.1558606677629; 
-	Thu, 23 May 2019 03:17:57 -0700 (PDT)
-Received: from tfsielt31850 ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	i17sm27904864wrr.46.2019.05.23.03.17.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 23 May 2019 03:17:56 -0700 (PDT)
-Message-ID: <a52097c84c0a6835ccd1ae2811c49ae8311ff011.camel@andred.net>
-From: =?ISO-8859-1?Q?Andr=E9?= Draszik <git@andred.net>
+	Thu, 23 May 2019 12:33:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558607640;
+	bh=+wifbf4AmOJ+2bpIkZXOwms+56muCCVCnv93CaB1xRU=;
+	h=Date:From:To:Subject:From;
+	b=dYMSsKgRv6CGAusLmFgns4AFkjToIf43OYeq0ScZZKuBodamO2U5jwCfYZJztbzRU
+	NVHl217CG+SOhBgaz4T0+arcDcuELQ2vykOFqd8hOYgkHfR+C14L08Nqi1corBDvGi
+	6YeE+RbcuS3VR/BsdcbIXYtz5baKktwZv350AAL9v1VvvSCwRbSTaz9avxjPS7UCKU
+	nbEugGEX+MOcYDLuqWA5ZRyHM2Tl6OsekX3aCfRNECXvDxQm2EfBlt/pWTn0cmh85D
+	nK3k2VsQYg3Jd5WgJzhI0HjmjZK+TPYSgg1HEUxJuNtYNFSGB0zvRN7ldCY7RvsUYh
+	ARQJSupSIvOjJ3r41MTt4ukQ3FYlJD4iUnLYEXYLZmGwrPdF3x9AIyKH2BjavaR6jV
+	8NLYtPdab3FOeuvajE9rvkPr8R+gkyrZxio94s5rrWhzK0mWvWadqAfUisi/KI7Q0Z
+	DK0fiL+/2VsaLrJTx9ze+SluHIAEXqu5msG8VcqAKwotGFSxlwGhpNqLc86ZmzVQwx
+	s447zKMPHqe2QL5NbtZ9R+NxXtbe8vtC9UbwuzJBzJpCRQ17M0axZpsFkZ4gMoM81m
+	FYIIjN3Sl3z+R5u9cM+p+A6XqX3c4oDv4iJFT2h+V6WCs1Rey1xJcPwQuzSCjvUjeT
+	OLKMDEVuIrl/vxzZ9KvJfFI4=
+Date: Thu, 23 May 2019 13:33:52 +0300
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2019 11:17:56 +0100
-In-Reply-To: <20190523074703.17145-1-nick83ola@gmail.com>
-References: <20190523074703.17145-1-nick83ola@gmail.com>
-User-Agent: Evolution 3.30.5-1 
+Message-ID: <20190523103352.GA25084@localhost>
 MIME-Version: 1.0
-Subject: Re: [PATCH] connman: fix segfault with musl >2.21
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Subject: Should systemd be marked as incompatible with musl?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,86 +41,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 10:17:57 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 23 May 2019 10:34:00 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 2019-05-23 at 08:47 +0100, Nicola Lunghi wrote:
-> musl > 2.21 changed the implementation of the freeaddrinfo() function
-         ^^^^
+systemd is fundamentally Linux-only and not portable to other kernels.
 
-I think you mean 1.1.21 here and in the commit subject.
+systemd upstream is using glibc extensions not present in other
+C libraries.
 
-A.
+systemd upstream is accepting technically correct patches that help 
+building with musl, but there is no interest upstream in keeping systemd 
+working with non-glibc C libraries.
 
+The way things currently go, systemd/musl will require an ever-growing 
+amount of not upstreamable patches - and this is not sustainable.
 
-> not allowing anymore to pass null pointers to it.
-> This was causing a segmentation fault in connman.
-> ---
->  ...-gweb-fix-segfault-with-musl-v1.1.21.patch | 34 +++++++++++++++++++
->  .../connman/connman_1.37.bb                   |  5 ++-
->  2 files changed, 38 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-connectivity/connman/connman/0003-gweb-fix-segfault-with-musl-v1.1.21.patch
-> 
-> diff --git a/meta/recipes-connectivity/connman/connman/0003-gweb-fix-segfault-with-musl-v1.1.21.patch b/meta/recipes-
-> connectivity/connman/connman/0003-gweb-fix-segfault-with-musl-v1.1.21.patch
-> new file mode 100644
-> index 0000000000..43b43bc9f8
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/connman/connman/0003-gweb-fix-segfault-with-musl-v1.1.21.patch
-> @@ -0,0 +1,34 @@
-> +From f0a8c69971b30ea7ca255bb885fdd1179fa5d298 Mon Sep 17 00:00:00 2001
-> +From: Nicola Lunghi <nick83ola@gmail.com>
-> +Date: Thu, 23 May 2019 07:55:25 +0100
-> +Subject: [PATCH] gweb: fix segfault with musl v1.1.21
-> +
-> +In musl > 1.1.21 freeaddrinfo() implementation changed and
-> +was causing a segmentation fault on recent Yocto using musl.
-> +
-> +See this commit:
-> +
-> + https://git.musl-libc.org/cgit/musl/commit/src/network/freeaddrinfo.c?id=d1395c43c019aec6b855cf3c656bf47c8a719e7f
-> +
-> +Upstream-Status: Submitted
-> +---
-> + gweb/gweb.c | 3 ++-
-> + 1 file changed, 2 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/gweb/gweb.c b/gweb/gweb.c
-> +index 393afe0a..12fcb1d8 100644
-> +--- a/gweb/gweb.c
-> ++++ b/gweb/gweb.c
-> +@@ -1274,7 +1274,8 @@ static bool is_ip_address(const char *host)
-> + 	addr = NULL;
-> + 
-> + 	result = getaddrinfo(host, NULL, &hints, &addr);
-> +-	freeaddrinfo(addr);
-> ++	if(!result)
-> ++		freeaddrinfo(addr);
-> + 
-> + 	return result == 0;
-> + }
-> +-- 
-> +2.19.1
-> +
-> diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
-> index 2cf904cd85..f52b21cae3 100644
-> --- a/meta/recipes-connectivity/connman/connman_1.37.bb
-> +++ b/meta/recipes-connectivity/connman/connman_1.37.bb
-> @@ -7,7 +7,10 @@ SRC_URI  = "${KERNELORG_MIRROR}/linux/network/${BPN}/${BP}.tar.xz \
->              file://no-version-scripts.patch \
->  "
->  
-> -SRC_URI_append_libc-musl = " file://0002-resolve-musl-does-not-implement-res_ninit.patch"
-> +SRC_URI_append_libc-musl = " \
-> +            file://0002-resolve-musl-does-not-implement-res_ninit.patch \
-> +            file://0003-gweb-fix-segfault-with-musl-v1.1.21.patch \
-> +"
->  
->  SRC_URI[md5sum] = "75012084f14fb63a84b116e66c6e94fb"
->  SRC_URI[sha256sum] = "6ce29b3eb0bb16a7387bc609c39455fd13064bdcde5a4d185fab3a0c71946e16"
-> -- 
-> 2.19.1
-> 
+It is also not clear where the systemd/musl combination makes sense:
+If an embedded system is so size limited that the size of glibc matters, 
+then systemd is unlikely to be an option.
+
+Other musl-using distribution also seem to favour more lightweight
+init systems.
+
+If someone has important usecases for using systemd with musl it might 
+be possible to solve find solutions in an upstreamable way, but this 
+would require a significant longterm commitment.
+
+The current state is rather bad, some examples:
+
+0001-Use-getenv-when-secure-versions-are-not-available.patch
+looks like waiting for a CVE number.
+
+0008-add-missing-FTW_-macros-for-musl.patch seems to break code in areas 
+(rng, smack, selinux) where breakages can have security implications.
+
+0002-don-t-use-glibc-specific-qsort_r.patch might introduce race 
+conditions that cause data corruption.
+
+0007-don-t-fail-if-GLOB_BRACE-and-GLOB_ALTDIRFUNC-is-not.patch makes 
+some functions behave different from what is expected by callers.
+
+0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch and
+0001-do-not-disable-buffer-in-writing-files.patch seems like an issue
+that would require debugging the root cause and then addressing it.
+
+All this looks bad, and is expected to become worse.
+
+In this situation it would be better to not claim that using systemd
+with musl would be a supported option.
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
