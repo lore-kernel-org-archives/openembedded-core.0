@@ -1,40 +1,25 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 01D6C7E3FB
+Return-Path: <jma1@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 441857D245
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 06:10:12 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458fHS4b9qz2C;
-	Thu, 23 May 2019 08:10:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558591812;
-	bh=OzjKU/cUC2yY3udN/J+jFVr7h58sDWEOsQuMTxYWnCQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ahosLo9ngGZ4EClKD2VwY/HMHeQEiWFQjhiSjdfSG+NMphOyVA71DvR6rOaJyD8lG
-	CsVAx+Tc4fHkaUdZgqcmD2sTDUY9xvTyYexdGlXv9QFCf5dGZ9xxC+NivLo2+88inF
-	NtIpETCQxl0EFAarDE51c/rACX+1IUQ2NVY9m28XkrbUMGfEx5PR0mM9TdhxSr5BHo
-	5DEcW0JOGKyvQS3lgTBk4IyctcZVslIu7yBHYYacKuaN75/jOJzWhO6odr1x4vuzIG
-	BEl7SSKbJFOVBBOS4yUKBgd1qcm4vW/1cSUdFWXc5YLtnJDL4Hd0n/grXwcNFrdJIn
-	Tl7PAMhI7YQ6Atp2XOTV/z0YvZAjGg3YXTg54DB+9YcTkh6G5XAqvuJKpLDdhNuJZD
-	Xj5m4hIu33Tk8kDwjbNMSuxxSpzStqJXqb+a6MoMP4c4IclwnblLHb1NjnJdT6szr3
-	iGC4lq+rdaKUGgkl1jC2U3VMZN9ph7H+EhteSS211Us8QMdxw0a5usWRht5MD7ZP7f
-	ly21Xp/M9IRefVzjgrxb6VMljiUYutxbfdSWx6XSVPjxmpkHL/lzQaA8PUml5OKai2
-	tL2+bcUJv6ainDBpwQRuLbV4fy8GLxNvpq4B/csQmcD+oGO3496h/T+B7SQPAqDV2I
-	Ss5cuM+Wbp/XbjIbTJ8N+vhg=
-Date: Thu, 23 May 2019 09:10:10 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190523061010.GA11736@localhost>
-References: <20190522013228.7591-1-raj.khem@gmail.com>
-	<20190522013228.7591-3-raj.khem@gmail.com>
-	<20190522064909.GA9621@localhost>
-	<CAMKF1sqj0+y_55xVf6SRjS1czodtioUYxVv1tbWU4_7AKYrzLw@mail.gmail.com>
+	Thu, 23 May 2019 06:47:29 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4N6lU97004792
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 23:47:30 -0700 (PDT)
+Received: from pek-lpggp2 (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 22 May 2019 23:47:29 -0700
+Received: by pek-lpggp2 (Postfix, from userid 20544)	id BD4157211D6; Thu, 23
+	May 2019 14:29:54 +0800 (CST)
+From: Jiping Ma <jiping.ma2@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 23 May 2019 14:29:52 +0800
+Message-ID: <20190523062953.10582-1-jiping.ma2@windriver.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1sqj0+y_55xVf6SRjS1czodtioUYxVv1tbWU4_7AKYrzLw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] elfutils: Fix eu-* utils builds for musl
+Subject: [PATCH]dhcp:"dhclient -x eth0" action is not correct.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,52 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 06:10:13 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 23 May 2019 06:47:29 -0000
+Content-Type: text/plain
 
-On Wed, May 22, 2019 at 04:29:33PM -0700, Khem Raj wrote:
-> On Tue, May 21, 2019 at 11:49 PM Adrian Bunk <bunk@stusta.de> wrote:
-> >
-> > On Tue, May 21, 2019 at 06:32:28PM -0700, Khem Raj wrote:
-> > >...
-> > > PN and PN-binutils is not empty anymore on musl
-> > >...
-> > > ++#if !defined(FNM_EXTMATCH)
-> > > ++# define FNM_EXTMATCH (1 << 5) /* Use ksh-like extended matching. */
-> > > ++#endif
-> > >...
-> >
-> > This might fix the compilation, but it is horribly wrong.
-> >
-> > It passes a flag to a function that this function does not understand.
-> >
-> > In the best case the function returns with an error on unknown flags.
-> >
-> > In the worst case the function does silently something different from
-> > what the caller expects it to do.
-> >
-> 
-> I forgot that the API is provided by libc here so mimic'ing the define
-> infact could
-> cause pain. I think its better to nullify it in this case where it is
-> being used in these
-> files.
+The action of "dhclient -x eth0" and "dhclient -r eth0" is
+same when enable ENABLE_GENTLE_SHUTDOWN. Disable ENABLE_GENTLE_SHUTDOWN
+that will use the default signal hander.
 
-Just looking at the usage in src/elfcompress.c, my first impression is 
-that this tool is mostly useless without a properly working FNM_EXTMATCH.
+Signed-off-by: Jiping Ma <jiping.ma2@windriver.com>
+---
+ meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-Are the eu-* utils actually important in the cases where space is so 
-limited that people are forced to use musl instead of glibc?
-
-cu
-Adrian
-
+diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+index 19524cb3c9..275961a603 100644
+--- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
++++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+@@ -5,7 +5,6 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+             file://0003-link-with-lcrypto.patch \
+             file://0004-Fix-out-of-tree-builds.patch \
+             file://0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch \
+-            file://0006-site.h-enable-gentle-shutdown.patch \
+             file://0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch \
+             file://0009-remove-dhclient-script-bash-dependency.patch \
+             file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.14.1
 
 
