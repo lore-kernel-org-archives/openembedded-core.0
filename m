@@ -1,48 +1,33 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 812AA7E3C6
+Return-Path: <auh@auh.yoctoproject.org>
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
+	[140.211.169.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 1259E7E486
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 17:25:35 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id j53so7654253qta.9
+	Thu, 23 May 2019 18:23:54 +0000 (UTC)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 6AB30E00BAA; Thu, 23 May 2019 11:23:56 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from auh.yoctoproject.org (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id F2312E00DC2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 10:25:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MM2nYy+uhxnE8j2/rN5BB557r3hjkqtj3F+xJCb25iU=;
-	b=p8wHeXfIewOfCdOS7mRO5k4/gn5KuOQkFJI6tE0zNORw6PhvdvoiMGtahs7a2laIIp
-	YW+hOhEQJ/YQfasR6IUQRnPP+jissBWMwz1pT7rYOzFv/xszW7rnE6yywzyEF84e9UdE
-	qqQX+TMGsU8W6tUvXxoM85+0I7jlfuDsobq8V6NESBgjfUbIJCzahTjQMq9mA7wR13bK
-	1Oy2FWqgrAQ4J63H3z6BHSif2EBZTXMH8X54PDBf9rygiRWnf0Q8FdTBkuyflelMicPG
-	ltApQ42YFp031bZekJ9R92/1aNqLvGgfPpQHt+gLPaxsDVXXJakccZwj0XLi3soIzjZw
-	byqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=MM2nYy+uhxnE8j2/rN5BB557r3hjkqtj3F+xJCb25iU=;
-	b=V7Y/5QPbQ9dD/3s26qor6+AVgDukPOjZIKYPqSlr8BJ/OJp4lpf5j9uQLQK+5HQA0m
-	VWPg5Z6ohi4nXZZESpsJOVMYX33yLT4DaaI/CbNDDQTP4TCX7VTYPMvNONOHUmI7DqpV
-	uacjs3AJHsQaQzyBrBieCZTCMgtOouYpvQq+4a+OVut7PFUCpUDzJ1s+WDrFb6pNgfcM
-	NMEoghdw/002rZtPfkdhTLyznlm+4Iz8iCU1U/PmYq9U+k9AHp6sqHCN57lD3pNzQKgS
-	vHEfN3YGQbdMdT3x8hBPU4cuKQmm8wWwuoTLI/VvvetHJxmVydtA/eD7FUjFnbA+R9jN
-	PogA==
-X-Gm-Message-State: APjAAAUd9lW3AfOGPR1ZKgsORB24qt2Tt8WEc4Shc9Mhh/u/6+XNDJXA
-	1RzwxdQQKeAZOnuCxVsCWZWacOjS07NoOrOfOvtMita2
-X-Google-Smtp-Source: APXvYqyuFcXVrc7b4MDex/FoAf0liVeZ+th9IwNn+jM3CLDEeVnvPcdxr4M7j9zOi0toHY9fObKyXaw90lk55cpOQ3U=
-X-Received: by 2002:a0c:96e7:: with SMTP id b36mr45033198qvd.51.1558632336081; 
-	Thu, 23 May 2019 10:25:36 -0700 (PDT)
+	Thu, 23 May 2019 11:23:52 -0700 (PDT)
+Received: from auh.yocto.io (localhost [127.0.0.1])
+	by auh.yoctoproject.org (Postfix) with ESMTP id EAB2D440002
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 11:23:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190523145819.23329-1-raj.khem@gmail.com>
-	<20190523160654.GC3348@localhost>
-In-Reply-To: <20190523160654.GC3348@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 23 May 2019 10:25:10 -0700
-Message-ID: <CAMKF1sr=zz140V8js6i6NgkDFOWzrbZpMGw9R5MOKeZxk-KJ-w@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] Revert "musl: Add TEMP_FAILURE_RETRY from glibc"
+From: auh@auh.yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Message-Id: <20190523182352.EAB2D440002@auh.yoctoproject.org>
+Date: Thu, 23 May 2019 11:23:52 -0700 (PDT)
+Subject: [AUH] Upgrade status: 2019-05-23
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,40 +40,125 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 17:25:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 23 May 2019 18:23:56 -0000
+Content-Type: multipart/mixed; boundary="===============7078816018705817977=="
 
-On Thu, May 23, 2019 at 9:06 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Thu, May 23, 2019 at 07:58:19AM -0700, Khem Raj wrote:
-> >...
-> > Secondly, musl and glibc are under different licenses and importing
-> > code from one to other could taint it.
-> >...
->
-> How many LOC are considered the legal limit in OE for that?
->
+--===============7078816018705817977==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-Just make it easy where it can. OE does not guarantee any of that.
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
+IDM4CiAgICAgICAgYXB0LCAxLjguMSwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFp
+bC5jb20+CiAgICAgICAgb3BlbnNzaCwgOC4wcDEsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBn
+bWFpbC5jb20+CiAgICAgICAgZ2V0dGV4dCwgMC4yMC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlh
+bmdAd2luZHJpdmVyLmNvbT4KICAgICAgICB2dWxrYW4sIDEuMS4xMDYuMCwgUm9zcyBCdXJ0b24g
+PHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBzeXNrbG9nZCwgMS42LCBDaGVuIFFpIDxR
+aS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgaWZ1cGRvd24sIDAuOC4zNSwgQW51aiBNaXR0
+YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBzeXN2aW5pdCwgMi45NCwgUm9zcyBC
+dXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBsaWJpZG4yLCAyLjEuMWEsIFJv
+c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgZmxleCwgMi42LjQsIENo
+ZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnZGstcGl4YnVmLCAyLjM4LjEs
+IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgcnVieSwgMi42LjMs
+IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgaXB1dGlscywgczIw
+MTkwNTE1LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAg
+IGx0cCwgMjAxOTA1MTcsIFlpIFpoYW8gPHlpLnpoYW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBl
+MmZzcHJvZ3MsIDEuNDUuMSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+
+CiAgICAgICAgc3RyYWNlLCA1LjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIu
+Y29tPgogICAgICAgIGdvLWRlcCwgMC41LjMsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZh
+ZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgdnVsa2FuLWRlbW9zLCBnaXQtbmV3LWNvbW1p
+dHMtYXZhaWxhYmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAg
+IHNlZCwgNC43LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgcHV6emxl
+cywgMC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGlu
+dGVsLmNvbT4KICAgICAgICB0ZXhpbmZvLCA2LjYsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBp
+bnRlbC5jb20+CiAgICAgICAga21zY3ViZSwgZ2l0LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgQ2Fy
+bG9zIFJhZmFlbCBHaWFuaSA8ZHZAcHNldWRvdGVybWluYWwub3JnPgogICAgICAgIGxpYnVyY3Us
+IDAuMTEuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAg
+ICAgYXR0ciwgMi40LjQ4LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAg
+cm5nLXRvb2xzLCA2LjcsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAg
+ICAgZ2xpYi0yLjAsIDIuNjAuMywgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4K
+ICAgICAgICBhY2wsIDIuMi41MywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAg
+ICAgIHV0aWwtbGludXgsIDIuMzMuMiwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgog
+ICAgICAgIHNxdWFzaGZzLXRvb2xzLCA0LjMtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQg
+WWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBuZnMtdXRpbHMsIDIuMy40
+LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBsc2Jpbml0
+c2NyaXB0cywgMTAuMDEsIFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAg
+ICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLCAxLjE2LjAsIEFudWogTWl0dGFsIDxhbnVqLm1p
+dHRhbEBpbnRlbC5jb20+CiAgICAgICAgcXVpbHQsIDAuNjYsIFJvYmVydCBZYW5nIDxsaWV6aGku
+eWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGRwa2csIDEuMTkuNiwgQW7DrWJhbCBMaW3Ds24g
+PGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
+ZSwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGJ1
+aWxkLWNvbXBhcmUsIDIwMTUuMDIuMTAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBQYXVsIEVnZ2xl
+dG9uIDxwYXVsLmVnZ2xldG9uQGxpbnV4LmludGVsLmNvbT4KICAgICAgICBsaWJpY2FsLCAzLjAu
+NSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBndGsrMywgMy4y
+NC44LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1l
+cjEuMC1ydHNwLXNlcnZlciwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
+Y29tPgogICAgKiBTdWNjZWVkZWQ6IDE0CiAgICAgICAgaXByb3V0ZTIsIDUuMS4wLCBDaGFuZ2h5
+ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29tPgogICAgICAgIGRidXMtdGVzdCwgMS4x
+Mi4xNCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHBpZ2xpdCwgMS4w
+LW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNv
+bT4KICAgICAgICBjdXJsLCA3LjY1LjAsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5j
+b20+CiAgICAgICAgZG5mLCA0LjIuNiwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBn
+bWFpbC5jb20+CiAgICAgICAgZGJ1cywgMS4xMi4xNCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2
+ZXIuY29tPgogICAgICAgIGxpYnZhLCAyLjQuMSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGlu
+dGVsLmNvbT4KICAgICAgICBmaWxlLCA1LjM3LCBZaSBaaGFvIDx5aS56aGFvQHdpbmRyaXZlci5j
+b20+CiAgICAgICAgdmltLXRpbnksIDguMS4xMzY0LCBUb20gUmluaSA8dHJpbmlAa29uc3Vsa28u
+Y29tPgogICAgICAgIHZ0ZSwgMC41Ni4zLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
+Y29tPgogICAgICAgIGJpc29uLCAzLjQsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4K
+ICAgICAgICB2aW0sIDguMS4xMzY0LCBUb20gUmluaSA8dHJpbmlAa29uc3Vsa28uY29tPgogICAg
+ICAgIGV1ZGV2LCAzLjIuOCwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAg
+ICAgICBsaWJkbmYsIDAuMzMuMCwgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFp
+bC5jb20+CiAgICAqIEZhaWxlZChvdGhlciBlcnJvcnMpOiAxCiAgICAgICAgZ2NjLXNvdXJjZS04
+LjMuMCwgOS4xLjAsIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAqIEZhaWxlZChk
+b19jb21waWxlKTogMTkKICAgICAgICBtZXNhLCAxOS4wLjUsIE90YXZpbyBTYWx2YWRvciA8b3Rh
+dmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXZhYXBp
+LCAxLjE2LjAsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgZ3Nl
+dHRpbmdzLWRlc2t0b3Atc2NoZW1hcywgMy4zMi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
+aW50ZWwuY29tPgogICAgICAgIGdzdHJlYW1lcjEuMC1weXRob24sIDEuMTYuMCwgQW51aiBNaXR0
+YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBta2ZvbnRzY2FsZSwgMS4yLjEsIEFy
+bWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgYXV0b2NvbmYtYXJjaGl2
+ZSwgMjAxOS4wMS4wNiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAg
+ICAgICAgY21ha2UsIDMuMTQuNCwgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoQHNpZW1lbnMuY29t
+PgogICAgICAgIGdzdC12YWxpZGF0ZSwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxA
+aW50ZWwuY29tPgogICAgICAgIG10ZC11dGlscywgMi4xLjAsIERlbnlzIERteXRyaXllbmtvIDxk
+ZW55c0B0aS5jb20+CiAgICAgICAgcHJlbGluaywgMS4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwg
+TWFyayBIYXRsZSA8bWFyay5oYXRsZUB3aW5kcml2ZXIuY29tPgogICAgICAgIGV0aHRvb2wsIDUu
+MSwgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAgICBndGst
+ZG9jLCAxLjMwLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAg
+ICAgICBnbnV0bHMsIDMuNi43LjEsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+
+CiAgICAgICAgZ3N0cmVhbWVyMS4wLWxpYmF2LCAxLjE2LjAsIEFudWogTWl0dGFsIDxhbnVqLm1p
+dHRhbEBpbnRlbC5jb20+CiAgICAgICAgZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseSwgMS4xNi4w
+LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGJvb3N0LCAxLjcw
+LjAsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdz
+dHJlYW1lcjEuMCwgMS4xNi4wLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgog
+ICAgICAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2QsIDEuMTYuMCwgQW51aiBNaXR0YWwgPGFu
+dWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnc3RyZWFtZXIxLjAtb214LCAxLjE2LjAsIEFu
+dWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CgogICAgVE9UQUw6IGF0dGVtcHRlZD03
+MiBzdWNjZWVkZWQ9MTQoMTkuNDQlKSBmYWlsZWQ9NTgoODAuNTYlKQoKUmVjaXBlIHVwZ3JhZGUg
+c3RhdGlzdGljcyBwZXIgTWFpbnRhaW5lcjoKCiAgICBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVv
+ay5iYWU6IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkgZmFpbGVkPTIoNjYuNjclKQog
+ICAgRGVueXMgRG15dHJpeWVua28gPGRlbnlzOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAw
+JSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGU6IGF0dGVtcHRl
+ZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgUm9iZXJ0IFlhbmcg
+PGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9NyBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTcoMTAw
+LjAwJSkKICAgIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbDogYXR0ZW1wdGVkPTIwIHN1Y2NlZWRl
+ZD0zKDE1LjAwJSkgZmFpbGVkPTE3KDg1LjAwJSkKICAgIE90YXZpbyBTYWx2YWRvciA8b3Rhdmlv
+LnNhbHZhZG9yOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAw
+JSkKICAgIEFybWluIEt1c3RlciA8YWt1c3RlcjgwODogYXR0ZW1wdGVkPTQgc3VjY2VlZGVkPTEo
+MjUuMDAlKSBmYWlsZWQ9Myg3NS4wMCUpCiAgICBUb20gUmluaSA8dHJpbmk6IGF0dGVtcHRlZD0y
+IHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAlKQogICAgUm9zcyBCdXJ0b24gPHJv
+c3MuYnVydG9uOiBhdHRlbXB0ZWQ9MTAgc3VjY2VlZGVkPTEoMTAuMDAlKSBmYWlsZWQ9OSg5MC4w
+MCUpCiAgICBBbsOtYmFsIExpbcOzbiA8bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MiBzdWNjZWVk
+ZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIENoZW4gUWkgPFFpLkNoZW46IGF0dGVt
+cHRlZD05IHN1Y2NlZWRlZD0zKDMzLjMzJSkgZmFpbGVkPTYoNjYuNjclKQogICAgQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTUgc3VjY2VlZGVkPTIoNDAuMDAlKSBm
+YWlsZWQ9Myg2MC4wMCUpCiAgICBQYXVsIEVnZ2xldG9uIDxwYXVsLmVnZ2xldG9uOiBhdHRlbXB0
+ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFlpIFpoYW8gPHlp
+LnpoYW86IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQog
+ICAgQ2FybG9zIFJhZmFlbCBHaWFuaSA8ZHY6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAl
+KSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgS2hlbSBSYWogPHJhai5raGVtOiBhdHRlbXB0ZWQ9MSBz
+dWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFBhc2NhbCBCYWNoIDxwYXNj
+YWwuYmFjaDogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUp
+Cg==
 
-> Many of the musl support patches (e.g. [1]) contain more LOC from glibc
-> headers,[2] so if these are considered a problem there might be more
-> legal review ahead.
->
-
-Yes I am aware.
-
-> cu
-> Adrian
->
-> [1] meta/recipes-extended/pam/libpam/0001-Add-support-for-defining-missing-funcitonality.patch
-> [2] https://sourceware.org/git/?p=glibc.git;a=blame;f=string/string.h;hb=0a54e4010fe0085cd36deaff9442a7e88de3270d#l131
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
-
+--===============7078816018705817977==--
