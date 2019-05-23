@@ -1,27 +1,26 @@
 Return-Path: <jma1@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A08017E3FC
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 42F107E407
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 07:21:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4N7LbhR005483
+	Thu, 23 May 2019 07:22:09 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4N7Ligv003673
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 00:21:37 -0700 (PDT)
-Received: from pek-lpggp2 (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 23 May 2019 00:21:36 -0700
-Received: by pek-lpggp2 (Postfix, from userid 20544)	id 04B38721632; Thu, 23
-	May 2019 15:04:01 +0800 (CST)
+	Thu, 23 May 2019 00:21:59 -0700
+Received: from pek-lpggp2 (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 23 May 2019 00:21:33 -0700
+Received: by pek-lpggp2 (Postfix, from userid 20544)	id 893D0721631; Thu, 23
+	May 2019 15:03:58 +0800 (CST)
 From: Jiping Ma <jiping.ma2@windriver.com>
 To: <openembedded-core@lists.openembedded.org>, <jiping.ma2@windriver.com>
-Date: Thu, 23 May 2019 15:03:56 +0800
-Message-ID: <1558595036-35165-2-git-send-email-jiping.ma2@windriver.com>
+Date: Thu, 23 May 2019 15:03:55 +0800
+Message-ID: <1558595036-35165-1-git-send-email-jiping.ma2@windriver.com>
 X-Mailer: git-send-email 1.9.1
-In-Reply-To: <1558595036-35165-1-git-send-email-jiping.ma2@windriver.com>
-References: <1558595036-35165-1-git-send-email-jiping.ma2@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] [V2][PATCH] dhcp:"dhclient -x eth0" action is not correct.
+Subject: [V2][PATCH] dhcp:"dhclient -x eth0" action is not correct.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,7 +33,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 07:21:36 -0000
+X-List-Received-Date: Thu, 23 May 2019 07:22:14 -0000
 Content-Type: text/plain
 
 Please ignore V1 of [OE-core][PATCH] dhcp:"dhclient -x eth0" action is not correct.
