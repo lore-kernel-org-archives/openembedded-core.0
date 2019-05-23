@@ -1,74 +1,40 @@
-Return-Path: <Rob.Walton@arm.com>
-X-Greylist: delayed 9620 seconds by postgrey-1.34 at layers.openembedded.org;
-	Thu, 23 May 2019 05:16:43 UTC
-Received: from EUR01-HE1-obe.outbound.protection.outlook.com
-	(mail-eopbgr130052.outbound.protection.outlook.com [40.107.13.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 64A297CBDF
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 01D6C7E3FB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 05:16:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=armh.onmicrosoft.com; 
-	s=selector2-armh-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=zySCthuGFz1I8U7Q2xX+DPiOzHOSmbGkoOrwNzhWjOc=;
-	b=pC8p0SfRMHik6cAOLDMr7oc3e2I58Kf8xqeZ3QMImFuEsWkJ8qIpU7sHz35pikvL9Fl0ioE6Inbcsq0C0uC9ILhMtoEHxbiEVkk/+7/McIbfeq4qYL4xILQ3hJ3Fa8J2C7LG6UG5cOPSPYs0smGRl3wQ8qMM/MuCxh9OTn/WEAE=
-Received: from AM6PR08MB3685.eurprd08.prod.outlook.com (20.177.199.158) by
-	AM6PR08MB5064.eurprd08.prod.outlook.com (10.255.120.161) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1922.16; Wed, 22 May 2019 12:44:37 +0000
-Received: from AM6PR08MB3685.eurprd08.prod.outlook.com
-	([fe80::380e:bc71:e3ba:95f]) by AM6PR08MB3685.eurprd08.prod.outlook.com
-	([fe80::380e:bc71:e3ba:95f%6]) with mapi id 15.20.1922.016;
-	Wed, 22 May 2019 12:44:37 +0000
-From: Rob Walton <Rob.Walton@arm.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH 2/2] package.bbclass: Emit HOMEPAGE pkgdata.
-Thread-Index: AQHVEJwdeDxIADRRKEmYI513wzcNyw==
-Date: Wed, 22 May 2019 12:44:37 +0000
-Message-ID: <1558529060-79451-2-git-send-email-rob.walton@arm.com>
-References: <1558529060-79451-1-git-send-email-rob.walton@arm.com>
-In-Reply-To: <1558529060-79451-1-git-send-email-rob.walton@arm.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: LO2P265CA0114.GBRP265.PROD.OUTLOOK.COM
-	(2603:10a6:600:c::30) To AM6PR08MB3685.eurprd08.prod.outlook.com
-	(2603:10a6:20b:6f::30)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=Rob.Walton@arm.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.7.4
-x-originating-ip: [217.140.106.50]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 267e14d5-e077-45a5-1a9f-08d6deb33fbb
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
-	SRVR:AM6PR08MB5064; 
-x-ms-traffictypediagnostic: AM6PR08MB5064:
-x-microsoft-antispam-prvs: <AM6PR08MB5064C408F5E4F4E2FE68D54A95000@AM6PR08MB5064.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:4714;
-x-forefront-prvs: 0045236D47
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(366004)(376002)(396003)(346002)(136003)(39860400002)(40434004)(189003)(199004)(72206003)(44832011)(446003)(476003)(486006)(14454004)(186003)(66066001)(66476007)(66556008)(64756008)(66446008)(11346002)(26005)(86362001)(2906002)(316002)(68736007)(66946007)(73956011)(2616005)(53936002)(5024004)(14444005)(4326008)(386003)(6506007)(2351001)(76176011)(305945005)(5640700003)(478600001)(7736002)(6512007)(36756003)(256004)(71200400001)(71190400001)(102836004)(6916009)(52116002)(25786009)(8676002)(50226002)(6116002)(6436002)(99286004)(8936002)(81166006)(6486002)(5660300002)(3846002)(2501003)(81156014);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:AM6PR08MB5064;
-	H:AM6PR08MB3685.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: arm.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 6YaT8SrIrE6mUjF0zGWQfifJlrDAWRIPQdj+n23vWC07h9zwQDarRrcHf0X29TSJ0pg3mDa/eSSCu3H6cw6o7PXImRBgerBWpbry2cEgX+WiTaNdShCpXKW1Le2bv9qzvx2JF+ogHS+Btfg1lwIvivtkoIIiS74NiehdX+fNdPr1fkkhR5IRM1LuT6BZ87XSgv3aTuHY24DRkCBqkFEz5VcJ1FPjTYAjeNw2Wz/1tNaSxK49PAV+hAMAXZg8PXXRHnOsxXzRPFvbaUMexp4M7X1WY5FT94igMy4Ym16RV6l/J42wqXFDhqmNvCjRtifpASUcQwZQqUvMDU+Wxre8ZrV+QvMUywrb9VnEsrtvsthtPShIUBtF9Uh6F7qFKNNtFwNHch9EJWL2ztwr4LvfwkjmUJxwucET/67pQWTRmn4=
+	Thu, 23 May 2019 06:10:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 458fHS4b9qz2C;
+	Thu, 23 May 2019 08:10:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558591812;
+	bh=OzjKU/cUC2yY3udN/J+jFVr7h58sDWEOsQuMTxYWnCQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ahosLo9ngGZ4EClKD2VwY/HMHeQEiWFQjhiSjdfSG+NMphOyVA71DvR6rOaJyD8lG
+	CsVAx+Tc4fHkaUdZgqcmD2sTDUY9xvTyYexdGlXv9QFCf5dGZ9xxC+NivLo2+88inF
+	NtIpETCQxl0EFAarDE51c/rACX+1IUQ2NVY9m28XkrbUMGfEx5PR0mM9TdhxSr5BHo
+	5DEcW0JOGKyvQS3lgTBk4IyctcZVslIu7yBHYYacKuaN75/jOJzWhO6odr1x4vuzIG
+	BEl7SSKbJFOVBBOS4yUKBgd1qcm4vW/1cSUdFWXc5YLtnJDL4Hd0n/grXwcNFrdJIn
+	Tl7PAMhI7YQ6Atp2XOTV/z0YvZAjGg3YXTg54DB+9YcTkh6G5XAqvuJKpLDdhNuJZD
+	Xj5m4hIu33Tk8kDwjbNMSuxxSpzStqJXqb+a6MoMP4c4IclwnblLHb1NjnJdT6szr3
+	iGC4lq+rdaKUGgkl1jC2U3VMZN9ph7H+EhteSS211Us8QMdxw0a5usWRht5MD7ZP7f
+	ly21Xp/M9IRefVzjgrxb6VMljiUYutxbfdSWx6XSVPjxmpkHL/lzQaA8PUml5OKai2
+	tL2+bcUJv6ainDBpwQRuLbV4fy8GLxNvpq4B/csQmcD+oGO3496h/T+B7SQPAqDV2I
+	Ss5cuM+Wbp/XbjIbTJ8N+vhg=
+Date: Thu, 23 May 2019 09:10:10 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190523061010.GA11736@localhost>
+References: <20190522013228.7591-1-raj.khem@gmail.com>
+	<20190522013228.7591-3-raj.khem@gmail.com>
+	<20190522064909.GA9621@localhost>
+	<CAMKF1sqj0+y_55xVf6SRjS1czodtioUYxVv1tbWU4_7AKYrzLw@mail.gmail.com>
 MIME-Version: 1.0
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 267e14d5-e077-45a5-1a9f-08d6deb33fbb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 May 2019 12:44:37.2561 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Rob.Walton@arm.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5064
-Subject: [PATCH 2/2] package.bbclass: Emit HOMEPAGE pkgdata.
+In-Reply-To: <CAMKF1sqj0+y_55xVf6SRjS1czodtioUYxVv1tbWU4_7AKYrzLw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/3] elfutils: Fix eu-* utils builds for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -81,29 +47,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 05:16:43 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 23 May 2019 06:10:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-RW1pdCB0aGUgY29udGVudHMgb2YgSE9NRVBBR0UgaW4gdGhlIGV4dHJhIHBrZ2RhdGEuIFRoaXMg
-aXMgdXNlZnVsDQppbmZvcm1hdGlvbiB0byBoYXZlIHdoZW4gY3JlYXRpbmcgbGljZW5zZSBtYW5p
-ZmVzdHMuDQoNClNpZ25lZC1vZmYtYnk6IFJvYiBXYWx0b24gPHJvYi53YWx0b25AYXJtLmNvbT4N
-Ci0tLQ0KIG1ldGEvY2xhc3Nlcy9wYWNrYWdlLmJiY2xhc3MgfCAxICsNCiAxIGZpbGUgY2hhbmdl
-ZCwgMSBpbnNlcnRpb24oKykNCg0KZGlmZiAtLWdpdCBhL21ldGEvY2xhc3Nlcy9wYWNrYWdlLmJi
-Y2xhc3MgYi9tZXRhL2NsYXNzZXMvcGFja2FnZS5iYmNsYXNzDQppbmRleCA0YzBhODU5Li5hMDhh
-ZWZlIDEwMDY0NA0KLS0tIGEvbWV0YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KKysrIGIvbWV0
-YS9jbGFzc2VzL3BhY2thZ2UuYmJjbGFzcw0KQEAgLTE0NTgsNiArMTQ1OCw3IEBAIGZpDQogICAg
-ICAgICB3cml0ZV9pZl9leGlzdHMoc2YsIHBrZywgJ1BLR1InKQ0KICAgICAgICAgd3JpdGVfaWZf
-ZXhpc3RzKHNmLCBwa2csICdMSUNFTlNFJykNCiAgICAgICAgIHdyaXRlX2lmX2V4aXN0cyhzZiwg
-cGtnLCAnREVTQ1JJUFRJT04nKQ0KKyAgICAgICAgd3JpdGVfaWZfZXhpc3RzKHNmLCBwa2csICdI
-T01FUEFHRScpDQogICAgICAgICB3cml0ZV9pZl9leGlzdHMoc2YsIHBrZywgJ1NVTU1BUlknKQ0K
-ICAgICAgICAgd3JpdGVfaWZfZXhpc3RzKHNmLCBwa2csICdSREVQRU5EUycpDQogICAgICAgICBy
-cHJvdiA9IHdyaXRlX2lmX2V4aXN0cyhzZiwgcGtnLCAnUlBST1ZJREVTJykNCi0tDQoyLjcuNA0K
-DQpJTVBPUlRBTlQgTk9USUNFOiBUaGUgY29udGVudHMgb2YgdGhpcyBlbWFpbCBhbmQgYW55IGF0
-dGFjaG1lbnRzIGFyZSBjb25maWRlbnRpYWwgYW5kIG1heSBhbHNvIGJlIHByaXZpbGVnZWQuIElm
-IHlvdSBhcmUgbm90IHRoZSBpbnRlbmRlZCByZWNpcGllbnQsIHBsZWFzZSBub3RpZnkgdGhlIHNl
-bmRlciBpbW1lZGlhdGVseSBhbmQgZG8gbm90IGRpc2Nsb3NlIHRoZSBjb250ZW50cyB0byBhbnkg
-b3RoZXIgcGVyc29uLCB1c2UgaXQgZm9yIGFueSBwdXJwb3NlLCBvciBzdG9yZSBvciBjb3B5IHRo
-ZSBpbmZvcm1hdGlvbiBpbiBhbnkgbWVkaXVtLiBUaGFuayB5b3UuDQo=
+On Wed, May 22, 2019 at 04:29:33PM -0700, Khem Raj wrote:
+> On Tue, May 21, 2019 at 11:49 PM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > On Tue, May 21, 2019 at 06:32:28PM -0700, Khem Raj wrote:
+> > >...
+> > > PN and PN-binutils is not empty anymore on musl
+> > >...
+> > > ++#if !defined(FNM_EXTMATCH)
+> > > ++# define FNM_EXTMATCH (1 << 5) /* Use ksh-like extended matching. */
+> > > ++#endif
+> > >...
+> >
+> > This might fix the compilation, but it is horribly wrong.
+> >
+> > It passes a flag to a function that this function does not understand.
+> >
+> > In the best case the function returns with an error on unknown flags.
+> >
+> > In the worst case the function does silently something different from
+> > what the caller expects it to do.
+> >
+> 
+> I forgot that the API is provided by libc here so mimic'ing the define
+> infact could
+> cause pain. I think its better to nullify it in this case where it is
+> being used in these
+> files.
+
+Just looking at the usage in src/elfcompress.c, my first impression is 
+that this tool is mostly useless without a properly working FNM_EXTMATCH.
+
+Are the eu-* utils actually important in the cases where space is so 
+limited that people are forced to use musl instead of glibc?
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
