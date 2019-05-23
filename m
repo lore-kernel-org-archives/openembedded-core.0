@@ -1,26 +1,26 @@
 Return-Path: <Kai.Kang@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B81E17E43C
+	by mail.openembedded.org (Postfix) with ESMTP id 5E5657E436
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 09:18:02 +0000 (UTC)
+	Thu, 23 May 2019 09:18:03 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4N9H7Cg006437
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4N9H7Ci006437
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 May 2019 02:17:17 -0700
+	Thu, 23 May 2019 02:17:33 -0700
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 23 May 2019 02:16:56 -0700
+	14.3.439.0; Thu, 23 May 2019 02:17:29 -0700
 From: <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 23 May 2019 16:25:57 +0800
-Message-ID: <20190523082558.3805-2-kai.kang@windriver.com>
+Date: Thu, 23 May 2019 16:25:58 +0800
+Message-ID: <20190523082558.3805-3-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190523082558.3805-1-kai.kang@windriver.com>
 References: <20190523082558.3805-1-kai.kang@windriver.com>
 MIME-Version: 1.0
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 1/2] local.conf.sample: make systemd as default init manager
+Subject: [PATCH v3 2/2] systemd-conf: configure wired network with dhcp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,51 +38,70 @@ Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Move configurations from local.conf.sample.extended to local.conf.sample
-to make systemd as default init manager for poky.
+Add a configure file for systemd.networkd to configure wired network
+interfaces with dhcp. It works with common network interfaces such eth0
+and eno1. And do not install it for qemu bsps.
 
-[YOCTO #13031]
+Refer to
+https://github.com/YoeDistro/meta-yoe/tree/master/recipes-core/systemd
+
+[YOCTO #13057]
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta-poky/conf/local.conf.sample          | 9 +++++++++
- meta-poky/conf/local.conf.sample.extended | 9 ---------
- 2 files changed, 9 insertions(+), 9 deletions(-)
+ meta/recipes-core/systemd/systemd-conf/wired.network | 9 +++++++++
+ meta/recipes-core/systemd/systemd-conf_242.bb        | 6 ++++++
+ 2 files changed, 15 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd-conf/wired.network
 
-diff --git a/meta-poky/conf/local.conf.sample b/meta-poky/conf/local.conf.sample
-index 9068e567dc..3a07105e44 100644
---- a/meta-poky/conf/local.conf.sample
-+++ b/meta-poky/conf/local.conf.sample
-@@ -249,3 +249,12 @@ PACKAGECONFIG_append_pn-nativesdk-qemu = " sdl"
- # track the version of this file when it was generated. This can safely be ignored if
- # this doesn't mean anything to you.
- CONF_VERSION = "1"
+diff --git a/meta/recipes-core/systemd/systemd-conf/wired.network b/meta/recipes-core/systemd/systemd-conf/wired.network
+new file mode 100644
+index 0000000000..253aee9382
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd-conf/wired.network
+@@ -0,0 +1,9 @@
++[Match]
++Name=en* eth*
 +
-+#
-+# Use systemd for system initialization
-+#
-+DISTRO_FEATURES_append = " systemd"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
-+VIRTUAL-RUNTIME_login_manager = "shadow-base"
-+VIRTUAL-RUNTIME_init_manager = "systemd"
-+VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
-diff --git a/meta-poky/conf/local.conf.sample.extended b/meta-poky/conf/local.conf.sample.extended
-index 26603debe6..e20fc5dbf3 100644
---- a/meta-poky/conf/local.conf.sample.extended
-+++ b/meta-poky/conf/local.conf.sample.extended
-@@ -377,12 +377,3 @@ DISTRO_FEATURES_remove = "x11"
- #VIRTUAL-RUNTIME_initscripts = "initscripts"
- #VIRTUAL-RUNTIME_keymaps = "keymaps"
- #DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
--
--#
--# Use systemd for system initialization
--#
--#DISTRO_FEATURES_append = " systemd"
--#DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
--#VIRTUAL-RUNTIME_login_manager = "shadow-base"
--#VIRTUAL-RUNTIME_init_manager = "systemd"
--#VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
++[Network]
++DHCP=yes
++
++[DHCP]
++RouteMetric=10
++ClientIdentifier=mac
+diff --git a/meta/recipes-core/systemd/systemd-conf_242.bb b/meta/recipes-core/systemd/systemd-conf_242.bb
+index 96beea53a7..d9ec023bfd 100644
+--- a/meta/recipes-core/systemd/systemd-conf_242.bb
++++ b/meta/recipes-core/systemd/systemd-conf_242.bb
+@@ -10,17 +10,22 @@ SRC_URI = "\
+     file://logind.conf \
+     file://system.conf \
+     file://system.conf-qemuall \
++    file://wired.network \
+ "
+ 
+ do_install() {
+ 	install -D -m0644 ${WORKDIR}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
+ 	install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
+ 	install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
++	install -D -m0644 ${WORKDIR}/wired.network ${D}${systemd_unitdir}/network/80-wired.network
+ }
+ 
+ # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
+ do_install_append_qemuall() {
+ 	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
++
++	# Do not install wired.network for qemu bsps
++	rm -rf ${D}${systemd_unitdir}/network
+ }
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+@@ -29,4 +34,5 @@ FILES_${PN} = "\
+     ${systemd_unitdir}/journald.conf.d/ \
+     ${systemd_unitdir}/logind.conf.d/ \
+     ${systemd_unitdir}/system.conf.d/ \
++    ${systemd_unitdir}/network/ \
+ "
 -- 
 2.18.0
 
