@@ -1,26 +1,49 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 5E5657E436
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
+	[209.85.167.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 9409D7E397
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 09:18:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4N9H7Ci006437
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 23 May 2019 02:17:33 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 23 May 2019 02:17:29 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 23 May 2019 16:25:58 +0800
-Message-ID: <20190523082558.3805-3-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190523082558.3805-1-kai.kang@windriver.com>
-References: <20190523082558.3805-1-kai.kang@windriver.com>
+	Thu, 23 May 2019 09:24:47 +0000 (UTC)
+Received: by mail-oi1-f195.google.com with SMTP id w9so3839858oic.9
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 23 May 2019 02:24:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kzZ8nmqOwDTFIfXjC6hmOQNWMPb4+3wE2GE5TFrw3Dw=;
+	b=A9xXEDDnrLVP94d9mljiQalIjUGrpAjzigHJx6AhMStG3jQ1fnzNspqdRZ3OVvVQ4B
+	qq+B5waCF4IRnt+OXAx3SLwIrwZGX1e/slSIGwkllmLZmkAtXRn5C8fqVuC2qNDMAuWw
+	oRJzQwE59LLhJJtFvZ9QMjtAiziqpZmuOWpTVW4qyoypsVY/Hx7Jc4hNVTLH/3UcQUdW
+	VWXHjya+E2WDtMo0RFdo06jmPjYebo7mf3r/jvA+X3HenpL8KM9W3DC8GjN4Uv+fQ3fb
+	pLzXjqGHDiBzdSNNEihRL9TQa3BKleSKOdPKqjJrgXEnjKQFXDoX1Bzf8se70zk+1LB4
+	bJnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kzZ8nmqOwDTFIfXjC6hmOQNWMPb4+3wE2GE5TFrw3Dw=;
+	b=KQeU6Oq2mekvieEVvbFszHesdziHa8vXvB8dRM8LishyQD+kUZ8mS4B6gg3J1SL3Ll
+	yjuojrNr9G8duAoy3bTfOhUIVRSYBQuiiapovf1G/gg2Y38AiusC9HZFgO94qr6jXnEG
+	TBAsBywK/IvcFyG622e2TBfzSledoyvhgZblMSILI4OO2qrrMyoj9Vd/AShyH0zHralj
+	yX7GKkuc5RtMFqQ/dGlRq5PeIP+CJpWC1TGDaSketps8CqxMw5JZt7nSO51jCnTqxQlq
+	kQt2wBIhet/nPJGV6Vvs+JTIHPCtSFjuzeZd09bagQ93RbGA8FQ7RVL4FCAvHwfowQME
+	3Phg==
+X-Gm-Message-State: APjAAAUPuWQWorbXB72wJACiItmDTgrmRr5qNo0P/XwDPylgD5fk01um
+	aU49fLtno/fJ9qj7JMjVN34rNNuFAmge8KqZGcY=
+X-Google-Smtp-Source: APXvYqxpL1e3PpBIkNeZh+p0AqU6sGv8jlvByZiCZkhXhoWGhYRY8YpBsitMbPW9e76mrPbvtwm5u47vDc5h9FCm4nc=
+X-Received: by 2002:aca:c450:: with SMTP id u77mr2057274oif.119.1558603488570; 
+	Thu, 23 May 2019 02:24:48 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3 2/2] systemd-conf: configure wired network with dhcp
+References: <20190517233743.9646-1-ross.burton@intel.com>
+	<CA+chaQdQSk_WCyJC+beE7i+Y8fuqSZxA_-tR4yGXYfDVsRKQaA@mail.gmail.com>
+	<e24b3dc06a6e7545cab9a5be19f2803df3f6f10b.camel@linuxfoundation.org>
+In-Reply-To: <e24b3dc06a6e7545cab9a5be19f2803df3f6f10b.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 23 May 2019 11:24:37 +0200
+Message-ID: <CANNYZj8BZn3h4kGytqqK7HDDT7=-u4_zkmjBfQAvUxbw+5sRaA@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] insane: add sanity checks to SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,76 +56,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 09:18:03 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 23 May 2019 09:24:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Kai Kang <kai.kang@windriver.com>
+On Thu, 23 May 2019 at 00:24, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> Ultimately I'd say that all these checks should work with INSANE_SKIP.
+> I was just wondering about this issue myself for the chkconfig
+> autobuilder warnings...
 
-Add a configure file for systemd.networkd to configure wired network
-interfaces with dhcp. It works with common network interfaces such eth0
-and eno1. And do not install it for qemu bsps.
+chkconfig can be easily addressed by switching to git:// I think. Patch coming.
 
-Refer to
-https://github.com/YoeDistro/meta-yoe/tree/master/recipes-core/systemd
-
-[YOCTO #13057]
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-core/systemd/systemd-conf/wired.network | 9 +++++++++
- meta/recipes-core/systemd/systemd-conf_242.bb        | 6 ++++++
- 2 files changed, 15 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd-conf/wired.network
-
-diff --git a/meta/recipes-core/systemd/systemd-conf/wired.network b/meta/recipes-core/systemd/systemd-conf/wired.network
-new file mode 100644
-index 0000000000..253aee9382
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd-conf/wired.network
-@@ -0,0 +1,9 @@
-+[Match]
-+Name=en* eth*
-+
-+[Network]
-+DHCP=yes
-+
-+[DHCP]
-+RouteMetric=10
-+ClientIdentifier=mac
-diff --git a/meta/recipes-core/systemd/systemd-conf_242.bb b/meta/recipes-core/systemd/systemd-conf_242.bb
-index 96beea53a7..d9ec023bfd 100644
---- a/meta/recipes-core/systemd/systemd-conf_242.bb
-+++ b/meta/recipes-core/systemd/systemd-conf_242.bb
-@@ -10,17 +10,22 @@ SRC_URI = "\
-     file://logind.conf \
-     file://system.conf \
-     file://system.conf-qemuall \
-+    file://wired.network \
- "
- 
- do_install() {
- 	install -D -m0644 ${WORKDIR}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
- 	install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
- 	install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
-+	install -D -m0644 ${WORKDIR}/wired.network ${D}${systemd_unitdir}/network/80-wired.network
- }
- 
- # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
- do_install_append_qemuall() {
- 	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
-+
-+	# Do not install wired.network for qemu bsps
-+	rm -rf ${D}${systemd_unitdir}/network
- }
- 
- PACKAGE_ARCH = "${MACHINE_ARCH}"
-@@ -29,4 +34,5 @@ FILES_${PN} = "\
-     ${systemd_unitdir}/journald.conf.d/ \
-     ${systemd_unitdir}/logind.conf.d/ \
-     ${systemd_unitdir}/system.conf.d/ \
-+    ${systemd_unitdir}/network/ \
- "
--- 
-2.18.0
-
+Alex
 
