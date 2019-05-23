@@ -1,47 +1,46 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A9C117E417
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com
+	[209.85.128.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 34BB77E417
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 10:34:59 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 7so5228172wmo.2
+	Thu, 23 May 2019 10:39:06 +0000 (UTC)
+Received: by mail-wm1-f50.google.com with SMTP id 7so5241679wmo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 03:35:01 -0700 (PDT)
+	Thu, 23 May 2019 03:39:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=1AB8JZSwBP/Pjd7oZW/pXdaeWfOs+2gKO/RMqjBMLQo=;
-	b=KW4biKvR2zPddbDWv078IRGvg4e//4u6GK2BFfroup5wHljmgO14fsD1SkT9L8gyHY
-	CweHsvFWct3O1XjR9UhL0H/EIBbrmyT/zFbrMCQRpBOjiFzgf6xfZZAknHNu8kO2AKV+
-	3zrB5fvyxovmTxrl1/7ZFffV8ilYvY/hFYIAonN/2XNcHhDAnT68vCXI22fUYQmV602g
-	1XU05qvDQvuOgxPM9Rw4gQkeAP1QbvXNjEvA129jMmPB101Zy4UNeTL1W1cZiCWJC9M1
-	nOP1iScP5hJZOmT9bn6LQJ6sdRe4g1yhCsvRStgp4uSNf+JcYIsnUS0KrY2r4Ui3oE9+
-	L0+g==
+	bh=5+JpE4Gs1GxKI5kmKQm2jcNwmVU7bEQK1t9HXhWVZjo=;
+	b=mC+Ot+/TfQ98hvfsStTwTxGDJG7ZNqTPKqKBhLevOvx9SyB8xK0o4Cx86sb1UyB3jI
+	94hhLY2N9YPjB2kn/7K/hdjgbBgewZgKoCVFY2PasRB3OHf4lPo6fypxrwhttWSjfXLe
+	Op1f9hSoTqqBWiagTlAisucb6LeF8mu//BqtZ3W19WdLlPDWwEIvthPBZwtcNcCJXpiy
+	ZE8+ixpcr7pSmeOId9qUXPC+rt9jMxABxvNmqPLlhZv8zt84AAXtp9p/ouBIZDzdzfBA
+	schldRl7VIwvA3XRnkJI8ZP5TBcJ6o8GGBdejnhsaU4/GDRXaA9zMCJUa30h/yKlVc0D
+	6taQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=1AB8JZSwBP/Pjd7oZW/pXdaeWfOs+2gKO/RMqjBMLQo=;
-	b=I06IgRSbVzCoHM29jX00kBtmzYCXUILGTT+GDeO2Q2Gl1JhNga9j0G7yZZu8gsdNrc
-	ZGRXorAHz3R09lRbvl8fQWfg26JnLWtZIn6PX3oktqS3ACGx/cNDDk05uf7y+b1WS6BO
-	fWW1dsubW/p+xdbspYoSRGyX0kGC6ceYA49ccTCHa8bZ1+05+HQECqIyGsXTocGlI3Ge
-	+tJ+zytG33Ti54eS/l0GETBak8f7imSu7+LWBHmtvfInsI+ZgJo3Ph2CBzLv+oZz+JNJ
-	fQ6PTYmr1RcPgpZ2rhPA1CNW9Ax6DE+HjxBppjONtZptn7Oxkcwp5XtBAC/nq6/GNVfS
-	TRCw==
-X-Gm-Message-State: APjAAAUAFOkgxZ13J+m+GBNVb/igyhnjk9ny/VdmyzTI+dMW2DE/X4fQ
-	yKI6gTwqSyYFX9wyRZ7z3FO4mlogfTI=
-X-Google-Smtp-Source: APXvYqwjFClv+9EXkNiqY+mBidWPfik5WXkqwvstqhEJ7Vp+4AtBDKwB5cegR0geFxj87/QRMwL8Fg==
-X-Received: by 2002:a7b:c40e:: with SMTP id k14mr10735201wmi.114.1558607700448;
-	Thu, 23 May 2019 03:35:00 -0700 (PDT)
+	bh=5+JpE4Gs1GxKI5kmKQm2jcNwmVU7bEQK1t9HXhWVZjo=;
+	b=a6VF3Vs8q2rBgUO3gjw7RfVYujZcwVva6+Lm1/8U3r3gvyNKUREiLSPlgjvjdT10ze
+	R/YOZqRFLvnxhm8GgaWvDIZ38GD+l45R9FMhazXfKOKNtKaMJrZYTjB5wsG6YN+kkeVJ
+	OK6RwX5UivGhwEtIqESIKgtuDB4dx9eSPAT8gklZ5Gsb64lF6HBPuJcOvSvLU++YZU+c
+	VC3cyy5aiaisU57TsqkwIS8Rv6KHo5cRmZHc1qYSmNwKZCCKZVPouY/YCX2Hcvc7eNN2
+	g4uJvWCzxWgiCJohG5ZKsqD3W2JvxZMcTlggmgZHmObsBvbNQkyfjp/JuHrKRizzNr+/
+	zVHQ==
+X-Gm-Message-State: APjAAAWAadk9n/F5xXnn/IjPNWCfu5xTprIwybXM2gZ2Bp81l1FEYAJM
+	wKAwewPgwYDE/xZFUNiF633qJQj0YsU=
+X-Google-Smtp-Source: APXvYqxUaVAQk5aeWGLqJkB+bAvhKvNaIcvQHF6PoKR3LDhL4k4a8sS/lcN/zO5RR4TSunwQSkxyZA==
+X-Received: by 2002:a1c:cf4c:: with SMTP id f73mr10617485wmg.118.1558607946655;
+	Thu, 23 May 2019 03:39:06 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	o8sm22794075wrx.50.2019.05.23.03.34.59
+	by smtp.gmail.com with ESMTPSA id q9sm9398289wmq.9.2019.05.23.03.39.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 03:34:59 -0700 (PDT)
+	Thu, 23 May 2019 03:39:05 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 23 May 2019 12:34:55 +0200
-Message-Id: <20190523103455.93827-1-alex.kanavin@gmail.com>
+Date: Thu, 23 May 2019 12:39:00 +0200
+Message-Id: <20190523103900.93969-1-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] chkconfig: do not use unstable github archive tarballs
+Subject: [PATCH] chkconfig: fix upstream version check
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,35 +53,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 10:35:00 -0000
+X-List-Received-Date: Thu, 23 May 2019 10:39:06 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-index 2f1f6c02640..788a37b6ed0 100644
+index 788a37b6ed0..d21dd697042 100644
 --- a/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
 +++ b/meta/recipes-extended/chkconfig/chkconfig_1.3.58.bb
-@@ -18,14 +18,13 @@ PR = "r7"
- 
- S = "${WORKDIR}/${BPN}-${BPN}-${PV}"
- 
--UPSTREAM_CHECK_URI = "https://github.com/fedora-sysv/${BPN}/releases"
--
--SRC_URI = "https://github.com/fedora-sysv/chkconfig/archive/chkconfig-${PV}.tar.gz \
-+SRC_URI = "git://github.com/fedora-sysv/chkconfig.git \
-            file://replace_caddr_t.patch \
+@@ -23,6 +23,7 @@ SRC_URI = "git://github.com/fedora-sysv/chkconfig.git \
            "
  
--SRC_URI[md5sum] = "3f51ac38a234be5278b3a2d9705eda5e"
--SRC_URI[sha256sum] = "bf1e81f0d7cc999b536c9fe7877abf584a4082fd03c9d2597b6f090966579b40"
-+SRCREV = "3e0b3909ff6328d232b27b9c32f1a9309c6cd0a4"
-+
-+S = "${WORKDIR}/git"
+ SRCREV = "3e0b3909ff6328d232b27b9c32f1a9309c6cd0a4"
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
  
- inherit gettext
+ S = "${WORKDIR}/git"
  
 -- 
 2.17.1
