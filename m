@@ -1,30 +1,48 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 15EDC7E3DF
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-ua1-f68.google.com (mail-ua1-f68.google.com
+	[209.85.222.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A16E7DE82
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 01:49:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4N1mGdp028338
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 22 May 2019 18:48:26 -0700
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 22 May 2019 18:48:05 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<alex.kiernan@gmail.com>, <raj.khem@gmail.com>
-References: <20190521092249.175461-1-kai.kang@windriver.com>
-	<20190521092249.175461-2-kai.kang@windriver.com>
-	<e82f3bf27fdc19d7fc434d4be43661dc166dd8aa.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <ad75951d-7da6-8183-768b-127fa94d398a@windriver.com>
-Date: Thu, 23 May 2019 09:47:14 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Thu, 23 May 2019 02:07:59 +0000 (UTC)
+Received: by mail-ua1-f68.google.com with SMTP id r7so1634701ual.2
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 22 May 2019 19:08:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=NnHEeG9ds+KuL4AdX1zoPiXeOJtsJQyRYhcA8+uTXQo=;
+	b=I0PDwSflX85XmRQ5FKnDQiClPtRukYjlOIPgMsxGdiTw3oO7Re5quLul5w9gTPl6EN
+	yutS+SiEewWtuLId+ahkte8pBbf6tbDEUrkPfoUentahTXPReFy6ndx/gMhhp6wq1ARV
+	v3ye/QD+0HhawyVRx4lIKVuMDtHO7YofZ6hDifw+upqOXyZ2m4yTNJzqEElo+VkKlQL+
+	pVQzsZuiV2sCuB6zs/Lr2+/n1oTWwVoVZw7DI2RySuzB295uO+FHRdpXEk73lJBsmAUV
+	nH6vRb6dwWeyacDkMf0G/Qf683mZ1vRBh7JNUiG96do+EqcRMIFTGfHA8059jdVw+7ar
+	UbWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=NnHEeG9ds+KuL4AdX1zoPiXeOJtsJQyRYhcA8+uTXQo=;
+	b=V7kwflocsuLPnMn4lEMemNRtuWLsPs4slZjYEyf6H2xIx43W23Xms4+va30UVf4jJ5
+	eZrXAs+XFFfEIkY2RXojoUZ2H2qKNea+9Fh75GOna60jXL7IdXaqnBIgSd2ZNNG9v8Pa
+	BPln8ERhbzsWd5HUBDDpmCvnRtn76u4Q9HxODSRhegrDs0DF7AlxDMxeRdRC9sDw5DNT
+	nnS2CvYe8QBvUH6fkJpWMhLu6Lj+CnHdct/rbnbZd0Ni8IhRXejZ9h2rkn4hAC9iKsNN
+	8cSCYAZiMSdPEqJwxQNnH5TlCy+Ljd2pSHUs2i0EYBTQEp1Wcv4m6/hvUN2+aHVfHpQr
+	PXTw==
+X-Gm-Message-State: APjAAAWAaRLVqUYa81vipldZKMzMKj4h4KJan/NYaYr+IFM40d1gweKj
+	dQqhWy0vzYpdlwByvJDZjYKpduKW9YtEBiQZDAI=
+X-Google-Smtp-Source: APXvYqyNhXi7jx6/Jicom8vQAHzn0RxP69IsRk/6/XZWoBA7zsGRcUSi9Hmt07dwu0ZV8yyWyE17NTUEFJ/iKQCdzxc=
+X-Received: by 2002:a9f:3045:: with SMTP id i5mr33187492uab.81.1558577280358; 
+	Wed, 22 May 2019 19:08:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <e82f3bf27fdc19d7fc434d4be43661dc166dd8aa.camel@linuxfoundation.org>
-Cc: paul.eggleton@linux.intel.com, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/1] systemd-conf: configure wired network with dhcp
+References: <20190522082954.24027-1-bunk@stusta.de>
+	<CAMKF1sq6rAKP-dVYa1F9Ae_LOo6uSUO8wHebTaytROasdLUDNQ@mail.gmail.com>
+In-Reply-To: <CAMKF1sq6rAKP-dVYa1F9Ae_LOo6uSUO8wHebTaytROasdLUDNQ@mail.gmail.com>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Wed, 22 May 2019 19:07:48 -0700
+Message-ID: <CAJ86T=V+vBAbb7rFfB8qAJYYk9BcJDpSp98LnxvjLXHW7hPQ8Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH] squashfs-tools: Mark as incompatible with musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,51 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 01:49:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 23 May 2019 02:07:59 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2019/5/21 下午8:09, Richard Purdie wrote:
-> On Tue, 2019-05-21 at 05:22 -0400, kai.kang@windriver.com wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> Add a configure file for systemd.networkd to configure wired network
->> interfaces with dhcp. It works with common network interfaces such
->> eth0
->> and eno1.
->>
->> Refer to
->> https://github.com/YoeDistro/meta-yoe/tree/master/recipes-core/systemd
->>
->> [YOCTO #13057]
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta/recipes-core/systemd/systemd-conf/dhcp.network | 9 +++++++++
->>   meta/recipes-core/systemd/systemd-conf_242.bb       | 5 +++++
->>   2 files changed, 14 insertions(+)
->>   create mode 100644 meta/recipes-core/systemd/systemd-
->> conf/dhcp.network
-> This seems to result in the failures in:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/617
+On Wed, May 22, 2019 at 6:35 PM Khem Raj <raj.khem@gmail.com> wrote:
+> On Wed, May 22, 2019 at 1:30 AM Adrian Bunk <bunk@stusta.de> wrote:
+> >
+> > Silently ignoring FNM_EXTMATCH makes fnmatch()
+> > behave different from what callers expect.
+> >
+> > Mark as incompatible with musl instead of risking
+> > broken runtime behaviour.
+> >
+> > The practical consequences should be small since
+> > what is used in OE is mainly squashfs-tools-native.
 
-Sorry, there was something wrong during my verify build and test. v3 
-will be sent.
+The OE patch seems to take the same approach as the (3 year old)
+upstream fix for the same issue, so if there are concerns maybe good
+to raise them with upstream...
 
-Regards,
-Kai
+  https://github.com/plougher/squashfs-tools/commit/4280e74de14070869787a9166242f9ce2dafd82e
 
-
->
-> Cheers,
->
-> Richard
->
->
-
--- 
-Kai Kang
-
+It does look dubious to me though... and since the patterns passed to
+fnmatch() look like they ultimately come from the command line,
+problems might only show up with more advanced usage of the squashfs
+tools.
 
