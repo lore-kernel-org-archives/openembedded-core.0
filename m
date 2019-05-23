@@ -1,55 +1,56 @@
-Return-Path: <dpfrey@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B48C17E141
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B30FE7E1F7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 16:12:06 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id a23so3507352pff.4
+	Thu, 23 May 2019 16:30:41 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id t184so10782119itf.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 09:12:08 -0700 (PDT)
+	Thu, 23 May 2019 09:30:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=v9Y3WtmYARPCY6qhBb5ETh8N/fsNtyKD9Q/sV1cWRMQ=;
-	b=sJsQ+Wt8N8RUZS10zZM7kxUvj/PB3AXPNJPI4X2uqSF5ZgxFytX4sCRxNiov1BnR+H
-	WrOWyjlMxutWt4lInGM4blc+0L7e8PnQcs/Ooj+Izy6U30morZkhgMQQcBqznj9VIupo
-	eV4CCdiCDyx6xU+NlYAtXcObm64qeDORmzz8EaG/EBQM81cgUlFHy7wXrXAywAO3LGqa
-	hwoh1OTOI1SVs8+16h+02meuKIAD+ZaEhoxO7bTBmsM9bnKRDJ/CIy6yZerfmohNL7Dq
-	CGH7QZLrKg2pt9pts2XQ91ZJsedpSIPILv3dDZO3d7vyUotmqBLq0Ma4gILeXzNOt7Gl
-	yOOA==
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=jv59bbZzVYSAztlKb8x/rgmAmxvZD28QeomUW++jCU0=;
+	b=QRBz/FBspmryXZBi44eZWgufR3dvMmL8vrljdosQ/oLEzRJsFVzenatPsSZQ8zt0dT
+	unvqC0Y7aYi/nViyVT4LYdlq2rPBbPLnY1wc9zYnbCYT9qqZQCZKNiJTJOQU5tdpWw2U
+	OV+AneTtYhAEiRzz7HQbq0UKYvtzBYytn3eUm1HUVe4h/vWR4i0zRioR2hGwAJxuSfg0
+	FVcHvimizCcIH2NTNd+CHgUCs/Sq/9dmw6eStxBEke78REL4WpqKxOSRlD+x3xowF1TZ
+	qTa1lz6GPOomGm61o77wq9zHfAz1uX2R6+YK3wlDTMz4hIVGFJMFvFUCc2pdgdLH5OTM
+	c2pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=v9Y3WtmYARPCY6qhBb5ETh8N/fsNtyKD9Q/sV1cWRMQ=;
-	b=AmrerM15pLdRlcnTL0ce4wtwCQdWXiF65TJKmQyVmLnAlyln6/zKEhetXTXapHHwb6
-	5rfJtaxxX7XhyWF3TGYOa5e7LvlGZyUbMIn3B9dEQn7vVohpElFo5GDPbmUH+ek1LpbV
-	feFqUrM1cgi5H8z1LI1mqWby/Y7JDuJbfOLt9OzNgcl/OP85UN5yRad25BbW9EZWZvbe
-	dNj1MFShamGBzDphQtlbCxvqCooSDhN11FaI60az+waM5iSPW4HSqX119iGBqXjk/NGS
-	CuMdm8QmhQ+fjg+7dtQNlfVDfJMVgtj7UW8cD80U/AYPbKAcK/mKnh+9sqK1FbfzWlKu
-	cYHQ==
-X-Gm-Message-State: APjAAAVMdaXqlY0QunJ6WFK2XEBs1Q/3let5HFmqjoXmy63ZalecDVDw
-	8Pkv+qNR2tQ68zY93FWuMuTrZCJtxn8=
-X-Google-Smtp-Source: APXvYqwmvA0yUxSMscjoWi7c+S2j6i0xDJ0392woXzNrox0/WzCXfclos75hiF80EpLn8mXZbnP2+Q==
-X-Received: by 2002:a62:38cc:: with SMTP id
-	f195mr104582033pfa.15.1558627927809; 
-	Thu, 23 May 2019 09:12:07 -0700 (PDT)
-Received: from [192.168.1.13] ([172.103.152.101])
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=jv59bbZzVYSAztlKb8x/rgmAmxvZD28QeomUW++jCU0=;
+	b=JwJ3vZpBnc+a+FnL5m9/9V7D85MNm7tlou8Ja9XVJyztQqhOpoo7TKNgQZH9xIUKXE
+	Epa7H5ENnbwg16Jdr6P451K7STDVUrFZIpfXT1nDTKb14zXXQAi1g820QsJNn9fS5/rZ
+	IjeTVYvEiRJ3Y/UxyqPwMA/xHd15rja4LUzSAuToLGL+sKUrC+c+VX9pE3Fdf2OtC99I
+	DmzxjoAimfiL+68eyAxicXQ6FsAnWmJJZvtm77cmw0ThZZhJjYo1ZGny2dw0OIjeNqz4
+	Cbovl054+CzXC6Ed43Acwa41XguGFqEz0dVaOA4Md6PG+tt4Zqwdz0NmhLzMmSlEZ5XG
+	DNqg==
+X-Gm-Message-State: APjAAAUD/8bzxWZhJl0orlDm34AUUQ2ypIonruO+p+ja4Rll8tIkR1Js
+	xPaRlbjDHzLYrZkpP7xyNoRLhnwn
+X-Google-Smtp-Source: APXvYqxHUnoM7mSNqsaU8+k4k2ceGZCJTzOKi2u/LjgQcL7aNUyuIXDiMfclOLUKQ8atUhgjJFFs8A==
+X-Received: by 2002:a24:c503:: with SMTP id f3mr13503490itg.135.1558629042357; 
+	Thu, 23 May 2019 09:30:42 -0700 (PDT)
+Received: from [10.30.197.57] ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	q125sm46373226pfq.62.2019.05.23.09.12.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 09:12:07 -0700 (PDT)
-To: Adrian Bunk <bunk@stusta.de>
+	c22sm9210834ioa.41.2019.05.23.09.30.41
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 23 May 2019 09:30:41 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: David Frey <dpfrey@gmail.com>, Adrian Bunk <bunk@stusta.de>
 References: <20190522215541.9689-1-dpfrey@gmail.com>
 	<20190522220331.GA4681@localhost>
-From: David Frey <dpfrey@gmail.com>
-Message-ID: <8a1d53dd-926e-5576-3655-089583d0da4a@gmail.com>
-Date: Thu, 23 May 2019 09:12:05 -0700
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	<8a1d53dd-926e-5576-3655-089583d0da4a@gmail.com>
+Message-ID: <6d5130a1-a52c-0e1f-3ff8-ed5c9234fe9f@gmail.com>
+Date: Thu, 23 May 2019 11:30:35 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190522220331.GA4681@localhost>
+In-Reply-To: <8a1d53dd-926e-5576-3655-089583d0da4a@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH] bluez5: remove udev dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -64,56 +65,67 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 23 May 2019 16:12:06 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+X-List-Received-Date: Thu, 23 May 2019 16:30:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On 5/22/2019 3:03 PM, Adrian Bunk wrote:
-> On Wed, May 22, 2019 at 02:55:41PM -0700, David Frey wrote:
->> udev is an optional dependency of bluez5, so use PACKAGECONFIG to allow
->> users to decide if they want udev support.
->>
->> Signed-off-by: David Frey <dpfrey@gmail.com>
->> ---
->>  meta/recipes-connectivity/bluez5/bluez5.inc | 3 ++-
->>  1 file changed, 2 insertions(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
->> index aaf2af975d..568de86d6d 100644
->> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
->> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
->> @@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
->>  LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->>                      file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
->>                      file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
->> -DEPENDS = "udev dbus-glib glib-2.0"
->> +DEPENDS = "dbus-glib glib-2.0"
->>  PROVIDES += "bluez-hcidump"
->>  RPROVIDES_${PN} += "bluez-hcidump"
->>  
->> @@ -43,6 +43,7 @@ PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
->>  PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
->>  PACKAGECONFIG[mesh] = "--enable-mesh,--disable-mesh, json-c ell"
->>  PACKAGECONFIG[btpclient] = "--enable-btpclient,--disable-btpclient, ell"
->> +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
->> ...
-> 
-> Unless there is a good reason to do otherwise, this should be added to 
-> the default PACKAGECONFIG so that the set of features enabled by default 
-> stays the same.
 
-I think bluez5 should be built with udev support if udev is going to be
-part of the system, but I don't think udev should be brought in as a
-dependency of bluez5 by default.  How can I express this?  I *think*
-this is what is done for systemd in the PACKAGECONFIG with this fragment:
-  ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}
+On 5/23/19 11:12 AM, David Frey wrote:
+> On 5/22/2019 3:03 PM, Adrian Bunk wrote:
+>> On Wed, May 22, 2019 at 02:55:41PM -0700, David Frey wrote:
+>>> udev is an optional dependency of bluez5, so use PACKAGECONFIG to allow
+>>> users to decide if they want udev support.
+>>>
+>>> Signed-off-by: David Frey <dpfrey@gmail.com>
+>>> ---
+>>>   meta/recipes-connectivity/bluez5/bluez5.inc | 3 ++-
+>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+>>> index aaf2af975d..568de86d6d 100644
+>>> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+>>> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+>>> @@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
+>>>   LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
+>>>                       file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
+>>>                       file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
+>>> -DEPENDS = "udev dbus-glib glib-2.0"
+>>> +DEPENDS = "dbus-glib glib-2.0"
+>>>   PROVIDES += "bluez-hcidump"
+>>>   RPROVIDES_${PN} += "bluez-hcidump"
+>>>   
+>>> @@ -43,6 +43,7 @@ PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
+>>>   PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
+>>>   PACKAGECONFIG[mesh] = "--enable-mesh,--disable-mesh, json-c ell"
+>>>   PACKAGECONFIG[btpclient] = "--enable-btpclient,--disable-btpclient, ell"
+>>> +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
+>>> ...
+>> Unless there is a good reason to do otherwise, this should be added to
+>> the default PACKAGECONFIG so that the set of features enabled by default
+>> stays the same.
+> I think bluez5 should be built with udev support if udev is going to be
+> part of the system, but I don't think udev should be brought in as a
+> dependency of bluez5 by default.  How can I express this?  I *think*
+> this is what is done for systemd in the PACKAGECONFIG with this fragment:
+>    ${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}
 
-This uses DISTRO_FEATURES and based on this
-(https://www.yoctoproject.org/docs/2.7/mega-manual/mega-manual.html#ref-features-distro),
-it seems that there is no "udev" distro feature, so I'm not sure how to
-proceed.
+I think it already is a dependency by default (before your patch). We 
+would like this to remain the default for current consumers of bluez 
+after your patch. I think the easiest way to do this is to have your 
+patch add "udev" to the default PACKAGECONFIG for the recipe. Then, in 
+your local.conf/distro.conf/whatever you can override the PACKAGECONFIG 
+for the recipe to remove udev for your use case.
 
-Thanks,
-David
+This way, your patch allow you to have bluez without udev, but you won't 
+break everyone else by suddenly removing it.
+
+>
+> This uses DISTRO_FEATURES and based on this
+> (https://www.yoctoproject.org/docs/2.7/mega-manual/mega-manual.html#ref-features-distro),
+> it seems that there is no "udev" distro feature, so I'm not sure how to
+> proceed.
+>
+> Thanks,
+> David
 
