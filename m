@@ -1,57 +1,51 @@
-Return-Path: <tanuk@iki.fi>
-X-Greylist: delayed 387 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 24 May 2019 19:06:08 UTC
-Received: from out4-smtp.messagingengine.com (out4-smtp.messagingengine.com
-	[66.111.4.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E82C7E508
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 448977E4E4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 19:06:08 +0000 (UTC)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-	by mailout.nyi.internal (Postfix) with ESMTP id EB38821C47;
-	Fri, 24 May 2019 14:59:39 -0400 (EDT)
-Received: from mailfrontend2 ([10.202.2.163])
-	by compute5.internal (MEProxy); Fri, 24 May 2019 14:59:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:date:from:in-reply-to:message-id:mime-version:references
-	:subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-	:x-sasl-enc; s=fm2; bh=78w2IJM5cQIsvxPMCeMAesM3vTwGGWQKQ7Ahw8wwz
-	PM=; b=fGimiILCY7rY+hwcnbToY6kQtpU2BenvEwiP8HSOTc7EzKG8yM8pr33BJ
-	0Z6g1JhehjiLX4wF8B5WV9+rgV1F9tMnthJ3LxbN0u6R8exs4oTGsC++2+BCrcRI
-	LcA6YSJO/qKf4nvqglVNO9jpH4Brx2mKUS2oO8WD9isZRSEptTiCipMEkrrwvLXx
-	Gu8dRnw6ccSfykh59mNJgn3HkNOzni/7J5dxuCHORXk7svkRcUPa6KqmiwXyDz5j
-	6pn3eD0DWHA7LqCva+Ihk0ddKAH3k8CuwL59nkLPMangkv9TQCqnurWB0A/Ogcsj
-	zZ+bMXxiqkLqI4iYwS1rsnTLDZBtw==
-X-ME-Sender: <xms:Gz_oXH33_HgwtFqwwleBTY-L3zVZe9K_Ce7j5j5FDHMEFtsumCkxnA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduuddrudduiedgudefhecutefuodetggdotefrod
-	ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-	necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-	enucfjughrpefkuffhvfffjghftggfggfgsehtjeertddtreejnecuhfhrohhmpefvrghn
-	uhcumfgrshhkihhnvghnuceothgrnhhukhesihhkihdrfhhiqeenucffohhmrghinheplh
-	hisggvrhgrphgrhidrtghomhdpohhpvghnvghmsggvugguvggurdhorhhgpdhprghtrhgv
-	ohhnrdgtohhmnecukfhppeduledvrdegtddrleehrdefjeenucfrrghrrghmpehmrghilh
-	hfrhhomhepthgrnhhukhesihhkihdrfhhinecuvehluhhsthgvrhfuihiivgeptd
-X-ME-Proxy: <xmx:Gz_oXJFk6tHrPamdYWlt2MG-HKM5W827z15bKmPeL7VC4Tq5qSIFKw>
-	<xmx:Gz_oXDga10bmfQL6_jDGx6jQR9XckPFUnk7CpGcz_kk8nQAGLFkXig>
-	<xmx:Gz_oXLgEjGl7jRb8Qq5i7SKTbVHxrZtkFqpyKRC-QrmRsrdQ3tyuHQ>
-	<xmx:Gz_oXEZnmxnngCihy9mWmhqT7M1U9r9vv80CmQbDykBuZ2IUlGPyBA>
-Received: from laptop (unknown [192.40.95.37])
-	by mail.messagingengine.com (Postfix) with ESMTPA id 0A938380083;
-	Fri, 24 May 2019 14:59:37 -0400 (EDT)
-Message-ID: <d06ff93257184dae284426f6d8f52672f351f1af.camel@iki.fi>
-From: Tanu Kaskinen <tanuk@iki.fi>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Ming Liu
-	<liu.ming50@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 May 2019 21:59:29 +0300
-In-Reply-To: <a59002825b793658afa2606f0d110d70a08e2384.camel@linuxfoundation.org>
-References: <1558679856-10339-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
-	<CALatG=5SSBOa_TyQh8vY-iYshvp6+XHCS-Lg7tHCg_-qSay2YQ@mail.gmail.com>
-	<a59002825b793658afa2606f0d110d70a08e2384.camel@linuxfoundation.org>
-User-Agent: Evolution 3.30.5-1 
+	Fri, 24 May 2019 19:14:56 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id l25so15697515eda.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 May 2019 12:14:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wuL+W+YYAhdiK9Vt9TiAkHBOJMT2UJ09IYVJlzdirGw=;
+	b=Eu/tniXD3c5YknCSAiLcZDjdXAXRjdyYEWGGoV3bKLuJXmCqIw7cxoMJ/n1aiH5dj4
+	AVWf5pUIdthnIYnJz4M8inHinKvm5nGQk1gWXmy8JcBK5maJ0KZ3dpMbNmi83hQx6p7R
+	Gr7jdSo2cBU05bc3QixBT64nrTA1AiHlqLaL9yw1xdXl/wQ9Km+w+DXt4vGWlpgppwUs
+	Pv3t3WYZCjfdrQakCuBPuln2VGnJS+xLvfxsaSkF/eXAco0VJ4ngkjyqOX4ryOTjeOss
+	AqXLJlSAk7Szp4sQqkVuS8mfZeDMKUyg6UhFhAqHoA1k5ogw5bJ8c8hDtdeXyLKHmVsG
+	zoPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wuL+W+YYAhdiK9Vt9TiAkHBOJMT2UJ09IYVJlzdirGw=;
+	b=sFaeMQ7lZ7YZKlij5SMDK5ly0vlO2sEiido0M2R9MfI7dnjc0zZf/EiOnOCOOaeMNK
+	o3ZvdKgrgHZAoWxrdNOwA9V53wCNqxKRntOku9Azrtaep0i+dX+irTAZiVVaWIKIDanL
+	cqhV8x04BST+AAc607mhLShANzyLqPrqYtD6opDHHJWIKthMKm2jv7Qv5tHOp3w1l/GR
+	Xmujo55D9LiEzwHjTeros04GmqYx55LZICUUrpxnd/3gcn1Y2wV6rtKk/Tw5pFoKL5yX
+	GHz8OoxtHwst4dNsBGtYKw/DkIs8yLhXpcQA0bDOomyrPNk2XDmFwIhODwkuPU9AJRAg
+	HbVg==
+X-Gm-Message-State: APjAAAWWf+Zi8m0kzk/kbbqP9tjpZMIOBIlAvB1aWsS0JEwTw83YeaPp
+	z12heXbVqXnbmKOctakcuZQv70mb1bg+bTrZU9M=
+X-Google-Smtp-Source: APXvYqxKqRd14DJSRYpeDTE1bp4xKt8DTMPpzRgp74cV/ar3Oie26eqjpe5vdnjaJQeaLhyZoeSPPdpYbZAHuP8xrPU=
+X-Received: by 2002:a17:906:d79a:: with SMTP id
+	pj26mr49648510ejb.205.1558725296910; 
+	Fri, 24 May 2019 12:14:56 -0700 (PDT)
 MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] alsa-utils: fix multilib names
+References: <cover.1558664136.git.Qi.Chen@windriver.com>
+	<ff55bb58704a56b9957b36863b704dad3d69ea0f.1558664136.git.Qi.Chen@windriver.com>
+	<17c3408af1ebd7edc0f9c99c0bbec3617e8885b9.camel@linuxfoundation.org>
+	<CAMKF1so1cOr78PRop6cLi+w7GTSSnKgniOpNyJxgDU_EVSbkfw@mail.gmail.com>
+In-Reply-To: <CAMKF1so1cOr78PRop6cLi+w7GTSSnKgniOpNyJxgDU_EVSbkfw@mail.gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 24 May 2019 21:14:46 +0200
+Message-ID: <CA+chaQf--h3zXut4+ahWea1AU_d6Uv=eFk1UuuCts8Xj_S9S=g@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] systemd: avoid musl specific patches affect glibc systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,60 +58,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 19:06:09 -0000
+X-List-Received-Date: Fri, 24 May 2019 19:14:56 -0000
+Content-Type: multipart/alternative; boundary="0000000000009ff8ba0589a70315"
+
+--0000000000009ff8ba0589a70315
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-05-24 at 18:18 +0100, Richard Purdie wrote:
-> On Fri, 2019-05-24 at 15:19 +0200, Ming Liu wrote:
-> > Wouldn't that break the alsa-utils-scripts? Since ALSA_UTILS_PKGS is
-> > being depended by both alsa-utils and alsa-utils-scripts.
-> > 
-> > I did that in V1, but as Richard Purdie pointed out, it will break
-> > the alsa-utils-scripts build.
-> 
-> I was about to say we should refactor these recipes and create a common
-> inc file.
-> 
-> Looking at the justification in alsa-utils (avoid a bash dependency),
-> that is a runtime issue, not a build time one. We should merge these
-> recipes and ensure the packaging remains the same.
-> 
-> We can then avoid some of these problems, use PN and have a simpler
-> recipe. These changes should be done in multiple commits, one per
-> change as usual.
-> 
-> Is there any reason I'm missing not to do this?
+It's still nicer to have
+SRC_URI_append_libc-musl = " ${SRC_URI_MUSL}"
+if the intermediate SRC_URI_MUSL variable is useful.
 
-I'm not sure if you already found the original commit[1] that
-introduced this split. The commit message is:
+On Fri, May 24, 2019 at 7:59 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-    alsa-utils: Move alsaconf to its own recipe
-    
-    18575b082a4042376fd1575465e69562dea04ddc added bash as a dependency of
-    alsa-utils-alsaconf so that the script interpreter will be available at
-    run time.  However, this has the undesirable side effect of making bash
-    be a build dependency for alsa-utils and, for those folks who don't need
-    alsaconf but do want some other part of alsa-utils, this cure is worse
-    than the original disease.
-    
-    Fix this by moving alsaconf to a separate recipe so that the bash
-    dependency only applies when alsaconf is specifically requested.
-    
-    Signed-off-by: Phil Blundell <philb@gnu.org>
-    Signed-off-by: Saul Wold <sgw@linux.intel.com>
+> On Fri, May 24, 2019 at 10:31 AM Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+> >
+> > On Fri, 2019-05-24 at 10:17 +0800, Chen Qi wrote:
+> > > systemd upstream only care about glibc. We made musl specific
+> > > patches so that systemd could work. But currently these patches
+> > > contain potential security issues.
+> > >
+> > > So apply these patches only when the libc is musl.
+> > >
+> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> > > ---
+> > >  meta/recipes-core/systemd/systemd_242.bb | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-
+> > > core/systemd/systemd_242.bb
+> > > index 2dda0d0..adb592f 100644
+> > > --- a/meta/recipes-core/systemd/systemd_242.bb
+> > > +++ b/meta/recipes-core/systemd/systemd_242.bb
+> > > @@ -27,7 +27,7 @@ SRC_URI += "file://touchscreen.rules \
+> > >             "
+> > >
+> > >  # patches needed by musl
+> > > -SRC_URI += "${SRC_URI_MUSL}"
+> > > +SRC_URI += "${@d.getVar('SRC_URI_MUSL') if d.getVar('TCLIBC') ==
+> > > 'musl' else ''}"
+> > >  SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-
+> > > available.patch \
+> > >                 file://0002-don-t-use-glibc-specific-qsort_r.patch \
+> > >                 file://0003-missing_type.h-add-__compare_fn_t-and-
+> > > comparison_fn_.patch \
+> >
+> > Doesn't the usual SRC_URI_append_libc-musl = "X" work?
+> >
+>
+> yes this should be better, SRC_URI_MUSL was introduced so someone
+> could override it
+> but if we make it optional then using override is better I think
+>
+> > Cheers,
+> >
+> > Richard
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
 
-I can't really judge if that justification makes sense. If the
-justification is valid, maybe there's a better solution for avoiding
-the build dependency on bash for those people who don't need the
-scripts?
+--0000000000009ff8ba0589a70315
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-[1] http://cgit.openembedded.org/openembedded-core/commit/?id=7317c8055cf3af8912a66badb3074f0a60f75ec2
+<div dir=3D"ltr"><div>It&#39;s still nicer to have</div>SRC_URI_append_libc=
+-musl =3D &quot; ${SRC_URI_MUSL}&quot;<br><div>if the intermediate SRC_URI_=
+MUSL variable is useful.</div></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, May 24, 2019 at 7:59 PM Khem Raj &lt;=
+<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br>=
+</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
+order-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, May 24, 201=
+9 at 10:31 AM Richard Purdie<br>
+&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
+>richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; On Fri, 2019-05-24 at 10:17 +0800, Chen Qi wrote:<br>
+&gt; &gt; systemd upstream only care about glibc. We made musl specific<br>
+&gt; &gt; patches so that systemd could work. But currently these patches<b=
+r>
+&gt; &gt; contain potential security issues.<br>
+&gt; &gt;<br>
+&gt; &gt; So apply these patches only when the libc is musl.<br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Chen Qi &lt;<a href=3D"mailto:Qi.Chen@windriver.co=
+m" target=3D"_blank">Qi.Chen@windriver.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 meta/recipes-core/systemd/<a href=3D"http://systemd_242.bb"=
+ rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a> | 2 +-<br>
+&gt; &gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd_=
+242.bb" rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a> b/meta/reci=
+pes-<br>
+&gt; &gt; core/systemd/<a href=3D"http://systemd_242.bb" rel=3D"noreferrer"=
+ target=3D"_blank">systemd_242.bb</a><br>
+&gt; &gt; index 2dda0d0..adb592f 100644<br>
+&gt; &gt; --- a/meta/recipes-core/systemd/<a href=3D"http://systemd_242.bb"=
+ rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a><br>
+&gt; &gt; +++ b/meta/recipes-core/systemd/<a href=3D"http://systemd_242.bb"=
+ rel=3D"noreferrer" target=3D"_blank">systemd_242.bb</a><br>
+&gt; &gt; @@ -27,7 +27,7 @@ SRC_URI +=3D &quot;file://touchscreen.rules \<b=
+r>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 # patches needed by musl<br>
+&gt; &gt; -SRC_URI +=3D &quot;${SRC_URI_MUSL}&quot;<br>
+&gt; &gt; +SRC_URI +=3D &quot;${@d.getVar(&#39;SRC_URI_MUSL&#39;) if d.getV=
+ar(&#39;TCLIBC&#39;) =3D=3D<br>
+&gt; &gt; &#39;musl&#39; else &#39;&#39;}&quot;<br>
+&gt; &gt;=C2=A0 SRC_URI_MUSL =3D &quot;file://0001-Use-getenv-when-secure-v=
+ersions-are-not-<br>
+&gt; &gt; available.patch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file=
+://0002-don-t-use-glibc-specific-qsort_r.patch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file=
+://0003-missing_type.h-add-__compare_fn_t-and-<br>
+&gt; &gt; comparison_fn_.patch \<br>
+&gt;<br>
+&gt; Doesn&#39;t the usual SRC_URI_append_libc-musl =3D &quot;X&quot; work?=
+<br>
+&gt;<br>
+<br>
+yes this should be better, SRC_URI_MUSL was introduced so someone<br>
+could override it<br>
+but if we make it optional then using override is better I think<br>
+<br>
+&gt; Cheers,<br>
+&gt;<br>
+&gt; Richard<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
--- 
-Tanu
-
-https://www.patreon.com/tanuk
-https://liberapay.com/tanuk
-
-
+--0000000000009ff8ba0589a70315--
