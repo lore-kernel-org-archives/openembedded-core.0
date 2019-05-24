@@ -1,48 +1,49 @@
-Return-Path: <liu.ming50@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B04A47E3FA
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-vk1-f196.google.com (mail-vk1-f196.google.com
+	[209.85.221.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B93E7DDA2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 13:19:25 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 198so9371921wme.3
+	Fri, 24 May 2019 14:37:12 +0000 (UTC)
+Received: by mail-vk1-f196.google.com with SMTP id g194so2183370vke.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 06:19:26 -0700 (PDT)
+	Fri, 24 May 2019 07:37:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8qvJU2HyMnZv40GsxbUdFjXe9/goNIdKfcDD0qeysTw=;
-	b=dKNhuSSu/Z06iSGuuxr2t+/QjGNygddsyceZYtsIlO0y/z4hzc2gjB0b9WGUKbeGjj
-	xgpBzQjfUgXkcK7JE5YbmcKyJp78oB49QaAIakaRgW+v+vv8RwdTITR4D5a4Xefj/cXD
-	xYIDJ+vuCuNbtLA2i6w2pORoisV1PlPI2+5g0u7lEbBcQFwWWn+X6aaL6/O68ra6A8iF
-	ksPkuEcj2vva8xXXZWojVw9u75qHVkr2UU7fyqLIEQwe8K1VEbwQElZnXAvlwI11bjwK
-	6KdbN68Cv5DIF1+eMmOwyHCX9BXoiVpf1tpLeLpdeH8LtkjWcruPfBeKaKvT6b2gUYQC
-	N7fA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=u4fCzVTVKqynctQxnymfLMH0kPV/vCZ/0Z45g/O+BvA=;
+	b=napdpWTPeymcKc5rVIzVLtrszPNsWeubwfnUQLr6U3r7WwSf2/aaah32cEZMY2cHrn
+	k6kACYaRVuCFFTrBy/8q/0yDMUlS0e/xINDTGV8LCATlINkUw7KJcYBvHPG+B7hH+3zh
+	4tOAL117fu7u7+I0riKtmdj9fLzj/LnUO+NMTTmkiZu//9N1ZFX/beo+O9MjfYbVQE28
+	0Bb/kL9rjG02vGxnetaTBdbw4F4z6CTINGQLDcuczUwbwQP1d987koKE3juxwG1hHtXj
+	vx0I9QJhYTIPCiGKw3HlGR8nr+mPlyxyAIRtfxEm341/EgaTwW2tHqAwDBZnMLVZ+8DD
+	gwtQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8qvJU2HyMnZv40GsxbUdFjXe9/goNIdKfcDD0qeysTw=;
-	b=TKeCmwzzdD8zTt4ATnp2P3hJytqzvybRVvPYZK1taWBmVuJIsl2N+cqNf07+zQYLgl
-	jITh/r4UGWw7BrBmTSG/RPgRITRNS7U1IRNAISfiHPVH/ybFO6OjozI9yWPREXG83d8P
-	5PiAPRL6u7GthEEUHe5yDqQdCGCVqCRpNDhxHLrdMijMKsxxYNG9pPEeegyfr0LoHnac
-	Jc/Fczrf0UjbVDTOYwt8ytPnawyzHL/B93FN1O5A8HKIvBr0VLs/81VSLHVPPeez/UeC
-	/cwfuI3y5f6f8GiuAdYEUEC7UHM9b4+O+YIcD743VlosHry9l12k8eoCBy4+/16u/OcP
-	CmMg==
-X-Gm-Message-State: APjAAAUztaGX/t3K2ECvk0pqxiNfngy0Ru7fAGGwj9wpW3jc5+DAFAKZ
-	D15RfrlL49h0haO2PVenfRRwJbjFrQwHAwvgbPM=
-X-Google-Smtp-Source: APXvYqyGcjBu4bCnfi2KDJ23+qmjnNBw6NG+Z4pShURtuSC+jYet6ZIZ9u4OIagOulWJSElBWC6aTojW8F3cXDrWhyw=
-X-Received: by 2002:a1c:7ed2:: with SMTP id
-	z201mr15850740wmc.113.1558703966083; 
-	Fri, 24 May 2019 06:19:26 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=u4fCzVTVKqynctQxnymfLMH0kPV/vCZ/0Z45g/O+BvA=;
+	b=o952UPqE6DnpXTuDH/cku57tMPJs8C/b1OvOMfN4NYBhrJETugxQ0Brn+86wbrHKXM
+	VtxLOjpeHn+cgW1UFnOGhWCWdPBsLD1L2OpvjMnoVuh05dQ9shSE7g7svTD0R/w5O7sZ
+	Mj+M8sPAeV7eG1RkiCHfeX9K6eoxH01SuQFoKcaPM7Dwan9YpZRY77wpGCRUbinaaOhR
+	DfboA5rJWc5YSy7SbVQDofLYvIuNm8+Sk0sOfLEROpU4UfFUdVnDRRhmUpFvCsfHYwcG
+	Gu3PqydHmEyOguAEINwwyyBRW5ljvIe10P2itNnI4QbAQHnvLEPQBqx7uswri8edMsSA
+	gCRQ==
+X-Gm-Message-State: APjAAAWgvrPQjI6UXYfTQZjg5kr67jrZz7JDybj6xJdJNCK04XBz2dvN
+	c1i1y+ZoovrgwnKni3Pw7kHGaCM/Yvw=
+X-Google-Smtp-Source: APXvYqxFi42pAXGzaEJ54IfpISZTlvP+XGvP6Ja3uhPFiYzW8QvuUUh4+hmdg9rQABrycOArP+0iAw==
+X-Received: by 2002:a1f:3143:: with SMTP id x64mr5142022vkx.32.1558708632977; 
+	Fri, 24 May 2019 07:37:12 -0700 (PDT)
+Received: from nick-beastie.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id a26sm720497vso.11.2019.05.24.07.37.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 May 2019 07:37:11 -0700 (PDT)
+From: Nicola Lunghi <nick83ola@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 24 May 2019 15:36:59 +0100
+Message-Id: <20190524143659.23751-1-nick83ola@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1558679856-10339-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
-In-Reply-To: <CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Fri, 24 May 2019 15:19:13 +0200
-Message-ID: <CALatG=5SSBOa_TyQh8vY-iYshvp6+XHCS-Lg7tHCg_-qSay2YQ@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] alsa-utils: fix multilib names
+Subject: [PATCH] nginx: fix kill path in nginx systemd unit file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,61 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 13:19:26 -0000
-Content-Type: multipart/alternative; boundary="000000000000355eea0589a20c8c"
+X-List-Received-Date: Fri, 24 May 2019 14:37:12 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000355eea0589a20c8c
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+---
+ meta-webserver/recipes-httpd/nginx/files/nginx.service | 2 +-
+ meta-webserver/recipes-httpd/nginx/nginx.inc           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Wouldn't that break the alsa-utils-scripts? Since ALSA_UTILS_PKGS is being
-depended by both alsa-utils and alsa-utils-scripts.
+diff --git a/meta-webserver/recipes-httpd/nginx/files/nginx.service b/meta-webserver/recipes-httpd/nginx/files/nginx.service
+index c6fc0495f..9a6ca9651 100644
+--- a/meta-webserver/recipes-httpd/nginx/files/nginx.service
++++ b/meta-webserver/recipes-httpd/nginx/files/nginx.service
+@@ -8,7 +8,7 @@ PIDFile=/run/nginx/nginx.pid
+ ExecStartPre=@SBINDIR@/nginx -t
+ ExecStart=@SBINDIR@/nginx
+ ExecReload=@SBINDIR@/nginx -s reload
+-ExecStop=@BINDIR@/kill -s QUIT $MAINPID
++ExecStop=@BASE_BINDIR@/kill -s QUIT $MAINPID
+ PrivateTmp=true
+ 
+ [Install]
+diff --git a/meta-webserver/recipes-httpd/nginx/nginx.inc b/meta-webserver/recipes-httpd/nginx/nginx.inc
+index 29e7efc14..c4c776e37 100644
+--- a/meta-webserver/recipes-httpd/nginx/nginx.inc
++++ b/meta-webserver/recipes-httpd/nginx/nginx.inc
+@@ -134,7 +134,7 @@ do_install () {
+         sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
+             -e 's,@LOCALSTATEDIR@,${localstatedir},g' \
+             -e 's,@SBINDIR@,${sbindir},g' \
+-            -e 's,@BINDIR@,${bindir},g' \
++            -e 's,@BASE_BINDIR@,${base_bindir},g' \
+             ${D}${systemd_unitdir}/system/nginx.service
+     fi
+ }
+-- 
+2.20.1
 
-I did that in V1, but as Richard Purdie pointed out, it will break the
-alsa-utils-scripts build.
 
-//Ming Liu
-
-Burton, Ross <ross.burton@intel.com> =E6=96=BC 2019=E5=B9=B45=E6=9C=8824=E6=
-=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:42=E5=AF=AB=E9=81=93=EF=BC=9A
-
-> On Fri, 24 May 2019 at 07:38, <liu.ming50@gmail.com> wrote:
-> > -SUMMARY_alsa-utils-alsabat      =3D "Command-line sound tester for ALS=
-A
-> sound card driver"
-> > +SUMMARY_${MLPREFIX}alsa-utils-alsabat      =3D "Command-line sound tes=
-ter
-> for ALSA sound card driver"
->
-> Why not replace alsa-utils-alsabat with ${PN}-alsabat?
->
-> Ross
->
-
---000000000000355eea0589a20c8c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Wouldn&#39;t that break the=C2=A0alsa-utils-scripts? Since=
- ALSA_UTILS_PKGS is being depended by both=C2=A0alsa-utils and=C2=A0alsa-ut=
-ils-scripts.<div><br></div><div>I did that in V1, but as Richard Purdie poi=
-nted out, it will break the alsa-utils-scripts build.</div><div><br></div><=
-div>//Ming Liu</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
-lass=3D"gmail_attr">Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.co=
-m">ross.burton@intel.com</a>&gt; =E6=96=BC 2019=E5=B9=B45=E6=9C=8824=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:42=E5=AF=AB=E9=81=93=EF=BC=9A<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 24 May 201=
-9 at 07:38, &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">l=
-iu.ming50@gmail.com</a>&gt; wrote:<br>
-&gt; -SUMMARY_alsa-utils-alsabat=C2=A0 =C2=A0 =C2=A0 =3D &quot;Command-line=
- sound tester for ALSA sound card driver&quot;<br>
-&gt; +SUMMARY_${MLPREFIX}alsa-utils-alsabat=C2=A0 =C2=A0 =C2=A0 =3D &quot;C=
-ommand-line sound tester for ALSA sound card driver&quot;<br>
-<br>
-Why not replace alsa-utils-alsabat with ${PN}-alsabat?<br>
-<br>
-Ross<br>
-</blockquote></div>
-
---000000000000355eea0589a20c8c--
