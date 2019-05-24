@@ -1,60 +1,57 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 939AD7E452
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A68277E452
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 02:16:54 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id w22so4129055pgi.6
+	Fri, 24 May 2019 02:17:30 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id f12so3491852plt.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 23 May 2019 19:16:56 -0700 (PDT)
+	Thu, 23 May 2019 19:17:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=5v6ooadEq8fAqCE5lNt3WtB6wLRes2YdPX3htfNVu6A=;
-	b=MNj9SSVkTRksouyaDwB0jHamFTs8KA77GNquu/RxNNzYebIutNaXd3CV6cqG33flYq
-	of3Pj434Tk1sUm4lmEInOChsvwtWPFs1JnmMIYh3K+AL625xL33YLGDLGSCnd/aQ4owU
-	IJg4P8Eb4JkCiGNcqZxoJxpk5xBU6mzPgpAfiKvCfTJL/emuEnz2DTVNum0dhqRiVWOU
-	xmP/M0JgMbZHytrvTo0nHjad+HqcfstSFFBzHXY1Qx599sSbcT2EfZSr77tlrQt4LEny
-	4HoGSzQuP9qCctlwZl89sRzG3IGuPIESmnIhTENniugUH9z1IEKkQNIjsjN/UYAS3gOo
-	930w==
+	h=subject:to:references:from:organization:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=Tp5YJrSB6rrK1WT/ZpuOIIUEVOw02wCwEECAtvAOsHc=;
+	b=GQIagQObjttOknozeZaGWhC4l0W/Wq9623mH8/l/nuY93bS0F0DiWohX77v4Bm4NFu
+	+zdrskKmQuKrinkyf/tDBS0EuNFAjo/l9EmApMnxiS8hb0Kh79+OQ/aOI5s9PZGwzSG8
+	xAXyWylzbsnysX6kjHOswSf2Yh+7t8NrQGTbUl9Gt60kyhutm8RGEpy53uyXRzvSVJrx
+	y93ExcAUi6TsSkADV+1nI51jaU0fsKzq6r2H1ZBHom0Pv7edfCAFW38qTbAqAyP6+gXr
+	iIodlOlBRq1kI8pA5WpYB8GR+l0EFuJTLcqrIYvlnBxBaCCf7MuPvlgH2vivUI5fvOtA
+	K6gw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
+	h=x-gm-message-state:subject:to:references:from:organization
 	:message-id:date:user-agent:mime-version:in-reply-to
 	:content-language:content-transfer-encoding;
-	bh=5v6ooadEq8fAqCE5lNt3WtB6wLRes2YdPX3htfNVu6A=;
-	b=g2iom7mmYPLlzUx92evfDcHaQPoTqR47ZoebkyFC4gS0D551nJ7rrRZDo1e/E2x+NX
-	38LGnhUmteTkaPekS3vxJ4lmJIRhQ2OOYqSRiblWvNz1uETV6rP9uM0c0/JdRxF7kTd3
-	i8yR0VCGL8i8LHgwXLEs6dv12/v2AAEiWJ6fjPsGWAXjGU5/i1VNyBIL2ZAc+WxuDZ7r
-	FMazKxhL0sqPH+quQgyBngAyWUPQ5E0H9TbhEBNP/yiW8bVYcK4eloftCFKNQSyUCQnl
-	SkcHOiOEZHyUG9kOpsWRFYaVWOLqCVeiMs0ZIxiJxlljACrBDsJwENZnF3VKMPox7jgZ
-	fRNg==
-X-Gm-Message-State: APjAAAUwkhoVjh2iflFtsV0ZHKi7tpfFikdcC8t7WVotDfC+xH6eSE0p
-	filixSHmJTlNLvdzR3kRH2g4Veejf+8=
-X-Google-Smtp-Source: APXvYqxJTNKsmzDuJ9U0flKPT/pKcUfCP+y/aLX8OhngyX03JlIi2vZkM2L5aOXjrfNvczHpIIrVxw==
-X-Received: by 2002:a63:d613:: with SMTP id q19mr67614522pgg.339.1558664215201;
-	Thu, 23 May 2019 19:16:55 -0700 (PDT)
+	bh=Tp5YJrSB6rrK1WT/ZpuOIIUEVOw02wCwEECAtvAOsHc=;
+	b=GSGZ3FtEKrJddTl/PfakwGhCYoytz+s7Ve3xnlqiMPFemu2DaRbVdbRqhUf+g+BKHZ
+	OjquJWs8dbzcK/2as3YYW2iWlI6VRYCtjJvUIZwUfF415um9lvBjAq9Ut2j/6W0YykV8
+	3nRG9RqkO35+Tm9Fk6wVUjDZFVF0SXA8m/lW6IW1+Batww6ytHeVqq23G2TNsOvA4ehp
+	zI4Hcfi7lfafMz9SSZbjlNCWC1zUPtxxyLsi+4MxxdqstxrE5l1p5pE3HBYWLzr2tTCf
+	2mQ+W+Bq3I7SNLsmosver0WJvlcuoEjS2nXK20l9zPdnu4NtZh9P9jW9pcwhBNGCnBkx
+	6Dkw==
+X-Gm-Message-State: APjAAAV/tfKeyrCjrBmbnqKTQG7s4U/ZUkeOWBLXUVXW68ZQw6Y/cIwx
+	7+ytx+N9w3m7EIOzoN9ZCotBcTBWS7w=
+X-Google-Smtp-Source: APXvYqwZRQrloGMYdTj2KjmxVT/Rl6jBjJlji2uISFaS1rgtGlms3KGSXnFJ0SOjhFsNaMwhqehh8g==
+X-Received: by 2002:a17:902:404:: with SMTP id
+	4mr11292488ple.204.1558664251252; 
+	Thu, 23 May 2019 19:17:31 -0700 (PDT)
 Received: from hermes.local ([2601:646:8500:6bc6:41da:1c8d:2ccb:5914])
 	by smtp.gmail.com with ESMTPSA id
-	ds14sm556233pjb.32.2019.05.23.19.16.54
+	e12sm763775pfl.122.2019.05.23.19.17.30
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 23 May 2019 19:16:54 -0700 (PDT)
-To: ChenQi <Qi.Chen@windriver.com>, "Burton, Ross" <ross.burton@intel.com>,
-	Adrian Bunk <bunk@stusta.de>
-References: <20190523103352.GA25084@localhost>
-	<CAJTo0LaErQVjmJoAFr3e45fZ75+TiZFi_hDS2f-KUGuLyC3hTA@mail.gmail.com>
-	<45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
+	Thu, 23 May 2019 19:17:30 -0700 (PDT)
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+References: <cover.1558664136.git.Qi.Chen@windriver.com>
+	<ff55bb58704a56b9957b36863b704dad3d69ea0f.1558664136.git.Qi.Chen@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
 Organization: HIMVIS LLC
-Message-ID: <f9b4e583-3e93-6e6e-ebaf-891093a135b3@gmail.com>
-Date: Thu, 23 May 2019 19:16:53 -0700
+Message-ID: <a9312659-9114-bc5e-c79a-847563fbb95c@gmail.com>
+Date: Thu, 23 May 2019 19:17:29 -0700
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
 	Gecko/20100101 Thunderbird/67.0
 MIME-Version: 1.0
-In-Reply-To: <45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Should systemd be marked as incompatible with musl?
+In-Reply-To: <ff55bb58704a56b9957b36863b704dad3d69ea0f.1558664136.git.Qi.Chen@windriver.com>
+Subject: Re: [PATCH 1/1] systemd: avoid musl specific patches affect glibc systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,72 +64,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 02:16:54 -0000
+X-List-Received-Date: Fri, 24 May 2019 02:17:30 -0000
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/23/19 6:45 PM, ChenQi wrote:
-> On 05/23/2019 08:22 PM, Burton, Ross wrote:
->> On Thu, 23 May 2019 at 11:34, Adrian Bunk <bunk@stusta.de> wrote:
->>> systemd is fundamentally Linux-only and not portable to other kernels.
->>>
->>> systemd upstream is using glibc extensions not present in other
->>> C libraries.
->>>
->>> systemd upstream is accepting technically correct patches that help
->>> building with musl, but there is no interest upstream in keeping systemd
->>> working with non-glibc C libraries.
->>>
->>> The way things currently go, systemd/musl will require an ever-growing
->>> amount of not upstreamable patches - and this is not sustainable.
->> I think I have to agree with you: several of the extensions are for
->> security purposes, so we're potentially actively introducing issues.
->>
->> Ross
+On 5/23/19 7:17 PM, Chen Qi wrote:
+> systemd upstream only care about glibc. We made musl specific
+> patches so that systemd could work. But currently these patches
+> contain potential security issues.
 > 
+> So apply these patches only when the libc is musl.
 > 
-> I suggest we only apply these musl patches when the libc is musl.
-> 
-> SRC_URI += "${@d.getVar('SRC_URI_MUSL') if d.getVar('TCLIBC') == 'musl' 
-> else ''}"
-> 
-> In this way, these patches do not affect glibc users. People who 
-> actually use musl will test these patches and maybe improve them if they 
-> really care about it.
 
-thats acceptable approach. So far we have helped upstreams of apps to 
-cleanup or add support for musl and it has worked reasonably well, 
-systemd is a bit of odd man out since they explicitly seems to not care 
-for non glibc/linux systems, still they do accept cleanups which are 
-resulting from such ports so its not completely wasted excercise, but I 
-think dropping systemd support completely from musl is not an option I 
-would like to go with, there are cases where this makes sense. 
-Especially when you have to cater to different set of devices from small 
-to big, userspace remaining same is big advantage atleast in the world I 
-am in.
+LGTM
 
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>   meta/recipes-core/systemd/systemd_242.bb | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> For example, the following patches are written by me.
-> 
-> 0017-Do-not-disable-buffering-when-writing-to-oom_score_a.patch and
-> 0001-do-not-disable-buffer-in-writing-files.patch
-> 
-> These two patches are to solve runtime problems in musl based system. I 
-> knew there's something different in buffering mechanism between glibc 
-> and musl that causes this problem, but I really did not want to spend 
-> time digging into it. And as systemd was using unbuffered way for 
-> writing files for a long time, I just disabled them.
-> 
-> As Adrian and Ross pointed out, these patches are introducing potential 
-> security problems. I agree that we should do something about it. At a 
-> minimum, the glibc based system should not be affected.
-> 
-> I'll send out patch and please help review it.
-> 
-> Best Regards,
-> Chen Qi
+> diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+> index 2dda0d0..adb592f 100644
+> --- a/meta/recipes-core/systemd/systemd_242.bb
+> +++ b/meta/recipes-core/systemd/systemd_242.bb
+> @@ -27,7 +27,7 @@ SRC_URI += "file://touchscreen.rules \
+>              "
+>   
+>   # patches needed by musl
+> -SRC_URI += "${SRC_URI_MUSL}"
+> +SRC_URI += "${@d.getVar('SRC_URI_MUSL') if d.getVar('TCLIBC') == 'musl' else ''}"
+>   SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.patch \
+>                  file://0002-don-t-use-glibc-specific-qsort_r.patch \
+>                  file://0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch \
 > 
 
