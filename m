@@ -1,56 +1,51 @@
-Return-Path: <armccurdy@gmail.com>
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com
-	[209.85.221.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 1B9AC7E4E9
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
+	[209.85.222.196])
+	by mail.openembedded.org (Postfix) with ESMTP id A67BB7E4E9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 19:34:34 +0000 (UTC)
-Received: by mail-vk1-f177.google.com with SMTP id h72so2447494vkh.10
+	Fri, 24 May 2019 19:44:00 +0000 (UTC)
+Received: by mail-qk1-f196.google.com with SMTP id j1so9197970qkk.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 12:34:35 -0700 (PDT)
+	Fri, 24 May 2019 12:44:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RjW8SYa8awc+C8Ty8VN3YULpgbsuUtSYID6AGx2usB8=;
-	b=NzPpEWzGywfrsmhJGTw2n7AnnPNad/+69ocRHwMcSRyHy6iLfsXnSMNzYHSeBiSRGp
-	ew+/9tHMLHtGe6YgnnWGndwkvCOHZ0xY8Pdamui0k9Q3T6NBxvdXShKuhcO0UzPvqd9W
-	tAUxBgZlnhZ/1BTEa1b32IWJynAt/oOJ4dGOUQhNh1llhyjyhWV94Xhx1CDwATryZyZr
-	+mq1slQy21rl6duKFFLU3ItSa1b41Vn3HeIesIc8I11ae31NAL57sOlYiiP+gKHEX8kN
-	Aff3+fPV/04XjCh7LvruiOxqECsDduRBRlRxAxo7fIaU7hcfpFcPthkq7SwRXVGK3jo9
-	7rhQ==
+	:cc; bh=oz+QZLHwTfNrlOKU4YKMrzriTeTXPfGFFFiEGlLxyKs=;
+	b=LSAZ4Vl/XlvkzISpVNkjygt8FaekT10nrhGTMqhBkAC1MivAmd9N7YPLBNwNuJgt9A
+	kXACm2ZVS2dgWa1OMESihrJ3bIqXaUmUmlvwzTIKaOIZO50eUtOcDz7WZAU4ItOkY9ZU
+	3V1FOUr98LxKtZbxiJ3HoOoi2NFrZJI27BUB3xRgFVYIrG5/uUYGGiPdz8fAZyD9fr0h
+	fYoDpN1xv2caxVZl9uc4VDNQv5jr/v7mxLmotHDlLzs1gN2roj31bQyaPbnD0IscXVKL
+	6GCU4mYQOyE6LBWPKoh2jTfUebdF26eexqEDfqQr4Vyi0jfClCsOFbpzYE6dq7fUc9W4
+	0aww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=RjW8SYa8awc+C8Ty8VN3YULpgbsuUtSYID6AGx2usB8=;
-	b=J5Jqatu6PKEdybdWQDwEzQZxyiQv8uwG78gmqukCKLcSI5TBDSv/RLDLAFFEbLgnQz
-	AkFn7gmTCQQF6gPPkKhl7+MroqZBeyW8/knhrlTsNks5KXjfgHkYbmb1BauBiBoPLd/d
-	Wqpet/MkFr0PZuJcXa8lqs65/3DJXtbEIa9XmMPMuuVt2xKjceQtki0VTmotoSGFTsN5
-	Wpf+OEjTuQZ7M6nSEejNowsQ4qi2yAtahtB6/mPJXR/dzhvHFC83CboD1O/kQxoA2hiY
-	EQXjUvP8XTSuPOKGFXtVcZl26eh/IC8/+R8ZWj9S+bFxLFmx98RNTCLfXO8fCMUwCPeb
-	2Bxw==
-X-Gm-Message-State: APjAAAXsd+OVvKhXeLFg3lbM1bwOd9dizcLy43JNgnoIp9LkLF7R9m22
-	lOV7RBj4qAMe9gAKk/sBPKMsi+dWBdGECWC1N3o=
-X-Google-Smtp-Source: APXvYqyD+wBzjzVeTYYh12NB4wlJc+DkFXTnp2kDZ1FasoPIlVKn9Hf6rn7x+ey1SfSwTVir0QgL1kENrZG4Lqx8tH0=
-X-Received: by 2002:a1f:8392:: with SMTP id f140mr1731967vkd.33.1558726474898; 
-	Fri, 24 May 2019 12:34:34 -0700 (PDT)
+	bh=oz+QZLHwTfNrlOKU4YKMrzriTeTXPfGFFFiEGlLxyKs=;
+	b=pZ2yI85nZfMIwXGJOXaMGQfP6VVCyTGLS2y+ZmwwDl62Q1yZgHo5n0iOF/TkkWytF1
+	oPxDNDK7Nju8qrksJCfTHjOb/g9Vj2oIOPlu85Wm4zu1u/y+x1DVhbfhYt/8Q1PdxaNj
+	DB299Qt70o5y2RNp/mYnU/geh/YY424Nz4Zw1J+RNFH0mwGUtpsT4dvXJY6JZrh0pxgN
+	hR7X8+wcrrXUXgdgJJ3VKT5eA895JOlVLIBywIFMS+CLQxuE+m8gdcH6QrwDvOLqhJMj
+	3ufga00yBrOiZz3AP1gQMHtGUY6J6zwp59m26l3F1e4p0e8x6XzgLoQpWqFwVuUQnApl
+	Yhzw==
+X-Gm-Message-State: APjAAAUcJLkjYcHwAo2/J+0Thhm+ULNrapyuBQrNVtjPUIZw61081Kml
+	JNXIBgV/AZU1Mt6AEJYPFipG5/UxEqGqfIdVBo4=
+X-Google-Smtp-Source: APXvYqynHuYlQnqaEnSbXXUNGknlZFTdWwQZ6N+ribUXGtdaEHwFD2ODH9109kDv6uBnSQCI/s6wYrAABOHHkey/amw=
+X-Received: by 2002:ac8:2f35:: with SMTP id j50mr85825219qta.378.1558727041420;
+	Fri, 24 May 2019 12:44:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190523103352.GA25084@localhost>
-	<CAJTo0LaErQVjmJoAFr3e45fZ75+TiZFi_hDS2f-KUGuLyC3hTA@mail.gmail.com>
-	<45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
-	<f9b4e583-3e93-6e6e-ebaf-891093a135b3@gmail.com>
-	<20190524101211.GA25912@localhost>
-	<f10fea91-06a4-529a-1b42-0c12dc46f54c@gmail.com>
-	<20190524172737.GA6813@localhost>
-	<CAMKF1sp8H7pOMvHLw+xJhOEE8KyPASmSrQJYxib-ugqrP-OS0Q@mail.gmail.com>
-	<20190524175859.GB6813@localhost>
-	<CAMKF1sr-JCp6HM1BwYE5T-hgK_2T2j7rfNiRZcD0r_AuC2F7LA@mail.gmail.com>
-	<20190524184546.GA12358@localhost>
-In-Reply-To: <20190524184546.GA12358@localhost>
-From: Andre McCurdy <armccurdy@gmail.com>
-Date: Fri, 24 May 2019 12:34:23 -0700
-Message-ID: <CAJ86T=Vr=BSX1fF3G-bHspzXQpXw6qEkUjFDt0==CwgDnpPGFA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Should systemd be marked as incompatible with musl?
+References: <cover.1558664136.git.Qi.Chen@windriver.com>
+	<ff55bb58704a56b9957b36863b704dad3d69ea0f.1558664136.git.Qi.Chen@windriver.com>
+	<17c3408af1ebd7edc0f9c99c0bbec3617e8885b9.camel@linuxfoundation.org>
+	<CAMKF1so1cOr78PRop6cLi+w7GTSSnKgniOpNyJxgDU_EVSbkfw@mail.gmail.com>
+	<CA+chaQf--h3zXut4+ahWea1AU_d6Uv=eFk1UuuCts8Xj_S9S=g@mail.gmail.com>
+In-Reply-To: <CA+chaQf--h3zXut4+ahWea1AU_d6Uv=eFk1UuuCts8Xj_S9S=g@mail.gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 24 May 2019 12:43:35 -0700
+Message-ID: <CAMKF1speuBwsG=D_UA0DfTe4noa84czCgycv20doci5mE3Kxmw@mail.gmail.com>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] systemd: avoid musl specific patches affect glibc systems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,93 +58,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 19:34:34 -0000
+X-List-Received-Date: Fri, 24 May 2019 19:44:00 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 24, 2019 at 11:46 AM Adrian Bunk <bunk@stusta.de> wrote:
+On Fri, May 24, 2019 at 12:14 PM Martin Jansa <martin.jansa@gmail.com> wrote:
 >
-> On Fri, May 24, 2019 at 11:04:50AM -0700, Khem Raj wrote:
-> > On Fri, May 24, 2019 at 10:59 AM Adrian Bunk <bunk@stusta.de> wrote:
-> > >
-> > > On Fri, May 24, 2019 at 10:31:25AM -0700, Khem Raj wrote:
-> > > > On Fri, May 24, 2019 at 10:27 AM Adrian Bunk <bunk@stusta.de> wrote:
-> > > > > On Fri, May 24, 2019 at 09:13:08AM -0700, Khem Raj wrote:
-> > > > > > On 5/24/19 3:12 AM, Adrian Bunk wrote:
-> > > > > > > On Thu, May 23, 2019 at 07:16:53PM -0700, Khem Raj wrote:
-> > > > > > > > ...
-> > > > > > > > but I think dropping
-> > > > > > > > systemd support completely from musl is not an option I would like to go
-> > > > > > > > with, there are cases where this makes sense. Especially when you have to
-> > > > > > > > cater to different set of devices from small to big, userspace remaining
-> > > > > > > > same is big advantage atleast in the world I am in.
-> > > > > > > > ...
-> > > > > > >
-> > > > > > > That's a good point - when arguing against systemd as default init system.
-> > > > > > >
-> > > > > > > systemd is bigger than glibc, therefore on very small systems where the
-> > > > > > > size of the C library matters using systemd is usually not an option.
-> > > > > >
-> > > > > > Yes, design-wise I concur, in practice, desktop distros rule the linux world
-> > > > > > and systemd is quite prevalent there,
-> > > > >
-> > > > > Desktop distros don't use musl - it wouldn't make sense.
-> > > >
-> > > > Yes,  what I was saying is that decisions on init systems and like that are
-> > > > influenced by desktops too. Since the apps are being written for across the
-> > > > board portfolio where some platforms are desktop/server driven some are
-> > > > more embedded
-> > >
-> > > The point is that most of the time using musl doesn't make sense.
-> > >
-> > > Definitely not on a desktop, and also not with systemd as init system.
-> > >
-> > > I haven't done exact measurements and it would also depend on the
-> > > architecture, but the only real-world benefit of using musl instead
-> > > of glibc for an OE user is something like "3 MB smaller in an -Os build".
-> > >
-> > > On many of todays embedded systems such a small size difference is
-> > > irrelevant. In these cases the correct solution that stays compatible
-> > > with everything else is to use glibc.
-> >
-> > No, there is DRAM use difference too.
->
-> I didn't limit the size difference to the filesystem.
->
-> (But in practice RAM is usually a smaller problem than the filesystem.)
->
-> > > And on really tiny systems where every single MB counts,
-> > > all other design choices also have a high emphasis on size.
-> > >
-> > > Using systemd instead of busybox init (or some other small init system)
-> > > would cost you much more space than what the C library choice gave.
-> > >
-> > > And the current sad state of the systemd musl patching that makes it
-> > > compile but creates misbehaving functions and security vulnerabilities
-> > > makes it an even worse idea to use systemd with musl.
-> > >
-> >
-> > I think we should put in plan for 2.8 and define the scope, since we
-> > are switching
-> > poky defaults to systemd,
->
-> Switching glibc builds to systemd as default is a reasonable decision.
->
-> Switching musl builds to systemd as default would be very bad.
->
-> Combining a tiny C library with a huge init system completely misses
-> the configurations where the tiny C library actually makes sense for
-> users.
+> It's still nicer to have
+> SRC_URI_append_libc-musl = " ${SRC_URI_MUSL}"
+> if the intermediate SRC_URI_MUSL variable is useful.
 
-For new projects yes. However I know of a project (a big project,
-shipping millions of devices) which picked systemd and glibc long ago
-and is now running out of space. They already have various solutions
-to free up Flash (some apps switched to being runtime downloadable,
-etc) but if/when more savings need to be found then switching from
-glibc to musl might be a less invasive change than switching from
-systemd to some other init system. We obviously shouldn't make
-decisions for OE today based on the historical decisions of one
-project, but I just want to make the point that real world projects
-have a lifetime and may end up with a combination of systemd + musl
-due on past decisions that may not make sense for a new project
-starting today.
+yeah we can do away with this one variable here.
+
+>
+> On Fri, May 24, 2019 at 7:59 PM Khem Raj <raj.khem@gmail.com> wrote:
+>>
+>> On Fri, May 24, 2019 at 10:31 AM Richard Purdie
+>> <richard.purdie@linuxfoundation.org> wrote:
+>> >
+>> > On Fri, 2019-05-24 at 10:17 +0800, Chen Qi wrote:
+>> > > systemd upstream only care about glibc. We made musl specific
+>> > > patches so that systemd could work. But currently these patches
+>> > > contain potential security issues.
+>> > >
+>> > > So apply these patches only when the libc is musl.
+>> > >
+>> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> > > ---
+>> > >  meta/recipes-core/systemd/systemd_242.bb | 2 +-
+>> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+>> > >
+>> > > diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-
+>> > > core/systemd/systemd_242.bb
+>> > > index 2dda0d0..adb592f 100644
+>> > > --- a/meta/recipes-core/systemd/systemd_242.bb
+>> > > +++ b/meta/recipes-core/systemd/systemd_242.bb
+>> > > @@ -27,7 +27,7 @@ SRC_URI += "file://touchscreen.rules \
+>> > >             "
+>> > >
+>> > >  # patches needed by musl
+>> > > -SRC_URI += "${SRC_URI_MUSL}"
+>> > > +SRC_URI += "${@d.getVar('SRC_URI_MUSL') if d.getVar('TCLIBC') ==
+>> > > 'musl' else ''}"
+>> > >  SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-
+>> > > available.patch \
+>> > >                 file://0002-don-t-use-glibc-specific-qsort_r.patch \
+>> > >                 file://0003-missing_type.h-add-__compare_fn_t-and-
+>> > > comparison_fn_.patch \
+>> >
+>> > Doesn't the usual SRC_URI_append_libc-musl = "X" work?
+>> >
+>>
+>> yes this should be better, SRC_URI_MUSL was introduced so someone
+>> could override it
+>> but if we make it optional then using override is better I think
+>>
+>> > Cheers,
+>> >
+>> > Richard
+>> >
+>> > --
+>> > _______________________________________________
+>> > Openembedded-core mailing list
+>> > Openembedded-core@lists.openembedded.org
+>> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
