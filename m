@@ -1,45 +1,46 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BD41C60685
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id B04A47E3FA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 12:42:26 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id m3so15501932itl.1
+	Fri, 24 May 2019 13:19:25 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 198so9371921wme.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 05:42:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 24 May 2019 06:19:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=t7XLqw++Dv17ogXMjQPKBxLR8WAFBi3N3IzghWyvg5c=;
-	b=jKVd8OuYOguhvM2Zxoej6tB1Im8+bunSBcJvWcD+DXceA6kGQ+gDgnRj59clZOBnZ4
-	6Nle1Zds6YrRlQLnXD/0Zg5CfuvWy8kVhEAfvVaj/J/BXii6M9DNYys8QpCIeA+Wov0p
-	oNDzdYNInqp4+AG+SIatWhXzTnpO37ot2dpdVKo/E26OELx6IQAG3T6P/P2TTCKiStkv
-	kQuT/M3L6GyaEhXwGqyTcJnfYNi3+0O20uZo5LL5t3k6vHbKhZnP5gyrdDwSmuJL1Xbz
-	F9OzUemw6/LbmGo4yTsY11A3mQ2Poeotwog8b/ZPHPvtYvyavqMSPWznbQFm/QN9kZ1e
-	fFRA==
+	:cc; bh=8qvJU2HyMnZv40GsxbUdFjXe9/goNIdKfcDD0qeysTw=;
+	b=dKNhuSSu/Z06iSGuuxr2t+/QjGNygddsyceZYtsIlO0y/z4hzc2gjB0b9WGUKbeGjj
+	xgpBzQjfUgXkcK7JE5YbmcKyJp78oB49QaAIakaRgW+v+vv8RwdTITR4D5a4Xefj/cXD
+	xYIDJ+vuCuNbtLA2i6w2pORoisV1PlPI2+5g0u7lEbBcQFwWWn+X6aaL6/O68ra6A8iF
+	ksPkuEcj2vva8xXXZWojVw9u75qHVkr2UU7fyqLIEQwe8K1VEbwQElZnXAvlwI11bjwK
+	6KdbN68Cv5DIF1+eMmOwyHCX9BXoiVpf1tpLeLpdeH8LtkjWcruPfBeKaKvT6b2gUYQC
+	N7fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=t7XLqw++Dv17ogXMjQPKBxLR8WAFBi3N3IzghWyvg5c=;
-	b=gd+ZVyWQrVPahHGrkPJ7dyxO1hpbyY25OALv0ZoPh7eXr/iXpDGee2fDm4LzF15p1P
-	S43D4EJjOYvKRKI5x1S1804Pypbbylmgpgw/ojRQoHTW+w0mQWkmVx7jim5qmERNl/OJ
-	REH5Ni6dODcnqSu+ZPXdxz2EXztBF2w04zBdlqpgjmGZB0IuwNXuDkEJxMG1v7WwwHsE
-	CpBrfQG0N+15neoZiIFRmCEPeDVv4HOOJeqixI3KsQkX2K3zei/9By99l3tbCIg9Mspc
-	c3crut6uxD4jyUK8A14OBMAWx3GcQJB1wneHyzQvL9Oe5akoZGYz0ESegK5di5JOdpQj
-	3JqA==
-X-Gm-Message-State: APjAAAXH0e8rkqGFS0So3iFOO7/XZjpcjUgVoZHPiaf7pH7kMbBqeTcd
-	y7jfLzOiap2V9G1trev2HyQ1JUHRasC6f7OsChC1tQ==
-X-Google-Smtp-Source: APXvYqy/1acZp1XAXPtYvHsquTatOTZqd5SyV0nz0eiLReWTPKO/2viE02P/Dx+O21DNmUPQ/PbMT6m6gWrfeDEp7lU=
-X-Received: by 2002:a24:2c48:: with SMTP id i69mr16598626iti.133.1558701747765;
-	Fri, 24 May 2019 05:42:27 -0700 (PDT)
+	bh=8qvJU2HyMnZv40GsxbUdFjXe9/goNIdKfcDD0qeysTw=;
+	b=TKeCmwzzdD8zTt4ATnp2P3hJytqzvybRVvPYZK1taWBmVuJIsl2N+cqNf07+zQYLgl
+	jITh/r4UGWw7BrBmTSG/RPgRITRNS7U1IRNAISfiHPVH/ybFO6OjozI9yWPREXG83d8P
+	5PiAPRL6u7GthEEUHe5yDqQdCGCVqCRpNDhxHLrdMijMKsxxYNG9pPEeegyfr0LoHnac
+	Jc/Fczrf0UjbVDTOYwt8ytPnawyzHL/B93FN1O5A8HKIvBr0VLs/81VSLHVPPeez/UeC
+	/cwfuI3y5f6f8GiuAdYEUEC7UHM9b4+O+YIcD743VlosHry9l12k8eoCBy4+/16u/OcP
+	CmMg==
+X-Gm-Message-State: APjAAAUztaGX/t3K2ECvk0pqxiNfngy0Ru7fAGGwj9wpW3jc5+DAFAKZ
+	D15RfrlL49h0haO2PVenfRRwJbjFrQwHAwvgbPM=
+X-Google-Smtp-Source: APXvYqyGcjBu4bCnfi2KDJ23+qmjnNBw6NG+Z4pShURtuSC+jYet6ZIZ9u4OIagOulWJSElBWC6aTojW8F3cXDrWhyw=
+X-Received: by 2002:a1c:7ed2:: with SMTP id
+	z201mr15850740wmc.113.1558703966083; 
+	Fri, 24 May 2019 06:19:26 -0700 (PDT)
 MIME-Version: 1.0
 References: <1558679856-10339-1-git-send-email-liu.ming50@gmail.com>
-In-Reply-To: <1558679856-10339-1-git-send-email-liu.ming50@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 24 May 2019 13:42:15 +0100
-Message-ID: <CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
-To: Ming Liu <liu.ming50@gmail.com>
+	<CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
+In-Reply-To: <CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Fri, 24 May 2019 15:19:13 +0200
+Message-ID: <CALatG=5SSBOa_TyQh8vY-iYshvp6+XHCS-Lg7tHCg_-qSay2YQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH V2] alsa-utils: fix multilib names
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,14 +55,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 12:42:26 -0000
+X-List-Received-Date: Fri, 24 May 2019 13:19:26 -0000
+Content-Type: multipart/alternative; boundary="000000000000355eea0589a20c8c"
+
+--000000000000355eea0589a20c8c
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 24 May 2019 at 07:38, <liu.ming50@gmail.com> wrote:
-> -SUMMARY_alsa-utils-alsabat      = "Command-line sound tester for ALSA sound card driver"
-> +SUMMARY_${MLPREFIX}alsa-utils-alsabat      = "Command-line sound tester for ALSA sound card driver"
+Wouldn't that break the alsa-utils-scripts? Since ALSA_UTILS_PKGS is being
+depended by both alsa-utils and alsa-utils-scripts.
 
-Why not replace alsa-utils-alsabat with ${PN}-alsabat?
+I did that in V1, but as Richard Purdie pointed out, it will break the
+alsa-utils-scripts build.
 
-Ross
+//Ming Liu
 
+Burton, Ross <ross.burton@intel.com> =E6=96=BC 2019=E5=B9=B45=E6=9C=8824=E6=
+=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:42=E5=AF=AB=E9=81=93=EF=BC=9A
+
+> On Fri, 24 May 2019 at 07:38, <liu.ming50@gmail.com> wrote:
+> > -SUMMARY_alsa-utils-alsabat      =3D "Command-line sound tester for ALS=
+A
+> sound card driver"
+> > +SUMMARY_${MLPREFIX}alsa-utils-alsabat      =3D "Command-line sound tes=
+ter
+> for ALSA sound card driver"
+>
+> Why not replace alsa-utils-alsabat with ${PN}-alsabat?
+>
+> Ross
+>
+
+--000000000000355eea0589a20c8c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Wouldn&#39;t that break the=C2=A0alsa-utils-scripts? Since=
+ ALSA_UTILS_PKGS is being depended by both=C2=A0alsa-utils and=C2=A0alsa-ut=
+ils-scripts.<div><br></div><div>I did that in V1, but as Richard Purdie poi=
+nted out, it will break the alsa-utils-scripts build.</div><div><br></div><=
+div>//Ming Liu</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" c=
+lass=3D"gmail_attr">Burton, Ross &lt;<a href=3D"mailto:ross.burton@intel.co=
+m">ross.burton@intel.com</a>&gt; =E6=96=BC 2019=E5=B9=B45=E6=9C=8824=E6=97=
+=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=882:42=E5=AF=AB=E9=81=93=EF=BC=9A<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
+border-left:1px solid rgb(204,204,204);padding-left:1ex">On Fri, 24 May 201=
+9 at 07:38, &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank">l=
+iu.ming50@gmail.com</a>&gt; wrote:<br>
+&gt; -SUMMARY_alsa-utils-alsabat=C2=A0 =C2=A0 =C2=A0 =3D &quot;Command-line=
+ sound tester for ALSA sound card driver&quot;<br>
+&gt; +SUMMARY_${MLPREFIX}alsa-utils-alsabat=C2=A0 =C2=A0 =C2=A0 =3D &quot;C=
+ommand-line sound tester for ALSA sound card driver&quot;<br>
+<br>
+Why not replace alsa-utils-alsabat with ${PN}-alsabat?<br>
+<br>
+Ross<br>
+</blockquote></div>
+
+--000000000000355eea0589a20c8c--
