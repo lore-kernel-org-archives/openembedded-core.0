@@ -1,53 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id AC0D97E4BF
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id B67387E4A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 17:18:49 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id f8so10790371wrt.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 10:18:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=M0PUazTus7/WIpMJUT3njGfjaLUMtqjNyWPtxuY6/jo=;
-	b=OZxPKBVQuh17QfrnDg8DWKoywusQWBXAl04kA4UoaJIbzZ3vafO++HDuqh4TFN5oFH
-	GB2u8E+EnouiBI+mIco3y0L/O0WmAjylYeflceWByaJptUMBDp+d13tcXgTo9HLbmf5c
-	3EVKKcgms3iC7pmLRC3+3jpxa0AWuy/WQCVXo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=M0PUazTus7/WIpMJUT3njGfjaLUMtqjNyWPtxuY6/jo=;
-	b=VHHANYr57LRz8vYK64PvoAiKK66+rCv4VYenjXOMBuH9iqgIQEefQ5QHVBZ8DadJFy
-	1ErJuVGwo5G5NJN+KK31IgZzStaohfTZXh1Z7/3YQNISpAzqRgVHVl3wTrHgUBf0y7VQ
-	R4mat40cBXvE4vzm2rkrVJqgLYzoo/ZO6XE+U5AUyU+NiqKo+rK5Osr1O2eBEgmN1GW/
-	ekbBnwVSFqFzoLo/OIyto8g6yfwCsejXeSLbsIDXCZwJUeW6o9A6b3NWfN39YnrOJdAG
-	qsxoxUIfYkOFlOQacz2KSaQBigLxfdiSvI4NaqsE0Ozo8lPEeqZsa3KkCceaF2n0y4P4
-	oq5w==
-X-Gm-Message-State: APjAAAWKa/3InnLlmz3KEfcyrUo2JA8vyZGG055+DUD0PVdF86G8h3MD
-	F7Tw2SmDULO03HlQTDNIedjAzA==
-X-Google-Smtp-Source: APXvYqxnBXFtSSDQjUtZPBMRx0/HCRQNMb8H/aP2k22aF0LTDBvJ3xF3J51WNQxIR+BR0nvF2KPKlQ==
-X-Received: by 2002:adf:edc5:: with SMTP id v5mr40094122wro.257.1558718330347; 
-	Fri, 24 May 2019 10:18:50 -0700 (PDT)
-Received: from hex ([85.255.233.241]) by smtp.gmail.com with ESMTPSA id
-	j123sm4873117wmb.32.2019.05.24.10.18.49
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 May 2019 10:18:49 -0700 (PDT)
-Message-ID: <a59002825b793658afa2606f0d110d70a08e2384.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ming Liu <liu.ming50@gmail.com>, "Burton, Ross" <ross.burton@intel.com>,
-	Tanu Kaskinen <tanuk@iki.fi>
-Date: Fri, 24 May 2019 18:18:47 +0100
-In-Reply-To: <CALatG=5SSBOa_TyQh8vY-iYshvp6+XHCS-Lg7tHCg_-qSay2YQ@mail.gmail.com>
-References: <1558679856-10339-1-git-send-email-liu.ming50@gmail.com>
-	<CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
-	<CALatG=5SSBOa_TyQh8vY-iYshvp6+XHCS-Lg7tHCg_-qSay2YQ@mail.gmail.com>
-User-Agent: Evolution 3.32.1-2 
+	Fri, 24 May 2019 17:27:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 459YGg5vzzz40;
+	Fri, 24 May 2019 19:27:39 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1558718861;
+	bh=49hVo51jBPVMILlVJiUfcAX8Hr+0L8zbOkRVm9h71kU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=EPEzCs3nyXbyJqEiG3FCno4S/k8KIRupVqUNP5vu415d2c19DU2VJjKrdh7Ugoi1u
+	tnAS18uINNeeIj8DGVjRIFckPHYcGjlEAfjtXqhIRQSKomwHbWaaMcuUPIPpwKgnbV
+	DTPxS8hmN4mWkWz5fFxcbjIFs+Z6T83zMPxpkOgOVbnVhttxocRohcvplaBgotv19z
+	qof9K5XFBnuKczEl/cG2FOk3zRBdKHOWVOQ9x+2ch21Z6lgBjfDdyctNebF/PLDag/
+	BFeZPdph/kfPKbqnLFXQ/y/8GtJJkz6Sgj83OkMJ3DGj01cVUoMQSO78Qs+xdOwnMe
+	9+E1xyfsOzCtAqeL5wnR5C0CBmIoQO+88WNk+kg4jR92mOlr+hKENVAVlGQVBBmZE6
+	+nHs8I85TQQmjGCAmbU5b1mrYS8FnJCg2tTuuODPlSqY/78avUWfClvZ8OWjj3iaXg
+	4+hAOlds8XggYzwNcWyEhLDmugRLgg4woLwOUl+8yFM17uJSMVMioLuUpimFQjSneE
+	UWNxbQW02aUXxT+K8JndJYVXfHnr92BNg52yAguRZEesqJBA4iiWuXeFI+SXGXL0WZ
+	i/NsMBrKx2SgY+m0un+Vn5h7tdUqrig4rUR6yef/7KX+vXT7u5XBEYHeRVLl8S4twA
+	9WBcrpDpT1EzLHobpE5JtZno=
+Date: Fri, 24 May 2019 20:27:37 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190524172737.GA6813@localhost>
+References: <20190523103352.GA25084@localhost>
+	<CAJTo0LaErQVjmJoAFr3e45fZ75+TiZFi_hDS2f-KUGuLyC3hTA@mail.gmail.com>
+	<45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
+	<f9b4e583-3e93-6e6e-ebaf-891093a135b3@gmail.com>
+	<20190524101211.GA25912@localhost>
+	<f10fea91-06a4-529a-1b42-0c12dc46f54c@gmail.com>
 MIME-Version: 1.0
+In-Reply-To: <f10fea91-06a4-529a-1b42-0c12dc46f54c@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V2] alsa-utils: fix multilib names
+Subject: Re: Should systemd be marked as incompatible with musl?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +48,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 17:18:49 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 24 May 2019 17:27:42 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Fri, 2019-05-24 at 15:19 +0200, Ming Liu wrote:
-> Wouldn't that break the alsa-utils-scripts? Since ALSA_UTILS_PKGS is
-> being depended by both alsa-utils and alsa-utils-scripts.
+On Fri, May 24, 2019 at 09:13:08AM -0700, Khem Raj wrote:
 > 
-> I did that in V1, but as Richard Purdie pointed out, it will break
-> the alsa-utils-scripts build.
+> 
+> On 5/24/19 3:12 AM, Adrian Bunk wrote:
+> > On Thu, May 23, 2019 at 07:16:53PM -0700, Khem Raj wrote:
+> > > ...
+> > > but I think dropping
+> > > systemd support completely from musl is not an option I would like to go
+> > > with, there are cases where this makes sense. Especially when you have to
+> > > cater to different set of devices from small to big, userspace remaining
+> > > same is big advantage atleast in the world I am in.
+> > > ...
+> > 
+> > That's a good point - when arguing against systemd as default init system.
+> > 
+> > systemd is bigger than glibc, therefore on very small systems where the
+> > size of the C library matters using systemd is usually not an option.
+> 
+> Yes, design-wise I concur, in practice, desktop distros rule the linux world
+> and systemd is quite prevalent there,
 
-I was about to say we should refactor these recipes and create a common
-inc file.
+Desktop distros don't use musl - it wouldn't make sense.
 
-Looking at the justification in alsa-utils (avoid a bash dependency),
-that is a runtime issue, not a build time one. We should merge these
-recipes and ensure the packaging remains the same.
+> so sometimes you have to wear the
+> shoes of same color, atleast thats what I see.
 
-We can then avoid some of these problems, use PN and have a simpler
-recipe. These changes should be done in multiple commits, one per
-change as usual.
+Is any musl-using distribution supporting it with systemd?
 
-Is there any reason I'm missing not to do this?
+After a cursory look around it doesn't seem that trying to support the 
+weird combination of systemd and musl brings compatibility with anyone 
+else.
 
-Cheers,
+> apps want to run uniformly on both OE and non-OE systems
 
-Richard
+This implies using glibc, which is the correct choice in most cases.
+
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
