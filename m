@@ -1,62 +1,27 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id A25767D26C
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C2E997E45E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 16:13:09 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id o11so691570pgm.13
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 09:13:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:organization:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=PJbrJOmLsEK4U4rsL1KeoYugKONcdOQZoQqFkmad12s=;
-	b=uHsXjsgUXFbsBR3YFfMqcvf0D2fd+efKUsxX/Xx0ZQVO5Q0zyRFuXGvyIhdCP6g7pp
-	j0pIk5osBs6b8wU5flFGuvduaOqJeRDEb6yUHjdMeXOYysKIz7/n9fH1ImU9QuJW2dEM
-	Ho+V9R/92t21DKxuvqPrsMpk1ZYdQh+7sQIPwajGWnrAEcNuerQTENyUR1tNxEXDrE7d
-	cUqQ8qtNyTlQK5ddKM1SON9OixDxU/IJOBsNIAuym9VvyAZNY/lycjMBDNiGxQPYWDML
-	ZvSV5DUyGTeI+xHoMNtOVfSeayCwHj9CABCrOQNCaVQqRiiK/IopRGH6a1GF2VQ1E3wt
-	FU8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:organization
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=PJbrJOmLsEK4U4rsL1KeoYugKONcdOQZoQqFkmad12s=;
-	b=MhYYDE+86TdZMNM3jxoezwXMG+DA1VxQ7vzfMwUGr6zl7XfQ2XOQ2bAL5f+bVahOFz
-	YM7mX4Ac0t9VBdkahm6p0kMBNHrrwEQrl+ZVS0LyQ3s77CJwDnUZ3TIWNtyQmb0CSuAw
-	ByFnA2arDv+66mIkLrry5GvVB1ppbDYAnkbCPym7qW6EytKzIdj8iLsdH2Z80UtiZJPI
-	F2+AIS0P+CuQU7cAVk4Baj5ul3QXxta0T5NBDuAd5lKsys7Gwzm1di437X915vQFo+jX
-	2hllND9Q72uUOgvvo/2dP2gA8V3M1vggr/qGgYlDZcbxOwAn06PFpm8s4V8PaTTloYGr
-	x5Og==
-X-Gm-Message-State: APjAAAU+kWi6OJz/x+wHhmwhVrOxc4I67EV0y6vcyzH9Co+VSpdHsCd+
-	2s27xNkSi6LpxVP2UUmR+FUsVBlm8Qo=
-X-Google-Smtp-Source: APXvYqzUqX3ePC4iriREYXm2zvkcEU+idGo14DEH3DUGYghOr2sqJ2SPchK5gy2Q8idHQFth1QuhJw==
-X-Received: by 2002:a17:90a:ca16:: with SMTP id
-	x22mr10210001pjt.98.1558714390177; 
-	Fri, 24 May 2019 09:13:10 -0700 (PDT)
-Received: from hermes.local ([2601:646:8500:6bc6:90a1:c429:7580:7c44])
-	by smtp.gmail.com with ESMTPSA id
-	p14sm3585666pfa.112.2019.05.24.09.13.09
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 24 May 2019 09:13:09 -0700 (PDT)
-To: Adrian Bunk <bunk@stusta.de>
-References: <20190523103352.GA25084@localhost>
-	<CAJTo0LaErQVjmJoAFr3e45fZ75+TiZFi_hDS2f-KUGuLyC3hTA@mail.gmail.com>
-	<45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
-	<f9b4e583-3e93-6e6e-ebaf-891093a135b3@gmail.com>
-	<20190524101211.GA25912@localhost>
-From: Khem Raj <raj.khem@gmail.com>
-Organization: HIMVIS LLC
-Message-ID: <f10fea91-06a4-529a-1b42-0c12dc46f54c@gmail.com>
-Date: Fri, 24 May 2019 09:13:08 -0700
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
-	Gecko/20100101 Thunderbird/67.0
+	Fri, 24 May 2019 16:14:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4OGEhM8015959
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 24 May 2019 09:14:43 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 24 May 2019 09:14:42 -0700
+To: Nicola Lunghi <nick83ola@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190524144447.24103-1-nick83ola@gmail.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <a2d506ec-aede-294e-e673-01bf30bbe30f@windriver.com>
+Date: Fri, 24 May 2019 12:14:41 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190524101211.GA25912@localhost>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Should systemd be marked as incompatible with musl?
+In-Reply-To: <20190524144447.24103-1-nick83ola@gmail.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [oe][meta-webserver][PATCH 1/2] nginx: update to version 1.17.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,35 +34,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 16:13:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 24 May 2019 16:14:43 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 
+Nicola,
+
+Please re-send to:
+    openembedded-devel@lists.openembedded.org
+rather than:
+    openembedded-core@lists.openembedded.org
+
+Did you read:
+  https://www.openembedded.org/wiki/How_to_submit_a_patch_to_OpenEmbedded
+If so maybe we need to improve the howto.
+
+Thanks.
+../Randy
+
+On 5/24/19 10:44 AM, Nicola Lunghi wrote:
+> Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+> ---
+>   meta-webserver/recipes-httpd/nginx/nginx_1.15.7.bb | 6 ------
+>   meta-webserver/recipes-httpd/nginx/nginx_1.17.0.bb | 6 ++++++
+>   2 files changed, 6 insertions(+), 6 deletions(-)
+>   delete mode 100644 meta-webserver/recipes-httpd/nginx/nginx_1.15.7.bb
+>   create mode 100644 meta-webserver/recipes-httpd/nginx/nginx_1.17.0.bb
+> 
+> diff --git a/meta-webserver/recipes-httpd/nginx/nginx_1.15.7.bb b/meta-webserver/recipes-httpd/nginx/nginx_1.15.7.bb
+> deleted file mode 100644
+> index 5e6dc33e9..000000000
+> --- a/meta-webserver/recipes-httpd/nginx/nginx_1.15.7.bb
+> +++ /dev/null
+> @@ -1,6 +0,0 @@
+> -require nginx.inc
+> -
+> -LIC_FILES_CHKSUM = "file://LICENSE;md5=3691402cc54ce09f800ca348634a2dfe"
+> -
+> -SRC_URI[md5sum] = "719b2e3d416f111fecc9db6625553658"
+> -SRC_URI[sha256sum] = "8f22ea2f6c0e0a221b6ddc02b6428a3ff708e2ad55f9361102b1c9f4142bdf93"
+> diff --git a/meta-webserver/recipes-httpd/nginx/nginx_1.17.0.bb b/meta-webserver/recipes-httpd/nginx/nginx_1.17.0.bb
+> new file mode 100644
+> index 000000000..8774a87ff
+> --- /dev/null
+> +++ b/meta-webserver/recipes-httpd/nginx/nginx_1.17.0.bb
+> @@ -0,0 +1,6 @@
+> +require nginx.inc
+> +
+> +LIC_FILES_CHKSUM = "file://LICENSE;md5=52e384aaac868b755b93ad5535e2d075"
+> +
+> +SRC_URI[md5sum] = "56767fd62302508295b31adc48b99a59"
+> +SRC_URI[sha256sum] = "e21b5d06cd53e86afb94f0b3678e0abb0c0f011433471fa3d895cefa65ae0fab"
+> 
 
 
-On 5/24/19 3:12 AM, Adrian Bunk wrote:
-> On Thu, May 23, 2019 at 07:16:53PM -0700, Khem Raj wrote:
->> ...
->> but I think dropping
->> systemd support completely from musl is not an option I would like to go
->> with, there are cases where this makes sense. Especially when you have to
->> cater to different set of devices from small to big, userspace remaining
->> same is big advantage atleast in the world I am in.
->> ...
-> 
-> That's a good point - when arguing against systemd as default init system.
-> 
-> systemd is bigger than glibc, therefore on very small systems where the
-> size of the C library matters using systemd is usually not an option.
-> 
-
-Yes, design-wise I concur, in practice, desktop distros rule the linux 
-world and systemd is quite prevalent there, so sometimes you have to 
-wear the shoes of same color, atleast thats what I see. apps want to run 
-uniformly on both OE and non-OE systems
-
-> cu
-> Adrian
-> 
+-- 
+# Randy MacLeod
+# Wind River Linux
 
