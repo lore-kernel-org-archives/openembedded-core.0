@@ -1,41 +1,50 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B67387E4A5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id EBE997E4A5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 17:27:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 459YGg5vzzz40;
-	Fri, 24 May 2019 19:27:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558718861;
-	bh=49hVo51jBPVMILlVJiUfcAX8Hr+0L8zbOkRVm9h71kU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EPEzCs3nyXbyJqEiG3FCno4S/k8KIRupVqUNP5vu415d2c19DU2VJjKrdh7Ugoi1u
-	tnAS18uINNeeIj8DGVjRIFckPHYcGjlEAfjtXqhIRQSKomwHbWaaMcuUPIPpwKgnbV
-	DTPxS8hmN4mWkWz5fFxcbjIFs+Z6T83zMPxpkOgOVbnVhttxocRohcvplaBgotv19z
-	qof9K5XFBnuKczEl/cG2FOk3zRBdKHOWVOQ9x+2ch21Z6lgBjfDdyctNebF/PLDag/
-	BFeZPdph/kfPKbqnLFXQ/y/8GtJJkz6Sgj83OkMJ3DGj01cVUoMQSO78Qs+xdOwnMe
-	9+E1xyfsOzCtAqeL5wnR5C0CBmIoQO+88WNk+kg4jR92mOlr+hKENVAVlGQVBBmZE6
-	+nHs8I85TQQmjGCAmbU5b1mrYS8FnJCg2tTuuODPlSqY/78avUWfClvZ8OWjj3iaXg
-	4+hAOlds8XggYzwNcWyEhLDmugRLgg4woLwOUl+8yFM17uJSMVMioLuUpimFQjSneE
-	UWNxbQW02aUXxT+K8JndJYVXfHnr92BNg52yAguRZEesqJBA4iiWuXeFI+SXGXL0WZ
-	i/NsMBrKx2SgY+m0un+Vn5h7tdUqrig4rUR6yef/7KX+vXT7u5XBEYHeRVLl8S4twA
-	9WBcrpDpT1EzLHobpE5JtZno=
-Date: Fri, 24 May 2019 20:27:37 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190524172737.GA6813@localhost>
-References: <20190523103352.GA25084@localhost>
-	<CAJTo0LaErQVjmJoAFr3e45fZ75+TiZFi_hDS2f-KUGuLyC3hTA@mail.gmail.com>
-	<45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
-	<f9b4e583-3e93-6e6e-ebaf-891093a135b3@gmail.com>
-	<20190524101211.GA25912@localhost>
-	<f10fea91-06a4-529a-1b42-0c12dc46f54c@gmail.com>
+	Fri, 24 May 2019 17:29:31 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id w13so2431054wru.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 May 2019 10:29:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=2lBA0ghJLG9p80VeNqLAkyWuXrnNqn4T8qlyOkYKE90=;
+	b=cj23Bau7xxfgigraEIyPSwtbbeMt6T/fSQd6MxCLYb0/tCwZ40olbq+jxGDRbBFYou
+	AdXZFVw/mYqGSAv7vHVo/oBU/q3Q5OEfW46+Yv8HDTp9JcXkhZDB+bWI+mRd/hCcYVdz
+	KD7RmlnQXor8lBFSrjPdVl1VJioLlqd5Sy+CI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=2lBA0ghJLG9p80VeNqLAkyWuXrnNqn4T8qlyOkYKE90=;
+	b=iVJivmtL8pK2t5XBxLZMe4oCV0SCB8Ftq5BFCcwGVeIZ3MwRSD656Rn05f/JyAv6W2
+	m+YStV/sXnYkVry/CP5XfPqt8r0IQG+7Jog4tTJ4U+E+4rW1hrDUkI8CEX20yXmS1Y19
+	kt27sEK/Qy16dKSxxfA33Nn3t8LCabCslo7MOOzKdeDItwWo8XxJE7eU6cFzVWy/l90A
+	7pdas6cdGzF4WKtbZU3+frtHHX+hX/H1JMsj7SbDGW2NyvDg/iNm/RmQb8Fy+Vj9J/OM
+	X3tVpr9kOfyfYhTWfi1SwDllFqwXs08Rrcbl3X+d6ySk82lFv5SKCGSm/CBI4yULfOpi
+	oLFw==
+X-Gm-Message-State: APjAAAVIazQfwWlWYFh7r/N5p4p66K/n9VVDnwKiG0ZWdvQg5PvOmkEB
+	ScuZQJTBFZwNht6t7ssM/2JaVA==
+X-Google-Smtp-Source: APXvYqwkpKbGgGlO4uo92CioalR4TISVa19aB3hA0AGGF/45bxPXwZKkP32Nh+G9R2wy1p8hT/ZGuw==
+X-Received: by 2002:a5d:68d2:: with SMTP id p18mr59839877wrw.56.1558718972758; 
+	Fri, 24 May 2019 10:29:32 -0700 (PDT)
+Received: from hex ([85.255.233.241]) by smtp.gmail.com with ESMTPSA id
+	b18sm2500011wrx.75.2019.05.24.10.29.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 24 May 2019 10:29:32 -0700 (PDT)
+Message-ID: <c44ab1cfbbaa2cb3bbfd6227539a278e7d61b775.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Haiqing Bai <Haiqing.Bai@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 24 May 2019 18:29:30 +0100
+In-Reply-To: <20190524054915.49751-1-Haiqing.Bai@windriver.com>
+References: <20190524054915.49751-1-Haiqing.Bai@windriver.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-In-Reply-To: <f10fea91-06a4-529a-1b42-0c12dc46f54c@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Should systemd be marked as incompatible with musl?
+Subject: Re: [PATCH] make-mod-scripts: Add nostamp flag on configure task
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,54 +57,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 17:27:42 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 24 May 2019 17:29:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, May 24, 2019 at 09:13:08AM -0700, Khem Raj wrote:
+On Fri, 2019-05-24 at 13:49 +0800, Haiqing Bai wrote:
+> Error appears while building out of tree kernel module
+> after recompiling the kernel:
+> bitbake -c cleanall/cleansstate virtual/kernel
+> bitbake -c cleanall/cleansstate hello-mod
+> bitbake virtual/kernel
+> bitbake hello-mod
 > 
+> ERROR: Kernel configuration is invalid.
+>        include/generated/autoconf.h or include/config/auto.conf are
+> missing.
+>        Run 'make oldconfig && make prepare' on kernel src to fix it.
+> error: 'struct pt_regs' has no member named 'ds'; did you mean 'dx'?
 > 
-> On 5/24/19 3:12 AM, Adrian Bunk wrote:
-> > On Thu, May 23, 2019 at 07:16:53PM -0700, Khem Raj wrote:
-> > > ...
-> > > but I think dropping
-> > > systemd support completely from musl is not an option I would like to go
-> > > with, there are cases where this makes sense. Especially when you have to
-> > > cater to different set of devices from small to big, userspace remaining
-> > > same is big advantage atleast in the world I am in.
-> > > ...
-> > 
-> > That's a good point - when arguing against systemd as default init system.
-> > 
-> > systemd is bigger than glibc, therefore on very small systems where the
-> > size of the C library matters using systemd is usually not an option.
+> make-mod-scripts must be forced to rebuild in this case to generate
+> config data in 'kernel-build-artifacts/include/config'
 > 
-> Yes, design-wise I concur, in practice, desktop distros rule the linux world
-> and systemd is quite prevalent there,
+> Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+> ---
+>  meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-
+> scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-
+> scripts_1.0.bb
+> index 97c58c5233..f55104070d 100644
+> --- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> +++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+> @@ -12,6 +12,8 @@ S = "${WORKDIR}"
+>  do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-
+> native:do_populate_sysroot"
+>  do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
+>  
+> +do_configure[nostamp] = "1"
+> +
+>  DEPENDS += "bc-native"
+>  
+>  EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS}
+> ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
 
-Desktop distros don't use musl - it wouldn't make sense.
+This sounds like a really bad idea and will make anything depending on
+it rebuild in every build.
 
-> so sometimes you have to wear the
-> shoes of same color, atleast thats what I see.
+We need to ensure that these clean commands are not cleaning things out
+of the shared kernel directory that they don't own.
 
-Is any musl-using distribution supporting it with systemd?
+Cheers,
 
-After a cursory look around it doesn't seem that trying to support the 
-weird combination of systemd and musl brings compatibility with anyone 
-else.
-
-> apps want to run uniformly on both OE and non-OE systems
-
-This implies using glibc, which is the correct choice in most cases.
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Richard
 
 
