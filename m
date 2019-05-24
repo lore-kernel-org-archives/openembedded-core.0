@@ -1,30 +1,38 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 3688D7E4E8
+Return-Path: <armccurdy@gmail.com>
+Received: from mail-vs1-f68.google.com (mail-vs1-f68.google.com
+	[209.85.217.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 97E137DE8C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 20:28:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 459dHc35Brz24;
-	Fri, 24 May 2019 22:28:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1558729724;
-	bh=cNFtUXJVKRzbFbxFDB6SRFZ+f+pa5Y3hCRUAiEhTIQg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i/XTu8TZaiCgz7WPtpQbOLSmLgzVTAbH8sOfYhQ++77jgqTs12DqmqqeSnmfUPf7s
-	iz728XcauRcMziNuWFmMyq5RWlLMlsMt8yGMgsVuk6BTw8PcV8ju27xwxnwF+8TmDA
-	VoaAgWdos3OGMOkrdi0E1f076jWx5iZWq+NQMLvK9Yx1XR/gfCr79Mx2Oicp9I776Y
-	/BRVGlwqPeh1X0ALKqPBUFFVlWSEE/JDDEwHQxzM7oEMCdXaDXGRs3JD1rECv5MiuV
-	65pxT7qNS5OktRoOvuL7D/2bs2P+iM+6+qSxAjxIv7gt5slXfZ9Zl+ZmD75323G3Nd
-	nulQl/LatST5PYm+Bg0AaHYtI5iHV6WrXm4qw1pSiMJZCeN/xDXQQbGObaOSZ0Loy1
-	o9520iAvmLP7IQx/NH7NVD5AeY2NFpaoA65aQYuZWI/UeRWl2hsx92eUQetD44GyPx
-	1IVq8G2ypGNuJupoBg7yD/DYBjNqVgvpQryMUm+yZvJRmknZ37NWHyMBxSTL6niSKa
-	/a1Ab9qxgJXHH6eZcSqf8IO3cPLqeTsCVAeMG6UqujsGNfWCcZClfVN8M6BuH/sH3J
-	8+Sua8ts8I0/XILh6Vm4P0Manroa0HuW0veSNj4EK0ik3NY+pqSx0WWo6wPfJNUxX3
-	9XEUuXAUssbpCRpyd3NzWVdE=
-Date: Fri, 24 May 2019 23:28:42 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Andre McCurdy <armccurdy@gmail.com>
-Message-ID: <20190524202842.GB12358@localhost>
+	Fri, 24 May 2019 22:26:08 +0000 (UTC)
+Received: by mail-vs1-f68.google.com with SMTP id w124so6882829vsb.11
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 24 May 2019 15:26:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=KOEyiCyq4VvCIZRoeFgIqZhwYwLZtpyHZnmEWZgUSBo=;
+	b=jP3cv5QisCWDQirB+zUN4EPIn3FFdnt87O3ZejDJfcwslJuCuaTvoByftmQneJYw04
+	VOSA+jHiLBXdydKjORzG67N1q+TOaIWyWIPxOmIzCgvGlA8d6wlBlyX56PJtqX7nxFJi
+	lUDwACM+YntSAUoVTgNUO6FDgNKq2zoHuwOSuWZ6GcXcwMgJOUaPsVnsI0JlDZN2I5BD
+	f2C6YGH6HWVapRJ5HA9AhnSapUwOu/Mi62mzhGd6C7Rgzn7bIStzZbBF6sROElo2MwW/
+	uYCDE6lADNaxxAKdkv4vhzgfaQiBq0hNgMS5ZEzgECiydUyk+EnjFGWq62TJlNViu0yZ
+	glDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=KOEyiCyq4VvCIZRoeFgIqZhwYwLZtpyHZnmEWZgUSBo=;
+	b=N4qSnzwQbQYFsbIulXnZWRppeFQpZXEZq6HSJbjcaW4T5nZiWEs5+xX6qhP4ua/99k
+	suQksQhMeP4uYiB+GFeFXkoeLOeS9n69ojupRz2T9txShZr7clqqM6nA1zHxnbJuXxC3
+	5pIiBmRdHtxgCdGlYjA7PAiijHBiO/QxADx6lGPjYD2v+RgtrgOUJ2ghUd9vtCNGFIUo
+	cxZbscGmpweZi4IeueQTrg/kT0UdfbA1V7baAlpxr2+V8uJlFoRyFgcZf3ZmPrRzNcEO
+	Wq0p7ldIvKifKPDkwkJuffJQoZZX6tcX6b84FkMLWZ4aOC/DnsqNL6xkwtR7jsZgQJWj
+	rYPw==
+X-Gm-Message-State: APjAAAWFtTa4GTwbF/J82h4YZQdTKpgVYpxH19+oVHjwR5logOElhNqJ
+	E71nx+y7uBNl4CWChB1UqKr4ETSeKiu6H4SN6bw=
+X-Google-Smtp-Source: APXvYqzSrbjP4Hw/5J3gqaSkk7mwolyEiS43cvhCXbFZiW1Oz2L3MBjJsUqKXl4hwI6kFt6lZfCaT5EoBQgf5ItYGI0=
+X-Received: by 2002:a67:f108:: with SMTP id n8mr41993808vsk.222.1558736769238; 
+	Fri, 24 May 2019 15:26:09 -0700 (PDT)
+MIME-Version: 1.0
 References: <45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
 	<f9b4e583-3e93-6e6e-ebaf-891093a135b3@gmail.com>
 	<20190524101211.GA25912@localhost>
@@ -35,9 +43,12 @@ References: <45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
 	<CAMKF1sr-JCp6HM1BwYE5T-hgK_2T2j7rfNiRZcD0r_AuC2F7LA@mail.gmail.com>
 	<20190524184546.GA12358@localhost>
 	<CAJ86T=Vr=BSX1fF3G-bHspzXQpXw6qEkUjFDt0==CwgDnpPGFA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CAJ86T=Vr=BSX1fF3G-bHspzXQpXw6qEkUjFDt0==CwgDnpPGFA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+	<20190524202842.GB12358@localhost>
+In-Reply-To: <20190524202842.GB12358@localhost>
+From: Andre McCurdy <armccurdy@gmail.com>
+Date: Fri, 24 May 2019 15:25:57 -0700
+Message-ID: <CAJ86T=XoVzv5yLq1Hkoy2mXVDAA0rY-h8WboP4OmimLrJwJK0w@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: Should systemd be marked as incompatible with musl?
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -52,65 +63,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 20:28:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 24 May 2019 22:26:08 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 24, 2019 at 12:34:23PM -0700, Andre McCurdy wrote:
-> On Fri, May 24, 2019 at 11:46 AM Adrian Bunk <bunk@stusta.de> wrote:
-> > On Fri, May 24, 2019 at 11:04:50AM -0700, Khem Raj wrote:
->...
-> > > I think we should put in plan for 2.8 and define the scope, since we
-> > > are switching
-> > > poky defaults to systemd,
-> > 
-> > Switching glibc builds to systemd as default is a reasonable decision.
+On Fri, May 24, 2019 at 1:28 PM Adrian Bunk <bunk@stusta.de> wrote:
+> On Fri, May 24, 2019 at 12:34:23PM -0700, Andre McCurdy wrote:
+> > On Fri, May 24, 2019 at 11:46 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > > On Fri, May 24, 2019 at 11:04:50AM -0700, Khem Raj wrote:
+> >...
+> > > > I think we should put in plan for 2.8 and define the scope, since we
+> > > > are switching
+> > > > poky defaults to systemd,
+> > >
+> > > Switching glibc builds to systemd as default is a reasonable decision.
+> > >
+> > > Switching musl builds to systemd as default would be very bad.
+> > >
+> > > Combining a tiny C library with a huge init system completely misses
+> > > the configurations where the tiny C library actually makes sense for
+> > > users.
 > >
-> > Switching musl builds to systemd as default would be very bad.
-> >
-> > Combining a tiny C library with a huge init system completely misses
-> > the configurations where the tiny C library actually makes sense for
-> > users.
-> 
-> For new projects yes. However I know of a project (a big project,
-> shipping millions of devices) which picked systemd and glibc long ago
-> and is now running out of space. They already have various solutions
-> to free up Flash (some apps switched to being runtime downloadable,
-> etc) but if/when more savings need to be found then switching from
-> glibc to musl might be a less invasive change than switching from
-> systemd to some other init system. We obviously shouldn't make
-> decisions for OE today based on the historical decisions of one
-> project, but I just want to make the point that real world projects
-> have a lifetime and may end up with a combination of systemd + musl
-> due on past decisions that may not make sense for a new project
-> starting today.
+> > For new projects yes. However I know of a project (a big project,
+> > shipping millions of devices) which picked systemd and glibc long ago
+> > and is now running out of space. They already have various solutions
+> > to free up Flash (some apps switched to being runtime downloadable,
+> > etc) but if/when more savings need to be found then switching from
+> > glibc to musl might be a less invasive change than switching from
+> > systemd to some other init system. We obviously shouldn't make
+> > decisions for OE today based on the historical decisions of one
+> > project, but I just want to make the point that real world projects
+> > have a lifetime and may end up with a combination of systemd + musl
+> > due on past decisions that may not make sense for a new project
+> > starting today.
+>
+> I am feeling guilty that there are two only partially related
+> topics mixed in this discussion.
+>
+> In this part of the discussion the topic was what the default
+> (and CI-tested) init system for musl should be - it seems obvious
+> to me that systemd is not what users will usually want to use with musl.
 
-I am feeling guilty that there are two only partially related
-topics mixed in this discussion.
+It would be great to have an alternative init system option for
+smaller devices in oe-core. I don't think collectively we have the
+development capacity to support it though (it's probably far more work
+than properly fixing all the currently known issues with systemd on
+musl...).
 
-In this part of the discussion the topic was what the default 
-(and CI-tested) init system for musl should be - it seems obvious
-to me that systemd is not what users will usually want to use with musl.
+> But there is also the topic whether systemd on musl is
+> in a state that it should be made available at all.
 
-But there is also the topic whether systemd on musl is
-in a state that it should be made available at all.
+I think it's wrong to remove stuff from oe-core just because it isn't
+perfect or isn't CI tested. Having something in oe-core means there's
+a common version to collaborate on. If it gets kicked out then
+development efforts inevitably fragment. Users are generally smart
+enough to understand the concept of an experimental feature - although
+we could perhaps do a better job of identifying them. Maybe one day
+when users can create a custom distro config by running "make
+menuconfig" there will be an option to enable experimental features
+and the combination of musl and systemd would be hidden behind that.
+Until then, perhaps we could add a sanity check warning if musl and
+systemd are enabled together?
 
-Does any of these millions of devices have untrusted
-users or an internet connection?
+> Does any of these millions of devices have untrusted
+> users or an internet connection?
 
-At that point my email that started this thread becomes relevant,
-the fact that the systemd/musl patches in OE add new security 
-vulnerabilities and other bugs - and none of the systemd-on-musl
-proponents seems to consider this a problem they have to fix ASAP.
+No local users (if I remember right, everything runs as root) but they
+do all have broadband internet connections.
 
-cu
-Adrian
+> At that point my email that started this thread becomes relevant,
+> the fact that the systemd/musl patches in OE add new security
+> vulnerabilities and other bugs - and none of the systemd-on-musl
+> proponents seems to consider this a problem they have to fix ASAP.
 
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+It's certainly a problem and we should try to fix it. It's not at all
+uncommon that patches to fix build issues with musl, clang, a new
+version of gcc, etc have a life cycle... a first pass just to fix the
+build and then updates as issues are found or better solutions get
+merged upstream. It's the normal process. You could argue that we are
+sometimes too quick to merge the first pass hacks and too slow to
+review and update them, but unfortunately that's just a consequence of
+limited developer resources (and it's always more fun to try to get
+the latest version of something working than review and cleanup old
+patches...).
 
