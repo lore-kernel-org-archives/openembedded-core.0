@@ -1,50 +1,62 @@
-Return-Path: <luca.boccassi@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BC2A7CECB
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id A25767D26C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 15:24:31 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id u16so6544948wrn.8
+	Fri, 24 May 2019 16:13:09 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id o11so691570pgm.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 08:24:32 -0700 (PDT)
+	Fri, 24 May 2019 09:13:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version
+	h=subject:to:cc:references:from:organization:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=x+cF4iNFSO9bEmPCWGy82wibQhc4+lgtYJONoO0APng=;
-	b=IH99EYFHE6vnp76kAr13eI8dODcAWht4m8mlsJ/M+TwYWo3fMCIjXygwbAlcpWeb00
-	GVjP12jq5iWprlaNH4jI4QEfoejaS7O2UD47hN9/Rxh2mhcR2Lshn8ZvCZkWEhLQeUru
-	ZQ29KL1nqFx30Q036aX3Wzbw0IwC6Ry6fnI/j51IuPpaHPoaviTdAnZZRZgJrpw8Fpha
-	EuKzBZ9YxL4HqrgKePI9RWMkjU/P0bSqsa6iK1rzoliVLUZykLSwIxwvIYOqvBuc6G41
-	2i10qpmkOL/sR+WV1XYljcmubWX5Ap3S5opgUk+8bsNAOGQzmk81IIZw+rQ9AAlWuPva
-	lkQQ==
+	bh=PJbrJOmLsEK4U4rsL1KeoYugKONcdOQZoQqFkmad12s=;
+	b=uHsXjsgUXFbsBR3YFfMqcvf0D2fd+efKUsxX/Xx0ZQVO5Q0zyRFuXGvyIhdCP6g7pp
+	j0pIk5osBs6b8wU5flFGuvduaOqJeRDEb6yUHjdMeXOYysKIz7/n9fH1ImU9QuJW2dEM
+	Ho+V9R/92t21DKxuvqPrsMpk1ZYdQh+7sQIPwajGWnrAEcNuerQTENyUR1tNxEXDrE7d
+	cUqQ8qtNyTlQK5ddKM1SON9OixDxU/IJOBsNIAuym9VvyAZNY/lycjMBDNiGxQPYWDML
+	ZvSV5DUyGTeI+xHoMNtOVfSeayCwHj9CABCrOQNCaVQqRiiK/IopRGH6a1GF2VQ1E3wt
+	FU8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=x+cF4iNFSO9bEmPCWGy82wibQhc4+lgtYJONoO0APng=;
-	b=O8UzKI+xBQ+GMP3kMwavD7B8Dto8QLZH6caOYFeYEAafs5asOb0ubzPVkZitAg81yS
-	CzZ5kZEFZF69QfMXqroUwiGD9Ag+r33CijFQgyuIkwO3HYFtX4uTPjVBS4JFpxKyeebK
-	dlYxkX5vDXnJSOYCKBDMJH0KIwxJWC/99JaYiAeOg8mTLsknyrDZX2zLle9KPFDN3loi
-	POnQCF8eqDzBQY+gfQvpTJfilhE0l5atxMedcf6zXl7XxFHvBZWI2JC3ZgnHN0rmyhzg
-	5onM61dFc9xgXmALHQj4Z7EuMk6aYBH5hdGBFDOJ2JZQF8VPedE9ZQM1yt/VfZWUCLZe
-	j1Lg==
-X-Gm-Message-State: APjAAAWnAwGKwB2ipQ21WT3fl4i2b7CL5LaHqg+wElj0zALiX6qMI5dV
-	VOE/q3LQ0AUAqdO76J48flxVTw62
-X-Google-Smtp-Source: APXvYqzhhXT1LhqwQDCkLuwH4jexYE3DbjEw/SQStDLWwVt9k/upltpcUeYYV5Lnd4hHssN6kTydBg==
-X-Received: by 2002:a5d:4fc1:: with SMTP id h1mr1794731wrw.323.1558711471792; 
-	Fri, 24 May 2019 08:24:31 -0700 (PDT)
-Received: from localhost ([88.98.246.218]) by smtp.gmail.com with ESMTPSA id
-	x64sm4502609wmg.17.2019.05.24.08.24.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 24 May 2019 08:24:31 -0700 (PDT)
-From: luca.boccassi@gmail.com
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 24 May 2019 16:24:26 +0100
-Message-Id: <20190524152426.26817-1-luca.boccassi@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:subject:to:cc:references:from:organization
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-language:content-transfer-encoding;
+	bh=PJbrJOmLsEK4U4rsL1KeoYugKONcdOQZoQqFkmad12s=;
+	b=MhYYDE+86TdZMNM3jxoezwXMG+DA1VxQ7vzfMwUGr6zl7XfQ2XOQ2bAL5f+bVahOFz
+	YM7mX4Ac0t9VBdkahm6p0kMBNHrrwEQrl+ZVS0LyQ3s77CJwDnUZ3TIWNtyQmb0CSuAw
+	ByFnA2arDv+66mIkLrry5GvVB1ppbDYAnkbCPym7qW6EytKzIdj8iLsdH2Z80UtiZJPI
+	F2+AIS0P+CuQU7cAVk4Baj5ul3QXxta0T5NBDuAd5lKsys7Gwzm1di437X915vQFo+jX
+	2hllND9Q72uUOgvvo/2dP2gA8V3M1vggr/qGgYlDZcbxOwAn06PFpm8s4V8PaTTloYGr
+	x5Og==
+X-Gm-Message-State: APjAAAU+kWi6OJz/x+wHhmwhVrOxc4I67EV0y6vcyzH9Co+VSpdHsCd+
+	2s27xNkSi6LpxVP2UUmR+FUsVBlm8Qo=
+X-Google-Smtp-Source: APXvYqzUqX3ePC4iriREYXm2zvkcEU+idGo14DEH3DUGYghOr2sqJ2SPchK5gy2Q8idHQFth1QuhJw==
+X-Received: by 2002:a17:90a:ca16:: with SMTP id
+	x22mr10210001pjt.98.1558714390177; 
+	Fri, 24 May 2019 09:13:10 -0700 (PDT)
+Received: from hermes.local ([2601:646:8500:6bc6:90a1:c429:7580:7c44])
+	by smtp.gmail.com with ESMTPSA id
+	p14sm3585666pfa.112.2019.05.24.09.13.09
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 24 May 2019 09:13:09 -0700 (PDT)
+To: Adrian Bunk <bunk@stusta.de>
+References: <20190523103352.GA25084@localhost>
+	<CAJTo0LaErQVjmJoAFr3e45fZ75+TiZFi_hDS2f-KUGuLyC3hTA@mail.gmail.com>
+	<45b3b2b0-02c0-1073-df0b-2ab03df1bb29@windriver.com>
+	<f9b4e583-3e93-6e6e-ebaf-891093a135b3@gmail.com>
+	<20190524101211.GA25912@localhost>
+From: Khem Raj <raj.khem@gmail.com>
+Organization: HIMVIS LLC
+Message-ID: <f10fea91-06a4-529a-1b42-0c12dc46f54c@gmail.com>
+Date: Fri, 24 May 2019 09:13:08 -0700
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:67.0)
+	Gecko/20100101 Thunderbird/67.0
 MIME-Version: 1.0
-Subject: [PATCH] mdadm: use ${systemd_unitdir} rather than /lib/systemd
+In-Reply-To: <20190524101211.GA25912@localhost>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Should systemd be marked as incompatible with musl?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,38 +69,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 15:24:31 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 24 May 2019 16:13:09 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-From: Luca Boccassi <luca.boccassi@microsoft.com>
 
-Fixes build with usrmerge enabled.
 
-Signed-off-by: Luca Boccassi <luca.boccassi@microsoft.com>
----
- meta/recipes-extended/mdadm/mdadm_4.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 5/24/19 3:12 AM, Adrian Bunk wrote:
+> On Thu, May 23, 2019 at 07:16:53PM -0700, Khem Raj wrote:
+>> ...
+>> but I think dropping
+>> systemd support completely from musl is not an option I would like to go
+>> with, there are cases where this makes sense. Especially when you have to
+>> cater to different set of devices from small to big, userspace remaining
+>> same is big advantage atleast in the world I am in.
+>> ...
+> 
+> That's a good point - when arguing against systemd as default init system.
+> 
+> systemd is bigger than glibc, therefore on very small systems where the
+> size of the C library matters using systemd is usually not an option.
+> 
 
-diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-index 597faf787a..40fe376a79 100644
---- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
-+++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
-@@ -45,7 +45,7 @@ DEBUG_OPTIMIZATION_append = " -Wno-error"
- 
- do_compile() {
- 	# Point to right sbindir
--	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" ${S}/Makefile
-+	sed -i -e "s;BINDIR  = /sbin;BINDIR = $base_sbindir;" -e "s;UDEVDIR = /lib;UDEVDIR = $nonarch_base_libdir;" -e "s;SYSTEMD_DIR=/lib/systemd/system;SYSTEMD_DIR=${systemd_unitdir}/system;" ${S}/Makefile
- 	oe_runmake SYSROOT="${STAGING_DIR_TARGET}"
- }
- 
-@@ -93,4 +93,4 @@ RRECOMMENDS_${PN}-ptest += " \
-     kernel-module-raid456 \
- "
- 
--FILES_${PN} += "/lib/systemd/*"
-+FILES_${PN} += "${systemd_unitdir}/*"
--- 
-2.20.1
+Yes, design-wise I concur, in practice, desktop distros rule the linux 
+world and systemd is quite prevalent there, so sometimes you have to 
+wear the shoes of same color, atleast thats what I see. apps want to run 
+uniformly on both OE and non-OE systems
 
+> cu
+> Adrian
+> 
 
