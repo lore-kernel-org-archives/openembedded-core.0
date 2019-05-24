@@ -1,51 +1,51 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f196.google.com (mail-qk1-f196.google.com
-	[209.85.222.196])
-	by mail.openembedded.org (Postfix) with ESMTP id A67BB7E4E9
+Received: from mail-qk1-f194.google.com (mail-qk1-f194.google.com
+	[209.85.222.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 145E97E4E9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 19:44:00 +0000 (UTC)
-Received: by mail-qk1-f196.google.com with SMTP id j1so9197970qkk.12
+	Fri, 24 May 2019 19:44:44 +0000 (UTC)
+Received: by mail-qk1-f194.google.com with SMTP id t64so9028903qkh.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 24 May 2019 12:44:02 -0700 (PDT)
+	Fri, 24 May 2019 12:44:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=oz+QZLHwTfNrlOKU4YKMrzriTeTXPfGFFFiEGlLxyKs=;
-	b=LSAZ4Vl/XlvkzISpVNkjygt8FaekT10nrhGTMqhBkAC1MivAmd9N7YPLBNwNuJgt9A
-	kXACm2ZVS2dgWa1OMESihrJ3bIqXaUmUmlvwzTIKaOIZO50eUtOcDz7WZAU4ItOkY9ZU
-	3V1FOUr98LxKtZbxiJ3HoOoi2NFrZJI27BUB3xRgFVYIrG5/uUYGGiPdz8fAZyD9fr0h
-	fYoDpN1xv2caxVZl9uc4VDNQv5jr/v7mxLmotHDlLzs1gN2roj31bQyaPbnD0IscXVKL
-	6GCU4mYQOyE6LBWPKoh2jTfUebdF26eexqEDfqQr4Vyi0jfClCsOFbpzYE6dq7fUc9W4
-	0aww==
+	:cc; bh=6DyuD3bco1lViQr6vAROMUwgWA86u4a7t/Nh8xTZFMY=;
+	b=ig47jH//6lfJ3CUVRzGfPEjxxJv+v8ZFdUEX7PE2Gf8YIyGeM07M5PBUbAhKqMw9pT
+	S4tzpQQ5hjJqY4igg5BI84UHezLyH1xFBsFeQMZQBpRwMu/bTBlUNwRlHoluE4JK5L1h
+	aqg1gJ5aWt94QrS3BMA0H3OB5II9XmEwrlXnqjAF0F3PuNAKjjBkJ3skqAotE7oY6+Wb
+	ushcZt3Alt3/KxhtZWakqSEZeNTMy8ocWOMLAg/E4nRZQtNX8gzUvz0qXCzIcJElozjx
+	cTYZgCKYPYxu5DuvriG5naNscMxziHSv5FM0oOX/8FojOQfytgRby1NAwoCYqzgGmSAE
+	sRXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=oz+QZLHwTfNrlOKU4YKMrzriTeTXPfGFFFiEGlLxyKs=;
-	b=pZ2yI85nZfMIwXGJOXaMGQfP6VVCyTGLS2y+ZmwwDl62Q1yZgHo5n0iOF/TkkWytF1
-	oPxDNDK7Nju8qrksJCfTHjOb/g9Vj2oIOPlu85Wm4zu1u/y+x1DVhbfhYt/8Q1PdxaNj
-	DB299Qt70o5y2RNp/mYnU/geh/YY424Nz4Zw1J+RNFH0mwGUtpsT4dvXJY6JZrh0pxgN
-	hR7X8+wcrrXUXgdgJJ3VKT5eA895JOlVLIBywIFMS+CLQxuE+m8gdcH6QrwDvOLqhJMj
-	3ufga00yBrOiZz3AP1gQMHtGUY6J6zwp59m26l3F1e4p0e8x6XzgLoQpWqFwVuUQnApl
-	Yhzw==
-X-Gm-Message-State: APjAAAUcJLkjYcHwAo2/J+0Thhm+ULNrapyuBQrNVtjPUIZw61081Kml
-	JNXIBgV/AZU1Mt6AEJYPFipG5/UxEqGqfIdVBo4=
-X-Google-Smtp-Source: APXvYqynHuYlQnqaEnSbXXUNGknlZFTdWwQZ6N+ribUXGtdaEHwFD2ODH9109kDv6uBnSQCI/s6wYrAABOHHkey/amw=
-X-Received: by 2002:ac8:2f35:: with SMTP id j50mr85825219qta.378.1558727041420;
-	Fri, 24 May 2019 12:44:01 -0700 (PDT)
+	bh=6DyuD3bco1lViQr6vAROMUwgWA86u4a7t/Nh8xTZFMY=;
+	b=b6kDUGiybvNcEerYc1jcLBRg6+fJ5XkqbQwH3DEQEP440VKwG5XfqmA+py/gld075H
+	YJkuOFiZtJI90uDCU1KBR/N2YTNwhyeuPop5eDLAZeMStwwyMzYvDa8MRcFwr6DrkVsZ
+	59aUAV9aWUtIXBVD4t54k2E9gSkND8EYlG9OumHlhx2KhlanRaF7SbLYDDFaMua1O9oh
+	MdxsxUD6RoBljzNMql9MJ5G0DHN9WCxF8dgIEdTx1EmKAnM186DlTmXAf5wFPULdnoJS
+	t2g2ciO7NNDWbUKEebmsykkrnM0uBRmomWF+tkOihJabpROUSbgjJrTIWw11DTrUZ/sL
+	xwmA==
+X-Gm-Message-State: APjAAAXUAxntr+f4/corskUMRX13Gp90vXjtGYjUrxcOKPdDfuctQjIV
+	baj4ytAjCsMOEjiWgEZdwl6fprOqiqYeK6AiuG8wxmQg
+X-Google-Smtp-Source: APXvYqz6HhCmitkG9WQEWZUFD9xFLuisXvj63say/4tdJfPKqQyk5x9Bzdr3RL/cfMEU+b/MHTMJnu733pJpNhonpkQ=
+X-Received: by 2002:a37:59c7:: with SMTP id n190mr82338982qkb.24.1558727085835;
+	Fri, 24 May 2019 12:44:45 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1558664136.git.Qi.Chen@windriver.com>
-	<ff55bb58704a56b9957b36863b704dad3d69ea0f.1558664136.git.Qi.Chen@windriver.com>
-	<17c3408af1ebd7edc0f9c99c0bbec3617e8885b9.camel@linuxfoundation.org>
-	<CAMKF1so1cOr78PRop6cLi+w7GTSSnKgniOpNyJxgDU_EVSbkfw@mail.gmail.com>
-	<CA+chaQf--h3zXut4+ahWea1AU_d6Uv=eFk1UuuCts8Xj_S9S=g@mail.gmail.com>
-In-Reply-To: <CA+chaQf--h3zXut4+ahWea1AU_d6Uv=eFk1UuuCts8Xj_S9S=g@mail.gmail.com>
+References: <20190523082558.3805-1-kai.kang@windriver.com>
+	<20190523082558.3805-2-kai.kang@windriver.com>
+	<36fa4c4d62d448588b54a0a4b0a5c92a@XBOX04.axis.com>
+	<CAMKF1spu88QXmGms77KzQXVGYSw7dR=40G_Ldd37G0DC1pc68w@mail.gmail.com>
+	<7977f33e2ada4c18a52446f9cb1511ed@XBOX04.axis.com>
+In-Reply-To: <7977f33e2ada4c18a52446f9cb1511ed@XBOX04.axis.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 24 May 2019 12:43:35 -0700
-Message-ID: <CAMKF1speuBwsG=D_UA0DfTe4noa84czCgycv20doci5mE3Kxmw@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+Date: Fri, 24 May 2019 12:44:19 -0700
+Message-ID: <CAMKF1sqN+qmkGiZO6LNi4xa+3OLYTfnfb6yk0pV7DCyOKarGSg@mail.gmail.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] systemd: avoid musl specific patches affect glibc systems
+Subject: Re: [PATCH v3 1/2] local.conf.sample: make systemd as default init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,72 +58,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 24 May 2019 19:44:00 -0000
+X-List-Received-Date: Fri, 24 May 2019 19:44:45 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, May 24, 2019 at 12:14 PM Martin Jansa <martin.jansa@gmail.com> wrote:
+On Fri, May 24, 2019 at 12:23 PM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
 >
-> It's still nicer to have
-> SRC_URI_append_libc-musl = " ${SRC_URI_MUSL}"
-> if the intermediate SRC_URI_MUSL variable is useful.
+> > -----Original Message-----
+> > From: Khem Raj <raj.khem@gmail.com>
+> > Sent: den 23 maj 2019 22:59
+> > To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > Cc: kai.kang@windriver.com; openembedded-core@lists.openembedded.org; richard.purdie@linuxfoundation.org
+> > Subject: Re: [OE-core] [PATCH v3 1/2] local.conf.sample: make systemd as default init manager
+> >
+> > On Thu, May 23, 2019 at 1:41 PM Peter Kjellerstedt <mailto:peter.kjellerstedt@axis.com> wrote:
+> > > -----Original Message-----
+> > > From: mailto:openembedded-core-bounces@lists.openembedded.org <openembedded-
+> > > mailto:core-bounces@lists.openembedded.org> On Behalf Of
+> > > mailto:kai.kang@windriver.com
+> > > Sent: den 23 maj 2019 10:26
+> > > To: mailto:richard.purdie@linuxfoundation.org
+> > > Cc: mailto:openembedded-core@lists.openembedded.org
+> > > Subject: [OE-core] [PATCH v3 1/2] local.conf.sample: make systemd as
+> > > default init manager
+> > >
+> > > From: Kai Kang <mailto:kai.kang@windriver.com>
+> > >
+> > > Move configurations from local.conf.sample.extended to local.conf.sample
+> > > to make systemd as default init manager for poky.
+> >
+> > If we're going to change the default init manager to be systemd, wouldn't
+> > it be more appropriate to change the real default values in bitbake.conf
+> > and http://packagegroup-core-boot.bb? And then include an example in
+> > local.conf.sample.extended to show how to configure sysvinit as init
+> > manager?
+> >
+> > That would change it for Oe-core and other distributions as well which
+> > is not the intention
+>
+> Ok, then I'd say the change belongs in poky.conf. Doing this kind of changes
+> in local.conf.sample seems very wrong to me. Why? Because if I have an
+> existing build tree it will not be affected, but if I setup a new tree with
+> oe-init-build-env it will all of a sudden behave differently from the old
+> tree. In my mind, local.conf.sample should only be used for things the user
+> are likely to want to configure to adapt the build for his/her environment,
+> not to define the distribution (that's what poky.conf is for).
 
-yeah we can do away with this one variable here.
+yes distro config is right place.
 
 >
-> On Fri, May 24, 2019 at 7:59 PM Khem Raj <raj.khem@gmail.com> wrote:
->>
->> On Fri, May 24, 2019 at 10:31 AM Richard Purdie
->> <richard.purdie@linuxfoundation.org> wrote:
->> >
->> > On Fri, 2019-05-24 at 10:17 +0800, Chen Qi wrote:
->> > > systemd upstream only care about glibc. We made musl specific
->> > > patches so that systemd could work. But currently these patches
->> > > contain potential security issues.
->> > >
->> > > So apply these patches only when the libc is musl.
->> > >
->> > > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> > > ---
->> > >  meta/recipes-core/systemd/systemd_242.bb | 2 +-
->> > >  1 file changed, 1 insertion(+), 1 deletion(-)
->> > >
->> > > diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-
->> > > core/systemd/systemd_242.bb
->> > > index 2dda0d0..adb592f 100644
->> > > --- a/meta/recipes-core/systemd/systemd_242.bb
->> > > +++ b/meta/recipes-core/systemd/systemd_242.bb
->> > > @@ -27,7 +27,7 @@ SRC_URI += "file://touchscreen.rules \
->> > >             "
->> > >
->> > >  # patches needed by musl
->> > > -SRC_URI += "${SRC_URI_MUSL}"
->> > > +SRC_URI += "${@d.getVar('SRC_URI_MUSL') if d.getVar('TCLIBC') ==
->> > > 'musl' else ''}"
->> > >  SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-
->> > > available.patch \
->> > >                 file://0002-don-t-use-glibc-specific-qsort_r.patch \
->> > >                 file://0003-missing_type.h-add-__compare_fn_t-and-
->> > > comparison_fn_.patch \
->> >
->> > Doesn't the usual SRC_URI_append_libc-musl = "X" work?
->> >
->>
->> yes this should be better, SRC_URI_MUSL was introduced so someone
->> could override it
->> but if we make it optional then using override is better I think
->>
->> > Cheers,
->> >
->> > Richard
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> //Peter
+>
 
