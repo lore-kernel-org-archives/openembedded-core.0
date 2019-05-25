@@ -1,49 +1,49 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id A01797C4F9
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7A2B67E42F
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 20:16:05 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id i3so12468872wml.4
+	Sat, 25 May 2019 20:18:53 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id d9so13126183wrx.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 13:16:06 -0700 (PDT)
+	Sat, 25 May 2019 13:18:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=uaRivgVwwVl6dl+dHhteJjr/2s56OWGsw8ENBMolZBY=;
-	b=QookPc3+BqvZxbyxDoQBXThDGpqPmXqDULIh7Hjl8PkK9vFeJpbW2l61wRtBethx7H
-	awcCwo0W/XAQ21vyx/g6Z8CZ4G1u/v/um6OMsPtqKxZYrAPHaaU7mrtmFbmcgjG7HUGt
-	jseastZ5LGHC/0bosgxb23qaT8PJNlQzJbahw=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=z+Fnlp5crmQn88bmWfSIVNfg+jmvZDP9NuYy45zRbAs=;
+	b=CEq8cm9ej39q2j6QcK/IUytWEqNgD+asUmpmiKDQtZpTGzkL6w97qSDzMO86adDMWz
+	zhtpYKmIrdi/SWtdtxVTrul60usRItqJjM78vmUK2bZEPmLYfbavflV52VhpPWgLfE9w
+	GcLTzo+UPBFTm3wf/CFD0cGipvwa7/ltwgWrg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=uaRivgVwwVl6dl+dHhteJjr/2s56OWGsw8ENBMolZBY=;
-	b=k2elPTQ6mPh0i8r1KQtEzEKPUY9zeAHHmh3tWo4v7ddtQKP2+l9vvdDDLAMx/gqwWN
-	l5qfkyV8bsLAuOLuivYfaGY+cmK65cp0pG2Sf1fifssDjX5uDlk0G5dtmMIwwmbnj+Bw
-	oiFWrLrU9BNSd91bq5ppbf+mlJF7fkFvpTz4Ml0EldUW15QIDJNEcintOxymVQmKzUf8
-	RrSUvUQ85V4SvqTElp4O7LsLfMuqTgVOe9ZD/F0x2trr6gJ0USOFhJMGhpTlZ12ZKP5L
-	dLN9SjGGndvd/KRCFM0BF01h7rmuy4FKP6AscqC52qwc4QsCvYE8fRCkCOcFmGiEeAx0
-	k4rg==
-X-Gm-Message-State: APjAAAXuUwXKkzzD7M+S4TVulVJTsD5QrvBCt+ZWqzQvPohqP1M2Tmhv
-	jpo26XY7+2v0HHFyx9knznlLiNhtGzo=
-X-Google-Smtp-Source: APXvYqzFc4Nix0hQyA6mgmbVKEeV/QNF1KrDGin1MYrGT7CtfINuDopXWjZXUx913RFfrl3QJfuFpg==
-X-Received: by 2002:a1c:e009:: with SMTP id x9mr4323928wmg.117.1558815366101; 
-	Sat, 25 May 2019 13:16:06 -0700 (PDT)
-Received: from hex ([85.255.236.98]) by smtp.gmail.com with ESMTPSA id
-	p16sm11704562wrg.49.2019.05.25.13.16.05
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=z+Fnlp5crmQn88bmWfSIVNfg+jmvZDP9NuYy45zRbAs=;
+	b=Q+hG9j/8bATgnTtuz1VoQNTT6GqAcYTTzHhy+4XAMptSIyf2FAYjM79mTWAYFurX2z
+	y+BrCBeNfIocWtUDH3kBSI0dweNamwGcCZJatEvJCEIXqFZ5mYI+dHuMNJpKrnErD42+
+	BLs/Hs6B/chTSDL27cvzWUyHUwLb5wY3dWrVgjQqk+6JjNkWJzknu/9oZIwhRTwWc4Zu
+	HrqgacwVoqO8oxWhQ5MuYkBKfU2vYHlu/9WV7miyNyRZ0Qm9VkAiwIv4CsfEB74xEx0f
+	tBv1TMFfNExHJvw4ex1GAfuZ1Njo3km/7mXHuXduvyFm3/HeXsRmu8nQZEDsNGdNSzT+
+	ulWg==
+X-Gm-Message-State: APjAAAU0iDblattL0PB1RtJY3kaIPZPl2v4UJn9P/ZTKuINlkFBbFg3Q
+	TZ/wT0EkACFI8/gV6zBO8UAmeSYuN6Q=
+X-Google-Smtp-Source: APXvYqzKL8t2hM1dcA19po2oG6HTE6bfJDj3EZ5sQqCpF6cqKqM6mepLkUEMyXPJSnBn0AS+wQwgdw==
+X-Received: by 2002:adf:e4c9:: with SMTP id v9mr5158992wrm.147.1558815533943; 
+	Sat, 25 May 2019 13:18:53 -0700 (PDT)
+Received: from hex.int.rpsys.net ([85.255.236.98])
+	by smtp.gmail.com with ESMTPSA id
+	k184sm14790956wmk.0.2019.05.25.13.18.52
+	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 25 May 2019 13:16:05 -0700 (PDT)
-Message-ID: <12580c58f5d64b60ca87f5077b43924af5d746d2.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
-Date: Sat, 25 May 2019 21:16:02 +0100
-In-Reply-To: <1558516295-289667-1-git-send-email-mingli.yu@windriver.com>
-References: <1558516295-289667-1-git-send-email-mingli.yu@windriver.com>
-User-Agent: Evolution 3.32.1-2 
+	Sat, 25 May 2019 13:18:53 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat, 25 May 2019 21:18:50 +0100
+Message-Id: <20190525201851.23732-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] elfutils: fix ptest failures
+Subject: [PATCH 1/2] layer.conf: Whitelist lttng-tools->lttng-modules dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,63 +56,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 May 2019 20:16:06 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 25 May 2019 20:18:53 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2019-05-22 at 17:11 +0800, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
-> 
-> * Add missing -ptest package dependencies (needs
->   ${PN}-dbg)
-> 
-> * Add missing files which needed by ptest test
->   to fix below failures:
->   | ./run-ar.sh: line 23: cd:
-> /usr/lib64/elfutils/ptest/tests/..//src: No such file or directory
->   | FAIL: run-ar.sh
-> 
->   | sh: ../src/elflint: No such file or directory
->   | FAIL: asm-tst4
-> 
-> * Rework 0001-skip-the-test-when-gcc-not-deployed.patch
->   to skip the tests which depend on gcc
-> 
-> Before:
-> --------------------------------------------
-> Recipe   | Passed    | Failed   | Skipped
-> --------------------------------------------
-> elfutils | 176       | 23       | 4
-> --------------------------------------------
-> 
-> After:
-> --------------------------------------------
-> Recipe   | Passed    | Failed   | Skipped
-> --------------------------------------------
-> elfutils | 184       | 15       | 4
-> --------------------------------------------
-> 
+The API between lttng-tools and lttng-modules is safe, whitelist it as
+the dependency fixes tools failures. This needs a hack in the multilib
+class as right now there is no way to know if a given recipe is a kernel
+module or not. This needs to be revisited.
 
-Unfortunately if I add this to the build we see failures due to core-
-image-sato-sdk-ptest becomming too large for generix86-64 as the image
-exceeds the 4GB limit its FSTYPE allows.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/multilib_global.bbclass | 3 +++
+ meta/conf/layer.conf                 | 1 +
+ 2 files changed, 4 insertions(+)
 
-I tried reducing the amount of free space in the image but then the
-strace and until-linux ptests fail:
-
-https://autobuilder.yocto.io/pub/non-release/20190524-8/testresults/testresult-report.txt
-
-We do plan to change the hddimg format and use wic to avoid the 4GB
-limit sometime in 2.8 but those patches aren't ready yet. I'm therefore
-not quite sure what to do here. Is there any way we can save space in
-the images so we could merge this?
-
-Wth regard to the src/ directory, I did wonder if there needed to be a
-patch to one of the other scripts to use installed files (similar to
-how I fixed some of these last time)?
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+index 649cc096b76..19ce1a50915 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -118,6 +118,9 @@ def preferred_ml_updates(d):
+             d.renameVar(prov, provexp)
+ 
+     def translate_provide(prefix, prov):
++        # Really need to know if kernel modules class is inherited somehow
++        if prov == "lttng-modules":
++            return prov
+         if not prov.startswith("virtual/"):
+             return prefix + "-" + prov
+         if prov == "virtual/kernel":
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 6590e80700a..5ecb93651e5 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -77,6 +77,7 @@ SIGGEN_EXCLUDE_SAFE_RECIPE_DEPS += " \
+   weston-init->weston \
+   weston-init->kbd \
+   connman->xl2tpd \
++  lttng-tools->lttng-modules \
+ "
+ 
+ # Avoid adding bison-native to the sysroot without a specific
+-- 
+2.20.1
 
 
