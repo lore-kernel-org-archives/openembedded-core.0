@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C8D447E437
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 5B98A7C4F9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 20:18:54 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id i3so12472173wml.4
+	Sat, 25 May 2019 20:22:04 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id y3so12504991wmm.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 13:18:56 -0700 (PDT)
+	Sat, 25 May 2019 13:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=O0VTZbZ/relbPA1eORfECCCzoN6P2n6J/jsDQRaRzeM=;
-	b=Spi5n8hX+tik/OdJHB6AKrNihPFlBk6B51SS5QFWfRIIt8z6OHc+3xzTIUD+dD1lsR
-	q3ud1EjDRFReyNpOKyJoNtrZc5cxbapbKCj7PbZ0rz3aHfNd/fzbFgFxOViIO/DSHjey
-	/o90Xh+K9dXc1+tFTNVx2ixCPYJLQB/7f+F/M=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=6N7xSIM+ifcJvJGF4O6eXqCh4gkeDenkOlkDxVwTpdo=;
+	b=RV2Hgd6djvX0f5KfzQDrhmsk0S8jyi+vc+yji77kOX/VgFSA4vqzSg0/q+wGKkrp5N
+	GLjLFSkwADwIWPDYu3yV0KgdJ9+ZBMaX/wd6YrT7/YIvKdRQg9Edv3loc2BjJJZimpjH
+	uFVtJQyUij0oTKiXqwNzXaCTMzVB+Jtah2xxU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=O0VTZbZ/relbPA1eORfECCCzoN6P2n6J/jsDQRaRzeM=;
-	b=m5RkYjzOSqry3+hhwyztL3JQ1ALbpKK7KD1zEP/LzMurp8+dUuxdkrcCCFc65chA1H
-	jubPdFHXsMz5CNuDPg8Q+bjdsvCmizR+NzGiiWCFe5XlG0tCg3JFKdFleZB1d4l41QEX
-	lc84Za5a2RhKi/2Q+tseGjDnR2tx76Yb0iNmwqsdPkqTaNZsnBbeyBBmgoc6SWqowYCl
-	N86OER4MW1vtaAB2+GXla6YUmh3AoQHHCrDXWqqn/VXyml7b93rs38x/AdVy25/Gefu3
-	rUYBnJBMz91K6TH6LDJ4V4HOcncEg5XzGpOhFy1pUakwxuhqd0ZwgFX5sJlBt22V+QSz
-	Rhow==
-X-Gm-Message-State: APjAAAXO/RBmhMZ3GVfi5ozwbLinHJ/ChZANXvuQsemEWkunHh0E/ksD
-	eWF3UazMv+fYn1GkSKCRCMx+23wpMB0=
-X-Google-Smtp-Source: APXvYqzcayqfPL7/JYgyVIrRyzPX2B+tEPs9dXg3GBuWpVIFOSyrTCYCPX3uvPFeJvT4pylEm90SUg==
-X-Received: by 2002:a1c:f20c:: with SMTP id s12mr10932660wmc.151.1558815535220;
-	Sat, 25 May 2019 13:18:55 -0700 (PDT)
-Received: from hex.int.rpsys.net ([85.255.236.98])
-	by smtp.gmail.com with ESMTPSA id
-	k184sm14790956wmk.0.2019.05.25.13.18.54
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 25 May 2019 13:18:54 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=6N7xSIM+ifcJvJGF4O6eXqCh4gkeDenkOlkDxVwTpdo=;
+	b=VZrK5i9QZQChRqrKx0KPreyRoMBK7qImlUEe2O7b2AwMe5JAfTbBgCZkM2VuUC6ttL
+	QbqF8JiN6HXLz1i4tTPHdIwESXHLpx95aWCs1CTY8n48mpQ3+B7TUGQzYp8kS5qTQ5ZA
+	QVfIq6+JDSoVWMt0WCJp6WUkEYiDY/tDiUZsw1R89uQ5g7SwKSROAnukGZBWMxYvT8TB
+	k0Sx0nkIA14bufeWxNZP0ORzfgDK1OupkaBqAJDNl/D9Lhj+zPvW7uo4ILEZJAtN96V+
+	Ao8e36wutWNMlH3M70GxPfsJg9wBKc3bZN1rYQRto/92VI62Zm1/MBLUGd+w79jzYE3n
+	NNoA==
+X-Gm-Message-State: APjAAAXvbV4ZGWgPd5FtEq22om57yiMFHHjz0L14uRSfI8c3uVcfGlmS
+	CiIfF+rEjAmr425bE/PHCWLt9ufdMS8=
+X-Google-Smtp-Source: APXvYqz3bJIcNPodkGQMSmIVBekbnGFF0wszbrvR8VmlKFUhJvv+LUdA75AEc0b4SNRqGOb+PyHxxw==
+X-Received: by 2002:a1c:4d12:: with SMTP id o18mr715746wmh.150.1558815724954; 
+	Sat, 25 May 2019 13:22:04 -0700 (PDT)
+Received: from hex ([85.255.236.98]) by smtp.gmail.com with ESMTPSA id
+	i10sm4492933wrw.88.2019.05.25.13.22.03
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 25 May 2019 13:22:04 -0700 (PDT)
+Message-ID: <e87bc770766533097f5061674ef94fafaed51c29.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Sat, 25 May 2019 21:18:51 +0100
-Message-Id: <20190525201851.23732-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190525201851.23732-1-richard.purdie@linuxfoundation.org>
-References: <20190525201851.23732-1-richard.purdie@linuxfoundation.org>
+To: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 25 May 2019 21:22:02 +0100
+In-Reply-To: <20190522222132.25731-2-jonathan.rajotte-julien@efficios.com>
+References: <20190522222132.25731-1-jonathan.rajotte-julien@efficios.com>
+	<20190522222132.25731-2-jonathan.rajotte-julien@efficios.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: [PATCH 2/2] tcmode-default: Test gcc9 as default on everything except mips
+Subject: Re: [PATCH v2 2/2] lttng-tools: add lttng-modules to ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +58,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 May 2019 20:18:55 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 25 May 2019 20:22:04 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-mips is the only rchitecture not working with gcc9, switch the others
-leaving mips on gcc 8.X until we can figure out the fix for that.
+On Wed, 2019-05-22 at 22:21 +0000, Jonathan Rajotte wrote:
+> The lttng-tools project is essentially a "tracer" controller, the tests
+> depends heavily on lttng-ust and lttng-modules presence.
+> 
+> Signed-off-by: Jonathan Rajotte <jonathan.rajotte-julien@efficios.com>
+> ---
+>  meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> index f1bb7224f3..7e80bb45d1 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+>  
+>  DEPENDS = "liburcu popt libxml2 util-linux"
+>  RDEPENDS_${PN} = "libgcc"
+> -RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod"
+> +RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
+>  RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
+>  RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
+>  # babelstats.pl wants getopt-long
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/conf/distro/include/tcmode-default.inc | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Thanks for these patches, this will help a lot.
 
-diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-index 744c6c3247e..5c10a4bd0d7 100644
---- a/meta/conf/distro/include/tcmode-default.inc
-+++ b/meta/conf/distro/include/tcmode-default.inc
-@@ -18,7 +18,9 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
- PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
- PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
- 
--GCCVERSION ?= "8.%"
-+GCCVERSION ?= "9.%"
-+GCCVERSION_mips ?= "8.%"
-+GCCVERSION_mips64 ?= "8.%"
- SDKGCCVERSION ?= "${GCCVERSION}"
- BINUVERSION ?= "2.32%"
- GDBVERSION ?= "8.3%"
--- 
-2.20.1
+This patch threw up some issues in testing since kernel modules are
+machine specific and this then means lttng-tools should become machine
+specfic too (which is a bad idea and not necessary).
+
+I've sent out an additional patch which resolved that, not as neatly as
+I'd like as I had to special case lttng-modules in the mutilib code.
+
+It gets this merged though as I'd like to stop seeing those timeouts
+once and for all!
+
+Cheers,
+
+Richard
 
 
