@@ -1,47 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 99E317E430
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 808AB7E42A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 15:51:56 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id g24so13694419iti.5
+	Sat, 25 May 2019 16:04:51 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id h11so18222729itf.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 08:51:57 -0700 (PDT)
+	Sat, 25 May 2019 09:04:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3oP8PWoNfa56hxRXeAp7af4lJky/Za6UmkxwbjaLPTY=;
-	b=CnBj5URTagclDfEcunFyeTbnt5CjbbOaPesImjRpVYrYvGRz/hb6DXcg5b5yoJs3zz
-	tLiItzn05RvjDxTzPwyPIa1dkYNbF5hSNNPQhV7W5Aic/w8GaRd34UkoUd75VsoWc5aL
-	Z12QZmVGaqnm3WVWvJqCm5PxO7ms5TDxeSPyNQ5CNiXKYModkRbhiq580OL5punoSzun
-	YNdRIuEFiTPagmiA/tIz/t7jfd1gS/AdDRzzk+vrePHwTNmeYMYQFkD+WYhtMu03zxoN
-	6/kzMs+sa+fXecai7jbhSY3XKsVQm0E7D6AKnt/NPPXY4IEuF5QsGhTB+rB/G8rLXwhc
-	qQZQ==
+	:cc; bh=zOiVLiM5LZkngtpamAE6NlO5ZUtG76toYu2cResQg9Y=;
+	b=BKNaj3PmmMLn39rrgjycOSrwsni88Q0Awqb+WN43IrOtLvezVUz4iXBU4GDOOTULF2
+	RRAOmGAxa9UL+I5sTshhkAC5bAJZh2UEDraswPT8LfGJaenlxGvUFKojDpEQUAVG0rVP
+	gP8lyZYgBm0Y3/tPAVArOUUHOs3/ipr+QmuPtWI1aegSe8JcTEwLu8/unii6vQnAR2uG
+	TAcJOy8ccAXD9LePchKMSPRJAxgtbs/hfdlGbydCHlPhGIkO/F4hVzL1tIJBaEfryueO
+	paC9d+Et0dyZ5CirwbTL9+mbr5S0nYO3yLkrkcQWwso/VPjgI7AYenG+jSlUcdP8eKsz
+	F1ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3oP8PWoNfa56hxRXeAp7af4lJky/Za6UmkxwbjaLPTY=;
-	b=tU+MsOAE17T4u07OwrieJA3IoqQYZ+XHMOAKBpaD88Wy3GU+t3xmryPQGXBkX+P1X3
-	wpCj0TerNB8XA9NGnrfyhPIpjaD8s/k5iqRn3W4G3XfcpCXG/hfzHsNLW5j0oOqtzbFw
-	d3K35KrgvENLOay0OExLmcdeBaFzSAMu5vNWrD5ktdAdhHnfQGQm3pqJP5tgVbk799t6
-	Y533MV6QpB62Od5IllhvFsBKtUGo6tLc15vTAZXVcPy/xYXCKWxANI5gzHLH1SyH+gVn
-	5r+A9xvrIAXxjXvLNkOfy2RmzM5ITVcheCnOKUtj1wZp4ez/EY5X+M/amCctFlGJv+HW
-	7FbQ==
-X-Gm-Message-State: APjAAAVrEbYpW1C/1TBeJT50B3SCj4rKFbeA2+Aj2/ryuw29SjgNKmO2
-	U7boJ5mSuDeHBns3MuYlWz8bBhE1Tydtvv/NLS6M5A==
-X-Google-Smtp-Source: APXvYqwXYuXPXc3wfxGIDw7VN1Re6p2Qa5ir5uCnlcLeyJuLEm60pfkDmcpGg5zwEPBwa7euIpnS6Q4Ua8+lgG4vFGY=
-X-Received: by 2002:a24:c204:: with SMTP id i4mr22124998itg.83.1558799517225; 
-	Sat, 25 May 2019 08:51:57 -0700 (PDT)
+	bh=zOiVLiM5LZkngtpamAE6NlO5ZUtG76toYu2cResQg9Y=;
+	b=EUrsnNifJfEX/jey4CgPg0/PXYKaUXZZt1cw2/ds356yc8r2n/DdkkkUOVfA0HQ+F2
+	JFHiiTVl5i4rqh/Pf/FFWj6OUtgqDCRGoWeFN893N5SfYSD1gANFVL5UZcjSMTVuefJV
+	Sa1ZK6wyWqHpv0JGKd3nLyzIkCzDtw8OMdg0ok6MjUX9pB7tzjm+HgwbVaZedOfJXe0r
+	tZcVMhQ1LfN6q7RsX0sZccqadAnTB6t9Sqtbj8MoO6mnLaFPafFGpD3mbGeN/MiEhQYT
+	5Eb8NlxcYq1bYE/Hgc0e9LTdWvI/uMZvebbPUD0EV6t16Y9yRsIxklxs8GFYGOHLck0X
+	fQBA==
+X-Gm-Message-State: APjAAAXhJRsnDYdn2CKQTQPNEcEnA4Tb5wGkg0y9QyyE2H8OPVyEBi5y
+	qmXkQCyRVvY1P3LgLKXxXgEcCai/+NQQeJtx4K2h0A==
+X-Google-Smtp-Source: APXvYqwRx6wT6/i4rVhURccCgI/ohJJkWJopiPqTmsTK55hUYlKCkCDrEhKIb0G7qJ+W7qNHesGRU9Y5cQaFz8luYMs=
+X-Received: by 2002:a24:2c48:: with SMTP id i69mr21210214iti.133.1558800292535;
+	Sat, 25 May 2019 09:04:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190523164121.20983-1-dpfrey@gmail.com>
-In-Reply-To: <20190523164121.20983-1-dpfrey@gmail.com>
+References: <1558679856-10339-1-git-send-email-liu.ming50@gmail.com>
+	<CAJTo0LbEXnKfSfOtpj3QVL9xsjsQJTuiZAGarPEFNz4v7q7_8w@mail.gmail.com>
+	<CALatG=5SSBOa_TyQh8vY-iYshvp6+XHCS-Lg7tHCg_-qSay2YQ@mail.gmail.com>
+	<a59002825b793658afa2606f0d110d70a08e2384.camel@linuxfoundation.org>
+	<d06ff93257184dae284426f6d8f52672f351f1af.camel@iki.fi>
+In-Reply-To: <d06ff93257184dae284426f6d8f52672f351f1af.camel@iki.fi>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 25 May 2019 16:51:45 +0100
-Message-ID: <CAJTo0LZr5s=SFSLYBVaWWi=9u1UtjVV2UoNP1U5rNv4zE=Q1_g@mail.gmail.com>
-To: David Frey <dpfrey@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] bluez5: remove udev dependency
+Date: Sat, 25 May 2019 17:04:41 +0100
+Message-ID: <CAJTo0LZJMyAFw_6jD0ZJjQUqQQ2CnbL_RptF4DXA5BJBNP8uCw@mail.gmail.com>
+To: Tanu Kaskinen <tanuk@iki.fi>
+Cc: OE-core <openembedded-core@lists.openembedded.org>,
+	Ming Liu <liu.ming50@gmail.com>
+Subject: Re: [PATCH V2] alsa-utils: fix multilib names
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,62 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 May 2019 15:51:56 -0000
+X-List-Received-Date: Sat, 25 May 2019 16:04:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-The commit message and the patch disagree: you're not removing the
-udev dependency but allowing the user to remove it.
+On Fri, 24 May 2019 at 19:59, Tanu Kaskinen <tanuk@iki.fi> wrote:
+>     18575b082a4042376fd1575465e69562dea04ddc added bash as a dependency of
+>     alsa-utils-alsaconf so that the script interpreter will be available at
+>     run time.  However, this has the undesirable side effect of making bash
+>     be a build dependency for alsa-utils and, for those folks who don't need
+>     alsaconf but do want some other part of alsa-utils, this cure is worse
+>     than the original disease.
 
-A better message would be 'bluez5: allow udev dependency to be
-disabled with PACKAGECONFIG'
+Avoiding building bash seems like quite an overreaction.  I'd say
+merge the recipes and split the packages up so that bash isn't a
+mandatory requirement, maybe even using PACKAGECONFIG if that is
+useful.
+
+In related news I've been meaning to gut the alsa-utils recipe as
+that's the last recipe that actually depends on gtk2.
 
 Ross
-
-On Thu, 23 May 2019 at 17:42, David Frey <dpfrey@gmail.com> wrote:
->
-> udev is an optional dependency of bluez5, so use PACKAGECONFIG to allow
-> users to decide if they want udev support.
->
-> Signed-off-by: David Frey <dpfrey@gmail.com>
-> ---
->  meta/recipes-connectivity/bluez5/bluez5.inc | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-> index aaf2af975d..93d1b4d8b0 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -6,7 +6,7 @@ LICENSE = "GPLv2+ & LGPLv2.1+"
->  LIC_FILES_CHKSUM = "file://COPYING;md5=12f884d2ae1ff87c09e5b7ccc2c4ca7e \
->                      file://COPYING.LIB;md5=fb504b67c50331fc78734fed90fb0e09 \
->                      file://src/main.c;beginline=1;endline=24;md5=9bc54b93cd7e17bf03f52513f39f926e"
-> -DEPENDS = "udev dbus-glib glib-2.0"
-> +DEPENDS = "dbus-glib glib-2.0"
->  PROVIDES += "bluez-hcidump"
->  RPROVIDES_${PN} += "bluez-hcidump"
->
-> @@ -22,6 +22,7 @@ PACKAGECONFIG ??= "obex-profiles \
->      hog-profiles \
->      tools \
->      deprecated \
-> +    udev \
->  "
->  PACKAGECONFIG[obex-profiles] = "--enable-obex,--disable-obex,libical"
->  PACKAGECONFIG[readline] = "--enable-client,--disable-client,readline,"
-> @@ -43,6 +44,7 @@ PACKAGECONFIG[threads] = "--enable-threads,--disable-threads"
->  PACKAGECONFIG[deprecated] = "--enable-deprecated,--disable-deprecated"
->  PACKAGECONFIG[mesh] = "--enable-mesh,--disable-mesh, json-c ell"
->  PACKAGECONFIG[btpclient] = "--enable-btpclient,--disable-btpclient, ell"
-> +PACKAGECONFIG[udev] = "--enable-udev,--disable-udev,udev"
->
->  SRC_URI = "\
->      ${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-> --
-> 2.21.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
