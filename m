@@ -1,47 +1,48 @@
 Return-Path: <crg7475@mailbox.org>
-Received: from mx2.mailbox.org (mx2.mailbox.org [80.241.60.215])
-	by mail.openembedded.org (Postfix) with ESMTP id E23307E397
+Received: from mx1.mailbox.org (mx1.mailbox.org [80.241.60.212])
+	by mail.openembedded.org (Postfix) with ESMTP id 385A07E393
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 11:06:56 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [80.241.60.240])
+	Sun, 26 May 2019 11:06:57 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+	[IPv6:2001:67c:2050:105:465:1:1:0])
 	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by mx2.mailbox.org (Postfix) with ESMTPS id CB113A0194
+	by mx1.mailbox.org (Postfix) with ESMTPS id EFAD44D85B
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 26 May 2019 13:06:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
 	references:in-reply-to:message-id:date:date:subject:subject:from
-	:from:received; s=mail20150812; t=1558868808; bh=H0xf6Sb7wPwmYPQ
-	oLp6Si0dYQAbn4FQRJsazUFQ2Kh0=; b=MVVTRYRte0MlfgqioazyxXLQVs+I7XV
-	+sLB1FW6IUBPC0+PSgNgaYgxWllMM48wLsxolqvE/NG97ZQsWequyp1cC7IwEbzY
-	bJzN3GT9VK/pEJizf2lIcfVG5ZEiLxb485ZoGr2g+3pzQHuxK8XNv3MUDQHrwuCY
-	pV3fHT34b/gFRIeBNGzdzYbz3t3Z0ogtb9AJHO8L1ZZpA8qHp1dcqHEFgvwIK/gj
-	QjIzKeoMKbXuId5Y19kph7Mc/cDAfjZj7JS1RcGL1sMOHCVeZ9mwVXH9KXX8rcm/
-	rxSSdxnUqLEgGR1ifnA/olft46MHFdRy93pwWIrwfR0lmKucli24CnQ==
+	:from:received; s=mail20150812; t=1558868808; bh=igNWAkNGrhCexUN
+	5L3Md+iir2Vw5+/1FfjOMDXIFDYM=; b=sUQaDFSioAwYpMueEyCpn3Wy3T+ptLR
+	OmSlmroIXsof+QlnX5MFntvUckyK+cIXFg5BGzy90fShBPb6lZab0X0BN3l2OyPQ
+	1g7e1kVtMIfiBKDtZ83EEZmzp9Izqnbr8I8jAG1OCuqF6PNBf4cVIOiYehxLWbgO
+	MXfng/YXNr+LNxl5fSlm4u0HPMNkxSwQoDwAe4XVQgpUkXfhtaqEpfdcA48AjHm5
+	yu1C1ffNGvWuvxT/z98vFn9f2sN+lBEGBjGD48af92MQIWQX8/hjlJlnYwspUKvr
+	gVQW5g10dTY/M6+shzf7mejS/0nHQ4ikF6PkhUSIMY26DIuAhNG46KQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
 	s=mail20150812; 
 	t=1558868817; h=from:from:sender:reply-to:subject:subject:date:date:
 	message-id:message-id:to:to:cc:mime-version:content-type:
 	content-transfer-encoding:in-reply-to:in-reply-to: references:references;
-	bh=VE68cnz09IQLEcM00wrkKjyjxet2B6qpNRbPLhrGSC0=;
-	b=pZyvAxTAsgAjHXkRnw0mV8exQIpLLl430ojmhYk8lzln435tsGc/DcklEUoRV8buNagtd+
-	se5gRW092CCjPprRfM3nwYp+VvrJWwF5w4f/n3ha/+JT4+DnO+ihDp9ftrhNsF3W91Rr3K
-	d3OwpaMgRgdUQe9q+NhiZbKiioWW2ZxiMaVW5g2Pqk86MJdhlOVvnjR5pgGEW+ern86L9/
-	HaHlcpLbdqJkv49lAE1krKpF1MsPgK/RMiHajYmbcGP4W8jSQlv1kWBjTpGUfxylUR+osA
-	uGbKwgll2JLhb8QKGUrFGvH9P8E545cILYntIFRkFyL0Kvc6rlAV6N84UFyTCQ==
+	bh=GNqxdxdgkx+g+1eOdb+qHwWl889f/7hG9fJUOnWoqfk=;
+	b=tMmdlc5YgSLRRnFIEV9OtIBUyu2qHYoNgyWnQyHikKc6xzGJWKMHyerS2tyGXRfBy5QhRq
+	xMJ8q6X4Vjy8gKE/yhcAfoaw14Yu0MYY9ISWotz+1vuVuYvXV/yDmEWrcRM/WDpAWjKT5B
+	o5BvT8UCMDJ7s91TB4vpmQvGPbVQpYE+E+stTf3iWbFJWONGUhqH7vo17sHs26qoeQ2WGZ
+	66K+waO8kZF55L5SE4QTueFlXwVZll7Ni3V+IB6vTHKyUiqhIiBZok+z0WjYyCjZKlVmfv
+	u6S4qu5CKSWulDBs45U/bhJyRP7BHND6oFRuQOsnq/fxwSzSyj/bx6456/66RQ==
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp1.mailbox.org ([80.241.60.240])
-	by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de
-	[80.241.56.125]) (amavisd-new, port 10030) with ESMTP id qcKf_Yvprv73
+	by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de
+	[80.241.56.116]) (amavisd-new, port 10030) with ESMTP id 7hRvQFmd_bSj
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 26 May 2019 13:06:48 +0200 (CEST)
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 May 2019 13:06:39 +0200
-Message-Id: <20190526110642.5341-8-crg7475@mailbox.org>
+Date: Sun, 26 May 2019 13:06:38 +0200
+Message-Id: <20190526110642.5341-7-crg7475@mailbox.org>
 In-Reply-To: <20190526110642.5341-1-crg7475@mailbox.org>
 References: <20190526110642.5341-1-crg7475@mailbox.org>
-Subject: [PATCH 08/11] gstreamer1.0-vaapi: upgrade to version 1.16.0
+Subject: [PATCH 07/11] gstreamer1.0-libav: upgrade to version 1.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,51 +60,86 @@ X-List-Received-Date: Sun, 26 May 2019 11:06:57 -0000
 Signed-off-by: Philippe Normand <philn@igalia.com>
 Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- .../0001-vaapsink-downgrade-to-marginal.patch                 | 4 ++--
- ...reamer1.0-vaapi_1.14.4.bb => gstreamer1.0-vaapi_1.16.0.bb} | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.14.4.bb => gstreamer1.0-vaapi_1.16.0.bb} (93%)
+ .../0001-Disable-yasm-for-libav-when-disable-yasm.patch       | 2 +-
+ .../0001-configure-check-for-armv7ve-variant.patch            | 4 ++--
+ .../gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch   | 2 +-
+ .../workaround-to-build-gst-libav-for-i586-with-gcc.patch     | 2 +-
+ ...reamer1.0-libav_1.14.4.bb => gstreamer1.0-libav_1.16.0.bb} | 4 ++--
+ 5 files changed, 7 insertions(+), 7 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.14.4.bb => gstreamer1.0-libav_1.16.0.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
-index c861f3bed2..7945a923c9 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
-@@ -24,7 +24,7 @@ diff --git a/gst/vaapi/gstvaapi.c b/gst/vaapi/gstvaapi.c
- index 9a82454..4d94f2b 100644
- --- a/gst/vaapi/gstvaapi.c
- +++ b/gst/vaapi/gstvaapi.c
--@@ -210,7 +210,6 @@ plugin_init (GstPlugin * plugin)
-+@@ -195,7 +195,6 @@ plugin_init (GstPlugin * plugin)
-  {
-    GstVaapiDisplay *display;
-    GArray *decoders;
-@@ -32,7 +32,7 @@ index 9a82454..4d94f2b 100644
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch
+index 1d99ad1251..11571aefa1 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-Disable-yasm-for-libav-when-disable-yasm.patch
+@@ -15,7 +15,7 @@ diff --git a/configure.ac b/configure.ac
+ index 22ede88..ef3c050 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+-@@ -305,6 +305,12 @@ else
++@@ -355,6 +355,12 @@ else
+      emblibav_configure_args="$emblibav_configure_args --enable-gpl"
+    fi
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch
+index b80d073946..f182715bda 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/0001-configure-check-for-armv7ve-variant.patch
+@@ -22,8 +22,8 @@ diff --git a/gst-libs/ext/libav/configure b/gst-libs/ext/libav/configure
+ index 4a5e477..727818e 100755
+ --- a/gst-libs/ext/libav/configure
+ +++ b/gst-libs/ext/libav/configure
+-@@ -4295,6 +4295,7 @@ elif enabled arm; then
+-         elif check_arm_arch 6Z;       then echo armv6z
++@@ -4745,6 +4745,7 @@ elif enabled arm; then
++         elif check_arm_arch 6KZ;      then echo armv6zk
+          elif check_arm_arch 6ZK;      then echo armv6zk
+          elif check_arm_arch 6T2;      then echo armv6t2
+ +        elif check_arm_arch EXT_IDIV; then echo armv7ve
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
+index 7a0b448888..90d042b313 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/mips64_cpu_detection.patch
+@@ -17,7 +17,7 @@ Index: gst-libav-1.10.1/gst-libs/ext/libav/configure
+ ===================================================================
+ --- gst-libav-1.10.1.orig/gst-libs/ext/libav/configure
+ +++ gst-libav-1.10.1/gst-libs/ext/libav/configure
+-@@ -5269,12 +5269,9 @@ elif enabled mips; then
++@@ -5650,12 +5650,9 @@ elif enabled mips; then
   
-    plugin_add_dependencies (plugin);
-  
--@@ -235,10 +234,7 @@ plugin_init (GstPlugin * plugin)
-+@@ -220,10 +219,7 @@ plugin_init (GstPlugin * plugin)
-    gst_element_register (plugin, "vaapidecodebin",
-        GST_RANK_PRIMARY + 2, GST_TYPE_VAAPI_DECODE_BIN);
-  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
-similarity index 93%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
-index 3896434104..4d7382a101 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
-@@ -13,8 +13,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.x
-            file://0001-vaapsink-downgrade-to-marginal.patch \
+      # Enable minimum ISA based on selected options
+      if enabled mips64; then
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
+index 36abf8607e..4b85356547 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav/workaround-to-build-gst-libav-for-i586-with-gcc.patch
+@@ -11,7 +11,7 @@ Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+ 
+ --- gst-libav-1.4.5.orig/gst-libs/ext/libav/libavcodec/h264_cabac.c
+ +++ gst-libav-1.4.5/gst-libs/ext/libav/libavcodec/h264_cabac.c
+-@@ -2020,7 +2020,11 @@ decode_intra_mb:
++@@ -2057,7 +2057,11 @@ decode_intra_mb:
+          // In deblocking, the quantizer is 0
+          h->cur_pic.qscale_table[mb_xy] = 0;
+          // All coeffs are present
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.0.bb
+similarity index 95%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.0.bb
+index 5c9c372f04..3f1ec99d95 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.16.0.bb
+@@ -19,8 +19,8 @@ SRC_URI = "http://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz
+            file://0001-configure-check-for-armv7ve-variant.patch \
+            file://0001-fix-host-contamination.patch \
             "
+-SRC_URI[md5sum] = "58342db11dbb201a66a62577dcf7bab5"
+-SRC_URI[sha256sum] = "dfd78591901df7853eab7e56a86c34a1b03635da0d3d56b89aa577f1897865da"
++SRC_URI[md5sum] = "e3a201a45985ddc1327cd496046ca818"
++SRC_URI[sha256sum] = "dfac119043a9cfdcacd7acde77f674ab172cf2537b5812be52f49e9cddc53d9a"
  
--SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
--SRC_URI[sha256sum] = "ce18dbfe961c6a8d31270231686075586bf7a7df62b778c8e7f5ec148251d0a3"
-+SRC_URI[md5sum] = "8c3f9ee3e47cbdb75a94f7183460b721"
-+SRC_URI[sha256sum] = "4e7fce626ee0590dca74b5a8341d25bac76307945131a970b414fc5895f5171f"
+ S = "${WORKDIR}/gst-libav-${PV}"
  
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
 -- 
 2.17.1
 
