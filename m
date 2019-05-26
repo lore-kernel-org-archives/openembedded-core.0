@@ -1,46 +1,37 @@
 Return-Path: <crg7475@mailbox.org>
 Received: from mx1.mailbox.org (mx1.mailbox.org [80.241.60.212])
-	by mail.openembedded.org (Postfix) with ESMTP id BE28E7E3B3
+	by mail.openembedded.org (Postfix) with ESMTP id DF5767E393
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 11:07:11 +0000 (UTC)
+	Sun, 26 May 2019 11:07:12 +0000 (UTC)
 Received: from smtp1.mailbox.org (smtp1.mailbox.org
 	[IPv6:2001:67c:2050:105:465:1:1:0])
 	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
 	(No client certificate requested)
-	by mx1.mailbox.org (Postfix) with ESMTPS id AF0D24F73C
+	by mx1.mailbox.org (Postfix) with ESMTPS id D081F4EFC1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 13:07:12 +0200 (CEST)
+	Sun, 26 May 2019 13:07:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	message-id:date:date:subject:subject:from:from:received; s=
-	mail20150812; t=1558868807; bh=bcKYcsiX6Y2Vl8K5vgpTpfMMgVF2zEOAw
-	Qwl9Cgni6Q=; b=qBHzLXOLu6R9X3LoR2g9oUSzUQw9syl5LGCITh7QLhlvRbNcL
-	KDQHi7JnbTOrKvgHrvExJA+8Eyo86tVGItUfw6XhjKCPl0JwW7uhZyY1SLt9MfGo
-	vwak0wzTEahky4AytI0A/Hv0qFI+i7k+LEaZ7ET9/eZywFcQmNg82h2AzChz9YmR
-	vS3S99G49MOEh9c84YzfSfrdyVDDKqt292EqJE78mk1XnSIrqkFzoKPIN24gLeQH
-	Z75Q1MUU4RMva102Nsa5MW6MyVCw2ZYYCSP4X+tumsy+BMhRrXATBkfIJOrn/Ht6
-	sXTBp0+DC07OnBkuF34SJWsJa2hLnBlNc4NwQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
-	s=mail20150812; 
-	t=1558868831; h=from:from:sender:reply-to:subject:subject:date:date:
-	message-id:message-id:to:to:cc:mime-version:content-type:
-	content-transfer-encoding:in-reply-to:references;
-	bh=UbZqWeROrg9xA4MzkH+wjYMb4LjlCgd8RkrfW58FNjQ=;
-	b=bLnnSEZBUzQo/SE60L/CutUVR2dAi1ur8CIat4hGbC0QBJW2Pe+gBBNutXXfmvepwltCbQ
-	UhETBVkgl8pFzWoxK+DsFlw3MiyJBJWpcazPRLOPfzGGvTGUBSQMmM4udJ3lxBE9TTYsWI
-	AmpqLui6kWrzGjG1641aeOtdWbl7b84dXftsTYWTWEhl7rKU/otu+sesyyygVoz4vlxZvc
-	tyuH5ImDkBgj6vy2ODQhduYGkbSCnng3MrOY/CYtB/k5q5DZgATNrFmsm/i5UBY9BkxGgO
-	k+eTlgEWvfx69vvU8M1+YjxWFbAwcMqJPoJpqafVQhM/xRXPuj7uupyR0lo+gQ==
+	references:in-reply-to:message-id:date:date:subject:subject:from
+	:from:received; s=mail20150812; t=1558868809; bh=oBT1+WDizSdu4m0
+	5Q06dx5F/J2XxlZIKSdH6O2aaivU=; b=jKgwAqZm8YOTFG3hPuB2pAzS8J+xpFz
+	ZedWp1qEylKHriOu3G1UiULqF7GPoys3SCn4BbolBzo81dRljMyfKZSOKoy8ilaB
+	0NYN1QqRoaOtRN6tmmYcL6WCDwfQ31s+0kEBbiDYvu1kdZep+Ze7JS3f2jeo2mGx
+	6HYCxwe2vIzjUxLq+blDi9YzftQL4f2N5ht7K3sXSTmzNOt/x46mG4Qu36dbvaEU
+	lr4fXUG/oj8yR/4R04nwxwsj2KJqu1QWrB2IZNnuvEedJj4FSC/Z4L4j/wq8p2Uv
+	xdzCfxsRNlRqP4HuOuUN332F+yvZwOa6u71lHoHSct4GzYWdkftMPtA==
 X-Virus-Scanned: amavisd-new at heinlein-support.de
 Received: from smtp1.mailbox.org ([80.241.60.240])
 	by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de
-	[80.241.56.116]) (amavisd-new, port 10030) with ESMTP id hgu0hloTdh1d
+	[80.241.56.116]) (amavisd-new, port 10030) with ESMTP id rpQGNSktZ706
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 13:06:47 +0200 (CEST)
+	Sun, 26 May 2019 13:06:49 +0200 (CEST)
 From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 May 2019 13:06:32 +0200
-Message-Id: <20190526110642.5341-1-crg7475@mailbox.org>
-Subject: [PATCH 01/11] gstreamer1.0: upgrade to version 1.16.0
+Date: Sun, 26 May 2019 13:06:40 +0200
+Message-Id: <20190526110642.5341-9-crg7475@mailbox.org>
+In-Reply-To: <20190526110642.5341-1-crg7475@mailbox.org>
+References: <20190526110642.5341-1-crg7475@mailbox.org>
+Subject: [PATCH 09/11] gstreamer1.0-rtsp-server: upgrade to version 1.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,86 +44,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 May 2019 11:07:12 -0000
+X-List-Received-Date: Sun, 26 May 2019 11:07:13 -0000
 
 From: Philippe Normand <philn@igalia.com>
 
-* 0002-gstconfig.h.in-initial-RISC-V-support.patch
-  Removed since this is included in 1.16.0
+* 0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
+  Removed since this was fixed in 1.16.0 similarly to the fixes to
+  -base and -bad in https://bugzilla.gnome.org/show_bug.cgi?id=726571
 
 Signed-off-by: Philippe Normand <philn@igalia.com>
 Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- ...stconfig.h.in-initial-RISC-V-support.patch | 30 -------------------
- ...er1.0_1.14.4.bb => gstreamer1.0_1.16.0.bb} |  6 ++--
- 2 files changed, 3 insertions(+), 33 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-RISC-V-support.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.14.4.bb => gstreamer1.0_1.16.0.bb} (94%)
+ ...ibtool-name-when-using-introspection.patch | 27 -------------------
+ ....bb => gstreamer1.0-rtsp-server_1.16.0.bb} |  5 ++--
+ 2 files changed, 2 insertions(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.14.4.bb => gstreamer1.0-rtsp-server_1.16.0.bb} (82%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-RISC-V-support.patch b/meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-RISC-V-support.patch
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
 deleted file mode 100644
-index db742dea23..0000000000
---- a/meta/recipes-multimedia/gstreamer/files/0002-gstconfig.h.in-initial-RISC-V-support.patch
+index 89d6384adb..0000000000
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
 +++ /dev/null
-@@ -1,30 +0,0 @@
--From 8a156d1725ecd03f2e8cdc8874e081dda2d3b43d Mon Sep 17 00:00:00 2001
--From: Aurelien Jarno <aurelien@aurel32.net>
--Date: Sun, 15 Apr 2018 00:49:55 +0200
--Subject: [PATCH] gstconfig.h.in: initial RISC-V support
+@@ -1,27 +0,0 @@
+-From 4a12569e5ae5be63cd92a9b178860026a99746b1 Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 27 Oct 2015 16:55:45 +0200
+-Subject: [PATCH] Don't hardcode libtool name when using introspection
 -
--RISC-V supports unaligned accesses, but these might run extremely slowly
--depending on the implementation. Therefore set GST_HAVE_UNALIGNED_ACCESS
--to 0 on this architecture.
--
--https://bugzilla.gnome.org/show_bug.cgi?id=795271
--
--Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
--Upstream-Status: Accepted [1.15.1 - https://bugzilla.gnome.org/show_bug.cgi?id=795271]
+-Upstream-Status: Pending [review on oe-core maillist]
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ----
-- gst/gstconfig.h.in | 2 +-
+- gst/rtsp-server/Makefile.am | 2 +-
 - 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/gst/gstconfig.h.in b/gst/gstconfig.h.in
--index 6351c04da..33dfed1f6 100644
----- a/gst/gstconfig.h.in
--+++ b/gst/gstconfig.h.in
--@@ -104,7 +104,7 @@
--  * http://docs.oracle.com/cd/E19205-01/820-4155/c++_faq.html#Vers6
--  * https://software.intel.com/en-us/node/583402
--  */
---#if defined(__alpha__) || defined(__arc__) || defined(__arm__) || defined(__aarch64__) || defined(__bfin) || defined(__hppa__) || defined(__nios2__) || defined(__MICROBLAZE__) || defined(__mips__) || defined(__or1k__) || defined(__sh__) || defined(__SH4__) || defined(__sparc__) || defined(__sparc) || defined(__ia64__) || defined(_M_ALPHA) || defined(_M_ARM) || defined(_M_IA64) || defined(__xtensa__) || defined(__e2k__)
--+#if defined(__alpha__) || defined(__arc__) || defined(__arm__) || defined(__aarch64__) || defined(__bfin) || defined(__hppa__) || defined(__nios2__) || defined(__MICROBLAZE__) || defined(__mips__) || defined(__or1k__) || defined(__sh__) || defined(__SH4__) || defined(__sparc__) || defined(__sparc) || defined(__ia64__) || defined(_M_ALPHA) || defined(_M_ARM) || defined(_M_IA64) || defined(__xtensa__) || defined(__e2k__) || defined(__riscv)
-- #  define GST_HAVE_UNALIGNED_ACCESS 0
-- #elif defined(__i386__) || defined(__i386) || defined(__amd64__) || defined(__amd64) || defined(__x86_64__) || defined(__ppc__) || defined(__ppc64__) || defined(__powerpc__) || defined(__powerpc64__) || defined(__m68k__) || defined(_M_IX86) || defined(_M_AMD64) || defined(_M_X64) || defined(__s390__) || defined(__s390x__) || defined(__zarch__)
-- #  define GST_HAVE_UNALIGNED_ACCESS 1
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
-index 98c9a28e39..da2d14cd99 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.16.0.bb
-@@ -25,11 +25,10 @@ SRC_URI = " \
-     file://gtk-doc-tweaks.patch \
-     file://0001-gst-gstpluginloader.c-when-env-var-is-set-do-not-fal.patch \
-     file://add-a-target-to-compile-tests.patch \
--    file://0002-gstconfig.h.in-initial-RISC-V-support.patch \
-     file://run-ptest \
- "
--SRC_URI[md5sum] = "f67fbbc42bd85a0701df119f52fb52bd"
--SRC_URI[sha256sum] = "f94f6696c5f05a3b3a9183e39c5f5c0b779f75a04c0efa497e7920afa985ffc7"
-+SRC_URI[md5sum] = "862b7e4263d946bc2ef31b3c582e5587"
-+SRC_URI[sha256sum] = "0e8e2f7118be437cba879353970cf83c2acced825ecb9275ba05d9186ef07c00"
+-diff --git a/gst/rtsp-server/Makefile.am b/gst/rtsp-server/Makefile.am
+-index 4fcd366..c67f5ab 100644
+---- a/gst/rtsp-server/Makefile.am
+-+++ b/gst/rtsp-server/Makefile.am
+-@@ -87,7 +87,7 @@ GstRtspServer-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtspserver-@
+- 		--include=Gst-@GST_API_VERSION@ \
+- 		--include=GstRtsp-@GST_API_VERSION@ \
+- 		--include=GstNet-@GST_API_VERSION@ \
+--		--libtool="$(top_builddir)/libtool" \
+-+		--libtool="$(LIBTOOL)" \
+- 		--pkg gstreamer-@GST_API_VERSION@ \
+- 		--pkg gstreamer-rtsp-@GST_API_VERSION@ \
+- 		--pkg gstreamer-net-@GST_API_VERSION@ \
+--- 
+-2.1.4
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.0.bb
+similarity index 82%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.14.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.0.bb
+index 7efc1b3534..042938b88e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.0.bb
+@@ -9,13 +9,12 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
+ PNREAL = "gst-rtsp-server"
  
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    "
-@@ -55,6 +54,7 @@ PACKAGES += "${PN}-bash-completion"
- FILES_${PN} += "${libdir}/gstreamer-1.0/*.so"
- FILES_${PN}-dev += "${libdir}/gstreamer-1.0/*.la ${libdir}/gstreamer-1.0/*.a ${libdir}/gstreamer-1.0/include"
- FILES_${PN}-bash-completion += "${datadir}/bash-completion/completions/ ${datadir}/bash-completion/helpers/gst*"
-+FILES_${PN}-dbg += "${datadir}/gdb ${datadir}/gstreamer-1.0/gdb"
+ SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
+-           file://0001-Don-t-hardcode-libtool-name-when-using-introspection.patch \
+            file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+            file://gtk-doc-tweaks.patch \
+            "
  
- RDEPENDS_${PN}-ptest += "make"
+-SRC_URI[md5sum] = "ab0fb5c829266a500e14b46b7bdf06bf"
+-SRC_URI[sha256sum] = "3d0ece2afdcd601c175ece24e32a30bc19247b454f4eafd3deeec2533c6884f1"
++SRC_URI[md5sum] = "adc4460239ec2eccf58ad9752ce53bfd"
++SRC_URI[sha256sum] = "198e9eec1a3e32dc810d3fbf3a714850a22c6288d4a5c8e802c5ff984af03f19"
+ 
+ S = "${WORKDIR}/${PNREAL}-${PV}"
  
 -- 
 2.17.1
