@@ -1,37 +1,49 @@
-Return-Path: <crg7475@mailbox.org>
-Received: from mx1.mailbox.org (mx1.mailbox.org [80.241.60.212])
-	by mail.openembedded.org (Postfix) with ESMTP id DF5767E393
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id EB0C17E214
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 11:07:12 +0000 (UTC)
-Received: from smtp1.mailbox.org (smtp1.mailbox.org
-	[IPv6:2001:67c:2050:105:465:1:1:0])
-	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
-	(No client certificate requested)
-	by mx1.mailbox.org (Postfix) with ESMTPS id D081F4EFC1
+	Sun, 26 May 2019 14:24:05 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id c6so8034154pfa.10
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 13:07:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
-	references:in-reply-to:message-id:date:date:subject:subject:from
-	:from:received; s=mail20150812; t=1558868809; bh=oBT1+WDizSdu4m0
-	5Q06dx5F/J2XxlZIKSdH6O2aaivU=; b=jKgwAqZm8YOTFG3hPuB2pAzS8J+xpFz
-	ZedWp1qEylKHriOu3G1UiULqF7GPoys3SCn4BbolBzo81dRljMyfKZSOKoy8ilaB
-	0NYN1QqRoaOtRN6tmmYcL6WCDwfQ31s+0kEBbiDYvu1kdZep+Ze7JS3f2jeo2mGx
-	6HYCxwe2vIzjUxLq+blDi9YzftQL4f2N5ht7K3sXSTmzNOt/x46mG4Qu36dbvaEU
-	lr4fXUG/oj8yR/4R04nwxwsj2KJqu1QWrB2IZNnuvEedJj4FSC/Z4L4j/wq8p2Uv
-	xdzCfxsRNlRqP4HuOuUN332F+yvZwOa6u71lHoHSct4GzYWdkftMPtA==
-X-Virus-Scanned: amavisd-new at heinlein-support.de
-Received: from smtp1.mailbox.org ([80.241.60.240])
-	by spamfilter02.heinlein-hosting.de (spamfilter02.heinlein-hosting.de
-	[80.241.56.116]) (amavisd-new, port 10030) with ESMTP id rpQGNSktZ706
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 13:06:49 +0200 (CEST)
-From: Carlos Rafael Giani <crg7475@mailbox.org>
+	Sun, 26 May 2019 07:24:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
+	b=ktdMe0d/WKSWQ78lRJznPH/KP6amH278b113ohekF8PRrzMvDNRz3IlnVjCvwrMCA1
+	CTKQuScS18XqMg4dRuRp5O2yQ3/9Tn9mhHyDENGGdlkLO7Jo3Juutw0pcqMIkioZ/t+3
+	8aCulI5P6kkKNhK2znwhXDqqH511+2jWaEx3/KiTrsvYnshNUdZnl7gksheM+7/EaQJ/
+	H1I+va2adfcbhAyISyrayPnZnPyWbFHgWONmFhaPEowWNW+XMsrfSSbTvQJA0mHd1fCP
+	5n/159uD3EZyXZw9oZG9c2lG5cWK19Ssm87P5uTO+zzgpw+iP4jfjN/WWjXBkuuy+KcX
+	lV/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
+	b=sEettco9zo1cjHGoYAZVYK78A6y8/IAqjha5EpIElKBmZQL36WGmSN/JBiW+IlC3xP
+	YZNy4q1zXYmEImHpbM6KZh3tcCki/tIydThS6bSZdJdNA1+lsA8TQaA3uRLSXZYREJNP
+	HVEaOp70W9qkVP/uanBeFiB7XPZq6yOdtl1FgM573tc1nljN+KkNQmiN+hWE7y3/V/81
+	pmJBFb7w5LttOyWU/p7WCOA8cewqDDhQsJ1lSEOWJXss0371DJIfbwUk5Wfukc+LCJ2h
+	n3hYJ+KRHyJ1CYz6zcM2GRO+NaptuYdISNXt3rnPziOhlttaAjNZIl5lZwRiWIoyKA8o
+	WZzw==
+X-Gm-Message-State: APjAAAXLd46H0ksLtXI8g9d9gKtM3W60Oq36avk3x6dAWMURnHuBAjx8
+	29s/mpMhTOFfeIZUXiXd8WhgR62U
+X-Google-Smtp-Source: APXvYqxVS05YmJ3IhpvcgB5wLtL6SeYnTXKV4YMH9kLO26HgxN+ixf9b+4rCPBzhXOU59wBWUKUOFA==
+X-Received: by 2002:a63:5014:: with SMTP id e20mr116916751pgb.2.1558880646654; 
+	Sun, 26 May 2019 07:24:06 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:8c20:a770:5243:e558])
+	by smtp.gmail.com with ESMTPSA id
+	79sm9416292pfz.144.2019.05.26.07.24.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 26 May 2019 07:24:06 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 26 May 2019 13:06:40 +0200
-Message-Id: <20190526110642.5341-9-crg7475@mailbox.org>
-In-Reply-To: <20190526110642.5341-1-crg7475@mailbox.org>
-References: <20190526110642.5341-1-crg7475@mailbox.org>
-Subject: [PATCH 09/11] gstreamer1.0-rtsp-server: upgrade to version 1.16.0
+Date: Sun, 26 May 2019 07:24:04 -0700
+Message-Id: <1558880644-32314-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH] glibc: Security fix CVE-2019-9169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,80 +56,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 26 May 2019 11:07:13 -0000
+X-List-Received-Date: Sun, 26 May 2019 14:24:06 -0000
 
-From: Philippe Normand <philn@igalia.com>
+From: Armin Kuster <akuster@mvista.com>
 
-* 0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
-  Removed since this was fixed in 1.16.0 similarly to the fixes to
-  -base and -bad in https://bugzilla.gnome.org/show_bug.cgi?id=726571
-
-Signed-off-by: Philippe Normand <philn@igalia.com>
-Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- ...ibtool-name-when-using-introspection.patch | 27 -------------------
- ....bb => gstreamer1.0-rtsp-server_1.16.0.bb} |  5 ++--
- 2 files changed, 2 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.14.4.bb => gstreamer1.0-rtsp-server_1.16.0.bb} (82%)
+ meta/recipes-core/glibc/glibc/CVE-2019-9169.patch | 63 +++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.28.bb             |  1 +
+ 2 files changed, 64 insertions(+)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
-deleted file mode 100644
-index 89d6384adb..0000000000
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server/0001-Don-t-hardcode-libtool-name-when-using-introspection.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 4a12569e5ae5be63cd92a9b178860026a99746b1 Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 27 Oct 2015 16:55:45 +0200
--Subject: [PATCH] Don't hardcode libtool name when using introspection
--
--Upstream-Status: Pending [review on oe-core maillist]
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- gst/rtsp-server/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/gst/rtsp-server/Makefile.am b/gst/rtsp-server/Makefile.am
--index 4fcd366..c67f5ab 100644
----- a/gst/rtsp-server/Makefile.am
--+++ b/gst/rtsp-server/Makefile.am
--@@ -87,7 +87,7 @@ GstRtspServer-@GST_API_VERSION@.gir: $(INTROSPECTION_SCANNER) libgstrtspserver-@
-- 		--include=Gst-@GST_API_VERSION@ \
-- 		--include=GstRtsp-@GST_API_VERSION@ \
-- 		--include=GstNet-@GST_API_VERSION@ \
---		--libtool="$(top_builddir)/libtool" \
--+		--libtool="$(LIBTOOL)" \
-- 		--pkg gstreamer-@GST_API_VERSION@ \
-- 		--pkg gstreamer-rtsp-@GST_API_VERSION@ \
-- 		--pkg gstreamer-net-@GST_API_VERSION@ \
---- 
--2.1.4
--
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.0.bb
-similarity index 82%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.14.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.0.bb
-index 7efc1b3534..042938b88e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.16.0.bb
-@@ -9,13 +9,12 @@ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base"
- PNREAL = "gst-rtsp-server"
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+new file mode 100644
+index 0000000..14cfaa3
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+@@ -0,0 +1,63 @@
++From 583dd860d5b833037175247230a328f0050dbfe9 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Mon, 21 Jan 2019 11:08:13 -0800
++Subject: [PATCH] regex: fix read overrun [BZ #24114]
++
++Problem found by AddressSanitizer, reported by Hongxu Chen in:
++https://debbugs.gnu.org/34140
++* posix/regexec.c (proceed_next_node):
++Do not read past end of input buffer.
++
++Upstream-Status: Backport 
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=583dd860d5b833037175247230a328f0050dbfe9
++
++CVE: CVE-2019-9169
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ ChangeLog       | 10 +++++++++-
++ posix/regexec.c |  6 ++++--
++ 2 files changed, 13 insertions(+), 3 deletions(-)
++
++Index: git/ChangeLog
++===================================================================
++--- git.orig/ChangeLog
+++++ git/ChangeLog
++@@ -1,3 +1,11 @@
+++2019-01-31  Paul Eggert  <eggert@cs.ucla.edu>
+++
+++       regex: fix read overrun [BZ #24114]
+++       Problem found by AddressSanitizer, reported by Hongxu Chen in:
+++       https://debbugs.gnu.org/34140
+++       * posix/regexec.c (proceed_next_node):
+++       Do not read past end of input buffer.
+++
++ 2018-09-30  Martin Jansa  <Martin.Jansa@gmail.com>
++ 	Partial fix for [BZ #23716]
++ 	* locale/weight.h: Fix build with -Os.
++@@ -10917,7 +10925,7 @@
++ 	(CFLAGS-wcstof_l.c): Likewise.
++ 	(CPPFLAGS-tst-wchar-h.c): Likewise.
++ 	(CPPFLAGS-wcstold_l.c): Likewise.
++----
+++
++ 2017-12-11  Paul A. Clarke  <pc@us.ibm.com>
++ 
++ 	* sysdeps/ieee754/flt-32/s_cosf.c: New implementation.
++Index: git/posix/regexec.c
++===================================================================
++--- git.orig/posix/regexec.c
+++++ git/posix/regexec.c
++@@ -1289,8 +1289,10 @@ proceed_next_node (const re_match_contex
++ 	      else if (naccepted)
++ 		{
++ 		  char *buf = (char *) re_string_get_buffer (&mctx->input);
++-		  if (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
++-			      naccepted) != 0)
+++		  if (mctx->input.valid_len - *pidx < naccepted
+++		      || (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
+++				  naccepted)
+++			  != 0))
++ 		    return -1;
++ 		}
++ 	    }
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index 72cee04..1bcec3e 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
+@@ -47,6 +47,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0032-sysdeps-ieee754-soft-fp-ignore-maybe-uninitialized-w.patch \
+            file://0033-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://0034-inject-file-assembly-directives.patch \
++           file://CVE-2019-9169.patch \
+ "
  
- SRC_URI = "http://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz \
--           file://0001-Don-t-hardcode-libtool-name-when-using-introspection.patch \
-            file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
-            file://gtk-doc-tweaks.patch \
-            "
- 
--SRC_URI[md5sum] = "ab0fb5c829266a500e14b46b7bdf06bf"
--SRC_URI[sha256sum] = "3d0ece2afdcd601c175ece24e32a30bc19247b454f4eafd3deeec2533c6884f1"
-+SRC_URI[md5sum] = "adc4460239ec2eccf58ad9752ce53bfd"
-+SRC_URI[sha256sum] = "198e9eec1a3e32dc810d3fbf3a714850a22c6288d4a5c8e802c5ff984af03f19"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
+ NATIVESDKFIXES ?= ""
 -- 
-2.17.1
+2.7.4
 
 
