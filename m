@@ -1,48 +1,48 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 10FB67E419
+Return-Path: <crg7475@mailbox.org>
+Received: from mx1.mailbox.org (mx1.mailbox.org [80.241.60.212])
+	by mail.openembedded.org (Postfix) with ESMTP id AA0727C7A9
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 23:23:31 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id p26so10347499qkj.5
+	Sun, 26 May 2019 11:06:51 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+	[IPv6:2001:67c:2050:105:465:1:1:0])
+	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+	(No client certificate requested)
+	by mx1.mailbox.org (Postfix) with ESMTPS id 9A5874FCEB
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 25 May 2019 16:23:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Qa9gZbQkL0CRytYX4MDBCMACWwJEsQdGkPQG7jVxZNo=;
-	b=boGSu+A2R7sWv86Qacuvq07Op7sAjHkBunfiRLAW5hqrH3p6ABXJLPvXg+qAJi8Lri
-	onIawWf+DMsmCSC0RECKXI8+hxMkTAWhtOcT7GpwkoRXtmSYZ6Rzck4wTIYk36Km5W1Z
-	JS/JsQsPjTcZ01QUIbpau7qN0PciKr1B6VMB9a31ggmA7i933Fe6O0SmwvPMta+pkBhy
-	dmmtmkSJC+0RyB0iV5U4OkSnAJIrt6cMibaZ0S1WooZLofbQjeiE5YXAJilRSlbmwgFv
-	BE90RzfusSuLiM4DlPb5jC6sDgz02lQ8JR9QdrX2J0aNqHWNDOU2DhUp2WUa/6mYwTo8
-	alWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Qa9gZbQkL0CRytYX4MDBCMACWwJEsQdGkPQG7jVxZNo=;
-	b=ZhI1f1cDgGbag7aKSqxgaxOFQGw8OaNFRcFqM/Mj1m+xXOOqHGxeLOJne6UxJY+7Ds
-	59yGIQkXHGrYGYB3QPQByv64gFDL/TTKQ3l6jev0Ms2WxCQZe6k30gOSgqSCnqQYyCn/
-	sbK7Ez0f7vQs2uHpgBdh4hdVKCYVqhKvw7XsNGdr0QXaFooZfNKYSVnf5fwu3m3x75nl
-	ARFspSnyTVFaL8rR+IwvK4pUyF7q40LGgWj19prtq/bOZ21rEsk+xKQBlPi+38Txh5d/
-	zk50mNHvl0jvWTLjspK2aLkvrXvCx/gamREKTIWG0i8HVQC/opnJ6KhPorRc+aOhTPdD
-	vanA==
-X-Gm-Message-State: APjAAAVnZ9BVvD/ACYFcJKgrovUVle1LmTiJ4+t39L4JiC7/jl9DS776
-	JlTdgECAbtz+sckPxOUjXo13YBK6i2l6FyM0gBU=
-X-Google-Smtp-Source: APXvYqyRIUjGY5PEyhi26HuJzxdiXKFoIJcVkCgP1Kd4c6IQPwuuFRbWpBszZJRdJu2pMZ34SeLl4k/E8FEg+x1Bycs=
-X-Received: by 2002:a37:a017:: with SMTP id j23mr3449517qke.258.1558826612499; 
-	Sat, 25 May 2019 16:23:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190525201851.23732-1-richard.purdie@linuxfoundation.org>
-	<20190525201851.23732-2-richard.purdie@linuxfoundation.org>
-In-Reply-To: <20190525201851.23732-2-richard.purdie@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 25 May 2019 16:23:06 -0700
-Message-ID: <CAMKF1sqVFS3Zr0wWpyDF721BnYGdXud3iWbhk0aUe4yGZtUU6A@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] tcmode-default: Test gcc9 as default on everything except mips
+	Sun, 26 May 2019 13:06:52 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	references:in-reply-to:message-id:date:date:subject:subject:from
+	:from:received; s=mail20150812; t=1558868808; bh=uSqdY/wxkizouEh
+	ChjIXSXCayM3VfQLyhPAZBWGTCSg=; b=GHDL12r49brhLmf6vcdbK9Wd6lKnxbP
+	RXG5fQ0ksnta+MOx1cfoqINsaK6TNoJ1hXMb3Vg0rZFoCqkfp1wUxuIeyRkNPVcl
+	J0FtZTkGZPetBwWPWvRm5dZAb89/8UpFmV6OMUhZ2V2qv+tJwesS8yuMfjlwG1K5
+	Ur4OtKJUEQgx3z9lTWIc425kThrz8w5JEj5T6YUc8IP9kbO9ypQ9JzH4Jlv+nHlo
+	u3Gifr9M1dTJf/+GpGn386AdBNInifGEQQzzFNqywRtuUGlI4UDJ2sOVYQ+Y4fA7
+	aLUA0OIHLo/RK9RmCOQLUtvaESDj3PWu0/XUkjGMoJidCxQ51QlCtWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+	s=mail20150812; 
+	t=1558868812; h=from:from:sender:reply-to:subject:subject:date:date:
+	message-id:message-id:to:to:cc:mime-version:content-type:
+	content-transfer-encoding:in-reply-to:in-reply-to: references:references;
+	bh=vFa14X6qmT1wZKHwrrkyByaj4cHSVybC01jrClqfHK8=;
+	b=KTL0nr6oQIjsL9/x7f0NGGM8zl9tr4zjF9eK8e/67CtsGGP2O3jNpl9FkVppBih/1jhQSK
+	zLyWnXBYk80rfZOt3gGKDNqAx5ZGxizwkfwj5NtsT1kwV0NWX98wFCOofgEi+DYolsZmZF
+	T1Ag+LadL9j/hhlXlzPC8hOhYkIoY1x3JpS+D4pZ4fyLMRCA4kTIdsjZHthaiSkP1pJajt
+	sIJEixLs3mTyUrB9f3cN7Mj5b9BrvulzOos1PPbRMGZn1CFT/WSZ7u4EzXZkXSpFDjkVug
+	j45gqtm7kNL/FiFadEICDrABBP5nHC9wEDgw8taMyGuka9cnZp86bOLzmtLFgA==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+	by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de
+	[80.241.56.123]) (amavisd-new, port 10030) with ESMTP id OmW6NdH3LXCv
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 26 May 2019 13:06:48 +0200 (CEST)
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 26 May 2019 13:06:36 +0200
+Message-Id: <20190526110642.5341-5-crg7475@mailbox.org>
+In-Reply-To: <20190526110642.5341-1-crg7475@mailbox.org>
+References: <20190526110642.5341-1-crg7475@mailbox.org>
+Subject: [PATCH 05/11] gstreamer1.0-plugins-ugly: upgrade to version 1.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,44 +55,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 25 May 2019 23:23:32 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sun, 26 May 2019 11:06:51 -0000
 
-On Sat, May 25, 2019 at 1:19 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> mips is the only rchitecture not working with gcc9, switch the others
-> leaving mips on gcc 8.X until we can figure out the fix for that.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
->  meta/conf/distro/include/tcmode-default.inc | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro/include/tcmode-default.inc
-> index 744c6c3247e..5c10a4bd0d7 100644
-> --- a/meta/conf/distro/include/tcmode-default.inc
-> +++ b/meta/conf/distro/include/tcmode-default.inc
-> @@ -18,7 +18,9 @@ PREFERRED_PROVIDER_virtual/${TARGET_PREFIX}libc-initial = "${TCLIBC}-initial"
->  PREFERRED_PROVIDER_virtual/nativesdk-${SDK_PREFIX}libc-initial ?= "nativesdk-glibc-initial"
->  PREFERRED_PROVIDER_virtual/gettext ??= "gettext"
->
-> -GCCVERSION ?= "8.%"
-> +GCCVERSION ?= "9.%"
-> +GCCVERSION_mips ?= "8.%"
-> +GCCVERSION_mips64 ?= "8.%"
+Signed-off-by: Philippe Normand <philn@igalia.com>
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+---
+ ...ins-ugly_1.14.4.bb => gstreamer1.0-plugins-ugly_1.16.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.14.4.bb => gstreamer1.0-plugins-ugly_1.16.0.bb} (90%)
 
-maybe pin it for all mips using mipsarch override ?
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.0.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.0.bb
+index 168e64d84c..11a0e790ea 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.16.0.bb
+@@ -10,8 +10,8 @@ SRC_URI = " \
+             http://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             file://0001-introspection.m4-prefix-pkgconfig-paths-with-PKG_CON.patch \
+             "
+-SRC_URI[md5sum] = "90768a0074db071175ce980064d9a1ac"
+-SRC_URI[sha256sum] = "ac02d837f166c35ff6ce0738e281680d0b90052cfb1f0255dcf6aaca5f0f6d23"
++SRC_URI[md5sum] = "1ec343c58d4b17d682f7befa8453c11c"
++SRC_URI[sha256sum] = "e30964c5f031c32289e0b25e176c3c95a5737f2052dfc81d0f7427ef0233a4c2"
+ 
+ S = "${WORKDIR}/gst-plugins-ugly-${PV}"
+ 
+-- 
+2.17.1
 
->  SDKGCCVERSION ?= "${GCCVERSION}"
->  BINUVERSION ?= "2.32%"
->  GDBVERSION ?= "8.3%"
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
