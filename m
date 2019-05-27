@@ -1,47 +1,50 @@
-Return-Path: <nick83ola@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id C44977E05F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 08E117DFE5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2019 15:57:39 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id 14so15116511ljj.5
+	Mon, 27 May 2019 16:15:23 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id f8so17374582wrt.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2019 08:57:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=sr7dGnCbJOt/xTO3xOeVi7+33UEicn/ZXk+j9BzqEjU=;
-	b=ktBg3hVSYL43LDzrFW+s8e6xz19gC6i6leYJBy+duTSSV9utGW29ZkE3pvYM5Vo2bX
-	Bl6raa68PZmtK0G8PljJhcYafjmEqCgq/Z6/bUMYAGaryRJM66JeM8IxED8WFy04RioD
-	6D2cQ0lNgd4uTpQGIa/z4JqTTpdbckq/KcvAGc4xNKYGyAesGusUXo8rVBROp+B4Xu/b
-	VT5IvNEQcuZcWnMRDA6xiAhH2brO5M2SX0quxUzk5/79qSl/jE5j/lm7MMC5EqTO3toY
-	lSVAvZpSmYN67YJOK5fbm90CgytZhyRjF3rEFcrSawiAWZW+DYaG5PKigD5zH1fpWeW6
-	/KHg==
+	Mon, 27 May 2019 09:15:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=CUyTct0rHhL1cUVnUTOMl7IxU3rLt4ImTSyyAFW2T6s=;
+	b=fzDJ8FEcnC1CyAVt2WyodLADd3brSAwsp7GD8io2KHFcAUgFs0vM1ECOPA1GhE2JCr
+	/106+zIhuguTD68BisGmiYQ2mH2fKDiKYn2/N4BLcl7cSYlfxjKLrqFXcPlApIxHAKen
+	+vBw61ayd/AiFTrGiaFA+VZXblvLWvHB1j+vM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=sr7dGnCbJOt/xTO3xOeVi7+33UEicn/ZXk+j9BzqEjU=;
-	b=Bx0ZT0BHbpFadRmDw+2zH1mhqrO/uDSzCFaoWtKEsRnRUfuYC7ve5jC8Mum0Lu15ml
-	E/3kxb0CPou+cimDUapLAVOgSc+vBcT3VryhLOS1sgy06QYo65O/OBT6ul/hBgjz/qhN
-	BQ2XNJcrJFO1NHdvWWOv0MlhDDchsUuM+eQW6Naa96IZyIK47zfKBoxetHAa3jlCmffl
-	9SjthfQ1VvIlY8DHdxNwjhdwY0B7RfnP4iu3dTVZRzlAqYj9yHZ9EeW7cdGFlVHuBkJN
-	8RXUZV1Dz/BWLm1hNGBcAiDnHZ7QQbz5SFEEmRtTs61FTcBpJ+JN7bZWl9VHX7+rmjDG
-	UflA==
-X-Gm-Message-State: APjAAAUwaRsdVQdr0hm04BZUXxzxfNSadRRC1F5lthezsCPWILEoO9Us
-	rjPBs2beKJB67dN5uwQGy5BOOkYxaxkfXYbjuZA=
-X-Google-Smtp-Source: APXvYqykXDQa5th2FlWA39aj/S5XqFpFqFoAd7NXKs+VLdG1Sr3epPXNWI2V+BNx0Po3BqC4seLdcBzk6wpQ64TR0Aw=
-X-Received: by 2002:a2e:249:: with SMTP id 70mr58752524ljc.178.1558972660445; 
-	Mon, 27 May 2019 08:57:40 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=CUyTct0rHhL1cUVnUTOMl7IxU3rLt4ImTSyyAFW2T6s=;
+	b=LhdCEAD+Lkzw//01BmG0u90OwD0IzCeT8mtlAsP/VQi6tpDfPDeg9RRz1cACInFV5I
+	60/wTrjADlVz3swdm2AAbcow4+db4gQtRbPv1JGlNN9DDC2TiibCUHE5sz9Ki+diy3EY
+	2ti6pPPMEn2RIDBhH31l/mEyh3dqMqPugo5wQwf5h/rycEcAVIrGWrT24Q1RGd1vXTvk
+	KJHcPLVxCeMAz8SvfF+jakqks7g9s2hZBd7zXrZZAN7MGR2u0BrMRBnvilEtEYjbmA2D
+	qyMLXPD8Tyq846TK66IGb7B8huuR7TRRArBhJMF/HX4G6iNg1pQDwDNq4ok2nWOyx4rk
+	ZORw==
+X-Gm-Message-State: APjAAAWFJaPi04yLo9MnbyK67OTHNoNT2tPydvKQlQJeHBV2C0qvNcCU
+	YdKXj0MGxQztju93dCmvmPI8lA==
+X-Google-Smtp-Source: APXvYqw5ENC9l0zqvOzM6HS/MIx5jg5AGUavdDzA4NhWIKWfSAxMloC6h27BxUB18eREX/zVBXLn2g==
+X-Received: by 2002:a5d:54d1:: with SMTP id x17mr58437646wrv.207.1558973724511;
+	Mon, 27 May 2019 09:15:24 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q15sm10785568wrr.19.2019.05.27.09.15.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 27 May 2019 09:15:23 -0700 (PDT)
+Message-ID: <c9203159ca69c2a880e40180f994770c175c4553.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: chee.yang.lee@intel.com, openembedded-core@lists.openembedded.org
+Date: Mon, 27 May 2019 17:15:21 +0100
+In-Reply-To: <1558920407-2991-1-git-send-email-chee.yang.lee@intel.com>
+References: <1558920407-2991-1-git-send-email-chee.yang.lee@intel.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-References: <20190524143659.23751-1-nick83ola@gmail.com>
-	<75b746c6-1545-0ae6-850b-6bc3685d5251@gmail.com>
-In-Reply-To: <75b746c6-1545-0ae6-850b-6bc3685d5251@gmail.com>
-From: nick83ola <nick83ola@gmail.com>
-Date: Mon, 27 May 2019 16:57:29 +0100
-Message-ID: <CABPh3UN8yiEf8Wm1RFR5H_dwk_0MxTGGnqSTW4ZrQnW0jjjOLg@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] nginx: fix kill path in nginx systemd unit file
+Subject: Re: [PATCH] wic: bootimg-efi: add label source parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +57,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 May 2019 15:57:40 -0000
+X-List-Received-Date: Mon, 27 May 2019 16:15:24 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Thanks (and sorry again)
+On Mon, 2019-05-27 at 09:26 +0800, chee.yang.lee@intel.com wrote:
+> From: Chee Yang Lee <chee.yang.lee@intel.com>
+> 
+> Add new source parameter label to allow boot.conf/grub.cfg label option
+> to set as "install-efi", so far it's hardcoded to "Boot".
+> 
+> The label remain to "Boot" for systemd-boot or blank for grub-efi whenever
+> label are not "install-efi".
+> 
+> when label set to "install-efi" the image can boot into image installation.
+> 
+> Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+> ---
+>  scripts/lib/wic/plugins/source/bootimg-efi.py | 20 +++++++++++++++-----
+>  1 file changed, 15 insertions(+), 5 deletions(-)
+> 
+> diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+> index 652323f..9b324d3 100644
+> --- a/scripts/lib/wic/plugins/source/bootimg-efi.py
+> +++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+> @@ -72,9 +72,14 @@ class BootimgEFIPlugin(SourcePlugin):
+>              grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
+>  
+>              kernel = "/bzImage"
+> +            label = source_params.get('label')
+>  
+> -            grubefi_conf += "linux %s root=%s rootwait %s\n" \
+> -                % (kernel, creator.rootdev, bootloader.append)
+> +            if label == "install-efi":
+> +                grubefi_conf += "linux %s LABEL=%s rootwait %s\n" \
+> +                    % (kernel, label, bootloader.append)
+> +            else:
+> +                grubefi_conf += "linux %s root=%s rootwait %s\n" \
+> +                    % (kernel, creator.rootdev, bootloader.append)
 
-On Fri, 24 May 2019 at 17:27, akuster808 <akuster808@gmail.com> wrote:
->
->
->
-> On 5/24/19 7:36 AM, Nicola Lunghi wrote:
-> > Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
-> > ---
-> >  meta-webserver/recipes-httpd/nginx/files/nginx.service | 2 +-
-> >  meta-webserver/recipes-httpd/nginx/nginx.inc           | 2 +-
-> >  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> Wrong mailing list.
->
-> please send to openembedded-devel@lists.openembedded.org
->
-> >
-> > diff --git a/meta-webserver/recipes-httpd/nginx/files/nginx.service b/meta-webserver/recipes-httpd/nginx/files/nginx.service
-> > index c6fc0495f..9a6ca9651 100644
-> > --- a/meta-webserver/recipes-httpd/nginx/files/nginx.service
-> > +++ b/meta-webserver/recipes-httpd/nginx/files/nginx.service
-> > @@ -8,7 +8,7 @@ PIDFile=/run/nginx/nginx.pid
-> >  ExecStartPre=@SBINDIR@/nginx -t
-> >  ExecStart=@SBINDIR@/nginx
-> >  ExecReload=@SBINDIR@/nginx -s reload
-> > -ExecStop=@BINDIR@/kill -s QUIT $MAINPID
-> > +ExecStop=@BASE_BINDIR@/kill -s QUIT $MAINPID
-> >  PrivateTmp=true
-> >
-> >  [Install]
-> > diff --git a/meta-webserver/recipes-httpd/nginx/nginx.inc b/meta-webserver/recipes-httpd/nginx/nginx.inc
-> > index 29e7efc14..c4c776e37 100644
-> > --- a/meta-webserver/recipes-httpd/nginx/nginx.inc
-> > +++ b/meta-webserver/recipes-httpd/nginx/nginx.inc
-> > @@ -134,7 +134,7 @@ do_install () {
-> >          sed -i -e 's,@SYSCONFDIR@,${sysconfdir},g' \
-> >              -e 's,@LOCALSTATEDIR@,${localstatedir},g' \
-> >              -e 's,@SBINDIR@,${sbindir},g' \
-> > -            -e 's,@BINDIR@,${bindir},g' \
-> > +            -e 's,@BASE_BINDIR@,${base_bindir},g' \
-> >              ${D}${systemd_unitdir}/system/nginx.service
-> >      fi
-> >  }
->
+I could be missing something as I don't know the wider code but
+wouldn't it make more sense to have:
+
+label = source_params.get('label')
+label_conf = "root=%s" % creator.rootdev
+if label:
+    label_conf = "LABEL=%s" % label
+
+grubefi_conf += "linux %s %s rootwait %s\n" \
+    % (kernel, label_conf,
+bootloader.append)
+
+Which would then allow custom labels rather than a special case magic 
+value? (and also reduce code duplication)
+
+Cheers,
+
+Richard
+
 
