@@ -1,24 +1,22 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 666527E14D
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id D5CF07DA99
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2019 01:22:06 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4R1LgUb014245
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Sun, 26 May 2019 18:21:57 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 26 May 2019 18:21:51 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 27 May 2019 09:33:20 +0800
-Message-ID: <cover.1558920694.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-Subject: [PATCH V2 0/1] systemd: avoid musl specific patches affect glibc systems
+	Mon, 27 May 2019 01:26:47 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	26 May 2019 18:26:49 -0700
+X-ExtLoop1: 1
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga001.jf.intel.com with ESMTP; 26 May 2019 18:26:48 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 May 2019 09:26:47 +0800
+Message-Id: <1558920407-2991-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wic: bootimg-efi: add label source parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,28 +29,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 May 2019 01:22:06 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 27 May 2019 01:26:48 -0000
 
-Changes in V2:
-* change to use libc-musl override for SRC_URI
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-The following changes since commit 06381a917e7e7648ace4746cbda55dcd138a64ec:
+Add new source parameter label to allow boot.conf/grub.cfg label option
+to set as "install-efi", so far it's hardcoded to "Boot".
 
-  perl/modules: Add various missing ptest perl module dependencies (2019-05-22 07:24:52 +0100)
+The label remain to "Boot" for systemd-boot or blank for grub-efi whenever
+label are not "install-efi".
 
-are available in the git repository at:
+when label set to "install-efi" the image can boot into image installation.
 
-  git://git.pokylinux.org/poky-contrib ChenQi/systemd-musl
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/systemd-musl
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+---
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 20 +++++++++++++++-----
+ 1 file changed, 15 insertions(+), 5 deletions(-)
 
-Chen Qi (1):
-  systemd: avoid musl specific patches affect glibc systems
-
- meta/recipes-core/systemd/systemd_242.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index 652323f..9b324d3 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -72,9 +72,14 @@ class BootimgEFIPlugin(SourcePlugin):
+             grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
+ 
+             kernel = "/bzImage"
++            label = source_params.get('label')
+ 
+-            grubefi_conf += "linux %s root=%s rootwait %s\n" \
+-                % (kernel, creator.rootdev, bootloader.append)
++            if label == "install-efi":
++                grubefi_conf += "linux %s LABEL=%s rootwait %s\n" \
++                    % (kernel, label, bootloader.append)
++            else:
++                grubefi_conf += "linux %s root=%s rootwait %s\n" \
++                    % (kernel, creator.rootdev, bootloader.append)
+ 
+             if initrd:
+                grubefi_conf += "initrd /%s\n" % initrd
+@@ -140,12 +145,17 @@ class BootimgEFIPlugin(SourcePlugin):
+             # Create systemd-boot configuration using parameters from wks file
+             kernel = "/bzImage"
+             title = source_params.get('title')
+-
++            label = source_params.get('label')
+             boot_conf = ""
+             boot_conf += "title %s\n" % (title if title else "boot")
+             boot_conf += "linux %s\n" % kernel
+-            boot_conf += "options LABEL=Boot root=%s %s\n" % \
+-                             (creator.rootdev, bootloader.append)
++
++            if label == "install-efi":
++                boot_conf += "options LABEL=%s %s\n" % \
++                                (label, bootloader.append)
++            else:
++                boot_conf += "options LABEL=Boot root=%s %s\n" % \
++                                 (creator.rootdev, bootloader.append)
+ 
+             if initrd:
+                 boot_conf += "initrd /%s\n" % initrd
 -- 
-1.9.1
+2.7.4
 
 
