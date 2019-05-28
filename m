@@ -1,51 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 6F3C67DF85
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 091847D217
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 10:01:18 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id f8so19533186wrt.1
+	Tue, 28 May 2019 14:30:50 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 15so3110760wmg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 03:01:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Pz0LZaIWa3OUdu9eSIYwWARlYsee0pfgFQQlKK7cr3s=;
-	b=cJNb/wUIV5lUwZjxpxtsklHQgt3zr+QxB72dAMu70fDG1eExyyKoVeFwhCFh1y5bh8
-	dr2EagZB1lcZ1y/DiEwcaAf/RqeBNK6I9CxfuA7BT7ZLLdww51a4UuyqSpeeMwU6eJUX
-	rd/YLS5fa8H0MAePZmkmkBbScob54txgP3cIA=
+	Tue, 28 May 2019 07:30:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.ro; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=tS/B++LhLoIAtjnVykRq/z28XLWmPvZu2LqRLt+hea8=;
+	b=I8Q9U7W+cixJWpph27Gk6smlQlKYVSJbbsojsHuoPR3z2x36bHpc89AWYEZWFrsihd
+	F4q70RExFlTAXfFmxMAoXqf/jYB51lA83e5byLc7HNHm97VBhWdu+aFJ89cX5vzpRdlR
+	fHmd9RLBdaepmICyXdx4Kb5KF4M3DLhHqz4mFsawZvw5CQnw/7coyz1Q0dKVcx+uCw0s
+	1tOc783K9OTM9iVeswHy5W24iPAOK8fT0yp87yb1QYvcW5q8sbND7/Dwxgo5/DTzoGZt
+	uK2xww8und09KDAv3RUkX7GmSn33slBy+PW+0E8syV3Dw6AayLoZDOTW/qHul7KBfSuu
+	4KCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Pz0LZaIWa3OUdu9eSIYwWARlYsee0pfgFQQlKK7cr3s=;
-	b=FUTA73a58enaOLPzb7oicAYtTUqE+ut+OANQgiA5IEHT2ngLOOoBZZm+D9xgyeJbec
-	0IQ9HiVdioBKnDPiCYxPa9lL6up3dvLHjMDNexZcTieQMnmc1bBQFQHjbjhrl20N6bZ0
-	HQLvceoX7BVb/HcuOTGaXrC9F6BUQmiqwGxudd1/wiem84BgIxHs3Sc7uSNcD3iBnj8b
-	43/coO8NAnqWR58KvPK/PvA1Bon/jhN6xz6yUX/GlNDUaYFeNpn2NgbPIF2LhBdRyeok
-	2v8Hr/j3Yqucd9Ys2nnYCPOWlFDekQ2tuSSoQvkuOwRUUKRcfqmcfdtvPmKw9oUUw5dc
-	MRmQ==
-X-Gm-Message-State: APjAAAUeyKBQnUpdNS5aFWey084wJi87duieFXAPr83qsPj5Idjx8sdq
-	9JGOcOrVL5Z30X6D5rfbU2W+Nw==
-X-Google-Smtp-Source: APXvYqyLAVdp+AmIs/zUttV84xooo8mjjg2XcYUS+gts7SeWQS41gdV/IQ5bEfsilEBSqwQOBa216g==
-X-Received: by 2002:a5d:6a90:: with SMTP id s16mr8480012wru.288.1559037679096; 
-	Tue, 28 May 2019 03:01:19 -0700 (PDT)
-Received: from hex.config (5751ab90.skybroadband.com. [87.81.171.144])
-	by smtp.gmail.com with ESMTPSA id
-	s11sm12687863wro.17.2019.05.28.03.01.17
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 28 May 2019 03:01:18 -0700 (PDT)
-Message-ID: <5a62beea5ad46e24bc1e59c5cf9938799c0e3d12.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
-Date: Tue, 28 May 2019 11:01:16 +0100
-In-Reply-To: <1559036425-276422-1-git-send-email-mingli.yu@windriver.com>
-References: <12580c58f5d64b60ca87f5077b43924af5d746d2.camel@linuxfoundation.org>
-	<1559036425-276422-1-git-send-email-mingli.yu@windriver.com>
-User-Agent: Evolution 3.32.1-2 
-MIME-Version: 1.0
-Subject: Re: [PATCH v2] elfutils: fix ptest failures
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=tS/B++LhLoIAtjnVykRq/z28XLWmPvZu2LqRLt+hea8=;
+	b=tBE67IGy1xJEdDY18mW7AdXSq1rKwylXaUCyTF2kyVNwYtlxK1/2PSOtMwxKuAbJcM
+	oAAGNRsRYHBCfhBCVE8Ofp4R99W4qP8G94mWAHfYmhfF8Ztfgqh0LIHYYBrbu16kiJiw
+	Jn0rJbvGmKq+2iJ5DWUEiVRJvTxvXsaOLrC1+CiZorBi32cKhuPyq/mDQgVb8q5v/otE
+	AtFcG0ToeI81BJcdIz03Ubw/XgIXfkFcSuidxzCBSKfH4A93fmUJ7B9dpNqCLXu9agI+
+	qIubGxaUG2aLdyOAhxvpNdQw4h/kzzwO9OTkajT06WnWahhmdtQvZqCaaiCErDXpAG0R
+	mAOQ==
+X-Gm-Message-State: APjAAAWd9EuQu11zh58acjO47XEm1jA0bPL1OrRQmnyysQn8tIGMjkS/
+	H6cwRsqAWCkgXbSlJ5KWNQk+3A9djZ8=
+X-Google-Smtp-Source: APXvYqwY6WfvXBSiW0in6Tc6WkfdjjTrCgrMNfKUoBWv9NlLsPvQudzqDYCzqrfGRQNLwQfrSvBPeQ==
+X-Received: by 2002:a1c:a807:: with SMTP id r7mr1257588wme.137.1559053851309; 
+	Tue, 28 May 2019 07:30:51 -0700 (PDT)
+Received: from localhost.localdomain (host90-152-4-101.ipv4.regusnet.com.
+	[90.152.4.101]) by smtp.gmail.com with ESMTPSA id
+	k125sm5264606wmb.34.2019.05.28.07.30.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 28 May 2019 07:30:50 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 28 May 2019 15:30:30 +0100
+Message-Id: <20190528143030.2205-1-andrei@gherzan.ro>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] ca-certificates: Fix openssl runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,42 +54,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2019 10:01:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 28 May 2019 14:30:51 -0000
 
-On Tue, 2019-05-28 at 17:40 +0800, mingli.yu@windriver.com wrote:
-> From: Mingli Yu <Mingli.Yu@windriver.com>
-> 
-> * Add missing -ptest package dependencies (needs
->   ${PN}-dev)
-> 
-> * Add missing files which needed by ptest test
->   to fix the ptest failures such as:
->   | sh: ../src/elflint: No such file or directory
->   | FAIL: asm-tst4
-> 
-> * Rework 0001-skip-the-test-when-gcc-not-deployed.patch
->   to skip the tests which depend on gcc
-> 
-> * Don't split the -debug package for elfutils as
->   most cases needs the binary to have .symtab.
+Since yocto thud, and more specifically since poky switched to
+openssl 1.1 line, the openssl binary is provided by 'openssl-bin'.
 
-Can you provide more details on what this last item means?
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../recipes-support/ca-certificates/ca-certificates_20190110.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Do you mean elfutils is generally broken without the symtab section?
-That seems unusual? Or do you mean the tests need it to be present?
-
-Not striping the binary at all is likely to cause a significant size
-increase for elfutils and we want to avoid that, particularly if its
-only to fix tests. We will probably have to find a different solution
-(e.g. second copy with the symtab section in the ptest package, added
-to PATH in the runner?)
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
+index 4c0425302f..bc69c55daa 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
+@@ -82,6 +82,6 @@ do_install_append_class-native () {
+     SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
+ }
+ 
+-RDEPENDS_${PN} += "openssl"
++RDEPENDS_${PN} += "openssl-bin"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
 
 
