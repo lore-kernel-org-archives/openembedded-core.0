@@ -1,26 +1,51 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E17F7D19E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F3C67DF85
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 09:41:00 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4S9eJoM001767
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 28 May 2019 02:40:35 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 28 May 2019 02:40:27 -0700
-From: <mingli.yu@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Tue, 28 May 2019 17:40:25 +0800
-Message-ID: <1559036425-276422-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <12580c58f5d64b60ca87f5077b43924af5d746d2.camel@linuxfoundation.org>
+	Tue, 28 May 2019 10:01:18 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id f8so19533186wrt.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2019 03:01:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=Pz0LZaIWa3OUdu9eSIYwWARlYsee0pfgFQQlKK7cr3s=;
+	b=cJNb/wUIV5lUwZjxpxtsklHQgt3zr+QxB72dAMu70fDG1eExyyKoVeFwhCFh1y5bh8
+	dr2EagZB1lcZ1y/DiEwcaAf/RqeBNK6I9CxfuA7BT7ZLLdww51a4UuyqSpeeMwU6eJUX
+	rd/YLS5fa8H0MAePZmkmkBbScob54txgP3cIA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Pz0LZaIWa3OUdu9eSIYwWARlYsee0pfgFQQlKK7cr3s=;
+	b=FUTA73a58enaOLPzb7oicAYtTUqE+ut+OANQgiA5IEHT2ngLOOoBZZm+D9xgyeJbec
+	0IQ9HiVdioBKnDPiCYxPa9lL6up3dvLHjMDNexZcTieQMnmc1bBQFQHjbjhrl20N6bZ0
+	HQLvceoX7BVb/HcuOTGaXrC9F6BUQmiqwGxudd1/wiem84BgIxHs3Sc7uSNcD3iBnj8b
+	43/coO8NAnqWR58KvPK/PvA1Bon/jhN6xz6yUX/GlNDUaYFeNpn2NgbPIF2LhBdRyeok
+	2v8Hr/j3Yqucd9Ys2nnYCPOWlFDekQ2tuSSoQvkuOwRUUKRcfqmcfdtvPmKw9oUUw5dc
+	MRmQ==
+X-Gm-Message-State: APjAAAUeyKBQnUpdNS5aFWey084wJi87duieFXAPr83qsPj5Idjx8sdq
+	9JGOcOrVL5Z30X6D5rfbU2W+Nw==
+X-Google-Smtp-Source: APXvYqyLAVdp+AmIs/zUttV84xooo8mjjg2XcYUS+gts7SeWQS41gdV/IQ5bEfsilEBSqwQOBa216g==
+X-Received: by 2002:a5d:6a90:: with SMTP id s16mr8480012wru.288.1559037679096; 
+	Tue, 28 May 2019 03:01:19 -0700 (PDT)
+Received: from hex.config (5751ab90.skybroadband.com. [87.81.171.144])
+	by smtp.gmail.com with ESMTPSA id
+	s11sm12687863wro.17.2019.05.28.03.01.17
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 28 May 2019 03:01:18 -0700 (PDT)
+Message-ID: <5a62beea5ad46e24bc1e59c5cf9938799c0e3d12.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
+Date: Tue, 28 May 2019 11:01:16 +0100
+In-Reply-To: <1559036425-276422-1-git-send-email-mingli.yu@windriver.com>
 References: <12580c58f5d64b60ca87f5077b43924af5d746d2.camel@linuxfoundation.org>
+	<1559036425-276422-1-git-send-email-mingli.yu@windriver.com>
+User-Agent: Evolution 3.32.1-2 
 MIME-Version: 1.0
-Subject: [PATCH v2] elfutils: fix ptest failures
+Subject: Re: [PATCH v2] elfutils: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,140 +58,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2019 09:41:00 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 28 May 2019 10:01:18 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+On Tue, 2019-05-28 at 17:40 +0800, mingli.yu@windriver.com wrote:
+> From: Mingli Yu <Mingli.Yu@windriver.com>
+> 
+> * Add missing -ptest package dependencies (needs
+>   ${PN}-dev)
+> 
+> * Add missing files which needed by ptest test
+>   to fix the ptest failures such as:
+>   | sh: ../src/elflint: No such file or directory
+>   | FAIL: asm-tst4
+> 
+> * Rework 0001-skip-the-test-when-gcc-not-deployed.patch
+>   to skip the tests which depend on gcc
+> 
+> * Don't split the -debug package for elfutils as
+>   most cases needs the binary to have .symtab.
 
-* Add missing -ptest package dependencies (needs
-  ${PN}-dev)
+Can you provide more details on what this last item means?
 
-* Add missing files which needed by ptest test
-  to fix the ptest failures such as:
-  | sh: ../src/elflint: No such file or directory
-  | FAIL: asm-tst4
+Do you mean elfutils is generally broken without the symtab section?
+That seems unusual? Or do you mean the tests need it to be present?
 
-* Rework 0001-skip-the-test-when-gcc-not-deployed.patch
-  to skip the tests which depend on gcc
+Not striping the binary at all is likely to cause a significant size
+increase for elfutils and we want to avoid that, particularly if its
+only to fix tests. We will probably have to find a different solution
+(e.g. second copy with the symtab section in the ptest package, added
+to PATH in the runner?)
 
-* Don't split the -debug package for elfutils as
-  most cases needs the binary to have .symtab.
+Cheers,
 
-Before:
---------------------------------------------
-Recipe   | Passed    | Failed   | Skipped
---------------------------------------------
-elfutils | 176       | 23       | 4
---------------------------------------------
+Richard
 
-After:
---------------------------------------------
-Recipe   | Passed    | Failed   | Skipped
---------------------------------------------
-elfutils | 199       | 0       | 4
---------------------------------------------
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
----
- meta/recipes-devtools/elfutils/elfutils_0.176.bb   | 15 ++++++++-
- .../0001-skip-the-test-when-gcc-not-deployed.patch | 38 +++++++++++++++++++---
- 2 files changed, 47 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-index 157551e..c845a29 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-@@ -44,7 +44,7 @@ inherit autotools gettext ptest
- 
- EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
- EXTRA_OECONF_append_class-native = " --without-bzlib"
--RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN}"
-+RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN} ${PN}-dev"
- 
- EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
- 
-@@ -61,6 +61,16 @@ do_compile_ptest() {
- 
- do_install_ptest() {
- 	if [ ${PTEST_ENABLED} = "1" ]; then
-+		# copy the files which needed by the cases
-+		TEST_FILES="strip strip.o addr2line elfcmp objdump readelf size.o nm.o nm elflint"
-+		install -d -m 755                       ${D}${PTEST_PATH}/src
-+		install -d -m 755                       ${D}${PTEST_PATH}/libelf
-+		install -d -m 755                       ${D}${PTEST_PATH}/libdw
-+		for test_file in ${TEST_FILES}; do
-+			cp -r ${B}/src/${test_file} ${D}${PTEST_PATH}/src
-+		done
-+		ln -s ${libdir}/libelf.so ${D}${PTEST_PATH}/libelf/libelf.so
-+		ln -s ${libdir}/libdw.so ${D}${PTEST_PATH}/libdw/libdw.so
- 		cp -r ${S}/tests/                       ${D}${PTEST_PATH}
- 		cp -r ${B}/tests/*                      ${D}${PTEST_PATH}/tests
- 		cp -r ${B}/config.h                     ${D}${PTEST_PATH}
-@@ -109,3 +119,6 @@ FILES_libdw  = "${libdir}/libdw-${PV}.so ${libdir}/libdw.so.* ${libdir}/elfutils
- 
- # The package contains symlinks that trip up insane
- INSANE_SKIP_${MLPREFIX}libdw = "dev-so"
-+INSANE_SKIP_${PN}-ptest += "dev-deps"
-+INHIBIT_PACKAGE_STRIP = "1"
-+INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
-diff --git a/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch b/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-index 67ca0e4..de8c05f 100644
---- a/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-@@ -1,19 +1,47 @@
--From 61939d2e552e7645ecd671fa01cf1c7a72caa82a Mon Sep 17 00:00:00 2001
-+From e82a055f85e398cb03a4eaf5faf351a3a1f19344 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <Mingli.Yu@windriver.com>
--Date: Fri, 12 Apr 2019 16:29:58 +0800
--Subject: [PATCH] skip the test when gcc not deployed
-+Date: Tue, 21 May 2019 15:20:34 +0800
-+Subject: [PATCH v2] skip the test when gcc not deployed
- 
- Skip the tests which depend on gcc when
- gcc not deployed.
- 
--Upstream-Status: Inappropriate [oe specific]
-+Upstream-Status: Submitted[https://sourceware.org/ml/elfutils-devel/2019-q2/msg00091.html]
- 
- Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
- ---
-+ tests/run-disasm-x86-64.sh | 2 ++
-+ tests/run-disasm-x86.sh    | 2 ++
-  tests/run-strip-g.sh       | 2 ++
-  tests/run-strip-nothing.sh | 2 ++
-- 2 files changed, 4 insertions(+)
-+ 4 files changed, 8 insertions(+)
- 
-+diff --git a/tests/run-disasm-x86-64.sh b/tests/run-disasm-x86-64.sh
-+index a6be62b..c3ef238 100755
-+--- a/tests/run-disasm-x86-64.sh
-++++ b/tests/run-disasm-x86-64.sh
-+@@ -22,6 +22,8 @@ case "`uname -m`" in
-+   x86_64)
-+     tempfiles testfile45.o
-+     testfiles testfile45.S testfile45.expect
-++    # skip the case if no gcc deployed
-++    which gcc || exit 77
-+     gcc -m64 -c -o testfile45.o testfile45.S
-+     testrun_compare ${abs_top_builddir}/src/objdump -d testfile45.o < testfile45.expect
-+     ;;
-+diff --git a/tests/run-disasm-x86.sh b/tests/run-disasm-x86.sh
-+index 28a3df7..544fc28 100755
-+--- a/tests/run-disasm-x86.sh
-++++ b/tests/run-disasm-x86.sh
-+@@ -22,6 +22,8 @@ case "`uname -m`" in
-+   x86_64 | i?86 )
-+     tempfiles testfile44.o
-+     testfiles testfile44.S testfile44.expect
-++    # skip the case if no gcc deployed
-++    which gcc || exit 77
-+     gcc -m32 -c -o testfile44.o testfile44.S
-+     testrun_compare ${abs_top_builddir}/src/objdump -d testfile44.o < testfile44.expect
-+     ;;
- diff --git a/tests/run-strip-g.sh b/tests/run-strip-g.sh
- index 1303819..a943dec 100755
- --- a/tests/run-strip-g.sh
--- 
-2.7.4
 
 
