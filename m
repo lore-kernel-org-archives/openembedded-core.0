@@ -1,50 +1,25 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f179.google.com (mail-it1-f179.google.com
-	[209.85.166.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 726496C1BE
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 60E9F7E21B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 02:27:34 +0000 (UTC)
-Received: by mail-it1-f179.google.com with SMTP id m141so1832528ita.3
+	Tue, 28 May 2019 04:02:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4S42Jea005937
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2019 19:27:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Kkynqg7pLGmcm+0+qfUTqhENU8JZ1Llo6rcXHx4CczQ=;
-	b=op3edzNCZbA5hVcANQDayV7sCaPz7nZnr4sU5eDkHqXTPyko0elyzL7sLxCI4Soq7L
-	xxi6iIgO7nKJPUe13HaA2xu8P1dM2AZcMuAhUvwU3th1bckQTQWwJGWBP1+Q72eDtddz
-	8OFbDEjX63hwaEXb096HH19pX8V2yLYv7AgEwHMrVVCFl+X4DkVd6/beWHdF11gjs7sL
-	Bw3oFDEUMyinpR9bu4pZBuFQnxrppXaMiD/ixt/Gqaniany+KPkmYXZVPDJlCnjgyGrZ
-	2oIE9ZLH+coMS1EZ1Mm6TsaUmMbSMakI4sH+7ouKl9r/Q+FSoYuKwcBSdCxxmCdDoUKC
-	Zx+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=Kkynqg7pLGmcm+0+qfUTqhENU8JZ1Llo6rcXHx4CczQ=;
-	b=p2YVpOeBjgjzp0HlorsFbYUIPOKUVkU2eBrgmq7Vn1Q5f7wEhatcNRffOtLFilUfJ5
-	1iz9i4DyHmfrC6u9X4ho4szwoDcaDzz1RIDkSy7qIkJZJ0Mj5qjq3bEJ2BBBJPYbbJef
-	xE6+HwdR3gUvDiEaUx+IxRnZvaYwa9ezFzYN1driDDdnRXVgQTFfUGTZ9CqGusbE0Vq2
-	YeGbhz6GMuEN3mn9so578zElHnvXjeLrlrGg7hHdpcsvYm8DJImlzXgf393Zhs95vbVh
-	zITwkdVMk4WUafG7+LulkWvuyH0csF4+VeU+0wfClEtbfck5sHdk76dshaoygpSfrqLr
-	QWAQ==
-X-Gm-Message-State: APjAAAU6qX0602aO6YBU710a1D4ESwFSfnYdSSu9fmQRkophOFykwW2S
-	tHPB5q1HC4F7P0+cNe/3WY1v5qki
-X-Google-Smtp-Source: APXvYqzslK9vBjtrIn6zpt15Jrwts065mT+E7KPdF0BuTm+WqMX6tor2N3++jW+Yr/BhvMGeg0jUeQ==
-X-Received: by 2002:a24:6f14:: with SMTP id x20mr1559979itb.24.1559010455133; 
-	Mon, 27 May 2019 19:27:35 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id s70sm656303itb.16.2019.05.27.19.27.33
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 27 May 2019 19:27:34 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 27 May 2019 21:27:32 -0500
-Message-Id: <20190528022732.1961-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.21.0
+	Mon, 27 May 2019 21:02:19 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 27 May 2019 21:02:18 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 May 2019 12:01:52 +0800
+Message-ID: <1559016116-139663-2-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <1559016116-139663-1-git-send-email-changqing.li@windriver.com>
+References: <1559016116-139663-1-git-send-email-changqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] perl: Preserve attributes when applying cross files
+Subject: [PATCH 1/5] connman: add networkmanager as rconflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +32,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2019 02:27:34 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 28 May 2019 04:02:19 -0000
+Content-Type: text/plain
 
-The file attributes (specifically the timestamps) must be preserved when
-applying the cross files to have reproducible builds. Otherwise, the
-cross files get the timestamp from when they are copied in the do_unpack
-task, and the reproducible_build class uses this timestamp since it is
-the youngest one in the source tree.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/recipes-devtools/perl-sanity/perl_5.28.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/connman/connman_1.37.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
-index 12b220a4d80..f175e87a12e 100644
---- a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
-+++ b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
-@@ -43,7 +43,7 @@ do_unpack_append() {
- }
+diff --git a/meta/recipes-connectivity/connman/connman_1.37.bb b/meta/recipes-connectivity/connman/connman_1.37.bb
+index 1265032..00852bf 100644
+--- a/meta/recipes-connectivity/connman/connman_1.37.bb
++++ b/meta/recipes-connectivity/connman/connman_1.37.bb
+@@ -14,3 +14,4 @@ SRC_URI[md5sum] = "75012084f14fb63a84b116e66c6e94fb"
+ SRC_URI[sha256sum] = "6ce29b3eb0bb16a7387bc609c39455fd13064bdcde5a4d185fab3a0c71946e16"
  
- do_copy_perlcross() {
--    cp -rf ${WORKDIR}/perl-cross*/* ${S}
-+    cp -rfp ${WORKDIR}/perl-cross*/* ${S}
- }
- 
- do_configure_class-target() {
+ RRECOMMENDS_${PN} = "connman-conf"
++RCONFLICTS_${PN} = "networkmanager"
 -- 
-2.21.0
+2.7.4
 
 
