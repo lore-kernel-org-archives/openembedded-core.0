@@ -1,47 +1,23 @@
-Return-Path: <andrei@gherzan.ro>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 091847D217
+Return-Path: <Sakib.Sajal@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id C6F427E024
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 14:30:50 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id 15so3110760wmg.5
+	Tue, 28 May 2019 14:31:11 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4SEVCG6016582
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 07:30:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.ro; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=tS/B++LhLoIAtjnVykRq/z28XLWmPvZu2LqRLt+hea8=;
-	b=I8Q9U7W+cixJWpph27Gk6smlQlKYVSJbbsojsHuoPR3z2x36bHpc89AWYEZWFrsihd
-	F4q70RExFlTAXfFmxMAoXqf/jYB51lA83e5byLc7HNHm97VBhWdu+aFJ89cX5vzpRdlR
-	fHmd9RLBdaepmICyXdx4Kb5KF4M3DLhHqz4mFsawZvw5CQnw/7coyz1Q0dKVcx+uCw0s
-	1tOc783K9OTM9iVeswHy5W24iPAOK8fT0yp87yb1QYvcW5q8sbND7/Dwxgo5/DTzoGZt
-	uK2xww8und09KDAv3RUkX7GmSn33slBy+PW+0E8syV3Dw6AayLoZDOTW/qHul7KBfSuu
-	4KCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tS/B++LhLoIAtjnVykRq/z28XLWmPvZu2LqRLt+hea8=;
-	b=tBE67IGy1xJEdDY18mW7AdXSq1rKwylXaUCyTF2kyVNwYtlxK1/2PSOtMwxKuAbJcM
-	oAAGNRsRYHBCfhBCVE8Ofp4R99W4qP8G94mWAHfYmhfF8Ztfgqh0LIHYYBrbu16kiJiw
-	Jn0rJbvGmKq+2iJ5DWUEiVRJvTxvXsaOLrC1+CiZorBi32cKhuPyq/mDQgVb8q5v/otE
-	AtFcG0ToeI81BJcdIz03Ubw/XgIXfkFcSuidxzCBSKfH4A93fmUJ7B9dpNqCLXu9agI+
-	qIubGxaUG2aLdyOAhxvpNdQw4h/kzzwO9OTkajT06WnWahhmdtQvZqCaaiCErDXpAG0R
-	mAOQ==
-X-Gm-Message-State: APjAAAWd9EuQu11zh58acjO47XEm1jA0bPL1OrRQmnyysQn8tIGMjkS/
-	H6cwRsqAWCkgXbSlJ5KWNQk+3A9djZ8=
-X-Google-Smtp-Source: APXvYqwY6WfvXBSiW0in6Tc6WkfdjjTrCgrMNfKUoBWv9NlLsPvQudzqDYCzqrfGRQNLwQfrSvBPeQ==
-X-Received: by 2002:a1c:a807:: with SMTP id r7mr1257588wme.137.1559053851309; 
-	Tue, 28 May 2019 07:30:51 -0700 (PDT)
-Received: from localhost.localdomain (host90-152-4-101.ipv4.regusnet.com.
-	[90.152.4.101]) by smtp.gmail.com with ESMTPSA id
-	k125sm5264606wmb.34.2019.05.28.07.30.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 May 2019 07:30:50 -0700 (PDT)
-From: Andrei Gherzan <andrei@gherzan.ro>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 May 2019 15:30:30 +0100
-Message-Id: <20190528143030.2205-1-andrei@gherzan.ro>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] ca-certificates: Fix openssl runtime dependency
+	Tue, 28 May 2019 07:31:12 -0700 (PDT)
+Received: from ssajal-HP-EliteBook-850-G3.wrs.com (128.224.140.236) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Tue, 28 May 2019 07:31:06 -0700
+From: Sakib Sajal <sakib.sajal@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 May 2019 10:31:03 -0400
+Message-ID: <20190528143104.30168-1-sakib.sajal@windriver.com>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH 1/2] bash: add iso8859-1 gconv RDEPENDS needed by bash-ptest.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,29 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2019 14:30:51 -0000
+X-List-Received-Date: Tue, 28 May 2019 14:31:11 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Since yocto thud, and more specifically since poky switched to
-openssl 1.1 line, the openssl binary is provided by 'openssl-bin'.
+One of the ptests failed for internationalization.
+From the failed ptest log:
+   run-intl
+   fr_FR.ISO8859-1: Error Encoding U+00000080 to  [ "$'\200'" != "\\u0080" ]
+   (125 similar errors related to same encoding)
+The test was unable to convert iso8859-1 encoding to perform comparison.
 
-Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
 ---
- .../recipes-support/ca-certificates/ca-certificates_20190110.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/bash/bash.inc | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-index 4c0425302f..bc69c55daa 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-@@ -82,6 +82,6 @@ do_install_append_class-native () {
-     SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
- }
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index 4b3692c613..1e4dc55d01 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -26,8 +26,15 @@ RDEPENDS_${PN}_class-nativesdk = ""
+ RDEPENDS_${PN}-ptest += "make coreutils perl"
  
--RDEPENDS_${PN} += "openssl"
-+RDEPENDS_${PN} += "openssl-bin"
+ DEPENDS_append_libc-glibc = " virtual/libc-locale"
+-RDEPENDS_${PN}-ptest_append_libc-glibc = " locale-base-en-us locale-base-fr-fr locale-base-fr-fr.iso-8859-1 locale-base-de-de locale-base-zh-hk.big5-hkscs glibc-utils"
+-
++RDEPENDS_${PN}-ptest_append_libc-glibc = " \
++	glibc-gconv-iso8859-1 \
++	glibc-utils \
++	locale-base-de-de \
++	locale-base-en-us \
++	locale-base-fr-fr \
++	locale-base-fr-fr.iso-8859-1 \
++	locale-base-zh-hk.big5-hkscs \
++	"
+ USERADD_PACKAGES = "${PN}-ptest"
+ USERADD_PARAM_${PN}-ptest = "--create-home --user-group test"
  
- BBCLASSEXTEND = "native nativesdk"
 -- 
-2.17.1
+2.20.1
 
 
