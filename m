@@ -1,50 +1,27 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AB8C67D3AC
+Return-Path: <philn@igalia.com>
+X-Greylist: delayed 1341 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 28 May 2019 19:12:45 UTC
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 2959F6025E
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 16:28:09 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id f1so15075296lfl.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 09:28:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=uELsWBOSpo6ZbP+pE8Ex85RVLSlSyrJlMpO2hMVdGtQ=;
-	b=tJ74FFN5J4olxtcOh8iaLPhLrUCRdDqOukIUEjL5+D5ySAm4mN0SRk8+fdPqk6GbRT
-	i8kuX2AiYWJWLE+F4+URa9QVO6U5NqG+O2eaLuMICbt5AtHIe98ym4HKH4nh4kzMlA+D
-	fWxYV0/JjZezrr3d0cLY2tPAMKrX9xnTjm3jOvMln4WPRPfGi2tHDNEdOs39MW+NLLgC
-	rfKNTt3rUyM8asQHYwugv3OxdzGJ/EnYQL0PRsQ3t1NDfIujOj0ZyKxgvKXlsekmRvJ6
-	2B64deRfHJ8C2yRSF2lmH46uD60pAnUYvKUQ2AaNl8/gXSNtkSuT5d7h11uTXwJ19/V9
-	12gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uELsWBOSpo6ZbP+pE8Ex85RVLSlSyrJlMpO2hMVdGtQ=;
-	b=Cp7BZOR9sEwMnkL7NfNfl/dIbrrI1EQsHhklJmcA9XQw1jBrpTcNi4SIefSjACF+NI
-	45ngb0+MhftPK+jEgTLkN44Lk2XCGRgs39S4udsg6Lk7K91FI8zj/JccwNo7cNxocz5o
-	3DPhs3P+VvcLZsz0RhCeVarldSmn6N8bpHX4PV9uWvhm4O8O5tBvQUkl8tFcJRhtI3Sr
-	i6qYHMYkQk+4XNfJmPMjLBRT4WJmZRuy+HGm+X0gvT+J10xDJCGDKKL0zPkeOwDZZ1Y8
-	QoMM4B0HT/RckQ+7yy6DgR0hmEBXjpdoOPzmFsc3SJ9WnLwJKLiO4CFncXrwdm8XEsTF
-	nANg==
-X-Gm-Message-State: APjAAAW7A/JTk2rltu3CR28wiCl4A2fczBoiLv+IVZAKXq1IqP/Ugdba
-	JzA9d77lK2WZgGlSrLK2QC8TnqnHt/w=
-X-Google-Smtp-Source: APXvYqydNfLgmnaVS26oc2OCkqm4kLJ6nh4iyV+Gka7HGEGOH/00aXf79IoErZsc3YWJbtN34Av6Pw==
-X-Received: by 2002:a19:2981:: with SMTP id
-	p123mr11600243lfp.190.1559060890103; 
-	Tue, 28 May 2019 09:28:10 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id d5sm3026005ljl.59.2019.05.28.09.28.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 May 2019 09:28:09 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Tue, 28 May 2019 19:12:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:Date:To:From:Subject:Message-ID;
+	bh=B238QA3G/t4R1JA0rp/nu5v4zvGWiTxkySsxLUlNQ38=; 
+	b=MrYLG0yUK2gwCawwQvHi+PcWt78DN3KdGUKowrgv2rR/FjeaLGJ46GJd/ZTp+1yDXUB6tHPWfpTR3zTV50YB3TYUPOVX1K6eWmuzjemnZlsZthIAQYh3vI60WbMKzvLwSS88USQu48E+DVVqeOEuAuDQN9iHCSKUEIU+f/NfWvDvi3NaVbKSPPjXS8K56cJ1r2Q2KqxFvVZogNNeNQyO4iYE2D1/2stzNn0Tc+W5pJuBMED/d4b6YcltcBIKFHZlXdBUHdp1r/AM8ILtU6ChXxGWqDPVNoM+jrEJSnrc1iKAsH7d6Z2xFD+ZHYi13EqPFdjBroeX3lQh5miyCTFVwQ==;
+Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
+	helo=[192.168.1.41]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+	id 1hVhB2-0007J2-WD for <openembedded-core@lists.openembedded.org>;
+	Tue, 28 May 2019 20:50:25 +0200
+Message-ID: <69e7b572a514abba106b28255461cf17720e68e1.camel@igalia.com>
+From: Philippe Normand <philn@igalia.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 May 2019 18:28:07 +0200
-Message-Id: <20190528162807.19314-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] p11-kit: update to 0.23.16.1
+Date: Tue, 28 May 2019 19:50:15 +0100
+User-Agent: Evolution 3.30.5-1 
+MIME-Version: 1.0
+Subject: [PATCH] cmake: Use compiler launcher variable when ccache is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,31 +34,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2019 16:28:10 -0000
+X-List-Received-Date: Tue, 28 May 2019 19:12:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Setting the CMAKE_C{,XX}_COMPILER_LAUNCHER variables is the recomended way to
+deal with ccache in CMake. It allows build scripts to optionally opt-out of
+CMake, which is especially useful when the pre-processed GCC output is required.
+
+Signed-off-by: Philippe Normand <philn@igalia.com>
 ---
- .../p11-kit/{p11-kit_0.23.15.bb => p11-kit_0.23.16.1.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/p11-kit/{p11-kit_0.23.15.bb => p11-kit_0.23.16.1.bb} (97%)
+ meta/classes/cmake.bbclass | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.23.15.bb b/meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb
-similarity index 97%
-rename from meta/recipes-support/p11-kit/p11-kit_0.23.15.bb
-rename to meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb
-index 59e675b542..54455da1bb 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.23.15.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.23.16.1.bb
-@@ -9,7 +9,7 @@ DEPENDS = "libtasn1 libffi"
- SRC_URI = "git://github.com/p11-glue/p11-kit \
-            file://0001-LINGUAS-drop-the-languages-for-which-upstream-does-n.patch \
-            "
--SRCREV = "1ba80c67c492f25581ed97c8c31ffb5f20636d06"
-+SRCREV = "c689917b393379d288b868f70b2f7b7f6aafe430"
- S = "${WORKDIR}/git"
+diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
+index d3f0d70847..a5cffedbc6 100644
+--- a/meta/classes/cmake.bbclass
++++ b/meta/classes/cmake.bbclass
+@@ -26,14 +26,16 @@ python() {
+     if not d.getVar('OECMAKE_C_COMPILER'):
+         cc_list = d.getVar('CC').split()
+         if cc_list[0] == 'ccache':
+-            d.setVar('OECMAKE_C_COMPILER', '%s %s' % (cc_list[0], cc_list[1]))
++            d.setVar('OECMAKE_C_COMPILER_LAUNCHER', cc_list[0])
++            d.setVar('OECMAKE_C_COMPILER', cc_list[1])
+         else:
+             d.setVar('OECMAKE_C_COMPILER', cc_list[0])
  
- AUTOTOOLS_AUXDIR = "${S}/build/litter"
+     if not d.getVar('OECMAKE_CXX_COMPILER'):
+         cxx_list = d.getVar('CXX').split()
+         if cxx_list[0] == 'ccache':
+-            d.setVar('OECMAKE_CXX_COMPILER', '%s %s' % (cxx_list[0], cxx_list[1]))
++            d.setVar('OECMAKE_CXX_COMPILER_LAUNCHER', cxx_list[0])
++            d.setVar('OECMAKE_CXX_COMPILER', cxx_list[1])
+         else:
+             d.setVar('OECMAKE_CXX_COMPILER', cxx_list[0])
+ }
+@@ -49,6 +51,9 @@ OECMAKE_CXX_LINK_FLAGS ?= "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS} ${CXXFLAGS} ${LD
+ CXXFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+ CFLAGS += "${HOST_CC_ARCH} ${TOOLCHAIN_OPTIONS}"
+ 
++OECMAKE_C_COMPILER_LAUNCHER ?= ""
++OECMAKE_CXX_COMPILER_LAUNCHER ?= ""
++
+ OECMAKE_RPATH ?= ""
+ OECMAKE_PERLNATIVE_DIR ??= ""
+ OECMAKE_EXTRA_ROOT_PATH ?= ""
+@@ -86,6 +91,8 @@ set( CMAKE_SYSTEM_NAME `echo ${TARGET_OS} | sed -e 's/^./\u&/' -e 's/^\(Linux\).
+ set( CMAKE_SYSTEM_PROCESSOR ${@map_target_arch_to_uname_arch(d.getVar('TARGET_ARCH'))} )
+ set( CMAKE_C_COMPILER ${OECMAKE_C_COMPILER} )
+ set( CMAKE_CXX_COMPILER ${OECMAKE_CXX_COMPILER} )
++set( CMAKE_C_COMPILER_LAUNCHER ${OECMAKE_C_COMPILER_LAUNCHER} )
++set( CMAKE_CXX_COMPILER_LAUNCHER ${OECMAKE_CXX_COMPILER_LAUNCHER} )
+ set( CMAKE_ASM_COMPILER ${OECMAKE_C_COMPILER} )
+ set( CMAKE_AR ${OECMAKE_AR} CACHE FILEPATH "Archiver" )
+ set( CMAKE_C_FLAGS "${OECMAKE_C_FLAGS}" CACHE STRING "CFLAGS" )
 -- 
-2.17.1
+2.20.1
+
 
 
