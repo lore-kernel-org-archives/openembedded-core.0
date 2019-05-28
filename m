@@ -1,50 +1,24 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com
-	[209.85.215.174])
-	by mail.openembedded.org (Postfix) with ESMTP id 7E0527D3EF
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CC347CECB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 07:45:26 +0000 (UTC)
-Received: by mail-pg1-f174.google.com with SMTP id a3so10467228pgb.3
+	Tue, 28 May 2019 07:57:34 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4S7v48V031289
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 00:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=50AvNh2+7dfWgn6VbHfiVgiYOcK0uen9R5SO9iHxQNU=;
-	b=Wkv36o9wSyWwzFdjih9hxail7kQ6isw3AuGqnoTxUWhy2+iedHME3HQbV0A2T45IKZ
-	uigvjwX3CzxUeDhi6ZU4+xqmvjKXeqa9xPOv4nY4NhhF8ELJ62XbvaORIWuNj65dDT0L
-	jjaX157XSenpVTJi1BmE899J4GUkBpb9yPsZRshqgXgj3YMeegs2DSJBAVS1omnOnY0e
-	10Ck+f9OLI16NY1OIsBcfO3I7LnJ40V8nx75K0t1BuQXacRTpyMzC5AuwzqBUEtPFNcS
-	PVv+PmLvBo25dd3Q5Qk5zuDvnZu+jPNyNk8FK07XSyiMM+9ZKM+xmWVnVQV4vUTH8tl6
-	7+FA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=50AvNh2+7dfWgn6VbHfiVgiYOcK0uen9R5SO9iHxQNU=;
-	b=YtSGaCCvblDrbthZYoCehwbuWYG0KuU99ESf56m9pwfQ6k9cVsLy6CG9BJen7vZypz
-	2sSEp3DG9oZtifP+2F4u5sTTQq2B9d8rTIgZdE0WzRftQ0OdsH648tLWGr0tEUJtaSXh
-	DOd7UQuCgs7RU/isbat5X9D3AFVn7OAspA54Q1R7qxPwRG4n4VwrrPj4IbctI3IrJS/G
-	CkBvXZgYyxfWAJTdntm1s5o55GWqvzQnKpwddSk4FA+AjqXaaR8KMpbYya4GV+yGP8sX
-	VWj68Cg7TjO/2mAr3Iz0r8vb8TDAPbTDaoZd8nJJPU5ZJv99Usezng0wDSHjyft3iF0l
-	gGXQ==
-X-Gm-Message-State: APjAAAWQOm8nSvDWwQTn60QH80syEVVGIdbnsqPW7Te9Q6b/0BuHP8UQ
-	yRmy1VxXPdMG4xIykVbI0t+gZWXf2Bo=
-X-Google-Smtp-Source: APXvYqyhUQL+V61MY+uO+g7Fsfz6FkyKBO8MJEYL7qiFNqUGckAEeXBn8n8t/US9spfLhevqsMpGoQ==
-X-Received: by 2002:aa7:9aa5:: with SMTP id x5mr49853875pfi.135.1559029525914; 
-	Tue, 28 May 2019 00:45:25 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::e252])
-	by smtp.gmail.com with ESMTPSA id
-	f67sm15597613pfa.149.2019.05.28.00.45.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 28 May 2019 00:45:24 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 May 2019 00:45:15 -0700
-Message-Id: <20190528074515.43125-1-raj.khem@gmail.com>
+	Tue, 28 May 2019 00:57:25 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 28 May 2019 00:56:56 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 28 May 2019 00:56:56 -0700
+Message-ID: <20190528075656.29039-1-zhixiong.chi@windriver.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] gdb: Let gdbserver be empty for riscv64
+Subject: [PATCH] gcc: reduce the variables in symtab
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,28 +31,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2019 07:45:26 -0000
+X-List-Received-Date: Tue, 28 May 2019 07:57:34 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-gdbserver does not yet build for riscv64, therefore
-let the package be empty so we can build core-image-sato-sdk-ptest
-
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
- meta/recipes-devtools/gdb/gdb.inc | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/gcc/gcc-8.3.inc         |  1 +
+ .../gcc/gcc-8.3/0042-PR-debug-86964.patch     | 94 +++++++++++++++++++
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch
 
-diff --git a/meta/recipes-devtools/gdb/gdb.inc b/meta/recipes-devtools/gdb/gdb.inc
-index 52119a0aaa..0f10b41734 100644
---- a/meta/recipes-devtools/gdb/gdb.inc
-+++ b/meta/recipes-devtools/gdb/gdb.inc
-@@ -8,3 +8,6 @@ inherit gettext
- # cross-canadian must not see this
- PACKAGES =+ "gdbserver"
- FILES_gdbserver = "${bindir}/gdbserver"
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
+index fe9c7c3602..a6b772aadd 100644
+--- a/meta/recipes-devtools/gcc/gcc-8.3.inc
++++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
+@@ -72,6 +72,7 @@ SRC_URI = "\
+            file://0039-riscv-Disable-multilib-for-OE.patch \
+            file://0040-powerpc-powerpc64-Add-support-for-musl-ldso.patch \
+            file://0041-Add-a-recursion-limit-to-libiberty-s-demangling-code.patch \
++           file://0042-PR-debug-86964.patch \
+ "
+ SRC_URI[md5sum] = "65b210b4bfe7e060051f799e0f994896"
+ SRC_URI[sha256sum] = "64baadfe6cc0f4947a84cb12d7f0dfaf45bb58b7e92461639596c21e02d97d2c"
+diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch b/meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch
+new file mode 100644
+index 0000000000..d9b5d39b77
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc-8.3/0042-PR-debug-86964.patch
+@@ -0,0 +1,94 @@
++From beb921e1106b5bcbb0c6e2be84b241327e2ffc51 Mon Sep 17 00:00:00 2001
++From: law <law@138bc75d-0d04-0410-961f-82ee72b054a4>
++Date: Mon, 25 Mar 2019 21:19:09 +0000
++Subject: [PATCH] 	PR debug/86964 	* dwarf2out.c
++ (premark_used_variables): New function. 	(prune_unused_types_walk): Do
++ not mark not premarked external 	variables. 	(prune_unused_types):
++ Call premark_used_variables.
 +
-+ALLOW_EMPTY_gdbserver_riscv64 = "1"
++	* gcc.dg/debug/dwarf2/pr86964.c: New testcase.
 +
++git-svn-id: svn+ssh://gcc.gnu.org/svn/gcc/trunk@269925 138bc75d-0d04-0410-961f-82ee72b054a4
++
++Upstream-Status: Backport
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++---
++ gcc/ChangeLog                               |  8 ++++++
++ gcc/dwarf2out.c                             | 32 +++++++++++++++++++++
++ 2 files changed, 40 insertions(+)
++
++diff --git a/gcc/ChangeLog b/gcc/ChangeLog
++index 2075480ca2b..cdce539ac6f 100644
++--- a/gcc/ChangeLog
+++++ b/gcc/ChangeLog
++@@ -1,3 +1,11 @@
+++2019-03-25  Johan Karlsson <johan.karlsson@enea.com>
+++
+++	PR debug/86964
+++	* dwarf2out.c (premark_used_variables): New function.
+++	(prune_unused_types_walk): Do not mark not premarked external
+++	variables.
+++	(prune_unused_types): Call premark_used_variables.
+++
++ 2019-02-22  Release Manager
++ 
++ 	* GCC 8.3.0 released.
++diff --git a/gcc/dwarf2out.c b/gcc/dwarf2out.c
++index ae8bdee9981..b9a624e1ac7 100644
++--- a/gcc/dwarf2out.c
+++++ b/gcc/dwarf2out.c
++@@ -22658,6 +22658,21 @@ premark_types_used_by_global_vars (void)
++       ->traverse<void *, premark_types_used_by_global_vars_helper> (NULL);
++ }
++ 
+++/* Mark all variables used by the symtab as perennial.  */
+++
+++static void
+++premark_used_variables (void)
+++{
+++  /* Mark DIEs in the symtab as used.  */
+++  varpool_node *var;
+++  FOR_EACH_VARIABLE (var)
+++    {
+++      dw_die_ref die = lookup_decl_die (var->decl);
+++      if (die)
+++	die->die_perennial_p = 1;
+++    }
+++}
+++
++ /* Generate a DW_TAG_call_site DIE in function DECL under SUBR_DIE
++    for CA_LOC call arg loc node.  */
++ 
++@@ -29264,6 +29279,19 @@ prune_unused_types_walk (dw_die_ref die)
++ 
++       return;
++ 
+++    case DW_TAG_variable:
+++      if (flag_debug_only_used_symbols)
+++	{
+++	  if (die->die_perennial_p)
+++	    break;
+++
+++	  /* premark_used_variables marks external variables --- don't mark
+++	     them here.  */
+++	  if (get_AT (die, DW_AT_external))
+++	    return;
+++	}
+++      /* FALLTHROUGH */
+++
++     default:
++       /* Mark everything else.  */
++       break;
++@@ -29390,6 +29418,10 @@ prune_unused_types (void)
++   /* Mark types that are used in global variables.  */
++   premark_types_used_by_global_vars ();
++ 
+++  /* Mark variables used in the symtab.  */
+++  if (flag_debug_only_used_symbols)
+++    premark_used_variables ();
+++
++   /* Set the mark on nodes that are actually used.  */
++   prune_unused_types_walk (comp_unit_die ());
++   for (node = limbo_die_list; node; node = node->next)
++-- 
++2.21.0
 -- 
 2.21.0
 
