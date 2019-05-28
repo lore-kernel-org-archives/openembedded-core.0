@@ -1,26 +1,52 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 6D1707CBE7
+Return-Path: <trini@konsulko.com>
+Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
+	[209.85.219.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E788E7D3E3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2019 22:32:14 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	27 May 2019 15:32:15 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,520,1549958400"; d="scan'208";a="179022085"
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.249.65.10])
-	by fmsmga002.fm.intel.com with ESMTP; 27 May 2019 15:32:13 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 28 May 2019 06:32:10 +0800
-Message-Id: <20190527223210.22253-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190527134419.14223-1-anuj.mittal@intel.com>
-References: <20190527134419.14223-1-anuj.mittal@intel.com>
+	Tue, 28 May 2019 00:57:14 +0000 (UTC)
+Received: by mail-yb1-f194.google.com with SMTP id x187so7169367ybc.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 27 May 2019 17:57:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=RuDXAc3Z/0cn2BZ3Y6elK0/30IPQWjl0MfwsZz94JaA=;
+	b=ZolQ84+PYl7KlGDfQaYo8WNVmt47M0sLHZcFdA2CRC4IjTnVzXpDWt6y0Rn/QtlpVe
+	qMMvZ+Ee+cnc0AGgGQUMGn4pm9YizNyZS4haJOlrssezNDYo71B4X/010nZ3n7poLAu0
+	ymTyku/P/9xPA0cKZ4XQn+G77rmgxoS6zNBPE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=RuDXAc3Z/0cn2BZ3Y6elK0/30IPQWjl0MfwsZz94JaA=;
+	b=hATLrZl98S5PwlndmMKMAYQBpPR0oBFaSrszOq1sACRrZL/6a21kKqjxUwJSS26p51
+	Sz/h4eNfZVaDUq3b/ffdw/fs5qqjj7ZqAzkyDxYEd/KrH/qat0UIbwLN6h3Irz3qC+5U
+	JrMypn5PDghI/Ws1ZHC16kJDx8PO81JH7lY1xPpVbeTPzZfpm2D8aH/s2PORiv6WLMex
+	Ev3XwhSwODviQ7MG+ZmUW3BaTjKGTLnWkWH/oZZI4GhVaaid63YfMvb/tSvAlp+cLcr2
+	PnGumsbB4Yl9UD+FCPnEO8WsuztKQkOnDQ+2QNoosZJKcP9s6fEcJxM2Rc8IbpGP0gCc
+	2L2g==
+X-Gm-Message-State: APjAAAUJ53qidIbrWgynEOHEcPBhOypjNtLz+5RBlYcJMIFh+ODY0X8+
+	3AjuZYAQWiPrmKZWgRZYXkhTXuaKK+hBiw==
+X-Google-Smtp-Source: APXvYqyv7mh2eaxAJjVHPORN4Govb0K1tsckSPdkbIAb7wkIUMRLoWAMm/h9ESU8FzA63bLuZJaPAw==
+X-Received: by 2002:a25:9704:: with SMTP id d4mr19703950ybo.312.1559005035719; 
+	Mon, 27 May 2019 17:57:15 -0700 (PDT)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-82DE-61F9-B92F-B29B-14E2.dyn6.twc.com.
+	[2606:a000:1401:82de:61f9:b92f:b29b:14e2])
+	by smtp.gmail.com with ESMTPSA id
+	185sm3247667ywn.12.2019.05.27.17.57.14
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 27 May 2019 17:57:15 -0700 (PDT)
+Date: Mon, 27 May 2019 20:57:13 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190528005713.GI20781@bill-the-cat>
+References: <20190527203919.26326-1-bunk@stusta.de>
 MIME-Version: 1.0
-Subject: [PATCH v2] Revert "pigz: pigz is not gzip"
+In-Reply-To: <20190527203919.26326-1-bunk@stusta.de>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] vim: Move PACKAGECONFIG[gtkgui] from GTK 2 to GTK 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,82 +59,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 27 May 2019 22:32:14 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 28 May 2019 00:57:15 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This reverts commit a54c59f2a24904daffe51582b6863eebd071db0d.
+On Mon, May 27, 2019 at 11:39:17PM +0300, Adrian Bunk wrote:
 
-The compatibility issues have since been resolved [1][2] and pigz 2.4
-annoucement also states that this can be considered as a drop-in
-replacemment [3] now.
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
 
-[1] https://github.com/madler/pigz/commit/33c140e5fdc5cd639d1e7cc3c5e52ec016aa8a65
-[2] https://github.com/madler/pigz/commit/6fda8570f633ec582ba72ea00dad2bbac825bc17
-[3] https://zlib.net/pipermail/pigz-announce_zlib.net/2017-December/000028.html
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../conf/distro/include/default-providers.inc |  1 +
- meta/recipes-extended/pigz/pigz_2.4.bb        | 21 ++++++++++++++++++-
- 2 files changed, 21 insertions(+), 1 deletion(-)
-
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index 21419038f0..2be3378773 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -42,6 +42,7 @@ PREFERRED_PROVIDER_opkg ?= "opkg"
- PREFERRED_PROVIDER_opkg-native ?= "opkg-native"
- PREFERRED_PROVIDER_nativesdk-opkg ?= "nativesdk-opkg"
- PREFERRED_PROVIDER_console-tools ?= "kbd"
-+PREFERRED_PROVIDER_gzip-native ?= "pigz-native"
- PREFERRED_PROVIDER_udev ?= "${@bb.utils.contains('DISTRO_FEATURES','systemd','systemd','eudev',d)}"
- PREFERRED_RPROVIDER_bluez-hcidump ?= "${@bb.utils.contains('DISTRO_FEATURES','bluetooth bluez5','bluez5','bluez-hcidump',d)}"
- # Alternative is ltp-ddt in meta-oe: meta-oe/recipes-devtools/ltp-ddt/ltp-ddt_0.0.4.bb
-diff --git a/meta/recipes-extended/pigz/pigz_2.4.bb b/meta/recipes-extended/pigz/pigz_2.4.bb
-index 6e6da9c3c5..974c035147 100644
---- a/meta/recipes-extended/pigz/pigz_2.4.bb
-+++ b/meta/recipes-extended/pigz/pigz_2.4.bb
-@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://pigz.c;md5=9ae6dee8ceba9610596ed0ada493d142;beginline
- SRC_URI = "http://zlib.net/${BPN}/fossils/${BP}.tar.gz"
- SRC_URI[md5sum] = "def2f6e19d9d8231445adc1349d346df"
- SRC_URI[sha256sum] = "a4f816222a7b4269bd232680590b579ccc72591f1bb5adafcd7208ca77e14f73"
-+PROVIDES_class-native += "gzip-native"
-+
- # Point this at the homepage in case /fossils/ isn't updated
- UPSTREAM_CHECK_URI = "http://zlib.net/${BPN}/"
- UPSTREAM_CHECK_REGEX = "pigz-(?P<pver>.*)\.tar"
-@@ -19,7 +21,9 @@ DEPENDS = "zlib"
- 
- EXTRA_OEMAKE = "-e MAKEFLAGS="
- 
--do_install() {
-+inherit update-alternatives
-+
-+do_install_class-target() {
- 	# Install files into /bin (FHS), which is typical place for gzip
- 	install -d ${D}${base_bindir}
- 	install ${B}/pigz ${D}${base_bindir}/pigz
-@@ -27,4 +31,19 @@ do_install() {
- 	ln -nsf pigz ${D}${base_bindir}/pigzcat
- }
- 
-+do_install() {
-+	install -d ${D}${bindir}
-+	install ${B}/pigz ${D}${bindir}/gzip
-+	ln -nsf gzip ${D}${bindir}/gunzip
-+	ln -nsf gzip ${D}${bindir}/zcat
-+}
-+
-+ALTERNATIVE_PRIORITY = "80"
-+ALTERNATIVE_${PN} = "gunzip gzip zcat"
-+ALTERNATIVE_${PN}_class-nativesdk = ""
-+ALTERNATIVE_LINK_NAME[gunzip] = "${base_bindir}/gunzip"
-+ALTERNATIVE_LINK_NAME[gzip] = "${base_bindir}/gzip"
-+ALTERNATIVE_LINK_NAME[zcat] = "${base_bindir}/zcat"
-+ALTERNATIVE_TARGET = "${base_bindir}/pigz"
-+
- BBCLASSEXTEND = "native nativesdk"
 -- 
-2.20.1
-
+Tom
 
