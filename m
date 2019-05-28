@@ -1,52 +1,50 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
-	[209.85.219.194])
-	by mail.openembedded.org (Postfix) with ESMTP id E788E7D3E3
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f179.google.com (mail-it1-f179.google.com
+	[209.85.166.179])
+	by mail.openembedded.org (Postfix) with ESMTP id 726496C1BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 28 May 2019 00:57:14 +0000 (UTC)
-Received: by mail-yb1-f194.google.com with SMTP id x187so7169367ybc.11
+	Tue, 28 May 2019 02:27:34 +0000 (UTC)
+Received: by mail-it1-f179.google.com with SMTP id m141so1832528ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 27 May 2019 17:57:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=RuDXAc3Z/0cn2BZ3Y6elK0/30IPQWjl0MfwsZz94JaA=;
-	b=ZolQ84+PYl7KlGDfQaYo8WNVmt47M0sLHZcFdA2CRC4IjTnVzXpDWt6y0Rn/QtlpVe
-	qMMvZ+Ee+cnc0AGgGQUMGn4pm9YizNyZS4haJOlrssezNDYo71B4X/010nZ3n7poLAu0
-	ymTyku/P/9xPA0cKZ4XQn+G77rmgxoS6zNBPE=
+	Mon, 27 May 2019 19:27:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Kkynqg7pLGmcm+0+qfUTqhENU8JZ1Llo6rcXHx4CczQ=;
+	b=op3edzNCZbA5hVcANQDayV7sCaPz7nZnr4sU5eDkHqXTPyko0elyzL7sLxCI4Soq7L
+	xxi6iIgO7nKJPUe13HaA2xu8P1dM2AZcMuAhUvwU3th1bckQTQWwJGWBP1+Q72eDtddz
+	8OFbDEjX63hwaEXb096HH19pX8V2yLYv7AgEwHMrVVCFl+X4DkVd6/beWHdF11gjs7sL
+	Bw3oFDEUMyinpR9bu4pZBuFQnxrppXaMiD/ixt/Gqaniany+KPkmYXZVPDJlCnjgyGrZ
+	2oIE9ZLH+coMS1EZ1Mm6TsaUmMbSMakI4sH+7ouKl9r/Q+FSoYuKwcBSdCxxmCdDoUKC
+	Zx+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=RuDXAc3Z/0cn2BZ3Y6elK0/30IPQWjl0MfwsZz94JaA=;
-	b=hATLrZl98S5PwlndmMKMAYQBpPR0oBFaSrszOq1sACRrZL/6a21kKqjxUwJSS26p51
-	Sz/h4eNfZVaDUq3b/ffdw/fs5qqjj7ZqAzkyDxYEd/KrH/qat0UIbwLN6h3Irz3qC+5U
-	JrMypn5PDghI/Ws1ZHC16kJDx8PO81JH7lY1xPpVbeTPzZfpm2D8aH/s2PORiv6WLMex
-	Ev3XwhSwODviQ7MG+ZmUW3BaTjKGTLnWkWH/oZZI4GhVaaid63YfMvb/tSvAlp+cLcr2
-	PnGumsbB4Yl9UD+FCPnEO8WsuztKQkOnDQ+2QNoosZJKcP9s6fEcJxM2Rc8IbpGP0gCc
-	2L2g==
-X-Gm-Message-State: APjAAAUJ53qidIbrWgynEOHEcPBhOypjNtLz+5RBlYcJMIFh+ODY0X8+
-	3AjuZYAQWiPrmKZWgRZYXkhTXuaKK+hBiw==
-X-Google-Smtp-Source: APXvYqyv7mh2eaxAJjVHPORN4Govb0K1tsckSPdkbIAb7wkIUMRLoWAMm/h9ESU8FzA63bLuZJaPAw==
-X-Received: by 2002:a25:9704:: with SMTP id d4mr19703950ybo.312.1559005035719; 
-	Mon, 27 May 2019 17:57:15 -0700 (PDT)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-82DE-61F9-B92F-B29B-14E2.dyn6.twc.com.
-	[2606:a000:1401:82de:61f9:b92f:b29b:14e2])
-	by smtp.gmail.com with ESMTPSA id
-	185sm3247667ywn.12.2019.05.27.17.57.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 27 May 2019 17:57:15 -0700 (PDT)
-Date: Mon, 27 May 2019 20:57:13 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Adrian Bunk <bunk@stusta.de>
-Message-ID: <20190528005713.GI20781@bill-the-cat>
-References: <20190527203919.26326-1-bunk@stusta.de>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Kkynqg7pLGmcm+0+qfUTqhENU8JZ1Llo6rcXHx4CczQ=;
+	b=p2YVpOeBjgjzp0HlorsFbYUIPOKUVkU2eBrgmq7Vn1Q5f7wEhatcNRffOtLFilUfJ5
+	1iz9i4DyHmfrC6u9X4ho4szwoDcaDzz1RIDkSy7qIkJZJ0Mj5qjq3bEJ2BBBJPYbbJef
+	xE6+HwdR3gUvDiEaUx+IxRnZvaYwa9ezFzYN1driDDdnRXVgQTFfUGTZ9CqGusbE0Vq2
+	YeGbhz6GMuEN3mn9so578zElHnvXjeLrlrGg7hHdpcsvYm8DJImlzXgf393Zhs95vbVh
+	zITwkdVMk4WUafG7+LulkWvuyH0csF4+VeU+0wfClEtbfck5sHdk76dshaoygpSfrqLr
+	QWAQ==
+X-Gm-Message-State: APjAAAU6qX0602aO6YBU710a1D4ESwFSfnYdSSu9fmQRkophOFykwW2S
+	tHPB5q1HC4F7P0+cNe/3WY1v5qki
+X-Google-Smtp-Source: APXvYqzslK9vBjtrIn6zpt15Jrwts065mT+E7KPdF0BuTm+WqMX6tor2N3++jW+Yr/BhvMGeg0jUeQ==
+X-Received: by 2002:a24:6f14:: with SMTP id x20mr1559979itb.24.1559010455133; 
+	Mon, 27 May 2019 19:27:35 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id s70sm656303itb.16.2019.05.27.19.27.33
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 27 May 2019 19:27:34 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 27 May 2019 21:27:32 -0500
+Message-Id: <20190528022732.1961-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190527203919.26326-1-bunk@stusta.de>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] vim: Move PACKAGECONFIG[gtkgui] from GTK 2 to GTK 3
+Subject: [PATCH] perl: Preserve attributes when applying cross files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,16 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 28 May 2019 00:57:15 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 28 May 2019 02:27:34 -0000
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 27, 2019 at 11:39:17PM +0300, Adrian Bunk wrote:
+The file attributes (specifically the timestamps) must be preserved when
+applying the cross files to have reproducible builds. Otherwise, the
+cross files get the timestamp from when they are copied in the do_unpack
+task, and the reproducible_build class uses this timestamp since it is
+the youngest one in the source tree.
 
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-devtools/perl-sanity/perl_5.28.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
-
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
+index 12b220a4d80..f175e87a12e 100644
+--- a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
+@@ -43,7 +43,7 @@ do_unpack_append() {
+ }
+ 
+ do_copy_perlcross() {
+-    cp -rf ${WORKDIR}/perl-cross*/* ${S}
++    cp -rfp ${WORKDIR}/perl-cross*/* ${S}
+ }
+ 
+ do_configure_class-target() {
 -- 
-Tom
+2.21.0
+
 
