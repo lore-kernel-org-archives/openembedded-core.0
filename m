@@ -1,36 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 976127E319
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 639EB7E33C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 12:27:24 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45DVMw4xXqz5l;
-	Wed, 29 May 2019 14:27:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559132844;
-	bh=Q3aEkQtUDN8elrNToDGolSfDFCDZGaEcMqz1nQYyJj0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K0apHCBGsJwrvU/sUQjQUzx1sCVrHubbt4FYKiAQgyI5zQ6j3tAsmAxgROFEVw/Ex
-	2MUKDcZdUPPYxNQtKYDpfDdLKKaLEQPNrJTFzIIOYB4adSano0a80MQ7VyL+6FamT/
-	y//xbdqVhTV6c0hV8ltT3TQTrzZ5G+x6vk/K8r8yuisrjvIAb9ntJ4UOr5AbYj0OS2
-	eAkNEdUjFo5/aprMav5ywELDzHne7oDWeqG+hqoLGCxPgaFjyh4i8iqvMRAJXIi9vC
-	fzXUAfL7VxT1IVuHCPbVFWHZQa6E7druq3u0HiQNxXCzd0/hTNGP3SNJScgYQ6l4O0
-	DXlO491TzuqfIw33tV/cs0JbVzTo8CbNnsBO3BRJ8fvjmN+dw8k+vyznjUS+S/51A8
-	t/nHBCwO7vgLHO1iginAqAtBqyPGGmisNBu+8HhZ7NtOggugNyp30FC+4rkBi5F4C5
-	D8kyeTC91kemwYWN9P4AD3a1zIUds27g6l+0ihwyqvlJKlOyScLZiQ2QnT9QIHwBxK
-	2cbl+taul1Y+2jLc4v9IGqB8JIqLhh2S4444j5ICHZZGFKH2Tg+Z40srirsPCnjhsX
-	WP0sUkNa2M/qpqcSLZpAawNVD9GXi/5JD3E99xs3ut/OG7+Z6eeKn6H0pVK+3I18Zb
-	uKLIaqeZbxP3KnFY30okmLf0=
-Date: Wed, 29 May 2019 15:27:21 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: changqing.li@windriver.com
-Message-ID: <20190529122721.GA20876@localhost>
-References: <1559122507-53104-1-git-send-email-changqing.li@windriver.com>
+	Wed, 29 May 2019 12:35:45 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id c2so1646650wrm.8
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 May 2019 05:35:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=LAsK3ao2jQMhkL7Pm30nh3lLq9RQRbmXoLIZ4CEta44=;
+	b=TQ3yGWFTpRhxyHs9XXj1ceJYNhSDmg0SxDUQou3Pim6ybZA8z6YIYtoHH06hYp4d5q
+	IB0/xXJ6BB/uVK24I5LK/iYpAZPS7ODt+70BC9gAY1f+XhdANQB7ts7rQ7SzwvMAPNTM
+	UsIhCu1zotnf98h4UseDBskCIpxLbGg4yqQ6o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=LAsK3ao2jQMhkL7Pm30nh3lLq9RQRbmXoLIZ4CEta44=;
+	b=fQ9/gM57jg1fvVkXB/xHK6BYavogZrclLjXk+vNksmVKAbDH5RRqQp+71a92DkxPXQ
+	4cXdTe1SaVy3uhnNERUKQTwlZpj5scZZtnIIEpFe4U/YiSp1NTHjyrBNWhTMM3yyXShd
+	mmUeUQTkM4slQw1Um0V76huSKuZLc5wSXpCF9IA3lPFPDFm9RK4jXsf1QGPgVAnG8Xer
+	IV+MV29hqaLqVdPlJ3YMKKl2tADTHITtI1MAG30J/iZ4FFSHUTpidGJ7I2OfnrTl93Ca
+	WO3s1Uae9fzyG9jQRn0utfMcq8a+RGiBwO6Kjgx/pUVfG3CFqhK/Luzd+qP+z8kM3mlX
+	rXCQ==
+X-Gm-Message-State: APjAAAV19elqFqNW3Xfxam8xwLZx5hWSA+vvDUGZojY03GIvqMbvtSgd
+	NgjJL1OkE8UwGbMvleXs4szNhQ==
+X-Google-Smtp-Source: APXvYqy1cUFOyB21ZbsXnJFNQtj8ZXdwpNAAjqWVKVWTUlBo2VIkkqg6R8XsjUQCZtIiHOWZjxOT7A==
+X-Received: by 2002:a5d:54cc:: with SMTP id x12mr34528393wrv.303.1559133346105;
+	Wed, 29 May 2019 05:35:46 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 17sm1559412wmi.25.2019.05.29.05.35.45
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 29 May 2019 05:35:45 -0700 (PDT)
+Message-ID: <638258f243352200f2456b43bc14bd6a83c0579b.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Sakib Sajal <sakib.sajal@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2019 13:35:44 +0100
+In-Reply-To: <20190528143104.30168-2-sakib.sajal@windriver.com>
+References: <20190528143104.30168-1-sakib.sajal@windriver.com>
+	<20190528143104.30168-2-sakib.sajal@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <1559122507-53104-1-git-send-email-changqing.li@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/3] add rconflicts for systemd/resolvconf/tiny-init
+Subject: Re: [PATCH 2/2] Bash: Allow new-exp ptest to pass when run as root.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,31 +58,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 12:27:24 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 29 May 2019 12:35:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 29, 2019 at 05:35:04PM +0800, changqing.li@windriver.com wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+On Tue, 2019-05-28 at 10:31 -0400, Sakib Sajal wrote:
+> The ptest was failing as it was expecting non-root user.
+> Ptests are only run as root.
 > 
-> 
-> Changqing Li (3):
->...
->   resolvconf: add rconflicts
->   systemd: add rconflicts
->...
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
 
-This is only a conflict if PACKAGECONFIG[resolved] is enabled in systemd,
-other configurations should be fine.
+Rather than patching the code with a patch which we can never upstream,
+can we run the ptest under a non-root user?
 
-cu
-Adrian
+Cheers,
 
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Richard
 
 
