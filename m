@@ -1,29 +1,45 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 143387CBE7
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 51CEF6C154
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 02:53:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4T2rqIC005205
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 28 May 2019 19:53:52 -0700 (PDT)
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Tue, 28 May 2019 19:53:51 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <12580c58f5d64b60ca87f5077b43924af5d746d2.camel@linuxfoundation.org>
-	<1559036425-276422-1-git-send-email-mingli.yu@windriver.com>
-	<5a62beea5ad46e24bc1e59c5cf9938799c0e3d12.camel@linuxfoundation.org>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CEDF5A3.9030403@windriver.com>
-Date: Wed, 29 May 2019 10:59:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Wed, 29 May 2019 07:31:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45DMnz5WYLz5l;
+	Wed, 29 May 2019 09:31:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559115064;
+	bh=k+AdShnx0Kl4o2JEfroZNGj6GWhIgy2JX2x/7cSk3fk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qSkAokLEbstf8gacP9ZBpKx3yfUhnfweujd999eApAfXMEazX0rVrwOOozJctv+uT
+	bSFGsqkcGWbPE8lYUy7ZrOJAocyBo4qGR5JOnP8sbM4GvWyjY+TLDg3Qp7ysG233Be
+	7sRChjKOg60gheS3s7RffH7wUbLDBAEllqsB6bVheUUxhOmMvB38rUB5WIzMBzs6KF
+	uqeBa+raGn9zwwhiIgkHeXybYzZ4YBXflKLxKk3XGvHeiSniLQcUCZVcDXXHU9fmR9
+	jZUfTuJJ/34OniHDjpsjl3H1E//i/7JzXHGNpd7U9BOWPMVMuFw6VDxnPn0aTcIO8Y
+	Z9Y7vu2bpyLUQBom+gYbozUAXYQLR6/vwYgqdoTn5Rlcce2bJXgFe2vQoGspItNTvz
+	mDa7DqDkwP4i/qy9NQr7OFECxhvrQocp9aIZKIyEWSJebnk22T5c7iQDVd7387FYPR
+	x1XN/ug23LQNo9KzBEdp8QAC7RWSffnM5k1hpRP13771aMhNUIjIYr/VA/TxqXiTPs
+	LofPHWm2/wScHndgObtEOAVJCE1KxeyAzbFTX7DPibPZNFVJk2nK0c9nlI/4xlM9We
+	VSqypUVmk2wseoLXUlMZRlR1Mnc8FQaVjVnF6tPL6/aXdRkpO9XvEzzxh6kkN2Ug0h
+	CD14soPTDFNsgTx6XmaS7OoE=
+Date: Wed, 29 May 2019 10:31:01 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Andre McCurdy <armccurdy@gmail.com>
+Message-ID: <20190529073101.GB23804@localhost>
+References: <20190524172737.GA6813@localhost>
+	<CAMKF1sp8H7pOMvHLw+xJhOEE8KyPASmSrQJYxib-ugqrP-OS0Q@mail.gmail.com>
+	<20190524175859.GB6813@localhost>
+	<CAMKF1sr-JCp6HM1BwYE5T-hgK_2T2j7rfNiRZcD0r_AuC2F7LA@mail.gmail.com>
+	<20190524184546.GA12358@localhost>
+	<CAJ86T=Vr=BSX1fF3G-bHspzXQpXw6qEkUjFDt0==CwgDnpPGFA@mail.gmail.com>
+	<20190524202842.GB12358@localhost>
+	<CAJ86T=XoVzv5yLq1Hkoy2mXVDAA0rY-h8WboP4OmimLrJwJK0w@mail.gmail.com>
+	<20190525072547.GC12358@localhost>
+	<CAJ86T=X9grKeXkZMBL0zh6TeTRoyxg_TL3D=ADYvnH_L-6s3nw@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <5a62beea5ad46e24bc1e59c5cf9938799c0e3d12.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.170]
-Subject: Re: [PATCH v2] elfutils: fix ptest failures
+In-Reply-To: <CAJ86T=X9grKeXkZMBL0zh6TeTRoyxg_TL3D=ADYvnH_L-6s3nw@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Should systemd be marked as incompatible with musl?
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,131 +52,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 02:53:52 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 May 2019 07:31:04 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+On Tue, May 28, 2019 at 04:10:45PM -0700, Andre McCurdy wrote:
+> On Sat, May 25, 2019 at 12:25 AM Adrian Bunk <bunk@stusta.de> wrote:
+>...
+> > Supporting musl is a real pain across the board,
+> > with new issues all the time.
+> 
+> There are always new issues and bugs to be solved in OE as a
+> consequence of trying to keep all packages up to date. Whether the
+> issues arising from musl are a real pain or a fun new set of problems
+> to solve is mostly a matter of perspective.
 
+Usually someone submits a change, and later gets notified that the 
+change was dropped from master-next due to a musl issue.
 
-On 2019年05月28日 18:01, richard.purdie@linuxfoundation.org wrote:
-> On Tue, 2019-05-28 at 17:40 +0800, mingli.yu@windriver.com wrote:
->> From: Mingli Yu <Mingli.Yu@windriver.com>
->>
->> * Add missing -ptest package dependencies (needs
->>    ${PN}-dev)
->>
->> * Add missing files which needed by ptest test
->>    to fix the ptest failures such as:
->>    | sh: ../src/elflint: No such file or directory
->>    | FAIL: asm-tst4
->>
->> * Rework 0001-skip-the-test-when-gcc-not-deployed.patch
->>    to skip the tests which depend on gcc
->>
->> * Don't split the -debug package for elfutils as
->>    most cases needs the binary to have .symtab.
->
-> Can you provide more details on what this last item means?
+That's not fun.
 
-That means elfutils tests need the binary not stripped, so we need below 
-logic:
+And all these compile errors with musl due to header order are a real WTF,
+every other library (not limited to C libraries) is now doing headers 
+properly so that any order works. No fun in supporting a broken design.
 
-INHIBIT_PACKAGE_STRIP = "1"
-INHIBIT_PACKAGE_DEBUG_SPLIT = "1"
+> > For really tiny systems you need both a tiny C library and a tiny init> system, so not properly supporting the combination of both forces users
+> > to use alternative options instead of OE.
+> >
+> > Which minimizes the benefits gained by the pains of supporting musl.
+> 
+> A modern tiny init system would be nice to have, but it's not
+> essential or fair to say that musl is useless without one. Many
+> projects, especially tiny ones, manage fine with init scripts and
+> custom process management.
 
->
-> Do you mean elfutils is generally broken without the symtab section?
-> That seems unusual? Or do you mean the tests need it to be present?
+I was not asking for "modern".
 
-Not sure whether elfutils is broken, but at least it is broken with 
-regard to test part. If strip the binary, the test result:
---------------------------------------------
-     Recipe   | Passed    | Failed   | Skipped
-     --------------------------------------------
-     elfutils | 184       | 15        | 4
---------------------------------------------
+If init scripts are not default and CI tested with musl,
+then init scripts will soon become a broken part of OE.
 
-And all the failed case as below is because the binary is stripped.
- 
+>...
+> A few pragmatic patches applied by OE would go a long way to bridging
+> the conflicting goals of the two upstream projects. It's basically the
+> approach we've taken already - the question is just one of improving
+> the patches we already have (and maybe patching musl to add missing
+> functionality instead of only trying to patch systemd to not depend on
+> it).
 
-FAIL: test-nlist
-FAIL: run-strip-reloc.sh
-FAIL: run-strip-strmerge.sh
-FAIL: run-nm-self.sh
-FAIL: run-readelf-self.sh
-FAIL: run-varlocs-self.sh
-FAIL: run-exprlocs-self.sh
-FAIL: run-backtrace-native.sh
-FAIL: run-backtrace-data.sh
-FAIL: run-backtrace-native-core.sh
-FAIL: run-deleted.sh
-FAIL: run-dwarf-die-addr-die.sh
-FAIL: run-get-units-invalid.sh
-FAIL: run-get-units-split.sh
-FAIL: run-unit-info.sh
+I already tried patching musl in OE.
+The change got reverted.
 
-For the test-nlist, the upstream also said the binary cannot be stripped 
-to guarantee the test pass as 
-https://sourceware.org/ml/elfutils-devel/2019-q2/msg00098.html and 
-https://sourceware.org/ml/elfutils-devel/2019-q2/msg00103.html
+There are people who think that OE-specific patches to musl are not 
+acceptable, and that it is better to force everyone in OE to patch 
+individual packages all the time instead of adding a not upstreamable
+patch to musl.
 
+cu
+Adrian
 
-So to fix this kind of below failures, we need to make the binary not 
-stripped.
+-- 
 
-runtest /usr/lib64/elfutils/ptest/tests/..//src/strip
-/usr/bin/eu-readelf: cannot get debug context descriptor: No DWARF 
-information found
-*** failure readelf -w debugfile1 
-/usr/lib64/elfutils/ptest/tests/..//src/strip
-/usr/bin/eu-readelf: cannot get debug context descriptor: No DWARF 
-information found
-*** failure readelf -w debugfile2 
-/usr/lib64/elfutils/ptest/tests/..//src/strip
-runtest /usr/lib64/elfutils/ptest/tests/..//src/strip.o
-runtest strip-uncompressed.o
-runtest strip-compressed.o
-runtest testfile-debug-rel-ppc64.o
-runtest testfile-debug-rel-ppc64-z.o
-runtest testfile-debug-rel-ppc64-g.o
-FAIL: run-strip-reloc.sh
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
-/usr/lib64/elfutils/ptest/tests/..//tests/elfstrmerge: 
-/usr/lib64/elfutils/ptest/tests/..//tests/elfstrmerge: couldn't get 
-symtab data: no error
-FAIL: run-strip-strmerge.sh
-
-/usr/bin/eu-nm: /usr/lib64/elfutils/ptest/tests/..//src/nm: no symbols
-FAIL: run-nm-self.sh
-
->
-> Not striping the binary at all is likely to cause a significant size
-> increase for elfutils and we want to avoid that, particularly if its
-> only to fix tests. We will probably have to find a different solution
-> (e.g. second copy with the symtab section in the ptest package, added
-> to PATH in the runner?)
-
-During my test, if we strip the debug info to elfutils-dbg, first we 
-need to make elfutils-ptest rdepends on elfutils-dbg and second the test 
-still fails as above even the elfutils-dbg package deployed as below:
-# pwd
-/usr/lib64/elfutils/ptest
-root@qemux86-64:/usr/lib64/elfutils/ptest# ls src/strip
-src/strip
-root@qemux86-64:/usr/lib64/elfutils/ptest# ls src/.debug/strip
-src/.debug/strip
-/.debug/strip64:/usr/lib64/elfutils/ptest# rpm -qf 
-/usr/lib64/elfutils/ptest/src/.debug/strip
-elfutils-dbg-0.176-r0.core2_64
-
-Thanks,
-
->
-> Cheers,
->
-> Richard
->
->
->
->
 
