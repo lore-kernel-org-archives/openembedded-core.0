@@ -1,57 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4E8757E322
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id C7C1D7E31C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 21:29:32 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id 7so2502245wmo.2
+	Wed, 29 May 2019 22:01:16 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r7so2761329wrr.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 14:29:33 -0700 (PDT)
+	Wed, 29 May 2019 15:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=HQ+Xrwbs+TPjf59yZXReHAktAABW6erI0J8ETFqbEos=;
-	b=B2KC5mlFRH3GH+1IiTiHenurWfBSCjxywNkAPgWnvr0riavY+1NXItKVjmEdumxmFz
-	WFSxpiutdbyaWdzHstgoJqG1Srja15eTIR4ejZxtJ09KGJ67b8NlTrY4KB/TUTOunyHu
-	sM4eTeFMh0cm5Lt6Eq9mBSm7rG36gREunzx9k=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=vnJ7mMFBToXJNXc1zomlqH0MkXt1vce1zZjDq5dZSEo=;
+	b=LAWtN4GuaykD+4ULL698/VwsLTBRX8jRhoTWENsL5mYmp0EH0tFX2elDuQI+EUjO69
+	NesB7Scy8EJtzfzGIKEOdkLZ5+kbydRnfpkhAP6qhfWhsTW0253KzYrVL3Nv4zPmkWMV
+	axU3kb1N5SsxB1lsq/0pODyrwhE3BWKPR0gbg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=HQ+Xrwbs+TPjf59yZXReHAktAABW6erI0J8ETFqbEos=;
-	b=ZEJnpKCTpxI9XwOsfVgVoPK+1nHPfcY1WzxjO63biHWPxLS7hXXavxWisYNLKfk6jH
-	a68yCLJAJxdj9f30GAFMZvXbRKZRVgEGeDmtxWuFw2SwhaZ1o2Ev2E+V+iwaNPr9NqUy
-	d/TvpVnhxa0oInT/Z4c9RmgLtDcXrVpZmDRjrFtiN9GDgqXP3lwPZqmLGzKnXGI63lzA
-	nGyIND+YaIpD4pGjCfyw1mghXXarmb0UXKSXhGsCpidD1sls2hq89K4wB4YMfFsKZrZn
-	EMZlg7HSCADkXDFfRbu23Ws/as7Yi8ON8uD5trKy2HJi4iIyiMRfLtM9NNZJTbcP13ra
-	6l0A==
-X-Gm-Message-State: APjAAAUlprCLzxDUlFFuzvthjP1pMR/1qGHwFCHoxXDHc6SM4bDRsKOy
-	Yxamfy9TP+cmezp88jzDwuehpg==
-X-Google-Smtp-Source: APXvYqziR0Kxng9C/Xx+PTjwFWWaa0WAV99K+dwUXDTXF/lAjEJQy6w88p/gscMWEvbLREH2gJGLtA==
-X-Received: by 2002:a7b:cb01:: with SMTP id u1mr84759wmj.153.1559165373095;
-	Wed, 29 May 2019 14:29:33 -0700 (PDT)
+	bh=vnJ7mMFBToXJNXc1zomlqH0MkXt1vce1zZjDq5dZSEo=;
+	b=OSlzG0T87jSXlx1M2PuEvrwnorA51/y22z8C84YyH09yKtex2icCIBRShJPQ+ybbZ8
+	ocx5h2Uh7CdqW3p2U3kwJnqvY/UNUId9GoKZ80ywy1HVtPwuhH2CkH6KKP1eRC86EHGv
+	erUqiGOAjkzVkPhIJDF9qQxQwCtxfN+dmvyQNeS0h+iEzZ4jznBgFfKWH+hlih+lKItu
+	VZgMyz4NJTLL4wn3+gvOvmieciTqW5AEzew9g6vTWpij0zjrhb1+JMKEAqH3gr5H1PQf
+	PGpdIvurhqXy7E69F9P1qAF1fU3S5zEUV8aiNt+mVtp23OddkRwY3528DoG0k0ttCKyM
+	BGJA==
+X-Gm-Message-State: APjAAAXHqVOf1cIYmdp+t3ohjoIwhchzJNpvy9hHjU80gE8pz1HoWJ9e
+	egKu8OdrqnlTvaH9aDxwNJ6OZw==
+X-Google-Smtp-Source: APXvYqyBf7adUKNCJs20HzpJEDtmh7E0MLYNxT7WcTu6LOQx2jhCLzcZznn2nLY+uQ5n0dfJQCxqcw==
+X-Received: by 2002:a5d:6849:: with SMTP id o9mr181157wrw.196.1559167277429;
+	Wed, 29 May 2019 15:01:17 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n10sm1683919wrr.11.2019.05.29.14.29.32
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 14:29:32 -0700 (PDT)
-Message-ID: <4571b3c03fb83ee01492dd1891e410becb72b0e5.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Tom Rini <trini@konsulko.com>
-Date: Wed, 29 May 2019 22:29:31 +0100
-In-Reply-To: <20190529212556.GO20781@bill-the-cat>
-References: <20190529184328.28470-1-richard.purdie@linuxfoundation.org>
-	<20190529184328.28470-2-richard.purdie@linuxfoundation.org>
-	<4c62af9f-8bff-726e-db35-6f6ed7ebafc2@gmail.com>
-	<8798dc0e5d91991953720388b601c9c5b3174c42.camel@linuxfoundation.org>
-	<321f3cb8-a101-49ad-07c4-64fc82d2c7f8@gmail.com>
-	<d5b41b11583c78cd16d6393736fafd8e733c48a9.camel@linuxfoundation.org>
-	<20190529212556.GO20781@bill-the-cat>
+	by smtp.gmail.com with ESMTPSA id r16sm463538wmh.17.2019.05.29.15.01.15
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 29 May 2019 15:01:16 -0700 (PDT)
+Message-ID: <286871f94e930242edc9d57dc39392e695abfed9.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2019 23:01:15 +0100
+In-Reply-To: <20190529144250.419-1-JPEWhacker@gmail.com>
+References: <20190529144250.419-1-JPEWhacker@gmail.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] uninative: Switch from bz2 to xz
+Subject: Re: [PATCH] btrfs-tools: Pass DEBUG_MAP_PREFIX flags to Python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,41 +57,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 21:29:32 -0000
+X-List-Received-Date: Wed, 29 May 2019 22:01:17 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-05-29 at 17:25 -0400, Tom Rini wrote:
-> On Wed, May 29, 2019 at 09:50:22PM +0100, 
-> richard.purdie@linuxfoundation.org wrote:
-> > On Wed, 2019-05-29 at 13:39 -0700, akuster808 wrote:
-> > > On 5/29/19 12:26 PM, richard.purdie@linuxfoundation.org wrote:
-> > > > On Wed, 2019-05-29 at 12:21 -0700, akuster808 wrote:
-> > > > > On 5/29/19 11:43 AM, Richard Purdie wrote:
-> > > > > > (From OE-Core rev:
-> > > > > > 29fc9210b973be68de474e75068e4c72371afe5a)
-> > > > > > 
-> > > > > > Signed-off-by: Richard Purdie <
-> > > > > > richard.purdie@linuxfoundation.org>
-> > > > > With back port to warrior and Thud too?
-> > > > Yes, we'll need to do that if we bring fedora 30 workers online
-> > > > on
-> > > > the
-> > > > autobuilder.
-> > > I know the uninative update is required for FC30 but changing the
-> > > compression does not.
-> > > 
-> > > This question is about the compression extension question.
-> > > 
-> > > Does this mean YP will no longer be providing bz2 uninatives?
-> > 
-> > Correct, the patch should be straight forward to include with the
-> > upgrade.
+On Wed, 2019-05-29 at 09:42 -0500, Joshua Watt wrote:
+> The DEBUG_MAP_PREFIX flags need to be passed when building the Python
+> library to prevent these non-reproducible paths from being encoded
+> into
+> the library. The patch that does this was accepted upstream and
+> supersedes part of a previous patch that passed LDFLAGS to the Python
+> library in favor of passing EXTRA_PYTHON_LDFLAGS, so the patch and
+> recipe has been updated to reflect this.
 > 
-> Does that in turn mean we must have host xz-utils?
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 
-It will mean you need a tar which supports the -J option. The tests
-I've see so far suggest all our oldest supported distros do...
+This breaks btrfs-tools-native:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/875/steps/7/logs/step2b
 
 Cheers,
 
