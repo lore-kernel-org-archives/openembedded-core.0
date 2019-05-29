@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 387347E34F
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id DF9597E362
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 13:50:41 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id a23so1690813pff.4
+	Wed, 29 May 2019 13:50:43 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id v11so1420441pgl.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 06:50:42 -0700 (PDT)
+	Wed, 29 May 2019 06:50:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
-	b=nWpi1XRuvEolVSkEYhk0fH24zSrLwCumU9C6pk6Nr+850v4XHpmnwr+cxb1DDEMMlt
-	loXTXVmjx6aF6zm5sb7ngeYSPqujnpul7uD8MzZlIkUDIYPSTIgIi2yfW6GbIlwPY0ZZ
-	XctTkJOMasrFEqbjiY2og6QJdS+AEznLHgBd4C+GlkG9l1Vyify9OgjWfV2wRrr7gPNO
-	36xPx6W5vvLtCYqqbUwAEOc9MEPdOCNNCYbBmZ/cNyQcbPIq/lUVSu4IoToubgDBLTqF
-	IlEZ3VM2urBRu1NWmomqJpQWoaTpFWIBA7wEpIBuQIwIrMowqkzNWXDjIB5T6+7goch9
-	JK0g==
+	bh=DXnwLYtL5QVMBtn3LdIY8R4W/czPHzNCpXU404w3h1w=;
+	b=GlFKvO9llk1u281qKbvhQNiPN215+LkcbqqYFr8vaDj2LUOiTkpgBwbxcGPxvkHgf2
+	XUUbHRenc3fFnV3Ec79IqEXrUbHu7vN83hX882PN7E2XUY/wd/9K9Br3nf6m4EAZo6YD
+	DhO+kYBTbK9Z5+Yvk5bZe8LmdnV6tb5SfGCHgbnTADo1Z7NmDIkAn50rly0DIi09IrD7
+	NucSPJqmhjupCORqXaPXQU/dSq/y24n6SPud7D27SQz1khQraOgyrdfrfmWFh5Lp4Rts
+	sO0u9Sh27f99PGFDPoxfxZN3T97MHIFU8Qey1cy4WBpf9PzA82Kj2pAeiQnj5LPLq8ZR
+	xXpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
-	b=FFFD1vbdAWoYXVM+CoIyQGUkIgHzFUIYKmif75aHL4VHjknRDt44moMU0Osw3lsQpf
-	gWQMsqudslTfZln7f4yTFcmfBaXToCk+nZIhvtXCP+DEkXYTC7l3QtZLrqQKKNAntyBp
-	LumOL4lFhYM8DtQ/+y3OKu6rP/23V3LhR7I/Y+o8Xi/Mc4MjhIsSKZaFG3CG/BPPfc17
-	Ej6oxniqBkuzC1rFYPDeSGTKB7ohTNxl20cmBzGzIk8Ckapq5ByjgOdrA+eu7ndW0Nny
-	6m+DD9J+CkHkXG9GaaPAw8CB+j2WN8L+ipWH21cRk2gC6UQ/PBRKrbAlvhNsCU91M8DX
-	G9zA==
-X-Gm-Message-State: APjAAAWvlovGhV2ivkssMt1ac9HI6Jv/IlgKlbJ3sySd5yJzUBU7XkxX
-	5pBmWlLOsimFKP/CTSDe1014umjo
-X-Google-Smtp-Source: APXvYqwrmjFyHqL2bBkJGus36W5hxm8sqECMqIaIuHXS9SGJV1K8R/C8yRq+qWjDxBZsJ3yD4f0/bg==
-X-Received: by 2002:aa7:9356:: with SMTP id 22mr48359122pfn.188.1559137842248; 
-	Wed, 29 May 2019 06:50:42 -0700 (PDT)
+	bh=DXnwLYtL5QVMBtn3LdIY8R4W/czPHzNCpXU404w3h1w=;
+	b=B9x2h3vbIJxfmiWIjMhWrfnVIwzm2xj3WBYz2wOD9oO9rWHqdCjC4IEh8PpA57KzIs
+	Sxb8DdUWPO9eBIIDlcWehlIrHcWvF0tz84jCeJZ/FKWyxdwdLot5dBDjZwhGFnqwahSb
+	V87uOqvUWi9/7KDA/sHoKlmBTqo/8+jctwEk8PPsX5ZskcJbcFvy4xbFGaP295ea8xsq
+	1ZZY8tiAuQRFFilCWdZXFlPZv/aPa23XQJVXvyF4vYO7fNkBaGUhTzaLtlNRRBX5k2oQ
+	jACD9q7k2pEbrvSUtNWnb9ckxaVvJfXEo/pCgMp+d7Vueby+eDwSb/NCn4awTzjGoCFW
+	8Kfg==
+X-Gm-Message-State: APjAAAXnE334gfEAy5TBRyxN6Xv9bD5W52TS1xw/FmClLpOgK+vonbDp
+	AjV5Ix+DQ6hdqMGjkSmCrBjvIAjA
+X-Google-Smtp-Source: APXvYqyCIFXgt6iOhmm3430tR91L0xC8t/Tt7jCXD7awK6ZYOdM8dBY++WITs96e+lSuEAuO0u5i8g==
+X-Received: by 2002:a65:450b:: with SMTP id n11mr95281976pgq.174.1559137844962;
+	Wed, 29 May 2019 06:50:44 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:4865:9151:ec2:e220])
-	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.41
+	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 May 2019 06:50:41 -0700 (PDT)
+	Wed, 29 May 2019 06:50:44 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 06:50:30 -0700
-Message-Id: <1559137838-8972-2-git-send-email-akuster808@gmail.com>
+Date: Wed, 29 May 2019 06:50:33 -0700
+Message-Id: <1559137838-8972-5-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
 References: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH 1/9] glibc: Security fix CVE-2019-9169
+Subject: [thud][PATCH 4/9] gnutls: update to 3.6.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,98 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 13:50:41 -0000
+X-List-Received-Date: Wed, 29 May 2019 13:50:44 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+Bug fix only release
 
+Full details:
+https://lists.gnupg.org/pipermail/gnutls-help/2018-December/004465.html
+
+Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-core/glibc/glibc/CVE-2019-9169.patch | 63 +++++++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.28.bb             |  1 +
- 2 files changed, 64 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+ meta/recipes-support/gnutls/{gnutls_3.6.4.bb => gnutls_3.6.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/gnutls/{gnutls_3.6.4.bb => gnutls_3.6.5.bb} (93%)
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
-new file mode 100644
-index 0000000..14cfaa3
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
-@@ -0,0 +1,63 @@
-+From 583dd860d5b833037175247230a328f0050dbfe9 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Mon, 21 Jan 2019 11:08:13 -0800
-+Subject: [PATCH] regex: fix read overrun [BZ #24114]
-+
-+Problem found by AddressSanitizer, reported by Hongxu Chen in:
-+https://debbugs.gnu.org/34140
-+* posix/regexec.c (proceed_next_node):
-+Do not read past end of input buffer.
-+
-+Upstream-Status: Backport 
-+https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=583dd860d5b833037175247230a328f0050dbfe9
-+
-+CVE: CVE-2019-9169
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ ChangeLog       | 10 +++++++++-
-+ posix/regexec.c |  6 ++++--
-+ 2 files changed, 13 insertions(+), 3 deletions(-)
-+
-+Index: git/ChangeLog
-+===================================================================
-+--- git.orig/ChangeLog
-++++ git/ChangeLog
-+@@ -1,3 +1,11 @@
-++2019-01-31  Paul Eggert  <eggert@cs.ucla.edu>
-++
-++       regex: fix read overrun [BZ #24114]
-++       Problem found by AddressSanitizer, reported by Hongxu Chen in:
-++       https://debbugs.gnu.org/34140
-++       * posix/regexec.c (proceed_next_node):
-++       Do not read past end of input buffer.
-++
-+ 2018-09-30  Martin Jansa  <Martin.Jansa@gmail.com>
-+ 	Partial fix for [BZ #23716]
-+ 	* locale/weight.h: Fix build with -Os.
-+@@ -10917,7 +10925,7 @@
-+ 	(CFLAGS-wcstof_l.c): Likewise.
-+ 	(CPPFLAGS-tst-wchar-h.c): Likewise.
-+ 	(CPPFLAGS-wcstold_l.c): Likewise.
-+----
-++
-+ 2017-12-11  Paul A. Clarke  <pc@us.ibm.com>
-+ 
-+ 	* sysdeps/ieee754/flt-32/s_cosf.c: New implementation.
-+Index: git/posix/regexec.c
-+===================================================================
-+--- git.orig/posix/regexec.c
-++++ git/posix/regexec.c
-+@@ -1289,8 +1289,10 @@ proceed_next_node (const re_match_contex
-+ 	      else if (naccepted)
-+ 		{
-+ 		  char *buf = (char *) re_string_get_buffer (&mctx->input);
-+-		  if (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
-+-			      naccepted) != 0)
-++		  if (mctx->input.valid_len - *pidx < naccepted
-++		      || (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
-++				  naccepted)
-++			  != 0))
-+ 		    return -1;
-+ 		}
-+ 	    }
-diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
-index 72cee04..1bcec3e 100644
---- a/meta/recipes-core/glibc/glibc_2.28.bb
-+++ b/meta/recipes-core/glibc/glibc_2.28.bb
-@@ -47,6 +47,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0032-sysdeps-ieee754-soft-fp-ignore-maybe-uninitialized-w.patch \
-            file://0033-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
-            file://0034-inject-file-assembly-directives.patch \
-+           file://CVE-2019-9169.patch \
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.4.bb b/meta/recipes-support/gnutls/gnutls_3.6.5.bb
+similarity index 93%
+rename from meta/recipes-support/gnutls/gnutls_3.6.4.bb
+rename to meta/recipes-support/gnutls/gnutls_3.6.5.bb
+index d79a39d..dfc3507 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.4.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.5.bb
+@@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
+            file://arm_eabi.patch \
  "
  
- NATIVESDKFIXES ?= ""
+-SRC_URI[md5sum] = "63363d1c00601f4d11a5cadc8b5e0799"
+-SRC_URI[sha256sum] = "c663a792fbc84349c27c36059181f2ca86c9442e75ee8b0ad72f5f9b35deab3a"
++SRC_URI[md5sum] = "3474849e1bbd4d16403b82ab2579000b"
++SRC_URI[sha256sum] = "073eced3acef49a3883e69ffd5f0f0b5f46e2760ad86eddc6c0866df4e7abb35"
+ 
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
+ 
 -- 
 2.7.4
 
