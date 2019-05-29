@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 669D77E28B
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 25A526D548
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 18:43:30 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id b18so2461262wrq.12
+	Wed, 29 May 2019 18:45:50 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id i3so2346486wml.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 11:43:31 -0700 (PDT)
+	Wed, 29 May 2019 11:45:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=S4KBGIWo8qHtVG+PTwrxTRMRT64t2mNfLBYU8wf/k7c=;
-	b=e65BT0vh7Z3E89HcMl+uZLaX3pBRfJ4c+bJ/AeVp2uA5Cjo631GfYyMpKr3lnl6W3a
-	I4XjQN+luLh/ZC4J1GXwoyA/er+GzklfLLIYSldhX6ZgIwA8u/Du7+WGmXcjwJWyX+tE
-	NbLrEvFjJblJjo+zGemd8rYp9R1Pbyv2f0Jj8=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=AKGtb+rZFuk1hkL3I7Ng+NtE1bbw67hx5cRXvxPUbGQ=;
+	b=KW6lWVAAcz5eM5pTtJvyxv6fMHK1pOVayZudPO98mJjBBTqf0rWAji/5Jre/V2ey5I
+	HbvONF9Yr/whO3hswj9ChZ4Lsi3+qE9ZO0eGz6ZgJpY5pZC7fXtKAp2mYcyBjRvsD8fT
+	8UN1kRSqrQajdoHSLqYQ88Zg9nnEmt9b9cQ6k=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=S4KBGIWo8qHtVG+PTwrxTRMRT64t2mNfLBYU8wf/k7c=;
-	b=U0ayr5Ie/q4OBQ8Qk9kL6+xcd/59CTOqQqdi1b7t9KADJu62uuz4sa54QYUUl/wK8L
-	0Lrw7DoQUKB9FxCnhCsZsMegN6mMk/xxvHAMPIsz84W9SXtEbz7L6PyFPb6gl7Hj0AhY
-	zHnvJuOSDFA8Kg2fTBUitjiIgIVpvU/ofnQSxeFu/9kzxOBN797GuQ7Ct5vMuaT66tVQ
-	DKwXYX3G8KCNniS83hUDnyOgt5PBhSFgNDLEOA9N1Ddw13DDZhUtkyGVozg3m1Bhj0Bf
-	tTxhCaMLUFcxCW+RtxIk1YBCdAZE98ZOeFw+VTTYfGK8NS9UEYlA9+Euxh06GQh7Vwkf
-	7EbQ==
-X-Gm-Message-State: APjAAAXjHIoXNI8ahisSCnNTwtnNuB8hLWWKduiG97qtGws+6FaKMYaL
-	jLIT/C3WRUKRvL+8ms1kdea4KEfcJM8=
-X-Google-Smtp-Source: APXvYqy4r8gC4Tzx/4ufePs96/azzl9uaZib0Zfb3bx3zqvRvqtY9JkpHydsO2jFxctWmxIimXT4og==
-X-Received: by 2002:adf:e590:: with SMTP id l16mr13695078wrm.257.1559155410960;
-	Wed, 29 May 2019 11:43:30 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	u5sm115441wmc.32.2019.05.29.11.43.30
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 May 2019 11:43:30 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=AKGtb+rZFuk1hkL3I7Ng+NtE1bbw67hx5cRXvxPUbGQ=;
+	b=oyXB+rn7IN0INkAsIgSmtMTc6YPAGwNTio3JCtCzG8e8NEq5/FFH0IM2dF9STdskTs
+	c4NM7Ctm5D6CFhfPycFQcw9ItjIiTL9jBH9u019ITrGNucpXC/ccxVNGPzXolnFx4U3T
+	rFmUZHj8c1JU+2UgxStaUoks06aefLhL0zeJiSQnSOrRpnQTbGstuWXCMJ1J+5pDZ3X/
+	BVQRbK6lrapXYjRSp4Pim8yy9d7ur4jcXESGwKMHlZ8PBCvMBqcm+sUdc1EgzeYzdjKw
+	aOezPhelQ2xSFxW38ByZpczO1iV0FqYphUdcIok0VR4PLldV8gN6rA8QoKRArIpkkVi1
+	08wg==
+X-Gm-Message-State: APjAAAVp7Uqlw62yVl7W878pleRAqefDBMB5CWKb4lBSNAdOrBhA9qEL
+	9BgiGW1buY1TKc4cC57nqa4QZpv/6mo=
+X-Google-Smtp-Source: APXvYqyL3tlfc/C3KV8+n0CV637lMJk+T2GNGQbEj8plF1Z9jRdhZ5u0kg0Th97CX6iEpfrVDYHa5A==
+X-Received: by 2002:a1c:7e10:: with SMTP id z16mr7923436wmc.98.1559155551763; 
+	Wed, 29 May 2019 11:45:51 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id l18sm657916wrh.54.2019.05.29.11.45.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 29 May 2019 11:45:51 -0700 (PDT)
+Message-ID: <43b12f6cf16d43e788827f48a935ff6bdc3c777d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 19:43:28 +0100
-Message-Id: <20190529184328.28470-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190529184328.28470-1-richard.purdie@linuxfoundation.org>
-References: <20190529184328.28470-1-richard.purdie@linuxfoundation.org>
+To: Andrei Gherzan <andrei@gherzan.ro>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2019 19:45:49 +0100
+In-Reply-To: <20190529144130.21278-1-andrei@gherzan.ro>
+References: <20190529144130.21278-1-andrei@gherzan.ro>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH 2/2] uninative: Switch from bz2 to xz
+Subject: Re: [PATCH V2] ca-certificates: Fix openssl runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 18:43:30 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 29 May 2019 18:45:51 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-(From OE-Core rev: 29fc9210b973be68de474e75068e4c72371afe5a)
+On Wed, 2019-05-29 at 15:41 +0100, Andrei Gherzan wrote:
+> Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+> ---
+>  .../ca-certificates/ca-certificates_20190110.bb               | 4
+> +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-support/ca-certificates/ca-
+> certificates_20190110.bb b/meta/recipes-support/ca-certificates/ca-
+> certificates_20190110.bb
+> index 4c0425302f..7c06573db2 100644
+> --- a/meta/recipes-support/ca-certificates/ca-
+> certificates_20190110.bb
+> +++ b/meta/recipes-support/ca-certificates/ca-
+> certificates_20190110.bb
+> @@ -82,6 +82,8 @@ do_install_append_class-native () {
+>      SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-
+> certificates
+>  }
+>  
+> -RDEPENDS_${PN} += "openssl"
+> +RDEPENDS_${PN}_class-target = "openssl-bin"
+> +RDEPENDS_${PN}_class-native = "openssl"
+> +RDEPENDS_${PN}_class-nativesdk = "openssl"
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/uninative.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Wouldn't the nativesdk version be openssl-bin too?
 
-diff --git a/meta/classes/uninative.bbclass b/meta/classes/uninative.bbclass
-index ba99fb6e8fd..3326c0db3da 100644
---- a/meta/classes/uninative.bbclass
-+++ b/meta/classes/uninative.bbclass
-@@ -2,7 +2,7 @@ UNINATIVE_LOADER ?= "${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/
- UNINATIVE_STAGING_DIR ?= "${STAGING_DIR}"
- 
- UNINATIVE_URL ?= "unset"
--UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.bz2"
-+UNINATIVE_TARBALL ?= "${BUILD_ARCH}-nativesdk-libc.tar.xz"
- # Example checksums
- #UNINATIVE_CHECKSUM[aarch64] = "dead"
- #UNINATIVE_CHECKSUM[i686] = "dead"
-@@ -89,7 +89,7 @@ python uninative_event_fetchloader() {
-         cmd = d.expand("\
- mkdir -p ${UNINATIVE_STAGING_DIR}-uninative; \
- cd ${UNINATIVE_STAGING_DIR}-uninative; \
--tar -xjf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; \
-+tar -xJf ${UNINATIVE_DLDIR}/%s/${UNINATIVE_TARBALL}; \
- ${UNINATIVE_STAGING_DIR}-uninative/relocate_sdk.py \
-   ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux \
-   ${UNINATIVE_LOADER} \
--- 
-2.20.1
+or really these would end up being openssl-native and 
+nativesdk-openssl-bin?
+
+Cheers,
+
+Richard
 
 
