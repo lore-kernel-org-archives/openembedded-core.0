@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 75FC87E371
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 541057E39A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 13:50:50 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id t1so1426152pgc.2
+	Wed, 29 May 2019 13:50:51 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id 196so651154pgc.6
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 29 May 2019 06:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=wyGADTYT5MBdWHcEKyNs8PWUMh2yCEZZT3Bln3Lyaw4=;
-	b=ihfBOhSlsqkmlia9JVGS0esnT0DCH7Cz/yAI+i1d5s+Z32i8Oy0x8GwlgujbusCqb2
-	icmgd2pA95P2ynIVbDbwRGJYxxkBhA9LWwxbSWEYOarLjD33BW7qH0INUUhAS6zh15eK
-	+OkdMU/Zv+WSpwFBtZ1AwkDTf1JFVo6Pqh5L3bIa9SAIZX3wXQvLOhdNCMJhLcWqO5Od
-	xpbKsrKFTVZc1CTDqjxsq3Bc7b1HOSYeQtjT/UpPls58KsiPElrZX+40IysqzU4HNocz
-	qZHb5HDlJ5ZQvnfnshA9A4nSaXtWpxCZZPlyaEeylGKPTYc+42cG5CuGMKd3Xwv1MGCd
-	EdRA==
+	bh=Gm1k5jekUgR2pAzcvu3oEbZUelW7kgNcMvAlVDFzXzk=;
+	b=rbBevzE3A0wOBIZW5vsdL4Oet83714cBlCCeKRF5545Wz0V8rPc1TjZA0X0d5c3DUv
+	GfMHCE2uAsQADxIuqf5LIuYRfvikkzC/OCMcbAuHxYWHb+pp5OM66eCPCW2hgiiufnt6
+	b0SOE8XPEilOGPWlLnBSv4mRZeWd3vCCNfxqVaKZ3dwqMjJ/6HlFhEufQsEW099DUT6F
+	Ai1qInbsmHpMagYsfx05KA9NunBGQBbXhP900qXL/q12BBm8WTEh17VnJgw84hGhLOvi
+	W8VQUdo0jDAy5Nku/vne7rbU7HqKTKUNlo+JquNQpeGLhmbeR1ZFyHGT3qkkB9vptJje
+	ebZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=wyGADTYT5MBdWHcEKyNs8PWUMh2yCEZZT3Bln3Lyaw4=;
-	b=LzoiJ0SkIH5UdtPtTXuCIQIIGtiM1MIfqQzCXIEWOha472zjmSRQ5LFs7Efb72nvXp
-	2PjSV5Swjg1E/W7VVuzm29m6JPLPqwT5oWzRE5X1DK64vgtZrv9408w1zFhs2VH2hc+d
-	N3Vj+FXyhycv5ZWsNnzz7EeXgRtNqA4QhM6tR0p0R8eaHiCray3L+jldbXfObXG7nB73
-	tH7EundRcvdl2GLQR67wNvBbRDdZBJ6o/ZdIsfrE57xSrudYEbHBoYuXqx5to0HpF6DI
-	hLZ3rp3Xi/vMUS1SeKIvX/rF8+wM8toMvvsvnVXdCzjElcx6ZpmyTnsosr7RUre6Em6C
-	6tzQ==
-X-Gm-Message-State: APjAAAU2szWybkmJBlz7M0Vhz6ANePObUOAFpKq8Yvsnp52NEbRb5fFQ
-	GEWO3J6TBFtNk9A5ui9T3Ohs6Rgo
-X-Google-Smtp-Source: APXvYqyfhs6FYngsBH4NUfXFaGshV8ZgDmPG37PF1sjk5VaCcRUaKlPad1vhRoK56wKaVTZmlTHtng==
-X-Received: by 2002:a17:90a:26cf:: with SMTP id
-	m73mr3157657pje.90.1559137846778; 
-	Wed, 29 May 2019 06:50:46 -0700 (PDT)
+	bh=Gm1k5jekUgR2pAzcvu3oEbZUelW7kgNcMvAlVDFzXzk=;
+	b=rtHtUBc+EPxDDKPvbps1hLidW5lHbF9ADjg2qsWv68sDdZzo3LV9QeozTXQiJwmEtd
+	1GWqIIORyj1TJFeOBg/Hu52bziNwmYxjkr02vQwOAgK0Dq3H6/VFX95r3QC2kIgDTmaz
+	NskHm8Pz0tWhBeYversp/7nTd1XEzmW6UN0B18G7orwJjvWkHw3vSpa5Efq7m4fIeoRB
+	eVZbkybAhfY4KqP3+0NoVvzyHhAZkWhPoywhOWpT25NElQk9kvxO/9FE2kKbvVMBl+Go
+	VDbGBQDuT3KFgY19qrcJZKzl6LKze09KNV/k5uQupwLQQOnAcPABpWGd1q8+zjm+eM27
+	echg==
+X-Gm-Message-State: APjAAAWRqYt7uhuRYSMS+o8KA/SDns9a0JB632XT3RrMvtyIh4svSq4q
+	pkXzIvTR1h1y7zFaFPWvAUEe2JHI
+X-Google-Smtp-Source: APXvYqw4dKD3Rt0T3KnyhSWcub3LzbxJyKD8rBlSSLNKLgQ3JvhjYg7veah/iS+xkFHyMiyt+qJ7XA==
+X-Received: by 2002:a63:480f:: with SMTP id v15mr12563565pga.373.1559137847615;
+	Wed, 29 May 2019 06:50:47 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:4865:9151:ec2:e220])
-	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.45
+	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 May 2019 06:50:46 -0700 (PDT)
+	Wed, 29 May 2019 06:50:47 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 06:50:35 -0700
-Message-Id: <1559137838-8972-7-git-send-email-akuster808@gmail.com>
+Date: Wed, 29 May 2019 06:50:36 -0700
+Message-Id: <1559137838-8972-8-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
 References: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH 6/9] nettle: update to 3.4.1
+Subject: [thud][PATCH 7/9] nettle: fix ptest failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,88 +58,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 13:50:50 -0000
+X-List-Received-Date: Wed, 29 May 2019 13:50:51 -0000
 
-Source: Openembedded.org
-MR: 98314, 98315
-Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-support/nettle?h=warrior&id=8ac8fa8ee10c59a081d368a5429e0eced8dd5d3c
-ChangeID: 657aa277fb284b66e8d349cbc3424f10208652c3
-Description:
+From: Mingli Yu <Mingli.Yu@windriver.com>
 
-Bug fix only release
+Remove dlopen-test.patch which originally used
+to fix the test dlopen-test, but autually the
+patch didn't resolve the issue as dlopen-test.patch
+supposes the file /usr/lib/libnettle.so exists.
+Instead deploy ${D}${PTEST_PATH}/libnettle.so to
+fix the dlopen-test failure.
 
-Include:
+Update the initialization for the salt to fix
+below Segmentation fault and also nettle-pbkdf2-test
+failure.
+ # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
+ [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
+ [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
+ Segmentation fault
 
-  CVE-2018-16868 gnutls: Bleichenbacher-like side channel leakage in
-  PKCS#1 1.5 verification and padding oracle verification
-
-  CVE-2018-16869 nettle: Leaky data conversion exposing a manager oracle
-
-For full details see:
-http://lists.lysator.liu.se/pipermail/nettle-bugs/2018/007369.html
-
-[V2]
-Add -std=c99 to cflags
-
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../Add-target-to-only-build-tests-not-run-them.patch                | 0
- .../check-header-files-of-openssl-only-if-enable_.patch              | 0
- .../nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch            | 0
- meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest   | 0
- meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb}       | 5 +++--
- 5 files changed, 3 insertions(+), 2 deletions(-)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/Add-target-to-only-build-tests-not-run-them.patch (100%)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/check-header-files-of-openssl-only-if-enable_.patch (100%)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch (100%)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest (100%)
- rename meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb} (90%)
+ ...kdf2.c-change-the-initialization-for-salt.patch | 39 ++++++++++++++++++++++
+ .../nettle/nettle-3.4.1/dlopen-test.patch          | 20 -----------
+ meta/recipes-support/nettle/nettle_3.4.1.bb        |  9 ++---
+ 3 files changed, 44 insertions(+), 24 deletions(-)
+ create mode 100644 meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch
+ delete mode 100644 meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
 
-diff --git a/meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch b/meta/recipes-support/nettle/nettle-3.4.1/Add-target-to-only-build-tests-not-run-them.patch
-similarity index 100%
-rename from meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch
-rename to meta/recipes-support/nettle/nettle-3.4.1/Add-target-to-only-build-tests-not-run-them.patch
-diff --git a/meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle-3.4.1/check-header-files-of-openssl-only-if-enable_.patch
-similarity index 100%
-rename from meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch
-rename to meta/recipes-support/nettle/nettle-3.4.1/check-header-files-of-openssl-only-if-enable_.patch
-diff --git a/meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-similarity index 100%
-rename from meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch
-rename to meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
-diff --git a/meta/recipes-support/nettle/nettle-3.4/run-ptest b/meta/recipes-support/nettle/nettle-3.4.1/run-ptest
-similarity index 100%
-rename from meta/recipes-support/nettle/nettle-3.4/run-ptest
-rename to meta/recipes-support/nettle/nettle-3.4.1/run-ptest
-diff --git a/meta/recipes-support/nettle/nettle_3.4.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-similarity index 90%
-rename from meta/recipes-support/nettle/nettle_3.4.bb
-rename to meta/recipes-support/nettle/nettle_3.4.1.bb
-index ca8450e..dd49c30 100644
---- a/meta/recipes-support/nettle/nettle_3.4.bb
+diff --git a/meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch b/meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch
+new file mode 100644
+index 0000000..713823e
+--- /dev/null
++++ b/meta/recipes-support/nettle/nettle-3.4.1/0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch
+@@ -0,0 +1,39 @@
++From 7510ee2877368464ecce7de515ce056e08c75245 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <Mingli.Yu@windriver.com>
++Date: Fri, 12 Apr 2019 10:30:14 +0800
++Subject: [PATCH] nettle-pbkdf2.c: change the initialization for salt
++
++use malloc and strncpy altogether to replace
++strdup for salt initialization to fix below
++Segmentation fault:
++ # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
++ [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
++ [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
++ Segmentation fault
++
++Upstream-Status: Submitted[http://lists.lysator.liu.se/pipermail/nettle-bugs/2019/007467.html]
++
++Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
++---
++ tools/nettle-pbkdf2.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/tools/nettle-pbkdf2.c b/tools/nettle-pbkdf2.c
++index 1f0a301..000acd3 100644
++--- a/tools/nettle-pbkdf2.c
+++++ b/tools/nettle-pbkdf2.c
++@@ -141,7 +141,10 @@ main (int argc, char **argv)
++       return EXIT_FAILURE;
++     }
++ 
++-  salt = strdup (argv[0]);
+++  salt = malloc (strlen(argv[0]) + 1);
+++  if (! salt)
+++     die ("Failed to allocate memory for salt\n");
+++  strncpy(salt, argv[0], sizeof(salt) - 1);
++   salt_length = strlen(argv[0]);
++   
++   if (hex_salt)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+deleted file mode 100644
+index c4f0b7e..0000000
+--- a/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
++++ /dev/null
+@@ -1,20 +0,0 @@
+-Replace relative path of libnettle.so with absolute path so the test
+-program can find it.
+-Relative paths are not suitable, as the folder strucure for ptest
+-is different from the one expected by the nettle testsuite.
+-
+-Upstream-Status: Inappropriate [embedded specific]
+-
+-Signed-off-by: Juro Bystricky <juro.bystricky@intel.com>
+-
+---- a/testsuite/dlopen-test.c	2016-10-01 00:28:38.000000000 -0700
+-+++ b/testsuite/dlopen-test.c	2017-10-13 11:08:57.227572860 -0700
+-@@ -9,7 +9,7 @@
+- main (int argc UNUSED, char **argv UNUSED)
+- {
+- #if HAVE_LIBDL
+--  void *handle = dlopen ("../libnettle.so", RTLD_NOW);
+-+  void *handle = dlopen ("/usr/lib/libnettle.so", RTLD_NOW);
+-   int (*get_version)(void);
+-   if (!handle)
+-     {
+diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
+index dd49c30..612e058 100644
+--- a/meta/recipes-support/nettle/nettle_3.4.1.bb
 +++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-@@ -20,8 +20,8 @@ SRC_URI_append_class-target = "\
-             file://dlopen-test.patch \
-             "
+@@ -14,12 +14,9 @@ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+            file://Add-target-to-only-build-tests-not-run-them.patch \
+            file://run-ptest \
+            file://check-header-files-of-openssl-only-if-enable_.patch \
++           file://0001-nettle-pbkdf2.c-change-the-initialization-for-salt.patch \
+            "
  
--SRC_URI[md5sum] = "dc0f13028264992f58e67b4e8915f53d"
--SRC_URI[sha256sum] = "ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94"
-+SRC_URI[md5sum] = "9bdebb0e2f638d3b9d91f7fc264b70c1"
-+SRC_URI[sha256sum] = "f941cf1535cd5d1819be5ccae5babef01f6db611f9b5a777bae9c7604b8a92ad"
+-SRC_URI_append_class-target = "\
+-            file://dlopen-test.patch \
+-            "
+-
+ SRC_URI[md5sum] = "9bdebb0e2f638d3b9d91f7fc264b70c1"
+ SRC_URI[sha256sum] = "f941cf1535cd5d1819be5ccae5babef01f6db611f9b5a777bae9c7604b8a92ad"
  
- UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
+@@ -47,6 +44,10 @@ do_install_ptest() {
+         # tools can be found in PATH, not in ../tools/
+         sed -i -e 's|../tools/||' ${D}${PTEST_PATH}/testsuite/*-test
+         install ${B}/testsuite/*-test ${D}${PTEST_PATH}/testsuite/
++        # libnettle.so is needed for dlopen-test
++        if [ -f ${D}${libdir}/libnettle.so.6.* ]; then
++            cp ${D}${libdir}/libnettle.so.6.* ${D}${PTEST_PATH}/libnettle.so
++        fi
+ }
  
-@@ -30,6 +30,7 @@ inherit autotools ptest multilib_header
- EXTRA_AUTORECONF += "--exclude=aclocal"
- 
- EXTRA_OECONF = "--disable-openssl"
-+CFLAGS_append = " -std=c99"
- 
- do_compile_ptest() {
-         oe_runmake buildtest
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.7.4
 
