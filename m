@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
-	[209.85.215.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FF9B7E362
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 75FC87E371
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 13:50:48 +0000 (UTC)
-Received: by mail-pg1-f193.google.com with SMTP id n2so1403428pgp.11
+	Wed, 29 May 2019 13:50:50 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id t1so1426152pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 06:50:49 -0700 (PDT)
+	Wed, 29 May 2019 06:50:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=9oMRnuUufaF8X2ZZWweHWwHqcwhlLq/ZSkS+i6I+Z7g=;
-	b=bS+dRxETzZM56i/w3SnkG428af9B0/FuT4izrvETmigdIpwcmscevcL8dpHzs/6E91
-	BxflgTxUmoeqkUaqMyaqpKRpsbRcZBsQ+dkuZiSULpaDr8cTVAWZUpvjy+tKFbVEdXRF
-	u2bS3WHVNvXkhJhOk06IKqS3hqdPPlVD/4ckZQ5aLIf+FvovBpXDE4uLUmRLIX2uLBxG
-	FoakdO6rfw+hcsSDZh08k3QG5QYOdeQ5GGANLBoRiVaxdSFT6Y4tUS39RR88OZVkcCn2
-	uajsWRvB6aUqwTrmMjRW8KVXBqA78qszGoJyatmNExjSWm2s93vvYuEgeqhQgG8SQF7A
-	VaXw==
+	bh=wyGADTYT5MBdWHcEKyNs8PWUMh2yCEZZT3Bln3Lyaw4=;
+	b=ihfBOhSlsqkmlia9JVGS0esnT0DCH7Cz/yAI+i1d5s+Z32i8Oy0x8GwlgujbusCqb2
+	icmgd2pA95P2ynIVbDbwRGJYxxkBhA9LWwxbSWEYOarLjD33BW7qH0INUUhAS6zh15eK
+	+OkdMU/Zv+WSpwFBtZ1AwkDTf1JFVo6Pqh5L3bIa9SAIZX3wXQvLOhdNCMJhLcWqO5Od
+	xpbKsrKFTVZc1CTDqjxsq3Bc7b1HOSYeQtjT/UpPls58KsiPElrZX+40IysqzU4HNocz
+	qZHb5HDlJ5ZQvnfnshA9A4nSaXtWpxCZZPlyaEeylGKPTYc+42cG5CuGMKd3Xwv1MGCd
+	EdRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=9oMRnuUufaF8X2ZZWweHWwHqcwhlLq/ZSkS+i6I+Z7g=;
-	b=XNd2aweFHZqbDaoWSYfIskVLNlHwn2Sj6HvuhSFRRUO2aHGJujdWWPsd6j56Lpx4K+
-	398iYwU7E+qQJRiijfEO2sm3dZDRxBhyi5984w0SY6idq+zp3LQ53l9+isw0qXyoCdEa
-	Uoi7ZFqjm8COC5p1BoR+XunrsHgsK9Vtc1edVKQzyGjU8vAS4iG3sJPaUzHuGVPGY0UB
-	duQr6Tran+D45Y7UQ7FXK39acGEUhaUZzdLxA/7hgBiBoJsyUR8CKvHZonEfZxjvfoTe
-	Ai9rrKLOhhidgYiN79D43pccvhtnVS50wxFQUD+w74aExhj96sGsZRxvKvtJRy581lVd
-	eE0A==
-X-Gm-Message-State: APjAAAXarX2Ii8Q6CBQBSf7rtgZUCvxn4nKwZdBPXPwoNgdUPq5gwGZS
-	6JGKgo44YtrX7N2xCvxQ8NYQHvk3
-X-Google-Smtp-Source: APXvYqz+6M9TU4eWPSniOfyGK7lZpduOWdtAdQbb/BHnJU7j4r8ZSJqZD+kHiEAEQLLTSGWA9RypTw==
-X-Received: by 2002:a17:90a:db0a:: with SMTP id
-	g10mr12447780pjv.43.1559137849252; 
-	Wed, 29 May 2019 06:50:49 -0700 (PDT)
+	bh=wyGADTYT5MBdWHcEKyNs8PWUMh2yCEZZT3Bln3Lyaw4=;
+	b=LzoiJ0SkIH5UdtPtTXuCIQIIGtiM1MIfqQzCXIEWOha472zjmSRQ5LFs7Efb72nvXp
+	2PjSV5Swjg1E/W7VVuzm29m6JPLPqwT5oWzRE5X1DK64vgtZrv9408w1zFhs2VH2hc+d
+	N3Vj+FXyhycv5ZWsNnzz7EeXgRtNqA4QhM6tR0p0R8eaHiCray3L+jldbXfObXG7nB73
+	tH7EundRcvdl2GLQR67wNvBbRDdZBJ6o/ZdIsfrE57xSrudYEbHBoYuXqx5to0HpF6DI
+	hLZ3rp3Xi/vMUS1SeKIvX/rF8+wM8toMvvsvnVXdCzjElcx6ZpmyTnsosr7RUre6Em6C
+	6tzQ==
+X-Gm-Message-State: APjAAAU2szWybkmJBlz7M0Vhz6ANePObUOAFpKq8Yvsnp52NEbRb5fFQ
+	GEWO3J6TBFtNk9A5ui9T3Ohs6Rgo
+X-Google-Smtp-Source: APXvYqyfhs6FYngsBH4NUfXFaGshV8ZgDmPG37PF1sjk5VaCcRUaKlPad1vhRoK56wKaVTZmlTHtng==
+X-Received: by 2002:a17:90a:26cf:: with SMTP id
+	m73mr3157657pje.90.1559137846778; 
+	Wed, 29 May 2019 06:50:46 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:4865:9151:ec2:e220])
-	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.48
+	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 May 2019 06:50:48 -0700 (PDT)
+	Wed, 29 May 2019 06:50:46 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 06:50:38 -0700
-Message-Id: <1559137838-8972-10-git-send-email-akuster808@gmail.com>
+Date: Wed, 29 May 2019 06:50:35 -0700
+Message-Id: <1559137838-8972-7-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
 References: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>, Adrian Bunk <bunk@stusta.de>
-Subject: [thud][PATCH 9/9] nettle: fix the Segmentation fault
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH 6/9] nettle: update to 3.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,51 +59,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 13:50:48 -0000
+X-List-Received-Date: Wed, 29 May 2019 13:50:50 -0000
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+Source: Openembedded.org
+MR: 98314, 98315
+Type: Security Fix
+Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-support/nettle?h=warrior&id=8ac8fa8ee10c59a081d368a5429e0eced8dd5d3c
+ChangeID: 657aa277fb284b66e8d349cbc3424f10208652c3
+Description:
 
-The commit[8ac8fa8ee1 nettle: update to 3.4.1]
-add CFLAGS_append = " -std=c99" to silence the
-below error for native build:
-| ../nettle-3.4.1/rsa-sign-tr.c: In function 'sec_equal':
-| ../nettle-3.4.1/rsa-sign-tr.c:243:3: error: 'for' loop initial declarations are only allowed in C99 mode
-   for (size_t i = 0; i < limbs; i++)
-   ^
-| ../nettle-3.4.1/rsa-sign-tr.c:243:3: note: use option -std=c99 or -std=gnu99 to compile your code
-| Makefile:263: recipe for target 'rsa-sign-tr.o' failed
+Bug fix only release
 
-But the above change will trigger below Segmentation
-fault:
- # echo -n passwd| nettle-pbkdf2 -i 1 -l 16 salt
- [65534.886509] nettle-pbkdf2[708]: segfault at 1f594260 ip 00007f3332256998 sp 00007fff60d44410 error 4 in libnettle.so.6.5[7f3332244000+1d00]
- [65534.887525] Code: e8 6d db fe ff 44 01 6d 68 48 83 c4 08 5b 5d 41 5c 41 5d 41 5e 41 5f c3 66 2e 0f 1f 84 00 00 00 00 00 49 89 dc e9 68 ff f
- Segmentation fault
+Include:
 
-So update the logic to CFLAGS_append = " -std=gnu99"
-to fix the issue.
+  CVE-2018-16868 gnutls: Bleichenbacher-like side channel leakage in
+  PKCS#1 1.5 verification and padding oracle verification
 
-(From OE-Core rev: 91359a91b8c89dc5e1f3a946137204156c47a3af)
+  CVE-2018-16869 nettle: Leaky data conversion exposing a manager oracle
 
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+For full details see:
+http://lists.lysator.liu.se/pipermail/nettle-bugs/2018/007369.html
+
+[V2]
+Add -std=c99 to cflags
+
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-support/nettle/nettle_3.4.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../Add-target-to-only-build-tests-not-run-them.patch                | 0
+ .../check-header-files-of-openssl-only-if-enable_.patch              | 0
+ .../nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch            | 0
+ meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest   | 0
+ meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb}       | 5 +++--
+ 5 files changed, 3 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/Add-target-to-only-build-tests-not-run-them.patch (100%)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/check-header-files-of-openssl-only-if-enable_.patch (100%)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch (100%)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest (100%)
+ rename meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb} (90%)
 
-diff --git a/meta/recipes-support/nettle/nettle_3.4.1.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
-index dd49c30..8375fcf 100644
---- a/meta/recipes-support/nettle/nettle_3.4.1.bb
+diff --git a/meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch b/meta/recipes-support/nettle/nettle-3.4.1/Add-target-to-only-build-tests-not-run-them.patch
+similarity index 100%
+rename from meta/recipes-support/nettle/nettle-3.4/Add-target-to-only-build-tests-not-run-them.patch
+rename to meta/recipes-support/nettle/nettle-3.4.1/Add-target-to-only-build-tests-not-run-them.patch
+diff --git a/meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch b/meta/recipes-support/nettle/nettle-3.4.1/check-header-files-of-openssl-only-if-enable_.patch
+similarity index 100%
+rename from meta/recipes-support/nettle/nettle-3.4/check-header-files-of-openssl-only-if-enable_.patch
+rename to meta/recipes-support/nettle/nettle-3.4.1/check-header-files-of-openssl-only-if-enable_.patch
+diff --git a/meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch b/meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+similarity index 100%
+rename from meta/recipes-support/nettle/nettle-3.4/dlopen-test.patch
+rename to meta/recipes-support/nettle/nettle-3.4.1/dlopen-test.patch
+diff --git a/meta/recipes-support/nettle/nettle-3.4/run-ptest b/meta/recipes-support/nettle/nettle-3.4.1/run-ptest
+similarity index 100%
+rename from meta/recipes-support/nettle/nettle-3.4/run-ptest
+rename to meta/recipes-support/nettle/nettle-3.4.1/run-ptest
+diff --git a/meta/recipes-support/nettle/nettle_3.4.bb b/meta/recipes-support/nettle/nettle_3.4.1.bb
+similarity index 90%
+rename from meta/recipes-support/nettle/nettle_3.4.bb
+rename to meta/recipes-support/nettle/nettle_3.4.1.bb
+index ca8450e..dd49c30 100644
+--- a/meta/recipes-support/nettle/nettle_3.4.bb
 +++ b/meta/recipes-support/nettle/nettle_3.4.1.bb
-@@ -30,7 +30,7 @@ inherit autotools ptest multilib_header
+@@ -20,8 +20,8 @@ SRC_URI_append_class-target = "\
+             file://dlopen-test.patch \
+             "
+ 
+-SRC_URI[md5sum] = "dc0f13028264992f58e67b4e8915f53d"
+-SRC_URI[sha256sum] = "ae7a42df026550b85daca8389b6a60ba6313b0567f374392e54918588a411e94"
++SRC_URI[md5sum] = "9bdebb0e2f638d3b9d91f7fc264b70c1"
++SRC_URI[sha256sum] = "f941cf1535cd5d1819be5ccae5babef01f6db611f9b5a777bae9c7604b8a92ad"
+ 
+ UPSTREAM_CHECK_REGEX = "nettle-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+@@ -30,6 +30,7 @@ inherit autotools ptest multilib_header
  EXTRA_AUTORECONF += "--exclude=aclocal"
  
  EXTRA_OECONF = "--disable-openssl"
--CFLAGS_append = " -std=c99"
-+CFLAGS_append = " -std=gnu99"
++CFLAGS_append = " -std=c99"
  
  do_compile_ptest() {
          oe_runmake buildtest
