@@ -1,45 +1,34 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D27CC7E309
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id 40226605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 23:02:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45DmSL3rmkz6Y;
-	Thu, 30 May 2019 01:02:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559170931;
-	bh=QvDNtxjZt81MvkxSI/r1BVpxIlvux/2AQkjlit27TFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RIRMrz9mAPuRbKU+PXBAAKWP5BW70g7B7y7zr5F1Svt15aTxtng0ZqywzmHWD8kOB
-	QHQlnVZZLIeeZcwRQfd+nHlnI4fidRdBg7QHEvWPCYrIQi/H6qF5azrdRkx3L6TTIf
-	vuMm1ID3MWYTq/tDbI8eY8k8L5Ip0R2OkBW06INHKAKf2E5+RqkLkzWqZEkAbgbPEX
-	FeTSKWUcDxIdVnz38W5zKKWuYLJEA5v3i5WhyT2Z1PMimE5le8shB0GOFUiNeVHUae
-	kr0FA/L/8oYkUc+QTtt6c4GlQcmyys6i34Je3S2L/x42IV8IkF6/w6/nDLqtUO1IVQ
-	8iyDptTsGxv3oubS5IRksInzl1LuoNy4fgE/M77z65BtAL7VUvr1lJInplrw77wgU3
-	cW3mej2qPEk8d+5riLkJgDZUz5vHXJLsnOXyk/Zo3xnhs8BmElIob/KIEnRoBJf14J
-	P/X70mElbNXP1xlMVxFFXOQivuB4oq1khjlvOnxNlxtqotobeSA/e4uLgUcUNcjPWv
-	IYp+PaRv8g8f3U9eaQ4pIZXyCThym3/rIEeOOgOQVEjP7q2OzAtl0UvB6LurZ1P4nu
-	XavQpnzGGMxcXQhQOPA/lehoR7SwoYw8m8gwyoOV6IAQXUKiMKof13MBracPcQGIMb
-	+nIkwjXHeJ/kHmjUPbDORbao=
-Date: Thu, 30 May 2019 02:02:03 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Tom Rini <trini@konsulko.com>
-Message-ID: <20190529230203.GB16075@localhost>
-References: <20190529184328.28470-1-richard.purdie@linuxfoundation.org>
-	<20190529184328.28470-2-richard.purdie@linuxfoundation.org>
-	<4c62af9f-8bff-726e-db35-6f6ed7ebafc2@gmail.com>
-	<8798dc0e5d91991953720388b601c9c5b3174c42.camel@linuxfoundation.org>
-	<321f3cb8-a101-49ad-07c4-64fc82d2c7f8@gmail.com>
-	<d5b41b11583c78cd16d6393736fafd8e733c48a9.camel@linuxfoundation.org>
-	<20190529212556.GO20781@bill-the-cat>
-	<4571b3c03fb83ee01492dd1891e410becb72b0e5.camel@linuxfoundation.org>
-	<20190529221726.GA16075@localhost>
-	<20190529222920.GP20781@bill-the-cat>
+	Wed, 29 May 2019 23:57:06 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 May 2019 16:57:07 -0700
+X-ExtLoop1: 1
+Received: from pgsmsx104.gar.corp.intel.com ([10.221.44.91])
+	by orsmga004.jf.intel.com with ESMTP; 29 May 2019 16:57:06 -0700
+Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.53]) by
+	PGSMSX104.gar.corp.intel.com ([169.254.3.63]) with mapi id
+	14.03.0415.000; Thu, 30 May 2019 07:57:06 +0800
+From: "Mittal, Anuj" <anuj.mittal@intel.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] libva: upgrade 2.4.0 -> 2.4.1
+Thread-Index: AQHVETR533i/zxHxJ0CaGODH3avRAqaCS+mA
+Date: Wed, 29 May 2019 23:57:05 +0000
+Message-ID: <3328a2dcbfb0d82223ba69d212a9caaf88cb45f5.camel@intel.com>
+References: <20190523064551.3865-1-anuj.mittal@intel.com>
+In-Reply-To: <20190523064551.3865-1-anuj.mittal@intel.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.255.186.5]
 MIME-Version: 1.0
-In-Reply-To: <20190529222920.GP20781@bill-the-cat>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] uninative: Switch from bz2 to xz
+Subject: Re: [PATCH] libva: upgrade 2.4.0 -> 2.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,72 +41,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 23:02:12 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 29 May 2019 23:57:07 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B51BCC3052155F4DBBF633C25EAB9FA0@intel.com>
+Content-Transfer-Encoding: base64
 
-On Wed, May 29, 2019 at 06:29:20PM -0400, Tom Rini wrote:
-> On Thu, May 30, 2019 at 01:17:26AM +0300, Adrian Bunk wrote:
-> > On Wed, May 29, 2019 at 10:29:31PM +0100, richard.purdie@linuxfoundation.org wrote:
-> > > On Wed, 2019-05-29 at 17:25 -0400, Tom Rini wrote:
-> > > > On Wed, May 29, 2019 at 09:50:22PM +0100, 
-> > > > richard.purdie@linuxfoundation.org wrote:
-> > > > > On Wed, 2019-05-29 at 13:39 -0700, akuster808 wrote:
-> > > > > > On 5/29/19 12:26 PM, richard.purdie@linuxfoundation.org wrote:
-> > > > > > > On Wed, 2019-05-29 at 12:21 -0700, akuster808 wrote:
-> > > > > > > > On 5/29/19 11:43 AM, Richard Purdie wrote:
-> > > > > > > > > (From OE-Core rev:
-> > > > > > > > > 29fc9210b973be68de474e75068e4c72371afe5a)
-> > > > > > > > > 
-> > > > > > > > > Signed-off-by: Richard Purdie <
-> > > > > > > > > richard.purdie@linuxfoundation.org>
-> > > > > > > > With back port to warrior and Thud too?
-> > > > > > > Yes, we'll need to do that if we bring fedora 30 workers online
-> > > > > > > on
-> > > > > > > the
-> > > > > > > autobuilder.
-> > > > > > I know the uninative update is required for FC30 but changing the
-> > > > > > compression does not.
-> > > > > > 
-> > > > > > This question is about the compression extension question.
-> > > > > > 
-> > > > > > Does this mean YP will no longer be providing bz2 uninatives?
-> > > > > 
-> > > > > Correct, the patch should be straight forward to include with the
-> > > > > upgrade.
-> > > > 
-> > > > Does that in turn mean we must have host xz-utils?
-> > > 
-> > > It will mean you need a tar which supports the -J option. The tests
-> > > I've see so far suggest all our oldest supported distros do...
-> > 
-> > For thud tar >= 1.27 is required, -J was added in 1.22.
-> > 
-> > But Tom is asking about something different:
-> > tar calls "xz -d" for decompression, which needs xz-utils installed.
-> > 
-> > https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#required-packages-for-the-build-host 
-> > documents that xz has to be installed, but looking at 
-> > meta/conf/bitbake.conf it might be missing in HOSTTOOLS.
-> 
-> I think it's also missing in for example the crops containers.  So if
-> we're going to backport it, I think maybe we should keep it bz2?  The
-> size difference can't be that much.
-
-The size difference is surprisingly high - a factor of 5 (sic).
-But in practice the difference between 5 MB and 26 MB
-shouldn't really matter.
-
-> Tom
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+UGluZw0KDQpPbiBUaHUsIDIwMTktMDUtMjMgYXQgMTQ6NDUgKzA4MDAsIEFudWogTWl0dGFsIHdy
+b3RlOg0KPiBDaGFuZ2VzIGluIHRoaXMgcmVsZWFzZToNCj4gDQo+IDk3OWEzNTEgW2NvbW1vbl0g
+QWRkIEEyUkdCMTAgZm91cmNjIGRlZmluaXRpb24NCj4gMjJjYmE3OSBidWlsZDogbWVzb246IGVu
+YWJsZXMgdmEgbWVzc2FnaW5nIGFuZCB2aXNpYmlsaXR5DQo+IGI4OWY2ZWMgdmEvdmFfdHJhY2U6
+IGFkZCB0cmFjZSBzdXBwb3J0IGZvciBSSVIocm9sbGluZyBpbnRyYQ0KPiByZWZyZXNoKS4NCj4g
+ODQ0YjkwYyB2YS92YV90cmFjZTogYWRkIHRyYWNlIHN1cHBvcnQgZm9yIFJPSShyZWdpb24gb2Yg
+aW50ZXJlc3QpLg0KPiANCj4gU2lnbmVkLW9mZi1ieTogQW51aiBNaXR0YWwgPGFudWoubWl0dGFs
+QGludGVsLmNvbT4NCj4gLS0tDQo+ICAuLi4vcmVjaXBlcy1ncmFwaGljcy9saWJ2YS97bGlidmFf
+Mi40LjAuYmIgPT4gbGlidmFfMi40LjEuYmJ9IHwgNA0KPiArKy0tDQo+ICAxIGZpbGUgY2hhbmdl
+ZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQ0KPiAgcmVuYW1lIG1ldGEvcmVjaXBl
+cy1ncmFwaGljcy9saWJ2YS97bGlidmFfMi40LjAuYmIgPT4NCj4gbGlidmFfMi40LjEuYmJ9ICg5
+MiUpDQo+IA0KPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZh
+XzIuNC4wLmJiDQo+IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2xpYnZhL2xpYnZhXzIuNC4xLmJi
+DQo+IHNpbWlsYXJpdHkgaW5kZXggOTIlDQo+IHJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFw
+aGljcy9saWJ2YS9saWJ2YV8yLjQuMC5iYg0KPiByZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL2xpYnZhL2xpYnZhXzIuNC4xLmJiDQo+IGluZGV4IGZmYTFhYjhmN2IuLjUyNTcyMWYwYWUg
+MTAwNjQ0DQo+IC0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9saWJ2YS9saWJ2YV8yLjQuMC5i
+Yg0KPiArKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbGlidmEvbGlidmFfMi40LjEuYmINCj4g
+QEAgLTE5LDggKzE5LDggQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICINCj4gZmlsZTovL0NPUFlJTkc7
+bWQ1PTJlNDg5NDBmOTRhY2IwYWY1ODJlNWVmMDM1Mzc4MDBmIg0KPiAgDQo+ICBTUkNfVVJJID0g
+Ig0KPiBodHRwczovL2dpdGh1Yi5jb20vaW50ZWwvJHtCUE59L3JlbGVhc2VzL2Rvd25sb2FkLyR7
+UFZ9LyR7QlB9LnRhci5iejINCj4gIg0KPiAgDQo+IC1TUkNfVVJJW21kNXN1bV0gPSAiY2ZjNjlj
+MmE1ZjUyNmRkMTg1OGUwOThmYjhlZWJmYTYiDQo+IC1TUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAi
+OTkyNjMwNTZjMjE1OTNhMjZmMmVjZTgxMmFlZTZmZTYwMTQyYjQ5ZTZjZDQ2Y2IzM2M4ZGRkZjE4
+ZmMxOTM5MSINCj4gK1NSQ19VUklbbWQ1c3VtXSA9ICI1YjVhY2U5ZGUzZjA3Y2I3YjhmNGQxOWI2
+OTc5YWRmMCINCj4gK1NSQ19VUklbc2hhMjU2c3VtXSA9DQo+ICJlOWUwNTM5MDg1OTFiMTIxNzkz
+ZWFhNWQ4YWEzNzY3NWI0Y2QzYWY0YjEyZjFmMzc3ZGZmNDc2N2YzOWNlZTcwIg0KPiAgDQo+ICBV
+UFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2ludGVsL2xpYnZhL3JlbGVh
+c2VzIg0KPiAgDQo+IC0tIA0KPiAyLjIwLjENCj4gDQoNCg==
 
