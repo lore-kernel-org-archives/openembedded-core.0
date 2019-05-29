@@ -1,54 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 95CE77E32C
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
+	[209.85.128.46])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B34560069
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 15:14:27 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id z23so1873968wma.4
+	Wed, 29 May 2019 15:48:15 +0000 (UTC)
+Received: by mail-wm1-f46.google.com with SMTP id 15so1947282wmg.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 08:14:28 -0700 (PDT)
+	Wed, 29 May 2019 08:48:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=p6iL7Pu92/Otn2vCWFOd0vyNmP7Hk3x8hq5R7qaSOQQ=;
-	b=O79KapiQWZpoquYjiQk1WE4RWeutJbXtbiaQQPSNHEfHRms0uJ12+6kwmm7eO2KWYf
-	MO87lqyO+asQzfVU4mU7GTmvQ+RlkrXtMMG2Nn7SCk57EuxUqwJtyCxqa2rsiV1T/uDc
-	BkwW5Ij03tlpBlztqn31hMJYTpMCViXbBy8mg=
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=afcdcqkfKWR4AAbiEK+8UGx6rxK/7wrUO4K62I2ipF4=;
+	b=BJhXSnNyVWJyqXZ4ujaHIhYsD5squghxRJjKrs1lK76cKw/LuGRZeQO9nvG79X4vcO
+	AF3SdhZ7hsMsnaKLZM0yft0fzYqXWZIhBVdIv3/hmWuC3VvTBdYzFiOTtyb12GOwCqnY
+	ZaQGNPw575LgU48+ww1CGSbWuxZJaeQTAuyns=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=p6iL7Pu92/Otn2vCWFOd0vyNmP7Hk3x8hq5R7qaSOQQ=;
-	b=NC85ycslDy5MrMAcKy8GfreRXLL2vqEixageJQZnKo9K73oqLV2NVGcM4q1y65S+57
-	9UQ4GSHgndaRfMe9T49RD5ZNaFs/wMUzmgA8I5S0+eWAop/GHdJ5EpytaPaKoOhpjrQE
-	hRI2Bq+lNiA9ZzzBTezFDM1fylRlG3Tu/xb+cH3kN9uxVHIqKJ1V7jgBTTGe01RtsW4r
-	56aJhTN0ZNWPwaOOMn4Sgt4rqZ4i0Zk9Wg63eKxB9SzWSSHL5iBpJwr1P6WUMkLr2oK1
-	PX4Je06B8xE38BGEemyWlIMWb0q1mrnXrggq1RnmD9fKKM+LIzQNzlg+BRhP9EASj1Ny
-	Fyxw==
-X-Gm-Message-State: APjAAAVrOcHqOf3sVHSvF3jXCg9FURXxRMO0XV0dBryiIqkRfj9QL+7E
-	Ix2sORrr/gmxOPEP325KOZCkj/KKmFQ=
-X-Google-Smtp-Source: APXvYqyjlzoJH0GIISRD0tFcVUOlRTJFP+w9/l3cT7cyJdRxyEWI+idFSbxjVHnAwO3HCUFR4rvK3Q==
-X-Received: by 2002:a1c:6c19:: with SMTP id h25mr7265960wmc.176.1559142868226; 
-	Wed, 29 May 2019 08:14:28 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=afcdcqkfKWR4AAbiEK+8UGx6rxK/7wrUO4K62I2ipF4=;
+	b=J+iUKJeRoQJgCw0+PlWdZJfXMNcGD4OsBF7xl/owj1mDPMCQLx+fEToTvx1gpu2Mqd
+	SWL7rCn8/wWC7QANA7MIh/bTmMyzupoY/hsCjvWbwQ9jfwy/8ulhj3ii2HUYkmEn3Cxw
+	np5EeIqPjSBUSLzuvByXN2tE5+dBwoQlpOe8wVI855WI6q7m8/AuIMETDbDtqjOzodX1
+	rlPJMHNah9dk0WC0+erZrsu/WJxt1+gfH30PLqzKvfsR+gG9boyIPZ42E69bLcaSZn4R
+	rvDmQ7wbY4JfJDjCVzju/8Oh36WLGlgI7m95yYISHJZ56D4SM3wUdHYfNVkO/mwC8Ap3
+	pbPA==
+X-Gm-Message-State: APjAAAUmEFZMsAc1thDvOk302rysYeSlUTgCLvDlneWAjaVpOiJ89+ob
+	ILLBz7J7i+/KFb6D9IJ8V83PMEWcFUk=
+X-Google-Smtp-Source: APXvYqw9CZJ6WCjkP2Lpdfo89l4envA9Aj50sKA+iDwPI+FkoPCiTktYaQkLMiMjOAiDIkCXwk+15Q==
+X-Received: by 2002:a05:600c:489:: with SMTP id
+	d9mr6895229wme.173.1559144896426; 
+	Wed, 29 May 2019 08:48:16 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	l18sm18585867wrv.38.2019.05.29.08.14.25
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 08:14:27 -0700 (PDT)
-Message-ID: <bbe283e51705243f0ca8ae28f87c7181be1b21ab.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Andrei Gherzan
-	<andrei@gherzan.ro>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Wed, 29 May 2019 16:14:11 +0100
-In-Reply-To: <03829522174840a6938a7dda8fe921fb@XBOX04.axis.com>
-References: <20190528143030.2205-1-andrei@gherzan.ro>
-	<efd8fab5c30823179cc418a855c6e660c0a534d3.camel@linuxfoundation.org>
-	<03829522174840a6938a7dda8fe921fb@XBOX04.axis.com>
-User-Agent: Evolution 3.32.2-1 
+	i9sm5593322wmf.43.2019.05.29.08.48.15
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 29 May 2019 08:48:15 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2019 16:48:11 +0100
+Message-Id: <20190529154814.2996-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [PATCH] ca-certificates: Fix openssl runtime dependency
+Subject: [PATCH 1/4] strace: Tweak ptest disk space management
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,32 +57,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 15:14:27 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 May 2019 15:48:16 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2019-05-29 at 14:29 +0000, Peter Kjellerstedt wrote:
-> I assume the above can be fixed by instead using:
-> 
-> RDEPENDS_${PN}_append_class-target = " openssl-bin"
-> 
-> However, has there been any attempts at rectifying the situation
-> where 
-> runtime dependencies on packages are turned into recipe dependencies 
-> for the native version of a recipe, which obviously does not work
-> when the package name does not match a recipe name?
+If the test is successful, remove the log and exp files. This stops strace
+using around 600MB of disk space and running our ptest images out of space.
 
-There is an open bug:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../strace/strace/ptest-spacesave.patch       | 19 +++++++++++++++++++
+ meta/recipes-devtools/strace/strace_4.26.bb   |  1 +
+ 2 files changed, 20 insertions(+)
+ create mode 100644 meta/recipes-devtools/strace/strace/ptest-spacesave.patch
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13355
-
-Its rather difficult to fix. I'd documented the real underlying problem
-in there (XXX-native vs nativesdk-XXX naming). There is an email from
-me in the archives somewhere from years ago arguing why we had to have
-nativesdk-XXX even though everyone preferred XXX-nativesdk.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-devtools/strace/strace/ptest-spacesave.patch b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+new file mode 100644
+index 00000000000..3e32cc388ca
+--- /dev/null
++++ b/meta/recipes-devtools/strace/strace/ptest-spacesave.patch
+@@ -0,0 +1,19 @@
++If the test is successful, remove the log and exp files. This stops strace
++using around 600MB of disk space and running our ptest images out of space.
++
++RP 2019/5/29
++
++Upstream-Status: Inappropriate [specific to OE image space issues]
++
++Index: strace-4.26/tests/gen_tests.sh
++===================================================================
++--- strace-4.26.orig/tests/gen_tests.sh
+++++ strace-4.26/tests/gen_tests.sh
++@@ -62,6 +62,7 @@ while read -r name arg0 args; do {
++ 		$hdr
++ 		. "\${srcdir=.}/init.sh"
++ 		run_strace_match_diff $arg0 $args
+++		rm -rf log exp
++ 		EOF
++ 		;;
++ 
+diff --git a/meta/recipes-devtools/strace/strace_4.26.bb b/meta/recipes-devtools/strace/strace_4.26.bb
+index 24f92c99e58..3b61fc3eef1 100644
+--- a/meta/recipes-devtools/strace/strace_4.26.bb
++++ b/meta/recipes-devtools/strace/strace_4.26.bb
+@@ -15,6 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
+            file://0001-caps-abbrev.awk-fix-gawk-s-path.patch \
+            file://0001-tests-sigaction-Check-for-mips-and-alpha-before-usin.patch \
+            file://0001-mips-o32-fix-build.patch \
++           file://ptest-spacesave.patch \
+            "
+ SRC_URI[md5sum] = "daa51acc0c7c696221ec03cf0b30a7af"
+ SRC_URI[sha256sum] = "7c4d2ffeef4f7d1cdc71062ca78d1130eb52f947c2fca82f59f6a1183bfa1e1c"
+-- 
+2.20.1
 
 
