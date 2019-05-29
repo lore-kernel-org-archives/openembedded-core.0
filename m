@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id DCF3B7E150
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E31B77E31C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 13:50:44 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id r22so1670252pfh.9
+	Wed, 29 May 2019 13:50:46 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id u17so1679163pfn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 06:50:46 -0700 (PDT)
+	Wed, 29 May 2019 06:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=2wqvwq3dkRQI7eSsUMtmmRRnwN+YXHoRFtr9vNy2Nv8=;
-	b=ntKUazr3IKE2mTnaJf2SZIP/COJTKkjWbFZqyj944Y8UR2PShTaPvoqd4s4cG0Z1Lt
-	wUP5rH/pHsxZ4hVliLafcMYu34JrG8COvjR/8JN4HO9svclh6TcQ7EfAGlq56TSMOzPf
-	5Bit3JE6ryYQT6FwH5yr7p+Qm7PAuiP0wmQXLFgQ3z8pK4SdZhMzZ4vpHOuRV+q6q5A2
-	sY9BtpCU61bXgjUZzMjaRWSJd/1WpHR5MoHjnjfFkOjOC4hH8skCrUkCWf084zS65XKw
-	roQTDECY/ZkRBkZAEcoqFkqqYtrCdrE+EA1yW4PVTU7ge86P045jixCZ9ryjIVCne+MW
-	214Q==
+	bh=ntIJJKlzX0vu9Rjuv0kgpf3wX9XhOVQVuw4iP62S5pk=;
+	b=etx/U2y+Pw5GUMUjAx1peabhee+gvSwSCgy1P7mSDbw4mpIvfyOYj1+4I3qTT9Ytkm
+	eX50bXDBEx0XcS1KuObzFMbEXrlFMrSLGbKML7vDorNpJ5MYCeQhy6wpdxVi1BydLJrH
+	pBRl11YA9d7Xq7AjsUt3xJRt4dfUbQBzK4ghzDI5bhP6hkCSCE629Le949THTLd/mr+7
+	HvmnzniqeDhJzPtmi3Go7+ZYv5lDBCL3WLpKFvTSALlplxVLS3XsWCvuHbaDG2+58K/6
+	KovebwjrlF//3EqCPZKuFgvoc/hmUOC87uV9CCOEuuYk6fMfFuvFvbtA48RG54/m3PWn
+	k6lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=2wqvwq3dkRQI7eSsUMtmmRRnwN+YXHoRFtr9vNy2Nv8=;
-	b=r/cI5g0DModpu7UgBorKf654uCV+NobugZ9rYpwtu0W8W54ed0WTqNkh3vL9qltSlE
-	4AWCOFipN1ymUigeOBFWxpf1sUX8OvkdCncZ7frj7H2wvGOJmEZJOBB7MBJa7tOKCGEO
-	NU73offL4o1Iyg6hhgcsWyCnGNRUtoZfDQ5Zzd2RBkMwm3jNMd6jTT75Y2uXSMrgJztR
-	7Y89f46iBSW08OuQHeOejUuer1ejAQ0pcEY1CwtnsadIvvy6JZYXFTxxoUKrKI6uhPLd
-	fM8haqJCM9YRsisTBrFJYJfYKwy5TX+TAaxRI7ZLzFSJgpvoj8mn3SGKcSyeqEym0woj
-	myOw==
-X-Gm-Message-State: APjAAAWHdG4gxMoscpUda+ThfH85Vl7kbWP6wj6mWmwCyT4cvpormxTh
-	441LVQ53GMFeXi9etwz7O/YQsow2
-X-Google-Smtp-Source: APXvYqzMbbyHigQgTixW72q/9/WwYXWwiBIDGeQ02lL3bbreiyQVaVPGMQ1Gt2LIq+Lw4hOO/PnMNA==
-X-Received: by 2002:a17:90a:65c2:: with SMTP id
-	i2mr12029665pjs.54.1559137845934; 
-	Wed, 29 May 2019 06:50:45 -0700 (PDT)
+	bh=ntIJJKlzX0vu9Rjuv0kgpf3wX9XhOVQVuw4iP62S5pk=;
+	b=izbqdMBa+6j7RxtpkhwnWCLRBGoOQXCwGW17wdXjnxyXk3jcGq9IONn6spdWhl0ppW
+	BbA8qI/0AVp/9miXgZLz4thhoZFPi6VXKsibNA8uMBnD68cuMx4DVLBLa1G0we8Dm84t
+	KBjFK+GOGoTI8sqWw8MPF/J5w+Gpv586TwuuljVln4NAG4m/TvczuhkLqySgVClGx5mf
+	hbGczlNMKq++1i6tFT+0gQPjC8rQfea5QkheN6Me81DFGd6MDYAaPEvX5PmThCmcKJ9Q
+	Bc0hZjhq5OeF5yTF5tjbVySoMnGCuXHbKmaIJwsZAgK0Wzo7ztXUBMB65um1SxlmLb30
+	IMiQ==
+X-Gm-Message-State: APjAAAWCFKFHwQxhRIF89O8NJmYtciFZcVKWxsBFbEDeSAL60GmB6LGD
+	yDYosAT+3nBM3/OCIM2JADPz5ONH
+X-Google-Smtp-Source: APXvYqywl0uUkyAlqMa5s8wV3PCeRxjTkZDWjr+ON8hatvNoKuKGGo8nT1ToZGch8Yo8VRF5a/UFtw==
+X-Received: by 2002:a17:90a:6505:: with SMTP id
+	i5mr12395842pjj.47.1559137843198; 
+	Wed, 29 May 2019 06:50:43 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:4865:9151:ec2:e220])
-	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.45
+	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 May 2019 06:50:45 -0700 (PDT)
+	Wed, 29 May 2019 06:50:42 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 06:50:34 -0700
-Message-Id: <1559137838-8972-6-git-send-email-akuster808@gmail.com>
+Date: Wed, 29 May 2019 06:50:31 -0700
+Message-Id: <1559137838-8972-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
 References: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>, Adrian Bunk <bunk@stusta.de>
-Subject: [thud][PATCH 5/9] gnutls: upgrade 3.6.5 -> 3.6.7
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH 2/9] elfutils: Security fixes CVE-2019-7146, 7149, 7150
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,70 +59,392 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 13:50:45 -0000
+X-List-Received-Date: Wed, 29 May 2019 13:50:47 -0000
 
-From: Adrian Bunk <bunk@stusta.de>
+From: Armin Kuster <akuster@mvista.com>
 
-Source: Openembedded.org
-MR: 97367, 97377
+Source: http://sourceware.org/git/elfutils.git
+MR: 97563, 97568, 97558
 Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-support/gnutls?h=warrior&id=93993fe8ffd31e3e94946023b2cd8927ae595fc3
-ChangeID: e47c21374c83d7bbb8ec48a7c4fe14040457ea45
+Disposition: Backport from http://sourceware.org/git/elfutils.git
+ChangeID: 6183c2a25d5e32eec1846a428dd165e1de659f24
 Description:
 
-This is a new upstream release from the same stable branch
-bringing new features and bugfixes (including CVE fixes).
+Affects <= 0.175
 
-COPYING changed http -> https.
-
-configure no longer has a --without-libunistring-prefix option.
-
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[includes: CVE-2019-3836 CVE-2019-3829]
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
+Fixes:
+CVE-2019-7146
+CVE-2019-7149
+CVE-2019-7150
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- meta/recipes-support/gnutls/{gnutls_3.6.5.bb => gnutls_3.6.7.bb} | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-support/gnutls/{gnutls_3.6.5.bb => gnutls_3.6.7.bb} (88%)
+ meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   4 +
+ .../elfutils/files/CVE-2019-7146_p1.patch          |  52 ++++++++
+ .../elfutils/files/CVE-2019-7146_p2.patch          |  65 +++++++++
+ .../elfutils/files/CVE-2019-7149.patch             | 148 +++++++++++++++++++++
+ .../elfutils/files/CVE-2019-7150.patch             |  51 +++++++
+ 5 files changed, 320 insertions(+)
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.5.bb b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
-similarity index 88%
-rename from meta/recipes-support/gnutls/gnutls_3.6.5.bb
-rename to meta/recipes-support/gnutls/gnutls_3.6.7.bb
-index dfc3507..e05dc2b 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.5.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
-@@ -9,7 +9,7 @@ LICENSE_${PN}-bin = "GPLv3+"
- LICENSE_${PN}-openssl = "GPLv3+"
+diff --git a/meta/recipes-devtools/elfutils/elfutils_0.175.bb b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+index b0b9ddc..e94a48e 100644
+--- a/meta/recipes-devtools/elfutils/elfutils_0.175.bb
++++ b/meta/recipes-devtools/elfutils/elfutils_0.175.bb
+@@ -27,6 +27,10 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+            file://debian/hurd_path.patch \
+            file://debian/ignore_strmerge.diff \
+            file://debian/disable_werror.patch \
++           file://CVE-2019-7149.patch \
++           file://CVE-2019-7150.patch \
++           file://CVE-2019-7146_p1.patch \
++           file://CVE-2019-7146_p2.patch \
+            "
+ SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch"
  
- LIC_FILES_CHKSUM = "file://LICENSE;md5=71391c8e0c1cfe68077e7fce3b586283 \
--                    file://doc/COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-+                    file://doc/COPYING;md5=c678957b0c8e964aa6c70fd77641a71e \
-                     file://doc/COPYING.LESSER;md5=a6f89e2100d9b6cdffcea4f398e37343"
- 
- DEPENDS = "nettle gmp virtual/libiconv libunistring"
-@@ -21,8 +21,8 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://arm_eabi.patch \
- "
- 
--SRC_URI[md5sum] = "3474849e1bbd4d16403b82ab2579000b"
--SRC_URI[sha256sum] = "073eced3acef49a3883e69ffd5f0f0b5f46e2760ad86eddc6c0866df4e7abb35"
-+SRC_URI[md5sum] = "c4ac669c500df939d4fbfea722367929"
-+SRC_URI[sha256sum] = "5b3409ad5aaf239808730d1ee12fdcd148c0be00262c7edf157af655a8a188e2"
- 
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc
- 
-@@ -44,7 +44,6 @@ EXTRA_OECONF = " \
-     --enable-local-libopts \
-     --enable-openssl-compatibility \
-     --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
--    --without-libunistring-prefix \
- "
- 
- LDFLAGS_append_libc-musl = " -largp"
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch b/meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
+new file mode 100644
+index 0000000..b6cd29a
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
+@@ -0,0 +1,52 @@
++From 012018907ca05eb0ab51d424a596ef38fc87cae1 Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Wed, 16 Jan 2019 11:57:35 +0100
++Subject: [PATCH] libebl: Check GNU property note pr_datasz fits inside note
++ description.
++
++Before printing the data values, make sure pr_datasz doesn't go beyond
++the end of the note description data.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=24075
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++
++Upstream-Status: Backport
++CVE: CVE-2019-7146 patch #1
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ libebl/ChangeLog    | 4 ++++
++ libebl/eblobjnote.c | 7 +++++++
++ 2 files changed, 11 insertions(+)
++
++Index: elfutils-0.175/libebl/eblobjnote.c
++===================================================================
++--- elfutils-0.175.orig/libebl/eblobjnote.c
+++++ elfutils-0.175/libebl/eblobjnote.c
++@@ -350,6 +350,13 @@ ebl_object_note (Ebl *ebl, uint32_t name
++ 		  desc += 8;
++ 		  descsz -= 8;
++ 
+++		  if (prop.pr_datasz > descsz)
+++		    {
+++		      printf ("BAD property datasz: %" PRId32 "\n",
+++			      prop.pr_datasz);
+++		      return;
+++		    }
+++
++ 		  int elfclass = gelf_getclass (ebl->elf);
++ 		  char *elfident = elf_getident (ebl->elf, NULL);
++ 		  GElf_Ehdr ehdr;
++Index: elfutils-0.175/libebl/ChangeLog
++===================================================================
++--- elfutils-0.175.orig/libebl/ChangeLog
+++++ elfutils-0.175/libebl/ChangeLog
++@@ -1,3 +1,7 @@
+++2019-01-16  Mark Wielaard  <mark@klomp.org>
+++
+++       * eblobjnte.c (ebl_object_note): Check pr_datasz isn't too large.
+++
++ 2018-11-15  Mark Wielaard  <mark@klomp.org>
++ 
++ 	* eblobjnotetypename.c (ebl_object_note_type_name): Don't update
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch b/meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
+new file mode 100644
+index 0000000..4434b36
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
+@@ -0,0 +1,65 @@
++From cd7ded3df43f655af945c869976401a602e46fcd Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Wed, 30 Jan 2019 00:04:11 +0100
++Subject: [PATCH] libebl: Check GNU property note data padding fits inside
++ note.
++
++The GNU property note data is padded. Make sure the extra padding
++still fits in the note description.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=24075
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++
++Upstream-Status: Backport
++CVE: CVE-2019-7146 patch #2
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ libebl/ChangeLog    |  5 +++++
++ libebl/eblobjnote.c | 17 +++++++++--------
++ 2 files changed, 14 insertions(+), 8 deletions(-)
++
++Index: elfutils-0.175/libebl/ChangeLog
++===================================================================
++--- elfutils-0.175.orig/libebl/ChangeLog
+++++ elfutils-0.175/libebl/ChangeLog
++@@ -1,3 +1,8 @@
+++2019-01-29  Mark Wielaard  <mark@klomp.org>
+++
+++	* eblobjnote.c (ebl_object_note): Check pr_datasz padding doesn't
+++	overflow descsz.
+++
++ 2019-01-16  Mark Wielaard  <mark@klomp.org>
++ 
++        * eblobjnte.c (ebl_object_note): Check pr_datasz isn't too large.
++Index: elfutils-0.175/libebl/eblobjnote.c
++===================================================================
++--- elfutils-0.175.orig/libebl/eblobjnote.c
+++++ elfutils-0.175/libebl/eblobjnote.c
++@@ -486,16 +486,17 @@ ebl_object_note (Ebl *ebl, uint32_t name
++ 			  printf ("%02" PRIx8 "\n", (uint8_t) desc[i]);
++ 			}
++ 		    }
+++
++ 		  if (elfclass == ELFCLASS32)
++-		    {
++-		      desc += NOTE_ALIGN4 (prop.pr_datasz);
++-		      descsz -= NOTE_ALIGN4 (prop.pr_datasz);
++-		    }
+++		    prop.pr_datasz = NOTE_ALIGN4 (prop.pr_datasz);
++ 		  else
++-		    {
++-		      desc += NOTE_ALIGN8 (prop.pr_datasz);
++-		      descsz -= NOTE_ALIGN8 (prop.pr_datasz);
++-		    }
+++		    prop.pr_datasz = NOTE_ALIGN8 (prop.pr_datasz);
+++
+++		  desc += prop.pr_datasz;
+++		  if (descsz > prop.pr_datasz)
+++		    descsz -= prop.pr_datasz;
+++		  else
+++		    descsz = 0;
++ 		}
++ 	    }
++ 	  break;
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch b/meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
+new file mode 100644
+index 0000000..215a171
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
+@@ -0,0 +1,148 @@
++From 2562759d6fe5b364fe224852e64e8bda39eb2e35 Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Sun, 20 Jan 2019 22:10:18 +0100
++Subject: [PATCH] libdw: Check terminating NUL byte in dwarf_getsrclines for
++ dir/file table.
++
++For DWARF version < 5 the .debug_line directory and file tables consist
++of a terminating NUL byte after all strings. The code used to just skip
++this without checking it actually existed. This could case a spurious
++read past the end of data.
++
++Fix the same issue in readelf.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=24102
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++
++Upstream-Status: Backport
++CVE: CVE-2019-7149
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ libdw/ChangeLog           |  5 +++++
++ libdw/dwarf_getsrclines.c | 11 ++++++++---
++ src/ChangeLog             |  5 +++++
++ src/readelf.c             |  8 ++++++--
++ 4 files changed, 24 insertions(+), 5 deletions(-)
++
++Index: elfutils-0.175/libdw/dwarf_getsrclines.c
++===================================================================
++--- elfutils-0.175.orig/libdw/dwarf_getsrclines.c
+++++ elfutils-0.175/libdw/dwarf_getsrclines.c
++@@ -315,7 +315,7 @@ read_srclines (Dwarf *dbg,
++   if (version < 5)
++     {
++       const unsigned char *dirp = linep;
++-      while (*dirp != 0)
+++      while (dirp < lineendp && *dirp != 0)
++ 	{
++ 	  uint8_t *endp = memchr (dirp, '\0', lineendp - dirp);
++ 	  if (endp == NULL)
++@@ -323,6 +323,8 @@ read_srclines (Dwarf *dbg,
++ 	  ++ndirs;
++ 	  dirp = endp + 1;
++ 	}
+++      if (dirp >= lineendp || *dirp != '\0')
+++	goto invalid_data;
++       ndirs = ndirs + 1; /* There is always the "unknown" dir.  */
++     }
++   else
++@@ -392,11 +394,12 @@ read_srclines (Dwarf *dbg,
++ 	{
++ 	  dirarray[n].dir = (char *) linep;
++ 	  uint8_t *endp = memchr (linep, '\0', lineendp - linep);
++-	  assert (endp != NULL);
+++	  assert (endp != NULL); // Checked above when calculating ndirlist.
++ 	  dirarray[n].len = endp - linep;
++ 	  linep = endp + 1;
++ 	}
++       /* Skip the final NUL byte.  */
+++      assert (*linep == '\0'); // Checked above when calculating ndirlist.
++       ++linep;
++     }
++   else
++@@ -471,7 +474,7 @@ read_srclines (Dwarf *dbg,
++     {
++       if (unlikely (linep >= lineendp))
++ 	goto invalid_data;
++-      while (*linep != 0)
+++      while (linep < lineendp && *linep != '\0')
++ 	{
++ 	  struct filelist *new_file = NEW_FILE ();
++ 
++@@ -527,6 +530,8 @@ read_srclines (Dwarf *dbg,
++ 	    goto invalid_data;
++ 	  get_uleb128 (new_file->info.length, linep, lineendp);
++ 	}
+++      if (linep >= lineendp || *linep != '\0')
+++	goto invalid_data;
++       /* Skip the final NUL byte.  */
++       ++linep;
++     }
++Index: elfutils-0.175/src/readelf.c
++===================================================================
++--- elfutils-0.175.orig/src/readelf.c
+++++ elfutils-0.175/src/readelf.c
++@@ -8444,7 +8444,7 @@ print_debug_line_section (Dwfl_Module *d
++ 	}
++       else
++ 	{
++-	  while (*linep != 0)
+++	  while (linep < lineendp && *linep != 0)
++ 	    {
++ 	      unsigned char *endp = memchr (linep, '\0', lineendp - linep);
++ 	      if (unlikely (endp == NULL))
++@@ -8454,6 +8454,8 @@ print_debug_line_section (Dwfl_Module *d
++ 
++ 	      linep = endp + 1;
++ 	    }
+++	  if (linep >= lineendp || *linep != 0)
+++	    goto invalid_unit;
++ 	  /* Skip the final NUL byte.  */
++ 	  ++linep;
++ 	}
++@@ -8523,7 +8525,7 @@ print_debug_line_section (Dwfl_Module *d
++       else
++ 	{
++ 	  puts (gettext (" Entry Dir   Time      Size      Name"));
++-	  for (unsigned int cnt = 1; *linep != 0; ++cnt)
+++	  for (unsigned int cnt = 1; linep < lineendp && *linep != 0; ++cnt)
++ 	    {
++ 	      /* First comes the file name.  */
++ 	      char *fname = (char *) linep;
++@@ -8553,6 +8555,8 @@ print_debug_line_section (Dwfl_Module *d
++ 	      printf (" %-5u %-5u %-9u %-9u %s\n",
++ 		      cnt, diridx, mtime, fsize, fname);
++ 	    }
+++	  if (linep >= lineendp || *linep != '\0')
+++	    goto invalid_unit;
++ 	  /* Skip the final NUL byte.  */
++ 	  ++linep;
++ 	}
++Index: elfutils-0.175/libdw/ChangeLog
++===================================================================
++--- elfutils-0.175.orig/libdw/ChangeLog
+++++ elfutils-0.175/libdw/ChangeLog
++@@ -1,3 +1,8 @@
+++2019-01-20  Mark Wielaard  <mark@klomp.org>
+++
+++       * dwarf_getsrclines.c (read_srclines): Check terminating NUL byte
+++       for dir and file lists.
+++
++ 2018-10-20  Mark Wielaard  <mark@klomp.org>
++ 
++ 	* libdw.map (ELFUTILS_0.175): New section. Add dwelf_elf_begin.
++Index: elfutils-0.175/src/ChangeLog
++===================================================================
++--- elfutils-0.175.orig/src/ChangeLog
+++++ elfutils-0.175/src/ChangeLog
++@@ -1,3 +1,8 @@
+++2019-01-20  Mark Wielaard  <mark@klomp.org>
+++
+++       * readelf.c (print_debug_line_section): Check terminating NUL byte
+++       for dir and file tables.
+++
++ 2018-11-10  Mark Wielaard  <mark@klomp.org>
++ 
++ 	* elflint.c (check_program_header): Allow PT_GNU_EH_FRAME segment
+diff --git a/meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch b/meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
+new file mode 100644
+index 0000000..01a4fb1
+--- /dev/null
++++ b/meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
+@@ -0,0 +1,51 @@
++From da5c5336a1eaf519de246f7d9f0f5585e1d4ac59 Mon Sep 17 00:00:00 2001
++From: Mark Wielaard <mark@klomp.org>
++Date: Sun, 20 Jan 2019 23:05:56 +0100
++Subject: [PATCH] libdwfl: Sanity check partial core file dyn data read.
++
++When reading the dyn data from the core file check if we got everything,
++or just part of the data.
++
++https://sourceware.org/bugzilla/show_bug.cgi?id=24103
++
++Signed-off-by: Mark Wielaard <mark@klomp.org>
++
++Upstream-Status: Backport
++CVE: CVE-2019-7150
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ libdwfl/ChangeLog                    | 5 +++++
++ libdwfl/dwfl_segment_report_module.c | 6 ++++++
++ 2 files changed, 11 insertions(+)
++
++Index: elfutils-0.175/libdwfl/dwfl_segment_report_module.c
++===================================================================
++--- elfutils-0.175.orig/libdwfl/dwfl_segment_report_module.c
+++++ elfutils-0.175/libdwfl/dwfl_segment_report_module.c
++@@ -783,6 +783,12 @@ dwfl_segment_report_module (Dwfl *dwfl,
++   if (dyn_filesz != 0 && dyn_filesz % dyn_entsize == 0
++       && ! read_portion (&dyn_data, &dyn_data_size, dyn_vaddr, dyn_filesz))
++     {
+++      /* dyn_data_size will be zero if we got everything from the initial
+++         buffer, otherwise it will be the size of the new buffer that
+++         could be read.  */
+++      if (dyn_data_size != 0)
+++	dyn_filesz = dyn_data_size;
+++
++       void *dyns = malloc (dyn_filesz);
++       Elf32_Dyn (*d32)[dyn_filesz / sizeof (Elf32_Dyn)] = dyns;
++       Elf64_Dyn (*d64)[dyn_filesz / sizeof (Elf64_Dyn)] = dyns;
++Index: elfutils-0.175/libdwfl/ChangeLog
++===================================================================
++--- elfutils-0.175.orig/libdwfl/ChangeLog
+++++ elfutils-0.175/libdwfl/ChangeLog
++@@ -1,3 +1,8 @@
+++2019-01-20  Mark Wielaard  <mark@klomp.org>
+++
+++       * dwfl_segment_report_module.c (dwfl_segment_report_module): Check
+++       dyn_filesz vs dyn_data_size after read_portion call.
+++
++ 2018-10-20  Mark Wielaard  <mark@klomp.org>
++ 
++ 	* libdwflP.h (__libdw_open_elf): New internal function declaration.
 -- 
 2.7.4
 
