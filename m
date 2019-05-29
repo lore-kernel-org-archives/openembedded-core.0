@@ -1,48 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
-	[209.85.210.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 5292A7E31C
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 387347E34F
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 13:50:40 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id n19so1697685pfa.1
+	Wed, 29 May 2019 13:50:41 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id a23so1690813pff.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 06:50:41 -0700 (PDT)
+	Wed, 29 May 2019 06:50:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id;
-	bh=oDM7DBtSU9sNhGTVTSP2WJvJ5ShF0AQABeABDtbmcBw=;
-	b=ktSuc7w9z6T/WZ1VDoDlITnOXyr+o4mkVK3BRcnp4sIcIXA7ZFjS8Adn9hZHyutYp2
-	Z3ayP6bQ60DiKTCuxqTaYfmqTpe3yxEiMx0oyWsN+0mcp4d4L/J+2eN2W9KBtN3gBeOh
-	aDKEDKdfIxUxlWevk2OKtEV2ALrI3EXINW5Iby75TDAVNDKvBuCaZbbq+T3uwuNsXnbp
-	W61BTZDPOSpJUqotX58OZaVv3DFQ5DnLqPGJOsw7wpCX+VlCyatqTlEMVoHbYvQQo867
-	wQnALSXzH3gynLsO27XO1woBrXrXmfug7pv0adjoXBasGsRMZtIUkdCTWYhOTAj7qEyz
-	s+Nw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
+	b=nWpi1XRuvEolVSkEYhk0fH24zSrLwCumU9C6pk6Nr+850v4XHpmnwr+cxb1DDEMMlt
+	loXTXVmjx6aF6zm5sb7ngeYSPqujnpul7uD8MzZlIkUDIYPSTIgIi2yfW6GbIlwPY0ZZ
+	XctTkJOMasrFEqbjiY2og6QJdS+AEznLHgBd4C+GlkG9l1Vyify9OgjWfV2wRrr7gPNO
+	36xPx6W5vvLtCYqqbUwAEOc9MEPdOCNNCYbBmZ/cNyQcbPIq/lUVSu4IoToubgDBLTqF
+	IlEZ3VM2urBRu1NWmomqJpQWoaTpFWIBA7wEpIBuQIwIrMowqkzNWXDjIB5T6+7goch9
+	JK0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=oDM7DBtSU9sNhGTVTSP2WJvJ5ShF0AQABeABDtbmcBw=;
-	b=tMgV0jiGWl4M280s9cj2G0+PG2iYH21kYfRDkAab7Y7B/jPByXy3YV3jXZ4okxw2Y5
-	IN6RaT82uq4L3UW6SdCsUW53N1rlFl/Cnir3CsQfLXyfnYveYdXBvtR0zNTZCh4e/tIb
-	W79tLbc1zih8Kq1kwrl9jTK5izLS5V/P1WAbzylJFHAGoTg4pbf7yFPHbc2Y08U90NnE
-	bQrFXYLOWRl/EjOY9SiMMHBO0KMX/FzuV9o1NSJ7IITaaec9qCbZY+kpovnRGIu4G+r4
-	zPvhn2vfAFvhF4KpJ+i3v2jZr4F4QI9UzQEgZ2k5O3BOima/AEKHwiiK87DKq/PDkYHh
-	JxEg==
-X-Gm-Message-State: APjAAAUlRu1XNjGemcZSuHfk76Vjwe3T0zG/R0D/h7ZeKf9SRpMslY61
-	SGDDiwXngTFfH+KVM/nvnhLddtxB
-X-Google-Smtp-Source: APXvYqz/i8spXYgZm6+M+k92H2/V6ZgkMXcbVSL9o8Q6vYCie2ivVcePkXTVSAb6e6VAj5WRz5Nn6w==
-X-Received: by 2002:a65:51cb:: with SMTP id i11mr955485pgq.390.1559137841076; 
-	Wed, 29 May 2019 06:50:41 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=f8F5t1fxjZbpdCZEDpSQhbYzAVgvLDy3RxWpO5z5Uto=;
+	b=FFFD1vbdAWoYXVM+CoIyQGUkIgHzFUIYKmif75aHL4VHjknRDt44moMU0Osw3lsQpf
+	gWQMsqudslTfZln7f4yTFcmfBaXToCk+nZIhvtXCP+DEkXYTC7l3QtZLrqQKKNAntyBp
+	LumOL4lFhYM8DtQ/+y3OKu6rP/23V3LhR7I/Y+o8Xi/Mc4MjhIsSKZaFG3CG/BPPfc17
+	Ej6oxniqBkuzC1rFYPDeSGTKB7ohTNxl20cmBzGzIk8Ckapq5ByjgOdrA+eu7ndW0Nny
+	6m+DD9J+CkHkXG9GaaPAw8CB+j2WN8L+ipWH21cRk2gC6UQ/PBRKrbAlvhNsCU91M8DX
+	G9zA==
+X-Gm-Message-State: APjAAAWvlovGhV2ivkssMt1ac9HI6Jv/IlgKlbJ3sySd5yJzUBU7XkxX
+	5pBmWlLOsimFKP/CTSDe1014umjo
+X-Google-Smtp-Source: APXvYqwrmjFyHqL2bBkJGus36W5hxm8sqECMqIaIuHXS9SGJV1K8R/C8yRq+qWjDxBZsJ3yD4f0/bg==
+X-Received: by 2002:aa7:9356:: with SMTP id 22mr48359122pfn.188.1559137842248; 
+	Wed, 29 May 2019 06:50:42 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:4865:9151:ec2:e220])
-	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.39
-	for <openembedded-core@lists.openembedded.org>
+	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 May 2019 06:50:40 -0700 (PDT)
+	Wed, 29 May 2019 06:50:41 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 06:50:29 -0700
-Message-Id: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
+Date: Wed, 29 May 2019 06:50:30 -0700
+Message-Id: <1559137838-8972-2-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
-Subject: [thud][PATCH 0/9] Fixes for Thud
+In-Reply-To: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
+References: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH 1/9] glibc: Security fix CVE-2019-9169
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,56 +58,98 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 13:50:40 -0000
+X-List-Received-Date: Wed, 29 May 2019 13:50:41 -0000
 
-These are backports and Secruity fixes for thud 
-already in Warrior or not affecting the versions in warrior.
+From: Armin Kuster <akuster@mvista.com>
 
-Adrian Bunk (1):
-  gnutls: upgrade 3.6.5 -> 3.6.7
-
-Armin Kuster (4):
-  glibc: Security fix CVE-2019-9169
-  elfutils: Security fixes  CVE-2019-7146,7149,7150
-  gnutls: update to 3.6.5
-  nettle: update to 3.4.1
-
-Mingli Yu (2):
-  nettle: fix ptest failure
-  nettle: fix the Segmentation fault
-
-Richard Purdie (1):
-  Revert "nettle: fix ptest failure"
-
-Ross Burton (1):
-  gnutls: no need to inherit binconfig
-
- meta/recipes-core/glibc/glibc/CVE-2019-9169.patch  |  63 +++++++++
- meta/recipes-core/glibc/glibc_2.28.bb              |   1 +
- meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   4 +
- .../elfutils/files/CVE-2019-7146_p1.patch          |  52 ++++++++
- .../elfutils/files/CVE-2019-7146_p2.patch          |  65 +++++++++
- .../elfutils/files/CVE-2019-7149.patch             | 148 +++++++++++++++++++++
- .../elfutils/files/CVE-2019-7150.patch             |  51 +++++++
- .../gnutls/{gnutls_3.6.4.bb => gnutls_3.6.7.bb}    |   9 +-
- ...d-target-to-only-build-tests-not-run-them.patch |   0
- ...k-header-files-of-openssl-only-if-enable_.patch |   0
- .../{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch |   0
- .../nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest  |   0
- .../nettle/{nettle_3.4.bb => nettle_3.4.1.bb}      |   5 +-
- 13 files changed, 391 insertions(+), 7 deletions(-)
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ meta/recipes-core/glibc/glibc/CVE-2019-9169.patch | 63 +++++++++++++++++++++++
+ meta/recipes-core/glibc/glibc_2.28.bb             |  1 +
+ 2 files changed, 64 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
- create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
- rename meta/recipes-support/gnutls/{gnutls_3.6.4.bb => gnutls_3.6.7.bb} (84%)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/Add-target-to-only-build-tests-not-run-them.patch (100%)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/check-header-files-of-openssl-only-if-enable_.patch (100%)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch (100%)
- rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest (100%)
- rename meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb} (90%)
 
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+new file mode 100644
+index 0000000..14cfaa3
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+@@ -0,0 +1,63 @@
++From 583dd860d5b833037175247230a328f0050dbfe9 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Mon, 21 Jan 2019 11:08:13 -0800
++Subject: [PATCH] regex: fix read overrun [BZ #24114]
++
++Problem found by AddressSanitizer, reported by Hongxu Chen in:
++https://debbugs.gnu.org/34140
++* posix/regexec.c (proceed_next_node):
++Do not read past end of input buffer.
++
++Upstream-Status: Backport 
++https://sourceware.org/git/gitweb.cgi?p=glibc.git;a=commit;h=583dd860d5b833037175247230a328f0050dbfe9
++
++CVE: CVE-2019-9169
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ ChangeLog       | 10 +++++++++-
++ posix/regexec.c |  6 ++++--
++ 2 files changed, 13 insertions(+), 3 deletions(-)
++
++Index: git/ChangeLog
++===================================================================
++--- git.orig/ChangeLog
+++++ git/ChangeLog
++@@ -1,3 +1,11 @@
+++2019-01-31  Paul Eggert  <eggert@cs.ucla.edu>
+++
+++       regex: fix read overrun [BZ #24114]
+++       Problem found by AddressSanitizer, reported by Hongxu Chen in:
+++       https://debbugs.gnu.org/34140
+++       * posix/regexec.c (proceed_next_node):
+++       Do not read past end of input buffer.
+++
++ 2018-09-30  Martin Jansa  <Martin.Jansa@gmail.com>
++ 	Partial fix for [BZ #23716]
++ 	* locale/weight.h: Fix build with -Os.
++@@ -10917,7 +10925,7 @@
++ 	(CFLAGS-wcstof_l.c): Likewise.
++ 	(CPPFLAGS-tst-wchar-h.c): Likewise.
++ 	(CPPFLAGS-wcstold_l.c): Likewise.
++----
+++
++ 2017-12-11  Paul A. Clarke  <pc@us.ibm.com>
++ 
++ 	* sysdeps/ieee754/flt-32/s_cosf.c: New implementation.
++Index: git/posix/regexec.c
++===================================================================
++--- git.orig/posix/regexec.c
+++++ git/posix/regexec.c
++@@ -1289,8 +1289,10 @@ proceed_next_node (const re_match_contex
++ 	      else if (naccepted)
++ 		{
++ 		  char *buf = (char *) re_string_get_buffer (&mctx->input);
++-		  if (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
++-			      naccepted) != 0)
+++		  if (mctx->input.valid_len - *pidx < naccepted
+++		      || (memcmp (buf + regs[subexp_idx].rm_so, buf + *pidx,
+++				  naccepted)
+++			  != 0))
++ 		    return -1;
++ 		}
++ 	    }
+diff --git a/meta/recipes-core/glibc/glibc_2.28.bb b/meta/recipes-core/glibc/glibc_2.28.bb
+index 72cee04..1bcec3e 100644
+--- a/meta/recipes-core/glibc/glibc_2.28.bb
++++ b/meta/recipes-core/glibc/glibc_2.28.bb
+@@ -47,6 +47,7 @@ SRC_URI = "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0032-sysdeps-ieee754-soft-fp-ignore-maybe-uninitialized-w.patch \
+            file://0033-locale-prevent-maybe-uninitialized-errors-with-Os-BZ.patch \
+            file://0034-inject-file-assembly-directives.patch \
++           file://CVE-2019-9169.patch \
+ "
+ 
+ NATIVESDKFIXES ?= ""
 -- 
 2.7.4
 
