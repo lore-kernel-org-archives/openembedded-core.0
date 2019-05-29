@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F42177E327
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 17E047E2FF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 15:48:17 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id m3so2165710wrv.2
+	Wed, 29 May 2019 15:48:18 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id l17so2130579wrm.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 08:48:19 -0700 (PDT)
+	Wed, 29 May 2019 08:48:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=AxjMhLA9wcNnHSwZoTtS2PiNswkcQkrhVYcNbHTjSqE=;
-	b=KMkD/HgKlUteKuCekLg+87vZEdI+MHj4Uk0jYpBTHY6H1il3wQMdUijtn1H1xVOweY
-	FqJA1RWf2Q3gkrX92fYyRwzkpiMeJ44f/IVZEJdQsy60eTo9fXmMZOXKShcyXXgTXW/5
-	LmorK0UOGz607mNG05A54Jsn9JvpGPVmMSIk8=
+	bh=VE6noGz74tkQoVDCchgwHUhoOY4q22kpKkNeZy22rD0=;
+	b=Afeiladjfg2ZHOaZAqcOk27Gj5fbBastbqrUAdJzc2g8qxCCPZ5cngSi6mJC4sjwOd
+	S1PWlrKkKpy/A9ape0ODsgu8IWR11Y5Xtkv6eNEvGi6+Ep795QDJlCrrr/QdEJzWkPfG
+	oTNszhtvg8r8m9NV9QStPqOduLN9twmAlwrVE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=AxjMhLA9wcNnHSwZoTtS2PiNswkcQkrhVYcNbHTjSqE=;
-	b=jQqJOJJh99oKZgAWWvq7a2s/I1DmU9ScN7S2zIksKzkOEedktHy6F/b2AcfP59Pof4
-	hlG9T2yvrv0IU0RM79hCmopKLfcYrYhgbsTU38iXlI9FmiiijqvH/oFTu0gCOZwSC10+
-	J7TLZPSJaNeumVinsvglY4LYO85yhA+U4JORD1gHARSnQFAr9Ho8/z8iDSB/5RuNAEe6
-	0wyk77G7LverJOkucUDlaz3M7OJRcIeyf0SuEC3FpZiga0ocmuUb5NlUTocteDAyi3Z+
-	QyU42XNSx8aMMfK8esdtCEsBKuAK6QIC2kH1zrybuE08jygYRtZdfNz4zyxYBcgwP2nh
-	dthw==
-X-Gm-Message-State: APjAAAU1rXx0V0QCT3+hltLHKaRROrxRwvhNlXCwMtWBZZDi72RnPwns
-	xXwALghV3DBx8y2FjSxvjAb22vUszww=
-X-Google-Smtp-Source: APXvYqx+i9YaZeWWnhNO5yWbkCWypjmMUn+qTDHIjyZbtoMe/HiRJSDy+Apd8ijlP9Kktw/OK8FiGA==
-X-Received: by 2002:a5d:644e:: with SMTP id d14mr60954455wrw.42.1559144898539; 
-	Wed, 29 May 2019 08:48:18 -0700 (PDT)
+	bh=VE6noGz74tkQoVDCchgwHUhoOY4q22kpKkNeZy22rD0=;
+	b=aO5f/sb9aPakGTDKxsH193jQGLi5qzCk5rXkzsWDq0aZtK+qieb0O4aJstQOqxkcO6
+	403CvIoDeZus3SBOEIjzpqPeUyc5KRPuGTYmRY902Ve4NcCTT620/lnvHhh+9jwMhPf4
+	xvHCJHCPBsM4i3XcrJL4yMWY4lUvtcHlhAyORPdHKldiZqXKqdZ2XfSOLnwG0/TxiK/g
+	jjCo1dDxEo0EJ+F5XnF07Z24Q60LdCw4htG7GIcIeKRXyBKTT3k/5RaZ1eDgrpwY7qrp
+	bbEXLz64+PNs/F6cavPGrMDpMbYI0ZmctHgCWlt7wilNL8aatjWOvqFGlM1wTobRItYK
+	vzJQ==
+X-Gm-Message-State: APjAAAWqlsAzZtEbSNnsuHQQj6hxUaIHJgd+EZYUaf81V2Q52ST1+EFB
+	tN58Jf3Bx0htjTW1TlBCsGSNllZzqks=
+X-Google-Smtp-Source: APXvYqx9ZpLPcD76c8zgmg+DF5x5sd8kLdU0VT7dnA3tOl7xyVv4SxcJTz4HWxQZV0NIhDs6bqy79w==
+X-Received: by 2002:a5d:6406:: with SMTP id z6mr40911344wru.87.1559144899546; 
+	Wed, 29 May 2019 08:48:19 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	i9sm5593322wmf.43.2019.05.29.08.48.17
+	i9sm5593322wmf.43.2019.05.29.08.48.18
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 29 May 2019 08:48:18 -0700 (PDT)
+	Wed, 29 May 2019 08:48:19 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 16:48:13 +0100
-Message-Id: <20190529154814.2996-3-richard.purdie@linuxfoundation.org>
+Date: Wed, 29 May 2019 16:48:14 +0100
+Message-Id: <20190529154814.2996-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190529154814.2996-1-richard.purdie@linuxfoundation.org>
 References: <20190529154814.2996-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] util-linux: Fix ptest dependencies
+Subject: [PATCH 4/4] mdadm: Add missing ptest dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 15:48:18 -0000
+X-List-Received-Date: Wed, 29 May 2019 15:48:19 -0000
 Content-Transfer-Encoding: 8bit
 
-We should append to the ptest RDEPENDS and RRECOMMENDS otherwise the bbclass
-defaults are overwritten. This leads to ptest-runner not being installed in
-minimal images. Also drop the duplicate ${PN} value which is unneeded once
-we do this.
+Without this the ptest fails, unable to find mkfs.ext3.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-extended/mdadm/mdadm_4.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 6dfbe0b6835..7b9b4d2a307 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -142,8 +142,8 @@ RDEPENDS_${PN}_class-nativesdk = ""
- RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 40fe376a796..494b81b5e79 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -81,7 +81,7 @@ do_install_ptest() {
+ 	done
+ }
  
- RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
--RDEPENDS_${PN}-ptest = "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm ${PN} procps sed socat which xz"
--RRECOMMENDS_${PN}-ptest = "kernel-module-scsi-debug"
-+RDEPENDS_${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm procps sed socat which xz"
-+RRECOMMENDS_${PN}-ptest += "kernel-module-scsi-debug"
- RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
- ALLOW_EMPTY_${PN}-swaponoff = "1"
- 
+-RDEPENDS_${PN}-ptest += "bash"
++RDEPENDS_${PN}-ptest += "bash e2fsprogs-mke2fs"
+ RRECOMMENDS_${PN}-ptest += " \
+     coreutils \
+     util-linux \
 -- 
 2.20.1
 
