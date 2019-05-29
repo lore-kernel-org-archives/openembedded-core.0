@@ -1,58 +1,47 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DF867E38A
+Return-Path: <andrei@gherzan.ro>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id AD2C160053
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 14:29:10 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 8652A184DB;
-	Wed, 29 May 2019 16:29:11 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id 1fyluPPTkVNG; Wed, 29 May 2019 16:29:10 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id E0A9318604;
-	Wed, 29 May 2019 16:29:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id A13131E075;
-	Wed, 29 May 2019 16:29:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 956271E05C;
-	Wed, 29 May 2019 16:29:09 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Wed, 29 May 2019 16:29:09 +0200 (CEST)
-Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
-	by seth.se.axis.com (Postfix) with ESMTP id 893F0229F;
-	Wed, 29 May 2019 16:29:09 +0200 (CEST)
-Received: from XBOX04.axis.com (10.0.5.18) by XBOX02.axis.com (10.0.5.16) with
-	Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Wed, 29 May 2019 16:29:09 +0200
-Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
-	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
-	15.00.1365.000; Wed, 29 May 2019 16:29:09 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Andrei Gherzan
-	<andrei@gherzan.ro>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] ca-certificates: Fix openssl runtime dependency
-Thread-Index: AQHVFWIDJERVuEMURkOJqsHWlkLvR6aBDKYAgAEbo9A=
-Date: Wed, 29 May 2019 14:29:09 +0000
-Message-ID: <03829522174840a6938a7dda8fe921fb@XBOX04.axis.com>
-References: <20190528143030.2205-1-andrei@gherzan.ro>
-	<efd8fab5c30823179cc418a855c6e660c0a534d3.camel@linuxfoundation.org>
-In-Reply-To: <efd8fab5c30823179cc418a855c6e660c0a534d3.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH] ca-certificates: Fix openssl runtime dependency
+	Wed, 29 May 2019 14:41:46 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id v22so1809944wml.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 29 May 2019 07:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gherzan.ro; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=/rO/oKmqp3fUcCOqKS5VRHd2enGgHAbFmN66Phrkws8=;
+	b=IZxv4jp2MElXBBimEmZZFqtUIQW+bMy2VGCeisugaWFdVTQ+PpdFF6cReHo8q1y4/h
+	5Uce8MUpv76NPTa2dQ5xqsY4pRjNQL3XjrgQAlercg7FvDcVjSo3583KP24l7TqW24kW
+	RQuCfsVcp837aqVYgLMkgNeVz2bdn8/sOBOPZjf8o1ScZgAr9HMRmCL8N+dZsArn77+P
+	fQnnhMw4qlHtLz2XDQbedQ6yGwLXGUiDsBo/d6eBvd8dct5Ms2BQRAQCMdgUHROWkmLd
+	+g2320veTrn7Uz/PozvhyWbpwH8IYMOKQWEYepX3g4Cbo+VquleK5k7AMXEeFJFMUy3I
+	F8Pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=/rO/oKmqp3fUcCOqKS5VRHd2enGgHAbFmN66Phrkws8=;
+	b=nWw2mKShgnGrKu07lIuQWY8M+OzL6xbugC7a/IjixzEZY7T7PWMJdZZEbpOG84oD86
+	xbd4tA6xGqP2D0K1VD4ml4+x72sBdQDaK08yXUM8fO1Vk2PpNmNAjlb9q015xuR/Z2VG
+	TS/F5A4/k7t8fGArT+p9p1DsQidU5bhljLcpUeaPfypAhVQzBUKQ7izntVTBNhuAJ+d2
+	y3xHSw0NIANfL30wqe8va7Y3NAPDDGAHEehDSJSa114o/Hg6tjah9aeVHWT+zX9mW9o6
+	QaHyKEPFJCHW6HK1lHQlXIPLmqkykh0Yj+jJx0y/OMMtUoKASVa0zxQydM2Yfm2a7ZSo
+	oVWA==
+X-Gm-Message-State: APjAAAUPWMSOZfcXe5VqB438i5J55A5mbZUjreN0dhtDCUrLGpz8uqvd
+	j29cPuZXZApkG4oaIG2L4QQfh3sXAPg=
+X-Google-Smtp-Source: APXvYqxfY0dYOGQsqoOj8tUot6qHxaAq40vA6GumjCC1yZ0AVUtqfPioGtCUNuRM4XVx6zHbpekxSw==
+X-Received: by 2002:a1c:ab83:: with SMTP id u125mr7151646wme.131.1559140907087;
+	Wed, 29 May 2019 07:41:47 -0700 (PDT)
+Received: from localhost.localdomain (host90-152-4-101.ipv4.regusnet.com.
+	[90.152.4.101]) by smtp.gmail.com with ESMTPSA id
+	p17sm18767934wrq.95.2019.05.29.07.41.46
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 29 May 2019 07:41:46 -0700 (PDT)
+From: Andrei Gherzan <andrei@gherzan.ro>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2019 15:41:30 +0100
+Message-Id: <20190529144130.21278-1-andrei@gherzan.ro>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH V2] ca-certificates: Fix openssl runtime dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,60 +54,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 14:29:11 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 29 May 2019 14:41:46 -0000
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
--bounces@lists.openembedded.org> On Behalf Of Richard Purdie
-> Sent: den 29 maj 2019 01:24
-> To: Andrei Gherzan <andrei@gherzan.ro>; openembedded-core@lists.openembed=
-ded.org
-> Subject: Re: [OE-core] [PATCH] ca-certificates: Fix openssl runtime depen=
-dency
->=20
-> On Tue, 2019-05-28 at 15:30 +0100, Andrei Gherzan wrote:
-> > Since yocto thud, and more specifically since poky switched to
-> > openssl 1.1 line, the openssl binary is provided by 'openssl-bin'.
-> >
-> > Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
-> > ---
-> >  .../recipes-support/ca-certificates/ca-certificates_20190110.bb | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20190=
-110.bb b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-> > index 4c0425302f..bc69c55daa 100644
-> > --- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-> > +++ b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
-> > @@ -82,6 +82,6 @@ do_install_append_class-native () {
-> >      SYSROOT=3D"${D}${base_prefix}" ${D}${sbindir}/update-ca-certificat=
-es
-> >  }
-> >
-> > -RDEPENDS_${PN} +=3D "openssl"
-> > +RDEPENDS_${PN} +=3D "openssl-bin"
->=20
-> Doesn't work for ca-certificates-native:
->=20
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/39/builds/638
-> [amongst many other failures]
+Signed-off-by: Andrei Gherzan <andrei@gherzan.ro>
+---
+ .../ca-certificates/ca-certificates_20190110.bb               | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-I assume the above can be fixed by instead using:
-
-RDEPENDS_${PN}_append_class-target =3D " openssl-bin"
-
-However, has there been any attempts at rectifying the situation where=20
-runtime dependencies on packages are turned into recipe dependencies=20
-for the native version of a recipe, which obviously does not work when=20
-the package name does not match a recipe name?
-
-> Cheers,
->=20
-> Richard
-
-//Peter
+diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
+index 4c0425302f..7c06573db2 100644
+--- a/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
++++ b/meta/recipes-support/ca-certificates/ca-certificates_20190110.bb
+@@ -82,6 +82,8 @@ do_install_append_class-native () {
+     SYSROOT="${D}${base_prefix}" ${D}${sbindir}/update-ca-certificates
+ }
+ 
+-RDEPENDS_${PN} += "openssl"
++RDEPENDS_${PN}_class-target = "openssl-bin"
++RDEPENDS_${PN}_class-native = "openssl"
++RDEPENDS_${PN}_class-nativesdk = "openssl"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
 
 
