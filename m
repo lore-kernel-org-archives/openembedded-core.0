@@ -1,54 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E3C27E33D
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
+	[209.85.210.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 5292A7E31C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 13:12:44 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id w13so1726461wru.11
+	Wed, 29 May 2019 13:50:40 +0000 (UTC)
+Received: by mail-pf1-f172.google.com with SMTP id n19so1697685pfa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 06:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=zBXwP4ou1q/OXjsZKmdCMlzC6CCbRkLxXK0Gp/Lwv/M=;
-	b=Cccvs+R1qUXsOZLlwrHCznMEpt/ky7xIDKX5GLf+RSml4ZGvwwF47Q6fCGmJMY4pqF
-	z2ne/Fq0ApPmrZWhXhQD5x4t8+VezKDGvDaEuHHm2PP9qXcXDpGW9Q+eaUAathxPcmiF
-	6xN72v9+XUNzznxf++EPNQmoZrntyBv/M8GXI=
+	Wed, 29 May 2019 06:50:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:subject:date:message-id;
+	bh=oDM7DBtSU9sNhGTVTSP2WJvJ5ShF0AQABeABDtbmcBw=;
+	b=ktSuc7w9z6T/WZ1VDoDlITnOXyr+o4mkVK3BRcnp4sIcIXA7ZFjS8Adn9hZHyutYp2
+	Z3ayP6bQ60DiKTCuxqTaYfmqTpe3yxEiMx0oyWsN+0mcp4d4L/J+2eN2W9KBtN3gBeOh
+	aDKEDKdfIxUxlWevk2OKtEV2ALrI3EXINW5Iby75TDAVNDKvBuCaZbbq+T3uwuNsXnbp
+	W61BTZDPOSpJUqotX58OZaVv3DFQ5DnLqPGJOsw7wpCX+VlCyatqTlEMVoHbYvQQo867
+	wQnALSXzH3gynLsO27XO1woBrXrXmfug7pv0adjoXBasGsRMZtIUkdCTWYhOTAj7qEyz
+	s+Nw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=zBXwP4ou1q/OXjsZKmdCMlzC6CCbRkLxXK0Gp/Lwv/M=;
-	b=Nh2yiHXAza+x+C8JMMI8T30rn2zktkqijkJm4/Kkr9ksrZpeBeBOgek1XR9IdbzkoO
-	etjitmHOx+a+nGZz3ScwFdQp3qm9jRwh42DPc4JYm9+y6G0FvzMWvXiUrmDP9elNa1dh
-	e9Erz/IcF8X6QXh5vLojziV8mJJDCwU6STsV3FJkgfeZziWM4ai7TKkI32Cc3xGnHqVy
-	ncVtkhVDPvxznFGsv5aAJKZtpGPSO+Krr0Y5B3ZX0W+0ficr+2Oo7uC1aZDiueHQXb/a
-	xb3CEvgUnLFTziUD6Fx9OBKyPM0JdUnkrXVwdhTaaDmSeQgTzOi6izoZG32WJyBn+TUi
-	+vQA==
-X-Gm-Message-State: APjAAAUa4hEi2bq+jmtD6wVi6N3mOydztmSZhwisvwlM5ZTqJAxmEfqf
-	BLELHqLIchiK+PV4WdzEJBr88yCmzZg=
-X-Google-Smtp-Source: APXvYqwLy/bkDWf88eUfD6vwVhqWuCkHvP+6m2UsKwH4f8dQONQe+HrsNWrotbCndyOQRw36YeyVQg==
-X-Received: by 2002:adf:dcd1:: with SMTP id x17mr31237604wrm.98.1559135565207; 
-	Wed, 29 May 2019 06:12:45 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	205sm6949694wmd.43.2019.05.29.06.12.44
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 29 May 2019 06:12:44 -0700 (PDT)
-Message-ID: <e8e0946b42089f4bcfa406d40d75dc137d186e9b.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Randy MacLeod <randy.macleod@windriver.com>, Sakib Sajal
-	<sakib.sajal@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 14:12:42 +0100
-In-Reply-To: <1c7fb2ac-bbda-7b16-5aee-416ad8ee5be6@windriver.com>
-References: <20190528143104.30168-1-sakib.sajal@windriver.com>
-	<20190528143104.30168-2-sakib.sajal@windriver.com>
-	<638258f243352200f2456b43bc14bd6a83c0579b.camel@linuxfoundation.org>
-	<1c7fb2ac-bbda-7b16-5aee-416ad8ee5be6@windriver.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] Bash: Allow new-exp ptest to pass when run as root.
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=oDM7DBtSU9sNhGTVTSP2WJvJ5ShF0AQABeABDtbmcBw=;
+	b=tMgV0jiGWl4M280s9cj2G0+PG2iYH21kYfRDkAab7Y7B/jPByXy3YV3jXZ4okxw2Y5
+	IN6RaT82uq4L3UW6SdCsUW53N1rlFl/Cnir3CsQfLXyfnYveYdXBvtR0zNTZCh4e/tIb
+	W79tLbc1zih8Kq1kwrl9jTK5izLS5V/P1WAbzylJFHAGoTg4pbf7yFPHbc2Y08U90NnE
+	bQrFXYLOWRl/EjOY9SiMMHBO0KMX/FzuV9o1NSJ7IITaaec9qCbZY+kpovnRGIu4G+r4
+	zPvhn2vfAFvhF4KpJ+i3v2jZr4F4QI9UzQEgZ2k5O3BOima/AEKHwiiK87DKq/PDkYHh
+	JxEg==
+X-Gm-Message-State: APjAAAUlRu1XNjGemcZSuHfk76Vjwe3T0zG/R0D/h7ZeKf9SRpMslY61
+	SGDDiwXngTFfH+KVM/nvnhLddtxB
+X-Google-Smtp-Source: APXvYqz/i8spXYgZm6+M+k92H2/V6ZgkMXcbVSL9o8Q6vYCie2ivVcePkXTVSAb6e6VAj5WRz5Nn6w==
+X-Received: by 2002:a65:51cb:: with SMTP id i11mr955485pgq.390.1559137841076; 
+	Wed, 29 May 2019 06:50:41 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
+	([2601:202:4180:c33:4865:9151:ec2:e220])
+	by smtp.gmail.com with ESMTPSA id r7sm5976891pjb.8.2019.05.29.06.50.39
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 29 May 2019 06:50:40 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 29 May 2019 06:50:29 -0700
+Message-Id: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [thud][PATCH 0/9] Fixes for Thud
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,49 +55,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 29 May 2019 13:12:44 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 29 May 2019 13:50:40 -0000
 
-On Wed, 2019-05-29 at 09:08 -0400, Randy MacLeod wrote:
-> On 5/29/19 8:35 AM, Richard Purdie wrote:
-> > On Tue, 2019-05-28 at 10:31 -0400, Sakib Sajal wrote:
-> > > The ptest was failing as it was expecting non-root user.
-> > > Ptests are only run as root.
-> > > 
-> > > Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> > > Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
-> > 
-> > Rather than patching the code with a patch which we can never
-> > upstream,
-> > can we run the ptest under a non-root user?
-> 
-> We considered that but when I looked for an example of oe-core doing
-> that but didn't see one. Did I miss it/them?
-> 
-> I suppose the /usr/lib/bash/ptest/run-ptest script could:
->   - create a user: say 'bashptest'
->   - run the tests
->   - delete the user.
-> Of course we'd need to add dependencies for the user mgmt tools.
-> 
-> Is that what you were thinking?
+These are backports and Secruity fixes for thud 
+already in Warrior or not affecting the versions in warrior.
 
-Yes, there is prior art:
+Adrian Bunk (1):
+  gnutls: upgrade 3.6.5 -> 3.6.7
 
-$ cat recipes-core/glib-2.0/glib-2.0/run-ptest
-#! /bin/sh
+Armin Kuster (4):
+  glibc: Security fix CVE-2019-9169
+  elfutils: Security fixes  CVE-2019-7146,7149,7150
+  gnutls: update to 3.6.5
+  nettle: update to 3.4.1
 
-set -eux
-useradd glib2-test
-su glib2-test -c gnome-desktop-testing-runner glib
-userdel glib2-test
+Mingli Yu (2):
+  nettle: fix ptest failure
+  nettle: fix the Segmentation fault
 
-(openssh also adds a test user)
+Richard Purdie (1):
+  Revert "nettle: fix ptest failure"
 
-Cheers,
+Ross Burton (1):
+  gnutls: no need to inherit binconfig
 
-Richard
+ meta/recipes-core/glibc/glibc/CVE-2019-9169.patch  |  63 +++++++++
+ meta/recipes-core/glibc/glibc_2.28.bb              |   1 +
+ meta/recipes-devtools/elfutils/elfutils_0.175.bb   |   4 +
+ .../elfutils/files/CVE-2019-7146_p1.patch          |  52 ++++++++
+ .../elfutils/files/CVE-2019-7146_p2.patch          |  65 +++++++++
+ .../elfutils/files/CVE-2019-7149.patch             | 148 +++++++++++++++++++++
+ .../elfutils/files/CVE-2019-7150.patch             |  51 +++++++
+ .../gnutls/{gnutls_3.6.4.bb => gnutls_3.6.7.bb}    |   9 +-
+ ...d-target-to-only-build-tests-not-run-them.patch |   0
+ ...k-header-files-of-openssl-only-if-enable_.patch |   0
+ .../{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch |   0
+ .../nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest  |   0
+ .../nettle/{nettle_3.4.bb => nettle_3.4.1.bb}      |   5 +-
+ 13 files changed, 391 insertions(+), 7 deletions(-)
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2019-9169.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p1.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7146_p2.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7149.patch
+ create mode 100644 meta/recipes-devtools/elfutils/files/CVE-2019-7150.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.6.4.bb => gnutls_3.6.7.bb} (84%)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/Add-target-to-only-build-tests-not-run-them.patch (100%)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/check-header-files-of-openssl-only-if-enable_.patch (100%)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/dlopen-test.patch (100%)
+ rename meta/recipes-support/nettle/{nettle-3.4 => nettle-3.4.1}/run-ptest (100%)
+ rename meta/recipes-support/nettle/{nettle_3.4.bb => nettle_3.4.1.bb} (90%)
 
+-- 
+2.7.4
 
 
