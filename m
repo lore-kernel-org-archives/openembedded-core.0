@@ -1,48 +1,52 @@
-Return-Path: <marek.belisko@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3A92C7E418
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id D95A67E407
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 13:03:45 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id 7so3777709wmo.2
+	Thu, 30 May 2019 13:18:36 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w13so4176994wru.11
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 06:03:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=F8Jx3T6szx95IMGR1P7P1wTa1sS9bJXw2Z6r7mow+Pw=;
-	b=hsC/z79Deb4XeIppGT+KnaTVQI+q6OnO3ZZj6WJj8LxoeXgV000Utw74Atq1+4NvAR
-	YS5oxFC5KcxsgPsiUInDa+q7glRZYl2VDwAActSAv0GYEXE5UrFPfkJkJgJYaKNltKQh
-	8BtG9TGC8JW03YV65nu88auMBdBfkJBvk/dysR6w/YZy1BvyDkuA6UmO7aJSrwcsI7+o
-	AlYkX+Ct/+3/8KDaBIARs8wxopjLzQdf25TBQg3A03yaupHHZsp63u8u05AyD0zqOVla
-	vgZxajLwfAVjgT7h75VYJywTtZgbMEtgeoCcui/AMmIix96+G9pDQSfPpUFhi20FMNe3
-	TQEA==
+	Thu, 30 May 2019 06:18:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=aOSF2vOtsMyOizfxXx7KMtQK/QDZxcykClLDTtCpkcE=;
+	b=ZMats2Z8ay5CsAaDj/lgf8Fluw5y4bwAPcDGZBZMoGvGq9XXceBuP70zHLmKh2mD6B
+	VUQhNxOyelSpoIETDEXHuxo1ZmlGHmFwnK78aAR4gYcHoROa3gXNoCbXJEBIkM/pPBD/
+	ZIdTiq3mI1AxYt4L2dJEChTAdfOYi+1yj6seY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=F8Jx3T6szx95IMGR1P7P1wTa1sS9bJXw2Z6r7mow+Pw=;
-	b=speygavdEE7X4MsyAENrWSLDu1rSmSRqsvKcGf4aZFpUnoAj33NYutF28p+FQwFran
-	B38mllFJHrvUCb25u+3ADqmx57CoQyabntKE13dpmMwhWbg2G5hXi6wMXh8e/1MFEW92
-	gamTqml3yAMhbNQM5CmCewA8q0gHVbLjPObs9ODz6HwmcJ+qd3SYIhabXf/NQ9ZpIxnq
-	X+1iQN53CLAvaPz6gUS5NkSNgjnMm6Wn4ORBLulmol/F0QSZO9k3Cm34id266XDVFo+K
-	aM4FVIF+jw4kni+/zXzJXJlqC3Jhej0vUsaGTvAA3CfEdVmypec47PPjGTY3hkfa4+re
-	KNTg==
-X-Gm-Message-State: APjAAAVcV5dCIoKsyjrNFJFV2hOAd71tYmuYPNAtYoPeylDl2F+aR0c4
-	ZhrghzvMD848E0OKDANXvdsXsv07pKi+VI9TgDM=
-X-Google-Smtp-Source: APXvYqy7713FZQ4yE5+cYIw0qiVfgwuPLZ1nrX32RYbyC8tERuGCUYgoVtvIzuQq6tjodP1OzkXg+5rQ0oe5SdG1S98=
-X-Received: by 2002:a1c:2082:: with SMTP id g124mr2157143wmg.71.1559221425840; 
-	Thu, 30 May 2019 06:03:45 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1559220004.git.bruce.ashfield@gmail.com>
-	<74d2e3a8ebd01013d2fb417670ccfb668974cb95.1559220004.git.bruce.ashfield@gmail.com>
-In-Reply-To: <74d2e3a8ebd01013d2fb417670ccfb668974cb95.1559220004.git.bruce.ashfield@gmail.com>
-From: Belisko Marek <marek.belisko@gmail.com>
-Date: Thu, 30 May 2019 15:03:33 +0200
-Message-ID: <CAAfyv37+CXbvBF6D+G00hBSH6t_OmKLNWpL_JuMQFt+_V0MZDw@mail.gmail.com>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: Patches and discussions about the oe-core layer
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=aOSF2vOtsMyOizfxXx7KMtQK/QDZxcykClLDTtCpkcE=;
+	b=YP7bFWZWfrNk3gExWH9zZTR/KMUSYagaYtPPuOC1guFhxgvSSGoP/Il0CrC6dVynax
+	VXc0uRtPa23VilLxW8+MGrW59TW1QWzHHkZj/ss3PFnWjzoy20lfQCNkJ8D7nuGhi/ik
+	OT1iApG0ywhOp5SV+4pQCxKBQ9K9wOwjq4WOoeNlEkjtRatvxLSBy3Fvd0l7/SznKIIV
+	1FTptWx9eBfbFuEYmDI5Lc2KAG7An1I3ByfMwNd9JAcIaiFHCVJhoVg2Ls/lVeYTcLAY
+	GIOID8OVnFyIBRk7ec0UsTAEBq6hjERVJcutvb1Qpl2/uR7I+77b57aIjgTsiBf5O11b
+	vyFA==
+X-Gm-Message-State: APjAAAWb6wVwNlUXnrbCmr3QjvotapTxwCr0pLleAfsUJ+8ZU5Gs2BPY
+	q7o4igEF18HyWr1ASVrQPWVZpA==
+X-Google-Smtp-Source: APXvYqxBzO8ami1RNj7szBL0MZo9PZZktGNDlnZ+eX7R6nOThxSHQIbiLaALU3uj9OR46o/DZZr7dw==
+X-Received: by 2002:adf:e590:: with SMTP id l16mr2544603wrm.257.1559222317578; 
+	Thu, 30 May 2019 06:18:37 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id o1sm878997wre.76.2019.05.30.06.18.36
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 30 May 2019 06:18:37 -0700 (PDT)
+Message-ID: <f3c0ec27ac8d1d90468532152081c219ddf1061f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Rob Walton <Rob.Walton@arm.com>, 
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 5/9] kernel: package modules.builtin.modinfo
+Date: Thu, 30 May 2019 14:18:36 +0100
+In-Reply-To: <1558529060-79451-2-git-send-email-rob.walton@arm.com>
+References: <1558529060-79451-1-git-send-email-rob.walton@arm.com>
+	<1558529060-79451-2-git-send-email-rob.walton@arm.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Subject: Re: [PATCH 2/2] package.bbclass: Emit HOMEPAGE pkgdata.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,49 +59,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 13:03:45 -0000
+X-List-Received-Date: Thu, 30 May 2019 13:18:37 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 30, 2019 at 2:45 PM <bruce.ashfield@gmail.com> wrote:
->
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->
-> As of commit 898490c010b [moduleparam: Save information about built-in
-> modules in separate file] (kernels v5.2-rc1+), modules.builtin.modinfo
-> is generated as part of the kernel build process.
->
-> We package it along with the other module artifacts, so it can be used
-> by scripts/other build steps.
->
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-You can add my Tested-by: Marek Belisko <marek.belisko@gmail.com>
+On Wed, 2019-05-22 at 12:44 +0000, Rob Walton wrote:
+> Emit the contents of HOMEPAGE in the extra pkgdata. This is useful
+> information to have when creating license manifests.
+> 
+> Signed-off-by: Rob Walton <rob.walton@arm.com>
 > ---
->  meta/classes/kernel.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
-> index 437b8c7671..111a0b2eeb 100644
-> --- a/meta/classes/kernel.bbclass
-> +++ b/meta/classes/kernel.bbclass
-> @@ -558,7 +558,7 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
->  # kernel-image becomes kernel-image-${KERNEL_VERSION}
->  PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
->  FILES_${PN} = ""
-> -FILES_${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
-> +FILES_${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
->  FILES_${KERNEL_PACKAGE_NAME}-image = ""
->  FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
->  FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
-> --
-> 2.19.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>  meta/classes/package.bbclass | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/meta/classes/package.bbclass
+> b/meta/classes/package.bbclass
+> index 4c0a859..a08aefe 100644
+> --- a/meta/classes/package.bbclass
+> +++ b/meta/classes/package.bbclass
+> @@ -1458,6 +1458,7 @@ fi
+>          write_if_exists(sf, pkg, 'PKGR')
+>          write_if_exists(sf, pkg, 'LICENSE')
+>          write_if_exists(sf, pkg, 'DESCRIPTION')
+> +        write_if_exists(sf, pkg, 'HOMEPAGE')
+>          write_if_exists(sf, pkg, 'SUMMARY')
+>          write_if_exists(sf, pkg, 'RDEPENDS')
+>          rprov = write_if_exists(sf, pkg, 'RPROVIDES')
 
-BR,
+This isn't the first time this has been requested, back in 14/11/2017 a
+similar patch had the reply:
 
-marek
+"This was already proposed once and rejected as its using the interface
+for something it really wasn't designed for"
+
+You've also sent this patch once already and questions were raised
+then.
+
+I have to admit I don't like the license.bbclass code, its starting to
+look like anything every legal department could ask for, meaning it
+does no one thing well, just many things badly. I don't like that mess
+starting to creep into the packaging code which does have a clearly
+defined purpose and use.
+
+Put another way, which variables do we draw the line at?
+
+I worry about the path accepting this patch leads us down :(
+
+Cheers,
+
+Richard
+
+
+
 
