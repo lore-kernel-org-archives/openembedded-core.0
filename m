@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com
-	[209.85.128.48])
-	by mail.openembedded.org (Postfix) with ESMTP id B434E7E3FE
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 168D97E3B5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 22:09:58 +0000 (UTC)
-Received: by mail-wm1-f48.google.com with SMTP id 15so4688767wmg.5
+	Thu, 30 May 2019 22:16:53 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id z23so4700817wma.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 15:10:00 -0700 (PDT)
+	Thu, 30 May 2019 15:16:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=nRMNaC1iMhIauNf+e2np0iyUlaZzNtNKsJAT3QNY36g=;
-	b=J/nbm/ub4MSKAg37yy5vrmSz4jilOkr3bbdKrMklxreYYspSrV1YkgUPBAzPs9j3cl
-	AjtwPYXp15L3yCt//kyg03aqfdKsxyjNXrBHsZ3RzI8WkMjtM1KykwA9KEV5TSN/+J2s
-	z7ZWYZYOdYdUeGOJcnKPXzClZiAtwDtBn5yqo=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=uAsiVpVYPTp/W6AR1hMOLdEmePfwC3jIbj1f05RWzbY=;
+	b=VDUHlYaBgoBL1z/0vLP5ujjK/Sx14XOJ7p+IxjMWbu/l5oS2ENlKfZ/zdjtKQoYV0D
+	tgToD7+am+88UlU37L9l5FNayj9GXC4V9RrYjYv/QxGF0ieaXdfH8Af0/52nTLDmjrhB
+	OEZdDhqgUuikm5Cfkdg191cTKSS2vPyy8su04=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=nRMNaC1iMhIauNf+e2np0iyUlaZzNtNKsJAT3QNY36g=;
-	b=NeCdgAErE7U3LGXcJPge83jGHaI1p3T0nrLS0aqPQWB43ygEh93H3+mEsJIzw0F755
-	effd8jc9LnOpVGhHcE2SJ0gQGfff650qYkZjhHxYEC83RgReDTdesAnCivqMimSs2ZBo
-	wH/qvBTMpZk+UAf+5xwUgmk/qZs7UDXvbbKymsbzKvXptYyNM0Djj7nkOvHz7DGpylcl
-	bEyE9zT8m0dfiSebpL0K3DQdPAw1nLkLSMvQU5Zn2D63goNBIMEIGHSECMMeMZr+bRwi
-	XgAK2v+17qqkHQDcqG7awfXYbl1j4WgdFByksit0qhmQbj2V/9s8FWoK0JMyZk44expY
-	8e8w==
-X-Gm-Message-State: APjAAAVICj4MyYjye2cPlp/Gpz+ginrYJgyf1Bm9rxsAGk39QLjGycCu
-	Kp6S+1EuN8f1dD8Egj3fIWd9zDt3V+g=
-X-Google-Smtp-Source: APXvYqzXeWbPwNeBV6MVRmdhXvDVH32LFowosjwnSCgotcxMckdOCztpckNcDxQw3JimA9pVoqGSXg==
-X-Received: by 2002:a1c:7511:: with SMTP id o17mr3496345wmc.39.1559254199243; 
-	Thu, 30 May 2019 15:09:59 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h21sm3663855wmb.47.2019.05.30.15.09.58
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=uAsiVpVYPTp/W6AR1hMOLdEmePfwC3jIbj1f05RWzbY=;
+	b=PkU6dboR9/UZcFCV/243wniP3cGkRt17+1404IhSdXCSLUD41momVcrQvLI5NC9wUu
+	My7by8YntKPxQGvuzu5PPWapdaFiArj9NOwQksSYN+E1fTzQ8xHDGtd5wWm5LOyQ+B6f
+	b7aBZWbTqp7xGhPA8MCriEyS88LA6ZXxA8H2Yy2U07P4xS5VuG1xE14t6EwFBWTDLET8
+	fnwzJU/2e1D9pPYrlstpPJXx0oITfc+T8rjssq4Gkbauo3SrVyqm3RhMrHHVZQGJcG/H
+	JqMns/DAWp4p2gjf6w1QUj6GdAbyBi+4PrbyeFi7FVq8feQH5w7VtNBgEKG+FwFdkGSr
+	xmLQ==
+X-Gm-Message-State: APjAAAUA48eoE3FKnGXhNlS9nA02oFTnqYFd9Dr935fKr6IdnvXR/b5r
+	IsBxP39zi/Dwc84iBEEA69CzQl6o1i4=
+X-Google-Smtp-Source: APXvYqxfoSoz7bhLHluUWZBSb7X8ltn0nV/4mv0D2olJHLXozkN/7WllPYcYtI1F/eooiQ7RbB3MDg==
+X-Received: by 2002:a7b:c356:: with SMTP id l22mr3513635wmj.97.1559254614806; 
+	Thu, 30 May 2019 15:16:54 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id g2sm4843000wru.37.2019.05.30.15.16.53
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 15:09:58 -0700 (PDT)
+	Thu, 30 May 2019 15:16:54 -0700 (PDT)
+Message-ID: <c28aa03bea45809dcd095a782eca9f6628fff558.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2019 23:09:56 +0100
-Message-Id: <20190530220956.27209-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190530220956.27209-1-richard.purdie@linuxfoundation.org>
-References: <20190530220956.27209-1-richard.purdie@linuxfoundation.org>
+To: mingli.yu@windriver.com, openembedded-core@lists.openembedded.org
+Date: Thu, 30 May 2019 23:16:53 +0100
+In-Reply-To: <2464053a8ff6ebd77a312cbc70b7ffda2c559345.camel@linuxfoundation.org>
+References: <ba81c9ea11db351bde7fec1c40c2f57495c3fdec.camel@linuxfoundation.org>
+	<1559196696-70652-1-git-send-email-mingli.yu@windriver.com>
+	<2464053a8ff6ebd77a312cbc70b7ffda2c559345.camel@linuxfoundation.org>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH 2/2] runqemu: Add support for kvm on aarch64
+Subject: Re: [PATCH v4] elfutils: fix ptest failures
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,81 +58,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 22:09:59 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 May 2019 22:16:54 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The main issue is to make the x86 checks apply to x86 targets only. We may
-end up with better checks on other architectures but this adapts the code to
-allow for that and its still controlled by whether QB_CPU_KVM is set.
+On Thu, 2019-05-30 at 21:49 +0100, richard.purdie@linuxfoundation.org
+wrote:
+> On Thu, 2019-05-30 at 14:11 +0800, mingli.yu@windriver.com wrote:
+> > From: Mingli Yu <Mingli.Yu@windriver.com>
+> > 
+> > * Add missing files which needed by ptest test
+> >   to fix the ptest failures such as:
+> >   | sh: ../src/elflint: No such file or directory
+> >   | FAIL: asm-tst4
+> > 
+> > * Rework 0001-skip-the-test-when-gcc-not-deployed.patch
+> >   to skip the tests which depend on gcc
+> > 
+> > * Define INHIBIT_PACKAGE_STRIP_FILES for elfutils to
+> >   avoid stripping some generated binaries otherwise
+> >   some of the tests such as test-nlist, run-strip-reloc.sh,
+> >   run-strip-strmerge.sh and so on will fail
+> > 
+> > Before:
+> > --------------------------------------------
+> > Recipe   | Passed    | Failed   | Skipped
+> > --------------------------------------------
+> > elfutils | 176       | 23       | 4
+> > --------------------------------------------
+> > 
+> > After:
+> > --------------------------------------------
+> > Recipe   | Passed    | Failed   | Skipped
+> > --------------------------------------------
+> > elfutils | 199       | 0       | 4
+> > --------------------------------------------
+> 
+> Thanks, this is better again. We do still have a musl issue:
+> 
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/648
+> 
+> Error: 
+>  Problem: package packagegroup-core-full-cmdline-extended-1.0-
+> r6.0.noarch requires iproute2, but none of the providers can be
+> installed
+>   - package packagegroup-core-full-cmdline-1.0-r6.0.noarch requires
+> packagegroup-core-full-cmdline-extended, but none of the providers
+> can be installed
+>   - package iproute2-5.1.0-r0.0.core2_32 requires elfutils-ptest >=
+> 0.176, but none of the providers can be installed
+>   - conflicting requests
+>   - nothing provides elfutils-binutils needed by elfutils-ptest-
+> 0.176-r0.0.core2_32
+> (try to add '--skip-broken' to skip uninstallable packages or '
+> --nobest' to use not only best candidate packages)
 
-The code needed minor refactoring so the qemu-system-XXX name is set
-earlier so the kvm code can use it.
+I think this may also be causing:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/runqemu | 22 +++++++++++++---------
- 1 file changed, 13 insertions(+), 9 deletions(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/72/builds/652
 
-diff --git a/scripts/runqemu b/scripts/runqemu
-index 39bed038d5a..5752ecda731 100755
---- a/scripts/runqemu
-+++ b/scripts/runqemu
-@@ -491,12 +491,13 @@ class BaseConfig(object):
-         yocto_paravirt_kvm_wiki = "https://wiki.yoctoproject.org/wiki/Running_an_x86_Yocto_Linux_image_under_QEMU_KVM"
-         dev_kvm = '/dev/kvm'
-         dev_vhost = '/dev/vhost-net'
--        with open('/proc/cpuinfo', 'r') as f:
--            kvm_cap = re.search('vmx|svm', "".join(f.readlines()))
--        if not kvm_cap:
--            logger.error("You are trying to enable KVM on a cpu without VT support.")
--            logger.error("Remove kvm from the command-line, or refer:")
--            raise RunQemuError(yocto_kvm_wiki)
-+        if self.qemu_system.endswith(('i386', 'x86_64')):
-+            with open('/proc/cpuinfo', 'r') as f:
-+                kvm_cap = re.search('vmx|svm', "".join(f.readlines()))
-+            if not kvm_cap:
-+                logger.error("You are trying to enable KVM on a cpu without VT support.")
-+                logger.error("Remove kvm from the command-line, or refer:")
-+                raise RunQemuError(yocto_kvm_wiki)
- 
-         if not os.path.exists(dev_kvm):
-             logger.error("Missing KVM device. Have you inserted kvm modules?")
-@@ -703,6 +704,7 @@ class BaseConfig(object):
-         else:
-             os.putenv('QEMU_AUDIO_DRV', 'none')
- 
-+        self.check_qemu_system()
-         self.check_kvm()
-         self.check_fstype()
-         self.check_rootfs()
-@@ -1128,21 +1130,23 @@ class BaseConfig(object):
- 
-         return 'qemu-system-%s' % qbsys
- 
--    def setup_final(self):
-+    def check_qemu_system(self):
-         qemu_system = self.get('QB_SYSTEM_NAME')
-         if not qemu_system:
-             qemu_system = self.guess_qb_system()
-         if not qemu_system:
-             raise RunQemuError("Failed to boot, QB_SYSTEM_NAME is NULL!")
-+        self.qemu_system = qemu_system
- 
--        qemu_bin = os.path.join(self.bindir_native, qemu_system)
-+    def setup_final(self):
-+        qemu_bin = os.path.join(self.bindir_native, self.qemu_system)
- 
-         # It is possible to have qemu-native in ASSUME_PROVIDED, and it won't
-         # find QEMU in sysroot, it needs to use host's qemu.
-         if not os.path.exists(qemu_bin):
-             logger.info("QEMU binary not found in %s, trying host's QEMU" % qemu_bin)
-             for path in (os.environ['PATH'] or '').split(':'):
--                qemu_bin_tmp = os.path.join(path, qemu_system)
-+                qemu_bin_tmp = os.path.join(path, self.qemu_system)
-                 logger.info("Trying: %s" % qemu_bin_tmp)
-                 if os.path.exists(qemu_bin_tmp):
-                     qemu_bin = qemu_bin_tmp
--- 
-2.20.1
+which is due to elfutils-ptest being pulled into normal images and then
+causing an OOM problem, statd is killed and then systemd reports
+errors.
+
+This is probably as the ptest package is being registered as an shlib
+proivider. There should be a variable we can set to stop that and allow
+the main elfutils package to be the shlibs provider for the
+package.bbclass code.
+
+Cheers,
+
+Richard
+
+
 
 
