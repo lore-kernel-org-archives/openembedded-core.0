@@ -1,28 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 558547DE51
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D885A7D9E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 02:09:23 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4U28llV006301
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 29 May 2019 19:08:57 -0700
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Wed, 29 May 2019 19:08:36 -0700
-To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
-References: <20190522234018.30565-1-raj.khem@gmail.com>
-	<20190522234018.30565-3-raj.khem@gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <6b4ab793-939c-5240-b4eb-dfd85701fa4e@windriver.com>
-Date: Thu, 30 May 2019 10:20:10 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Thu, 30 May 2019 02:34:43 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,529,1549900800"; d="scan'208";a="65152100"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 30 May 2019 10:34:43 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 4C5B14CDB924
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2019 10:34:42 +0800 (CST)
+Received: from localhost.localdomain (10.167.226.46) by
+	G08CNEXCHPEKD02.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 30 May 2019 10:34:46 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 30 May 2019 10:35:54 +0800
+Message-ID: <20190530023554.27579-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190522234018.30565-3-raj.khem@gmail.com>
-X-Originating-IP: [128.224.162.148]
-Subject: Re: [PATCH v2 3/4] elfutils: Fix eu-* utils builds for musl
+X-Originating-IP: [10.167.226.46]
+X-yoursite-MailScanner-ID: 4C5B14CDB924.ABC47
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] openssh:upgrade 7.9p1 -> 8.0p1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,763 +37,705 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 02:09:23 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2019 02:34:44 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-There's some musl elfutils failure about do_compile_ptest_base on 
-autobuilder.
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/645/steps/7/logs/step1b
+-Upgrade from openssh_7.9p1.bb to openssh_8.0p1.bb.
 
-I noticed that this patch is not yet in master-next. Can this patch 
-solve the problem above?
+-openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
+-openssh/CVE-2018-20685.patch
+-openssh/CVE-2019-6109.patch
+-openssh/CVE-2019-6111.patch
+-Removed since these are included in 8.0p1.
 
-Best Regards,
-Chen Qi
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ ...ogressmeter-force-an-update-at-the-b.patch | 121 --------
+ .../openssh/openssh/CVE-2018-20685.patch      |  40 ---
+ .../openssh/openssh/CVE-2019-6109.patch       | 275 ------------------
+ .../openssh/openssh/CVE-2019-6111.patch       | 187 ------------
+ .../{openssh_7.9p1.bb => openssh_8.0p1.bb}    |   8 +-
+ 5 files changed, 2 insertions(+), 629 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2019-6109.patch
+ delete mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
+ rename meta/recipes-connectivity/openssh/{openssh_7.9p1.bb => openssh_8.0p1.bb} (95%)
 
-On 05/23/2019 07:40 AM, Khem Raj wrote:
-> Re-organize the musl patches in three different areas namely
-> libs, utils and tests, this will help maintain them in future
-> version bumps
->
-> Add obstack dependency on musl targets which is needed for eu-*
->
-> PN and PN-binutils is not empty anymore on musl
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> v2: Make FNM_EXTMATCH 0
->
->   .../elfutils/elfutils_0.176.bb                |  15 +-
->   ...-err-variable-and-function-conflicts.patch |  91 --------
->   ...ternatives-for-glibc-assumptions-hel.patch | 196 ------------------
->   .../elfutils/files/musl-libs.patch            | 111 ++++++++++
->   .../elfutils/files/musl-obstack-fts.patch     | 105 ++++++++++
->   .../files/{musl.patch => musl-tests.patch}    |   0
->   .../elfutils/files/musl-utils.patch           | 136 ++++++++++++
->   7 files changed, 359 insertions(+), 295 deletions(-)
->   delete mode 100644 meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
->   delete mode 100644 meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
->   create mode 100644 meta/recipes-devtools/elfutils/files/musl-libs.patch
->   create mode 100644 meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch
->   rename meta/recipes-devtools/elfutils/files/{musl.patch => musl-tests.patch} (100%)
->   create mode 100644 meta/recipes-devtools/elfutils/files/musl-utils.patch
->
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> index 85ff5f38d2..397723166c 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> @@ -4,7 +4,7 @@ SECTION = "base"
->   LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
->   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
->   DEPENDS = "libtool bzip2 zlib virtual/libintl"
-> -DEPENDS_append_libc-musl = " argp-standalone fts "
-> +DEPENDS_append_libc-musl = " argp-standalone fts musl-obstack "
->   # The Debian patches below are from:
->   # http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.175-1.debian.tar.xz
->   SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
-> @@ -31,12 +31,13 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
->              file://0001-skip-the-test-when-gcc-not-deployed.patch \
->              file://run-ptest \
->              file://ptest.patch \
-> -           file://musl.patch \
->              "
-> -SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch \
-> -                             file://0001-fix-err-variable-and-function-conflicts.patch \
-> -"
-> -
-> +SRC_URI_append_libc-musl = " \
-> +           file://musl-obstack-fts.patch \
-> +           file://musl-libs.patch \
-> +           file://musl-utils.patch \
-> +           file://musl-tests.patch \
-> +           "
->   SRC_URI[md5sum] = "077e4f49320cad82bf17a997068b1db9"
->   SRC_URI[sha256sum] = "eb5747c371b0af0f71e86215a5ebb88728533c3a104a43d4231963f308cd1023"
->   
-> @@ -75,8 +76,6 @@ do_install_ptest() {
->   EXTRA_OEMAKE_class-native = ""
->   EXTRA_OEMAKE_class-nativesdk = ""
->   
-> -ALLOW_EMPTY_${PN}_libc-musl = "1"
-> -
->   BBCLASSEXTEND = "native nativesdk"
->   
->   # Package utilities separately
-> diff --git a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch b/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
-> deleted file mode 100644
-> index 433db133b2..0000000000
-> --- a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
-> +++ /dev/null
-> @@ -1,91 +0,0 @@
-> -From 2c50fe7068bd6911958c6d851aef88179e73bb21 Mon Sep 17 00:00:00 2001
-> -From: Mingli Yu <Mingli.Yu@windriver.com>
-> -Date: Tue, 16 Apr 2019 15:30:38 +0800
-> -Subject: [PATCH] fix err variable and function conflicts
-> -
-> -There comes below build failure with musl when
-> -ptest enabled.
-> -| In file included from ../../elfutils-0.176/tests/dwfl-proc-attach.c:33:
-> -| ../../elfutils-0.176/lib/system.h:63:35: error: called object 'err' is not a function or function pointer
-> -|  #define error(status, errno, ...) err(status, __VA_ARGS__)
-> -|                                    ^~~
-> -| ../../elfutils-0.176/tests/dwfl-proc-attach.c:92:5: note: in expansion of macro 'error'
-> -|      error (-1, 0, "dwfl_linux_proc_attach pid %d: %s", pid,
-> -|      ^~~~~
-> -| ../../elfutils-0.176/tests/dwfl-proc-attach.c:79:7: note: declared here
-> -|    int err;
-> -|        ^~~
-> -
-> -It is because there is no error.h in musl and
-> -the patch 0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
-> -has updated to use err.h to replace error.h
-> -and also added macro definiton as below when
-> -use musl.
-> - #define error(status, errno, ...) err(status, __VA_ARGS__)
-> -
-> -And in err.h, there is below logic:
-> -_Noreturn void err(int, const char *, ...);
-> -
-> -But when ptest enabled, there comes below error
-> -as there is both variable and function defined
-> -to be err in tests/dwfl-proc-attach.c.
-> -So change the err variable's name to workaround
-> -the build failure with musl.
-> -
-> -Upstream-Status: Inappropriate [workaround in musl]
-> -
-> -Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
-> ----
-> - tests/dwfl-proc-attach.c | 6 +++---
-> - 1 file changed, 3 insertions(+), 3 deletions(-)
-> -
-> -Index: elfutils-0.176/tests/dwfl-proc-attach.c
-> -===================================================================
-> ---- elfutils-0.176.orig/tests/dwfl-proc-attach.c
-> -+++ elfutils-0.176/tests/dwfl-proc-attach.c
-> -@@ -76,10 +76,10 @@ main (int argc __attribute__ ((unused)),
-> -       char **argv __attribute__ ((unused)))
-> - {
-> -   /* Create two extra threads to iterate through.  */
-> --  int err;
-> --  if ((err = pthread_create (&thread1, NULL, sleeper, NULL)) != 0)
-> -+  int err1;
-> -+  if ((err1 = pthread_create (&thread1, NULL, sleeper, NULL)) != 0)
-> -     error (-1, err, "Couldn't create thread1");
-> --  if ((err = pthread_create (&thread2, NULL, sleeper, NULL)) != 0)
-> -+  if ((err1 = pthread_create (&thread2, NULL, sleeper, NULL)) != 0)
-> -     error (-1, err, "Couldn't create thread2");
-> -
-> -   Dwfl *dwfl = dwfl_begin (&proc_callbacks);
-> -Index: elfutils-0.176/tests/backtrace.c
-> -===================================================================
-> ---- elfutils-0.176.orig/tests/backtrace.c
-> -+++ elfutils-0.176/tests/backtrace.c
-> -@@ -219,23 +219,23 @@ dump (Dwfl *dwfl)
-> - {
-> -   ptrdiff_t ptrdiff = dwfl_getmodules (dwfl, dump_modules, NULL, 0);
-> -   assert (ptrdiff == 0);
-> --  bool err = false;
-> -+  bool err1 = false;
-> -   switch (dwfl_getthreads (dwfl, thread_callback, NULL))
-> -     {
-> -     case 0:
-> -       break;
-> -     case DWARF_CB_ABORT:
-> --      err = true;
-> -+      err1 = true;
-> -       break;
-> -     case -1:
-> -       error (0, 0, "dwfl_getthreads: %s", dwfl_errmsg (-1));
-> --      err = true;
-> -+      err1 = true;
-> -       break;
-> -     default:
-> -       abort ();
-> -     }
-> -   callback_verify (0, 0, 0, NULL, dwfl);
-> --  if (err)
-> -+  if (err1)
-> -     exit (EXIT_FAILURE);
-> - }
-> -
-> diff --git a/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch b/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
-> deleted file mode 100644
-> index 10cdac646c..0000000000
-> --- a/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
-> +++ /dev/null
-> @@ -1,196 +0,0 @@
-> -From 990d377a92f4bab04bf6820fc81b3dcb6cf5e31d Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Mon, 2 Jul 2018 09:52:23 +0800
-> -Subject: [PATCH] build: Provide alternatives for glibc assumptions helps
-> - compiling it on musl
-> -
-> -Upstream-Status: Pending
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
-> -Rebase to 0.175
-> -
-> -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> -
-> ----
-> - Makefile.am                      |  2 +-
-> - lib/fixedsizehash.h              |  1 -
-> - lib/system.h                     | 12 +++++++++++-
-> - libdw/Makefile.am                |  3 ++-
-> - libdwfl/dwfl_build_id_find_elf.c |  1 +
-> - libdwfl/dwfl_error.c             |  4 +++-
-> - libdwfl/dwfl_module_getdwarf.c   |  1 +
-> - libdwfl/libdwfl_crc32_file.c     |  9 +++++++++
-> - libdwfl/linux-kernel-modules.c   |  1 +
-> - libelf/elf.h                     |  8 ++++++--
-> - libelf/libelf.h                  |  1 +
-> - libelf/libelfP.h                 |  1 +
-> - 12 files changed, 37 insertions(+), 7 deletions(-)
-> -
-> -diff --git a/Makefile.am b/Makefile.am
-> -index 2ff444e..41f77df 100644
-> ---- a/Makefile.am
-> -+++ b/Makefile.am
-> -@@ -28,7 +28,7 @@ pkginclude_HEADERS = version.h
-> -
-> - # Add doc back when we have some real content.
-> - SUBDIRS = config m4 lib libelf libebl libdwelf libdwfl libdw libcpu libasm \
-> --	  backends src po tests
-> -+	  backends po tests
-> -
-> - EXTRA_DIST = elfutils.spec GPG-KEY NOTES CONTRIBUTING \
-> - 	     COPYING COPYING-GPLV2 COPYING-LGPLV3
-> -diff --git a/lib/fixedsizehash.h b/lib/fixedsizehash.h
-> -index dac2a5f..43016fc 100644
-> ---- a/lib/fixedsizehash.h
-> -+++ b/lib/fixedsizehash.h
-> -@@ -30,7 +30,6 @@
-> - #include <errno.h>
-> - #include <stdlib.h>
-> - #include <string.h>
-> --#include <sys/cdefs.h>
-> -
-> - #include <system.h>
-> -
-> -diff --git a/lib/system.h b/lib/system.h
-> -index 292082b..308a762 100644
-> ---- a/lib/system.h
-> -+++ b/lib/system.h
-> -@@ -30,7 +30,7 @@
-> - #define LIB_SYSTEM_H	1
-> -
-> - #include <errno.h>
-> --#include <error.h>
-> -+#include <err.h>
-> - #include <stddef.h>
-> - #include <stdint.h>
-> - #include <sys/param.h>
-> -@@ -51,6 +51,8 @@
-> - #else
-> - # error "Unknown byte order"
-> - #endif
-> -+
-> -+#define error(status, errno, ...) err(status, __VA_ARGS__)
-> -
-> - #ifndef MAX
-> - #define MAX(m, n) ((m) < (n) ? (n) : (m))
-> -diff --git a/libdw/Makefile.am b/libdw/Makefile.am
-> -index 7a3d532..7ac1241 100644
-> ---- a/libdw/Makefile.am
-> -+++ b/libdw/Makefile.am
-> -@@ -108,7 +108,8 @@ am_libdw_pic_a_OBJECTS = $(libdw_a_SOURCES:.c=.os)
-> - libdw_so_LIBS = libdw_pic.a ../libdwelf/libdwelf_pic.a \
-> - 	  ../libdwfl/libdwfl_pic.a ../libebl/libebl.a
-> - libdw_so_DEPS = ../lib/libeu.a ../libelf/libelf.so
-> --libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(zip_LIBS)
-> -+fts_LDADD = -lfts
-> -+libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(zip_LIBS) $(fts_LDADD)
-> - libdw_so_SOURCES =
-> - libdw.so$(EXEEXT): $(srcdir)/libdw.map $(libdw_so_LIBS) $(libdw_so_DEPS)
-> - # The rpath is necessary for libebl because its $ORIGIN use will
-> -diff --git a/libdwfl/dwfl_build_id_find_elf.c b/libdwfl/dwfl_build_id_find_elf.c
-> -index cc6c3f6..b06ab59 100644
-> ---- a/libdwfl/dwfl_build_id_find_elf.c
-> -+++ b/libdwfl/dwfl_build_id_find_elf.c
-> -@@ -31,6 +31,7 @@
-> - #endif
-> -
-> - #include "libdwflP.h"
-> -+#include "system.h"
-> - #include <inttypes.h>
-> - #include <fcntl.h>
-> - #include <unistd.h>
-> -diff --git a/libdwfl/dwfl_error.c b/libdwfl/dwfl_error.c
-> -index 7bcf61c..c345797 100644
-> ---- a/libdwfl/dwfl_error.c
-> -+++ b/libdwfl/dwfl_error.c
-> -@@ -140,6 +140,7 @@ __libdwfl_seterrno (Dwfl_Error error)
-> - const char *
-> - dwfl_errmsg (int error)
-> - {
-> -+  static __thread char s[64] = "";
-> -   if (error == 0 || error == -1)
-> -     {
-> -       int last_error = global_error;
-> -@@ -154,7 +155,8 @@ dwfl_errmsg (int error)
-> -   switch (error &~ 0xffff)
-> -     {
-> -     case OTHER_ERROR (ERRNO):
-> --      return strerror_r (error & 0xffff, "bad", 0);
-> -+      strerror_r (error & 0xffff, s, sizeof(s));
-> -+      return s;
-> -     case OTHER_ERROR (LIBELF):
-> -       return elf_errmsg (error & 0xffff);
-> -     case OTHER_ERROR (LIBDW):
-> -diff --git a/libdwfl/dwfl_module_getdwarf.c b/libdwfl/dwfl_module_getdwarf.c
-> -index 56e6105..f4a0649 100644
-> ---- a/libdwfl/dwfl_module_getdwarf.c
-> -+++ b/libdwfl/dwfl_module_getdwarf.c
-> -@@ -35,6 +35,7 @@
-> - #include <fcntl.h>
-> - #include <string.h>
-> - #include <unistd.h>
-> -+#include "system.h"
-> - #include "../libdw/libdwP.h"	/* DWARF_E_* values are here.  */
-> - #include "../libelf/libelfP.h"
-> - #include "system.h"
-> -diff --git a/libdwfl/linux-kernel-modules.c b/libdwfl/linux-kernel-modules.c
-> -index 360e4ee..b5aa397 100644
-> ---- a/libdwfl/linux-kernel-modules.c
-> -+++ b/libdwfl/linux-kernel-modules.c
-> -@@ -41,6 +41,7 @@
-> -
-> - #include "libelfP.h"
-> - #include "libdwflP.h"
-> -+#include "system.h"
-> - #include <inttypes.h>
-> - #include <errno.h>
-> - #include <stdio.h>
-> -diff --git a/libelf/elf.h b/libelf/elf.h
-> -index 5dc632b..14da1b7 100644
-> ---- a/libelf/elf.h
-> -+++ b/libelf/elf.h
-> -@@ -21,7 +21,9 @@
-> -
-> - #include <features.h>
-> -
-> --__BEGIN_DECLS
-> -+#ifdef __cplusplus
-> -+extern "C" {
-> -+#endif
-> -
-> - /* Standard ELF types.  */
-> -
-> -@@ -3937,6 +3939,8 @@ enum
-> - #define R_METAG_TLS_LE_HI16	60
-> - #define R_METAG_TLS_LE_LO16	61
-> -
-> --__END_DECLS
-> -+#ifdef __cplusplus
-> -+}
-> -+#endif
-> -
-> - #endif	/* elf.h */
-> -diff --git a/libelf/libelf.h b/libelf/libelf.h
-> -index 1ff11c9..c21e018 100644
-> ---- a/libelf/libelf.h
-> -+++ b/libelf/libelf.h
-> -@@ -29,6 +29,7 @@
-> - #ifndef _LIBELF_H
-> - #define _LIBELF_H 1
-> -
-> -+#include <fcntl.h>
-> - #include <stdint.h>
-> - #include <sys/types.h>
-> -
-> -diff --git a/libelf/libelfP.h b/libelf/libelfP.h
-> -index 9f3e8e9..10a347a 100644
-> ---- a/libelf/libelfP.h
-> -+++ b/libelf/libelfP.h
-> -@@ -32,6 +32,7 @@
-> -
-> - #include <ar.h>
-> - #include <gelf.h>
-> -+#include <libelf.h>
-> -
-> - #include <errno.h>
-> - #include <stdbool.h>
-> diff --git a/meta/recipes-devtools/elfutils/files/musl-libs.patch b/meta/recipes-devtools/elfutils/files/musl-libs.patch
-> new file mode 100644
-> index 0000000000..51ca630ef8
-> --- /dev/null
-> +++ b/meta/recipes-devtools/elfutils/files/musl-libs.patch
-> @@ -0,0 +1,111 @@
-> +Collection of fixes needed to compile libelf and other libraries
-> +provided by elfutils for musl targets
-> +
-> +error is glibc specific API, so this patch will mostly not accepted
-> +upstream given that elfutils has been closely tied to glibc
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +Upstream-Status: Inappropriate [workaround for musl]
-> +
-> +--- /dev/null
-> ++++ b/lib/error.h
-> +@@ -0,0 +1,27 @@
-> ++#ifndef _ERROR_H_
-> ++#define _ERROR_H_
-> ++
-> ++#include <stdarg.h>
-> ++#include <stdio.h>
-> ++#include <stdlib.h>
-> ++#include <string.h>
-> ++#include <errno.h>
-> ++
-> ++static unsigned int error_message_count = 0;
-> ++
-> ++static inline void error(int status, int errnum, const char* format, ...)
-> ++{
-> ++	va_list ap;
-> ++	fprintf(stderr, "%s: ", program_invocation_name);
-> ++	va_start(ap, format);
-> ++	vfprintf(stderr, format, ap);
-> ++	va_end(ap);
-> ++	if (errnum)
-> ++		fprintf(stderr, ": %s", strerror(errnum));
-> ++	fprintf(stderr, "\n");
-> ++	error_message_count++;
-> ++	if (status)
-> ++		exit(status);
-> ++}
-> ++
-> ++#endif	/* _ERROR_H_ */
-> +--- a/lib/fixedsizehash.h
-> ++++ b/lib/fixedsizehash.h
-> +@@ -30,7 +30,6 @@
-> + #include <errno.h>
-> + #include <stdlib.h>
-> + #include <string.h>
-> +-#include <sys/cdefs.h>
-> +
-> + #include <system.h>
-> +
-> +--- a/lib/libeu.h
-> ++++ b/lib/libeu.h
-> +@@ -29,6 +29,7 @@
-> + #ifndef LIBEU_H
-> + #define LIBEU_H
-> +
-> ++#include "system.h"
-> + #include <stddef.h>
-> + #include <stdint.h>
-> +
-> +--- a/libdwfl/dwfl_error.c
-> ++++ b/libdwfl/dwfl_error.c
-> +@@ -154,7 +154,16 @@ dwfl_errmsg (int error)
-> +   switch (error &~ 0xffff)
-> +     {
-> +     case OTHER_ERROR (ERRNO):
-> ++#if defined(__GLIBC__)
-> +       return strerror_r (error & 0xffff, "bad", 0);
-> ++#else
-> ++      {
-> ++        static __thread char buf[128] = "";
-> ++        if (strerror_r (error & 0xffff, buf, sizeof(buf)) == 0)
-> ++          return buf;
-> ++      }
-> ++      return "strerror_r() failed";
-> ++#endif
-> +     case OTHER_ERROR (LIBELF):
-> +       return elf_errmsg (error & 0xffff);
-> +     case OTHER_ERROR (LIBDW):
-> +--- a/libdwfl/linux-kernel-modules.c
-> ++++ b/libdwfl/linux-kernel-modules.c
-> +@@ -50,6 +50,7 @@
-> + #include <sys/utsname.h>
-> + #include <fcntl.h>
-> + #include <unistd.h>
-> ++#include "system.h"
-> +
-> + /* If fts.h is included before config.h, its indirect inclusions may not
-> +    give us the right LFS aliases of these functions, so map them manually.  */
-> +--- a/libelf/elf.h
-> ++++ b/libelf/elf.h
-> +@@ -21,7 +21,9 @@
-> +
-> + #include <features.h>
-> +
-> +-__BEGIN_DECLS
-> ++#ifdef __cplusplus
-> ++extern "C" {
-> ++#endif
-> +
-> + /* Standard ELF types.  */
-> +
-> +@@ -3937,6 +3939,7 @@ enum
-> + #define R_METAG_TLS_LE_HI16	60
-> + #define R_METAG_TLS_LE_LO16	61
-> +
-> +-__END_DECLS
-> +-
-> ++#ifdef __cplusplus
-> ++}
-> ++#endif
-> + #endif	/* elf.h */
-> diff --git a/meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch b/meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch
-> new file mode 100644
-> index 0000000000..0fb7eb9236
-> --- /dev/null
-> +++ b/meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch
-> @@ -0,0 +1,105 @@
-> +Look for libfts and libobstack during configure, these
-> +libraries are external to libc when using musl, whereas
-> +on glibc these libraries are provided in libc itself.
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +Upstream-Status: Inappropriate [workaround for musl]
-> +--- a/configure.ac
-> ++++ b/configure.ac
-> +@@ -494,6 +494,60 @@ else
-> + fi
-> + AC_SUBST([argp_LDADD])
-> +
-> ++dnl Check if we have fts available from our libc
-> ++AC_LINK_IFELSE(
-> ++	[AC_LANG_PROGRAM(
-> ++		[#if !defined(__x86_64__)
-> ++		#undef  _FILE_OFFSET_BITS
-> ++		#define _FILE_OFFSET_BITS 32
-> ++		#endif
-> ++		#include <fts.h>],
-> ++		[FTS* fts = 0; return fts_close(fts); return 0;]
-> ++		)],
-> ++	[libc_has_fts="true"],
-> ++	[libc_has_fts="false"]
-> ++)
-> ++
-> ++dnl If our libc doesn't provide fts, then test for libfts
-> ++if test "$libc_has_fts" = "false" ; then
-> ++	AC_MSG_WARN("libc does not have fts")
-> ++	AC_CHECK_LIB([fts], [fts_close], [have_fts="true"], [have_fts="false"])
-> ++
-> ++	if test "$have_fts" = "false"; then
-> ++		AC_MSG_ERROR("no libfts found")
-> ++	else
-> ++		fts_LDADD="-lfts"
-> ++	fi
-> ++else
-> ++	fts_LDADD=""
-> ++fi
-> ++AC_SUBST([fts_LDADD])
-> ++
-> ++dnl Check if we have obstack available from our libc
-> ++AC_LINK_IFELSE(
-> ++	[AC_LANG_PROGRAM(
-> ++		[#include <obstack.h>],
-> ++		[_obstack_begin(0, 0, 0, NULL, NULL); return 0;]
-> ++		)],
-> ++	[libc_has_obstack="true"],
-> ++	[libc_has_obstack="false"]
-> ++)
-> ++
-> ++dnl If our libc doesn't provide obstack, then test for libobstack
-> ++if test "$libc_has_obstack" = "false" ; then
-> ++	AC_MSG_WARN("libc does not have obstack")
-> ++	AC_CHECK_LIB([obstack], [_obstack_begin], [have_obstack="true"], [have_obstack="false"])
-> ++
-> ++	if test "$have_obstack" = "false"; then
-> ++		AC_MSG_ERROR("no libobstack found")
-> ++	else
-> ++		obstack_LDADD="-lobstack"
-> ++	fi
-> ++else
-> ++	obstack_LDADD=""
-> ++fi
-> ++AC_SUBST([obstack_LDADD])
-> ++
-> + dnl The directories with content.
-> +
-> + dnl Documentation.
-> +--- a/libdw/Makefile.am
-> ++++ b/libdw/Makefile.am
-> +@@ -108,7 +108,7 @@ am_libdw_pic_a_OBJECTS = $(libdw_a_SOURC
-> + libdw_so_LIBS = libdw_pic.a ../libdwelf/libdwelf_pic.a \
-> + 	  ../libdwfl/libdwfl_pic.a ../libebl/libebl.a
-> + libdw_so_DEPS = ../lib/libeu.a ../libelf/libelf.so
-> +-libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(zip_LIBS)
-> ++libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(fts_LDADD) $(zip_LIBS)
-> + libdw_so_SOURCES =
-> + libdw.so$(EXEEXT): $(srcdir)/libdw.map $(libdw_so_LIBS) $(libdw_so_DEPS)
-> + # The rpath is necessary for libebl because its $ORIGIN use will
-> +--- a/src/Makefile.am
-> ++++ b/src/Makefile.am
-> +@@ -68,8 +68,8 @@ ar_no_Wstack_usage = yes
-> + unstrip_no_Wstack_usage = yes
-> +
-> + readelf_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
-> +-nm_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl \
-> +-	   $(demanglelib)
-> ++nm_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(argp_LDADD) \
-> ++	   $(obstack_LDADD) -ldl $(demanglelib)
-> + size_LDADD = $(libelf) $(libeu) $(argp_LDADD)
-> + strip_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD) -ldl
-> + elflint_LDADD  = $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
-> +@@ -77,9 +77,9 @@ findtextrel_LDADD = $(libdw) $(libelf) $
-> + addr2line_LDADD = $(libdw) $(libelf) $(libeu) $(argp_LDADD) $(demanglelib)
-> + elfcmp_LDADD = $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
-> + objdump_LDADD  = $(libasm) $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
-> +-ranlib_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD)
-> ++ranlib_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD) $(obstack_LDADD)
-> + strings_LDADD = $(libelf) $(libeu) $(argp_LDADD)
-> +-ar_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD)
-> ++ar_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD) $(obstack_LDADD)
-> + unstrip_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD) -ldl
-> + stack_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD) -ldl $(demanglelib)
-> + elfcompress_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD)
-> diff --git a/meta/recipes-devtools/elfutils/files/musl.patch b/meta/recipes-devtools/elfutils/files/musl-tests.patch
-> similarity index 100%
-> rename from meta/recipes-devtools/elfutils/files/musl.patch
-> rename to meta/recipes-devtools/elfutils/files/musl-tests.patch
-> diff --git a/meta/recipes-devtools/elfutils/files/musl-utils.patch b/meta/recipes-devtools/elfutils/files/musl-utils.patch
-> new file mode 100644
-> index 0000000000..8e636bf660
-> --- /dev/null
-> +++ b/meta/recipes-devtools/elfutils/files/musl-utils.patch
-> @@ -0,0 +1,136 @@
-> +Provide missing defines which otherwise are available on glibc system headers
-> +
-> +Alter the error API to match posix version
-> +use qsort instead of qsort_r which is glibc specific API
-> +
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +Upstream-Status: Inappropriate [workaround for musl]
-> +--- a/src/arlib.h
-> ++++ b/src/arlib.h
-> +@@ -29,6 +29,12 @@
-> + #include <stdint.h>
-> + #include <sys/types.h>
-> +
-> ++#if !defined(ALLPERMS)
-> ++# define ALLPERMS (S_ISUID|S_ISGID|S_ISVTX|S_IRWXU|S_IRWXG|S_IRWXO) /* 07777 */
-> ++#endif
-> ++#if !defined(DEFFILEMODE)
-> ++# define DEFFILEMODE (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)/* 0666*/
-> ++#endif
-> +
-> + /* State of -D/-U flags.  */
-> + extern bool arlib_deterministic_output;
-> +--- a/src/elfcompress.c
-> ++++ b/src/elfcompress.c
-> +@@ -37,6 +37,13 @@
-> + #include "libeu.h"
-> + #include "printversion.h"
-> +
-> ++#if !defined(ALLPERMS)
-> ++# define ALLPERMS (S_ISUID|S_ISGID|S_ISVTX|S_IRWXU|S_IRWXG|S_IRWXO) /* 07777 */
-> ++#endif
-> ++#if !defined(FNM_EXTMATCH)
-> ++# define FNM_EXTMATCH (0)
-> ++#endif
-> ++
-> + /* Name and version of program.  */
-> + ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
-> +
-> +--- a/src/readelf.c
-> ++++ b/src/readelf.c
-> +@@ -4792,10 +4792,11 @@ listptr_base (struct listptr *p)
-> +   return cudie_base (&cu);
-> + }
-> +
-> ++static const char *listptr_name;
-> ++
-> + static int
-> +-compare_listptr (const void *a, const void *b, void *arg)
-> ++compare_listptr (const void *a, const void *b)
-> + {
-> +-  const char *name = arg;
-> +   struct listptr *p1 = (void *) a;
-> +   struct listptr *p2 = (void *) b;
-> +
-> +@@ -4811,21 +4812,21 @@ compare_listptr (const void *a, const vo
-> + 	  p1->warned = p2->warned = true;
-> + 	  error (0, 0,
-> + 		 gettext ("%s %#" PRIx64 " used with different address sizes"),
-> +-		 name, (uint64_t) p1->offset);
-> ++		 listptr_name, (uint64_t) p1->offset);
-> + 	}
-> +       if (p1->dwarf64 != p2->dwarf64)
-> + 	{
-> + 	  p1->warned = p2->warned = true;
-> + 	  error (0, 0,
-> + 		 gettext ("%s %#" PRIx64 " used with different offset sizes"),
-> +-		 name, (uint64_t) p1->offset);
-> ++		 listptr_name, (uint64_t) p1->offset);
-> + 	}
-> +       if (listptr_base (p1) != listptr_base (p2))
-> + 	{
-> + 	  p1->warned = p2->warned = true;
-> + 	  error (0, 0,
-> + 		 gettext ("%s %#" PRIx64 " used with different base addresses"),
-> +-		 name, (uint64_t) p1->offset);
-> ++		 listptr_name, (uint64_t) p1->offset);
-> + 	}
-> +       if (p1->attr != p2 ->attr)
-> + 	{
-> +@@ -4833,7 +4834,7 @@ compare_listptr (const void *a, const vo
-> + 	  error (0, 0,
-> + 		 gettext ("%s %#" PRIx64
-> + 			  " used with different attribute %s and %s"),
-> +-		 name, (uint64_t) p1->offset, dwarf_attr_name (p2->attr),
-> ++		 listptr_name, (uint64_t) p1->offset, dwarf_attr_name (p2->attr),
-> + 		 dwarf_attr_name (p2->attr));
-> + 	}
-> +     }
-> +@@ -4905,8 +4906,11 @@ static void
-> + sort_listptr (struct listptr_table *table, const char *name)
-> + {
-> +   if (table->n > 0)
-> +-    qsort_r (table->table, table->n, sizeof table->table[0],
-> +-	     &compare_listptr, (void *) name);
-> ++    {
-> ++      listptr_name = name;
-> ++      qsort (table->table, table->n, sizeof table->table[0],
-> ++	    &compare_listptr);
-> ++    }
-> + }
-> +
-> + static bool
-> +--- a/src/strip.c
-> ++++ b/src/strip.c
-> +@@ -46,6 +46,13 @@
-> + #include <system.h>
-> + #include <printversion.h>
-> +
-> ++#if !defined(ACCESSPERMS)
-> ++# define ACCESSPERMS (S_IRWXU|S_IRWXG|S_IRWXO) /* 0777 */
-> ++#endif
-> ++#if !defined(FNM_EXTMATCH)
-> ++# define FNM_EXTMATCH (0)
-> ++#endif
-> ++
-> + typedef uint8_t GElf_Byte;
-> +
-> + /* Name and version of program.  */
-> +--- a/src/unstrip.c
-> ++++ b/src/unstrip.c
-> +@@ -56,6 +56,15 @@
-> + # define _(str) gettext (str)
-> + #endif
-> +
-> ++#ifndef strndupa
-> ++#define strndupa(s, n) \
-> ++       ({const char *__in = (s); \
-> ++         size_t __len = strnlen (__in, (n)) + 1; \
-> ++         char *__out = (char *) alloca (__len); \
-> ++         __out[__len-1] = '\0'; \
-> ++         (char *) memcpy (__out, __in, __len-1);})
-> ++#endif
-> ++
-> + /* Name and version of program.  */
-> + ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
-> +
+diff --git a/meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch b/meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
+deleted file mode 100644
+index 4c9d574421..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch
++++ /dev/null
+@@ -1,121 +0,0 @@
+-From 5df934e2279e8ed1f07b990f4b2b3baf6470f7e5 Mon Sep 17 00:00:00 2001
+-From: "dtucker@openbsd.org" <dtucker@openbsd.org>
+-Date: Thu, 24 Jan 2019 16:52:17 +0000
+-Subject: [PATCH] upstream: Have progressmeter force an update at the beginning
+- and
+-
+-end of each transfer.  Fixes the problem recently introduces where very quick
+-transfers do not display the progressmeter at all.  Spotted by naddy@
+-
+-OpenBSD-Commit-ID: 68dc46c259e8fdd4f5db3ec2a130f8e4590a7a9a
+-Upstream-Status: Backport
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- progressmeter.c | 13 +++++--------
+- progressmeter.h |  4 ++--
+- scp.c           |  2 +-
+- sftp-client.c   |  2 +-
+- 4 files changed, 9 insertions(+), 12 deletions(-)
+-
+-diff --git a/progressmeter.c b/progressmeter.c
+-index add462d..e385c12 100644
+---- a/progressmeter.c
+-+++ b/progressmeter.c
+-@@ -1,4 +1,4 @@
+--/* $OpenBSD: progressmeter.c,v 1.46 2019/01/23 08:01:46 dtucker Exp $ */
+-+/* $OpenBSD: progressmeter.c,v 1.47 2019/01/24 16:52:17 dtucker Exp $ */
+- /*
+-  * Copyright (c) 2003 Nils Nordman.  All rights reserved.
+-  *
+-@@ -59,9 +59,6 @@ static void format_rate(char *, int, off_t);
+- static void sig_winch(int);
+- static void setscreensize(void);
+- 
+--/* updates the progressmeter to reflect the current state of the transfer */
+--void refresh_progress_meter(void);
+--
+- /* signal handler for updating the progress meter */
+- static void sig_alarm(int);
+- 
+-@@ -120,7 +117,7 @@ format_size(char *buf, int size, off_t bytes)
+- }
+- 
+- void
+--refresh_progress_meter(void)
+-+refresh_progress_meter(int force_update)
+- {
+- 	char buf[MAX_WINSIZE + 1];
+- 	off_t transferred;
+-@@ -131,7 +128,7 @@ refresh_progress_meter(void)
+- 	int hours, minutes, seconds;
+- 	int file_len;
+- 
+--	if ((!alarm_fired && !win_resized) || !can_output())
+-+	if ((!force_update && !alarm_fired && !win_resized) || !can_output())
+- 		return;
+- 	alarm_fired = 0;
+- 
+-@@ -254,7 +251,7 @@ start_progress_meter(const char *f, off_t filesize, off_t *ctr)
+- 	bytes_per_second = 0;
+- 
+- 	setscreensize();
+--	refresh_progress_meter();
+-+	refresh_progress_meter(1);
+- 
+- 	signal(SIGALRM, sig_alarm);
+- 	signal(SIGWINCH, sig_winch);
+-@@ -271,7 +268,7 @@ stop_progress_meter(void)
+- 
+- 	/* Ensure we complete the progress */
+- 	if (cur_pos != end_pos)
+--		refresh_progress_meter();
+-+		refresh_progress_meter(1);
+- 
+- 	atomicio(vwrite, STDOUT_FILENO, "\n", 1);
+- }
+-diff --git a/progressmeter.h b/progressmeter.h
+-index 8f66780..1703ea7 100644
+---- a/progressmeter.h
+-+++ b/progressmeter.h
+-@@ -1,4 +1,4 @@
+--/* $OpenBSD: progressmeter.h,v 1.4 2019/01/23 08:01:46 dtucker Exp $ */
+-+/* $OpenBSD: progressmeter.h,v 1.5 2019/01/24 16:52:17 dtucker Exp $ */
+- /*
+-  * Copyright (c) 2002 Nils Nordman.  All rights reserved.
+-  *
+-@@ -24,5 +24,5 @@
+-  */
+- 
+- void	start_progress_meter(const char *, off_t, off_t *);
+--void	refresh_progress_meter(void);
+-+void	refresh_progress_meter(int);
+- void	stop_progress_meter(void);
+-diff --git a/scp.c b/scp.c
+-index 4a342a6..0587cec 100644
+---- a/scp.c
+-+++ b/scp.c
+-@@ -585,7 +585,7 @@ scpio(void *_cnt, size_t s)
+- 	off_t *cnt = (off_t *)_cnt;
+- 
+- 	*cnt += s;
+--	refresh_progress_meter();
+-+	refresh_progress_meter(0);
+- 	if (limit_kbps > 0)
+- 		bandwidth_limit(&bwlimit, s);
+- 	return 0;
+-diff --git a/sftp-client.c b/sftp-client.c
+-index 2bc698f..cf2887a 100644
+---- a/sftp-client.c
+-+++ b/sftp-client.c
+-@@ -101,7 +101,7 @@ sftpio(void *_bwlimit, size_t amount)
+- {
+- 	struct bwlimit *bwlimit = (struct bwlimit *)_bwlimit;
+- 
+--	refresh_progress_meter();
+-+	refresh_progress_meter(0);
+- 	if (bwlimit != NULL)
+- 		bandwidth_limit(bwlimit, amount);
+- 	return 0;
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
+deleted file mode 100644
+index c5b3baece9..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/CVE-2018-20685.patch
++++ /dev/null
+@@ -1,40 +0,0 @@
+-From 6010c0303a422a9c5fa8860c061bf7105eb7f8b2 Mon Sep 17 00:00:00 2001
+-From: "djm@openbsd.org" <djm@openbsd.org>
+-Date: Fri, 16 Nov 2018 03:03:10 +0000
+-Subject: [PATCH] upstream: disallow empty incoming filename or ones that refer
+- to the
+-
+-current directory; based on report/patch from Harry Sintonen
+-
+-OpenBSD-Commit-ID: f27651b30eaee2df49540ab68d030865c04f6de9
+-
+-CVE: CVE-2018-20685
+-Upstream-Status: Backport
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- scp.c | 5 +++--
+- 1 file changed, 3 insertions(+), 2 deletions(-)
+-
+-diff --git a/scp.c b/scp.c
+-index 60682c6..4f3fdcd 100644
+---- a/scp.c
+-+++ b/scp.c
+-@@ -1,4 +1,4 @@
+--/* $OpenBSD: scp.c,v 1.197 2018/06/01 04:31:48 dtucker Exp $ */
+-+/* $OpenBSD: scp.c,v 1.198 2018/11/16 03:03:10 djm Exp $ */
+- /*
+-  * scp - secure remote copy.  This is basically patched BSD rcp which
+-  * uses ssh to do the data transfer (instead of using rcmd).
+-@@ -1106,7 +1106,8 @@ sink(int argc, char **argv)
+- 			SCREWUP("size out of range");
+- 		size = (off_t)ull;
+- 
+--		if ((strchr(cp, '/') != NULL) || (strcmp(cp, "..") == 0)) {
+-+		if (*cp == '\0' || strchr(cp, '/') != NULL ||
+-+		    strcmp(cp, ".") == 0 || strcmp(cp, "..") == 0) {
+- 			run_err("error: unexpected filename: %s", cp);
+- 			exit(1);
+- 		}
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2019-6109.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2019-6109.patch
+deleted file mode 100644
+index dabe4a6c97..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/CVE-2019-6109.patch
++++ /dev/null
+@@ -1,275 +0,0 @@
+-From 15d47c3bd8551521240bc459fc004c280daef817 Mon Sep 17 00:00:00 2001
+-From: "dtucker@openbsd.org" <dtucker@openbsd.org>
+-Date: Wed, 23 Jan 2019 08:01:46 +0000
+-Subject: [PATCH] upstream: Sanitize scp filenames via snmprintf. To do this we
+- move
+-
+-the progressmeter formatting outside of signal handler context and have the
+-atomicio callback called for EINTR too.  bz#2434 with contributions from djm
+-and jjelen at redhat.com, ok djm@
+-
+-OpenBSD-Commit-ID: 1af61c1f70e4f3bd8ab140b9f1fa699481db57d8
+-CVE: CVE-2019-6109
+-Upstream-Status: Backport
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- atomicio.c      | 20 +++++++++++++++-----
+- progressmeter.c | 53 ++++++++++++++++++++++++-----------------------------
+- progressmeter.h |  3 ++-
+- scp.c           |  1 +
+- sftp-client.c   | 16 +++++++++-------
+- 5 files changed, 51 insertions(+), 42 deletions(-)
+-
+-diff --git a/atomicio.c b/atomicio.c
+-index f854a06..d91bd76 100644
+---- a/atomicio.c
+-+++ b/atomicio.c
+-@@ -1,4 +1,4 @@
+--/* $OpenBSD: atomicio.c,v 1.28 2016/07/27 23:18:12 djm Exp $ */
+-+/* $OpenBSD: atomicio.c,v 1.29 2019/01/23 08:01:46 dtucker Exp $ */
+- /*
+-  * Copyright (c) 2006 Damien Miller. All rights reserved.
+-  * Copyright (c) 2005 Anil Madhavapeddy. All rights reserved.
+-@@ -65,9 +65,14 @@ atomicio6(ssize_t (*f) (int, void *, size_t), int fd, void *_s, size_t n,
+- 		res = (f) (fd, s + pos, n - pos);
+- 		switch (res) {
+- 		case -1:
+--			if (errno == EINTR)
+-+			if (errno == EINTR) {
+-+				/* possible SIGALARM, update callback */
+-+				if (cb != NULL && cb(cb_arg, 0) == -1) {
+-+					errno = EINTR;
+-+					return pos;
+-+				}
+- 				continue;
+--			if (errno == EAGAIN || errno == EWOULDBLOCK) {
+-+			} else if (errno == EAGAIN || errno == EWOULDBLOCK) {
+- #ifndef BROKEN_READ_COMPARISON
+- 				(void)poll(&pfd, 1, -1);
+- #endif
+-@@ -122,9 +127,14 @@ atomiciov6(ssize_t (*f) (int, const struct iovec *, int), int fd,
+- 		res = (f) (fd, iov, iovcnt);
+- 		switch (res) {
+- 		case -1:
+--			if (errno == EINTR)
+-+			if (errno == EINTR) {
+-+				/* possible SIGALARM, update callback */
+-+				if (cb != NULL && cb(cb_arg, 0) == -1) {
+-+					errno = EINTR;
+-+					return pos;
+-+				}
+- 				continue;
+--			if (errno == EAGAIN || errno == EWOULDBLOCK) {
+-+			} else if (errno == EAGAIN || errno == EWOULDBLOCK) {
+- #ifndef BROKEN_READV_COMPARISON
+- 				(void)poll(&pfd, 1, -1);
+- #endif
+-diff --git a/progressmeter.c b/progressmeter.c
+-index fe9bf52..add462d 100644
+---- a/progressmeter.c
+-+++ b/progressmeter.c
+-@@ -1,4 +1,4 @@
+--/* $OpenBSD: progressmeter.c,v 1.45 2016/06/30 05:17:05 dtucker Exp $ */
+-+/* $OpenBSD: progressmeter.c,v 1.46 2019/01/23 08:01:46 dtucker Exp $ */
+- /*
+-  * Copyright (c) 2003 Nils Nordman.  All rights reserved.
+-  *
+-@@ -31,6 +31,7 @@
+- 
+- #include <errno.h>
+- #include <signal.h>
+-+#include <stdarg.h>
+- #include <stdio.h>
+- #include <string.h>
+- #include <time.h>
+-@@ -39,6 +40,7 @@
+- #include "progressmeter.h"
+- #include "atomicio.h"
+- #include "misc.h"
+-+#include "utf8.h"
+- 
+- #define DEFAULT_WINSIZE 80
+- #define MAX_WINSIZE 512
+-@@ -61,7 +63,7 @@ static void setscreensize(void);
+- void refresh_progress_meter(void);
+- 
+- /* signal handler for updating the progress meter */
+--static void update_progress_meter(int);
+-+static void sig_alarm(int);
+- 
+- static double start;		/* start progress */
+- static double last_update;	/* last progress update */
+-@@ -74,6 +76,7 @@ static long stalled;		/* how long we have been stalled */
+- static int bytes_per_second;	/* current speed in bytes per second */
+- static int win_size;		/* terminal window size */
+- static volatile sig_atomic_t win_resized; /* for window resizing */
+-+static volatile sig_atomic_t alarm_fired;
+- 
+- /* units for format_size */
+- static const char unit[] = " KMGT";
+-@@ -126,9 +129,17 @@ refresh_progress_meter(void)
+- 	off_t bytes_left;
+- 	int cur_speed;
+- 	int hours, minutes, seconds;
+--	int i, len;
+- 	int file_len;
+- 
+-+	if ((!alarm_fired && !win_resized) || !can_output())
+-+		return;
+-+	alarm_fired = 0;
+-+
+-+	if (win_resized) {
+-+		setscreensize();
+-+		win_resized = 0;
+-+	}
+-+
+- 	transferred = *counter - (cur_pos ? cur_pos : start_pos);
+- 	cur_pos = *counter;
+- 	now = monotime_double();
+-@@ -158,16 +169,11 @@ refresh_progress_meter(void)
+- 
+- 	/* filename */
+- 	buf[0] = '\0';
+--	file_len = win_size - 35;
+-+	file_len = win_size - 36;
+- 	if (file_len > 0) {
+--		len = snprintf(buf, file_len + 1, "\r%s", file);
+--		if (len < 0)
+--			len = 0;
+--		if (len >= file_len + 1)
+--			len = file_len;
+--		for (i = len; i < file_len; i++)
+--			buf[i] = ' ';
+--		buf[file_len] = '\0';
+-+		buf[0] = '\r';
+-+		snmprintf(buf+1, sizeof(buf)-1 , &file_len, "%*s",
+-+		    file_len * -1, file);
+- 	}
+- 
+- 	/* percent of transfer done */
+-@@ -228,22 +234,11 @@ refresh_progress_meter(void)
+- 
+- /*ARGSUSED*/
+- static void
+--update_progress_meter(int ignore)
+-+sig_alarm(int ignore)
+- {
+--	int save_errno;
+--
+--	save_errno = errno;
+--
+--	if (win_resized) {
+--		setscreensize();
+--		win_resized = 0;
+--	}
+--	if (can_output())
+--		refresh_progress_meter();
+--
+--	signal(SIGALRM, update_progress_meter);
+-+	signal(SIGALRM, sig_alarm);
+-+	alarm_fired = 1;
+- 	alarm(UPDATE_INTERVAL);
+--	errno = save_errno;
+- }
+- 
+- void
+-@@ -259,10 +254,9 @@ start_progress_meter(const char *f, off_t filesize, off_t *ctr)
+- 	bytes_per_second = 0;
+- 
+- 	setscreensize();
+--	if (can_output())
+--		refresh_progress_meter();
+-+	refresh_progress_meter();
+- 
+--	signal(SIGALRM, update_progress_meter);
+-+	signal(SIGALRM, sig_alarm);
+- 	signal(SIGWINCH, sig_winch);
+- 	alarm(UPDATE_INTERVAL);
+- }
+-@@ -286,6 +280,7 @@ stop_progress_meter(void)
+- static void
+- sig_winch(int sig)
+- {
+-+	signal(SIGWINCH, sig_winch);
+- 	win_resized = 1;
+- }
+- 
+-diff --git a/progressmeter.h b/progressmeter.h
+-index bf179dc..8f66780 100644
+---- a/progressmeter.h
+-+++ b/progressmeter.h
+-@@ -1,4 +1,4 @@
+--/* $OpenBSD: progressmeter.h,v 1.3 2015/01/14 13:54:13 djm Exp $ */
+-+/* $OpenBSD: progressmeter.h,v 1.4 2019/01/23 08:01:46 dtucker Exp $ */
+- /*
+-  * Copyright (c) 2002 Nils Nordman.  All rights reserved.
+-  *
+-@@ -24,4 +24,5 @@
+-  */
+- 
+- void	start_progress_meter(const char *, off_t, off_t *);
+-+void	refresh_progress_meter(void);
+- void	stop_progress_meter(void);
+-diff --git a/scp.c b/scp.c
+-index 4f3fdcd..4a342a6 100644
+---- a/scp.c
+-+++ b/scp.c
+-@@ -585,6 +585,7 @@ scpio(void *_cnt, size_t s)
+- 	off_t *cnt = (off_t *)_cnt;
+- 
+- 	*cnt += s;
+-+	refresh_progress_meter();
+- 	if (limit_kbps > 0)
+- 		bandwidth_limit(&bwlimit, s);
+- 	return 0;
+-diff --git a/sftp-client.c b/sftp-client.c
+-index 4986d6d..2bc698f 100644
+---- a/sftp-client.c
+-+++ b/sftp-client.c
+-@@ -101,7 +101,9 @@ sftpio(void *_bwlimit, size_t amount)
+- {
+- 	struct bwlimit *bwlimit = (struct bwlimit *)_bwlimit;
+- 
+--	bandwidth_limit(bwlimit, amount);
+-+	refresh_progress_meter();
+-+	if (bwlimit != NULL)
+-+		bandwidth_limit(bwlimit, amount);
+- 	return 0;
+- }
+- 
+-@@ -121,8 +123,8 @@ send_msg(struct sftp_conn *conn, struct sshbuf *m)
+- 	iov[1].iov_base = (u_char *)sshbuf_ptr(m);
+- 	iov[1].iov_len = sshbuf_len(m);
+- 
+--	if (atomiciov6(writev, conn->fd_out, iov, 2,
+--	    conn->limit_kbps > 0 ? sftpio : NULL, &conn->bwlimit_out) !=
+-+	if (atomiciov6(writev, conn->fd_out, iov, 2, sftpio,
+-+	    conn->limit_kbps > 0 ? &conn->bwlimit_out : NULL) !=
+- 	    sshbuf_len(m) + sizeof(mlen))
+- 		fatal("Couldn't send packet: %s", strerror(errno));
+- 
+-@@ -138,8 +140,8 @@ get_msg_extended(struct sftp_conn *conn, struct sshbuf *m, int initial)
+- 
+- 	if ((r = sshbuf_reserve(m, 4, &p)) != 0)
+- 		fatal("%s: buffer error: %s", __func__, ssh_err(r));
+--	if (atomicio6(read, conn->fd_in, p, 4,
+--	    conn->limit_kbps > 0 ? sftpio : NULL, &conn->bwlimit_in) != 4) {
+-+	if (atomicio6(read, conn->fd_in, p, 4, sftpio,
+-+	    conn->limit_kbps > 0 ? &conn->bwlimit_in : NULL) != 4) {
+- 		if (errno == EPIPE || errno == ECONNRESET)
+- 			fatal("Connection closed");
+- 		else
+-@@ -157,8 +159,8 @@ get_msg_extended(struct sftp_conn *conn, struct sshbuf *m, int initial)
+- 
+- 	if ((r = sshbuf_reserve(m, msg_len, &p)) != 0)
+- 		fatal("%s: buffer error: %s", __func__, ssh_err(r));
+--	if (atomicio6(read, conn->fd_in, p, msg_len,
+--	    conn->limit_kbps > 0 ? sftpio : NULL, &conn->bwlimit_in)
+-+	if (atomicio6(read, conn->fd_in, p, msg_len, sftpio,
+-+	    conn->limit_kbps > 0 ? &conn->bwlimit_in : NULL)
+- 	    != msg_len) {
+- 		if (errno == EPIPE)
+- 			fatal("Connection closed");
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
+deleted file mode 100644
+index e498da3819..0000000000
+--- a/meta/recipes-connectivity/openssh/openssh/CVE-2019-6111.patch
++++ /dev/null
+@@ -1,187 +0,0 @@
+-From 15cc3497367d2e9729353b3df75518548e845c82 Mon Sep 17 00:00:00 2001
+-From: "djm@openbsd.org" <djm@openbsd.org>
+-Date: Sat, 26 Jan 2019 22:41:28 +0000
+-Subject: [PATCH] upstream: check in scp client that filenames sent during
+-
+-remote->local directory copies satisfy the wildcard specified by the user.
+-
+-This checking provides some protection against a malicious server
+-sending unexpected filenames, but it comes at a risk of rejecting wanted
+-files due to differences between client and server wildcard expansion rules.
+-
+-For this reason, this also adds a new -T flag to disable the check.
+-
+-reported by Harry Sintonen
+-fix approach suggested by markus@;
+-has been in snaps for ~1wk courtesy deraadt@
+-
+-OpenBSD-Commit-ID: 00f44b50d2be8e321973f3c6d014260f8f7a8eda
+-
+-CVE: CVE-2019-6111
+-Upstream-Status: Backport
+-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+----
+- scp.1 | 12 +++++++++++-
+- scp.c | 37 +++++++++++++++++++++++++++++--------
+- 2 files changed, 40 insertions(+), 9 deletions(-)
+-
+-diff --git a/scp.1 b/scp.1
+-index 0e5cc1b..397e770 100644
+---- a/scp.1
+-+++ b/scp.1
+-@@ -18,7 +18,7 @@
+- .Nd secure copy (remote file copy program)
+- .Sh SYNOPSIS
+- .Nm scp
+--.Op Fl 346BCpqrv
+-+.Op Fl 346BCpqrTv
+- .Op Fl c Ar cipher
+- .Op Fl F Ar ssh_config
+- .Op Fl i Ar identity_file
+-@@ -208,6 +208,16 @@ to use for the encrypted connection.
+- The program must understand
+- .Xr ssh 1
+- options.
+-+.It Fl T
+-+Disable strict filename checking.
+-+By default when copying files from a remote host to a local directory
+-+.Nm
+-+checks that the received filenames match those requested on the command-line
+-+to prevent the remote end from sending unexpected or unwanted files.
+-+Because of differences in how various operating systems and shells interpret
+-+filename wildcards, these checks may cause wanted files to be rejected.
+-+This option disables these checks at the expense of fully trusting that
+-+the server will not send unexpected filenames.
+- .It Fl v
+- Verbose mode.
+- Causes
+-diff --git a/scp.c b/scp.c
+-index 0587cec..b2d331e 100644
+---- a/scp.c
+-+++ b/scp.c
+-@@ -94,6 +94,7 @@
+- #include <dirent.h>
+- #include <errno.h>
+- #include <fcntl.h>
+-+#include <fnmatch.h>
+- #include <limits.h>
+- #include <locale.h>
+- #include <pwd.h>
+-@@ -375,14 +376,14 @@ void verifydir(char *);
+- struct passwd *pwd;
+- uid_t userid;
+- int errs, remin, remout;
+--int pflag, iamremote, iamrecursive, targetshouldbedirectory;
+-+int Tflag, pflag, iamremote, iamrecursive, targetshouldbedirectory;
+- 
+- #define	CMDNEEDS	64
+- char cmd[CMDNEEDS];		/* must hold "rcp -r -p -d\0" */
+- 
+- int response(void);
+- void rsource(char *, struct stat *);
+--void sink(int, char *[]);
+-+void sink(int, char *[], const char *);
+- void source(int, char *[]);
+- void tolocal(int, char *[]);
+- void toremote(int, char *[]);
+-@@ -421,8 +422,9 @@ main(int argc, char **argv)
+- 	addargs(&args, "-oRemoteCommand=none");
+- 	addargs(&args, "-oRequestTTY=no");
+- 
+--	fflag = tflag = 0;
+--	while ((ch = getopt(argc, argv, "dfl:prtvBCc:i:P:q12346S:o:F:")) != -1)
+-+	fflag = Tflag = tflag = 0;
+-+	while ((ch = getopt(argc, argv,
+-+	    "dfl:prtTvBCc:i:P:q12346S:o:F:")) != -1) {
+- 		switch (ch) {
+- 		/* User-visible flags. */
+- 		case '1':
+-@@ -501,9 +503,13 @@ main(int argc, char **argv)
+- 			setmode(0, O_BINARY);
+- #endif
+- 			break;
+-+		case 'T':
+-+			Tflag = 1;
+-+			break;
+- 		default:
+- 			usage();
+- 		}
+-+	}
+- 	argc -= optind;
+- 	argv += optind;
+- 
+-@@ -534,7 +540,7 @@ main(int argc, char **argv)
+- 	}
+- 	if (tflag) {
+- 		/* Receive data. */
+--		sink(argc, argv);
+-+		sink(argc, argv, NULL);
+- 		exit(errs != 0);
+- 	}
+- 	if (argc < 2)
+-@@ -792,7 +798,7 @@ tolocal(int argc, char **argv)
+- 			continue;
+- 		}
+- 		free(bp);
+--		sink(1, argv + argc - 1);
+-+		sink(1, argv + argc - 1, src);
+- 		(void) close(remin);
+- 		remin = remout = -1;
+- 	}
+-@@ -968,7 +974,7 @@ rsource(char *name, struct stat *statp)
+- 	 (sizeof(type) != 4 && sizeof(type) != 8))
+- 
+- void
+--sink(int argc, char **argv)
+-+sink(int argc, char **argv, const char *src)
+- {
+- 	static BUF buffer;
+- 	struct stat stb;
+-@@ -984,6 +990,7 @@ sink(int argc, char **argv)
+- 	unsigned long long ull;
+- 	int setimes, targisdir, wrerrno = 0;
+- 	char ch, *cp, *np, *targ, *why, *vect[1], buf[2048], visbuf[2048];
+-+	char *src_copy = NULL, *restrict_pattern = NULL;
+- 	struct timeval tv[2];
+- 
+- #define	atime	tv[0]
+-@@ -1008,6 +1015,17 @@ sink(int argc, char **argv)
+- 	(void) atomicio(vwrite, remout, "", 1);
+- 	if (stat(targ, &stb) == 0 && S_ISDIR(stb.st_mode))
+- 		targisdir = 1;
+-+	if (src != NULL && !iamrecursive && !Tflag) {
+-+		/*
+-+		 * Prepare to try to restrict incoming filenames to match
+-+		 * the requested destination file glob.
+-+		 */
+-+		if ((src_copy = strdup(src)) == NULL)
+-+			fatal("strdup failed");
+-+		if ((restrict_pattern = strrchr(src_copy, '/')) != NULL) {
+-+			*restrict_pattern++ = '\0';
+-+		}
+-+	}
+- 	for (first = 1;; first = 0) {
+- 		cp = buf;
+- 		if (atomicio(read, remin, cp, 1) != 1)
+-@@ -1112,6 +1130,9 @@ sink(int argc, char **argv)
+- 			run_err("error: unexpected filename: %s", cp);
+- 			exit(1);
+- 		}
+-+		if (restrict_pattern != NULL &&
+-+		    fnmatch(restrict_pattern, cp, 0) != 0)
+-+			SCREWUP("filename does not match request");
+- 		if (targisdir) {
+- 			static char *namebuf;
+- 			static size_t cursize;
+-@@ -1149,7 +1170,7 @@ sink(int argc, char **argv)
+- 					goto bad;
+- 			}
+- 			vect[0] = xstrdup(np);
+--			sink(1, vect);
+-+			sink(1, vect, src);
+- 			if (setimes) {
+- 				setimes = 0;
+- 				if (utimes(vect[0], tv) < 0)
+--- 
+-2.7.4
+-
+diff --git a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+similarity index 95%
+rename from meta/recipes-connectivity/openssh/openssh_7.9p1.bb
+rename to meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+index 6c8f7327a9..39848ea98b 100644
+--- a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_8.0p1.bb
+@@ -24,13 +24,9 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
+            file://fix-potential-signed-overflow-in-pointer-arithmatic.patch \
+            file://sshd_check_keys \
+            file://add-test-support-for-busybox.patch \
+-           file://CVE-2018-20685.patch \
+-           file://CVE-2019-6109.patch \
+-           file://0001-upstream-Have-progressmeter-force-an-update-at-the-b.patch \
+-           file://CVE-2019-6111.patch \
+            "
+-SRC_URI[md5sum] = "c6af50b7a474d04726a5aa747a5dce8f"
+-SRC_URI[sha256sum] = "6b4b3ba2253d84ed3771c8050728d597c91cfce898713beb7b64a305b6f11aad"
++SRC_URI[md5sum] = "bf050f002fe510e1daecd39044e1122d"
++SRC_URI[sha256sum] = "bd943879e69498e8031eb6b7f44d08cdc37d59a7ab689aa0b437320c3481fd68"
+ 
+ PAM_SRC_URI = "file://sshd"
+ 
+-- 
+2.20.1
+
 
 
 
