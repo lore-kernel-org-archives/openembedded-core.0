@@ -1,53 +1,28 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 5041D7E339
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 558547DE51
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 00:56:06 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id f97so1800672plb.5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 17:56:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=8gTbq5DZqdZKpM4mLmY3RqkPcnIQriDh4IUD+fqZKOE=;
-	b=qtka3r0so2jSSCGCcZrZu1yL5unQnq65HIWZCuToM1ZjO3mRdRwjI7K+TJq4vpORLS
-	fHb8SBNvzAf/aIcNQGrv9RvP2dCzRy1gOHjJJWt1lpveADpdaznxLSybMiQtm6drdGd6
-	sb0w3KVoL4Ih3assJ9zd8AuVG3mOfMasXw63X0w4KnJqKlegCv4sXTR2SzIAw2rqoEXY
-	6ZmNwM47SK3SRCToVjg1LMscl+pbtN2KK5l8MNW75q0JAykL4GJt7Mv70UZLNrFaXVpH
-	O+ev/ftJLyzgRjGFjtitwZYaRFpdhjkaRB78nqwjpcxV/iWzybYg8XgtnNCIfDRB307i
-	B1wQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=8gTbq5DZqdZKpM4mLmY3RqkPcnIQriDh4IUD+fqZKOE=;
-	b=ruFaw5EXqjkq/k4d9wnUc29vdT9VwwrZe5UxXDybe1v4P4FD7j4UdLfEeAP5Ucjo3T
-	tuJv5qQO9ODzPgwa5z40nqjdQXz6Zxu8ERBc5Wsu3OxDrK6wgI8ydO6EOHOmOy0fwIwQ
-	HjU78gJ3ze4uRKZQpuvJ7cRnjFBHzQJ9dzBdIQvBBakEfhvJ7trWWpZBzop+NAjFVo1b
-	YgGVmfsDhYoST9Xu3qjxphHLbwTUildbA4cjxdnXGaGgyxr4gZmNce7hP3D/A36/kqST
-	pecx8sBzSHwwpGobfXtYFksAHVfBdR3BGxpsON5Go18HpMs8t9FM8AQUyxzMmvcB5iZe
-	DWiw==
-X-Gm-Message-State: APjAAAXss/LWrvDaldElgU6zSb2PrRMxbsUC6I/lbZ4OeI0cc0kNu0+r
-	DEjcG2J01g1FmC4SozXSW39OmoEf
-X-Google-Smtp-Source: APXvYqwNUI2SpKwQvxsOl7rYlkCCxdqokIpK3twtILiSyUipUDEw4N4m40XeGoK2XYeS/axgts23wg==
-X-Received: by 2002:a17:902:20e2:: with SMTP id
-	v31mr946630plg.138.1559177767072; 
-	Wed, 29 May 2019 17:56:07 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:4865:9151:ec2:e220])
-	by smtp.gmail.com with ESMTPSA id
-	c17sm840920pfo.114.2019.05.29.17.56.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 29 May 2019 17:56:06 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 17:56:02 -0700
-Message-Id: <1559177762-10318-3-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559177762-10318-1-git-send-email-akuster808@gmail.com>
-References: <1559177762-10318-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH 3/3] python: add a fix for CVE-2019-9948 and CVE-2019-9636
+	Thu, 30 May 2019 02:09:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4U28llV006301
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 29 May 2019 19:08:57 -0700
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Wed, 29 May 2019 19:08:36 -0700
+To: Khem Raj <raj.khem@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20190522234018.30565-1-raj.khem@gmail.com>
+	<20190522234018.30565-3-raj.khem@gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <6b4ab793-939c-5240-b4eb-dfd85701fa4e@windriver.com>
+Date: Thu, 30 May 2019 10:20:10 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
+MIME-Version: 1.0
+In-Reply-To: <20190522234018.30565-3-raj.khem@gmail.com>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH v2 3/4] elfutils: Fix eu-* utils builds for musl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,329 +35,763 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 00:56:06 -0000
+X-List-Received-Date: Thu, 30 May 2019 02:09:23 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Martin Jansa <martin.jansa@gmail.com>
+There's some musl elfutils failure about do_compile_ptest_base on 
+autobuilder.
+https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/645/steps/7/logs/step1b
 
-Source: OpenEmbedded.org
-MR: 98320, 98319
-Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-devtools/python/python_2.7.16.bb?id=9d23b982fa4e0290761b3d15f6959779fed72ad6
-ChangeID: e79b6fe3b7b4253bf0d76b029070ae869d5234bd
-Description:
+I noticed that this patch is not yet in master-next. Can this patch 
+solve the problem above?
 
-Fixes:
-CVE-2019-9948
-CVE-2019-9636
+Best Regards,
+Chen Qi
 
-CVE-2019-9940 is a dup of 9948 per python.org
-CVE-2019-9947 appears to be a dup of 9940 per https://bugs.python.org/issue30458#msg295067
+On 05/23/2019 07:40 AM, Khem Raj wrote:
+> Re-organize the musl patches in three different areas namely
+> libs, utils and tests, this will help maintain them in future
+> version bumps
+>
+> Add obstack dependency on musl targets which is needed for eu-*
+>
+> PN and PN-binutils is not empty anymore on musl
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> v2: Make FNM_EXTMATCH 0
+>
+>   .../elfutils/elfutils_0.176.bb                |  15 +-
+>   ...-err-variable-and-function-conflicts.patch |  91 --------
+>   ...ternatives-for-glibc-assumptions-hel.patch | 196 ------------------
+>   .../elfutils/files/musl-libs.patch            | 111 ++++++++++
+>   .../elfutils/files/musl-obstack-fts.patch     | 105 ++++++++++
+>   .../files/{musl.patch => musl-tests.patch}    |   0
+>   .../elfutils/files/musl-utils.patch           | 136 ++++++++++++
+>   7 files changed, 359 insertions(+), 295 deletions(-)
+>   delete mode 100644 meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
+>   delete mode 100644 meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+>   create mode 100644 meta/recipes-devtools/elfutils/files/musl-libs.patch
+>   create mode 100644 meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch
+>   rename meta/recipes-devtools/elfutils/files/{musl.patch => musl-tests.patch} (100%)
+>   create mode 100644 meta/recipes-devtools/elfutils/files/musl-utils.patch
+>
+> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> index 85ff5f38d2..397723166c 100644
+> --- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> @@ -4,7 +4,7 @@ SECTION = "base"
+>   LICENSE = "GPLv2 & LGPLv3+ & GPLv3+"
+>   LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+>   DEPENDS = "libtool bzip2 zlib virtual/libintl"
+> -DEPENDS_append_libc-musl = " argp-standalone fts "
+> +DEPENDS_append_libc-musl = " argp-standalone fts musl-obstack "
+>   # The Debian patches below are from:
+>   # http://ftp.de.debian.org/debian/pool/main/e/elfutils/elfutils_0.175-1.debian.tar.xz
+>   SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+> @@ -31,12 +31,13 @@ SRC_URI = "https://sourceware.org/elfutils/ftp/${PV}/${BP}.tar.bz2 \
+>              file://0001-skip-the-test-when-gcc-not-deployed.patch \
+>              file://run-ptest \
+>              file://ptest.patch \
+> -           file://musl.patch \
+>              "
+> -SRC_URI_append_libc-musl = " file://0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch \
+> -                             file://0001-fix-err-variable-and-function-conflicts.patch \
+> -"
+> -
+> +SRC_URI_append_libc-musl = " \
+> +           file://musl-obstack-fts.patch \
+> +           file://musl-libs.patch \
+> +           file://musl-utils.patch \
+> +           file://musl-tests.patch \
+> +           "
+>   SRC_URI[md5sum] = "077e4f49320cad82bf17a997068b1db9"
+>   SRC_URI[sha256sum] = "eb5747c371b0af0f71e86215a5ebb88728533c3a104a43d4231963f308cd1023"
+>   
+> @@ -75,8 +76,6 @@ do_install_ptest() {
+>   EXTRA_OEMAKE_class-native = ""
+>   EXTRA_OEMAKE_class-nativesdk = ""
+>   
+> -ALLOW_EMPTY_${PN}_libc-musl = "1"
+> -
+>   BBCLASSEXTEND = "native nativesdk"
+>   
+>   # Package utilities separately
+> diff --git a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch b/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
+> deleted file mode 100644
+> index 433db133b2..0000000000
+> --- a/meta/recipes-devtools/elfutils/files/0001-fix-err-variable-and-function-conflicts.patch
+> +++ /dev/null
+> @@ -1,91 +0,0 @@
+> -From 2c50fe7068bd6911958c6d851aef88179e73bb21 Mon Sep 17 00:00:00 2001
+> -From: Mingli Yu <Mingli.Yu@windriver.com>
+> -Date: Tue, 16 Apr 2019 15:30:38 +0800
+> -Subject: [PATCH] fix err variable and function conflicts
+> -
+> -There comes below build failure with musl when
+> -ptest enabled.
+> -| In file included from ../../elfutils-0.176/tests/dwfl-proc-attach.c:33:
+> -| ../../elfutils-0.176/lib/system.h:63:35: error: called object 'err' is not a function or function pointer
+> -|  #define error(status, errno, ...) err(status, __VA_ARGS__)
+> -|                                    ^~~
+> -| ../../elfutils-0.176/tests/dwfl-proc-attach.c:92:5: note: in expansion of macro 'error'
+> -|      error (-1, 0, "dwfl_linux_proc_attach pid %d: %s", pid,
+> -|      ^~~~~
+> -| ../../elfutils-0.176/tests/dwfl-proc-attach.c:79:7: note: declared here
+> -|    int err;
+> -|        ^~~
+> -
+> -It is because there is no error.h in musl and
+> -the patch 0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+> -has updated to use err.h to replace error.h
+> -and also added macro definiton as below when
+> -use musl.
+> - #define error(status, errno, ...) err(status, __VA_ARGS__)
+> -
+> -And in err.h, there is below logic:
+> -_Noreturn void err(int, const char *, ...);
+> -
+> -But when ptest enabled, there comes below error
+> -as there is both variable and function defined
+> -to be err in tests/dwfl-proc-attach.c.
+> -So change the err variable's name to workaround
+> -the build failure with musl.
+> -
+> -Upstream-Status: Inappropriate [workaround in musl]
+> -
+> -Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+> ----
+> - tests/dwfl-proc-attach.c | 6 +++---
+> - 1 file changed, 3 insertions(+), 3 deletions(-)
+> -
+> -Index: elfutils-0.176/tests/dwfl-proc-attach.c
+> -===================================================================
+> ---- elfutils-0.176.orig/tests/dwfl-proc-attach.c
+> -+++ elfutils-0.176/tests/dwfl-proc-attach.c
+> -@@ -76,10 +76,10 @@ main (int argc __attribute__ ((unused)),
+> -       char **argv __attribute__ ((unused)))
+> - {
+> -   /* Create two extra threads to iterate through.  */
+> --  int err;
+> --  if ((err = pthread_create (&thread1, NULL, sleeper, NULL)) != 0)
+> -+  int err1;
+> -+  if ((err1 = pthread_create (&thread1, NULL, sleeper, NULL)) != 0)
+> -     error (-1, err, "Couldn't create thread1");
+> --  if ((err = pthread_create (&thread2, NULL, sleeper, NULL)) != 0)
+> -+  if ((err1 = pthread_create (&thread2, NULL, sleeper, NULL)) != 0)
+> -     error (-1, err, "Couldn't create thread2");
+> -
+> -   Dwfl *dwfl = dwfl_begin (&proc_callbacks);
+> -Index: elfutils-0.176/tests/backtrace.c
+> -===================================================================
+> ---- elfutils-0.176.orig/tests/backtrace.c
+> -+++ elfutils-0.176/tests/backtrace.c
+> -@@ -219,23 +219,23 @@ dump (Dwfl *dwfl)
+> - {
+> -   ptrdiff_t ptrdiff = dwfl_getmodules (dwfl, dump_modules, NULL, 0);
+> -   assert (ptrdiff == 0);
+> --  bool err = false;
+> -+  bool err1 = false;
+> -   switch (dwfl_getthreads (dwfl, thread_callback, NULL))
+> -     {
+> -     case 0:
+> -       break;
+> -     case DWARF_CB_ABORT:
+> --      err = true;
+> -+      err1 = true;
+> -       break;
+> -     case -1:
+> -       error (0, 0, "dwfl_getthreads: %s", dwfl_errmsg (-1));
+> --      err = true;
+> -+      err1 = true;
+> -       break;
+> -     default:
+> -       abort ();
+> -     }
+> -   callback_verify (0, 0, 0, NULL, dwfl);
+> --  if (err)
+> -+  if (err1)
+> -     exit (EXIT_FAILURE);
+> - }
+> -
+> diff --git a/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch b/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+> deleted file mode 100644
+> index 10cdac646c..0000000000
+> --- a/meta/recipes-devtools/elfutils/files/0008-build-Provide-alternatives-for-glibc-assumptions-hel.patch
+> +++ /dev/null
+> @@ -1,196 +0,0 @@
+> -From 990d377a92f4bab04bf6820fc81b3dcb6cf5e31d Mon Sep 17 00:00:00 2001
+> -From: Khem Raj <raj.khem@gmail.com>
+> -Date: Mon, 2 Jul 2018 09:52:23 +0800
+> -Subject: [PATCH] build: Provide alternatives for glibc assumptions helps
+> - compiling it on musl
+> -
+> -Upstream-Status: Pending
+> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> -
+> -Rebase to 0.175
+> -
+> -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> -
+> ----
+> - Makefile.am                      |  2 +-
+> - lib/fixedsizehash.h              |  1 -
+> - lib/system.h                     | 12 +++++++++++-
+> - libdw/Makefile.am                |  3 ++-
+> - libdwfl/dwfl_build_id_find_elf.c |  1 +
+> - libdwfl/dwfl_error.c             |  4 +++-
+> - libdwfl/dwfl_module_getdwarf.c   |  1 +
+> - libdwfl/libdwfl_crc32_file.c     |  9 +++++++++
+> - libdwfl/linux-kernel-modules.c   |  1 +
+> - libelf/elf.h                     |  8 ++++++--
+> - libelf/libelf.h                  |  1 +
+> - libelf/libelfP.h                 |  1 +
+> - 12 files changed, 37 insertions(+), 7 deletions(-)
+> -
+> -diff --git a/Makefile.am b/Makefile.am
+> -index 2ff444e..41f77df 100644
+> ---- a/Makefile.am
+> -+++ b/Makefile.am
+> -@@ -28,7 +28,7 @@ pkginclude_HEADERS = version.h
+> -
+> - # Add doc back when we have some real content.
+> - SUBDIRS = config m4 lib libelf libebl libdwelf libdwfl libdw libcpu libasm \
+> --	  backends src po tests
+> -+	  backends po tests
+> -
+> - EXTRA_DIST = elfutils.spec GPG-KEY NOTES CONTRIBUTING \
+> - 	     COPYING COPYING-GPLV2 COPYING-LGPLV3
+> -diff --git a/lib/fixedsizehash.h b/lib/fixedsizehash.h
+> -index dac2a5f..43016fc 100644
+> ---- a/lib/fixedsizehash.h
+> -+++ b/lib/fixedsizehash.h
+> -@@ -30,7 +30,6 @@
+> - #include <errno.h>
+> - #include <stdlib.h>
+> - #include <string.h>
+> --#include <sys/cdefs.h>
+> -
+> - #include <system.h>
+> -
+> -diff --git a/lib/system.h b/lib/system.h
+> -index 292082b..308a762 100644
+> ---- a/lib/system.h
+> -+++ b/lib/system.h
+> -@@ -30,7 +30,7 @@
+> - #define LIB_SYSTEM_H	1
+> -
+> - #include <errno.h>
+> --#include <error.h>
+> -+#include <err.h>
+> - #include <stddef.h>
+> - #include <stdint.h>
+> - #include <sys/param.h>
+> -@@ -51,6 +51,8 @@
+> - #else
+> - # error "Unknown byte order"
+> - #endif
+> -+
+> -+#define error(status, errno, ...) err(status, __VA_ARGS__)
+> -
+> - #ifndef MAX
+> - #define MAX(m, n) ((m) < (n) ? (n) : (m))
+> -diff --git a/libdw/Makefile.am b/libdw/Makefile.am
+> -index 7a3d532..7ac1241 100644
+> ---- a/libdw/Makefile.am
+> -+++ b/libdw/Makefile.am
+> -@@ -108,7 +108,8 @@ am_libdw_pic_a_OBJECTS = $(libdw_a_SOURCES:.c=.os)
+> - libdw_so_LIBS = libdw_pic.a ../libdwelf/libdwelf_pic.a \
+> - 	  ../libdwfl/libdwfl_pic.a ../libebl/libebl.a
+> - libdw_so_DEPS = ../lib/libeu.a ../libelf/libelf.so
+> --libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(zip_LIBS)
+> -+fts_LDADD = -lfts
+> -+libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(zip_LIBS) $(fts_LDADD)
+> - libdw_so_SOURCES =
+> - libdw.so$(EXEEXT): $(srcdir)/libdw.map $(libdw_so_LIBS) $(libdw_so_DEPS)
+> - # The rpath is necessary for libebl because its $ORIGIN use will
+> -diff --git a/libdwfl/dwfl_build_id_find_elf.c b/libdwfl/dwfl_build_id_find_elf.c
+> -index cc6c3f6..b06ab59 100644
+> ---- a/libdwfl/dwfl_build_id_find_elf.c
+> -+++ b/libdwfl/dwfl_build_id_find_elf.c
+> -@@ -31,6 +31,7 @@
+> - #endif
+> -
+> - #include "libdwflP.h"
+> -+#include "system.h"
+> - #include <inttypes.h>
+> - #include <fcntl.h>
+> - #include <unistd.h>
+> -diff --git a/libdwfl/dwfl_error.c b/libdwfl/dwfl_error.c
+> -index 7bcf61c..c345797 100644
+> ---- a/libdwfl/dwfl_error.c
+> -+++ b/libdwfl/dwfl_error.c
+> -@@ -140,6 +140,7 @@ __libdwfl_seterrno (Dwfl_Error error)
+> - const char *
+> - dwfl_errmsg (int error)
+> - {
+> -+  static __thread char s[64] = "";
+> -   if (error == 0 || error == -1)
+> -     {
+> -       int last_error = global_error;
+> -@@ -154,7 +155,8 @@ dwfl_errmsg (int error)
+> -   switch (error &~ 0xffff)
+> -     {
+> -     case OTHER_ERROR (ERRNO):
+> --      return strerror_r (error & 0xffff, "bad", 0);
+> -+      strerror_r (error & 0xffff, s, sizeof(s));
+> -+      return s;
+> -     case OTHER_ERROR (LIBELF):
+> -       return elf_errmsg (error & 0xffff);
+> -     case OTHER_ERROR (LIBDW):
+> -diff --git a/libdwfl/dwfl_module_getdwarf.c b/libdwfl/dwfl_module_getdwarf.c
+> -index 56e6105..f4a0649 100644
+> ---- a/libdwfl/dwfl_module_getdwarf.c
+> -+++ b/libdwfl/dwfl_module_getdwarf.c
+> -@@ -35,6 +35,7 @@
+> - #include <fcntl.h>
+> - #include <string.h>
+> - #include <unistd.h>
+> -+#include "system.h"
+> - #include "../libdw/libdwP.h"	/* DWARF_E_* values are here.  */
+> - #include "../libelf/libelfP.h"
+> - #include "system.h"
+> -diff --git a/libdwfl/linux-kernel-modules.c b/libdwfl/linux-kernel-modules.c
+> -index 360e4ee..b5aa397 100644
+> ---- a/libdwfl/linux-kernel-modules.c
+> -+++ b/libdwfl/linux-kernel-modules.c
+> -@@ -41,6 +41,7 @@
+> -
+> - #include "libelfP.h"
+> - #include "libdwflP.h"
+> -+#include "system.h"
+> - #include <inttypes.h>
+> - #include <errno.h>
+> - #include <stdio.h>
+> -diff --git a/libelf/elf.h b/libelf/elf.h
+> -index 5dc632b..14da1b7 100644
+> ---- a/libelf/elf.h
+> -+++ b/libelf/elf.h
+> -@@ -21,7 +21,9 @@
+> -
+> - #include <features.h>
+> -
+> --__BEGIN_DECLS
+> -+#ifdef __cplusplus
+> -+extern "C" {
+> -+#endif
+> -
+> - /* Standard ELF types.  */
+> -
+> -@@ -3937,6 +3939,8 @@ enum
+> - #define R_METAG_TLS_LE_HI16	60
+> - #define R_METAG_TLS_LE_LO16	61
+> -
+> --__END_DECLS
+> -+#ifdef __cplusplus
+> -+}
+> -+#endif
+> -
+> - #endif	/* elf.h */
+> -diff --git a/libelf/libelf.h b/libelf/libelf.h
+> -index 1ff11c9..c21e018 100644
+> ---- a/libelf/libelf.h
+> -+++ b/libelf/libelf.h
+> -@@ -29,6 +29,7 @@
+> - #ifndef _LIBELF_H
+> - #define _LIBELF_H 1
+> -
+> -+#include <fcntl.h>
+> - #include <stdint.h>
+> - #include <sys/types.h>
+> -
+> -diff --git a/libelf/libelfP.h b/libelf/libelfP.h
+> -index 9f3e8e9..10a347a 100644
+> ---- a/libelf/libelfP.h
+> -+++ b/libelf/libelfP.h
+> -@@ -32,6 +32,7 @@
+> -
+> - #include <ar.h>
+> - #include <gelf.h>
+> -+#include <libelf.h>
+> -
+> - #include <errno.h>
+> - #include <stdbool.h>
+> diff --git a/meta/recipes-devtools/elfutils/files/musl-libs.patch b/meta/recipes-devtools/elfutils/files/musl-libs.patch
+> new file mode 100644
+> index 0000000000..51ca630ef8
+> --- /dev/null
+> +++ b/meta/recipes-devtools/elfutils/files/musl-libs.patch
+> @@ -0,0 +1,111 @@
+> +Collection of fixes needed to compile libelf and other libraries
+> +provided by elfutils for musl targets
+> +
+> +error is glibc specific API, so this patch will mostly not accepted
+> +upstream given that elfutils has been closely tied to glibc
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Upstream-Status: Inappropriate [workaround for musl]
+> +
+> +--- /dev/null
+> ++++ b/lib/error.h
+> +@@ -0,0 +1,27 @@
+> ++#ifndef _ERROR_H_
+> ++#define _ERROR_H_
+> ++
+> ++#include <stdarg.h>
+> ++#include <stdio.h>
+> ++#include <stdlib.h>
+> ++#include <string.h>
+> ++#include <errno.h>
+> ++
+> ++static unsigned int error_message_count = 0;
+> ++
+> ++static inline void error(int status, int errnum, const char* format, ...)
+> ++{
+> ++	va_list ap;
+> ++	fprintf(stderr, "%s: ", program_invocation_name);
+> ++	va_start(ap, format);
+> ++	vfprintf(stderr, format, ap);
+> ++	va_end(ap);
+> ++	if (errnum)
+> ++		fprintf(stderr, ": %s", strerror(errnum));
+> ++	fprintf(stderr, "\n");
+> ++	error_message_count++;
+> ++	if (status)
+> ++		exit(status);
+> ++}
+> ++
+> ++#endif	/* _ERROR_H_ */
+> +--- a/lib/fixedsizehash.h
+> ++++ b/lib/fixedsizehash.h
+> +@@ -30,7 +30,6 @@
+> + #include <errno.h>
+> + #include <stdlib.h>
+> + #include <string.h>
+> +-#include <sys/cdefs.h>
+> +
+> + #include <system.h>
+> +
+> +--- a/lib/libeu.h
+> ++++ b/lib/libeu.h
+> +@@ -29,6 +29,7 @@
+> + #ifndef LIBEU_H
+> + #define LIBEU_H
+> +
+> ++#include "system.h"
+> + #include <stddef.h>
+> + #include <stdint.h>
+> +
+> +--- a/libdwfl/dwfl_error.c
+> ++++ b/libdwfl/dwfl_error.c
+> +@@ -154,7 +154,16 @@ dwfl_errmsg (int error)
+> +   switch (error &~ 0xffff)
+> +     {
+> +     case OTHER_ERROR (ERRNO):
+> ++#if defined(__GLIBC__)
+> +       return strerror_r (error & 0xffff, "bad", 0);
+> ++#else
+> ++      {
+> ++        static __thread char buf[128] = "";
+> ++        if (strerror_r (error & 0xffff, buf, sizeof(buf)) == 0)
+> ++          return buf;
+> ++      }
+> ++      return "strerror_r() failed";
+> ++#endif
+> +     case OTHER_ERROR (LIBELF):
+> +       return elf_errmsg (error & 0xffff);
+> +     case OTHER_ERROR (LIBDW):
+> +--- a/libdwfl/linux-kernel-modules.c
+> ++++ b/libdwfl/linux-kernel-modules.c
+> +@@ -50,6 +50,7 @@
+> + #include <sys/utsname.h>
+> + #include <fcntl.h>
+> + #include <unistd.h>
+> ++#include "system.h"
+> +
+> + /* If fts.h is included before config.h, its indirect inclusions may not
+> +    give us the right LFS aliases of these functions, so map them manually.  */
+> +--- a/libelf/elf.h
+> ++++ b/libelf/elf.h
+> +@@ -21,7 +21,9 @@
+> +
+> + #include <features.h>
+> +
+> +-__BEGIN_DECLS
+> ++#ifdef __cplusplus
+> ++extern "C" {
+> ++#endif
+> +
+> + /* Standard ELF types.  */
+> +
+> +@@ -3937,6 +3939,7 @@ enum
+> + #define R_METAG_TLS_LE_HI16	60
+> + #define R_METAG_TLS_LE_LO16	61
+> +
+> +-__END_DECLS
+> +-
+> ++#ifdef __cplusplus
+> ++}
+> ++#endif
+> + #endif	/* elf.h */
+> diff --git a/meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch b/meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch
+> new file mode 100644
+> index 0000000000..0fb7eb9236
+> --- /dev/null
+> +++ b/meta/recipes-devtools/elfutils/files/musl-obstack-fts.patch
+> @@ -0,0 +1,105 @@
+> +Look for libfts and libobstack during configure, these
+> +libraries are external to libc when using musl, whereas
+> +on glibc these libraries are provided in libc itself.
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Upstream-Status: Inappropriate [workaround for musl]
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -494,6 +494,60 @@ else
+> + fi
+> + AC_SUBST([argp_LDADD])
+> +
+> ++dnl Check if we have fts available from our libc
+> ++AC_LINK_IFELSE(
+> ++	[AC_LANG_PROGRAM(
+> ++		[#if !defined(__x86_64__)
+> ++		#undef  _FILE_OFFSET_BITS
+> ++		#define _FILE_OFFSET_BITS 32
+> ++		#endif
+> ++		#include <fts.h>],
+> ++		[FTS* fts = 0; return fts_close(fts); return 0;]
+> ++		)],
+> ++	[libc_has_fts="true"],
+> ++	[libc_has_fts="false"]
+> ++)
+> ++
+> ++dnl If our libc doesn't provide fts, then test for libfts
+> ++if test "$libc_has_fts" = "false" ; then
+> ++	AC_MSG_WARN("libc does not have fts")
+> ++	AC_CHECK_LIB([fts], [fts_close], [have_fts="true"], [have_fts="false"])
+> ++
+> ++	if test "$have_fts" = "false"; then
+> ++		AC_MSG_ERROR("no libfts found")
+> ++	else
+> ++		fts_LDADD="-lfts"
+> ++	fi
+> ++else
+> ++	fts_LDADD=""
+> ++fi
+> ++AC_SUBST([fts_LDADD])
+> ++
+> ++dnl Check if we have obstack available from our libc
+> ++AC_LINK_IFELSE(
+> ++	[AC_LANG_PROGRAM(
+> ++		[#include <obstack.h>],
+> ++		[_obstack_begin(0, 0, 0, NULL, NULL); return 0;]
+> ++		)],
+> ++	[libc_has_obstack="true"],
+> ++	[libc_has_obstack="false"]
+> ++)
+> ++
+> ++dnl If our libc doesn't provide obstack, then test for libobstack
+> ++if test "$libc_has_obstack" = "false" ; then
+> ++	AC_MSG_WARN("libc does not have obstack")
+> ++	AC_CHECK_LIB([obstack], [_obstack_begin], [have_obstack="true"], [have_obstack="false"])
+> ++
+> ++	if test "$have_obstack" = "false"; then
+> ++		AC_MSG_ERROR("no libobstack found")
+> ++	else
+> ++		obstack_LDADD="-lobstack"
+> ++	fi
+> ++else
+> ++	obstack_LDADD=""
+> ++fi
+> ++AC_SUBST([obstack_LDADD])
+> ++
+> + dnl The directories with content.
+> +
+> + dnl Documentation.
+> +--- a/libdw/Makefile.am
+> ++++ b/libdw/Makefile.am
+> +@@ -108,7 +108,7 @@ am_libdw_pic_a_OBJECTS = $(libdw_a_SOURC
+> + libdw_so_LIBS = libdw_pic.a ../libdwelf/libdwelf_pic.a \
+> + 	  ../libdwfl/libdwfl_pic.a ../libebl/libebl.a
+> + libdw_so_DEPS = ../lib/libeu.a ../libelf/libelf.so
+> +-libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(zip_LIBS)
+> ++libdw_so_LDLIBS = $(libdw_so_DEPS) -ldl -lz $(argp_LDADD) $(fts_LDADD) $(zip_LIBS)
+> + libdw_so_SOURCES =
+> + libdw.so$(EXEEXT): $(srcdir)/libdw.map $(libdw_so_LIBS) $(libdw_so_DEPS)
+> + # The rpath is necessary for libebl because its $ORIGIN use will
+> +--- a/src/Makefile.am
+> ++++ b/src/Makefile.am
+> +@@ -68,8 +68,8 @@ ar_no_Wstack_usage = yes
+> + unstrip_no_Wstack_usage = yes
+> +
+> + readelf_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
+> +-nm_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl \
+> +-	   $(demanglelib)
+> ++nm_LDADD = $(libdw) $(libebl) $(libelf) $(libeu) $(argp_LDADD) \
+> ++	   $(obstack_LDADD) -ldl $(demanglelib)
+> + size_LDADD = $(libelf) $(libeu) $(argp_LDADD)
+> + strip_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD) -ldl
+> + elflint_LDADD  = $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
+> +@@ -77,9 +77,9 @@ findtextrel_LDADD = $(libdw) $(libelf) $
+> + addr2line_LDADD = $(libdw) $(libelf) $(libeu) $(argp_LDADD) $(demanglelib)
+> + elfcmp_LDADD = $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
+> + objdump_LDADD  = $(libasm) $(libebl) $(libelf) $(libeu) $(argp_LDADD) -ldl
+> +-ranlib_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD)
+> ++ranlib_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD) $(obstack_LDADD)
+> + strings_LDADD = $(libelf) $(libeu) $(argp_LDADD)
+> +-ar_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD)
+> ++ar_LDADD = libar.a $(libelf) $(libeu) $(argp_LDADD) $(obstack_LDADD)
+> + unstrip_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD) -ldl
+> + stack_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD) -ldl $(demanglelib)
+> + elfcompress_LDADD = $(libebl) $(libelf) $(libdw) $(libeu) $(argp_LDADD)
+> diff --git a/meta/recipes-devtools/elfutils/files/musl.patch b/meta/recipes-devtools/elfutils/files/musl-tests.patch
+> similarity index 100%
+> rename from meta/recipes-devtools/elfutils/files/musl.patch
+> rename to meta/recipes-devtools/elfutils/files/musl-tests.patch
+> diff --git a/meta/recipes-devtools/elfutils/files/musl-utils.patch b/meta/recipes-devtools/elfutils/files/musl-utils.patch
+> new file mode 100644
+> index 0000000000..8e636bf660
+> --- /dev/null
+> +++ b/meta/recipes-devtools/elfutils/files/musl-utils.patch
+> @@ -0,0 +1,136 @@
+> +Provide missing defines which otherwise are available on glibc system headers
+> +
+> +Alter the error API to match posix version
+> +use qsort instead of qsort_r which is glibc specific API
+> +
+> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> +Upstream-Status: Inappropriate [workaround for musl]
+> +--- a/src/arlib.h
+> ++++ b/src/arlib.h
+> +@@ -29,6 +29,12 @@
+> + #include <stdint.h>
+> + #include <sys/types.h>
+> +
+> ++#if !defined(ALLPERMS)
+> ++# define ALLPERMS (S_ISUID|S_ISGID|S_ISVTX|S_IRWXU|S_IRWXG|S_IRWXO) /* 07777 */
+> ++#endif
+> ++#if !defined(DEFFILEMODE)
+> ++# define DEFFILEMODE (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH)/* 0666*/
+> ++#endif
+> +
+> + /* State of -D/-U flags.  */
+> + extern bool arlib_deterministic_output;
+> +--- a/src/elfcompress.c
+> ++++ b/src/elfcompress.c
+> +@@ -37,6 +37,13 @@
+> + #include "libeu.h"
+> + #include "printversion.h"
+> +
+> ++#if !defined(ALLPERMS)
+> ++# define ALLPERMS (S_ISUID|S_ISGID|S_ISVTX|S_IRWXU|S_IRWXG|S_IRWXO) /* 07777 */
+> ++#endif
+> ++#if !defined(FNM_EXTMATCH)
+> ++# define FNM_EXTMATCH (0)
+> ++#endif
+> ++
+> + /* Name and version of program.  */
+> + ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
+> +
+> +--- a/src/readelf.c
+> ++++ b/src/readelf.c
+> +@@ -4792,10 +4792,11 @@ listptr_base (struct listptr *p)
+> +   return cudie_base (&cu);
+> + }
+> +
+> ++static const char *listptr_name;
+> ++
+> + static int
+> +-compare_listptr (const void *a, const void *b, void *arg)
+> ++compare_listptr (const void *a, const void *b)
+> + {
+> +-  const char *name = arg;
+> +   struct listptr *p1 = (void *) a;
+> +   struct listptr *p2 = (void *) b;
+> +
+> +@@ -4811,21 +4812,21 @@ compare_listptr (const void *a, const vo
+> + 	  p1->warned = p2->warned = true;
+> + 	  error (0, 0,
+> + 		 gettext ("%s %#" PRIx64 " used with different address sizes"),
+> +-		 name, (uint64_t) p1->offset);
+> ++		 listptr_name, (uint64_t) p1->offset);
+> + 	}
+> +       if (p1->dwarf64 != p2->dwarf64)
+> + 	{
+> + 	  p1->warned = p2->warned = true;
+> + 	  error (0, 0,
+> + 		 gettext ("%s %#" PRIx64 " used with different offset sizes"),
+> +-		 name, (uint64_t) p1->offset);
+> ++		 listptr_name, (uint64_t) p1->offset);
+> + 	}
+> +       if (listptr_base (p1) != listptr_base (p2))
+> + 	{
+> + 	  p1->warned = p2->warned = true;
+> + 	  error (0, 0,
+> + 		 gettext ("%s %#" PRIx64 " used with different base addresses"),
+> +-		 name, (uint64_t) p1->offset);
+> ++		 listptr_name, (uint64_t) p1->offset);
+> + 	}
+> +       if (p1->attr != p2 ->attr)
+> + 	{
+> +@@ -4833,7 +4834,7 @@ compare_listptr (const void *a, const vo
+> + 	  error (0, 0,
+> + 		 gettext ("%s %#" PRIx64
+> + 			  " used with different attribute %s and %s"),
+> +-		 name, (uint64_t) p1->offset, dwarf_attr_name (p2->attr),
+> ++		 listptr_name, (uint64_t) p1->offset, dwarf_attr_name (p2->attr),
+> + 		 dwarf_attr_name (p2->attr));
+> + 	}
+> +     }
+> +@@ -4905,8 +4906,11 @@ static void
+> + sort_listptr (struct listptr_table *table, const char *name)
+> + {
+> +   if (table->n > 0)
+> +-    qsort_r (table->table, table->n, sizeof table->table[0],
+> +-	     &compare_listptr, (void *) name);
+> ++    {
+> ++      listptr_name = name;
+> ++      qsort (table->table, table->n, sizeof table->table[0],
+> ++	    &compare_listptr);
+> ++    }
+> + }
+> +
+> + static bool
+> +--- a/src/strip.c
+> ++++ b/src/strip.c
+> +@@ -46,6 +46,13 @@
+> + #include <system.h>
+> + #include <printversion.h>
+> +
+> ++#if !defined(ACCESSPERMS)
+> ++# define ACCESSPERMS (S_IRWXU|S_IRWXG|S_IRWXO) /* 0777 */
+> ++#endif
+> ++#if !defined(FNM_EXTMATCH)
+> ++# define FNM_EXTMATCH (0)
+> ++#endif
+> ++
+> + typedef uint8_t GElf_Byte;
+> +
+> + /* Name and version of program.  */
+> +--- a/src/unstrip.c
+> ++++ b/src/unstrip.c
+> +@@ -56,6 +56,15 @@
+> + # define _(str) gettext (str)
+> + #endif
+> +
+> ++#ifndef strndupa
+> ++#define strndupa(s, n) \
+> ++       ({const char *__in = (s); \
+> ++         size_t __len = strnlen (__in, (n)) + 1; \
+> ++         char *__out = (char *) alloca (__len); \
+> ++         __out[__len-1] = '\0'; \
+> ++         (char *) memcpy (__out, __in, __len-1);})
+> ++#endif
+> ++
+> + /* Name and version of program.  */
+> + ARGP_PROGRAM_VERSION_HOOK_DEF = print_version;
+> +
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Minor clean up for thud]
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../python/bpo-35907-cve-2019-9948-fix.patch       |  55 ++++++++++
- .../python/python/bpo-35907-cve-2019-9948.patch    |  55 ++++++++++
- .../python/bpo-36216-cve-2019-9636-fix.patch       |  28 ++++++
- .../python/python/bpo-36216-cve-2019-9636.patch    | 111 +++++++++++++++++++++
- meta/recipes-devtools/python/python_2.7.16.bb      |   4 +
- 5 files changed, 253 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
- create mode 100644 meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
-
-diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
-new file mode 100644
-index 0000000..b267237
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948-fix.patch
-@@ -0,0 +1,55 @@
-+From 179a5f75f1121dab271fe8f90eb35145f9dcbbda Mon Sep 17 00:00:00 2001
-+From: Sihoon Lee <push0ebp@gmail.com>
-+Date: Fri, 17 May 2019 02:41:06 +0900
-+Subject: [PATCH] Update test_urllib.py and urllib.py\nchange assertEqual into
-+ assertRasies in DummyURLopener test, and simplify mitigation
-+
-+Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
-+
-+CVE: CVE-2019-9948
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ Lib/test/test_urllib.py | 11 +++--------
-+ Lib/urllib.py           |  4 ++--
-+ 2 files changed, 5 insertions(+), 10 deletions(-)
-+
-+diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
-+index e5f210e62a18..1e23dfb0bb16 100644
-+--- a/Lib/test/test_urllib.py
-++++ b/Lib/test/test_urllib.py
-+@@ -1027,14 +1027,9 @@ def test_local_file_open(self):
-+         class DummyURLopener(urllib.URLopener):
-+             def open_local_file(self, url):
-+                 return url
-+-        self.assertEqual(DummyURLopener().open(
-+-            'local-file://example'), '//example')
-+-        self.assertEqual(DummyURLopener().open(
-+-            'local_file://example'), '//example')
-+-        self.assertRaises(IOError, urllib.urlopen,
-+-            'local-file://example')
-+-        self.assertRaises(IOError, urllib.urlopen,
-+-            'local_file://example')
-++        for url in ('local_file://example', 'local-file://example'):
-++            self.assertRaises(IOError, DummyURLopener().open, url)
-++            self.assertRaises(IOError, urllib.urlopen, url)
-+ 
-+ # Just commented them out.
-+ # Can't really tell why keep failing in windows and sparc.
-+diff --git a/Lib/urllib.py b/Lib/urllib.py
-+index a24e9a5c68fb..39b834054e9e 100644
-+--- a/Lib/urllib.py
-++++ b/Lib/urllib.py
-+@@ -203,10 +203,10 @@ def open(self, fullurl, data=None):
-+         name = 'open_' + urltype
-+         self.type = urltype
-+         name = name.replace('-', '_')
-+-        
-++
-+         # bpo-35907: # disallow the file reading with the type not allowed
-+         if not hasattr(self, name) or \
-+-            (self == _urlopener and name == 'open_local_file'):
-++            getattr(self, name) == self.open_local_file:
-+             if proxy:
-+                 return self.open_unknown_proxy(proxy, fullurl, data)
-+             else:
-diff --git a/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
-new file mode 100644
-index 0000000..f4c225d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-35907-cve-2019-9948.patch
-@@ -0,0 +1,55 @@
-+From 8f99cc799e4393bf1112b9395b2342f81b3f45ef Mon Sep 17 00:00:00 2001
-+From: push0ebp <push0ebp@shl-MacBook-Pro.local>
-+Date: Thu, 14 Feb 2019 02:05:46 +0900
-+Subject: [PATCH] bpo-35907: Avoid file reading as disallowing the unnecessary
-+ URL scheme in urllib
-+
-+Upstream-Status: Submitted https://github.com/python/cpython/pull/11842
-+
-+CVE: CVE-2019-9948
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ Lib/test/test_urllib.py | 12 ++++++++++++
-+ Lib/urllib.py           |  5 ++++-
-+ 2 files changed, 16 insertions(+), 1 deletion(-)
-+
-+diff --git a/Lib/test/test_urllib.py b/Lib/test/test_urllib.py
-+index 1ce9201c0693..e5f210e62a18 100644
-+--- a/Lib/test/test_urllib.py
-++++ b/Lib/test/test_urllib.py
-+@@ -1023,6 +1023,18 @@ def open_spam(self, url):
-+             "spam://c:|windows%/:=&?~#+!$,;'@()*[]|/path/"),
-+             "//c:|windows%/:=&?~#+!$,;'@()*[]|/path/")
-+ 
-++    def test_local_file_open(self):
-++        class DummyURLopener(urllib.URLopener):
-++            def open_local_file(self, url):
-++                return url
-++        self.assertEqual(DummyURLopener().open(
-++            'local-file://example'), '//example')
-++        self.assertEqual(DummyURLopener().open(
-++            'local_file://example'), '//example')
-++        self.assertRaises(IOError, urllib.urlopen,
-++            'local-file://example')
-++        self.assertRaises(IOError, urllib.urlopen,
-++            'local_file://example')
-+ 
-+ # Just commented them out.
-+ # Can't really tell why keep failing in windows and sparc.
-+diff --git a/Lib/urllib.py b/Lib/urllib.py
-+index d85504a5cb7e..a24e9a5c68fb 100644
-+--- a/Lib/urllib.py
-++++ b/Lib/urllib.py
-+@@ -203,7 +203,10 @@ def open(self, fullurl, data=None):
-+         name = 'open_' + urltype
-+         self.type = urltype
-+         name = name.replace('-', '_')
-+-        if not hasattr(self, name):
-++        
-++        # bpo-35907: # disallow the file reading with the type not allowed
-++        if not hasattr(self, name) or \
-++            (self == _urlopener and name == 'open_local_file'):
-+             if proxy:
-+                 return self.open_unknown_proxy(proxy, fullurl, data)
-+             else:
-diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
-new file mode 100644
-index 0000000..2ce4d2c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636-fix.patch
-@@ -0,0 +1,28 @@
-+From 06b5ee585d6e76bdbb4002f642d864d860cbbd2b Mon Sep 17 00:00:00 2001
-+From: Steve Dower <steve.dower@python.org>
-+Date: Tue, 12 Mar 2019 08:23:33 -0700
-+Subject: [PATCH] bpo-36216: Only print test messages when verbose
-+
-+CVE: CVE-2019-9636
-+ 
-+Upstream-Status: Backport https://github.com/python/cpython/pull/12291/commits/06b5ee585d6e76bdbb4002f642d864d860cbbd2b
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ Lib/test/test_urlparse.py | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
-+index 73b0228ea8e3..1830d0b28688 100644
-+--- a/Lib/test/test_urlparse.py
-++++ b/Lib/test/test_urlparse.py
-+@@ -644,7 +644,8 @@ def test_urlsplit_normalization(self):
-+         for scheme in [u"http", u"https", u"ftp"]:
-+             for c in denorm_chars:
-+                 url = u"{}://netloc{}false.netloc/path".format(scheme, c)
-+-                print "Checking %r" % url
-++                if test_support.verbose:
-++                    print "Checking %r" % url
-+                 with self.assertRaises(ValueError):
-+                     urlparse.urlsplit(url)
-+ 
-diff --git a/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
-new file mode 100644
-index 0000000..352b13b
---- /dev/null
-+++ b/meta/recipes-devtools/python/python/bpo-36216-cve-2019-9636.patch
-@@ -0,0 +1,111 @@
-+From 3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e Mon Sep 17 00:00:00 2001
-+From: Steve Dower <steve.dower@python.org>
-+Date: Thu, 7 Mar 2019 08:25:22 -0800
-+Subject: [PATCH] bpo-36216: Add check for characters in netloc that normalize
-+ to separators (GH-12201)
-+
-+CVE: CVE-2019-9636
-+
-+Upstream-Status: Backport https://github.com/python/cpython/pull/12216/commits/3e3669c9c41a27e1466e2c28b3906e3dd0ce3e7e
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+---
-+ Doc/library/urlparse.rst                      | 20 ++++++++++++++++
-+ Lib/test/test_urlparse.py                     | 24 +++++++++++++++++++
-+ Lib/urlparse.py                               | 17 +++++++++++++
-+ .../2019-03-06-09-38-40.bpo-36216.6q1m4a.rst  |  3 +++
-+ 4 files changed, 64 insertions(+)
-+ create mode 100644 Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
-+
-+diff --git a/Lib/test/test_urlparse.py b/Lib/test/test_urlparse.py
-+index 4e1ded73c266..73b0228ea8e3 100644
-+--- a/Lib/test/test_urlparse.py
-++++ b/Lib/test/test_urlparse.py
-+@@ -1,4 +1,6 @@
-+ from test import test_support
-++import sys
-++import unicodedata
-+ import unittest
-+ import urlparse
-+ 
-+@@ -624,6 +626,28 @@ def test_portseparator(self):
-+         self.assertEqual(urlparse.urlparse("http://www.python.org:80"),
-+                 ('http','www.python.org:80','','','',''))
-+ 
-++    def test_urlsplit_normalization(self):
-++        # Certain characters should never occur in the netloc,
-++        # including under normalization.
-++        # Ensure that ALL of them are detected and cause an error
-++        illegal_chars = u'/:#?@'
-++        hex_chars = {'{:04X}'.format(ord(c)) for c in illegal_chars}
-++        denorm_chars = [
-++            c for c in map(unichr, range(128, sys.maxunicode))
-++            if (hex_chars & set(unicodedata.decomposition(c).split()))
-++            and c not in illegal_chars
-++        ]
-++        # Sanity check that we found at least one such character
-++        self.assertIn(u'\u2100', denorm_chars)
-++        self.assertIn(u'\uFF03', denorm_chars)
-++
-++        for scheme in [u"http", u"https", u"ftp"]:
-++            for c in denorm_chars:
-++                url = u"{}://netloc{}false.netloc/path".format(scheme, c)
-++                print "Checking %r" % url
-++                with self.assertRaises(ValueError):
-++                    urlparse.urlsplit(url)
-++
-+ def test_main():
-+     test_support.run_unittest(UrlParseTestCase)
-+ 
-+diff --git a/Lib/urlparse.py b/Lib/urlparse.py
-+index f7c2b032b097..54eda08651ab 100644
-+--- a/Lib/urlparse.py
-++++ b/Lib/urlparse.py
-+@@ -165,6 +165,21 @@ def _splitnetloc(url, start=0):
-+             delim = min(delim, wdelim)     # use earliest delim position
-+     return url[start:delim], url[delim:]   # return (domain, rest)
-+ 
-++def _checknetloc(netloc):
-++    if not netloc or not isinstance(netloc, unicode):
-++        return
-++    # looking for characters like \u2100 that expand to 'a/c'
-++    # IDNA uses NFKC equivalence, so normalize for this check
-++    import unicodedata
-++    netloc2 = unicodedata.normalize('NFKC', netloc)
-++    if netloc == netloc2:
-++        return
-++    _, _, netloc = netloc.rpartition('@') # anything to the left of '@' is okay
-++    for c in '/?#@:':
-++        if c in netloc2:
-++            raise ValueError("netloc '" + netloc2 + "' contains invalid " +
-++                             "characters under NFKC normalization")
-++
-+ def urlsplit(url, scheme='', allow_fragments=True):
-+     """Parse a URL into 5 components:
-+     <scheme>://<netloc>/<path>?<query>#<fragment>
-+@@ -193,6 +208,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
-+                 url, fragment = url.split('#', 1)
-+             if '?' in url:
-+                 url, query = url.split('?', 1)
-++            _checknetloc(netloc)
-+             v = SplitResult(scheme, netloc, url, query, fragment)
-+             _parse_cache[key] = v
-+             return v
-+@@ -216,6 +232,7 @@ def urlsplit(url, scheme='', allow_fragments=True):
-+         url, fragment = url.split('#', 1)
-+     if '?' in url:
-+         url, query = url.split('?', 1)
-++    _checknetloc(netloc)
-+     v = SplitResult(scheme, netloc, url, query, fragment)
-+     _parse_cache[key] = v
-+     return v
-+diff --git a/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
-+new file mode 100644
-+index 000000000000..1e1ad92c6feb
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2019-03-06-09-38-40.bpo-36216.6q1m4a.rst
-+@@ -0,0 +1,3 @@
-++Changes urlsplit() to raise ValueError when the URL contains characters that
-++decompose under IDNA encoding (NFKC-normalization) into characters that
-++affect how the URL is parsed.
-+\ No newline at end of file
-diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
-index 7fe16f7..9c79faf 100644
---- a/meta/recipes-devtools/python/python_2.7.16.bb
-+++ b/meta/recipes-devtools/python/python_2.7.16.bb
-@@ -31,6 +31,10 @@ SRC_URI += "\
-   file://pass-missing-libraries-to-Extension-for-mul.patch \
-   file://support_SOURCE_DATE_EPOCH_in_py_compile_2.7.patch \
-   file://float-endian.patch \
-+  file://bpo-35907-cve-2019-9948.patch \
-+  file://bpo-35907-cve-2019-9948-fix.patch \
-+  file://bpo-36216-cve-2019-9636.patch \
-+  file://bpo-36216-cve-2019-9636-fix.patch \
- "
- 
- S = "${WORKDIR}/Python-${PV}"
--- 
-2.7.4
 
 
