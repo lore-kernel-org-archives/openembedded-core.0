@@ -1,55 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E9E97E428
+Return-Path: <marek.belisko@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A92C7E418
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 12:44:56 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id g24so9576658iti.5
+	Thu, 30 May 2019 13:03:45 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id 7so3777709wmo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 05:44:57 -0700 (PDT)
+	Thu, 30 May 2019 06:03:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=yHvJVTUpAzxvrDWfKfLBenxgqMNKmjg8L1d8uOmR8tM=;
-	b=DudZgf1J6h+mPLKOkPO7v9iP+VALMz8Sw5j6fh5uHtMjsDoRsf2jK8NpD9ZDRlL4AZ
-	3gd5m4xtCV0gv8lfy+Y/tvz1o03YZP6HOdLCdDgwS0J+M31zvxkg+eGbJ3209Y6JfEcE
-	ZuaFh8W7B8uoDxe73b02lTeO5MEzaPj+U3blVzliQlzGAWHYPbd6nvgu4YcmpeNgBG0L
-	XlW1YAd1VY4BcmlS9+0G5ZcHnM3sm8gv460lhla2GwU3hSlIAnY+QwJlWUWpcGG1JgcO
-	Wo9YzoX87BMbyqFxUI4+kUdykXgkMW0hOFkJjI9icEnljzmj1UNduKg0DSKP5U2ltsjr
-	yqiQ==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=F8Jx3T6szx95IMGR1P7P1wTa1sS9bJXw2Z6r7mow+Pw=;
+	b=hsC/z79Deb4XeIppGT+KnaTVQI+q6OnO3ZZj6WJj8LxoeXgV000Utw74Atq1+4NvAR
+	YS5oxFC5KcxsgPsiUInDa+q7glRZYl2VDwAActSAv0GYEXE5UrFPfkJkJgJYaKNltKQh
+	8BtG9TGC8JW03YV65nu88auMBdBfkJBvk/dysR6w/YZy1BvyDkuA6UmO7aJSrwcsI7+o
+	AlYkX+Ct/+3/8KDaBIARs8wxopjLzQdf25TBQg3A03yaupHHZsp63u8u05AyD0zqOVla
+	vgZxajLwfAVjgT7h75VYJywTtZgbMEtgeoCcui/AMmIix96+G9pDQSfPpUFhi20FMNe3
+	TQEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=yHvJVTUpAzxvrDWfKfLBenxgqMNKmjg8L1d8uOmR8tM=;
-	b=QVh1U+dMVsX2Gsr8fecOgCCf6ggiLIdilRrK53gLPD2hk6awu8V9gHqBJAV0Krxafc
-	yejY/e2Q1Mk2rRlw6PxQbib1EdLLC8/XI2XBL3xurtuRwKQbavrmsRliD87nr3krWvQG
-	XFcSbBVFp1ccad5LO+Ugi5L4OXnIaL7RIS3KUmbNFGDNmI8Xeu5odKmPbSj+ZLc4WGPV
-	KpkGeo30kBCYNvPCOqqJm1J5Z+Vccqqy0hwhtPPm7pPjt8YzE72RAveEDQKLHdIKl/PR
-	/0gE6GBHtmwzZr7TLtn+GX1Fex7nD83+BOuZ4T9wfR2gYaZPpmFb4/5IIqgp+UvNaEhT
-	dLeA==
-X-Gm-Message-State: APjAAAXMw4G97PABwHr0xfT25FQb5E9gPt3wmhhHDfaZ51CXwGPbNjoN
-	DnZlPYRguaNZ2ZvfSFBEDh8=
-X-Google-Smtp-Source: APXvYqylv42aXX9a+GyUn/IOvdDBHfM4br9AHrbsXcMvnmrm+Az6m2+sLrOvox6LGGeRzYz0boO2Bg==
-X-Received: by 2002:a05:660c:917:: with SMTP id
-	s23mr2632479itj.166.1559220297180; 
-	Thu, 30 May 2019 05:44:57 -0700 (PDT)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	s70sm1034266itb.16.2019.05.30.05.44.56
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 30 May 2019 05:44:56 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Thu, 30 May 2019 08:44:43 -0400
-Message-Id: <20edc110d973d65d8c56810e32bae475a869226a.1559220004.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1559220004.git.bruce.ashfield@gmail.com>
-References: <cover.1559220004.git.bruce.ashfield@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=F8Jx3T6szx95IMGR1P7P1wTa1sS9bJXw2Z6r7mow+Pw=;
+	b=speygavdEE7X4MsyAENrWSLDu1rSmSRqsvKcGf4aZFpUnoAj33NYutF28p+FQwFran
+	B38mllFJHrvUCb25u+3ADqmx57CoQyabntKE13dpmMwhWbg2G5hXi6wMXh8e/1MFEW92
+	gamTqml3yAMhbNQM5CmCewA8q0gHVbLjPObs9ODz6HwmcJ+qd3SYIhabXf/NQ9ZpIxnq
+	X+1iQN53CLAvaPz6gUS5NkSNgjnMm6Wn4ORBLulmol/F0QSZO9k3Cm34id266XDVFo+K
+	aM4FVIF+jw4kni+/zXzJXJlqC3Jhej0vUsaGTvAA3CfEdVmypec47PPjGTY3hkfa4+re
+	KNTg==
+X-Gm-Message-State: APjAAAVcV5dCIoKsyjrNFJFV2hOAd71tYmuYPNAtYoPeylDl2F+aR0c4
+	ZhrghzvMD848E0OKDANXvdsXsv07pKi+VI9TgDM=
+X-Google-Smtp-Source: APXvYqy7713FZQ4yE5+cYIw0qiVfgwuPLZ1nrX32RYbyC8tERuGCUYgoVtvIzuQq6tjodP1OzkXg+5rQ0oe5SdG1S98=
+X-Received: by 2002:a1c:2082:: with SMTP id g124mr2157143wmg.71.1559221425840; 
+	Thu, 30 May 2019 06:03:45 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 9/9] linux-yocto-rt/5.0: update to -rt11
+References: <cover.1559220004.git.bruce.ashfield@gmail.com>
+	<74d2e3a8ebd01013d2fb417670ccfb668974cb95.1559220004.git.bruce.ashfield@gmail.com>
+In-Reply-To: <74d2e3a8ebd01013d2fb417670ccfb668974cb95.1559220004.git.bruce.ashfield@gmail.com>
+From: Belisko Marek <marek.belisko@gmail.com>
+Date: Thu, 30 May 2019 15:03:33 +0200
+Message-ID: <CAAfyv37+CXbvBF6D+G00hBSH6t_OmKLNWpL_JuMQFt+_V0MZDw@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 5/9] kernel: package modules.builtin.modinfo
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,72 +55,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 12:44:56 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 May 2019 13:03:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Thu, May 30, 2019 at 2:45 PM <bruce.ashfield@gmail.com> wrote:
+>
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>
+> As of commit 898490c010b [moduleparam: Save information about built-in
+> modules in separate file] (kernels v5.2-rc1+), modules.builtin.modinfo
+> is generated as part of the kernel build process.
+>
+> We package it along with the other module artifacts, so it can be used
+> by scripts/other build steps.
+>
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+You can add my Tested-by: Marek Belisko <marek.belisko@gmail.com>
+> ---
+>  meta/classes/kernel.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+> index 437b8c7671..111a0b2eeb 100644
+> --- a/meta/classes/kernel.bbclass
+> +++ b/meta/classes/kernel.bbclass
+> @@ -558,7 +558,7 @@ EXPORT_FUNCTIONS do_compile do_install do_configure
+>  # kernel-image becomes kernel-image-${KERNEL_VERSION}
+>  PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules"
+>  FILES_${PN} = ""
+> -FILES_${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
+> +FILES_${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin.modinfo"
+>  FILES_${KERNEL_PACKAGE_NAME}-image = ""
+>  FILES_${KERNEL_PACKAGE_NAME}-dev = "/boot/System.map* /boot/Module.symvers* /boot/config* ${KERNEL_SRC_PATH} ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
+>  FILES_${KERNEL_PACKAGE_NAME}-vmlinux = "/boot/vmlinux-${KERNEL_VERSION_NAME}"
+> --
+> 2.19.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-Updating the 5.0 -rt to -rt11, which comprises the following commits:
+BR,
 
-   9c1e84c9b81b v5.0.19-rt11
-   c4258b70deda workqueue: rework
-   2a0f03c9daff softirq: rework
-   cb38c9a00313 Revert "drm/i915/fence: Do not use TIMER_IRQSAFE"
-   0ffa8402bf10 clocksource: TCLIB: Add proper depend
-   6a2ecc186d9a arm: imx6: cpuidle: Use raw_spinlock_t
-   c302271409c2 locking/lockdep: Don't complain about incorrect name for no validate class
-   4042bcac2c90 v5.0.19-rt10
-   d6ad4a85a911 genirq: Handle missing work_struct in irq_set_affinity_notifier()
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 4 ++--
- meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-index b8ca4a2721..2249feb9fe 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-@@ -11,8 +11,8 @@ python () {
-         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
- }
- 
--SRCREV_machine ?= "9376c193ebe7db89847195a749c2a200a1273c33"
--SRCREV_meta ?= "9262e21627a82956fb85eef0024135ce5179c73b"
-+SRCREV_machine ?= "9c1e84c9b81b6bf1df55f26f2e0517266c37f7eb"
-+SRCREV_meta ?= "d4b67d66fd9d40e4ec149500f57b991c83362a17"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-index b3bb1f4c52..0c240708df 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "fabee455f397ba8054f35a3ad5f2250bbad93bef"
- SRCREV_machine ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
--SRCREV_meta ?= "9262e21627a82956fb85eef0024135ce5179c73b"
-+SRCREV_meta ?= "d4b67d66fd9d40e4ec149500f57b991c83362a17"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-index 1b2224d0c1..0510187197 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-@@ -19,7 +19,7 @@ SRCREV_machine_qemux86 ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
- SRCREV_machine_qemux86-64 ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
- SRCREV_machine_qemumips64 ?= "5a8b27bcc0b16077ab8edfcd3fb25c80dc2c652e"
- SRCREV_machine ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
--SRCREV_meta ?= "9262e21627a82956fb85eef0024135ce5179c73b"
-+SRCREV_meta ?= "d4b67d66fd9d40e4ec149500f57b991c83362a17"
- 
- # remap qemuarm to qemuarma15 for the 5.0 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
--- 
-2.19.1
-
+marek
 
