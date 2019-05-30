@@ -1,30 +1,38 @@
-Return-Path: <philn@igalia.com>
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id A776F7E3FE
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 61EB87E3FA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 12:04:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:To:From:Subject:Message-ID;
-	bh=4bJIUOvAgb/H0uD1sDm29k5QRw3Vqw/qwb+v4IYMFR8=; 
-	b=cpuDnTnTf6z1twl9O4+NJTf0gKZ3oN1614uhY/dxTpfoxYiNTG1k62m5M42sMTYQx7WkZDL4349ClgbPnq6Vjojg9OrVesCPeeB/pWqpR9XFW6bxXUluAr46Xs5nwqV2H+G5mVKcOzuJl1c45QCG2xpVgjDZhLx1hY1MIVfsLWD8EBxwzgYUBdF9cmX5iPg0+3/awd/xeu89SSCxnirr2AlYODr26d9Rc+caFGCJ6jqRPFZksUCfi0C1DcbcFgvs7MbAHJnrRUBhhk2ESC4QX4NpueIptN5eakEQ5K7Su9QtNYsE3fliHJS6Ymdw0Oex6suEgZu1JNvQnTAvd6bgig==;
-Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
-	helo=[192.168.1.41]) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hWJnN-0003oy-2J; Thu, 30 May 2019 14:04:33 +0200
-Message-ID: <0b3f3478c903d888de0a6142dbf336632e46488d.camel@igalia.com>
-From: Philippe Normand <philn@igalia.com>
-To: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2019 13:04:23 +0100
-In-Reply-To: <8137b5badadbc46db18fc7b4bafd0734f90586ee.camel@linuxfoundation.org>
-References: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
-	<9891ffe8291ac7ac5d5e5be5289436b7290160c4.camel@linuxfoundation.org>
-	<7383a1c593e41083fa4123cd1341b1505373806c.camel@igalia.com>
-	<8137b5badadbc46db18fc7b4bafd0734f90586ee.camel@linuxfoundation.org>
-User-Agent: Evolution 3.30.5-1 
+	Thu, 30 May 2019 12:05:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45F5rT5tbKz43;
+	Thu, 30 May 2019 14:05:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559217946;
+	bh=odxP0vOTdwhyc+Yx+KojGfiifwIKbB/W9zf3AYaWHj8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HF1yoEL7QR31BupqOQqNiC/HpDOcTewwJ+nOArccb7wEA9jTivflFD6NcaIGyrB4k
+	60MoIA8nOtPcFgaAfLYVsBmt/UXn8qH6O+8PeBQzv1HpKnAQNQi8n/REs23HcQ2U7c
+	M9ruvSvamA35zYbbjwHiq8yA4ZdTg52b6c5zctv2j9JbUV4tLGM0lplOtOCV0QLIFX
+	cwivYTLgFNlOpCXvseZL+2f/fo3IkdxBb3MuEMHlZOmHKbKkTlyVpSEnNh/OtRHWd2
+	vRbOg3hWtAlXqHlo9p35JwNJYQbOgfrH769+616q4cqpoMQxcbka8jVioQxlx5AN8W
+	RGuRDkRbBbsAYPzPRUsYVV5xKe0d0r5zgTwNFHSb4vujqBuCD6LvKBLlSwqnr/8uMJ
+	jzP/nF13oRdxZpzFRXjBSFKp6K/Hsg7G2zTUtTSWUscvWoLqx2RUY+eSQDH5L/tzvk
+	tazBxTGY8Io++rB38HoJwh0Ba1x5opb2V4YgJnDIUp7Npjj1Ibg6mu2c0sElBcc2bd
+	xH7eWuN5OJhj711yuGZAd2eBP290xPkR1fsQEQ4G3vef5bDkvV/T4inkQBULdz9GZN
+	JT/UKaMYoqUYHeOXfWCcsAOc1Cj7DlFgDd82HVFWTqsVJEA6QpU25UMpzbO5jPixYG
+	ncL+YL2OdB3dQX1ZkTRiVQGk=
+Date: Thu, 30 May 2019 15:05:43 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190530120543.GC20599@localhost>
+References: <1559194340-420777-1-git-send-email-changqing.li@windriver.com>
+	<20190530111515.GB20599@localhost>
+	<67c4faa0f02f1086c7910499ec4e917a12f090f4.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
+In-Reply-To: <67c4faa0f02f1086c7910499ec4e917a12f090f4.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2 V2] add rconflict for systemd/tiny-init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,52 +45,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 12:04:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2019 12:05:46 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 2019-05-30 at 12:46 +0100, richard.purdie@linuxfoundation.org
-wrote:
-> On Thu, 2019-05-30 at 12:43 +0100, Philippe Normand wrote:
-> > On Thu, 2019-05-30 at 12:38 +0100, Richard Purdie wrote:
-> > > On Thu, 2019-05-30 at 11:12 +0100, Philippe Normand wrote:
-> > > > Since version 2.60 the glib-networking TLS database relies on
-> > > > GnuTLS's system
-> > > > trust store, so not enabling it leads to TLS errors in
-> > > > applications
-> > > > depending on
-> > > > glib-networking. The raised runtime warning is:
-> > > > 
-> > > > process:500): GLib-Net-WARNING **: 09:14:09.321: Failed to load
-> > > > TLS
-> > > > database: Failed to load system trust store: GnuTLS was not
-> > > > configured with a system trust
-> > > > (app:490): ... TLS Error: TLS certificate  has unknown CA.
+On Thu, May 30, 2019 at 12:40:12PM +0100, Richard Purdie wrote:
+> On Thu, 2019-05-30 at 14:15 +0300, Adrian Bunk wrote:
+> > On Thu, May 30, 2019 at 01:32:18PM +0800, changqing.li@windriver.com
+> > wrote:
+> > > From: Changqing Li <changqing.li@windriver.com>
 > > > 
-> > > Doesn't this mean we should enable it by default as well?
 > > > 
+> > > Changqing Li (2):
+> > >   tiny-init: add rconflicts
+> > >   systemd: add rconflicts
+> > > ...
 > > 
-> > Yes, I would likely support this decision. :)
+> > I wonder whether the conflicts between init systems could be handled
+> > with
+> >     RCONFLICTS_${PN} = "${VIRTUAL-RUNTIME_init_manager}"
 > > 
-> > I didn't do it in the patch because I don't know all the
-> > consequences
-> > of enabling this by default. I would rather defer the decision to
-> > the
-> > recipe maintainer.
+> > This would avoid the problem that all n init systems would need 
+> > RCONFLICTS with all n-1 other init systems.
+> > 
+> > In my testing this seems to work with all supported package managers
+> > (including the self-conflict not causing problems).
 > 
-> Given we're seeing issues without it enabled, can you send a v2 with
-> it
-> being enabled by default please? 
-> 
-> We try not to do that where it adds dependencies we don't need but it
-> seems to make sense here to me (I can take repsonsibilty for asking
-> for
-> it!).
-> 
+> I think we can support multiple init systems within one package feed,
+> at least to some degree.
 
-Alright, I'll update the patch then. Enabling this new option requires
-the p11-kit option to be enabled as well though.
+This should work with either solution, or do I miss anything?
 
-Philippe
+> I'm also very nervous about the self-conflict, 
+> I'm surprised that works with all the package managers as I thought I'd
+> seen that fail.
+
+In Debian that's a common pattern for exactly this purpose,
+see the last section of [1].
+
+> Was that with rootfs construction or just building the
+> packages?
+
+rootfs construction with opkg/deb/rpm [2]
+
+> Cheers,
+> 
+> Richard
+
+cu
+Adrian
+
+[1] https://www.debian.org/doc/debian-policy/ch-relationships.html#virtual-packages-provides
+[2] with tar rootfs construction is generally impossible
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
