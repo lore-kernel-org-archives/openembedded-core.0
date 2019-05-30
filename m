@@ -1,38 +1,36 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 61EB87E3FA
+	by mail.openembedded.org (Postfix) with ESMTP id 287E67E407
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 12:05:46 +0000 (UTC)
+	Thu, 30 May 2019 12:17:20 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45F5rT5tbKz43;
-	Thu, 30 May 2019 14:05:45 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45F65r59bDz44;
+	Thu, 30 May 2019 14:17:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559217946;
-	bh=odxP0vOTdwhyc+Yx+KojGfiifwIKbB/W9zf3AYaWHj8=;
+	s=default; t=1559218640;
+	bh=6BX4zxd3I30NA6JTgplme/E1v95H1egygMgcUI005oY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HF1yoEL7QR31BupqOQqNiC/HpDOcTewwJ+nOArccb7wEA9jTivflFD6NcaIGyrB4k
-	60MoIA8nOtPcFgaAfLYVsBmt/UXn8qH6O+8PeBQzv1HpKnAQNQi8n/REs23HcQ2U7c
-	M9ruvSvamA35zYbbjwHiq8yA4ZdTg52b6c5zctv2j9JbUV4tLGM0lplOtOCV0QLIFX
-	cwivYTLgFNlOpCXvseZL+2f/fo3IkdxBb3MuEMHlZOmHKbKkTlyVpSEnNh/OtRHWd2
-	vRbOg3hWtAlXqHlo9p35JwNJYQbOgfrH769+616q4cqpoMQxcbka8jVioQxlx5AN8W
-	RGuRDkRbBbsAYPzPRUsYVV5xKe0d0r5zgTwNFHSb4vujqBuCD6LvKBLlSwqnr/8uMJ
-	jzP/nF13oRdxZpzFRXjBSFKp6K/Hsg7G2zTUtTSWUscvWoLqx2RUY+eSQDH5L/tzvk
-	tazBxTGY8Io++rB38HoJwh0Ba1x5opb2V4YgJnDIUp7Npjj1Ibg6mu2c0sElBcc2bd
-	xH7eWuN5OJhj711yuGZAd2eBP290xPkR1fsQEQ4G3vef5bDkvV/T4inkQBULdz9GZN
-	JT/UKaMYoqUYHeOXfWCcsAOc1Cj7DlFgDd82HVFWTqsVJEA6QpU25UMpzbO5jPixYG
-	ncL+YL2OdB3dQX1ZkTRiVQGk=
-Date: Thu, 30 May 2019 15:05:43 +0300
+	b=dm82WgpxDxFm8WLtW4eWcMybt/NMpJjk2+PQKGo5+lXV2uoyPA3SLNHMDB1ldbh+0
+	aBk7D3b/i4xLdOQbPvoCBf7433FfIYoCxpePPQp/pmaVOYXE5Y1lXXq/NxtQaS7kh8
+	z75Sy0riPNfVBiOmlD2WMGCcDAr5n8NmoE6ZVqaBMGFY5mAQo0beEoNOYo+y8cPKXb
+	9x2Ez/6DBmVd+IZiJNEtUqv5xxJ1L0OC0/AZqRxC6/MPlpI7LYpqEFBjt0OhJ6erTJ
+	XqNqi7VHzcSP2Dy0s02Wac3HGpGglldJ+JAxSRC5vXzl5e8vKQvlmFcGJ2+Xee0ncv
+	J2Zga8Uo4ojE0C05bdp/8MaHaswaYMtMeo9vFP5eTItyy/USVcVobNiotMuKavTx04
+	5WMbsV7K+oY5LfOCmVcoHitxJq7jDhJkLq47ERlbT21pgAc7bxk2LnUq4Hf2yXiWSO
+	OAem+eGq/pBtI+EcC+tCqkvaP06xbdJWcOuo3lIMqHjALOeqTFVVTbAXjavWW8ugI7
+	viaSItDj5M3fca/TIOfQGUZ1ey0K21PG4BFEvtFklHJwbebU6fIHwA7F2cu6yCURx6
+	xtTl8Pgn7n8Cm3m513ayQqsn80jMxGV56e5kDlQzreKuPDvKnDQ4Fndjq4zeh4ULzD
+	B1f+0mQuWrgC3gk8gmUG+VPI=
+Date: Thu, 30 May 2019 15:17:18 +0300
 From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190530120543.GC20599@localhost>
-References: <1559194340-420777-1-git-send-email-changqing.li@windriver.com>
-	<20190530111515.GB20599@localhost>
-	<67c4faa0f02f1086c7910499ec4e917a12f090f4.camel@linuxfoundation.org>
+To: Philippe Normand <philn@igalia.com>
+Message-ID: <20190530121718.GD20599@localhost>
+References: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <67c4faa0f02f1086c7910499ec4e917a12f090f4.camel@linuxfoundation.org>
+In-Reply-To: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 0/2 V2] add rconflict for systemd/tiny-init
+Subject: Re: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,58 +43,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 12:05:46 -0000
+X-List-Received-Date: Thu, 30 May 2019 12:17:20 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Thu, May 30, 2019 at 12:40:12PM +0100, Richard Purdie wrote:
-> On Thu, 2019-05-30 at 14:15 +0300, Adrian Bunk wrote:
-> > On Thu, May 30, 2019 at 01:32:18PM +0800, changqing.li@windriver.com
-> > wrote:
-> > > From: Changqing Li <changqing.li@windriver.com>
-> > > 
-> > > 
-> > > Changqing Li (2):
-> > >   tiny-init: add rconflicts
-> > >   systemd: add rconflicts
-> > > ...
-> > 
-> > I wonder whether the conflicts between init systems could be handled
-> > with
-> >     RCONFLICTS_${PN} = "${VIRTUAL-RUNTIME_init_manager}"
-> > 
-> > This would avoid the problem that all n init systems would need 
-> > RCONFLICTS with all n-1 other init systems.
-> > 
-> > In my testing this seems to work with all supported package managers
-> > (including the self-conflict not causing problems).
+On Thu, May 30, 2019 at 11:12:21AM +0100, Philippe Normand wrote:
+> Since version 2.60 the glib-networking TLS database relies on GnuTLS's system
+> trust store, so not enabling it leads to TLS errors in applications depending on
+> glib-networking. The raised runtime warning is:
 > 
-> I think we can support multiple init systems within one package feed,
-> at least to some degree.
-
-This should work with either solution, or do I miss anything?
-
-> I'm also very nervous about the self-conflict, 
-> I'm surprised that works with all the package managers as I thought I'd
-> seen that fail.
-
-In Debian that's a common pattern for exactly this purpose,
-see the last section of [1].
-
-> Was that with rootfs construction or just building the
-> packages?
-
-rootfs construction with opkg/deb/rpm [2]
-
-> Cheers,
+> process:500): GLib-Net-WARNING **: 09:14:09.321: Failed to load TLS database: Failed to load system trust store: GnuTLS was not configured with a system trust
+> (app:490): ... TLS Error: TLS certificate  has unknown CA.
+> ---
+>  meta/recipes-support/gnutls/gnutls_3.6.7.bb | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> Richard
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.6.7.bb b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
+> index e05dc2b57d..3ad6e56579 100644
+> --- a/meta/recipes-support/gnutls/gnutls_3.6.7.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
+> @@ -35,6 +35,8 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
+>  PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
+>  PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
+>  PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
+> +PACKAGECONFIG[pkcs11-trust-store] = "--with-default-trust-store-pkcs11=pkcs11:,,"
+>...
+
+Two questions:
+
+1. Is this a valid pkcs11 URI?
+
+AC_ARG_WITH([default-trust-store-pkcs11],
+  [AS_HELP_STRING([--with-default-trust-store-pkcs11=URI],
+    [use the given pkcs11 uri as default trust store])])
+
+2. Wouldn't the more common case be to use the ca-certificates
+package instead of PKCS #11?
 
 cu
 Adrian
-
-[1] https://www.debian.org/doc/debian-policy/ch-relationships.html#virtual-packages-provides
-[2] with tar rootfs construction is generally impossible
 
 -- 
 
