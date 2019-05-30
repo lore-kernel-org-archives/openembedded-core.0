@@ -1,27 +1,25 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BBA0D7E35F
+Return-Path: <philn@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 484307E3B4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 09:24:15 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4U9Mu9t018564
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 May 2019 02:23:27 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 30 May 2019 02:23:16 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 30 May 2019 05:22:31 -0400
-Message-ID: <20190530092232.169453-3-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
-In-Reply-To: <20190530092232.169453-1-kai.kang@windriver.com>
-References: <20190530092232.169453-1-kai.kang@windriver.com>
+	Thu, 30 May 2019 10:12:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:Date:To:From:Subject:Message-ID;
+	bh=8GPMY4h9Ks/xmXfoseW20If4izmcuyWMYhwPUYllTUU=; 
+	b=qQQ9bBaC1UZFXvPWSFISYeL6WR3FMSxFjrhWARoYiJ1JOYQgRIzAW3wUmzy2jSrsf/82j5yEImsbBXpDkAo639Dkxua1/kfYNa/X7hBg0Er2iWFl4IGvN7k6BsLCK3KilTPPdKmf1o4GJdcA/A1OXUi5KJVttz1ihUlo0I0sqccquw+cSlnAkmLYjdE/mMCOEe7AP10fg6hFWxYR4pM2Wyba8z0I9FOoVI/jzVI1rBypxL2gCsRkkYm1wzOOOcKJ3NY3u9AGcOx6dKg4fjDXpFLjFZMbuJNCg520Ko+uJ70gPdcOjCv13h8OJwvkBWgvmN7/UHwOa0mb77Rmilkpmw==;
+Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
+	helo=[192.168.1.41]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+	id 1hWI2x-0007GZ-9Z for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2019 12:12:31 +0200
+Message-ID: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
+From: Philippe Normand <philn@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 30 May 2019 11:12:21 +0100
+User-Agent: Evolution 3.30.5-1 
 MIME-Version: 1.0
-Cc: poky@yoctoproject.org, peter.kjellerstedt@axis.com,
-	openembedded-core@lists.openembedded.org
-Subject: [meta-poky][PATCH v4 2/3] poky-tiny.conf: not backfill distro feature systemd
+Subject: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,35 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 09:24:15 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Thu, 30 May 2019 10:12:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+Since version 2.60 the glib-networking TLS database relies on GnuTLS's system
+trust store, so not enabling it leads to TLS errors in applications depending on
+glib-networking. The raised runtime warning is:
 
-systemd has been added to DISTRO_FEATURES_BACKFILL for poky by default,
-but it is compatible with poky-tiny. So not backfile it to
-DISTRO_FEATURES by adding it to DISTRO_FEATURES_BACKFILL_CONSIDERED.
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+process:500): GLib-Net-WARNING **: 09:14:09.321: Failed to load TLS database: Failed to load system trust store: GnuTLS was not configured with a system trust
+(app:490): ... TLS Error: TLS certificate  has unknown CA.
 ---
- meta-poky/conf/distro/poky-tiny.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/gnutls/gnutls_3.6.7.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
-index 1f8b6e8ff3..ad95919e6c 100644
---- a/meta-poky/conf/distro/poky-tiny.conf
-+++ b/meta-poky/conf/distro/poky-tiny.conf
-@@ -87,7 +87,7 @@ VIRTUAL-RUNTIME_login_manager = "busybox"
- VIRTUAL-RUNTIME_init_manager = "busybox"
- VIRTUAL-RUNTIME_initscripts = "initscripts"
- VIRTUAL-RUNTIME_keymaps = "keymaps"
--DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED += "systemd sysvinit"
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.7.bb b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
+index e05dc2b57d..3ad6e56579 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.7.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
+@@ -35,6 +35,8 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
+ PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
+ PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
+ PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
++PACKAGECONFIG[pkcs11-trust-store] = "--with-default-trust-store-pkcs11=pkcs11:,,"
++
  
- # FIXME: Consider adding "modules" to MACHINE_FEATURES and using that in
- # packagegroup-core-base to select modutils-initscripts or not.  Similar with "net" and
+ EXTRA_OECONF = " \
+     --enable-doc \
 -- 
-2.20.0
+2.20.1
+
 
 
