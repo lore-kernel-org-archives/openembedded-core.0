@@ -1,25 +1,36 @@
-Return-Path: <philn@igalia.com>
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 484307E3B4
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6B3787E3A4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 10:12:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:Date:To:From:Subject:Message-ID;
-	bh=8GPMY4h9Ks/xmXfoseW20If4izmcuyWMYhwPUYllTUU=; 
-	b=qQQ9bBaC1UZFXvPWSFISYeL6WR3FMSxFjrhWARoYiJ1JOYQgRIzAW3wUmzy2jSrsf/82j5yEImsbBXpDkAo639Dkxua1/kfYNa/X7hBg0Er2iWFl4IGvN7k6BsLCK3KilTPPdKmf1o4GJdcA/A1OXUi5KJVttz1ihUlo0I0sqccquw+cSlnAkmLYjdE/mMCOEe7AP10fg6hFWxYR4pM2Wyba8z0I9FOoVI/jzVI1rBypxL2gCsRkkYm1wzOOOcKJ3NY3u9AGcOx6dKg4fjDXpFLjFZMbuJNCg520Ko+uJ70gPdcOjCv13h8OJwvkBWgvmN7/UHwOa0mb77Rmilkpmw==;
-Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
-	helo=[192.168.1.41]) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hWI2x-0007GZ-9Z for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 12:12:31 +0200
-Message-ID: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
-From: Philippe Normand <philn@igalia.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2019 11:12:21 +0100
-User-Agent: Evolution 3.30.5-1 
+	Thu, 30 May 2019 11:15:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45F4kG0Qj5z43;
+	Thu, 30 May 2019 13:15:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559214918;
+	bh=Uhzq2IomrMt7NYozuvb2ylbZjlLYUvLnSjHngHYvk2E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AWEojOzX3TJD0hZqqslncZjjKHLu/EB9n32pUqXNoSOiVDbRLWQFkKGVnwtxOtR9M
+	OfI61U5aZuGTWgegySpdVQdH3EKhHKuzaRbqoAdzsVG4rp6SVAdvz2Zo/YPaU2h1pU
+	tCHC3pOPquVAD1mZC3LpDy6146G3+hFBSIT46o2t+2nCEDYshBv1zwc0uoDD1Yb/F9
+	96BK7QIWL9YnJ5frCX+hfJSVY43nRiA3sfP3gOXiTsLbKNh+klNFwoIkDlgQFSLe53
+	3E0CtD5ctQfm7Lhb6UQH6nkmGd7Pyh2YBQvt3WmMOW6vWA+QdbOwEjSixwKz6Oe7uE
+	d+eo1femQ+wUvQCRyXvzrCFA5FJJP6xF1da1aZv9dMGwtpKXoSqSmg5aGfdVzohlf/
+	LGXI37hIk/qtUb8CTwtvAnse7FDrZMqTOk/i921I/mrRwCdtF0eCwL0WC/2hdeCeba
+	ujVJ/QvLF9uYaxtyOYyzyEOHadK9VOfqV2QvhDH5kIVRPsDX+h+5FugvySWSkqxeyR
+	SQmVJV+rnPDHUGbXRBRmx+4zX37SBzTcX6vgmPaEvfF50J43zw+w357C+ps/fyVKSE
+	rMVpF6LXVu430KBBUQPMaG+6upjhhL7Exc4IkVr2sqvtgld/ikXzpzsdy4tyZWH9OV
+	o0wwRNnF9jvRavtMN5cHcTRE=
+Date: Thu, 30 May 2019 14:15:15 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: changqing.li@windriver.com
+Message-ID: <20190530111515.GB20599@localhost>
+References: <1559194340-420777-1-git-send-email-changqing.li@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
+In-Reply-To: <1559194340-420777-1-git-send-email-changqing.li@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 0/2 V2] add rconflict for systemd/tiny-init
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,35 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 10:12:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2019 11:15:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Since version 2.60 the glib-networking TLS database relies on GnuTLS's system
-trust store, so not enabling it leads to TLS errors in applications depending on
-glib-networking. The raised runtime warning is:
+On Thu, May 30, 2019 at 01:32:18PM +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> 
+> Changqing Li (2):
+>   tiny-init: add rconflicts
+>   systemd: add rconflicts
+>...
 
-process:500): GLib-Net-WARNING **: 09:14:09.321: Failed to load TLS database: Failed to load system trust store: GnuTLS was not configured with a system trust
-(app:490): ... TLS Error: TLS certificate  has unknown CA.
----
- meta/recipes-support/gnutls/gnutls_3.6.7.bb | 2 ++
- 1 file changed, 2 insertions(+)
+I wonder whether the conflicts between init systems could be handled with
+    RCONFLICTS_${PN} = "${VIRTUAL-RUNTIME_init_manager}"
 
-diff --git a/meta/recipes-support/gnutls/gnutls_3.6.7.bb b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
-index e05dc2b57d..3ad6e56579 100644
---- a/meta/recipes-support/gnutls/gnutls_3.6.7.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
-@@ -35,6 +35,8 @@ PACKAGECONFIG[libidn] = "--with-idn,--without-idn,libidn2"
- PACKAGECONFIG[libtasn1] = "--with-included-libtasn1=no,--with-included-libtasn1,libtasn1"
- PACKAGECONFIG[p11-kit] = "--with-p11-kit,--without-p11-kit,p11-kit"
- PACKAGECONFIG[tpm] = "--with-tpm,--without-tpm,trousers"
-+PACKAGECONFIG[pkcs11-trust-store] = "--with-default-trust-store-pkcs11=pkcs11:,,"
-+
- 
- EXTRA_OECONF = " \
-     --enable-doc \
+This would avoid the problem that all n init systems would need 
+RCONFLICTS with all n-1 other init systems.
+
+In my testing this seems to work with all supported package managers
+(including the self-conflict not causing problems).
+
+cu
+Adrian
+
 -- 
-2.20.1
 
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
