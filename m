@@ -1,53 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 77CFD7E2EE
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 509927E428
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 21:41:27 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id t1so2768095pgc.2
+	Thu, 30 May 2019 21:41:28 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id t1so2768107pgc.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 14:41:28 -0700 (PDT)
+	Thu, 30 May 2019 14:41:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=F8CFhGlk0gauwXV5dvzfmkf6R3gsh/JjCDKrcjqD9iY=;
-	b=GefHhDkrnAjN7ssY3u7e3N2cmUGpn6wmK04Mr/GpzrAAj3mNKcVfAq0dcjGA4S0Mtk
-	kTpZ5GTxG5N06fOD8yA4thnwArjWiQ1/pd3ArG3JQBfMbNQG/3nxJqcS7MPu9FwTMbSO
-	Z+yilr1LwZ3sJscO7enMNkskJZO5PGhfhqt3GM7u15b4vCtpPFt4ElWbRJndQYO1U4Vh
-	xRjBiPkiOwVnQfOJSDJYLoza6k67VoZuJ6uTh+qA0+4dcOTA+h6bdfO+yO3XLceixlyR
-	/Atkz6AZu0BV/fnGpgXVaPZ60RVA0FHzHIfMrh93JxLDJoAbLcFjtN224QjmzoYqFt3X
-	sezA==
+	bh=ewkGSRcMMCiBXeERIu/cCFTbQGdHQqOygn0TvVb0PLE=;
+	b=anLOK8DqmjbUUUhAQ3Njg8TRQ6SLcD+Aqz5y5iWi8dlp2qrCV+bcYTRBz7SNX+L7p0
+	LrW39GCDLPzSizLKkVsZhUk29csZPNNQd82hfIMuT3xaDNcIqazKcCxZp2Nb5hIFho/Q
+	8vwnOh6dNvEH6hLCWPFJKLvekilmMX0elvnLkW8mWGzc3iW4ADcfKApQyak9WEsK4if4
+	H0eXM4H+GRFMqzklctJ5qcSmaJqwEZR4h/3BSPFRvfHYCzfzY51PD+/qSTQe226Aktbk
+	f97j44PiOZn8piwgaaFy+WT/kvnuB33vAsF+4/otQVcHq+xN5Dx/CwSqSvAVUtWrdoOK
+	uZJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=F8CFhGlk0gauwXV5dvzfmkf6R3gsh/JjCDKrcjqD9iY=;
-	b=t5Ohu2mWk6fmwrKTgrapJOEBErkBIvwfwDJCwC4vm3ttHnARKjtubX18Ok2WYfdIUx
-	zclmnGn+IAPVM9SzY3sSdzXVQxx93cgsyoH3H3uaVuB2lU6g/HAYqJiFW1vfZsMlUpDe
-	Vi4M1G1gYIhjb2Vyrih1I134IzWp3JsIPNyg0FxKt/82dYflY+GVqCcDBgBQL1W1a8US
-	r9xot0D8bu4BDdme/0qOAXxnJPRfGk2Tc/1GDOqn6A0cEcDRsR+j/x/abGpXN+K6sPmK
-	uc1V4vYsmhwWFUwws3z+/P2BwO2fn7joAGC4YitCbZTuVavSnbk8oypv9vky3BreoygQ
-	ofNg==
-X-Gm-Message-State: APjAAAUSGmeEXlkTrzDRCVq9uVV/S1f3sVIFk92jUTKDAKNYcjYCl3rb
-	4JZ+Je9XMHDsG3vNf8UJc42b3lq1
-X-Google-Smtp-Source: APXvYqwtUIEgd/BLI2/sq3YUABeDBXF3m/IJTIdRokJOfvGXIl4suteMZaRiLAJFsqmH3QqD/Fi5Sw==
-X-Received: by 2002:a17:90a:2308:: with SMTP id
-	f8mr5278923pje.123.1559252488174; 
-	Thu, 30 May 2019 14:41:28 -0700 (PDT)
+	bh=ewkGSRcMMCiBXeERIu/cCFTbQGdHQqOygn0TvVb0PLE=;
+	b=mPBgsRRD01v54P4r2zk83IvvbjMJZ92ndFvkha+knrRp1HLHuA1nA2SNq/1GB6dHgw
+	lDL2g2FCBREwaVu1SU6pEfrLSsxPeA6eMtoBmg0MAUAbgWpPaISYngC2hXhQH7lYWwwq
+	X17Z1LA+DtyMDSkhNxLQGZCZ/81kiyomwf70MNFW7hQ3z+DKH1+FKh16X/A+vQt+B8oL
+	lloE1DPiB1ZrbGv99kDWo3/xzhozGKkEPji3QOUjwh8aveXppcFcUCCUTb1wy7ZmXFf1
+	FqgrEauEYTJ0fFO1OrCAXjYnfwxZszrB4wu5gNiTZBMigmej5DtlAZK5CLjMC6xFO/1k
+	b9iA==
+X-Gm-Message-State: APjAAAWOanFhuBYE1xjnUwVQpPrAz6jHT7ZzwNLhrvWniRtoHrZtBzD4
+	pornfTWOq7YEZG+wrzAC1amoQnuJ
+X-Google-Smtp-Source: APXvYqzEFm7oSAJ4T91Ku1cbXddtMblIWdBBlQdHZkHwNvkxkyVpVcwoGxed52hEeskntC5IiaeO8w==
+X-Received: by 2002:a63:ee0b:: with SMTP id e11mr5685669pgi.453.1559252489016; 
+	Thu, 30 May 2019 14:41:29 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:4865:9151:ec2:e220])
 	by smtp.gmail.com with ESMTPSA id
-	c142sm4189189pfb.171.2019.05.30.14.41.27
+	c142sm4189189pfb.171.2019.05.30.14.41.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Thu, 30 May 2019 14:41:27 -0700 (PDT)
+	Thu, 30 May 2019 14:41:28 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2019 14:41:24 -0700
-Message-Id: <1559252485-2953-2-git-send-email-akuster808@gmail.com>
+Date: Thu, 30 May 2019 14:41:25 -0700
+Message-Id: <1559252485-2953-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559252485-2953-1-git-send-email-akuster808@gmail.com>
 References: <1559252485-2953-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH 2/3] sqlite3: Security fixes for CVE-2018-20505 & 20506
+Subject: [thud][PATCH 3/3] sqlite3: Security fixes CVE-2019-9936, 9937
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,187 +59,276 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 21:41:27 -0000
+X-List-Received-Date: Thu, 30 May 2019 21:41:28 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-Source: sqlite.org
-MR: 97484, 97490
+Source: OpenEmbedded.org
+MR: 98324, 97484
 Type: Security Fix
-Disposition: Backport from sqilte.org
-ChangeID: c6105b5d3ce4fb2c0f38c3cab745b769d2df38f5
+Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-support/sqlite?h=warrior&id=4ec161ea684b305b303f32e96ce23f472c82e1a1
+ChangeID: 9bb19b8794f532caee85893dc8cb5d037b3a8eec
 Description:
 
-Affects < 3.26.0
-fixes:
-CVE-2018-20505
-CVE-2018-20506
+Backports from Warrior with minor fixups for thud
+
+Fixes:
+CVE-2019-9936
+CVE-2019-9937
+
+Affects < 3.27.2
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../sqlite/files/CVE-2018-20505.patch              |  31 +++++++
- .../sqlite/files/CVE-2018-20506.patch              | 103 +++++++++++++++++++++
+ .../sqlite/files/CVE-2019-9936.patch               |  31 ++++
+ .../sqlite/files/CVE-2019-9937.patch               | 189 +++++++++++++++++++++
  meta/recipes-support/sqlite/sqlite3_3.23.1.bb      |   2 +
- 3 files changed, 136 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20505.patch
- create mode 100644 meta/recipes-support/sqlite/files/CVE-2018-20506.patch
+ 3 files changed, 222 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2019-9936.patch
+ create mode 100644 meta/recipes-support/sqlite/files/CVE-2019-9937.patch
 
-diff --git a/meta/recipes-support/sqlite/files/CVE-2018-20505.patch b/meta/recipes-support/sqlite/files/CVE-2018-20505.patch
+diff --git a/meta/recipes-support/sqlite/files/CVE-2019-9936.patch b/meta/recipes-support/sqlite/files/CVE-2019-9936.patch
 new file mode 100644
-index 0000000..d1119f3
+index 0000000..91ac0e0
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2018-20505.patch
++++ b/meta/recipes-support/sqlite/files/CVE-2019-9936.patch
 @@ -0,0 +1,31 @@
-+From: D. Richard Hipp <drh@hwaci.com>
-+Date: Sat, 3 Nov 2018 13:11:24 +0000 (+0000)
-+Subject: Fix a assert() in the query planner that can arise when doing row-value
-+X-Git-Tag: version-3.26.0~59
-+X-Git-Url: https://repo.or.cz/sqlite.git/commitdiff_plain/24298027a30cf7941f16a8cc878d0c1f9f14308f
++Running fts5 prefix queries inside a transaction could trigger a heap-based
++buffer over-read in fts5HashEntrySort in sqlite3.c, which may lead to an
++information leak.
 +
-+Fix a assert() in the query planner that can arise when doing row-value
-+operations on a PRIMARY KEY that contains duplicate columns.
-+Ticket [1a84668dcfdebaf12415d].
++CVE: CVE-2019-9936
++Upstream-Status: Backport [https://sqlite.org/src/vpatch?from=45c73deb440496e8&to=b3fa58dd7403dbd4]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+https://sqlite.org/src/info/1a84668dcfdebaf12415d
-+
-+upstream-Status: Backport
-+CVE: CVE-2018-20505
-+affects <= 3.26.0
-+
++[refreshed for Thud]
++Affects < 3.27.2
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ sqlite3.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
 +
 +Index: sqlite-autoconf-3230100/sqlite3.c
 +===================================================================
 +--- sqlite-autoconf-3230100.orig/sqlite3.c
 ++++ sqlite-autoconf-3230100/sqlite3.c
-+@@ -131231,7 +131231,7 @@ static Expr *removeUnindexableInClauseTe
-+     for(i=iEq; i<pLoop->nLTerm; i++){
-+       if( pLoop->aLTerm[i]->pExpr==pX ){
-+         int iField = pLoop->aLTerm[i]->iField - 1;
-+-        assert( pOrigRhs->a[iField].pExpr!=0 );
-++        if( pOrigRhs->a[iField].pExpr==0 ) continue; /* Duplicate PK column */
-+         pRhs = sqlite3ExprListAppend(pParse, pRhs, pOrigRhs->a[iField].pExpr);
-+         pOrigRhs->a[iField].pExpr = 0;
-+         assert( pOrigLhs->a[iField].pExpr!=0 );
-diff --git a/meta/recipes-support/sqlite/files/CVE-2018-20506.patch b/meta/recipes-support/sqlite/files/CVE-2018-20506.patch
++@@ -196437,7 +196437,9 @@ static int fts5HashEntrySort(
++   for(iSlot=0; iSlot<pHash->nSlot; iSlot++){
++     Fts5HashEntry *pIter;
++     for(pIter=pHash->aSlot[iSlot]; pIter; pIter=pIter->pHashNext){
++-      if( pTerm==0 || 0==memcmp(fts5EntryKey(pIter), pTerm, nTerm) ){
+++      if( pTerm==0
+++       || (pIter->nKey+1>=nTerm && 0==memcmp(fts5EntryKey(pIter), pTerm, nTerm))
+++      ){
++         Fts5HashEntry *pEntry = pIter;
++         pEntry->pScanNext = 0;
++         for(i=0; ap[i]; i++){
+diff --git a/meta/recipes-support/sqlite/files/CVE-2019-9937.patch b/meta/recipes-support/sqlite/files/CVE-2019-9937.patch
 new file mode 100644
-index 0000000..7919f9b
+index 0000000..337df0d
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/files/CVE-2018-20506.patch
-@@ -0,0 +1,103 @@
-+From: Dan Kennedy <danielk1977@gmail.com>
-+Date: Sat, 3 Nov 2018 16:51:30 +0000 (+0000)
-+Subject: Add extra defenses against strategically corrupt databases to fts3/4.
-+X-Git-Tag: version-3.26.0~58
-+X-Git-Url: https://repo.or.cz/sqlite.git/commitdiff_plain/19816852d4e82e115338b1997540c26a1b794d18
++++ b/meta/recipes-support/sqlite/files/CVE-2019-9937.patch
+@@ -0,0 +1,189 @@
++Interleaving reads and writes in a single transaction with an fts5 virtual table
++will lead to a NULL Pointer Dereference in fts5ChunkIterate in sqlite3.c.
 +
-+Add extra defenses against strategically corrupt databases to fts3/4.
++CVE: CVE-2019-9937
++Upstream-Status: Backport [https://sqlite.org/src/vpatch?from=c2f50aa4e7bad882&to=45c73deb440496e8]
++Signed-off-by: Ross Burton <ross.burton@intel.com>
 +
-+https://sqlite.org/src/info/940f2adc8541a838
++[Refreshed for thud]
++Affects <= 3.27.2
++Signed-off-by: Armin kuster <akuster@mvista.com>
 +
-+Upstream-Status: Backport
-+CVE: CVE-2018-20506
-+Affects <= 3.26.0
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
++---
++ sqlite3.c | 83 ++++++++++++++++++++++++++++++++++++++-----------------
++ 1 file changed, 57 insertions(+), 26 deletions(-)
 +
 +Index: sqlite-autoconf-3230100/sqlite3.c
 +===================================================================
 +--- sqlite-autoconf-3230100.orig/sqlite3.c
 ++++ sqlite-autoconf-3230100/sqlite3.c
-+@@ -152368,7 +152368,7 @@ static int fts3ScanInteriorNode(
-+   const char *zCsr = zNode;       /* Cursor to iterate through node */
-+   const char *zEnd = &zCsr[nNode];/* End of interior node buffer */
-+   char *zBuffer = 0;              /* Buffer to load terms into */
-+-  int nAlloc = 0;                 /* Size of allocated buffer */
-++  i64 nAlloc = 0;                 /* Size of allocated buffer */
-+   int isFirstTerm = 1;            /* True when processing first term on page */
-+   sqlite3_int64 iChild;           /* Block id of child node to descend to */
++@@ -189439,8 +189439,9 @@ static void sqlite3Fts5HashClear(Fts5Has
 + 
-+@@ -152406,14 +152406,14 @@ static int fts3ScanInteriorNode(
-+     zCsr += fts3GetVarint32(zCsr, &nSuffix);
-+     
-+     assert( nPrefix>=0 && nSuffix>=0 );
-+-    if( &zCsr[nSuffix]>zEnd ){
-++    if( nPrefix>zCsr-zNode || nSuffix>zEnd-zCsr ){
-+       rc = FTS_CORRUPT_VTAB;
-+       goto finish_scan;
++ static int sqlite3Fts5HashQuery(
++   Fts5Hash*,                      /* Hash table to query */
+++  int nPre,
++   const char *pTerm, int nTerm,   /* Query term */
++-  const u8 **ppDoclist,           /* OUT: Pointer to doclist for pTerm */
+++  void **ppObj,			  /* OUT: Pointer to doclist for pTerm */
++   int *pnDoclist                  /* OUT: Size of doclist in bytes */
++ );
++ 
++@@ -196179,19 +196180,25 @@ static int fts5HashResize(Fts5Hash *pHas
++   return SQLITE_OK;
++ }
++ 
++-static void fts5HashAddPoslistSize(Fts5Hash *pHash, Fts5HashEntry *p){
+++static int fts5HashAddPoslistSize(
+++  Fts5Hash *pHash,
+++  Fts5HashEntry *p,
+++  Fts5HashEntry *p2
+++){
+++  int nRet = 0;
++   if( p->iSzPoslist ){
++-    u8 *pPtr = (u8*)p;
+++    u8 *pPtr = p2 ? (u8*)p2 : (u8*)p;
+++    int nData = p->nData;
++     if( pHash->eDetail==FTS5_DETAIL_NONE ){
++-      assert( p->nData==p->iSzPoslist );
+++      assert( nData==p->iSzPosList );
++       if( p->bDel ){
++-        pPtr[p->nData++] = 0x00;
+++        pPtr[nData++] = 0x00;
++         if( p->bContent ){
++-          pPtr[p->nData++] = 0x00;
+++          pPtr[nData++] = 0x00;
++         }
++       }
++     }else{
++-      int nSz = (p->nData - p->iSzPoslist - 1);       /* Size in bytes */
+++      int nSz = (nData - p->iSzPoslist - 1);       /* Size in bytes */
++       int nPos = nSz*2 + p->bDel;                     /* Value of nPos field */
++ 
++       assert( p->bDel==0 || p->bDel==1 );
++@@ -196201,14 +196208,19 @@ static void fts5HashAddPoslistSize(Fts5H
++         int nByte = sqlite3Fts5GetVarintLen((u32)nPos);
++         memmove(&pPtr[p->iSzPoslist + nByte], &pPtr[p->iSzPoslist + 1], nSz);
++         sqlite3Fts5PutVarint(&pPtr[p->iSzPoslist], nPos);
++-        p->nData += (nByte-1);
+++        nData += (nByte-1);
++       }
 +     }
-+-    if( nPrefix+nSuffix>nAlloc ){
-++    if( (i64)nPrefix+nSuffix>nAlloc ){
-+       char *zNew;
-+-      nAlloc = (nPrefix+nSuffix) * 2;
-+-      zNew = (char *)sqlite3_realloc(zBuffer, nAlloc);
-++      nAlloc = ((i64)nPrefix+nSuffix) * 2;
-++      zNew = (char *)sqlite3_realloc64(zBuffer, nAlloc);
-+       if( !zNew ){
-+         rc = SQLITE_NOMEM;
-+         goto finish_scan;
-+@@ -162012,15 +162012,19 @@ static int fts3SegReaderNext(
-+   ** safe (no risk of overread) even if the node data is corrupted. */
-+   pNext += fts3GetVarint32(pNext, &nPrefix);
-+   pNext += fts3GetVarint32(pNext, &nSuffix);
-+-  if( nPrefix<0 || nSuffix<=0 
-+-   || &pNext[nSuffix]>&pReader->aNode[pReader->nNode] 
-++  if( nSuffix<=0 
-++   || (&pReader->aNode[pReader->nNode] - pNext)<nSuffix
-++   || nPrefix>pReader->nTermAlloc
-+   ){
-+     return FTS_CORRUPT_VTAB;
++ 
++-    p->iSzPoslist = 0;
++-    p->bDel = 0;
++-    p->bContent = 0;
+++    nRet = nData - p->nData;
+++    if( p2 == 0 ){
+++      p->iSzPoslist = 0;
+++      p->bDel = 0;
+++      p->bContent = 0;
+++      p->nData = nData;
+++    }
++   }
+++  return nRet;
++ }
++ 
++ /*
++@@ -196320,7 +196332,7 @@ static int sqlite3Fts5HashWrite(
++   /* If this is a new rowid, append the 4-byte size field for the previous
++   ** entry, and the new rowid for this entry.  */
++   if( iRowid!=p->iRowid ){
++-    fts5HashAddPoslistSize(pHash, p);
+++    fts5HashAddPoslistSize(pHash, p, 0);
++     p->nData += sqlite3Fts5PutVarint(&pPtr[p->nData], iRowid - p->iRowid);
++     p->iRowid = iRowid;
++     bNew = 1;
++@@ -196467,8 +196479,9 @@ static int fts5HashEntrySort(
++ */
++ static int sqlite3Fts5HashQuery(
++   Fts5Hash *pHash,                /* Hash table to query */
+++  int nPre,
++   const char *pTerm, int nTerm,   /* Query term */
++-  const u8 **ppDoclist,           /* OUT: Pointer to doclist for pTerm */
+++  void **ppOut,			  /* OUT: Pointer to new object */
++   int *pnDoclist                  /* OUT: Size of doclist in bytes */
++ ){
++   unsigned int iHash = fts5HashKey(pHash->nSlot, (const u8*)pTerm, nTerm);
++@@ -196481,11 +196494,20 @@ static int sqlite3Fts5HashQuery(
 +   }
 + 
-+-  if( nPrefix+nSuffix>pReader->nTermAlloc ){
-+-    int nNew = (nPrefix+nSuffix)*2;
-+-    char *zNew = sqlite3_realloc(pReader->zTerm, nNew);
-++  /* Both nPrefix and nSuffix were read by fts3GetVarint32() and so are
-++  ** between 0 and 0x7FFFFFFF. But the sum of the two may cause integer
-++  ** overflow - hence the (i64) casts.  */
-++  if( (i64)nPrefix+nSuffix>(i64)pReader->nTermAlloc ){
-++    i64 nNew = ((i64)nPrefix+nSuffix)*2;
-++    char *zNew = sqlite3_realloc64(pReader->zTerm, nNew);
-+     if( !zNew ){
-+       return SQLITE_NOMEM;
-+     }
-+@@ -162042,7 +162046,7 @@ static int fts3SegReaderNext(
-+   ** b-tree node. And that the final byte of the doclist is 0x00. If either 
-+   ** of these statements is untrue, then the data structure is corrupt.
-+   */
-+-  if( &pReader->aDoclist[pReader->nDoclist]>&pReader->aNode[pReader->nNode] 
-++  if( (&pReader->aNode[pReader->nNode] - pReader->aDoclist)<pReader->nDoclist
-+    || (pReader->nPopulate==0 && pReader->aDoclist[pReader->nDoclist-1])
-+   ){
-+     return FTS_CORRUPT_VTAB;
-+@@ -164367,7 +164371,9 @@ static int nodeReaderNext(NodeReader *p)
-+       p->iOff += fts3GetVarint32(&p->aNode[p->iOff], &nPrefix);
-+     }
-+     p->iOff += fts3GetVarint32(&p->aNode[p->iOff], &nSuffix);
-+-
-++    if( nPrefix>p->iOff || nSuffix>p->nNode-p->iOff ){
-++      return SQLITE_CORRUPT_VTAB;
++   if( p ){
++-    fts5HashAddPoslistSize(pHash, p);
++-    *ppDoclist = (const u8*)&zKey[nTerm+1];
++-    *pnDoclist = p->nData - (sizeof(Fts5HashEntry) + nTerm + 1);
+++    int nHashPre = sizeof(Fts5HashEntry) + nTerm + 1;
+++    int nList = p->nData - nHashPre;
+++    u8 *pRet = (u8*)(*ppOut = sqlite3_malloc64(nPre + nList + 10));
+++    if ( pRet ){
+++       Fts5HashEntry *pFaux = (Fts5HashEntry*)&pRet[nPre-nHashPre];
+++       memcpy(&pRet[nPre], &((u8*)p)[nHashPre], nList);
+++       nList += fts5HashAddPoslistSize(pHash, p, pFaux);
+++       *pnDoclist = nList;
+++    }else{
+++       *pnDoclist = 0;
+++       return SQLITE_NOMEM;
 ++    }
-+     blobGrowBuffer(&p->term, nPrefix+nSuffix, &rc);
-+     if( rc==SQLITE_OK ){
-+       memcpy(&p->term.a[nPrefix], &p->aNode[p->iOff], nSuffix);
-+@@ -164375,6 +164381,9 @@ static int nodeReaderNext(NodeReader *p)
-+       p->iOff += nSuffix;
-+       if( p->iChild==0 ){
-+         p->iOff += fts3GetVarint32(&p->aNode[p->iOff], &p->nDoclist);
-++        if( (p->nNode-p->iOff)<p->nDoclist ){
-++          return SQLITE_CORRUPT_VTAB;
-++        }
-+         p->aDoclist = &p->aNode[p->iOff];
-+         p->iOff += p->nDoclist;
-+       }
++   }else{
++-    *ppDoclist = 0;
+++    *ppOut = 0;
++     *pnDoclist = 0;
++   }
++ 
++@@ -196518,7 +196540,7 @@ static void sqlite3Fts5HashScanEntry(
++   if( (p = pHash->pScan) ){
++     char *zKey = fts5EntryKey(p);
++     int nTerm = (int)strlen(zKey);
++-    fts5HashAddPoslistSize(pHash, p);
+++    fts5HashAddPoslistSize(pHash, p, 0);
++     *pzTerm = zKey;
++     *ppDoclist = (const u8*)&zKey[nTerm+1];
++     *pnDoclist = p->nData - (sizeof(Fts5HashEntry) + nTerm + 1);
++@@ -198979,31 +199001,40 @@ static void fts5SegIterHashInit(
++   int flags,                      /* Mask of FTS5INDEX_XXX flags */
++   Fts5SegIter *pIter              /* Object to populate */
++ ){
++-  const u8 *pList = 0;
++   int nList = 0;
++   const u8 *z = 0;
++   int n = 0;
+++  Fts5Data *pLeaf = 0;
++ 
++   assert( p->pHash );
++   assert( p->rc==SQLITE_OK );
++ 
++   if( pTerm==0 || (flags & FTS5INDEX_QUERY_SCAN) ){
+++    const u8 *pList = 0;
+++
++     p->rc = sqlite3Fts5HashScanInit(p->pHash, (const char*)pTerm, nTerm);
++     sqlite3Fts5HashScanEntry(p->pHash, (const char**)&z, &pList, &nList);
++     n = (z ? (int)strlen((const char*)z) : 0);
+++    if ( pList ){
+++      pLeaf = fts5IdxMalloc(p, sizeof(Fts5Data));
+++      if ( pLeaf ){
+++        pLeaf->p = pList;
+++      }
+++    }
++   }else{
++-    pIter->flags |= FTS5_SEGITER_ONETERM;
++-    sqlite3Fts5HashQuery(p->pHash, (const char*)pTerm, nTerm, &pList, &nList);
+++    p->rc = sqlite3Fts5HashQuery(p->pHash, sizeof(Fts5Data),
+++        (const char*)pTerm, nTerm, (void**)&pLeaf, &nList
+++    );
+++    if( pLeaf ){
+++      pLeaf->p = (u8*)&pLeaf[1];
+++    }
++     z = pTerm;
++     n = nTerm;
+++    pIter->flags |= FTS5_SEGITER_ONETERM;
++   }
++ 
++-  if( pList ){
++-    Fts5Data *pLeaf;
+++  if( pLeaf ){
++     sqlite3Fts5BufferSet(&p->rc, &pIter->term, n, z);
++-    pLeaf = fts5IdxMalloc(p, sizeof(Fts5Data));
++-    if( pLeaf==0 ) return;
++-    pLeaf->p = (u8*)pList;
++     pLeaf->nn = pLeaf->szLeaf = nList;
++     pIter->pLeaf = pLeaf;
++     pIter->iLeafOffset = fts5GetVarint(pLeaf->p, (u64*)&pIter->iRowid);
 diff --git a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-index 3755761..d214ea1 100644
+index d214ea1..d4f6dc4 100644
 --- a/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
 +++ b/meta/recipes-support/sqlite/sqlite3_3.23.1.bb
-@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed0
- 
- SRC_URI = "\
+@@ -7,6 +7,8 @@ SRC_URI = "\
    http://www.sqlite.org/2018/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-+  file://CVE-2018-20505.patch \
-+  file://CVE-2018-20506.patch \
+   file://CVE-2018-20505.patch \
+   file://CVE-2018-20506.patch \
++  file://CVE-2019-9936.patch \
++  file://CVE-2019-9937.patch \
    "
  SRC_URI[md5sum] = "99a51b40a66872872a91c92f6d0134fa"
  SRC_URI[sha256sum] = "92842b283e5e744eff5da29ed3c69391de7368fccc4d0ee6bf62490ce555ef25"
