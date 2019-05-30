@@ -1,30 +1,55 @@
-Return-Path: <philn@igalia.com>
-Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
-	by mail.openembedded.org (Postfix) with ESMTP id 63DBC7E416
+Return-Path: <crg7475@mailbox.org>
+Received: from mx2.mailbox.org (mx2.mailbox.org [80.241.60.215])
+	by mail.openembedded.org (Postfix) with ESMTP id 0CBEF7E3AF
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 14:47:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
-	bh=0ohdZFlAOtSpR+QhkJTjkOJbtqVYngC9QChbUQO7CsA=; 
-	b=bJcvnjj+oiUXd7g+1yU/Psp9E5s8urIzZ6A039j0NB0wBG/RPY0KdBbS1s5Z+pkBWDkPkaK2nlAqb3pngGXTzJqb4dFpqex3R0fYCI1WqsScPLJ7CmQTrB++erFhJRRs6NbQrrKF/e5GHrHkVKY+x7dUYX7VdpD41bPZipsDeRRxIakbY8DCbvPcr/Br3o8cXmfIIup40jBDpGINiPLMS6G2oQZYSvJseJsgjSuOLQ0TDqTTM8SD5js5WX6CJHICJmJHpdr2uGO+YIeJYEwdIV3Klx+F1WjFn8C1UgfuFMHE1Csyy79i5UP66f2yC+uPV2qPjlPkSIXeSFeBv1tp1Q==;
-Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
-	helo=[192.168.1.41]) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hWMKr-00010v-9c; Thu, 30 May 2019 16:47:17 +0200
-Message-ID: <7a13472cb0f7ecfc7553e9369f66a0f7f4226984.camel@igalia.com>
-From: Philippe Normand <philn@igalia.com>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Thu, 30 May 2019 15:47:07 +0100
-In-Reply-To: <20190530140633.GB318@localhost>
-References: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
-	<20190530121718.GD20599@localhost>
-	<4f49826346960c908c5d0dca1812bb9d9d860074.camel@igalia.com>
-	<20190530140633.GB318@localhost>
-User-Agent: Evolution 3.30.5-1 
+	Thu, 30 May 2019 15:39:21 +0000 (UTC)
+Received: from smtp1.mailbox.org (smtp1.mailbox.org
+	[IPv6:2001:67c:2050:105:465:1:1:0])
+	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+	(No client certificate requested)
+	by mx2.mailbox.org (Postfix) with ESMTPS id 18078A0126;
+	Thu, 30 May 2019 17:39:21 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	content-language:content-transfer-encoding:content-type
+	:content-type:in-reply-to:mime-version:date:date:message-id:from
+	:from:references:subject:subject:received; s=mail20150812; t=
+	1559230754; bh=91uUkHD8yQZGM7XdhPil4qJjm7U8F0ebX5cHnxD70Hs=; b=f
+	U4sxpyG+jC0+2c8FCMhIqxvy0YmjiNUxkd1PO8wffRmZczS3ccDd4OhmkQaH4M4q
+	uZ7189yOxG+AgikRvRZxJ/nBZUoC2BHKA1bK+PkADTjx5votV83AHqxazwi3O7vA
+	l5BOB4CXA2YbJBGcpPyOi7Bl1Tngaof5zgNcVFBQSNGkEbHyAEMjfucdpYChhvQN
+	AXxpFfvLfmyk9q8l6F6BVwPhptoMFCru4QIpGEI5Uq/jKtTLg7m3sAWqTpRPc7+P
+	RskhKN1Keo9NyMLsD8xL16q7krAG+ffF7DfJvbAAdDcNQRae1bE+2wfAgTkUSonE
+	DSXhZOU5zZAK4nQxYeVRw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+	s=mail20150812; 
+	t=1559230759; h=from:from:sender:reply-to:subject:subject:date:date:
+	message-id:message-id:to:to:cc:mime-version:mime-version:
+	content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=H8lgvhercfCHQCtOlQb6YDeVOQINzQSpS7yyLsgUQvs=;
+	b=D860mybiUW64iCFKpqAqqhMDtPNiQw2tu1jiHvl+PdoVH9zHe4MMRwhFYQwGwIJx4Fnq8p
+	2PBeblqhKDX806aXcEsNmEFRw3HRj2oY2ycCzCvvKmchxnu5Y/nrSNJJyimiHPsvOylWDe
+	0RM/SlRDP/zEGrJ7cYbNhl5gXikfHtt0Tbm/aCsdFqvUlI67tXVLutFpQ4UdNg7YGlxUi4
+	uz56p+dGpylptQpsK8rKEpSh6WC9NS+WWKFwLH+bUvlU4C8vyeLYlS10AwkRQU8AZfjUVN
+	ZYMXAp4oYiooHIrKxQgWGwk1jcwAQp3wtLDZNJCciLsAbT9rUdmBYegvyNKWqg==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp1.mailbox.org ([80.241.60.240])
+	by spamfilter06.heinlein-hosting.de (spamfilter06.heinlein-hosting.de
+	[80.241.56.125]) (amavisd-new, port 10030)
+	with ESMTP id OqVvQoixqpua; Thu, 30 May 2019 17:39:14 +0200 (CEST)
+To: "Mittal, Anuj" <anuj.mittal@intel.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <20190526110642.5341-1-crg7475@mailbox.org>
+	<20190526110642.5341-8-crg7475@mailbox.org>
+	<bf1e68db18dc3517178df3810324c09c3954adf8.camel@intel.com>
+From: Carlos Rafael Giani <crg7475@mailbox.org>
+Message-ID: <a9e2fb9e-b4b9-93ea-a516-c8e5e5c3e854@mailbox.org>
+Date: Thu, 30 May 2019 17:39:12 +0200
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
+In-Reply-To: <bf1e68db18dc3517178df3810324c09c3954adf8.camel@intel.com>
+Subject: Re: [PATCH 08/11] gstreamer1.0-vaapi: upgrade to version 1.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,53 +62,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 14:47:17 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2019 15:39:22 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Thu, 2019-05-30 at 17:06 +0300, Adrian Bunk wrote:
-> On Thu, May 30, 2019 at 02:30:14PM +0100, Philippe Normand wrote:
-> > Hi Adrian,
-> 
-> Hi Philippe,
-> 
-> > On Thu, 2019-05-30 at 15:17 +0300, Adrian Bunk wrote:
-> > ...
-> > > 2. Wouldn't the more common case be to use the ca-certificates
-> > > package instead of PKCS #11?
-> > 
-> > I don't know why glib-networking needs to go through gnutls which
-> > then 
-> > needs to query p11-kit. I suppose p11-kit could directly be used,
-> > but 
-> > this is not my call to make.
-> > ...
-> 
-> I think your "which then needs to query p11-kit" is not correct.
-> 
-> My reading of configure.ac is that ca-certificates could be used
-> instead, and this also makes a lot more sense in the default case.
-> 
+Yep, wayland-protocols was missing. I just added it.
 
-I've asked Michael Catanzaro about this, he's not subscribed to this
-list so he can't reply to the thread. Here's his reply:
+The other problem is odd. wayland is added as a dependency:
 
-The GnuTLS default trust store can be a certificate file bundle or a
-certificate directory (provided by ca-certificates), or a PKCS#11 URI,
-but PKCS#11 is a better default. If you do not use PKCS#11, then
-expected functionality like trusting and distrusting certificates using
-the 'trust' command or applications like seahorse will not work. Most
-modern Linux distributions are now using PKCS#11 URIs; the only major
-holdouts are Debian and Ubuntu. So I would definitely recommend the
-PKCS#11 URI. Of course, basic functionality will work whichever way you
-choose; glib-networking only requires that GnuTLS has a default trust
-store, one way or the other, so using a bundle would be OK if you want
-to avoid the dependency on p11-kit.
+     PACKAGECONFIG[wayland] = 
+"--enable-wayland,--disable-wayland,wayland wayland-protocols"
 
----
+and yet wayland-scanner is not installed in the recipe-sysroot-native 
+folder. The wayland-scanner binary is part of wayland-dev.
 
-So, do you agree about depending on p11-kit from now on?
+Am I forgetting something?
 
-Philippe
 
+On 28.05.19 00:28, Mittal, Anuj wrote:
+> Looks like this needs a dependency on wayland-scanner and wayland-
+> protocols as well for this version?
+>
+> Error log from autobuilder:
+>
+> https://errors.yoctoproject.org/Errors/Details/247143/
+>
+> Thanks
+> Anuj
+>
+> On Sun, 2019-05-26 at 13:06 +0200, Carlos Rafael Giani wrote:
+>> Signed-off-by: Philippe Normand <philn@igalia.com>
+>> Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
+>> ---
+>>   .../0001-vaapsink-downgrade-to-marginal.patch                 | 4
+>> ++--
+>>   ...reamer1.0-vaapi_1.14.4.bb => gstreamer1.0-vaapi_1.16.0.bb} | 4
+>> ++--
+>>   2 files changed, 4 insertions(+), 4 deletions(-)
+>>   rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-
+>> vaapi_1.14.4.bb => gstreamer1.0-vaapi_1.16.0.bb} (93%)
+>>
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+>> vaapi/0001-vaapsink-downgrade-to-marginal.patch b/meta/recipes-
+>> multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-
+>> marginal.patch
+>> index c861f3bed2..7945a923c9 100644
+>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-
+>> vaapsink-downgrade-to-marginal.patch
+>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-
+>> vaapsink-downgrade-to-marginal.patch
+>> @@ -24,7 +24,7 @@ diff --git a/gst/vaapi/gstvaapi.c
+>> b/gst/vaapi/gstvaapi.c
+>>   index 9a82454..4d94f2b 100644
+>>   --- a/gst/vaapi/gstvaapi.c
+>>   +++ b/gst/vaapi/gstvaapi.c
+>> -@@ -210,7 +210,6 @@ plugin_init (GstPlugin * plugin)
+>> +@@ -195,7 +195,6 @@ plugin_init (GstPlugin * plugin)
+>>    {
+>>      GstVaapiDisplay *display;
+>>      GArray *decoders;
+>> @@ -32,7 +32,7 @@ index 9a82454..4d94f2b 100644
+>>    
+>>      plugin_add_dependencies (plugin);
+>>    
+>> -@@ -235,10 +234,7 @@ plugin_init (GstPlugin * plugin)
+>> +@@ -220,10 +219,7 @@ plugin_init (GstPlugin * plugin)
+>>      gst_element_register (plugin, "vaapidecodebin",
+>>          GST_RANK_PRIMARY + 2, GST_TYPE_VAAPI_DECODE_BIN);
+>>    
+>> diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+>> vaapi_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-
+>> vaapi_1.16.0.bb
+>> similarity index 93%
+>> rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-
+>> vaapi_1.14.4.bb
+>> rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-
+>> vaapi_1.16.0.bb
+>> index 3896434104..4d7382a101 100644
+>> --- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
+>> +++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
+>> @@ -13,8 +13,8 @@ SRC_URI = "
+>> https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.x
+>>              file://0001-vaapsink-downgrade-to-marginal.patch \
+>>              "
+>>   
+>> -SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
+>> -SRC_URI[sha256sum] =
+>> "ce18dbfe961c6a8d31270231686075586bf7a7df62b778c8e7f5ec148251d0a3"
+>> +SRC_URI[md5sum] = "8c3f9ee3e47cbdb75a94f7183460b721"
+>> +SRC_URI[sha256sum] =
+>> "4e7fce626ee0590dca74b5a8341d25bac76307945131a970b414fc5895f5171f"
+>>   
+>>   S = "${WORKDIR}/${REALPN}-${PV}"
+>>   DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base
+>> gstreamer1.0-plugins-bad"
+>> -- 
+>> 2.17.1
+>>
 
