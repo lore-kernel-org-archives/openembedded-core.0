@@ -1,52 +1,55 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 5B08D7D9E5
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id A1CD67D9E5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 02:41:51 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id e5so3774963iok.4
+	Thu, 30 May 2019 02:54:52 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id h20so7553270itk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 29 May 2019 19:41:52 -0700 (PDT)
+	Wed, 29 May 2019 19:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=CqboeExu+TdO0AxbcI73IDs6LqeJsMEufnhVdUjy1g4=;
-	b=TvklaNnifByK3ecYXSz5kgdPBC2K5RSY8+jkX4YMJ0S1y0DZvkqZL+OujowvBeEiJN
-	ivMAMGKeJwmv1rf/23QEoGWgSmyrNBpdp0dkXfmfH34k51gaUaWxVwn2XRwwZj7zRAJM
-	2bS4YfYwKxCjca8MPLlQ+WjKVhxHh3trPB5UGMzr68NaIjPPYU8Nc4SIlJRB0gX9j2XC
-	FDZgowZPKVqZhEHtkc0GGgllm7Y43a3JZWrMt+07oAB6tCDEmxch/3GWQhW4/VHEz2Ge
-	x+iPYSZP0XAGiFTA9dvf/U/GExvn9cOyK4qXFn6Lp4O1V16W+o9kg63iyfkKC7WYQnp+
-	edDA==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=PeyBLQng4+SXgqqyrpekxXjqKjdAr7NDGXIp6Wjg19M=;
+	b=Ntwfln5GJdlIIqga4EKDqetCQYen3I1WnoCZRIyc1LgGVjmbhqDx0BwJeL+KbFbpzC
+	rq//PtS/zt3Z6P0T8ilrDo2wYBwpYvvqOCTkvrT7iw416gad1eQ6h4HxvpBFbn+NC9bw
+	AMg7rXDVvA9VtqCP09OEqhc0lU4TlRi70ES+W9A9uwhg7aEwSiArqUiah7cVJsblJtYB
+	JAUnpenV+9ngxloXO+8B9Y4cu93sRKNHu49R2uSGZG/czmzU81mgJln9XAUyZWmOj8Jl
+	GKd2SubjsMc5AXtuCLYpreAnozx3rSDswk5LfmmCxvVWpXTrG2iEHfkCbw4akjSNrnoo
+	WMPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=CqboeExu+TdO0AxbcI73IDs6LqeJsMEufnhVdUjy1g4=;
-	b=OQqBgr9r3JQTW9pCx0yhCLWLT+i7qamLcM0//GsOIhz49IbivxiOKTV2cCQgRxrAg6
-	hMvrrbGmV2KcsJiZMRxk1UG/+TRs1PZ7p9ZViSEb2ZV/0BPgYosmPCSSr0ZNobWAVxCy
-	QSi1AWbqlnzu7vcRvAdOiaXVXxvom2z3Dr9hjR4JsXok6ZBWkNvxeQpQgcdzQr1uEcZU
-	sNySgogQxGjFiogh0yavQUb1KeP9SXc74dhun0cFKzYNDyBwKm99U9T2VlcusFlnyJLH
-	V2Z0NGz1BWG+Of9FdhE3f1ZUX+fmzT/hVqg4cAf5xrMdBagmqiW7oNotzkWCpti56nBW
-	J7Hw==
-X-Gm-Message-State: APjAAAWamMzFvJHfohIbnLzTi1CbEudN5kHAACmDX3sP5EULnajQEqZO
-	mdDfQIFwUM5fLPMT33HZPX+kjjhG
-X-Google-Smtp-Source: APXvYqwGFOYWeKwVN1yGe3hZ9hYEJCgJRX94USrqrdZp96xtDp3BcKd3OikxDi4Vepmv3ry+zmjF2g==
-X-Received: by 2002:a6b:740a:: with SMTP id s10mr860843iog.99.1559184111917;
-	Wed, 29 May 2019 19:41:51 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id c94sm612947itd.13.2019.05.29.19.41.50
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 29 May 2019 19:41:51 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 29 May 2019 21:41:09 -0500
-Message-Id: <20190530024109.24629-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190529144250.419-1-JPEWhacker@gmail.com>
-References: <20190529144250.419-1-JPEWhacker@gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=PeyBLQng4+SXgqqyrpekxXjqKjdAr7NDGXIp6Wjg19M=;
+	b=ELl2fL9h1DgBJOYl937zGjFLujZwMmZVHpWNYzSnFbvGMgepwgfRHGfJNWUKhPBDy7
+	SDEM+hNhI/h1uYLI/7HDgLm3CxfxxznQL3pI6V5Vdej2lCc0pg9HTaNSGmkwkCd91Nbg
+	xMEYUaR+UKystAK1gGUQJH5XZGVzqfpiXDnmFVZtFadHLmgBAPJye+Nz/xUmVUQRYK/e
+	3GoeWCpSNiT4ncTrblFJgYuybtkUUUFtBsEhHSkbhFPNFKz+SPTQb8QdnNfNm2uR+rWl
+	6hS4Br26lnY2TJBf1K9EhgAGDXvr6LPClvkyL3L69pqn9+N6dRxyqm15k20UJne0xyul
+	NYZw==
+X-Gm-Message-State: APjAAAVxQ1XZWp1/PN4xx3zkKRUHWtmBOPj3OccTmIQlIFza6vSRFUb+
+	Eo1GR+4tl8FIdxlZTKlDJc9U4/4aC6YF8Dlxau4=
+X-Google-Smtp-Source: APXvYqzX5CLgBm5AY1zLWTWqVN0P+9fHDmUtFANfBIHve+ZmhDH6/YYfXSoTKJjkkpYh3wNy8MdoH/VUJTGeyAHPIIU=
+X-Received: by 2002:a24:f644:: with SMTP id u65mr1179355ith.51.1559184893484; 
+	Wed, 29 May 2019 19:54:53 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v2] btrfs-tools: Pass DEBUG_MAP_PREFIX flags to Python
+References: <20190529184328.28470-1-richard.purdie@linuxfoundation.org>
+	<20190529184328.28470-2-richard.purdie@linuxfoundation.org>
+	<4c62af9f-8bff-726e-db35-6f6ed7ebafc2@gmail.com>
+	<8798dc0e5d91991953720388b601c9c5b3174c42.camel@linuxfoundation.org>
+	<321f3cb8-a101-49ad-07c4-64fc82d2c7f8@gmail.com>
+	<d5b41b11583c78cd16d6393736fafd8e733c48a9.camel@linuxfoundation.org>
+	<20190529212556.GO20781@bill-the-cat>
+	<4571b3c03fb83ee01492dd1891e410becb72b0e5.camel@linuxfoundation.org>
+	<20190529221726.GA16075@localhost>
+	<20190529222920.GP20781@bill-the-cat>
+In-Reply-To: <20190529222920.GP20781@bill-the-cat>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Wed, 29 May 2019 19:54:42 -0700
+Message-ID: <CANx9H-DOw4D2_Ges3NBJtiNi3MCXuNYSyJbMLW2reudjmrb8KQ@mail.gmail.com>
+To: Tom Rini <trini@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH 2/2] uninative: Switch from bz2 to xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,140 +62,172 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 02:41:51 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 May 2019 02:54:52 -0000
+Content-Type: multipart/alternative; boundary="000000000000b72222058a120517"
 
-The DEBUG_MAP_PREFIX flags need to be passed when building the Python
-library to prevent these non-reproducible paths from being encoded into
-the library. The patch that does this was accepted upstream and
-supersedes part of a previous patch that passed LDFLAGS to the Python
-library in favor of passing EXTRA_PYTHON_LDFLAGS, so the patch and
-recipe has been updated to reflect this.
+--000000000000b72222058a120517
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- ...DFLAGS-when-building-libbtrfsutil.so.patch | 19 +++-----
- ...gs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch | 43 +++++++++++++++++++
- .../btrfs-tools/btrfs-tools_5.1.bb            |  6 ++-
- 3 files changed, 53 insertions(+), 15 deletions(-)
- create mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch
+On Wed, May 29, 2019 at 3:29 PM Tom Rini <trini@konsulko.com> wrote:
 
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
-index a8fcfc0f73c..e23be32599b 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
-@@ -1,4 +1,4 @@
--From eecc48ecad359cd4fab650ce49cfe57e99d1859d Mon Sep 17 00:00:00 2001
-+From c384fa875c5128009ac8b6ba11a54a6bd4de575a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 17 May 2018 12:21:31 +0300
- Subject: [PATCH] Add LDFLAGS when building libbtrfsutil.so and python
-@@ -8,14 +8,14 @@ Upstream-Status: Pending
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- 
- ---
-- Makefile | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Makefile b/Makefile
--index 10f0e3b0..1697794c 100644
-+index e25e256f..6df00186 100644
- --- a/Makefile
- +++ b/Makefile
--@@ -402,7 +402,7 @@ libbtrfsutil/%.o: libbtrfsutil/%.c
-+@@ -424,7 +424,7 @@ libbtrfsutil/%.o: libbtrfsutil/%.c
-  
-  libbtrfsutil.so.$(libbtrfsutil_version): $(libbtrfsutil_objects)
-  	@echo "    [LD]     $@"
-@@ -24,12 +24,3 @@ index 10f0e3b0..1697794c 100644
-  		-shared -Wl,-soname,libbtrfsutil.so.$(libbtrfsutil_major) -o $@
-  
-  libbtrfsutil.a: $(libbtrfsutil_objects)
--@@ -417,7 +417,7 @@ ifeq ($(PYTHON_BINDINGS),1)
-- libbtrfsutil_python: libbtrfsutil.so.$(libbtrfsutil_major) libbtrfsutil.so libbtrfsutil/btrfsutil.h
-- 	@echo "    [PY]     libbtrfsutil"
-- 	$(Q)cd libbtrfsutil/python; \
---		CFLAGS= LDFLAGS= $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
--+		CFLAGS= $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
-- 
-- .PHONY: libbtrfsutil_python
-- endif
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch
-new file mode 100644
-index 00000000000..f69507164c6
---- /dev/null
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch
-@@ -0,0 +1,43 @@
-+From 730fe2ee2fb9e08cbe885f370afe83fecb18d048 Mon Sep 17 00:00:00 2001
-+From: Joshua Watt <JPEWhacker@gmail.com>
-+Date: Sun, 26 May 2019 21:26:04 -0500
-+Subject: [PATCH] btrfs-progs: Pass CFLAGS and LDFLAGS to Python
-+
-+Adds Make variables EXTRA_PYTHON_CFLAGS and EXTRA_PYTHON_LDFLAGS which
-+can be used to pass CFLAGS and LDFLAGS respectively when building the
-+Python library.
-+
-+This is required to support reproducible builds, as there are often
-+compiler and linker flags that must be passed in order to generate
-+reproducible output (e.g. -fdebug-prefix-map)
-+
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+Upstream-Status: Accepted [https://github.com/kdave/btrfs-progs/pull/176]
-+---
-+ Makefile | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index 505bd9c1..814767a8 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -24,6 +24,10 @@
-+ #   DEBUG_CFLAGS   additional compiler flags for debugging build
-+ #   EXTRA_CFLAGS   additional compiler flags
-+ #   EXTRA_LDFLAGS  additional linker flags
-++#   EXTRA_PYTHON_CFLAGS  additional compiler flags to pass when building Python
-++#                        library
-++#   EXTRA_PYTHON_LDFLAGS additional linker flags to pass when building Python
-++#                        library
-+ #
-+ # Testing-specific options (see also tests/README.md):
-+ #   TEST=GLOB      run test(s) from directories matching GLOB
-+@@ -439,7 +443,7 @@ ifeq ($(PYTHON_BINDINGS),1)
-+ libbtrfsutil_python: libbtrfsutil.so.$(libbtrfsutil_major) libbtrfsutil.so libbtrfsutil/btrfsutil.h
-+ 	@echo "    [PY]     libbtrfsutil"
-+ 	$(Q)cd libbtrfsutil/python; \
-+-		CFLAGS= LDFLAGS= $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
-++		CFLAGS="$(EXTRA_PYTHON_CFLAGS)" LDFLAGS="$(EXTRA_PYTHON_LDFLAGS)" $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
-+ 
-+ .PHONY: libbtrfsutil_python
-+ endif
-diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.bb
-index 8b4178d6dec..89cc1bfe20b 100644
---- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.bb
-+++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.bb
-@@ -18,6 +18,7 @@ SRCREV = "43013422dbce4bcc9ed77cfe65b294caa0985ec8"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
-            file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
-            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
-+           file://0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch \
-            "
- 
- inherit autotools-brokensep pkgconfig manpages distutils3-base
-@@ -27,7 +28,10 @@ CLEANBROKEN = "1"
- PACKAGECONFIG[manpages] = "--enable-documentation, --disable-documentation, asciidoc-native xmlto-native"
- EXTRA_OECONF = " --disable-zstd"
- EXTRA_OECONF_append_libc-musl = " --disable-backtrace "
--EXTRA_OEMAKE = "V=1"
-+EXTRA_PYTHON_CFLAGS = "${DEBUG_PREFIX_MAP}"
-+EXTRA_PYTHON_CFLAGS_class-native = ""
-+EXTRA_PYTHON_LDFLAGS = "${LDFLAGS}"
-+EXTRA_OEMAKE = "V=1 'EXTRA_PYTHON_CFLAGS=${EXTRA_PYTHON_CFLAGS}' 'EXTRA_PYTHON_LDFLAGS=${EXTRA_PYTHON_LDFLAGS}'"
- 
- do_configure_prepend() {
- 	# Upstream doesn't ship this and autoreconf won't install it as automake isn't used.
--- 
-2.21.0
+> On Thu, May 30, 2019 at 01:17:26AM +0300, Adrian Bunk wrote:
+> > On Wed, May 29, 2019 at 10:29:31PM +0100,
+> richard.purdie@linuxfoundation.org wrote:
+> > > On Wed, 2019-05-29 at 17:25 -0400, Tom Rini wrote:
+> > > > On Wed, May 29, 2019 at 09:50:22PM +0100,
+> > > > richard.purdie@linuxfoundation.org wrote:
+> > > > > On Wed, 2019-05-29 at 13:39 -0700, akuster808 wrote:
+> > > > > > On 5/29/19 12:26 PM, richard.purdie@linuxfoundation.org wrote:
+> > > > > > > On Wed, 2019-05-29 at 12:21 -0700, akuster808 wrote:
+> > > > > > > > On 5/29/19 11:43 AM, Richard Purdie wrote:
+> > > > > > > > > (From OE-Core rev:
+> > > > > > > > > 29fc9210b973be68de474e75068e4c72371afe5a)
+> > > > > > > > >
+> > > > > > > > > Signed-off-by: Richard Purdie <
+> > > > > > > > > richard.purdie@linuxfoundation.org>
+> > > > > > > > With back port to warrior and Thud too?
+> > > > > > > Yes, we'll need to do that if we bring fedora 30 workers online
+> > > > > > > on
+> > > > > > > the
+> > > > > > > autobuilder.
+> > > > > > I know the uninative update is required for FC30 but changing the
+> > > > > > compression does not.
+> > > > > >
+> > > > > > This question is about the compression extension question.
+> > > > > >
+> > > > > > Does this mean YP will no longer be providing bz2 uninatives?
+> > > > >
+> > > > > Correct, the patch should be straight forward to include with the
+> > > > > upgrade.
+> > > >
+> > > > Does that in turn mean we must have host xz-utils?
+> > >
+> > > It will mean you need a tar which supports the -J option. The tests
+> > > I've see so far suggest all our oldest supported distros do...
+> >
+> > For thud tar >= 1.27 is required, -J was added in 1.22.
+> >
+> > But Tom is asking about something different:
+> > tar calls "xz -d" for decompression, which needs xz-utils installed.
+> >
+> >
+> https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#required-packages-for-the-build-host
+> > documents that xz has to be installed, but looking at
+> > meta/conf/bitbake.conf it might be missing in HOSTTOOLS.
+>
+> I think it's also missing in for example the crops containers.
 
 
+We can add it to the crops containers.
+
+So if
+> we're going to backport it, I think maybe we should keep it bz2?  The
+> size difference can't be that much.
+>
+> --
+> Tom
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--000000000000b72222058a120517
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Wed, May 29, 2019 at 3:29 PM Tom Rini &lt;<a href=3D"mai=
+lto:trini@konsulko.com">trini@konsulko.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">On Thu, May 30, 2019 at 01:17:26AM +0300, Adrian Bun=
+k wrote:<br>
+&gt; On Wed, May 29, 2019 at 10:29:31PM +0100, <a href=3D"mailto:richard.pu=
+rdie@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.=
+org</a> wrote:<br>
+&gt; &gt; On Wed, 2019-05-29 at 17:25 -0400, Tom Rini wrote:<br>
+&gt; &gt; &gt; On Wed, May 29, 2019 at 09:50:22PM +0100, <br>
+&gt; &gt; &gt; <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=
+=3D"_blank">richard.purdie@linuxfoundation.org</a> wrote:<br>
+&gt; &gt; &gt; &gt; On Wed, 2019-05-29 at 13:39 -0700, akuster808 wrote:<br=
+>
+&gt; &gt; &gt; &gt; &gt; On 5/29/19 12:26 PM, <a href=3D"mailto:richard.pur=
+die@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.o=
+rg</a> wrote:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; On Wed, 2019-05-29 at 12:21 -0700, akuster808=
+ wrote:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; On 5/29/19 11:43 AM, Richard Purdie wrot=
+e:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; (From OE-Core rev:<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; 29fc9210b973be68de474e75068e4c72371=
+afe5a)<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Signed-off-by: Richard Purdie &lt;<=
+br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; <a href=3D"mailto:richard.purdie@li=
+nuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>=
+&gt;<br>
+&gt; &gt; &gt; &gt; &gt; &gt; &gt; With back port to warrior and Thud too?<=
+br>
+&gt; &gt; &gt; &gt; &gt; &gt; Yes, we&#39;ll need to do that if we bring fe=
+dora 30 workers online<br>
+&gt; &gt; &gt; &gt; &gt; &gt; on<br>
+&gt; &gt; &gt; &gt; &gt; &gt; the<br>
+&gt; &gt; &gt; &gt; &gt; &gt; autobuilder.<br>
+&gt; &gt; &gt; &gt; &gt; I know the uninative update is required for FC30 b=
+ut changing the<br>
+&gt; &gt; &gt; &gt; &gt; compression does not.<br>
+&gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; This question is about the compression extension q=
+uestion.<br>
+&gt; &gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; &gt; Does this mean YP will no longer be providing bz2 =
+uninatives?<br>
+&gt; &gt; &gt; &gt; <br>
+&gt; &gt; &gt; &gt; Correct, the patch should be straight forward to includ=
+e with the<br>
+&gt; &gt; &gt; &gt; upgrade.<br>
+&gt; &gt; &gt; <br>
+&gt; &gt; &gt; Does that in turn mean we must have host xz-utils?<br>
+&gt; &gt; <br>
+&gt; &gt; It will mean you need a tar which supports the -J option. The tes=
+ts<br>
+&gt; &gt; I&#39;ve see so far suggest all our oldest supported distros do..=
+.<br>
+&gt; <br>
+&gt; For thud tar &gt;=3D 1.27 is required, -J was added in 1.22.<br>
+&gt; <br>
+&gt; But Tom is asking about something different:<br>
+&gt; tar calls &quot;xz -d&quot; for decompression, which needs xz-utils in=
+stalled.<br>
+&gt; <br>
+&gt; <a href=3D"https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual=
+.html#required-packages-for-the-build-host" rel=3D"noreferrer" target=3D"_b=
+lank">https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.html#requ=
+ired-packages-for-the-build-host</a> <br>
+&gt; documents that xz has to be installed, but looking at <br>
+&gt; meta/conf/bitbake.conf it might be missing in HOSTTOOLS.<br>
+<br>
+I think it&#39;s also missing in for example the crops containers.</blockqu=
+ote><div dir=3D"auto"><br></div><div dir=3D"auto">We can add it to the crop=
+s containers.</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1e=
+x">So if<br>
+we&#39;re going to backport it, I think maybe we should keep it bz2?=C2=A0 =
+The<br>
+size difference can&#39;t be that much.<br>
+<br>
+-- <br>
+Tom<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div></div>
+
+--000000000000b72222058a120517--
