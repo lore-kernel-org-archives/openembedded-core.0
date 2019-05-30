@@ -1,54 +1,60 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 142EB6C42C
+Return-Path: <trini@konsulko.com>
+Received: from mail-yb1-f193.google.com (mail-yb1-f193.google.com
+	[209.85.219.193])
+	by mail.openembedded.org (Postfix) with ESMTP id CCC106C42C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 15:50:17 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id d18so4543885wrs.5
+	Thu, 30 May 2019 15:57:56 +0000 (UTC)
+Received: by mail-yb1-f193.google.com with SMTP id e128so2332465ybc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 08:50:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ZGK/cd5AJRV9OmUcsEU1jvgm/AjugFVM/T8TdYH9TRE=;
-	b=AxAIo9bB5GsHKGafUj9kRKKfaXOyqRxG0vv49VL3CFFFJ0/k3poNVvPoUwwmDd1n4p
-	EhKGaNbG8NDafKY+jwyiajcMXU5fgDbUl/bEwFNxrSpJnQGOlipveCLMslsq/VWIapfK
-	2EUsMA9Ondm2YT9EBg6wKy4N+aQR4LdSnMtpA=
+	Thu, 30 May 2019 08:57:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=5ATbzj/P7ALAO2ZB1qMpL9kuxwoRpeWLQxKm0sAV9g0=;
+	b=R6Qsn2RGHFhwItIb8fK3FDA3oHITTlhdzAwT9KM+ctLcu3ucWUV26JtkguxBuPa8wc
+	3kOjVBeK4N3dHNsbXG6zAMKb2aBrPZ+4lw4cEoSCtX79w8ZKMSIMFHRdKvGiWghAKwIX
+	VSNSyMNce3ZMogwUxyt2YCOLme0+OUPfBGwiE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ZGK/cd5AJRV9OmUcsEU1jvgm/AjugFVM/T8TdYH9TRE=;
-	b=VtDLNlkQqbDAnvHfvO6d5sm/8QIM1WjK4IZ65AELUDPqorSYD+/mnpqkAF3RTLO6TC
-	RmBEJIGhZJcKWOdAv9k8dqi5fG9lWbuXBa4sf0otQ+GX6kiLTl1kNeC3TotFlu1nt4ur
-	LVmFOfH2lgiXFSbCOLdKc2dh/JP3EgjWsuJPGyftrrvyFSaZ3H1LVwA7DzQ0/QK5Z6g8
-	8klnQLfI2AXUuQj+i+cgg6Y+5OaZv12//7NOEhnlyHG4Ozcmvxsvdg5Oo8oOYp0o0QHh
-	pBPWJhu7qpMEK1bDchsOu4fuxJDaQnoVxwesCtKSj1IvDwIHMhNiAW5M+GK93vjSea3H
-	O0Lw==
-X-Gm-Message-State: APjAAAWg55nXruMulNFZVi/9mZn/4XdnPnYaPCUjoqz/waoE379+Obz+
-	xNq2YAc3a4nB+GSARjnxdEeodz+QsAQ=
-X-Google-Smtp-Source: APXvYqxvk4R1F/QL8gDwKkZ5NYG5sCxHHHmd6WpUzk05ELkAZfJXsyIQhzVh0eZgVVvO9CF0aFGlAw==
-X-Received: by 2002:adf:efc3:: with SMTP id i3mr3150513wrp.45.1559231418801;
-	Thu, 30 May 2019 08:50:18 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id b2sm4158159wrt.20.2019.05.30.08.50.17
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 08:50:18 -0700 (PDT)
-Message-ID: <ced415509fb3ccbf8c7c3190209243aa8870e413.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Philippe Normand <philn@igalia.com>, Adrian Bunk <bunk@stusta.de>
-Date: Thu, 30 May 2019 16:50:17 +0100
-In-Reply-To: <7a13472cb0f7ecfc7553e9369f66a0f7f4226984.camel@igalia.com>
-References: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
-	<20190530121718.GD20599@localhost>
-	<4f49826346960c908c5d0dca1812bb9d9d860074.camel@igalia.com>
-	<20190530140633.GB318@localhost>
-	<7a13472cb0f7ecfc7553e9369f66a0f7f4226984.camel@igalia.com>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=5ATbzj/P7ALAO2ZB1qMpL9kuxwoRpeWLQxKm0sAV9g0=;
+	b=PAcRNDUiGgBlLzXS3UkmGJCIENBAVQbgggHaMmrwKKnTYh4i2GNHB3w5YgxerwD+yq
+	E0KMGTml7HHsSy+AJ1U4qRILNNxQDvjQKfxYBw+Nl9x7hL2ZPyWpktM3Q4EEqJQg9IYl
+	HgUdcAFfe8ujBL+XbdwheUXB73wObFTDzL1D0YLSuTaQNtJ2jrYaZr1wpUIfLCjx1vQC
+	k8X1ccDkFzv/pOApq4zMGscuPEpV99IzgT5N+hbITIOIOZvaf7F7ev2/ZGwaN0HlSj4S
+	kB6SN1KR4axiYItNDHhEwxSFBbV7ZxfCwJIKsr6b14DtK2IUwITFtNfx4zQXo/gE2/lN
+	G15w==
+X-Gm-Message-State: APjAAAUyUwHhSlONHATTgjDHorxgiCOsZQ7ic4W/juWalQBOHd0eLWIY
+	Un2uEBZT+bUGXpeW7dlf+pRErg==
+X-Google-Smtp-Source: APXvYqwOVUsP6UnrB5I1iyLDba4zOoNKfWf006xbnyiVPjNqzhgBxcSfBHjLafiOwSqr8kifVX7p6g==
+X-Received: by 2002:a25:4208:: with SMTP id p8mr1979693yba.413.1559231877607; 
+	Thu, 30 May 2019 08:57:57 -0700 (PDT)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-82DE-655F-A2E8-A61C-402B.dyn6.twc.com.
+	[2606:a000:1401:82de:655f:a2e8:a61c:402b])
+	by smtp.gmail.com with ESMTPSA id g8sm267894ywb.69.2019.05.30.08.57.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 30 May 2019 08:57:55 -0700 (PDT)
+Date: Thu, 30 May 2019 11:57:53 -0400
+From: Tom Rini <trini@konsulko.com>
+To: richard.purdie@linuxfoundation.org
+Message-ID: <20190530155753.GS20781@bill-the-cat>
+References: <321f3cb8-a101-49ad-07c4-64fc82d2c7f8@gmail.com>
+	<d5b41b11583c78cd16d6393736fafd8e733c48a9.camel@linuxfoundation.org>
+	<20190529212556.GO20781@bill-the-cat>
+	<4571b3c03fb83ee01492dd1891e410becb72b0e5.camel@linuxfoundation.org>
+	<20190529221726.GA16075@localhost>
+	<20190529222920.GP20781@bill-the-cat>
+	<20190529230203.GB16075@localhost>
+	<aba82f4358b0479419ccc3412b83c052dce57bf4.camel@linuxfoundation.org>
+	<ed68ff2b-e29e-54eb-f477-5026e45795dc@gmail.com>
+	<9934d166bdb464e18d20ccb64f88fcebac019a07.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
+In-Reply-To: <9934d166bdb464e18d20ccb64f88fcebac019a07.camel@linuxfoundation.org>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH 2/2] uninative: Switch from bz2 to xz
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,72 +67,142 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 15:50:18 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 30 May 2019 15:57:57 -0000
+X-Groupsio-MsgNum: 125201
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="SvIVi2W53CI5vhWc"
+Content-Disposition: inline
 
-On Thu, 2019-05-30 at 15:47 +0100, Philippe Normand wrote:
-> On Thu, 2019-05-30 at 17:06 +0300, Adrian Bunk wrote:
-> > On Thu, May 30, 2019 at 02:30:14PM +0100, Philippe Normand wrote:
-> > > Hi Adrian,
-> > 
-> > Hi Philippe,
-> > 
-> > > On Thu, 2019-05-30 at 15:17 +0300, Adrian Bunk wrote:
-> > > ...
-> > > > 2. Wouldn't the more common case be to use the ca-certificates
-> > > > package instead of PKCS #11?
-> > > 
-> > > I don't know why glib-networking needs to go through gnutls which
-> > > then 
-> > > needs to query p11-kit. I suppose p11-kit could directly be used,
-> > > but 
-> > > this is not my call to make.
-> > > ...
-> > 
-> > I think your "which then needs to query p11-kit" is not correct.
-> > 
-> > My reading of configure.ac is that ca-certificates could be used
-> > instead, and this also makes a lot more sense in the default case.
-> > 
-> 
-> I've asked Michael Catanzaro about this, he's not subscribed to this
-> list so he can't reply to the thread. Here's his reply:
-> 
-> The GnuTLS default trust store can be a certificate file bundle or a
-> certificate directory (provided by ca-certificates), or a PKCS#11
-> URI,
-> but PKCS#11 is a better default. If you do not use PKCS#11, then
-> expected functionality like trusting and distrusting certificates
-> using
-> the 'trust' command or applications like seahorse will not work. Most
-> modern Linux distributions are now using PKCS#11 URIs; the only major
-> holdouts are Debian and Ubuntu. So I would definitely recommend the
-> PKCS#11 URI. Of course, basic functionality will work whichever way
-> you
-> choose; glib-networking only requires that GnuTLS has a default trust
-> store, one way or the other, so using a bundle would be OK if you
-> want to avoid the dependency on p11-kit.
+--SvIVi2W53CI5vhWc
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I think most of our system is already using ca-certificates at this
-point so consistency here might make sense.
+On Thu, May 30, 2019 at 02:55:35PM +0100, richard.purdie@linuxfoundation.or=
+g wrote:
+> On Thu, 2019-05-30 at 06:32 -0700, akuster808 wrote:
+> >=20
+> > On 5/30/19 1:13 AM, richard.purdie@linuxfoundation.org wrote:
+> > > On Thu, 2019-05-30 at 02:02 +0300, Adrian Bunk wrote:
+> > > > On Wed, May 29, 2019 at 06:29:20PM -0400, Tom Rini wrote:
+> > > > > On Thu, May 30, 2019 at 01:17:26AM +0300, Adrian Bunk wrote:
+> > > > > > On Wed, May 29, 2019 at 10:29:31PM +0100,=20
+> > > > > > richard.purdie@linuxfoundation.org wrote:
+> > > > > > > On Wed, 2019-05-29 at 17:25 -0400, Tom Rini wrote:
+> > > > > > > > On Wed, May 29, 2019 at 09:50:22PM +0100,=20
+> > > > > > > > richard.purdie@linuxfoundation.org wrote:
+> > > > > > > > > On Wed, 2019-05-29 at 13:39 -0700, akuster808 wrote:
+> > > > > > > > > > On 5/29/19 12:26 PM,=20
+> > > > > > > > > > richard.purdie@linuxfoundation.org
+> > > > > > > > > > wrote:
+> > > > > > > > > > > On Wed, 2019-05-29 at 12:21 -0700, akuster808
+> > > > > > > > > > > wrote:
+> > > > > > > > > > > > On 5/29/19 11:43 AM, Richard Purdie wrote:
+> > > > > > > > > > > > > (From OE-Core rev:
+> > > > > > > > > > > > > 29fc9210b973be68de474e75068e4c72371afe5a)
+> > > > > > > > > > > > >=20
+> > > > > > > > > > > > > Signed-off-by: Richard Purdie <
+> > > > > > > > > > > > > richard.purdie@linuxfoundation.org>
+> > > > > > > > > > > > With back port to warrior and Thud too?
+> > > > > > > > > > > Yes, we'll need to do that if we bring fedora 30
+> > > > > > > > > > > workers online
+> > > > > > > > > > > on
+> > > > > > > > > > > the
+> > > > > > > > > > > autobuilder.
+> > > > > > > > > > I know the uninative update is required for FC30 but
+> > > > > > > > > > changing the
+> > > > > > > > > > compression does not.
+> > > > > > > > > >=20
+> > > > > > > > > > This question is about the compression extension
+> > > > > > > > > > question.
+> > > > > > > > > >=20
+> > > > > > > > > > Does this mean YP will no longer be providing bz2
+> > > > > > > > > > uninatives?
+> > > > > > > > > Correct, the patch should be straight forward to
+> > > > > > > > > include
+> > > > > > > > > with the
+> > > > > > > > > upgrade.
+> > > > > > > > Does that in turn mean we must have host xz-utils?
+> > > > > > > It will mean you need a tar which supports the -J option.
+> > > > > > > The
+> > > > > > > tests
+> > > > > > > I've see so far suggest all our oldest supported distros
+> > > > > > > do...
+> > > > > > For thud tar >=3D 1.27 is required, -J was added in 1.22.
+> > > > > >=20
+> > > > > > But Tom is asking about something different:
+> > > > > > tar calls "xz -d" for decompression, which needs xz-utils
+> > > > > > installed.
+> > > > > >=20
+> > > > > > https://www.yoctoproject.org/docs/2.6/ref-manual/ref-manual.htm=
+l#required-packages-for-the-build-host=20
+> > > > > > documents that xz has to be installed, but looking at=20
+> > > > > > meta/conf/bitbake.conf it might be missing in HOSTTOOLS.
+> > > uninative runs in a weird early non-worker context and doesn't
+> > > actually
+> > > use HOSTTOOLS so luckily we're covered from that angle.
+> > >=20
+> > > > > I think it's also missing in for example the crops
+> > > > > containers.  So
+> > > > > if
+> > > > > we're going to backport it, I think maybe we should keep it
+> > > > > bz2?  The
+> > > > > size difference can't be that much.
+> > > > The size difference is surprisingly high - a factor of 5 (sic).
+> > > > But in practice the difference between 5 MB and 26 MB
+> > > > shouldn't really matter.
+> > > I'm torn, partly as if we stick with bz2, we effectively do that
+> > > perpetually and given the size difference, we should switch.
+> > >=20
+> > > Tim mentions we could fix the crops container and I'm tempted to
+> > > switch
+> > > given we're so close with the current patchset...
+> > >=20
+> > > We can add xz to HOSTTOOLS in master and that makes sense for a
+> > > number
+> > > of other reasons but gets tricky as we can't add it to
+> > > ASSUME_PROVIDED
+> > > as easily due to the libs it provides. I think we only need to
+> > > worry
+> > > about this on master though.
+> > So.. Can we have a bz and xz version built until thud is in community
+> > supported and update Warrior to use xz ?
+>=20
+> I think thud and warrior will work fine if we backport just the upgrade
+> and the change to uninative.bbclass?
+>=20
+> I really don't want to try and do both.
 
-If you use a PKCS#11 URI does that mean the systems would need network
-access to obtain the trust store?
+To be honest, I'd really like to see thud/warrior keep the bz2 and
+master switch.  Changing underlying host dependencies especially ones
+that we hit on in special early threads seems like a bad idea.  I've
+been doing too many "fun" things in containers of late, and CROPS might
+be fine but bare Ubuntu containers aren't and this would be a very funky
+error to diagnose.  Given we've released I think we need to err on the
+side of consistency.
 
-Ultimately we may want this to be a global config selection but using
-ca-certs and then having a wider discussion about a global option might
-make most sense.
+--=20
+Tom
 
-Cheers,
+--SvIVi2W53CI5vhWc
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Richard
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iQIcBAEBAgAGBQJc7/2BAAoJEIf59jXTHXZSrdsQAKUHxAjKTckgmsqr6lkPx3xi
+ItLOptRL0cKZWQykoiJwFOVdQb3nqoClcCHlhGy9x4HQvmpVB9HdLNj9kOFjvmSl
+OF4xDXOheX/mfnh5q5uto6/3M/s5oYsD665+/U4KhWJms2MpHCmOFVDTbcWErhZr
+P4fKsUb89DOzurszYM9vlopI6S/tm/WMDLW3Kb1dqjRp9zlhJjg032DxiC5Gb+A5
+V2nu16/qy1nVN6b3dQIoIqjWaF4xhSAihZU+VTnCjyaLtwD8GAjm8ad92nZs0jAk
+xUFy9Dg23Ddyq75yhB/8VsHiWpp+768cBggd2mKXlh79kMmpU7zi2Wk3nVZEpM0F
+K5jVyYYvJv3taonWrbZJmPIoKSWrQlR3iFRgMSSlJzXVs0R+NGWqUKtlfi4Ip7r5
++JEkp3obPjKRWEhaKFcrYZRlkCq/PGhJNi+knhiYLZJcYVuvaK7Z4Te2MvQoLACb
+rlUdwYVd846NUjoslj6LrQa+oF2sojaAi3s4cghwFqUWu/FyYJIizS7OfN0iGykQ
+A6sjwxWvwVb9PTjn7Y8UENlayR9Q/dvPIPcxZqHuJRD5qC3lX0I0r71xLinPuwoA
+Qae3xbM4QEwqFEkBovrfREAsBLGc+gXe1vNZ6O34Bim1P+sNzsCXkyiYYGnk5I7a
+792A6JfWWMCNuxi+eJEn
+=ix0y
+-----END PGP SIGNATURE-----
 
-
-
-
-
-
-
-
+--SvIVi2W53CI5vhWc--
