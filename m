@@ -1,45 +1,30 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 545A37E408
+Return-Path: <philn@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 63DBC7E416
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 14:25:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45F8xX5fQxz44;
-	Thu, 30 May 2019 16:25:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559226321;
-	bh=M+c3yWe+jXcRV4o9KwJYGypbAqpvWaogAqtAdLQZpis=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kDDp8BGA3Pl5gtP+WS2aywgaJGglj5n2MHbc7owpbT0nzmSUGsBCDzJg5ctN2T6MW
-	1ZMXELpLX+4y9HVW8qacnvKFsD91qIcRKMz0fEl+i/EnfmJoga83Y8eyM2hvPTWgJa
-	tIxUYUymODYqLNkYsIgB7avKWZT3DdBs8LrrPMkAFZfqRebwllKl0Re5lL5jgdk05A
-	SPTYZiXiOIoEuwU7GsZgAJ98qq9voHsJkLSDJ5xwG8gGfCS8sIUIHd/Jl6bixUX1rh
-	x5+yIYGLE2TxmaLoZlZc9BT8EsYzMiLpexWMRCgD60cuiuRJ58JZi2DpRz27uWtkQQ
-	Q/weDu7cNuSv4LOhx7ZydKMEvkKexwChtkvNvZWv8UNjuITpY2kNAmYq2JzdYotUfA
-	KpAfPt6rFOV5DHp083xRlfzv8iO2lBZaZRJhaOmF1+ZxpgKsqW/ID2+ZdWyzGJgUT4
-	jGyEFFMbRYhH2t8fcsJox5FW5xj2ny9hLI1X7O0huevQ6TTqqRXHGd/hUD0weXSSam
-	SfaT/qMaYE7uFDKznyE0CDEUZsPeLSOZulv/aX+mSMMkHO9T7IdOaSyYTKHrUwpVy0
-	aE26m8nYnhkAtXBg8zuQV65xsMKJ+V+gPCOAV+vCqnOto5DWFq5YXKM+BH3SkcONL4
-	ePJGRQOVeq7GxNmlHHfutgBA=
-Date: Thu, 30 May 2019 17:25:18 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: richard.purdie@linuxfoundation.org
-Message-ID: <20190530142518.GC318@localhost>
-References: <321f3cb8-a101-49ad-07c4-64fc82d2c7f8@gmail.com>
-	<d5b41b11583c78cd16d6393736fafd8e733c48a9.camel@linuxfoundation.org>
-	<20190529212556.GO20781@bill-the-cat>
-	<4571b3c03fb83ee01492dd1891e410becb72b0e5.camel@linuxfoundation.org>
-	<20190529221726.GA16075@localhost>
-	<20190529222920.GP20781@bill-the-cat>
-	<20190529230203.GB16075@localhost>
-	<aba82f4358b0479419ccc3412b83c052dce57bf4.camel@linuxfoundation.org>
-	<20190530135949.GA318@localhost>
-	<e7536283bb0d7d255826585a3222aedd0d7950ad.camel@linuxfoundation.org>
+	Thu, 30 May 2019 14:47:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+	bh=0ohdZFlAOtSpR+QhkJTjkOJbtqVYngC9QChbUQO7CsA=; 
+	b=bJcvnjj+oiUXd7g+1yU/Psp9E5s8urIzZ6A039j0NB0wBG/RPY0KdBbS1s5Z+pkBWDkPkaK2nlAqb3pngGXTzJqb4dFpqex3R0fYCI1WqsScPLJ7CmQTrB++erFhJRRs6NbQrrKF/e5GHrHkVKY+x7dUYX7VdpD41bPZipsDeRRxIakbY8DCbvPcr/Br3o8cXmfIIup40jBDpGINiPLMS6G2oQZYSvJseJsgjSuOLQ0TDqTTM8SD5js5WX6CJHICJmJHpdr2uGO+YIeJYEwdIV3Klx+F1WjFn8C1UgfuFMHE1Csyy79i5UP66f2yC+uPV2qPjlPkSIXeSFeBv1tp1Q==;
+Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
+	helo=[192.168.1.41]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+	id 1hWMKr-00010v-9c; Thu, 30 May 2019 16:47:17 +0200
+Message-ID: <7a13472cb0f7ecfc7553e9369f66a0f7f4226984.camel@igalia.com>
+From: Philippe Normand <philn@igalia.com>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Thu, 30 May 2019 15:47:07 +0100
+In-Reply-To: <20190530140633.GB318@localhost>
+References: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
+	<20190530121718.GD20599@localhost>
+	<4f49826346960c908c5d0dca1812bb9d9d860074.camel@igalia.com>
+	<20190530140633.GB318@localhost>
+User-Agent: Evolution 3.30.5-1 
 MIME-Version: 1.0
-In-Reply-To: <e7536283bb0d7d255826585a3222aedd0d7950ad.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] uninative: Switch from bz2 to xz
+Subject: Re: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,67 +37,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 14:25:22 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 30 May 2019 14:47:17 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 30, 2019 at 03:06:56PM +0100, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2019-05-30 at 16:59 +0300, Adrian Bunk wrote:
-> > There are also some other related topics that might be considered
-> > on how this should develop long-term:
+On Thu, 2019-05-30 at 17:06 +0300, Adrian Bunk wrote:
+> On Thu, May 30, 2019 at 02:30:14PM +0100, Philippe Normand wrote:
+> > Hi Adrian,
+> 
+> Hi Philippe,
+> 
+> > On Thu, 2019-05-30 at 15:17 +0300, Adrian Bunk wrote:
+> > ...
+> > > 2. Wouldn't the more common case be to use the ca-certificates
+> > > package instead of PKCS #11?
 > > 
-> > 1. How important is it to support host distributions that are not 
-> > listed as supported? Not limited to uninative it can be painful
-> > adding support for new distributions to stable branches.
+> > I don't know why glib-networking needs to go through gnutls which
+> > then 
+> > needs to query p11-kit. I suppose p11-kit could directly be used,
+> > but 
+> > this is not my call to make.
+> > ...
 > 
-> The distros we do support were chosen to give a decent cross section of
-> the Linux ecosystem. Whilst not full coverage, the delta between those
-> and other systems should be relatively minimal as we have both older
-> and modern in there.
-
-I agree that it usually works on the range between the oldest and the 
-newest supported host distribution.
-
-But adding support for more recent host distributions to stable 
-branches could end up being any amount of troubles if you are
-unlucky.
-
-> > 2. Does using uninative by default bring enough benefits to
-> > outweight the problems with new host distributions, or should it
-> > become non-default in master?
+> I think your "which then needs to query p11-kit" is not correct.
 > 
-> We test it heavily on the autobuilder and also benefit from it
-> massively there so in my view its a significant win for us alone. We
-> chose to share it with the ecosystem. You're not forced to use it.
+> My reading of configure.ac is that ca-certificates could be used
+> instead, and this also makes a lot more sense in the default case.
 > 
-> > The sum of the two points above is especially problematic:
-> > "re-use of native shared state artifacts across different host 
-> > distributions" is a more exotic feature, and effectively supporting
-> > this for unsupported host distributions is the problem here.
-> 
-> Which distros are you seeing a problem with and what kinds of problems?
-> I'd hoped/believed the problems should be relatively minor unless
-> they're really old.
->...
 
-The problem is that uninative is expected to break 3 times per year, 
-with every new release of gcc or glibc.
+I've asked Michael Catanzaro about this, he's not subscribed to this
+list so he can't reply to the thread. Here's his reply:
 
-Are the problems people regularly see on bleeding-edge distributions
-really offset by the benefits of having it enabled by default?
+The GnuTLS default trust store can be a certificate file bundle or a
+certificate directory (provided by ca-certificates), or a PKCS#11 URI,
+but PKCS#11 is a better default. If you do not use PKCS#11, then
+expected functionality like trusting and distrusting certificates using
+the 'trust' command or applications like seahorse will not work. Most
+modern Linux distributions are now using PKCS#11 URIs; the only major
+holdouts are Debian and Ubuntu. So I would definitely recommend the
+PKCS#11 URI. Of course, basic functionality will work whichever way you
+choose; glib-networking only requires that GnuTLS has a default trust
+store, one way or the other, so using a bundle would be OK if you want
+to avoid the dependency on p11-kit.
 
-> Cheers,
-> 
-> Richard
+---
 
-cu
-Adrian
+So, do you agree about depending on p11-kit from now on?
 
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Philippe
 
 
