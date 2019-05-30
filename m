@@ -1,51 +1,46 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 8132F7E26A
+Return-Path: <crg7475@mailbox.org>
+Received: from mx1.mailbox.org (mx1.mailbox.org [80.241.60.212])
+	by mail.openembedded.org (Postfix) with ESMTP id 41AA07E4BE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 18:50:00 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id h20so11647657itk.4
+	Thu, 30 May 2019 19:13:07 +0000 (UTC)
+Received: from smtp2.mailbox.org (smtp2.mailbox.org
+	[IPv6:2001:67c:2050:105:465:1:2:0])
+	(using TLSv1.2 with cipher ECDHE-RSA-CHACHA20-POLY1305 (256/256 bits))
+	(No client certificate requested)
+	by mx1.mailbox.org (Postfix) with ESMTPS id CEDF04BD91
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 11:50:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OeHh445QztWIV6HamUWXJBgklCGOAYEOQnr70lahkkE=;
-	b=pWTQ5tdI3xozbLxWHaJxI60Wdzd2vGUhdQlu4vooKzXVJznScIC9N0QYfO3U0oP7VS
-	cBsMfrhj2blxTPixAQc0Az+RQrTD3pN3VA+sfSCVhX2qpWA+rm+VrHrauc/K203z3QwR
-	6/pNmT2w2l60ZOPMf6LpoakGsURtI9EsjsnqkxJvDgGui5RLBAddaJwvCeb8CJ48/n85
-	v3nH59kTK23AOJdKsKM4xa5P2rh1CBElONJL616TuBOy5YtwcWtCfvmqQfBEEFUCCpic
-	qGQRv5vNYrEFJ/ES8z9gX1+1eZXJd5qUvgHOZmfdZtm5dBAtMSEVz/9lX2jxldQIcaSf
-	HlSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=OeHh445QztWIV6HamUWXJBgklCGOAYEOQnr70lahkkE=;
-	b=iz8j3f5NCklXcpGryZ5Tz2+DxMIPGrA1SGR/EIgGm+LA2Tz+ClgEB2ODht4yko+oQ3
-	fs493UxiletsPvF3q66UzzaznndElvj3Ro/ocGhRLcsRcH5w3HmBpnzt8pK8V1G+5Tut
-	FwK/sT3wP9lvYcW8ey2S8EblbdkEMn4jHdzuIfse1BHex/6LXKJhNs4gN/TyGUuD2wL8
-	ccIsydeC4Vq2mFYEJyn7c9PsqnDkOA4vJIrIOP09Hj9wPFy15uzyKzTCpQH4sPHb5JX7
-	9y2+BtxgNEC7iIc887DboYp3OZJ6gEPrH19wxkEhklfyBJ4Py2oJuTY1WB8NcspJ1jgN
-	mATA==
-X-Gm-Message-State: APjAAAWzgT4L1f8rpk3SOPA9D8gEFNgmb0BdPFNurVPy1UM12Sna6sjM
-	hLKEf7zTecy0XjrlG1veRsowTIFm
-X-Google-Smtp-Source: APXvYqx/oGDYcl4Ufpo/kii7Ux0jfAucNM6GfULJ7RAeGtCuX++VxqNrbbZUi29lrE4UdfmBKchdCw==
-X-Received: by 2002:a24:8988:: with SMTP id s130mr3925241itd.79.1559242201471; 
-	Thu, 30 May 2019 11:50:01 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	w26sm1151854iom.59.2019.05.30.11.50.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 30 May 2019 11:50:00 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+	Thu, 30 May 2019 21:13:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mailbox.org; h=
+	message-id:date:date:subject:subject:from:from:received; s=
+	mail20150812; t=1559243580; bh=GFqHBDgNMLum1slqJOTG2uiWIv4CPsduP
+	+qG2JU6hDw=; b=PVPtUmqJxZD6/ZCmUiGnF+KWc2gUXj2Pk5Juw9L/gZ+zypqfq
+	AEjIewyytcyEkZb0Yqvx+AkBKTIRa0I4Eb3X9IdLPBjCoQgmCRiY68K5at/e9UOb
+	K5f4oAhFiqVoV8D5WTN6/masM5cux8jxtKvAGDm0KPewrNZZzvKGd1HgErtdgFzF
+	tTpKY1nhnAmDw6GBxOioogGV7898p3GqzfryTSJWvlidoRAN/rCv2V0TsJWAcuyi
+	/n14onAn2wNhPM0ddOf+IROJ0fSMckMnLWu52kN4ckTo0kKwQK7dn2ZF8c8aYnCP
+	eVR56Cn5vHvav6OJF5EIjsV1lkw+ILSZGOCGA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org;
+	s=mail20150812; 
+	t=1559243587; h=from:from:sender:reply-to:subject:subject:date:date:
+	message-id:message-id:to:to:cc:mime-version:content-type:
+	content-transfer-encoding:in-reply-to:references;
+	bh=kxJxtfEMJf2RzOGyVYwXENX7fr3hGbPZ3Fw7e4cXZd8=;
+	b=uMKkdaZpuWXxRpGUQ2m6e/BGyUhTKH0ZWH5mi47sXi8NKDonZoCez7D2FFYh/fm68NBCGN
+	2BvXxp/3I1V0CExN8be/MGOdL5gfvFWrIaecG9xcqrPXQnS12OxxCVCmpKlGmFeyfzxZQU
+	PT3VMf432lQ4alGyrricGY8Gt9ou5MeZgmM5LuujYn1P2xeLxD8hdGFXyz+XrEQXK2Jshq
+	KxTvBe9f0bUEhmtSNm7GqxbYCuROstbYFRsfw9FjS4BVCHRl5vcRKzEi906ivM9cU4/s2T
+	bdWeX6Mp5DebRjvRpaXNfenoBH6cGeuL/9XNnVa8buHTrGHCcCn36KfN6nkTRA==
+X-Virus-Scanned: amavisd-new at heinlein-support.de
+Received: from smtp2.mailbox.org ([80.241.60.241])
+	by spamfilter05.heinlein-hosting.de (spamfilter05.heinlein-hosting.de
+	[80.241.56.123]) (amavisd-new, port 10030) with ESMTP id vYO_tLky3UvR
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2019 21:13:00 +0200 (CEST)
+From: Carlos Rafael Giani <crg7475@mailbox.org>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 30 May 2019 13:49:54 -0500
-Message-Id: <20190530184954.2188-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.21.0
-MIME-Version: 1.0
-Subject: [PATCH] perl: Set build date to SOURCE_DATE_EPOCH
+Date: Thu, 30 May 2019 21:12:36 +0200
+Message-Id: <20190530191236.12870-1-crg7475@mailbox.org>
+Subject: [PATCH v3] gstreamer1.0-vaapi: upgrade to version 1.16.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,47 +53,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 18:50:01 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 30 May 2019 19:13:07 -0000
 
-Perl uses an internal #define called PERL_BUILD_DATE as the string for
-the date when perl was built. If undefined, it defaults to using
-__DATE__ and __TIME__, which is not reproducible. If SOURCE_DATE_EPOCH
-is set at do_configure time, use it to generate a reproducible string
-for PERL_BUILD_DATE.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Signed-off-by: Philippe Normand <philn@igalia.com>
+Signed-off-by: Carlos Rafael Giani <crg7475@mailbox.org>
 ---
- meta/recipes-devtools/perl-sanity/perl_5.28.2.bb | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ .../0001-vaapsink-downgrade-to-marginal.patch               | 4 ++--
+ ...amer1.0-vaapi_1.14.4.bb => gstreamer1.0-vaapi_1.16.0.bb} | 6 +++---
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.14.4.bb => gstreamer1.0-vaapi_1.16.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
-index f175e87a12e..b74acfbbc4d 100644
---- a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
-+++ b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
-@@ -34,7 +34,7 @@ S = "${WORKDIR}/perl-${PV}"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+index c861f3bed2..7945a923c9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-vaapsink-downgrade-to-marginal.patch
+@@ -24,7 +24,7 @@ diff --git a/gst/vaapi/gstvaapi.c b/gst/vaapi/gstvaapi.c
+ index 9a82454..4d94f2b 100644
+ --- a/gst/vaapi/gstvaapi.c
+ +++ b/gst/vaapi/gstvaapi.c
+-@@ -210,7 +210,6 @@ plugin_init (GstPlugin * plugin)
++@@ -195,7 +195,6 @@ plugin_init (GstPlugin * plugin)
+  {
+    GstVaapiDisplay *display;
+    GArray *decoders;
+@@ -32,7 +32,7 @@ index 9a82454..4d94f2b 100644
+  
+    plugin_add_dependencies (plugin);
+  
+-@@ -235,10 +234,7 @@ plugin_init (GstPlugin * plugin)
++@@ -220,10 +219,7 @@ plugin_init (GstPlugin * plugin)
+    gst_element_register (plugin, "vaapidecodebin",
+        GST_RANK_PRIMARY + 2, GST_TYPE_VAAPI_DECODE_BIN);
+  
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
+index 3896434104..e5dfb61241 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.16.0.bb
+@@ -13,8 +13,8 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.x
+            file://0001-vaapsink-downgrade-to-marginal.patch \
+            "
  
- inherit upstream-version-is-even
+-SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
+-SRC_URI[sha256sum] = "ce18dbfe961c6a8d31270231686075586bf7a7df62b778c8e7f5ec148251d0a3"
++SRC_URI[md5sum] = "8c3f9ee3e47cbdb75a94f7183460b721"
++SRC_URI[sha256sum] = "4e7fce626ee0590dca74b5a8341d25bac76307945131a970b414fc5895f5171f"
  
--DEPENDS += "db gdbm zlib virtual/crypt"
-+DEPENDS += "db gdbm zlib virtual/crypt coreutils-native"
+ S = "${WORKDIR}/${REALPN}-${PV}"
+ DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
+@@ -40,7 +40,7 @@ PACKAGECONFIG ??= "drm \
+ PACKAGECONFIG[drm] = "--enable-drm,--disable-drm,udev libdrm"
+ PACKAGECONFIG[egl] = "--enable-egl,--disable-egl,virtual/egl"
+ PACKAGECONFIG[glx] = "--enable-glx,--disable-glx,virtual/libgl"
+-PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland"
++PACKAGECONFIG[wayland] = "--enable-wayland,--disable-wayland,wayland-native wayland wayland-protocols"
+ PACKAGECONFIG[x11] = "--enable-x11,--disable-x11,virtual/libx11 libxrandr libxrender"
  
- PERL_LIB_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}.0"
- 
-@@ -90,6 +90,12 @@ do_configure_class-native() {
-     -Ui_xlocale
- }
- 
-+do_configure_append() {
-+    if [ -n "$SOURCE_DATE_EPOCH" ]; then
-+        echo "#define PERL_BUILD_DATE \"$(date --utc --date="@$SOURCE_DATE_EPOCH")\"" >> config.h
-+    fi
-+}
-+
- do_compile() {
-     oe_runmake
- }
+ FILES_${PN} += "${libdir}/gstreamer-*/*.so"
 -- 
-2.21.0
+2.17.1
 
 
