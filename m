@@ -1,52 +1,28 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D95A67E407
+Return-Path: <philn@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id DC4007E41F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 13:18:36 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id w13so4176994wru.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 30 May 2019 06:18:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=aOSF2vOtsMyOizfxXx7KMtQK/QDZxcykClLDTtCpkcE=;
-	b=ZMats2Z8ay5CsAaDj/lgf8Fluw5y4bwAPcDGZBZMoGvGq9XXceBuP70zHLmKh2mD6B
-	VUQhNxOyelSpoIETDEXHuxo1ZmlGHmFwnK78aAR4gYcHoROa3gXNoCbXJEBIkM/pPBD/
-	ZIdTiq3mI1AxYt4L2dJEChTAdfOYi+1yj6seY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=aOSF2vOtsMyOizfxXx7KMtQK/QDZxcykClLDTtCpkcE=;
-	b=YP7bFWZWfrNk3gExWH9zZTR/KMUSYagaYtPPuOC1guFhxgvSSGoP/Il0CrC6dVynax
-	VXc0uRtPa23VilLxW8+MGrW59TW1QWzHHkZj/ss3PFnWjzoy20lfQCNkJ8D7nuGhi/ik
-	OT1iApG0ywhOp5SV+4pQCxKBQ9K9wOwjq4WOoeNlEkjtRatvxLSBy3Fvd0l7/SznKIIV
-	1FTptWx9eBfbFuEYmDI5Lc2KAG7An1I3ByfMwNd9JAcIaiFHCVJhoVg2Ls/lVeYTcLAY
-	GIOID8OVnFyIBRk7ec0UsTAEBq6hjERVJcutvb1Qpl2/uR7I+77b57aIjgTsiBf5O11b
-	vyFA==
-X-Gm-Message-State: APjAAAWb6wVwNlUXnrbCmr3QjvotapTxwCr0pLleAfsUJ+8ZU5Gs2BPY
-	q7o4igEF18HyWr1ASVrQPWVZpA==
-X-Google-Smtp-Source: APXvYqxBzO8ami1RNj7szBL0MZo9PZZktGNDlnZ+eX7R6nOThxSHQIbiLaALU3uj9OR46o/DZZr7dw==
-X-Received: by 2002:adf:e590:: with SMTP id l16mr2544603wrm.257.1559222317578; 
-	Thu, 30 May 2019 06:18:37 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id o1sm878997wre.76.2019.05.30.06.18.36
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 30 May 2019 06:18:37 -0700 (PDT)
-Message-ID: <f3c0ec27ac8d1d90468532152081c219ddf1061f.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Rob Walton <Rob.Walton@arm.com>, 
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Date: Thu, 30 May 2019 14:18:36 +0100
-In-Reply-To: <1558529060-79451-2-git-send-email-rob.walton@arm.com>
-References: <1558529060-79451-1-git-send-email-rob.walton@arm.com>
-	<1558529060-79451-2-git-send-email-rob.walton@arm.com>
-User-Agent: Evolution 3.32.2-1 
+	Thu, 30 May 2019 13:30:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID;
+	bh=4tgz+AY48uPZDj594Oz81UETmoafSdXVeUbxugd062s=; 
+	b=BOtCwdQ/+zgvj6t1AnT+oCak913okqxpAT/Rf0JedvVe73rxHQTPPmNNVdDDl1qpN34JyaFm6VTw+n6AHTcIeqwHJ9QgVc2bP54nwyEqxPG5x2tjGl2xU7qps3GP7ea/deiJpUm1HK4DUAas/OTi6HXSvzoVPWwoXzOt/ZLnsey0moZI5sr20KKChACJtRh01c+cUnfergfRl1AFSnHhGlYA1qTUXDVUiqZJk2mxsgG0kDyLRySTVGSsCF0AWKFMTNFwVNTaXJBrRVG/doEBOOqmPrR+u3jp90GpfVldEHLaXXYk2dqLhkB3yMPISudY7Zvh8++B0yD6bF4SzMftZw==;
+Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
+	helo=[192.168.1.41]) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+	id 1hWL8S-0007ta-Gq; Thu, 30 May 2019 15:30:24 +0200
+Message-ID: <4f49826346960c908c5d0dca1812bb9d9d860074.camel@igalia.com>
+From: Philippe Normand <philn@igalia.com>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Thu, 30 May 2019 14:30:14 +0100
+In-Reply-To: <20190530121718.GD20599@localhost>
+References: <4952ef2f1e236b563f400ead537f8e7bba373bc1.camel@igalia.com>
+	<20190530121718.GD20599@localhost>
+User-Agent: Evolution 3.30.5-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH 2/2] package.bbclass: Emit HOMEPAGE pkgdata.
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] gnutls: Add a config option to enable the pkcs11 trust store
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,56 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 30 May 2019 13:18:37 -0000
+X-List-Received-Date: Thu, 30 May 2019 13:30:25 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-05-22 at 12:44 +0000, Rob Walton wrote:
-> Emit the contents of HOMEPAGE in the extra pkgdata. This is useful
-> information to have when creating license manifests.
+Hi Adrian,
+
+On Thu, 2019-05-30 at 15:17 +0300, Adrian Bunk wrote:
+> On Thu, May 30, 2019 at 11:12:21AM +0100, Philippe Normand wrote:
+> > Since version 2.60 the glib-networking TLS database relies on
+> > GnuTLS's system
+> > trust store, so not enabling it leads to TLS errors in applications
+> > depending on
+> > glib-networking. The raised runtime warning is:
+> > 
+> > process:500): GLib-Net-WARNING **: 09:14:09.321: Failed to load TLS
+> > database: Failed to load system trust store: GnuTLS was not
+> > configured with a system trust
+> > (app:490): ... TLS Error: TLS certificate  has unknown CA.
+> > 
+...
+> Two questions:
 > 
-> Signed-off-by: Rob Walton <rob.walton@arm.com>
-> ---
->  meta/classes/package.bbclass | 1 +
->  1 file changed, 1 insertion(+)
+> 1. Is this a valid pkcs11 URI?
 > 
-> diff --git a/meta/classes/package.bbclass
-> b/meta/classes/package.bbclass
-> index 4c0a859..a08aefe 100644
-> --- a/meta/classes/package.bbclass
-> +++ b/meta/classes/package.bbclass
-> @@ -1458,6 +1458,7 @@ fi
->          write_if_exists(sf, pkg, 'PKGR')
->          write_if_exists(sf, pkg, 'LICENSE')
->          write_if_exists(sf, pkg, 'DESCRIPTION')
-> +        write_if_exists(sf, pkg, 'HOMEPAGE')
->          write_if_exists(sf, pkg, 'SUMMARY')
->          write_if_exists(sf, pkg, 'RDEPENDS')
->          rprov = write_if_exists(sf, pkg, 'RPROVIDES')
+> AC_ARG_WITH([default-trust-store-pkcs11],
+>   [AS_HELP_STRING([--with-default-trust-store-pkcs11=URI],
+>     [use the given pkcs11 uri as default trust store])])
+> 
 
-This isn't the first time this has been requested, back in 14/11/2017 a
-similar patch had the reply:
-
-"This was already proposed once and rejected as its using the interface
-for something it really wasn't designed for"
-
-You've also sent this patch once already and questions were raised
-then.
-
-I have to admit I don't like the license.bbclass code, its starting to
-look like anything every legal department could ask for, meaning it
-does no one thing well, just many things badly. I don't like that mess
-starting to creep into the packaging code which does have a clearly
-defined purpose and use.
-
-Put another way, which variables do we draw the line at?
-
-I worry about the path accepting this patch leads us down :(
-
-Cheers,
-
-Richard
+Yes, I believe so. I simply used the same option as in the Freedesktop
+Flatpak SDK:
+https://gitlab.com/freedesktop-sdk/freedesktop-sdk/blob/master/elements/components/gnutls.bst
 
 
+> 2. Wouldn't the more common case be to use the ca-certificates
+> package instead of PKCS #11?
+> 
+
+I don't know why glib-networking needs to go through gnutls which then
+needs to query p11-kit. I suppose p11-kit could directly be used, but
+this is not my call to make.
+
+For reference, this is the relevant glib-networking commit:
+https://gitlab.gnome.org/GNOME/glib-networking/commit/f1c8feee014007cc913b71357acb609f8d1200df
+
+Anyway, in my local config I had this:
+
+PACKAGECONFIG_append_pn-gnutls = " p11-kit pkcs11-trust-store"
+PACKAGECONFIG_append_pn-p11-kit = " trust-paths"
+
+Without those I would still get TLS errors at runtime.
+So these 3 options would need to be enabled by default, I'll send a
+follow-up patch series.
+
+Philippe
 
 
