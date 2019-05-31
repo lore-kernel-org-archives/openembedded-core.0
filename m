@@ -1,30 +1,47 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 66BB27E5F3
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 03E8A7E5F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 20:35:56 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4VKZVNt013952
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 31 May 2019 20:42:05 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id b18so7278857wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 13:35:47 -0700
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Fri, 31 May 2019 13:35:23 -0700
-To: Sakib Sajal <sakib.sajal@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190531202552.21421-1-sakib.sajal@windriver.com>
-	<20190531202552.21421-2-sakib.sajal@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <e2c0ceb5-772d-c94e-1b30-99a67c1ab1ac@windriver.com>
-Date: Fri, 31 May 2019 16:35:22 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190531202552.21421-2-sakib.sajal@windriver.com>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH 2/3] ptest-runner: close all fds in child process.
+	Fri, 31 May 2019 13:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=CBXoPw0NX1wVOYCh6ccd36gozq7IdgO3vY56XVJo8gc=;
+	b=i53UTucatpzEjcFwQv7xQ1xG0v2jagzfaGcySW0ee8AkPDabp+dLN5K4nfnG4pxJg+
+	U8OMZFcRTWJsVsjhzFLC8BoVdSTwIg0o3+4TcglBPSMKAWEMErmB+IMnv0urB6gwLleQ
+	6C1RYjagFYTUjKpPeeO+LMola7R3C/My282w1ao3ZBxPEuHt0HV2ahJujKDx2WREiSrS
+	9o0BoyZfT9yQJjAXDUa8dndNT1hy1njPbqgy4TZ35bGjaKIWWyh5oY9OEoeF0dq4q+XP
+	knNbqbX/m0op4uVZm2S/My8wSSTViU0c6lridCJoCdTsY2B70prYIRKdrxgVsFgpxFeJ
+	XlFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=CBXoPw0NX1wVOYCh6ccd36gozq7IdgO3vY56XVJo8gc=;
+	b=DWh92z3gMdIXnHpNLJFIEsQrDR90QPpwfiShZXcOeu2U1eQd3MUOAifFKZAgss2pIo
+	Tki3OWgo7XLKqU/222nAnEiwOc3B/4x6sLrOFaPCOz7QplSdnI2u4XVehmYKnc15UBlP
+	zroABGHBGZ56jDWpyIeNvSx3Zoy/UyI5Kygg8c2K4ErjPh0EW86vlyw3+b4wmedJvr+M
+	dd8jIBVK/QlDgTd/DxmLA8iJFtOGsyPeMA0Flm2+YFG4qZtjpOok2Z1/+UFfIM7g0EWd
+	xuINbNk+AbYTAGHhY3ks7/Srxij8zS3eVsZmIn48BRx4cyo+Wzj65u8bWAbSKZT7qFu3
+	iJEQ==
+X-Gm-Message-State: APjAAAW6SxH9laSzbes5rsfAoWKWz6/quu/KzyM3vRafPddyZy60PGFw
+	dmvenc7Hpg35k7vIm2Pyso99uVBLNXQ=
+X-Google-Smtp-Source: APXvYqwEzSCxTTAqcOTdYZAovCzqwSynS/Yl2KyLqjwrsGiGBi5TEuZFfCilDWo9TJbNodjb33jBRw==
+X-Received: by 2002:a5d:680d:: with SMTP id w13mr7714186wru.316.1559335326419; 
+	Fri, 31 May 2019 13:42:06 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id
+	w10sm10994393wrr.67.2019.05.31.13.42.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 31 May 2019 13:42:05 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 May 2019 22:41:57 +0200
+Message-Id: <20190531204157.101122-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] sysstat: add UPSTREAM_VERSION_UNKNOWN
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,152 +54,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 20:35:56 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 May 2019 20:42:06 -0000
 
-Your subject is:
-   ptest-runner: close all fds in child process.
-but that's a bit misleading. Since there are other
-things to change, say:
-   ptest-runner: close unused fds in child process.
+We are taking a development version from an odd-even versioned project,
+so upstream version check reports that the latest version is less than
+the one the recipe is using.
 
-On 5/31/19 4:25 PM, Sakib Sajal wrote:
-> When running 'ptest-runner bash', a test named vredir fails
-> due to too many open file descriptors.
-> The test sets the maximum number of open file descriptors
-> to 6 (ulimit -n 6). The test passes by interactively calling
-> run-ptest, but not when using ptest-runner.
-> Security-focused applications will close all unused file descriptors in
-s/Security-focused/Well-behaved/
+UPSTREAM_VERSION_UNKNOWN avoids a version check failure until
+there is a new stable series.
 
-It's true that his is a security recommendation but here
-it's more important to be 'well-behaved'.
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ meta/recipes-extended/sysstat/sysstat.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-> the child after forking but before execing.
-> 
->  From the failed ptest log:
->     run-vredir
->     87,88c87,88
->     < ./vredir6.sub: line 10: /dev/null: Too many open files
->     < ./vredir6.sub: line 13: /dev/null: Too many open files
->     FAIL: run-vredir
-> 
-> Upstream-Status: Submitted [yocto@yoctoproject.org]
-
-This goes in the patch header not the oe-core commit log.
-We do it that way so that we can audit the .patch files to
-see what their status is independent of recent commit logs.
-Resend with that fixed please.
-
-The rest of this commit seems fine.
-
-../Randy
-
-> 
-> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
-> ---
->   ...l-file-descriptors-after-completing-.patch | 69 +++++++++++++++++++
->   .../ptest-runner/ptest-runner_2.3.1.bb        |  4 +-
->   2 files changed, 72 insertions(+), 1 deletion(-)
->   create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch
-> 
-> diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch b/meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch
-> new file mode 100644
-> index 0000000000..6cc941b853
-> --- /dev/null
-> +++ b/meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch
-> @@ -0,0 +1,69 @@
-> +From 63c1b0d154a8028084a26dd523efa379420d8a5d Mon Sep 17 00:00:00 2001
-> +From: Sakib Sajal <sakib.sajal@windriver.com>
-> +Date: Thu, 30 May 2019 16:02:04 -0400
-> +Subject: [PATCH] utils.c: close all file descriptors after completing a ptest
-> +
-> +vredir ptest fails since too many file descriptors were open.
-> +
-> +From the failed ptest log:
-> +   run-vredir
-> +   87,88c87,88
-> +   < ./vredir6.sub: line 10: /dev/null: Too many open files
-> +   < ./vredir6.sub: line 13: /dev/null: Too many open files
-> +   FAIL: run-vredir
-> +
-> +Added function to close file descriptors before starting a new process.
-> +
-> +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-> +Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
-> +---
-> + utils.c | 19 +++++++++++++++++++
-> + 1 file changed, 19 insertions(+)
-> +
-> +diff --git a/utils.c b/utils.c
-> +index 504df0b..05c2bfe 100644
-> +--- a/utils.c
-> ++++ b/utils.c
-> +@@ -28,6 +28,7 @@
-> + #include <fcntl.h>
-> + #include <time.h>
-> + #include <dirent.h>
-> ++#include <sys/resource.h>
-> + #include <sys/types.h>
-> + #include <sys/wait.h>
-> + #include <sys/stat.h>
-> +@@ -240,6 +241,23 @@ filter_ptests(struct ptest_list *head, char **ptests, int ptest_num)
-> + 	return head_new;
-> + }
-> +
-> ++/* Close all fds from 3 up to 'ulimit -n'
-> ++ * i.e. do not close STDIN, STDOUT, STDERR.
-> ++ * Typically called in in a child process after forking
-> ++ * but before exec as a good policy especially for security.
-> ++ */
-> ++static void
-> ++close_fds(void)
-> ++{
-> ++	struct rlimit curr_lim;
-> ++	getrlimit(RLIMIT_NOFILE, &curr_lim);
-> ++
-> ++	int fd;
-> ++	for (fd=3; fd < curr_lim.rlim_cur; fd++) {
-> ++		(void) close(fd);
-> ++   	}
-> ++}
-> ++
-> + static inline void
-> + run_child(char *run_ptest, int fd_stdout, int fd_stderr)
-> + {
-> +@@ -252,6 +270,7 @@ run_child(char *run_ptest, int fd_stdout, int fd_stderr)
-> + 	dup2(fd_stdout, STDOUT_FILENO);
-> + 	// XXX: Redirect stderr to stdout to avoid buffer ordering problems.
-> + 	dup2(fd_stdout, STDERR_FILENO);
-> ++	close_fds();
-> + 	execv(run_ptest, argv);
-> +
-> + 	exit(1);
-> +--
-> +2.20.1
-> +
-> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
-> index e2eb258d0b..afa407b48b 100644
-> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
-> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
-> @@ -13,7 +13,9 @@ PV = "2.3.1+git${SRCPV}"
->   SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
->    file://0001-utils-Ensure-stdout-stderr-are-flushed.patch \
->    file://0002-use-process-groups-when-spawning.patch \
-> - file://0003-utils-Ensure-pipes-are-read-after-exit.patch"
-> + file://0003-utils-Ensure-pipes-are-read-after-exit.patch
-> + file://0004-utils.c-close-all-file-descriptors-after-completing-.patch \
-> +"
->   
->   S = "${WORKDIR}/git"
->   
-> 
-
-
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 7f4749f5714..6b21c6b8c19 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -10,6 +10,7 @@ SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.xz \
+           "
+ 
+ UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
++UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+ DEPENDS += "base-passwd"
+ 
 -- 
-# Randy MacLeod
-# Wind River Linux
+2.17.1
+
 
