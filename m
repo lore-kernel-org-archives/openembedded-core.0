@@ -1,29 +1,47 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3C6C47E508
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 752557DE7C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 02:09:24 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4V29Hje022760
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 May 2019 19:09:17 -0700 (PDT)
-Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 30 May 2019 19:09:16 -0700
-To: <richard.purdie@linuxfoundation.org>
-References: <20190530092232.169453-1-kai.kang@windriver.com>
-	<20190530092232.169453-2-kai.kang@windriver.com>
-	<39d1e5c522b70d7c6dad4cb37641c0c1ae7cbd41.camel@linuxfoundation.org>
-From: Kang Kai <Kai.Kang@windriver.com>
-Message-ID: <068b03a0-b96b-eee3-0dc5-9ddfde048066@windriver.com>
-Date: Fri, 31 May 2019 10:07:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Fri, 31 May 2019 03:59:36 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id 14so9840291qtf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 30 May 2019 20:59:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=wIWdlF5tcOXAKBpRozUT0dFd6uvCJaogSPg/6dMfIfg=;
+	b=T/fZwx8VeDaFtVvTR82vq8cDVBwVjdgT64tRctm0Owuh8MF/3PwVJ/P1C20fEzHowR
+	XpLv8v6EF9k2yaqlfwmUT9uyh4r78/1VHl/r3125ZzECyFvUtxEmWsGoqc/LnZWLMeX9
+	dgBMi21ZrQMkdinJZi2uTN6S15mD7I+//08/zED4WHJuwGBgNSDZv+qZMp2KNbJHcTnt
+	r7kRLOxX7nYedlv907qoBiZ5x7J3QDYOU0Bx6JCoXeIaySEYGo7mp+Gt4yYeEdqdDDLw
+	lfDC2yRmILaqmgYY+enI3EqmPsa3SU74azkR1aji1d7pJsaMhkwAojbJvKetvGfH7Cht
+	6Z/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=wIWdlF5tcOXAKBpRozUT0dFd6uvCJaogSPg/6dMfIfg=;
+	b=dkmeKar9VnfClVKUkFoFOFsp+8R/9aQf1WEhgi2XVNI6NLaVThOpLzDZB45pWih8lY
+	Xx9ww514rDep7xlrqq/IJZapSR0B+OQCnfQrq93V3M1vey2i6ZWjbqKMdJZ9viPzTTQp
+	xe0nE+l9sHb5aAhKRZ1ua/LoWnoIWwoIwze5RII0xkou9/Qbi42VafjUN/c7tmrJI9bw
+	TC9WtXGYuSWVIxiomiDWRphScXKQkbrs9J/c75e8yk09bZPgRUgA/cf9esyDvJM+QSYp
+	u/chsaNQz3VRlnq1HacJyoGUtnfjxnh8YHugxNhA1xDXBY+1kudPk2ofrviiagSq3oPm
+	cOvw==
+X-Gm-Message-State: APjAAAX4s8CAOQt6ahYTUjXD9bgzegLp3z9Tz+YCfelHaRLsVFXnQUU4
+	LiZplOcVHKpFjIQmiOK18bcT4HS5gPH8yhaabJQ=
+X-Google-Smtp-Source: APXvYqyJqRjjnI9eQlaTGMh/KN+xIahl1P+/7x4DsVDEuF7yITABjHd+20V7IjkMZhxTaPf67nwkfYRA39DZel1qyHU=
+X-Received: by 2002:a0c:b09a:: with SMTP id o26mr6828558qvc.68.1559275176796; 
+	Thu, 30 May 2019 20:59:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <39d1e5c522b70d7c6dad4cb37641c0c1ae7cbd41.camel@linuxfoundation.org>
-Cc: poky@yoctoproject.org, peter.kjellerstedt@axis.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [meta-poky][PATCH v4 1/3] poky.conf: make systemd as default init manager
+References: <20190530183138.1348-1-JPEWhacker@gmail.com>
+In-Reply-To: <20190530183138.1348-1-JPEWhacker@gmail.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 31 May 2019 05:59:09 +0200
+Message-ID: <CAMKF1sqHfrV4gFpg-3bhXC=xATr1=mO-o8WX9RT6SoG8k30QPA@mail.gmail.com>
+To: Joshua Watt <jpewhacker@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc-locale: DEPEND on virtual/libc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,79 +54,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 02:09:24 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 31 May 2019 03:59:36 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 2019/5/30 下午7:44, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2019-05-30 at 05:22 -0400, kai.kang@windriver.com wrote:
->> From: Kai Kang <kai.kang@windriver.com>
->>
->> Move configurations from local.conf.sample.extended to poky.conf to
->> make
->> systemd as default init manager for poky. Introduce a new variable
->> 'POKY_INIT_MANAGER' whose value should be either 'systemd' or
->> 'sysvinit'
->> to configure the init manager setting.
->>
->> For users who still want to use sysvinit, set in local.conf or any
->> other
->> configure file with:
->>
->>    POKY_INIT_MANAGER = "sysvinit"
->>
->> [YOCTO #13031]
->>
->> Signed-off-by: Kai Kang <kai.kang@windriver.com>
->> ---
->>   meta-poky/conf/distro/poky.conf           | 10 ++++++++++
->>   meta-poky/conf/local.conf.sample.extended |  9 ---------
->>   2 files changed, 10 insertions(+), 9 deletions(-)
-> Thanks for working on this patchset, I think its nearly there. I'm
-> wondering if we should set
+On Thu, May 30, 2019 at 8:31 PM Joshua Watt <jpewhacker@gmail.com> wrote:
 >
-> POKY_INIT_MANAGER_libc-musl = "sysvinit"
+> The restriction against glibc-locale depending on virtual/libc is
+> removed now that libc-initial no longer exists.
 >
-> since I am worried about what I read about musl and systemd from a
-> security perspective.
+> Adding the DEPENDS on virtual/libc fixes a race (and reproducibility
+> issue) where the packages created by this recipe would have different
+> runtime dependencies depending on if libc had generated its packages yet
+> or not.
 
-OK. I'll add it.
+technically locales are intertwined with glibc so it does not matter
+but I understand the dependency race point
+so lets take it in
 
 
 >
-> I'm also wondering what we need to do with the autobuilder init system
-> tests, I think those may need rewriting to add some sysvinit tests.
-
-Something likes meta/lib/oeqa/runtime/cases/systemd.py? I think it is 
-better to do in next milestone and create a defect to address it.
-If it is ok, I'll create one.
-
-
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
+>  meta/recipes-core/glibc/glibc-locale.inc | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> Does POKY_INIT_MANAGER = "sysvinit systemd" work for the mode where we
-> allow old sysvinit scripts for compatibility?
-
-  I am afraid only one value could be set for POKY_INIT_MANAGER. And I 
-believe that most packages have been supporting systemd. If there is,
-we can add a systemd service file for it.
-
-BTW, POKY_INIT_MANAGER doesn't consider the case of mdev/busybox. If 
-want to use mdev/busybox for init, just set DISTRO with poky-tiny and
-everything have been set properly in poky-tiny.conf.
-
-Regards,
-Kai
-
-
+> diff --git a/meta/recipes-core/glibc/glibc-locale.inc b/meta/recipes-core/glibc/glibc-locale.inc
+> index a985d26c75d..f033635bd0d 100644
+> --- a/meta/recipes-core/glibc/glibc-locale.inc
+> +++ b/meta/recipes-core/glibc/glibc-locale.inc
+> @@ -12,9 +12,7 @@ BINUTILSDEP = "virtual/${MLPREFIX}${TARGET_PREFIX}binutils:do_populate_sysroot"
+>  BINUTILSDEP_class-nativesdk = "virtual/${TARGET_PREFIX}binutils-crosssdk:do_populate_sysroot"
+>  do_package[depends] += "${BINUTILSDEP}"
 >
-> Cheers,
+> -# localedef links with libc.so and glibc-collateral.inc inhibits all default deps
+> -# cannot add virtual/libc to DEPENDS, because it would conflict with libc-initial in RSS
+> -RDEPENDS_localedef += "glibc"
+> +DEPENDS += "virtual/libc"
 >
-> Richard
+>  # Binary locales are generated at build time if ENABLE_BINARY_LOCALE_GENERATION
+>  # is set. The idea is to avoid running localedef on the target (at first boot)
+> --
+> 2.21.0
 >
->
-
--- 
-Kai Kang
-
 
