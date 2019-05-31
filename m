@@ -1,56 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D085D7E5B4
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 166027E5C5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 17:07:41 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id n4so1741437wrw.13
+	Fri, 31 May 2019 18:13:02 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id f25so4457394pgv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 10:07:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=+Gk5/Q0hD/pk5NksMhbpMemw5Qvi8hyfGlxc7Ur8rjs=;
-	b=EYfZx4r2ySvLoX0XJos0/zM1qm4edq895QtFR+VdtTJrAYbP/+6OhJgr/DqMGyywyl
-	euslcePKZGd6g3Zfgrzrt+XP8hpkDYQmJGm0V5m6MicpS4kNAt8zka3+YhcHhTkZw8U6
-	QxNOfLFBi5kupLBye4zREX7GidFHe72W5WaYY=
+	Fri, 31 May 2019 11:13:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=nmvL7uGZ/KFW7oq2+DVFyArY+p63j+uqdJNqlIYKmRI=;
+	b=KTLLo/7ZKhpLLXpvLYtlRKsSUVuwZO6z+w+z2eREqDtQdCP7mE2/MGQV9Qwgy2QmDq
+	C22L8wpOHhZ2beITCtwwPdKk9o4qJ32sFV3l+YPy65GkhZz+iGYpIZ7fk1eopb+1Gy+B
+	VGHfyTPyHTNSNVaHhHfzvr8yejj02DbOvd1thN5uVFxLYQraHefbUG/wZCJvjqPJpmGu
+	3mhllJKSVVPkdKqY8KQ+vIT8MjqWKAh1/sqmMltnOFCNPuevqEtouPAyU74Lp/lD+Fjb
+	94xrgMS/Wo97wF3Zx6i/6OpAewB6tnYYVEaqrpsceYlIyvD3/ilj1MaI7eiVddBCmjsS
+	QIZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=+Gk5/Q0hD/pk5NksMhbpMemw5Qvi8hyfGlxc7Ur8rjs=;
-	b=agaB3FKJ/MdHjfSkJOQwxg3eLOCymE+ePFmbUpMgptgfFXtUtZHE6c3/OAdk5u1ZBR
-	LjT/NI9Mk50RiCc5t+kq9LNOwEsMXSOZUNUiI50jMiBYo/SSD9q30RX7jKMySBSk0fid
-	oPdPH0Y1x+/nh4gjDCz3tXaQEvBUaEwPr2ax3pcwW4uluy67gmqmFpHBth/uW81obvlp
-	FV0EgwPFHo8k0X+gg2kisFFARLu1+V04MnP0eanyP0sGfLGWbAsZKnZ33RJMmIsjChDQ
-	LF9ouQYdPiYkya/ib95fKGJOQyIItW0Yp75Ll8BJp7nMSlNSpXMWOXaOY6KeoFFMW0AN
-	XvNQ==
-X-Gm-Message-State: APjAAAXrVy9KdmEpQvK0q+vEM2ghN5Mz0a1sCulhtwj5i6kVq0ph6rcW
-	7E/c9K9/Zd6fQ1I+DWCOvXgrCQ==
-X-Google-Smtp-Source: APXvYqzSQBN8VgxGBnXgx9R/1bXtCuIrg9zyYVuJ+uEDJZaGhrKj6rSaHgqn0oNGlRtkWpytaEhs4A==
-X-Received: by 2002:a5d:5112:: with SMTP id s18mr7080860wrt.111.1559322462632; 
-	Fri, 31 May 2019 10:07:42 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b10sm17274856wrh.59.2019.05.31.10.07.41
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 10:07:42 -0700 (PDT)
-Message-ID: <037a7bb7f19f73dae1c51b663ad4471100e37b4a.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 31 May 2019 18:07:40 +0100
-In-Reply-To: <CADkTA4NU6SZTcr3FSCiwEozWFjde9PZYW=d5ivpowFE_Q6qA=Q@mail.gmail.com>
-References: <cover.1559220004.git.bruce.ashfield@gmail.com>
-	<18e169f17346d84787ec550696cf0cc19ea83256.camel@linuxfoundation.org>
-	<CADkTA4M=hUbCPwa6H_KMFN=hDbpdy-XE5kZ8magBQFD-f=ML0w@mail.gmail.com>
-	<dc3b129e2bf00200521f1a86d1384a1087fa4664.camel@linuxfoundation.org>
-	<CADkTA4NU6SZTcr3FSCiwEozWFjde9PZYW=d5ivpowFE_Q6qA=Q@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] linux-yocto: consolidated pull request
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=nmvL7uGZ/KFW7oq2+DVFyArY+p63j+uqdJNqlIYKmRI=;
+	b=l3v9UaiLukr7UmXu+TWuikUcb825hWjcVnZI5UQyJrmHl/mNXSm2yHlcvjc6Ba4PT8
+	RyzZ0pyAsuHW6IE42I9WCtX4IjSS98ja1OO749DSIn82dGB2Uud3j6TDjP0co3h7vMaM
+	I6hnXH9N+1Zn2qkBHAMFUpEs11JfMnrMiQ5aUzmjAJZkao4ufb5sJMntisSM+dGcvnl7
+	Yfkt83/UPaLCXa2wvxQ6y5FcyAkagzZ9CmvwhnsRb/QNcJG+971jtI1JU4/QRR4e8MEa
+	k2pqNp6Qxp22RmJHurSD+R5mQCO7aEEYxM12UJxEeUeJhNmZxQr4Tip9/6Ee0V1whBZS
+	ToIw==
+X-Gm-Message-State: APjAAAWBocuhbdWBBHyy4VR2odAjdZKVNiaURqhdg/9QdfLCz4303WH0
+	V2g9Ku7zzC67ULwEeYjTgWGoKkA9
+X-Google-Smtp-Source: APXvYqxWEfmZZtOAGg1JqwkT8/LvjtBFAKCNc6t82WzyQjIP5bUPuxR8HQeV1wHQUV9cQF+j8cegzQ==
+X-Received: by 2002:a17:90a:8d86:: with SMTP id
+	d6mr10593796pjo.127.1559326383512; 
+	Fri, 31 May 2019 11:13:03 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:d8eb:da43:9914:3fc9])
+	by smtp.gmail.com with ESMTPSA id m9sm6517222pgd.23.2019.05.31.11.13.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Fri, 31 May 2019 11:13:02 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 May 2019 11:13:00 -0700
+Message-Id: <1559326380-8954-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH] file: Multiple Secruity fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,42 +56,248 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 17:07:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 31 May 2019 18:13:03 -0000
 
-On Fri, 2019-05-31 at 09:46 -0400, Bruce Ashfield wrote:
-> On Fri, May 31, 2019 at 9:22 AM <richard.purdie@linuxfoundation.org>
-> wrote:
-> > On Fri, 2019-05-31 at 08:53 -0400, Bruce Ashfield wrote:
-> > > On Fri, May 31, 2019 at 4:01 AM <
-> > > richard.purdie@linuxfoundation.org>
-> > > wrote:
-> > > > This fails in testing with one failure on qemuarm:
-> > > > 
-> > > 
-> > > bugger, I didn't expect that!
-> > > 
-> > > I'll dig up how I mocked up a systemtap test environment before
-> > > (it
-> > > will be next week before I get to it though (unless I'm lucky),
-> > > since
-> > > my cycles today are spoken for)
-> > 
-> > FWIW this is some change after 5.0.13 that is triggering the issue.
-> > I
-> > can likely merge the patches to that point (tests are still
-> > completing).
-> 
-> Yah. I spawned a core-image-kernel-dev build and will setup a quick
-> bisect environment to track it down. I'll also test against my 5.2-rc
-> kernel, to have a look for a fix, or do a fix there as well.
+From: Armin Kuster <akuster@mvista.com>
 
-Just for fun I checked the 5.0.17 update and that does fail so its
-somewhere between .13 and .17 afaict.
+Source: https://github.com/file
+MR: 97573, 97578, 97583, 97588
+Type: Security Fix
+Disposition: Backport from https://github.com/file/file
+ChangeID: 159e532d518623f19ba777c8edc24d2dc7e3a4e9
+Description:
 
-Cheers,
+CVE-2019-8905 is the same fix as CVE-2019-8907
 
-Richard
+Affects < 5.36.0
+
+Fixes:
+CVE-2019-8904
+CVE-2019-8906
+CVE-2019-8906
+CVE-2019-8907
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../recipes-devtools/file/file/CVE-2019-8904.patch |  30 ++++++
+ .../file/file/CVE-2019-8905_CVE-2019-8907.patch    | 120 +++++++++++++++++++++
+ .../recipes-devtools/file/file/CVE-2019-8906.patch |  27 +++++
+ meta/recipes-devtools/file/file_5.34.bb            |   3 +
+ 4 files changed, 180 insertions(+)
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8904.patch
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
+ create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8906.patch
+
+diff --git a/meta/recipes-devtools/file/file/CVE-2019-8904.patch b/meta/recipes-devtools/file/file/CVE-2019-8904.patch
+new file mode 100644
+index 0000000..5c3d6f7
+--- /dev/null
++++ b/meta/recipes-devtools/file/file/CVE-2019-8904.patch
+@@ -0,0 +1,30 @@
++From 94b7501f48e134e77716e7ebefc73d6bbe72ba55 Mon Sep 17 00:00:00 2001
++From: Christos Zoulas <christos@zoulas.com>
++Date: Mon, 18 Feb 2019 17:30:41 +0000
++Subject: [PATCH] PR/62: spinpx: Avoid non-nul-terminated string read.
++
++Upstream-Status: Backport
++CVE: CVE-2019-8904
++Affects < 5.36
++[Fixup for thud context]
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/readelf.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++Index: git/src/readelf.c
++===================================================================
++--- git.orig/src/readelf.c
+++++ git/src/readelf.c
++@@ -558,8 +558,8 @@ do_bid_note(struct magic_set *ms, unsign
++ 	}
++ 	if (namesz == 4 && strcmp((char *)&nbuf[noff], "Go") == 0 &&
++ 	    type == NT_GO_BUILD_ID && descsz < 128) {
++-		if (file_printf(ms, ", Go BuildID=%s",
++-		    (char *)&nbuf[doff]) == -1)
+++		if (file_printf(ms, ", Go BuildID=%.*s",
+++		    CAST(int, descsz), CAST(char *, &nbuf[doff])) == -1)
++ 			return 1;
++ 		return 1;
++ 	}
+diff --git a/meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch b/meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
+new file mode 100644
+index 0000000..a55b94c
+--- /dev/null
++++ b/meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
+@@ -0,0 +1,120 @@
++From d65781527c8134a1202b2649695d48d5701ac60b Mon Sep 17 00:00:00 2001
++From: Christos Zoulas <christos@zoulas.com>
++Date: Mon, 18 Feb 2019 17:46:56 +0000
++Subject: [PATCH] PR/62: spinpx: limit size of file_printable.
++
++Upstream-Status: Backport
++CVE: CVE-2019-8905
++CVE: CVE-2019-8907
++affects < 5.36
++
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ src/file.h      |  4 ++--
++ src/funcs.c     |  9 +++++----
++ src/readelf.c   |  7 ++++---
++ src/softmagic.c | 14 ++++++++------
++ 4 files changed, 19 insertions(+), 15 deletions(-)
++
++Index: git/src/file.h
++===================================================================
++--- git.orig/src/file.h
+++++ git/src/file.h
++@@ -501,7 +501,7 @@ protected int file_looks_utf8(const unsi
++     size_t *);
++ protected size_t file_pstring_length_size(const struct magic *);
++ protected size_t file_pstring_get_length(const struct magic *, const char *);
++-protected char * file_printable(char *, size_t, const char *);
+++protected char * file_printable(char *, size_t, const char *, size_t);
++ #ifdef __EMX__
++ protected int file_os2_apptype(struct magic_set *, const char *, const void *,
++     size_t);
++Index: git/src/funcs.c
++===================================================================
++--- git.orig/src/funcs.c
+++++ git/src/funcs.c
++@@ -595,12 +595,13 @@ file_pop_buffer(struct magic_set *ms, fi
++  * convert string to ascii printable format.
++  */
++ protected char *
++-file_printable(char *buf, size_t bufsiz, const char *str)
+++file_printable(char *buf, size_t bufsiz, const char *str, size_t slen)
++ {
++-	char *ptr, *eptr;
+++	char *ptr, *eptr = buf + bufsiz - 1;
++ 	const unsigned char *s = (const unsigned char *)str;
+++	const unsigned char *es = s + slen;
++ 
++-	for (ptr = buf, eptr = ptr + bufsiz - 1; ptr < eptr && *s; s++) {
+++	for (ptr = buf;  ptr < eptr && s < es && *s; s++) {
++ 		if (isprint(*s)) {
++ 			*ptr++ = *s;
++ 			continue;
++Index: git/src/readelf.c
++===================================================================
++--- git.orig/src/readelf.c
+++++ git/src/readelf.c
++@@ -750,7 +750,7 @@ do_core_note(struct magic_set *ms, unsig
++ 			if (file_printf(ms, ", from '%.31s', pid=%u, uid=%u, "
++ 			    "gid=%u, nlwps=%u, lwp=%u (signal %u/code %u)",
++ 			    file_printable(sbuf, sizeof(sbuf),
++-			    CAST(char *, pi.cpi_name)),
+++			    CAST(char *, pi.cpi_name), sizeof(pi.cpi_name)),
++ 			    elf_getu32(swap, (uint32_t)pi.cpi_pid),
++ 			    elf_getu32(swap, pi.cpi_euid),
++ 			    elf_getu32(swap, pi.cpi_egid),
++@@ -1655,7 +1655,8 @@ dophn_exec(struct magic_set *ms, int cla
++ 		return -1;
++ 	if (interp[0])
++ 		if (file_printf(ms, ", interpreter %s",
++-		    file_printable(ibuf, sizeof(ibuf), interp)) == -1)
+++		    file_printable(ibuf, sizeof(ibuf), interp, sizeof(interp)))
+++			== -1)
++ 			return -1;
++ 	return 0;
++ }
++Index: git/src/softmagic.c
++===================================================================
++--- git.orig/src/softmagic.c
+++++ git/src/softmagic.c
++@@ -616,8 +616,8 @@ mprint(struct magic_set *ms, struct magi
++   	case FILE_LESTRING16:
++ 		if (m->reln == '=' || m->reln == '!') {
++ 			if (file_printf(ms, F(ms, desc, "%s"), 
++-			    file_printable(sbuf, sizeof(sbuf), m->value.s))
++-			    == -1)
+++			    file_printable(sbuf, sizeof(sbuf), m->value.s,
+++			    sizeof(m->value.s))) == -1)
++ 				return -1;
++ 			t = ms->offset + m->vallen;
++ 		}
++@@ -644,7 +644,8 @@ mprint(struct magic_set *ms, struct magi
++ 			}
++ 
++ 			if (file_printf(ms, F(ms, desc, "%s"),
++-			    file_printable(sbuf, sizeof(sbuf), str)) == -1)
+++			    file_printable(sbuf, sizeof(sbuf), str,
+++				sizeof(p->s) - (str - p->s))) == -1)
++ 				return -1;
++ 
++ 			if (m->type == FILE_PSTRING)
++@@ -750,7 +751,7 @@ mprint(struct magic_set *ms, struct magi
++ 			return -1;
++ 		}
++ 		rval = file_printf(ms, F(ms, desc, "%s"),
++-		    file_printable(sbuf, sizeof(sbuf), cp));
+++		    file_printable(sbuf, sizeof(sbuf), cp, ms->search.rm_len));
++ 		free(cp);
++ 
++ 		if (rval == -1)
++@@ -777,7 +778,8 @@ mprint(struct magic_set *ms, struct magi
++ 		break;
++ 	case FILE_DER:
++ 		if (file_printf(ms, F(ms, desc, "%s"), 
++-		    file_printable(sbuf, sizeof(sbuf), ms->ms_value.s)) == -1)
+++		    file_printable(sbuf, sizeof(sbuf), ms->ms_value.s,
+++                        sizeof(ms->ms_value.s))) == -1)
++ 			return -1;
++ 		t = ms->offset;
++ 		break;
+diff --git a/meta/recipes-devtools/file/file/CVE-2019-8906.patch b/meta/recipes-devtools/file/file/CVE-2019-8906.patch
+new file mode 100644
+index 0000000..1079ac6
+--- /dev/null
++++ b/meta/recipes-devtools/file/file/CVE-2019-8906.patch
+@@ -0,0 +1,27 @@
++From 2858eaf99f6cc5aae129bcbf1e24ad160240185f Mon Sep 17 00:00:00 2001
++From: Christos Zoulas <christos@zoulas.com>
++Date: Wed, 2 Jan 2019 19:44:14 +0000
++Subject: [PATCH] Avoid OOB read (found by ASAN reported by F. Alonso)
++
++Upstream-Status: Backport
++CVE: CVE-2019-8906
++Affects < 5.36
++[Fixup for thud context]
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++---
++ src/readelf.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++Index: git/src/readelf.c
++===================================================================
++--- git.orig/src/readelf.c
+++++ git/src/readelf.c
++@@ -745,7 +745,7 @@ do_core_note(struct magic_set *ms, unsig
++ 			char sbuf[512];
++ 			struct NetBSD_elfcore_procinfo pi;
++ 			memset(&pi, 0, sizeof(pi));
++-			memcpy(&pi, nbuf + doff, descsz);
+++			memcpy(&pi, nbuf + doff, MIN(descsz, sizeof(pi)));
++ 
++ 			if (file_printf(ms, ", from '%.31s', pid=%u, uid=%u, "
++ 			    "gid=%u, nlwps=%u, lwp=%u (signal %u/code %u)",
+diff --git a/meta/recipes-devtools/file/file_5.34.bb b/meta/recipes-devtools/file/file_5.34.bb
+index 5d92913..cb19642 100644
+--- a/meta/recipes-devtools/file/file_5.34.bb
++++ b/meta/recipes-devtools/file/file_5.34.bb
+@@ -16,6 +16,9 @@ UPSTREAM_CHECK_GITTAGREGEX = "FILE(?P<pver>(?!6_23).+)"
+ 
+ SRC_URI = "git://github.com/file/file.git \
+         file://debian-742262.patch \
++        file://CVE-2019-8906.patch \
++        file://CVE-2019-8904.patch \
++        file://CVE-2019-8905_CVE-2019-8907.patch \
+         "
+ 
+ SRCREV = "315cef2f699da3c31a54bd3c6c6070680fbaf1f5"
+-- 
+2.7.4
 
 
