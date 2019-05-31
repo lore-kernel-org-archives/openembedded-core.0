@@ -1,48 +1,30 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f68.google.com (mail-ot1-f68.google.com
-	[209.85.210.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 611127E5F4
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 66BB27E5F3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 20:27:42 +0000 (UTC)
-Received: by mail-ot1-f68.google.com with SMTP id s19so10482661otq.5
+	Fri, 31 May 2019 20:35:56 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4VKZVNt013952
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 13:27:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=donyeq9Dr7dxa0GgmXAPOvPT1Iy6bG3+tI6uU9NHSB8=;
-	b=IbfcWFOq+KBY7ZniwcrHqwnLT6zrLrzq+jGKwvplDe1m+mb47/mJNKTXn39U49x7Z0
-	bETK68ZSJ2mD6nC6FFlJlJczG1A53ExvCjgi9ublq7srZXQGtkgLhycaVxV23n8KRl6r
-	Cyo6zE3wz3/beEGBTl5EIA5PWF73YjJtvCMqHXC+NOUMP5oX4Jf/SriPoH8rQPwXEGfC
-	QWAB3wroooMbWWi/WRUv1bmr7LMT1CnIIEl21q32DJDYpiZOSFc08I6HTkSp24rrfSqV
-	JfYabQw+wUzqPKUVns08oijKUmjcYy+MgYnDOPH6VGMHXCwIhEl3dHxEyu53++NZtzMF
-	RxPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=donyeq9Dr7dxa0GgmXAPOvPT1Iy6bG3+tI6uU9NHSB8=;
-	b=dAv5r99RNp4eppzoab8A1yEeUMw6whjzc6wBQH/Xp48DCB5cZ+2MBM6LX02vHYvUkI
-	r6pQq2wZ3iYIAbN0cNQxBAemlTcO5ZOZehnCnwIdzZjVS9biIUpZur5+T+yS7Lguhk7Z
-	TB4pDfoI20BaPMIT7ZmsokdkNWsoWrskbIPeyFTUqL5WTa6QDte5PWa++XxhDpVbJAcB
-	CmCeLl0+ERyAjGKqyRPATtIjb3TotoubPdGG7G/FMd17YF4G/bcEXpDlrEi4IQr63V0n
-	iCYaulO/cGpb6n5suAtU/WQaNoCagaMhJIALX4ZBlYlWoENDwKQXK666UCF+0zZHLqos
-	7tSg==
-X-Gm-Message-State: APjAAAVEs4N0fm1eaCpytG7siXQIiTqpV2guQ1jUbNfaaE38HYVC9fa9
-	Glt6s3oE2cg0vebV5OMPSd9bNfuv4xzkYfjY5b8=
-X-Google-Smtp-Source: APXvYqwv5UefYrwmU7by5FCGcRS4YI9MJp8tyUbhyELdm0MputfRtflInwvNeUHKCe6Fw4SAlYCSBv4aMmOOgPdC37c=
-X-Received: by 2002:a05:6830:1541:: with SMTP id
-	l1mr3348176otp.350.1559334463321; 
-	Fri, 31 May 2019 13:27:43 -0700 (PDT)
+	Fri, 31 May 2019 13:35:47 -0700
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 31 May 2019 13:35:23 -0700
+To: Sakib Sajal <sakib.sajal@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190531202552.21421-1-sakib.sajal@windriver.com>
+	<20190531202552.21421-2-sakib.sajal@windriver.com>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <e2c0ceb5-772d-c94e-1b30-99a67c1ab1ac@windriver.com>
+Date: Fri, 31 May 2019 16:35:22 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-References: <cover.1557628550.git.hongxu.jia@windriver.com>
-	<892252c3c1961d471cdf37c67a811353ab495e0b.1557628550.git.hongxu.jia@windriver.com>
-In-Reply-To: <892252c3c1961d471cdf37c67a811353ab495e0b.1557628550.git.hongxu.jia@windriver.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 31 May 2019 22:27:41 +0200
-Message-ID: <CANNYZj88dNfVa1DfXPFuOSHbeZw8BBhh8qgycLPgf=MM7s7pDg@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 05/10] ncurses: fix incorrect UPSTREAM_CHECK_GITTAGREGEX
+In-Reply-To: <20190531202552.21421-2-sakib.sajal@windriver.com>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH 2/3] ptest-runner: close all fds in child process.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,77 +37,152 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 20:27:42 -0000
-Content-Type: multipart/alternative; boundary="000000000000c5bc05058a34d859"
+X-List-Received-Date: Fri, 31 May 2019 20:35:56 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
---000000000000c5bc05058a34d859
-Content-Type: text/plain; charset="UTF-8"
+Your subject is:
+   ptest-runner: close all fds in child process.
+but that's a bit misleading. Since there are other
+things to change, say:
+   ptest-runner: close unused fds in child process.
 
-On Sun, 12 May 2019 at 10:18, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+On 5/31/19 4:25 PM, Sakib Sajal wrote:
+> When running 'ptest-runner bash', a test named vredir fails
+> due to too many open file descriptors.
+> The test sets the maximum number of open file descriptors
+> to 6 (ulimit -n 6). The test passes by interactively calling
+> run-ptest, but not when using ptest-runner.
+> Security-focused applications will close all unused file descriptors in
+s/Security-focused/Well-behaved/
 
-> The upstream git tag has a `upstream/' prefix, such as:
-> >>> import re
-> >>> pattern = "upstream/(?P<pver>\d+(\.\d+)+(\+\d+)*)"
-> >>> string = "upstream/6.1+20181013"
-> >>> result = re.match(pattern, string)
-> >>> result['pver']
-> '6.1+20181013'
->
+It's true that his is a security recommendation but here
+it's more important to be 'well-behaved'.
 
-Have you checked with devtool that this actually works?
+> the child after forking but before execing.
+> 
+>  From the failed ptest log:
+>     run-vredir
+>     87,88c87,88
+>     < ./vredir6.sub: line 10: /dev/null: Too many open files
+>     < ./vredir6.sub: line 13: /dev/null: Too many open files
+>     FAIL: run-vredir
+> 
+> Upstream-Status: Submitted [yocto@yoctoproject.org]
 
-Before this commit:
-alexander@alexander-box:~/development/poky$ devtool check-upgrade-status
-ncurses
-INFO: ncurses                   6.1             6.1+20181013    Hongxu Jia <
-hongxu.jia@windriver.com> 7a97a7f937762ba342d5b2fd7cd090885a809835
+This goes in the patch header not the oe-core commit log.
+We do it that way so that we can audit the .patch files to
+see what their status is independent of recent commit logs.
+Resend with that fixed please.
 
-After the commit:
-alexander@alexander-box:~/development/poky$ devtool check-upgrade-status
-ncurses
-INFO: ncurses                   6.1             UNKNOWN_BROKEN  Hongxu Jia <
-hongxu.jia@windriver.com>
+The rest of this commit seems fine.
 
-The code in bitbake/lib/bb/fetch2/git.py actually splits each tag with '/'
-as separator and takes only the last part for some reason, so those
-prefixes are never a part of the string that is matched against regex.
-I'll send a revert in a moment.
+../Randy
 
-Alex
+> 
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
+> ---
+>   ...l-file-descriptors-after-completing-.patch | 69 +++++++++++++++++++
+>   .../ptest-runner/ptest-runner_2.3.1.bb        |  4 +-
+>   2 files changed, 72 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch
+> 
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch b/meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch
+> new file mode 100644
+> index 0000000000..6cc941b853
+> --- /dev/null
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner/0004-utils.c-close-all-file-descriptors-after-completing-.patch
+> @@ -0,0 +1,69 @@
+> +From 63c1b0d154a8028084a26dd523efa379420d8a5d Mon Sep 17 00:00:00 2001
+> +From: Sakib Sajal <sakib.sajal@windriver.com>
+> +Date: Thu, 30 May 2019 16:02:04 -0400
+> +Subject: [PATCH] utils.c: close all file descriptors after completing a ptest
+> +
+> +vredir ptest fails since too many file descriptors were open.
+> +
+> +From the failed ptest log:
+> +   run-vredir
+> +   87,88c87,88
+> +   < ./vredir6.sub: line 10: /dev/null: Too many open files
+> +   < ./vredir6.sub: line 13: /dev/null: Too many open files
+> +   FAIL: run-vredir
+> +
+> +Added function to close file descriptors before starting a new process.
+> +
+> +Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> +Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
+> +---
+> + utils.c | 19 +++++++++++++++++++
+> + 1 file changed, 19 insertions(+)
+> +
+> +diff --git a/utils.c b/utils.c
+> +index 504df0b..05c2bfe 100644
+> +--- a/utils.c
+> ++++ b/utils.c
+> +@@ -28,6 +28,7 @@
+> + #include <fcntl.h>
+> + #include <time.h>
+> + #include <dirent.h>
+> ++#include <sys/resource.h>
+> + #include <sys/types.h>
+> + #include <sys/wait.h>
+> + #include <sys/stat.h>
+> +@@ -240,6 +241,23 @@ filter_ptests(struct ptest_list *head, char **ptests, int ptest_num)
+> + 	return head_new;
+> + }
+> +
+> ++/* Close all fds from 3 up to 'ulimit -n'
+> ++ * i.e. do not close STDIN, STDOUT, STDERR.
+> ++ * Typically called in in a child process after forking
+> ++ * but before exec as a good policy especially for security.
+> ++ */
+> ++static void
+> ++close_fds(void)
+> ++{
+> ++	struct rlimit curr_lim;
+> ++	getrlimit(RLIMIT_NOFILE, &curr_lim);
+> ++
+> ++	int fd;
+> ++	for (fd=3; fd < curr_lim.rlim_cur; fd++) {
+> ++		(void) close(fd);
+> ++   	}
+> ++}
+> ++
+> + static inline void
+> + run_child(char *run_ptest, int fd_stdout, int fd_stderr)
+> + {
+> +@@ -252,6 +270,7 @@ run_child(char *run_ptest, int fd_stdout, int fd_stderr)
+> + 	dup2(fd_stdout, STDOUT_FILENO);
+> + 	// XXX: Redirect stderr to stdout to avoid buffer ordering problems.
+> + 	dup2(fd_stdout, STDERR_FILENO);
+> ++	close_fds();
+> + 	execv(run_ptest, argv);
+> +
+> + 	exit(1);
+> +--
+> +2.20.1
+> +
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+> index e2eb258d0b..afa407b48b 100644
+> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+> @@ -13,7 +13,9 @@ PV = "2.3.1+git${SRCPV}"
+>   SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+>    file://0001-utils-Ensure-stdout-stderr-are-flushed.patch \
+>    file://0002-use-process-groups-when-spawning.patch \
+> - file://0003-utils-Ensure-pipes-are-read-after-exit.patch"
+> + file://0003-utils-Ensure-pipes-are-read-after-exit.patch
+> + file://0004-utils.c-close-all-file-descriptors-after-completing-.patch \
+> +"
+>   
+>   S = "${WORKDIR}/git"
+>   
+> 
 
---000000000000c5bc05058a34d859
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Sun, 12 May 2019 at 10:18, Hongxu Jia &lt;<a href=3D"mailto:hongx=
-u.jia@windriver.com">hongxu.jia@windriver.com</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">The upstream git tag has a `up=
-stream/&#39; prefix, such as:<br>
-&gt;&gt;&gt; import re<br>
-&gt;&gt;&gt; pattern =3D &quot;upstream/(?P&lt;pver&gt;\d+(\.\d+)+(\+\d+)*)=
-&quot;<br>
-&gt;&gt;&gt; string =3D &quot;upstream/6.1+20181013&quot;<br>
-&gt;&gt;&gt; result =3D re.match(pattern, string)<br>
-&gt;&gt;&gt; result[&#39;pver&#39;]<br>
-&#39;6.1+20181013&#39;<br></blockquote><div><br></div><div>Have you checked=
- with devtool that this actually works?</div><div><br></div><div> Before th=
-is commit:</div><div>alexander@alexander-box:~/development/poky$ devtool ch=
-eck-upgrade-status ncurses<br>INFO: ncurses =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 6.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 6.1+20181013 =C2=A0 =C2=A0Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@w=
-indriver.com">hongxu.jia@windriver.com</a>&gt; 7a97a7f937762ba342d5b2fd7cd0=
-90885a809835</div><div><br></div><div>After the commit:<br></div><div>alexa=
-nder@alexander-box:~/development/poky$ devtool check-upgrade-status ncurses=
-</div><div>INFO: ncurses =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 6.1 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 UNKNOWN_BROKEN =
-=C2=A0Hongxu Jia &lt;<a href=3D"mailto:hongxu.jia@windriver.com">hongxu.jia=
-@windriver.com</a>&gt;=C2=A0 <br></div><div><br></div><div>The code in bitb=
-ake/lib/bb/fetch2/git.py actually splits each tag with &#39;/&#39; as separ=
-ator and takes only the last part for some reason, so those prefixes are ne=
-ver a part of the string that is matched against regex.<br></div><div>I&#39=
-;ll send a revert in a moment.</div><div><br></div><div>Alex<br></div><div>=
-<br></div><div><br></div></div></div>
+-- 
+# Randy MacLeod
+# Wind River Linux
 
---000000000000c5bc05058a34d859--
