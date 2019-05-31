@@ -1,26 +1,49 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A4BE57E588
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 59E667E528
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 09:45:27 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x4V9ipib027880
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 31 May 2019 02:45:01 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 31 May 2019 02:44:34 -0700
-From: <mingli.yu@windriver.com>
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Fri, 31 May 2019 17:44:32 +0800
-Message-ID: <1559295872-441596-1-git-send-email-mingli.yu@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <7fe816bf754a5db25ff6dc009308822d10da9cc2.camel@linuxfoundation.org>
-References: <7fe816bf754a5db25ff6dc009308822d10da9cc2.camel@linuxfoundation.org>
+	Fri, 31 May 2019 11:57:24 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id l2so6336366wrb.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2019 04:57:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lTS9hX3s7DosVa5lqG7CmXZet6lOi/M2AJ+YcKxHYIk=;
+	b=EHI+ozjSn3hPoJ7QxAmgV6jPbV5KZ2+fawrPzRnzZFLvX3AhCwkqy9+Kut/r02QTUA
+	BNizXSx7M12Ec5+nyIPiiMYajaEYQ9okieRQGn3csIdEE3U3fWAYlJNXOiW1vpzu+QYM
+	Z1nFXQIi9khPoBEKpeo+zACAOS1/jSiq0Pmwg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=lTS9hX3s7DosVa5lqG7CmXZet6lOi/M2AJ+YcKxHYIk=;
+	b=i3GX922GrMWVplkh7pE47xMRJAYDQnmxocydTjikPkBVXRM8OPFFaM9PJRuNJILX7W
+	JNDT77vTowPU7SE2WL3zeTFE1OmEaZ7db7Lk2mJLOaSsgWY6bslCfPtLUGfylC+HWG9c
+	RKmM7DWn/57OS7mUShvtR8adGrivO2XWOh4LC30IKaSL7JwhB4nVrsEveHSVF/DTacb1
+	ElxpURSf6aqrniX0BtSLtdx2w2yE7J+LXRvJCStkbni0hsxwBN2CW/aDUj36xyCA7uxv
+	O1ywOEJUMSxUuiYwrRdigWaZfZJ14inMzMmN4OFvwEx/gd0w7roboVraUiKRUcu4/D1/
+	Co0w==
+X-Gm-Message-State: APjAAAU33fr2QK5JUWFNlBruzEUIrNMgL6PM2cvV6Pc+y8F3kwc9wKke
+	WupSMjDkAdy0gOvcvkw7MupSuUnJpkA=
+X-Google-Smtp-Source: APXvYqw4fENRhlPZWhuGgvQCQhvtgzIKpzV2EegWR53B2f6aUsGDTkdWxfEsBEQZXMwuvtdFO3VM2A==
+X-Received: by 2002:adf:ec0b:: with SMTP id x11mr6492516wrn.88.1559303844714; 
+	Fri, 31 May 2019 04:57:24 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	f3sm6236991wre.93.2019.05.31.04.57.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 31 May 2019 04:57:24 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 May 2019 12:57:22 +0100
+Message-Id: <20190531115722.19861-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH v5] elfutils: fix ptest failures
+Subject: [PATCH] useradd: Fix build architecture corruption of sstate artefacts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,168 +56,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 09:45:27 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 31 May 2019 11:57:24 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Mingli Yu <Mingli.Yu@windriver.com>
+When mixing aarch64 and x86_64 host builds with common sstate, useradd failures
+were found. This was due to references to:
 
-* Add missing files which needed by ptest test
-  to fix the ptest failures such as:
-  | sh: ../src/elflint: No such file or directory
-  | FAIL: asm-tst4
+/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/sysroots-components/aarch64/pseudo-native/usr/bin/pseudo
+or
+/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/sysroots-components/x86_64/pseudo-native/usr/bin/pseudo
 
-* Rework 0001-skip-the-test-when-gcc-not-deployed.patch
-  to skip the tests which depend on gcc
+on the wrong architecture within the useradd postinst files.
 
-* Define INHIBIT_PACKAGE_STRIP_FILES for elfutils to
-  avoid stripping some generated binaries otherwise
-  some of the tests such as test-nlist, run-strip-reloc.sh,
-  run-strip-strmerge.sh and so on will fail
+Instead of using COMPONENTS_DIR as the FIXME, use PSEUDO_SYSROOT which contains
+the arch component as well to avoid this.
 
-* Set EXCLUDE_PACKAGES_FROM_SHLIBS = "${PN}-ptest"
-  to avoid ${PN}-ptest be the shlibs provider to
-  fix below error:
-  Problem 1: package rpm-1:4.14.2.1-r0.core2_32 requires elfutils-ptest >= 0.176, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides elfutils-binutils needed by elfutils-ptest-0.176-r0.core2_32
-  Problem 2: package dnf-4.2.2-r0.core2_32 requires python3-rpm, but none of the providers can be installed
-  - package python3-rpm-1:4.14.2.1-r0.core2_32 requires elfutils-ptest >= 0.176, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides elfutils-binutils needed by elfutils-ptest-0.176-r0.core2_32
-  Problem 3: package ltp-20190115-r0.core2_32 requires iproute2, but none of the providers can be installed
-  - package packagegroup-core-tools-testapps-1.0-r2.qemux86 requires ltp, but none of the providers can be installed
-  - package iproute2-5.1.0-r0.core2_32 requires elfutils-ptest >= 0.176, but none of the providers can be installed
-  - conflicting requests
-  - nothing provides elfutils-binutils needed by elfutils-ptest-0.176-r0.core2_32
+Add extra comments to cause the relavent sstate to be rebuilt.
 
-Before:
---------------------------------------------
-Recipe   | Passed    | Failed   | Skipped
---------------------------------------------
-elfutils | 176       | 23       | 4
---------------------------------------------
-
-After:
---------------------------------------------
-Recipe   | Passed    | Failed   | Skipped
---------------------------------------------
-elfutils | 199       | 0       | 4
---------------------------------------------
-
-Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/elfutils/elfutils_0.176.bb   | 35 ++++++++++++++++++++
- .../0001-skip-the-test-when-gcc-not-deployed.patch | 38 +++++++++++++++++++---
- 2 files changed, 68 insertions(+), 5 deletions(-)
+ meta/classes/staging.bbclass | 2 +-
+ meta/classes/useradd.bbclass | 6 ++++--
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-index 157551e..1a5c70b 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-@@ -61,6 +61,18 @@ do_compile_ptest() {
+diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
+index 6bcd0b087a0..92070602228 100644
+--- a/meta/classes/staging.bbclass
++++ b/meta/classes/staging.bbclass
+@@ -168,7 +168,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
+     if not fixme:
+         return
+     cmd = "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" % (target, " ".join(fixme), recipesysroot, recipesysrootnative)
+-    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
++    for fixmevar in ['PSEUDO_SYSROOT', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
+         fixme_path = d.getVar(fixmevar)
+         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
+     bb.debug(2, cmd)
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index 124becd0824..5e600dec849 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -100,6 +100,8 @@ useradd_sysroot () {
+ 	# Pseudo may (do_prepare_recipe_sysroot) or may not (do_populate_sysroot_setscene) be running 
+ 	# at this point so we're explicit about the environment so pseudo can load if 
+ 	# not already present.
++	# PSEUDO_SYSROOT can contain references to the build architecture and COMPONENT_DIR
++	# so needs the STAGING_FIXME below
+ 	export PSEUDO="${FAKEROOTENV} ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
  
- do_install_ptest() {
- 	if [ ${PTEST_ENABLED} = "1" ]; then
-+		# copy the files which needed by the cases
-+		TEST_FILES="strip strip.o addr2line elfcmp objdump readelf size.o nm.o nm elflint"
-+		install -d -m 755                       ${D}${PTEST_PATH}/src
-+		install -d -m 755                       ${D}${PTEST_PATH}/libelf
-+		install -d -m 755                       ${D}${PTEST_PATH}/libdw
-+		for test_file in ${TEST_FILES}; do
-+			if [ -f ${B}/src/${test_file} ]; then
-+				cp -r ${B}/src/${test_file} ${D}${PTEST_PATH}/src
-+			fi
-+		done
-+		cp ${D}${libdir}/libelf-${PV}.so ${D}${PTEST_PATH}/libelf/libelf.so
-+		cp ${D}${libdir}/libdw-${PV}.so ${D}${PTEST_PATH}/libdw/libdw.so
- 		cp -r ${S}/tests/                       ${D}${PTEST_PATH}
- 		cp -r ${B}/tests/*                      ${D}${PTEST_PATH}/tests
- 		cp -r ${B}/config.h                     ${D}${PTEST_PATH}
-@@ -109,3 +121,26 @@ FILES_libdw  = "${libdir}/libdw-${PV}.so ${libdir}/libdw.so.* ${libdir}/elfutils
+ 	# Explicitly set $D since it isn't set to anything
+@@ -134,10 +136,10 @@ useradd_sysroot () {
+ }
  
- # The package contains symlinks that trip up insane
- INSANE_SKIP_${MLPREFIX}libdw = "dev-so"
-+
-+# avoid stripping some generated binaries otherwise some of the tests such as test-nlist,
-+# run-strip-reloc.sh, run-strip-strmerge.sh and so on will fail
-+INHIBIT_PACKAGE_STRIP_FILES = "\
-+    ${PKGD}${PTEST_PATH}/tests/test-nlist \
-+    ${PKGD}${PTEST_PATH}/tests/elfstrmerge \
-+    ${PKGD}${PTEST_PATH}/tests/backtrace-child \
-+    ${PKGD}${PTEST_PATH}/tests/backtrace-data \
-+    ${PKGD}${PTEST_PATH}/tests/deleted \
-+    ${PKGD}${PTEST_PATH}/src/strip \
-+    ${PKGD}${PTEST_PATH}/src/addr2line \
-+    ${PKGD}${PTEST_PATH}/src/elfcmp \
-+    ${PKGD}${PTEST_PATH}/src/objdump \
-+    ${PKGD}${PTEST_PATH}/src/readelf \
-+    ${PKGD}${PTEST_PATH}/src/nm \
-+    ${PKGD}${PTEST_PATH}/src/elflint \
-+    ${PKGD}${PTEST_PATH}/libelf/libelf.so \
-+    ${PKGD}${PTEST_PATH}/libdw/libdw.so \
-+    ${PKGD}${PTEST_PATH}/backends/libebl_i386.so \
-+    ${PKGD}${PTEST_PATH}/backends/libebl_x86_64.so \
-+"
-+
-+EXCLUDE_PACKAGES_FROM_SHLIBS = "${PN}-ptest"
-diff --git a/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch b/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-index 67ca0e4..de8c05f 100644
---- a/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-+++ b/meta/recipes-devtools/elfutils/files/0001-skip-the-test-when-gcc-not-deployed.patch
-@@ -1,19 +1,47 @@
--From 61939d2e552e7645ecd671fa01cf1c7a72caa82a Mon Sep 17 00:00:00 2001
-+From e82a055f85e398cb03a4eaf5faf351a3a1f19344 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <Mingli.Yu@windriver.com>
--Date: Fri, 12 Apr 2019 16:29:58 +0800
--Subject: [PATCH] skip the test when gcc not deployed
-+Date: Tue, 21 May 2019 15:20:34 +0800
-+Subject: [PATCH v2] skip the test when gcc not deployed
+ # The export of PSEUDO in useradd_sysroot() above contains references to
+-# ${COMPONENTS_DIR} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
++# ${PSEUDO_SYSROOT} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
+ # shell functions use ${LOGFIFO}. These need to be handled when restoring
+ # postinst-useradd-${PN} from the sstate cache.
+-EXTRA_STAGING_FIXMES += "COMPONENTS_DIR PSEUDO_LOCALSTATEDIR LOGFIFO"
++EXTRA_STAGING_FIXMES += "PSEUDO_SYSROOT PSEUDO_LOCALSTATEDIR LOGFIFO"
  
- Skip the tests which depend on gcc when
- gcc not deployed.
- 
--Upstream-Status: Inappropriate [oe specific]
-+Upstream-Status: Submitted[https://sourceware.org/ml/elfutils-devel/2019-q2/msg00091.html]
- 
- Signed-off-by: Mingli Yu <Mingli.Yu@windriver.com>
- ---
-+ tests/run-disasm-x86-64.sh | 2 ++
-+ tests/run-disasm-x86.sh    | 2 ++
-  tests/run-strip-g.sh       | 2 ++
-  tests/run-strip-nothing.sh | 2 ++
-- 2 files changed, 4 insertions(+)
-+ 4 files changed, 8 insertions(+)
- 
-+diff --git a/tests/run-disasm-x86-64.sh b/tests/run-disasm-x86-64.sh
-+index a6be62b..c3ef238 100755
-+--- a/tests/run-disasm-x86-64.sh
-++++ b/tests/run-disasm-x86-64.sh
-+@@ -22,6 +22,8 @@ case "`uname -m`" in
-+   x86_64)
-+     tempfiles testfile45.o
-+     testfiles testfile45.S testfile45.expect
-++    # skip the case if no gcc deployed
-++    which gcc || exit 77
-+     gcc -m64 -c -o testfile45.o testfile45.S
-+     testrun_compare ${abs_top_builddir}/src/objdump -d testfile45.o < testfile45.expect
-+     ;;
-+diff --git a/tests/run-disasm-x86.sh b/tests/run-disasm-x86.sh
-+index 28a3df7..544fc28 100755
-+--- a/tests/run-disasm-x86.sh
-++++ b/tests/run-disasm-x86.sh
-+@@ -22,6 +22,8 @@ case "`uname -m`" in
-+   x86_64 | i?86 )
-+     tempfiles testfile44.o
-+     testfiles testfile44.S testfile44.expect
-++    # skip the case if no gcc deployed
-++    which gcc || exit 77
-+     gcc -m32 -c -o testfile44.o testfile44.S
-+     testrun_compare ${abs_top_builddir}/src/objdump -d testfile44.o < testfile44.expect
-+     ;;
- diff --git a/tests/run-strip-g.sh b/tests/run-strip-g.sh
- index 1303819..a943dec 100755
- --- a/tests/run-strip-g.sh
+ python useradd_sysroot_sstate () {
+     scriptfile = None
 -- 
-2.7.4
+2.20.1
 
 
