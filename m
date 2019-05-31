@@ -1,49 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 59E667E528
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id EB8837E547
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 11:57:24 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id l2so6336366wrb.9
+	Fri, 31 May 2019 12:53:52 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id h11so9543123ljb.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 04:57:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lTS9hX3s7DosVa5lqG7CmXZet6lOi/M2AJ+YcKxHYIk=;
-	b=EHI+ozjSn3hPoJ7QxAmgV6jPbV5KZ2+fawrPzRnzZFLvX3AhCwkqy9+Kut/r02QTUA
-	BNizXSx7M12Ec5+nyIPiiMYajaEYQ9okieRQGn3csIdEE3U3fWAYlJNXOiW1vpzu+QYM
-	Z1nFXQIi9khPoBEKpeo+zACAOS1/jSiq0Pmwg=
+	Fri, 31 May 2019 05:53:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=EGczyi+zUrAuEXTpTPUcAD4CRX17nzNKPAOnpwEufXA=;
+	b=Lu3Jx+Fgs4MGVtO4H6hH1vm7ZhfN1c7aXkkTvlqWe6I3FSr9AHjOF23tQQAxWWhZGn
+	eyICdsdSmLr8/kmTmwBFkfd72QQZwOxlhL8IMc4p8fEtCijvgW5vFCKrFlauTPMXz1us
+	stf5e5VzFVttR92YlY4HIGaKxUBilVtIODIEeBX6WE9Hb2qUUkaAL9zmvf0bLw8ngqm3
+	UiY6POBriYSvqMxxe+TquDKsX7TRZ4g5UELVsGsS1mKjB9c5zydgIrDv+T/hnGa/0UKM
+	Fm4lYEyVLoNp89BPZZfu2PExvbcBO/n+Rq6zGZ5ud7QYr/qq2SIcyUom9PRG1/vdBP3X
+	UIxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=lTS9hX3s7DosVa5lqG7CmXZet6lOi/M2AJ+YcKxHYIk=;
-	b=i3GX922GrMWVplkh7pE47xMRJAYDQnmxocydTjikPkBVXRM8OPFFaM9PJRuNJILX7W
-	JNDT77vTowPU7SE2WL3zeTFE1OmEaZ7db7Lk2mJLOaSsgWY6bslCfPtLUGfylC+HWG9c
-	RKmM7DWn/57OS7mUShvtR8adGrivO2XWOh4LC30IKaSL7JwhB4nVrsEveHSVF/DTacb1
-	ElxpURSf6aqrniX0BtSLtdx2w2yE7J+LXRvJCStkbni0hsxwBN2CW/aDUj36xyCA7uxv
-	O1ywOEJUMSxUuiYwrRdigWaZfZJ14inMzMmN4OFvwEx/gd0w7roboVraUiKRUcu4/D1/
-	Co0w==
-X-Gm-Message-State: APjAAAU33fr2QK5JUWFNlBruzEUIrNMgL6PM2cvV6Pc+y8F3kwc9wKke
-	WupSMjDkAdy0gOvcvkw7MupSuUnJpkA=
-X-Google-Smtp-Source: APXvYqw4fENRhlPZWhuGgvQCQhvtgzIKpzV2EegWR53B2f6aUsGDTkdWxfEsBEQZXMwuvtdFO3VM2A==
-X-Received: by 2002:adf:ec0b:: with SMTP id x11mr6492516wrn.88.1559303844714; 
-	Fri, 31 May 2019 04:57:24 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	f3sm6236991wre.93.2019.05.31.04.57.23
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 04:57:24 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2019 12:57:22 +0100
-Message-Id: <20190531115722.19861-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=EGczyi+zUrAuEXTpTPUcAD4CRX17nzNKPAOnpwEufXA=;
+	b=k9RdJ09SJS9nSab984SCvYRgWXXYgw7tadNi/G9LSAcdkTocdM+/to7rAageuzzTAL
+	cmJ5Pw1TAz5+ynPKpXeKmvqagkMUbxfY7UJeAXJbp66l4pvEtx5WSd7H/fZdXS0wfvmJ
+	GOg677Rol+epTYnb3MMv8RogjEJUmmJ9pmoUSyDb+KCmwTDagv6B1gTMd+AyTK+0Zw0o
+	UNejjRyH8PE+24PYowoXfX6Xn4EsX+9i7s72gMQqBUKOHYNgXuSuzFJXQwF5ncgNgTR0
+	kpQTRz5bAcjCsKdCSPlnq1yP6U4CXzUpN+qPfyqdMpy8eAyMJTalkjSDxAqMhJzB6oqU
+	VYhw==
+X-Gm-Message-State: APjAAAVmAQkXvcmTryXNuajCDL6qAUeeGWotfLV7FeUcONTLtIhBSFcJ
+	t7IqafGdd9twu7NxYV9TcqcM0iNytap3f7ApKE8=
+X-Google-Smtp-Source: APXvYqxckOUlOcJgatkeT5d+9/+p/p8PF5p9GNEzQVYO5j4df8KeTZp2lArf1LEhxsvwxIh6MubBnSz6I4qiNew5vzY=
+X-Received: by 2002:a2e:9185:: with SMTP id f5mr2849740ljg.51.1559307233010;
+	Fri, 31 May 2019 05:53:53 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] useradd: Fix build architecture corruption of sstate artefacts
+References: <cover.1559220004.git.bruce.ashfield@gmail.com>
+	<18e169f17346d84787ec550696cf0cc19ea83256.camel@linuxfoundation.org>
+In-Reply-To: <18e169f17346d84787ec550696cf0cc19ea83256.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 31 May 2019 08:53:41 -0400
+Message-ID: <CADkTA4M=hUbCPwa6H_KMFN=hDbpdy-XE5kZ8magBQFD-f=ML0w@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/9] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,69 +55,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 11:57:24 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 31 May 2019 12:53:53 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-When mixing aarch64 and x86_64 host builds with common sstate, useradd failures
-were found. This was due to references to:
+On Fri, May 31, 2019 at 4:01 AM <richard.purdie@linuxfoundation.org> wrote:
+>
+> Hi Bruce,
+>
+> On Thu, 2019-05-30 at 08:44 -0400, bruce.ashfield@gmail.com wrote:
+> > Here's the latest round of -stable and -dev bumps for linux-yocto.
+> > Looking at
+> > the timing, v5.2 could be the new reference kernel introduced in the
+> > next
+> > release, so I gave it some extra test cycles while doing this update.
+> >
+> > Also note that I updated 4.9, 4.4 and other non-master kernels with
+> > -stable
+> > updates. So if you are using linux-yocto as a reference, you can
+> > manually bump
+> > your SRCREVs to pickup those chnages.
+> >
+> > The only non-uprev in this series is the one kernel packaging tweak
+> > to grab
+> > a new artifact introduced with the 5.2 kernel. It is packaged along
+> > side the
+> > other module outputs, and won't add signficant size or time to
+> > anyone's feeds.
+> > (and it is safe for older kernels as well, I tested just to be sure).
+>
+> This fails in testing with one failure on qemuarm:
+>
 
-/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/sysroots-components/aarch64/pseudo-native/usr/bin/pseudo
-or
-/home/pokybuild/yocto-worker/qemuarm/build/build/tmp/sysroots-components/x86_64/pseudo-native/usr/bin/pseudo
+bugger, I didn't expect that!
 
-on the wrong architecture within the useradd postinst files.
+I'll dig up how I mocked up a systemtap test environment before (it
+will be next week before I get to it though (unless I'm lucky), since
+my cycles today are spoken for)
 
-Instead of using COMPONENTS_DIR as the FIXME, use PSEUDO_SYSROOT which contains
-the arch component as well to avoid this.
+Cheers,
 
-Add extra comments to cause the relavent sstate to be rebuilt.
+Bruce
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/staging.bbclass | 2 +-
- meta/classes/useradd.bbclass | 6 ++++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/staging.bbclass b/meta/classes/staging.bbclass
-index 6bcd0b087a0..92070602228 100644
---- a/meta/classes/staging.bbclass
-+++ b/meta/classes/staging.bbclass
-@@ -168,7 +168,7 @@ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnative, d):
-     if not fixme:
-         return
-     cmd = "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e 's:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" % (target, " ".join(fixme), recipesysroot, recipesysrootnative)
--    for fixmevar in ['COMPONENTS_DIR', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
-+    for fixmevar in ['PSEUDO_SYSROOT', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', 'PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
-         fixme_path = d.getVar(fixmevar)
-         cmd += " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
-     bb.debug(2, cmd)
-diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
-index 124becd0824..5e600dec849 100644
---- a/meta/classes/useradd.bbclass
-+++ b/meta/classes/useradd.bbclass
-@@ -100,6 +100,8 @@ useradd_sysroot () {
- 	# Pseudo may (do_prepare_recipe_sysroot) or may not (do_populate_sysroot_setscene) be running 
- 	# at this point so we're explicit about the environment so pseudo can load if 
- 	# not already present.
-+	# PSEUDO_SYSROOT can contain references to the build architecture and COMPONENT_DIR
-+	# so needs the STAGING_FIXME below
- 	export PSEUDO="${FAKEROOTENV} ${PSEUDO_SYSROOT}${bindir_native}/pseudo"
- 
- 	# Explicitly set $D since it isn't set to anything
-@@ -134,10 +136,10 @@ useradd_sysroot () {
- }
- 
- # The export of PSEUDO in useradd_sysroot() above contains references to
--# ${COMPONENTS_DIR} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
-+# ${PSEUDO_SYSROOT} and ${PSEUDO_LOCALSTATEDIR}. Additionally, the logging
- # shell functions use ${LOGFIFO}. These need to be handled when restoring
- # postinst-useradd-${PN} from the sstate cache.
--EXTRA_STAGING_FIXMES += "COMPONENTS_DIR PSEUDO_LOCALSTATEDIR LOGFIFO"
-+EXTRA_STAGING_FIXMES += "PSEUDO_SYSROOT PSEUDO_LOCALSTATEDIR LOGFIFO"
- 
- python useradd_sysroot_sstate () {
-     scriptfile = None
--- 
-2.20.1
+> Traceback (most recent call last):
+>   File "/home/pokybuild/yocto-worker/qemuarm/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/home/pokybuild/yocto-worker/qemuarm/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/home/pokybuild/yocto-worker/qemuarm/build/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/home/pokybuild/yocto-worker/qemuarm/build/meta/lib/oeqa/runtime/cases/stap.py", line 37, in test_stap
+>     self.assertEqual(status, 0, msg='\n'.join([cmd, output]))
+> AssertionError: 1 != 0 : stap --disable-cache -DSTP_NO_VERREL_CHECK /tmp/hello.stp
+> WARNING: Kernel function symbol table missing [man warning::symbols]
+> WARNING: "__aeabi_unwind_cpp_pr1" [/tmp/stapEqi01F/stap_21486.ko] undefined!
+> ERROR: Couldn't insert module '/tmp/stapEqi01F/stap_21486.ko': Unknown symbol in module
+> WARNING: /usr/bin/staprun exited with status: 1
+> Pass 5: run failed.  [man error::pass5]
+>
+> RESULTS - stap.StapTest.test_stap: FAILED (336.07s)
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/53/builds/648/steps/7/logs/step1c
+>
+> Cheers,
+>
+> Richard
+>
 
+
+--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
