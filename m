@@ -1,40 +1,24 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id EC1557CFA4
+Return-Path: <philn@igalia.com>
+Received: from fanzine.igalia.com (fanzine.igalia.com [91.117.99.155])
+	by mail.openembedded.org (Postfix) with ESMTP id 685057E550
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 08:10:59 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	31 May 2019 01:11:01 -0700
-X-ExtLoop1: 1
-Received: from pgsmsx113.gar.corp.intel.com ([10.108.55.202])
-	by orsmga001.jf.intel.com with ESMTP; 31 May 2019 01:11:00 -0700
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.93]) by
-	pgsmsx113.gar.corp.intel.com ([169.254.6.39]) with mapi id
-	14.03.0415.000; Fri, 31 May 2019 16:10:51 +0800
-From: "Lee, Chee Yang" <chee.yang.lee@intel.com>
-To: "Lee, Chee Yang" <chee.yang.lee@intel.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [meta-intel][PATCH v2] wic: add image-installer.wks.in
-Thread-Index: AQHVF4hEYLs5dZN0kUCaphanEcpNeaaE4Yqg
-Date: Fri, 31 May 2019 08:10:50 +0000
-Message-ID: <231DEE2556DE094BBC743089035D8B2A1F2588D7@PGSMSX103.gar.corp.intel.com>
-References: <1559290184-54222-1-git-send-email-chee.yang.lee@intel.com>
-In-Reply-To: <1559290184-54222-1-git-send-email-chee.yang.lee@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ctpclassification: CTP_NT
-x-titus-metadata-40: eyJDYXRlZ29yeUxhYmVscyI6IiIsIk1ldGFkYXRhIjp7Im5zIjoiaHR0cDpcL1wvd3d3LnRpdHVzLmNvbVwvbnNcL0ludGVsMyIsImlkIjoiYTFhNjFhMTQtMGVlNC00ZGVkLWIyMTctNTdjYTMyZGQwYmNkIiwicHJvcHMiOlt7Im4iOiJDVFBDbGFzc2lmaWNhdGlvbiIsInZhbHMiOlt7InZhbHVlIjoiQ1RQX05UIn1dfV19LCJTdWJqZWN0TGFiZWxzIjpbXSwiVE1DVmVyc2lvbiI6IjE3LjEwLjE4MDQuNDkiLCJUcnVzdGVkTGFiZWxIYXNoIjoiVml2MGN3allFSzlEcFpCUW13aW5ncXk1MW5qbWcrSFNyd2lzZDJ2S1lrdktqOTFDZlpuak93U0JpUU5DR25YNyJ9
-dlp-product: dlpe-windows
-dlp-version: 11.0.600.7
-dlp-reaction: no-action
-x-originating-ip: [172.30.20.205]
+	Fri, 31 May 2019 08:44:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:To:From;
+	bh=+b1vPJqm5t+46nUzA8UOJxKUc9zk2+Wc9Rj1YirgLTQ=; 
+	b=s3RIoZ7LUpjyJOnWDUZvY3V57CNYgCBG+FhYI7q9flqRnqrt06PUqHkyCf9FgjqUsRrS0NjgFg/9J2Wu4kqyAsOx1mr2bkkbAtSFh6YjW304usINNx98HvhGqhC9sjn69Mu1n/FUnRWWERxh5a7g0jCKRm6ovLyAG9OjFcrbvPcNMNeLX9FvxNfUPMRmkZUH4+4tBuY5/VjnJQIqmWNR5m0lmOqUpTHE6QJ16mrSVhVaOYRNGytD/lpaepEoh3qYVJ+XNQTCnRXCk8rpPZJyDS6M2T6q6w323rt8d9WKVjwYFNdDlokA0QnWta8k0gIVUVdmLsvtS4sZEm92zWqvTg==;
+Received: from 216.red-88-16-195.dynamicip.rima-tde.net ([88.16.195.216]
+	helo=localhost.localdomain) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1hWd9h-0006Qa-IH; Fri, 31 May 2019 10:44:53 +0200
+From: Philippe Normand <philn@igalia.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 31 May 2019 09:44:40 +0100
+Message-Id: <20190531084440.12532-1-philn@igalia.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: Re: [meta-intel][PATCH v2] wic: add image-installer.wks.in
+Subject: [PATCH] gnutls: Use ca-certificates as default trust store file
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -47,74 +31,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 08:11:00 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Fri, 31 May 2019 08:44:54 -0000
+Content-Transfer-Encoding: 8bit
 
-PLEASE IGNORE THIS EMAIL
+Since version 2.58 the glib-networking TLS database relies on GnuTLS's system
+trust store, so not enabling it leads to TLS errors in applications depending on
+glib-networking. The raised runtime warning is:
 
------Original Message-----
-From: openembedded-core-bounces@lists.openembedded.org <openembedded-core-b=
-ounces@lists.openembedded.org> On Behalf Of chee.yang.lee@intel.com
-Sent: Friday, May 31, 2019 4:10 PM
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [meta-intel][PATCH v2] wic: add image-installer.wks.in
-
-From: Chee Yang Lee <chee.yang.lee@intel.com>
-
-This wks.in create image that perform installation similar to hddimg.
-Partition in ext4 format allow rootfs size to be greater than hddimg limit =
-which is  4GB.
-
-To build simple installer image, add below configuration to local.conf:
-
-WKS_FILE =3D "image-installer.wks.in"
-IMAGE_FSTYPES_append =3D " ext4"
-IMAGE_TYPEDEP_wic =3D "ext4"
-INITRD_IMAGE_LIVE=3D"core-image-minimal-initramfs"
-do_image_wic[depends] +=3D "${INITRD_IMAGE_LIVE}:do_image_complete"
-do_rootfs[depends] +=3D "virtual/kernel:do_deploy"
-IMAGE_BOOT_FILES_append =3D "\
-    ${KERNEL_IMAGETYPE} \
-    microcode.cpio \
-    systemd-bootx64.efi;EFI/BOOT/bootx64.efi \
-    ${IMAGE_ROOTFS}/boot/loader/loader.conf;loader/loader.conf \
-    ${IMAGE_ROOTFS}/boot/loader/entries/boot.conf;loader/entries/boot.conf =
-\
-    ${IMGDEPLOYDIR}/${IMAGE_BASENAME}-${MACHINE}.ext4;rootfs.img \
-    "
-
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+process:500): GLib-Net-WARNING **: 09:14:09.321: Failed to load TLS database: Failed to load system trust store: GnuTLS was not configured with a system trust
+(app:490): ... TLS Error: TLS certificate  has unknown CA.
 ---
- wic/image-installer.wks.in | 8 ++++++++
- 1 file changed, 8 insertions(+)
- create mode 100644 wic/image-installer.wks.in
+ meta/recipes-support/gnutls/gnutls_3.6.7.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/wic/image-installer.wks.in b/wic/image-installer.wks.in new fi=
-le mode 100644 index 0000000..58bcfd5
---- /dev/null
-+++ b/wic/image-installer.wks.in
-@@ -0,0 +1,8 @@
-+# create an installer disk image
-+# populate content to install using IMAGE_BOOT_FILES
-+
-+part /boot --source bootimg-efi=20
-+--sourceparams=3D"loader=3D${EFI_PROVIDER},title=3Dinstall,label=3Dinstall=
--efi,
-+initrd=3D${INITRD_IMAGE_LIVE}-${MACHINE}.${INITRAMFS_FSTYPES}" --ondisk=20
-+sda --label install --active --align 1024 --use-uuid
-+
-+part / --source bootimg-partition --ondisk sda --fstype=3Dext4 --label=20
-+image --use-uuid --align 1024
-+
-+bootloader --ptable gpt --timeout=3D5 --append=3D"rootwait ${APPEND}"
---
-2.7.4
+diff --git a/meta/recipes-support/gnutls/gnutls_3.6.7.bb b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
+index e05dc2b57d..01dd23c961 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.6.7.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.6.7.bb
+@@ -44,6 +44,7 @@ EXTRA_OECONF = " \
+     --enable-local-libopts \
+     --enable-openssl-compatibility \
+     --with-libpthread-prefix=${STAGING_DIR_HOST}${prefix} \
++    --with-default-trust-store-file=/etc/ssl/certs/ca-certificates.crt \
+ "
+ 
+ LDFLAGS_append_libc-musl = " -largp"
+-- 
+2.20.1
 
---
-_______________________________________________
-Openembedded-core mailing list
-Openembedded-core@lists.openembedded.org
-http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
