@@ -1,25 +1,53 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-X-Greylist: delayed 2069 seconds by postgrey-1.34 at layers.openembedded.org;
-	Fri, 31 May 2019 13:58:09 UTC
-Received: from bsmtp8.bon.at (bsmtp8.bon.at [213.33.87.20])
-	by mail.openembedded.org (Postfix) with ESMTP id 541357E50C
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id D90646B519
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 13:58:09 +0000 (UTC)
-Received: from bsmtp7.bon.at (unknown [192.168.181.108])
-	by bsmtp8.bon.at (Postfix) with ESMTPS id 45FlWy6lc4z5v2C
+	Fri, 31 May 2019 14:00:01 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id m141so15867189ita.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 15:23:42 +0200 (CEST)
-Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45FlWx3njhz5tlC
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 15:23:41 +0200 (CEST)
-Date: Fri, 31 May 2019 15:23:40 +0200
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+	Fri, 31 May 2019 07:00:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=mrbQYfAGXCDFpPkn0z3xmR5W8qWq1YpT+cQx0K/wQkc=;
+	b=s1BV5xnZSivV195YP7alsEreWnVlAfuRKYxR5glaxe461oQHMEKSUPu+/rohEM/Kds
+	xWqNHAbr4Ws/K0DQtSXgKvQB5N7d/X93BpAEgJj6sX5fCsoPQrI+bMtEGk6J3mtOafxN
+	gImAQGoErU4w3oamefEmY1FjUCXAYsImOcegYkWZNHJAucXP6ChVrN6kDNDJkd78BxKj
+	jmdwwv8/KiMMTcu/gyDxPfA9ZiWBtoMIugmXIHYpTiGpZdqxy3dlFZxFyMcqM1TRP1L3
+	p9Lpges5BC9cJrj5aozBLmkrpXAw5ky3uZnz+UJBFdbjU9TXzDIqLZgSE+FWikwdKvHq
+	Ow1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=mrbQYfAGXCDFpPkn0z3xmR5W8qWq1YpT+cQx0K/wQkc=;
+	b=lFfpS2ELqVxDMzb4Fo0PqL3Yg91X3xdKJnJhS8jVlYpPfAgZTZQ8GWeIpjLNNGgs4d
+	EplVcXum6E0IDJklql49FawyA1J48gEaWSV7FZh4RhblQJ9r7jmgPHWbgEtIj1683uBI
+	VgpnIYY6DTuOqOEz+H3vd3kWeEMGuxNSSNhuz7norzcvYmDphkpbNrXN27P+CAO7QNhE
+	6CAaIGqOxYRDn9u/TsA3xUdFvxxIzgi0FBmAzF2h/+EE5J5Q6S87p8YVabxCXnBe133J
+	x2fUpXf9oJKtENncSz4xwAoP6n5nz9f8NrpQzHw+YCpKFIyNLelNawsYW752si+wPDTm
+	IUig==
+X-Gm-Message-State: APjAAAWeQ3FLUGj8Pzwa1yGvZ7RU2Xb8H9DM6mqroDEqC8lnpK+hVwEp
+	ogsfmT/36wAmG0QvasKMXbPsZ56s
+X-Google-Smtp-Source: APXvYqy6nZkEDt09ZsqdccQ7+dSEFhyeMAx4kmX86UqMgiND8snd2oygKfqdVBeWgb9Yw4eLDACFZg==
+X-Received: by 2002:a24:7592:: with SMTP id y140mr7918772itc.47.1559311202474; 
+	Fri, 31 May 2019 07:00:02 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	b64sm2543843itd.35.2019.05.31.07.00.01
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 31 May 2019 07:00:01 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Message-ID: <20190531132340.ywgt6kehpcotqt6c@qschulz>
+Date: Fri, 31 May 2019 08:59:53 -0500
+Message-Id: <20190531135953.18064-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190530184954.2188-1-JPEWhacker@gmail.com>
+References: <20190530184954.2188-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-User-Agent: NeoMutt/20180716
-Subject: Add warning in externalsrc when dir from tasks' cleandirs is removed because EXTERNALSRC is a parent
+Subject: [PATCH v2] perl: Set build date to SOURCE_DATE_EPOCH
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,90 +60,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 13:58:09 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Fri, 31 May 2019 14:00:02 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+Perl uses an internal #define called PERL_BUILD_DATE as the string for
+the date when perl was built. If undefined, it defaults to using
+__DATE__ and __TIME__, which is not reproducible. If SOURCE_DATE_EPOCH
+is set at do_configure time, use it to generate a reproducible string
+for PERL_BUILD_DATE.
 
-I've struggled to debug one issue that happened to me during the
-do_package task of one of my recipes.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/recipes-devtools/perl-sanity/perl_5.28.2.bb | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-The issue was particularly weird since I could build the package or the
-image requiring the package, once and only once. After that first time,
-I had to do bitbake -c clean `package` to be able to complete a build.
-
-The error was the following:
-ERROR: project-1.0-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
-
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:populate_packages(d)
-     0003:
-File: '/media/qschulz/yocto/build/poky/meta/classes/package.bbclass', lineno: 1230, function: populate_packages
-     1226:
-     1227:            mkdir_recurse(dvar, root, os.path.dirname(file))
-     1228:            fpath = os.path.join(root,file)
-     1229:            if not cpath.islink(file):
- *** 1230:                os.link(file, fpath)
-     1231:                continue
-     1232:            ret = bb.utils.copyfile(file, fpath)
-     1233:            if ret is False or ret == 0:
-     1234:                bb.fatal("File population failed")
-Exception: FileExistsError: [Errno 17] File exists: './usr/share/file' -> '/media/qschulz/yocto/build/.build-yocto/tmp/work/machine-poky-linux/project/1.0-r0/packages-split/project-dbg/./usr/share/file'
-
-ERROR: project-1.0-r0 do_package: Function failed: populate_packages
-ERROR: Logfile of failure stored in: /media/qschulz/yocto/build/.build-yocto/tmp/work/machine-poky-linux/project/1.0-r0/temp/log.do_package.26719
-ERROR: Task (/media/qschulz/yocto/build/oe/recipes/project/project.bb:do_package) failed with exit code '1'
-
-We have a krogoth branch that still works fine with the same recipe,
-while the one on Thud just does not want to build (well, to be fair,
-only after the first build).
-
-So, I actually found that the culprit might well be:
-https://git.yoctoproject.org/cgit.cgi/poky/commit/?id=5e6ffb2adbf544700470bbdb9428c2e020c9f8a6
-
-The issue is that we have the following tree:
-/path/project
-/path/project/yocto/meta-*
-/path/project/yocto/build
-
-And /path/project is where all the sources for the externalsrc package
-`project` is. And with the above patch, we stop removing directories
-that are leaves of an externalsrc package.
-
-And because package, packages-split and pkgdata are cleandirs of
-do_package and are also indirect leaves of /path/project, they do not
-get removed. The issue is that then all the files in packages-split are
-still there, and creating a link with os.link while trying to overwrite
-a file, throws an Exception.
-
-While I can agree our tree organization is... not perfect, I'd have
-liked Yocto to notify me that there might be something unusual going on.
-Especially when the behavior changed in between versions. I have to say
-that I have absolutely nothing against the aforementioned patch, it
-makes a lot of sense and I know we're in a very unusual setup that I'll
-try to change. But I think other people might benefit from such a
-warning message.
-
-So now, I added a bb.warn() right before removing cleandir from
-cleandirs. The issue is that it does not always make sense to warn the
-user that a dir has been removed from the list of dirs to be cleaned
-before a task. For example, removing dirs from the do_unpack's cleandirs
-seems to make sense, so it wouldn't make much sense to warn the user.
-However, it is definitely an issue that needs to be raised for, e.g.,
-do_package since it'll fail without telling you where the issue
-originated from.
-
-What could be done? I don't think we want to keep a list of "safe" or
-"unsafe" tasks and warn only when needed.
-
-Let me know your thoughts,
-Thanks,
-Quentin
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
+index f175e87a12e..540b9f2df3b 100644
+--- a/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
++++ b/meta/recipes-devtools/perl-sanity/perl_5.28.2.bb
+@@ -90,6 +90,16 @@ do_configure_class-native() {
+     -Ui_xlocale
+ }
+ 
++do_configure_append() {
++    if [ -n "$SOURCE_DATE_EPOCH" ]; then
++        PERL_BUILD_DATE="$(${PYTHON} -c "\
++from datetime import datetime, timezone; \
++print(datetime.fromtimestamp($SOURCE_DATE_EPOCH, timezone.utc).strftime('%a %b %d %H:%M:%S %Y')) \
++            ")"
++        echo "#define PERL_BUILD_DATE \"$PERL_BUILD_DATE\"" >> config.h
++    fi
++}
++
+ do_compile() {
+     oe_runmake
+ }
 -- 
-StreamUnlimited Engineering GmbH
-High Tech Campus Vienna, Gutheil-Schoder-Gasse 10, 1100 Vienna, Austria
-quentin.schulz@streamunlimited.com, www.streamunlimited.com
+2.21.0
+
 
