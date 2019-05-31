@@ -1,48 +1,52 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BB2A7D007
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7CD127E616
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 21:10:56 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id x3so1393190pff.11
+	Fri, 31 May 2019 21:31:15 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id v29so1103994ljv.0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 14:10:57 -0700 (PDT)
+	Fri, 31 May 2019 14:31:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=m2JO36mGU8p2TRoV4nQiX/Oy1+4Hm9YD5hCuTAH++3I=;
-	b=nWaL8Z07oU3U9giSxSG/EkP24pY8lH49sMEpPKzXVvfT4HOvvM2nh6mhW5RyOeeW1/
-	iwh7LB2aQTOlwy0VDood8n0v93F3FT7GZZB4X/TZWR7NDA+akGsf7yo7YF7nWg/pggof
-	Ru1Lkmar5LxA38S29A2yyAPe/7l/Hh4aZZLT0GERVc+7CMx3kiwaZHFNQs96BYnxqXZn
-	8fTyKENw6hUh3TQwZyp/M7vG+pyaWDXMm1bChzfo/BwFfFqALyld2SYNVc0z51tlI/2q
-	EWiLqaFyueV9EroHVCcj0tEnOnGuUmibD0BUTD9W3DqjmkzLYAT58Fl3A32AgfIZxN9z
-	9Sig==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=8b556vZ6Egpx3tC+GW+5q1sOsAxTPMyl1VPOFUaU3Pk=;
+	b=FMmt0uAsQcfo65UBdUN20jfxdiOFjtygXuqBuWHxF/b0R1wzAJe8ac8yXnqfb74I5h
+	A3Fc6RVpQYMTKhVy5omAggEqA45rqdLoDIHCE+WVZ+F7kH6J+lD5/+Jbso5nyav9Jkof
+	X61byIInEFCgKdkipQIuR0K8+Rf4P1XXls9VC8CBaOd4pf0ZiV0eNPWkT1kqtYgSzmxx
+	JNdYoYJtrKCMrTmytj1oINbeztXHRUO2KmnxqH/cGl2G98QyUz2U0+MqUsmwCczRM6qi
+	8QZ4EMv9JCOjVmErafrXvQEg9OXNVUTo/HAAN7+PVdzXz0eaO6d8l8pnbHAr0wpqzTTE
+	GEaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=m2JO36mGU8p2TRoV4nQiX/Oy1+4Hm9YD5hCuTAH++3I=;
-	b=ntAEr/bG/xvrdmAc9vXJbvqiwZj4yUeN9irQ6mrXko5r8JErEYFXrkSbueX882v6eo
-	luBJRtPJWGXPQq/Jqz80EpNerpTkxYG/SXVktIRR5pY7afRerm5A0zEuE6xWNhAnk603
-	2A20yyRpDupySjT4QFOdshq0SVoH7MudS82oBf0w6kon/VKBU+2l60ex9Sff8B4VOX5S
-	TejgBvdiK4DPhtv6uzHM/2Y81E/f7z+qA8PBmyyv7U0itcyv22sUVhxwDaA48qrQZnhx
-	cm8VUBiyDaYGTs4+uyYLjScddEcjVxdWvuMvQblrwwjYCZ9wT+96DbHAALVpTC7pDtPC
-	/uqg==
-X-Gm-Message-State: APjAAAX/EmFJBQvp88eXEABDnbtUatKHFo4bzOaISubCKPvOc+mFaNJF
-	O2qQaDAMlbvcCJKr4uAHSuzp/dOi
-X-Google-Smtp-Source: APXvYqwIuvcVZMANPiUrypomq8P1BqWZV3pqrw5mQIb7NILJZcuoXTDqR+iRqh7ZbOnyqEwiQvFKsg==
-X-Received: by 2002:aa7:8145:: with SMTP id d5mr12939885pfn.11.1559337057254; 
-	Fri, 31 May 2019 14:10:57 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:d8eb:da43:9914:3fc9])
-	by smtp.gmail.com with ESMTPSA id c9sm6130010pje.3.2019.05.31.14.10.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 31 May 2019 14:10:56 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2019 14:10:54 -0700
-Message-Id: <1559337054-16560-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH] cairo: fix CVE-2018-19876 CVE-2019-6461 CVE-2019-6462
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8b556vZ6Egpx3tC+GW+5q1sOsAxTPMyl1VPOFUaU3Pk=;
+	b=ge7GA/doknQjF1juPjsVK3kpSkeN4kUCWbas4oufYXwAOOTROnwC0G9/SynUrrRJeB
+	9h+p01fvZ+x9GClsdT+mndY1TMf+iunQUDRyBf66ROZXVD/IkrHDchb/GKyRuvCivAax
+	jlI/IuplA2HfSeHv09p/M7BRV15zMrm7eSvptvpWD0glEKSH0r4tml+bV/91i+0jqjLL
+	GLe8kNxiYc8FfLQEO3SAFf8wEuVU4rpP/EJb+Emi7EYWdpXfZ9w7KmRfvqnhYMhkU0r3
+	Kvqngb1eHNfpwqp4OsKHVj3Hy4YCbkAOal9qZyg6GT9XiUOt5JrYQ/L3/Yui8QTbW2WH
+	Mn8A==
+X-Gm-Message-State: APjAAAVOSYPtu/opyETssKGK9+PD0we1C07JN4z0KlbZu81zCwzpxaqG
+	ETFjq7dXlKxbW7JlIHk6Y26eyZcem8ckscVVbEk=
+X-Google-Smtp-Source: APXvYqy5iMQc/asQPgdj01G83NV1smJuRkwKtRdSAi6z/1TyS954T8VATsytVjWCy3wQfYKYhNNXpD2mgOZuu2DHsOY=
+X-Received: by 2002:a2e:5b52:: with SMTP id p79mr7188141ljb.208.1559338275601; 
+	Fri, 31 May 2019 14:31:15 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1559220004.git.bruce.ashfield@gmail.com>
+	<18e169f17346d84787ec550696cf0cc19ea83256.camel@linuxfoundation.org>
+	<CADkTA4M=hUbCPwa6H_KMFN=hDbpdy-XE5kZ8magBQFD-f=ML0w@mail.gmail.com>
+	<dc3b129e2bf00200521f1a86d1384a1087fa4664.camel@linuxfoundation.org>
+	<CADkTA4NU6SZTcr3FSCiwEozWFjde9PZYW=d5ivpowFE_Q6qA=Q@mail.gmail.com>
+	<037a7bb7f19f73dae1c51b663ad4471100e37b4a.camel@linuxfoundation.org>
+In-Reply-To: <037a7bb7f19f73dae1c51b663ad4471100e37b4a.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 31 May 2019 17:31:03 -0400
+Message-ID: <CADkTA4NrX-rQpjMZ8dFesddizuqyV+e2R3-MnVrPZGrYa6VdUQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/9] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,101 +59,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 21:10:56 -0000
+X-List-Received-Date: Fri, 31 May 2019 21:31:15 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Ross Burton <ross.burton@intel.com>
+On Fri, May 31, 2019 at 1:07 PM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2019-05-31 at 09:46 -0400, Bruce Ashfield wrote:
+> > On Fri, May 31, 2019 at 9:22 AM <richard.purdie@linuxfoundation.org>
+> > wrote:
+> > > On Fri, 2019-05-31 at 08:53 -0400, Bruce Ashfield wrote:
+> > > > On Fri, May 31, 2019 at 4:01 AM <
+> > > > richard.purdie@linuxfoundation.org>
+> > > > wrote:
+> > > > > This fails in testing with one failure on qemuarm:
+> > > > >
+> > > >
+> > > > bugger, I didn't expect that!
+> > > >
+> > > > I'll dig up how I mocked up a systemtap test environment before
+> > > > (it
+> > > > will be next week before I get to it though (unless I'm lucky),
+> > > > since
+> > > > my cycles today are spoken for)
+> > >
+> > > FWIW this is some change after 5.0.13 that is triggering the issue.
+> > > I
+> > > can likely merge the patches to that point (tests are still
+> > > completing).
+> >
+> > Yah. I spawned a core-image-kernel-dev build and will setup a quick
+> > bisect environment to track it down. I'll also test against my 5.2-rc
+> > kernel, to have a look for a fix, or do a fix there as well.
+>
+> Just for fun I checked the 5.0.17 update and that does fail so its
+> somewhere between .13 and .17 afaict.
 
-Source: OpenEmbedded.org
-MR: 97538, 97543
-Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/cairo?h=warrior&id=078e4d5c2114d942806cd0d5ad501805a011e841
-ChangeID: fa8bdd44ad8613bb0679a1f6d9d670c3b47a0677
-Description:
+I've isolated the issue. Should just be a config tweak, but I have to
+get a test pulled together first.
 
-CVE-2018-19876 is a backport from upstream.
+Bruce
 
-CVE-2019-6461 and CVE-2019-6462 are patches taken from Clear Linux.
+>
+> Cheers,
+>
+> Richard
+>
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Dropped CVE-2018-19876, not affected]
-Issue was introduced in 1.15.8 by:
-commit 721b7ea0a785afaa04b6da63f970c3c57666fdfe
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
----
- .../recipes-graphics/cairo/cairo/CVE-2019-6461.patch | 19 +++++++++++++++++++
- .../recipes-graphics/cairo/cairo/CVE-2019-6462.patch | 20 ++++++++++++++++++++
- meta/recipes-graphics/cairo/cairo_1.14.12.bb         |  2 ++
- 3 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-new file mode 100644
-index 0000000..5232cf7
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-@@ -0,0 +1,19 @@
-+There is a potential infinite-loop in function _arc_error_normalized().
-+
-+CVE: CVE-2019-6461
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/src/cairo-arc.c b/src/cairo-arc.c
-+index 390397bae..f9249dbeb 100644
-+--- a/src/cairo-arc.c
-++++ b/src/cairo-arc.c
-+@@ -99,7 +99,7 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
-+     do {
-+ 	angle = M_PI / i++;
-+ 	error = _arc_error_normalized (angle);
-+-    } while (error > tolerance);
-++    } while (error > tolerance && error > __DBL_EPSILON__);
-+ 
-+     return angle;
-+ }
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-new file mode 100644
-index 0000000..4e4598c
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-@@ -0,0 +1,20 @@
-+There is an assertion in function _cairo_arc_in_direction().
-+
-+CVE: CVE-2019-6462
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/src/cairo-arc.c b/src/cairo-arc.c
-+index 390397bae..1bde774a4 100644
-+--- a/src/cairo-arc.c
-++++ b/src/cairo-arc.c
-+@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
-+     if (cairo_status (cr))
-+         return;
-+ 
-+-    assert (angle_max >= angle_min);
-++    if (angle_max < angle_min)
-++       return;
-+ 
-+     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
-+ 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
-diff --git a/meta/recipes-graphics/cairo/cairo_1.14.12.bb b/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-index 18b9479..08026c4 100644
---- a/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-@@ -25,6 +25,8 @@ DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
- SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \ 
-            file://0001-cairo-Fix-CVE-2017-9814.patch \
-+           file://CVE-2019-6461.patch \
-+           file://CVE-2019-6462.patch \
-           "
- 
- SRC_URI[md5sum] = "9f0db9dbfca0966be8acd682e636d165"
 -- 
-2.7.4
-
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
