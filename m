@@ -1,29 +1,25 @@
-Return-Path: <Mingli.Yu@windriver.com>
+Return-Path: <Kai.Kang@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6809E7DDA5
+	by mail.openembedded.org (Postfix) with ESMTP id 77CC07E1CA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 06:34:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4V6Yme9018335
+	Fri, 31 May 2019 06:55:19 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4V6tIDx021548
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 May 2019 23:34:48 -0700 (PDT)
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 30 May 2019 23:34:47 -0700
-To: <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <ba81c9ea11db351bde7fec1c40c2f57495c3fdec.camel@linuxfoundation.org>
-	<1559196696-70652-1-git-send-email-mingli.yu@windriver.com>
-	<2464053a8ff6ebd77a312cbc70b7ffda2c559345.camel@linuxfoundation.org>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5CF0CC64.2070002@windriver.com>
-Date: Fri, 31 May 2019 14:40:36 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Thu, 30 May 2019 23:55:18 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 30 May 2019 23:55:17 -0700
+From: <kai.kang@windriver.com>
+To: <richard.purdie@linuxfoundation.org>
+Date: Fri, 31 May 2019 02:54:29 -0400
+Message-ID: <20190531065430.7717-3-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
+In-Reply-To: <20190531065430.7717-1-kai.kang@windriver.com>
+References: <20190531065430.7717-1-kai.kang@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <2464053a8ff6ebd77a312cbc70b7ffda2c559345.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.170]
-Subject: Re: [PATCH v4] elfutils: fix ptest failures
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: [meta-poky][PATCH v5 2/3] poky-tiny.conf: not backfill distro feature systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,66 +32,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 06:34:49 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 31 May 2019 06:55:19 -0000
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+From: Kai Kang <kai.kang@windriver.com>
 
+systemd has been added to DISTRO_FEATURES_BACKFILL for poky by default,
+but it is compatible with poky-tiny. So not backfile it to
+DISTRO_FEATURES by adding it to DISTRO_FEATURES_BACKFILL_CONSIDERED.
 
-On 2019年05月31日 04:49, richard.purdie@linuxfoundation.org wrote:
-> On Thu, 2019-05-30 at 14:11 +0800, mingli.yu@windriver.com wrote:
->> From: Mingli Yu <Mingli.Yu@windriver.com>
->>
->> * Add missing files which needed by ptest test
->>    to fix the ptest failures such as:
->>    | sh: ../src/elflint: No such file or directory
->>    | FAIL: asm-tst4
->>
->> * Rework 0001-skip-the-test-when-gcc-not-deployed.patch
->>    to skip the tests which depend on gcc
->>
->> * Define INHIBIT_PACKAGE_STRIP_FILES for elfutils to
->>    avoid stripping some generated binaries otherwise
->>    some of the tests such as test-nlist, run-strip-reloc.sh,
->>    run-strip-strmerge.sh and so on will fail
->>
->> Before:
->> --------------------------------------------
->> Recipe   | Passed    | Failed   | Skipped
->> --------------------------------------------
->> elfutils | 176       | 23       | 4
->> --------------------------------------------
->>
->> After:
->> --------------------------------------------
->> Recipe   | Passed    | Failed   | Skipped
->> --------------------------------------------
->> elfutils | 199       | 0       | 4
->> --------------------------------------------
->
-> Thanks, this is better again. We do still have a musl issue:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/648
->
-> Error:
->   Problem: package packagegroup-core-full-cmdline-extended-1.0-r6.0.noarch requires iproute2, but none of the providers can be installed
->    - package packagegroup-core-full-cmdline-1.0-r6.0.noarch requires packagegroup-core-full-cmdline-extended, but none of the providers can be installed
->    - package iproute2-5.1.0-r0.0.core2_32 requires elfutils-ptest >= 0.176, but none of the providers can be installed
->    - conflicting requests
->    - nothing provides elfutils-binutils needed by elfutils-ptest-0.176-r0.0.core2_32
-> (try to add '--skip-broken' to skip uninstallable packages or '--nobest' to use not only best candidate packages)
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta-poky/conf/distro/poky-tiny.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I didn't encounter the failure during do_rootfs when "bitbake 
-core-image-sato-sdk" with musl on qemux86.
+diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
+index 1f8b6e8ff3..ad95919e6c 100644
+--- a/meta-poky/conf/distro/poky-tiny.conf
++++ b/meta-poky/conf/distro/poky-tiny.conf
+@@ -87,7 +87,7 @@ VIRTUAL-RUNTIME_login_manager = "busybox"
+ VIRTUAL-RUNTIME_init_manager = "busybox"
+ VIRTUAL-RUNTIME_initscripts = "initscripts"
+ VIRTUAL-RUNTIME_keymaps = "keymaps"
+-DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
++DISTRO_FEATURES_BACKFILL_CONSIDERED += "systemd sysvinit"
+ 
+ # FIXME: Consider adding "modules" to MACHINE_FEATURES and using that in
+ # packagegroup-core-base to select modutils-initscripts or not.  Similar with "net" and
+-- 
+2.20.0
 
-Could you help to provide your local.conf?
-
-Thanks,
-
->
-> Cheers,
->
-> Richard
->
->
 
