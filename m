@@ -1,50 +1,25 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id AC0BB7E33A
+Return-Path: <quentin.schulz@streamunlimited.com>
+X-Greylist: delayed 2069 seconds by postgrey-1.34 at layers.openembedded.org;
+	Fri, 31 May 2019 13:58:09 UTC
+Received: from bsmtp8.bon.at (bsmtp8.bon.at [213.33.87.20])
+	by mail.openembedded.org (Postfix) with ESMTP id 541357E50C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 13:47:07 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id r76so9666811lja.12
+	Fri, 31 May 2019 13:58:09 +0000 (UTC)
+Received: from bsmtp7.bon.at (unknown [192.168.181.108])
+	by bsmtp8.bon.at (Postfix) with ESMTPS id 45FlWy6lc4z5v2C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 06:47:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=f7zcX3GHF6gDR3fn3ATuorik55Ai4rtncMbW4AFY9Zg=;
-	b=tIaeWX8DSRMPsPhl+C1QIOnW+dGzmBKqXSJyKAVQ5Khugpls7YnFM+WO5JLKZBx4Oq
-	9WODRAjmwMjfQwq2AZQulf6h1+EKmysRrxCjmWlXREQnf66VR13BN0uSt1sxDfNo/rwt
-	0QrqGO93qzFfXlp5BxHPa0AfAQH0VXN9wiiD0FBcq3mz5j6tHQFhrmduR8XbllvaM5/z
-	H95bsaaxPa+065FX0pwRic73fCiJluIpayLbfcg8yaWhZw1QxPamK38IyQVDFcWDL3/L
-	eX2Xv/NAjp3qOq3S8FMnyNWS6jHx/bbJxG7+ykvJhSH7YGhwvwwWMj3BxRqqcLjBvLwH
-	Mb2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=f7zcX3GHF6gDR3fn3ATuorik55Ai4rtncMbW4AFY9Zg=;
-	b=onmbhIEH5bICsGCSsICabai+gWCQHs5f2RQKMPAyrRF3i/adKe9yG/uwNE+zGld+oe
-	Rtaq3OqGxHNMBGZHbKAON+96peOjlsdH0HaKnKHkBvj4OEkpPG3hyGny3aHw3rvIZ2wB
-	z4c7VOqCR75tdQCM9hXWg8JdK+x8byp4BrQflGzYwEPIoXM88bGt3Nv92x60lQ5A1Ghs
-	0n1QSiwYpmllNmqGss08F1qOnPAGD3nUNFYbijDG6Uk5kBJwu8T6/YJ3/GLkADBuhKKx
-	XSMd3j2xJC1l+ixCwwJ5VggYydXIssoaLZhV/0p9DzwC5k75oVZPmZ2Z7Gn+ORPKKtoM
-	1BMA==
-X-Gm-Message-State: APjAAAUJ2xt27uvUqP4pOC4yR13GDgE7TLCQZ62f6J8eJNJHStA6ZLce
-	LnHkPJpi/Yv45yx/dB5VnOVHzPGU7083j2g+5Zo=
-X-Google-Smtp-Source: APXvYqyXw7dA1DABEzYPGtRkcRdmBhNEYIFDMrecoCXu2f7n6RM99KBoMql6Lw3Ep+2XeBUkMZFVPQ+DXyCVBTqYK1Q=
-X-Received: by 2002:a2e:868f:: with SMTP id l15mr1083426lji.118.1559310427940; 
-	Fri, 31 May 2019 06:47:07 -0700 (PDT)
+	Fri, 31 May 2019 15:23:42 +0200 (CEST)
+Received: from qschulz (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45FlWx3njhz5tlC
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 31 May 2019 15:23:41 +0200 (CEST)
+Date: Fri, 31 May 2019 15:23:40 +0200
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20190531132340.ywgt6kehpcotqt6c@qschulz>
 MIME-Version: 1.0
-References: <cover.1559220004.git.bruce.ashfield@gmail.com>
-	<18e169f17346d84787ec550696cf0cc19ea83256.camel@linuxfoundation.org>
-	<CADkTA4M=hUbCPwa6H_KMFN=hDbpdy-XE5kZ8magBQFD-f=ML0w@mail.gmail.com>
-	<dc3b129e2bf00200521f1a86d1384a1087fa4664.camel@linuxfoundation.org>
-In-Reply-To: <dc3b129e2bf00200521f1a86d1384a1087fa4664.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Fri, 31 May 2019 09:46:56 -0400
-Message-ID: <CADkTA4NU6SZTcr3FSCiwEozWFjde9PZYW=d5ivpowFE_Q6qA=Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/9] linux-yocto: consolidated pull request
+User-Agent: NeoMutt/20180716
+Subject: Add warning in externalsrc when dir from tasks' cleandirs is removed because EXTERNALSRC is a parent
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,43 +32,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 13:47:08 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 31 May 2019 13:58:09 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Fri, May 31, 2019 at 9:22 AM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Fri, 2019-05-31 at 08:53 -0400, Bruce Ashfield wrote:
-> > On Fri, May 31, 2019 at 4:01 AM <richard.purdie@linuxfoundation.org>
-> > wrote:
-> > >
-> > > This fails in testing with one failure on qemuarm:
-> > >
-> >
-> > bugger, I didn't expect that!
-> >
-> > I'll dig up how I mocked up a systemtap test environment before (it
-> > will be next week before I get to it though (unless I'm lucky), since
-> > my cycles today are spoken for)
->
-> FWIW this is some change after 5.0.13 that is triggering the issue. I
-> can likely merge the patches to that point (tests are still
-> completing).
+Hi all,
 
-Yah. I spawned a core-image-kernel-dev build and will setup a quick
-bisect environment to track it down. I'll also test against my 5.2-rc
-kernel, to have a look for a fix, or do a fix there as well.
+I've struggled to debug one issue that happened to me during the
+do_package task of one of my recipes.
 
-Bruce
+The issue was particularly weird since I could build the package or the
+image requiring the package, once and only once. After that first time,
+I had to do bitbake -c clean `package` to be able to complete a build.
 
->
-> Cheers,
->
-> Richard
->
+The error was the following:
+ERROR: project-1.0-r0 do_package: Error executing a python function in exec_python_func() autogenerated:
 
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:populate_packages(d)
+     0003:
+File: '/media/qschulz/yocto/build/poky/meta/classes/package.bbclass', lineno: 1230, function: populate_packages
+     1226:
+     1227:            mkdir_recurse(dvar, root, os.path.dirname(file))
+     1228:            fpath = os.path.join(root,file)
+     1229:            if not cpath.islink(file):
+ *** 1230:                os.link(file, fpath)
+     1231:                continue
+     1232:            ret = bb.utils.copyfile(file, fpath)
+     1233:            if ret is False or ret == 0:
+     1234:                bb.fatal("File population failed")
+Exception: FileExistsError: [Errno 17] File exists: './usr/share/file' -> '/media/qschulz/yocto/build/.build-yocto/tmp/work/machine-poky-linux/project/1.0-r0/packages-split/project-dbg/./usr/share/file'
 
+ERROR: project-1.0-r0 do_package: Function failed: populate_packages
+ERROR: Logfile of failure stored in: /media/qschulz/yocto/build/.build-yocto/tmp/work/machine-poky-linux/project/1.0-r0/temp/log.do_package.26719
+ERROR: Task (/media/qschulz/yocto/build/oe/recipes/project/project.bb:do_package) failed with exit code '1'
+
+We have a krogoth branch that still works fine with the same recipe,
+while the one on Thud just does not want to build (well, to be fair,
+only after the first build).
+
+So, I actually found that the culprit might well be:
+https://git.yoctoproject.org/cgit.cgi/poky/commit/?id=5e6ffb2adbf544700470bbdb9428c2e020c9f8a6
+
+The issue is that we have the following tree:
+/path/project
+/path/project/yocto/meta-*
+/path/project/yocto/build
+
+And /path/project is where all the sources for the externalsrc package
+`project` is. And with the above patch, we stop removing directories
+that are leaves of an externalsrc package.
+
+And because package, packages-split and pkgdata are cleandirs of
+do_package and are also indirect leaves of /path/project, they do not
+get removed. The issue is that then all the files in packages-split are
+still there, and creating a link with os.link while trying to overwrite
+a file, throws an Exception.
+
+While I can agree our tree organization is... not perfect, I'd have
+liked Yocto to notify me that there might be something unusual going on.
+Especially when the behavior changed in between versions. I have to say
+that I have absolutely nothing against the aforementioned patch, it
+makes a lot of sense and I know we're in a very unusual setup that I'll
+try to change. But I think other people might benefit from such a
+warning message.
+
+So now, I added a bb.warn() right before removing cleandir from
+cleandirs. The issue is that it does not always make sense to warn the
+user that a dir has been removed from the list of dirs to be cleaned
+before a task. For example, removing dirs from the do_unpack's cleandirs
+seems to make sense, so it wouldn't make much sense to warn the user.
+However, it is definitely an issue that needs to be raised for, e.g.,
+do_package since it'll fail without telling you where the issue
+originated from.
+
+What could be done? I don't think we want to keep a list of "safe" or
+"unsafe" tasks and warn only when needed.
+
+Let me know your thoughts,
+Thanks,
+Quentin
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+StreamUnlimited Engineering GmbH
+High Tech Campus Vienna, Gutheil-Schoder-Gasse 10, 1100 Vienna, Austria
+quentin.schulz@streamunlimited.com, www.streamunlimited.com
 
