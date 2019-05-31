@@ -1,61 +1,50 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 1382B7E33A
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id AC0BB7E33A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 13:44:20 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id c6so3069274wml.0
+	Fri, 31 May 2019 13:47:07 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id r76so9666811lja.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 06:44:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=ztFrTeadnqXDzUGDEJaxLidxAjq6s8/zX262NDm+Tz0=;
-	b=iJVxAkVt1P+cFSUhx9Fh1T0jqr11D3Y6OXGnpt8ZxwIkWrsMG22D4/spKlnOGkw+Tk
-	oDvQ69njUX/AQzQNsTt99GA/S4O0ZYGns4gvGsgUU8S33ftNvC92z3662EQNgw2nLKFe
-	1LYzNBj5IAfbFUNOMU0wE6uD09vI8U44lkIOM=
+	Fri, 31 May 2019 06:47:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=f7zcX3GHF6gDR3fn3ATuorik55Ai4rtncMbW4AFY9Zg=;
+	b=tIaeWX8DSRMPsPhl+C1QIOnW+dGzmBKqXSJyKAVQ5Khugpls7YnFM+WO5JLKZBx4Oq
+	9WODRAjmwMjfQwq2AZQulf6h1+EKmysRrxCjmWlXREQnf66VR13BN0uSt1sxDfNo/rwt
+	0QrqGO93qzFfXlp5BxHPa0AfAQH0VXN9wiiD0FBcq3mz5j6tHQFhrmduR8XbllvaM5/z
+	H95bsaaxPa+065FX0pwRic73fCiJluIpayLbfcg8yaWhZw1QxPamK38IyQVDFcWDL3/L
+	eX2Xv/NAjp3qOq3S8FMnyNWS6jHx/bbJxG7+ykvJhSH7YGhwvwwWMj3BxRqqcLjBvLwH
+	Mb2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=ztFrTeadnqXDzUGDEJaxLidxAjq6s8/zX262NDm+Tz0=;
-	b=odWdrWOsA5aIIryyCM+MnvoeiQtnQCCtPP3VeaWVNjvjjM+gIf/ppr0WnXmIZ0iktE
-	AD0odUppNMrL/EbDjDveotcV0/+iT3dePFH+h51rjihJTlf0nAP/Nxe/8aEMwd5agSdU
-	qXXXswaH76FFHEuV7Qu9+LR6rXhAAnSOPknSpD90Tq8dJchUubQ1chyodLZBB7dXXe2j
-	qvDY3GXue0F64W84DK9GD9UNIl82L8mF0zsDKAeXfDJ2cvAGttn8FGO2rEkqwUVAT8ml
-	hgC7joDoO2xOwXi+NAd3j4YefHfN3r1dO9X/n5CSQEU83AD/3vkU/0yMfjfrQXXp2Mer
-	jCeg==
-X-Gm-Message-State: APjAAAVIUqbySq7M3kwZ8k0mZzdsCK+8bJ7L1KmHZO0UDo/qG3annYnn
-	9ZLQF+bCQrBhcfR898lf+2tJrg==
-X-Google-Smtp-Source: APXvYqwxdzDFCm3+Sai/gA6/CdSxbk5ncKylee122Hhx6t7OUgKAAUS0NwwHzoK3e+xNWW+hbIqxTQ==
-X-Received: by 2002:a1c:80c1:: with SMTP id b184mr5429648wmd.24.1559310261701; 
-	Fri, 31 May 2019 06:44:21 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	l18sm12839673wrh.54.2019.05.31.06.44.19
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 31 May 2019 06:44:20 -0700 (PDT)
-Message-ID: <a4415ea8c5f78e8b08f9361041ecb7ef34f44e2d.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Tom Rini <trini@konsulko.com>
-Date: Fri, 31 May 2019 14:44:19 +0100
-In-Reply-To: <20190530155753.GS20781@bill-the-cat>
-References: <321f3cb8-a101-49ad-07c4-64fc82d2c7f8@gmail.com>
-	<d5b41b11583c78cd16d6393736fafd8e733c48a9.camel@linuxfoundation.org>
-	<20190529212556.GO20781@bill-the-cat>
-	<4571b3c03fb83ee01492dd1891e410becb72b0e5.camel@linuxfoundation.org>
-	<20190529221726.GA16075@localhost>
-	<20190529222920.GP20781@bill-the-cat>
-	<20190529230203.GB16075@localhost>
-	<aba82f4358b0479419ccc3412b83c052dce57bf4.camel@linuxfoundation.org>
-	<ed68ff2b-e29e-54eb-f477-5026e45795dc@gmail.com>
-	<9934d166bdb464e18d20ccb64f88fcebac019a07.camel@linuxfoundation.org>
-	<20190530155753.GS20781@bill-the-cat>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=f7zcX3GHF6gDR3fn3ATuorik55Ai4rtncMbW4AFY9Zg=;
+	b=onmbhIEH5bICsGCSsICabai+gWCQHs5f2RQKMPAyrRF3i/adKe9yG/uwNE+zGld+oe
+	Rtaq3OqGxHNMBGZHbKAON+96peOjlsdH0HaKnKHkBvj4OEkpPG3hyGny3aHw3rvIZ2wB
+	z4c7VOqCR75tdQCM9hXWg8JdK+x8byp4BrQflGzYwEPIoXM88bGt3Nv92x60lQ5A1Ghs
+	0n1QSiwYpmllNmqGss08F1qOnPAGD3nUNFYbijDG6Uk5kBJwu8T6/YJ3/GLkADBuhKKx
+	XSMd3j2xJC1l+ixCwwJ5VggYydXIssoaLZhV/0p9DzwC5k75oVZPmZ2Z7Gn+ORPKKtoM
+	1BMA==
+X-Gm-Message-State: APjAAAUJ2xt27uvUqP4pOC4yR13GDgE7TLCQZ62f6J8eJNJHStA6ZLce
+	LnHkPJpi/Yv45yx/dB5VnOVHzPGU7083j2g+5Zo=
+X-Google-Smtp-Source: APXvYqyXw7dA1DABEzYPGtRkcRdmBhNEYIFDMrecoCXu2f7n6RM99KBoMql6Lw3Ep+2XeBUkMZFVPQ+DXyCVBTqYK1Q=
+X-Received: by 2002:a2e:868f:: with SMTP id l15mr1083426lji.118.1559310427940; 
+	Fri, 31 May 2019 06:47:07 -0700 (PDT)
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org, Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH 2/2] uninative: Switch from bz2 to xz
+References: <cover.1559220004.git.bruce.ashfield@gmail.com>
+	<18e169f17346d84787ec550696cf0cc19ea83256.camel@linuxfoundation.org>
+	<CADkTA4M=hUbCPwa6H_KMFN=hDbpdy-XE5kZ8magBQFD-f=ML0w@mail.gmail.com>
+	<dc3b129e2bf00200521f1a86d1384a1087fa4664.camel@linuxfoundation.org>
+In-Reply-To: <dc3b129e2bf00200521f1a86d1384a1087fa4664.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Fri, 31 May 2019 09:46:56 -0400
+Message-ID: <CADkTA4NU6SZTcr3FSCiwEozWFjde9PZYW=d5ivpowFE_Q6qA=Q@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/9] linux-yocto: consolidated pull request
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,45 +57,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 13:44:21 -0000
+X-List-Received-Date: Fri, 31 May 2019 13:47:08 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-05-30 at 11:57 -0400, Tom Rini wrote:
-> On Thu, May 30, 2019 at 02:55:35PM +0100, 
-> richard.purdie@linuxfoundation.org wrote:
-> > On Thu, 2019-05-30 at 06:32 -0700, akuster808 wrote:
-> > > On 5/30/19 1:13 AM, richard.purdie@linuxfoundation.org wrote:
-> > > > On Thu, 2019-05-30 at 02:02 +0300, Adrian Bunk wrote:
-> > > So.. Can we have a bz and xz version built until thud is in
-> > > community
-> > > supported and update Warrior to use xz ?
-> > 
-> > I think thud and warrior will work fine if we backport just the
-> > upgrade
-> > and the change to uninative.bbclass?
-> > 
-> > I really don't want to try and do both.
-> 
-> To be honest, I'd really like to see thud/warrior keep the bz2 and
-> master switch.  Changing underlying host dependencies especially ones
-> that we hit on in special early threads seems like a bad idea.  I've
-> been doing too many "fun" things in containers of late, and CROPS
-> might be fine but bare Ubuntu containers aren't and this would be a
-> very funky error to diagnose.  Given we've released I think we need
-> to err on the side of consistency.
+On Fri, May 31, 2019 at 9:22 AM <richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2019-05-31 at 08:53 -0400, Bruce Ashfield wrote:
+> > On Fri, May 31, 2019 at 4:01 AM <richard.purdie@linuxfoundation.org>
+> > wrote:
+> > >
+> > > This fails in testing with one failure on qemuarm:
+> > >
+> >
+> > bugger, I didn't expect that!
+> >
+> > I'll dig up how I mocked up a systemtap test environment before (it
+> > will be next week before I get to it though (unless I'm lucky), since
+> > my cycles today are spoken for)
+>
+> FWIW this is some change after 5.0.13 that is triggering the issue. I
+> can likely merge the patches to that point (tests are still
+> completing).
 
-Whilst we could in theory start hacking around the infrastructure to
-put dual tarballs in place, I'd really prefer not to be doing that for
-uninative releases for the next 1-2 years.
+Yah. I spawned a core-image-kernel-dev build and will setup a quick
+bisect environment to track it down. I'll also test against my 5.2-rc
+kernel, to have a look for a fix, or do a fix there as well.
 
-xz appears to be documented as a host dependency even if it isn't in
-HOSTTOOLS and isn't very obscure.
+Bruce
 
-I can see both sides of this :/.
+>
+> Cheers,
+>
+> Richard
+>
 
-Cheers,
 
-Richard
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
