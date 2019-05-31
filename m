@@ -1,25 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 77CC07E1CA
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C9DC7E52B
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 06:55:19 +0000 (UTC)
+	Fri, 31 May 2019 06:55:21 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x4V6tIDx021548
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x4V6tKZC024857
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 30 May 2019 23:55:18 -0700 (PDT)
+	Thu, 30 May 2019 23:55:20 -0700 (PDT)
 Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 30 May 2019 23:55:17 -0700
+	Thu, 30 May 2019 23:55:19 -0700
 From: <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Fri, 31 May 2019 02:54:29 -0400
-Message-ID: <20190531065430.7717-3-kai.kang@windriver.com>
+Date: Fri, 31 May 2019 02:54:30 -0400
+Message-ID: <20190531065430.7717-4-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.20.0
 In-Reply-To: <20190531065430.7717-1-kai.kang@windriver.com>
 References: <20190531065430.7717-1-kai.kang@windriver.com>
 MIME-Version: 1.0
 Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [meta-poky][PATCH v5 2/3] poky-tiny.conf: not backfill distro feature systemd
+Subject: [meta-poky][PATCH v5 3/3] systemd-conf: configure wired network with dhcp
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,34 +32,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 06:55:19 -0000
+X-List-Received-Date: Fri, 31 May 2019 06:55:21 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-systemd has been added to DISTRO_FEATURES_BACKFILL for poky by default,
-but it is compatible with poky-tiny. So not backfile it to
-DISTRO_FEATURES by adding it to DISTRO_FEATURES_BACKFILL_CONSIDERED.
+Add a configure file for systemd.networkd to configure wired network
+interfaces with dhcp. It works with common network interfaces such eth0
+and eno1. And do not install it for qemu bsps.
+
+Refer to
+https://github.com/YoeDistro/meta-yoe/tree/master/recipes-core/systemd
+
+[YOCTO #13057]
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta-poky/conf/distro/poky-tiny.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd-conf/wired.network | 9 +++++++++
+ meta/recipes-core/systemd/systemd-conf_242.bb        | 6 ++++++
+ 2 files changed, 15 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd-conf/wired.network
 
-diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
-index 1f8b6e8ff3..ad95919e6c 100644
---- a/meta-poky/conf/distro/poky-tiny.conf
-+++ b/meta-poky/conf/distro/poky-tiny.conf
-@@ -87,7 +87,7 @@ VIRTUAL-RUNTIME_login_manager = "busybox"
- VIRTUAL-RUNTIME_init_manager = "busybox"
- VIRTUAL-RUNTIME_initscripts = "initscripts"
- VIRTUAL-RUNTIME_keymaps = "keymaps"
--DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED += "systemd sysvinit"
+diff --git a/meta/recipes-core/systemd/systemd-conf/wired.network b/meta/recipes-core/systemd/systemd-conf/wired.network
+new file mode 100644
+index 0000000000..253aee9382
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd-conf/wired.network
+@@ -0,0 +1,9 @@
++[Match]
++Name=en* eth*
++
++[Network]
++DHCP=yes
++
++[DHCP]
++RouteMetric=10
++ClientIdentifier=mac
+diff --git a/meta/recipes-core/systemd/systemd-conf_242.bb b/meta/recipes-core/systemd/systemd-conf_242.bb
+index 96beea53a7..d9ec023bfd 100644
+--- a/meta/recipes-core/systemd/systemd-conf_242.bb
++++ b/meta/recipes-core/systemd/systemd-conf_242.bb
+@@ -10,17 +10,22 @@ SRC_URI = "\
+     file://logind.conf \
+     file://system.conf \
+     file://system.conf-qemuall \
++    file://wired.network \
+ "
  
- # FIXME: Consider adding "modules" to MACHINE_FEATURES and using that in
- # packagegroup-core-base to select modutils-initscripts or not.  Similar with "net" and
+ do_install() {
+ 	install -D -m0644 ${WORKDIR}/journald.conf ${D}${systemd_unitdir}/journald.conf.d/00-${PN}.conf
+ 	install -D -m0644 ${WORKDIR}/logind.conf ${D}${systemd_unitdir}/logind.conf.d/00-${PN}.conf
+ 	install -D -m0644 ${WORKDIR}/system.conf ${D}${systemd_unitdir}/system.conf.d/00-${PN}.conf
++	install -D -m0644 ${WORKDIR}/wired.network ${D}${systemd_unitdir}/network/80-wired.network
+ }
+ 
+ # Based on change from YP bug 8141, OE commit 5196d7bacaef1076c361adaa2867be31759c1b52
+ do_install_append_qemuall() {
+ 	install -D -m0644 ${WORKDIR}/system.conf-qemuall ${D}${systemd_unitdir}/system.conf.d/01-${PN}.conf
++
++	# Do not install wired.network for qemu bsps
++	rm -rf ${D}${systemd_unitdir}/network
+ }
+ 
+ PACKAGE_ARCH = "${MACHINE_ARCH}"
+@@ -29,4 +34,5 @@ FILES_${PN} = "\
+     ${systemd_unitdir}/journald.conf.d/ \
+     ${systemd_unitdir}/logind.conf.d/ \
+     ${systemd_unitdir}/system.conf.d/ \
++    ${systemd_unitdir}/network/ \
+ "
 -- 
 2.20.0
 
