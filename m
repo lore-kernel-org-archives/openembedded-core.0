@@ -1,49 +1,25 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 166027E5C5
+Return-Path: <timothy.t.orling@linux.intel.com>
+Received: from mga04.intel.com (mga04.intel.com [192.55.52.120])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E4277E5C6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 18:13:02 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id f25so4457394pgv.10
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 11:13:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=nmvL7uGZ/KFW7oq2+DVFyArY+p63j+uqdJNqlIYKmRI=;
-	b=KTLLo/7ZKhpLLXpvLYtlRKsSUVuwZO6z+w+z2eREqDtQdCP7mE2/MGQV9Qwgy2QmDq
-	C22L8wpOHhZ2beITCtwwPdKk9o4qJ32sFV3l+YPy65GkhZz+iGYpIZ7fk1eopb+1Gy+B
-	VGHfyTPyHTNSNVaHhHfzvr8yejj02DbOvd1thN5uVFxLYQraHefbUG/wZCJvjqPJpmGu
-	3mhllJKSVVPkdKqY8KQ+vIT8MjqWKAh1/sqmMltnOFCNPuevqEtouPAyU74Lp/lD+Fjb
-	94xrgMS/Wo97wF3Zx6i/6OpAewB6tnYYVEaqrpsceYlIyvD3/ilj1MaI7eiVddBCmjsS
-	QIZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=nmvL7uGZ/KFW7oq2+DVFyArY+p63j+uqdJNqlIYKmRI=;
-	b=l3v9UaiLukr7UmXu+TWuikUcb825hWjcVnZI5UQyJrmHl/mNXSm2yHlcvjc6Ba4PT8
-	RyzZ0pyAsuHW6IE42I9WCtX4IjSS98ja1OO749DSIn82dGB2Uud3j6TDjP0co3h7vMaM
-	I6hnXH9N+1Zn2qkBHAMFUpEs11JfMnrMiQ5aUzmjAJZkao4ufb5sJMntisSM+dGcvnl7
-	Yfkt83/UPaLCXa2wvxQ6y5FcyAkagzZ9CmvwhnsRb/QNcJG+971jtI1JU4/QRR4e8MEa
-	k2pqNp6Qxp22RmJHurSD+R5mQCO7aEEYxM12UJxEeUeJhNmZxQr4Tip9/6Ee0V1whBZS
-	ToIw==
-X-Gm-Message-State: APjAAAWBocuhbdWBBHyy4VR2odAjdZKVNiaURqhdg/9QdfLCz4303WH0
-	V2g9Ku7zzC67ULwEeYjTgWGoKkA9
-X-Google-Smtp-Source: APXvYqxWEfmZZtOAGg1JqwkT8/LvjtBFAKCNc6t82WzyQjIP5bUPuxR8HQeV1wHQUV9cQF+j8cegzQ==
-X-Received: by 2002:a17:90a:8d86:: with SMTP id
-	d6mr10593796pjo.127.1559326383512; 
-	Fri, 31 May 2019 11:13:03 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:d8eb:da43:9914:3fc9])
-	by smtp.gmail.com with ESMTPSA id m9sm6517222pgd.23.2019.05.31.11.13.01
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Fri, 31 May 2019 11:13:02 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	Fri, 31 May 2019 18:32:48 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	31 May 2019 11:32:50 -0700
+X-ExtLoop1: 1
+Received: from chiron.jf.intel.com ([10.54.74.38])
+	by orsmga004.jf.intel.com with ESMTP; 31 May 2019 11:32:49 -0700
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2019 11:13:00 -0700
-Message-Id: <1559326380-8954-1-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH] file: Multiple Secruity fixes
+Date: Fri, 31 May 2019 11:32:24 -0700
+Message-Id: <20190531183225.7597-2-timothy.t.orling@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190531183225.7597-1-timothy.t.orling@linux.intel.com>
+References: <20190531183225.7597-1-timothy.t.orling@linux.intel.com>
+MIME-Version: 1.0
+Subject: [PATCH 2/3] perl-rdepends.txt: improve dependencies for perl module ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,248 +32,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 18:13:03 -0000
+X-List-Received-Date: Fri, 31 May 2019 18:32:49 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Armin Kuster <akuster@mvista.com>
+A number of dependencies for Test::Builder and other perl ptest
+modules were missing, especially Test2::API and its like.
 
-Source: https://github.com/file
-MR: 97573, 97578, 97583, 97588
-Type: Security Fix
-Disposition: Backport from https://github.com/file/file
-ChangeID: 159e532d518623f19ba777c8edc24d2dc7e3a4e9
-Description:
+Fixes [YOCTO #13200]
 
-CVE-2019-8905 is the same fix as CVE-2019-8907
-
-Affects < 5.36.0
-
-Fixes:
-CVE-2019-8904
-CVE-2019-8906
-CVE-2019-8906
-CVE-2019-8907
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signel-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
 ---
- .../recipes-devtools/file/file/CVE-2019-8904.patch |  30 ++++++
- .../file/file/CVE-2019-8905_CVE-2019-8907.patch    | 120 +++++++++++++++++++++
- .../recipes-devtools/file/file/CVE-2019-8906.patch |  27 +++++
- meta/recipes-devtools/file/file_5.34.bb            |   3 +
- 4 files changed, 180 insertions(+)
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8904.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
- create mode 100644 meta/recipes-devtools/file/file/CVE-2019-8906.patch
+ .../perl-sanity/files/perl-rdepends.txt       | 110 ++++++++++++++++++
+ 1 file changed, 110 insertions(+)
 
-diff --git a/meta/recipes-devtools/file/file/CVE-2019-8904.patch b/meta/recipes-devtools/file/file/CVE-2019-8904.patch
-new file mode 100644
-index 0000000..5c3d6f7
---- /dev/null
-+++ b/meta/recipes-devtools/file/file/CVE-2019-8904.patch
-@@ -0,0 +1,30 @@
-+From 94b7501f48e134e77716e7ebefc73d6bbe72ba55 Mon Sep 17 00:00:00 2001
-+From: Christos Zoulas <christos@zoulas.com>
-+Date: Mon, 18 Feb 2019 17:30:41 +0000
-+Subject: [PATCH] PR/62: spinpx: Avoid non-nul-terminated string read.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-8904
-+Affects < 5.36
-+[Fixup for thud context]
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ src/readelf.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+Index: git/src/readelf.c
-+===================================================================
-+--- git.orig/src/readelf.c
-++++ git/src/readelf.c
-+@@ -558,8 +558,8 @@ do_bid_note(struct magic_set *ms, unsign
-+ 	}
-+ 	if (namesz == 4 && strcmp((char *)&nbuf[noff], "Go") == 0 &&
-+ 	    type == NT_GO_BUILD_ID && descsz < 128) {
-+-		if (file_printf(ms, ", Go BuildID=%s",
-+-		    (char *)&nbuf[doff]) == -1)
-++		if (file_printf(ms, ", Go BuildID=%.*s",
-++		    CAST(int, descsz), CAST(char *, &nbuf[doff])) == -1)
-+ 			return 1;
-+ 		return 1;
-+ 	}
-diff --git a/meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch b/meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
-new file mode 100644
-index 0000000..a55b94c
---- /dev/null
-+++ b/meta/recipes-devtools/file/file/CVE-2019-8905_CVE-2019-8907.patch
-@@ -0,0 +1,120 @@
-+From d65781527c8134a1202b2649695d48d5701ac60b Mon Sep 17 00:00:00 2001
-+From: Christos Zoulas <christos@zoulas.com>
-+Date: Mon, 18 Feb 2019 17:46:56 +0000
-+Subject: [PATCH] PR/62: spinpx: limit size of file_printable.
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-8905
-+CVE: CVE-2019-8907
-+affects < 5.36
-+
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ src/file.h      |  4 ++--
-+ src/funcs.c     |  9 +++++----
-+ src/readelf.c   |  7 ++++---
-+ src/softmagic.c | 14 ++++++++------
-+ 4 files changed, 19 insertions(+), 15 deletions(-)
-+
-+Index: git/src/file.h
-+===================================================================
-+--- git.orig/src/file.h
-++++ git/src/file.h
-+@@ -501,7 +501,7 @@ protected int file_looks_utf8(const unsi
-+     size_t *);
-+ protected size_t file_pstring_length_size(const struct magic *);
-+ protected size_t file_pstring_get_length(const struct magic *, const char *);
-+-protected char * file_printable(char *, size_t, const char *);
-++protected char * file_printable(char *, size_t, const char *, size_t);
-+ #ifdef __EMX__
-+ protected int file_os2_apptype(struct magic_set *, const char *, const void *,
-+     size_t);
-+Index: git/src/funcs.c
-+===================================================================
-+--- git.orig/src/funcs.c
-++++ git/src/funcs.c
-+@@ -595,12 +595,13 @@ file_pop_buffer(struct magic_set *ms, fi
-+  * convert string to ascii printable format.
-+  */
-+ protected char *
-+-file_printable(char *buf, size_t bufsiz, const char *str)
-++file_printable(char *buf, size_t bufsiz, const char *str, size_t slen)
-+ {
-+-	char *ptr, *eptr;
-++	char *ptr, *eptr = buf + bufsiz - 1;
-+ 	const unsigned char *s = (const unsigned char *)str;
-++	const unsigned char *es = s + slen;
-+ 
-+-	for (ptr = buf, eptr = ptr + bufsiz - 1; ptr < eptr && *s; s++) {
-++	for (ptr = buf;  ptr < eptr && s < es && *s; s++) {
-+ 		if (isprint(*s)) {
-+ 			*ptr++ = *s;
-+ 			continue;
-+Index: git/src/readelf.c
-+===================================================================
-+--- git.orig/src/readelf.c
-++++ git/src/readelf.c
-+@@ -750,7 +750,7 @@ do_core_note(struct magic_set *ms, unsig
-+ 			if (file_printf(ms, ", from '%.31s', pid=%u, uid=%u, "
-+ 			    "gid=%u, nlwps=%u, lwp=%u (signal %u/code %u)",
-+ 			    file_printable(sbuf, sizeof(sbuf),
-+-			    CAST(char *, pi.cpi_name)),
-++			    CAST(char *, pi.cpi_name), sizeof(pi.cpi_name)),
-+ 			    elf_getu32(swap, (uint32_t)pi.cpi_pid),
-+ 			    elf_getu32(swap, pi.cpi_euid),
-+ 			    elf_getu32(swap, pi.cpi_egid),
-+@@ -1655,7 +1655,8 @@ dophn_exec(struct magic_set *ms, int cla
-+ 		return -1;
-+ 	if (interp[0])
-+ 		if (file_printf(ms, ", interpreter %s",
-+-		    file_printable(ibuf, sizeof(ibuf), interp)) == -1)
-++		    file_printable(ibuf, sizeof(ibuf), interp, sizeof(interp)))
-++			== -1)
-+ 			return -1;
-+ 	return 0;
-+ }
-+Index: git/src/softmagic.c
-+===================================================================
-+--- git.orig/src/softmagic.c
-++++ git/src/softmagic.c
-+@@ -616,8 +616,8 @@ mprint(struct magic_set *ms, struct magi
-+   	case FILE_LESTRING16:
-+ 		if (m->reln == '=' || m->reln == '!') {
-+ 			if (file_printf(ms, F(ms, desc, "%s"), 
-+-			    file_printable(sbuf, sizeof(sbuf), m->value.s))
-+-			    == -1)
-++			    file_printable(sbuf, sizeof(sbuf), m->value.s,
-++			    sizeof(m->value.s))) == -1)
-+ 				return -1;
-+ 			t = ms->offset + m->vallen;
-+ 		}
-+@@ -644,7 +644,8 @@ mprint(struct magic_set *ms, struct magi
-+ 			}
-+ 
-+ 			if (file_printf(ms, F(ms, desc, "%s"),
-+-			    file_printable(sbuf, sizeof(sbuf), str)) == -1)
-++			    file_printable(sbuf, sizeof(sbuf), str,
-++				sizeof(p->s) - (str - p->s))) == -1)
-+ 				return -1;
-+ 
-+ 			if (m->type == FILE_PSTRING)
-+@@ -750,7 +751,7 @@ mprint(struct magic_set *ms, struct magi
-+ 			return -1;
-+ 		}
-+ 		rval = file_printf(ms, F(ms, desc, "%s"),
-+-		    file_printable(sbuf, sizeof(sbuf), cp));
-++		    file_printable(sbuf, sizeof(sbuf), cp, ms->search.rm_len));
-+ 		free(cp);
-+ 
-+ 		if (rval == -1)
-+@@ -777,7 +778,8 @@ mprint(struct magic_set *ms, struct magi
-+ 		break;
-+ 	case FILE_DER:
-+ 		if (file_printf(ms, F(ms, desc, "%s"), 
-+-		    file_printable(sbuf, sizeof(sbuf), ms->ms_value.s)) == -1)
-++		    file_printable(sbuf, sizeof(sbuf), ms->ms_value.s,
-++                        sizeof(ms->ms_value.s))) == -1)
-+ 			return -1;
-+ 		t = ms->offset;
-+ 		break;
-diff --git a/meta/recipes-devtools/file/file/CVE-2019-8906.patch b/meta/recipes-devtools/file/file/CVE-2019-8906.patch
-new file mode 100644
-index 0000000..1079ac6
---- /dev/null
-+++ b/meta/recipes-devtools/file/file/CVE-2019-8906.patch
-@@ -0,0 +1,27 @@
-+From 2858eaf99f6cc5aae129bcbf1e24ad160240185f Mon Sep 17 00:00:00 2001
-+From: Christos Zoulas <christos@zoulas.com>
-+Date: Wed, 2 Jan 2019 19:44:14 +0000
-+Subject: [PATCH] Avoid OOB read (found by ASAN reported by F. Alonso)
-+
-+Upstream-Status: Backport
-+CVE: CVE-2019-8906
-+Affects < 5.36
-+[Fixup for thud context]
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+---
-+ src/readelf.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+Index: git/src/readelf.c
-+===================================================================
-+--- git.orig/src/readelf.c
-++++ git/src/readelf.c
-+@@ -745,7 +745,7 @@ do_core_note(struct magic_set *ms, unsig
-+ 			char sbuf[512];
-+ 			struct NetBSD_elfcore_procinfo pi;
-+ 			memset(&pi, 0, sizeof(pi));
-+-			memcpy(&pi, nbuf + doff, descsz);
-++			memcpy(&pi, nbuf + doff, MIN(descsz, sizeof(pi)));
-+ 
-+ 			if (file_printf(ms, ", from '%.31s', pid=%u, uid=%u, "
-+ 			    "gid=%u, nlwps=%u, lwp=%u (signal %u/code %u)",
-diff --git a/meta/recipes-devtools/file/file_5.34.bb b/meta/recipes-devtools/file/file_5.34.bb
-index 5d92913..cb19642 100644
---- a/meta/recipes-devtools/file/file_5.34.bb
-+++ b/meta/recipes-devtools/file/file_5.34.bb
-@@ -16,6 +16,9 @@ UPSTREAM_CHECK_GITTAGREGEX = "FILE(?P<pver>(?!6_23).+)"
- 
- SRC_URI = "git://github.com/file/file.git \
-         file://debian-742262.patch \
-+        file://CVE-2019-8906.patch \
-+        file://CVE-2019-8904.patch \
-+        file://CVE-2019-8905_CVE-2019-8907.patch \
-         "
- 
- SRCREV = "315cef2f699da3c31a54bd3c6c6070680fbaf1f5"
+diff --git a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
+index 3efc3f7b34b..bff31a17411 100644
+--- a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
++++ b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
+@@ -153,6 +153,9 @@ RDEPENDS_perl-module-b-xref += "perl-module-b"
+ RDEPENDS_perl-module-b-xref += "perl-module-config"
+ RDEPENDS_perl-module-b-xref += "perl-module-strict"
+ RDEPENDS_perl-module-bytes += "perl-module-bytes-heavy"
++RDEPENDS_perl-module-carp += "perl-module-exporter"
++RDEPENDS_perl-module-carp += "perl-module-strict"
++RDEPENDS_perl-module-carp += "perl-module-warnings"
+ RDEPENDS_perl-module--charnames += "perl-module-bytes"
+ RDEPENDS_perl-module-charnames += "perl-module-bytes"
+ RDEPENDS_perl-module-charnames += "perl-module--charnames"
+@@ -801,6 +804,7 @@ RDEPENDS_perl-module-file-stat += "perl-module-overload "
+ RDEPENDS_perl-module-file-stat += "perl-module-strict"
+ RDEPENDS_perl-module-file-stat += "perl-module-warnings"
+ RDEPENDS_perl-module-file-stat += "perl-module-warnings-register"
++RDEPENDS_perl-module-file-temp += "perl-module-carp"
+ RDEPENDS_perl-module-file-temp += "perl-module-constant"
+ RDEPENDS_perl-module-file-temp += "perl-module-cwd"
+ RDEPENDS_perl-module-file-temp += "perl-module-errno"
+@@ -1725,6 +1729,11 @@ RDEPENDS_perl-module-safe += "perl-module-b"
+ RDEPENDS_perl-module-safe += "perl-module-opcode"
+ RDEPENDS_perl-module-safe += "perl-module-strict"
+ RDEPENDS_perl-module-safe += "perl-module-utf8"
++RDEPENDS_perl-module-scalar-util += "perl-module-carp"
++RDEPENDS_perl-module-scalar-util += "perl-module-exporter"
++RDEPENDS_perl-module-scalar-util += "perl-module-list-util"
++RDEPENDS_perl-module-scalar-util += "perl-module-strict"
++RDEPENDS_perl-module-scalar-util += "perl-module-warnings"
+ RDEPENDS_perl-module-sdbm-file += "perl-module-exporter"
+ RDEPENDS_perl-module-sdbm-file += "perl-module-strict"
+ RDEPENDS_perl-module-sdbm-file += "perl-module-tie-hash"
+@@ -1975,8 +1984,14 @@ RDEPENDS_perl-module-test-builder += "perl-module-strict"
+ RDEPENDS_perl-module-test-builder += "perl-module-scalar-util"
+ RDEPENDS_perl-module-test-builder += "perl-module-test-builder-formatter"
+ RDEPENDS_perl-module-test-builder += "perl-module-test-builder-tododiag"
++RDEPENDS_perl-module-test-builder += "perl-module-test2-api"
+ RDEPENDS_perl-module-test-builder += "perl-module-test2-util"
+ RDEPENDS_perl-module-test-builder += "perl-module-warnings"
++RDEPENDS_perl-module-test-builder-formatter += "perl-module-strict"
++RDEPENDS_perl-module-test-builder-formatter += "perl-module-test2-formatter"
++RDEPENDS_perl-module-test-builder-formatter += "perl-module-test2-formatter-tap"
++RDEPENDS_perl-module-test-builder-formatter += "perl-module-test2-util-hashbase"
++RDEPENDS_perl-module-test-builder-formatter += "perl-module-warnings"
+ RDEPENDS_perl-module-test-builder-tester-color += "perl-module-strict"
+ RDEPENDS_perl-module-test-builder-tester-color += "perl-module-test-builder-tester"
+ RDEPENDS_perl-module-test-builder-tester += "perl-module-exporter"
+@@ -1994,6 +2009,7 @@ RDEPENDS_perl-module-test-harness += "perl-module-tap-parser-source"
+ RDEPENDS_perl-module-test-harness += "perl-module-tap-parser-sourcehandler-perl"
+ RDEPENDS_perl-module-test-harness += "perl-module-text-parsewords"
+ RDEPENDS_perl-module-test-harness += "perl-module-warnings"
++RDEPENDS_perl-module-test-more += "perl-module-file-temp"
+ RDEPENDS_perl-module-test-more += "perl-module-strict"
+ RDEPENDS_perl-module-test-more += "perl-module-test-builder-module"
+ RDEPENDS_perl-module-test-more += "perl-module-warnings"
+@@ -2019,6 +2035,100 @@ RDEPENDS_perl-module-test-tester += "perl-module-test-builder"
+ RDEPENDS_perl-module-test-tester += "perl-module-test-tester-capturerunner"
+ RDEPENDS_perl-module-test-tester += "perl-module-test-tester-delegate"
+ RDEPENDS_perl-module-test-tester += "perl-module-vars"
++RDEPENDS_perl-module-test2-api += "perl-module-carp"
++RDEPENDS_perl-module-test2-api += "perl-module-exporter"
++RDEPENDS_perl-module-test2-api += "perl-module-scalar-util"
++RDEPENDS_perl-module-test2-api += "perl-module-strict"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-api-context"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-api-instance"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-api-stack"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-bail"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-diag"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-exception"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-fail"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-note"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-ok"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-plan"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-skip"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-subtest"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-event-waiting"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-eventfacet-trace"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-hub"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-hub-interceptor"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-hub-interceptor-terminator"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-hub-subtest"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-util"
++RDEPENDS_perl-module-test2-api += "perl-module-test2-util-trace"
++RDEPENDS_perl-module-test2-api += "perl-module-warnings"
++RDEPENDS_perl-module-test2-api-context += "perl-module-carp"
++RDEPENDS_perl-module-test2-api-context += "perl-module-scalar-util"
++RDEPENDS_perl-module-test2-api-context += "perl-module-strict"
++RDEPENDS_perl-module-test2-api-context += "perl-module-test2-api"
++RDEPENDS_perl-module-test2-api-context += "perl-module-test2-event-v2"
++RDEPENDS_perl-module-test2-api-context += "perl-module-test2-eventfacet"
++RDEPENDS_perl-module-test2-api-context += "perl-module-test2-eventfacet-trace"
++RDEPENDS_perl-module-test2-api-context += "perl-module-test2-util"
++RDEPENDS_perl-module-test2-api-context += "perl-module-test2-util-externalmeta"
++RDEPENDS_perl-module-test2-api-context += "perl-module-test2-util-hashbase"
++RDEPENDS_perl-module-test2-api-context += "perl-module-warnings"
++RDEPENDS_perl-module-test2-event += "perl-module-carp"
++RDEPENDS_perl-module-test2-event += "perl-module-scalar-util"
++RDEPENDS_perl-module-test2-event += "perl-module-strict"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-about"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-amnesty"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-assert"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-control"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-error"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-hub"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-info"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-meta"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-parent"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-plan"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-eventfacet-trace"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-util"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-util-externalmeta"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-util-hashbase"
++RDEPENDS_perl-module-test2-event += "perl-module-test2-util-trace"
++RDEPENDS_perl-module-test2-event += "perl-module-warnings"
++RDEPENDS_perl-module-test2-event-v2 += "perl-module-carp"
++RDEPENDS_perl-module-test2-event-v2 += "perl-module-scalar-util"
++RDEPENDS_perl-module-test2-event-v2 += "perl-module-test2-util-facets2legacy"
++RDEPENDS_perl-module-test2-event-v2 += "perl-module-test2-util-hashbase"
++RDEPENDS_perl-module-test2-event-v2 += "perl-module-strict"
++RDEPENDS_perl-module-test2-event-v2 += "perl-module-warnings"
++RDEPENDS_perl-module-test2-eventfacet += "perl-module-carp"
++RDEPENDS_perl-module-test2-eventfacet += "perl-module-test2-util"
++RDEPENDS_perl-module-test2-eventfacet += "perl-module-test2-util-hashbase"
++RDEPENDS_perl-module-test2-eventfacet += "perl-module-strict"
++RDEPENDS_perl-module-test2-eventfacet += "perl-module-warnings"
++RDEPENDS_perl-module-test2-hub += "perl-module-carp"
++RDEPENDS_perl-module-test2-hub += "perl-module-list-util"
++RDEPENDS_perl-module-test2-hub += "perl-module-scalar-util"
++RDEPENDS_perl-module-test2-hub += "perl-module-strict"
++RDEPENDS_perl-module-test2-hub += "perl-module-test2-event-ok"
++RDEPENDS_perl-module-test2-hub += "perl-module-test2-event-pass"
++RDEPENDS_perl-module-test2-hub += "perl-module-test2-event-plan"
++RDEPENDS_perl-module-test2-hub += "perl-module-test2-util"
++RDEPENDS_perl-module-test2-hub += "perl-module-test2-util-externalmeta"
++RDEPENDS_perl-module-test2-hub += "perl-module-test2-util-hashbase"
++RDEPENDS_perl-module-test2-hub += "perl-module-warnings"
++RDEPENDS_perl-module-test2-util += "perl-module-carp"
++RDEPENDS_perl-module-test2-util += "perl-module-config"
++RDEPENDS_perl-module-test2-util += "perl-module-posix"
++RDEPENDS_perl-module-test2-util += "perl-module-strict"
++RDEPENDS_perl-module-test2-util += "perl-module-warnings"
++RDEPENDS_perl-module-test2-util-facets2legacy += "perl-module-base"
++RDEPENDS_perl-module-test2-util-facets2legacy += "perl-module-carp"
++RDEPENDS_perl-module-test2-util-facets2legacy += "perl-module-exporter"
++RDEPENDS_perl-module-test2-util-facets2legacy += "perl-module-scalar-util"
++RDEPENDS_perl-module-test2-util-facets2legacy += "perl-module-strict"
++RDEPENDS_perl-module-test2-util-facets2legacy += "perl-module-warnings"
++RDEPENDS_perl-module-test2-util-hashbase += "perl-module-carp"
++RDEPENDS_perl-module-test2-util-hashbase += "perl-module-mro"
++RDEPENDS_perl-module-test2-util-hashbase += "perl-module-strict"
++RDEPENDS_perl-module-test2-util-hashbase += "perl-module-warnings"
+ RDEPENDS_perl-module-text-abbrev += "perl-module-exporter"
+ RDEPENDS_perl-module-text-balanced += "perl-module-exporter"
+ RDEPENDS_perl-module-text-balanced += "perl-module-overload"
 -- 
-2.7.4
+2.20.1
 
 
