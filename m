@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F4A07E5B0
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 18A597E57D
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 15:56:23 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id m3so6877150wrv.2
+	Fri, 31 May 2019 15:56:24 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id n4so1609731wrw.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 08:56:24 -0700 (PDT)
+	Fri, 31 May 2019 08:56:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ND+BLJ4ScZj/4Y5d7u1VO1liK+zul77wEn3Rra1vQ90=;
-	b=XwJEXkGk9mN6KvS390EGwhYO/iJ5b6SGp6GGb5uPbtsA5sYIirRneNRGrWux7NRq5H
-	391f5aE73mgIFX1bnVXNrkL4P3JLJe0Mqd85QCcJ+RRU513LPWY2UxBe0jZm4iKov3Qh
-	bJoGNAvTx3xLPrJbg3BKcBC6Y7j8DHMn/kU90KobPGIe3PQ0Hfj1MfKc2kNFDzK8eqTC
-	mq+RSfGiA0ujx/MTQuOvbY2H1nuJxoPGk2HeVwivDCSX8MF+MrOX1//f33uwr7RNKuYv
-	e6M0qcFE+MNEilEoHDtqQqi1YGeIDKhwFt64N1rnoFfi6GslhtLh3asrOz7MovG7XCs4
-	yiPA==
+	bh=HwjlvZudklpUgCcF2LVzbO3j59fKv9N1LslXvzzAogg=;
+	b=CvEwEWM9+aRFDlIo48O/UQ6+5Emjx7h/Tf0+WO/b1/suo4ka7Tmma2v/TnSRDsGife
+	hPTsok2LebL6CVu9yDwoBcnjVhHci254UZzIVq71rmTjfc4ivqNiCN/YUYLtKKUBgxMC
+	Lmhp64igOglR3FTg2sajodXw0MBPKzsz5vPs3noxuwQNEVMHreZULk2BVDtJ5Mwa+nEe
+	NqB1EKfQUUwdlMSaZGaXrdGIRmlFH9+Xs3rkjT9Sg9vQcOSNtkK5TgYKqqYcsHOTPxAf
+	JLrMX3uaxdTVtqO8GSYYmLth+OVgNM0A6rNX8VPpfmydW7Fw9Go7vD3/2+bacEdKtgAi
+	y1qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ND+BLJ4ScZj/4Y5d7u1VO1liK+zul77wEn3Rra1vQ90=;
-	b=eK9BRp9Htwri/M2gZS3jqdwkAl9b6B9Ri0oO1JdrVrL/uOHA9cT2e/SSHXTy03X8RP
-	zG7mCEEkz9Fs3d1mVHqmbSmOYNOgHT8Q/KRLclWOSnRFYW7cI4HmHgFdoc+QxCGwskJN
-	j7QrbNoNbEc6pXkSrGT9lh4nRP8Gce+6aMTs+oLJfvffpbGb9G5KBq112tukiLEwOJlp
-	M+Yoekz0YP6UXMmnelEMFk1DXUyDgK4PjmD6iHt0WBUsJvb9elMXY+FAtF1GZRVL3Jhy
-	FgeHKWwAKsr8noO25g0p/8fkOrSgT43oMsydIU3+GNI44vSWgugDVTDGNkeD0hzOeMJT
-	DYbA==
-X-Gm-Message-State: APjAAAW1eQFzUjfaK7VHwUjs4HuvBkDYbTEruqXHBYbf1UzyZJ7J9iHv
-	AWCczoV3nHeLeSFwzYfHjjoqB8Vuf6k8Pg==
-X-Google-Smtp-Source: APXvYqwF8XYDk7i+zwmkz0CUc+FZwROqtEepN8/fvEWEcUA1Jzo6qP8W76qlGgLfqvzfavslKh886Q==
-X-Received: by 2002:adf:9e89:: with SMTP id a9mr7184044wrf.78.1559318183643;
-	Fri, 31 May 2019 08:56:23 -0700 (PDT)
+	bh=HwjlvZudklpUgCcF2LVzbO3j59fKv9N1LslXvzzAogg=;
+	b=jCNqWWTaGbtQUsqqaxBT5zNM1reMIBHA1RiaacigA+GVe0EgH5zmEV0lwLNcgKdupV
+	Lljm5lE9M+hWfDKbDcMs5ZUoxVmIB+qqd2aAJgSUC1C90mgK+7IJdndw2w9HluwJPDS+
+	AgQwZlDsvmEoRigAX2IM7oE4pAV0J4R5AmX+2Wyw8efCIAZvD3UgW2kGuYctE4eHrava
+	MxBa7rFIX39peOHH/u9CzdVNHWxLnyH6TUiiGv4bOf9d4tosK9BWHyDnK9QfPYmmT323
+	a27zsKGQd2EDrJtfA4ROEIefuNYXbzdZf4+GK331y7dxeBcowC9HL9ujsCYAaRBcYLwt
+	rJig==
+X-Gm-Message-State: APjAAAXGeolToWq5jPVeFkGmHTzZQr9GA5Q7u4W2E6i9+PqD9dj246Cv
+	tG9nv54VPxLipOJbN+OiJx5H82LVCNzi+Q==
+X-Google-Smtp-Source: APXvYqxzhJpjZdYV+sIY3TimQpZLrAvPw4S1SWTlVq18c/28Vvhr+yI64t6TojDurUYqpXYjHSZfRA==
+X-Received: by 2002:a5d:4e46:: with SMTP id r6mr6920173wrt.290.1559318184629; 
+	Fri, 31 May 2019 08:56:24 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	u19sm16496445wmu.41.2019.05.31.08.56.22
+	u19sm16496445wmu.41.2019.05.31.08.56.23
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 08:56:22 -0700 (PDT)
+	Fri, 31 May 2019 08:56:23 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2019 17:56:08 +0200
-Message-Id: <20190531155612.75663-4-alex.kanavin@gmail.com>
+Date: Fri, 31 May 2019 17:56:09 +0200
+Message-Id: <20190531155612.75663-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190531155612.75663-1-alex.kanavin@gmail.com>
 References: <20190531155612.75663-1-alex.kanavin@gmail.com>
-Subject: [PATCH 4/8] gtk-doc: upgrade 1.29 -> 1.30
+Subject: [PATCH 5/8] source-highlight: remove the recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,62 +57,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 15:56:23 -0000
+X-List-Received-Date: Fri, 31 May 2019 15:56:24 -0000
 
-Source-highlight support has been replaced upstream with python3-pygments.
+gtk-doc was the only user, and has been switched over to python3-pygments.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch    | 6 +++---
- .../gtk-doc/{gtk-doc_1.29.bb => gtk-doc_1.30.bb}            | 6 +++---
- 2 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-gnome/gtk-doc/{gtk-doc_1.29.bb => gtk-doc_1.30.bb} (87%)
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ ....pc.in-do-not-add-Boost-s-libraries-.patch | 30 -------------------
+ .../source-highlight_3.1.8.bb                 | 28 -----------------
+ 3 files changed, 59 deletions(-)
+ delete mode 100644 meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch
+ delete mode 100644 meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index 9b128e1ce12..3e973a16eb0 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-@@ -1,4 +1,4 @@
--From 04af15322f677db42ecc2acc465334a04de9a871 Mon Sep 17 00:00:00 2001
-+From a3f69f2ed45efbdaee47c2dde4df3d78323300e5 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 5 Sep 2016 22:25:44 +0100
- Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
-@@ -7,10 +7,10 @@ Upstream-Status: Inappropriate
- Signed-off-by: Ross Burton <ross.burton@intel.com>
- 
- ---
-- gtk-doc.m4 | 7 ++++++-
-+ buildsystems/autotools/gtk-doc.m4 | 7 ++++++-
-  1 file changed, 6 insertions(+), 1 deletion(-)
- 
--diff --git a/gtk-doc.m4 b/gtk-doc.m4
-+diff --git a/buildsystems/autotools/gtk-doc.m4 b/buildsystems/autotools/gtk-doc.m4
- index 2d12f01..e5afc3f 100644
- --- a/buildsystems/autotools/gtk-doc.m4
- +++ b/buildsystems/autotools/gtk-doc.m4
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.29.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-similarity index 87%
-rename from meta/recipes-gnome/gtk-doc/gtk-doc_1.29.bb
-rename to meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-index 2c4ee175a95..f16847e40c1 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.29.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-@@ -15,11 +15,11 @@ PACKAGECONFIG ??= "${@bb.utils.contains("DISTRO_FEATURES", "api-documentation",
- # into its scripts. This means that target gtk-doc package is broken;
- # hopefully no one minds because its scripts are not used for anything during build
- # and shouldn't be used on targets.
--PACKAGECONFIG[working-scripts] = "--with-highlight=source-highlight,--with-highlight=no,libxslt-native xmlto-native source-highlight-native python3-six"
-+PACKAGECONFIG[working-scripts] = ",,libxslt-native xmlto-native python3-six python3-pygments"
- PACKAGECONFIG[tests] = "--enable-tests,--disable-tests,glib-2.0"
- 
--SRC_URI[archive.md5sum] = "df26a38c209b3d7358f26268fcbdb9e3"
--SRC_URI[archive.sha256sum] = "14578e002496567276d310a62c9ffd6c56ee8806ce5079ffb0b81c4111f586b1"
-+SRC_URI[archive.md5sum] = "1045ba29ca0693ced2045523407aae4c"
-+SRC_URI[archive.sha256sum] = "a4f6448eb838ccd30d76a33b1fd095f81aea361f03b12c7b23df181d21b7069e"
- SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 35f10c2a91a..d6f66510e32 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -645,7 +645,6 @@ RECIPE_MAINTAINER_pn-shutdown-desktop = "Alexander Kanavin <alex.kanavin@gmail.c
+ RECIPE_MAINTAINER_pn-signing-keys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER_pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER_pn-source-highlight = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-speex = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-speexdsp = "Tanu Kaskinen <tanuk@iki.fi>"
+ RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch b/meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch
+deleted file mode 100644
+index b0aa5d17393..00000000000
+--- a/meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-From 9aa01fd5f9d8b2b98c34684dc8f68115750ef41c Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Tue, 12 Jul 2016 17:15:13 +0300
+-Subject: [PATCH] source-highlight.pc.in: do not add Boost's libraries and
+- includes
+-
+-This breaks when compiling in sysroots; a proper way is to use Depends
+-
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+----
+- source-highlight.pc.in | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/source-highlight.pc.in b/source-highlight.pc.in
+-index 79ab63e..64114a7 100644
+---- a/source-highlight.pc.in
+-+++ b/source-highlight.pc.in
+-@@ -7,6 +7,6 @@ Name: libsource-highlight
+- Description: GNU Source-highlight library.
+- URL: http://www.gnu.org/software/src-highlite/
+- Version: @VERSION@
+--Libs: -L${libdir} -lsource-highlight @BOOST_LDFLAGS@ @BOOST_REGEX_LIB@
+--Cflags: -I${includedir} @BOOST_CPPFLAGS@
+-+Libs: -L${libdir} -lsource-highlight
+-+Cflags: -I${includedir}
+- 
+--- 
+-2.8.1
+-
+diff --git a/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb b/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
+deleted file mode 100644
+index 85923e47596..00000000000
+--- a/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
++++ /dev/null
+@@ -1,28 +0,0 @@
+-SUMMARY = "Syntax highlight utility"
+-DESCRIPTION = "Source-highlight converts source code to formatted text with syntax highlighting."
+-HOMEPAGE = "https://www.gnu.org/software/src-highlite/"
+-LICENSE = "GPLv3"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=ff95bfe019feaf92f524b73dd79e76eb"
+-
+-SRC_URI = "${GNU_MIRROR}/src-highlite/${BPN}-${PV}.tar.gz \
+-           file://0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch"
+-SRC_URI[md5sum] = "3243470706ef5fefdc3e43b5306a4e41"
+-SRC_URI[sha256sum] = "01336a7ea1d1ccc374201f7b81ffa94d0aecb33afc7d6903ebf9fbf33a55ada3"
+-
+-inherit autotools
+-
+-DEPENDS_append = " boost"
+-
+-DEPENDS_append_class-target = " source-highlight-native"
+-
+-EXTRA_OECONF = "--with-boost=yes --with-boost-libdir=${STAGING_DIR_TARGET}${libdir}"
+-
+-BBCLASSEXTEND = "native"
+-
+-# source-highlight is using its own binary from the build tree to make documentation
+-# let's substitute the native binary instead
+-do_configure_prepend_class-target () {
+-        sed -i -e 's,^SRCHILITEEXE = $(top_builddir).*,SRCHILITEEXE = source-highlight,' ${S}/doc/Makefile.am
+-}
+-
+-RDEPENDS_source-highlight += "bash"
 -- 
 2.17.1
 
