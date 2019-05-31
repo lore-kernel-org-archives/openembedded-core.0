@@ -1,47 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 29FE77E5BC
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0D9F16B513
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 16:03:49 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id x4so6885190wrt.6
+	Fri, 31 May 2019 16:25:12 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id n4so3858274wrs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 31 May 2019 09:03:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=zFTAy1W1g5PDSAofO2GEN7uZS0zNNmTyxYD92Pg3UPc=;
-	b=eA3NZl4oqgMbyECqPjlpX0Weg6kvvmjP+MbEuyRmrOpxCewiG1CTI+2MBC9/JQX03h
-	X9Ut2dtfOwInAp2bdXbBYBC5S9ug1gmSqJGCo8wwiREfCWizv42qXOQOjKev1/Ax2Fif
-	n4uBQc8ZlJzfkPiKUjF7ZrY9x6vBQe5Ni/KBRRVSOmPLKkhHnGvZQw8xv6GLexmhL1BA
-	Dc/oUuzwwO4NpAAJHL4vvzqOvXeaNYrFmnyKOIefpEwpC0zLCoXnf6yLYbhjLMg9jZVt
-	ZC3CeWmdPGAEHpp6f3Fk9wqWgFtiaw7EcGHvsTNwtQ6Q0VxKbSJA8D77mPrYGcRyCYE+
-	L6oQ==
+	Fri, 31 May 2019 09:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=LLe79CZwzRK6vTqw8M2KHHAxtMgcZkXXZgcY/QZPS5M=;
+	b=BuJgpCsj8e7++/EcHcgEDm8aGx4Z5x94JCfuKujBf2bhebgM7V0jl7eg+QKPUpvFnO
+	Ou5N6aCqUlQneloiCdZ7WXhdekBAv87t2M7G18EMQjQlcqnKyydWQUExYgriE9PTMs8V
+	4f4eQnbDSw/fnxnOMk4hep6bBSPxCzOF3Z72M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=zFTAy1W1g5PDSAofO2GEN7uZS0zNNmTyxYD92Pg3UPc=;
-	b=luxX0SXCWTXJ7ogMDBicOQlVMnZGwF2/OkOs7iD+XldBlOvOEt9HrsM06PNmnpApf8
-	CQZ3UXuTSVUmwNzpkOh6vxdedDAqQzU0CZmqWtw49cuGwjPi3LXwWbj4sdEe6Ck2ad46
-	EzwIezzrXsI6zziq2fRZH8fN2uFHORY5O5NFhxCKYEKyzEvvlJybSnhXHpaJlvEliCKG
-	/Uby6DaFx8aWWrztTbgQjRVxN+VDLAFtTztZFb/FO2bgwNbNBbbfddEFHcThP+T9t8iS
-	o59hwdiAc4TupYmSAPvWdZTIj0QyikG9c/jrVUDBv5J0CKWKfJGTeU9V1KB3I7tLLyxa
-	VINQ==
-X-Gm-Message-State: APjAAAWZTP/OZgidJ7IbMGbzZJHVEzhDpkMPzpSqKlc4ws0eBVvm5cTN
-	qK5XkZSM8tuuqsDM7NjQGNOyJzSaFvZGBA==
-X-Google-Smtp-Source: APXvYqwtlYB8OIiKE3gUmmlmwQeHstS9lt10e2hSXIHVOyg+8E2cDYxJ2CTNEofABD7FqNJqOU2KrA==
-X-Received: by 2002:a5d:694a:: with SMTP id r10mr7290468wrw.345.1559318629644; 
-	Fri, 31 May 2019 09:03:49 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id
-	p13sm5391218wmb.23.2019.05.31.09.03.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 31 May 2019 09:03:49 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 31 May 2019 18:03:43 +0200
-Message-Id: <20190531160343.76201-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] mesa: fix upstream version check
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=LLe79CZwzRK6vTqw8M2KHHAxtMgcZkXXZgcY/QZPS5M=;
+	b=q2BHZDuZLeYaeSngXBtZFYMuNgugPJV7nOLjVgMmWCl66GUSxsyyoOF6dh4O3mZKZ3
+	Rpz+6dutqEshUuADEAajPlySxdbaRgcvr4alrimBee7My1pUB8w60QdlVhfYwMbEYCVx
+	rZLawVkL3pvyuE22PGuXa9sQbB1VvJyZxSqdFctUS00+82gpNIjAOPv34Glyjs9AQG3L
+	TYy9eWE4fp7PndfcfNVXUZB0dIQPdihIVC2yhF/nEh2t2fa+dXIdANtJTFZ8IUK/J3F7
+	8kunxuF0cBicrrhIjl6iYKcsiF9vxztIligw7nrf4erOUgQb8stIbjreYXYUtS9o5yoS
+	3vzQ==
+X-Gm-Message-State: APjAAAXqTe4A0owpYj+4LFR8xYm2RNpn5LhnuJ4seFF42O43qnt3vSHL
+	d/jey8Yw4VrtvjVwNbBjZUfItA==
+X-Google-Smtp-Source: APXvYqyZFFOUHjNXbKBNcOFwU5OmxeEf7GXg92JOVAEeNiQyhDwpPolu29Yh/tAq1h69vfzGj/F61w==
+X-Received: by 2002:adf:f6c4:: with SMTP id y4mr7176710wrp.37.1559319913198;
+	Fri, 31 May 2019 09:25:13 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id r8sm5328311wrt.92.2019.05.31.09.25.12
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 31 May 2019 09:25:12 -0700 (PDT)
+Message-ID: <b22d487548905237681a0d8ea2c18a17da1714c2.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 31 May 2019 17:25:11 +0100
+In-Reply-To: <20190531155612.75663-7-alex.kanavin@gmail.com>
+References: <20190531155612.75663-1-alex.kanavin@gmail.com>
+	<20190531155612.75663-7-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Subject: Re: [PATCH 7/8] mesa: switch over to official git
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,27 +58,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 31 May 2019 16:03:49 -0000
+X-List-Received-Date: Fri, 31 May 2019 16:25:13 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- meta/recipes-graphics/mesa/mesa_19.0.3.bb | 2 ++
- 1 file changed, 2 insertions(+)
+On Fri, 2019-05-31 at 17:56 +0200, Alexander Kanavin wrote:
+> The tarballs for all versions prior to 18.x have been moved to
+> https://mesa.freedesktop.org/archive/older-versions/
+> 
+> To avoid this practice causing fetching failures in the future,
+> let's use the git.
 
-diff --git a/meta/recipes-graphics/mesa/mesa_19.0.3.bb b/meta/recipes-graphics/mesa/mesa_19.0.3.bb
-index 001c2f41237..a5643636801 100644
---- a/meta/recipes-graphics/mesa/mesa_19.0.3.bb
-+++ b/meta/recipes-graphics/mesa/mesa_19.0.3.bb
-@@ -11,6 +11,8 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/mesa.git;protocol=https;branch=${@v
- SRCREV = "c8cdee5dc3c6f9856ee73aed2b47cee77d675022"
- S = "${WORKDIR}/git"
- 
-+UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
-+
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
- do_install_append() {
--- 
-2.17.1
+I'm really not sure we want to move things over to git, it does end up
+making the build process slower as they take longer to fetch, unpack
+and clean up :/.
+
+Cheers,
+
+Richard
 
 
