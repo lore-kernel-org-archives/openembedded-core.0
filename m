@@ -1,38 +1,53 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 9DAD77E66F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 944057E669
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jun 2019 16:00:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45GQyY1hCWz3y;
-	Sat,  1 Jun 2019 18:00:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559404837;
-	bh=weuFOflasKz4irhO1p2EEKwtEh2cpl4Yes5ZP8m/jzI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DQfFHA6tJ9d5vTrzKTaO+Ksp6htVqfotktNIiKSI3nA5Yb2+GKkgnGP5FsvqjV9Vb
-	ta57nuo5OW5xGBk2lOBPi78Aw4dnEYxa1nH8mVF7S9QE0LjNCf5b/eW/DNKat9Iauh
-	pb38JxjvMZuIf5i2D5Wpy4/uIBt6A6KTA1iPaK5ElnYk8oIiVEhtIuFBEWG1AeiAsw
-	k366hxT7nlyquyBejwGUpz3lXBVwTDxJ3Vo+1/zW3gQHOWnkKG73vlD+SADq3HNPLc
-	T1GTvZ9HkoRsyzJFfbwBrpJFLorPwq0Hv5LYOBroUmFuVessgp3xREx0n1fmEx7Hiw
-	aD0/rbW6QYc1nG4gHkiJIKL6x33wtqmhbrnoGvOGBfETgL/RY3u6fouH6d7XOoxFop
-	ZEyAFumJNIaxe2PPTc/KgvicDsZZC5+Fh+CdWtXDYhGNmSangod/ICzMA3gfPHDarw
-	Bp8G2bET32ovXNQpQVL+Pc/w9BSMzekPV1W0Pp/6slGlqmhX+B+6d2VAo50MproyyG
-	Pd/BV6P9NSCLdwzhAi0KO791qkAgjUOo1GxBJusSOeOdIrv3xguHw+KMT+HCKIVCO9
-	1MRNxiaTK+vTeP+cS6+uXy/4+tWpkID9e4CrYjkmYOWrHjTbA7P6/0zNM0j/r8rbE3
-	2DqioQdoeutCmTFk/sRZ9zIU=
-Date: Sat, 1 Jun 2019 19:00:35 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: akuster808 <akuster808@gmail.com>
-Message-ID: <20190601160035.GA4549@localhost>
-References: <1559137838-8972-1-git-send-email-akuster808@gmail.com>
-	<20190529141116.GC28892@localhost>
-	<2722a848-cba6-e1f0-784b-799f1e4c787c@gmail.com>
+	Sat,  1 Jun 2019 16:17:05 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id u16so2472269wmc.5
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 01 Jun 2019 09:17:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=nBCWaQk269edrLSlhCQhD9tHjO4uhyHfA8cpTHTNmVw=;
+	b=gFMmekIsMm/hXqPvBgAM6Om71Pbj2A6u6yrXWXGRRvkmroG0fw1HOgAvvWFkVUpuT1
+	vneqCOBdy1oQ6+5HhKIHP5k/mRdVGb5Mf9sGgX2S0Ph/4AvtnQEWW93L7PyWoy20/cE+
+	YYMMwCSoIjE5ls5SJKEB+x9rWFvClcaImxbdo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=nBCWaQk269edrLSlhCQhD9tHjO4uhyHfA8cpTHTNmVw=;
+	b=ud3UGG6JPzaU2Ti5ixO4rqjpHmTGEmevRqv4FqW4qPii6cJxTgpLZ2mwpzF4a7XyZj
+	K5+hfa1VxsMRSPwGsuOw97ollNY5e5Y+ZxS71rUsRmzKNMpsatScDLRUKAJXW9snjjEA
+	1jO5pDuz3lpjBxiUpdznA+8r/uJU/Btr1qIULbfIIwsMD2KiC/V+fe6B3K9kWh1dJFMe
+	itYavnSseJI9Q9cK86bNsTQ+REdjrv3Ahwx58Q9/OWJrtA1kIZQcs1DMgOvyP5h/fcRB
+	504fkq/ePILObGn99vh6ey/6pqrkEnWM/7nZUrc/1PvZPStJDI31GeOAuu2Ca+b/WDP9
+	t9uA==
+X-Gm-Message-State: APjAAAWdLcQIv4haonF/TKwRHqJIBfNCRVgOldFgg97eg2ZIvgmaUfgd
+	hBrzQLtq/CaIMhbNBOYA04JxkB3K1ys=
+X-Google-Smtp-Source: APXvYqwbgAvTDkVba4mDpFMMX3T5izwT8Q+XU+8fJuQ/JYf/nh7/SaTFFWY8z3OvBUDtZtBU+2AQGQ==
+X-Received: by 2002:a1c:208c:: with SMTP id g134mr9412041wmg.112.1559405826115;
+	Sat, 01 Jun 2019 09:17:06 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	u9sm22156511wme.48.2019.06.01.09.17.04
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 01 Jun 2019 09:17:05 -0700 (PDT)
+Message-ID: <35a258e3063f6f6ac9f12702ae8d559719531665.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Randy MacLeod <randy.macleod@windriver.com>, Sakib Sajal
+	<sakib.sajal@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 01 Jun 2019 17:17:03 +0100
+In-Reply-To: <71b12ad8-a67a-80fb-f3d1-e0ed583c4932@windriver.com>
+References: <20190531202552.21421-1-sakib.sajal@windriver.com>
+	<20190531202552.21421-3-sakib.sajal@windriver.com>
+	<71b12ad8-a67a-80fb-f3d1-e0ed583c4932@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <2722a848-cba6-e1f0-784b-799f1e4c787c@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [thud][PATCH 0/9] Fixes for Thud
+Subject: Re: [PATCH 3/3] bash: run bash ptest as non-root user
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,41 +60,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jun 2019 16:00:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 01 Jun 2019 16:17:05 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Sat, Jun 01, 2019 at 08:45:38AM -0700, akuster808 wrote:
+On Sat, 2019-06-01 at 11:16 -0400, Randy MacLeod wrote:
+> On 5/31/19 4:25 PM, Sakib Sajal wrote:
+> > new-exp ptest fails as it expects non-root user.
 > 
+> This patch made me wonder if by default we should be
+> running the ptest as a user and assigning owndership of
+> all the ptest files to the same user.
 > 
-> On 5/29/19 7:11 AM, Adrian Bunk wrote:
-> > On Wed, May 29, 2019 at 06:50:29AM -0700, Armin Kuster wrote:
-> >> ..
-> >> Mingli Yu (2):
-> >>   nettle: fix ptest failure
-> >> ...
-> >> Richard Purdie (1):
-> >>   Revert "nettle: fix ptest failure"
-> >> ...
-> > These should be dropped for obvious reasons.
-> 
-> its not obvious to me.  This helps in the QA process.  I am open to
-> ptest fixes and other QA backports for the Stable Branches.
->...
+> I will open an ER if no one points out a reason not
+> to make such a change. I expect that some ptests would
+> need passwordless sudo access.
 
-One commit is a direct revert of the other commit.
+I suspect the tests will fall into two very specific camps, ones which
+expect root and ones which don't.
 
-> - armin
+I'm not sure it will be worth the extra code to do it everywhere but I
+could be wrong...
 
-cu
-Adrian
+Cheers,
 
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+Richard
 
 
