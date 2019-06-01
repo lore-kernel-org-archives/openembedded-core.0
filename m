@@ -1,36 +1,36 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 0A8647E641
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BEAE77E641
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jun 2019 10:25:32 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id f204so3519115wme.0
+	Sat,  1 Jun 2019 10:25:33 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id d9so8116539wrx.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jun 2019 03:25:34 -0700 (PDT)
+	Sat, 01 Jun 2019 03:25:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=/ntqparBmPHZgi0UiO+IRox9h1nZN5MTZO/lyDaSCQo=;
-	b=hgUav1UZ6srXrUmXFzzM2LvouFAJCdErBZL8LLm2BNdnsmbrxoG5L3lPc6082qgRgv
-	SYIDYhOF5vfy4tGkKkDvsZoTtkVcIBen2/hlbxbH4xv2rXNDklvBSZXt+OcMe25ZhKnF
-	bAhlDpFQQeS/O2L6vHYlR8Dc0nUcLH2FgVbD4=
+	bh=M0+GJHV+6Bhf6ZCu0AtB6MUIj2Mg3Bi4d6u773VdS7Y=;
+	b=dlaycoBjU/1v0qUxuP8kPTFd6KGQGYrDwZdxtLA9XTTc3zl/c1PDrvwgtlTEQd+Toq
+	kX2Y+wzJLIzkpN+g6dsNKKERWwDaYQPB5bQfeJ4vSRCLr2XJ9v9aP6aapSVnWHytUxl0
+	tqt8L1DI6IYPU8zv2eT/dtVLjcIthH8H5D6FU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=/ntqparBmPHZgi0UiO+IRox9h1nZN5MTZO/lyDaSCQo=;
-	b=uJzfMy3Vt7ptz0f4Eja4/DzYM0abTZHibsQbTno/gmfYCla097NcVpgmIaXydzwgsC
-	yUpV18Tc2xIbDeBrJbqw1w6eQOmtzidVNq1uOhybP0xHD+rnlTmJBodeqd4C0Vqn4Nvg
-	TmYOCi4FEr9tv7rkLANwIunTfLc/4zPv7cw7DE0g/QPfBG4TQr7v9ayQDWOctjDO+Zls
-	FcMLrKAq36YcLGKzA5nKUUCDjBTxxBevj/GaYgVWQfZLUJNJ8lLRn6qSiZz8bWg7MzcV
-	65yk+cr4dogUUX6Tf0MtZyYz0JkBJA8zb0ystjTtt3d9G9Kw4eBjoViK7QwetrQlvvqX
-	B10w==
-X-Gm-Message-State: APjAAAUHUjvFcpamLKSY2OsEQiRT6RN9Mwn6aelbPZeEh8FoUslkQpgT
-	YAH5YF2Hff0X0GWIltx1othCnaYl85Y=
-X-Google-Smtp-Source: APXvYqzxAsJtY+kaxjIO88LylUOsYD0AkMfftxbCZRV1CiaWpFQ/a9XerCSNIY/mLPJ+B22h3vpZ9w==
-X-Received: by 2002:a1c:b757:: with SMTP id h84mr3035405wmf.127.1559384733622; 
-	Sat, 01 Jun 2019 03:25:33 -0700 (PDT)
+	bh=M0+GJHV+6Bhf6ZCu0AtB6MUIj2Mg3Bi4d6u773VdS7Y=;
+	b=EcrFod3RNfdbIS0BSJrvpsV61alSSoIyixKIo0wlMK10jQpWUyG3tmtXiM0wXSwQ8O
+	TbBIEzEjZ7aS5Tys9+GgRz19JMSla/HyDIZzhbkvhICg1xZoxJxHy4xcA9YtdQMVRmyK
+	FBIGN6sKFk7g+sC5GrIanjnBvoQfONnxJK3inmhT67VrthY+w/ekyImax0BZ1zQal0cA
+	fH83RIO2DHDD7kumf5mREtMxnrxY/axdYUSZ5e3oJjVSJmsYY1teZAOCkQiMf0O1QM6Z
+	XDo8f7ejbqOKq3bThyDgosvvde6vZ5RytlO5QUTKRykzR5Y73a5Gi53GepfT2CmFPPEU
+	+2Ng==
+X-Gm-Message-State: APjAAAV/1TBUm9H3x52rgcrsxcKoALNcP8drINOSWV8WmZoEv2yFrHwS
+	Z4bH0KvRQzviw4ptshjgAHmPIbMiJTc=
+X-Google-Smtp-Source: APXvYqwDOhrAk2m8ZqvL/o+9ylm1wsnpaOiM4kG3Xl9Tu2VxW0HPPZuqiDktjbTrXuO43TmUe4xq/g==
+X-Received: by 2002:a5d:6849:: with SMTP id o9mr9676442wrw.196.1559384734347; 
+	Sat, 01 Jun 2019 03:25:34 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
 	a124sm11912234wmh.3.2019.06.01.03.25.33
@@ -39,13 +39,13 @@ Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	Sat, 01 Jun 2019 03:25:33 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Jun 2019 11:25:25 +0100
-Message-Id: <20190601102530.5995-3-richard.purdie@linuxfoundation.org>
+Date: Sat,  1 Jun 2019 11:25:26 +0100
+Message-Id: <20190601102530.5995-4-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
 References: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 3/8] libtimedate-perl: Fix ptest dependencies
+Subject: [PATCH 4/8] perl: Add missing perl module dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,29 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jun 2019 10:25:33 -0000
+X-List-Received-Date: Sat, 01 Jun 2019 10:25:34 -0000
 Content-Transfer-Encoding: 8bit
 
-This fixes runtime errors when running the ptest in a minimal image.
+This fixes runtime errors when using the module (as used by various other perl
+module ptests).
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/perl/libtimedate-perl_2.30.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-index 7129c647cb3..7219c7d11eb 100644
---- a/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-+++ b/meta/recipes-extended/perl/libtimedate-perl_2.30.bb
-@@ -15,7 +15,7 @@ BBCLASSEXTEND = "native"
- 
- RDEPENDS_${PN}_class-native = ""
- RDEPENDS_${PN} += "perl-module-carp perl-module-exporter perl-module-strict perl-module-time-local"
--RDEPENDS_${PN}-ptest += "perl-module-test-more"
-+RDEPENDS_${PN}-ptest += "perl-module-test-more perl-module-utf8"
- 
- SRC_URI[md5sum] = "b1d91153ac971347aee84292ed886c1c"
- SRC_URI[sha256sum] = "75bd254871cb5853a6aa0403ac0be270cdd75c9d1b6639f18ecba63c15298e86"
+diff --git a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
+index 5bf8c1d08a9..08722ad74c3 100644
+--- a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
++++ b/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
+@@ -2657,6 +2657,7 @@ RDEPENDS_perl-module-encode += "perl-module-constant"
+ RDEPENDS_perl-module-encode += "perl-module-encode-alias"
+ RDEPENDS_perl-module-encode += "perl-module-encode-config"
+ RDEPENDS_perl-module-encode += "perl-module-encode-configlocal-pm"
++RDEPENDS_perl-module-encode += "perl-module-encode-encoding"
+ RDEPENDS_perl-module-encode += "perl-module-encode-mime-name"
+ RDEPENDS_perl-module-encode += "perl-module-exporter"
+ RDEPENDS_perl-module-encode += "perl-module-parent"
 -- 
 2.20.1
 
