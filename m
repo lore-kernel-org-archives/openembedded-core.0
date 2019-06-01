@@ -1,49 +1,47 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
-	[209.85.167.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 36FF37E6B2
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 0C26B7E649
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jun 2019 11:31:40 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id q186so9710526oia.0
+	Sat,  1 Jun 2019 15:11:42 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id m3so8391856wrv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jun 2019 04:31:42 -0700 (PDT)
+	Sat, 01 Jun 2019 08:11:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9y3zdE7Fb1ZRbRD/eKiX9h9rtpuF3UXrQ+UmG+TNsDU=;
-	b=K0qL3Vnjqoe2ArqsHOecoYVHEKOrstC1yTA/+F2R4U5aPnVCgD587F3p1OiK6g+Pnt
-	/q6z2AYs+DW3VobR0MHSE6Tbjm+rgFtZlHqX6rUOmmsIZ4qIEJ26zmw/GOxqGhNOv465
-	v/BqgVMV7gKzVP1kKJ4Q+CiSKUzIp78cg87G08Dr5WJgRDwOOH1R+PW4pitvICrfuFO9
-	7Z9y9Vcc+F+q78QP0XrY44ALpwddGZDrKxIS0qJb8TsAUzvgCj0emw8J4XrZ6UgEw+uU
-	LO83cCrH7T4TiP0rO/YVhzCqCUpmdwN7GuyY+gc3o4eyXq1b4763oVGpJ2L0WT+F8qRO
-	wDNQ==
+	:cc; bh=LYYs6D2YaW5eQ55CR7FJPz87kdyLMA4FH6AbzMmCWLw=;
+	b=NV4W3xtoK9R0ZE8Ef38mHTANzfFJm8w/jcOsb/3qAKUcktRJYoHzcSI/lFG/3jci/c
+	N5RLs29LScPdVdCyOWrT5QQnHS14IVm32/2ym1x5BQXcl+y+LXYJhs4lby4YHj54er62
+	fhs2VLJNgwXofNc0Uu9NDursZwwjPEZXk7y+Ji+91WT8gVX9RFWfl7O3RH1LL291ezHE
+	mPStTFJF81D9SsREjstuACmG54XcN0phSAt8FF4nLG+cX792kXWo8qUVVPDFTurmTlmT
+	CrNEb2mZO/NynCfU34mEtssqfhUZYynHqgPjHDC8viYlgR+evQ3APM+JscRdzXUAlQnK
+	avvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=9y3zdE7Fb1ZRbRD/eKiX9h9rtpuF3UXrQ+UmG+TNsDU=;
-	b=n6tjrK34LnbgquuaAS89Zi5gjTL1XR1u66RgWr1HteRYqXj7LdUR7H+s6dK7U3MwNH
-	L2QyAA5ZIsQ/Dq++COi4A00xFau0UWJnzfZ+1zfvfh2a1immUNJNLiJaJjriNZhFdBp4
-	GNYVGm+9tOxI58fxiTfeUmLiMgKrRUehRB2JSfF6LHgr6wN5ujjOekRPWtHoqmhye5k4
-	3LoEGAgAASYtcvT3KseCs1wFosgxUo1vtZ9+iRMEyDGVq3Q0WbpVPZGQQPiNsdYdN+c4
-	FxbkM37oANSadXe1hve6SGDblRw3OEuaSKirL8QmOysDt01343zAtSe0hD5HXQqi8S1d
-	OACQ==
-X-Gm-Message-State: APjAAAWTEXb/narhz1mYxwsw7nB2wbzD8D2VzHKkLIN6viQs4FbfWrWO
-	bLTSk8F49LVbVgwh6os3VtOb5hj/+YfxCImgiOk=
-X-Google-Smtp-Source: APXvYqxyzjZ88+prjTpf2GFv9/UDjmFjXwUxziLlMkutODzGauoNk2oPfgRzLnP0LbuJ1ZLZDhw5NQecHLF3bpF1SKA=
-X-Received: by 2002:aca:6087:: with SMTP id u129mr1685639oib.70.1559388701968; 
-	Sat, 01 Jun 2019 04:31:41 -0700 (PDT)
+	bh=LYYs6D2YaW5eQ55CR7FJPz87kdyLMA4FH6AbzMmCWLw=;
+	b=fNE3dDG9IF8BHutQDzZJZbStNy6a0ds5jyhGF13qSkfPdIwLU1Ac3FQItH+vWsvyLI
+	ZphvYNaqyik/y5c59eFOFbEQo29ND/CWApA8y1NvZn6oRgf8SrGA6Z+KHMb6W5cmeQqM
+	0LwuBmtyOzBo0i2T4VNrggF1+NvcDB6K+queInb6ZHs/jWRxe5FwQ01E8JtAYm6LNUXT
+	0S4eKdBJhcFw4X4zx6wuN3jwyr+p/7PEOZCYKz55QDh2rnQ4Fcvk/ombgGafuYm9IFdJ
+	8ITPBQl/8B4SKloceG9H2EK/NQbIuxH1KhG8xHohq2Z2F2oVYEL5S9kEVWZjYZ12COuz
+	w2rg==
+X-Gm-Message-State: APjAAAUtfZglDwNo/BKcKTPk2v1T2vSraql15innpa6m7GkGq/jDx52P
+	uynZbhAXhsfH5Zq0FvBb4GxahcUGdBRVCX5gbsY=
+X-Google-Smtp-Source: APXvYqyvWhFxnR1W1xcHZRaZbGWgQ7X+N5qo1w39vEI8xwPDnm5i2TprIP50AfT3kYe1ZCrnFP+DKMUzjt/hKF59S/s=
+X-Received: by 2002:a5d:5452:: with SMTP id w18mr10167350wrv.327.1559401903606;
+	Sat, 01 Jun 2019 08:11:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190531155612.75663-1-alex.kanavin@gmail.com>
-	<20190531155612.75663-7-alex.kanavin@gmail.com>
-	<b22d487548905237681a0d8ea2c18a17da1714c2.camel@linuxfoundation.org>
-	<CAJTo0LYzkjafKZ9uiY493gFSq_YgsRdMMQnUNN12cj0yKtOxJA@mail.gmail.com>
-In-Reply-To: <CAJTo0LYzkjafKZ9uiY493gFSq_YgsRdMMQnUNN12cj0yKtOxJA@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 1 Jun 2019 13:31:26 +0200
-Message-ID: <CANNYZj8fi-utM5vBb4Bx90EuW7Sft1iBLFr7knR6bNhkk6CcqA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+References: <20190531165734.14435-1-JPEWhacker@gmail.com>
+	<5ec644af8672d726bae30da958c0b69120ca19b8.camel@linuxfoundation.org>
+In-Reply-To: <5ec644af8672d726bae30da958c0b69120ca19b8.camel@linuxfoundation.org>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Sat, 1 Jun 2019 10:11:31 -0500
+Message-ID: <CAJdd5GaS81ksj078_baeH7xONbFY9WVBTSD-EHiEcbG-FQg00A@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 7/8] mesa: switch over to official git
+Subject: Re: [PATCH] bash: Replace uninative loader path in ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,95 +54,194 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jun 2019 11:31:41 -0000
-Content-Type: multipart/alternative; boundary="000000000000a5ce29058a4179ff"
+X-List-Received-Date: Sat, 01 Jun 2019 15:11:43 -0000
+Content-Type: multipart/alternative; boundary="00000000000086cede058a448cb2"
 
---000000000000a5ce29058a4179ff
+--00000000000086cede058a448cb2
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 31 May 2019 at 18:27, Burton, Ross <ross.burton@intel.com> wrote:
+On Sat, Jun 1, 2019, 1:47 AM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> On Fri, 31 May 2019 at 17:25, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > On Fri, 2019-05-31 at 17:56 +0200, Alexander Kanavin wrote:
-> > > The tarballs for all versions prior to 18.x have been moved to
-> > > https://mesa.freedesktop.org/archive/older-versions/
-> > >
-> > > To avoid this practice causing fetching failures in the future,
-> > > let's use the git.
+> On Fri, 2019-05-31 at 11:57 -0500, Joshua Watt wrote:
+> > The Makefile used for bash-ptest can pick up the path to the uninative
+> > loader through BUILD_LDFLAGS. This includes the full path to the
+> > uninative loader, which is not reproducible. Replace it with the target
+> > loader in the event that these programs need to be compiled for bash
+> > tests.
 > >
-> > I'm really not sure we want to move things over to git, it does end up
-> > making the build process slower as they take longer to fetch, unpack
-> > and clean up :/.
+> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> > ---
+> >  meta/recipes-extended/bash/bash.inc | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-extended/bash/bash.inc
+> b/meta/recipes-extended/bash/bash.inc
+> > index 4b3692c6139..55f2b7704e6 100644
+> > --- a/meta/recipes-extended/bash/bash.inc
+> > +++ b/meta/recipes-extended/bash/bash.inc
+> > @@ -4,7 +4,7 @@ SECTION = "base/shell"
+> >
+> >  DEPENDS = "ncurses bison-native virtual/libiconv"
+> >
+> > -inherit autotools gettext texinfo update-alternatives ptest
+> > +inherit autotools gettext texinfo update-alternatives ptest linuxloader
+> >
+> >  EXTRA_AUTORECONF += "--exclude=autoheader --exclude=aclocal"
+> >  EXTRA_OECONF = "--enable-job-control --without-bash-malloc
+> bash_cv_wexitstatus_offset=8"
+> > @@ -70,6 +70,7 @@ do_install_ptest () {
+> >           -e 's|${DEBUG_PREFIX_MAP}||g' \
+> >           -e "s,${S},,g" -e "s,${B},,g" -e "s,${STAGING_DIR_NATIVE},,g" \
+> >           -e 's:${HOSTTOOLS_DIR}/::g' \
+> > +         -e 's:${UNINATIVE_LOADER}:${@get_linuxloader(d)}:g' \
+> >            ${D}${PTEST_PATH}/Makefile
+> >  }
 >
-> Maybe explain to upstream that this older-versions/ thing is just a
-> bit annoying for distros and they'll remove it?
+> This change causes:
 >
-> The alternative is to do what libpng already does for this situation:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/490
 >
-> recipes-multimedia/libpng/libpng_1.6.37.bb:
-> MIRRORS += "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/
-> ${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/${PV}/"
+> which you can reproduce with:
 >
-> Not pretty, but it works.
+> oe-selftest -r sstatetests.SStateTests.test_sstate_32_64_same_hash
+>
+> which with some digging you can come to:
+>
+> $ bitbake-diffsigs
+> tmp-sstatesamehash*/stamps/*-poky-linux/bash/*.do_install_ptest_base.sigdata.*
+> NOTE: Starting bitbake server...
+> basehash changed from
+> d92c4da62ccda424103c7615dffc5f747da83bf64a46be63acc11633480a6bf6 to
+> a26822f4999a6bdbe8e8e60db91c1400e2b4011b66d98a9ec57a53d6fc70dc88
+> Variable UNINATIVE_LOADER value changed:
+> @@ -1,4 +1,4 @@
+>  ${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/${@bb.utils.contains('BUILD_ARCH',
+> 'x86_64', 'ld-linux-x86-64.so.2', '', d)}${@bb.utils.contains('BUILD_ARCH',
+> 'i686', 'ld-linux.so.2', '', d)}${@bb.utils.contains('BUILD_ARCH',
+> 'aarch64', 'ld-linux-aarch64.so.1', '', d)}
+>  BUILD_ARCH{aarch64} = Unset
+> -BUILD_ARCH{i686} = Set
+> -BUILD_ARCH{x86_64} = Unset
+> +BUILD_ARCH{i686} = Unset
+> +BUILD_ARCH{x86_64} = Set
+>
+> which makes the problem fairly obvious when you see it put that way...
 >
 
-Anyway, I dropped the patches, and updated mesa-demos to 8.4.0 instead.
-They published the 8.4.0 tarball where upstream version checker didn't
-look, and so 8.3.0 was reported as latest :-( It's this lack of consistency
-about where mesa upstream places tarballs which makes me reluctant to add
-the MIRRORS hack.
+Ah that makes sense. I was trying to be too cute :) I'll stick with my
+original plan of using /bin/false
 
-Alex
 
---000000000000a5ce29058a4179ff
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+
+--00000000000086cede058a448cb2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail=
-_attr">On Fri, 31 May 2019 at 18:27, Burton, Ross &lt;<a href=3D"mailto:ros=
-s.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
-solid rgb(204,204,204);padding-left:1ex">On Fri, 31 May 2019 at 17:25, Rich=
-ard Purdie<br>
-&lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_blank"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br>
-&gt; On Fri, 2019-05-31 at 17:56 +0200, Alexander Kanavin wrote:<br>
-&gt; &gt; The tarballs for all versions prior to 18.x have been moved to<br=
+<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Sat, Jun 1, 2019, 1:47 AM Richard Purdie &lt;<a hre=
+f=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundat=
+ion.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, 2019=
+-05-31 at 11:57 -0500, Joshua Watt wrote:<br>
+&gt; The Makefile used for bash-ptest can pick up the path to the uninative=
+<br>
+&gt; loader through BUILD_LDFLAGS. This includes the full path to the<br>
+&gt; uninative loader, which is not reproducible. Replace it with the targe=
+t<br>
+&gt; loader in the event that these programs need to be compiled for bash<b=
+r>
+&gt; tests.<br>
+&gt; <br>
+&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com"=
+ target=3D"_blank" rel=3D"noreferrer">JPEWhacker@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-extended/bash/bash.inc | 3 ++-<br>
+&gt;=C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)<br>
+&gt; <br>
+&gt; diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extend=
+ed/bash/bash.inc<br>
+&gt; index 4b3692c6139..55f2b7704e6 100644<br>
+&gt; --- a/meta/recipes-extended/bash/bash.inc<br>
+&gt; +++ b/meta/recipes-extended/bash/bash.inc<br>
+&gt; @@ -4,7 +4,7 @@ SECTION =3D &quot;base/shell&quot;<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 DEPENDS =3D &quot;ncurses bison-native virtual/libiconv&quot;<br=
 >
-&gt; &gt; <a href=3D"https://mesa.freedesktop.org/archive/older-versions/" =
-rel=3D"noreferrer" target=3D"_blank">https://mesa.freedesktop.org/archive/o=
-lder-versions/</a><br>
-&gt; &gt;<br>
-&gt; &gt; To avoid this practice causing fetching failures in the future,<b=
-r>
-&gt; &gt; let&#39;s use the git.<br>
-&gt;<br>
-&gt; I&#39;m really not sure we want to move things over to git, it does en=
-d up<br>
-&gt; making the build process slower as they take longer to fetch, unpack<b=
-r>
-&gt; and clean up :/.<br>
+&gt;=C2=A0 <br>
+&gt; -inherit autotools gettext texinfo update-alternatives ptest<br>
+&gt; +inherit autotools gettext texinfo update-alternatives ptest linuxload=
+er<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 EXTRA_AUTORECONF +=3D &quot;--exclude=3Dautoheader --exclude=3Da=
+clocal&quot;<br>
+&gt;=C2=A0 EXTRA_OECONF =3D &quot;--enable-job-control --without-bash-mallo=
+c bash_cv_wexitstatus_offset=3D8&quot;<br>
+&gt; @@ -70,6 +70,7 @@ do_install_ptest () {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s|${DEBUG_PREFIX_MAP}|=
+|g&#39; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &quot;s,${S},,g&quot; -e &q=
+uot;s,${B},,g&quot; -e &quot;s,${STAGING_DIR_NATIVE},,g&quot; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s:${HOSTTOOLS_DIR}/::g=
+&#39; \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e &#39;s:${UNINATIVE_LOADER}:${@ge=
+t_linuxloader(d)}:g&#39; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ${D}${PTEST_PATH}/Makefile<br=
+>
+&gt;=C2=A0 }<br>
 <br>
-Maybe explain to upstream that this older-versions/ thing is just a<br>
-bit annoying for distros and they&#39;ll remove it?<br>
+This change causes:<br>
 <br>
-The alternative is to do what libpng already does for this situation:<br>
+<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/56/build=
+s/490" rel=3D"noreferrer noreferrer" target=3D"_blank">https://autobuilder.=
+yoctoproject.org/typhoon/#/builders/56/builds/490</a><br>
 <br>
-recipes-multimedia/libpng/<a href=3D"http://libpng_1.6.37.bb" rel=3D"norefe=
-rrer" target=3D"_blank">libpng_1.6.37.bb</a>:<br>
-MIRRORS +=3D &quot;${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}=
-/<br>
-${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/older-releases/${PV}/&qu=
-ot;<br>
+which you can reproduce with:<br>
 <br>
-Not pretty, but it works.<br>
-</blockquote><br></div><div class=3D"gmail_quote">Anyway, I dropped the pat=
-ches, and updated mesa-demos to 8.4.0 instead. They published the 8.4.0 tar=
-ball where upstream version checker didn&#39;t look, and so 8.3.0 was repor=
-ted as latest :-( It&#39;s this lack of consistency about where mesa upstre=
-am places tarballs which makes me reluctant to add the MIRRORS hack.</div><=
-div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">Alex<br></di=
-v></div>
+oe-selftest -r sstatetests.SStateTests.test_sstate_32_64_same_hash<br>
+<br>
+which with some digging you can come to:<br>
+<br>
+$ bitbake-diffsigs tmp-sstatesamehash*/stamps/*-poky-linux/bash/*.do_instal=
+l_ptest_base.sigdata.*<br>
+NOTE: Starting bitbake server...<br>
+basehash changed from d92c4da62ccda424103c7615dffc5f747da83bf64a46be63acc11=
+633480a6bf6 to a26822f4999a6bdbe8e8e60db91c1400e2b4011b66d98a9ec57a53d6fc70=
+dc88<br>
+Variable UNINATIVE_LOADER value changed:<br>
+@@ -1,4 +1,4 @@<br>
+=C2=A0${UNINATIVE_STAGING_DIR}-uninative/${BUILD_ARCH}-linux/lib/${@bb.util=
+s.contains(&#39;BUILD_ARCH&#39;, &#39;x86_64&#39;, &#39;ld-linux-x86-64.so.=
+2&#39;, &#39;&#39;, d)}${@bb.utils.contains(&#39;BUILD_ARCH&#39;, &#39;i686=
+&#39;, &#39;ld-linux.so.2&#39;, &#39;&#39;, d)}${@bb.utils.contains(&#39;BU=
+ILD_ARCH&#39;, &#39;aarch64&#39;, &#39;ld-linux-aarch64.so.1&#39;, &#39;&#3=
+9;, d)}<br>
+=C2=A0BUILD_ARCH{aarch64} =3D Unset<br>
+-BUILD_ARCH{i686} =3D Set<br>
+-BUILD_ARCH{x86_64} =3D Unset<br>
++BUILD_ARCH{i686} =3D Unset<br>
++BUILD_ARCH{x86_64} =3D Set<br>
+<br>
+which makes the problem fairly obvious when you see it put that way...<br><=
+/blockquote></div></div><div dir=3D"auto"><br></div><div dir=3D"auto">Ah th=
+at makes sense. I was trying to be too cute :) I&#39;ll stick with my origi=
+nal plan of using /bin/false</div><div dir=3D"auto"><br></div><div dir=3D"a=
+uto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"=
+margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+</blockquote></div></div></div>
 
---000000000000a5ce29058a4179ff--
+--00000000000086cede058a448cb2--
