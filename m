@@ -1,51 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id E4D567E5B7
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 1E47B7E626
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jun 2019 21:00:03 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id e16so457784wrn.1
+	Sat,  1 Jun 2019 21:58:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45GZvQ6D48z6p
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jun 2019 14:00:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=avdQX5lTyPWoj0N2+xc+w7R+xyGTTP0e+MhzYgmd+Bo=;
-	b=RZcDt2gc0meb6L1N9mrE09AYf0JxSyVSv/xpPsDn0520hZVVc/cKvMVMCibSLDRqQG
-	E/+XafO2JIMElbw7q6d7dczKl6pvtUx7DA1QCu8JcjUMxMzlexOlefKQ7AmXzhPAlSmM
-	jm7SpLolJxCZxF3CiI7HY5EfK7iKzDAJVhO/o=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=avdQX5lTyPWoj0N2+xc+w7R+xyGTTP0e+MhzYgmd+Bo=;
-	b=AdQRo7uVOnofi/AZDdWQ0jOxXgffMIc3DNXnqXM2GYtUH/r6PqdYZib7XM+SaBdEiA
-	vcXExZ+bUfy7wM/8bwjop32PXgA5nKv3BzZ2wj6XkUJcJuiFA6ohA/x1GTb8B0QJqUuH
-	ef7/dgT4EFr+3FvoLrDsgYfolhDtxYPhm8jfYYRpSq5eduQrAb77ejvF3oKJagKAIBtd
-	ITDQvmXBZZUq1bqwUJ9xcCOCpJOCJ4yJV4w/EllkGkkgxFxaxKbZOdJ7MoLGOhifV1fa
-	gc45kQgux24Yfqv8Vrp3sBYaLwp6gGTTIplFUdLBZ7g+mSWWLy2+5x3thKgEElbBoHKJ
-	W2yA==
-X-Gm-Message-State: APjAAAVVZolR9og3AShqH/F5Nx4XoJZJa4LgKeXP1Zb7+geTWrfSuK/H
-	YO/yWi6qp+q4zkVxBG9jELeaQg==
-X-Google-Smtp-Source: APXvYqzBBV9k9us1tUnF/niwOmyPjKAV8Z1tZ0JXUGiUaSyVrQ6fweORUfRFeTghui236oKxeZkItQ==
-X-Received: by 2002:a5d:5189:: with SMTP id k9mr3054206wrv.329.1559422804689; 
-	Sat, 01 Jun 2019 14:00:04 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	o21sm10234459wmc.46.2019.06.01.14.00.03
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 01 Jun 2019 14:00:04 -0700 (PDT)
-Message-ID: <bea64728d6e035a2656e5677c1ca1d091606a713.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: bruce.ashfield@gmail.com
-Date: Sat, 01 Jun 2019 22:00:03 +0100
-In-Reply-To: <20190601184539.15436-1-bruce.ashfield@gmail.com>
-References: <20190601184539.15436-1-bruce.ashfield@gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] linux-yocto/5.0: fix systemtap on arm
+	Sat,  1 Jun 2019 23:58:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559426307;
+	bh=NcwtkeWi8W++XnwH1xv2dPjrG26iY1CCmTljSgsnXt4=;
+	h=From:To:Subject:Date:From;
+	b=q4iGqi+wFiKGXVeo1hiIAoMOgKJic4xIC0EIdGi5gN2rPtl1d5U4eY5rAdvRZTUCU
+	fFnhAwj4jC5nifH9rzEE9AU3awbBHk/SyzXTviCNlVzLOe3wIyfN6ATyxhE2Hoe2tt
+	D+TXT92N71rJOI+0OmipfqqiwU0ks/cM12I4vijzfNrcYo542Axe2IUUmq/c/GEE6m
+	FRylBH+xiv6oUg2vbnpShVldJAHGrUndndGNuXZFBOTCMD3/FyHHSzts7JrbGbOYB+
+	P9tGVO2BUDbumPQ4RBw9ZQp/Xb99LIftbp4TD2pBONk2ed1qd2B9mIykPWZ/BbOC+c
+	S/UmDV4n2wdNrLD2XpZnyLFRjpyHQZS/RDklJmisIyGJr0N/94lcS20GnTJgwtZjif
+	EvpZMhugO/7SKRa3NO1hXgsLtB8dh8AHtx1TUy0uRLhW0zKfiw0f86HXTM28eIIvxl
+	RBX7K4BddQtdnrnIJtwUA14hxom3+29sBqmjaSSoZKm9qthTuVA6EYP6PsPRk7kXv5
+	bvEVHs+Uih/E1yqYspZARkdMbxw8beTwND18Am+gfGVxtXNCxKc5p1uiyt93uCC/em
+	mIMjEqnOvfIjhofHPsTgfci9ploW6w63PuLHVd3dCWz43mUyMqIg1difYzdW4v8AAC
+	qvZvAMB4fkftaoQf7yaKLj4I=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  2 Jun 2019 00:58:24 +0300
+Message-Id: <20190601215825.24862-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] lrzsz: Add implicit declaration fixes from Debian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,33 +40,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jun 2019 21:00:04 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 01 Jun 2019 21:58:27 -0000
 
-On Sat, 2019-06-01 at 14:45 -0400, bruce.ashfield@gmail.com wrote:
-> Richard,
-> 
-> If you apply this on top of my latest consolidated pull request,
-> system
-> should work out of the box again:
-> 
->    root@qemuarm:~# stap --disable-cache -DSTP_NO_VERREL_CHECK
-> ./hello.stp
->    WARNING: Kernel function symbol table missing [man
-> warning::symbols]
->    [ 1721.562007] Kprobes globally unoptimized
->    [ 1721.617209] stap_2107: loading out-of-tree module taints
-> kernel.
->    hello world
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../lrzsz/lrzsz-0.12.20/include.patch         | 23 +++++++++++++++++++
+ meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
+ 2 files changed, 24 insertions(+)
+ create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
 
-Good find, thanks!
-
-I'll requeue things for testing and see how they look. Running on the
-autobuilder now.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+new file mode 100644
+index 0000000000..3925fc8c86
+--- /dev/null
++++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+@@ -0,0 +1,23 @@
++Signed-off-by: Adrian Bunk <bunk@stusta.de>
++Upstream-Status: Inappropriate [upstream is dead]
++
++--- lrzsz-0.12.21.orig/lib/long-options.c
+++++ lrzsz-0.12.21/lib/long-options.c
++@@ -22,6 +22,7 @@
++ #endif
++ 
++ #include <stdio.h>
+++#include <stdlib.h>
++ #include <getopt.h>
++ #include "long-options.h"
++ 
++--- lrzsz-0.12.21.orig/src/lsyslog.c
+++++ lrzsz-0.12.21/src/lsyslog.c
++@@ -22,6 +22,7 @@
++ #ifdef ENABLE_SYSLOG
++ #include "zglobal.h"
++ #include <pwd.h>
+++#include <stdio.h>
++ #include <stdlib.h>
++ #include <string.h>
++ #endif
+diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+index 002c774c6d..34556b2c29 100644
+--- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
++++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+@@ -20,6 +20,7 @@ SRC_URI = "http://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
+ 	   file://lrzsz_fix_for_automake-1.12.patch \
+            file://lrzsz-check-locale.h.patch \
+            file://cve-2018-10195.patch \
++           file://include.patch \
+            "
+ 
+ SRC_URI[md5sum] = "b5ce6a74abc9b9eb2af94dffdfd372a4"
+-- 
+2.17.1
 
 
