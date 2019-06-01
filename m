@@ -1,36 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 592C97E630
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id B79F17E636
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jun 2019 09:56:31 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45GGtS0LWbz3l;
-	Sat,  1 Jun 2019 11:56:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559382992;
-	bh=GRw6rLGP7vcVbXYIYke8YuajrQQ/ICkeCSzc3eV223E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kcwBDhzFyumD3HrVnciUyrloqTHvKjW2L9YFGX440cEkRq4zK3fjwPN3ogjOzMHwN
-	d6MCFMZ/nz3XO2py2BDsr8Lnsd3ZcQ6Jx1TmYY0U7srLJ8Hsw91gP/tB0LcL57Ok2A
-	ab5vUqBwonuZgTD5ACNK6NFszF1uSWw9AaBBbYGWb1KHDQmShkmDSQtDsqdvZM7+l7
-	n8OvqmRH7MLsh/wagmv8km2l50LLu0XmviKWwdLVnjIQdtbDat/vZ+41xMV0jq+gNV
-	wp8bgn2Dh75QqJQmeVc6e0Efr6JoCnrFUESw+fGB2DK0wn/Rf3PX394iWpUr7AdNQU
-	3Lb3GYCk/X4AeRl1PMbII0hcgbvTO8ioF5/hUrtSplsxXmyEtAqX8jRE0Ka3C2ZPJ8
-	L6D1guIf8YV2w1P+eROCiCuLaM1oT8ip9s4iV6Qo6c0P7NI+AcTDxDGtOl2Ssq5dn0
-	WRToSbxqWFxbW7Iwr+5/6t+8vL2KUCIyqtX7r7VbUxpIJzozJYsdhSJAdwlVWSql1h
-	sGGvI7PyEy0kh/ReXa5/9O3HEqx9J6EFL7ulkBeeZ2j+t8M/05Pu/Oa2u8XyEBllgo
-	UAmKpLLH7MbsAPxOLEcvteI+RyQ0PbKdHcYir+6tmfFOLW6IYZIS5xrzRNOeBomjCQ
-	CdLmPY141V63N/tLIz9jM9aE=
-Date: Sat, 1 Jun 2019 12:56:30 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Armin Kuster <akuster808@gmail.com>
-Message-ID: <20190601095630.GC13687@localhost>
-References: <1559349502-9721-1-git-send-email-akuster808@gmail.com>
+	Sat,  1 Jun 2019 10:25:31 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id d17so7522085wmb.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 01 Jun 2019 03:25:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MvqmskFOqglImbLVP74C0Bz8ZprCjVKlx4gzdB74QL8=;
+	b=W8z4LDfuguMv0gyKiSEs61cYerKXsc2mcCQvJtasCBmbvUw8lFPz6aV8ghzJHDUUmO
+	9GGWU0qk1KCSUphqfWlSd4DvNIH7qRfhOtWy+X5XcKsYsxufb2dE8Hfci8PtbnD1RMLH
+	HEYvJPTQWLToPgu41O35NZK6/LOUD5cocHyPM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MvqmskFOqglImbLVP74C0Bz8ZprCjVKlx4gzdB74QL8=;
+	b=Upx6hpEzPcKBIvxEr7vE3yTgMBNjCbQ7B9QkytJ1SYK4K4r8FiUX4Vx4gkb/HYrNHK
+	rW6H/votPhxup2VeaKRX8ZQmwVN2hDfhTDbnDTZhMBBz+D5xy4T4eLj2SC61WbDXlktN
+	29nttEBL13EdTmOxm0UKCvkautw/mfbwtFA+QN9O0Q6JesDPnDHS2/gwfKJWVXMg5MCH
+	PiZky/GRBTBGuLCyoz4VCVShcFPyQuATNsfjUEGXo1Z2FYYOnRqqgmMv6LJ2vORXHjxV
+	wGMVc+YSmQOhb6EerX2kE4Iu/Vo25lLyz1bnNd35t+3r/tisDzfjAeLuu22jmw75J79M
+	z4Mw==
+X-Gm-Message-State: APjAAAX3bmhTe5RcGYlBw7wikAtAQ+j1ZMgT6BJHiDt4m9QJwx5Hvvz/
+	QmtxigZWR8yRbNS9ns3JQ/ir7dIt3eA=
+X-Google-Smtp-Source: APXvYqxFBf8di1+09pEuSirXCfZnFQaS0Mz64q5TljnpjpbtY0vXjiDZiQNnWMS3kA672A4D0Onr6w==
+X-Received: by 2002:a1c:a544:: with SMTP id o65mr8420747wme.84.1559384732270; 
+	Sat, 01 Jun 2019 03:25:32 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	a124sm11912234wmh.3.2019.06.01.03.25.31
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 01 Jun 2019 03:25:31 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  1 Jun 2019 11:25:23 +0100
+Message-Id: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <1559349502-9721-1-git-send-email-akuster808@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [thud][PATCH 1/2] wpa-supplicant: update to 2.7
+Subject: [PATCH 1/8] quilt: Add patch depends for quilt-ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,21 +56,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jun 2019 09:56:32 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 01 Jun 2019 10:25:32 -0000
+Content-Transfer-Encoding: 8bit
 
-This is a new major version from the upstream master branch,
-not something that would be appropriate for a stable series.
+This fixes the ptest to work in minimal images.
 
-cu
-Adrian
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/quilt/quilt.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 150df3d572f..dbf722be2af 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -85,5 +85,5 @@ RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
+                         perl-module-filehandle perl-module-getopt-std \
+                         perl-module-posix perl-module-file-temp \
+                         perl-module-text-parsewords perl-module-overloading \
+-                        bash util-linux-getopt \
++                        bash util-linux-getopt patch \
+                        "
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.20.1
 
 
