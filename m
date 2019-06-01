@@ -1,49 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B79F17E636
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 68B9C7E636
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jun 2019 10:25:31 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id d17so7522085wmb.3
+	Sat,  1 Jun 2019 10:25:32 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id m3so8104212wrv.2
 	for <openembedded-core@lists.openembedded.org>;
 	Sat, 01 Jun 2019 03:25:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=MvqmskFOqglImbLVP74C0Bz8ZprCjVKlx4gzdB74QL8=;
-	b=W8z4LDfuguMv0gyKiSEs61cYerKXsc2mcCQvJtasCBmbvUw8lFPz6aV8ghzJHDUUmO
-	9GGWU0qk1KCSUphqfWlSd4DvNIH7qRfhOtWy+X5XcKsYsxufb2dE8Hfci8PtbnD1RMLH
-	HEYvJPTQWLToPgu41O35NZK6/LOUD5cocHyPM=
+	bh=QM2De1dYkYGu7mpYbnX7zTepXiSOG7cvxfnsXSP/VLI=;
+	b=eLaoV54eYURwiKo46oSySaE0j/EyzFko3e8GkTmrLJ5rkvp9ohJESyIUu083/qWjEV
+	9h2GiW9FwJ51orX1CAm3kHrS6pTojnVI9oI53LjFQxL/w3PS/Lh/pY47WHisH6cUlGF6
+	R6mNDYeXW39efAtONzyrX1tgWPyVbobKp38QU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=MvqmskFOqglImbLVP74C0Bz8ZprCjVKlx4gzdB74QL8=;
-	b=Upx6hpEzPcKBIvxEr7vE3yTgMBNjCbQ7B9QkytJ1SYK4K4r8FiUX4Vx4gkb/HYrNHK
-	rW6H/votPhxup2VeaKRX8ZQmwVN2hDfhTDbnDTZhMBBz+D5xy4T4eLj2SC61WbDXlktN
-	29nttEBL13EdTmOxm0UKCvkautw/mfbwtFA+QN9O0Q6JesDPnDHS2/gwfKJWVXMg5MCH
-	PiZky/GRBTBGuLCyoz4VCVShcFPyQuATNsfjUEGXo1Z2FYYOnRqqgmMv6LJ2vORXHjxV
-	wGMVc+YSmQOhb6EerX2kE4Iu/Vo25lLyz1bnNd35t+3r/tisDzfjAeLuu22jmw75J79M
-	z4Mw==
-X-Gm-Message-State: APjAAAX3bmhTe5RcGYlBw7wikAtAQ+j1ZMgT6BJHiDt4m9QJwx5Hvvz/
-	QmtxigZWR8yRbNS9ns3JQ/ir7dIt3eA=
-X-Google-Smtp-Source: APXvYqxFBf8di1+09pEuSirXCfZnFQaS0Mz64q5TljnpjpbtY0vXjiDZiQNnWMS3kA672A4D0Onr6w==
-X-Received: by 2002:a1c:a544:: with SMTP id o65mr8420747wme.84.1559384732270; 
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=QM2De1dYkYGu7mpYbnX7zTepXiSOG7cvxfnsXSP/VLI=;
+	b=YhA0Xl2SGX9Qqlm176rly619NGWNYdKMJ3QHpMfw/vHgTdlhucVv7/akUDUotPZ5B1
+	uCDhoQDbmQxF/S9hGc2EVXgaS5xMtSaVDfAUPt4P05Zk082pINBaYsVq0pPUMEVtY8p7
+	1ftLubUHW9TKy5D2+aobmooGv8bJKrzjYBPFbvaCeMAhft3vbZYKXGF1xOBaqrzMulDq
+	hilHIcHZSJBqgWVMs3MHB/fwqdBKjUQiuKVJfBmE1G1EAlvkWr5+UmW2qm97vegydOrl
+	K7pbqrUqxIvvaMJJb/xIlzRUNkrpE97QU8UjHrbCHfkplDcyU76ue2qOQSGfo5kqCGFP
+	mPuA==
+X-Gm-Message-State: APjAAAU0lvxzefe8tJsfTV8msz8OKFY4/oRseTQIYJgYA6EPZXgPNlJM
+	65ZzX730SIONCSwjIrotAFEvAnJq3cw=
+X-Google-Smtp-Source: APXvYqyYmn2t7aBRUogtndjD7vW/qgvka9EBlkGB/vV4k8vCLDKuJKsVgCtBgZ8V+M41GY1/0Kknrw==
+X-Received: by 2002:adf:ed44:: with SMTP id u4mr9919911wro.242.1559384732998; 
 	Sat, 01 Jun 2019 03:25:32 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	a124sm11912234wmh.3.2019.06.01.03.25.31
+	a124sm11912234wmh.3.2019.06.01.03.25.32
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 01 Jun 2019 03:25:31 -0700 (PDT)
+	Sat, 01 Jun 2019 03:25:32 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Jun 2019 11:25:23 +0100
-Message-Id: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
+Date: Sat,  1 Jun 2019 11:25:24 +0100
+Message-Id: <20190601102530.5995-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
+References: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 1/8] quilt: Add patch depends for quilt-ptest
+Subject: [PATCH 2/8] libtest-needs-perl: Fix ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,24 +61,25 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Sat, 01 Jun 2019 10:25:32 -0000
 Content-Transfer-Encoding: 8bit
 
-This fixes the ptest to work in minimal images.
+This fixes runtime errors when running the ptest in a minimal image.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/quilt/quilt.inc | 2 +-
+ meta/recipes-devtools/perl/libtest-needs-perl_0.002006.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-index 150df3d572f..dbf722be2af 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -85,5 +85,5 @@ RDEPENDS_${PN}-ptest = "make file sed gawk diffutils findutils ed perl \
-                         perl-module-filehandle perl-module-getopt-std \
-                         perl-module-posix perl-module-file-temp \
-                         perl-module-text-parsewords perl-module-overloading \
--                        bash util-linux-getopt \
-+                        bash util-linux-getopt patch \
-                        "
+diff --git a/meta/recipes-devtools/perl/libtest-needs-perl_0.002006.bb b/meta/recipes-devtools/perl/libtest-needs-perl_0.002006.bb
+index 3abb9aa8e4d..c44ee6340c4 100644
+--- a/meta/recipes-devtools/perl/libtest-needs-perl_0.002006.bb
++++ b/meta/recipes-devtools/perl/libtest-needs-perl_0.002006.bb
+@@ -24,6 +24,6 @@ S = "${WORKDIR}/${CPAN_NAME}-${PV}"
+ 
+ inherit cpan ptest-perl
+ 
+-RDEPENDS_${PN}-ptest += "perl-module-test-more"
++RDEPENDS_${PN}-ptest += "perl-module-test-more perl-module-ipc-open3 perl-module-lib perl-module-version"
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.20.1
 
