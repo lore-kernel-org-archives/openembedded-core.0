@@ -1,50 +1,50 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 11E467E63C
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id CD9EB7E6B7
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  1 Jun 2019 11:26:30 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id 16so3152292wmg.5
+	Sat,  1 Jun 2019 11:26:31 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id n4so5094634wrs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jun 2019 04:26:32 -0700 (PDT)
+	Sat, 01 Jun 2019 04:26:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HwjlvZudklpUgCcF2LVzbO3j59fKv9N1LslXvzzAogg=;
-	b=f64crMLQ1fYYFaDTEKoupoIQOLg9SBE0z1Gp3n1F+OykEzU+lEEaWdN+SBdWZPj9Ya
-	g1/IAjd3AGfbvS4qRO/qqJrBBIo4XQ4ptpRWgfj3LZ1U2P0Xvf+gYfM2GGpxTQPA+/rG
-	Kj6rXIreiFSp1xrZ1AMuD82QS8+2W6jauQvgsQo6RMAG6xx8ka+nAXiP28PRWUFtl+cn
-	vW9SQdKUVS7jXU+8fysM8cdX+rGOqudOn7EEX9V2pPjYM4V1jAcuf5VA8Ts2/TqlaNg1
-	uzpw+TEfTQ22PRQnooyv5FmbBmqRnaJJzHjAqLPfSZ9dXOVfqz/o69tvCpKEvhr6Jpp2
-	Y9VQ==
+	bh=5MmQquINSrWHkPya0+WvjwNYbAKvweAq88tBk7HB1gM=;
+	b=BKBAwdHreLw+sdh4xaXa2ulB4+lRfEKaPJOT1zW/KuYaQkm3tl6Kf2X1cMDf15/Onf
+	6kjNOdS3GI2f+NGqNq6WIp6jKD4CgSLfIcnR5CGaoY+XdUUPiXuUFhbXl/m4EOlYKL0M
+	HAroPu/R/2uFit88ybH41uck6SktyCNnLgHNdHGIesnWkJmN86ovtAU5kss+sZaix5cJ
+	Xn/Tgkneu1aAym3Q7O/KsDPoSlOimHDl9Gj+EkKbek8SCiq3IAm4LhXvxJqv3vKDmo2E
+	Tjn9xZ+b00BUrC4qP9YVkqdPTbniC3JYQPxpnwJ79/Ytt4tqmWB1GIwpTk5TZfuhDGVd
+	DSuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=HwjlvZudklpUgCcF2LVzbO3j59fKv9N1LslXvzzAogg=;
-	b=flIQOwN/O1QhJx05NUshkJRTfI6kY2jlzrJ9TwsAdH4JtvPeNTxyqsc76qzvitt0yT
-	7tNziWgwyLIFjqKAdfzzQAfwhx5oXGPlbV35+ij7xtLtReo7ymAzVNacKadoImfV6wSg
-	twEAD5fu8DWcFkFp+Gdm5pyEVdyHphb6Bpoxhi+45pHuFqXP+7/8eDjWPaUf6n2P+ptr
-	5Y9vuToODD8RSfSqDO/UH3Uabc/NMLom57ePqji0vtu5cXjq9FUkVnacysSHuEZ8JpRX
-	Q9+ayO0F7/BLmxJMfVn3gfpcy38Rb4rp/ijksbzJJVNmZV1B7+izKBXA5uGxR93MigcL
-	zWGQ==
-X-Gm-Message-State: APjAAAXqHIYTVgo9+oXz9f41NO9vpB/eyE2BthKIEwssN5fYaEHm3zI9
-	vSwRIBc8v9If+FurEsh6EX6fD9qX5WE=
-X-Google-Smtp-Source: APXvYqwsA15UwnkY5XJrl+BEAKM2N0i0lVpoThigsCLCCbgVQ+RRN3eJtVCm/RZxDMQMwW4jYlP9cw==
-X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr8264939wml.37.1559388391630; 
-	Sat, 01 Jun 2019 04:26:31 -0700 (PDT)
+	bh=5MmQquINSrWHkPya0+WvjwNYbAKvweAq88tBk7HB1gM=;
+	b=mIGZ5keOGA85vJv34CoCLcwcDzLtE0D3qmoNlRRkQcVo6glTr07+zB/Z1fkErBHqhG
+	aadNh438aJqL3V6E2RMkvfkd/zRbTFn0jXYoipFYH7VHbMvUQEagkgkUCIUEyAe/BM7O
+	VpBK/lgjYkHveuKV7FeOFGOG1h+RIO6kIdXGtRWcTqUankczzxxyNNFJ6+MocD2yI6Sk
+	Dooqm+a0ognrrtWkAjeBM5PEktnU1nSmQ1JGfcyuDjjffrKxZM99iypNJZbmE3oyOtJY
+	QJT108KJ/WkHcOycLp1yxRurbyPoWp6ciHArSW7kDIgPsT2ibXmT5vjwR2a2KvdqUyKC
+	qN4g==
+X-Gm-Message-State: APjAAAVSIclxPxBe03AGAo2xetiHbbQaUv6bRprBpPtv4KuksHUytpGR
+	e5vvQJgx/Un0yoCkXxbpzmuyGjK1WXU=
+X-Google-Smtp-Source: APXvYqy0BhVBvV9qVrz0HWI1TBILChqJtVT9jKXNXnzZWmtT7T5Y0K/9k2OjF5K4FMZQ5OSpoujoXQ==
+X-Received: by 2002:a5d:49d2:: with SMTP id t18mr1028366wrs.281.1559388392461; 
+	Sat, 01 Jun 2019 04:26:32 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
 	by smtp.gmail.com with ESMTPSA id
-	y2sm16270606wra.58.2019.06.01.04.26.30
+	y2sm16270606wra.58.2019.06.01.04.26.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 01 Jun 2019 04:26:30 -0700 (PDT)
+	Sat, 01 Jun 2019 04:26:31 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Jun 2019 13:26:22 +0200
-Message-Id: <20190601112623.80424-4-alex.kanavin@gmail.com>
+Date: Sat,  1 Jun 2019 13:26:23 +0200
+Message-Id: <20190601112623.80424-5-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190601112623.80424-1-alex.kanavin@gmail.com>
 References: <20190601112623.80424-1-alex.kanavin@gmail.com>
-Subject: [PATCH 4/5] source-highlight: remove the recipe
+Subject: [PATCH 5/5] mesa-demos: update to 8.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,101 +57,239 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jun 2019 11:26:31 -0000
-
-gtk-doc was the only user, and has been switched over to python3-pygments.
+X-List-Received-Date: Sat, 01 Jun 2019 11:26:33 -0000
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 -
- ....pc.in-do-not-add-Boost-s-libraries-.patch | 30 -------------------
- .../source-highlight_3.1.8.bb                 | 28 -----------------
- 3 files changed, 59 deletions(-)
- delete mode 100644 meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch
- delete mode 100644 meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
+ .../0007-Install-few-more-test-programs.patch | 26 +++++++++----------
+ ...w-missing-.glsl-.vert-.frag-files-to.patch | 20 +++++++-------
+ ...perf-Install-.glsl-.vert-.frag-files.patch | 20 +++++++-------
+ ...esa-demos_8.3.0.bb => mesa-demos_8.4.0.bb} |  6 ++---
+ 4 files changed, 33 insertions(+), 39 deletions(-)
+ rename meta/recipes-graphics/mesa/{mesa-demos_8.3.0.bb => mesa-demos_8.4.0.bb} (92%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 35f10c2a91a..d6f66510e32 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -645,7 +645,6 @@ RECIPE_MAINTAINER_pn-shutdown-desktop = "Alexander Kanavin <alex.kanavin@gmail.c
- RECIPE_MAINTAINER_pn-signing-keys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
- RECIPE_MAINTAINER_pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
--RECIPE_MAINTAINER_pn-source-highlight = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER_pn-speex = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-speexdsp = "Tanu Kaskinen <tanuk@iki.fi>"
- RECIPE_MAINTAINER_pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch b/meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch
-deleted file mode 100644
-index b0aa5d17393..00000000000
---- a/meta/recipes-support/source-highlight/files/0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch
-+++ /dev/null
-@@ -1,30 +0,0 @@
--From 9aa01fd5f9d8b2b98c34684dc8f68115750ef41c Mon Sep 17 00:00:00 2001
--From: Alexander Kanavin <alex.kanavin@gmail.com>
--Date: Tue, 12 Jul 2016 17:15:13 +0300
--Subject: [PATCH] source-highlight.pc.in: do not add Boost's libraries and
-- includes
--
--This breaks when compiling in sysroots; a proper way is to use Depends
--
--Upstream-Status: Pending
--Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-----
-- source-highlight.pc.in | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/source-highlight.pc.in b/source-highlight.pc.in
--index 79ab63e..64114a7 100644
----- a/source-highlight.pc.in
--+++ b/source-highlight.pc.in
--@@ -7,6 +7,6 @@ Name: libsource-highlight
-- Description: GNU Source-highlight library.
-- URL: http://www.gnu.org/software/src-highlite/
-- Version: @VERSION@
---Libs: -L${libdir} -lsource-highlight @BOOST_LDFLAGS@ @BOOST_REGEX_LIB@
---Cflags: -I${includedir} @BOOST_CPPFLAGS@
--+Libs: -L${libdir} -lsource-highlight
--+Cflags: -I${includedir}
-- 
+diff --git a/meta/recipes-graphics/mesa/mesa-demos/0007-Install-few-more-test-programs.patch b/meta/recipes-graphics/mesa/mesa-demos/0007-Install-few-more-test-programs.patch
+index 6b676cdd200..b27d9eafa50 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos/0007-Install-few-more-test-programs.patch
++++ b/meta/recipes-graphics/mesa/mesa-demos/0007-Install-few-more-test-programs.patch
+@@ -1,4 +1,4 @@
+-From c59e286fa4e818ca015dd40e4725636309970ea8 Mon Sep 17 00:00:00 2001
++From 2e0367a941445a862ab99c54ec85d1357d0f73c0 Mon Sep 17 00:00:00 2001
+ From: Martin Jansa <Martin.Jansa@gmail.com>
+ Date: Thu, 10 Jul 2014 14:30:52 +0200
+ Subject: [PATCH] Install few more test programs
+@@ -8,27 +8,28 @@ Upstream-Status: Pending
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+ 
+ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
++
+ ---
+- src/egl/opengl/Makefile.am    |  2 +-
+- src/egl/opengles1/Makefile.am | 10 ++++------
+- src/egl/openvg/Makefile.am    |  2 +-
+- 3 files changed, 6 insertions(+), 8 deletions(-)
++ src/egl/opengl/Makefile.am | 3 +--
++ src/egl/openvg/Makefile.am | 2 +-
++ 2 files changed, 2 insertions(+), 3 deletions(-)
+ 
+ diff --git a/src/egl/opengl/Makefile.am b/src/egl/opengl/Makefile.am
+-index fe7faa9..3e48141 100644
++index 6d184ff6..ab09d028 100644
+ --- a/src/egl/opengl/Makefile.am
+ +++ b/src/egl/opengl/Makefile.am
+-@@ -50,7 +50,7 @@ endif
+- endif
++@@ -57,8 +57,7 @@ endif
+  
+  if HAVE_EGL
++ bin_PROGRAMS = \
++-	eglinfo
+ -noinst_PROGRAMS = \
+-+bin_PROGRAMS = \
+- 	eglinfo \
+++	eglinfo \
+  	peglgears \
+  	$(EGL_DRM_DEMOS) \
++ 	$(EGL_X11_DEMOS) \
+ diff --git a/src/egl/openvg/Makefile.am b/src/egl/openvg/Makefile.am
+-index b0f1212..5fd1cf8 100644
++index b0f1212f..5fd1cf83 100644
+ --- a/src/egl/openvg/Makefile.am
+ +++ b/src/egl/openvg/Makefile.am
+ @@ -49,7 +49,7 @@ endif
+@@ -40,6 +41,3 @@ index b0f1212..5fd1cf8 100644
+  	$(EGL_X11_DEMOS)
+  endif
+  endif
 --- 
--2.8.1
+-2.1.4
 -
-diff --git a/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb b/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
-deleted file mode 100644
-index 85923e47596..00000000000
---- a/meta/recipes-support/source-highlight/source-highlight_3.1.8.bb
-+++ /dev/null
-@@ -1,28 +0,0 @@
--SUMMARY = "Syntax highlight utility"
--DESCRIPTION = "Source-highlight converts source code to formatted text with syntax highlighting."
--HOMEPAGE = "https://www.gnu.org/software/src-highlite/"
--LICENSE = "GPLv3"
--LIC_FILES_CHKSUM = "file://COPYING;md5=ff95bfe019feaf92f524b73dd79e76eb"
+diff --git a/meta/recipes-graphics/mesa/mesa-demos/0008-glsl-perf-Add-few-missing-.glsl-.vert-.frag-files-to.patch b/meta/recipes-graphics/mesa/mesa-demos/0008-glsl-perf-Add-few-missing-.glsl-.vert-.frag-files-to.patch
+index a6085754d22..a6d168175ff 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos/0008-glsl-perf-Add-few-missing-.glsl-.vert-.frag-files-to.patch
++++ b/meta/recipes-graphics/mesa/mesa-demos/0008-glsl-perf-Add-few-missing-.glsl-.vert-.frag-files-to.patch
+@@ -1,12 +1,13 @@
+-From 0b6f95f9b8ece22e9856c150e4be29fd86eaf546 Mon Sep 17 00:00:00 2001
++From 894add34c2b5e6b4ccc78996bf681d7ec7bc9e36 Mon Sep 17 00:00:00 2001
+ From: Martin Jansa <Martin.Jansa@gmail.com>
+ Date: Thu, 10 Jul 2014 14:29:27 +0200
+-Subject: [PATCH 8/9] glsl, perf: Add few missing .glsl, .vert, .frag files to
++Subject: [PATCH] glsl, perf: Add few missing .glsl, .vert, .frag files to
+  EXTRA_DATA
+ 
+ Upstream-Status: Pending
+ 
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
+ ---
+  src/fpglsl/Makefile.am |  2 ++
+  src/glsl/Makefile.am   | 10 ++++++++--
+@@ -15,7 +16,7 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+  4 files changed, 17 insertions(+), 2 deletions(-)
+ 
+ diff --git a/src/fpglsl/Makefile.am b/src/fpglsl/Makefile.am
+-index 47c1039..fd43c91 100644
++index 47c1039f..fd43c919 100644
+ --- a/src/fpglsl/Makefile.am
+ +++ b/src/fpglsl/Makefile.am
+ @@ -39,10 +39,12 @@ noinst_PROGRAMS = \
+@@ -32,7 +33,7 @@ index 47c1039..fd43c91 100644
+  	mov-imm.glsl \
+  	simpleif.glsl \
+ diff --git a/src/glsl/Makefile.am b/src/glsl/Makefile.am
+-index 4faa8db..079a29d 100644
++index 4faa8dbf..079a29d8 100644
+ --- a/src/glsl/Makefile.am
+ +++ b/src/glsl/Makefile.am
+ @@ -37,7 +37,7 @@ AM_LDFLAGS = \
+@@ -71,13 +72,13 @@ index 4faa8db..079a29d 100644
+ +	skinning.vert \
+  	toyball.shtest
+ diff --git a/src/perf/Makefile.am b/src/perf/Makefile.am
+-index 5363c58..c5cca8d 100644
++index f0031fea..60069396 100644
+ --- a/src/perf/Makefile.am
+ +++ b/src/perf/Makefile.am
+-@@ -57,3 +57,9 @@ bin_PROGRAMS = \
+- endif
++@@ -59,3 +59,9 @@ endif
+  
+  glslstateschange_LDADD = libperf.la ../util/libutil.la
++ glsl_compile_time_LDADD = ../util/libutil.la
+ +
+ +EXTRA_DIST = \
+ +	glslstateschange1.frag \
+@@ -85,7 +86,7 @@ index 5363c58..c5cca8d 100644
+ +	glslstateschange2.frag \
+ +	glslstateschange2.vert
+ diff --git a/src/vpglsl/Makefile.am b/src/vpglsl/Makefile.am
+-index 4a85ed4..48b08f4 100644
++index 4a85ed40..48b08f48 100644
+ --- a/src/vpglsl/Makefile.am
+ +++ b/src/vpglsl/Makefile.am
+ @@ -44,6 +44,7 @@ EXTRA_DIST = \
+@@ -96,6 +97,3 @@ index 4a85ed4..48b08f4 100644
+  	mov.glsl \
+  	nestedifs.glsl \
+  	nestedswizzle.glsl \
+--- 
+-2.0.0
 -
--SRC_URI = "${GNU_MIRROR}/src-highlite/${BPN}-${PV}.tar.gz \
--           file://0001-source-highlight.pc.in-do-not-add-Boost-s-libraries-.patch"
--SRC_URI[md5sum] = "3243470706ef5fefdc3e43b5306a4e41"
--SRC_URI[sha256sum] = "01336a7ea1d1ccc374201f7b81ffa94d0aecb33afc7d6903ebf9fbf33a55ada3"
+diff --git a/meta/recipes-graphics/mesa/mesa-demos/0009-glsl-perf-Install-.glsl-.vert-.frag-files.patch b/meta/recipes-graphics/mesa/mesa-demos/0009-glsl-perf-Install-.glsl-.vert-.frag-files.patch
+index 1262dee2379..8a98ba60d11 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos/0009-glsl-perf-Install-.glsl-.vert-.frag-files.patch
++++ b/meta/recipes-graphics/mesa/mesa-demos/0009-glsl-perf-Install-.glsl-.vert-.frag-files.patch
+@@ -1,10 +1,11 @@
+-From c8c3de5417d6b6c7d7579c528c0cab718f4bfdb6 Mon Sep 17 00:00:00 2001
++From 477ab6d90a17d8e4d3935be6ce8b8e154db0e3e5 Mon Sep 17 00:00:00 2001
+ From: Martin Jansa <Martin.Jansa@gmail.com>
+ Date: Thu, 10 Jul 2014 14:48:12 +0200
+-Subject: [PATCH 9/9] glsl, perf: Install .glsl, .vert, .frag files
++Subject: [PATCH] glsl, perf: Install .glsl, .vert, .frag files
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
++
+ ---
+  src/fpglsl/Makefile.am | 3 ++-
+  src/glsl/Makefile.am   | 3 ++-
+@@ -13,7 +14,7 @@ Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+  4 files changed, 8 insertions(+), 4 deletions(-)
+ 
+ diff --git a/src/fpglsl/Makefile.am b/src/fpglsl/Makefile.am
+-index fd43c91..2bf51de 100644
++index fd43c919..2bf51de4 100644
+ --- a/src/fpglsl/Makefile.am
+ +++ b/src/fpglsl/Makefile.am
+ @@ -38,7 +38,8 @@ noinst_PROGRAMS = \
+@@ -27,7 +28,7 @@ index fd43c91..2bf51de 100644
+  	dowhile2.glsl \
+  	dowhile.glsl \
+ diff --git a/src/glsl/Makefile.am b/src/glsl/Makefile.am
+-index 079a29d..f66ec29 100644
++index 079a29d8..f66ec299 100644
+ --- a/src/glsl/Makefile.am
+ +++ b/src/glsl/Makefile.am
+ @@ -118,7 +118,8 @@ vert_or_frag_only_LDADD = ../util/libutil.la
+@@ -41,12 +42,12 @@ index 079a29d..f66ec29 100644
+  	CH06-brick.vert \
+  	CH11-bumpmap.frag \
+ diff --git a/src/perf/Makefile.am b/src/perf/Makefile.am
+-index c5cca8d..140256d 100644
++index 60069396..469bdf45 100644
+ --- a/src/perf/Makefile.am
+ +++ b/src/perf/Makefile.am
+-@@ -58,7 +58,8 @@ endif
+- 
++@@ -60,7 +60,8 @@ endif
+  glslstateschange_LDADD = libperf.la ../util/libutil.la
++ glsl_compile_time_LDADD = ../util/libutil.la
+  
+ -EXTRA_DIST = \
+ +demosdatadir=$(datadir)/$(PACKAGE)/
+@@ -55,7 +56,7 @@ index c5cca8d..140256d 100644
+  	glslstateschange1.vert \
+  	glslstateschange2.frag \
+ diff --git a/src/vpglsl/Makefile.am b/src/vpglsl/Makefile.am
+-index 48b08f4..5526867 100644
++index 48b08f48..55268675 100644
+ --- a/src/vpglsl/Makefile.am
+ +++ b/src/vpglsl/Makefile.am
+ @@ -38,7 +38,8 @@ noinst_PROGRAMS = \
+@@ -68,6 +69,3 @@ index 48b08f4..5526867 100644
+  	for.glsl \
+  	func.glsl \
+  	func2.glsl \
+--- 
+-2.0.0
 -
--inherit autotools
--
--DEPENDS_append = " boost"
--
--DEPENDS_append_class-target = " source-highlight-native"
--
--EXTRA_OECONF = "--with-boost=yes --with-boost-libdir=${STAGING_DIR_TARGET}${libdir}"
--
--BBCLASSEXTEND = "native"
--
--# source-highlight is using its own binary from the build tree to make documentation
--# let's substitute the native binary instead
--do_configure_prepend_class-target () {
--        sed -i -e 's,^SRCHILITEEXE = $(top_builddir).*,SRCHILITEEXE = source-highlight,' ${S}/doc/Makefile.am
--}
--
--RDEPENDS_source-highlight += "bash"
+diff --git a/meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb b/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
+similarity index 92%
+rename from meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb
+rename to meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
+index bae3b18bea5..129a47df48d 100644
+--- a/meta/recipes-graphics/mesa/mesa-demos_8.3.0.bb
++++ b/meta/recipes-graphics/mesa/mesa-demos_8.4.0.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT & PD"
+ LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=20;md5=914225785450eff644a86c871d3ae00e \
+                     file://src/xdemos/glxdemo.c;beginline=1;endline=8;md5=b01d5ab1aee94d35b7efaa2ef48e1a06"
+ 
+-SRC_URI = "https://mesa.freedesktop.org/archive/demos/${PV}/${BPN}-${PV}.tar.bz2 \
++SRC_URI = "https://mesa.freedesktop.org/archive/demos/${BPN}-${PV}.tar.bz2 \
+            file://0001-mesa-demos-Add-missing-data-files.patch \
+            file://0003-configure-Allow-to-disable-demos-which-require-GLEW-.patch \
+            file://0004-Use-DEMOS_DATA_DIR-to-locate-data-files.patch \
+@@ -19,8 +19,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/demos/${PV}/${BPN}-${PV}.tar.bz2
+            file://0012-mesa-demos-OpenVG-demos-with-single-frame-need-eglSw.patch \
+            file://0013-only-build-GLX-demos-if-needed.patch \
+            "
+-SRC_URI[md5sum] = "628e75c23c17394f11a316c36f8e4164"
+-SRC_URI[sha256sum] = "c173154bbd0d5fb53d732471984def42fb1b14ac85fcb834138fb9518b3e0bef"
++SRC_URI[md5sum] = "6b65a02622765522176d00f553086fa3"
++SRC_URI[sha256sum] = "01e99c94a0184e63e796728af89bfac559795fb2a0d6f506fa900455ca5fff7d"
+ 
+ inherit autotools pkgconfig distro_features_check
+ # depends on virtual/egl, virtual/libgl ...
 -- 
 2.17.1
 
