@@ -1,51 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4695B7E63C
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id ECD267E636
 	for <openembedded-core@lists.openembedded.org>;
 	Sat,  1 Jun 2019 10:25:35 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id c6so4474399wml.0
+Received: by mail-wr1-f67.google.com with SMTP id b18so8049830wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 01 Jun 2019 03:25:36 -0700 (PDT)
+	Sat, 01 Jun 2019 03:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=4OWEPhxo7Pa1PL6D2u0KK/QTz65jQEhhoqT2vUUA9AY=;
-	b=WJy4g+4C4/Qi18S/OAx88HNIe0lHMTzaLmXxdE6j9vDaGxljBLC7aSOI/rKvBCQgbN
-	ny1xXdh9s+aeOetHg6Z8I47z0v8TKK0Bu9low7zBsRQTP10rymbaYTFSwr+tCbVB0ya3
-	ckhAvItdYARtdZfwpVap4hbxD1Hp3mqUuzz0Q=
+	bh=tzCi6VA0ydoiGQr5Fvp107to7/EfVu2+vuJ6cVW2/ko=;
+	b=Nw78p0gYwv8ntnz3BxqwuxnoLU1GJG6zYjogpBOzuaiyf5vNFNnLNlp30N9dswEnVl
+	7pXezX6sfGFp9k6+JlmtBcUtAKjXjEOY03PG/1KZPI5/CrWi87ENt91IRT+Y2d5oCuI2
+	eK3Pb6Bofj2NYUcjIE3It10AZt/9MgiVEs/uY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=4OWEPhxo7Pa1PL6D2u0KK/QTz65jQEhhoqT2vUUA9AY=;
-	b=GMW6gJfV/1VHsCptbJhMoBLfBhVLWe91QcrjQ7hn+N5RBEtovsEe5WO3u21EsipiAk
-	dIMnW8zk0ocnhf6yRUtX1XmKm+AniA7dLsC9Fxlp3yg8zO0OjWOgagAhVvhtp/vdAdeN
-	1Posn1B7wLE+GBz9vhY51VX8ngSCSH1YA6jD7u6elB9yYLifb9Zp5Z4JBuSqZljA3Qcd
-	fHdi5ZOEbzVkRCIHGv1vi+0MIABiypHjhf63f7bJXNruVkMzCBkD7OBlmi8B67oPHN4u
-	EQYiqmGdPwIXiOQstfN2cufo5Lj0MEjYzSt77S9Vq32JHXUQ0I7t/gj9nYbSS3J2Q4Kc
-	Jv8w==
-X-Gm-Message-State: APjAAAVIq+bwtQX0XRMS4/AxVsPHv4sbofAB8uabNZ4ZZo4tkKpxBVky
-	xjSIWYFBYbkDzUnBt4p2N5Ta7ZYWftg=
-X-Google-Smtp-Source: APXvYqzlGkKZgjzDYiop91ZRJFtuu3gky51OG82t1tRaDNenFE60Dc59FkZHbSsZXCW6anSU7sWDuw==
-X-Received: by 2002:a7b:cb06:: with SMTP id u6mr8235756wmj.170.1559384735988; 
-	Sat, 01 Jun 2019 03:25:35 -0700 (PDT)
+	bh=tzCi6VA0ydoiGQr5Fvp107to7/EfVu2+vuJ6cVW2/ko=;
+	b=EQcWXO5xlnnFnj5jDUFYpdzYKPw1ZTRlQoFB1mmZbQ3WbLd4Io22YeRSFFT0cdvAfS
+	ba5dMyHG5brhPcpP4L56cSV47Ln25ceHENwy3HZSA9xNqjrRP3Ld5AODwQWkUhRr3p+Y
+	r7h+sifpOaas/PcmTk4fgWp/3eIMFYvFT2DqMvJnxZdQDU2gJG9GOVgH1VGD7p/r2PQr
+	Wo08vZWTFIIQkZ2Co2rvw/u+jNvM2gu7Z9LTH2tpvV20RGGDkMd4xLy+2KunQOILyar+
+	UHUmech45xV5MHCwOkfwfunRhlegMXp8ZSUkECE7Y3hqVi+AylgX7RhOAuso75A9isOc
+	7I2g==
+X-Gm-Message-State: APjAAAV3F3B3ZNf9xmc7zfnmvpLFvnkFOYxnKzkaiyBTXOKADaTlsVbr
+	P+4D3qwYTrzdqtDa+3cBvQ+lXS50sVc=
+X-Google-Smtp-Source: APXvYqznClCziIxIatb0rIElGVDZhyAjz1A1BDw1KJTP29VYLDQg0OuZ/JJ7T8tMzELrxpCgCBQrvA==
+X-Received: by 2002:adf:8023:: with SMTP id 32mr10184279wrk.18.1559384736600; 
+	Sat, 01 Jun 2019 03:25:36 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	a124sm11912234wmh.3.2019.06.01.03.25.35
+	a124sm11912234wmh.3.2019.06.01.03.25.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 01 Jun 2019 03:25:35 -0700 (PDT)
+	Sat, 01 Jun 2019 03:25:36 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Sat,  1 Jun 2019 11:25:28 +0100
-Message-Id: <20190601102530.5995-6-richard.purdie@linuxfoundation.org>
+Date: Sat,  1 Jun 2019 11:25:29 +0100
+Message-Id: <20190601102530.5995-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
 References: <20190601102530.5995-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 6/8] libconvert-aan1-perl: Fix module and ptest dependencies
+Subject: [PATCH 7/8] libxml-sax-perl: Fix module ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,28 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 01 Jun 2019 10:25:35 -0000
+X-List-Received-Date: Sat, 01 Jun 2019 10:25:36 -0000
 Content-Transfer-Encoding: 8bit
 
 This fixes runtime errors when running the ptest in a minimal image.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-extended/perl/libxml-sax-perl_1.00.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
-index 644d8208ecd..9f992d3e83f 100644
---- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.27.bb
-@@ -14,4 +14,7 @@ inherit cpan ptest-perl
+diff --git a/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb b/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
+index fd3a2a0ee70..80a1c8e39b3 100644
+--- a/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
++++ b/meta/recipes-extended/perl/libxml-sax-perl_1.00.bb
+@@ -29,6 +29,7 @@ do_install_ptest() {
+ 	chown -R root:root ${D}${PTEST_PATH}/testfiles
+ }
  
- EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+-RDEPENDS_${PN}-ptest += "perl-module-test"
++RDEPENDS_${PN} += "perl-module-encode perl-module-perlio"
++RDEPENDS_${PN}-ptest += "perl-module-test perl-module-base perl-module-fatal perl-module-encode-unicode perl-module-encode-byte"
  
-+RDEPENDS_${PN} += "perl-module-exporter perl-module-constant perl-module-encode perl-module-encode-encoding perl-module-utf8 perl-module-socket perl-module-time-local perl-module-posix"
-+RDEPENDS_${PN}-ptest += "perl-module-math-bigint perl-module-io-socket perl-module-data-dumper perl-module-math-bigint-calc"
-+
- BBCLASSEXTEND = "native"
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.20.1
 
