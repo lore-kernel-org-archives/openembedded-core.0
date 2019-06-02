@@ -1,24 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 440897E1CA
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D272E7E1CA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 08:07:36 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5D8764u010902
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 13 Jun 2019 08:16:48 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.63,367,1557158400"; d="scan'208";a="67209939"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 13 Jun 2019 16:16:48 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 940E44CDD45B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 01:07:27 -0700
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 13 Jun 2019 01:07:03 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
+	Thu, 13 Jun 2019 16:16:48 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 13 Jun 2019 16:16:58 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 13 Jun 2019 04:06:24 -0400
-Message-ID: <1560413184-99289-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
+Date: Sun, 2 Jun 2019 10:17:02 +0800
+Message-ID: <1559441822-12401-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] diffutils/run-ptest: support to run at arbitrary path
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: 940E44CDD45B.ADC20
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] openssl: Fix a build bug on aarch64BE.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,35 +37,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 08:07:36 -0000
+X-List-Received-Date: Thu, 13 Jun 2019 08:16:49 -0000
 Content-Type: text/plain
 
-1. Run run-ptest at arbitrary path
+Fix bug as following on aarch64BE:
 
-2. Fix large-subopt.in1 not found
-...
-|diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in1:
-No such file or directory
-|diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in2:
-No such file or directory
-...
+Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Upstream-Status: Pending [https://github.com/openssl/openssl/pull/9151]
+
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- meta/recipes-extended/diffutils/diffutils/run-ptest | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ ...01-Fix-build-error-for-aarch64-big-endian.patch | 41 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.1.1c.bb |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
 
-diff --git a/meta/recipes-extended/diffutils/diffutils/run-ptest b/meta/recipes-extended/diffutils/diffutils/run-ptest
-index 695c5e8a7b..ad467d9bd0 100644
---- a/meta/recipes-extended/diffutils/diffutils/run-ptest
-+++ b/meta/recipes-extended/diffutils/diffutils/run-ptest
-@@ -1,3 +1,4 @@
- #!/bin/sh
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+new file mode 100644
+index 0000000..65ca02c
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+@@ -0,0 +1,41 @@
++From 1f8c0f2feea5cdcae0bcd9dfc78198d9e2c4cf09 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Thu, 13 Jun 2019 12:17:30 +0900
++Subject: [PATCH] Fix build error for aarch64 big endian.
++
++Modified rev to rev64, because rev only takes integer registers.
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90827
++Otherwise, the following error will occur.
++
++Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ crypto/sha/asm/keccak1600-armv8.pl | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/crypto/sha/asm/keccak1600-armv8.pl b/crypto/sha/asm/keccak1600-armv8.pl
++index dc72f18..6620690 100755
++--- a/crypto/sha/asm/keccak1600-armv8.pl
+++++ b/crypto/sha/asm/keccak1600-armv8.pl
++@@ -731,7 +731,7 @@ $code.=<<___;
++ 	blo	.Lprocess_block_ce
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[$j/5][$j%5],$A[$j/5][$j%5],v31.16b
++ 	beq	.Lprocess_block_ce
++@@ -740,7 +740,7 @@ ___
++ $code.=<<___;
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[4][4],$A[4][4],v31.16b
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+index 669b1a1..ec85ccd 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-skip-test_symbol_presence.patch \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
++           file://0001-Fix-build-error-for-aarch64-big-endian.patch \
+            "
  
--make -C tests check-TESTS
-+abs_ptestdir=`echo "$(cd "$(dirname "$0")"; pwd)"`
-+make -C $abs_ptestdir/tests check-TESTS abs_top_srcdir="$abs_ptestdir"
+ SRC_URI_append_class-nativesdk = " \
 -- 
-2.17.1
+2.7.4
+
+
 
 
