@@ -1,22 +1,30 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga01.intel.com (mga01.intel.com [192.55.52.88])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D0BC7E7BD
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id D45276C4CE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 06:21:36 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by fmsmga101.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2019 23:21:38 -0700
-X-ExtLoop1: 1
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga007.jf.intel.com with ESMTP; 12 Jun 2019 23:21:37 -0700
-From: chee.yang.lee@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2019 14:21:36 +0800
-Message-Id: <1560406896-37282-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] wic/bootimg-efi: allow multiple initrd
+	Thu, 13 Jun 2019 06:24:17 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.63,367,1557158400"; d="scan'208";a="67196061"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 13 Jun 2019 14:24:15 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 41C094CE1675
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 13 Jun 2019 14:24:17 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Thu, 13 Jun 2019 14:24:25 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 2 Jun 2019 08:24:32 +0800
+Message-ID: <1559435072-11903-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: 41C094CE1675.AA8C3
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [warrior][PATCH] openssl: Fix a build bug on aarch64BE.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,80 +37,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 06:21:37 -0000
+X-List-Received-Date: Thu, 13 Jun 2019 06:24:18 -0000
+Content-Type: text/plain
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+Fix bug as following on aarch64BE:
 
-Allow plugin bootimg-efi to configure with multiple initrd
-through source parameter.
+Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
 
-Uses ; to separate each initrd.
+Upstream-Status: Pending [https://github.com/openssl/openssl/pull/9151]
 
-e.g:
---sourceparams="loader=${EFI_PROVIDER},initrd=initrd1;initrd2"
-
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ ...01-Fix-build-error-for-aarch64-big-endian.patch | 41 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.1.1b.bb |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index d87db1f..f3440fb 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -55,8 +55,10 @@ class BootimgEFIPlugin(SourcePlugin):
-             if not bootimg_dir:
-                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+new file mode 100644
+index 0000000..65ca02c
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+@@ -0,0 +1,41 @@
++From 1f8c0f2feea5cdcae0bcd9dfc78198d9e2c4cf09 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Thu, 13 Jun 2019 12:17:30 +0900
++Subject: [PATCH] Fix build error for aarch64 big endian.
++
++Modified rev to rev64, because rev only takes integer registers.
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90827
++Otherwise, the following error will occur.
++
++Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ crypto/sha/asm/keccak1600-armv8.pl | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/crypto/sha/asm/keccak1600-armv8.pl b/crypto/sha/asm/keccak1600-armv8.pl
++index dc72f18..6620690 100755
++--- a/crypto/sha/asm/keccak1600-armv8.pl
+++++ b/crypto/sha/asm/keccak1600-armv8.pl
++@@ -731,7 +731,7 @@ $code.=<<___;
++ 	blo	.Lprocess_block_ce
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[$j/5][$j%5],$A[$j/5][$j%5],v31.16b
++ 	beq	.Lprocess_block_ce
++@@ -740,7 +740,7 @@ ___
++ $code.=<<___;
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[4][4],$A[4][4],v31.16b
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
+index d3404d2..46030c3 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://CVE-2019-1543.patch \
++           file://0001-Fix-build-error-for-aarch64-big-endian.patch \
+            "
  
--            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
--            exec_cmd(cp_cmd, True)
-+            initrds = initrd.split(';')
-+            for rd in initrds:
-+                cp_cmd = "cp %s/%s %s" % (bootimg_dir, rd, hdddir)
-+                exec_cmd(cp_cmd, True)
-         else:
-             logger.debug("Ignoring missing initrd")
- 
-@@ -83,8 +85,11 @@ class BootimgEFIPlugin(SourcePlugin):
-             grubefi_conf += "linux /%s %s rootwait %s\n" \
-                 % (kernel, label_conf, bootloader.append)
- 
--            if initrd:
--               grubefi_conf += "initrd /%s\n" % initrd
-+            if initrds:
-+                grubefi_conf += "initrd"
-+                for rd in initrds:
-+                    grubefi_conf += " /%s" % rd
-+                grubefi_conf += "\n"
- 
-             grubefi_conf += "}\n"
- 
-@@ -119,8 +124,10 @@ class BootimgEFIPlugin(SourcePlugin):
-             if not bootimg_dir:
-                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
- 
--            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
--            exec_cmd(cp_cmd, True)
-+            initrds = initrd.split(';')
-+            for rd in initrds:
-+                cp_cmd = "cp %s/%s %s" % (bootimg_dir, rd, hdddir)
-+                exec_cmd(cp_cmd, True)
-         else:
-             logger.debug("Ignoring missing initrd")
- 
-@@ -163,8 +170,9 @@ class BootimgEFIPlugin(SourcePlugin):
-             boot_conf += "options %s %s\n" % \
-                              (label_conf, bootloader.append)
- 
--            if initrd:
--                boot_conf += "initrd /%s\n" % initrd
-+            if initrds:
-+                for rd in initrds:
-+                    boot_conf += "initrd /%s\n" % rd
- 
-         logger.debug("Writing systemd-boot config "
-                      "%s/hdd/boot/loader/entries/boot.conf", cr_workdir)
+ SRC_URI_append_class-nativesdk = " \
 -- 
 2.7.4
+
+
 
 
