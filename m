@@ -1,33 +1,37 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B5F77E3FA
+	by mail.openembedded.org (Postfix) with ESMTP id C2F0A6D61B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 06:57:28 +0000 (UTC)
+	Mon,  3 Jun 2019 06:58:25 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45HQpw6TGtz3l
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45HQr23xXVz23
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 08:57:28 +0200 (CEST)
+	Mon,  3 Jun 2019 08:58:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559545049;
-	bh=sWDpNvEI1Bu5bEF3Zyf0wWp6rZtfDw+JLYlorOXt0V0=;
-	h=From:To:Subject:Date:From;
-	b=H/S8ozk7LibjCLkG+hVXVTNQhT9lDJXkbX2KpSKncEVtl18kK3rixUUisv1XcKbI6
-	rVVcYtw//EvOm1Goy7R5WlkPBjCC5mNW7XLzxULAKVREm/7toZouRp4b0q8YYE0IYK
-	kA94QoaNgSZ0GXsF8IbxoSsJzY4RntAxE2M97M3+sDTNWPriL0Lmhy3C2KLEiEE2gR
-	Fnn3cQNxkDpdAixLFW/iLVjsqwf1rQs7W/H0Jo45L3YGl5QNlSJF8x+KvjW/JV+TQU
-	8wB7lyNNqnYDosOlfhJZHcNkBc5fNLejdokjAkb7T7bolhaACHGSMRG+soegNMePLW
-	QrglU/BknjkPD70eumpualHKXlqElNLB6H6dY2lvviuSgoy/EXn68qIr3OxV4rT2Ol
-	0njQnAXIikzyIePx2RFYAqyX6FCYq+PuntCDNDrEggBzOTc2KWEsx/0Yh9K6ZERjhy
-	i5G2/CHUaZSZjuGsA81S530Ib554L9UsPe6uWLgDK0aiJVWmaRNmBAhKNtTUzVfPVK
-	lDbnKACmWXd2nG4Yt/h4F+LYqCYsaTPhDU4dAf8cWO3k8CImIcZcoTVbsBpH1a05XD
-	lqOzS+uMvO8NS2rS6NDMJe540+z7KnPSZLw7C5V+O4S9GZa00ugiXcq4OCIsdd2QL9
-	Ep1UO8gyckk1e+SPoyrIGU7Y=
+	s=default; t=1559545106;
+	bh=Ty5tjar+1ahPOmeU10hmTqj2XCiXrGXDOAW8wP7pZB8=;
+	h=Date:From:To:Subject:References:In-Reply-To:From;
+	b=W1zzbA+wf6iyJClvuwwmCM+Hvb0HdRpiFpJs9QTF4JTIi7B/z9PyMn2CSvl4sBlzS
+	zYeXAuDLBUCH/6lsvhjBWNz1mBA96RM1V0RO+ZDKnxr6DnOz3xSfm84oHg7tEQxssf
+	nffKffl003ENofb+7yvf+jivfuMHCmfkS7IgyeEkzwZC9EVpVZOC5HuNMebI+SJAqq
+	SW9P0RJkV5HDVT6N9j6eEIJcQnimAQ+vRc6Hk1W240KCPg0Pc/abWSdoOWUqube75R
+	kPxXw7D2Bdy6/zhyktcSud56gnna4XuLAkUj/ViiGFiGE+PommQ+70BwG3UsKGdnaL
+	obTpGx7zW6eHwndA/PBhUwI/WGCyxjJNLEycxSWRNII73P3qIyICpjYqn1h9qjU66T
+	B72ZO2ZLN6SEc+b/fm0K7YopaUlXm0NvyU/hnotm0QcjPtzAAxOGfSVv79TrFncd5W
+	oj48wuqRwl4AXJSpWndjjSmgDl37SOOd7WjpYhsuIVjZ8TpSo/n5tazRa7xesqgc/3
+	kJOPmEsDBP6ChtnO2JlaQg1NKcMiDj4dKpklTCsV7KMoQZ1aSxMm3yL6wXWmHvTn07
+	kuh5lZyiiqJ420QOObGE3Y8UPmV/rajJsfmmGO5sB2/jbwH4Ps56TwGLIfZPEYYcnz
+	80pK1SJ38SQDs/Bxm/guYN/8=
+Date: Mon, 3 Jun 2019 09:58:24 +0300
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 09:57:27 +0300
-Message-Id: <20190603065727.8470-2-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] tcp-wrappers: Add compile warning fixes from Debian
+Message-ID: <20190603065824.GB2982@localhost>
+References: <20190520163052.2556-1-bunk@stusta.de>
+	<20190527112205.GA17077@localhost>
+MIME-Version: 1.0
+In-Reply-To: <20190527112205.GA17077@localhost>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Subject: Re: [PATCH] libpam: Upgrade 1.3.0 -> 1.3.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,270 +44,318 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 06:57:28 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 06:58:26 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
---
-v2: Add comment in the patch headers.
----
- .../tcp-wrappers-7.6/fix_warnings.patch       |  25 +++
- .../tcp-wrappers-7.6/fix_warnings2.patch      | 200 ++++++++++++++++++
- .../tcp-wrappers/tcp-wrappers_7.6.bb          |   2 +
- 3 files changed, 227 insertions(+)
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch
- create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch
+ping
 
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch
-new file mode 100644
-index 0000000000..965544cc0b
---- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch
-@@ -0,0 +1,25 @@
-+Compile warning fixes from Debian
-+
-+Signed-off-by: Adrian Bunk <bunk@stusta.de>
-+Upstream-Status: Inappropriate [upstream is dead]
-+
-+--- a/options.c
-++++ b/options.c
-+@@ -41,6 +41,7 @@ static char sccsid[] = "@(#) options.c 1
-+ #include <netinet/in.h>
-+ #include <netdb.h>
-+ #include <stdio.h>
-++#include <unistd.h>
-+ #include <syslog.h>
-+ #include <pwd.h>
-+ #include <grp.h>
-+--- a/scaffold.c
-++++ b/scaffold.c
-+@@ -17,6 +17,7 @@ static char sccs_id[] = "@(#) scaffold.c
-+ #include <arpa/inet.h>
-+ #include <netdb.h>
-+ #include <stdio.h>
-++#include <stdlib.h>
-+ #include <syslog.h>
-+ #include <setjmp.h>
-+ #include <string.h>
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch
-new file mode 100644
-index 0000000000..27157a2e6d
---- /dev/null
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch
-@@ -0,0 +1,200 @@
-+Compile warning fixes from Debian
-+
-+Signed-off-by: Adrian Bunk <bunk@stusta.de>
-+Upstream-Status: Inappropriate [upstream is dead]
-+
-+--- a/clean_exit.c
-++++ b/clean_exit.c
-+@@ -13,6 +13,7 @@ static char sccsid[] = "@(#) clean_exit.
-+ #endif
-+ 
-+ #include <stdio.h>
-++#include <unistd.h>
-+ 
-+ extern void exit();
-+ 
-+--- a/hosts_access.c
-++++ b/hosts_access.c
-+@@ -34,6 +34,7 @@ static char sccsid[] = "@(#) hosts_acces
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ #include <stdio.h>
-++#include <stdlib.h>
-+ #include <syslog.h>
-+ #include <ctype.h>
-+ #include <errno.h>
-+--- a/misc.c
-++++ b/misc.c
-+@@ -13,6 +13,7 @@ static char sccsic[] = "@(#) misc.c 1.2
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ #include <stdio.h>
-++#include <stdlib.h>
-+ #include <string.h>
-+ 
-+ #include "tcpd.h"
-+--- a/options.c
-++++ b/options.c
-+@@ -41,6 +41,7 @@ static char sccsid[] = "@(#) options.c 1
-+ #include <netinet/in.h>
-+ #include <netdb.h>
-+ #include <stdio.h>
-++#include <stdlib.h>
-+ #include <unistd.h>
-+ #include <syslog.h>
-+ #include <pwd.h>
-+--- a/percent_x.c
-++++ b/percent_x.c
-+@@ -17,6 +17,7 @@ static char sccsid[] = "@(#) percent_x.c
-+ /* System libraries. */
-+ 
-+ #include <stdio.h>
-++#include <unistd.h>
-+ #include <syslog.h>
-+ #include <string.h>
-+ 
-+--- a/rfc931.c
-++++ b/rfc931.c
-+@@ -16,6 +16,7 @@ static char sccsid[] = "@(#) rfc931.c 1.
-+ /* System libraries. */
-+ 
-+ #include <stdio.h>
-++#include <unistd.h>
-+ #include <syslog.h>
-+ #include <sys/types.h>
-+ #include <sys/socket.h>
-+--- a/tcpd.c
-++++ b/tcpd.c
-+@@ -22,6 +22,7 @@ static char sccsid[] = "@(#) tcpd.c 1.10
-+ #include <sys/socket.h>
-+ #include <netinet/in.h>
-+ #include <stdio.h>
-++#include <unistd.h>
-+ #include <syslog.h>
-+ #include <string.h>
-+ 
-+--- a/update.c
-++++ b/update.c
-+@@ -20,6 +20,7 @@ static char sccsid[] = "@(#) update.c 1.
-+ /* System libraries */
-+ 
-+ #include <stdio.h>
-++#include <unistd.h>
-+ #include <syslog.h>
-+ #include <string.h>
-+ 
-+--- a/fakelog.c
-++++ b/fakelog.c
-+@@ -17,7 +17,7 @@ static char sccsid[] = "@(#) fakelog.c 1
-+ 
-+ /* ARGSUSED */
-+ 
-+-openlog(name, logopt, facility)
-++void openlog(name, logopt, facility)
-+ char   *name;
-+ int     logopt;
-+ int     facility;
-+@@ -27,7 +27,7 @@ int     facility;
-+ 
-+ /* vsyslog - format one record */
-+ 
-+-vsyslog(severity, fmt, ap)
-++void vsyslog(severity, fmt, ap)
-+ int     severity;
-+ char   *fmt;
-+ va_list ap;
-+@@ -43,7 +43,7 @@ va_list ap;
-+ 
-+ /* VARARGS */
-+ 
-+-VARARGS(syslog, int, severity)
-++void VARARGS(syslog, int, severity)
-+ {
-+     va_list ap;
-+     char   *fmt;
-+@@ -56,7 +56,7 @@ VARARGS(syslog, int, severity)
-+ 
-+ /* closelog - dummy */
-+ 
-+-closelog()
-++void closelog()
-+ {
-+     /* void */
-+ }
-+--- a/safe_finger.c
-++++ b/safe_finger.c
-+@@ -22,10 +22,15 @@ static char sccsid[] = "@(#) safe_finger
-+ 
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-++#include <sys/wait.h>
-++#include <fcntl.h>
-+ #include <signal.h>
-+ #include <stdio.h>
-++#include <stdlib.h>
-++#include <unistd.h>
-+ #include <ctype.h>
-+ #include <pwd.h>
-++#include <grp.h>
-+ #include <syslog.h>
-+ 
-+ extern void exit();
-+@@ -52,7 +59,7 @@ int     sig;
-+     exit(0);
-+ }
-+ 
-+-main(argc, argv)
-++int main(argc, argv)
-+ int     argc;
-+ char  **argv;
-+ {
-+--- a/tcpdchk.c
-++++ b/tcpdchk.c
-+@@ -28,6 +28,8 @@ static char sccsid[] = "@(#) tcpdchk.c 1
-+ #include <netinet/in.h>
-+ #include <arpa/inet.h>
-+ #include <stdio.h>
-++#include <stdlib.h>
-++#include <unistd.h>
-+ #include <syslog.h>
-+ #include <setjmp.h>
-+ #include <errno.h>
-+--- a/tcpdmatch.c
-++++ b/tcpdmatch.c
-+@@ -26,6 +26,7 @@ static char sccsid[] = "@(#) tcpdmatch.c
-+ #include <arpa/inet.h>
-+ #include <netdb.h>
-+ #include <stdio.h>
-++#include <unistd.h>
-+ #include <syslog.h>
-+ #include <setjmp.h>
-+ #include <string.h>
-+--- a/try-from.c
-++++ b/try-from.c
-+@@ -37,7 +37,7 @@ static char sccsid[] = "@(#) try-from.c
-+ int     allow_severity = SEVERITY;	/* run-time adjustable */
-+ int     deny_severity = LOG_WARNING;	/* ditto */
-+ 
-+-main(argc, argv)
-++int main(argc, argv)
-+ int     argc;
-+ char  **argv;
-+ {
-+--- a/inetcf.c
-++++ b/inetcf.c
-+@@ -12,6 +12,7 @@ static char sccsid[] = "@(#) inetcf.c 1.
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+ #include <stdio.h>
-++#include <stdlib.h>
-+ #include <errno.h>
-+ #include <string.h>
-+ 
-+@@ -20,6 +21,7 @@ extern void exit();
-+ 
-+ #include "tcpd.h"
-+ #include "inetcf.h"
-++#include "scaffold.h"
-+ 
-+  /*
-+   * Network configuration files may live in unusual places. Here are some
-diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-index 0f50674653..6d232a50e4 100644
---- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-+++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
-@@ -47,6 +47,8 @@ SRC_URI = "ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
-            file://makefile-fix-parallel.patch \
-            file://musl-decls.patch \
-            file://0001-Fix-build-with-clang.patch \
-+           file://fix_warnings.patch \
-+           file://fix_warnings2.patch \
-            "
- 
- SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
--- 
-2.17.1
+Thanks
+Adrian
+
+On Mon, May 27, 2019 at 02:22:05PM +0300, Adrian Bunk wrote:
+> ping
+> 
+> Thanks
+> Adrian
+> 
+> On Mon, May 20, 2019 at 07:30:52PM +0300, Adrian Bunk wrote:
+> > Remove patch applied upstream.
+> > Upstream tarball location changed.
+> > 
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> > ---
+> >  ...libpam-xtests-remove-bash-dependency.patch | 226 ------------------
+> >  .../pam/{libpam_1.3.0.bb => libpam_1.3.1.bb}  |   9 +-
+> >  2 files changed, 3 insertions(+), 232 deletions(-)
+> >  delete mode 100644 meta/recipes-extended/pam/libpam/libpam-xtests-remove-bash-dependency.patch
+> >  rename meta/recipes-extended/pam/{libpam_1.3.0.bb => libpam_1.3.1.bb} (95%)
+> > 
+> > diff --git a/meta/recipes-extended/pam/libpam/libpam-xtests-remove-bash-dependency.patch b/meta/recipes-extended/pam/libpam/libpam-xtests-remove-bash-dependency.patch
+> > deleted file mode 100644
+> > index 680029ae0d..0000000000
+> > --- a/meta/recipes-extended/pam/libpam/libpam-xtests-remove-bash-dependency.patch
+> > +++ /dev/null
+> > @@ -1,226 +0,0 @@
+> > -From 555407ff6e2f742df64ae93859f14a0fc1397829 Mon Sep 17 00:00:00 2001
+> > -From: Wenzong Fan <wenzong.fan@windriver.com>
+> > -Date: Fri, 12 Sep 2014 05:35:05 -0400
+> > -Subject: [PATCH] libpam/xtests: remove bash dependency
+> > -
+> > -There's not bash specific syntax in the xtest scripts:
+> > -
+> > -  # after below patches applied:
+> > -  $ cd Linux-PAM-1.1.6/xtests
+> > -  $ checkbashisms *.sh
+> > -  No output
+> > -
+> > -Just remove the runtime dependency to bash.
+> > -
+> > -Upstream-Status: Pending
+> > -
+> > -Signed-off-by: Wenzong Fan <wenzong.fan@windriver.com>
+> > ----
+> > - xtests/run-xtests.sh             |    2 +-
+> > - xtests/tst-pam_access1.sh        |    2 +-
+> > - xtests/tst-pam_access2.sh        |    2 +-
+> > - xtests/tst-pam_access3.sh        |    2 +-
+> > - xtests/tst-pam_access4.sh        |    2 +-
+> > - xtests/tst-pam_assemble_line1.sh |    2 +-
+> > - xtests/tst-pam_group1.sh         |    2 +-
+> > - xtests/tst-pam_limits1.sh        |    2 +-
+> > - xtests/tst-pam_pwhistory1.sh     |    2 +-
+> > - xtests/tst-pam_substack1.sh      |    2 +-
+> > - xtests/tst-pam_substack2.sh      |    2 +-
+> > - xtests/tst-pam_substack3.sh      |    2 +-
+> > - xtests/tst-pam_substack4.sh      |    2 +-
+> > - xtests/tst-pam_substack5.sh      |    2 +-
+> > - xtests/tst-pam_succeed_if1.sh    |    2 +-
+> > - xtests/tst-pam_unix1.sh          |    2 +-
+> > - xtests/tst-pam_unix2.sh          |    2 +-
+> > - xtests/tst-pam_unix3.sh          |    2 +-
+> > - xtests/tst-pam_unix4.sh          |    2 +-
+> > - 19 files changed, 19 insertions(+), 19 deletions(-)
+> > -
+> > -diff --git a/xtests/run-xtests.sh b/xtests/run-xtests.sh
+> > -index 3a89057..1cf8684 100755
+> > ---- a/xtests/run-xtests.sh
+> > -+++ b/xtests/run-xtests.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - SRCDIR=$1
+> > - shift 1
+> > -diff --git a/xtests/tst-pam_access1.sh b/xtests/tst-pam_access1.sh
+> > -index 180d256..70521d2 100755
+> > ---- a/xtests/tst-pam_access1.sh
+> > -+++ b/xtests/tst-pam_access1.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/groupadd tstpamaccess
+> > - /usr/sbin/useradd -G tstpamaccess -p '!!' tstpamaccess1
+> > -diff --git a/xtests/tst-pam_access2.sh b/xtests/tst-pam_access2.sh
+> > -index 0a30275..7e3e60f 100755
+> > ---- a/xtests/tst-pam_access2.sh
+> > -+++ b/xtests/tst-pam_access2.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/groupadd tstpamaccess
+> > - /usr/sbin/useradd -p '!!' tstpamaccess2
+> > -diff --git a/xtests/tst-pam_access3.sh b/xtests/tst-pam_access3.sh
+> > -index 348e0c3..3630e2e 100755
+> > ---- a/xtests/tst-pam_access3.sh
+> > -+++ b/xtests/tst-pam_access3.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/useradd -p '!!' tstpamaccess3
+> > - ./tst-pam_access3
+> > -diff --git a/xtests/tst-pam_access4.sh b/xtests/tst-pam_access4.sh
+> > -index 61e7b44..4538df4 100755
+> > ---- a/xtests/tst-pam_access4.sh
+> > -+++ b/xtests/tst-pam_access4.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/useradd -p '!!' tstpamaccess4
+> > - ./tst-pam_access4
+> > -diff --git a/xtests/tst-pam_assemble_line1.sh b/xtests/tst-pam_assemble_line1.sh
+> > -index 248d47e..dc2a675 100755
+> > ---- a/xtests/tst-pam_assemble_line1.sh
+> > -+++ b/xtests/tst-pam_assemble_line1.sh
+> > -@@ -1,3 +1,3 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - exec ./tst-pam_authfail tst-pam_assemble_line1
+> > -diff --git a/xtests/tst-pam_group1.sh b/xtests/tst-pam_group1.sh
+> > -index b76377f..44faca9 100755
+> > ---- a/xtests/tst-pam_group1.sh
+> > -+++ b/xtests/tst-pam_group1.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/groupadd tstpamgrpg
+> > - /usr/sbin/useradd -p '!!' tstpamgrp
+> > -diff --git a/xtests/tst-pam_limits1.sh b/xtests/tst-pam_limits1.sh
+> > -index 4faa822..32c021d 100755
+> > ---- a/xtests/tst-pam_limits1.sh
+> > -+++ b/xtests/tst-pam_limits1.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/useradd -p '!!' tstpamlimits
+> > - ./tst-pam_limits1
+> > -diff --git a/xtests/tst-pam_pwhistory1.sh b/xtests/tst-pam_pwhistory1.sh
+> > -index ddb3b8b..0f212e2 100644
+> > ---- a/xtests/tst-pam_pwhistory1.sh
+> > -+++ b/xtests/tst-pam_pwhistory1.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/useradd tstpampwhistory
+> > - ./tst-pam_pwhistory1
+> > -diff --git a/xtests/tst-pam_substack1.sh b/xtests/tst-pam_substack1.sh
+> > -index 5260175..f1b72a7 100755
+> > ---- a/xtests/tst-pam_substack1.sh
+> > -+++ b/xtests/tst-pam_substack1.sh
+> > -@@ -1,3 +1,3 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - exec ./tst-pam_authfail tst-pam_substack1
+> > -diff --git a/xtests/tst-pam_substack2.sh b/xtests/tst-pam_substack2.sh
+> > -index c02f597..3804fa7 100755
+> > ---- a/xtests/tst-pam_substack2.sh
+> > -+++ b/xtests/tst-pam_substack2.sh
+> > -@@ -1,3 +1,3 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - exec ./tst-pam_authsucceed tst-pam_substack2
+> > -diff --git a/xtests/tst-pam_substack3.sh b/xtests/tst-pam_substack3.sh
+> > -index 0e572aa..aa48e8e 100755
+> > ---- a/xtests/tst-pam_substack3.sh
+> > -+++ b/xtests/tst-pam_substack3.sh
+> > -@@ -1,3 +1,3 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - exec ./tst-pam_authsucceed tst-pam_substack3
+> > -diff --git a/xtests/tst-pam_substack4.sh b/xtests/tst-pam_substack4.sh
+> > -index a3ef08a..958a07a 100755
+> > ---- a/xtests/tst-pam_substack4.sh
+> > -+++ b/xtests/tst-pam_substack4.sh
+> > -@@ -1,3 +1,3 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - exec ./tst-pam_authsucceed tst-pam_substack4
+> > -diff --git a/xtests/tst-pam_substack5.sh b/xtests/tst-pam_substack5.sh
+> > -index e2714fd..7e0da74 100755
+> > ---- a/xtests/tst-pam_substack5.sh
+> > -+++ b/xtests/tst-pam_substack5.sh
+> > -@@ -1,3 +1,3 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - exec ./tst-pam_authfail tst-pam_substack5
+> > -diff --git a/xtests/tst-pam_succeed_if1.sh b/xtests/tst-pam_succeed_if1.sh
+> > -index a643b2e..58e57b4 100755
+> > ---- a/xtests/tst-pam_succeed_if1.sh
+> > -+++ b/xtests/tst-pam_succeed_if1.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/useradd -p '!!' tstpamtest
+> > - /usr/sbin/useradd -p '!!' pamtest
+> > -diff --git a/xtests/tst-pam_unix1.sh b/xtests/tst-pam_unix1.sh
+> > -index f75bd84..72deac0 100755
+> > ---- a/xtests/tst-pam_unix1.sh
+> > -+++ b/xtests/tst-pam_unix1.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - /usr/sbin/useradd -p '!!' tstpamunix
+> > - ./tst-pam_unix1
+> > -diff --git a/xtests/tst-pam_unix2.sh b/xtests/tst-pam_unix2.sh
+> > -index 7093155..c04d6e6 100755
+> > ---- a/xtests/tst-pam_unix2.sh
+> > -+++ b/xtests/tst-pam_unix2.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - # pamunix0 = 0aXKZztA.d1KY
+> > - /usr/sbin/useradd -p 0aXKZztA.d1KY  tstpamunix
+> > -diff --git a/xtests/tst-pam_unix3.sh b/xtests/tst-pam_unix3.sh
+> > -index ef4a07c..b52db2b 100755
+> > ---- a/xtests/tst-pam_unix3.sh
+> > -+++ b/xtests/tst-pam_unix3.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - # pamunix01 = 0aXKZztA.d1KYIuFXArmd2jU
+> > - /usr/sbin/useradd -p 0aXKZztA.d1KYIuFXArmd2jU tstpamunix
+> > -diff --git a/xtests/tst-pam_unix4.sh b/xtests/tst-pam_unix4.sh
+> > -index 787c2f9..e7976fd 100755
+> > ---- a/xtests/tst-pam_unix4.sh
+> > -+++ b/xtests/tst-pam_unix4.sh
+> > -@@ -1,4 +1,4 @@
+> > --#!/bin/bash
+> > -+#!/bin/sh
+> > - 
+> > - # pamunix01 = 0aXKZztA.d1KYIuFXArmd2jU
+> > - /usr/sbin/useradd -p 0aXKZztA.d1KYIuFXArmd2jU tstpamunix
+> > --- 
+> > -1.7.9.5
+> > -
+> > diff --git a/meta/recipes-extended/pam/libpam_1.3.0.bb b/meta/recipes-extended/pam/libpam_1.3.1.bb
+> > similarity index 95%
+> > rename from meta/recipes-extended/pam/libpam_1.3.0.bb
+> > rename to meta/recipes-extended/pam/libpam_1.3.1.bb
+> > index c124e3bb02..63ba0c16aa 100644
+> > --- a/meta/recipes-extended/pam/libpam_1.3.0.bb
+> > +++ b/meta/recipes-extended/pam/libpam_1.3.1.bb
+> > @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=7eb5c1bf854e8881005d673599ee74d3 \
+> >                      file://libpamc/License;md5=a4da476a14c093fdc73be3c3c9ba8fb3 \
+> >                      "
+> >  
+> > -SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
+> > +SRC_URI = "https://github.com/linux-pam/linux-pam/releases/download/v${PV}/Linux-PAM-${PV}.tar.xz \
+> >             file://99_pam \
+> >             file://pam.d/common-account \
+> >             file://pam.d/common-auth \
+> > @@ -23,12 +23,11 @@ SRC_URI = "http://linux-pam.org/library/Linux-PAM-${PV}.tar.bz2 \
+> >             file://fixsepbuild.patch \
+> >             file://pam-security-abstract-securetty-handling.patch \
+> >             file://pam-unix-nullok-secure.patch \
+> > -           file://libpam-xtests-remove-bash-dependency.patch \
+> >             file://crypt_configure.patch \
+> >            "
+> >  
+> > -SRC_URI[md5sum] = "da4b2289b7cfb19583d54e9eaaef1c3a"
+> > -SRC_URI[sha256sum] = "241aed1ef522f66ed672719ecf2205ec513fd0075ed80cda8e086a5b1a01d1bb"
+> > +SRC_URI[md5sum] = "558ff53b0fc0563ca97f79e911822165"
+> > +SRC_URI[sha256sum] = "eff47a4ecd833fbf18de9686632a70ee8d0794b79aecb217ebd0ce11db4cd0db"
+> >  
+> >  SRC_URI_append_libc-musl = " file://0001-Add-support-for-defining-missing-funcitonality.patch \
+> >                               file://include_paths_header.patch \
+> > @@ -45,8 +44,6 @@ EXTRA_OECONF = "--with-db-uniquename=_pam \
+> >  
+> >  CFLAGS_append = " -fPIC "
+> >  
+> > -PR = "r5"
+> > -
+> >  S = "${WORKDIR}/Linux-PAM-${PV}"
+> >  
+> >  inherit autotools gettext pkgconfig
+> > -- 
+> > 2.17.1
+> > 
+> > -- 
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
+> -- 
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
