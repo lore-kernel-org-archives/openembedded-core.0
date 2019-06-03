@@ -1,52 +1,53 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 3DE577E323
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 7D13C7E32C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 15:07:16 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id c6so10777985pfa.10
+	Mon,  3 Jun 2019 15:07:17 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id a3so1056035pgb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2019 08:07:17 -0700 (PDT)
+	Mon, 03 Jun 2019 08:07:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=MuX7omvtKjwfRjY8llkk0gEtDPMeYlpGCldHLs2C1hw=;
-	b=E3CG0X30+sAnxghAgULh3IY1+Uj9zVPR0eygPZq9cpPiU3/x82W4kWjqTrFZUL1pFk
-	4bu0Jrjcj+uEa1JeV/AiJoy2D1nHivlnBHXjtLIJ53KqDq7lIYKiKzENa1+JD7Ig3iUh
-	f6Um/1E0g4V0n1BMtkga8mkzUWNKSLkdR+7bVgwdw0LQETIyzVOUgrZOfu/ZiM6hZAPT
-	oQWvugMnkoNey3sULp0/IPngvOsmKwU8keVablHQ5Bcsxdp1eK2kIE/1qZOG3Fnef/9u
-	QO7EqzVtlr1JGCbnU/NauOGxJzrRr11ASapqaXiGPysh8ImCDIxLWCPd6HAyjZx4YfVg
-	ynUg==
+	bh=9O8AjxGfbafrJOcoNfs9ojVjTv5BJh5ecBiw3sYpfeI=;
+	b=AfxgCcvHPeggzOlvjB9Jipu9iyCq3g0Y8i7CDXTNBscg05PTR9/vFbRs64juQjYX+n
+	UnS2bfK9ZebGIqT+NlcXrb/HPe4s+4XZcxG0lMnOHfwhh18H96rXhFq6jZ4pWUe3oSNH
+	WFNZj0HLXke3iki03CPOcGpv8q/UPAbUpvtV8V8sWAUvH4zttH3d9uNtrEW3fEx6WETr
+	qB1aUZElpiPPpr4bw6nTZ+cuzVoSPJ6XoXb8lD2S12llD/oB7qNytTxgOn5Wi2Vw/Z+g
+	66jIcUjWGXT1b6XnqVXiDfLmek/Y8MNaOSOmSCoDTrr/tQxlzhVdPVRLo1YYNkyorxFp
+	tBag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=MuX7omvtKjwfRjY8llkk0gEtDPMeYlpGCldHLs2C1hw=;
-	b=oz+oMQj6PI8RrxTlHa3p04olSK22JIXWur6Y6CsmRazgPvz2yva6pWy3mYIfDln+YM
-	U1QwiOxE3d+h8PKkIA+1XbxRGBk0NkxQhcUJzqPUbXem4tPXu3NL67r1aLbm3JkykVWR
-	9/wbjL8tS7c0GYG5rTbmBZYm8jhCuQv8B0Uq9n36F+Ya3WapVud8iQDOXQjMaDKqyVDg
-	JlOtR0vb8sjFvU6fwsAbgDhWkRJi87xWlJ5KWamyERHUPfJ2XB/bZegRJ6kuAcjJkvBU
-	A0VTwbfq24kpXya/1tm6+ZINfmpT30VE8geAWnOujZs42PU53ARzSjCjssD1no0i4CLi
-	QRAA==
-X-Gm-Message-State: APjAAAUr+PtfBsrEu+e8nEKCClM0tpQixsZA50xbT2/171O5WTMDtu0T
-	EaO9kv013Gu2A5ONGC+b0BFirvM6
-X-Google-Smtp-Source: APXvYqwXi4EEsJkoBqb6BUiTP58IMeAWkdh/oso5TfRBiKTItn20AsGb8S3h3GHT1/ANvDwphQWmBw==
-X-Received: by 2002:a62:ae16:: with SMTP id q22mr17441157pff.164.1559574437464;
-	Mon, 03 Jun 2019 08:07:17 -0700 (PDT)
+	bh=9O8AjxGfbafrJOcoNfs9ojVjTv5BJh5ecBiw3sYpfeI=;
+	b=TzoQPD5Z0yTmhokPe4hrgYbmymAUzjI4wyBZi2s9sZ+4yYSgRYvkDS9jndHKvNlaYl
+	Ri0a572SG29La6T2QqlzI4s/f9nbRJrbbwk+X9YzhX50ZPHId8U2U88/6zM4uo8hgBUf
+	uvUfSxQoo4s6NVOnH1A/QnUN3WBQl3/2Ho0CGDnGjPLC4UUzNmzgoqjk0bPibk4RlNow
+	IHmMwQpaQCRwxiRf/Sn/n9FcgMe3WYW74fhqMUAJAtOz2QxvZtX8hsoaQ6ZKC+B8+GmZ
+	JI29Mwfdts674991QL1CQsZ9vLfkDWiIPdzDNJIUjf9P6kKHPr+lO4xRAW/7NDi4FHe0
+	eaFQ==
+X-Gm-Message-State: APjAAAVexgpG/vAM9ascEj+82yoPQuyDX38/+1viFpbxrmSWsEXCp97e
+	P12D3aWwdf3D0G4xQ5mS6j1uoxfP
+X-Google-Smtp-Source: APXvYqxrGoA72xq0lqZHtKC2A9s93Kxs11DksT0Jyt6EbTsuq5bvbekKPemAQXwuZPbjSAxD16e/ZA==
+X-Received: by 2002:a17:90a:730b:: with SMTP id
+	m11mr30184899pjk.89.1559574438544; 
+	Mon, 03 Jun 2019 08:07:18 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:847:4796:a7c5:c767])
 	by smtp.gmail.com with ESMTPSA id
-	s5sm14250546pgj.60.2019.06.03.08.07.16
+	s5sm14250546pgj.60.2019.06.03.08.07.17
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Mon, 03 Jun 2019 08:07:17 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 08:06:53 -0700
-Message-Id: <3301846b009818f3d2150ae045dd6878f1f8c586.1559574291.git.akuster808@gmail.com>
+Date: Mon,  3 Jun 2019 08:06:54 -0700
+Message-Id: <86c9f25d4535663606326e53c33a8927f79e8f52.1559574291.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1559574291.git.akuster808@gmail.com>
 References: <cover.1559574291.git.akuster808@gmail.com>
-Subject: [PATCH 10/21] glib-2.0: add missing libgcc dependency to glib-2.0-ptest
+Subject: [PATCH 11/21] npm: get npm package name from npm pack
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +60,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 15:07:16 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 15:07:17 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
 
-The thread tests need libgcc for pthread_cancel to work.
+Fixes [YOCTO #12534]
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+When using npm packages with exotic names, like "JSONSelect" (with
+uppercase) or "@angular/cli" (with at sign and slash), there are three
+different names:
+  - the recipe name ("jsonselect" or "angular-cli")
+  - the npm module name ("JSONSelect" or "@angular/cli")
+  - the npm pack name ("JSONSelect" or "angular-cli")
+
+The commit fa9c077068a2acea04389fa2b44eb2e93548fce2 allow to have
+different recipe name and npm module name by setting the NPMPN variable.
+
+This commit allows to have yet another npm pack name. The pack filename
+is now dynamically retrieved from the 'npm pack' command.
+
+Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/glib-2.0/glib.inc | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes/npm.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index 574bb38..9ee0e63 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -144,6 +144,7 @@ CODEGEN_PYTHON_RDEPENDS_mingw32 = ""
- RDEPENDS_${PN}-codegen += "${CODEGEN_PYTHON_RDEPENDS}"
- 
- RDEPENDS_${PN}-ptest += "\
-+            libgcc \
-             dbus \
-             gnome-desktop-testing \
-             tzdata \
+diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
+index 6dbae6b..3dd2d13 100644
+--- a/meta/classes/npm.bbclass
++++ b/meta/classes/npm.bbclass
+@@ -53,8 +53,8 @@ npm_do_install() {
+ 	# be created in this directory
+ 	export HOME=${WORKDIR}
+ 	mkdir -p ${D}${libdir}/node_modules
+-	npm pack .
+-	npm install --prefix ${D}${prefix} -g --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --production --no-registry ${NPMPN}-${PV}.tgz
++	local NPM_PACKFILE=$(npm pack .)
++	npm install --prefix ${D}${prefix} -g --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --production --no-registry ${NPM_PACKFILE}
+ 	mv ${D}${libdir}/node_modules ${D}${libdir}/node
+ 	if [ -d ${D}${prefix}/etc ] ; then
+ 		# This will be empty
 -- 
 2.7.4
 
