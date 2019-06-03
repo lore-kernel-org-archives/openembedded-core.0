@@ -1,53 +1,49 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 11F5A7E3BE
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 77DEB7E321
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 15:07:24 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id g69so7103053plb.7
+	Mon,  3 Jun 2019 15:12:03 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id b18so12451293wrq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2019 08:07:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=HJxwoZWNkB1IsuIOXO9/a0OLBrk+G2+Jrc47CiELwOU=;
-	b=SvY7r8lwgDvApP085TREWzD0GmAK7O3uy9KlSTQxbEzoXF4eQruKfoaMPmXMRjFBNG
-	1ZUDtTRLfa/yf/iVo3OyhlIJjjxFO/skBboAZSBRi6Wyu6Jaayt1TtBIZigbSXxMFaqC
-	MvmWe+pMFBDGnlbYTaY2WFBP+taBP1MH8KY9aSu0G+lxe4Az5BpW9J2YNGjCtCyFsJVP
-	bOxEH4+OOoWSP9gI8py6WmDDIdIXoDllV3IRGGkMG4vJILAqbJ0vMwmSIgGNIDjvYU3m
-	o55Co43dVy987N2w0FWVDlZCCa78AiO0joIY4wqZZoGCw+EdRDVv8jTbG6v1fdRExQ4j
-	vLnw==
+	Mon, 03 Jun 2019 08:12:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4jfGvJ/YJqE6zhAVXLujrALC7gC6rmZuZ7kgnGyA64o=;
+	b=ROKlgYY5CWpDIKSrhHyAo88VBe27zrJuL1QU5GWscTYBFqCcqJjwWn5fxg0K2cCKL3
+	NFL5an+fRc7j7xGc7Desmjr4G9qj3yWD4mu8rsdOUINKGlpDjclsCnHuAUCiEZlDNEUn
+	HQKaF6sOSyiM+oZB52C3YwzfkYHON2IHNJ+KY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=HJxwoZWNkB1IsuIOXO9/a0OLBrk+G2+Jrc47CiELwOU=;
-	b=jjenr/u/miPlKC7+/7DJykNCMI9xCyxUALhFmJhhKFn3dmxGxlNmzGlhvWiq+jGmey
-	bSoFZHThAR3IEZ05CymhnPyybAgXzMN4nb3W15d+UosLnWQvgftdqbdPDIPnFOwAd2ZS
-	YgrTf9Kttx2f+0Vbc1pwPjnzBRJM+t6K61B5cMYteAsWs+WCMwtvOct9yLl+bI0ksYlJ
-	5dCgK9hd5aCrXce182Ed/eYIQ0MIyW3fwsHr+wIasf/N6dKEkWe/90w+x/WgMvY0VqHX
-	ammHkwnLkCXzqWraGBE44uYQh9VB9wDbn5AFS8aeUxRCDYHUTRIyFYtUrO0a+L+utKAx
-	kxhA==
-X-Gm-Message-State: APjAAAUN4xjjIUMCBAltmNFxqiijL1UrzooXn8psTqreIp8J4T0Utdzz
-	DFelV65/jXVGipuUaUx93kE2M8lq
-X-Google-Smtp-Source: APXvYqwhsr9HFB3GsqFWfSr6lIFt4s5p3Ew/F5Ufx0iufIaAbe1U9sBtYCb3usRWwhUxRz2+FO08Ow==
-X-Received: by 2002:a17:902:8c94:: with SMTP id
-	t20mr29298809plo.141.1559574446143; 
-	Mon, 03 Jun 2019 08:07:26 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
-	([2601:202:4180:c33:847:4796:a7c5:c767])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=4jfGvJ/YJqE6zhAVXLujrALC7gC6rmZuZ7kgnGyA64o=;
+	b=mrkkBN8BQZ4NPTJZraRPIIy+C9LpBPs+yx4sHY7o0crSW9ERtIg9zk81PCzl2h1up5
+	750EApxmpvIEEje5mnCQ9MAZE3F0AzLCazL75X+MC+lx8KnYgFeRN3tdLK1ZxvZty7s4
+	nS52BHrzCuYh9U/V00HpzfBh4EErkf0ESZlQLTs0TldnO985jjYpm80kA9/mqZXEEu7x
+	K4YmpWJIueq4ILAJGPDyuloi2gcEiWAfkWKZZ4zoAfVhSHoxVn/DQOiqHrbk3JKNWU/E
+	3HTL2V6d8rVWfe7GtQwSktz5AKvhUJv+m0tTj3b7c3E+84W47mLPoc2kzOXVx8meuOjb
+	qw0w==
+X-Gm-Message-State: APjAAAXcxQWVCcc60HdwU3IdL3IeljvCrB1QEBGSpYrVCz8YsGZOxp6N
+	DNnfZ0hmNbr3ttgXvG/YcDGYj6a5AGU=
+X-Google-Smtp-Source: APXvYqwfmDztEOO4zKsgnIJTfPYkq7Q8iNYqF3O6A8dLz99E5etnFOUZfNPUeB2q1ipDhYN+FBQ7/w==
+X-Received: by 2002:adf:b64b:: with SMTP id i11mr16772832wre.205.1559574723788;
+	Mon, 03 Jun 2019 08:12:03 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s5sm14250546pgj.60.2019.06.03.08.07.25
+	h8sm7264794wrt.59.2019.06.03.08.12.02
 	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Jun 2019 08:07:25 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 03 Jun 2019 08:12:03 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 08:07:04 -0700
-Message-Id: <db0ebefad601034a017f536a92c04aa83479cf55.1559574291.git.akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1559574291.git.akuster808@gmail.com>
-References: <cover.1559574291.git.akuster808@gmail.com>
-Subject: [PATCH 21/21] util-linux: Fix ptest dependencies
+Date: Mon,  3 Jun 2019 16:12:02 +0100
+Message-Id: <20190603151202.17058-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] e2fsprogs: Fix missing ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,37 +56,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 15:07:25 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 15:12:03 -0000
+Content-Transfer-Encoding: 8bit
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-We should append to the ptest RDEPENDS and RRECOMMENDS otherwise the bbclass
-defaults are overwritten. This leads to ptest-runner not being installed in
-minimal images. Also drop the duplicate ${PN} value which is unneeded once
-we do this.
+This allows ptests to execute successfully in minimal images.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index 6dfbe0b..7b9b4d2 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -142,8 +142,8 @@ RDEPENDS_${PN}_class-nativesdk = ""
- RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
+index 0695ee9dc36..54b135eaef4 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
+@@ -113,7 +113,8 @@ ALTERNATIVE_LINK_NAME[mkfs.ext2] = "${base_sbindir}/mkfs.ext2"
+ ALTERNATIVE_${PN}-tune2fs = "tune2fs"
+ ALTERNATIVE_LINK_NAME[tune2fs] = "${base_sbindir}/tune2fs"
  
- RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
--RDEPENDS_${PN}-ptest = "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm ${PN} procps sed socat which xz"
--RRECOMMENDS_${PN}-ptest = "kernel-module-scsi-debug"
-+RDEPENDS_${PN}-ptest += "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm procps sed socat which xz"
-+RRECOMMENDS_${PN}-ptest += "kernel-module-scsi-debug"
- RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
- ALLOW_EMPTY_${PN}-swaponoff = "1"
+-RDEPENDS_${PN}-ptest += "${PN} ${PN}-tune2fs coreutils procps bash bzip2 diffutils perl"
++RDEPENDS_${PN}-ptest += "${PN} coreutils procps bash bzip2 diffutils perl sed"
++RDEPENDS_${PN}-ptest += "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks e2fsprogs-resize2fs"
  
+ do_compile_ptest() {
+ 	oe_runmake -C ${B}/tests
 -- 
-2.7.4
+2.20.1
 
 
