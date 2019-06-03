@@ -1,52 +1,54 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 141127E382
+Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
+	[209.85.210.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A83FA7E3B1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 15:07:18 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id e6so7193956pgd.9
+	Mon,  3 Jun 2019 15:07:19 +0000 (UTC)
+Received: by mail-pf1-f194.google.com with SMTP id c6so10778110pfa.10
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2019 08:07:20 -0700 (PDT)
+	Mon, 03 Jun 2019 08:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=YaBNKN5iYfZLnMO3rjbxRFRW76EYXRUdj2UmcDci6MQ=;
-	b=mll+sMAqsI0pFEjbGlWxweSljAf/4CnQQ1wwj/m2mSheUHV1vgSwUb/df/ln+Z0Wqc
-	8wKv2ktEXYLLPv83aVUjJazSD10coo+iucnOgj7It2XsT4L2CondzZj75883VlwD85cS
-	bM3/uV39UzqM7aaJpymXbfNqHx8OqZyo1RHBRuy9cjDw0sPhvi3YE0t5L85E+wakVZmP
-	yIcDI/p8KYG9oqTlWeUnESqRO8XEzmb9wY00ql5nDoVdDshGBFpTKvmfMKd7nEh8395Z
-	X+0anwNaa6uVGQZqVkoFEbm4F+eX0wZxbCMQUCSRFAvYpvaIQ461UhHgbSJnj+d2AYQU
-	u5nA==
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=W+3xUZVXZbg3QjSyUSoloKoiqbqDwsPGp57r26ZZImE=;
+	b=OQMATpqG2LGcCCkgYwVkEUfW9zTK4d7D3U/wqe872mr/rzZL91Kj3eay2EqODFw0yq
+	9w9oN+bCWvR0WpEjL6a/+DD4/iaZMpkZV2JtoE79Ro2wjS3Xa5WVZCSCrg3w9YzB3idg
+	1sUZE0tpxUbWOt7PxXaX1GiTbFWL2NPj705agW8OK5UFLnJaCxje53U0W+OjJ6rGTbCp
+	2jAcn4rktd2ujDV0ZDl9kBvMVCk9EsnbhucITwwz8XbcYBwC0QSAIcP4+XhR3qz6lF6R
+	vM/cq0mYTVneC5fSkjn8R57KiG4aVPpfg7xcssHo7bPUKurzaUcQuwIiyBtQ57pPEJkP
+	E/yg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=YaBNKN5iYfZLnMO3rjbxRFRW76EYXRUdj2UmcDci6MQ=;
-	b=IzqYOZWEKpzy0omXEiWewvm26opWld2IdJ5sZm594UdSttrmV3f8Vvyo0E8Yud57ku
-	c8gbYspgvQWetPphHLaWIUf00vmtVC3N+mqB+BZGKDJ82ygD7RApQ6yLiUaH5Gb2xecc
-	HfJRuFlZolA+NUZUM7qQnPjsJiFIlS/1DdE8KAFU+9Ip1kwNfsa7g8/ZQ/0nA5Uyv0F9
-	5NV5zpsNu4dy9T8QEhZdMrranEkzZRrV/G7j/50v/HA9bTpEYHkvnr/WlNXEL2yjj7oa
-	Z0f9AY8tRCmHlhjkdx91crxLp5ojQAMmXbRIHrIzQlqXzDS8ul/8Z2O6cjh1DV9tBEs7
-	fHkg==
-X-Gm-Message-State: APjAAAX8332a3BPvLAAFnDXk6fv3d/iVwd0QSNhiyGlcUSPD538Wp6uD
-	szLxl/Hx4JFPPctLaT8Ict50i+d9
-X-Google-Smtp-Source: APXvYqwn7sDCrl+NK5FzRLY6j0VB1YZfiAADHH7LCwGTzwFP5p4CGFEK1asQBRkolSOmStMkpmHaEQ==
-X-Received: by 2002:a63:c744:: with SMTP id v4mr28840234pgg.370.1559574440056; 
+	:references:mime-version:content-transfer-encoding;
+	bh=W+3xUZVXZbg3QjSyUSoloKoiqbqDwsPGp57r26ZZImE=;
+	b=cp001gRre2hvrCiE2IVxUpAu3SueUSCNtVFnq6pcee64BeqLpmUbWB0ZggjsaHY3qw
+	puefHqonOgWtsZeFTPJkmuMShM1aAivW0RS0zt40B9sSVS7YU4SXkZeBXXkD7Lf60f77
+	Yrd7MuFTkcwLjgwf/qjQgqzk/eL/vLIAjZYx3X5yQrORPNxKMQuX4G16d3fXB49DioGH
+	AHm3EkBmjX4S9Rf8LMBfEtyNzulKVDp5vCYFL4mhe7OtQcsv/2FcTwIBF+4lET0UIcbq
+	KLcLiqzgZbD61JHO7+/x4zQj8EnKqz8P2sV5JpGx61EmHjDTlL7O02+wMcCxaPdnkw8r
+	zPuw==
+X-Gm-Message-State: APjAAAX4CNh8fyc2gV3RLDfms6bxsA1zChhcqxjBi/CZxTZpknpDGrdn
+	kJyCT0FLgSadnFzHBKs3ukYbU+66
+X-Google-Smtp-Source: APXvYqxJR89lLybBop0WmFDiFFsmctaBanw6OK5V3qsg7Al1i+Bi2mRMkQjTJeSKU3UM2YEVK2ctRA==
+X-Received: by 2002:a63:6a49:: with SMTP id f70mr4899192pgc.55.1559574440871; 
 	Mon, 03 Jun 2019 08:07:20 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:847:4796:a7c5:c767])
 	by smtp.gmail.com with ESMTPSA id
-	s5sm14250546pgj.60.2019.06.03.08.07.19
+	s5sm14250546pgj.60.2019.06.03.08.07.20
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Jun 2019 08:07:19 -0700 (PDT)
+	Mon, 03 Jun 2019 08:07:20 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 08:06:56 -0700
-Message-Id: <b03743b0f843736c6ebe8077e1e03bc03ac39410.1559574291.git.akuster808@gmail.com>
+Date: Mon,  3 Jun 2019 08:06:57 -0700
+Message-Id: <b684728304cc6a4bee03c1233022258d8b53f78c.1559574291.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1559574291.git.akuster808@gmail.com>
 References: <cover.1559574291.git.akuster808@gmail.com>
-Subject: [PATCH 13/21] npm: remove some temporary build files
+MIME-Version: 1.0
+Subject: [PATCH 14/21] util-linux: Add missing ptest dependencies
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,39 +62,39 @@ List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 03 Jun 2019 15:07:19 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-From: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+From: Mariano López <just.another.mariano@gmail.com>
 
-Fixes [YOCTO #11028]
+There are some missing dependencies for the util-linux-ptest package
+that causes inconsistencies in the package tests run in different images.
 
-When dealing with node modules which use "node-gyp" [1] to build native
-addons to node. Some temporary build files stay in the image: object
-files, static library files, dependency files, ...
+The kernel module in RRECOMMENDS is not build at this time, it needs
+more testing and check if the configuration change can be part of the
+yocto-kernel-cache repository.
 
-This commit does not keep only the required files, but remove the files
-which can leads to QA issues (staticdev with static library files).
-
-[1]: https://github.com/nodejs/node-gyp
-
-Signed-off-by: Jean-Marie LEMETAYER <jean-marie.lemetayer@savoirfairelinux.com>
+Signed-off-by: Mariano López <just.another.mariano@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/npm.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-core/util-linux/util-linux.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/npm.bbclass b/meta/classes/npm.bbclass
-index 9703f4c..4b1f0a3 100644
---- a/meta/classes/npm.bbclass
-+++ b/meta/classes/npm.bbclass
-@@ -56,6 +56,7 @@ npm_do_install() {
- 	local NPM_PACKFILE=$(npm pack .)
- 	npm install --prefix ${D}${prefix} -g --arch=${NPM_ARCH} --target_arch=${NPM_ARCH} --production --no-registry ${NPM_PACKFILE}
- 	ln -fs node_modules ${D}${libdir}/node
-+	find ${D}${NPM_INSTALLDIR} -type f \( -name "*.a" -o -name "*.d" -o -name "*.o" \) -delete
- 	if [ -d ${D}${prefix}/etc ] ; then
- 		# This will be empty
- 		rmdir ${D}${prefix}/etc
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 34255a2..6dfbe0b 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -142,7 +142,8 @@ RDEPENDS_${PN}_class-nativesdk = ""
+ RPROVIDES_${PN}-dev = "${PN}-libblkid-dev ${PN}-libmount-dev ${PN}-libuuid-dev"
+ 
+ RDEPENDS_${PN}-bash-completion += "${PN}-lsblk"
+-RDEPENDS_${PN}-ptest = "bash grep coreutils which btrfs-tools ${PN} sed"
++RDEPENDS_${PN}-ptest = "bash bc btrfs-tools coreutils e2fsprogs grep iproute2 kmod mdadm ${PN} procps sed socat which xz"
++RRECOMMENDS_${PN}-ptest = "kernel-module-scsi-debug"
+ RDEPENDS_${PN}-swaponoff = "${PN}-swapon ${PN}-swapoff"
+ ALLOW_EMPTY_${PN}-swaponoff = "1"
+ 
 -- 
 2.7.4
 
