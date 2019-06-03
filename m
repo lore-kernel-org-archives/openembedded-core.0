@@ -1,52 +1,52 @@
 Return-Path: <jpewhacker@gmail.com>
 Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
 	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 09C377E326
+	by mail.openembedded.org (Postfix) with ESMTP id ABBB07D41C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 15:27:24 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id n189so8781067itd.0
+	Mon,  3 Jun 2019 15:29:16 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id i21so8420383ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2019 08:27:26 -0700 (PDT)
+	Mon, 03 Jun 2019 08:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=jafEHOJBr4ngMzRMrbxDMNfz3gWjXxipPsHkbWfsmXE=;
-	b=REY5tdt+HbQZtmqu2CXF7uW6wOw3hP8D/i+SlsjwPuR6+ZgYImCHCi8X6kLWppZTBR
-	7RP1Cb56iadlWwxPEezj0B4fwsPWiZI4EAojGzPOeM2m1goXHbz0s9320IYZ93kYmT/U
-	FyldRcqUYV+UGpbKBs1latJ6bqt3fBNWIBjKeEvyQ38s+umNdDxJkzzULJa4pWNPhv1a
-	OcaZ/s4SyjaTmiZGDGhVu+WI/XRUOmoeOP9BmYotX9eRfZw5Q/D4rJXbgW/bjTmG865r
-	16uE/ueR6UyUFqfYrfuO7aH9o78LeVTLomAPGaVCsQefrWfssbK6tSLWz8N2m7/PLIOl
-	qZNQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5lyb/LE4zvC9IdDDJrXwu1GamAaqnXoZhoiTHvKiOa8=;
+	b=X0ccuFokASQi4NTWCWNjy3iLO0Nyiqh72E7rxvp1VcayRGrdSXvAnub7wfweRYGUge
+	Q8FuiKkBBjfzQf5OXid9K1rjT9pPljZQjGiYFGkNTgqLvn9csktwZEzO+dvYQ9piJISR
+	MwrTUqGv5TmkaalY7SHuK6tdyMUBvO4JuskhQLgpI9CtKtwhpiMEPQ52tLRlMkk42aFn
+	EQpOn7DFKV62SCFvmXvbkV+BNV3dFu9a+KzfwUbzFSfSAnm+MEaJVetGllUFu+EsWdBs
+	c0fqIhCJKCk/R588mxh9kXGA+atGQicUcK/lTSBNeSdf7pKKdPlTq16qT0g/uJidryhs
+	MTKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=jafEHOJBr4ngMzRMrbxDMNfz3gWjXxipPsHkbWfsmXE=;
-	b=m6xenu8A66m90ULdlaeK91/59BohKR9Xb3ThnlpPSs/5sHHVqdjRxleL+/LY0ZAfZF
-	PQE7oxEes5LSC5YIm4W0Ti9EbUA8CYXCQf8mTKs2yyujMkSE1fSE6eI3XJCcCmRUot61
-	JdVtDpCzTqIOgUJ2g6lGinI9ALpdC9f8+kZGmZpiW/trjZwh59IPenx9OFkpNyzaZB2V
-	F7kZs0OK8vdtd9s1lnI+iG/XzC+cbIl8GX3AwaXLHnFuHPbb3AWwTM+bev3o9U4yK7TT
-	38Nm7wBwfa/QErOjqD04ORTAyGA8ttXkkTXUgjKfFgzsZQSUSf+jGR21es1m67eIYODY
-	AI7w==
-X-Gm-Message-State: APjAAAXFzkm3hYh+fYKA1kAx0pOuKqH38yoa7m6vTssBnubHIb0pNZQt
-	jETvF3yMLzGAFdd8xDbeTpNWsgYX
-X-Google-Smtp-Source: APXvYqzzegtLL6QPnzobCD2g/7a8NYEtmI7AvsaPq7jV9AGpel2/LquhVG/u/7nzE9aGa2R4wrnSVQ==
-X-Received: by 2002:a02:c918:: with SMTP id t24mr17967100jao.111.1559575645761;
-	Mon, 03 Jun 2019 08:27:25 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=5lyb/LE4zvC9IdDDJrXwu1GamAaqnXoZhoiTHvKiOa8=;
+	b=eE4AqBuc332j/MwhHIFyvdGAtfAZfisM4E8dZjhne0Z1OMfzXW+k8tWn03nISsXIvS
+	67/lvetLWJ2G8nas5VDjiMOpGQLGFYJ6NYGZn10VPy0SVAqMQjmg+gEdNvpCmvIBonP0
+	uIjNrIc7Oix2ltrPF76+xrbmW8SM1IzAARNMKCKIJwf8P0cKVI049PY866Z50LIoL94Z
+	s2Qg16JlNvarSXCiP8f3lBe7R3U3+TtynY9IbSB0oBd80AhXyLQFqKzxXujHSsZOUW3G
+	NQt/aodHpdLQsASWvpWf1UbDwHBIM1bbDQSuzAkTSWWwA1nKXWjZlhHPKNv3bXo5ifT6
+	6aKg==
+X-Gm-Message-State: APjAAAX05HN6ED+IZ4ah3JQsNHRS/EuJjJw7+dzl2tx18yH4U+mZs0kr
+	O3NXId3bjLiQIBIPGNIgN6xqPARF
+X-Google-Smtp-Source: APXvYqw4uhY6NSSw+4brUmIXHZrGsSYhFtk+9u+ug6ZhtQ2wKnNMG0b9RtDqAyETL/3Tz+2p8TRunw==
+X-Received: by 2002:a24:2846:: with SMTP id h67mr18284436ith.94.1559575757549; 
+	Mon, 03 Jun 2019 08:29:17 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id m7sm4893976iob.69.2019.06.03.08.27.24
+	by smtp.gmail.com with ESMTPSA id
+	k22sm4977630ior.52.2019.06.03.08.29.16
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 03 Jun 2019 08:27:24 -0700 (PDT)
+	Mon, 03 Jun 2019 08:29:17 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 10:27:19 -0500
-Message-Id: <20190603152719.17295-1-JPEWhacker@gmail.com>
+Date: Mon,  3 Jun 2019 10:29:10 -0500
+Message-Id: <20190603152910.20369-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190531165734.14435-1-JPEWhacker@gmail.com>
-References: <20190531165734.14435-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH v2] bash: Replace uninative loader path in ptest
+Cc: denys@ti.com
+Subject: [PATCH] zip: Remove build date to improve reproducibility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,33 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 15:27:25 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 15:29:17 -0000
 Content-Transfer-Encoding: 8bit
 
-The Makefile used for bash-ptest can pick up the path to the uninative
-loader through BUILD_LDFLAGS. This includes the full path to the
-uninative loader, which is not reproducible. Replace it with /bin/false.
-It doesn't appear as if these native programs are used in the test
-suites and if there are likely to be other problems related to building
-them using the BUILD_* flags.
+Applies a patch from Debian to remove the build date from zip.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-extended/bash/bash.inc | 1 +
- 1 file changed, 1 insertion(+)
+ .../zip/zip-3.0/10-remove-build-date.patch    | 19 +++++++++++++++++++
+ meta/recipes-extended/zip/zip_3.0.bb          |  4 +++-
+ 2 files changed, 22 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index dbb803ddefd..27207c38853 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -78,6 +78,7 @@ do_install_ptest () {
- 	    -e 's|${DEBUG_PREFIX_MAP}||g' \
- 	    -e "s,${S},,g" -e "s,${B},,g" -e "s,${STAGING_DIR_NATIVE},,g" \
- 	    -e 's:${HOSTTOOLS_DIR}/::g' \
-+	    -e 's:${UNINATIVE_LOADER}:${base_bindir}/false:g' \
- 	     ${D}${PTEST_PATH}/Makefile
- }
+diff --git a/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch b/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
+new file mode 100644
+index 00000000000..244ddea363a
+--- /dev/null
++++ b/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
+@@ -0,0 +1,19 @@
++From: Santiago Vila <sanvila@debian.org>
++Subject: Remove (optional) build date to make the build reproducible
++Bug-Debian: http://bugs.debian.org/779042
++
++Upstream-Status: Inappropriate [no upstream]
++
++Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
++
++--- a/unix/unix.c
+++++ b/unix/unix.c
++@@ -1020,7 +1020,7 @@
++ 
++ 
++ /* Define the compile date string */
++-#ifdef __DATE__
+++#if 0
++ #  define COMPILE_DATE " on " __DATE__
++ #else
++ #  define COMPILE_DATE ""
+diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
+index de779e94aae..a2cd7717caf 100644
+--- a/meta/recipes-extended/zip/zip_3.0.bb
++++ b/meta/recipes-extended/zip/zip_3.0.bb
+@@ -10,7 +10,9 @@ PR = "r2"
+ S = "${WORKDIR}/zip30"
  
+ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz \
+-           file://fix-security-format.patch"
++           file://fix-security-format.patch \
++           file://10-remove-build-date.patch \
++           "
+ UPSTREAM_VERSION_UNKNOWN = "1"
+ 
+ SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
 -- 
 2.21.0
 
