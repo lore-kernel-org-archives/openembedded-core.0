@@ -1,52 +1,50 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id ABBB07D41C
+Received: from mail-it1-f169.google.com (mail-it1-f169.google.com
+	[209.85.166.169])
+	by mail.openembedded.org (Postfix) with ESMTP id EB0A47E3FB
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 15:29:16 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id i21so8420383ita.5
+	Mon,  3 Jun 2019 15:29:52 +0000 (UTC)
+Received: by mail-it1-f169.google.com with SMTP id h9so13036811itk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2019 08:29:18 -0700 (PDT)
+	Mon, 03 Jun 2019 08:29:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=5lyb/LE4zvC9IdDDJrXwu1GamAaqnXoZhoiTHvKiOa8=;
-	b=X0ccuFokASQi4NTWCWNjy3iLO0Nyiqh72E7rxvp1VcayRGrdSXvAnub7wfweRYGUge
-	Q8FuiKkBBjfzQf5OXid9K1rjT9pPljZQjGiYFGkNTgqLvn9csktwZEzO+dvYQ9piJISR
-	MwrTUqGv5TmkaalY7SHuK6tdyMUBvO4JuskhQLgpI9CtKtwhpiMEPQ52tLRlMkk42aFn
-	EQpOn7DFKV62SCFvmXvbkV+BNV3dFu9a+KzfwUbzFSfSAnm+MEaJVetGllUFu+EsWdBs
-	c0fqIhCJKCk/R588mxh9kXGA+atGQicUcK/lTSBNeSdf7pKKdPlTq16qT0g/uJidryhs
-	MTKg==
+	bh=dUPlXugPAdAmST6tK7eFTIwdfJi7pjUE9rbm0wYg9ag=;
+	b=Uw4b9ef7HF88ettabNkKiyXYh4cLNMmkHzTyOUgBm0nSK7PU7d5f3NiX69osz0Pl9N
+	3TMuAu9DyWSebTV1pL02iKBMSUKTdrIqcpkZAL4vUPLZpmguqEivh58JmTegtD1ZKRta
+	8C7vJdGp/ENrb2R4gaxQDY5nGLgtZmXGIpcVzExzpTUTWAIACcbh6RZnLz2bWVtsrj6n
+	UqoX03Fc4JCU3OTMyg+lNTnoLbmYuD5kL6D7vXn8zPiDK5uGR1SOkvGHqJ4f/byFHhYC
+	gietvyV9SNm0OhyACdSgUk94qV9+hPT+XZCObzRjyZazgMuYAdXk92n4qfvN9WhG7gWg
+	uxEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=5lyb/LE4zvC9IdDDJrXwu1GamAaqnXoZhoiTHvKiOa8=;
-	b=eE4AqBuc332j/MwhHIFyvdGAtfAZfisM4E8dZjhne0Z1OMfzXW+k8tWn03nISsXIvS
-	67/lvetLWJ2G8nas5VDjiMOpGQLGFYJ6NYGZn10VPy0SVAqMQjmg+gEdNvpCmvIBonP0
-	uIjNrIc7Oix2ltrPF76+xrbmW8SM1IzAARNMKCKIJwf8P0cKVI049PY866Z50LIoL94Z
-	s2Qg16JlNvarSXCiP8f3lBe7R3U3+TtynY9IbSB0oBd80AhXyLQFqKzxXujHSsZOUW3G
-	NQt/aodHpdLQsASWvpWf1UbDwHBIM1bbDQSuzAkTSWWwA1nKXWjZlhHPKNv3bXo5ifT6
-	6aKg==
-X-Gm-Message-State: APjAAAX05HN6ED+IZ4ah3JQsNHRS/EuJjJw7+dzl2tx18yH4U+mZs0kr
-	O3NXId3bjLiQIBIPGNIgN6xqPARF
-X-Google-Smtp-Source: APXvYqw4uhY6NSSw+4brUmIXHZrGsSYhFtk+9u+ug6ZhtQ2wKnNMG0b9RtDqAyETL/3Tz+2p8TRunw==
-X-Received: by 2002:a24:2846:: with SMTP id h67mr18284436ith.94.1559575757549; 
-	Mon, 03 Jun 2019 08:29:17 -0700 (PDT)
+	bh=dUPlXugPAdAmST6tK7eFTIwdfJi7pjUE9rbm0wYg9ag=;
+	b=OQiiQKYTF5ERQPxDD65F6HkC0ijQKJLuzwVj640dphBmUChkTG8K2dAmklts+s4Pd6
+	tzG++F5UeIdjYy/r2UR9zg49ETTj1tRqB7DfQMx8XNSj+NEF0sdt0Tw/fnRD5zb1L7h3
+	j1kGCiEFqLJm+XT+h150xynCx11P+vRVWIhSzu1n3dXj0hLs7rqJBOs6Fd0dyPu82TSJ
+	SeFajMKz+yvM2obCI73wSdXMAKeX41u21O76gMieM5KbdMHde1Bl7OpWvvVTSVQz0TEO
+	LERzr3Tc8jj1OXAKHB+Voq/TaXald6v+C7ZeYR8lDw82A6nto9SA+wikW+435FtLvI73
+	07qA==
+X-Gm-Message-State: APjAAAXrp9XxZUQTwQYi/oi6sf+a9jWpYdnvK6zQVIH3gnhSZIl1Rj6J
+	ONKqCuSgWvPdDjHahrabzuui6pBh
+X-Google-Smtp-Source: APXvYqyPsptgE4XloGVYFurqbqyIGSupOJSgWU4LC4XCM9KfrDSB4zkrSoKYU66ADt52HA80bowUYw==
+X-Received: by 2002:a02:7715:: with SMTP id g21mr17474437jac.24.1559575793690; 
+	Mon, 03 Jun 2019 08:29:53 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	k22sm4977630ior.52.2019.06.03.08.29.16
+	by smtp.gmail.com with ESMTPSA id 67sm2069727ith.16.2019.06.03.08.29.52
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 03 Jun 2019 08:29:17 -0700 (PDT)
+	Mon, 03 Jun 2019 08:29:53 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 10:29:10 -0500
-Message-Id: <20190603152910.20369-1-JPEWhacker@gmail.com>
+Date: Mon,  3 Jun 2019 10:29:47 -0500
+Message-Id: <20190603152947.4921-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Cc: denys@ti.com
-Subject: [PATCH] zip: Remove build date to improve reproducibility
+Subject: [PATCH] classes/package: Sort ELF file list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 15:29:17 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 15:29:53 -0000
 Content-Transfer-Encoding: 8bit
 
-Applies a patch from Debian to remove the build date from zip.
+Sorts the list of detected ELF files by path before processing. This
+ensures that when multiple files are hardlinked together the first one
+found is always the same. This is required to have reproducible builds.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- .../zip/zip-3.0/10-remove-build-date.patch    | 19 +++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |  4 +++-
- 2 files changed, 22 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
+ meta/classes/package.bbclass | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch b/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
-new file mode 100644
-index 00000000000..244ddea363a
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/10-remove-build-date.patch
-@@ -0,0 +1,19 @@
-+From: Santiago Vila <sanvila@debian.org>
-+Subject: Remove (optional) build date to make the build reproducible
-+Bug-Debian: http://bugs.debian.org/779042
-+
-+Upstream-Status: Inappropriate [no upstream]
-+
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+
-+--- a/unix/unix.c
-++++ b/unix/unix.c
-+@@ -1020,7 +1020,7 @@
-+ 
-+ 
-+ /* Define the compile date string */
-+-#ifdef __DATE__
-++#if 0
-+ #  define COMPILE_DATE " on " __DATE__
-+ #else
-+ #  define COMPILE_DATE ""
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index de779e94aae..a2cd7717caf 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -10,7 +10,9 @@ PR = "r2"
- S = "${WORKDIR}/zip30"
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4c0a8595363..06948555042 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1005,6 +1005,12 @@ python split_and_strip_files () {
+                 symlinks[file] = target
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.gz \
--           file://fix-security-format.patch"
-+           file://fix-security-format.patch \
-+           file://10-remove-build-date.patch \
-+           "
- UPSTREAM_VERSION_UNKNOWN = "1"
- 
- SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
+         results = oe.utils.multiprocess_launch(oe.package.is_elf, checkelf.keys(), d)
++
++        # Sort results by file path. This ensures that the files are always
++        # processed in the same order, which is important to make sure builds
++        # are reproducible when dealing with hardlinks
++        results.sort(key=lambda x: x[0])
++
+         for (file, elf_file) in results:
+             # It's a file (or hardlink), not a link
+             # ...but is it ELF, and is it already stripped?
 -- 
 2.21.0
 
