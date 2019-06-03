@@ -1,51 +1,58 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E9C917D3CE
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com
+	[209.85.221.44])
+	by mail.openembedded.org (Postfix) with ESMTP id B99557D58A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 12:30:34 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id c2so11863272wrm.8
+	Mon,  3 Jun 2019 13:02:36 +0000 (UTC)
+Received: by mail-wr1-f44.google.com with SMTP id p11so7137711wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2019 05:30:36 -0700 (PDT)
+	Mon, 03 Jun 2019 06:02:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=riR8RLGlKIljvDA8ixw/XXSyenOG/l/YmDF4YMn86UI=;
-	b=YWeZhYBrXPtojGmqaBQb+g01G2OVqAoogfQJXtB/mPS9Aqg6LUgQfeynbClAGK1tTG
-	aSnO7czhVXyIJRHU0WvwfmyGbRct6cptd0GxXSPEOFBnG9RwVsaXD++F5H8MJjfd2VUf
-	uLoDzXHEMvwXQJiK1/Nhtmc37Nn+Z3d6R1Vio=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=aSQ//TY1q4xH33nNB89PX+0ZtWQHB3fu4fZTZsfCEuk=;
+	b=LiMr98OeHokjd/a2Bpz7KBzx9sNcXVW7xww8Ovzjgl0E6Q/QV1KfAPveItO4zoWpWH
+	da7rnB1OTXn8/nuLUiWFo56jqcnALmoqZNlVU78Laa18Zu9Flc3OfRcXqAco9n343Wij
+	MP5wpzjXM6cdZdz+lAfvpXt19dwcOIPi1KamY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=riR8RLGlKIljvDA8ixw/XXSyenOG/l/YmDF4YMn86UI=;
-	b=G7Sbz0v4Sn1V0ptpn9tbQ3dArwdsOQ7EtLUDIOeJNvIO5q7ZPvlfNdAK2fc0cNgkyf
-	DQw9o5BVcOYDJTUKw8ntq8CRTAGemgvP7KF/DEn9TKAJH8JwrEzbatEOEPO+XginexHO
-	9cDVqP60CtoFP9TcN5gGR3Q+x9ezyK7WE35gBKWA5fPpEaoyxhsOM5YK0+wMgTrnmZaR
-	HNZi5B5qH0qjIAXH5QXbBe0ALbXgQH+5K/FzwM+d9ZSlyyj26rMtE4JrpaYFbfA1474O
-	SYqxL/U9hmBcFXbMAogM53oi+9Jja3K9sYy4rdDLM8NCtOUZemXcS4hl18Ux2FpZ6Ew2
-	p5vg==
-X-Gm-Message-State: APjAAAX0ksXgCpSLKBxfNRwgJVX6BevRfnsXZTgbKWVyvy+WFwHPK5iJ
-	EoBTZNrp+xDaZV6gEW6erjTgaw==
-X-Google-Smtp-Source: APXvYqyeYvOooaaaztJ5Np6emh+FugpmzcxcU5gWKTyym5eYuTCiWZOfyr/V68wjb1mc2l49iECk2Q==
-X-Received: by 2002:a5d:5108:: with SMTP id s8mr8974212wrt.341.1559565035641; 
-	Mon, 03 Jun 2019 05:30:35 -0700 (PDT)
+	bh=aSQ//TY1q4xH33nNB89PX+0ZtWQHB3fu4fZTZsfCEuk=;
+	b=XclMZ/KUiBJMAXOOGpCzZQbZAZF3Bx2V408E+DPPApGRVVlYzDS+vixD+3zpH9xJs3
+	lj8OppbOyZN7NRg36pwFLwnA3EJ2GfVO+/H8Pg+NR7DPwjeUh+P3hzhmlVrY3XWXHGkj
+	dm2U+G8RmtVYDWA8MyzYGV+gZU1mS1TE51zdOcGrx2zjzQLxuLdDhueFx1gTDyPa3yBv
+	sn1EwBesqXSryRiHtSVS2jBadPMW3JFehk6EHn0RtCBT/9YmxVMN0j9fgllJKjPUvfwF
+	8ozrGXw7Ygmp/1x2b0QFwz+ybmAETIZ/MuEWyduqiMyx7tpDDSM1o25oPQjfr7QMPhbN
+	JN0w==
+X-Gm-Message-State: APjAAAXRaGPk94e/nLBE2tFNebcS3TZbk8s5gJUe2q+BUbMOjcKtga3h
+	3K2dBtwxhe8eDz/4Is9mT8zRMbM7pvU=
+X-Google-Smtp-Source: APXvYqyqcjVEOoF9zarvXRt3yNIq8XchY7qysVKBR/lJt/DlahHMK9+D1e+R4F1nctqtsn85zX6O2g==
+X-Received: by 2002:adf:aa0a:: with SMTP id p10mr16199550wrd.125.1559566957405;
+	Mon, 03 Jun 2019 06:02:37 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	l18sm34218428wrh.54.2019.06.03.05.30.34
+	u19sm36058694wmu.41.2019.06.03.06.02.36
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 03 Jun 2019 05:30:34 -0700 (PDT)
-Message-ID: <51adf784752be06beea78dbe4a523a403671dbe0.camel@linuxfoundation.org>
+	Mon, 03 Jun 2019 06:02:36 -0700 (PDT)
+Message-ID: <40a7069ef696bea5b7e2764c61e809769dab41ab.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
-To: kai.kang@windriver.com
-Date: Mon, 03 Jun 2019 13:30:32 +0100
-In-Reply-To: <20190602145530.183521-1-kai.kang@windriver.com>
-References: <20190602145530.183521-1-kai.kang@windriver.com>
+To: Changqing Li <changqing.li@windriver.com>, Randy MacLeod
+	<randy.macleod@windriver.com>, openembedded-core
+	<openembedded-core@lists.openembedded.org>, Sakib Sajal
+	<sakib.sajal@windriver.com>
+Date: Mon, 03 Jun 2019 14:02:35 +0100
+In-Reply-To: <e044d19f-4cbd-7876-0575-820e9e43d212@windriver.com>
+References: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
+	<6ed430aa3e5e722cd75b1798cacab3f92eb71b71.camel@linuxfoundation.org>
+	<2b4e8d0f-cbb9-d2e4-c17d-33950d3cf9df@windriver.com>
+	<7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
+	<090bebe4dfd6ba60188c0476aea5469787a94822.camel@linuxfoundation.org>
+	<e044d19f-4cbd-7876-0575-820e9e43d212@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [meta-poky][PATCH v6 0/2] Make systemd as default init manager and configure wired network
+Subject: Re: ptest with BBCLASSEXTEND
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +65,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 12:30:35 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 13:02:37 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Sun, 2019-06-02 at 10:55 -0400, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
+On Mon, 2019-06-03 at 11:10 +0800, Changqing Li wrote:
+> Based on this list, except lib*perl and packages that are dealing
+> with by others,
 > 
-> v6:
-> * create .inc files as Richard suggested, and include them according
-> to POKY_INIT_MANAGER
+> I picked some for your reference to evaluate the workload.  If more
+> info is needed,
 > 
-> Kai Kang (2):
->   poky.conf: make systemd as default init manager
->   systemd-conf: configure wired network with dhcp
+> feel free to tell me.
 
-This is looking good, I do agree with Peter about the file naming. I
-ran it through the autobuilder to see where we are at runtime and the
-results were not so good:
+If it helps, I reran the minimal image comparison and found the
+following issues:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/484
+Recipes where we have problems (differences) in minimal images:
 
-We may need to reduce some of the free space in the ptest image and it
-looks like there is an NFS startup failure issue in the sdk images.
-There may be other issues in there too but those were the two I
-immediately saw.
+bash                         | 76          | 5       | 0         | 163
+diffutils                    | 19          | 0       | 2         | 1
+e2fsprogs                    | 0           | 0       | 0         | 111
+elfutils                     | 194         | 0       | 9         | 32
+gettext                      | 354         | 21      | 37        | 32
+gzip                         | 19          | 0       | 3         | 3
+kbd                          | 5           | 2       | 0         | 0
+m4                           | 145         | 7       | 18        | 5
+openssh                      | 15          | 1       | 1         | 145
+parted                       | 41          | 1       | 22        | 5
+perl                         | 2413        | 18      | 245       | 861
+python                       | 301         | 6       | 41        | 327
+python3                      | 30277       | 2       | 1043      | 1012
+
+Others:
+
+acl tests are timing out?
+
+gawk shows failures in sdk image but minimal:
+gawk                         | 407         | 24      | 0         | 20
+
+gstreamer shows two fewer failures in minimal image:
+gstreamer1.0                 | 104         | 1       | 0         | 104
+
+(I'm using 
+https://autobuilder.yocto.io/pub/non-release/20190601-2/testresults/testresult-report.txt
+for comparison)
+
+There are also some open ptest bugs in bugzilla which I didn't
+duplicate here.
+
+The above list is much smaller than the original particularly now we
+have the perl module issues resolved.
 
 Cheers,
 
 Richard
+
+> diffutils   depend on perl
+> elfutils:   mingli have work on it and send patch to oe-core mail
+> list
+> gettext:  depend on certain locales for some tests
+> 
+>                depend on autoconf for some test
+> gzip:       have tests depend on diff, while diff in busybox 
+> incompatible with POSIX
+>                have tests depend on grep, while grep in busybox
+> don't 
+> support context options
+>                have tests depend on perl
+> kbd:       have tests depend on readlink,  busybox's readlink don't 
+> support -e option
+> m4:       one test depend on perl, some test skip since depend on 
+> certain locale/codeset, need to check one by one
+> 
+> 
 
 
