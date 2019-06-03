@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f194.google.com (mail-pf1-f194.google.com
-	[209.85.210.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 58E187E321
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6AA5A7E337
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 15:07:09 +0000 (UTC)
-Received: by mail-pf1-f194.google.com with SMTP id c6so10777809pfa.10
+	Mon,  3 Jun 2019 15:07:10 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id u17so10782501pfn.7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 03 Jun 2019 08:07:10 -0700 (PDT)
+	Mon, 03 Jun 2019 08:07:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=bzpGb3YQdvdMSgZ036ekvaQnaRII482iLXBPgMMciyA=;
-	b=tW5DEj5r7UcKVR8El1HG3xiWXhRBUa8rJgWd04ID5Qncgog5Sykf6krhtKlKBnMHtP
-	0dcvSJGHP7RNycMy7o9gRjMROK9U0xCfRpu7KewRF6ptaD04nwPqwKLLvZXL6LgPnRZ4
-	6Uk+C+lNtTSfRo08ZgENyHNnJx5MQ1m5zGrswXroBN6d64vGsXwZm0a7lxaibeVGRCLj
-	JkfIpvWvj8MYdZIE4AINQTNPYkWhCIaZm4Fo7JWVpqK+MUtmAONVnPyrJ1zw+hvQ9I6U
-	VAtBBYP9cYLXGel7uOfvFF4kfIM7vBZyFqB02JOZUS3VlpD2K0A9QCQ2A75rbjVkhrXv
-	GTQA==
+	bh=Iwtx+BacfqbpgM+T70kuLJBh+cGsVkzgCgRNLljfZug=;
+	b=ncTKwsGfEBGjfmgE0me3O49s/CYAVc9fEke77xqWBKHY0dUTyCjqLHaSjYmmwOXB+1
+	/6pFVihQFCMUB5vQui16lbU9hW8DKW58IsNvhsTdklM4diKRzjgsE+UY4+DyebP3UNRQ
+	kssCeEY0XIOry7PSYpQdvrDBNWP2k4uxiuCJGe6v5XYnzHDfEVdN2UisCEkdfIBLlFeM
+	6dSo0eHMscmvrZywvS+Wmg+m6hYlUZXhj6rrPZ9f+WjBjIMwXmzw8C30qaRLXIqO3heu
+	VW1NSB5cEhau/7Lz7s3I4pv1xjGG0GMs098ABn0t663PquUUQalhrGZNdjKR+UEc3fVo
+	dPtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=bzpGb3YQdvdMSgZ036ekvaQnaRII482iLXBPgMMciyA=;
-	b=doQ0qYVyrC158TmSKl5cU7CAh5l8UUhXSKf/C5mQzFdAcePUI0y7Z8eh9/6g3l1Dd+
-	u/qfMr+WUieAEJB4Xrw7K3AYl8/cJaP0GrKjoAvH39YjQDdy5AFT11de4mXPoAxHeEaU
-	ln1jenD3Em7NdcZzRLVzOuObvHl+Py6YXYtMp9CRq1h/mGledRK6lVedWo+WJGiBj887
-	PJaruv0r/vhWH0or+R9bEMFEhP0sJsCiQdECD493gJtha5H6CjoRvCJsVBkiIbeifZoZ
-	mZ81XgmcPkf/o8jzQNAYuWLauDhygqxl0zmkp/1WPxCRbT6vc8OzAdGqeXfNFbCVQNYO
-	BRDg==
-X-Gm-Message-State: APjAAAWcqHmz7sgZXDKnAfgAld+41hiI20y9cQypC6Q9/R/ELJLb2Gyk
-	WswrfyYkOO0j1FgqpCW2g5utL8uq
-X-Google-Smtp-Source: APXvYqza/hledH+VonIm5Aio9r6+/UoIvYPnh7xA+OOUJvd5ATRW1D6Rzw7KiAfq8Mg82O9bLUxSkg==
-X-Received: by 2002:a62:750c:: with SMTP id q12mr10490338pfc.59.1559574430535; 
-	Mon, 03 Jun 2019 08:07:10 -0700 (PDT)
+	bh=Iwtx+BacfqbpgM+T70kuLJBh+cGsVkzgCgRNLljfZug=;
+	b=IaUvPn6lrHc5jLz2Ai+PA5FNTmhTBXwxoU3iohkHzv+B4TYvR8FEVKzrCGDapNoYoA
+	VLESH7jW3+uXfuYKC/n1ERcjN1Be3NLfZe64HITLH6Jzybdn1XDyrkJZskgaCf61P8FL
+	99vdj5HfaBHQdaChs+OLwcqKBJYKYTVlnarNcV+etjlXzQVzcFRe+T/4Par07PYYLxAa
+	SiYzHkWUC0otJCLHuUxEg4FHkDp8zgMCbBjlxPb+RqWRVAInwxmBrGnS1yasqSA0Kwze
+	2YjmDsRzOrrY0SeH4NxTSxFvbmlusj1LXBJ/ftj4NiY8l2er0dTItUbX1ZrqAm6saZah
+	7ZpQ==
+X-Gm-Message-State: APjAAAWH94iVI8UjXy14Ru6Fk4zaVEuykD7uGq0LVSAYIdK5nt4Z5mJh
+	I1rjUhILtsolOWlH6jLCshkgaBTt
+X-Google-Smtp-Source: APXvYqx4q7d82JZr148yV8obWhLmAaZcGgK/X0gUIJboIDMbE5igkBoYm6Gwcv36psaygw9RtXKCcw==
+X-Received: by 2002:a62:a508:: with SMTP id v8mr31042389pfm.87.1559574431446; 
+	Mon, 03 Jun 2019 08:07:11 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:847:4796:a7c5:c767])
 	by smtp.gmail.com with ESMTPSA id
-	s5sm14250546pgj.60.2019.06.03.08.07.09
+	s5sm14250546pgj.60.2019.06.03.08.07.10
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 03 Jun 2019 08:07:09 -0700 (PDT)
+	Mon, 03 Jun 2019 08:07:11 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 08:06:44 -0700
-Message-Id: <11bc4253e3bc9525a12fafe855bf8d6db4fb81c3.1559574291.git.akuster808@gmail.com>
+Date: Mon,  3 Jun 2019 08:06:45 -0700
+Message-Id: <fa40d49bfb0dedea7f3dad454c408e249f4c05f7.1559574291.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1559574291.git.akuster808@gmail.com>
 References: <cover.1559574291.git.akuster808@gmail.com>
-Subject: [PATCH 01/21] dropbear: update to 2019.78
+Subject: [PATCH 02/21] Tar: Security fix CVE-2019-0023
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,45 +59,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 15:07:09 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 15:07:10 -0000
 
-From: Andrej Valek <andrej.valek@siemens.com>
+From: Armin Kuster <akuster@mvista.com>
 
-The only change is a regression fix:
-- Fix dbclient regression in 2019.77. After exiting the terminal would be left
-  in a bad state. Reported by Ryan Woodsmall
+Source: tar.git
+MR: 97928
+Type: Security Fix
+Disposition: Backport from http://git.savannah.gnu.org/cgit/tar.git/commit/?id=cb07844454d8cc9fb21f53ace75975f91185a120
+ChangeID: 7aee4c0daf8ce813242fe7b872583560a32bc4e3
+Description:
 
-Signed-off-by: Andrej Valek <andrej.valek@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Affects tar < 1.32
+
+fixes CVE-2019-9923
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-core/dropbear/dropbear_2019.77.bb | 4 ----
- meta/recipes-core/dropbear/dropbear_2019.78.bb | 4 ++++
- 2 files changed, 4 insertions(+), 4 deletions(-)
- delete mode 100644 meta/recipes-core/dropbear/dropbear_2019.77.bb
- create mode 100644 meta/recipes-core/dropbear/dropbear_2019.78.bb
+ meta/recipes-extended/tar/tar/CVE-2019-9923.patch | 38 +++++++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.31.bb             |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2019-9923.patch
 
-diff --git a/meta/recipes-core/dropbear/dropbear_2019.77.bb b/meta/recipes-core/dropbear/dropbear_2019.77.bb
-deleted file mode 100644
-index d2a71ba..0000000
---- a/meta/recipes-core/dropbear/dropbear_2019.77.bb
-+++ /dev/null
-@@ -1,4 +0,0 @@
--require dropbear.inc
--
--SRC_URI[md5sum] = "5d4f0256c5d13820b0a3eaadb1a0bc1a"
--SRC_URI[sha256sum] = "d91f78ebe633be1d071fd1b7e5535b9693794048b019e9f4bea257e1992b458d"
-diff --git a/meta/recipes-core/dropbear/dropbear_2019.78.bb b/meta/recipes-core/dropbear/dropbear_2019.78.bb
+diff --git a/meta/recipes-extended/tar/tar/CVE-2019-9923.patch b/meta/recipes-extended/tar/tar/CVE-2019-9923.patch
 new file mode 100644
-index 0000000..d2cd816
+index 0000000..a2704c3
 --- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear_2019.78.bb
-@@ -0,0 +1,4 @@
-+require dropbear.inc
++++ b/meta/recipes-extended/tar/tar/CVE-2019-9923.patch
+@@ -0,0 +1,38 @@
++From cb07844454d8cc9fb21f53ace75975f91185a120 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Mon, 14 Jan 2019 15:22:09 +0200
++Subject: [PATCH] Fix possible NULL dereference (savannah bug #55369)
 +
-+SRC_URI[md5sum] = "a972c85ed678ad0fdcb7844e1294fb54"
-+SRC_URI[sha256sum] = "525965971272270995364a0eb01f35180d793182e63dd0b0c3eb0292291644a4"
++* src/sparse.c (pax_decode_header): Check return from find_next_block.
++
++Upstream-Status: Backport
++CVE:  CVE-2019-9923
++Affects: tar < 1.32
++Signed-off-by: Armin kuster <akuster@mvista.com>
++
++---
++ src/sparse.c | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++Index: tar-1.31/src/sparse.c
++===================================================================
++--- tar-1.31.orig/src/sparse.c
+++++ tar-1.31/src/sparse.c
++@@ -1267,6 +1267,8 @@ pax_decode_header (struct tar_sparse_fil
++ 	 {                                                         \
++ 	   set_next_block_after (b);                               \
++            b = find_next_block ();                                 \
+++           if (!b)                                                 \
+++             FATAL_ERROR ((0, 0, _("Unexpected EOF in archive"))); \
++            src = b->buffer;                                        \
++ 	   endp = b->buffer + BLOCKSIZE;                           \
++ 	 }                                                         \
++@@ -1279,6 +1281,8 @@ pax_decode_header (struct tar_sparse_fil
++       start = current_block_ordinal ();
++       set_next_block_after (current_header);
++       blk = find_next_block ();
+++      if (!blk)
+++        FATAL_ERROR ((0, 0, _("Unexpected EOF in archive")));
++       p = blk->buffer;
++       COPY_BUF (blk,nbuf,p);
++       if (!decode_num (&u, nbuf, TYPE_MAXIMUM (size_t)))
+diff --git a/meta/recipes-extended/tar/tar_1.31.bb b/meta/recipes-extended/tar/tar_1.31.bb
+index 353617e..4a9d03c 100644
+--- a/meta/recipes-extended/tar/tar_1.31.bb
++++ b/meta/recipes-extended/tar/tar_1.31.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
+            file://remove-gets.patch \
+            file://musl_dirent.patch \
++           file://CVE-2019-9923.patch \
+ "
+ 
+ SRC_URI[md5sum] = "77afa35b696c8d760331fa0e12c2fac9"
 -- 
 2.7.4
 
