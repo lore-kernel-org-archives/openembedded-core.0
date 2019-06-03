@@ -1,33 +1,28 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 7414C7DD44
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 996AB7D9E5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 03:10:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x533AFt1001443
+	Mon,  3 Jun 2019 03:35:24 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x533ZNh2000824
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 2 Jun 2019 20:10:15 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Sun, 2 Jun 2019 20:10:14 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Randy MacLeod
-	<randy.macleod@windriver.com>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, Sakib Sajal
-	<sakib.sajal@windriver.com>
-References: <69efb132247d1706c6c23262ea59e80f75e96768.camel@linuxfoundation.org>
-	<6ed430aa3e5e722cd75b1798cacab3f92eb71b71.camel@linuxfoundation.org>
-	<2b4e8d0f-cbb9-d2e4-c17d-33950d3cf9df@windriver.com>
-	<7134ea3a82bc3817da8bdc9f52e0867d223b2df4.camel@linuxfoundation.org>
-	<090bebe4dfd6ba60188c0476aea5469787a94822.camel@linuxfoundation.org>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <e044d19f-4cbd-7876-0575-820e9e43d212@windriver.com>
-Date: Mon, 3 Jun 2019 11:10:11 +0800
+	Sun, 2 Jun 2019 20:35:23 -0700 (PDT)
+Received: from [128.224.162.157] (128.224.162.157) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Sun, 2 Jun 2019 20:35:23 -0700
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+References: <cover.1557628550.git.hongxu.jia@windriver.com>
+	<892252c3c1961d471cdf37c67a811353ab495e0b.1557628550.git.hongxu.jia@windriver.com>
+	<CANNYZj88dNfVa1DfXPFuOSHbeZw8BBhh8qgycLPgf=MM7s7pDg@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <c4d902bd-5850-9bca-2d9c-1fc655cdd665@windriver.com>
+Date: Mon, 3 Jun 2019 11:35:21 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <090bebe4dfd6ba60188c0476aea5469787a94822.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.186]
-Subject: Re: ptest with BBCLASSEXTEND
+In-Reply-To: <CANNYZj88dNfVa1DfXPFuOSHbeZw8BBhh8qgycLPgf=MM7s7pDg@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 05/10] ncurses: fix incorrect UPSTREAM_CHECK_GITTAGREGEX
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,108 +35,283 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 03:10:16 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 03 Jun 2019 03:35:24 -0000
+Content-Type: multipart/alternative;
+	boundary="------------F2312DE37925F13B2BEF704C"
 Content-Language: en-US
 
+--------------F2312DE37925F13B2BEF704C
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 5/22/19 6:31 AM, Richard Purdie wrote:
-> On Thu, 2019-05-16 at 23:28 +0100, richard.purdie@linuxfoundation.org
-> wrote:
->> Just to update from my perspective:
->>
->> quilt and lib*-perl all look like missing perl module dependencies.
->> The place those dependencies are missing may be for the ptest or may
->> be the actual PN package itself, depending on where the module
->> dependency is.
-> I've sent out a further patch series which resolves some of the issues.
-> Some quilt tests now pass, some still fail. The perl modules fail in
-> different ways to before, there are clearly more missing dependencies
-> to be added.
+On 6/1/19 4:27 AM, Alexander Kanavin wrote:
+> On Sun, 12 May 2019 at 10:18, Hongxu Jia <hongxu.jia@windriver.com 
+> <mailto:hongxu.jia@windriver.com>> wrote:
 >
-> A quick summary of roughly the recipes still with problems (not 100%
-> accurately filtered):
->
-> ==============================================================================================================
-> PTest Result Summary
-> ==============================================================================================================
-> --------------------------------------------------------------------------------------------------------------
-> Recipe                       | Passed      | Failed    | Skipped   | Time(s)
-> --------------------------------------------------------------------------------------------------------------
-> bash                         | 41          | 3         | 0         | 107 T
-> bluez5                       | 23          | 2         | 0         | 5
-> dbus-test                    | 0           | 0         | 0         | 91 T
-> diffutils                    | 19          | 0         | 2         | 1
-> e2fsprogs                    | 0           | 0         | 0         | 108 T
-> elfutils                     | 172         | 24        | 7         | 19
-> gettext                      | 354         | 21        | 37        | 33
-> glib-2.0                     | 245         | 0         | 0         | 367
-> gstreamer1.0                 | 103         | 1         | 0         | 103
-> gzip                         | 19          | 0         | 3         | 3
-> kbd                          | 5           | 2         | 0         | 0
-> libconvert-asn1-perl         | 0           | 22        | 0         | 0
-> liberror-perl                | 2           | 13        | 0         | 0
-> libpcre                      | 3           | 0         | 0         | 2
-> libtest-needs-perl           | 0           | 2         | 0         | 0
-> libtimedate-perl             | 3           | 2         | 0         | 0
-> liburi-perl                  | 0           | 39        | 2         | 0
-> libxml-namespacesupport-perl | 0           | 1         | 0         | 0
-> libxml-parser-perl           | 0           | 15        | 0         | 0
-> libxml-perl                  | 0           | 6         | 0         | 0
-> libxml-sax-base-perl         | 2           | 17        | 0         | 1
-> libxml-sax-perl              | 0           | 14        | 0         | 0
-> libxml-simple-perl           | 0           | 14        | 0         | 0
-> lttng-tools                  | 3397        | 626       | 1         | 350 T
-> m4                           | 144         | 8         | 18        | 5
-> nettle                       | 97          | 0         | 2         | 8
-> openssh                      | 15          | 1         | 1         | 138
-> openssl                      | 146         | 1         | 8         | 87
-> opkg                         | 0           | 0         | 0         | 9
-> parted                       | 41          | 1         | 22        | 4
-> perl                         | 2423        | 19        | 238       | 727
-> python                       | 301         | 6         | 41        | 325
-> python3                      | 30277       | 2         | 1043      | 1005
-> quilt                        | 10          | 47        | 0         | 24
-> tcl                          | 149         | 0         | 0         | 177
-> valgrind                     | 149         | 1         | 9         | 552
-> --------------------------------------------------------------------------------------------------------------
->
-> Cheers,
->
-> Richard
+>     The upstream git tag has a `upstream/' prefix, such as:
+>     >>> import re
+>     >>> pattern = "upstream/(?P<pver>\d+(\.\d+)+(\+\d+)*)"
+>     >>> string = "upstream/6.1+20181013"
+>     >>> result = re.match(pattern, string)
+>     >>> result['pver']
+>     '6.1+20181013'
 >
 >
-Randy,
-
-Based on this list, except lib*perl and packages that are dealing with 
-by others,
-
-I picked some for your reference to evaluate the workload.  If more info 
-is needed,
-
-feel free to tell me.
+> Have you checked with devtool that this actually works?
+>
+I am afraid no, I did not run devtool it before
 
 
-diffutils   depend on perl
-elfutils:   mingli have work on it and send patch to oe-core mail list
-gettext:  depend on certain locales for some tests
+> Before this commit:
+> alexander@alexander-box:~/development/poky$ devtool 
+> check-upgrade-status ncurses
+> INFO: ncurses                   6.1             6.1+20181013    Hongxu 
+> Jia <hongxu.jia@windriver.com <mailto:hongxu.jia@windriver.com>> 
+> 7a97a7f937762ba342d5b2fd7cd090885a809835
+>
+Then I know the script, and run it, I am afraid only revert is not 
+sufficient.
 
-               depend on autoconf for some test
-gzip:       have tests depend on diff, while diff in busybox 
-incompatible with POSIX
-               have tests depend on grep, while grep in busybox don't 
-support context options
-               have tests depend on perl
-kbd:       have tests depend on readlink,  busybox's readlink don't 
-support -e option
-m4:       one test depend on perl, some test skip since depend on 
-certain locale/codeset, need to check one by one
+The current ncurses version is `6.1+20181013' rather than `6.1', since 
+upstream latest
 
+version is `6.1+20181013', but auth email incorrect report ncurses 
+should be upgraded
 
--- 
-BRs
-
-Sandy(Li Changqing)
+(that's why I try to fix UPSTREAM_CHECK_GITTAGREGEX, but it seems a 
+wrong try)
 
 
+Thanks to your mention of devtool, I know how auth works, and trace the 
+root cause,
+
+then I found in the following commit, it filters out `+' from git pv, 
+but in ncurse case,
+
+`+' is part of version
+
+...
+
+commit ab609c471d85be3248b789c8ab2813957cd97e29
+Author: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+Date:   Mon Aug 3 19:29:54 2015 +0300
+
+     recipeutils.py: allow all characters in regexes used to parse 
+version strings
+
+     Previously only numeric characters were matches and anything else was
+     discarded, so 4.0-rc3, 2005e, 1.0.2a and similar versions got 
+truncated.
+
+     Signed-off-by: Alexander Kanavin <alexander.kanavin@linux.intel.com>
+     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index 9d45b42..cd74213 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -638,7 +638,7 @@ def get_recipe_pv_without_srcpv(pv, uri_type):
+      sfx = ''
+
+      if uri_type == 'git':
+-        git_regex = 
+re.compile("(?P<pfx>(v|))(?P<ver>((\d+[\.\-_]*)+))(?P<sfx>(\+|)(git|)(r|)(AUTOINC|)(\+|))(?P<rev>.*)")
++        git_regex = 
+re.compile("(?P<pfx>v?)(?P<ver>[^\+]*)((?P<sfx>\+(git)?r?(AUTOINC\+))(?P<rev>.*))?")
+          m = git_regex.match(pv)
+
+          if m:
+
+...
+
+I believe the commit is to parse manually  PV in **_git.bb (such as `PV 
+= "1.9.0+git${SRCPV}"' ),
+
+which contains `+gitAUTOINC+' in PV, but the regrex is not suitable for 
+ncurses version
+
+
+//Hongxu
+
+
+> After the commit:
+> alexander@alexander-box:~/development/poky$ devtool 
+> check-upgrade-status ncurses
+> INFO: ncurses                   6.1 UNKNOWN_BROKEN  Hongxu Jia 
+> <hongxu.jia@windriver.com <mailto:hongxu.jia@windriver.com>>
+>
+> The code in bitbake/lib/bb/fetch2/git.py actually splits each tag with 
+> '/' as separator and takes only the last part for some reason, so 
+> those prefixes are never a part of the string that is matched against 
+> regex.
+> I'll send a revert in a moment.
+>
+> Alex
+>
+>
+
+
+--------------F2312DE37925F13B2BEF704C
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body text="#000000" bgcolor="#FFFFFF">
+    <div class="moz-cite-prefix">On 6/1/19 4:27 AM, Alexander Kanavin
+      wrote:<br>
+    </div>
+    <blockquote type="cite"
+cite="mid:CANNYZj88dNfVa1DfXPFuOSHbeZw8BBhh8qgycLPgf=MM7s7pDg@mail.gmail.com">
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div dir="ltr" class="gmail_attr">On Sun, 12 May 2019 at
+            10:18, Hongxu Jia &lt;<a
+              href="mailto:hongxu.jia@windriver.com"
+              moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;
+            wrote:<br>
+          </div>
+          <blockquote class="gmail_quote" style="margin:0px 0px 0px
+            0.8ex;border-left:1px solid
+            rgb(204,204,204);padding-left:1ex">The upstream git tag has
+            a `upstream/' prefix, such as:<br>
+            &gt;&gt;&gt; import re<br>
+            &gt;&gt;&gt; pattern =
+            "upstream/(?P&lt;pver&gt;\d+(\.\d+)+(\+\d+)*)"<br>
+            &gt;&gt;&gt; string = "upstream/6.1+20181013"<br>
+            &gt;&gt;&gt; result = re.match(pattern, string)<br>
+            &gt;&gt;&gt; result['pver']<br>
+            '6.1+20181013'<br>
+          </blockquote>
+          <div><br>
+          </div>
+          <div>Have you checked with devtool that this actually works?</div>
+          <div><br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p>I am afraid no, I did not run devtool it before</p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CANNYZj88dNfVa1DfXPFuOSHbeZw8BBhh8qgycLPgf=MM7s7pDg@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div> Before this commit:</div>
+          <div>alexander@alexander-box:~/development/poky$ devtool
+            check-upgrade-status ncurses<br>
+            INFO: ncurses                   6.1             6.1+20181013
+               Hongxu Jia &lt;<a href="mailto:hongxu.jia@windriver.com"
+              moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;
+            7a97a7f937762ba342d5b2fd7cd090885a809835</div>
+          <div><br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p>Then I know the script, and run it, I am afraid only revert is
+      not sufficient.</p>
+    <p>The current ncurses version is `6.1+20181013' rather than `6.1',
+      since upstream latest</p>
+    <p>version is `6.1+20181013', but auth email incorrect report
+      ncurses should be upgraded</p>
+    <p>(that's why I try to fix UPSTREAM_CHECK_GITTAGREGEX, but it seems
+      a wrong try)</p>
+    <p><br>
+    </p>
+    <p>Thanks to your mention of devtool, I know how auth works, and
+      trace the root cause,</p>
+    <p>then I found in the following commit, it filters out `+' from git
+      pv, but in ncurse case,</p>
+    <p>`+' is part of version<br>
+    </p>
+    <p>...<br>
+    </p>
+    <p>commit ab609c471d85be3248b789c8ab2813957cd97e29<br>
+      Author: Alexander Kanavin
+      <a class="moz-txt-link-rfc2396E" href="mailto:alexander.kanavin@linux.intel.com">&lt;alexander.kanavin@linux.intel.com&gt;</a><br>
+      Date:   Mon Aug 3 19:29:54 2015 +0300<br>
+      <br>
+          recipeutils.py: allow all characters in regexes used to parse
+      version strings<br>
+          <br>
+          Previously only numeric characters were matches and anything
+      else was<br>
+          discarded, so 4.0-rc3, 2005e, 1.0.2a and similar versions got
+      truncated.<br>
+          <br>
+          Signed-off-by: Alexander Kanavin
+      <a class="moz-txt-link-rfc2396E" href="mailto:alexander.kanavin@linux.intel.com">&lt;alexander.kanavin@linux.intel.com&gt;</a><br>
+          Signed-off-by: Richard Purdie
+      <a class="moz-txt-link-rfc2396E" href="mailto:richard.purdie@linuxfoundation.org">&lt;richard.purdie@linuxfoundation.org&gt;</a><br>
+      <br>
+      diff --git a/meta/lib/oe/recipeutils.py
+      b/meta/lib/oe/recipeutils.py<br>
+      index 9d45b42..cd74213 100644<br>
+      --- a/meta/lib/oe/recipeutils.py<br>
+      +++ b/meta/lib/oe/recipeutils.py<br>
+      @@ -638,7 +638,7 @@ def get_recipe_pv_without_srcpv(pv, uri_type):<br>
+           sfx = ''<br>
+       <br>
+           if uri_type == 'git':<br>
+      -        git_regex =
+re.compile("(?P&lt;pfx&gt;(v|))(?P&lt;ver&gt;((\d+[\.\-_]*)+))(?P&lt;sfx&gt;(\+|)(git|)(r|)(AUTOINC|)(\+|))(?P&lt;rev&gt;.*)")<br>
+      +        git_regex =
+re.compile("(?P&lt;pfx&gt;v?)(?P&lt;ver&gt;[^\+]*)((?P&lt;sfx&gt;\+(git)?r?(AUTOINC\+))(?P&lt;rev&gt;.*))?")<br>
+               m = git_regex.match(pv)<br>
+       <br>
+               if m:<br>
+    </p>
+    <p>...</p>
+    <p>I believe the commit is to parse manually  PV in **_git.bb (such
+      as `PV = "1.9.0+git${SRCPV}"' ),</p>
+    <p>which contains `+gitAUTOINC+' in PV, but the regrex is not
+      suitable for ncurses version</p>
+    <p><br>
+    </p>
+    <p>//Hongxu<br>
+    </p>
+    <p><br>
+    </p>
+    <blockquote type="cite"
+cite="mid:CANNYZj88dNfVa1DfXPFuOSHbeZw8BBhh8qgycLPgf=MM7s7pDg@mail.gmail.com">
+      <div dir="ltr">
+        <div class="gmail_quote">
+          <div>After the commit:<br>
+          </div>
+          <div>alexander@alexander-box:~/development/poky$ devtool
+            check-upgrade-status ncurses</div>
+          <div>INFO: ncurses                   6.1            
+            UNKNOWN_BROKEN  Hongxu Jia &lt;<a
+              href="mailto:hongxu.jia@windriver.com"
+              moz-do-not-send="true">hongxu.jia@windriver.com</a>&gt;  <br>
+          </div>
+          <div><br>
+          </div>
+          <div>The code in bitbake/lib/bb/fetch2/git.py actually splits
+            each tag with '/' as separator and takes only the last part
+            for some reason, so those prefixes are never a part of the
+            string that is matched against regex.<br>
+          </div>
+          <div>I'll send a revert in a moment.</div>
+          <div><br>
+          </div>
+          <div>Alex<br>
+          </div>
+          <div><br>
+          </div>
+          <div><br>
+          </div>
+        </div>
+      </div>
+    </blockquote>
+    <p><br>
+    </p>
+  </body>
+</html>
+
+--------------F2312DE37925F13B2BEF704C--
