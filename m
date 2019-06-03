@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 19C906D61B
+	by mail.openembedded.org (Postfix) with ESMTP id 3B5F77E3FA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 06:57:27 +0000 (UTC)
+	Mon,  3 Jun 2019 06:57:28 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45HQpw3tC1z3k
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45HQpw6TGtz3l
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  3 Jun 2019 08:57:28 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559545048;
-	bh=csGt91zUANtIylMdF9fGPRnBdxPzS2Zi5viZgSrmDz8=;
+	s=default; t=1559545049;
+	bh=sWDpNvEI1Bu5bEF3Zyf0wWp6rZtfDw+JLYlorOXt0V0=;
 	h=From:To:Subject:Date:From;
-	b=BzHGHnKOCTCcFMBXNBUiK5/lsH6VXZnd3S3mrxu5RddStmj4NfySTVGUGi+MBsocc
-	ztOFvYTHNNzDVMnpXBMOtqetaK4aSO9vy8i7e2DiWnH494cRKjmlNg+cqt5NhGxsEm
-	fPpoKSL7GYTnYP2K5bL8OwHRA/cjHFBlsZ1ZKWbcxUpZhXk8OdjBTAexUl/FOwSeYb
-	7E0PP7Vs0aTlNnnyn2yfeKhgdeakZvGzXgxTdOmrpzw6/+necxiZpZYW/40G5SBdOl
-	lG4mTeYdlqOo3PbcTSDSNxGmDx/h1H8XvZzV15y4CakMESLFItkxvOrfp7GCTyHahw
-	axJcZEgqPwukr1RIUNF9X5ofjDZNaUxdVHc45hHZsp6J7VnISNCWvDIanGcAHvdAlg
-	/P5FMev8wELF62iriAazfMZQKwjJQPu3RiLQhI1dCXnVnmT6cHTj49mXcHGVqAfz8T
-	QoMdftEjg+QFOcjQaO5/WfMc1/1/kKHF+FE+5SiVsKcM+2p2rJ3sdwWmQgaezZLbNn
-	bKthF/BicDiGmJ37Z5PysBkCFB6Kh8IsQIK8MseqFnpvl48OpMAG8HZU8Fs/uhymo8
-	NyclZWD19s1u8rYksGB9Ki6r2HF/qXEJJ7bjOvBcGexgD44etaGr6oVTnBPF8HA7uw
-	9h1GTLq5IMei7XwjxjBj4FUI=
+	b=H/S8ozk7LibjCLkG+hVXVTNQhT9lDJXkbX2KpSKncEVtl18kK3rixUUisv1XcKbI6
+	rVVcYtw//EvOm1Goy7R5WlkPBjCC5mNW7XLzxULAKVREm/7toZouRp4b0q8YYE0IYK
+	kA94QoaNgSZ0GXsF8IbxoSsJzY4RntAxE2M97M3+sDTNWPriL0Lmhy3C2KLEiEE2gR
+	Fnn3cQNxkDpdAixLFW/iLVjsqwf1rQs7W/H0Jo45L3YGl5QNlSJF8x+KvjW/JV+TQU
+	8wB7lyNNqnYDosOlfhJZHcNkBc5fNLejdokjAkb7T7bolhaACHGSMRG+soegNMePLW
+	QrglU/BknjkPD70eumpualHKXlqElNLB6H6dY2lvviuSgoy/EXn68qIr3OxV4rT2Ol
+	0njQnAXIikzyIePx2RFYAqyX6FCYq+PuntCDNDrEggBzOTc2KWEsx/0Yh9K6ZERjhy
+	i5G2/CHUaZSZjuGsA81S530Ib554L9UsPe6uWLgDK0aiJVWmaRNmBAhKNtTUzVfPVK
+	lDbnKACmWXd2nG4Yt/h4F+LYqCYsaTPhDU4dAf8cWO3k8CImIcZcoTVbsBpH1a05XD
+	lqOzS+uMvO8NS2rS6NDMJe540+z7KnPSZLw7C5V+O4S9GZa00ugiXcq4OCIsdd2QL9
+	Ep1UO8gyckk1e+SPoyrIGU7Y=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 09:57:26 +0300
-Message-Id: <20190603065727.8470-1-bunk@stusta.de>
+Date: Mon,  3 Jun 2019 09:57:27 +0300
+Message-Id: <20190603065727.8470-2-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] lrzsz: Add implicit declaration fixes from Debian
+Subject: [PATCH v2] tcp-wrappers: Add compile warning fixes from Debian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,56 +44,265 @@ X-List-Received-Date: Mon, 03 Jun 2019 06:57:28 -0000
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 --
-v2: Add comment in the patch header.
+v2: Add comment in the patch headers.
 ---
- .../lrzsz/lrzsz-0.12.20/include.patch         | 25 +++++++++++++++++++
- meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+ .../tcp-wrappers-7.6/fix_warnings.patch       |  25 +++
+ .../tcp-wrappers-7.6/fix_warnings2.patch      | 200 ++++++++++++++++++
+ .../tcp-wrappers/tcp-wrappers_7.6.bb          |   2 +
+ 3 files changed, 227 insertions(+)
+ create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch
+ create mode 100644 meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch
 
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch
 new file mode 100644
-index 0000000000..5fcb3aa92b
+index 0000000000..965544cc0b
 --- /dev/null
-+++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings.patch
 @@ -0,0 +1,25 @@
-+Implicit declaration compile warning fixes from Debian
++Compile warning fixes from Debian
 +
 +Signed-off-by: Adrian Bunk <bunk@stusta.de>
 +Upstream-Status: Inappropriate [upstream is dead]
 +
-+--- lrzsz-0.12.21.orig/lib/long-options.c
-++++ lrzsz-0.12.21/lib/long-options.c
-+@@ -22,6 +22,7 @@
++--- a/options.c
+++++ b/options.c
++@@ -41,6 +41,7 @@ static char sccsid[] = "@(#) options.c 1
++ #include <netinet/in.h>
++ #include <netdb.h>
++ #include <stdio.h>
+++#include <unistd.h>
++ #include <syslog.h>
++ #include <pwd.h>
++ #include <grp.h>
++--- a/scaffold.c
+++++ b/scaffold.c
++@@ -17,6 +17,7 @@ static char sccs_id[] = "@(#) scaffold.c
++ #include <arpa/inet.h>
++ #include <netdb.h>
++ #include <stdio.h>
+++#include <stdlib.h>
++ #include <syslog.h>
++ #include <setjmp.h>
++ #include <string.h>
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch
+new file mode 100644
+index 0000000000..27157a2e6d
+--- /dev/null
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers-7.6/fix_warnings2.patch
+@@ -0,0 +1,200 @@
++Compile warning fixes from Debian
++
++Signed-off-by: Adrian Bunk <bunk@stusta.de>
++Upstream-Status: Inappropriate [upstream is dead]
++
++--- a/clean_exit.c
+++++ b/clean_exit.c
++@@ -13,6 +13,7 @@ static char sccsid[] = "@(#) clean_exit.
 + #endif
 + 
 + #include <stdio.h>
-++#include <stdlib.h>
-+ #include <getopt.h>
-+ #include "long-options.h"
+++#include <unistd.h>
 + 
-+--- lrzsz-0.12.21.orig/src/lsyslog.c
-++++ lrzsz-0.12.21/src/lsyslog.c
-+@@ -22,6 +22,7 @@
-+ #ifdef ENABLE_SYSLOG
-+ #include "zglobal.h"
-+ #include <pwd.h>
-++#include <stdio.h>
-+ #include <stdlib.h>
++ extern void exit();
++ 
++--- a/hosts_access.c
+++++ b/hosts_access.c
++@@ -34,6 +34,7 @@ static char sccsid[] = "@(#) hosts_acces
++ #include <netinet/in.h>
++ #include <arpa/inet.h>
++ #include <stdio.h>
+++#include <stdlib.h>
++ #include <syslog.h>
++ #include <ctype.h>
++ #include <errno.h>
++--- a/misc.c
+++++ b/misc.c
++@@ -13,6 +13,7 @@ static char sccsic[] = "@(#) misc.c 1.2
++ #include <netinet/in.h>
++ #include <arpa/inet.h>
++ #include <stdio.h>
+++#include <stdlib.h>
 + #include <string.h>
-+ #endif
-diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-index 002c774c6d..34556b2c29 100644
---- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-+++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.ohse.de/uwe/releases/lrzsz-${PV}.tar.gz \
- 	   file://lrzsz_fix_for_automake-1.12.patch \
-            file://lrzsz-check-locale.h.patch \
-            file://cve-2018-10195.patch \
-+           file://include.patch \
++ 
++ #include "tcpd.h"
++--- a/options.c
+++++ b/options.c
++@@ -41,6 +41,7 @@ static char sccsid[] = "@(#) options.c 1
++ #include <netinet/in.h>
++ #include <netdb.h>
++ #include <stdio.h>
+++#include <stdlib.h>
++ #include <unistd.h>
++ #include <syslog.h>
++ #include <pwd.h>
++--- a/percent_x.c
+++++ b/percent_x.c
++@@ -17,6 +17,7 @@ static char sccsid[] = "@(#) percent_x.c
++ /* System libraries. */
++ 
++ #include <stdio.h>
+++#include <unistd.h>
++ #include <syslog.h>
++ #include <string.h>
++ 
++--- a/rfc931.c
+++++ b/rfc931.c
++@@ -16,6 +16,7 @@ static char sccsid[] = "@(#) rfc931.c 1.
++ /* System libraries. */
++ 
++ #include <stdio.h>
+++#include <unistd.h>
++ #include <syslog.h>
++ #include <sys/types.h>
++ #include <sys/socket.h>
++--- a/tcpd.c
+++++ b/tcpd.c
++@@ -22,6 +22,7 @@ static char sccsid[] = "@(#) tcpd.c 1.10
++ #include <sys/socket.h>
++ #include <netinet/in.h>
++ #include <stdio.h>
+++#include <unistd.h>
++ #include <syslog.h>
++ #include <string.h>
++ 
++--- a/update.c
+++++ b/update.c
++@@ -20,6 +20,7 @@ static char sccsid[] = "@(#) update.c 1.
++ /* System libraries */
++ 
++ #include <stdio.h>
+++#include <unistd.h>
++ #include <syslog.h>
++ #include <string.h>
++ 
++--- a/fakelog.c
+++++ b/fakelog.c
++@@ -17,7 +17,7 @@ static char sccsid[] = "@(#) fakelog.c 1
++ 
++ /* ARGSUSED */
++ 
++-openlog(name, logopt, facility)
+++void openlog(name, logopt, facility)
++ char   *name;
++ int     logopt;
++ int     facility;
++@@ -27,7 +27,7 @@ int     facility;
++ 
++ /* vsyslog - format one record */
++ 
++-vsyslog(severity, fmt, ap)
+++void vsyslog(severity, fmt, ap)
++ int     severity;
++ char   *fmt;
++ va_list ap;
++@@ -43,7 +43,7 @@ va_list ap;
++ 
++ /* VARARGS */
++ 
++-VARARGS(syslog, int, severity)
+++void VARARGS(syslog, int, severity)
++ {
++     va_list ap;
++     char   *fmt;
++@@ -56,7 +56,7 @@ VARARGS(syslog, int, severity)
++ 
++ /* closelog - dummy */
++ 
++-closelog()
+++void closelog()
++ {
++     /* void */
++ }
++--- a/safe_finger.c
+++++ b/safe_finger.c
++@@ -22,10 +22,15 @@ static char sccsid[] = "@(#) safe_finger
++ 
++ #include <sys/types.h>
++ #include <sys/stat.h>
+++#include <sys/wait.h>
+++#include <fcntl.h>
++ #include <signal.h>
++ #include <stdio.h>
+++#include <stdlib.h>
+++#include <unistd.h>
++ #include <ctype.h>
++ #include <pwd.h>
+++#include <grp.h>
++ #include <syslog.h>
++ 
++ extern void exit();
++@@ -52,7 +59,7 @@ int     sig;
++     exit(0);
++ }
++ 
++-main(argc, argv)
+++int main(argc, argv)
++ int     argc;
++ char  **argv;
++ {
++--- a/tcpdchk.c
+++++ b/tcpdchk.c
++@@ -28,6 +28,8 @@ static char sccsid[] = "@(#) tcpdchk.c 1
++ #include <netinet/in.h>
++ #include <arpa/inet.h>
++ #include <stdio.h>
+++#include <stdlib.h>
+++#include <unistd.h>
++ #include <syslog.h>
++ #include <setjmp.h>
++ #include <errno.h>
++--- a/tcpdmatch.c
+++++ b/tcpdmatch.c
++@@ -26,6 +26,7 @@ static char sccsid[] = "@(#) tcpdmatch.c
++ #include <arpa/inet.h>
++ #include <netdb.h>
++ #include <stdio.h>
+++#include <unistd.h>
++ #include <syslog.h>
++ #include <setjmp.h>
++ #include <string.h>
++--- a/try-from.c
+++++ b/try-from.c
++@@ -37,7 +37,7 @@ static char sccsid[] = "@(#) try-from.c
++ int     allow_severity = SEVERITY;	/* run-time adjustable */
++ int     deny_severity = LOG_WARNING;	/* ditto */
++ 
++-main(argc, argv)
+++int main(argc, argv)
++ int     argc;
++ char  **argv;
++ {
++--- a/inetcf.c
+++++ b/inetcf.c
++@@ -12,6 +12,7 @@ static char sccsid[] = "@(#) inetcf.c 1.
++ #include <sys/types.h>
++ #include <sys/stat.h>
++ #include <stdio.h>
+++#include <stdlib.h>
++ #include <errno.h>
++ #include <string.h>
++ 
++@@ -20,6 +21,7 @@ extern void exit();
++ 
++ #include "tcpd.h"
++ #include "inetcf.h"
+++#include "scaffold.h"
++ 
++  /*
++   * Network configuration files may live in unusual places. Here are some
+diff --git a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+index 0f50674653..6d232a50e4 100644
+--- a/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
++++ b/meta/recipes-extended/tcp-wrappers/tcp-wrappers_7.6.bb
+@@ -47,6 +47,8 @@ SRC_URI = "ftp://ftp.porcupine.org/pub/security/tcp_wrappers_${PV}.tar.gz \
+            file://makefile-fix-parallel.patch \
+            file://musl-decls.patch \
+            file://0001-Fix-build-with-clang.patch \
++           file://fix_warnings.patch \
++           file://fix_warnings2.patch \
             "
  
- SRC_URI[md5sum] = "b5ce6a74abc9b9eb2af94dffdfd372a4"
+ SRC_URI[md5sum] = "e6fa25f71226d090f34de3f6b122fb5a"
 -- 
 2.17.1
 
