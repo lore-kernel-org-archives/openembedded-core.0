@@ -1,24 +1,23 @@
-Return-Path: <sangeeta.jain@intel.com>
-X-Greylist: delayed 426 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 03 Jun 2019 08:24:56 UTC
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id F090A7D3A6
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id DDFBE6010D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  3 Jun 2019 08:24:56 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	03 Jun 2019 01:17:51 -0700
-X-ExtLoop1: 1
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga001.jf.intel.com with ESMTP; 03 Jun 2019 01:17:50 -0700
-From: sangeeta.jain@intel.com
-To: openembedded-core@lists.openembedded.org
-Date: Mon,  3 Jun 2019 16:17:47 +0800
-Message-Id: <1559549867-1987-1-git-send-email-sangeeta.jain@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] resulttool/manualexecution: Enable creation of test case configuration
+	Mon,  3 Jun 2019 08:49:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x538nK0k003301
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 3 Jun 2019 01:49:20 -0700 (PDT)
+Received: from ala-blade47.wrs.com (147.11.105.67) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 3 Jun 2019 01:49:20 -0700
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>, <alex.kanavin@gmail.com>
+Date: Mon, 3 Jun 2019 01:49:20 -0700
+Message-ID: <20190603084920.46967-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH] lib/oe/reciputils.py: support character `+' in git pv
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,74 +30,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 03 Jun 2019 08:24:57 -0000
+X-List-Received-Date: Mon, 03 Jun 2019 08:49:22 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: sangeeta jain <sangeeta.jain@intel.com>
+While pv contains char `+' (such as ncurses 6.1+20181013),
+it was incorrectly converted to `6.1'
 
-Allow the creation of test case configuration file based on user inputs.
-Where this testcase configuration file will be used by the the manual
-execution to run selected test cases for a module rather than compulsory
-run all test cases in manual json file.
+In this commit:
+- Convert [^\+]* to .*?
+  Support pv to contain char `+' and not greedy match
+  (Such as ncurses 6.1+20181013)
 
-Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
+- Add [^\+] to sfx match
+  Support sfx contains extra chars between `+' and `git'
+  (such as asciidoc "8.6.9+py3-gitAUTOINC+618f6e6f6b")
+
+- Make sfx and rev greedy match
+
+Run `devtool check-upgrade-status --all' in poky and compare results,
+only one difference on ncurses version:
+Without the commit:
+INFO: ncurses                   6.1             6.1+20181013    Hongxu Jia <hongxu.jia@windriver.com> 7a97a7f937762ba342d5b2fd7cd090885a809835
+
+With the commit:
+INFO: ncurses                   6.1+20181013    MATCH           Hongxu Jia <hongxu.jia@windriver.com> 7a97a7f937762ba342d5b2fd7cd090885a809835
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- scripts/lib/resulttool/manualexecution.py | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ meta/lib/oe/recipeutils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index dc368f3..534c4fe 100755
---- a/scripts/lib/resulttool/manualexecution.py
-+++ b/scripts/lib/resulttool/manualexecution.py
-@@ -187,11 +187,38 @@ class ManualTestRunner(object):
-         write_json_file(config_options_file, config_options)
-         logger.info('Configuration option file created at %s' % config_options_file)
+diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+index 1e5b9a49f9..630ae967af 100644
+--- a/meta/lib/oe/recipeutils.py
++++ b/meta/lib/oe/recipeutils.py
+@@ -934,7 +934,7 @@ def get_recipe_pv_without_srcpv(pv, uri_type):
+     sfx = ''
  
-+    def make_testcase_config_file(self, logger, case_file, testcase_config_file):
-+        if  testcase_config_file:
-+            if os.path.exists(testcase_config_file):
-+                print('\nTest configuration file with name %s already exists. Please provide a unique file name' % (testcase_config_file))
-+                return 0
-+
-+        if not testcase_config_file:
-+            testcase_config_file = os.path.join(self._get_write_dir(), "testconfig_new.json")
-+
-+        testcase_config = {}
-+        cases = load_json_file(case_file)
-+        new_test_module = self._get_test_module(case_file)
-+        new_testcase_config = {}
-+        new_testcase_config['testcases'] = []
-+
-+        print('\nAdd testcases for this configuration file:')
-+        for case in cases:
-+            print('\n' + case['test']['@alias'])
-+            add_tc_config = self._get_true_false_input('\nDo you want to add this test case to test configuration : (Y)es/(N)o\n')
-+            if add_tc_config:
-+                new_testcase_config['testcases'].append(case['test']['@alias'])
-+        write_json_file(testcase_config_file, new_testcase_config)
-+        logger.info('Testcase Configuration file created at %s' % testcase_config_file)
-+
- def manualexecution(args, logger):
-     testrunner = ManualTestRunner()
-     if args.make_config_options_file:
-         testrunner.make_config_option_file(logger, args.file, args.config_options_file)
-         return 0
-+    if args.make_testcase_config_file:
-+        testrunner.make_testcase_config_file(logger, args.file, args.testcase_config_file)
-+        return 0
-     configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file, args.testcase_config_file)
-     resultjsonhelper = OETestResultJSONHelper()
-     resultjsonhelper.dump_testresult_file(write_dir, configurations, result_id, test_results)
-@@ -209,4 +236,6 @@ def register_commands(subparsers):
-     parser_build.add_argument('-m', '--make-config-options-file', action='store_true',
-                               help='make the configuration options file based on provided inputs')
-     parser_build.add_argument('-t', '--testcase-config-file', default='',
--                              help='the testcase configuration file to enable user to run a selected set of test case')
-\ No newline at end of file
-+                              help='the testcase configuration file to enable user to run a selected set of test case or make a testcase configuration file')
-+    parser_build.add_argument('-d', '--make-testcase-config-file', action='store_true',
-+                    help='make the testcase configuration file to run a set of test cases based on user selection')
-\ No newline at end of file
+     if uri_type == 'git':
+-        git_regex = re.compile(r"(?P<pfx>v?)(?P<ver>[^\+]*)((?P<sfx>\+(git)?r?(AUTOINC\+))(?P<rev>.*))?")
++        git_regex = re.compile(r"(?P<pfx>v?)(?P<ver>.*?)(?P<sfx>\+[^\+]*(git)?r?(AUTOINC\+))(?P<rev>.*)")
+         m = git_regex.match(pv)
+ 
+         if m:
 -- 
-2.7.4
+2.21.0
 
 
