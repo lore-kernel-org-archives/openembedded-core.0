@@ -1,23 +1,23 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id A54B57C56B
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id D59FC745BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2019 06:42:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x546gVSG018769
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 3 Jun 2019 23:42:32 -0700 (PDT)
-Received: from pek-lpg-core1-vm2.wrs.com (128.224.156.107) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 3 Jun 2019 23:42:31 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Jun 2019 14:42:30 +0800
-Message-ID: <1559630550-1318-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Tue,  4 Jun 2019 07:01:42 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jun 2019 00:01:43 -0700
+X-ExtLoop1: 1
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.144.138])
+	by fmsmga005.fm.intel.com with ESMTP; 04 Jun 2019 00:01:42 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Jun 2019 15:01:37 +0800
+Message-Id: <20190604070137.31732-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] groff: improve reproducibility
+Subject: [PATCH] ffmpeg: add PACKAGECONFIG for mfx
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,84 +30,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2019 06:42:31 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Jun 2019 07:01:43 -0000
+Content-Transfer-Encoding: 8bit
 
-As said in ${S}/m4/groff.m4
-...
-1642 # gdiffmk will attempt to use bash (for option -ef of 'test'). If bash
-1643 # is not available it will use /bin/sh.
-...
+Add option to build ffmpeg with support for Intel MediaSDK codecs. More
+details on supported codecs available here:
 
-So drop hardcode shebang replacement, and pass variable to configure,
-it also remove build path in gdiffmk to improve reproducibility
+https://trac.ffmpeg.org/wiki/Hardware/QuickSync
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- .../groff/files/0001-fix-shebang-for-taget.patch   | 31 ----------------------
- meta/recipes-extended/groff/groff_1.22.4.bb        |  3 +--
- 2 files changed, 1 insertion(+), 33 deletions(-)
- delete mode 100644 meta/recipes-extended/groff/files/0001-fix-shebang-for-taget.patch
+ meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/groff/files/0001-fix-shebang-for-taget.patch b/meta/recipes-extended/groff/files/0001-fix-shebang-for-taget.patch
-deleted file mode 100644
-index 1b94e8a..0000000
---- a/meta/recipes-extended/groff/files/0001-fix-shebang-for-taget.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 54c795c8a3c7356294007b5a4eed1dd47ed6411d Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Sat, 11 May 2019 19:19:27 +0800
--Subject: [PATCH] fix shebang for target
--
--...
--|ERROR: groff-1.22.4-r0 do_package_qa: QA Issue: /usr/bin/gdiffmk contained in
--package groff requires tmp-glibc/hosttools/bash, but no providers found in
--RDEPENDS_groff? [file-rdeps]
--...
--
--Upstream-Status: Inappropriate [oe-core specific]
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- contrib/gdiffmk/gdiffmk.sh | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/contrib/gdiffmk/gdiffmk.sh b/contrib/gdiffmk/gdiffmk.sh
--index 5ce931e..10f2300 100644
----- a/contrib/gdiffmk/gdiffmk.sh
--+++ b/contrib/gdiffmk/gdiffmk.sh
--@@ -1,4 +1,4 @@
---#!@BASH_PROG@
--+#!/bin/sh
-- # Copyright (C) 2004-2018 Free Software Foundation, Inc.
-- # Written by Mike Bianchi <MBianchi@Foveal.com <mailto:MBianchi@Foveal.com>>
-- # Thanks to Peter Bray for debugging.
---- 
--2.7.4
--
-diff --git a/meta/recipes-extended/groff/groff_1.22.4.bb b/meta/recipes-extended/groff/groff_1.22.4.bb
-index 37eee9a..a190230 100644
---- a/meta/recipes-extended/groff/groff_1.22.4.bb
-+++ b/meta/recipes-extended/groff/groff_1.22.4.bb
-@@ -10,7 +10,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
- 	file://0001-replace-perl-w-with-use-warnings.patch \
- 	file://groff-not-search-fonts-on-build-host.patch \
--	file://0001-fix-shebang-for-taget.patch \
- 	file://0001-support-musl.patch \
- "
- 
-@@ -27,7 +26,7 @@ MULTILIB_SCRIPTS = "${PN}:${bindir}/gpinyin ${PN}:${bindir}/groffer ${PN}:${bind
- EXTRA_OECONF = "--without-x --without-doc"
- PARALLEL_MAKE = ""
- 
--CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl'"
-+CACHED_CONFIGUREVARS += "ac_cv_path_PERL='/usr/bin/env perl' ac_cv_path_BASH_PROG='no'"
- 
- do_install_append() {
- 	# Some distros have both /bin/perl and /usr/bin/perl, but we set perl location
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+index 994a792ded..147388d9b7 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
+@@ -63,6 +63,7 @@ PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
+ PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
+ PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
+ PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
++PACKAGECONFIG[mfx] = "--enable-libmfx,--disable-libmfx,intel-mediasdk"
+ PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
+ PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
 -- 
-2.7.4
+2.20.1
 
 
