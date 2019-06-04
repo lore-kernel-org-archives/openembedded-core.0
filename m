@@ -1,50 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 030786D6F5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 957447D302
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2019 16:04:16 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id h1so16436127wro.4
+	Tue,  4 Jun 2019 16:27:07 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id w13so16474646wru.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jun 2019 09:04:18 -0700 (PDT)
+	Tue, 04 Jun 2019 09:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=lP1X4OxlasiK4BwPkiFEbnB4qluJZTqyYq6KK/DO858=;
-	b=qgdVCv75KPyjstQwSEQFs+yfpO+7/kJnQtsfvgcS9WyxS7OqWJtt7CgUPjXLHGjkbO
-	Z/VcijPTO1bVmsjCVjAsPkje36nGBKZdreTZdGabQv/Yh4P6B5eSt9J79sUB1Exgs0GN
-	4sWWsY1oRlyfVhiuoWdgnr3CFiUklxP5Bn9SIOaz5fqPcUQuxKzHAQIfhk+NzCPcnn9S
-	kUW1HbsstdkWfzjbIyglMMV5WPxkHqBt9xxyaBH5s+OV5cg0gBzxemp00Q6+6VQ/PMca
-	/Tx0dSMCWVQJJgICr5d8JgiCLZulPQVd0AsK2fH2XMLTibl1u3koSYqSF/nhAB62Ck74
-	a19w==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=mrDKk8C6dnoPGkrxUHsuYvLl8euYBQxM0VBDJ/gt7jQ=;
+	b=f/adQWwcznLVDRVlOC4DmLGKrkTP+3/qm+7gWnOR2YglNL5UMi30gU9rJ64dzAOK5V
+	9+CEsFGxL4YwEmAZ1O36DjRMQKpnVhqsOrvLLUicXCUOoFnh54tzjUIsPdUkfB0FcP/O
+	qcYzITVTYF7sGiKf798y4GHP2vLX9ZLN5EjB0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=lP1X4OxlasiK4BwPkiFEbnB4qluJZTqyYq6KK/DO858=;
-	b=uL3jYAbUM0ETjJk2HwVtr9dW7fGbeowO243rvJT0OffQ+mk4SdlhZHfnlZ1LqbKWRO
-	o46nLeS+yyGywN9hWEjovg5GJ+rMQsJaf7eh92hu+uJGrT9hduhg+MPi9xZ2WGLz7lM9
-	cge4qG6Q1etxRUVHWcH1iLUobZADt5QddrmS0AzrTmU0n6KwUfNOovd8dTQ3XpbF5VFx
-	hVv+rDaeFQ/3OKTk8orjNmiilWcTr+SOIGDa3qscbBC/9tB1+JBw341lw8MfQUvWcqUz
-	dNgEZyuRfTWv75pmpRHEmJKl+zHJr+yXSiMYZzvstENwklqUJMBph3lu7GfImdF+AqoN
-	8XHw==
-X-Gm-Message-State: APjAAAWd+DYBFPG/YlrnSx44jYt5HbmE3MJUQQdiKR3fFIC1MgT6LSlP
-	1GF/yQr8CEKdt9J58RsSISgctMWybtw=
-X-Google-Smtp-Source: APXvYqyuoS/KBoFZyWC3cjneE0HSdMaOjiO6Sgjp9pK5XI54i3AiuFBq2jk8zWHiJaUNb/rcPu4oDg==
-X-Received: by 2002:a05:6000:120a:: with SMTP id
-	e10mr21986165wrx.171.1559664257134; 
-	Tue, 04 Jun 2019 09:04:17 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	k10sm11592396wmk.14.2019.06.04.09.04.16
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 04 Jun 2019 09:04:16 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Jun 2019 17:04:13 +0100
-Message-Id: <20190604160413.22313-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libidn2: upgrade to 2.2.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=mrDKk8C6dnoPGkrxUHsuYvLl8euYBQxM0VBDJ/gt7jQ=;
+	b=X6o8U1QDg/w8G78PUptgMc9UKE4CObyTbKS/7lRIzw/4lfSV7pj0B8YQNQFCC08YKE
+	durIfXyIcM+rh3DJfdRhs2NL8ZdRH8XyDFfqwGQksnISJYxTByNSJn+Qe38nsNASq0ks
+	lnVX5AxPyoZ6yghfK5x1P1Cd2F+UxKHOYZkDCQWZzBUn25he/o08zIxxluAKNnyz8qW8
+	70g2hnEUToAdVS+tfTXePVC0iDFcRRiWuH3VZxZsbCVNmJ4mbhYKFHKbt7RhmzRI81vY
+	bDmcUz3flBVRPBACq5xwTjwF5hy9dAuF3yS8kl/EBxRCdvD/8r5EaemAwPHeUjnzbwD7
+	cvjw==
+X-Gm-Message-State: APjAAAXM0j/4PWle2iXsOof1K5ziLET17ALYS1f0V5FhMk6dJ3OdFAuB
+	0d3S1hVssKlMmMfqDl5x9qcANg==
+X-Google-Smtp-Source: APXvYqxKcHQA/L1D59DudtFbpdTJH2zQP9ygBKhbXhwNM24ZPpJ8GRqmE8T0lrPrM3yi8VSC6lcnsg==
+X-Received: by 2002:adf:c7d0:: with SMTP id y16mr21282122wrg.39.1559665628278; 
+	Tue, 04 Jun 2019 09:27:08 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v2sm14002481wrn.30.2019.06.04.09.27.07
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 04 Jun 2019 09:27:07 -0700 (PDT)
+Message-ID: <4996a2364b056cded0e75eefd40dd6d79a7e234a.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Aditya Tayade <Aditya.Tayade@kpit.com>, 
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 04 Jun 2019 17:27:06 +0100
+In-Reply-To: <1559580099-29530-1-git-send-email-Aditya.Tayade@kpit.com>
+References: <1559580099-29530-1-git-send-email-Aditya.Tayade@kpit.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Cc: Nisha Parrakat <Nisha.Parrakat@kpit.com>, Michael Ho <Michael.Ho@bmw.de>
+Subject: Re: [poky][meta][PATCH] package_manager.py: handle renamed packages for PACKAGE_EXCLUDE with opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,81 +60,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2019 16:04:17 -0000
+X-List-Received-Date: Tue, 04 Jun 2019 16:27:08 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-The unistring patch isn't needed anymore (the relevant lines are entirely
-removed).
+On Mon, 2019-06-03 at 16:42 +0000, Aditya Tayade wrote:
+> From: Michael Ho <Michael.Ho@bmw.de>
+> 
+> The PACKAGE_EXCLUDE variable is used to pass a list of packages to be
+> forbidden from installation with opkg. This list however does not
+> account
+> normally for the renaming of packages which can occur (for example
+> when the
+> debian bbclass is enabled, packages with libs are renamed from xxx to
+> libxxx)
+> and so expected excluded packages are not blocked.
+> 
+> Rather than tediously maintaining the PACKAGE_EXCLUDE variable to
+> handle
+> renamed packages that can dynamically change, move the expansion of
+> the
+> variable from parsing time to run time so it can use the pkgdata
+> dictionaries
+> to add automatically any renamed packages.
+> 
+> Upstream-Status: Pending
+> 
+> Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
+> Signed-off-by: Aditya.Tayade <Aditya.Tayade@kpit.com>
 
-License checksums updated because of a typo fix, and an added author name.
+This seems to cause test failures:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- ...need_charset_alias-when-building-for-musl.patch | 23 ----------------------
- .../libidn/{libidn2_2.0.5.bb => libidn2_2.2.0.bb}  | 12 +++++------
- 2 files changed, 5 insertions(+), 30 deletions(-)
- delete mode 100644 meta/recipes-extended/libidn/libidn2/Unset-need_charset_alias-when-building-for-musl.patch
- rename meta/recipes-extended/libidn/{libidn2_2.0.5.bb => libidn2_2.2.0.bb} (67%)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/197
 
-diff --git a/meta/recipes-extended/libidn/libidn2/Unset-need_charset_alias-when-building-for-musl.patch b/meta/recipes-extended/libidn/libidn2/Unset-need_charset_alias-when-building-for-musl.patch
-deleted file mode 100644
-index ace50bbfde5..00000000000
---- a/meta/recipes-extended/libidn/libidn2/Unset-need_charset_alias-when-building-for-musl.patch
-+++ /dev/null
-@@ -1,23 +0,0 @@
--Unset need_charset_alias when building for musl
--
--localcharset uses ac_cv_gnu_library_2_1 from glibc21.m4
--which actually shoudl be fixed in gnulib and then all downstream
--projects will get it eventually. For now we apply the fix to
--coreutils
--
--Upstream-Status: Pending
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--Index: libidn2-2.0.5/unistring/Makefile.am
--===================================================================
----- libidn2-2.0.5.orig/unistring/Makefile.am
--+++ libidn2-2.0.5/unistring/Makefile.am
--@@ -293,7 +293,7 @@ install-exec-localcharset: all-local
-- 	  case '$(host_os)' in \
-- 	    darwin[56]*) \
-- 	      need_charset_alias=true ;; \
---	    darwin* | cygwin* | mingw* | pw32* | cegcc*) \
--+	    darwin* | cygwin* | mingw* | pw32* | cegcc* | linux-musl*) \
-- 	      need_charset_alias=false ;; \
-- 	    *) \
-- 	      need_charset_alias=true ;; \
-diff --git a/meta/recipes-extended/libidn/libidn2_2.0.5.bb b/meta/recipes-extended/libidn/libidn2_2.2.0.bb
-similarity index 67%
-rename from meta/recipes-extended/libidn/libidn2_2.0.5.bb
-rename to meta/recipes-extended/libidn/libidn2_2.2.0.bb
-index 0daf7a68770..d7fec89fba2 100644
---- a/meta/recipes-extended/libidn/libidn2_2.0.5.bb
-+++ b/meta/recipes-extended/libidn/libidn2_2.2.0.bb
-@@ -3,17 +3,15 @@ DESCRIPTION = "Implementation of the Stringprep, Punycode and IDNA specification
- HOMEPAGE = "http://www.gnu.org/software/libidn/"
- SECTION = "libs"
- LICENSE = "(GPLv2+ | LGPLv3) & GPLv3+"
--LIC_FILES_CHKSUM = "file://COPYING;md5=ab90e75ef97cc6318ce4f2fbda62fe4d \
-+LIC_FILES_CHKSUM = "file://COPYING;md5=2d834ea7d480438ada04e5d846152395 \
-                     file://COPYING.LESSERv3;md5=e6a600fd5e1d9cbde2d983680233ad02 \
-                     file://COPYINGv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://src/idn2.c;endline=16;md5=0283aec28e049f5bcaaeee52aa865874 \
-+                    file://src/idn2.c;endline=16;md5=426b74d6deb620ab6d39c8a6efd4c13a \
-                     file://lib/idn2.h.in;endline=27;md5=c2cd28d3f87260f157f022eabb83714f"
- 
--SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz \
--           file://Unset-need_charset_alias-when-building-for-musl.patch \
--          "
--SRC_URI[md5sum] = "eaf9a5b9d03b0cce3760f34b3124eb36"
--SRC_URI[sha256sum] = "53f69170886f1fa6fa5b332439c7a77a7d22626a82ef17e2c1224858bb4ca2b8"
-+SRC_URI = "${GNU_MIRROR}/libidn/${BPN}-${PV}.tar.gz"
-+SRC_URI[md5sum] = "b846d4d20e22b99d6f7387bb66e00a1f"
-+SRC_URI[sha256sum] = "fc734732b506d878753ec6606982bf7b936e868c25c30ddb0d83f7d7056381fe"
- 
- DEPENDS = "virtual/libiconv libunistring"
- 
--- 
-2.11.0
+(see the selftest failures).
+
+Cheers,
+
+Richard
 
 
