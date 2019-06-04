@@ -1,26 +1,49 @@
-Return-Path: <Sakib.Sajal@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id BB73B71BEE
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6C29C7E08C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2019 19:30:30 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x54JUAfH031156
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  4 Jun 2019 20:55:07 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id m3so1435517wrv.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 4 Jun 2019 12:30:21 -0700
-Received: from ssajal-HP-EliteBook-850-G3.wrs.com (128.224.140.236) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 4 Jun 2019 12:29:59 -0700
-From: Sakib Sajal <sakib.sajal@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 4 Jun 2019 15:29:39 -0400
-Message-ID: <20190604192939.29929-2-sakib.sajal@windriver.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190604192939.29929-1-sakib.sajal@windriver.com>
-References: <20190604192939.29929-1-sakib.sajal@windriver.com>
-MIME-Version: 1.0
-Subject: [meta-oe][PATCH 2/2] bash: inherit useradd and remove redundant patch
+	Tue, 04 Jun 2019 13:55:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=4WCty8wi1weyfbnQtn0Qh3rE6fUWuZ4SwKHi7ALAPoI=;
+	b=lQThmdUbprDy0RGx2hbNwXFkJH87CKlGuN0/papx/iml6KRuUkxt3x0QVCjtWtfHo/
+	25vgefGkE87LCw117cNmqjzL0KH86m1NnuaUTZMe/nK1myOU9xRs3P96aBlWJ53mLOa3
+	08LlLZd3p4d2PQFguHHwnjgoBvCjokhTLzpJ8Yvx17xp0RA1lJ9NMsohUZ8HKAukyopA
+	m8HyVzHE0ZO05gy5eT3qKjQXDVF+f5DMsR6CrXJoefzf7CcvF8fXBzqD4dx078+9Wq8u
+	CanGUDioXD3cvDuGP6fItFmkazMt3Sun1sVJ84VjjZe1UV3nG1PAllGMHg6VF+VXljXc
+	t+7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4WCty8wi1weyfbnQtn0Qh3rE6fUWuZ4SwKHi7ALAPoI=;
+	b=jsj7jJXbXq759AO/sSErVaRRV8hSfdc5L8y8pMAhVgAPDR9MKv4+rvV8DOLouyZU5R
+	637IssiazXxsQlqjXrGm2FCMyiCsu3LBKbNoA/vYneUmNlO7/fU7ahkpJx3oRmCmdnsP
+	DEfz6uirf5SeqDNFNYeunrKJZVtzCExQM7XjnqEbq8fyqgMOxBFyS6bFkoGJns/zYKPS
+	QTdPbFAik+GRfqshEVQgsH2vS5EIxGVqtTii0J/wrkd6KEZHZMXBg2fLo4I1c5H6/B4B
+	47oskXPN/sGhvJDhnz56QX2DtUagIFppmkwkyQ2G5BZz/tW+Mo7JLDV6eF/E3RO3xlBA
+	k/4w==
+X-Gm-Message-State: APjAAAVBvm3zsvEqKz1Cd0zuyCi9PH44s6Tq2yBYydfbvgGXEFvF/9NV
+	ekG0eePX4eM0/c6rTaa8NIsD5k1EG+A=
+X-Google-Smtp-Source: APXvYqw6W2ikSnLShymxDcC4NOXWGoPVzIZsY4+Pmq6Bwi7k8Lj5NOP9Im5a/WR6fczEiX2Pfb8nJQ==
+X-Received: by 2002:a5d:4692:: with SMTP id u18mr21963300wrq.285.1559681707920;
+	Tue, 04 Jun 2019 13:55:07 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	r131sm7529338wmf.4.2019.06.04.13.55.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Jun 2019 13:55:06 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Jun 2019 21:55:00 +0100
+Message-Id: <20190604205500.10166-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] libical: tidy up Perl finding
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,123 +56,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2019 19:30:30 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 04 Jun 2019 20:55:07 -0000
 
-1) inherit useradd to allow new users to be created.
+Instead of patching out the Perl detection, seed the search for perl with
+HOSTTOOLS_DIR/perl.  This search usually fails because we don't let
+find_program() hunt in the system paths currently.
 
-Ensure that useradd/del are available when running
-bash ptests.
-
-2) run ptest as non-root.
-
-Removed patch:
-   fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
-
-which enabled the two tests:
-   execscript, test,
-to be run by root but under 'su' as a user. These two tests
-now fail since all bash ptest are now run as non-root and there
-is no need to 'su'. There are remaining problems with the test
-that will be resolved in future commits.
-
-Bash ptest statistics with said changes:
-   PASS: 77
-   SKIP:  0
-   FAIL:  4
-
-Failed tests: execscript
-	      test
-	      read
-  	      trap
-
-Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
-Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-extended/bash/bash.inc           |  2 +-
- ...un-heredoc-run-execscript-run-test-f.patch | 45 -------------------
- meta/recipes-extended/bash/bash_5.0.bb        |  1 -
- 3 files changed, 1 insertion(+), 47 deletions(-)
- delete mode 100644 meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
+ .../libical/Remove-cmake-check-for-Perl.patch      | 30 ----------------------
+ meta/recipes-support/libical/libical_2.0.0.bb      |  4 ++-
+ 2 files changed, 3 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index dbb803ddef..1965e9c4a3 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -4,7 +4,7 @@ SECTION = "base/shell"
- 
- DEPENDS = "ncurses bison-native virtual/libiconv"
- 
--inherit autotools gettext texinfo update-alternatives ptest
-+inherit autotools gettext texinfo update-alternatives ptest useradd
- 
- EXTRA_AUTORECONF += "--exclude=autoheader --exclude=aclocal"
- EXTRA_OECONF = "--enable-job-control --without-bash-malloc bash_cv_wexitstatus_offset=8"
-diff --git a/meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch b/meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
+diff --git a/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch b/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
 deleted file mode 100644
-index 9ac2461ab6..0000000000
---- a/meta/recipes-extended/bash/bash/fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
+index b50f50e7017..00000000000
+--- a/meta/recipes-support/libical/libical/Remove-cmake-check-for-Perl.patch
 +++ /dev/null
-@@ -1,45 +0,0 @@
--From d1cd4c31ea0ed7406a3ad4bdaa211f581063f655 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Tue, 15 Aug 2017 10:21:21 +0800
--Subject: [PATCH 2/2] fix run-execscript/run-test/ failed
+@@ -1,30 +0,0 @@
+-From 918cd8764a845a9d25918a444fbaa5070d2be609 Mon Sep 17 00:00:00 2001
+-From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+-Date: Fri, 21 Aug 2015 16:38:05 +0300
+-Subject: [PATCH] Remove cmake check for Perl
 -
--FAIL: run-execscript:
--the test suite should not be run as root
+-We set "CMAKE_FIND_ROOT_PATH_MODE_PROGRAM ONLY" in cmake bbclass to
+-make sure cmake does not find host programs. In this case we actually
+-are fine with host perl: remove the check.
 -
--FAIL: run-test
--the test suite should not be run as root
+-Upstream-Status: Inappropriate [workaround]
 -
--Upstream-Status: Pending
--
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
 ----
-- tests/run-execscript | 3 ++-
-- tests/run-test       | 3 ++-
-- 2 files changed, 4 insertions(+), 2 deletions(-)
+- CMakeLists.txt | 3 +--
+- 1 file changed, 1 insertion(+), 2 deletions(-)
 -
--diff --git a/tests/run-execscript b/tests/run-execscript
--index de78644..38397c1 100644
----- a/tests/run-execscript
--+++ b/tests/run-execscript
--@@ -5,5 +5,6 @@ echo "warning: \`/tmp/bash-notthere' not being found or \`/' being a directory"
-- echo "warning: produce diff output, please do not consider this a test failure" >&2
-- echo "warning: if diff output differing only in the location of the bash" >&2
-- echo "warning: binary appears, please do not consider this a test failure" >&2
---${THIS_SH} ./execscript > ${BASH_TSTOUT} 2>&1
--+rm -f ${BASH_TSTOUT}
--+su -c "${THIS_SH} ./execscript > ${BASH_TSTOUT} 2>&1" test
-- diff ${BASH_TSTOUT} exec.right && rm -f ${BASH_TSTOUT}
--diff --git a/tests/run-test b/tests/run-test
--index d68791c..d6317d2 100644
----- a/tests/run-test
--+++ b/tests/run-test
--@@ -1,4 +1,5 @@
-- unset GROUPS UID 2>/dev/null
+-Index: libical-2.0.0/CMakeLists.txt
+-===================================================================
+---- libical-2.0.0.orig/CMakeLists.txt
+-+++ libical-2.0.0/CMakeLists.txt
+-@@ -116,8 +116,7 @@ if(SHARED_ONLY)
+-   set(LIBRARY_TYPE SHARED)
+- endif()
 - 
---${THIS_SH} ./test.tests >${BASH_TSTOUT} 2>&1
--+rm -f ${BASH_TSTOUT}
--+su -c "${THIS_SH} ./test.tests > ${BASH_TSTOUT} 2>&1" test
-- diff ${BASH_TSTOUT} test.right && rm -f ${BASH_TSTOUT}
---- 
--1.8.3.1
--
-diff --git a/meta/recipes-extended/bash/bash_5.0.bb b/meta/recipes-extended/bash/bash_5.0.bb
-index e60e5304a5..0a3f1b15f0 100644
---- a/meta/recipes-extended/bash/bash_5.0.bb
-+++ b/meta/recipes-extended/bash/bash_5.0.bb
-@@ -16,7 +16,6 @@ SRC_URI = "${GNU_MIRROR}/bash/${BP}.tar.gz;name=tarball \
-            file://mkbuiltins_have_stringize.patch \
-            file://build-tests.patch \
-            file://test-output.patch \
--           file://fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch \
-            file://run-ptest \
-            file://fix-run-builtins.patch \
+--# must have Perl to create the derived stuff
+--find_package(Perl REQUIRED)
+-+set(PERL_EXECUTABLE perl)
+- 
+- # Ensure finding 64bit libs when using 64-bit compilers
+- if(CMAKE_CL_64)
+diff --git a/meta/recipes-support/libical/libical_2.0.0.bb b/meta/recipes-support/libical/libical_2.0.0.bb
+index daa47abcbcf..fc33f8ea2df 100644
+--- a/meta/recipes-support/libical/libical_2.0.0.bb
++++ b/meta/recipes-support/libical/libical_2.0.0.bb
+@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
+ SECTION = "libs"
+ 
+ SRC_URI = "https://github.com/${BPN}/${BPN}/releases/download/v${PV}/${BP}.tar.gz \
+-           file://Remove-cmake-check-for-Perl.patch \
+            file://0001-CMakeLists.txt-libical.pc.in-fix-iculibs-remove-full.patch \
             "
+ DEPENDS = "icu"
+@@ -18,6 +17,9 @@ UPSTREAM_CHECK_URI = "https://github.com/libical/libical/releases"
+ 
+ inherit cmake pkgconfig
+ 
++# No need to use perl-native, the host perl is sufficient.
++EXTRA_OECMAKE += "-DPERL_EXECUTABLE=${HOSTTOOLS_DIR}/perl"
++
+ do_install_append_class-target () {
+     # Remove build host references
+     sed -i \
 -- 
-2.20.1
+2.11.0
 
 
