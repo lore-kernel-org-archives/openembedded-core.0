@@ -1,57 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 03C537E055
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 0F8417E33C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2019 10:26:31 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id s3so6945694wms.2
+	Tue,  4 Jun 2019 10:56:41 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id w13so15275395wru.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jun 2019 03:26:33 -0700 (PDT)
+	Tue, 04 Jun 2019 03:56:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=IVot61mF2pHGaQxAOnXy8+hDUjIWQ2Rrqhk0X8+XtYs=;
-	b=Hq+4ptm/HQwr5FOKy3g+Ka3mTr5/m2D+R6BDNl8au3jxPc1qoj5cxnxzz/YeflOSwP
-	1Ip+SLHXc6KCN6Fa2tt3mqE58xvb2+R8H9PEFVCc/+mHnadBnqVE4OQ08oPav/2Nn56P
-	uRo3SsEJ7f/HubHKBGCeBzLA+N+zGikcAQDBs=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=d6g+lQBex9QfViKAd6112/COmDnpLlfS7Ye2iumAtN0=;
+	b=d/5U2SFCduMjCmHGBQni8ypOmxsXhE/yQ6rBm0L5vuT0tgyuRj+veJ8HtbSKrcKu1o
+	cjey1AgPW4lzGv0rE1jcsif2CAEuEQB9rKqUImP/0Jb/WmYaCIop7WcX3v37LQq9xOF+
+	G9WVk2D53Kw9w/OqEkkc/WtLXBu8dgYTRri2RKQ8sfAzF3nY8q/6RvEEj4hLzwWDZmj2
+	5oWn1dULkDkK6Oc+5ddw7wrkr0og54VUa2GhU461ba1LtnqOC/blCfZRIX5P1dAFTyN7
+	65QGOWIGNxAAaiT1toUekvXMwbpVdwGt5Ge6I7cRyxQu7XJSjqqlefVbZ2THwJRgtCXq
+	obTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=IVot61mF2pHGaQxAOnXy8+hDUjIWQ2Rrqhk0X8+XtYs=;
-	b=gtfBG6hF6m/8YRxgEq/q7sGLPx1edjf4Sj4jBtgLotFedO7VbrluvRFPMuMaJDGyBs
-	tPs874UZTkGMvmdT2iQ5hIEmtu4jmdVibmjlz+RV6YfV0EX4m+ZSXeyJ0iiU2Bke6YEd
-	XiFXCFZbOG4wNGrcNSUmoG3jNr9matVwI96nqYcWp54JDIo1R3jprEhfkS2Pja1+YpmS
-	3ZjDig5Ii0I7TZmNtxp7A67Hk9KBbUmWX+KwwCrSUGhoyn5H5MYarU8QeWDwql0bRoK/
-	O+XePbLB3LHab/RivdVapF7tzjdPgKBZGqWgzv97rbGCFTjiJkAtFYdmIPICxeAAEDzE
-	iboQ==
-X-Gm-Message-State: APjAAAU4se9J0iFoaR2juQxqQ8GwWUMybl/DFVRsl3YSdW66jubspOm+
-	UgBgyaYRzkzYuGKW/ofVE2OXdLQgKHM=
-X-Google-Smtp-Source: APXvYqzUHlsyWC0RtLbf8PWwPd0kWAEx9prV2dNEBpLLiGvImpQbhGWr6QY09KO3jS2QsuEcrZn0Ig==
-X-Received: by 2002:a1c:4484:: with SMTP id r126mr18126695wma.27.1559643992704;
-	Tue, 04 Jun 2019 03:26:32 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y5sm1351043wrs.63.2019.06.04.03.26.31
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 04 Jun 2019 03:26:31 -0700 (PDT)
-Message-ID: <cedd7e708edfab28ec9db8046476313ea44a6022.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-Date: Tue, 04 Jun 2019 11:26:29 +0100
-In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF1002A6@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF1026BA@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=d6g+lQBex9QfViKAd6112/COmDnpLlfS7Ye2iumAtN0=;
+	b=TKZwI1MemxHbdXFE2Qs5gs09JNoyMef6GsMCtNYTGc7Go4U95rl801N01E2bLpikX4
+	BkOMsj8DA9gjDjxZKEO+ZIoj+PVCF6n/ExHbWGFrDzrP+NV+Lfk20+MjAnFwhgj1MMQ6
+	S9doE2OGwUcbXysjQGxImipSMgtpNHtVVWkCGTQrvEXXfiXlM/yklnqFLc8nya5LpOh9
+	Q5MmFbRVB2q+pNVsrD1Qpv171+BbaYupjtQ8q1Y9/TD7tDvcHNP1wWdbFFbNG412CF/q
+	9gwXOAQpnKi/6O8i3txCnZa4lNB5uAxpxXRN+ZunpEr2+TgQfVP50ryLB93JwMloDoSj
+	rTbg==
+X-Gm-Message-State: APjAAAUvuFkmfnZPaHVCXi1SpMAK6G6uDXbW5JG6le2qbM5bsKJfY/MI
+	C93p1uvWbBdUOlLhlbQ7PRPF7vwtCqA=
+X-Google-Smtp-Source: APXvYqxu/3EWCmfdljCuRbrDLb/KBXatIGf9RDyih6okiisdcOn7LQJSvTsQq1uOFHc9z6gplCWjNA==
+X-Received: by 2002:adf:fd08:: with SMTP id e8mr9018922wrr.276.1559645802580; 
+	Tue, 04 Jun 2019 03:56:42 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	c18sm17458641wrm.7.2019.06.04.03.56.41
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 04 Jun 2019 03:56:41 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  4 Jun 2019 11:56:39 +0100
+Message-Id: <20190604105639.7974-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] local.conf.sample: change default MACHINE to qemux86-64
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,26 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2019 10:26:32 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Jun 2019 10:56:42 -0000
 
-On Tue, 2019-06-04 at 08:29 +0000, Lei, Maohui wrote:
-> Hi Richard
-> 
-> This patch is necessary for dnf-nativesdk which has been merged. But
-> this patch is still ignored.
-> Do you have any comment about this patch?
+32-bit x86 isn't really a useful target these days, and if users are
+experimenting without setting MACHINE to their actual target then 64-bit x86
+will have better performance.
 
-Basically I really don't like exporting "random" variables in the SDK,
-particularly when the meaning/use of them isn't clear.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/conf/local.conf.sample | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Whilst I can guess why, its not obvious at all the dnf needs
-MACHINE_ARCH. I'd probably be happier with a better variable name.
-Which code exactly is using it?
-
-Cheers,
-
-Richard
+diff --git a/meta/conf/local.conf.sample b/meta/conf/local.conf.sample
+index a3e01047eee..92afac2fe17 100644
+--- a/meta/conf/local.conf.sample
++++ b/meta/conf/local.conf.sample
+@@ -25,8 +25,8 @@
+ #MACHINE ?= "qemux86"
+ #MACHINE ?= "qemux86-64"
+ #
+-# This sets the default machine to be qemux86 if no other machine is selected:
+-MACHINE ??= "qemux86"
++# This sets the default machine to be qemux86-64 if no other machine is selected:
++MACHINE ??= "qemux86-64"
+ 
+ #
+ # Where to place downloads
+-- 
+2.11.0
 
 
