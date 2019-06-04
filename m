@@ -1,52 +1,42 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0F99E7D3D9
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 2EBCA7E39F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2019 07:30:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id h1so14644162wro.4
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 04 Jun 2019 00:30:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=4a+ykvz+lo2laAwmZGbFRnOcWxA7vu0gaFGkh4FrBgA=;
-	b=d7HJ16+VrTyW91MIflmAlc/728RXwKGyiEBPa6xDVhExOAHHmGNhg3zoetV0p4FMu+
-	NBickfSqfMonb/t1YRUVJjpoWpp/HRNt/lIMypdJfYxRJnyMXtvZYaqDdQgqZVOqNNCG
-	liLDyGSuJnxX1PqEDTZ/CdrP9I6LnDyvkZyWk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=4a+ykvz+lo2laAwmZGbFRnOcWxA7vu0gaFGkh4FrBgA=;
-	b=D3Hc/UzTzthwMOHVUk3eU0u4ye5c9uZRTtuBMHTX3YRX5gTfebOX08m2UUSt9Drqpy
-	FGeEO+L+uXL6UmOCOTuIEl9gdCmgbZ3Q0wBOYaN32ntEsQ3kwuf7+BgykWqsIRpa17/X
-	nYIaU+F48iYaMaJUPAsmN7atpDXgYFZjx/jDEE9zu0yT9fR4u71vefY/tszCoaHIaUG4
-	9gXZMZWVd7dKq0EAgsgoiSc5//d+VJRuN7p00t4IioLpgsjpEUC893QS+FT3NMdk9Ncv
-	/QvohfCZ0IhAKZpVnuA7ubgldJBJ9Cx3K8qflILX/31O0YJtOa8EH4MDqrJRzV6Lms9r
-	ICYA==
-X-Gm-Message-State: APjAAAXDxosgsYehbMIV3rdhaW49kc1CEyyUzQRQPw4GQRkxy8sAZ8/i
-	jGv5zohvYw29sySKUlLw+dHeJg==
-X-Google-Smtp-Source: APXvYqyQrrxCdYaxgYuSSi+lJ8gePFFexmFOhr6tuwYBqlyiDBifPXqye2f/DZwfT0wHt1PI6S2cgg==
-X-Received: by 2002:adf:e60f:: with SMTP id p15mr8454127wrm.332.1559633401651; 
-	Tue, 04 Jun 2019 00:30:01 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j15sm5974306wrn.50.2019.06.04.00.30.00
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 04 Jun 2019 00:30:00 -0700 (PDT)
-Message-ID: <e620b7a55a79992dfb63547081cf4b1b77d2a587.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joshua Watt <jpewhacker@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 04 Jun 2019 08:29:59 +0100
-In-Reply-To: <20190603152719.17295-1-JPEWhacker@gmail.com>
-References: <20190531165734.14435-1-JPEWhacker@gmail.com>
-	<20190603152719.17295-1-JPEWhacker@gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Tue,  4 Jun 2019 08:29:49 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,549,1549900800"; d="scan'208";a="65883738"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 04 Jun 2019 16:29:49 +0800
+Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
+	by cn.fujitsu.com (Postfix) with ESMTP id 879374CDD0CA;
+	Tue,  4 Jun 2019 16:29:48 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
+	14.03.0439.000; Tue, 4 Jun 2019 16:29:46 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] toolchain-scripts: make rpm work in toolchain
+Thread-Index: AQHU8btdwcW6mVdAkUK2QKbtt/xhNaZCTQiAgAu3nCCAErXeEIAJnYbggBXq34CACzc9gA==
+Date: Tue, 4 Jun 2019 08:29:53 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1002A6@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1026BA@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.227]
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] bash: Replace uninative loader path in ptest
+X-yoursite-MailScanner-ID: 879374CDD0CA.AEA56
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,52 +49,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2019 07:30:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 04 Jun 2019 08:29:50 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="shift_jis"
+Content-Transfer-Encoding: base64
 
-On Mon, 2019-06-03 at 10:27 -0500, Joshua Watt wrote:
-> The Makefile used for bash-ptest can pick up the path to the
-> uninative
-> loader through BUILD_LDFLAGS. This includes the full path to the
-> uninative loader, which is not reproducible. Replace it with
-> /bin/false.
-> It doesn't appear as if these native programs are used in the test
-> suites and if there are likely to be other problems related to
-> building
-> them using the BUILD_* flags.
-> 
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/recipes-extended/bash/bash.inc | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-
-> extended/bash/bash.inc
-> index dbb803ddefd..27207c38853 100644
-> --- a/meta/recipes-extended/bash/bash.inc
-> +++ b/meta/recipes-extended/bash/bash.inc
-> @@ -78,6 +78,7 @@ do_install_ptest () {
->  	    -e 's|${DEBUG_PREFIX_MAP}||g' \
->  	    -e "s,${S},,g" -e "s,${B},,g" -e
-> "s,${STAGING_DIR_NATIVE},,g" \
->  	    -e 's:${HOSTTOOLS_DIR}/::g' \
-> +	    -e 's:${UNINATIVE_LOADER}:${base_bindir}/false:g' \
->  	     ${D}${PTEST_PATH}/Makefile
->  }
-
-Even the UNINATIVE_LOADER reference causes:
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/497
-
-i.e.
-
- oe-selftest -r sstatetests.SStateTests.test_sstate_32_64_same_hash
-
-still fails with this patch.
-
-Cheers,
-
-Richard
-
+SGkgUmljaGFyZA0KDQpUaGlzIHBhdGNoIGlzIG5lY2Vzc2FyeSBmb3IgZG5m
+LW5hdGl2ZXNkayB3aGljaCBoYXMgYmVlbiBtZXJnZWQuIEJ1dCB0aGlzIHBh
+dGNoIGlzIHN0aWxsIGlnbm9yZWQuDQpEbyB5b3UgaGF2ZSBhbnkgY29tbWVu
+dCBhYm91dCB0aGlzIHBhdGNoPw0KDQpCZXN0IHJlZ2FyZHMuDQpMZWkgTWFv
+aHVpDQoNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9t
+OiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQtDQo+IGNvcmUtYm91bmNlc0Bs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YgTGVpLCBNYW9o
+dWkNCj4gU2VudDogVHVlc2RheSwgTWF5IDI4LCAyMDE5IDE6MDggUE0NCj4g
+VG86IFJpY2hhcmQgUHVyZGllOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnDQo+IFN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BB
+VENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFrZSBycG0gd29yayBpbiB0b29s
+Y2hhaW4NCj4gDQo+IHBpbmcNCj4gDQo+ID4gLS0tLS1PcmlnaW5hbCBNZXNz
+YWdlLS0tLS0NCj4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1ib3VuY2Vz
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcgW21haWx0bzpvcGVuZW1iZWRkZWQt
+DQo+ID4gY29yZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9u
+IEJlaGFsZiBPZiBMZWksIE1hb2h1aQ0KPiA+IFNlbnQ6IFR1ZXNkYXksIE1h
+eSAxNCwgMjAxOSAyOjMxIFBNDQo+ID4gVG86IG9wZW5lbWJlZGRlZC1jb3Jl
+QGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiBTdWJqZWN0OiBSZTogW09F
+LWNvcmVdIFtQQVRDSF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBtIHdv
+cmsgaW4gdG9vbGNoYWluDQo+ID4NCj4gPiBIaSwNCj4gPg0KPiA+IFRoaXMg
+cGF0Y2ggaGFzbid0IGJlZW4gbWVyZ2VkIHlldC4gQXJlIHRoZXJlIGFueSBz
+dWdnZXN0aW9ucz8NCj4gPg0KPiA+IEJlc3QgcmVnYXJkcw0KPiA+IExlaQ0K
+PiA+DQo+ID4gPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiA+ID4g
+RnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnDQo+IFttYWlsdG86b3BlbmVtYmVkZGVkLQ0KPiA+ID4gY29y
+ZS1ib3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmddIE9uIEJlaGFsZiBP
+ZiBMZWksIE1hb2h1aQ0KPiA+ID4gU2VudDogV2VkbmVzZGF5LCBNYXkgMDgs
+IDIwMTkgMTE6MzYgQU0NCj4gPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBs
+aXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiBTdWJqZWN0OiBSZTogW09F
+LWNvcmVdIFtQQVRDSF0gdG9vbGNoYWluLXNjcmlwdHM6IG1ha2UgcnBtIHdv
+cmsgaW4NCj4gdG9vbGNoYWluDQo+ID4gPg0KPiA+ID4gUGluZw0KPiA+ID4N
+Cj4gPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gPiA+ID4g
+RnJvbTogb3BlbmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnDQo+ID4gW21haWx0bzpvcGVuZW1iZWRkZWQtDQo+ID4gPiA+
+IGNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnXSBPbiBCZWhh
+bGYgT2YgTGVpLCBNYW9odWkNCj4gPiA+ID4gU2VudDogRnJpZGF5LCBBcHJp
+bCAyNiwgMjAxOSAxOjU2IFBNDQo+ID4gPiA+IFRvOiBvcGVuZW1iZWRkZWQt
+Y29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+ID4gPiA+IFN1YmplY3Q6
+IFJlOiBbT0UtY29yZV0gW1BBVENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFr
+ZSBycG0gd29yayBpbg0KPiA+IHRvb2xjaGFpbg0KPiA+ID4gPg0KPiA+ID4g
+PiBIaSwNCj4gPiA+ID4NCj4gPiA+ID4gSSBub3RpY2VkIHRoYXQgIiBkbmY6
+IEVuYWJsZSBuYXRpdmVzZGsgIiBoYXMgYmVlbiBtZXJnZWQgaW50byBtYXN0
+ZXItbmV4dC4NCj4gPiA+IFRoaXMNCj4gPiA+ID4gcGF0Y2ggaXMgbmVjZXNz
+YXJ5IGZvciBkbmYtbmF0aXZlc2RrLCBzbyBwbGVhc2UgbWVyZ2UgdG9vLg0K
+PiA+ID4gPg0KPiA+ID4gPiBCZXN0IHJlZ2FyZHMNCj4gPiA+ID4gTGVpDQo+
+ID4gPiA+DQo+ID4gPiA+DQo+ID4gPiA+ID4gLS0tLS1PcmlnaW5hbCBNZXNz
+YWdlLS0tLS0NCj4gPiA+ID4gPiBGcm9tOiBvcGVuZW1iZWRkZWQtY29yZS1i
+b3VuY2VzQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPiA+IFttYWlsdG86
+b3BlbmVtYmVkZGVkLQ0KPiA+ID4gPiA+IGNvcmUtYm91bmNlc0BsaXN0cy5v
+cGVuZW1iZWRkZWQub3JnXSBPbiBCZWhhbGYgT2YgWmhlbmcsIFJ1b3Fpbg0K
+PiA+ID4gPiA+IFNlbnQ6IEZyaWRheSwgQXByaWwgMTksIDIwMTkgMTA6NTUg
+QU0NCj4gPiA+ID4gPiBUbzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KPiA+ID4gPiA+IFN1YmplY3Q6IFJlOiBbT0UtY29y
+ZV0gW1BBVENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFrZSBycG0gd29yayBp
+bg0KPiA+ID4gdG9vbGNoYWluDQo+ID4gPiA+ID4NCj4gPiA+ID4gPiBwaW5n
+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiAtLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPiA+ID4gPiA+IFpoZW5n
+IFJ1b3Fpbg0KPiA+ID4gPiA+IE5hbmppbmcgRnVqaXRzdSBOYW5kYSBTb2Z0
+d2FyZSBUZWNoLiBDby4sIEx0ZC4oRk5TVCkNCj4gPiA+ID4gPiBBRERSLjog
+Tm8uNiBXZW56aHUgUm9hZCwgU29mdHdhcmUgQXZlbnVlLA0KPiA+ID4gPiA+
+ICAgICAgICBOYW5qaW5nLCAyMTAwMTIsIENoaW5hDQo+ID4gPiA+ID4gTUFJ
+TCA6IHpoZW5ncnEuZm5zdEBjbi5mdWppc3R1LmNvbQ0KPiA+ID4gPiA+DQo+
+ID4gPiA+ID4NCj4gPiA+ID4gPiA+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0t
+LS0tDQo+ID4gPiA+ID4gPiBGcm9tOiBaaGVuZywgUnVvcWluDQo+ID4gPiA+
+ID4gPiBTZW50OiBTYXR1cmRheSwgQXByaWwgMTMsIDIwMTkgMTA6MzcgUE0N
+Cj4gPiA+ID4gPiA+IFRvOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+ID4gPiA+ID4gPiBDYzogWmhlbmcsIFJ1b3FpbiA8
+emhlbmdycS5mbnN0QGNuLmZ1aml0c3UuY29tPg0KPiA+ID4gPiA+ID4gU3Vi
+amVjdDogW09FLWNvcmVdW1BBVENIXSB0b29sY2hhaW4tc2NyaXB0czogbWFr
+ZSBycG0gd29yayBpbg0KPiB0b29sY2hhaW4NCj4gPiA+ID4gPiA+DQo+ID4g
+PiA+ID4gPiBScG0gbmVlZCB0byByZWFkIHRoZSBhcmNoIGluZm8sIGJ1dCAk
+c2NyaXB0IGRpZCBub3QgcHJvdmlkZSBpdCwgc28NCj4gYWRkDQo+ID4gaXQu
+DQo+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogWmhl
+bmcgUnVvcWluIDx6aGVuZ3JxLmZuc3RAY24uZnVqaXRzdS5jb20+DQo+ID4g
+PiA+ID4gPiAtLS0NCj4gPiA+ID4gPiA+ICBtZXRhL2NsYXNzZXMvdG9vbGNo
+YWluLXNjcmlwdHMuYmJjbGFzcyB8IDEgKw0KPiA+ID4gPiA+ID4gIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKQ0KPiA+ID4gPiA+ID4NCj4gPiA+
+ID4gPiA+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNj
+cmlwdHMuYmJjbGFzcw0KPiA+ID4gPiBiL21ldGEvY2xhc3Nlcy90b29sY2hh
+aW4tDQo+ID4gPiA+ID4gPiBzY3JpcHRzLmJiY2xhc3MNCj4gPiA+ID4gPiA+
+IGluZGV4IDFhMmVjNGYuLmRlNTBiN2UgMTAwNjQ0DQo+ID4gPiA+ID4gPiAt
+LS0gYS9tZXRhL2NsYXNzZXMvdG9vbGNoYWluLXNjcmlwdHMuYmJjbGFzcw0K
+PiA+ID4gPiA+ID4gKysrIGIvbWV0YS9jbGFzc2VzL3Rvb2xjaGFpbi1zY3Jp
+cHRzLmJiY2xhc3MNCj4gPiA+ID4gPiA+IEBAIC0xMDEsNiArMTAxLDcgQEAg
+dG9vbGNoYWluX3NoYXJlZF9lbnZfc2NyaXB0ICgpIHsNCj4gPiA+ID4gPiA+
+ICAJZWNobyAnZXhwb3J0IENQUEZMQUdTPSIke1RBUkdFVF9DUFBGTEFHU30i
+JyA+PiAkc2NyaXB0DQo+ID4gPiA+ID4gPiAgCWVjaG8gJ2V4cG9ydCBLQ0ZM
+QUdTPSItLXN5c3Jvb3Q9JFNES1RBUkdFVFNZU1JPT1QiJyA+PiAkc2NyaXB0
+DQo+ID4gPiA+ID4gPiAgCWVjaG8gJ2V4cG9ydCBPRUNPUkVfRElTVFJPX1ZF
+UlNJT049IiR7RElTVFJPX1ZFUlNJT059IicgPj4NCj4gPiA+ID4gPiA+ICRz
+Y3JpcHQNCj4gPiA+ID4gPiA+ICsJZWNobyAnZXhwb3J0IE1BQ0hJTkVfQVJD
+SD0ke01BQ0hJTkVfQVJDSH0nID4+ICRzY3JpcHQNCj4gPiA+ID4gPiA+ICAJ
+ZWNobyAnZXhwb3J0IE9FQ09SRV9TREtfVkVSU0lPTj0iJHtTREtfVkVSU0lP
+Tn0iJyA+PiAkc2NyaXB0DQo+ID4gPiA+ID4gPiAgCWVjaG8gJ2V4cG9ydCBB
+UkNIPSR7QVJDSH0nID4+ICRzY3JpcHQNCj4gPiA+ID4gPiA+ICAJZWNobyAn
+ZXhwb3J0IENST1NTX0NPTVBJTEU9JHtUQVJHRVRfUFJFRklYfScgPj4gJHNj
+cmlwdA0KPiA+ID4gPiA+ID4gLS0NCj4gPiA+ID4gPiA+IDEuOC4zLjENCj4g
+PiA+ID4gPg0KPiA+ID4gPiA+DQo+ID4gPiA+ID4NCj4gPiA+ID4gPiAtLQ0K
+PiA+ID4gPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fDQo+ID4gPiA+ID4gT3BlbmVtYmVkZGVkLWNvcmUgbWFp
+bGluZyBsaXN0DQo+ID4gPiA+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZw0KPiA+ID4gPiA+IGh0dHA6Ly9saXN0cy5vcGVu
+ZW1iZWRkZWQub3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNv
+cmUNCj4gPiA+ID4NCj4gPiA+ID4NCj4gPiA+ID4gLS0NCj4gPiA+ID4gX19f
+X19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX18N
+Cj4gPiA+ID4gT3BlbmVtYmVkZGVkLWNvcmUgbWFpbGluZyBsaXN0DQo+ID4g
+PiA+IE9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gPiA+ID4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvbWFpbG1h
+bi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KPiA+ID4NCj4gPiA+DQo+
+ID4gPiAtLQ0KPiA+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX18NCj4gPiA+IE9wZW5lbWJlZGRlZC1jb3JlIG1h
+aWxpbmcgbGlzdA0KPiA+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KPiA+ID4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRl
+ZC5vcmcvbWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KPiA+
+DQo+ID4NCj4gPiAtLQ0KPiA+IF9fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fX19fX19fX19fDQo+ID4gT3BlbmVtYmVkZGVkLWNvcmUg
+bWFpbGluZyBsaXN0DQo+ID4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KPiA+IGh0dHA6Ly9saXN0cy5vcGVuZW1iZWRkZWQu
+b3JnL21haWxtYW4vbGlzdGluZm8vb3BlbmVtYmVkZGVkLWNvcmUNCj4gDQo+
+IA0KPiAtLQ0KPiBfX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
+X19fX19fX19fX19fXw0KPiBPcGVuZW1iZWRkZWQtY29yZSBtYWlsaW5nIGxp
+c3QNCj4gT3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
+Zw0KPiBodHRwOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tYWlsbWFuL2xp
+c3RpbmZvL29wZW5lbWJlZGRlZC1jb3JlDQoKCg==
 
