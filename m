@@ -1,23 +1,27 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id D59FC745BF
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 83B06745BF
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  4 Jun 2019 07:01:42 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jun 2019 00:01:43 -0700
-X-ExtLoop1: 1
-Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.144.138])
-	by fmsmga005.fm.intel.com with ESMTP; 04 Jun 2019 00:01:42 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  4 Jun 2019 15:01:37 +0800
-Message-Id: <20190604070137.31732-1-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.20.1
+	Tue,  4 Jun 2019 07:08:09 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x54787nH019094
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 4 Jun 2019 00:08:08 -0700 (PDT)
+Received: from [128.224.162.179] (128.224.162.179) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 4 Jun 2019 00:08:06 -0700
+To: <richard.purdie@linuxfoundation.org>
+References: <20190602145530.183521-1-kai.kang@windriver.com>
+	<51adf784752be06beea78dbe4a523a403671dbe0.camel@linuxfoundation.org>
+From: Kang Kai <Kai.Kang@windriver.com>
+Message-ID: <ff89b5fc-9032-2e44-9834-12cbbcb9db64@windriver.com>
+Date: Tue, 4 Jun 2019 15:06:32 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Subject: [PATCH] ffmpeg: add PACKAGECONFIG for mfx
+In-Reply-To: <51adf784752be06beea78dbe4a523a403671dbe0.camel@linuxfoundation.org>
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [meta-poky][PATCH v6 0/2] Make systemd as default init manager and configure wired network
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,32 +34,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 04 Jun 2019 07:01:43 -0000
+X-List-Received-Date: Tue, 04 Jun 2019 07:08:09 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Add option to build ffmpeg with support for Intel MediaSDK codecs. More
-details on supported codecs available here:
+On 2019/6/3 下午8:30, richard.purdie@linuxfoundation.org wrote:
+> On Sun, 2019-06-02 at 10:55 -0400, kai.kang@windriver.com wrote:
+>> From: Kai Kang <kai.kang@windriver.com>
+>>
+>> v6:
+>> * create .inc files as Richard suggested, and include them according
+>> to POKY_INIT_MANAGER
+>>
+>> Kai Kang (2):
+>>    poky.conf: make systemd as default init manager
+>>    systemd-conf: configure wired network with dhcp
+> This is looking good, I do agree with Peter about the file naming.
 
-https://trac.ffmpeg.org/wiki/Hardware/QuickSync
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+OK.
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
-index 994a792ded..147388d9b7 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_4.1.3.bb
-@@ -63,6 +63,7 @@ PACKAGECONFIG[gsm] = "--enable-libgsm,--disable-libgsm,libgsm"
- PACKAGECONFIG[jack] = "--enable-indev=jack,--disable-indev=jack,jack"
- PACKAGECONFIG[libvorbis] = "--enable-libvorbis,--disable-libvorbis,libvorbis"
- PACKAGECONFIG[lzma] = "--enable-lzma,--disable-lzma,xz"
-+PACKAGECONFIG[mfx] = "--enable-libmfx,--disable-libmfx,intel-mediasdk"
- PACKAGECONFIG[mp3lame] = "--enable-libmp3lame,--disable-libmp3lame,lame"
- PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
- PACKAGECONFIG[sdl2] = "--enable-sdl2,--disable-sdl2,virtual/libsdl2"
+
+> I
+> ran it through the autobuilder to see where we are at runtime and the
+> results were not so good:
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/85/builds/484
+>
+> We may need to reduce some of the free space in the ptest image and it
+> looks like there is an NFS startup failure issue in the sdk images.
+> There may be other issues in there too but those were the two I
+> immediately saw.
+
+I'll check the issues one by one.
+
+Regards,
+Kai
+
+>
+> Cheers,
+>
+> Richard
+>
+>
+
 -- 
-2.20.1
+Kai Kang
 
 
