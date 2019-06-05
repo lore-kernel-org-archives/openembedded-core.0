@@ -1,47 +1,54 @@
-Return-Path: <filipjares@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4CC377D3A6
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 439E57DF72
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 07:34:25 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id d17so1138007wmb.3
+	Wed,  5 Jun 2019 08:18:18 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id g135so1273089wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 00:34:27 -0700 (PDT)
+	Wed, 05 Jun 2019 01:18:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=bMDyZAwFLTHN0rYwUHDT0254WMhRkezHOJoNfSwsicE=;
-	b=mQl8iEv1xsv3j2lMRcEdmU8YCyGVofGThFD65GdMbZfIk/6TSAkE0I+nMPcwKHK6rU
-	YbwO0ur9adcCNEcIj33KhbawmpzDmRYSwAKkxmBGV6/FTiGFN0/xx+5ft26T5lT2N9cQ
-	9oMBtSiuw/fNCYvZXHUk8obXjYxxPwSoCjaTeNvIKnShaCyVhsmZSBjfb2HbH6dSLKRJ
-	Kxn9pbmk9aEN9g4KhPG7gmM9wJjArpmllsoO1mT8jEUnEYqUA3KVvMNewUAjc9WHpvhL
-	p5QZ52y2YMDDfWoxIqnJu5j72MYhwCXLouu4TG1ZLuei7pEtpdLBWohti6Ab1/6wiA6O
-	Jyiw==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=tWRDTi/QEa9zdzhz35Ivxsq+A8HrYU9Pyk/+tRU3El4=;
+	b=VGhAVxMpfYwMwjFKNWdTpw3W1FrQyzTstrX6bUxVrPr31xoxv45twwAVZHBezAF3zX
+	JQK1Wwe5QTVv3ZCbxXolY0RAnjWmAiiBBfbe1ANWww4w+2PAgivgjSI4nTMaEm1jNFAV
+	M6SuDKQvJRKTbEZippBXFUG+CrklM/e+OqEKpauhcwytYVjnARtLocEZ2L6XAByMTNP8
+	Kv1NPP9dbhjft8jz30JqUth7bBgQuNtZHTi+QzKUfcsUIqMmtpHi64fvS5Qdg70rTAi1
+	MtYasM3U48oJfk9vnaJhOGytemcxZsZy17etw4Wk5zA2B/dLA0wGHeM1jJP/qKu3zbGZ
+	XsLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=bMDyZAwFLTHN0rYwUHDT0254WMhRkezHOJoNfSwsicE=;
-	b=uOVSDhShklCWpbKEMosse9ZQ6kMVF0ir/QlQGFCqWdQDXtv5TzXtfHOEFPrbq6FXDN
-	t0aYbUmDk7XqXJSTuzOgP+J5MqsjIIEHMcJ9v7UT4SpA/HcCNiWm1IV9vRHAU+AZqNnT
-	iluEElIEFI+19eDTN+cskP4Ktf2Zih0eWEjITIReN8W0Q1tCCsL3mWSWX7GKzjSsf/jn
-	anqQU7WFwlPXMwQ6x9SiC1e4dx7jfsQMgZLhfQhDrfwuECeZOEQE1y5sy8JTa+FlJCKN
-	3dphLHhwJOFtg1cbPMiAq5fTUeg29rIRk5/beiOOMgwvGhRCcJHfNUWoCsqibmOkUerY
-	WM3w==
-X-Gm-Message-State: APjAAAW6dQe9zrCE1MgJY7t0tWRUhZVr4U4FrUrW5L9ZxOxiAwWwUP7z
-	hmGiwmD/t47fRk+bhjqT82yM6g7L
-X-Google-Smtp-Source: APXvYqwujfDz1E61to1tdi6HeOT2/XjceCxXJnhDvF858QTPUPuKZGGO6RIFDjbbAM1ajEN5V0tjcA==
-X-Received: by 2002:a1c:cc02:: with SMTP id h2mr20952512wmb.13.1559720066179; 
-	Wed, 05 Jun 2019 00:34:26 -0700 (PDT)
-Received: from PC1007453.cc.certicon.cz ([193.86.95.165])
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=tWRDTi/QEa9zdzhz35Ivxsq+A8HrYU9Pyk/+tRU3El4=;
+	b=qRwq9UI53qX+WQwuwlqEcfHH+ra6EotC1F3/2PMhuCXltZk2A3Cl25ygeG4oyLwbZ+
+	aI7Fe7KuaB4dhsW/fTvugznuOgqWWjKCdsQCzvGrv2of9npXABKvfOgNRJod85jXHKsb
+	GGbS4KeKqbr1qGPRrP43QFMMDlBbTcFw9E9o30lTBKmlE5r2TmVgp3LlST/ypYX8+uqV
+	3U2ruqQ0LWH7ux4kTRArom/zdkLVvaoTa7vZbKrDcEj6vJPOUOamF+y6FicpCoRmh2FY
+	9re8C8KZZUOc3v3K8bZ3y6vlbhpofo0wORdt2jI3LYZU2ijz+dduxKS6Ljnm6bgWFZJN
+	szzQ==
+X-Gm-Message-State: APjAAAXcrxZuaaTPTMP+yWM+d7+lEVIYMyNGJRTZfENpZI9/nktg8ug7
+	NjhLEt80wg9rHDWoTut+FF9+mMTq
+X-Google-Smtp-Source: APXvYqyQy9x6aeGWtsg/OIddvEwoqeFIPIDw2B8WlUX6IyK4ejFGiRrXQo+FD9gWvadfX9ssW6q4Sg==
+X-Received: by 2002:a1c:480a:: with SMTP id v10mr21220791wma.120.1559722698863;
+	Wed, 05 Jun 2019 01:18:18 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
 	by smtp.gmail.com with ESMTPSA id
-	e13sm24378638wra.16.2019.06.05.00.34.25
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 05 Jun 2019 00:34:25 -0700 (PDT)
-From: =?UTF-8?q?Filip=20Jare=C5=A1?= <filipjares@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2019 09:34:08 +0200
-Message-Id: <1559720048-7299-1-git-send-email-filipjares@gmail.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] Fix license "names"/versions.
+	b136sm24304302wme.30.2019.06.05.01.18.17
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 05 Jun 2019 01:18:17 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Wed, 5 Jun 2019 10:18:31 +0200
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190605081831.GA1448@jama>
+References: <20190603064703.17474-1-bunk@stusta.de>
+MIME-Version: 1.0
+In-Reply-To: <20190603064703.17474-1-bunk@stusta.de>
+User-Agent: Mutt/1.12.0 (2019-05-25)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lrzsz: Add implicit declaration fixes from Debian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,147 +61,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 07:34:26 -0000
+X-List-Received-Date: Wed, 05 Jun 2019 08:18:18 -0000
+X-Groupsio-MsgNum: 125398
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="7AUc2qLy4jB3hD7Z"
+Content-Disposition: inline
 
-These were broken in commit 4786ecdf7cd427089464dcb62579110d494e7cd7
-which performed a cleanup to avoid non-standard field names.
+--7AUc2qLy4jB3hD7Z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-There is an SPDX License list at https://spdx.org/licenses/ which
-aims to be a standard. Yocto also uses a substitution map SPDXLICENSEMAP,
-default one stored at meta/conf/licenses.conf.
+On Mon, Jun 03, 2019 at 09:47:02AM +0300, Adrian Bunk wrote:
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> --
 
-According to meta/conf/licenses.conf, "AFL-2" corresponds to "AFL-2.0"
-which is not correct for dbus.
+You need one more dash here, now this v2 comment ended in final commit mess=
+age
+which I believe wasn't the intention.
 
-According to the same licenses.conf file "MPL-1" corresponds to "MPL-1.0",
-which is correct for libical but since SPDX aims to be a standard
-I am updating the identifier in libical's .bb file as well.
+http://git.openembedded.org/openembedded-core/commit/?id=3D6fa60ac102f6d397=
+7df4236bd5a22680298bdac2
 
-To verify the actual license used you can use:
+the same with tcp-wrappers change:
+http://git.openembedded.org/openembedded-core/commit/?id=3Dcd1dc2334fd3e3d1=
+db9be1d26e888051e3f59c5a
 
-dbus:
+> v2: Add comment in the patch header.
+> ---
+>  .../lrzsz/lrzsz-0.12.20/include.patch         | 25 +++++++++++++++++++
+>  meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb       |  1 +
+>  2 files changed, 26 insertions(+)
+>  create mode 100644 meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+>=20
+> diff --git a/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch b/meta/re=
+cipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+> new file mode 100644
+> index 0000000000..5fcb3aa92b
+> --- /dev/null
+> +++ b/meta/recipes-bsp/lrzsz/lrzsz-0.12.20/include.patch
+> @@ -0,0 +1,25 @@
+> +Implicit declaration compile warning fixes from Debian
+> +
+> +Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> +Upstream-Status: Inappropriate [upstream is dead]
+> +
+> +--- lrzsz-0.12.21.orig/lib/long-options.c
+> ++++ lrzsz-0.12.21/lib/long-options.c
+> +@@ -22,6 +22,7 @@
+> + #endif
+> +=20
+> + #include <stdio.h>
+> ++#include <stdlib.h>
+> + #include <getopt.h>
+> + #include "long-options.h"
+> +=20
+> +--- lrzsz-0.12.21.orig/src/lsyslog.c
+> ++++ lrzsz-0.12.21/src/lsyslog.c
+> +@@ -22,6 +22,7 @@
+> + #ifdef ENABLE_SYSLOG
+> + #include "zglobal.h"
+> + #include <pwd.h>
+> ++#include <stdio.h>
+> + #include <stdlib.h>
+> + #include <string.h>
+> + #endif
+> diff --git a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb b/meta/recipes-bsp/l=
+rzsz/lrzsz_0.12.20.bb
+> index 002c774c6d..34556b2c29 100644
+> --- a/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+> +++ b/meta/recipes-bsp/lrzsz/lrzsz_0.12.20.bb
+> @@ -20,6 +20,7 @@ SRC_URI =3D "http://www.ohse.de/uwe/releases/lrzsz-${PV=
+}.tar.gz \
+>  	   file://lrzsz_fix_for_automake-1.12.patch \
+>             file://lrzsz-check-locale.h.patch \
+>             file://cve-2018-10195.patch \
+> +           file://include.patch \
+>             "
+> =20
+>  SRC_URI[md5sum] =3D "b5ce6a74abc9b9eb2af94dffdfd372a4"
+> --=20
+> 2.17.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-    cd /tmp/
-    wget http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.110.tar.gz
-    tar -xaf dbus-glib-0.110.tar.gz
-    cd dbus-glib-0.110
-    grep -A1 "^The Academic Free License$" COPYING
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-    cd /tmp/
-    wget http://dbus.freedesktop.org/releases/dbus/dbus-1.12.14.tar.gz
-    tar -xaf dbus-1.12.14.tar.gz
-    cd dbus-1.12.14
-    grep -A1 "^The Academic Free License$" COPYING
+--7AUc2qLy4jB3hD7Z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-cairo:
+-----BEGIN PGP SIGNATURE-----
 
-    wget --quiet -O - https://cgit.freedesktop.org/cairo/plain/COPYING-MPL-1.1?h=1.16.0 | grep -A1 "MOZILLA PUBLIC LICENSE"
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXPd61gAKCRA3VSO3ZXaA
+HN9FAKC7TvQImzzs1LK5gUPYy6HEH4I/hACbBioAjgvtFSKbF+apnddnIkYEu0E=
+=ht3D
+-----END PGP SIGNATURE-----
 
-libical:
-
-    wget --quiet -O - https://raw.githubusercontent.com/libical/libical/v2.0.0/COPYING | grep "Mozilla Public License"
-
-taglib:
-
-    wget --quiet -O - https://raw.githubusercontent.com/taglib/taglib/v1.11.1/COPYING.MPL | grep -A1 "MOZILLA PUBLIC LICENSE"
----
- meta/recipes-core/dbus/dbus-glib_0.110.bb     |  2 +-
- meta/recipes-core/dbus/dbus-test_1.12.14.bb   |  2 +-
- meta/recipes-core/dbus/dbus_1.12.14.bb        |  2 +-
- meta/recipes-graphics/cairo/cairo_1.16.0.bb   | 12 ++++++------
- meta/recipes-support/libical/libical_2.0.0.bb |  2 +-
- meta/recipes-support/taglib/taglib_1.11.1.bb  |  2 +-
- 6 files changed, 11 insertions(+), 11 deletions(-)
-
-diff --git a/meta/recipes-core/dbus/dbus-glib_0.110.bb b/meta/recipes-core/dbus/dbus-glib_0.110.bb
-index b7383bd..9afbc2b 100644
---- a/meta/recipes-core/dbus/dbus-glib_0.110.bb
-+++ b/meta/recipes-core/dbus/dbus-glib_0.110.bb
-@@ -2,7 +2,7 @@ SUMMARY = "High level language (GLib) binding for D-Bus"
- DESCRIPTION = "GLib bindings for the D-Bus message bus that integrate \
- the D-Bus library with the GLib thread abstraction and main loop."
- HOMEPAGE = "http://www.freedesktop.org/Software/dbus"
--LICENSE = "AFL-2 | GPLv2+"
-+LICENSE = "AFL-2.1 | GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=cf5b3a2f7083750d504333114e738656 \
-                     file://dbus/dbus-glib.h;beginline=7;endline=21;md5=7755c9d7abccd5dbd25a6a974538bb3c"
- SECTION = "base"
-diff --git a/meta/recipes-core/dbus/dbus-test_1.12.14.bb b/meta/recipes-core/dbus/dbus-test_1.12.14.bb
-index d7eb628..10447c6 100644
---- a/meta/recipes-core/dbus/dbus-test_1.12.14.bb
-+++ b/meta/recipes-core/dbus/dbus-test_1.12.14.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "D-Bus test package (for D-bus functionality testing only)"
- HOMEPAGE = "http://dbus.freedesktop.org"
- SECTION = "base"
--LICENSE = "AFL-2 | GPLv2+"
-+LICENSE = "AFL-2.1 | GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
-                     file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974538bb3c"
- 
-diff --git a/meta/recipes-core/dbus/dbus_1.12.14.bb b/meta/recipes-core/dbus/dbus_1.12.14.bb
-index 60d589d..4e7f614 100644
---- a/meta/recipes-core/dbus/dbus_1.12.14.bb
-+++ b/meta/recipes-core/dbus/dbus_1.12.14.bb
-@@ -2,7 +2,7 @@ SUMMARY = "D-Bus message bus"
- DESCRIPTION = "D-Bus is a message bus system, a simple way for applications to talk to one another. In addition to interprocess communication, D-Bus helps coordinate process lifecycle; it makes it simple and reliable to code a \"single instance\" application or daemon, and to launch applications and daemons on demand when their services are needed."
- HOMEPAGE = "http://dbus.freedesktop.org"
- SECTION = "base"
--LICENSE = "AFL-2 | GPLv2+"
-+LICENSE = "AFL-2.1 | GPLv2+"
- LIC_FILES_CHKSUM = "file://COPYING;md5=10dded3b58148f3f1fd804b26354af3e \
-                     file://dbus/dbus.h;beginline=6;endline=20;md5=7755c9d7abccd5dbd25a6a974538bb3c"
- DEPENDS = "expat virtual/libintl autoconf-archive"
-diff --git a/meta/recipes-graphics/cairo/cairo_1.16.0.bb b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-index c2628ae..f32e9ba 100644
---- a/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.16.0.bb
-@@ -10,12 +10,12 @@ HOMEPAGE = "http://cairographics.org"
- BUGTRACKER = "http://bugs.freedesktop.org"
- SECTION = "libs"
- 
--LICENSE = "MPL-1 & LGPLv2.1 & GPLv3+"
--LICENSE_${PN} = "MPL-1 & LGPLv2.1"
--LICENSE_${PN}-dev = "MPL-1 & LGPLv2.1"
--LICENSE_${PN}-doc = "MPL-1 & LGPLv2.1"
--LICENSE_${PN}-gobject = "MPL-1 & LGPLv2.1"
--LICENSE_${PN}-script-interpreter = "MPL-1 & LGPLv2.1"
-+LICENSE = "MPL-1.1 & LGPLv2.1 & GPLv3+"
-+LICENSE_${PN} = "MPL-1.1 & LGPLv2.1"
-+LICENSE_${PN}-dev = "MPL-1.1 & LGPLv2.1"
-+LICENSE_${PN}-doc = "MPL-1.1 & LGPLv2.1"
-+LICENSE_${PN}-gobject = "MPL-1.1 & LGPLv2.1"
-+LICENSE_${PN}-script-interpreter = "MPL-1.1 & LGPLv2.1"
- LICENSE_${PN}-perf-utils = "GPLv3+"
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=e73e999e0c72b5ac9012424fa157ad77"
-diff --git a/meta/recipes-support/libical/libical_2.0.0.bb b/meta/recipes-support/libical/libical_2.0.0.bb
-index daa47ab..4d8144d 100644
---- a/meta/recipes-support/libical/libical_2.0.0.bb
-+++ b/meta/recipes-support/libical/libical_2.0.0.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "iCal and scheduling (RFC 2445, 2446, 2447) library"
- HOMEPAGE = "https://github.com/libical/libical"
- BUGTRACKER = "https://github.com/libical/libical/issues"
--LICENSE = "LGPLv2.1 | MPL-1"
-+LICENSE = "LGPLv2.1 | MPL-1.0"
- LIC_FILES_CHKSUM = "file://COPYING;md5=d4fc58309d8ed46587ac63bb449d82f8 \
-                     file://LICENSE;md5=d1a0891cd3e582b3e2ec8fe63badbbb6"
- SECTION = "libs"
-diff --git a/meta/recipes-support/taglib/taglib_1.11.1.bb b/meta/recipes-support/taglib/taglib_1.11.1.bb
-index 01dcf66..f4e2882 100644
---- a/meta/recipes-support/taglib/taglib_1.11.1.bb
-+++ b/meta/recipes-support/taglib/taglib_1.11.1.bb
-@@ -1,7 +1,7 @@
- SUMMARY = "Library for reading and editing the meta-data of popular audio formats"
- SECTION = "libs/multimedia"
- HOMEPAGE = "http://taglib.github.io/"
--LICENSE = "LGPLv2.1 | MPL-1"
-+LICENSE = "LGPLv2.1 | MPL-1.1"
- LIC_FILES_CHKSUM = "file://COPYING.LGPL;md5=4fbd65380cdd255951079008b364516c \
-                     file://COPYING.MPL;md5=bfe1f75d606912a4111c90743d6c7325 \
-                     file://taglib/audioproperties.h;beginline=1;endline=24;md5=9df2c7399519b7310568a7c55042ecee"
--- 
-2.7.4
-
-
+--7AUc2qLy4jB3hD7Z--
