@@ -1,43 +1,37 @@
-Return-Path: <jun.nie@linaro.org>
-Received: from mail-it1-f177.google.com (mail-it1-f177.google.com
-	[209.85.166.177])
-	by mail.openembedded.org (Postfix) with ESMTP id 528777DDA5
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id C4D807D419
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 08:56:42 +0000 (UTC)
-Received: by mail-it1-f177.google.com with SMTP id m187so2338868ite.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 01:56:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=MwvMNZGX3hr/YM+8198RoHfgCGsfMQLEx8PZvrDsJCI=;
-	b=ocnLU6NRoLYWPf8OXhx/iGYsCBHa57xqvtVqze9JhlgdCvfQSAWyM7z16qFlmordwU
-	WyzXLVwbQ48PyPdP8EK6vCKMT9BMyesOUOig5JG179CCbqB1xbB0y4kXH1rFBeYpLPGY
-	0hLoORkkDrdHUMYIf9NsNQEmV4Lv7TYUfq0iFhUtc2O+OEc0M/MuYn0Kq6KRag4ucmK1
-	nHUg7XXfY7lCyScYpFQSHd1olm+UwhL8J30mpkgSn/cBMr5eqDyLvoKxT79q7ShAk3EZ
-	ncOUxn3lOELwaHjluYTwTvR2QUwAt2Ne0VyBPXy/NFustJSb92OMe6R8RsMcGsBuEgFR
-	x7Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=MwvMNZGX3hr/YM+8198RoHfgCGsfMQLEx8PZvrDsJCI=;
-	b=mG+AYo+Sbb0NdypPlI7meB4xvT4YVm89FOsvSNUPHbEJljn5wRyg3MyUdvi4vSCvJ1
-	5wbHFW2mNkq8LcqezwRNU0Liu9m13QTRvINf4Cc9yKY4+bbBu/d3ZNp3A3V1xoB5OyAe
-	StfBOouXHqjLjCP+wmR3MXvgRhrJYEh1j59HOkvsRqy8C2sdYI4s/bf4EF0WvpTWySPs
-	gJZf/cD2efN31/R3P03Y6+xcCWDG1PyX/nyFwuT/w/hbjLiqCtvRHexJXhAF4IxSByE1
-	pJ9KWEXRmXk7vG/H631cs6Qf1q7vAMs1vnBj2Sk+qUyDCDveNjovPWQspjDmvtmcPOf2
-	FjHA==
-X-Gm-Message-State: APjAAAUjr+XSOPJgyhEpPIeDAebJnzjw1LIMfTFRKBAFNNVgHHj5VFF+
-	c2YyS0QcwQQ5QK5nITtdo0VnIkK7hsnxilNfhqLVNQ==
-X-Google-Smtp-Source: APXvYqw5I+AOmJgGBb2Htknbve3gH0dj0/rKlT0m7JuFukHaWuY+jdS2olk7Wnphn2KZm4ID5JmZSDNV/ZnyBB4HqxI=
-X-Received: by 2002:a02:298b:: with SMTP id p133mr26906898jap.37.1559725003270;
-	Wed, 05 Jun 2019 01:56:43 -0700 (PDT)
+	Wed,  5 Jun 2019 09:29:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45Jk543YbDz3L;
+	Wed,  5 Jun 2019 11:29:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559726952;
+	bh=E/JLsA9azENl/mklBz1xvtAmsCEq3RJL4tcRAsqW/3o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gB+EYAbiNn4smxXcw0hYoNfrPPVpt8Yfhab/YuiL0blU11/c4DpbLvqwOSR2yXx5c
+	4sgkc5G50aLCa2v5eID+M6QkYtvRQYvzosco3loTP52aEx1bIRkS/G+jkx+whfBNJp
+	0FLZ62J0VVowZH5KgdPcxQqLAxgQFL1EjxyXOF0EJKZpv+E7GdbKxs0FZHMHTjYlFC
+	geLZfHJ3FzVPy8D+6x/n0WTLZPdeHy3bD37FFYt8fdvqcsZgvmsLCdmMkYDx83yEXS
+	KUyyCSN3np9vP5EW8tuYfD2P+CPh5Da7qNjObAo5KyKq9QcEWE1AlgNIqMHexINEUT
+	xdvfTVnopliwWrUoS4ztUK9FUb0wavkdsMEDkIHUZ/ZQPjJJGg0w7MW1XchANiJ9tu
+	UrmunutY3iDNbzo7T1rz7zxh70zwyVU0OpgABr7/G4mLS7cbx3cxQ1CS4icjHHdNjp
+	S+UwBFTI1Ty9w+Idpb3YxwSM9PZeSovvtA9Hwt3rJPy0am0csQ3eZy3s2upAXBaABk
+	ywad6jvOQ7c7wMzVNZ1x9DtRAV3DLoaURqgywtfuW5v+jFpMC6se7PtTiIcjr8F6gb
+	W76O4oMXHHB3osY5qoXcLYXumEk8WzLRlOujMr+iA5348gYLeSIbpRXMshId5cQwha
+	em0RnY4fUPLfjg1Lzm6OGHlY=
+Date: Wed, 5 Jun 2019 12:29:10 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Martin Jansa <martin.jansa@gmail.com>
+Message-ID: <20190605092910.GA26331@localhost>
+References: <20190603064703.17474-1-bunk@stusta.de>
+	<20190605081831.GA1448@jama>
 MIME-Version: 1.0
-From: Jun Nie <jun.nie@linaro.org>
-Date: Wed, 5 Jun 2019 16:56:32 +0800
-Message-ID: <CABymUCMUGWxQ-CXJmjrjHMBzuOHgSHFw7Mz0QMxKVJibjTSqxw@mail.gmail.com>
-To: Haiqing.Bai@windriver.com, richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Subject: make-mod-scripts: Add nostamp flag on configure task
+In-Reply-To: <20190605081831.GA1448@jama>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lrzsz: Add implicit declaration fixes from Debian
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -50,15 +44,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 08:56:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 05 Jun 2019 09:29:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Sorry for start a new mail for I just register to mail list and cannot
-reply original mail.
+On Wed, Jun 05, 2019 at 10:18:31AM +0200, Martin Jansa wrote:
+> On Mon, Jun 03, 2019 at 09:47:02AM +0300, Adrian Bunk wrote:
+> > Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> > --
+> 
+> You need one more dash here, now this v2 comment ended in final commit message
+> which I believe wasn't the intention.
+> 
+> http://git.openembedded.org/openembedded-core/commit/?id=6fa60ac102f6d3977df4236bd5a22680298bdac2
+> 
+> the same with tcp-wrappers change:
+> http://git.openembedded.org/openembedded-core/commit/?id=cd1dc2334fd3e3d1db9be1d26e888051e3f59c5a
+>...
 
-Maybe below change to meta/classes/kernel.bbclass is acceptable
-because rebuild of make-mod-scripts is triggered only when kernel is
-already cleaned for this case.
+Yes thanks, I already noticed my mistake.
 
-do_clean[depends] += "make-mod-scripts:do_clean"
+cu
+Adrian
+
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
+
 
