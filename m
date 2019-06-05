@@ -1,52 +1,50 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 974BC7D717
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 944317D716
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 18:56:07 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id s57so12132529qte.8
+	Wed,  5 Jun 2019 19:10:32 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id r18so11595501wrm.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 11:56:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=U9bQ9+xkiiX7EYZjm92xXpyQZLQmkYGF3eNcJ9Oq80o=;
-	b=A7BVdvA5l9K7VvdNC4pGBuv4Ebw8q2DkkhnMJgdkiVI1/HlML6z8EdJxlTkrmqpnE4
-	ubfxCHs/rmlIjxARz+cMkcJ54tC5x9B033uY/YQ8YSEbbALsQIyvKpMsLhD06PJ8x5hd
-	WEz9R/+E1V61QTT4iaktPrCoISnFTiSQ40OsE=
+	Wed, 05 Jun 2019 12:10:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Kz0tThSn8wPOwOJBDOkKm+JT68xphCzfQ8ihPP7U4iU=;
+	b=SWRFSpT02t4CmG6TlxxE4qTkYx+kXfdrqrTj603m7iSBiT6fAVA5eR6fx7DVW6DuaR
+	ampdp7TyOYpyukCiqM52s4hcNrfeFIOGipKMBwTZ/G+FpU9Zd8X6kl6suszuz78x7lwW
+	oHR5hYP811eE/RhQqRrFG2+XJa0UDaRuyT4rw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=U9bQ9+xkiiX7EYZjm92xXpyQZLQmkYGF3eNcJ9Oq80o=;
-	b=aYze1y0Ug0RNXJlQr5KFz22PAla5dgMtbQDE8AcIhRqCUGe23Goqtn/yZwBxwIuqyv
-	D7LY4T6vYGf0wCmpG01kAdCBlBrO8m+EXX+qSbS+sdnwu9rjdx9ycTgn8ZCxpb76y6di
-	Ou9wa557JYexPLZlNQLWS2M/JkxJS74bdKPOAJSViXg3cJeJiyyauoBGWdF+/DItugnP
-	wNQyqxEy/IvQ47HBDVVy8XB9wo0mgIsPXvqmY8bESFaAZcv4KeLNl3ptn6KiaRJpWLJU
-	PhBrQf9tgbA0MqBqf2yxQRD26Qpo6sell/lkTxCb7UP+2Em4kIle/Otqc5JVkbj08pDf
-	s2Dw==
-X-Gm-Message-State: APjAAAUn5SfFF2424aJd7zZlKVhzaU6srSKSd0zI4CQWd344kVJqrF72
-	kJ24LNEi1LXegiiCoXz0/OJk2g==
-X-Google-Smtp-Source: APXvYqw7GViCBVJpgp1OUTIa2PAClqueHg+qTbmUEJwfrEZdtd8jf+64XrsoKy8uYpGgd5NJG0dAyw==
-X-Received: by 2002:a0c:d047:: with SMTP id d7mr33396773qvh.64.1559760968424; 
-	Wed, 05 Jun 2019 11:56:08 -0700 (PDT)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-82DE-1C4D-9455-D8B2-DEBD.dyn6.twc.com.
-	[2606:a000:1401:82de:1c4d:9455:d8b2:debd])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Kz0tThSn8wPOwOJBDOkKm+JT68xphCzfQ8ihPP7U4iU=;
+	b=kc0HzYfF/Y+Doh9+BSSNACXWnP043EohFqvlBDU8JWxMbCGbLad5dnVFTeoX+kJUG3
+	yIjhXf0PuPfwDULf/y1/EGzrSjWS/smTw8P/v1+Aua0AL8DFrtYPNIazDQpR0vrxFpa1
+	n4te7xtD9UrlFsyxig5ImKjJ/aC+HFB0paTG24FERbraCQ9ypzxhXjURNaYGMrqibJft
+	ES4KQ0GGmujDTWTiCN8zQDmKWJbdSn7RrpbJgNKEHongXO8WiIy/iCwsjGD1jBc+h5nz
+	n/8HjxPzwtLbum2thm7ARalGdThobkVAXYIyBFSqAZkiQ9DoT263qT2S3+FGC8mz4ctD
+	1IBw==
+X-Gm-Message-State: APjAAAUANysCO299F4S9xqydhOpTJQCy3W+zcBSA/ydAeHJ8FzKijufW
+	xPUewhxTZLUECUErNXxsoBB4Tg==
+X-Google-Smtp-Source: APXvYqyGdrnliBBkBLZxHKLUYANVZ6M4Cj4uOn1IEXzyt+XIm7akDxUvByl5S0fl1A4nymei6B9G6g==
+X-Received: by 2002:adf:9e4c:: with SMTP id v12mr11732077wre.312.1559761833326;
+	Wed, 05 Jun 2019 12:10:33 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	w189sm10301963qkc.38.2019.06.05.11.56.06
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 05 Jun 2019 11:56:07 -0700 (PDT)
-Date: Wed, 5 Jun 2019 14:56:05 -0400
-From: Tom Rini <trini@konsulko.com>
-To: chee.yang.lee@intel.com
-Message-ID: <20190605185605.GC10942@bill-the-cat>
-References: <1559749102-44872-1-git-send-email-chee.yang.lee@intel.com>
+	34sm29098195wre.32.2019.06.05.12.10.32
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 05 Jun 2019 12:10:32 -0700 (PDT)
+Message-ID: <a71198580613e3ad0d8ce05717e56a27db9a5e21.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
+Date: Wed, 05 Jun 2019 20:10:31 +0100
+In-Reply-To: <20190605184116.24297-1-bunk@stusta.de>
+References: <20190605184116.24297-1-bunk@stusta.de>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <1559749102-44872-1-git-send-email-chee.yang.lee@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic/engine: include .wks.in in wic search and list
+Subject: Re: [PATCH] Remove manual RDEPENDS from PN-ptest to PN package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +57,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 18:56:07 -0000
-X-Groupsio-MsgNum: 125416
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="JWEK1jqKZ6MHAcjA"
-Content-Disposition: inline
+X-List-Received-Date: Wed, 05 Jun 2019 19:10:32 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
---JWEK1jqKZ6MHAcjA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 2019-06-05 at 21:41 +0300, Adrian Bunk wrote:
+> They are now added automatically by the ptest class.
+> 
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb | 2 +-
+>  meta/recipes-devtools/elfutils/elfutils_0.176.bb    | 2 +-
+>  meta/recipes-extended/sed/sed_4.2.2.bb              | 2 +-
+>  meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb     | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
+> index 54b135eaef..ed946159bd 100644
+> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
+> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
+> @@ -113,7 +113,7 @@ ALTERNATIVE_LINK_NAME[mkfs.ext2] = "${base_sbindir}/mkfs.ext2"
+>  ALTERNATIVE_${PN}-tune2fs = "tune2fs"
+>  ALTERNATIVE_LINK_NAME[tune2fs] = "${base_sbindir}/tune2fs"
+>  
+> -RDEPENDS_${PN}-ptest += "${PN} coreutils procps bash bzip2 diffutils perl sed"
+> +RDEPENDS_${PN}-ptest += "coreutils procps bash bzip2 diffutils perl sed"
+>  RDEPENDS_${PN}-ptest += "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks e2fsprogs-resize2fs"
+>  
+>  do_compile_ptest() {
+> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> index 1a5c70b088..6ed329fd55 100644
+> --- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> @@ -44,7 +44,7 @@ inherit autotools gettext ptest
+>  
+>  EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
+>  EXTRA_OECONF_append_class-native = " --without-bzlib"
+> -RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN}"
+> +RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils"
 
-On Wed, Jun 05, 2019 at 11:38:22PM +0800, chee.yang.lee@intel.com wrote:
+Won't that need a += there to preserve the class definition? How was
+this tested?
 
-> From: Chee Yang Lee <chee.yang.lee@intel.com>
->=20
-> allow wic to list and search for kickstart file in .wks.in extension.
-> basename show by wic list images to fully exclude extension.
->=20
-> Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+Cheers,
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
+Richard
 
---=20
-Tom
+>  EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
+>  
+> diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
+> index f10e365ea4..8e436bad80 100644
+> --- a/meta/recipes-extended/sed/sed_4.2.2.bb
+> +++ b/meta/recipes-extended/sed/sed_4.2.2.bb
+> @@ -15,7 +15,7 @@ SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
+>  SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
+>  
+>  inherit autotools texinfo update-alternatives gettext ptest
+> -RDEPENDS_${PN}-ptest += "make ${PN}"
+> +RDEPENDS_${PN}-ptest += "make"
+>  RRECOMMENDS_${PN}-ptest_append_libc-glibc = " locale-base-ru-ru"
+>  
+>  EXTRA_OECONF = "--disable-acl \
+> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> index 7e80bb45d1..9583ee3abb 100644
+> --- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
+> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
+>  
+>  DEPENDS = "liburcu popt libxml2 util-linux"
+>  RDEPENDS_${PN} = "libgcc"
+> -RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
+> +RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
+>  RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
+>  RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
+>  # babelstats.pl wants getopt-long
+> -- 
+> 2.17.1
+> 
 
---JWEK1jqKZ6MHAcjA
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJc+BBEAAoJEIf59jXTHXZSBv4P/2UES0SCc5GhscOhZzro1pGX
-Eivx/RVNoKvijRBsBxkW93mUv7ziRm09g8CxcktwtNw/D2O7vXvG9jN+nrmCRtIZ
-BI32UZNiyKkW+iibeAorut3qwgf9JSxzjp+U1WQ3AUpaipL8MbQiEgmepZ+jDr7z
-HjNwhaAEBzwcGT+wV35vne2naA+6xsF3T97m4be7LEXgNShtfoRG55/eElV45vgC
-cn2h0TadN0UGIUIR0xeDdB6czCah9DpamFyJWo2GzEaDUuCeh71lxnZYGKKkQFMc
-6M8vTZGyvulMrCfHCdLTR9Sat9S+UF/i0xBkN11G4Hrum4cFtuWitM2qKAczTfoQ
-TMX+dKfEyCd9t+cMErJGcxhIrMw8peDV8TT9OF4hch74IVz38hYsGO7tL0Ruq29V
-YFUMV1DSWpIxWLKQW8urY+tQ9cLDajD6vFMbaGLf28r11o+yddV0XbTbxsn4Wz/M
-7/PymmacKhSx9zDQ/l0nftHEt3K4T56g4vNIKJqToPUEWOU7n0qyazKjY2WPzqGB
-HrxBHDZhbraFXi9KTuqFpG/qlHq6Uf6WaPwzqzaK5Z0ZXRetgas8GVkI3yEa0T0F
-REzBTgRqRR52LQa1EciykrYQGWSuJBsZf5uKTz6SFfvJp0DHIBI5w5zvYL5+sxnv
-88Yq8w8moJjTinDX7wFU
-=asCi
------END PGP SIGNATURE-----
-
---JWEK1jqKZ6MHAcjA--
