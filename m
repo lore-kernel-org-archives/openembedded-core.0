@@ -1,50 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 944317D716
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F14C6C4CE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 19:10:32 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id r18so11595501wrm.10
+	Wed,  5 Jun 2019 22:05:56 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id d17so377857wmb.3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 12:10:34 -0700 (PDT)
+	Wed, 05 Jun 2019 15:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=Kz0tThSn8wPOwOJBDOkKm+JT68xphCzfQ8ihPP7U4iU=;
-	b=SWRFSpT02t4CmG6TlxxE4qTkYx+kXfdrqrTj603m7iSBiT6fAVA5eR6fx7DVW6DuaR
-	ampdp7TyOYpyukCiqM52s4hcNrfeFIOGipKMBwTZ/G+FpU9Zd8X6kl6suszuz78x7lwW
-	oHR5hYP811eE/RhQqRrFG2+XJa0UDaRuyT4rw=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=qWzu3lc8ATzNwENZ1X6+YWBKx50/EkqARHccMTj1Gf4=;
+	b=XERrPkNfQdxANTKNBdZSZxLcnBAvwo2Ha3dU4zK8sr646AtmLPjWyXENcnst29c1O7
+	L1Nj+lMeS19d+kPEA8RubzMzuLhtsssiW3+4RzVcQQNye/oeb2CHBnd7K5wbntZcvgoW
+	wx0wd2cj+4xbkWp0Uy823fWpnHeCzmmdcsFkM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Kz0tThSn8wPOwOJBDOkKm+JT68xphCzfQ8ihPP7U4iU=;
-	b=kc0HzYfF/Y+Doh9+BSSNACXWnP043EohFqvlBDU8JWxMbCGbLad5dnVFTeoX+kJUG3
-	yIjhXf0PuPfwDULf/y1/EGzrSjWS/smTw8P/v1+Aua0AL8DFrtYPNIazDQpR0vrxFpa1
-	n4te7xtD9UrlFsyxig5ImKjJ/aC+HFB0paTG24FERbraCQ9ypzxhXjURNaYGMrqibJft
-	ES4KQ0GGmujDTWTiCN8zQDmKWJbdSn7RrpbJgNKEHongXO8WiIy/iCwsjGD1jBc+h5nz
-	n/8HjxPzwtLbum2thm7ARalGdThobkVAXYIyBFSqAZkiQ9DoT263qT2S3+FGC8mz4ctD
-	1IBw==
-X-Gm-Message-State: APjAAAUANysCO299F4S9xqydhOpTJQCy3W+zcBSA/ydAeHJ8FzKijufW
-	xPUewhxTZLUECUErNXxsoBB4Tg==
-X-Google-Smtp-Source: APXvYqyGdrnliBBkBLZxHKLUYANVZ6M4Cj4uOn1IEXzyt+XIm7akDxUvByl5S0fl1A4nymei6B9G6g==
-X-Received: by 2002:adf:9e4c:: with SMTP id v12mr11732077wre.312.1559761833326;
-	Wed, 05 Jun 2019 12:10:33 -0700 (PDT)
+	bh=qWzu3lc8ATzNwENZ1X6+YWBKx50/EkqARHccMTj1Gf4=;
+	b=H431WuHhvCNZM1REU1K1+meeOTzjmtJyIy2L/jTMyN6gyhRZXqR6m+T/sXjfb2WcbM
+	gMbEVdEpetCmtQrjat/AlQlikHG/QsOH+ZYTesKDVMpBkCGej9PWavyTrjOp/hpCVwv6
+	6IMP45OJGNl+7zAcqL6zU8/jla5zIRejdfgHXEzxl9Bz4dEON5o7lASDwRXfbcFYeAeK
+	zw1EvPH0PqdZei7AsNl3H5a7VetheEwU2/XFlujWEc7kLADFpuf9jZDEuwR4M1IcxgNM
+	LJVYb+cfnZcXvMt0CVdmJcSxb6f5eJUTZHTwmLOsA19E+AKbF2rhMEDJMgGj9+N437Bx
+	81bw==
+X-Gm-Message-State: APjAAAX3Oi0AttvpKDq3+8FlSdZwm/djiNshTxyyhokmowEPICI9JlCa
+	iAXESWJ9iH8P3j0CDtsHv4xFdGpO7SE=
+X-Google-Smtp-Source: APXvYqy7zkz9Oo/1smCKZUL7w1QfFC9AktkztUNyZDlJ20oooIP0ozqyNUMKHSmfY+FmVs9b6aNT4w==
+X-Received: by 2002:a1c:eb16:: with SMTP id j22mr11128854wmh.56.1559772356962; 
+	Wed, 05 Jun 2019 15:05:56 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	34sm29098195wre.32.2019.06.05.12.10.32
+	by smtp.gmail.com with ESMTPSA id t14sm59167wrr.33.2019.06.05.15.05.55
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 12:10:32 -0700 (PDT)
-Message-ID: <a71198580613e3ad0d8ce05717e56a27db9a5e21.camel@linuxfoundation.org>
+	Wed, 05 Jun 2019 15:05:56 -0700 (PDT)
+Message-ID: <3ac933c8a87df80234530828d585bf4bd919314f.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
-Date: Wed, 05 Jun 2019 20:10:31 +0100
-In-Reply-To: <20190605184116.24297-1-bunk@stusta.de>
-References: <20190605184116.24297-1-bunk@stusta.de>
+To: Sakib Sajal <sakib.sajal@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 05 Jun 2019 23:05:55 +0100
+In-Reply-To: <20190604192939.29929-2-sakib.sajal@windriver.com>
+References: <20190604192939.29929-1-sakib.sajal@windriver.com>
+	<20190604192939.29929-2-sakib.sajal@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] Remove manual RDEPENDS from PN-ptest to PN package
+Subject: Re: [meta-oe][PATCH 2/2] bash: inherit useradd and remove redundant patch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,82 +58,52 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 19:10:32 -0000
+X-List-Received-Date: Wed, 05 Jun 2019 22:05:57 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-06-05 at 21:41 +0300, Adrian Bunk wrote:
-> They are now added automatically by the ptest class.
+On Tue, 2019-06-04 at 15:29 -0400, Sakib Sajal wrote:
+> 1) inherit useradd to allow new users to be created.
 > 
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb | 2 +-
->  meta/recipes-devtools/elfutils/elfutils_0.176.bb    | 2 +-
->  meta/recipes-extended/sed/sed_4.2.2.bb              | 2 +-
->  meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb     | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
+> Ensure that useradd/del are available when running
+> bash ptests.
 > 
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
-> index 54b135eaef..ed946159bd 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
-> @@ -113,7 +113,7 @@ ALTERNATIVE_LINK_NAME[mkfs.ext2] = "${base_sbindir}/mkfs.ext2"
->  ALTERNATIVE_${PN}-tune2fs = "tune2fs"
->  ALTERNATIVE_LINK_NAME[tune2fs] = "${base_sbindir}/tune2fs"
->  
-> -RDEPENDS_${PN}-ptest += "${PN} coreutils procps bash bzip2 diffutils perl sed"
-> +RDEPENDS_${PN}-ptest += "coreutils procps bash bzip2 diffutils perl sed"
->  RDEPENDS_${PN}-ptest += "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks e2fsprogs-resize2fs"
->  
->  do_compile_ptest() {
-> diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> index 1a5c70b088..6ed329fd55 100644
-> --- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-> @@ -44,7 +44,7 @@ inherit autotools gettext ptest
->  
->  EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
->  EXTRA_OECONF_append_class-native = " --without-bzlib"
-> -RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN}"
-> +RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils"
+> 2) run ptest as non-root.
+> 
+> Removed patch:
+>    fix-run-coproc-run-heredoc-run-execscript-run-test-f.patch
+> 
+> which enabled the two tests:
+>    execscript, test,
+> to be run by root but under 'su' as a user. These two tests
+> now fail since all bash ptest are now run as non-root and there
+> is no need to 'su'. There are remaining problems with the test
+> that will be resolved in future commits.
+> 
+> Bash ptest statistics with said changes:
+>    PASS: 77
+>    SKIP:  0
+>    FAIL:  4
+> 
+> Failed tests: execscript
+> 	      test
+> 	      read
+>   	      trap
+> 
+> Signed-off-by: Sakib Sajal <sakib.sajal@windriver.com>
+> Signed-off-by: Randy Macleod <randy.macleod@windriver.com>
 
-Won't that need a += there to preserve the class definition? How was
-this tested?
+Nearly but this breaks one of the selftests which will need fixing:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/500
+
+oe-selftest -r imagefeatures.ImageFeatures.test_useradd_static
+
+should reproduce.
 
 Cheers,
 
 Richard
 
->  EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
->  
-> diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
-> index f10e365ea4..8e436bad80 100644
-> --- a/meta/recipes-extended/sed/sed_4.2.2.bb
-> +++ b/meta/recipes-extended/sed/sed_4.2.2.bb
-> @@ -15,7 +15,7 @@ SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
->  SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
->  
->  inherit autotools texinfo update-alternatives gettext ptest
-> -RDEPENDS_${PN}-ptest += "make ${PN}"
-> +RDEPENDS_${PN}-ptest += "make"
->  RRECOMMENDS_${PN}-ptest_append_libc-glibc = " locale-base-ru-ru"
->  
->  EXTRA_OECONF = "--disable-acl \
-> diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-> index 7e80bb45d1..9583ee3abb 100644
-> --- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
->  
->  DEPENDS = "liburcu popt libxml2 util-linux"
->  RDEPENDS_${PN} = "libgcc"
-> -RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
-> +RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
->  RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
->  RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
->  # babelstats.pl wants getopt-long
-> -- 
-> 2.17.1
-> 
 
 
