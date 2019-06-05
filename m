@@ -1,19 +1,22 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-Received: from bsmtp7.bon.at (bsmtp7.bon.at [213.33.87.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 6CBD67D3E0
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
+	by mail.openembedded.org (Postfix) with ESMTP id CF3E17D1D3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 15:24:06 +0000 (UTC)
-Received: from qschulz.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45Jsyb3G8jz5tlJ;
-	Wed,  5 Jun 2019 17:24:07 +0200 (CEST)
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+	Wed,  5 Jun 2019 15:38:22 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	05 Jun 2019 08:38:23 -0700
+X-ExtLoop1: 1
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by fmsmga006.fm.intel.com with ESMTP; 05 Jun 2019 08:38:23 -0700
+From: chee.yang.lee@intel.com
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2019 17:23:52 +0200
-Message-Id: <20190605152352.25846-1-quentin.schulz@streamunlimited.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>,
-	andriy.danylovskyy@streamunlimited.com
-Subject: [PATCH] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
+Date: Wed,  5 Jun 2019 23:38:22 +0800
+Message-Id: <1559749102-44872-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] wic/engine: include .wks.in in wic search and list
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,59 +29,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 15:24:07 -0000
+X-List-Received-Date: Wed, 05 Jun 2019 15:38:23 -0000
 
-A non-SPDX license (which is not an alias to an SPDX license) cannot
-currently be marked as incompatible in INCOMPATIBLE_LICENSE.
-In the current state, we take all INCOMPATIBLE_LICENSE and pass them
-through expand_wildcard_licenses which is only adding SPDX licenses that
-match the glob regexp of what is in INCOMPATIBLE_LICENSE (be it a direct
-match to an SPDX license or via an alias).
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-This does not work well with custom licenses.
+allow wic to list and search for kickstart file in .wks.in extension.
+basename show by wic list images to fully exclude extension.
 
-E.g.:
-
-foo.bb:
-LICENSE = "FooLicense"
-
-conf/local.conf:
-INCOMPATIBLE_LICENSE = "FooLicense"
-
-`bitbake foo`
-
-Gives no warning, no error, builds and packages successfully, because
-INCOMPATIBLE_LICENSE is basically empty since FooLicense is neither in
-SPDXLICENSEMAP nor in SRC_DISTRIBUTE_LICENSES.
-
-Let's add the original licenses to the list returned by
-expand_wildcard_licenses to be able to handle the aforementioned case.
-
-INCOMPATIBLE_LICENSE = "FooLicense GPLv2 GPLv3+" used to "resolve" to
-"GPLv2 GPLv3". It now resolves to "FooLicense GPLv2 GPLv3 GPLv3+" which
-fixes the issue with custom licenses not being in SPDXLICENSEMAP or
-SRC_DISTRIBUTE_LICENSES and thus being left out of the blacklisted
-licenses.
-
-Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- meta/classes/license.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/wic/engine.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index ed91a4b4db..adca881c85 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -268,7 +268,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
-     wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
-     """
-     import fnmatch
--    licenses = []
-+    licenses = wildcard_licenses[:]
-     spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
-     for wld_lic in wildcard_licenses:
-         spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
+diff --git a/scripts/lib/wic/engine.py b/scripts/lib/wic/engine.py
+index 42e93c3..61939ad1 100644
+--- a/scripts/lib/wic/engine.py
++++ b/scripts/lib/wic/engine.py
+@@ -75,7 +75,8 @@ def find_canned_image(scripts_path, wks_file):
+             for fname in files:
+                 if fname.endswith("~") or fname.endswith("#"):
+                     continue
+-                if fname.endswith(".wks") and wks_file + ".wks" == fname:
++                if ((fname.endswith(".wks") and wks_file + ".wks" == fname) or \
++                   (fname.endswith(".wks.in") and wks_file + ".wks.in" == fname)):
+                     fullpath = os.path.join(canned_wks_dir, fname)
+                     return fullpath
+     return None
+@@ -92,7 +93,7 @@ def list_canned_images(scripts_path):
+             for fname in files:
+                 if fname.endswith("~") or fname.endswith("#"):
+                     continue
+-                if fname.endswith(".wks"):
++                if fname.endswith(".wks") or fname.endswith(".wks.in"):
+                     fullpath = os.path.join(canned_wks_dir, fname)
+                     with open(fullpath) as wks:
+                         for line in wks:
+@@ -101,7 +102,7 @@ def list_canned_images(scripts_path):
+                             if idx != -1:
+                                 desc = line[idx + len("short-description:"):].strip()
+                                 break
+-                    basename = os.path.splitext(fname)[0]
++                    basename = fname.split('.')[0]
+                     print("  %s\t\t%s" % (basename.ljust(30), desc))
+ 
+ 
 -- 
-2.17.1
+2.7.4
 
 
