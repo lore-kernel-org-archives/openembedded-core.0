@@ -1,22 +1,30 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 8B7C87EA18
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 109657E404
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 02:18:21 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5H2ILuJ010644
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 16 Jun 2019 19:18:21 -0700 (PDT)
-Received: from pek-lpggp1.wrs.com (128.224.153.74) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 16 Jun 2019 19:18:20 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-Date: Sun, 16 Jun 2019 22:17:41 -0400
-Message-ID: <1560737861-151223-1-git-send-email-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.8.1
+	Mon, 17 Jun 2019 03:53:07 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.63,383,1557158400"; d="scan'208";a="67720092"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 17 Jun 2019 11:53:00 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 305EC4CE0318
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2019 11:47:15 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 17 Jun 2019 11:47:20 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Jun 2019 05:46:48 +0800
+Message-ID: <1559771208-32780-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-Subject: [PATCH] openssh: fix potential signed overflow in pointer arithmatic
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: 305EC4CE0318.ACFA6
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH v2] openssl: Fix a build bug on aarch64BE.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,82 +37,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 02:18:21 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 17 Jun 2019 03:53:11 -0000
+Content-Type: text/plain
 
-Pointer arithmatic results in implementation defined signed integer
-type, so that 'd - dst’ in strlcat may trigger signed overflow if
-pointer ‘d’ is near 0x7fffffff in 32 bits system. In case of ompilation
-by gcc or clang with -ftrapv option, the overflow would generate
-program abort.
+Fix bug as following on aarch64BE:
 
-Signed-off-by: hguo3 <heng.guo@windriver.com>
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
+
+https://github.com/openssl/openssl/pull/9151
+
+Upstream-Status: Submitted
+
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- ...ial-signed-overflow-in-pointer-arithmatic.patch | 26 ++++++++++++++++------
- 1 file changed, 19 insertions(+), 7 deletions(-)
+ ...01-Fix-build-error-for-aarch64-big-endian.patch | 41 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.1.1c.bb |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-index 7e043a2..20036da 100644
---- a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-+++ b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-@@ -11,14 +11,17 @@ would lead to program abort.
- Upstream-Status: Submitted [http://bugzilla.mindrot.org/show_bug.cgi?id=2608]
- 
- Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+new file mode 100644
+index 0000000..65ca02c
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+@@ -0,0 +1,41 @@
++From 1f8c0f2feea5cdcae0bcd9dfc78198d9e2c4cf09 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Thu, 13 Jun 2019 12:17:30 +0900
++Subject: [PATCH] Fix build error for aarch64 big endian.
 +
-+Complete the fix
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- ---
-- openbsd-compat/strlcat.c | 8 ++++++--
-- openbsd-compat/strlcpy.c | 8 ++++++--
-- openbsd-compat/strnlen.c | 8 ++++++--
-- 3 files changed, 18 insertions(+), 6 deletions(-)
-+ openbsd-compat/strlcat.c | 10 +++++++---
-+ openbsd-compat/strlcpy.c |  8 ++++++--
-+ openbsd-compat/strnlen.c |  8 ++++++--
-+ 3 files changed, 19 insertions(+), 7 deletions(-)
- 
- diff --git a/openbsd-compat/strlcat.c b/openbsd-compat/strlcat.c
--index bcc1b61..e758ebf 100644
-+index bcc1b61..124e1e3 100644
- --- a/openbsd-compat/strlcat.c
- +++ b/openbsd-compat/strlcat.c
- @@ -23,6 +23,7 @@
-@@ -29,6 +32,15 @@ index bcc1b61..e758ebf 100644
-  
-  /*
-   * Appends src to string dst of size siz (unlike strncat, siz is the
-+@@ -42,7 +43,7 @@ strlcat(char *dst, const char *src, size_t siz)
-+ 	/* Find the end of dst and adjust bytes left but don't go past end */
-+ 	while (n-- != 0 && *d != '\0')
-+ 		d++;
-+-	dlen = d - dst;
-++	dlen = (uintptr_t)d - (uintptr_t)dst;
-+ 	n = siz - dlen;
++Modified rev to rev64, because rev only takes integer registers.
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90827
++Otherwise, the following error will occur.
++
++Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ crypto/sha/asm/keccak1600-armv8.pl | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/crypto/sha/asm/keccak1600-armv8.pl b/crypto/sha/asm/keccak1600-armv8.pl
++index dc72f18..6620690 100755
++--- a/crypto/sha/asm/keccak1600-armv8.pl
+++++ b/crypto/sha/asm/keccak1600-armv8.pl
++@@ -731,7 +731,7 @@ $code.=<<___;
++ 	blo	.Lprocess_block_ce
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[$j/5][$j%5],$A[$j/5][$j%5],v31.16b
++ 	beq	.Lprocess_block_ce
++@@ -740,7 +740,7 @@ ___
++ $code.=<<___;
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[4][4],$A[4][4],v31.16b
 + 
-+ 	if (n == 0)
- @@ -55,8 +56,11 @@ strlcat(char *dst, const char *src, size_t siz)
-  		s++;
-  	}
-@@ -70,7 +82,7 @@ index b4b1b60..b06f374 100644
-  
-  #endif /* !HAVE_STRLCPY */
- diff --git a/openbsd-compat/strnlen.c b/openbsd-compat/strnlen.c
--index 93d5155..9b8de5d 100644
-+index 7ad3573..7040f1f 100644
- --- a/openbsd-compat/strnlen.c
- +++ b/openbsd-compat/strnlen.c
- @@ -23,6 +23,7 @@
-@@ -95,5 +107,5 @@ index 93d5155..9b8de5d 100644
-  }
-  #endif
- -- 
--1.9.1
-+2.17.1
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+index 669b1a1..ec85ccd 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-skip-test_symbol_presence.patch \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
++           file://0001-Fix-build-error-for-aarch64-big-endian.patch \
+            "
  
+ SRC_URI_append_class-nativesdk = " \
 -- 
-2.8.1
+2.7.4
+
+
 
 
