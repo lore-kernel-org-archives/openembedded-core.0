@@ -1,51 +1,46 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 905FD7CF98
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
+	[209.85.210.65])
+	by mail.openembedded.org (Postfix) with ESMTP id BB9776C135
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 09:36:16 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id f10so1537522wmb.1
+	Wed,  5 Jun 2019 10:09:36 +0000 (UTC)
+Received: by mail-ot1-f65.google.com with SMTP id r21so202989otq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 02:36:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=COC6yW/CBpJP8WArRy/y8QoY94uUfu2DxlEuXr/TH3Q=;
-	b=Il0yNAwRuMYF1W3x5cVPKi00QaxvV+vbI2tEvuP+DYq1GJWijbvTRpTMHs+pxXM5vT
-	wuH5+mop52DZXpm/HBEdlrp5CDG1+/roRT1mI4HNNAhWDQYNozO3ThkHy4E/s7DWL0Ui
-	C7Cfrsdgncny5+ZsSSDZQeSYtyUEQpOEYgTc4=
+	Wed, 05 Jun 2019 03:09:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3S9DAAzU9e/SbdZEGJ9ys5sWf0lnVXODynIzqoiVqi8=;
+	b=DX625gEKdMVSXPfETBqyTyQiX8qws+zimNU6oSTPU9HAbO5cUMc/dm2khklAPqAn75
+	cLmC+Mf8xvaltU7XNMArVwEZd1B0PXfKfsrGK/sycS1UjoFGL2J8f44cYpFlY+gMRGKv
+	GedY+pknBf47QQru/mi5fEl61bkXw8IX/vTD+qfiaQW7aPo4QDAa2VHFFxRDvGoZj1+i
+	CSdGhEpp318iU3Twvqp0jVt/ys3f7T8PHCxmwhbl/tCpOXBDGuR3E3Mjy3LFxeVtxriZ
+	TYfNVkB25gyuvdiesx0waX//+mTMa9KB+SGJEkdd2HrJQzMzno7EUsoCyQuxi6h2znnF
+	VBDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=COC6yW/CBpJP8WArRy/y8QoY94uUfu2DxlEuXr/TH3Q=;
-	b=bH9KccWtoPuNFdHjzpD9fE4frMOdoosr/mnaOI3KteMOPUt0t/YzNl6wBNq4ZGcq/p
-	Blq+dJgTP1R9sKOGVcjrvQ+PGd6Egp7KP1oih6LwotCCn+RC2Xxcv6tpVZFz73jndl4f
-	SbTIwWm1kgox/+grezpBzeMX5vKnPhz4U7sq2EN1iPZa+OLlG3ytzW1TR17CMgJXfaol
-	8q+9hH3oAhk5RY9rJtRtH3oJ4t0oy/saXFav28m50MBkB/c1CDJwD+lOFUg21gmR+X4/
-	8F7GnAZzM+tYjV7Q+XpqxhrXTu0TKibVJNhzbR0QMzQvftZtaotAvZJV46Hc+Vb/8wXD
-	QTGQ==
-X-Gm-Message-State: APjAAAVhJuaGNqnk36syJcs1E2DIP+RF9FxAWdbEfhRgLDlm8l7fDO51
-	YclmRQNT4Fw3HAjDFlBz6GnjMw==
-X-Google-Smtp-Source: APXvYqwptF28a3YzJ29Hu1chK1LZ3gciKaSSLlfyzx+HwltDvNL1TFvOUJWjll0yFJkCJl/8+qG2og==
-X-Received: by 2002:a1c:ab06:: with SMTP id u6mr2271432wme.125.1559727377230; 
-	Wed, 05 Jun 2019 02:36:17 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	95sm38879190wrk.70.2019.06.05.02.36.16
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 02:36:16 -0700 (PDT)
-Message-ID: <ef60eca274a65752ac9e094d7ee5e9d29cf49f6e.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Jun Nie <jun.nie@linaro.org>, Haiqing.Bai@windriver.com, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 05 Jun 2019 10:36:15 +0100
-In-Reply-To: <CABymUCMUGWxQ-CXJmjrjHMBzuOHgSHFw7Mz0QMxKVJibjTSqxw@mail.gmail.com>
-References: <CABymUCMUGWxQ-CXJmjrjHMBzuOHgSHFw7Mz0QMxKVJibjTSqxw@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3S9DAAzU9e/SbdZEGJ9ys5sWf0lnVXODynIzqoiVqi8=;
+	b=muD9r3ltPDrHpzgia1hGXEw33q2xgpPMvZ3moF3YlsDayrY2SDJHfMai53f1R9NYoq
+	uSD2N+VPq3doGFreHC+KXVCU9gQLfc4VZuqagON0mEc4jzWjqMrDMh0JU0sXWlyYQJ9y
+	39gOb4VJNsyoQgYR9ppo6Bpzg97OK8UiaSL7IhdC/HyopD2MRhwYlKKzgOv1Pkz091+b
+	f2NmHjKqc7/tg5DEOLVSieWhpzYECuDivAnPsEI5AwKme7tm1GTeUR8S6bBK8jU1iYJu
+	GOPmS9MOK35jdBHbXUQXoy3B9+2XQ3BbZeYxZaSRDwowHXQx/GmDMoV6wvlbiNXD1Nxx
+	vwAw==
+X-Gm-Message-State: APjAAAWxrMs1csZAWn5TlCfnpE+M0zgY4WJP6xcXihI4dNuIgFUHj18C
+	ck83BkO6E2o69VNScD8cKM9qCEMTYfKyEvVihgY=
+X-Google-Smtp-Source: APXvYqyJwt0CDupMaK+pOc55/aLptPgj2ApPZ+7SZ8cLGPeNAZiKGiUIdC9kb6xOTxIAv9xLejFwXyuvCfsmuuQv/zs=
+X-Received: by 2002:a9d:4b8d:: with SMTP id k13mr3927025otf.61.1559729377856; 
+	Wed, 05 Jun 2019 03:09:37 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: make-mod-scripts: Add nostamp flag on configure task
+References: <1558750911-37622-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1558750911-37622-1-git-send-email-leimaohui@cn.fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 5 Jun 2019 12:09:26 +0200
+Message-ID: <CANNYZj8usRkGAYvmtOeNyDoNYLOMaDa95G=LVziKOB1RYFwErg@mail.gmail.com>
+To: Lei Maohui <leimaohui@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [warrior][PATCH] createrepo-c: Fix build QA error for nativesdk-createrepo-c.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,25 +53,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 09:36:16 -0000
+X-List-Received-Date: Wed, 05 Jun 2019 10:09:36 -0000
+Content-Type: multipart/alternative; boundary="00000000000083537a058a90cbc0"
+
+--00000000000083537a058a90cbc0
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-06-05 at 16:56 +0800, Jun Nie wrote:
-> Sorry for start a new mail for I just register to mail list and
-> cannot
-> reply original mail.
-> 
-> Maybe below change to meta/classes/kernel.bbclass is acceptable
-> because rebuild of make-mod-scripts is triggered only when kernel is
-> already cleaned for this case.
-> 
-> do_clean[depends] += "make-mod-scripts:do_clean"
+On Wed, 5 Jun 2019 at 10:21, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
 
-Yes, this could be a solution...
+> "QA Issue: nativesdk-createrepo-c rdepends on nativesdk-python3-dev
+> [dev-deps]"
+>
+> +INSANE_SKIP_${PN} += "dev-deps"
+>  BBCLASSEXTEND = "native nativesdk"
+>
 
-Cheers,
+This does not fix the issue, but merely silences it.You need to look into
+the actual problem.
 
-Richard
+Alex
 
+--00000000000083537a058a90cbc0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Wed, 5 Jun 2019 at 10:21, Lei Maohui &=
+lt;<a href=3D"mailto:leimaohui@cn.fujitsu.com">leimaohui@cn.fujitsu.com</a>=
+&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_=
+quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
+204);padding-left:1ex">&quot;QA Issue: nativesdk-createrepo-c rdepends on n=
+ativesdk-python3-dev [dev-deps]&quot;<br>
+<br>
++INSANE_SKIP_${PN} +=3D &quot;dev-deps&quot;<br>
+=C2=A0BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+</blockquote><div><br></div><div>This does not fix the issue, but merely si=
+lences it.You need to look into the actual problem.</div><div><br></div><di=
+v>Alex<br></div></div></div>
+
+--00000000000083537a058a90cbc0--
