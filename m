@@ -1,50 +1,61 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id F40176C0E5
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E3AF97DDA2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 14:07:19 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id w13so19574312wru.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 07:07:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=cGnNSE31SGFEtkKLB1xzcDJKACSbJ+MDOkzLpCKX9+o=;
-	b=Zff0bmqOfhmRlXG+jnDyAl2jmW8VMK9ze9SKPOWYfzR2y9CwX7YzwclfYotyX2743H
-	MMNO10iGfYn+5w2qkSNDV/aJFln/E97jPaguyLOxgFoK6ZPVOZOduNxiSF6a04cPwQqs
-	pApdmr+0fi5VbrA/VkyM2ysA1tosqcJLgYjSo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=cGnNSE31SGFEtkKLB1xzcDJKACSbJ+MDOkzLpCKX9+o=;
-	b=C5jcmPO/lAnoQ2j9y2EOJy92YjrnZGt5ysT9214Uex4O8Slxhz3FU/jMQKz7jugWNy
-	1G4beFXlPhw0ZjCNmE38WuxX3g7V5LzTCr0IKvVHiOuTV3jByRmvgbTW1fb4I2BCESm5
-	RgsNEFyZGD/sE/LCrl4nhWQGUkuN/gJluEYs/FjjhFsJv8Oh4IGjsgBtPvW4Cb9vz64c
-	S5zerNlgpARh2l0ocuy6YBGXlVlyL2Q50R8LKph9rX1UMFhVEzBbrF6BkLOX903DCT4T
-	KXsCFcguU5c41mDeGw08E1//ZtX1gUox59p0BCW8wMfOItTm0guWqR5ZfD+3le51dHBc
-	+NXA==
-X-Gm-Message-State: APjAAAVuXIgxTpOLCEtp198goDY6zPq6rIbRZ7hy+IfjQPt3wTFp3QZ/
-	tB4J2gx7vYJOjiJnxAMUXoI4pw==
-X-Google-Smtp-Source: APXvYqw6OaVhZr0FCZglsfoEEzNF9RZDSC5zyuidzFdGmRGPT7dmn+Ro49F1Johq5XoO17e0ab+fKA==
-X-Received: by 2002:adf:df91:: with SMTP id z17mr18139167wrl.336.1559743640698;
-	Wed, 05 Jun 2019 07:07:20 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	v67sm5226936wme.24.2019.06.05.07.07.19
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 05 Jun 2019 07:07:20 -0700 (PDT)
-Message-ID: <475d4dd14074b72d371b62dec836eab666e7c807.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 05 Jun 2019 15:07:19 +0100
-In-Reply-To: <20190605140130.14968-1-pkj@axis.com>
+	Wed,  5 Jun 2019 14:30:59 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 52FE918494;
+	Wed,  5 Jun 2019 16:31:00 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id EHcOx1ps9FEr; Wed,  5 Jun 2019 16:30:59 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 7E9F9183E1;
+	Wed,  5 Jun 2019 16:30:59 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3DD3C1A063;
+	Wed,  5 Jun 2019 16:30:59 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3298A1A062;
+	Wed,  5 Jun 2019 16:30:59 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Wed,  5 Jun 2019 16:30:59 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by seth.se.axis.com (Postfix) with ESMTP id 2628C294C;
+	Wed,  5 Jun 2019 16:30:59 +0200 (CEST)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX01.axis.com (10.0.5.15) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 5 Jun 2019 16:30:59 +0200
+Received: from XBOX04.axis.com (10.0.5.18) by xbox11.axis.com (10.0.5.25) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Wed, 5 Jun 2019 16:30:58 +0200
+Received: from XBOX04.axis.com ([fe80::210a:724b:68cb:a917]) by
+	XBOX04.axis.com ([fe80::210a:724b:68cb:a917%22]) with mapi id
+	15.00.1365.000; Wed, 5 Jun 2019 16:30:58 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] package.bbclass: Clean up writing of runtime
+	pkgdata files
+Thread-Index: AQHVG6f/LBR0UFA0PEKY59QVEqyqzqaNG0cA
+Date: Wed, 5 Jun 2019 14:30:58 +0000
+Message-ID: <d6436c85e6624813b6d5d7dfa8f25976@XBOX04.axis.com>
 References: <20190605140130.14968-1-pkj@axis.com>
-User-Agent: Evolution 3.32.2-1 
+	<475d4dd14074b72d371b62dec836eab666e7c807.camel@linuxfoundation.org>
+In-Reply-To: <475d4dd14074b72d371b62dec836eab666e7c807.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
+X-TM-AS-GCONF: 00
 Subject: Re: [PATCH] package.bbclass: Clean up writing of runtime pkgdata files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -58,19 +69,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 14:07:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 05 Jun 2019 14:31:00 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-On Wed, 2019-06-05 at 16:01 +0200, Peter Kjellerstedt wrote:
-> This introduces a variable, PKGDATA_VARS, that contains the names of
-> the variables that are to be output in the runtime pkgdata files.
-
-Its a good cleanup, I just know how people are going to use this
-variable to write out all kind of other data into pkgdata :(
-
-Cheers,
-
-Richard
-
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmlj
+aGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4NCj4gU2VudDogZGVuIDUganVuaSAyMDE5
+IDE2OjA3DQo+IFRvOiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlz
+LmNvbT47IG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFN1
+YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBwYWNrYWdlLmJiY2xhc3M6IENsZWFuIHVwIHdy
+aXRpbmcgb2YNCj4gcnVudGltZSBwa2dkYXRhIGZpbGVzDQo+IA0KPiBPbiBXZWQsIDIwMTktMDYt
+MDUgYXQgMTY6MDEgKzAyMDAsIFBldGVyIEtqZWxsZXJzdGVkdCB3cm90ZToNCj4gPiBUaGlzIGlu
+dHJvZHVjZXMgYSB2YXJpYWJsZSwgUEtHREFUQV9WQVJTLCB0aGF0IGNvbnRhaW5zIHRoZSBuYW1l
+cyBvZg0KPiA+IHRoZSB2YXJpYWJsZXMgdGhhdCBhcmUgdG8gYmUgb3V0cHV0IGluIHRoZSBydW50
+aW1lIHBrZ2RhdGEgZmlsZXMuDQo+IA0KPiBJdHMgYSBnb29kIGNsZWFudXAsIEkganVzdCBrbm93
+IGhvdyBwZW9wbGUgYXJlIGdvaW5nIHRvIHVzZSB0aGlzDQo+IHZhcmlhYmxlIHRvIHdyaXRlIG91
+dCBhbGwga2luZCBvZiBvdGhlciBkYXRhIGludG8gcGtnZGF0YSA6KA0KDQpUaGlzIHdhcyBvZiBj
+b3Vyc2UgdHJpZ2dlcmVkIGJ5IFJvYiBXYWx0b24ncyByZWNlbnQgYXR0ZW1wdCBhdCBhZGRpbmcg
+DQpIT01FUEFHRSBhbmQgbXkgb3duIGVhcmxpZXIgYXR0ZW1wdCBhdCBhZGRpbmcgU1JDX1VSSS4g
+QnV0IGlzIGl0IGEgDQpwcm9ibGVtIChmb3IgT0UtQ29yZSkgdGhhdCB0aGlzIHBvc3NpYmlsaXR5
+IGV4aXN0cz8gQXMgbG9uZyBhcyB5b3UgZG8gDQpub3QgYWNjZXB0IHRoZSBhZGRpdGlvbiBvZiB0
+aG9zZSB2YXJpYWJsZXMgaW50byBPRS1Db3JlLCB0aGVuIG5vdGhpbmcgDQpoYXMgY2hhbmdlZCBm
+b3IgeW91IChleGNlcHQgdGhhdCB0aGUgY29kZSBpcyBub3cgYSBiaXQgbW9yZSB0aWR5KS4NCg0K
+SG93ZXZlciwgZm9yIHVzIGl0IG1lYW5zIEkgY2FuIGdldCByaWQgb2YgdGhlIGhvcnJpYmxlIGhh
+Y2sgd2UgaGF2ZSANCnRoYXQgYWRkcyBTUkNfVVJJIHRvIHRoZSBwa2dkYXRhIGZpbGVzLCBhbmQg
+aW5zdGVhZCByZXBsYWNlIGl0IHdpdGggYSANCnNpbXBsZSB2YXJpYWJsZSBhZGRpdGlvbiBpbiBv
+dXIgZGlzdHJvIGNvbmZpZ3VyYXRpb24uDQoNCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQov
+L1BldGVyDQoNCg==
 
