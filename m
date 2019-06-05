@@ -1,33 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 4AFC37D68F
+	by mail.openembedded.org (Postfix) with ESMTP id 4BF387D718
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  5 Jun 2019 18:41:18 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45JyL71Tfdz3w
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45JyL74KGQz3y
 	for <openembedded-core@lists.openembedded.org>;
 	Wed,  5 Jun 2019 20:41:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
 	s=default; t=1559760079;
-	bh=qH0ezAayfLKz33TnTg2WxhRQNsmK4MskGwLZyC9u2+c=;
+	bh=dCUgb8oZ9OA8R/5dK3Cq/POlOhxoBoxvrYHscQvxH30=;
 	h=From:To:Subject:Date:From;
-	b=TdiqXmP9s1leu9gCwyZZyHmcquqk7tlqMHoeXDSDfq21ENRUsO/y3rjpj4vl54noG
-	FsCAyG8azrbGsQuCbKHwbRnQOesrgel7ukfWsZHarfrUfsLVUsR8O5FsS1SBCz58rG
-	5MlTpE9VA573bc5FIPj7Z8YZWdIYRvoSKYV1eDgEFzvCWtXwGuMK2ZfKpV38T5c8aQ
-	YiKFJHTwtq57CqzyG5mxnlxY2/XYs24ye+tcjGhUAdA3lAGkySVS4wOVX+qtsgjlr+
-	U0NZSd9vT5VOsISUnTSfM+khYFyt6LT+Ng/zHraUUJiJGTq5sDq2Zvf0yWnG7uqdiL
-	rB66iAiw5gtvdN9pccGe57jMcKPxMXaSWLAiJ4eLfXrgM0BfefzcmTqDgsqXKUCwU8
-	XcaZWwTf5ZLUox4CtzlJrAoYu8uNXJuIcd0SgZ0TpnVeXYgzRWBxi9n0USsyLx7rAT
-	W2GJNRIk0zNsh/QZ8xNpcNdOZSzUbvhxOov0MCmqUyxTkyt3G9vvOyHdMSI9SuydTA
-	LassOuxN9BszzTXcuPP3BB4VFfKj+RSnTAsBoafRtWZ4MhNeintQFFIJXdUw8apXTT
-	JnDmbg6sNqgGBE0olJEdfpimVpcl3ELlyy7lXOBAI6Y1/vEgwHq4Sj2CKVJClgq1Ra
-	axk4Dz+SyfNqGnvIE5zLGLHI=
+	b=tpXQ76UF3NjLW8Bh4xpywSpHAmhVIlKAIQaUXhe5FHz41R7oJQwLlXn6b7NQNZsRF
+	FcF0rBeHzjvVChLDfsBzfAuHcFjEg/V49MpxWt/tN+J+xFj4ilIv5tZqEmAkgjq4EH
+	KUHAZfseMyB/41wmBd+tEEaDAb6PTyB+UICe3lEqNvtgy6KPZjNVVbd0GTPb8pRpVt
+	scMxsukdSIX6z0mrAUm+3U4F6cgAir2Br7uEqbUNuVdF3jtfLySZZBFUfWJAqp1y29
+	xKsBxOi+HDBDc6eQXhkqKO0HX3B+CXlWYavGD34qern671B8SW1Ji3+UoelKzqUA29
+	1+stB9d6YBDQwMnPAIwkBFLrtJjfynXOx3T//Y/zaRR6sEZrBq3/3BvMVxITMvRhPZ
+	ryTrAfcVQbVmsHvWqbIry7UfwBX7t6yGm1bpcw4+VCJypz+b0R97ActqwZjlOOMeSP
+	DKLK4/vUixGvXFwoF9wwpdpX74OhRckkgQQ4Jt/Y7Xk3z87lfZWlcHNxmsPF+ieVni
+	Ao5aGui95E895cLVK7AUJdENJz8yjMUEJRk2pSYK6mh7C3REo+tdh4AgDMPM27mfxs
+	NY0uupOfE/f74TFIaZbJpFLb00HL6w+iUcZcC1Cdalz/WjJLsdKKqCBTnfVHWy1g6Y
+	RDLAuoPRLaKCyqrK8LhKCzY8=
 From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2019 21:41:15 +0300
-Message-Id: <20190605184116.24297-2-bunk@stusta.de>
+Date: Wed,  5 Jun 2019 21:41:16 +0300
+Message-Id: <20190605184116.24297-3-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] gcc: Remove 0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+Subject: [PATCH] openssl: Upgrade 1.1.1b -> 1.1.1c
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,178 +42,139 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 05 Jun 2019 18:41:19 -0000
 
-This was added 9 years ago as a workaround for a problem with
-gcc 4.5 on mips.
-
-Building webkitgtk works for me without it for qemumips.
-
-Debian also builds webkitgtk for 32/64 bit big/little endian mips
-without using this workaround.
+Backported patch removed.
 
 Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-devtools/gcc/gcc-8.3.inc         |  1 -
- ...gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch | 59 -------------------
- meta/recipes-devtools/gcc/gcc-9.1.inc         |  1 -
- ...gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch | 59 -------------------
- 4 files changed, 120 deletions(-)
- delete mode 100644 meta/recipes-devtools/gcc/gcc-8.3/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
- delete mode 100644 meta/recipes-devtools/gcc/gcc-9.1/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+ .../openssl/openssl/CVE-2019-1543.patch       | 69 -------------------
+ .../openssl/openssl/afalg.patch               |  6 +-
+ .../{openssl_1.1.1b.bb => openssl_1.1.1c.bb}  |  5 +-
+ 3 files changed, 5 insertions(+), 75 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch
+ rename meta/recipes-connectivity/openssl/{openssl_1.1.1b.bb => openssl_1.1.1c.bb} (97%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3.inc b/meta/recipes-devtools/gcc/gcc-8.3.inc
-index 996f7fcdb0..1781ff5b5d 100644
---- a/meta/recipes-devtools/gcc/gcc-8.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-8.3.inc
-@@ -36,7 +36,6 @@ SRC_URI = "\
-            file://0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
-            file://0004-64-bit-multilib-hack.patch \
-            file://0005-optional-libstdc.patch \
--           file://0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch \
-            file://0007-COLLECT_GCC_OPTIONS.patch \
-            file://0008-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch \
-            file://0009-fortran-cross-compile-hack.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-8.3/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch b/meta/recipes-devtools/gcc/gcc-8.3/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch
 deleted file mode 100644
-index 0cea228c87..0000000000
---- a/meta/recipes-devtools/gcc/gcc-8.3/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
+index 900ef97fce..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/CVE-2019-1543.patch
 +++ /dev/null
-@@ -1,59 +0,0 @@
--From 1dba090a11c40b0926f9707a543d658c95e1f156 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 29 Mar 2013 09:14:20 +0400
--Subject: [PATCH 06/40] gcc: disable MASK_RELAX_PIC_CALLS bit
+@@ -1,69 +0,0 @@
+-Upstream-Status: Backport [https://github.com/openssl/openssl/commit/f426625b6ae9a7831010750490a5f0ad689c5ba3]
+-Signed-off-by: Ross Burton <ross.burton@intel.com>
 -
--The new feature added after 4.3.3
--"http://www.pubbs.net/200909/gcc/94048-patch-add-support-for-rmipsjalr.html"
--will cause cc1plus eat up all the system memory when build webkit-gtk.
--The function mips_get_pic_call_symbol keeps on recursively calling itself.
--Disable this feature to walk aside the bug.
+-From f426625b6ae9a7831010750490a5f0ad689c5ba3 Mon Sep 17 00:00:00 2001
+-From: Matt Caswell <matt@openssl.org>
+-Date: Tue, 5 Mar 2019 14:39:15 +0000
+-Subject: [PATCH] Prevent over long nonces in ChaCha20-Poly1305
 -
--Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-ChaCha20-Poly1305 is an AEAD cipher, and requires a unique nonce input for
+-every encryption operation. RFC 7539 specifies that the nonce value (IV)
+-should be 96 bits (12 bytes). OpenSSL allows a variable nonce length and
+-front pads the nonce with 0 bytes if it is less than 12 bytes. However it
+-also incorrectly allows a nonce to be set of up to 16 bytes. In this case
+-only the last 12 bytes are significant and any additional leading bytes are
+-ignored.
 -
--Upstream-Status: Inappropriate [configuration]
+-It is a requirement of using this cipher that nonce values are unique.
+-Messages encrypted using a reused nonce value are susceptible to serious
+-confidentiality and integrity attacks. If an application changes the
+-default nonce length to be longer than 12 bytes and then makes a change to
+-the leading bytes of the nonce expecting the new value to be a new unique
+-nonce then such an application could inadvertently encrypt messages with a
+-reused nonce.
+-
+-Additionally the ignored bytes in a long nonce are not covered by the
+-integrity guarantee of this cipher. Any application that relies on the
+-integrity of these ignored leading bytes of a long nonce may be further
+-affected.
+-
+-Any OpenSSL internal use of this cipher, including in SSL/TLS, is safe
+-because no such use sets such a long nonce value. However user
+-applications that use this cipher directly and set a non-default nonce
+-length to be longer than 12 bytes may be vulnerable.
+-
+-CVE: CVE-2019-1543
+-
+-Fixes #8345
+-
+-Reviewed-by: Paul Dale <paul.dale@oracle.com>
+-Reviewed-by: Richard Levitte <levitte@openssl.org>
+-(Merged from https://github.com/openssl/openssl/pull/8406)
+-
+-(cherry picked from commit 2a3d0ee9d59156c48973592331404471aca886d6)
 ----
-- gcc/configure    | 7 -------
-- gcc/configure.ac | 7 -------
-- 2 files changed, 14 deletions(-)
+- crypto/evp/e_chacha20_poly1305.c | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
 -
--diff --git a/gcc/configure b/gcc/configure
--index 3901722400c..0c9b8ac5f55 100755
----- a/gcc/configure
--+++ b/gcc/configure
--@@ -27553,13 +27553,6 @@ $as_echo_n "checking assembler and linker for explicit JALR relocation... " >&6;
--         rm -f conftest.*
--       fi
--     fi
---    if test $gcc_cv_as_ld_jalr_reloc = yes; then
---      if test x$target_cpu_default = x; then
---        target_cpu_default=MASK_RELAX_PIC_CALLS
---      else
---        target_cpu_default="($target_cpu_default)|MASK_RELAX_PIC_CALLS"
---      fi
---    fi
--     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gcc_cv_as_ld_jalr_reloc" >&5
-- $as_echo "$gcc_cv_as_ld_jalr_reloc" >&6; }
+-diff --git a/crypto/evp/e_chacha20_poly1305.c b/crypto/evp/e_chacha20_poly1305.c
+-index c1917bb86a6..d3e2c622a1b 100644
+---- a/crypto/evp/e_chacha20_poly1305.c
+-+++ b/crypto/evp/e_chacha20_poly1305.c
+-@@ -30,6 +30,8 @@ typedef struct {
 - 
--diff --git a/gcc/configure.ac b/gcc/configure.ac
--index 1b1362f70fe..53840363115 100644
----- a/gcc/configure.ac
--+++ b/gcc/configure.ac
--@@ -4798,13 +4798,6 @@ x:
--         rm -f conftest.*
--       fi
--     fi
---    if test $gcc_cv_as_ld_jalr_reloc = yes; then
---      if test x$target_cpu_default = x; then
---        target_cpu_default=MASK_RELAX_PIC_CALLS
---      else
---        target_cpu_default="($target_cpu_default)|MASK_RELAX_PIC_CALLS"
---      fi
---    fi
--     AC_MSG_RESULT($gcc_cv_as_ld_jalr_reloc)
+- #define data(ctx)   ((EVP_CHACHA_KEY *)(ctx)->cipher_data)
 - 
--     AC_CACHE_CHECK([linker for .eh_frame personality relaxation],
---- 
--2.21.0
--
-diff --git a/meta/recipes-devtools/gcc/gcc-9.1.inc b/meta/recipes-devtools/gcc/gcc-9.1.inc
-index eb2538020c..4c648a1694 100644
---- a/meta/recipes-devtools/gcc/gcc-9.1.inc
-+++ b/meta/recipes-devtools/gcc/gcc-9.1.inc
-@@ -33,7 +33,6 @@ SRC_URI = "\
-            file://0003-gcc-4.3.3-SYSROOT_CFLAGS_FOR_TARGET.patch \
-            file://0004-64-bit-multilib-hack.patch \
-            file://0005-optional-libstdc.patch \
--           file://0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch \
-            file://0007-COLLECT_GCC_OPTIONS.patch \
-            file://0008-Use-the-defaults.h-in-B-instead-of-S-and-t-oe-in-B.patch \
-            file://0009-fortran-cross-compile-hack.patch \
-diff --git a/meta/recipes-devtools/gcc/gcc-9.1/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch b/meta/recipes-devtools/gcc/gcc-9.1/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
-deleted file mode 100644
-index 4a552d5169..0000000000
---- a/meta/recipes-devtools/gcc/gcc-9.1/0006-gcc-disable-MASK_RELAX_PIC_CALLS-bit.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From ca3b3ac12d9b6e1065333dec89e7be2c733509d9 Mon Sep 17 00:00:00 2001
--From: Khem Raj <raj.khem@gmail.com>
--Date: Fri, 29 Mar 2013 09:14:20 +0400
--Subject: [PATCH 06/37] gcc: disable MASK_RELAX_PIC_CALLS bit
--
--The new feature added after 4.3.3
--"http://www.pubbs.net/200909/gcc/94048-patch-add-support-for-rmipsjalr.html"
--will cause cc1plus eat up all the system memory when build webkit-gtk.
--The function mips_get_pic_call_symbol keeps on recursively calling itself.
--Disable this feature to walk aside the bug.
--
--Signed-off-by: Dongxiao Xu <dongxiao.xu@intel.com>
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
--
--Upstream-Status: Inappropriate [configuration]
-----
-- gcc/configure    | 7 -------
-- gcc/configure.ac | 7 -------
-- 2 files changed, 14 deletions(-)
--
--diff --git a/gcc/configure b/gcc/configure
--index 2e08396622e..d36cb51bc2c 100755
----- a/gcc/configure
--+++ b/gcc/configure
--@@ -27509,13 +27509,6 @@ $as_echo_n "checking assembler and linker for explicit JALR relocation... " >&6;
--         rm -f conftest.*
--       fi
--     fi
---    if test $gcc_cv_as_ld_jalr_reloc = yes; then
---      if test x$target_cpu_default = x; then
---        target_cpu_default=MASK_RELAX_PIC_CALLS
---      else
---        target_cpu_default="($target_cpu_default)|MASK_RELAX_PIC_CALLS"
---      fi
---    fi
--     { $as_echo "$as_me:${as_lineno-$LINENO}: result: $gcc_cv_as_ld_jalr_reloc" >&5
-- $as_echo "$gcc_cv_as_ld_jalr_reloc" >&6; }
+-+#define CHACHA20_POLY1305_MAX_IVLEN     12
+-+
+- static int chacha_init_key(EVP_CIPHER_CTX *ctx,
+-                            const unsigned char user_key[CHACHA_KEY_SIZE],
+-                            const unsigned char iv[CHACHA_CTR_SIZE], int enc)
+-@@ -533,7 +535,7 @@ static int chacha20_poly1305_ctrl(EVP_CIPHER_CTX *ctx, int type, int arg,
+-         return 1;
 - 
--diff --git a/gcc/configure.ac b/gcc/configure.ac
--index 7d34911573e..dfa88c35f3f 100644
----- a/gcc/configure.ac
--+++ b/gcc/configure.ac
--@@ -4816,13 +4816,6 @@ x:
--         rm -f conftest.*
--       fi
--     fi
---    if test $gcc_cv_as_ld_jalr_reloc = yes; then
---      if test x$target_cpu_default = x; then
---        target_cpu_default=MASK_RELAX_PIC_CALLS
---      else
---        target_cpu_default="($target_cpu_default)|MASK_RELAX_PIC_CALLS"
---      fi
---    fi
--     AC_MSG_RESULT($gcc_cv_as_ld_jalr_reloc)
-- 
--     AC_CACHE_CHECK([linker for .eh_frame personality relaxation],
---- 
--2.20.1
--
+-     case EVP_CTRL_AEAD_SET_IVLEN:
+--        if (arg <= 0 || arg > CHACHA_CTR_SIZE)
+-+        if (arg <= 0 || arg > CHACHA20_POLY1305_MAX_IVLEN)
+-             return 0;
+-         actx->nonce_len = arg;
+-         return 1;
+diff --git a/meta/recipes-connectivity/openssl/openssl/afalg.patch b/meta/recipes-connectivity/openssl/openssl/afalg.patch
+index 7c4b084f3d..b7c0e9697f 100644
+--- a/meta/recipes-connectivity/openssl/openssl/afalg.patch
++++ b/meta/recipes-connectivity/openssl/openssl/afalg.patch
+@@ -18,14 +18,14 @@ index 3baa8ce..9ef52ed 100755
+ -            ($mi2) = $mi2 =~ /(\d+)/;
+ -            my $ver = $ma*10000 + $mi1*100 + $mi2;
+ -            if ($ver < $minver) {
+--                $disabled{afalgeng} = "too-old-kernel";
++-                disable('too-old-kernel', 'afalgeng');
+ -            } else {
+ -                push @{$config{engdirs}}, "afalg";
+ -            }
+ -        } else {
+--            $disabled{afalgeng} = "cross-compiling";
++-            disable('cross-compiling', 'afalgeng');
+ -        }
+ +        push @{$config{engdirs}}, "afalg";
+      } else {
+-         $disabled{afalgeng}  = "not-linux";
++         disable('not-linux', 'afalgeng');
+      }
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+similarity index 97%
+rename from meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
+rename to meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+index 8bb3a309a2..669b1a1034 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+@@ -16,15 +16,14 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-skip-test_symbol_presence.patch \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+-           file://CVE-2019-1543.patch \
+            "
+ 
+ SRC_URI_append_class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[md5sum] = "4532712e7bcc9414f5bce995e4e13930"
+-SRC_URI[sha256sum] = "5c557b023230413dfb0756f3137a13e6d726838ccd1430888ad15bfb2b43ea4b"
++SRC_URI[md5sum] = "15e21da6efe8aa0e0768ffd8cd37a5f6"
++SRC_URI[sha256sum] = "f6fb3079ad15076154eda9413fed42877d668e7069d9b87396d0804fdb3f4c90"
+ 
+ inherit lib_package multilib_header ptest
+ 
 -- 
 2.17.1
 
