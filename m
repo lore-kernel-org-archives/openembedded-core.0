@@ -1,57 +1,51 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CF20D7C7A5
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id F40176C0E5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 14:01:40 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id C42CF1856A
+	Wed,  5 Jun 2019 14:07:19 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id w13so19574312wru.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 16:01:39 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id VIaXwr1glb7k
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 16:01:38 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id DAF5718343
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 16:01:38 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C07051E0E7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 16:01:38 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B48D01E0E5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 16:01:38 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 16:01:38 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by thoth.se.axis.com (Postfix) with ESMTP id A8CCC3123
-	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 16:01:38 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x55E1cn9015014
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Jun 2019 16:01:38 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x55E1cpK015013
-	for openembedded-core@lists.openembedded.org;
-	Wed, 5 Jun 2019 16:01:38 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2019 16:01:28 +0200
-Message-Id: <20190605140130.14968-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
+	Wed, 05 Jun 2019 07:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=cGnNSE31SGFEtkKLB1xzcDJKACSbJ+MDOkzLpCKX9+o=;
+	b=Zff0bmqOfhmRlXG+jnDyAl2jmW8VMK9ze9SKPOWYfzR2y9CwX7YzwclfYotyX2743H
+	MMNO10iGfYn+5w2qkSNDV/aJFln/E97jPaguyLOxgFoK6ZPVOZOduNxiSF6a04cPwQqs
+	pApdmr+0fi5VbrA/VkyM2ysA1tosqcJLgYjSo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=cGnNSE31SGFEtkKLB1xzcDJKACSbJ+MDOkzLpCKX9+o=;
+	b=C5jcmPO/lAnoQ2j9y2EOJy92YjrnZGt5ysT9214Uex4O8Slxhz3FU/jMQKz7jugWNy
+	1G4beFXlPhw0ZjCNmE38WuxX3g7V5LzTCr0IKvVHiOuTV3jByRmvgbTW1fb4I2BCESm5
+	RgsNEFyZGD/sE/LCrl4nhWQGUkuN/gJluEYs/FjjhFsJv8Oh4IGjsgBtPvW4Cb9vz64c
+	S5zerNlgpARh2l0ocuy6YBGXlVlyL2Q50R8LKph9rX1UMFhVEzBbrF6BkLOX903DCT4T
+	KXsCFcguU5c41mDeGw08E1//ZtX1gUox59p0BCW8wMfOItTm0guWqR5ZfD+3le51dHBc
+	+NXA==
+X-Gm-Message-State: APjAAAVuXIgxTpOLCEtp198goDY6zPq6rIbRZ7hy+IfjQPt3wTFp3QZ/
+	tB4J2gx7vYJOjiJnxAMUXoI4pw==
+X-Google-Smtp-Source: APXvYqw6OaVhZr0FCZglsfoEEzNF9RZDSC5zyuidzFdGmRGPT7dmn+Ro49F1Johq5XoO17e0ab+fKA==
+X-Received: by 2002:adf:df91:: with SMTP id z17mr18139167wrl.336.1559743640698;
+	Wed, 05 Jun 2019 07:07:20 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v67sm5226936wme.24.2019.06.05.07.07.19
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 05 Jun 2019 07:07:20 -0700 (PDT)
+Message-ID: <475d4dd14074b72d371b62dec836eab666e7c807.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 05 Jun 2019 15:07:19 +0100
+In-Reply-To: <20190605140130.14968-1-pkj@axis.com>
+References: <20190605140130.14968-1-pkj@axis.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] package.bbclass: Clean up writing of runtime pkgdata files
+Subject: Re: [PATCH] package.bbclass: Clean up writing of runtime pkgdata files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,96 +58,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 14:01:41 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 05 Jun 2019 14:07:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-This introduces a variable, PKGDATA_VARS, that contains the names of
-the variables that are to be output in the runtime pkgdata files.
+On Wed, 2019-06-05 at 16:01 +0200, Peter Kjellerstedt wrote:
+> This introduces a variable, PKGDATA_VARS, that contains the names of
+> the variables that are to be output in the runtime pkgdata files.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes/package.bbclass | 56 ++++++++++++------------------------
- 1 file changed, 18 insertions(+), 38 deletions(-)
+Its a good cleanup, I just know how people are going to use this
+variable to write out all kind of other data into pkgdata :(
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 0694855504..20d72bba79 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1349,6 +1349,8 @@ EXPORT_FUNCTIONS package_name_hook
- 
- PKGDESTWORK = "${WORKDIR}/pkgdata"
- 
-+PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
-+
- python emit_pkgdata() {
-     from glob import glob
-     import json
-@@ -1453,48 +1455,26 @@ fi
-                 total_size += fstat.st_size
-         d.setVar('FILES_INFO', json.dumps(files, sort_keys=True))
- 
--        subdata_file = pkgdatadir + "/runtime/%s" % pkg
--        sf = open(subdata_file, 'w')
--        write_if_exists(sf, pkg, 'PN')
--        write_if_exists(sf, pkg, 'PE')
--        write_if_exists(sf, pkg, 'PV')
--        write_if_exists(sf, pkg, 'PR')
--        write_if_exists(sf, pkg, 'PKGE')
--        write_if_exists(sf, pkg, 'PKGV')
--        write_if_exists(sf, pkg, 'PKGR')
--        write_if_exists(sf, pkg, 'LICENSE')
--        write_if_exists(sf, pkg, 'DESCRIPTION')
--        write_if_exists(sf, pkg, 'SUMMARY')
--        write_if_exists(sf, pkg, 'RDEPENDS')
--        rprov = write_if_exists(sf, pkg, 'RPROVIDES')
--        write_if_exists(sf, pkg, 'RRECOMMENDS')
--        write_if_exists(sf, pkg, 'RSUGGESTS')
--        write_if_exists(sf, pkg, 'RREPLACES')
--        write_if_exists(sf, pkg, 'RCONFLICTS')
--        write_if_exists(sf, pkg, 'SECTION')
--        write_if_exists(sf, pkg, 'PKG')
--        write_if_exists(sf, pkg, 'ALLOW_EMPTY')
--        write_if_exists(sf, pkg, 'FILES')
--        write_if_exists(sf, pkg, 'CONFFILES')
-         process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
-         add_set_e_to_scriptlets(pkg)
--        write_if_exists(sf, pkg, 'pkg_postinst')
--        write_if_exists(sf, pkg, 'pkg_postrm')
--        write_if_exists(sf, pkg, 'pkg_preinst')
--        write_if_exists(sf, pkg, 'pkg_prerm')
--        write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
--        write_if_exists(sf, pkg, 'FILES_INFO')
--        for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
--            write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
--
--        write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
--        for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
--            write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
--
--        sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
--        sf.close()
-+
-+        subdata_file = pkgdatadir + "/runtime/%s" % pkg
-+        with open(subdata_file, 'w') as sf:
-+            for var in (d.getVar('PKGDATA_VARS') or "").split():
-+                val = write_if_exists(sf, pkg, var)
-+
-+            write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
-+            for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
-+                write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
-+
-+            write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
-+            for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
-+                write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
-+
-+            sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
- 
-         # Symlinks needed for rprovides lookup
-+        rprov = d.getVar('RPROVIDES_%s' % pkg) or d.getVar('RPROVIDES')
-         if rprov:
-             for p in rprov.strip().split():
-                 subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
--- 
-2.21.0
+Cheers,
+
+Richard
 
 
