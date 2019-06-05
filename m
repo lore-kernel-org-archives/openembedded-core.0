@@ -1,27 +1,33 @@
-Return-Path: <paul.eggleton@linux.intel.com>
-Received: from mga14.intel.com (mga14.intel.com [192.55.52.115])
-	by mail.openembedded.org (Postfix) with ESMTP id 8513C7D699
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 29D2E7D3B6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 05:08:00 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jun 2019 22:08:01 -0700
-X-ExtLoop1: 1
-Received: from swetalee-mobl.gar.corp.intel.com (HELO localhost.localdomain)
-	([10.255.153.236])
-	by fmsmga006.fm.intel.com with ESMTP; 04 Jun 2019 22:07:58 -0700
-From: Paul Eggleton <paul.eggleton@linux.intel.com>
-To: Sai Hari Chandana Kalluri <chandana.kalluri@xilinx.com>
-Date: Wed, 05 Jun 2019 17:07:55 +1200
-Message-ID: <3400718.qmR8kntanE@localhost.localdomain>
-Organization: Intel Corporation
-In-Reply-To: <1555540979-27879-1-git-send-email-chandana.kalluri@xilinx.com>
-References: <1555540979-27879-1-git-send-email-chandana.kalluri@xilinx.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [master][PATCH v4 0/3] Devtool: provide easy means of
+	Wed,  5 Jun 2019 06:11:50 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45JdjL10mSz3H
+	for <openembedded-core@lists.openembedded.org>;
+	Wed,  5 Jun 2019 08:11:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559715110;
+	bh=iDJE3UdxJLT49Udhoj/kRCh9Sf7L1Ua4V1uTzACKcSQ=;
+	h=From:To:Subject:Date:From;
+	b=UJofOS65QHcuKPvmfhgsxLQJ8C8NDL4AwAINAJyJd6+Who6UEP5RXPPvBq8+9Uoqg
+	p4zWq8ObDP9ICamJABTl2kcfMiQAVYScqByqgwWiR+NtrGY3Jmqi5K7U/34z/0BUgB
+	4YP4418Nv1RmQ0lH39sHqIZNV1u3N3xm40uEoF5xaEcV9rNhHQUx+pjOu1zeUBULZ0
+	kXC0xjFu3Irz4su4U02Lg+lICCwhq/R6Enw5pAUuzoLu13i1x0/PyBf6X1SpZHZ6or
+	R43B59tEBHcsUFE7zPKKgbA0nyyVjRPlG0wUGDwLceskfk7sjxLN8m5nnRAuP+0LhY
+	psXkdAtLZ+SXKbDlK9+G2XViutKuUY/7bD+hha1XyCwau/4W9Ajom7zIF5uiQsSgE6
+	M1GXFwfTlQy7eOq1ap2uOx/PnGgvghj8YwG5U3Dh5yCqY+o3N21uPqnCNAiHsMqpUB
+	wyHTruaeeHW9S8OJD04ia0YJQjdRfsrBL/xBOLwfotIrAsBeZ3FYunbdar2yNg+o1A
+	iHz/uwBrdqLHKrA8Ex8sEZMXE+hl9ZgE0x8TiPvl2KzRxevkAqz3BIXcsm9h7EoljJ
+	qpiIvPs9BwfUIkOJAyWEMAecSDeRtKj4EeY8grG0n9V/sfIh4T+v8woa4vByN6LRtO
+	xVAavWCodwLKFWmHHyWQGhcw=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jun 2019 09:11:49 +0300
+Message-Id: <20190605061149.25100-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] vte: Fix the license information
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -34,73 +40,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 05:08:00 -0000
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+X-List-Received-Date: Wed, 05 Jun 2019 06:11:51 -0000
 
-Hi Chandana
+Several files that are part of libvte (e.g. src/widget.cc)
+are licensed LGPLv3+.
 
-My apologies for the delay in reviewing this - other work got in the way of OE-Core contributions but that should be dealt with now.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-support/vte/vte_0.56.1.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-On Thursday, 18 April 2019 10:42:56 AM NZST Sai Hari Chandana Kalluri wrote:
-> This patch series provides support for the user to run menuconfig command in the
-> devtool flow. This would allow the user to modify the current configurations and
-> generate a config fragment to update the recipe using devtool finish. Devtool
-> menuconfig command will work on all packages that contain menuconfig as a task.
-> 
-> 1. The implementation checks if devtool menuconfig command is called for a valid
-> package.
-> 2. It checks for oe-local-files dir within source and creates one if
-> needed, this directory is needed to store the final generated config fragment so
-> that devtool finish can update the recipe.
-> 3. Menuconfig command is called for users to make necessary changes. After
-> saving the changes, diffconfig command is run to generate the fragment.
-> 
-> Currently, when the user runs devtool modify command, it checks out the entire
-> source tree which is a bit of an over head in time and space. This patch series
-> also provides a way to create a copy(hard links) of the kernel source, if
-> present, from work-shared to workspace to be more efficient .
-> 
-> Also, if the kernel source is not present in the staging kernel dir and the user
-> fetches the source tree in workspace using devtool modify, then this patch
-> series creates a copy of source from workspace to work-shared. This is
-> necessary for packages that may use the kernel source.
-
-Looking over the patches again, we're close but the following need to be corrected:
-
-1) The devtool.DevtoolUpdateTests.test_devtool_update_recipe_local_files test in oe-selftest fails:
-
----------------- snip ----------------
-INFO: Adding local source files to srctree...
-Traceback (most recent call last):
-  File "/data/poky/scripts/devtool", line 334, in <module>
-    ret = main()
-  File "/data/poky/scripts/devtool", line 321, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/data/poky/scripts/lib/devtool/standard.py", line 845, in modify
-    initial_rev, _ = _extract_source(srctree, args.keep_temp, args.branch, False, config, basepath, workspace, args.fixed_setup, rd, tinfoil, no_overrides=args.no_overrides)
-  File "/data/poky/scripts/lib/devtool/standard.py", line 657, in _extract_source
-    symblink_oelocal_files_srctree(d,srctree)
-  File "/data/poky/scripts/lib/devtool/standard.py", line 485, in symblink_oelocal_files_srctree
-    oe.patch.GitApplyTree.gitCommandUserOptions(useroptions, d=d)
-NameError: name 'oe' is not defined
----------------- snip ----------------
-
-Probably just a missing import.
-
-2) Please change "symblink" to "symlink"
-
-3) Indentation is very inconsistent in the added code. Please use four spaces everywhere.
-
-I would also like to see oe-selftest tests covering this functionality, but I won't require them to ack these patches (especially given the delays on my part).
-
-Thanks
-Paul
-
+diff --git a/meta/recipes-support/vte/vte_0.56.1.bb b/meta/recipes-support/vte/vte_0.56.1.bb
+index 3585e9ce57..702436b368 100644
+--- a/meta/recipes-support/vte/vte_0.56.1.bb
++++ b/meta/recipes-support/vte/vte_0.56.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY = "Virtual terminal emulator GTK+ widget library"
+ BUGTRACKER = "https://bugzilla.gnome.org/buglist.cgi?product=vte"
+-LICENSE = "GPLv3 & LGPLv2.1+"
+-LICENSE_libvte = "LGPLv2.1+"
++LICENSE = "GPLv3 & LGPLv3+ & LGPLv2.1+"
++LICENSE_libvte = "LGPLv3+"
+ 
+ LIC_FILES_CHKSUM = " \
+     file://COPYING.GPL3;md5=2f31b266d3440dd7ee50f92cf67d8e6c \
 -- 
-
-Paul Eggleton
-Intel Open Source Technology Centre
-
+2.17.1
 
 
