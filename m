@@ -1,39 +1,57 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 2422A7DDAD
+Return-Path: <matthias.schoepfer@googlemail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 818807D258
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 15:36:37 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45KVBY5Mfnz3L;
-	Thu,  6 Jun 2019 17:36:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559835398;
-	bh=FcwaJzw6N+rMu10hidbd9KzzrhltTLZ3E0NwMzvZn0Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Oks7J+EbzAeFkL618utvOooKNT+9GWHsBzYRyBsK9NX/CzuL6y5b8f5OQxiCeb96T
-	vBo29nk82JKU/ywN+yLo8gaPLRoPcp9UzXafbk6ote8AkO1ZR27K7Q/3aq1/uNOeDO
-	fcch97OPwUfgqNLS4JroqRayOOZ/P93m8TBp3yUO9tt+O0nRwC/9RewTfF+NGYhB0k
-	DWeVfGi5Pz0kGkxcxcDpyex+u3KUNNs+vLmvDnShxSr/zAbasxMWRGXeLEUI6h8s67
-	PEm7tn0OrkcJ5j4MPA9c1qYaKGPgZpIWmXRD9/RP+RoMXOgg6fySJ9KSTi3IRXTeWC
-	LhvLkco7l+1nNqbm7wLJY0oMYBjTeq0z9csJiRsujPJm01XuoeOqVNtrB+vYUFpj+X
-	mD2BSvb/muO9Dxsscix9xa1wJCXrzxZBlG1iMGpnyRl0q32oHQK5RyFSjbMqXZ6aAM
-	AQt3kHegcZLepRJJbKaq5tfgfZfdcS2z3fWl1hFBcOy9iDJTtcWFIsexvLN0cytd/x
-	OfbntLfClKZvgQvxK18vKRx9vHIiuzELxDemxqgzfVSbm0GdZKji2OnY/LUXRDUf85
-	K+64YCq13SirTjvzxGDO+KM1GUISKogjJUM+rYzcETsgi+15zM8M+CTa1wID3gkp7i
-	cpT5gyiLPw9zhsKyXXZ/0XWs=
-Date: Thu, 6 Jun 2019 18:36:36 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Message-ID: <20190606153636.GC26324@localhost>
-References: <20190605152352.25846-1-quentin.schulz@streamunlimited.com>
-	<20190606145236.GA26324@localhost>
-	<20190606151137.glzdt624z6l3b6v2@qschulz>
+	Thu,  6 Jun 2019 15:46:58 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id n9so2979297wru.0
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Jun 2019 08:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=googlemail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=WYkK4Q4XxgNuGC/BEAysHNOtG2XmJsPdCUBN4EbKBaE=;
+	b=PmELpB5T/Y3WNe88C68qAmeD6YWUPLkgx3z7brkCrLxYNJ6np9x+3ek79BwFRuIb3W
+	tlle+OOwkDHnbsTHDVSygbg5qUWR5GRLn6iDyKDOHxE2sRTljhG/840ojkxr9UfyWUaW
+	hvBtrNnpMX4s454NUKSYjvM93EM/COk5QEQ5BzhsBcR3xprku2xWd1fu86SHIbzrJerF
+	LoHKePYePyfcOpYvOIEujZ+OhwOorNEJgf80m2pzz3jIu1vacecH0eM/wieSRxzgiU+2
+	izI+jFEAH/1U3/NlY+6l6u/Z3aFs2JiNWnsLQyhCzozAZGs5B5lcEmOJpfi/HT7IZ0xq
+	jOuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=WYkK4Q4XxgNuGC/BEAysHNOtG2XmJsPdCUBN4EbKBaE=;
+	b=hbCfC4KLw+pYwan4Pdx+Av3/UfjdHvZ2Tj9McqfxshkBtVCav8LxXz0HOwQjz5kjGE
+	MDLOfjLUbNlrh8mvXB2vHSUlBUY4aRO5Rw6AN4fEKm8X7oQRzMbNd2PL88BqqGUm5gsL
+	IqiTvcqLsvuo2qF2VRilaKfHrI68SOu3DKcEbmi47/VDWwWrosrqz+pmfWqIDdl0E6rN
+	WFdhe2Evf97rMCcKeqyBbDS4jOtUDGsr9nVzAY4syYJqCK9srJgW3nevMttWu72Hx6ni
+	i+xHgY9Sq6H8fWiqjDeHw8NF6G7QdNqvXoOh1ITDuTv5QJ5G5nbSINOokmsHyYcKyNVm
+	8VNg==
+X-Gm-Message-State: APjAAAUvrkKU/2fpx7Tw/4XTtuoA6JLPT7sS718aMKzP42e+GM7MNXcs
+	DCxBuUsuTMH/9JWp46UbrPSUMaub
+X-Google-Smtp-Source: APXvYqxkhBA+C/PdX5gGdN2H+XQgqS9+lFpbY0L993fNB8r/bHNkfnSuFAG0YL1cYVc7ma5jXS/E1w==
+X-Received: by 2002:adf:f50c:: with SMTP id q12mr3513435wro.300.1559836018944; 
+	Thu, 06 Jun 2019 08:46:58 -0700 (PDT)
+Received: from [172.16.100.14] ([213.168.66.146])
+	by smtp.gmail.com with ESMTPSA id
+	q21sm2169250wmq.13.2019.06.06.08.46.58
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 06 Jun 2019 08:46:58 -0700 (PDT)
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20190606151357.21453-1-matthias.schoepfer@ithinx.io>
+	<CAJTo0La-MG7hctC+qAfJtNQ=T5grgVt7U8aQhPLKN+tahARBng@mail.gmail.com>
+From: Matthias Schoepfer <matthias.schoepfer@googlemail.com>
+Message-ID: <9c4ca1e9-9698-9b89-d54d-a909d5e73994@googlemail.com>
+Date: Thu, 6 Jun 2019 17:46:56 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190606151137.glzdt624z6l3b6v2@qschulz>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: andriy.danylovskyy@streamunlimited.com,
-	openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
+In-Reply-To: <CAJTo0La-MG7hctC+qAfJtNQ=T5grgVt7U8aQhPLKN+tahARBng@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] fixing python3 build for mips softfloat targets
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,31 +64,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 15:36:37 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 06 Jun 2019 15:46:58 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Thu, Jun 06, 2019 at 05:11:37PM +0200, Quentin Schulz wrote:
-> Hi Adrian,
+Hi Ross,
 
-Hi Quentin,
+On 6/6/19 5:29 PM, Burton, Ross wrote:
+> On Thu, 6 Jun 2019 at 16:15, Matthias Schoepfer via Openembedded-core
+> <openembedded-core@lists.openembedded.org> wrote:
+>
+> The shortlog should be "python3: fix build on softfloat mips".
+Do you want me to send an v2 for it?
+>
+>> Applied / backported patch from upstream (pending review)
+> Is this patch backported, or is it still in review?
 
->...
-> I've sent a v2 (and you're Cc'ed to it).
+Unfortunately, it is still to be reviewed. I have opened a yocto bug:
 
-thanks, I've confirmed this fixes my problem.
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13340
 
-> Thanks,
-> Quentin
+And here is the PR:
 
-cu
-Adrian
+https://github.com/python/cpython/pull/13196
 
--- 
+And here the python bug:
 
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+https://bugs.python.org/issue36852
 
+
+>
+>> +From 7535c39951b9d15dd64c4669092a8582ba555466 Mon Sep 17 00:00:00 2001
+>> +From: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
+>> +Date: Fri, 31 May 2019 15:34:34 +0200
+>> +Subject: [PATCH] bpo-36852: proper detection of mips architecture for soft
+>> + float
+>> +
+>> +When (cross) compiling for softfloat mips, __mips_hard_float will not be
+>> +defined and detection of OS triplet in configure.ac / configure will fail.
+>> +
+>> +This also has to do with the custom detection of the build triplet. Trying
+>> +to do this in a more autoconf/autotools manner.
+> The patch should have your Signed-off-by, and an Upstream-Status
+> (Submitted or Backport in this case).
+>
+> Ross
 
