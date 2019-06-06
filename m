@@ -1,44 +1,48 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 5C0897C326
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 817D77D58A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 02:39:01 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.60,557,1549900800"; d="scan'208";a="66162867"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 06 Jun 2019 10:38:57 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id AE9934CDCEBD;
-	Thu,  6 Jun 2019 10:38:56 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
-	14.03.0439.000; Thu, 6 Jun 2019 10:39:00 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
-Thread-Topic: [OE-core] [PATCH] toolchain-scripts: make rpm work in toolchain
-Thread-Index: AQHU8btdwcW6mVdAkUK2QKbtt/xhNaZCTQiAgAu3nCCAErXeEIAJnYbggBXq34CACzc9gP//nDqAgAMi8ZA=
-Date: Thu, 6 Jun 2019 02:39:02 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF129787@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
-	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF1002A6@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF1026BA@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
-	<cedd7e708edfab28ec9db8046476313ea44a6022.camel@linuxfoundation.org>
-In-Reply-To: <cedd7e708edfab28ec9db8046476313ea44a6022.camel@linuxfoundation.org>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.227]
-MIME-Version: 1.0
-X-yoursite-MailScanner-ID: AE9934CDCEBD.A2230
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
+	Thu,  6 Jun 2019 03:53:03 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id w34so510718pga.12
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 05 Jun 2019 20:53:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=6JkrnoFcZUSZJErq1ajsQZxzWyOjbchkf5F11cY9PBw=;
+	b=ZLosfk+M7Y7HyAygVVYu8W76CWbllgTGYmdyRsgduKzVfjpUeFg+0PKHCA9MYrAMZc
+	zz5HwCOz8D02trgDV3rWPzifivL+d7CI4/Pqb9JWoCewfaxNVndGnnVsw+XzUiYcfjqC
+	exMb/hUpiWvu1/lt8tbi65wx/U8FGdSB5rsOtBvdWV9EHkF/+aQf96ls4iYo3SkPm9Fe
+	LvrbWxyOGHmfVxqDupf+Rq/P5OkIQOOg4fcwH59ot0WC5dMQXwzGSs4g3zGxXWd+F8b3
+	zyD33m5DrTfUa6Gy0wqeKdaaZ46jEgY2PysXlHNLMsOU/ERvltLCJr4JKSoA2MQnb8yv
+	jCpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6JkrnoFcZUSZJErq1ajsQZxzWyOjbchkf5F11cY9PBw=;
+	b=azQqjTt+nJTP6LNL3h8pgg9lzC+6UdYZwYY6+ecDn8HcRLtPQ8uyv8H+v6Oq0rXkV0
+	D90WBOtQ5HpAuDHvu8VKVAworo9CU9zGT641/MfKTkizGvlx3BQZJNSaXTsdvWhLTgwc
+	PNqlf7LdFr1wymnsm55uBWdUNdPPlyRCv+Hxs94P+Vc1eLCmLHnmSSCtPMSSs+KoP4sf
+	/DXcsjnZPDo7gsgeSnfRGlmdPB7dphYgzjuuwqRZfHfAYiy+N70tQ6pg75NpZhrQ6j+e
+	++z09azUdpbw+qWbTkVMLLrZKDOklQaWJ+arGYP6ZM2tABPVYIqnHWmpMld3q7CkeD6O
+	GhEA==
+X-Gm-Message-State: APjAAAXt4QfXc+1Hq00FfWPDP0vWtIyM5ub8c5srCB3CRRdardNpl/e/
+	keEAuOmCeZ8XT8XngJzdj8JnLpnD
+X-Google-Smtp-Source: APXvYqz1dMBXBnH3Wes1XpCzNa89DRGLC/XtzdbZVNlcafkASKqPoOQ448+b9kSbIFGMtH0FJ42kKg==
+X-Received: by 2002:a63:295:: with SMTP id 143mr1269054pgc.279.1559793184188; 
+	Wed, 05 Jun 2019 20:53:04 -0700 (PDT)
+Received: from akuster-ThinkPad-T460s.mvista.com
+	([2601:202:4180:c33:649f:275:809c:24d6])
+	by smtp.gmail.com with ESMTPSA id i5sm448743pfk.49.2019.06.05.20.53.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Wed, 05 Jun 2019 20:53:03 -0700 (PDT)
+From: Armin Kuster <akuster808@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  5 Jun 2019 20:53:00 -0700
+Message-Id: <1559793182-529-1-git-send-email-akuster808@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: Armin Kuster <akuster@mvista.com>
+Subject: [thud][PATCH 1/3] glib-2.0: Security fix for CVE-2019-12450
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,41 +55,102 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 02:39:06 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 06 Jun 2019 03:53:03 -0000
 
-SGksIFJpY2hhcmQNCg0KPiBXaGlsc3QgSSBjYW4gZ3Vlc3Mgd2h5LCBpdHMg
-bm90IG9idmlvdXMgYXQgYWxsIHRoZSBkbmYgbmVlZHMNCj4gTUFDSElORV9B
-UkNILiBJJ2QgcHJvYmFibHkgYmUgaGFwcGllciB3aXRoIGEgYmV0dGVyIHZh
-cmlhYmxlIG5hbWUuDQo+IFdoaWNoIGNvZGUgZXhhY3RseSBpcyB1c2luZyBp
-dD8NCg0KQXJjaCBpbmZvcm1hdGlvbiBpcyBuZWNlc3NhcnkgZm9yIHJwbS4g
-QXMgd2hhdCBkbyBmb3IgZG5mLW5hdGl2ZSBpbiBfY29uZmlndXJlX3JwbSBm
-dW5jdGlvbiwgbmF0aXZlc2RrLWRuZiBoYXMgdG8gZG8gdGhlIHNhbWUgd29y
-ay4NCkJ1dCB0aGUgZW52aXJvbm1lbnQgZm9yIG5hdGl2ZXNkayBkb2Vzbid0
-IHN1cHBseSBhcmNoIGluZm9ybWF0aW9uLiBJIHRoaW5rIE1BQ0hJTkVfQVJD
-SCBpcyBzdWl0YWJsZSB0byBzdXBwbHkgYXJjaCBpbmZvcm1hdGlvbiBmb3Ig
-bmF0aXZlc2RrLg0KSG93IGFib3V0IHlvdXIgT3Bpbmlvbj8NCg0KQmVzdCBy
-ZWdhcmRzDQpMZWkNCg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
-LS0NCj4gRnJvbTogcmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
-Zw0KPiBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
-cmddDQo+IFNlbnQ6IFR1ZXNkYXksIEp1bmUgMDQsIDIwMTkgNjoyNiBQTQ0K
-PiBUbzogTGVpLCBNYW9odWkNCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxp
-c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
-XSBbUEFUQ0hdIHRvb2xjaGFpbi1zY3JpcHRzOiBtYWtlIHJwbSB3b3JrIGlu
-IHRvb2xjaGFpbg0KPiANCj4gT24gVHVlLCAyMDE5LTA2LTA0IGF0IDA4OjI5
-ICswMDAwLCBMZWksIE1hb2h1aSB3cm90ZToNCj4gPiBIaSBSaWNoYXJkDQo+
-ID4NCj4gPiBUaGlzIHBhdGNoIGlzIG5lY2Vzc2FyeSBmb3IgZG5mLW5hdGl2
-ZXNkayB3aGljaCBoYXMgYmVlbiBtZXJnZWQuIEJ1dA0KPiA+IHRoaXMgcGF0
-Y2ggaXMgc3RpbGwgaWdub3JlZC4NCj4gPiBEbyB5b3UgaGF2ZSBhbnkgY29t
-bWVudCBhYm91dCB0aGlzIHBhdGNoPw0KPiANCj4gQmFzaWNhbGx5IEkgcmVh
-bGx5IGRvbid0IGxpa2UgZXhwb3J0aW5nICJyYW5kb20iIHZhcmlhYmxlcyBp
-biB0aGUgU0RLLA0KPiBwYXJ0aWN1bGFybHkgd2hlbiB0aGUgbWVhbmluZy91
-c2Ugb2YgdGhlbSBpc24ndCBjbGVhci4NCj4gDQo+IFdoaWxzdCBJIGNhbiBn
-dWVzcyB3aHksIGl0cyBub3Qgb2J2aW91cyBhdCBhbGwgdGhlIGRuZiBuZWVk
-cw0KPiBNQUNISU5FX0FSQ0guIEknZCBwcm9iYWJseSBiZSBoYXBwaWVyIHdp
-dGggYSBiZXR0ZXIgdmFyaWFibGUgbmFtZS4NCj4gV2hpY2ggY29kZSBleGFj
-dGx5IGlzIHVzaW5nIGl0Pw0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFy
-ZA0KPiANCj4gDQoNCgoK
+From: Armin Kuster <akuster@mvista.com>
+
+Source: glib-2.0
+MR: 98443
+Type: Security Fix
+Disposition: Backport from https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174
+ChangeID: 880b9b349cb8d82c7c1314a3657ec9094baba741
+Description:
+
+Signed-off-by: Armin Kuster <akuster@mvista.com>
+---
+ .../glib-2.0/glib-2.0/CVE-2019-12450.patch         | 59 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
+
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
+new file mode 100644
+index 0000000..37ad580
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
+@@ -0,0 +1,59 @@
++From d8f8f4d637ce43f8699ba94c9b7648beda0ca174 Mon Sep 17 00:00:00 2001
++From: Ondrej Holy <oholy@redhat.com>
++Date: Thu, 23 May 2019 10:41:53 +0200
++Subject: [PATCH] gfile: Limit access to files when copying
++
++file_copy_fallback creates new files with default permissions and
++set the correct permissions after the operation is finished. This
++might cause that the files can be accessible by more users during
++the operation than expected. Use G_FILE_CREATE_PRIVATE for the new
++files to limit access to those files.
++
++Upstream-Status: Backport
++https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174
++CVE: CVE-2019-12450
++Signed-off-by: Armin kuster <akuster@mvista.com>
++
++---
++ gio/gfile.c | 11 ++++++-----
++ 1 file changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/gio/gfile.c b/gio/gfile.c
++index 24b136d..74b5804 100644
++--- a/gio/gfile.c
+++++ b/gio/gfile.c
++@@ -3284,12 +3284,12 @@ file_copy_fallback (GFile                  *source,
++         out = (GOutputStream*)_g_local_file_output_stream_replace (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
++                                                                    FALSE, NULL,
++                                                                    flags & G_FILE_COPY_BACKUP,
++-                                                                   G_FILE_CREATE_REPLACE_DESTINATION,
++-                                                                   info,
+++                                                                   G_FILE_CREATE_REPLACE_DESTINATION |
+++                                                                   G_FILE_CREATE_PRIVATE, info,
++                                                                    cancellable, error);
++       else
++         out = (GOutputStream*)_g_local_file_output_stream_create (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
++-                                                                  FALSE, 0, info,
+++                                                                  FALSE, G_FILE_CREATE_PRIVATE, info,
++                                                                   cancellable, error);
++     }
++   else if (flags & G_FILE_COPY_OVERWRITE)
++@@ -3297,12 +3297,13 @@ file_copy_fallback (GFile                  *source,
++       out = (GOutputStream *)g_file_replace (destination,
++                                              NULL,
++                                              flags & G_FILE_COPY_BACKUP,
++-                                             G_FILE_CREATE_REPLACE_DESTINATION,
+++                                             G_FILE_CREATE_REPLACE_DESTINATION |
+++                                             G_FILE_CREATE_PRIVATE,
++                                              cancellable, error);
++     }
++   else
++     {
++-      out = (GOutputStream *)g_file_create (destination, 0, cancellable, error);
+++      out = (GOutputStream *)g_file_create (destination, G_FILE_CREATE_PRIVATE, cancellable, error);
++     }
++ 
++   if (!out)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
+index 1271a7c..879bc48 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-ignore-return-value-of-write.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://date-lt.patch \
++           file://CVE-2019-12450.patch \
+            "
+ 
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
+-- 
+2.7.4
+
 
