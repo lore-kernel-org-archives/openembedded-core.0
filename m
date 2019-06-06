@@ -1,48 +1,30 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7FCA77C37F
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 577357C37F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 07:51:27 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id n4so12743253wrw.13
+	Tue, 18 Jun 2019 07:54:24 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.63,386,1557158400"; d="scan'208";a="67886044"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 18 Jun 2019 15:54:24 +0800
+Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
+	by cn.fujitsu.com (Postfix) with ESMTP id 20E2C4CDD985
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 00:51:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=4pK/+r5OX2pg+IBKZpmkyLIdGu3ZQQJm4GcSdccG578=;
-	b=puQmg4Y0rz2okH4tywgvOOwaImdTnXo4yF/Vd6PFtw9gnUB8PgTo1zqzit2PmNNoKw
-	jkMQTzY6jzignQ3B68d3x7sZmrbBJJRkIkm/TdkwecJ+UtWqEE71f21xFbgiyKU/qjid
-	pNUQaJ9uR4a25igUKvm9SzI7/1cuDw3xT5Jkuvp++CQ5V9GhcUhAbAGBn+1xKxTGC43Z
-	ukWm+2zw7sXOi/PbkaRJgOx1JUqJJq3bjaE4cN/u/xiIcQQyw3nEScUoFWYrUmNDNC6T
-	CwRcYISK+243Hzzrj8sy/lHOQSO2TPGpLgZ2Lu0XCpnyHFhzLkuKz2KMztgpaI5tP1pc
-	8dvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=4pK/+r5OX2pg+IBKZpmkyLIdGu3ZQQJm4GcSdccG578=;
-	b=scmcczYiVlmoP4BoAtG+/rVUKWr8Fud5SJ4yoSYnbTK2rwDz/j8GktvBw6TebEPJTb
-	h4jg8icwzGnANaXa9H/YLMuQTH9O0ozgwIIoRQ8gCY3o5to4nZwPLzpRuXTCQ7rJTOhD
-	BmgfBXk7sxU0MbvRzXAp9TJ+R8QleyXjLVtJyICZhZfkCiGIriUAWW/in41uE99pqaaF
-	ciowPSXSUh2L06ZosJN29gWKZ9nOSDqEjJ70gf1ptD71kVCyrXXSJh8CrMWhjUGlzsOX
-	PPHUJ0qou8imqGHD31z2LPw+imGvZbVA8jlkYZPUg9hEO6Bv+Wa8e+cTNBYoQqSEiqRY
-	yxRA==
-X-Gm-Message-State: APjAAAUSjmb3aqSzs0kf+ZWybAmOeN8gZsgqjUie33rnD/fZoliAfyTS
-	9kFw+uIjL/RwWCtZ/B1aM4sQbnJ9
-X-Google-Smtp-Source: APXvYqwm3ubzcg6xHwgo1pDjOrN4fQoSWexYZjhOOUj3eOAXqqqHESzgWMyUs65Q9crm1wx4udADuQ==
-X-Received: by 2002:a5d:4909:: with SMTP id x9mr14052167wrq.226.1560844287991; 
-	Tue, 18 Jun 2019 00:51:27 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	34sm13114314wre.32.2019.06.18.00.51.27
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 18 Jun 2019 00:51:27 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 07:51:31 +0000
-Message-Id: <20190618075131.26099-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] buildhistory: show time spent writting buildhistory
+	Tue, 18 Jun 2019 15:54:23 +0800 (CST)
+Received: from localhost.localdomain (10.167.225.227) by
+	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Tue, 18 Jun 2019 15:54:28 +0800
+From: Lei Maohui <leimaohui@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Jun 2019 11:04:55 +0800
+Message-ID: <1559790295-34076-1-git-send-email-leimaohui@cn.fujitsu.com>
+X-Mailer: git-send-email 1.9.1
+MIME-Version: 1.0
+X-Originating-IP: [10.167.225.227]
+X-yoursite-MailScanner-ID: 20E2C4CDD985.AE3DB
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [warrior][PATCH v3] openssl: Fix a build bug on aarch64BE.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,38 +37,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 07:51:27 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 07:54:24 -0000
+Content-Type: text/plain
 
-* especially when pushing longer history to slow remote git server or when
-  it timeouts during the push, it's useful to see where the time was actually
-  spent
+Fix bug as following on aarch64BE:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
+
+Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
- meta/classes/buildhistory.bbclass | 4 ++++
- 1 file changed, 4 insertions(+)
+ ...01-Fix-build-error-for-aarch64-big-endian.patch | 43 ++++++++++++++++++++++
+ .../recipes-connectivity/openssl/openssl_1.1.1b.bb |  1 +
+ 2 files changed, 44 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index 34709f3f88..e4e1897318 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -841,11 +841,15 @@ python buildhistory_eventhandler() {
-             if e.data.getVar("BUILDHISTORY_COMMIT") == "1":
-                 bb.note("Writing buildhistory")
-                 bb.build.exec_func("buildhistory_write_sigs", d)
-+                import time
-+                start=time.time()
-                 localdata = bb.data.createCopy(e.data)
-                 localdata.setVar('BUILDHISTORY_BUILD_FAILURES', str(e._failures))
-                 interrupted = getattr(e, '_interrupted', 0)
-                 localdata.setVar('BUILDHISTORY_BUILD_INTERRUPTED', str(interrupted))
-                 bb.build.exec_func("buildhistory_commit", localdata)
-+                stop=time.time()
-+                bb.note("Writing buildhistory took: %s seconds" % round(stop-start))
-             else:
-                 bb.note("No commit since BUILDHISTORY_COMMIT != '1'")
- }
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+new file mode 100644
+index 0000000..9a90a68
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+@@ -0,0 +1,43 @@
++From 1f8c0f2feea5cdcae0bcd9dfc78198d9e2c4cf09 Mon Sep 17 00:00:00 2001
++From: Lei Maohui <leimaohui@cn.fujitsu.com>
++Date: Thu, 13 Jun 2019 12:17:30 +0900
++Subject: [PATCH] Fix build error for aarch64 big endian.
++
++Modified rev to rev64, because rev only takes integer registers.
++https://gcc.gnu.org/bugzilla/show_bug.cgi?id=90827
++Otherwise, the following error will occur.
++
++Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
++
++Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/9151]
++
++Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
++---
++ crypto/sha/asm/keccak1600-armv8.pl | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/crypto/sha/asm/keccak1600-armv8.pl b/crypto/sha/asm/keccak1600-armv8.pl
++index dc72f18..6620690 100755
++--- a/crypto/sha/asm/keccak1600-armv8.pl
+++++ b/crypto/sha/asm/keccak1600-armv8.pl
++@@ -731,7 +731,7 @@ $code.=<<___;
++ 	blo	.Lprocess_block_ce
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[$j/5][$j%5],$A[$j/5][$j%5],v31.16b
++ 	beq	.Lprocess_block_ce
++@@ -740,7 +740,7 @@ ___
++ $code.=<<___;
++ 	ldr	d31,[$inp],#8		// *inp++
++ #ifdef	__AARCH64EB__
++-	rev	v31.16b,v31.16b
+++	rev64	v31.16b,v31.16b
++ #endif
++ 	eor	$A[4][4],$A[4][4],v31.16b
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
+index d3404d2..46030c3 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://CVE-2019-1543.patch \
++           file://0001-Fix-build-error-for-aarch64-big-endian.patch \
+            "
+ 
+ SRC_URI_append_class-nativesdk = " \
 -- 
-2.17.1
+2.7.4
+
+
 
 
