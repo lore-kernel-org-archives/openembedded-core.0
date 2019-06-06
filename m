@@ -1,33 +1,53 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D17D7E07D
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 31D297C4DB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 18:44:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45KZMK0pBMz3L
+	Thu,  6 Jun 2019 20:07:46 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id h20so2010403itk.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 20:44:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559846669;
-	bh=3LoD4vpXqFrTMOcrdpU9bULEa5Oamsp6rT4bD7EtMNw=;
-	h=From:To:Subject:Date:From;
-	b=IV5336tpJfjl0VVjcI2OY2nVxYjUQm46ysvqTSBGtNl3vK0UdkhFehDA/CyLZ8VLn
-	MAWZiyJ7nUw0egcli/TgNWIKu3kE1CI9C5mzeaO1ZBPlzj6JbXjbVsoOU1qNTDcQg+
-	uhEVaT3uWpCEU3v+isZNiA++kyywACanxNKump+0J/Dip9tYStQl0ST++QXqcSUnQY
-	BfwmjMJsX/eYl1/tu4L39cuUtbWkZfwp1TsNhkE5TsdxSDF5kM17ref8Y4oM/F7die
-	ZcWOUe7c6/LWTdIGtjygbFXEymvQ8O4EmeHMZ5Sx0fYQDsBIKKoicKZ9GUhJ7g6ny5
-	mF0vCWli/58JnUJ5aqKBsCQL1TZPArUqshe1E0YhxweyYCtuZ6CblR0LEgERV/lIzK
-	+xgqGrIUNQdZTUF1CUYxjbe9PIRDJxAiIXEFHFwDsr4joQPca3N2UW8PYrJqVGcuJg
-	sMUPLUGtNSFqYydYBKe/4idHYd81YW+ICW9Fm+xVOwpJtdf3A2dKL0Iy+Y7/3LEVY9
-	qPeJvDRPDIuGa0fs3bd1LAcv32lR4uzUNUZLRNpifSo3i1ZVwnCMewZuXzaVhmDTPR
-	wEoUxaGRnSzZ/L/cndLKc305bcIW1YPQs31qI4zdnbWw2WzFvYRJqjQEpT8jtSFiaF
-	JVlQUc3uB948Ubhlj5IA+ct4=
-From: Adrian Bunk <bunk@stusta.de>
+	Thu, 06 Jun 2019 13:07:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=9yNGaDdJtIykrvpEJjW6F8TiYPBUQPXoMEPHP/6gS0c=;
+	b=Sug1bv0D3EWPP8rEDkgkvYdFW6Y3pLKTdFIUVoRlJCEHVjdhzpZ2F6gbPgs3o7nZ1Z
+	AUgvegp7uHWemvOXC0pi8Nnv0Azgpj0Af+2M1rUiFGjGBhgcjwzBcmjsLnIEZzucWbDO
+	QOGubwuj/tnJNSsOk0cyFepV3vR7gQHXgIXxEWYiq2+uwtvjmozh8nSVehT5mvkk/9VO
+	xizosON9lulDUNLiVjGWU7W2pRbHdseZz6JkUYcd6yBAAyVsUOMgH54NmGq3q0S3Anl2
+	esBwpJWQOeG6RxzjGBsmxOk27fKb9ZEXrzOcbQOZSLI0+kxl6M36TTJQnDhUJ4e3hvAH
+	YNCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=9yNGaDdJtIykrvpEJjW6F8TiYPBUQPXoMEPHP/6gS0c=;
+	b=Ma4dZYpH8pHnP6derZ7Xc7joQdjbGDqRFXVA8DFhevW6Dou1U1h/i+F3pf1HUrq0p+
+	ITeHgHs4cm4fu1WLyGC6+OQfhAQi7Eu5cHDM3kaqOQNwf6XGUEbFXXb8YeQx6i3ts8YH
+	kxu5gpas30gwMS3I/EcuHTBhoeBY7GqFPvov+zScIS1MWjBFcJ3fsL24RM3TLXjb0vUl
+	L74I+KNFuG6xHg3JwTTRrS70CYHRxSFHMh5PjxBRz8N8zB3J8BE+t4AdaUU7cAvKx1qg
+	HHF2hYDlaF6AxZntHlM+A8KMurfU/a2mEwhynnPIu0vx1WjF/JYUDeRqFZqd4FcOL9op
+	ntQg==
+X-Gm-Message-State: APjAAAUD4Qd0I0DFEtpBj6AJCBrgeKclbeVH7fERRY1bxnyLol0MQJ4L
+	ZME8zGFUBh1sPGXmb2wBhCrZjyRw
+X-Google-Smtp-Source: APXvYqwbpueTV0doZuhew9fiaP96bQrRjVTb5dGqaWhRiEpD2AXNCbtdDGcQT1rKxjOwM1j9r1c/3w==
+X-Received: by 2002:a24:2550:: with SMTP id g77mr1350942itg.95.1559851667664; 
+	Thu, 06 Jun 2019 13:07:47 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	r62sm1405565ita.37.2019.06.06.13.07.46
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 06 Jun 2019 13:07:46 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jun 2019 21:44:28 +0300
-Message-Id: <20190606184428.2325-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] Remove manual RDEPENDS from PN-ptest to PN package
+Date: Thu,  6 Jun 2019 15:07:41 -0500
+Message-Id: <20190606200741.31305-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190603152719.17295-1-JPEWhacker@gmail.com>
+References: <20190603152719.17295-1-JPEWhacker@gmail.com>
+MIME-Version: 1.0
+Subject: [PATCH v3] bash: Replace uninative loader path in ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,73 +60,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 18:44:28 -0000
+X-List-Received-Date: Thu, 06 Jun 2019 20:07:47 -0000
+Content-Transfer-Encoding: 8bit
 
-They are now added automatically by the ptest class.
+The Makefile used for bash-ptest can pick up the path to the uninative
+loader through BUILD_LDFLAGS. This includes the full path to the
+uninative loader, which is not reproducible. Replace it with /bin/false.
+It doesn't appear as if these native programs are used in the test
+suites and if there are likely to be other problems related to building
+them using the BUILD_* flags.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
-v2: elfutils RDEPENDS_${PN}-ptest fixed
----
- meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb | 2 +-
- meta/recipes-devtools/elfutils/elfutils_0.176.bb    | 2 +-
- meta/recipes-extended/sed/sed_4.2.2.bb              | 2 +-
- meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb     | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-extended/bash/bash.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
-index 54b135eaef..ed946159bd 100644
---- a/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
-+++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.44.5.bb
-@@ -113,7 +113,7 @@ ALTERNATIVE_LINK_NAME[mkfs.ext2] = "${base_sbindir}/mkfs.ext2"
- ALTERNATIVE_${PN}-tune2fs = "tune2fs"
- ALTERNATIVE_LINK_NAME[tune2fs] = "${base_sbindir}/tune2fs"
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index dbb803ddefd..4cf1054967c 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -78,8 +78,13 @@ do_install_ptest () {
+ 	    -e 's|${DEBUG_PREFIX_MAP}||g' \
+ 	    -e "s,${S},,g" -e "s,${B},,g" -e "s,${STAGING_DIR_NATIVE},,g" \
+ 	    -e 's:${HOSTTOOLS_DIR}/::g' \
++	    -e 's:${UNINATIVE_LOADER}:${base_bindir}/false:g' \
+ 	     ${D}${PTEST_PATH}/Makefile
+ }
++# The uninative loader is different on i386 & x86_64 hosts. Since it is only
++# being replaced with /bin/false anyway, it doesn't need to be part of the task
++# hash
++do_install_ptest[vardepsexclude] += "UNINATIVE_LOADER"
  
--RDEPENDS_${PN}-ptest += "${PN} coreutils procps bash bzip2 diffutils perl sed"
-+RDEPENDS_${PN}-ptest += "coreutils procps bash bzip2 diffutils perl sed"
- RDEPENDS_${PN}-ptest += "e2fsprogs-e2fsck e2fsprogs-mke2fs e2fsprogs-tune2fs e2fsprogs-badblocks e2fsprogs-resize2fs"
- 
- do_compile_ptest() {
-diff --git a/meta/recipes-devtools/elfutils/elfutils_0.176.bb b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-index 1a5c70b088..5b8049f531 100644
---- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-+++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
-@@ -44,7 +44,7 @@ inherit autotools gettext ptest
- 
- EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
- EXTRA_OECONF_append_class-native = " --without-bzlib"
--RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN}"
-+RDEPENDS_${PN}-ptest += "libasm libelf bash make coreutils ${PN}-binutils"
- 
- EXTRA_OECONF_append_class-target += "--disable-tests-rpath"
- 
-diff --git a/meta/recipes-extended/sed/sed_4.2.2.bb b/meta/recipes-extended/sed/sed_4.2.2.bb
-index f10e365ea4..8e436bad80 100644
---- a/meta/recipes-extended/sed/sed_4.2.2.bb
-+++ b/meta/recipes-extended/sed/sed_4.2.2.bb
-@@ -15,7 +15,7 @@ SRC_URI[md5sum] = "4111de4faa3b9848a0686b2f260c5056"
- SRC_URI[sha256sum] = "fea0a94d4b605894f3e2d5572e3f96e4413bcad3a085aae7367c2cf07908b2ff"
- 
- inherit autotools texinfo update-alternatives gettext ptest
--RDEPENDS_${PN}-ptest += "make ${PN}"
-+RDEPENDS_${PN}-ptest += "make"
- RRECOMMENDS_${PN}-ptest_append_libc-glibc = " locale-base-ru-ru"
- 
- EXTRA_OECONF = "--disable-acl \
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-index 7e80bb45d1..9583ee3abb 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- 
- DEPENDS = "liburcu popt libxml2 util-linux"
- RDEPENDS_${PN} = "libgcc"
--RDEPENDS_${PN}-ptest += "make perl bash gawk ${PN} babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
- RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
- # babelstats.pl wants getopt-long
+ pkg_postinst_${PN} () {
+ 	grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo ${base_bindir}/bash >> $D${sysconfdir}/shells
 -- 
-2.17.1
+2.21.0
 
 
