@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 1678C7D58A
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E0DE7DD63
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 03:53:03 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id d126so632689pfd.2
+	Thu,  6 Jun 2019 03:53:04 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id q17so614505pfq.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 20:53:05 -0700 (PDT)
+	Wed, 05 Jun 2019 20:53:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=oyLni5wH7x301OBizNqyIpTnmma64SsXJOtWb7XYsjE=;
-	b=dkNtbR0a2mNUemUI4MW0NEqLxeSCNwcCkjelh8qaIe40uQ3hxDxxrUWMWyW27vac7s
-	6d+RJOni2nS7lX34i9aSp/5MUdkMAlcvkMou1faSQ44IXNb6kOkgqxsvEcRv4AIxrCvc
-	zw3ujSdbvJGU1CPmbQu/XpzOUfhnwUCu6tPzm8vAB3/yV36DnWcLqGzXajQvfQgqUmaw
-	8CHMYGc60i5HXJ4KtCwOvKpfpcMQPHCxuLYJSsTrJjh8HTv4ymcjELevzcgyhjc8LC+B
-	jazxw/DU7BpLVh5rTF5i4p/U+pNmwZ3LGT9YBIgDLJQNT9J6Wiefkus65R5MI3D3Rn+p
-	sc7Q==
+	bh=iOFBc0XB0GXF07wISSTuPG3NV6t6CVL8/6ZRWJXzS7E=;
+	b=MBVHRGQeZtTBuZcvj1J8nhb/TWQ3YCSrVkzaNwM12KpEYjaxCQo59uI8/pT982sIzW
+	AkEuJl+J8R4Y5GMQfJLiJ+TrFYlSbduP8i1rYnGjqEXFrl45Io4/e/irLzAikfPoIwqB
+	Xlzn5AauuR6McwaOOqRNuS5m5g7QabcJle4/KDsJgLbjy6TTu/MIs9k8AM8et7Qwc2xy
+	CQmWQ3bVOITgTE60vPMql4OGlyFgIkemNjyxQ+nYxs5Fk7pH9omMuDxB1wRO2CgNujn7
+	M/9yMHtOA1MEQfZwnR22v4RVJLFxsINGmi+lZROptm4z3f90R++tJHPlC8X+m0cTqzuI
+	4KkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=oyLni5wH7x301OBizNqyIpTnmma64SsXJOtWb7XYsjE=;
-	b=HSZZE3nrEOykSEGizkIUykmILnmqHwztbzAMoaYqSwN9clBzeCfq9l2utpFLSPH/N6
-	lvoOjrQ18NmCZ2EXP4vfcnqT4MueZOJLwCzZnH2U3Z8R/iDU07Zgs+9XulrUiIENRxSp
-	gq5gCVTULX5tmw9iiVtICmb2nUfr7+vKne9Jf+cfeTfvnzB9MC74RYY79vz3sHaNFjNy
-	r9zYsoSfZxvz3GyatMyOaACfJgZ7NnfAbG1jSCtsPhESys1Cb5yVyaFiSKMUZfVGYw9e
-	xeBfLKkI/+tTAhj/9E7916YP0hlFsq0jbsPMvS+MKTxy9tBKJ7HVCuyd8BjZrZpu/G9v
-	aqAA==
-X-Gm-Message-State: APjAAAX313+cuM7Ts5akJw/t7lX3TRsdup75k3S6JIyiKB/JSIb+KiuL
-	CpnhYuc+k88GRVMzN2IMr2GzBaPL
-X-Google-Smtp-Source: APXvYqyA3IukxZGt/emkHomQ7HDYePSjuK5iqiq5ZRcM+0y+n2c/3m5cGUjGNwlVXe/s1YY9Pxy6Pg==
-X-Received: by 2002:a63:4e07:: with SMTP id c7mr1333820pgb.350.1559793185065; 
+	bh=iOFBc0XB0GXF07wISSTuPG3NV6t6CVL8/6ZRWJXzS7E=;
+	b=AjqcjI7VdAeM92GT6ucu5HgwdHTj/5mHhc0N/tMZittnCKhq7Y1Twby2OJT7pLq3jF
+	I7F+19iYgzhSGvX3jOsJgMfNY51xxdAQijEn3Xu/qJkZB/m2gNqdZo14wO2VBK71WrYH
+	SM7pE4bJlA3j9J0SmVgNT0SEMiVPlDEtNYypb1l2nJtcFAxt3UylLFGpOL029wz9xTA8
+	4XlRK6i9q8byKD9CA1jBZjU5wd5y9xawWE8tVAlR+JBADUo5rwGqjPxxLsn4lRvUG8b1
+	4aRrbdDSAvBJTI5cTzvR3euHJg0X1qLkBZOsfW34+j8SPI/8d6D/pB5221goSIswQqYb
+	gp/w==
+X-Gm-Message-State: APjAAAXUkhQfsNo9++Sc4lRyHUj3XgttjNlSTIB+Vh7Vn2OuOVS90y2g
+	BaD+CkAiGUaSMv3/fmJInFLrpi49
+X-Google-Smtp-Source: APXvYqwqm+NhNqRWhilCg801NPKQWN6u7RpjMa1FSls4l+zJNok0chB1zxfq5MmelmN0SF9Jeon7pA==
+X-Received: by 2002:a65:52c9:: with SMTP id z9mr1291350pgp.177.1559793185979; 
 	Wed, 05 Jun 2019 20:53:05 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.mvista.com
 	([2601:202:4180:c33:649f:275:809c:24d6])
-	by smtp.gmail.com with ESMTPSA id i5sm448743pfk.49.2019.06.05.20.53.04
+	by smtp.gmail.com with ESMTPSA id i5sm448743pfk.49.2019.06.05.20.53.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 05 Jun 2019 20:53:04 -0700 (PDT)
+	Wed, 05 Jun 2019 20:53:05 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2019 20:53:01 -0700
-Message-Id: <1559793182-529-2-git-send-email-akuster808@gmail.com>
+Date: Wed,  5 Jun 2019 20:53:02 -0700
+Message-Id: <1559793182-529-3-git-send-email-akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1559793182-529-1-git-send-email-akuster808@gmail.com>
 References: <1559793182-529-1-git-send-email-akuster808@gmail.com>
 Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH 2/3] wget: Security fix for CVE-2019-5953
+Subject: [thud][PATCH 3/3] Curl: Securiyt fix CVE-2019-5435 CVE-2019-5436
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,95 +58,285 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 03:53:04 -0000
+X-List-Received-Date: Thu, 06 Jun 2019 03:53:05 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-Source: http://git.savannah.gnu.org/cgit/wget.git
-MR: 89341
+Source: CUrl.org
+MR: 98455
 Type: Security Fix
-Disposition: Backport from http://git.savannah.gnu.org/cgit/wget.git/commit/?id=692d5c5215de0db482c252492a92fc424cc6a97c
-ChangeID: 1c19a2fd7ead88cc4ee92d425179d60d4635864b
+Disposition: Backport from https://curl.haxx.se/
+ChangeID: 86b094a440ea473b114764e8d64df8142d561609
 Description:
 
-Fixes CVE-2019-5953
-Affects: < 1.20.1
+Fixes CVE-2019-5435 CVE-2019-5436
+
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 ---
- .../recipes-extended/wget/wget/CVE-2019-5953.patch | 51 ++++++++++++++++++++++
- meta/recipes-extended/wget/wget_1.19.5.bb          |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2019-5953.patch
+ meta/recipes-support/curl/curl/CVE-2019-5435.patch | 200 +++++++++++++++++++++
+ meta/recipes-support/curl/curl/CVE-2019-5436.patch |  32 ++++
+ meta/recipes-support/curl/curl_7.61.0.bb           |   2 +
+ 3 files changed, 234 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5435.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5436.patch
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2019-5953.patch b/meta/recipes-extended/wget/wget/CVE-2019-5953.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-5435.patch b/meta/recipes-support/curl/curl/CVE-2019-5435.patch
 new file mode 100644
-index 0000000..e43e8e5
+index 0000000..8ac5554
 --- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2019-5953.patch
-@@ -0,0 +1,51 @@
-+From 692d5c5215de0db482c252492a92fc424cc6a97c Mon Sep 17 00:00:00 2001
-+From: Tim Ruehsen <tim.ruehsen@gmx.de>
-+Date: Fri, 5 Apr 2019 11:50:44 +0200
-+Subject: [PATCH] Fix a buffer overflow vulnerability
++++ b/meta/recipes-support/curl/curl/CVE-2019-5435.patch
+@@ -0,0 +1,200 @@
++From 5fc28510a4664f46459d9a40187d81cc08571e60 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Mon, 29 Apr 2019 08:00:49 +0200
++Subject: [PATCH] CURL_MAX_INPUT_LENGTH: largest acceptable string input size
 +
-+* src/iri.c(do_conversion): Reallocate the output buffer to a larger
-+  size if it is already full
++This limits all accepted input strings passed to libcurl to be less than
++CURL_MAX_INPUT_LENGTH (8000000) bytes, for these API calls:
++curl_easy_setopt() and curl_url_set().
++
++The 8000000 number is arbitrary picked and is meant to detect mistakes
++or abuse, not to limit actual practical use cases. By limiting the
++acceptable string lengths we also reduce the risk of integer overflows
++all over.
++
++NOTE: This does not apply to `CURLOPT_POSTFIELDS`.
++
++Test 1559 verifies.
++
++Closes #3805
 +
 +Upstream-Status: Backport
-+http://git.savannah.gnu.org/cgit/wget.git/commit/?id=692d5c5215de0db482c252492a92fc424cc6a97c
-+CVE: CVE-2019-5953
++Dropped a few changes to apply against this version
++https://github.com/curl/curl/commit/5fc28510a4664f4
++
++CVE: CVE-2019-5435
++affects: libcurl 7.19.4 to and including 7.64.1
 +Signed-off-by: Armin Kuster <akuster@mvista.com>
 +
 +---
-+ src/iri.c | 12 +++++++++---
-+ 1 file changed, 9 insertions(+), 3 deletions(-)
++ lib/setopt.c               |  7 +++++
++ lib/urldata.h              |  4 +++
++ 7 files changed, 146 insertions(+), 3 deletions(-)
++ create mode 100644 tests/data/test1559
++ create mode 100644 tests/libtest/lib1559.c
 +
-+Index: wget-1.19.5/src/iri.c
++Index: curl-7.61.0/lib/setopt.c
 +===================================================================
-+--- wget-1.19.5.orig/src/iri.c
-++++ wget-1.19.5/src/iri.c
-+@@ -151,8 +151,11 @@ do_conversion (const char *tocode, const
-+   *out = s = xmalloc (outlen + 1);
-+   done = 0;
++--- curl-7.61.0.orig/lib/setopt.c
+++++ curl-7.61.0/lib/setopt.c
++@@ -60,6 +60,13 @@ CURLcode Curl_setstropt(char **charp, co
++   if(s) {
++     char *str = strdup(s);
 + 
-++  DEBUGP (("iconv %s -> %s\n", tocode, fromcode));
+++    if(str) {
+++      size_t len = strlen(str);
+++      if(len > CURL_MAX_INPUT_LENGTH) {
+++        free(str);
+++        return CURLE_BAD_FUNCTION_ARGUMENT;
+++      }
+++    }
++     if(!str)
++       return CURLE_OUT_OF_MEMORY;
++ 
++Index: curl-7.61.0/lib/urldata.h
++===================================================================
++--- curl-7.61.0.orig/lib/urldata.h
+++++ curl-7.61.0/lib/urldata.h
++@@ -79,6 +79,10 @@
++ */
++ #define RESP_TIMEOUT (1800*1000)
++ 
+++/* Max string intput length is a precaution against abuse and to detect junk
+++   input easier and better. */
+++#define CURL_MAX_INPUT_LENGTH 8000000
 ++
-+   for (;;)
-+     {
-++      DEBUGP (("iconv outlen=%d inlen=%d\n", outlen, inlen));
-+       if (iconv (cd, (ICONV_CONST char **) &in, &inlen, out, &outlen) != (size_t)(-1) &&
-+           iconv (cd, NULL, NULL, out, &outlen) != (size_t)(-1))
-+         {
-+@@ -187,11 +190,14 @@ do_conversion (const char *tocode, const
-+         }
-+       else if (errno == E2BIG) /* Output buffer full */
-+         {
-++          logprintf (LOG_VERBOSE,
-++                    _("Reallocate output buffer len=%d outlen=%d inlen=%d\n"), len, outlen, inlen);
-+           tooshort++;
-+           done = len;
-+-          len = outlen = done + inlen * 2;
-+-          s = xrealloc (s, outlen + 1);
-+-          *out = s + done;
-++          len = done + inlen * 2;
-++          s = xrealloc (s, len + 1);
-++          *out = s + done - outlen;
-++          outlen += inlen * 2;
-+         }
-+       else /* Weird, we got an unspecified error */
-+         {
-diff --git a/meta/recipes-extended/wget/wget_1.19.5.bb b/meta/recipes-extended/wget/wget_1.19.5.bb
-index e37d8c7..920b74d 100644
---- a/meta/recipes-extended/wget/wget_1.19.5.bb
-+++ b/meta/recipes-extended/wget/wget_1.19.5.bb
-@@ -1,6 +1,7 @@
- SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
-            file://0002-improve-reproducibility.patch \
-+           file://CVE-2019-5953.patch \
-           "
++ #include "cookie.h"
++ #include "psl.h"
++ #include "formdata.h"
++Index: curl-7.61.0/tests/data/test1559
++===================================================================
++--- /dev/null
+++++ curl-7.61.0/tests/data/test1559
++@@ -0,0 +1,44 @@
+++<testcase>
+++<info>
+++<keywords>
+++CURLOPT_URL
+++</keywords>
+++</info>
+++
+++<reply>
+++</reply>
+++
+++<client>
+++<server>
+++none
+++</server>
+++
+++# require HTTP so that CURLOPT_POSTFIELDS works as assumed
+++<features>
+++http
+++</features>
+++<tool>
+++lib1559
+++</tool>
+++
+++<name>
+++Set excessive URL lengths
+++</name>
+++</client>
+++
+++#
+++# Verify that the test runs to completion without crashing
+++<verify>
+++<errorcode>
+++0
+++</errorcode>
+++<stdout>
+++CURLOPT_URL 10000000 bytes URL == 43
+++CURLOPT_POSTFIELDS 10000000 bytes data == 0
+++CURLUPART_URL 10000000 bytes URL == 3
+++CURLUPART_SCHEME 10000000 bytes scheme == 3
+++CURLUPART_USER 10000000 bytes user == 3
+++</stdout>
+++</verify>
+++
+++</testcase>
++Index: curl-7.61.0/tests/libtest/lib1559.c
++===================================================================
++--- /dev/null
+++++ curl-7.61.0/tests/libtest/lib1559.c
++@@ -0,0 +1,78 @@
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.haxx.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ ***************************************************************************/
+++#include "test.h"
+++
+++#include "testutil.h"
+++#include "warnless.h"
+++#include "memdebug.h"
+++
+++#define EXCESSIVE 10*1000*1000
+++int test(char *URL)
+++{
+++  CURLcode res = 0;
+++  CURL *curl = NULL;
+++  char *longurl = malloc(EXCESSIVE);
+++  CURLU *u;
+++  (void)URL;
+++
+++  memset(longurl, 'a', EXCESSIVE);
+++  longurl[EXCESSIVE-1] = 0;
+++
+++  global_init(CURL_GLOBAL_ALL);
+++  easy_init(curl);
+++
+++  res = curl_easy_setopt(curl, CURLOPT_URL, longurl);
+++  printf("CURLOPT_URL %d bytes URL == %d\n",
+++         EXCESSIVE, (int)res);
+++
+++  res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, longurl);
+++  printf("CURLOPT_POSTFIELDS %d bytes data == %d\n",
+++         EXCESSIVE, (int)res);
+++
+++  u = curl_url();
+++  if(u) {
+++    CURLUcode uc = curl_url_set(u, CURLUPART_URL, longurl, 0);
+++    printf("CURLUPART_URL %d bytes URL == %d\n",
+++           EXCESSIVE, (int)uc);
+++    uc = curl_url_set(u, CURLUPART_SCHEME, longurl, CURLU_NON_SUPPORT_SCHEME);
+++    printf("CURLUPART_SCHEME %d bytes scheme == %d\n",
+++           EXCESSIVE, (int)uc);
+++    uc = curl_url_set(u, CURLUPART_USER, longurl, 0);
+++    printf("CURLUPART_USER %d bytes user == %d\n",
+++           EXCESSIVE, (int)uc);
+++    curl_url_cleanup(u);
+++  }
+++
+++  free(longurl);
+++
+++  curl_easy_cleanup(curl);
+++  curl_global_cleanup();
+++
+++  return 0;
+++
+++test_cleanup:
+++
+++  curl_easy_cleanup(curl);
+++  curl_global_cleanup();
+++
+++  return res; /* return the final return code */
+++}
+diff --git a/meta/recipes-support/curl/curl/CVE-2019-5436.patch b/meta/recipes-support/curl/curl/CVE-2019-5436.patch
+new file mode 100644
+index 0000000..05fd8e9
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2019-5436.patch
+@@ -0,0 +1,32 @@
++From 2576003415625d7b5f0e390902f8097830b82275 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Fri, 3 May 2019 22:20:37 +0200
++Subject: [PATCH] tftp: use the current blksize for recvfrom()
++
++bug: https://curl.haxx.se/docs/CVE-2019-5436.html
++Reported-by: l00p3r on hackerone
++CVE-2019-5436
++
++Upstream-Status: Backport
++https://github.com/curl/curl/commit/2576003415625d7b5f0e390902f8097830b82275
++CVE: CVE-2019-5436
++affects: libcurl 7.19.4 to and including 7.64.1
++Signed-off-by: Armin Kuster <akuster@mvista.com>
++
++---
++ lib/tftp.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++Index: curl-7.61.0/lib/tftp.c
++===================================================================
++--- curl-7.61.0.orig/lib/tftp.c
+++++ curl-7.61.0/lib/tftp.c
++@@ -1005,7 +1005,7 @@ static CURLcode tftp_connect(struct conn
++   state->sockfd = state->conn->sock[FIRSTSOCKET];
++   state->state = TFTP_STATE_START;
++   state->error = TFTP_ERR_NONE;
++-  state->blksize = TFTP_BLKSIZE_DEFAULT;
+++  state->blksize = blksize;
++   state->requested_blksize = blksize;
++ 
++   ((struct sockaddr *)&state->local_addr)->sa_family =
+diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
+index 56327a6..1027f75 100644
+--- a/meta/recipes-support/curl/curl_7.61.0.bb
++++ b/meta/recipes-support/curl/curl_7.61.0.bb
+@@ -11,6 +11,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
+            file://CVE-2018-16839.patch \
+            file://CVE-2018-16840.patch \
+            file://CVE-2018-16842.patch \
++           file://CVE-2019-5435.patch \
++           file://CVE-2019-5436.patch \
+ "
  
- SRC_URI[md5sum] = "2db6f03d655041f82eb64b8c8a1fa7da"
+ SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
 -- 
 2.7.4
 
