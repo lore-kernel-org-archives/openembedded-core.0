@@ -1,36 +1,39 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 6FCB07DDAD
+	by mail.openembedded.org (Postfix) with ESMTP id 2422A7DDAD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 15:35:17 +0000 (UTC)
+	Thu,  6 Jun 2019 15:36:37 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45KV9135R8z3L;
-	Thu,  6 Jun 2019 17:35:16 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45KVBY5Mfnz3L;
+	Thu,  6 Jun 2019 17:36:37 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559835317;
-	bh=/h2gy+KAbkcDbi37VdBtUEpilPi56T801LmXxEjU5a4=;
+	s=default; t=1559835398;
+	bh=FcwaJzw6N+rMu10hidbd9KzzrhltTLZ3E0NwMzvZn0Q=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Qlsv8jFY1oEx5TOnY+hSVTXscfhHDGYNpxQ7N4xapksAtUHuNUs8x0055fjkG5rZ6
-	stnC6xurGw7E8i57epCLltSLo9wRD5+8V6XpZZITIgGau3/Xot/yfQdHIVMyxdM6hQ
-	dqQrk3Xc73DBCN1tCID+sUAKiU+EAxHZkE9VfSHRq7459pOnfSc0XznopjMeQ7Drp/
-	6c4QF+5OwuPWgiv2b3DMKm/VlEmWZH+8+Vvhrkj25alp+x7NfbC4FW6WnZvfhzJRH0
-	TJ51UVi9Whgd4fgPTD/s3zwhx3qabjAg/VBETGCs8M8jCc8qfjy//gZVPp9D+Tafp7
-	KaCTuwrobDy/58DIYR8yZAzD6j8c2G1QJree8atxNyQU5VPhuVAmPoHx1Oe9Uz47tL
-	I/7b707GoYxUOeRVN0OY1P1V3Kl/wSsTQojxYjwXaTuDl+wjGNtHQ2w3ryg6sdgYIa
-	rAL5wDGe6BDpWDg90I7iLeUNzpFy1u36ItX0/Co686dmHQeLUK7mcImkI86nwzbL85
-	G9YAk61eh19HUPmrVW9cfBfruX8Dz8mAqHfAEfaT1bEWbR1ZlCdXF6IZfNTsYO1Ac8
-	swdJLQOVpnsTI8OfvkDVfjHF8ZKRTsPQtlowhEZG1A/p9oOQhhGlHsx57vZtnn1NDO
-	XuYUufk385vrQYDSZNvf5Y+k=
-Date: Thu, 6 Jun 2019 18:35:09 +0300
+	b=Oks7J+EbzAeFkL618utvOooKNT+9GWHsBzYRyBsK9NX/CzuL6y5b8f5OQxiCeb96T
+	vBo29nk82JKU/ywN+yLo8gaPLRoPcp9UzXafbk6ote8AkO1ZR27K7Q/3aq1/uNOeDO
+	fcch97OPwUfgqNLS4JroqRayOOZ/P93m8TBp3yUO9tt+O0nRwC/9RewTfF+NGYhB0k
+	DWeVfGi5Pz0kGkxcxcDpyex+u3KUNNs+vLmvDnShxSr/zAbasxMWRGXeLEUI6h8s67
+	PEm7tn0OrkcJ5j4MPA9c1qYaKGPgZpIWmXRD9/RP+RoMXOgg6fySJ9KSTi3IRXTeWC
+	LhvLkco7l+1nNqbm7wLJY0oMYBjTeq0z9csJiRsujPJm01XuoeOqVNtrB+vYUFpj+X
+	mD2BSvb/muO9Dxsscix9xa1wJCXrzxZBlG1iMGpnyRl0q32oHQK5RyFSjbMqXZ6aAM
+	AQt3kHegcZLepRJJbKaq5tfgfZfdcS2z3fWl1hFBcOy9iDJTtcWFIsexvLN0cytd/x
+	OfbntLfClKZvgQvxK18vKRx9vHIiuzELxDemxqgzfVSbm0GdZKji2OnY/LUXRDUf85
+	K+64YCq13SirTjvzxGDO+KM1GUISKogjJUM+rYzcETsgi+15zM8M+CTa1wID3gkp7i
+	cpT5gyiLPw9zhsKyXXZ/0XWs=
+Date: Thu, 6 Jun 2019 18:36:36 +0300
 From: Adrian Bunk <bunk@stusta.de>
-To: Joe Slater <joe.slater@windriver.com>
-Message-ID: <20190606153509.GB26324@localhost>
-References: <20190605225040.213296-1-joe.slater@windriver.com>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Message-ID: <20190606153636.GC26324@localhost>
+References: <20190605152352.25846-1-quentin.schulz@streamunlimited.com>
+	<20190606145236.GA26324@localhost>
+	<20190606151137.glzdt624z6l3b6v2@qschulz>
 MIME-Version: 1.0
-In-Reply-To: <20190605225040.213296-1-joe.slater@windriver.com>
+In-Reply-To: <20190606151137.glzdt624z6l3b6v2@qschulz>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/1] slang: modify an array test
+Cc: andriy.danylovskyy@streamunlimited.com,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,22 +46,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 15:35:17 -0000
+X-List-Received-Date: Thu, 06 Jun 2019 15:36:37 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Wed, Jun 05, 2019 at 03:50:40PM -0700, Joe Slater wrote:
-> One array test attempts to create an array that is far too
-> large to exist.  Different exceptions are thrown for 32 and 64
-> bit machines, so we account for that when catching them.
-> 
-> Signed-off-by: Joe Slater <joe.slater@windriver.com>
-> ---
->  meta/recipes-extended/slang/slang/array_test.patch | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
->...
+On Thu, Jun 06, 2019 at 05:11:37PM +0200, Quentin Schulz wrote:
+> Hi Adrian,
 
-This seems to miss actually applying the patch?
+Hi Quentin,
+
+>...
+> I've sent a v2 (and you're Cc'ed to it).
+
+thanks, I've confirmed this fixes my problem.
+
+> Thanks,
+> Quentin
 
 cu
 Adrian
