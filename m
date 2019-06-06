@@ -1,51 +1,24 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
-	[209.85.210.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 3E0DE7DD63
+Return-Path: <Kexin.Hao@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 267346C1D5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 03:53:04 +0000 (UTC)
-Received: by mail-pf1-f195.google.com with SMTP id q17so614505pfq.8
+	Thu,  6 Jun 2019 07:24:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x567NQqQ026659
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 05 Jun 2019 20:53:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=iOFBc0XB0GXF07wISSTuPG3NV6t6CVL8/6ZRWJXzS7E=;
-	b=MBVHRGQeZtTBuZcvj1J8nhb/TWQ3YCSrVkzaNwM12KpEYjaxCQo59uI8/pT982sIzW
-	AkEuJl+J8R4Y5GMQfJLiJ+TrFYlSbduP8i1rYnGjqEXFrl45Io4/e/irLzAikfPoIwqB
-	Xlzn5AauuR6McwaOOqRNuS5m5g7QabcJle4/KDsJgLbjy6TTu/MIs9k8AM8et7Qwc2xy
-	CQmWQ3bVOITgTE60vPMql4OGlyFgIkemNjyxQ+nYxs5Fk7pH9omMuDxB1wRO2CgNujn7
-	M/9yMHtOA1MEQfZwnR22v4RVJLFxsINGmi+lZROptm4z3f90R++tJHPlC8X+m0cTqzuI
-	4KkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=iOFBc0XB0GXF07wISSTuPG3NV6t6CVL8/6ZRWJXzS7E=;
-	b=AjqcjI7VdAeM92GT6ucu5HgwdHTj/5mHhc0N/tMZittnCKhq7Y1Twby2OJT7pLq3jF
-	I7F+19iYgzhSGvX3jOsJgMfNY51xxdAQijEn3Xu/qJkZB/m2gNqdZo14wO2VBK71WrYH
-	SM7pE4bJlA3j9J0SmVgNT0SEMiVPlDEtNYypb1l2nJtcFAxt3UylLFGpOL029wz9xTA8
-	4XlRK6i9q8byKD9CA1jBZjU5wd5y9xawWE8tVAlR+JBADUo5rwGqjPxxLsn4lRvUG8b1
-	4aRrbdDSAvBJTI5cTzvR3euHJg0X1qLkBZOsfW34+j8SPI/8d6D/pB5221goSIswQqYb
-	gp/w==
-X-Gm-Message-State: APjAAAXUkhQfsNo9++Sc4lRyHUj3XgttjNlSTIB+Vh7Vn2OuOVS90y2g
-	BaD+CkAiGUaSMv3/fmJInFLrpi49
-X-Google-Smtp-Source: APXvYqwqm+NhNqRWhilCg801NPKQWN6u7RpjMa1FSls4l+zJNok0chB1zxfq5MmelmN0SF9Jeon7pA==
-X-Received: by 2002:a65:52c9:: with SMTP id z9mr1291350pgp.177.1559793185979; 
-	Wed, 05 Jun 2019 20:53:05 -0700 (PDT)
-Received: from akuster-ThinkPad-T460s.mvista.com
-	([2601:202:4180:c33:649f:275:809c:24d6])
-	by smtp.gmail.com with ESMTPSA id i5sm448743pfk.49.2019.06.05.20.53.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 05 Jun 2019 20:53:05 -0700 (PDT)
-From: Armin Kuster <akuster808@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed,  5 Jun 2019 20:53:02 -0700
-Message-Id: <1559793182-529-3-git-send-email-akuster808@gmail.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559793182-529-1-git-send-email-akuster808@gmail.com>
-References: <1559793182-529-1-git-send-email-akuster808@gmail.com>
-Cc: Armin Kuster <akuster@mvista.com>
-Subject: [thud][PATCH 3/3] Curl: Securiyt fix CVE-2019-5435 CVE-2019-5436
+	Thu, 6 Jun 2019 00:23:57 -0700
+Received: from pek-lpggp6.wrs.com (128.224.153.40) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 6 Jun 2019 00:23:21 -0700
+From: Kevin Hao <kexin.hao@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 6 Jun 2019 15:11:46 +0800
+Message-ID: <20190606071147.32050-1-kexin.hao@windriver.com>
+X-Mailer: git-send-email 2.14.4
+MIME-Version: 1.0
+Subject: [PATCH 1/2] runqemu: Add the support to pass multi ports to tcpserial parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,286 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 03:53:05 -0000
+X-List-Received-Date: Thu, 06 Jun 2019 07:24:07 -0000
+Content-Type: text/plain
 
-From: Armin Kuster <akuster@mvista.com>
+In some cases(such as the oeqa's qemurunner), we need to setup multi
+serial devices via the '-serial 127.0.0.1:xx" and the order of them
+is significant. The mixing use of "tcpserial" and "-serial 127.0.0.1:xx"
+cause ambiguous issues and we can't fix it by only adjusting the order
+of them. So add the support to pass multi ports to the tcpserial
+parameter, this will make sure that the order of setting up the serial
+is really what we want.
 
-Source: CUrl.org
-MR: 98455
-Type: Security Fix
-Disposition: Backport from https://curl.haxx.se/
-ChangeID: 86b094a440ea473b114764e8d64df8142d561609
-Description:
+[YOCTO Bug 13309]
 
-Fixes CVE-2019-5435 CVE-2019-5436
-
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 ---
- meta/recipes-support/curl/curl/CVE-2019-5435.patch | 200 +++++++++++++++++++++
- meta/recipes-support/curl/curl/CVE-2019-5436.patch |  32 ++++
- meta/recipes-support/curl/curl_7.61.0.bb           |   2 +
- 3 files changed, 234 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5435.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2019-5436.patch
+ scripts/runqemu | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2019-5435.patch b/meta/recipes-support/curl/curl/CVE-2019-5435.patch
-new file mode 100644
-index 0000000..8ac5554
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2019-5435.patch
-@@ -0,0 +1,200 @@
-+From 5fc28510a4664f46459d9a40187d81cc08571e60 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 29 Apr 2019 08:00:49 +0200
-+Subject: [PATCH] CURL_MAX_INPUT_LENGTH: largest acceptable string input size
-+
-+This limits all accepted input strings passed to libcurl to be less than
-+CURL_MAX_INPUT_LENGTH (8000000) bytes, for these API calls:
-+curl_easy_setopt() and curl_url_set().
-+
-+The 8000000 number is arbitrary picked and is meant to detect mistakes
-+or abuse, not to limit actual practical use cases. By limiting the
-+acceptable string lengths we also reduce the risk of integer overflows
-+all over.
-+
-+NOTE: This does not apply to `CURLOPT_POSTFIELDS`.
-+
-+Test 1559 verifies.
-+
-+Closes #3805
-+
-+Upstream-Status: Backport
-+Dropped a few changes to apply against this version
-+https://github.com/curl/curl/commit/5fc28510a4664f4
-+
-+CVE: CVE-2019-5435
-+affects: libcurl 7.19.4 to and including 7.64.1
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ lib/setopt.c               |  7 +++++
-+ lib/urldata.h              |  4 +++
-+ 7 files changed, 146 insertions(+), 3 deletions(-)
-+ create mode 100644 tests/data/test1559
-+ create mode 100644 tests/libtest/lib1559.c
-+
-+Index: curl-7.61.0/lib/setopt.c
-+===================================================================
-+--- curl-7.61.0.orig/lib/setopt.c
-++++ curl-7.61.0/lib/setopt.c
-+@@ -60,6 +60,13 @@ CURLcode Curl_setstropt(char **charp, co
-+   if(s) {
-+     char *str = strdup(s);
-+ 
-++    if(str) {
-++      size_t len = strlen(str);
-++      if(len > CURL_MAX_INPUT_LENGTH) {
-++        free(str);
-++        return CURLE_BAD_FUNCTION_ARGUMENT;
-++      }
-++    }
-+     if(!str)
-+       return CURLE_OUT_OF_MEMORY;
-+ 
-+Index: curl-7.61.0/lib/urldata.h
-+===================================================================
-+--- curl-7.61.0.orig/lib/urldata.h
-++++ curl-7.61.0/lib/urldata.h
-+@@ -79,6 +79,10 @@
-+ */
-+ #define RESP_TIMEOUT (1800*1000)
-+ 
-++/* Max string intput length is a precaution against abuse and to detect junk
-++   input easier and better. */
-++#define CURL_MAX_INPUT_LENGTH 8000000
-++
-+ #include "cookie.h"
-+ #include "psl.h"
-+ #include "formdata.h"
-+Index: curl-7.61.0/tests/data/test1559
-+===================================================================
-+--- /dev/null
-++++ curl-7.61.0/tests/data/test1559
-+@@ -0,0 +1,44 @@
-++<testcase>
-++<info>
-++<keywords>
-++CURLOPT_URL
-++</keywords>
-++</info>
-++
-++<reply>
-++</reply>
-++
-++<client>
-++<server>
-++none
-++</server>
-++
-++# require HTTP so that CURLOPT_POSTFIELDS works as assumed
-++<features>
-++http
-++</features>
-++<tool>
-++lib1559
-++</tool>
-++
-++<name>
-++Set excessive URL lengths
-++</name>
-++</client>
-++
-++#
-++# Verify that the test runs to completion without crashing
-++<verify>
-++<errorcode>
-++0
-++</errorcode>
-++<stdout>
-++CURLOPT_URL 10000000 bytes URL == 43
-++CURLOPT_POSTFIELDS 10000000 bytes data == 0
-++CURLUPART_URL 10000000 bytes URL == 3
-++CURLUPART_SCHEME 10000000 bytes scheme == 3
-++CURLUPART_USER 10000000 bytes user == 3
-++</stdout>
-++</verify>
-++
-++</testcase>
-+Index: curl-7.61.0/tests/libtest/lib1559.c
-+===================================================================
-+--- /dev/null
-++++ curl-7.61.0/tests/libtest/lib1559.c
-+@@ -0,0 +1,78 @@
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) 1998 - 2019, Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.haxx.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ ***************************************************************************/
-++#include "test.h"
-++
-++#include "testutil.h"
-++#include "warnless.h"
-++#include "memdebug.h"
-++
-++#define EXCESSIVE 10*1000*1000
-++int test(char *URL)
-++{
-++  CURLcode res = 0;
-++  CURL *curl = NULL;
-++  char *longurl = malloc(EXCESSIVE);
-++  CURLU *u;
-++  (void)URL;
-++
-++  memset(longurl, 'a', EXCESSIVE);
-++  longurl[EXCESSIVE-1] = 0;
-++
-++  global_init(CURL_GLOBAL_ALL);
-++  easy_init(curl);
-++
-++  res = curl_easy_setopt(curl, CURLOPT_URL, longurl);
-++  printf("CURLOPT_URL %d bytes URL == %d\n",
-++         EXCESSIVE, (int)res);
-++
-++  res = curl_easy_setopt(curl, CURLOPT_POSTFIELDS, longurl);
-++  printf("CURLOPT_POSTFIELDS %d bytes data == %d\n",
-++         EXCESSIVE, (int)res);
-++
-++  u = curl_url();
-++  if(u) {
-++    CURLUcode uc = curl_url_set(u, CURLUPART_URL, longurl, 0);
-++    printf("CURLUPART_URL %d bytes URL == %d\n",
-++           EXCESSIVE, (int)uc);
-++    uc = curl_url_set(u, CURLUPART_SCHEME, longurl, CURLU_NON_SUPPORT_SCHEME);
-++    printf("CURLUPART_SCHEME %d bytes scheme == %d\n",
-++           EXCESSIVE, (int)uc);
-++    uc = curl_url_set(u, CURLUPART_USER, longurl, 0);
-++    printf("CURLUPART_USER %d bytes user == %d\n",
-++           EXCESSIVE, (int)uc);
-++    curl_url_cleanup(u);
-++  }
-++
-++  free(longurl);
-++
-++  curl_easy_cleanup(curl);
-++  curl_global_cleanup();
-++
-++  return 0;
-++
-++test_cleanup:
-++
-++  curl_easy_cleanup(curl);
-++  curl_global_cleanup();
-++
-++  return res; /* return the final return code */
-++}
-diff --git a/meta/recipes-support/curl/curl/CVE-2019-5436.patch b/meta/recipes-support/curl/curl/CVE-2019-5436.patch
-new file mode 100644
-index 0000000..05fd8e9
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2019-5436.patch
-@@ -0,0 +1,32 @@
-+From 2576003415625d7b5f0e390902f8097830b82275 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Fri, 3 May 2019 22:20:37 +0200
-+Subject: [PATCH] tftp: use the current blksize for recvfrom()
-+
-+bug: https://curl.haxx.se/docs/CVE-2019-5436.html
-+Reported-by: l00p3r on hackerone
-+CVE-2019-5436
-+
-+Upstream-Status: Backport
-+https://github.com/curl/curl/commit/2576003415625d7b5f0e390902f8097830b82275
-+CVE: CVE-2019-5436
-+affects: libcurl 7.19.4 to and including 7.64.1
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
-+
-+---
-+ lib/tftp.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+Index: curl-7.61.0/lib/tftp.c
-+===================================================================
-+--- curl-7.61.0.orig/lib/tftp.c
-++++ curl-7.61.0/lib/tftp.c
-+@@ -1005,7 +1005,7 @@ static CURLcode tftp_connect(struct conn
-+   state->sockfd = state->conn->sock[FIRSTSOCKET];
-+   state->state = TFTP_STATE_START;
-+   state->error = TFTP_ERR_NONE;
-+-  state->blksize = TFTP_BLKSIZE_DEFAULT;
-++  state->blksize = blksize;
-+   state->requested_blksize = blksize;
-+ 
-+   ((struct sockaddr *)&state->local_addr)->sa_family =
-diff --git a/meta/recipes-support/curl/curl_7.61.0.bb b/meta/recipes-support/curl/curl_7.61.0.bb
-index 56327a6..1027f75 100644
---- a/meta/recipes-support/curl/curl_7.61.0.bb
-+++ b/meta/recipes-support/curl/curl_7.61.0.bb
-@@ -11,6 +11,8 @@ SRC_URI = "http://curl.haxx.se/download/curl-${PV}.tar.bz2 \
-            file://CVE-2018-16839.patch \
-            file://CVE-2018-16840.patch \
-            file://CVE-2018-16842.patch \
-+           file://CVE-2019-5435.patch \
-+           file://CVE-2019-5436.patch \
- "
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 5752ecda731c..af90c010da28 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -438,7 +438,7 @@ class BaseConfig(object):
+             elif arg == 'publicvnc':
+                 self.qemu_opt_script += ' -vnc :0'
+             elif arg.startswith('tcpserial='):
+-                self.tcpserial_portnum = arg[len('tcpserial='):]
++                self.tcpserial_portnum = '%s' % arg[len('tcpserial='):]
+             elif arg.startswith('biosdir='):
+                 self.custombiosdir = arg[len('biosdir='):]
+             elif arg.startswith('biosfilename='):
+@@ -682,10 +682,16 @@ class BaseConfig(object):
  
- SRC_URI[md5sum] = "31d0a9f48dc796a7db351898a1e5058a"
+     def check_tcpserial(self):
+         if self.tcpserial_portnum:
++            ports = self.tcpserial_portnum.split(':')
++            port = ports[0]
+             if self.get('QB_TCPSERIAL_OPT'):
+-                self.qemu_opt_script += ' ' + self.get('QB_TCPSERIAL_OPT').replace('@PORT@', self.tcpserial_portnum)
++                self.qemu_opt_script += ' ' + self.get('QB_TCPSERIAL_OPT').replace('@PORT@', port)
+             else:
+-                self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % self.tcpserial_portnum
++                self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % port
++
++            if len(ports) > 1:
++                for port in ports[1:]:
++                    self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % port
+ 
+     def check_and_set(self):
+         """Check configs sanity and set when needed"""
 -- 
-2.7.4
+2.14.4
 
 
