@@ -1,30 +1,30 @@
 Return-Path: <leimaohui@cn.fujitsu.com>
 Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 577357C37F
+	by mail.openembedded.org (Postfix) with ESMTP id 05E4B7E843
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 07:54:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,386,1557158400"; d="scan'208";a="67886044"
+	Tue, 18 Jun 2019 07:54:34 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.63,386,1557158400"; d="scan'208";a="67886054"
 Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 18 Jun 2019 15:54:24 +0800
+	by heian.cn.fujitsu.com with ESMTP; 18 Jun 2019 15:54:35 +0800
 Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 20E2C4CDD985
+	by cn.fujitsu.com (Postfix) with ESMTP id 8CA674CDDAE4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 15:54:23 +0800 (CST)
+	Tue, 18 Jun 2019 15:54:32 +0800 (CST)
 Received: from localhost.localdomain (10.167.225.227) by
 	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Tue, 18 Jun 2019 15:54:28 +0800
+	Server (TLS) id 14.3.439.0; Tue, 18 Jun 2019 15:54:37 +0800
 From: Lei Maohui <leimaohui@cn.fujitsu.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Jun 2019 11:04:55 +0800
-Message-ID: <1559790295-34076-1-git-send-email-leimaohui@cn.fujitsu.com>
+Date: Thu, 6 Jun 2019 11:05:05 +0800
+Message-ID: <1559790305-34116-1-git-send-email-leimaohui@cn.fujitsu.com>
 X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
 X-Originating-IP: [10.167.225.227]
-X-yoursite-MailScanner-ID: 20E2C4CDD985.AE3DB
+X-yoursite-MailScanner-ID: 8CA674CDDAE4.A0A21
 X-yoursite-MailScanner: Found to be clean
 X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
 X-Spam-Status: No
-Subject: [warrior][PATCH v3] openssl: Fix a build bug on aarch64BE.
+Subject: [PATCH v3] openssl: Fix a build bug on aarch64BE.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,7 +37,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 07:54:24 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 07:54:35 -0000
 Content-Type: text/plain
 
 Fix bug as following on aarch64BE:
@@ -47,7 +47,7 @@ Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
 Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
 ---
  ...01-Fix-build-error-for-aarch64-big-endian.patch | 43 ++++++++++++++++++++++
- .../recipes-connectivity/openssl/openssl_1.1.1b.bb |  1 +
+ .../recipes-connectivity/openssl/openssl_1.1.1c.bb |  1 +
  2 files changed, 44 insertions(+)
  create mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
 
@@ -100,14 +100,14 @@ index 0000000..9a90a68
 +-- 
 +2.7.4
 +
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-index d3404d2..46030c3 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+index 669b1a1..ec85ccd 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://0001-skip-test_symbol_presence.patch \
             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
             file://afalg.patch \
-            file://CVE-2019-1543.patch \
 +           file://0001-Fix-build-error-for-aarch64-big-endian.patch \
             "
  
