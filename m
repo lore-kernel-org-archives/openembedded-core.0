@@ -1,22 +1,44 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 7B50C7C39B
+Return-Path: <leimaohui@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C0897C326
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 02:09:31 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id 8D75E1C0277
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 14:09:31 +1200 (NZST)
-To: openembedded-core@lists.openembedded.org
-References: <20190606011321.23507-1-douglas.royds@taitradio.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <ae219134-ccdb-8b33-76a6-a28010c7ef53@taitradio.com>
-Date: Thu, 6 Jun 2019 14:09:31 +1200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thu,  6 Jun 2019 02:39:01 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.60,557,1549900800"; d="scan'208";a="66162867"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 06 Jun 2019 10:38:57 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id AE9934CDCEBD;
+	Thu,  6 Jun 2019 10:38:56 +0800 (CST)
+Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
+	G08CNEXCHPEKD03.g08.fujitsu.local ([10.167.33.85]) with mapi id
+	14.03.0439.000; Thu, 6 Jun 2019 10:39:00 +0800
+From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+To: "richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] toolchain-scripts: make rpm work in toolchain
+Thread-Index: AQHU8btdwcW6mVdAkUK2QKbtt/xhNaZCTQiAgAu3nCCAErXeEIAJnYbggBXq34CACzc9gP//nDqAgAMi8ZA=
+Date: Thu, 6 Jun 2019 02:39:02 +0000
+Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF129787@G08CNEXMBPEKD01.g08.fujitsu.local>
+References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1002A6@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1026BA@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<cedd7e708edfab28ec9db8046476313ea44a6022.camel@linuxfoundation.org>
+In-Reply-To: <cedd7e708edfab28ec9db8046476313ea44a6022.camel@linuxfoundation.org>
+Accept-Language: zh-CN, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [10.167.225.227]
 MIME-Version: 1.0
-In-Reply-To: <20190606011321.23507-1-douglas.royds@taitradio.com>
-Subject: Re: [PATCH v2] json-c: Make implicit-fallthrough only a warning for compilation under icecc
+X-yoursite-MailScanner-ID: AE9934CDCEBD.A2230
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
+X-Spam-Status: No
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,113 +51,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 02:09:32 -0000
-Content-Type: multipart/alternative;
-	boundary="------------08FDD45EB7C874A9998528AE"
-Content-Language: en-GB
+X-List-Received-Date: Thu, 06 Jun 2019 02:39:06 -0000
+Content-Language: zh-CN
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
---------------08FDD45EB7C874A9998528AE
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+SGksIFJpY2hhcmQNCg0KPiBXaGlsc3QgSSBjYW4gZ3Vlc3Mgd2h5LCBpdHMg
+bm90IG9idmlvdXMgYXQgYWxsIHRoZSBkbmYgbmVlZHMNCj4gTUFDSElORV9B
+UkNILiBJJ2QgcHJvYmFibHkgYmUgaGFwcGllciB3aXRoIGEgYmV0dGVyIHZh
+cmlhYmxlIG5hbWUuDQo+IFdoaWNoIGNvZGUgZXhhY3RseSBpcyB1c2luZyBp
+dD8NCg0KQXJjaCBpbmZvcm1hdGlvbiBpcyBuZWNlc3NhcnkgZm9yIHJwbS4g
+QXMgd2hhdCBkbyBmb3IgZG5mLW5hdGl2ZSBpbiBfY29uZmlndXJlX3JwbSBm
+dW5jdGlvbiwgbmF0aXZlc2RrLWRuZiBoYXMgdG8gZG8gdGhlIHNhbWUgd29y
+ay4NCkJ1dCB0aGUgZW52aXJvbm1lbnQgZm9yIG5hdGl2ZXNkayBkb2Vzbid0
+IHN1cHBseSBhcmNoIGluZm9ybWF0aW9uLiBJIHRoaW5rIE1BQ0hJTkVfQVJD
+SCBpcyBzdWl0YWJsZSB0byBzdXBwbHkgYXJjaCBpbmZvcm1hdGlvbiBmb3Ig
+bmF0aXZlc2RrLg0KSG93IGFib3V0IHlvdXIgT3Bpbmlvbj8NCg0KQmVzdCBy
+ZWdhcmRzDQpMZWkNCg0KDQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0t
+LS0NCj4gRnJvbTogcmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
+Zw0KPiBbbWFpbHRvOnJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
+cmddDQo+IFNlbnQ6IFR1ZXNkYXksIEp1bmUgMDQsIDIwMTkgNjoyNiBQTQ0K
+PiBUbzogTGVpLCBNYW9odWkNCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxp
+c3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogUmU6IFtPRS1jb3Jl
+XSBbUEFUQ0hdIHRvb2xjaGFpbi1zY3JpcHRzOiBtYWtlIHJwbSB3b3JrIGlu
+IHRvb2xjaGFpbg0KPiANCj4gT24gVHVlLCAyMDE5LTA2LTA0IGF0IDA4OjI5
+ICswMDAwLCBMZWksIE1hb2h1aSB3cm90ZToNCj4gPiBIaSBSaWNoYXJkDQo+
+ID4NCj4gPiBUaGlzIHBhdGNoIGlzIG5lY2Vzc2FyeSBmb3IgZG5mLW5hdGl2
+ZXNkayB3aGljaCBoYXMgYmVlbiBtZXJnZWQuIEJ1dA0KPiA+IHRoaXMgcGF0
+Y2ggaXMgc3RpbGwgaWdub3JlZC4NCj4gPiBEbyB5b3UgaGF2ZSBhbnkgY29t
+bWVudCBhYm91dCB0aGlzIHBhdGNoPw0KPiANCj4gQmFzaWNhbGx5IEkgcmVh
+bGx5IGRvbid0IGxpa2UgZXhwb3J0aW5nICJyYW5kb20iIHZhcmlhYmxlcyBp
+biB0aGUgU0RLLA0KPiBwYXJ0aWN1bGFybHkgd2hlbiB0aGUgbWVhbmluZy91
+c2Ugb2YgdGhlbSBpc24ndCBjbGVhci4NCj4gDQo+IFdoaWxzdCBJIGNhbiBn
+dWVzcyB3aHksIGl0cyBub3Qgb2J2aW91cyBhdCBhbGwgdGhlIGRuZiBuZWVk
+cw0KPiBNQUNISU5FX0FSQ0guIEknZCBwcm9iYWJseSBiZSBoYXBwaWVyIHdp
+dGggYSBiZXR0ZXIgdmFyaWFibGUgbmFtZS4NCj4gV2hpY2ggY29kZSBleGFj
+dGx5IGlzIHVzaW5nIGl0Pw0KPiANCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFy
+ZA0KPiANCj4gDQoNCgoK
 
-Please disregard this one, I have submitted a newer patch under a new 
-subject-line:
-
-    json-c: Disable icecc to avoid implicit-fallthrough warning as error
-
-
-On 6/06/19 1:13 PM, Douglas Royds wrote:
-
-> icecc preprocesses source files locally before shipping them off to be compiled
-> on remote hosts. This preprocessing removes comments, including /* fallthrough */
-> comments in switch statements that normally prevent the implicit-fallthrough
-> warning. Rather than turning off -Werror completely, just reduce
-> implicit-fallthrough to a warning only.
->
-> In the -native case, we might be building on an earlier gcc, eg. gcc 5.4
-> under Ubuntu 16.04, so we do disable -Werror completely.
->
-> See https://github.com/icecc/icecream/issues/419
->
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
->   meta/recipes-devtools/json-c/json-c_0.13.1.bb | 3 +++
->   1 file changed, 3 insertions(+)
->
-> diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-> index 5b10e68297..87a87aec44 100644
-> --- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-> +++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-> @@ -22,6 +22,9 @@ inherit autotools
->   
->   EXTRA_OECONF = "--enable-rdrand"
->   
-> +TARGET_CPPFLAGS =+ "-Wno-error=implicit-fallthrough"
-> +BUILD_CPPFLAGS =+ "-Wno-error"
-> +
->   do_configure_prepend() {
->       # Clean up autoconf cruft that should not be in the tarball
->       rm -f ${S}/config.status
-
-
-
---------------08FDD45EB7C874A9998528AE
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p>Please disregard this one, I have submitted a newer patch under a
-      new subject-line:<br>
-    </p>
-    <blockquote>
-      <p>json-c: Disable icecc to avoid implicit-fallthrough warning as
-        error<br>
-      </p>
-    </blockquote>
-    <p><br>
-    </p>
-    <p>On 6/06/19 1:13 PM, Douglas Royds wrote:
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">icecc preprocesses source files locally before shipping them off to be compiled
-on remote hosts. This preprocessing removes comments, including /* fallthrough */
-comments in switch statements that normally prevent the implicit-fallthrough
-warning. Rather than turning off -Werror completely, just reduce
-implicit-fallthrough to a warning only.
-
-In the -native case, we might be building on an earlier gcc, eg. gcc 5.4
-under Ubuntu 16.04, so we do disable -Werror completely.
-
-See <a class="moz-txt-link-freetext" href="https://github.com/icecc/icecream/issues/419">https://github.com/icecc/icecream/issues/419</a>
-
-Signed-off-by: Douglas Royds <a class="moz-txt-link-rfc2396E" href="mailto:douglas.royds@taitradio.com">&lt;douglas.royds@taitradio.com&gt;</a>
----
- meta/recipes-devtools/json-c/json-c_0.13.1.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-index 5b10e68297..87a87aec44 100644
---- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-+++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-@@ -22,6 +22,9 @@ inherit autotools
- 
- EXTRA_OECONF = "--enable-rdrand"
- 
-+TARGET_CPPFLAGS =+ "-Wno-error=implicit-fallthrough"
-+BUILD_CPPFLAGS =+ "-Wno-error"
-+
- do_configure_prepend() {
-     # Clean up autoconf cruft that should not be in the tarball
-     rm -f ${S}/config.status
-</pre>
-      </blockquote>
-    </p>
-    <p><br>
-    </p>
-  </body>
-</html>
-
---------------08FDD45EB7C874A9998528AE--
