@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 7502A6D52B
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 09C5F7E05D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 22:17:34 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id n9so212010wru.0
+	Thu,  6 Jun 2019 22:47:59 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id x15so109897wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2019 15:17:35 -0700 (PDT)
+	Thu, 06 Jun 2019 15:48:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=tE0+JZZt4w7Yi8XjZcGdSU0PKJdykXuEmAsKCLPOV3Y=;
-	b=eNItiUYJIV9yP4g9SXSodwB64HZ83nLvhU6mNeEKgCjO1i+mt78u2mSmDuttfAvJ1z
-	4zAkohYto9EbTCdR9x2slBa1f+OIKO87A5qxu5Ziv0KS7aiDLOH1DFGM2oFCPwHDVhr2
-	Ip18mSOYbJaUOXlFoV/Sgpvsu3vgTopiUjl3c=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=4/DA/THigmSXq9N81M+G/ulJIZfUE/JAQnFpZe5TYMA=;
+	b=QHhbaC+G4WZN2u79ulqZReJOxfVZSeyrqi2JU2A0IUE+aXha69iK3VbYsw3FL/iwls
+	NP5PsTtP/mKxGJNCtta3CdPwe7LwLaqJ6R5Na1fXoeGNCxcKiDrxs6lUcJVG6Rymvk/o
+	CbnBrYi6mbAW4CyGGeegQn6HN6EakWJm6tnHA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=tE0+JZZt4w7Yi8XjZcGdSU0PKJdykXuEmAsKCLPOV3Y=;
-	b=X5piexyhX49yx1azmTUFa1hUfHyV50g+McS4JbrNipdfI1A15/7eCx6upEaBljEjv/
-	Nolg2iIgkd2yn/wuq1V1xGLi8hKdMJpLsO4FVvqynszJzFps79+qSCsfOKV8gt1zlqFi
-	/lAx52wyttltbC3G6ulmJpMDfzYulTpE74gMOVy9+fHHFxcIFLPu+x/W1fqaE/rY3vJ/
-	DM4Ox2rKoRD+DYy0ZtivaAHHPC0yMFDU0kKtSRSXaPrI+g/41Cok5nY9dweQH8QtQbM5
-	tS5Mufr79pmbU4wW17B393/KOYi5824Wr9C3hX4+zc+MJLVi6JKyxN55GxilEt/qrD8d
-	5X1Q==
-X-Gm-Message-State: APjAAAW8qBg/F/yiuKGJ0ZUk2XfZ3hLPDPV7TYSaxr3rzzJvX6LnwGPl
-	A6Ev8Y5BsWRYSu5G/yD6Pzq9+OTtWYA=
-X-Google-Smtp-Source: APXvYqz+0RdCGOw9IpeoXn/4dFCz6+uo4lN/sv/UlVjGSwopckiZF9IUtAUTqizMEYyxDFyOzXVySA==
-X-Received: by 2002:a5d:4dd1:: with SMTP id f17mr6771454wru.43.1559859454912; 
-	Thu, 06 Jun 2019 15:17:34 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w185sm156667wma.39.2019.06.06.15.17.33
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=4/DA/THigmSXq9N81M+G/ulJIZfUE/JAQnFpZe5TYMA=;
+	b=exDPbw8CV4Pjcv47IGew8LItUXuhsD9LiezUZkhbVmQIgeNTUd/3nO92vl+MYbG2Fl
+	m65Lm1jrfKmTL7EihB+T0ZF662l2iigj0tjzu2jg/BREpd3oowtLm1Bpr/ona1IENrxx
+	PSO4NgMmWasAWhsjvMKAAuN9k1q/tcr+/A6pb17Qv+Bc4m2nAvD/5780QUeSpnufm8yr
+	rnC40gcuzm6TtsDD8LX/yc96JrMfxtmbcTZCd67jiNCj+nOnIw4YCKWOStzfrJj/djaO
+	3LsMrtmnHSp1KekgjCSFewY7tyTHKmxVz5eorP5Hw/snsOMxxsLOgwsil4vl1qqXAi8S
+	dAjg==
+X-Gm-Message-State: APjAAAUVEi3ctdpgHRF9hd2mV2OXUJ7Chrr7TmyiV76Le5/6+viNS7nE
+	YSnrZuBtxwUy3iMrS9TVpjXryHIq7Uc=
+X-Google-Smtp-Source: APXvYqwSLOZPds25n79GlDqFe0zMwu1a8ItmD9FWqnmUZWA6sQ6UJtD8+X6wqgCmj1QwSs1DwM89Sw==
+X-Received: by 2002:a7b:cb06:: with SMTP id u6mr1469238wmj.170.1559861280544; 
+	Thu, 06 Jun 2019 15:48:00 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id o1sm136231wre.76.2019.06.06.15.47.59
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 06 Jun 2019 15:17:34 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jun 2019 23:17:30 +0100
-Message-Id: <20190606221730.19043-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190606221730.19043-1-richard.purdie@linuxfoundation.org>
-References: <20190606221730.19043-1-richard.purdie@linuxfoundation.org>
+	Thu, 06 Jun 2019 15:47:59 -0700 (PDT)
+Message-ID: <82281ed3a96c1979d968db922cd54883091b0129.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Adrian Bunk <bunk@stusta.de>
+Date: Thu, 06 Jun 2019 23:47:58 +0100
+In-Reply-To: <20190606184410.GA5907@localhost>
+References: <20190605184116.24297-1-bunk@stusta.de>
+	<a71198580613e3ad0d8ce05717e56a27db9a5e21.camel@linuxfoundation.org>
+	<20190606184410.GA5907@localhost>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH 2/2] gpg_sign/selftest: Fix secmem parameter handling
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Remove manual RDEPENDS from PN-ptest to PN package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,135 +59,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 22:17:34 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Jun 2019 22:48:00 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We keep seeing "cannot allocate memory" errors from rpm when signing packages
-on the autobuilder. The following were tried:
+On Thu, 2019-06-06 at 21:44 +0300, Adrian Bunk wrote:
+> On Wed, Jun 05, 2019 at 08:10:31PM +0100, Richard Purdie wrote:
+> > On Wed, 2019-06-05 at 21:41 +0300, Adrian Bunk wrote:
+> > ...
+> > > --- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> > > +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> > > @@ -44,7 +44,7 @@ inherit autotools gettext ptest
+> > >  
+> > >  EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
+> > >  EXTRA_OECONF_append_class-native = " --without-bzlib"
+> > > -RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-
+> > > binutils ${PN}"
+> > > +RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-
+> > > binutils"
+> > 
+> > Won't that need a += there to preserve the class definition?
+> 
+> Nice catch, v2 sent.
+> 
+> > How was this tested?
+> 
+> It looked obviously correct (famous last words...),
+> and I trust that this is breakage that would be
+> caught on the autobuilder.
 
-* checking locked memory use (isn't hitting limits)
-* Restricting RPM_GPG_SIGN_CHUNK to 1
-* Limiting to 10 parallel do_package_write_rpm tasks
-* Allowing unlimied memory overcommit
-* Disabling rpm parallel compression
+It would get caught by some of my local tests I'm using to check the
+ptest dependencies but because the autobuilder uses one image with all
+the ptests in, I doubt it would catch it unfortunately :(
 
-and the test still failed. Further invetigation showed that the --auto-expand-secmem
-wasn't being passed to gpg-agent which meant the secmem couldn't be expanded hence the
-errors when there was pressure on the agent.
+Cheers,
 
-The reason this happens is that some of the early gpg commands can start the agent
-without the option and it sticks around in memory so a version with the correct
-option may or may not get started.
-
-We therefore add the option to all the key gpg calls.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oe/gpg_sign.py                 | 39 ++++++++++++++-----------
- meta/lib/oeqa/selftest/cases/signing.py |  3 +-
- 2 files changed, 24 insertions(+), 18 deletions(-)
-
-diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-index a95d2ba34c6..2fd8c3b1ac3 100644
---- a/meta/lib/oe/gpg_sign.py
-+++ b/meta/lib/oe/gpg_sign.py
-@@ -15,21 +15,27 @@ class LocalSigner(object):
-     def __init__(self, d):
-         self.gpg_bin = d.getVar('GPG_BIN') or \
-                   bb.utils.which(os.getenv('PATH'), 'gpg')
-+        self.gpg_cmd = [self.gpg_bin]
-+        self.gpg_agent_bin = bb.utils.which(os.getenv('PATH'), "gpg-agent")
-+        # Without this we see "Cannot allocate memory" errors when running processes in parallel
-+        # It needs to be set for any gpg command since any agent launched can stick around in memory
-+        # and this parameter must be set.
-+        if self.gpg_agent_bin:
-+            self.gpg_cmd += ["--agent-program=%s|--auto-expand-secmem" % (self.gpg_agent_bin)]
-         self.gpg_path = d.getVar('GPG_PATH')
--        self.gpg_version = self.get_gpg_version()
-         self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpmsign")
--        self.gpg_agent_bin = bb.utils.which(os.getenv('PATH'), "gpg-agent")
-+        self.gpg_version = self.get_gpg_version()
-+
- 
-     def export_pubkey(self, output_file, keyid, armor=True):
-         """Export GPG public key to a file"""
--        cmd = '%s --no-permission-warning --batch --yes --export -o %s ' % \
--                (self.gpg_bin, output_file)
-+        cmd = self.gpg_cmd + ["--no-permission-warning", "--batch", "--yes", "--export", "-o", output_file]
-         if self.gpg_path:
--            cmd += "--homedir %s " % self.gpg_path
-+            cmd += ["--homedir", self.gpg_path]
-         if armor:
--            cmd += "--armor "
--        cmd += keyid
--        subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT)
-+            cmd += ["--armor"]
-+        cmd += [keyid]
-+        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
- 
-     def sign_rpms(self, files, keyid, passphrase, digest, sign_chunk, fsk=None, fsk_password=None):
-         """Sign RPM files"""
-@@ -59,7 +65,7 @@ class LocalSigner(object):
-         if passphrase_file and passphrase:
-             raise Exception("You should use either passphrase_file of passphrase, not both")
- 
--        cmd = [self.gpg_bin, '--detach-sign', '--no-permission-warning', '--batch',
-+        cmd = self.gpg_cmd + ['--detach-sign', '--no-permission-warning', '--batch',
-                '--no-tty', '--yes', '--passphrase-fd', '0', '-u', keyid]
- 
-         if self.gpg_path:
-@@ -72,9 +78,6 @@ class LocalSigner(object):
-         if self.gpg_version > (2,1,):
-             cmd += ['--pinentry-mode', 'loopback']
- 
--        if self.gpg_agent_bin:
--            cmd += ["--agent-program=%s|--auto-expand-secmem" % (self.gpg_agent_bin)]
--
-         cmd += [input_file]
- 
-         try:
-@@ -101,7 +104,8 @@ class LocalSigner(object):
-     def get_gpg_version(self):
-         """Return the gpg version as a tuple of ints"""
-         try:
--            ver_str = subprocess.check_output((self.gpg_bin, "--version", "--no-permission-warning")).split()[2].decode("utf-8")
-+            cmd = self.gpg_cmd + ["--version", "--no-permission-warning"]
-+            ver_str = subprocess.check_output(cmd).split()[2].decode("utf-8")
-             return tuple([int(i) for i in ver_str.split("-")[0].split('.')])
-         except subprocess.CalledProcessError as e:
-             raise bb.build.FuncFailed("Could not get gpg version: %s" % e)
-@@ -109,11 +113,12 @@ class LocalSigner(object):
- 
-     def verify(self, sig_file):
-         """Verify signature"""
--        cmd = self.gpg_bin + " --verify --no-permission-warning "
-+        cmd = self.gpg_cmd + [" --verify", "--no-permission-warning"]
-         if self.gpg_path:
--            cmd += "--homedir %s " % self.gpg_path
--        cmd += sig_file
--        status = subprocess.call(shlex.split(cmd))
-+            cmd += ["--homedir", self.gpg_path]
-+
-+        cmd += [sig_file]
-+        status = subprocess.call(cmd)
-         ret = False if status else True
-         return ret
- 
-diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
-index 4ef2f70075e..404d68b899b 100644
---- a/meta/lib/oeqa/selftest/cases/signing.py
-+++ b/meta/lib/oeqa/selftest/cases/signing.py
-@@ -30,7 +30,8 @@ class Signing(OESelftestTestCase):
-         self.secret_key_path = os.path.join(self.testlayer_path, 'files', 'signing', "key.secret")
- 
-         nsysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native")
--        runCmd('gpg --batch --homedir %s --import %s %s' % (self.gpg_dir, self.pub_key_path, self.secret_key_path), native_sysroot=nsysroot)
-+
-+        runCmd('gpg --agent-program=`which gpg-agent`\|--auto-expand-secmem --batch --homedir %s --import %s %s' % (self.gpg_dir, self.pub_key_path, self.secret_key_path), native_sysroot=nsysroot)
-         return nsysroot + get_bb_var("bindir_native")
- 
- 
--- 
-2.20.1
+Richard
 
 
