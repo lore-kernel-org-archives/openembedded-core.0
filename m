@@ -1,23 +1,37 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 741997DDA2
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 3007E7C860
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 17:02:32 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x56H2WF1006460
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 6 Jun 2019 10:02:33 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 6 Jun 2019 10:02:31 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 6 Jun 2019 10:02:31 -0700
-Message-ID: <20190606170231.192065-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
+	Thu,  6 Jun 2019 18:44:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45KZM05w4lz3L;
+	Thu,  6 Jun 2019 20:44:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559846653;
+	bh=ufsj7fZASAa3Sl3l2S2kjwSyP7QVcdr+2c2BRAGmgRI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eB5uYRC1eIVme3wCjfjSfqG2DMfz9Yg/CjSXC7DIhJ4WAreXvDDbZskftYFAaYGFR
+	A/ySrvrph3udpsdeSXkTCfXL+vUnLAuENbrNDOQ3eCAW8Gi3dwOv9NfNWUPx0bhkMJ
+	og40vA5roVNv0K7a1vga/+Kd9leWMgFw+rtFmcf+6dj0xWG4429AoaLrR36CoUg4+i
+	vx96S2hvLgY+sOo0R0/6h9j8grFQ+OEh09dHTdTujIR5TjFXmbn1nyo3KUByAiUIwe
+	H4aposlTFgmnek+NFF1dsfCyuqNwUtoq5dYj2fFwhS/li2esMR3D8+jN3HutO1e5sl
+	PPqXQ4/9XPD9XZwp39S+tFpEjWD2hypLedZyeO8aA/YjDe6FrMW6tjgzKV1QYE1FMi
+	VvO0/HlOKLZxI9/tjoQRFncEi6ZBI3ItXzXk2ekMJhCR/aXyktL5zScU82mxoWWfHR
+	tva51lwFss2C7HyqWkwZXcs8ZJ1N6iPMejhHLrz4IfZzUaNxBI+L/KQ2Zxk+gzs/JV
+	1kmCF4/2Uo+fCQmjBqTw3bl+q5QGmwlvedWuoFavSxyoQxMfeU5tSUnaMzjfo3Oxjl
+	c07xPS6NpE9qqkgtZ9+DsBuyMTtxKPtVeW/HJhVsbXPxnnsmNnM2aF4Md1q/SjBte+
+	Lh0btZAJQDruHKntbjMpN17A=
+Date: Thu, 6 Jun 2019 21:44:10 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190606184410.GA5907@localhost>
+References: <20190605184116.24297-1-bunk@stusta.de>
+	<a71198580613e3ad0d8ce05717e56a27db9a5e21.camel@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [v2][PATCH 1/1] slang: modify an array test
+In-Reply-To: <a71198580613e3ad0d8ce05717e56a27db9a5e21.camel@linuxfoundation.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Remove manual RDEPENDS from PN-ptest to PN package
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,59 +44,44 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 17:02:32 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Jun 2019 18:44:13 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-One array test attempts to create an array that is far too
-large to exist.  Different exceptions are thrown for 32 and 64
-bit machines, so we account for that when catching them.
+On Wed, Jun 05, 2019 at 08:10:31PM +0100, Richard Purdie wrote:
+> On Wed, 2019-06-05 at 21:41 +0300, Adrian Bunk wrote:
+>...
+> > --- a/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> > +++ b/meta/recipes-devtools/elfutils/elfutils_0.176.bb
+> > @@ -44,7 +44,7 @@ inherit autotools gettext ptest
+> >  
+> >  EXTRA_OECONF = "--program-prefix=eu- --without-lzma"
+> >  EXTRA_OECONF_append_class-native = " --without-bzlib"
+> > -RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils ${PN}"
+> > +RDEPENDS_${PN}-ptest = "libasm libelf bash make coreutils ${PN}-binutils"
+> 
+> Won't that need a += there to preserve the class definition?
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- meta/recipes-extended/slang/slang/array_test.patch | 20 ++++++++++++++++++++
- meta/recipes-extended/slang/slang_2.3.2.bb         |  1 +
- 2 files changed, 21 insertions(+)
- create mode 100644 meta/recipes-extended/slang/slang/array_test.patch
+Nice catch, v2 sent.
 
-diff --git a/meta/recipes-extended/slang/slang/array_test.patch b/meta/recipes-extended/slang/slang/array_test.patch
-new file mode 100644
-index 0000000..ccd416f
---- /dev/null
-+++ b/meta/recipes-extended/slang/slang/array_test.patch
-@@ -0,0 +1,20 @@
-+slang: modify array test
-+
-+One array test tries to create an array that is far too large and anticipates an exception.
-+IndexError will only be thrown for 64 bit machines, so we add InvalidParmError for 32 bit ones.
-+
-+Upstream-Status: Submitted [jedsoft.org]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+--- a/src/test/array.sl
-++++ b/src/test/array.sl
-+@@ -165,7 +165,7 @@ try
-+ {
-+    SS = Long_Type[10000,10000,10000,10000,10000,10000];
-+ }
-+-catch IndexError;
-++catch IndexError,InvalidParmError;
-+ 
-+ private define array_map2_func ()
-+ {
-diff --git a/meta/recipes-extended/slang/slang_2.3.2.bb b/meta/recipes-extended/slang/slang_2.3.2.bb
-index e329310..99efb16 100644
---- a/meta/recipes-extended/slang/slang_2.3.2.bb
-+++ b/meta/recipes-extended/slang/slang_2.3.2.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://www.jedsoft.org/releases/${BPN}/${BP}.tar.bz2 \
-            file://dont-link-to-host.patch \
-            file://test-add-output-in-the-format-result-testname.patch \
-            file://terminfo_fixes.patch \
-+           file://array_test.patch \
-            file://run-ptest \
-           "
- 
+> How was this tested?
+
+It looked obviously correct (famous last words...),
+and I trust that this is breakage that would be
+caught on the autobuilder.
+
+> Cheers,
+> 
+> Richard
+
+cu
+Adrian
+
 -- 
-2.7.4
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
