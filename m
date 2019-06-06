@@ -1,53 +1,30 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
-	[209.85.166.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 31D297C4DB
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 623C66C45D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 20:07:46 +0000 (UTC)
-Received: by mail-it1-f196.google.com with SMTP id h20so2010403itk.4
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2019 13:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=9yNGaDdJtIykrvpEJjW6F8TiYPBUQPXoMEPHP/6gS0c=;
-	b=Sug1bv0D3EWPP8rEDkgkvYdFW6Y3pLKTdFIUVoRlJCEHVjdhzpZ2F6gbPgs3o7nZ1Z
-	AUgvegp7uHWemvOXC0pi8Nnv0Azgpj0Af+2M1rUiFGjGBhgcjwzBcmjsLnIEZzucWbDO
-	QOGubwuj/tnJNSsOk0cyFepV3vR7gQHXgIXxEWYiq2+uwtvjmozh8nSVehT5mvkk/9VO
-	xizosON9lulDUNLiVjGWU7W2pRbHdseZz6JkUYcd6yBAAyVsUOMgH54NmGq3q0S3Anl2
-	esBwpJWQOeG6RxzjGBsmxOk27fKb9ZEXrzOcbQOZSLI0+kxl6M36TTJQnDhUJ4e3hvAH
-	YNCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=9yNGaDdJtIykrvpEJjW6F8TiYPBUQPXoMEPHP/6gS0c=;
-	b=Ma4dZYpH8pHnP6derZ7Xc7joQdjbGDqRFXVA8DFhevW6Dou1U1h/i+F3pf1HUrq0p+
-	ITeHgHs4cm4fu1WLyGC6+OQfhAQi7Eu5cHDM3kaqOQNwf6XGUEbFXXb8YeQx6i3ts8YH
-	kxu5gpas30gwMS3I/EcuHTBhoeBY7GqFPvov+zScIS1MWjBFcJ3fsL24RM3TLXjb0vUl
-	L74I+KNFuG6xHg3JwTTRrS70CYHRxSFHMh5PjxBRz8N8zB3J8BE+t4AdaUU7cAvKx1qg
-	HHF2hYDlaF6AxZntHlM+A8KMurfU/a2mEwhynnPIu0vx1WjF/JYUDeRqFZqd4FcOL9op
-	ntQg==
-X-Gm-Message-State: APjAAAUD4Qd0I0DFEtpBj6AJCBrgeKclbeVH7fERRY1bxnyLol0MQJ4L
-	ZME8zGFUBh1sPGXmb2wBhCrZjyRw
-X-Google-Smtp-Source: APXvYqwbpueTV0doZuhew9fiaP96bQrRjVTb5dGqaWhRiEpD2AXNCbtdDGcQT1rKxjOwM1j9r1c/3w==
-X-Received: by 2002:a24:2550:: with SMTP id g77mr1350942itg.95.1559851667664; 
-	Thu, 06 Jun 2019 13:07:47 -0700 (PDT)
-Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	r62sm1405565ita.37.2019.06.06.13.07.46
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 06 Jun 2019 13:07:46 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  6 Jun 2019 15:07:41 -0500
-Message-Id: <20190606200741.31305-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190603152719.17295-1-JPEWhacker@gmail.com>
-References: <20190603152719.17295-1-JPEWhacker@gmail.com>
+	Thu,  6 Jun 2019 20:26:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x56KQYnI009803
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 6 Jun 2019 13:26:35 -0700 (PDT)
+Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 6 Jun 2019 13:26:34 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>, Sakib Sajal
+	<sakib.sajal@windriver.com>, =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?=
+	<anibal.limon@linaro.org>
+References: <20190408115935.16945-1-richard.purdie@linuxfoundation.org>
+	<20190408115935.16945-3-richard.purdie@linuxfoundation.org>
+From: Randy MacLeod <randy.macleod@windriver.com>
+Message-ID: <34dd04af-bb37-b64f-4721-f48103f3ce63@windriver.com>
+Date: Thu, 6 Jun 2019 16:26:33 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Subject: [PATCH v3] bash: Replace uninative loader path in ptest
+In-Reply-To: <20190408115935.16945-3-richard.purdie@linuxfoundation.org>
+X-Originating-IP: [172.25.44.4]
+Subject: Re: [PATCH 3/3] ptest-runner: Add several logging fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,40 +37,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 20:07:47 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 06 Jun 2019 20:26:38 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 
-The Makefile used for bash-ptest can pick up the path to the uninative
-loader through BUILD_LDFLAGS. This includes the full path to the
-uninative loader, which is not reproducible. Replace it with /bin/false.
-It doesn't appear as if these native programs are used in the test
-suites and if there are likely to be other problems related to building
-them using the BUILD_* flags.
+On 4/8/19 7:59 AM, Richard Purdie wrote:
+> This change adds three patches to improve the handling of stdout/stderr and child
+> processes to try and improve logging reliability in ptest-runner.
+> 
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+>   ...ils-Ensure-stdout-stderr-are-flushed.patch | 45 +++++++++++
+>   ...002-use-process-groups-when-spawning.patch | 35 +++++++++
+>   ...ils-Ensure-pipes-are-read-after-exit.patch | 76 +++++++++++++++++++
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/recipes-extended/bash/bash.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+Sakib and I found another problem with ptest-runner and job control.
+When bash runs some ptests, there's a warning:
 
-diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
-index dbb803ddefd..4cf1054967c 100644
---- a/meta/recipes-extended/bash/bash.inc
-+++ b/meta/recipes-extended/bash/bash.inc
-@@ -78,8 +78,13 @@ do_install_ptest () {
- 	    -e 's|${DEBUG_PREFIX_MAP}||g' \
- 	    -e "s,${S},,g" -e "s,${B},,g" -e "s,${STAGING_DIR_NATIVE},,g" \
- 	    -e 's:${HOSTTOOLS_DIR}/::g' \
-+	    -e 's:${UNINATIVE_LOADER}:${base_bindir}/false:g' \
- 	     ${D}${PTEST_PATH}/Makefile
- }
-+# The uninative loader is different on i386 & x86_64 hosts. Since it is only
-+# being replaced with /bin/false anyway, it doesn't need to be part of the task
-+# hash
-+do_install_ptest[vardepsexclude] += "UNINATIVE_LOADER"
- 
- pkg_postinst_${PN} () {
- 	grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo ${base_bindir}/bash >> $D${sysconfdir}/shells
+< bash: cannot set terminal process group (2980): Inappropriate ioctl 
+for device
+< bash: no job control in this shell
+
+This only happens when being run under ptest-runner instead of say
+under /usr/lib/bash/ptest/run-ptest. There may also be some problems
+with su'ing to the bash_user account but we'll see.
+
+So we're working on this and we'd like to know if the three patches here
+are considered stable and should therefore be merged to ptest-runner?
+
+Sakib is testing a patch to detach in the parent and hand the 
+controlling terminal to the child using a couple of
+ioctl(0, TIOCSCTTY, NULL) type of calls.
+
+../Randy
+
+>   .../ptest-runner/ptest-runner_2.3.1.bb        |  6 +-
+>   4 files changed, 161 insertions(+), 1 deletion(-)
+>   create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+>   create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+>   create mode 100644 meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
+> 
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch b/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+> new file mode 100644
+> index 00000000000..c9a9dd7cf49
+> --- /dev/null
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner/0001-utils-Ensure-stdout-stderr-are-flushed.patch
+> @@ -0,0 +1,45 @@
+> +From 9b36993794c1de733c521b2477370c874c07b617 Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Thu, 4 Apr 2019 14:18:55 +0100
+> +Subject: [PATCH 1/3] utils: Ensure stdout/stderr are flushed
+> +
+> +There is no guarantee that the data written with fwrite will be flushed to the
+> +buffer. If stdout and stderr are the same thing, this could lead to interleaved
+> +writes. The common case is stdout output so flush the output pipes when writing to
+> +stderr. Also flush stdout before the function returns.
+> +
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Upstream-Status: Pending [code being tested]
+> +---
+> + utils.c | 7 +++++--
+> + 1 file changed, 5 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/utils.c b/utils.c
+> +index 504df0b..3ceb342 100644
+> +--- a/utils.c
+> ++++ b/utils.c
+> +@@ -295,8 +295,11 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
+> + 			}
+> +
+> + 			if (pfds[1].revents != 0) {
+> +-				while ((n = read(fds[1], buf, WAIT_CHILD_BUF_MAX_SIZE)) > 0)
+> ++				while ((n = read(fds[1], buf, WAIT_CHILD_BUF_MAX_SIZE)) > 0) {
+> ++					fflush(fps[0]);
+> + 					fwrite(buf, n, 1, fps[1]);
+> ++					fflush(fps[1]);
+> ++				}
+> + 			}
+> +
+> + 			clock_gettime(clock, &sentinel);
+> +@@ -315,7 +318,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
+> + 			break;
+> + 	}
+> +
+> +-
+> ++	fflush(fps[0]);
+> + 	return status;
+> + }
+> +
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch b/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+> new file mode 100644
+> index 00000000000..5436a3340c4
+> --- /dev/null
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner/0002-use-process-groups-when-spawning.patch
+> @@ -0,0 +1,35 @@
+> +From f0c42a65633341ad048718c7a6dbd035818e9eaf Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Thu, 4 Apr 2019 14:20:31 +0100
+> +Subject: [PATCH 2/3] use process groups when spawning
+> +
+> +Rather than just killing the process we've swawned, set the process group
+> +for spawned children and then kill the group of processes.
+> +
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Upstream-Status: Pending [code being tested]
+> +---
+> + utils.c | 9 +++++----
+> + 1 file changed, 5 insertions(+), 4 deletions(-)
+> +
+> +diff --git a/utils.c b/utils.c
+> +index 3ceb342..c5b3b8d 100644
+> +--- a/utils.c
+> ++++ b/utils.c
+> +@@ -309,7 +309,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid,
+> + 			clock_gettime(clock, &time);
+> + 			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
+> + 				*timeouted = 1;
+> +-				kill(pid, SIGKILL);
+> ++				kill(-pid, SIGKILL);
+> + 				waitflags = 0;
+> + 			}
+> + 		}
+> +@@ -371,6 +371,7 @@ run_ptests(struct ptest_list *head, const struct ptest_options opts,
+> + 				rc = -1;
+> + 				break;
+> + 			} else if (child == 0) {
+> ++				setsid();
+> + 				run_child(p->run_ptest, pipefd_stdout[1], pipefd_stderr[1]);
+> + 			} else {
+> + 				int status;
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch b/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
+> new file mode 100644
+> index 00000000000..f7c3ebe6f2c
+> --- /dev/null
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner/0003-utils-Ensure-pipes-are-read-after-exit.patch
+> @@ -0,0 +1,76 @@
+> +From e58e4e1a7f854953f823dc5135d35f728f253f31 Mon Sep 17 00:00:00 2001
+> +From: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Date: Thu, 4 Apr 2019 14:24:14 +0100
+> +Subject: [PATCH 3/3] utils: Ensure pipes are read after exit
+> +
+> +There was a race in the code where the pipes may not be read after the process has exited
+> +and data may be left behind in them. This change to ordering ensures the pipes are read
+> +after the exit code has been read meaning no data can be left behind and the logs should
+> +be complete.
+> +
+> +Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> +Upstream-Status: Pending [code being tested]
+> +---
+> + utils.c | 29 ++++++++++++++++-------------
+> + 1 file changed, 16 insertions(+), 13 deletions(-)
+> +
+> +diff --git a/utils.c b/utils.c
+> +index c5b3b8d..37e88ab 100644
+> +--- a/utils.c
+> ++++ b/utils.c
+> +@@ -264,6 +264,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
+> + 	struct pollfd pfds[2];
+> + 	struct timespec sentinel;
+> + 	clockid_t clock = CLOCK_MONOTONIC;
+> ++	int looping = 1;
+> + 	int r;
+> +
+> + 	int status;
+> +@@ -281,9 +282,23 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
+> +
+> + 	*timeouted = 0;
+> +
+> +-	while (1) {
+> ++	while (looping) {
+> + 		waitflags = WNOHANG;
+> +
+> ++		if (timeout >= 0) {
+> ++			struct timespec time;
+> ++
+> ++			clock_gettime(clock, &time);
+> ++			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
+> ++				*timeouted = 1;
+> ++				kill(-pid, SIGKILL);
+> ++				waitflags = 0;
+> ++			}
+> ++		}
+> ++
+> ++		if (waitpid(pid, &status, waitflags) == pid)
+> ++			looping = 0;
+> ++
+> + 		r = poll(pfds, 2, WAIT_CHILD_POLL_TIMEOUT_MS);
+> + 		if (r > 0) {
+> + 			char buf[WAIT_CHILD_BUF_MAX_SIZE];
+> +@@ -303,19 +318,7 @@ wait_child(const char *ptest_dir, const char *run_ptest, pid_t pid, pid_t group,
+> + 			}
+> +
+> + 			clock_gettime(clock, &sentinel);
+> +-		} else if (timeout >= 0) {
+> +-			struct timespec time;
+> +-
+> +-			clock_gettime(clock, &time);
+> +-			if ((time.tv_sec - sentinel.tv_sec) > timeout) {
+> +-				*timeouted = 1;
+> +-				kill(-pid, SIGKILL);
+> +-				waitflags = 0;
+> +-			}
+> + 		}
+> +-
+> +-		if (waitpid(pid, &status, waitflags) == pid)
+> +-			break;
+> + 	}
+> +
+> + 	fflush(fps[0]);
+> +--
+> +2.17.1
+> +
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+> index 4b7992bf2fd..e2eb258d0b0 100644
+> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.3.1.bb
+> @@ -10,7 +10,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+>   SRCREV = "05b112bda7ac2adba8e9b0f088d6e5843b148a38"
+>   PV = "2.3.1+git${SRCPV}"
+>   
+> -SRC_URI = "git://git.yoctoproject.org/ptest-runner2"
+> +SRC_URI = "git://git.yoctoproject.org/ptest-runner2 \
+> + file://0001-utils-Ensure-stdout-stderr-are-flushed.patch \
+> + file://0002-use-process-groups-when-spawning.patch \
+> + file://0003-utils-Ensure-pipes-are-read-after-exit.patch"
+> +
+>   S = "${WORKDIR}/git"
+>   
+>   FILES_${PN} = "${bindir}/ptest-runner"
+> 
+
+
 -- 
-2.21.0
-
+# Randy MacLeod
+# Wind River Linux
 
