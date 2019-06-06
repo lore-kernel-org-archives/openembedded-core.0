@@ -1,47 +1,50 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 651637CEE0
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id B1E2D7CEE0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 09:45:19 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id e5so157719iok.4
+	Thu,  6 Jun 2019 09:47:23 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id h9so2118721itk.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2019 02:45:20 -0700 (PDT)
+	Thu, 06 Jun 2019 02:47:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3/lwxdcCZO7J66wngqNlmMyxLucCgNLZv2j9KJpokJs=;
-	b=W+0Pbs8H58mKpCOfzZjwvSUiGI4Cfe6yHouo+mHbPpSRAdb5kC9taGV89nWYrKzzAz
-	wKdJ84xL1R3QeAr3U07zHtZgE+JBKUZ5RvZ9KfqwhgyfUvRKTyCYys2+u60bPXwVPFY4
-	iZBudbDkqMtFjGICF/Xjt4SivISOKHc/ow5iAqnu1B5icbcYReuLpMsPpIKS0UWlvwTF
-	4VNJA0INIsnnAVKOh7WIFNv+cO4MtQseuyPQmTaPDpQShWMsVuczmQGRFEcZrzDmjHuv
-	x3s00gC6jF/RLOShyX2UVpFTOG3Pi5pWbKgob+oMN51He//77YQFXVGEnJ5MlHXTwcpg
-	PoLA==
+	:cc; bh=TCfwEv4Xe9tiFSp1WKfalX6Cor5yHdz5ASzFFfMBl8E=;
+	b=l6kIOGG4SDxShWL/VtPNiyFtvBZyIC02QPuDbHh0GJfRX04xmW+4zj4A43WnrSYzvW
+	5LQOj9IdXX34CZVadHL11wSKYg/JCuSuUSOlUMWh7KiMsK2UYNn3xFctyXr+uMbuf7gl
+	xi5QwDQLkqP24/youJH71GpdsFkxDy0f+1glBkdzMlcga6728Qs0ukzVTAPb4Kikc9UU
+	UYNyh97o/9pEchK/p7wYe5VKDlhuvNSBq6sC1T5C/JTskeJtPZ7fGvTBI8tv9Z2xoahf
+	6NxQhN8MYQWQeu8kQYNa362/9yv2gOQ9krH4l639C/jbYwPSjIy6lXffVg4xCt3eagAg
+	cJMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=3/lwxdcCZO7J66wngqNlmMyxLucCgNLZv2j9KJpokJs=;
-	b=kvzG/xNiOvEyYrgzvIByZDsJ3/Yl0O8xO9p5u5nHXb1v+zZvzTcFcS7Od52dFI3qMk
-	M783hyfA6SFobFjy6AwxktjrjtiKo97g23znJV19y0UzboZtrA3uYsun7HtW6/Krk959
-	e4DCLqc87yptpdjSeXVzzjeRuvdLwLX6fTMIV1k0E0I1og4PN8lcH0fcvZC6gH5Yiqr4
-	ai/dJIpPh5+HXkaCz7/XuXdXHm0zTaa9bLwMdOuT2W2OMv/mIQYF9jj0BiS0NpnZiT/H
-	jox/lMUAz89M5UdwhQfy4o48Sim6WS3VFHv1mp55LJ+0vY3AMRomJCCjJ2iJTAUiaUk1
-	2ltg==
-X-Gm-Message-State: APjAAAXrLKq0sPZQ18NWHm95vfq0U5olPyDzgoboQAUGEef7fbDKGH/l
-	zIAfOcIZT50N5HIu6ExIbf8Z2h2y/XxiAQHsq8YDTA==
-X-Google-Smtp-Source: APXvYqw0gKtXj9Pu08loHXQAihuLcztvuJpE8tPLTQEeueud2ULTV4ykGr3PhoVwwmPN+rQXd9LW74TzWfd3daAJaNE=
-X-Received: by 2002:a6b:bc02:: with SMTP id m2mr6312886iof.25.1559814320421;
-	Thu, 06 Jun 2019 02:45:20 -0700 (PDT)
+	bh=TCfwEv4Xe9tiFSp1WKfalX6Cor5yHdz5ASzFFfMBl8E=;
+	b=PG0QrmwOCOOFwElppF3t2byUAPt9B+An/q6O4Qk988l1KIjTgk9hdPLFd6wCGd5Tmk
+	hNAakprKnbQi9PvvtrQZNr0DOGrpvT0yPYVsolV3nJZpDIGXwdqgVNllB3ignNSBV95E
+	yQe4a+hggcpH6U1W5FEiZ4PwBtBFxjoPYlx4itAt9GgQiA97QahUCk70lT6Y6RQQ0ePK
+	H+wtthPQqbOMe6AEJgVZufzbMN386eX8sSwF3xzbphqOAybrqNl8PIQpbOC4I+NtW9VX
+	T22/cM7q4YPLvotMpIAVkg5O3JOLl3JmGfayos+lG6MukV/6bKCdaGv59p0XJZEI/a1d
+	67hg==
+X-Gm-Message-State: APjAAAUTf4cLepW9uiS7IcIbdyA+0xY+s/ci4F/Acl7TC4Lz34WA+iZd
+	198O2cXyMfoWrh5TWoO60JoWcaG5AWfFopoHmfe8mQ==
+X-Google-Smtp-Source: APXvYqwIf1oy89fexeAWeZHl9fA4BlOgKbELI2pSWv+sL5CcXJCLZgyJL9Dpp0mHGYJXjTdyCssIHLEhN1N0F919JTM=
+X-Received: by 2002:a24:19cd:: with SMTP id b196mr31441222itb.74.1559814444598;
+	Thu, 06 Jun 2019 02:47:24 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190606020544.26181-1-douglas.royds@taitradio.com>
-In-Reply-To: <20190606020544.26181-1-douglas.royds@taitradio.com>
+References: <20190530134703.16094-1-philn@igalia.com>
+	<20190530134703.16094-2-philn@igalia.com>
+	<CAJTo0LaLyjSxmXU8p4UOHgVf+QrHDgGsU7A=TcqCJBEctsqMsA@mail.gmail.com>
+	<20ba25d5ac6d3602e3bf366a4d07ff06d9b36368.camel@igalia.com>
+In-Reply-To: <20ba25d5ac6d3602e3bf366a4d07ff06d9b36368.camel@igalia.com>
 From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Jun 2019 10:45:07 +0100
-Message-ID: <CAJTo0LY8p=p=6kOxQBkrUPXi_EPTpCnAXzrp7con1q7pOxj0EA@mail.gmail.com>
-To: Douglas Royds <douglas.royds@taitradio.com>
+Date: Thu, 6 Jun 2019 10:47:13 +0100
+Message-ID: <CAJTo0Lb3nc_REi2f51f88KbUckg-Ph2K8iSo=Dhc3ECZO7Mx_A@mail.gmail.com>
+To: Philippe Normand <philn@igalia.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] json-c: Disable icecc to avoid implicit-fallthrough warning as error
+Subject: Re: [PATCH 2/3] p11-kit: Enable nativesdk and trust-paths option
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,52 +57,23 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 09:45:19 -0000
+X-List-Received-Date: Thu, 06 Jun 2019 09:47:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Considering the pain that the gcc upgrade introducing that warning
-caused I'll be *very* surprised if this problem is limited to json-c.
-Could the icecc class forcibly disable that warning instead?
+On Wed, 5 Jun 2019 at 17:33, Philippe Normand <philn@igalia.com> wrote:
+> Yeah you're right, hardcoding /etc might not be a good idea. I kind of
+> abandoned this patch series though, since it was decided to not make
+> gnutls depend on p11-kit for the time being. This patch was merged
+> instead:
+>
+> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=4babb468b856f495ef828ee21cefb266ed58bd28
+>
+> Do you think a follow-up is needed? I'm sorry I didn't know about
+> $(sysconfdir) before.
+
+Sorry, my fault for not looking at the patch queue for a while.
+
+Yes that should use ${sysconfdir}.
 
 Ross
-
-On Thu, 6 Jun 2019 at 03:06, Douglas Royds via Openembedded-core
-<openembedded-core@lists.openembedded.org> wrote:
->
-> icecc preprocesses source files locally before shipping them off to be compiled
-> on remote hosts. This preprocessing removes comments, including /* fallthrough */
-> comments in switch statements that normally prevent the implicit-fallthrough
-> warning.
->
-> Rather than turning off -Werror by patching configure.ac, it is simpler to
-> disable icecc completely for json-c. There are very few source files to compile,
-> so the compilation is quick even without icecc.
->
-> See https://github.com/icecc/icecream/issues/419
->
-> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
-> ---
->  meta/recipes-devtools/json-c/json-c_0.13.1.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-> index 5b10e68297..8d2a20352d 100644
-> --- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-> +++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
-> @@ -21,6 +21,7 @@ RPROVIDES_${PN} = "libjson"
->  inherit autotools
->
->  EXTRA_OECONF = "--enable-rdrand"
-> +ICECC_DISABLED = "1"
->
->  do_configure_prepend() {
->      # Clean up autoconf cruft that should not be in the tarball
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
