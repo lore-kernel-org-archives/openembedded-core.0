@@ -1,47 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id BE41B7C4DB
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 6FCB07DDAD
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 15:29:52 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id x22so610648itl.2
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2019 08:29:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=U+vgZ1DkDLugCFZwVgsiudtdd28qga5CwNU1GQ9Xbds=;
-	b=y3Au6bZ/CM2TmyjqQDjrXqH62lggnbrLFfV9Dplj93l1BB7D2zNtVNTJ2qfem9UpXd
-	cgzKZPexTPumSgW1BmQEQ/x+QQeAX/u1GOsPTXKqe+3fDYDf0fbA2/fI+lHcMIbmGBCB
-	vTBUHNe9oeeL071pnm9aLPQqtNMgi0XDEW9J6ON+CYILnhBv9ouTtGDZN2Na4CFnpj06
-	atThm85tAop/6s/xt325lCTrmFmh8MV4lzZH4nvvAyTwsvcb7i4IGqq/lMSMGhNIsg/z
-	y4GDksurQ+jSt7r/pKdRGPESHFUiO6aVWuX3mAstXTD4yDdoygs3xmXM/vJWENBOZBmF
-	ofkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=U+vgZ1DkDLugCFZwVgsiudtdd28qga5CwNU1GQ9Xbds=;
-	b=TgXGTjq0kOIq30bIZgcwfeG4t6T86tbGPTqCGkQLGCS4GJaB5bbPu00VNz5Tt0OYz6
-	gjtqiZy1pR1KwgUE7bd4CjppNJ1LcOhNu6LZpOAYHxuV7EShIDm5gU47nRQK2XQIAZu1
-	0FFyJ15+y/0GEmgY1n6GHzw6g077yfGekefv7M8l8Uwg2kGQHUYVUa/xEyb8bK5UraV3
-	Q1pgZUcrGxfScTmCvdlXI7QYce2f2XMzYPUz8yXYCpQaf7yKtEHN+Ek5UZk3uN0XPH2D
-	OJCAqhc5IwOe7A4IDi2yLy7ac2cabAUF4gQityF5y5y4vhYs0nHB7VcRyyiCEdH+pAIq
-	g61Q==
-X-Gm-Message-State: APjAAAX4TVkKnLoP74vsZsJSSQfl3rWh1VWY32BkmplI9d4gh3zZQLy9
-	vRZ1m/fPae6bZEZhx/2dHnAOiItGxFgsXqcdem9vAQ==
-X-Google-Smtp-Source: APXvYqysiJhdidgjRfs3oy+eAui7HiWSnF/zp2TeocmkOIus7/u2LOXNnftGiwxULW3mayDn7DrnuY35SUFVBM77t3Q=
-X-Received: by 2002:a02:81:: with SMTP id 123mr13144269jaa.105.1559834993686; 
-	Thu, 06 Jun 2019 08:29:53 -0700 (PDT)
+	Thu,  6 Jun 2019 15:35:17 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45KV9135R8z3L;
+	Thu,  6 Jun 2019 17:35:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1559835317;
+	bh=/h2gy+KAbkcDbi37VdBtUEpilPi56T801LmXxEjU5a4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qlsv8jFY1oEx5TOnY+hSVTXscfhHDGYNpxQ7N4xapksAtUHuNUs8x0055fjkG5rZ6
+	stnC6xurGw7E8i57epCLltSLo9wRD5+8V6XpZZITIgGau3/Xot/yfQdHIVMyxdM6hQ
+	dqQrk3Xc73DBCN1tCID+sUAKiU+EAxHZkE9VfSHRq7459pOnfSc0XznopjMeQ7Drp/
+	6c4QF+5OwuPWgiv2b3DMKm/VlEmWZH+8+Vvhrkj25alp+x7NfbC4FW6WnZvfhzJRH0
+	TJ51UVi9Whgd4fgPTD/s3zwhx3qabjAg/VBETGCs8M8jCc8qfjy//gZVPp9D+Tafp7
+	KaCTuwrobDy/58DIYR8yZAzD6j8c2G1QJree8atxNyQU5VPhuVAmPoHx1Oe9Uz47tL
+	I/7b707GoYxUOeRVN0OY1P1V3Kl/wSsTQojxYjwXaTuDl+wjGNtHQ2w3ryg6sdgYIa
+	rAL5wDGe6BDpWDg90I7iLeUNzpFy1u36ItX0/Co686dmHQeLUK7mcImkI86nwzbL85
+	G9YAk61eh19HUPmrVW9cfBfruX8Dz8mAqHfAEfaT1bEWbR1ZlCdXF6IZfNTsYO1Ac8
+	swdJLQOVpnsTI8OfvkDVfjHF8ZKRTsPQtlowhEZG1A/p9oOQhhGlHsx57vZtnn1NDO
+	XuYUufk385vrQYDSZNvf5Y+k=
+Date: Thu, 6 Jun 2019 18:35:09 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Joe Slater <joe.slater@windriver.com>
+Message-ID: <20190606153509.GB26324@localhost>
+References: <20190605225040.213296-1-joe.slater@windriver.com>
 MIME-Version: 1.0
-References: <20190606151357.21453-1-matthias.schoepfer@ithinx.io>
-In-Reply-To: <20190606151357.21453-1-matthias.schoepfer@ithinx.io>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Jun 2019 16:29:41 +0100
-Message-ID: <CAJTo0La-MG7hctC+qAfJtNQ=T5grgVt7U8aQhPLKN+tahARBng@mail.gmail.com>
-To: Matthias Schoepfer <matthias.schoepfer@googlemail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] fixing python3 build for mips softfloat targets
+In-Reply-To: <20190605225040.213296-1-joe.slater@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/1] slang: modify an array test
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,32 +43,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 15:29:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Jun 2019 15:35:17 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 6 Jun 2019 at 16:15, Matthias Schoepfer via Openembedded-core
-<openembedded-core@lists.openembedded.org> wrote:
+On Wed, Jun 05, 2019 at 03:50:40PM -0700, Joe Slater wrote:
+> One array test attempts to create an array that is far too
+> large to exist.  Different exceptions are thrown for 32 and 64
+> bit machines, so we account for that when catching them.
+> 
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>
+> ---
+>  meta/recipes-extended/slang/slang/array_test.patch | 20 ++++++++++++++++++++
+>  1 file changed, 20 insertions(+)
+>...
 
-The shortlog should be "python3: fix build on softfloat mips".
+This seems to miss actually applying the patch?
 
-> Applied / backported patch from upstream (pending review)
+cu
+Adrian
 
-Is this patch backported, or is it still in review?
+-- 
 
-> +From 7535c39951b9d15dd64c4669092a8582ba555466 Mon Sep 17 00:00:00 2001
-> +From: Matthias Schoepfer <matthias.schoepfer@ithinx.io>
-> +Date: Fri, 31 May 2019 15:34:34 +0200
-> +Subject: [PATCH] bpo-36852: proper detection of mips architecture for soft
-> + float
-> +
-> +When (cross) compiling for softfloat mips, __mips_hard_float will not be
-> +defined and detection of OS triplet in configure.ac / configure will fail.
-> +
-> +This also has to do with the custom detection of the build triplet. Trying
-> +to do this in a more autoconf/autotools manner.
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
-The patch should have your Signed-off-by, and an Upstream-Status
-(Submitted or Backport in this case).
-
-Ross
 
