@@ -1,23 +1,17 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 084056C149
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp0.taitradio.net (unknown [202.37.96.22])
+	by mail.openembedded.org (Postfix) with SMTP id 7CFDA7D597
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  5 Jun 2019 22:50:40 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x55Mofcn007927
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 5 Jun 2019 15:50:41 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 5 Jun 2019 15:50:40 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 5 Jun 2019 15:50:40 -0700
-Message-ID: <20190605225040.213296-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
-MIME-Version: 1.0
-Subject: [PATCH 1/1] slang: modify an array test
+	Thu,  6 Jun 2019 00:40:09 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp0.taitradio.net (Postfix) with ESMTP id 70041220497;
+	Thu,  6 Jun 2019 12:40:07 +1200 (NZST)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jun 2019 12:40:04 +1200
+Message-Id: <20190606004004.1558-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] json-c: Make implicit-fallthrough only a warning for compilation under icecc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,46 +24,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 05 Jun 2019 22:50:41 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 06 Jun 2019 00:40:09 -0000
 
-One array test attempts to create an array that is far too
-large to exist.  Different exceptions are thrown for 32 and 64
-bit machines, so we account for that when catching them.
+icecc preprocesses source files locally before shipping them off to be compiled
+on remote hosts. This preprocessing removes comments, including /* fallthough */
+comments in switch statements that normally prevent the implicit-fallthrough
+warning. Rather than turning off -Werror completely, just reduce
+implicit-fallthrough to a warning only.
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+See https://github.com/icecc/icecream/issues/419
+
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
 ---
- meta/recipes-extended/slang/slang/array_test.patch | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
- create mode 100644 meta/recipes-extended/slang/slang/array_test.patch
+ meta/recipes-devtools/json-c/json-c_0.13.1.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/slang/slang/array_test.patch b/meta/recipes-extended/slang/slang/array_test.patch
-new file mode 100644
-index 0000000..ccd416f
---- /dev/null
-+++ b/meta/recipes-extended/slang/slang/array_test.patch
-@@ -0,0 +1,20 @@
-+slang: modify array test
+diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+index 5b10e68297..ddda7375d3 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+@@ -22,6 +22,9 @@ inherit autotools
+ 
+ EXTRA_OECONF = "--enable-rdrand"
+ 
++TARGET_CPPFLAGS =+ "-Wno-error=implicit-fallthrough"
++BUILD_CPPFLAGS =+ "-Wno-error=implicit-fallthrough"
 +
-+One array test tries to create an array that is far too large and anticipates an exception.
-+IndexError will only be thrown for 64 bit machines, so we add InvalidParmError for 32 bit ones.
-+
-+Upstream-Status: Submitted [jedsoft.org]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+--- a/src/test/array.sl
-++++ b/src/test/array.sl
-+@@ -165,7 +165,7 @@ try
-+ {
-+    SS = Long_Type[10000,10000,10000,10000,10000,10000];
-+ }
-+-catch IndexError;
-++catch IndexError,InvalidParmError;
-+ 
-+ private define array_map2_func ()
-+ {
+ do_configure_prepend() {
+     # Clean up autoconf cruft that should not be in the tarball
+     rm -f ${S}/config.status
 -- 
-2.7.4
+2.17.1
 
 
