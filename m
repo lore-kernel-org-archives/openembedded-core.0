@@ -1,50 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id B1E2D7CEE0
+Return-Path: <nick83ola@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id AE0957C349
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 09:47:23 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id h9so2118721itk.3
+	Thu,  6 Jun 2019 10:41:14 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id h19so1557315wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 06 Jun 2019 02:47:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TCfwEv4Xe9tiFSp1WKfalX6Cor5yHdz5ASzFFfMBl8E=;
-	b=l6kIOGG4SDxShWL/VtPNiyFtvBZyIC02QPuDbHh0GJfRX04xmW+4zj4A43WnrSYzvW
-	5LQOj9IdXX34CZVadHL11wSKYg/JCuSuUSOlUMWh7KiMsK2UYNn3xFctyXr+uMbuf7gl
-	xi5QwDQLkqP24/youJH71GpdsFkxDy0f+1glBkdzMlcga6728Qs0ukzVTAPb4Kikc9UU
-	UYNyh97o/9pEchK/p7wYe5VKDlhuvNSBq6sC1T5C/JTskeJtPZ7fGvTBI8tv9Z2xoahf
-	6NxQhN8MYQWQeu8kQYNa362/9yv2gOQ9krH4l639C/jbYwPSjIy6lXffVg4xCt3eagAg
-	cJMg==
+	Thu, 06 Jun 2019 03:41:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GHQaXXJZLa4VpzzERYY5zA4PGVyPxWPfoAPZoUiMTVc=;
+	b=jq8momr0FetiTflZAp+BPVe5dkFvZWF2fTH4iTUMGy+E5UG1yi8gg8fIO0V29hi1jz
+	4pZeVZu6TL4zExWT6leU5vcQ96oMqhdx+fOtl5LLzLs37BGgLMeJqD1FemjZAW/I2YY6
+	3uGvjIHw9yjkUrfXBRMJ2IULV9NSpXSoQ7tN9r3nDiaaRCo1Ju54rJptPIoBF6OJym1A
+	BkZa2wfsT6Fm5bJtYwH33qW6fiNmiXfjBJ5aMfLzQftZZX8wYF35pjqM3CrV1U28ifBY
+	lqkMxQw5oiL1T52F0+c2VVRe4DAoC9Wn0X/tSbOLujOSB410oP6v6Q6KIrKv1+ZTLQio
+	sBCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TCfwEv4Xe9tiFSp1WKfalX6Cor5yHdz5ASzFFfMBl8E=;
-	b=PG0QrmwOCOOFwElppF3t2byUAPt9B+An/q6O4Qk988l1KIjTgk9hdPLFd6wCGd5Tmk
-	hNAakprKnbQi9PvvtrQZNr0DOGrpvT0yPYVsolV3nJZpDIGXwdqgVNllB3ignNSBV95E
-	yQe4a+hggcpH6U1W5FEiZ4PwBtBFxjoPYlx4itAt9GgQiA97QahUCk70lT6Y6RQQ0ePK
-	H+wtthPQqbOMe6AEJgVZufzbMN386eX8sSwF3xzbphqOAybrqNl8PIQpbOC4I+NtW9VX
-	T22/cM7q4YPLvotMpIAVkg5O3JOLl3JmGfayos+lG6MukV/6bKCdaGv59p0XJZEI/a1d
-	67hg==
-X-Gm-Message-State: APjAAAUTf4cLepW9uiS7IcIbdyA+0xY+s/ci4F/Acl7TC4Lz34WA+iZd
-	198O2cXyMfoWrh5TWoO60JoWcaG5AWfFopoHmfe8mQ==
-X-Google-Smtp-Source: APXvYqwIf1oy89fexeAWeZHl9fA4BlOgKbELI2pSWv+sL5CcXJCLZgyJL9Dpp0mHGYJXjTdyCssIHLEhN1N0F919JTM=
-X-Received: by 2002:a24:19cd:: with SMTP id b196mr31441222itb.74.1559814444598;
-	Thu, 06 Jun 2019 02:47:24 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GHQaXXJZLa4VpzzERYY5zA4PGVyPxWPfoAPZoUiMTVc=;
+	b=hcxL5lFhy7yKKLKcWiEb9RgGzAu6M9wydXPelpTLpgOhVWyiLf2vDK0D2Davz6jF7C
+	629i7hMVWY6M2ShvNED0X+B0tgsLdTRzTSA9MjB5MwEkA7f/cKfaBsnMsHlVoKEFBXaP
+	076+aRQDY+RQdKOOBw70Y2Nh3d9JYTpyAVgQNLL5lhEI87lXxDexfUqYslwVfqSRYgES
+	9xfFiVvBvAkSx2wFRhQV273ZBHR4MyxQr88qehmGZ4Puk+5uRkCnUlRnYLZVdCtkbC/y
+	0e9Vo41P+5h35kAxX/dNVQ0g00Tc2RNuw7qKYi1X+hmBLB82rXDRMYhdDF55kjudfROp
+	ycrw==
+X-Gm-Message-State: APjAAAUPEJc4QerHMyQA3naLpl0wyNr4lcdDSqU1mXCsyKxLqKSsu40L
+	FotiScngYk5dvlNB237LHHLSCj5u
+X-Google-Smtp-Source: APXvYqwy2WVh1lWmtitfN/WKhDp2EZEOdIs53nJvvur3YnMVHjueNBXhpsu0Bh2RvEVqbmJMrTMpeg==
+X-Received: by 2002:a1c:9e92:: with SMTP id h140mr13313553wme.82.1559817674918;
+	Thu, 06 Jun 2019 03:41:14 -0700 (PDT)
+Received: from nick-beastie.garage.tyco.com ([77.107.218.170])
+	by smtp.gmail.com with ESMTPSA id k2sm1639099wrx.84.2019.06.06.03.41.14
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 06 Jun 2019 03:41:14 -0700 (PDT)
+From: Nicola Lunghi <nick83ola@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  6 Jun 2019 11:40:43 +0100
+Message-Id: <20190606104043.19722-1-nick83ola@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190530134703.16094-1-philn@igalia.com>
-	<20190530134703.16094-2-philn@igalia.com>
-	<CAJTo0LaLyjSxmXU8p4UOHgVf+QrHDgGsU7A=TcqCJBEctsqMsA@mail.gmail.com>
-	<20ba25d5ac6d3602e3bf366a4d07ff06d9b36368.camel@igalia.com>
-In-Reply-To: <20ba25d5ac6d3602e3bf366a4d07ff06d9b36368.camel@igalia.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 6 Jun 2019 10:47:13 +0100
-Message-ID: <CAJTo0Lb3nc_REi2f51f88KbUckg-Ph2K8iSo=Dhc3ECZO7Mx_A@mail.gmail.com>
-To: Philippe Normand <philn@igalia.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/3] p11-kit: Enable nativesdk and trust-paths option
+Subject: [PATCH 1/2] rng-tools: recipe cleanup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,23 +56,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 09:47:23 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 06 Jun 2019 10:41:14 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, 5 Jun 2019 at 17:33, Philippe Normand <philn@igalia.com> wrote:
-> Yeah you're right, hardcoding /etc might not be a good idea. I kind of
-> abandoned this patch series though, since it was decided to not make
-> gnutls depend on p11-kit for the time being. This patch was merged
-> instead:
->
-> https://git.yoctoproject.org/cgit/cgit.cgi/poky/commit/?id=4babb468b856f495ef828ee21cefb266ed58bd28
->
-> Do you think a follow-up is needed? I'm sorry I didn't know about
-> $(sysconfdir) before.
+- add missing DESCRIPTION, AUTHOR, HOMEPAGE
+- cleanup DEPENDS
+- fix variable ordering as per https://www.openembedded.org/wiki/Styleguide
+- remove unneeded checks for systemd, sysvinit in do_install
 
-Sorry, my fault for not looking at the patch queue for a while.
+Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
+---
+ .../rng-tools/rng-tools_6.6.bb                | 63 ++++++++++---------
+ 1 file changed, 33 insertions(+), 30 deletions(-)
 
-Yes that should use ${sysconfdir}.
+diff --git a/meta/recipes-support/rng-tools/rng-tools_6.6.bb b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
+index 6796c9be9e..41959a2695 100644
+--- a/meta/recipes-support/rng-tools/rng-tools_6.6.bb
++++ b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
+@@ -1,58 +1,61 @@
+ SUMMARY = "Random number generator daemon"
++DESCRIPTION = "Check and feed random data from hardware device to kernel"
++AUTHOR = "Philipp Rumpf, Jeff Garzik <jgarzik@pobox.com>, \
++          Henrique de Moraes Holschuh <hmh@debian.org>"
++HOMEPAGE = "https://github.com/nhorman/rng-tools"
++BUGTRACKER = "https://github.com/nhorman/rng-tools/issues"
+ LICENSE = "GPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
+-
+-SRC_URI = "git://github.com/nhorman/rng-tools.git \
+-           file://0001-If-the-libc-is-lacking-argp-use-libargp.patch \
+-           file://0002-Add-argument-to-control-the-libargp-dependency.patch \
+-           file://underquote.patch \
+-           file://rng-tools-5-fix-textrels-on-PIC-x86.patch \
+-           file://0001-configure.ac-fix-typo.patch \
+-           file://init \
+-           file://default \
+-           file://rngd.service \
++DEPENDS = "sysfsutils"
++
++SRC_URI = "\
++    git://github.com/nhorman/rng-tools.git \
++    file://0001-If-the-libc-is-lacking-argp-use-libargp.patch \
++    file://0002-Add-argument-to-control-the-libargp-dependency.patch \
++    file://underquote.patch \
++    file://rng-tools-5-fix-textrels-on-PIC-x86.patch \
++    file://0001-configure.ac-fix-typo.patch \
++    file://init \
++    file://default \
++    file://rngd.service \
+ "
+ SRCREV = "4ebc21d6f387bb7b4b3f6badc429e27b21c0a6ee"
++
+ S = "${WORKDIR}/git"
+ 
+ inherit autotools update-rc.d systemd pkgconfig
+ 
+-DEPENDS = " \
+-           sysfsutils \
+-          "
+-
+ PACKAGECONFIG ??= "libgcrypt libjitterentropy"
+ PACKAGECONFIG_libc-musl = "libargp libjitterentropy"
++
+ PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
+ PACKAGECONFIG[libgcrypt] = "--with-libgcrypt,--without-libgcrypt,libgcrypt,"
+ PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
+ PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2 openssl"
+ 
++INITSCRIPT_NAME = "rng-tools"
++INITSCRIPT_PARAMS = "start 03 2 3 4 5 . stop 30 0 6 1 ."
++
++SYSTEMD_SERVICE_${PN} = "rngd.service"
++
+ # Refer autogen.sh in rng-tools
+ do_configure_prepend() {
+     cp ${S}/README.md ${S}/README
+ }
+ 
+ do_install_append() {
+-    # Only install the init script when 'sysvinit' is in DISTRO_FEATURES.
+-    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+-        install -d "${D}${sysconfdir}/init.d"
+-        install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
+-        sed -i -e 's,/etc/,${sysconfdir}/,' -e 's,/usr/sbin/,${sbindir}/,' \
+-            ${D}${sysconfdir}/init.d/rng-tools
++    install -d "${D}${sysconfdir}/init.d"
++    install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
++    sed -i -e 's,/etc/,${sysconfdir}/,' -e 's,/usr/sbin/,${sbindir}/,' \
++        ${D}${sysconfdir}/init.d/rng-tools
+ 
++    # Only install the default script when 'sysvinit' is in DISTRO_FEATURES.
++    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
+         install -d "${D}${sysconfdir}/default"
+         install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
+     fi
+ 
+-    if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
+-        install -d ${D}${systemd_unitdir}/system
+-        install -m 644 ${WORKDIR}/rngd.service ${D}${systemd_unitdir}/system
+-        sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/rngd.service
+-    fi
++    install -d ${D}${systemd_unitdir}/system
++    install -m 644 ${WORKDIR}/rngd.service ${D}${systemd_unitdir}/system
++    sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/rngd.service
+ }
+-
+-INITSCRIPT_NAME = "rng-tools"
+-INITSCRIPT_PARAMS = "start 03 2 3 4 5 . stop 30 0 6 1 ."
+-
+-SYSTEMD_SERVICE_${PN} = "rngd.service"
+-- 
+2.20.1
 
-Ross
 
