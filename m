@@ -1,23 +1,47 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id 0E1006BDD2
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
+	[209.85.166.194])
+	by mail.openembedded.org (Postfix) with ESMTP id F3E2A6D52B
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  6 Jun 2019 21:53:22 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id A8252220166;
-	Fri,  7 Jun 2019 09:53:22 +1200 (NZST)
-To: Joshua Watt <jpewhacker@gmail.com>, "Burton, Ross" <ross.burton@intel.com>
+	Thu,  6 Jun 2019 22:04:44 +0000 (UTC)
+Received: by mail-it1-f194.google.com with SMTP id i21so2471971ita.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 06 Jun 2019 15:04:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tUKVhQgb4Y7yINWp9CWtY20N4KeHAJbA31YzHnt9bzA=;
+	b=BYsULIFtWV4uDKQx2chKoxZxocWWVL5PyGNPuJkMa5BKNQJL9mdt4uFuUTismdsRVV
+	0ZoaU0ejUfeXbHd75wzyXItEXy3jJcxatzCu2b9FFnjnYc/x7OCFFO2p49g5LODoKcK2
+	H6mD7NZ4ldz9/IhHZG+IkxFNGi61tMfx746+EZO+IzlJzCp+JjatCWtx96VcwQDGXWL7
+	1OVuCiTnOQkWeMTTl3cQcuWT+PzoUV7dlmLVOekeEDZiJ4w8clVvo4lkayHwcmZPJOEB
+	lP+MaIMiuj+Fm59POgHGC9OTxoYB0eT/Jj+phBfQAa3rDG/3Cg1q1OtEhXjxsxC/1ld1
+	gAbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tUKVhQgb4Y7yINWp9CWtY20N4KeHAJbA31YzHnt9bzA=;
+	b=uQkBFn/uO7LtLBVb/8+mHD6KG47WjUGoDLcd/OrJ6ouWQOFCC3owF3JbuC9BaVNthw
+	DSzGVacOzky/mxCWgGMF5BaNsSE/e1XP+FQjUPaRLgqgxaoBZ6R0tnODU1bp6Hq2X/g4
+	aOUHB49Q6vd1dTwWcYh4fi7M7qPUJkvVfSxzhV21Cei12IhlX2w6pNqL/sdFJPDQUCdD
+	H1DhCzjMEwWAudE0MI7pNlztv5Uevi29KAOe4JLubIc/tn4yrg/zXw6lT7FXevN//x3w
+	dVDml0qJImYqQMdWe6uNmoKE9Xd7FfULHkmeGXhovqgWL4p0XnmOZB+HeiUCJIAgNYUZ
+	RMgw==
+X-Gm-Message-State: APjAAAXF3xoUbu9Apa4B1b0mNUCuiVxzV4PyY7E0ZCG2bsUt8iwBtqCn
+	sVt9vSbXDIlfVOQyL9SuFkOGOzULjJzV7YHMeQEgkg==
+X-Google-Smtp-Source: APXvYqysdYzxZGu0cotx+QjDscdq9xEiKIwQjzDoWcnfm/PynSrQT+OKXnvSancZDLKr56vmDqFRtLKiRNsSEx4Qgs8=
+X-Received: by 2002:a24:19cd:: with SMTP id b196mr2026956itb.74.1559858685862; 
+	Thu, 06 Jun 2019 15:04:45 -0700 (PDT)
+MIME-Version: 1.0
 References: <20190606020544.26181-1-douglas.royds@taitradio.com>
 	<CAJTo0LY8p=p=6kOxQBkrUPXi_EPTpCnAXzrp7con1q7pOxj0EA@mail.gmail.com>
 	<d958f915-78aa-57b8-6f31-0d50806685f7@taitradio.com>
-	<7c3a19b6-1fe2-2117-978c-59b9bf86fec3@gmail.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <eca03858-ec43-a9bc-f886-984b52131a17@taitradio.com>
-Date: Fri, 7 Jun 2019 09:53:22 +1200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <7c3a19b6-1fe2-2117-978c-59b9bf86fec3@gmail.com>
+In-Reply-To: <d958f915-78aa-57b8-6f31-0d50806685f7@taitradio.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 6 Jun 2019 23:04:33 +0100
+Message-ID: <CAJTo0LaUOJW8kFG801bZw-PH04Rc95Oy-eo7+VoQeMPEZ0TcYA@mail.gmail.com>
+To: Douglas Royds <douglas.royds@taitradio.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] json-c: Disable icecc to avoid implicit-fallthrough warning as error
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -32,92 +56,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 06 Jun 2019 21:53:23 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 06 Jun 2019 22:04:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-__attribute__((fallthrough)) wouldn't help us with gcc 5.4 in the=20
--native case, of course.
+On Thu, 6 Jun 2019 at 22:03, Douglas Royds <douglas.royds@taitradio.com> wrote:
+> The problem is somewhat specific to json-c, as -Werror is hard-coded
+> into configure.ac in this package.
 
-I'll resubmit the patch using ICECC_SYSTEM_PACKAGE_BL
+Which is downright evil, and to be honest we should patch that out.
 
-
-On 7/06/19 9:15 AM, Joshua Watt wrote:
-
-> FWIW: I've fixed a few upstream recipes that were doing this to use=20
-> the __attribute__((fallthrough)) instead of a comment.
->
-> Anyway, usually the correct fix is to add the package to=20
-> ICECC_SYSTEM_PACKAGE_BL in icecc.bbclass; it is maybe not ideal but=20
-> ICECC_DISABLED is the user control for enabling and disabling icecream=20
-> globally, not a per-recipe flag.
->
-> The current blacklist is woefully outdated, I really need to get=20
-> around to updating it
->
-> On 6/6/19 4:03 PM, Douglas Royds via Openembedded-core wrote:
->> I struggled to find a solution that would work in the -native case,=20
->> as we need to support gcc as old as 5.4 (Ubuntu 16.04).
->>
->> The problem is somewhat specific to json-c, as -Werror is hard-coded=20
->> into configure.ac in this package.
->>
->>
->> On 6/06/19 9:45 PM, Burton, Ross wrote:
->>
->>> Considering the pain that the gcc upgrade introducing that warning
->>> caused I'll be *very* surprised if this problem is limited to json-c.
->>> Could the icecc class forcibly disable that warning instead?
->>>
->>> Ross
->>>
->>> On Thu, 6 Jun 2019 at 03:06, Douglas Royds via Openembedded-core
->>> <openembedded-core@lists.openembedded.org> wrote:
->>>> icecc preprocesses source files locally before shipping them off to=20
->>>> be compiled
->>>> on remote hosts. This preprocessing removes comments, including /*=20
->>>> fallthrough */
->>>> comments in switch statements that normally prevent the=20
->>>> implicit-fallthrough
->>>> warning.
->>>>
->>>> Rather than turning off -Werror by patching configure.ac, it is=20
->>>> simpler to
->>>> disable icecc completely for json-c. There are very few source=20
->>>> files to compile,
->>>> so the compilation is quick even without icecc.
->>>>
->>>> See https://github.com/icecc/icecream/issues/419
->>>>
->>>> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
->>>> ---
->>>> =C2=A0 meta/recipes-devtools/json-c/json-c_0.13.1.bb | 1 +
->>>> =C2=A0 1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb=20
->>>> b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
->>>> index 5b10e68297..8d2a20352d 100644
->>>> --- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
->>>> +++ b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
->>>> @@ -21,6 +21,7 @@ RPROVIDES_${PN} =3D "libjson"
->>>> =C2=A0 inherit autotools
->>>>
->>>> =C2=A0 EXTRA_OECONF =3D "--enable-rdrand"
->>>> +ICECC_DISABLED =3D "1"
->>>>
->>>> =C2=A0 do_configure_prepend() {
->>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Clean up autoconf cruft that should=
- not be in the tarball
->>>> --=20
->>>> 2.17.1
->>>>
->>>> --=20
->>>> _______________________________________________
->>>> Openembedded-core mailing list
->>>> Openembedded-core@lists.openembedded.org
->>>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->>
-
+Ross
 
