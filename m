@@ -1,54 +1,50 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com
-	[209.85.222.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C1117E263
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id CA0457E4F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 12:42:03 +0000 (UTC)
-Received: by mail-qk1-f195.google.com with SMTP id r6so1132038qkc.0
+	Fri,  7 Jun 2019 14:03:19 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id t5so2048551wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 05:42:04 -0700 (PDT)
+	Fri, 07 Jun 2019 07:03:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version:organization
-	:content-transfer-encoding;
-	bh=/Uw2FZ24KAuCaGEYiPaPn6eVWQX2ljiYmE4e3EPibWY=;
-	b=Nar+p4+JSB+QNysUlHkLPq/xo8chfG9gKBokXnwbHokcL3fKCxXZ4pJB9wpF8Qh/99
-	QJdazfOGhorsn8GeRXki8D6LWYIL3hD1Rh8c7jgKBywW9DX/xI9XT7RHpqzjWXOqJfJs
-	KjT79/3lmEHDaSGehkAnz/UbDnZW1ANjWw3qe7rQQvUtz9kUfIcrrG+Q7kb0f6Ua7Eaf
-	ZiaTybl8IKGzsc6H1x5H44wTpL09qBdyFAb85qProp8KVhY6MgaxUuqhfkQvAznYsEiz
-	OfyO1nKVQGrQTt6SdbxuoV/ZDJjCezXAAncmGvwB/LFIEAoQbHSckBoG5gLCdmU/XiFP
-	X7KQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=1YOR8AWcWvBvav8euTD/zfOWY4SWy8U0anzAlv8kfy8=;
+	b=UPYafO7KIvpV50qf/vT8hJ6mCGkNRbc4LMjb3S4pQPrkrF6wn4LDYK+mag/Y7x03gc
+	KbyVYRSHJz7kNlArUykO+jeNUVOVbGsGfvFCCAHqqZ2ziIn8+iPYgvxawKz6i97FmjEH
+	yadpVFFpPAQSr2MUrmOb6oM8WDawX3QfBnGWw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=/Uw2FZ24KAuCaGEYiPaPn6eVWQX2ljiYmE4e3EPibWY=;
-	b=qoE4uFY9nwxPtW91q0TIaFlDKh8M6I0Dtki1rMFejE5u/K3Funsaj04+esyzDUMVgg
-	nrJOT6JZo9NhRs23tBtW05VeUh5DdtjbiEYClzuYrL4TBoVXJpYSYLBW+ErwDZCKQ3PH
-	eCUZHDTwTP53s+fQBkj+UyDMKptpYlJRedOkPv0XmciH6i7RS8Yyq4glsRv6HMuGPH2T
-	UDdEC1VA8OvquAPAbWahsMNBMeFtvmz7DPmbxF5TqC60c52FZ4Z05FaeaNXRQhWNssED
-	C0M2HnY6cwp+3eMwB40L7e/hnNoMJe+oHjYrjuYiyAB8utOVp/ZG997+XWfyJ/X/iMaP
-	Msfg==
-X-Gm-Message-State: APjAAAUBRJpbzXLxs5a286cHhGvwdKf4OHFnz9UQnGDq1p0YX/bcDMob
-	wh07UmxZ23Rc+c9EQW7K1XJh9JcVDMDHLg==
-X-Google-Smtp-Source: APXvYqwnL4m6uW1neGTRTKNJ0PWvSkzCLaXSpcIPEZYGpthZQj3FPTps6uD3dnB6svxmsay+8NouCw==
-X-Received: by 2002:a05:620a:1456:: with SMTP id
-	i22mr19148664qkl.170.1559911324140; 
-	Fri, 07 Jun 2019 05:42:04 -0700 (PDT)
-Received: from centrium.lab.ossystems ([181.220.86.53])
-	by smtp.gmail.com with ESMTPSA id
-	m27sm1087151qtc.16.2019.06.07.05.42.02
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=1YOR8AWcWvBvav8euTD/zfOWY4SWy8U0anzAlv8kfy8=;
+	b=db8y8A7TjWFhA5MUw5qnRuAouF0YQHJKxjuRvWCNzhWiMQI4RVZn+VHOBwcOOaTqYy
+	RYgEU2wytuNur5TfxIq+NqRbRkXdvv98Wk22q8+bPzJpRSz7wotwILNf4zlFvuPr4vU/
+	Ju0d+InyDYkThy0CeWjVSf/UZHEo/7hjvuF3m9nBsBpYXBW17PJ1H0+9xUM2BH0UjVh5
+	2QeNYR040dZkuc6yAznIwQ8xli76BEViYj/iUAxFkmJAiLjWqHaI6EYY/BEiT848sZMq
+	d5swJrU9J/oPxDwWXKPkcSnTUnm7v/Wixn7u8wQLNb7z/TIPO8HkR/hWd3Xw2DZZxAxo
+	v4eg==
+X-Gm-Message-State: APjAAAUceY8RBWWoyfVfMY5QB0fnzSJ6P0rHPhSz0n8fLOQIr73aYMQw
+	3GpiNGLGsr/x1pr7WTGfaEbyWw==
+X-Google-Smtp-Source: APXvYqwHJ+aAif5vQNh0rn+cV6zyhpCIlLckkpdHnwHoDqtHqXMdDMGaFmb6dKIZutB8820MJ5ddtQ==
+X-Received: by 2002:a7b:cd84:: with SMTP id y4mr3972224wmj.41.1559916200435;
+	Fri, 07 Jun 2019 07:03:20 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id y9sm4589672wma.1.2019.06.07.07.03.18
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 07 Jun 2019 05:42:03 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Jun 2019 09:41:50 -0300
-Message-Id: <20190607124150.24695-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.20.1
+	Fri, 07 Jun 2019 07:03:19 -0700 (PDT)
+Message-ID: <7249681b3f030618eb01d15a597a01c1f3a10cfe.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 07 Jun 2019 15:03:17 +0100
+In-Reply-To: <20190607121954.116898-1-alex.kanavin@gmail.com>
+References: <20190607121954.116898-1-alex.kanavin@gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Subject: [PATCH] mesa: Update 19.0.5 -> 19.0.6
+Subject: Re: [PATCH 1/3] glib-2.0: udpate 2.58.3 -> 2.60.3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,46 +57,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 12:42:03 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 07 Jun 2019 14:03:20 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Mesa 19.0.6 is a bug fix release which fixes bugs found since the
-19.0.5 release.
+On Fri, 2019-06-07 at 14:19 +0200, Alexander Kanavin wrote:
+> Drop autotools-specific parts from patches, as all autotools files
+> have been removed upstream (meson is now the only option).
+> 
+> Remove autotools-specific 0001-Revert-Use-absolute-paths-in-pkg-
+> config-files.patch
+> 
+> Remove backported fix-nl-abaltmon.patch
+> 
+> Add a hunk to Enable-more-tests-while-cross-compiling.patch which
+> comments out
+> the part of the tests that hard-codes native ld for building.
+> 
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 
-For full log see:
-  - https://www.mesa3d.org/relnotes/19.0.6.html
+So far we've seen:
 
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- .../mesa/{mesa-gl_19.0.5.bb => mesa-gl_19.0.6.bb}             | 0
- meta/recipes-graphics/mesa/{mesa_19.0.5.bb => mesa_19.0.6.bb} | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_19.0.5.bb => mesa-gl_19.0.6.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_19.0.5.bb => mesa_19.0.6.bb} (84%)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/682
+https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/680
 
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.0.5.bb b/meta/recipes-graphics/mesa/mesa-gl_19.0.6.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_19.0.5.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_19.0.6.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_19.0.5.bb b/meta/recipes-graphics/mesa/mesa_19.0.6.bb
-similarity index 84%
-rename from meta/recipes-graphics/mesa/mesa_19.0.5.bb
-rename to meta/recipes-graphics/mesa/mesa_19.0.6.bb
-index 51cba4e47c..02e2c86dde 100644
---- a/meta/recipes-graphics/mesa/mesa_19.0.5.bb
-+++ b/meta/recipes-graphics/mesa/mesa_19.0.6.bb
-@@ -6,8 +6,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0001-Allow-enable-DRI-without-DRI-drivers.patch \
-            "
- 
--SRC_URI[md5sum] = "1509a3251d459fd8b6fadf9329669dc1"
--SRC_URI[sha256sum] = "6aecb7f67c136768692fb3c33a54196186c6c4fcafab7973516a355e1a54f831"
-+SRC_URI[md5sum] = "b97159690eba564311d88a818bdbd64d"
-+SRC_URI[sha256sum] = "2db2f2fcaa4048b16e066fad76b8a93944f7d06d329972b0f5fd5ce692ce3d24"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.20.1
+Cheers,
+
+Richard
+
+
 
 
