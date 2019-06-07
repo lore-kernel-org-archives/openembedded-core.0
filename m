@@ -1,57 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C75D87E407
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 864827C86A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 16:30:14 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id i21so3615775ita.5
+	Fri,  7 Jun 2019 17:53:52 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id u8so2745608wmm.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 09:30:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:references:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=Kic+qnQqAnEuII2nHvNmAiTP9V6cXxo/ILH4H7Fuaxg=;
-	b=SUwBsRaVCgwQ9Al+LOjO3cNWBsEA5KDdkxdakMARlq5/g3asV5B7LKxPnXm93sV0zb
-	gjEIae6uSjinrNQFHeqGM6XzzrpGtmrtiaEJ2AoF7m0DnmlaAKJZmgxl1RugaqIG34An
-	/IvWCBJfdXxWEWSUmIXKDGIi5DgPl0v7IwNpYcrMvW6tnFYMTnb5LuXDRHoGQVUPWXcq
-	gHDRnWMsgN4yxcqz842mwmvmqBsoI1Gg5mmY7gdSvuw1hYpCIAWud5TgqW5oZUoieeav
-	xb2is8362F+VOzvqdWhcKSEawTBR+TQn6zUhTrFyPELj7f68SrHxAI/eM5ASw60gs7R4
-	BlQg==
+	Fri, 07 Jun 2019 10:53:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=rbOBFHMBo1eW/VzNE8br1opikt7RQU0uuOi+Vp3C7lQ=;
+	b=Qsd87OMOHJ3x/xvWiMA+miVfhLMeSRm9+pk+WyiPHJ/LlVvCXu8Bal8rnXgHfLbU3x
+	E0+XQABDiyC/P+Sz5sfaE5MOjk24T/dPPhTA/WQ+8BkX8avBcAXr6g3hOIADtTlFabEd
+	gC+BtghVdxDKHBu/gCWl8uGRonEBYNAuIdyT0h4/Wa6g3kxlVsUAkrKPBvfFq9oRC1IP
+	wJdOo3IygiBjtFkJPI5X9LfMKPEWH/9C8mo0kzog0EbbYM9CJWQD8prIseYAwr1a/lg3
+	7LZm+SaxurLF3FxeUwC/UVNfS8pjcExiVVhF+pTVFxLazQeuNvg9psL+hebpj9XUE5qD
+	xyYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=Kic+qnQqAnEuII2nHvNmAiTP9V6cXxo/ILH4H7Fuaxg=;
-	b=nyRVkVGUMu+AKEzYo62etzkwhpnayvTKERGCy5Zo6H30tqoQsPbNCM8XOqSGckBoQU
-	xC8Pb92mRfcDPtcRGy5a7plQ3CVW6nq75/qC9tNkgvsu377Ipr/JXhrCaPX+mqIbYMAn
-	Nwa5euY9v68XcaZFj1nPddDHlvclxMemlefrhjQW/wj9R7Z6wBqQ8EkiWFDed4Wj9Rsp
-	19ENWoprQIoqVAgy5J0llwxnOUn0O5dN6Lv9rcBeJ04pryGMaO0X0WHGG1VGvFEMfgma
-	7NDmZ98caN1DQmsTR8/Cg6wq8Y2W8U67KxaEUbe3wMK3ZfdckuNtkgwtYwFFSgF4pn+x
-	E71g==
-X-Gm-Message-State: APjAAAXLD0mqCiwIg3s4ezisQPi9237ndQEkzE9J3VNbl3aZCFamiX9A
-	AQ/2V03JvoZOxs41zPNmeDE+Fq8m
-X-Google-Smtp-Source: APXvYqxyI+A+pWrac3u51FaJBMH59dCXqGL8BtjPF10hVtmIeiC0bAZl85EbJHjBIBYf64y/ssFkjA==
-X-Received: by 2002:a24:4344:: with SMTP id s65mr4701502itb.137.1559925015484; 
-	Fri, 07 Jun 2019 09:30:15 -0700 (PDT)
-Received: from [10.30.197.57] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id v130sm985325itc.8.2019.06.07.09.30.14
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Jun 2019 09:30:14 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: richard.purdie@linuxfoundation.org,
-	openembedded-core@lists.openembedded.org
-References: <20190607154805.15741-1-richard.purdie@linuxfoundation.org>
-	<ff680a45-8b31-6167-d5b5-e1a242fc006d@gmail.com>
-	<c0cb96272d5dd5dddfe61dfbee2f428156b124d9.camel@linuxfoundation.org>
-Message-ID: <8c1918e6-9b46-393a-5a11-a4ee64290091@gmail.com>
-Date: Fri, 7 Jun 2019 11:30:13 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <c0cb96272d5dd5dddfe61dfbee2f428156b124d9.camel@linuxfoundation.org>
-Subject: Re: [PATCH] multiconfig: Adapt to bitbake switch 'multiconfig' -> 'mc'
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=rbOBFHMBo1eW/VzNE8br1opikt7RQU0uuOi+Vp3C7lQ=;
+	b=Pc9o6e8ZKVbH7RCchA2rKBeDxu9MbWE2X4KvrFP6xa0G2Nah0a019pK0xUZWsKTyhs
+	9dd8ZbgWqe8hjwS9JkVRs86+kn/6TtygHDeSEhzR3gidF1Lwe3AY9VuMdrEOD/PmXsQ9
+	qOuMUebuHPq+AyiivxeV/DeyqD83/cRRTt7qQuSPBw8yW4g0/igtrwKG1ogsJ3ehVMeP
+	GVxJiASUAww5Z1ArJ7sSH7lVKLwb1IZwgkSZj8B8MgvxcMGYoLM6UubqN1RkJggSbaT3
+	NmpPoMRa6MRcfoJ4DllA70gxa4ZDI16KIQnaeRpH8IREaJFEoq+ZZuxUWADatHGP7YEj
+	vMIg==
+X-Gm-Message-State: APjAAAWAc49FtBpm8csqGUXgkfYYGPsIuyZ2/peqnw9fCwyA1oYr/Qt0
+	yleB/+ZwPBMpjwqrs/71G/ZoZE2n++o=
+X-Google-Smtp-Source: APXvYqzSga3WDhd3/PlYVId0seyfYirC+K3CllF0NYSYCFIZNqI6rrOm5ZeaMaq701uV6Bz6gasx5g==
+X-Received: by 2002:a1c:188:: with SMTP id 130mr4437180wmb.18.1559930032839;
+	Fri, 07 Jun 2019 10:53:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o13sm3495085wra.92.2019.06.07.10.53.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Jun 2019 10:53:52 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2019 18:53:46 +0100
+Message-Id: <20190607175348.9666-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/3] libxslt: add comment saying when a workaround can be removed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,28 +56,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 16:30:14 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Fri, 07 Jun 2019 17:53:52 -0000
 
-On 6/7/19 11:23 AM, richard.purdie@linuxfoundation.org wrote:
-> On Fri, 2019-06-07 at 10:51 -0500, Joshua Watt wrote:
->> Is there a reason for this change other than aesthetics?
-> I have had a lot of complaints and in real world use I can understand
-> why...
->
->> FWIW, we maintain some recipes across several versions of poky, so
->> this rename is going to cause me some headaches
-> The mcdepends code is tollerant of either naming. We could teach cooker
-> to translate any commandline references so both worked there. Would
-> that be good enough to work for you?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-support/libxslt/libxslt_1.1.33.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Ya, that would be sufficient. I'll work up a patch for that.
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+index 28d404ca779..462eccf52fa 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+@@ -21,8 +21,9 @@ BINCONFIG = "${bindir}/xslt-config"
+ 
+ inherit autotools pkgconfig binconfig-disabled lib_package
+ 
+-# We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header
+ do_configure_prepend () {
++	# We don't DEPEND on binutils for ansidecl.h so ensure we don't use the header.
++	# This can be removed when upgrading to 1.1.34.
+ 	sed -i -e 's/ansidecl.h//' ${S}/configure.ac
+ 
+ 	# The timestamps in the 1.1.28 tarball are messed up causing this file to
+-- 
+2.11.0
 
->
-> Cheers,
->
-> Richard
->
 
