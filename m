@@ -1,45 +1,51 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
-	[209.85.167.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 0AF737E513
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id AFCFA7E500
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 16:23:57 +0000 (UTC)
-Received: by mail-oi1-f194.google.com with SMTP id w196so1832528oie.7
+	Fri,  7 Jun 2019 16:28:33 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id c2so2762499wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 09:23:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=wxZ9q5BkUe+L6ClBucM1ILBdsq0ECe3lgBhqyyB5ziw=;
-	b=bgt128KpjYetYOhIagbBtwuML7fSHUtW5WtP0fTn8AMB+5PrNkRVPubKZzK8MzCRqZ
-	EGxZigglGTBeU1Fet85uAO8uRxnqN8qSvOoCBYH3YDvbAQX7pVX/e5Z1LZY5lPpymPb8
-	jula45y/WKys/D++BjmyxmB4xh+OfMiKkW9RwOG9mSSgTbEVDph4SMIYTByw0lVa5xQ8
-	F6fiC4ul0KSl68w3abqgEEaAByQk31/WyHW/HhESyrcZFWvMbbeDr2LieWwo/tuwMerr
-	JFF53IlSh9V5vVSwafCHo7EZOF0T12qt74CspCKJt1OmlQT/kLZN3UgaLXfdMIMq58Tg
-	D1BA==
+	Fri, 07 Jun 2019 09:28:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=g6v//8hE3qjujWQCY8xI8ORu6U24TjfSnoQECvbm6SE=;
+	b=WtmzB1OFGj3f14qABrlSlAcNdLmjf+A0d1T3TQyCG9xbxr6ch8cjKUPoXLMT7G8n8R
+	E2CjnEw4eb638riHJ6oUdMP0TtO3pEqRdbCcTGUxA1Du3KPMM1c6F1/KXQ2lCzho4eaD
+	hw4AW7aLsbRX0j9QOFyWNyYJ5gf84k6Wvp8NU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=wxZ9q5BkUe+L6ClBucM1ILBdsq0ECe3lgBhqyyB5ziw=;
-	b=dU2H2l7t7yx/pVTx4Imck0+U3y9jS6BIu+qbPNUH/+pvguiNB3tOFZIDSKnQUGaCpB
-	Z834PnJnaTJC9CAtK8V6Vn/7hlqwthoMgdFnjX58+mm92IHmkK96+frZcWdwa+VzXyRA
-	sibFrY7PxKPJ64GC7OZAj+n94Wf1KkkIHcWfOXH77ucvTmoqT0iJkUCkLmYtdeIHFsEB
-	UTbLvPUN9axPDi+5Y6N+wXQkShZnzlX7FrYNV2OUW0e2MhDQ2grd3iI19T1L/Ptbesey
-	V7tHnZvAhjpZkd9UJJIKMN7FCcYtaoo0UbFiueVv4BtRJ5Ollmw41aLvu9X9MRQ9l+we
-	wmJg==
-X-Gm-Message-State: APjAAAXWhWStSoJiq4b54EbbiOdxLa3BE6SrX1WMEPxQZ8ak9f0usbPT
-	C1FQxne0r4vAGDmM3yPVpk3JdEMr2CGurx92gwY=
-X-Google-Smtp-Source: APXvYqxcItqDv8dcrm+Dqp7hQKEa3qPHDNYiJOlZFehGbzsgf8e9BrGJ03H8bwKcgLJXPfh7JKFE+L3J9nR5aAI1iZ4=
-X-Received: by 2002:aca:aa88:: with SMTP id t130mr2244937oie.70.1559924638978; 
-	Fri, 07 Jun 2019 09:23:58 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=g6v//8hE3qjujWQCY8xI8ORu6U24TjfSnoQECvbm6SE=;
+	b=rQWM22Ot5x4gkYQPXHFkzNE75VP6Pkkbmuden2cIYIHDMW0cDWiGElyEx/ls7duLaE
+	A9AHqr7ZIbsG7bdO6SXB8BISqkkc0Ebdb+JSzOp+62xxBq4ujAChVOoLaYuY34I4UQLn
+	STqUB3Vh79A97NA9HGFxwnSA8yMywG3LrsgM+uU+DFbiZttvtwHmPeAwrk0QgXwPWW2f
+	BhqZM1NHmrdXtTLltcMJ6UNv50m6v7NwTwOa1MG7Gp8+oIlfQHz6XLDxMdpRv+jGiAua
+	pWdokhdgubP8ldkkA3/BNqyhlK/Ez9+NmkM/ARnEXFW1Ifi5UM9qvV/N+RbXLO8l8wyL
+	taMA==
+X-Gm-Message-State: APjAAAXjvv7I0rAQq0y+JcX9SYAbE3hrvRaYFD1Y/4xykGZ0LaN6Tre1
+	JmS23zbryJYOUBZodaKVW37tDg==
+X-Google-Smtp-Source: APXvYqzsk3NzRFahKPA0XA5d8dlR7rtoF3UMvg68h7T4uYXjjsFMD5ogdq85gBPPliTyu2lc8CEwrA==
+X-Received: by 2002:adf:efc8:: with SMTP id i8mr6197647wrp.220.1559924914452; 
+	Fri, 07 Jun 2019 09:28:34 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id f2sm3502258wrq.48.2019.06.07.09.28.33
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 07 Jun 2019 09:28:33 -0700 (PDT)
+Message-ID: <e417891dfed7f62e557491f8e521df60ac17c77c.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>, Michael Halstead
+	<mhalstead@linuxfoundation.org>
+Date: Fri, 07 Jun 2019 17:28:31 +0100
+In-Reply-To: <CANNYZj8KtBGkrzCVzB8NYxswQj4w_ksNvgrCny4ubnsR-zUojA@mail.gmail.com>
 References: <20190607121954.116898-1-alex.kanavin@gmail.com>
 	<7249681b3f030618eb01d15a597a01c1f3a10cfe.camel@linuxfoundation.org>
-In-Reply-To: <7249681b3f030618eb01d15a597a01c1f3a10cfe.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 7 Jun 2019 18:23:47 +0200
-Message-ID: <CANNYZj8KtBGkrzCVzB8NYxswQj4w_ksNvgrCny4ubnsR-zUojA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+	<CANNYZj8KtBGkrzCVzB8NYxswQj4w_ksNvgrCny4ubnsR-zUojA@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/3] glib-2.0: udpate 2.58.3 -> 2.60.3
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,77 +60,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 16:23:58 -0000
-Content-Type: multipart/alternative; boundary="000000000000fb9569058abe4177"
-
---000000000000fb9569058abe4177
+X-List-Received-Date: Fri, 07 Jun 2019 16:28:34 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Fri, 7 Jun 2019 at 16:03, Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+On Fri, 2019-06-07 at 18:23 +0200, Alexander Kanavin wrote:
+> On Fri, 7 Jun 2019 at 16:03, Richard Purdie <
+> richard.purdie@linuxfoundation.org> wrote:
+> > So far we've seen:
+> > 
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/682
+> > https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/680
+> > 
+> 
+> Both are the same issue, and a rather bizarre one: instead of
+> starting the build, ninja goes into a loop trying
+> to re-run the configuration step and recreate build.ninja (its
+> equivalent of Makefile) and not being happy when it finishes.
+> 
+> The issue is specific to opensuse/tumbleweed builders, and I was able
+> to reproduce it locally by setting
+> meson.build's modification time one week into the future ("touch -d
+> 'next Thursday' meson.build").
+> 
+> Which brings me to a question: is the system date and time set
+> correctly on those builders?
 
->
-> So far we've seen:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/682
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/680
->
->
-Both are the same issue, and a rather bizarre one: instead of starting the
-build, ninja goes into a loop trying
-to re-run the configuration step and recreate build.ninja (its equivalent
-of Makefile) and not being happy when it finishes.
+Perhaps not:
 
-The issue is specific to opensuse/tumbleweed builders, and I was able to
-reproduce it locally by setting
-meson.build's modification time one week into the future ("touch -d 'next
-Thursday' meson.build").
+rpurdie@opensuse151-ty-1:~> date
+Fri  7 Jun 11:25:45 UTC 2019
+rpurdie@ubuntu1804-ty:~$ date
+Fri Jun  7 16:26:20 UTC 2019
+rpurdie@tumbleweed-ty-1:~> date
+Fri  7 Jun 11:27:09 UTC 2019
+[rpurdie@fedora29-ty-1 ~]$ date
+Fri  7 Jun 16:27:52 UTC 2019
 
-Which brings me to a question: is the system date and time set correctly on
-those builders?
+Michael? (cc'd)
 
-Alex
+Cheers,
 
---000000000000fb9569058abe4177
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 7 Jun 2019 at 16:03, Richard Purd=
-ie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_bla=
-nk">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><div class=
-=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
-0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-So far we&#39;ve seen:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/46/build=
-s/682" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/46/builds/682</a><br>
-<a href=3D"https://autobuilder.yoctoproject.org/typhoon/#/builders/40/build=
-s/680" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoprojec=
-t.org/typhoon/#/builders/40/builds/680</a><br>
-<br></blockquote><div><br></div>Both are the same issue, and a rather bizar=
-re one: instead of starting the build, ninja goes into a loop trying</div><=
-div class=3D"gmail_quote">to re-run the configuration step and recreate bui=
-ld.ninja (its equivalent of Makefile) and not being happy when it finishes.=
-</div><div class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">The i=
-ssue is specific to opensuse/tumbleweed builders, and I was able to reprodu=
-ce it locally by setting</div><div class=3D"gmail_quote">meson.build&#39;s =
-modification time one week into the future (&quot;touch -d &#39;next Thursd=
-ay&#39; meson.build&quot;).</div><div class=3D"gmail_quote"><br></div><div =
-class=3D"gmail_quote">Which brings me to a question: is the system date and=
- time set correctly on those builders?<br></div><div class=3D"gmail_quote">=
-<br></div><div class=3D"gmail_quote">Alex<br></div><div class=3D"gmail_quot=
-e"><div><pre class=3D"m_8777065863766801137m_-6314178930964745888gmail-sele=
-ct-content m_8777065863766801137m_-6314178930964745888gmail-log"><div class=
-=3D"m_8777065863766801137m_-6314178930964745888gmail-logline m_877706586376=
-6801137m_-6314178930964745888gmail-ng-scope"><span class=3D"m_8777065863766=
-801137m_-6314178930964745888gmail-no-wrap m_8777065863766801137m_-631417893=
-0964745888gmail-log_o"><span class=3D"m_8777065863766801137m_-6314178930964=
-745888gmail-"><br></span></span></div><div class=3D"m_8777065863766801137m_=
--6314178930964745888gmail-logline m_8777065863766801137m_-63141789309647458=
-88gmail-ng-scope"><span class=3D"m_8777065863766801137m_-631417893096474588=
-8gmail-no-wrap m_8777065863766801137m_-6314178930964745888gmail-log_o"><spa=
-n class=3D"m_8777065863766801137m_-6314178930964745888gmail-"><br></span></=
-span></div></pre> </div></div></div>
 
---000000000000fb9569058abe4177--
+
+
