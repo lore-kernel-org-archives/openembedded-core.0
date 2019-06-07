@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f54.google.com (mail-io1-f54.google.com
-	[209.85.166.54])
-	by mail.openembedded.org (Postfix) with ESMTP id E7FD77E079
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 822677C87F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 08:57:29 +0000 (UTC)
-Received: by mail-io1-f54.google.com with SMTP id r185so826917iod.6
+	Fri,  7 Jun 2019 11:05:05 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id t5so1493631wmh.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 01:57:31 -0700 (PDT)
+	Fri, 07 Jun 2019 04:05:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=bflCN4rYn1MIvs14rO7DvYaXDLYd4ljM4+QCyXrNiX0=;
-	b=uUktl6kUYHkzaofUWtUdp9gptGBDliByLnYkYJ2JUnVl6UnzZLQGHvQoNZkqMQDk46
-	NzVGuQNHAUHKR7rmvtRn0aRqec11ImJPyeOi1jnvQeVe9A7GRY5QFZvjUxzE/V8i/Exw
-	txtxmDwm6GFgWYALGRfBbOW/MBsbRwkKw/rVS22vvnR2+IrbETfH/A1ab4BmbWaXEWJt
-	3FsMJ4w9D00zEVar/cAQERSnaYaHoeqoOwm7jrlUIDYnuW5jbRTyJKHD72mMUusEqDOi
-	RBswwgJawtPTP4gbSd4ODRleqJubZmxM2wfGz0NdAFGndUysrmhWqJhbUvBf9rdTCnce
-	z2nQ==
+	h=from:to:subject:date:message-id;
+	bh=19tAh6d7qOt7XtW8k9yonPUJZcm44kEA04P7z0aSkSA=;
+	b=tqVG4JA/tVNyJG9ypuuOzUoArPj16zgKIzTC51tYOkrK0nwMGmBSL9BRXtCC/ywMbG
+	pIEFGwhiPn9xquD32e4Ba4Hneaso9XcTWSL6RwBkmQd7vyOF+0X8X7DI1DflHn88jmaR
+	kNkmddfcMr84K0eYys+oHfQk7qOea56YV8npSq7LQlitK6Zk3qbFFJV2jw+fVxqjkWAh
+	WdHz8w23n5QBWh8PiW0GgRukc67fx3grdNzWkpEG1IUlgnFy+OIUisKjguKvMhJMXWu+
+	KUfrzvXFtO2eYDqCrLeSc6kzSPaopm1/J4fXEqYPLFo1Z3a9Iz13E+TQeady7l069dqT
+	wEEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=bflCN4rYn1MIvs14rO7DvYaXDLYd4ljM4+QCyXrNiX0=;
-	b=cxhEJJ0oKZ36Xej3lMiKsqvd+sst4fM8Xm6AhnJhhTCPWeJdd4nWav89vQXhgh7769
-	pwhBAjCOHD1Hjhwgj7sUpzLd6P1mRiFGdZ8zuxkLmPjWr31rNjdA+yJEXM5bdxtVWXzE
-	XFWm1BNM5i3sX0R6p5i4Df/9b3xVulyHr6goKtZ2pPul9AfzE3N3rpHSstj0X7aD4jlS
-	fvc2NXlglHtsxdGuxqb+XBB7qqQg55mfd1Dbaw/MmgNAjvw8H7rWcSU9VsBOcF0CloRg
-	L8YjUfAULLNqguzuZsvK/WTBV9+FnMw/IzwosHDKbtiS+zY0DjG09XoQBeskT54YzTaT
-	L2FA==
-X-Gm-Message-State: APjAAAVgnCgy/MYS0yCk+R6X+CNGqIy0g8AIz7TqkbEkkHPp7r3ktOJF
-	hEzbsBfiKWUVnlBiNgpbmUIxjCp4di3nHAX4SOHik6ca7e0=
-X-Google-Smtp-Source: APXvYqwdYd0jArHNOlGimiAJshxcZbJK7O65MFHPte5I6X5mcIWMsb3BYqzQqjiEFOE6qXMixp7q2eaXG5hvr3KTOYY=
-X-Received: by 2002:a5d:9e11:: with SMTP id h17mr31133166ioh.261.1559897850931;
-	Fri, 07 Jun 2019 01:57:30 -0700 (PDT)
-MIME-Version: 1.0
-References: <1559892984-24780-1-git-send-email-maciej.pijanowski@3mdeb.com>
-	<CAJTo0Lb=azHFW1Cpg-FP4nbLnnNaL9KMu0FHUpHQcMh+Sr2R2Q@mail.gmail.com>
-	<29e27537-a8c0-a832-8813-5e46b75bd4f0@3mdeb.com>
-In-Reply-To: <29e27537-a8c0-a832-8813-5e46b75bd4f0@3mdeb.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 7 Jun 2019 09:57:19 +0100
-Message-ID: <CAJTo0Lbu1gM=q+KRymBp9uAhXdVm8pkXD7mGO1YpHNOCqrZj2w@mail.gmail.com>
-To: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-Cc: piotr.krol@3mdeb.com, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] recipetool: support python3 instead of python2
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=19tAh6d7qOt7XtW8k9yonPUJZcm44kEA04P7z0aSkSA=;
+	b=iF2xQxbRgKRUUicECejI9Nwpkot8CehZB/75p3v5mqJ8YOuCkSJBdViXgf8dVt44DB
+	/8FcmF1Zi+HDbU/4cQB7WtdG3VLAlpIcsMfF5QS/1I9s7bpDkyUTn2TH5cN6Kb/ZjEW8
+	CzSCLvsLs/3HI6vEwHLLjxJb/XCIWrIhPsgzbT/BERgNqCV+kPDmA3h2xkXe8ixTfzWq
+	ouz+0DVjElGe/oqajyl8kVPzIe1v6bG3UIFpd0uuHy6fMxfGSHGuXH2gajUU7tIe825x
+	c9Xmbu2E+CMy7JS6TDQpYbDGm/PpjSRDALUN29jLsJex28pNHkpzbKFpM7mQDrZR32Y9
+	I6cA==
+X-Gm-Message-State: APjAAAXF96yG2TAIkkHPZMjS0rdYAXUoCV62w97chDmPzyrK9jBB6Zjs
+	4+RkYIuKnjOemr+84QgirxdLQDB7I6A=
+X-Google-Smtp-Source: APXvYqwQqCQWuFrHW/1DK2tPbCp+HlzgXQZ1TxLztuWVDBcbss3g/tkaCOfMFrqcdJEnpfu9+pXO5w==
+X-Received: by 2002:a1c:305:: with SMTP id 5mr3359460wmd.101.1559905505818;
+	Fri, 07 Jun 2019 04:05:05 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id 67sm1690403wmd.38.2019.06.07.04.05.04
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Jun 2019 04:05:04 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2019 12:05:02 +0100
+Message-Id: <20190607110502.31175-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] wic/filemap: handle FIGETBSZ failing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,34 +56,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 08:57:30 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 07 Jun 2019 11:05:05 -0000
 
-On Fri, 7 Jun 2019 at 09:46, Maciej Pijanowski
-<maciej.pijanowski@3mdeb.com> wrote:
-> > Would you be able to write a small test for this, along the lines of
-> > test_recipetool_create_*() in
-> > meta/lib/oeqa/selftest/cases/recipetool.py?
+Some file systems don't support fetching the block size (notably the file system
+Docker uses for containers), so handle the iotctl() failing and raise the
+expected error.
 
-> Sure, I will try that. I haven't been contributing to the QA parts yet.
-> Is there any documentation / guidelines I should refer to?
-> Or looking at other test cases should be enough to get it done?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ scripts/lib/wic/filemap.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Thanks, that's much appreciated.  Looking at the other
-test_recipetool_create_* tests in that file should show you enough to
-write the test case, the hardest bit will most likely be picking a
-suitable Python module for the test case!
+diff --git a/scripts/lib/wic/filemap.py b/scripts/lib/wic/filemap.py
+index 244c07a71cf..a3919fbcad8 100644
+--- a/scripts/lib/wic/filemap.py
++++ b/scripts/lib/wic/filemap.py
+@@ -32,7 +32,10 @@ def get_block_size(file_obj):
+     """
+     # Get the block size of the host file-system for the image file by calling
+     # the FIGETBSZ ioctl (number 2).
+-    binary_data = fcntl.ioctl(file_obj, 2, struct.pack('I', 0))
++    try:
++        binary_data = fcntl.ioctl(file_obj, 2, struct.pack('I', 0))
++    except OSError:
++        raise IOError("Unable to determine block size")
+     bsize = struct.unpack('I', binary_data)[0]
+     if not bsize:
+         import os
+-- 
+2.11.0
 
-To execute the tests, use oe-selftest:
-
-# This runs all tests, will take quite a long time
-$ oe-selftest -a
-
-# Run just the recipetool tests
-$ oe-selftest -r recipetool
-
-# Run just test_recipetool_create_git_http
-$ oe-selftest -r recipetool.RecipetoolTests.test_recipetool_create_git_http
-
-Ross
 
