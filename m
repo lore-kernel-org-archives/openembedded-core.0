@@ -1,50 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id CA0457E4F1
+Return-Path: <trini@konsulko.com>
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id D4ECA7E387
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 14:03:19 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id t5so2048551wmh.3
+	Fri,  7 Jun 2019 14:49:24 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id h21so2507949qtn.13
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 07:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=1YOR8AWcWvBvav8euTD/zfOWY4SWy8U0anzAlv8kfy8=;
-	b=UPYafO7KIvpV50qf/vT8hJ6mCGkNRbc4LMjb3S4pQPrkrF6wn4LDYK+mag/Y7x03gc
-	KbyVYRSHJz7kNlArUykO+jeNUVOVbGsGfvFCCAHqqZ2ziIn8+iPYgvxawKz6i97FmjEH
-	yadpVFFpPAQSr2MUrmOb6oM8WDawX3QfBnGWw=
+	Fri, 07 Jun 2019 07:49:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=iC1QIeRk8jNHThVm5uZcZHvWCzomso8/M4Y1okwy4/4=;
+	b=FRxmdgO+kG68w5B95bak/UtifDb9oUv1h8w+GWF7vPEdKgnIiNtJSRUg1uxzq1Axi+
+	hhBnDUNHl8mlBcEJOfpxq+GumOs0wa8c4Zs77FX9Yn/0nXBLTDtcd1LeoU7U8SZ/1hDZ
+	1QZRzHRcnza0IaEjkbd2BEIc7aUdO4SSkmJVc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=1YOR8AWcWvBvav8euTD/zfOWY4SWy8U0anzAlv8kfy8=;
-	b=db8y8A7TjWFhA5MUw5qnRuAouF0YQHJKxjuRvWCNzhWiMQI4RVZn+VHOBwcOOaTqYy
-	RYgEU2wytuNur5TfxIq+NqRbRkXdvv98Wk22q8+bPzJpRSz7wotwILNf4zlFvuPr4vU/
-	Ju0d+InyDYkThy0CeWjVSf/UZHEo/7hjvuF3m9nBsBpYXBW17PJ1H0+9xUM2BH0UjVh5
-	2QeNYR040dZkuc6yAznIwQ8xli76BEViYj/iUAxFkmJAiLjWqHaI6EYY/BEiT848sZMq
-	d5swJrU9J/oPxDwWXKPkcSnTUnm7v/Wixn7u8wQLNb7z/TIPO8HkR/hWd3Xw2DZZxAxo
-	v4eg==
-X-Gm-Message-State: APjAAAUceY8RBWWoyfVfMY5QB0fnzSJ6P0rHPhSz0n8fLOQIr73aYMQw
-	3GpiNGLGsr/x1pr7WTGfaEbyWw==
-X-Google-Smtp-Source: APXvYqwHJ+aAif5vQNh0rn+cV6zyhpCIlLckkpdHnwHoDqtHqXMdDMGaFmb6dKIZutB8820MJ5ddtQ==
-X-Received: by 2002:a7b:cd84:: with SMTP id y4mr3972224wmj.41.1559916200435;
-	Fri, 07 Jun 2019 07:03:20 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y9sm4589672wma.1.2019.06.07.07.03.18
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 07 Jun 2019 07:03:19 -0700 (PDT)
-Message-ID: <7249681b3f030618eb01d15a597a01c1f3a10cfe.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 07 Jun 2019 15:03:17 +0100
-In-Reply-To: <20190607121954.116898-1-alex.kanavin@gmail.com>
-References: <20190607121954.116898-1-alex.kanavin@gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=iC1QIeRk8jNHThVm5uZcZHvWCzomso8/M4Y1okwy4/4=;
+	b=ud+/uINz7ntsuhiPPQ4zdOvp9/x1ha0wLp6XSXUvV9TnSSO9DezET//z1DD5FumzoQ
+	wYoyNjgg3V1AYYY3RmjxFOnzGVHXKP/gQHLjKWssS397KW7QgAWp7JHTq+735nhB5WFZ
+	YGIMAUu1oGDAfmG85AseY3Z2FrjBwr3I5TDUIEUd1dvIP0hymVXNo1oRkEYW9OPpnYwG
+	O/f9RoTb3eWJIbT3pV9dXoua4If5BLS429F3HFzkdUHGpwDI2/zqqEOMWuGXN88vhkQR
+	cJCRHnJT03Pfquxx3iYeRqz7m1whKFR0gW+JCU+VXxoixA/D0dBxNdKIkTMnmZzUkMWW
+	6ffg==
+X-Gm-Message-State: APjAAAXn+RWtUb3zPSje8mbKbjtjft2NVrVdevBguGVeUL+2wB/oVPRj
+	JIqjDyC0Hpqy/yeyOBO/yjTkrA==
+X-Google-Smtp-Source: APXvYqyQbfZBaDzP6UAPQPrcu5LI2Dcixjm3QlAvnVBJwV48prYpJoNIpFzTEQ7zYYVhbw/rEk1RJw==
+X-Received: by 2002:a0c:a908:: with SMTP id y8mr43974418qva.14.1559918965413; 
+	Fri, 07 Jun 2019 07:49:25 -0700 (PDT)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-82DE-FD52-FD6B-B067-DDD8.dyn6.twc.com.
+	[2606:a000:1401:82de:fd52:fd6b:b067:ddd8])
+	by smtp.gmail.com with ESMTPSA id
+	w34sm1232387qth.81.2019.06.07.07.49.24
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Jun 2019 07:49:24 -0700 (PDT)
+Date: Fri, 7 Jun 2019 10:49:22 -0400
+From: Tom Rini <trini@konsulko.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20190607144922.GN10942@bill-the-cat>
+References: <20190607110502.31175-1-ross.burton@intel.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/3] glib-2.0: udpate 2.58.3 -> 2.60.3
+In-Reply-To: <20190607110502.31175-1-ross.burton@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic/filemap: handle FIGETBSZ failing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,34 +59,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 14:03:20 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 07 Jun 2019 14:49:25 -0000
+X-Groupsio-MsgNum: 125485
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="QFYA38BK7dvhx8Kf"
+Content-Disposition: inline
 
-On Fri, 2019-06-07 at 14:19 +0200, Alexander Kanavin wrote:
-> Drop autotools-specific parts from patches, as all autotools files
-> have been removed upstream (meson is now the only option).
-> 
-> Remove autotools-specific 0001-Revert-Use-absolute-paths-in-pkg-
-> config-files.patch
-> 
-> Remove backported fix-nl-abaltmon.patch
-> 
-> Add a hunk to Enable-more-tests-while-cross-compiling.patch which
-> comments out
-> the part of the tests that hard-codes native ld for building.
-> 
-> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+--QFYA38BK7dvhx8Kf
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So far we've seen:
+On Fri, Jun 07, 2019 at 12:05:02PM +0100, Ross Burton wrote:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/46/builds/682
-https://autobuilder.yoctoproject.org/typhoon/#/builders/40/builds/680
+> Some file systems don't support fetching the block size (notably the file=
+ system
+> Docker uses for containers), so handle the iotctl() failing and raise the
+> expected error.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Cheers,
+Reviewed-by: Tom Rini <trini@konsulko.com>
 
-Richard
+--=20
+Tom
 
+--QFYA38BK7dvhx8Kf
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
 
+iQIcBAEBAgAGBQJc+nlyAAoJEIf59jXTHXZS3FcQAJx65gbDy+sSqwOOsACEssiC
+j7h5vLKJfgA6pAEfjv+c4UBoXc6Q/9z5DfpDV1yJlmYD1b6pL5+Kwqg6lESLkOFO
+lkE/AB7bfv7Kl+8PZgRh5A8SdBfkoHbOgGQDuNRhI4S2u5PiXm7Tb72Q/EJie5TG
+cL7F5b0DjBmhylhhLls08uYriexKuzj7kx5Ooiw9ropsHcZT/z/YIzdXbvZNEehx
+qvEaWKbRhGc0t5/BIMHR0Oy/epCjNOV+GYuN3MOq0qi0xHZ32taWIoFPdH/yTgtF
+JHNGw8JfLdiUbf2LWwl6MO6HfXS2b+sz38o1941vKxh48PVLcDA8ZjGw94MnGvpe
+lUAwmXSj3mpDEb0yfZ3M1BspnJtfFnG1/emhHGJRXZlS7oEdFzpRPvFPz6zgDaf/
+HDIGZM4hSQIcoLuN38rI8qdJ6cTUFC6LM6YLIuTEoIfO8p2COGjk86Xo9vhk8QYx
+XPOPdB3AjZPpMlVgFZvR5WR0KEaETXxo4BR77lnbYVB4JXlwVuy5v3R4Q3LJKWOk
+im1tPfvOUff8jRBAZtxXZliC7YJYz1C4xshc6hDMmzKZxs4G6AWNKHhkJMhIa50M
+VUk9v11DX28IStDgOtIcpTczjoooFjuVF3f/AM8cjcwid6HKXwlBYDGW6GnFj+fe
+9Nw0z0WNSzdjM3erjI+p
+=KYSW
+-----END PGP SIGNATURE-----
 
+--QFYA38BK7dvhx8Kf--
