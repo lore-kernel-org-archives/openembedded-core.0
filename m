@@ -1,52 +1,49 @@
-Return-Path: <trini@konsulko.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D4ECA7E387
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id D5D437D3B6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 14:49:24 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id h21so2507949qtn.13
+	Fri,  7 Jun 2019 15:48:06 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id c2so2640705wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 07:49:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=iC1QIeRk8jNHThVm5uZcZHvWCzomso8/M4Y1okwy4/4=;
-	b=FRxmdgO+kG68w5B95bak/UtifDb9oUv1h8w+GWF7vPEdKgnIiNtJSRUg1uxzq1Axi+
-	hhBnDUNHl8mlBcEJOfpxq+GumOs0wa8c4Zs77FX9Yn/0nXBLTDtcd1LeoU7U8SZ/1hDZ
-	1QZRzHRcnza0IaEjkbd2BEIc7aUdO4SSkmJVc=
+	Fri, 07 Jun 2019 08:48:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zOSo/p/C6mYMdyrXY6/rHoQ9l3XVvhW2wyHBE7YmPaw=;
+	b=S/er8K2D8UEH41vtHIF99brDfmTFn53R/Ebb77rVkg4ImwNckSWOt4lUtGswZ3TmS8
+	ir8c4zLK35ZKif2rBgiRW6kSzSyJjNOZtXGilYboLt+0pM7QXETNDdrMpDavLnHaRzK8
+	3AjODOFIJXXNsfXgzEQsA47aHBEIcoi5ZKlPQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=iC1QIeRk8jNHThVm5uZcZHvWCzomso8/M4Y1okwy4/4=;
-	b=ud+/uINz7ntsuhiPPQ4zdOvp9/x1ha0wLp6XSXUvV9TnSSO9DezET//z1DD5FumzoQ
-	wYoyNjgg3V1AYYY3RmjxFOnzGVHXKP/gQHLjKWssS397KW7QgAWp7JHTq+735nhB5WFZ
-	YGIMAUu1oGDAfmG85AseY3Z2FrjBwr3I5TDUIEUd1dvIP0hymVXNo1oRkEYW9OPpnYwG
-	O/f9RoTb3eWJIbT3pV9dXoua4If5BLS429F3HFzkdUHGpwDI2/zqqEOMWuGXN88vhkQR
-	cJCRHnJT03Pfquxx3iYeRqz7m1whKFR0gW+JCU+VXxoixA/D0dBxNdKIkTMnmZzUkMWW
-	6ffg==
-X-Gm-Message-State: APjAAAXn+RWtUb3zPSje8mbKbjtjft2NVrVdevBguGVeUL+2wB/oVPRj
-	JIqjDyC0Hpqy/yeyOBO/yjTkrA==
-X-Google-Smtp-Source: APXvYqyQbfZBaDzP6UAPQPrcu5LI2Dcixjm3QlAvnVBJwV48prYpJoNIpFzTEQ7zYYVhbw/rEk1RJw==
-X-Received: by 2002:a0c:a908:: with SMTP id y8mr43974418qva.14.1559918965413; 
-	Fri, 07 Jun 2019 07:49:25 -0700 (PDT)
-Received: from bill-the-cat
-	(cpe-2606-A000-1401-82DE-FD52-FD6B-B067-DDD8.dyn6.twc.com.
-	[2606:a000:1401:82de:fd52:fd6b:b067:ddd8])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zOSo/p/C6mYMdyrXY6/rHoQ9l3XVvhW2wyHBE7YmPaw=;
+	b=lvJ2993hJnGpOeTHmNejilotmr2U0oFsNP0l5bn7T6187gTYXegG5Y9kADMLgqiyc3
+	QPSXrXjg/hS9QR0V5WfSd6vAToGQPjv0dgpLZN14M5ALKOGn7wQeipRgv19TC4UMLBOY
+	FdrlXCt9ypxQAr/smt90zGeQYk3BVkXmZ73g1VU9uoLMTn+VEbJj3Ikffn1+9dGXvCS0
+	wXiQidQG4d8RL88OUVnEVoJ6MF1OWr4ZMX4NeokQ2WWZSu/O5wyLkT/sOIBqlM89sSoT
+	d/0SVsSc3Hq5qEVTA+qCTdJpCKdziKX/7bl1us8VjGz6Sh3OsQ6wJLN38VDwVsD/mF8l
+	NcnA==
+X-Gm-Message-State: APjAAAUNYdLE7ncbM5RArqhOQO8l5fmNWLIJAAp/RMzNst4YByPfsOZG
+	p5OGbu74z7sbaiX0hGr1NfUSNynJe+M=
+X-Google-Smtp-Source: APXvYqyJBaxrt3oMRyEdfsydddz+L8tbcY0ZkQ13m0o5y4O0XwAblZ2QY93w7nzliQUI1GbWgIRuqA==
+X-Received: by 2002:adf:c982:: with SMTP id f2mr5968632wrh.235.1559922487296; 
+	Fri, 07 Jun 2019 08:48:07 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	w34sm1232387qth.81.2019.06.07.07.49.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Jun 2019 07:49:24 -0700 (PDT)
-Date: Fri, 7 Jun 2019 10:49:22 -0400
-From: Tom Rini <trini@konsulko.com>
-To: Ross Burton <ross.burton@intel.com>
-Message-ID: <20190607144922.GN10942@bill-the-cat>
-References: <20190607110502.31175-1-ross.burton@intel.com>
+	b203sm1833512wmd.41.2019.06.07.08.48.05
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 07 Jun 2019 08:48:06 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2019 16:48:05 +0100
+Message-Id: <20190607154805.15741-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190607110502.31175-1-ross.burton@intel.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic/filemap: handle FIGETBSZ failing
+Subject: [PATCH] multiconfig: Adapt to bitbake switch 'multiconfig' -> 'mc'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,50 +56,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 14:49:25 -0000
-X-Groupsio-MsgNum: 125485
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="QFYA38BK7dvhx8Kf"
-Content-Disposition: inline
+X-List-Received-Date: Fri, 07 Jun 2019 15:48:07 -0000
+Content-Transfer-Encoding: 8bit
 
---QFYA38BK7dvhx8Kf
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../recipes-test/multiconfig/multiconfig-image-packager_0.1.bb  | 2 +-
+ meta/lib/oe/sstatesig.py                                        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-On Fri, Jun 07, 2019 at 12:05:02PM +0100, Ross Burton wrote:
+diff --git a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
+index 3dbc0f5d155..a76a6bea1b8 100644
+--- a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
++++ b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
+@@ -8,7 +8,7 @@ MCIMGTYPE_virtclass-mcextend-tiny = "cpio.gz"
+ 
+ MC_DEPLOY_DIR_IMAGE = "${TOPDIR}/tmp-mc-${MCNAME}/deploy/images/${MCMACHINE}"
+ 
+-do_install[mcdepends] += "multiconfig::${MCNAME}:core-image-minimal:do_image_complete multiconfig::${MCNAME}:virtual/kernel:do_deploy"
++do_install[mcdepends] += "mc::${MCNAME}:core-image-minimal:do_image_complete mc::${MCNAME}:virtual/kernel:do_deploy"
+ 
+ do_install () {
+     install -d ${D}/var/lib/machines/${MCNAME}
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index 417943db902..13af16e473c 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -155,7 +155,7 @@ class SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+         else:
+             def get_mc(tid):
+                 tid = tid.rsplit('.', 1)[0]
+-                if tid.startswith('multiconfig:'):
++                if tid.startswith('mc:'):
+                     elems = tid.split(':')
+                     return elems[1]
+             def recipename_from_dep(dep):
+-- 
+2.20.1
 
-> Some file systems don't support fetching the block size (notably the file=
- system
-> Docker uses for containers), so handle the iotctl() failing and raise the
-> expected error.
->=20
-> Signed-off-by: Ross Burton <ross.burton@intel.com>
 
-Reviewed-by: Tom Rini <trini@konsulko.com>
-
---=20
-Tom
-
---QFYA38BK7dvhx8Kf
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-Version: GnuPG v1
-
-iQIcBAEBAgAGBQJc+nlyAAoJEIf59jXTHXZS3FcQAJx65gbDy+sSqwOOsACEssiC
-j7h5vLKJfgA6pAEfjv+c4UBoXc6Q/9z5DfpDV1yJlmYD1b6pL5+Kwqg6lESLkOFO
-lkE/AB7bfv7Kl+8PZgRh5A8SdBfkoHbOgGQDuNRhI4S2u5PiXm7Tb72Q/EJie5TG
-cL7F5b0DjBmhylhhLls08uYriexKuzj7kx5Ooiw9ropsHcZT/z/YIzdXbvZNEehx
-qvEaWKbRhGc0t5/BIMHR0Oy/epCjNOV+GYuN3MOq0qi0xHZ32taWIoFPdH/yTgtF
-JHNGw8JfLdiUbf2LWwl6MO6HfXS2b+sz38o1941vKxh48PVLcDA8ZjGw94MnGvpe
-lUAwmXSj3mpDEb0yfZ3M1BspnJtfFnG1/emhHGJRXZlS7oEdFzpRPvFPz6zgDaf/
-HDIGZM4hSQIcoLuN38rI8qdJ6cTUFC6LM6YLIuTEoIfO8p2COGjk86Xo9vhk8QYx
-XPOPdB3AjZPpMlVgFZvR5WR0KEaETXxo4BR77lnbYVB4JXlwVuy5v3R4Q3LJKWOk
-im1tPfvOUff8jRBAZtxXZliC7YJYz1C4xshc6hDMmzKZxs4G6AWNKHhkJMhIa50M
-VUk9v11DX28IStDgOtIcpTczjoooFjuVF3f/AM8cjcwid6HKXwlBYDGW6GnFj+fe
-9Nw0z0WNSzdjM3erjI+p
-=KYSW
------END PGP SIGNATURE-----
-
---QFYA38BK7dvhx8Kf--
