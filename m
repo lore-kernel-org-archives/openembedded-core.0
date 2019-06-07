@@ -1,59 +1,49 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
-	[209.85.166.195])
-	by mail.openembedded.org (Postfix) with ESMTP id F0ED07E4E1
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B92DA7E4F1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 20:27:40 +0000 (UTC)
-Received: by mail-it1-f195.google.com with SMTP id m138so3025315ita.4
+	Fri,  7 Jun 2019 21:28:12 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id z23so3148856wma.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 13:27:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:references:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=7EBwo0HxzB4j2/bzQXACYr6GVUR583inoilGvc1JsHg=;
-	b=WfBM9ssh2qGxxCe3LZwaTDtEovnya8YM9QRMZNHdu8kFBZgz9iJYakVlfMNVEvMnbH
-	cWAZk3Ywukby6N/4Xp9+3HfDIUizCe6D9+M7nh9/GeYo4POn8slplEPH7oh1+rm3HplO
-	KKfwT9q7wFIFszjSOnU9CyBtgD5rlEDEuiWG7UnNhhnNN6oGlWwIQhamF5yrmDPTBf6y
-	ZjMygxTgAtMnZPmCMlTDDoMsBwsgBr68+HKil/GD5hP19vRaVj0qZag4Z7B6D/LjysRD
-	FCrRJfxhoZuDcOBJIzEcb7g6wSOAxL9O3qhe4jVIhK8rYYzusZjnp9Lsn7VWCD+JAmVU
-	UchA==
+	Fri, 07 Jun 2019 14:28:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BJ+Hg/aQ16q7DIpb0I9gq3O+eoA5hdyhVKH9XlPWKHM=;
+	b=Ki8QWZBIA98DpEgIcQ5Vugcwuw5yeykzq99UZU3BuRVOx8X2Eu042FcW1MPPoYrROe
+	YzaD4iLwv9zzlrMo+8vIwQvcUoxe5/MFj+vSXMmPyGhzSEogoCD7F8auqXR4a89d+U+G
+	ki9sNoIHb8IKI5iXrfA3pRgLKZ7G5mjY2n6Ug=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=7EBwo0HxzB4j2/bzQXACYr6GVUR583inoilGvc1JsHg=;
-	b=VGUBpCQW3Y5Kr8lQKN1KtoHGNkypj1LQKDM6+N4nN8/PoZHCSZpl1VC0DeNgD0XSr4
-	oK6EGkXj6zQuB44nbsaUyy2OACHS6Aa+hBE2fAT7NbLsVDSw595zjcqX234FYhjpa1Y4
-	7/gCYiKjaKDtkfKy2e175bytpbSWXmK4qcUyBMlY5+C8pTXYydkOUUKvyjmwoVI56yrL
-	1S7imOsVdu31CvPgNKxId7V86vC4imXblKBtpeChXVhwCRZyvWdFnkMKRhTrlPe7xKoL
-	eJ+1HlUkrhPDB10fE19owJaZTPilMeMKEbr3ewQxiy9VRK0wyocsl0CQ6kablj0SPjFO
-	Jv3A==
-X-Gm-Message-State: APjAAAV/Erx5OHSxVpcyRp6ESXvXzwdHJ5gxziwc6pamWtFVDHCX6VHq
-	W/v+cOWP9G4tq+6QRDkF0vK8ZVSG
-X-Google-Smtp-Source: APXvYqwY8jug+/5htmkbWGK1dxnsv81qJffK6hXhpjTOqEfcw8bpMLryfBiLHxctiWCta3zhoi10EQ==
-X-Received: by 2002:a24:2407:: with SMTP id f7mr1884281ita.21.1559939261710;
-	Fri, 07 Jun 2019 13:27:41 -0700 (PDT)
-Received: from [10.30.197.57] ([204.77.163.55])
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=BJ+Hg/aQ16q7DIpb0I9gq3O+eoA5hdyhVKH9XlPWKHM=;
+	b=n7O+WcK0souKkE+8ZGNiKcX4SYUmqTSVSrsDS4E1z4xtX4JAqiQs8Hl288EvrRg/mb
+	7FN2qD4qZA8vNHlkxUG83OKgbAbF3NVwkHt3wjj4pUF7yLeX24zmmFtlGkXyBSVs60jO
+	QKMMYkblRaEWxqDUaFVmF3SXrvvfMLemD2FjjJrGypmnkPW8cTMgsoq2BySjKq840A3i
+	QQvN6iDJfPjb3MvzLfDiE4dzY/M67ZdGGAuzGof83LAU7DdHUXgr96R3VMXpt6xtSS4Z
+	avLsqcrTwDMUYdk1s31IMTI6hEjg1g44bUW3wgR6GnVM5TlNuzeh1yx1HUoCfi8cIPBU
+	SVKw==
+X-Gm-Message-State: APjAAAU4IuAX35ZcOHlVtv5tQL9QuYx9qwqhrj/rZFmtlOgo75ZLeK4B
+	nzBTwgekHqzKQNqLHRJdHlOiH3x+5Cc=
+X-Google-Smtp-Source: APXvYqzVQvD+FkHsFjfMK+1qq7KV/+bnLphO2ky96hRgdyFmlnkJr8uoDp6QpBYTyKvSq+ECFMagsw==
+X-Received: by 2002:a1c:99c9:: with SMTP id b192mr5365394wme.142.1559942893190;
+	Fri, 07 Jun 2019 14:28:13 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	d75sm1361703itd.10.2019.06.07.13.27.40
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 07 Jun 2019 13:27:41 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: akuster808 <akuster808@gmail.com>, Joshua Watt <JPEW.hacker@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org
-References: <20190607154805.15741-1-richard.purdie@linuxfoundation.org>
-	<ff680a45-8b31-6167-d5b5-e1a242fc006d@gmail.com>
-	<643c0139-f738-a603-fd93-cb4c6ee02f37@gmail.com>
-Message-ID: <f8367cfb-1b4c-0136-f984-db7b7ae72045@gmail.com>
-Date: Fri, 7 Jun 2019 15:27:38 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	f10sm4214949wrg.24.2019.06.07.14.28.12
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 07 Jun 2019 14:28:12 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Fri,  7 Jun 2019 22:28:10 +0100
+Message-Id: <20190607212811.19372-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <643c0139-f738-a603-fd93-cb4c6ee02f37@gmail.com>
-Subject: Re: [PATCH] multiconfig: Adapt to bitbake switch 'multiconfig' -> 'mc'
+Subject: [PATCH 1/2] gawk: ptest fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,64 +56,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 20:27:41 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Fri, 07 Jun 2019 21:28:13 -0000
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 
+In minimal images all tests pass due to a missing dependency on make.
+Add the missing dependecy.
 
-On 6/7/19 3:08 PM, akuster808 wrote:
->
-> On 6/7/19 8:51 AM, Joshua Watt wrote:
->> Is there a reason for this change other than aesthetics?
->>
->> FWIW, we maintain some recipes across several versions of poky, so
->> this rename is going to cause me some headaches
-> Versions.. as in stable branches?
+The test list created by the run-ptest script is incorrect as it includes
+entries like "fi". Simplify it and correct it.
 
-Yes.
+Some tests are skipped due to mpfr not being enabled. Correctly mark these
+as SKIP.
 
->
-> - armin
->> On 6/7/19 10:48 AM, Richard Purdie wrote:
->>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->>> ---
->>>    .../recipes-test/multiconfig/multiconfig-image-packager_0.1.bb  | 2 +-
->>>    meta/lib/oe/sstatesig.py                                        | 2 +-
->>>    2 files changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git
->>> a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
->>> b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
->>>
->>> index 3dbc0f5d155..a76a6bea1b8 100644
->>> ---
->>> a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
->>> +++
->>> b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
->>> @@ -8,7 +8,7 @@ MCIMGTYPE_virtclass-mcextend-tiny = "cpio.gz"
->>>      MC_DEPLOY_DIR_IMAGE =
->>> "${TOPDIR}/tmp-mc-${MCNAME}/deploy/images/${MCMACHINE}"
->>>    -do_install[mcdepends] +=
->>> "multiconfig::${MCNAME}:core-image-minimal:do_image_complete
->>> multiconfig::${MCNAME}:virtual/kernel:do_deploy"
->>> +do_install[mcdepends] +=
->>> "mc::${MCNAME}:core-image-minimal:do_image_complete
->>> mc::${MCNAME}:virtual/kernel:do_deploy"
->>>      do_install () {
->>>        install -d ${D}/var/lib/machines/${MCNAME}
->>> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
->>> index 417943db902..13af16e473c 100644
->>> --- a/meta/lib/oe/sstatesig.py
->>> +++ b/meta/lib/oe/sstatesig.py
->>> @@ -155,7 +155,7 @@ class
->>> SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
->>>            else:
->>>                def get_mc(tid):
->>>                    tid = tid.rsplit('.', 1)[0]
->>> -                if tid.startswith('multiconfig:'):
->>> +                if tid.startswith('mc:'):
->>>                        elems = tid.split(':')
->>>                        return elems[1]
->>>                def recipename_from_dep(dep):
+Some tests need the "../gawk" script, create a link to it so the tests
+work correctly.
+
+Also print more information in the failed test cases.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-extended/gawk/gawk/run-ptest | 24 +++++++++++++++++------
+ meta/recipes-extended/gawk/gawk_5.0.0.bb  |  3 +++
+ 2 files changed, 21 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-extended/gawk/gawk/run-ptest b/meta/recipes-extended/gawk/gawk/run-ptest
+index d23f0bf6d77..f67a95874f4 100644
+--- a/meta/recipes-extended/gawk/gawk/run-ptest
++++ b/meta/recipes-extended/gawk/gawk/run-ptest
+@@ -1,10 +1,22 @@
+ #!/bin/sh
+ 
+ cd test
+-for i in `grep -vE "@|^$|#|Gt-dummy" Maketests |awk -F: '{print $1}'`; \
+-  do LC_ALL=${GAWKLOCALE:-C} LANG=${GAWKLOCALE:-C} srcdir=`pwd` AWK=gawk CMP=cmp \
+-  make -f Maketests $i >$i.tmp 2>&1; \
+-  grep -q "Error" $i.tmp; \
+-  if [ $? -eq 0 ]; then echo "FAIL: $i"; \
+-  else echo "PASS: $i"; rm -f $i.tmp; fi; \
++for i in `grep -E "^[a-z0-9_-]*:$" Maketests |awk -F: '{print $1}'`; do
++  #LC_ALL=${GAWKLOCALE:-C} LANG=${GAWKLOCALE:-C} 
++  srcdir=`pwd` AWKPROG=gawk AWK=gawk CMP=cmp make -f Maketests $i >$i.tmp 2>&1
++  if [ -e _$i ]; then
++    cat _$i
++    grep -q "support not compiled in" _$i
++    if [ $? -eq 0 ]; then
++      echo "SKIP: $i"
++      continue
++    fi
++  fi
++  grep -q "Error" $i.tmp
++  if [ $? -eq 0 ]; then
++    echo "FAIL: $i"
++  else
++    echo "PASS: $i"
++    rm -f $i.tmp
++  fi
+ done
+diff --git a/meta/recipes-extended/gawk/gawk_5.0.0.bb b/meta/recipes-extended/gawk/gawk_5.0.0.bb
+index b1e1b212a3a..578901355ce 100644
+--- a/meta/recipes-extended/gawk/gawk_5.0.0.bb
++++ b/meta/recipes-extended/gawk/gawk_5.0.0.bb
+@@ -40,6 +40,7 @@ inherit ptest
+ 
+ do_install_ptest() {
+ 	mkdir ${D}${PTEST_PATH}/test
++	ln -s ${bindir}/gawk ${D}${PTEST_PATH}/gawk
+ 	for i in `grep -vE "@|^$|#|Gt-dummy" ${S}/test/Maketests |awk -F: '{print $1}'` Maketests inclib.awk; \
+ 	  do cp ${S}/test/$i* ${D}${PTEST_PATH}/test; \
+ 	done
+@@ -47,4 +48,6 @@ do_install_ptest() {
+ 	    -e 's|#!${base_bindir}/awk|#!${bindir}/awk|g' ${D}${PTEST_PATH}/test/*.awk
+ }
+ 
++RDEPENDS_${PN}-ptest += "make"
++
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.20.1
+
 
