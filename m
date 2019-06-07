@@ -1,33 +1,59 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 9832A7E4F0
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id F0ED07E4E1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 20:26:39 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45LDZm0K6Jz40
+	Fri,  7 Jun 2019 20:27:40 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id m138so3025315ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  7 Jun 2019 22:26:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1559939200;
-	bh=ZXuQiL8AFPoW8EhVfdXb73WaXwRxOGTCDqYZum7ZOVw=;
-	h=From:To:Subject:Date:From;
-	b=N9qjIxUNUW7y7AjcW17gAAszMTy8YMleFm5lg81ytUm2snlbnf70gCGBsBTRMdjZw
-	PIeGSjK2KJE76h6PfBNx8WhSPlCsZVoArhRzNkGq39ghvHuB1g5UJrcuTcA5IS7oWT
-	hv9gEBqFMS3IH9dAi/w8gyyGqNA5M8A7QRRTjcegEChpk6fOEw3ZwR9cPLoiyUVgkk
-	vuFhdqi1Fde0/R5E1LPlZYWPau0sDANazPzrcKde9m4chq7PAUamVQmAIj0sTzEwna
-	tch1lIdKa0ZjzFREGfucJP7Dh9LhH1qZ8ZC0qz9zNMu7TTgfUjl6wngk59YWncuTu8
-	ie1Ted+2pRnshz4w7uZvmiS/qdvM3KXRHB6DeCcjXjEdVC0cWSB4CzeLeUzrL5c3of
-	RLyvlhg8oQkaSY995/nbmPAvGzdhK5+gMwzVMOMp2w1ldl8V89yUCEFD5fBG4YQ9Qt
-	mPBR3lC0ZqvSbp9XyG3Rvd1ySjwx0LQ5ZQE86MrttGKS89K9TlOK78lIXypOG4KNAH
-	tcmvr+ECmm/9GDt4C1k6FZ9htOQ/egI9MdrjoUxsCshghgtc9NbNtKN1I8v+MAwbfj
-	oC5Nl+OrBajEG3k0UetE2Bw3mECWdptc4Monruzy6Xurx8alDmHs3Ex8v81BI4TNao
-	NWjRPDrZF8puxJeea0MjW/2o=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Fri,  7 Jun 2019 23:26:39 +0300
-Message-Id: <20190607202639.20286-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] systemd: avoid musl specific patches affect glibc systems
+	Fri, 07 Jun 2019 13:27:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:subject:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=7EBwo0HxzB4j2/bzQXACYr6GVUR583inoilGvc1JsHg=;
+	b=WfBM9ssh2qGxxCe3LZwaTDtEovnya8YM9QRMZNHdu8kFBZgz9iJYakVlfMNVEvMnbH
+	cWAZk3Ywukby6N/4Xp9+3HfDIUizCe6D9+M7nh9/GeYo4POn8slplEPH7oh1+rm3HplO
+	KKfwT9q7wFIFszjSOnU9CyBtgD5rlEDEuiWG7UnNhhnNN6oGlWwIQhamF5yrmDPTBf6y
+	ZjMygxTgAtMnZPmCMlTDDoMsBwsgBr68+HKil/GD5hP19vRaVj0qZag4Z7B6D/LjysRD
+	FCrRJfxhoZuDcOBJIzEcb7g6wSOAxL9O3qhe4jVIhK8rYYzusZjnp9Lsn7VWCD+JAmVU
+	UchA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:subject:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=7EBwo0HxzB4j2/bzQXACYr6GVUR583inoilGvc1JsHg=;
+	b=VGUBpCQW3Y5Kr8lQKN1KtoHGNkypj1LQKDM6+N4nN8/PoZHCSZpl1VC0DeNgD0XSr4
+	oK6EGkXj6zQuB44nbsaUyy2OACHS6Aa+hBE2fAT7NbLsVDSw595zjcqX234FYhjpa1Y4
+	7/gCYiKjaKDtkfKy2e175bytpbSWXmK4qcUyBMlY5+C8pTXYydkOUUKvyjmwoVI56yrL
+	1S7imOsVdu31CvPgNKxId7V86vC4imXblKBtpeChXVhwCRZyvWdFnkMKRhTrlPe7xKoL
+	eJ+1HlUkrhPDB10fE19owJaZTPilMeMKEbr3ewQxiy9VRK0wyocsl0CQ6kablj0SPjFO
+	Jv3A==
+X-Gm-Message-State: APjAAAV/Erx5OHSxVpcyRp6ESXvXzwdHJ5gxziwc6pamWtFVDHCX6VHq
+	W/v+cOWP9G4tq+6QRDkF0vK8ZVSG
+X-Google-Smtp-Source: APXvYqwY8jug+/5htmkbWGK1dxnsv81qJffK6hXhpjTOqEfcw8bpMLryfBiLHxctiWCta3zhoi10EQ==
+X-Received: by 2002:a24:2407:: with SMTP id f7mr1884281ita.21.1559939261710;
+	Fri, 07 Jun 2019 13:27:41 -0700 (PDT)
+Received: from [10.30.197.57] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	d75sm1361703itd.10.2019.06.07.13.27.40
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 07 Jun 2019 13:27:41 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: akuster808 <akuster808@gmail.com>, Joshua Watt <JPEW.hacker@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20190607154805.15741-1-richard.purdie@linuxfoundation.org>
+	<ff680a45-8b31-6167-d5b5-e1a242fc006d@gmail.com>
+	<643c0139-f738-a603-fd93-cb4c6ee02f37@gmail.com>
+Message-ID: <f8367cfb-1b4c-0136-f984-db7b7ae72045@gmail.com>
+Date: Fri, 7 Jun 2019 15:27:38 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <643c0139-f738-a603-fd93-cb4c6ee02f37@gmail.com>
+Subject: Re: [PATCH] multiconfig: Adapt to bitbake switch 'multiconfig' -> 'mc'
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,37 +66,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 07 Jun 2019 20:26:39 -0000
+X-List-Received-Date: Fri, 07 Jun 2019 20:27:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-From: Chen Qi <Qi.Chen@windriver.com>
 
-systemd upstream only care about glibc. We made musl specific
-patches so that systemd could work. But currently these patches
-contain potential security issues.
+On 6/7/19 3:08 PM, akuster808 wrote:
+>
+> On 6/7/19 8:51 AM, Joshua Watt wrote:
+>> Is there a reason for this change other than aesthetics?
+>>
+>> FWIW, we maintain some recipes across several versions of poky, so
+>> this rename is going to cause me some headaches
+> Versions.. as in stable branches?
 
-So apply these patches only when the libc is musl.
+Yes.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-core/systemd/systemd_241.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
-index 3a58f44a3b..eb3242d624 100644
---- a/meta/recipes-core/systemd/systemd_241.bb
-+++ b/meta/recipes-core/systemd/systemd_241.bb
-@@ -27,7 +27,7 @@ SRC_URI += "file://touchscreen.rules \
-            "
- 
- # patches needed by musl
--SRC_URI += "${SRC_URI_MUSL}"
-+SRC_URI_append_libc-musl = " ${SRC_URI_MUSL}"
- SRC_URI_MUSL = "file://0001-Use-getenv-when-secure-versions-are-not-available.patch \
-                file://0002-don-t-use-glibc-specific-qsort_r.patch \
-                file://0003-missing_type.h-add-__compare_fn_t-and-comparison_fn_.patch \
--- 
-2.17.1
-
+>
+> - armin
+>> On 6/7/19 10:48 AM, Richard Purdie wrote:
+>>> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+>>> ---
+>>>    .../recipes-test/multiconfig/multiconfig-image-packager_0.1.bb  | 2 +-
+>>>    meta/lib/oe/sstatesig.py                                        | 2 +-
+>>>    2 files changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git
+>>> a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
+>>> b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
+>>>
+>>> index 3dbc0f5d155..a76a6bea1b8 100644
+>>> ---
+>>> a/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
+>>> +++
+>>> b/meta-selftest/recipes-test/multiconfig/multiconfig-image-packager_0.1.bb
+>>> @@ -8,7 +8,7 @@ MCIMGTYPE_virtclass-mcextend-tiny = "cpio.gz"
+>>>      MC_DEPLOY_DIR_IMAGE =
+>>> "${TOPDIR}/tmp-mc-${MCNAME}/deploy/images/${MCMACHINE}"
+>>>    -do_install[mcdepends] +=
+>>> "multiconfig::${MCNAME}:core-image-minimal:do_image_complete
+>>> multiconfig::${MCNAME}:virtual/kernel:do_deploy"
+>>> +do_install[mcdepends] +=
+>>> "mc::${MCNAME}:core-image-minimal:do_image_complete
+>>> mc::${MCNAME}:virtual/kernel:do_deploy"
+>>>      do_install () {
+>>>        install -d ${D}/var/lib/machines/${MCNAME}
+>>> diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+>>> index 417943db902..13af16e473c 100644
+>>> --- a/meta/lib/oe/sstatesig.py
+>>> +++ b/meta/lib/oe/sstatesig.py
+>>> @@ -155,7 +155,7 @@ class
+>>> SignatureGeneratorOEBasicHash(bb.siggen.SignatureGeneratorBasicHash):
+>>>            else:
+>>>                def get_mc(tid):
+>>>                    tid = tid.rsplit('.', 1)[0]
+>>> -                if tid.startswith('multiconfig:'):
+>>> +                if tid.startswith('mc:'):
+>>>                        elems = tid.split(':')
+>>>                        return elems[1]
+>>>                def recipename_from_dep(dep):
 
