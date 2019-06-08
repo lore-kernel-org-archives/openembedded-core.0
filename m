@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F8137CE5E;
-	Sat,  8 Jun 2019 04:09:48 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 58AC37E577;
+	Sat,  8 Jun 2019 04:09:51 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Sat, 08 Jun 2019 04:09:49 -0000
-Message-ID: <20190608040949.2334.14270@do>
-References: <20190606184428.2325-1-bunk@stusta.de>
+To: Kevin Hao <kexin.hao@windriver.com>
+Date: Sat, 08 Jun 2019 04:09:52 -0000
+Message-ID: <20190608040952.2329.96121@do>
+References: <20190606071147.32050-1-kexin.hao@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190606184428.2325-1-bunk@stusta.de>
+In-Reply-To: <20190606071147.32050-1-kexin.hao@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIG1hbnVhbCBSREVQRU5EUyBmcm9tIFBOLXB0ZXN0IHRvIFBOIHBhY2thZ2UgKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInJ1bnFlbXU6IEFkZCB0aGUgc3VwcG9ydCB0byBwYS4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:48 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:09:51 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Remove manual RDEPENDS from PN-ptest to PN package (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/18002/
+Series: "runqemu: Add the support to pa..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18016/
 State : failure
 
 == Summary ==
@@ -45,13 +45,13 @@ series by patchtest resulting in the following failures:
 
 
 
+* Patch            [1/2] runqemu: Add the support to pass multi ports to tcpserial parameter
+ Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
+  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
+
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at 666f6192aa)
-
-* Patch            [v2] Remove manual RDEPENDS from PN-ptest to PN package
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
 
 
