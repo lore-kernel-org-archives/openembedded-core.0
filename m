@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 801A26D7A2;
-	Sat,  8 Jun 2019 04:10:00 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 975387D71B;
+	Sat,  8 Jun 2019 04:10:01 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Date: Sat, 08 Jun 2019 04:10:02 -0000
-Message-ID: <20190608041002.2332.40040@do>
-References: <20190606221730.19043-1-richard.purdie@linuxfoundation.org>
+To: Armin Kuster <akuster808@gmail.com>
+Date: Sat, 08 Jun 2019 04:10:03 -0000
+Message-ID: <20190608041003.2330.78297@do>
+References: <1559867105-25414-1-git-send-email-akuster808@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190606221730.19043-1-richard.purdie@linuxfoundation.org>
+In-Reply-To: <1559867105-25414-1-git-send-email-akuster808@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9wZW5zc2g6IEFkZCBtaXNzaW5nIHB0ZXN0IGRlcC4uLiIgYW5kIDEgbW9yZQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogU2VjdXJpdHkgZml4IGZvciBDVkUtMjAxOS0xMjE1NQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:10:00 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:10:01 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "openssh: Add missing ptest dep..." and 1 more
+Series: qemu: Security fix for CVE-2019-12155
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/18031/
+URL   : https://patchwork.openembedded.org/series/18033/
 State : failure
 
 == Summary ==
@@ -47,7 +47,7 @@ series by patchtest resulting in the following failures:
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 666f6192aa)
+  Targeted branch  thud (currently at f162d5bfe6)
 
 
 
