@@ -1,30 +1,74 @@
-Return-Path: <maciej.pijanowski@3mdeb.com>
-X-Greylist: delayed 1800 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 08 Jun 2019 19:52:23 UTC
-Received: from 8.mo3.mail-out.ovh.net (8.mo3.mail-out.ovh.net [87.98.172.249])
-	by mail.openembedded.org (Postfix) with ESMTP id 27ED57E527
+Return-Path: <JAEWON@xilinx.com>
+X-Greylist: delayed 92862 seconds by postgrey-1.34 at layers.openembedded.org;
+	Sat, 08 Jun 2019 23:07:29 UTC
+Received: from NAM04-CO1-obe.outbound.protection.outlook.com
+	(mail-eopbgr690067.outbound.protection.outlook.com [40.107.69.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C94FD7E530
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 19:52:23 +0000 (UTC)
-Received: from player797.ha.ovh.net (unknown [10.108.57.53])
-	by mo3.mail-out.ovh.net (Postfix) with ESMTP id C3664215DEC
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 21:13:17 +0200 (CEST)
-Received: from 3mdeb.com (89-66-81-159.dynamic.chello.pl [89.66.81.159])
-	(Authenticated sender: maciej.pijanowski@3mdeb.com)
-	by player797.ha.ovh.net (Postfix) with ESMTPSA id 438106BF28A9;
-	Sat,  8 Jun 2019 19:13:15 +0000 (UTC)
-From: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Jun 2019 21:13:03 +0200
-Message-Id: <20190608191303.20583-1-maciej.pijanowski@3mdeb.com>
-X-Mailer: git-send-email 2.20.1
+	Sat,  8 Jun 2019 23:07:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=xilinx.onmicrosoft.com; s=selector1-xilinx-onmicrosoft-com;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=hEkAmu+QBtlgaR31v5vdnKzOcjfvZU1Qq6mn4ESlAKg=;
+	b=DYhXizVfzdpQUQBnmoNRzalxLz7rHXSvaJqECyJMMrPOvh7q65hQDZnWgLxVZ60NJtBxru2/VUEyvCOomTpfUzTQ+vzmgk7NyjwvIPA0NgwVKpMA+hZv9mpFjIYL5dtCosxOulVVCi06E+BVHxRGIf4qwlIkevR1GM8hxO9LtQ4=
+Received: from BYAPR02MB5816.namprd02.prod.outlook.com (20.179.62.217) by
+	BYAPR02MB5768.namprd02.prod.outlook.com (20.179.62.74) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1965.14; Sat, 8 Jun 2019 15:34:50 +0000
+Received: from BYAPR02MB5816.namprd02.prod.outlook.com
+	([fe80::8d21:3b8:a726:29d2]) by BYAPR02MB5816.namprd02.prod.outlook.com
+	([fe80::8d21:3b8:a726:29d2%4]) with mapi id 15.20.1965.011;
+	Sat, 8 Jun 2019 15:34:50 +0000
+From: Jaewon Lee <JAEWON@xilinx.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thread-Topic: [OE-core] [PATCH] devtool: build: add deploy to the tasks run
+	for devtool build
+Thread-Index: AQHVHfPTafRG9EtX50+KY7zCmDeanqaR44M3
+Date: Sat, 8 Jun 2019 15:34:50 +0000
+Message-ID: <E6056B73-2F37-4B1A-9961-589ADC39522F@xilinx.com>
+References: <1559945821-18316-1-git-send-email-jaewon.lee@xilinx.com>,
+	<75b09b73c57e0717cda78e6732e73d91ef670f45.camel@linuxfoundation.org>
+In-Reply-To: <75b09b73c57e0717cda78e6732e73d91ef670f45.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=JAEWON@xilinx.com; 
+x-originating-ip: [149.199.62.254]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 09db5217-b915-4895-f2b1-08d6ec26d864
+x-ms-office365-filtering-ht: Tenant
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(4618075)(2017052603328)(7193020);
+	SRVR:BYAPR02MB5768; 
+x-ms-traffictypediagnostic: BYAPR02MB5768:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <BYAPR02MB5768AF6BD53BED9BFBD72465AF110@BYAPR02MB5768.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5797;
+x-forefront-prvs: 0062BDD52C
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(396003)(346002)(39860400002)(366004)(376002)(136003)(189003)(199004)(33656002)(6116002)(3846002)(14454004)(25786009)(68736007)(76116006)(6916009)(486006)(446003)(478600001)(71190400001)(71200400001)(7736002)(6436002)(102836004)(83716004)(66946007)(73956011)(2616005)(76176011)(476003)(53546011)(6506007)(66446008)(2906002)(11346002)(99286004)(66556008)(64756008)(66476007)(14444005)(256004)(53936002)(4326008)(66066001)(8936002)(966005)(5660300002)(8676002)(82746002)(81166006)(186003)(26005)(72206003)(6306002)(6512007)(305945005)(81156014)(316002)(36756003)(6486002)(86362001)(6246003)(229853002);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:BYAPR02MB5768;
+	H:BYAPR02MB5816.namprd02.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: xilinx.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: g1YmcaMVKcF33w9CXAGj++glbe1YYns3YgzewvPlRDUM0H1HahxOoycYW9MN+iN7vX5SSjbtWgsTYvpkJ6OOYtUh9dID3cknsLr0bWqKtLwVnieeSWLCjgYpW/oY7hWa867tcjcx1d1wyhH7lAfmqbZFNoUWp8GIJbO4x50KJlPQyCDicZEQsgyVADqjfaba+u6MJilupAiz9xI3f+aw7jnB6YMqDLWIS9qOFRvHNtmcMUjj1mX34VvdVGNH2PKmHNEkiGyXEyeBJu3KwQjALJUUtQeG1o2hvetBSymduxBk3kIZgn/ZpuzpZVreZFJaF70wAlA8krV8aYp71U4fU47XIfN1FcogVafDrptVBqX4KTreKvuUcdsPEQSE8aX/5jRodv7XxYCLmn+M3Y35IW2IvN0pbiTpSk0jplyu5dY=
 MIME-Version: 1.0
-X-Ovh-Tracer-Id: 634163125164125889
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudegkedgudefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecu
-Cc: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>, piotr.krol@3mdeb.com
-Subject: [PATCH v2] recipetool: add python3 support
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09db5217-b915-4895-f2b1-08d6ec26d864
+X-MS-Exchange-CrossTenant-originalarrivaltime: 08 Jun 2019 15:34:50.1371 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: jaewon@xilinx.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB5768
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] devtool: build: add deploy to the tasks run for devtool build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,162 +81,73 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 19:52:23 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sat, 08 Jun 2019 23:07:30 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Add support for generating python3 recipes using the recipetool / devtool.
-Drop python2 support at the same time.
+Sorry about that Richard=20
+Will be sure to test with that=20
 
-Tested with:
+Thanks,
+Jaewon
 
-oe-selftest -r recipetool.RecipetoolTest
 
-Fixes Bug 13264
-
-Signed-off-by: Maciej Pijanowski <maciej.pijanowski@3mdeb.com>
----
- meta/lib/oeqa/selftest/cases/recipetool.py    | 42 ++++++++++++++++++-
- .../lib/recipetool/create_buildsys_python.py  | 22 +++++-----
- 2 files changed, 51 insertions(+), 13 deletions(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
-index f1cb37b53f8b..e3f5c71666f3 100644
---- a/meta/lib/oeqa/selftest/cases/recipetool.py
-+++ b/meta/lib/oeqa/selftest/cases/recipetool.py
-@@ -435,7 +435,45 @@ class RecipetoolTests(RecipetoolBase):
-         checkvars = {}
-         checkvars['LICENSE'] = set(['Apache-2.0'])
-         checkvars['SRC_URI'] = 'git://github.com/mesonbuild/meson;protocol=https'
--        inherits = ['setuptools']
-+        inherits = ['setuptools3']
-+        self._test_recipe_contents(recipefile, checkvars, inherits)
-+
-+    def test_recipetool_create_python3_setuptools(self):
-+        # Test creating python3 package from tarball (using setuptools3 class)
-+        temprecipe = os.path.join(self.tempdir, 'recipe')
-+        os.makedirs(temprecipe)
-+        pn = 'python-magic'
-+        pv = '0.4.15'
-+        recipefile = os.path.join(temprecipe, '%s_%s.bb' % (pn, pv))
-+        srcuri = 'https://files.pythonhosted.org/packages/84/30/80932401906eaf787f2e9bd86dc458f1d2e75b064b4c187341f29516945c/python-magic-%s.tar.gz' % pv
-+        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        self.assertTrue(os.path.isfile(recipefile))
-+        checkvars = {}
-+        checkvars['LICENSE'] = set(['MIT'])
-+        checkvars['LIC_FILES_CHKSUM'] = 'file://LICENSE;md5=16a934f165e8c3245f241e77d401bb88'
-+        checkvars['SRC_URI'] = 'https://files.pythonhosted.org/packages/84/30/80932401906eaf787f2e9bd86dc458f1d2e75b064b4c187341f29516945c/python-magic-${PV}.tar.gz'
-+        checkvars['SRC_URI[md5sum]'] = 'e384c95a47218f66c6501cd6dd45ff59'
-+        checkvars['SRC_URI[sha256sum]'] = 'f3765c0f582d2dfc72c15f3b5a82aecfae9498bd29ca840d72f37d7bd38bfcd5'
-+        inherits = ['setuptools3']
-+        self._test_recipe_contents(recipefile, checkvars, inherits)
-+
-+    def test_recipetool_create_python3_distutils(self):
-+        # Test creating python3 package from tarball (using distutils3 class)
-+        temprecipe = os.path.join(self.tempdir, 'recipe')
-+        os.makedirs(temprecipe)
-+        pn = 'docutils'
-+        pv = '0.14'
-+        recipefile = os.path.join(temprecipe, '%s_%s.bb' % (pn, pv))
-+        srcuri = 'https://files.pythonhosted.org/packages/84/f4/5771e41fdf52aabebbadecc9381d11dea0fa34e4759b4071244fa094804c/docutils-%s.tar.gz' % pv
-+        result = runCmd('recipetool create -o %s %s' % (temprecipe, srcuri))
-+        self.assertTrue(os.path.isfile(recipefile))
-+        checkvars = {}
-+        checkvars['LICENSE'] = set(['PSF', '&', 'BSD', 'GPL'])
-+        checkvars['LIC_FILES_CHKSUM'] = 'file://COPYING.txt;md5=35a23d42b615470583563132872c97d6'
-+        checkvars['SRC_URI'] = 'https://files.pythonhosted.org/packages/84/f4/5771e41fdf52aabebbadecc9381d11dea0fa34e4759b4071244fa094804c/docutils-${PV}.tar.gz'
-+        checkvars['SRC_URI[md5sum]'] = 'c53768d63db3873b7d452833553469de'
-+        checkvars['SRC_URI[sha256sum]'] = '51e64ef2ebfb29cae1faa133b3710143496eca21c530f3f71424d77687764274'
-+        inherits = ['distutils3']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
- 
-     def test_recipetool_create_github_tarball(self):
-@@ -450,7 +488,7 @@ class RecipetoolTests(RecipetoolBase):
-         checkvars = {}
-         checkvars['LICENSE'] = set(['Apache-2.0'])
-         checkvars['SRC_URI'] = 'https://github.com/mesonbuild/meson/releases/download/${PV}/meson-${PV}.tar.gz'
--        inherits = ['setuptools']
-+        inherits = ['setuptools3']
-         self._test_recipe_contents(recipefile, checkvars, inherits)
- 
-     def test_recipetool_create_git_http(self):
-diff --git a/scripts/lib/recipetool/create_buildsys_python.py b/scripts/lib/recipetool/create_buildsys_python.py
-index 1a38bd0b14ef..ac9bc9237ce0 100644
---- a/scripts/lib/recipetool/create_buildsys_python.py
-+++ b/scripts/lib/recipetool/create_buildsys_python.py
-@@ -31,11 +31,11 @@ def tinfoil_init(instance):
- 
- 
- class PythonRecipeHandler(RecipeHandler):
--    base_pkgdeps = ['python-core']
--    excluded_pkgdeps = ['python-dbg']
--    # os.path is provided by python-core
-+    base_pkgdeps = ['python3-core']
-+    excluded_pkgdeps = ['python3-dbg']
-+    # os.path is provided by python3-core
-     assume_provided = ['builtins', 'os.path']
--    # Assumes that the host python builtin_module_names is sane for target too
-+    # Assumes that the host python3 builtin_module_names is sane for target too
-     assume_provided = assume_provided + list(sys.builtin_module_names)
- 
-     bbvar_map = {
-@@ -215,9 +215,9 @@ class PythonRecipeHandler(RecipeHandler):
-         self.apply_info_replacements(info)
- 
-         if uses_setuptools:
--            classes.append('setuptools')
-+            classes.append('setuptools3')
-         else:
--            classes.append('distutils')
-+            classes.append('distutils3')
- 
-         if license_str:
-             for i, line in enumerate(lines_before):
-@@ -282,7 +282,7 @@ class PythonRecipeHandler(RecipeHandler):
-                 for feature, feature_reqs in extras_req.items():
-                     unmapped_deps.difference_update(feature_reqs)
- 
--                    feature_req_deps = ('python-' + r.replace('.', '-').lower() for r in sorted(feature_reqs))
-+                    feature_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(feature_reqs))
-                     lines_after.append('PACKAGECONFIG[{}] = ",,,{}"'.format(feature.lower(), ' '.join(feature_req_deps)))
- 
-         inst_reqs = set()
-@@ -293,7 +293,7 @@ class PythonRecipeHandler(RecipeHandler):
-             if inst_reqs:
-                 unmapped_deps.difference_update(inst_reqs)
- 
--                inst_req_deps = ('python-' + r.replace('.', '-').lower() for r in sorted(inst_reqs))
-+                inst_req_deps = ('python3-' + r.replace('.', '-').lower() for r in sorted(inst_reqs))
-                 lines_after.append('# WARNING: the following rdepends are from setuptools install_requires. These')
-                 lines_after.append('# upstream names may not correspond exactly to bitbake package names.')
-                 lines_after.append('RDEPENDS_${{PN}} += "{}"'.format(' '.join(inst_req_deps)))
-@@ -356,7 +356,7 @@ class PythonRecipeHandler(RecipeHandler):
-         return info, 'setuptools' in imported_modules, non_literals, extensions
- 
-     def get_setup_args_info(self, setupscript='./setup.py'):
--        cmd = ['python', setupscript]
-+        cmd = ['python3', setupscript]
-         info = {}
-         keys = set(self.bbvar_map.keys())
-         keys |= set(self.setuparg_list_fields)
-@@ -390,7 +390,7 @@ class PythonRecipeHandler(RecipeHandler):
-     def get_setup_byline(self, fields, setupscript='./setup.py'):
-         info = {}
- 
--        cmd = ['python', setupscript]
-+        cmd = ['python3', setupscript]
-         cmd.extend('--' + self.setuparg_map.get(f, f.lower()) for f in fields)
-         try:
-             info_lines = self.run_command(cmd, cwd=os.path.dirname(setupscript)).splitlines()
-@@ -527,7 +527,7 @@ class PythonRecipeHandler(RecipeHandler):
-         pkgdata_dir = tinfoil.config_data.getVar('PKGDATA_DIR')
- 
-         ldata = tinfoil.config_data.createCopy()
--        bb.parse.handle('classes/python-dir.bbclass', ldata, True)
-+        bb.parse.handle('classes/python3-dir.bbclass', ldata, True)
-         python_sitedir = ldata.getVar('PYTHON_SITEPACKAGES_DIR')
- 
-         dynload_dir = os.path.join(os.path.dirname(python_sitedir), 'lib-dynload')
--- 
-2.20.1
+> On Jun 8, 2019, at 5:15 AM, Richard Purdie <richard.purdie@linuxfoundatio=
+n.org> wrote:
+>=20
+>> On Fri, 2019-06-07 at 15:17 -0700, Jaewon Lee wrote:
+>> Right now `devtool build` runs populate_sysroot and packagedata
+>> tasks.
+>> Adding deploy to this list so that the newly built artifacts are
+>> available in the deploy directory.
+>>=20
+>> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+>>=20
+>> [YOCTO #13382]
+>>=20
+>> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+>> ---
+>> scripts/lib/devtool/build.py | 2 +-
+>> 1 file changed, 1 insertion(+), 1 deletion(-)
+>>=20
+>> diff --git a/scripts/lib/devtool/build.py
+>> b/scripts/lib/devtool/build.py
+>> index 7543398..aff5710 100644
+>> --- a/scripts/lib/devtool/build.py
+>> +++ b/scripts/lib/devtool/build.py
+>> @@ -37,7 +37,7 @@ def _set_file_values(fn, values):
+>>     return updated
+>>=20
+>> def _get_build_tasks(config):
+>> -    tasks =3D config.get('Build', 'build_task',
+>> 'populate_sysroot,packagedata').split(',')
+>> +    tasks =3D config.get('Build', 'build_task',
+>> 'deploy,populate_sysroot,packagedata').split(',')
+>>     return ['do_%s' % task.strip() for task in tasks]
+>>=20
+>> def build(args, config, basepath, workspace):
+>=20
+> This frustrates me a bit.
+>=20
+> The key question you have to ask here is "What happens for recipes that
+> don't have a do_deploy task?".
+>=20
+> The answer is it breaks:
+>=20
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/506
+>=20
+> *Please*, when sending devtool patches, test with:
+>=20
+> oe-selftest -r devtool
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
+>=20
 
 
