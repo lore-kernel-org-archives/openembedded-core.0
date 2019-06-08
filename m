@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 832807E577;
-	Sat,  8 Jun 2019 04:09:52 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id ADD827E586;
+	Sat,  8 Jun 2019 04:09:53 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: nick83ola <nick83ola@gmail.com>
-Date: Sat, 08 Jun 2019 04:09:54 -0000
-Message-ID: <20190608040954.2331.86787@do>
-References: <20190606104043.19722-1-nick83ola@gmail.com>
+To: Philippe Normand <philn@igalia.com>
+Date: Sat, 08 Jun 2019 04:09:55 -0000
+Message-ID: <20190608040955.2329.5063@do>
+References: <20190606110503.3005-1-philn@igalia.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190606104043.19722-1-nick83ola@gmail.com>
+In-Reply-To: <20190606110503.3005-1-philn@igalia.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInJuZy10b29sczogcmVjaXBlIGNsZWFudXAuLi4iIGFuZCAxIG1vcmU=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ251dGxzOiBVc2UgdGhlIHN5c2NvbmZkaXIgdmFyaWFibGUgZm9yIHRoZSBjYS1jZXJ0aWZpY2F0ZXMgcGF0aA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:52 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:09:53 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "rng-tools: recipe cleanup..." and 1 more
+Series: gnutls: Use the sysconfdir variable for the ca-certificates path
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/18019/
+URL   : https://patchwork.openembedded.org/series/18020/
 State : failure
 
 == Summary ==
@@ -45,13 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-support/rng-tools/rng-tools/0001-Remove-superfluous-variables.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/rng-tools/rng-tools/0002-Fix-a-few-typos-in-log-messages.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 666f6192aa)
 
 
 
