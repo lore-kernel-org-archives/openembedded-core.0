@@ -1,19 +1,19 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2AB397E588;
-	Sat,  8 Jun 2019 04:09:57 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 500827E57B;
+	Sat,  8 Jun 2019 04:09:58 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Andrii Bordunov via Openembedded-core
 	<openembedded-core@lists.openembedded.org>
 Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 08 Jun 2019 04:09:58 -0000
-Message-ID: <20190608040958.2330.43902@do>
-References: <20190606155933.603-1-matthias.schoepfer@ithinx.io>
+Date: Sat, 08 Jun 2019 04:09:59 -0000
+Message-ID: <20190608040959.2329.43937@do>
+References: <20190606160718.3433-1-matthias.schoepfer@ithinx.io>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190606155933.603-1-matthias.schoepfer@ithinx.io>
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogZml4IGJ1aWxkIG9uIHNvZnRmbG9hdCBtaXBz?=
+In-Reply-To: <20190606160718.3433-1-matthias.schoepfer@ithinx.io>
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogZml4IGJ1aWxkIG9uIHNvZnRmbG9hdCBtaXBzIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,14 +26,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:57 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:09:58 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: python3: fix build on softfloat mips
-Revision: 1
+Series: python3: fix build on softfloat mips (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/18027/
 State : failure
 
@@ -48,11 +48,6 @@ series by patchtest resulting in the following failures:
 
 * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
   Suggested fix    Sign off the added patch file (meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch)
-
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
 
 
