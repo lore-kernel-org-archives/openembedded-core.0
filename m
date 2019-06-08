@@ -1,19 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 689987E57B
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 04:09:59 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 801A26D7A2;
+	Sat,  8 Jun 2019 04:10:00 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Slater, Joseph <joe.slater@windriver.com>
-Date: Sat, 08 Jun 2019 04:10:00 -0000
-Message-ID: <20190608041000.2334.81316@do>
-References: <20190606170231.192065-1-joe.slater@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Sat, 08 Jun 2019 04:10:02 -0000
+Message-ID: <20190608041002.2332.40040@do>
+References: <20190606221730.19043-1-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190606170231.192065-1-joe.slater@windriver.com>
+In-Reply-To: <20190606221730.19043-1-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgW3YyXSBzbGFuZzogbW9kaWZ5IGFuIGFycmF5IHRlc3Q=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIm9wZW5zc2g6IEFkZCBtaXNzaW5nIHB0ZXN0IGRlcC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:59 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:10:00 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: [v2] slang: modify an array test
+Series: "openssh: Add missing ptest dep..." and 1 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/18029/
+URL   : https://patchwork.openembedded.org/series/18031/
 State : failure
 
 == Summary ==
