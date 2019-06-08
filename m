@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 8D88A7CE5E;
-	Sat,  8 Jun 2019 04:09:43 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id C80CB7CE5E;
+	Sat,  8 Jun 2019 04:09:45 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 08 Jun 2019 04:09:45 -0000
-Message-ID: <20190608040945.2331.30127@do>
-References: <20190520165719.20041-1-JPEWhacker@gmail.com>
+Date: Sat, 08 Jun 2019 04:09:47 -0000
+Message-ID: <20190608040947.2334.61902@do>
+References: <20190531165734.14435-1-JPEWhacker@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190520165719.20041-1-JPEWhacker@gmail.com>
+In-Reply-To: <20190531165734.14435-1-JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgSW5pdGlhbCBRQSB0ZXN0IGZvciByZXByb2R1Y2libGUgYnVpbGRzIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmFzaDogUmVwbGFjZSB1bmluYXRpdmUgbG9hZGVyIHBhdGggaW4gcHRlc3QgKHJldjMp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:43 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:09:45 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: Initial QA test for reproducible builds (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/17720/
+Series: bash: Replace uninative loader path in ptest (rev3)
+Revision: 3
+URL   : https://patchwork.openembedded.org/series/17923/
 State : failure
 
 == Summary ==
@@ -45,10 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Errors in your Python code were encountered [test_pylint] 
-  Suggested fix    Correct the lines introduced by your patch
-  Output           Please, fix the listed issues:
-                   meta/lib/oeqa/selftest/cases/reproducible.py does not exist
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 666f6192aa)
 
 
 
