@@ -1,47 +1,28 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id EFC077E575
+Return-Path: <adrian.freihofer@siemens.com>
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 7F5586BCA4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 07:13:46 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id h9so6173824itk.3
+	Sat,  8 Jun 2019 08:00:10 +0000 (UTC)
+Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x5880AmU018084
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Jun 2019 00:13:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8Qkwy6aqJkHodHL9W7udavdP5QEHQt0Xa7VqIZZFvnw=;
-	b=0AUjmQFf5MjaCuEgr+H7hIvk+SgPcsIpHAYffCCbc0wHlT9REe7OKZfrXJr7SaER5C
-	XLCJh/f2iTlLZjSZvG6QZsrGlXgze9mS2tSRYm8no2CHtoKqXHmyU70ZfYwWpIrqQnjh
-	XFqrQr0BJH2qoF/T9SkUlQYQl18CPoP7+5UDXofGY89qjweBXPUg+dSGlKhVcJ9cTg23
-	3J6BbVgOgqS0r83ilHUNSB3nrVzXlfxyWo6sBD4CTh0wN5cfHongdlctA8A46Nf90UX3
-	jGniI1Uj1lQiNEnko3Vuz0d0pmrreotC0my5y7LTgSBW65TGmbgJgF5aCRdAf8GnVoHL
-	nG3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8Qkwy6aqJkHodHL9W7udavdP5QEHQt0Xa7VqIZZFvnw=;
-	b=HCcaat0oNX47mtKhPtuxVyhawOgi4wNeFtgq/lMIHML0fygBPiD/IUa4yJ5sBNam+E
-	fkZPuZ5KKov2ufXNa5xpMF7SNI8cBYK01OkYk/tT7xtWVmF0YVRovb3s5XR2/8JYivjF
-	u3bG7ZGpa4OjqbSipXUbGKFT5p7VR93VxdkWzNDDCRe9wSeOF2GUBeQU1cE5DDOcnIP6
-	tEVbL4q6GnSq5VaBO/TvArnhZbN1Zu7lam7zNHWRZZkfa4FPjhg6G8bQnfleTtDe84iM
-	PXKeGk0Wl7A1ZxkgDOqYV773mX0u0/QwKIqPWA5zOAuOfvbISbY0/Uo44etEGShSBnAK
-	bFKg==
-X-Gm-Message-State: APjAAAWXFyz8lopOIKrD6w9Db9BT5LyPPCKNJsJMjCWEpf6AcpRe/aHv
-	fdDAWrcJN+uhG4sEWpcggXQVzdwkG1aI3UDSPcsamg==
-X-Google-Smtp-Source: APXvYqwOlrCkmCivF4tsLBy/cB9qxSb3/NOzj8W48g/33TiDZoirr/H8d1oStrD50zacR+qZJa1AckM3N0u59JtYttE=
-X-Received: by 2002:a24:edc1:: with SMTP id r184mr6434036ith.133.1559978027574;
-	Sat, 08 Jun 2019 00:13:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
-In-Reply-To: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Sat, 8 Jun 2019 08:13:35 +0100
-Message-ID: <CAJTo0LaCcAVe0F4GNRzywazKzztUKWcCnfOfgkj8Vm1Q+Q6w=Q@mail.gmail.com>
-To: Tim Orling <timothy.t.orling@linux.intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 0/4] Move SCons to Python 3
+	Sat, 8 Jun 2019 10:00:10 +0200
+Received: from dev.vm6.ccp.siemens.com ([139.22.37.201])
+	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id x58808gJ015866;
+	Sat, 8 Jun 2019 10:00:08 +0200
+Received: from dev.localdomain (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 06C062273142;
+	Sat,  8 Jun 2019 10:00:08 +0200 (CEST)
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sat,  8 Jun 2019 09:59:47 +0200
+Message-Id: <20190608075948.30537-4-adrian.freihofer@siemens.com>
+X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190608075948.30537-1-adrian.freihofer@siemens.com>
+References: <20190608075948.30537-1-adrian.freihofer@siemens.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [meta-oe][PATCH v3 3/4] runqemu: support non-bootable wic images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,65 +35,114 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 07:13:47 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Sat, 08 Jun 2019 08:00:11 -0000
 
-Hurrah, last time I looked at this the Py3 support wasn't quite ready yet.
+wic images are handled as vmtype images. Starting qemu with "-kernel"
+parameter and an image of type wic is not supported. Especially for
+"-machine virt" the combination of wic with -kernel parameter would
+be beneficial.
 
-Ross
+This patch changes the runqemu script to support this. If QB_MACHINE
+contains "-machine virt" and the image is of type wic a -kernel
+parameter is expected. Otherwise wic images are handled as before.
 
-On Sat, 8 Jun 2019 at 00:49, Tim Orling
-<timothy.t.orling@linux.intel.com> wrote:
->
-> python-scons and python-scons-native are perhaps the last python2 only
-> recipes in oe-core. With Python 2 going EOL in or before 2020, it's time
-> to switch everything to Python 3.
->
-> I updated scons.bbclass to use python3-scons-native. Tested build with serf.
->
-> I also added a simple oeqa/runtime test while I was at it.
->
-> I did not drop python-scons and python-scons-native, although we should
-> at some point soon.
->
-> [YOCTO #13381]
->
-> The following changes since commit 666f6192aaa9e847ad0d920a487b82d984b58d26:
->
->   gnutls: Use the sysconfdir variable for the ca-certificates path (2019-06-07 09:10:34 +0100)
->
-> are available in the Git repository at:
->
->   git://git.openembedded.org/openembedded-core-contrib timo/python3-scons
->   http://cgit.openembedded.org//log/?h=timo/python3-scons
->
-> Tim Orling (4):
->   python3-scons-{native}: add recipe for v3.0.5
->   scons.bbclass: use python3-scons
->   serf: switch to python3-scons-native
->   oeqa/runtime: add simple test for scons
->
->  meta/classes/scons.bbclass                    |  2 +-
->  meta/conf/distro/include/maintainers.inc      |  2 +
->  meta/lib/oeqa/runtime/cases/scons.py          | 37 +++++++++++++++++++
->  meta/lib/oeqa/runtime/files/SConstruct        |  1 +
->  meta/lib/oeqa/runtime/files/hello.c           |  5 +++
->  .../python/python3-scons-native_3.0.5.bb      |  8 ++++
->  .../python/python3-scons_3.0.5.bb             | 29 +++++++++++++++
->  meta/recipes-support/serf/serf_1.3.9.bb       |  2 +-
->  8 files changed, 84 insertions(+), 2 deletions(-)
->  create mode 100644 meta/lib/oeqa/runtime/cases/scons.py
->  create mode 100644 meta/lib/oeqa/runtime/files/SConstruct
->  create mode 100644 meta/lib/oeqa/runtime/files/hello.c
->  create mode 100644 meta/recipes-devtools/python/python3-scons-native_3.0.5.bb
->  create mode 100644 meta/recipes-devtools/python/python3-scons_3.0.5.bb
->
-> --
-> 2.20.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Example:
+QB_DEFAULT_FSTYPE = "wic"
+QB_KERNEL_ROOT = "/dev/vda1"
+QB_SYSTEM_NAME = "qemu-system-aarch64"
+QB_MACHINE = "-machine virt"
+...
+
+[YOCTO #13336]
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/runqemu | 34 ++++++++++++++++++++++++++++------
+ 1 file changed, 28 insertions(+), 6 deletions(-)
+
+diff --git a/scripts/runqemu b/scripts/runqemu
+index af90c010da..71894c9ca8 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -185,10 +185,11 @@ class BaseConfig(object):
+         self.lock_descriptor = None
+         self.bitbake_e = ''
+         self.snapshot = False
++        self.wic_fs = None
++        self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi')
+         self.fstypes = ('ext2', 'ext3', 'ext4', 'jffs2', 'nfs', 'btrfs',
+                         'cpio.gz', 'cpio', 'ramfs', 'tar.bz2', 'tar.gz')
+-        self.vmtypes = ('hddimg', 'hdddirect', 'wic', 'wic.vmdk',
+-                        'wic.qcow2', 'wic.vdi', 'iso')
++        self.vmtypes = ('hddimg', 'hdddirect', 'iso')
+         self.network_device = "-device e1000,netdev=net0,mac=@MAC@"
+         # Use different mac section for tap and slirp to avoid
+         # conflicts, e.g., when one is running with tap, the other is
+@@ -253,7 +254,7 @@ class BaseConfig(object):
+ 
+     def check_arg_fstype(self, fst):
+         """Check and set FSTYPE"""
+-        if fst not in self.fstypes + self.vmtypes:
++        if fst not in self.fstypes + self.vmtypes + self.wictypes:
+             logger.warning("Maybe unsupported FSTYPE: %s" % fst)
+         if not self.fstype or self.fstype == fst:
+             if fst == 'ramfs':
+@@ -300,7 +301,7 @@ class BaseConfig(object):
+             # Check filename against self.fstypes can hanlde <file>.cpio.gz,
+             # otherwise, its type would be "gz", which is incorrect.
+             fst = ""
+-            for t in self.fstypes:
++            for t in self.fstypes + self.wictypes:
+                 if p.endswith(t):
+                     fst = t
+                     break
+@@ -390,7 +391,7 @@ class BaseConfig(object):
+ 
+         unknown_arg = ""
+         for arg in sys.argv[1:]:
+-            if arg in self.fstypes + self.vmtypes:
++            if arg in self.fstypes + self.vmtypes + self.wictypes:
+                 self.check_arg_fstype(arg)
+             elif arg == 'nographic':
+                 self.qemu_opt_script += ' -nographic'
+@@ -695,6 +696,21 @@ class BaseConfig(object):
+ 
+     def check_and_set(self):
+         """Check configs sanity and set when needed"""
++
++        # Decide how wic images are handled: as vm or with -kernel parameter
++        if self.wic_fs is None:
++            self.wic_fs = False
++            try:
++                qbm = self.get('QB_MACHINE')
++                if re.search('\s+virt(?![^ ])', qbm):
++                    self.wic_fs = True
++            except AttributeError:
++                pass
++        if self.wic_fs is True:
++            self.fstypes = self.fstypes + self.wictypes
++        else:
++            self.vmtypes = self.vmtypes + self.wictypes
++
+         self.validate_paths()
+         if not self.slirp_enabled:
+             check_tun()
+@@ -832,7 +848,13 @@ class BaseConfig(object):
+             if self.dtb:
+                 print('DTB: [%s]' % self.dtb)
+         print('MACHINE: [%s]' % self.get('MACHINE'))
+-        print('FSTYPE: [%s]' % self.fstype)
++        wic_mode = ''
++        if self.fstype == 'wic':
++            if self.wic_fs:
++                wic_mode = ' (fs)'
++            else:
++                wic_mode = ' (vm)'
++        print('FSTYPE: [%s%s]' % (self.fstype, wic_mode))
+         if self.fstype  == 'nfs':
+             print('NFS_DIR: [%s]' % self.rootfs)
+         else:
+-- 
+2.11.0
+
 
