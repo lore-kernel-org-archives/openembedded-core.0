@@ -1,48 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id A688C7E53D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 82D9F6D230
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 12:02:06 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id b17so4633064wrq.11
+	Sat,  8 Jun 2019 12:15:10 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id v19so4209588wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 08 Jun 2019 05:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=kgI9hBZaaOgt/VR0/f0Z7pc+D24ej5zWrVaczEdXQ74=;
-	b=V7ONuVBwQ3xGqA54CKgK1Ifs5ocRq1gTmj7Q8MPBUcy9khjjNWuAw+mZxfohQgLqTV
-	nswrnN8N75yEcW2tmFHsqRpCZIM8lW2wLBPxktF4QbScC5247xgKVWh5czzm/IGUIHS1
-	scrRUrSoTpavJv41b1UrPg/sRlhVYq2kYr/C8PqrZUM6XcFwXU0YxAGyv+7oMYv6hHr6
-	f2pMsUi1G87hlNTqKfSpWJk0/Hwc1obmB59QUKZkU72UZCH07rK/FLsA8zoO7X1bUckQ
-	idGZbjhK5h0xlFwmu7l2zVvGfxDb/rlroUyzRu+yf+YK4DfmPXq5+j2ZFBrztpwpMhH5
-	BA/Q==
+	Sat, 08 Jun 2019 05:15:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=Uahit3lbB4jwn6TIoWqUnmivDsAcY0FEtliT9b3+nqI=;
+	b=Evibsi+m/9ZE+vpfPI02mU+WMYEqbMfHJ9FcM2xNDiRajTarSSHxgOrfVz+VtI2G/A
+	c2vXj8UZCgH+NZAyJNW0QNJ0QAzDrnowRnakn/5tSY0/xfCaUuodnT6773q43mPTK+dE
+	w85Euw+VB7UiUoCWZE6FumouVzLABY51roKqw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=kgI9hBZaaOgt/VR0/f0Z7pc+D24ej5zWrVaczEdXQ74=;
-	b=HgC32FCRnt3ennn3jakLsP3SBgSteUEEe6Vk0lzxZpaOtsiXrpwUMb3esrinqPJ5jg
-	DU2X0rWwXTCqhYszf/m4yM799+FeOCy6jFYZRbpB2QbZgMTr7v+XD3sx3yC4OsL40mgt
-	qPokXGNePu1Z/u6tvVC/WPsOnlbD26huJ8CrsGgjnStyHtLic/+JW7FkIVXOp9fX8QO0
-	8yd/Z72Tab1CoDKC9b0yHxB5/YPTEE/GGk16TPHe5Y9HqDk7uF5vjU+h4aThnrZXk6dO
-	IObz8tEJH1Uv/+FFBttt7x0I+WHngnjgXKVlme1syxgFr2V3NWFaBpjntrl/ECkFK+dY
-	MnRw==
-X-Gm-Message-State: APjAAAUaraILgTQO26joQa8p45dyd0CU2ve+5d5eNwooI3rLyh1Z+PUR
-	bDqMkkIfkO+8ZiHea5b9Iv/bk0ib
-X-Google-Smtp-Source: APXvYqwcW9C19ACouwQTvhIn1c/vfkSQqneEVJ6b4K6A112vFZYgoqsT184FvIzjNxIwRudhqKYa5Q==
-X-Received: by 2002:adf:f2c8:: with SMTP id d8mr10669287wrp.221.1559995327008; 
-	Sat, 08 Jun 2019 05:02:07 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Uahit3lbB4jwn6TIoWqUnmivDsAcY0FEtliT9b3+nqI=;
+	b=E2Bqz5R3fFFZSXJpm3IwjlVxo5tMGUV0FK3ast/ZFV/eFezRiUbpCjIMhpI0OuLxx8
+	pZTPQj+VatHhfoGaQESnyd/4bogqspRosgXMGNv1IPa+VrebJ9lccXFvCg0sCNxkSszB
+	myOYhPNL69Tm4GcVdOYuYpjvRzlbc/jWzkWKOW4QZY9WymoTTCw3t9DTyNvllTODqP0B
+	D3taju6aovSgWdXgqff3EWPc4mytgz3DDr6LPQgy4xhmJY7+5Bfe5yl6dVl9KqbQ03/s
+	xJrLIvVosLcuFGxF5u+hQCi/OgRNKjcSeouIppx7K8vA486b5A7q/buexA3z7IRbNGxX
+	MkXw==
+X-Gm-Message-State: APjAAAWcu1DvKogwIFthBzlI2oSqDaDdVcaMDyphs7xc/pI6XM8YToK8
+	axdUwaYEv7/qTL7W84JBe1AxFw==
+X-Google-Smtp-Source: APXvYqy+VDgUZqMlLI5mozRLmDjpr43sa/a+wCFnQTxdWG4rR1avmITGbOSRETXBTzAse2T4bYEIWA==
+X-Received: by 2002:a1c:678a:: with SMTP id b132mr6769333wmc.17.1559996111279; 
+	Sat, 08 Jun 2019 05:15:11 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	j132sm8878593wmj.21.2019.06.08.05.02.06
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 08 Jun 2019 05:02:06 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Jun 2019 12:02:04 +0000
-Message-Id: <20190608120204.265-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] grub-efi-cfg, systemd-boot-cfg: use MACHINE_ARCH
+	f204sm2371896wme.18.2019.06.08.05.15.10
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 08 Jun 2019 05:15:10 -0700 (PDT)
+Message-ID: <75b09b73c57e0717cda78e6732e73d91ef670f45.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jaewon Lee <jaewon.lee@xilinx.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 08 Jun 2019 13:15:08 +0100
+In-Reply-To: <1559945821-18316-1-git-send-email-jaewon.lee@xilinx.com>
+References: <1559945821-18316-1-git-send-email-jaewon.lee@xilinx.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Subject: Re: [PATCH] devtool: build: add deploy to the tasks run for devtool build
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,58 +58,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 12:02:07 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 12:15:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-* both use KERNEL_IMAGETYPE variable which is MACHINE specific
-* fixes:
+On Fri, 2019-06-07 at 15:17 -0700, Jaewon Lee wrote:
+> Right now `devtool build` runs populate_sysroot and packagedata
+> tasks.
+> Adding deploy to this list so that the newly built artifacts are
+> available in the deploy directory.
+> 
+> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+> 
+> [YOCTO #13382]
+> 
+> Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+> ---
+>  scripts/lib/devtool/build.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/scripts/lib/devtool/build.py
+> b/scripts/lib/devtool/build.py
+> index 7543398..aff5710 100644
+> --- a/scripts/lib/devtool/build.py
+> +++ b/scripts/lib/devtool/build.py
+> @@ -37,7 +37,7 @@ def _set_file_values(fn, values):
+>      return updated
+>  
+>  def _get_build_tasks(config):
+> -    tasks = config.get('Build', 'build_task',
+> 'populate_sysroot,packagedata').split(',')
+> +    tasks = config.get('Build', 'build_task',
+> 'deploy,populate_sysroot,packagedata').split(',')
+>      return ['do_%s' % task.strip() for task in tasks]
+>  
+>  def build(args, config, basepath, workspace):
 
-  === Comparing signatures for task do_configure.sigdata between hammerhead and mako ===
-  ERROR: grub-bootconf different signature for task do_configure.sigdata between hammerhead and mako
-  basehash changed from 710332f3ec15670302dd690708730c9e418d53790ce36d6a91b049ae4f7069b1 to c9a46e58b4634b5fd47d20683f8320e15f5c4cb7628e3a62ed97d8528d7aabd2
-  Variable KERNEL_IMAGETYPE value changed from 'zImage-dtb' to 'zImage'
+This frustrates me a bit.
 
-  ERROR: systemd-bootconf different signature for task do_configure.sigdata between hammerhead and mako
-  basehash changed from 2abbaf6d7760696fbf1ff5df5705239b475ccbf6f0c831fc4031984c0ce0e9f2 to 24f1e7886dee02b04bc180acc1c946ad82ce842655e5a5f4a8006f4a8490f985
-  Variable KERNEL_IMAGETYPE value changed from 'zImage-dtb' to 'zImage'
+The key question you have to ask here is "What happens for recipes that
+don't have a do_deploy task?".
 
-  detected with:
-  openembedded-core/scripts/sstate-diff-machines.sh --targets=world --tmpdir=tmp-glibc/ --analyze --machines="hammerhead mako qemux86"
+The answer is it breaks:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/grub-efi-cfg.bbclass     | 3 +++
- meta/classes/systemd-boot-cfg.bbclass | 3 +++
- 2 files changed, 6 insertions(+)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/506
 
-diff --git a/meta/classes/grub-efi-cfg.bbclass b/meta/classes/grub-efi-cfg.bbclass
-index 5eeee6c2e3..f661a69f83 100644
---- a/meta/classes/grub-efi-cfg.bbclass
-+++ b/meta/classes/grub-efi-cfg.bbclass
-@@ -27,6 +27,9 @@ EFIDIR = "/EFI/BOOT"
- GRUB_ROOT ?= "${ROOT}"
- APPEND ?= ""
- 
-+# Uses MACHINE specific KERNEL_IMAGETYPE
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
- # Need UUID utility code.
- inherit fs-uuid
- 
-diff --git a/meta/classes/systemd-boot-cfg.bbclass b/meta/classes/systemd-boot-cfg.bbclass
-index 021c9f9331..b3e0e6ad41 100644
---- a/meta/classes/systemd-boot-cfg.bbclass
-+++ b/meta/classes/systemd-boot-cfg.bbclass
-@@ -2,6 +2,9 @@ SYSTEMD_BOOT_CFG ?= "${S}/loader.conf"
- SYSTEMD_BOOT_ENTRIES ?= ""
- SYSTEMD_BOOT_TIMEOUT ?= "10"
- 
-+# Uses MACHINE specific KERNEL_IMAGETYPE
-+PACKAGE_ARCH = "${MACHINE_ARCH}"
-+
- # Need UUID utility code.
- inherit fs-uuid
- 
--- 
-2.17.1
+*Please*, when sending devtool patches, test with:
+
+oe-selftest -r devtool
+
+Cheers,
+
+Richard
+
 
 
