@@ -1,98 +1,47 @@
-Return-Path: <chris.laplante@agilent.com>
-X-Greylist: delayed 32406 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 08 Jun 2019 04:32:08 UTC
-Received: from NAM05-DM3-obe.outbound.protection.outlook.com
-	(mail-eopbgr730080.outbound.protection.outlook.com [40.107.73.80])
-	by mail.openembedded.org (Postfix) with ESMTP id 120BD7E528
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
+	[209.85.166.193])
+	by mail.openembedded.org (Postfix) with ESMTP id EFC077E575
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 04:32:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=XRM0ZNHvIShZoPiKfKWHdJDYrkchSZSwyq3DdRWuTok=;
-	b=lNxNCsOFxxw5GjIv/5pTf+gmvBLcumoEE+rUu6tE076DjueBFsEol2TeRxHtmGsRk47c1XDXOMBoxcveWXSh+ujFyEbeLEmsGVM9f7bOeUGzrjwv+Wma+cLtkliYFuZGCuFr91MwShaQXRR7aH9rJXLVYSftPH2dxcEHXpHMj2w=
-Received: from DM5PR12CA0066.namprd12.prod.outlook.com (2603:10b6:3:103::28)
-	by BN6PR12MB1585.namprd12.prod.outlook.com (2603:10b6:405:9::8) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.1965.12;
-	Fri, 7 Jun 2019 18:58:10 +0000
-Received: from DM3NAM05FT027.eop-nam05.prod.protection.outlook.com
-	(2a01:111:f400:7e51::208) by DM5PR12CA0066.outlook.office365.com
-	(2603:10b6:3:103::28) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1965.12 via
-	Frontend Transport; Fri, 7 Jun 2019 18:58:10 +0000
-Authentication-Results: spf=pass (sender IP is 192.25.218.38)
-	smtp.mailfrom=agilent.com; lists.openembedded.org;
-	dkim=none (message not
-	signed) header.d=none;lists.openembedded.org; dmarc=pass action=none
-	header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
-	192.25.218.38 as permitted sender) receiver=protection.outlook.com;
-	client-ip=192.25.218.38; helo=COS-US-IRON05.COS.AGILENT.COM;
-Received: from COS-US-IRON05.COS.AGILENT.COM (192.25.218.38) by
-	DM3NAM05FT027.mail.protection.outlook.com (10.152.98.138) with
-	Microsoft SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.20.1987.5 via Frontend Transport; Fri, 7 Jun 2019 18:58:09 +0000
-Received: from unknown (HELO localhost.localdomain) ([10.46.26.152])
-	by COS-US-IRON05.COS.AGILENT.COM with ESMTP; 07 Jun 2019 12:58:05 -0600
-From: Chris Laplante <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 7 Jun 2019 14:57:53 -0400
-Message-ID: <1559933873-119485-2-git-send-email-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1559933873-119485-1-git-send-email-chris.laplante@agilent.com>
-References: <1559933873-119485-1-git-send-email-chris.laplante@agilent.com>
-X-EOPAttributedMessage: 0
-X-Forefront-Antispam-Report: =?us-ascii?Q?CIP:192.25.218.38; IPV:CAL; SCL:-1;
-	CTRY:US; EFV:NLI; SFV:NSPM; SF?=
-	=?us-ascii?Q?S:(10009020)(136003)(346002)(396003)(376002)(39860400002)(29?=
-	=?us-ascii?Q?80300002)(199004)(189003)(29502001)(50466002)(45126002)(5660?=
-	=?us-ascii?Q?300002)(6916009)(51416003)(107886003)(48376002)(8676002)(761?=
-	=?us-ascii?Q?76011)(73956011)(4326008)(70206006)(36756003)(316002)(290600?=
-	=?us-ascii?Q?2)(86362001)(47776003)(246002)(356004)(63266004)(76130400001?=
-	=?us-ascii?Q?)(6666004)(476003)(486006)(8936002)(106002)(2616005)(446003)?=
-	=?us-ascii?Q?(11346002)(126002)(426003)(305945005)(50226002)(4744005)(144?=
-	=?us-ascii?Q?44005)(7636002)(16586007)(2351001)(26005)(336012)(186003)(77?=
-	=?us-ascii?Q?096007)(26826003)(478600001)(44832011)(5001870100001);
-	DIR:OU?=
-	=?us-ascii?Q?T; SFP:1101; SCL:1; SRVR:BN6PR12MB1585;
-	H:COS-US-IRON05.COS.AGIL?=
-	=?us-ascii?Q?ENT.COM; FPR:; SPF:Pass; LANG:en;
-	PTR:nospam.smtp.agilent.com,re?=
-	=?us-ascii?Q?lay.sgp.smtp.agilent.com, relay.germany.smtp.agilent.com,
-	bast?=
-	=?us-ascii?Q?ion.and.smtp.agilent.com, bastion.ap.smtp.agilent.com,
-	bastion?=
-	=?us-ascii?Q?.britain.smtp.agilent.com, relay.am.smtp.agilent.com,
-	bastion.?=
-	=?us-ascii?Q?germany.smtp.agilent.com, bastion.am.smtp.agilent.com,
-	britain?=
-	=?us-ascii?Q?.smtp.agilent.com, scan.ap.smtp.agilent.com,
-	relay.eu.smtp.agi?=
-	=?us-ascii?Q?lent.com,cos.smtp.agilent.com,bastion.eu.smtp.agilent.com;
-	A:?= =?us-ascii?Q?1;MX:1;?=
+	Sat,  8 Jun 2019 07:13:46 +0000 (UTC)
+Received: by mail-it1-f193.google.com with SMTP id h9so6173824itk.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 08 Jun 2019 00:13:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=8Qkwy6aqJkHodHL9W7udavdP5QEHQt0Xa7VqIZZFvnw=;
+	b=0AUjmQFf5MjaCuEgr+H7hIvk+SgPcsIpHAYffCCbc0wHlT9REe7OKZfrXJr7SaER5C
+	XLCJh/f2iTlLZjSZvG6QZsrGlXgze9mS2tSRYm8no2CHtoKqXHmyU70ZfYwWpIrqQnjh
+	XFqrQr0BJH2qoF/T9SkUlQYQl18CPoP7+5UDXofGY89qjweBXPUg+dSGlKhVcJ9cTg23
+	3J6BbVgOgqS0r83ilHUNSB3nrVzXlfxyWo6sBD4CTh0wN5cfHongdlctA8A46Nf90UX3
+	jGniI1Uj1lQiNEnko3Vuz0d0pmrreotC0my5y7LTgSBW65TGmbgJgF5aCRdAf8GnVoHL
+	nG3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8Qkwy6aqJkHodHL9W7udavdP5QEHQt0Xa7VqIZZFvnw=;
+	b=HCcaat0oNX47mtKhPtuxVyhawOgi4wNeFtgq/lMIHML0fygBPiD/IUa4yJ5sBNam+E
+	fkZPuZ5KKov2ufXNa5xpMF7SNI8cBYK01OkYk/tT7xtWVmF0YVRovb3s5XR2/8JYivjF
+	u3bG7ZGpa4OjqbSipXUbGKFT5p7VR93VxdkWzNDDCRe9wSeOF2GUBeQU1cE5DDOcnIP6
+	tEVbL4q6GnSq5VaBO/TvArnhZbN1Zu7lam7zNHWRZZkfa4FPjhg6G8bQnfleTtDe84iM
+	PXKeGk0Wl7A1ZxkgDOqYV773mX0u0/QwKIqPWA5zOAuOfvbISbY0/Uo44etEGShSBnAK
+	bFKg==
+X-Gm-Message-State: APjAAAWXFyz8lopOIKrD6w9Db9BT5LyPPCKNJsJMjCWEpf6AcpRe/aHv
+	fdDAWrcJN+uhG4sEWpcggXQVzdwkG1aI3UDSPcsamg==
+X-Google-Smtp-Source: APXvYqwOlrCkmCivF4tsLBy/cB9qxSb3/NOzj8W48g/33TiDZoirr/H8d1oStrD50zacR+qZJa1AckM3N0u59JtYttE=
+X-Received: by 2002:a24:edc1:: with SMTP id r184mr6434036ith.133.1559978027574;
+	Sat, 08 Jun 2019 00:13:47 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5614721d-c467-413e-752e-08d6eb7a1588
-X-Microsoft-Antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(4709080)(1401327)(2017052603328);
-	SRVR:BN6PR12MB1585; 
-X-MS-TrafficTypeDiagnostic: BN6PR12MB1585:
-X-Microsoft-Antispam-PRVS: <BN6PR12MB1585BEC6828D91A8010FE8AF8B100@BN6PR12MB1585.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
-X-Forefront-PRVS: 0061C35778
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam-Message-Info: N9M5/KrbQmWMyc8fdgMQNDw1V7hmCvbaPyKNA6i6nnuQF1EW49L6Qew+Y53dqvMZvniMbah5CIpA/MLjFx77O+P8jknoK6odl9oeZyN6z+WWdivhMnwoh5B2BzlaZfCLgHOkUpCDQjaMrLMx79hXPDQsjjJy1nHmR/ZQeM8eUIvwrDliDpFVEO8PZQZesm6Mj34au88h6AhdhKFh4VKMghFn8K0tI4iHxMzTO/ix23Qh2efjy9V8DhOwr79KycaDiDT4kg3DHbILkIw1YjFf4hJ7+UWKDeoYjOsnRs3DVOajazRHTWUwxX0XYzHDeBViZP42aSk4LowlJa8FW7mqXWWq5bioBhyfee0JRFNJBiXCyAqB/gEsJBRKEef9LOVTCZ3z95Yvs9bVLC1Xf040PclN0Ki12uNEfOGFF4gp9dI=
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Jun 2019 18:58:09.2740 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5614721d-c467-413e-752e-08d6eb7a1588
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;
-	Ip=[192.25.218.38]; Helo=[COS-US-IRON05.COS.AGILENT.COM]
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR12MB1585
-Subject: [PATCH 1/1] base.bbclass: Add OE_EXTRA_IMPORTS
+References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
+In-Reply-To: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Sat, 8 Jun 2019 08:13:35 +0100
+Message-ID: <CAJTo0LaCcAVe0F4GNRzywazKzztUKWcCnfOfgkj8Vm1Q+Q6w=Q@mail.gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 0/4] Move SCons to Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -105,35 +54,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:32:12 -0000
-Content-Type: text/plain
+X-List-Received-Date: Sat, 08 Jun 2019 07:13:47 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-OE_IMPORTS is not intended to be touched by users, but there are cases
-in which layers might want to make additional Python modules available
-to Python functions. For example, Python modules defined in the layer
-themselves (under meta-layer/lib).
+Hurrah, last time I looked at this the Py3 support wasn't quite ready yet.
 
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
----
- meta/classes/base.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Ross
 
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 25d5fff..90af8ba 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -10,7 +10,9 @@ inherit utility-tasks
- inherit metadata_scm
- inherit logging
-
--OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license"
-+OE_EXTRA_IMPORTS ?= ""
-+
-+OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license ${OE_EXTRA_IMPORTS}"
- OE_IMPORTS[type] = "list"
-
- def oe_import(d):
---
-2.7.4
-
+On Sat, 8 Jun 2019 at 00:49, Tim Orling
+<timothy.t.orling@linux.intel.com> wrote:
+>
+> python-scons and python-scons-native are perhaps the last python2 only
+> recipes in oe-core. With Python 2 going EOL in or before 2020, it's time
+> to switch everything to Python 3.
+>
+> I updated scons.bbclass to use python3-scons-native. Tested build with serf.
+>
+> I also added a simple oeqa/runtime test while I was at it.
+>
+> I did not drop python-scons and python-scons-native, although we should
+> at some point soon.
+>
+> [YOCTO #13381]
+>
+> The following changes since commit 666f6192aaa9e847ad0d920a487b82d984b58d26:
+>
+>   gnutls: Use the sysconfdir variable for the ca-certificates path (2019-06-07 09:10:34 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://git.openembedded.org/openembedded-core-contrib timo/python3-scons
+>   http://cgit.openembedded.org//log/?h=timo/python3-scons
+>
+> Tim Orling (4):
+>   python3-scons-{native}: add recipe for v3.0.5
+>   scons.bbclass: use python3-scons
+>   serf: switch to python3-scons-native
+>   oeqa/runtime: add simple test for scons
+>
+>  meta/classes/scons.bbclass                    |  2 +-
+>  meta/conf/distro/include/maintainers.inc      |  2 +
+>  meta/lib/oeqa/runtime/cases/scons.py          | 37 +++++++++++++++++++
+>  meta/lib/oeqa/runtime/files/SConstruct        |  1 +
+>  meta/lib/oeqa/runtime/files/hello.c           |  5 +++
+>  .../python/python3-scons-native_3.0.5.bb      |  8 ++++
+>  .../python/python3-scons_3.0.5.bb             | 29 +++++++++++++++
+>  meta/recipes-support/serf/serf_1.3.9.bb       |  2 +-
+>  8 files changed, 84 insertions(+), 2 deletions(-)
+>  create mode 100644 meta/lib/oeqa/runtime/cases/scons.py
+>  create mode 100644 meta/lib/oeqa/runtime/files/SConstruct
+>  create mode 100644 meta/lib/oeqa/runtime/files/hello.c
+>  create mode 100644 meta/recipes-devtools/python/python3-scons-native_3.0.5.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-scons_3.0.5.bb
+>
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
