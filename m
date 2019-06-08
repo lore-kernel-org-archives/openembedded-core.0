@@ -1,28 +1,18 @@
-Return-Path: <adrian.freihofer@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 959887E4BE
-	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 08:00:10 +0000 (UTC)
-Received: from mail3.siemens.de (mail3.siemens.de [139.25.208.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x5880AGW025429
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 8 Jun 2019 10:00:10 +0200
-Received: from dev.vm6.ccp.siemens.com ([139.22.37.201])
-	by mail3.siemens.de (8.15.2/8.15.2) with ESMTP id x588088p015864;
-	Sat, 8 Jun 2019 10:00:08 +0200
-Received: from dev.localdomain (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id E412C2273140;
-	Sat,  8 Jun 2019 10:00:07 +0200 (CEST)
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Sat,  8 Jun 2019 09:59:45 +0200
-Message-Id: <20190608075948.30537-2-adrian.freihofer@siemens.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190608075948.30537-1-adrian.freihofer@siemens.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id E6BB660272;
+	Sat,  8 Jun 2019 08:30:43 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Adrian Freihofer <adrian.freihofer@siemens.com>
+Date: Sat, 08 Jun 2019 08:30:45 -0000
+Message-ID: <20190608083045.2334.42417@do>
 References: <20190608075948.30537-1-adrian.freihofer@siemens.com>
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [meta-oe][PATCH v3 1/4] qemurunner: fix undefined variable
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190608075948.30537-1-adrian.freihofer@siemens.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnVucWVtdTogc3VwcG9ydCBub24tYm9vdGFibGUgd2ljIGltYWdlcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,29 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 08:00:11 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 08:30:44 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-While hacking on this I got an Exception. It's better to define
-variables also in python.
+== Series Details ==
 
-Signe:-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Series: runqemu: support non-bootable wic images
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18051/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Patch            [meta-oe,v3,1/4] qemurunner: fix undefined variable
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/utils/qemurunner.py | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 6d2860c106..c16227fc38 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -60,6 +60,7 @@ class QemuRunner:
-         self.runqemutime = 120
-         self.qemu_pidfile = 'pidfile_'+str(os.getpid())
-         self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
-+        self.monitorpipe = None
- 
-         self.logger = logger
- 
--- 
-2.11.0
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
