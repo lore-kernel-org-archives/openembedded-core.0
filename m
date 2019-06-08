@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 975387D71B;
-	Sat,  8 Jun 2019 04:10:01 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 43D5B79CB3;
+	Sat,  8 Jun 2019 04:10:09 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Armin Kuster <akuster808@gmail.com>
-Date: Sat, 08 Jun 2019 04:10:03 -0000
-Message-ID: <20190608041003.2330.78297@do>
-References: <1559867105-25414-1-git-send-email-akuster808@gmail.com>
+To: Adrian Freihofer <adrian.freihofer@siemens.com>
+Date: Sat, 08 Jun 2019 04:10:10 -0000
+Message-ID: <20190608041010.2334.31080@do>
+References: <20190607214707.28381-1-adrian.freihofer@siemens.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <1559867105-25414-1-git-send-email-akuster808@gmail.com>
+In-Reply-To: <20190607214707.28381-1-adrian.freihofer@siemens.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcWVtdTogU2VjdXJpdHkgZml4IGZvciBDVkUtMjAxOS0xMjE1NQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcnVucWVtdTogc3VwcG9ydCBub24tYm9vdGFibGUgd2ljIGltYWdlcw==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:10:01 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:10:09 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: qemu: Security fix for CVE-2019-12155
+Series: runqemu: support non-bootable wic images
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/18033/
+URL   : https://patchwork.openembedded.org/series/18046/
 State : failure
 
 == Summary ==
@@ -45,9 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  thud (currently at f162d5bfe6)
+* Patch            [meta-oe,v2,1/4] qemurunner: fix undefined variable
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
 
 
 
