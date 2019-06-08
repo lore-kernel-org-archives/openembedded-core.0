@@ -1,19 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id DC4317E577;
-	Sat,  8 Jun 2019 04:09:54 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 1009E7E577;
+	Sat,  8 Jun 2019 04:09:56 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Andrii Bordunov via Openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Sat, 08 Jun 2019 04:09:56 -0000
-Message-ID: <20190608040956.2332.82832@do>
-References: <20190606151357.21453-1-matthias.schoepfer@ithinx.io>
+To: nick83ola <nick83ola@gmail.com>
+Date: Sat, 08 Jun 2019 04:09:57 -0000
+Message-ID: <20190608040957.2331.42904@do>
+References: <20190606151814.5114-1-nick83ola@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190606151357.21453-1-matthias.schoepfer@ithinx.io>
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZml4aW5nIHB5dGhvbjMgYnVpbGQgZm9yIG1pcHMgc29mdGZsb2F0IHRhcmdldHM=?=
+In-Reply-To: <20190606151814.5114-1-nick83ola@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgIlt2Ml0gcm5nLXRvb2xzOiByZWNpcGUgY2xlYW51cC4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:55 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:09:56 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: fixing python3 build for mips softfloat targets
+Series: "[v2] rng-tools: recipe cleanup..." and 2 more
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/18024/
+URL   : https://patchwork.openembedded.org/series/18025/
 State : failure
 
 == Summary ==
@@ -46,15 +45,11 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            fixing python3 build for mips softfloat targets
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
 * Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch)
+  Suggested fix    Sign off the added patch file (meta/recipes-support/rng-tools/rng-tools/0001-Remove-superfluous-variables.patch)
 
 * Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-devtools/python/python3/0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-support/rng-tools/rng-tools/0002-Fix-a-few-typos-in-log-messages.patch
   Standard format  Upstream-Status: <Valid status>
   Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
