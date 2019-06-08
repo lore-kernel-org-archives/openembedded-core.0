@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id E93667E57D;
-	Sat,  8 Jun 2019 04:09:46 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 3F8137CE5E;
+	Sat,  8 Jun 2019 04:09:48 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Date: Sat, 08 Jun 2019 04:09:48 -0000
-Message-ID: <20190608040948.2332.18154@do>
-References: <20190606150903.22750-1-quentin.schulz@streamunlimited.com>
+To: Adrian Bunk <bunk@stusta.de>
+Date: Sat, 08 Jun 2019 04:09:49 -0000
+Message-ID: <20190608040949.2334.14270@do>
+References: <20190606184428.2325-1-bunk@stusta.de>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190606150903.22750-1-quentin.schulz@streamunlimited.com>
+In-Reply-To: <20190606184428.2325-1-bunk@stusta.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWV0YTogbGljZW5zZTogZml4IG5vbi1TUERYIGxpY2Vuc2UgYmVpbmcgcmVtb3ZlZCBmcm9tIElOQ09NUEFUSUJMRV9MSUNFTlNFIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgUmVtb3ZlIG1hbnVhbCBSREVQRU5EUyBmcm9tIFBOLXB0ZXN0IHRvIFBOIHBhY2thZ2UgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:47 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:09:48 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE (rev2)
+Series: Remove manual RDEPENDS from PN-ptest to PN package (rev2)
 Revision: 2
-URL   : https://patchwork.openembedded.org/series/17996/
+URL   : https://patchwork.openembedded.org/series/18002/
 State : failure
 
 == Summary ==
@@ -48,6 +48,10 @@ series by patchtest resulting in the following failures:
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
   Targeted branch  master (currently at 666f6192aa)
+
+* Patch            [v2] Remove manual RDEPENDS from PN-ptest to PN package
+ Issue             Shortlog does not follow expected format [test_shortlog_format] 
+  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
 
 
 
