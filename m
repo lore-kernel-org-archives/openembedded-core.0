@@ -1,47 +1,47 @@
 Return-Path: <ticotimo@gmail.com>
-Received: from mail-it1-f194.google.com (mail-it1-f194.google.com
-	[209.85.166.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E8697E550
+Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
+	[209.85.166.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 662F57E47C
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  8 Jun 2019 00:49:00 +0000 (UTC)
-Received: by mail-it1-f194.google.com with SMTP id j204so5462595ite.4
+	Sat,  8 Jun 2019 00:56:46 +0000 (UTC)
+Received: by mail-it1-f170.google.com with SMTP id i21so5373532ita.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 07 Jun 2019 17:49:02 -0700 (PDT)
+	Fri, 07 Jun 2019 17:56:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dszb2zOjpGgCWvGdw2PagoqZmF3twd6KaZ3UV7otNUI=;
-	b=W00gBcfQwTd6W1yLwHHyutmRFRYvZLUHWPiW284f3HNrl/mgvTuR6koL6n+L00Gqtz
-	ggL71Z86+zhXqd3o+RrkkKefhaFm1FYG+41roF4J74Jd3sQxBIlf2BZPR7S3S6Inm/TK
-	/Wke9118nbk2pg3i6+n2ae8u9IOg4spIBPM96XNFDFmsS5OC97kxTb+hucu+kKM8z9fo
-	AUsywmzqcJN/7g4TmhxwetzuUZBxUEhehx5Sd1DoqhxQ2k+u7574X5lNgGfojFNu6btq
-	6ngxrSbmJDsM2nP9aUyq3p0x2gtz6wlFJprOlRWgbuEj1r/APbh1r7dLV+rf2jswTvWW
-	YvKQ==
+	:cc; bh=fkW4X28wwX/x5gTSgczvxUmH5XxSYwaMi7vkKgmhS4w=;
+	b=PrGia+kWnf9kcHJAwbUWZ4R+sxMuJ6oDkbaZ2aTaCSs1GUlkvtf29dJOZdF4x4l1MM
+	BAH67Gpe24hTnOhD/NbviHBvCrDp6v4Hk3BG9d+vkGrzH1HuQM/QTvgx88pBg3qP9nhc
+	VJi8yNO5wV+qoxq6iOOAeEobf1ACUjL6x8AGCKmah3XnwWB+H5b8IsQE1YFQVywJqJGd
+	bsFLIMFoYN+DOpncvwUCsUhgd86YRmRqtdksYFVFLAlZivGSUv7GGk71rCRsXJJM5C4Q
+	h1WMIdNL9IoUaR09Zlg+leMNRGyBOF7sS4gATZKhIKpbTdHfRzSRW+ZQJ9JTSt8jmAka
+	G0uQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=dszb2zOjpGgCWvGdw2PagoqZmF3twd6KaZ3UV7otNUI=;
-	b=m7PRAZu2iwiT2H4fRNNKC0QTrU8TM9Fy2jB+B2bker3ctuFzQ2vMw87CoXisZVTh3D
-	Knowii1o6+pIfjZmr/P806zKUXV7So3FHtwXXTaVWzyu7r1Fp/lDaK43yZWsFJa/U9Xl
-	W6ggT9l2HbtGppkBDZuIEcW9YfWTcVK3CmoYMzDnjeP7WPQ06ZArPiGS9A39lazGfNW0
-	cngyOLk9OJCPgh8aXSRvfbGrVyCXc/9XhSMk1r1rBBKaU0ZEPmPVh/JhuquHXd09HCVS
-	uJLdeBwFfRYz/D/SSujKXUZS2BcQ4GE7FjwX5TT81PkvgtfPrOlzgZPRjDOGyy/hZFrC
-	O3OQ==
-X-Gm-Message-State: APjAAAV/yipLWKCSRSkYqpHIHKcsHeJCFStFWO1PHuRGu9YZz4wq9p3f
-	nomDNWiVkv3Aj/GebjLzUSSodxpGSmliATgQBwB41Q==
-X-Google-Smtp-Source: APXvYqxQ44ubIZ24bnLH+geD4+xwQkxkIJOMiH/K1cyb54AUbLClOAmppLASb1beJvHbZnpRKgfNdCjnUymyA2absAk=
-X-Received: by 2002:a02:1146:: with SMTP id 67mr37937998jaf.10.1559954942065; 
-	Fri, 07 Jun 2019 17:49:02 -0700 (PDT)
+	bh=fkW4X28wwX/x5gTSgczvxUmH5XxSYwaMi7vkKgmhS4w=;
+	b=cB3PaaejxuN0/dVvbcoNy3MpVelhzbmsTVuXKDtADW/9R7fz4jNsuofgyg+07ajDv4
+	Vw7o12mrI89CsXZxUvcyx71FptCoT/wu39rh3GKou5p6kJW3j35VCVSLbIG+YQf+1yMy
+	9fxA5WyRLadPZhvPgG08LQ8075cWfzgrLUqONEimF4ig8HkgGqB+zy3dbu1zQbtNpB4+
+	J8uEFU+Oi37I2CZVmKOkcle+9GI0orm9eWU0/c+xaOaAqVfoT48lP0O2JvQPHw5VlBNl
+	FwpHO9+WpiOfxwkZyPmDYdAa5sOajA/Z6UkEJRtzmt5GRvTWZvVaq8TMXn6Ei+hn+3tm
+	HA8A==
+X-Gm-Message-State: APjAAAWzOFYCKnjr1mGbBZhIXolA+rdU4H5StrHR+LSbRuMzZ8De7PdD
+	OYOhCpu4Vzfp0BcInwi1Cmj2I5Tdb9I9xeQR/mU8dVAA
+X-Google-Smtp-Source: APXvYqyJMkhqQXizqZTj4Si7NpgcH0zRq+Mjo+zZPQXEe8iW0tRl+EbTSjhmaAOAgqRVdKe02wHyHfTRhw1h0KncmdY=
+X-Received: by 2002:a02:a493:: with SMTP id d19mr34066855jam.22.1559955407251; 
+	Fri, 07 Jun 2019 17:56:47 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190607110502.31175-1-ross.burton@intel.com>
-	<20190607144922.GN10942@bill-the-cat>
-In-Reply-To: <20190607144922.GN10942@bill-the-cat>
+References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
+	<7adf2becf20aa4ef98cadca5fed36553f8e4664d.1559950879.git.timothy.t.orling@linux.intel.com>
+In-Reply-To: <7adf2becf20aa4ef98cadca5fed36553f8e4664d.1559950879.git.timothy.t.orling@linux.intel.com>
 From: Tim Orling <ticotimo@gmail.com>
-Date: Fri, 7 Jun 2019 17:48:51 -0700
-Message-ID: <CANx9H-AJrzHnLPtzP173Tu-eNUMinej_TPC+2XSRGhEyLR3-0g@mail.gmail.com>
-To: Ross Burton <ross.burton@intel.com>
+Date: Fri, 7 Jun 2019 17:56:35 -0700
+Message-ID: <CANx9H-CoPHJQVPFGVxBfZ9WogByz5Cy-PGEXYRGWXLy77XhpBQ@mail.gmail.com>
+To: Tim Orling <timothy.t.orling@linux.intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wic/filemap: handle FIGETBSZ failing
+Subject: Re: [PATCH 1/4] python3-scons-{native}: add recipe for v3.0.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,37 +54,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 00:49:01 -0000
-Content-Type: multipart/alternative; boundary="0000000000002ffeac058ac550a9"
+X-List-Received-Date: Sat, 08 Jun 2019 00:56:46 -0000
+Content-Type: multipart/alternative; boundary="000000000000ea2c43058ac56b40"
 
---0000000000002ffeac058ac550a9
+--000000000000ea2c43058ac56b40
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jun 7, 2019 at 7:49 AM Tom Rini <trini@konsulko.com> wrote:
+On Fri, Jun 7, 2019 at 4:49 PM Tim Orling <timothy.t.orling@linux.intel.com>
+wrote:
 
-> On Fri, Jun 07, 2019 at 12:05:02PM +0100, Ross Burton wrote:
+> SCons has supported python 3 since v3.0.0
+> https://scons.org/tag/releases.html
 >
-> > Some file systems don't support fetching the block size (notably the
-> file system
-> > Docker uses for containers), so handle the iotctl() failing and raise t=
-he
-> > expected error.
-> >
-> > Signed-off-by: Ross Burton <ross.burton@intel.com>
+> Fix shebangs in scripts
 >
-> Reviewed-by: Tom Rini <trini@konsulko.com>
+> [YOCTO #13381]
 >
-
-Thank you for finding the fix!
-
-Reviewed-by: Tim Orling <timothy.t.orling@linux.intel.com>
-
-=E2=80=94Tim
-
+> Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  2 ++
+>  .../python/python3-scons-native_3.0.5.bb      |  8 +++++
+>  .../python/python3-scons_3.0.5.bb             | 29 +++++++++++++++++++
+>  3 files changed, 39 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/
+> python3-scons-native_3.0.5.bb
+>  create mode 100644 meta/recipes-devtools/python/python3-scons_3.0.5.bb
 >
+> diff --git a/meta/conf/distro/include/maintainers.inc
+> b/meta/conf/distro/include/maintainers.inc
+> index d6f66510e3..6ddf9f5fc7 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -604,6 +604,8 @@ RECIPE_MAINTAINER_pn-python3-pip = "Derek Straka <
+> derek@asterius.io>"
+>  RECIPE_MAINTAINER_pn-python3-pycairo = "Derek Straka <derek@asterius.io>"
+>  RECIPE_MAINTAINER_pn-python3-pygments = "Derek Straka <derek@asterius.io
+> >"
+>  RECIPE_MAINTAINER_pn-python3-pygobject = "Derek Straka <derek@asterius.io
+> >"
+> +RECIPE_MAINTAINER_pn-python3-scons = "Tim Orling <
+> timothy.t.orling@linux.intel.com>"
+> +RECIPE_MAINTAINER_pn-python3-scons-native = "Tim Orling
+> <timothy.t.orling@linux.intel.como>"
+
+
+Grr. Typo.
+
+
+>  RECIPE_MAINTAINER_pn-python3-setuptools = "Derek Straka <
+> derek@asterius.io>"
+>  RECIPE_MAINTAINER_pn-python3-six = "Derek Straka <derek@asterius.io>"
+>  RECIPE_MAINTAINER_pn-python3-smmap = "Derek Straka <derek@asterius.io>"
+> diff --git a/meta/recipes-devtools/python/python3-scons-native_3.0.5.bb
+> b/meta/recipes-devtools/python/python3-scons-native_3.0.5.bb
+> new file mode 100644
+> index 0000000000..5cd5956625
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-scons-native_3.0.5.bb
+> @@ -0,0 +1,8 @@
+> +require python3-scons_${PV}.bb
+> +inherit native python3native
+> +DEPENDS = "python3-native"
+> +RDEPENDS_${PN} = ""
+> +
+> +do_install_append() {
+> +    create_wrapper ${D}${bindir}/scons
+> SCONS_LIB_DIR='${STAGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}'
+> PYTHONNOUSERSITE='1'
+> +}
+> diff --git a/meta/recipes-devtools/python/python3-scons_3.0.5.bb
+> b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
+> new file mode 100644
+> index 0000000000..91e4a945e3
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
+> @@ -0,0 +1,29 @@
+> +SUMMARY = "Software Construction tool (make/autotools replacement)"
+> +SECTION = "devel/python"
+> +LICENSE = "MIT"
+> +LIC_FILES_CHKSUM =
+> "file://LICENSE.txt;md5=37bb53a08e6beaea0c90e7821d731284"
+> +
+> +SRC_URI = "${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz"
+> +SRC_URI[md5sum] = "9f9c163e8bd48cf8cd92f03e85ca6395"
+> +SRC_URI[sha256sum] =
+> "df676f23dc6d4bfa384fc389d95dcd21ab907e6349d4c848958ba4befb73c73e"
+> +
+> +S = "${WORKDIR}/scons-${PV}"
+> +
+> +UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
+> +UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+> +
+> +inherit setuptools3
+> +
+> +do_install_prepend() {
+> +    sed -i -e "s:/usr/bin/env python:/usr/bin/env python3:g" ${S}/script/*
+> +}
+> +
+> +RDEPENDS_${PN} = "\
+> +  python3-core \
+> +  python3-fcntl \
+> +  python3-io \
+> +  python3-json \
+> +  python3-shell \
+> +  python3-pickle \
+> +  python3-pprint \
+> +  "
 > --
-> Tom
+> 2.20.1
+>
 > --
 > _______________________________________________
 > Openembedded-core mailing list
@@ -92,36 +170,146 @@ Reviewed-by: Tim Orling <timothy.t.orling@linux.intel.com>
 > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 >
 
---0000000000002ffeac058ac550a9
+--000000000000ea2c43058ac56b40
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Fri, Jun 7, 2019 at 7:49 AM Tom Rini &lt;<a href=3D"mail=
-to:trini@konsulko.com">trini@konsulko.com</a>&gt; wrote:<br></div><blockquo=
-te class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc so=
-lid;padding-left:1ex">On Fri, Jun 07, 2019 at 12:05:02PM +0100, Ross Burton=
- wrote:<br>
+=3D"gmail_attr">On Fri, Jun 7, 2019 at 4:49 PM Tim Orling &lt;<a href=3D"ma=
+ilto:timothy.t.orling@linux.intel.com">timothy.t.orling@linux.intel.com</a>=
+&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 =
+0 .8ex;border-left:1px #ccc solid;padding-left:1ex">SCons has supported pyt=
+hon 3 since v3.0.0<br>
+<a href=3D"https://scons.org/tag/releases.html" rel=3D"noreferrer" target=
+=3D"_blank">https://scons.org/tag/releases.html</a><br>
 <br>
-&gt; Some file systems don&#39;t support fetching the block size (notably t=
-he file system<br>
-&gt; Docker uses for containers), so handle the iotctl() failing and raise =
-the<br>
-&gt; expected error.<br>
-&gt; <br>
-&gt; Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@intel.com=
-" target=3D"_blank">ross.burton@intel.com</a>&gt;<br>
+Fix shebangs in scripts<br>
 <br>
-Reviewed-by: Tom Rini &lt;<a href=3D"mailto:trini@konsulko.com" target=3D"_=
-blank">trini@konsulko.com</a>&gt;<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Thank you for fi=
-nding the fix!</div><div dir=3D"auto"><br></div><div dir=3D"auto">Reviewed-=
-by: Tim Orling &lt;<a href=3D"mailto:timothy.t.orling@linux.intel.com">timo=
-thy.t.orling@linux.intel.com</a>&gt;</div><div dir=3D"auto"><br></div><div =
-dir=3D"auto">=E2=80=94Tim</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+[YOCTO #13381]<br>
+<br>
+Signed-off-by: Tim Orling &lt;<a href=3D"mailto:timothy.t.orling@linux.inte=
+l.com" target=3D"_blank">timothy.t.orling@linux.intel.com</a>&gt;<br>
+---<br>
+=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+2 ++<br>
+=C2=A0.../python/<a href=3D"http://python3-scons-native_3.0.5.bb" rel=3D"no=
+referrer" target=3D"_blank">python3-scons-native_3.0.5.bb</a>=C2=A0 =C2=A0 =
+=C2=A0 |=C2=A0 8 +++++<br>
+=C2=A0.../python/<a href=3D"http://python3-scons_3.0.5.bb" rel=3D"noreferre=
+r" target=3D"_blank">python3-scons_3.0.5.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0| 29 +++++++++++++++++++<br>
+=C2=A03 files changed, 39 insertions(+)<br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http://pyt=
+hon3-scons-native_3.0.5.bb" rel=3D"noreferrer" target=3D"_blank">python3-sc=
+ons-native_3.0.5.bb</a><br>
+=C2=A0create mode 100644 meta/recipes-devtools/python/<a href=3D"http://pyt=
+hon3-scons_3.0.5.bb" rel=3D"noreferrer" target=3D"_blank">python3-scons_3.0=
+.5.bb</a><br>
+<br>
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc<br>
+index d6f66510e3..6ddf9f5fc7 100644<br>
+--- a/meta/conf/distro/include/maintainers.inc<br>
++++ b/meta/conf/distro/include/maintainers.inc<br>
+@@ -604,6 +604,8 @@ RECIPE_MAINTAINER_pn-python3-pip =3D &quot;Derek Straka=
+ &lt;<a href=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.=
+io</a>&gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER_pn-python3-pycairo =3D &quot;Derek Straka &lt;<a hr=
+ef=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.io</a>&gt;=
+&quot;<br>
+=C2=A0RECIPE_MAINTAINER_pn-python3-pygments =3D &quot;Derek Straka &lt;<a h=
+ref=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.io</a>&gt=
+;&quot;<br>
+=C2=A0RECIPE_MAINTAINER_pn-python3-pygobject =3D &quot;Derek Straka &lt;<a =
+href=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.io</a>&g=
+t;&quot;<br>
++RECIPE_MAINTAINER_pn-python3-scons =3D &quot;Tim Orling &lt;<a href=3D"mai=
+lto:timothy.t.orling@linux.intel.com" target=3D"_blank">timothy.t.orling@li=
+nux.intel.com</a>&gt;&quot;<br>
++RECIPE_MAINTAINER_pn-python3-scons-native =3D &quot;Tim Orling &lt;timothy=
+.t.orling@linux.intel.como&gt;&quot;</blockquote><div dir=3D"auto"><br></di=
+v><div dir=3D"auto">Grr. Typo.</div><div dir=3D"auto"><br></div><blockquote=
+ class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc soli=
+d;padding-left:1ex"><br>
+=C2=A0RECIPE_MAINTAINER_pn-python3-setuptools =3D &quot;Derek Straka &lt;<a=
+ href=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.io</a>&=
+gt;&quot;<br>
+=C2=A0RECIPE_MAINTAINER_pn-python3-six =3D &quot;Derek Straka &lt;<a href=
+=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.io</a>&gt;&q=
+uot;<br>
+=C2=A0RECIPE_MAINTAINER_pn-python3-smmap =3D &quot;Derek Straka &lt;<a href=
+=3D"mailto:derek@asterius.io" target=3D"_blank">derek@asterius.io</a>&gt;&q=
+uot;<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-scons-n=
+ative_3.0.5.bb" rel=3D"noreferrer" target=3D"_blank">python3-scons-native_3=
+.0.5.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-scons-=
+native_3.0.5.bb" rel=3D"noreferrer" target=3D"_blank">python3-scons-native_=
+3.0.5.bb</a><br>
+new file mode 100644<br>
+index 0000000000..5cd5956625<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-scons-native_3=
+.0.5.bb" rel=3D"noreferrer" target=3D"_blank">python3-scons-native_3.0.5.bb=
+</a><br>
+@@ -0,0 +1,8 @@<br>
++require python3-scons_${PV}.bb<br>
++inherit native python3native<br>
++DEPENDS =3D &quot;python3-native&quot;<br>
++RDEPENDS_${PN} =3D &quot;&quot;<br>
++<br>
++do_install_append() {<br>
++=C2=A0 =C2=A0 create_wrapper ${D}${bindir}/scons SCONS_LIB_DIR=3D&#39;${ST=
+AGING_DIR_HOST}/${PYTHON_SITEPACKAGES_DIR}&#39; PYTHONNOUSERSITE=3D&#39;1&#=
+39;<br>
++}<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-scons_3=
+.0.5.bb" rel=3D"noreferrer" target=3D"_blank">python3-scons_3.0.5.bb</a> b/=
+meta/recipes-devtools/python/<a href=3D"http://python3-scons_3.0.5.bb" rel=
+=3D"noreferrer" target=3D"_blank">python3-scons_3.0.5.bb</a><br>
+new file mode 100644<br>
+index 0000000000..91e4a945e3<br>
+--- /dev/null<br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3-scons_3.0.5.bb=
+" rel=3D"noreferrer" target=3D"_blank">python3-scons_3.0.5.bb</a><br>
+@@ -0,0 +1,29 @@<br>
++SUMMARY =3D &quot;Software Construction tool (make/autotools replacement)&=
+quot;<br>
++SECTION =3D &quot;devel/python&quot;<br>
++LICENSE =3D &quot;MIT&quot;<br>
++LIC_FILES_CHKSUM =3D &quot;file://LICENSE.txt;md5=3D37bb53a08e6beaea0c90e7=
+821d731284&quot;<br>
++<br>
++SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/scons/scons-${PV}.tar.gz&quot;<br>
++SRC_URI[md5sum] =3D &quot;9f9c163e8bd48cf8cd92f03e85ca6395&quot;<br>
++SRC_URI[sha256sum] =3D &quot;df676f23dc6d4bfa384fc389d95dcd21ab907e6349d4c=
+848958ba4befb73c73e&quot;<br>
++<br>
++S =3D &quot;${WORKDIR}/scons-${PV}&quot;<br>
++<br>
++UPSTREAM_CHECK_URI =3D &quot;<a href=3D"http://scons.org/pages/download.ht=
+ml" rel=3D"noreferrer" target=3D"_blank">http://scons.org/pages/download.ht=
+ml</a>&quot;<br>
++UPSTREAM_CHECK_REGEX =3D &quot;(?P&lt;pver&gt;\d+(\.\d+)+)\.tar&quot;<br>
++<br>
++inherit setuptools3<br>
++<br>
++do_install_prepend() {<br>
++=C2=A0 =C2=A0 sed -i -e &quot;s:/usr/bin/env python:/usr/bin/env python3:g=
+&quot; ${S}/script/*<br>
++}<br>
++<br>
++RDEPENDS_${PN} =3D &quot;\<br>
++=C2=A0 python3-core \<br>
++=C2=A0 python3-fcntl \<br>
++=C2=A0 python3-io \<br>
++=C2=A0 python3-json \<br>
++=C2=A0 python3-shell \<br>
++=C2=A0 python3-pickle \<br>
++=C2=A0 python3-pprint \<br>
++=C2=A0 &quot;<br>
 -- <br>
-Tom<br>
+2.20.1<br>
+<br>
 -- <br>
 _______________________________________________<br>
 Openembedded-core mailing list<br>
@@ -132,4 +320,4 @@ k">Openembedded-core@lists.openembedded.org</a><br>
 n/listinfo/openembedded-core</a><br>
 </blockquote></div></div>
 
---0000000000002ffeac058ac550a9--
+--000000000000ea2c43058ac56b40--
