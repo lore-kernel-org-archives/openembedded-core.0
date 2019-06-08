@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id C80CB7CE5E;
-	Sat,  8 Jun 2019 04:09:45 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id E93667E57D;
+	Sat,  8 Jun 2019 04:09:46 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Joshua Watt <jpewhacker@gmail.com>
-Date: Sat, 08 Jun 2019 04:09:47 -0000
-Message-ID: <20190608040947.2334.61902@do>
-References: <20190531165734.14435-1-JPEWhacker@gmail.com>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Date: Sat, 08 Jun 2019 04:09:48 -0000
+Message-ID: <20190608040948.2332.18154@do>
+References: <20190606150903.22750-1-quentin.schulz@streamunlimited.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190531165734.14435-1-JPEWhacker@gmail.com>
+In-Reply-To: <20190606150903.22750-1-quentin.schulz@streamunlimited.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYmFzaDogUmVwbGFjZSB1bmluYXRpdmUgbG9hZGVyIHBhdGggaW4gcHRlc3QgKHJldjMp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbWV0YTogbGljZW5zZTogZml4IG5vbi1TUERYIGxpY2Vuc2UgYmVpbmcgcmVtb3ZlZCBmcm9tIElOQ09NUEFUSUJMRV9MSUNFTlNFIChyZXYyKQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 08 Jun 2019 04:09:45 -0000
+X-List-Received-Date: Sat, 08 Jun 2019 04:09:47 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: bash: Replace uninative loader path in ptest (rev3)
-Revision: 3
-URL   : https://patchwork.openembedded.org/series/17923/
+Series: meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/17996/
 State : failure
 
 == Summary ==
