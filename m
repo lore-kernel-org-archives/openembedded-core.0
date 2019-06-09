@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id E0B9B7E555
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com
+	[209.85.215.178])
+	by mail.openembedded.org (Postfix) with ESMTP id A0D4F7E55C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Jun 2019 14:54:26 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id n2so3645934pgp.11
+	Sun,  9 Jun 2019 14:54:27 +0000 (UTC)
+Received: by mail-pg1-f178.google.com with SMTP id d30so3654513pgm.7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Jun 2019 07:54:28 -0700 (PDT)
+	Sun, 09 Jun 2019 07:54:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=DkFOCk8SckDO/gxVL47hw+88V2oBSnnYCGxNkKb1vpE=;
-	b=YwBLqgd8fHEz1k7Aaq7vWqoROdfu4Kvabn2VetAbcZOFjGEKfZlREzI1+YOFexAvy7
-	Ci5ISzn8wt1rh9mGGge7hcFNAgoiruGqZwdx/izKN8dlrj1EQlC2MmzO4S8PACUEIBi5
-	BHwW1Aw18/BUpY7BOeBiBIysXtiUkW1e0Bafqmyr9LM1lKl64r2ot0NFBdYiGvyc8FLt
-	iM6ObmaaZBtjwWeqm6hxwsfvdsVt+rmcQ/tvjsUXqP+3f4PU8V5ypZkNH1LJiy2x2SFc
-	ivs76o0Gd8Gd6Y+UyFISs/eRxsmUSrsRjz5CQ+KlFq8N+ZxOMdvQ7XyniFIpA76725PB
-	8rYg==
+	bh=z0ONJ4C0DkNeibH/tCHJiKdZApswkvZbX3GkeOSykCk=;
+	b=DJ8lozDXvK20Pm/xTUVmDD/W1S0tryxyBkpR1kc8HARZOnS9ZK+4RWnx6byaBF7UNv
+	r1G7nqZNDmoqzQKsKLrVyuQ4Bfrk/bD8Um4Ec878s/qMiwf3KWlKCRBDdcJuKnDF+kRX
+	WOrkm1BA5zMvh1n40i/Ftucjx5dz8dLUCqHxjpfIEgUsAAq1u3wZDibPuI4xDwHD82Vs
+	n0+Dnj+FlKPk8UR4vhzeTS84NSP6mJsqpiWMzc4mGX+HQYZHdu8WGEdrIXZtzmeSmZlG
+	Lk8nc9JS7j9QivOvnWzKVjm755b2rYJlewYE7ZYEKKsPB5Sv3wfXqgWvWNDfNZfY5bUT
+	Yu2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=DkFOCk8SckDO/gxVL47hw+88V2oBSnnYCGxNkKb1vpE=;
-	b=GuE26/AwPlzjD6O6420e69yZwJH3c9G6o7hHY6xB0800LN+ghePBFB1TULrQmUsdWs
-	ZwG1QEw444irTpfLR0g5Om/8dNEZRHXLxdxogkpAr9V2uoTZSoRbwVB4FHVa+JwAkrPW
-	5bQWzU0Aen14axzYp3wUUnuX/soVfLwNO57bzUu+OF6NC/P7ZFWQtwzIRUAO1hdFxu0/
-	YcNQFZLohryITWCpLyTKl3BXsIf+x+ap97Fh/g6KPXqCQwPmxyWVEP1/d3k/MDH8dZq4
-	WWr8ltvA9JY+jA7ZjXRbjenBTf8KAEt+d9qbdTJo5psHI03b22P5MqJ0Fo9W/lz7Kv1f
-	59OQ==
-X-Gm-Message-State: APjAAAUEEtYMw4Dq1tf+heFoo6BK9jf9iupsv5WupTmbdyjmWCfYxrOk
-	kF+UiWbknFmu/TCJ0ugxexkQl3Yq
-X-Google-Smtp-Source: APXvYqzt1fZzAtOHZB3rvntdFaHYw2jFn//t2kUwWEk7Vx8ai8LiIBl6G6OBZLNSLIghf3WExxN7Jw==
-X-Received: by 2002:a17:90a:8982:: with SMTP id
-	v2mr16307274pjn.136.1560092068067; 
+	bh=z0ONJ4C0DkNeibH/tCHJiKdZApswkvZbX3GkeOSykCk=;
+	b=ugWvc4w/OPoTcmeE/UtZt9pYLMhpjITfsRCZqtYE10E/0814OxJ0rwCVqadAVGOBUo
+	GMoECkOOuryKcPRj0yJKWFCdntXxSkN4xSsyk6OnD14pJ3WqgVskpofO5Qz+RrYRznEK
+	uY0UegQtpFwCKlGjjA6puJL47bhJQCXBkRMBulNxumlw/MFrWirh0K40aOH11Ymjd3XE
+	lP4A+1K4yBkc1DMqRQMU8eVcvJ70mYeYuHk1TLQo5vzYquIbBnOnwmXqCxkPGLicv4Tg
+	UjJNGuf8a+q2iZ32JaE3z1Shi91m47ahVFZhlxFEgu4ZLYSJOx0TPVLbU/NWWmH3ocNu
+	4tSw==
+X-Gm-Message-State: APjAAAW9lM4E437TRkoa+TpQO2LaFZIvKWWUwlbytEkp9BDu7ngWXSdQ
+	VMmW96BxgFdAvVWRXs94qBY4Y4ln
+X-Google-Smtp-Source: APXvYqxUttImaWSO0/cp1kyJ5o9Amc1uKXeMrgKEYhZjOARW3NlwJBjDalTZ29S0qPDSJUHyfmceiA==
+X-Received: by 2002:a63:a84c:: with SMTP id i12mr11947480pgp.115.1560092068807;
 	Sun, 09 Jun 2019 07:54:28 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:50d3:300:d9ff:2f1d])
-	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.27
+	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.28
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 09 Jun 2019 07:54:27 -0700 (PDT)
+	Sun, 09 Jun 2019 07:54:28 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Jun 2019 07:54:00 -0700
-Message-Id: <c2d2dfa4db6a2a5a20680fc3bd09008a974fdbec.1560091882.git.akuster808@gmail.com>
+Date: Sun,  9 Jun 2019 07:54:01 -0700
+Message-Id: <5b0e4d875f68656e90cfeccc1863b23ace32f17e.1560091882.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1560091882.git.akuster808@gmail.com>
 References: <cover.1560091882.git.akuster808@gmail.com>
-Subject: [Warrior-next 25/27] logparser: Add decoding ltp logs
+Subject: [Warrior-next 26/27] logparser: Add LTP compliance section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -65,36 +64,48 @@ Signed-off-by: Armin Kuster <akuster808@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/utils/logparser.py | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ meta/lib/oeqa/utils/logparser.py | 37 +++++++++++++++++++++++++++++++++++++
+ 1 file changed, 37 insertions(+)
 
 diff --git a/meta/lib/oeqa/utils/logparser.py b/meta/lib/oeqa/utils/logparser.py
-index 18285fb..abff8c7 100644
+index abff8c7..cc6d18d 100644
 --- a/meta/lib/oeqa/utils/logparser.py
 +++ b/meta/lib/oeqa/utils/logparser.py
-@@ -89,3 +89,28 @@ class PtestParser(object):
-                     status = self.results[section][test_name]
-                     f.write(status + ": " + test_name + "\n")
+@@ -114,3 +114,40 @@ class LtpParser(object):
+             self.section['log'] = self.section['log'] + ("%s: %s\n" % (result.strip()[:-2], test.strip()))
  
+         return self.results, self.section
 +
-+# ltp log parsing
-+class LtpParser(object):
++
++# ltp Compliance log parsing
++class LtpComplianceParser(object):
 +    def __init__(self):
 +        self.results = {}
 +        self.section = {'duration': "", 'log': ""}
 +
 +    def parse(self, logfile):
 +        test_regex = {}
-+        test_regex['PASSED'] = re.compile(r"PASS")
-+        test_regex['FAILED'] = re.compile(r"FAIL")
-+        test_regex['SKIPPED'] = re.compile(r"SKIP")
++        test_regex['PASSED'] = re.compile(r"^PASS")
++        test_regex['FAILED'] = re.compile(r"^FAIL")
++        test_regex['SKIPPED'] = re.compile(r"(?:UNTESTED)|(?:UNSUPPORTED)")
++
++        section_regex = {}
++        section_regex['test'] = re.compile(r"^Testing")
 +
 +        with open(logfile, errors='replace') as f:
 +            for line in f:
-+                for t in test_regex:
-+                    result = test_regex[t].search(line)
-+                    if result:
-+                        self.results[line.split()[0].strip()] = t
++                result = section_regex['test'].search(line)
++                if result:
++                    self.name = ""
++                    self.name = line.split()[1].strip()
++                    self.results[self.name] = "PASSED"
++                    failed = 0
++
++                failed_result = test_regex['FAILED'].search(line)
++                if failed_result:
++                    failed = line.split()[1].strip()
++                    if int(failed) > 0:
++                        self.results[self.name] = "FAILED"
 +
 +        for test in self.results:
 +            result = self.results[test]
