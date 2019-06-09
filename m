@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com
-	[209.85.215.181])
-	by mail.openembedded.org (Postfix) with ESMTP id 393237D40F
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
+	[209.85.215.172])
+	by mail.openembedded.org (Postfix) with ESMTP id 0636A7D40F
 	for <openembedded-core@lists.openembedded.org>;
 	Sun,  9 Jun 2019 14:54:23 +0000 (UTC)
-Received: by mail-pg1-f181.google.com with SMTP id 20so3667604pgr.4
+Received: by mail-pg1-f172.google.com with SMTP id k187so3165725pga.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Jun 2019 07:54:24 -0700 (PDT)
+	Sun, 09 Jun 2019 07:54:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=hxKPs5uojWEoKmuJdIDTniXGHkPpOFXPWdbh9mL0zGQ=;
-	b=E7nXO7An1GuuL72K7BxBqf9fZBuhyDy0wOL1LNwSVBNeo/wwKlM/1FOh3+nYWsvxO/
-	11k/9OSwjR9L4auhpE78ynGvIHHbsnDYIyVdZA5Qia5xjEVXGbJ3bKLEFc4doNX8sjwj
-	XqZsF8Lg7C4+bRLCO1bG9P9R6h3U5iqUpz1kg1i4bV2346KduZvoKjYrsAqDtqYtCF74
-	IXK+bjM0T2c/QAlZjNUWzG/L4JJjsOTPpP5NtxJakkgi1d/LM3E004IuHBwIwb4OieWl
-	vbd1O0azfEoMX1uo1Zn21M/plNIVwLnbKM8VpVQ65mpvFgDojfHB0U5hoj7z67pKes9y
-	zS9A==
+	bh=t6wfBihgLNVIHBtDFpCrNCbebnpiLSWymr9mBbyzQLU=;
+	b=fw4zwXkoBph7nVtpSU3SgtRKWC4bu9IesX2G+Iw+cvHQEyZCJaBlovIkDEeSGkCIrI
+	eaTf8AspxgcLNEoS3nQcBw9EAwNagxsj02JjjPzjF4wNZDInxBvso3IaPsW/fI+DN9eg
+	9RCqgDK9NYEzghwg1W1QzvTZvqxPCMJ3IFbyCFylr/uxpGDxMGtlJRM4PEtFqDLutfQe
+	n8OjXHhrDG2Xt4wNouN8bnDjx0gplqbI50BNwuWRDVyPFsjDwgMap2bidNgESwpy2ABg
+	pZ7Qu18PWLo6oisUzBwTTbWPT8fqkhgQbAeKXrzl1xKhzIfXGglrqzBGvoDEU3EpJMej
+	4FOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=hxKPs5uojWEoKmuJdIDTniXGHkPpOFXPWdbh9mL0zGQ=;
-	b=uQrs5CSPUPKHD8wnyeuA1p3c0SyY7eqUMXLVeLuGvcaE9JpGBRpqQdPmsiLbh8Zcd1
-	4i/ZZcz0pbS3SwOm2kjFhqVyKAWSgI1PhLN9ReIMZogeRDDEzMioKno3Q/EUNVARCObc
-	CmgaLoqzPBqSSChp5I5ly8N5i1yFhNUtPb9yvO4FIPKIbh+JUWgtH21HXD5RAibGnRrc
-	vu+iXEEJg9uD6Ex5pTCVgfK36/ZlRK97oNrxIRWkVWQp8iETf2AK1CIGYI1wUuR1Zpj7
-	Hjk37ZG3A+eKEJlFRTqPWI7Sh0fh4vyAhPdrf/F+9tPfyJ1omrr9Jkb38As5fmttesmp
-	2VMg==
-X-Gm-Message-State: APjAAAUc9kQAn6AaqK6L0ujnf1IhKGeN41YGJ6eCxcoWaVA+oyn0R4fs
-	di9Kecg/Ud4caajkdfJkqn3WQBR/
-X-Google-Smtp-Source: APXvYqwjIGQQ+OYPwQi/OwxwVF+EmOR2rSWpxddysAwypTLwcghyIVC8zGrCe5MC8pwkrHti09sejg==
-X-Received: by 2002:a17:90a:9504:: with SMTP id
-	t4mr16819886pjo.100.1560092064146; 
+	bh=t6wfBihgLNVIHBtDFpCrNCbebnpiLSWymr9mBbyzQLU=;
+	b=RWPcBAShus1iCMpJkRwyYlP03qSq49/1DvCQw1M1FZHOlZEdSKKHUkDmVbQaa+xpZ/
+	ABUG48TiWygrcvQMK2cEgKFQOC/C6ugY7yCwdZTItKd/tZCiNsTnFwVOje0bq8HZbJxI
+	kNz/vv94H51TAjdFL8InW1GXuibiaVGTd4Dh7kTCVPnKOuVbhizzU5Q9KoFgRpwHngzp
+	6xv51D0DOzoKGUwQzFExTHHGF5be+kuheei3EZyz3OkuuiX7Lie+51iTGf95cAZ6jbsl
+	HnNOnjIGUkGnZX91LfbKBRP2vA3/Cy4U182Inx3bOhOtVv1WhaS2cTJp/73agtQEN0G0
+	cMmw==
+X-Gm-Message-State: APjAAAVB5M3tmQVsCDW54UDS/hQWnSP/2TdX5AEFv+mHwsK+nEkZcAQO
+	zpOJCxm0jJJtoNWh3x72+dM57l9k
+X-Google-Smtp-Source: APXvYqwtjk2Spn4u0GJ+7WbmPs632r5JCGcaBLSforVDCCjhW0iB5gCJu1NCne2vYHkgIqHEhsUZaw==
+X-Received: by 2002:a17:90a:a10f:: with SMTP id
+	s15mr16810510pjp.30.1560092064994; 
 	Sun, 09 Jun 2019 07:54:24 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:50d3:300:d9ff:2f1d])
-	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.23
+	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 09 Jun 2019 07:54:23 -0700 (PDT)
+	Sun, 09 Jun 2019 07:54:24 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Jun 2019 07:53:55 -0700
-Message-Id: <8782ade525f53330e59e19d50f213dc9d9176804.1560091882.git.akuster808@gmail.com>
+Date: Sun,  9 Jun 2019 07:53:56 -0700
+Message-Id: <e714bc14210de2242b07682b55a300e48ba87de1.1560091882.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1560091882.git.akuster808@gmail.com>
 References: <cover.1560091882.git.akuster808@gmail.com>
-Subject: [Warrior-next 20/27] resulttool/manualexecution: Enable creation of test case configuration
+Subject: [Warrior-next 21/27] resulttool: Remove prints if no tests occur
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,75 +59,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Jun 2019 14:54:23 -0000
+X-List-Received-Date: Sun, 09 Jun 2019 14:54:24 -0000
 
-From: sangeeta jain <sangeeta.jain@intel.com>
+From: Jon Mason <jdmason@kudzu.us>
 
-Allow the creation of test case configuration file based on user inputs.
-Where this testcase configuration file will be used by the the manual
-execution to run selected test cases for a module rather than compulsory
-run all test cases in manual json file.
+Printing the lack of a test is not necessary (per feedback).  Remove
+this from the template to quieten it.
 
-Signed-off-by: sangeeta jain <sangeeta.jain@intel.com>
+Signed-off-by: Jon Mason <jdmason@kudzu.us>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/resulttool/manualexecution.py | 31 ++++++++++++++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ scripts/lib/resulttool/template/test_report_full_text.txt | 14 +++-----------
+ 1 file changed, 3 insertions(+), 11 deletions(-)
 
-diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index df28e1d..ecb27c5 100755
---- a/scripts/lib/resulttool/manualexecution.py
-+++ b/scripts/lib/resulttool/manualexecution.py
-@@ -181,11 +181,38 @@ class ManualTestRunner(object):
-         write_json_file(config_options_file, config_options)
-         logger.info('Configuration option file created at %s' % config_options_file)
+diff --git a/scripts/lib/resulttool/template/test_report_full_text.txt b/scripts/lib/resulttool/template/test_report_full_text.txt
+index 6a5a081..17c99cb 100644
+--- a/scripts/lib/resulttool/template/test_report_full_text.txt
++++ b/scripts/lib/resulttool/template/test_report_full_text.txt
+@@ -22,13 +22,10 @@ Test Result Status Summary (Counts/Percentages sorted by testseries, ID)
+ {{ ptest.ljust(maxlen['ptest']) }} | {{ (ptests[machine][ptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ptests[machine][ptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ptests[machine][ptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ptests[machine][ptest]['duration']|string) }}
+ {% endfor %}
+ --------------------------------------------------------------------------------------------------------------
+-{% else %}
+-There was no ptest data for {{ machine }}
+-{% endif %}
  
-+    def make_testcase_config_file(self, logger, case_file, testcase_config_file):
-+        if  testcase_config_file:
-+            if os.path.exists(testcase_config_file):
-+                print('\nTest configuration file with name %s already exists. Please provide a unique file name' % (testcase_config_file))
-+                return 0
-+
-+        if not testcase_config_file:
-+            testcase_config_file = os.path.join(self._get_write_dir(), "testconfig_new.json")
-+
-+        testcase_config = {}
-+        cases = load_json_file(case_file)
-+        new_test_module = self._get_test_module(case_file)
-+        new_testcase_config = {}
-+        new_testcase_config['testcases'] = []
-+
-+        print('\nAdd testcases for this configuration file:')
-+        for case in cases:
-+            print('\n' + case['test']['@alias'])
-+            add_tc_config = self._get_true_false_input('\nDo you want to add this test case to test configuration : (Y)es/(N)o\n')
-+            if add_tc_config:
-+                new_testcase_config['testcases'].append(case['test']['@alias'])
-+        write_json_file(testcase_config_file, new_testcase_config)
-+        logger.info('Testcase Configuration file created at %s' % testcase_config_file)
-+
- def manualexecution(args, logger):
-     testrunner = ManualTestRunner()
-     if args.make_config_options_file:
-         testrunner.make_config_option_file(logger, args.file, args.config_options_file)
-         return 0
-+    if args.make_testcase_config_file:
-+        testrunner.make_testcase_config_file(logger, args.file, args.testcase_config_file)
-+        return 0
-     configurations, result_id, write_dir, test_results = testrunner.run_test(args.file, args.config_options_file, args.testcase_config_file)
-     resultjsonhelper = OETestResultJSONHelper()
-     resultjsonhelper.dump_testresult_file(write_dir, configurations, result_id, test_results)
-@@ -203,4 +230,6 @@ def register_commands(subparsers):
-     parser_build.add_argument('-m', '--make-config-options-file', action='store_true',
-                               help='make the configuration options file based on provided inputs')
-     parser_build.add_argument('-t', '--testcase-config-file', default='',
--                              help='the testcase configuration file to enable user to run a selected set of test case')
-\ No newline at end of file
-+                              help='the testcase configuration file to enable user to run a selected set of test case or make a testcase configuration file')
-+    parser_build.add_argument('-d', '--make-testcase-config-file', action='store_true',
-+                    help='make the testcase configuration file to run a set of test cases based on user selection')
-\ No newline at end of file
++{% endif %}
+ {% endfor %}
+ 
+-
+ {% for machine in machines %}
+ {% if ltptests[machine] %}
+ ==============================================================================================================
+@@ -41,13 +38,10 @@ There was no ptest data for {{ machine }}
+ {{ ltptest.ljust(maxlen['ltptest']) }} | {{ (ltptests[machine][ltptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ltptests[machine][ltptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ltptests[machine][ltptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ltptests[machine][ltptest]['duration']|string) }}
+ {% endfor %}
+ --------------------------------------------------------------------------------------------------------------
+-{% else %}
+-There was no LTP Test data for {{ machine }}
+-{% endif %}
+ 
++{% endif %}
+ {% endfor %}
+ 
+-
+ {% for machine in machines %}
+ {% if ltpposixtests[machine] %}
+ ==============================================================================================================
+@@ -60,10 +54,8 @@ There was no LTP Test data for {{ machine }}
+ {{ ltpposixtest.ljust(maxlen['ltpposixtest']) }} | {{ (ltpposixtests[machine][ltpposixtest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ltpposixtests[machine][ltpposixtest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ltpposixtests[machine][ltpposixtest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ltpposixtests[machine][ltpposixtest]['duration']|string) }}
+ {% endfor %}
+ --------------------------------------------------------------------------------------------------------------
+-{% else %}
+-There was no LTP Posix Test data for {{ machine }}
+-{% endif %}
+ 
++{% endif %}
+ {% endfor %}
+ 
+ 
 -- 
 2.7.4
 
