@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com
-	[209.85.215.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 0636A7D40F
+Received: from mail-pg1-f193.google.com (mail-pg1-f193.google.com
+	[209.85.215.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B24A97E517
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Jun 2019 14:54:23 +0000 (UTC)
-Received: by mail-pg1-f172.google.com with SMTP id k187so3165725pga.0
+	Sun,  9 Jun 2019 14:54:24 +0000 (UTC)
+Received: by mail-pg1-f193.google.com with SMTP id w34so3643252pga.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Jun 2019 07:54:25 -0700 (PDT)
+	Sun, 09 Jun 2019 07:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=t6wfBihgLNVIHBtDFpCrNCbebnpiLSWymr9mBbyzQLU=;
-	b=fw4zwXkoBph7nVtpSU3SgtRKWC4bu9IesX2G+Iw+cvHQEyZCJaBlovIkDEeSGkCIrI
-	eaTf8AspxgcLNEoS3nQcBw9EAwNagxsj02JjjPzjF4wNZDInxBvso3IaPsW/fI+DN9eg
-	9RCqgDK9NYEzghwg1W1QzvTZvqxPCMJ3IFbyCFylr/uxpGDxMGtlJRM4PEtFqDLutfQe
-	n8OjXHhrDG2Xt4wNouN8bnDjx0gplqbI50BNwuWRDVyPFsjDwgMap2bidNgESwpy2ABg
-	pZ7Qu18PWLo6oisUzBwTTbWPT8fqkhgQbAeKXrzl1xKhzIfXGglrqzBGvoDEU3EpJMej
-	4FOA==
+	bh=biaOccepS2D5b8YbSjWZaKIOibk62aaL/jfcAJ3l5To=;
+	b=N8WozvQmu3Wc/6ynjgISIpwYOvn0ew6HClO8JUlM6ws+CBHh4ecPyC4HnFkXotWl9X
+	C+zbCgL+cgKT/XjSGhL8IyjGyWmffvgxwN1zpuqU1FSpsUusvAtpKNrf7x+pmA/+Vol/
+	JCTs+nbPxTOORNHPHASah9gQJZZkbW1dMfEwYFbJjXZyFVHUf/pWz0JpxWr14olu5Z5C
+	wP8PmH9VNwVdmefu5C0z7CLEaMmh4FAC6nKuidMbAHAc9taolU15Xbk4gxReXqlS4Xd2
+	ClIzjkH4UrkJwWDxY0N4yfomHHlMfRJidV1GfbbARjd4mYA4Zd0GP9P+VDErqbd00k+N
+	H3hg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=t6wfBihgLNVIHBtDFpCrNCbebnpiLSWymr9mBbyzQLU=;
-	b=RWPcBAShus1iCMpJkRwyYlP03qSq49/1DvCQw1M1FZHOlZEdSKKHUkDmVbQaa+xpZ/
-	ABUG48TiWygrcvQMK2cEgKFQOC/C6ugY7yCwdZTItKd/tZCiNsTnFwVOje0bq8HZbJxI
-	kNz/vv94H51TAjdFL8InW1GXuibiaVGTd4Dh7kTCVPnKOuVbhizzU5Q9KoFgRpwHngzp
-	6xv51D0DOzoKGUwQzFExTHHGF5be+kuheei3EZyz3OkuuiX7Lie+51iTGf95cAZ6jbsl
-	HnNOnjIGUkGnZX91LfbKBRP2vA3/Cy4U182Inx3bOhOtVv1WhaS2cTJp/73agtQEN0G0
-	cMmw==
-X-Gm-Message-State: APjAAAVB5M3tmQVsCDW54UDS/hQWnSP/2TdX5AEFv+mHwsK+nEkZcAQO
-	zpOJCxm0jJJtoNWh3x72+dM57l9k
-X-Google-Smtp-Source: APXvYqwtjk2Spn4u0GJ+7WbmPs632r5JCGcaBLSforVDCCjhW0iB5gCJu1NCne2vYHkgIqHEhsUZaw==
-X-Received: by 2002:a17:90a:a10f:: with SMTP id
-	s15mr16810510pjp.30.1560092064994; 
-	Sun, 09 Jun 2019 07:54:24 -0700 (PDT)
+	bh=biaOccepS2D5b8YbSjWZaKIOibk62aaL/jfcAJ3l5To=;
+	b=U+CU1muVZMzhmz/dcwWoKPfKbr04FfVKhB2+53UH0d9S0jAAonJjfxN5YOx4LlLxVs
+	tI7qJdHvGaYQgn44OwDf0ktCLRBuY8oXi3+1pQtiKIqUXACzlr6M1rCyzNi3XWljitH1
+	xv2JWvYZDysMhwNPThQxv2FmxXdxL5IrnHQO67fcoak88LRdBJB8gnnFk7T1LrHee/zs
+	mo8sp8J2CxIMCoHCql37AYkQi3VvOBYa+kZsl8/Kbhy8e9a3LgqwTKVARd4Etvhbf7By
+	E8ZpNzPYPSLNGYSYge/HT826nWL8Vdg0uWNLg/qKuqss1HFpq/9zwKpxoz7nFqBjhNOW
+	ckFg==
+X-Gm-Message-State: APjAAAUJoY/HGRFf+zakdYPuQnBd5SfPQjuoBEmcdl8XcOY50Lvfv3HU
+	AGmmvTLlqsdsYELypYRLU6OJbKVJ
+X-Google-Smtp-Source: APXvYqzhS7uB6GtbABFBd6y3OZUs6zvfKXQXN4/qEYipBSSbWitOydeCpQtMkuxFxnyYSkucRTGIoQ==
+X-Received: by 2002:a17:90a:80c4:: with SMTP id
+	k4mr16752550pjw.74.1560092065669; 
+	Sun, 09 Jun 2019 07:54:25 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:50d3:300:d9ff:2f1d])
-	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.24
+	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 09 Jun 2019 07:54:24 -0700 (PDT)
+	Sun, 09 Jun 2019 07:54:25 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Jun 2019 07:53:56 -0700
-Message-Id: <e714bc14210de2242b07682b55a300e48ba87de1.1560091882.git.akuster808@gmail.com>
+Date: Sun,  9 Jun 2019 07:53:57 -0700
+Message-Id: <2c87f79f25c9fb73ca98ab822fd2a1f8f24a9016.1560091882.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1560091882.git.akuster808@gmail.com>
 References: <cover.1560091882.git.akuster808@gmail.com>
-Subject: [Warrior-next 21/27] resulttool: Remove prints if no tests occur
+Subject: [Warrior-next 22/27] runqemu: Add the support to pass multi ports to tcpserial parameter
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,64 +61,58 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Sun, 09 Jun 2019 14:54:24 -0000
 
-From: Jon Mason <jdmason@kudzu.us>
+From: Kevin Hao <kexin.hao@windriver.com>
 
-Printing the lack of a test is not necessary (per feedback).  Remove
-this from the template to quieten it.
+In some cases(such as the oeqa's qemurunner), we need to setup multi
+serial devices via the '-serial 127.0.0.1:xx" and the order of them
+is significant. The mixing use of "tcpserial" and "-serial 127.0.0.1:xx"
+cause ambiguous issues and we can't fix it by only adjusting the order
+of them. So add the support to pass multi ports to the tcpserial
+parameter, this will make sure that the order of setting up the serial
+is really what we want.
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
+[YOCTO Bug 13309]
+
+Signed-off-by: Kevin Hao <kexin.hao@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+[Fixes qemuppc hang in warrior]
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/resulttool/template/test_report_full_text.txt | 14 +++-----------
- 1 file changed, 3 insertions(+), 11 deletions(-)
+ scripts/runqemu | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/resulttool/template/test_report_full_text.txt b/scripts/lib/resulttool/template/test_report_full_text.txt
-index 6a5a081..17c99cb 100644
---- a/scripts/lib/resulttool/template/test_report_full_text.txt
-+++ b/scripts/lib/resulttool/template/test_report_full_text.txt
-@@ -22,13 +22,10 @@ Test Result Status Summary (Counts/Percentages sorted by testseries, ID)
- {{ ptest.ljust(maxlen['ptest']) }} | {{ (ptests[machine][ptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ptests[machine][ptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ptests[machine][ptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ptests[machine][ptest]['duration']|string) }}
- {% endfor %}
- --------------------------------------------------------------------------------------------------------------
--{% else %}
--There was no ptest data for {{ machine }}
--{% endif %}
+diff --git a/scripts/runqemu b/scripts/runqemu
+index 39bed03..19fd521 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -438,7 +438,7 @@ class BaseConfig(object):
+             elif arg == 'publicvnc':
+                 self.qemu_opt_script += ' -vnc :0'
+             elif arg.startswith('tcpserial='):
+-                self.tcpserial_portnum = arg[len('tcpserial='):]
++                self.tcpserial_portnum = '%s' % arg[len('tcpserial='):]
+             elif arg.startswith('biosdir='):
+                 self.custombiosdir = arg[len('biosdir='):]
+             elif arg.startswith('biosfilename='):
+@@ -681,10 +681,16 @@ class BaseConfig(object):
  
-+{% endif %}
- {% endfor %}
+     def check_tcpserial(self):
+         if self.tcpserial_portnum:
++            ports = self.tcpserial_portnum.split(':')
++            port = ports[0]
+             if self.get('QB_TCPSERIAL_OPT'):
+-                self.qemu_opt_script += ' ' + self.get('QB_TCPSERIAL_OPT').replace('@PORT@', self.tcpserial_portnum)
++                self.qemu_opt_script += ' ' + self.get('QB_TCPSERIAL_OPT').replace('@PORT@', port)
+             else:
+-                self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % self.tcpserial_portnum
++                self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % port
++
++            if len(ports) > 1:
++                for port in ports[1:]:
++                    self.qemu_opt_script += ' -serial tcp:127.0.0.1:%s' % port
  
--
- {% for machine in machines %}
- {% if ltptests[machine] %}
- ==============================================================================================================
-@@ -41,13 +38,10 @@ There was no ptest data for {{ machine }}
- {{ ltptest.ljust(maxlen['ltptest']) }} | {{ (ltptests[machine][ltptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ltptests[machine][ltptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ltptests[machine][ltptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ltptests[machine][ltptest]['duration']|string) }}
- {% endfor %}
- --------------------------------------------------------------------------------------------------------------
--{% else %}
--There was no LTP Test data for {{ machine }}
--{% endif %}
- 
-+{% endif %}
- {% endfor %}
- 
--
- {% for machine in machines %}
- {% if ltpposixtests[machine] %}
- ==============================================================================================================
-@@ -60,10 +54,8 @@ There was no LTP Test data for {{ machine }}
- {{ ltpposixtest.ljust(maxlen['ltpposixtest']) }} | {{ (ltpposixtests[machine][ltpposixtest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ltpposixtests[machine][ltpposixtest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ltpposixtests[machine][ltpposixtest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ltpposixtests[machine][ltpposixtest]['duration']|string) }}
- {% endfor %}
- --------------------------------------------------------------------------------------------------------------
--{% else %}
--There was no LTP Posix Test data for {{ machine }}
--{% endif %}
- 
-+{% endif %}
- {% endfor %}
- 
- 
+     def check_and_set(self):
+         """Check configs sanity and set when needed"""
 -- 
 2.7.4
 
