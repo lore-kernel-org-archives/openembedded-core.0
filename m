@@ -1,52 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com
-	[209.85.210.172])
-	by mail.openembedded.org (Postfix) with ESMTP id 662347D40F
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+	[209.85.210.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B467D40F
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Jun 2019 14:54:20 +0000 (UTC)
-Received: by mail-pf1-f172.google.com with SMTP id c85so3824110pfc.1
+	Sun,  9 Jun 2019 14:54:21 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id x15so3830300pfq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 09 Jun 2019 07:54:21 -0700 (PDT)
+	Sun, 09 Jun 2019 07:54:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/FYVXu2jBNZ5iwErrNgYlhXJmDJ4q46LYvc59U8gLtA=;
-	b=UYPzJTsCe6uEEGue5YdSfi7JjGoXidRZiErAgO1+2lgWYq/AOX0R0hWBbmJCAa82mp
-	OdknHc+Cr53kDW++A4unYmKuGoigYxOdSeOystV6Y3NRBNNY+nxMSdq7ki523pht6PrR
-	pw8tWqMJVv1C3Gb/qc15O0ikFs38Flq1EB4wzkpdXJwaXWnV/ZuDoWzPNzc861P7poM/
-	0E8H+Wuu9cht6I0Xi38REQzvj0e1/pA583mjWjsDQakoebWsr0tt4JsxfmE70/pwnYvU
-	ovASmje0bpP7C0a4LQJ4WkHKz3wW9eCYSBN79WZc0mli/iTrs/Gbsx5i4Qsq/b3nsXeO
-	F9vA==
+	bh=UjYu2WdZhJF5EwHuKOVVPnw0KsMGYeIN1pHqL+vISYI=;
+	b=PW9Dn7XRty66EeJQU1Wdi8+tEC1lt83ydlNy/gjBVmz2Xy95WyB/V17hrCQzCSAMdU
+	5FpT3TPCM1Fm/S4EkMFwLaXzClsEtBHVUintIWeC0YEMOwGrZXVeaX7Ta4KHSf/ZcUv6
+	HCwPkIpKL1+N0rP35Hzsw9L/X8Vu1noXjgzRcxVJjBM16jFKJrDRVXXTwrlZeoUg/VPy
+	UtqyplkOqjHyZU/L7gA/txDnEskhkOJH9qOysth0bfhN6aixxyOQZj7Yb8nWw33KZpBV
+	DrWqTd4Hk1TAOd7LjSRO991WqKzhFVcnlkC85g80nPqZMS3rP891gfOZDkivVtQKMeHQ
+	HDLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=/FYVXu2jBNZ5iwErrNgYlhXJmDJ4q46LYvc59U8gLtA=;
-	b=UZIpnnV7PrsPkl6l/4guvYbBKPSE3eP9X7sR+UTEHekhLeKKmmEQhOO1YIymK1lqr2
-	WN3+SONj7sFypspTslVD/LtFACn/DTwn1WUCG2yaMHxWV/wHAhF6fUN1JJDu3HIhdleK
-	Ywg8K4vt54Fygs5eGIx9twBNqCfl1OBOZOC4NzuScBxOU1kbMa/VKuJnrAu4bdDkO/z/
-	fUfXIRRWx51S0fUQCr+exfwFduzMVs7ogPysGMOW4kF4R2XTObPliqeKRs+RmBZGhVYT
-	D6krqyq+viZbpzQcah8AKeoYrEAlTdE9GfyrhBnywMVlJZw5i2iFFgJuNRlj4FIsqq15
-	RXdQ==
-X-Gm-Message-State: APjAAAVBamxQq8GSG4cTy1PSniczTMtTh8XPmibP7Xzg2TDRascvi0Oo
-	oSPcPCLBamBDrMRBc4rllxAFsNsd
-X-Google-Smtp-Source: APXvYqzn3vjS6V399Oe8cB7lxOsv/Xvn99iVVLvtQSqRZ/Uix1B9ZqDzKgsnlp6QN0xriJhVsIOJIA==
-X-Received: by 2002:a17:90a:4814:: with SMTP id
-	a20mr16861210pjh.62.1560092061386; 
-	Sun, 09 Jun 2019 07:54:21 -0700 (PDT)
+	bh=UjYu2WdZhJF5EwHuKOVVPnw0KsMGYeIN1pHqL+vISYI=;
+	b=dFhR8lLaLxpWos2GpwaRYZEouMBgUo2Fls2u+ogeZjfd2YBnlUUgcWT1pAB+Lw/5qY
+	AuNbj0TAFfzbdoKMiLBo6M97qqjvaiKdMpWW9KpO2IO1jYjK9VVZwcSZYUs46RspHNta
+	uasgusenY9Jz/6nwIyxsKPng6a6TKBD3V7aVU4yTuqzL0FvFAfoCP2LrDc2uVwu2QhI8
+	Qs1tTgRMwxYcIGiTiWYAdI4irISvFT5fDv2lWwArlcTo9cO/RLPyfxf97rfHGFYaqGaA
+	JbYW7wifiITvRUUY2TjcMbgCiNU5+eNozH1NCLaQpI0QQp/n8XHrFPmQ82smKOunPas6
+	MmyQ==
+X-Gm-Message-State: APjAAAVPAnAj3E2FyZFa+B4EoOWal4ZDwNAitpByJoIBmRsppTzJsTrp
+	z59jvpzz5A3hOcQ5k/PVInfgFxRv
+X-Google-Smtp-Source: APXvYqz9kB5CMvZqmD/Cmq20pDR/HkSFJhsax7rTJ7Vopvofv+ZlS7f0TdN2m46wQtqLNiJIkhYUbA==
+X-Received: by 2002:a17:90a:2648:: with SMTP id
+	l66mr16188672pje.65.1560092062140; 
+	Sun, 09 Jun 2019 07:54:22 -0700 (PDT)
 Received: from akuster-ThinkPad-T460s.hsd1.ca.comcast.net
 	([2601:202:4180:c33:50d3:300:d9ff:2f1d])
-	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.20
+	by smtp.gmail.com with ESMTPSA id d6sm7072188pgv.4.2019.06.09.07.54.21
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sun, 09 Jun 2019 07:54:21 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Jun 2019 07:53:52 -0700
-Message-Id: <b16f153bde10386a895096051b1eda3c1af0e9ad.1560091882.git.akuster808@gmail.com>
+Date: Sun,  9 Jun 2019 07:53:53 -0700
+Message-Id: <bb0947f0edde48bd979cee1f0da08aa6d9438692.1560091882.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1560091882.git.akuster808@gmail.com>
 References: <cover.1560091882.git.akuster808@gmail.com>
-Subject: [Warrior-next 17/27] resulttool: add ltp test support
+Subject: [Warrior-next 18/27] resulttool: add LTP compliance section
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,132 +59,133 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Jun 2019 14:54:20 -0000
+X-List-Received-Date: Sun, 09 Jun 2019 14:54:21 -0000
 
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- scripts/lib/resulttool/report.py                   | 43 +++++++++++++++++++++-
+ scripts/lib/resulttool/report.py                   | 42 +++++++++++++++++++++-
  .../resulttool/template/test_report_full_text.txt  | 17 +++++++++
- 2 files changed, 59 insertions(+), 1 deletion(-)
+ 2 files changed, 58 insertions(+), 1 deletion(-)
 
 diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index b1c9d13..a98f239 100644
+index a98f239..cb6b1cf 100644
 --- a/scripts/lib/resulttool/report.py
 +++ b/scripts/lib/resulttool/report.py
-@@ -17,6 +17,7 @@ import oeqa.utils.gitarchive as gitarchive
- class ResultsTextReport(object):
+@@ -18,6 +18,7 @@ class ResultsTextReport(object):
      def __init__(self):
          self.ptests = {}
-+        self.ltptests = {}
+         self.ltptests = {}
++        self.ltpposixtests = {}
          self.result_types = {'passed': ['PASSED', 'passed'],
                               'failed': ['FAILED', 'failed', 'ERROR', 'error', 'UNKNOWN'],
                               'skipped': ['SKIPPED', 'skipped']}
-@@ -51,6 +52,38 @@ class ResultsTextReport(object):
+@@ -82,6 +83,37 @@ class ResultsTextReport(object):
              if status in self.result_types[tk]:
-                 self.ptests[suite][tk] += 1
+                 self.ltptests[suite][tk] += 1
  
-+    def handle_ltptest_result(self, k, status, result):
-+        if k == 'ltpresult.sections':
++    def handle_ltpposixtest_result(self, k, status, result):
++        if k == 'ltpposixresult.sections':
 +            # Ensure tests without any test results still show up on the report
-+            for suite in result['ltpresult.sections']:
-+                if suite not in self.ltptests:
-+                    self.ltptests[suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
-+                if 'duration' in result['ltpresult.sections'][suite]:
-+                    self.ltptests[suite]['duration'] = result['ltpresult.sections'][suite]['duration']
-+                if 'timeout' in result['ltpresult.sections'][suite]:
-+                    self.ltptests[suite]['duration'] += " T"
++            for suite in result['ltpposixresult.sections']:
++                if suite not in self.ltpposixtests:
++                    self.ltpposixtests[suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
++                if 'duration' in result['ltpposixresult.sections'][suite]:
++                    self.ltpposixtests[suite]['duration'] = result['ltpposixresult.sections'][suite]['duration']
 +            return
 +        try:
 +            _, suite, test = k.split(".", 2)
 +        except ValueError:
 +            return
 +        # Handle 'glib-2.0'
-+        if 'ltpresult.sections' in result and suite not in result['ltpresult.sections']:
++        if 'ltpposixresult.sections' in result and suite not in result['ltpposixresult.sections']:
 +            try:
 +                _, suite, suite1, test = k.split(".", 3)
-+                print("split2: %s %s %s" % (suite, suite1, test))
-+                if suite + "." + suite1 in result['ltpresult.sections']:
++                if suite + "." + suite1 in result['ltpposixresult.sections']:
 +                    suite = suite + "." + suite1
 +            except ValueError:
 +                pass
-+        if suite not in self.ltptests:
-+            self.ltptests[suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
++        if suite not in self.ltpposixtests:
++            self.ltpposixtests[suite] = {'passed': 0, 'failed': 0, 'skipped': 0, 'duration' : '-', 'failed_testcases': []}
 +        for tk in self.result_types:
 +            if status in self.result_types[tk]:
-+                self.ltptests[suite][tk] += 1
++                self.ltpposixtests[suite][tk] += 1
 +
++    def get_aggregated_test_result(self, logger, testresult):
++        test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
 +    def get_aggregated_test_result(self, logger, testresult):
 +        test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
      def get_aggregated_test_result(self, logger, testresult):
          test_count_report = {'passed': 0, 'failed': 0, 'skipped': 0, 'failed_testcases': []}
-         result = testresult.get('result', [])
-@@ -63,6 +96,8 @@ class ResultsTextReport(object):
-                 test_count_report['failed_testcases'].append(k)
-             if k.startswith("ptestresult."):
+     def get_aggregated_test_result(self, logger, testresult):
+@@ -98,6 +130,8 @@ class ResultsTextReport(object):
                  self.handle_ptest_result(k, test_status, result)
-+            if k.startswith("ltpresult."):
-+                self.handle_ltptest_result(k, test_status, result)
+             if k.startswith("ltpresult."):
+                 self.handle_ltptest_result(k, test_status, result)
++            if k.startswith("ltpposixresult."):
++                self.handle_ltpposixtest_result(k, test_status, result)
          return test_count_report
  
      def print_test_report(self, template_file_name, test_count_reports):
-@@ -73,9 +108,10 @@ class ResultsTextReport(object):
-         template = env.get_template(template_file_name)
+@@ -109,9 +143,10 @@ class ResultsTextReport(object):
          havefailed = False
          haveptest = bool(self.ptests)
-+        haveltp = bool(self.ltptests)
+         haveltp = bool(self.ltptests)
++        haveltpposix = bool(self.ltpposixtests)
          reportvalues = []
          cols = ['passed', 'failed', 'skipped']
--        maxlen = {'passed' : 0, 'failed' : 0, 'skipped' : 0, 'result_id': 0, 'testseries' : 0, 'ptest' : 0 }
-+        maxlen = {'passed' : 0, 'failed' : 0, 'skipped' : 0, 'result_id': 0, 'testseries' : 0, 'ptest' : 0 ,'ltptest': 0}
+-        maxlen = {'passed' : 0, 'failed' : 0, 'skipped' : 0, 'result_id': 0, 'testseries' : 0, 'ptest' : 0 ,'ltptest': 0}
++        maxlen = {'passed' : 0, 'failed' : 0, 'skipped' : 0, 'result_id': 0, 'testseries' : 0, 'ptest' : 0 ,'ltptest': 0, 'ltpposixtest': 0}
          for line in test_count_reports:
              total_tested = line['passed'] + line['failed'] + line['skipped']
              vals = {}
-@@ -94,10 +130,15 @@ class ResultsTextReport(object):
-         for ptest in self.ptests:
-             if len(ptest) > maxlen['ptest']:
-                 maxlen['ptest'] = len(ptest)
-+        for ltptest in self.ltptests:
-+            if len(ltptest) > maxlen['ltptest']:
-+                maxlen['ltptest'] = len(ltptest)
+@@ -133,12 +168,17 @@ class ResultsTextReport(object):
+         for ltptest in self.ltptests:
+             if len(ltptest) > maxlen['ltptest']:
+                 maxlen['ltptest'] = len(ltptest)
++        for ltpposixtest in self.ltpposixtests:
++            if len(ltpposixtest) > maxlen['ltpposixtest']:
++                maxlen['ltpposixtest'] = len(ltpposixtest)
          output = template.render(reportvalues=reportvalues,
                                   havefailed=havefailed,
                                   haveptest=haveptest,
                                   ptests=self.ptests,
-+                                 haveltp=haveltp,
-+                                 ltptests=self.ltptests,
+                                  haveltp=haveltp,
++                                 haveltpposix=haveltpposix,
+                                  ltptests=self.ltptests,
++                                 ltpposixtests=self.ltpposixtests,
                                   maxlen=maxlen)
          print(output)
  
 diff --git a/scripts/lib/resulttool/template/test_report_full_text.txt b/scripts/lib/resulttool/template/test_report_full_text.txt
-index 590f35c..6ecd5bc 100644
+index 6ecd5bc..d2725b8 100644
 --- a/scripts/lib/resulttool/template/test_report_full_text.txt
 +++ b/scripts/lib/resulttool/template/test_report_full_text.txt
-@@ -25,6 +25,23 @@ PTest Result Summary
- There was no ptest data
+@@ -41,6 +41,23 @@ Ltp Test Result Summary
+ There was no LTP Test data
  {% endif %}
  
-+{% if haveltp %}
++{% if haveltpposix %}
 +==============================================================================================================
-+Ltp Test Result Summary
++Ltp Posix Result Summary
 +==============================================================================================================
 +--------------------------------------------------------------------------------------------------------------
-+{{ 'Recipe'.ljust(maxlen['ltptest']) }} | {{ 'Passed'.ljust(maxlen['passed']) }} | {{ 'Failed'.ljust(maxlen['failed']) }} | {{ 'Skipped'.ljust(maxlen['skipped']) }} | {{ 'Time(s)'.ljust(10) }}
++{{ 'Recipe'.ljust(maxlen['ltpposixtest']) }} | {{ 'Passed'.ljust(maxlen['passed']) }} | {{ 'Failed'.ljust(maxlen['failed']) }} | {{ 'Skipped'.ljust(maxlen['skipped']) }} | {{ 'Time(s)'.ljust(10) }}
 +--------------------------------------------------------------------------------------------------------------
-+{% for ltptest in ltptests |sort %}
-+{{ ltptest.ljust(maxlen['ltptest']) }} | {{ (ltptests[ltptest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ltptests[ltptest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ltptests[ltptest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ltptests[ltptest]['duration']|string) }}
++{% for ltpposixtest in ltpposixtests |sort %}
++{{ ltpposixtest.ljust(maxlen['ltpposixtest']) }} | {{ (ltpposixtests[ltpposixtest]['passed']|string).ljust(maxlen['passed']) }} | {{ (ltpposixtests[ltpposixtest]['failed']|string).ljust(maxlen['failed']) }} | {{ (ltpposixtests[ltpposixtest]['skipped']|string).ljust(maxlen['skipped']) }} | {{ (ltpposixtests[ltpposixtest]['duration']|string) }}
 +{% endfor %}
 +--------------------------------------------------------------------------------------------------------------
 +
 +{% else %}
-+There was no LTP Test data
++There was no LTP Posix Test data
 +{% endif %}
 +
 +
+ 
  ==============================================================================================================
  Failed test cases (sorted by testseries, ID)
- ==============================================================================================================
 -- 
 2.7.4
 
