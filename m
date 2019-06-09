@@ -1,26 +1,28 @@
 Return-Path: <adrian.freihofer@siemens.com>
-Received: from thoth.sbs.de (thoth.sbs.de [192.35.17.2])
-	by mail.openembedded.org (Postfix) with ESMTP id 610016011C
+Received: from david.siemens.de (david.siemens.de [192.35.17.14])
+	by mail.openembedded.org (Postfix) with ESMTP id C94286011C
 	for <openembedded-core@lists.openembedded.org>;
-	Sun,  9 Jun 2019 12:04:06 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by thoth.sbs.de (8.15.2/8.15.2) with ESMTPS id x59C47oa021681
+	Sun,  9 Jun 2019 12:04:17 +0000 (UTC)
+Received: from mail2.siemens.de (mail2.siemens.de [139.25.208.11])
+	by david.siemens.de (8.15.2/8.15.2) with ESMTPS id x59C4IIf021648
 	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 9 Jun 2019 14:04:07 +0200
+	Sun, 9 Jun 2019 14:04:18 +0200
 Received: from dev.vm6.ccp.siemens.com ([167.87.33.94])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id x59C44Aj018566;
-	Sun, 9 Jun 2019 14:04:05 +0200
+	by mail2.siemens.de (8.15.2/8.15.2) with ESMTP id x59C4FKi031590;
+	Sun, 9 Jun 2019 14:04:16 +0200
 Received: from dev.localdomain (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 9135E2325006;
-	Sun,  9 Jun 2019 14:04:04 +0200 (CEST)
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id A14052325006;
+	Sun,  9 Jun 2019 14:04:15 +0200 (CEST)
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun,  9 Jun 2019 14:03:39 +0200
-Message-Id: <20190609120342.5475-1-adrian.freihofer@siemens.com>
+Date: Sun,  9 Jun 2019 14:03:40 +0200
+Message-Id: <20190609120342.5475-2-adrian.freihofer@siemens.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <20190609120342.5475-1-adrian.freihofer@siemens.com>
+References: <20190609120342.5475-1-adrian.freihofer@siemens.com>
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [meta-oe][PATCH v4 0/3] runqemu: support non-bootable wic images
+Subject: [meta-oe][PATCH v4 1/3] qemurunner: fix undefined variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,21 +35,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 09 Jun 2019 12:04:07 -0000
+X-List-Received-Date: Sun, 09 Jun 2019 12:04:18 -0000
 
-Compared to V3 this is a new implementation, as suggested by Richard.
-Thanks for the hint, it makes perfect sense.
+While hacking on this I got an Exception. It's better to define
+variables also in python.
 
-Adrian Freihofer (3):
-  qemurunner: fix undefined variable
-  testimage: consider QB_DEFAULT_FSTYPE
-  runqemu: QB_FSINFO to support fstype wic images
+Signe:-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/lib/oeqa/utils/qemurunner.py | 1 +
+ 1 file changed, 1 insertion(+)
 
- meta/classes/testimage.bbclass    |  6 ++++-
- meta/lib/oeqa/utils/qemurunner.py |  1 +
- scripts/runqemu                   | 49 +++++++++++++++++++++++++++++++++++----
- 3 files changed, 50 insertions(+), 6 deletions(-)
-
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 6d2860c106..c16227fc38 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -60,6 +60,7 @@ class QemuRunner:
+         self.runqemutime = 120
+         self.qemu_pidfile = 'pidfile_'+str(os.getpid())
+         self.host_dumper = HostDumper(dump_host_cmds, dump_dir)
++        self.monitorpipe = None
+ 
+         self.logger = logger
+ 
 -- 
 2.11.0
 
