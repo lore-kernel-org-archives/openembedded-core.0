@@ -1,55 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 551A17E3EB
+Return-Path: <slemieux.tyco@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id B0CC26C466
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2019 12:57:20 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id a15so8386334wmj.5
+	Mon, 10 Jun 2019 19:17:15 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id j204so842572ite.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2019 05:57:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=jacFPqAEHmCBhem4qjijqVHt/rkoPjzQwaiwDGoSvdQ=;
-	b=dQR4O9eQYyantElO/E1tXiXC17LQS9zKwACRyDIQ3OAbrl+Ih9mBvhmWVG9WocSbsN
-	gEPj8TelPeu8ivLoZtvYJWer6f/4UBZUlIaRHX3HzFNpPWhEM1t8WaCquBTPRCgQsbqR
-	zSezA6o9v+yEQfplT90pT0m+D0CB0aEQ5mjMg=
+	Mon, 10 Jun 2019 12:17:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=4zW7b6LIOQPdGhesJ+GVteq0nVpS+ugJzq5E4WMhj5E=;
+	b=UXTIfbofinjgQSQutw7ubO2YD9LuDhA9bAATfDK7W0ITYhJQsRYgR4vJCLbnZ+5Gw+
+	XBwfXrGSMSc0GxWAJeM6bf1OJ6RtPb6GEOckmhAwoxZDrC8DI9OcaRIzLoOfjccDh7WH
+	zWNlLfYJPyuxUlu8gH0wWmGeITaMzXX2XauZWHHNm7NH4NxJuN67hAAVJgIDrqGl8V3u
+	H6uKfZFkV5QroD1MCihCt/aSFDedRIpvyaMkg3TaBZ8MpaLnH5nrRz/m5xCoVY61crJK
+	aWs6eNn2Dnbii0v8ekUoPoNwUAfa5au/tsxMoU27CtIJ4FQ92AVMM/LvBAQpMxjP1daT
+	g/sQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=jacFPqAEHmCBhem4qjijqVHt/rkoPjzQwaiwDGoSvdQ=;
-	b=fUTAIHAzh3yfYIESdytBSetdaLPHGfktOq4lDIV1yBzC17GckmpUG7y9cj/Dwg0WpK
-	cTpOlqm+nM3NSPmdpIS5bP0RNxWznIgZ7bHQp36jJfIDe5BR2eQzj51/cI1xJX+OQySP
-	Tqz9bLIYObrZCylkQLIIVssCnKNYod76tcBLZdQgWOmjAINv05eu/2rG70eBaCaF4u3d
-	25fO/NaS5tM3oDPh1hCfuJLXnJMGix6EdzTj4mcseXuW9JPk/Na6vw6uGwxy453TVO00
-	G9OhYE6D46ntJwXb2kbyWZ4j4kwqO4MPBqwOy3nQCwNqtCPVmZJvheFsvN0mVfU82W3l
-	aeWQ==
-X-Gm-Message-State: APjAAAVtvzm0wW2O3sgpkUAOEk5DzRTt/enJevz0v6tAG5MV3FCP7Z1u
-	93MTVeyGZ2dJxvM8BSfCl6Pmjw==
-X-Google-Smtp-Source: APXvYqy3cqU1Uf7A9Wf/5YcuJmjUzxXXPPEcXWEeVNRhTKfqu9TMWhLV3mlRykFLAOSyVitdN0rWoA==
-X-Received: by 2002:a1c:35c9:: with SMTP id
-	c192mr13833102wma.147.1560171440993; 
-	Mon, 10 Jun 2019 05:57:20 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id t7sm9999957wrn.52.2019.06.10.05.57.19
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 10 Jun 2019 05:57:19 -0700 (PDT)
-Message-ID: <e30db71defc820ff96e770b71c60071573737353.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 10 Jun 2019 13:57:18 +0100
-In-Reply-To: <4cf0eb7936f1e27033202312d5e4f27e27266641.camel@linuxfoundation.org>
-References: <20190607121954.116898-1-alex.kanavin@gmail.com>
-	<20190607121954.116898-3-alex.kanavin@gmail.com>
-	<2d919bbd6f607604f8315c95e1154c169fd2c5da.camel@linuxfoundation.org>
-	<2c3427c3986a8fe363e6a99f3d78a136c79efd61.camel@linuxfoundation.org>
-	<4cf0eb7936f1e27033202312d5e4f27e27266641.camel@linuxfoundation.org>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=4zW7b6LIOQPdGhesJ+GVteq0nVpS+ugJzq5E4WMhj5E=;
+	b=C9aJIVnE+Q4T8uwskNfvNmnB98E5DDe/IJ7C4cl6BNIPy1X4xN9GcSfo6U4pY9ZKjw
+	+Jq86UczKTWFLAJV6/PleulQeeePgUOx9pfot7s0JmfWI+/j/L4UHGvTSkWZw6q2H2A2
+	7V80xjZOH+AuHxZIDHrL2Rdsf9IEJjrnxsvLWc9S3vpFykk1uXTE6lvjkErHWcfpBCf5
+	HOFA4YPBGfV10uXMfxpQFQly5RXW26g4FFko40SqhhUDb3pazxxQxBMgzF2SRJVWtIoM
+	whuKUFkej0a3k25Mlc8GmLCyhtt0AgNdrASLI6b0VTujsJCG+Mbqqxo1p35LqfPI1LBw
+	Lzsw==
+X-Gm-Message-State: APjAAAV7u1mVZZpZaBS5C+lRf5RwruQZ8z2OnWz3zEKemlAjCQcmew33
+	D9yKWg31SzvVAsnEambau8wmnbK2HjuxlW4q4Ek=
+X-Google-Smtp-Source: APXvYqyigkuR3x/bDEpTLfADXpoNLSsv+dNZesIRFe7XFsJYmavORC/HEagOQTwv+jZiGUXWOwq0X6aqvfsK3wl/giU=
+X-Received: by 2002:a05:660c:503:: with SMTP id
+	d3mr16588283itk.126.1560194236880; 
+	Mon, 10 Jun 2019 12:17:16 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH 3/3] gtk+3: update 3.24.5 -> 3.24.8
+References: <cover.1559574291.git.akuster808@gmail.com>
+	<5d70ab1ba3570ff24d5d118805ed0d9bafad022d.1559574291.git.akuster808@gmail.com>
+In-Reply-To: <5d70ab1ba3570ff24d5d118805ed0d9bafad022d.1559574291.git.akuster808@gmail.com>
+From: Sylvain Lemieux <slemieux.tyco@gmail.com>
+Date: Mon, 10 Jun 2019 15:17:05 -0400
+Message-ID: <CA+rxa6oyS5W1p8TW850CUU5TgZ896+sT=ccb4dQiD-AmPOfxAQ@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 06/21] openssh: Avoid PROVIDES warning from rng-tools dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,73 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2019 12:57:20 -0000
+X-List-Received-Date: Mon, 10 Jun 2019 19:17:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
 
-On Mon, 2019-06-10 at 13:32 +0100, Richard Purdie wrote:
-> On Mon, 2019-06-10 at 12:47 +0100, Richard Purdie wrote:
-> > On Sat, 2019-06-08 at 10:05 +0100, Richard Purdie wrote:
-> > > On Fri, 2019-06-07 at 14:19 +0200, Alexander Kanavin wrote:
-> > > > Rebase 0003-Add-disable-opengl-configure-option.patch
-> > > > 
-> > > > Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> > > > ---
-> > > >  ...-Add-disable-opengl-configure-option.patch | 41 ++++++++++-
-> > > > --
-> > > > --
-> > > > --
-> > > > --
-> > > >  .../gtk+/{gtk+3_3.24.5.bb => gtk+3_3.24.8.bb} |  4 +-
-> > > >  2 files changed, 23 insertions(+), 22 deletions(-)
-> > > >  rename meta/recipes-gnome/gtk+/{gtk+3_3.24.5.bb =>
-> > > > gtk+3_3.24.8.bb}
-> > > > (84%)
-> > > 
-> > > I retested with the date/time on the workers fixed and this
-> > > series
-> > > present. We saw:
-> > > 
-> > > https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/693
-> > > 
-> > > so I think there might be something not quite right with opengl
-> > > disabled (the main difference to nodistro I can think of?)
-> > 
-> > Its now in master:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/687
-> > 
-> > so I think there is some kind of parallel make race in the new
-> > gtk+?
-> > 
-> > The autobuilder is proving very tricky to read at the moment and
-> > intermittent bugs are making it into master :(
-> 
-> I've realised the error wasn't:
-> 
-> Failed to open file “./gdk.gresource.xml”: No such file or directory
-> 
-> but
-> 
-> > glib-compile-resources --target=bloatpad-gresources.c --
-> sourcedir=../../../gtk+-3.24.5/examples/bp --generate-source
-> ../../../gtk+-3.24.5/examples/bp/bloatpad.gresources.xml
-> > (glib-compile-resources:91029): GLib-ERROR **: 02:42:13.583:
-> > creating
-> thread 'gmain': Error creating thread: Resource temporarily
-> unavailable
-> > make[3]: *** [bloatpad-gresources.c] Trace/breakpoint trap
-> 
-> which sounds like a parallelism issue :/. Question is which resource
-> we're running out of...
+Is there any plan to add a revision of this patch (From OE-Core rev:
+f93f026212ebc28fce66682cdb995e061586df45) and a revision of the patch
+that fix the "sshd startup is delayed" issue (From OE-Core rev:
+9b01375236e19e3366c58877c4154d7c71632984) into thud?
 
-Looking at that machine, max user processes is 4096 which I think we've
-had issues with in the past.
+p.s. I already added the change into a bbappend and tested it.
 
-Cc'ing Michael.
 
-Cheers,
+Regards,
+Sylvain Lemieux
 
-Richard
-
+On Mon, Jun 3, 2019 at 11:08 AM Armin Kuster <akuster808@gmail.com> wrote:
+>
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> Avoid the warning:
+>
+> WARNING: Nothing RPROVIDES 'nativesdk-rng-tools' (but virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-connectivity/openssh/openssh_7.9p1.bb RDEPENDS on or otherwise requires it)
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/recipes-connectivity/openssh/openssh_7.9p1.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
+> index 976bcc5..3b4ed72 100644
+> --- a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
+> +++ b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
+> @@ -148,7 +148,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
+>
+>  RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
+>  RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
+> -RRECOMMENDS_${PN}-sshd += "rng-tools"
+> +RRECOMMENDS_${PN}-sshd_append_class-target = " rng-tools"
+>  RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed"
+>
+>  RPROVIDES_${PN}-ssh = "ssh"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
