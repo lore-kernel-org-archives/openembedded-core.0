@@ -1,104 +1,17 @@
-Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
-	[209.85.215.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 2C3D179C7C
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id 6ED477D279
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2019 19:49:15 +0000 (UTC)
-Received: by mail-pg1-f194.google.com with SMTP id 83so5571571pgg.8
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2019 12:49:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=Y1uckjvbvYaQabU3Tc6WLn6AEl8KguXOIIzv25NoR1w=;
-	b=NFE+GF5Il/v3lRramYnp28N6swbTkrNzYQN20Ajpymp2QbaSDpaFobijNnskBTG/z4
-	yrhknV2ruGTVpLrJvG5ctn0nbGZPRCBm73vIXWcMShKnC97yxHFZWdRDrukv7vUZutCu
-	M/i9VRTXmzg2lDXiudPtYy229f91T4lx0glCvZ9CMxL/2MoC1fM1ONnVuLEHArN+zHvj
-	OAQZP4fkq+q3WRRlmsPSXETYPzMSIXGIYuPYhe8OHBB21vm4NP4GlGHlUr1eJxvwHg+w
-	bSQDlIzo4LFO3Ht1zpxWEMUC5/7dg3XFXE59tvNy7AefjT/cOHjgvJfUPXDUZjmm7MXU
-	5sSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-transfer-encoding:content-language;
-	bh=Y1uckjvbvYaQabU3Tc6WLn6AEl8KguXOIIzv25NoR1w=;
-	b=q7zvpWunWLqJ9F2vK0F5b/soR+wesJPwZQO+SsQY9/vf4Dc2P+Wx+/umJBWsA3gPBz
-	qnbsfrtrqbN/XVliaqPE16oGJPwfzVnZzABEJImuMKAu3y3iYR9orG0W67Ohd88ByyRI
-	OEFZhOoPYJ/CgVF1e6pPMcpDXHw7fdVEGadKPVki4eLSfjUL98Q5ItiwACo+RrV0mvFI
-	1rN9CX5XwjyNvZmTK3/RCbbBWTZ4/okyA3XDEoBXsDuxAu+bCQWoz9NSBW4zL0vik/QZ
-	XiKdwHDQZ1LzyqKAwdPjb4MtMxurhnMKDSMMZzCHE358cFGykseRCzfdyHq0ESRkSxxT
-	6JOQ==
-X-Gm-Message-State: APjAAAWNDY5LLnIzVlKadjnU4RzmOWgrwApjUDSbtCudZGYslaszOLnA
-	k4oqRJRb6FnGCmUXqiWGhPdzWOMe
-X-Google-Smtp-Source: APXvYqxC2LuIoYS1syJYRAsLEGatH9yxKSio7pT1m9gojDStd68Z1SXXCzjOSHDu130YPbBPfXXwwQ==
-X-Received: by 2002:a65:5685:: with SMTP id v5mr17312827pgs.184.1560196156058; 
-	Mon, 10 Jun 2019 12:49:16 -0700 (PDT)
-Received: from ?IPv6:2601:202:4180:c33:41f8:3a5:3f1:1b89?
-	([2601:202:4180:c33:41f8:3a5:3f1:1b89])
-	by smtp.gmail.com with ESMTPSA id
-	w132sm6703323pfd.78.2019.06.10.12.49.15
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 10 Jun 2019 12:49:15 -0700 (PDT)
-To: Sylvain Lemieux <slemieux.tyco@gmail.com>
-References: <cover.1559574291.git.akuster808@gmail.com>
-	<5d70ab1ba3570ff24d5d118805ed0d9bafad022d.1559574291.git.akuster808@gmail.com>
-	<CA+rxa6oyS5W1p8TW850CUU5TgZ896+sT=ccb4dQiD-AmPOfxAQ@mail.gmail.com>
-From: akuster808 <akuster808@gmail.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
-	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
-	8CS2NxU=
-Message-ID: <50d01ae5-b44d-99d2-c3b7-e17a8e5d0c3a@gmail.com>
-Date: Mon, 10 Jun 2019 12:49:14 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <CA+rxa6oyS5W1p8TW850CUU5TgZ896+sT=ccb4dQiD-AmPOfxAQ@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 06/21] openssh: Avoid PROVIDES warning from rng-tools dependency
+	Tue, 11 Jun 2019 01:57:58 +0000 (UTC)
+Received: from acheron.taitradio.net (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id A39C11C0266;
+	Tue, 11 Jun 2019 13:57:57 +1200 (NZST)
+From: Douglas Royds <douglas.royds@taitradio.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jun 2019 13:57:56 +1200
+Message-Id: <20190611015756.19184-1-douglas.royds@taitradio.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] json-c: update to current upstream head, with --disable-werror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -111,62 +24,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 10 Jun 2019 19:49:15 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 11 Jun 2019 01:57:58 -0000
 
+Upstream json-c haven't made a release since March 2018.
+Adopt the current HEAD revision, pulling it directly from git.
 
+icecc preprocesses source files locally before shipping them off to be compiled
+on remote hosts. This preprocessing removes comments, including /* fallthough */
+comments in switch statements that normally prevent an implicit-fallthrough
+warning, see https://github.com/icecc/icecream/issues/419
 
-On 6/10/19 12:17 PM, Sylvain Lemieux wrote:
-> Is there any plan to add a revision of this patch (From OE-Core rev:
-> f93f026212ebc28fce66682cdb995e061586df45) and a revision of the patch
-> that fix the "sshd startup is delayed" issue (From OE-Core rev:
-> 9b01375236e19e3366c58877c4154d7c71632984) into thud?
-Yeah, I don't see any reason why not. I will add it to my list.
+Rather than turning off -Werror by patching configure.ac, the upstream project
+has implemented a configure option, --disable-werror, in response to Ross's
+https://github.com/json-c/json-c/issues/489
 
-thanks,
-Armin
->
-> p.s. I already added the change into a bbappend and tested it.
->
->
-> Regards,
-> Sylvain Lemieux
->
-> On Mon, Jun 3, 2019 at 11:08 AM Armin Kuster <akuster808@gmail.com> wrote:
->> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->>
->> Avoid the warning:
->>
->> WARNING: Nothing RPROVIDES 'nativesdk-rng-tools' (but virtual:nativesdk:/home/pokybuild/yocto-worker/build-appliance/build/meta/recipes-connectivity/openssh/openssh_7.9p1.bb RDEPENDS on or otherwise requires it)
->>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Signed-off-by: Armin Kuster <akuster808@gmail.com>
->> ---
->>  meta/recipes-connectivity/openssh/openssh_7.9p1.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
->> index 976bcc5..3b4ed72 100644
->> --- a/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
->> +++ b/meta/recipes-connectivity/openssh/openssh_7.9p1.bb
->> @@ -148,7 +148,7 @@ FILES_${PN}-keygen = "${bindir}/ssh-keygen"
->>
->>  RDEPENDS_${PN} += "${PN}-scp ${PN}-ssh ${PN}-sshd ${PN}-keygen"
->>  RDEPENDS_${PN}-sshd += "${PN}-keygen ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-keyinit pam-plugin-loginuid', '', d)}"
->> -RRECOMMENDS_${PN}-sshd += "rng-tools"
->> +RRECOMMENDS_${PN}-sshd_append_class-target = " rng-tools"
->>  RDEPENDS_${PN}-ptest += "${PN}-sftp ${PN}-misc ${PN}-sftp-server make sed"
->>
->>  RPROVIDES_${PN}-ssh = "ssh"
->> --
->> 2.7.4
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
+---
+ meta/recipes-devtools/json-c/json-c_0.13.1.bb | 30 -------------------
+ meta/recipes-devtools/json-c/json-c_git.bb    | 19 ++++++++++++
+ 2 files changed, 19 insertions(+), 30 deletions(-)
+ delete mode 100644 meta/recipes-devtools/json-c/json-c_0.13.1.bb
+ create mode 100644 meta/recipes-devtools/json-c/json-c_git.bb
+
+diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
+deleted file mode 100644
+index 5b10e68297..0000000000
+--- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
++++ /dev/null
+@@ -1,30 +0,0 @@
+-SUMMARY = "C bindings for apps which will manipulate JSON data"
+-DESCRIPTION = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C."
+-HOMEPAGE = "https://github.com/json-c/json-c/wiki"
+-LICENSE = "MIT"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+-
+-SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
+-SRC_URI[md5sum] = "04969ad59cc37bddd83741a08b98f350"
+-SRC_URI[sha256sum] = "b87e608d4d3f7bfdd36ef78d56d53c74e66ab278d318b71e6002a369d36f4873"
+-
+-UPSTREAM_CHECK_REGEX = "json-c-(?P<pver>\d+(\.\d+)+).tar"
+-# json-c releases page is fetching the list of releases in some weird XML format
+-# from https://s3.amazonaws.com/json-c_releases and processes it with javascript :-/
+-#UPSTREAM_CHECK_URI = "https://s3.amazonaws.com/json-c_releases/releases/index.html"
+-RECIPE_UPSTREAM_VERSION = "0.13.1"
+-RECIPE_UPSTREAM_DATE = "Mar 04, 2018"
+-CHECK_DATE = "May 02, 2018"
+-
+-RPROVIDES_${PN} = "libjson"
+-
+-inherit autotools
+-
+-EXTRA_OECONF = "--enable-rdrand"
+-
+-do_configure_prepend() {
+-    # Clean up autoconf cruft that should not be in the tarball
+-    rm -f ${S}/config.status
+-}
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/json-c/json-c_git.bb b/meta/recipes-devtools/json-c/json-c_git.bb
+new file mode 100644
+index 0000000000..07daa5ba11
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c_git.bb
+@@ -0,0 +1,19 @@
++SUMMARY = "C bindings for apps which will manipulate JSON data"
++DESCRIPTION = "JSON-C implements a reference counting object model that allows you to easily construct JSON objects in C."
++HOMEPAGE = "https://github.com/json-c/json-c/wiki"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
++
++SRC_URI = "git://github.com/json-c/json-c.git"
++SRCREV = "07ea04e65193c3e5c902c5b79421d5fa48ff67c7"
++S = "${WORKDIR}/git"
++
++RPROVIDES_${PN} = "libjson"
++
++inherit autotools
++
++EXTRA_OECONF = "--disable-werror \
++                --enable-rdrand \
++                "
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.17.1
 
 
