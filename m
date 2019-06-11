@@ -1,22 +1,19 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
-	by mail.openembedded.org (Postfix) with ESMTP id 0729A79D4A
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp7.bon.at (bsmtp7.bon.at [213.33.87.19])
+	by mail.openembedded.org (Postfix) with ESMTP id A40156D458
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 06:31:37 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	10 Jun 2019 23:31:38 -0700
-X-ExtLoop1: 1
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga007.jf.intel.com with ESMTP; 10 Jun 2019 23:31:38 -0700
-From: chee.yang.lee@intel.com
+	Tue, 11 Jun 2019 08:12:17 +0000 (UTC)
+Received: from qschulz.sue.net (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45NN5Y4DHRz5tlN;
+	Tue, 11 Jun 2019 10:12:17 +0200 (CEST)
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2019 14:31:37 +0800
-Message-Id: <1560234697-27013-1-git-send-email-chee.yang.lee@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] wic/plugins: kernel image refer to KERNEL_IMAGETYPE
+Date: Tue, 11 Jun 2019 10:11:46 +0200
+Message-Id: <20190611081146.24732-1-quentin.schulz@streamunlimited.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>,
+	andriy.danylovskyy@streamunlimited.com, bunk@stusta.de
+Subject: [PATCH v3] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -29,143 +26,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 06:31:38 -0000
+X-List-Received-Date: Tue, 11 Jun 2019 08:12:17 -0000
 
-From: Chee Yang Lee <chee.yang.lee@intel.com>
+A non-SPDX license (which is not an alias to an SPDX license) cannot
+currently be marked as incompatible in INCOMPATIBLE_LICENSE.
+In the current state, we take all INCOMPATIBLE_LICENSE and pass them
+through expand_wildcard_licenses which is only adding SPDX licenses that
+match the glob regexp of what is in INCOMPATIBLE_LICENSE (be it a direct
+match to an SPDX license or via an alias).
 
-replaced hardcoded kernel image with KERNEL_IMAGETYPE.
-set kernel image to "bzImage" incase KERNEL_IMAGETYPE not set.
+This does not work well with custom licenses.
 
-Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
+E.g.:
+
+foo.bb:
+LICENSE = "FooLicense"
+
+conf/local.conf:
+INCOMPATIBLE_LICENSE = "FooLicense"
+
+`bitbake foo`
+
+Gives no warning, no error, builds and packages successfully, because
+INCOMPATIBLE_LICENSE is basically empty since FooLicense is neither in
+SPDXLICENSEMAP nor in SRC_DISTRIBUTE_LICENSES.
+
+Let's add the original licenses to the list returned by
+expand_wildcard_licenses to be able to handle the aforementioned case.
+
+INCOMPATIBLE_LICENSE = "FooLicense GPLv2 GPLv3+" used to "resolve" to
+"GPLv2 GPLv3". It now resolves to "FooLicense GPLv2 GPLv3 GPLv3+" which
+fixes the issue with custom licenses not being in SPDXLICENSEMAP or
+SRC_DISTRIBUTE_LICENSES and thus being left out of the blacklisted
+licenses.
+
+I needed to pass a list to expand_wildcard_licenses from the
+license_image class instead of the current output of map() because the
+operator [:] does not work on this kind of type, and list(map()) or
+anything that iterates over map() actually moves the iterator and breaks
+the forloop right after in expand_wildcard_licenses.
+
+Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
 ---
- scripts/lib/wic/plugins/source/bootimg-efi.py       | 21 +++++++++++++++------
- scripts/lib/wic/plugins/source/bootimg-pcbios.py    |  8 ++++++--
- .../lib/wic/plugins/source/isoimage-isohybrid.py    | 21 ++++++++++++++-------
- 3 files changed, 35 insertions(+), 15 deletions(-)
 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
-index 70cc1b0..d87db1f 100644
---- a/scripts/lib/wic/plugins/source/bootimg-efi.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
-@@ -71,14 +71,16 @@ class BootimgEFIPlugin(SourcePlugin):
-             grubefi_conf += "timeout=%s\n" % bootloader.timeout
-             grubefi_conf += "menuentry '%s'{\n" % (title if title else "boot")
+v3:
+  - fix git context from v2, patch cleanly applies on master branch now,
+
+v2:
+  - fixed image building by replacing map(lambda) by a comprehensive list so
+that we have a consistent input type for expand_wildcard_licenses,
+
+ meta/classes/license.bbclass       | 2 +-
+ meta/classes/license_image.bbclass | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index ed91a4b4db..adca881c85 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -268,7 +268,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
+     wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
+     """
+     import fnmatch
+-    licenses = []
++    licenses = wildcard_licenses[:]
+     spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
+     for wld_lic in wildcard_licenses:
+         spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 6fb76be48e..2cfda81c99 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -40,7 +40,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+     import stat
  
--            kernel = "/bzImage"
-+            kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+            if not kernel:
-+                kernel = "bzImage"
+     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
+-    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++    bad_licenses = [canonical_license(d, l) for l in bad_licenses]
+     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
  
-             label = source_params.get('label')
-             label_conf = "root=%s" % creator.rootdev
-             if label:
-                 label_conf = "LABEL=%s" % label
- 
--            grubefi_conf += "linux %s %s rootwait %s\n" \
-+            grubefi_conf += "linux /%s %s rootwait %s\n" \
-                 % (kernel, label_conf, bootloader.append)
- 
-             if initrd:
-@@ -143,12 +145,15 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         if not custom_cfg:
-             # Create systemd-boot configuration using parameters from wks file
--            kernel = "/bzImage"
-+            kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+            if not kernel:
-+                kernel = "bzImage"
-+
-             title = source_params.get('title')
- 
-             boot_conf = ""
-             boot_conf += "title %s\n" % (title if title else "boot")
--            boot_conf += "linux %s\n" % kernel
-+            boot_conf += "linux /%s\n" % kernel
- 
-             label = source_params.get('label')
-             label_conf = "LABEL=Boot root=%s" % creator.rootdev
-@@ -209,8 +214,12 @@ class BootimgEFIPlugin(SourcePlugin):
- 
-         hdddir = "%s/hdd/boot" % cr_workdir
- 
--        install_cmd = "install -m 0644 %s/bzImage %s/bzImage" % \
--            (staging_kernel_dir, hdddir)
-+        kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+        if not kernel:
-+            kernel = "bzImage"
-+
-+        install_cmd = "install -m 0644 %s/%s %s/%s" % \
-+            (staging_kernel_dir, kernel, hdddir, kernel)
-         exec_cmd(install_cmd)
- 
- 
-diff --git a/scripts/lib/wic/plugins/source/bootimg-pcbios.py b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-index 6c9f54a..670d347 100644
---- a/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-+++ b/scripts/lib/wic/plugins/source/bootimg-pcbios.py
-@@ -149,8 +149,12 @@ class BootimgPcbiosPlugin(SourcePlugin):
- 
-         hdddir = "%s/hdd/boot" % cr_workdir
- 
--        cmds = ("install -m 0644 %s/bzImage %s/vmlinuz" %
--                (staging_kernel_dir, hdddir),
-+        kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+        if not kernel:
-+            kernel = "bzImage"
-+
-+        cmds = ("install -m 0644 %s/%s %s/vmlinuz" %
-+                (staging_kernel_dir, kernel, hdddir),
-                 "install -m 444 %s/syslinux/ldlinux.sys %s/ldlinux.sys" %
-                 (bootimg_dir, hdddir),
-                 "install -m 0644 %s/syslinux/vesamenu.c32 %s/vesamenu.c32" %
-diff --git a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-index 96d07ff..74d6f14 100644
---- a/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-+++ b/scripts/lib/wic/plugins/source/isoimage-isohybrid.py
-@@ -70,8 +70,10 @@ class IsoImagePlugin(SourcePlugin):
-         syslinux_conf += "DEFAULT boot\n"
-         syslinux_conf += "LABEL boot\n"
- 
--        kernel = "/bzImage"
--        syslinux_conf += "KERNEL " + kernel + "\n"
-+        kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+        if not kernel:
-+            kernel = "bzImage"
-+        syslinux_conf += "KERNEL /" + kernel + "\n"
-         syslinux_conf += "APPEND initrd=/initrd LABEL=boot %s\n" \
-                              % bootloader.append
- 
-@@ -114,9 +116,11 @@ class IsoImagePlugin(SourcePlugin):
-             grubefi_conf += "\n"
-             grubefi_conf += "menuentry 'boot'{\n"
- 
--            kernel = "/bzImage"
-+            kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+            if not kernel:
-+                kernel = "bzImage"
- 
--            grubefi_conf += "linux %s rootwait %s\n" \
-+            grubefi_conf += "linux /%s rootwait %s\n" \
-                             % (kernel, bootloader.append)
-             grubefi_conf += "initrd /initrd \n"
-             grubefi_conf += "}\n"
-@@ -268,9 +272,12 @@ class IsoImagePlugin(SourcePlugin):
-         if os.path.isfile("%s/initrd.cpio.gz" % cr_workdir):
-             os.remove("%s/initrd.cpio.gz" % cr_workdir)
- 
--        # Install bzImage
--        install_cmd = "install -m 0644 %s/bzImage %s/bzImage" % \
--                      (kernel_dir, isodir)
-+        kernel = get_bitbake_var("KERNEL_IMAGETYPE")
-+        if not kernel:
-+            kernel = "bzImage"
-+
-+        install_cmd = "install -m 0644 %s/%s %s/%s" % \
-+                      (kernel_dir, kernel, isodir, kernel)
-         exec_cmd(install_cmd)
- 
-         #Create bootloader for efi boot
+     with open(license_manifest, "w") as license_file:
 -- 
-2.7.4
+2.17.1
 
 
