@@ -1,24 +1,30 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 2A3DE7E4F9
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DF8876BDD2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 03:12:09 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id DBF171C0266;
-	Tue, 11 Jun 2019 15:12:09 +1200 (NZST)
-To: Kang Kai <Kai.Kang@windriver.com>, openembedded-core@lists.openembedded.org
-References: <20190611015756.19184-1-douglas.royds@taitradio.com>
-	<73faa614-2438-4e1c-1cf9-d40fa5a60d52@windriver.com>
-	<4e14116b-84ac-6138-33ca-4e01a311f866@taitradio.com>
-	<9a6f595e-5e3c-f0c3-98b1-40472a15ed1b@windriver.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <4fe2e513-e4f3-10f2-cda8-d34d14a66625@taitradio.com>
-Date: Tue, 11 Jun 2019 15:12:09 +1200
+	Tue, 11 Jun 2019 03:35:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5B3YwQi021655
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 10 Jun 2019 20:35:08 -0700
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 10 Jun 2019 20:34:47 -0700
+To: Jiping Ma <jiping.ma2@windriver.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <1558595036-35165-1-git-send-email-jiping.ma2@windriver.com>
+	<1558595036-35165-2-git-send-email-jiping.ma2@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <ecd20b34-e007-adee-62c1-234170db7e7a@windriver.com>
+Date: Tue, 11 Jun 2019 11:34:44 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thunderbird/60.2.1
 MIME-Version: 1.0
-In-Reply-To: <9a6f595e-5e3c-f0c3-98b1-40472a15ed1b@windriver.com>
-Subject: Re: [PATCH] json-c: update to current upstream head, with --disable-werror
+In-Reply-To: <1558595036-35165-2-git-send-email-jiping.ma2@windriver.com>
+X-Originating-IP: [128.224.162.186]
+Subject: Re: [PATCH] [V2][PATCH] dhcp:"dhclient -x eth0" action is not correct.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,161 +37,90 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 03:12:11 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 11 Jun 2019 03:35:18 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On 11/06/19 3:05 PM, Kang Kai wrote:
+Ping
 
-> On 2019/6/11 =E4=B8=8A=E5=8D=8811:04, Douglas Royds wrote:
->> On 11/06/19 2:46 PM, Kang Kai wrote:
->>
->>> On 2019/6/11 =E4=B8=8A=E5=8D=889:57, Douglas Royds via Openembedded-c=
-ore wrote:
->>>> Upstream json-c haven't made a release since March 2018.
->>>> Adopt the current HEAD revision, pulling it directly from git.
->>>>
->>>> icecc preprocesses source files locally before shipping them off to=20
->>>> be compiled
->>>> on remote hosts. This preprocessing removes comments, including /*=20
->>>> fallthough */
->>>> comments in switch statements that normally prevent an=20
->>>> implicit-fallthrough
->>>> warning, see https://github.com/icecc/icecream/issues/419
->>>>
->>>> Rather than turning off -Werror by patching configure.ac, the=20
->>>> upstream project
->>>> has implemented a configure option, --disable-werror, in response=20
->>>> to Ross's
->>>> https://github.com/json-c/json-c/issues/489
->>>>
->>>> Signed-off-by: Douglas Royds <douglas.royds@taitradio.com>
->>>> ---
->>>> =C2=A0 meta/recipes-devtools/json-c/json-c_0.13.1.bb | 30=20
->>>> -------------------
->>>> =C2=A0 meta/recipes-devtools/json-c/json-c_git.bb=C2=A0=C2=A0=C2=A0 =
-| 19 ++++++++++++
->>>
->>> Use option '-M' of git format-patch may make the patch more clear.=20
->>> And why not just backport the 'disable-werror' commit?
->>
->>
->> Re '-M': True, fair point.
->>
->> Re the backport: There hasn't been a release in over a year, they=20
->> don't seem to have any plans to do so (see=20
->> https://github.com/json-c/json-c/issues/487), and this was easier. If=20
->> you have a substantial objection, yes, I could submit it again with a=20
->> patch instead of the update.
+
+patch 0006-site.h-enable-gentle-shutdown.patch is involved by 
+https://git.openembedded.org/openembedded-core/commit/?id=2c789bac353e17637549a7b31706761ba848728e
+
+to fix problem of signal SIGTERM not handled properly. but now this 
+problem have fixed by upstream.
+
+and the patch 0006-site.h-enable-gentle-shutdown.patch will cause action 
+of "dhclient -x eth0" not correct since it do some work before stop.
+
+
+refer: 
+http://isc-dhcp-users.2343191.n4.nabble.com/dhcpclient-and-dhcpd-do-not-stop-on-sigterm-td2528.html
+
+On 5/23/19 3:03 PM, Jiping Ma wrote:
+> Please ignore V1 of [OE-core][PATCH] dhcp:"dhclient -x eth0" action is not correct.
 >
-> Just consider footprint, git repo will take more space than tar ball.=20
-> But no substantial objection.
-
-
-We do also lose the RECIPE_UPSTREAM_VERSION functionality by switching=20
-to the git HEAD, ie. there'll be no notification when they do=20
-(eventually) release a new version.
-
-I'm in two minds. Opinions?
-
-
+> The action of "dhclient -x eth0" and "dhclient -r eth0" is
+> same when enable ENABLE_GENTLE_SHUTDOWN. Disable ENABLE_GENTLE_SHUTDOWN
+> that will use the default signal hander.
 >
-> Kai
+> Signed-off-by: Jiping Ma <jiping.ma2@windriver.com>
+> ---
+>   .../dhcp/0006-site.h-enable-gentle-shutdown.patch  | 27 ----------------------
+>   meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb       |  1 -
+>   2 files changed, 28 deletions(-)
+>   delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
 >
->>
->>
->>>
->>> Regards,
->>> Kai
->>>
->>>
->>>> =C2=A0 2 files changed, 19 insertions(+), 30 deletions(-)
->>>> =C2=A0 delete mode 100644 meta/recipes-devtools/json-c/json-c_0.13.1=
-.bb
->>>> =C2=A0 create mode 100644 meta/recipes-devtools/json-c/json-c_git.bb
->>>>
->>>> diff --git a/meta/recipes-devtools/json-c/json-c_0.13.1.bb=20
->>>> b/meta/recipes-devtools/json-c/json-c_0.13.1.bb
->>>> deleted file mode 100644
->>>> index 5b10e68297..0000000000
->>>> --- a/meta/recipes-devtools/json-c/json-c_0.13.1.bb
->>>> +++ /dev/null
->>>> @@ -1,30 +0,0 @@
->>>> -SUMMARY =3D "C bindings for apps which will manipulate JSON data"
->>>> -DESCRIPTION =3D "JSON-C implements a reference counting object mode=
-l=20
->>>> that allows you to easily construct JSON objects in C."
->>>> -HOMEPAGE =3D "https://github.com/json-c/json-c/wiki"
->>>> -LICENSE =3D "MIT"
->>>> -LIC_FILES_CHKSUM =3D=20
->>>> "file://COPYING;md5=3Dde54b60fbbc35123ba193fea8ee216f2"
->>>> -
->>>> -SRC_URI =3D=20
->>>> "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz"
->>>> -SRC_URI[md5sum] =3D "04969ad59cc37bddd83741a08b98f350"
->>>> -SRC_URI[sha256sum] =3D=20
->>>> "b87e608d4d3f7bfdd36ef78d56d53c74e66ab278d318b71e6002a369d36f4873"
->>>> -
->>>> -UPSTREAM_CHECK_REGEX =3D "json-c-(?P<pver>\d+(\.\d+)+).tar"
->>>> -# json-c releases page is fetching the list of releases in some=20
->>>> weird XML format
->>>> -# from https://s3.amazonaws.com/json-c_releases and processes it=20
->>>> with javascript :-/
->>>> -#UPSTREAM_CHECK_URI =3D=20
->>>> "https://s3.amazonaws.com/json-c_releases/releases/index.html"
->>>> -RECIPE_UPSTREAM_VERSION =3D "0.13.1"
->>>> -RECIPE_UPSTREAM_DATE =3D "Mar 04, 2018"
->>>> -CHECK_DATE =3D "May 02, 2018"
->>>> -
->>>> -RPROVIDES_${PN} =3D "libjson"
->>>> -
->>>> -inherit autotools
->>>> -
->>>> -EXTRA_OECONF =3D "--enable-rdrand"
->>>> -
->>>> -do_configure_prepend() {
->>>> -=C2=A0=C2=A0=C2=A0 # Clean up autoconf cruft that should not be in =
-the tarball
->>>> -=C2=A0=C2=A0=C2=A0 rm -f ${S}/config.status
->>>> -}
->>>> -
->>>> -BBCLASSEXTEND =3D "native nativesdk"
->>>> diff --git a/meta/recipes-devtools/json-c/json-c_git.bb=20
->>>> b/meta/recipes-devtools/json-c/json-c_git.bb
->>>> new file mode 100644
->>>> index 0000000000..07daa5ba11
->>>> --- /dev/null
->>>> +++ b/meta/recipes-devtools/json-c/json-c_git.bb
->>>> @@ -0,0 +1,19 @@
->>>> +SUMMARY =3D "C bindings for apps which will manipulate JSON data"
->>>> +DESCRIPTION =3D "JSON-C implements a reference counting object mode=
-l=20
->>>> that allows you to easily construct JSON objects in C."
->>>> +HOMEPAGE =3D "https://github.com/json-c/json-c/wiki"
->>>> +LICENSE =3D "MIT"
->>>> +LIC_FILES_CHKSUM =3D=20
->>>> "file://COPYING;md5=3Dde54b60fbbc35123ba193fea8ee216f2"
->>>> +
->>>> +SRC_URI =3D "git://github.com/json-c/json-c.git"
->>>> +SRCREV =3D "07ea04e65193c3e5c902c5b79421d5fa48ff67c7"
->>>> +S =3D "${WORKDIR}/git"
->>>> +
->>>> +RPROVIDES_${PN} =3D "libjson"
->>>> +
->>>> +inherit autotools
->>>> +
->>>> +EXTRA_OECONF =3D "--disable-werror \
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 --enable-rdrand \
->>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "
->>>> +
->>>> +BBCLASSEXTEND =3D "native nativesdk"
->>>
->>>
->>
->>
->
+> diff --git a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch b/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
+> deleted file mode 100644
+> index 6ef70cc..0000000
+> --- a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
+> +++ /dev/null
+> @@ -1,27 +0,0 @@
+> -From 01641d146e4e6bea954e4a4ee1f6230b822665b4 Mon Sep 17 00:00:00 2001
+> -From: Chen Qi <Qi.Chen@windriver.com>
+> -Date: Tue, 15 Aug 2017 15:37:49 +0800
+> -Subject: [PATCH 06/11] site.h: enable gentle shutdown
+> -
+> -Upstream-Status: Inappropriate [configuration]
+> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> -
+> -Rebase to 4.3.6
+> -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ----
+> - includes/site.h | 2 +-
+> - 1 file changed, 1 insertion(+), 1 deletion(-)
+> -
+> -Index: dhcp-4.4.1/includes/site.h
+> -===================================================================
+> ---- dhcp-4.4.1.orig/includes/site.h
+> -+++ dhcp-4.4.1/includes/site.h
+> -@@ -295,7 +295,7 @@
+> -    situations.  We plan to revisit this feature and may
+> -    make non-backwards compatible changes including the
+> -    removal of this define.  Use at your own risk.  */
+> --/* #define ENABLE_GENTLE_SHUTDOWN */
+> -+#define ENABLE_GENTLE_SHUTDOWN
+> -
+> - /* Include old error codes.  This is provided in case you
+> -    are building an external program similar to omshell for
+> diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+> index ca0daa1..b4c0d5d 100644
+> --- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+> +++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
+> @@ -5,7 +5,6 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
+>               file://0003-link-with-lcrypto.patch \
+>               file://0004-Fix-out-of-tree-builds.patch \
+>               file://0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch \
+> -            file://0006-site.h-enable-gentle-shutdown.patch \
+>               file://0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch \
+>               file://0009-remove-dhclient-script-bash-dependency.patch \
+>               file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
+
+-- 
+BRs
+
+Sandy(Li Changqing)
 
 
