@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-it1-f193.google.com (mail-it1-f193.google.com
-	[209.85.166.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E4F57D34E
+Return-Path: <trini@konsulko.com>
+Received: from mail-yw1-f67.google.com (mail-yw1-f67.google.com
+	[209.85.161.67])
+	by mail.openembedded.org (Postfix) with ESMTP id C30227CED7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 11:52:11 +0000 (UTC)
-Received: by mail-it1-f193.google.com with SMTP id j194so4392446ite.0
+	Tue, 11 Jun 2019 13:20:15 +0000 (UTC)
+Received: by mail-yw1-f67.google.com with SMTP id y185so5272156ywy.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 04:52:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=kU++zZYozjDdCW8YoHZD0j1k0fsvtZWWsSxcMAYn5h4=;
-	b=nedGgm6BGbkb5E1/P2qWZbbEaUCLDhOIVE6sZJLDqVQmuhLwNjjmtE21JATxT1ptOc
-	9Rt9LR8qavfmqupQEym79zSRHjqqL9Fp/DpV0/l3kWEL0XUW5xSpbU9VaJdZVNhgM18z
-	rJ/AcTjjKUQ/gr5iTT8OgkbZYAzkq1O2jpuT8v7zZ6BbkYnVjTtq5AteFJqagt3jSHIy
-	jbpLpF5WfZm/YRbANq7ohE6//5tATLQ2RVjdXydxkpfnUZ44Kb7dCnLwIlnFLBSKF2MN
-	Y4x/orYSOAyahzkFq5VShXrb+f2fakucf9KlTVovUd9NtiET1iHQ4yOVDjHYItBXfyrz
-	5Vbg==
+	Tue, 11 Jun 2019 06:20:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=konsulko.com; s=google;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=5r1kRRxrDEWFMayZlETm//yFXyWSVUZHlTPytmSuUaE=;
+	b=k4OmkzZ4JWDylLPrqgQO+YQFGV15FA3M85E6fdQcq9BrW9ypQL/9fxf2DUSxXZub1z
+	wHve2qupR+OyIlNj0Y6IxL2674TJbqS6f2Ykge+sk94Ju+kAMxGZGE92SmKcImQ68TFG
+	JCe0ahpjRL8n3cMGGBnxvSneskPYsfgfWJFKM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=kU++zZYozjDdCW8YoHZD0j1k0fsvtZWWsSxcMAYn5h4=;
-	b=ic32BxISJnBJYeFxCzVMoJxA8RHzZ6LzA531K3gb3jAp2RBfkfuM/EqiWlTrHy0rq9
-	J73NhxSF44scEbwxfIoBbC+j3Hfo+xOTMlPpjgrDNt8MyzFCVZGIwvMCqYN3rCRsf8tC
-	JBb0unahkmZ1/6k2yA9OCCFtHk4CW+dw0dt29MXL6AAg2jVBtxUo4CN3xa6DvG+ODtkd
-	xuaN+YDoZlJui6sN3XPOyHKyu2CeV08WOTvrAnDq9VKn74FyWfqW5snAOT+lyxbspM/t
-	8jdqmKG9ezIBmnFya8x7ohaT5qyu4hRiCcSBAIs5FXi6S+eVX7EneEphppm8Y6mRMHRN
-	NR3A==
-X-Gm-Message-State: APjAAAVLkvBnBEHFFCpctnViXHojP9mBzAEOz0Q9bj1idYY5BwFFw9Mv
-	5g8V/XxJvZ7zuVQfOzyoPHh5tAgnVt06/E/xjt/cYD8m
-X-Google-Smtp-Source: APXvYqy94HHaZLlWoyfiU+Cc/74mbCHu5qjko9YiVK/oASCmluoNp47894ktG+0lT7NHptwAoiHN7IcfOk9nWsPoJpQ=
-X-Received: by 2002:a24:c987:: with SMTP id h129mr13527411itg.74.1560253932858;
-	Tue, 11 Jun 2019 04:52:12 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=5r1kRRxrDEWFMayZlETm//yFXyWSVUZHlTPytmSuUaE=;
+	b=IsgwaCi9L60Nu/LFShL2R3skE1htTZyJ/zWeSuNtIDniw0GQfrdmfsEssnScTRXI10
+	ApT45pICFAD3ocEW/P0pmSd6POya337VJTJf0TqS01S6mfF/g5OacX1zdJUHgX3Rf35y
+	xJeVdNbptyRwTOW66l6cNYjFMKprhmJHvr4V86dJEOid0HYvCrUN8lCUxo200E+dMmav
+	SzqabbyD6g+VyTf0NKFT/2SdSK/6Rcl8gp6L6XJDIDV15b65mKR3ob2kgK1H8AAtFJyl
+	Hv8hI16K4iLmaIOUmGAPshuTc2GrUrJH2WeTonTW/Maq1zCDgt0Lkgj3bhfTsox4DTaJ
+	NvqA==
+X-Gm-Message-State: APjAAAWGH4K6Oz34IH3yO8BXQDhOaSsIhYVpvra9BnbP10t11weyX1CP
+	X0dgNaB8EYQ9qkPs6SIp1VSUkw==
+X-Google-Smtp-Source: APXvYqwD04tJqlv9qvjoczRAg2IAqeMZqm9pDzB0MKrYiobVBtRnEr931QbvNsmMhyq9wQ6fKfizSQ==
+X-Received: by 2002:a81:50a:: with SMTP id 10mr22926493ywf.129.1560259216376; 
+	Tue, 11 Jun 2019 06:20:16 -0700 (PDT)
+Received: from bill-the-cat
+	(cpe-2606-A000-1401-82DE-1DD5-268A-2EEA-9945.dyn6.twc.com.
+	[2606:a000:1401:82de:1dd5:268a:2eea:9945])
+	by smtp.gmail.com with ESMTPSA id
+	h129sm3861512ywe.97.2019.06.11.06.20.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Jun 2019 06:20:15 -0700 (PDT)
+Date: Tue, 11 Jun 2019 09:20:13 -0400
+From: Tom Rini <trini@konsulko.com>
+To: chee.yang.lee@intel.com
+Message-ID: <20190611132013.GC7115@bill-the-cat>
+References: <1560234697-27013-1-git-send-email-chee.yang.lee@intel.com>
 MIME-Version: 1.0
-References: <20190611081146.24732-1-quentin.schulz@streamunlimited.com>
-In-Reply-To: <20190611081146.24732-1-quentin.schulz@streamunlimited.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 11 Jun 2019 12:52:01 +0100
-Message-ID: <CAJTo0LbprqgXwvK=y+hXrAMoRoUi4DvV5PPQH48oyE_nGJyeRg@mail.gmail.com>
-To: Quentin Schulz <quentin.schulz@streamunlimited.com>
-Cc: Adrian Bunk <bunk@stusta.de>, andriy.danylovskyy@streamunlimited.com,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
+In-Reply-To: <1560234697-27013-1-git-send-email-chee.yang.lee@intel.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] wic/plugins: kernel image refer to KERNEL_IMAGETYPE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,103 +59,24 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 11:52:12 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 11 Jun 2019 13:20:16 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-What would be really useful is a small selftest
-(meta/lib/oeqa/selftest/cases) to exercise this codepath.  Have a test
-that should work but doesn't before the fix, so the bug is
-demonstrated and verified.
+On Tue, Jun 11, 2019 at 02:31:37PM +0800, chee.yang.lee@intel.com wrote:
 
-Ross
+> From: Chee Yang Lee <chee.yang.lee@intel.com>
+> 
+> replaced hardcoded kernel image with KERNEL_IMAGETYPE.
+> set kernel image to "bzImage" incase KERNEL_IMAGETYPE not set.
+> 
+> Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 
-On Tue, 11 Jun 2019 at 09:13, Quentin Schulz
-<quentin.schulz@streamunlimited.com> wrote:
->
-> A non-SPDX license (which is not an alias to an SPDX license) cannot
-> currently be marked as incompatible in INCOMPATIBLE_LICENSE.
-> In the current state, we take all INCOMPATIBLE_LICENSE and pass them
-> through expand_wildcard_licenses which is only adding SPDX licenses that
-> match the glob regexp of what is in INCOMPATIBLE_LICENSE (be it a direct
-> match to an SPDX license or via an alias).
->
-> This does not work well with custom licenses.
->
-> E.g.:
->
-> foo.bb:
-> LICENSE = "FooLicense"
->
-> conf/local.conf:
-> INCOMPATIBLE_LICENSE = "FooLicense"
->
-> `bitbake foo`
->
-> Gives no warning, no error, builds and packages successfully, because
-> INCOMPATIBLE_LICENSE is basically empty since FooLicense is neither in
-> SPDXLICENSEMAP nor in SRC_DISTRIBUTE_LICENSES.
->
-> Let's add the original licenses to the list returned by
-> expand_wildcard_licenses to be able to handle the aforementioned case.
->
-> INCOMPATIBLE_LICENSE = "FooLicense GPLv2 GPLv3+" used to "resolve" to
-> "GPLv2 GPLv3". It now resolves to "FooLicense GPLv2 GPLv3 GPLv3+" which
-> fixes the issue with custom licenses not being in SPDXLICENSEMAP or
-> SRC_DISTRIBUTE_LICENSES and thus being left out of the blacklisted
-> licenses.
->
-> I needed to pass a list to expand_wildcard_licenses from the
-> license_image class instead of the current output of map() because the
-> operator [:] does not work on this kind of type, and list(map()) or
-> anything that iterates over map() actually moves the iterator and breaks
-> the forloop right after in expand_wildcard_licenses.
->
-> Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
-> ---
->
-> v3:
->   - fix git context from v2, patch cleanly applies on master branch now,
->
-> v2:
->   - fixed image building by replacing map(lambda) by a comprehensive list so
-> that we have a consistent input type for expand_wildcard_licenses,
->
->  meta/classes/license.bbclass       | 2 +-
->  meta/classes/license_image.bbclass | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-> index ed91a4b4db..adca881c85 100644
-> --- a/meta/classes/license.bbclass
-> +++ b/meta/classes/license.bbclass
-> @@ -268,7 +268,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
->      wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
->      """
->      import fnmatch
-> -    licenses = []
-> +    licenses = wildcard_licenses[:]
->      spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
->      for wld_lic in wildcard_licenses:
->          spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
-> diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-> index 6fb76be48e..2cfda81c99 100644
-> --- a/meta/classes/license_image.bbclass
-> +++ b/meta/classes/license_image.bbclass
-> @@ -40,7 +40,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
->      import stat
->
->      bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
-> -    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
-> +    bad_licenses = [canonical_license(d, l) for l in bad_licenses]
->      bad_licenses = expand_wildcard_licenses(d, bad_licenses)
->
->      with open(license_manifest, "w") as license_file:
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+I could see this being useful down the line (if not now..) for UEFI
+images, but aarch64, so a good idea.
+
+Reviewed-by: Tom Rini <trini@konsulko.com>
+
+-- 
+Tom
 
