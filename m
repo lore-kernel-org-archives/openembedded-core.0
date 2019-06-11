@@ -1,28 +1,50 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id AEFD17E6B8
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
+	[209.85.221.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 39FAD7E6A2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 19:01:11 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5BJ0QLM015400
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 11 Jun 2019 12:00:46 -0700
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Tue, 11 Jun 2019 12:00:33 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, Sakib Sajal
-	<sakib.sajal@windriver.com>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <1607ff2c-d02a-a867-f761-bd3ecd2d1af3@windriver.com>
-Date: Tue, 11 Jun 2019 15:00:32 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Tue, 11 Jun 2019 20:01:58 +0000 (UTC)
+Received: by mail-wr1-f50.google.com with SMTP id e16so14420321wrn.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2019 13:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:date:to:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=9s9OuZh/tui23u6dprIRHe/ZIFLfQVTkD9lQi1QiUUA=;
+	b=MT6QLS7Zyf6ZzJl6nhKNh9BMA5Q55CnIUUxq5UqF+2ssqv73Mq8BM75uldFnGQ41r3
+	GYp2mNPlM/NpEhYcMYDy+SHRkpyo3UuRju8XKLdjrP6fvRNaJRkw3KdJ/3F8vp1Y4XYE
+	snL5LoMtYHnsItzrHt9XlvzMOVZRxamb+VQTP64mLY3ZRM7MV94YISgLrKitSvbSS1Ti
+	bpHtj6ADjQ2cM3to0ZEJQWEDq1VnweA2U0Gc+DymQNBW7EWRwosigJ89hFQl42ZmPSXa
+	UyWpCgm7/aVPf5dOjK3f090vsNW1nhvlwcZiyJbPS/xQjafMlWt7TsKLQlc59clwNOxd
+	N79Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=9s9OuZh/tui23u6dprIRHe/ZIFLfQVTkD9lQi1QiUUA=;
+	b=tTznJVcNW+4SV8VCWa5fCmLGygh74zlB/xTQTbAFrbsO0pfpIB2ZFWMy5Be+wr7HM9
+	EPSEPGT4qLbHDT+mbm25ZP7LrNebfpgoOCuH4os/9wI+fE7vxoe6p/qcGwUo1MLCciOF
+	2x+H6OqFxbc2Dm5DpHAk9kc7aKgToqYyB/d+dPoxPGrLlDmk1TWWZQNxJjHTROWxtiAh
+	qDPRKXXS4FzMAFLeC4GYQvaYPxIksRuNeM9uc42GqCTwIMkLQLgxpva3s/WNmtn2CgWl
+	HaCwHuGYu+rUMAjPXfbYNMxeDiGhZ5F3M7pf2C1IJyZ/qxi5er5WuwZQNvrreOEzuZ4V
+	kmlw==
+X-Gm-Message-State: APjAAAU3q3EZmXF6FGASeaWS5/jrQZmvly7F9VnHRA0vL+zFfsPi51Ej
+	5gnrH5GY4aXFWB1j3OjbXMk4Xibl
+X-Google-Smtp-Source: APXvYqxq9sX6wjwbYj2+CD28KvlRGZne9iV2w6D/I9ZllQPrU0K5yE+nf2eUcb3SUxLyBSmU2sTEGw==
+X-Received: by 2002:adf:c506:: with SMTP id q6mr36790341wrf.219.1560283318578; 
+	Tue, 11 Jun 2019 13:01:58 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	v15sm16147286wrt.25.2019.06.11.13.01.57
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 11 Jun 2019 13:01:57 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Tue, 11 Jun 2019 22:01:58 +0200
+To: openembedded-core@lists.openembedded.org, hongxu.jia@windriver.com
+Message-ID: <20190611200158.GA1858@jama>
 MIME-Version: 1.0
-X-Originating-IP: [172.25.44.4]
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: bash ptests: use runuser? also remaining errors.
+User-Agent: Mutt/1.12.0 (2019-05-25)
+Subject: meta-openembedded git repo in some of the openembedded-core-contrib branches
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,94 +57,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 19:01:11 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 11 Jun 2019 20:01:58 -0000
+X-Groupsio-MsgNum: 125643
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
+Content-Disposition: inline
 
-Richard, et. al.
+--UlVJffcvxoiEqYs2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-I have two patches (ptest-runner, bash) that enable all but two [*]
-of the bash-ptests to pass. A potential problem is that when started by
-ptest-runner, 'su' (both busybox and util-linux versions), results in
-a few of bash's tests failing whereas they work if started by 'runuser'.
-The test failure is due to a warning:
-     bash: cannot set terminal process group (16036): \
-           Inappropriate ioctl for device
-that contaminates the test logs and makes a diff with the expected
-results fail. I can easily redirect that warning to /dev/null but
-that seems wrong and would be a patch that we'd have to carry in
-oe-core.
+Hi,
 
-To get 'runuser' from util-linux into an image, it seems that you need:
-  - the RDEPENDS for ptest,
-  - REQUIRED_DISTRO_FEATURES = "pam" in bash.inc, and
-  - to set the 'pam' DISTRO_FEATURE in your local.conf.
+when accidentally checking for some old meta-oe commit in oe-core
+repository I was surprised that it was found in some of the contrib
+branches:
 
-Is that something you are willing to do for all ptests or perhaps just
-for bash's ptests?  If so, I'll clean-up my ptest-runner patch and
-send this to the list.
+~/openembedded-core $ git branch -a --contains 30bbde3d09e
+  remotes/contrib/hongxu/add-recipes-20190215
+  remotes/contrib/hongxu/dbg-split
+  remotes/contrib/hongxu/misc-fixes
 
+These branches are actually from meta-oe repo, not oe-core.
 
-I also considered using util-linux's 'setpriv' but enabling that
-has turned into a mess of dependency loops and other build problems.
-man runuser:
-    If the PAM session is not required then recommended solution
-    is to use setpriv(1) command.
+Please remove old irrelevant branches from -contrib repositories:
+https://git.openembedded.org/openembedded-core-contrib/
+https://git.openembedded.org/meta-openembedded-contrib/
 
-Other solutions to properly starting user tests from root are welcome!
+and make sure you're pushing to the right remote :), it unnecessary
+almost doubles the repo size.
 
-Thanks in advance,
--- 
-# Randy MacLeod
-# Wind River Linux
+Cheers,
 
+--UlVJffcvxoiEqYs2
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-[*] FYI, the two remaining failures are:
+-----BEGIN PGP SIGNATURE-----
 
-1.
-run-read:
-   # cat tests/read6.sub
-   # test read with a timeout of 0 -- input polling
-   # sleep with fractional seconds argument is not universal
-   echo abcde | { sleep 0.25 2>/dev/null ; read -t 0; }
-   echo $?
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXQAItQAKCRA3VSO3ZXaA
+HLjmAJ0ZR5i75m7aUquW0QE5PvAng9swLQCfXq9BMF6OCNIjiYxKEZ/tbDLysSo=
+=qvlM
+-----END PGP SIGNATURE-----
 
-   read -t 0 < $0
-   echo $?
-
-   read -t 0
-   echo $? <-- returns 1, when 0 is expected.
-
-I can reproduce this on my workstation but only when using ptest-runner
-and initially logging into the console as root. That's a little odd and
-seems like I need to continue to improve ptest-runner.
-
-
-2.
-
-run-trap:
-   # cat tests/trap3.sub
-   PS4='+[$LINENO] '
-   trap 'echo trap: $LINENO' ERR
-
-   set -x
-
-   echo 1
-   echo 2
-   echo 3 | cat | false <--- error
-   echo 4
-
-This is a scheduler behaviour difference between the common case
-on a workstation and the common case in qemu. The test case does
-warn about the completion order not being deterministic so I plan
-to ignore it.
-
- From tests/run-trap:
-   UNIX versions number signals and schedule processes differently.
-   If output differing only in line numbers is produced, please
-   do not consider this a test failure.
-
-Still, it's notable and slightly odd that the common case output
-is different.
-
+--UlVJffcvxoiEqYs2--
