@@ -1,19 +1,23 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-Received: from bsmtp7.bon.at (bsmtp7.bon.at [213.33.87.19])
-	by mail.openembedded.org (Postfix) with ESMTP id A40156D458
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A9817E3F6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 08:12:17 +0000 (UTC)
-Received: from qschulz.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45NN5Y4DHRz5tlN;
-	Tue, 11 Jun 2019 10:12:17 +0200 (CEST)
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2019 10:11:46 +0200
-Message-Id: <20190611081146.24732-1-quentin.schulz@streamunlimited.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>,
-	andriy.danylovskyy@streamunlimited.com, bunk@stusta.de
-Subject: [PATCH v3] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
+	Tue, 11 Jun 2019 08:37:33 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5B8bYfI004299
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2019 01:37:35 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Tue, 11 Jun 2019 01:37:33 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Jun 2019 04:37:31 -0400
+Message-ID: <20190611083731.190996-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
+MIME-Version: 1.0
+Subject: [PATCH] gnome.bbclass: inherit upstream-version-is-even
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,87 +30,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 08:12:17 -0000
+X-List-Received-Date: Tue, 11 Jun 2019 08:37:34 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-A non-SPDX license (which is not an alias to an SPDX license) cannot
-currently be marked as incompatible in INCOMPATIBLE_LICENSE.
-In the current state, we take all INCOMPATIBLE_LICENSE and pass them
-through expand_wildcard_licenses which is only adding SPDX licenses that
-match the glob regexp of what is in INCOMPATIBLE_LICENSE (be it a direct
-match to an SPDX license or via an alias).
+From: Kai Kang <kai.kang@windriver.com>
 
-This does not work well with custom licenses.
+According to gnome versioning policy, "Even/odd minor package versions
+can be used respectively for stable/unstable releases.". Make
+gnome.bbclass inherit upstream-version-is-even to comply with the
+policy.
 
-E.g.:
+Ref:
+https://developer.gnome.org/programming-guidelines/stable/versioning.html.en#stable-unstable-versions
 
-foo.bb:
-LICENSE = "FooLicense"
-
-conf/local.conf:
-INCOMPATIBLE_LICENSE = "FooLicense"
-
-`bitbake foo`
-
-Gives no warning, no error, builds and packages successfully, because
-INCOMPATIBLE_LICENSE is basically empty since FooLicense is neither in
-SPDXLICENSEMAP nor in SRC_DISTRIBUTE_LICENSES.
-
-Let's add the original licenses to the list returned by
-expand_wildcard_licenses to be able to handle the aforementioned case.
-
-INCOMPATIBLE_LICENSE = "FooLicense GPLv2 GPLv3+" used to "resolve" to
-"GPLv2 GPLv3". It now resolves to "FooLicense GPLv2 GPLv3 GPLv3+" which
-fixes the issue with custom licenses not being in SPDXLICENSEMAP or
-SRC_DISTRIBUTE_LICENSES and thus being left out of the blacklisted
-licenses.
-
-I needed to pass a list to expand_wildcard_licenses from the
-license_image class instead of the current output of map() because the
-operator [:] does not work on this kind of type, and list(map()) or
-anything that iterates over map() actually moves the iterator and breaks
-the forloop right after in expand_wildcard_licenses.
-
-Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
+ meta/classes/gnome.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-v3:
-  - fix git context from v2, patch cleanly applies on master branch now,
-
-v2:
-  - fixed image building by replacing map(lambda) by a comprehensive list so
-that we have a consistent input type for expand_wildcard_licenses,
-
- meta/classes/license.bbclass       | 2 +-
- meta/classes/license_image.bbclass | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index ed91a4b4db..adca881c85 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -268,7 +268,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
-     wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
-     """
-     import fnmatch
--    licenses = []
-+    licenses = wildcard_licenses[:]
-     spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
-     for wld_lic in wildcard_licenses:
-         spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 6fb76be48e..2cfda81c99 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -40,7 +40,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-     import stat
- 
-     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
--    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
-+    bad_licenses = [canonical_license(d, l) for l in bad_licenses]
-     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
- 
-     with open(license_manifest, "w") as license_file:
+diff --git a/meta/classes/gnome.bbclass b/meta/classes/gnome.bbclass
+index c6202bbb75..d3841e24ef 100644
+--- a/meta/classes/gnome.bbclass
++++ b/meta/classes/gnome.bbclass
+@@ -1 +1 @@
+-inherit gnomebase gtk-icon-cache gconf mime
++inherit gnomebase gtk-icon-cache gconf mime upstream-version-is-even
 -- 
-2.17.1
+2.20.0
 
 
