@@ -1,19 +1,18 @@
-Return-Path: <quentin.schulz@streamunlimited.com>
-Received: from bsmtp7.bon.at (bsmtp7.bon.at [213.33.87.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 39BD17E671
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 15:11:31 +0000 (UTC)
-Received: from qschulz.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45NYPH2dG3z5tlQ;
-	Tue, 11 Jun 2019 17:11:31 +0200 (CEST)
-From: Quentin Schulz <quentin.schulz@streamunlimited.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2019 17:11:20 +0200
-Message-Id: <20190611151120.10050-1-quentin.schulz@streamunlimited.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>,
-	andriy.danylovskyy@streamunlimited.com, bunk@stusta.de
-Subject: [PATCH v5] selftests: add tests for INCOMPATIBLE_LICENSE
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C8707DD6E;
+	Tue, 11 Jun 2019 15:30:40 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Quentin Schulz <quentin.schulz@streamunlimited.com>
+Date: Tue, 11 Jun 2019 15:30:41 -0000
+Message-ID: <20190611153041.2330.95286@do>
+References: <20190611151120.10050-1-quentin.schulz@streamunlimited.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190611151120.10050-1-quentin.schulz@streamunlimited.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2VsZnRlc3RzOiBhZGQgdGVzdHMgZm9yIElOQ09NUEFUSUJMRV9MSUNFTlNF?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,115 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 15:11:32 -0000
+X-List-Received-Date: Tue, 11 Jun 2019 15:30:40 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-One bug went unnoticed without these selftests: an INCOMPATIBLE_LICENSE
-with a non-SPDX license for a package with that non-SPDX license wasn't
-enforcing the denial of build for said package. See
-4b6ce4604cc15e289a48f8586d58a101b7a70b52 ("meta: license: fix non-SPDX
-license being removed from INCOMPATIBLE_LICENSE")
+== Series Details ==
 
-While adding a test for that particular case, let's add a few more so
-that we cover a handful more use cases of INCOMPATIBLE_LICENSE.
+Series: selftests: add tests for INCOMPATIBLE_LICENSE
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18089/
+State : failure
 
-Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Errors in your Python code were encountered [test_pylint] 
+  Suggested fix    Correct the lines introduced by your patch
+  Output           Please, fix the listed issues:
+                   meta/lib/oeqa/selftest/cases/incompatible_lic.py does not exist
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
-
-v5:
-  - removed useless OETestID import,
-  - renamed test_lic into lic_test so that the function isn't called by Python
-unittest framework,
-  - added --dry-run to the bitbake command so that it does not do a full build
-  to tell us the behaviour is not the one we expect (INCOMPATIBLE_LICENSE not
-  working),
-
-added in v4
-
- .../license/incompatible-license-alias.bb     |  3 ++
- .../license/incompatible-license.bb           |  3 ++
- .../license/incompatible-nonspdx-license.bb   |  3 ++
- .../oeqa/selftest/cases/incompatible_lic.py   | 41 +++++++++++++++++++
- 4 files changed, 50 insertions(+)
- create mode 100644 meta-selftest/recipes-test/license/incompatible-license-alias.bb
- create mode 100644 meta-selftest/recipes-test/license/incompatible-license.bb
- create mode 100644 meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
- create mode 100644 meta/lib/oeqa/selftest/cases/incompatible_lic.py
-
-diff --git a/meta-selftest/recipes-test/license/incompatible-license-alias.bb b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
-new file mode 100644
-index 0000000000..e0b4e13c26
---- /dev/null
-+++ b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
-@@ -0,0 +1,3 @@
-+SUMMARY = "Recipe with an alias of an SPDX license"
-+DESCRIPTION = "Is licensed with an alias of an SPDX license to be used for testing"
-+LICENSE = "GPLv3"
-diff --git a/meta-selftest/recipes-test/license/incompatible-license.bb b/meta-selftest/recipes-test/license/incompatible-license.bb
-new file mode 100644
-index 0000000000..1728ad76b7
---- /dev/null
-+++ b/meta-selftest/recipes-test/license/incompatible-license.bb
-@@ -0,0 +1,3 @@
-+SUMMARY = "Recipe with an SPDX license"
-+DESCRIPTION = "Is licensed with an SPDX license to be used for testing"
-+LICENSE = "GPL-3.0"
-diff --git a/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
-new file mode 100644
-index 0000000000..35af0966ef
---- /dev/null
-+++ b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
-@@ -0,0 +1,3 @@
-+SUMMARY = "Recipe with a non-SPDX license"
-+DESCRIPTION = "Is licensed with a non-SPDX license to be used for testing"
-+LICENSE = "FooLicense"
-diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-new file mode 100644
-index 0000000000..8fb93af8a8
---- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
-@@ -0,0 +1,41 @@
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake
-+
-+class IncompatibleLicenseTests(OESelftestTestCase):
-+
-+    def lic_test(self, pn, pn_lic, lic):
-+        error_msg = 'ERROR: Nothing PROVIDES \'%s\'\n%s was skipped: it has an incompatible license: %s' % (pn, pn, pn_lic)
-+
-+        self.write_config("INCOMPATIBLE_LICENSE += \"%s\"" % (lic))
-+
-+        result = bitbake('%s --dry-run' % (pn), ignore_status=True)
-+        if error_msg not in result.output:
-+            raise AssertionError(result.output)
-+
-+    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
-+    # cannot be built when INCOMPATIBLE_LICENSE contains this SPDX license
-+    def test_incompatible_spdx_license(self):
-+        self.lic_test('incompatible-license', 'GPL-3.0', 'GPL-3.0')
-+
-+    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
-+    # cannot be built when INCOMPATIBLE_LICENSE contains an alias (in
-+    # SPDXLICENSEMAP) of this SPDX license
-+    def test_incompatible_alias_spdx_license(self):
-+        self.lic_test('incompatible-license', 'GPL-3.0', 'GPLv3')
-+
-+    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
-+    # license cannot be built when INCOMPATIBLE_LICENSE contains this SPDX
-+    # license
-+    def test_incompatible_spdx_license_alias(self):
-+        self.lic_test('incompatible-license-alias', 'GPLv3', 'GPL-3.0')
-+
-+    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
-+    # license cannot be built when INCOMPATIBLE_LICENSE contains this alias
-+    def test_incompatible_alias_spdx_license_alias(self):
-+        self.lic_test('incompatible-license-alias', 'GPLv3', 'GPLv3')
-+
-+    # Verify that a package with a non-SPDX license (neither in
-+    # SRC_DISTRIBUTE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
-+    # INCOMPATIBLE_LICENSE contains this license
-+    def test_incompatible_nonspdx_license(self):
-+        self.lic_test('incompatible-nonspdx-license', 'FooLicense', 'FooLicense')
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
