@@ -1,19 +1,21 @@
 Return-Path: <quentin.schulz@streamunlimited.com>
 Received: from bsmtp7.bon.at (bsmtp7.bon.at [213.33.87.19])
-	by mail.openembedded.org (Postfix) with ESMTP id EF6FC7E62D
+	by mail.openembedded.org (Postfix) with ESMTP id F09157E64C
 	for <openembedded-core@lists.openembedded.org>;
 	Tue, 11 Jun 2019 14:26:22 +0000 (UTC)
 Received: from qschulz.sue.net (vpn.streamunlimited.com [91.114.0.140])
-	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45NXP91xcBz5tlB;
-	Tue, 11 Jun 2019 16:26:21 +0200 (CEST)
+	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45NXPC2yBkz5tlF;
+	Tue, 11 Jun 2019 16:26:23 +0200 (CEST)
 From: Quentin Schulz <quentin.schulz@streamunlimited.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 11 Jun 2019 16:26:06 +0200
-Message-Id: <20190611142607.18038-1-quentin.schulz@streamunlimited.com>
+Date: Tue, 11 Jun 2019 16:26:07 +0200
+Message-Id: <20190611142607.18038-2-quentin.schulz@streamunlimited.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190611142607.18038-1-quentin.schulz@streamunlimited.com>
+References: <20190611142607.18038-1-quentin.schulz@streamunlimited.com>
 Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>,
 	andriy.danylovskyy@streamunlimited.com, bunk@stusta.de
-Subject: [PATCH v4 1/2] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
+Subject: [PATCH v4 2/2] selftests: add tests for INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -28,84 +30,103 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 11 Jun 2019 14:26:23 -0000
 
-A non-SPDX license (which is not an alias to an SPDX license) cannot
-currently be marked as incompatible in INCOMPATIBLE_LICENSE.
-In the current state, we take all INCOMPATIBLE_LICENSE and pass them
-through expand_wildcard_licenses which is only adding SPDX licenses that
-match the glob regexp of what is in INCOMPATIBLE_LICENSE (be it a direct
-match to an SPDX license or via an alias).
+One bug went unnoticed without these selftests: an INCOMPATIBLE_LICENSE
+with a non-SPDX license for a package with that non-SPDX license wasn't
+enforcing the denial of build for said package.
 
-This does not work well with custom licenses.
-
-E.g.:
-
-foo.bb:
-LICENSE = "FooLicense"
-
-conf/local.conf:
-INCOMPATIBLE_LICENSE = "FooLicense"
-
-`bitbake foo`
-
-Gives no warning, no error, builds and packages successfully, because
-INCOMPATIBLE_LICENSE is basically empty since FooLicense is neither in
-SPDXLICENSEMAP nor in SRC_DISTRIBUTE_LICENSES.
-
-Let's add the original licenses to the list returned by
-expand_wildcard_licenses to be able to handle the aforementioned case.
-
-INCOMPATIBLE_LICENSE = "FooLicense GPLv2 GPLv3+" used to "resolve" to
-"GPLv2 GPLv3". It now resolves to "FooLicense GPLv2 GPLv3 GPLv3+" which
-fixes the issue with custom licenses not being in SPDXLICENSEMAP or
-SRC_DISTRIBUTE_LICENSES and thus being left out of the blacklisted
-licenses.
-
-I needed to pass a list to expand_wildcard_licenses from the
-license_image class instead of the current output of map() because the
-operator [:] does not work on this kind of type, and list(map()) or
-anything that iterates over map() actually moves the iterator and breaks
-the forloop right after in expand_wildcard_licenses.
+While adding a test for that particular case, let's add a few more so
+that we cover a handful more use cases of INCOMPATIBLE_LICENSE.
 
 Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
 ---
 
-v3:
-  - fix git context from v2, patch cleanly applies on master branch now,
+added in v4
 
-v2:
-  - fixed image building by replacing map(lambda) by a comprehensive list so
-that we have a consistent input type for expand_wildcard_licenses,
+ .../license/incompatible-license-alias.bb     |  3 ++
+ .../license/incompatible-license.bb           |  3 ++
+ .../license/incompatible-nonspdx-license.bb   |  3 ++
+ .../oeqa/selftest/cases/incompatible_lic.py   | 42 +++++++++++++++++++
+ 4 files changed, 51 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/license/incompatible-license-alias.bb
+ create mode 100644 meta-selftest/recipes-test/license/incompatible-license.bb
+ create mode 100644 meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
+ create mode 100644 meta/lib/oeqa/selftest/cases/incompatible_lic.py
 
- meta/classes/license.bbclass       | 2 +-
- meta/classes/license_image.bbclass | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
-index ed91a4b4db..adca881c85 100644
---- a/meta/classes/license.bbclass
-+++ b/meta/classes/license.bbclass
-@@ -268,7 +268,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
-     wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
-     """
-     import fnmatch
--    licenses = []
-+    licenses = wildcard_licenses[:]
-     spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
-     for wld_lic in wildcard_licenses:
-         spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
-diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
-index 6fb76be48e..2cfda81c99 100644
---- a/meta/classes/license_image.bbclass
-+++ b/meta/classes/license_image.bbclass
-@@ -40,7 +40,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
-     import stat
- 
-     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
--    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
-+    bad_licenses = [canonical_license(d, l) for l in bad_licenses]
-     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
- 
-     with open(license_manifest, "w") as license_file:
+diff --git a/meta-selftest/recipes-test/license/incompatible-license-alias.bb b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
+new file mode 100644
+index 0000000000..e0b4e13c26
+--- /dev/null
++++ b/meta-selftest/recipes-test/license/incompatible-license-alias.bb
+@@ -0,0 +1,3 @@
++SUMMARY = "Recipe with an alias of an SPDX license"
++DESCRIPTION = "Is licensed with an alias of an SPDX license to be used for testing"
++LICENSE = "GPLv3"
+diff --git a/meta-selftest/recipes-test/license/incompatible-license.bb b/meta-selftest/recipes-test/license/incompatible-license.bb
+new file mode 100644
+index 0000000000..1728ad76b7
+--- /dev/null
++++ b/meta-selftest/recipes-test/license/incompatible-license.bb
+@@ -0,0 +1,3 @@
++SUMMARY = "Recipe with an SPDX license"
++DESCRIPTION = "Is licensed with an SPDX license to be used for testing"
++LICENSE = "GPL-3.0"
+diff --git a/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
+new file mode 100644
+index 0000000000..35af0966ef
+--- /dev/null
++++ b/meta-selftest/recipes-test/license/incompatible-nonspdx-license.bb
+@@ -0,0 +1,3 @@
++SUMMARY = "Recipe with a non-SPDX license"
++DESCRIPTION = "Is licensed with a non-SPDX license to be used for testing"
++LICENSE = "FooLicense"
+diff --git a/meta/lib/oeqa/selftest/cases/incompatible_lic.py b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+new file mode 100644
+index 0000000000..4e0d1f53d3
+--- /dev/null
++++ b/meta/lib/oeqa/selftest/cases/incompatible_lic.py
+@@ -0,0 +1,42 @@
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake
++from oeqa.core.decorator.oeid import OETestID
++
++class IncompatibleLicenseTests(OESelftestTestCase):
++
++    def test_lic(self, pn, pn_lic, lic):
++        error_msg = 'ERROR: Nothing PROVIDES \'%s\'\n%s was skipped: it has an incompatible license: %s' % (pn, pn, pn_lic)
++
++        self.write_config("INCOMPATIBLE_LICENSE += \"%s\"" % (lic))
++
++        result = bitbake(pn, ignore_status=True)
++        if error_msg not in result.output:
++            raise AssertionError(result.output)
++
++    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
++    # cannot be built when INCOMPATIBLE_LICENSE contains this SPDX license
++    def test_incompatible_spdx_license(self):
++        self.test_lic('incompatible-license', 'GPL-3.0', 'GPL-3.0')
++
++    # Verify that a package with an SPDX license (from SRC_DISTRIBUTE_LICENSES)
++    # cannot be built when INCOMPATIBLE_LICENSE contains an alias (in
++    # SPDXLICENSEMAP) of this SPDX license
++    def test_incompatible_alias_spdx_license(self):
++        self.test_lic('incompatible-license', 'GPL-3.0', 'GPLv3')
++
++    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
++    # license cannot be built when INCOMPATIBLE_LICENSE contains this SPDX
++    # license
++    def test_incompatible_spdx_license_alias(self):
++        self.test_lic('incompatible-license-alias', 'GPLv3', 'GPL-3.0')
++
++    # Verify that a package with an alias (from SPDXLICENSEMAP) to an SPDX
++    # license cannot be built when INCOMPATIBLE_LICENSE contains this alias
++    def test_incompatible_alias_spdx_license_alias(self):
++        self.test_lic('incompatible-license-alias', 'GPLv3', 'GPLv3')
++
++    # Verify that a package with a non-SPDX license (neither in
++    # SRC_DISTRIBUTE_LICENSES nor in SPDXLICENSEMAP) cannot be built when
++    # INCOMPATIBLE_LICENSE contains this license
++    def test_incompatible_nonspdx_license(self):
++        self.test_lic('incompatible-nonspdx-license', 'FooLicense', 'FooLicense')
 -- 
 2.17.1
 
