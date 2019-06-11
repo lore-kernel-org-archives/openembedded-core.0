@@ -1,41 +1,19 @@
-Return-Path: <mac@mcrowe.com>
-X-Greylist: delayed 450 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 11 Jun 2019 14:06:25 UTC
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 4784C7E635
+Return-Path: <quentin.schulz@streamunlimited.com>
+Received: from bsmtp7.bon.at (bsmtp7.bon.at [213.33.87.19])
+	by mail.openembedded.org (Postfix) with ESMTP id EF6FC7E62D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 14:06:24 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id ahIbhQvK0pYZWahIchysRz; Tue, 11 Jun 2019 14:58:55 +0100
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=cd2sUULM c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=dq6fvYVFJ5YA:10
-	a=Q4-j1AaZAAAA:8 a=-An2I_7KAAAA:8 a=alK4_DS-AAAA:8
-	a=XL-jKRkk-sbXLn9fk3UA:9
-	a=CjuIK1q_8ugA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=Sq34B_EcNBM9_nrAYB9S:22
-	a=rOCknGvZllDBBwZ8Yz5I:22
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>)
-	id 1hahIb-0004hR-JC; Tue, 11 Jun 2019 14:58:53 +0100
-Date: Tue, 11 Jun 2019 14:58:53 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20190611135853.k3qhv6uaho2kyqwn@mcrowe.com>
-References: <20171112163923.19517-1-mac@mcrowe.com>
-	<CAP9ODKoxmsvO6ZaSNkYX3_-R234vvFoq3Ce6cWKDg_RE2tvMtg@mail.gmail.com>
-	<20171211095149.ywhejbets5loutnv@mcrowe.com>
-	<CAJTo0Lbp+4hmDE69Wrc5z-EvwPytweozmxBWemrbTXhN5DHwRg@mail.gmail.com>
-	<20171220102822.4ohufxtgcu3lg3r5@mcrowe.com>
-	<20180106201618.ktj64aparfs47yjv@mcrowe.com>
-MIME-Version: 1.0
-In-Reply-To: <20180106201618.ktj64aparfs47yjv@mcrowe.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfH64OA2bBMn8Bko6JQA/4u/YNElaGMiOJKz1tfn/SetPzMmvr6DSLYnIQYlB0pZVr92Znbbax/Id0KHgx9nH2WRVQ1+cPTLUcLhwcFuw6k0xFy0jt8V8
-	eXYkzjm2ji+43To5ZN0Q+Dap9s4U11PGYKDX2Py8XVhMyOYIeKwZdOei
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
+	Tue, 11 Jun 2019 14:26:22 +0000 (UTC)
+Received: from qschulz.sue.net (vpn.streamunlimited.com [91.114.0.140])
+	by bsmtp7.bon.at (Postfix) with ESMTPSA id 45NXP91xcBz5tlB;
+	Tue, 11 Jun 2019 16:26:21 +0200 (CEST)
+From: Quentin Schulz <quentin.schulz@streamunlimited.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jun 2019 16:26:06 +0200
+Message-Id: <20190611142607.18038-1-quentin.schulz@streamunlimited.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Quentin Schulz <quentin.schulz@streamunlimited.com>,
+	andriy.danylovskyy@streamunlimited.com, bunk@stusta.de
+Subject: [PATCH v4 1/2] meta: license: fix non-SPDX license being removed from INCOMPATIBLE_LICENSE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,81 +26,87 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 14:06:25 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Jun 2019 14:26:23 -0000
 
-On Saturday 06 January 2018 at 20:16:18 +0000, Mike Crowe wrote:
-> https://patchwork.openembedded.org/patch/145709/
-> 
-> On Wednesday 20 December 2017 at 10:28:22 +0000, Mike Crowe wrote:
-> > On Monday 11 December 2017 at 13:45:26 +0000, Burton, Ross wrote:
-> > > It was implicated in some build failures.  I'll re-add it and try again.
-> > 
-> > Thanks. Are the new results in? I had a poke about on autobuilder.yocto.io
-> > but couldn't work out how to tell which builds this commit was included in.
-> > Build 719 did not appear to include it.
-> 
-> Any more news?
-> 
-> Thanks.
+A non-SPDX license (which is not an alias to an SPDX license) cannot
+currently be marked as incompatible in INCOMPATIBLE_LICENSE.
+In the current state, we take all INCOMPATIBLE_LICENSE and pass them
+through expand_wildcard_licenses which is only adding SPDX licenses that
+match the glob regexp of what is in INCOMPATIBLE_LICENSE (be it a direct
+match to an SPDX license or via an alias).
 
-Hi Ross,
+This does not work well with custom licenses.
 
-It looks like this patch never made it in. It still applies. Please can you
-try adding it again?
+E.g.:
 
-Thanks.
+foo.bb:
+LICENSE = "FooLicense"
 
-Mike.
+conf/local.conf:
+INCOMPATIBLE_LICENSE = "FooLicense"
 
-From c5b7a0584b6d37ecb28cd2aa3d9a9a80b0178e96 Mon Sep 17 00:00:00 2001
-From: Mike Crowe <mac@mcrowe.com>
-Date: Sun, 12 Nov 2017 14:16:20 +0000
-Subject: [PATCHv2] cmake: Avoid passing empty prefix to os.path.relpath
+`bitbake foo`
 
-With meta-micro, ${prefix} is the empty string. This means that
-CMAKE_INSTALL_BINDIR:PATH and friends end up containing paths starting with
-many instances of "../", presumably due to os.path.relpath attempting to
-find its way to the current directory.
+Gives no warning, no error, builds and packages successfully, because
+INCOMPATIBLE_LICENSE is basically empty since FooLicense is neither in
+SPDXLICENSEMAP nor in SRC_DISTRIBUTE_LICENSES.
 
-Let's avoid this by ensuring that the root path always ends in a slash. If
-it already ends in a slash then adding another one shouldn't cause any
-problems.
+Let's add the original licenses to the list returned by
+expand_wildcard_licenses to be able to handle the aforementioned case.
 
-Signed-off-by: Mike Crowe <mac@mcrowe.com>
-Signed-off-by: Otavio Salvador <otavio@ossystems.com.br>
+INCOMPATIBLE_LICENSE = "FooLicense GPLv2 GPLv3+" used to "resolve" to
+"GPLv2 GPLv3". It now resolves to "FooLicense GPLv2 GPLv3 GPLv3+" which
+fixes the issue with custom licenses not being in SPDXLICENSEMAP or
+SRC_DISTRIBUTE_LICENSES and thus being left out of the blacklisted
+licenses.
+
+I needed to pass a list to expand_wildcard_licenses from the
+license_image class instead of the current output of map() because the
+operator [:] does not work on this kind of type, and list(map()) or
+anything that iterates over map() actually moves the iterator and breaks
+the forloop right after in expand_wildcard_licenses.
+
+Signed-off-by: Quentin Schulz <quentin.schulz@streamunlimited.com>
 ---
- meta/classes/cmake.bbclass | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-index a5cffedbc6..f80a7e2f1d 100644
---- a/meta/classes/cmake.bbclass
-+++ b/meta/classes/cmake.bbclass
-@@ -161,15 +161,15 @@ cmake_do_configure() {
- 	  $oecmake_sitefile \
- 	  ${OECMAKE_SOURCEPATH} \
- 	  -DCMAKE_INSTALL_PREFIX:PATH=${prefix} \
--	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix'))} \
-+	  -DCMAKE_INSTALL_BINDIR:PATH=${@os.path.relpath(d.getVar('bindir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_SBINDIR:PATH=${@os.path.relpath(d.getVar('sbindir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_LIBEXECDIR:PATH=${@os.path.relpath(d.getVar('libexecdir'), d.getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_SYSCONFDIR:PATH=${sysconfdir} \
--	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix'))} \
-+	  -DCMAKE_INSTALL_SHAREDSTATEDIR:PATH=${@os.path.relpath(d.getVar('sharedstatedir'), d.  getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_LOCALSTATEDIR:PATH=${localstatedir} \
--	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix'))} \
--	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix'))} \
-+	  -DCMAKE_INSTALL_LIBDIR:PATH=${@os.path.relpath(d.getVar('libdir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_INCLUDEDIR:PATH=${@os.path.relpath(d.getVar('includedir'), d.getVar('prefix') + '/')} \
-+	  -DCMAKE_INSTALL_DATAROOTDIR:PATH=${@os.path.relpath(d.getVar('datadir'), d.getVar('prefix') + '/')} \
- 	  -DCMAKE_INSTALL_SO_NO_EXE=0 \
- 	  -DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain.cmake \
- 	  -DCMAKE_NO_SYSTEM_FROM_IMPORTED=1 \
---
-2.20.1
+v3:
+  - fix git context from v2, patch cleanly applies on master branch now,
+
+v2:
+  - fixed image building by replacing map(lambda) by a comprehensive list so
+that we have a consistent input type for expand_wildcard_licenses,
+
+ meta/classes/license.bbclass       | 2 +-
+ meta/classes/license_image.bbclass | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes/license.bbclass b/meta/classes/license.bbclass
+index ed91a4b4db..adca881c85 100644
+--- a/meta/classes/license.bbclass
++++ b/meta/classes/license.bbclass
+@@ -268,7 +268,7 @@ def expand_wildcard_licenses(d, wildcard_licenses):
+     wildcards from SPDXLICENSEMAP flags and SRC_DISTRIBUTE_LICENSES values.
+     """
+     import fnmatch
+-    licenses = []
++    licenses = wildcard_licenses[:]
+     spdxmapkeys = d.getVarFlags('SPDXLICENSEMAP').keys()
+     for wld_lic in wildcard_licenses:
+         spdxflags = fnmatch.filter(spdxmapkeys, wld_lic)
+diff --git a/meta/classes/license_image.bbclass b/meta/classes/license_image.bbclass
+index 6fb76be48e..2cfda81c99 100644
+--- a/meta/classes/license_image.bbclass
++++ b/meta/classes/license_image.bbclass
+@@ -40,7 +40,7 @@ def write_license_files(d, license_manifest, pkg_dic, rootfs=True):
+     import stat
+ 
+     bad_licenses = (d.getVar("INCOMPATIBLE_LICENSE") or "").split()
+-    bad_licenses = map(lambda l: canonical_license(d, l), bad_licenses)
++    bad_licenses = [canonical_license(d, l) for l in bad_licenses]
+     bad_licenses = expand_wildcard_licenses(d, bad_licenses)
+ 
+     with open(license_manifest, "w") as license_file:
+-- 
+2.17.1
+
 
