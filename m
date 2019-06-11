@@ -1,23 +1,24 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp1.taitradio.net (unknown [202.37.96.23])
-	by mail.openembedded.org (Postfix) with SMTP id 397987D279
+Return-Path: <Haiqing.Bai@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9710A6D458
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 02:00:00 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp1.taitradio.net (Postfix) with ESMTP id EE89F1C0266
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 13:59:59 +1200 (NZST)
-To: openembedded-core@lists.openembedded.org
-References: <20190606020544.26181-1-douglas.royds@taitradio.com>
-	<20190607012157.16757-1-douglas.royds@taitradio.com>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <ed09179e-d600-d4e8-05e2-d7c9d45bd432@taitradio.com>
-Date: Tue, 11 Jun 2019 13:59:59 +1200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Tue, 11 Jun 2019 02:06:36 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5B25iH0019302
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 10 Jun 2019 19:05:54 -0700
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 10 Jun 2019 19:05:33 -0700
+From: Haiqing Bai <Haiqing.Bai@windriver.com>
+To: <richard.purdie@linuxfoundation.org>, <jun.nie@linaro.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Tue, 11 Jun 2019 09:47:52 +0800
+Message-ID: <1560217673-228272-1-git-send-email-Haiqing.Bai@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <20190607012157.16757-1-douglas.royds@taitradio.com>
-Subject: Re: [PATCH v2] json-c: Disable icecc to avoid implicit-fallthrough warning as error
+Subject: [V2][PATCH] kernel.bbclass: Make task clean depend on cleaning of make-mod-scripts
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,12 +31,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 02:00:00 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
+X-List-Received-Date: Tue, 11 Jun 2019 02:06:36 -0000
+Content-Type: text/plain
 
-Please disregard this one, I've sent a recipe update to pick up the new 
---disable-werror configure option.
+The package 'make-mod-scripts' creates files in 'kernel-build-artifacts/include/config'
+which are removed by 'cleanall/cleansstate' of 'virtual/kernel'. And this causes the
+below error while building out of tree kernel module:
+ERROR: Kernel configuration is invalid.
+      include/generated/autoconf.h or include/config/auto.conf are missing.
+      Run 'make oldconfig && make prepare' on kernel src to fix it.
+
+Suggested-by: Jun Nie <jun.nie@linaro.org>
+
+Signed-off-by: Haiqing Bai <Haiqing.Bai@windriver.com>
+---
+ meta/classes/kernel.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/classes/kernel.bbclass b/meta/classes/kernel.bbclass
+index 111a0b2..a60e15b 100644
+--- a/meta/classes/kernel.bbclass
++++ b/meta/classes/kernel.bbclass
+@@ -8,6 +8,7 @@ DEPENDS += "virtual/${TARGET_PREFIX}binutils virtual/${TARGET_PREFIX}gcc kmod-na
+ PACKAGE_WRITE_DEPS += "depmodwrapper-cross"
+ 
+ do_deploy[depends] += "depmodwrapper-cross:do_populate_sysroot"
++do_clean[depends] += "make-mod-scripts:do_clean"
+ 
+ CVE_PRODUCT ?= "linux_kernel"
+ 
+-- 
+1.9.1
 
 
