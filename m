@@ -1,50 +1,58 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com
-	[209.85.221.50])
-	by mail.openembedded.org (Postfix) with ESMTP id 39FAD7E6A2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 20:01:58 +0000 (UTC)
-Received: by mail-wr1-f50.google.com with SMTP id e16so14420321wrn.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 13:01:59 -0700 (PDT)
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-io1-f47.google.com (mail-io1-f47.google.com
+	[209.85.166.47])
+	by mail.openembedded.org (Postfix) with ESMTP id E6BE17E6CD;
+	Tue, 11 Jun 2019 20:57:18 +0000 (UTC)
+Received: by mail-io1-f47.google.com with SMTP id u19so11100023ior.9;
+	Tue, 11 Jun 2019 13:57:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:subject:message-id:mime-version:content-disposition
-	:user-agent; bh=9s9OuZh/tui23u6dprIRHe/ZIFLfQVTkD9lQi1QiUUA=;
-	b=MT6QLS7Zyf6ZzJl6nhKNh9BMA5Q55CnIUUxq5UqF+2ssqv73Mq8BM75uldFnGQ41r3
-	GYp2mNPlM/NpEhYcMYDy+SHRkpyo3UuRju8XKLdjrP6fvRNaJRkw3KdJ/3F8vp1Y4XYE
-	snL5LoMtYHnsItzrHt9XlvzMOVZRxamb+VQTP64mLY3ZRM7MV94YISgLrKitSvbSS1Ti
-	bpHtj6ADjQ2cM3to0ZEJQWEDq1VnweA2U0Gc+DymQNBW7EWRwosigJ89hFQl42ZmPSXa
-	UyWpCgm7/aVPf5dOjK3f090vsNW1nhvlwcZiyJbPS/xQjafMlWt7TsKLQlc59clwNOxd
-	N79Q==
+	h=from:subject:to:references:message-id:date:user-agent:mime-version
+	:in-reply-to:content-transfer-encoding:content-language;
+	bh=XWjASOP9p5voiaJepeaFW0w2VvMOG/CrZJJlxBwzZYg=;
+	b=j3R8U5l7Luu3AYBtuwJXXU4yqDB+Qz3E/QVQLhU4kOWnUrjo8ANmFqMT6WYVk+p9p2
+	9uU6S/V+NUMb2mzDD0xSIfMr7lWoHYKL2k4JHUXYG8VXWzfCDJeqAHOyyhecFLmzLt0y
+	zNRusF9FCGlatRK2zdGXl2dwzvC23QdOIwp3HdphN2SY1m/zbl4FDHut6v3Ap9pRlInl
+	K7IDNh/NVC0gqkOreMu/EkFdWEmxe8wWDBJLXSCU0C5NXtU7R15VUMnPvTfFbcj9SaeE
+	GPMPZQA8Na0x0Ln3hk8Iwbjb32MNE37XYUTydTRLKTWg2c3k14jTidRxOhtyDjqYfk3w
+	olSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:subject:message-id:mime-version
-	:content-disposition:user-agent;
-	bh=9s9OuZh/tui23u6dprIRHe/ZIFLfQVTkD9lQi1QiUUA=;
-	b=tTznJVcNW+4SV8VCWa5fCmLGygh74zlB/xTQTbAFrbsO0pfpIB2ZFWMy5Be+wr7HM9
-	EPSEPGT4qLbHDT+mbm25ZP7LrNebfpgoOCuH4os/9wI+fE7vxoe6p/qcGwUo1MLCciOF
-	2x+H6OqFxbc2Dm5DpHAk9kc7aKgToqYyB/d+dPoxPGrLlDmk1TWWZQNxJjHTROWxtiAh
-	qDPRKXXS4FzMAFLeC4GYQvaYPxIksRuNeM9uc42GqCTwIMkLQLgxpva3s/WNmtn2CgWl
-	HaCwHuGYu+rUMAjPXfbYNMxeDiGhZ5F3M7pf2C1IJyZ/qxi5er5WuwZQNvrreOEzuZ4V
-	kmlw==
-X-Gm-Message-State: APjAAAU3q3EZmXF6FGASeaWS5/jrQZmvly7F9VnHRA0vL+zFfsPi51Ej
-	5gnrH5GY4aXFWB1j3OjbXMk4Xibl
-X-Google-Smtp-Source: APXvYqxq9sX6wjwbYj2+CD28KvlRGZne9iV2w6D/I9ZllQPrU0K5yE+nf2eUcb3SUxLyBSmU2sTEGw==
-X-Received: by 2002:adf:c506:: with SMTP id q6mr36790341wrf.219.1560283318578; 
-	Tue, 11 Jun 2019 13:01:58 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	h=x-gm-message-state:from:subject:to:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=XWjASOP9p5voiaJepeaFW0w2VvMOG/CrZJJlxBwzZYg=;
+	b=SHgvmaQ0KoEdACM55SlaLYrE2aD9hYv/IjBkZ7QSCXMTbvH0bfybljfx/foxqRDOXR
+	wyD52VwysH6PZY7ptadc4BPsOoH1p5f5sG6kNos8G9E27HFUABOyXrMWoKhB74MZUrk7
+	4639Tefolmr/ugPnv4D4nKn0EYTatEL6xryyad/7mwqwPiTiVledGd7CD9tWzOJMIUp3
+	N3zgRGpObPOlPYI0FeXg4b0HU7zKTpP3xTVzA/4OzLjfZkVLttzFyDJxLbI6QGnjI+dx
+	NSIF8CuFLIReCexm7I+xgw4pPdrLcziwP2B+5xtiSBr9YklbfvXlbnqASxGvdISpgkEh
+	eQpA==
+X-Gm-Message-State: APjAAAUI8wXOW5wp3eJWD1VjaXS+roe7o6bSVudwWqhdrVKZ33brMriQ
+	sp6Ng/deqwjvSolMYnU58XzKAhi2
+X-Google-Smtp-Source: APXvYqxNelEUcy+1mZ0+GSdrDsZ8jfnUzxQkTa6loqRW3BLzDGDRrRhpe33dbzQsMdNdKhwAXlf/1w==
+X-Received: by 2002:a05:6602:96:: with SMTP id
+	h22mr124719iob.149.1560286639508; 
+	Tue, 11 Jun 2019 13:57:19 -0700 (PDT)
+Received: from [10.30.197.57] ([204.77.163.55])
 	by smtp.gmail.com with ESMTPSA id
-	v15sm16147286wrt.25.2019.06.11.13.01.57
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 11 Jun 2019 13:01:57 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Tue, 11 Jun 2019 22:01:58 +0200
-To: openembedded-core@lists.openembedded.org, hongxu.jia@windriver.com
-Message-ID: <20190611200158.GA1858@jama>
+	n21sm4926284ioh.30.2019.06.11.13.57.18
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 11 Jun 2019 13:57:18 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Philip Balister <philip@balister.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>,
+	"openembedded-devel@lists.openembedded.org"
+	<openembedded-devel@lists.openembedded.org>
+References: <A084970538D2234B96D99D06FA9D974FC37CEE23@ALA-MBD.corp.ad.wrs.com>
+	<9d4f1478-434d-1671-7039-417f1d624ac0@balister.org>
+Message-ID: <3e53b535-a287-df96-3399-593c32ac3e26@gmail.com>
+Date: Tue, 11 Jun 2019 15:57:17 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-User-Agent: Mutt/1.12.0 (2019-05-25)
-Subject: meta-openembedded git repo in some of the openembedded-core-contrib branches
+In-Reply-To: <9d4f1478-434d-1671-7039-417f1d624ac0@balister.org>
+Subject: Re: [yocto] Yocto Project DevDay NA 2019 - Extend your Embedded Linux Conference Experience
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,47 +65,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 20:01:58 -0000
-X-Groupsio-MsgNum: 125643
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="UlVJffcvxoiEqYs2"
-Content-Disposition: inline
+X-List-Received-Date: Tue, 11 Jun 2019 20:57:19 -0000
+Content-Type: text/plain; charset=windows-1252; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---UlVJffcvxoiEqYs2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Both of the registration links take me to the ELC registration page.... 
+is there a way to register outside of the ELC registration? We lost our 
+confirmation numbers due to a mix up in the ordering process and can't 
+change our registration anymore :(
 
-Hi,
+On 6/10/19 7:21 AM, Philip Balister wrote:
+> FYI
+>
+> -------- Forwarded Message --------
+> Subject: [yocto] Yocto Project DevDay NA 2019 - Extend your Embedded
+> Linux Conference Experience
+> Date: Tue, 4 Jun 2019 19:39:08 +0000
+> From: Volosincu, Andreea S <andreea.volosincu@windriver.com>
+> To: Yocto list discussion <yocto@yoctoproject.org>
+>
+> Hello Everybody,
+>
+> The registration for the Yocto Project DevDay NA 2019 is now open. Join
+> our knowledgeable and engaging instructors to learn about creating
+> custom-build Linux distributions using the Yocto Project infrastructure
+> and tools, across multiple architectures.
+>
+> Date: Tuesday, August 20, 2019
+> Time: 9:00 am - 5:00 pm
+> Location: Hilton San Diego Bayfront
+>
+> There are two ways to register - by adding it your ELC registration or
+> on the separate registration page.
+>
+> Register now.
+> <https://www.yoctoproject.org/yocto-project-dev-day-north-america-2019/>
+>
+> Best regards,
+> Yocto Project Advocacy Team
+>
+>
+>
 
-when accidentally checking for some old meta-oe commit in oe-core
-repository I was surprised that it was found in some of the contrib
-branches:
-
-~/openembedded-core $ git branch -a --contains 30bbde3d09e
-  remotes/contrib/hongxu/add-recipes-20190215
-  remotes/contrib/hongxu/dbg-split
-  remotes/contrib/hongxu/misc-fixes
-
-These branches are actually from meta-oe repo, not oe-core.
-
-Please remove old irrelevant branches from -contrib repositories:
-https://git.openembedded.org/openembedded-core-contrib/
-https://git.openembedded.org/meta-openembedded-contrib/
-
-and make sure you're pushing to the right remote :), it unnecessary
-almost doubles the repo size.
-
-Cheers,
-
---UlVJffcvxoiEqYs2
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXQAItQAKCRA3VSO3ZXaA
-HLjmAJ0ZR5i75m7aUquW0QE5PvAng9swLQCfXq9BMF6OCNIjiYxKEZ/tbDLysSo=
-=qvlM
------END PGP SIGNATURE-----
-
---UlVJffcvxoiEqYs2--
