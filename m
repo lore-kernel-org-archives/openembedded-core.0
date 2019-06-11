@@ -1,30 +1,40 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DF8876BDD2
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 3202B71BEE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 03:35:17 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5B3YwQi021655
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 10 Jun 2019 20:35:08 -0700
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Mon, 10 Jun 2019 20:34:47 -0700
-To: Jiping Ma <jiping.ma2@windriver.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <1558595036-35165-1-git-send-email-jiping.ma2@windriver.com>
-	<1558595036-35165-2-git-send-email-jiping.ma2@windriver.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <ecd20b34-e007-adee-62c1-234170db7e7a@windriver.com>
-Date: Tue, 11 Jun 2019 11:34:44 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Tue, 11 Jun 2019 04:58:00 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45NHnM4vHgz23;
+	Tue, 11 Jun 2019 06:57:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1560229080;
+	bh=IWWAHogfzbnUrsfPwfKpEwSrpGC6hMbcWE5BjtNBgsA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oJvXljH+HleLNjkj/y1Fe8+KosJDQZmC2uKcKTWyq4rhW2EkEDuNjVv0hsM/F5zqg
+	RYybNfhvNlAqiz22PVlf1ukRabYmSe+C2XgvZv55mHapuGvyOAfMWey8VCvH6+ymgh
+	v+DzCkiOezrsocW34QddTTrQhRnrB4fe+K/60e3ITEKZMXyqB2PRB8Czs4vdBfdM7R
+	HWL2bel9VCufxZeWbi44fJ3Hz+C+0fc06ZTb0+BfojDpm2VVO/mraMUjy9gymFBVLY
+	s51XgJ5yyRXpHlvjUlTp/v182t34gr7QVcxPVUSwEMxGoWWiYJS+z1OR6t42dT+TYp
+	LvRnsUDPXOkWKuezeie21VcnFCMe+a06gEhrckk34tZ6UeXsDTqga+I1LnWVoWzh9X
+	CdajNPYSxOlgrKVJxF54nd0qx8raWPxicW89NSB+x9aEWMEKE1qevcGdN5jSzDQqoJ
+	sgFZzjN/sv8UpRON0Gd/pw/x+BwJULjsfuhe8kxmIPE3yO3W/saj4NFcFJLlodaZ1w
+	oO7rCQbYJo9stzbmN16j2di6kIkkLXD+Pla2WpDcXSrZE6WbEvohEQr0Dl9Dg+jLLN
+	MrLmj6iHq16DrbiMCbc81zME6E16hk2c1yLtHNTkN88YPCSKkSy9KVQzpRtKYYAHIn
+	N7tKTz070ssZgoO/A82VEjpU=
+Date: Tue, 11 Jun 2019 07:57:55 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Douglas Royds <douglas.royds@taitradio.com>
+Message-ID: <20190611045755.GA16835@localhost>
+References: <20190611015756.19184-1-douglas.royds@taitradio.com>
+	<73faa614-2438-4e1c-1cf9-d40fa5a60d52@windriver.com>
+	<4e14116b-84ac-6138-33ca-4e01a311f866@taitradio.com>
+	<9a6f595e-5e3c-f0c3-98b1-40472a15ed1b@windriver.com>
+	<4fe2e513-e4f3-10f2-cda8-d34d14a66625@taitradio.com>
 MIME-Version: 1.0
-In-Reply-To: <1558595036-35165-2-git-send-email-jiping.ma2@windriver.com>
-X-Originating-IP: [128.224.162.186]
-Subject: Re: [PATCH] [V2][PATCH] dhcp:"dhclient -x eth0" action is not correct.
+In-Reply-To: <4fe2e513-e4f3-10f2-cda8-d34d14a66625@taitradio.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] json-c: update to current upstream head, with --disable-werror
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,90 +47,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 03:35:18 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 11 Jun 2019 04:58:01 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Ping
+On Tue, Jun 11, 2019 at 03:12:09PM +1200, Douglas Royds via Openembedded-core wrote:
+> On 11/06/19 3:05 PM, Kang Kai wrote:
+> 
+> > On 2019/6/11 上午11:04, Douglas Royds wrote:
+> > > On 11/06/19 2:46 PM, Kang Kai wrote:
+>...
+> > > > Use option '-M' of git format-patch may make the patch more
+> > > > clear. And why not just backport the 'disable-werror' commit?
+> > > 
+> > > 
+> > > Re '-M': True, fair point.
+> > > 
+> > > Re the backport: There hasn't been a release in over a year, they
+> > > don't seem to have any plans to do so (see
+> > > https://github.com/json-c/json-c/issues/487), and this was easier.
+> > > If you have a substantial objection, yes, I could submit it again
+> > > with a patch instead of the update.
+> > 
+> > Just consider footprint, git repo will take more space than tar ball.
+> > But no substantial objection.
+> 
+> 
+> We do also lose the RECIPE_UPSTREAM_VERSION functionality by switching to
+> the git HEAD, ie. there'll be no notification when they do (eventually)
+> release a new version.
+> 
+> I'm in two minds. Opinions?
 
+The biggest worry is actually whether some random git snapshot is as 
+stable as a release.
 
-patch 0006-site.h-enable-gentle-shutdown.patch is involved by 
-https://git.openembedded.org/openembedded-core/commit/?id=2c789bac353e17637549a7b31706761ba848728e
+Unless there is a good reason why a git snapshot is better than
+release plus backported patch, the default should be to not switch
+to using a git snapshot.
 
-to fix problem of signal SIGTERM not handled properly. but now this 
-problem have fixed by upstream.
+Starting to follow git snapshots brings the risk of frequent regressions 
+since it follows the latest upstream development.
 
-and the patch 0006-site.h-enable-gentle-shutdown.patch will cause action 
-of "dhclient -x eth0" not correct since it do some work before stop.
-
-
-refer: 
-http://isc-dhcp-users.2343191.n4.nabble.com/dhcpclient-and-dhcpd-do-not-stop-on-sigterm-td2528.html
-
-On 5/23/19 3:03 PM, Jiping Ma wrote:
-> Please ignore V1 of [OE-core][PATCH] dhcp:"dhclient -x eth0" action is not correct.
->
-> The action of "dhclient -x eth0" and "dhclient -r eth0" is
-> same when enable ENABLE_GENTLE_SHUTDOWN. Disable ENABLE_GENTLE_SHUTDOWN
-> that will use the default signal hander.
->
-> Signed-off-by: Jiping Ma <jiping.ma2@windriver.com>
-> ---
->   .../dhcp/0006-site.h-enable-gentle-shutdown.patch  | 27 ----------------------
->   meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb       |  1 -
->   2 files changed, 28 deletions(-)
->   delete mode 100644 meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
->
-> diff --git a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch b/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
-> deleted file mode 100644
-> index 6ef70cc..0000000
-> --- a/meta/recipes-connectivity/dhcp/dhcp/0006-site.h-enable-gentle-shutdown.patch
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -From 01641d146e4e6bea954e4a4ee1f6230b822665b4 Mon Sep 17 00:00:00 2001
-> -From: Chen Qi <Qi.Chen@windriver.com>
-> -Date: Tue, 15 Aug 2017 15:37:49 +0800
-> -Subject: [PATCH 06/11] site.h: enable gentle shutdown
-> -
-> -Upstream-Status: Inappropriate [configuration]
-> -Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> -
-> -Rebase to 4.3.6
-> -Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ----
-> - includes/site.h | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -Index: dhcp-4.4.1/includes/site.h
-> -===================================================================
-> ---- dhcp-4.4.1.orig/includes/site.h
-> -+++ dhcp-4.4.1/includes/site.h
-> -@@ -295,7 +295,7 @@
-> -    situations.  We plan to revisit this feature and may
-> -    make non-backwards compatible changes including the
-> -    removal of this define.  Use at your own risk.  */
-> --/* #define ENABLE_GENTLE_SHUTDOWN */
-> -+#define ENABLE_GENTLE_SHUTDOWN
-> -
-> - /* Include old error codes.  This is provided in case you
-> -    are building an external program similar to omshell for
-> diff --git a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-> index ca0daa1..b4c0d5d 100644
-> --- a/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-> +++ b/meta/recipes-connectivity/dhcp/dhcp_4.4.1.bb
-> @@ -5,7 +5,6 @@ SRC_URI += "file://0001-define-macro-_PATH_DHCPD_CONF-and-_PATH_DHCLIENT_CON.pat
->               file://0003-link-with-lcrypto.patch \
->               file://0004-Fix-out-of-tree-builds.patch \
->               file://0005-dhcp-client-fix-invoke-dhclient-script-failed-on-Rea.patch \
-> -            file://0006-site.h-enable-gentle-shutdown.patch \
->               file://0007-Add-configure-argument-to-make-the-libxml2-dependenc.patch \
->               file://0009-remove-dhclient-script-bash-dependency.patch \
->               file://0012-dhcp-correct-the-intention-for-xml2-lib-search.patch \
+cu
+Adrian
 
 -- 
-BRs
 
-Sandy(Li Changqing)
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
