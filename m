@@ -1,57 +1,33 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-it1-f170.google.com (mail-it1-f170.google.com
-	[209.85.166.170])
-	by mail.openembedded.org (Postfix) with ESMTP id E8FF17E6E1;
-	Tue, 11 Jun 2019 20:59:02 +0000 (UTC)
-Received: by mail-it1-f170.google.com with SMTP id x22so7143979itl.2;
-	Tue, 11 Jun 2019 13:59:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:subject:to:references:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=UBXjg1blMpc3yC/hmbFMfUt+ZIxQsOufRxs+2Rn8j0k=;
-	b=V/YcqhdKHTQ0JgRifXJ/qtvKaPjOBPKt0mhd5eh+MkfxsP3XTQdVxXU4bk7MEW+DOo
-	aWj2s4HM57dQZ0fwjnWQV/zvi4jOxb3+ZQku/kNKX6R1DcOrqMtQDUNJDzgKH4Cqa28T
-	0icBsKMLiwUTgXg1E5DSNT1iaUZJCCnuqzwY7GnCa6fc2iZGpFK0bnqxNj1Wg/J990cy
-	fI/rHPXOxVJjj0ywHU5GyN6jFkOO9KrUT88fy2Apy4ftfe6rkjX54Vfk86OykZQ2AdPe
-	/tm80cE1MwzHFEPSI61bAjhpUYEnFy9u0CnpWCqCnHx4Rmxe0QsAbAF8r4ZN2pdshXfd
-	jbMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:subject:to:references:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=UBXjg1blMpc3yC/hmbFMfUt+ZIxQsOufRxs+2Rn8j0k=;
-	b=Zkcps1krGDgLrA64KzWmXkLCBmt9QWrQTCM5X8dmp9I826dwFQ+uLNVd2D/ykb+UeJ
-	0U+jw+QUCt6bQUpSBMbN5En9B4l1kLRwFPGXQrb2JQOrrQ0ngZm1Y2ZVmN9cZDAmlMWj
-	4mRX8rByWNluGQN5Shq6engDiaIZB1KxzLdUK8MSSxZ4vxNnOSNcjSOODJ9k91fsFvTY
-	1Ex+6QTGr0au5J0flO9A1lrh7/U4ePaep5xlKPtHOcdojekiJdSrXvuZ2RUI3Q+5DvBX
-	oNRohNTI7vKwnl69UoRS0Li7pPeyPYqw5QTaSlIaOOa5Frgny5kJIFq2OG78aOoTWm2J
-	Joqg==
-X-Gm-Message-State: APjAAAWjZK95bUHmEBufOux0zRXxuTJPVsFXh3fZycWq1sZHut+jJlJa
-	xa/HXpPnWh86ocojAHqXNAAHP4Fg
-X-Google-Smtp-Source: APXvYqz9fE9301S31UTZU8BIwiS25ksOpV3vZrmO8k5rSyABvJvVNdb7DqAynWWWD3FEDqECB9iJEw==
-X-Received: by 2002:a24:148b:: with SMTP id 133mr21995871itg.73.1560286743680; 
-	Tue, 11 Jun 2019 13:59:03 -0700 (PDT)
-Received: from [10.30.197.57] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id r143sm232558ita.0.2019.06.11.13.59.02
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 11 Jun 2019 13:59:03 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: Philip Balister <philip@balister.org>,
-	openembedded-core <openembedded-core@lists.openembedded.org>,
-	"openembedded-devel@lists.openembedded.org"
-	<openembedded-devel@lists.openembedded.org>
-References: <A084970538D2234B96D99D06FA9D974FC37CEE23@ALA-MBD.corp.ad.wrs.com>
-	<9d4f1478-434d-1671-7039-417f1d624ac0@balister.org>
-	<3e53b535-a287-df96-3399-593c32ac3e26@gmail.com>
-Message-ID: <03942929-30f6-837f-7272-2878a3ea1773@gmail.com>
-Date: Tue, 11 Jun 2019 15:59:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <3e53b535-a287-df96-3399-593c32ac3e26@gmail.com>
-Subject: Re: [yocto] Yocto Project DevDay NA 2019 - Extend your Embedded Linux Conference Experience
+Return-Path: <denis@denix.org>
+X-Greylist: delayed 372 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 11 Jun 2019 21:48:09 UTC
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 4FF247DE74
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 11 Jun 2019 21:48:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 9A84240BCF;
+	Tue, 11 Jun 2019 21:41:58 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id L1atyTdqjQkJ; Tue, 11 Jun 2019 21:41:58 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+	[100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 7FE4B40BAB;
+	Tue, 11 Jun 2019 21:41:57 +0000 (UTC)
+Received: from gimli.denix (unknown [192.168.30.6])
+	by mail.denix.org (Postfix) with ESMTP id A597F16FD8D;
+	Tue, 11 Jun 2019 17:41:56 -0400 (EDT)
+From: Denys Dmytriyenko <denis@denix.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jun 2019 17:41:52 -0400
+Message-Id: <1560289312-19244-1-git-send-email-denis@denix.org>
+X-Mailer: git-send-email 2.7.4
+Cc: Denys Dmytriyenko <denys@ti.com>
+Subject: [PATCH] mtd-utils: upgrade 2.0.2 -> 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,53 +40,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 20:59:03 -0000
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 11 Jun 2019 21:48:09 -0000
 
+From: Denys Dmytriyenko <denys@ti.com>
 
-On 6/11/19 3:57 PM, Joshua Watt wrote:
-> Both of the registration links take me to the ELC registration 
-> page.... is there a way to register outside of the ELC registration? 
-> We lost our confirmation numbers due to a mix up in the ordering 
-> process and can't change our registration anymore :(
+* 0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch is upstreamed
+* Now requires openssl:
+| In file included from ../git/ubifs-utils/mkfs.ubifs/mkfs.ubifs.c:25:
+| ../git/ubifs-utils/mkfs.ubifs/mkfs.ubifs.h:49:10: fatal error: openssl/rand.h: No such file or directory
+|  #include <openssl/rand.h>
+|           ^~~~~~~~~~~~~~~~
+| compilation terminated.
+| Makefile:3457: recipe for target 'ubifs-utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o' failed
+| make: *** [ubifs-utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o] Error 1
 
-Of course, as soon as I send that, we find the confirmation numbers in 
-our Junk mail. Sorry for the noise
+Signed-off-by: Denys Dmytriyenko <denys@ti.com>
+---
+ ...rn-correct-error-number-in-ubi_get_vol_in.patch | 92 ----------------------
+ meta/recipes-devtools/mtd/mtd-utils_git.bb         |  7 +-
+ 2 files changed, 3 insertions(+), 96 deletions(-)
+ delete mode 100644 meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch
 
+diff --git a/meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch b/meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch
+deleted file mode 100644
+index 4ece56b..0000000
+--- a/meta/recipes-devtools/mtd/mtd-utils/0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch
++++ /dev/null
+@@ -1,92 +0,0 @@
+-From 0f833ac73ad631248826386e2918d8571ecf0347 Mon Sep 17 00:00:00 2001
+-From: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+-Date: Sat, 9 Jun 2018 16:45:22 +0200
+-Subject: [PATCH] Revert "Return correct error number in ubi_get_vol_info1"
+-
+-This reverts commit dede98ffb706676309488d7cc660f569548d5930.
+-
+-The original commit tried to fix a descrepancy between the implementation
+-and the documentation by making the implementation comply.
+-
+-When making the change, it was overlooked, that ubinfo and ubirename were
+-written against the implementation instead of the behaviour specified by
+-the documentation. So were further internal functions like
+-ubi_get_vol_info1_nm which further breaks ubirmvol.
+-
+-A report with an outline of a resulting problem can be read on
+-the mailing list:
+-
+-http://lists.infradead.org/pipermail/linux-mtd/2018-June/081562.html
+-
+-From the report:
+-
+-steps to reproduce: have mtd-utils 2.0.1 or 2.0.2
+-
+-0. make a bunch of ubi volumes in sequential order
+-
+-ubimkvol /dev/ubi0 -s 64KiB -N test1
+-ubimkvol /dev/ubi0 -s 64KiB -N test2
+-ubimkvol /dev/ubi0 -s 64KiB -N test3
+-ubimkvol /dev/ubi0 -s 64KiB -N test4
+-..
+-
+-1. delete the test1 volume, making a hole in the volume table
+-
+-ubirmvol /dev/ubi0 -N test1
+-
+-2. try an affected tool (i.e. "ubirmvol /dev/ubi0 -N test4" )
+-
+- |root at mr24:/# ubirmvol /dev/ubi0 -N test4
+- |ubirmvol: error!: cannot find UBI volume "test4"
+- |         error 19 (No such device)
+-
+-or "ubinfo -a"
+-
+- | root at mr24:/# ubinfo -a
+- | UBI version:                    1
+- | Count of UBI devices:           1
+- | UBI control device major/minor: 10:59
+- | Present UBI devices:            ubi0
+- |
+- | ubi0
+- | Volumes count:                           11
+- | Logical eraseblock size:                 15872 bytes, 15.5 KiB
+- | Total amount of logical eraseblocks:     1952 (30982144 bytes, 29.5 MiB)
+- | Amount of available logical eraseblocks: 75 (1190400 bytes, 1.1 MiB)
+- | Maximum count of volumes                 92
+- | Count of bad physical eraseblocks:       0
+- | Count of reserved physical eraseblocks:  40
+- | Current maximum erase counter value:     984
+- | Minimum input/output unit size:          512 bytes
+- | Character device major/minor:            251:0
+- | ubinfo: error!: libubi failed to probe volume 5 on ubi0
+- |        error 19 (No such device)
+- | Present volumes:                         0, 1, 2, 3, 4root at mr24:/#
+-
+-Reported-by: Christian Lamparter <chunkeey@gmail.com>
+-Signed-off-by: David Oberhollenzer <david.oberhollenzer@sigma-star.at>
+-Upstream-Status: Accepted [http://git.infradead.org/mtd-utils.git/commit/0f833ac73ad631248826386e2918d8571ecf0347]
+----
+- lib/libubi.c | 5 +----
+- 1 file changed, 1 insertion(+), 4 deletions(-)
+-
+-diff --git a/lib/libubi.c b/lib/libubi.c
+-index b50e68a..978b433 100644
+---- a/lib/libubi.c
+-+++ b/lib/libubi.c
+-@@ -1240,11 +1240,8 @@ int ubi_get_vol_info1(libubi_t desc, int dev_num, int vol_id,
+- 	info->dev_num = dev_num;
+- 	info->vol_id = vol_id;
+- 
+--	if (vol_get_major(lib, dev_num, vol_id, &info->major, &info->minor)) {
+--		if (errno == ENOENT)
+--			errno = ENODEV;
+-+	if (vol_get_major(lib, dev_num, vol_id, &info->major, &info->minor))
+- 		return -1;
+--	}
+- 
+- 	ret = vol_read_data(lib->vol_type, dev_num, vol_id, buf, 50);
+- 	if (ret < 0)
+--- 
+-2.14.4
+-
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index 9ffac2e..1dba224 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -7,15 +7,14 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3 \
+ 
+ inherit autotools pkgconfig update-alternatives
+ 
+-DEPENDS = "zlib e2fsprogs util-linux"
++DEPENDS = "zlib e2fsprogs util-linux openssl"
+ RDEPENDS_mtd-utils-tests += "bash"
+ 
+-PV = "2.0.2+${SRCPV}"
++PV = "2.1.0+${SRCPV}"
+ 
+-SRCREV = "bc63d36e39f389c8c17f6a8e9db47f2acc884659"
++SRCREV = "bce86d06d6ed2c03d0a0088a3c96a7a6e5e431db"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git \
+            file://add-exclusion-to-mkfs-jffs2-git-2.patch \
+-           file://0001-Revert-Return-correct-error-number-in-ubi_get_vol_in.patch \
+ "
+ 
+ S = "${WORKDIR}/git/"
+-- 
+2.7.4
 
->
-> On 6/10/19 7:21 AM, Philip Balister wrote:
->> FYI
->>
->> -------- Forwarded Message --------
->> Subject: [yocto] Yocto Project DevDay NA 2019 - Extend your Embedded
->> Linux Conference Experience
->> Date: Tue, 4 Jun 2019 19:39:08 +0000
->> From: Volosincu, Andreea S <andreea.volosincu@windriver.com>
->> To: Yocto list discussion <yocto@yoctoproject.org>
->>
->> Hello Everybody,
->>
->> The registration for the Yocto Project DevDay NA 2019 is now open. Join
->> our knowledgeable and engaging instructors to learn about creating
->> custom-build Linux distributions using the Yocto Project infrastructure
->> and tools, across multiple architectures.
->>
->> Date: Tuesday, August 20, 2019
->> Time: 9:00 am - 5:00 pm
->> Location: Hilton San Diego Bayfront
->>
->> There are two ways to register - by adding it your ELC registration or
->> on the separate registration page.
->>
->> Register now.
->> <https://www.yoctoproject.org/yocto-project-dev-day-north-america-2019/>
->>
->> Best regards,
->> Yocto Project Advocacy Team
->>
->>
->>
 
