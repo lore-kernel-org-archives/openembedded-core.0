@@ -1,55 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A0EE7E77E
+Return-Path: <denis@denix.org>
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+	by mail.openembedded.org (Postfix) with ESMTP id 9FF627E776
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 22:22:00 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id c2so18551965wrm.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 15:22:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=Ez+osy9M+TP5g7XpY5KCtId8gtr75y9YzjHeT/HmyJo=;
-	b=Ap4ndqx1ZRYB60vbLzkrtBGVY6432ge8LkjGeVJu1viUywUDPsoIyYiV37hwzR+l7n
-	LM7X5tRW8B4Kg3YAdJlBAjyhzUTp2qi/NE2NaWvrS6KqunGdbOcKmeQVUBqCv2ANUt5V
-	QezfS6oaEJYolrGhodNbzAYBISbRV4f+gjlAQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=Ez+osy9M+TP5g7XpY5KCtId8gtr75y9YzjHeT/HmyJo=;
-	b=Ft2Cc8kVzkH4sGa6gNBYN3MvQDFYv9fizRFWVrky0HxUeb01Kw9OzN+5HGnKEvNocU
-	gXPu6HN48xOkA8jVA1aj5l4usKUoV1TfePuKc/PhUf4CaF0AtnjaQVnyCaK6R7V0YpoW
-	/PeKzFTsw9P2CD48d1qoIkgRwqrn7icqD5cFeKmTOaS/aCec1TIe24etAWcUwAshfVnQ
-	6uYZIC1yU7P2VLGkyDhUx2MibZGErbRN3ywnKQMqHNuJFO+NdjnrV3i/K4uUaZfssDZ6
-	z4cX9BnuhpwRV9YFWg7PbQmgGc7etqjd8y7Lk5VX+H3LNgo/Y77Xr6jVTnPvMJKWOLBK
-	KiDQ==
-X-Gm-Message-State: APjAAAXg310Y9XFZIQ/cbAADS62bLnrLQv/hC51UZQDZKXVrMaYD5MQB
-	TVP13H0+AI5cuq5OO+w3iRhGGg==
-X-Google-Smtp-Source: APXvYqw+cQTv5gX7pW7AgVEN4Hk3PKngYA9hvvVrncaHon69YratU1B+b6dLEWI6ZCzzI1O8y9THkQ==
-X-Received: by 2002:adf:eb4e:: with SMTP id u14mr9566326wrn.168.1560378120964; 
-	Wed, 12 Jun 2019 15:22:00 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	w67sm2020583wma.24.2019.06.12.15.21.59
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 12 Jun 2019 15:22:00 -0700 (PDT)
-Message-ID: <37f5b95f5e9972f1acea72c332c8069f56d7f7a0.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Michael Scott <mike@foundries.io>, Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 12 Jun 2019 23:21:59 +0100
-In-Reply-To: <9cbbc692-2702-f3f4-199d-ec06cc0f212c@foundries.io>
-References: <20190612081559.5102-1-alex.kiernan@gmail.com>
-	<51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
-	<CAO5Uq5SBNF025u6metFbzeNfSWYOXiYTP5ePR_u1Z9++L_ds8A@mail.gmail.com>
-	<9cbbc692-2702-f3f4-199d-ec06cc0f212c@foundries.io>
-User-Agent: Evolution 3.32.2-1 
+	Wed, 12 Jun 2019 22:23:39 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id 85FDD40BE5;
+	Wed, 12 Jun 2019 22:23:40 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id 2sIIGf3t2lXR; Wed, 12 Jun 2019 22:23:40 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
+	[100.15.86.127])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 66FA940BAC;
+	Wed, 12 Jun 2019 22:23:39 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id A8A7A17007F; Wed, 12 Jun 2019 18:23:38 -0400 (EDT)
+Date: Wed, 12 Jun 2019 18:23:38 -0400
+From: Denys Dmytriyenko <denis@denix.org>
+To: Adrian Bunk <bunk@stusta.de>
+Message-ID: <20190612222338.GN2112@denix.org>
+References: <1560289312-19244-1-git-send-email-denis@denix.org>
+	<20190612053326.GA12642@localhost>
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-fitimage: uboot-sign: Check UBOOT_DTB_BINARY before adding deps
+In-Reply-To: <20190612053326.GA12642@localhost>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mtd-utils: upgrade 2.0.2 -> 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,34 +41,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 22:22:00 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Jun 2019 22:23:39 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Wed, 2019-06-12 at 14:17 -0700, Michael Scott wrote:
-> Actually, you can ignore this patch.  We debugged the actual race 
-> condition contributing to the confusion, and that developer will
-> submit a new patch with that fix.  We can review if that patch makes
-> more sense (even without tests).
-
-Well, this patch merged earlier this evening as tested passed. Is that
-a problem?
-
-> The test would need to follow:
+On Wed, Jun 12, 2019 at 08:33:26AM +0300, Adrian Bunk wrote:
+> On Tue, Jun 11, 2019 at 05:41:52PM -0400, Denys Dmytriyenko wrote:
+> >...
+> > * Now requires openssl:
+> > | In file included from ../git/ubifs-utils/mkfs.ubifs/mkfs.ubifs.c:25:
+> > | ../git/ubifs-utils/mkfs.ubifs/mkfs.ubifs.h:49:10: fatal error: openssl/rand.h: No such file or directory
+> > |  #include <openssl/rand.h>
+> > |           ^~~~~~~~~~~~~~~~
+> > | compilation terminated.
+> > | Makefile:3457: recipe for target 'ubifs-utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o' failed
+> > | make: *** [ubifs-utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o] Error 1
+> >...
+> > -DEPENDS = "zlib e2fsprogs util-linux"
+> > +DEPENDS = "zlib e2fsprogs util-linux openssl"
 > 
-> 1) Is there a pub key in the u-boot.dtb (symlinked file) in the
-> deploy 
-> directory and is it the same as what is generated by mkimage when 
-> pointing at the fitImage in the deploy directory.
-> 2) The race condition affects the build when there is a cached step 
-> built incorrectly.   The cached build step injects the u-boot.dtb
-> prior to it being signed.
+> It doesn't (and should not) require it unconditionally.
+> 
+> Please backport "mkfs.ubifs: fix build without openssl" from
+> upstream git instead.
+> 
+> >...
+> > -PV = "2.0.2+${SRCPV}"
+> > +PV = "2.1.0+${SRCPV}"
+> >...
+> 
+> This was already wrong before but now is an opportunity to fix:
+> Since this is exactly the release, it should be
+>   PV = "2.1.0"
 
-That does help explain the problem you were seeing and does some like
-something we could/should be testing for.
+So, which is it? Do you want it to be exactly the release, or do you want 
+to start backporting fixes from after the release? It doesn't seem to be 
+a critical issue to warrant backporting, in my opinion.
 
-Cheers,
-
-Richard
-
+-- 
+Denys
 
