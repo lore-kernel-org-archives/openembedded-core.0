@@ -1,50 +1,41 @@
-Return-Path: <nick83ola@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1E6A07E76F
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id A1FDB7E6E7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 13:01:29 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id 207so6504093wma.1
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 06:01:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=AbklxD1dpecPwP/yhPbCp9aHiN1EDKchdr6K0KOA3mc=;
-	b=lczs1non1D0luSS2x9uB4Rr/j44scPVlH6W5iKx/emQUWB/nC/hD5KW9mMN71nHtK7
-	8+KVpvjNIPhnT2OVI51eZw+oJMDIBLeW2O+uOputTo8u6A10sDb7eC5nBLmmsq/3MRqs
-	eIlIASecs8iIcOuHUMGM6iyywbOnKMrOZbKX74QQ8ymtvFRcgB3eSKhnYCvI3vhiW5GQ
-	9TscH0S8wvO/su0CYzK/oM8DbFEjDcjXPbFCfOxB/31DMwIOtLSGjQDZ240xlHWSXF1q
-	ZV3ZXpK0Mqf2OeVA53TYq7Re5LqmMSROHFAZLzKrJZwzE9H6YfRg/gBGjQSPEXfM+3lZ
-	O7PQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=AbklxD1dpecPwP/yhPbCp9aHiN1EDKchdr6K0KOA3mc=;
-	b=cET5XXXy2xybBEqWq0eyJ0Yp6hrQayV+yb1gSiiivr3K2Oj/LdgnZX4IGFQoZJp2O6
-	wRvO+G6wBJoj7chqpDB1ZjE2mjHXsBNkALA9sKJWtQje4hbQtklP08gFRIGvd0nrM/iZ
-	CmW24YXbz23s7eBuv2xn4K/hRsL5Uluvqp8WZz/Dy+py3EKZLIDdlLfKeUphfgdlLHcX
-	siCVaBQAK0NvV2QzPxKrrsCliw7w/jbwyb+lpji5yuwEEnfh7DpLqLnBRKCvvftJcRC1
-	ai+zWlV9UtsrxB7ch6HsV2u9yt+zKempT1oId/r9pUwMwmB9FktfZUm16Nnbq2Lcwnq9
-	2SkQ==
-X-Gm-Message-State: APjAAAUzkBg8uyCsMLqDGs+P6d202fSS/LilYkNiO5LuhillNbm48dQp
-	ElIpusWIfiyVmn1VJQZRQY1rygIK
-X-Google-Smtp-Source: APXvYqwsyrlwSG8kb/9C2iUzZ4W4dPlxfbinBmidqFTvCjaGf0gMGQe61hLRRPc6zZ+lB+N0vW5Tcg==
-X-Received: by 2002:a1c:6a11:: with SMTP id f17mr20644782wmc.110.1560344489388;
-	Wed, 12 Jun 2019 06:01:29 -0700 (PDT)
-Received: from nick-beastie.garage.tyco.com ([77.107.218.170])
-	by smtp.gmail.com with ESMTPSA id
-	d17sm2657086wrw.63.2019.06.12.06.01.28
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 12 Jun 2019 06:01:28 -0700 (PDT)
-From: Nicola Lunghi <nick83ola@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jun 2019 14:00:05 +0100
-Message-Id: <20190612130004.21232-1-nick83ola@gmail.com>
-X-Mailer: git-send-email 2.20.1
+	Wed, 12 Jun 2019 13:27:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45P7342pF1z4s;
+	Wed, 12 Jun 2019 15:27:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1560346065;
+	bh=3dO46XAXO47e0z9QSRZZdOLubZ9+F47SIMawnswFBpQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JPmT9p0QaGl7FLDNP/CrOZeE3UuX/2SvLAzUx/UOcTTPg3050Z5nRsFlVlAmGRUlT
+	8egysSOkhlOJHxeDp1HuD8u202KRPr1r05RBHhEnaghDJBK+ftarbDl29FcK7AnJGf
+	uwrJx6DF0HnW4HtKskmypbk2Gun7U0yDEsQ2ngrScsJWp2DchSRaWB+JNOX/oqIsi+
+	yNax8pC2AN/rE2vR13uxEkIEH36BXJ/MfN0gcRmaIrQK/gURPG/RASl+dxNmlLfDPp
+	dW+DWxEsYRLelRpnYCNLa4otMVP35Fo3sA3dZ06koC0wbaz3nKPtpNNJ8Rgg6IFhyw
+	PiwKtz3giahzIDEtZ43EcKs+NP+L9Ph3AMsRC1kewuSb5nRc7Xge45PJOknMFWBWfC
+	3fzjZvy++sG1NmvSBmHur6ex1xMJT50uu2Fv24wQTxwpRRCi3XuesaXvlXj5W4Bfjm
+	urXk65Y0+JxPj1wKLt+QWtoHH2jty0cVMJrFWCzLeA1pfQruhvb7RzOqU8IyQqLDNk
+	5bL+CvkwOp2O0tnhYBGF9YsyXsVO2+O2loaQECGfA/FzyKLdCzKFF7Gq+S5tmnntbo
+	NQAsXVX5MHKAJDNzrmtUfUET8OOIF6iboZ7jE9G+T4t4ZT1vsfm2OqQSjTU499vZwB
+	oOzXGnQNmT6Ifr2e29it1mxU=
+Date: Wed, 12 Jun 2019 16:27:41 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
+Message-ID: <20190612132741.GB23143@localhost>
+References: <1560243834-266906-1-git-send-email-zhe.he@windriver.com>
+	<be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
+	<20190612105114.GA23143@localhost>
+	<1859381600.42862.1560337102909.JavaMail.zimbra@efficios.com>
 MIME-Version: 1.0
-Subject: [PATCH v3 repost] rng-tools: harmonise systemd and sysvinit
+In-Reply-To: <1859381600.42862.1560337102909.JavaMail.zimbra@efficios.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: lttng-dev <lttng-dev@lists.lttng.org>,
+	Jeremie Galarneau <jgalar@efficios.com>,
+	openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v2] lttng-modules: Backport patches to fix compilation failures since kernel v5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,126 +48,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 13:01:29 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 12 Jun 2019 13:27:45 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-this commit will permit to read the option from
-/etc/default/rng-tools both from systemd and sysvinit unit file.
+On Wed, Jun 12, 2019 at 06:58:22AM -0400, Mathieu Desnoyers wrote:
+>...
+> We always integrate support for newer kernel versions instrumentation back
+> into our current stable release. So as soon as 5.2 final comes out, we will
+> release a 2.10.x version including support for it in lttng-modules.
+>...
 
-Signed-off-by: Nicola Lunghi <nick83ola@gmail.com>
----
- .../rng-tools/rng-tools/default               |  3 +--
- meta/recipes-support/rng-tools/rng-tools/init | 21 ++++++-----------
- .../rng-tools/rng-tools/rngd.service          |  4 ++--
- .../rng-tools/rng-tools_6.6.bb                | 23 ++++++++-----------
- 4 files changed, 19 insertions(+), 32 deletions(-)
+Did something go wrong with that for 5.1?
 
-diff --git a/meta/recipes-support/rng-tools/rng-tools/default b/meta/recipes-support/rng-tools/rng-tools/default
-index ab7cd9327f..b9f8e03635 100644
---- a/meta/recipes-support/rng-tools/rng-tools/default
-+++ b/meta/recipes-support/rng-tools/rng-tools/default
-@@ -1,2 +1 @@
--# Specify rng device
--RNG_DEVICE=/dev/hwrng
-+EXTRA_ARGS="-r /dev/hwrng"
-diff --git a/meta/recipes-support/rng-tools/rng-tools/init b/meta/recipes-support/rng-tools/rng-tools/init
-index 7cf78393a4..13f0ecd37c 100644
---- a/meta/recipes-support/rng-tools/rng-tools/init
-+++ b/meta/recipes-support/rng-tools/rng-tools/init
-@@ -1,26 +1,19 @@
--#! /bin/sh 
-+#!/bin/sh
- #
- # This is an init script for openembedded
--# Copy it to /etc/init.d/rng-tools and type
-+# Copy it to @SYSCONFDIR@/init.d/rng-tools and type
- # > update-rc.d rng-tools defaults 60
- #
+This discussion started with patches on top of 2.10.9 for 5.1 support.
+If the missing release was just a one-time problem for 5.1,
+then the whole problem is usually confined to -rc kernels.
  
--rngd=/usr/sbin/rngd
-+rngd=@SBINDIR@/rngd
- test -x "$rngd" || exit 1
- 
--if [ -e /etc/default/rng-tools ]; then
--    . /etc/default/rng-tools
--fi
--
--if [ -n "$RNG_DEVICE" ]; then
--    EXTRA_ARGS="-- -r $RNG_DEVICE"
--fi
--
-+[ -r @SYSCONFDIR@/default/rng-tools ] && . "@SYSCONFDIR@/default/rng-tools"
- 
- case "$1" in
-   start)
-     echo -n "Starting random number generator daemon"
--    start-stop-daemon -S -q -x $rngd $EXTRA_ARGS
-+    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-     echo "."
-     ;;
-   stop)
-@@ -38,11 +31,11 @@ case "$1" in
-     start-stop-daemon -K -q -n rngd
-     echo "."
-     echo -n "Starting random number generator daemon"
--    start-stop-daemon -S -q -x $rngd $EXTRA_ARGS
-+    start-stop-daemon -S -q -x $rngd -- $EXTRA_ARGS
-     echo "."
-     ;;
-   *)
--    echo "Usage: /etc/init.d/rng-tools {start|stop|reload|restart|force-reload}"
-+    echo "Usage: @SYSCONFDIR@/init.d/rng-tools {start|stop|reload|restart|force-reload}"
-     exit 1
- esac
- 
-diff --git a/meta/recipes-support/rng-tools/rng-tools/rngd.service b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-index f0355db14f..b1a78527be 100644
---- a/meta/recipes-support/rng-tools/rng-tools/rngd.service
-+++ b/meta/recipes-support/rng-tools/rng-tools/rngd.service
-@@ -5,8 +5,8 @@ After=systemd-udev-settle.service
- Before=sysinit.target
- 
- [Service]
--ExecStart=@SBINDIR@/rngd -f -r /dev/hwrng
--SuccessExitStatus=66
-+EnvironmentFile=-@SYSCONFDIR@/default/rng-tools
-+ExecStart=@SBINDIR@/rngd -f $EXTRA_ARGS
- 
- [Install]
- WantedBy=multi-user.target
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.6.bb b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-index 41959a2695..b0afa4b0eb 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-@@ -44,18 +44,13 @@ do_configure_prepend() {
- }
- 
- do_install_append() {
--    install -d "${D}${sysconfdir}/init.d"
--    install -m 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
--    sed -i -e 's,/etc/,${sysconfdir}/,' -e 's,/usr/sbin/,${sbindir}/,' \
--        ${D}${sysconfdir}/init.d/rng-tools
--
--    # Only install the default script when 'sysvinit' is in DISTRO_FEATURES.
--    if ${@bb.utils.contains('DISTRO_FEATURES', 'sysvinit', 'true', 'false', d)}; then
--        install -d "${D}${sysconfdir}/default"
--        install -m 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
--    fi
--
--    install -d ${D}${systemd_unitdir}/system
--    install -m 644 ${WORKDIR}/rngd.service ${D}${systemd_unitdir}/system
--    sed -i -e 's,@SBINDIR@,${sbindir},g' ${D}${systemd_unitdir}/system/rngd.service
-+    install -Dm 0644 ${WORKDIR}/default ${D}${sysconfdir}/default/rng-tools
-+    install -Dm 0755 ${WORKDIR}/init ${D}${sysconfdir}/init.d/rng-tools
-+    install -Dm 0644 ${WORKDIR}/rngd.service \
-+                     ${D}${systemd_system_unitdir}/rngd.service
-+    sed -i \
-+        -e 's,@SYSCONFDIR@,${sysconfdir},' \
-+        -e 's,@SBINDIR@,${sbindir},' \
-+        ${D}${sysconfdir}/init.d/rng-tools \
-+        ${D}${systemd_system_unitdir}/rngd.service
- }
+> Thanks,
+> 
+> Mathieu
+
+cu
+Adrian
+
 -- 
-2.20.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
