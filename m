@@ -1,54 +1,52 @@
-Return-Path: <compudj@efficios.com>
+Return-Path: <jonathan.rajotte-julien@efficios.com>
 Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 5BF837D6AF
+	by mail.openembedded.org (Postfix) with ESMTP id C736E6C0ED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 13:33:01 +0000 (UTC)
+	Wed, 12 Jun 2019 14:52:40 +0000 (UTC)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 726EE2493D4;
-	Wed, 12 Jun 2019 09:33:02 -0400 (EDT)
+	by mail.efficios.com (Postfix) with ESMTP id 1928B2499B6;
+	Wed, 12 Jun 2019 10:52:41 -0400 (EDT)
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id oMGul737osEP; Wed, 12 Jun 2019 09:33:02 -0400 (EDT)
+	with ESMTP id egsPCALeMfyr; Wed, 12 Jun 2019 10:52:40 -0400 (EDT)
 Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 166152493CB;
-	Wed, 12 Jun 2019 09:33:02 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 166152493CB
+	by mail.efficios.com (Postfix) with ESMTP id 915192499AF;
+	Wed, 12 Jun 2019 10:52:40 -0400 (EDT)
+DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 915192499AF
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1560346382;
-	bh=P9q5ejG7SWexsuXdGntCMgRwHBM/4tcCvmg5FJJ0Aeg=;
+	s=default; t=1560351160;
+	bh=ZOThXEsCdNtGbHySzg7cWx4BoXZ+jD3mShjau9vl6Lk=;
 	h=Date:From:To:Message-ID:MIME-Version;
-	b=qG5g+H94Ia6Cd2O8kTAZjrRXBzlN7AafuoIfUV6buE233TthWg4pwzbGOxEVQW9F5
-	2eYvDfBeUq/H4EauJONgw4VBvC0q36y29GMaZMV2cSXMKoTzV10QAQOGSm6arEerJB
-	S0lxzjQppZhTPSTqNC1JV+S/CbJ8FOYdwrvkLj6qAXivlNvHIFOUMFdQGYQhoIRMHL
-	4+TVGwGRvnJb3+8kC0ArKQDcyU0JZ4L9DuP7Bb2QbOfIqTnLhIgqduWEeybFrnL6yH
-	PT930OTrydqG9Cjp7AJO4iwZI5gFwoqju862AkbjYPdTx36kS+Vdn/XE43ZWRun2Zi
-	Dg/mkCRlW3rGA==
+	b=B3wo822lQodm16/C6Row98b6lUpzmcPCiAJ1xBJa2EM/2nYyC1G8P5cfqnEpN6twZ
+	JGwhv4LhDC6Cx8y0sWU92fb0OwG4m+O7dDtIS30zxOK8LB0xY6d/BCyNZ6VWjHFDRY
+	13vCSgDCbWBlLfkGDF8tz2t+ASE48r7gjdkbmiUGWs+3Z9beuImw4QjbtZABKkv8Vr
+	TIrxeLDHxBtFYQKOAza8AQ6N+FtrWP4+1zoMqVlukftnBD8F0XzIxtk+Mfy1t6nSf2
+	j6dysIc1RS2ABuMlAIDdbd2AzgzLVboJiq3QQhblXuGwS2TVcnu7cbLGbDmukhCYBo
+	vkc6xGx0L0ILw==
 X-Virus-Scanned: amavisd-new at efficios.com
 Received: from mail.efficios.com ([IPv6:::1])
 	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id rgDGawoG7-v1; Wed, 12 Jun 2019 09:33:02 -0400 (EDT)
-Received: from mail02.efficios.com (mail02.efficios.com [167.114.142.138])
-	by mail.efficios.com (Postfix) with ESMTP id F06DB2493C5;
-	Wed, 12 Jun 2019 09:33:01 -0400 (EDT)
-Date: Wed, 12 Jun 2019 09:33:01 -0400 (EDT)
-From: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-To: Adrian Bunk <bunk@stusta.de>
-Message-ID: <1075062100.42992.1560346381924.JavaMail.zimbra@efficios.com>
-In-Reply-To: <20190612132741.GB23143@localhost>
+	with ESMTP id uaGsis3mrSAY; Wed, 12 Jun 2019 10:52:40 -0400 (EDT)
+Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
+	by mail.efficios.com (Postfix) with ESMTPSA id 5F9112499A6;
+	Wed, 12 Jun 2019 10:52:40 -0400 (EDT)
+Date: Wed, 12 Jun 2019 10:52:36 -0400
+From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
+To: He Zhe <zhe.he@windriver.com>
+Message-ID: <20190612145236.GA27613@joraj-alpa>
 References: <1560243834-266906-1-git-send-email-zhe.he@windriver.com>
 	<be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
 	<20190612105114.GA23143@localhost>
 	<1859381600.42862.1560337102909.JavaMail.zimbra@efficios.com>
-	<20190612132741.GB23143@localhost>
+	<0ea3a599-7adb-a001-dbdd-3843d0fa8b6e@windriver.com>
 MIME-Version: 1.0
-X-Originating-IP: [167.114.142.138]
-X-Mailer: Zimbra 8.8.12_GA_3803 (ZimbraWebClient - FF67 (Linux)/8.8.12_GA_3794)
-Thread-Topic: lttng-modules: Backport patches to fix compilation failures
-	since kernel v5.1
-Thread-Index: t25soWHyR1elSTiw6Be8M60HASrDrw==
-Cc: lttng-dev <lttng-dev@lists.lttng.org>,
+In-Reply-To: <0ea3a599-7adb-a001-dbdd-3843d0fa8b6e@windriver.com>
+User-Agent: Mutt/1.9.5 (2018-04-13)
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
+	lttng-dev <lttng-dev@lists.lttng.org>,
 	Jeremie Galarneau <jgalar@efficios.com>,
-	openembedded-core <openembedded-core@lists.openembedded.org>
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Adrian Bunk <bunk@stusta.de>
 Subject: Re: [PATCH v2] lttng-modules: Backport patches to fix compilation failures since kernel v5.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -62,41 +60,89 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 13:33:01 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Jun 2019 14:52:42 -0000
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
------ On Jun 12, 2019, at 3:27 PM, Adrian Bunk bunk@stusta.de wrote:
+Hi,
 
-> On Wed, Jun 12, 2019 at 06:58:22AM -0400, Mathieu Desnoyers wrote:
->>...
->> We always integrate support for newer kernel versions instrumentation back
->> into our current stable release. So as soon as 5.2 final comes out, we will
->> release a 2.10.x version including support for it in lttng-modules.
->>...
+> > Please don't base distributions on -rc tags. They are not meant for this.
+> >
+> > We always integrate support for newer kernel versions instrumentation back
+> > into our current stable release. So as soon as 5.2 final comes out, we will
+> > release a 2.10.x version including support for it in lttng-modules.
 > 
-> Did something go wrong with that for 5.1?
+> I'm one of the people who need to use lttng-modules on rc kernel.
 
-Only failure to do a timely release on my end, sorry about it. Don't
-hesitate to ping me when this happens. The patches were cherry-picked
-into the stable-2.10 branch quickly after 5.1 was released (or while in
-5.1-rc cycle), but Jonathan reminded me just yesterday that I was overdue
-for a release.
+If so, please use a git based recipe building the HEAD of the latest released
+stable branch (stable-2.10 currently since 2.11 is in currently in the RC
+stage). If you have problem, report them on our mailing list [1] or our bug
+tracker [2]. We have extensive CI jobs for lttng-modules against the vanilla
+kernel [3] and other usual suspects [4]. We normally catch those problems
+quite quickly. Keep in mind that in no way should a production image be built
+with a non tagged release.
 
-> 
-> This discussion started with patches on top of 2.10.9 for 5.1 support.
-> If the missing release was just a one-time problem for 5.1,
-> then the whole problem is usually confined to -rc kernels.
+As for the oe-core recipe, please send us a quick email to let us know, patch
+level releases are cheap. Keep in mind that we are chasing a moving target
+here.
 
-Indeed, I'll try to release stable tags more proactively after a kernel
-version comes out in the future.
+To add to Mathieu statement, not only do we integrate support for newer kernels into
+the current stable branch but also in all the supported stable branch when
+possible. The supported stable release are normally the 3 latest minor-level releases.
+Currently this set is : 2.8, 2.9, 2.10 .
 
-Thanks,
-
-Mathieu
+[1] https://lists.lttng.org/cgi-bin/mailman/listinfo/lttng-dev
+[2] https://bugs.lttng.org/
+[3] An example of such job running: https://ci.lttng.org/view/LTTng-modules/job/lttng-modules_master_build-vanilla/648/console
+    This job validate that lttng-modules master builds against the following vanilla kernel tags. We have
+    similar jobs for master, stable 2.11, stable 2.10, stable 2.9, stable 2.10 lttng-modules branch.
+      v3.0.101
+      v3.1.10
+      v3.2.102
+      v3.3.8
+      v3.4.113
+      v3.5.7
+      v3.6.11
+      v3.7.10
+      v3.8.13
+      v3.9.11
+      v3.10.108
+      v3.11.10
+      v3.12.74
+      v3.13.11
+      v3.14.79
+      v3.15.10
+      v3.16.68
+      v3.17.8
+      v3.18.140
+      v3.19.8
+      v4.0.9
+      v4.1.52
+      v4.2.8
+      v4.3.6
+      v4.4.181
+      v4.5.7
+      v4.6.7
+      v4.7.10
+      v4.8.17
+      v4.9.181
+      v4.10.17
+      v4.11.12
+      v4.12.14
+      v4.13.16
+      v4.14.125
+      v4.15.18
+      v4.16.18
+      v4.17.19
+      v4.18.20
+      v4.19.50
+      v4.20.17
+      v5.0.21
+      v5.1.9
+      v5.2-rc4
+[4] https://ci.lttng.org/view/LTTng-modules/
 
 -- 
-Mathieu Desnoyers
-EfficiOS Inc.
-http://www.efficios.com
+Jonathan Rajotte-Julien
+EfficiOS
 
