@@ -1,30 +1,24 @@
 Return-Path: <Zhe.He@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EE6BF7D2E6
+	by mail.openembedded.org (Postfix) with ESMTP id 2118C7E72A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 09:15:19 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5C9EL1h005804
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Jun 2019 02:14:31 -0700
-Received: from [128.224.162.221] (128.224.162.221) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Wed, 12 Jun 2019 02:14:10 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <1560243834-266906-1-git-send-email-zhe.he@windriver.com>
-	<be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <bf6164dd-e1b4-60f8-bd5e-7d46e55d6074@windriver.com>
-Date: Wed, 12 Jun 2019 17:14:06 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Wed, 12 Jun 2019 09:15:39 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5C9FLqK005824
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jun 2019 02:15:31 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 12 Jun 2019 02:15:10 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 12 Jun 2019 17:15:09 +0800
+Message-ID: <1560330909-164994-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.221]
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-Subject: Re: [PATCH v2] lttng-modules: Backport patches to fix compilation failures since kernel v5.1
+Subject: [PATCH] lttng-modules: Add git based recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,49 +31,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 09:15:20 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 12 Jun 2019 09:15:40 -0000
+Content-Type: text/plain
 
+From: He Zhe <zhe.he@windriver.com>
 
+This is based on meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb and is for
+those who want to build lttng-modules with bleeding edge kernel, to avoid
+regularly backporting patches from upstream.
 
-On 6/12/19 6:49 AM, Richard Purdie wrote:
-> On Tue, 2019-06-11 at 17:03 +0800, zhe.he@windriver.com wrote:
->> From: He Zhe <zhe.he@windriver.com>
->>
->> For the moment,
->> 0001~0004 are on master branch only.
->> 0005~0007 are on stable-2.11 branch, but v2.11 has not been released
->> yet.
->>
->> Signed-off-by: He Zhe <zhe.he@windriver.com>
->> ---
->> v2: Correct a typo in SOB for 0001*.patch
-> I just discussed this with lttng upstream maintainers a little. We're
-> going to have continual tension between keeping lttng-modules up to
-> date and new kernel versions.
->
-> How about we also have a git version of this particular recipe which
-> has a DEFAULT_PREFERENCE = "-1" but people can opt into with a
-> PREFERRED_VERSION when using newer kernels?
->
-> That should keep people using very recent kernels happy, let us use a
-> stable release version and avoid us adding/removing large patchsets on
-> a semi regular basis?
->
-> Would you be willing to try/submit such a git recipe?
+Note that PREFERRED_VERSION needs to be set to select this recipe instead of the
+tar ball one.
 
-OK. I'll send a git recipe.
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+ meta/recipes-kernel/lttng/lttng-modules_git.bb | 34 ++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules_git.bb
 
-Regards,
-Zhe
-
->
-> Cheers,
->
-> Richard
->
->
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+new file mode 100644
+index 0000000..966d342
+--- /dev/null
++++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
+@@ -0,0 +1,34 @@
++SECTION = "devel"
++SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
++DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
++LICENSE = "LGPLv2.1 & GPLv2 & MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128 \
++                    "
++DEFAULT_PREFERENCE = "-1"
++
++inherit module
++
++COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
++
++SRC_URI = "git://git.lttng.org/lttng-modules;branch=master \
++           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
++           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           "
++SRCREV = "${AUTOREV}"
++PV = "2.11.0-rc+git${SRCPV}"
++S = "${WORKDIR}/git"
++
++export INSTALL_MOD_DIR="kernel/lttng-modules"
++
++EXTRA_OEMAKE += "KERNELDIR='${STAGING_KERNEL_DIR}'"
++
++do_install_append() {
++	# Delete empty directories to avoid QA failures if no modules were built
++	find ${D}/${nonarch_base_libdir} -depth -type d -empty -exec rmdir {} \;
++}
++
++python do_package_prepend() {
++    if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
++        bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
++}
++
+-- 
+2.7.4
 
 
