@@ -1,49 +1,61 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 092EA6C44B
+Return-Path: <mike@foundries.io>
+Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
+	[209.85.215.195])
+	by mail.openembedded.org (Postfix) with ESMTP id CA88D7E4F7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 22:51:21 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id 16so16566256ljv.10
+	Wed, 12 Jun 2019 22:59:04 +0000 (UTC)
+Received: by mail-pg1-f195.google.com with SMTP id f25so9720757pgv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 15:51:23 -0700 (PDT)
+	Wed, 12 Jun 2019 15:59:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=AgaUDUyR9zqP4YYXbMGUSmAuhZaHkYBTPA7Hi14kfXc=;
-	b=IV2P44zmLPheqnG+mToGNZ4AqVJBTiy8J6dgV2I6PKYWEVrNrzjzBf6hrY1RLIfZtH
-	iSMAM24ZZAleg5xwxbEd7jqqxbYFfR3fi5eL5DGDj1+641Yai142yDATop7mwPJ5q7C3
-	ZOkBPm3+4jdGqDqwD/Q7pxNlgc7dQsDDfcXN9KfEkHQInJNtxz0risCa1MSy4CgLRBP8
-	HNx348rEzUh0TWVNlZ66ubYY7S/xC2CEsjlYaFfbLIaI9UJuKrvkN44nSp4aKszWQ5op
-	DkCOM3s5pReKWiKQmp4hv654HYk8fZ6gWY93yA4rEkkqJjKH7LUcJmNrcgToezS1jQkA
-	qoew==
+	d=foundries-io.20150623.gappssmtp.com; s=20150623;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=+dgqqZDe7Dge0yfvq0Eb4ls2VHyyqAQEY/2cQ3bjqOE=;
+	b=bXSTkKOc7GyEy/Wq8V1kfxnaVY+WS/X5RPaEadyiWEpNIQNq/570G1m7IsmlT8zFdv
+	pndkdDCqduOf/UDUPPgO1BtiDGUPWDDHtcd+BDOLTGMWe14mdjPiuhujUAH9LYjHObK0
+	DfdYh64PiDHVysdg9D4zyc8ohIh5Yy6dUR2kajN2+dl+VzUzxn7efC79Xr+hU8SLn1+z
+	DnH+fzkv+Ca281D2B4HM+xNfNrQGyM/uv2cdxqHzLBbCovgA8gn0zDi2ISz5ipS6vlvF
+	rLuI8rVb9izVYa2U8cELIMK7aksPPxjuOkxfM8OtaqxYCIczcZEbeUnnDSj1OO7rkBJy
+	m1mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=AgaUDUyR9zqP4YYXbMGUSmAuhZaHkYBTPA7Hi14kfXc=;
-	b=onZSu3GN+dHPwILhk2eTc0x8EoiqJV4DaiGvRCy8ujWuL+yQ6tFDxboP86s1IbMvMY
-	Tp6+qiNEp2pHlThsRV/Xwl/WBqmPzejAqqfZhTs7K+IgaeKzmuXGTZg+0mtOHYENIB01
-	TAxMepQAW69GGadCfK1coo4gvz78wZbo+2nolGbL1IH1nYiSNMqnKNoW/aPW4FKzwoLa
-	2JdlK5kQZh67q46oCC7A1YS4QFuYb0y0yZFKK32g32ZX81QwTIZ95ybIbhEO+Vi5+5an
-	Qr3gSASoXMHrw6+5cHhpNvEot+vDZQUfMYgK3F+FoZGqgk5/sD/FO/xyAuIo+F6eX+3m
-	aqeA==
-X-Gm-Message-State: APjAAAVk8e+epeuXonVyxXsKJmvYi2+TUczxqlO0E/r1KGfZ4hWt2lwk
-	mpx83WYiWFD+ocWO4LkDuKoLFexrlVQ=
-X-Google-Smtp-Source: APXvYqwrDnhHC11buJaHFgFdJjTG8Fyi4ThusNL0rXB2jVq27JwtlOCKH1h8r7K6VqUh1g5noFO62Q==
-X-Received: by 2002:a2e:2c14:: with SMTP id s20mr17709868ljs.54.1560379882385; 
-	Wed, 12 Jun 2019 15:51:22 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id m17sm205425lji.16.2019.06.12.15.51.21
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 12 Jun 2019 15:51:21 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2019 00:51:08 +0200
-Message-Id: <20190612225108.19045-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] selftest/devtool: fix URI to MarkupSafe package
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=+dgqqZDe7Dge0yfvq0Eb4ls2VHyyqAQEY/2cQ3bjqOE=;
+	b=ZkQ5SRqTcLIY6lhOWOji7lbDos5/NCdaTq3sYeIaY+jXwLM2HzeGTPSAY8GLQzU9Q2
+	pjajyGqHQwc/qOHUHBOX9507qmMY1o/vshH6cy5MgsnOAjV/k9Pcvy311KjGi4lwLnX7
+	b192Tq9iiUAO+EfDPhyMd/7WvNpYVFbmSClPOjsIp0hoDbyYSb3Deo9PqDPKl8eXwLu/
+	G57kx2ECeHWKdFD4t1PYr52evDR8pM4DH6XxW6A7yh9UJ8jo1qVlJHdrFmjDZrI2mijF
+	JM0RIeHlYBVJ3TJFTPzlXHBTXe1NiTxhvYI/+oOWUNQT/mbNs0q0my51CGZCrohyKrpj
+	9zAQ==
+X-Gm-Message-State: APjAAAWcWED0kHUdUrwbqau/zhhGleirTM6h62exKjCc/yOvCnA4bsme
+	Co1bvftCIvP0c2Uoe+QreSpKRUj6GkU=
+X-Google-Smtp-Source: APXvYqxOzJnv9gpMTdK1a0uiHkp8tRq7AG/EEAgMiFaY+UXnvRiCfTfZ3ul05D0XaBsrqQNfYOwcVQ==
+X-Received: by 2002:a63:dc11:: with SMTP id s17mr27818117pgg.47.1560380345231; 
+	Wed, 12 Jun 2019 15:59:05 -0700 (PDT)
+Received: from [192.168.69.121] (107-198-5-8.lightspeed.irvnca.sbcglobal.net.
+	[107.198.5.8])
+	by smtp.gmail.com with ESMTPSA id m13sm455088pgv.89.2019.06.12.15.59.04
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Jun 2019 15:59:04 -0700 (PDT)
+To: richard.purdie@linuxfoundation.org, Alex Kiernan <alex.kiernan@gmail.com>
+References: <20190612081559.5102-1-alex.kiernan@gmail.com>
+	<51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
+	<CAO5Uq5SBNF025u6metFbzeNfSWYOXiYTP5ePR_u1Z9++L_ds8A@mail.gmail.com>
+	<9cbbc692-2702-f3f4-199d-ec06cc0f212c@foundries.io>
+	<37f5b95f5e9972f1acea72c332c8069f56d7f7a0.camel@linuxfoundation.org>
+From: Michael Scott <mike@foundries.io>
+Message-ID: <656d17dd-5b77-d3f7-3764-efa5fe5f98e5@foundries.io>
+Date: Wed, 12 Jun 2019 15:59:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <37f5b95f5e9972f1acea72c332c8069f56d7f7a0.camel@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-fitimage: uboot-sign: Check UBOOT_DTB_BINARY before adding deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,31 +68,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 22:51:23 -0000
+X-List-Received-Date: Wed, 12 Jun 2019 22:59:04 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-PyPi packages are now hosted at files.pythonhosted.org.
 
-[YOCTO Bug 13243]
+On 6/12/19 3:21 PM, richard.purdie@linuxfoundation.org wrote:
+> On Wed, 2019-06-12 at 14:17 -0700, Michael Scott wrote:
+>> Actually, you can ignore this patch.  We debugged the actual race
+>> condition contributing to the confusion, and that developer will
+>> submit a new patch with that fix.  We can review if that patch makes
+>> more sense (even without tests).
+> Well, this patch merged earlier this evening as tested passed. Is that
+> a problem?
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Not a problem at all.  I believe we also kept this change when we 
+debugged the actual race condition.
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 434a7b9dd4..904ff6988b 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -393,7 +393,7 @@ class DevtoolAddTests(DevtoolBase):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir)
-         testver = '0.23'
--        url = 'https://pypi.python.org/packages/source/M/MarkupSafe/MarkupSafe-%s.tar.gz' % testver
-+        url = 'https://files.pythonhosted.org/packages/c0/41/bae1254e0396c0cc8cf1751cb7d9afc90a602353695af5952530482c963f/MarkupSafe-%s.tar.gz' % testver
-         testrecipe = 'python-markupsafe'
-         srcdir = os.path.join(tempdir, testrecipe)
-         # Test devtool add
+>
+>> The test would need to follow:
+>>
+>> 1) Is there a pub key in the u-boot.dtb (symlinked file) in the
+>> deploy
+>> directory and is it the same as what is generated by mkimage when
+>> pointing at the fitImage in the deploy directory.
+>> 2) The race condition affects the build when there is a cached step
+>> built incorrectly.   The cached build step injects the u-boot.dtb
+>> prior to it being signed.
+> That does help explain the problem you were seeing and does some like
+> something we could/should be testing for.
+
+Yes if possible the test should run #1 above - 3 ways: 1) clean cache 
+for kernel/u-boot/u-boot tools, 2) cached run for kernel/u-boot/u-boot 
+tools and 3) cached for kernel/u-boot tools, but changed u-boot 
+(invalidate cache?)
+
+- Mike
+
+>
+> Cheers,
+>
+> Richard
+>
 -- 
-2.17.1
+Michael Scott
+Embedded Software Engineer at Foundries.io
+"microPlatforms™ for Connected Products"
+E: mike@foundries.io
+W: https://www.foundries.io
 
 
