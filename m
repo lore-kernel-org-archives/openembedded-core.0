@@ -1,53 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E5AFA7E588
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-qt1-f194.google.com (mail-qt1-f194.google.com
+	[209.85.160.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 072EA7E6EE
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 20:35:41 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id x17so3037864wrl.9
+	Wed, 12 Jun 2019 20:53:03 +0000 (UTC)
+Received: by mail-qt1-f194.google.com with SMTP id h21so20027435qtn.13
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 13:35:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=s4J9ievE1Q9+Ow5KvpKh8UEUTgXZTQOlsp9mQUbKjyM=;
-	b=FD/0bOS9uWy2pb3dYCD88O76AgEmb9GYuXhlphN33ndHjH/UMvBHlCNzitbMGxHoZ8
-	/iXmLqW3eVvxpuHHfT0HO8SmdmpXXyFNhjbMhagN6xuWBgdDyD5INlLebDKdwrtiDKgS
-	59f/4HW/gTt7VXT9RmyjWgVx5yGNUdZmLRoCiUKcDmVhHc7uZEk3nB9knwDkJCMmdYYJ
-	N/pUHHMtJxG0wmFYX+N2uGKNNvoXq2iHkgPUUerBW8Xu9XTDEMaMWeerZ9Fu61OtO/IY
-	iwB+jjpQbaMl/afMna/yO2JhDE/x9HsfOgmTzPOgP2HcM5lKopdURFONUUKYSTQCjI6S
-	OWQA==
+	Wed, 12 Jun 2019 13:53:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=T6MzDs2Khq81xkxyqMUMdm7zhQ1Q7zwXHuPqPt1JPkE=;
+	b=Sw3EcMg0qmSl6FjVTQZ+s+vrlsi1DdXjrI2+WdBfY8UQCypZ1pDs+dvT016QtoQV5K
+	44+iTgNJKOmCuL74cRgfesyx75q8dWkpSGGfE3hg3aw3Ix6LPR0onscWw5i9beq8y92A
+	+UudVMBRY56IHbeDlNFNELlaRzXLHg9ZRhNLzRZ6LjYiDocZMGxfV8EbzfMYYRJMkuX+
+	ElvHj0/5iwCmAC3Ec8PxQfoXNXnfqLGfvE7R1/Xq3sHrEQplUgC66JlmOCyzU17TL4T+
+	8sSB8qhFMm2OZXvY7v9u9V/OvmR8VgS8ArkSyIO1v7lU3BMDaOm6O7ys1/wKEVEnW26+
+	y6tQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=s4J9ievE1Q9+Ow5KvpKh8UEUTgXZTQOlsp9mQUbKjyM=;
-	b=rhdJmO/6VNYv3ye4YwNtt+X84enfksD9+EVrqv5FDIFA0cqK19Hi1I/fHWTPaUdzNc
-	3BzHRccsj79hxhw6rqWdjkbyUPesAfdGdDg3iMSGKvzSZPkalcyG4pKfV2qWLtWx9cRS
-	rgW6RTLcjzAPU4HGnhAdfyKKSq4hKY15ZIb4M7IRF8DWZvsePs1ywloEM2FQ0+qqxQh5
-	2sBSkoBeRnZs6G03Kcd/i91cZrszUeqMuCFVHORj9LiTUIyn1UmUsVAIjf7x1ZFXp9O6
-	9qexA/n+yln74TUkUp9g/P/Nl159B5aQz1SPl9uvQMdry0L+MjLDcLlmNHVnXXQVbPFD
-	PeFg==
-X-Gm-Message-State: APjAAAXLeJxhfKXMqcAgtm4Z7rivB9fW1U/orUsiXGmkn74717dDIMNB
-	Zy64AiXVJwM5i6EoT5+pQi0SaiMeEfc=
-X-Google-Smtp-Source: APXvYqximy6Med8Y+ItzNlDosTF8d3tyYlix4vHl76XWxC/hKFY0yx4oRVEj8OlvGEK3ELdYAySTKA==
-X-Received: by 2002:a05:6000:11c9:: with SMTP id
-	i9mr7286078wrx.258.1560371742387; 
-	Wed, 12 Jun 2019 13:35:42 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	j189sm1156818wmb.48.2019.06.12.13.35.41
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Jun 2019 13:35:41 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jun 2019 21:35:36 +0100
-Message-Id: <20190612203536.32162-2-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190612203536.32162-1-ross.burton@intel.com>
-References: <20190612203536.32162-1-ross.burton@intel.com>
-Subject: [PATCH v2 2/2] efibootmgr: add
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=T6MzDs2Khq81xkxyqMUMdm7zhQ1Q7zwXHuPqPt1JPkE=;
+	b=XF+6XWMy2U8GwjmtM+x5OrbcRrT1cJ6JbULV/Ebdg2BxsSEjiPAOlH/Ie70ZqMFRR1
+	JMKnEElfs8qxJo8qPjY6zfbFV6veKpaviAubBGrY9spzRX90TtzBVKLUbCTV5qyZfrPl
+	ThLOkhnIaKoQp+qvGPuFyvEbtaLqpkCoj5vGUekrDm/gU4gbOKLcU5OGjGq1+l8mw3CC
+	YCm035oNkcYVS3MJdJ6jkWvwNra36vXtQQDKQBQd6KOdpWPWT5yzt2pJcVnS7zglS3Ug
+	6HHPFkxmQu2q/nYO3AdPGD+S67rRey6eRGEgyR6uX8l+urSoJr15qaNraVBpaXSO3eCd
+	PKFQ==
+X-Gm-Message-State: APjAAAXMS/Rjm/3y+vKf2D+V3hQ5rsAE2Bac1h3dFl/QP7xz/TEfPUUE
+	zeP7yuuuoJoIxEqIiJ7iYcufHXskx8dQxnkFFoE=
+X-Google-Smtp-Source: APXvYqyhgcQ6vFfW+JIVXK3C+yPiXRrY9nEKIByUCyUvVWNQZBCG/hjVZcrlsJ0bzq4uSUEy6uojxOr368VQwaPLMf0=
+X-Received: by 2002:ac8:e05:: with SMTP id a5mr37485976qti.53.1560372784631;
+	Wed, 12 Jun 2019 13:53:04 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
+	<7c1f46d8510f95fe7a35127196bd496935efe384.1559950879.git.timothy.t.orling@linux.intel.com>
+	<566287162a0ddfec6fa1935244b9fff9d530039a.camel@intel.com>
+In-Reply-To: <566287162a0ddfec6fa1935244b9fff9d530039a.camel@intel.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 12 Jun 2019 13:52:38 -0700
+Message-ID: <CAMKF1sruYUAYqcvRe34m+AdK89cC0azzxtaQjTpd31X+5jFHmA@mail.gmail.com>
+To: "Mittal, Anuj" <anuj.mittal@intel.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 3/4] serf: switch to python3-scons-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,99 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 20:35:42 -0000
+X-List-Received-Date: Wed, 12 Jun 2019 20:53:04 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-This was in meta-oe but EFI is sufficiently widespread now that we need it in
-core.
+On Sun, Jun 9, 2019 at 10:10 PM Mittal, Anuj <anuj.mittal@intel.com> wrote:
+>
+> This is causing on CentOS 7:
+>
+> | DEBUG: Executing shell function do_compile
+> | scons: *** SCons version 3.0.5 does not run under Python version
+> 3.4.8.
+> | Python 2.7 or >= 3.5 is required.
+>
+> Looks like it's using host python which is at 3.4.8 in this case.
+>
 
-The recipe is based on the one in meta-oe but with several updates.
+same error on ubuntu 14.04 on both serf and serf-native
+https://errors.yoctoproject.org/Errors/Details/248342/
+https://errors.yoctoproject.org/Errors/Details/248341/
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- .../efibootmgr/0001-remove-extra-decl.patch        | 31 ++++++++++++++++++++
- meta/recipes-bsp/efibootmgr/efibootmgr_17.bb       | 34 ++++++++++++++++++++++
- 2 files changed, 65 insertions(+)
- create mode 100644 meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch
- create mode 100644 meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch b/meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch
-new file mode 100644
-index 00000000000..42f3a8182df
---- /dev/null
-+++ b/meta/recipes-bsp/efibootmgr/efibootmgr/0001-remove-extra-decl.patch
-@@ -0,0 +1,31 @@
-+From 99b578501643377e0b1994b2a068b790d189d5ad Mon Sep 17 00:00:00 2001
-+From: Peter Jones <pjones@redhat.com>
-+Date: Wed, 13 Jun 2018 09:41:01 -0400
-+Subject: [PATCH] remove extra decl
-+
-+Signed-off-by: Peter Jones <pjones@redhat.com>
-+
-+Upstream-Status: Backport [git://github.com/rhinstaller/efibootmgr.git]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+
-+---
-+ src/efibootmgr.c | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/src/efibootmgr.c b/src/efibootmgr.c
-+index de38f01..4e1a680 100644
-+--- a/src/efibootmgr.c
-++++ b/src/efibootmgr.c
-+@@ -1536,9 +1536,6 @@ parse_opts(int argc, char **argv)
-+ 					       "invalid numeric value %s\n",
-+ 					       optarg);
-+ 			}
-+-                        /* XXX efivar-36 accidentally doesn't have a public
-+-                         * header for this */
-+-			extern int efi_set_verbose(int verbosity, FILE *errlog);
-+ 			efi_set_verbose(opts.verbose - 2, stderr);
-+ 			break;
-+ 		case 'V':
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-new file mode 100644
-index 00000000000..0e5a81e3166
---- /dev/null
-+++ b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-@@ -0,0 +1,34 @@
-+DESCRIPTION = "Linux user-space application to modify the EFI Boot Manager."
-+SUMMARY = "EFI Boot Manager"
-+HOMEPAGE = "https://github.com/rhboot/efibootmgr"
-+SECTION = "base"
-+
-+LICENSE = "GPLv2+"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=0636e73ff0215e8d672dc4c32c317bb3"
-+
-+DEPENDS = "efivar popt"
-+
-+COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
-+
-+SRC_URI = "git://github.com/rhinstaller/efibootmgr.git;protocol=https \
-+           file://0001-remove-extra-decl.patch \
-+          "
-+SRCREV = "e067160ecef8208e1944002e5d50b275733211fb"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit pkgconfig
-+
-+# The directory under the ESP that the default bootloader is found in.  When
-+# wic uses a subdirectory, this should use the same one too.
-+EFIDIR ?= "/"
-+
-+EXTRA_OEMAKE += "'EFIDIR=${EFIDIR}'"
-+
-+CFLAGS += " -Wno-error"
-+
-+do_install () {
-+	oe_runmake install DESTDIR="${D}"
-+}
-+
-+CLEANBROKEN = "1"
--- 
-2.11.0
-
+> Thanks,
+>
+> Anuj
+>
+> On Fri, 2019-06-07 at 16:47 -0700, Tim Orling wrote:
+> > SCons has supported python3 since v3.0.0, use it.
+> >
+> > Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+> > ---
+> >  meta/recipes-support/serf/serf_1.3.9.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-
+> > support/serf/serf_1.3.9.bb
+> > index 65a8114bb4..706c86be47 100644
+> > --- a/meta/recipes-support/serf/serf_1.3.9.bb
+> > +++ b/meta/recipes-support/serf/serf_1.3.9.bb
+> > @@ -14,7 +14,7 @@ SRC_URI[sha256sum] =
+> > "549c2d21c577a8a9c0450facb5cca809f26591f048e466552240947bdf
+> >  LICENSE = "Apache-2.0"
+> >  LIC_FILES_CHKSUM =
+> > "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+> >
+> > -DEPENDS = "python-scons-native openssl apr apr-util util-linux
+> > expat"
+> > +DEPENDS = "python3-scons-native openssl apr apr-util util-linux
+> > expat"
+> >
+> >  do_compile() {
+> >       ${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE}
+> > PREFIX=${prefix} \
+> > --
+> > 2.20.1
+> >
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
