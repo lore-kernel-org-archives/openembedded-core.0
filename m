@@ -1,61 +1,49 @@
-Return-Path: <mike@foundries.io>
-Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
-	[209.85.215.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F7DD7D38A
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
+	[209.85.167.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 87A967D70B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 21:17:05 +0000 (UTC)
-Received: by mail-pg1-f196.google.com with SMTP id l19so7007558pgh.9
+	Wed, 12 Jun 2019 22:10:11 +0000 (UTC)
+Received: by mail-lf1-f68.google.com with SMTP id y198so13432734lfa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 14:17:07 -0700 (PDT)
+	Wed, 12 Jun 2019 15:10:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=foundries-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=cJWUW6Ktgg6E9kNGDN1TP2RFoF3r+3+ySvD0sy6luHo=;
-	b=bkAd8IpQJxmIg9tbvaQC+ZeP6igZU6th1X69v4LOipcwL8K6MLeS6jFIIEEhTLV+7y
-	hgg62BfSdHeqd0V/OAhcfBN28WOD7E1ZXbCTw8S7i6rcvuhKuCSqC9X1xKSiTZwA0E5l
-	a6p8uFmsVOgVm3W4KZs13lHD/PPvbmqxTmm2mwQX4fs5w6rAJmeYqOYltnc1jT42TD05
-	6KgVeHh9JncddkThjsAyyjEtELRsjzBoXnGtk3ojeZcnWIQo5bUk7MRvsoEMtK7zs65V
-	j6SYf8RSVE9M3xG/G7r32p28gw2g7TWqzwbyvcTHJKUyLWP6R8+LkClsjv5HuU9o6YJ1
-	ZhDA==
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=MRVo/A2sKs+7a755b5MnOTqDqHMTNy7iKR87xxC3zlk=;
+	b=Xm7J3RYqvRqCeKNIGvM8EPo1/2UauRvBig0VU8oSIdNLz7ZqR84/3/4fW3nSYlOK2a
+	HKB1cXwFXrfHbFnUQfO56lHPDsigYY8kxAy5wQw3D89wFpOvOirxIS6dUUNi+R6uDwNu
+	H+kC6w10+6HSPyhsTdjl7Ub/dov8v5yT8FPBLHF8fCP3Ihzoq+T7pY1LG+91peeG66xU
+	iYKiBzpp63UkBK0X2dWS2q/78Q7VZ8GfStE9hIttKSqm4izmwHwhwquo+6PzW8vx0J2f
+	AzNYEgUcpD2Fd+L5hXH2QTYPvoaGXSK3R/L3xNo+x4ElJtIsi4NRvOR4x+fxLq+emGQb
+	jddA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=cJWUW6Ktgg6E9kNGDN1TP2RFoF3r+3+ySvD0sy6luHo=;
-	b=qYTZ1rg2c+ybwh6PqzL+MPpl/GE2ieSg0qn/0paB6PAzLmIyM1NIlF3rKjTZx7//i2
-	AWv5OPZY1a5V7E5QRqMSQUvxDY8HOZpfop3rTp6Teco/FC58P+PBe1Lh7iNmd8nJs/Bt
-	VOotILCRjWjIBsqizx0U+L1HT79YnyiTtKlah0SNC6nw4+9i4L9qnKNHal+FzwmryJuZ
-	sgTI+TPYWM5q9lh4XxuP1abBXbAnaMYEI604DeKmtosgcRLmGkvEwXxmJ/5t+/ZRaoSH
-	KKnW/4+Uoee+PzzMrO98TIdPPaSwgDkghPxpce1Yjp258sepbHrmKUDOw7U1CCbbyOU8
-	pT+g==
-X-Gm-Message-State: APjAAAVtb1qNWuB0TRY9lakh6T35z690+uALksqGkjFafuOxoYOGUc5h
-	EW5K1IhM4X/8QpDg7jk3NyKxUM58xPs=
-X-Google-Smtp-Source: APXvYqyKqu+EQqNRIdNGOWbEZcqPHhNBBHr+B6iAcSV2NfBUCikh9neJmJ0CsvSbxmi8fxWr9EekSw==
-X-Received: by 2002:a62:1ec1:: with SMTP id
-	e184mr89237843pfe.185.1560374226845; 
-	Wed, 12 Jun 2019 14:17:06 -0700 (PDT)
-Received: from [192.168.69.121] (107-198-5-8.lightspeed.irvnca.sbcglobal.net.
-	[107.198.5.8])
-	by smtp.gmail.com with ESMTPSA id j23sm477760pff.90.2019.06.12.14.17.06
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Jun 2019 14:17:06 -0700 (PDT)
-To: Alex Kiernan <alex.kiernan@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-References: <20190612081559.5102-1-alex.kiernan@gmail.com>
-	<51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
-	<CAO5Uq5SBNF025u6metFbzeNfSWYOXiYTP5ePR_u1Z9++L_ds8A@mail.gmail.com>
-From: Michael Scott <mike@foundries.io>
-Message-ID: <9cbbc692-2702-f3f4-199d-ec06cc0f212c@foundries.io>
-Date: Wed, 12 Jun 2019 14:17:05 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <CAO5Uq5SBNF025u6metFbzeNfSWYOXiYTP5ePR_u1Z9++L_ds8A@mail.gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-fitimage: uboot-sign: Check UBOOT_DTB_BINARY before adding deps
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=MRVo/A2sKs+7a755b5MnOTqDqHMTNy7iKR87xxC3zlk=;
+	b=AdcPRWJYcirNTrmZUKs9SZSM/DwJb/r+0ckHpQBrE1ULFIzvPGDnWhW+vqjsaycjaY
+	mdVP4dRbUgVhNJuvz4XVDw5pDXCRV7JMzauCM5D8VCqY3L1MAQenELfYNgfF9830hexT
+	iY+XesE/OCqQmPQD53AYCWyVD4gXDLXioahFsfFoRe0x4j6dMzRmBF5aovdFJRPaOI3R
+	5dBDx2/n2ZyhXdVDyWsokwmoHlM3JrohxyxtmVeaNfmF74236Cc6ymwIq4wJ5A1+Ne7N
+	4dZnaz2H/sAJ1BEZobLkR0hJ6m3gJB4aCID91XES36m4Fdikfy7i4m4Eo1FSMbYVBzUn
+	RMww==
+X-Gm-Message-State: APjAAAXL6cyI+uXLdiYI4eVzjjsISv0atNH0/4OL0KtpGf2UVfnV/eUr
+	uMZPzI6IovOdGaTbzsfGEApKtO0him8=
+X-Google-Smtp-Source: APXvYqyP062fLfdidDbg9VS/mwCSsid6q0KsMu0bfYM5acNpitRcznREoJxc3rWVklm79iuN2S4lhw==
+X-Received: by 2002:a19:9e4b:: with SMTP id h72mr16878580lfe.21.1560377411560; 
+	Wed, 12 Jun 2019 15:10:11 -0700 (PDT)
+Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id z24sm227681lfh.63.2019.06.12.15.10.10
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 12 Jun 2019 15:10:10 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Jun 2019 00:10:06 +0200
+Message-Id: <20190612221006.3691-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] popt: fix SRC_URI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,69 +56,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 21:17:06 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 12 Jun 2019 22:10:17 -0000
 
-Hi Richard,
+rpm5.org has been down for about a year now. Use linuxfromscratch.org
+as an alternative reliable source instead.
 
-On 6/12/19 11:02 AM, Alex Kiernan wrote:
-> On Wed, Jun 12, 2019 at 10:59 AM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Wed, 2019-06-12 at 09:15 +0100, Alex Kiernan wrote:
->>> Since UBOOT_DTB_BINARY empty means we don't need to inject signatures
->>> into the U-Boot DTB, we can remove the dependencies between consumers
->>> of
->>> these two classes and resolve a circular dependency between u-boot
->>> and
->>> kernel.
->>>
->>> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
->>> ---
->>>
->>>   meta/classes/kernel-fitimage.bbclass | 2 +-
->>>   meta/classes/uboot-sign.bbclass      | 2 +-
->>>   2 files changed, 2 insertions(+), 2 deletions(-)
->> Really wish we had tests and documentation for these classes...
->>
-> I know... I have a dread anytime anyone touches it, me included... I
-> sat on this change for a couple of weeks too.
->
-> The truth is the pair of them are fragile and hopelessly intertwined,
-> but without tests they're never going to get rewritten, so I might try
-> and take some of that on (or get someone here to do it) as I still
-> have multiple issues with them - signing doesn't really work the way I
-> want, I still have a circular dependency I've not tracked down,
-> doubtless other things I can't immediately bring to mind.
->
-> If we were to add some tests around it, what would you pull out as the
-> simplest thing that it could do which would be valuable?
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-support/popt/popt_1.16.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Actually, you can ignore this patch.  We debugged the actual race 
-condition contributing to the confusion, and that developer will submit 
-a new patch with that fix.  We can review if that patch makes more sense 
-(even without tests).
-
-The test would need to follow:
-
-1) Is there a pub key in the u-boot.dtb (symlinked file) in the deploy 
-directory and is it the same as what is generated by mkimage when 
-pointing at the fitImage in the deploy directory.
-2) The race condition affects the build when there is a cached step 
-built incorrectly.   The cached build step injects the u-boot.dtb prior 
-to it being signed.
-
-Hopefully that makes sense,
-
-- Mike
-
->
+diff --git a/meta/recipes-support/popt/popt_1.16.bb b/meta/recipes-support/popt/popt_1.16.bb
+index 478288f9bf..27e49c2ca2 100644
+--- a/meta/recipes-support/popt/popt_1.16.bb
++++ b/meta/recipes-support/popt/popt_1.16.bb
+@@ -8,7 +8,7 @@ PR = "r3"
+ 
+ DEPENDS = "virtual/libiconv"
+ 
+-SRC_URI = "http://rpm5.org/files/popt/popt-${PV}.tar.gz \
++SRC_URI = "http://anduin.linuxfromscratch.org/BLFS/popt/popt-${PV}.tar.gz \
+            file://pkgconfig_fix.patch \
+            file://popt_fix_for_automake-1.12.patch \
+            file://disable_tests.patch \
 -- 
-Michael Scott
-Embedded Software Engineer at Foundries.io
-"microPlatforms™ for Connected Products"
-E: mike@foundries.io
-W: https://www.foundries.io
+2.17.1
 
 
