@@ -1,52 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
-	[209.85.221.53])
-	by mail.openembedded.org (Postfix) with ESMTP id 591BB7E6E7
+Return-Path: <tom.rini@gmail.com>
+Received: from mail-yb1-f196.google.com (mail-yb1-f196.google.com
+	[209.85.219.196])
+	by mail.openembedded.org (Postfix) with ESMTP id F381A7E6CD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 00:05:27 +0000 (UTC)
-Received: by mail-wr1-f53.google.com with SMTP id e16so14914769wrn.1
+	Wed, 12 Jun 2019 00:11:01 +0000 (UTC)
+Received: by mail-yb1-f196.google.com with SMTP id x32so5752920ybh.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 17:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=H9XjQPwiyPXtCP9X0W78VJ42bRh5TASMt97beQhgax0=;
-	b=BiTlUF7Qje6wLETxIVnuYeKVW4syxHiTqu4pxdtej/H7mRmkHfVTLI1rt6KPPqbEJ7
-	uWX2Dc0zE/dBj3tTtQb/cRbU4Mu0jBIdBO1OBwfar9jsjTiGoFwRswcCeP5R+E5t2LF6
-	jw3WKLjcgfoJ8GFa6KxBjqJtiLuy6Iz4x1anw=
+	Tue, 11 Jun 2019 17:11:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=H9XjQPwiyPXtCP9X0W78VJ42bRh5TASMt97beQhgax0=;
-	b=d/Vkn8KDtB1Bc8sCx8NFhpNsKN8svwGkbcqmVcloLJsWh37wAS/OO9GPm61mLI4r6b
-	K/WpGhVb2QjwwcceWwspgU/4xPwum2ZAVOAfllaFRxA7XsmR/rRMr+7YwKpnxhlttG/X
-	cdykEE67Ya1Cbm63MhFTL/Lk2QeDx/xLh03muMjawhHBNmnEhYvn2/GZHW2PfMe9dnJA
-	TvTVWgsLi+Yfp1a9FDgWFO4Vw+sbdoZJD1vXtKWePX9S7AJ+GC6EEXktxCFHJFxibLlR
-	g2L05t8/UcJJF5ieRdQlVvGV3eSvujp97ytAdqfh/q0Gi1PHF+WkxSoMk9sYvi0VMv0L
-	n5Lw==
-X-Gm-Message-State: APjAAAWyYy8E0dByWSpqxnKKO0pqLY24ktbTT+rfHVQuh2fdPQzW6gt9
-	x4svT6ex8vjW5Ck5xwakw8KBLlhoO34=
-X-Google-Smtp-Source: APXvYqyepk40vsduEVCcOqn2u49Xc4MIRW4xBkRXOTIR2wnE7msgvamjrFJS1FBk+tyICIeHpM+cnw==
-X-Received: by 2002:adf:ff86:: with SMTP id j6mr19572268wrr.318.1560297928140; 
-	Tue, 11 Jun 2019 17:05:28 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id t63sm6328247wmt.6.2019.06.11.17.05.26
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 11 Jun 2019 17:05:27 -0700 (PDT)
-Message-ID: <f89948476688118012710c34f880bac3d5114faf.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Randy MacLeod <randy.macleod@windriver.com>, Sakib Sajal
-	<sakib.sajal@windriver.com>
-Date: Wed, 12 Jun 2019 01:05:25 +0100
-In-Reply-To: <1607ff2c-d02a-a867-f761-bd3ecd2d1af3@windriver.com>
-References: <1607ff2c-d02a-a867-f761-bd3ecd2d1af3@windriver.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: bash ptests: use runuser? also remaining errors.
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=dxMLJpknnExp+aRmo/CKcJbNnBJIM9zrHS72bbPsYuw=;
+	b=e/mnzDQPAWPPLZOi8fFUmMw8t62nLEdZZYVRP3qBC/BpD4BNuNn53v2xvcOizQwARm
+	3Jxpkdl6kF14oA4Xhje6sjVxA8YluQevhd/2IGY+dP0H54+tr3h/shbS4vdcbaJRJB0C
+	Aihx7VL33RL3RGe1KPkzH28oKZGY+LlQ+R+HUW3opnZSk5FRdRHooMxNIdqSCKfGGYk+
+	GA1SzEMpx6s36sXf4ecPFmrqaBcg3I7YumS79RB0AbSXy8njwG7g0MgXY1hpK3oJ76eP
+	nmJNLp7sd+QQ3MFUiMDb/ekkXBRedQK7BspBR5eHT8b3UfQXynd2aclNKwoHldE4C5mZ
+	mMhw==
+X-Gm-Message-State: APjAAAXtOA2OFsu7j5bQ1BIsoS7AHsqG5eAPORurj+EolXVwzk6Clj0A
+	IlpIIcGwSiT2a1ryJ8n0HRtZkEh8pQ==
+X-Google-Smtp-Source: APXvYqy0rwCQgLvYvyMv5EgzZZb+56gUdsyi6B3vvhgRBkfPo3mMBTCIemrjYb8xRnkh9jqx5vupUQ==
+X-Received: by 2002:a25:7781:: with SMTP id
+	s123mr41390544ybc.376.1560298262474; 
+	Tue, 11 Jun 2019 17:11:02 -0700 (PDT)
+Received: from bill-the-cat.local
+	(cpe-2606-A000-1401-82DE-1DD5-268A-2EEA-9945.dyn6.twc.com.
+	[2606:a000:1401:82de:1dd5:268a:2eea:9945])
+	by smtp.gmail.com with ESMTPSA id l6sm4368078ywi.86.2019.06.11.17.11.01
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 11 Jun 2019 17:11:01 -0700 (PDT)
+From: Tom Rini <trini@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 11 Jun 2019 20:10:58 -0400
+Message-Id: <1560298258-21454-1-git-send-email-trini@konsulko.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH] vim: Update to 8.1.1518 to fix CVE-2019-12735
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,58 +48,103 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 00:05:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 12 Jun 2019 00:11:02 -0000
 
-On Tue, 2019-06-11 at 15:00 -0400, Randy MacLeod wrote:
-> Richard, et. al.
-> 
-> I have two patches (ptest-runner, bash) that enable all but two [*]
-> of the bash-ptests to pass. A potential problem is that when started
-> by
-> ptest-runner, 'su' (both busybox and util-linux versions), results in
-> a few of bash's tests failing whereas they work if started by
-> 'runuser'.
-> The test failure is due to a warning:
->      bash: cannot set terminal process group (16036): \
->            Inappropriate ioctl for device
-> that contaminates the test logs and makes a diff with the expected
-> results fail. I can easily redirect that warning to /dev/null but
-> that seems wrong and would be a patch that we'd have to carry in
-> oe-core.
-> 
-> To get 'runuser' from util-linux into an image, it seems that you
-> need:
->   - the RDEPENDS for ptest,
->   - REQUIRED_DISTRO_FEATURES = "pam" in bash.inc, and
->   - to set the 'pam' DISTRO_FEATURE in your local.conf.
+Signed-off-by: Tom Rini <trini@konsulko.com>
+---
+ meta/recipes-support/vim/vim-tiny_8.1.1240.bb | 12 ------------
+ meta/recipes-support/vim/vim-tiny_8.1.1518.bb | 12 ++++++++++++
+ meta/recipes-support/vim/vim.inc              |  2 +-
+ meta/recipes-support/vim/vim_8.1.1240.bb      | 10 ----------
+ meta/recipes-support/vim/vim_8.1.1518.bb      | 10 ++++++++++
+ 5 files changed, 23 insertions(+), 23 deletions(-)
+ delete mode 100644 meta/recipes-support/vim/vim-tiny_8.1.1240.bb
+ create mode 100644 meta/recipes-support/vim/vim-tiny_8.1.1518.bb
+ delete mode 100644 meta/recipes-support/vim/vim_8.1.1240.bb
+ create mode 100644 meta/recipes-support/vim/vim_8.1.1518.bb
 
-The requirement for pam is a problem as we can't require that for
-ptests.
-
-> Is that something you are willing to do for all ptests or perhaps
-> just for bash's ptests?  If so, I'll clean-up my ptest-runner patch
-> and send this to the list.
-> 
-> 
-> I also considered using util-linux's 'setpriv' but enabling that
-> has turned into a mess of dependency loops and other build problems.
-> man runuser:
->     If the PAM session is not required then recommended solution
->     is to use setpriv(1) command.
-
-What kind of dependency loops? Can we just enable it for target builds,
-would that help?
-
-> Other solutions to properly starting user tests from root are
-> welcome!
-
-Not sure but I think we're going to need to find some. Enabling setpriv
-sounds like the easiest first option but it depends on the errors.
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb b/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
+deleted file mode 100644
+index e4c26d23f69d..000000000000
+--- a/meta/recipes-support/vim/vim-tiny_8.1.1240.bb
++++ /dev/null
+@@ -1,12 +0,0 @@
+-require vim.inc
+-
+-SUMMARY += " (with tiny features)"
+-
+-PACKAGECONFIG += "tiny"
+-
+-do_install() {
+-    install -D -m 0755 ${S}/src/vim ${D}/${bindir}/vim.tiny
+-}
+-
+-ALTERNATIVE_PRIORITY = "90"
+-ALTERNATIVE_TARGET = "${bindir}/vim.tiny"
+diff --git a/meta/recipes-support/vim/vim-tiny_8.1.1518.bb b/meta/recipes-support/vim/vim-tiny_8.1.1518.bb
+new file mode 100644
+index 000000000000..e4c26d23f69d
+--- /dev/null
++++ b/meta/recipes-support/vim/vim-tiny_8.1.1518.bb
+@@ -0,0 +1,12 @@
++require vim.inc
++
++SUMMARY += " (with tiny features)"
++
++PACKAGECONFIG += "tiny"
++
++do_install() {
++    install -D -m 0755 ${S}/src/vim ${D}/${bindir}/vim.tiny
++}
++
++ALTERNATIVE_PRIORITY = "90"
++ALTERNATIVE_TARGET = "${bindir}/vim.tiny"
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 5f9f3d79de96..0a31e68cb7cc 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/vim/vim.git \
+            file://vim-add-knob-whether-elf.h-are-checked.patch \
+            file://0001-src-Makefile-improve-reproducibility.patch \
+ "
+-SRCREV = "d96dbd6f95ea22f609042cc9c6272f14a21ff1a5"
++SRCREV = "202d982b36d87cf91d992bd7e30d3223bdc72cd9"
+ 
+ S = "${WORKDIR}/git"
+ 
+diff --git a/meta/recipes-support/vim/vim_8.1.1240.bb b/meta/recipes-support/vim/vim_8.1.1240.bb
+deleted file mode 100644
+index 60946a181f42..000000000000
+--- a/meta/recipes-support/vim/vim_8.1.1240.bb
++++ /dev/null
+@@ -1,10 +0,0 @@
+-require vim.inc
+-
+-PROVIDES = "xxd"
+-
+-PACKAGECONFIG_class-native = ""
+-BBCLASSEXTEND = "native"
+-
+-ALTERNATIVE_${PN}_append = " xxd"
+-ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
+-ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+diff --git a/meta/recipes-support/vim/vim_8.1.1518.bb b/meta/recipes-support/vim/vim_8.1.1518.bb
+new file mode 100644
+index 000000000000..60946a181f42
+--- /dev/null
++++ b/meta/recipes-support/vim/vim_8.1.1518.bb
+@@ -0,0 +1,10 @@
++require vim.inc
++
++PROVIDES = "xxd"
++
++PACKAGECONFIG_class-native = ""
++BBCLASSEXTEND = "native"
++
++ALTERNATIVE_${PN}_append = " xxd"
++ALTERNATIVE_TARGET[xxd] = "${bindir}/xxd"
++ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
+-- 
+2.7.4
 
 
