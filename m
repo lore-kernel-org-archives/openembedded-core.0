@@ -1,49 +1,47 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ed1-f67.google.com (mail-ed1-f67.google.com
-	[209.85.208.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EB2A97E730
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 7916B7E655
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 07:38:05 +0000 (UTC)
-Received: by mail-ed1-f67.google.com with SMTP id p26so20147643edr.2
+	Wed, 12 Jun 2019 08:14:22 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id d18so15816765wrs.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 00:38:07 -0700 (PDT)
+	Wed, 12 Jun 2019 01:14:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=A0MJUn6pYzzrfE0PBx1XVOO0ckmJr7Wj7G/y2TeoBk8=;
-	b=CB74qxVRM9zl/lLFjob/qqQuGNpu/twPbSMN/ZPNN+WIjFl1LotGyoataQmuPJrwoo
-	+uKTCBdN6ofBadz5/qxrjtnS0+eLopDKuxfZkB868mRTGElap9oVRNZYjItKgKEWJv6s
-	It/rUdqGijSmchAktLsRQvF00AqGyLbBALrAZBEXbKuP2gY97e2ET8HMhDASGr2IDuEY
-	z4taPseEcrvvW5DUr1ub6KdilqHRqXJ0pcz/+gP0ldmokHrj7fxML8UCYcTxvVN9xix9
-	g8QDZXhOFEAFOA6xnzUGIApqNl/k86BrgTEFIoZatdfVYnAhFLN5TM6Mw7Q5rer5zJhY
-	hh+w==
+	h=from:to:cc:subject:date:message-id;
+	bh=FhDfqR8W1Zr9/CXEznbhqTlI09yCOpVmmAYXcDTufEE=;
+	b=WKc5JWCscukvXmZETuNoj1tkM1LjaJj0IIodVuP5GY4Xp+GPF11Gc5vVi2tMwdYM3w
+	yQmkhWc/A0LMD4OhrtPf3AVNmr7p5V4xH2AT2rbR0f/n2MMADxrdus8a/igASG1YBODa
+	9sYoIjwgAtKCsyptw9q2rWmgfSrS/56s1GirvX+ivcuW16cpEhyGczK19z4f9nuYxJHt
+	7PPBQDD3wWXt75lg/tx8wvLtN36mkNpUqTf/9cfm/soPc5blI7hNqD1V//y/LUb46lej
+	vWd6j+MHhfkwbb9ALX95NqL2wd1bNBl29I3CANYh/VrkvTa0GIhHsWVkmz6X1jknuwhm
+	SnMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=A0MJUn6pYzzrfE0PBx1XVOO0ckmJr7Wj7G/y2TeoBk8=;
-	b=VR1qzVFjGVjozLWaDPvhMY5cyY/GfFqKh383aCwX1gJySJZCzosO/Roj+BalbJSKNW
-	3EAkuwSbCZnNBVUBuQGfdRbTnTVspvnV3BmRv9RteFJpVhmkdZvnB3ckOlWLhUnbz0Hm
-	MqG/tDNcD8b7z31c9Bjthjefkv4WDNVeZzf3qeeBcK3SmNhb0hNqvGhJbROPYygdGa/J
-	3fo0LlGCC8Mif7igWy3odVSI76VOHo1imvTBd4fNxAMPbamUmbrJsb6yCKJT5CvwS2dP
-	HrabixE5FXZiENlaiEKerX5H2QsOCDbR1rYSQbres3+QrEYAGd/Ld3laAS5GI0xDnRT3
-	OnKw==
-X-Gm-Message-State: APjAAAXyqOqtd1j5c6juWZod3CLLt/TTVCSUk6URdc6SJOWqWhK00Me4
-	K/flwmHe/qR3wulp8VkP4O6toJ+baFf/eu8ST4U=
-X-Google-Smtp-Source: APXvYqwLVey99SD6GIkdYby7lLHV6OhwbgM0vwkXu4//uH/yIbLfT7V672lC2VlOYYSwPSvs5eZ0WbgU7y7eOgQrJI0=
-X-Received: by 2002:a17:906:a59:: with SMTP id
-	x25mr25587537ejf.293.1560325086579; 
-	Wed, 12 Jun 2019 00:38:06 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190611200158.GA1858@jama>
-	<779149c6-f205-2730-7af6-be69819b478f@windriver.com>
-In-Reply-To: <779149c6-f205-2730-7af6-be69819b478f@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Wed, 12 Jun 2019 09:37:57 +0200
-Message-ID: <CA+chaQc1s5jq7uBwZ0Px=wyr2wnHMBBEEi3D00BOLed7v-vZrw@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: meta-openembedded git repo in some of the openembedded-core-contrib branches
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FhDfqR8W1Zr9/CXEznbhqTlI09yCOpVmmAYXcDTufEE=;
+	b=ACaGdUUdWddHzHWcPCpZ46r52PiBx0CJRuD98bdhGFqKz5NMNU2xw7BkCzrlOfxJjm
+	Cm9/KhkjI2QjCtuwtMoFqrfz9VDJG3rfxH9y2Ozrc7bXMZw5oSfTMdxvpROlHh1Jxkgm
+	EkNHGuN4WgSjbEu9XTDFcQGAVY+FlnFDzJoHDJgdO6AR3KjZiz6he25R7yeqQb5lSXsW
+	gYcZfE2xlulnmkVWbA1dtRd9+8Ipx+r+3kppXdTIuv6ZXj+fJ4050jnwxDs/Fw+ACTYr
+	Pu3eCaiFIICA1GFJreSublyKbdzT4gMp0F90CQ89X7yOisZy5MqcEsfKUNeM6CU29q3L
+	uc3w==
+X-Gm-Message-State: APjAAAXizHeX9CYVeLsG/LyW9yOeA+91Eo1iLagUs1JT392nPS26buaG
+	JsUNmILDZZAQTCfKclFL+UE7y65D
+X-Google-Smtp-Source: APXvYqyB4bXNwdwk2eoymaH3MXl3TvBuQUOAH3QpCLI5nVwtvUHj9qblKjHMpGvaKNptGDTobX6hHQ==
+X-Received: by 2002:a5d:63c9:: with SMTP id c9mr6133445wrw.81.1560327262902;
+	Wed, 12 Jun 2019 01:14:22 -0700 (PDT)
+Received: from localhost.localdomain (193.164.125.18.ip.redstone-isp.net.
+	[193.164.125.18]) by smtp.gmail.com with ESMTPSA id
+	b5sm13630623wru.69.2019.06.12.01.14.21
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Jun 2019 01:14:22 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 12 Jun 2019 09:14:15 +0100
+Message-Id: <20190612081415.4926-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] systemd: Backport OpenSSL BUF_MEM fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,93 +54,116 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 07:38:06 -0000
-Content-Type: multipart/alternative; boundary="00000000000085132e058b1b7e12"
+X-List-Received-Date: Wed, 12 Jun 2019 08:14:23 -0000
 
---00000000000085132e058b1b7e12
-Content-Type: text/plain; charset="UTF-8"
+Building `systemd-resolve` from systemd 242 with OpenSSL 1.1.1c and enabling
+DNS over TLS ends up calling abort (on 32 bit armhf):
 
-Thanks!
+  Program terminated with signal SIGABRT, Aborted.
+  #0  __libc_do_syscall () at libc-do-syscall.S:49
+  49	libc-do-syscall.S: No such file or directory.
+  (gdb) where
+  #0  __libc_do_syscall () at libc-do-syscall.S:49
+  #1  0xb6940ea4 in __libc_signal_restore_set (set=0xbec68b78) at ../sysdeps/unix/sysv/linux/internal-signals.h:84
+  #2  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:48
+  #3  0xb69336e0 in __GI_abort () at abort.c:79
+  #4  0xb6968428 in __libc_message (action=action@entry=do_abort, fmt=<optimized out>) at ../sysdeps/posix/libc_fatal.c:181
+  #5  0xb696c7e6 in malloc_printerr (str=<optimized out>) at malloc.c:5352
+  #6  0xb696ca1a in munmap_chunk (p=<optimized out>) at malloc.c:2840
+  #7  0xb6bd1c4a in CRYPTO_clear_realloc (str=0xd0e59a, old_len=388, num=<optimized out>, file=0xb6c300dc "../../../../../../workspace/sources/openssl/crypto/buffer/buffer.c", line=135)
+      at ../../../../../../workspace/sources/openssl/crypto/mem.c:290
+  #8  0xb6b5da3a in BUF_MEM_grow_clean (str=0xcfb960, len=len@entry=393) at ../../../../../../workspace/sources/openssl/crypto/buffer/buffer.c:135
+  #9  0xb6b486a0 in mem_write (b=0xcf8300, in=0xd07c6b "\027\003\003", inl=24) at ../../../../../../workspace/sources/openssl/crypto/bio/bss_mem.c:235
+  #10 0xb6b45c86 in bwrite_conv (bio=<optimized out>, data=<optimized out>, datal=<optimized out>, written=0xbec68ec8) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_meth.c:77
+  #11 0xb6b452d4 in bio_write_intern (written=0xbec68ec8, dlen=24, data=0xd07c6b, b=0xcf8300) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:343
+  #12 bio_write_intern (b=0xcf8300, data=0xd07c6b, dlen=24, written=0xbec68ec8) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:320
+  #13 0xb6b455b2 in BIO_write (b=<optimized out>, data=<optimized out>, dlen=<optimized out>) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:363
+  #14 0xb6cabd1a in ssl3_write_pending (s=s@entry=0xcfd2d8, type=type@entry=23, buf=buf@entry=0xcfcc28 "", len=len@entry=2, written=written@entry=0xbec698b0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:1146
+  #15 0xb6cac72e in do_ssl3_write (s=s@entry=0xcfd2d8, type=type@entry=23, buf=buf@entry=0xcfcc28 "", pipelens=pipelens@entry=0xbec698b4, numpipes=numpipes@entry=1, create_empty_fragment=create_empty_fragment@entry=0,
+      written=written@entry=0xbec698b0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:1107
+  #16 0xb6cac92e in ssl3_write_bytes (s=0xcfd2d8, type=23, buf_=0xcfcc28, len=<optimized out>, written=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:613
+  #17 0xb6cb1698 in ssl3_write (s=<optimized out>, buf=0xcfcc28, len=2, written=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/s3_lib.c:4460
+  #18 0xb6cb87b2 in ssl_write_internal (s=<optimized out>, buf=buf@entry=0xcfcc28, num=num@entry=2, written=written@entry=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/ssl_lib.c:1943
+  #19 0xb6cb8896 in SSL_write (s=<optimized out>, buf=buf@entry=0xcfcc28, num=num@entry=2) at ../../../../../../workspace/sources/openssl/ssl/ssl_lib.c:1957
+  #20 0x004ddac8 in dnstls_stream_write (stream=stream@entry=0xcfca60, buf=0xcfcc28 "", count=2) at ../git/src/resolve/resolved-dnstls-openssl.c:270
+  #21 0x004d8d5c in dns_stream_writev (s=s@entry=0xcfca60, iov=iov@entry=0xbec69b4c, iovcnt=iovcnt@entry=2, flags=flags@entry=0) at ../git/src/resolve/resolved-dns-stream.c:225
+  #22 0x004d9516 in on_stream_io (es=<optimized out>, fd=<optimized out>, revents=4, userdata=0xcfca60) at ../git/src/resolve/resolved-dns-stream.c:334
+  #23 0xb6e7f020 in source_dispatch (s=0xcf3658) at ../git/src/libsystemd/sd-event/sd-event.c:2821
+  #24 0xb6e806b0 in sd_event_dispatch (e=e@entry=0xced6d0) at ../git/src/libsystemd/sd-event/sd-event.c:3234
+  #25 0xb6e807f6 in sd_event_run (e=0xced6d0, timeout=<optimized out>) at ../git/src/libsystemd/sd-event/sd-event.c:3291
+  #26 0xb6e809bc in sd_event_loop (e=0xced6d0) at ../git/src/libsystemd/sd-event/sd-event.c:3312
+  #27 0x004bb64c in run (argv=<optimized out>, argc=<optimized out>) at ../git/src/resolve/resolved.c:84
+  #28 main (argc=<optimized out>, argv=<optimized out>) at ../git/src/resolve/resolved.c:91
 
-On Wed, Jun 12, 2019 at 3:35 AM Hongxu Jia <hongxu.jia@windriver.com> wrote:
+This patch from:
+  https://github.com/systemd/systemd/commit/18bddeaaf225d5becfc10cd2c6a1d037c90574a2
 
-> On 6/12/19 4:01 AM, Martin Jansa wrote:
-> > Hi,
-> >
-> > when accidentally checking for some old meta-oe commit in oe-core
-> > repository I was surprised that it was found in some of the contrib
-> > branches:
->
-> Sorry for the mistake
->
-> > ~/openembedded-core $ git branch -a --contains 30bbde3d09e
-> >    remotes/contrib/hongxu/add-recipes-20190215
-> >    remotes/contrib/hongxu/dbg-split
-> >    remotes/contrib/hongxu/misc-fixes
-> >
-> > These branches are actually from meta-oe repo, not oe-core.
-> >
-> > Please remove old irrelevant branches from -contrib repositories:
-> > https://git.openembedded.org/openembedded-core-contrib/
-> > https://git.openembedded.org/meta-openembedded-contrib/
-> >
-> > and make sure you're pushing to the right remote :), it unnecessary
-> > almost doubles the repo size.
->
-> I 've already cleaned them up on openembedded-core
->
-> //Hongxu
->
-> > Cheers,
->
->
->
+Upstream-Status: Backport [Not yet released]
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
 
---00000000000085132e058b1b7e12
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ ...Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch | 38 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_242.bb      |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
 
-<div dir=3D"ltr">Thanks!=C2=A0<br></div><br><div class=3D"gmail_quote"><div=
- dir=3D"ltr" class=3D"gmail_attr">On Wed, Jun 12, 2019 at 3:35 AM Hongxu Ji=
-a &lt;<a href=3D"mailto:hongxu.jia@windriver.com">hongxu.jia@windriver.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">O=
-n 6/12/19 4:01 AM, Martin Jansa wrote:<br>
-&gt; Hi,<br>
-&gt;<br>
-&gt; when accidentally checking for some old meta-oe commit in oe-core<br>
-&gt; repository I was surprised that it was found in some of the contrib<br=
->
-&gt; branches:<br>
-<br>
-Sorry for the mistake<br>
-<br>
-&gt; ~/openembedded-core $ git branch -a --contains 30bbde3d09e<br>
-&gt;=C2=A0 =C2=A0 remotes/contrib/hongxu/add-recipes-20190215<br>
-&gt;=C2=A0 =C2=A0 remotes/contrib/hongxu/dbg-split<br>
-&gt;=C2=A0 =C2=A0 remotes/contrib/hongxu/misc-fixes<br>
-&gt;<br>
-&gt; These branches are actually from meta-oe repo, not oe-core.<br>
-&gt;<br>
-&gt; Please remove old irrelevant branches from -contrib repositories:<br>
-&gt; <a href=3D"https://git.openembedded.org/openembedded-core-contrib/" re=
-l=3D"noreferrer" target=3D"_blank">https://git.openembedded.org/openembedde=
-d-core-contrib/</a><br>
-&gt; <a href=3D"https://git.openembedded.org/meta-openembedded-contrib/" re=
-l=3D"noreferrer" target=3D"_blank">https://git.openembedded.org/meta-openem=
-bedded-contrib/</a><br>
-&gt;<br>
-&gt; and make sure you&#39;re pushing to the right remote :), it unnecessar=
-y<br>
-&gt; almost doubles the repo size.<br>
-<br>
-I &#39;ve already cleaned them up on openembedded-core<br>
-<br>
-//Hongxu<br>
-<br>
-&gt; Cheers,<br>
-<br>
-<br>
-</blockquote></div>
+diff --git a/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch b/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+new file mode 100644
+index 000000000000..663424d8349d
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+@@ -0,0 +1,38 @@
++From 18bddeaaf225d5becfc10cd2c6a1d037c90574a2 Mon Sep 17 00:00:00 2001
++From: Tomas Mraz <tmraz@fedoraproject.org>
++Date: Tue, 11 Jun 2019 15:10:21 +0200
++Subject: [PATCH] resolved: Fix incorrect use of OpenSSL BUF_MEM
++
++Fixes: #12763
++---
++ src/resolve/resolved-dnstls-openssl.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/src/resolve/resolved-dnstls-openssl.c b/src/resolve/resolved-dnstls-openssl.c
++index f269e4d6487f..5d9223007581 100644
++--- a/src/resolve/resolved-dnstls-openssl.c
+++++ b/src/resolve/resolved-dnstls-openssl.c
++@@ -6,6 +6,7 @@
++ 
++ #include <openssl/bio.h>
++ #include <openssl/err.h>
+++#include <string.h>
++ 
++ #include "io-util.h"
++ #include "resolved-dns-stream.h"
++@@ -34,9 +35,11 @@ static int dnstls_flush_write_buffer(DnsStream *stream) {
++                         return ss;
++                 } else {
++                         stream->dnstls_data.write_buffer->length -= ss;
++-                        stream->dnstls_data.write_buffer->data += ss;
++ 
++                         if (stream->dnstls_data.write_buffer->length > 0) {
+++                                memmove(stream->dnstls_data.write_buffer->data,
+++                                        stream->dnstls_data.write_buffer->data + ss,
+++                                        stream->dnstls_data.write_buffer->length);
++                                 stream->dnstls_events |= EPOLLOUT;
++                                 return -EAGAIN;
++                         }
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 90f235be3de3..29f64b995a04 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -24,6 +24,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
+            file://0006-network-remove-redunant-link-name-in-message.patch \
+            file://99-default.preset \
++           file://0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch \
+            "
+ 
+ # patches needed by musl
+-- 
+2.17.1
 
---00000000000085132e058b1b7e12--
+
