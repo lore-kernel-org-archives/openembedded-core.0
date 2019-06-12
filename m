@@ -1,24 +1,47 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2118C7E72A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-it1-f195.google.com (mail-it1-f195.google.com
+	[209.85.166.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 0AB127E71D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 09:15:39 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5C9FLqK005824
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 12 Jun 2019 09:33:22 +0000 (UTC)
+Received: by mail-it1-f195.google.com with SMTP id m138so9675223ita.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 02:15:31 -0700
-Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 12 Jun 2019 02:15:10 -0700
-From: <zhe.he@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 12 Jun 2019 17:15:09 +0800
-Message-ID: <1560330909-164994-1-git-send-email-zhe.he@windriver.com>
-X-Mailer: git-send-email 2.7.4
+	Wed, 12 Jun 2019 02:33:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=0aPfejXj+jKCRS0KeVTCnBYsLqP7yMUtqYZ6JZGj/5o=;
+	b=jOT9ha6NxPhff1JMJF/7XwxNopMRRrTwtjLL0EprrwBlcGXf8qWid6RXl8H0Xoj7cZ
+	XOQKSt/TLSJcLmAictiGz/rnelEhx/43Aa7YYYlT4dlA3a96SCYpa/xI02lo9xnWjs0E
+	jW6pL/6HerRy4N6r4t025keVRZS5dl2aI6LxtHPcBpSXx/+j0abPTOHeNi07X0nuALuM
+	VVaK6YxGMDYsySkV52oE6tbN798nKESwMVoxvQUF6N65jOuU84yZDBPPK00Jg7SrHXhz
+	eMTKi44E5fjEQNYhWUZ7EjKdGP/wnPnNQPluNbO38RQVo3zzI4rGG8RYV94RQYTv0+N6
+	ZR/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=0aPfejXj+jKCRS0KeVTCnBYsLqP7yMUtqYZ6JZGj/5o=;
+	b=Ok5pIngvVrkDqOmPr8AQrKKbfuz115relW9YMj4QqhYcrpJiDXsJcV2qKfnR1KUwwu
+	6OsoWRRsCPDeHROo8kAYNbSYBVBUKLVrsFMCSccOpX2ZnD+QqecvMb3+kJjq+Y7Bh2SU
+	XkLvOysu8QLOmtSWn8rgxPm0RHoD4X/8TO+h14IMe+4QJp6+rfuIanyO9VbzmYCIXc67
+	UHXEtEw+DcwQC4zu1kYfhEL5rPPdg2hnwyIB3BpZ8fLyJU8K0zALU0ZXpgK7AOStD6TU
+	Hh0XXCCe692BTs1agTFnh6lBN/NEbuhPV/ZMmzN01BzILn/5MO/fvfQnZeJpuWt5IlCU
+	Ufgw==
+X-Gm-Message-State: APjAAAURXDbqRgTA8RtB8Jv8Zaj+1dYYpF8G24OKMZ1MJ+TRcb2Pbnhw
+	Qb5tKBAPVQs07N57qYaxXpoEERqPSWoipAzAimuuVQ==
+X-Google-Smtp-Source: APXvYqyKj2TKyJcfVZrpssQd3K4lzOKk0fHpGRRHb9hzo5vu5DHEsRzPNAbx5h/HA20IlzPNPec44Rc1C0NRWxuBvbw=
+X-Received: by 2002:a24:c987:: with SMTP id h129mr17567596itg.74.1560332003985;
+	Wed, 12 Jun 2019 02:33:23 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] lttng-modules: Add git based recipe
+References: <1559336914-6411-1-git-send-email-leimaohui@cn.fujitsu.com>
+In-Reply-To: <1559336914-6411-1-git-send-email-leimaohui@cn.fujitsu.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 12 Jun 2019 10:33:12 +0100
+Message-ID: <CAJTo0LYinJhqtqjZkw3+icj44niSTu8CJFyGu2i7oBv9mjyEug@mail.gmail.com>
+To: Lei Maohui <leimaohui@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [master][warrior][PATCH] at: Fix a spelling mistake.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,65 +54,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 09:15:40 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Jun 2019 09:33:23 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: He Zhe <zhe.he@windriver.com>
+You do more than fix a spelling mistake in that commit.  Please
+explain the other changes.
 
-This is based on meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb and is for
-those who want to build lttng-modules with bleeding edge kernel, to avoid
-regularly backporting patches from upstream.
+Ross
 
-Note that PREFERRED_VERSION needs to be set to select this recipe instead of the
-tar ball one.
-
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
- meta/recipes-kernel/lttng/lttng-modules_git.bb | 34 ++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
- create mode 100644 meta/recipes-kernel/lttng/lttng-modules_git.bb
-
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_git.bb b/meta/recipes-kernel/lttng/lttng-modules_git.bb
-new file mode 100644
-index 0000000..966d342
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules_git.bb
-@@ -0,0 +1,34 @@
-+SECTION = "devel"
-+SUMMARY = "Linux Trace Toolkit KERNEL MODULE"
-+DESCRIPTION = "The lttng-modules 2.0 package contains the kernel tracer modules"
-+LICENSE = "LGPLv2.1 & GPLv2 & MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128 \
-+                    "
-+DEFAULT_PREFERENCE = "-1"
-+
-+inherit module
-+
-+COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
-+
-+SRC_URI = "git://git.lttng.org/lttng-modules;branch=master \
-+           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-+           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-+           "
-+SRCREV = "${AUTOREV}"
-+PV = "2.11.0-rc+git${SRCPV}"
-+S = "${WORKDIR}/git"
-+
-+export INSTALL_MOD_DIR="kernel/lttng-modules"
-+
-+EXTRA_OEMAKE += "KERNELDIR='${STAGING_KERNEL_DIR}'"
-+
-+do_install_append() {
-+	# Delete empty directories to avoid QA failures if no modules were built
-+	find ${D}/${nonarch_base_libdir} -depth -type d -empty -exec rmdir {} \;
-+}
-+
-+python do_package_prepend() {
-+    if not os.path.exists(os.path.join(d.getVar('D'), d.getVar('nonarch_base_libdir')[1:], 'modules')):
-+        bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
-+}
-+
--- 
-2.7.4
-
+On Wed, 12 Jun 2019 at 04:09, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
+>
+> Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> ---
+>  meta/recipes-extended/at/at/pam.conf.patch | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/at/at/pam.conf.patch b/meta/recipes-extended/at/at/pam.conf.patch
+> index c9f337e..38e7fc1 100644
+> --- a/meta/recipes-extended/at/at/pam.conf.patch
+> +++ b/meta/recipes-extended/at/at/pam.conf.patch
+> @@ -24,7 +24,7 @@ index 3674c0a..2f8d586 100644
+>  -@include common-auth
+>  -@include common-account
+>  +auth       include    common-auth
+> -+acount     include    common-account
+> ++account     include    common-account
+>   session    required   pam_loginuid.so
+>  -@include common-session-noninteractive
+>  +session    include    common-session-noninteractive
+> --
+> 2.7.4
+>
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
