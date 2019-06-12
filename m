@@ -1,61 +1,18 @@
-Return-Path: <mike@foundries.io>
-Received: from mail-pg1-f195.google.com (mail-pg1-f195.google.com
-	[209.85.215.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CA88D7E4F7
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 22:59:04 +0000 (UTC)
-Received: by mail-pg1-f195.google.com with SMTP id f25so9720757pgv.10
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 15:59:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=foundries-io.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=+dgqqZDe7Dge0yfvq0Eb4ls2VHyyqAQEY/2cQ3bjqOE=;
-	b=bXSTkKOc7GyEy/Wq8V1kfxnaVY+WS/X5RPaEadyiWEpNIQNq/570G1m7IsmlT8zFdv
-	pndkdDCqduOf/UDUPPgO1BtiDGUPWDDHtcd+BDOLTGMWe14mdjPiuhujUAH9LYjHObK0
-	DfdYh64PiDHVysdg9D4zyc8ohIh5Yy6dUR2kajN2+dl+VzUzxn7efC79Xr+hU8SLn1+z
-	DnH+fzkv+Ca281D2B4HM+xNfNrQGyM/uv2cdxqHzLBbCovgA8gn0zDi2ISz5ipS6vlvF
-	rLuI8rVb9izVYa2U8cELIMK7aksPPxjuOkxfM8OtaqxYCIczcZEbeUnnDSj1OO7rkBJy
-	m1mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=+dgqqZDe7Dge0yfvq0Eb4ls2VHyyqAQEY/2cQ3bjqOE=;
-	b=ZkQ5SRqTcLIY6lhOWOji7lbDos5/NCdaTq3sYeIaY+jXwLM2HzeGTPSAY8GLQzU9Q2
-	pjajyGqHQwc/qOHUHBOX9507qmMY1o/vshH6cy5MgsnOAjV/k9Pcvy311KjGi4lwLnX7
-	b192Tq9iiUAO+EfDPhyMd/7WvNpYVFbmSClPOjsIp0hoDbyYSb3Deo9PqDPKl8eXwLu/
-	G57kx2ECeHWKdFD4t1PYr52evDR8pM4DH6XxW6A7yh9UJ8jo1qVlJHdrFmjDZrI2mijF
-	JM0RIeHlYBVJ3TJFTPzlXHBTXe1NiTxhvYI/+oOWUNQT/mbNs0q0my51CGZCrohyKrpj
-	9zAQ==
-X-Gm-Message-State: APjAAAWcWED0kHUdUrwbqau/zhhGleirTM6h62exKjCc/yOvCnA4bsme
-	Co1bvftCIvP0c2Uoe+QreSpKRUj6GkU=
-X-Google-Smtp-Source: APXvYqxOzJnv9gpMTdK1a0uiHkp8tRq7AG/EEAgMiFaY+UXnvRiCfTfZ3ul05D0XaBsrqQNfYOwcVQ==
-X-Received: by 2002:a63:dc11:: with SMTP id s17mr27818117pgg.47.1560380345231; 
-	Wed, 12 Jun 2019 15:59:05 -0700 (PDT)
-Received: from [192.168.69.121] (107-198-5-8.lightspeed.irvnca.sbcglobal.net.
-	[107.198.5.8])
-	by smtp.gmail.com with ESMTPSA id m13sm455088pgv.89.2019.06.12.15.59.04
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Wed, 12 Jun 2019 15:59:04 -0700 (PDT)
-To: richard.purdie@linuxfoundation.org, Alex Kiernan <alex.kiernan@gmail.com>
-References: <20190612081559.5102-1-alex.kiernan@gmail.com>
-	<51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
-	<CAO5Uq5SBNF025u6metFbzeNfSWYOXiYTP5ePR_u1Z9++L_ds8A@mail.gmail.com>
-	<9cbbc692-2702-f3f4-199d-ec06cc0f212c@foundries.io>
-	<37f5b95f5e9972f1acea72c332c8069f56d7f7a0.camel@linuxfoundation.org>
-From: Michael Scott <mike@foundries.io>
-Message-ID: <656d17dd-5b77-d3f7-3764-efa5fe5f98e5@foundries.io>
-Date: Wed, 12 Jun 2019 15:59:04 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A7C67E4F7;
+	Wed, 12 Jun 2019 23:00:43 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <37f5b95f5e9972f1acea72c332c8069f56d7f7a0.camel@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-fitimage: uboot-sign: Check UBOOT_DTB_BINARY before adding deps
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Date: Wed, 12 Jun 2019 23:00:45 -0000
+Message-ID: <20190612230045.2331.48785@do>
+References: <20190612225108.19045-1-open.source@oleksandr-kravchuk.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190612225108.19045-1-open.source@oleksandr-kravchuk.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc2VsZnRlc3QvZGV2dG9vbDogZml4IFVSSSB0byBNYXJrdXBTYWZlIHBhY2thZ2U=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -68,54 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 22:59:04 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Wed, 12 Jun 2019 23:00:44 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+
+== Series Details ==
+
+Series: selftest/devtool: fix URI to MarkupSafe package
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18124/
+State : failure
+
+== Summary ==
 
 
-On 6/12/19 3:21 PM, richard.purdie@linuxfoundation.org wrote:
-> On Wed, 2019-06-12 at 14:17 -0700, Michael Scott wrote:
->> Actually, you can ignore this patch.  We debugged the actual race
->> condition contributing to the confusion, and that developer will
->> submit a new patch with that fix.  We can review if that patch makes
->> more sense (even without tests).
-> Well, this patch merged earlier this evening as tested passed. Is that
-> a problem?
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Not a problem at all.  I believe we also kept this change when we 
-debugged the actual race condition.
 
->
->> The test would need to follow:
->>
->> 1) Is there a pub key in the u-boot.dtb (symlinked file) in the
->> deploy
->> directory and is it the same as what is generated by mkimage when
->> pointing at the fitImage in the deploy directory.
->> 2) The race condition affects the build when there is a cached step
->> built incorrectly.   The cached build step injects the u-boot.dtb
->> prior to it being signed.
-> That does help explain the problem you were seeing and does some like
-> something we could/should be testing for.
 
-Yes if possible the test should run #1 above - 3 ways: 1) clean cache 
-for kernel/u-boot/u-boot tools, 2) cached run for kernel/u-boot/u-boot 
-tools and 3) cached for kernel/u-boot tools, but changed u-boot 
-(invalidate cache?)
+* Patch            selftest/devtool: fix URI to MarkupSafe package
+ Issue             Yocto Project bugzilla tag is not correctly formatted [test_bugzilla_entry_format] 
+  Suggested fix    Specify bugzilla ID in commit description with format: "[YOCTO #<bugzilla ID>]"
 
-- Mike
 
->
-> Cheers,
->
-> Richard
->
--- 
-Michael Scott
-Embedded Software Engineer at Foundries.io
-"microPlatforms™ for Connected Products"
-E: mike@foundries.io
-W: https://www.foundries.io
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
