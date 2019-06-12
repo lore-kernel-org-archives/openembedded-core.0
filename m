@@ -1,34 +1,49 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CB507E75B
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C99E7E701
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 12:33:00 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5CCWgcR002470
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Wed, 12 Jun 2019 05:32:42 -0700 (PDT)
-Received: from [128.224.162.221] (128.224.162.221) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Wed, 12 Jun 2019 05:32:41 -0700
-To: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-References: <1560243834-266906-1-git-send-email-zhe.he@windriver.com>
-	<be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
-	<20190612105114.GA23143@localhost>
-	<1859381600.42862.1560337102909.JavaMail.zimbra@efficios.com>
-	<0ea3a599-7adb-a001-dbdd-3843d0fa8b6e@windriver.com>
-	<928433718.42889.1560338990358.JavaMail.zimbra@efficios.com>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <bdec2cee-1c75-1673-86ca-d4b455b0c5aa@windriver.com>
-Date: Wed, 12 Jun 2019 20:32:38 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Wed, 12 Jun 2019 12:36:32 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id n4so16679932wrw.13
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jun 2019 05:36:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=4WBQ+PU7VIz0pAGgVeO8ZY2DJeHZ202G7YeXVIcMlo4=;
+	b=boLyI/wrukcAVHiI7ejmZvIjcGkT3LrqcVCBp9sP0VeCSTevVfLtGXe48IEyts6Bsp
+	pcoDGW5LcPJJyaUwOKCZRV+Oo5gNc5GzM3m0Cc9ExIx5nAq1X2SUezEjR1zxjCYmoaoB
+	gGxLhkzFHhjOp+FSGJuulmBlmD0YZ7+4m6IWw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=4WBQ+PU7VIz0pAGgVeO8ZY2DJeHZ202G7YeXVIcMlo4=;
+	b=OWnvkQJsxPZVOl3tHrxDMF9m85mZXsr6Gr0bhyTRc5lOpNzkTcZ2DI/aEfwrtl6Ib0
+	DyzAebV2fkLGAhe1eTE3ReeQBylfpzygrCN+IJGrdXbTbEL7lv0pZkNY0yOW9wpTsJz1
+	VDHSbzFaOzMcv4g9BpDH96ocme/1BVFi1ilqUyf69xvegMDjAdyzFWzObXaduI/p3N6G
+	iCfwjY3mflA8/s8pLD9Gh9VDON35KSngFmbL9vdUQR80Io0W9ST480NhYqNJ61rxJHDL
+	39CLJsq7VtYrpzhGEu+JJoOxiutjYw3evBDlz3f1FFJAv/Dnv0mGb0nk5mwx8kStbWYr
+	0fFQ==
+X-Gm-Message-State: APjAAAUDnNNVEDegoEXc58BEFbkyUI4SRsoJJuU9SsnzIZQt+/7HzKDG
+	SOKpOEXyda4fqIdUxI9uW5tZ1C2sEZc=
+X-Google-Smtp-Source: APXvYqyziNN4lQGLH/sFSxqp4V/FXc9qAcE+cykbpUEjdsXcmOa4fQnQ+uuKXIowVXYUDlWlHU89rw==
+X-Received: by 2002:a5d:5542:: with SMTP id g2mr39232735wrw.232.1560342993756; 
+	Wed, 12 Jun 2019 05:36:33 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id c5sm5817153wma.19.2019.06.12.05.36.32
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 12 Jun 2019 05:36:33 -0700 (PDT)
+Message-ID: <fddad43f3c2052f390bddeb16fce29b30999b5d1.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: zhe.he@windriver.com, openembedded-core@lists.openembedded.org
+Date: Wed, 12 Jun 2019 13:36:32 +0100
+In-Reply-To: <1560337967-208223-1-git-send-email-zhe.he@windriver.com>
+References: <1560337967-208223-1-git-send-email-zhe.he@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <928433718.42889.1560338990358.JavaMail.zimbra@efficios.com>
-X-Originating-IP: [128.224.162.221]
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>,
-	Jeremie Galarneau <jgalar@efficios.com>,
-	lttng-dev <lttng-dev@lists.lttng.org>, Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH v2] lttng-modules: Backport patches to fix compilation failures since kernel v5.1
+Subject: Re: [PATCH v3] lttng-modules: Add git based recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -41,115 +56,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 12:33:01 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Wed, 12 Jun 2019 12:36:33 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
+On Wed, 2019-06-12 at 19:12 +0800, zhe.he@windriver.com wrote:
+> From: He Zhe <zhe.he@windriver.com>
+> 
+> The git based recipe is for those who want to build lttng-modules with bleeding
+> edge kernel, to avoid regularly backporting patches from upstream.
+> 
+> Note that PREFERRED_VERSION needs to be set to select the git recipe instead of
+> the tar ball one.
+> 
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
+> ---
+> v2: Correct a typo in SOB in 0001
+> v3: Use devupstream to make it more clean and clear
+> 
+>  meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+> 
+> diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
+> index 70a6843..dfd166a 100644
+> --- a/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
+> +++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
+> @@ -11,7 +11,6 @@ inherit module
+>  
+>  COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+>  
+> -#https://lttng.org/files/lttng-modules/lttng-modules-2.10.7.tar.bz2
+>  SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+>             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+>             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+> @@ -34,3 +33,13 @@ python do_package_prepend() {
+>          bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
+>  }
+>  
+> +BBCLASSEXTEND = "devupstream:target"
+> +LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
+> +DEFAULT_PREFERENCE_class-devupstream = "-1"
+> +SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=master \
+> +           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+> +           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+> +           "
+> +SRCREV_class-devupstream = "${AUTOREV}"
+> +PV_class-devupstream = "2.11.0-rc+git${SRCPV}"
+> +S_class-devupstream = "${WORKDIR}/git"
 
+OE-Core can't access the network by default so this will need to be a
+specific SRCREV which you can set to AUTOREV in local config if that
+makes sense.
 
-On 6/12/19 7:29 PM, Mathieu Desnoyers wrote:
-> ----- On Jun 12, 2019, at 1:10 PM, zhe he zhe.he@windriver.com wrote:
->
->> On 6/12/19 6:58 PM, Mathieu Desnoyers wrote:
->>> ----- On Jun 12, 2019, at 12:51 PM, Adrian Bunk bunk@stusta.de wrote:
->>>
->>>> On Tue, Jun 11, 2019 at 11:49:34PM +0100, Richard Purdie wrote:
->>>>> On Tue, 2019-06-11 at 17:03 +0800, zhe.he@windriver.com wrote:
->>>>>> From: He Zhe <zhe.he@windriver.com>
->>>>>>
->>>>>> For the moment,
->>>>>> 0001~0004 are on master branch only.
->>>>>> 0005~0007 are on stable-2.11 branch, but v2.11 has not been released
->>>>>> yet.
->>>>>>
->>>>>> Signed-off-by: He Zhe <zhe.he@windriver.com>
->>>>>> ---
->>>>>> v2: Correct a typo in SOB for 0001*.patch
->>>>> I just discussed this with lttng upstream maintainers a little. We're
->>>>> going to have continual tension between keeping lttng-modules up to
->>>>> date and new kernel versions.
->>>>>
->>>>> How about we also have a git version of this particular recipe which
->>>>> has a DEFAULT_PREFERENCE = "-1" but people can opt into with a
->>>>> PREFERRED_VERSION when using newer kernels?
->>>> Yocto stable series will ship a _git AUTOREV recipe?
->>>>
->>>>> That should keep people using very recent kernels happy, let us use a
->>>>> stable release version and avoid us adding/removing large patchsets on
->>>>> a semi regular basis?
->>>>> ...
->>>> The semi regular basis is only slightly moved, or how and when will
->>>> replacing the already EOL kernel 5.0 with 5.1 in Yocto be handled?
->>>>
->>>> IMHO it would be better to acknowledge that this is a case where staying
->>>> at stable release versions is sometimes not the best option, and upgrade
->>>> the normal recipe to -rc releases or even a git snapshot from a more
->>>> recent stable branch when necessary.
->>>>
->>>> E.g. right now it seems clear that the next Yocto release will have
->>>> to use lttng-modules >= 2.11 in any case for kernel 5.2, so upgrading
->>>> from 2.10.9 to 2.11.0-rc5 would be logical.
->>> Please don't base distributions on -rc tags. They are not meant for this.
->>>
->>> We always integrate support for newer kernel versions instrumentation back
->>> into our current stable release. So as soon as 5.2 final comes out, we will
->>> release a 2.10.x version including support for it in lttng-modules.
->> I'm one of the people who need to use lttng-modules on rc kernel.
->>
->>> The current 2.10.10 has commits to support the currently known 5.2-rc
->>> instrumentation changes.
->> Seems v2.10.10 does not contains the 7 needed patches in my v1 for kernel v5.0+.
->> $ git pull
->> Already up-to-date.
->> $ git tag|grep v2.10.10
->> v2.10.10
->> $ git tag --contains 92da05ce1f73488a57e7fd79e9c03113cefdb76f
->> $ git tag --contains d88e2fe5c3ea0d2c3055fba824be17223c418854
->> $ git tag --contains d6cd2c9598a06f0ba1ba885bbe754e8836528310
->> $ git tag --contains 2ca0c84f0b4a915c555a0b83102d94ac941619ca
->> $ git tag --contains da00122ccfae6a73ec859826a0be1cf0902cfd11
->> v2.11.0-rc5
->> $ git tag --contains da00122ccfae6a73ec859826a0be1cf0902cfd11
->> v2.11.0-rc5
->> $ git tag --contains df0e746a05a267384785d66c9fca947eb4a9e517
->> v2.11.0-rc5
->> $ git tag --contains 9f70b60c19abc6dc0811e427ed5da4aa74620aca
->> v2.11.0-rc5
-> You're aware that the commit ID changes when we cherry-pick
-> a commit right ?
->
-> Please double-check with the commit names...
+I've sent a separate email to openembedded-architecture about a better
+syntax for some of this but that isn't anything wrong with this patch,
+more just the way devupstream works.
 
-Sorry, my mistake. They've been there.
+Cheers,
 
-Zhe
-
->
-> Thanks,
->
-> Mathieu
->
->
->> Thanks,
->> Zhe
->>
->>> Thanks,
->>>
->>> Mathieu
->>>
->>>
->>>>> Cheers,
->>>>>
->>>>> Richard
->>>> cu
->>>> Adrian
->>>>
->>>> --
->>>>
->>>>       "Is there not promise of rain?" Ling Tan asked suddenly out
->>>>        of the darkness. There had been need of rain for many days.
->>>>       "Only a promise," Lao Er said.
->>>>                                        Pearl S. Buck - Dragon Seed
+Richard
 
 
