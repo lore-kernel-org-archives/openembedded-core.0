@@ -1,30 +1,36 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 5CECC6C3B1
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id ADB917E727
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 03:09:19 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,363,1557158400"; d="scan'208";a="67016557"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 12 Jun 2019 11:09:20 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 5143E4CDD981
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 11:09:20 +0800 (CST)
-Received: from localhost.localdomain (10.167.225.227) by
-	G08CNEXCHPEKD01.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 12 Jun 2019 11:09:28 +0800
-From: Lei Maohui <leimaohui@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sat, 1 Jun 2019 05:08:34 +0800
-Message-ID: <1559336914-6411-1-git-send-email-leimaohui@cn.fujitsu.com>
-X-Mailer: git-send-email 1.9.1
+	Wed, 12 Jun 2019 05:33:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45NwWr3ZM5z24;
+	Wed, 12 Jun 2019 07:33:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1560317608;
+	bh=+QWomHkgyzKp4Bk126o+ocj5atVycPzwNoyy3tLc/E8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OKjkOUGejSMKwh0QEMXnVza1dumm1+DU8BV6u+oSh+D210rohr37EjuCreIJDRbcj
+	T28w0j+/ulaT9F+meENUH66nkLkF9jb5n9f+OaE2iMnEpCdcw3sEAW9Go5AtVqLrQl
+	kiqrRJuzutYZSTgmjXf08Bf8chhUjLsFHeGaoLYvoYdIIG60aIBgrCRvnMQ8nw6T/J
+	2Ixd0/AyaryHCya3iV1cytQv5lftmemE04epYbCMPYW4t+tsMJ2fStBd5ntCj0DycP
+	20DNYAfzLGYQA2zzwcUnU2PJKUQ7TkIjATVdR1aEigBl0Mw6UdrGYXvdzEI+D88h3P
+	ovj2mpukJ5i23TZqdw9bR5Y+5mR3mgLg+wLCp/d705NkTaIvuExGJxgQxF9ALEYyC8
+	1cg/K8lNOh6tfoecEVhPWv9NmofoyeQEcoLQMEBj6YbCz0yc1sRp1y2FRv8S1ndBfo
+	H1ENA63k2tXT5XrwxFmioB1zRazX+stQHdJRo5qsV82Nke8wfjZwn193qXwNP7uDfT
+	i1Op4yLAXW+4JMPj1Jkx7FAFIx0IvDQqcyOh41T+bnWbk/IWR+mBnPJYC4xJAZ7o9Q
+	TVa/VjlsITnZb4LIkGpbfO7uO6FtsjroLDJhxaKRCDmEn7eP9eTR+AcIqcvGcLT/41
+	bXheG4InpC37KLKEaOC4BvOc=
+Date: Wed, 12 Jun 2019 08:33:26 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Denys Dmytriyenko <denis@denix.org>
+Message-ID: <20190612053326.GA12642@localhost>
+References: <1560289312-19244-1-git-send-email-denis@denix.org>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.227]
-X-yoursite-MailScanner-ID: 5143E4CDD981.AC8FF
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [master][warrior][PATCH] at: Fix a spelling mistake.
+In-Reply-To: <1560289312-19244-1-git-send-email-denis@denix.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] mtd-utils: upgrade 2.0.2 -> 2.1.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,30 +43,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 03:09:20 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 12 Jun 2019 05:33:29 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
----
- meta/recipes-extended/at/at/pam.conf.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Jun 11, 2019 at 05:41:52PM -0400, Denys Dmytriyenko wrote:
+>...
+> * Now requires openssl:
+> | In file included from ../git/ubifs-utils/mkfs.ubifs/mkfs.ubifs.c:25:
+> | ../git/ubifs-utils/mkfs.ubifs/mkfs.ubifs.h:49:10: fatal error: openssl/rand.h: No such file or directory
+> |  #include <openssl/rand.h>
+> |           ^~~~~~~~~~~~~~~~
+> | compilation terminated.
+> | Makefile:3457: recipe for target 'ubifs-utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o' failed
+> | make: *** [ubifs-utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o] Error 1
+>...
+> -DEPENDS = "zlib e2fsprogs util-linux"
+> +DEPENDS = "zlib e2fsprogs util-linux openssl"
 
-diff --git a/meta/recipes-extended/at/at/pam.conf.patch b/meta/recipes-extended/at/at/pam.conf.patch
-index c9f337e..38e7fc1 100644
---- a/meta/recipes-extended/at/at/pam.conf.patch
-+++ b/meta/recipes-extended/at/at/pam.conf.patch
-@@ -24,7 +24,7 @@ index 3674c0a..2f8d586 100644
- -@include common-auth
- -@include common-account
- +auth       include    common-auth
--+acount     include    common-account
-++account     include    common-account
-  session    required   pam_loginuid.so
- -@include common-session-noninteractive
- +session    include    common-session-noninteractive
+It doesn't (and should not) require it unconditionally.
+
+Please backport "mkfs.ubifs: fix build without openssl" from
+upstream git instead.
+
+>...
+> -PV = "2.0.2+${SRCPV}"
+> +PV = "2.1.0+${SRCPV}"
+>...
+
+This was already wrong before but now is an opportunity to fix:
+Since this is exactly the release, it should be
+  PV = "2.1.0"
+
+cu
+Adrian
+
 -- 
-2.7.4
 
-
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
