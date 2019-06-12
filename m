@@ -1,48 +1,48 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D082F7E6EF
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6593A7E703
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 15:50:26 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id y13so12522570lfh.9
+	Wed, 12 Jun 2019 18:02:51 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id n189so12055541itd.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 08:50:28 -0700 (PDT)
+	Wed, 12 Jun 2019 11:02:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HNvWw7PxhsXUsV7n/QNSG4wqZVKuvDb/pr/7PBWq/uU=;
-	b=doJjNbfj3x/KPjSAhU82XCvtHqW4qlb6vlHw//iKgOt2faaPMXiD44YUo9/xrid41P
-	TlfJ8/qS4On5iKfXPgcV0xyAnX2QtV/5j7bg0eG4DiLwuqcxLbQjLSuTLFxBXEVbbwyY
-	ZbELv548LFJXyl5QSxgYqWEs67Za+PXY34nV380+U1Jxh84MZHYUKviPaFLP9pF0LfgU
-	lirTFz9+VweGJA3bPO9qzS01RUhQpLmHQSvmO0LtDtyDVATDTpcojdp7+FjzRp/o2eSv
-	uGwTC7qj0LZInJDxqNim9Dj/Gw5lsnOWz2dbDazFThezO+sTai50zeQ5ApPXhmKVg3ou
-	U5Dw==
+	:cc; bh=yeheDQkuHmcCyNxqnhDGoBZC2qc3NHQXrn/CBGxZ7PI=;
+	b=Wpir8aVcm3DedLs0pLb+G+s+KgRGqZdLe9S94qn33nE1VBMn8HGJFXvM6RiV+mumFg
+	5a/yeVb5yEhM4qFr98q3HkPbbKvR3sXjTaJGsPK0oBt5UhM+IGjp97Kbm+rO1Vm3D1WF
+	aVpshzu8iMlLrxya7aWd1j4EYQGT2y/38OuatWYb1K7p0tMbhIRAWalRzym4juocoycv
+	TOzeq6HyxKSGFxv2i6dFHaIHNdebL6Rpp7DBi6jUmmc7iGxWpvHBp9K4DGT9CDTLFyZa
+	u7UHKcbzxTQb04/IqefKHf7rauOYyYF7psNoSnBnIQbOYXJ2fWMY5IZw+fdHO7ckzAr0
+	DvMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=HNvWw7PxhsXUsV7n/QNSG4wqZVKuvDb/pr/7PBWq/uU=;
-	b=c/VIkqqa57cEHcmplkS4Hwx09lyHtDj6OoQajGkvW+U/mMMBfSO+stOiZLPZag15/b
-	SVFGxXaV+bDmmoMqBlV3niIsl+PkEadw6HSeyfvAed4K535fr9RjMTpU2SZ+HNhk4AF7
-	BzFet0zxXWfpkEv534ENwH8ZCMTWeW0lyM+xwyd2STveukkJjMbIQZZ3+YNQb0Iayzh7
-	+kuA3EpM1wI3ePylS2aiol/Ry+ZgqKD2psmBB59PGWCKRmeJ1zZFhOgPJ0E7IrprAACf
-	awCGoIBg1w8krkoq6oYYMUK2A581ZiEL5dNZHrz6Ua6Hpoqxl6V7ezuVHghd5DZKeLJ2
-	REpQ==
-X-Gm-Message-State: APjAAAXbMRb80qGiThP9BvHhlbbwUhHzNFmbH1MuBMYu+tuyMP1rmuMU
-	Mcn3POBGNPNhapMZUz7kF+k992HmpxmDQQOXVdI=
-X-Google-Smtp-Source: APXvYqyG3glk6UUppHdE8bptYBStB2KfVSCWQG1ulnHPaGvBGlb9xFzFsaW4SiqMBGRIeecJVhVxI6KEPWvFUbw1Rbo=
-X-Received: by 2002:ac2:5b0c:: with SMTP id v12mr28523055lfn.184.1560354627165;
-	Wed, 12 Jun 2019 08:50:27 -0700 (PDT)
+	bh=yeheDQkuHmcCyNxqnhDGoBZC2qc3NHQXrn/CBGxZ7PI=;
+	b=c/4+SrpXbWcmCqFLMCekJl25tmxo4m2SZCmzu+7ZZ7y6VS94BJjmAZgLGNXvBp616o
+	EsxYLTxgmufUztygbEOwZULWlPgo2bDi54F6rDxpRdfVG1p9mHPAg7lKcKVliE3GoxdK
+	qJ8CDzg+gEA/BXC7g5jr8QLy9vnUiEEEUV2bhQBQsakmHGRz2zZZXxgu2LdEt6ljqug7
+	6Sw5nu4GgH9wNJj/CTRSbm5WSsPnRM14ftw1dYkznm2PGYcqjRLqkncWPsNcUPVEnlUs
+	Z9ZUOyfxRuDsOaUk5MSuuyxy5zOgSce9IY+73nqV6cAIqJUEREzGpyIqUjysJP/LL/pw
+	rblw==
+X-Gm-Message-State: APjAAAWSxD5IO3ylFtoUYsY0FzesRwlL0+kjIKhZWR+b124L1B0vsv+O
+	IMQemtuuY72OIjkpW9kL3OOYerf03wR+kcwfSsOg1tNm
+X-Google-Smtp-Source: APXvYqwqOolvEDytnpPxM25iMi+kcBH4fwSKpbCPgP4dqM1NaT1QHUah6SKiDVzj0AkSpC40NZGD/CIOpXlmAwBlTQc=
+X-Received: by 2002:a24:e53:: with SMTP id 80mr285046ite.45.1560362572249;
+	Wed, 12 Jun 2019 11:02:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <1560337967-208223-1-git-send-email-zhe.he@windriver.com>
-	<fddad43f3c2052f390bddeb16fce29b30999b5d1.camel@linuxfoundation.org>
-In-Reply-To: <fddad43f3c2052f390bddeb16fce29b30999b5d1.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 12 Jun 2019 11:50:16 -0400
-Message-ID: <CADkTA4MM57OAdFO_oeJJdTrqf6uTU3EsEeesqKHYPED1y9oTZA@mail.gmail.com>
+References: <20190612081559.5102-1-alex.kiernan@gmail.com>
+	<51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
+In-Reply-To: <51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 12 Jun 2019 19:02:41 +0100
+Message-ID: <CAO5Uq5SBNF025u6metFbzeNfSWYOXiYTP5ePR_u1Z9++L_ds8A@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] lttng-modules: Add git based recipe
+Subject: Re: [PATCH] kernel-fitimage: uboot-sign: Check UBOOT_DTB_BINARY before adding deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,89 +55,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 15:50:27 -0000
+X-List-Received-Date: Wed, 12 Jun 2019 18:02:51 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Jun 12, 2019 at 8:36 AM Richard Purdie
+On Wed, Jun 12, 2019 at 10:59 AM Richard Purdie
 <richard.purdie@linuxfoundation.org> wrote:
 >
-> On Wed, 2019-06-12 at 19:12 +0800, zhe.he@windriver.com wrote:
-> > From: He Zhe <zhe.he@windriver.com>
+> On Wed, 2019-06-12 at 09:15 +0100, Alex Kiernan wrote:
+> > Since UBOOT_DTB_BINARY empty means we don't need to inject signatures
+> > into the U-Boot DTB, we can remove the dependencies between consumers
+> > of
+> > these two classes and resolve a circular dependency between u-boot
+> > and
+> > kernel.
 > >
-> > The git based recipe is for those who want to build lttng-modules with bleeding
-> > edge kernel, to avoid regularly backporting patches from upstream.
-> >
-> > Note that PREFERRED_VERSION needs to be set to select the git recipe instead of
-> > the tar ball one.
-> >
-> > Signed-off-by: He Zhe <zhe.he@windriver.com>
+> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
 > > ---
-> > v2: Correct a typo in SOB in 0001
-> > v3: Use devupstream to make it more clean and clear
 > >
-> >  meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb | 11 ++++++++++-
-> >  1 file changed, 10 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
-> > index 70a6843..dfd166a 100644
-> > --- a/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
-> > +++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
-> > @@ -11,7 +11,6 @@ inherit module
-> >
-> >  COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
-> >
-> > -#https://lttng.org/files/lttng-modules/lttng-modules-2.10.7.tar.bz2
-> >  SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-> >             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-> >             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> > @@ -34,3 +33,13 @@ python do_package_prepend() {
-> >          bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
-> >  }
-> >
-> > +BBCLASSEXTEND = "devupstream:target"
-> > +LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
-> > +DEFAULT_PREFERENCE_class-devupstream = "-1"
-> > +SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=master \
-> > +           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
-> > +           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> > +           "
-> > +SRCREV_class-devupstream = "${AUTOREV}"
-> > +PV_class-devupstream = "2.11.0-rc+git${SRCPV}"
-> > +S_class-devupstream = "${WORKDIR}/git"
+> >  meta/classes/kernel-fitimage.bbclass | 2 +-
+> >  meta/classes/uboot-sign.bbclass      | 2 +-
+> >  2 files changed, 2 insertions(+), 2 deletions(-)
 >
-> OE-Core can't access the network by default so this will need to be a
-> specific SRCREV which you can set to AUTOREV in local config if that
-> makes sense.
-
-Agreed. I was going to comment on the AUTOREV,  and I see that
-everyone beat me to it.
-
-The _git recipe does *not* need to be AUTOREV (unless as you say,
-someone wants to do that locally), it just has to be branch and SRCREV
-based, so we can easily bump it forward to an intermediate point that
-makes sense while working with new kernels.
-
-Bruce
-
+> Really wish we had tests and documentation for these classes...
 >
-> I've sent a separate email to openembedded-architecture about a better
-> syntax for some of this but that isn't anything wrong with this patch,
-> more just the way devupstream works.
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+I know... I have a dread anytime anyone touches it, me included... I
+sat on this change for a couple of weeks too.
 
+The truth is the pair of them are fragile and hopelessly intertwined,
+but without tests they're never going to get rewritten, so I might try
+and take some of that on (or get someone here to do it) as I still
+have multiple issues with them - signing doesn't really work the way I
+want, I still have a circular dependency I've not tracked down,
+doubtless other things I can't immediately bring to mind.
+
+If we were to add some tests around it, what would you pull out as the
+simplest thing that it could do which would be valuable?
 
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Alex Kiernan
 
