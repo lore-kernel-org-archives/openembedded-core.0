@@ -1,51 +1,29 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 788EE7E6FE
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 62D197E76B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 09:59:04 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id v14so16184350wrr.4
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 02:59:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=fwEsolURFnEacZAJyekO20IAKLwx9o6L+ilJ0HheIZc=;
-	b=THHMqPl4tWyZsbm4oIf6V2pFZm7ohmOmWJjYsVtmLX+rdaN09GYT4ZkHFYM3LJRh0o
-	P2v5d6uqsLaoh99yrwTs1iXANMu71emW//0FAxUnEtmOPP81E3UiQtL+2HPZdAnqVa76
-	LfUc6nwOhQcVd99IY20CZJ8gsxn60TKy4c9Ug=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=fwEsolURFnEacZAJyekO20IAKLwx9o6L+ilJ0HheIZc=;
-	b=sZUfONfFsmFzuv5uYtoccEJZsjHH6/JWuJ7vxVnZMc9Ejgl7SAxkkT3O0bnz6idFLc
-	HBN2eEcA6y4nlFqICVImMBmBrjypWe2tUy/eqHsm1/EQITvnmwQ3ie/tiRjezeGg7jA1
-	JN7OWlQybimgLSKsS1cdyXft0Ds0bVNl++xPbmgZdMsvBGxutM4JVjW0QNybVTDOItCO
-	vhBFxs9vuxmNh+xZ2eJ0MuBrMQQqHlY10iv1gs7U7YYe61sm8s/9cCkezuXHtVlH+dOe
-	98V3P2+VeS171oOP+vhtcgaTd4+BQS7Mr5ACyZAZSoYN5quysILPcs0+rRdEWxIlgTik
-	91PA==
-X-Gm-Message-State: APjAAAW6UwA+KwWgCjZK15mvEPPvlH4HIZIvA+meAV4ukpz/DP77PgYi
-	Ogtd05Rvy9C9nWxnO2/644wPLg==
-X-Google-Smtp-Source: APXvYqxeYkS1tmpTDpPXGNiln3qVnNcwa9zh2/p0Vi/d3qZrsIYQN6qO/GqkvotamHHfZ33KhgOk+g==
-X-Received: by 2002:adf:fb8d:: with SMTP id a13mr17162898wrr.273.1560333544997;
-	Wed, 12 Jun 2019 02:59:04 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	d10sm25748319wrh.91.2019.06.12.02.59.03
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 12 Jun 2019 02:59:04 -0700 (PDT)
-Message-ID: <51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alex Kiernan <alex.kiernan@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 12 Jun 2019 10:59:02 +0100
-In-Reply-To: <20190612081559.5102-1-alex.kiernan@gmail.com>
-References: <20190612081559.5102-1-alex.kiernan@gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Wed, 12 Jun 2019 10:22:24 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5CALhuK007695
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 12 Jun 2019 03:21:59 -0700
+Received: from [128.224.162.221] (128.224.162.221) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Wed, 12 Jun 2019 03:21:38 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <1560330909-164994-1-git-send-email-zhe.he@windriver.com>
+	<d0b197e49ef118034631fae6f322a745b0e34932.camel@linuxfoundation.org>
+From: He Zhe <zhe.he@windriver.com>
+Message-ID: <5f8e3df5-5687-c6a2-5ee7-c3c468ef6d86@windriver.com>
+Date: Wed, 12 Jun 2019 18:21:35 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] kernel-fitimage: uboot-sign: Check UBOOT_DTB_BINARY before adding deps
+In-Reply-To: <d0b197e49ef118034631fae6f322a745b0e34932.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.221]
+Subject: Re: [PATCH] lttng-modules: Add git based recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,29 +36,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 09:59:04 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 12 Jun 2019 10:22:24 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-On Wed, 2019-06-12 at 09:15 +0100, Alex Kiernan wrote:
-> Since UBOOT_DTB_BINARY empty means we don't need to inject signatures
-> into the U-Boot DTB, we can remove the dependencies between consumers
-> of
-> these two classes and resolve a circular dependency between u-boot
-> and
-> kernel.
-> 
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
-> 
->  meta/classes/kernel-fitimage.bbclass | 2 +-
->  meta/classes/uboot-sign.bbclass      | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Really wish we had tests and documentation for these classes...
 
-Cheers,
+On 6/12/19 5:57 PM, Richard Purdie wrote:
+> On Wed, 2019-06-12 at 17:15 +0800, zhe.he@windriver.com wrote:
+>> From: He Zhe <zhe.he@windriver.com>
+>>
+>> This is based on meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb and is for
+>> those who want to build lttng-modules with bleeding edge kernel, to avoid
+>> regularly backporting patches from upstream.
+>>
+>> Note that PREFERRED_VERSION needs to be set to select this recipe instead of the
+>> tar ball one.
+>>
+>> Signed-off-by: He Zhe <zhe.he@windriver.com>
+>> ---
+>>  meta/recipes-kernel/lttng/lttng-modules_git.bb | 34 ++++++++++++++++++++++++++
+>>  1 file changed, 34 insertions(+)
+>>  create mode 100644 meta/recipes-kernel/lttng/lttng-modules_git.bb
+> Do we really want/need to duplicate the whole recipe?
 
-Richard
+Do you like one .inc plus two .bb s? Then I'll send v2 later.
+
+Zhe
+
+>
+> Cheers,
+>
+> Richard
+>
+>
 
 
