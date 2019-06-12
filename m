@@ -1,49 +1,52 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f68.google.com (mail-lf1-f68.google.com
-	[209.85.167.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 94B207E6C6
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com
+	[209.85.221.53])
+	by mail.openembedded.org (Postfix) with ESMTP id 591BB7E6E7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 22:57:12 +0000 (UTC)
-Received: by mail-lf1-f68.google.com with SMTP id p24so10550441lfo.6
+	Wed, 12 Jun 2019 00:05:27 +0000 (UTC)
+Received: by mail-wr1-f53.google.com with SMTP id e16so14914769wrn.1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 11 Jun 2019 15:57:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pieS6Wj3pDJOSko66TAQG6ZFBvkw1IJovKuTorXsjRQ=;
-	b=nYlLeTDJ+la/QkX9Y09Z/i2yZ28TOyu9+Up66oFhXEK8K9hLAsoC3mMKSe0NG/ktMb
-	UJedSygSdh0uZ/lNvuMmrOVSldXjvN2t4auXF9Cs/hl7wPM9lz1kVEziyt0wije3m0z9
-	CHa8IbML+tAoM3T3/2R+4VX2/cRfSbwzB6jhxZexYENCkVinz+VcoDkZQve6/pxYijl2
-	fGENm0Q8MGQdIqOYJRIv6gsnTvK/NtHLH7sd+RdDKyQxXpds2WxsFgXIlpK/yO0CkVEf
-	hFk3qbBS/jIkSlij0BVUq4K6RSYwglir8PuGps/hcsjOMuNolhb9XkNJNYHxHgsDD0/i
-	mVOg==
+	Tue, 11 Jun 2019 17:05:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=H9XjQPwiyPXtCP9X0W78VJ42bRh5TASMt97beQhgax0=;
+	b=BiTlUF7Qje6wLETxIVnuYeKVW4syxHiTqu4pxdtej/H7mRmkHfVTLI1rt6KPPqbEJ7
+	uWX2Dc0zE/dBj3tTtQb/cRbU4Mu0jBIdBO1OBwfar9jsjTiGoFwRswcCeP5R+E5t2LF6
+	jw3WKLjcgfoJ8GFa6KxBjqJtiLuy6Iz4x1anw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pieS6Wj3pDJOSko66TAQG6ZFBvkw1IJovKuTorXsjRQ=;
-	b=C5aUhd0Go6xG4NEg1w3Avr4Ut0KhTPLxUHzxf76IA9u8uEeGqATPeXnXZf6CrHbey7
-	LovrWC64oFh4S9IEl+Z2L1PXOZ5OKIOsqbkl+DuaUOICf3NQXfuJzNgChlDYZIKi+RSo
-	tvuDcgcNzt/NovlBL9Ou8i3cm4D4HiCw1p3yGO0g+jq76c0p2DnJdZX2soL4ZcKvkiFw
-	9oUoQUx+De3ad/GwO7uGiQ14RvXojMe33actpvlJgLHri9qOz21bW5OByJzksJauSPAT
-	kyiprnQxXxtBKxpYS4WeBHf6QJNd4vI6So3c1anPxgbVce7cloy2e0fGrop4RjgoBI4o
-	h/9A==
-X-Gm-Message-State: APjAAAXWhV/BlL+4j4II6Q9iBV5LSEwGfcpBt03KQez8yd5CuoNWjOTt
-	QOH9ywq+4BwLDCXxcKLjLDewb6maELCkaudwPAE=
-X-Google-Smtp-Source: APXvYqw5VZt6LnHOC/8aSyUCwzht0D3RfHGHYIf9FszNQ318mUvoa6Fk986E6KEIDCRqp5EMRUFUoEWJp5zHrXTF/sE=
-X-Received: by 2002:ac2:495e:: with SMTP id o30mr39610210lfi.140.1560293832754;
-	Tue, 11 Jun 2019 15:57:12 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=H9XjQPwiyPXtCP9X0W78VJ42bRh5TASMt97beQhgax0=;
+	b=d/Vkn8KDtB1Bc8sCx8NFhpNsKN8svwGkbcqmVcloLJsWh37wAS/OO9GPm61mLI4r6b
+	K/WpGhVb2QjwwcceWwspgU/4xPwum2ZAVOAfllaFRxA7XsmR/rRMr+7YwKpnxhlttG/X
+	cdykEE67Ya1Cbm63MhFTL/Lk2QeDx/xLh03muMjawhHBNmnEhYvn2/GZHW2PfMe9dnJA
+	TvTVWgsLi+Yfp1a9FDgWFO4Vw+sbdoZJD1vXtKWePX9S7AJ+GC6EEXktxCFHJFxibLlR
+	g2L05t8/UcJJF5ieRdQlVvGV3eSvujp97ytAdqfh/q0Gi1PHF+WkxSoMk9sYvi0VMv0L
+	n5Lw==
+X-Gm-Message-State: APjAAAWyYy8E0dByWSpqxnKKO0pqLY24ktbTT+rfHVQuh2fdPQzW6gt9
+	x4svT6ex8vjW5Ck5xwakw8KBLlhoO34=
+X-Google-Smtp-Source: APXvYqyepk40vsduEVCcOqn2u49Xc4MIRW4xBkRXOTIR2wnE7msgvamjrFJS1FBk+tyICIeHpM+cnw==
+X-Received: by 2002:adf:ff86:: with SMTP id j6mr19572268wrr.318.1560297928140; 
+	Tue, 11 Jun 2019 17:05:28 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id t63sm6328247wmt.6.2019.06.11.17.05.26
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 11 Jun 2019 17:05:27 -0700 (PDT)
+Message-ID: <f89948476688118012710c34f880bac3d5114faf.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Randy MacLeod <randy.macleod@windriver.com>, Sakib Sajal
+	<sakib.sajal@windriver.com>
+Date: Wed, 12 Jun 2019 01:05:25 +0100
+In-Reply-To: <1607ff2c-d02a-a867-f761-bd3ecd2d1af3@windriver.com>
+References: <1607ff2c-d02a-a867-f761-bd3ecd2d1af3@windriver.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <1560243834-266906-1-git-send-email-zhe.he@windriver.com>
-	<be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
-In-Reply-To: <be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 11 Jun 2019 18:57:01 -0400
-Message-ID: <CADkTA4PEz-0ZuFCStXLSXYYwKDgXUuVHUUdMDSrUF0Bx+71d9g@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Patches and discussions about the oe-core layer
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] lttng-modules: Backport patches to fix compilation failures since kernel v5.1
+Subject: Re: bash ptests: use runuser? also remaining errors.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,62 +59,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 11 Jun 2019 22:57:12 -0000
+X-List-Received-Date: Wed, 12 Jun 2019 00:05:28 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Tue, Jun 11, 2019 at 6:50 PM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2019-06-11 at 17:03 +0800, zhe.he@windriver.com wrote:
-> > From: He Zhe <zhe.he@windriver.com>
-> >
-> > For the moment,
-> > 0001~0004 are on master branch only.
-> > 0005~0007 are on stable-2.11 branch, but v2.11 has not been released
-> > yet.
-> >
-> > Signed-off-by: He Zhe <zhe.he@windriver.com>
-> > ---
-> > v2: Correct a typo in SOB for 0001*.patch
->
-> I just discussed this with lttng upstream maintainers a little. We're
-> going to have continual tension between keeping lttng-modules up to
-> date and new kernel versions.
->
-> How about we also have a git version of this particular recipe which
-> has a DEFAULT_PREFERENCE = "-1" but people can opt into with a
-> PREFERRED_VERSION when using newer kernels?
->
-> That should keep people using very recent kernels happy, let us use a
-> stable release version and avoid us adding/removing large patchsets on
-> a semi regular basis?
->
-> Would you be willing to try/submit such a git recipe?
+On Tue, 2019-06-11 at 15:00 -0400, Randy MacLeod wrote:
+> Richard, et. al.
+> 
+> I have two patches (ptest-runner, bash) that enable all but two [*]
+> of the bash-ptests to pass. A potential problem is that when started
+> by
+> ptest-runner, 'su' (both busybox and util-linux versions), results in
+> a few of bash's tests failing whereas they work if started by
+> 'runuser'.
+> The test failure is due to a warning:
+>      bash: cannot set terminal process group (16036): \
+>            Inappropriate ioctl for device
+> that contaminates the test logs and makes a diff with the expected
+> results fail. I can easily redirect that warning to /dev/null but
+> that seems wrong and would be a patch that we'd have to carry in
+> oe-core.
+> 
+> To get 'runuser' from util-linux into an image, it seems that you
+> need:
+>   - the RDEPENDS for ptest,
+>   - REQUIRED_DISTRO_FEATURES = "pam" in bash.inc, and
+>   - to set the 'pam' DISTRO_FEATURE in your local.conf.
 
-This makes sense to me as well, since I'm one of the folks that runs
-into this issue the most. In fact, I've been carrying a local _git
-version of the lttng recipe for over a year, since I didn't feel like
-getting into the _git versus release tarballs debate. This solution
-should avoid that debate and keep all the different versions of
-kernels moving along.
+The requirement for pam is a problem as we can't require that for
+ptests.
 
-Bruce
+> Is that something you are willing to do for all ptests or perhaps
+> just for bash's ptests?  If so, I'll clean-up my ptest-runner patch
+> and send this to the list.
+> 
+> 
+> I also considered using util-linux's 'setpriv' but enabling that
+> has turned into a mess of dependency loops and other build problems.
+> man runuser:
+>     If the PAM session is not required then recommended solution
+>     is to use setpriv(1) command.
 
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+What kind of dependency loops? Can we just enable it for target builds,
+would that help?
 
+> Other solutions to properly starting user tests from root are
+> welcome!
 
+Not sure but I think we're going to need to find some. Enabling setpriv
+sounds like the easiest first option but it depends on the errors.
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Cheers,
+
+Richard
+
 
