@@ -1,47 +1,18 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com
-	[209.85.221.48])
-	by mail.openembedded.org (Postfix) with ESMTP id E20DF7E1CA
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 08:17:35 +0000 (UTC)
-Received: by mail-wr1-f48.google.com with SMTP id k11so1527775wrl.1
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 01:17:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=YeV35QzamRYdCbQDHjE6Yz8lREpZVUyydtE49/Yh30U=;
-	b=ZUsUfNeDnblV1PbwdNuH1SCKoc9dxSXJZflDy0RInKCIaak8C2O5qhNiV8eEm1zsSc
-	B5cOOzeJd4HR0sM7geOjaR9nBmlOxD6Tt4ELEJaJ7dQhyBrj6eCt5m7xSkGONAfDD5Wy
-	xHtjnRA6mTe046RYYlwkRjWMWTMza1JFHMZ0LXOUET3IiKnTIaO/abrOdsCau8ZvEXE6
-	TqFEF9f5vQrw6ZaiZAh/Qgkzvwg2naOniTiUc/OH0oV7Df8o/MparWwVD682cbOVK3Oq
-	sa/uLfKzmHS0rrDb2cVxZ0i3hVhHTzd1EyDNVL7lQ2lXZsgy2KNNIFzpM2cKijQpR/ei
-	SEsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=YeV35QzamRYdCbQDHjE6Yz8lREpZVUyydtE49/Yh30U=;
-	b=pv7e7R9Jj5yf+aJXSbKJv572o9s0X3Mx5wqnaWLT73/atUa0YOIXJn3c03k+CbYFZb
-	HDli8i78V1YMsuTHw6V4FUn2OQQYAqAMSwbCaZfZjZSlaJuBZmHgg3QmenofI9lV6icZ
-	7Vfrw3apLJOkUd5gvSdh11juOv9wtkLINTqtOxOL+NN7gEpF639NvicLvlgcLQgGboQm
-	qwn2ohpco69F8WcBMqM1oOerXtGG8TVih7CVAgG7S3xtIxQyUUwlv8m79VJjcGhNRYDi
-	XPVQqPNJlXZ1wfleWZUAIZtO5Bhfs4uzAZujBPrTfEoEfzoYthE7CmYuhv1hPYFzrLj8
-	srIw==
-X-Gm-Message-State: APjAAAVBeRfsdbSl2KhWui9iIL3QNYySOzCwFkDtIz3qFd5QE+0iDrUF
-	C907/ikqWLv719PrVcDUtooXtExo
-X-Google-Smtp-Source: APXvYqxgDaAgEnK33W6yTA2Z0aSEKkQMUVP7qTCwlG9gxk/tnqrYA2QC/0DjKxt+pvcySfVCfUvCZA==
-X-Received: by 2002:a5d:53d2:: with SMTP id a18mr8799375wrw.98.1560413856332; 
-	Thu, 13 Jun 2019 01:17:36 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id e7sm1666196wmd.0.2019.06.13.01.17.35
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 13 Jun 2019 01:17:35 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2019 08:17:34 +0000
-Message-Id: <20190613081734.60-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-Subject: [warrior][PATCH] bc: use u-a for bc as well
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id AEC377E7C7;
+	Thu, 13 Jun 2019 08:30:53 +0000 (UTC)
+MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: leimaohui <leimaohui@cn.fujitsu.com>
+Date: Thu, 13 Jun 2019 08:30:55 -0000
+Message-ID: <20190613083055.2331.91179@do>
+References: <1559441822-12401-1-git-send-email-leimaohui@cn.fujitsu.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <1559441822-12401-1-git-send-email-leimaohui@cn.fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igb3BlbnNzbDogRml4IGEgYnVpbGQgYnVnIG9uIGFhcmNoNjRCRS4gKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,55 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 08:17:36 -0000
+X-List-Received-Date: Thu, 13 Jun 2019 08:30:53 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Martin Jansa <martin.jansa@gmail.com>
+== Series Details ==
 
-* bc can be provided by busybox as well (e.g. if you have your own
-  defconfig and forget to explicitly disable it:
-  ...
-  *
-  * Miscellaneous Utilities
-  *
-  adjtimex (4.7 kb) (ADJTIMEX) [N/y/?] n
-  bbconfig (9.7 kb) (BBCONFIG) [N/y/?] n
-  bc (45 kb) (BC) [Y/n/?] (NEW) dc (36 kb) (DC) [Y/n/?] y
-    Use bc code base for dc (larger, more features) (FEATURE_DC_BIG) [Y] (NEW) y
-      Interactive mode (+4kb) (FEATURE_BC_INTERACTIVE) [Y/n/?] (NEW)     Enable bc/dc long options (FEATURE_BC_LONG_OPTIONS) [Y/n] (NEW) beep (2.4 kb) (BEEP) [N/y/?] n
-  chat (6.3 kb) (CHAT) [N/y/?] n
-  conspy (10 kb) (CONSPY) [N/y/?] n
-  ...
-  ), causing conflict in u-a:
+Series: openssl: Fix a build bug on aarch64BE. (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/18134/
+State : failure
 
-  update-alternatives: Error: not linking /usr/bin/bc to /bin/busybox.nosuid since /usr/bin/bc exists and is not a link
+== Summary ==
 
-  and then whole do_rootfs or do_populate_sdk to fail because busybox postinst is failing:
 
-  do_populate_sdk: Postinstall scriptlets of ['busybox'] have failed. If the intention is to defer them to first boot,
-  then please place them into pkg_postinst_ontarget_${PN} (). Deferring to first boot via 'exit 1' is no longer supported.
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+
+* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
+  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch64-big-endian.patch
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-extended/bc/bc_1.07.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extended/bc/bc_1.07.1.bb
-index e80857745e..809b864c1a 100644
---- a/meta/recipes-extended/bc/bc_1.07.1.bb
-+++ b/meta/recipes-extended/bc/bc_1.07.1.bb
-@@ -27,7 +27,7 @@ do_compile_prepend() {
-     cp -f ${WORKDIR}/libmath.h ${B}/bc/libmath.h
- }
- 
--ALTERNATIVE_${PN} = "dc"
-+ALTERNATIVE_${PN} = "bc dc"
- ALTERNATIVE_PRIORITY = "100"
- 
--BBCLASSEXTEND = "native"
-\ No newline at end of file
-+BBCLASSEXTEND = "native"
--- 
-2.17.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
