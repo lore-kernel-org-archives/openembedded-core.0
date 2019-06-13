@@ -1,24 +1,23 @@
 Return-Path: <anuj.mittal@intel.com>
 Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 1D7167D38A
+	by mail.openembedded.org (Postfix) with ESMTP id 7C7617E79A
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 12 Jun 2019 23:59:02 +0000 (UTC)
+	Thu, 13 Jun 2019 00:01:14 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
 	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2019 16:59:03 -0700
+	12 Jun 2019 17:01:15 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,367,1557212400"; d="scan'208";a="184415369"
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.152.144])
-	by fmsmga002.fm.intel.com with ESMTP; 12 Jun 2019 16:59:02 -0700
+	by orsmga008.jf.intel.com with ESMTP; 12 Jun 2019 17:01:14 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2019 07:59:00 +0800
-Message-Id: <20190612235900.5591-1-anuj.mittal@intel.com>
+Date: Thu, 13 Jun 2019 08:01:11 +0800
+Message-Id: <20190613000111.11925-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] python3-scons: fix regex replacing python by python3
+Subject: [PATCH] serf: cleanup recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,31 +30,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 12 Jun 2019 23:59:03 -0000
+X-List-Received-Date: Thu, 13 Jun 2019 00:01:14 -0000
 Content-Transfer-Encoding: 8bit
 
-Match only the first line and match even if the line says python3.
-Otherwise we end up with multiple 3s at the end after multiple
-invocations of do_install on same source.
+* Inherit scons bbclass and use the task definitions from there.
+* Remove the DEPENDS on python3-scons-native that is already present in
+scons class.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-devtools/python/python3-scons_3.0.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-support/serf/serf_1.3.9.bb | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-scons_3.0.5.bb b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
-index 91e4a945e3..cfae37929c 100644
---- a/meta/recipes-devtools/python/python3-scons_3.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
-@@ -15,7 +15,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
- inherit setuptools3
+diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
+index 706c86be47..92cd5ca061 100644
+--- a/meta/recipes-support/serf/serf_1.3.9.bb
++++ b/meta/recipes-support/serf/serf_1.3.9.bb
+@@ -14,18 +14,19 @@ SRC_URI[sha256sum] = "549c2d21c577a8a9c0450facb5cca809f26591f048e466552240947bdf
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
- do_install_prepend() {
--    sed -i -e "s:/usr/bin/env python:/usr/bin/env python3:g" ${S}/script/*
-+    sed -i -e "1s,#!.*python.*,#!${USRBINPATH}/python3," ${S}/script/*
- }
+-DEPENDS = "python3-scons-native openssl apr apr-util util-linux expat"
++inherit scons
  
- RDEPENDS_${PN} = "\
+-do_compile() {
+-	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} \
+-		CC="${CC}" \
+-		APR=`which apr-1-config` APU=`which apu-1-config` \
+-		CFLAGS="${CFLAGS}" LINKFLAGS="${LDFLAGS}" \
+-		OPENSSL="${STAGING_EXECPREFIXDIR}"
+-}
++DEPENDS += " openssl apr apr-util util-linux expat"
+ 
+-do_install() {
+-	${STAGING_BINDIR_NATIVE}/scons PREFIX=${D}${prefix} LIBDIR=${D}${libdir} install
+-}
++EXTRA_OESCONS = " \
++                  LIBDIR=${libdir} \
++                  --install-sandbox=${D} \
++                  CC="${CC}" \
++                  CFLAGS="${CFLAGS}" \
++                  LINKFLAGS="${LDFLAGS}" \
++                  APR=`which apr-1-config` \
++                  APU=`which apu-1-config` \
++                  OPENSSL="${STAGING_EXECPREFIXDIR}" \
++                  "
+ 
+ BBCLASSEXTEND = "native"
 -- 
 2.20.1
 
