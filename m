@@ -1,45 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id CDBD47E671
+Return-Path: <Hongxu.Jia@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A5D107E796
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 10:07:59 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id s7so15544521iob.11
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 03:08:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RqwXjjHrtRNo5Y9c38uHExSF5HiQ+plz0n28yN7qnKk=;
-	b=XqrxuFZ+NrQ0ax4yi4ZWLKAZY3FTAIfzuY2SMCU9Gr+j+nSPGkqgVabXmsvmgn/3IH
-	VXKt77sqOKpTQP83iFUhQEpdjB1WIVMkxqOPdUnyv8KEpVhXIBYM9KOFbt7pfsr/g7rB
-	Ba2nFu4hSx0sh17rm9UB8pFIhi3r1VQE+N1Rb3HUHuv8xNJAPuD0kSx84zzHwGGNO58v
-	UBygTyg/80VGGX/QWPLZ/4rTJ+knUhsvfO+xYmF6hjLTGpAS5oQTWkG7wgpmAWuNJICh
-	HEZP1Pxz1eVG3+IpE0g4687JGUJaVrY94P1rOYly2GaMVPEoBlxTun8uwhTrbAQIfFIN
-	O8EQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RqwXjjHrtRNo5Y9c38uHExSF5HiQ+plz0n28yN7qnKk=;
-	b=bvnM24MQNwTJIf8IRSgpRfhEi9ICz7UMPwYTD7L+4jkjf+mpzjTIrwwv6dlC6C4P0h
-	6PhggLh/feTQPCTfZQyR4p0rafxfipd48DszVIEaS5cItr+C8due48EnssvcuM0odNvq
-	9i+fx0Jgx+1NhvW1QTycokcmUkmuo5CXpbGeimyjdRdp/4P7P6J84gtt5FjS2up2jhue
-	kL2XbO6+LOCPVeZDKvEjT3NS8z5U4SSwRpOCf6F8myLPgbSq7/y8fZ/YPq9ZzIDwebZn
-	fCyQwxrvJGm2eGhl7n689jpnEwOXqr9pj7gRyoD44QG05FJlxHCQjtJ/InXsateojC4F
-	H+EQ==
-X-Gm-Message-State: APjAAAUFd/gD/lEFkf1NZRo1/i1YEq0SVllpFujIbu/9OXWFq3Q5uEyH
-	/kmX3NP+902c5yF/1PcyGsNShQ+LK6bapxIbDmnJEe1L
-X-Google-Smtp-Source: APXvYqye3AJNouizrxZ+rc3xZsrcTde6leLNTJUYKgKuOHwT3xv+hA167HvbSSK58R8ajCC9ILz4uuJQaW33c2VxDEs=
-X-Received: by 2002:a5e:9701:: with SMTP id w1mr11258208ioj.294.1560420480926; 
-	Thu, 13 Jun 2019 03:08:00 -0700 (PDT)
-MIME-Version: 1.0
+	Thu, 13 Jun 2019 12:36:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5DCZSkh018928
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 13 Jun 2019 05:35:38 -0700
+Received: from [128.224.162.157] (128.224.162.157) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 13 Jun 2019 05:35:17 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
 References: <1560413184-99289-1-git-send-email-hongxu.jia@windriver.com>
-In-Reply-To: <1560413184-99289-1-git-send-email-hongxu.jia@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 13 Jun 2019 11:07:49 +0100
-Message-ID: <CAJTo0Lbkn3Lty9JV14KDmAvdY0eWiPqqGVAxo+ByP=DA6jsEwQ@mail.gmail.com>
-To: Hongxu Jia <hongxu.jia@windriver.com>
+	<CAJTo0Lbkn3Lty9JV14KDmAvdY0eWiPqqGVAxo+ByP=DA6jsEwQ@mail.gmail.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
+Message-ID: <6d6a6865-52fc-647e-e1a8-b412d9a80bc0@windriver.com>
+Date: Thu, 13 Jun 2019 20:35:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0Lbkn3Lty9JV14KDmAvdY0eWiPqqGVAxo+ByP=DA6jsEwQ@mail.gmail.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH] diffutils/run-ptest: support to run at arbitrary path
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -54,48 +35,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 10:08:01 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 13 Jun 2019 12:36:05 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Are you going to fix all of the other recipes?  Very few recipes let
-you run the tests from an arbitrary directory, and assume that you're
-in the test directory already.
+On 6/13/19 6:07 PM, Burton, Ross wrote:
+> Are you going to fix all of the other recipes?  Very few recipes let
+> you run the tests from an arbitrary directory, and assume that you're
+> in the test directory already.
 
-Ross
+Only focus on this recipe, my original task is to resolve 2. Fix 
+large-subopt.in1 not found,
 
-On Thu, 13 Jun 2019 at 09:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+and 1 is my deeper improvement. I know most of ptest require to run in 
+specific dir
+
+//Hongxu
+
+
+> Ross
 >
-> 1. Run run-ptest at arbitrary path
->
-> 2. Fix large-subopt.in1 not found
-> ...
-> |diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in1:
-> No such file or directory
-> |diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in2:
-> No such file or directory
-> ...
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/recipes-extended/diffutils/diffutils/run-ptest | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/diffutils/diffutils/run-ptest b/meta/recipes-extended/diffutils/diffutils/run-ptest
-> index 695c5e8a7b..ad467d9bd0 100644
-> --- a/meta/recipes-extended/diffutils/diffutils/run-ptest
-> +++ b/meta/recipes-extended/diffutils/diffutils/run-ptest
-> @@ -1,3 +1,4 @@
->  #!/bin/sh
->
-> -make -C tests check-TESTS
-> +abs_ptestdir=`echo "$(cd "$(dirname "$0")"; pwd)"`
-> +make -C $abs_ptestdir/tests check-TESTS abs_top_srcdir="$abs_ptestdir"
-> --
-> 2.17.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> On Thu, 13 Jun 2019 at 09:08, Hongxu Jia <hongxu.jia@windriver.com> wrote:
+>> 1. Run run-ptest at arbitrary path
+>>
+>> 2. Fix large-subopt.in1 not found
+>> ...
+>> |diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in1:
+>> No such file or directory
+>> |diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in2:
+>> No such file or directory
+>> ...
+>>
+>> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+>> ---
+>>   meta/recipes-extended/diffutils/diffutils/run-ptest | 3 ++-
+>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-extended/diffutils/diffutils/run-ptest b/meta/recipes-extended/diffutils/diffutils/run-ptest
+>> index 695c5e8a7b..ad467d9bd0 100644
+>> --- a/meta/recipes-extended/diffutils/diffutils/run-ptest
+>> +++ b/meta/recipes-extended/diffutils/diffutils/run-ptest
+>> @@ -1,3 +1,4 @@
+>>   #!/bin/sh
+>>
+>> -make -C tests check-TESTS
+>> +abs_ptestdir=`echo "$(cd "$(dirname "$0")"; pwd)"`
+>> +make -C $abs_ptestdir/tests check-TESTS abs_top_srcdir="$abs_ptestdir"
+>> --
+>> 2.17.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
