@@ -1,50 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
-	[209.85.167.49])
-	by mail.openembedded.org (Postfix) with ESMTP id C3B7D7E8DF
+Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
+	[209.85.167.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 07D3E7E6E8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 21:23:43 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id a25so229383lfg.2
+	Thu, 13 Jun 2019 23:42:54 +0000 (UTC)
+Received: by mail-lf1-f65.google.com with SMTP id y17so429436lfe.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 14:23:44 -0700 (PDT)
+	Thu, 13 Jun 2019 16:42:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=tudFVg6i5SgSpSVdWdmUZ6kR0LLZbfUiyRzLTAoPUvg=;
-	b=STp9mtUYrA5pn8Crlatv68xWgzctI9PGVE5yxtPhTMsEBuyea10dLAPjmjMZVk6Mlt
-	u6wK8RhRH18dJug6xyzWOVACy/bcVcYaIekJTfyFnHlVNTtiXb4B/t7gEVcrV3StFAOI
-	UGmpkYsG/1KdRmT92+oHNpqfkWgHpF+ckCkHJ9aV/0ECAPY4Gb/ub2XW8FHVOKozZLKx
-	a97G/AtpaKJqYNNEb10fEwUZCncANiTOqfeoGo5/Kccfz6q17NzVxIFTanNjTbO3vAeW
-	i+uhH/A23YNrakAPstZ7aNUDmc8fidLtlM70t6uO++gmsCBnqJTEfZEjUIdYF4swyXvV
-	IAEA==
+	bh=HmPkbsHr6dmtV+BK186flOLObg2p8TiuEiNd0kz033U=;
+	b=18FePdXzpNxHeJIUzUngos+OAQPwnQa16vXZXLU+zLoEY0YGMwYTlF7hEOq1w+LLXI
+	GSJwyUOk7kXgq/XV9JZLq5IqbWR10tQsw1iVtCXPlOy0sCfhNBKaAGUtGwBrORn6eBc8
+	wacAwwO4BFkGf6TdYdHZOvy4X2gKqLG+Vc7h0Rw6/GgZ2W2JW79CimsZ7GkJGlmsqM9g
+	2eHurcLOB3Rvndi5IUEuXqKAvMJBcUV6LLpitTM8Q7Hmc7PHiUiDIaT5RmBySKGjBw5S
+	zdd3cS1zqKe4rWohp4uAHWgweGihgH7Byxn4kErbLa4xff1qSFBApzoVKt9OGVOIXGvU
+	HzGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=tudFVg6i5SgSpSVdWdmUZ6kR0LLZbfUiyRzLTAoPUvg=;
-	b=p8+9IKS+vRlUYJaT1C3z5adAOtg2tX7qpBpyhyXD0HehW/3R6XxDD/1VwSUOYfsDHp
-	Fg+IG1D4TvFr/K2ozliY53XrmfRaYbMNzV1O7UasmccJkoUxzeT/zbg4+V3wIRYoXX8E
-	aZcCLnvmJxFcVLvZrgUXAmCIMzYI9EfFQrvDeIuWy7PUS5QUk9BaxxPqR8IEfPV3Mydb
-	rG+ryXcPq8d1x9odcvTTHKWWLUPiPYqgWljGYYKMLl7CdEo+9ASpAuhRexDAJYYiHLy0
-	gabrwstyYCzD4bIEhJFvt+RYA9kvKpq0kqt57eNElFjvNdXl3DYpmMTjXm1MUyhrr/5d
-	qfXQ==
-X-Gm-Message-State: APjAAAXBJRLQ/T8wGkRxzN6iscmCBoK51Gvp2E87y7hdWkhNtKU8EYsr
-	Pn0ZjBkOftGU0iL6XjyqXRWf9V5TynE=
-X-Google-Smtp-Source: APXvYqySXxLbzh8cF1JJw4wvhg81eOS22L7Zt1Di3ZoW+DOJU7wcZ9KtUAwGlkRONg2lYDc8yzLUoA==
-X-Received: by 2002:ac2:4252:: with SMTP id m18mr21390712lfl.100.1560461023616;
-	Thu, 13 Jun 2019 14:23:43 -0700 (PDT)
+	bh=HmPkbsHr6dmtV+BK186flOLObg2p8TiuEiNd0kz033U=;
+	b=MxTVCPahbwpTa6sTnuF47e+5tUwrsg7HvdYnQaDPWBla9A/pvQqMcBl5Rr5VUJukRB
+	Jd7xO4FBo5lV5ad7opBAloK1vlNXJoAx2RlHXM6amHj6cZx2ctCXHRbZklPG0WBUAKkZ
+	zItEGyAFQQ5nxXfSB4otF9QAtgl/jGRrLXSxMrxHnC6kD/ew/3vmZd49SDzgZ0e+rwUY
+	Pj5ughEDWBOL41GKfX7yAS/eQ32521SonTJbwtrFSaJ1nVJ8yfn9U/rCZrQuwgOB+v8g
+	seuPCDyNFjsswV2ap2S2gaLdRfB2OG7Lt73KAn1WKRg/IHJCEzbptz6PbVeHSBgtTt8i
+	i6xg==
+X-Gm-Message-State: APjAAAXiUCsniTTaWPXLS2JQ7UXkzX+JfVTxFsprw4mRWNoDPV5Mr3kE
+	uT1tDtrOvijj5pRz7arrGFB9YjirsW4=
+X-Google-Smtp-Source: APXvYqzhxYfR9fhV6Uyt8OQed4bfnDN7zhcvnlt1xcbj19spASkB4QCnurxJ1u9b2sEGZcIdlCDPfA==
+X-Received: by 2002:ac2:4891:: with SMTP id x17mr11105482lfc.60.1560469375055; 
+	Thu, 13 Jun 2019 16:42:55 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id n3sm156703lfh.3.2019.06.13.14.23.42
+	by smtp.gmail.com with ESMTPSA id v7sm249466ljj.3.2019.06.13.16.42.54
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 13 Jun 2019 14:23:42 -0700 (PDT)
+	Thu, 13 Jun 2019 16:42:54 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-X-Google-Original-From: Oleksandr Kravchuk <oleksandr.kravchuk@pelagicore.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2019 23:23:40 +0200
-Message-Id: <20190613212340.15009-1-oleksandr.kravchuk@pelagicore.com>
+Date: Fri, 14 Jun 2019 01:42:51 +0200
+Message-Id: <20190613234251.8494-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH v3] selftest/devtool: fix URI to MarkupSafe package
+Subject: [PATCH] bitbake: cooker: list all nonexistent bblayer directories
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,32 +56,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 21:23:44 -0000
+X-List-Received-Date: Thu, 13 Jun 2019 23:42:55 -0000
 
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Check existence of all the bblayer direcotories at once and print them
+all, so if there are multiple nonexistent directories, user does not
+have to correct bblayers.conf and restart bitbake multiple times.
 
-PyPi packages are now hosted at files.pythonhosted.org.
-
-[YOCTO #13243]
+[YOCTO #11647]
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ bitbake/lib/bb/cookerdata.py | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 434a7b9dd4..904ff6988b 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -393,7 +393,7 @@ class DevtoolAddTests(DevtoolBase):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir)
-         testver = '0.23'
--        url = 'https://pypi.python.org/packages/source/M/MarkupSafe/MarkupSafe-%s.tar.gz' % testver
-+        url = 'https://files.pythonhosted.org/packages/c0/41/bae1254e0396c0cc8cf1751cb7d9afc90a602353695af5952530482c963f/MarkupSafe-%s.tar.gz' % testver
-         testrecipe = 'python-markupsafe'
-         srcdir = os.path.join(tempdir, testrecipe)
-         # Test devtool add
+diff --git a/bitbake/lib/bb/cookerdata.py b/bitbake/lib/bb/cookerdata.py
+index f8ae41093b..be1c332eb5 100644
+--- a/bitbake/lib/bb/cookerdata.py
++++ b/bitbake/lib/bb/cookerdata.py
+@@ -342,14 +342,24 @@ class CookerDataBuilder(object):
+             data = parse_config_file(layerconf, data)
+ 
+             layers = (data.getVar('BBLAYERS') or "").split()
++            broken_layers = []
+ 
+             data = bb.data.createCopy(data)
+             approved = bb.utils.approved_variables()
++
++            # Check whether present layer directories exist
+             for layer in layers:
+                 if not os.path.isdir(layer):
+-                    parselog.critical("Layer directory '%s' does not exist! "
+-                                      "Please check BBLAYERS in %s" % (layer, layerconf))
+-                    sys.exit(1)
++                    broken_layers.append(layer)
++
++            if broken_layers:
++                parselog.critical("The following layer directories do not exist:")
++                for layer in broken_layers:
++                    parselog.critical("- %s", layer)
++                parselog.critical("Please check BBLAYERS in %s" % (layerconf))
++                sys.exit(1)
++
++            for layer in layers:
+                 parselog.debug(2, "Adding layer %s", layer)
+                 if 'HOME' in approved and '~' in layer:
+                     layer = os.path.expanduser(layer)
 -- 
 2.17.1
 
