@@ -1,23 +1,25 @@
 Return-Path: <anuj.mittal@intel.com>
-Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7C7617E79A
+Received: from mga18.intel.com (mga18.intel.com [134.134.136.126])
+	by mail.openembedded.org (Postfix) with ESMTP id 5261D7E6DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 00:01:14 +0000 (UTC)
+	Thu, 13 Jun 2019 00:28:54 +0000 (UTC)
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2019 17:01:15 -0700
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	12 Jun 2019 17:28:55 -0700
 X-ExtLoop1: 1
 Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.152.144])
-	by orsmga008.jf.intel.com with ESMTP; 12 Jun 2019 17:01:14 -0700
+	by orsmga007.jf.intel.com with ESMTP; 12 Jun 2019 17:28:54 -0700
 From: Anuj Mittal <anuj.mittal@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2019 08:01:11 +0800
-Message-Id: <20190613000111.11925-1-anuj.mittal@intel.com>
+Date: Thu, 13 Jun 2019 08:28:48 +0800
+Message-Id: <20190613002848.15030-1-anuj.mittal@intel.com>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190612235900.5591-1-anuj.mittal@intel.com>
+References: <20190612235900.5591-1-anuj.mittal@intel.com>
 MIME-Version: 1.0
-Subject: [PATCH] serf: cleanup recipe
+Subject: [PATCH v2] python3-scons: fix regex replacing python by python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,53 +32,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 00:01:14 -0000
+X-List-Received-Date: Thu, 13 Jun 2019 00:28:54 -0000
 Content-Transfer-Encoding: 8bit
 
-* Inherit scons bbclass and use the task definitions from there.
-* Remove the DEPENDS on python3-scons-native that is already present in
-scons class.
+Match only the first line and match even if the line says python3.
+Otherwise we end up with multiple 3s at the end after multiple
+invocations of do_install on same source.
 
 Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/recipes-support/serf/serf_1.3.9.bb | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+ meta/recipes-devtools/python/python3-scons_3.0.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
-index 706c86be47..92cd5ca061 100644
---- a/meta/recipes-support/serf/serf_1.3.9.bb
-+++ b/meta/recipes-support/serf/serf_1.3.9.bb
-@@ -14,18 +14,19 @@ SRC_URI[sha256sum] = "549c2d21c577a8a9c0450facb5cca809f26591f048e466552240947bdf
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+diff --git a/meta/recipes-devtools/python/python3-scons_3.0.5.bb b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
+index 91e4a945e3..7fb75a627e 100644
+--- a/meta/recipes-devtools/python/python3-scons_3.0.5.bb
++++ b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
+@@ -15,7 +15,7 @@ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ inherit setuptools3
  
--DEPENDS = "python3-scons-native openssl apr apr-util util-linux expat"
-+inherit scons
+ do_install_prepend() {
+-    sed -i -e "s:/usr/bin/env python:/usr/bin/env python3:g" ${S}/script/*
++    sed -i -e "1s,#!.*python.*,#!${USRBINPATH}/env python3," ${S}/script/*
+ }
  
--do_compile() {
--	${STAGING_BINDIR_NATIVE}/scons ${PARALLEL_MAKE} PREFIX=${prefix} \
--		CC="${CC}" \
--		APR=`which apr-1-config` APU=`which apu-1-config` \
--		CFLAGS="${CFLAGS}" LINKFLAGS="${LDFLAGS}" \
--		OPENSSL="${STAGING_EXECPREFIXDIR}"
--}
-+DEPENDS += " openssl apr apr-util util-linux expat"
- 
--do_install() {
--	${STAGING_BINDIR_NATIVE}/scons PREFIX=${D}${prefix} LIBDIR=${D}${libdir} install
--}
-+EXTRA_OESCONS = " \
-+                  LIBDIR=${libdir} \
-+                  --install-sandbox=${D} \
-+                  CC="${CC}" \
-+                  CFLAGS="${CFLAGS}" \
-+                  LINKFLAGS="${LDFLAGS}" \
-+                  APR=`which apr-1-config` \
-+                  APU=`which apu-1-config` \
-+                  OPENSSL="${STAGING_EXECPREFIXDIR}" \
-+                  "
- 
- BBCLASSEXTEND = "native"
+ RDEPENDS_${PN} = "\
 -- 
 2.20.1
 
