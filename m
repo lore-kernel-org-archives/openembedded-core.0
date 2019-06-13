@@ -1,37 +1,52 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D32A7E097
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-it1-f196.google.com (mail-it1-f196.google.com
+	[209.85.166.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 1C77D7CBE4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 01:57:15 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,367,1557158400"; d="scan'208";a="67163338"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 13 Jun 2019 09:57:15 +0800
-Received: from G08CNEXCHPEKD01.g08.fujitsu.local (unknown [10.167.33.80])
-	by cn.fujitsu.com (Postfix) with ESMTP id 278874CDB937;
-	Thu, 13 Jun 2019 09:57:15 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD01.g08.fujitsu.local ([10.167.33.80]) with mapi id
-	14.03.0439.000; Thu, 13 Jun 2019 09:57:24 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Thread-Topic: [OE-core] [master][warrior][PATCH] at: Fix a spelling mistake.
-Thread-Index: AQHVIQHjwX1Jz9WMwUGDrwIM0/B+2qaY0lxg
-Date: Thu, 13 Jun 2019 01:57:20 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF12B47F@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1559336914-6411-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<CAJTo0LYinJhqtqjZkw3+icj44niSTu8CJFyGu2i7oBv9mjyEug@mail.gmail.com>
-In-Reply-To: <CAJTo0LYinJhqtqjZkw3+icj44niSTu8CJFyGu2i7oBv9mjyEug@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.227]
+	Thu, 13 Jun 2019 04:06:42 +0000 (UTC)
+Received: by mail-it1-f196.google.com with SMTP id m138so14567295ita.4
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jun 2019 21:06:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=DtE8lQ6I0YXuxu8oGCtXslMPxCqpPhHR2lqE4xzVSbs=;
+	b=HpmV++1UDqMu7Jbla6BF/Zq6Moz0XQM6OHHH2Vz+u+UiF+LtyELNtMrmsW7m697jYe
+	+9EKCLDRMqUOvqvVrWbLb7ylTJMvBmeLx5IWemOHRPKLMfN1KD9PzSSYuEiuZvDwb5Kj
+	VqISIsYYDB0K6X8xjb6Gkw7NG5ln/ob8ArGfkFBERuFp5GpWOAG4PByPxsk2M8Y7/Rxn
+	p2LjtvBhQmPCq7SiwZJ852AeIOCptQ3TEesZJs1ZHl7Rpweux2XBXaW90iCuZYzCrubW
+	psv0QBC6M5EpwckC8OiNv7xwpW8c+XXswEjxp4tZcq7X9q5Tu5dw3vEwC/AtL+s0ZYnB
+	Vxfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=DtE8lQ6I0YXuxu8oGCtXslMPxCqpPhHR2lqE4xzVSbs=;
+	b=eoDaDyOPTaamKfg4qRc29LxyzPOnWfPvKrdJcd55HRTUXNNm7+/np32fZPtnoW1A6n
+	oXhoyBEQwqZyt9Fr2jgWXX5zi1L8XmvLElBFJUVUxRS1fzmvPVvJFXJ3X3DDhAF3/YfU
+	9eu94dyd746ZggQPr/kG04bP0YxCLekObT2MqqHB2EGvQ9Y1n6GnZ3BB56qj4FFB9qh2
+	2S1NxketPwzT4IxBtnXVPgd+GX0imwSlymfYTpDa5LbkfHxvkQnKkARvpvQB3H8LaL6O
+	YZ2UrGmbZ08Id6WauqF0nVhjEMyE59Anvn2UoVMpLzVQyRDd9dN8+s5HTnyr+BbXFh+A
+	PubA==
+X-Gm-Message-State: APjAAAWhjEYbkmh9FWvr9J3sGG192whMfeoxsmZvRQ8X3r9kZw7u5iMw
+	aneETYchfX4O7DQoO1MsSvcs1bzrJTw+a5qowOc=
+X-Google-Smtp-Source: APXvYqxjK4YH6vNmJRdJMhjIMOulwCMXmVDcKj/7IQGuSrt8lL6sdGRi2h9qgeCJ68dhMbuY2gmhJk3FUXrJxNqjFw4=
+X-Received: by 2002:a02:a493:: with SMTP id d19mr54531944jam.22.1560398803096; 
+	Wed, 12 Jun 2019 21:06:43 -0700 (PDT)
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: 278874CDB937.A990B
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [master][warrior][PATCH] at: Fix a spelling mistake.
+References: <20190612081559.5102-1-alex.kiernan@gmail.com>
+	<51dc74acacf2f1daa52a012d083ca2ca56b67bd8.camel@linuxfoundation.org>
+	<CAO5Uq5SBNF025u6metFbzeNfSWYOXiYTP5ePR_u1Z9++L_ds8A@mail.gmail.com>
+	<9cbbc692-2702-f3f4-199d-ec06cc0f212c@foundries.io>
+	<37f5b95f5e9972f1acea72c332c8069f56d7f7a0.camel@linuxfoundation.org>
+	<656d17dd-5b77-d3f7-3764-efa5fe5f98e5@foundries.io>
+In-Reply-To: <656d17dd-5b77-d3f7-3764-efa5fe5f98e5@foundries.io>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Thu, 13 Jun 2019 05:06:31 +0100
+Message-ID: <CAO5Uq5Sg6BfL4MeuN8BqbYRNwW2h3A5ZDPJxTD7jhWqjuEA_0w@mail.gmail.com>
+To: Michael Scott <mike@foundries.io>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-fitimage: uboot-sign: Check UBOOT_DTB_BINARY before adding deps
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,50 +59,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 01:57:16 -0000
-Content-Language: zh-CN
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 13 Jun 2019 04:06:42 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgUm9zcw0KDQo+IFlvdSBkbyBtb3JlIHRoYW4gZml4IGEgc3BlbGxpbmcg
-bWlzdGFrZSBpbiB0aGF0IGNvbW1pdC4gIFBsZWFzZQ0KPiBleHBsYWluIHRo
-ZSBvdGhlciBjaGFuZ2VzLg0KDQpJJ20gc29ycnksIEkgZG9uJ3QgdW5kZXJz
-dGFuZC4gSSBqdXN0IGZpeGVkICJhY291bnQiIHRvICJhY2NvdW50Ii4gSSBk
-aWRuJ3QgZG8gcmVkdW5kYW50IGNoYW5nZS4NCg0KPiA+IC0rYWNvdW50ICAg
-ICBpbmNsdWRlICAgIGNvbW1vbi1hY2NvdW50DQo+ID4gKythY2NvdW50ICAg
-ICBpbmNsdWRlICAgIGNvbW1vbi1hY2NvdW50DQoNCg0KQmVzdCByZWdhcmRz
-DQpMZWkNCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZy
-b206IEJ1cnRvbiwgUm9zcyBbbWFpbHRvOnJvc3MuYnVydG9uQGludGVsLmNv
-bV0NCj4gU2VudDogV2VkbmVzZGF5LCBKdW5lIDEyLCAyMDE5IDU6MzMgUE0N
-Cj4gVG86IExlaSwgTWFvaHVpDQo+IENjOiBPRS1jb3JlDQo+IFN1YmplY3Q6
-IFJlOiBbT0UtY29yZV0gW21hc3Rlcl1bd2Fycmlvcl1bUEFUQ0hdIGF0OiBG
-aXggYSBzcGVsbGluZyBtaXN0YWtlLg0KPiANCj4gWW91IGRvIG1vcmUgdGhh
-biBmaXggYSBzcGVsbGluZyBtaXN0YWtlIGluIHRoYXQgY29tbWl0LiAgUGxl
-YXNlDQo+IGV4cGxhaW4gdGhlIG90aGVyIGNoYW5nZXMuDQo+IA0KPiBSb3Nz
-DQo+IA0KPiBPbiBXZWQsIDEyIEp1biAyMDE5IGF0IDA0OjA5LCBMZWkgTWFv
-aHVpIDxsZWltYW9odWlAY24uZnVqaXRzdS5jb20+IHdyb3RlOg0KPiA+DQo+
-ID4gU2lnbmVkLW9mZi1ieTogTGVpIE1hb2h1aSA8bGVpbWFvaHVpQGNuLmZ1
-aml0c3UuY29tPg0KPiA+IC0tLQ0KPiA+ICBtZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvYXQvYXQvcGFtLmNvbmYucGF0Y2ggfCAyICstDQo+ID4gIDEgZmlsZSBj
-aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQ0KPiA+DQo+
-ID4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hdC9hdC9w
-YW0uY29uZi5wYXRjaCBiL21ldGEvcmVjaXBlcy0NCj4gZXh0ZW5kZWQvYXQv
-YXQvcGFtLmNvbmYucGF0Y2gNCj4gPiBpbmRleCBjOWYzMzdlLi4zOGU3ZmMx
-IDEwMDY0NA0KPiA+IC0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9hdC9h
-dC9wYW0uY29uZi5wYXRjaA0KPiA+ICsrKyBiL21ldGEvcmVjaXBlcy1leHRl
-bmRlZC9hdC9hdC9wYW0uY29uZi5wYXRjaA0KPiA+IEBAIC0yNCw3ICsyNCw3
-IEBAIGluZGV4IDM2NzRjMGEuLjJmOGQ1ODYgMTAwNjQ0DQo+ID4gIC1AaW5j
-bHVkZSBjb21tb24tYXV0aA0KPiA+ICAtQGluY2x1ZGUgY29tbW9uLWFjY291
-bnQNCj4gPiAgK2F1dGggICAgICAgaW5jbHVkZSAgICBjb21tb24tYXV0aA0K
-PiA+IC0rYWNvdW50ICAgICBpbmNsdWRlICAgIGNvbW1vbi1hY2NvdW50DQo+
-ID4gKythY2NvdW50ICAgICBpbmNsdWRlICAgIGNvbW1vbi1hY2NvdW50DQo+
-ID4gICBzZXNzaW9uICAgIHJlcXVpcmVkICAgcGFtX2xvZ2ludWlkLnNvDQo+
-ID4gIC1AaW5jbHVkZSBjb21tb24tc2Vzc2lvbi1ub25pbnRlcmFjdGl2ZQ0K
-PiA+ICArc2Vzc2lvbiAgICBpbmNsdWRlICAgIGNvbW1vbi1zZXNzaW9uLW5v
-bmludGVyYWN0aXZlDQo+ID4gLS0NCj4gPiAyLjcuNA0KPiA+DQo+ID4NCj4g
-Pg0KPiA+IC0tDQo+ID4gX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X19fX19fX19fX19fX19fX18NCj4gPiBPcGVuZW1iZWRkZWQtY29yZSBtYWls
-aW5nIGxpc3QNCj4gPiBPcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1i
-ZWRkZWQub3JnDQo+ID4gaHR0cDovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcv
-bWFpbG1hbi9saXN0aW5mby9vcGVuZW1iZWRkZWQtY29yZQ0KPiANCg0KCgo=
+Hi Mike
+
+On Wed, Jun 12, 2019 at 11:59 PM Michael Scott <mike@foundries.io> wrote:
+>
+>
+> On 6/12/19 3:21 PM, richard.purdie@linuxfoundation.org wrote:
+> > On Wed, 2019-06-12 at 14:17 -0700, Michael Scott wrote:
+> >> Actually, you can ignore this patch.  We debugged the actual race
+> >> condition contributing to the confusion, and that developer will
+> >> submit a new patch with that fix.  We can review if that patch makes
+> >> more sense (even without tests).
+> > Well, this patch merged earlier this evening as tested passed. Is that
+> > a problem?
+>
+> Not a problem at all.  I believe we also kept this change when we
+> debugged the actual race condition.
+>
+
+Wrong patch you're pointing to here? I'm guessing you meant
+https://patchwork.openembedded.org/patch/161440/
+
+-- 
+Alex Kiernan
 
