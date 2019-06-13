@@ -1,36 +1,47 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga17.intel.com (mga17.intel.com [192.55.52.151])
-	by mail.openembedded.org (Postfix) with ESMTP id 3F0737D6B5
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B94AF6C1F6
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 05:41:26 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 Jun 2019 22:41:27 -0700
-X-ExtLoop1: 1
-Received: from pgsmsx111.gar.corp.intel.com ([10.108.55.200])
-	by fmsmga006.fm.intel.com with ESMTP; 12 Jun 2019 22:41:23 -0700
-Received: from pgsmsx105.gar.corp.intel.com ([169.254.4.239]) by
-	PGSMSX111.gar.corp.intel.com ([169.254.2.3]) with mapi id
-	14.03.0415.000; Thu, 13 Jun 2019 13:41:21 +0800
-From: "Mittal, Anuj" <anuj.mittal@intel.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Burton, Ross"
-	<ross.burton@intel.com>
-Thread-Topic: [OE-core] [PATCH v2 2/2] efibootmgr: add
-Thread-Index: AQHVIV5/EIgpaDUJOE2Om3ZGZjVj/qaYjGcA
-Date: Thu, 13 Jun 2019 05:41:21 +0000
-Message-ID: <61ea1230ac110bc41dd1d9403cea23f7d7165dfc.camel@intel.com>
-References: <20190612203536.32162-1-ross.burton@intel.com>
-	<20190612203536.32162-2-ross.burton@intel.com>
-In-Reply-To: <20190612203536.32162-2-ross.burton@intel.com>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.255.145.100]
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 2/2] efibootmgr: add
+	Thu, 13 Jun 2019 06:07:51 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id c66so8777060wmf.0
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 12 Jun 2019 23:07:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=fCFQ0/QuHBuh0SZ1JPlxpPb/4Zs5CNVkOyfSY+8dabE=;
+	b=aykqN25REEOB8wtqAGbDPJxXGvzS3iqKM+dsjADUIvOfFhG13RXJaq/c+QZvdk0pGv
+	A/HSKevPiKXOMuuap1PzhXdrVZ567/1RJP0GIYBvAQd3VyIdkVa5dz0dCDCapXyuhLC7
+	mCqf2Yvt0blImZf1OPpksUEomwzohCRuFy9cV9gX/JD7UAroaDXtFvvgG0P3655m9nge
+	Tq89d8nhU5RNL8Y8mbran0XiOwNTjo0YMT3usByFM/rvSF2/4Lqn+l1fQeRphYUSFDfk
+	uaHRKj/iokIaMVnZ2fdLkrgWdE6ubAvuxj7/DcJ6rsUAhM/KfIFH1HP+5ebVDmkn3akW
+	PVWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=fCFQ0/QuHBuh0SZ1JPlxpPb/4Zs5CNVkOyfSY+8dabE=;
+	b=EQwF325kqF2bVT3ln6/D13JE9+mLYtDI7rcTww1MvGcWsvNi1V2VFaghJLTtpBNQ/t
+	B03PwyDE4NokywM2TketIYtIs/g6Fuwou2Cth9AJd3gKQZRqExc6BDLEJRADsRS1XUzE
+	HdNVQ0ZTn+u1uJS90NuqQ6iYTHO6P6yz628C3DSdsT+beDB/PHK7LNtKkVQIsZK4hDoX
+	5MOJq41OXKu/aOSNT1p54DCMrZKlCUBQZGL74iIOao6wpomqW5Xa49tOj90zGmKqQH3L
+	2ryt7IpXXxou1CIDcCVOseotYuT7sqOGwp4LZWukToGl9lrpWFtBaY8PWBcUexoYo1EM
+	6ZJQ==
+X-Gm-Message-State: APjAAAVMtt3SzuuLsRWh/03DBRByor+ELym0eq9JBb9ReP3vyCIpvR9n
+	evvZoes9qK6CpSBWO9SxInLXBiCj
+X-Google-Smtp-Source: APXvYqzuO/c8j97FNsbPnC5u7fK8PPs9KdqYwtbYN3sMDSvEMNAd9fCAwaGhyJhRAW93Pl9LZx6eqA==
+X-Received: by 2002:a1c:208c:: with SMTP id g134mr2075241wmg.112.1560406071899;
+	Wed, 12 Jun 2019 23:07:51 -0700 (PDT)
+Received: from localhost.localdomain (cust246-dsl91-135-6.idnet.net.
+	[91.135.6.246]) by smtp.gmail.com with ESMTPSA id
+	k125sm941107wmf.41.2019.06.12.23.07.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 12 Jun 2019 23:07:51 -0700 (PDT)
+From: Alex Kiernan <alex.kiernan@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 13 Jun 2019 07:07:45 +0100
+Message-Id: <20190613060745.89716-1-alex.kiernan@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] systemd: Backport OpenSSL BUF_MEM fix
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,73 +54,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 13 Jun 2019 05:41:26 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AFD7E955E91A4B4AAA5482E1D5676387@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Thu, 13 Jun 2019 06:07:52 -0000
 
-VGhlc2Ugd291bGQgbmVlZCBhbiBlbnRyeSBpbiBtYWludGFpbmVycy5pbmMgYXMgd2VsbC4NCg0K
-aHR0cHM6Ly9hdXRvYnVpbGRlci55b2N0b3Byb2plY3Qub3JnL3R5cGhvb24vIy9idWlsZGVycy81
-Ni9idWlsZHMvNTE5L3N0ZXBzLzcvbG9ncy9zdGVwMmQNCg0KVGhhbmtzLA0KDQpBbnVqDQoNCk9u
-IFdlZCwgMjAxOS0wNi0xMiBhdCAyMTozNSArMDEwMCwgUm9zcyBCdXJ0b24gd3JvdGU6DQo+IFRo
-aXMgd2FzIGluIG1ldGEtb2UgYnV0IEVGSSBpcyBzdWZmaWNpZW50bHkgd2lkZXNwcmVhZCBub3cg
-dGhhdCB3ZQ0KPiBuZWVkIGl0IGluDQo+IGNvcmUuDQo+IA0KPiBUaGUgcmVjaXBlIGlzIGJhc2Vk
-IG9uIHRoZSBvbmUgaW4gbWV0YS1vZSBidXQgd2l0aCBzZXZlcmFsIHVwZGF0ZXMuDQo+IA0KPiBT
-aWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPg0KPiAtLS0N
-Cj4gIC4uLi9lZmlib290bWdyLzAwMDEtcmVtb3ZlLWV4dHJhLWRlY2wucGF0Y2ggICAgICAgIHwg
-MzENCj4gKysrKysrKysrKysrKysrKysrKysNCj4gIG1ldGEvcmVjaXBlcy1ic3AvZWZpYm9vdG1n
-ci9lZmlib290bWdyXzE3LmJiICAgICAgIHwgMzQNCj4gKysrKysrKysrKysrKysrKysrKysrKw0K
-PiAgMiBmaWxlcyBjaGFuZ2VkLCA2NSBpbnNlcnRpb25zKCspDQo+ICBjcmVhdGUgbW9kZSAxMDA2
-NDQgbWV0YS9yZWNpcGVzLWJzcC9lZmlib290bWdyL2VmaWJvb3RtZ3IvMDAwMS0NCj4gcmVtb3Zl
-LWV4dHJhLWRlY2wucGF0Y2gNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtYnNw
-L2VmaWJvb3RtZ3IvZWZpYm9vdG1ncl8xNy5iYg0KPiANCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1ic3AvZWZpYm9vdG1nci9lZmlib290bWdyLzAwMDEtcmVtb3ZlLQ0KPiBleHRyYS1kZWNs
-LnBhdGNoIGIvbWV0YS9yZWNpcGVzLWJzcC9lZmlib290bWdyL2VmaWJvb3RtZ3IvMDAwMS0NCj4g
-cmVtb3ZlLWV4dHJhLWRlY2wucGF0Y2gNCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXgg
-MDAwMDAwMDAwMDAuLjQyZjNhODE4MmRmDQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9y
-ZWNpcGVzLWJzcC9lZmlib290bWdyL2VmaWJvb3RtZ3IvMDAwMS1yZW1vdmUtZXh0cmEtDQo+IGRl
-Y2wucGF0Y2gNCj4gQEAgLTAsMCArMSwzMSBAQA0KPiArRnJvbSA5OWI1Nzg1MDE2NDMzNzdlMGIx
-OTk0YjJhMDY4Yjc5MGQxODlkNWFkIE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiArRnJv
-bTogUGV0ZXIgSm9uZXMgPHBqb25lc0ByZWRoYXQuY29tPg0KPiArRGF0ZTogV2VkLCAxMyBKdW4g
-MjAxOCAwOTo0MTowMSAtMDQwMA0KPiArU3ViamVjdDogW1BBVENIXSByZW1vdmUgZXh0cmEgZGVj
-bA0KPiArDQo+ICtTaWduZWQtb2ZmLWJ5OiBQZXRlciBKb25lcyA8cGpvbmVzQHJlZGhhdC5jb20+
-DQo+ICsNCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2dpdDovL2dpdGh1Yi5jb20v
-cmhpbnN0YWxsZXIvZWZpYm9vdG1nci5naXRdDQo+ICtTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlh
-IDxob25neHUuamlhQHdpbmRyaXZlci5jb20+DQo+ICsNCj4gKy0tLQ0KPiArIHNyYy9lZmlib290
-bWdyLmMgfCAzIC0tLQ0KPiArIDEgZmlsZSBjaGFuZ2VkLCAzIGRlbGV0aW9ucygtKQ0KPiArDQo+
-ICtkaWZmIC0tZ2l0IGEvc3JjL2VmaWJvb3RtZ3IuYyBiL3NyYy9lZmlib290bWdyLmMNCj4gK2lu
-ZGV4IGRlMzhmMDEuLjRlMWE2ODAgMTAwNjQ0DQo+ICstLS0gYS9zcmMvZWZpYm9vdG1nci5jDQo+
-ICsrKysgYi9zcmMvZWZpYm9vdG1nci5jDQo+ICtAQCAtMTUzNiw5ICsxNTM2LDYgQEAgcGFyc2Vf
-b3B0cyhpbnQgYXJnYywgY2hhciAqKmFyZ3YpDQo+ICsgCQkJCQkgICAgICAgImludmFsaWQgbnVt
-ZXJpYyB2YWx1ZQ0KPiAlc1xuIiwNCj4gKyAJCQkJCSAgICAgICBvcHRhcmcpOw0KPiArIAkJCX0N
-Cj4gKy0gICAgICAgICAgICAgICAgICAgICAgICAvKiBYWFggZWZpdmFyLTM2IGFjY2lkZW50YWxs
-eSBkb2Vzbid0IGhhdmUNCj4gYSBwdWJsaWMNCj4gKy0gICAgICAgICAgICAgICAgICAgICAgICAg
-KiBoZWFkZXIgZm9yIHRoaXMgKi8NCj4gKy0JCQlleHRlcm4gaW50IGVmaV9zZXRfdmVyYm9zZShp
-bnQgdmVyYm9zaXR5LCBGSUxFDQo+ICplcnJsb2cpOw0KPiArIAkJCWVmaV9zZXRfdmVyYm9zZShv
-cHRzLnZlcmJvc2UgLSAyLCBzdGRlcnIpOw0KPiArIAkJCWJyZWFrOw0KPiArIAkJY2FzZSAnVic6
-DQo+ICstLSANCj4gKzIuNy40DQo+ICsNCj4gZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ic3Av
-ZWZpYm9vdG1nci9lZmlib290bWdyXzE3LmJiDQo+IGIvbWV0YS9yZWNpcGVzLWJzcC9lZmlib290
-bWdyL2VmaWJvb3RtZ3JfMTcuYmINCj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQNCj4gaW5kZXggMDAw
-MDAwMDAwMDAuLjBlNWE4MWUzMTY2DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNp
-cGVzLWJzcC9lZmlib290bWdyL2VmaWJvb3RtZ3JfMTcuYmINCj4gQEAgLTAsMCArMSwzNCBAQA0K
-PiArREVTQ1JJUFRJT04gPSAiTGludXggdXNlci1zcGFjZSBhcHBsaWNhdGlvbiB0byBtb2RpZnkg
-dGhlIEVGSSBCb290DQo+IE1hbmFnZXIuIg0KPiArU1VNTUFSWSA9ICJFRkkgQm9vdCBNYW5hZ2Vy
-Ig0KPiArSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL3JoYm9vdC9lZmlib290bWdyIg0K
-PiArU0VDVElPTiA9ICJiYXNlIg0KPiArDQo+ICtMSUNFTlNFID0gIkdQTHYyKyINCj4gK0xJQ19G
-SUxFU19DSEtTVU0gPQ0KPiAiZmlsZTovL0NPUFlJTkc7bWQ1PTA2MzZlNzNmZjAyMTVlOGQ2NzJk
-YzRjMzJjMzE3YmIzIg0KPiArDQo+ICtERVBFTkRTID0gImVmaXZhciBwb3B0Ig0KPiArDQo+ICtD
-T01QQVRJQkxFX0hPU1QgPSAiKGkuODZ8eDg2XzY0fGFybXxhYXJjaDY0KS4qLWxpbnV4Ig0KPiAr
-DQo+ICtTUkNfVVJJID0NCj4gImdpdDovL2dpdGh1Yi5jb20vcmhpbnN0YWxsZXIvZWZpYm9vdG1n
-ci5naXQ7cHJvdG9jb2w9aHR0cHMgXA0KPiArICAgICAgICAgICBmaWxlOi8vMDAwMS1yZW1vdmUt
-ZXh0cmEtZGVjbC5wYXRjaCBcDQo+ICsgICAgICAgICAgIg0KPiArU1JDUkVWID0gImUwNjcxNjBl
-Y2VmODIwOGUxOTQ0MDAyZTVkNTBiMjc1NzMzMjExZmIiDQo+ICsNCj4gK1MgPSAiJHtXT1JLRElS
-fS9naXQiDQo+ICsNCj4gK2luaGVyaXQgcGtnY29uZmlnDQo+ICsNCj4gKyMgVGhlIGRpcmVjdG9y
-eSB1bmRlciB0aGUgRVNQIHRoYXQgdGhlIGRlZmF1bHQgYm9vdGxvYWRlciBpcyBmb3VuZA0KPiBp
-bi4gIFdoZW4NCj4gKyMgd2ljIHVzZXMgYSBzdWJkaXJlY3RvcnksIHRoaXMgc2hvdWxkIHVzZSB0
-aGUgc2FtZSBvbmUgdG9vLg0KPiArRUZJRElSID89ICIvIg0KPiArDQo+ICtFWFRSQV9PRU1BS0Ug
-Kz0gIidFRklESVI9JHtFRklESVJ9JyINCj4gKw0KPiArQ0ZMQUdTICs9ICIgLVduby1lcnJvciIN
-Cj4gKw0KPiArZG9faW5zdGFsbCAoKSB7DQo+ICsJb2VfcnVubWFrZSBpbnN0YWxsIERFU1RESVI9
-IiR7RH0iDQo+ICt9DQo+ICsNCj4gK0NMRUFOQlJPS0VOID0gIjEiDQo+IC0tIA0KPiAyLjExLjAN
-Cj4gDQoNCg==
+Building `systemd-resolve` from systemd 242 with OpenSSL 1.1.1c and enabling
+DNS over TLS ends up calling abort (on 32 bit armhf):
+
+  Program terminated with signal SIGABRT, Aborted.
+  #0  __libc_do_syscall () at libc-do-syscall.S:49
+  49	libc-do-syscall.S: No such file or directory.
+  (gdb) where
+  #0  __libc_do_syscall () at libc-do-syscall.S:49
+  #1  0xb6940ea4 in __libc_signal_restore_set (set=0xbec68b78) at ../sysdeps/unix/sysv/linux/internal-signals.h:84
+  #2  __GI_raise (sig=sig@entry=6) at ../sysdeps/unix/sysv/linux/raise.c:48
+  #3  0xb69336e0 in __GI_abort () at abort.c:79
+  #4  0xb6968428 in __libc_message (action=action@entry=do_abort, fmt=<optimized out>) at ../sysdeps/posix/libc_fatal.c:181
+  #5  0xb696c7e6 in malloc_printerr (str=<optimized out>) at malloc.c:5352
+  #6  0xb696ca1a in munmap_chunk (p=<optimized out>) at malloc.c:2840
+  #7  0xb6bd1c4a in CRYPTO_clear_realloc (str=0xd0e59a, old_len=388, num=<optimized out>, file=0xb6c300dc "../../../../../../workspace/sources/openssl/crypto/buffer/buffer.c", line=135)
+      at ../../../../../../workspace/sources/openssl/crypto/mem.c:290
+  #8  0xb6b5da3a in BUF_MEM_grow_clean (str=0xcfb960, len=len@entry=393) at ../../../../../../workspace/sources/openssl/crypto/buffer/buffer.c:135
+  #9  0xb6b486a0 in mem_write (b=0xcf8300, in=0xd07c6b "\027\003\003", inl=24) at ../../../../../../workspace/sources/openssl/crypto/bio/bss_mem.c:235
+  #10 0xb6b45c86 in bwrite_conv (bio=<optimized out>, data=<optimized out>, datal=<optimized out>, written=0xbec68ec8) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_meth.c:77
+  #11 0xb6b452d4 in bio_write_intern (written=0xbec68ec8, dlen=24, data=0xd07c6b, b=0xcf8300) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:343
+  #12 bio_write_intern (b=0xcf8300, data=0xd07c6b, dlen=24, written=0xbec68ec8) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:320
+  #13 0xb6b455b2 in BIO_write (b=<optimized out>, data=<optimized out>, dlen=<optimized out>) at ../../../../../../workspace/sources/openssl/crypto/bio/bio_lib.c:363
+  #14 0xb6cabd1a in ssl3_write_pending (s=s@entry=0xcfd2d8, type=type@entry=23, buf=buf@entry=0xcfcc28 "", len=len@entry=2, written=written@entry=0xbec698b0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:1146
+  #15 0xb6cac72e in do_ssl3_write (s=s@entry=0xcfd2d8, type=type@entry=23, buf=buf@entry=0xcfcc28 "", pipelens=pipelens@entry=0xbec698b4, numpipes=numpipes@entry=1, create_empty_fragment=create_empty_fragment@entry=0,
+      written=written@entry=0xbec698b0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:1107
+  #16 0xb6cac92e in ssl3_write_bytes (s=0xcfd2d8, type=23, buf_=0xcfcc28, len=<optimized out>, written=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/record/rec_layer_s3.c:613
+  #17 0xb6cb1698 in ssl3_write (s=<optimized out>, buf=0xcfcc28, len=2, written=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/s3_lib.c:4460
+  #18 0xb6cb87b2 in ssl_write_internal (s=<optimized out>, buf=buf@entry=0xcfcc28, num=num@entry=2, written=written@entry=0xbec699c0) at ../../../../../../workspace/sources/openssl/ssl/ssl_lib.c:1943
+  #19 0xb6cb8896 in SSL_write (s=<optimized out>, buf=buf@entry=0xcfcc28, num=num@entry=2) at ../../../../../../workspace/sources/openssl/ssl/ssl_lib.c:1957
+  #20 0x004ddac8 in dnstls_stream_write (stream=stream@entry=0xcfca60, buf=0xcfcc28 "", count=2) at ../git/src/resolve/resolved-dnstls-openssl.c:270
+  #21 0x004d8d5c in dns_stream_writev (s=s@entry=0xcfca60, iov=iov@entry=0xbec69b4c, iovcnt=iovcnt@entry=2, flags=flags@entry=0) at ../git/src/resolve/resolved-dns-stream.c:225
+  #22 0x004d9516 in on_stream_io (es=<optimized out>, fd=<optimized out>, revents=4, userdata=0xcfca60) at ../git/src/resolve/resolved-dns-stream.c:334
+  #23 0xb6e7f020 in source_dispatch (s=0xcf3658) at ../git/src/libsystemd/sd-event/sd-event.c:2821
+  #24 0xb6e806b0 in sd_event_dispatch (e=e@entry=0xced6d0) at ../git/src/libsystemd/sd-event/sd-event.c:3234
+  #25 0xb6e807f6 in sd_event_run (e=0xced6d0, timeout=<optimized out>) at ../git/src/libsystemd/sd-event/sd-event.c:3291
+  #26 0xb6e809bc in sd_event_loop (e=0xced6d0) at ../git/src/libsystemd/sd-event/sd-event.c:3312
+  #27 0x004bb64c in run (argv=<optimized out>, argc=<optimized out>) at ../git/src/resolve/resolved.c:84
+  #28 main (argc=<optimized out>, argv=<optimized out>) at ../git/src/resolve/resolved.c:91
+
+Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
+---
+
+Changes in v2:
+- move Signed-off-by and Backport-status into the patch
+
+ ...Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch | 41 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_242.bb      |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+
+diff --git a/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch b/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+new file mode 100644
+index 000000000000..f0ae1db60d28
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch
+@@ -0,0 +1,41 @@
++From 18bddeaaf225d5becfc10cd2c6a1d037c90574a2 Mon Sep 17 00:00:00 2001
++From: Tomas Mraz <tmraz@fedoraproject.org>
++Date: Tue, 11 Jun 2019 15:10:21 +0200
++Subject: [PATCH] resolved: Fix incorrect use of OpenSSL BUF_MEM
++
++Fixes: #12763
++Upstream-Status: Backport [Not yet released]
++  https://github.com/systemd/systemd/commit/18bddeaaf225d5becfc10cd2c6a1d037c90574a2
++Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
++---
++ src/resolve/resolved-dnstls-openssl.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
++
++diff --git a/src/resolve/resolved-dnstls-openssl.c b/src/resolve/resolved-dnstls-openssl.c
++index f269e4d6487f..5d9223007581 100644
++--- a/src/resolve/resolved-dnstls-openssl.c
+++++ b/src/resolve/resolved-dnstls-openssl.c
++@@ -6,6 +6,7 @@
++ 
++ #include <openssl/bio.h>
++ #include <openssl/err.h>
+++#include <string.h>
++ 
++ #include "io-util.h"
++ #include "resolved-dns-stream.h"
++@@ -34,9 +35,11 @@ static int dnstls_flush_write_buffer(DnsStream *stream) {
++                         return ss;
++                 } else {
++                         stream->dnstls_data.write_buffer->length -= ss;
++-                        stream->dnstls_data.write_buffer->data += ss;
++ 
++                         if (stream->dnstls_data.write_buffer->length > 0) {
+++                                memmove(stream->dnstls_data.write_buffer->data,
+++                                        stream->dnstls_data.write_buffer->data + ss,
+++                                        stream->dnstls_data.write_buffer->length);
++                                 stream->dnstls_events |= EPOLLOUT;
++                                 return -EAGAIN;
++                         }
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 90f235be3de3..29f64b995a04 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -24,6 +24,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
+            file://0006-network-remove-redunant-link-name-in-message.patch \
+            file://99-default.preset \
++           file://0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch \
+            "
+ 
+ # patches needed by musl
+-- 
+2.17.1
+
 
