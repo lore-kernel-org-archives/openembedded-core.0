@@ -1,51 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
 	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7B00B6D470
+	by mail.openembedded.org (Postfix) with ESMTP id 1C1B87E94A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 10:55:00 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id n9so2065606wru.0
+	Fri, 14 Jun 2019 10:55:28 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id k11so2059376wrl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 03:55:01 -0700 (PDT)
+	Fri, 14 Jun 2019 03:55:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=K3ZXXgsJ6sOJfaMz4D2nLz6NmbBhdroj+qO5ftPdepI=;
-	b=W6EN7zRdApsp0kDItqd+GAHFyVQJN94lviGOMrMa0hKyDDObCOWJMKbn2a3B92mzFf
-	NHYa7nn6g2W0/LVtZMmvvfZ2b1cvM6rUwwLXX5V1dkqbd+H82rHdLwlAAr1rxVK7ua+8
-	F+RPYz5ohcquHrECtebyL62Whb2SJTDCX7QF0=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=PAauaX2xSNa4KZnpjQukYKwyM0h13ue3p2JQNN5WNRw=;
+	b=ef3axHoLlPNfn0q7iJX6UCwSNey3ulSNCL2Diu7FmGGLmG3rkEhLo7MNC8UkHPu8Dk
+	8HS9pj1r59NUraHi+qRm32031OLnpEfcJ5QrChgXx0IkIToRU5bDeFeszuksT6Gm4iSl
+	eicKYc7bms8JKBYLvNetStcIJ8yo6Cn/j0LKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=K3ZXXgsJ6sOJfaMz4D2nLz6NmbBhdroj+qO5ftPdepI=;
-	b=OxwWnCMvukwKVKn49k7Cvo0mns7e3OUwZId0Y7dvb1BAM0y4VEphbsFj3wfjD4bYfc
-	RRPsLeFCXaR8mmGPEt3oX/MIKsX4yr+ZoxZ63nb0zShWTTXtj52ANiKzdByf/1KKtwbc
-	vG0kWvDD5tzYBtF0E5X6Ar27RI8gg3EcTDX1EoAxkiLP4fYxH1dOyjasiyCx+njzRlob
-	7AIFeZBzflKlTzXQW5I+kxm9hiVdNvHx2VaESNuXvYAReAwR82fyveOEI0kheeDMrxDb
-	d67uNGAMoP4KlPDIKXB+eTXez0Q1LRmMWvCd3dyDXrFWe8gAo0XoJ/CPLuKCzg8TJUSJ
-	RK5w==
-X-Gm-Message-State: APjAAAXxVmUVpRyEymXSqbnV9vJvNkKuu2sd6JcLKn2oDn1gBNRa8IkL
-	Opw5xRQSjI9rzfMGlZ6BHdC+qg==
-X-Google-Smtp-Source: APXvYqyKURPHvo/plgSaZK8FskedxzffQWTnKw/DbAgZI+qp/N3MAoVNASDrHvbxKB37uw5YYYET8w==
-X-Received: by 2002:adf:e3cc:: with SMTP id k12mr7242601wrm.159.1560509701103; 
-	Fri, 14 Jun 2019 03:55:01 -0700 (PDT)
+	bh=PAauaX2xSNa4KZnpjQukYKwyM0h13ue3p2JQNN5WNRw=;
+	b=esaC8GsjpKVMcMHcRn2kwoDQVgFdKn/GX/KimbkpT6EyiEumiFbUlVgtfYFK0Eg8EF
+	F8AJmMBoT5buA4vEh0HXp+lQmAdn9nJKf/Xmuo42lXmgUva6T92ceu90itDr9cLa3Ew0
+	cs4g4Z3xq8C0FrICvz7ejS76ml9eqm6K6MOIM7xX+s4pCGNwH3M/N6mw8sB6DlFlu97L
+	Z2M6ZOabDOcC5s8ONeFIm+TZzk3uwZSrqsvCc3VgoIeydNnYV5lmU1b0SL4JYgHCAml8
+	qE5/l1Aua/ufVYz2esQqd+0fJMNaYNJqzNFGHhTe3qJkfUGKwFzhCdJ13m6HjdkkQLw5
+	n0dw==
+X-Gm-Message-State: APjAAAWUOfSsAx1jKcxBn4rhB8ABVsXiJIZ7GkdWhnptz76rZA1+jgxl
+	NsI0ZWlUElQinatFspRjYsL6Rg==
+X-Google-Smtp-Source: APXvYqz9cNM8vZwizQgM+j1pNeektGeO6ygEaCGiZzNGn6G7OWEC5WbvXPa9o7XIbd4Y+QYbMvdiQA==
+X-Received: by 2002:adf:83e5:: with SMTP id 92mr39041551wre.274.1560509729058; 
+	Fri, 14 Jun 2019 03:55:29 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id t6sm3928589wmb.29.2019.06.14.03.55.00
+	by smtp.gmail.com with ESMTPSA id
+	i188sm4578280wma.27.2019.06.14.03.55.28
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 14 Jun 2019 03:55:00 -0700 (PDT)
-Message-ID: <31526320140c91a4d7fde587a5e475e2071c00e0.camel@linuxfoundation.org>
+	Fri, 14 Jun 2019 03:55:28 -0700 (PDT)
+Message-ID: <a7a06678f3346863015258fec2ed65e7d8065196.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Alejandro del Castillo <alejandro.delcastillo@ni.com>, 
+To: Marco Felsch <m.felsch@pengutronix.de>, 
 	openembedded-core@lists.openembedded.org
-Date: Fri, 14 Jun 2019 11:54:59 +0100
-In-Reply-To: <20190613201701.31014-2-alejandro.delcastillo@ni.com>
-References: <20190613201701.31014-1-alejandro.delcastillo@ni.com>
-	<20190613201701.31014-2-alejandro.delcastillo@ni.com>
+Date: Fri, 14 Jun 2019 11:55:27 +0100
+In-Reply-To: <20190613175442.26121-1-m.felsch@pengutronix.de>
+References: <20190613175442.26121-1-m.felsch@pengutronix.de>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/2] opkg: upgrade to version 0.4.1
+Cc: kernel@pengutronix.de
+Subject: Re: [PATCH 1/2] mesa: make gallium swrast target optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,49 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 10:55:00 -0000
+X-List-Received-Date: Fri, 14 Jun 2019 10:55:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-06-13 at 15:17 -0500, Alejandro del Castillo wrote:
-> - Drop 0001-libopkg-add-add-ignore-recommends-option.patch
-> - Drop 0001-opkg-add-target-for-testsuite-installation.patch
-> - Drop 0001-regress-issue72.py-resolve-paths-before-comparision.patch
+On Thu, 2019-06-13 at 19:54 +0200, Marco Felsch wrote:
+> Most of the time we are compiling for embedded targets which have
+> dedicated hardware combinations. Enabling swrast by default isn't a
+> good
+> solution for such devices because if the hardware render node has an
+> issue or doesn't support a special format/request Mesa will fallback
+> to
+> the software renderer. This will make it harder to debug performance
+> issues.
 > 
-> Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+> A better way is to let the user decide if a software renderer is
+> needed e.g. if the system has no hardware renderer or to have such a
+> fallback device. This way the user knows that the software renderer
+> is
+> enabled.
+> 
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 > ---
->  ...pkg-add-add-ignore-recommends-option.patch | 259 ----------------
-> --
->  ...dd-target-for-testsuite-installation.patch |  43 ---
->  ....py-resolve-paths-before-comparision.patch |  31 ---
->  .../opkg/{opkg_0.4.0.bb => opkg_0.4.1.bb}     |   7 +-
->  4 files changed, 2 insertions(+), 338 deletions(-)
->  delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-libopkg-add-
-> add-ignore-recommends-option.patch
->  delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg-add-
-> target-for-testsuite-installation.patch
->  delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-regress-
-> issue72.py-resolve-paths-before-comparision.patch
->  rename meta/recipes-devtools/opkg/{opkg_0.4.0.bb => opkg_0.4.1.bb}
-> (87%)
+> v3
+> - rebased on current master-next branch
 
-Unfortunately this doesn't quite build:
+I think this breaks the autobuilder:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/65/builds/706
-
-ERROR: opkg-1_0.4.1-r0 do_package: Fatal errors occurred in subprocesses:
-Command '['arm-poky-linux-gnueabi-objcopy', '--only-keep-debug', '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/opkg/1_0.4.1-r0/package/usr/lib/opkg/ptest/tests/libopkg_test', '/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/opkg/1_0.4.1-r0/package/usr/lib/opkg/ptest/tests/.debug/libopkg_test']' returned non-zero exit status 1
-Subprocess output:arm-poky-linux-gnueabi-objcopy:/home/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/cortexa8hf-neon-poky-linux-gnueabi/opkg/1_0.4.1-r0/package/usr/lib/opkg/ptest/tests/libopkg_test: file format not recognized
-
-ERROR: opkg-1_0.4.1-r0 do_package: 
-ERROR: opkg-1_0.4.1-r0 do_package: Function failed: split_and_strip_files
-
-This might only be an issue on non-IA machines?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/57/builds/694
 
 Cheers,
 
 Richard
-
-
 
 
