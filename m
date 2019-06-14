@@ -1,23 +1,25 @@
 Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 6C2A17E8A3
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D15E7E997
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 16:02:42 +0000 (UTC)
+	Fri, 14 Jun 2019 16:02:43 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5EG2gKi026137
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5EG2i0l014067
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 09:02:43 -0700 (PDT)
+	Fri, 14 Jun 2019 09:02:44 -0700 (PDT)
 Received: from fidler.wrs.com (172.25.44.4) by ALA-HCB.corp.ad.wrs.com
 	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Fri, 14 Jun 2019 09:02:30 -0700
+	Fri, 14 Jun 2019 09:02:43 -0700
 From: Randy MacLeod <Randy.MacLeod@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 14 Jun 2019 12:02:26 -0400
-Message-ID: <20190614160229.6144-1-Randy.MacLeod@windriver.com>
+Date: Fri, 14 Jun 2019 12:02:27 -0400
+Message-ID: <20190614160229.6144-2-Randy.MacLeod@windriver.com>
 X-Mailer: git-send-email 2.17.0
+In-Reply-To: <20190614160229.6144-1-Randy.MacLeod@windriver.com>
+References: <20190614160229.6144-1-Randy.MacLeod@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/4] util-linux: add setpriv utility
+Subject: [PATCH 2/4] libcap-ng: split into libcap-ng/libcap-ng-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,83 +32,134 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 16:02:42 -0000
+X-List-Received-Date: Fri, 14 Jun 2019 16:02:43 -0000
 Content-Type: text/plain
 
-Enable the setpriv utility for targets only. It will be used in
-the run-ptest script for bash and perhaps other packages where
-the ptest code is expected to run as a user.
-
-setpriv uses libcap-ng which doesn't build natively so disable
-it for native* builds. Also, busybox has a setpriv implementation
-so ensure that setpriv adheres to the alternatives scheme.
+util-linux's setpriv needs the libcap-ng library but
+not the python package so split the package up to enable
+this without a dependency loop.
 
 Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
- meta/recipes-core/util-linux/util-linux.inc | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+ meta/recipes-support/libcap-ng/libcap-ng      |  1 +
+ .../python.patch                              |  0
+ .../libcap-ng/libcap-ng-python_0.7.9.bb       | 27 ++++++++++++++++++
+ meta/recipes-support/libcap-ng/libcap-ng.inc  | 17 +++++++++++
+ .../libcap-ng/libcap-ng_0.7.9.bb              | 28 +++----------------
+ 5 files changed, 49 insertions(+), 24 deletions(-)
+ create mode 120000 meta/recipes-support/libcap-ng/libcap-ng
+ rename meta/recipes-support/libcap-ng/{libcap-ng => libcap-ng-python}/python.patch (100%)
+ create mode 100644 meta/recipes-support/libcap-ng/libcap-ng-python_0.7.9.bb
+ create mode 100644 meta/recipes-support/libcap-ng/libcap-ng.inc
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index df1d1224dd..2d8991095c 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=972a134f1e14b2b060e365df2fab0099
- 
- #gtk-doc is not enabled as it requires xmlto which requires util-linux
- inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
--DEPENDS = "zlib ncurses virtual/crypt"
-+DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
- 
- MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
-@@ -102,6 +102,10 @@ EXTRA_OECONF = "\
-     --libdir='${UTIL_LINUX_LIBDIR}' \
- "
- 
-+EXTRA_OECONF_append_class-target = " --enable-setpriv"
-+EXTRA_OECONF_append_class-native = " --without-cap-ng --disable-setpriv"
-+EXTRA_OECONF_append_class-nativesdk = " --without-cap-ng --disable-setpriv"
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng b/meta/recipes-support/libcap-ng/libcap-ng
+new file mode 120000
+index 0000000000..fb7744d293
+--- /dev/null
++++ b/meta/recipes-support/libcap-ng/libcap-ng
+@@ -0,0 +1 @@
++libcap-ng-python
+\ No newline at end of file
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng/python.patch b/meta/recipes-support/libcap-ng/libcap-ng-python/python.patch
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng/python.patch
+rename to meta/recipes-support/libcap-ng/libcap-ng-python/python.patch
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.7.9.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.7.9.bb
+new file mode 100644
+index 0000000000..e49b445f57
+--- /dev/null
++++ b/meta/recipes-support/libcap-ng/libcap-ng-python_0.7.9.bb
+@@ -0,0 +1,27 @@
++require libcap-ng.inc
 +
- PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
- # inherit manpages requires this to be present, however util-linux does not have 
- # configuration options, and installs manpages always
-@@ -109,8 +113,6 @@ PACKAGECONFIG[manpages] = ""
- PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
- # Respect the systemd feature for uuidd
- PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}, --without-systemd --without-systemdsystemunitdir,systemd"
--# Build setpriv requires libcap-ng
--PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
- # Build python bindings for libmount
- PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-python --disable-pylibmount,python3"
- # Readline support
-@@ -248,6 +250,7 @@ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
- ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
- ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
- ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
-+ALTERNATIVE_LINK_NAME[setpriv] = "${bindir}/setpriv"
- ALTERNATIVE_LINK_NAME[setsid] = "${bindir}/setsid"
- ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
- ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
-@@ -260,7 +263,10 @@ ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
- ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
- ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
- 
--ALTERNATIVE_${PN}-doc = "blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 mountpoint.1 nologin.8 rfkill.8 sulogin.8 utmpdump.1 uuid.3 wall.1"
-+ALTERNATIVE_${PN}-doc = "\
-+blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 \
-+mountpoint.1 nologin.8 rfkill.8 setpriv.1 sulogin.8 utmpdump.1 uuid.3 wall.1\
++SUMMARY .= " - python"
++
++inherit lib_package autotools python3native
++
++DEPENDS += "libcap-ng python3 swig-native"
++
++S = "${WORKDIR}/libcap-ng-${PV}"
++
++EXTRA_OECONF += "--with-python --with-python3"
++EXTRA_OEMAKE += "PYLIBVER='python${PYTHON_BASEVERSION}${PYTHON_ABI}' PYINC='${STAGING_INCDIR}/${PYLIBVER}'"
++
++do_install_append() {
++    rm -rf ${D}${bindir}
++    rm -rf ${D}${libdir}/.debug
++    rm -f ${D}${libdir}/lib*
++    rm -rf ${D}${libdir}/pkgconfig
++    rm -rf ${D}${datadir}
++    rm -rf ${D}${includedir}
++}
++
++# PACKAGES = "${PN}"
++
++FILES_${PN} = "${libdir}/python${PYTHON_BASEVERSION}"
++FILES_${PN}-dbg =+ "${PYTHON_SITEPACKAGES_DIR}/.debug/_capng.so"
++
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+new file mode 100644
+index 0000000000..739b91fd2e
+--- /dev/null
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -0,0 +1,17 @@
++SUMMARY = "An alternate posix capabilities library"
++DESCRIPTION = "The libcap-ng library is intended to make programming \
++with POSIX capabilities much easier than the traditional libcap library."
++HOMEPAGE = "http://freecode.com/projects/libcap-ng"
++SECTION = "base"
++LICENSE = "GPLv2+ & LGPLv2.1+"
++LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
++		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
++
++SRC_URI = "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
++           file://python.patch \
 +"
- ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'pam', 'su.1', '', d)}"
++
++SRC_URI[md5sum] = "2398d695508fab9ce33668c53a89b0e9"
++SRC_URI[sha256sum] = "4a1532bcf3731aade40936f6d6a586ed5a66ca4c7455e1338d1f6c3e09221328"
++
++BBCLASSEXTEND = "native nativesdk"
+\ No newline at end of file
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.7.9.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.7.9.bb
+index aff6259db2..6e6de45494 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng_0.7.9.bb
++++ b/meta/recipes-support/libcap-ng/libcap-ng_0.7.9.bb
+@@ -1,30 +1,10 @@
+-SUMMARY = "An alternate posix capabilities library"
+-DESCRIPTION = "The libcap-ng library is intended to make programming \
+-with POSIX capabilities much easier than the traditional libcap library."
+-HOMEPAGE = "http://freecode.com/projects/libcap-ng"
+-SECTION = "base"
+-LICENSE = "GPLv2+ & LGPLv2.1+"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+-		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
++require libcap-ng.inc
  
- ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
-@@ -276,6 +282,7 @@ ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
- ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
- ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
- ALTERNATIVE_LINK_NAME[rfkill.8] = "${mandir}/man8/rfkill.8"
-+ALTERNATIVE_LINK_NAME[setpriv.1] = "${mandir}/man1/setpriv.1"
- ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
- ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
- ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
+-SRC_URI = "http://people.redhat.com/sgrubb/libcap-ng/libcap-ng-${PV}.tar.gz \
+-           file://python.patch"
++inherit lib_package autotools
+ 
+-inherit lib_package autotools python3native
++EXTRA_OECONF += "--without-python --without-python3"
+ 
+-SRC_URI[md5sum] = "2398d695508fab9ce33668c53a89b0e9"
+-SRC_URI[sha256sum] = "4a1532bcf3731aade40936f6d6a586ed5a66ca4c7455e1338d1f6c3e09221328"
+-
+-DEPENDS += "swig-native python3"
+-
+-EXTRA_OECONF += "--with-python --with-python3"
+-EXTRA_OEMAKE += "PYLIBVER='python${PYTHON_BASEVERSION}${PYTHON_ABI}' PYINC='${STAGING_INCDIR}/${PYLIBVER}'"
+-
+-PACKAGES += "${PN}-python"
+-
+-FILES_${PN}-python = "${libdir}/python${PYTHON_BASEVERSION}"
+-
+-BBCLASSEXTEND = "native"
++BBCLASSEXTEND = "native nativesdk"
+ 
+ do_install_append() {
+ 	# Moving libcap-ng to base_libdir
 -- 
 2.17.0
 
