@@ -1,52 +1,57 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id C066B7E918
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BF0557E97C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 13:16:20 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id n5so5592664ioc.7
+	Fri, 14 Jun 2019 13:26:33 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id p11so2542650wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 06:16:22 -0700 (PDT)
+	Fri, 14 Jun 2019 06:26:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=cbEXOqDIDOPvexX4OylrxHzmq00oGN5FTl7vK/w/Yqk=;
-	b=EZJf09ZDJ0ltz8xPUagrp2il3OpoRBFKsVbyUmXPOzDkoOx2baS6nkGJnnIrTBXa5w
-	IUvij7aU9UdTxJYDwk7diKjOmSeHc/jqQFWDm46b3xbo2glDD9QvRBsSmeHVXfsHAPCi
-	IF6xqnxHlmdqSbuzY87BLa2wptztPcWRSakZCfC56BQ8t2uRx3H2n8WgXaUxkSe+ZcYy
-	NdsHZbbChhHW67b4Zbsyr3akm4PkEijjUrLZJzGxuP8Cg+nH+DUjHXCF1EYPJfzqQPm8
-	ZDl3rOeV2g4oVeS0DGtMtNLRpAsaVhnTPpHb5mEzIybi2c6X89VtrpSDhMUbZx0aEOus
-	PaPQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=o8UN/ah1ch+PnNgP5QKNTtUiXg6A+f43ahDWAC21uk4=;
+	b=VFDS+Gx0pPIWLNgcl8++PL1Q5pciCLQDio2G2njWbeONCbUZA2DtxJkk5zlgQ42Bgc
+	nPh7SLZwdqIlNSTdCLNctamqwiviS7wZtRJAsPCDLxkdPimis7+unQZiiNYoGX154ndd
+	hEEXHvnStl4CmJBnmRni0if01d2AHIztva2ro=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=cbEXOqDIDOPvexX4OylrxHzmq00oGN5FTl7vK/w/Yqk=;
-	b=kPT/yZHYYJUmlYdxDRlSFeRfdvuxPvPpbG8cRgwY/DuQud+K6cqaUgEE0lDoi24e0G
-	4NfrhaGbgCCyTxwGZooMsKlWVD0DtkV0v6I0/ilrYqGGKJY4Xr4316wRCicmRS35YH7o
-	58YUyBAnHS7ts/FcAjUomvzUOauF0UAj0ZQY2IjItntF2x7RNj5/xcdpjA4KQ0whgwyn
-	eqZdRBCKa8fjIqK2bUIANnyqRr09qPIbVGce3u7Ec0mTJlTplJOs2Hj078Fjgsio89ae
-	5hENnoBOp2MbSLuXLK0OTZh2GdtPfQVN9NMgwcYJwZpkF4cjmhHIXPz/ojMUjWsmpxGy
-	TJOw==
-X-Gm-Message-State: APjAAAVvxkf/+C75hvOQZWK4kvBkNaw+76AJEYdHkH2Lyyj145qckAvJ
-	Yz8Qkb1yqZq9SmZefjnED6Ab44CO1aJmBfHTwy4FFA==
-X-Google-Smtp-Source: APXvYqxSrwKb6LKxkgcfLI2GKMcJu0fVFJahmBUqxX/fWnyDDE9MjcBXIxmugcOoanta0WIi1zp1zXyRKsSzP9QDHbI=
-X-Received: by 2002:a6b:8bce:: with SMTP id n197mr4415286iod.299.1560518181851;
-	Fri, 14 Jun 2019 06:16:21 -0700 (PDT)
-MIME-Version: 1.0
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=o8UN/ah1ch+PnNgP5QKNTtUiXg6A+f43ahDWAC21uk4=;
+	b=Xno5Xu/Z+wGsubrFWx08xBV8SXgkTfz4nl93rtZ4ZnWnVzZeRyEz/hj7nSdDsf4A+b
+	WLLnQAdxvbleSq1xVvlzVeKnQ/dXPEJzgM64drYw1a5d2ESS+i8KS8ebNRC6FD+jKUZJ
+	NDlG8y29f3ozU81aWVIAl3cwIugeC4P9+e1kgvuIE9UAxq53sAjYjIS5rSxMSQyij1tb
+	7VeVM55LC6STXirdE/MA81h+eFx3SB3fbRLFmstLlqSZlg/7YmN2DsjycMi6xhlTfHQ1
+	sZrvD96C9Z2e1xiIsCPCDA89qPvtGheef984F+SqkUyrL2FO4HmgRmQldFYJrhLI6iv5
+	c9Cw==
+X-Gm-Message-State: APjAAAXz81I8/kg4LUynVdWONafxErAsraIBnCXPSBz7tSJ9pvTdCM4v
+	7I8BQ7vkqOC5Btm/HOHgaVGohQ==
+X-Google-Smtp-Source: APXvYqxRb323SJHKRPmLpP5zGsdypzY3Y+xNLa3qEIeM9zcpylxDi1V2/saKHKvLrjE+V44Wm85xhw==
+X-Received: by 2002:a05:6000:1203:: with SMTP id
+	e3mr514967wrx.300.1560518794519; 
+	Fri, 14 Jun 2019 06:26:34 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	g19sm3886192wmg.10.2019.06.14.06.26.33
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 14 Jun 2019 06:26:33 -0700 (PDT)
+Message-ID: <c85e93b13ddcbc27c27ac17fdcf97a0d1ffc4020.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 14 Jun 2019 14:26:29 +0100
+In-Reply-To: <99B005A2-CD21-4AA8-B960-54121098F850@gmail.com>
 References: <20190613175442.26121-1-m.felsch@pengutronix.de>
 	<a7a06678f3346863015258fec2ed65e7d8065196.camel@linuxfoundation.org>
 	<20190614120448.2wg2523qu67la7mh@pengutronix.de>
 	<ee3249ee4f978ee2ee7c74b0af81fe971ca66300.camel@linuxfoundation.org>
 	<20190614123451.c5idgiizmqnlhob4@pengutronix.de>
-	<CANNYZj-7=AVo51+aRpCL7k14VFiDhCtXozsSzZTbPWZO0=Ud1A@mail.gmail.com>
-In-Reply-To: <CANNYZj-7=AVo51+aRpCL7k14VFiDhCtXozsSzZTbPWZO0=Ud1A@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Jun 2019 14:16:09 +0100
-Message-ID: <CAJTo0LYA8yC8T10rj0ga0gsGT8z1J_oboW_xr_5s-V63oZsmpA@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: kernel@pengutronix.de, OE-core <openembedded-core@lists.openembedded.org>
+	<f2348016a0867fd986bbe4965dcb88a5b652055f.camel@linuxfoundation.org>
+	<99B005A2-CD21-4AA8-B960-54121098F850@gmail.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Cc: kernel@pengutronix.de, openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/2] mesa: make gallium swrast target optional
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -60,33 +65,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 13:16:22 -0000
+X-List-Received-Date: Fri, 14 Jun 2019 13:26:34 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Fri, 14 Jun 2019 at 13:46, Alexander Kanavin <alex.kanavin@gmail.com> wr=
-ote:
-> I would rather replace swrast with virgl in the qemu machine configs. Cur=
-rently it's pulled in implicitly via the megadriver package which has virgl=
- included because it is enabled by default in the mesa recipe. From what I =
-can see beaglebone etc. are not affected by this.
+On Fri, 2019-06-14 at 15:05 +0200, Alexander Kanavin wrote:
+> I guess the patch needs a small tweak so that swrast remains enabled,
+> but becomes optional. Then Marco can set packageconfig exactly as he
+> wants.
 
-So the failure is that swrast is no longer shipped by mesa but the
-qemu BSP does this:
+I guess if we can track down where the swrast dependency is coming and
+and change things to avoid it, that would probably be ok.
 
-XSERVER ?=3D "xserver-xorg \
-            ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-'mesa-driver-swrast xserver-xorg-extension-glx', '', d)} \
-            xf86-video-fbdev \
-            "
+I tend to think swrast is in a better state that it is in reality :(.
 
-However as Alex says, we have virgl now.  Does this work on all qemus?
- Should we just change the XSERVER assignment to explicitly pull in
-the megadriver instead?
+> The second patch is fine as it is, I think. Only qemu implements
+> virgl device at the moment.
 
-The 'proper' swrast driver *is* terrible, lets not enabe it by default
-now we have virgl for qemu.  If a BSP wants to use it then they can,
-but it's not something we should enable out of the box.
+The second patch should be fine, I had to drop it as it depends on the
+first though.
 
-Ross
+Cheers,
+
+Richard
+
 
