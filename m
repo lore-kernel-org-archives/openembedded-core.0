@@ -1,38 +1,37 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A5D27E982
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id E6E0B7E97C
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 13:36:23 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id u13so5877072iop.0
+	Fri, 14 Jun 2019 13:38:09 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id j184so1994740oih.1
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 06:36:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	Fri, 14 Jun 2019 06:38:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=BDQFou/uJHSufVW3oDmYBA17Ua1ucNmfv5BStTPbyow=;
-	b=oPbRjy1kWwsKO1XOIHegcCsa8+QAXkP/MUTYmYtyO3ogTOuoEf+8RnFylhIkha+G6n
-	wUqh3Flbjg++M5f23RDLiUJTYiNE1NJgiGKo6vFtTjCtIqO6qEgytRpkRUOUwHVEGBOf
-	Rr/H1kAY7F1LNq0jeY9UjXZ2tppO1hC7SMIF8UPUXix3rbEt19bl/ob3aV521v3nYfFi
-	p7YSHEwmD4HeN+Ee5g2lp+t6hH9RmWLQy/raP5mO8cdRxUomtBbLhaWJRCqJSd8l9atc
-	hc5SRvnRxcBB1CLi7z3wGjj425lbLD8BPRWMJWr8/uBj/pIyba3NWbgznP1OgmjyiCFX
-	mSNQ==
+	:cc; bh=wJV+XdLIreVI+id5nKl7w938KQJTrwwT6iPp7ZaAocg=;
+	b=KqvPBmDjI+yz2Y2LG+0j4sanO1Zgt8Ym35JJ23CK6XZuGDer4piFHOzQ1xlFgpVRZw
+	Q+vDZ4cGGe3xLPmwZ2YG8XWPcZ4tm0BWmWPgwIpMf0stUZkVqynZStJ661jVWXDi9gWN
+	HjT9oPqxtNVoHw/pme51CFe6Q9lVl87+sNRWHZK/nbipuOaF33zcrBGQAsLWY++m/TmY
+	1EY0X9TeeDtqRRaZL/+8uqF993JU6EesIi5qB/TL7Q7jJHydxb0HGgGIbCPxjaMkltLw
+	fZ/3nO7tePGkKnwlXQ7YUSB9Ck1jmcqLhQ4sLikZBy2IRWgUwbjSrVVscEKsZOapcaWT
+	XSfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=BDQFou/uJHSufVW3oDmYBA17Ua1ucNmfv5BStTPbyow=;
-	b=Yv4ZPbLRTiHgiSOhXGb0KonpBXOQbPlyZqd6Z5Pxfe4wgGJFFz1vK1rpmua19FZNCj
-	7beJrLzA5rnHFn2G79eRLDChqEPvDGHeU9327OXcDUlIA1BT2rFgIWj68bWrPsPRJtKt
-	3oblcOZFPb7Igz5t0II0rh1g9midSkpTIc9+eNJn09tJqRnd4cIA/G7dMCB0fV1eKZDV
-	iRXN3hQu/05DlUq+hUBeQ3ofpwQ0qQgwQ+o9XuvN/cxaKB3HtdHO53i90DqAcVTYzUGn
-	+zO3DZ0ryB/ocGw4xje18Q07FNwcQx0EakqIMJ719p06EB6E8VoIjDPaOxId/AKQs9d1
-	P5Jw==
-X-Gm-Message-State: APjAAAXablzy5sgGNAi2DZoycq7qgADscNa+B/4dK3mhW3QNbO5faPsW
-	+qepUkIoXx7ftbbW4i6toVnMZYCqsrrR54UvKzkTww==
-X-Google-Smtp-Source: APXvYqwIsr6bNf5kV6qbajr5Vc/6O+Ki1CNOtIRHQlKvok4BPOf3kpc0JCuZyj1PdK2RcohXNKzi+0F89BU54AHhc4s=
-X-Received: by 2002:a02:3217:: with SMTP id j23mr67189112jaa.79.1560519384535; 
-	Fri, 14 Jun 2019 06:36:24 -0700 (PDT)
+	bh=wJV+XdLIreVI+id5nKl7w938KQJTrwwT6iPp7ZaAocg=;
+	b=lkpskXz3Wue0eRFpgQPMvs24SZxzzUJ5AfHYpSfj1c8Eu+MgTQ6THTQvR+nURLGCRd
+	3l6xZOwwPfxXNKjRGIY753rqkcSK+vbrkqe0kk6rnXSA8rOgVtcdv9YvLF05FAzUJ8WR
+	UsJVHHgluiFvndoIUN5MGfy7Pr6yUFxTeWyrKG7ZgGxx/7CafbMqTupwMT50AZXXDloY
+	SZzUX9Oe2TndBRIO8VmGwmhMKsg3431q7IVv4SZsvEOq+JrmzB2SNdX0nzkRKQH7RV3w
+	tmIwyl5Y9k1HmT3YrwreVNrl1iiZW/7E02nK3svUPn+T/vXbDoogzHAHewst+BXqejOb
+	QOHQ==
+X-Gm-Message-State: APjAAAX5Ci/C6CKX66QF8/9YU1z7RI7ZGYYm+VnTeJwtllk7+rswkoBC
+	6Rcs6JuGoHsAKWBAy+1MdOPgZ2b3nVYdC+PDOFVx31Fnd1g=
+X-Google-Smtp-Source: APXvYqwe4MUM/L/yjJGqpv3XxRFjRtHSezp1AvMORjr2czXzsAops96PyMs0q5sDTk4b0dFTCJK9mvJ1KC1uCzConPc=
+X-Received: by 2002:aca:c008:: with SMTP id q8mr1906864oif.135.1560519490881; 
+	Fri, 14 Jun 2019 06:38:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190613175442.26121-1-m.felsch@pengutronix.de>
 	<a7a06678f3346863015258fec2ed65e7d8065196.camel@linuxfoundation.org>
@@ -43,11 +42,12 @@ References: <20190613175442.26121-1-m.felsch@pengutronix.de>
 	<99B005A2-CD21-4AA8-B960-54121098F850@gmail.com>
 	<c85e93b13ddcbc27c27ac17fdcf97a0d1ffc4020.camel@linuxfoundation.org>
 	<CANNYZj-9xUFE0x9D_BpLiqkNitLmXnrv9n8boodZpE5bX-psgw@mail.gmail.com>
-In-Reply-To: <CANNYZj-9xUFE0x9D_BpLiqkNitLmXnrv9n8boodZpE5bX-psgw@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 14 Jun 2019 14:36:12 +0100
-Message-ID: <CAJTo0LZbf2Y6_nN0E8tsVLHKxZAtE6zyqP25nyKk=v6+bQjkHg@mail.gmail.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+	<CAJTo0LZbf2Y6_nN0E8tsVLHKxZAtE6zyqP25nyKk=v6+bQjkHg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZbf2Y6_nN0E8tsVLHKxZAtE6zyqP25nyKk=v6+bQjkHg@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 14 Jun 2019 15:37:59 +0200
+Message-ID: <CANNYZj9LOQZkawsAPi=Sgsd2_0qTeR=NOn4RxqArA+CmkLSTQQ@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
 Cc: kernel@pengutronix.de, OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/2] mesa: make gallium swrast target optional
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -62,27 +62,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 13:36:23 -0000
+X-List-Received-Date: Fri, 14 Jun 2019 13:38:10 -0000
+Content-Type: multipart/alternative; boundary="000000000000eb4e11058b48c110"
+
+--000000000000eb4e11058b48c110
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 14 Jun 2019 at 14:34, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->
-> On Fri, 14 Jun 2019 at 15:26, <richard.purdie@linuxfoundation.org> wrote:
->>
->> I guess if we can track down where the swrast dependency is coming and
->> and change things to avoid it, that would probably be ok.
->
->
-> As Ross said, qemu bsp has this:
->
-> XSERVER ?= "xserver-xorg \
->             ${@bb.utils.contains('DISTRO_FEATURES', 'opengl',
-> 'mesa-driver-swrast xserver-xorg-extension-glx', '', d)} \
->             xf86-video-fbdev \
->             "
-> Dropping the swrast dependency will not help though, as it is provided by the mesa-megadriver package, which will continue to include swrast as long as it is enabled in the mesa recipe. mesa-megadriver is also pulled in through other dependencies.
+On Fri, 14 Jun 2019 at 15:36, Burton, Ross <ross.burton@intel.com> wrote:
 
-Won't that stop the build failure on the autobuilder though?
+> > Dropping the swrast dependency will not help though, as it is provided
+> by the mesa-megadriver package, which will continue to include swrast as
+> long as it is enabled in the mesa recipe. mesa-megadriver is also pulled in
+> through other dependencies.
+>
+> Won't that stop the build failure on the autobuilder though?
+>
 
-Ross
+Yes, I think it would.
 
+--000000000000eb4e11058b48c110
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Fri, 14 Jun 2019 at 15:36, Burton, Ros=
+s &lt;<a href=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt=
+; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">&gt; Dropping the swrast dependency will not help thoug=
+h, as it is provided by the mesa-megadriver package, which will continue to=
+ include swrast as long as it is enabled in the mesa recipe. mesa-megadrive=
+r is also pulled in through other dependencies.<br>
+<br>
+Won&#39;t that stop the build failure on the autobuilder though?<br></block=
+quote><div><br></div><div>Yes, I think it would. <br></div></div></div>
+
+--000000000000eb4e11058b48c110--
