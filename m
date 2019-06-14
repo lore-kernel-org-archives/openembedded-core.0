@@ -1,51 +1,53 @@
 Return-Path: <just.another.mariano@gmail.com>
-Received: from mail-ot1-f65.google.com (mail-ot1-f65.google.com
-	[209.85.210.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 5D1E07E919
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 644437E920
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 03:32:58 +0000 (UTC)
-Received: by mail-ot1-f65.google.com with SMTP id b7so1287385otl.11
+	Fri, 14 Jun 2019 03:33:01 +0000 (UTC)
+Received: by mail-oi1-f194.google.com with SMTP id w79so911645oif.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 13 Jun 2019 20:32:59 -0700 (PDT)
+	Thu, 13 Jun 2019 20:33:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ApHXiLwnt2ZdnLadoiFKQX0oRfqoqAdQIH5uL4nz5xI=;
-	b=pYSvx8YBiLxp1VX3cCEgES78+pjsT6Fr21jR3y+gRQdqNDFym79PlLBDLBdluxAz0U
-	w9pV7FgAlfbOFdN3cWYcW+RrU6UOCQd/Bv4SMLweZHKMHQDYUQkfe0nlcqON8GI0QJwy
-	hyg0hO7hQZtbWIw5oaZxtb2fVU/HrzY1Bo8hGv4DHO11nicrYtcb7tfPLj7p7YES9rWn
-	BD/HRhIL14JM8zzRFrx+V3QXX0PvXZ4JPm2QSbIfOgWEThjAZa/gijUSzj7LG1ZPezoC
-	F/o+/TfA188RdvHwtvWoc56F6Cq+bjVM6m4oho5tjtnCP/NTcT7YE2hOtGplWT+fsw2O
-	DGxA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=m/tYMnH+ebEobvpRebvfY+zv3WAfQo7Cj2NWBwAGZRY=;
+	b=YztwCd8w2HdxkCLQN4kUnu5ASeBOXmdtG4QiJZjK+chkejZdGh4b/HECWSfMrjO6po
+	9CZxdceONCgVvPBimnJXIgTpMwOUMlfD+zn2FHAvdpBBTadV/NMuGb+fR3XN2sVdAV2Y
+	2p2+mKtsUi8AQaKfzrpX6sB4NkpLibt8S2TrR4CsmZSDl/C5/IRcKbd+8Cyf/CeBia/f
+	P50r62rBtnKDBpZBsurbiy3gdTa3j13wyyC+crvqZcCY4OMieJySJm9e3RWb+0gP0iUS
+	q225ON8SUeegNrZMuqzPnZbHnhnFxpJOQPRRzI+QX0QQylCzv8Oxh7u5rLwKpNLUv/wU
+	US0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ApHXiLwnt2ZdnLadoiFKQX0oRfqoqAdQIH5uL4nz5xI=;
-	b=JQZvLKJO9ZWidYMETzcikLQC5bLCwhOxNVc73mB3xvufQM6yaESQz5lilvt05cdFjB
-	9vIy6Y+fh+ernqmYLJpTly21JhpRDtG7z5316irIVJhLOTQnR1LF5FEQ5GxSdq7bazFP
-	hqsK1tzbwNdkmtMZs3M85WmIq6wniQHtnvkBR5MLBhlIMHeHOwdSd6ScZb1bkIBn5Frb
-	rTMY/iN6jkyy6JFFEP+dR3HOv1PyF5zlbJ7maEtHBtJ4R6NCgukbR0eVj0T+wSubeKP+
-	0JUqS89S5XvzgT2sy0CBiU1g0terk0AxUymb3mThwWJb3BvMWRcYHnSJrgnaTQWIgiOH
-	3/SA==
-X-Gm-Message-State: APjAAAUIRmmhDnGKl0InQZzMxx80lgPXuG+9jvSO0ASp6XcOPQsEsUiO
-	GJnC3xjOshJeU6/Kcn+UN6J4pvI3
-X-Google-Smtp-Source: APXvYqz/5rDE/YDLuDLNSp/EjLrKbjORZsFSrArHulU+FR/zHWHwQ6J36dhGo2gjwyoPiNDMM/QL3Q==
-X-Received: by 2002:a9d:6a08:: with SMTP id g8mr18746428otn.344.1560483179126; 
-	Thu, 13 Jun 2019 20:32:59 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=m/tYMnH+ebEobvpRebvfY+zv3WAfQo7Cj2NWBwAGZRY=;
+	b=uEt4eDOBXR2gWrHcyEG5/1tKaF6ofRaIZv8et+RWU4cx/8MJ4aUVkm2MVTj4R8nXin
+	2+EnYJkRLLcK/6NGRE4dSOm4BDZlx/XvqyJUfWLE6RTIPRtHFFrw01sgKtrSL+Fresmf
+	iHdU/yitcNRiLJdGYl2w6q+G+vRowPP7o1/jQIWnTI8jC0sxf9tIpDitTnXJW13UmPiZ
+	3SXfPPcoRSJznPc2peYfxfsYESiUpNDDCGdC1u/6LLf9Qw60ykWT8y/2TG9UCx8mnLfW
+	h/mgwzIaxFXVYheUQ+jlpTTkRBJYOCpbovXoVzrMcLWuBniF3UkFQtoqQNuYkcLNed5o
+	wzIg==
+X-Gm-Message-State: APjAAAU3Ta9qN1MXr1Mu9KDVtrM+pbWpyV8LZc5m9Q8WnE/hnB8DUmVA
+	F48k4ymf3OKwfnAXlkkpzBDneHMA
+X-Google-Smtp-Source: APXvYqw/IznT7LU858w1wp4A3m5yfHhjnlP4WnaI7tdxKwxad4RrcDN8ftSdM9ShHFQyKqYO3junFQ==
+X-Received: by 2002:aca:b9d5:: with SMTP id j204mr470641oif.116.1560483182207; 
+	Thu, 13 Jun 2019 20:33:02 -0700 (PDT)
 Received: from ultima.ninicasiopea.net
 	([2605:a601:43d5:f700:215:17ff:fe90:1065])
 	by smtp.googlemail.com with ESMTPSA id
-	q3sm708383oig.7.2019.06.13.20.32.58
+	q3sm708383oig.7.2019.06.13.20.33.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 13 Jun 2019 20:32:58 -0700 (PDT)
+	Thu, 13 Jun 2019 20:33:01 -0700 (PDT)
 From: =?UTF-8?q?Mariano=20L=C3=B3pez?= <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 13 Jun 2019 22:32:39 -0500
-Message-Id: <cover.1560482696.git.just.another.mariano@gmail.com>
+Date: Thu, 13 Jun 2019 22:32:40 -0500
+Message-Id: <516ed740f966e05eaaa349d47d9b97d7dadb2790.1560482696.git.just.another.mariano@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <cover.1560482696.git.just.another.mariano@gmail.com>
+References: <cover.1560482696.git.just.another.mariano@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/2] Use scsi-debug kernel module for util-linux's ptest
+Subject: [PATCH 1/2] util-linux: Stop udevd to run ptests
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,34 +60,69 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 03:32:58 -0000
+X-List-Received-Date: Fri, 14 Jun 2019 03:33:01 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-These patches will allow the use of scsi-debug kernel module for
-eject/mount related tests of the util-linux package.
+The util-linux's ptest uses the SCSI_DEBUG kernel module to create
+virtual SCSI disks. The automount feature of udevd will try to mount
+these disks by default. Because udevd controls the mount of the disks,
+the eject/mount tests will fail or be skipped. This change will stop
+udevd before executing the util-linux's ptest and start the daemon
+again after all the tests.
 
-The following changes since commit e00d88475d0ed7b161f5f58dd13bc9a72e3efdf9:
+This is for eudevd only, systemd-udevd doesn't present this problem
+because there are no automount rules.
 
-  bluez: fix test case failures with GCC 9 (2019-06-12 21:08:52 +0100)
+[YOCTO #13301]
 
-are available in the Git repository at:
-
-  git://github.com/justanotherboy/poky bug13301p2
-  https://github.com/justanotherboy/poky/tree/bug13301p2
-
-Mariano López (2):
-  util-linux: Stop udevd to run ptests
-  linux-yocto: Add scsi_debug module when ptest is in DISTRO_FEATURES
-
+Signed-off-by: Mariano López <just.another.mariano@gmail.com>
+---
  meta/recipes-core/util-linux/util-linux.inc       |  4 ++++
  meta/recipes-core/util-linux/util-linux/run-ptest | 14 ++++++++++++++
- meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb  |  1 +
- meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   |  1 +
- meta/recipes-kernel/linux/linux-yocto_4.19.bb     |  1 +
- meta/recipes-kernel/linux/linux-yocto_5.0.bb      |  1 +
- 6 files changed, 22 insertions(+)
+ 2 files changed, 18 insertions(+)
 
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index df1d1224dd..1d279a58aa 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -318,4 +318,8 @@ do_install_ptest() {
+     sed -i -e \
+          '/^TS_CMD_KILL/ s|kill|${PTEST_PATH}/bin/kill|g' \
+          ${D}${PTEST_PATH}/tests/commands.sh
++
++
++    sed -i 's|@base_sbindir@|${base_sbindir}|g'       ${D}${PTEST_PATH}/run-ptest
++
+ }
+diff --git a/meta/recipes-core/util-linux/util-linux/run-ptest b/meta/recipes-core/util-linux/util-linux/run-ptest
+index 03248325bf..e135ee583b 100644
+--- a/meta/recipes-core/util-linux/util-linux/run-ptest
++++ b/meta/recipes-core/util-linux/util-linux/run-ptest
+@@ -1,5 +1,14 @@
+ #!/bin/sh
+ 
++
++# When udevd (from eudev) is running most eject/mount tests will fail because
++# of automount. We need to stop udevd before executing util-linux's tests.
++# The systemd-udevd daemon doesn't change the outcome of util-linux's tests.
++UDEV_PID="`pidof "@base_sbindir@/udevd"`"
++if [ "x$UDEV_PID" != "x" ]; then
++    /etc/init.d/udev stop
++fi
++
+ current_path=$(readlink -f $0)
+ export bindir=$(dirname $current_path)
+ export PATH=$bindir/bin:$PATH
+@@ -27,3 +36,8 @@ do
+    }' 
+ done
+ 
++
++if [ "x$UDEV_PID" != "x" ]; then
++    /etc/init.d/udev start
++fi
++
 -- 
 2.21.0
 
