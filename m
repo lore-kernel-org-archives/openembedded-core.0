@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 556A97E9A4;
-	Fri, 14 Jun 2019 17:01:09 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 7FB7F7E9A6;
+	Fri, 14 Jun 2019 17:01:10 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Randy MacLeod <randy.macleod@windriver.com>
-Date: Fri, 14 Jun 2019 17:01:10 -0000
-Message-ID: <20190614170110.2334.47921@do>
+Date: Fri, 14 Jun 2019 17:01:12 -0000
+Message-ID: <20190614170112.2329.59911@do>
 References: <20190614160229.6144-1-Randy.MacLeod@windriver.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
 In-Reply-To: <20190614160229.6144-1-Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInV0aWwtbGludXg6IGFkZCBzZXRwcml2IHV0aWxpdC4uLiIgYW5kIDMgbW9yZSAocmV2NCk=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgInV0aWwtbGludXg6IGFkZCBzZXRwcml2IHV0aWxpdC4uLiIgYW5kIDMgbW9yZSAocmV2NSk=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 17:01:09 -0000
+X-List-Received-Date: Fri, 14 Jun 2019 17:01:10 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: "util-linux: add setpriv utilit..." and 3 more (rev4)
-Revision: 4
+Series: "util-linux: add setpriv utilit..." and 3 more (rev5)
+Revision: 5
 URL   : https://patchwork.openembedded.org/series/18163/
 State : failure
 
