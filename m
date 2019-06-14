@@ -1,51 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 388827E7CD
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BFEF97E918
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 07:59:32 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id k11so1479273wrl.1
+	Fri, 14 Jun 2019 09:25:32 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id e8so1044416otl.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 14 Jun 2019 00:59:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=/IElcwX2KEZBX/GuwDtUAphh9rGE7KfX+fNw5fbgxwc=;
-	b=XiRc+HNwaYFqW0HWppytsNcZSFzS1aiRGr3spzZcm16CwoOdX9QjtQPUhnsPIAVtQI
-	TEjAd51g5JeAKNXPIieggmz3f8IoMSQWrS1e7b9pGjD8bADYykdtuSRN27+5hiPEjC+5
-	ZjXL16JRa/UEgx8lq3Kxeq022mXo176jIfJ7o=
+	Fri, 14 Jun 2019 02:25:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=jbbIIPWy0Ns+xP7Nmy3lMRaZQhVBJwMcZaYdPZnLcWU=;
+	b=KXeD+yyOxFRP/xzgsNQlsw4Tpv3xRiDayrwQ0I+cOtyoWKgHhRmyCwbX487QARtMFN
+	ntBVpcfe8X/DfkDVh24BJIE2crtyPGHILnqP3MuX1E/t90cmsCHZi9uM9KduCQGhsiD7
+	XdnEkRe8KIxiTfgKY9y5KRcdpDsp1kw6//wB85yDw1zyV117LdAiOPbmZtTjFWhQAthe
+	9HLDS5AZrOyu9rqmcrZ75AHouFrh9sh6G5cy7+1ybPB02wJePTi8mI/GagxRxfr67ZXg
+	+MMJBEDMHjit2s72K3flr1C1jx31w6aRHbocTvc/FEOLgOZn+2d3P1u3lzLvSm1MxE6D
+	mNpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=/IElcwX2KEZBX/GuwDtUAphh9rGE7KfX+fNw5fbgxwc=;
-	b=bogChbtv+sw+N1OvgqZA3Pgv2KUdla4i086UrVprDcSfzH9DeumkEZh6VjQ9/Pambk
-	GS9FevfyRNNY3RoVPSxh/VKqvAZBmiNjQ9F/nfvyLbD10B0QAaZk6tWjlVfrHccdx0nX
-	0BGDBJh/mUuqg1Zq/dQBbI/4OE+HZCueEI+db6iSn4Ip9FugphPuHqTje9COTwKAorFE
-	1djkfumw4GSwG/lsz/PqliEMnDUiU1wjkNJb1JwaJveq8HAq59RdztkRYmS1zCy1enTb
-	Rbr4cRYCNIwD8W9q/6zsejH6IVMQGZoENx+uHi2qNBbN82AMlJ15t1iIANvgPc8NW91r
-	FazQ==
-X-Gm-Message-State: APjAAAVXJArnQLQe8Rm3Qg45kaEnG0CVCR36P6SvomO1bOAwmp9j4AGE
-	7EMWys4i3EePxAa5lNOAMbNcZxiQWX4=
-X-Google-Smtp-Source: APXvYqxfOGir1iVzum0oPeuVilM2sh/rfYSqSVlHZGqN+Aw/wcPAab0dsCzV1vQNlVXCDvFVEZ9vcw==
-X-Received: by 2002:adf:e2c3:: with SMTP id d3mr35153231wrj.314.1560499172833; 
-	Fri, 14 Jun 2019 00:59:32 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id g8sm1995940wme.20.2019.06.14.00.59.31
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 14 Jun 2019 00:59:32 -0700 (PDT)
-Message-ID: <f63dd1f0ac81c6f78df6ef07d3828ff1d963b889.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: He Zhe <zhe.he@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Fri, 14 Jun 2019 08:59:30 +0100
-In-Reply-To: <c4c94351-08c8-9547-ddfa-b2b118060c98@windriver.com>
-References: <1560337967-208223-1-git-send-email-zhe.he@windriver.com>
-	<fddad43f3c2052f390bddeb16fce29b30999b5d1.camel@linuxfoundation.org>
-	<c4c94351-08c8-9547-ddfa-b2b118060c98@windriver.com>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=jbbIIPWy0Ns+xP7Nmy3lMRaZQhVBJwMcZaYdPZnLcWU=;
+	b=TX9mQ7zRUG2bvQhVqEibgsnZnHShMbhWOzCEYqmGkj/sY7+BAvQ/mF/gcq5JUnF4hz
+	efIB9ucNEPWa29sr8X9x+S6313JsoRuJET1pMsi/SGX6Zs1IbYYalVO7zP+pGEhAsnXU
+	m8awa7qNmL8+nFzlGRwLj1oDnuVhDeVulQwFD/kZYQPhhQdhRWqj3/yyUS6N2Sdd8ne9
+	W6UDYVKDV2dOXK9Heb4exXVVNMjCD1NMyDzF+6m+ZgFaVDjQR2cj3Y0ZBreadrpOpXwT
+	BVag7pieN8ryS60+YV9lc5OlGj8m8V9vByURjoDm+Dm/8C5BuP5dxnW3S4q1oTpG7giT
+	6qwg==
+X-Gm-Message-State: APjAAAXZ82qJVh0Khskc6AtMZ+FgggySWUMYeWjNWzdltOa1s8mtubyr
+	iyjLsFT7eSzC00WahjP/UIq4v4yBAhNQc2Qn5zg=
+X-Google-Smtp-Source: APXvYqzDfZsNFYCPAzCr+/Jkihl5Y5Rc40ItZ8BEuqsQ0DNjfhjVW2PHhTKc/DojbOtlYe0Vm8W+h7e+roGcs7vLC08=
+X-Received: by 2002:a9d:4b8d:: with SMTP id k13mr43445663otf.61.1560504333764; 
+	Fri, 14 Jun 2019 02:25:33 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH v3] lttng-modules: Add git based recipe
+References: <1559434935-11842-1-git-send-email-leimaohui@cn.fujitsu.com>
+	<CAJTo0LYF08Tad=-RwO_7Bj5a58yeEgmR-XFCsSw2RbsDT=DAkQ@mail.gmail.com>
+	<CANNYZj_t-EOfWCmuQjYzgJW6gzQdHvDqRHb6-ohOpoH1nuB=sQ@mail.gmail.com>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF12DE61@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD01BF12DE61@G08CNEXMBPEKD01.g08.fujitsu.local>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 14 Jun 2019 11:25:21 +0200
+Message-ID: <CANNYZj-a8FiRLKdX3Erd4qmzE5VgTNNTtU=iyCUxti-J3yyTww@mail.gmail.com>
+To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] openssl: Fix a build bug on aarch64BE.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,92 +56,416 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 14 Jun 2019 07:59:32 -0000
+X-List-Received-Date: Fri, 14 Jun 2019 09:25:33 -0000
+Content-Type: multipart/alternative; boundary="0000000000007c0ab0058b453aa9"
+
+--0000000000007c0ab0058b453aa9
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 2019-06-14 at 10:33 +0800, He Zhe wrote:
-> 
-> On 6/12/19 8:36 PM, Richard Purdie wrote:
-> > On Wed, 2019-06-12 at 19:12 +0800, zhe.he@windriver.com wrote:
-> > > From: He Zhe <zhe.he@windriver.com>
-> > > 
-> > > The git based recipe is for those who want to build lttng-modules 
-> > > with bleeding
-> > > edge kernel, to avoid regularly backporting patches from
-> > > upstream.
-> > > 
-> > > Note that PREFERRED_VERSION needs to be set to select the git
-> > > recipe instead of
-> > > the tar ball one.
-> > > 
-> > > Signed-off-by: He Zhe <zhe.he@windriver.com>
-> > > ---
-> > > v2: Correct a typo in SOB in 0001
-> > > v3: Use devupstream to make it more clean and clear
-> > > 
-> > >  meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb | 11
-> > > ++++++++++-
-> > >  1 file changed, 10 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
-> > > b/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
-> > > index 70a6843..dfd166a 100644
-> > > --- a/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
-> > > +++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.9.bb
-> > > @@ -11,7 +11,6 @@ inherit module
-> > >  
-> > >  COMPATIBLE_HOST =
-> > > '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
-> > >  
-> > > -#
-> > > https://lttng.org/files/lttng-modules/lttng-modules-2.10.7.tar.bz2
-> > >  SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-> > >             file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-
-> > > not-en.patch \
-> > >             file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> > > @@ -34,3 +33,13 @@ python do_package_prepend() {
-> > >          bb.warn("%s: no modules were created; this may be due to
-> > > CONFIG_TRACEPOINTS not being enabled in your kernel." %
-> > > d.getVar('PN'))
-> > >  }
-> > >  
-> > > +BBCLASSEXTEND = "devupstream:target"
-> > > +LIC_FILES_CHKSUM_class-devupstream =
-> > > "file://LICENSE;md5=3f882d431dc0f32f1f44c0707aa41128"
-> > > +DEFAULT_PREFERENCE_class-devupstream = "-1"
-> > > +SRC_URI_class-devupstream = "git://git.lttng.org/lttng-
-> > > modules;branch=master \
-> > > +           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-
-> > > not-en.patch \
-> > > +           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
-> > > +           "
-> > > +SRCREV_class-devupstream = "${AUTOREV}"
-> > > +PV_class-devupstream = "2.11.0-rc+git${SRCPV}"
-> > > +S_class-devupstream = "${WORKDIR}/git"
-> > OE-Core can't access the network by default so this will need to be
-> > a
-> > specific SRCREV which you can set to AUTOREV in local config if
-> > that
-> > makes sense.
-> > 
-> > I've sent a separate email to openembedded-architecture about a
-> > better
-> > syntax for some of this but that isn't anything wrong with this
-> > patch,
-> > more just the way devupstream works.
-> 
-> Thanks. I assumed this patch was on the way to be merged. But with
-> Jonathan
-> Rajotte-Julien's idea coming after your comment, I want to make sure
-> if there's
-> anything/update I should do for the patch.
+Yes:
+https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines#Patch_Hea=
+der_Recommendations:_Upstream-Status
 
-We need two things tweaking, I think we need to incorporate Jonathan's
-advice on which branch to use and also not use AUTOREV here by default.
+Alex
 
-Cheers,
+On Fri, 14 Jun 2019 at 03:00, Lei, Maohui <leimaohui@cn.fujitsu.com> wrote:
 
-Richard
+> Hi, Alex
+>
+>
+>
+> I refered to the previous patches. Should the Upstream-Status be
+> =E2=80=9CSubmitted=E2=80=9D ?
+>
+>
+>
+>
+>
+> Best regards
+>
+> Lei
+>
+>
+>
+>
+>
+> *From:* Alexander Kanavin [mailto:alex.kanavin@gmail.com]
+> *Sent:* Thursday, June 13, 2019 8:45 PM
+> *To:* Burton, Ross
+> *Cc:* Lei, Maohui/=E9=9B=B7 =E8=8C=82=E6=85=A7; Hong Liu; OE-core
+> *Subject:* Re: [OE-core] [PATCH] openssl: Fix a build bug on aarch64BE.
+>
+>
+>
+> Also if the patch is already submitted, the status should not be Pending.
+>
+>
+>
+> Alex
+>
+>
+>
+> On Thu, 13 Jun 2019 at 11:23, Burton, Ross <ross.burton@intel.com> wrote:
+>
+> On Thu, 13 Jun 2019 at 09:48, Lei Maohui <leimaohui@cn.fujitsu.com> wrote=
+:
+> >
+> > From: Hong Liu <hongl.fnst@cn.fujitsu.com>
+> >
+> > Fix bug as following on aarch64BE:
+> >
+> > Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
+> >
+> > Upstream-Status: Pending [https://github.com/openssl/openssl/pull/9151]
+>
+> This line ^^^
+>
+> > Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> > ---
+> >  ...01-Fix-build-error-for-aarch64-big-endian.patch | 41
+> ++++++++++++++++++++++
+> >  .../recipes-connectivity/openssl/openssl_1.1.1c.bb |  1 +
+> >  2 files changed, 42 insertions(+)
+> >  create mode 100644
+> meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarch6=
+4-big-endian.patch
+> >
+> > diff --git
+> a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarc=
+h64-big-endian.patch
+> b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarc=
+h64-big-endian.patch
+> > new file mode 100644
+> > index 0000000..65ca02c
+> > --- /dev/null
+> > +++
+> b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-for-aarc=
+h64-big-endian.patch
+> > @@ -0,0 +1,41 @@
+> > +From 1f8c0f2feea5cdcae0bcd9dfc78198d9e2c4cf09 Mon Sep 17 00:00:00 2001
+> > +From: Lei Maohui <leimaohui@cn.fujitsu.com>
+> > +Date: Thu, 13 Jun 2019 12:17:30 +0900
+> > +Subject: [PATCH] Fix build error for aarch64 big endian.
+> > +
+> > +Modified rev to rev64, because rev only takes integer registers.
+> > +https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D90827
+> > +Otherwise, the following error will occur.
+> > +
+> > +Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b'
+> > +
+>
+> ^^ goes here.
+>
+> The upstream status is a property of the patch you're adding, not the
+> commit message.
+>
+> > +Signed-off-by: Lei Maohui <leimaohui@cn.fujitsu.com>
+> > +---
+> > + crypto/sha/asm/keccak1600-armv8.pl | 4 ++--
+> > + 1 file changed, 2 insertions(+), 2 deletions(-)
+> > +
+> > +diff --git a/crypto/sha/asm/keccak1600-armv8.pl b/crypto/sha/asm/
+> keccak1600-armv8.pl
+> > +index dc72f18..6620690 100755
+> > +--- a/crypto/sha/asm/keccak1600-armv8.pl
+> > ++++ b/crypto/sha/asm/keccak1600-armv8.pl
+> > +@@ -731,7 +731,7 @@ $code.=3D<<___;
+> > +       blo     .Lprocess_block_ce
+> > +       ldr     d31,[$inp],#8           // *inp++
+> > + #ifdef        __AARCH64EB__
+> > +-      rev     v31.16b,v31.16b
+> > ++      rev64   v31.16b,v31.16b
+> > + #endif
+> > +       eor     $A[$j/5][$j%5],$A[$j/5][$j%5],v31.16b
+> > +       beq     .Lprocess_block_ce
+> > +@@ -740,7 +740,7 @@ ___
+> > + $code.=3D<<___;
+> > +       ldr     d31,[$inp],#8           // *inp++
+> > + #ifdef        __AARCH64EB__
+> > +-      rev     v31.16b,v31.16b
+> > ++      rev64   v31.16b,v31.16b
+> > + #endif
+> > +       eor     $A[4][4],$A[4][4],v31.16b
+> > +
+> > +--
+> > +2.7.4
+> > +
+> > diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+> b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+> > index 669b1a1..ec85ccd 100644
+> > --- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+> > +++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+> > @@ -16,6 +16,7 @@ SRC_URI =3D "
+> http://www.openssl.org/source/openssl-${PV}.tar.gz \
+> >             file://0001-skip-test_symbol_presence.patch \
+> >
+>  file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+> >             file://afalg.patch \
+> > +           file://0001-Fix-build-error-for-aarch64-big-endian.patch \
+> >             "
+> >
+> >  SRC_URI_append_class-nativesdk =3D " \
+> > --
+> > 2.7.4
+> >
+> >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+
+--0000000000007c0ab0058b453aa9
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Yes: <br></div><div><a href=3D"https://www.openembedd=
+ed.org/wiki/Commit_Patch_Message_Guidelines#Patch_Header_Recommendations:_U=
+pstream-Status">https://www.openembedded.org/wiki/Commit_Patch_Message_Guid=
+elines#Patch_Header_Recommendations:_Upstream-Status</a></div><div><br></di=
+v><div>Alex<br></div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Fri, 14 Jun 2019 at 03:00, Lei, Maohui &lt;<a href=
+=3D"mailto:leimaohui@cn.fujitsu.com">leimaohui@cn.fujitsu.com</a>&gt; wrote=
+:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
+8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
 
 
+
+
+
+<div lang=3D"EN-US">
+<div class=3D"gmail-m_-6290982164185658674WordSection1">
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;MS M=
+incho&quot;">Hi, Alex<u></u><u></u></span></p>
+<p class=3D"gmail-m_-6290982164185658674MsoPlainText"><u></u>=C2=A0<u></u><=
+/p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;MS M=
+incho&quot;">I refered to the previous patches. Should the Upstream-Status =
+be =E2=80=9CSubmitted=E2=80=9D ?</span><span style=3D"font-size:11pt;font-f=
+amily:&quot;Arial&quot;,&quot;sans-serif&quot;;color:rgb(31,73,125)"><u></u=
+><u></u></span></p>
+<p class=3D"gmail-m_-6290982164185658674MsoPlainText"><u></u>=C2=A0<u></u><=
+/p>
+<p class=3D"gmail-m_-6290982164185658674MsoPlainText"><u></u>=C2=A0<u></u><=
+/p>
+<p class=3D"gmail-m_-6290982164185658674MsoPlainText">Best regards <u></u><=
+u></u></p>
+<p class=3D"gmail-m_-6290982164185658674MsoPlainText">Lei<u></u><u></u></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Aria=
+l&quot;,&quot;sans-serif&quot;;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></=
+span></p>
+<p class=3D"MsoNormal"><span style=3D"font-size:11pt;font-family:&quot;Aria=
+l&quot;,&quot;sans-serif&quot;;color:rgb(31,73,125)"><u></u>=C2=A0<u></u></=
+span></p>
+<div style=3D"border-color:currentcolor currentcolor currentcolor blue;bord=
+er-style:none none none solid;border-width:medium medium medium 1.5pt;paddi=
+ng:0cm 0cm 0cm 4pt">
+<div>
+<div style=3D"border-color:rgb(181,196,223) currentcolor currentcolor;borde=
+r-style:solid none none;border-width:1pt medium medium;padding:3pt 0cm 0cm"=
+>
+<p class=3D"MsoNormal"><b><span style=3D"font-size:10pt;font-family:&quot;T=
+ahoma&quot;,&quot;sans-serif&quot;">From:</span></b><span style=3D"font-siz=
+e:10pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;"> Alexander Ka=
+navin [mailto:<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">a=
+lex.kanavin@gmail.com</a>]
+<br>
+<b>Sent:</b> Thursday, June 13, 2019 8:45 PM<br>
+<b>To:</b> Burton, Ross<br>
+<b>Cc:</b> Lei, Maohui/</span><span style=3D"font-size:10pt;font-family:=E5=
+=AE=8B=E4=BD=93" lang=3D"ZH-CN">=E9=9B=B7</span><span style=3D"font-size:10=
+pt;font-family:&quot;Tahoma&quot;,&quot;sans-serif&quot;" lang=3D"ZH-CN">
+</span><span style=3D"font-size:10pt;font-family:=E5=AE=8B=E4=BD=93" lang=
+=3D"ZH-CN">=E8=8C=82=E6=85=A7</span><span style=3D"font-size:10pt;font-fami=
+ly:&quot;Tahoma&quot;,&quot;sans-serif&quot;">; Hong Liu; OE-core<br>
+<b>Subject:</b> Re: [OE-core] [PATCH] openssl: Fix a build bug on aarch64BE=
+.<u></u><u></u></span></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">Also if the patch is already submitted, the status s=
+hould not be Pending.<u></u><u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+</div>
+<div>
+<p class=3D"MsoNormal">Alex<u></u><u></u></p>
+</div>
+</div>
+<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
+<div>
+<div>
+<p class=3D"MsoNormal">On Thu, 13 Jun 2019 at 11:23, Burton, Ross &lt;<a hr=
+ef=3D"mailto:ross.burton@intel.com" target=3D"_blank">ross.burton@intel.com=
+</a>&gt; wrote:<u></u><u></u></p>
+</div>
+<blockquote style=3D"border-color:currentcolor currentcolor currentcolor rg=
+b(204,204,204);border-style:none none none solid;border-width:medium medium=
+ medium 1pt;padding:0cm 0cm 0cm 6pt;margin-left:4.8pt;margin-right:0cm">
+<p class=3D"MsoNormal">On Thu, 13 Jun 2019 at 09:48, Lei Maohui &lt;<a href=
+=3D"mailto:leimaohui@cn.fujitsu.com" target=3D"_blank">leimaohui@cn.fujitsu=
+.com</a>&gt; wrote:<br>
+&gt;<br>
+&gt; From: Hong Liu &lt;<a href=3D"mailto:hongl.fnst@cn.fujitsu.com" target=
+=3D"_blank">hongl.fnst@cn.fujitsu.com</a>&gt;<br>
+&gt;<br>
+&gt; Fix bug as following on aarch64BE:<br>
+&gt;<br>
+&gt; Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b&#=
+39;<br>
+&gt;<br>
+&gt; Upstream-Status: Pending [<a href=3D"https://github.com/openssl/openss=
+l/pull/9151" target=3D"_blank">https://github.com/openssl/openssl/pull/9151=
+</a>]<br>
+<br>
+This line ^^^<br>
+<br>
+&gt; Signed-off-by: Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.c=
+om" target=3D"_blank">leimaohui@cn.fujitsu.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 ...01-Fix-build-error-for-aarch64-big-endian.patch | 41 ++++++++=
+++++++++++++++<br>
+&gt;=C2=A0 .../recipes-connectivity/openssl/<a href=3D"http://openssl_1.1.1=
+c.bb" target=3D"_blank">openssl_1.1.1c.bb</a> |=C2=A0 1 +<br>
+&gt;=C2=A0 2 files changed, 42 insertions(+)<br>
+&gt;=C2=A0 create mode 100644 meta/recipes-connectivity/openssl/openssl/000=
+1-Fix-build-error-for-aarch64-big-endian.patch<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-=
+error-for-aarch64-big-endian.patch b/meta/recipes-connectivity/openssl/open=
+ssl/0001-Fix-build-error-for-aarch64-big-endian.patch<br>
+&gt; new file mode 100644<br>
+&gt; index 0000000..65ca02c<br>
+&gt; --- /dev/null<br>
+&gt; +++ b/meta/recipes-connectivity/openssl/openssl/0001-Fix-build-error-f=
+or-aarch64-big-endian.patch<br>
+&gt; @@ -0,0 +1,41 @@<br>
+&gt; +From 1f8c0f2feea5cdcae0bcd9dfc78198d9e2c4cf09 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From: Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.com" targ=
+et=3D"_blank">leimaohui@cn.fujitsu.com</a>&gt;<br>
+&gt; +Date: Thu, 13 Jun 2019 12:17:30 +0900<br>
+&gt; +Subject: [PATCH] Fix build error for aarch64 big endian.<br>
+&gt; +<br>
+&gt; +Modified rev to rev64, because rev only takes integer registers.<br>
+&gt; +<a href=3D"https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D90827" targ=
+et=3D"_blank">https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D90827</a><br>
+&gt; +Otherwise, the following error will occur.<br>
+&gt; +<br>
+&gt; +Error: operand 1 must be an integer register -- `rev v31.16b,v31.16b&=
+#39;<br>
+&gt; +<br>
+<br>
+^^ goes here.<br>
+<br>
+The upstream status is a property of the patch you&#39;re adding, not the<b=
+r>
+commit message.<br>
+<br>
+&gt; +Signed-off-by: Lei Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.=
+com" target=3D"_blank">leimaohui@cn.fujitsu.com</a>&gt;<br>
+&gt; +---<br>
+&gt; + crypto/sha/asm/<a href=3D"http://keccak1600-armv8.pl" target=3D"_bla=
+nk">keccak1600-armv8.pl</a> | 4 ++--<br>
+&gt; + 1 file changed, 2 insertions(+), 2 deletions(-)<br>
+&gt; +<br>
+&gt; +diff --git a/crypto/sha/asm/<a href=3D"http://keccak1600-armv8.pl" ta=
+rget=3D"_blank">keccak1600-armv8.pl</a> b/crypto/sha/asm/<a href=3D"http://=
+keccak1600-armv8.pl" target=3D"_blank">keccak1600-armv8.pl</a><br>
+&gt; +index dc72f18..6620690 100755<br>
+&gt; +--- a/crypto/sha/asm/<a href=3D"http://keccak1600-armv8.pl" target=3D=
+"_blank">keccak1600-armv8.pl</a><br>
+&gt; ++++ b/crypto/sha/asm/<a href=3D"http://keccak1600-armv8.pl" target=3D=
+"_blank">keccak1600-armv8.pl</a><br>
+&gt; +@@ -731,7 +731,7 @@ $code.=3D&lt;&lt;___;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0blo=C2=A0 =C2=A0 =C2=A0.Lprocess_block_ce<=
+br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ldr=C2=A0 =C2=A0 =C2=A0d31,[$inp],#8=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// *inp++<br>
+&gt; + #ifdef=C2=A0 =C2=A0 =C2=A0 =C2=A0 __AARCH64EB__<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 rev=C2=A0 =C2=A0 =C2=A0v31.16b,v31.16b<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 rev64=C2=A0 =C2=A0v31.16b,v31.16b<br>
+&gt; + #endif<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0eor=C2=A0 =C2=A0 =C2=A0$A[$j/5][$j%5],$A[$=
+j/5][$j%5],v31.16b<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0beq=C2=A0 =C2=A0 =C2=A0.Lprocess_block_ce<=
+br>
+&gt; +@@ -740,7 +740,7 @@ ___<br>
+&gt; + $code.=3D&lt;&lt;___;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0ldr=C2=A0 =C2=A0 =C2=A0d31,[$inp],#8=C2=A0=
+ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0// *inp++<br>
+&gt; + #ifdef=C2=A0 =C2=A0 =C2=A0 =C2=A0 __AARCH64EB__<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 rev=C2=A0 =C2=A0 =C2=A0v31.16b,v31.16b<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 rev64=C2=A0 =C2=A0v31.16b,v31.16b<br>
+&gt; + #endif<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0eor=C2=A0 =C2=A0 =C2=A0$A[4][4],$A[4][4],v=
+31.16b<br>
+&gt; +<br>
+&gt; +--<br>
+&gt; +2.7.4<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-connectivity/openssl/<a href=3D"http://opens=
+sl_1.1.1c.bb" target=3D"_blank">openssl_1.1.1c.bb</a> b/meta/recipes-connec=
+tivity/openssl/<a href=3D"http://openssl_1.1.1c.bb" target=3D"_blank">opens=
+sl_1.1.1c.bb</a><br>
+&gt; index 669b1a1..ec85ccd 100644<br>
+&gt; --- a/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.1.=
+1c.bb" target=3D"_blank">openssl_1.1.1c.bb</a><br>
+&gt; +++ b/meta/recipes-connectivity/openssl/<a href=3D"http://openssl_1.1.=
+1c.bb" target=3D"_blank">openssl_1.1.1c.bb</a><br>
+&gt; @@ -16,6 +16,7 @@ SRC_URI =3D &quot;<a href=3D"http://www.openssl.org/=
+source/openssl-$%7BPV%7D.tar.gz" target=3D"_blank">http://www.openssl.org/s=
+ource/openssl-${PV}.tar.gz</a> \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-skip-test_s=
+ymbol_presence.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-buildinfo-s=
+trip-sysroot-and-debug-prefix-map-from-co.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://afalg.patch \<br=
+>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-Fix-build-error-=
+for-aarch64-big-endian.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI_append_class-nativesdk =3D &quot; \<br>
+&gt; --<br>
+&gt; 2.7.4<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" target=3D"_blank">
+http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" target=3D"_blank">http://lists.openembedded.org/mailman/listinfo/openembe=
+dded-core</a><u></u><u></u></p>
+</blockquote>
+</div>
+</div>
+</div>
+</div>
+
+</blockquote></div>
+
+--0000000000007c0ab0058b453aa9--
