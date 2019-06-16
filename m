@@ -1,18 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 2CF077EB09;
-	Sun, 16 Jun 2019 11:30:40 +0000 (UTC)
+Return-Path: <Randy.MacLeod@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BB0377EB8F
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Jun 2019 15:48:17 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5GFmIWZ013608
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Jun 2019 08:48:18 -0700 (PDT)
+Received: from fidler.wrs.com (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Sun, 16 Jun 2019 08:48:18 -0700
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Sun, 16 Jun 2019 11:48:14 -0400
+Message-ID: <20190616154817.5564-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.17.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Adrian Bunk <bunk@stusta.de>
-Date: Sun, 16 Jun 2019 11:30:42 -0000
-Message-ID: <20190616113042.2332.95813@do>
-References: <20190616111105.3270-1-bunk@stusta.de>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190616111105.3270-1-bunk@stusta.de>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgQWRkIHdpcmVsZXNzLXJlZ2RiIGZyb20gbWV0YS1uZXR3b3JraW5n?=
+Subject: [Patch v3 1/4] util-linux: add setpriv utility
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,42 +30,84 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Jun 2019 11:30:41 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 16 Jun 2019 15:48:17 -0000
+Content-Type: text/plain
 
-== Series Details ==
+Enable the setpriv utility for targets only. It will be used in
+the run-ptest script for bash and perhaps other packages where
+the ptest code is expected to run as a user.
 
-Series: Add wireless-regdb from meta-networking
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/18168/
-State : failure
+setpriv uses libcap-ng which doesn't build natively so disable
+it for native* builds. Also, busybox has a setpriv implementation
+so ensure that setpriv adheres to the alternatives scheme.
 
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            Add wireless-regdb from meta-networking
- Issue             Shortlog does not follow expected format [test_shortlog_format] 
-  Suggested fix    Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-core/util-linux/util-linux.inc | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
+index 1d279a58aa..84c7012752 100644
+--- a/meta/recipes-core/util-linux/util-linux.inc
++++ b/meta/recipes-core/util-linux/util-linux.inc
+@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://README.licensing;md5=972a134f1e14b2b060e365df2fab0099
+ 
+ #gtk-doc is not enabled as it requires xmlto which requires util-linux
+ inherit autotools gettext manpages pkgconfig systemd update-alternatives python3-dir bash-completion ptest
+-DEPENDS = "zlib ncurses virtual/crypt"
++DEPENDS = "libcap-ng ncurses virtual/crypt zlib"
+ 
+ MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/${BPN}/v${MAJOR_VERSION}/${BP}.tar.xz \
+@@ -102,6 +102,10 @@ EXTRA_OECONF = "\
+     --libdir='${UTIL_LINUX_LIBDIR}' \
+ "
+ 
++EXTRA_OECONF_append_class-target = " --enable-setpriv"
++EXTRA_OECONF_append_class-native = " --without-cap-ng --disable-setpriv"
++EXTRA_OECONF_append_class-nativesdk = " --without-cap-ng --disable-setpriv"
++
+ PACKAGECONFIG_class-target ?= "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
+ # inherit manpages requires this to be present, however util-linux does not have 
+ # configuration options, and installs manpages always
+@@ -109,8 +113,6 @@ PACKAGECONFIG[manpages] = ""
+ PACKAGECONFIG[pam] = "--enable-su --enable-runuser,--disable-su --disable-runuser, libpam,"
+ # Respect the systemd feature for uuidd
+ PACKAGECONFIG[systemd] = "--with-systemd --with-systemdsystemunitdir=${systemd_system_unitdir}, --without-systemd --without-systemdsystemunitdir,systemd"
+-# Build setpriv requires libcap-ng
+-PACKAGECONFIG[libcap-ng] = "--enable-setpriv,--disable-setpriv,libcap-ng,"
+ # Build python bindings for libmount
+ PACKAGECONFIG[pylibmount] = "--with-python=3 --enable-pylibmount,--without-python --disable-pylibmount,python3"
+ # Readline support
+@@ -248,6 +250,7 @@ ALTERNATIVE_LINK_NAME[readprofile] = "${sbindir}/readprofile"
+ ALTERNATIVE_LINK_NAME[renice] = "${bindir}/renice"
+ ALTERNATIVE_LINK_NAME[rev] = "${bindir}/rev"
+ ALTERNATIVE_LINK_NAME[rfkill] = "${sbindir}/rfkill"
++ALTERNATIVE_LINK_NAME[setpriv] = "${bindir}/setpriv"
+ ALTERNATIVE_LINK_NAME[setsid] = "${bindir}/setsid"
+ ALTERNATIVE_LINK_NAME[su] = "${base_bindir}/su"
+ ALTERNATIVE_LINK_NAME[sulogin] = "${base_sbindir}/sulogin"
+@@ -260,7 +263,10 @@ ALTERNATIVE_LINK_NAME[unshare] = "${bindir}/unshare"
+ ALTERNATIVE_LINK_NAME[utmpdump] = "${bindir}/utmpdump"
+ ALTERNATIVE_LINK_NAME[wall] = "${bindir}/wall"
+ 
+-ALTERNATIVE_${PN}-doc = "blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 mountpoint.1 nologin.8 rfkill.8 sulogin.8 utmpdump.1 uuid.3 wall.1"
++ALTERNATIVE_${PN}-doc = "\
++blkid.8 eject.1 findfs.8 fsck.8 kill.1 last.1 lastb.1 libblkid.3 logger.1 mesg.1 \
++mountpoint.1 nologin.8 rfkill.8 sulogin.8 utmpdump.1 uuid.3 wall.1\
++"
+ ALTERNATIVE_${PN}-doc += "${@bb.utils.contains('PACKAGECONFIG', 'pam', 'su.1', '', d)}"
+ 
+ ALTERNATIVE_LINK_NAME[blkid.8] = "${mandir}/man8/blkid.8"
+@@ -276,6 +282,7 @@ ALTERNATIVE_LINK_NAME[mesg.1] = "${mandir}/man1/mesg.1"
+ ALTERNATIVE_LINK_NAME[mountpoint.1] = "${mandir}/man1/mountpoint.1"
+ ALTERNATIVE_LINK_NAME[nologin.8] = "${mandir}/man8/nologin.8"
+ ALTERNATIVE_LINK_NAME[rfkill.8] = "${mandir}/man8/rfkill.8"
++ALTERNATIVE_LINK_NAME[setpriv.1] = "${mandir}/man1/setpriv.1"
+ ALTERNATIVE_LINK_NAME[su.1] = "${mandir}/man1/su.1"
+ ALTERNATIVE_LINK_NAME[sulogin.8] = "${mandir}/man8/sulogin.8"
+ ALTERNATIVE_LINK_NAME[utmpdump.1] = "${mandir}/man1/utmpdump.1"
+-- 
+2.17.0
 
 
