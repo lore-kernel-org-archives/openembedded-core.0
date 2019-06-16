@@ -1,30 +1,33 @@
-Return-Path: <Randy.MacLeod@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D557F7D6A3
+Return-Path: <auh@auh.yoctoproject.org>
+Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
+	[140.211.169.56])
+	by mail.openembedded.org (Postfix) with ESMTP id 13A5C7E6F7
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2019 15:50:29 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5GFnXv8011268
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 16 Jun 2019 08:50:03 -0700
-Received: from [172.25.44.4] (172.25.44.4) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 16 Jun 2019 08:49:28 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <7dfc2889b06074410d65ec1a2cda992a12e6a80a.camel@linuxfoundation.org>
-	<20190614164542.7178-1-Randy.MacLeod@windriver.com>
-	<5dd020eba3fd1bb36ac479db2127afbd4e74552a.camel@linuxfoundation.org>
-From: Randy MacLeod <randy.macleod@windriver.com>
-Message-ID: <784eba9f-9440-4779-e3d4-f5b29cd14d2d@windriver.com>
-Date: Sun, 16 Jun 2019 11:49:27 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Sun, 16 Jun 2019 21:57:19 +0000 (UTC)
+Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
+	id 5ABCBE00CBD; Sun, 16 Jun 2019 14:57:21 -0700 (PDT)
+X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
+	yocto-www.yoctoproject.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
+	autolearn=no version=3.3.1
+X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
+	*      [score: 0.0000]
+	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
+Received: from auh.yoctoproject.org (unknown [198.145.29.2])
+	by yocto-www.yoctoproject.org (Postfix) with ESMTP id BC233E00994
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Jun 2019 14:57:18 -0700 (PDT)
+Received: from auh.yocto.io (localhost [127.0.0.1])
+	by auh.yoctoproject.org (Postfix) with ESMTP id B282D440003
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 16 Jun 2019 14:57:18 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <5dd020eba3fd1bb36ac479db2127afbd4e74552a.camel@linuxfoundation.org>
-X-Originating-IP: [172.25.44.4]
-Subject: Re: [PATCH 1/4] util-linux: add setpriv utility
+From: auh@auh.yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Message-Id: <20190616215718.B282D440003@auh.yoctoproject.org>
+Date: Sun, 16 Jun 2019 14:57:18 -0700 (PDT)
+Subject: [AUH] Upgrade status: 2019-06-16
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +40,146 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Jun 2019 15:50:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sun, 16 Jun 2019 21:57:20 -0000
+Content-Type: multipart/mixed; boundary="===============6598523725529598892=="
 
-On 6/15/19 11:16 AM, Richard Purdie wrote:
-> On Fri, 2019-06-14 at 12:45 -0400, Randy MacLeod wrote:
->> Enable the setpriv utility for targets only. It will be used in
->> the run-ptest script for bash and perhaps other packages where
->> the ptest code is expected to run as a user.
->>
->> setpriv uses libcap-ng which doesn't build natively so disable
->> it for native* builds. Also, busybox has a setpriv implementation
->> so ensure that setpriv adheres to the alternatives scheme.
->>
->> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
->> ---
->>   meta/recipes-core/util-linux/util-linux.inc | 15 +++++++++++----
->>   1 file changed, 11 insertions(+), 4 deletions(-)
-> 
-> No errors but the build is now seeing warnings e.g.:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/42/builds/703
-> 
+--===============6598523725529598892==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-Fixed for my populate_sdk_ext build at least and hopefully for the
-autobuild tests. v3 sent.
+UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
+IDIzCiAgICAgICAgYXB0LCAxLjguMiwgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFp
+bC5jb20+CiAgICAgICAgZmxleCwgMi42LjQsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNv
+bT4KICAgICAgICBuZnMtdXRpbHMsIDIuNC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2lu
+ZHJpdmVyLmNvbT4KICAgICAgICBzcXVhc2hmcy10b29scywgNC4zLW5ldy1jb21taXRzLWF2YWls
+YWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgaXB1
+dGlscywgczIwMTkwNTE1LCBDaGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWVAZ21haWwuY29t
+PgogICAgICAgIHB5dGhvbjMtbnVtcHksIDEuMTYuNCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rl
+cml1cy5pbz4KICAgICAgICBidWlsZC1jb21wYXJlLCAyMDE1LjAyLjEwLW5ldy1jb21taXRzLWF2
+YWlsYWJsZSwgUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRvbkBsaW51eC5pbnRlbC5jb20+CiAg
+ICAgICAgbHRwLCAyMDE5MDUxNywgWWkgWmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAg
+ICAgIGdvLWRlcCwgMC41LjQsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lz
+dGVtcy5jb20uYnI+CiAgICAgICAgbGlibmV3dC1weXRob24sIDAuNTIuMjEsIEhvbmd4dSBKaWEg
+PGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBydWJ5LCAyLjYuMywgUm9zcyBCdXJ0
+b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBidHJmcy10b29scywgNS4xLjEsIEFs
+ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGxzYmluaXRz
+Y3JpcHRzLCAxMC4wMSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAg
+ICBxdWlsdCwgMC42NiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAg
+ICAgICAgYnVzeWJveCwgMS4zMS4wLCBBbmRyZWogVmFsZWsgPGFuZHJlai52YWxla0BzaWVtZW5z
+LmNvbT4KICAgICAgICBlMmZzcHJvZ3MsIDEuNDUuMiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5n
+QHdpbmRyaXZlci5jb20+CiAgICAgICAgbGlic29sdiwgMC43LjUsIEFudWogTWl0dGFsIDxhbnVq
+Lm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgc3lzdmluaXQsIDIuOTUsIFJvc3MgQnVydG9uIDxy
+b3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgc3RyYWNlLCA1LjEsIFJvYmVydCBZYW5nIDxs
+aWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGRwa2csIDEuMTkuNywgQW7DrWJhbCBM
+aW3Ds24gPGxpbW9uLmFuaWJhbEBnbWFpbC5jb20+CiAgICAgICAgaWZ1cGRvd24sIDAuOC4zNSwg
+QW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBnZXR0ZXh0LCAwLjIw
+LjEsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHB5dGhv
+bi1udW1weSwgMS4xNi40LCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgogICAgKiBG
+YWlsZWQob3RoZXIgZXJyb3JzKTogMQogICAgICAgIGdjYy1zb3VyY2UtOC4zLjAsIDkuMS4wLCBL
+aGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDkK
+ICAgICAgICBpcHRhYmxlcywgMS44LjMsIENoYW5naHllb2sgQmFlIDxjaGFuZ2h5ZW9rLmJhZUBn
+bWFpbC5jb20+CiAgICAgICAgY21ha2UsIDMuMTQuNSwgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNo
+QHNpZW1lbnMuY29tPgogICAgICAgIG9wa2csIDAuNC4xLCBBbGVqYW5kcm8gZGVsIENhc3RpbGxv
+IDxhbGVqYW5kcm8uZGVsY2FzdGlsbG9AbmkuY29tPgogICAgICAgIGdvLXJ1bnRpbWUsIDEuMTIu
+NiwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4KICAgICAgICBsaWJkbmYsIDAuMzUuMSwg
+QWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZ2l0LCAy
+LjIyLjAsIFJvYmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHBy
+ZWxpbmssIDEuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVA
+d2luZHJpdmVyLmNvbT4KICAgICAgICBtdGQtdXRpbHMsIDIuMS4wLCBEZW55cyBEbXl0cml5ZW5r
+byA8ZGVueXNAdGkuY29tPgogICAgICAgIGdvLCAxLjEyLjYsIEtoZW0gUmFqIDxyYWoua2hlbUBn
+bWFpbC5jb20+CiAgICAqIEZhaWxlZChnZXRfZW52KTogMzQKICAgICAgICBhdHRyLCAyLjQuNDgs
+IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBsdHRuZy11c3QsIDIuMTAu
+NCwgUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5vcmc+CiAg
+ICAgICAgdGV4aW5mbywgNi42LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgog
+ICAgICAgIHBpZ2xpdCwgMS4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9zcyBCdXJ0b24gPHJv
+c3MuYnVydG9uQGludGVsLmNvbT4KICAgICAgICBsaWJldmRldiwgMS43LjAsIEFudWogTWl0dGFs
+IDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgYm9vc3QsIDEuNzAuMCwgQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgcHV6emxlcywgMC4wLW5l
+dy1jb21taXRzLWF2YWlsYWJsZSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4K
+ICAgICAgICBsaWJldmVudCwgMi4xLjEwLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
+Y29tPgogICAgICAgIGxpYmljYWwsIDMuMC41LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50
+ZWwuY29tPgogICAgICAgIGx0dG5nLXRvb2xzLCAyLjEwLjcsIFJpY2hhcmQgUHVyZGllIDxyaWNo
+YXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogICAgICAgIHZ1bGthbiwgMS4xLjEwOC4w
+LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIGxpYm5ld3QsIDAu
+NTIuMjEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBncGdt
+ZSwgMS4xMy4xLCBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAgICAg
+aGFyZmJ1enosIDIuNS4xLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAg
+ICAgIHZpbS10aW55LCA4LjEuMTU0NiwgVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KICAg
+ICAgICB2dWxrYW4tZGVtb3MsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFibGUsIFJvc3MgQnVydG9u
+IDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgbGludXgtZmlybXdhcmUsIDAuMC1uZXct
+Y29tbWl0cy1hdmFpbGFibGUsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lz
+dGVtcy5jb20uYnI+CiAgICAgICAgdnRlLCAwLjU2LjMsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRh
+bEBpbnRlbC5jb20+CiAgICAgICAgYWNsLCAyLjIuNTMsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
+dmVyLmNvbT4KICAgICAgICB3YWZmbGUsIDEuNi4wLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25A
+aW50ZWwuY29tPgogICAgICAgIHNoYWRvdywgNC43LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZl
+ci5jb20+CiAgICAgICAgc2VkLCA0LjcsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4K
+ICAgICAgICBrbXNjdWJlLCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBDYXJsb3MgUmFmYWVs
+IEdpYW5pIDxkdkBwc2V1ZG90ZXJtaW5hbC5vcmc+CiAgICAgICAgbWtmb250c2NhbGUsIDEuMi4x
+LCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIHJuZy10b29scywg
+Ni43LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIHhrZXlib2Fy
+ZC1jb25maWcsIDIuMjcsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAg
+ICAgdmltLCA4LjEuMTU0NiwgVG9tIFJpbmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KICAgICAgICBl
+cGlwaGFueSwgMy4zMi4zLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNv
+bT4KICAgICAgICBsaWJ4bWwtc2F4LXBlcmwsIDEuMDIsIFRpbSBPcmxpbmcgPHRpbW90aHkudC5v
+cmxpbmdAbGludXguaW50ZWwuY29tPgogICAgICAgIGN1cmwsIDcuNjUuMSwgQXJtaW4gS3VzdGVy
+IDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICB4c2VydmVyLXhvcmcsIDEuMjAuNSwgQXJt
+aW4gS3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBnbnV0bHMsIDMuNi44LCBB
+cm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhAZ21haWwuY29tPgogICAgICAgIHN5c2tsb2dkLCAxLjYs
+IENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBnbnVwZywgMi4yLjE2LCBI
+b25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAgICAqIFN1Y2NlZWRlZDogMTYK
+ICAgICAgICBsaWdodHRwZCwgMS40LjU0LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmlu
+QGdtYWlsLmNvbT4KICAgICAgICB1dGlsLWxpbnV4LCAyLjM0LCBDaGVuIFFpIDxRaS5DaGVuQHdp
+bmRyaXZlci5jb20+CiAgICAgICAgcHl0aG9uMy1tYWtvLCAxLjAuMTIsIERlcmVrIFN0cmFrYSA8
+ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgbGVzcywgNTUxLCBZaSBaaGFvIDx5aS56aGFvQHdp
+bmRyaXZlci5jb20+CiAgICAgICAgdmFsYSwgMC40NC40LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxl
+eC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBkbmYsIDQuMi43LCBBbGV4YW5kZXIgS2FuYXZp
+biA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJtb2R1bGVtZCwgMi41LjAsIEFs
+ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGdudS1jb25m
+aWcsIDIwMTkwNTAxLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55
+YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgZXVkZXYsIDMuMi44LCBBbnVqIE1pdHRhbCA8YW51
+ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGJpc29uLCAzLjQuMSwgQ2hlbiBRaSA8UWkuQ2hl
+bkB3aW5kcml2ZXIuY29tPgogICAgICAgIGdsaWItbmV0d29ya2luZywgMi42MC4zLCBBbnVqIE1p
+dHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGdsaWItMi4wLCAyLjYwLjQsIEFu
+dWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgYXV0b2NvbmYtYXJjaGl2
+ZSwgMjAxOS4wMS4wNiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAg
+ICAgICAgbGlicmVwbywgMS4xMC4zLCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdt
+YWlsLmNvbT4KICAgICAgICBjcmVhdGVyZXBvLWMsIDAuMTQuMSwgQWxleGFuZGVyIEthbmF2aW4g
+PGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgcHl0aG9uMy1wYnIsIDUuMy4wLCBEZXJl
+ayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgoKICAgIFRPVEFMOiBhdHRlbXB0ZWQ9ODMgc3Vj
+Y2VlZGVkPTE2KDE5LjI4JSkgZmFpbGVkPTY3KDgwLjcyJSkKClJlY2lwZSB1cGdyYWRlIHN0YXRp
+c3RpY3MgcGVyIE1haW50YWluZXI6CgogICAgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsOiBhdHRl
+bXB0ZWQ9MTIgc3VjY2VlZGVkPTMoMjUuMDAlKSBmYWlsZWQ9OSg3NS4wMCUpCiAgICBQYXNjYWwg
+QmFjaCA8cGFzY2FsLmJhY2g6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9
+MSgxMDAuMDAlKQogICAgTWFyayBIYXRsZSA8bWFyay5oYXRsZTogYXR0ZW1wdGVkPTEgc3VjY2Vl
+ZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBEZW55cyBEbXl0cml5ZW5rbyA8ZGVu
+eXM6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAg
+T3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0w
+KDAuMDAlKSBmYWlsZWQ9MigxMDAuMDAlKQogICAgUGF1bCBFZ2dsZXRvbiA8cGF1bC5lZ2dsZXRv
+bjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBB
+cm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDg6IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0wKDAuMDAlKSBm
+YWlsZWQ9NSgxMDAuMDAlKQogICAgQW7DrWJhbCBMaW3Ds24gPGxpbW9uLmFuaWJhbDogYXR0ZW1w
+dGVkPTIgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBDaGVuIFFpIDxR
+aS5DaGVuOiBhdHRlbXB0ZWQ9OCBzdWNjZWVkZWQ9MigyNS4wMCUpIGZhaWxlZD02KDc1LjAwJSkK
+ICAgIEFsZWphbmRybyBkZWwgQ2FzdGlsbG8gPGFsZWphbmRyby5kZWxjYXN0aWxsbzogYXR0ZW1w
+dGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBEZXJlayBTdHJh
+a2EgPGRlcmVrOiBhdHRlbXB0ZWQ9NCBzdWNjZWVkZWQ9Mig1MC4wMCUpIGZhaWxlZD0yKDUwLjAw
+JSkKICAgIFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZTogYXR0ZW1wdGVkPTIgc3VjY2Vl
+ZGVkPTAoMC4wMCUpIGZhaWxlZD0yKDEwMC4wMCUpCiAgICBDYXJsb3MgUmFmYWVsIEdpYW5pIDxk
+djogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBD
+aGFuZ2h5ZW9rIEJhZSA8Y2hhbmdoeWVvay5iYWU6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAu
+MDAlKSBmYWlsZWQ9MigxMDAuMDAlKQogICAgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uOiBhdHRl
+bXB0ZWQ9OCBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTgoMTAwLjAwJSkKICAgIFlpIFpoYW8g
+PHlpLnpoYW86IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAl
+KQogICAgVG9tIFJpbmkgPHRyaW5pOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFp
+bGVkPTIoMTAwLjAwJSkKICAgIEtoZW0gUmFqIDxyYWoua2hlbTogYXR0ZW1wdGVkPTMgc3VjY2Vl
+ZGVkPTAoMC4wMCUpIGZhaWxlZD0zKDEwMC4wMCUpCiAgICBUaW0gT3JsaW5nIDx0aW1vdGh5LnQu
+b3JsaW5nOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkK
+ICAgIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW46IGF0dGVtcHRlZD0xMCBzdWNjZWVk
+ZWQ9Nig2MC4wMCUpIGZhaWxlZD00KDQwLjAwJSkKICAgIEFuZHJlaiBWYWxlayA8YW5kcmVqLnZh
+bGVrOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAg
+IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWE6IGF0dGVtcHRlZD00IHN1Y2NlZWRlZD0wKDAuMDAlKSBm
+YWlsZWQ9NCgxMDAuMDAlKQogICAgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nOiBhdHRlbXB0ZWQ9
+OSBzdWNjZWVkZWQ9MigyMi4yMiUpIGZhaWxlZD03KDc3Ljc4JSkK
 
-../Randy
-
-> Cheers,
-> 
-> Richard
-> 
-
-
--- 
-# Randy MacLeod
-# Wind River Linux
-
+--===============6598523725529598892==--
