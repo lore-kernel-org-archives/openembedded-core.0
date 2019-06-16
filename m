@@ -1,23 +1,33 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id E70CC7E7C6
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 879297E7E0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2019 10:49:12 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5GAnDa8011710
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Sun, 16 Jun 2019 11:11:06 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45RWqZ0mzrz3k
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 16 Jun 2019 03:49:13 -0700 (PDT)
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 16 Jun 2019 03:48:54 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Sun, 16 Jun 2019 06:48:51 -0400
-Message-ID: <20190616104851.141319-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
-MIME-Version: 1.0
-Subject: [PATCH] openssl: fix failure of ptest test_shlibload
+	Sun, 16 Jun 2019 13:11:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1560683466;
+	bh=8TIGGNJ7uaEEDOOd9tWHfYsGflVCfs+3BPF2D50PE5U=;
+	h=From:To:Subject:Date:From;
+	b=oDHBEgYpW6TaE1yIasnZ7zv5COmyCpH4IL5YfZlTfbhJVouz32TTN1aM7DMzsbpMO
+	sbFj2RVHGgiZD1DQXT/4CVi4OkdOc03ZBqV7VFTL1z9h6vDzwnauUhs097lpay54o2
+	z/8St3T5e2DDP+zV4AQKRHfokZqGi6YfKo1y2vDuST1gmyraXSwkPxNNuQgYGVWL7i
+	HbYRIG1FF4mCAElQp4pz2bYvmf+6gJJRDe7SMWi5C+pPTeNVZaq6vZA2wmQD9XZlfq
+	WznSuCcX+MhUAQDsLoIyMlbVdOIdNwV/rGOO17/2aQtQ05beKm6JPJvNi5oeOjndOA
+	Aql9fy3077jljyCv3spyyhGyelfySGpD94WRDRiTPEJY3EOszXkIN6Wx3e5048Dhqd
+	CSpsxClJCJCZCHYsa4NdMZoPZ8p0iPgpJ6Mt2zY3BD6jMNq0rtuEwZ0chPeyYSXqrS
+	BSnOa/TBkO66K1KeqMa3XtOKBgscD2pvBA8jVndgaauNcBONkDl58sVXdxq7XMX5gN
+	RaYIiK5JSiMXgnN8LGBZI7bMQy/tr8joqPVjslVBp3XmQbJWTfHOUfDQFeXqHm2Dyu
+	OS3HJkaZlSLkvps3/h0XwimQml57Z4+5avWnBleFPskiGbUp8gO5TrU4mxCdsRB6Vy
+	s0+cTw5A5uu5b59OBUKO+i40=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Sun, 16 Jun 2019 14:11:05 +0300
+Message-Id: <20190616111105.3270-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] Add wireless-regdb from meta-networking
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,36 +40,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 16 Jun 2019 10:49:13 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Sun, 16 Jun 2019 11:11:07 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+Since wpa-supplicant is provided,
+the database of permitted frequencies should also be provided.
 
-It fails to run ptest case test_shlibload which requires libcrypto.so
-and libssl.so with version numbers now.
+wireless-regdb-static should be used with kernel >= 4.15.
+wireless-regdb can be used with older kernels and is mostly
+irrelevant here, but keeping it in meta-networking would
+create needless recipe duplication.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1c.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../packagegroups/packagegroup-base.bb        |  1 +
+ .../wireless-regdb_2019.06.03.bb              | 44 +++++++++++++++++++
+ 3 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-index 669b1a1034..534be57540 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-@@ -166,8 +166,8 @@ do_install_ptest () {
- 	cp -r ${S}/external ${B}/test ${S}/test ${B}/fuzz ${S}/util ${B}/util ${D}${PTEST_PATH}
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index d6f66510e3..aeca866506 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -722,6 +722,7 @@ RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-wireless-regdb = "Adrian Bunk <bunk@kernel.org>"
+ RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index cae704aa24..d05403635c 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -271,6 +271,7 @@ RRECOMMENDS_packagegroup-base-ipsec = "\
+ SUMMARY_packagegroup-base-wifi = "WiFi support"
+ RDEPENDS_packagegroup-base-wifi = "\
+     iw \
++    wireless-regdb-static \
+     wpa-supplicant"
  
- 	# For test_shlibload
--	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/libcrypto.so
--	ln -s ${libdir}/libssl.so.1.1 ${D}${PTEST_PATH}/libssl.so
-+	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/
-+	ln -s ${libdir}/libssl.so.1.1 ${D}${PTEST_PATH}/
- 
- 	install -d ${D}${PTEST_PATH}/apps
- 	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
+ RRECOMMENDS_packagegroup-base-wifi = "\
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+new file mode 100644
+index 0000000000..df50938a1a
+--- /dev/null
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+@@ -0,0 +1,44 @@
++SUMMARY = "Wireless Central Regulatory Domain Database"
++HOMEPAGE = "http://wireless.kernel.org/en/developers/Regulatory/CRDA"
++SECTION = "net"
++LICENSE = "ISC"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
++
++SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
++SRC_URI[md5sum] = "4b5ba3f089db7fdb7b9daae6a7c1f2cb"
++SRC_URI[sha256sum] = "cd917ed86b63ce8d93947979f1f18948f03a4ac0ad89ec25227b36ac00dc54bf"
++
++inherit bin_package allarch
++
++do_install() {
++    install -d -m0755 ${D}${nonarch_libdir}/crda
++    install -d -m0755 ${D}${sysconfdir}/wireless-regdb/pubkeys
++    install -m 0644 regulatory.bin ${D}${nonarch_libdir}/crda/regulatory.bin
++    install -m 0644 sforshee.key.pub.pem ${D}${sysconfdir}/wireless-regdb/pubkeys/sforshee.key.pub.pem
++
++    install -m 0644 -D regulatory.db ${D}${nonarch_base_libdir}/firmware/regulatory.db
++    install -m 0644 regulatory.db.p7s ${D}${nonarch_base_libdir}/firmware/regulatory.db.p7s
++}
++
++# Install static regulatory DB in /lib/firmware for kernel to load.
++# This requires Linux kernel >= v4.15.
++# For kernel <= v4.14, inherit the kernel_wireless_regdb.bbclass
++# (in meta-networking) in kernel's recipe.
++PACKAGES =+ "${PN}-static"
++RCONFLICTS_${PN} = "${PN}-static"
++
++FILES_${PN}-static = " \
++    ${nonarch_base_libdir}/firmware/regulatory.db \
++    ${nonarch_base_libdir}/firmware/regulatory.db.p7s \
++"
++
++# Native users might want to use the source of regulatory DB.
++# This is for example used by Linux kernel <= v4.14 and
++# kernel_wireless_regdb.bbclass in meta-networking.
++do_install_append_class-native() {
++    install -m 0644 -D db.txt ${D}${libdir}/crda/db.txt
++}
++
++RSUGGESTS_${PN} = "crda"
++
++BBCLASSEXTEND = "native"
 -- 
-2.20.0
+2.17.1
 
 
