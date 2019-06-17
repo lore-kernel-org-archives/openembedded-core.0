@@ -1,50 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 65C667E6B6
+Return-Path: <prvs=06424885f=alistair.francis@wdc.com>
+Received: from esa1.hgst.iphmx.com (esa1.hgst.iphmx.com [68.232.141.245])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FE957E782
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 20:37:41 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id p11so11468261wre.7
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 13:37:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=17t3Mw2FXWBTOyAmigS85hcKlxsj+CWXpvwG6U6YKtk=;
-	b=ZtsELVWsgESiZwe12foFsbzgqBLTp7G/d/15+Gc4KAtYEwmSBlFFRMsUx6/DuNGuIO
-	zwZZw2N376riFqFSIErtEhAusGys+O4w1FY+ll43lXhSoNENY05DVSbphdJIZT19Sfse
-	+gtGZlaJcztuWjy9t/Cz2E7U0RVJ7htStOMGE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=17t3Mw2FXWBTOyAmigS85hcKlxsj+CWXpvwG6U6YKtk=;
-	b=T7r+wOqmqeIsITqlQ4b1OrHJCBImyMoluIb83bfVwyU/T4qeL2Vmx+6LQc+bBemldU
-	c4PxkADq3oOrVIXQM0q7eSBR45HVvxevz7/xgWEgPjiZw3F9BL7U76G8vNqcEfU0qJHx
-	crCuQ4IgC6lj8b95DLzNDqVzDuqrO54ZY7j/9dabi/aT5bCgbJbb298dQrpleebAvTtk
-	BX4yVOMI3J3wD7f+nj28O/I4B6SOfSLV/m3LNww0/4hXTlCGFnirmd7ZdzevX4Y2cu0J
-	yAHHAnblXTBlQqGC7WhWKJTYbZgff1gz+xViG3FPrF4kcPN7WCiXorOAaZRo5FoUbY/P
-	Tleg==
-X-Gm-Message-State: APjAAAUkgo6wgsONefybpj60l8bFiW6n6tZTDGdDuPJ3fGmrm5lbCWY5
-	IkN0sDqI1R6HXvMwTeBuEQUeZw==
-X-Google-Smtp-Source: APXvYqzUmaHypgBKekFi5sVMmj6Y7jfDo7eEaDw9EIt4+PYIpxTs5VJnQHskK8mYCtqVMCtuT8S/0w==
-X-Received: by 2002:a5d:5510:: with SMTP id b16mr43349497wrv.267.1560803862162;
-	Mon, 17 Jun 2019 13:37:42 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	h17sm8369951wrq.79.2019.06.17.13.37.41
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 17 Jun 2019 13:37:41 -0700 (PDT)
-Message-ID: <7072c0e9642b064ad4444e1033506ae292af0fc4.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: chee.yang.lee@intel.com, openembedded-core@lists.openembedded.org
-Date: Mon, 17 Jun 2019 21:37:40 +0100
-In-Reply-To: <1560406896-37282-1-git-send-email-chee.yang.lee@intel.com>
-References: <1560406896-37282-1-git-send-email-chee.yang.lee@intel.com>
-User-Agent: Evolution 3.32.2-1 
+	Mon, 17 Jun 2019 22:03:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1560809040; x=1592345040;
+	h=from:to:cc:subject:date:message-id:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=PIUQYp7nNyVwoM5+Qr04Dfe93xrDwl7xra3aeThUDDw=;
+	b=MTLtcmW0ZUOF4XHDoghsHKRXUfuDcUAuc/EwIONfLZHrKvWNwwjMGSDV
+	r1M8mNZ7IIPlVwQSZX6E2qee/wai72l1iQLluqTcLtvVn+/ZYzwIIMrQN
+	Zks0xrHD55ilcgZPZj019veWHj+IMZckDAPapDRldylmJhlUXHs81lNbE
+	1xckXcYLoGBmajDwpLXfraEuIzpL5BbQFsJYLwSH7AW5TFPZISw2THQDW
+	aj96mAumnGITDRytoa7rUD9gDqJUEZ/zDzhAg9kfgwtSHDC0F8UxQ4XF7
+	cm4fLLGM4rWBhv/7KE7suQ7I8RJHhV16q8rZMUlopEM5mkRImufbccY3a Q==;
+X-IronPort-AV: E=Sophos;i="5.63,386,1557158400"; d="scan'208";a="217157210"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+	([199.255.45.14])
+	by ob1.hgst.iphmx.com with ESMTP; 18 Jun 2019 06:04:00 +0800
+IronPort-SDR: Ttx2bb9Q2gCyXBFmv37pSRoE3kX58XfgV+q2ZMsSGbBgM/KXrVrfi6w2zEcVuR5aYjWNl4l6sn
+	+JQVMiyhERG+6L3xqX8z7+n7llaH4AmHlVGi13VWcXlukuaNb5969R+adblK/mm6bttRtc61gs
+	vZi9gcDkkArBX1Yd0R1vx8KlX2bhc892RWgNDY9j/m/kLJMeJGa6dUydsxu+LOQ8uEtr7Hb89a
+	Zzz8tMIsknJf4sRIYeeWN6CyjI7fR+8hdvF6XXLTfLmyCZUBH5buDRObyN19HUOxUCrB6yTYSO
+	+JBzXFp39pJKiPHHPYQ5UmLk
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+	by uls-op-cesaep01.wdc.com with ESMTP; 17 Jun 2019 15:03:33 -0700
+IronPort-SDR: yCHNgH/1B2Ikazn4y/Z8liBSKAQ8WtUjvgFEZY2q63I8IRdYAuUeSxN3RTt6+jsoIys3ru3J/5
+	cH9t1wvYjQGwUsJJqMQ0PPm/Io7coj1plDnLe7zPiR330Jly5zndBVyXvzrBQYx3XBjJ4J9vYs
+	QKr1P6om4FHjuv+4Tm9UfctFzLzFXwjWZ2ZV6rn8hrt9l+3cHiYNjwl93AZMO4YVUzb9ojx8JF
+	R4nafWg9OjpVA9B8J1k2HZuenNlJuEwZp5tqjLtW7YhxEFmzLNMTXllfCsLsPKLP4KxMgP73kZ
+	bdQ=
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
+	by uls-op-cesaip01.wdc.com with ESMTP; 17 Jun 2019 15:04:00 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 17 Jun 2019 15:01:20 -0700
+Message-Id: <20190617220122.13994-2-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190617220122.13994-1-alistair.francis@wdc.com>
+References: <20190617220122.13994-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH] wic/bootimg-efi: allow multiple initrd
+Subject: [PATCH 2/4] opensbi: Initial commit of OpenSBI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,72 +55,224 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 20:37:41 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Jun 2019 22:03:59 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2019-06-13 at 14:21 +0800, chee.yang.lee@intel.com wrote:
-> From: Chee Yang Lee <chee.yang.lee@intel.com>
-> 
-> Allow plugin bootimg-efi to configure with multiple initrd
-> through source parameter.
-> 
-> Uses ; to separate each initrd.
-> 
-> e.g:
-> --sourceparams="loader=${EFI_PROVIDER},initrd=initrd1;initrd2"
-> 
-> Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
-> ---
->  scripts/lib/wic/plugins/source/bootimg-efi.py | 24 ++++++++++++++++-
-> -------
->  1 file changed, 16 insertions(+), 8 deletions(-)
+This is used as a bootloader for RISC-V QEMU machines.
 
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ ...Makefile-Don-t-specify-mabi-or-march.patch | 38 ++++++++++++++
+ ...-address-of-packed-member-warning-wi.patch | 52 +++++++++++++++++++
+ meta/recipes-bsp/opensbi/opensbi-payloads.inc | 37 +++++++++++++
+ meta/recipes-bsp/opensbi/opensbi_0.3.bb       | 49 +++++++++++++++++
+ 4 files changed, 176 insertions(+)
+ create mode 100644 meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch
+ create mode 100644 meta/recipes-bsp/opensbi/files/0001-sbi_ipi.c-Ignore-address-of-packed-member-warning-wi.patch
+ create mode 100644 meta/recipes-bsp/opensbi/opensbi-payloads.inc
+ create mode 100644 meta/recipes-bsp/opensbi/opensbi_0.3.bb
 
-How was this tested? It broke the autobuilder build:
-
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_image_wic
-| INFO: Creating image(s)...
-| 
-| Traceback (most recent call last):
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/wic", line 525, in <module>
-|     sys.exit(main(sys.argv[1:]))
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/wic", line 520, in main
-|     return hlp.invoke_subcommand(args, parser, hlp.wic_help_usage, subcommands)
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/help.py", line 83, in invoke_subcommand
-|     subcmd[0](args, usage)
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/wic", line 220, in wic_create_subcommand
-|     native_sysroot, options)
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/engine.py", line 189, in wic_create
-|     plugin.do_create()
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/plugins/imager/direct.py", line 86, in do_create
-|     self.create()
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/plugins/imager/direct.py", line 196, in create
-|     self._image.prepare(self)
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/plugins/imager/direct.py", line 362, in prepare
-|     imager.kernel_dir, imager.native_sysroot)
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/partition.py", line 167, in prepare
-|     kernel_dir, native_sysroot)
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/plugins/source/bootimg-efi.py", line 198, in do_configure_partition
-|     cls.do_configure_grubefi(hdddir, creator, cr_workdir, source_params)
-|   File "/home/pokybuild/yocto-worker/genericx86/build/scripts/lib/wic/plugins/source/bootimg-efi.py", line 88, in do_configure_grubefi
-|     if initrds:
-| UnboundLocalError: local variable 'initrds' referenced before assignment
-| WARNING: exit code 1 from a shell command.
-| ERROR: Function failed: do_image_wic (log file is located at /home/pokybuild/yocto-worker/genericx86/build/build/tmp/work/genericx86-poky-linux/core-image-minimal-initramfs/1.0-r0/temp/log.do_image_wic.23700)
-
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/48/builds/712
-https://autobuilder.yoctoproject.org/typhoon/#/builders/37/builds/717
-https://autobuilder.yoctoproject.org/typhoon/#/builders/43/builds/712
-https://autobuilder.yoctoproject.org/typhoon/#/builders/49/builds/711
-https://autobuilder.yoctoproject.org/typhoon/#/builders/58/builds/699
-
-wic selftests don't even work:
-https://autobuilder.yoctoproject.org/typhoon/#/builders/56/builds/526
-
-
-Richard
+diff --git a/meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch b/meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch
+new file mode 100644
+index 0000000000..9c2d0eb479
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch
+@@ -0,0 +1,38 @@
++From f5871e1f3650d6c8a032928cb5d8ca00c275c377 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair.francis@wdc.com>
++Date: Fri, 15 Feb 2019 14:57:41 -0800
++Subject: [PATCH] Makefile: Don't specify mabi or march
++
++To avoid
++    can't link double-float modules with soft-float modules
++errors when building 32-bit openSBI don't specify mabi or march.
++
++Upstream-Status: Inappropriate [Fixes a 32-bit Yocto flow bug]
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++---
++ Makefile | 2 --
++ 1 file changed, 2 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index ae68f55..10851fc 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -145,7 +145,6 @@ GENFLAGS	+=	$(firmware-genflags-y)
++ CFLAGS		=	-g -Wall -Werror -nostdlib -fno-strict-aliasing -O2
++ CFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
++ CFLAGS		+=	-mno-save-restore -mstrict-align
++-CFLAGS		+=	-mabi=$(PLATFORM_RISCV_ABI) -march=$(PLATFORM_RISCV_ISA)
++ CFLAGS		+=	-mcmodel=$(PLATFORM_RISCV_CODE_MODEL)
++ CFLAGS		+=	$(GENFLAGS)
++ CFLAGS		+=	$(platform-cflags-y)
++@@ -158,7 +157,6 @@ CPPFLAGS	+=	$(firmware-cppflags-y)
++ ASFLAGS		=	-g -Wall -nostdlib -D__ASSEMBLY__
++ ASFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
++ ASFLAGS		+=	-mno-save-restore -mstrict-align
++-ASFLAGS		+=	-mabi=$(PLATFORM_RISCV_ABI) -march=$(PLATFORM_RISCV_ISA)
++ ASFLAGS		+=	-mcmodel=$(PLATFORM_RISCV_CODE_MODEL)
++ ASFLAGS		+=	$(GENFLAGS)
++ ASFLAGS		+=	$(platform-asflags-y)
++-- 
++2.20.1
++
+diff --git a/meta/recipes-bsp/opensbi/files/0001-sbi_ipi.c-Ignore-address-of-packed-member-warning-wi.patch b/meta/recipes-bsp/opensbi/files/0001-sbi_ipi.c-Ignore-address-of-packed-member-warning-wi.patch
+new file mode 100644
+index 0000000000..28577ddf00
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/files/0001-sbi_ipi.c-Ignore-address-of-packed-member-warning-wi.patch
+@@ -0,0 +1,52 @@
++From dbd2fdb9956417e1d49a14b9aea162b10598c6c0 Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Thu, 7 Mar 2019 20:48:04 -0800
++Subject: [PATCH] sbi_ipi.c: Ignore address-of-packed-member warning with gcc 9
++ or newer
++
++This is a workaround until fixed correctly, for following error
++
++sbi_ipi.c:34:28: error: taking address of packed member of 'struct sbi_scratch' may result in an unaligned pointer value [-Werror=address-of-packed-member]
++|    34 |  atomic_raw_set_bit(event, &remote_scratch->ipi_type);
++|       |                            ^~~~~~~~~~~~~~~~~~~~~~~~~
++
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
++---
++ lib/sbi_ipi.c | 12 ++++++++++++
++ 1 file changed, 12 insertions(+)
++
++diff --git a/lib/sbi_ipi.c b/lib/sbi_ipi.c
++index 5f189c8..bc9df11 100644
++--- a/lib/sbi_ipi.c
+++++ b/lib/sbi_ipi.c
++@@ -31,7 +31,13 @@ static int sbi_ipi_send(struct sbi_scratch *scratch, u32 hartid, u32 event)
++ 	 * trigger the interrupt
++ 	 */
++ 	remote_scratch = sbi_hart_id_to_scratch(scratch, hartid);
+++#if __GNUC__ >= 9
+++#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
+++#endif
++ 	atomic_raw_set_bit(event, &remote_scratch->ipi_type);
+++#if __GNUC__ >= 9
+++#pragma GCC diagnostic pop
+++#endif
++ 	mb();
++ 	sbi_platform_ipi_send(plat, hartid);
++ 	if (event != SBI_IPI_EVENT_SOFT)
++@@ -97,7 +103,13 @@ void sbi_ipi_process(struct sbi_scratch *scratch)
++ 			sbi_hart_hang();
++ 			break;
++ 		};
+++#if __GNUC__ >= 9
+++#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
+++#endif
++ 		ipi_type = atomic_raw_clear_bit(ipi_event, &scratch->ipi_type);
+++#if __GNUC__ >= 9
+++#pragma GCC diagnostic pop
+++#endif
++ 	} while(ipi_type > 0);
++ }
++ 
++-- 
++2.21.0
++
+diff --git a/meta/recipes-bsp/opensbi/opensbi-payloads.inc b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+new file mode 100644
+index 0000000000..7df168325a
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+@@ -0,0 +1,37 @@
++def riscv_get_extra_oemake_image(d):
++    sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
++    deploy_dir = d.getVar('DEPLOY_DIR_IMAGE')
++
++    if sbi_payload is None:
++        return ""
++
++    if d.getVar('RISCV_SBI_PAYLOAD'):
++        return "FW_PAYLOAD_PATH=" + deploy_dir + "/" + sbi_payload
++
++    return ""
++
++def riscv_get_extra_oemake_fdt(d):
++    sbi_fdt_payload = d.getVar('RISCV_SBI_FDT')
++    deploy_dir = d.getVar('DEPLOY_DIR_IMAGE')
++
++    if sbi_fdt_payload is None:
++        return ""
++
++    if d.getVar('RISCV_SBI_PAYLOAD'):
++        # This is internal to openSBI, not a full path
++        return "FW_PAYLOAD_FDT=" + sbi_fdt_payload
++
++    return ""
++
++def riscv_get_do_compile_depends(d):
++    sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
++
++    if sbi_payload is None:
++        return ""
++
++    if 'linux' in sbi_payload or 'Image' in sbi_payload:
++        return "virtual/kernel:do_deploy"
++    if 'u-boot' in sbi_payload:
++        return "virtual/bootloader:do_deploy"
++
++    return ""
+diff --git a/meta/recipes-bsp/opensbi/opensbi_0.3.bb b/meta/recipes-bsp/opensbi/opensbi_0.3.bb
+new file mode 100644
+index 0000000000..fdfc5eca00
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/opensbi_0.3.bb
+@@ -0,0 +1,49 @@
++SUMMARY = "RISC-V Open Source Supervisor Binary Interface (OpenSBI)"
++DESCRIPTION = "OpenSBI aims to provide an open-source and extensible implementation of the RISC-V SBI specification for a platform specific firmware (M-mode) and a general purpose OS, hypervisor or bootloader (S-mode or HS-mode). OpenSBI implementation can be easily extended by RISC-V platform or System-on-Chip vendors to fit a particular hadware configuration."
++LICENSE = "BSD-2-Clause"
++LIC_FILES_CHKSUM = "file://COPYING.BSD;md5=c36118b4f615f9da37635f2a7ac8ccaf"
++DEPENDS += "dtc-native"
++
++require opensbi-payloads.inc
++
++inherit autotools-brokensep
++
++SRCREV = "ca20ac0cd4c099006d4eea4d9ac7bd7b58e2ae0f"
++SRC_URI = "git://github.com/riscv/opensbi.git \
++           file://0001-Makefile-Don-t-specify-mabi-or-march.patch \
++           file://0001-sbi_ipi.c-Ignore-address-of-packed-member-warning-wi.patch \
++          "
++
++S = "${WORKDIR}/git"
++
++SRC_URI[md5sum] = "621f38d8205ef5fb185e4055025e73df"
++SRC_URI[sha256sum] = "07f18b73abf3b85aabe5bead19a923716c100d30eb58033459f39c3a224be300"
++
++EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D}"
++# If RISCV_SBI_PAYLOAD is set then include it as a payload
++EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_image(d)} ${@riscv_get_extra_oemake_fdt(d)}"
++
++# Required if specifying a custom payload
++do_compile[depends] += "${@riscv_get_do_compile_depends(d)}"
++
++do_install_append() {
++	# In the future these might be required as a dependency for other packages.
++	# At the moment just delete them to avoid warnings
++	rm -r ${D}/include
++	rm -r ${D}/platform/${RISCV_SBI_PLAT}/lib
++	rm -r ${D}/platform/${RISCV_SBI_PLAT}/firmware/payloads
++}
++
++do_deploy () {
++	install -d ${DEPLOY_DIR_IMAGE}
++	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.* ${DEPLOY_DIR_IMAGE}/
++	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.* ${DEPLOY_DIR_IMAGE}/
++}
++
++addtask deploy after do_install
++
++FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.*"
++FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
++
++COMPATIBLE_HOST = "(riscv64|riscv32).*"
++INHIBIT_PACKAGE_STRIP = "1"
+-- 
+2.22.0
 
 
