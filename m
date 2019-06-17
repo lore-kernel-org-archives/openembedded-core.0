@@ -1,23 +1,26 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 134AF6B067
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 4687C7E895
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 09:12:26 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5H9CRP1021149
+	Mon, 17 Jun 2019 09:12:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5H9CdAh003795
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 02:12:28 -0700 (PDT)
+	Mon, 17 Jun 2019 02:12:49 -0700
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 17 Jun 2019 02:12:27 -0700
+	14.3.439.0; Mon, 17 Jun 2019 02:12:28 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 17 Jun 2019 17:24:29 +0800
-Message-ID: <cover.1560763400.git.Qi.Chen@windriver.com>
+Date: Mon, 17 Jun 2019 17:24:30 +0800
+Message-ID: <28e0391ef22f3e131227d66dae731fa14f48e1a0.1560763400.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1560763400.git.Qi.Chen@windriver.com>
+References: <cover.1560763400.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 0/1] manifest.py: fix test_SDK_manifest_entries
+Subject: [PATCH 1/1] manifest.py: fix test_SDK_manifest_entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,25 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 09:12:27 -0000
+X-List-Received-Date: Mon, 17 Jun 2019 09:12:58 -0000
 Content-Type: text/plain
 
-*** BLURB HERE ***
-The following changes since commit 27d60c5a812774f0e5c43161e5b514c4aebdf301:
+TOOLCHAIN_OUTPUTNAME could be overridden. So use this variable directly
+instead of its default value ${SDK_NAME}-toolchain-${SDK_VERSION}.
 
-  gstreamer1.0-libav: disable API documentation (2019-06-15 13:46:38 +0100)
-
-are available in the git repository at:
-
-  git://git.pokylinux.org/poky-contrib ChenQi/oeqa-manifest
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/oeqa-manifest
-
-Chen Qi (1):
-  manifest.py: fix test_SDK_manifest_entries
-
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
  meta/lib/oeqa/selftest/cases/manifest.py | 7 ++-----
  1 file changed, 2 insertions(+), 5 deletions(-)
 
+diff --git a/meta/lib/oeqa/selftest/cases/manifest.py b/meta/lib/oeqa/selftest/cases/manifest.py
+index c0b25ab..5d13f35 100644
+--- a/meta/lib/oeqa/selftest/cases/manifest.py
++++ b/meta/lib/oeqa/selftest/cases/manifest.py
+@@ -86,11 +86,8 @@ class VerifyManifest(OESelftestTestCase):
+         try:
+             mdir = self.get_dir_from_bb_var('SDK_DEPLOY', self.buildtarget)
+             for k in d_target.keys():
+-                bb_vars = get_bb_vars(['SDK_NAME', 'SDK_VERSION'], self.buildtarget)
+-                mfilename[k] = "{}-toolchain-{}.{}.manifest".format(
+-                        bb_vars['SDK_NAME'],
+-                        bb_vars['SDK_VERSION'],
+-                        k)
++                toolchain_outputname = get_bb_var('TOOLCHAIN_OUTPUTNAME', self.buildtarget)
++                mfilename[k] = "{}.{}.manifest".format(toolchain_outputname, k)
+                 mpath[k] = os.path.join(mdir, mfilename[k])
+                 if not os.path.isfile(mpath[k]):
+                     self.logger.debug("{}: {} does not exist".format(
 -- 
 1.9.1
 
