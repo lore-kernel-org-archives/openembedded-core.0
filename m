@@ -1,18 +1,24 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 197D27D5C4;
-	Mon, 17 Jun 2019 08:30:55 +0000 (UTC)
+Return-Path: <Zhixiong.Chi@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E35D87E728
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2019 08:41:38 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5H8df4q002999
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2019 01:41:30 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 17 Jun 2019 01:39:51 -0700
+From: Zhixiong Chi <zhixiong.chi@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Jun 2019 01:39:51 -0700
+Message-ID: <20190617083951.62368-1-zhixiong.chi@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Zhixiong Chi <zhixiong.chi@windriver.com>
-Date: Mon, 17 Jun 2019 08:30:56 -0000
-Message-ID: <20190617083056.2329.1266@do>
-References: <20190617082524.40579-1-zhixiong.chi@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190617082524.40579-1-zhixiong.chi@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaW5ldHV0aWxzOiBGaXggdGhlIHJjcCBjb3VsZG4ndCBjb3B5IHN1YmRpcmVjdG9yeSBpc3N1ZQ==?=
+Subject: [PATCH v2] inetutils: Fix the rcp couldn't copy subdirectory issue
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,41 +31,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 08:30:55 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 17 Jun 2019 08:41:39 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+Since snprintf doesn't support the same src and dst address, it will get
+the wrong result.
+In the sink second recursive call env, the argv and the namebuf will point
+the same address, after free operation for namebuf.
+So the last change for this is wrong, now we just drop the free function
+in the recursive loop to get the correct path of file and directory.
+Even though there will be memory leak, the allocated static area memory
+will be released after process exited.
 
-Series: inetutils: Fix the rcp couldn't copy subdirectory issue
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/18178/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             A patch file has been added, but does not have a Signed-off-by tag [test_signed_off_by_presence] 
-  Suggested fix    Sign off the added patch file (meta/recipes-connectivity/inetutils/inetutils/0001-Fix-the-rcp-copy-issue.patch)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ .../0001-Fix-the-rcp-copy-issue.patch         | 38 +++++++++++++++++++
+ .../inetutils/inetutils_1.9.4.bb              |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-connectivity/inetutils/inetutils/0001-Fix-the-rcp-copy-issue.patch
+
+diff --git a/meta/recipes-connectivity/inetutils/inetutils/0001-Fix-the-rcp-copy-issue.patch b/meta/recipes-connectivity/inetutils/inetutils/0001-Fix-the-rcp-copy-issue.patch
+new file mode 100644
+index 0000000000..8845882324
+--- /dev/null
++++ b/meta/recipes-connectivity/inetutils/inetutils/0001-Fix-the-rcp-copy-issue.patch
+@@ -0,0 +1,38 @@
++The namebuf will get the same allocation address as the one before
++free operation, at the same time because of the recursive call for
++sink function, the targ and namebuf point the same address, then it
++cause the namebuf will get the wrong value with the snprintf function.
++Since the snprintf function doesn't like the strcpy function which
++can overwrite the destination.
++eg:
++ char tmp[20] = "test";
++ snprintf(tmp,20,"%s%s",tmp,"yes");
++The result of tmp -> yes. It will cause the wrong value.
++
++The sink function flow is as follows:
++ >sink(int argc, char*argv[])
++ >{
++ > ...
++ > targ = *argv;
++ > static char *namebuf = NULL;
++ > free (namebuf);
++ > namebuf = malloc (need);
++ > snprintf (namebuf, cursize, "%s%s%s", targ, *targ ? "/" : "", cp);
++ > np = namebuf;
++ > vect[0] = np;
++ > sink (1, vect);
++ > ...
++ >}
++
++Upstream-Status: Pending
++Signed-off-by: Zhixiong Chi <zhixiong.chi@windriver.com>
++--- inetutils-1.9.4.orig/src/rcp.c	2019-05-16 16:54:01.293997574 +0800
+++++ inetutils-1.9.4/src/rcp.c	2019-05-16 16:56:55.981998792 +0800
++@@ -995,7 +995,6 @@
++ 	  need = strlen (targ) + strlen (cp) + 250;
++ 	  if (need > cursize)
++ 	    {
++-	      free (namebuf);
++ 	      namebuf = malloc (need);
++ 	      if (namebuf)
++ 		cursize = need;
+diff --git a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+index ac2e017d8b..fab6f3d3af 100644
+--- a/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
++++ b/meta/recipes-connectivity/inetutils/inetutils_1.9.4.bb
+@@ -22,6 +22,7 @@ SRC_URI = "${GNU_MIRROR}/inetutils/inetutils-${PV}.tar.gz \
+            file://inetutils-1.9-PATH_PROCNET_DEV.patch \
+            file://inetutils-only-check-pam_appl.h-when-pam-enabled.patch \
+            file://0001-rcp-fix-to-work-with-large-files.patch \
++           file://0001-Fix-the-rcp-copy-issue.patch \
+ "
+ 
+ SRC_URI[md5sum] = "04852c26c47cc8c6b825f2b74f191f52"
+-- 
+2.21.0
 
 
