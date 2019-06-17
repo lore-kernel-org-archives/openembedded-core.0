@@ -1,26 +1,24 @@
-Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D6437E653
+Return-Path: <Zhe.He@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 182736BBE6
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 06:08:16 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5H68Hoh009148
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 16 Jun 2019 23:08:17 -0700 (PDT)
-Received: from [128.224.162.157] (128.224.162.157) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 16 Jun 2019 23:08:16 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>,
-	<richard.purdie@linuxfoundation.org>
-References: <1558428555-24836-1-git-send-email-hongxu.jia@windriver.com>
-Message-ID: <847db3be-bbfe-c60a-bb79-6fb706579f58@windriver.com>
-Date: Mon, 17 Jun 2019 14:08:15 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Mon, 17 Jun 2019 07:34:37 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5H7YIOU001167
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2019 00:34:28 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 17 Jun 2019 00:34:07 -0700
+From: <zhe.he@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 17 Jun 2019 15:34:06 +0800
+Message-ID: <1560756846-372197-1-git-send-email-zhe.he@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <1558428555-24836-1-git-send-email-hongxu.jia@windriver.com>
-Subject: Re: [PATCH] xmlto: set CLEANBROKEN = "1"
+Subject: [PATCH v4] lttng-modules: Add git based recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,49 +31,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 06:08:17 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 17 Jun 2019 07:34:38 -0000
+Content-Type: text/plain
 
-Ping
+From: He Zhe <zhe.he@windriver.com>
 
-//Hongxu
+The git based recipe is for those who want to build lttng-modules with bleeding
+edge kernel, to avoid regularly backporting patches from upstream.
 
-On 5/21/19 4:49 PM, Hongxu Jia wrote:
-> While rebuilding xmlto or xmlto-native, `make clean' in do_configure
-> will remove man/man1/xmlif.1 which triger failure in do_compile
->
-> $ bitbake xmlto-native
-> $ bitbake xmlto-native -cconfigure -f
-> $ bitbake xmlto-native -ccompile -f
-> ...
-> |FORMAT_DIR=./format /bin/bash ./xmlto -o man/man1 man doc/xmlif.xml
-> |xmlto: tmp-glibc/work/x86_64-linux/xmlto-native/0.0.28-r0/xmlto-0.0.28/
-> doc/xmlif.xml does not validate (status 3)
-> |xmlto: Fix document syntax or use --skip-validation option
-> I/O error : Attempt to load network entity http://www.oasis-open.org/
-> docbook/xml/4.2/docbookx.dtd
-> ...
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-> index df798df..7d27c43 100644
-> --- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-> +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-> @@ -13,6 +13,8 @@ SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51f
->   
->   inherit autotools
->   
-> +CLEANBROKEN = "1"
-> +
->   DEPENDS = "libxml2-native"
->   
->   RDEPENDS_${PN} = "docbook-xml-dtd4 \
+Note that PREFERRED_VERSION needs to be set to select the git recipe instead of
+the tar ball one.
 
+Signed-off-by: He Zhe <zhe.he@windriver.com>
+---
+v2: Correct a typo in SOB in 0001
+v3: Use devupstream to make it more clean and clear
+v4: Use top commit ID instead of AUTOREV, update license checksum, update branch in SRCREV and PV
+
+ meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb b/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
+index c1cc339..6e2d655 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.10.10.bb
+@@ -11,7 +11,6 @@ inherit module
+ 
+ COMPATIBLE_HOST = '(x86_64|i.86|powerpc|aarch64|mips|nios2|arm|riscv).*-linux'
+ 
+-#https://lttng.org/files/lttng-modules/lttng-modules-2.10.7.tar.bz2
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
+            file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
+@@ -34,3 +33,13 @@ python do_package_prepend() {
+         bb.warn("%s: no modules were created; this may be due to CONFIG_TRACEPOINTS not being enabled in your kernel." % d.getVar('PN'))
+ }
+ 
++BBCLASSEXTEND = "devupstream:target"
++LIC_FILES_CHKSUM_class-devupstream = "file://LICENSE;md5=c4613d1f8a9587bd7b366191830364b3"
++DEFAULT_PREFERENCE_class-devupstream = "-1"
++SRC_URI_class-devupstream = "git://git.lttng.org/lttng-modules;branch=stable-2.10 \
++           file://Makefile-Do-not-fail-if-CONFIG_TRACEPOINTS-is-not-en.patch \
++           file://BUILD_RUNTIME_BUG_ON-vs-gcc7.patch \
++           "
++SRCREV_class-devupstream = "624aca5d7507fbd11ea4a1a474c3aa1031bd9a31"
++PV_class-devupstream = "2.10.10+git${SRCPV}"
++S_class-devupstream = "${WORKDIR}/git"
+-- 
+2.7.4
 
 
