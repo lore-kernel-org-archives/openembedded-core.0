@@ -1,25 +1,26 @@
 Return-Path: <Hongxu.Jia@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AA2797C7A2
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 2D6437E653
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 05:59:41 +0000 (UTC)
+	Mon, 17 Jun 2019 06:08:16 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5H5xb6T019360
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5H68Hoh009148
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 16 Jun 2019 22:59:38 -0700 (PDT)
+	Sun, 16 Jun 2019 23:08:17 -0700 (PDT)
 Received: from [128.224.162.157] (128.224.162.157) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Sun, 16 Jun 2019 22:59:37 -0700
+	Sun, 16 Jun 2019 23:08:16 -0700
 From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>, <ross.burton@intel.com>
-References: <1560737861-151223-1-git-send-email-hongxu.jia@windriver.com>
-Message-ID: <ae10aa9c-96e9-2ed4-328c-50feb21365cd@windriver.com>
-Date: Mon, 17 Jun 2019 13:59:35 +0800
+To: <openembedded-core@lists.openembedded.org>,
+	<richard.purdie@linuxfoundation.org>
+References: <1558428555-24836-1-git-send-email-hongxu.jia@windriver.com>
+Message-ID: <847db3be-bbfe-c60a-bb79-6fb706579f58@windriver.com>
+Date: Mon, 17 Jun 2019 14:08:15 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <1560737861-151223-1-git-send-email-hongxu.jia@windriver.com>
-Subject: Re: [PATCH] openssh: fix potential signed overflow in pointer arithmatic
+In-Reply-To: <1558428555-24836-1-git-send-email-hongxu.jia@windriver.com>
+Subject: Re: [PATCH] xmlto: set CLEANBROKEN = "1"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,89 +33,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 05:59:41 -0000
+X-List-Received-Date: Mon, 17 Jun 2019 06:08:17 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Content-Language: en-US
 
-On 6/17/19 10:17 AM, Hongxu Jia wrote:
-> Pointer arithmatic results in implementation defined signed integer
-> type, so that 'd - dst’ in strlcat may trigger signed overflow if
-> pointer ‘d’ is near 0x7fffffff in 32 bits system. In case of ompilation
-> by gcc or clang with -ftrapv option, the overflow would generate
-> program abort.
->
-> Signed-off-by: hguo3 <heng.guo@windriver.com>
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->   ...ial-signed-overflow-in-pointer-arithmatic.patch | 26 ++++++++++++++++------
->   1 file changed, 19 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-> index 7e043a2..20036da 100644
-> --- a/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-> +++ b/meta/recipes-connectivity/openssh/openssh/fix-potential-signed-overflow-in-pointer-arithmatic.patch
-> @@ -11,14 +11,17 @@ would lead to program abort.
->   Upstream-Status: Submitted [http://bugzilla.mindrot.org/show_bug.cgi?id=2608]
->   
-
-BTW, I've submitted the V2 fix to above upstream site
+Ping
 
 //Hongxu
 
-
->   Signed-off-by: Yuanjie Huang <yuanjie.huang@windriver.com>
-> +
-> +Complete the fix
-> +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
->   ---
-> - openbsd-compat/strlcat.c | 8 ++++++--
-> - openbsd-compat/strlcpy.c | 8 ++++++--
-> - openbsd-compat/strnlen.c | 8 ++++++--
-> - 3 files changed, 18 insertions(+), 6 deletions(-)
-> + openbsd-compat/strlcat.c | 10 +++++++---
-> + openbsd-compat/strlcpy.c |  8 ++++++--
-> + openbsd-compat/strnlen.c |  8 ++++++--
-> + 3 files changed, 19 insertions(+), 7 deletions(-)
+On 5/21/19 4:49 PM, Hongxu Jia wrote:
+> While rebuilding xmlto or xmlto-native, `make clean' in do_configure
+> will remove man/man1/xmlif.1 which triger failure in do_compile
+>
+> $ bitbake xmlto-native
+> $ bitbake xmlto-native -cconfigure -f
+> $ bitbake xmlto-native -ccompile -f
+> ...
+> |FORMAT_DIR=./format /bin/bash ./xmlto -o man/man1 man doc/xmlif.xml
+> |xmlto: tmp-glibc/work/x86_64-linux/xmlto-native/0.0.28-r0/xmlto-0.0.28/
+> doc/xmlif.xml does not validate (status 3)
+> |xmlto: Fix document syntax or use --skip-validation option
+> I/O error : Attempt to load network entity http://www.oasis-open.org/
+> docbook/xml/4.2/docbookx.dtd
+> ...
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>   meta/recipes-devtools/xmlto/xmlto_0.0.28.bb | 2 ++
+>   1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> index df798df..7d27c43 100644
+> --- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
+> @@ -13,6 +13,8 @@ SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51f
 >   
->   diff --git a/openbsd-compat/strlcat.c b/openbsd-compat/strlcat.c
-> -index bcc1b61..e758ebf 100644
-> +index bcc1b61..124e1e3 100644
->   --- a/openbsd-compat/strlcat.c
->   +++ b/openbsd-compat/strlcat.c
->   @@ -23,6 +23,7 @@
-> @@ -29,6 +32,15 @@ index bcc1b61..e758ebf 100644
->    
->    /*
->     * Appends src to string dst of size siz (unlike strncat, siz is the
-> +@@ -42,7 +43,7 @@ strlcat(char *dst, const char *src, size_t siz)
-> + 	/* Find the end of dst and adjust bytes left but don't go past end */
-> + 	while (n-- != 0 && *d != '\0')
-> + 		d++;
-> +-	dlen = d - dst;
-> ++	dlen = (uintptr_t)d - (uintptr_t)dst;
-> + 	n = siz - dlen;
-> +
-> + 	if (n == 0)
->   @@ -55,8 +56,11 @@ strlcat(char *dst, const char *src, size_t siz)
->    		s++;
->    	}
-> @@ -70,7 +82,7 @@ index b4b1b60..b06f374 100644
->    
->    #endif /* !HAVE_STRLCPY */
->   diff --git a/openbsd-compat/strnlen.c b/openbsd-compat/strnlen.c
-> -index 93d5155..9b8de5d 100644
-> +index 7ad3573..7040f1f 100644
->   --- a/openbsd-compat/strnlen.c
->   +++ b/openbsd-compat/strnlen.c
->   @@ -23,6 +23,7 @@
-> @@ -95,5 +107,5 @@ index 93d5155..9b8de5d 100644
->    }
->    #endif
->   --
-> -1.9.1
-> +2.17.1
+>   inherit autotools
 >   
+> +CLEANBROKEN = "1"
+> +
+>   DEPENDS = "libxml2-native"
+>   
+>   RDEPENDS_${PN} = "docbook-xml-dtd4 \
 
 
 
