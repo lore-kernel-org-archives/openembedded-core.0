@@ -1,37 +1,51 @@
-Return-Path: <rpurdie@rpsys.net>
-Received: from dan.rpsys.net (5751f4a1.skybroadband.com [87.81.244.161])
-	by mail.openembedded.org (Postfix) with ESMTP id 099027E840
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id B26487E83A
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 15:26:55 +0000 (UTC)
-Received: from hex ([192.168.3.34]) (authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-10) with ESMTPSA id
-	x5HFQjL2017278
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 17 Jun 2019 16:26:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rpsys.net; s=default;
-	t=1560785207; bh=EFjcIbQYiAInFjYEdFWiQ/n5qDvhjr4uYkybJKiPEcs=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=u5S4IrXGUeFNVjbnfUEE0oPSsxsHE/p2Ti5hhmOGXGv6EWWUO40JV2OeCIFex0p81
-	ONRvrbJIdoBlL3SWwC1u/4G5ZF6uJePSskILCIoq+yJ1jx6hiCRO8cOiyoz4HmN2QS
-	kKyzwxfhbF9+xnM4G5XbOZhW/cRqIoadTNEXM3XWza6W5Mmh8sKHgEBGrRPvUyVQ3q
-	tXGsJOzj7wbfHF5mNF59HfsPY1g7MCTUsh5XTcEIG7ik/h5lJgOKQKEOXrjed+forP
-	VS3dyxl3wmcX7dB60HVG0JzobeCdRT/HXtWXlTXzI8SeSXZyHuNQaAZTzFSCv49gKH
-	/BhPAi7SsvpIQ==
-Message-ID: <591c1c8752c4c0526d18d5cd6596a35bc41c6645.camel@rpsys.net>
-From: Richard Purdie <rpurdie@rpsys.net>
-To: Alexander Kanavin <alex.kanavin@gmail.com>, "Eggleton, Paul"
-	<paul.eggleton@intel.com>
-Date: Mon, 17 Jun 2019 16:26:45 +0100
-In-Reply-To: <CANNYZj_vg_jzcMRhfQ35C_2kDnyH-yxVj52pKk2WpfZxfo5iOw@mail.gmail.com>
-References: <CANNYZj9rVD4cZ-AN7rvF=0fuc4d99brU_Tt_wQeRMGm=L83M2w@mail.gmail.com>
-	<201906171422.x5HEMKtf012735@dan.rpsys.net>
-	<CANNYZj_vg_jzcMRhfQ35C_2kDnyH-yxVj52pKk2WpfZxfo5iOw@mail.gmail.com>
+	Mon, 17 Jun 2019 15:51:43 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id k11so10558365wrl.1
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 17 Jun 2019 08:51:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=EV+SYAapU09xOdC16oUfnSEBIqMxrrwv7uWnCLWW1To=;
+	b=cGprVseW+fC8PdV3tYRhhRTaN5oVB3y7RHWTDCpTEGIebrxEgdNuganVYBMWNEtBaT
+	CrfZcmlX1G6HLA5LlDLvJ0x12BHMtI7L35z3xpmuTqC44wPvwG2y2s680wyISqT1RWtX
+	yWzGUnHcrZrI4D19FP5lGb2M+dY6zY8jqO1E4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=EV+SYAapU09xOdC16oUfnSEBIqMxrrwv7uWnCLWW1To=;
+	b=f9e8qMLfRonFjlwZhnwDG3wlGm33WW2H/iTttv2kjhzm6zSIx3YeA9CqqhY4pgcJYh
+	Id5rFEHgtOAYQy2zOBe5yVX4Yq1gtQVbm1sv2ogYo3b3ve8LbqdhIce3vmApS7upN0d9
+	uQP6+Mx4Z6nJ5qjI3Gm+5gcgM+zHfmtms7H4fxyxI+0k3bP3gMzhdMBuelf5f2P6lSrx
+	ZLzAmHQ2cQgZ/+pNSFB+0ZNHOPeBGwjX/LV+QYkFy78GOp+EB6H6XtF8de1Cvc31ZwmP
+	YtQZjBLciVaq72Z5Lvr4iW5kI4xM4kD/E5QFsB3LfNqze9P31++t/sI5ru1dIjokQNh/
+	SRbQ==
+X-Gm-Message-State: APjAAAXdB1yxZSJ/UtMjFDGPWpYHz7BHNCr0KIORwIQkwtCKOfONGtSZ
+	pRXW0VsZTUAbDveyVQqZOUlbfw==
+X-Google-Smtp-Source: APXvYqw9GGIy3omYc+2k+/8RQZEphRyCMC8OJ30Z+mL8MdhqBrC9PQ3B3LaPjOMquBT6wH43npjPuQ==
+X-Received: by 2002:adf:9e89:: with SMTP id a9mr63499804wrf.78.1560786704350; 
+	Mon, 17 Jun 2019 08:51:44 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	d1sm11253685wru.41.2019.06.17.08.51.42
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 17 Jun 2019 08:51:43 -0700 (PDT)
+Message-ID: <1776c2e6d791cffa71e5f3bd8d375f94dec1cb70.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 17 Jun 2019 16:51:42 +0100
+In-Reply-To: <04e801ca1c0747dbf5e932a159d35968a6bf938c.1560760310.git.Qi.Chen@windriver.com>
+References: <cover.1560760310.git.Qi.Chen@windriver.com>
+	<04e801ca1c0747dbf5e932a159d35968a6bf938c.1560760310.git.Qi.Chen@windriver.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.100.3 at dan
-X-Virus-Status: Clean
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] lttng-ust: upgrading to 2.10.4 FAILED
+Subject: Re: [PATCH 1/1] pkgdata: fix test_find_path to consider multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,148 +58,51 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 15:26:56 -0000
+X-List-Received-Date: Mon, 17 Jun 2019 15:51:44 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Mon, 2019-06-17 at 16:51 +0200, Alexander Kanavin wrote:
-> On Mon, 17 Jun 2019 at 16:22, Richard Purdie <rpurdie@rpsys.net>
-> wrote:
-> > >Yes, it's another one of those recipes which includes a 
-> > >different recipe with its version number (which breaks when 
-> > >devtool upgrades one but not the other).
-> > >
-> > >I have a fix queued:
-> > >
-> > http://git.yoctoproject.org/cgit.cgi/poky-contrib/commit/?h=akanavin/package-version-updates&id=00eb5952479370553756dface4cf6c81f51b9e8f
-> > 
-> > I think what worries me more is the build isn't reset so this is
-> > reported against lttng-ust. I guess its because its testing the
-> > changes together?
-> > 
-> > Perhaps it should parse test them individually?
-> > 
+On Mon, 2019-06-17 at 16:32 +0800, Chen Qi wrote:
+> Fix test_find_path test case to take into consideration of multilib
+> being enabled. After this change, no matter multilib is enabled or
+> not, the test case should pass.
 > 
-> The build isn't reset because 'devtool upgrade libnewt-python' fails
-> mid-way and leaves the workspace in an inconsistent state
-> (workspace/recipes/ has content but workspace/append does not), so
-> 'devtool reset' isn't able to revert that state.
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/pkgdata.py | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
-> AUH could probably clean up the files in this situation, but
-> currently doesn't - it just assumes that devtool is able to clean up
-> after itself in any situation (which seems to not be the case,
-> sadly).
-> 
-> Specific traceback from devtool:
-> 
-> Traceback (most recent call last):
->   File "/home/alexander/development/poky/scripts/devtool", line 334,
-> in <module>
->     ret = main()
->   File "/home/alexander/development/poky/scripts/devtool", line 321,
-> in main
->     ret = args.func(args, config, basepath, workspace)
->   File
-> "/home/alexander/development/poky/scripts/lib/devtool/upgrade.py",
-> line 551, in upgrade
->     rf, copied = _create_new_recipe(args.version, md5, sha256,
-> args.srcrev, srcbranch, srcsubdir1, srcsubdir2,
-> config.workspace_path, tinfoil, rd, license_diff, new_licenses)
->   File
-> "/home/alexander/development/poky/scripts/lib/devtool/upgrade.py",
-> line 419, in _create_new_recipe
->     rd = tinfoil.parse_recipe_file(fullpath, False)
->   File "/home/alexander/development/poky/bitbake/lib/bb/tinfoil.py",
-> line 641, in parse_recipe_file
->     dscon = self.run_command('parseRecipeFile', fn, appends,
-> appendlist)
->   File "/home/alexander/development/poky/bitbake/lib/bb/tinfoil.py",
-> line 466, in run_command
->     raise TinfoilCommandFailed(result[1])
-> bb.tinfoil.TinfoilCommandFailed: Traceback (most recent call last):
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/parse_py/ConfH
-> andler.py", line 94, in include_single_file
->     bb.parse.handle(fn, data, True)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/__init__.py",
-> line 107, in handle
->     return h['handle'](fn, data, include)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/parse_py/BBHan
-> dler.py", line 120, in handle
->     abs_fn = resolve_file(fn, d)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/__init__.py",
-> line 125, in resolve_file
->     raise IOError(errno.ENOENT, "file %s not found in %s" % (fn,
-> bbpath))
-> FileNotFoundError: [Errno 2] file recipes-
-> extended/newt/libnewt_0.52.21.bb not found in
-> /home/alexander/development/poky/build/workspace:/home/alexander/deve
-> lopment/poky/meta-
-> poky:/home/alexander/development/poky/build:/home/alexander/developme
-> nt/poky/meta:/home/alexander/development/poky/meta-yocto-
-> bsp:/home/alexander/development/meta-mingw
-> 
-> During handling of the above exception, another exception occurred:
-> 
-> Traceback (most recent call last):
->   File "/home/alexander/development/poky/bitbake/lib/bb/command.py",
-> line 74, in runCommand
->     result = command_method(self, commandline)
->   File "/home/alexander/development/poky/bitbake/lib/bb/command.py",
-> line 562, in parseRecipeFile
->     envdata = parser.loadDataFull(fn, appendfiles)
->   File "/home/alexander/development/poky/bitbake/lib/bb/cache.py",
-> line 327, in loadDataFull
->     bb_data = self.load_bbfile(virtualfn, appends, virtonly=True)
->   File "/home/alexander/development/poky/bitbake/lib/bb/cache.py",
-> line 340, in load_bbfile
->     datastores = parse_recipe(bb_data, bbfile, appends, mc)
->   File "/home/alexander/development/poky/bitbake/lib/bb/cache.py",
-> line 303, in parse_recipe
->     bb_data = bb.parse.handle(bbfile, bb_data)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/__init__.py",
-> line 107, in handle
->     return h['handle'](fn, data, include)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/parse_py/BBHan
-> dler.py", line 130, in handle
->     statements.eval(d)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/ast.py", line
-> 23, in eval
->     statement.eval(data)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/ast.py", line
-> 45, in eval
->     bb.parse.ConfHandler.include(self.filename, s, self.lineno, data,
-> "include required")
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/parse_py/ConfH
-> andler.py", line 71, in include
->     include_single_file(parentfn, fn, lineno, data, error_out)
->   File
-> "/home/alexander/development/poky/bitbake/lib/bb/parse/parse_py/ConfH
-> andler.py", line 98, in include_single_file
->     raise ParseError("Could not %s file %s" % (error_out, fn),
-> parentfn, lineno)
-> bb.parse.ParseError: ParseError at
-> /home/alexander/development/poky/build/workspace/recipes/libnewt-
-> python/libnewt-python_0.52.21.bb:1: Could not include required file
-> recipes-extended/newt/libnewt_0.52.21.bb
+> diff --git a/meta/lib/oeqa/selftest/cases/pkgdata.py b/meta/lib/oeqa/selftest/cases/pkgdata.py
+> index 833a180..2bd15eb 100644
+> --- a/meta/lib/oeqa/selftest/cases/pkgdata.py
+> +++ b/meta/lib/oeqa/selftest/cases/pkgdata.py
+> @@ -47,10 +47,11 @@ class OePkgdataUtilTests(OESelftestTestCase):
+>          self.assertGreater(pkgsize, 1, "Size should be greater than 1. %s" % result.output)
+>  
+>      def test_find_path(self):
+> -        result = runCmd('oe-pkgdata-util find-path /lib/libz.so.1')
+> -        self.assertEqual(result.output, 'zlib: /lib/libz.so.1')
+> +        base_libdir = get_bb_var('base_libdir')
+> +        result = runCmd('oe-pkgdata-util find-path %s/libz.so.1' % base_libdir)
+> +        self.assertEqual(result.output, 'zlib: %s/libz.so.1' % base_libdir)
+>          result = runCmd('oe-pkgdata-util find-path /usr/bin/m4')
+> -        self.assertEqual(result.output, 'm4: /usr/bin/m4')
+> +        self.assertTrue('m4: /usr/bin/m4' in result.output)
+>          result = runCmd('oe-pkgdata-util find-path /not/exist', ignore_status=True)
+>          self.assertEqual(result.status, 1, "Status different than 1. output: %s" % result.output)
+>          self.assertEqual(result.output, 'ERROR: Unable to find any package producing path /not/exist')
 
-I think that perhaps:
+For selftest we really want a "known" configuration so I'm not sure we
+want to go down this route as there are a lot of configurations which
+could confuse the test results. 
 
-a) we should have a bug for this as devtool shouldn't be giving
-tracebacks?
-b) we could add some kind of "reset" command that AUH could run between
-builds which would clean things up?
+It would probably be better to have selftest only build a clean config
+and accept a limited number of variables. The parallel execution code
+did go a long way to getting us to the point where it would do that.
 
 Cheers,
 
 Richard
+
 
 
