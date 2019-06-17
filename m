@@ -1,56 +1,53 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id CDE947D711
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0005B6C3B2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 11:21:37 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id w7so6728548oic.3
+	Mon, 17 Jun 2019 12:26:24 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id n4so1647637wrs.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 17 Jun 2019 04:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=HKVyXctIUR/cDakF7dsf6mGEuu5l5fgt1DgQNl+/slk=;
-	b=j6Hl5kqDFH5zHUiP3F/85d2iMsDlNTHu0sKFkNqgSe6ryFwvahncarH+6+Nnbgtfk0
-	y8BgOhlwuHvSENNfQak1VcEQuEn/L3NWuKW5QBRhubLIzjMQquChS+SF1FiXYSix/EH9
-	vNmlJ74qi4bC7TQSeiC1IijjYmOYE3x8l59pb+QyQ8Iw7SFmN1xFL5UjPERRq0MJ5wjx
-	0hMzYzgY5yZjnDheBiELvXumyKdF6OUcJjjrAZ50hVJWO4p5hyATdlkOLz9FQmBE2OUW
-	gQGgxzcMeikMycGWCqUL/+zCA1yp6bOg+MAydsc5zapO/5udyeFL9h0o5OGaIMJVGpYT
-	z/Kw==
+	Mon, 17 Jun 2019 05:26:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=bQ72wook5qps/47jOM5oLZtU9em1i1/iwq3LoxhiIZ8=;
+	b=S38mVIzNHCn2yBaH+Zm9ysY7xTAM9QOOjYRqLYV9n0VX5lNClIvVgAIiz1ggiZ8Sml
+	3czk8/kA8W3dqdnNFksMqMZtC9p0Zt5AzF+cbO7xdz53bEyLo6rF+JNHnEXjxr3Sqbb2
+	LL8cx+6gkKgIftxdgl2ZfYMg/d7B+xPCW5ImI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=HKVyXctIUR/cDakF7dsf6mGEuu5l5fgt1DgQNl+/slk=;
-	b=AWT+XmCN5EVRyspbvetCAp8XkHI+6AtJqphSvYKEqNJRAYsCurA9lRpncXGyegUGYU
-	mUb1KbawreJxvQ87pzj7fENwHddU/pTtTuoqTi806LfCJeqrRYjzH5BUYaw6GrAjJKmT
-	eq9eaMjtPRnTsZjm8DjLPD6iNEesc5SWH2Z0AiwS5uZe288vJpFwvA5+jEg/7g2nwHuI
-	Xua9+8m1MzlZ5lOFmkmKhkCIPpCeJoGpvHsqlN/dsF9RuL+3h1210fJj0a/KNTwB3YKK
-	oIZ9bjdmBAGnoHcGKG/5Rf36tJyLcM0cUKq1bXVSioSV8bDVXCWow2e0SwgIfH8d8Med
-	Qvvg==
-X-Gm-Message-State: APjAAAUvDVk/nRqAqFBN0p7Wy2QMWQ7wAAfzj4PpZ1b/Rj2wUZApzbGJ
-	75wqbDL8HBgwPfgvb687s6UPYg6yl9Zelj5qXCE=
-X-Google-Smtp-Source: APXvYqxN+SGa1EhUJXcyruKm2ng2mabVPc9zdd3Vm1Lg3iK4MLqEreJvO1dER8aXj/edNwdldSheNEewbqG9qwN8LH4=
-X-Received: by 2002:aca:ba02:: with SMTP id k2mr3144775oif.70.1560770498839;
-	Mon, 17 Jun 2019 04:21:38 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=bQ72wook5qps/47jOM5oLZtU9em1i1/iwq3LoxhiIZ8=;
+	b=o+Dv8E1DpT0eVukXDiJbqFZVDxXR/FQe4A2ji+JiaQim+dXizxO8DxgxZyt8/PDavO
+	m2IJUJ5xzkZLHU2bvj6b5vy1vqD3ZySbm37nQP140QNQGCtN1smLtRN7g68+M2y0yeZV
+	zNgqfVvJ7YhJs08A1SM5R+tcspEGpyOy/bBU5SG1wM/yv2g10gf8KkUJ+nl0yT/39LdO
+	zj2B/iEBU2wsSv0Upts9DikAPuJWD3yf9HJcuqK/Gekk2cDSkTLSxVocaimewHKtklTD
+	uV/rMAgLh/eSAy7RjCqjhUETck9gtrXx/akHHMN+Y+eZvJfO7LMwI/ISWWqlbKQVqgbs
+	HK1g==
+X-Gm-Message-State: APjAAAXbl12znDVUTQonsP9y+zOD5J3jhrmKdeS9noQezSb0aeU74NCL
+	DUDvRmxMOS9mLhM7PvWbn/ukTg==
+X-Google-Smtp-Source: APXvYqw99X9sH/9DnutWGqWzy1815J07f7HCX2l+8H51lGraHKw+yjfX/1QdTFSZGfwZxSSALJ7+zQ==
+X-Received: by 2002:adf:fc85:: with SMTP id g5mr76236524wrr.324.1560774385533; 
+	Mon, 17 Jun 2019 05:26:25 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	k125sm13170759wmf.41.2019.06.17.05.26.24
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 17 Jun 2019 05:26:24 -0700 (PDT)
+Message-ID: <6eb5c69287bced8573b2c8a24c84fad04ed95ab7.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: akuster <akuster@mvista.com>, cminyard@mvista.com, minyard@acm.org
+Date: Mon, 17 Jun 2019 13:26:23 +0100
+In-Reply-To: <9b9c62c9-ae11-54da-d9cd-f11c8b142439@mvista.com>
+References: <20190429194342.28461-1-minyard@acm.org>
+	<20190525132912.GJ2743@minyard.net>
+	<9b9c62c9-ae11-54da-d9cd-f11c8b142439@mvista.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <a7a06678f3346863015258fec2ed65e7d8065196.camel@linuxfoundation.org>
-	<20190614120448.2wg2523qu67la7mh@pengutronix.de>
-	<ee3249ee4f978ee2ee7c74b0af81fe971ca66300.camel@linuxfoundation.org>
-	<20190614123451.c5idgiizmqnlhob4@pengutronix.de>
-	<f2348016a0867fd986bbe4965dcb88a5b652055f.camel@linuxfoundation.org>
-	<99B005A2-CD21-4AA8-B960-54121098F850@gmail.com>
-	<c85e93b13ddcbc27c27ac17fdcf97a0d1ffc4020.camel@linuxfoundation.org>
-	<CANNYZj-9xUFE0x9D_BpLiqkNitLmXnrv9n8boodZpE5bX-psgw@mail.gmail.com>
-	<CAJTo0LZbf2Y6_nN0E8tsVLHKxZAtE6zyqP25nyKk=v6+bQjkHg@mail.gmail.com>
-	<CANNYZj9LOQZkawsAPi=Sgsd2_0qTeR=NOn4RxqArA+CmkLSTQQ@mail.gmail.com>
-	<20190617093526.vjnrh42nxr37by6m@pengutronix.de>
-In-Reply-To: <20190617093526.vjnrh42nxr37by6m@pengutronix.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 17 Jun 2019 13:21:27 +0200
-Message-ID: <CANNYZj98NWCHAoE4zT++j8AUPW4qRnS4w-4fBd7Wr4AF0YkJ6A@mail.gmail.com>
-To: Marco Felsch <m.felsch@pengutronix.de>
-Cc: kernel@pengutronix.de, OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] mesa: make gallium swrast target optional
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] Add release field to version in rpm package dictionary
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,106 +60,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 17 Jun 2019 11:21:38 -0000
-Content-Type: multipart/alternative; boundary="00000000000028ca10058b8333e4"
-
---00000000000028ca10058b8333e4
+X-List-Received-Date: Mon, 17 Jun 2019 12:26:25 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Yes please, I think that is the best way out for qemu.
+On Sun, 2019-06-16 at 19:11 -0700, akuster wrote:
+> Hello Micheal,
+> 
+> 
+> On 5/25/19 6:29 AM, Corey Minyard wrote:
+> > On Mon, Apr 29, 2019 at 02:43:42PM -0500, minyard@acm.org wrote:
+> > > From: Corey Minyard <cminyard@mvista.com>
+> > I haven't heard anything on this.  Is this a proper change?
+> > 
+> > -corey
+> I don't see this email in the mailing list for either May 25 nor Apr
+> 29.
+> Could we be dropping this from this domain "acm.org" ?
 
-Alex
+I'd like to test that patch as it might explain some issues in
+buildhistory I've not quite gotten to looking into yet...
 
-On Mon, 17 Jun 2019 at 11:35, Marco Felsch <m.felsch@pengutronix.de> wrote:
+I suspect its part of our current mailing list woes. We're looking to
+migrate but we've recently found that has its own set of problems too
+:(
 
-> On 19-06-14 15:37, Alexander Kanavin wrote:
-> > On Fri, 14 Jun 2019 at 15:36, Burton, Ross <ross.burton@intel.com>
-> wrote:
-> >
-> > > > Dropping the swrast dependency will not help though, as it is
-> provided
-> > > by the mesa-megadriver package, which will continue to include swrast
-> as
-> > > long as it is enabled in the mesa recipe. mesa-megadriver is also
-> pulled in
-> > > through other dependencies.
-> > >
-> > > Won't that stop the build failure on the autobuilder though?
-> > >
-> >
-> > Yes, I think it would.
->
-> So should I change that dependency to virgl since it is a qemu target?
-> Sorry but I can not see an agreement how we can change this in a 'good'
-> way for all parties.
->
-> My point of view is that it should not be enabled per default. Of course
-> I should fix the qemu config but I don't wanna fix each meta-layer.
-> Becuase I think that is the work of meta-layer maintainer.
->
-> Regards,
->   Marco
->
-> --
-> Pengutronix e.K.                           |                             |
-> Industrial Linux Solutions                 | http://www.pengutronix.de/  |
-> Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0    |
-> Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
->
+Cheers,
 
---00000000000028ca10058b8333e4
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Richard
 
-<div dir=3D"ltr"><div>Yes please, I think that is the best way out for qemu=
-.</div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quot=
-e"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 17 Jun 2019 at 11:35, Marc=
-o Felsch &lt;<a href=3D"mailto:m.felsch@pengutronix.de">m.felsch@pengutroni=
-x.de</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1=
-ex">On 19-06-14 15:37, Alexander Kanavin wrote:<br>
-&gt; On Fri, 14 Jun 2019 at 15:36, Burton, Ross &lt;<a href=3D"mailto:ross.=
-burton@intel.com" target=3D"_blank">ross.burton@intel.com</a>&gt; wrote:<br=
->
-&gt; <br>
-&gt; &gt; &gt; Dropping the swrast dependency will not help though, as it i=
-s provided<br>
-&gt; &gt; by the mesa-megadriver package, which will continue to include sw=
-rast as<br>
-&gt; &gt; long as it is enabled in the mesa recipe. mesa-megadriver is also=
- pulled in<br>
-&gt; &gt; through other dependencies.<br>
-&gt; &gt;<br>
-&gt; &gt; Won&#39;t that stop the build failure on the autobuilder though?<=
-br>
-&gt; &gt;<br>
-&gt; <br>
-&gt; Yes, I think it would.<br>
-<br>
-So should I change that dependency to virgl since it is a qemu target?<br>
-Sorry but I can not see an agreement how we can change this in a &#39;good&=
-#39;<br>
-way for all parties.<br>
-<br>
-My point of view is that it should not be enabled per default. Of course<br=
->
-I should fix the qemu config but I don&#39;t wanna fix each meta-layer.<br>
-Becuase I think that is the work of meta-layer maintainer.<br>
-<br>
-Regards,<br>
-=C2=A0 Marco<br>
-<br>
--- <br>
-Pengutronix e.K.=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|<br>
-Industrial Linux Solutions=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0| <a href=3D"http://www.pengutronix.de/" rel=3D"noreferrer" ta=
-rget=3D"_blank">http://www.pengutronix.de/</a>=C2=A0 |<br>
-Peiner Str. 6-8, 31137 Hildesheim, Germany | Phone: +49-5121-206917-0=C2=A0=
- =C2=A0 |<br>
-Amtsgericht Hildesheim, HRA 2686=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| =
-Fax:=C2=A0 =C2=A0+49-5121-206917-5555 |<br>
-</blockquote></div>
 
---00000000000028ca10058b8333e4--
