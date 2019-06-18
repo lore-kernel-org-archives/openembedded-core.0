@@ -1,36 +1,29 @@
-Return-Path: <denis@denix.org>
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
-	by mail.openembedded.org (Postfix) with ESMTP id 9E2BF7C786
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1BAF67D2D6
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 01:30:50 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id C707340BBA;
-	Tue, 18 Jun 2019 01:30:51 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id fhqxSvEFP4Lp; Tue, 18 Jun 2019 01:30:51 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-86-127.washdc.fios.verizon.net
-	[100.15.86.127])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 2A8E740B86;
-	Tue, 18 Jun 2019 01:30:49 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id E0FEE1703A7; Mon, 17 Jun 2019 21:30:48 -0400 (EDT)
-Date: Mon, 17 Jun 2019 21:30:48 -0400
-From: Denys Dmytriyenko <denis@denix.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190618013048.GP2112@denix.org>
-References: <1560289312-19244-1-git-send-email-denis@denix.org>
-	<20190612053326.GA12642@localhost>
-	<20190612222338.GN2112@denix.org>
-	<c068fa5192d65f2ffab2b1037bcf5f709b719862.camel@linuxfoundation.org>
+	Tue, 18 Jun 2019 01:57:43 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5I1vheI000791
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 17 Jun 2019 18:57:44 -0700 (PDT)
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 17 Jun 2019 18:57:43 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1560763400.git.Qi.Chen@windriver.com>
+	<28e0391ef22f3e131227d66dae731fa14f48e1a0.1560763400.git.Qi.Chen@windriver.com>
+	<f70ae3aaabc1a52a994fe5a0eae73f9e0416c851.camel@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <8f1047b7-a0f0-8fa4-bcfd-51fad5083050@windriver.com>
+Date: Tue, 18 Jun 2019 10:09:46 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <c068fa5192d65f2ffab2b1037bcf5f709b719862.camel@linuxfoundation.org>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Cc: openembedded-core@lists.openembedded.org, Adrian Bunk <bunk@stusta.de>
-Subject: Re: [PATCH] mtd-utils: upgrade 2.0.2 -> 2.1.0
+In-Reply-To: <f70ae3aaabc1a52a994fe5a0eae73f9e0416c851.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH 1/1] manifest.py: fix test_SDK_manifest_entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,59 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 01:30:50 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Tue, 18 Jun 2019 01:57:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Jun 12, 2019 at 11:26:06PM +0100, Richard Purdie wrote:
-> On Wed, 2019-06-12 at 18:23 -0400, Denys Dmytriyenko wrote:
-> > On Wed, Jun 12, 2019 at 08:33:26AM +0300, Adrian Bunk wrote:
-> > > On Tue, Jun 11, 2019 at 05:41:52PM -0400, Denys Dmytriyenko wrote:
-> > > > ...
-> > > > * Now requires openssl:
-> > > > > In file included from ../git/ubifs-
-> > > > > utils/mkfs.ubifs/mkfs.ubifs.c:25:
-> > > > > ../git/ubifs-utils/mkfs.ubifs/mkfs.ubifs.h:49:10: fatal error:
-> > > > > openssl/rand.h: No such file or directory
-> > > > >  #include <openssl/rand.h>
-> > > > >           ^~~~~~~~~~~~~~~~
-> > > > > compilation terminated.
-> > > > > Makefile:3457: recipe for target 'ubifs-
-> > > > > utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o' failed
-> > > > > make: *** [ubifs-utils/mkfs.ubifs/mkfs_ubifs-mkfs.ubifs.o]
-> > > > > Error 1
-> > > > ...
-> > > > -DEPENDS = "zlib e2fsprogs util-linux"
-> > > > +DEPENDS = "zlib e2fsprogs util-linux openssl"
-> > > 
-> > > It doesn't (and should not) require it unconditionally.
-> > > 
-> > > Please backport "mkfs.ubifs: fix build without openssl" from
-> > > upstream git instead.
-> > > 
-> > > > ...
-> > > > -PV = "2.0.2+${SRCPV}"
-> > > > +PV = "2.1.0+${SRCPV}"
-> > > > ...
-> > > 
-> > > This was already wrong before but now is an opportunity to fix:
-> > > Since this is exactly the release, it should be
-> > >   PV = "2.1.0"
-> > 
-> > So, which is it? Do you want it to be exactly the release, or do you
-> > want to start backporting fixes from after the release? It doesn't
-> > seem to be a critical issue to warrant backporting, in my opinion.
-> 
-> openssl is not a light dependency and is one I'd prefer not to be
-> adding unless we really need it. Things like this may look/sound
-> trivial but they inflate build times, image sizes and build complexity.
-> 
-> I'd probably prefer to have the 2.1.0 with a backported patch in this
-> case if you're after an opinion :)
+On 06/17/2019 11:54 PM, Richard Purdie wrote:
+> On Mon, 2019-06-17 at 17:24 +0800, Chen Qi wrote:
+>> TOOLCHAIN_OUTPUTNAME could be overridden. So use this variable directly
+>> instead of its default value ${SDK_NAME}-toolchain-${SDK_VERSION}.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/lib/oeqa/selftest/cases/manifest.py | 7 ++-----
+>>   1 file changed, 2 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/meta/lib/oeqa/selftest/cases/manifest.py b/meta/lib/oeqa/selftest/cases/manifest.py
+>> index c0b25ab..5d13f35 100644
+>> --- a/meta/lib/oeqa/selftest/cases/manifest.py
+>> +++ b/meta/lib/oeqa/selftest/cases/manifest.py
+>> @@ -86,11 +86,8 @@ class VerifyManifest(OESelftestTestCase):
+>>           try:
+>>               mdir = self.get_dir_from_bb_var('SDK_DEPLOY', self.buildtarget)
+>>               for k in d_target.keys():
+>> -                bb_vars = get_bb_vars(['SDK_NAME', 'SDK_VERSION'], self.buildtarget)
+>> -                mfilename[k] = "{}-toolchain-{}.{}.manifest".format(
+>> -                        bb_vars['SDK_NAME'],
+>> -                        bb_vars['SDK_VERSION'],
+>> -                        k)
+>> +                toolchain_outputname = get_bb_var('TOOLCHAIN_OUTPUTNAME', self.buildtarget)
+>> +                mfilename[k] = "{}.{}.manifest".format(toolchain_outputname, k)
+> Whilst I agree there is a problem here, this code is iterating over
+> multiple targets. Isn't TOOLCHAIN_OUTPUTNAME only going to be correct
+> for one of them?
+>
+> Cheers,
+>
+> Richard
+>
+>
 
-Luckily, the fix for this was right in the next commit after the release, so I 
-opted to bump SRCREV by one, instead of carrying a local patch. Just sent v2.
+This code is iterating over d_target.keys(), which is 'target' and 
+'host'. And the TOOLCHAIN_OUTPUTNAME is for self.buildtarget, which is 
+core-image-minimal. Thus, we are basically checking 
+${TOOLCHAIN_OUTPUTNAME}.target.manifest and 
+${TOOLCHAIN_OUTPUTNAME}.host.target.
+e.g.
+tmp-glibc/deploy/sdk/poky-glibc-x86_64-core-image-minimal-core2-64-qemux86-64-toolchain-2.7+snapshot.host.manifest
+tmp-glibc/deploy/sdk/poky-glibc-x86_64-core-image-minimal-core2-64-qemux86-64-toolchain-2.7+snapshot.target.manifest
 
--- 
-Denys
+So I think things are correct.
+
+Best Regards,
+Chen Qi
 
