@@ -1,50 +1,56 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f42.google.com (mail-ot1-f42.google.com
-	[209.85.210.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 7CE6B7E8A7
+Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
+	[209.85.210.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 800A17E90F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 11:10:42 +0000 (UTC)
-Received: by mail-ot1-f42.google.com with SMTP id r6so13856720oti.3
+	Tue, 18 Jun 2019 11:21:07 +0000 (UTC)
+Received: by mail-ot1-f66.google.com with SMTP id l15so4252600otn.9
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 04:10:43 -0700 (PDT)
+	Tue, 18 Jun 2019 04:21:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9jCQIJj3wocjpkrU7AS4/1N5I8VoeRilenBdOtPp4tY=;
-	b=bXh949i6OwnQBORg/wku71usSM/R/PNCB2+XiqDR23+lHNy7GF6Xr40LZWy3pV+e+G
-	PCyfRmyClRvOGdoF/NCq/qVfG6Cidhe9PsyuZxMDl+Sa47BTRBKJableHWKCO3AIVGnM
-	1kl35dAANoOZqbohWqWEu/jeUiziK9nbvJT7Sf1nPQ6bBks198wLvqUHqL17mveehI0R
-	reE6kWtBBibFAbDVwfFyEkGfET3sGFYT8ROlc5EpBqCAwFYrgchh3kUPrnIxZjCSiObM
-	JA71SnF/Hs8z3Ius0khwpZKtvZqu4rLW5rq+TMjRulOxF8uHIFcws63Lb+FrdusluezE
-	ZmvA==
+	:cc; bh=lVYbRpo2uIJUPD4HnzwgiZi7+lHL8hQAONPMtsv2l9U=;
+	b=ewy4wAL8JU6MrHXoinxd1ODPDyy/WUZ4d325s+bVKjX2CpP1shcmYMlhNQBHZSviiY
+	7zXaPaHcoxAS2blW0Pg9/sXRqGJBfRd19xgxBr0CZq/h3WD7YMb7lHyV9AUhrr1UocUA
+	JORLFj8u0S0hCczp2eYY9WI375W95It4FdL4nHVitm4ya+eMWtaVZfb/OEJtYCdMXqCf
+	i7R6xDlv7d5gsJka2Dm9abBjsLPAWkRcO18wkd4vqa3fg1Ukn+a4IDadoZWBxq5M8U/q
+	UUZKrcQ0AGiOOHHAcl5SKgIUJUYk0Cbisxy87Xqf6aRofkW9hJdZISJ0Ojs3EZ3y1P3N
+	QwkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=9jCQIJj3wocjpkrU7AS4/1N5I8VoeRilenBdOtPp4tY=;
-	b=l2mvkn45/zRqIn7UeptLnobQz9/hKsvWKnNl4Mnc71VB+wYp5ib4NjIUhZOaS2jysl
-	bkGMuAVi4bCQrv8IcqOUIgDY+7MsZj+ufny/XngQjypLnUzJk/ZXqJt5SwNP7kIKRGXo
-	Q4VcxF5ClTtOn68XMHzfd4PX8oofn40Zo7XAsFuuI85oQ7gjeAaxpvNZ7o0F+WOWrXpJ
-	EGXMNEIJc5zmlGQ0M6rF29p+/nLHM2zX2FIIYUkxgoXtdqwYsDZaPMdP78o6XykwlCrx
-	Id3/rxpJSFpxX5/JaqlMyuJFTeF5VK8uwI9kIYzS1KdYUU2SIaBsXZxJ0MIk+Nwns34+
-	YUSA==
-X-Gm-Message-State: APjAAAURy7B0xIBiI9MpLywh/ZeQ5/RHnTDO1I5cbs0kboKOoebobWUU
-	goiYem5rJoI2P9qada98Rxt833U+KkV+bl54DHk=
-X-Google-Smtp-Source: APXvYqzACyJa+SocBl6HFBawmNlGyWdudwxaPZfex2labuD0dq0UU0mBXFEG9HcIKooRqEp/d3Uveht1in533JE/S5c=
-X-Received: by 2002:a9d:4b8d:: with SMTP id k13mr60778141otf.61.1560856243486; 
-	Tue, 18 Jun 2019 04:10:43 -0700 (PDT)
+	bh=lVYbRpo2uIJUPD4HnzwgiZi7+lHL8hQAONPMtsv2l9U=;
+	b=Fn0QnElPD+MhbZQOWY69z8QjH9AhonUhsOcIUMpzOZN7DIUpLbRdXIW8pFrnyHmNrX
+	7A60pzxynPxqdk32hVo8/VzYGZEGa6ZmH1lsQO5CBUKvFDV/onVQlcayQmKQW1qy3zYC
+	InSNMEY8w2hGJ6gXE54xk6rtm/XpdF1bQI6ooRrrhlTPDfxbAfpser2etjfeJdhNAzPY
+	Jdd2OG1hQFzjYqLu2XcfMf23N73bJ/7JvPZwI1ZjiNgjOk469xEKonyb+rBS3hyez6Q0
+	J42hKfa30dJKoB8P1oxyBePR6WiA95X1eXRz/17meV9yNI/Am/51N7DCL4BsamYH8oz1
+	K8ZA==
+X-Gm-Message-State: APjAAAUDUpjBzqO3p4Q9NTh/Y0rgjE5KX3xUnXNC7nJgcnFq3EwbtVaR
+	X5V/r6jDyteQiRO4kUNVemsKkkP63tYbJk1Qwl8=
+X-Google-Smtp-Source: APXvYqzK2gi1TTMLSh6FSfv9noe3fEfoFnW/OLtFKwlt/rKuYBggPIVuvvuJRB2+5RdNSMfdZ7aU7dvNfzIFT0TKbEw=
+X-Received: by 2002:a9d:7dd9:: with SMTP id k25mr55253704otn.350.1560856868410;
+	Tue, 18 Jun 2019 04:21:08 -0700 (PDT)
 MIME-Version: 1.0
-References: <CANNYZj9rVD4cZ-AN7rvF=0fuc4d99brU_Tt_wQeRMGm=L83M2w@mail.gmail.com>
-	<201906171422.x5HEMKtf012735@dan.rpsys.net>
-	<CANNYZj_vg_jzcMRhfQ35C_2kDnyH-yxVj52pKk2WpfZxfo5iOw@mail.gmail.com>
-	<591c1c8752c4c0526d18d5cd6596a35bc41c6645.camel@rpsys.net>
-In-Reply-To: <591c1c8752c4c0526d18d5cd6596a35bc41c6645.camel@rpsys.net>
+References: <1555166214-57646-1-git-send-email-zhengrq.fnst@cn.fujitsu.com>
+	<33D4DBCAC5F2D74E96B07F6E7632BF73B1C143F7@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF0FB0C1@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1002A6@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF1026BA@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF123A0E@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF128DDD@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<cedd7e708edfab28ec9db8046476313ea44a6022.camel@linuxfoundation.org>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF129787@G08CNEXMBPEKD01.g08.fujitsu.local>
+	<1B56A49860EB2D45ADE3731B15C959FD01BF12F738@G08CNEXMBPEKD01.g08.fujitsu.local>
+In-Reply-To: <1B56A49860EB2D45ADE3731B15C959FD01BF12F738@G08CNEXMBPEKD01.g08.fujitsu.local>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Jun 2019 13:10:32 +0200
-Message-ID: <CANNYZj-6ZbpdR9WHkhrjFL77U290ZM=B_c0W12b1aVT8oKjG3g@mail.gmail.com>
-To: Richard Purdie <rpurdie@rpsys.net>
-Cc: OE-core <openembedded-core@lists.openembedded.org>, "Eggleton,
-	Paul" <paul.eggleton@intel.com>
-Subject: Re: [AUH] lttng-ust: upgrading to 2.10.4 FAILED
+Date: Tue, 18 Jun 2019 13:20:57 +0200
+Message-ID: <CANNYZj9GKLaORrq1zTSamWxDn0FPAPNFvzQD=onzA=JaYfXsew@mail.gmail.com>
+To: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] toolchain-scripts: make rpm work in toolchain
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,60 +63,204 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 11:10:42 -0000
-Content-Type: multipart/alternative; boundary="000000000000f044a5058b972996"
+X-List-Received-Date: Tue, 18 Jun 2019 11:21:07 -0000
+Content-Type: multipart/alternative; boundary="0000000000002fda8e058b974fca"
 
---000000000000f044a5058b972996
+--0000000000002fda8e058b974fca
 Content-Type: text/plain; charset="UTF-8"
 
-On Mon, 17 Jun 2019 at 17:26, Richard Purdie <rpurdie@rpsys.net> wrote:
+RPM is taking these things from its config file, not from an environment
+variable, so you must be doing some additional custom magic to configure
+rpm from environment when SDK is already in use.
 
->
-> I think that perhaps:
->
-> a) we should have a bug for this as devtool shouldn't be giving
-> tracebacks?
->
-
-Bug filed:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13404
-
-
-> b) we could add some kind of "reset" command that AUH could run between
-> builds which would clean things up?
->
-
-There is such a command  - 'devtool reset' and AUH does run it, however in
-this case it does not work because the recipe in devtool workspace is
-half-complete. (I think devtool reset looks up the recipe to be reset in
-workspace/appends, which is empty because of the traceback).
+Instead, you probably need to write appropriate settings into the file when
+the nativesdk-rpm package gets created (or when populate_sdk is executed).
 
 Alex
 
---000000000000f044a5058b972996
+On Tue, 18 Jun 2019 at 10:03, Lei, Maohui <leimaohui@cn.fujitsu.com> wrote:
+
+> ping
+>
+> > -----Original Message-----
+> > From: openembedded-core-bounces@lists.openembedded.org [mailto:
+> openembedded-
+> > core-bounces@lists.openembedded.org] On Behalf Of Lei, Maohui
+> > Sent: Thursday, June 06, 2019 10:39 AM
+> > To: richard.purdie@linuxfoundation.org
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core] [PATCH] toolchain-scripts: make rpm work in
+> toolchain
+> >
+> > Hi, Richard
+> >
+> > > Whilst I can guess why, its not obvious at all the dnf needs
+> > > MACHINE_ARCH. I'd probably be happier with a better variable name.
+> > > Which code exactly is using it?
+> >
+> > Arch information is necessary for rpm. As what do for dnf-native in
+> > _configure_rpm function, nativesdk-dnf has to do the same work.
+> > But the environment for nativesdk doesn't supply arch information. I
+> think
+> > MACHINE_ARCH is suitable to supply arch information for nativesdk.
+> > How about your Opinion?
+> >
+> > Best regards
+> > Lei
+> >
+> >
+> >
+> > > -----Original Message-----
+> > > From: richard.purdie@linuxfoundation.org
+> > > [mailto:richard.purdie@linuxfoundation.org]
+> > > Sent: Tuesday, June 04, 2019 6:26 PM
+> > > To: Lei, Maohui
+> > > Cc: openembedded-core@lists.openembedded.org
+> > > Subject: Re: [OE-core] [PATCH] toolchain-scripts: make rpm work in
+> toolchain
+> > >
+> > > On Tue, 2019-06-04 at 08:29 +0000, Lei, Maohui wrote:
+> > > > Hi Richard
+> > > >
+> > > > This patch is necessary for dnf-nativesdk which has been merged. But
+> > > > this patch is still ignored.
+> > > > Do you have any comment about this patch?
+> > >
+> > > Basically I really don't like exporting "random" variables in the SDK,
+> > > particularly when the meaning/use of them isn't clear.
+> > >
+> > > Whilst I can guess why, its not obvious at all the dnf needs
+> > > MACHINE_ARCH. I'd probably be happier with a better variable name.
+> > > Which code exactly is using it?
+> > >
+> > > Cheers,
+> > >
+> > > Richard
+> > >
+> > >
+> >
+> >
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000002fda8e058b974fca
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 17 Jun 2019 at 17:26, Richard Pur=
-die &lt;<a href=3D"mailto:rpurdie@rpsys.net">rpurdie@rpsys.net</a>&gt; wrot=
-e:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex"><br>
-I think that perhaps:<br>
+<div dir=3D"ltr"><div>RPM is taking these things from its config file, not =
+from an environment variable, so you must be doing some additional custom m=
+agic to configure rpm from environment when SDK is already in use. <br></di=
+v><div><br></div><div>Instead, you probably need to write appropriate setti=
+ngs into the file when the nativesdk-rpm package gets created (or when popu=
+late_sdk is executed).</div><div><br></div><div>Alex<br></div></div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, 18 Ju=
+n 2019 at 10:03, Lei, Maohui &lt;<a href=3D"mailto:leimaohui@cn.fujitsu.com=
+">leimaohui@cn.fujitsu.com</a>&gt; wrote:<br></div><blockquote class=3D"gma=
+il_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,2=
+04,204);padding-left:1ex">ping<br>
 <br>
-a) we should have a bug for this as devtool shouldn&#39;t be giving<br>
-tracebacks?<br></blockquote><div><br></div><div>Bug filed:</div><div><a hre=
-f=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13404">https://bug=
-zilla.yoctoproject.org/show_bug.cgi?id=3D13404</a></div><div>=C2=A0</div><b=
-lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
-ft:1px solid rgb(204,204,204);padding-left:1ex">
-b) we could add some kind of &quot;reset&quot; command that AUH could run b=
-etween<br>
-builds which would clean things up?<br></blockquote><div><br></div><div>The=
-re is such a command=C2=A0 - &#39;devtool reset&#39; and AUH does run it, h=
-owever in this case it does not work because the recipe in devtool workspac=
-e is half-complete. (I think devtool reset looks up the recipe to be reset =
-in workspace/appends, which is empty because of the traceback).</div><div><=
-br></div><div>Alex<br></div></div></div>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.o=
+rg" target=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a> =
+[mailto:<a href=3D"mailto:openembedded-" target=3D"_blank">openembedded-</a=
+><br>
+&gt; <a href=3D"mailto:core-bounces@lists.openembedded.org" target=3D"_blan=
+k">core-bounces@lists.openembedded.org</a>] On Behalf Of Lei, Maohui<br>
+&gt; Sent: Thursday, June 06, 2019 10:39 AM<br>
+&gt; To: <a href=3D"mailto:richard.purdie@linuxfoundation.org" target=3D"_b=
+lank">richard.purdie@linuxfoundation.org</a><br>
+&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: Re: [OE-core] [PATCH] toolchain-scripts: make rpm work in too=
+lchain<br>
+&gt; <br>
+&gt; Hi, Richard<br>
+&gt; <br>
+&gt; &gt; Whilst I can guess why, its not obvious at all the dnf needs<br>
+&gt; &gt; MACHINE_ARCH. I&#39;d probably be happier with a better variable =
+name.<br>
+&gt; &gt; Which code exactly is using it?<br>
+&gt; <br>
+&gt; Arch information is necessary for rpm. As what do for dnf-native in<br=
+>
+&gt; _configure_rpm function, nativesdk-dnf has to do the same work.<br>
+&gt; But the environment for nativesdk doesn&#39;t supply arch information.=
+ I think<br>
+&gt; MACHINE_ARCH is suitable to supply arch information for nativesdk.<br>
+&gt; How about your Opinion?<br>
+&gt; <br>
+&gt; Best regards<br>
+&gt; Lei<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; &gt; -----Original Message-----<br>
+&gt; &gt; From: <a href=3D"mailto:richard.purdie@linuxfoundation.org" targe=
+t=3D"_blank">richard.purdie@linuxfoundation.org</a><br>
+&gt; &gt; [mailto:<a href=3D"mailto:richard.purdie@linuxfoundation.org" tar=
+get=3D"_blank">richard.purdie@linuxfoundation.org</a>]<br>
+&gt; &gt; Sent: Tuesday, June 04, 2019 6:26 PM<br>
+&gt; &gt; To: Lei, Maohui<br>
+&gt; &gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" t=
+arget=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; &gt; Subject: Re: [OE-core] [PATCH] toolchain-scripts: make rpm work i=
+n toolchain<br>
+&gt; &gt;<br>
+&gt; &gt; On Tue, 2019-06-04 at 08:29 +0000, Lei, Maohui wrote:<br>
+&gt; &gt; &gt; Hi Richard<br>
+&gt; &gt; &gt;<br>
+&gt; &gt; &gt; This patch is necessary for dnf-nativesdk which has been mer=
+ged. But<br>
+&gt; &gt; &gt; this patch is still ignored.<br>
+&gt; &gt; &gt; Do you have any comment about this patch?<br>
+&gt; &gt;<br>
+&gt; &gt; Basically I really don&#39;t like exporting &quot;random&quot; va=
+riables in the SDK,<br>
+&gt; &gt; particularly when the meaning/use of them isn&#39;t clear.<br>
+&gt; &gt;<br>
+&gt; &gt; Whilst I can guess why, its not obvious at all the dnf needs<br>
+&gt; &gt; MACHINE_ARCH. I&#39;d probably be happier with a better variable =
+name.<br>
+&gt; &gt; Which code exactly is using it?<br>
+&gt; &gt;<br>
+&gt; &gt; Cheers,<br>
+&gt; &gt;<br>
+&gt; &gt; Richard<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; --<br>
+&gt; _______________________________________________<br>
+&gt; Openembedded-core mailing list<br>
+&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
+_blank">Openembedded-core@lists.openembedded.org</a><br>
+&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
+-core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
+ailman/listinfo/openembedded-core</a><br>
+<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
---000000000000f044a5058b972996--
+--0000000000002fda8e058b974fca--
