@@ -1,49 +1,49 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id AA6D57E947
+Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
+	[209.85.160.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 6320E7E930
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 16:00:28 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id d17so10993534qtj.8
+	Tue, 18 Jun 2019 16:03:05 +0000 (UTC)
+Received: by mail-qt1-f196.google.com with SMTP id j19so15934833qtr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 09:00:30 -0700 (PDT)
+	Tue, 18 Jun 2019 09:03:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=WeZZeDKkktUpB9wZXy/jYRfJjdITk2fQtoN9mCiQUQ0=;
-	b=Jzf9AX1kfODtIsUjW2xzjpL1MW8WVyOaMI0FlKUCSa6jqk3GXkPKZI5jhQBKF8s+8n
-	pO4YBqab2CK2SFKNH3IgW9NnLb8/AaDTDWScfM4aTkxGlAcKtoPB8/MgZzcd8LYjKNCD
-	/IOoEpMyzeWy6KC4eRhrQzAL29je6tx20ehRY/b+mkfuPY0V0clLf8DAFfz4faFLqbIe
-	m/wdJoKE0UDThHacjokehXePApXyddFoqPQYfknNWcEE3KnFgIiuKrC+Pg3X/+VFUJ/a
-	zQ6leo92ozd0hMoCHC6S94Tfue1NJ62Uz5kbmYs/ERBDtp9KRJyi0zDyVu5xZf6ktgsN
-	kPPw==
+	:cc; bh=ajH07WJ+SlBmSE3hTIRByWSMEyXLTlAqE/gIgDopIqs=;
+	b=H2m9DjLO7XAOLXXGNoc1PkdGGmO/dfTJgct4oNXo9c2MU8nR282re99fTQ5wed/DCz
+	O5toXGg8VcOlByav9llFVWXQGkVZTaRYJW6fshg8f23uMWtKc4QzWFV0A+hBAzTE0yYp
+	8COSjTMqF3aQPqixtZMv7D9k2rp9OmevNJC6l2VSzXBBVEeGJsDs6/M9UOTEDiaAyKdu
+	rGO4V8tRST54z0ZmCGMYvt3+m54tsNpctR/yKFGjM+tSbxX1Y9ieJrdqStcpkuJlkHRm
+	WOBx9U+ajSD3us8IZirc9GRpbneGhBNynofoq4tGz+/vLAi8uE1L1uhOKBtiEWRawEJc
+	J8dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=WeZZeDKkktUpB9wZXy/jYRfJjdITk2fQtoN9mCiQUQ0=;
-	b=b2u3CjiNcg35qFbqtDyD2ouZtNiDjkGuciVZ9KhScRHnwAq3bTx6Fj2TBy4UqFe1FE
-	nSWgn7CwV7EY6kt/QJa2Bw//F1kCinUydGK0WtJNGr/394IdWcM4JzrFRGDGdWPPO21J
-	VHvYk75j4UqwWRiWr26oGCagfpb/6eRWarq6HXjlIvOEYm4H0xJXf42CPcFSUofAsQHS
-	JIqqdC58aa85Ox9ZjeJsvJCDPv4oEkn80cCzdVn/DMVALikHC05mcS4Z9tklIkrn2yVk
-	yiO/cJ3lwm/6+FXWBO3ge8LLRt9VO68L7ivYg7YcweLq4Aqfl89Rsv2q0BkaKdzOazJk
-	+QKg==
-X-Gm-Message-State: APjAAAVVsJNoR4FhVrUKvxEKk9t8mpYbyp5cT+NgML8O9VENyTc0VuuQ
-	ieIepdunN+W7wE3YOhyoSmA7zC5mVa9gzU9UccgkGabj
-X-Google-Smtp-Source: APXvYqzxBNdSPmjqXJS9HxI+wpwIKwnUu50B/ccMDFe0LAm77vAbJ8gTqo1CzOWQIn0B1eUckhv345+kMvKrPwhYbVk=
-X-Received: by 2002:ac8:e05:: with SMTP id a5mr66191862qti.53.1560873629409;
-	Tue, 18 Jun 2019 09:00:29 -0700 (PDT)
+	bh=ajH07WJ+SlBmSE3hTIRByWSMEyXLTlAqE/gIgDopIqs=;
+	b=AdOAUQUYYseR9d4n79U+GaA7CL9rZU7MPwv/cOjZLBLUHvzYOYeD19E0IjmFpRCe1L
+	S91fhg41PGOazqYamXPuiTafRPa28LlRhritdfRH0jcs/n8ABfWIxVO+ZxGChYURXfNn
+	nL2CGlsmaeSn7rmUm1GQnmZjvWLCOdx7zs1IGORamWF9kY2hzoO0w6CqhFSq6C4kvWlG
+	RD3tItjGyqyYSBfT7O+GQDkHLBhzv0vvp67z4snNZ/78YR0EHY3WYxpX49XXx1f6LNPs
+	L3sH78rYYTBtszNFOXc8/ap2cgjm04fsOjhQ/heCEA02QgYPlxQlFX095R3ykLdB+Ry+
+	4YuQ==
+X-Gm-Message-State: APjAAAVAU4wgP9soJf6yZAT3xsU5DTwgZsVh9euSsmAVoPAzVgeXrfA1
+	Vp6V6mfC3cIKEBAMwkijZGBp/QtozLJxCkQXVYM+DhSq
+X-Google-Smtp-Source: APXvYqzDQFfIYdUcgL/FZd6/i4StYBFD572I6OgiG84YIwNhpQo69wbCXSjhN67HlEXnla3mEULPin1ee+qyij0flWA=
+X-Received: by 2002:ac8:26dc:: with SMTP id 28mr97701880qtp.88.1560873786254; 
+	Tue, 18 Jun 2019 09:03:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190618104735.25849-1-ross.burton@intel.com>
-	<CAMKF1spb0ouiuW+44jvXqbBYOa5TAw2cbabmQmuTo0z4n9BLZQ@mail.gmail.com>
-	<CAJTo0Lbd2r1enJ63_ubhXp6Ny77dgvrUqhiCPSfeqNYV-pL3zA@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbd2r1enJ63_ubhXp6Ny77dgvrUqhiCPSfeqNYV-pL3zA@mail.gmail.com>
+References: <20190617220122.13994-1-alistair.francis@wdc.com>
+	<20190617220122.13994-3-alistair.francis@wdc.com>
+	<CADkTA4OoLhubvA8ZCWVYeLVtiABtk+PC4Zm0h0HEFLzMzEimng@mail.gmail.com>
+In-Reply-To: <CADkTA4OoLhubvA8ZCWVYeLVtiABtk+PC4Zm0h0HEFLzMzEimng@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Jun 2019 09:00:02 -0700
-Message-ID: <CAMKF1sor0rn1XTyqZ8FvJDzzbc3dBMP2wCjOhGXC7Eo4NGuzNg@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2019 09:02:39 -0700
+Message-ID: <CAMKF1spyZz62gYdMj8otZVMKJSP4aFm=XUpW47zc+YjFOoBgqA@mail.gmail.com>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binconfig: don't try to fix up .la files
+Subject: Re: [PATCH 3/4] linux-yocto: Mark qemuriscv64 as compatible
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,20 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 16:00:28 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 16:03:06 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 18, 2019 at 8:55 AM Burton, Ross <ross.burton@intel.com> wrote:
+On Mon, Jun 17, 2019 at 8:44 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
 >
-> On Tue, 18 Jun 2019 at 16:51, Khem Raj <raj.khem@gmail.com> wrote:
-> > while I agree, are there assumptions in the recipes using binconfig on this ?
-> > especially packages outside oe-core ?
+> On Mon, Jun 17, 2019 at 6:04 PM Alistair Francis
+> <alistair.francis@wdc.com> wrote:
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  meta/recipes-kernel/linux/linux-yocto_5.0.bb | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> > index 8aec315084..a79d0b962d 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> > +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> > @@ -41,7 +41,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
+> >  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> >  KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+> >
+> > -COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+> > +COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64"
 >
-> I suspect that everyone is using remove-libtool, because that's one of
-> the default inherits.
+> What KBRANCH / SRCREV would this be building ? Unless it is something
+> that I'm building and booting, we shouldn't put it in the core recipe
+> as compatible until the SRCREV and KBRANCH are defined.
 >
 
-I see, that makes sense. So it was just redundant then
+it needs to be master branch of repo since it needs no additional
+patches KBRANCH is not needed I suppose. and SRCREV can be picked from
+master branch.
 
-> Ross
+> Bruce
+>
+>
+> >
+> >  # Functionality flags
+> >  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
+> > --
+> > 2.22.0
+> >
+> > --
+> > _______________________________________________
+> > Openembedded-core mailing list
+> > Openembedded-core@lists.openembedded.org
+> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
