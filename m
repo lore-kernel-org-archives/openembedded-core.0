@@ -1,51 +1,38 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 94A177E894
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
+	by mail.openembedded.org (Postfix) with ESMTP id 378307E54F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 11:41:47 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id n4so13560927wrw.13
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 04:41:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qV+iu9zSpevLinxccC6bmtew44c7L0bPAFethDOKFnI=;
-	b=SLeqkcgIA/I+84CpdzBYbIxLw/koOJ76EhJUga50HRWy23wSRP5Ga1BHKCcodUE848
-	O1zBINv29yWGGpkYrZqyYvRokpjyRgQTTwHWorroIXF4SuOxLBO+wlur5COrhzgjR60W
-	UmJoWBlm5KG6kgvyp//GfPiZl++ih5NPX5vAI7zCZxi2Lq5MmJ7mv1pCcdMRN4GLbUbA
-	lHl63u1wJsCHiM9kmEs4WKhyZsUor9ub6cW1apGWRFyMr6EOB0HHGgfhWB+RiycasTSP
-	OFmd0ylfBiFKWQU6GuNazM63LsZoHMMsUoE+udH2hdPpO6NlEctRsqt1S3h7Z+OGJobB
-	EZGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=qV+iu9zSpevLinxccC6bmtew44c7L0bPAFethDOKFnI=;
-	b=CtC0RMl4kyO9Kw9MBeRgQhDcRWVaaTiex/BbxfUosqyvCfP9Me751O4domE2XqWJk3
-	Dd+IG0Tkhu6xSQQDmg6OMjH45fasR4+hB9p0oRNSoZdwONL43m5ZtM703mbIiK3jf0hR
-	wLunTIg/QB7QHyhOftpF+XoYH0X6upyFipAFnIGT82st70LK/33udEcHgkfxX5GDLSF3
-	8dT7EYgV56knudQCBeQs71trQzbDaBjHl8csxagifiGUrmLgUt1kit8QII06WbFeNc81
-	SUmS01GXyI53UfOQispDWdOnAwDvEICFNZ8UjA1Q9FNLl3hFE/36R7AP1lh46tqe9zDg
-	Gd7A==
-X-Gm-Message-State: APjAAAWvhkSSBh9RyDdPiowYmbHZ4PS8jETsa0Rk/1nGhgh1wbT78t+N
-	vBjXqn/ut0MWMvXnWdEylPer4WF1
-X-Google-Smtp-Source: APXvYqwDqnYygCl0EI/nnFLecahfk2+pvcxCQva5v6p7U/zdHvYOp4BSKGZVSXjojZDFOvAs6pkKqA==
-X-Received: by 2002:adf:cd8c:: with SMTP id q12mr67097171wrj.103.1560858108035;
-	Tue, 18 Jun 2019 04:41:48 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	l12sm37697746wrb.81.2019.06.18.04.41.47
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 18 Jun 2019 04:41:47 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 11:41:52 +0000
-Message-Id: <20190618114152.6172-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CAJTo0LZf4a-p2RpMbdL6Vch+UHC69b3Jm1z5-Gz7LaGq6RZCKA@mail.gmail.com>
-References: <CAJTo0LZf4a-p2RpMbdL6Vch+UHC69b3Jm1z5-Gz7LaGq6RZCKA@mail.gmail.com>
-Subject: [PATCHv2] base.bbclass: define PACKAGECONFIG_CONFARGS before only sometimes appending to it
+	Tue, 18 Jun 2019 12:06:34 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	18 Jun 2019 05:06:35 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,389,1557212400"; d="scan'208";a="153446403"
+Received: from kmsmsx156.gar.corp.intel.com ([172.21.138.133])
+	by orsmga008.jf.intel.com with ESMTP; 18 Jun 2019 05:06:33 -0700
+Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.96]) by
+	KMSMSX156.gar.corp.intel.com ([169.254.1.43]) with mapi id
+	14.03.0439.000; Tue, 18 Jun 2019 20:06:32 +0800
+From: "Lee, Chee Yang" <chee.yang.lee@intel.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH] wic/bootimg-efi: allow multiple initrd
+Thread-Index: AQHVIbBQsgvQe9Fb7EWEAkaz3qMDp6afz4YAgAGJogA=
+Date: Tue, 18 Jun 2019 12:06:32 +0000
+Message-ID: <D5D2BB7F-DC45-47BE-AA67-F426E3F4AC8E@intel.com>
+References: <1560406896-37282-1-git-send-email-chee.yang.lee@intel.com>
+	<7072c0e9642b064ad4444e1033506ae292af0fc4.camel@linuxfoundation.org>
+In-Reply-To: <7072c0e9642b064ad4444e1033506ae292af0fc4.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Microsoft-MacOutlook/10.10.a.190512
+x-originating-ip: [10.221.217.11]
+MIME-Version: 1.0
+Subject: Re: [PATCH] wic/bootimg-efi: allow multiple initrd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,39 +45,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 11:41:48 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 12:06:34 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B27CA9FEABE3E2469F4F6714CD1F1EC1@intel.com>
+Content-Transfer-Encoding: base64
 
-* just to make sure it's expaned by bitbake before it gets
-  executed in shell
-* e.g. with cmake.bbclass and cmake recipe (any recipe without
-  PACKAGECONFIG options have this issue) it looks like this:
-  bitbake -e cmake | grep EXTRA_OECMAKE=
-  EXTRA_OECMAKE="     -DCMAKE_DOC_DIR=share/doc/cmake-3.14
-    -DCMAKE_USE_SYSTEM_LIBRARIES=1 -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0
-    -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0
-    -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0     -DKWSYS_CHAR_IS_SIGNED=1
-    -DBUILD_CursesDialog=0     -DKWSYS_LFS_WORKS=1
-    \${PACKAGECONFIG_CONFARGS}"
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/classes/base.bbclass | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
-index 90af8ba72b..0c8a4b2862 100644
---- a/meta/classes/base.bbclass
-+++ b/meta/classes/base.bbclass
-@@ -15,6 +15,8 @@ OE_EXTRA_IMPORTS ?= ""
- OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license ${OE_EXTRA_IMPORTS}"
- OE_IMPORTS[type] = "list"
- 
-+PACKAGECONFIG_CONFARGS ??= ""
-+
- def oe_import(d):
-     import sys
- 
--- 
-2.17.1
-
+TXkgYmFkLCBJIHNob3VsZCB0ZXN0IGl0IHdpdGggY29tcGxldGUgb2Utc2VsZnRlc3Qgd2ljIG1v
+ZHVsZS4NCg0K77u/T24gNi8xOC8xOSwgNDozNyBBTSwgIlJpY2hhcmQgUHVyZGllIiA8cmljaGFy
+ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBUaHUsIDIwMTkt
+MDYtMTMgYXQgMTQ6MjEgKzA4MDAsIGNoZWUueWFuZy5sZWVAaW50ZWwuY29tIHdyb3RlOg0KICAg
+ID4gRnJvbTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55YW5nLmxlZUBpbnRlbC5jb20+DQogICAgPiAN
+CiAgICA+IEFsbG93IHBsdWdpbiBib290aW1nLWVmaSB0byBjb25maWd1cmUgd2l0aCBtdWx0aXBs
+ZSBpbml0cmQNCiAgICA+IHRocm91Z2ggc291cmNlIHBhcmFtZXRlci4NCiAgICA+IA0KICAgID4g
+VXNlcyA7IHRvIHNlcGFyYXRlIGVhY2ggaW5pdHJkLg0KICAgID4gDQogICAgPiBlLmc6DQogICAg
+PiAtLXNvdXJjZXBhcmFtcz0ibG9hZGVyPSR7RUZJX1BST1ZJREVSfSxpbml0cmQ9aW5pdHJkMTtp
+bml0cmQyIg0KICAgID4gDQogICAgPiBTaWduZWQtb2ZmLWJ5OiBDaGVlIFlhbmcgTGVlIDxjaGVl
+LnlhbmcubGVlQGludGVsLmNvbT4NCiAgICA+IC0tLQ0KICAgID4gIHNjcmlwdHMvbGliL3dpYy9w
+bHVnaW5zL3NvdXJjZS9ib290aW1nLWVmaS5weSB8IDI0ICsrKysrKysrKysrKysrKystDQogICAg
+PiAtLS0tLS0tDQogICAgPiAgMSBmaWxlIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDggZGVs
+ZXRpb25zKC0pDQogICAgDQogICAgDQogICAgSG93IHdhcyB0aGlzIHRlc3RlZD8gSXQgYnJva2Ug
+dGhlIGF1dG9idWlsZGVyIGJ1aWxkOg0KICAgIA0KICAgIHwgREVCVUc6IFB5dGhvbiBmdW5jdGlv
+biBleHRlbmRfcmVjaXBlX3N5c3Jvb3QgZmluaXNoZWQNCiAgICB8IERFQlVHOiBFeGVjdXRpbmcg
+c2hlbGwgZnVuY3Rpb24gZG9faW1hZ2Vfd2ljDQogICAgfCBJTkZPOiBDcmVhdGluZyBpbWFnZShz
+KS4uLg0KICAgIHwgDQogICAgfCBUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQog
+ICAgfCAgIEZpbGUgIi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvZ2VuZXJpY3g4Ni9idWls
+ZC9zY3JpcHRzL3dpYyIsIGxpbmUgNTI1LCBpbiA8bW9kdWxlPg0KICAgIHwgICAgIHN5cy5leGl0
+KG1haW4oc3lzLmFyZ3ZbMTpdKSkNCiAgICB8ICAgRmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3Rv
+LXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3NjcmlwdHMvd2ljIiwgbGluZSA1MjAsIGluIG1haW4N
+CiAgICB8ICAgICByZXR1cm4gaGxwLmludm9rZV9zdWJjb21tYW5kKGFyZ3MsIHBhcnNlciwgaGxw
+LndpY19oZWxwX3VzYWdlLCBzdWJjb21tYW5kcykNCiAgICB8ICAgRmlsZSAiL2hvbWUvcG9reWJ1
+aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3NjcmlwdHMvbGliL3dpYy9oZWxwLnB5
+IiwgbGluZSA4MywgaW4gaW52b2tlX3N1YmNvbW1hbmQNCiAgICB8ICAgICBzdWJjbWRbMF0oYXJn
+cywgdXNhZ2UpDQogICAgfCAgIEZpbGUgIi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvZ2Vu
+ZXJpY3g4Ni9idWlsZC9zY3JpcHRzL3dpYyIsIGxpbmUgMjIwLCBpbiB3aWNfY3JlYXRlX3N1YmNv
+bW1hbmQNCiAgICB8ICAgICBuYXRpdmVfc3lzcm9vdCwgb3B0aW9ucykNCiAgICB8ICAgRmlsZSAi
+L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3NjcmlwdHMvbGli
+L3dpYy9lbmdpbmUucHkiLCBsaW5lIDE4OSwgaW4gd2ljX2NyZWF0ZQ0KICAgIHwgICAgIHBsdWdp
+bi5kb19jcmVhdGUoKQ0KICAgIHwgICBGaWxlICIvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2Vy
+L2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5w
+eSIsIGxpbmUgODYsIGluIGRvX2NyZWF0ZQ0KICAgIHwgICAgIHNlbGYuY3JlYXRlKCkNCiAgICB8
+ICAgRmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3Nj
+cmlwdHMvbGliL3dpYy9wbHVnaW5zL2ltYWdlci9kaXJlY3QucHkiLCBsaW5lIDE5NiwgaW4gY3Jl
+YXRlDQogICAgfCAgICAgc2VsZi5faW1hZ2UucHJlcGFyZShzZWxmKQ0KICAgIHwgICBGaWxlICIv
+aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIv
+d2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weSIsIGxpbmUgMzYyLCBpbiBwcmVwYXJlDQogICAg
+fCAgICAgaW1hZ2VyLmtlcm5lbF9kaXIsIGltYWdlci5uYXRpdmVfc3lzcm9vdCkNCiAgICB8ICAg
+RmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3Njcmlw
+dHMvbGliL3dpYy9wYXJ0aXRpb24ucHkiLCBsaW5lIDE2NywgaW4gcHJlcGFyZQ0KICAgIHwgICAg
+IGtlcm5lbF9kaXIsIG5hdGl2ZV9zeXNyb290KQ0KICAgIHwgICBGaWxlICIvaG9tZS9wb2t5YnVp
+bGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMv
+c291cmNlL2Jvb3RpbWctZWZpLnB5IiwgbGluZSAxOTgsIGluIGRvX2NvbmZpZ3VyZV9wYXJ0aXRp
+b24NCiAgICB8ICAgICBjbHMuZG9fY29uZmlndXJlX2dydWJlZmkoaGRkZGlyLCBjcmVhdG9yLCBj
+cl93b3JrZGlyLCBzb3VyY2VfcGFyYW1zKQ0KICAgIHwgICBGaWxlICIvaG9tZS9wb2t5YnVpbGQv
+eW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvc291
+cmNlL2Jvb3RpbWctZWZpLnB5IiwgbGluZSA4OCwgaW4gZG9fY29uZmlndXJlX2dydWJlZmkNCiAg
+ICB8ICAgICBpZiBpbml0cmRzOg0KICAgIHwgVW5ib3VuZExvY2FsRXJyb3I6IGxvY2FsIHZhcmlh
+YmxlICdpbml0cmRzJyByZWZlcmVuY2VkIGJlZm9yZSBhc3NpZ25tZW50DQogICAgfCBXQVJOSU5H
+OiBleGl0IGNvZGUgMSBmcm9tIGEgc2hlbGwgY29tbWFuZC4NCiAgICB8IEVSUk9SOiBGdW5jdGlv
+biBmYWlsZWQ6IGRvX2ltYWdlX3dpYyAobG9nIGZpbGUgaXMgbG9jYXRlZCBhdCAvaG9tZS9wb2t5
+YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvYnVpbGQvdG1wL3dvcmsvZ2VuZXJp
+Y3g4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtbWluaW1hbC1pbml0cmFtZnMvMS4wLXIwL3RlbXAv
+bG9nLmRvX2ltYWdlX3dpYy4yMzcwMCkNCiAgICANCiAgICANCiAgICBodHRwczovL2F1dG9idWls
+ZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzQ4L2J1aWxkcy83MTINCiAg
+ICBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJz
+LzM3L2J1aWxkcy83MTcNCiAgICBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcv
+dHlwaG9vbi8jL2J1aWxkZXJzLzQzL2J1aWxkcy83MTINCiAgICBodHRwczovL2F1dG9idWlsZGVy
+LnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzQ5L2J1aWxkcy83MTENCiAgICBo
+dHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzU4
+L2J1aWxkcy82OTkNCiAgICANCiAgICB3aWMgc2VsZnRlc3RzIGRvbid0IGV2ZW4gd29yazoNCiAg
+ICBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJz
+LzU2L2J1aWxkcy81MjYNCiAgICANCiAgICANCiAgICBSaWNoYXJkDQogICAgDQogICAgDQoNCg==
 
