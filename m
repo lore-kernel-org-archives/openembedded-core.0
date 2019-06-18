@@ -1,50 +1,47 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
 	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 60ADF7E8FB
+	by mail.openembedded.org (Postfix) with ESMTP id 542697E904
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 12:34:10 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id w9so2207331wmd.1
+	Tue, 18 Jun 2019 12:36:26 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id z23so3071321wma.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 05:34:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=lPSQKJ4NFSDMaJOz3dGPZOImWIdq195waIIZDZbPN2M=;
-	b=GUM8++jeaxmg7vj4z/od1U1f0XlnV10GTrnjtyM+TNjGzMDSln1jd/CuoDBTlZy3eC
-	myojVAva6lklqLW9OXIZKplOg9SNZu8pO7L+xHYOZ7+RzyFl2zTaoWJCb93Z5NIQzAdJ
-	frTzIBIhytVXdX1r9lkKRttlo21rvjWEnc3Zc=
+	Tue, 18 Jun 2019 05:36:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=JxrCouSFR02f6qGz7oTqEoHzyp98u1vISZFtEYatsWs=;
+	b=Crvms1GCsJim28lf92bysIpw5TaaeZockwvu04dUNyY8o3JG5RZr8M37gEDqJVWI/F
+	bZTJQifXf/bpGnOQriazuivxGyLpHaTbZDidYLzxKkRNwv2nQWmTV17M/lF7zBSwaQFd
+	fcFtzK1gk2lvXomgxdX5pDxqZiwR+MbjJTxub7HOIvA77xXofLNgkfDZqJY1uIpL8W9x
+	q2dlJDozUqiyhrcAYMyU/3TTvthRGnRyF5YJKWV4uuvY9U9MfniK5dgqctm5RNbZkSpb
+	dEsy+S3k5ZtXTFT4xqyilG8N8hUHVaw61jktqAHmwFaG3rWB/a8T1xDJ3AR6GcPOF6ph
+	QVXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=lPSQKJ4NFSDMaJOz3dGPZOImWIdq195waIIZDZbPN2M=;
-	b=BpRpPRqhNrCgYp+1DIaNr8dTQrYQXE9w3jbWXLQImV2q4GgqaLB2eiRVtkZiU1/X0V
-	Vd+1IuE8finBnwJJ7ngh3GEcAzCsFafEUQhRgeWnUIt84S8tAqn9qRBDPDDIx8yKaI1U
-	w0YCSAbYkmhHQjVxLDEivDh2oOxWgD5OHL/QqYLhTQeUgVx5xo9bnd3B1wr45xUX4My7
-	AVze0h3vs9Sl8wBkY1dp8YdEqhWEr38yY0zgk9wlgmdbVg0jFmJI45nSlYGoHMmztV2D
-	BqL53YVk6dua66qrnOzbBD7owC3wUByj4UooPUrjcRGP9yUOPatr9tZq8DIBuYzoUwjM
-	BuQw==
-X-Gm-Message-State: APjAAAUrFZeKNvb/u/kcLYxe9ZS1WeVtVHfzAny34LeBG8lSHDapzm/8
-	KN3k+aTmkvtXiBrG/S+IABxJOU9s4rY=
-X-Google-Smtp-Source: APXvYqzTmD7DiG2zFfjrnS9lJPibZ696o8HzE7UIcceAV9TtI/XXSzPKNR3RhVejfaxdwzzBZPUmYA==
-X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr2844822wml.124.1560861250931; 
-	Tue, 18 Jun 2019 05:34:10 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g5sm15913157wrp.29.2019.06.18.05.34.10
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 18 Jun 2019 05:34:10 -0700 (PDT)
-Message-ID: <bb0334d27a1ec6cb25e6eb5b994a89c56f311c7d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 13:34:09 +0100
-In-Reply-To: <20190618061128.17422-1-bunk@stusta.de>
-References: <20190618061128.17422-1-bunk@stusta.de>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=JxrCouSFR02f6qGz7oTqEoHzyp98u1vISZFtEYatsWs=;
+	b=YgYxrfH4WbW9MYclWV72ms/p3GsE1mPq1GgC29tIw74JYJLkAitmydn+JfsrT0OhlY
+	MHAFKaDasfIdzB9te8sSlLXNdnKqMM967lfCf2Md2ph4jGrf3p/unNnzmkzAu8SLCQyS
+	v9DRLKD70rCnv+IgnlY/xOMHW5mLztq7ZqNiCNQZZYZw7ICwua+H0JljUqCzeFWV805A
+	osaRSwJ0/D1po3ObqX1s8jWXuWi94kzVDDgBpB+DY6X+Etmpb167Xew4Yk8AN3Y9wIku
+	9/ZEXmZ83GAIYN/THX7wpN+sF00I98pIPhAW6eUgwDwRMVSUwUGavgcnOxgAmti8UcLi
+	NmSg==
+X-Gm-Message-State: APjAAAUYZlQ4kH11tSceJ+E+KbvrYiEGOHYNnnW7AvWjGQBqmjNtPDCk
+	/bp5FMV1CowNoP+Cdtp9LOcLsBrq8kJfevvQ6Ontk1NI
+X-Google-Smtp-Source: APXvYqy4ghK7Gkf3lkmk//R7NkO9kHBcy0b3tOgtmlKqQn9q6VElAE4LtBi1yvrZt9X5E5HPqjiLe/vzy+K6TOMdIpo=
+X-Received: by 2002:a7b:cd15:: with SMTP id f21mr3229846wmj.99.1560861386613; 
+	Tue, 18 Jun 2019 05:36:26 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: [PATCH] wireless-regdb: Add recipe
+References: <1560844186-105711-1-git-send-email-zhe.he@windriver.com>
+In-Reply-To: <1560844186-105711-1-git-send-email-zhe.he@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 18 Jun 2019 08:36:14 -0400
+Message-ID: <CADkTA4MONSg2dmH7B--9oC0ZApTZBq=RYc0XgVjMwPEvPRAONA@mail.gmail.com>
+To: He Zhe <zhe.he@windriver.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel: qemuarmv5: Update machine overrides of KERNEL_DEVICETREE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,115 +54,127 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 12:34:10 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 12:36:26 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Tue, 2019-06-18 at 09:11 +0300, Adrian Bunk wrote:
-> Since wpa-supplicant is provided,
-> the database of permitted frequencies should also be provided.
-> 
-> wireless-regdb-static should be used with kernel >= 4.15.
-> wireless-regdb can be used with older kernels and is mostly
-> irrelevant here, but keeping it in meta-networking would
-> create needless recipe duplication.
-> 
-> This package was previously in meta-networking.
-> 
-> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+On Tue, Jun 18, 2019 at 3:50 AM <zhe.he@windriver.com> wrote:
+>
+> From: He Zhe <zhe.he@windriver.com>
+>
+> The original BSP qemuarm has been renamed to qemuarmv5. Update the machine
+> overrides accordingly to avoid not generating dtb.
+
+Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+I had meant to do this myself, but kept forgetting :D
+
+I can take this into my tree and send it with my next series.
+
+Bruce
+
+>
+> Signed-off-by: He Zhe <zhe.he@windriver.com>
 > ---
->  meta/conf/distro/include/maintainers.inc      |  1 +
->  .../packagegroups/packagegroup-base.bb        |  1 +
->  .../wireless-regdb_2019.06.03.bb              | 44
-> +++++++++++++++++++
->  3 files changed, 46 insertions(+)
->  create mode 100644 meta/recipes-kernel/wireless-regdb/wireless-
-> regdb_2019.06.03.bb
+>  meta/recipes-kernel/linux/linux-yocto-dev.bb       | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb   | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb    | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb  | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_4.19.bb      | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.0.bb       | 1 -
+>  7 files changed, 6 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> index 3a055c1..8c83620 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> @@ -41,7 +41,7 @@ DEPENDS += "openssl-native util-linux-native"
+>
+>  COMPATIBLE_MACHINE = "(qemuarm|qemux86|qemuppc|qemumips|qemumips64|qemux86-64)"
+>
+> -KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+>
+>  # Functionality flags
+>  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> index 0836dc7..a4facfe 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> @@ -33,7 +33,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+>
+>  COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
+>
+> -KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+>
+>  # Functionality flags
+>  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> index b5e415f..8bd9d74 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> @@ -33,7 +33,7 @@ LINUX_KERNEL_TYPE = "preempt-rt"
+>
+>  COMPATIBLE_MACHINE = "(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)"
+>
+> -KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+>
+>  # Functionality flags
+>  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> index 4ca11d7..e668854 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_4.19.bb
+> @@ -29,4 +29,4 @@ COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
+>  # Functionality flags
+>  KERNEL_FEATURES = ""
+>
+> -KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+> index a9c463c..226a90c 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+> @@ -29,4 +29,4 @@ COMPATIBLE_MACHINE = "qemux86|qemux86-64|qemuarm|qemuarmv5"
+>  # Functionality flags
+>  KERNEL_FEATURES = ""
+>
+> -KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> index cda4ecf..014d689 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> @@ -36,7 +36,7 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+>  KMETA = "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL = "2"
+>
+> -KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+> +KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+>
+>  COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> index 8aec315..bb7ed56 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> @@ -38,7 +38,6 @@ PV = "${LINUX_VERSION}+git${SRCPV}"
+>  KMETA = "kernel-meta"
+>  KCONF_BSP_AUDIT_LEVEL = "2"
+>
+> -KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
+>  KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
+>
+>  COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
+> --
+> 2.7.4
+>
 
-This seems to break deb rootfs construction:
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/712
-
-> diff --git a/meta/conf/distro/include/maintainers.inc
-> b/meta/conf/distro/include/maintainers.inc
-> index 38fc711f5c..26851d66e0 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -726,6 +726,7 @@ RECIPE_MAINTAINER_pn-weston-init = "Denys
-> Dmytriyenko <denys@ti.com>"
->  RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
->  RECIPE_MAINTAINER_pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
->  RECIPE_MAINTAINER_pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com
-> >"
-> +RECIPE_MAINTAINER_pn-wireless-regdb = "Adrian Bunk <bunk@kernel.org>
-> "
->  RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <
-> changhyeok.bae@gmail.com>"
->  RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
->  RECIPE_MAINTAINER_pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
-> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> index cae704aa24..d05403635c 100644
-> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-> @@ -271,6 +271,7 @@ RRECOMMENDS_packagegroup-base-ipsec = "\
->  SUMMARY_packagegroup-base-wifi = "WiFi support"
->  RDEPENDS_packagegroup-base-wifi = "\
->      iw \
-> +    wireless-regdb-static \
->      wpa-supplicant"
->  
->  RRECOMMENDS_packagegroup-base-wifi = "\
-> diff --git a/meta/recipes-kernel/wireless-regdb/wireless-
-> regdb_2019.06.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-
-> regdb_2019.06.03.bb
-> new file mode 100644
-> index 0000000000..df50938a1a
-> --- /dev/null
-> +++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
-> @@ -0,0 +1,44 @@
-> +SUMMARY = "Wireless Central Regulatory Domain Database"
-> +HOMEPAGE = "http://wireless.kernel.org/en/developers/Regulatory/CRDA
-> "
-> +SECTION = "net"
-> +LICENSE = "ISC"
-> +LIC_FILES_CHKSUM =
-> "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
-> +
-> +SRC_URI = "
-> https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
-> +SRC_URI[md5sum] = "4b5ba3f089db7fdb7b9daae6a7c1f2cb"
-> +SRC_URI[sha256sum] =
-> "cd917ed86b63ce8d93947979f1f18948f03a4ac0ad89ec25227b36ac00dc54bf"
-> +
-> +inherit bin_package allarch
-> +
-> +do_install() {
-> +    install -d -m0755 ${D}${nonarch_libdir}/crda
-> +    install -d -m0755 ${D}${sysconfdir}/wireless-regdb/pubkeys
-> +    install -m 0644 regulatory.bin
-> ${D}${nonarch_libdir}/crda/regulatory.bin
-> +    install -m 0644 sforshee.key.pub.pem ${D}${sysconfdir}/wireless-
-> regdb/pubkeys/sforshee.key.pub.pem
-> +
-> +    install -m 0644 -D regulatory.db
-> ${D}${nonarch_base_libdir}/firmware/regulatory.db
-> +    install -m 0644 regulatory.db.p7s
-> ${D}${nonarch_base_libdir}/firmware/regulatory.db.p7s
-> +}
-> +
-> +# Install static regulatory DB in /lib/firmware for kernel to load.
-> +# This requires Linux kernel >= v4.15.
-> +# For kernel <= v4.14, inherit the kernel_wireless_regdb.bbclass
-> +# (in meta-networking) in kernel's recipe.
-> +PACKAGES =+ "${PN}-static"
-> +RCONFLICTS_${PN} = "${PN}-static"
-
-To work with apt/dpkg this may need an RPROVIDES and/or RREPLACES.
-
-Cheers,
-
-Richard
-
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
