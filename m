@@ -1,44 +1,49 @@
-Return-Path: <sbabic@denx.de>
-X-Greylist: delayed 356 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 18 Jun 2019 10:14:20 UTC
-Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
-	by mail.openembedded.org (Postfix) with ESMTP id A475B7E81D
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id A4F1B7D697
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 10:14:20 +0000 (UTC)
-Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
-	by mail-out.m-online.net (Postfix) with ESMTP id 45SkLJ4PTNz1rKJ3;
-	Tue, 18 Jun 2019 12:08:24 +0200 (CEST)
-Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
-	by mail.m-online.net (Postfix) with ESMTP id 45SkLJ4Bd2z1qqkT;
-	Tue, 18 Jun 2019 12:08:24 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at mnet-online.de
-Received: from mail.mnet-online.de ([192.168.8.182])
-	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
-	port 10024)
-	with ESMTP id qS8CtaHwW3G2; Tue, 18 Jun 2019 12:08:23 +0200 (CEST)
-Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
-	[88.217.136.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mail.mnet-online.de (Postfix) with ESMTPS;
-	Tue, 18 Jun 2019 12:08:23 +0200 (CEST)
-Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
-	by babic.homelinux.org (Postfix) with ESMTP id 5750A454045E;
-	Tue, 18 Jun 2019 12:08:23 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
-Received: from babic.homelinux.org ([127.0.0.1])
-	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
-	port 10024)
-	with ESMTP id DOsmOaaIgR7R; Tue, 18 Jun 2019 12:08:19 +0200 (CEST)
-Received: from localhost.localdomain (papero.fritz.box [192.168.178.132])
-	by babic.homelinux.org (Postfix) with ESMTP id AA79B45402A6;
-	Tue, 18 Jun 2019 12:08:19 +0200 (CEST)
-From: Stefano Babic <sbabic@denx.de>
+	Tue, 18 Jun 2019 10:20:23 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id v14so13324255wrr.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2019 03:20:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=V/CQ4XKNVeNAoQgbitTh72VZt2BAi2uibTnQL4CCiQo=;
+	b=cImbaces5S8uKT9sl2oOgD5shx9CwZpUnUkHNmcdOeetqrqyZ7/XOT/t5js7epeJqc
+	eAf0YZYt5qe4GD+Netduul2kqBDZPOOs8Kb+CulvvLUeYF+Fh0rBXrnUZoBG1A9t28++
+	sMltxC7QjZHzDQUNN0YcTfkh+L8WCSPzEsPtU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=V/CQ4XKNVeNAoQgbitTh72VZt2BAi2uibTnQL4CCiQo=;
+	b=XRE12aZ7hcXgazMfa+E/i+PmCs0Y5RAHn/qlBgmpEpN4jucKJlVWLyfpnJGfGt6Ef9
+	kvYYo8fAH22i/u9rnXq8hyDbz7Q+alzz3bcVCZ0sSdMSCaQESXBYacSB5BBSEuvX88At
+	4VM8unNipxyMCCto9bj+RjNABRHc5DutuUdrMUVoQilVY3Eo3QyePxmWZIbN411s8dbX
+	+X2CZtmCXTC0UlvK/E/Cp7xoqk16PUdP8y3gCy6CZwUk4Sv3LiIfJDWConJiNy/VRcgH
+	MA0KkHRI6swvgDJTjTqD+GRpAjMcU3rqFrtFQXcIZwm8X4PoeD2EzwERnXW4pAvfWSbC
+	1rTg==
+X-Gm-Message-State: APjAAAWiRNPLGQv19+nINDFCSt+Vr4vASOVetf2Z7oyXs3uyW3CjXMnP
+	r+0urWpOMz1Qg6s52e/ddqjcu/UQlgM=
+X-Google-Smtp-Source: APXvYqxRvDCHRIMSNu5xal6g0c5VtjhIkvlzq9DrGtz6jAgaWdCZeKKirQlScEw0atcfVXYERa11pA==
+X-Received: by 2002:adf:c506:: with SMTP id q6mr65926461wrf.219.1560853223964; 
+	Tue, 18 Jun 2019 03:20:23 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	q21sm1699905wmq.13.2019.06.18.03.20.23
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 18 Jun 2019 03:20:23 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 12:06:17 +0200
-Message-Id: <20190618100617.25265-1-sbabic@denx.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] systat: systemd never enables the service
+Date: Tue, 18 Jun 2019 11:20:22 +0100
+Message-Id: <20190618102022.25830-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
+MIME-Version: 1.0
+Subject: [PATCH] perl: Move perl-sanity -> perl
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,79 +56,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 10:14:20 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 10:20:24 -0000
+Content-Transfer-Encoding: 8bit
 
-Even if SYSTEMD_AUTO_ENABLE is set to "enable", the service is never
-activated by systemd. The cause is the postinst function in the recipe:
+This was moved during the perl cleanup, it can/should be moved back now as
+its confusing too many people.
 
- pkg_postinst_${PN} () {
-         if [ -n "$D" ]; then
-                 exit 0
-         fi
-         if [ -e /etc/init.d/populate-volatile.sh ]; then
-                 /etc/init.d/populate-volatile.sh update
-         fi
- }
-
-This generates with activated systemd the following postinst script:
-
-	set -e
-	        if [ -n "$D" ]; then
-	                exit 0
-	        fi
-	        if [ -e /etc/init.d/populate-volatile.sh ]; then
-	                /etc/init.d/populate-volatile.sh update
-	        fi
-	OPTS=""
-
-	if [ -n "$D" ]; then
-	    OPTS="--root=$D"
-	fi
-
-	if type systemctl >/dev/null 2>/dev/null; then
-		if [ -z "$D" ]; then
-			systemctl daemon-reload
-		fi
-
-		systemctl $OPTS enable sysstat.service
-
-		if [ -z "$D" -a "enable" = "enable" ]; then
-			systemctl --no-block restart sysstat.service
-		fi
-	fi
-
-Due to the exit statement, systemctl is never called and the service is
-never enabled in rootfs.
-Invert the logic for the check to let run the rest of postinst script.
-
-Signed-off-by: Stefano Babic <sbabic@denx.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-extended/sysstat/sysstat.inc | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+ ...001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch | 0
+ ...001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch | 0
+ ...001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch | 0
+ ...001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch | 0
+ .../files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch  | 0
+ meta/recipes-devtools/{perl-sanity => perl}/files/errno_ver.diff  | 0
+ .../{perl-sanity => perl}/files/fix-setgroup.patch                | 0
+ .../{perl-sanity => perl}/files/native-perlinc.patch              | 0
+ .../{perl-sanity => perl}/files/perl-configpm-switch.patch        | 0
+ .../{perl-sanity => perl}/files/perl-dynloader.patch              | 0
+ .../{perl-sanity => perl}/files/perl-rdepends.txt                 | 0
+ meta/recipes-devtools/{perl-sanity => perl}/files/run-ptest       | 0
+ meta/recipes-devtools/{perl-sanity => perl}/perl-ptest.inc        | 0
+ meta/recipes-devtools/{perl-sanity => perl}/perl_5.30.0.bb        | 0
+ 14 files changed, 0 insertions(+), 0 deletions(-)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/errno_ver.diff (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/fix-setgroup.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/native-perlinc.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/perl-configpm-switch.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/perl-dynloader.patch (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/perl-rdepends.txt (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/files/run-ptest (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/perl-ptest.inc (100%)
+ rename meta/recipes-devtools/{perl-sanity => perl}/perl_5.30.0.bb (100%)
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 0bc7e14d36..850a6d1465 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -51,12 +51,11 @@ do_install() {
- }
- 
- pkg_postinst_${PN} () {
--        if [ -n "$D" ]; then
--                exit 0
--        fi
--        if [ -e /etc/init.d/populate-volatile.sh ]; then
--                /etc/init.d/populate-volatile.sh update
--        fi
-+	if [  ! -n "$D" ]; then
-+		if [ -e /etc/init.d/populate-volatile.sh ]; then
-+			/etc/init.d/populate-volatile.sh update
-+		fi
-+	fi
- }
- 
- 
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch b/meta/recipes-devtools/perl/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch
+rename to meta/recipes-devtools/perl/files/0001-ExtUtils-MakeMaker-add-LDFLAGS-when-linking-binary-m.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch b/meta/recipes-devtools/perl/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
+rename to meta/recipes-devtools/perl/files/0001-Somehow-this-module-breaks-through-the-perl-wrapper-.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch b/meta/recipes-devtools/perl/files/0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch
+rename to meta/recipes-devtools/perl/files/0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch b/meta/recipes-devtools/perl/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch
+rename to meta/recipes-devtools/perl/files/0001-configure_tool.sh-do-not-quote-the-argument-to-comma.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch b/meta/recipes-devtools/perl/files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch
+rename to meta/recipes-devtools/perl/files/0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/errno_ver.diff b/meta/recipes-devtools/perl/files/errno_ver.diff
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/errno_ver.diff
+rename to meta/recipes-devtools/perl/files/errno_ver.diff
+diff --git a/meta/recipes-devtools/perl-sanity/files/fix-setgroup.patch b/meta/recipes-devtools/perl/files/fix-setgroup.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/fix-setgroup.patch
+rename to meta/recipes-devtools/perl/files/fix-setgroup.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/native-perlinc.patch b/meta/recipes-devtools/perl/files/native-perlinc.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/native-perlinc.patch
+rename to meta/recipes-devtools/perl/files/native-perlinc.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/perl-configpm-switch.patch b/meta/recipes-devtools/perl/files/perl-configpm-switch.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/perl-configpm-switch.patch
+rename to meta/recipes-devtools/perl/files/perl-configpm-switch.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/perl-dynloader.patch b/meta/recipes-devtools/perl/files/perl-dynloader.patch
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/perl-dynloader.patch
+rename to meta/recipes-devtools/perl/files/perl-dynloader.patch
+diff --git a/meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt b/meta/recipes-devtools/perl/files/perl-rdepends.txt
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/perl-rdepends.txt
+rename to meta/recipes-devtools/perl/files/perl-rdepends.txt
+diff --git a/meta/recipes-devtools/perl-sanity/files/run-ptest b/meta/recipes-devtools/perl/files/run-ptest
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/files/run-ptest
+rename to meta/recipes-devtools/perl/files/run-ptest
+diff --git a/meta/recipes-devtools/perl-sanity/perl-ptest.inc b/meta/recipes-devtools/perl/perl-ptest.inc
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/perl-ptest.inc
+rename to meta/recipes-devtools/perl/perl-ptest.inc
+diff --git a/meta/recipes-devtools/perl-sanity/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.0.bb
+similarity index 100%
+rename from meta/recipes-devtools/perl-sanity/perl_5.30.0.bb
+rename to meta/recipes-devtools/perl/perl_5.30.0.bb
 -- 
-2.17.1
+2.20.1
 
 
