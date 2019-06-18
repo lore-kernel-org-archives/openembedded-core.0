@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EB2107E876;
-	Tue, 18 Jun 2019 10:30:47 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 1CAA77E877;
+	Tue, 18 Jun 2019 10:30:49 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Stefano Babic <sbabic@denx.de>
-Date: Tue, 18 Jun 2019 10:30:49 -0000
-Message-ID: <20190618103049.2330.99811@do>
-References: <20190618100617.25265-1-sbabic@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 18 Jun 2019 10:30:50 -0000
+Message-ID: <20190618103050.2329.50996@do>
+References: <20190618102022.25830-1-richard.purdie@linuxfoundation.org>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190618100617.25265-1-sbabic@denx.de>
+In-Reply-To: <20190618102022.25830-1-richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGF0OiBzeXN0ZW1kIG5ldmVyIGVuYWJsZXMgdGhlIHNlcnZpY2U=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGVybDogTW92ZSBwZXJsLXNhbml0eSAtPiBwZXJs?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 10:30:48 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 10:30:49 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: systat: systemd never enables the service
+Series: perl: Move perl-sanity -> perl
 Revision: 1
-URL   : https://patchwork.openembedded.org/series/18199/
+URL   : https://patchwork.openembedded.org/series/18200/
 State : failure
 
 == Summary ==
