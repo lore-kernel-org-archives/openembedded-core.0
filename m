@@ -1,46 +1,52 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f66.google.com (mail-ot1-f66.google.com
-	[209.85.210.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 3172B7E909
+Return-Path: <matt@madison.systems>
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
+	[209.85.214.195])
+	by mail.openembedded.org (Postfix) with ESMTP id 31CFF7E894
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 11:24:20 +0000 (UTC)
-Received: by mail-ot1-f66.google.com with SMTP id r21so11019087otq.6
+	Tue, 18 Jun 2019 11:37:37 +0000 (UTC)
+Received: by mail-pl1-f195.google.com with SMTP id bh12so5605300plb.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 04:24:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5z3mCcyxl3T4uAZKWTXPaLq/dY28f/uDGm4XxCOGRp0=;
-	b=jC2Gf9cRrFFSqMDufJznL22KFH+EBLeer3pHK1UabIqWoFcynJ8I65Zb+d/7jMiTC3
-	IsfpxEgog8WvrqI9ttCuxGz0QNp6YILgTPlOqN9m/CCdPnvW4lsiLSFgmsCtSZU1l2kE
-	HU6iG7v9RR591YSXWXHaSKPCgrQKoz9q6He9gbXkLuTEsD2/UdEBPgNrG/BHnNG7Vn0b
-	0ICQnWfTJS/ek0JnRyvDtxlGGN94vSgGuZG/etlk9G/wRtHAuOMeaYLLrtp16udRtqdC
-	+tF6Epkpsgwob1vt2w3kLB/XRF9sXAc4/RIuuY94b91y8PR0N0tMj9PB6dqUuP96XPPp
-	ZXpQ==
+	Tue, 18 Jun 2019 04:37:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nfAJ8ymE1z806mQHUKsRAtUEall87dMkLojYZ8omnGQ=;
+	b=O+5oUi2ThCC/NiIPjXJFDYlsH79kdSMWv1Buj0yDF9l0RGELTVPdBp+o2p4499UF3E
+	euuql2hODrSY1jtd03B9RCybdOR/0kj7MkHe1Mi3+ACGDu8SxXyvwNwIKzVrLibAKVuq
+	ojq2k0ad81Cq2kH0uwUKoKPvRKhtlSiJOWCg1q8Pl0g+77SvCJ/8JTnEoyhio7ktoKqF
+	BfZv1nT6JArTuelO8ybFRfwKSJkEC3wFMV16NntJNcwaHZ0zYZNwCalH48DVyTY0zBke
+	Mqzt602tz6Es7t/9vzlwemrKwouNBq41maSsoaapvr6vFGw64aUPED9W7Ol/Bx7vKTol
+	Vg+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=5z3mCcyxl3T4uAZKWTXPaLq/dY28f/uDGm4XxCOGRp0=;
-	b=meFDpGIxJuP4px7fSJ/tsF+wYE3GiaiAZlPYZD7s0IjZu/Tpl6ckm1ImkvTi4W5+QR
-	NBQnKgLVPswStqnlM7Xhu+tAv6k7nwFeFvcYBp6C02COXnA8TaPGg//vRzxPAE6t8VvT
-	261eiAPJYzT0V48ofCkoVgnKkE/QKBpGJJmruwCdrxa1MNPJo+5ef0jdnp+Ys9ux7FfQ
-	mkEgsQVNgTKywgZl5ctYoTjzJT090HYV013aEDJSnPpO+/QDxwpiNJr3JP6yOf1RFBH3
-	z+ZzAT7rp5oIPvO1DltBxTbvxFM3LCP1hs1wLTnH5MUcBpAkaqlgZqqKs59z3/eP96JW
-	RYKg==
-X-Gm-Message-State: APjAAAWkupwdUg0U42RYh1LIoAd03bhZi6J9Pq3Iq9iKqzjW4ebdlCKH
-	cNstOBTBt3gax56+eXCjsgs8anCTYYufMo8UIjZvfMrBimw=
-X-Google-Smtp-Source: APXvYqwHKM+xNdj9HCaFRka5RtRW3yNd/x9y3TUbdvGcysZ9tPQDUvomD0NsMS8POE3NNoGeDA2k3wJBWFOnEs/qkeY=
-X-Received: by 2002:a9d:d87:: with SMTP id 7mr60979919ots.263.1560857061221;
-	Tue, 18 Jun 2019 04:24:21 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nfAJ8ymE1z806mQHUKsRAtUEall87dMkLojYZ8omnGQ=;
+	b=Z7m9dJDYXV+1A83MBVgmrkDzjMHNOqmwUMD1b8LrIj6nbwJkCYLR9x7TLK9WEYm6+D
+	ZmEgDJn75/NxPfCN1Y6OcmgEhrCjoau47yrCcgcHAgc+6FRq+rJg8JbzXoxW/iG1hd6h
+	VdxbBeryvogtJ7rPMEhh+iG7v0mSrZTzR9OyojUkIn8FUbUlHoEZatwCko8+YMuAglLx
+	Xub6facf6Nr4HpClJkKxI/nk10bm7YED422mBaX4ss3eyNvckq6Kpoddp38kdqUYmUEg
+	mjVZjp/0RI5Wr4oOAcUegkFIqbSI0qn7prUdr9a8dqDmW0x+6Ndd+nJ6OKfHOmdjTjIs
+	6xlw==
+X-Gm-Message-State: APjAAAVAIJdtPNhv46VPlPNa9diSluA4mESlXt3WKoUD2+khwUFq63L8
+	Dram8vbtslPAHkP2J7WjS6TWwrqmEOupdQ==
+X-Google-Smtp-Source: APXvYqwXfSv5r6Hq+pk5plav2e/rdWz+xIR0UDgTbHyK6M9foflFPxce72dxaOxh3NbJHXFDa/Kj5A==
+X-Received: by 2002:a17:902:2862:: with SMTP id
+	e89mr114231813plb.258.1560857857941; 
+	Tue, 18 Jun 2019 04:37:37 -0700 (PDT)
+Received: from legion.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
+	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
+	y14sm2117846pjr.13.2019.06.18.04.37.36
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 18 Jun 2019 04:37:37 -0700 (PDT)
+From: Matt Madison <matt@madison.systems>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Jun 2019 04:37:07 -0700
+Message-Id: <20190618113707.25101-1-matt@madison.systems>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <1559790305-34116-1-git-send-email-leimaohui@cn.fujitsu.com>
-In-Reply-To: <1559790305-34116-1-git-send-email-leimaohui@cn.fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 18 Jun 2019 13:24:10 +0200
-Message-ID: <CANNYZj8AdHZYDJaoy75GUtMDAun+-kqb7x_26RZKb=eo+JWGUg@mail.gmail.com>
-To: Lei Maohui <leimaohui@cn.fujitsu.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] openssl: Fix a build bug on aarch64BE.
+Subject: [PATCH] apt: fix permissions on apt-daily script for systemd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,38 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 11:24:20 -0000
-Content-Type: multipart/alternative; boundary="000000000000ade941058b975a3d"
+X-List-Received-Date: Tue, 18 Jun 2019 11:37:37 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000ade941058b975a3d
-Content-Type: text/plain; charset="UTF-8"
+The script needs to be executable so the service doesn't
+fail.
 
-On Tue, 18 Jun 2019 at 09:54, Lei Maohui <leimaohui@cn.fujitsu.com> wrote:
+Signed-off-by: Matt Madison <matt@madison.systems>
+---
+ meta/recipes-devtools/apt/apt-package.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/9151
->
+diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
+index 6a01f99c63..da91451d7f 100644
+--- a/meta/recipes-devtools/apt/apt-package.inc
++++ b/meta/recipes-devtools/apt/apt-package.inc
+@@ -83,7 +83,7 @@ do_install () {
+ 	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
+ 
+ 	install -d ${D}${systemd_unitdir}/system/
+-	install -m 0644 ${S}/debian/apt.systemd.daily ${D}${libdir}/apt/
++	install -m 0755 ${S}/debian/apt.systemd.daily ${D}${libdir}/apt/
+ 	install -m 0644 ${S}/debian/apt-daily.service ${D}${systemd_unitdir}/system/
+ 	sed -i 's#/usr/lib/apt/#${libdir}/apt/#g' ${D}${systemd_unitdir}/system/apt-daily.service
+ 	install -m 0644 ${S}/debian/apt-daily.timer ${D}${systemd_unitdir}/system/
+-- 
+2.20.1
 
-Seems like a contributor agreement is needed for this patch?
-https://www.openssl.org/policies/cla.html
 
-Are you going to do tihs?
-
-Alex
-
---000000000000ade941058b975a3d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 18 Jun 2019 at 09:54, Lei Maohui =
-&lt;<a href=3D"mailto:leimaohui@cn.fujitsu.com">leimaohui@cn.fujitsu.com</a=
->&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"gmail=
-_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204=
-,204);padding-left:1ex">+Upstream-Status: Submitted [<a href=3D"https://git=
-hub.com/openssl/openssl/pull/9151" rel=3D"noreferrer" target=3D"_blank">htt=
-ps://github.com/openssl/openssl/pull/9151</a><br></blockquote><div><br></di=
-v><div>Seems like a contributor agreement is needed for this patch?</div><d=
-iv><a href=3D"https://www.openssl.org/policies/cla.html">https://www.openss=
-l.org/policies/cla.html</a></div><div><br></div><div>Are you going to do ti=
-hs?</div><div><br></div><div>Alex<br> </div></div></div>
-
---000000000000ade941058b975a3d--
