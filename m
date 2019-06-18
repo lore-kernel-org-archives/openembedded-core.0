@@ -1,49 +1,36 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9EE587E6FE
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id DE7137E8A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 10:51:38 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id x4so13428010wrt.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 03:51:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=xJO0HGSgyUKAxosM/ejKZyPsLEKaSBYWFjw7ndSMa0c=;
-	b=l+dfQ3xk6w/17CgA1uaatYDETJuiMWS143qZKxXAApejff+vc4bA98JVDx+GfuIM1P
-	8dyqsXzjh471MN3izZU4P4g8K7E4uTq/gJZylBSXGU9FFJBgjYXBzDBzLzmJnzNMvMGq
-	sxoN1rv8FtxXmduU+lMhX0Gkr2hgtbiro7yzVtK/fNX+fn47hDgrkRT1383PBtt6RqV9
-	U6TnNs9NEEbGM/Dewfh9P1o1ZoWUJ8KlLDFSHq3jHhSJQOmKD8w3uP79zuCHU+6PCj/I
-	JmrRgAEQoZXyLATc6fJiLP2xwb5iXWVrHx4MP4EsujpFvegCe4RwtiSEw4a6y+Ff0qcC
-	JhrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=xJO0HGSgyUKAxosM/ejKZyPsLEKaSBYWFjw7ndSMa0c=;
-	b=fkJi/gM3yGiSFyXJX5idd6Rqsgt3pesYz5Nm02G18rJDFEjrBcnuEFVbrfi7vpWXam
-	U7OUV+8StYrwEiYpjkVT+zH1kvIzphINLgXzRDSZCF924agpYakpsy4quuoUlASI8b8Z
-	YsuXC0CP6aKQEo3Nukx3lAdCyJxFnWfZhsyV0PiII1KVFmaeu4eLza1qyDptr12YoHll
-	BoLGIzU01p9krO8wsrZi9EyVp9y7Uu49yAOR2i/KG5FwOfKkhhKkpMLF5AtvkH8eVazg
-	BCVMapEMUxaIKITC7b+9Tvzi3QXyaZLy1hwFCZVOsI1i23NFem24KW1UX2oDOJVPpOKZ
-	pbRw==
-X-Gm-Message-State: APjAAAVRWJeZBAPEL7DksCdgw68Qy7IX66H3pNEdPFifgn7dZGJ33iuG
-	D83DJvoR5V3+ZDPqVycmVYoTK5eA0Iw=
-X-Google-Smtp-Source: APXvYqxNnBmHRkNMumrUlSyDUUZKJlzLGVnWJIUnh1Woehe3mnd4jM1VL0PH3byLzlMwPNSNxw3bbA==
-X-Received: by 2002:adf:f544:: with SMTP id j4mr9412412wrp.150.1560855099135; 
-	Tue, 18 Jun 2019 03:51:39 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	r131sm1872339wmf.4.2019.06.18.03.51.38
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 18 Jun 2019 03:51:38 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 11:51:36 +0100
-Message-Id: <20190618105136.28510-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] libsdl2: use binconfig-disabled
+	Tue, 18 Jun 2019 11:01:22 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45SlWQ2gqGz4t;
+	Tue, 18 Jun 2019 13:01:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1560855683;
+	bh=7dKqIFLk9v4vxEu+/2smrAOMgp8E5Sl9f0O1i9JKTew=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tj6thoYGBKFNGRSqbRfsXlozWtr70pGITBRW3lS5cwT+uiobZfe8GM3xm0geciwnH
+	RwCuOVndewAqtbEBV81rEeR2qnK2luErc0S/6UN6oSoQY1DrRalg0hZ2zjBHhcQKry
+	P+kBUqv61037YJHIaVvzu4oTw7YBA8I6LgNWBdg0yFqcLJnEcG1BwmH/4fj9KjGJb3
+	EoHrvQLf173A3kOsbmLxlIm5oXsDIoHlQg8UZx007xuxDUT6jrEcVxTMSsni9z9Ij0
+	P9m2X4jygiHUcTA/XytoiXqmcg1ZIewYWT0gGI/mXnCZWWlukw2RXEgJCjduaQJkz+
+	liCCRoeR2nZ+eMurSH1mrqsz07Ezr9eScRRfw5OtkCDnkeOLdc+1Xl2Iz1UPvQY0fl
+	igI073M9WbuiLtAIsCJu6s9JKeLprXbH38q3YFfHYT9JWbc8tPBKoBFkOhDlr3KB1E
+	+gKArZCZ5mPJf0TcjGDWMMb/5odrxJC9vO3z069BAaRugAnircJKkeW2/BMmsksdcr
+	dc8PmWW5RrhiXzok5qiN3z52e7nGsSFDRVZMLrAZ9YpIwr5WleDISjtiwaHjk+ODNO
+	ob/OWeuSDVAgZztCb1i/tvwqq2jTRKKO/fXUXmjuBOKAeYm7GtGGV/kyDlaQrK3EnS
+	/MWA1EFmGlp9DMB7UZY0GkFo=
+Date: Tue, 18 Jun 2019 14:01:20 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Message-ID: <20190618110120.GA10836@localhost>
+References: <20190618034219.13116-1-zangrc.fnst@cn.fujitsu.com>
+MIME-Version: 1.0
+In-Reply-To: <20190618034219.13116-1-zangrc.fnst@cn.fujitsu.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lighttpd:upgrade 1.4.53 -> 1.4.54
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +43,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 10:51:38 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 11:01:25 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Just like libsdl, we can rip out the sdl2-config script from the sysroot as
-pkg-config is preferrable.
+WARNING: lighttpd-1.4.54-r0 do_patch: Fuzz detected:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+Applying patch mod-eke-prio.patch
+patching file src/Makefile.am
+Hunk #1 succeeded at 419 with fuzz 2 (offset 15 lines).
+patching file src/mod_eke_prio.c
 
-diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
-index bac91d37366..a0a0b1509a2 100644
---- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
-+++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.9.bb
-@@ -21,7 +21,9 @@ S = "${WORKDIR}/SDL2-${PV}"
- SRC_URI[md5sum] = "f2ecfba915c54f7200f504d8b48a5dfe"
- SRC_URI[sha256sum] = "255186dc676ecd0c1dbf10ec8a2cc5d6869b5079d8a38194c2aecdff54b324b1"
- 
--inherit autotools lib_package binconfig pkgconfig
-+inherit autotools lib_package binconfig-disabled pkgconfig
-+
-+BINCONFIG = "${bindir}/sdl2-config"
- 
- CVE_PRODUCT = "simple_directmedia_layer sdl"
- 
+The context lines in the patches can be updated with devtool:
+
+    devtool modify lighttpd
+    devtool finish --force-patch-refresh lighttpd <layer_path>
+
+Don't forget to review changes done by devtool!
+
+WARNING: lighttpd-1.4.54-r0 do_patch: QA Issue: Patch log indicates that 
+patches do not apply cleanly. [patch-fuzz]
+
+
+cu
+Adrian
+
 -- 
-2.11.0
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
