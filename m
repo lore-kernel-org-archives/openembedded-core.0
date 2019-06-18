@@ -1,49 +1,42 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 5941D7E90F
+Return-Path: <sbabic@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 9EB0A7E966
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 15:55:31 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id m24so31085455ioo.2
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 08:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=EwVt6DWP6gFhvSTl+xWyaBCqDWX9Z0yTB8ppRBqrDBc=;
-	b=pD1epZ3TWq1Z8/8Wrwmts0lSsyzRRj4r9MPpwIPVT3yH9Z2JN5F8cPlVkkwXmIFbFd
-	lKxG8J+OVWaIxTkprlM2hhIEYFrbLXbLJ5XDS0d8ZNsvB2UL2Kdy7ukbpggLSNOStTRQ
-	fULLOU9RimvrKX6GJCxAJkadSPJsRt0vASfsUmXzM4YhFyH3LDXCLXWpL4c/KjJuY5Vh
-	bMlWJFiKwe1oSTfNXoHOtBvmx/6uOGcesC5ly5G2z0tcZYHEQKH4TiQdjfWD7gzapX2s
-	HwTtCndr2AJc61xXwp4OR3IgSAnSQpFYVCyK/dCfAmx9543G+lzjI+H5narlcfyEWZId
-	z+KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=EwVt6DWP6gFhvSTl+xWyaBCqDWX9Z0yTB8ppRBqrDBc=;
-	b=cnCmBNMNxmh25+JqafVA0RI7PiPPRe4q6B5m4UkNizPBdbUhVfZSRemahx+bzkaaxM
-	3rHl6Yd+P7+817ZI2/BGNcWghJNkAtrxTvEAg7uOzagXqqfhaJ2hQ75y4xDlvDD1HPmu
-	kn3VwBSR3C77DBVZ8TFIIErpZC+1hldECrk4kCMKKc1rH6gR29iK8Hlns21u5MVwZ7vi
-	1ZHHl+wVtgtBu4mhlytvAwoNbrMxne2P9hmnl8LmGxeu7SUtA++j5giy5AByenwrTsQP
-	t/+8XAldlj4n23hU5plH2a0J8RJ7b8tqz+P5NpF+0J9MNC8KafdzhbOqUL0YquwwqBCL
-	rNVw==
-X-Gm-Message-State: APjAAAU1EQjirhtjyyF3xk7TAQ9ycnZPZwKqKjzbrY15W3wwhIVBFdOS
-	PegNyAqo5BANmJ4+m/9pZdtwR1xnazTwl8nVP9etgg==
-X-Google-Smtp-Source: APXvYqzUI2K4Gu8bCN7+nR+uzflWoKraFqCRe+k2Fvywc/RoH8I0iqZduuDhCznJWdKbRQr3GItO9EsQj4Hy7xxL9mI=
-X-Received: by 2002:a6b:8bce:: with SMTP id n197mr5227499iod.299.1560873332426;
-	Tue, 18 Jun 2019 08:55:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190618104735.25849-1-ross.burton@intel.com>
-	<CAMKF1spb0ouiuW+44jvXqbBYOa5TAw2cbabmQmuTo0z4n9BLZQ@mail.gmail.com>
-In-Reply-To: <CAMKF1spb0ouiuW+44jvXqbBYOa5TAw2cbabmQmuTo0z4n9BLZQ@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 18 Jun 2019 16:55:20 +0100
-Message-ID: <CAJTo0Lbd2r1enJ63_ubhXp6Ny77dgvrUqhiCPSfeqNYV-pL3zA@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] binconfig: don't try to fix up .la files
+	Tue, 18 Jun 2019 15:59:34 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 45St7W0wC2z1rBNc;
+	Tue, 18 Jun 2019 17:59:35 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 45St7W0kBbz1qqkC;
+	Tue, 18 Jun 2019 17:59:35 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id TN65atyL6lxI; Tue, 18 Jun 2019 17:59:34 +0200 (CEST)
+Received: from babic.homelinux.org (host-88-217-136-221.customer.m-online.net
+	[88.217.136.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPS;
+	Tue, 18 Jun 2019 17:59:34 +0200 (CEST)
+Received: from localhost (mail.babic.homelinux.org [127.0.0.1])
+	by babic.homelinux.org (Postfix) with ESMTP id 8223A454054B;
+	Tue, 18 Jun 2019 17:59:33 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at babic.homelinux.org
+Received: from babic.homelinux.org ([127.0.0.1])
+	by localhost (mail.babic.homelinux.org [127.0.0.1]) (amavisd-new,
+	port 10024)
+	with ESMTP id xl7uMf7lhrrh; Tue, 18 Jun 2019 17:59:30 +0200 (CEST)
+Received: from localhost.localdomain (papero.fritz.box [192.168.178.132])
+	by babic.homelinux.org (Postfix) with ESMTP id BAAEB454045E;
+	Tue, 18 Jun 2019 17:59:30 +0200 (CEST)
+From: Stefano Babic <sbabic@denx.de>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Jun 2019 17:57:25 +0200
+Message-Id: <20190618155725.17612-1-sbabic@denx.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH V2] systat: systemd never enables the service
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,15 +49,83 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 15:55:31 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Jun 2019 15:59:34 -0000
 
-On Tue, 18 Jun 2019 at 16:51, Khem Raj <raj.khem@gmail.com> wrote:
-> while I agree, are there assumptions in the recipes using binconfig on this ?
-> especially packages outside oe-core ?
+Even if SYSTEMD_AUTO_ENABLE is set to "enable", the service is never
+activated by systemd. The cause is the postinst function in the recipe:
 
-I suspect that everyone is using remove-libtool, because that's one of
-the default inherits.
+ pkg_postinst_${PN} () {
+         if [ -n "$D" ]; then
+                 exit 0
+         fi
+         if [ -e /etc/init.d/populate-volatile.sh ]; then
+                 /etc/init.d/populate-volatile.sh update
+         fi
+ }
 
-Ross
+This generates with activated systemd the following postinst script:
+
+	set -e
+	        if [ -n "$D" ]; then
+	                exit 0
+	        fi
+	        if [ -e /etc/init.d/populate-volatile.sh ]; then
+	                /etc/init.d/populate-volatile.sh update
+	        fi
+	OPTS=""
+
+	if [ -n "$D" ]; then
+	    OPTS="--root=$D"
+	fi
+
+	if type systemctl >/dev/null 2>/dev/null; then
+		if [ -z "$D" ]; then
+			systemctl daemon-reload
+		fi
+
+		systemctl $OPTS enable sysstat.service
+
+		if [ -z "$D" -a "enable" = "enable" ]; then
+			systemctl --no-block restart sysstat.service
+		fi
+	fi
+
+Due to the exit statement, systemctl is never called and the service is
+never enabled in rootfs.
+Invert the logic for the check to let run the rest of postinst script.
+
+Signed-off-by: Stefano Babic <sbabic@denx.de>
+---
+
+Changes since V1:
+	- rebase on current master
+
+ meta/recipes-extended/sysstat/sysstat.inc | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 6b21c6b8c1..4e29721666 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -52,12 +52,11 @@ do_install() {
+ }
+ 
+ pkg_postinst_${PN} () {
+-        if [ -n "$D" ]; then
+-                exit 0
+-        fi
+-        if [ -e /etc/init.d/populate-volatile.sh ]; then
+-                /etc/init.d/populate-volatile.sh update
+-        fi
++	if [  ! -n "$D" ]; then
++		if [ -e /etc/init.d/populate-volatile.sh ]; then
++			/etc/init.d/populate-volatile.sh update
++		fi
++	fi
+ }
+ 
+ FILES_${PN} += "${libdir}/sa ${systemd_system_unitdir}"
+-- 
+2.17.1
+
 
