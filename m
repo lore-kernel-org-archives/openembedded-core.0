@@ -1,50 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 31D467D2AF
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 87C5A7E74C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 18:29:40 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id r9so555015ljg.5
+	Tue, 18 Jun 2019 19:09:22 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id v14so702097wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 11:29:41 -0700 (PDT)
+	Tue, 18 Jun 2019 12:09:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=YgSPG/QmXB9xsnZX5JrtwNp2e7RCKpV9H0avZojcXGc=;
-	b=gvxARyMV4iCJ8+i4sWUHW9SgCs4cXKlGE/cT/Jd6Se+Ounksk5g5OsVRL/7azvsD6d
-	fFpa2OgigxslcljPJO7gk659HeR9q0WSc3uhbcKgjtpCLQDNw0VTXObjarVUiBH4cNzv
-	hseQnnwKycuwT0H78wLFKH/4qzjOktkr7XYAgyfo9PIuP0AhD+TSOz+swnFVxdWIxkPX
-	PQ7bHwYHp22SUvA39adqZy/T6TSEJXhoE2Zar4Z1d7w3sVbX5u8OL8ISMdejpNh2i5TP
-	KGBFdYuFGF1dY+qHR63FrpxQw8kWNISmSBl4gouZFrPw7fDY4VkPmfVGvH0c+EBuZ2bx
-	QJaA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=6a3cb+aVD6f1YPSIKFNJVSI+i1tMibJsSH/wgXDXUfY=;
+	b=CByOm4ZwUs+pzFW4oc0eOevLeXMnWEChpTVkcNxIHenC/byp1b7friV3flItr023wp
+	yDGgwZLRAR9fNDshg+VFDi2PdGT6dlSOq8l+UprVHMcD4TOjRiZ/DKy7sTHsF3ka7Hen
+	3WqV15yoQ13oKoo0ZYcIxvTEOlw5F2pTg4vMqZVaJ+LC8eD+1g7isgfnkpP0KB2OScSZ
+	TiHMcgPD68bx6NporODziFxcP9AGAsqoD1YhhwGTgH4Ygj3tj0enYFt9taS/WCEnpt9k
+	XJj7ofqmehTYLCOg3cDWJTIg2zZg/IVLwhJP7Dgsk59nCmjmpkfMtwVIP/Kvc27n5PwG
+	60Ig==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=YgSPG/QmXB9xsnZX5JrtwNp2e7RCKpV9H0avZojcXGc=;
-	b=uMpZHU1mIhHSlcdyJoYhDlpPx3SrDE9LgzVXU0yBFjscwh5//z6wwm8W6CRcazQNFG
-	jO9nX0vCJuvk7mEyuG3QMWFOPLMrAiRVCVn+z/Y7Hk9uLPrOKr9kndxLviVXVUQucwJ9
-	XdmHQfx4fRZBqIGtsq7RrkENq3kpt7X8NMlZeNBM1Pb0d5KaWOWWuRAwf5EUvK22Uua1
-	TdAeYl0YlVK6jCg5aEGaV/KR9+d/i+uqR7B92hhCJiHfNSBYL9rROAjs81NTV+GLDadR
-	rf4iUXbw2cA3Ho0EUVbPqkFFY/hN30I/Cefzs2k/fmh6JGhqCKMXhhR9K6E3WmjdjCzb
-	2x8Q==
-X-Gm-Message-State: APjAAAWLqz2D20tr3gcT63UUhSabsC9H7jcdrZwxvPMdA9W+aKeG7arK
-	BID2w6RNvxp1hmEaPesWeAelw0ZlGtD3TIUSgqs=
-X-Google-Smtp-Source: APXvYqx+K9dQXl1f8dNqalQM6bEO5b8TuNFfwsaIFfTr9OLNBhg2Cnjiri6a8WK6Zp+PnpxxbtETDYafIBMJrrr1hp4=
-X-Received: by 2002:a2e:98f:: with SMTP id 137mr16403118ljj.232.1560882580578; 
-	Tue, 18 Jun 2019 11:29:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190617220122.13994-1-alistair.francis@wdc.com>
-	<20190617220122.13994-3-alistair.francis@wdc.com>
-	<CADkTA4OoLhubvA8ZCWVYeLVtiABtk+PC4Zm0h0HEFLzMzEimng@mail.gmail.com>
-	<CAMKF1spyZz62gYdMj8otZVMKJSP4aFm=XUpW47zc+YjFOoBgqA@mail.gmail.com>
-In-Reply-To: <CAMKF1spyZz62gYdMj8otZVMKJSP4aFm=XUpW47zc+YjFOoBgqA@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 18 Jun 2019 14:29:29 -0400
-Message-ID: <CADkTA4OJiU89h7CUNZ-Ve4s0C4X8nuxBJPC=rwFPsDraJ+fTiQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/4] linux-yocto: Mark qemuriscv64 as compatible
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=6a3cb+aVD6f1YPSIKFNJVSI+i1tMibJsSH/wgXDXUfY=;
+	b=JzPoFSfuaPX98ntzAg4sViMAEVTU0zY0ZmIHy4loRgCEkf21dUiMKU3CdWmcRVNawG
+	dsCjFlR/bjae14SXpoO4gkLZDCvIeRmKI8xUe7LZUpUAQGlByVpswycqMuKkmwTaOtrH
+	E4BkVJqHlAHs2hDmizYIgmnuOkzb3Y3imguNH7ICJTaXNGlVke3V5A0GDwLY10XcbnCb
+	GwFJ58u5HPrpC1Mw9ktn5HWZrHH7ho0k9sxfFgb+Dy4bgiTazfWdWxG6Sf276WGsGT1h
+	QvvVzPhTVOHAEZcscJth3WeBjck0SVxBCjUpHmp5Xbm9KwmaTTvx7GljsozRxulx8p68
+	GCjQ==
+X-Gm-Message-State: APjAAAUEy7Dg23oLzhY1/CCtOgD5aDUdBP3RijJ8M755W/ZpGgVrz0L2
+	oK6aMf+MsLE6/0+oZgqJMtxxng+R
+X-Google-Smtp-Source: APXvYqx6g1lrP/M0kNoznlXxeWfcz5fJ9v2I88kC6s2z9eDkr4qKA60zr9c8MgzqixakZAxwMYxGww==
+X-Received: by 2002:adf:fb0b:: with SMTP id c11mr35901753wrr.56.1560884962895; 
+	Tue, 18 Jun 2019 12:09:22 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	n14sm10694943wra.75.2019.06.18.12.09.22
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 18 Jun 2019 12:09:22 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Jun 2019 19:09:28 +0000
+Message-Id: <20190618190928.14232-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CA+chaQdcXs=oCRTQ-jycu6WTVWxmQOUVMdnJ9ihFLCMGvCHiUw@mail.gmail.com>
+References: <CA+chaQdcXs=oCRTQ-jycu6WTVWxmQOUVMdnJ9ihFLCMGvCHiUw@mail.gmail.com>
+Subject: [PATCH] serf: stop scons trying to create directories in hosts rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,81 +58,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 18:29:40 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 18 Jun 2019 19:09:22 -0000
 
-On Tue, Jun 18, 2019 at 12:03 PM Khem Raj <raj.khem@gmail.com> wrote:
->
-> On Mon, Jun 17, 2019 at 8:44 PM Bruce Ashfield <bruce.ashfield@gmail.com> wrote:
-> >
-> > On Mon, Jun 17, 2019 at 6:04 PM Alistair Francis
-> > <alistair.francis@wdc.com> wrote:
-> > >
-> > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > > ---
-> > >  meta/recipes-kernel/linux/linux-yocto_5.0.bb | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-> > > index 8aec315084..a79d0b962d 100644
-> > > --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-> > > +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-> > > @@ -41,7 +41,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
-> > >  KERNEL_DEVICETREE_qemuarm = "versatile-pb.dtb"
-> > >  KERNEL_DEVICETREE_qemuarmv5 = "versatile-pb.dtb"
-> > >
-> > > -COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64"
-> > > +COMPATIBLE_MACHINE = "qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv64"
-> >
-> > What KBRANCH / SRCREV would this be building ? Unless it is something
-> > that I'm building and booting, we shouldn't put it in the core recipe
-> > as compatible until the SRCREV and KBRANCH are defined.
-> >
->
-> it needs to be master branch of repo since it needs no additional
-> patches KBRANCH is not needed I suppose. and SRCREV can be picked from
-> master branch.
+* since 1522f09a4d serf: cleanup recipe
+  serf.do_install fails in builds with multilib enabled (with
+  libdir=/usr/lib64 on host where /usr/lib64 doesn't exist)
 
-Nope. That means <version>/standard/base is the KBRANCH.  master is
-reference only in the tree, and that's where SRCREV comes from as
-well.
-Regardless, it (the branch) should be set explicitly in the recipe if
-we mark it as compatible, since the branch documents the details.
+DEBUG: Executing shell function do_install
+scons: Reading SConscript files ...
+PermissionError: [Errno 13] Permission denied: '/usr/lib64':
+  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/serf-1.3.9/SConstruct", line 158:
+    ENV = os.environ,
+  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Environment.py", line 965:
+    variables.Update(self)
+  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Variables/__init__.py", line 227:
+    option.validator(option.key, env.subst('${%s}'%option.key), env)
+  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/serf-1.3.9/SConstruct", line 60:
+    return PathVariable.PathIsDirCreate(key, val, env)
+  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Variables/PathVariable.py", line 101:
+    os.makedirs(val)
+  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/lib/python3.7/os.py", line 221:
+    mkdir(name, mode)
+ERROR: scons install execution failed.
 
-Bruce
+* I don't know how exactly --install-sandbox is supposed to work but
+  in this case it's trying to mkdir /usr/lib64 on the host rootfs
+  which is clearly wrong and if I set LIBDIR together with
+  --install-sandbox then the install paths are prefixed with $D twice
+  in some cases (not for includedir and empty libdir at the end).
+  So in the end I think it was an issue caused by the custom path
+  validator in serf's SConstruct, removing that stops touching host
+  and the installed paths (including the paths inside libserf*.pc)
+  look correct
 
->
-> > Bruce
-> >
-> >
-> > >
-> > >  # Functionality flags
-> > >  KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
-> > > --
-> > > 2.22.0
-> > >
-> > > --
-> > > _______________________________________________
-> > > Openembedded-core mailing list
-> > > Openembedded-core@lists.openembedded.org
-> > > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> >
-> >
-> >
-> > --
-> > - Thou shalt not follow the NULL pointer, for chaos and madness await
-> > thee at its end
-> > - "Use the force Harry" - Gandalf, Star Trek II
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
+---
+ ...ories.without.sandbox-install.prefix.patch | 34 +++++++++++++++++++
+ meta/recipes-support/serf/serf_1.3.9.bb       |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
 
-
-
+diff --git a/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
+new file mode 100644
+index 0000000000..bfb2f5a2aa
+--- /dev/null
++++ b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
+@@ -0,0 +1,34 @@
++--- ../1.3.9-r0-bad-double/serf-1.3.9/SConstruct	2019-06-18 15:49:19.968961108 +0000
+++++ serf-1.3.9/SConstruct	2019-06-18 18:53:21.412337151 +0000
++@@ -51,17 +51,6 @@
++     """
++     return (key, '%s' % (help), default, None, lambda val: _converter(val))
++ 
++-# Custom path validator, creates directory when a specified option is set.
++-# To be used to ensure a PREFIX directory is only created when installing.
++-def createPathIsDirCreateWithTarget(target):
++-  def my_validator(key, val, env):
++-    build_targets = (map(str, BUILD_TARGETS))
++-    if target in build_targets:
++-      return PathVariable.PathIsDirCreate(key, val, env)
++-    else:
++-      return PathVariable.PathAccept(key, val, env)
++-  return my_validator
++-
++ # default directories
++ if sys.platform == 'win32':
++   default_incdir='..'
++@@ -77,11 +66,11 @@
++   PathVariable('PREFIX',
++                'Directory to install under',
++                default_prefix,
++-               createPathIsDirCreateWithTarget('install')),
+++               PathVariable.PathAccept),
++   PathVariable('LIBDIR',
++                'Directory to install architecture dependent libraries under',
++                default_libdir,
++-               createPathIsDirCreateWithTarget('install')),
+++               PathVariable.PathAccept),
++   PathVariable('APR',
++                "Path to apr-1-config, or to APR's install area",
++                default_incdir,
+diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
+index 92cd5ca061..25ccd79e00 100644
+--- a/meta/recipes-support/serf/serf_1.3.9.bb
++++ b/meta/recipes-support/serf/serf_1.3.9.bb
+@@ -6,6 +6,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0002-SConstruct-Fix-path-quoting-for-.def-generator.patch \
+            file://0003-gen_def.patch \
+            file://0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch \
++    file://SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch \
+            "
+ 
+ SRC_URI[md5sum] = "370a6340ff20366ab088012cd13f2b57"
 -- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+2.17.1
+
 
