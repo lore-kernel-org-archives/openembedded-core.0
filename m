@@ -1,52 +1,51 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com
-	[209.85.214.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 31CFF7E894
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 94A177E894
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 11:37:37 +0000 (UTC)
-Received: by mail-pl1-f195.google.com with SMTP id bh12so5605300plb.4
+	Tue, 18 Jun 2019 11:41:47 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id n4so13560927wrw.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 04:37:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=nfAJ8ymE1z806mQHUKsRAtUEall87dMkLojYZ8omnGQ=;
-	b=O+5oUi2ThCC/NiIPjXJFDYlsH79kdSMWv1Buj0yDF9l0RGELTVPdBp+o2p4499UF3E
-	euuql2hODrSY1jtd03B9RCybdOR/0kj7MkHe1Mi3+ACGDu8SxXyvwNwIKzVrLibAKVuq
-	ojq2k0ad81Cq2kH0uwUKoKPvRKhtlSiJOWCg1q8Pl0g+77SvCJ/8JTnEoyhio7ktoKqF
-	BfZv1nT6JArTuelO8ybFRfwKSJkEC3wFMV16NntJNcwaHZ0zYZNwCalH48DVyTY0zBke
-	Mqzt602tz6Es7t/9vzlwemrKwouNBq41maSsoaapvr6vFGw64aUPED9W7Ol/Bx7vKTol
-	Vg+w==
+	Tue, 18 Jun 2019 04:41:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=qV+iu9zSpevLinxccC6bmtew44c7L0bPAFethDOKFnI=;
+	b=SLeqkcgIA/I+84CpdzBYbIxLw/koOJ76EhJUga50HRWy23wSRP5Ga1BHKCcodUE848
+	O1zBINv29yWGGpkYrZqyYvRokpjyRgQTTwHWorroIXF4SuOxLBO+wlur5COrhzgjR60W
+	UmJoWBlm5KG6kgvyp//GfPiZl++ih5NPX5vAI7zCZxi2Lq5MmJ7mv1pCcdMRN4GLbUbA
+	lHl63u1wJsCHiM9kmEs4WKhyZsUor9ub6cW1apGWRFyMr6EOB0HHGgfhWB+RiycasTSP
+	OFmd0ylfBiFKWQU6GuNazM63LsZoHMMsUoE+udH2hdPpO6NlEctRsqt1S3h7Z+OGJobB
+	EZGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=nfAJ8ymE1z806mQHUKsRAtUEall87dMkLojYZ8omnGQ=;
-	b=Z7m9dJDYXV+1A83MBVgmrkDzjMHNOqmwUMD1b8LrIj6nbwJkCYLR9x7TLK9WEYm6+D
-	ZmEgDJn75/NxPfCN1Y6OcmgEhrCjoau47yrCcgcHAgc+6FRq+rJg8JbzXoxW/iG1hd6h
-	VdxbBeryvogtJ7rPMEhh+iG7v0mSrZTzR9OyojUkIn8FUbUlHoEZatwCko8+YMuAglLx
-	Xub6facf6Nr4HpClJkKxI/nk10bm7YED422mBaX4ss3eyNvckq6Kpoddp38kdqUYmUEg
-	mjVZjp/0RI5Wr4oOAcUegkFIqbSI0qn7prUdr9a8dqDmW0x+6Ndd+nJ6OKfHOmdjTjIs
-	6xlw==
-X-Gm-Message-State: APjAAAVAIJdtPNhv46VPlPNa9diSluA4mESlXt3WKoUD2+khwUFq63L8
-	Dram8vbtslPAHkP2J7WjS6TWwrqmEOupdQ==
-X-Google-Smtp-Source: APXvYqwXfSv5r6Hq+pk5plav2e/rdWz+xIR0UDgTbHyK6M9foflFPxce72dxaOxh3NbJHXFDa/Kj5A==
-X-Received: by 2002:a17:902:2862:: with SMTP id
-	e89mr114231813plb.258.1560857857941; 
-	Tue, 18 Jun 2019 04:37:37 -0700 (PDT)
-Received: from legion.athrat.org (c-67-170-200-185.hsd1.ca.comcast.net.
-	[67.170.200.185]) by smtp.gmail.com with ESMTPSA id
-	y14sm2117846pjr.13.2019.06.18.04.37.36
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 18 Jun 2019 04:37:37 -0700 (PDT)
-From: Matt Madison <matt@madison.systems>
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=qV+iu9zSpevLinxccC6bmtew44c7L0bPAFethDOKFnI=;
+	b=CtC0RMl4kyO9Kw9MBeRgQhDcRWVaaTiex/BbxfUosqyvCfP9Me751O4domE2XqWJk3
+	Dd+IG0Tkhu6xSQQDmg6OMjH45fasR4+hB9p0oRNSoZdwONL43m5ZtM703mbIiK3jf0hR
+	wLunTIg/QB7QHyhOftpF+XoYH0X6upyFipAFnIGT82st70LK/33udEcHgkfxX5GDLSF3
+	8dT7EYgV56knudQCBeQs71trQzbDaBjHl8csxagifiGUrmLgUt1kit8QII06WbFeNc81
+	SUmS01GXyI53UfOQispDWdOnAwDvEICFNZ8UjA1Q9FNLl3hFE/36R7AP1lh46tqe9zDg
+	Gd7A==
+X-Gm-Message-State: APjAAAWvhkSSBh9RyDdPiowYmbHZ4PS8jETsa0Rk/1nGhgh1wbT78t+N
+	vBjXqn/ut0MWMvXnWdEylPer4WF1
+X-Google-Smtp-Source: APXvYqwDqnYygCl0EI/nnFLecahfk2+pvcxCQva5v6p7U/zdHvYOp4BSKGZVSXjojZDFOvAs6pkKqA==
+X-Received: by 2002:adf:cd8c:: with SMTP id q12mr67097171wrj.103.1560858108035;
+	Tue, 18 Jun 2019 04:41:48 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	l12sm37697746wrb.81.2019.06.18.04.41.47
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 18 Jun 2019 04:41:47 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 04:37:07 -0700
-Message-Id: <20190618113707.25101-1-matt@madison.systems>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Subject: [PATCH] apt: fix permissions on apt-daily script for systemd
+Date: Tue, 18 Jun 2019 11:41:52 +0000
+Message-Id: <20190618114152.6172-1-Martin.Jansa@gmail.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <CAJTo0LZf4a-p2RpMbdL6Vch+UHC69b3Jm1z5-Gz7LaGq6RZCKA@mail.gmail.com>
+References: <CAJTo0LZf4a-p2RpMbdL6Vch+UHC69b3Jm1z5-Gz7LaGq6RZCKA@mail.gmail.com>
+Subject: [PATCHv2] base.bbclass: define PACKAGECONFIG_CONFARGS before only sometimes appending to it
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,31 +58,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 11:37:37 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 18 Jun 2019 11:41:48 -0000
 
-The script needs to be executable so the service doesn't
-fail.
+* just to make sure it's expaned by bitbake before it gets
+  executed in shell
+* e.g. with cmake.bbclass and cmake recipe (any recipe without
+  PACKAGECONFIG options have this issue) it looks like this:
+  bitbake -e cmake | grep EXTRA_OECMAKE=
+  EXTRA_OECMAKE="     -DCMAKE_DOC_DIR=share/doc/cmake-3.14
+    -DCMAKE_USE_SYSTEM_LIBRARIES=1 -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0
+    -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0
+    -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0     -DKWSYS_CHAR_IS_SIGNED=1
+    -DBUILD_CursesDialog=0     -DKWSYS_LFS_WORKS=1
+    \${PACKAGECONFIG_CONFARGS}"
 
-Signed-off-by: Matt Madison <matt@madison.systems>
+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
 ---
- meta/recipes-devtools/apt/apt-package.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes/base.bbclass | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/apt/apt-package.inc b/meta/recipes-devtools/apt/apt-package.inc
-index 6a01f99c63..da91451d7f 100644
---- a/meta/recipes-devtools/apt/apt-package.inc
-+++ b/meta/recipes-devtools/apt/apt-package.inc
-@@ -83,7 +83,7 @@ do_install () {
- 	install -m 0644 include/apt-pkg/*.h ${D}${includedir}/apt-pkg/
+diff --git a/meta/classes/base.bbclass b/meta/classes/base.bbclass
+index 90af8ba72b..0c8a4b2862 100644
+--- a/meta/classes/base.bbclass
++++ b/meta/classes/base.bbclass
+@@ -15,6 +15,8 @@ OE_EXTRA_IMPORTS ?= ""
+ OE_IMPORTS += "os sys time oe.path oe.utils oe.types oe.package oe.packagegroup oe.sstatesig oe.lsb oe.cachedpath oe.license ${OE_EXTRA_IMPORTS}"
+ OE_IMPORTS[type] = "list"
  
- 	install -d ${D}${systemd_unitdir}/system/
--	install -m 0644 ${S}/debian/apt.systemd.daily ${D}${libdir}/apt/
-+	install -m 0755 ${S}/debian/apt.systemd.daily ${D}${libdir}/apt/
- 	install -m 0644 ${S}/debian/apt-daily.service ${D}${systemd_unitdir}/system/
- 	sed -i 's#/usr/lib/apt/#${libdir}/apt/#g' ${D}${systemd_unitdir}/system/apt-daily.service
- 	install -m 0644 ${S}/debian/apt-daily.timer ${D}${systemd_unitdir}/system/
++PACKAGECONFIG_CONFARGS ??= ""
++
+ def oe_import(d):
+     import sys
+ 
 -- 
-2.20.1
+2.17.1
 
 
