@@ -1,49 +1,49 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f195.google.com (mail-qt1-f195.google.com
-	[209.85.160.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 6E9D87E85E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5941D7E90F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 15:54:02 +0000 (UTC)
-Received: by mail-qt1-f195.google.com with SMTP id m29so15957402qtu.1
+	Tue, 18 Jun 2019 15:55:31 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id m24so31085455ioo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 08:54:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	Tue, 18 Jun 2019 08:55:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/TdtdIkPcOvu0K2Qc31XBqti3rcY9KqqbvAbhOwNvPY=;
-	b=O1KK5Ow+qXezr40b3S62bNLqypznkU+87VCqpeqbBNl4MIFOE7q2W0cJz8QBcAcgb2
-	GwwaPxTVOYuVavjsA2cz1B2oD+k/kJ9svLNpECCI4P0DmunK4+Bed25p9r8wKIUFxqMI
-	gXnTirjKK97j9OKV3Dxez8nGPHFSGBMX/jkVSXUwXAfW9dWsnkwOA+SVTzFYEwqZ1/n9
-	Okd0TD8vz3G8uTVpaybKEInd3WhvS0/lQATL22iZFO9OEI2aD1BuMYdsCH2LENO9k7cW
-	PVl0Ap85U6e6TmZp7HEVPAn0EeinEZocxSfYLrnlS2LmUB9JOJ37ODgPmF76yHuRqmjz
-	ItAQ==
+	:cc; bh=EwVt6DWP6gFhvSTl+xWyaBCqDWX9Z0yTB8ppRBqrDBc=;
+	b=pD1epZ3TWq1Z8/8Wrwmts0lSsyzRRj4r9MPpwIPVT3yH9Z2JN5F8cPlVkkwXmIFbFd
+	lKxG8J+OVWaIxTkprlM2hhIEYFrbLXbLJ5XDS0d8ZNsvB2UL2Kdy7ukbpggLSNOStTRQ
+	fULLOU9RimvrKX6GJCxAJkadSPJsRt0vASfsUmXzM4YhFyH3LDXCLXWpL4c/KjJuY5Vh
+	bMlWJFiKwe1oSTfNXoHOtBvmx/6uOGcesC5ly5G2z0tcZYHEQKH4TiQdjfWD7gzapX2s
+	HwTtCndr2AJc61xXwp4OR3IgSAnSQpFYVCyK/dCfAmx9543G+lzjI+H5narlcfyEWZId
+	z+KA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=/TdtdIkPcOvu0K2Qc31XBqti3rcY9KqqbvAbhOwNvPY=;
-	b=VlujEttXO/TnKTEUhLZquucW8VVRZHjY5PdKtOMoU261U3B8Ey8Jtw2c3f0X503hRk
-	CMZRQcXFqoxNsE76aB14txOlP6no8uyVBn/gWKp5NOTupjUp1fVdLTyBUurumerUJp6s
-	HwjtPS1ExVsekiJnTOdK2hNPQdkC/boDhjM64arUqVvsfg8WqxX2ip/uGFcu8ByqivX7
-	S1KlGlZOKXgpZ//ryZLCko+y/+IbpW13FfuX1xo9hnOhyjTTBX5VeEKHW53WitVJqZlt
-	29iTtAJOeBnw2dp0y7Yn3Ve67qbxo30GJ7wSui9ZegOLD9uWkhePIzUOiCvCXX+8F42+
-	PPDw==
-X-Gm-Message-State: APjAAAVK9I75BFIdh7Of/I9yCzMvsGSL2/UMIVTQKKUUAkVi9F2ng3X0
-	hJmcd2f7hwijhzJ0p41VC1dBfXIVr+/mDBP/9tA=
-X-Google-Smtp-Source: APXvYqwB9KVa4ordH0aZWySEala0zKm0tTcPZYZNp0SLA24v8NRhTsn1YWUzt/rcu9t0kUDzl26RyaYmDZkL7BkwaFo=
-X-Received: by 2002:ac8:2cfc:: with SMTP id 57mr99329554qtx.194.1560873243155; 
-	Tue, 18 Jun 2019 08:54:03 -0700 (PDT)
+	bh=EwVt6DWP6gFhvSTl+xWyaBCqDWX9Z0yTB8ppRBqrDBc=;
+	b=cnCmBNMNxmh25+JqafVA0RI7PiPPRe4q6B5m4UkNizPBdbUhVfZSRemahx+bzkaaxM
+	3rHl6Yd+P7+817ZI2/BGNcWghJNkAtrxTvEAg7uOzagXqqfhaJ2hQ75y4xDlvDD1HPmu
+	kn3VwBSR3C77DBVZ8TFIIErpZC+1hldECrk4kCMKKc1rH6gR29iK8Hlns21u5MVwZ7vi
+	1ZHHl+wVtgtBu4mhlytvAwoNbrMxne2P9hmnl8LmGxeu7SUtA++j5giy5AByenwrTsQP
+	t/+8XAldlj4n23hU5plH2a0J8RJ7b8tqz+P5NpF+0J9MNC8KafdzhbOqUL0YquwwqBCL
+	rNVw==
+X-Gm-Message-State: APjAAAU1EQjirhtjyyF3xk7TAQ9ycnZPZwKqKjzbrY15W3wwhIVBFdOS
+	PegNyAqo5BANmJ4+m/9pZdtwR1xnazTwl8nVP9etgg==
+X-Google-Smtp-Source: APXvYqzUI2K4Gu8bCN7+nR+uzflWoKraFqCRe+k2Fvywc/RoH8I0iqZduuDhCznJWdKbRQr3GItO9EsQj4Hy7xxL9mI=
+X-Received: by 2002:a6b:8bce:: with SMTP id n197mr5227499iod.299.1560873332426;
+	Tue, 18 Jun 2019 08:55:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <1509637698-17399-1-git-send-email-ayoub.zaki@embexus.com>
-	<f1aeb71da144e3cf77b9f1c1e402bb0f5f71e847.camel@gmail.com>
-In-Reply-To: <f1aeb71da144e3cf77b9f1c1e402bb0f5f71e847.camel@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 18 Jun 2019 08:53:35 -0700
-Message-ID: <CAMKF1spZojFkRCEqOE-RLkYpeTuub9O3i9OWg9sQpV19zjv+Xw@mail.gmail.com>
-To: Luca Boccassi <luca.boccassi@gmail.com>
-Cc: Ayoub Zaki <ayoub.zaki@embexus.com>,
-	Patches and discussions about the oe-core layer
+References: <20190618104735.25849-1-ross.burton@intel.com>
+	<CAMKF1spb0ouiuW+44jvXqbBYOa5TAw2cbabmQmuTo0z4n9BLZQ@mail.gmail.com>
+In-Reply-To: <CAMKF1spb0ouiuW+44jvXqbBYOa5TAw2cbabmQmuTo0z4n9BLZQ@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 18 Jun 2019 16:55:20 +0100
+Message-ID: <CAJTo0Lbd2r1enJ63_ubhXp6Ny77dgvrUqhiCPSfeqNYV-pL3zA@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe,v2] kernel-fitimage: introduce FIT_HASH_ALG
+Subject: Re: [PATCH] binconfig: don't try to fix up .la files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,106 +56,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 15:54:02 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 15:55:31 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Jun 18, 2019 at 1:26 AM Luca Boccassi <luca.boccassi@gmail.com> wrote:
->
-> On Thu, 2017-11-02 at 16:48 +0100, Ayoub Zaki wrote:
-> > sanitize fitImage hash algorithm selection with FIT_HASH_ALG
-> > switch default hash algorithm from sha1 to sha256
-> >
-> > Signed-off-by: Ayoub Zaki <
-> > ayoub.zaki@embexus.com
-> > >
-> > Acked-by: Denys Dmytriyenko <
-> > denys@ti.com
-> > >
-> > ---
-> >  meta/classes/kernel-fitimage.bbclass | 13 ++++++++-----
-> >  1 file changed, 8 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/meta/classes/kernel-fitimage.bbclass
-> > b/meta/classes/kernel-fitimage.bbclass
-> > index 179185b..3cc3a33 100644
-> > --- a/meta/classes/kernel-fitimage.bbclass
-> > +++ b/meta/classes/kernel-fitimage.bbclass
-> > @@ -36,6 +36,9 @@ python __anonymous () {
-> >  # Options for the device tree compiler passed to mkimage '-D'
-> > feature:
-> >  UBOOT_MKIMAGE_DTCOPTS ??= ""
-> >
-> > +# fitImage Hash Algo
-> > +FIT_HASH_ALG ?= "sha256"
-> > +
-> >  #
-> >  # Emit the fitImage ITS header
-> >  #
-> > @@ -95,7 +98,7 @@ EOF
-> >  # $4 ... Compression type
-> >  fitimage_emit_section_kernel() {
-> >
-> > -     kernel_csum="sha1"
-> > +     kernel_csum="${FIT_HASH_ALG}"
-> >
-> >       ENTRYPOINT=${UBOOT_ENTRYPOINT}
-> >       if [ -n "${UBOOT_ENTRYSYMBOL}" ]; then
-> > @@ -128,7 +131,7 @@ EOF
-> >  # $3 ... Path to DTB image
-> >  fitimage_emit_section_dtb() {
-> >
-> > -     dtb_csum="sha1"
-> > +     dtb_csum="${FIT_HASH_ALG}"
-> >
-> >       cat << EOF >> ${1}
-> >                  fdt@${2} {
-> > @@ -152,7 +155,7 @@ EOF
-> >  # $3 ... Path to setup image
-> >  fitimage_emit_section_setup() {
-> >
-> > -     setup_csum="sha1"
-> > +     setup_csum="${FIT_HASH_ALG}"
-> >
-> >       cat << EOF >> ${1}
-> >                  setup@${2} {
-> > @@ -179,7 +182,7 @@ EOF
-> >  # $3 ... Path to ramdisk image
-> >  fitimage_emit_section_ramdisk() {
-> >
-> > -     ramdisk_csum="sha1"
-> > +     ramdisk_csum="${FIT_HASH_ALG}"
-> >       ramdisk_ctype="none"
-> >       ramdisk_loadline=""
-> >       ramdisk_entryline=""
-> > @@ -237,7 +240,7 @@ EOF
-> >  # $6 ... default flag
-> >  fitimage_emit_section_config() {
-> >
-> > -     conf_csum="sha1"
-> > +     conf_csum="${FIT_HASH_ALG}"
-> >       if [ -n "${UBOOT_SIGN_ENABLE}" ] ; then
-> >               conf_sign_keyname="${UBOOT_SIGN_KEYNAME}"
-> >       fi
->
-> Hi,
->
-> Any update on this patch? It was acked almost 2 years ago.
->
-> It would be great to have a way to change the hashsum algorithm when
-> building signed images.
->
+On Tue, 18 Jun 2019 at 16:51, Khem Raj <raj.khem@gmail.com> wrote:
+> while I agree, are there assumptions in the recipes using binconfig on this ?
+> especially packages outside oe-core ?
 
-I agree, but it would be good to resend this patch on top of current master
+I suspect that everyone is using remove-libtool, because that's one of
+the default inherits.
 
-> Thanks!
->
-> --
-> Kind regards,
-> Luca Boccassi
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Ross
 
