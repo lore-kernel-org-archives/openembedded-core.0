@@ -1,38 +1,50 @@
-Return-Path: <chee.yang.lee@intel.com>
-Received: from mga05.intel.com (mga05.intel.com [192.55.52.43])
-	by mail.openembedded.org (Postfix) with ESMTP id 378307E54F
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 60ADF7E8FB
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 12:06:34 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 Jun 2019 05:06:35 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,389,1557212400"; d="scan'208";a="153446403"
-Received: from kmsmsx156.gar.corp.intel.com ([172.21.138.133])
-	by orsmga008.jf.intel.com with ESMTP; 18 Jun 2019 05:06:33 -0700
-Received: from pgsmsx103.gar.corp.intel.com ([169.254.2.96]) by
-	KMSMSX156.gar.corp.intel.com ([169.254.1.43]) with mapi id
-	14.03.0439.000; Tue, 18 Jun 2019 20:06:32 +0800
-From: "Lee, Chee Yang" <chee.yang.lee@intel.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH] wic/bootimg-efi: allow multiple initrd
-Thread-Index: AQHVIbBQsgvQe9Fb7EWEAkaz3qMDp6afz4YAgAGJogA=
-Date: Tue, 18 Jun 2019 12:06:32 +0000
-Message-ID: <D5D2BB7F-DC45-47BE-AA67-F426E3F4AC8E@intel.com>
-References: <1560406896-37282-1-git-send-email-chee.yang.lee@intel.com>
-	<7072c0e9642b064ad4444e1033506ae292af0fc4.camel@linuxfoundation.org>
-In-Reply-To: <7072c0e9642b064ad4444e1033506ae292af0fc4.camel@linuxfoundation.org>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Microsoft-MacOutlook/10.10.a.190512
-x-originating-ip: [10.221.217.11]
+	Tue, 18 Jun 2019 12:34:10 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id w9so2207331wmd.1
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2019 05:34:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=lPSQKJ4NFSDMaJOz3dGPZOImWIdq195waIIZDZbPN2M=;
+	b=GUM8++jeaxmg7vj4z/od1U1f0XlnV10GTrnjtyM+TNjGzMDSln1jd/CuoDBTlZy3eC
+	myojVAva6lklqLW9OXIZKplOg9SNZu8pO7L+xHYOZ7+RzyFl2zTaoWJCb93Z5NIQzAdJ
+	frTzIBIhytVXdX1r9lkKRttlo21rvjWEnc3Zc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=lPSQKJ4NFSDMaJOz3dGPZOImWIdq195waIIZDZbPN2M=;
+	b=BpRpPRqhNrCgYp+1DIaNr8dTQrYQXE9w3jbWXLQImV2q4GgqaLB2eiRVtkZiU1/X0V
+	Vd+1IuE8finBnwJJ7ngh3GEcAzCsFafEUQhRgeWnUIt84S8tAqn9qRBDPDDIx8yKaI1U
+	w0YCSAbYkmhHQjVxLDEivDh2oOxWgD5OHL/QqYLhTQeUgVx5xo9bnd3B1wr45xUX4My7
+	AVze0h3vs9Sl8wBkY1dp8YdEqhWEr38yY0zgk9wlgmdbVg0jFmJI45nSlYGoHMmztV2D
+	BqL53YVk6dua66qrnOzbBD7owC3wUByj4UooPUrjcRGP9yUOPatr9tZq8DIBuYzoUwjM
+	BuQw==
+X-Gm-Message-State: APjAAAUrFZeKNvb/u/kcLYxe9ZS1WeVtVHfzAny34LeBG8lSHDapzm/8
+	KN3k+aTmkvtXiBrG/S+IABxJOU9s4rY=
+X-Google-Smtp-Source: APXvYqzTmD7DiG2zFfjrnS9lJPibZ696o8HzE7UIcceAV9TtI/XXSzPKNR3RhVejfaxdwzzBZPUmYA==
+X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr2844822wml.124.1560861250931; 
+	Tue, 18 Jun 2019 05:34:10 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	g5sm15913157wrp.29.2019.06.18.05.34.10
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 18 Jun 2019 05:34:10 -0700 (PDT)
+Message-ID: <bb0334d27a1ec6cb25e6eb5b994a89c56f311c7d.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, openembedded-core@lists.openembedded.org
+Date: Tue, 18 Jun 2019 13:34:09 +0100
+In-Reply-To: <20190618061128.17422-1-bunk@stusta.de>
+References: <20190618061128.17422-1-bunk@stusta.de>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH] wic/bootimg-efi: allow multiple initrd
+Subject: Re: [PATCH] wireless-regdb: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,75 +57,115 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 12:06:34 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B27CA9FEABE3E2469F4F6714CD1F1EC1@intel.com>
-Content-Transfer-Encoding: base64
+X-List-Received-Date: Tue, 18 Jun 2019 12:34:10 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-TXkgYmFkLCBJIHNob3VsZCB0ZXN0IGl0IHdpdGggY29tcGxldGUgb2Utc2VsZnRlc3Qgd2ljIG1v
-ZHVsZS4NCg0K77u/T24gNi8xOC8xOSwgNDozNyBBTSwgIlJpY2hhcmQgUHVyZGllIiA8cmljaGFy
-ZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4gd3JvdGU6DQoNCiAgICBPbiBUaHUsIDIwMTkt
-MDYtMTMgYXQgMTQ6MjEgKzA4MDAsIGNoZWUueWFuZy5sZWVAaW50ZWwuY29tIHdyb3RlOg0KICAg
-ID4gRnJvbTogQ2hlZSBZYW5nIExlZSA8Y2hlZS55YW5nLmxlZUBpbnRlbC5jb20+DQogICAgPiAN
-CiAgICA+IEFsbG93IHBsdWdpbiBib290aW1nLWVmaSB0byBjb25maWd1cmUgd2l0aCBtdWx0aXBs
-ZSBpbml0cmQNCiAgICA+IHRocm91Z2ggc291cmNlIHBhcmFtZXRlci4NCiAgICA+IA0KICAgID4g
-VXNlcyA7IHRvIHNlcGFyYXRlIGVhY2ggaW5pdHJkLg0KICAgID4gDQogICAgPiBlLmc6DQogICAg
-PiAtLXNvdXJjZXBhcmFtcz0ibG9hZGVyPSR7RUZJX1BST1ZJREVSfSxpbml0cmQ9aW5pdHJkMTtp
-bml0cmQyIg0KICAgID4gDQogICAgPiBTaWduZWQtb2ZmLWJ5OiBDaGVlIFlhbmcgTGVlIDxjaGVl
-LnlhbmcubGVlQGludGVsLmNvbT4NCiAgICA+IC0tLQ0KICAgID4gIHNjcmlwdHMvbGliL3dpYy9w
-bHVnaW5zL3NvdXJjZS9ib290aW1nLWVmaS5weSB8IDI0ICsrKysrKysrKysrKysrKystDQogICAg
-PiAtLS0tLS0tDQogICAgPiAgMSBmaWxlIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKyksIDggZGVs
-ZXRpb25zKC0pDQogICAgDQogICAgDQogICAgSG93IHdhcyB0aGlzIHRlc3RlZD8gSXQgYnJva2Ug
-dGhlIGF1dG9idWlsZGVyIGJ1aWxkOg0KICAgIA0KICAgIHwgREVCVUc6IFB5dGhvbiBmdW5jdGlv
-biBleHRlbmRfcmVjaXBlX3N5c3Jvb3QgZmluaXNoZWQNCiAgICB8IERFQlVHOiBFeGVjdXRpbmcg
-c2hlbGwgZnVuY3Rpb24gZG9faW1hZ2Vfd2ljDQogICAgfCBJTkZPOiBDcmVhdGluZyBpbWFnZShz
-KS4uLg0KICAgIHwgDQogICAgfCBUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQog
-ICAgfCAgIEZpbGUgIi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvZ2VuZXJpY3g4Ni9idWls
-ZC9zY3JpcHRzL3dpYyIsIGxpbmUgNTI1LCBpbiA8bW9kdWxlPg0KICAgIHwgICAgIHN5cy5leGl0
-KG1haW4oc3lzLmFyZ3ZbMTpdKSkNCiAgICB8ICAgRmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3Rv
-LXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3NjcmlwdHMvd2ljIiwgbGluZSA1MjAsIGluIG1haW4N
-CiAgICB8ICAgICByZXR1cm4gaGxwLmludm9rZV9zdWJjb21tYW5kKGFyZ3MsIHBhcnNlciwgaGxw
-LndpY19oZWxwX3VzYWdlLCBzdWJjb21tYW5kcykNCiAgICB8ICAgRmlsZSAiL2hvbWUvcG9reWJ1
-aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3NjcmlwdHMvbGliL3dpYy9oZWxwLnB5
-IiwgbGluZSA4MywgaW4gaW52b2tlX3N1YmNvbW1hbmQNCiAgICB8ICAgICBzdWJjbWRbMF0oYXJn
-cywgdXNhZ2UpDQogICAgfCAgIEZpbGUgIi9ob21lL3Bva3lidWlsZC95b2N0by13b3JrZXIvZ2Vu
-ZXJpY3g4Ni9idWlsZC9zY3JpcHRzL3dpYyIsIGxpbmUgMjIwLCBpbiB3aWNfY3JlYXRlX3N1YmNv
-bW1hbmQNCiAgICB8ICAgICBuYXRpdmVfc3lzcm9vdCwgb3B0aW9ucykNCiAgICB8ICAgRmlsZSAi
-L2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3NjcmlwdHMvbGli
-L3dpYy9lbmdpbmUucHkiLCBsaW5lIDE4OSwgaW4gd2ljX2NyZWF0ZQ0KICAgIHwgICAgIHBsdWdp
-bi5kb19jcmVhdGUoKQ0KICAgIHwgICBGaWxlICIvaG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2Vy
-L2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5w
-eSIsIGxpbmUgODYsIGluIGRvX2NyZWF0ZQ0KICAgIHwgICAgIHNlbGYuY3JlYXRlKCkNCiAgICB8
-ICAgRmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3Nj
-cmlwdHMvbGliL3dpYy9wbHVnaW5zL2ltYWdlci9kaXJlY3QucHkiLCBsaW5lIDE5NiwgaW4gY3Jl
-YXRlDQogICAgfCAgICAgc2VsZi5faW1hZ2UucHJlcGFyZShzZWxmKQ0KICAgIHwgICBGaWxlICIv
-aG9tZS9wb2t5YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIv
-d2ljL3BsdWdpbnMvaW1hZ2VyL2RpcmVjdC5weSIsIGxpbmUgMzYyLCBpbiBwcmVwYXJlDQogICAg
-fCAgICAgaW1hZ2VyLmtlcm5lbF9kaXIsIGltYWdlci5uYXRpdmVfc3lzcm9vdCkNCiAgICB8ICAg
-RmlsZSAiL2hvbWUvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9nZW5lcmljeDg2L2J1aWxkL3Njcmlw
-dHMvbGliL3dpYy9wYXJ0aXRpb24ucHkiLCBsaW5lIDE2NywgaW4gcHJlcGFyZQ0KICAgIHwgICAg
-IGtlcm5lbF9kaXIsIG5hdGl2ZV9zeXNyb290KQ0KICAgIHwgICBGaWxlICIvaG9tZS9wb2t5YnVp
-bGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMv
-c291cmNlL2Jvb3RpbWctZWZpLnB5IiwgbGluZSAxOTgsIGluIGRvX2NvbmZpZ3VyZV9wYXJ0aXRp
-b24NCiAgICB8ICAgICBjbHMuZG9fY29uZmlndXJlX2dydWJlZmkoaGRkZGlyLCBjcmVhdG9yLCBj
-cl93b3JrZGlyLCBzb3VyY2VfcGFyYW1zKQ0KICAgIHwgICBGaWxlICIvaG9tZS9wb2t5YnVpbGQv
-eW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvc2NyaXB0cy9saWIvd2ljL3BsdWdpbnMvc291
-cmNlL2Jvb3RpbWctZWZpLnB5IiwgbGluZSA4OCwgaW4gZG9fY29uZmlndXJlX2dydWJlZmkNCiAg
-ICB8ICAgICBpZiBpbml0cmRzOg0KICAgIHwgVW5ib3VuZExvY2FsRXJyb3I6IGxvY2FsIHZhcmlh
-YmxlICdpbml0cmRzJyByZWZlcmVuY2VkIGJlZm9yZSBhc3NpZ25tZW50DQogICAgfCBXQVJOSU5H
-OiBleGl0IGNvZGUgMSBmcm9tIGEgc2hlbGwgY29tbWFuZC4NCiAgICB8IEVSUk9SOiBGdW5jdGlv
-biBmYWlsZWQ6IGRvX2ltYWdlX3dpYyAobG9nIGZpbGUgaXMgbG9jYXRlZCBhdCAvaG9tZS9wb2t5
-YnVpbGQveW9jdG8td29ya2VyL2dlbmVyaWN4ODYvYnVpbGQvYnVpbGQvdG1wL3dvcmsvZ2VuZXJp
-Y3g4Ni1wb2t5LWxpbnV4L2NvcmUtaW1hZ2UtbWluaW1hbC1pbml0cmFtZnMvMS4wLXIwL3RlbXAv
-bG9nLmRvX2ltYWdlX3dpYy4yMzcwMCkNCiAgICANCiAgICANCiAgICBodHRwczovL2F1dG9idWls
-ZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzQ4L2J1aWxkcy83MTINCiAg
-ICBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJz
-LzM3L2J1aWxkcy83MTcNCiAgICBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcv
-dHlwaG9vbi8jL2J1aWxkZXJzLzQzL2J1aWxkcy83MTINCiAgICBodHRwczovL2F1dG9idWlsZGVy
-LnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzQ5L2J1aWxkcy83MTENCiAgICBo
-dHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJzLzU4
-L2J1aWxkcy82OTkNCiAgICANCiAgICB3aWMgc2VsZnRlc3RzIGRvbid0IGV2ZW4gd29yazoNCiAg
-ICBodHRwczovL2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdHlwaG9vbi8jL2J1aWxkZXJz
-LzU2L2J1aWxkcy81MjYNCiAgICANCiAgICANCiAgICBSaWNoYXJkDQogICAgDQogICAgDQoNCg==
+On Tue, 2019-06-18 at 09:11 +0300, Adrian Bunk wrote:
+> Since wpa-supplicant is provided,
+> the database of permitted frequencies should also be provided.
+> 
+> wireless-regdb-static should be used with kernel >= 4.15.
+> wireless-regdb can be used with older kernels and is mostly
+> irrelevant here, but keeping it in meta-networking would
+> create needless recipe duplication.
+> 
+> This package was previously in meta-networking.
+> 
+> Signed-off-by: Adrian Bunk <bunk@stusta.de>
+> ---
+>  meta/conf/distro/include/maintainers.inc      |  1 +
+>  .../packagegroups/packagegroup-base.bb        |  1 +
+>  .../wireless-regdb_2019.06.03.bb              | 44
+> +++++++++++++++++++
+>  3 files changed, 46 insertions(+)
+>  create mode 100644 meta/recipes-kernel/wireless-regdb/wireless-
+> regdb_2019.06.03.bb
+
+This seems to break deb rootfs construction:
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/712
+
+> diff --git a/meta/conf/distro/include/maintainers.inc
+> b/meta/conf/distro/include/maintainers.inc
+> index 38fc711f5c..26851d66e0 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -726,6 +726,7 @@ RECIPE_MAINTAINER_pn-weston-init = "Denys
+> Dmytriyenko <denys@ti.com>"
+>  RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
+>  RECIPE_MAINTAINER_pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
+>  RECIPE_MAINTAINER_pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com
+> >"
+> +RECIPE_MAINTAINER_pn-wireless-regdb = "Adrian Bunk <bunk@kernel.org>
+> "
+>  RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <
+> changhyeok.bae@gmail.com>"
+>  RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
+>  RECIPE_MAINTAINER_pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> index cae704aa24..d05403635c 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-base.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+> @@ -271,6 +271,7 @@ RRECOMMENDS_packagegroup-base-ipsec = "\
+>  SUMMARY_packagegroup-base-wifi = "WiFi support"
+>  RDEPENDS_packagegroup-base-wifi = "\
+>      iw \
+> +    wireless-regdb-static \
+>      wpa-supplicant"
+>  
+>  RRECOMMENDS_packagegroup-base-wifi = "\
+> diff --git a/meta/recipes-kernel/wireless-regdb/wireless-
+> regdb_2019.06.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-
+> regdb_2019.06.03.bb
+> new file mode 100644
+> index 0000000000..df50938a1a
+> --- /dev/null
+> +++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+> @@ -0,0 +1,44 @@
+> +SUMMARY = "Wireless Central Regulatory Domain Database"
+> +HOMEPAGE = "http://wireless.kernel.org/en/developers/Regulatory/CRDA
+> "
+> +SECTION = "net"
+> +LICENSE = "ISC"
+> +LIC_FILES_CHKSUM =
+> "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
+> +
+> +SRC_URI = "
+> https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+> +SRC_URI[md5sum] = "4b5ba3f089db7fdb7b9daae6a7c1f2cb"
+> +SRC_URI[sha256sum] =
+> "cd917ed86b63ce8d93947979f1f18948f03a4ac0ad89ec25227b36ac00dc54bf"
+> +
+> +inherit bin_package allarch
+> +
+> +do_install() {
+> +    install -d -m0755 ${D}${nonarch_libdir}/crda
+> +    install -d -m0755 ${D}${sysconfdir}/wireless-regdb/pubkeys
+> +    install -m 0644 regulatory.bin
+> ${D}${nonarch_libdir}/crda/regulatory.bin
+> +    install -m 0644 sforshee.key.pub.pem ${D}${sysconfdir}/wireless-
+> regdb/pubkeys/sforshee.key.pub.pem
+> +
+> +    install -m 0644 -D regulatory.db
+> ${D}${nonarch_base_libdir}/firmware/regulatory.db
+> +    install -m 0644 regulatory.db.p7s
+> ${D}${nonarch_base_libdir}/firmware/regulatory.db.p7s
+> +}
+> +
+> +# Install static regulatory DB in /lib/firmware for kernel to load.
+> +# This requires Linux kernel >= v4.15.
+> +# For kernel <= v4.14, inherit the kernel_wireless_regdb.bbclass
+> +# (in meta-networking) in kernel's recipe.
+> +PACKAGES =+ "${PN}-static"
+> +RCONFLICTS_${PN} = "${PN}-static"
+
+To work with apt/dpkg this may need an RPROVIDES and/or RREPLACES.
+
+Cheers,
+
+Richard
+
+
 
