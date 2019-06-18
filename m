@@ -1,51 +1,61 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com
-	[209.85.128.47])
-	by mail.openembedded.org (Postfix) with ESMTP id ACD747D3B7
+Return-Path: <just.another.mariano@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5160F7E712
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 21:45:28 +0000 (UTC)
-Received: by mail-wm1-f47.google.com with SMTP id x15so4865961wmj.3
+	Tue, 18 Jun 2019 22:02:24 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id n5so33438351ioc.7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 14:45:30 -0700 (PDT)
+	Tue, 18 Jun 2019 15:02:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=w3THyD20HV4INWw2wtIFWbg2/z9AqfibHW+PgfSIWp8=;
-	b=ms8Bb0crL/QNWIN56xHhZTVZS9R/s9QauGpGTMib4xx+QnafF9WAi5gGwZ4j6frJtH
-	CWPUn9WT0mCrmauESe2+Z5vyM7rvQZLqns8VGIXksZaCymz526Fykgp6MaNRrRroV3HS
-	+KzHOeWjfesO1K/iJXhTbVJXc6s7KMel20Du45xr1MAmUIwTUVR55GJL2Rqn2GaSwj2d
-	3FQENecazwUU3GYhupTSJZY5xoOIsanW0beKn5vOG64cp5AJk14xHmfCKTBmbk78j2QJ
-	g0GnqJewjCsaAsPun7RfIzzI1c3Plepf2bleRJjY9UUSWam6XjwNNhd72eKlCmazvXeY
-	JKKQ==
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=ShJgS1hyzmIOSXsmeGasIthJmzC12MVW+FiIja1FbFI=;
+	b=uF0Km51Xplo5TeTMU7h7IbAz5YkTpd4rmOu3d6kAH0qLNslPmLKtH1jSLZh/UYdzq4
+	dyuscnACOjsOPHep8Lwoys+zzh4PYt2XHcsIoxTdJPxtQZzc84b7K/rdXucZWxzmRXBN
+	rluGCOW9CxbFM6ch9eju4/XKUet3erIxRkTKj3uerEXdN2Wp+dp4NHVpK8+ikXgtEekv
+	2AT1rq1OddDboJ+RF8AQZCA9zcH2QynkpNG8YrHeRjNwGTwgQu+sZCc9d6mjO8UaLqpg
+	xZyxr8yEPKsSVYqkOAK1eNhYv4UqMtQSQGajLItP9Aiz3xSIIihtPdbcZoeYEDOYo3Op
+	bNHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=w3THyD20HV4INWw2wtIFWbg2/z9AqfibHW+PgfSIWp8=;
-	b=skeJpOvMdzaqPQ8WDy2SUhflfd7UivwXv8x8g+EzhSC4TboWsCEFS6npYB7swJl3VZ
-	H6LHersvbA+sDCzmyreLqaYtYm2hh5Gnpg6mi4cjeqUo3ZHJoSc13/zNXUYfqPP8Ne29
-	2S4By8s/k/Xh77/lXuBixdMQevs+Kkb5jSzPk8TdxMubbp22dcMaIW6T09VTTrCH1WzP
-	khJ6KwJUWwOJKIQgLi1oZ4jouZmt67pf7OFgDWTAZFaYpY1d7V2iHTATYC73aJtP4McO
-	GHlA7sOhY/SY3BSMTv0Iuath8PRUXQkTRWgrlVBJq0OI/ge1iJ+csM2XKzBjzCnkdvkp
-	m07Q==
-X-Gm-Message-State: APjAAAUVhstalPrPYPl9dC2wqXbXlMpxufEsU8YKd/jcG6A5ZElemgc+
-	rRIjH8YVixJMQm+rgvA7BPN3oI76
-X-Google-Smtp-Source: APXvYqwjgBruPfJ7MXNCuxbCuX+xt9exi1gz79/1CQFQBGDeHoibtpyLXifDc5RGg6OP4RVsmpZfhg==
-X-Received: by 2002:a1c:1f06:: with SMTP id f6mr5451937wmf.60.1560894329298;
-	Tue, 18 Jun 2019 14:45:29 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=ShJgS1hyzmIOSXsmeGasIthJmzC12MVW+FiIja1FbFI=;
+	b=hWkPxRSYeCbrmejzJLJ4t+9IZdEBn0zeV3FDBjnVMQcnVUbc2xne4eV/AJ68yXdYst
+	zRxxIZZwx8sJDOB3oAAFXv5YQKfJW/d9Xx941eSuKJ6HR/XXlGE1zImrkoOe6RgCjDSz
+	vIxX9DEGXAQhU51/Pz5EBhMHvTKN9Yp4FAdZ3OtRJrMPhmmRTRKF8/nOyRZR2sjuoPtL
+	sy6vR5x5V66eHoyg7Ugxp6hC3voDFn9L4KZLImq2iqkW+dnmdKTEoDwlxHX6OP9FGibh
+	dVnmlLoUwEfi5UiVdQEYEJxj26lCicxHoB8fLgxzmRD92Dndw3r+hqQUmhwrPw06eBwf
+	AVDg==
+X-Gm-Message-State: APjAAAXTyOXITQpHfV4ca5KwN7pdV6MC+P21GSk3asij7bxTMHzrR1jN
+	G0YNCHxGMR0QoQCghyWsheRwR9Ek
+X-Google-Smtp-Source: APXvYqy5hIADCvf+703JCuS9mrCEz/15qk2ZxjdEH2pjFEi7Qq7JdIXugzKNNsFSpuWh2ciOJ1Iq4Q==
+X-Received: by 2002:a6b:6f09:: with SMTP id k9mr66605497ioc.223.1560895345161; 
+	Tue, 18 Jun 2019 15:02:25 -0700 (PDT)
+Received: from ?IPv6:2605:a601:43d5:f700:c5be:7ada:a7e0:e98c?
+	([2605:a601:43d5:f700:c5be:7ada:a7e0:e98c])
 	by smtp.gmail.com with ESMTPSA id
-	l17sm21240338wrq.37.2019.06.18.14.45.28
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 18 Jun 2019 14:45:28 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 21:45:34 +0000
-Message-Id: <20190618214534.14866-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <CA+chaQdcXs=oCRTQ-jycu6WTVWxmQOUVMdnJ9ihFLCMGvCHiUw@mail.gmail.com>
-References: <CA+chaQdcXs=oCRTQ-jycu6WTVWxmQOUVMdnJ9ihFLCMGvCHiUw@mail.gmail.com>
-Subject: [PATCHv2] serf: stop scons trying to create directories in hosts rootfs
+	c10sm19657828ioh.58.2019.06.18.15.02.24
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Jun 2019 15:02:24 -0700 (PDT)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+References: <cover.1560482696.git.just.another.mariano@gmail.com>
+	<e1f95376a17a9cc240d051db9d63cccd82ab02d2.1560482696.git.just.another.mariano@gmail.com>
+	<5227c124e870dce2a5eed682dcd9f7cb7ea9d2b6.camel@linuxfoundation.org>
+	<1b6183ff-0500-5c2f-f31a-4a90d46626c7@gmail.com>
+	<CADkTA4O18vKXznOvnYJP+AeVF96grvF-Jash07zwy4mgHY_ABQ@mail.gmail.com>
+From: Mariano Lopez <just.another.mariano@gmail.com>
+Message-ID: <d7d883bc-0372-6011-9945-0202cc54c59f@gmail.com>
+Date: Tue, 18 Jun 2019 17:02:22 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CADkTA4O18vKXznOvnYJP+AeVF96grvF-Jash07zwy4mgHY_ABQ@mail.gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] linux-yocto: Add scsi_debug module when ptest is in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,136 +68,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 21:45:30 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 22:02:24 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-* since 1522f09a4d serf: cleanup recipe
-  serf.do_install fails in builds with multilib enabled (with
-  libdir=/usr/lib64 on host where /usr/lib64 doesn't exist)
 
-DEBUG: Executing shell function do_install
-scons: Reading SConscript files ...
-PermissionError: [Errno 13] Permission denied: '/usr/lib64':
-  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/serf-1.3.9/SConstruct", line 158:
-    ENV = os.environ,
-  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Environment.py", line 965:
-    variables.Update(self)
-  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Variables/__init__.py", line 227:
-    option.validator(option.key, env.subst('${%s}'%option.key), env)
-  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/serf-1.3.9/SConstruct", line 60:
-    return PathVariable.PathIsDirCreate(key, val, env)
-  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Variables/PathVariable.py", line 101:
-    os.makedirs(val)
-  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/lib/python3.7/os.py", line 221:
-    mkdir(name, mode)
-ERROR: scons install execution failed.
+On 6/15/19 8:02 PM, Bruce Ashfield wrote:
+> On Sat, Jun 15, 2019 at 3:47 PM Mariano Lopez
+> <just.another.mariano@gmail.com> wrote:
+>>
+>> On 6/15/19 10:15 AM, Richard Purdie wrote:
+>>> On Thu, 2019-06-13 at 22:32 -0500, Mariano López wrote:
+>>>> util-linux ptest requires the scsi_debug module to perform eject/mount
+>>>> tests. This will conditionally add scsi_debug module when ptest is in
+>>>> DISTRO_FEATURES.
+>>>>
+>>>> This doesn't include linux-yocto-tiny because the resulting image will
+>>>> be too big and do_image would complain about this.
+>>>>
+>>>> [YOCTO #13301]
+>>>>
+>>>> Signed-off-by: Mariano López <just.another.mariano@gmail.com>
+>>>> ---
+>>>>    meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 1 +
+>>>>    meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 1 +
+>>>>    meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 1 +
+>>>>    meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 1 +
+>>>>    4 files changed, 4 insertions(+)
+>>>>
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+>>>> index 6604bdf90c..0836dc7ea0 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+>>>> @@ -41,3 +41,4 @@ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+>>>>    KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+>>>>    KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>>    KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>> +KERNEL_FEATURES_append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+>>>> index 1fe28b1bf0..b5e415f935 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+>>>> @@ -41,3 +41,4 @@ KERNEL_FEATURES_append = " ${KERNEL_EXTRA_FEATURES}"
+>>>>    KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+>>>>    KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>>    KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>> +KERNEL_FEATURES_append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+>>>> index a5fdafe6b2..cda4ecf89e 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+>>>> @@ -47,3 +47,4 @@ KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+>>>>    KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>>    KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>>    KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+>>>> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+>>>> index da795d97aa..8aec315084 100644
+>>>> --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+>>>> +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+>>>> @@ -50,3 +50,4 @@ KERNEL_FEATURES_append_qemuall=" cfg/virtio.scc"
+>>>>    KERNEL_FEATURES_append_qemux86=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>>    KERNEL_FEATURES_append_qemux86-64=" cfg/sound.scc cfg/paravirt_kvm.scc"
+>>>>    KERNEL_FEATURES_append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "" ,d)}"
+>>>> +KERNEL_FEATURES_append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+>>> I merged this but have just realised its causing warnings:
+>>>
+>>> https://autobuilder.yoctoproject.org/typhoon/#/builders/93/builds/31
+>>>
+>>> which suggest its not quite doing what we hope/need? :/
+>>>
+>>> Cheers,
+>>>
+>>> Richard
+>> Indeed, it seems the configuration is not applied for the qemuarm64
+>> MACHINE:(
+>>
+> It would be applied, but it may be missing some dependency on that
+> machine and is hence not enabled in the final kernel .config.
+>
+> Bruce
 
-* I don't know how exactly --install-sandbox is supposed to work but
-  in this case it's trying to mkdir /usr/lib64 on the host rootfs
-  which is clearly wrong and if I set LIBDIR together with
-  --install-sandbox then the install paths are prefixed with $D twice
-  in some cases (not for includedir and empty libdir at the end).
-  So in the end I think it was an issue caused by the custom path
-  validator in serf's SConstruct, removing that stops touching host
-  and the installed paths (including the paths inside libserf*.pc)
-  look correct
+SCSI support is not enabled by default for ARM architectures, I just 
+sent the patch for this:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-June/283775.html
 
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- ...ories.without.sandbox-install.prefix.patch | 71 +++++++++++++++++++
- meta/recipes-support/serf/serf_1.3.9.bb       |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
 
-diff --git a/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
-new file mode 100644
-index 0000000000..91640d6044
---- /dev/null
-+++ b/meta/recipes-support/serf/serf/SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch
-@@ -0,0 +1,71 @@
-+stop scons trying to create directories in hosts rootfs
-+
-+* since 1522f09a4d serf: cleanup recipe
-+  serf.do_install fails in builds with multilib enabled (with
-+  libdir=/usr/lib64 on host where /usr/lib64 doesn't exist)
-+
-+DEBUG: Executing shell function do_install
-+scons: Reading SConscript files ...
-+PermissionError: [Errno 13] Permission denied: '/usr/lib64':
-+  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/serf-1.3.9/SConstruct", line 158:
-+    ENV = os.environ,
-+  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Environment.py", line 965:
-+    variables.Update(self)
-+  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Variables/__init__.py", line 227:
-+    option.validator(option.key, env.subst('${%s}'%option.key), env)
-+  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/serf-1.3.9/SConstruct", line 60:
-+    return PathVariable.PathIsDirCreate(key, val, env)
-+  File "/TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/bin/../../usr/lib/python3.7/site-packages/SCons/Variables/PathVariable.py", line 101:
-+    os.makedirs(val)
-+  File "TOPDIR/BUILD/work/qemux86-signage-linux/serf/1.3.9-r0/recipe-sysroot-native/usr/lib/python3.7/os.py", line 221:
-+    mkdir(name, mode)
-+ERROR: scons install execution failed.
-+
-+* I don't know how exactly --install-sandbox is supposed to work but
-+  in this case it's trying to mkdir /usr/lib64 on the host rootfs
-+  which is clearly wrong and if I set LIBDIR together with
-+  --install-sandbox then the install paths are prefixed with $D twice
-+  in some cases (not for includedir and empty libdir at the end).
-+  So in the end I think it was an issue caused by the custom path
-+  validator in serf's SConstruct, removing that stops touching host
-+  and the installed paths (including the paths inside libserf*.pc)
-+  look correct
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
-+
-+--- serf-1.3.9/SConstruct	2019-06-18 15:49:19.968961108 +0000
-++++ serf-1.3.9b/SConstruct	2019-06-18 18:53:21.412337151 +0000
-+@@ -51,17 +51,6 @@
-+     """
-+     return (key, '%s' % (help), default, None, lambda val: _converter(val))
-+ 
-+-# Custom path validator, creates directory when a specified option is set.
-+-# To be used to ensure a PREFIX directory is only created when installing.
-+-def createPathIsDirCreateWithTarget(target):
-+-  def my_validator(key, val, env):
-+-    build_targets = (map(str, BUILD_TARGETS))
-+-    if target in build_targets:
-+-      return PathVariable.PathIsDirCreate(key, val, env)
-+-    else:
-+-      return PathVariable.PathAccept(key, val, env)
-+-  return my_validator
-+-
-+ # default directories
-+ if sys.platform == 'win32':
-+   default_incdir='..'
-+@@ -77,11 +66,11 @@
-+   PathVariable('PREFIX',
-+                'Directory to install under',
-+                default_prefix,
-+-               createPathIsDirCreateWithTarget('install')),
-++               PathVariable.PathAccept),
-+   PathVariable('LIBDIR',
-+                'Directory to install architecture dependent libraries under',
-+                default_libdir,
-+-               createPathIsDirCreateWithTarget('install')),
-++               PathVariable.PathAccept),
-+   PathVariable('APR',
-+                "Path to apr-1-config, or to APR's install area",
-+                default_incdir,
-diff --git a/meta/recipes-support/serf/serf_1.3.9.bb b/meta/recipes-support/serf/serf_1.3.9.bb
-index 92cd5ca061..dd4133a45c 100644
---- a/meta/recipes-support/serf/serf_1.3.9.bb
-+++ b/meta/recipes-support/serf/serf_1.3.9.bb
-@@ -6,6 +6,7 @@ SRC_URI = "${APACHE_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://0002-SConstruct-Fix-path-quoting-for-.def-generator.patch \
-            file://0003-gen_def.patch \
-            file://0004-Follow-up-to-r1811083-fix-building-with-scons-3.0.0-.patch \
-+           file://SConstruct.stop.creating.directories.without.sandbox-install.prefix.patch \
-            "
- 
- SRC_URI[md5sum] = "370a6340ff20366ab088012cd13f2b57"
--- 
-2.17.1
+Thanks!
+Mariano
 
+>
+>> Let me look into this and send another patch
+>>
+>> Thanks,
+>> Mairano
+>>
+>
 
