@@ -1,38 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id D34F57E8D2
+	by mail.openembedded.org (Postfix) with ESMTP id BA2B47E828
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 19:55:45 +0000 (UTC)
+	Tue, 18 Jun 2019 19:59:43 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45SzN15mV4z4h;
-	Tue, 18 Jun 2019 21:55:45 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45SzSc265Yz4h
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 18 Jun 2019 21:59:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1560887746;
-	bh=7McKauaol0h1IfjJI63EoEO98A3MRjmvbWa+NFOznmo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IvxU0k5ihHoYyyweCd8kIax9eNHP63+u+s5zEkD2dNuvwUXRt+ONiQCpuojcRXiSF
-	KY878N7LU+GENIomlrG2rxKJL3wb4J0HuHeR8QwmDMKfF97EEfVrfsEysGhz+VG5NG
-	hxWsF0dgr8idbS7PsWb+ixNBNbaMzB21vlwjMayRfKVu2f4fh0lIaYuO21/cY67Eoq
-	AuH/fluJOnhkZ6/5FVvHLHRfPe4fLsavNvUfk0CWlaHvkuJxK3cetQG/wIxGO831Q2
-	eBCH5D5cYDjjd7aiiUPN93RZp+14K9c8xHkjfh0xIHTgt35zWisI2Z81orACA316Ng
-	HxC/83YM2nnkUQzQSYjFAvYQ0Dl6u/yJGVs7VyP+s/4V8g/LkFM0FZtW+ULYLGYa08
-	8UZ4vpc2wCIzj8z/0CXHRfrQkul5/fIzaFJFWgco0WTiM3+EO6LCCRuAkzoXZYiFzi
-	Fsrk+N7CsysYnx+fcyH3eemYgwTwGgdilfxq3mlJvtw3KXglLHsgZ8V2HpaZL0cRfZ
-	HfOuslm+BG8hNjVoSljIc2Y4NvA1ORQiFcFJyxuCMKihvEfFoBKY/kdMOvz3Dviy+2
-	/m1S5omsSkDAKQc9qj+WQ4hlMYa1wMXwvQGUAq3/BleHFipafbMG/UM3PpLTwMIY3I
-	zLtIFA3EGoGEdWVOx4rs227k=
-Date: Tue, 18 Jun 2019 22:55:42 +0300
+	s=default; t=1560887984;
+	bh=cBoa6t9KKZvcjXlE4h0rOjUO6jIKP3Pa983ffGTsg1I=;
+	h=From:To:Subject:Date:From;
+	b=g/UuZ+xoYmyUfx4Pg6tTg2wD2fGI5qHUSq8pk4CBf5pU7hKnE6qIc570jNGWwbwo/
+	INesLyrha1gDjhww8KD/KXo5nVRKgg0GzbbkmvOxvOTWCQKOedfsRD5HdcWK4j6VmF
+	eSxSi0GX8QnTuTJ+eI6f1WqYEx1PwotF259kFAyQyJUrkb76qP2W/p0H+gNUFOCRU1
+	vEWrGsCrAYJPLX7dsoksWj25JiiAVukEgoQst9LsFZSqL6Ugs9Pt3zhA5LGREPekE8
+	clQsE481h3Ub5OTFIG1VjrV3tk6s5BeVX+u8gBIpbOgq5DcvodS992YsAxi6ec7yUA
+	gdeWdqBMZSszOnzLMD+XwbS+KkFxG8mAdZMWuS9BmKh0d1w7YtiZx+seWM9rINg6XQ
+	q1xrX67q3DG1yWaZ993MMlcsxYZbFfnN8XGPRWk5kMe1YFRPyf5CoXqQsOQJv9era1
+	K22aFgSLntY0dW1XsKEx7d4FiqQPBPrGxv6kcs+/89TUgmM8J7a/DyThXlNf5DDgGY
+	SmkByQ42GjBo4FwCHt+tvSEUshNRNHM56aeLFB6JpiRYb+43owSdnXT2OFCSw8b8xa
+	/UTdnQR/JSiprs642jJbFiTSVTqzyCZmtkZMWpL/bSgOvZdS2T29WOPEfZHtSC4nQS
+	pbD9lGBi5X9EaowxQ1fsZ6rw=
 From: Adrian Bunk <bunk@stusta.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Message-ID: <20190618195542.GA28282@localhost>
-References: <20190618061128.17422-1-bunk@stusta.de>
-	<bb0334d27a1ec6cb25e6eb5b994a89c56f311c7d.camel@linuxfoundation.org>
-	<37c9cc258cd2b9b257607a5bfa4d783496430e35.camel@linuxfoundation.org>
-MIME-Version: 1.0
-In-Reply-To: <37c9cc258cd2b9b257607a5bfa4d783496430e35.camel@linuxfoundation.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] wireless-regdb: Add recipe
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 18 Jun 2019 22:59:45 +0300
+Message-Id: <20190618195945.15170-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH v2] wireless-regdb: Add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,59 +40,104 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 19:55:47 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Tue, 18 Jun 2019 19:59:44 -0000
 
-On Tue, Jun 18, 2019 at 02:22:31PM +0100, Richard Purdie wrote:
-> On Tue, 2019-06-18 at 13:34 +0100, Richard Purdie wrote:
-> > On Tue, 2019-06-18 at 09:11 +0300, Adrian Bunk wrote:
-> > > Since wpa-supplicant is provided,
-> > > the database of permitted frequencies should also be provided.
-> > > 
-> > > wireless-regdb-static should be used with kernel >= 4.15.
-> > > wireless-regdb can be used with older kernels and is mostly
-> > > irrelevant here, but keeping it in meta-networking would
-> > > create needless recipe duplication.
-> > > 
-> > > This package was previously in meta-networking.
-> > > 
-> > > Signed-off-by: Adrian Bunk <bunk@stusta.de>
-> > > ---
-> > >  meta/conf/distro/include/maintainers.inc      |  1 +
-> > >  .../packagegroups/packagegroup-base.bb        |  1 +
-> > >  .../wireless-regdb_2019.06.03.bb              | 44
-> > > +++++++++++++++++++
-> > >  3 files changed, 46 insertions(+)
-> > >  create mode 100644 meta/recipes-kernel/wireless-regdb/wireless-
-> > > regdb_2019.06.03.bb
-> > 
-> > This seems to break deb rootfs construction:
-> > 
-> > https://autobuilder.yoctoproject.org/typhoon/#/builders/50/builds/712
-> 
-> opkg as well:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/76/builds/716
-> 
-> basically nothing provides wireless-regdb but wireless-regdb depends on
-> it.
+Since wpa-supplicant is provided,
+the database of permitted frequencies should also be provided.
 
-The root problem is that the empty wireless-regdb-dev exists at all,
-I'll send a v2 removing it.
+wireless-regdb-static should be used with kernel >= 4.15.
+wireless-regdb can be used with older kernels and is mostly
+irrelevant here, but keeping it in meta-networking would
+create needless recipe duplication.
 
-> Cheers,
-> 
-> Richard
+This package was previously in meta-networking.
 
-cu
-Adrian
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 
+---
+v2: remove empty packages that were generated by default
+---
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../packagegroups/packagegroup-base.bb        |  1 +
+ .../wireless-regdb_2019.06.03.bb              | 44 +++++++++++++++++++
+ 3 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 0bc7060718..c33bd8e068 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -728,6 +728,7 @@ RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
+ RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER_pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com>"
++RECIPE_MAINTAINER_pn-wireless-regdb = "Adrian Bunk <bunk@kernel.org>"
+ RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
+ RECIPE_MAINTAINER_pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
+index cae704aa24..d05403635c 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-base.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
+@@ -271,6 +271,7 @@ RRECOMMENDS_packagegroup-base-ipsec = "\
+ SUMMARY_packagegroup-base-wifi = "WiFi support"
+ RDEPENDS_packagegroup-base-wifi = "\
+     iw \
++    wireless-regdb-static \
+     wpa-supplicant"
+ 
+ RRECOMMENDS_packagegroup-base-wifi = "\
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+new file mode 100644
+index 0000000000..9076d94601
+--- /dev/null
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+@@ -0,0 +1,44 @@
++SUMMARY = "Wireless Central Regulatory Domain Database"
++HOMEPAGE = "http://wireless.kernel.org/en/developers/Regulatory/CRDA"
++SECTION = "net"
++LICENSE = "ISC"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
++
++SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
++SRC_URI[md5sum] = "4b5ba3f089db7fdb7b9daae6a7c1f2cb"
++SRC_URI[sha256sum] = "cd917ed86b63ce8d93947979f1f18948f03a4ac0ad89ec25227b36ac00dc54bf"
++
++inherit bin_package allarch
++
++do_install() {
++    install -d -m0755 ${D}${nonarch_libdir}/crda
++    install -d -m0755 ${D}${sysconfdir}/wireless-regdb/pubkeys
++    install -m 0644 regulatory.bin ${D}${nonarch_libdir}/crda/regulatory.bin
++    install -m 0644 sforshee.key.pub.pem ${D}${sysconfdir}/wireless-regdb/pubkeys/sforshee.key.pub.pem
++
++    install -m 0644 -D regulatory.db ${D}${nonarch_base_libdir}/firmware/regulatory.db
++    install -m 0644 regulatory.db.p7s ${D}${nonarch_base_libdir}/firmware/regulatory.db.p7s
++}
++
++# Install static regulatory DB in /lib/firmware for kernel to load.
++# This requires Linux kernel >= v4.15.
++# For kernel <= v4.14, inherit the kernel_wireless_regdb.bbclass
++# (in meta-networking) in kernel's recipe.
++PACKAGES = "${PN}-static ${PN}"
++RCONFLICTS_${PN} = "${PN}-static"
++
++FILES_${PN}-static = " \
++    ${nonarch_base_libdir}/firmware/regulatory.db \
++    ${nonarch_base_libdir}/firmware/regulatory.db.p7s \
++"
++
++# Native users might want to use the source of regulatory DB.
++# This is for example used by Linux kernel <= v4.14 and
++# kernel_wireless_regdb.bbclass in meta-networking.
++do_install_append_class-native() {
++    install -m 0644 -D db.txt ${D}${libdir}/crda/db.txt
++}
++
++RSUGGESTS_${PN} = "crda"
++
++BBCLASSEXTEND = "native"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
