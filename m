@@ -1,33 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id BA2B47E828
+Return-Path: <just.another.mariano@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 49A637E8A7
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 19:59:43 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45SzSc265Yz4h
+	Tue, 18 Jun 2019 20:10:37 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id i10so32679757iol.13
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 18 Jun 2019 21:59:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1560887984;
-	bh=cBoa6t9KKZvcjXlE4h0rOjUO6jIKP3Pa983ffGTsg1I=;
-	h=From:To:Subject:Date:From;
-	b=g/UuZ+xoYmyUfx4Pg6tTg2wD2fGI5qHUSq8pk4CBf5pU7hKnE6qIc570jNGWwbwo/
-	INesLyrha1gDjhww8KD/KXo5nVRKgg0GzbbkmvOxvOTWCQKOedfsRD5HdcWK4j6VmF
-	eSxSi0GX8QnTuTJ+eI6f1WqYEx1PwotF259kFAyQyJUrkb76qP2W/p0H+gNUFOCRU1
-	vEWrGsCrAYJPLX7dsoksWj25JiiAVukEgoQst9LsFZSqL6Ugs9Pt3zhA5LGREPekE8
-	clQsE481h3Ub5OTFIG1VjrV3tk6s5BeVX+u8gBIpbOgq5DcvodS992YsAxi6ec7yUA
-	gdeWdqBMZSszOnzLMD+XwbS+KkFxG8mAdZMWuS9BmKh0d1w7YtiZx+seWM9rINg6XQ
-	q1xrX67q3DG1yWaZ993MMlcsxYZbFfnN8XGPRWk5kMe1YFRPyf5CoXqQsOQJv9era1
-	K22aFgSLntY0dW1XsKEx7d4FiqQPBPrGxv6kcs+/89TUgmM8J7a/DyThXlNf5DDgGY
-	SmkByQ42GjBo4FwCHt+tvSEUshNRNHM56aeLFB6JpiRYb+43owSdnXT2OFCSw8b8xa
-	/UTdnQR/JSiprs642jJbFiTSVTqzyCZmtkZMWpL/bSgOvZdS2T29WOPEfZHtSC4nQS
-	pbD9lGBi5X9EaowxQ1fsZ6rw=
-From: Adrian Bunk <bunk@stusta.de>
+	Tue, 18 Jun 2019 13:10:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/u3xHy1RuYJK1eG6j1TAsOY/av0fntbO346HFDqk0I8=;
+	b=s+AHYD0ivJvfasZ6nZOwkEVTLqn7IWzs5xAcKrl8+JJfaQQ0acbWkhHoFel9oQokoX
+	EyJ3c9W7tOCth+GLLImhPV6PCPj5ormhNch31SHyu+XMJcY03sXhoYZZ/yfVScdCV9n7
+	YrvW8h8NIFw67lSp9s6y66ikmS9XbFA1KnIEgOFD5pcAHhfqYPQFYWwwapFDv4s1oxeX
+	hDJkJnGdbwelNwEsKVY43Ts2L5Vw2kEnviXvpape2gMleAoc7Jx4WcZxWFpGx2qBD39C
+	1gA73hB8xQUp6RTku9AWB7jL5e5mbjPzE22fA/3eR7cpB6kgi4ilh2LNw61E24q0Vpww
+	2Xiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=/u3xHy1RuYJK1eG6j1TAsOY/av0fntbO346HFDqk0I8=;
+	b=YvVLZ8OYdyAOuDjv/L3E9cCRlAvEk2wpwDmdguf5kAz3QwOK6iXvoB39K8Jljpv75/
+	oEclz7x8UmLWLCveLYfSziOhgrMg9TwNuW93vCKM+CH8J5uZiOCR9Yt3duUxiOMEcM88
+	hbPi4vp1B5oPEGwtJWV7kC/5oZla+ESv6ec22c/6IZ5Bz3llq1xZi3WYRII7KnpigIsh
+	XkA+Z7GrFafF9xKeXaGaUtTShg758v6Va0WrZug7ZcYG6g9uASc3nEV2Uo6UmFhL78z/
+	YaKu3YFej4uHqp3ypQXcEApTfjL80d4dP+7wQHK1Rgd5AZgQZFVSLwXifHMtikgf5I+8
+	/xZw==
+X-Gm-Message-State: APjAAAWE95jOH07Wu5d7eN5N7p6mbszNpMilG43zi5QhROo97Iozhh8L
+	HZT1xuX/W98yZHGGIIfR7wQeDmrk
+X-Google-Smtp-Source: APXvYqxc39Iq57A2mShZzjv0MJ0ezOO4AUsN/CRE2CX4HSQMquNP1JQlydgXNZwuaMj9kpYTiy/4Xg==
+X-Received: by 2002:a02:b914:: with SMTP id v20mr69139518jan.83.1560888638198; 
+	Tue, 18 Jun 2019 13:10:38 -0700 (PDT)
+Received: from ultima.ninicasiopea.net
+	([2605:a601:43d5:f700:215:17ff:fe90:1065])
+	by smtp.googlemail.com with ESMTPSA id
+	u187sm28751871iod.37.2019.06.18.13.10.37
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 18 Jun 2019 13:10:37 -0700 (PDT)
+From: =?UTF-8?q?Mariano=20L=C3=B3pez?= <just.another.mariano@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 22:59:45 +0300
-Message-Id: <20190618195945.15170-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH v2] wireless-regdb: Add recipe
+Date: Tue, 18 Jun 2019 15:10:31 -0500
+Message-Id: <cover.1560888312.git.just.another.mariano@gmail.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Subject: [PATCH 0/1] linux-yocto: Add SCSI support when ptest is in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,104 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 18 Jun 2019 19:59:44 -0000
+X-List-Received-Date: Tue, 18 Jun 2019 20:10:37 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Since wpa-supplicant is provided,
-the database of permitted frequencies should also be provided.
+Some architectures have SCSI support disabled by default and trying to
+build the scsi_debug module will throw a warning, for a missing
+dependency, when building the kernel. This patch will enable SCSI
+support for all architectures when ptest is listed in the
+DISTRO_FEATURES.
 
-wireless-regdb-static should be used with kernel >= 4.15.
-wireless-regdb can be used with older kernels and is mostly
-irrelevant here, but keeping it in meta-networking would
-create needless recipe duplication.
+The following changes since commit 111b7173fee69fe8b01ec2fa6999713841326537:
 
-This package was previously in meta-networking.
+  dev-manual: Fixed grammar issue. (2019-06-18 11:29:23 +0100)
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+are available in the Git repository at:
 
----
-v2: remove empty packages that were generated by default
----
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../packagegroups/packagegroup-base.bb        |  1 +
- .../wireless-regdb_2019.06.03.bb              | 44 +++++++++++++++++++
- 3 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
+  git://github.com/justanotherboy/poky bug13301p3
+  https://github.com/justanotherboy/poky/tree/bug13301p3
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 0bc7060718..c33bd8e068 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -728,6 +728,7 @@ RECIPE_MAINTAINER_pn-weston-init = "Denys Dmytriyenko <denys@ti.com>"
- RECIPE_MAINTAINER_pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER_pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER_pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com>"
-+RECIPE_MAINTAINER_pn-wireless-regdb = "Adrian Bunk <bunk@kernel.org>"
- RECIPE_MAINTAINER_pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@gmail.com>"
- RECIPE_MAINTAINER_pn-x11perf = "Armin Kuster <akuster808@gmail.com>"
- RECIPE_MAINTAINER_pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index cae704aa24..d05403635c 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -271,6 +271,7 @@ RRECOMMENDS_packagegroup-base-ipsec = "\
- SUMMARY_packagegroup-base-wifi = "WiFi support"
- RDEPENDS_packagegroup-base-wifi = "\
-     iw \
-+    wireless-regdb-static \
-     wpa-supplicant"
- 
- RRECOMMENDS_packagegroup-base-wifi = "\
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
-new file mode 100644
-index 0000000000..9076d94601
---- /dev/null
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2019.06.03.bb
-@@ -0,0 +1,44 @@
-+SUMMARY = "Wireless Central Regulatory Domain Database"
-+HOMEPAGE = "http://wireless.kernel.org/en/developers/Regulatory/CRDA"
-+SECTION = "net"
-+LICENSE = "ISC"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
-+
-+SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
-+SRC_URI[md5sum] = "4b5ba3f089db7fdb7b9daae6a7c1f2cb"
-+SRC_URI[sha256sum] = "cd917ed86b63ce8d93947979f1f18948f03a4ac0ad89ec25227b36ac00dc54bf"
-+
-+inherit bin_package allarch
-+
-+do_install() {
-+    install -d -m0755 ${D}${nonarch_libdir}/crda
-+    install -d -m0755 ${D}${sysconfdir}/wireless-regdb/pubkeys
-+    install -m 0644 regulatory.bin ${D}${nonarch_libdir}/crda/regulatory.bin
-+    install -m 0644 sforshee.key.pub.pem ${D}${sysconfdir}/wireless-regdb/pubkeys/sforshee.key.pub.pem
-+
-+    install -m 0644 -D regulatory.db ${D}${nonarch_base_libdir}/firmware/regulatory.db
-+    install -m 0644 regulatory.db.p7s ${D}${nonarch_base_libdir}/firmware/regulatory.db.p7s
-+}
-+
-+# Install static regulatory DB in /lib/firmware for kernel to load.
-+# This requires Linux kernel >= v4.15.
-+# For kernel <= v4.14, inherit the kernel_wireless_regdb.bbclass
-+# (in meta-networking) in kernel's recipe.
-+PACKAGES = "${PN}-static ${PN}"
-+RCONFLICTS_${PN} = "${PN}-static"
-+
-+FILES_${PN}-static = " \
-+    ${nonarch_base_libdir}/firmware/regulatory.db \
-+    ${nonarch_base_libdir}/firmware/regulatory.db.p7s \
-+"
-+
-+# Native users might want to use the source of regulatory DB.
-+# This is for example used by Linux kernel <= v4.14 and
-+# kernel_wireless_regdb.bbclass in meta-networking.
-+do_install_append_class-native() {
-+    install -m 0644 -D db.txt ${D}${libdir}/crda/db.txt
-+}
-+
-+RSUGGESTS_${PN} = "crda"
-+
-+BBCLASSEXTEND = "native"
+Mariano López (1):
+  linux-yocto: Add SCSI support when ptest is in DISTRO_FEATURES
+
+ meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 5 ++++-
+ meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 5 ++++-
+ meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 5 ++++-
+ meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 5 ++++-
+ 4 files changed, 16 insertions(+), 4 deletions(-)
+
 -- 
-2.17.1
+2.21.0
 
 
