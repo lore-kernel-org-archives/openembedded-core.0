@@ -1,46 +1,48 @@
 Return-Path: <prvs=066539cd8=alistair.francis@wdc.com>
 Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A938C7E7BC
+	by mail.openembedded.org (Postfix) with ESMTP id 318627E7BC
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 23:50:57 +0000 (UTC)
+	Wed, 19 Jun 2019 23:50:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
 	t=1560988259; x=1592524259;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=wTEH+p+47Bl+0Rm5P/2qN/fwd4wmgyLFKkR2u8qJCc8=;
-	b=PkMNo+DhDXetyua5jukJl46AkMRarFz0E2HVyaiEJ6qezJ3sz8278zMX
-	xdyflrkblPKD03CMX5160hhYxTpgry7d/V6ymetB1/gY/6r+TulkWqnTA
-	HjjOfHoxnxR7Kik/TLDgP2+CmLp4AKqeh8Rkn779LC4+IQ/F9/jmyfj9v
-	LYyHJruwvbeDtkKtNw6qrsG9ZGiB9agpjQabgMbDk9/5Y9sC+8sfxydeZ
-	c7AguTECIXPjoIojJEDgSOi5JZz8W2wCRSt3jFftGdnG+EYRv6J6WxtPu
-	Jze6RjjgoB/S2S0oyQoxPaCmOwmNpHZA52vx9u0FpPAGJaNiNWhoTVxvV g==;
-X-IronPort-AV: E=Sophos;i="5.63,394,1557158400"; d="scan'208";a="112241474"
+	h=from:to:cc:subject:date:message-id:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=xD7CqCq82mpqw5jy7nOE+NVrMvld36dyPjgcfD6lZIQ=;
+	b=a15W7U8ojRLboY8fNx42jZ8tvDJZRYMRlhtNThg3y5D8UVCFPfasXKKA
+	cPk/j5n4yBtL9mgipy+z3X4v1Z3jCIHPRQCwWghvKSDAAKd3ZXdeTwB5w
+	JLtBd1wuDxaHjGbpiV6XP3c8ICr9IhsU/CzzWMunWpkkibb3nw/DW6UzB
+	2OHxywuNKuMmeKdOCRPR/79n9+g0my39+UxqXKwKkJgezZme6q7jVF0Ce
+	9AS+Q0a293Ny9zcwgWBnfyR7Kbe/z3EV42ZGhrQgUodXG46+VvQnk5x9T
+	N/g0uGqgdvmffl9W3EjUCfqdb2jjlEWE1y73LSeoZowBjtcCV41dmE67S A==;
+X-IronPort-AV: E=Sophos;i="5.63,394,1557158400"; d="scan'208";a="112241475"
 Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
 	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2019 07:50:58 +0800
-IronPort-SDR: HBD40YoPHQLJDe4f/tZ7PMqPlBamgNCMRRNX8FM78LAvFtQ/ww/UZTBYh1VJmrMn43sZuO8Td2
-	x+VR9roHw8zB17a4UM1EFny9OTQEa2ajDGmCBxxDzD5f+m22liG2ROiuxSISgRc54wHmQQ+AX/
-	cQuuXKeGngc7i/xE7hhqRq+/uMigMmgCRhWth+FXtPFq1EmlOXrrviqaWcTjqqqKyZKfwmJMpx
-	/5PFZGoYKMwrNf0h7SF3uOVOwlQ0tomj5PIgCPd20pZjFKIy2EgQhIJHsjfvHpVWtaFi7rUTe1
-	b+6FxLJki5s9OUWiKKvVa0yd
+	by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2019 07:50:59 +0800
+IronPort-SDR: 0UATfpt5s2Lh+/5VuLv2ar1zFW6FbtDuTAMc3MaEtp2XE+KDCl+7+L5aG2jnoFkMk6I77LA36A
+	2KqBwInkIQ5OObilrcO4atAyeDXgyyF1b+9D0RdwEQlgysHoIlb2sXykcc6iHDAdGMZN+07kIM
+	+9HWuP3epNtp+1P1uz9sibmubZTM5U1gbhmCticyumU3hlhV5GNxxc1AEN0hoggzM/rSBRruKy
+	51eraEwn97Hj7L/04EEpZ7dcv2y0AjMSNSRyqar9hdkGrnaFEU1Eihho0wK6KBksparEZfgkSG
+	6hEJ0WKMTQ9pOZYEdaFrwabG
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep02.wdc.com with ESMTP; 19 Jun 2019 16:50:24 -0700
-IronPort-SDR: u0bBMbUQYpdX3Kf+HE52L+zmx/JXPAlUVuDs6Py03nWKRqL4g76pOCA3zRNsMGwEfF6XUvWgJM
-	a3MhCGeP1EIBOGkEvlsHDHoBLPUiqtvR6RK2CN3WMINb9s/NYgKmOXBpZbGNJPblOLtmnAmL4A
-	6Q+decgmUJu3VLbZazIv5Lmqa88UVZjRWY8WdgHCi4oMLhPwVNpiXVVGb/2usu6rOjHzfLYSkd
-	OIB/ScvZttwqQZsbh3PRXsrLBJ5UlXl8RQaQoaYQfnLDKpdKTL9JJMZ1umbDtcsSzxx1wEuafO
-	3PM=
+	by uls-op-cesaep02.wdc.com with ESMTP; 19 Jun 2019 16:50:25 -0700
+IronPort-SDR: WDU83Sj+srFoTRT+sXH2Roe8/m6EufHmlvRd3JDDQWmZtygGHh3oy89Tn924v1aFamzkZbZkOK
+	+Bq0zBL59VvcDs/yAvhTy+dSsjw6M3zFQRteD+OOyGF+UO04/fkeM0vx43WNWLkHj4B9Do/Ips
+	pFf0EfTXppMDK3u4yZaPnn01U2JSuxwl9f5RLIHN+1j4jA+0xI94y00HBwTeddbuiLbQltEaCn
+	kPk8BznarWuFEVnzUq6+QQnqNgWZWUbwtnm4Y0hU3lIjOHKzoTDX5X/kcU/vyn6oacMx0RpY4Y
+	KIg=
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
-	by uls-op-cesaip01.wdc.com with ESMTP; 19 Jun 2019 16:50:59 -0700
+	by uls-op-cesaip01.wdc.com with ESMTP; 19 Jun 2019 16:51:00 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 16:48:32 -0700
-Message-Id: <20190619234833.18178-1-alistair.francis@wdc.com>
+Date: Wed, 19 Jun 2019 16:48:33 -0700
+Message-Id: <20190619234833.18178-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190619234833.18178-1-alistair.francis@wdc.com>
+References: <20190619234833.18178-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] qemuriscv: Build uImage for RISC-V machines
+Subject: [PATCH 2/2] qemuriscv64: Fix QB_OPT_APPEND overwrite
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,37 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 23:50:57 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 23:50:58 -0000
 Content-Transfer-Encoding: 8bit
+
+Avoid overwriting the QB_OPT_APPEND variable.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- meta/conf/machine/include/riscv/qemuriscv.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/conf/machine/qemuriscv64.conf | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/conf/machine/include/riscv/qemuriscv.inc b/meta/conf/machine/include/riscv/qemuriscv.inc
-index aa1eba77da..84d09fa78e 100644
---- a/meta/conf/machine/include/riscv/qemuriscv.inc
-+++ b/meta/conf/machine/include/riscv/qemuriscv.inc
-@@ -6,6 +6,8 @@ require conf/machine/include/riscv/tune-riscv.inc
- MACHINE_FEATURES = "screen keyboard ext2 ext3 serial"
+diff --git a/meta/conf/machine/qemuriscv64.conf b/meta/conf/machine/qemuriscv64.conf
+index f1be7b8a71..dba8f09e93 100644
+--- a/meta/conf/machine/qemuriscv64.conf
++++ b/meta/conf/machine/qemuriscv64.conf
+@@ -4,7 +4,7 @@
  
- KERNEL_IMAGETYPE = "Image"
-+KERNEL_IMAGETYPES += "uImage"
-+KEEPUIMAGE = "no"
+ require conf/machine/include/riscv/qemuriscv.inc
  
- SERIAL_CONSOLES ?= "115200;ttyS0 115200;hvc0"
+-QB_OPT_APPEND = "-show-cursor -monitor null -device loader,file=${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE},addr=0x80200000"
++QB_OPT_APPEND += "-show-cursor -monitor null -device loader,file=${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE},addr=0x80200000"
  
-@@ -17,6 +19,9 @@ EXTRA_IMAGEDEPENDS += "opensbi"
- RISCV_SBI_PLAT ?= "qemu/virt"
- RISCV_SBI_PAYLOAD ?= "${KERNEL_IMAGETYPE}-${MACHINE}.bin"
- 
-+UBOOT_ENTRYPOINT_riscv32 = "0x80400000"
-+UBOOT_ENTRYPOINT_riscv64 = "0x80200000"
-+
- # qemuboot options
- QB_KERNEL_CMDLINE_APPEND = "earlycon=sbi"
- QB_MEM = "-m 512"
+ EXTRA_IMAGEDEPENDS += "u-boot"
+ UBOOT_MACHINE = "qemu-riscv64_defconfig"
 -- 
 2.22.0
 
