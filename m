@@ -1,24 +1,19 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E16F7E769
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 7BBC27E773
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 21:27:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5JLQowq006756
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 14:27:05 -0700
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 19 Jun 2019 14:26:47 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Jun 2019 14:26:47 -0700
-Message-ID: <20190619212647.23685-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
+	Wed, 19 Jun 2019 21:30:50 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] parted: change device manager check in ptest
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Slater, Joseph <joe.slater@windriver.com>
+Date: Wed, 19 Jun 2019 21:30:52 -0000
+Message-ID: <20190619213052.2330.79424@do>
+References: <20190619211654.228583-1-joe.slater@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190619211654.228583-1-joe.slater@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgZ2xpYi0yLjA6IEZpeCBDVkUtMjAxOS0xMjQ1MA==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,60 +26,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 21:27:15 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Jun 2019 21:30:50 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-t6001-psep should check for device manager the same way as
-other ptests for parted -- look for an environment variable.
+== Series Details ==
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
+Series: glib-2.0: Fix CVE-2019-12450
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18255/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 2106a56782)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/recipes-extended/parted/files/dm_check.patch | 22 ++++++++++++++++++++++
- meta/recipes-extended/parted/parted_3.2.bb        |  1 +
- 2 files changed, 23 insertions(+)
- create mode 100644 meta/recipes-extended/parted/files/dm_check.patch
-
-diff --git a/meta/recipes-extended/parted/files/dm_check.patch b/meta/recipes-extended/parted/files/dm_check.patch
-new file mode 100644
-index 0000000..bc0e95f
---- /dev/null
-+++ b/meta/recipes-extended/parted/files/dm_check.patch
-@@ -0,0 +1,22 @@
-+parted: change check for device-manager
-+
-+Other ptests use this method.
-+
-+Upstream-Status: Pending
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+
-+--- a/tests/t6001-psep.sh
-++++ b/tests/t6001-psep.sh
-+@@ -19,7 +19,9 @@
-+ . "${srcdir=.}/init.sh"; path_prepend_ ../parted
-+ 
-+ require_root_
-+-(dmsetup --help) > /dev/null 2>&1 || skip_test_ "No dmsetup installed"
-++
-++test "x$ENABLE_DEVICE_MAPPER" = xyes \
-++  || skip_ "no device-mapper support"
-+ 
-+ # Device maps names - should be random to not conflict with existing ones on
-+ # the system
-diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
-index 6189fd2..131e14b 100644
---- a/meta/recipes-extended/parted/parted_3.2.bb
-+++ b/meta/recipes-extended/parted/parted_3.2.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
-            file://run-ptest \
-            file://Makefile \
-            file://0001-libparted-Use-read-only-when-probing-devices-on-linu.patch \
-+           file://dm_check.patch \
- "
- 
- SRC_URI[md5sum] = "0247b6a7b314f8edeb618159fa95f9cb"
--- 
-2.7.4
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
