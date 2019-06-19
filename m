@@ -1,49 +1,35 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 85DB77E773
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 27D0D7E772
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 22:39:43 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id r16so877682wrl.11
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 15:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BPfGHzAsq7FPj8veuXaVjedWRWoAOx4tJxGmoSX7QxM=;
-	b=BGzzHgkAV0S/kQIvhm4GILGnqIth+ahpvn5ZGW3scNBcR6n+Gl8FHMV6pwNFf1tCmU
-	s9yWFT8A77pFSe3Ax5t32oBHHFYaC/tDS5AaIqEUDFT6W9T3XAEWTybjcA2QYVJdlAwB
-	Fcpd2rgw/atQ+QePNDI/Ce5T6R9lkPl+AQ5kQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=BPfGHzAsq7FPj8veuXaVjedWRWoAOx4tJxGmoSX7QxM=;
-	b=IfkXyCShS4w/wQeyfo+iZuTezsRCeNq2Ox8vRUcvLjAxyUTGBlTDhzNXS2PjoHgJ1v
-	AZ7JxLvLv7f0t2/874nJ7pmZprNaykHHl/hc92LlnPr8sHBb0ltfW+7QbwkUgp5F8xBg
-	j8p6LCofOq4Wfp7WUCLiRPriyggKpKTaMl2OVMMu0keA9bFjFbBFY/RED35zopTgP/JE
-	m/4wNIJzVoV9ViUDtgW4JNJoYYjRBbae96Vo9a4x+uYD1Ky0ig3i2HAOFkXKWH30Jnwo
-	AvWvf5q1EDgq/+lb6gdtCpyVsrB6lHe1lDdH64A+ItjikD1W1RWCCzPwgEriY196SAup
-	9Tyg==
-X-Gm-Message-State: APjAAAU3XKqoaAsKTwY9NADrJBl63chX1UmY9JMSjty8Rq5BjryMnXa/
-	bfVZqD/GZFFS2mh0AzvGQnn/q0vKddc=
-X-Google-Smtp-Source: APXvYqwAbogzxlA/ltF9otQNiBz9ttK4x/FdysoRxdnvkkYez1TqZF3almEMBpCzPz7I1eC8IcC03A==
-X-Received: by 2002:a5d:43c9:: with SMTP id v9mr86974250wrr.70.1560983983948; 
-	Wed, 19 Jun 2019 15:39:43 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	j17sm17319046wrw.6.2019.06.19.15.39.43
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 19 Jun 2019 15:39:43 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 23:39:42 +0100
-Message-Id: <20190619223942.17692-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+	Wed, 19 Jun 2019 22:57:25 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5JMuXpS009313
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Jun 2019 15:56:59 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.194]) by
+	ALA-HCA.corp.ad.wrs.com ([147.11.189.40]) with mapi id 14.03.0439.000;
+	Wed, 19 Jun 2019 15:56:48 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] parted: change device manager
+	check in ptest
+Thread-Index: AQHVJuWzOqva9bpzTkGVmtP3VZvvvqaj9nOA//+PNGCAABCQNw==
+Date: Wed, 19 Jun 2019 22:56:48 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84FA80EEAD@ALA-MBD.corp.ad.wrs.com>
+References: <20190619212647.23685-1-joe.slater@windriver.com>,
+	<4613a7cbefe6f6a342f33e129834e5cc10f30fc1.camel@linuxfoundation.org>,
+	<007BD92917A2324FA403BCF9A464CF84FA80EE62@ALA-MBD.corp.ad.wrs.com>
+In-Reply-To: <007BD92917A2324FA403BCF9A464CF84FA80EE62@ALA-MBD.corp.ad.wrs.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.119.234]
 MIME-Version: 1.0
-Subject: [PATCH] lttng-tools: Filter ptest output to remove random tmp directories
+Subject: Re: [PATCH 1/1] parted: change device manager check in ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,42 +42,72 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 22:39:43 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 19 Jun 2019 22:57:26 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-These tmp paths end up in the test names making it hard to compare test runs
-so filter them out, they're not useful for our purposes.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-kernel/lttng/lttng-tools/run-ptest | 2 +-
- meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-kernel/lttng/lttng-tools/run-ptest b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-index dbb18820a4c..eaa2e7b29d5 100755
---- a/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-+++ b/meta/recipes-kernel/lttng/lttng-tools/run-ptest
-@@ -3,4 +3,4 @@
- # test plan to raise ERRORs; this is just noise.
- makeargs="LOG_DRIVER_FLAGS=--ignore-exit top_srcdir=$PWD top_builddir=$PWD"
- make -k -t all >/dev/null 2>&1
--exec make -k -s $makeargs check 2>/dev/null
-+exec make -k -s $makeargs check 2>/dev/null | sed -e 's#/tmp/tmp\...........#/tmp/tmp.XXXXXXXXXX#g'
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-index 9583ee3abbe..58c7864c304 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.10.6.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=01d7fc4496aacf37d90df90b90b0cac1 \
- 
- DEPENDS = "liburcu popt libxml2 util-linux"
- RDEPENDS_${PN} = "libgcc"
--RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules"
-+RDEPENDS_${PN}-ptest += "make perl bash gawk babeltrace procps perl-module-overloading coreutils util-linux kmod lttng-modules sed"
- RDEPENDS_${PN}-ptest_append_libc-glibc = " glibc-utils"
- RDEPENDS_${PN}-ptest_append_libc-musl = " musl-utils"
- # babelstats.pl wants getopt-long
--- 
-2.20.1
-
+Hm, I searched for parted development, and it looks like the last release w=
+as five years ago.  We could have a long wait for this ptest fix.=0A=
+=0A=
+Joe=0A=
+________________________________________=0A=
+From: openembedded-core-bounces@lists.openembedded.org [openembedded-core-b=
+ounces@lists.openembedded.org] on behalf of Slater, Joseph [joe.slater@wind=
+river.com]=0A=
+Sent: Wednesday, June 19, 2019 2:56 PM=0A=
+To: Richard Purdie; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [oe-core][PATCH 1/1] parted: change device manager c=
+heck in ptest=0A=
+=0A=
+I will send a patch upstream.   Joe=0A=
+________________________________________=0A=
+From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
+Sent: Wednesday, June 19, 2019 2:39 PM=0A=
+To: Slater, Joseph; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [oe-core][PATCH 1/1] parted: change device manager c=
+heck in ptest=0A=
+=0A=
+On Wed, 2019-06-19 at 14:26 -0700, Joe Slater wrote:=0A=
+> t6001-psep should check for device manager the same way as=0A=
+> other ptests for parted -- look for an environment variable.=0A=
+>=0A=
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>=0A=
+> ---=0A=
+>  meta/recipes-extended/parted/files/dm_check.patch | 22=0A=
+> ++++++++++++++++++++++=0A=
+>  meta/recipes-extended/parted/parted_3.2.bb        |  1 +=0A=
+>  2 files changed, 23 insertions(+)=0A=
+>  create mode 100644 meta/recipes-extended/parted/files/dm_check.patch=0A=
+>=0A=
+> diff --git a/meta/recipes-extended/parted/files/dm_check.patch=0A=
+> b/meta/recipes-extended/parted/files/dm_check.patch=0A=
+> new file mode 100644=0A=
+> index 0000000..bc0e95f=0A=
+> --- /dev/null=0A=
+> +++ b/meta/recipes-extended/parted/files/dm_check.patch=0A=
+> @@ -0,0 +1,22 @@=0A=
+> +parted: change check for device-manager=0A=
+> +=0A=
+> +Other ptests use this method.=0A=
+> +=0A=
+> +Upstream-Status: Pending=0A=
+> +=0A=
+> +Signed-off-by: Joe Slater <joe.slater@windriver.com>=0A=
+=0A=
+This sounds like something which should be an obvious/easy fix for=0A=
+upstream, any chance we can submit it?=0A=
+=0A=
+I'm hoping we can get our patch load down a bit so pushing obvious=0A=
+things to upstream is good...=0A=
+=0A=
+Cheers,=0A=
+=0A=
+Richard=0A=
+=0A=
+--=0A=
+_______________________________________________=0A=
+Openembedded-core mailing list=0A=
+Openembedded-core@lists.openembedded.org=0A=
+http://lists.openembedded.org/mailman/listinfo/openembedded-core=0A=
 
