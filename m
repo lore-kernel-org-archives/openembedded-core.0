@@ -1,57 +1,59 @@
 Return-Path: <peter.kjellerstedt@axis.com>
 Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B7E577EA35
+	by mail.openembedded.org (Postfix) with ESMTP id 478E27E554
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 15:45:09 +0000 (UTC)
+	Wed, 19 Jun 2019 15:45:10 +0000 (UTC)
 Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 1AAA3184A3
+	by bastet.se.axis.com (Postfix) with ESMTP id 22B7B184ED
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:10 +0200 (CEST)
+	Wed, 19 Jun 2019 17:45:11 +0200 (CEST)
 X-Axis-User: NO
 X-Axis-NonUser: YES
 X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
 Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
 	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id UKcsuduDeiOQ
+	port 10024) with LMTP id 9TvT0GJvOgIl
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+	Wed, 19 Jun 2019 17:45:10 +0200 (CEST)
 Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id B3AC3184ED
+	by bastet.se.axis.com (Postfix) with ESMTPS id 2529118523
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+	Wed, 19 Jun 2019 17:45:10 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7EAD31E083
+	by IMSVA (Postfix) with ESMTP id 093561E083
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+	Wed, 19 Jun 2019 17:45:10 +0200 (CEST)
 Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 71E951E081
+	by IMSVA (Postfix) with ESMTP id F192E1E081
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
 Received: from seth.se.axis.com (unknown [10.0.2.172])
 	by boulder03.se.axis.com (Postfix) with ESMTP
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
 Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 659E61ABA
+	by seth.se.axis.com (Postfix) with ESMTP id E58641ABA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
 Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x5JFj8HY023116
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x5JFj9v8023124
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:08 +0200
+	Wed, 19 Jun 2019 17:45:09 +0200
 Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x5JFj8Vw023115
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x5JFj9eH023123
 	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Jun 2019 17:45:08 +0200
+	Wed, 19 Jun 2019 17:45:09 +0200
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 17:45:04 +0200
-Message-Id: <20190619154506.23071-1-pkj@axis.com>
+Date: Wed, 19 Jun 2019 17:45:06 +0200
+Message-Id: <20190619154506.23071-3-pkj@axis.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190619154506.23071-1-pkj@axis.com>
+References: <20190619154506.23071-1-pkj@axis.com>
 MIME-Version: 1.0
 X-TM-AS-GCONF: 00
-Subject: [warrior][PATCH 1/3] texinfo-dummy-native: A little clean up of template.py
+Subject: [warrior][PATCH 3/3] package.bbclass: Clean up writing of runtime pkgdata files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,142 +71,96 @@ Content-Transfer-Encoding: 8bit
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-This is mainly whitespace clean up, plus using the with statement when
-writing files.
+This introduces a variable, PKGDATA_VARS, that contains the names of
+the variables that are to be output in the runtime pkgdata files.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-
+ 
 This is a backport from master.
 
- .../texinfo-dummy/template.py                 | 63 +++++++++----------
- 1 file changed, 30 insertions(+), 33 deletions(-)
+ meta/classes/package.bbclass | 56 ++++++++++++------------------------
+ 1 file changed, 18 insertions(+), 38 deletions(-)
 
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-index e369f74455..fcc28548af 100644
---- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-@@ -33,21 +33,20 @@ import sys, os
- olong = "--output="
- Elong = "--macro-expand="
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 4c0a859536..eef1f7b945 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1343,6 +1343,8 @@ EXPORT_FUNCTIONS package_name_hook
  
+ PKGDESTWORK = "${WORKDIR}/pkgdata"
+ 
++PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
++
+ python emit_pkgdata() {
+     from glob import glob
+     import json
+@@ -1447,48 +1449,26 @@ fi
+                 total_size += fstat.st_size
+         d.setVar('FILES_INFO', json.dumps(files, sort_keys=True))
+ 
+-        subdata_file = pkgdatadir + "/runtime/%s" % pkg
+-        sf = open(subdata_file, 'w')
+-        write_if_exists(sf, pkg, 'PN')
+-        write_if_exists(sf, pkg, 'PE')
+-        write_if_exists(sf, pkg, 'PV')
+-        write_if_exists(sf, pkg, 'PR')
+-        write_if_exists(sf, pkg, 'PKGE')
+-        write_if_exists(sf, pkg, 'PKGV')
+-        write_if_exists(sf, pkg, 'PKGR')
+-        write_if_exists(sf, pkg, 'LICENSE')
+-        write_if_exists(sf, pkg, 'DESCRIPTION')
+-        write_if_exists(sf, pkg, 'SUMMARY')
+-        write_if_exists(sf, pkg, 'RDEPENDS')
+-        rprov = write_if_exists(sf, pkg, 'RPROVIDES')
+-        write_if_exists(sf, pkg, 'RRECOMMENDS')
+-        write_if_exists(sf, pkg, 'RSUGGESTS')
+-        write_if_exists(sf, pkg, 'RREPLACES')
+-        write_if_exists(sf, pkg, 'RCONFLICTS')
+-        write_if_exists(sf, pkg, 'SECTION')
+-        write_if_exists(sf, pkg, 'PKG')
+-        write_if_exists(sf, pkg, 'ALLOW_EMPTY')
+-        write_if_exists(sf, pkg, 'FILES')
+-        write_if_exists(sf, pkg, 'CONFFILES')
+         process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
+         add_set_e_to_scriptlets(pkg)
+-        write_if_exists(sf, pkg, 'pkg_postinst')
+-        write_if_exists(sf, pkg, 'pkg_postrm')
+-        write_if_exists(sf, pkg, 'pkg_preinst')
+-        write_if_exists(sf, pkg, 'pkg_prerm')
+-        write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
+-        write_if_exists(sf, pkg, 'FILES_INFO')
+-        for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
+-            write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
 -
--this_binary = sys.argv[0].split ("/")[-1]
-+this_binary = sys.argv[0].split("/")[-1]
- 
- # To be outputted if functionality that hasn't been stubbed yet is invoked.
- stub_msg = """
--This stand-in version of %s is not yet fully capable of emulating the real
--version from the GNU texinfo suite. If you see this message, file a bug report
--with details on the recipe that failed.
-+This stand-in version of %s is not yet fully capable of emulating
-+the real version from the GNU texinfo suite. If you see this message, file a
-+bug report with details on the recipe that failed.
- """ % this_binary
- 
- # Autotools setups query the version, so this is actually necessary. Some of
- # them (lookin' at you, glibc) actually look for the substring "GNU texinfo,"
- # so we put that substring in there without actually telling a lie.
--version_str = """ %s (fake texinfo, emulating GNU texinfo) 5.2
-- 
-+version_str = """%s (fake texinfo, emulating GNU texinfo) 5.2
-+
- Super amazing version which is totally not fake in any way whatsoever.
- Copyright (C) 2014 Intel Corp. Distributed under the terms of the MIT
- license.
-@@ -55,62 +54,61 @@ license.
- 
- simple_binaries = "pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-                    txixml2texi install-info ginstall-info \
--                   update-info-dir".split ()
-+                   update-info-dir".split()
- 
- # These utilities use a slightly different set of options and flags.
--complex_binaries = "makeinfo texi2any".split ()
-+complex_binaries = "makeinfo texi2any".split()
- 
- valid_binaries = simple_binaries + complex_binaries
- 
- # For generating blank output files.
--def touch_file (path):
--    f = open (path, "w")
--    f.close ()
-+def touch_file(path):
-+    with open(path, "w"):
-+        pass
- 
- assert this_binary in valid_binaries, \
--       this_binary + " is not one of " + ', '.join (valid_binaries)
-+       this_binary + " is not one of " + ', '.join(valid_binaries)
- 
- if "--version" in sys.argv:
-     print(version_str)
--    sys.exit (0)
-+    sys.exit(0)
- 
- # For debugging
- log_interceptions = False
- if log_interceptions:
--    f = open ("/tmp/intercepted_" + this_binary, "a")
--    f.write (' '.join ([this_binary] + sys.argv[1:]) + '\n')
--    f.close ()
-+    with open("/tmp/intercepted_" + this_binary, "a") as f:
-+        f.write(' '.join([this_binary] + sys.argv[1:]) + '\n')
- 
- # Look through the options and flags, and if necessary, touch any output
- # files.
- arg_idx = 1
--while arg_idx < len (sys.argv):
-+while arg_idx < len(sys.argv):
-     arg = sys.argv [arg_idx]
--    
-+
-     if arg == "--":
-         break
--    
-+
-     # Something like -I . can result in a need for this (specifically the .)
--    elif len (arg) < 2:
-+    elif len(arg) < 2:
-         pass
--    
-+
-     # Check if -o or --output is specified. These can be used at most once.
--    elif arg[0] == '-' and arg[1] != '-' and arg[len (arg) - 1] == 'o':
--        touch_file (sys.argv[arg_idx + 1])
--        sys.exit (0)
--    elif arg.startswith (olong):
--        touch_file (arg.split ("=")[1])
--        sys.exit (0)
--    
-+    elif arg[0] == '-' and arg[1] != '-' and arg[len(arg) - 1] == 'o':
-+        touch_file(sys.argv[arg_idx + 1])
-+        sys.exit(0)
-+    elif arg.startswith(olong):
-+        touch_file(arg.split("=")[1])
-+        sys.exit(0)
-+
-     # Check for functionality that isn't implemented yet.
-     else:
-         assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
-                this_binary in simple_binaries, \
-                "-E option not yet supported" + stub_msg
--        
--        assert not arg.startswith (Elong), \
-+
-+        assert not arg.startswith(Elong), \
-                Elong[:-1] + " option not yet supported" + stub_msg
--    
-+
-     arg_idx += 1
- 
- # The -o/--output option overrides the default. For makeinfo and texi2any,
-@@ -119,4 +117,3 @@ while arg_idx < len (sys.argv):
- assert this_binary in simple_binaries, \
-        "Don't know how to get default output file name from input file!" + \
-        stub_msg
+-        write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
+-        for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
+-            write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
 -
+-        sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
+-        sf.close()
++
++        subdata_file = pkgdatadir + "/runtime/%s" % pkg
++        with open(subdata_file, 'w') as sf:
++            for var in (d.getVar('PKGDATA_VARS') or "").split():
++                val = write_if_exists(sf, pkg, var)
++
++            write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
++            for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
++                write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
++
++            write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
++            for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
++                write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
++
++            sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
+ 
+         # Symlinks needed for rprovides lookup
++        rprov = d.getVar('RPROVIDES_%s' % pkg) or d.getVar('RPROVIDES')
+         if rprov:
+             for p in rprov.strip().split():
+                 subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
 -- 
 2.21.0
 
