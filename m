@@ -1,38 +1,53 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 147587E873
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
+	[209.85.210.48])
+	by mail.openembedded.org (Postfix) with ESMTP id 1ABCB7E635
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 09:58:11 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id i21so2641234ljj.3
+	Wed, 19 Jun 2019 10:07:33 +0000 (UTC)
+Received: by mail-ot1-f48.google.com with SMTP id r21so15797765otq.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 02:58:13 -0700 (PDT)
+	Wed, 19 Jun 2019 03:07:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TbXHJC+JzRnHpgIYqaX8BT57637mV5lF1G7uCr4plBc=;
+	b=hF4/TRRiIjm38xIf9Dij2fFYObcD6QOCzSmuZ0ESMmItzlSq4bF/xuNUcj60iPkfJP
+	aO7oVCIXtfgJn5OA/9K2NSqplR30QrAM0L3lgcPcSO0D95pB1EE2YGQzQR64W+nje/Za
+	t3bjvpxjniQLvUdFxazMu3lQF4b4bmWaswbAUG8Elmb5jiLhs2t2CX9ye6SvGnEgCG5E
+	/kruLWbVB/6RuGPk/XdWanp2slVKJw+z8VI9i/MbKayMm+zYJo4mWbLpAkO20Vf2cfKX
+	t4YKtTBXcv52oarldS8tCy+aC0bKh2MWx2Ez7WvOnyunkH4q/gsqE8zujoyT/yx0YbwT
+	63fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=qD03B7IyyL9HO7txmb0GGWKImDl6yqriGLZyRU2iCSw=;
-	b=KuytpVG0Zd0uRJw3KcuNLux/XrJnPJQA9uYMnu3SYfOVt1lWiMQSFV6YckHMkau2dR
-	MLKuNlc9/4OJRBktYa7cIRcUZnxsEZ6H+Ro6lj6fYpUxTlstpZhaKbt8+erLqDgQO0jv
-	AvFGr8hNeT4NHMLZDY/lNe78E69N6Vi26oEtn2UvE/lIBSNpKKhH3tcUUvvVDRvk47VS
-	1Yvlt490aND++mocDIxtmzVOZHA2h4w5iSnOmbZQeSD0ZaXiVmBU7A7O2F6LWGMZYUiI
-	0uYhwkX2TEXAdQ6E7wO/K7nz/HUo8gYv9R316GLOH6D0e3S9e605v30NO/IxzwR76MkF
-	TziQ==
-X-Gm-Message-State: APjAAAXNHb+cdS1ssWiCw0D8lHGh4LA94yUhWmmv599O1ICkytIrXiSU
-	2juF0NR6P/duPPDS1IJUA/AxGlq4xP9VqtZT+E9gY147
-X-Google-Smtp-Source: APXvYqwgv8Pa+rPjov9dE/482MC6i9WnibZHzGw8RG6fKsYO7wGLuArzibUJO0BcleLesCXgTQHoasaorRG6iMvuraA=
-X-Received: by 2002:a2e:124b:: with SMTP id t72mr57824046lje.143.1560938292511;
-	Wed, 19 Jun 2019 02:58:12 -0700 (PDT)
+	bh=TbXHJC+JzRnHpgIYqaX8BT57637mV5lF1G7uCr4plBc=;
+	b=RajV+Rl0Q7TGldIVk3eOQw3RxcVu5qC6LGD7Tl7MK81eU9eOEEV74FHsOLBTsY0a6v
+	k7UHR8U2uLb8EfVTETrG6gIcRf+udawOC2SLvEyoC7VxwTn2axxYQun3KvZTt+yES8YL
+	EkhxiCuDa8+Oo2HqEJ1HZgHqndrIYP2fuUAOAVKJQVxa5DxubM73JS8pRW2Y9gkn2Vmr
+	zmNCF9dbjgWd4y5knS7xhIozja7B9X5DcBuAwmmIIGTFWIa2hLxf1Ma4yNLSiqFBCCvo
+	HwV2/MV90bCyBeQUO4Tx11ecwcRkaBFXSMg6Tgqq8t87UiapqrtwM8CRkukwMEwGl6nI
+	I+lg==
+X-Gm-Message-State: APjAAAV/6O67MwWnwz309AvCH02VFUT9K2Bey0spKtQP6OEMa18MoNAl
+	mX3O8nzFdOZTRruFzYdyonXkakOsrX6KJFHHk8M=
+X-Google-Smtp-Source: APXvYqyJDG0qUQxpIpgsDGjfX2ZEoNEOv9CN9+4ynTffG/dnRh4Tz8aYPFxFAAQ+EjkK73ts5sqkuPBDVsroHKK/YTg=
+X-Received: by 2002:a9d:d87:: with SMTP id 7mr65564074ots.263.1560938855120;
+	Wed, 19 Jun 2019 03:07:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190619094436.2024-1-ricardo@ribalda.com>
-	<CAJTo0LafiOR5uE8cD3wv79TeVsY0OSsoMsUG1OcgMwCXgBwYHA@mail.gmail.com>
-In-Reply-To: <CAJTo0LafiOR5uE8cD3wv79TeVsY0OSsoMsUG1OcgMwCXgBwYHA@mail.gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Wed, 19 Jun 2019 11:57:54 +0200
-Message-ID: <CAPybu_1i_Hi6h7kcHSgzEAR_9jC4xw+zHOzHu0g6bvQVx0s_4g@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/2] less: Create symlink for pager
+References: <CANNYZj9rVD4cZ-AN7rvF=0fuc4d99brU_Tt_wQeRMGm=L83M2w@mail.gmail.com>
+	<201906171422.x5HEMKtf012735@dan.rpsys.net>
+	<CANNYZj_vg_jzcMRhfQ35C_2kDnyH-yxVj52pKk2WpfZxfo5iOw@mail.gmail.com>
+	<591c1c8752c4c0526d18d5cd6596a35bc41c6645.camel@rpsys.net>
+	<CANNYZj-6ZbpdR9WHkhrjFL77U290ZM=B_c0W12b1aVT8oKjG3g@mail.gmail.com>
+	<CAMKF1srWM7ZzHMXGLbxH57pC1Ki-x6w0HyRTxYZWk3+T52_C4g@mail.gmail.com>
+In-Reply-To: <CAMKF1srWM7ZzHMXGLbxH57pC1Ki-x6w0HyRTxYZWk3+T52_C4g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 19 Jun 2019 12:07:23 +0200
+Message-ID: <CANNYZj8aM88dvrPK2wMjGe3Jgm31uNQjae-432U=UgZxaVq_ZQ@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: "Eggleton, Paul" <paul.eggleton@intel.com>,
+	Richard Purdie <rpurdie@rpsys.net>,
+	OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [AUH] lttng-ust: upgrading to 2.10.4 FAILED
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -45,77 +60,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 09:58:12 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 10:07:34 -0000
+Content-Type: multipart/alternative; boundary="000000000000f9c301058baa6548"
+
+--000000000000f9c301058baa6548
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Ross
+On Tue, 18 Jun 2019 at 17:49, Khem Raj <raj.khem@gmail.com> wrote:
 
-I am ok with that.
-
-But looking forward it is definitely more difficult to maintain that
-patch on future dpkg versions. Will prepare the patch and then you
-decide :P
-
-Thanks!
-
-On Wed, Jun 19, 2019 at 11:55 AM Burton, Ross <ross.burton@intel.com> wrote:
 >
-> dpkg may, but that's because dpkg is the Debian package manager and it
-> follows Debian traditions.  /usr/bin/pager is a Debianism: I suggest
-> we just patch it to use 'less'.
+> >> a) we should have a bug for this as devtool shouldn't be giving
+> >> tracebacks?
+> >
+> >
+> > Bug filed:
+> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=13404
+> >
+> >>
+> >> b) we could add some kind of "reset" command that AUH could run between
+> >> builds which would clean things up?
+> >
+> >
+> > There is such a command  - 'devtool reset' and AUH does run it, however
+> in this case it does not work because the recipe in devtool workspace is
+> half-complete. (I think devtool reset looks up the recipe to be reset in
+> workspace/appends, which is empty because of the traceback).
+> >
 >
-> Ross
+> may be there should be devetool reset --force to override everything
+> and bring workspace to original state.
 >
-> On Wed, 19 Jun 2019 at 10:47, Ricardo Ribalda Delgado
-> <ricardo@ribalda.com> wrote:
-> >
-> > Some system tools (like dpkg) expects a binary called pager when they
-> > run on a interactive console.
-> >
-> > This patch addes this symlink via alternative, so other packages can
-> > also provide this symlink.
-> >
-> > Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> > ---
-> >  meta/recipes-extended/less/less_550.bb | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/recipes-extended/less/less_550.bb b/meta/recipes-extended/less/less_550.bb
-> > index bb1618f1eb..8f59bd6087 100644
-> > --- a/meta/recipes-extended/less/less_550.bb
-> > +++ b/meta/recipes-extended/less/less_550.bb
-> > @@ -24,6 +24,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
-> >                      file://LICENSE;md5=ba01d0cab7f62f7f2204c7780ff6a87d \
-> >                      "
-> >  DEPENDS = "ncurses"
-> > +RPROVIDES_${PN} = "pager"
-> >
-> >  SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
-> >           "
-> > @@ -39,5 +40,6 @@ do_install () {
-> >          oe_runmake 'bindir=${D}${bindir}' 'mandir=${D}${mandir}' install
-> >  }
-> >
-> > -ALTERNATIVE_${PN} = "less"
-> > +ALTERNATIVE_${PN} = "less pager"
-> >  ALTERNATIVE_PRIORITY = "100"
-> > +ALTERNATIVE_TARGET[pager] = "/usr/bin/less.less"
-> > --
-> > 2.20.1
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
+I added a comment to the bug mentioning that.
 
+Alex
 
--- 
-Ricardo Ribalda
+--000000000000f9c301058baa6548
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 18 Jun 2019 at 17:49, Khem Raj &l=
+t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
+r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex"><br>
+&gt;&gt; a) we should have a bug for this as devtool shouldn&#39;t be givin=
+g<br>
+&gt;&gt; tracebacks?<br>
+&gt;<br>
+&gt;<br>
+&gt; Bug filed:<br>
+&gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13404" =
+rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show=
+_bug.cgi?id=3D13404</a><br>
+&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; b) we could add some kind of &quot;reset&quot; command that AUH co=
+uld run between<br>
+&gt;&gt; builds which would clean things up?<br>
+&gt;<br>
+&gt;<br>
+&gt; There is such a command=C2=A0 - &#39;devtool reset&#39; and AUH does r=
+un it, however in this case it does not work because the recipe in devtool =
+workspace is half-complete. (I think devtool reset looks up the recipe to b=
+e reset in workspace/appends, which is empty because of the traceback).<br>
+&gt;<br>
+<br>
+may be there should be devetool reset --force to override everything<br>
+and bring workspace to original state.<br></blockquote><div><br></div><div>=
+I added a comment to the bug mentioning that.</div><div><br></div><div>Alex=
+<br></div></div></div>
+
+--000000000000f9c301058baa6548--
