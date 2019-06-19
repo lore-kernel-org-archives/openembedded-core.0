@@ -1,54 +1,47 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com
-	[209.85.208.45])
-	by mail.openembedded.org (Postfix) with ESMTP id C5A9A6011A
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 8EDEF7E870
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 09:45:11 +0000 (UTC)
-Received: by mail-ed1-f45.google.com with SMTP id k8so26212818edr.11
+	Wed, 19 Jun 2019 09:54:57 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id w25so36669287ioc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 02:45:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ptOJkaWG81fAJcY46nqWyMXqrzvT7WPrMVMl938Zuzs=;
-	b=rePyVCNeSjlBGFmPoy3a+QA6Zxk2dUiuR55NqnuOJT1g/UDF8uR4+hL04JynIlmrTv
-	sECirVS9UHZ0x5ZM+k/6DgasCv8DV26P2zwPnLrjOmchNO5uPqVeYGPpsMbMsYgiK19e
-	DP/HVt6coo8sGT6VFHn0dPqGN59HcKuKj1SH0ItHU38JEP4I4e18TQcqmvM4XrgIIXWb
-	YvCvuZPpVf1vlFk+jXIVcGSL63BWDVC5zm/dFGBayv/jx6XEzRFJtEQUI5xN3QabEwhb
-	SBOxjEj7opxh2DlLpCU7ojgES7/AuUkJ1p81kCrt6egWVAtggTcPNQLlMXu3Sx1Picyi
-	FWow==
+	Wed, 19 Jun 2019 02:54:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=vIYyqo5Z/BnXQRMh6b/TdezrkqlcSbx4BclROfnNtCE=;
+	b=JXzG1ruWjEDd0a8FCp/e/jsbSpsDCPxt2bBa+BaQV55Jq3D4wczIrArwJYh0RKi+xr
+	L7auKmW8j45vcq1hO18x3VTVObVpX+KSPb7nefHYOqQ7BmU/5sM9Qf+Mf76aVc9VdmuG
+	hYWmwKrV23mL17BHQqcdQ+wAMwC7/K5fGb+18prJ2XtQwvZgfO9fIkYruLgxvSKXv+Tz
+	lxWMT6jQOGG4lCdrh4AFp6HcuYsNdYoZd2UVmb7YPvfN1UOdX+nRM7Y/hMo329Ia0IO5
+	o8wAhoqDAWmYMR4CYuCHmeqPZECREQABphcPo0WJChTyMaLvS5OgjKeOntjuUhikYKXf
+	EZKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=ptOJkaWG81fAJcY46nqWyMXqrzvT7WPrMVMl938Zuzs=;
-	b=kUvgnX5co6odkG3423WiGzWCPeSvQrhKwfeUBx2rUxK75khyx0gGbdn6nvcaBazK2L
-	19v+ZC8CrLxJHjXMdgdXuIDX8isH7qw+bce0XTdBVm2u5n73V6qj2aphG+H5evkxrUeA
-	Ao+qzVK6SnPh+8xQJ7CIx/iHwxNPf7Lc2jvQaw/hh1fWrTh7cIHeCdiDjYDlh2HhDnAg
-	8ER7EBROfff9aVX4XvlVFL5/e7eDcWbTYAjqzMY2ht0Dqm5aUNQDGkeglnfiqGUeNHl1
-	v9NKig6sTyvMH7W7EoUBMvIsxsGlFsOjKuUYqwX7Gu1hQ5ZZodSIBvYVSxwXzkstIlV6
-	nXkw==
-X-Gm-Message-State: APjAAAU6T4gC+Oz+7Qu6e0f+h5vR2izQjxlu2pVKO1383Gs15rWopHoz
-	jH7HiI0EYoEKo4miIk2qm947xhsDwy8=
-X-Google-Smtp-Source: APXvYqxGY8OS8WgmyPuvnASOOIF/SyRlNiDvRZir71RHkUFJChEqf6ARfMa3Le1CMVm+kxNctuUSzw==
-X-Received: by 2002:a05:6402:1459:: with SMTP id
-	d25mr17139992edx.235.1560937512333; 
-	Wed, 19 Jun 2019 02:45:12 -0700 (PDT)
-Received: from neopili.qtec.com
-	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
-	by smtp.gmail.com with ESMTPSA id
-	b53sm5581060edd.45.2019.06.19.02.45.11
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 19 Jun 2019 02:45:11 -0700 (PDT)
-Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 11:44:55 +0200
-Message-Id: <20190619094455.5488-1-ricardo@ribalda.com>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=vIYyqo5Z/BnXQRMh6b/TdezrkqlcSbx4BclROfnNtCE=;
+	b=S7Qf44f+fZdFV3xAaj3lzuqsGQ5TBoVeqdbN6Cv9TXlLfBr7xRr+r0eyMkcPMm7pJz
+	3+KIYAXGKF9h/AeU0NuWrTboDsfMGLYeHCzdC+mg/KHRVooPmCwbus59dHlCU/zKiu7u
+	53xAdlkqFuktOSi8JlNXdb9M1xoAbteCEU+Qyt1TaLXfeiaP44lkfxiKniuWBCdWaa+V
+	BCjf1/GbTSrXoEuMzT0tj8rXOOHkrH8rwj02WR7MCeN/y5phyQ89YeUHBs13zgFk0ln9
+	il9xeFsIaxNSZIa1iQgUWyUQgalVNj9mFquFqU0Eluuhfqi4yMdPYGLT23FCuHKkS4Iq
+	kaZQ==
+X-Gm-Message-State: APjAAAUVtFm9Xdx04z1tciqIFF6VJkVI6p66D38WTCZLNZ8zD8jRzvTh
+	bMZ5V8HagZ0fTlfZAEJD+WjOdenb0tNBC9DaNEjdVHUw
+X-Google-Smtp-Source: APXvYqzvGCogw4zIi7RXi8jO+nZ8SiwfqGxyA2oC7DdOMnQ/jI02rmFugTg/J+SmbdrkyWlNPL9wPAp6RmIBIMJlQjo=
+X-Received: by 2002:a02:c7c9:: with SMTP id s9mr92258596jao.82.1560938098402; 
+	Wed, 19 Jun 2019 02:54:58 -0700 (PDT)
 MIME-Version: 1.0
-Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Subject: [PATCH] python3: python3: Fix build error x86->x86
+References: <20190619094436.2024-1-ricardo@ribalda.com>
+In-Reply-To: <20190619094436.2024-1-ricardo@ribalda.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 19 Jun 2019 10:54:47 +0100
+Message-ID: <CAJTo0LafiOR5uE8cD3wv79TeVsY0OSsoMsUG1OcgMwCXgBwYHA@mail.gmail.com>
+To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/2] less: Create symlink for pager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,80 +54,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 09:45:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 19 Jun 2019 09:54:57 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-When building x86->x86 the system will try to execute .so and related items
-from the default PYTHONPATH.  This will fail if the target CPU contains
-instructions that the host CPU does not have, add CROSSPYTHONPATH
-into PYTHONPATH so we can prepend the list to find correct libs.
+dpkg may, but that's because dpkg is the Debian package manager and it
+follows Debian traditions.  /usr/bin/pager is a Debianism: I suggest
+we just patch it to use 'less'.
 
-Fixes:
+Ross
 
-Illegal instruction (core dumped)
-Makefile:625: recipe for target 'sharedmods' failed
-make: *** [sharedmods] Error 132
-make: *** Waiting for unfinished jobs....
-
-Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
----
- .../python/python3/crosspythonpath.patch      | 25 +++++++++++++++++++
- meta/recipes-devtools/python/python3_3.7.3.bb |  2 ++
- 2 files changed, 27 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/crosspythonpath.patch
-
-diff --git a/meta/recipes-devtools/python/python3/crosspythonpath.patch b/meta/recipes-devtools/python/python3/crosspythonpath.patch
-new file mode 100644
-index 0000000000..d789ab57d4
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/crosspythonpath.patch
-@@ -0,0 +1,25 @@
-+configure.ac: add CROSSPYTHONPATH into PYTHONPATH for PYTHON_FOR_BUILD
-+
-+When building x86->x86 the system will try to execute .so and related items
-+from the default PYTHONPATH.  This will fail if the target CPU contains
-+instructions that the host CPU does not have, add CROSSPYTHONPATH
-+into PYTHONPATH so we can prepend the list to find correct libs.
-+
-+Upstream-Status: Inappropriate [OE-Core integration specific]
-+
-+Credits-to: Mark Hatle <mark.hatle@windriver.com>
-+Credits-to: Jackie Huang <jackie.huang@windriver.com>
-+Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
-+diff --git a/configure.ac b/configure.ac
-+index 4ab19a6..7036a53 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -76,7 +76,7 @@ if test "$cross_compiling" = yes; then
-+ 	    AC_MSG_ERROR([python$PACKAGE_VERSION interpreter not found])
-+ 	fi
-+         AC_MSG_RESULT($interp)
-+-	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) '$interp
-++	PYTHON_FOR_BUILD='_PYTHON_PROJECT_BASE=$(abs_builddir) _PYTHON_HOST_PLATFORM=$(_PYTHON_HOST_PLATFORM) PYTHONPATH=$(CROSSPYTHONPATH):$(shell test -f pybuilddir.txt && echo $(abs_builddir)/`cat pybuilddir.txt`:)$(srcdir)/Lib _PYTHON_SYSCONFIGDATA_NAME=_sysconfigdata_$(ABIFLAGS)_$(MACHDEP)_$(MULTIARCH) '$interp
-+     fi
-+ elif test "$cross_compiling" = maybe; then
-+     AC_MSG_ERROR([Cross compiling required --host=HOST-TUPLE and --build=ARCH])
-diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
-index 832ef1b3c3..2444296142 100644
---- a/meta/recipes-devtools/python/python3_3.7.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.3.bb
-@@ -24,6 +24,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-Lib-sysconfig.py-fix-another-place-where-lib-is-hard.patch \
-            file://0001-Makefile-fix-Issue36464-parallel-build-race-problem.patch \
- 	   file://0001-bpo-36852-proper-detection-of-mips-architecture-for-.patch \
-+	   file://crosspythonpath.patch \
-            "
- 
- SRC_URI_append_class-native = " \
-@@ -65,6 +66,7 @@ DEPENDS_append_class-nativesdk = " python3-native"
- EXTRA_OECONF = " --without-ensurepip --enable-shared"
- EXTRA_OECONF_append_class-native = " --bindir=${bindir}/${PN}"
- 
-+export CROSSPYTHONPATH="${STAGING_LIBDIR_NATIVE}/python${PYTHON_MAJMIN}/lib-dynload/"
- 
- EXTRANATIVEPATH += "python3-native"
- 
--- 
-2.20.1
-
+On Wed, 19 Jun 2019 at 10:47, Ricardo Ribalda Delgado
+<ricardo@ribalda.com> wrote:
+>
+> Some system tools (like dpkg) expects a binary called pager when they
+> run on a interactive console.
+>
+> This patch addes this symlink via alternative, so other packages can
+> also provide this symlink.
+>
+> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> ---
+>  meta/recipes-extended/less/less_550.bb | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-extended/less/less_550.bb b/meta/recipes-extended/less/less_550.bb
+> index bb1618f1eb..8f59bd6087 100644
+> --- a/meta/recipes-extended/less/less_550.bb
+> +++ b/meta/recipes-extended/less/less_550.bb
+> @@ -24,6 +24,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
+>                      file://LICENSE;md5=ba01d0cab7f62f7f2204c7780ff6a87d \
+>                      "
+>  DEPENDS = "ncurses"
+> +RPROVIDES_${PN} = "pager"
+>
+>  SRC_URI = "http://www.greenwoodsoftware.com/${BPN}/${BPN}-${PV}.tar.gz \
+>           "
+> @@ -39,5 +40,6 @@ do_install () {
+>          oe_runmake 'bindir=${D}${bindir}' 'mandir=${D}${mandir}' install
+>  }
+>
+> -ALTERNATIVE_${PN} = "less"
+> +ALTERNATIVE_${PN} = "less pager"
+>  ALTERNATIVE_PRIORITY = "100"
+> +ALTERNATIVE_TARGET[pager] = "/usr/bin/less.less"
+> --
+> 2.20.1
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
