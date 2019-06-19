@@ -1,30 +1,23 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id B2CA77E783
+Return-Path: <chee.yang.lee@intel.com>
+Received: from mga06.intel.com (mga06.intel.com [134.134.136.31])
+	by mail.openembedded.org (Postfix) with ESMTP id A8F937E7E0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 07:46:09 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,391,1557158400"; d="scan'208";a="68019385"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Jun 2019 15:46:09 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 5F31C4CDD988
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 15:46:05 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Wed, 19 Jun 2019 15:46:07 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Jun 2019 15:47:28 +0800
-Message-ID: <20190619074728.26314-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 5F31C4CDD988.AA291
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] gobject-introspection:upgrade 1.60.1 -> 1.60.2
+	Wed, 19 Jun 2019 08:41:10 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 Jun 2019 01:41:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,392,1557212400"; d="scan'208";a="164964762"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga006.jf.intel.com with ESMTP; 19 Jun 2019 01:41:10 -0700
+From: chee.yang.lee@intel.com
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jun 2019 16:41:09 +0800
+Message-Id: <1560933669-42014-1-git-send-email-chee.yang.lee@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2] wic/bootimg-efi: allow multiple initrd
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +30,78 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 07:46:10 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 19 Jun 2019 08:41:10 -0000
 
--Upgrade from gobject-introspection_1.60.1.bb to gobject-introspection_1.60.2.bb.
+From: Chee Yang Lee <chee.yang.lee@intel.com>
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+Allow plugin bootimg-efi to configure with multiple initrd
+through source parameter.
+
+Uses ; to separate each initrd.
+
+e.g:
+--sourceparams="loader=${EFI_PROVIDER},initrd=initrd1;initrd2"
+
+Signed-off-by: Chee Yang Lee <chee.yang.lee@intel.com>
 ---
- ...ntrospection_1.60.1.bb => gobject-introspection_1.60.2.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/gobject-introspection/{gobject-introspection_1.60.1.bb => gobject-introspection_1.60.2.bb} (98%)
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 22 ++++++++++++++++------
+ 1 file changed, 16 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.60.1.bb b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.60.2.bb
-similarity index 98%
-rename from meta/recipes-gnome/gobject-introspection/gobject-introspection_1.60.1.bb
-rename to meta/recipes-gnome/gobject-introspection/gobject-introspection_1.60.2.bb
-index 40beab0c41..f46053f443 100644
---- a/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.60.1.bb
-+++ b/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.60.2.bb
-@@ -21,8 +21,8 @@ SRC_URI = "${GNOME_MIRROR}/${BPN}/${@oe.utils.trim_version("${PV}", 2)}/${BPN}-$
-            file://0001-meson.build-disable-tests-when-cross-compiling.patch \
-            "
+diff --git a/scripts/lib/wic/plugins/source/bootimg-efi.py b/scripts/lib/wic/plugins/source/bootimg-efi.py
+index d87db1f..5cc5c8a 100644
+--- a/scripts/lib/wic/plugins/source/bootimg-efi.py
++++ b/scripts/lib/wic/plugins/source/bootimg-efi.py
+@@ -55,8 +55,10 @@ class BootimgEFIPlugin(SourcePlugin):
+             if not bootimg_dir:
+                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
  
--SRC_URI[md5sum] = "46fc8a98f6563e64947ac3d574632525"
--SRC_URI[sha256sum] = "d844d1499ecd36f3ec8a3573616186d36626ec0c9a7981939e99aa02e9c824b3"
-+SRC_URI[md5sum] = "57c1c5dcf3d0a9aa73d06c2d5e6960d7"
-+SRC_URI[sha256sum] = "ffdfe2368fb2e34a547898b01aac0520d52d8627fdeb1c306559bcb503ab5e9c"
+-            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
+-            exec_cmd(cp_cmd, True)
++            initrds = initrd.split(';')
++            for rd in initrds:
++                cp_cmd = "cp %s/%s %s" % (bootimg_dir, rd, hdddir)
++                exec_cmd(cp_cmd, True)
+         else:
+             logger.debug("Ignoring missing initrd")
  
- SRC_URI_append_class-native = " file://0001-Relocate-the-repository-directory-for-native-builds.patch"
+@@ -84,7 +86,11 @@ class BootimgEFIPlugin(SourcePlugin):
+                 % (kernel, label_conf, bootloader.append)
  
+             if initrd:
+-               grubefi_conf += "initrd /%s\n" % initrd
++                initrds = initrd.split(';')
++                grubefi_conf += "initrd"
++                for rd in initrds:
++                    grubefi_conf += " /%s" % rd
++                grubefi_conf += "\n"
+ 
+             grubefi_conf += "}\n"
+ 
+@@ -119,8 +125,10 @@ class BootimgEFIPlugin(SourcePlugin):
+             if not bootimg_dir:
+                 raise WicError("Couldn't find DEPLOY_DIR_IMAGE, exiting")
+ 
+-            cp_cmd = "cp %s/%s %s" % (bootimg_dir, initrd, hdddir)
+-            exec_cmd(cp_cmd, True)
++            initrds = initrd.split(';')
++            for rd in initrds:
++                cp_cmd = "cp %s/%s %s" % (bootimg_dir, rd, hdddir)
++                exec_cmd(cp_cmd, True)
+         else:
+             logger.debug("Ignoring missing initrd")
+ 
+@@ -164,7 +172,9 @@ class BootimgEFIPlugin(SourcePlugin):
+                              (label_conf, bootloader.append)
+ 
+             if initrd:
+-                boot_conf += "initrd /%s\n" % initrd
++                initrds = initrd.split(';')
++                for rd in initrds:
++                    boot_conf += "initrd /%s\n" % rd
+ 
+         logger.debug("Writing systemd-boot config "
+                      "%s/hdd/boot/loader/entries/boot.conf", cr_workdir)
 -- 
-2.20.1
-
-
+2.7.4
 
 
