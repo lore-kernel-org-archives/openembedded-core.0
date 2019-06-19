@@ -1,48 +1,51 @@
 Return-Path: <lemagoup@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 2DC757E73A
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AB0ED7E971
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Jun 2019 14:00:18 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id h19so4706131wme.0
+Received: by mail-wr1-f65.google.com with SMTP id p11so3524739wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 07:00:19 -0700 (PDT)
+	Wed, 19 Jun 2019 07:00:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=vg/vuVgtVTwwzchzlxFsEw97m/YaozkS6pJo3atuSYk=;
-	b=Y3PsVHPifX7WhK3q2fOS+33GMVlF3OgMTyZ58xPrC/F3Ir6eoTXDhqLUGdRdop9x4H
-	OgDOJue/Jv2dVipPD3fCm+gSd7YaDVZQ5N43L8ygPte5fczEB/4M7LUHJTKHGl9aWmgU
-	RGmMrTpuLz+6beBHbO++s3jpoL+1j5x0ayf2FFBgH8tV3vzlCCqR2f2pR5EthfqIM7oy
-	R6c5/ROvvA4Yn1RnCg+H/tJUU8ecggeZNfPxLEexUJjrFOfmXs5KCXh3hEzB8Ya3NWer
-	ipaKESPtJ0WxUipYZDu7rK6ddXss+Z1ETiyCpGjhCUz64uX2g44CwmIyUNBOWySjU32D
-	XP7Q==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=nCVEndjQJ6vozuxGFPmbjD00DhimFZgrs7GECNUu9vU=;
+	b=G6w42FOCX4Yhh35F9dKhz9ZQ5U0dmo9Cq/JeYEZdfJYNlMIQ7T8XNVLxU1ZRKMgZF0
+	L/waLK/BQK2mTHb6Qn7IPxR4HhqW3qD3Yc0xdnCDfh93v28qNLvh0rTUjv9X4EXZpnto
+	BmLYIaDsIO2vNLswKAuhRi1zjI9YB0bXWxqXjHynSNUSIBDhH//sz/uA7p8imAln0kvi
+	0xwcnZVgb5wogIQ/XPgAyieCmXrouPq0XUpzL88kqkIJIFjtz3TkzHpkUJsIETSNrP5g
+	kJWaqc6FCcf/8j85euncpbRXqjKgJB+rlxscHKdSEmubTbYs7X0U71iFxj7fhoCa2wCe
+	cxcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=vg/vuVgtVTwwzchzlxFsEw97m/YaozkS6pJo3atuSYk=;
-	b=S7ND4IqZmUeFt6WelQpJOtqJdWfxsjrOXLBlUqrBYVOFyet4LFpwblS7t6taVGkK3Q
-	X1+XIvZoyP40NSU/jVgNZyv+NZ46N1e2ylLtSFvG8he1ctFUIbwv6+ydvbgV5GHK6J5E
-	yqkP+JCLV4rM5HBVvj/uNQ7kVl/UHiBNC7c9GzF4uwsV6ydgGqwo/NueWsq2KfJ+2YS/
-	n6HhoXTs/o6vvR4VjVEZ2nlFDYS1+71fMziyM/YzKe3bRDjK1OoLDtv4t6twEGh1gm8l
-	JCpGVEKucqaufY5KB5dbhN6+griX8to05rv7wz+dflBGBlV0lb7E08SdysoRNqGwbUfu
-	nnhA==
-X-Gm-Message-State: APjAAAXZhUARyOufX4qVK78rAwxotqO3GBVvtmLHzj35RToaasoNV1ih
-	EcjApoMT3dowIpd1Jw8GsJLZvzzo
-X-Google-Smtp-Source: APXvYqwDXddlRcQACY+cGbXZmm1giaGQY8MQOiS5J6HpnePhe6wi7uuSLXWoyM414W3QpV0ST07ILw==
-X-Received: by 2002:a7b:c7d7:: with SMTP id z23mr8828283wmk.46.1560952818326; 
-	Wed, 19 Jun 2019 07:00:18 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=nCVEndjQJ6vozuxGFPmbjD00DhimFZgrs7GECNUu9vU=;
+	b=a157B2KxbwvdrHwTPIdQz+ewPJ2c7yhcq+FoD3RmQ1Lw48vZi5lAvR6+DggKNMVXSn
+	W4ftBHC0Q0kAzxNlssFHQTQiT1NNOQYl5GP2MSjR37kEX9ydZHn7QkJOXqeX6vQueJxX
+	3yFh1BarkWfieK0CMVAL54XgAvm6OMuzDgRDfNtc5V/HGKq7WVAvZFMdUjoPBPS7C/Cb
+	ZsiPLnxtWo8UQ9DgFAG7EyHUbpz9xc7zJldm15QdbgBGv7xD2AyFELXqKfC0dapXlDX+
+	tecLAJPM5md/hqupKPaj+tsIlW0EYWhlrUFzjxeRhmWgEGkoiUwyu9RNlFl4EVewKyQ8
+	stIg==
+X-Gm-Message-State: APjAAAUWwzd0+V5Bz2YxdTAIX9IBK24S1PkzSyu+gNWvBLQkXkwcMHVc
+	R9IXwGBcMDAyknBQxH6KVjKuGvAp
+X-Google-Smtp-Source: APXvYqylrSAfVunBSoo+/lNdSoEvI9suRF4aw9RtYa/BCWbRa6rq1rucW+JnzlsqXOxDE87038frIw==
+X-Received: by 2002:adf:f649:: with SMTP id x9mr17841780wrp.86.1560952819094; 
+	Wed, 19 Jun 2019 07:00:19 -0700 (PDT)
 Received: from localhost.localdomain
 	(softbank-robotics-gw1.ter4.eqx2.par.cust.as8218.eu.
 	[158.255.112.194]) by smtp.gmail.com with ESMTPSA id
-	g131sm924905wmf.37.2019.06.19.07.00.10
+	g131sm924905wmf.37.2019.06.19.07.00.18
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Jun 2019 07:00:11 -0700 (PDT)
+	Wed, 19 Jun 2019 07:00:18 -0700 (PDT)
 From: Pierre Le Magourou <lemagoup@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 15:59:37 +0200
-Message-Id: <20190619135940.18544-1-lemagoup@gmail.com>
+Date: Wed, 19 Jun 2019 15:59:38 +0200
+Message-Id: <20190619135940.18544-2-lemagoup@gmail.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH 1/4] cve-update-db: New recipe to update CVE database
+In-Reply-To: <20190619135940.18544-1-lemagoup@gmail.com>
+References: <20190619135940.18544-1-lemagoup@gmail.com>
+Subject: [PATCH 2/4] cve-check: Remove dependency to cve-check-tool-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,151 +58,143 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 14:00:18 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 14:00:19 -0000
 
 From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 
-cve-check-tool-native do_populate_cve_db task was using deprecated NVD
-xml data feeds, cve-update-db uses NVD json data feeds.
-
-Sqlite database schema was updated to take into account CVSSv3 CVE
-scores and operator in affected product versions.
-A new META table was added to store the last modification date of the
-NVD json data feeds.
+Use the new update-cve-db recipe to update database.
 
 Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 ---
- meta/recipes-core/meta/cve-update-db.bb | 121 ++++++++++++++++++++++++++++++++
- 1 file changed, 121 insertions(+)
- create mode 100644 meta/recipes-core/meta/cve-update-db.bb
+ meta/classes/cve-check.bbclass | 71 ++++++++++++++++--------------------------
+ 1 file changed, 26 insertions(+), 45 deletions(-)
 
-diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
-new file mode 100644
-index 0000000000..522fd23807
---- /dev/null
-+++ b/meta/recipes-core/meta/cve-update-db.bb
-@@ -0,0 +1,121 @@
-+SUMMARY = "Updates the NVD CVE database"
-+LICENSE = "MIT"
-+
-+INHIBIT_DEFAULT_DEPS = "1"
-+PACKAGES = ""
-+
-+inherit nopackages
-+
-+deltask do_fetch
-+deltask do_unpack
-+deltask do_patch
-+deltask do_configure
-+deltask do_compile
-+deltask do_install
-+deltask do_populate_sysroot
-+
-+python do_populate_cve_db() {
-+    """
-+    Update NVD database with json data feed
-+    """
-+
-+    import sqlite3, urllib3, shutil, gzip, re
-+    from datetime import date
-+
-+    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-+    YEAR_START = 2002
-+    JSON_TMPFILE = d.getVar("CVE_CHECK_DB_DIR") + '/nvd.json.gz'
-+
-+    # Connect to database
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 743bc08a4f..28619c7bd4 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
+ 
+ CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvd.db"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvd-json.db"
+ 
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+ CVE_CHECK_TMP_FILE ?= "${TMPDIR}/cve_check"
+@@ -62,7 +62,7 @@ python do_cve_check () {
+ }
+ 
+ addtask cve_check after do_unpack before do_build
+-do_cve_check[depends] = "cve-check-tool-native:do_populate_sysroot cve-check-tool-native:do_populate_cve_db"
++do_cve_check[depends] = "cve-update-db:do_populate_cve_db"
+ do_cve_check[nostamp] = "1"
+ 
+ python cve_check_cleanup () {
+@@ -163,61 +163,40 @@ def get_patches_cves(d):
+ 
+ def check_cves(d, patched_cves):
+     """
+-    Run cve-check-tool looking for patched and unpatched CVEs.
++    Connect to the NVD database and find unpatched cves.
+     """
+-
+     import ast, csv, tempfile, subprocess, io
+ 
+-    cves_patched = []
+     cves_unpatched = []
+     bpn = d.getVar("CVE_PRODUCT")
+     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
+     if not bpn:
+         return ([], [])
+     pv = d.getVar("CVE_VERSION").split("+git")[0]
+-    cves = " ".join(patched_cves)
+-    cve_db_dir = d.getVar("CVE_CHECK_DB_DIR")
+     cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST"))
+-    cve_cmd = "cve-check-tool"
+-    cmd = [cve_cmd, "--no-html", "--skip-update", "--csv", "--not-affected", "-t", "faux", "-d", cve_db_dir]
+ 
+     # If the recipe has been whitlisted we return empty lists
+     if d.getVar("PN") in d.getVar("CVE_CHECK_PN_WHITELIST").split():
+         bb.note("Recipe has been whitelisted, skipping check")
+         return ([], [])
+ 
+-    try:
+-        # Write the faux CSV file to be used with cve-check-tool
+-        fd, faux = tempfile.mkstemp(prefix="cve-faux-")
+-        with os.fdopen(fd, "w") as f:
+-            for pn in bpn.split():
+-                f.write("%s,%s,%s,\n" % (pn, pv, cves))
+-        cmd.append(faux)
+-
+-        output = subprocess.check_output(cmd).decode("utf-8")
+-        bb.debug(2, "Output of command %s:\n%s" % ("\n".join(cmd), output))
+-    except subprocess.CalledProcessError as e:
+-        bb.warn("Couldn't check for CVEs: %s (output %s)" % (e, e.output))
+-    finally:
+-        os.remove(faux)
+-
+-    for row in csv.reader(io.StringIO(output)):
+-        # Third row has the unpatched CVEs
+-        if row[2]:
+-            for cve in row[2].split():
+-                # Skip if the CVE has been whitlisted for the current version
+-                if pv in cve_whitelist.get(cve,[]):
+-                    bb.note("%s-%s has been whitelisted for %s" % (bpn, pv, cve))
+-                else:
+-                    cves_unpatched.append(cve)
+-                    bb.debug(2, "%s-%s is not patched for %s" % (bpn, pv, cve))
+-        # Fourth row has patched CVEs
+-        if row[3]:
+-            for cve in row[3].split():
+-                cves_patched.append(cve)
+-                bb.debug(2, "%s-%s is patched for %s" % (bpn, pv, cve))
+-
+-    return (cves_patched, cves_unpatched)
++    import sqlite3
 +    db_file = d.getVar("CVE_CHECK_DB_FILE")
 +    conn = sqlite3.connect(db_file)
 +    c = conn.cursor()
-+
-+    initialize_db(c)
-+
-+    http = urllib3.PoolManager()
-+
-+    for year in range(YEAR_START, date.today().year + 1):
-+        year_url = BASE_URL + str(year)
-+        meta_url = year_url + ".meta"
-+        json_url = year_url + ".json.gz"
-+
-+        # Retrieve meta last modified date
-+        with http.request('GET', meta_url, preload_content=False) as r:
-+            date_line = str(r.data.splitlines()[0])
-+            last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
-+
-+        # Compare with current db last modified date
-+        c.execute("select DATE from META where YEAR = '%d'" % year)
-+        meta = c.fetchone()
-+        if not meta or meta[0] != last_modified:
-+            # Update db with current year json file
-+            with http.request('GET', json_url, preload_content=False) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
-+                shutil.copyfileobj(r, tmpfile)
-+            with gzip.open(JSON_TMPFILE, 'rt') as jsonfile:
-+                update_db(c, jsonfile)
-+            c.execute("insert or replace into META values (?, ?)",
-+                    [year, last_modified])
-+
-+    conn.commit()
++    query = "SELECT * FROM PRODUCTS WHERE PRODUCT IS '%s' AND VERSION IS '%s';"
++    for row in c.execute(query % (bpn,pv)):
++        cve = row[1]
++        if pv in cve_whitelist.get(cve,[]):
++            bb.note("%s-%s has been whitelisted for %s" % (bpn, pv, cve))
++        elif cve in patched_cves:
++            bb.note("%s has been patched" % (cve))
++        else:
++            cves_unpatched.append(cve)
++            bb.debug(2, "%s-%s is not patched for %s" % (bpn, pv, cve))
 +    conn.close()
 +
-+    with open(d.getVar("CVE_CHECK_TMP_FILE"), 'a'):
-+        os.utime(d.getVar("CVE_CHECK_TMP_FILE"), None)
-+}
-+
-+# DJB2 hash algorithm
-+def hash_djb2(s):
-+    hash = 5381
-+    for x in s:
-+        hash = (( hash << 5) + hash) + ord(x)
-+
-+    return hash & 0xFFFFFFFF
-+
-+def initialize_db(c):
-+    c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
-+    c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
-+        SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
-+    c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (HASH INTEGER UNIQUE, ID TEXT, \
-+        VENDOR TEXT, PRODUCT TEXT, VERSION TEXT, OPERATOR TEXT)")
-+    c.execute("CREATE INDEX IF NOT EXISTS PRODUCT_IDX ON PRODUCTS \
-+        (PRODUCT, VERSION)")
-+
-+def update_db(c, json_filename):
-+    import json
-+    root = json.load(json_filename)
-+
-+    for elt in root['CVE_Items']:
-+        if not elt['impact']:
-+            continue
-+
-+        cveId = elt['cve']['CVE_data_meta']['ID']
-+        cveDesc = elt['cve']['description']['description_data'][0]['value']
-+        date = elt['lastModifiedDate']
-+        accessVector = elt['impact']['baseMetricV2']['cvssV2']['accessVector']
-+        cvssv2 = elt['impact']['baseMetricV2']['cvssV2']['baseScore']
-+
-+        try:
-+            cvssv3 = elt['impact']['baseMetricV3']['cvssV3']['baseScore']
-+        except:
-+            cvssv3 = 0.0
-+
-+        c.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
-+                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector])
-+
-+        for vendor in elt['cve']['affects']['vendor']['vendor_data']:
-+            for product in vendor['product']['product_data']:
-+                for version in product['version']['version_data']:
-+                    product_str = cveId+vendor['vendor_name']+product['product_name']+version['version_value']
-+                    hashstr = hash_djb2(product_str)
-+                    c.execute("insert or replace into PRODUCTS values (?, ?, ?, ?, ?, ?)",
-+                            [ hashstr, cveId, vendor['vendor_name'],
-+                                product['product_name'], version['version_value'],
-+                                version['version_affected']])
-+
-+
-+
-+addtask do_populate_cve_db before do_cve_check
-+do_populate_cve_db[nostamp] = "1"
-+
-+EXCLUDE_FROM_WORLD = "1"
++    return (list(patched_cves), cves_unpatched)
+ 
+ def get_cve_info(d, cves):
+     """
+@@ -241,9 +220,10 @@ def get_cve_info(d, cves):
+     for row in cur.execute(query, tuple(cves)):
+         cve_data[row[0]] = {}
+         cve_data[row[0]]["summary"] = row[1]
+-        cve_data[row[0]]["score"] = row[2]
+-        cve_data[row[0]]["modified"] = row[3]
+-        cve_data[row[0]]["vector"] = row[4]
++        cve_data[row[0]]["scorev2"] = row[2]
++        cve_data[row[0]]["scorev3"] = row[3]
++        cve_data[row[0]]["modified"] = row[4]
++        cve_data[row[0]]["vector"] = row[5]
+     conn.close()
+ 
+     return cve_data
+@@ -270,7 +250,8 @@ def cve_write_data(d, patched, unpatched, cve_data):
+             unpatched_cves.append(cve)
+             write_string += "CVE STATUS: Unpatched\n"
+         write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
+-        write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["score"]
++        write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
++        write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
+         write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
+         write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
+ 
 -- 
 2.11.0
 
