@@ -1,45 +1,102 @@
-Return-Path: <jonathan.rajotte-julien@efficios.com>
-Received: from mail.efficios.com (mail.efficios.com [167.114.142.138])
-	by mail.openembedded.org (Postfix) with ESMTP id 615657D24A
+Return-Path: <akuster808@gmail.com>
+Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
+	[209.85.214.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A2B487C4F9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 14:32:31 +0000 (UTC)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id E8E7E255657;
-	Wed, 19 Jun 2019 10:32:31 -0400 (EDT)
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10032)
-	with ESMTP id uaKgIlAilnzo; Wed, 19 Jun 2019 10:32:31 -0400 (EDT)
-Received: from localhost (ip6-localhost [IPv6:::1])
-	by mail.efficios.com (Postfix) with ESMTP id 5DCA0255651;
-	Wed, 19 Jun 2019 10:32:31 -0400 (EDT)
-DKIM-Filter: OpenDKIM Filter v2.10.3 mail.efficios.com 5DCA0255651
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=efficios.com;
-	s=default; t=1560954751;
-	bh=jOTMUgFEh2bB4N6z+CRVmVHZa61a8wVUdfeAHjYuSKI=;
-	h=Date:From:To:Message-ID:MIME-Version;
-	b=kTVi5xkhnOzl2xq6krWKs37rknAyW2we/rsVHvCboji6SdTt7UlbkRCo8KMopJUMV
-	X2hy3wZDlwaZBS+riF1aCjf+YBmpwsjhPpOaGHeMH59GoiJfrMQwJ9VaSWshRR1g1E
-	v3Gg2Zyje9uomN63dfZQ8eM79MEgSFgdjKS/SbKMfu7eruU4jcscqGIiX5btbW2OGk
-	RP03C5lIyP1cdSxF6wFDN0alNrr4RdBWeepjzqyxIWuClzagbmyM+shbvKfU0AamXb
-	Js2Rw4piKkd/+rLH7qGY457RxXskuLpw41hAskqps11pHQwYtAaesXkkz0dzoNCBTE
-	OuGetCsFGZL5Q==
-X-Virus-Scanned: amavisd-new at efficios.com
-Received: from mail.efficios.com ([IPv6:::1])
-	by localhost (mail02.efficios.com [IPv6:::1]) (amavisd-new, port 10026)
-	with ESMTP id SZN5NmbARj9S; Wed, 19 Jun 2019 10:32:31 -0400 (EDT)
-Received: from joraj-alpa (192-222-181-218.qc.cable.ebox.net [192.222.181.218])
-	by mail.efficios.com (Postfix) with ESMTPSA id 3E308255649;
-	Wed, 19 Jun 2019 10:32:31 -0400 (EDT)
-Date: Wed, 19 Jun 2019 10:32:24 -0400
-From: Jonathan Rajotte-Julien <jonathan.rajotte-julien@efficios.com>
-To: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-Message-ID: <20190619143151.GA32505@joraj-alpa>
-References: <20190619071440.8435-1-zangrc.fnst@cn.fujitsu.com>
+	Wed, 19 Jun 2019 14:45:58 +0000 (UTC)
+Received: by mail-pl1-f194.google.com with SMTP id k8so6362332plt.3
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 07:46:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:references:from:openpgp:autocrypt:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=08zJdK8yj7OWaZ2l46QYZHrs6j4o4LbgI7JITuvW74o=;
+	b=RaymhSpvRHjjDlE0bMnAiVq3jT9rFsmbB/0CP7g/jpFbHMAzMGaIsphhoAOHgD3Bmv
+	uVtTfVP+9fMqIg/bQDCWNO2OnkWGuWZmOB3T9emkkHMM60B2OOiQn3dDGCEElMEoG2U3
+	7FgA5wMMysfiPiPgK5fO6FmNmwuco0/IRUiVw1LdVgOku14hRzb10wqJCuet65m0+yAJ
+	gGlHq+sRqLDRrj/sUTs6tAnu7VI2dqtQDX+kVtQ0tAT+2NwyKSa8laWUILAljAhFnGYh
+	3HCBjBzq/sFI2RNf1fKA9cBQewISyWZNJI9E3kNsLkaJb81Wyl+nW+HaGC48qrI4Uz8T
+	9+eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:autocrypt
+	:message-id:date:user-agent:mime-version:in-reply-to
+	:content-transfer-encoding:content-language;
+	bh=08zJdK8yj7OWaZ2l46QYZHrs6j4o4LbgI7JITuvW74o=;
+	b=qgCzwqPC90HTf9SmYE9kNqLfN5Zp8QPwfge9ovbYQ1WSdG2MTfDZ2plM3m4Kskjb9b
+	iXoTlH4L8fplCfoWMo6mh4vi5OVZyyb1BjiO3HaytDi5KWmdUoqndWyIX6xsQS7UwVCU
+	gAdvrum3uMLI2T43Q83VFOLjkj/qJG8VcyCAa+1gcQo5QM5WqPnHWZxdedT4BhlK+XrT
+	IXnrfh/qAb8ohdwgwGqqw2QVMunpBpr52s0PboPBlmZCuIjr1FgxY27SlsnCcL+8rZU2
+	hBjmnlL3bfIzUX1VOJrY2YjUp79lUTqGnGXx9o7dWnpaO8s0fAvk8hGIYAWQe3nol1ED
+	+phg==
+X-Gm-Message-State: APjAAAW1PSJrfjUn+2DnfG5z1QfKSDn/V4EKtqkG8Jk8M9J+ynNfCQDe
+	eKFiZcHv1XS8Qiqs4BfzWV2EhCTdUgk=
+X-Google-Smtp-Source: APXvYqzlcZhB1hoEeS/M0o87pw0JItV/p701OdRp6lPoaafeLfzp8Nzgtoe+waV7DpXwMUzz9S3R3g==
+X-Received: by 2002:a17:902:8eca:: with SMTP id
+	x10mr5667373plo.266.1560955559672; 
+	Wed, 19 Jun 2019 07:45:59 -0700 (PDT)
+Received: from [192.168.18.10] (c-67-181-203-136.hsd1.ca.comcast.net.
+	[67.181.203.136]) by smtp.gmail.com with ESMTPSA id
+	q131sm15259815pfq.157.2019.06.19.07.45.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Jun 2019 07:45:59 -0700 (PDT)
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	openembedded-core@lists.openembedded.org
+References: <20190619135643.23332-1-richard.purdie@linuxfoundation.org>
+	<20190619135643.23332-3-richard.purdie@linuxfoundation.org>
+From: akuster808 <akuster808@gmail.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=akuster808@gmail.com; prefer-encrypt=mutual; keydata=
+	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
+	8CS2NxU=
+Message-ID: <7046486b-5479-5e52-330f-55e90f53f49d@gmail.com>
+Date: Wed, 19 Jun 2019 07:45:57 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20190619071440.8435-1-zangrc.fnst@cn.fujitsu.com>
-User-Agent: Mutt/1.9.5 (2018-04-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lttng-ust:upgrade 2.10.3 -> 2.10.4
+In-Reply-To: <20190619135643.23332-3-richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH 3/3] uninative-tarball: Add libxcrypt-compat
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,178 +109,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 14:32:31 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Jun 2019 14:45:58 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Hi,
 
-Looks good to me.
 
-Cheers
-
-On Wed, Jun 19, 2019 at 03:14:40PM +0800, Zang Ruochen wrote:
-> -Upgrade from lttng-ust_2.10.3.bb to lttng-ust_2.10.4.bb.
-> 
-> -lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch
->  Removed since this is included in 2.10.4
-> 
-> Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+On 6/19/19 6:56 AM, Richard Purdie wrote:
+> This avoids sstate/uninative relocation issues where a binary was built against
+> a system with libcrypt.so.1 or libcrypt.so.2 and then run on the opposite by
+> ensuring both libraries are in uninative.
+Does this affect stable branches?
+- armin
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  ...nd-broken-_SC_NPROCESSORS_CONF-on-MU.patch | 109 ------------------
->  ...ttng-ust_2.10.3.bb => lttng-ust_2.10.4.bb} |   5 +-
->  2 files changed, 2 insertions(+), 112 deletions(-)
->  delete mode 100644 meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch
->  rename meta/recipes-kernel/lttng/{lttng-ust_2.10.3.bb => lttng-ust_2.10.4.bb} (89%)
-> 
-> diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch
-> deleted file mode 100644
-> index 5c4bd36726..0000000000
-> --- a/meta/recipes-kernel/lttng/lttng-ust/0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch
-> +++ /dev/null
-> @@ -1,109 +0,0 @@
-> -From 5de7c318804a7b1edce8562d4891b4c74aac0677 Mon Sep 17 00:00:00 2001
-> -From: Michael Jeanson <mjeanson@efficios.com>
-> -Date: Wed, 20 Mar 2019 11:07:35 -0400
-> -Subject: [PATCH] compat: work around broken _SC_NPROCESSORS_CONF on MUSL libc
-> -
-> -On MUSL libc the _SC_NPROCESSORS_CONF sysconf will report the number of
-> -CPUs allocated to the task based on the affinity mask instead of the
-> -total number of CPUs configured on the system.
-> -
-> -Upstream-Status: Accepted [1] [5de7c318804a7b1edce8562d4891b4c74aac0677]
-> -[1] https://lists.lttng.org/pipermail/lttng-dev/2019-March/028616.html
-> -
-> -Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-> -Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> ----
-> - libringbuffer/smp.c | 66 +++++++++++++++++++++++++++++++++++++++++++++
-> - 1 file changed, 66 insertions(+)
-> -
-> -diff --git a/libringbuffer/smp.c b/libringbuffer/smp.c
-> -index 9e7114be..656a75da 100644
-> ---- a/libringbuffer/smp.c
-> -+++ b/libringbuffer/smp.c
-> -@@ -2,6 +2,7 @@
-> -  * libringbuffer/smp.c
-> -  *
-> -  * Copyright (C) 2011-2012 Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-> -+ * Copyright (C) 2019 Michael Jeanson <mjeanson@efficios.com>
-> -  *
-> -  * This library is free software; you can redistribute it and/or
-> -  * modify it under the terms of the GNU Lesser General Public
-> -@@ -26,6 +27,7 @@
-> - 
-> - int __num_possible_cpus;
-> - 
-> -+#if (defined(__GLIBC__) || defined( __UCLIBC__))
-> - void _get_num_possible_cpus(void)
-> - {
-> - 	int result;
-> -@@ -43,3 +45,67 @@ void _get_num_possible_cpus(void)
-> - 		return;
-> - 	__num_possible_cpus = result;
-> - }
-> -+
-> -+#else
-> -+
-> -+/*
-> -+ * The MUSL libc implementation of the _SC_NPROCESSORS_CONF sysconf does not
-> -+ * return the number of configured CPUs in the system but relies on the cpu
-> -+ * affinity mask of the current task.
-> -+ *
-> -+ * So instead we use a strategy similar to GLIBC's, counting the cpu
-> -+ * directories in "/sys/devices/system/cpu" and fallback on the value from
-> -+ * sysconf if it fails.
-> -+ */
-> -+
-> -+#include <dirent.h>
-> -+#include <limits.h>
-> -+#include <stdlib.h>
-> -+#include <string.h>
-> -+#include <sys/types.h>
-> -+
-> -+#define __max(a,b) ((a)>(b)?(a):(b))
-> -+
-> -+void _get_num_possible_cpus(void)
-> -+{
-> -+	int result, count = 0;
-> -+	DIR *cpudir;
-> -+	struct dirent *entry;
-> -+
-> -+	cpudir = opendir("/sys/devices/system/cpu");
-> -+	if (cpudir == NULL)
-> -+		goto end;
-> -+
-> -+	/*
-> -+	 * Count the number of directories named "cpu" followed by and
-> -+	 * integer. This is the same strategy as glibc uses.
-> -+	 */
-> -+	while ((entry = readdir(cpudir))) {
-> -+		if (entry->d_type == DT_DIR &&
-> -+			strncmp(entry->d_name, "cpu", 3) == 0) {
-> -+
-> -+			char *endptr;
-> -+			unsigned long cpu_num;
-> -+
-> -+			cpu_num = strtoul(entry->d_name + 3, &endptr, 10);
-> -+			if ((cpu_num < ULONG_MAX) && (endptr != entry->d_name + 3)
-> -+					&& (*endptr == '\0')) {
-> -+				count++;
-> -+			}
-> -+		}
-> -+	}
-> -+
-> -+end:
-> -+	/*
-> -+	 * Get the sysconf value as a fallback. Keep the highest number.
-> -+	 */
-> -+	result = __max(sysconf(_SC_NPROCESSORS_CONF), count);
-> -+
-> -+	/*
-> -+	 * If both methods failed, don't store the value.
-> -+	 */
-> -+	if (result < 1)
-> -+		return;
-> -+	__num_possible_cpus = result;
-> -+}
-> -+#endif
-> --- 
-> -2.17.1
-> -
-> diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb b/meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb
-> similarity index 89%
-> rename from meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
-> rename to meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb
-> index d546104129..a8eebb223b 100644
-> --- a/meta/recipes-kernel/lttng/lttng-ust_2.10.3.bb
-> +++ b/meta/recipes-kernel/lttng/lttng-ust_2.10.4.bb
-> @@ -27,11 +27,10 @@ PE = "2"
+>  meta/recipes-core/meta/uninative-tarball.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/meta/uninative-tarball.bb b/meta/recipes-core/meta/uninative-tarball.bb
+> index 25635fc2f50..39638eb8c55 100644
+> --- a/meta/recipes-core/meta/uninative-tarball.bb
+> +++ b/meta/recipes-core/meta/uninative-tarball.bb
+> @@ -16,6 +16,7 @@ TOOLCHAIN_HOST_TASK = "\
+>      nativesdk-glibc-gconv-libjis \
+>      nativesdk-patchelf \
+>      nativesdk-libxcrypt \
+> +    nativesdk-libxcrypt-compat \
+>      nativesdk-libnss-nis \
+>      "
 >  
->  SRC_URI = "https://lttng.org/files/lttng-ust/lttng-ust-${PV}.tar.bz2 \
->             file://lttng-ust-doc-examples-disable.patch \
-> -	   file://0001-compat-work-around-broken-_SC_NPROCESSORS_CONF-on-MU.patch \
->            "
->  
-> -SRC_URI[md5sum] = "ffcfa8c1ba9a52f002d240e936e9afa2"
-> -SRC_URI[sha256sum] = "9e8420f90d5f963f7aa32bc6d44adc1e491136f687c69ffb7a3075d33b40852b"
-> +SRC_URI[md5sum] = "19916ff0dec23c90f985586a8cbd1fd2"
-> +SRC_URI[sha256sum] = "75d5b4bb205c444a343e1297e14cd3a2503fc645a26710531cbd319c72c1a967"
->  
->  CVE_PRODUCT = "ust"
->  
-> -- 
-> 2.20.1
-> 
-> 
-> 
-> -- 
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
--- 
-Jonathan Rajotte-Julien
-EfficiOS
 
