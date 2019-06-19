@@ -1,46 +1,48 @@
 Return-Path: <prvs=066539cd8=alistair.francis@wdc.com>
 Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id D0E647E553
+	by mail.openembedded.org (Postfix) with ESMTP id F2F5B7E862
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Jun 2019 00:58:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
 	t=1560905894; x=1592441894;
-	h=from:to:cc:subject:date:message-id:mime-version:
-	content-transfer-encoding;
-	bh=FhkpgNnXyMqHSl6Xg0NC1OzyI05OYFTM1q43u62Lt44=;
-	b=jfNvKMaX5+qRVvS574BEfi5yetcy1rbxLJPe4nX37/6X5JjAy0QgsQAp
-	mWL1EmFu1n+zEtOnsmw1/h+1qka2Ktcg6NDIPP7WU5votkJNA9CVzQGMo
-	4WKxYf7tGnjQFlkTzPY7OJowUVaRuKSb8OqIT52XB5gpgYChkxJV5YF+G
-	rPK1wNMeD1YBVmSGneqtXtbyxAKG4U6fWBzmP/c0XLmy+ckhPYnxq74mD
-	KEJ1RGpV8KW/fXa7BS0JQ1efLraFoUngD9s8oWpzqibaZXmy2iI5bYoFY
-	T+v0LOOyqhYUIYUAWpKDIKKRfD1G42lMyyJ49XyIQWgFGJNHfbLlGkA+B A==;
-X-IronPort-AV: E=Sophos;i="5.63,390,1557158400"; d="scan'208";a="112154342"
+	h=from:to:cc:subject:date:message-id:in-reply-to:
+	references:mime-version:content-transfer-encoding;
+	bh=Omiy42mmMNisV7BXkpwnTEnq01mO8sj/G/juA4XyUYk=;
+	b=K5ffP9Cq1o79tQPbommTw1mi2/9npRIpEss6NpPC0FJIvE6yuEwppZjz
+	4r2teQmmmXs6Gfbcnilt2Ry+yZ1nX8g50L6hqiXyxRpvNdgLq0BBNLFhO
+	96hE93VhIsa50R3y0jwqpsMUAk8IEwuAa/AmYXPfTSnZQ5Yz1W/sePEhT
+	9AXxUg3hUS25oe6F1opYWR0tOBPcHEmgPGZXSbuGkiF7nnRGTveR0Zu6f
+	tBO6tNcOoQIo9NZlH2ZB4nx2zI5o/MTEzX8TbBeeOwAFitNeGyVvlzk5g
+	qohJWCMdtUynjRNZwfoO8UQIrQWBPVOEe5kLvKXhzSjxno2S1NMkskPTB w==;
+X-IronPort-AV: E=Sophos;i="5.63,390,1557158400"; d="scan'208";a="112154344"
 Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
 	([199.255.45.14])
-	by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2019 08:58:13 +0800
-IronPort-SDR: xJ0v4r5RMEsnnOvLh6XXpmtG32PU1mEAbWCpCFlE0evGARu4djGFp8PMqgPLAnjuOqZO4AVeFi
-	2LTMgckVs87O6/A3/x83lVvlbqhIWFq8yWdok+l7zunPByYXEZ5B1Nb5dtx6jvZp2A357fJpkW
-	B8+lqb4p22aSpCSzhK2J5V1F3PmNWc8rqTEGutvQZqXCL0Yfopp+byM5KpmtE/UmrIQRev5H+h
-	0J3xJyULJWfP0BmyroV0UEwF+aIOKYSIdRJ8Uo6WLb22bHIvJPrAdmnPC4cjs/swW6pV/6XgRR
-	ZgGsD2S4BeUdoC7xCoRwgrzO
+	by ob1.hgst.iphmx.com with ESMTP; 19 Jun 2019 08:58:14 +0800
+IronPort-SDR: 1a82bDxyCreJM8kkKuN9QkkHj9sT+KTiova0cut6o5eMC937xIRk/5jzU49d38heW6h1EoGKYy
+	tpQ/NVxsMIKHlmHW2vHHLYTNvcIeF/f0eBH70VBfuYLNfS0o4DZTfBfIHQYXCpW+vsY0XfvgFZ
+	ZQ5nTTOv8yYJrDEZnlBu9tMe1qk4GQ7fqsD+zJb6yGr7UBRMG4/EftNEBjQ4lBek5nfkVFaAQl
+	7PIVD1PKADg9TPssWcFrIfdoDSu2w0VrkThLq7d5MphlwA3jHG+9AMcLKfGE73zIjy7R/rKCdO
+	/d4WJYGkYpH2hyTAqXmx2xGM
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep01.wdc.com with ESMTP; 18 Jun 2019 17:57:41 -0700
-IronPort-SDR: zZRtLFf/Y/9otKSmMJedBHtPnbRTKTXwyMNi9ed9kgHeWL+v9B6412DZlHCdxa6qh6SLxxy9jc
-	VaicPMUQJ1KvlHyA/c9SMX9n3twr0FR3y/iwQIjheQDgPVzNvA5P7pfjuE5Ds8e0/y78nxSTnt
-	SB+GfwoT9RfwMdFBiJFAApzILVkSFJUMrqTkM1F4Qeak0ItjcKeMhSsna/CmginmIucavi3Zdv
-	o7Ev7qS1jkVrhAlBnZyM02KA034bmrnBCgY/Sx7CTtNYNDFLx6UBi/h5Fhe6+yw3UVy3il4zte
-	LL4=
+	by uls-op-cesaep01.wdc.com with ESMTP; 18 Jun 2019 17:57:42 -0700
+IronPort-SDR: LYirUbF7STv1Q4j/bRuOrh7Bt+UWsXZePpyek+LpMfSA7hHzKKBLnR3LeGXUanDtn9aqyPJJ7/
+	6qJL0gcwnLdFI0IN8nhjV1OjudrNk4SzNPjEENjYB6giT0ah6P/w1eUxglKbrAqjnE410nrXWy
+	LJBf7QWmzXhNoJlkVV1Z17kZYqMEZ+CDibyMDtbvMoIsoobqMRWb3h/0G/jWcL8W3bDBKiAUEF
+	HTgNR9iQlxOTNjfnzzl79kDXlo4GG+Ru6cRyQXcIDZrz43IpvIyftI6VYAKne56HOQ8pSckk6O
+	6ak=
 Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
 	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
 	by uls-op-cesaip01.wdc.com with ESMTP; 18 Jun 2019 17:58:13 -0700
 From: Alistair Francis <alistair.francis@wdc.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 18 Jun 2019 17:55:38 -0700
-Message-Id: <20190619005541.17834-1-alistair.francis@wdc.com>
+Date: Tue, 18 Jun 2019 17:55:39 -0700
+Message-Id: <20190619005541.17834-2-alistair.francis@wdc.com>
 X-Mailer: git-send-email 2.22.0
+In-Reply-To: <20190619005541.17834-1-alistair.francis@wdc.com>
+References: <20190619005541.17834-1-alistair.francis@wdc.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/4] libffi: Add RISC-V support
+Subject: [PATCH v2 2/4] opensbi: Initial commit of OpenSBI
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,866 +58,296 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 X-List-Received-Date: Wed, 19 Jun 2019 00:58:13 -0000
 Content-Transfer-Encoding: 8bit
 
-Backport a libffi patch to add RISC-V support.
+This is used as a bootloader for RISC-V QEMU machines.
 
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- .../libffi/0001-New-RISC-V-port-281.patch     | 827 ++++++++++++++++++
- meta/recipes-support/libffi/libffi_3.2.1.bb   |   5 +-
- 2 files changed, 830 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libffi/libffi/0001-New-RISC-V-port-281.patch
+ ...Makefile-Don-t-specify-mabi-or-march.patch |  38 ++++++
+ ...-lib-Create-a-sbi_ipi_data-structure.patch | 128 ++++++++++++++++++
+ meta/recipes-bsp/opensbi/opensbi-payloads.inc |  37 +++++
+ meta/recipes-bsp/opensbi/opensbi_0.3.bb       |  49 +++++++
+ 4 files changed, 252 insertions(+)
+ create mode 100644 meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch
+ create mode 100644 meta/recipes-bsp/opensbi/files/0002-lib-Create-a-sbi_ipi_data-structure.patch
+ create mode 100644 meta/recipes-bsp/opensbi/opensbi-payloads.inc
+ create mode 100644 meta/recipes-bsp/opensbi/opensbi_0.3.bb
 
-diff --git a/meta/recipes-support/libffi/libffi/0001-New-RISC-V-port-281.patch b/meta/recipes-support/libffi/libffi/0001-New-RISC-V-port-281.patch
+diff --git a/meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch b/meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch
 new file mode 100644
-index 0000000000..589c4d3c44
+index 0000000000..9c2d0eb479
 --- /dev/null
-+++ b/meta/recipes-support/libffi/libffi/0001-New-RISC-V-port-281.patch
-@@ -0,0 +1,827 @@
-+From 8ac73103bf12ce4f776940cb17f3ced15a362f23 Mon Sep 17 00:00:00 2001
-+From: Stef O'Rear <sorear2@gmail.com>
-+Date: Sun, 11 Mar 2018 05:55:15 -0700
-+Subject: [PATCH] New RISC-V port (#281)
++++ b/meta/recipes-bsp/opensbi/files/0001-Makefile-Don-t-specify-mabi-or-march.patch
+@@ -0,0 +1,38 @@
++From f5871e1f3650d6c8a032928cb5d8ca00c275c377 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair.francis@wdc.com>
++Date: Fri, 15 Feb 2019 14:57:41 -0800
++Subject: [PATCH] Makefile: Don't specify mabi or march
 +
-+* Add RISC-V support
++To avoid
++    can't link double-float modules with soft-float modules
++errors when building 32-bit openSBI don't specify mabi or march.
 +
-+This patch adds support for the RISC-V architecture (https://riscv.org).
-+
-+This patch has been tested using QEMU user-mode emulation and GCC 7.2.0
-+in the following configurations:
-+
-+* -march=rv32imac -mabi=ilp32
-+* -march=rv32g -mabi=ilp32d
-+* -march=rv64imac -mabi=lp64
-+* -march=rv64g -mabi=lp64d
-+
-+The ABI currently can be found at
-+https://github.com/riscv/riscv-elf-psabi-doc/blob/master/riscv-elf.md .
-+
-+* Add RISC-V to README
-+
-+* RISC-V: fix configure.host
-+
-+Upstream-Status: Backport [https://github.com/libffi/libffi/commit/3840d49aaa831d649b1597518a2903dfed0d57f3]
++Upstream-Status: Inappropriate [Fixes a 32-bit Yocto flow bug]
 +Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 +---
-+ Makefile.am           |   4 +
-+ configure.ac          |   5 +
-+ src/riscv/ffi.c       | 445 ++++++++++++++++++++++++++++++++++++++++++
-+ src/riscv/ffitarget.h |  68 +++++++
-+ src/riscv/sysv.S      | 214 ++++++++++++++++++++
-+ 5 files changed, 736 insertions(+)
-+ create mode 100644 src/riscv/ffi.c
-+ create mode 100644 src/riscv/ffitarget.h
-+ create mode 100644 src/riscv/sysv.S
++ Makefile | 2 --
++ 1 file changed, 2 deletions(-)
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index 0e40451..3837650 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -32,6 +32,7 @@ EXTRA_DIST = LICENSE ChangeLog.v1 ChangeLog.libgcj			\
-+ 	 src/powerpc/asm.h src/powerpc/aix.S src/powerpc/darwin.S	\
-+ 	 src/powerpc/aix_closure.S src/powerpc/darwin_closure.S		\
-+ 	 src/powerpc/ffi_darwin.c src/powerpc/ffitarget.h		\
-++	 src/riscv/ffi.c src/riscv/ffitarget.h src/riscv/sysv.S		\
-+ 	 src/s390/ffi.c src/s390/sysv.S src/s390/ffitarget.h		\
-+ 	 src/sh/ffi.c src/sh/sysv.S src/sh/ffitarget.h src/sh64/ffi.c	\
-+ 	 src/sh64/sysv.S src/sh64/ffitarget.h src/sparc/v8.S		\
-+@@ -122,6 +123,9 @@ endif
-+ if MIPS
-+ nodist_libffi_la_SOURCES += src/mips/ffi.c src/mips/o32.S src/mips/n32.S
-+ endif
-++if RISCV
-++nodist_libffi_la_SOURCES += src/riscv/ffi.c src/riscv/sysv.S
-++endif
-+ if BFIN
-+ nodist_libffi_la_SOURCES += src/bfin/ffi.c src/bfin/sysv.S
-+ endif
-+diff --git a/configure.ac b/configure.ac
-+index ce30853..33375aa 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -226,6 +226,10 @@ case "$host" in
-+ 	TARGET=MIPS; TARGETDIR=mips
-+ 	;;
++diff --git a/Makefile b/Makefile
++index ae68f55..10851fc 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -145,7 +145,6 @@ GENFLAGS	+=	$(firmware-genflags-y)
++ CFLAGS		=	-g -Wall -Werror -nostdlib -fno-strict-aliasing -O2
++ CFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
++ CFLAGS		+=	-mno-save-restore -mstrict-align
++-CFLAGS		+=	-mabi=$(PLATFORM_RISCV_ABI) -march=$(PLATFORM_RISCV_ISA)
++ CFLAGS		+=	-mcmodel=$(PLATFORM_RISCV_CODE_MODEL)
++ CFLAGS		+=	$(GENFLAGS)
++ CFLAGS		+=	$(platform-cflags-y)
++@@ -158,7 +157,6 @@ CPPFLAGS	+=	$(firmware-cppflags-y)
++ ASFLAGS		=	-g -Wall -nostdlib -D__ASSEMBLY__
++ ASFLAGS		+=	-fno-omit-frame-pointer -fno-optimize-sibling-calls
++ ASFLAGS		+=	-mno-save-restore -mstrict-align
++-ASFLAGS		+=	-mabi=$(PLATFORM_RISCV_ABI) -march=$(PLATFORM_RISCV_ISA)
++ ASFLAGS		+=	-mcmodel=$(PLATFORM_RISCV_CODE_MODEL)
++ ASFLAGS		+=	$(GENFLAGS)
++ ASFLAGS		+=	$(platform-asflags-y)
++-- 
++2.20.1
++
+diff --git a/meta/recipes-bsp/opensbi/files/0002-lib-Create-a-sbi_ipi_data-structure.patch b/meta/recipes-bsp/opensbi/files/0002-lib-Create-a-sbi_ipi_data-structure.patch
+new file mode 100644
+index 0000000000..3c846bde62
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/files/0002-lib-Create-a-sbi_ipi_data-structure.patch
+@@ -0,0 +1,128 @@
++From 508a27204cbbca0a9430236e56681e5e0d343fb9 Mon Sep 17 00:00:00 2001
++From: Alistair Francis <alistair.francis@wdc.com>
++Date: Fri, 8 Mar 2019 11:22:22 -0800
++Subject: [PATCH] lib: Create a sbi_ipi_data structure
++
++Create a sbi_ipi_data structure that holds unpacked IPI information. At
++the same time remove ipi_type from the sbi_scratch struct and use a
++fixed offset to access it.
++
++This structure fits in behind the sbi_scratch structure.
++
++This fixes https://github.com/riscv/opensbi/issues/81
++
++Upstream-Status: Backport [https://github.com/riscv/opensbi/commit/508a27204cbbca0a9430236e56681e5e0d343fb9]
++Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
++---
++ firmware/fw_base.S        |  1 -
++ include/sbi/sbi_scratch.h | 23 ++++++++++++++++-------
++ lib/sbi_ipi.c             |  8 +++++---
++ 3 files changed, 21 insertions(+), 11 deletions(-)
++
++diff --git a/firmware/fw_base.S b/firmware/fw_base.S
++index cf2c6a0..69cfc90 100644
++--- a/firmware/fw_base.S
+++++ b/firmware/fw_base.S
++@@ -183,7 +183,6 @@ _start_warm:
++ 	REG_S	a4, SBI_SCRATCH_PLATFORM_ADDR_OFFSET(tp)
++ 	la	a4, _hartid_to_scratch
++ 	REG_S	a4, SBI_SCRATCH_HARTID_TO_SCRATCH_OFFSET(tp)
++-	REG_S	zero, SBI_SCRATCH_IPI_TYPE_OFFSET(tp)
++ 	REG_S	zero, SBI_SCRATCH_TMP0_OFFSET(tp)
 + 
-++  riscv*-*-*)
-++	TARGET=RISCV; TARGETDIR=riscv
-++	;;
++ 	/* Setup stack */
++diff --git a/include/sbi/sbi_scratch.h b/include/sbi/sbi_scratch.h
++index 8389ef3..70ab384 100644
++--- a/include/sbi/sbi_scratch.h
+++++ b/include/sbi/sbi_scratch.h
++@@ -28,17 +28,24 @@
++ #define SBI_SCRATCH_PLATFORM_ADDR_OFFSET	(6 * __SIZEOF_POINTER__)
++ /** Offset of hartid_to_scratch member in sbi_scratch */
++ #define SBI_SCRATCH_HARTID_TO_SCRATCH_OFFSET	(7 * __SIZEOF_POINTER__)
++-/** Offset of ipi_type member in sbi_scratch */
++-#define SBI_SCRATCH_IPI_TYPE_OFFSET		(8 * __SIZEOF_POINTER__)
++ /** Offset of tmp0 member in sbi_scratch */
++-#define SBI_SCRATCH_TMP0_OFFSET			(9 * __SIZEOF_POINTER__)
++-/** Maximum size of sbi_scratch */
++-#define SBI_SCRATCH_SIZE			256
+++#define SBI_SCRATCH_TMP0_OFFSET			(8 * __SIZEOF_POINTER__)
 ++
-+   nios2*-linux*)
-+ 	TARGET=NIOS2; TARGETDIR=nios2
-+ 	;;
-+@@ -298,6 +302,7 @@ if test $TARGETDIR = unknown; then
-+ fi
+++/** sbi_ipi_data is located behind sbi_scratch. This struct is not packed. */
+++/** Offset of ipi_type in sbi_ipi_data */
+++#define SBI_IPI_DATA_IPI_TYPE_OFFSET		(15 * __SIZEOF_POINTER__)
+++
+++/** Maximum size of sbi_scratch and sbi_ipi_data */
+++#define SBI_SCRATCH_SIZE			(32 * __SIZEOF_POINTER__)
 + 
-+ AM_CONDITIONAL(MIPS, test x$TARGET = xMIPS)
-++AM_CONDITIONAL(RISCV, test x$TARGET = xRISCV)
-+ AM_CONDITIONAL(BFIN, test x$TARGET = xBFIN)
-+ AM_CONDITIONAL(SPARC, test x$TARGET = xSPARC)
-+ AM_CONDITIONAL(X86, test x$TARGET = xX86)
-+diff --git a/src/riscv/ffi.c b/src/riscv/ffi.c
-+new file mode 100644
-+index 0000000..b744fdd
-+--- /dev/null
-++++ b/src/riscv/ffi.c
-+@@ -0,0 +1,445 @@
-++/* -----------------------------------------------------------------------
-++   ffi.c - Copyright (c) 2015 Michael Knyszek <mknyszek@berkeley.edu>
-++                         2015 Andrew Waterman <waterman@cs.berkeley.edu>
-++                         2018 Stef O'Rear <sorear2@gmail.com>
-++   Based on MIPS N32/64 port
-++
-++   RISC-V Foreign Function Interface
-++
-++   Permission is hereby granted, free of charge, to any person obtaining
-++   a copy of this software and associated documentation files (the
-++   ``Software''), to deal in the Software without restriction, including
-++   without limitation the rights to use, copy, modify, merge, publish,
-++   distribute, sublicense, and/or sell copies of the Software, and to
-++   permit persons to whom the Software is furnished to do so, subject to
-++   the following conditions:
-++
-++   The above copyright notice and this permission notice shall be included
-++   in all copies or substantial portions of the Software.
-++
-++   THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND,
-++   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-++   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-++   NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-++   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-++   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-++   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-++   DEALINGS IN THE SOFTWARE.
-++   ----------------------------------------------------------------------- */
-++
-++#include <ffi.h>
-++#include <ffi_common.h>
-++
-++#include <stdlib.h>
-++#include <stdint.h>
-++
-++#if __riscv_float_abi_double
-++#define ABI_FLEN 64
-++#define ABI_FLOAT double
-++#elif __riscv_float_abi_single
-++#define ABI_FLEN 32
-++#define ABI_FLOAT float
-++#endif
-++
-++#define NARGREG 8
-++#define STKALIGN 16
-++#define MAXCOPYARG (2 * sizeof(double))
-++
-++typedef struct call_context
-++{
-++#if ABI_FLEN
-++    ABI_FLOAT fa[8];
-++#endif
-++    size_t a[8];
-++    /* used by the assembly code to in-place construct its own stack frame */
-++    char frame[16];
-++} call_context;
-++
-++typedef struct call_builder
-++{
-++    call_context *aregs;
-++    int used_integer;
-++    int used_float;
-++    size_t *used_stack;
-++} call_builder;
-++
-++/* integer (not pointer) less than ABI XLEN */
-++/* FFI_TYPE_INT does not appear to be used */
-++#if __SIZEOF_POINTER__ == 8
-++#define IS_INT(type) ((type) >= FFI_TYPE_UINT8 && (type) <= FFI_TYPE_SINT64)
-++#else
-++#define IS_INT(type) ((type) >= FFI_TYPE_UINT8 && (type) <= FFI_TYPE_SINT32)
-++#endif
-++
-++#if ABI_FLEN
-++typedef struct {
-++    char as_elements, type1, offset2, type2;
-++} float_struct_info;
-++
-++#if ABI_FLEN >= 64
-++#define IS_FLOAT(type) ((type) >= FFI_TYPE_FLOAT && (type) <= FFI_TYPE_DOUBLE)
-++#else
-++#define IS_FLOAT(type) ((type) == FFI_TYPE_FLOAT)
-++#endif
-++
-++static ffi_type **flatten_struct(ffi_type *in, ffi_type **out, ffi_type **out_end) {
-++    int i;
-++    if (out == out_end) return out;
-++    if (in->type != FFI_TYPE_STRUCT) {
-++        *(out++) = in;
-++    } else {
-++        for (i = 0; in->elements[i]; i++)
-++            out = flatten_struct(in->elements[i], out, out_end);
-++    }
-++    return out;
-++}
-++
-++/* Structs with at most two fields after flattening, one of which is of
-++   floating point type, are passed in multiple registers if sufficient
-++   registers are available. */
-++static float_struct_info struct_passed_as_elements(call_builder *cb, ffi_type *top) {
-++    float_struct_info ret = {0, 0, 0, 0};
-++    ffi_type *fields[3];
-++    int num_floats, num_ints;
-++    int num_fields = flatten_struct(top, fields, fields + 3) - fields;
-++
-++    if (num_fields == 1) {
-++        if (IS_FLOAT(fields[0]->type)) {
-++            ret.as_elements = 1;
-++            ret.type1 = fields[0]->type;
-++        }
-++    } else if (num_fields == 2) {
-++        num_floats = IS_FLOAT(fields[0]->type) + IS_FLOAT(fields[1]->type);
-++        num_ints = IS_INT(fields[0]->type) + IS_INT(fields[1]->type);
-++        if (num_floats == 0 || num_floats + num_ints != 2)
-++            return ret;
-++        if (cb->used_float + num_floats > NARGREG || cb->used_integer + (2 - num_floats) > NARGREG)
-++            return ret;
-++        if (!IS_FLOAT(fields[0]->type) && !IS_FLOAT(fields[1]->type))
-++            return ret;
-++
-++        ret.type1 = fields[0]->type;
-++        ret.type2 = fields[1]->type;
-++        ret.offset2 = ALIGN(fields[0]->size, fields[1]->alignment);
-++        ret.as_elements = 1;
-++    }
-++
-++    return ret;
-++}
-++#endif
-++
-++/* allocates a single register, float register, or XLEN-sized stack slot to a datum */
-++static void marshal_atom(call_builder *cb, int type, void *data) {
-++    size_t value = 0;
-++    switch (type) {
-++        case FFI_TYPE_UINT8: value = *(uint8_t *)data; break;
-++        case FFI_TYPE_SINT8: value = *(int8_t *)data; break;
-++        case FFI_TYPE_UINT16: value = *(uint16_t *)data; break;
-++        case FFI_TYPE_SINT16: value = *(int16_t *)data; break;
-++        /* 32-bit quantities are always sign-extended in the ABI */
-++        case FFI_TYPE_UINT32: value = *(int32_t *)data; break;
-++        case FFI_TYPE_SINT32: value = *(int32_t *)data; break;
-++#if __SIZEOF_POINTER__ == 8
-++        case FFI_TYPE_UINT64: value = *(uint64_t *)data; break;
-++        case FFI_TYPE_SINT64: value = *(int64_t *)data; break;
-++#endif
-++        case FFI_TYPE_POINTER: value = *(size_t *)data; break;
-++
-++        /* float values may be recoded in an implementation-defined way
-++           by hardware conforming to 2.1 or earlier, so use asm to
-++           reinterpret floats as doubles */
-++#if ABI_FLEN >= 32
-++        case FFI_TYPE_FLOAT:
-++            asm("" : "=f"(cb->aregs->fa[cb->used_float++]) : "0"(*(float *)data));
-++            return;
-++#endif
-++#if ABI_FLEN >= 64
-++        case FFI_TYPE_DOUBLE:
-++            asm("" : "=f"(cb->aregs->fa[cb->used_float++]) : "0"(*(double *)data));
-++            return;
-++#endif
-++        default: FFI_ASSERT(0); break;
-++    }
-++
-++    if (cb->used_integer == NARGREG) {
-++        *cb->used_stack++ = value;
-++    } else {
-++        cb->aregs->a[cb->used_integer++] = value;
-++    }
-++}
-++
-++static void unmarshal_atom(call_builder *cb, int type, void *data) {
-++    size_t value;
-++    switch (type) {
-++#if ABI_FLEN >= 32
-++        case FFI_TYPE_FLOAT:
-++            asm("" : "=f"(*(float *)data) : "0"(cb->aregs->fa[cb->used_float++]));
-++            return;
-++#endif
-++#if ABI_FLEN >= 64
-++        case FFI_TYPE_DOUBLE:
-++            asm("" : "=f"(*(double *)data) : "0"(cb->aregs->fa[cb->used_float++]));
-++            return;
-++#endif
-++    }
-++
-++    if (cb->used_integer == NARGREG) {
-++        value = *cb->used_stack++;
-++    } else {
-++        value = cb->aregs->a[cb->used_integer++];
-++    }
-++
-++    switch (type) {
-++        case FFI_TYPE_UINT8: *(uint8_t *)data = value; break;
-++        case FFI_TYPE_SINT8: *(uint8_t *)data = value; break;
-++        case FFI_TYPE_UINT16: *(uint16_t *)data = value; break;
-++        case FFI_TYPE_SINT16: *(uint16_t *)data = value; break;
-++        case FFI_TYPE_UINT32: *(uint32_t *)data = value; break;
-++        case FFI_TYPE_SINT32: *(uint32_t *)data = value; break;
-++#if __SIZEOF_POINTER__ == 8
-++        case FFI_TYPE_UINT64: *(uint64_t *)data = value; break;
-++        case FFI_TYPE_SINT64: *(uint64_t *)data = value; break;
-++#endif
-++        case FFI_TYPE_POINTER: *(size_t *)data = value; break;
-++        default: FFI_ASSERT(0); break;
-++    }
-++}
-++
-++/* adds an argument to a call, or a not by reference return value */
-++static void marshal(call_builder *cb, ffi_type *type, int var, void *data) {
-++    size_t realign[2];
-++
-++#if ABI_FLEN
-++    if (!var && type->type == FFI_TYPE_STRUCT) {
-++        float_struct_info fsi = struct_passed_as_elements(cb, type);
-++        if (fsi.as_elements) {
-++            marshal_atom(cb, fsi.type1, data);
-++            if (fsi.offset2)
-++                marshal_atom(cb, fsi.type2, ((char*)data) + fsi.offset2);
-++            return;
-++        }
-++    }
-++
-++    if (!var && cb->used_float < NARGREG && IS_FLOAT(type->type)) {
-++        marshal_atom(cb, type->type, data);
-++        return;
-++    }
-++#endif
-++
-++    if (type->size > 2 * __SIZEOF_POINTER__) {
-++        /* pass by reference */
-++        marshal_atom(cb, FFI_TYPE_POINTER, &data);
-++    } else if (IS_INT(type->type) || type->type == FFI_TYPE_POINTER) {
-++        marshal_atom(cb, type->type, data);
-++    } else {
-++        /* overlong integers, soft-float floats, and structs without special
-++           float handling are treated identically from this point on */
-++
-++        /* variadics are aligned even in registers */
-++        if (type->alignment > __SIZEOF_POINTER__) {
-++            if (var)
-++                cb->used_integer = ALIGN(cb->used_integer, 2);
-++            cb->used_stack = (size_t *)ALIGN(cb->used_stack, 2*__SIZEOF_POINTER__);
-++        }
-++
-++        memcpy(realign, data, type->size);
-++        if (type->size > 0)
-++            marshal_atom(cb, FFI_TYPE_POINTER, realign);
-++        if (type->size > __SIZEOF_POINTER__)
-++            marshal_atom(cb, FFI_TYPE_POINTER, realign + 1);
-++    }
-++}
-++
-++/* for arguments passed by reference returns the pointer, otherwise the arg is copied (up to MAXCOPYARG bytes) */
-++static void *unmarshal(call_builder *cb, ffi_type *type, int var, void *data) {
-++    size_t realign[2];
-++    void *pointer;
-++
-++#if ABI_FLEN
-++    if (!var && type->type == FFI_TYPE_STRUCT) {
-++        float_struct_info fsi = struct_passed_as_elements(cb, type);
-++        if (fsi.as_elements) {
-++            unmarshal_atom(cb, fsi.type1, data);
-++            if (fsi.offset2)
-++                unmarshal_atom(cb, fsi.type2, ((char*)data) + fsi.offset2);
-++            return data;
-++        }
-++    }
-++
-++    if (!var && cb->used_float < NARGREG && IS_FLOAT(type->type)) {
-++        unmarshal_atom(cb, type->type, data);
-++        return data;
-++    }
-++#endif
-++
-++    if (type->size > 2 * __SIZEOF_POINTER__) {
-++        /* pass by reference */
-++        unmarshal_atom(cb, FFI_TYPE_POINTER, (char*)&pointer);
-++        return pointer;
-++    } else if (IS_INT(type->type) || type->type == FFI_TYPE_POINTER) {
-++        unmarshal_atom(cb, type->type, data);
-++        return data;
-++    } else {
-++        /* overlong integers, soft-float floats, and structs without special
-++           float handling are treated identically from this point on */
-++
-++        /* variadics are aligned even in registers */
-++        if (type->alignment > __SIZEOF_POINTER__) {
-++            if (var)
-++                cb->used_integer = ALIGN(cb->used_integer, 2);
-++            cb->used_stack = (size_t *)ALIGN(cb->used_stack, 2*__SIZEOF_POINTER__);
-++        }
-++
-++        if (type->size > 0)
-++            unmarshal_atom(cb, FFI_TYPE_POINTER, realign);
-++        if (type->size > __SIZEOF_POINTER__)
-++            unmarshal_atom(cb, FFI_TYPE_POINTER, realign + 1);
-++        memcpy(data, realign, type->size);
-++        return data;
-++    }
-++}
-++
-++static int passed_by_ref(call_builder *cb, ffi_type *type, int var) {
-++#if ABI_FLEN
-++    if (!var && type->type == FFI_TYPE_STRUCT) {
-++        float_struct_info fsi = struct_passed_as_elements(cb, type);
-++        if (fsi.as_elements) return 0;
-++    }
-++#endif
-++
-++    return type->size > 2 * __SIZEOF_POINTER__;
-++}
-++
-++/* Perform machine dependent cif processing */
-++ffi_status ffi_prep_cif_machdep(ffi_cif *cif) {
-++    cif->riscv_nfixedargs = cif->nargs;
-++    return FFI_OK;
-++}
-++
-++/* Perform machine dependent cif processing when we have a variadic function */
-++
-++ffi_status ffi_prep_cif_machdep_var(ffi_cif *cif, unsigned int nfixedargs, unsigned int ntotalargs) {
-++    cif->riscv_nfixedargs = nfixedargs;
-++    return FFI_OK;
-++}
-++
-++/* Low level routine for calling functions */
-++extern void ffi_call_asm(void *stack, struct call_context *regs, void (*fn)(void)) FFI_HIDDEN;
-++
-++void ffi_call(ffi_cif *cif, void (*fn)(void), void *rvalue, void **avalue)
-++{
-++    /* this is a conservative estimate, assuming a complex return value and
-++       that all remaining arguments are long long / __int128 */
-++    size_t arg_bytes = cif->nargs <= 3 ? 0 :
-++        ALIGN(2 * sizeof(size_t) * (cif->nargs - 3), STKALIGN);
-++    size_t rval_bytes = 0;
-++    if (rvalue == NULL && cif->rtype->size > 2*__SIZEOF_POINTER__)
-++        rval_bytes = ALIGN(cif->rtype->size, STKALIGN);
-++    size_t alloc_size = arg_bytes + rval_bytes + sizeof(call_context);
-++
-++    /* the assembly code will deallocate all stack data at lower addresses
-++       than the argument region, so we need to allocate the frame and the
-++       return value after the arguments in a single allocation */
-++    size_t alloc_base;
-++    /* Argument region must be 16-byte aligned */
-++    if (_Alignof(max_align_t) >= STKALIGN) {
-++        /* since sizeof long double is normally 16, the compiler will
-++           guarantee alloca alignment to at least that much */
-++        alloc_base = (size_t)alloca(alloc_size);
-++    } else {
-++        alloc_base = ALIGN(alloca(alloc_size + STKALIGN - 1), STKALIGN);
-++    }
-++
-++    if (rval_bytes)
-++        rvalue = (void*)(alloc_base + arg_bytes);
-++
-++    call_builder cb;
-++    cb.used_float = cb.used_integer = 0;
-++    cb.aregs = (call_context*)(alloc_base + arg_bytes + rval_bytes);
-++    cb.used_stack = (void*)alloc_base;
-++
-++    int return_by_ref = passed_by_ref(&cb, cif->rtype, 0);
-++    if (return_by_ref)
-++        marshal(&cb, &ffi_type_pointer, 0, &rvalue);
-++
-++    int i;
-++    for (i = 0; i < cif->nargs; i++)
-++        marshal(&cb, cif->arg_types[i], i >= cif->riscv_nfixedargs, avalue[i]);
-++
-++    ffi_call_asm((void*)alloc_base, cb.aregs, fn);
-++
-++    cb.used_float = cb.used_integer = 0;
-++    if (!return_by_ref && rvalue)
-++        unmarshal(&cb, cif->rtype, 0, rvalue);
-++}
-++
-++extern void ffi_closure_asm(void) FFI_HIDDEN;
-++
-++ffi_status ffi_prep_closure_loc(ffi_closure *closure, ffi_cif *cif, void (*fun)(ffi_cif*,void*,void**,void*), void *user_data, void *codeloc)
-++{
-++    uint32_t *tramp = (uint32_t *) &closure->tramp[0];
-++    uint64_t fn = (uint64_t) (uintptr_t) ffi_closure_asm;
-++
-++    if (cif->abi <= FFI_FIRST_ABI || cif->abi >= FFI_LAST_ABI)
-++        return FFI_BAD_ABI;
-++
-++    /* we will call ffi_closure_inner with codeloc, not closure, but as long
-++       as the memory is readable it should work */
-++
-++    tramp[0] = 0x00000317; /* auipc t1, 0 (i.e. t0 <- codeloc) */
-++#if __SIZEOF_POINTER__ == 8
-++    tramp[1] = 0x01033383; /* ld t2, 16(t1) */
-++#else
-++    tramp[1] = 0x01032383; /* lw t2, 16(t1) */
-++#endif
-++    tramp[2] = 0x00038067; /* jr t2 */
-++    tramp[3] = 0x00000013; /* nop */
-++    tramp[4] = fn;
-++    tramp[5] = fn >> 32;
-++
-++    closure->cif = cif;
-++    closure->fun = fun;
-++    closure->user_data = user_data;
-++
-++    __builtin___clear_cache(codeloc, codeloc + FFI_TRAMPOLINE_SIZE);
-++
-++    return FFI_OK;
-++}
-++
-++/* Called by the assembly code with aregs pointing to saved argument registers
-++   and stack pointing to the stacked arguments.  Return values passed in
-++   registers will be reloaded from aregs. */
-++void FFI_HIDDEN ffi_closure_inner(size_t *stack, call_context *aregs, ffi_closure *closure) {
-++    ffi_cif *cif = closure->cif;
-++    void **avalue = alloca(cif->nargs * sizeof(void*));
-++    /* storage for arguments which will be copied by unmarshal().  We could
-++       theoretically avoid the copies in many cases and use at most 128 bytes
-++       of memory, but allocating disjoint storage for each argument is
-++       simpler. */
-++    char *astorage = alloca(cif->nargs * MAXCOPYARG);
-++    void *rvalue;
-++    call_builder cb;
-++    int return_by_ref;
-++    int i;
-++
-++    cb.aregs = aregs;
-++    cb.used_integer = cb.used_float = 0;
-++    cb.used_stack = stack;
-++
-++    return_by_ref = passed_by_ref(&cb, cif->rtype, 0);
-++    if (return_by_ref)
-++        unmarshal(&cb, &ffi_type_pointer, 0, &rvalue);
-++    else
-++        rvalue = alloca(cif->rtype->size);
-++
-++    for (i = 0; i < cif->nargs; i++)
-++        avalue[i] = unmarshal(&cb, cif->arg_types[i],
-++            i >= cif->riscv_nfixedargs, astorage + i*MAXCOPYARG);
-++
-++    (closure->fun)(cif, rvalue, avalue, closure->user_data);
-++
-++    if (!return_by_ref && cif->rtype->type != FFI_TYPE_VOID) {
-++        cb.used_integer = cb.used_float = 0;
-++        marshal(&cb, cif->rtype, 0, rvalue);
-++    }
-++}
-+diff --git a/src/riscv/ffitarget.h b/src/riscv/ffitarget.h
-+new file mode 100644
-+index 0000000..fcaa899
-+--- /dev/null
-++++ b/src/riscv/ffitarget.h
-+@@ -0,0 +1,68 @@
-++/* -----------------------------------------------------------------*-C-*-
-++   ffitarget.h - 2014 Michael Knyszek
-++
-++   Target configuration macros for RISC-V.
-++
-++   Permission is hereby granted, free of charge, to any person obtaining
-++   a copy of this software and associated documentation files (the
-++   ``Software''), to deal in the Software without restriction, including
-++   without limitation the rights to use, copy, modify, merge, publish,
-++   distribute, sublicense, and/or sell copies of the Software, and to
-++   permit persons to whom the Software is furnished to do so, subject to
-++   the following conditions:
-++
-++   The above copyright notice and this permission notice shall be included
-++   in all copies or substantial portions of the Software.
-++
-++   THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND,
-++   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-++   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-++   NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-++   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-++   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-++   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-++   DEALINGS IN THE SOFTWARE.
-++
-++   ----------------------------------------------------------------------- */
-++
-++#ifndef LIBFFI_TARGET_H
-++#define LIBFFI_TARGET_H
-++
-++#ifndef LIBFFI_H
-++#error "Please do not include ffitarget.h directly into your source.  Use ffi.h instead."
-++#endif
-++
-++#ifndef __riscv
-++#error "libffi was configured for a RISC-V target but this does not appear to be a RISC-V compiler."
-++#endif
-++
-++#ifndef LIBFFI_ASM
-++
-++typedef unsigned long ffi_arg;
-++typedef   signed long ffi_sarg;
-++
-++/* FFI_UNUSED_NN and riscv_unused are to maintain ABI compatibility with a
-++   distributed Berkeley patch from 2014, and can be removed at SONAME bump */
-++typedef enum ffi_abi {
-++    FFI_FIRST_ABI = 0,
-++    FFI_SYSV,
-++    FFI_UNUSED_1,
-++    FFI_UNUSED_2,
-++    FFI_UNUSED_3,
-++    FFI_LAST_ABI,
-++
-++    FFI_DEFAULT_ABI = FFI_SYSV
-++} ffi_abi;
-++
-++#endif /* LIBFFI_ASM */
-++
-++/* ---- Definitions for closures ----------------------------------------- */
-++
-++#define FFI_CLOSURES 1
-++#define FFI_TRAMPOLINE_SIZE 24
-++#define FFI_NATIVE_RAW_API 0
-++#define FFI_EXTRA_CIF_FIELDS unsigned riscv_nfixedargs; unsigned riscv_unused;
-++#define FFI_TARGET_SPECIFIC_VARIADIC
-++
-++#endif
-++
-+diff --git a/src/riscv/sysv.S b/src/riscv/sysv.S
-+new file mode 100644
-+index 0000000..2d09865
-+--- /dev/null
-++++ b/src/riscv/sysv.S
-+@@ -0,0 +1,214 @@
-++/* -----------------------------------------------------------------------
-++   ffi.c - Copyright (c) 2015 Michael Knyszek <mknyszek@berkeley.edu>
-++                         2015 Andrew Waterman <waterman@cs.berkeley.edu>
-++                         2018 Stef O'Rear <sorear2@gmail.com>
-++
-++   RISC-V Foreign Function Interface
-++
-++   Permission is hereby granted, free of charge, to any person obtaining
-++   a copy of this software and associated documentation files (the
-++   ``Software''), to deal in the Software without restriction, including
-++   without limitation the rights to use, copy, modify, merge, publish,
-++   distribute, sublicense, and/or sell copies of the Software, and to
-++   permit persons to whom the Software is furnished to do so, subject to
-++   the following conditions:
-++
-++   The above copyright notice and this permission notice shall be included
-++   in all copies or substantial portions of the Software.
-++
-++   THE SOFTWARE IS PROVIDED ``AS IS'', WITHOUT WARRANTY OF ANY KIND,
-++   EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-++   MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-++   NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-++   HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-++   WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-++   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
-++   DEALINGS IN THE SOFTWARE.
-++   ----------------------------------------------------------------------- */
-++
-++#define LIBFFI_ASM
-++#include <fficonfig.h>
-++#include <ffi.h>
-++
-++/* Define aliases so that we can handle all ABIs uniformly */
-++
-++#if __SIZEOF_POINTER__ == 8
-++#define PTRS 8
-++#define LARG ld
-++#define SARG sd
-++#else
-++#define PTRS 4
-++#define LARG lw
-++#define SARG sw
-++#endif
-++
-++#if __riscv_float_abi_double
-++#define FLTS 8
-++#define FLARG fld
-++#define FSARG fsd
-++#elif __riscv_float_abi_single
-++#define FLTS 4
-++#define FLARG flw
-++#define FSARG fsw
-++#else
-++#define FLTS 0
-++#endif
-++
-++#define fp s0
-++
-++    .text
-++    .globl  ffi_call_asm
-++    .type   ffi_call_asm, @function
-++    .hidden ffi_call_asm
-++/*
-++  struct call_context {
-++      floatreg fa[8];
-++      intreg a[8];
-++      intreg pad[rv32 ? 2 : 0];
-++      intreg save_fp, save_ra;
-++  }
-++  void ffi_call_asm(size_t *stackargs, struct call_context *regargs,
-++      void (*fn)(void));
-++*/
-++
-++#define FRAME_LEN (8 * FLTS + 8 * PTRS + 16)
-++
-++ffi_call_asm:
-++    .cfi_startproc
-++
-++    /*
-++      We are NOT going to set up an ordinary stack frame.  In order to pass
-++      the stacked args to the called function, we adjust our stack pointer to
-++      a0, which is in the _caller's_ alloca area.  We establish our own stack
-++      frame at the end of the call_context.
-++
-++      Anything below the arguments will be freed at this point, although we
-++      preserve the call_context so that it can be read back in the caller.
-++    */
-++
-++    .cfi_def_cfa 11, FRAME_LEN # interim CFA based on a1
-++    SARG    fp, FRAME_LEN - 2*PTRS(a1)
-++    .cfi_offset 8, -2*PTRS
-++    SARG    ra, FRAME_LEN - 1*PTRS(a1)
-++    .cfi_offset 1, -1*PTRS
-++
-++    addi    fp, a1, FRAME_LEN
-++    mv      sp, a0
-++    .cfi_def_cfa 8, 0 # our frame is fully set up
-++
-++    # Load arguments
-++    mv      t1, a2
-++
-++#if FLTS
-++    FLARG   fa0, -FRAME_LEN+0*FLTS(fp)
-++    FLARG   fa1, -FRAME_LEN+1*FLTS(fp)
-++    FLARG   fa2, -FRAME_LEN+2*FLTS(fp)
-++    FLARG   fa3, -FRAME_LEN+3*FLTS(fp)
-++    FLARG   fa4, -FRAME_LEN+4*FLTS(fp)
-++    FLARG   fa5, -FRAME_LEN+5*FLTS(fp)
-++    FLARG   fa6, -FRAME_LEN+6*FLTS(fp)
-++    FLARG   fa7, -FRAME_LEN+7*FLTS(fp)
-++#endif
-++
-++    LARG    a0, -FRAME_LEN+8*FLTS+0*PTRS(fp)
-++    LARG    a1, -FRAME_LEN+8*FLTS+1*PTRS(fp)
-++    LARG    a2, -FRAME_LEN+8*FLTS+2*PTRS(fp)
-++    LARG    a3, -FRAME_LEN+8*FLTS+3*PTRS(fp)
-++    LARG    a4, -FRAME_LEN+8*FLTS+4*PTRS(fp)
-++    LARG    a5, -FRAME_LEN+8*FLTS+5*PTRS(fp)
-++    LARG    a6, -FRAME_LEN+8*FLTS+6*PTRS(fp)
-++    LARG    a7, -FRAME_LEN+8*FLTS+7*PTRS(fp)
-++
-++    /* Call */
-++    jalr    t1
-++
-++    /* Save return values - only a0/a1 (fa0/fa1) are used */
-++#if FLTS
-++    FSARG   fa0, -FRAME_LEN+0*FLTS(fp)
-++    FSARG   fa1, -FRAME_LEN+1*FLTS(fp)
-++#endif
-++
-++    SARG    a0, -FRAME_LEN+8*FLTS+0*PTRS(fp)
-++    SARG    a1, -FRAME_LEN+8*FLTS+1*PTRS(fp)
-++
-++    /* Restore and return */
-++    addi    sp, fp, -FRAME_LEN
-++    .cfi_def_cfa 2, FRAME_LEN
-++    LARG    ra, -1*PTRS(fp)
-++    .cfi_restore 1
-++    LARG    fp, -2*PTRS(fp)
-++    .cfi_restore 8
-++    ret
-++    .cfi_endproc
-++    .size   ffi_call_asm, .-ffi_call_asm
-++
-++
-++/*
-++  ffi_closure_asm. Expects address of the passed-in ffi_closure in t1.
-++  void ffi_closure_inner(size_t *stackargs, struct call_context *regargs,
-++      ffi_closure *closure);
-++*/
-++
-++    .globl ffi_closure_asm
-++    .hidden ffi_closure_asm
-++    .type ffi_closure_asm, @function
-++ffi_closure_asm:
-++    .cfi_startproc
-++
-++    addi    sp,  sp, -FRAME_LEN
-++    .cfi_def_cfa_offset FRAME_LEN
-++
-++    /* make a frame */
-++    SARG    fp, FRAME_LEN - 2*PTRS(sp)
-++    .cfi_offset 8, -2*PTRS
-++    SARG    ra, FRAME_LEN - 1*PTRS(sp)
-++    .cfi_offset 1, -1*PTRS
-++    addi    fp, sp, FRAME_LEN
-++
-++    /* save arguments */
-++#if FLTS
-++    FSARG   fa0, 0*FLTS(sp)
-++    FSARG   fa1, 1*FLTS(sp)
-++    FSARG   fa2, 2*FLTS(sp)
-++    FSARG   fa3, 3*FLTS(sp)
-++    FSARG   fa4, 4*FLTS(sp)
-++    FSARG   fa5, 5*FLTS(sp)
-++    FSARG   fa6, 6*FLTS(sp)
-++    FSARG   fa7, 7*FLTS(sp)
-++#endif
-++
-++    SARG    a0, 8*FLTS+0*PTRS(sp)
-++    SARG    a1, 8*FLTS+1*PTRS(sp)
-++    SARG    a2, 8*FLTS+2*PTRS(sp)
-++    SARG    a3, 8*FLTS+3*PTRS(sp)
-++    SARG    a4, 8*FLTS+4*PTRS(sp)
-++    SARG    a5, 8*FLTS+5*PTRS(sp)
-++    SARG    a6, 8*FLTS+6*PTRS(sp)
-++    SARG    a7, 8*FLTS+7*PTRS(sp)
-++
-++    /* enter C */
-++    addi    a0, sp, FRAME_LEN
-++    mv      a1, sp
-++    mv      a2, t1
-++
-++    call    ffi_closure_inner
-++
-++    /* return values */
-++#if FLTS
-++    FLARG   fa0, 0*FLTS(sp)
-++    FLARG   fa1, 1*FLTS(sp)
-++#endif
-++
-++    LARG    a0, 8*FLTS+0*PTRS(sp)
-++    LARG    a1, 8*FLTS+1*PTRS(sp)
-++
-++    /* restore and return */
-++    LARG    ra, FRAME_LEN-1*PTRS(sp)
-++    .cfi_restore 1
-++    LARG    fp, FRAME_LEN-2*PTRS(sp)
-++    .cfi_restore 8
-++    addi    sp, sp, FRAME_LEN
-++    .cfi_def_cfa_offset 0
-++    ret
-++    .cfi_endproc
-++    .size ffi_closure_asm, .-ffi_closure_asm
-diff --git a/meta/recipes-support/libffi/libffi_3.2.1.bb b/meta/recipes-support/libffi/libffi_3.2.1.bb
-index a0b1fcd161..792a1143b2 100644
---- a/meta/recipes-support/libffi/libffi_3.2.1.bb
-+++ b/meta/recipes-support/libffi/libffi_3.2.1.bb
-@@ -12,10 +12,11 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3610bb17683a0089ed64055416b2ae1b"
- 
- SRC_URI = "ftp://sourceware.org/pub/libffi/${BP}.tar.gz \
-            file://not-win32.patch \
--	   file://0001-mips-Use-compiler-internal-define-for-linux.patch \
-+           file://0001-mips-Use-compiler-internal-define-for-linux.patch \
-            file://0001-mips-fix-MIPS-softfloat-build-issue.patch \
-            file://0001-libffi-Support-musl-x32-build.patch \
--	   "
-+           file://0001-New-RISC-V-port-281.patch \
-+           "
- 
- SRC_URI[md5sum] = "83b89587607e3eb65c70d361f13bab43"
- SRC_URI[sha256sum] = "d06ebb8e1d9a22d19e38d63fdb83954253f39bedc5d46232a05645685722ca37"
++ #ifndef __ASSEMBLY__
++ 
++ #include <sbi/sbi_types.h>
++ 
+++struct sbi_ipi_data {
+++	unsigned long ipi_type;
+++};
+++
++ /** Representation of per-HART scratch space */
++ struct sbi_scratch {
++ 	/** Start (or base) address of firmware linked to OpenSBI library */
++@@ -57,8 +64,6 @@ struct sbi_scratch {
++ 	unsigned long platform_addr;
++ 	/** Address of HART ID to sbi_scratch conversion function */
++ 	unsigned long hartid_to_scratch;
++-	/** IPI type (or flags) */
++-	unsigned long ipi_type;
++ 	/** Temporary storage */
++ 	unsigned long tmp0;
++ } __packed;
++@@ -71,6 +76,10 @@ struct sbi_scratch {
++ #define sbi_scratch_thishart_arg1_ptr()	\
++ ((void *)(sbi_scratch_thishart_ptr()->next_arg1))
++ 
+++/** Get pointer to sbi_ipi_data from sbi_scratch */
+++#define sbi_ipi_data_ptr(scratch)      \
+++((struct sbi_ipi_data *)(void*)scratch + SBI_IPI_DATA_IPI_TYPE_OFFSET)
+++
++ #endif
++ 
++ #endif
++diff --git a/lib/sbi_ipi.c b/lib/sbi_ipi.c
++index 0e371d7..e0f2a19 100644
++--- a/lib/sbi_ipi.c
+++++ b/lib/sbi_ipi.c
++@@ -31,7 +31,7 @@ static int sbi_ipi_send(struct sbi_scratch *scratch, u32 hartid, u32 event)
++ 	 * trigger the interrupt
++ 	 */
++ 	remote_scratch = sbi_hart_id_to_scratch(scratch, hartid);
++-	atomic_raw_set_bit(event, &remote_scratch->ipi_type);
+++	atomic_raw_set_bit(event, &sbi_ipi_data_ptr(remote_scratch)->ipi_type);
++ 	mb();
++ 	sbi_platform_ipi_send(plat, hartid);
++ 	if (event != SBI_IPI_EVENT_SOFT)
++@@ -80,7 +80,7 @@ void sbi_ipi_process(struct sbi_scratch *scratch)
++ 	sbi_platform_ipi_clear(plat, hartid);
++ 
++ 	do {
++-		ipi_type = scratch->ipi_type;
+++		ipi_type = sbi_ipi_data_ptr(scratch)->ipi_type;
++ 		rmb();
++ 		ipi_event = __ffs(ipi_type);
++ 		switch (ipi_event) {
++@@ -97,12 +97,14 @@ void sbi_ipi_process(struct sbi_scratch *scratch)
++ 			sbi_hart_hang();
++ 			break;
++ 		};
++-		ipi_type = atomic_raw_clear_bit(ipi_event, &scratch->ipi_type);
+++		ipi_type = atomic_raw_clear_bit(ipi_event, &sbi_ipi_data_ptr(scratch)->ipi_type);
++ 	} while(ipi_type > 0);
++ }
++ 
++ int sbi_ipi_init(struct sbi_scratch *scratch, bool cold_boot)
++ {
+++	sbi_ipi_data_ptr(scratch)->ipi_type = 0x00;
+++
++ 	/* Enable software interrupts */
++ 	csr_set(CSR_MIE, MIP_MSIP);
++ 
++-- 
++2.22.0
++
+diff --git a/meta/recipes-bsp/opensbi/opensbi-payloads.inc b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+new file mode 100644
+index 0000000000..7df168325a
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/opensbi-payloads.inc
+@@ -0,0 +1,37 @@
++def riscv_get_extra_oemake_image(d):
++    sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
++    deploy_dir = d.getVar('DEPLOY_DIR_IMAGE')
++
++    if sbi_payload is None:
++        return ""
++
++    if d.getVar('RISCV_SBI_PAYLOAD'):
++        return "FW_PAYLOAD_PATH=" + deploy_dir + "/" + sbi_payload
++
++    return ""
++
++def riscv_get_extra_oemake_fdt(d):
++    sbi_fdt_payload = d.getVar('RISCV_SBI_FDT')
++    deploy_dir = d.getVar('DEPLOY_DIR_IMAGE')
++
++    if sbi_fdt_payload is None:
++        return ""
++
++    if d.getVar('RISCV_SBI_PAYLOAD'):
++        # This is internal to openSBI, not a full path
++        return "FW_PAYLOAD_FDT=" + sbi_fdt_payload
++
++    return ""
++
++def riscv_get_do_compile_depends(d):
++    sbi_payload = d.getVar('RISCV_SBI_PAYLOAD')
++
++    if sbi_payload is None:
++        return ""
++
++    if 'linux' in sbi_payload or 'Image' in sbi_payload:
++        return "virtual/kernel:do_deploy"
++    if 'u-boot' in sbi_payload:
++        return "virtual/bootloader:do_deploy"
++
++    return ""
+diff --git a/meta/recipes-bsp/opensbi/opensbi_0.3.bb b/meta/recipes-bsp/opensbi/opensbi_0.3.bb
+new file mode 100644
+index 0000000000..2b4fb97df2
+--- /dev/null
++++ b/meta/recipes-bsp/opensbi/opensbi_0.3.bb
+@@ -0,0 +1,49 @@
++SUMMARY = "RISC-V Open Source Supervisor Binary Interface (OpenSBI)"
++DESCRIPTION = "OpenSBI aims to provide an open-source and extensible implementation of the RISC-V SBI specification for a platform specific firmware (M-mode) and a general purpose OS, hypervisor or bootloader (S-mode or HS-mode). OpenSBI implementation can be easily extended by RISC-V platform or System-on-Chip vendors to fit a particular hadware configuration."
++LICENSE = "BSD-2-Clause"
++LIC_FILES_CHKSUM = "file://COPYING.BSD;md5=c36118b4f615f9da37635f2a7ac8ccaf"
++DEPENDS += "dtc-native"
++
++require opensbi-payloads.inc
++
++inherit autotools-brokensep
++
++SRCREV = "ca20ac0cd4c099006d4eea4d9ac7bd7b58e2ae0f"
++SRC_URI = "git://github.com/riscv/opensbi.git \
++           file://0001-Makefile-Don-t-specify-mabi-or-march.patch \
++           file://0002-lib-Create-a-sbi_ipi_data-structure.patch \
++          "
++
++S = "${WORKDIR}/git"
++
++SRC_URI[md5sum] = "621f38d8205ef5fb185e4055025e73df"
++SRC_URI[sha256sum] = "07f18b73abf3b85aabe5bead19a923716c100d30eb58033459f39c3a224be300"
++
++EXTRA_OEMAKE += "PLATFORM=${RISCV_SBI_PLAT} I=${D}"
++# If RISCV_SBI_PAYLOAD is set then include it as a payload
++EXTRA_OEMAKE_append = " ${@riscv_get_extra_oemake_image(d)} ${@riscv_get_extra_oemake_fdt(d)}"
++
++# Required if specifying a custom payload
++do_compile[depends] += "${@riscv_get_do_compile_depends(d)}"
++
++do_install_append() {
++	# In the future these might be required as a dependency for other packages.
++	# At the moment just delete them to avoid warnings
++	rm -r ${D}/include
++	rm -r ${D}/platform/${RISCV_SBI_PLAT}/lib
++	rm -r ${D}/platform/${RISCV_SBI_PLAT}/firmware/payloads
++}
++
++do_deploy () {
++	install -d ${DEPLOY_DIR_IMAGE}
++	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.* ${DEPLOY_DIR_IMAGE}/
++	install -m 755 ${D}/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.* ${DEPLOY_DIR_IMAGE}/
++}
++
++addtask deploy after do_install
++
++FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_jump.*"
++FILES_${PN} += "/platform/${RISCV_SBI_PLAT}/firmware/fw_payload.*"
++
++COMPATIBLE_HOST = "(riscv64|riscv32).*"
++INHIBIT_PACKAGE_STRIP = "1"
 -- 
 2.22.0
 
