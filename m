@@ -1,60 +1,52 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
-	[209.85.128.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 74F117E9AF
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C0707E9A8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 14:51:23 +0000 (UTC)
-Received: by mail-wm1-f51.google.com with SMTP id c6so2179196wml.0
+	Wed, 19 Jun 2019 14:54:20 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id p11so3732581wre.7
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 07:51:24 -0700 (PDT)
+	Wed, 19 Jun 2019 07:54:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=27yOfCNAVM0xiT+tDb33nAbLlZogiE7E7jiRA+pbimA=;
-	b=atSt8FQDDJhK+AhlRBYZHvVEX1fL4Mf5TDaW2vwlu4DQ9k74ofUFk+hJ9Dix9z8yRz
-	opSC/h+3AZTwnQoeRh0kDCvQ+DGb3zVqXgMlGbzLPJ7Of9CXBtQY27tlNTsngfGU5LaR
-	Gks/3RP9gZcEncDtZ9xMKdvHlspwWYA//TdCE=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=B3UNgX2gomGG2gFMFg1tdJYfXmVvM60wojZNo13PgqE=;
+	b=e3Hp1qv0cC5IEQV5vyq58lqS/Ijz0gfD1l1GASvnYgls3kP79nIH+FQj8yhdQ+LA15
+	OvUWvVRw1TiU8ZhuY+vlQIOLlSgslm5C1JfMnBcJu6aqhrVyCABFucpdRSSNC457YSOO
+	daUjgzHW+V15PMWlzftLmOUX1gz2ehLiWsiGI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=27yOfCNAVM0xiT+tDb33nAbLlZogiE7E7jiRA+pbimA=;
-	b=keXF6kuENtToNKhRMTcPOb4WDefT3AkfBzxZ7RWMPhMjtagB+9jK/dWZtJq5q2964b
-	7fuFFMEx/YX4gL6nRpw5KfADarsUT5CfkMsM1WVXi+HIuDNCvwsbgttrph9aWoJfxl7S
-	Ke9BVU5m1s4MdVtsio6H3T5qvT5KP5noZ2zX30HX87Ga75yNgyK6ptoHjhsnnmVYjQP6
-	VBuxkQ7NvGt1GMC+cuTpRK3SlRlv9pXERI2dEbk0msA+Whkf6ZrrhPTRB9buIT2oeqay
-	oVxGNR5shPvRN37Xcha0i2vdOVOhQoHoAKCAM/z0aa5BtsmkA6Tkiaol9x3mBxQRJpXp
-	UW2w==
-X-Gm-Message-State: APjAAAU9h/Wk70h4Dww0RuQmARqVPpYXlKa84W9EnrYxti+wgCkgkhAm
-	ROZOkrMfH4kAwJE+z4idPujY/Q==
-X-Google-Smtp-Source: APXvYqxMlGbBMBcGLVVe6CvU15CHcvCSC6PF3Sx4Mbi0XWxLLb9VS6u0JoFVwbDiam6VGCuzwSNN1Q==
-X-Received: by 2002:a7b:c748:: with SMTP id w8mr8325637wmk.36.1560955884255;
-	Wed, 19 Jun 2019 07:51:24 -0700 (PDT)
+	bh=B3UNgX2gomGG2gFMFg1tdJYfXmVvM60wojZNo13PgqE=;
+	b=Z29UNI96j34fKRvtkFijZzbcPSJrtCj3XH5sTUUHl5Maf6ABcv+DYnyFcXLVyBA9Ez
+	EIvfJyjGbGp4/t3fYUwb6Hu5aFlKh4mrrxn80xzpmYo60nDimMJbqfztMk1DjOCWdxhe
+	fTYJrPl6lNdrc8fCyKJ6HXovEebdWP2rSx7rQ43mbXY/eP/K/oPgjMNVOGCSug+2/I9d
+	FnvYraKOtd+ZxBda25kUuVksTAa44vo5VJxvypFvpjEAZmiidhbvAS+rtJ6OYLKKGy6T
+	wpAFyqUTpkU+p/EKiAb1VeqXezff2uCxW8qXE/qn93hnJi/Q0DmF2f4i2aR8KBbPRO8j
+	6DzA==
+X-Gm-Message-State: APjAAAX/FLHXlz2g/6Jx881nEfKkyJGchtMFaNkairhsrnMQM/SiVfRf
+	h3xvr99aaMd3nj5RktTZYYcbTOSP+dY=
+X-Google-Smtp-Source: APXvYqwZJkDScfsi/2y5pTa8zP/Vc8gGLI//epinf55ThGBHtxxr1tsSO2sHYzGGhBPHtBYoz723Cw==
+X-Received: by 2002:adf:90c3:: with SMTP id i61mr68261052wri.48.1560956060867; 
+	Wed, 19 Jun 2019 07:54:20 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	r3sm21449970wrr.61.2019.06.19.07.51.23
+	s10sm17040614wrt.49.2019.06.19.07.54.19
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 19 Jun 2019 07:51:23 -0700 (PDT)
-Message-ID: <18e05da8a22ebe92979079187d1782413195cef4.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Luca Boccassi <luca.boccassi@gmail.com>, Alex Kiernan
-	<alex.kiernan@gmail.com>
-Date: Wed, 19 Jun 2019 15:51:22 +0100
-In-Reply-To: <2964bfd2c8101f0497faf7c4de54b78172b5631d.camel@gmail.com>
-References: <1509637698-17399-1-git-send-email-ayoub.zaki@embexus.com>
-	<f1aeb71da144e3cf77b9f1c1e402bb0f5f71e847.camel@gmail.com>
-	<CAMKF1spZojFkRCEqOE-RLkYpeTuub9O3i9OWg9sQpV19zjv+Xw@mail.gmail.com>
-	<615d805a254f145c076ef586e4aaead67f689e97.camel@linuxfoundation.org>
-	<2cd9ca60d5b70de9ed931d57cffca652d16bc984.camel@gmail.com>
-	<CAO5Uq5QK8+bF812AF4o-AG+sOMb4E51Wj88CoLWL4jSccLdy6A@mail.gmail.com>
-	<2964bfd2c8101f0497faf7c4de54b78172b5631d.camel@gmail.com>
+	Wed, 19 Jun 2019 07:54:20 -0700 (PDT)
+Message-ID: <ca30326670f001b5521526db8677465964bdc5dc.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jun 2019 15:54:19 +0100
+In-Reply-To: <20190619132450.130226-3-alex.kanavin@gmail.com>
+References: <20190619132450.130226-1-alex.kanavin@gmail.com>
+	<20190619132450.130226-3-alex.kanavin@gmail.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: Ayoub Zaki <ayoub.zaki@embexus.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe,v2] kernel-fitimage: introduce FIT_HASH_ALG
+Subject: Re: [PATCH 3/9] dnf: upgrade 4.2.2 -> 4.2.7
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,36 +59,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 14:51:23 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 14:54:20 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-06-19 at 10:14 +0100, Luca Boccassi wrote:
-> On Wed, 2019-06-19 at 10:06 +0100, Alex Kiernan wrote:
-> > On Wed, Jun 19, 2019 at 9:48 AM Luca Boccassi <
-> > luca.boccassi@gmail.com
-> > > 
-> > > Thanks Richard - in case it helps, we've been using this patch
-> > > for a few months at $work (on top of sumo) and it seems to work
-> > > fine.
-> > > 
-> > 
-> > I expect that's true for everyone touching stuff in this class - it
-> > works fine for them... the problem is everyone else, since it's
-> > terribly fragile and has no tests.
-> > 
-> > I'd not be at all surprised if changing the default from sha1 to
-> > sha256 doesn't break someone.
+On Wed, 2019-06-19 at 15:24 +0200, Alexander Kanavin wrote:
+> Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> ---
+>  meta/recipes-devtools/dnf/{dnf_4.2.2.bb => dnf_4.2.7.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/dnf/{dnf_4.2.2.bb => dnf_4.2.7.bb}
+> (98%)
 > 
-> Keeping the default to sha1 would be fine by me, it's the ability to
-> configure it that is useful.
+> diff --git a/meta/recipes-devtools/dnf/dnf_4.2.2.bb b/meta/recipes-
+> devtools/dnf/dnf_4.2.7.bb
+> similarity index 98%
+> rename from meta/recipes-devtools/dnf/dnf_4.2.2.bb
+> rename to meta/recipes-devtools/dnf/dnf_4.2.7.bb
+> index c77773332c1..f22af64125a 100644
+> --- a/meta/recipes-devtools/dnf/dnf_4.2.2.bb
+> +++ b/meta/recipes-devtools/dnf/dnf_4.2.7.bb
+> @@ -12,7 +12,7 @@ SRC_URI = "git://github.com/rpm-software-
+> management/dnf.git \
+>             file://0030-Run-python-scripts-using-env.patch \
+>             "
+>  
+> -SRCREV = "9947306a55271b8b7c9e2b6e3b7d582885b6045d"
+> +SRCREV = "11910fcb0fc0ef13838230dba4f719be3540fbdc"
+>  UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
+>  
+>  S = "${WORKDIR}/git"
 
-Its merged and it probably makes sense to change the default, I just
-continue to worry about how we can test this class and make sure the
-commonly used workflows continue to work...
+
+https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/959
+https://autobuilder.yoctoproject.org/typhoon/#/builders/15/builds/953
+
+and probably a lot more but I'm stopping the build.
 
 Cheers,
 
 Richard
+
 
 
