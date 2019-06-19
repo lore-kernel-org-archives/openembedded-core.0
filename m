@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A4DA27E95A
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 730757E91D
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 13:25:02 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id u8so1857787wmm.1
+	Wed, 19 Jun 2019 13:25:03 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id 207so1806753wma.1
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 19 Jun 2019 06:25:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=uaD+KJ3flatl4s8bsqcLw1gq6VpLojCLO92FQiCaNxo=;
-	b=JVdE2Z7pipFAIbjzrONvm7JnqSpUQIOMHabhURl02EUr/NgB+JN+s4US1bw2YL4HOE
-	oAQ9N+URiIbBFWNa68qucUW2RR6D7MAaVW8R7fzddEPaE9zW81s/IKDo/1YVStMmH3/Y
-	rxK3cAmqKtRJ3OwlLSlMD7+MVmSi2DywTPgQHvnuiIh40jfC5QsfF/USiqA72xJ82hEG
-	qtFB/THs+kebnoXbavx1afKrK+yaygc4CojqJ3q54geV2gyzsLUyX4M1JTXYFFEnAkZ3
-	Hh0q+uv2nzHUeRzUP/4Y8vi6/V6g3bsS+EgcBBn9Yk8zTBK4BKq80GcgP3JUTQ0+31Sy
-	EQpw==
+	bh=fp5igaAUb/4tBI5e9pRPN9qadnZ3KCk/q6gM4nrYTtQ=;
+	b=Aup1iCBq/zOowGbR+sUDqJ/9cxOhXmVTukdcu8cFQ7OegYEXSccewY4RH0lCp4t2Lq
+	E3F94iyjeKlXve9ibxBofNvuW4DsNMYmUpQsH58neeJv7D0XvLcutj4IPkDrLDUsEjJx
+	YV+7bhfLa6ouFRprT9LwZB/I0Udm3C7ykFs+bifLGT7cHZSaqvt48VNbtqrOO1WSSMHJ
+	zid+t/ASSghzI/uwmmpbSRyQfoISfCJL8MFZeBbB291ItPPXdijrCMOX1iPnNypxFJov
+	Ch1LiRpqCQX11KWxbgW0A7c/PXgpgw0PcHakT7xNmFsgYYlq37HYEXKNE+Y5lgz3dwZg
+	xo6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=uaD+KJ3flatl4s8bsqcLw1gq6VpLojCLO92FQiCaNxo=;
-	b=eFz6iCP1UK0OZVdBDi0OIwhxKbn6nfX02Nz57m5/FyVR5hE4CG34MD39mITzeTcJkq
-	H34UrLX6bWUW3fxUsQ3arnkyzi1Vs9Dke4PTLotGO0HoKPaPjrFx3Kjm2pxeyOkh42ja
-	18XUjsTO5OiOpXWDy9ODHOKdOHcODCaZYjqrb4bPwQsmD6wKhUnIGl2IIdOti5tJ55Uz
-	dA0y9rbbKSMhZuYGe4xa7XUn2k59MHBQi+qvLgvq2qoJk4Wik2nw/vuFJDnN39xdd9xO
-	PnXkUMdvexz+OlbHKQOtMMvcFHxE8VjkCxpdvgZzEDQj8RtwlijIHYjRBPAIOyy9yTOp
-	HfcA==
-X-Gm-Message-State: APjAAAWj/rki01jVPTGKSL5A6pNJGKuEWLh3EbdfA3jzJM1REk3/8jhI
-	rVkr2DEFWRAp1ee0I6J3nHrU5qoxCD8=
-X-Google-Smtp-Source: APXvYqxdmPSGa0ECFwUnBEW5+uWMl5sNglgF+1rCrW90G2o60d/YnM6JGpycRiCeI4iMTR4JONdBGQ==
-X-Received: by 2002:a1c:9d86:: with SMTP id g128mr9067117wme.51.1560950703069; 
+	bh=fp5igaAUb/4tBI5e9pRPN9qadnZ3KCk/q6gM4nrYTtQ=;
+	b=L+Lh7NI0TumXrRWGDJu/k41G5jdsCyRuW55TGrq8pvaPgFKc9ZPNHu6fchOYBQ2dfF
+	sXA2r/0kH0YwpZMNXzpW9iOV9RhwVAX+lv0D5OZb8CLWAWE4zjkMy31A5vmiqrDqQUzO
+	sT24Cx1RJECJG2CGyV/c8kNeL7tTB2W9NAlxQe8iB1noV3F/r3f4vXPHpgw4pKjSB1p2
+	l04FK8iSLnba/WkWiFhMw/i+DBdVXrcexqdddMjJmD/fKIaoSD3O6nuoFaU9q8t8QVwT
+	tghII/0B5wpbkn8XkrixR7uJdalesA/OhbAfiioE1fXpj+OvghtWwpjKu8PEpzNmISjr
+	kqnw==
+X-Gm-Message-State: APjAAAV5Hw+4DgTMMhC2arae/xISeL674pqWrT+4BJl/3uLu/2rBfi0e
+	EB+5gM6tgQP4zpSF/88KzBSiqYzoTTE=
+X-Google-Smtp-Source: APXvYqzLtBfclniDe1RnvEWU+AGGRZk4fkyAfvvvMV5nWDbjfNNw5H86vQru6gnSQVnyI33eqf3SQA==
+X-Received: by 2002:a1c:411:: with SMTP id 17mr7655836wme.74.1560950703971;
 	Wed, 19 Jun 2019 06:25:03 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id q1sm1588953wmq.25.2019.06.19.06.25.02
+	by smtp.gmail.com with ESMTPSA id q1sm1588953wmq.25.2019.06.19.06.25.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Jun 2019 06:25:02 -0700 (PDT)
+	Wed, 19 Jun 2019 06:25:03 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 15:24:46 +0200
-Message-Id: <20190619132450.130226-5-alex.kanavin@gmail.com>
+Date: Wed, 19 Jun 2019 15:24:47 +0200
+Message-Id: <20190619132450.130226-6-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190619132450.130226-1-alex.kanavin@gmail.com>
 References: <20190619132450.130226-1-alex.kanavin@gmail.com>
-Subject: [PATCH 5/9] vala: upgrade 0.44.3 -> 0.44.5
+Subject: [PATCH 6/9] libnewt: merge libnewt-python recipe into the main recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,27 +58,89 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Wed, 19 Jun 2019 13:25:03 -0000
 
+libnewt-python was including libnewt recipe and adding tweaks, which is bad form.
+
+It also broke AUH, as it won't update more than one recipe in a single
+transaction.
+
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- meta/recipes-devtools/vala/{vala_0.44.3.bb => vala_0.44.5.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/vala/{vala_0.44.3.bb => vala_0.44.5.bb} (57%)
+ .../newt/libnewt-python_0.52.20.bb            | 28 -------------------
+ meta/recipes-extended/newt/libnewt_0.52.20.bb | 13 ++++++---
+ 2 files changed, 9 insertions(+), 32 deletions(-)
+ delete mode 100644 meta/recipes-extended/newt/libnewt-python_0.52.20.bb
 
-diff --git a/meta/recipes-devtools/vala/vala_0.44.3.bb b/meta/recipes-devtools/vala/vala_0.44.5.bb
-similarity index 57%
-rename from meta/recipes-devtools/vala/vala_0.44.3.bb
-rename to meta/recipes-devtools/vala/vala_0.44.5.bb
-index fe6a5fcdcbd..518c9ebdae8 100644
---- a/meta/recipes-devtools/vala/vala_0.44.3.bb
-+++ b/meta/recipes-devtools/vala/vala_0.44.5.bb
-@@ -4,5 +4,5 @@ SRC_URI += "file://0001-git-version-gen-don-t-append-dirty-if-we-re-not-in-g.pat
-            file://0001-vapigen.m4-use-PKG_CONFIG_SYSROOT_DIR.patch \
-            "
+diff --git a/meta/recipes-extended/newt/libnewt-python_0.52.20.bb b/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
+deleted file mode 100644
+index 433d184c710..00000000000
+--- a/meta/recipes-extended/newt/libnewt-python_0.52.20.bb
++++ /dev/null
+@@ -1,28 +0,0 @@
+-require recipes-extended/newt/libnewt_${PV}.bb
+-
+-SUMMARY .= " - python"
+-DEPENDS = "libnewt python3"
+-RDEPENDS_${PN} += "python3-core"
+-
+-inherit python3native python3-dir
+-
+-EXTRA_OECONF += "--with-python"
+-EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
+-
+-
+-do_compile () {
+-	VERSION="$(sed -n 's/^VERSION = //p' Makefile)"
+-	oe_runmake _snack.so
+-}
+-
+-do_install () {
+-	install -d ${D}${PYTHON_SITEPACKAGES_DIR}
+-	install -m 0755 ${PYTHON_DIR}/_snack.so ${D}${PYTHON_SITEPACKAGES_DIR}/
+-	install -m 0644 snack.py ${D}${PYTHON_SITEPACKAGES_DIR}/
+-}
+-
+-PACKAGES_remove = "whiptail"
+-
+-FILES_${PN} = "${PYTHON_SITEPACKAGES_DIR}/*"
+-
+-BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/newt/libnewt_0.52.20.bb b/meta/recipes-extended/newt/libnewt_0.52.20.bb
+index 264ef3b8adf..dc07a1809e7 100644
+--- a/meta/recipes-extended/newt/libnewt_0.52.20.bb
++++ b/meta/recipes-extended/newt/libnewt_0.52.20.bb
+@@ -15,7 +15,7 @@ LICENSE = "LGPLv2"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=5f30f0716dfdd0d91eb439ebec522ec2"
  
--SRC_URI[md5sum] = "25f97c1b46ae0b60b5cc49cbc044eca2"
--SRC_URI[sha256sum] = "8553b422484af88be1685d8b47f7b0df36ae4477c3e77e89ab22276ffed1eae9"
-+SRC_URI[md5sum] = "1e8b8595168446c529b11236cf75e328"
-+SRC_URI[sha256sum] = "bb8f8185b805411511786733c4b769c3ee6af8bc879609bffb6c46b8999bc27f"
+ # slang needs to be >= 2.2
+-DEPENDS = "slang popt"
++DEPENDS = "slang popt python3"
+ 
+ SRC_URI = "https://releases.pagure.org/newt/newt-${PV}.tar.gz \
+            file://fix_SHAREDDIR.patch \
+@@ -30,15 +30,20 @@ SRC_URI[sha256sum] = "8d66ba6beffc3f786d4ccfee9d2b43d93484680ef8db9397a4fb70b5ad
+ 
+ S = "${WORKDIR}/newt-${PV}"
+ 
+-EXTRA_OECONF = "--without-tcl --without-python"
++inherit autotools-brokensep python3native python3-dir
+ 
+-inherit autotools-brokensep
++EXTRA_OECONF = "--without-tcl --with-python"
++
++EXTRA_OEMAKE += "PYTHONVERS=${PYTHON_DIR}"
+ 
+ CLEANBROKEN = "1"
+ 
+ export CPPFLAGS
+ 
+-PACKAGES_prepend = "whiptail "
++PACKAGES_prepend = "whiptail ${PN}-python "
++
++RDEPENDS_${PN}-python += "python3-core"
++FILES_${PN}-python = "${PYTHON_SITEPACKAGES_DIR}/*"
+ 
+ do_configure_prepend() {
+     sh autogen.sh
 -- 
 2.17.1
 
