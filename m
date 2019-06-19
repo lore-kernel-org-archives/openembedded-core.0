@@ -1,56 +1,57 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 0E8437D710
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B7E577EA35
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 15:30:15 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id s7so39018530iob.11
+	Wed, 19 Jun 2019 15:45:09 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 1AAA3184A3
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 08:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=N5WfVwwlKH+ADBVmzM8aIoQ5Rktyk6ZN+YWTS01h7Fg=;
-	b=t5dk0h91vJAucPWYyAtc6v7Yk4hIMYzF4Y3bZGlhjJYGONiMvOZWsXsXUqNzsi+HRZ
-	e3Y2pSI8hJJUJiGoz1zeIxkzTm33JwlCM0ZguVIYiJ/xQgQSEAan5sR97cmL9K6JTmYy
-	KVVZL2ZKQsZowvnh7AgiQyoH09XWD9ztq+J7PYw0uKrMXn+QcIr4yQiief4FD24oHVSG
-	usbD+ydzqNDsASM/yHVVX5FcLiCQ0Cq+jBsPN/2xT3uc16ybHUeUZ4OwsI4QdvPmRUpc
-	IUJlfgv6JrDromMe88aOl2XtPhPWLlvYwSTwRD1ANsH6vICTYw9l5zZlm4KVSvR+1ISG
-	gRlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=N5WfVwwlKH+ADBVmzM8aIoQ5Rktyk6ZN+YWTS01h7Fg=;
-	b=o9KG3xQbqlHKFc5f1QqfDXbldxdYRUHlpkH8q44g0sFEPHMruXD9Pw50SU9r6CIWrD
-	G4sBJIctxqrPCSiGNjG3tMyHORKAMPVbdztKwpYlD8pqdTefIkRuBMNSAxtaTdvAxaLh
-	v1SOJJFbBFpmbGswmxtPgyfWaDNkjRrnmnTVq5EI8ENRWm57LnBb3jrq77SaXNXrqQvW
-	ck3odD/laQmLOyc8F/UedYNcctCm1AyxbjeGi3Cw/cUaLYGHeqymXiUGTG3Cng8sSVY4
-	FxQv1lOsfnzSQCLYhTnzsL4I/vjSRLnZDYc+7bXuJ7F6XjtWENf4antkjUdmtSvlZK8b
-	jjZQ==
-X-Gm-Message-State: APjAAAUEX2x1K3QTRQVp3Nvjkfzfj8Cb1v3jnyLf/YEV1p35YvUMk4+a
-	R0m84AquBZvQcawt3EYTsOJduRhI8/OqYLaGisY=
-X-Google-Smtp-Source: APXvYqze2JeroSjJqphxhP3J4VxcL1XPHTQFBPGQHQZQgbsBY6HademE1c3qGWjI1Gk1Bz05t0auehWWOEOhfQNOAYw=
-X-Received: by 2002:a5e:c705:: with SMTP id f5mr15997665iop.113.1560958216957; 
-	Wed, 19 Jun 2019 08:30:16 -0700 (PDT)
+	Wed, 19 Jun 2019 17:45:10 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id UKcsuduDeiOQ
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id B3AC3184ED
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 7EAD31E083
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 71E951E081
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
+	by seth.se.axis.com (Postfix) with ESMTP id 659E61ABA
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 17:45:08 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x5JFj8HY023116
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 17:45:08 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x5JFj8Vw023115
+	for openembedded-core@lists.openembedded.org;
+	Wed, 19 Jun 2019 17:45:08 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jun 2019 17:45:04 +0200
+Message-Id: <20190619154506.23071-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <1509637698-17399-1-git-send-email-ayoub.zaki@embexus.com>
-	<f1aeb71da144e3cf77b9f1c1e402bb0f5f71e847.camel@gmail.com>
-	<CAMKF1spZojFkRCEqOE-RLkYpeTuub9O3i9OWg9sQpV19zjv+Xw@mail.gmail.com>
-	<615d805a254f145c076ef586e4aaead67f689e97.camel@linuxfoundation.org>
-	<2cd9ca60d5b70de9ed931d57cffca652d16bc984.camel@gmail.com>
-	<CAO5Uq5QK8+bF812AF4o-AG+sOMb4E51Wj88CoLWL4jSccLdy6A@mail.gmail.com>
-	<2964bfd2c8101f0497faf7c4de54b78172b5631d.camel@gmail.com>
-	<18e05da8a22ebe92979079187d1782413195cef4.camel@linuxfoundation.org>
-In-Reply-To: <18e05da8a22ebe92979079187d1782413195cef4.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 19 Jun 2019 16:30:05 +0100
-Message-ID: <CAO5Uq5R2D9g-+nikuMbrWbWYWBE51E=VLBPWtXvCQkJU4eHPfw@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ayoub Zaki <ayoub.zaki@embexus.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe,v2] kernel-fitimage: introduce FIT_HASH_ALG
+X-TM-AS-GCONF: 00
+Subject: [warrior][PATCH 1/3] texinfo-dummy-native: A little clean up of template.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,40 +64,148 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 15:30:16 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Wed, 19 Jun 2019 15:45:10 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jun 19, 2019 at 3:51 PM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2019-06-19 at 10:14 +0100, Luca Boccassi wrote:
-> > On Wed, 2019-06-19 at 10:06 +0100, Alex Kiernan wrote:
-> > > On Wed, Jun 19, 2019 at 9:48 AM Luca Boccassi <
-> > > luca.boccassi@gmail.com
-> > > >
-> > > > Thanks Richard - in case it helps, we've been using this patch
-> > > > for a few months at $work (on top of sumo) and it seems to work
-> > > > fine.
-> > > >
-> > >
-> > > I expect that's true for everyone touching stuff in this class - it
-> > > works fine for them... the problem is everyone else, since it's
-> > > terribly fragile and has no tests.
-> > >
-> > > I'd not be at all surprised if changing the default from sha1 to
-> > > sha256 doesn't break someone.
-> >
-> > Keeping the default to sha1 would be fine by me, it's the ability to
-> > configure it that is useful.
->
-> Its merged and it probably makes sense to change the default, I just
-> continue to worry about how we can test this class and make sure the
-> commonly used workflows continue to work...
->
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-I've a bunch of stuff I need to get out of the door at the moment, but
-once that's out of the way, I'm going to see if I can get qemu +
-U-Boot + FIT image as part of a test image as a starting point.
+This is mainly whitespace clean up, plus using the with statement when
+writing files.
 
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+
+This is a backport from master.
+
+ .../texinfo-dummy/template.py                 | 63 +++++++++----------
+ 1 file changed, 30 insertions(+), 33 deletions(-)
+
+diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+index e369f74455..fcc28548af 100644
+--- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
++++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
+@@ -33,21 +33,20 @@ import sys, os
+ olong = "--output="
+ Elong = "--macro-expand="
+ 
+-
+-this_binary = sys.argv[0].split ("/")[-1]
++this_binary = sys.argv[0].split("/")[-1]
+ 
+ # To be outputted if functionality that hasn't been stubbed yet is invoked.
+ stub_msg = """
+-This stand-in version of %s is not yet fully capable of emulating the real
+-version from the GNU texinfo suite. If you see this message, file a bug report
+-with details on the recipe that failed.
++This stand-in version of %s is not yet fully capable of emulating
++the real version from the GNU texinfo suite. If you see this message, file a
++bug report with details on the recipe that failed.
+ """ % this_binary
+ 
+ # Autotools setups query the version, so this is actually necessary. Some of
+ # them (lookin' at you, glibc) actually look for the substring "GNU texinfo,"
+ # so we put that substring in there without actually telling a lie.
+-version_str = """ %s (fake texinfo, emulating GNU texinfo) 5.2
+- 
++version_str = """%s (fake texinfo, emulating GNU texinfo) 5.2
++
+ Super amazing version which is totally not fake in any way whatsoever.
+ Copyright (C) 2014 Intel Corp. Distributed under the terms of the MIT
+ license.
+@@ -55,62 +54,61 @@ license.
+ 
+ simple_binaries = "pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
+                    txixml2texi install-info ginstall-info \
+-                   update-info-dir".split ()
++                   update-info-dir".split()
+ 
+ # These utilities use a slightly different set of options and flags.
+-complex_binaries = "makeinfo texi2any".split ()
++complex_binaries = "makeinfo texi2any".split()
+ 
+ valid_binaries = simple_binaries + complex_binaries
+ 
+ # For generating blank output files.
+-def touch_file (path):
+-    f = open (path, "w")
+-    f.close ()
++def touch_file(path):
++    with open(path, "w"):
++        pass
+ 
+ assert this_binary in valid_binaries, \
+-       this_binary + " is not one of " + ', '.join (valid_binaries)
++       this_binary + " is not one of " + ', '.join(valid_binaries)
+ 
+ if "--version" in sys.argv:
+     print(version_str)
+-    sys.exit (0)
++    sys.exit(0)
+ 
+ # For debugging
+ log_interceptions = False
+ if log_interceptions:
+-    f = open ("/tmp/intercepted_" + this_binary, "a")
+-    f.write (' '.join ([this_binary] + sys.argv[1:]) + '\n')
+-    f.close ()
++    with open("/tmp/intercepted_" + this_binary, "a") as f:
++        f.write(' '.join([this_binary] + sys.argv[1:]) + '\n')
+ 
+ # Look through the options and flags, and if necessary, touch any output
+ # files.
+ arg_idx = 1
+-while arg_idx < len (sys.argv):
++while arg_idx < len(sys.argv):
+     arg = sys.argv [arg_idx]
+-    
++
+     if arg == "--":
+         break
+-    
++
+     # Something like -I . can result in a need for this (specifically the .)
+-    elif len (arg) < 2:
++    elif len(arg) < 2:
+         pass
+-    
++
+     # Check if -o or --output is specified. These can be used at most once.
+-    elif arg[0] == '-' and arg[1] != '-' and arg[len (arg) - 1] == 'o':
+-        touch_file (sys.argv[arg_idx + 1])
+-        sys.exit (0)
+-    elif arg.startswith (olong):
+-        touch_file (arg.split ("=")[1])
+-        sys.exit (0)
+-    
++    elif arg[0] == '-' and arg[1] != '-' and arg[len(arg) - 1] == 'o':
++        touch_file(sys.argv[arg_idx + 1])
++        sys.exit(0)
++    elif arg.startswith(olong):
++        touch_file(arg.split("=")[1])
++        sys.exit(0)
++
+     # Check for functionality that isn't implemented yet.
+     else:
+         assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
+                this_binary in simple_binaries, \
+                "-E option not yet supported" + stub_msg
+-        
+-        assert not arg.startswith (Elong), \
++
++        assert not arg.startswith(Elong), \
+                Elong[:-1] + " option not yet supported" + stub_msg
+-    
++
+     arg_idx += 1
+ 
+ # The -o/--output option overrides the default. For makeinfo and texi2any,
+@@ -119,4 +117,3 @@ while arg_idx < len (sys.argv):
+ assert this_binary in simple_binaries, \
+        "Don't know how to get default output file name from input file!" + \
+        stub_msg
+-
 -- 
-Alex Kiernan
+2.21.0
+
 
