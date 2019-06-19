@@ -1,37 +1,37 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 1F12E7E8A1
+	by mail.openembedded.org (Postfix) with ESMTP id 11C557E7A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 18:51:21 +0000 (UTC)
+	Wed, 19 Jun 2019 18:56:47 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45TYvF3kF9z2M;
-	Wed, 19 Jun 2019 20:51:21 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45TZ1X3XMWz2M;
+	Wed, 19 Jun 2019 20:56:48 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1560970282;
-	bh=b85bnkakfUuPEakfrydBuCR5qvzDh5OeusgmL3KacSQ=;
+	s=default; t=1560970608;
+	bh=uzlS1rz1z5oBOFLZYl5rD5FpPa3kVfJUDxmZB8EL5j4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kHA3fpUw5bp6k1hivBfReoNCEhzX4V/bgtOkcZDCfphlVFAWzK6DS+KEmVBcizYiY
-	NjAY5EZ4mRnb59gJ/mOW+LL4cyyl1vuNATnIA2nghzDTjLx7SS4VGHOm/92zadbmuO
-	vGgtm6MQ4vEF4TJ718LMj5/mpch9kTu+Wx2jfDHKUUJLLwhU/ioZkecAiDz/r124nP
-	1VqO17BMV8VMOFjqVt0F3o9H9zYx5jp9o56D7TsTDtFyZLuWQfZ8ociLN8vcT82ZBU
-	yZSB7aJM9VVtiV2h2kRPWR4oHmtQP6kWic7aZA0B2f8cweD40kOQSVnTFWVG3DlZfy
-	qyvhVu17ttjJZ1/1fk+Ok79X6HTh23wC0FPkcMgAOd5CNd4il7tukATn8fLhwRWGiY
-	bht/J7L2SycSDbQnvSXzujngPmvA8zjKzk1NTZEMeBWXg7c0IEhlyDpMXNjfv1pTzU
-	gl/Hh+XK7bcWQA764YBSvGvnYjG3y5RnSlrcYOjulOb3sZjfMt2jcMdidHobqLlzyA
-	uG/g5ciMWvz7IGH/auKu+lT9u5MkF+z9hPu9aX1KL3CnA6hVSwDXB2Pqm4bv05DPmV
-	UUodX1Trnk74qW8Mu/rfEE1GoqFVlcctyry4BX7TNSwL86SOot5QV/GnyvYuR9lG3q
-	Aak8RI4ovwH9TM96dsu+w6ZQ=
-Date: Wed, 19 Jun 2019 21:51:19 +0300
+	b=c9B2NB5o7Cbj4OkyRhfw3YJarhD3UQd70MAtdztShO+bF0z6Fczq03nyY9Eyushec
+	YQ0Wm8TfsaO6LQ0MBOmKFjLOjY/B1t//n7/K6sCbWjaL1XQAcWXctsj6QPWc8bVuQ6
+	lKqqvLKlNJq8DOB4TkD1ehoNykouy7IWGtrNt+znGi20ip82atxTe+ewFwYUes+Blj
+	Cjs9arNPmL444AIEPNLNAg+Ofhj5sah9p0QBpP2Nq0T3KIrHCF3S9BnUaj8eKr2/CQ
+	ZF6R+uodSbWxkdr2DivLSAfWt1XoOPx4An01dv+xn5AAZcoca6Ji6YFgJJG8H7sjkJ
+	Oh/XputUyq7ZI8+p73uuWwTeTU1R1zl+E5FQguWZ7hcaRiNSjE6jFAIqt/v+6vGNtY
+	w74C1T1QHsG0EtNrALZQciqvdQIfnaL5t1BP0CBIElg21DV8P0BjuIMP93PYr5ai90
+	KbpLH1tUfLAVkj7M1t9UFrMYEdAMeqMkLFOgTvScUUXL4VMyg2Csv1Pxc19LsPSV1g
+	8TWXaBLo75S7ogaQ6XcXo3dlIaoaoeqHsDFb6R+8BClDPLzQ926jmvlTIGt1FG/k2w
+	Vu+L8BQ/3ASAkL1DRMzMEi/+338cbRftFr1tf3x5wqDwSXna5Buue8LA6cezd1krna
+	gobs2bF0H+0A02nBpcmYo4WA=
+Date: Wed, 19 Jun 2019 21:56:46 +0300
 From: Adrian Bunk <bunk@stusta.de>
 To: akuster808 <akuster808@gmail.com>
-Message-ID: <20190619185119.GA4497@localhost>
-References: <20190619175429.22836-1-bunk@stusta.de>
-	<715abcf8-ff17-a012-391c-a25dbf4451d4@gmail.com>
+Message-ID: <20190619185646.GB4497@localhost>
+References: <20190619180422.31204-1-bunk@stusta.de>
+	<728b6a5f-cc41-3127-4f22-c9bd241208e0@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <715abcf8-ff17-a012-391c-a25dbf4451d4@gmail.com>
+In-Reply-To: <728b6a5f-cc41-3127-4f22-c9bd241208e0@gmail.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] libxslt: Fix CVE-2019-11068
+Subject: Re: [warrior][PATCH] wpa-supplicant: Fix CVE-2019-9494 CVE-2019-9495 CVE-2019-9496 CVE-2019-9497 CVE-2019-9498 CVE-2019-9499 CVE-2019-11555
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,24 +44,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 18:51:22 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 18:56:48 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Wed, Jun 19, 2019 at 11:32:00AM -0700, akuster808 wrote:
+On Wed, Jun 19, 2019 at 11:30:59AM -0700, akuster808 wrote:
 > 
 > 
-> On 6/19/19 10:54 AM, Adrian Bunk wrote:
+> On 6/19/19 11:04 AM, Adrian Bunk wrote:
 > > Signed-off-by: Adrian Bunk <bunk@stusta.de>
 > > ---
-> >  .../0001-Fix-security-framework-bypass.patch  | 124 ++++++++++++++++++
-> >  .../recipes-support/libxslt/libxslt_1.1.33.bb |   4 +-
-> >  2 files changed, 127 insertions(+), 1 deletion(-)
-> >  create mode 100644 meta/recipes-support/libxslt/files/0001-Fix-security-framework-bypass.patch
+> >  ...erver-Fix-reassembly-buffer-handling.patch |  48 +++
+> >  ...tant-time-operations-for-private-big.patch |  97 +++++
+> >  ...nctions-for-constant-time-operations.patch | 222 ++++++++++++
+> >  ...-peer-Fix-reassembly-buffer-handling.patch |  48 +++
+> >  ...tant-time-selection-for-crypto_bignu.patch |  64 ++++
+> >  ...tant-time-and-memory-access-for-find.patch | 327 +++++++++++++++++
+> >  ...timing-differences-in-PWE-derivation.patch | 244 +++++++++++++
+> >  ...anches-in-is_quadratic_residue_blind.patch | 147 ++++++++
+> >  ...-Mask-timing-of-MODP-groups-22-23-24.patch | 121 +++++++
+> >  ...-const_time-selection-for-PWE-in-FFC.patch | 108 ++++++
+> >  ...-time-operations-in-sae_test_pwd_see.patch | 139 ++++++++
+> >  ...rm-message-validation-in-error-cases.patch |  60 ++++
+> >  ...r-Verify-received-scalar-and-element.patch |  61 ++++
+> >  ...pwd-server-Detect-reflection-attacks.patch |  48 +++
+> >  ...t-Verify-received-scalar-and-element.patch |  61 ++++
+> >  ...k-element-x-y-coordinates-explicitly.patch | 335 ++++++++++++++++++
+> >  .../wpa-supplicant/wpa-supplicant_2.7.bb      |  16 +
+> >  17 files changed, 2146 insertions(+)
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-EAP-pwd-server-Fix-reassembly-buffer-handling.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-OpenSSL-Use-constant-time-operations-for-private-big.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-Add-helper-functions-for-constant-time-operations.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-EAP-pwd-peer-Fix-reassembly-buffer-handling.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-OpenSSL-Use-constant-time-selection-for-crypto_bignu.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0004-EAP-pwd-Use-constant-time-and-memory-access-for-find.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0005-SAE-Minimize-timing-differences-in-PWE-derivation.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0006-SAE-Avoid-branches-in-is_quadratic_residue_blind.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0007-SAE-Mask-timing-of-MODP-groups-22-23-24.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0008-SAE-Use-const_time-selection-for-PWE-in-FFC.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0009-SAE-Use-constant-time-operations-in-sae_test_pwd_see.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0010-SAE-Fix-confirm-message-validation-in-error-cases.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0011-EAP-pwd-server-Verify-received-scalar-and-element.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0012-EAP-pwd-server-Detect-reflection-attacks.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0013-EAP-pwd-client-Verify-received-scalar-and-element.patch
+> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0014-EAP-pwd-Check-element-x-y-coordinates-explicitly.patch
 > 
-> Thanks for the CVE fix. Is master affected?
+> A simple "affects: < {version}" help RP and myself from asking if master
+> is affected.
+> 
+> So is this fixed in master?
 
-This was sent for master.
+Sorry for that, yes they are already fixed in master.
 
 > - armin
 
