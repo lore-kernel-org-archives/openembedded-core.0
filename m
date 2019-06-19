@@ -1,53 +1,56 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
-	[209.85.208.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 636A67E9FF
+Return-Path: <alex.kiernan@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E8437D710
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 15:23:07 +0000 (UTC)
-Received: by mail-lj1-f193.google.com with SMTP id p17so1411265ljg.1
+	Wed, 19 Jun 2019 15:30:15 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id s7so39018530iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 08:23:08 -0700 (PDT)
+	Wed, 19 Jun 2019 08:30:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=JmgZqfeE9aZkVPXk7L+1jhXS8h5xX0f7DaW1hLwUEFk=;
-	b=C22+brryfd3CILSy/ZlrOlpm5gCGxoOOcHhb75dOvRnHQzR8ZhejAm98+MrXCkXqbL
-	mCuOek4mWojEEX992+VOF8MfHyqvtvsKDRmXoWJgZ49NNROW+fVU5eBn//ceQxqw9l52
-	gi3mMVcTSAEucJKNRP9/NqrUxFrNWK+M0VieW5A7fJ2vJnDfU979uvEYScEq6V77oxDV
-	/8bjoXkiT1v43Q7rO27H4UBxAQsoQA7rnlk6N+Dg82ib5/tk4zC7gtfDZu39rQPM0kNZ
-	HqaWYy6Ox3hhkfP10cx+yK+ndzGv1ET1KVWjvreFn0EJjYuFrwDZiTPtOeGqqFUss3XF
-	IXog==
+	:cc; bh=N5WfVwwlKH+ADBVmzM8aIoQ5Rktyk6ZN+YWTS01h7Fg=;
+	b=t5dk0h91vJAucPWYyAtc6v7Yk4hIMYzF4Y3bZGlhjJYGONiMvOZWsXsXUqNzsi+HRZ
+	e3Y2pSI8hJJUJiGoz1zeIxkzTm33JwlCM0ZguVIYiJ/xQgQSEAan5sR97cmL9K6JTmYy
+	KVVZL2ZKQsZowvnh7AgiQyoH09XWD9ztq+J7PYw0uKrMXn+QcIr4yQiief4FD24oHVSG
+	usbD+ydzqNDsASM/yHVVX5FcLiCQ0Cq+jBsPN/2xT3uc16ybHUeUZ4OwsI4QdvPmRUpc
+	IUJlfgv6JrDromMe88aOl2XtPhPWLlvYwSTwRD1ANsH6vICTYw9l5zZlm4KVSvR+1ISG
+	gRlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=JmgZqfeE9aZkVPXk7L+1jhXS8h5xX0f7DaW1hLwUEFk=;
-	b=jTbUKKnMsIRZ1zhCwZcY8RWoC9mIgB3tVc1il/pitopwdd7BPKL2Kr7/DPZvKMdHrd
-	Rbo031EfCUnChRyL+wbug5lX5zKPCQohCXdxZah2ADGO0UrlLXMzJ76miJjJgt/r4oIt
-	Y6sV/P75sY9CxBM2dC67BEfsSXBl5bH871/C8F9EqAvg6rDUijNtkW2GSvR9jxkiTygI
-	mpLqEWSDk9oQES1Hx/MsQNsMlkMcXQN5m5JiK2bBp+cA/5U1/F8oGtsQbMZIMwbdkFDf
-	3bkXZ9agDexn6+0jTcn5hajAkoOOGLj/2l2mS3WKSGiWIZR50uNJuwwpmAyArUKyVpMC
-	obXA==
-X-Gm-Message-State: APjAAAVfm+Xt2QleF5miVwnNpWH+VIiwccEEf2IGzOLy6XAs7Ml/c9Yp
-	Lh2imOvhskvatz1O5eZo4upuT7saTZO4lTg8ftY=
-X-Google-Smtp-Source: APXvYqxMyzEwZBaU5vDDknHZKsfo6cAC4E6CGdx9/MF9cK4NQEHx0tX083D78yXQUCaY2kUOWGknKi8L3nmBk4uH9ss=
-X-Received: by 2002:a2e:9ac4:: with SMTP id p4mr52169856ljj.185.1560957787708; 
-	Wed, 19 Jun 2019 08:23:07 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=N5WfVwwlKH+ADBVmzM8aIoQ5Rktyk6ZN+YWTS01h7Fg=;
+	b=o9KG3xQbqlHKFc5f1QqfDXbldxdYRUHlpkH8q44g0sFEPHMruXD9Pw50SU9r6CIWrD
+	G4sBJIctxqrPCSiGNjG3tMyHORKAMPVbdztKwpYlD8pqdTefIkRuBMNSAxtaTdvAxaLh
+	v1SOJJFbBFpmbGswmxtPgyfWaDNkjRrnmnTVq5EI8ENRWm57LnBb3jrq77SaXNXrqQvW
+	ck3odD/laQmLOyc8F/UedYNcctCm1AyxbjeGi3Cw/cUaLYGHeqymXiUGTG3Cng8sSVY4
+	FxQv1lOsfnzSQCLYhTnzsL4I/vjSRLnZDYc+7bXuJ7F6XjtWENf4antkjUdmtSvlZK8b
+	jjZQ==
+X-Gm-Message-State: APjAAAUEX2x1K3QTRQVp3Nvjkfzfj8Cb1v3jnyLf/YEV1p35YvUMk4+a
+	R0m84AquBZvQcawt3EYTsOJduRhI8/OqYLaGisY=
+X-Google-Smtp-Source: APXvYqze2JeroSjJqphxhP3J4VxcL1XPHTQFBPGQHQZQgbsBY6HademE1c3qGWjI1Gk1Bz05t0auehWWOEOhfQNOAYw=
+X-Received: by 2002:a5e:c705:: with SMTP id f5mr15997665iop.113.1560958216957; 
+	Wed, 19 Jun 2019 08:30:16 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1560888312.git.just.another.mariano@gmail.com>
-	<f0d52edc0d79dca6ed77b0ae587ca594ccb6ee39.1560888312.git.just.another.mariano@gmail.com>
-	<5511748e8ce0af06eacccb81a90ee4563c307248.camel@linuxfoundation.org>
-	<CADkTA4MAVbJ6H4uJXPmod+9NBt97YxZsgia3CnJMr8q7M8mJKQ@mail.gmail.com>
-	<e46ddc1973d50d0fa73d8737d0c682501396bae5.camel@linuxfoundation.org>
-	<CADkTA4NiS3Ww4VqttfjCPSu9AWs9r05-V+RggcYvk7UTiv-6YQ@mail.gmail.com>
-In-Reply-To: <CADkTA4NiS3Ww4VqttfjCPSu9AWs9r05-V+RggcYvk7UTiv-6YQ@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 19 Jun 2019 11:22:56 -0400
-Message-ID: <CADkTA4Pw-NX1bqtXQAxRUKULZ8FRsZiJVhJPQMozKn4i6cjtVQ@mail.gmail.com>
+References: <1509637698-17399-1-git-send-email-ayoub.zaki@embexus.com>
+	<f1aeb71da144e3cf77b9f1c1e402bb0f5f71e847.camel@gmail.com>
+	<CAMKF1spZojFkRCEqOE-RLkYpeTuub9O3i9OWg9sQpV19zjv+Xw@mail.gmail.com>
+	<615d805a254f145c076ef586e4aaead67f689e97.camel@linuxfoundation.org>
+	<2cd9ca60d5b70de9ed931d57cffca652d16bc984.camel@gmail.com>
+	<CAO5Uq5QK8+bF812AF4o-AG+sOMb4E51Wj88CoLWL4jSccLdy6A@mail.gmail.com>
+	<2964bfd2c8101f0497faf7c4de54b78172b5631d.camel@gmail.com>
+	<18e05da8a22ebe92979079187d1782413195cef4.camel@linuxfoundation.org>
+In-Reply-To: <18e05da8a22ebe92979079187d1782413195cef4.camel@linuxfoundation.org>
+From: Alex Kiernan <alex.kiernan@gmail.com>
+Date: Wed, 19 Jun 2019 16:30:05 +0100
+Message-ID: <CAO5Uq5R2D9g-+nikuMbrWbWYWBE51E=VLBPWtXvCQkJU4eHPfw@mail.gmail.com>
 To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
+Cc: Ayoub Zaki <ayoub.zaki@embexus.com>,
+	Luca Boccassi <luca.boccassi@gmail.com>,
+	Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto: Add SCSI support when ptest is in DISTRO_FEATURES
+Subject: Re: [meta-oe,v2] kernel-fitimage: introduce FIT_HASH_ALG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,110 +63,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 15:23:07 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 15:30:16 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Jun 19, 2019 at 9:11 AM Bruce Ashfield <bruce.ashfield@gmail.com> w=
-rote:
+On Wed, Jun 19, 2019 at 3:51 PM <richard.purdie@linuxfoundation.org> wrote:
 >
-> On Wed, Jun 19, 2019 at 8:44 AM <richard.purdie@linuxfoundation.org> wrot=
-e:
-> >
-> > On Wed, 2019-06-19 at 08:24 -0400, Bruce Ashfield wrote:
-> > > On Wed, Jun 19, 2019 at 6:51 AM Richard Purdie
-> > > <richard.purdie@linuxfoundation.org> wrote:
-> > > > On Tue, 2019-06-18 at 15:10 -0500, Mariano L=C3=B3pez wrote:
-> > > > > The scsi_debug module can't be built in some architectures as
-> > > > > they
-> > > > > have
-> > > > > SCSI support disabled by default. This patch will enable SCSI
-> > > > > support
-> > > > > as
-> > > > > well as the scsi_debug module when ptest is in DISTRO_FEATURES.
-> > > > >
-> > > > > Signed-off-by: Mariano L=C3=B3pez <just.another.mariano@gmail.com=
->
-> > > > > ---
-> > > > >  meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 5 ++++-
-> > > > >  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 5 ++++-
-> > > > >  meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 5 ++++-
-> > > > >  meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 5 ++++-
-> > > > >  4 files changed, 16 insertions(+), 4 deletions(-)
-> > > > >
-> > > > > diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > > b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > > index 0836dc7ea0..e6c8ee320c 100644
-> > > > > --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > > +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > > @@ -41,4 +41,7 @@ KERNEL_FEATURES_append =3D "
-> > > > > ${KERNEL_EXTRA_FEATURES}"
-> > > > >  KERNEL_FEATURES_append_qemuall=3D" cfg/virtio.scc"
-> > > > >  KERNEL_FEATURES_append_qemux86=3D" cfg/sound.scc
-> > > > > cfg/paravirt_kvm.scc"
-> > > > >  KERNEL_FEATURES_append_qemux86-64=3D" cfg/sound.scc
-> > > > > cfg/paravirt_kvm.scc"
-> > > > > -KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURE=
-S"
-> > > > > ,
-> > > > > "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
-> > > > > +KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURE=
-S"
-> > > > > ,
-> > > > > "ptest", "\
-> > > > > +                            features/scsi/scsi.scc \
-> > > > > +                            features/scsi/scsi-debug.scc \
-> > > > > +                         ","" ,d)}"
+> On Wed, 2019-06-19 at 10:14 +0100, Luca Boccassi wrote:
+> > On Wed, 2019-06-19 at 10:06 +0100, Alex Kiernan wrote:
+> > > On Wed, Jun 19, 2019 at 9:48 AM Luca Boccassi <
+> > > luca.boccassi@gmail.com
 > > > >
-> > > > Question to Bruce - can we mark scsi-debug.scc as having a
-> > > > dependency
-> > > > on scsi.scc?
+> > > > Thanks Richard - in case it helps, we've been using this patch
+> > > > for a few months at $work (on top of sumo) and it seems to work
+> > > > fine.
+> > > >
 > > >
-> > > With the goal that we can only list one of the fragments in the
-> > > KERNEL_FEATURES append ?
-> > > We can do something like that, I just want to make sure I'm grok'ing
-> > > the end goal.
+> > > I expect that's true for everyone touching stuff in this class - it
+> > > works fine for them... the problem is everyone else, since it's
+> > > terribly fragile and has no tests.
+> > >
+> > > I'd not be at all surprised if changing the default from sha1 to
+> > > sha256 doesn't break someone.
 > >
-> > Yes, it just seems odd that you'd have to remember to list both.
-> >
-> > If listing both makes sense I'm ok with it, I just thought it worth
-> > asking that question as it does seem like a missing dependency.
-> >
+> > Keeping the default to sha1 would be fine by me, it's the ability to
+> > configure it that is useful.
 >
-> No problem. I'll see what I can come up with today and follow up with
-> some info/details.
-
-I'm building a tweak now.
-
-scsi-debug just needs to include the core scsi support. Some
-features/fragments have different goals/use cases .. in this case,
-scsci-debug should haul in  everything it needs to be included as a
-standalone feature.
-
-Assuming my test works, the patch would just need to include
-scsi-debug.scc for all the platforms, and everything will just work.
-
-Bruce
-
-
+> Its merged and it probably makes sense to change the default, I just
+> continue to worry about how we can test this class and make sure the
+> commonly used workflows continue to work...
 >
-> Bruce
->
-> > Cheers,
-> >
-> > Richard
-> >
->
->
-> --
-> - Thou shalt not follow the NULL pointer, for chaos and madness await
-> thee at its end
-> - "Use the force Harry" - Gandalf, Star Trek II
 
+I've a bunch of stuff I need to get out of the door at the moment, but
+once that's out of the way, I'm going to see if I can get qemu +
+U-Boot + FIT image as part of a test image as a starting point.
 
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+-- 
+Alex Kiernan
 
