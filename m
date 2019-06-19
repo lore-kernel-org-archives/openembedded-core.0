@@ -1,36 +1,24 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 3CC7E60807
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C176605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 20:21:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45Tbvm0JzJz4f;
-	Wed, 19 Jun 2019 22:21:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1560975716;
-	bh=9az0JKk4Wy99j1zTdQTJt+zrnmBbYRWw8VOcmxrY4DU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TMDHQbJoZRRR0NWx6FKd/MqUyp6Yj+p/ECZPSEmXaMYkV7BmlRwmg/W3Q1uvKvqvb
-	Y6XwH0IRhegQVSFeJ1HKLJeT+LbqPpnLQEYx+KMN1okkNFqw/tedL/DBwKxsrRmrNg
-	XKihpr8IjSJNUM0hEMHh3Q0LoGwf2Fy02SZxFcBzse00dVq/atxCZDZndzalwslWST
-	YkOgIUu646kWH3oW4mPfd18cXB/T8PQbMquaBLoL2AH/22bbztAzOqCdYWgOrzxm2K
-	ReiCzVlroDeV16ZV1d34fymRY9XhLyE733pMJDXrziN/zJ4OdsU1OVAs7uoCvPf6ms
-	lpGyFJP3U0svJL8yGwtta8sT4RrcP7eW+9Yj7JWDVooGS6/5JCwqY6I7rKPMKN/DGq
-	215E08QCAXRZLO+9Iif3lKB+lB983DaQho9JN14BgrehaD3s5h7HWLik76BRY+Wowy
-	BkFS/bG5jhLsuPzAC3xwXCbAeTwzT/6Jjjg6a/KzCLhWipXm/S2qtA8FRMjzM6pqC+
-	V5sNptcvKvY3zupQUr+RyOZsPg8LvIdf8nMlPxfW831hLR20DcCrLsG5gQmOiL3mPt
-	MBEeg0V6BxoRle60nOKSqoZUJ5/MufsBUuQ+PCbr6lAzSudNkWcLGWEjfGabuGpl4J
-	JQ4LRMkdZ5u+DLc7yvLQyVbI=
-Date: Wed, 19 Jun 2019 23:21:49 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Pierre Le Magourou <lemagoup@gmail.com>
-Message-ID: <20190619202149.GA12516@localhost>
-References: <20190619135940.18544-1-lemagoup@gmail.com>
+	Wed, 19 Jun 2019 21:17:23 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5JLGriQ006539
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 14:17:14 -0700
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 19 Jun 2019 14:16:54 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 19 Jun 2019 14:16:54 -0700
+Message-ID: <20190619211654.228583-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-In-Reply-To: <20190619135940.18544-1-lemagoup@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
+Subject: [PATCH 1/1] glib-2.0: Fix CVE-2019-12450
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,25 +31,99 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 20:21:56 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Wed, 19 Jun 2019 21:17:23 -0000
+Content-Type: text/plain
 
-Not sure which of the changes is responsible, but this is new:
-WARNING: flex-native-2.6.0-r0 do_cve_check: Found unpatched CVE (CVE-2015-1773)
+Unchanged patch from glib.git which was added after current release.
 
-https://nvd.nist.gov/vuln/detail/CVE-2015-1773
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ .../glib-2.0/glib-2.0/CVE-2019-12450.patch         | 62 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.60.3.bb      |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
 
-Note that the flex tool is completely unrelated to Apache Flex.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
+new file mode 100644
+index 0000000..59e4919
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
+@@ -0,0 +1,62 @@
++glib-2.0: fix CVE-2019-12450
++
++Not in release 2.61.1.
++
++CVE: CVE-2019-12450
++
++Upstream-Status: Backport [github.com/GNOME/glib.git]
++Signed-off-by: Joe Slater <joe.slater@windrivere.com>
++---
++From d8f8f4d637ce43f8699ba94c9b7648beda0ca174 Mon Sep 17 00:00:00 2001
++From: Ondrej Holy <oholy@redhat.com>
++Date: Thu, 23 May 2019 10:41:53 +0200
++Subject: [PATCH] gfile: Limit access to files when copying
++
++file_copy_fallback creates new files with default permissions and
++set the correct permissions after the operation is finished. This
++might cause that the files can be accessible by more users during
++the operation than expected. Use G_FILE_CREATE_PRIVATE for the new
++files to limit access to those files.
++---
++ gio/gfile.c | 11 ++++++-----
++ 1 file changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/gio/gfile.c b/gio/gfile.c
++index 24b136d80..74b58047c 100644
++--- a/gio/gfile.c
+++++ b/gio/gfile.c
++@@ -3284,12 +3284,12 @@ file_copy_fallback (GFile                  *source,
++         out = (GOutputStream*)_g_local_file_output_stream_replace (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
++                                                                    FALSE, NULL,
++                                                                    flags & G_FILE_COPY_BACKUP,
++-                                                                   G_FILE_CREATE_REPLACE_DESTINATION,
++-                                                                   info,
+++                                                                   G_FILE_CREATE_REPLACE_DESTINATION |
+++                                                                   G_FILE_CREATE_PRIVATE, info,
++                                                                    cancellable, error);
++       else
++         out = (GOutputStream*)_g_local_file_output_stream_create (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
++-                                                                  FALSE, 0, info,
+++                                                                  FALSE, G_FILE_CREATE_PRIVATE, info,
++                                                                   cancellable, error);
++     }
++   else if (flags & G_FILE_COPY_OVERWRITE)
++@@ -3297,12 +3297,13 @@ file_copy_fallback (GFile                  *source,
++       out = (GOutputStream *)g_file_replace (destination,
++                                              NULL,
++                                              flags & G_FILE_COPY_BACKUP,
++-                                             G_FILE_CREATE_REPLACE_DESTINATION,
+++                                             G_FILE_CREATE_REPLACE_DESTINATION |
+++                                             G_FILE_CREATE_PRIVATE,
++                                              cancellable, error);
++     }
++   else
++     {
++-      out = (GOutputStream *)g_file_create (destination, 0, cancellable, error);
+++      out = (GOutputStream *)g_file_create (destination, G_FILE_CREATE_PRIVATE, cancellable, error);
++     }
++ 
++   if (!out)
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.60.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.60.3.bb
+index f4ade09..8b22bda 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.60.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.60.3.bb
+@@ -16,6 +16,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-write-bindir-into-pkg-config-files.patch \
+            file://0001-meson.build-do-not-hardcode-linux-as-the-host-system.patch \
+            file://0001-meson-do-a-build-time-check-for-strlcpy-before-attem.patch \
++           file://CVE-2019-12450.patch \
+            file://glib-meson.cross \
+            "
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.7.4
 
 
