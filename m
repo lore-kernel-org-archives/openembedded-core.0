@@ -1,53 +1,54 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com
-	[209.85.210.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 1ABCB7E635
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 89EF77E740
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 10:07:33 +0000 (UTC)
-Received: by mail-ot1-f48.google.com with SMTP id r21so15797765otq.6
+	Wed, 19 Jun 2019 10:32:56 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id m10so26464889edv.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 03:07:35 -0700 (PDT)
+	Wed, 19 Jun 2019 03:32:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=TbXHJC+JzRnHpgIYqaX8BT57637mV5lF1G7uCr4plBc=;
-	b=hF4/TRRiIjm38xIf9Dij2fFYObcD6QOCzSmuZ0ESMmItzlSq4bF/xuNUcj60iPkfJP
-	aO7oVCIXtfgJn5OA/9K2NSqplR30QrAM0L3lgcPcSO0D95pB1EE2YGQzQR64W+nje/Za
-	t3bjvpxjniQLvUdFxazMu3lQF4b4bmWaswbAUG8Elmb5jiLhs2t2CX9ye6SvGnEgCG5E
-	/kruLWbVB/6RuGPk/XdWanp2slVKJw+z8VI9i/MbKayMm+zYJo4mWbLpAkO20Vf2cfKX
-	t4YKtTBXcv52oarldS8tCy+aC0bKh2MWx2Ez7WvOnyunkH4q/gsqE8zujoyT/yx0YbwT
-	63fg==
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=09zDirjnLwH68NWcPjM3bXQs9Bjfaywut6ZXRdt94N8=;
+	b=ojO0eNfaOMS1fQQBJJeCxYJSeItOTnzHn6vJkOLv2Rj5HczNQJeWytMGyd4vRzY2kj
+	xB6REUtWCX5JpMFZ1buUVvbVvJ1GTsNhSHsA9zD9+Obt+b6QkQ/l+FEAnNLZD9kXACH4
+	uAYuRGqhwaHiRk7ROf1tsZVwP0RscmuKvSeAhCGN24HNSDWKvVZq8qa5LfHH+6Gep2Rs
+	Nu2uT9R3W0M8kJSJeF/wzRnergpSkVnfEm3kEDr2DtbppKOjVwb4SrbQtqQcoQR/R6GY
+	2Z6SZqGHMqiCNRqyX5h8U77BCYkutS6NKDU3JpJmQ4BPQKNZ4gW3RxhCgoLgxw+HB9La
+	wXsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=TbXHJC+JzRnHpgIYqaX8BT57637mV5lF1G7uCr4plBc=;
-	b=RajV+Rl0Q7TGldIVk3eOQw3RxcVu5qC6LGD7Tl7MK81eU9eOEEV74FHsOLBTsY0a6v
-	k7UHR8U2uLb8EfVTETrG6gIcRf+udawOC2SLvEyoC7VxwTn2axxYQun3KvZTt+yES8YL
-	EkhxiCuDa8+Oo2HqEJ1HZgHqndrIYP2fuUAOAVKJQVxa5DxubM73JS8pRW2Y9gkn2Vmr
-	zmNCF9dbjgWd4y5knS7xhIozja7B9X5DcBuAwmmIIGTFWIa2hLxf1Ma4yNLSiqFBCCvo
-	HwV2/MV90bCyBeQUO4Tx11ecwcRkaBFXSMg6Tgqq8t87UiapqrtwM8CRkukwMEwGl6nI
-	I+lg==
-X-Gm-Message-State: APjAAAV/6O67MwWnwz309AvCH02VFUT9K2Bey0spKtQP6OEMa18MoNAl
-	mX3O8nzFdOZTRruFzYdyonXkakOsrX6KJFHHk8M=
-X-Google-Smtp-Source: APXvYqyJDG0qUQxpIpgsDGjfX2ZEoNEOv9CN9+4ynTffG/dnRh4Tz8aYPFxFAAQ+EjkK73ts5sqkuPBDVsroHKK/YTg=
-X-Received: by 2002:a9d:d87:: with SMTP id 7mr65564074ots.263.1560938855120;
-	Wed, 19 Jun 2019 03:07:35 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=09zDirjnLwH68NWcPjM3bXQs9Bjfaywut6ZXRdt94N8=;
+	b=ptONbVn3EA7H6HnZDo2UgBStGMdrH3cr0d2V+Y62vSOXd75dSV+y+jSARsQ4jz/vMc
+	ZYHJJ0j7pqHE4+zdORpRGdD/gG7b26setbEZBFFZbiQ5UcWlmL5P24vZJjoScBhDEdUZ
+	AqnTRvc3dRe6mrx8KMblGAfIcskKhi6sLBDCD66VgYgSmpQ1GdaZqqONVfktMy2A5oI1
+	JgrwhQ1VTrGr6Ws5rSlBR/wrT0cQUliGYXqC8DIBlhDOd/8A4xMLHz6KWUFIHwg6WSJY
+	N/KBfbVwPrNwe4J163pSmWNB9VwcYX9Li1uXd+oGkkMSiYeSRHVvBPVYIQFuZ7HGHPHr
+	d1Ag==
+X-Gm-Message-State: APjAAAWGjrQLMBG3ziU7798B1LfRe76Bex4mq5aUqBadafm/iXLG/rSk
+	2mJedzN2VeA579rmQ5Cm8cfdcs4N7Ig=
+X-Google-Smtp-Source: APXvYqzibUCTCVGntiLo9ALZpSAsZY08wnIxe6BBsQoBp9y7pJS6MG3RtUbzyQPQ3PXVbQHLY4JyBA==
+X-Received: by 2002:a17:907:2114:: with SMTP id
+	qn20mr87974822ejb.138.1560940376757; 
+	Wed, 19 Jun 2019 03:32:56 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id x21sm3491075edb.0.2019.06.19.03.32.55
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 19 Jun 2019 03:32:56 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+To: openembedded-core@lists.openembedded.org,
+	ross.burton@intel.com
+Date: Wed, 19 Jun 2019 12:32:51 +0200
+Message-Id: <20190619103251.28854-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <CANNYZj9rVD4cZ-AN7rvF=0fuc4d99brU_Tt_wQeRMGm=L83M2w@mail.gmail.com>
-	<201906171422.x5HEMKtf012735@dan.rpsys.net>
-	<CANNYZj_vg_jzcMRhfQ35C_2kDnyH-yxVj52pKk2WpfZxfo5iOw@mail.gmail.com>
-	<591c1c8752c4c0526d18d5cd6596a35bc41c6645.camel@rpsys.net>
-	<CANNYZj-6ZbpdR9WHkhrjFL77U290ZM=B_c0W12b1aVT8oKjG3g@mail.gmail.com>
-	<CAMKF1srWM7ZzHMXGLbxH57pC1Ki-x6w0HyRTxYZWk3+T52_C4g@mail.gmail.com>
-In-Reply-To: <CAMKF1srWM7ZzHMXGLbxH57pC1Ki-x6w0HyRTxYZWk3+T52_C4g@mail.gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 19 Jun 2019 12:07:23 +0200
-Message-ID: <CANNYZj8aM88dvrPK2wMjGe3Jgm31uNQjae-432U=UgZxaVq_ZQ@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: "Eggleton, Paul" <paul.eggleton@intel.com>,
-	Richard Purdie <rpurdie@rpsys.net>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [AUH] lttng-ust: upgrading to 2.10.4 FAILED
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH] dpkg: Use less as pager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,75 +61,79 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 10:07:34 -0000
-Content-Type: multipart/alternative; boundary="000000000000f9c301058baa6548"
+X-List-Received-Date: Wed, 19 Jun 2019 10:32:56 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000f9c301058baa6548
-Content-Type: text/plain; charset="UTF-8"
+Debian traditionaly uses /usr/bin/pager as the system pager, which is a
+link to the user preferred pager. This is a Debianism.
 
-On Tue, 18 Jun 2019 at 17:49, Khem Raj <raj.khem@gmail.com> wrote:
+Without this patch:
 
->
-> >> a) we should have a bug for this as devtool shouldn't be giving
-> >> tracebacks?
-> >
-> >
-> > Bug filed:
-> > https://bugzilla.yoctoproject.org/show_bug.cgi?id=13404
-> >
-> >>
-> >> b) we could add some kind of "reset" command that AUH could run between
-> >> builds which would clean things up?
-> >
-> >
-> > There is such a command  - 'devtool reset' and AUH does run it, however
-> in this case it does not work because the recipe in devtool workspace is
-> half-complete. (I think devtool reset looks up the recipe to be reset in
-> workspace/appends, which is empty because of the traceback).
-> >
->
-> may be there should be devetool reset --force to override everything
-> and bring workspace to original state.
->
+root@qt5122:~# dpkg -l
+sh: pager: command not found
+dpkg-query: error: showing package list on pager subprocess returned error exit status 127
 
-I added a comment to the bug mentioning that.
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+---
+ meta/recipes-devtools/dpkg/dpkg.inc         |  2 +-
+ meta/recipes-devtools/dpkg/dpkg/pager.patch | 21 +++++++++++++++++++++
+ meta/recipes-devtools/dpkg/dpkg_1.19.4.bb   |  1 +
+ 3 files changed, 23 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-devtools/dpkg/dpkg/pager.patch
 
-Alex
+diff --git a/meta/recipes-devtools/dpkg/dpkg.inc b/meta/recipes-devtools/dpkg/dpkg.inc
+index fee7a75814..21ebf2d926 100644
+--- a/meta/recipes-devtools/dpkg/dpkg.inc
++++ b/meta/recipes-devtools/dpkg/dpkg.inc
+@@ -4,7 +4,7 @@ SECTION = "base"
+ 
+ DEPENDS = "zlib bzip2 perl ncurses"
+ DEPENDS_class-native = "bzip2-replacement-native zlib-native virtual/update-alternatives-native gettext-native perl-native"
+-RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} perl"
++RDEPENDS_${PN} = "${VIRTUAL-RUNTIME_update-alternatives} perl less"
+ RDEPENDS_${PN}_class-native = ""
+ 
+ UPSTREAM_CHECK_URI = "${DEBIAN_MIRROR}/main/d/dpkg/"
+diff --git a/meta/recipes-devtools/dpkg/dpkg/pager.patch b/meta/recipes-devtools/dpkg/dpkg/pager.patch
+new file mode 100644
+index 0000000000..e56b9d28af
+--- /dev/null
++++ b/meta/recipes-devtools/dpkg/dpkg/pager.patch
+@@ -0,0 +1,21 @@
++pager: Use less instead of pager
++
++pager is a Debianism. Istead use directly pager.
++
++Upstream-Status: Inappropriate [OE-Core integration specific]
++
++Suggested-by: Burton, Ross <ross.burton@intel.com>
++Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
++diff --git a/lib/dpkg/dpkg.h b/lib/dpkg/dpkg.h
++index 2bb067a..6cbce80 100644
++--- a/lib/dpkg/dpkg.h
+++++ b/lib/dpkg/dpkg.h
++@@ -95,7 +95,7 @@ DPKG_BEGIN_DECLS
++ #define MAXUPDATES         250
++ 
++ #define DEFAULTSHELL        "sh"
++-#define DEFAULTPAGER        "pager"
+++#define DEFAULTPAGER        "less"
++ 
++ #define MD5HASHLEN           32
++ #define MAXTRIGDIRECTIVE     256
+diff --git a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
+index 77fbfb5c91..b83868fec0 100644
+--- a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
++++ b/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${DEBIAN_MIRROR}/main/d/${BPN}/${BPN}_${PV}.tar.xz \
+            file://0006-add-musleabi-to-known-target-tripets.patch \
+            file://0007-dpkg-deb-build.c-Remove-usage-of-clamp-mtime-in-tar.patch \
+            file://0001-dpkg-Support-muslx32-build.patch \
++           file://pager.patch \
+            "
+ SRC_URI_append_class-native = " \
+                                 file://tweak-options-require-tar-1.27.patch \
+-- 
+2.20.1
 
---000000000000f9c301058baa6548
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 18 Jun 2019 at 17:49, Khem Raj &l=
-t;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<b=
-r></div><div class=3D"gmail_quote"><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><br>
-&gt;&gt; a) we should have a bug for this as devtool shouldn&#39;t be givin=
-g<br>
-&gt;&gt; tracebacks?<br>
-&gt;<br>
-&gt;<br>
-&gt; Bug filed:<br>
-&gt; <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13404" =
-rel=3D"noreferrer" target=3D"_blank">https://bugzilla.yoctoproject.org/show=
-_bug.cgi?id=3D13404</a><br>
-&gt;<br>
-&gt;&gt;<br>
-&gt;&gt; b) we could add some kind of &quot;reset&quot; command that AUH co=
-uld run between<br>
-&gt;&gt; builds which would clean things up?<br>
-&gt;<br>
-&gt;<br>
-&gt; There is such a command=C2=A0 - &#39;devtool reset&#39; and AUH does r=
-un it, however in this case it does not work because the recipe in devtool =
-workspace is half-complete. (I think devtool reset looks up the recipe to b=
-e reset in workspace/appends, which is empty because of the traceback).<br>
-&gt;<br>
-<br>
-may be there should be devetool reset --force to override everything<br>
-and bring workspace to original state.<br></blockquote><div><br></div><div>=
-I added a comment to the bug mentioning that.</div><div><br></div><div>Alex=
-<br></div></div></div>
-
---000000000000f9c301058baa6548--
