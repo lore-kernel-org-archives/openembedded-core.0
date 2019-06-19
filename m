@@ -1,62 +1,34 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id 7549C7E78C
+Return-Path: <joe.slater@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A30787E790
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 21:43:37 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id f9so755266wre.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 14:43:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=8LJx3HLEfC+wivYggPWGxwbsLW8Z9EVhbWYSkUzPI7g=;
-	b=DCL3CELcZHkWOHGu8O6PZWfG0Tct3MIEl+bp+M8xggY4T6/aieioefYqUALsb36Q7x
-	ddYrjI33TalNlebD4VRLSmYUpHdYkH8vcID7t+KgJX1WBBZ4jfPaSIwwYSw19izTPuVe
-	lcb/3G306TZu8dkDN3S3cRVnHX0kjlG0t4eq4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=8LJx3HLEfC+wivYggPWGxwbsLW8Z9EVhbWYSkUzPI7g=;
-	b=Jwtf6weJuddhpHq9aMvdZV4WOEJKvuV+BjWl8w6qQCdeP7n/3zz1gdVvnuFCds0NL/
-	glrfa6SVrhs9OPjxuQ3JX8kOEx+JCJrS5ffaYQVM+VaFmSSdoFvT3W9V+nxTtnVrSULc
-	CEAbf72155RQ4YxKaw7AQh5N23iUEc3zFHNdGZHP0Agc7G9kEgJB++5TBdlTlOBmAjhg
-	8cg0b9ovSY5G5WMw5i4qa5mCbdHGHYiJhT2PqURhM76CU6M9TI3aOgdP5b7Y4xZcWUcT
-	FgUsrDons2Bfqh3ROyWH2eSfkFHck3M4dWsjVcFY8gK6E1kFmoyanyYJ7y8pieAZuTv1
-	l+Sw==
-X-Gm-Message-State: APjAAAUnitP0AaidT6YBz3J46i86LDyAqMOje7NUCaDjtC3ADgtkvCdH
-	l/YarHZJe8DO2+RHOQIwdjC4HA==
-X-Google-Smtp-Source: APXvYqzEJsJM5fr0y50xq03YXmEfloQ7aCAoqt//TD2zh6wplOKefTA8BOTIgCuwmfplMaYW+niWtA==
-X-Received: by 2002:adf:ff90:: with SMTP id j16mr9941173wrr.135.1560980618280; 
-	Wed, 19 Jun 2019 14:43:38 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	x8sm24833729wre.73.2019.06.19.14.43.36
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 19 Jun 2019 14:43:37 -0700 (PDT)
-Message-ID: <e8ab13ac2b8030adabdce237417718fc184d92fd.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 19 Jun 2019 22:43:33 +0100
-In-Reply-To: <CAO5Uq5R2D9g-+nikuMbrWbWYWBE51E=VLBPWtXvCQkJU4eHPfw@mail.gmail.com>
-References: <1509637698-17399-1-git-send-email-ayoub.zaki@embexus.com>
-	<f1aeb71da144e3cf77b9f1c1e402bb0f5f71e847.camel@gmail.com>
-	<CAMKF1spZojFkRCEqOE-RLkYpeTuub9O3i9OWg9sQpV19zjv+Xw@mail.gmail.com>
-	<615d805a254f145c076ef586e4aaead67f689e97.camel@linuxfoundation.org>
-	<2cd9ca60d5b70de9ed931d57cffca652d16bc984.camel@gmail.com>
-	<CAO5Uq5QK8+bF812AF4o-AG+sOMb4E51Wj88CoLWL4jSccLdy6A@mail.gmail.com>
-	<2964bfd2c8101f0497faf7c4de54b78172b5631d.camel@gmail.com>
-	<18e05da8a22ebe92979079187d1782413195cef4.camel@linuxfoundation.org>
-	<CAO5Uq5R2D9g-+nikuMbrWbWYWBE51E=VLBPWtXvCQkJU4eHPfw@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: Ayoub Zaki <ayoub.zaki@embexus.com>,
-	Luca Boccassi <luca.boccassi@gmail.com>,
-	Patches and discussions about the oe-core layer
+	Wed, 19 Jun 2019 21:57:02 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
+	[147.11.189.41])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5JLuRds007442
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 19 Jun 2019 14:56:37 -0700
+Received: from ALA-MBD.corp.ad.wrs.com ([169.254.3.194]) by
+	ALA-HCB.corp.ad.wrs.com ([147.11.189.41]) with mapi id 14.03.0439.000;
+	Wed, 19 Jun 2019 14:56:16 -0700
+From: "Slater, Joseph" <joe.slater@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe,v2] kernel-fitimage: introduce FIT_HASH_ALG
+Thread-Topic: [OE-core] [oe-core][PATCH 1/1] parted: change device manager
+	check in ptest
+Thread-Index: AQHVJuWzOqva9bpzTkGVmtP3VZvvvqaj9nOA//+PNGA=
+Date: Wed, 19 Jun 2019 21:56:16 +0000
+Message-ID: <007BD92917A2324FA403BCF9A464CF84FA80EE62@ALA-MBD.corp.ad.wrs.com>
+References: <20190619212647.23685-1-joe.slater@windriver.com>,
+	<4613a7cbefe6f6a342f33e129834e5cc10f30fc1.camel@linuxfoundation.org>
+In-Reply-To: <4613a7cbefe6f6a342f33e129834e5cc10f30fc1.camel@linuxfoundation.org>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [147.11.119.234]
+MIME-Version: 1.0
+Subject: Re: [PATCH 1/1] parted: change device manager check in ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -69,19 +41,54 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 21:43:37 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 19 Jun 2019 21:57:03 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2019-06-19 at 16:30 +0100, Alex Kiernan wrote:
-> I've a bunch of stuff I need to get out of the door at the moment,
-> but once that's out of the way, I'm going to see if I can get qemu +
-> U-Boot + FIT image as part of a test image as a starting point.
-
-That would be great!
-
-Cheers,
-
-Richard
-
+I will send a patch upstream.   Joe=0A=
+________________________________________=0A=
+From: Richard Purdie [richard.purdie@linuxfoundation.org]=0A=
+Sent: Wednesday, June 19, 2019 2:39 PM=0A=
+To: Slater, Joseph; openembedded-core@lists.openembedded.org=0A=
+Subject: Re: [OE-core] [oe-core][PATCH 1/1] parted: change device manager c=
+heck in ptest=0A=
+=0A=
+On Wed, 2019-06-19 at 14:26 -0700, Joe Slater wrote:=0A=
+> t6001-psep should check for device manager the same way as=0A=
+> other ptests for parted -- look for an environment variable.=0A=
+>=0A=
+> Signed-off-by: Joe Slater <joe.slater@windriver.com>=0A=
+> ---=0A=
+>  meta/recipes-extended/parted/files/dm_check.patch | 22=0A=
+> ++++++++++++++++++++++=0A=
+>  meta/recipes-extended/parted/parted_3.2.bb        |  1 +=0A=
+>  2 files changed, 23 insertions(+)=0A=
+>  create mode 100644 meta/recipes-extended/parted/files/dm_check.patch=0A=
+>=0A=
+> diff --git a/meta/recipes-extended/parted/files/dm_check.patch=0A=
+> b/meta/recipes-extended/parted/files/dm_check.patch=0A=
+> new file mode 100644=0A=
+> index 0000000..bc0e95f=0A=
+> --- /dev/null=0A=
+> +++ b/meta/recipes-extended/parted/files/dm_check.patch=0A=
+> @@ -0,0 +1,22 @@=0A=
+> +parted: change check for device-manager=0A=
+> +=0A=
+> +Other ptests use this method.=0A=
+> +=0A=
+> +Upstream-Status: Pending=0A=
+> +=0A=
+> +Signed-off-by: Joe Slater <joe.slater@windriver.com>=0A=
+=0A=
+This sounds like something which should be an obvious/easy fix for=0A=
+upstream, any chance we can submit it?=0A=
+=0A=
+I'm hoping we can get our patch load down a bit so pushing obvious=0A=
+things to upstream is good...=0A=
+=0A=
+Cheers,=0A=
+=0A=
+Richard=0A=
+=0A=
 
