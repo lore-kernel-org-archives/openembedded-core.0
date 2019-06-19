@@ -1,54 +1,60 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 2BECA7E9A9
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com
+	[209.85.128.51])
+	by mail.openembedded.org (Postfix) with ESMTP id 74F117E9AF
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 14:49:55 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id d18so3737339wrs.5
+	Wed, 19 Jun 2019 14:51:23 +0000 (UTC)
+Received: by mail-wm1-f51.google.com with SMTP id c6so2179196wml.0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 07:49:57 -0700 (PDT)
+	Wed, 19 Jun 2019 07:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:cc:date:in-reply-to:references
 	:user-agent:mime-version:content-transfer-encoding;
-	bh=vDXIOtkJm73BT/JYk50Q9/Gb3iYluw9ddSn9dqAh1Io=;
-	b=gBP/Z+2uN3EJrrh2Vm3oN28OZR/v2LwvcdOou4fF46jYY8thDgVuuwxlpnstsNuXdt
-	UtJcX9TlG5g93kov4K7yfVGl0vxBdlKzM7BDE8arZ0A9DuKW/zja+DqhkYBhIE6rDLQ3
-	T+v/MZVL2TNHQQ3UV0K6tRVu55kXd3GvNRzcs=
+	bh=27yOfCNAVM0xiT+tDb33nAbLlZogiE7E7jiRA+pbimA=;
+	b=atSt8FQDDJhK+AhlRBYZHvVEX1fL4Mf5TDaW2vwlu4DQ9k74ofUFk+hJ9Dix9z8yRz
+	opSC/h+3AZTwnQoeRh0kDCvQ+DGb3zVqXgMlGbzLPJ7Of9CXBtQY27tlNTsngfGU5LaR
+	Gks/3RP9gZcEncDtZ9xMKdvHlspwWYA//TdCE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=vDXIOtkJm73BT/JYk50Q9/Gb3iYluw9ddSn9dqAh1Io=;
-	b=pqnKTH88ZoSLRFnysBdkg6X8I/ZhA7gjojcLiTSA4EKBJBicEQTeLQfV/E0yvVbIlX
-	BvYTOMbTeyvug4qjvhmaBKsv9paPG+nFcYV3oc7xqo96GtFXwvEAGbbwo0k7WCdyIWPy
-	W2LRKJPSppcwXfUQfNDxIc/6D6FulWEXtizaB25L955xJ/NIbeebo5W6P9OG5VaYeqVz
-	mJuBsA1M0DKltSWI+3SNnwSl3h0kOQ3BEq+7576CcDbwzRJleB7IfwzFUZgNrDiDbYm+
-	o2zSKuyZbhbG0bSj1gJQT8nBRywl2Pk4rd/ZiFGayr0smDAin0OyaKioJqBqHW3eQrtO
-	FPDw==
-X-Gm-Message-State: APjAAAV26PapfxeOnM2C74HH9eV/B9FNKnlIxz0hlLzzfcfrXQ5ODq6W
-	9fjqBxGKepMNPP4+AZx0BbpvtA==
-X-Google-Smtp-Source: APXvYqwCK6OODw62K/6FO2rsicr0jEjTVD5ENcXvj9Na1P/ygm8eaCaLXJW4Ihiq1YHafE49SA52Hw==
-X-Received: by 2002:a5d:42c5:: with SMTP id t5mr70164900wrr.5.1560955796813;
-	Wed, 19 Jun 2019 07:49:56 -0700 (PDT)
+	bh=27yOfCNAVM0xiT+tDb33nAbLlZogiE7E7jiRA+pbimA=;
+	b=keXF6kuENtToNKhRMTcPOb4WDefT3AkfBzxZ7RWMPhMjtagB+9jK/dWZtJq5q2964b
+	7fuFFMEx/YX4gL6nRpw5KfADarsUT5CfkMsM1WVXi+HIuDNCvwsbgttrph9aWoJfxl7S
+	Ke9BVU5m1s4MdVtsio6H3T5qvT5KP5noZ2zX30HX87Ga75yNgyK6ptoHjhsnnmVYjQP6
+	VBuxkQ7NvGt1GMC+cuTpRK3SlRlv9pXERI2dEbk0msA+Whkf6ZrrhPTRB9buIT2oeqay
+	oVxGNR5shPvRN37Xcha0i2vdOVOhQoHoAKCAM/z0aa5BtsmkA6Tkiaol9x3mBxQRJpXp
+	UW2w==
+X-Gm-Message-State: APjAAAU9h/Wk70h4Dww0RuQmARqVPpYXlKa84W9EnrYxti+wgCkgkhAm
+	ROZOkrMfH4kAwJE+z4idPujY/Q==
+X-Google-Smtp-Source: APXvYqxMlGbBMBcGLVVe6CvU15CHcvCSC6PF3Sx4Mbi0XWxLLb9VS6u0JoFVwbDiam6VGCuzwSNN1Q==
+X-Received: by 2002:a7b:c748:: with SMTP id w8mr8325637wmk.36.1560955884255;
+	Wed, 19 Jun 2019 07:51:24 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	q20sm38759356wra.36.2019.06.19.07.49.55
+	r3sm21449970wrr.61.2019.06.19.07.51.23
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 19 Jun 2019 07:49:56 -0700 (PDT)
-Message-ID: <016a4c641fc8470972bd958308d6022222551b85.camel@linuxfoundation.org>
+	Wed, 19 Jun 2019 07:51:23 -0700 (PDT)
+Message-ID: <18e05da8a22ebe92979079187d1782413195cef4.camel@linuxfoundation.org>
 From: richard.purdie@linuxfoundation.org
-To: akuster808 <akuster808@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 15:49:54 +0100
-In-Reply-To: <7046486b-5479-5e52-330f-55e90f53f49d@gmail.com>
-References: <20190619135643.23332-1-richard.purdie@linuxfoundation.org>
-	<20190619135643.23332-3-richard.purdie@linuxfoundation.org>
-	<7046486b-5479-5e52-330f-55e90f53f49d@gmail.com>
+To: Luca Boccassi <luca.boccassi@gmail.com>, Alex Kiernan
+	<alex.kiernan@gmail.com>
+Date: Wed, 19 Jun 2019 15:51:22 +0100
+In-Reply-To: <2964bfd2c8101f0497faf7c4de54b78172b5631d.camel@gmail.com>
+References: <1509637698-17399-1-git-send-email-ayoub.zaki@embexus.com>
+	<f1aeb71da144e3cf77b9f1c1e402bb0f5f71e847.camel@gmail.com>
+	<CAMKF1spZojFkRCEqOE-RLkYpeTuub9O3i9OWg9sQpV19zjv+Xw@mail.gmail.com>
+	<615d805a254f145c076ef586e4aaead67f689e97.camel@linuxfoundation.org>
+	<2cd9ca60d5b70de9ed931d57cffca652d16bc984.camel@gmail.com>
+	<CAO5Uq5QK8+bF812AF4o-AG+sOMb4E51Wj88CoLWL4jSccLdy6A@mail.gmail.com>
+	<2964bfd2c8101f0497faf7c4de54b78172b5631d.camel@gmail.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: Paul Eggleton <paul.eggleton@linux.intel.com>
-Subject: Re: [PATCH 3/3] uninative-tarball: Add libxcrypt-compat
+Cc: Ayoub Zaki <ayoub.zaki@embexus.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [meta-oe,v2] kernel-fitimage: introduce FIT_HASH_ALG
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,31 +67,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 14:49:56 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 14:51:23 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-06-19 at 07:45 -0700, akuster808 wrote:
+On Wed, 2019-06-19 at 10:14 +0100, Luca Boccassi wrote:
+> On Wed, 2019-06-19 at 10:06 +0100, Alex Kiernan wrote:
+> > On Wed, Jun 19, 2019 at 9:48 AM Luca Boccassi <
+> > luca.boccassi@gmail.com
+> > > 
+> > > Thanks Richard - in case it helps, we've been using this patch
+> > > for a few months at $work (on top of sumo) and it seems to work
+> > > fine.
+> > > 
+> > 
+> > I expect that's true for everyone touching stuff in this class - it
+> > works fine for them... the problem is everyone else, since it's
+> > terribly fragile and has no tests.
+> > 
+> > I'd not be at all surprised if changing the default from sha1 to
+> > sha256 doesn't break someone.
 > 
-> On 6/19/19 6:56 AM, Richard Purdie wrote:
-> > This avoids sstate/uninative relocation issues where a binary was
-> > built against
-> > a system with libcrypt.so.1 or libcrypt.so.2 and then run on the
-> > opposite by
-> > ensuring both libraries are in uninative.
-> Does this affect stable branches?
+> Keeping the default to sha1 would be fine by me, it's the ability to
+> configure it that is useful.
 
-Yes, we'll need to upgrade to the new uninative release, assuming these
-patches test successfully, merge and we make a new release with these
-tweaks in.
-
-I was going to send you email about this.
-
-I've cc'd Vineela+Tracy so they know too as I'd planned to give them a
-headsup.
-
-[Context is autobuilder failures with this issue which I root caused,
-SWAT hasn't filed the bug yet so we're ahead of them!]
+Its merged and it probably makes sense to change the default, I just
+continue to worry about how we can test this class and make sure the
+commonly used workflows continue to work...
 
 Cheers,
 
