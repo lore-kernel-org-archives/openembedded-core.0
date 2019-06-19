@@ -1,24 +1,50 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 57D3E7E71D
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id E32E97E198
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 12:00:34 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5JC0EP5022762
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 19 Jun 2019 12:24:45 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id 131so3065019ljf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 05:00:25 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 19 Jun 2019 05:00:02 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 19 Jun 2019 07:59:58 -0400
-Message-ID: <20190619115958.100567-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+	Wed, 19 Jun 2019 05:24:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=yO0KzkcSN3+2GMTYuUpedcnjFCDBfclQcb/o4RR8mBA=;
+	b=vAICXSEp4RcHmJeWO75LgeKV9n00zWTSi3O2rFdvk5yrmv1sAT2vYothnWvO5Ocsns
+	q0mImV9XWZCMkBoAIZ5O0ZNL6S8P/COZKEyCPwInHnlcdj9jUkFHFH+PxLG5HONdGErE
+	gYbQYUY9PFaAdmO5P2YsNyxr5N7LpxehLtJgOKY7kYNKuDUE4dxpVJrD6JKgspyxIc74
+	h0enBCctcBoBefm9v1E+mMg0EG607qE/NHAaCvKVzzKeHMtlxp82lTqN7YukbWjD1mJ5
+	lubAlQMoRzLqNNKFT2IQubMYUk+iqIAuqWGgsfhE42b17v5EtsV5h0Gj8UhWofpQuSjz
+	ysJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=yO0KzkcSN3+2GMTYuUpedcnjFCDBfclQcb/o4RR8mBA=;
+	b=tCF6tgpo+04co54ZKoVUByeTRgmNabdiZi8Wo4booKzYE6ZTfOJA95jIRviUB//bl3
+	UbedOTTfyKtWyQmX7T7pOJHsEEaEkkk+LRLx6klrUwV4zqALNDafCPVwEAmrPJaf617x
+	wDYqvlTZ8EP2EpSjdgRiTf8L7shVQVI7gVr4FGX0mpOgmrL6x0LYyWsF5QcMS0yoqdrD
+	LNX4a/JmLMow3hfcrJZ2oEyQ0t+yJvM4a0iM3FWPoM9tijgzUFOcryTu771vV49CSZOX
+	3vbrkaWnjRldUAG3u93zemqdFxKBluAGnVR8kH2ch7e6t5B0KS/KCY5uFCqoufELYJYA
+	Drnw==
+X-Gm-Message-State: APjAAAU9fcNY5tp01cihOjR5bHYBorSpskscWAT7kEwdkHwt/M0DW1fm
+	AbTD0CxTszweJvGxtL3JONEmU0LJdjHKfxS2KI4=
+X-Google-Smtp-Source: APXvYqwjgP3fBEm0wDuZaxw78AE03j3Jsw1KoGJJDeI+5nV9PfL3fmdmNHQCSkFfTaMXf21Mc8e4juXO3gU86XbScHc=
+X-Received: by 2002:a2e:5d54:: with SMTP id r81mr29150998ljb.104.1560947086095;
+	Wed, 19 Jun 2019 05:24:46 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH] rng-tools: 6.6 -> 6.7
+References: <cover.1560888312.git.just.another.mariano@gmail.com>
+	<f0d52edc0d79dca6ed77b0ae587ca594ccb6ee39.1560888312.git.just.another.mariano@gmail.com>
+	<5511748e8ce0af06eacccb81a90ee4563c307248.camel@linuxfoundation.org>
+In-Reply-To: <5511748e8ce0af06eacccb81a90ee4563c307248.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 19 Jun 2019 08:24:35 -0400
+Message-ID: <CADkTA4MAVbJ6H4uJXPmod+9NBt97YxZsgia3CnJMr8q7M8mJKQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] linux-yocto: Add SCSI support when ptest is in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,481 +57,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 12:00:34 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 12:24:46 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-From: Kai Kang <kai.kang@windriver.com>
+On Wed, Jun 19, 2019 at 6:51 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2019-06-18 at 15:10 -0500, Mariano L=C3=B3pez wrote:
+> > The scsi_debug module can't be built in some architectures as they
+> > have
+> > SCSI support disabled by default. This patch will enable SCSI support
+> > as
+> > well as the scsi_debug module when ptest is in DISTRO_FEATURES.
+> >
+> > Signed-off-by: Mariano L=C3=B3pez <just.another.mariano@gmail.com>
+> > ---
+> >  meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 5 ++++-
+> >  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 5 ++++-
+> >  meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 5 ++++-
+> >  meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 5 ++++-
+> >  4 files changed, 16 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > index 0836dc7ea0..e6c8ee320c 100644
+> > --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> > @@ -41,4 +41,7 @@ KERNEL_FEATURES_append =3D "
+> > ${KERNEL_EXTRA_FEATURES}"
+> >  KERNEL_FEATURES_append_qemuall=3D" cfg/virtio.scc"
+> >  KERNEL_FEATURES_append_qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
+> >  KERNEL_FEATURES_append_qemux86-64=3D" cfg/sound.scc
+> > cfg/paravirt_kvm.scc"
+> > -KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURES",
+> > "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+> > +KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURES",
+> > "ptest", "\
+> > +                            features/scsi/scsi.scc \
+> > +                            features/scsi/scsi-debug.scc \
+> > +                         ","" ,d)}"
+>
+> Question to Bruce - can we mark scsi-debug.scc as having a dependency
+> on scsi.scc?
 
-Upgrade rng-tools from 6.6 to latest commit 9fc873c which 26 commits
-beyond release 6.7:
+With the goal that we can only list one of the fragments in the
+KERNEL_FEATURES append ?
+We can do something like that, I just want to make sure I'm grok'ing
+the end goal.
 
-$ git describe 9fc873c5af0e39263
-v6.7-26-g9fc873c
+Bruce
 
-Because it includes some critical fixes such as configure fails and
-'Import yocto fixes for 6.6'.
+>
+> Cheers,
+>
+> Richard
+>
 
-* remove local patches that all are merged by upstream
-* backport patch to fix rngd fails to stop issue
-* add PACKAGECONFIG libp11
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- ...the-libc-is-lacking-argp-use-libargp.patch |  60 ---------
- .../0001-configure.ac-fix-typo.patch          |  27 -----
- ...nt-to-control-the-libargp-dependency.patch |  95 ---------------
- .../rng-tools/fix-rngd-fail-to-stop.patch     |  25 ++++
- .../rng-tools-5-fix-textrels-on-PIC-x86.patch | 114 ------------------
- .../rng-tools/rng-tools/underquote.patch      |  46 -------
- .../{rng-tools_6.6.bb => rng-tools_6.7.bb}    |   9 +-
- 7 files changed, 28 insertions(+), 348 deletions(-)
- delete mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch
- delete mode 100644 meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch
- delete mode 100644 meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch
- create mode 100644 meta/recipes-support/rng-tools/rng-tools/fix-rngd-fail-to-stop.patch
- delete mode 100644 meta/recipes-support/rng-tools/rng-tools/rng-tools-5-fix-textrels-on-PIC-x86.patch
- delete mode 100644 meta/recipes-support/rng-tools/rng-tools/underquote.patch
- rename meta/recipes-support/rng-tools/{rng-tools_6.6.bb => rng-tools_6.7.bb} (84%)
-
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch b/meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch
-deleted file mode 100644
-index 06d1d94369..0000000000
---- a/meta/recipes-support/rng-tools/rng-tools/0001-If-the-libc-is-lacking-argp-use-libargp.patch
-+++ /dev/null
-@@ -1,60 +0,0 @@
--From 06ba71887f667d45dd231a782a2751f36e8fe025 Mon Sep 17 00:00:00 2001
--From: Christopher Larson <chris_larson@mentor.com>
--Date: Mon, 15 Feb 2016 15:59:58 -0700
--Subject: [PATCH 1/4] If the libc is lacking argp, use libargp
--
--Patch pulled from Gentoo:
--
--    On glibc systems, argp is provided by libc.  However, on
--    uclibc and other systems which lack argp in their C library,
--    argp might be provided by a stand alone library, libargp.
--    This patch adds tests to the build system to find who provides
--    argp.
--
--    X-Gentoo-Bug: 292191
--    X-Gentoo-Bug-URL: https://bugs.gentoo.org/show_bug.cgi?id=292191
--    Reported-by: Ed Wildgoose <gentoo@wildgooses.com>
--    Signed-off-by: Anthony G. Basile <blueness@gentoo.org>
--
--Upstream-Status: Pending
--Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-----
-- configure.ac | 22 ++++++++++++++++++++++
-- 1 file changed, 22 insertions(+)
--
--diff --git a/configure.ac b/configure.ac
--index 4e799dc..c4a5dd8 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -135,6 +135,28 @@ AS_IF(
-- 	]
-- )
-- 
--+dnl First check if we have argp available from libc
--+AC_LINK_IFELSE(
--+	[AC_LANG_PROGRAM(
--+		[#include <argp.h>],
--+		[int argc=1; char *argv[]={"test"}; argp_parse(0,argc,argv,0,0,0); return 0;]
--+		)],
--+	[libc_has_argp="true"],
--+	[libc_has_argp="false"]
--+)
--+
--+dnl If libc doesn't provide argp, then test for libargp
--+if test "$libc_has_argp" = "false" ; then
--+	AC_MSG_WARN("libc does not have argp")
--+	AC_CHECK_LIB([argp], [argp_parse], [have_argp="true"], [have_argp="false"])
--+
--+	if test "$have_argp" = "false"; then
--+		AC_MSG_ERROR("no libargp found")
--+	else
--+		LIBS+=" -largp"
--+	fi
--+fi
--+
-- dnl -----------------
-- dnl Configure options
-- dnl -----------------
---- 
--2.7.4
--
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch b/meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch
-deleted file mode 100644
-index d4d28a01c4..0000000000
---- a/meta/recipes-support/rng-tools/rng-tools/0001-configure.ac-fix-typo.patch
-+++ /dev/null
-@@ -1,27 +0,0 @@
--From 99b0efebd765803203686d89bc4f995bcb103e78 Mon Sep 17 00:00:00 2001
--From: Hongxu Jia <hongxu.jia@windriver.com>
--Date: Sat, 10 Nov 2018 09:53:19 +0800
--Subject: [PATCH] configure.ac: fix typo
--
--Upstream-Status: Submitted [https://github.com/nhorman/rng-tools.git]
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- configure.ac | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index 4e799dc..0251928 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -62,7 +62,7 @@ AS_IF([test $target_cpu = powerpc64le], [AC_DEFINE([HAVE_DARN],1,[Enable DARN])]
-- AM_CONDITIONAL([JITTER], [false])
-- 
-- AC_ARG_ENABLE(jitterentropy,
---	AS_HELP_STRING([--disable-jitterntropy | --enable-jitterentropy=<path>],
--+	AS_HELP_STRING([--disable-jitterentropy | --enable-jitterentropy=<path>],
-- 	[Disable jitterentropy source, or specify its location]),
-- 	[if [ test -d $enable_jitterentropy ]; then
-- 		export LDFLAGS+=-L$enable_jitterentropy;
---- 
--2.7.4
--
-diff --git a/meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch b/meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch
-deleted file mode 100644
-index be60fe97f6..0000000000
---- a/meta/recipes-support/rng-tools/rng-tools/0002-Add-argument-to-control-the-libargp-dependency.patch
-+++ /dev/null
-@@ -1,95 +0,0 @@
--From 711e2f76890e3c5b08f64859d9fd913ddbec7d50 Mon Sep 17 00:00:00 2001
--From: Christopher Larson <chris_larson@mentor.com>
--Date: Mon, 22 Oct 2018 15:26:47 +0800
--Subject: [PATCH 2/4] Add argument to control the libargp dependency
--
--This ensures that the builds are always deterministic. If the argument isn't
--passed, the default behavior is to use libargp if the libc doesn't have argp.
--
--Upstream-Status: Pending
--Signed-off-by: Christopher Larson <chris_larson@mentor.com>
--
--Rebase to 6.6
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- configure.ac | 55 ++++++++++++++++++++++++++++++++++++-------------------
-- 1 file changed, 36 insertions(+), 19 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index c4a5dd8..dd1c30f 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -40,6 +40,13 @@ AC_ARG_WITH([nistbeacon],
-- 	[with_nistbeacon=check]
-- )
-- 
--+AC_ARG_WITH([libargp],
--+	AS_HELP_STRING([--without-libargp],
--+		[Disable libargp support. Systems whose libc lacks argp can use libargp instead. (Default: check if libc lacks argp)]),
--+	[with_libargp=$withval],
--+	[with_libargp=check]
--+)
--+
-- dnl Make sure anyone changing configure.ac/Makefile.am has a clue
-- AM_MAINTAINER_MODE
-- AM_PROG_AS
--@@ -135,27 +142,37 @@ AS_IF(
-- 	]
-- )
-- 
---dnl First check if we have argp available from libc
---AC_LINK_IFELSE(
---	[AC_LANG_PROGRAM(
---		[#include <argp.h>],
---		[int argc=1; char *argv[]={"test"}; argp_parse(0,argc,argv,0,0,0); return 0;]
---		)],
---	[libc_has_argp="true"],
---	[libc_has_argp="false"]
--+dnl Determine if we need libargp: either user requested, or libc has no argp
--+AS_IF(
--+	[test "x$with_libargp" != "xyes"],
--+	[
--+		AC_LINK_IFELSE(
--+			[AC_LANG_PROGRAM(
--+				[#include <argp.h>],
--+				[int argc=1; char *argv[]={"test"}; argp_parse(0,argc,argv,0,0,0); return 0;]
--+				)],
--+			[need_libargp=no],
--+			[need_libargp=yes
--+			 if test "x$with_libargp" = "xno"; then
--+				AC_MSG_FAILURE([libargp disabled and libc does not have argp])
--+			 fi]
--+		)
--+	],
--+	[need_libargp=yes],
-- )
-- 
---dnl If libc doesn't provide argp, then test for libargp
---if test "$libc_has_argp" = "false" ; then
---	AC_MSG_WARN("libc does not have argp")
---	AC_CHECK_LIB([argp], [argp_parse], [have_argp="true"], [have_argp="false"])
---
---	if test "$have_argp" = "false"; then
---		AC_MSG_ERROR("no libargp found")
---	else
---		LIBS+=" -largp"
---	fi
---fi
--+dnl Check for libargp
--+AS_IF(
--+	[test "x$need_libargp" = "xyes"],
--+	[
--+		AC_CHECK_LIB(
--+			[argp],
--+			[argp_parse],
--+			[LIBS="$LIBS -largp"],
--+			[AC_MSG_FAILURE([libargp not found])]
--+		)
--+	]
--+)
-- 
-- dnl -----------------
-- dnl Configure options
---- 
--2.7.4
--
-diff --git a/meta/recipes-support/rng-tools/rng-tools/fix-rngd-fail-to-stop.patch b/meta/recipes-support/rng-tools/rng-tools/fix-rngd-fail-to-stop.patch
-new file mode 100644
-index 0000000000..58cf3f9d59
---- /dev/null
-+++ b/meta/recipes-support/rng-tools/rng-tools/fix-rngd-fail-to-stop.patch
-@@ -0,0 +1,25 @@
-+It fails to stop rngd. It just shows warnings when stop rngd such as by:
-+
-+$ systemctl stop rngd.service
-+
-+but stalls shutdown untill daemon rngd is killed.
-+
-+Backport patch to fix the issue.
-+
-+Upstream-Status: Backport [https://bugzilla.redhat.com/show_bug.cgi?id=1690364#c8]
-+
-+Signed-off-by: Kai Kang <kai.kang@windriver.com>
-+---
-+diff --git a/rngd_jitter.c b/rngd_jitter.c
-+index 54070ae..7a69bf9 100644
-+--- a/rngd_jitter.c
-++++ b/rngd_jitter.c
-+@@ -280,7 +280,7 @@ static void *thread_entropy_task(void *data)
-+ 
-+ 		/* Write to pipe */
-+ 		written = 0;
-+-		while(written != me->buf_sz) {
-++		while(me->active && written != me->buf_sz) {
-+ 			message(LOG_DAEMON|LOG_DEBUG, "Writing to pipe\n");
-+ 			ret = write(me->pipe_fd, &tmpbuf[written], me->buf_sz - written);
-+ 			message(LOG_DAEMON|LOG_DEBUG, "DONE Writing to pipe with return %ld\n", ret);
-diff --git a/meta/recipes-support/rng-tools/rng-tools/rng-tools-5-fix-textrels-on-PIC-x86.patch b/meta/recipes-support/rng-tools/rng-tools/rng-tools-5-fix-textrels-on-PIC-x86.patch
-deleted file mode 100644
-index 614adab27f..0000000000
---- a/meta/recipes-support/rng-tools/rng-tools/rng-tools-5-fix-textrels-on-PIC-x86.patch
-+++ /dev/null
-@@ -1,114 +0,0 @@
--From d8b1bb8edd99b2898720b4f10d292a67d532db48 Mon Sep 17 00:00:00 2001
--From: "Francisco Blas Izquierdo Riera (klondike)" <klondike@gentoo.org>
--Date: Mon, 22 Oct 2018 15:29:36 +0800
--Subject: [PATCH 4/4] Fix assemby textrels on rdrand_asm.S on PIC x86
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--This patch updates the fixes in the assembly in rdrand_asm.S in
--sys-apps/rng-tools-5 so it won't generate textrels on PIC systems.
--The main fixes are in the use of leal in SETPTR for such systems, the rest is
--the usual PIC support stuff.
--
--This should fix Gentoo bug #469962 and help fix #518210
--
--This patch is released under the GPLv2 or a higher version license as is the
--original file as long as the author and the tester are credited.
--
--Gentoo-bug-url: https://bugs.gentoo.org/show_bug.cgi?id=469962
--Gentoo-bug-url: https://bugs.gentoo.org/show_bug.cgi?id=518210
--Signed-off-by: Francisco Blas Izquierdo Riera (klondike) <klondike@gentoo.org>
--Reported-by: cilly <cilly@cilly.mine.nu>
--Reported-by: Manuel Rüger <mrueg@gentoo.org>
--Tested-by: Anthony Basile <blueness@gentoo.org>
--
--Upstream-Status: Pending
-----
-- rdrand_asm.S | 27 +++++++++++++++++++++++++++
-- 1 file changed, 27 insertions(+)
--
--diff --git a/rdrand_asm.S b/rdrand_asm.S
--index b5d260a..7811cf2 100644
----- a/rdrand_asm.S
--+++ b/rdrand_asm.S
--@@ -2,6 +2,7 @@
--  * Copyright (c) 2011-2014, Intel Corporation
--  * Authors: Fenghua Yu <fenghua.yu@intel.com>,
--  *          H. Peter Anvin <hpa@linux.intel.com>
--+ * PIC code by: Francisco Blas Izquierdo Riera (klondike) <klondike@gentoo.org>
--  *
--  * This program is free software; you can redistribute it and/or modify it
--  * under the terms and conditions of the GNU General Public License,
--@@ -172,7 +173,19 @@ ENTRY(x86_rdseed_or_rdrand_bytes)
-- 	jmp	4b
-- ENDPROC(x86_rdseed_or_rdrand_bytes)
-- 
--+#if defined(__PIC__)
--+#define INIT_PIC() \
--+	pushl	%ebx ; \
--+	call    __x86.get_pc_thunk.bx ; \
--+	addl    $_GLOBAL_OFFSET_TABLE_, %ebx
--+#define END_PIC() \
--+	popl	%ebx
--+#define SETPTR(var,ptr) leal (var)@GOTOFF(%ebx),ptr
--+#else
--+#define INIT_PIC()
--+#define END_PIC()
-- #define SETPTR(var,ptr)	movl $(var),ptr
--+#endif
-- #define PTR0	%eax
-- #define PTR1	%edx
-- #define PTR2	%ecx
--@@ -188,6 +201,7 @@ ENTRY(x86_aes_mangle)
-- 	movl	8(%ebp), %eax
-- 	movl	12(%ebp), %edx
-- 	push	%esi
--+	INIT_PIC()
-- #endif
-- 	movl	$512, CTR3	/* Number of rounds */
-- 	
--@@ -278,6 +292,7 @@ offset = offset + 16
-- 	movdqa	%xmm7, (7*16)(PTR1)
-- 
-- #ifdef __i386__
--+	END_PIC()
-- 	pop	%esi
-- 	pop	%ebp
-- #endif
--@@ -292,6 +307,7 @@ ENTRY(x86_aes_expand_key)
-- 	push	%ebp
-- 	mov	%esp, %ebp
-- 	movl	8(%ebp), %eax
--+	INIT_PIC()
-- #endif
-- 
-- 	SETPTR(aes_round_keys, PTR1)
--@@ -321,6 +337,7 @@ ENTRY(x86_aes_expand_key)
-- 	call	1f
-- 
-- #ifdef __i386__
--+	END_PIC()
-- 	pop	%ebp
-- #endif
-- 	ret
--@@ -341,6 +358,16 @@ ENTRY(x86_aes_expand_key)
-- 
-- ENDPROC(x86_aes_expand_key)
-- 
--+#if defined(__i386__) && defined(__PIC__)
--+	.section	.text.__x86.get_pc_thunk.bx,"axG",@progbits,__x86.get_pc_thunk.bx,comdat
--+	.globl	__x86.get_pc_thunk.bx
--+	.hidden	__x86.get_pc_thunk.bx
--+	.type	__x86.get_pc_thunk.bx, @function
--+__x86.get_pc_thunk.bx:
--+	movl	(%esp), %ebx
--+	ret
--+#endif
--+
-- 	.bss
-- 	.balign 64
-- aes_round_keys:
---- 
--2.7.4
--
-diff --git a/meta/recipes-support/rng-tools/rng-tools/underquote.patch b/meta/recipes-support/rng-tools/rng-tools/underquote.patch
-deleted file mode 100644
-index aa4bbcb346..0000000000
---- a/meta/recipes-support/rng-tools/rng-tools/underquote.patch
-+++ /dev/null
-@@ -1,46 +0,0 @@
--From 03fe7efa1bc04a83fb9b6787998e7baa7ee90646 Mon Sep 17 00:00:00 2001
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Date: Mon, 22 Oct 2018 15:27:41 +0800
--Subject: [PATCH 3/4] Fix underquoted m4 entry. This causes a failure if gcrypt
-- isn't present:
--
--| configure: libgcrypt support disabled
--| ../rng-tools-5/configure: line 4345: ac_fn_c_try_link: command not found
--| configure: error: in `/media/build1/poky/build/tmp/work/i586-poky-linux/rng-tools/5-r0/build':
--
--RP
--2016/2/16
--
--Upstream-Status: Pending
--
--Rebase to 6.6
--Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-----
-- configure.ac | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index dd1c30f..88d2be3 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -124,7 +124,7 @@ AS_IF(
-- 	[test "x$with_libgcrypt" != "xno"],
-- 	[
-- 		AC_CHECK_HEADER([gcrypt.h],
---			AC_CHECK_LIB(
--+			[AC_CHECK_LIB(
-- 				[gcrypt],
-- 				[gcry_check_version], ,
-- 				[
--@@ -133,7 +133,7 @@ AS_IF(
-- 						AC_MSG_NOTICE([libgcrypt support disabled])
-- 					fi
-- 				]
---			),
--+			)],
-- 			[if test "x$with_libgcrypt" != "xcheck"; then
-- 				AC_MSG_FAILURE([libgcrypt headers not found]); else
-- 				AC_MSG_NOTICE([libgcrypt support disabled])
---- 
--2.7.4
--
-diff --git a/meta/recipes-support/rng-tools/rng-tools_6.6.bb b/meta/recipes-support/rng-tools/rng-tools_6.7.bb
-similarity index 84%
-rename from meta/recipes-support/rng-tools/rng-tools_6.6.bb
-rename to meta/recipes-support/rng-tools/rng-tools_6.7.bb
-index b0afa4b0eb..aeb558b2b7 100644
---- a/meta/recipes-support/rng-tools/rng-tools_6.6.bb
-+++ b/meta/recipes-support/rng-tools/rng-tools_6.7.bb
-@@ -10,16 +10,12 @@ DEPENDS = "sysfsutils"
- 
- SRC_URI = "\
-     git://github.com/nhorman/rng-tools.git \
--    file://0001-If-the-libc-is-lacking-argp-use-libargp.patch \
--    file://0002-Add-argument-to-control-the-libargp-dependency.patch \
--    file://underquote.patch \
--    file://rng-tools-5-fix-textrels-on-PIC-x86.patch \
--    file://0001-configure.ac-fix-typo.patch \
-+    file://fix-rngd-fail-to-stop.patch \
-     file://init \
-     file://default \
-     file://rngd.service \
- "
--SRCREV = "4ebc21d6f387bb7b4b3f6badc429e27b21c0a6ee"
-+SRCREV = "9fc873c5af0e392632e6b736938b811f7ca97251"
- 
- S = "${WORKDIR}/git"
- 
-@@ -31,6 +27,7 @@ PACKAGECONFIG_libc-musl = "libargp libjitterentropy"
- PACKAGECONFIG[libargp] = "--with-libargp,--without-libargp,argp-standalone,"
- PACKAGECONFIG[libgcrypt] = "--with-libgcrypt,--without-libgcrypt,libgcrypt,"
- PACKAGECONFIG[libjitterentropy] = "--enable-jitterentropy,--disable-jitterentropy,libjitterentropy"
-+PACKAGECONFIG[libp11] = "--with-pkcs11,--without-pkcs11,libp11 openssl"
- PACKAGECONFIG[nistbeacon] = "--with-nistbeacon,--without-nistbeacon,curl libxml2 openssl"
- 
- INITSCRIPT_NAME = "rng-tools"
--- 
-2.20.0
-
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
