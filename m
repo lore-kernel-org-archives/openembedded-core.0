@@ -1,59 +1,48 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E79EE7EA4F
+Return-Path: <lemagoup@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4D2F97EA58
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 15:45:11 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id C7D52184A3
+	Wed, 19 Jun 2019 15:58:46 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id u19so361418ior.9
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:12 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id M9nEq_XX0eoB
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 81DE218508
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 681871E083
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5CF981E081
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder03.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 510281ABA
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:09 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x5JFj9Hm023120
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 17:45:09 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x5JFj9rb023119
-	for openembedded-core@lists.openembedded.org;
-	Wed, 19 Jun 2019 17:45:09 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 17:45:05 +0200
-Message-Id: <20190619154506.23071-2-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190619154506.23071-1-pkj@axis.com>
-References: <20190619154506.23071-1-pkj@axis.com>
+	Wed, 19 Jun 2019 08:58:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+0Q4+s7Pr0qGBCKh64Mezd27LqiHkfoPFlgiF717zn8=;
+	b=Dr4aRk2LM6ZEksCW/PGOuYioR81EmmXohGDVvfVa4FIbhHY+6czLnzbZIX9bfAfqz/
+	qEasX8Yaq/HfQGYlY/T9Ng9v5jaIi/x+q3IVmfn8lDIpNm1PjEpkTqw8TsQqyHtLKQCF
+	NQ8qX8B3btGnl2w8GpKJCXBpTxeog4jwVru+Y+ZAbgJjmuFktLKGWfnrVfOKySpyRI6d
+	OzDsi3ZaD4q5hCx03Zg8cCM6xmmx/khoBXShrpZ6uCReiWRNT+Ph7rKxc343LgeZVLWY
+	6o9QmxGlF2y+2Z3ezGY8oqHA5tJ8IovAFt0BXeL1H4ezLFS/9a6yejmOaDSBBs2f79fx
+	6YAA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+0Q4+s7Pr0qGBCKh64Mezd27LqiHkfoPFlgiF717zn8=;
+	b=MBFbiSX/N9vwwzq0pAmjmGp12q1RGqOgmMFiUm8KXw448bBSepBoKeLSgZJtau6O14
+	qRn2k1rCxQOSoWFKROnk+dG3mgb/cK0+FcV6cFeWo/KnE8qifnVwV7rBjdewHIhwi4j1
+	+HjF1egsyB/V+6hx0j5l4Alkge9OXTD0mkLT++Ug9C2RXB/1WfpQq3MMgFnZNBjmAMTX
+	az2d7kLIcT2sjsd9OdeOppRJHH+F0gpZEauLrkRR6CcRbRRuhAUcihn3mpa3QwNVl405
+	vgwe7PFQwnPhAYdR18YrZg46nx8Mmamh+OHBfbEG0wwu1Sj6jpgY9gOHv0el7KYVJzKY
+	rKfg==
+X-Gm-Message-State: APjAAAVOcZ2H7b6Bio2MOZANSDQQ4V8qKMANfMtmdksDw/m6+u9oDGyc
+	ZLoBIxsiKpWWzjueU4LQpGSnwS5nx4/8KVQU21E=
+X-Google-Smtp-Source: APXvYqxCnjo17wF/RkdkEOJmJQk1Y5OnVn+/Qw1Zbd4R6yhGYegw8c7h+4TUQIXo26P8gIwDBCF+ZrQOIhLRwssyetE=
+X-Received: by 2002:a5d:890d:: with SMTP id b13mr54913019ion.124.1560959927288;
+	Wed, 19 Jun 2019 08:58:47 -0700 (PDT)
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [warrior][PATCH 2/3] texinfo-dummy-native: Rewrite template.py to use argparse
+References: <20190619135940.18544-1-lemagoup@gmail.com>
+	<20190619135940.18544-2-lemagoup@gmail.com>
+	<CAJTo0La_q0KTZrDQrnyiejgOzGCP0YNqF=tS++5ZYaoVCE+xAA@mail.gmail.com>
+In-Reply-To: <CAJTo0La_q0KTZrDQrnyiejgOzGCP0YNqF=tS++5ZYaoVCE+xAA@mail.gmail.com>
+From: Pierre Le Magourou <lemagoup@gmail.com>
+Date: Wed, 19 Jun 2019 17:58:35 +0200
+Message-ID: <CAEz4NHqeaN9pUs-J733LfO3aJ-fvOcKEcp-9xJ9XyyFvsXQOCw@mail.gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] cve-check: Remove dependency to cve-check-tool-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -66,118 +55,22 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 15:45:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 19 Jun 2019 15:58:46 -0000
+Content-Type: multipart/alternative; boundary="000000000000f98c15058baf4d6c"
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+--000000000000f98c15058baf4d6c
+Content-Type: text/plain; charset="UTF-8"
 
-The original version of template.py parses the arguments manually. This
-fails when looking for the -E option if, e.g., an -I option is specified
-without any space before its argument, and that argument contains the
-letter 'E'.
+> Does this mean we can delete the cve-check-tool recipe itself too?
+>
 
-A minor difference to the original version is that it parsed the
-arguments in the order they were specified on the command line whereas
-this version will always handle -E before -o.
+Yes, with this patch cve-check class does not need cve-check-tool anymore.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- 
-This is a backport from master.
+Pierre
 
- .../texinfo-dummy/template.py                 | 55 ++++++-------------
- 1 file changed, 18 insertions(+), 37 deletions(-)
+--000000000000f98c15058baf4d6c
+Content-Type: text/html; charset="UTF-8"
 
-diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-index fcc28548af..86c7c1811a 100644
---- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-+++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-@@ -28,10 +28,8 @@
- # of the executable from argv[0] and emulate the corresponding program, so
- # multiple copies of this script will exist under different names.
- 
--import sys, os
-+import sys, os, argparse
- 
--olong = "--output="
--Elong = "--macro-expand="
- 
- this_binary = sys.argv[0].split("/")[-1]
- 
-@@ -61,18 +59,9 @@ complex_binaries = "makeinfo texi2any".split()
- 
- valid_binaries = simple_binaries + complex_binaries
- 
--# For generating blank output files.
--def touch_file(path):
--    with open(path, "w"):
--        pass
--
- assert this_binary in valid_binaries, \
-        this_binary + " is not one of " + ', '.join(valid_binaries)
- 
--if "--version" in sys.argv:
--    print(version_str)
--    sys.exit(0)
--
- # For debugging
- log_interceptions = False
- if log_interceptions:
-@@ -81,35 +70,27 @@ if log_interceptions:
- 
- # Look through the options and flags, and if necessary, touch any output
- # files.
--arg_idx = 1
--while arg_idx < len(sys.argv):
--    arg = sys.argv [arg_idx]
--
--    if arg == "--":
--        break
-+p = argparse.ArgumentParser()
-+if this_binary in complex_binaries:
-+    p.add_argument('-E', '--macro-expand', metavar='FILE')
-+p.add_argument('-o', '--output', metavar='DEST')
-+p.add_argument('--version', action='store_true')
- 
--    # Something like -I . can result in a need for this (specifically the .)
--    elif len(arg) < 2:
--        pass
--
--    # Check if -o or --output is specified. These can be used at most once.
--    elif arg[0] == '-' and arg[1] != '-' and arg[len(arg) - 1] == 'o':
--        touch_file(sys.argv[arg_idx + 1])
--        sys.exit(0)
--    elif arg.startswith(olong):
--        touch_file(arg.split("=")[1])
--        sys.exit(0)
-+args, unknown = p.parse_known_args()
- 
--    # Check for functionality that isn't implemented yet.
--    else:
--        assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
--               this_binary in simple_binaries, \
--               "-E option not yet supported" + stub_msg
-+if args.version:
-+    print(version_str)
-+    sys.exit(0)
- 
--        assert not arg.startswith(Elong), \
--               Elong[:-1] + " option not yet supported" + stub_msg
-+# Check for functionality that isn't implemented yet.
-+assert not getattr(args, 'macro_expand', None), \
-+    "-E/--macro-expand option not yet supported" + stub_msg
- 
--    arg_idx += 1
-+# Check if -o or --output is specified.
-+if args.output:
-+    with open(args.output, 'w'):
-+        pass
-+    sys.exit(0)
- 
- # The -o/--output option overrides the default. For makeinfo and texi2any,
- # that default is to look for a @setfilename command in the input file.
--- 
-2.21.0
+<div dir="ltr">&gt; Does this mean we can delete the cve-check-tool recipe itself too?<br>&gt;<br><div><br></div><div>Yes, with this patch cve-check class does not need cve-check-tool anymore.</div><div><br></div><div>Pierre<br></div><div><br></div></div>
 
-
+--000000000000f98c15058baf4d6c--
