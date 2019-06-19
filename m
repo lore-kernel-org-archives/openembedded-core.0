@@ -1,49 +1,49 @@
 Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C038D7E951
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 11C8D7E95B
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 13:25:04 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id a15so1793745wmj.5
+	Wed, 19 Jun 2019 13:25:05 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c2so3388976wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 06:25:06 -0700 (PDT)
+	Wed, 19 Jun 2019 06:25:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7qYVW7bpvJJF0GzbLHiH+nCdOeoGzk2N//J9SEpqIhM=;
-	b=sg1JnNhZi8+VSBkzM7LqWZeUwVZ5WdwB5csnj6NUa/P/4cN6N3pKatENYGZQX008W6
-	Nw7kdV9oQXl22n8duKRG5Sowaqf270Eq/OEaf2lYzlYDA6Oo26KLETK9nLSmfrDYT0jt
-	l7KgnckWRp/mbnA1Z3zVudNS/Y3bFQGHOQ8gEW8j1wUZsEKm3oWisQEFBpGAv/JnyKsU
-	7vGO4jrhg9l+ZJCV8Rz6U+dZou2EHjCR3J5TZCAd7pmcbE4GxYebANK2YxCPGIS+HV5p
-	NicSUvF4bD2WYgNPdMcYg1pcJsAfwpPDm/ZgyGDahgOHwzYwQ5qrxDtCrGoElh6lSirG
-	Hi3A==
+	bh=kNlwvn0NpMjb1LtLkH7GUtyDlfBGWREszbIrUsB/zMc=;
+	b=amLhgva8khEiTqcMGPlCM3XGab9Dgqgapv77NzfG8R/OrVESuOpNZJfJ3xcGFbHJNR
+	hIFtzEX8cpfKpcFK/QKm45m35YYKe5vLZ9RgBCgpPaSq2R23MTNXk7RcEo4GxBDJIkBA
+	FXxKHGYTA0qeRCH5TZbGDAg7syNBlyuxA++mA4fHVwtZBAlNS4KeVVN+bTwB75UD3yej
+	NKG/8cg88dbNa4wpL3KblyVCrsXdfl9fi2s2s//kJ3KBqE5FMQMu0H1MzpluiEMH3d7S
+	4/WBVaR8e8I2UAGOYq4XU8qU25fzMyo4/cuoX7c7HBc4P+vAmoKp4vjILsKBYaPkukiw
+	HAQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=7qYVW7bpvJJF0GzbLHiH+nCdOeoGzk2N//J9SEpqIhM=;
-	b=e9QCF6lY7UEJNE4DRpkUXOE/rfN3TdtEh/gecmsl1HbTBndk5Y7qLzOXwhNr8EAKBu
-	5u6N1sMTk0sbL8ie2dHy9z/vXJwA3eqsEbnbZouZqKa3+Q40ksiPIBX9SEhHMvWvrYJk
-	YwWDDKM6yx6UGue3thyAOgrk600S+vrr76xgC3JzvFKJzWpjyTJC9WrZGH0pR/SgYu5I
-	/GbMSXN7onSP3B11gfWxbb8j07Ff5qtfpmsQgImmslEmFNIfH24VHfTNY+mZhCLpEgG0
-	9na0KdnKwWoEBeLLaydGrgRowH9FqVSuGrq1eIfMzNg2ueEuc9BVRCThxJ5+kVUB50fY
-	NwAw==
-X-Gm-Message-State: APjAAAV55edgFfSLAUjawx3GUAh11zzOVotk9olkD62lWtU3C1uRBVNB
-	6aG6fryUM4aJVtdDXpP8V7zkekYLscI=
-X-Google-Smtp-Source: APXvYqyU4p5Tw9Lqrlq2tyx+WYb1IkV4eXZPeq1FonNU076O/UBYxVSpx7+vOEPKRMYDeiLvRn/g/w==
-X-Received: by 2002:a1c:63c4:: with SMTP id x187mr7985786wmb.4.1560950705252; 
-	Wed, 19 Jun 2019 06:25:05 -0700 (PDT)
+	bh=kNlwvn0NpMjb1LtLkH7GUtyDlfBGWREszbIrUsB/zMc=;
+	b=b+0Xvsi8HwgXWgeHr8cu46PRdZLGaPx/NlQ1p3FQOorimbt/qjZGtG2Q7HJDjc71K0
+	/TN9X25ircLroh9WOe+DKvqn+FfYaGM3rVrbST+LsVIwBVqBFfgKAFxU7cQjyI5c5+xB
+	JlPIKlBH6wh4wN22CesQxn9cPSeL3/VefRpTc6O9Gpui9pofLAn/4EtSCufos3X9Tn4N
+	uHlKyIN6v9aw4zAbDYxkrV9otUwxtUIyrsAfNRXEzFikuCrJt2EZlgEZUzjq2/Re/97C
+	tKCCIFK5GkPRrbR1EMTGTxVg9WjVkb7lY41190wMi0/aGyZSifEHHRePdr3lj4iO789f
+	zxrQ==
+X-Gm-Message-State: APjAAAUhi/RQFrbX10Rdu/yNhtxZbTVjmZYo/c5fTJ8IJcJRGMFcDnx3
+	kHVy9ShXD/0bSX/ebTFdJFAuK5dyZ0Q=
+X-Google-Smtp-Source: APXvYqxtORy2g0rZITkP/mUF3cpOERNKQMFMjVdvIdAInCze/Rz0JH7x1mNufK2Z8iZ6VFsqT+YNYg==
+X-Received: by 2002:a5d:4d84:: with SMTP id b4mr5329331wru.242.1560950706405; 
+	Wed, 19 Jun 2019 06:25:06 -0700 (PDT)
 Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id q1sm1588953wmq.25.2019.06.19.06.25.04
+	by smtp.gmail.com with ESMTPSA id q1sm1588953wmq.25.2019.06.19.06.25.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 19 Jun 2019 06:25:04 -0700 (PDT)
+	Wed, 19 Jun 2019 06:25:05 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 15:24:48 +0200
-Message-Id: <20190619132450.130226-7-alex.kanavin@gmail.com>
+Date: Wed, 19 Jun 2019 15:24:49 +0200
+Message-Id: <20190619132450.130226-8-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190619132450.130226-1-alex.kanavin@gmail.com>
 References: <20190619132450.130226-1-alex.kanavin@gmail.com>
-Subject: [PATCH 7/9] epiphany: update to 3.32.3
+Subject: [PATCH 8/9] btrfs-tools: update to 5.1.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,123 +56,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 13:25:05 -0000
+X-List-Received-Date: Wed, 19 Jun 2019 13:25:06 -0000
 
-Drop backported patch.
+Drop backported patch, and a patch where upstream took care of the issue.
 
 Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 ---
- ...{epiphany_3.32.2.bb => epiphany_3.32.3.bb} |  5 +-
- ...Clean-up-ephy_web_application_create.patch | 79 -------------------
- 2 files changed, 2 insertions(+), 82 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_3.32.2.bb => epiphany_3.32.3.bb} (77%)
- delete mode 100644 meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch
+ ...DFLAGS-when-building-libbtrfsutil.so.patch | 26 -----------
+ ...gs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch | 43 -------------------
+ ...trfs-tools_5.1.bb => btrfs-tools_5.1.1.bb} |  4 +-
+ 3 files changed, 1 insertion(+), 72 deletions(-)
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
+ delete mode 100644 meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_5.1.bb => btrfs-tools_5.1.1.bb} (89%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_3.32.2.bb b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-similarity index 77%
-rename from meta/recipes-gnome/epiphany/epiphany_3.32.2.bb
-rename to meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-index ff0e34f98d2..de1b6e2f84f 100644
---- a/meta/recipes-gnome/epiphany/epiphany_3.32.2.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_3.32.3.bb
-@@ -12,10 +12,9 @@ REQUIRED_DISTRO_FEATURES = "x11 opengl"
- 
- SRC_URI = "${GNOME_MIRROR}/${GNOMEBN}/${@gnome_verdir("${PV}")}/${GNOMEBN}-${PV}.tar.${GNOME_COMPRESS_TYPE};name=archive \
-            file://0002-help-meson.build-disable-the-use-of-yelp.patch \
--           file://0001-web-app-utils-Clean-up-ephy_web_application_create.patch \
-            "
--SRC_URI[archive.md5sum] = "2a6672b22a0fdb869e5f0a415ac2da34"
--SRC_URI[archive.sha256sum] = "8ae70d9feaba3754c63ab249deeef9b7a31161a372655b4214f148ea2f440cfa"
-+SRC_URI[archive.md5sum] = "c4976507bf3de69f27a050ad09531f5a"
-+SRC_URI[archive.sha256sum] = "3ccb6859a43b839b714aa425cb185056f1e8604adbaab6a1bc179d1ba641a33f"
- 
- FILES_${PN} += "${datadir}/dbus-1 ${datadir}/gnome-shell/search-providers ${datadir}/metainfo"
- RDEPENDS_${PN} = "iso-codes adwaita-icon-theme gsettings-desktop-schemas"
-diff --git a/meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch b/meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
 deleted file mode 100644
-index ea644fb985a..00000000000
---- a/meta/recipes-gnome/epiphany/files/0001-web-app-utils-Clean-up-ephy_web_application_create.patch
+index e23be32599b..00000000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch
 +++ /dev/null
-@@ -1,79 +0,0 @@
--From 49f435217873e679b142f64d3e7def919fb642bb Mon Sep 17 00:00:00 2001
--From: Michael Catanzaro <mcatanzaro@igalia.com>
--Date: Wed, 8 May 2019 15:58:32 +0000
--Subject: [PATCH] web-app-utils: Clean up ephy_web_application_create()
+@@ -1,26 +0,0 @@
+-From c384fa875c5128009ac8b6ba11a54a6bd4de575a Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex.kanavin@gmail.com>
+-Date: Thu, 17 May 2018 12:21:31 +0300
+-Subject: [PATCH] Add LDFLAGS when building libbtrfsutil.so and python
+- bindings.
 -
--Fixes #764
+-Upstream-Status: Pending
+-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
 -
--(cherry picked from commit 4e998d45e4cc549a7ca561a33895b0fbcf7ba6bb)
--Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/epiphany/commit/a6a022c9c498ad5dcf7f2220644a7520df74ca31]
--
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ----
-- lib/ephy-web-app-utils.c | 24 ++++++++++--------------
-- 1 file changed, 10 insertions(+), 14 deletions(-)
+- Makefile | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
 -
--diff --git a/lib/ephy-web-app-utils.c b/lib/ephy-web-app-utils.c
--index 97f3f24..fc68a96 100644
----- a/lib/ephy-web-app-utils.c
--+++ b/lib/ephy-web-app-utils.c
--@@ -374,46 +374,42 @@ ephy_web_application_create (const char *id,
--                              const char *name,
--                              GdkPixbuf  *icon)
-- {
---  char *profile_dir;
---  char *desktop_file_path = NULL;
--+  g_autofree char *app_file = NULL;
--+  g_autofree char *profile_dir = NULL;
--+  g_autofree char *desktop_file_path = NULL;
+-diff --git a/Makefile b/Makefile
+-index e25e256f..6df00186 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -424,7 +424,7 @@ libbtrfsutil/%.o: libbtrfsutil/%.c
 - 
--   /* If there's already a WebApp profile for the contents of this
--    * view, do nothing. */
--   profile_dir = ephy_web_application_get_profile_directory (id);
--   if (g_file_test (profile_dir, G_FILE_TEST_IS_DIR)) {
--     g_warning ("Profile directory %s already exists", profile_dir);
---    goto out;
--+    return NULL;
--   }
+- libbtrfsutil.so.$(libbtrfsutil_version): $(libbtrfsutil_objects)
+- 	@echo "    [LD]     $@"
+--	$(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) $(libbtrfsutil_objects) \
+-+	$(Q)$(CC) $(LIBBTRFSUTIL_CFLAGS) $(LDFLAGS) $(libbtrfsutil_objects) \
+- 		-shared -Wl,-soname,libbtrfsutil.so.$(libbtrfsutil_major) -o $@
 - 
--   /* Create the profile directory, populate it. */
--   if (g_mkdir_with_parents (profile_dir, 488) == -1) {
--     g_warning ("Failed to create directory %s", profile_dir);
---    goto out;
--+    return NULL;
--   }
-- 
--   /* Skip migration for new web apps. */
--   ephy_profile_utils_set_migration_version_for_profile_dir (EPHY_PROFILE_MIGRATION_VERSION, profile_dir);
-- 
--   /* Create an .app file. */
---  g_autofree char *app_file = g_build_filename (profile_dir, ".app", NULL);
--+  app_file = g_build_filename (profile_dir, ".app", NULL);
--   int fd = g_open (app_file, O_WRONLY|O_CREAT|O_TRUNC, 0644);
--   if (fd < 0) {
---    LOG ("Failed to create .app file: %s", g_strerror (errno));
---    goto out;
---  } else {
---    close (fd);
--+    g_warning ("Failed to create .app file: %s", g_strerror (errno));
--+    return NULL;
--   }
--+  close (fd);
-- 
--   /* Create the deskop file. */
--   desktop_file_path = create_desktop_file (id, name, address, profile_dir, icon);
--   if (desktop_file_path)
--     ephy_web_application_initialize_settings (profile_dir);
-- 
--- out:
---  if (profile_dir)
---    g_free (profile_dir);
---
---  return desktop_file_path;
--+  return g_steal_pointer (&desktop_file_path);
-- }
-- 
-- char *
---- 
--2.21.0
+- libbtrfsutil.a: $(libbtrfsutil_objects)
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch
+deleted file mode 100644
+index f69507164c6..00000000000
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 730fe2ee2fb9e08cbe885f370afe83fecb18d048 Mon Sep 17 00:00:00 2001
+-From: Joshua Watt <JPEWhacker@gmail.com>
+-Date: Sun, 26 May 2019 21:26:04 -0500
+-Subject: [PATCH] btrfs-progs: Pass CFLAGS and LDFLAGS to Python
 -
+-Adds Make variables EXTRA_PYTHON_CFLAGS and EXTRA_PYTHON_LDFLAGS which
+-can be used to pass CFLAGS and LDFLAGS respectively when building the
+-Python library.
+-
+-This is required to support reproducible builds, as there are often
+-compiler and linker flags that must be passed in order to generate
+-reproducible output (e.g. -fdebug-prefix-map)
+-
+-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+-Upstream-Status: Accepted [https://github.com/kdave/btrfs-progs/pull/176]
+----
+- Makefile | 6 +++++-
+- 1 file changed, 5 insertions(+), 1 deletion(-)
+-
+-diff --git a/Makefile b/Makefile
+-index 505bd9c1..814767a8 100644
+---- a/Makefile
+-+++ b/Makefile
+-@@ -24,6 +24,10 @@
+- #   DEBUG_CFLAGS   additional compiler flags for debugging build
+- #   EXTRA_CFLAGS   additional compiler flags
+- #   EXTRA_LDFLAGS  additional linker flags
+-+#   EXTRA_PYTHON_CFLAGS  additional compiler flags to pass when building Python
+-+#                        library
+-+#   EXTRA_PYTHON_LDFLAGS additional linker flags to pass when building Python
+-+#                        library
+- #
+- # Testing-specific options (see also tests/README.md):
+- #   TEST=GLOB      run test(s) from directories matching GLOB
+-@@ -439,7 +443,7 @@ ifeq ($(PYTHON_BINDINGS),1)
+- libbtrfsutil_python: libbtrfsutil.so.$(libbtrfsutil_major) libbtrfsutil.so libbtrfsutil/btrfsutil.h
+- 	@echo "    [PY]     libbtrfsutil"
+- 	$(Q)cd libbtrfsutil/python; \
+--		CFLAGS= LDFLAGS= $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
+-+		CFLAGS="$(EXTRA_PYTHON_CFLAGS)" LDFLAGS="$(EXTRA_PYTHON_LDFLAGS)" $(PYTHON) setup.py $(SETUP_PY_Q) build_ext -i build
+- 
+- .PHONY: libbtrfsutil_python
+- endif
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.1.bb
+similarity index 89%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.1.bb
+index 89cc1bfe20b..2cd99706b43 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_5.1.1.bb
+@@ -14,11 +14,9 @@ DEPENDS = "util-linux attr e2fsprogs lzo acl python3-setuptools-native"
+ DEPENDS_append_class-target = " udev"
+ RDEPENDS_${PN} = "libgcc"
+ 
+-SRCREV = "43013422dbce4bcc9ed77cfe65b294caa0985ec8"
++SRCREV = "781e36a784faa58a4f0515eef124af860d59e2c0"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git \
+-           file://0001-Add-LDFLAGS-when-building-libbtrfsutil.so.patch \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+-           file://0003-btrfs-progs-Pass-CFLAGS-and-LDFLAGS-to-Python.patch \
+            "
+ 
+ inherit autotools-brokensep pkgconfig manpages distutils3-base
 -- 
 2.17.1
 
