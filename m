@@ -1,52 +1,46 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 8DC967E78C
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com
+	[209.85.221.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 10AEB7E94E
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 13:11:29 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id y13so12075657lfh.9
+	Wed, 19 Jun 2019 13:24:58 +0000 (UTC)
+Received: by mail-wr1-f42.google.com with SMTP id x4so3389102wrt.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 06:11:30 -0700 (PDT)
+	Wed, 19 Jun 2019 06:25:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=SlFmlffIBSQHCUszXoQ04dlRT6UFYihsNFlzGgZRw+o=;
-	b=b3gNes+BDqmlqegAW1jjuTKd4oUOyFNJKEUcnHSzhesBVg+XrZnQfcfWsb4NVG5/bn
-	8c4jPqqbVoSF+LvOM5NdR0yrW9JoQ0aQZq58H+ECzc5wskIzjvefLesWFfkdCJ0s0zro
-	RRDOxBBVlNxdAKG6m3IPh/CHwz7z+pN4TQ87MIU3Yr025/f8bjUhRey+mij6Xfmp5lUb
-	BfirxIHP3mVwOgJDJT39V+i9WkmjEem4Vf+2zt4XXYubqE/DONdbb2e/wE+6Hb2SHXyv
-	wsuflIGi9VfylnbMt+305/pCL7v9gXQ2bQ35PpHGDzHaa7mZbHjS6MFJrS3jO+juJI6Q
-	wxhQ==
+	h=from:to:cc:subject:date:message-id;
+	bh=Yc8wnsbyYasW3UFf5WbbCpQYDJO5Z31OY0b0npXSz+Q=;
+	b=ZXiQTovQwIEihLl2aYZtLZqv53hpQT0zn3eiVVs5cnjFdOtv2DwA25xOT3nDtWDIW9
+	J1NsyX20XsT6x9dULa9GsYJ5yGYQglIH7o4GTqn/QxlU980UrORHbgHC1doRynj5XoDe
+	1c9yM47nh+dDQBnlAQzxzVswxVbpuZKntc1jx7xNhWrss//NhEJ+d4yXCcpCVxbV6WGJ
+	x96gBnAQtiPRtVI1s8mLYYrMCeUy0dNXCsdoaJnra9qI/HcPc7Qa5F/DNXISqlfIK0r7
+	nsNA5v7jEw8XgjclRHmFjsucclaCHLYKaMw8fSQy1/awqwMf6zC/XEKlUAzmXCPfCtPT
+	tY5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=SlFmlffIBSQHCUszXoQ04dlRT6UFYihsNFlzGgZRw+o=;
-	b=TyW7jwMqqJ+Q4uLtw0FM1e+8Cj11FGDfLyALOT/FAIEHjICi/vF8SD3lJ3crqQPUOu
-	tMsApxh17Z6K2vdgYKlCxvwIyC/1GjiBgkmCfQYfsSk5iNeCH42xGeDyC7N9mmRcUhDE
-	i1LeVmBArqdtA9ZU89Gak65ng3MoP30sc1xhqDCJ/wnaZTkG2iQJ6vDU70C3UN8WmfMy
-	rOr71KBITVFEF4z0/n6KjVBRLKlCOmx5OQya65vhHXrEVhgIvGYEvs/GQ960YDFYCKYk
-	8ybHrzCrdDc9xUbHJ8FBXvxszgfFrKCGHLlgC5JmmhF8sACMtRxLv/cUsFWgp9Wte1o4
-	xlzA==
-X-Gm-Message-State: APjAAAW48O+4x2MNyIRGI81gMxxePf484CgflDLM48Z9PvToClThkmf1
-	XUus7RxJfdFQyi5uGJGzbZGMpZVnV1QVKbttBMs=
-X-Google-Smtp-Source: APXvYqwEvUm98f2PnreXkonjstItjI5iiujMRwRJihrfOJg6LfGr1z+9vWegummLrlBrs81y/qhEMI30j1/zyx0PnHc=
-X-Received: by 2002:ac2:50cd:: with SMTP id h13mr25517015lfm.36.1560949889918; 
-	Wed, 19 Jun 2019 06:11:29 -0700 (PDT)
-MIME-Version: 1.0
-References: <cover.1560888312.git.just.another.mariano@gmail.com>
-	<f0d52edc0d79dca6ed77b0ae587ca594ccb6ee39.1560888312.git.just.another.mariano@gmail.com>
-	<5511748e8ce0af06eacccb81a90ee4563c307248.camel@linuxfoundation.org>
-	<CADkTA4MAVbJ6H4uJXPmod+9NBt97YxZsgia3CnJMr8q7M8mJKQ@mail.gmail.com>
-	<e46ddc1973d50d0fa73d8737d0c682501396bae5.camel@linuxfoundation.org>
-In-Reply-To: <e46ddc1973d50d0fa73d8737d0c682501396bae5.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 19 Jun 2019 09:11:18 -0400
-Message-ID: <CADkTA4NiS3Ww4VqttfjCPSu9AWs9r05-V+RggcYvk7UTiv-6YQ@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] linux-yocto: Add SCSI support when ptest is in DISTRO_FEATURES
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Yc8wnsbyYasW3UFf5WbbCpQYDJO5Z31OY0b0npXSz+Q=;
+	b=r7h3u2P2xfmzW9uAFsgTxkOQhY5rgj2aAB5PNTRGNYQArN0ciyn8jftpItTVvi3zGO
+	3M6cqkeOGpgOG2xarXXtCmgLXf9WfDYB7QMKAsGYsnFxzJmxMTVjDNy/8p9atN5g1hTX
+	SyX9BRBeVCZTGiUG/OKKoQL0aBZTVkPE/GFgpmIvdzyIfcEQicfoM6LBVJs2Gcl22Be0
+	g3Ertk1Ky3EOvnPJKFRNEbJVr6uTF9O/y5v2wD5JufXv513CFKTMza67I5EqamrPWCfl
+	pHUh9lwxoOfFZfu3cPrzUBOheH4y4KeSuzblZ3PzqCabKwrb0i/mwVzXtRJIOQgF583v
+	bScg==
+X-Gm-Message-State: APjAAAUNinJBtnj0mO3TjVo9HY5nSEre0g4rEWnvqqkEwcNw2ThDjJDD
+	XeJvMgxnXePjeAwcOh85vyDnGnI9AH8=
+X-Google-Smtp-Source: APXvYqw99IluiiSbFcWrrsztRxBHqbVJeaPpK2DpsLIlkm4zW2375kntAvpUUGuU/iHV1kSjZxBMVw==
+X-Received: by 2002:adf:8b83:: with SMTP id o3mr81536276wra.278.1560950699438; 
+	Wed, 19 Jun 2019 06:24:59 -0700 (PDT)
+Received: from alexander-box.luxoft.com ([62.96.135.139])
+	by smtp.gmail.com with ESMTPSA id q1sm1588953wmq.25.2019.06.19.06.24.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 19 Jun 2019 06:24:58 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 19 Jun 2019 15:24:42 +0200
+Message-Id: <20190619132450.130226-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH 1/9] createrepo-c: upgrade 0.14.0 -> 0.14.2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +53,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 13:11:29 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 19 Jun 2019 13:24:59 -0000
 
-On Wed, Jun 19, 2019 at 8:44 AM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Wed, 2019-06-19 at 08:24 -0400, Bruce Ashfield wrote:
-> > On Wed, Jun 19, 2019 at 6:51 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Tue, 2019-06-18 at 15:10 -0500, Mariano L=C3=B3pez wrote:
-> > > > The scsi_debug module can't be built in some architectures as
-> > > > they
-> > > > have
-> > > > SCSI support disabled by default. This patch will enable SCSI
-> > > > support
-> > > > as
-> > > > well as the scsi_debug module when ptest is in DISTRO_FEATURES.
-> > > >
-> > > > Signed-off-by: Mariano L=C3=B3pez <just.another.mariano@gmail.com>
-> > > > ---
-> > > >  meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 5 ++++-
-> > > >  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 5 ++++-
-> > > >  meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 5 ++++-
-> > > >  meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 5 ++++-
-> > > >  4 files changed, 16 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > index 0836dc7ea0..e6c8ee320c 100644
-> > > > --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
-> > > > @@ -41,4 +41,7 @@ KERNEL_FEATURES_append =3D "
-> > > > ${KERNEL_EXTRA_FEATURES}"
-> > > >  KERNEL_FEATURES_append_qemuall=3D" cfg/virtio.scc"
-> > > >  KERNEL_FEATURES_append_qemux86=3D" cfg/sound.scc
-> > > > cfg/paravirt_kvm.scc"
-> > > >  KERNEL_FEATURES_append_qemux86-64=3D" cfg/sound.scc
-> > > > cfg/paravirt_kvm.scc"
-> > > > -KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURES"
-> > > > ,
-> > > > "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
-> > > > +KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURES"
-> > > > ,
-> > > > "ptest", "\
-> > > > +                            features/scsi/scsi.scc \
-> > > > +                            features/scsi/scsi-debug.scc \
-> > > > +                         ","" ,d)}"
-> > >
-> > > Question to Bruce - can we mark scsi-debug.scc as having a
-> > > dependency
-> > > on scsi.scc?
-> >
-> > With the goal that we can only list one of the fragments in the
-> > KERNEL_FEATURES append ?
-> > We can do something like that, I just want to make sure I'm grok'ing
-> > the end goal.
->
-> Yes, it just seems odd that you'd have to remember to list both.
->
-> If listing both makes sense I'm ok with it, I just thought it worth
-> asking that question as it does seem like a missing dependency.
->
+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+---
+ .../{createrepo-c_0.14.0.bb => createrepo-c_0.14.2.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/createrepo-c/{createrepo-c_0.14.0.bb => createrepo-c_0.14.2.bb} (95%)
 
-No problem. I'll see what I can come up with today and follow up with
-some info/details.
+diff --git a/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.0.bb b/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.2.bb
+similarity index 95%
+rename from meta/recipes-devtools/createrepo-c/createrepo-c_0.14.0.bb
+rename to meta/recipes-devtools/createrepo-c/createrepo-c_0.14.2.bb
+index 2a3007c38df..80c559fefb8 100644
+--- a/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.0.bb
++++ b/meta/recipes-devtools/createrepo-c/createrepo-c_0.14.2.bb
+@@ -8,7 +8,7 @@ SRC_URI = "git://github.com/rpm-software-management/createrepo_c \
+            file://0001-Do-not-set-PYTHON_INSTALL_DIR-by-running-python.patch \
+            "
+ 
+-SRCREV = "8cffea9751b14366a7f6f3664f5d39fe4f0f9253"
++SRCREV = "f390af98c8f1bb04010e293ea864eae160f75879"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.17.1
 
-Bruce
-
-> Cheers,
->
-> Richard
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
