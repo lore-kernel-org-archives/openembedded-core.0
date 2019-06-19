@@ -1,37 +1,31 @@
-Return-Path: <leimaohui@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 4880E7E819
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E12667E553
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 01:42:24 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,390,1557158400"; d="scan'208,217";a="67978556"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 19 Jun 2019 09:42:20 +0800
-Received: from G08CNEXCHPEKD02.g08.fujitsu.local (unknown [10.167.33.83])
-	by cn.fujitsu.com (Postfix) with ESMTP id A5EEF4CDD982;
-	Wed, 19 Jun 2019 09:42:18 +0800 (CST)
-Received: from G08CNEXMBPEKD01.g08.fujitsu.local ([10.167.33.81]) by
-	G08CNEXCHPEKD02.g08.fujitsu.local ([10.167.33.83]) with mapi id
-	14.03.0439.000; Wed, 19 Jun 2019 09:42:20 +0800
-From: "Lei, Maohui" <leimaohui@cn.fujitsu.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Thread-Topic: [OE-core] [PATCH v3] openssl: Fix a build bug on aarch64BE.
-Thread-Index: AQHVJchhufegktM1TEqadNIUJT0sWqaiJBrQ
-Date: Wed, 19 Jun 2019 01:42:24 +0000
-Message-ID: <1B56A49860EB2D45ADE3731B15C959FD01BF12FE2A@G08CNEXMBPEKD01.g08.fujitsu.local>
-References: <1559790305-34116-1-git-send-email-leimaohui@cn.fujitsu.com>
-	<CANNYZj8AdHZYDJaoy75GUtMDAun+-kqb7x_26RZKb=eo+JWGUg@mail.gmail.com>
-In-Reply-To: <CANNYZj8AdHZYDJaoy75GUtMDAun+-kqb7x_26RZKb=eo+JWGUg@mail.gmail.com>
-Accept-Language: zh-CN, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.167.225.227]
+	Wed, 19 Jun 2019 02:06:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5J25NtK005798
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 18 Jun 2019 19:05:38 -0700
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Tue, 18 Jun 2019 19:05:24 -0700
+To: Khem Raj <raj.khem@gmail.com>
+References: <efe358c26f3e3e9e83853e72256f54d1b9bd4a7f.camel@linuxfoundation.org>
+	<1560844016-105234-1-git-send-email-changqing.li@windriver.com>
+	<CAMKF1sqnCrE8G52LQHMeC-E_6uaH_NVN+Eg7+irdbBPM1fxHRw@mail.gmail.com>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <0dbaef96-781e-e2cf-f85f-5240c22a58bd@windriver.com>
+Date: Wed, 19 Jun 2019 10:05:20 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-X-yoursite-MailScanner-ID: A5EEF4CDD982.A27A3
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: leimaohui@cn.fujitsu.com
-X-Spam-Status: No
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v3] openssl: Fix a build bug on aarch64BE.
+In-Reply-To: <CAMKF1sqnCrE8G52LQHMeC-E_6uaH_NVN+Eg7+irdbBPM1fxHRw@mail.gmail.com>
+X-Originating-IP: [128.224.162.186]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH V3] gcc-runtime: fix C++ header mapping for n32/x32 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,152 +38,129 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 01:42:26 -0000
-Content-Language: zh-CN
-Content-Type: multipart/alternative;
-	boundary="_000_1B56A49860EB2D45ADE3731B15C959FD01BF12FE2AG08CNEXMBPEKD_"
+X-List-Received-Date: Wed, 19 Jun 2019 02:06:06 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
---_000_1B56A49860EB2D45ADE3731B15C959FD01BF12FE2AG08CNEXMBPEKD_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
 
-SGkgQWxleA0KDQo+IFNlZW1zIGxpa2UgYSBjb250cmlidXRvciBhZ3JlZW1l
-bnQgaXMgbmVlZGVkIGZvciB0aGlzIHBhdGNoPw0KPiBodHRwczovL3d3dy5v
-cGVuc3NsLm9yZy9wb2xpY2llcy9jbGEuaHRtbA0KDQpUaGFuayB5b3UgZm9y
-IHlvdXIgcmVtaW5kZXIuIEl0IHNlZW1zIG5lY2Vzc2FyeSB0byBkbyBDb250
-cmlidXRvciBBZ3JlZW1lbnRzLiBJIHNlbnQgbXkgQ0xBIGp1c3Qgbm93Lg0K
-TGVpDQoNCg0KDQpGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiBbbWFpbHRvOmFs
-ZXgua2FuYXZpbkBnbWFpbC5jb21dDQpTZW50OiBUdWVzZGF5LCBKdW5lIDE4
-LCAyMDE5IDc6MjQgUE0NClRvOiBMZWksIE1hb2h1aQ0KQ2M6IE9FLWNvcmUN
-ClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIIHYzXSBvcGVuc3NsOiBG
-aXggYSBidWlsZCBidWcgb24gYWFyY2g2NEJFLg0KDQpPbiBUdWUsIDE4IEp1
-biAyMDE5IGF0IDA5OjU0LCBMZWkgTWFvaHVpIDxsZWltYW9odWlAY24uZnVq
-aXRzdS5jb208bWFpbHRvOmxlaW1hb2h1aUBjbi5mdWppdHN1LmNvbT4+IHdy
-b3RlOg0KK1Vwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFtodHRwczovL2dp
-dGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvOTE1MQ0KDQpTZWVtcyBs
-aWtlIGEgY29udHJpYnV0b3IgYWdyZWVtZW50IGlzIG5lZWRlZCBmb3IgdGhp
-cyBwYXRjaD8NCmh0dHBzOi8vd3d3Lm9wZW5zc2wub3JnL3BvbGljaWVzL2Ns
-YS5odG1sDQoNCkFyZSB5b3UgZ29pbmcgdG8gZG8gdGlocz8NCg0KQWxleA0K
-Cgo=
+On 6/18/19 11:59 PM, Khem Raj wrote:
+> On Tue, Jun 18, 2019 at 12:47 AM <changqing.li@windriver.com> wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> The SDK was unable to find the C++ header pieces correctly since it's
+>> using a generic compiler, not one specifically targeting the multilib
+>> vendor prefix and default tune.  This adds the right mapping to ensure
+>> SDKs work as expected. And fix problem in below configurations:
+>>
+>> multilib configuration 1:
+>> MACHINE="qemumips64"
+>> MULTILIBS ?= "multilib:lib32 multilib:libn32"
+>> DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+>> DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
+>> MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+>> require conf/multilib.conf
+>>
+>> ignoring nonexistent directory "<path>/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32
+>>
+>> multilib configuration 2:
+>> MACHINE="qemumips64"
+>> MULTILIBS = 'multilib:lib64 multilib:lib32'
+> machine is already 64bit so default lib config will be 64bit, what is
+> multilib:lib64 for here ?
 
---_000_1B56A49860EB2D45ADE3731B15C959FD01BF12FE2AG08CNEXMBPEKD_
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: base64
+This config is get from autobuilder.
 
-PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwi
-IHhtbG5zOm89InVybjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9m
-ZmljZSIgeG1sbnM6dz0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTpvZmZp
-Y2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNv
-bS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5v
-cmcvVFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9
-IkNvbnRlbnQtVHlwZSIgY29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0
-Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRvciIgY29udGVudD0iTWljcm9z
-b2Z0IFdvcmQgMTQgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxlPjwhLS0N
-Ci8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1m
-YW1pbHk65a6L5L2TOw0KCXBhbm9zZS0xOjIgMSA2IDAgMyAxIDEgMSAxIDE7
-fQ0KQGZvbnQtZmFjZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsN
-CglwYW5vc2UtMToyIDQgNSAzIDUgNCA2IDMgMiA0O30NCkBmb250LWZhY2UN
-Cgl7Zm9udC1mYW1pbHk6IlxA5a6L5L2TIjsNCglwYW5vc2UtMToyIDEgNiAw
-IDMgMSAxIDEgMSAxO30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6VGFo
-b21hOw0KCXBhbm9zZS0xOjIgMTEgNiA0IDMgNSA0IDQgMiA0O30NCi8qIFN0
-eWxlIERlZmluaXRpb25zICovDQpwLk1zb05vcm1hbCwgbGkuTXNvTm9ybWFs
-LCBkaXYuTXNvTm9ybWFsDQoJe21hcmdpbjowY207DQoJbWFyZ2luLWJvdHRv
-bTouMDAwMXB0Ow0KCWZvbnQtc2l6ZToxMi4wcHQ7DQoJZm9udC1mYW1pbHk6
-IlRpbWVzIE5ldyBSb21hbiIsInNlcmlmIjt9DQpoMg0KCXttc28tc3R5bGUt
-cHJpb3JpdHk6OTsNCgltc28tc3R5bGUtbGluazoi5qCH6aKYIDIgQ2hhciI7
-DQoJbXNvLW1hcmdpbi10b3AtYWx0OmF1dG87DQoJbWFyZ2luLXJpZ2h0OjBj
-bTsNCgltc28tbWFyZ2luLWJvdHRvbS1hbHQ6YXV0bzsNCgltYXJnaW4tbGVm
-dDowY207DQoJZm9udC1zaXplOjE4LjBwdDsNCglmb250LWZhbWlseToiVGlt
-ZXMgTmV3IFJvbWFuIiwic2VyaWYiO30NCmE6bGluaywgc3Bhbi5Nc29IeXBl
-cmxpbmsNCgl7bXNvLXN0eWxlLXByaW9yaXR5Ojk5Ow0KCWNvbG9yOmJsdWU7
-DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQphOnZpc2l0ZWQsIHNw
-YW4uTXNvSHlwZXJsaW5rRm9sbG93ZWQNCgl7bXNvLXN0eWxlLXByaW9yaXR5
-Ojk5Ow0KCWNvbG9yOnB1cnBsZTsNCgl0ZXh0LWRlY29yYXRpb246dW5kZXJs
-aW5lO30NCnNwYW4uRW1haWxTdHlsZTE3DQoJe21zby1zdHlsZS10eXBlOnBl
-cnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJBcmlhbCIsInNhbnMtc2Vy
-aWYiOw0KCWNvbG9yOiMxRjQ5N0Q7fQ0Kc3Bhbi4yQ2hhcg0KCXttc28tc3R5
-bGUtbmFtZToi5qCH6aKYIDIgQ2hhciI7DQoJbXNvLXN0eWxlLXByaW9yaXR5
-Ojk7DQoJbXNvLXN0eWxlLWxpbms6Iuagh+mimCAyIjsNCglmb250LWZhbWls
-eToiVGltZXMgTmV3IFJvbWFuIiwic2VyaWYiOw0KCWZvbnQtd2VpZ2h0OmJv
-bGQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0
-LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLCJzYW5zLXNlcmlmIjt9
-DQpAcGFnZSBXb3JkU2VjdGlvbjENCgl7c2l6ZTo2MTIuMHB0IDc5Mi4wcHQ7
-DQoJbWFyZ2luOjcyLjBwdCA5MC4wcHQgNzIuMHB0IDkwLjBwdDt9DQpkaXYu
-V29yZFNlY3Rpb24xDQoJe3BhZ2U6V29yZFNlY3Rpb24xO30NCi0tPjwvc3R5
-bGU+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWRlZmF1bHRz
-IHY6ZXh0PSJlZGl0IiBzcGlkbWF4PSIxMDI2IiAvPg0KPC94bWw+PCFbZW5k
-aWZdLS0+PCEtLVtpZiBndGUgbXNvIDldPjx4bWw+DQo8bzpzaGFwZWxheW91
-dCB2OmV4dD0iZWRpdCI+DQo8bzppZG1hcCB2OmV4dD0iZWRpdCIgZGF0YT0i
-MSIgLz4NCjwvbzpzaGFwZWxheW91dD48L3htbD48IVtlbmRpZl0tLT4NCjwv
-aGVhZD4NCjxib2R5IGxhbmc9IkVOLVVTIiBsaW5rPSJibHVlIiB2bGluaz0i
-cHVycGxlIj4NCjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj5IaSBBbGV4PG86cD48L286cD48L3A+DQo8cCBjbGFz
-cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjxwIGNsYXNz
-PSJNc29Ob3JtYWwiPiZndDsgU2VlbXMgbGlrZSBhIGNvbnRyaWJ1dG9yIGFn
-cmVlbWVudCBpcyBuZWVkZWQgZm9yIHRoaXMgcGF0Y2g/PG86cD48L286cD48
-L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj4mZ3Q7IDxhIGhyZWY9Imh0dHBz
-Oi8vd3d3Lm9wZW5zc2wub3JnL3BvbGljaWVzL2NsYS5odG1sIj5odHRwczov
-L3d3dy5vcGVuc3NsLm9yZy9wb2xpY2llcy9jbGEuaHRtbDwvYT48bzpwPjwv
-bzpwPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9v
-OnA+PC9wPg0KPGgyIHN0eWxlPSJtc28tbWFyZ2luLXRvcC1hbHQ6MGNtO21h
-cmdpbi1yaWdodDowY207bWFyZ2luLWJvdHRvbToxMi4wcHQ7bWFyZ2luLWxl
-ZnQ6MGNtO2JhY2tncm91bmQ6I0Y4RjhGODt2ZXJ0aWNhbC1hbGlnbjpiYXNl
-bGluZSI+DQo8c3BhbiBzdHlsZT0iZm9udC1zaXplOjEyLjBwdDtmb250LXdl
-aWdodDpub3JtYWwiPlRoYW5rIHlvdSBmb3IgeW91ciByZW1pbmRlci4gSXQg
-c2VlbXMgbmVjZXNzYXJ5IHRvIGRvIENvbnRyaWJ1dG9yIEFncmVlbWVudHMu
-IEkgc2VudCBteSBDTEEganVzdCBub3cuPG86cD48L286cD48L3NwYW4+PC9o
-Mj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPkxlaTxvOnA+PC9vOnA+PC9wPg0K
-PHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gc3R5bGU9ImZvbnQtc2l6ZTox
-MS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7QXJpYWwmcXVvdDssJnF1b3Q7c2Fu
-cy1zZXJpZiZxdW90Oztjb2xvcjojMUY0OTdEIj48bzpwPiZuYnNwOzwvbzpw
-Pjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBzdHls
-ZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZhbWlseTomcXVvdDtBcmlhbCZx
-dW90OywmcXVvdDtzYW5zLXNlcmlmJnF1b3Q7O2NvbG9yOiMxRjQ5N0QiPjxv
-OnA+Jm5ic3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTEuMHB0O2ZvbnQtZmFtaWx5
-OiZxdW90O0FyaWFsJnF1b3Q7LCZxdW90O3NhbnMtc2VyaWYmcXVvdDs7Y29s
-b3I6IzFGNDk3RCI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRp
-diBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLWxlZnQ6c29saWQgYmx1ZSAx
-LjVwdDtwYWRkaW5nOjBjbSAwY20gMGNtIDQuMHB0Ij4NCjxkaXY+DQo8ZGl2
-IHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItdG9wOnNvbGlkICNCNUM0REYg
-MS4wcHQ7cGFkZGluZzozLjBwdCAwY20gMGNtIDBjbSI+DQo8cCBjbGFzcz0i
-TXNvTm9ybWFsIj48Yj48c3BhbiBzdHlsZT0iZm9udC1zaXplOjEwLjBwdDtm
-b250LWZhbWlseTomcXVvdDtUYWhvbWEmcXVvdDssJnF1b3Q7c2Fucy1zZXJp
-ZiZxdW90OyI+RnJvbTo8L3NwYW4+PC9iPjxzcGFuIHN0eWxlPSJmb250LXNp
-emU6MTAuMHB0O2ZvbnQtZmFtaWx5OiZxdW90O1RhaG9tYSZxdW90OywmcXVv
-dDtzYW5zLXNlcmlmJnF1b3Q7Ij4gQWxleGFuZGVyIEthbmF2aW4gW21haWx0
-bzphbGV4LmthbmF2aW5AZ21haWwuY29tXQ0KPGJyPg0KPGI+U2VudDo8L2I+
-IFR1ZXNkYXksIEp1bmUgMTgsIDIwMTkgNzoyNCBQTTxicj4NCjxiPlRvOjwv
-Yj4gTGVpLCBNYW9odWk8YnI+DQo8Yj5DYzo8L2I+IE9FLWNvcmU8YnI+DQo8
-Yj5TdWJqZWN0OjwvYj4gUmU6IFtPRS1jb3JlXSBbUEFUQ0ggdjNdIG9wZW5z
-c2w6IEZpeCBhIGJ1aWxkIGJ1ZyBvbiBhYXJjaDY0QkUuPG86cD48L286cD48
-L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxkaXY+DQo8cCBj
-bGFzcz0iTXNvTm9ybWFsIj5PbiBUdWUsIDE4IEp1biAyMDE5IGF0IDA5OjU0
-LCBMZWkgTWFvaHVpICZsdDs8YSBocmVmPSJtYWlsdG86bGVpbWFvaHVpQGNu
-LmZ1aml0c3UuY29tIj5sZWltYW9odWlAY24uZnVqaXRzdS5jb208L2E+Jmd0
-OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxibG9j
-a3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpzb2xpZCAj
-Q0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2lu
-LWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNv
-Tm9ybWFsIj4mIzQzO1Vwc3RyZWFtLVN0YXR1czogU3VibWl0dGVkIFs8YSBo
-cmVmPSJodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwv
-OTE1MSIgdGFyZ2V0PSJfYmxhbmsiPmh0dHBzOi8vZ2l0aHViLmNvbS9vcGVu
-c3NsL29wZW5zc2wvcHVsbC85MTUxPC9hPjxvOnA+PC9vOnA+PC9wPg0KPC9i
-bG9ja3F1b3RlPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxvOnA+
-Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1z
-b05vcm1hbCI+U2VlbXMgbGlrZSBhIGNvbnRyaWJ1dG9yIGFncmVlbWVudCBp
-cyBuZWVkZWQgZm9yIHRoaXMgcGF0Y2g/PG86cD48L286cD48L3A+DQo8L2Rp
-dj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48YSBocmVmPSJodHRw
-czovL3d3dy5vcGVuc3NsLm9yZy9wb2xpY2llcy9jbGEuaHRtbCI+aHR0cHM6
-Ly93d3cub3BlbnNzbC5vcmcvcG9saWNpZXMvY2xhLmh0bWw8L2E+PG86cD48
-L286cD48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
-Ij48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
-YXNzPSJNc29Ob3JtYWwiPkFyZSB5b3UgZ29pbmcgdG8gZG8gdGlocz88bzpw
-PjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
-YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAg
-Y2xhc3M9Ik1zb05vcm1hbCI+QWxleDxvOnA+PC9vOnA+PC9wPg0KPC9kaXY+
-DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvYm9keT4NCjwv
-aHRtbD4NCg==
+machine is set to qemumips64, but DEFAULTTUNE is set to mips64-n32,
 
---_000_1B56A49860EB2D45ADE3731B15C959FD01BF12FE2AG08CNEXMBPEKD_--
+so this should be why use multilib:lib64.
+
+>
+>> DEFAULTTUNE = 'mips64-n32'
+>> DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
+>> DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
+>> require conf/multilib.conf
+>>
+>> For this configuration:
+>> for target gcc-runtime, need to create symlink like mips64-poly-linux --> mips64-poky-linux-gnu32
+>> for target lib64-gcc-runtime, need to create symlink like mips64-poly-linux/32 --> mips64-pokymllib64-linux
+>> in order to avoid conflict during populate_sdk, create symlink for subfoler bits/ext for target gcc-runtime,
+>> this is ugly, but seems no better way to cover all kinds of configuration.
+>>
+>> single lib configuration:
+>> MACHINE="qemumips64"
+>> DEFAULTTUNE = "mips64-n32"
+>>
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   meta/recipes-devtools/gcc/gcc-runtime.inc | 29 +++++++++++++++++------------
+>>   1 file changed, 17 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> index 3d03d8e..ba767e1 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> @@ -86,10 +86,6 @@ do_install () {
+>>          if [ -d ${D}${infodir} ]; then
+>>                  rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+>>          fi
+>> -       if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> -               ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
+>> -       fi
+>> -
+>>   }
+>>
+>>   do_install_append_class-target () {
+>> @@ -98,20 +94,29 @@ do_install_append_class-target () {
+>>          fi
+>>
+>>          if [ "${TARGET_OS}" = "linux-gnun32" ]; then
+>> -               if [ "${MULTILIBS}" != "" ]; then
+>> -                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
+>> -                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
+>> +               if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> +                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+>> +                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32
+>> +               elif [ "${MULTILIB_VARIANTS}" != "" ]; then
+>> +                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>> +                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
+>>                  else
+>>                          ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>>                  fi
+>> -       fi
+>> -       if [ "${TARGET_OS}" = "linux-gnux32" ]; then
+>> -               if [ "${MULTILIBS}" != "" ]; then
+>> -                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux
+>> -                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32
+>> +       elif [ "${TARGET_OS}" = "linux-gnux32" ]; then
+>> +               if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> +                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+>> +                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32
+>> +               elif [ "${MULTILIB_VARIANTS}" != "" ]; then
+>> +                       mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>> +                       ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
+>>                  else
+>>                          ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>>                  fi
+>> +       elif [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> +               mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+>> +               ln -s ../${TARGET_SYS}/bits ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/bits
+>> +               ln -s ../${TARGET_SYS}/ext ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
+>>          fi
+>>
+>>          if [ "${TCLIBC}" != "glibc" ]; then
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+-- 
+BRs
+
+Sandy(Li Changqing)
+
+
