@@ -1,19 +1,23 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 77CF37E719;
-	Thu, 20 Jun 2019 14:30:46 +0000 (UTC)
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F6DB7D65D
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2019 14:35:57 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5KEZw3H012330
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2019 07:35:58 -0700 (PDT)
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCB.corp.ad.wrs.com
+	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 20 Jun 2019 07:35:57 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jun 2019 10:35:54 -0400
+Message-ID: <20190620143554.38138-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Andrii Bordunov via Openembedded-core
-	<openembedded-core@lists.openembedded.org>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jun 2019 14:30:48 -0000
-Message-ID: <20190620143048.2332.1866@do>
-References: <20190514150416.10902-1-n.merinov@inango-systems.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190514150416.10902-1-n.merinov@inango-systems.com>
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY21ha2UuYmJjbGFzczogcGFzcyBtYW5kYXRvcnkgY29tcGlsZXIgZmxhZ3MgdGhyb3VnaCBDTUFLRV88TEFORz5fQ09NUElMRVJfQVJHMSAocmV2Mik=?=
+Subject: [PATCH] qemu: disable capstone for 32-bit mips with multilib
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -26,42 +30,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 14:30:46 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 20 Jun 2019 14:35:57 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+From: Kai Kang <kai.kang@windriver.com>
 
-Series: cmake.bbclass: pass mandatory compiler flags through CMAKE_<LANG>_COMPILER_ARG1 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/17610/
-State : failure
+When build lib32-qemu for qemumips with multilib:
 
-== Summary ==
+  require conf/multilib.conf
+  MACHINE = "qemumips64"
+  MULTILIBS = "multilib:lib32"
+  DEFAULTTUNE_virtclass-multilib-lib32 = "mips"
 
+it fails to compile capstone:
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
+|  CC      arch/AArch64/AArch64InstPrinter.o
+|  {standard input}: Assembler messages:
+|  {standard input}:36033: Error: branch out of range
+|  {standard input}:36257: Error: branch out of range
 
+Disable capstone for mips o32 in this situation as a workround.
 
-
-* Patch            [v2] cmake.bbclass: pass mandatory compiler flags through CMAKE_<LANG>_COMPILER_ARG1
- Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
-  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-devtools/qemu/qemu_4.0.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/qemu/qemu_4.0.0.bb b/meta/recipes-devtools/qemu/qemu_4.0.0.bb
+index f119215b21..76776098d0 100644
+--- a/meta/recipes-devtools/qemu/qemu_4.0.0.bb
++++ b/meta/recipes-devtools/qemu/qemu_4.0.0.bb
+@@ -7,6 +7,7 @@ DEPENDS = "glib-2.0 zlib pixman bison-native"
+ RDEPENDS_${PN}_class-target += "bash"
+ 
+ EXTRA_OECONF_append_class-target = " --target-list=${@get_qemu_target_list(d)}"
++EXTRA_OECONF_append_class-target_mipsarcho32 = "${@bb.utils.contains('BBEXTENDCURR', 'multilib', ' --disable-capstone', '', d)}"
+ EXTRA_OECONF_append_class-nativesdk = " --target-list=${@get_qemu_target_list(d)}"
+ 
+ do_install_append_class-nativesdk() {
+-- 
+2.20.0
 
 
