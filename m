@@ -1,49 +1,52 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
-	[209.85.128.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 8685A7E701
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C6AE7CECA
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 14:53:27 +0000 (UTC)
-Received: by mail-wm1-f68.google.com with SMTP id f17so3486960wme.2
+	Thu, 20 Jun 2019 15:33:56 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id c2so3484914wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 07:53:28 -0700 (PDT)
+	Thu, 20 Jun 2019 08:33:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=nzOrHYKprPnIJgvgMREcSKQeA3hK57Y7zdkT17O/tWI=;
-	b=Yze5M4MZXn5QQTr9tkOIOn+MZCbSqgP/6upK/SmZsPZXbRu9AWR6zM8lw2HWIRrTLD
-	0obOSw6SRse1GGXcajwIUWljo5ohsbMSrrfzYDgmH9aO5P9BN8TCVuFqRiwXoQDpRgnm
-	SSAVLMu0UYuGwUAwH2hXUxd3VLBh6LelNkEw7vgioRCQYKVW2TdFAQ/NJKvP+/bq2sD6
-	PBlC/MT/qzwv3NvcquHlJ3xdNJvZBX91Q43wAtKNUNPRCe1r1DlWSXQ8bCDUvHn3/UX2
-	7fSWS1q5v+GPOmte5cZ5fBLCXkXblrTRjHOzv0vamqpN0qj0LHIj1zPtjOYW/9CL3EeA
-	J+wQ==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=/uSoEQe5eVVIW8ZmX2mJ+Z+kaOCp+Tp0drEl2XcgKWo=;
+	b=G+fwrnFeAIltwY1AhY431vHJ3Kf6wiIAIdY9ZiNKWacDLb5daaFpGJYuiEoclCI+M3
+	1QmtHJX7zpeM6738HvC8f7PCKOvAVtKODzK0J8Zhds1lK4DblSDPi4IIr1YobLXy+SJt
+	7o6GvuNmttUcJRzYTaoqII8u3XR/OMaF31F8g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=nzOrHYKprPnIJgvgMREcSKQeA3hK57Y7zdkT17O/tWI=;
-	b=hgW4IKPW6Zytdp72BVseZ3DuGtQo8PCxWonfLiTMKZaLyXf4QAmC5W9/GQn5g0uGHG
-	M6V7GEtTq0nyYY0f0RpA7kJGvyoDZjZcl/CEXzUbMSnjSfaIIVF9fTUsqU8SC+XJMNyN
-	2tKK/51wCCGMe3JqwDLhdFLRtzq2DQSGJ9BNslDzLII31EOiZbI8vd8ccAUjrO9Qn1o3
-	FwcCX0smLeLSpMjpq4cpciRZKVIW+X1jDpWqyIOm9QlIkoxEAigefjrTEOLHv+fxNMPf
-	NJ0oDXluFd/QH0Dc5c5n3OwQKmuZdYNrNO2xDdpcHeeAdLSfPc1MScSi8G2XvBAk7bfu
-	DuVg==
-X-Gm-Message-State: APjAAAWNue+UHb2TO0cAkABMrLCTM3FKeyjIosujRgc+FOChcotHmEAh
-	ZMKU4g1OJlAq7ISTzOQvcyDYZQj7WzE=
-X-Google-Smtp-Source: APXvYqyDc4IRSc9XMw3B1JQ4uSa8p6fCnSkxAVpi4OZx7pTVe4VFD+8BHrAINsCrR2kaxQSDL6sr7Q==
-X-Received: by 2002:a1c:9d86:: with SMTP id g128mr24694wme.51.1561042407787;
-	Thu, 20 Jun 2019 07:53:27 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	f2sm30244777wrq.48.2019.06.20.07.53.26
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 20 Jun 2019 07:53:27 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jun 2019 15:53:25 +0100
-Message-Id: <20190620145325.8654-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] python: make 'python' install everything instead of just the interpretter
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=/uSoEQe5eVVIW8ZmX2mJ+Z+kaOCp+Tp0drEl2XcgKWo=;
+	b=dSxg+UtmTHfWndvjmTxpwyT3H99jBX202mJZCzKU7eFMZtgN+mytjJh5128nAOTIoI
+	uF5EgdYZc9cyZEWee5Osb+0gQgXgTeQ0JqaOVbb7OX+zHw+q0Rok+DdxOdeQRIEcich6
+	8Ood2ouAacRXf+ot1jyZVTNqVpSrxajPVu3DQp7mOdIdac7q+QL8jZtGf5YBPMJhWtDM
+	HOBt5+GQgOOn13kbXmkANmw+uDkc5llRLhu2Helt9wAoGFULiBgAL3VRZKZ5/Vl+Loe9
+	Fv7UOE9dU1fdIIpzIq6ZWOobxgRnNiI8Ks1IdB0MqNBaQJwZTgC7rhYrEpng+Xw6KRo0
+	hVtA==
+X-Gm-Message-State: APjAAAUVIAF6+EuRWYRwN2KxPJArFnMXsGGxlxYxZ9SLyGeca+sthwAr
+	tg5QKYXiHbzXku2lPeZWzC6ncQ==
+X-Google-Smtp-Source: APXvYqydUJdlFGJCgjCJ1YUIg0On16v7fAmmJWYocJcLNRlqS1NdYt+jWJDuShnHLT4uErr80NvMiw==
+X-Received: by 2002:adf:c541:: with SMTP id s1mr77034720wrf.44.1561044837017; 
+	Thu, 20 Jun 2019 08:33:57 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	c17sm16192570wrv.82.2019.06.20.08.33.56
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 20 Jun 2019 08:33:56 -0700 (PDT)
+Message-ID: <162e4e6b1a2b9162e9702921cf171937bce5a024.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Robert Yang <liezhi.yang@windriver.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 20 Jun 2019 16:33:55 +0100
+In-Reply-To: <d02500d78c61f9cdee7a5f4bc99148379054cfcd.1561018476.git.liezhi.yang@windriver.com>
+References: <cover.1561018476.git.liezhi.yang@windriver.com>
+	<d02500d78c61f9cdee7a5f4bc99148379054cfcd.1561018476.git.liezhi.yang@windriver.com>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Subject: Re: [PATCH 3/4] update-alternatives.bbclass: run update-alternatives firstly in postinst script
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +59,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 14:53:27 -0000
+X-List-Received-Date: Thu, 20 Jun 2019 15:33:56 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Follow the python3 behaviour, and common sense, by making 'python' install
-python-modules instead of python-core.  This means a user installing python gets
-all of Python, instead of just a fraction of the library.
+On Thu, 2019-06-20 at 16:15 +0800, Robert Yang wrote:
+> Recipes like postfix run command newaliases in postinst, but
+> newaliases is
+> installed newaliases.postfix, and need run update-alternatives to
+> update it to
+> newaliases, so we would get the error when install postinst on
+> target.
+> 
+> Fixed:
+> $ opkg install postfix
+> Configuring postfix.
+> ///var/lib/opkg/info/postfix.postinst: line 4: newaliases: command
+> not found
+> 
+> Run update-alternatives firstly will fix the problem.
+> 
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes/update-alternatives.bbclass | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
 
-[ YOCTO #13402 ]
+This seemed to result in:
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/recipes-devtools/python/python_2.7.16.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/724
 
-diff --git a/meta/recipes-devtools/python/python_2.7.16.bb b/meta/recipes-devtools/python/python_2.7.16.bb
-index d70342fe3a6..5f387b8af11 100644
---- a/meta/recipes-devtools/python/python_2.7.16.bb
-+++ b/meta/recipes-devtools/python/python_2.7.16.bb
-@@ -162,7 +162,7 @@ py_package_preprocess () {
- PACKAGES_remove = "${PN}"
- 
- # manual dependency additions
--RPROVIDES_${PN}-core = "${PN}"
-+RPROVIDES_${PN}-modules = "${PN}"
- RRECOMMENDS_${PN}-core_append_class-nativesdk = " nativesdk-python-modules"
- RRECOMMENDS_${PN}-crypt = "openssl"
- 
--- 
-2.11.0
+Cheers,
+
+Richard
 
 
