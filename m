@@ -1,47 +1,51 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E8E827E8E7
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 80D027E8D5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 16:24:40 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id d18so3681442wrs.5
+	Thu, 20 Jun 2019 16:32:11 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id z23so3802644wma.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 09:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=emsRwVvcaI+RlfbwPGa6PR7AhJDy91dqpPIRsWi/3bY=;
-	b=I8b3pMZSIwYtRinJpm9qj42JSY/kHu9goAe/Hb8AYdxYlQO8Vbg9M5ipdANONAiMbp
-	EZi/6ziqwJ6Ya8c58qVFuNyFa+LABADCv9MO6ZbdlPMOVXGyidTaXQGe0yQLluEPnLcJ
-	djHYl8oqScgJCosSd7f3HOY0fSINS77QD/f6HF6XO0yp5jPNw/yqumLjst4a4MyhuAuw
-	DPIdzPBLDU3EEMsWDYlf7hBNhhqA53g+QoyG+T9uEvlaLDE3SA8FiyEJ6+678d4qGe7S
-	NGyT8uZH4StV/HO+lSAzVfOOos77d+rUNnXdWcnVdxFba14+ClQC5YqoFEU73piYYsI5
-	TvOw==
+	Thu, 20 Jun 2019 09:32:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=thqR8pTTOBpm50l2l/qkFrPlytZ5Cy1jgysgX7YLCj0=;
+	b=cRPv4jhb5Xuv7qZLRAdlfDihEi6/R10UE9KzfiXJ7/U8TvJepXcucYws38vDw1nmcC
+	zTWayY93Nv2FUzMSwHA9DyJ5rnW4MHTvccJM5XxBlEM2Go6lgQFNLYoG+eDvl3LvoLYN
+	TaSpbKWpWe4vkMZhxmL8sU9ha8k/1UgMpBDXs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=emsRwVvcaI+RlfbwPGa6PR7AhJDy91dqpPIRsWi/3bY=;
-	b=U7idmO0yUpgu8UeZKqJQiCFIvByGuTZRf6S7gtCViTCvyG3OuSgpEfvt9jXRghfdHk
-	En16IlGvDwHTGTUUIusgT6kvtMUFK1rkYrl2b86m16FxCVcbBTU2dYTOdeRctAVR8DJn
-	1nnpHRn15Eorg/lQ3VZpAX+XS2K88kGYNz3yUW99twvMJyHlFjtEnohR/d6yL6AsxOzc
-	TryZBqUIHhSU2dloK2UQaBw53UPa644eMKi2scRLNjW0fey+u+fdA6LFJtnf5FJ2dbZG
-	PgMnjz/7ZKTqxb+8O288221dxnm21uljTm+xEVNZEKqHrhcaOqfhy/GOD71mdf/LXayx
-	UYnw==
-X-Gm-Message-State: APjAAAUSljqX0HK0nXdI6PJ90ncVJGEkl38LfqIyw5vkxaV9vcgAbQ9V
-	KR45nJuSOT1pjL6H8EQpE3pV1EHora6K3Ajtt7E=
-X-Google-Smtp-Source: APXvYqyhR9st1QXpOioMIQQObX8vu0TKbHec0WuElrk3dm3daf7Lt2RzSFNEG82g1kd3QrenUNxQyk2Hfox6Sbs+LfU=
-X-Received: by 2002:adf:fbd0:: with SMTP id d16mr8185560wrs.341.1561047881571; 
-	Thu, 20 Jun 2019 09:24:41 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=thqR8pTTOBpm50l2l/qkFrPlytZ5Cy1jgysgX7YLCj0=;
+	b=PxUDY/dEEPEkqBnKtJayVt9vQAf8Vy6Kj3jFuqk10h4Z6upTLnNi/wgFixBp7jP9Uj
+	TQrSBI6Of1bNQQNaM/3dlX8yq+S64SyvwHXF/6X9aM+mbSMQAJciWodquwnnuyRWwS3s
+	fFgIOqINjZblSJ8IAwntbD5ASOmOezwygleuBHLvUC6ouapXU3tDKOP4+bPj13DVh3As
+	MVlPAbX++CgRR2dkkDc3EfX2PKLhS3ogwdwhdjIR+hp+CTajlmtpRMMW16xypAsFnbP0
+	GwPZYfzAO6AalZBPyWUMWWjeIZrkop+MWb2Byd8C+HtWPpcMY8853hZ7L7f4MYfKbqCK
+	I2ug==
+X-Gm-Message-State: APjAAAUmxGSOj9HtXdlCUiDAGIz+qS5k7FgTK2MfU7QowMTP1lzAET6u
+	qCW1z5TVZy5hUrPEv4x/vZoaUA==
+X-Google-Smtp-Source: APXvYqyX5lyogWgxS5ohy7AwSf6ony5DQsmnHPZXKcXNexSp9/mVQIBVCSe/KEgH4Tmx0fyNlfOW5Q==
+X-Received: by 2002:a1c:6a06:: with SMTP id f6mr296385wmc.159.1561048332276;
+	Thu, 20 Jun 2019 09:32:12 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id y184sm45255wmg.14.2019.06.20.09.32.11
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 20 Jun 2019 09:32:11 -0700 (PDT)
+Message-ID: <8c968fbedd663a6e4bc401e4ce4b363f15d6045f.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joshua Watt <jpewhacker@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 20 Jun 2019 17:32:10 +0100
+In-Reply-To: <20190620154302.9251-2-JPEWhacker@gmail.com>
+References: <20190620154302.9251-1-JPEWhacker@gmail.com>
+	<20190620154302.9251-2-JPEWhacker@gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <20190620154704.13940-1-JPEWhacker@gmail.com>
-	<CAJTo0LaFrRAchscWMQdQdEUKtqHXJ4kzENrLjPm42Tp4gZwZLw@mail.gmail.com>
-In-Reply-To: <CAJTo0LaFrRAchscWMQdQdEUKtqHXJ4kzENrLjPm42Tp4gZwZLw@mail.gmail.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 20 Jun 2019 11:24:28 -0500
-Message-ID: <CAJdd5GbXL9r0Sbi9Q41yS=Y2SGcc1wGySoMoZBDTtoAzmRp4rw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bash: Remove .build files for reproducible builds
+Subject: Re: [PATCH 1/2] python3: Reformat sysconfig
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,147 +58,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 16:24:41 -0000
-Content-Type: multipart/alternative; boundary="000000000000756478058bc3c873"
-
---000000000000756478058bc3c873
+X-List-Received-Date: Thu, 20 Jun 2019 16:32:11 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 20, 2019, 11:20 AM Burton, Ross <ross.burton@intel.com> wrote:
+On Thu, 2019-06-20 at 10:43 -0500, Joshua Watt wrote:
+> Reformats the sysconfig file when packaging. This file is output by
+> using the python pprint function. This function will wrap long lines
+> at
+> 80 characters by default, and will even split strings at whitespace
+> boundaries to do so, e.g.:
+> 
+>  'A': 'B is really'
+>     ' long'
+> 
+> This causes a problem for reproducibility however because there might
+> be
+> lines of differing lengths depending on the build path. These
+> non-reproducible paths are removed, but their effect on string
+> wrapping
+> from pprint remains.
+> 
+> To correct this, reformat the entire sysconfig file by re-printing
+> using
+> pprint with an (effectively) unlimited line length.
+> 
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 
-> Is it easier to just always delete those files?  Do they serve any
-> useful purpose?
->
+Fails on nativesdk:
 
-Probably not for our uses. I'll post a V2 unless someone complains
+https://autobuilder.yoctoproject.org/typhoon/#/builders/20/builds/969
+
+Have aborted that build.
+
+Cheers,
+
+Richard
 
 
-> Ross
->
-> On Thu, 20 Jun 2019 at 16:47, Joshua Watt <jpewhacker@gmail.com> wrote:
-> >
-> > Bash has an internal "build number" that it tracks and automatically
-> > increments ever time a given builds is made from the same sandbox.
-> > However, this can make builds non-reproducible in the event that a build
-> > directory is reused multiple times.
-> >
-> > Remove the .build files after every build if reproducible builds have
-> > been requested which will reset the build build number for the next
-> > build.
-> >
-> > Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> > ---
-> >  meta/recipes-extended/bash/bash.inc | 8 ++++++++
-> >  1 file changed, 8 insertions(+)
-> >
-> > diff --git a/meta/recipes-extended/bash/bash.inc
-> b/meta/recipes-extended/bash/bash.inc
-> > index c91cc8ada8d..e2844dffbad 100644
-> > --- a/meta/recipes-extended/bash/bash.inc
-> > +++ b/meta/recipes-extended/bash/bash.inc
-> > @@ -39,6 +39,14 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " \
-> >
-> >  CACHED_CONFIGUREVARS += "headersdir=${includedir}/${PN}"
-> >
-> > +do_compile_prepend() {
-> > +    # If reproducible builds are requested, remove any leftover .build
-> files.
-> > +    # This ensures that bash always has the same version number
-> > +    if [ "${BUILD_REPRODUCIBLE_BINARIES}" == "1" ]; then
-> > +        rm -f ${B}/.build
-> > +    fi
-> > +}
-> > +
-> >  do_compile_ptest () {
-> >         oe_runmake buildtest
-> >  }
-> > --
-> > 2.21.0
-> >
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---000000000000756478058bc3c873
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Thu, Jun 20, 2019, 11:20 AM Burton, Ross &lt;<a hre=
-f=3D"mailto:ross.burton@intel.com">ross.burton@intel.com</a>&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-l=
-eft:1px #ccc solid;padding-left:1ex">Is it easier to just always delete tho=
-se files?=C2=A0 Do they serve any<br>
-useful purpose?<br></blockquote></div></div><div dir=3D"auto"><br></div><di=
-v dir=3D"auto">Probably not for our uses. I&#39;ll post a V2 unless someone=
- complains</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=3D=
-"gmail_quote"><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;=
-border-left:1px #ccc solid;padding-left:1ex">
-<br>
-Ross<br>
-<br>
-On Thu, 20 Jun 2019 at 16:47, Joshua Watt &lt;<a href=3D"mailto:jpewhacker@=
-gmail.com" target=3D"_blank" rel=3D"noreferrer">jpewhacker@gmail.com</a>&gt=
-; wrote:<br>
-&gt;<br>
-&gt; Bash has an internal &quot;build number&quot; that it tracks and autom=
-atically<br>
-&gt; increments ever time a given builds is made from the same sandbox.<br>
-&gt; However, this can make builds non-reproducible in the event that a bui=
-ld<br>
-&gt; directory is reused multiple times.<br>
-&gt;<br>
-&gt; Remove the .build files after every build if reproducible builds have<=
-br>
-&gt; been requested which will reset the build build number for the next<br=
->
-&gt; build.<br>
-&gt;<br>
-&gt; Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com"=
- target=3D"_blank" rel=3D"noreferrer">JPEWhacker@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-extended/bash/bash.inc | 8 ++++++++<br>
-&gt;=C2=A0 1 file changed, 8 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extend=
-ed/bash/bash.inc<br>
-&gt; index c91cc8ada8d..e2844dffbad 100644<br>
-&gt; --- a/meta/recipes-extended/bash/bash.inc<br>
-&gt; +++ b/meta/recipes-extended/bash/bash.inc<br>
-&gt; @@ -39,6 +39,14 @@ RDEPENDS_${PN}-ptest_append_libc-glibc =3D &quot; \=
-<br>
-&gt;<br>
-&gt;=C2=A0 CACHED_CONFIGUREVARS +=3D &quot;headersdir=3D${includedir}/${PN}=
-&quot;<br>
-&gt;<br>
-&gt; +do_compile_prepend() {<br>
-&gt; +=C2=A0 =C2=A0 # If reproducible builds are requested, remove any left=
-over .build files.<br>
-&gt; +=C2=A0 =C2=A0 # This ensures that bash always has the same version nu=
-mber<br>
-&gt; +=C2=A0 =C2=A0 if [ &quot;${BUILD_REPRODUCIBLE_BINARIES}&quot; =3D=3D =
-&quot;1&quot; ]; then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -f ${B}/.build<br>
-&gt; +=C2=A0 =C2=A0 fi<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 do_compile_ptest () {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake buildtest<br>
-&gt;=C2=A0 }<br>
-&gt; --<br>
-&gt; 2.21.0<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank" rel=3D"noreferrer">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer noreferrer" target=3D"_blank">http://lists.openemb=
-edded.org/mailman/listinfo/openembedded-core</a><br>
-</blockquote></div></div></div>
-
---000000000000756478058bc3c873--
