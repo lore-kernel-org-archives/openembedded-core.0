@@ -1,25 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id CCECE7E828
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 1A9066B07E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 07:53:12 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5K7rEps009003
+	Thu, 20 Jun 2019 07:53:19 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5K7r14f025774
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 00:53:14 -0700 (PDT)
+	Thu, 20 Jun 2019 00:53:11 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 20 Jun 2019 00:53:13 -0700
+	14.3.439.0; Thu, 20 Jun 2019 00:52:50 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Jun 2019 16:15:26 +0800
-Message-ID: <b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
+Date: Thu, 20 Jun 2019 16:15:24 +0800
+Message-ID: <aa64a7d3abede7ef70e41cffbc74b94c37671a91.1561018476.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561018476.git.liezhi.yang@windriver.com>
 References: <cover.1561018476.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 4/4] gtk-icon-cache.bbclass: Depends on gtk+3
+Subject: [PATCH 2/4] make-mod-scripts: Depends on bison-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,48 +33,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 07:53:14 -0000
+X-List-Received-Date: Thu, 20 Jun 2019 07:53:20 -0000
 Content-Type: text/plain
 
-The gtk-update-icon-cache and gdk-pixbuf-query-loaders are provided by gtk+3.
+Fixed do_configure error when use linux-dummy:
+PREFERRED_PROVIDER_virtual/kernel = "linux-dummy"
+
+/bin/sh: bison: command not found
+
+Build make-mod-scripts doesn't make sense when use linux-dummy, but it breaks
+"bitbake world", so add bison-native to DEPENDS to fix the problem.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/gtk-icon-cache.bbclass | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+ meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index 66fe781..4e60fe6 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -4,6 +4,11 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk
+diff --git a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+index 97c58c5..460e05a 100644
+--- a/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
++++ b/meta/recipes-kernel/make-mod-scripts/make-mod-scripts_1.0.bb
+@@ -12,7 +12,7 @@ S = "${WORKDIR}"
+ do_configure[depends] += "virtual/kernel:do_shared_workdir openssl-native:do_populate_sysroot"
+ do_compile[depends] += "virtual/kernel:do_compile_kernelmodules"
  
- PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+-DEPENDS += "bc-native"
++DEPENDS += "bc-native bison-native"
  
-+inherit distro_features_check
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+
-+DEPENDS += "gtk+3"
-+
- gtk_icon_cache_postinst() {
- if [ "x$D" != "x" ]; then
- 	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} \
-@@ -45,10 +50,11 @@ python populate_packages_append () {
-         if not os.path.exists(icon_dir):
-             continue
+ EXTRA_OEMAKE = " HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" HOSTCPP="${BUILD_CPP}""
  
--        bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
--        rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
--        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
--    
-+        for dep in ('hicolor-icon-theme', 'gtk+3'):
-+            bb.note("Adding %s dependency to %s" % (dep, pkg))
-+            rdepends = ' ' + d.getVar('MLPREFIX', False) + dep
-+            d.appendVar('RDEPENDS_%s' % pkg, rdepends)
-+
-         bb.note("adding gtk-icon-cache postinst and postrm scripts to %s" % pkg)
-         
-         postinst = d.getVar('pkg_postinst_%s' % pkg)
 -- 
 2.7.4
 
