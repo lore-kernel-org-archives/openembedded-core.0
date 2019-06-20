@@ -1,50 +1,23 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id 20D4F7D3AC;
-	Thu, 20 Jun 2019 20:18:41 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id i21so3909133ljj.3;
-	Thu, 20 Jun 2019 13:18:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=hWlQX3XchbWVQ85uoMBTEFSGtXq3HNn94T6eiwBgWRQ=;
-	b=CiG/bWw8JOKe+TI2lfqCAQCTfPGztwc2pOGDOYsRb2O7J1BrpCE4zNhtCDDfI3v5SJ
-	MzTVenvd4x+Qv6UaG7Ibye8phpBDLdMa6bxGz1eCVRupDBHRitHiOAhHckc+SCQv0lx8
-	xIVJfNLZZHCBzbfg7NwdK5NYXNUq5Y29z8BvsUL0L8noiBUveMGqQDLUfD6a9I6KCsJQ
-	KZZgDDGKhiYvZ+owFO/2CBUNscyIqSyyUYW4qJvhOeyPy7XF+iZVoOU/KvYEJL3ZLXSS
-	B5zTCIQKp68+4gIQ56WRFEeCaFuO3CnqN9zL3uJmSVm4crHobZjymif7ECbmUxUPcyRz
-	LFEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=hWlQX3XchbWVQ85uoMBTEFSGtXq3HNn94T6eiwBgWRQ=;
-	b=WPpeBfm7EIifjtvmUSdF91Us2sbXY7jBiUA0pPwmc/DtzzN6hBYrxreg7Abnz9FsRl
-	YQ5V2ypMhyXV01V7UNI4f46ARTE6a6ueYvSEGCOPVkSfVQFXqa0AZDLRlTJHQWJtaTLw
-	FPZO/QZqv12qyzO1uVsOlhQBh8pQ8n8q7/6YAk0XGyXwXpvoD4JUquSwMotv5Uc1zzIk
-	Khj/XuINuYCelm3lNW6kEapEaCHOumDdXZHrooFABhKsvuG9hAzgPqn7DTR3S4O/MYD7
-	CiUkaxTouKduNINvzyoWR1/ccP4zyeo75+tIsZ3nHSw+PqJtToQ3z3azlrqzrTNmWwk9
-	Ce/g==
-X-Gm-Message-State: APjAAAViu+2FlHWarmdnyWx7epTF7KMmrT8oB8xRR6BH2i1Q6TbGCnXC
-	bdknH0FbAc9639B06xu9YjK0Q1vSpt7zwXTbPpA=
-X-Google-Smtp-Source: APXvYqwo9ZXNNBgf/Y+YRpyr/NeaMETE++2GNkqA6btGVfjfN1G+eXFzvwaqdlkcfPs1SR7TMK/DVto9U5U7DYd77Fk=
-X-Received: by 2002:a2e:98f:: with SMTP id 137mr22857733ljj.232.1561061922506; 
-	Thu, 20 Jun 2019 13:18:42 -0700 (PDT)
+Return-Path: <joe.slater@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 3CE8F6C4F2
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2019 22:04:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5KM4MWP020819
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2019 15:04:22 -0700 (PDT)
+Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 20 Jun 2019 15:04:21 -0700
+From: Joe Slater <joe.slater@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jun 2019 15:04:21 -0700
+Message-ID: <20190620220421.234046-1-joe.slater@windriver.com>
+X-Mailer: git-send-email 2.13.0
 MIME-Version: 1.0
-References: <156085389271.26327.12531071352385707940@git.openembedded.org>
-	<20190618103133.9022A2342C2@git.openembedded.org>
-	<CA+chaQdFSThk4NPhTQt05V1pw8sd-uKZDCnePh9eBuNPL8EDJA@mail.gmail.com>
-	<CADkTA4O3RJ+vmf9Yao_2Hsc=yZuaP9uFhxxT_5gPR2UK6TBD0g@mail.gmail.com>
-In-Reply-To: <CADkTA4O3RJ+vmf9Yao_2Hsc=yZuaP9uFhxxT_5gPR2UK6TBD0g@mail.gmail.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 20 Jun 2019 16:18:31 -0400
-Message-ID: <CADkTA4Of-gaZLJGUnC+Oz+d+QvGt1-rm34qEs=7nAKHLjLqJOQ@mail.gmail.com>
-To: Martin Jansa <martin.jansa@gmail.com>
-Cc: openembedded-commits@lists.openembedded.org,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [oe-commits] [openembedded-core] 09/30: linux-yocto/5.0: update to v5.0.19
+Subject: [PATCH 1/1][v3] parted: change device manager check in ptest
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,61 +30,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 20:18:42 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 20 Jun 2019 22:04:21 -0000
+Content-Type: text/plain
 
-On Thu, Jun 20, 2019 at 4:17 PM Bruce Ashfield <bruce.ashfield@gmail.com> w=
-rote:
->
-> On Thu, Jun 20, 2019 at 3:19 PM Martin Jansa <martin.jansa@gmail.com> wro=
-te:
-> >
-> > Hi,
-> >
-> >
-> > One of these recent updates is causing following WARNING:
->
-> It is this one:
+t6001-psep should check for device manager the same way as
+other ptests for parted -- look for an environment variable.
 
-or I should have said, I *should* be that change ... But either way,
-I'm pulling together a new patch.
+Signed-off-by: Joe Slater <joe.slater@windriver.com>
+---
+ meta/recipes-extended/parted/files/dm_check.patch | 22 ++++++++++++++++++++++
+ meta/recipes-extended/parted/parted_3.2.bb        |  1 +
+ 2 files changed, 23 insertions(+)
+ create mode 100644 meta/recipes-extended/parted/files/dm_check.patch
 
-Bruce
+diff --git a/meta/recipes-extended/parted/files/dm_check.patch b/meta/recipes-extended/parted/files/dm_check.patch
+new file mode 100644
+index 0000000..5f3c4dd
+--- /dev/null
++++ b/meta/recipes-extended/parted/files/dm_check.patch
+@@ -0,0 +1,22 @@
++parted: change check for device-manager
++
++Other ptests use this method.
++
++Upstream-Status: Submitted [bug-parted@gnu.org]
++
++Signed-off-by: Joe Slater <joe.slater@windriver.com>
++
++
++--- a/tests/t6001-psep.sh
+++++ b/tests/t6001-psep.sh
++@@ -19,7 +19,9 @@
++ . "${srcdir=.}/init.sh"; path_prepend_ ../parted
++ 
++ require_root_
++-(dmsetup --help) > /dev/null 2>&1 || skip_test_ "No dmsetup installed"
+++
+++test "x$ENABLE_DEVICE_MAPPER" = xyes \
+++  || skip_ "no device-mapper support"
++ 
++ # Device maps names - should be random to not conflict with existing ones on
++ # the system
+diff --git a/meta/recipes-extended/parted/parted_3.2.bb b/meta/recipes-extended/parted/parted_3.2.bb
+index 13d7d66..21a8153 100644
+--- a/meta/recipes-extended/parted/parted_3.2.bb
++++ b/meta/recipes-extended/parted/parted_3.2.bb
+@@ -18,6 +18,7 @@ SRC_URI = "${GNU_MIRROR}/parted/parted-${PV}.tar.xz \
+            file://run-ptest \
+            file://Makefile \
+            file://0001-libparted-Use-read-only-when-probing-devices-on-linu.patch \
++           file://dm_check.patch \
+ "
+ 
+ SRC_URI[md5sum] = "0247b6a7b314f8edeb618159fa95f9cb"
+-- 
+2.7.4
 
->
-> ------
-> commit 70a30872bd93cc058b05d9cf2b4f9334658629ee
-> Author: Mariano L=C3=B3pez <just.another.mariano@gmail.com>
-> Date:   Thu Jun 13 22:32:41 2019 -0500
->
->     linux-yocto: Add scsi_debug module when ptest is in DISTRO_FEATURES
->
->     util-linux ptest requires the scsi_debug module to perform eject/moun=
-t
->     tests. This will conditionally add scsi_debug module when ptest is in
->     DISTRO_FEATURES.
->
->     This doesn't include linux-yocto-tiny because the resulting image wil=
-l
->     be too big and do_image would complain about this.
->
->     [YOCTO #13301]
->
->     Signed-off-by: Mariano L=C3=B3pez <just.another.mariano@gmail.com>
->     Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> -----
->
-> Khem pointed it out the other day, and I have a WIP patch that should
-> address it shortly.
->
-> Bruce
->
-> >
-> > ---------- CONFIG_SCSI_DEBUG -----------------
->
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
