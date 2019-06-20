@@ -1,52 +1,50 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
-	[209.85.166.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 83AE77E8E6
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3A3CF7CBD5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 15:43:19 +0000 (UTC)
-Received: by mail-io1-f52.google.com with SMTP id j6so2617236ioa.5
+	Thu, 20 Jun 2019 15:47:13 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id k8so599611iot.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 08:43:20 -0700 (PDT)
+	Thu, 20 Jun 2019 08:47:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=d0D+9NYG8dNn7NylG9X+gELu5dVua3UKqiU5udHoN5w=;
-	b=MVVm7S2q7HUCG9He0eSC6Cbu0ydsRvi4zZnYsy1oYZjloY8ZqLKgouuwQ6eAlE2gor
-	0kZStP+yDHqjjrfw6OxUVuDU4GGig09OUEg4hkpNjvxsDNjfAkYXBKPJubCtvLO9kihE
-	pe2SZtBRTnb0aXFGR21N4HPx//iDYTh5APMdgyvS5AU1gdk2KYPvPVwaODwl2AfkZQyZ
-	A0YpYV0xx5AQHhmvfapGCC0u9v/8HpcwujMuUWx3bRzFGRic7Hwuqh8XsogW1veM1+pw
-	oR1B+XGAfol+cZzdrHls5w6yNAIfaaIwCraZPvkBMmq2jG1Bcpuz+P368R1FcuaUgQgA
-	FE+Q==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xeLwFYA8Gh7EVEk3hl70AJaUvn/soL5LQIWrbn3XtCo=;
+	b=MTJXfGGIGeXsdwQwYWTNzBS8N5V3vgn/+LE8SWnOW+0Tlm6EfbOloz/XC6PQ+gOgHe
+	O/oSl48BqF/WjZFbW47IVtEtAGQv1T8XtZIAnKYkaBI266sn6kQdr0QUZAWvqjOv9/Lk
+	ccnIggQFf0uba96z0kQTUMl87WSIbTnDN/pTMEmWSPwolfpUeVGXjeEsP1WSVzobe6QB
+	VCYS5SM8vW2J4lW1Qsac/ZteGiBrKBcray339aPpkjZYnBi9ZYN/c/XKz25kWoSqSNBc
+	vkMRn3ph1lleuKp0unLCW33EeMe/8UjLCLVkxGqfVbmO+Sm6MIIi9BBi0iAk9pDfI3i1
+	4szA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=d0D+9NYG8dNn7NylG9X+gELu5dVua3UKqiU5udHoN5w=;
-	b=GymvjM9Z60yD5+dlSY5S/yJ1ilJVOVXsRLsrBjPjISRMFQZadSgzaT+voKL4eNHAeD
-	kulk2lIGLNNPblthUs7123kRURQbhDtaI+4sUdVthbWbIMhNPet064c3TMKaoKhzsXeH
-	M6a9m7Mz6o+twUXM4wc4If/ZJ7GIcqMicFJY0sXgfaf7SHjomtiMWbIKKuTSpYIEIZAn
-	tEJJV/qkQdgG/gpfYwEu8NU6dNnsbkyaiFsN9YBf+qK7ixF3rUIhLVgfaURALg7DBoTM
-	Qw+7+UzHt1zuE6UWYYH6p/KIkwU5vbGDAKxS1U6/QikzWckeXBBT7nLgqfpsS5YmqZ2d
-	EAmA==
-X-Gm-Message-State: APjAAAVmsIdxMxP8W7/YaRD3dOZB9s1wJYTAe2OGah48GOthZp8HXVAY
-	5xSCVJAui1DHMRUEuhNS079ITzcz
-X-Google-Smtp-Source: APXvYqy/d5E4+GsUOH62+8ZFJJU5/Ehw8iITF4ZoE96KTDyRq1Xcbx2k9EOWD0JOmKfekOT8IXe/3w==
-X-Received: by 2002:a5d:8253:: with SMTP id n19mr1010140ioo.80.1561045400316; 
-	Thu, 20 Jun 2019 08:43:20 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=xeLwFYA8Gh7EVEk3hl70AJaUvn/soL5LQIWrbn3XtCo=;
+	b=Cq7l7JjCQjSqov3ME0cMYkkXKxlLUIRYIaWQsykFuu2aYKikOFSWXEcaijmshj1ehS
+	ToKrHYh7kS3mCLgHR8tK/4Rg6Z4fb/74b7n/VZ+64NH2uHJHfwWOcG0x+nCLguj7FHAZ
+	6S25tyQpgsT1eo0ge9L1dMXyMN1HOQAY74edk//F2ruHGhp0DvGQx8VnF50FQbTJjetB
+	ROfEQm2/1KNOEoEhcxOblVglQKoLKgfVQ0enKycxcbHD8m6wyl+DNvNeVgHC3eHBf31G
+	Gdl8UgzUSXY1oG62zmSc1ptAanaZjDu06bC9copRU9gudfUjNp6md7pN2AqWn0da6VV1
+	Fe3w==
+X-Gm-Message-State: APjAAAVq3zszHD1VZX+0/WzTl8FA63G7KjmiT865JGHji1xZACcKD0qc
+	L92LtcTdjp/BKd7eYGjQFN3vkNSg
+X-Google-Smtp-Source: APXvYqw6MT4WvgDlHeLsWgz3BG/3uW69uaOp5WQanqJ44WM/dzKi+k/0zfFGhlYfBnVp02tHeZwNzA==
+X-Received: by 2002:a5e:9e42:: with SMTP id j2mr14573746ioq.133.1561045634113; 
+	Thu, 20 Jun 2019 08:47:14 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id p10sm166267iob.54.2019.06.20.08.43.19
+	by smtp.gmail.com with ESMTPSA id c14sm208063ioa.22.2019.06.20.08.47.13
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 20 Jun 2019 08:43:19 -0700 (PDT)
+	Thu, 20 Jun 2019 08:47:13 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jun 2019 10:43:02 -0500
-Message-Id: <20190620154302.9251-3-JPEWhacker@gmail.com>
+Date: Thu, 20 Jun 2019 10:47:04 -0500
+Message-Id: <20190620154704.13940-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190620154302.9251-1-JPEWhacker@gmail.com>
-References: <20190620154302.9251-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 2/2] python3: Disable PGO for reproducible builds
+Subject: [PATCH] bash: Remove .build files for reproducible builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 15:43:19 -0000
+X-List-Received-Date: Thu, 20 Jun 2019 15:47:13 -0000
 Content-Transfer-Encoding: 8bit
 
-Enabling PGO for python current causes it to not be reproducible when
-building, so disable it for now.
+Bash has an internal "build number" that it tracks and automatically
+increments ever time a given builds is made from the same sandbox.
+However, this can make builds non-reproducible in the event that a build
+directory is reused multiple times.
+
+Remove the .build files after every build if reproducible builds have
+been requested which will reset the build build number for the next
+build.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-devtools/python/python3_3.7.3.bb | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ meta/recipes-extended/bash/bash.inc | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3_3.7.3.bb b/meta/recipes-devtools/python/python3_3.7.3.bb
-index d14c93880fb..40e2229a165 100644
---- a/meta/recipes-devtools/python/python3_3.7.3.bb
-+++ b/meta/recipes-devtools/python/python3_3.7.3.bb
-@@ -79,8 +79,16 @@ CACHED_CONFIGUREVARS = " \
-                 ac_cv_file__dev_ptc=no \
-                 ac_cv_working_tzset=yes \
- "
-+python() {
-+    # PGO currently causes builds to not be reproducible, so disable it for
-+    # now. See YOCTO #13407
-+    if bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', True, False, d) and d.getVar('BUILD_REPRODUCIBLE_BINARIES') != '1':
-+        d.setVar('PACKAGECONFIG_PGO', 'pgo')
-+    else:
-+        d.setVar('PACKAGECONFIG_PGO', '')
-+}
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index c91cc8ada8d..e2844dffbad 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -39,6 +39,14 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " \
  
--PACKAGECONFIG_class-target ??= "readline ${@bb.utils.contains('MACHINE_FEATURES', 'qemu-usermode', 'pgo', '', d)}"
-+PACKAGECONFIG_class-target ??= "readline ${PACKAGECONFIG_PGO}"
- PACKAGECONFIG_class-native ??= "readline"
- PACKAGECONFIG_class-nativesdk ??= "readline"
- PACKAGECONFIG[readline] = ",,readline"
+ CACHED_CONFIGUREVARS += "headersdir=${includedir}/${PN}"
+ 
++do_compile_prepend() {
++    # If reproducible builds are requested, remove any leftover .build files.
++    # This ensures that bash always has the same version number
++    if [ "${BUILD_REPRODUCIBLE_BINARIES}" == "1" ]; then
++        rm -f ${B}/.build
++    fi
++}
++
+ do_compile_ptest () {
+ 	oe_runmake buildtest
+ }
 -- 
 2.21.0
 
