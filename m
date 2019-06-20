@@ -1,28 +1,39 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 610307E6B8
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 492467D72F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 09:12:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5K9CV3j001967
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 20 Jun 2019 02:12:31 -0700 (PDT)
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Thu, 20 Jun 2019 02:12:30 -0700
-To: Adrian Bunk <bunk@stusta.de>
-References: <1561000443-320248-1-git-send-email-changqing.li@windriver.com>
-	<20190620073529.GB27107@localhost>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <7140cbf6-0801-6b9e-6f0d-33fdfbe3cfbf@windriver.com>
-Date: Thu, 20 Jun 2019 17:12:27 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Thu, 20 Jun 2019 09:19:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45Tx8h227Fz2M;
+	Thu, 20 Jun 2019 11:19:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1561022356;
+	bh=edB/Bf0kJuRO5hLFOu6rJrXTT3ytSTMRp3BkWS77UNk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JZg7zU/NoVA+8vA1R5R+cWD0Qzqe+rBuXcL/7XZxRN7+sb6Xy6gMKiZSOiRxAQmXk
+	+agF3WQYIEQqIjQ5sw+i7Up/lV8/Au8zfQqx1Qwm+Edw/VEdKyF6HW3fmxvq2GXp13
+	Pie19A2Mr6FWspnoXY4YrJqLZ1wf9NkzZ22K+TbPZJTHtBw6wM2nkYyHK0UgUEi1mh
+	cPpv0jhFk6atr0gyCLOvY22aqYBh85fjzipjl6ZS/anaIhUjcCDwpgxy+mMc4pND9k
+	lpS3FPzZpmw3Eiv5ydUEY4oKDQdxvwgMMe/D6yzpwoyLic//UdiUj7RtPYtviasYe5
+	FHCi8HAa03relfp2RHIYvMrdUdPgp5LzVu4KMk+fq+BLzVVOqrdDghsu3JTzJB+s4Q
+	kw+JkDBxl2blRITs1RpbxLW2gTwcMh4Rf3MdgU/jMNXvJoBMbCpKNv7HEk6m2nK5s6
+	zxzEWkbP95dWLC1dptvcuvSoIZv4HhTN/Hq83DhSikCnNQw58yCTvJwNIdSzwJzwzT
+	YwA6QGCJhPWC0iNDpSbEBwouy9DH2P0A/bBnNhxiOBHhTjnCxg3LRxWvgKPYt5CvLv
+	2SnwjSpflHnExYZq0AAaZhiox/O2/FB8znHJK8bLtO96E+f1JdL4e2oLFU5i7E+rwo
+	waxB6aOjLcpVrHAPhZi7i7Vs=
+Date: Thu, 20 Jun 2019 12:19:13 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <20190620091913.GD27107@localhost>
+References: <cover.1561018476.git.liezhi.yang@windriver.com>
+	<b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
+	<20190620082858.GC27107@localhost>
+	<07882a06-4c45-07aa-9696-8de4f86b8c0b@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <20190620073529.GB27107@localhost>
-X-Originating-IP: [128.224.162.186]
+In-Reply-To: <07882a06-4c45-07aa-9696-8de4f86b8c0b@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] mdadm: fix systemd service start up failure
+Subject: Re: [PATCH 4/4] gtk-icon-cache.bbclass: Depends on gtk+3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,41 +46,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 09:12:31 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Thu, 20 Jun 2019 09:19:16 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+On Thu, Jun 20, 2019 at 04:46:16PM +0800, Robert Yang wrote:
+>...
+> Maybe gtk+2 is out of date? Since gtk+4 is on the way, so I think that we
+> need something like virtual/gtk to fix these problems totally?
 
-On 6/20/19 3:35 PM, Adrian Bunk wrote:
-> On Thu, Jun 20, 2019 at 11:14:03AM +0800, changqing.li@windriver.com wrote:
->> From: Changqing Li <changqing.li@windriver.com>
->>
->> 1. mdadm: No mail address or alert command - not monitoring
->>
->> with --monitor mode, mdadm needs a mail address and/or a program.
->> This can be given with "mailaddr" and "program" lines to that
->> monitoring can be started using.
->>
->> fix by given a mail address, user can replace with a valid one
->> when use.
->> ...
->> +        sed -i -e 's/#MAILADDR root@mydomain.tld/MAILADDR root@mydomain.tld/g' ${D}${sysconfdir}/mdadm.conf
->> ...
-> Defaulting to try to send emails to an invalid address is worse than not
-> having an email address configured.
->
-> Looking at the manpages I would have expected syslog-only monitoring to
-> work if neither mailaddr nor program are configured.
-> If this isn't working, is this something upstream considers a bug?
-Thanks, I will check this, and try find another solution.
->
-> cu
-> Adrian
->
+GTK+2 is mostly obsolete.
+
+I just checked the GTK4 sources, and there it is renamed to 
+gtk4-update-icon-cache. Based on that I would say that your
+patch is actually fine at least for now.
+
+> // Robert
+
+cu
+Adrian
+
 -- 
-BRs
 
-Sandy(Li Changqing)
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
