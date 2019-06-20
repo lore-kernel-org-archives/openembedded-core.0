@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 81C457E7CE
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id CCECE7E828
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 07:53:11 +0000 (UTC)
+	Thu, 20 Jun 2019 07:53:12 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5K7rCSn019284
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5K7rEps009003
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 00:53:12 -0700 (PDT)
+	Thu, 20 Jun 2019 00:53:14 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 20 Jun 2019 00:53:12 -0700
+	14.3.439.0; Thu, 20 Jun 2019 00:53:13 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 20 Jun 2019 16:15:25 +0800
-Message-ID: <d02500d78c61f9cdee7a5f4bc99148379054cfcd.1561018476.git.liezhi.yang@windriver.com>
+Date: Thu, 20 Jun 2019 16:15:26 +0800
+Message-ID: <b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561018476.git.liezhi.yang@windriver.com>
 References: <cover.1561018476.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 3/4] update-alternatives.bbclass: run update-alternatives firstly in postinst script
+Subject: [PATCH 4/4] gtk-icon-cache.bbclass: Depends on gtk+3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,43 +32,48 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 07:53:11 -0000
+X-List-Received-Date: Thu, 20 Jun 2019 07:53:14 -0000
 Content-Type: text/plain
 
-Recipes like postfix run command newaliases in postinst, but newaliases is
-installed newaliases.postfix, and need run update-alternatives to update it to
-newaliases, so we would get the error when install postinst on target.
-
-Fixed:
-$ opkg install postfix
-Configuring postfix.
-///var/lib/opkg/info/postfix.postinst: line 4: newaliases: command not found
-
-Run update-alternatives firstly will fix the problem.
+The gtk-update-icon-cache and gdk-pixbuf-query-loaders are provided by gtk+3.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/classes/update-alternatives.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/classes/gtk-icon-cache.bbclass | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index b702e77..8c2b66e 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -284,8 +284,11 @@ python populate_packages_updatealternatives () {
+diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+index 66fe781..4e60fe6 100644
+--- a/meta/classes/gtk-icon-cache.bbclass
++++ b/meta/classes/gtk-icon-cache.bbclass
+@@ -4,6 +4,11 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk
  
-             bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
-             bb.note('%s' % alt_setup_links)
--            postinst = d.getVar('pkg_postinst_%s' % pkg) or '#!/bin/sh\n'
--            postinst += alt_setup_links
-+            postinst = d.getVar('pkg_postinst_%s' % pkg)
-+            if postinst:
-+                postinst = alt_setup_links + postinst
-+            else:
-+                postinst = '#!/bin/sh\n' + alt_setup_links
-             d.setVar('pkg_postinst_%s' % pkg, postinst)
+ PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
  
-             bb.note('%s' % alt_remove_links)
++inherit distro_features_check
++ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
++
++DEPENDS += "gtk+3"
++
+ gtk_icon_cache_postinst() {
+ if [ "x$D" != "x" ]; then
+ 	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} \
+@@ -45,10 +50,11 @@ python populate_packages_append () {
+         if not os.path.exists(icon_dir):
+             continue
+ 
+-        bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
+-        rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
+-        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
+-    
++        for dep in ('hicolor-icon-theme', 'gtk+3'):
++            bb.note("Adding %s dependency to %s" % (dep, pkg))
++            rdepends = ' ' + d.getVar('MLPREFIX', False) + dep
++            d.appendVar('RDEPENDS_%s' % pkg, rdepends)
++
+         bb.note("adding gtk-icon-cache postinst and postrm scripts to %s" % pkg)
+         
+         postinst = d.getVar('pkg_postinst_%s' % pkg)
 -- 
 2.7.4
 
