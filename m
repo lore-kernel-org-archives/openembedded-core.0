@@ -1,55 +1,52 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 201717E719
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id DD3437E719
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 13:53:57 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id c66so3204054wmf.0
+	Thu, 20 Jun 2019 13:56:51 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id w25so177268ioc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 06:53:59 -0700 (PDT)
+	Thu, 20 Jun 2019 06:56:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=73ByEi/ZTLm9wPTj9W7t8khaq5bw3G2GXeFEQRjp0ys=;
-	b=XiNMRYA2PabaYjlQI4jVQf6BDnBI/NmrLIILndCWOU6U1vObVOFmo6J5tCw8BRX0Q2
-	l6bPZj5l+xMxu/FSaqfDt0txC16mim8yU8/VaMcpTDuFPByqhK9zjHzR0LYFaCYvSjR5
-	SDbioQwiwYjC5Mcda33bpqJejqVdqp8u2ONVA=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=sGWW8/oKlPbGyYQ8GFRR3IFH57heDQa80oyLm4eP6a0=;
+	b=c7YfZi4y89VIZwHeRKLJV83lCUFZP1ZRDYezejBi7im9SBIbzexNPHJecMcQp5ySpm
+	kuos4XMqzbflWWPOGqL6H25hSqsYqo7e23Xm/8IP7++UjzoN8/9kXxsI5nCvtEnwykZl
+	AlKHjFZHAz5oeOpm+v/8KB3UlCXCGcRt2L/9O94L0QbR8epyq9ePHAFuxgukdmseC+S2
+	pTCw8VQHwjCOliGksWXr5TixUewkxZTmUVQ3auU3bHA2YXyfwNZnVjTjm3NiAgdAHWba
+	R6M+OtH17JrTUMXzs38iDGJjEnG1/K5b539YBkZDCMc7+3aLOw8HoVcbfXmGGEBpTJQ1
+	sntg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=73ByEi/ZTLm9wPTj9W7t8khaq5bw3G2GXeFEQRjp0ys=;
-	b=ecM30bDHuo1JOnWx7zzhXdDZu/zbOK5pgwubT6IKwp0n0ArbZJM+zvxu9bPo+PTcv9
-	zCj58MJiZ4WELKB8DWj/0BG642gsgDUp136v8NZmTmdW4BvIkVAm9p/gEdH9cmCg/mqW
-	jJlAqt51Qfp1LRpxzFUMK67rVFVnBBZ91E1kysJSm2uNldHnHZQHijWzvlohWbM8fmXB
-	G7ME9oyklb+KvLL1Qc3Sr3eh2JFUEJtq0G1UWpy0tI7sHH0W0NYtEq7XKn1kyiCocfXY
-	9DUrII0RQKO0Faq2DOHJu5u12nOZymQ54o6xm1cu8NYs9sPFCi+QrFU/mVzm+yz3Jkz4
-	kNoQ==
-X-Gm-Message-State: APjAAAWfhTixduf2drrpRAFRMJssrDvS2JQBiroS8hggTdm3CxY0FWcO
-	Jo/WTwlfzP6qL6MKfMAwr9d6Pw==
-X-Google-Smtp-Source: APXvYqzweheRwU5iqUSkU7laHF+7/QqaJsbt9Rv7SOunpXQkqs3JIQOjzBFbUkA+unQxMGivvCem2Q==
-X-Received: by 2002:a7b:cae9:: with SMTP id t9mr2978409wml.126.1561038838736; 
-	Thu, 20 Jun 2019 06:53:58 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	g19sm5430727wmg.10.2019.06.20.06.53.57
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 20 Jun 2019 06:53:58 -0700 (PDT)
-Message-ID: <3b30ab5eae1506d44fc9c95543d7ae833018c087.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, Adrian Bunk <bunk@stusta.de>
-Date: Thu, 20 Jun 2019 14:53:56 +0100
-In-Reply-To: <fd9aef39-bbbc-f6ed-e9b2-37009952e3ab@windriver.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=sGWW8/oKlPbGyYQ8GFRR3IFH57heDQa80oyLm4eP6a0=;
+	b=UV+mmJydSivpy4upwqSP7hXDDmY8YZkMhny+DEUiuDcHSu6BiYe1R8o+zTd7mOTETd
+	JZsUrMbl6g7Jorj99sq9zCX/vKW8eSsr4ON036/3LiW4AQrDOIKntXIfSkn8ObqirWh5
+	au6jweczw5hIvdv9xVO+eZlTWVJJAD63LbXAZ3TBK1rEH8CSbCYebHk1GFRLohConz2C
+	FbPkgV6dhwpC0XMIWwO7sNMGFolK46WWFJdqDbV9cJUj1uaAggRqw6n2lVp32TmEMoUL
+	b6OanBiywNKJ5aFzqmDCFjGkpQmVe1ZWdorG8uUnkg1KPZ9Pu0Fcu7LEh0hBN9qFwcD2
+	zUXQ==
+X-Gm-Message-State: APjAAAU6EoayAnYjHoqGtWqfznR1N7FrPdUh2Iq1T8ZG24yE7Zx3BeZO
+	Gwh4LqeCERq9MJ5N/6uKRPh06FWJbBbYAtnWYhP0SQ==
+X-Google-Smtp-Source: APXvYqzj2y2tPSpihcUr/n6JHVrwHYK5LEN7Ou/B+cXmNfHi12LXWLACvOl3++6oUVOmGsB50mbY7df/Z+Ldd8xNKRc=
+X-Received: by 2002:a6b:6611:: with SMTP id a17mr13121918ioc.179.1561039012929;
+	Thu, 20 Jun 2019 06:56:52 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1561018476.git.liezhi.yang@windriver.com>
 	<b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
 	<20190620082858.GC27107@localhost>
 	<07882a06-4c45-07aa-9696-8de4f86b8c0b@windriver.com>
 	<20190620091913.GD27107@localhost>
 	<fd9aef39-bbbc-f6ed-e9b2-37009952e3ab@windriver.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
+	<3b30ab5eae1506d44fc9c95543d7ae833018c087.camel@linuxfoundation.org>
+In-Reply-To: <3b30ab5eae1506d44fc9c95543d7ae833018c087.camel@linuxfoundation.org>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 20 Jun 2019 14:56:41 +0100
+Message-ID: <CAJTo0Lb3EwnoC28cesYt9BnuKucW_dCp5bangpdYscLgNOZ7_w@mail.gmail.com>
+To: Robert Yang <liezhi.yang@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 4/4] gtk-icon-cache.bbclass: Depends on gtk+3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -63,32 +60,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 13:53:58 -0000
+X-List-Received-Date: Thu, 20 Jun 2019 13:56:52 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-06-20 at 17:58 +0800, Robert Yang wrote:
-> 
-> On 6/20/19 5:19 PM, Adrian Bunk wrote:
-> > On Thu, Jun 20, 2019 at 04:46:16PM +0800, Robert Yang wrote:
-> > > ...
-> > > Maybe gtk+2 is out of date? Since gtk+4 is on the way, so I think
-> > > that we
-> > > need something like virtual/gtk to fix these problems totally?
-> > 
-> > GTK+2 is mostly obsolete.
-> > 
-> > I just checked the GTK4 sources, and there it is renamed to
-> > gtk4-update-icon-cache. Based on that I would say that your
-> > patch is actually fine at least for now.
-> 
-> Thanks, I updated the commit message in the PULL:
+Why DEPENDS on gtk?  The recipes will typically already do this, but
+all this class needs is the rdepends.  Also, there's no explanation
+for the hicolor addition.
 
-Please resend patches rather than updating the branch as they get lost
-really easily and also don't get reviewed properly this way.
+Ross
 
-Cheers,
-
-Richard
-
+On Thu, 20 Jun 2019 at 14:54, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Thu, 2019-06-20 at 17:58 +0800, Robert Yang wrote:
+> >
+> > On 6/20/19 5:19 PM, Adrian Bunk wrote:
+> > > On Thu, Jun 20, 2019 at 04:46:16PM +0800, Robert Yang wrote:
+> > > > ...
+> > > > Maybe gtk+2 is out of date? Since gtk+4 is on the way, so I think
+> > > > that we
+> > > > need something like virtual/gtk to fix these problems totally?
+> > >
+> > > GTK+2 is mostly obsolete.
+> > >
+> > > I just checked the GTK4 sources, and there it is renamed to
+> > > gtk4-update-icon-cache. Based on that I would say that your
+> > > patch is actually fine at least for now.
+> >
+> > Thanks, I updated the commit message in the PULL:
+>
+> Please resend patches rather than updating the branch as they get lost
+> really easily and also don't get reviewed properly this way.
+>
+> Cheers,
+>
+> Richard
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
