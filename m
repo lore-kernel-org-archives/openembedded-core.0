@@ -1,33 +1,29 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 79E847BD9A
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F14B27E7DE
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 08:43:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45TwMT5L6rz1n
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 10:43:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1561020213;
-	bh=5aFI2LPFTrErSBv3QkwzvfrEH5B5UVlx7ip9qnl+HwQ=;
-	h=From:To:Subject:Date:From;
-	b=CmJrQBCxuTX1yQL8mXVDDanTJxNesQbsATIv/J/P9lrUgL2bR4lom5sp02GQChXjp
-	Jw/PVGaKM6I/aVv5KCMNowbiCprHTVV9wQHFvxzG3Xjir9rqizH0kzNtPz0IrtvRea
-	T2XgUcq8v6UxBoqNohzwNkmbXIor5wS7fpz1fKvVMeKZ3XKbU9H1626FkLReGS+jv2
-	bHiX2BvccjsyoYk7Nc0NpxvOwvr1x+EOHx/svSs6TvivrYnZXPp2QdLN3OnUcWYwYy
-	M9vDw8uX0L6gFVbGc2Dk4jq/7PXr8SNce7gd9vpRH1zchDlSppV3wrEGJaC2Ju4B46
-	5xcDWHyjTe8EL1I1KUSu8TwJvkZdhQ/hVWFturO4vonaH5X6ikDVDGDXpnzTU/l2hE
-	+MuFQ+gJXV6gtv/Jln0y+1Ij0E/xqju8WBW+YylLpnwAW2bKfgQ/NQPOpf8CtNx8a3
-	cUC1thiUzTrTUBjK71dmYBFlFD5Zi9o34rt1S7JYXyKdyGuwg2dtWjKMQ9Wi6bZg0C
-	bdKnOPsgcBsvrppZMmDUnJKv6vuSpMyND0o/QWxUq3DBGSOq61W3xzqO9nFMhKLq5s
-	rF0t1u/d+3hcxpyzHbH1RAu5aeuNPuZVNjYcMSWenT4zaG6bkXLiL8IiMqha0+rpb2
-	D9ubPRUdbrXoEvULXGDVYnHU=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 20 Jun 2019 11:43:32 +0300
-Message-Id: <20190620084332.31285-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] go: Upgrade 1.12.5 -> 1.12.6
+	Thu, 20 Jun 2019 08:45:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5K8jLS8027676
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 20 Jun 2019 01:45:37 -0700
+Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Thu, 20 Jun 2019 01:45:24 -0700
+To: Adrian Bunk <bunk@stusta.de>
+References: <cover.1561018476.git.liezhi.yang@windriver.com>
+	<b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
+	<20190620082858.GC27107@localhost>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <07882a06-4c45-07aa-9696-8de4f86b8c0b@windriver.com>
+Date: Thu, 20 Jun 2019 16:46:16 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <20190620082858.GC27107@localhost>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 4/4] gtk-icon-cache.bbclass: Depends on gtk+3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,35 +36,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 08:43:33 -0000
+X-List-Received-Date: Thu, 20 Jun 2019 08:45:59 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/go/go-1.12.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
-index 7c4cac1fc2..3f23f06f09 100644
---- a/meta/recipes-devtools/go/go-1.12.inc
-+++ b/meta/recipes-devtools/go/go-1.12.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.12"
--GO_MINOR = ".5"
-+GO_MINOR = ".6"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
-@@ -19,5 +19,5 @@ SRC_URI += "\
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- 
--SRC_URI[main.md5sum] = "cb6f594d22dd79af4fff9779607b1b47"
--SRC_URI[main.sha256sum] = "2aa5f088cbb332e73fc3def546800616b38d3bfe6b8713b8a6404060f22503e8"
-+SRC_URI[main.md5sum] = "48a4141fc718dd742d106431294f08bf"
-+SRC_URI[main.sha256sum] = "c96c5ccc7455638ae1a8b7498a030fe653731c8391c5f8e79590bce72f92b4ca"
--- 
-2.17.1
 
+On 6/20/19 4:28 PM, Adrian Bunk wrote:
+> On Thu, Jun 20, 2019 at 04:15:26PM +0800, Robert Yang wrote:
+>> The gtk-update-icon-cache and gdk-pixbuf-query-loaders are provided by gtk+3.
+> 
+> gdk-pixbuf-query-loaders is provided by gdk-pixbuf,
+> which is not tied to a specific GTK version.
+> 
+> gtk-update-icon-cache is provided by both GTK 2 and GTK 3,
+> I haven't checked whether it will also be in GTK 4.
+
+Thanks, I will update it.
+
+> 
+>> ...
+>> --- a/meta/classes/gtk-icon-cache.bbclass
+>> +++ b/meta/classes/gtk-icon-cache.bbclass
+>> @@ -4,6 +4,11 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk
+>>   
+>>   PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+>>   
+>> +inherit distro_features_check
+>> +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+>> +
+>> +DEPENDS += "gtk+3"
+>> ...
+> 
+> This looks OK.
+> 
+>> @@ -45,10 +50,11 @@ python populate_packages_append () {
+>>           if not os.path.exists(icon_dir):
+>>               continue
+>>   
+>> -        bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
+>> -        rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
+>> -        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
+>> -
+>> +        for dep in ('hicolor-icon-theme', 'gtk+3'):
+>> +            bb.note("Adding %s dependency to %s" % (dep, pkg))
+>> +            rdepends = ' ' + d.getVar('MLPREFIX', False) + dep
+>> +            d.appendVar('RDEPENDS_%s' % pkg, rdepends)
+>> ...
+> 
+> Why is this necessary?
+
+Otherwise, gtk+3 won't be installed.
+
+> 
+> I would expect there to always be a generated RDEPENDS on either
+> gtk+ or gtk+3 (or soon gtk4) that already covers this.
+> Anything I miss here?
+
+gtk2/3/4 is a problem, I checked DEPENDS in oe-core's recipes, most
+of them depend on gtk+3, only one depends on gtk+:
+
+meta/recipes-gnome/gnome/gnome-themes-standard_3.22.3.bb
+
+Maybe gtk+2 is out of date? Since gtk+4 is on the way, so I think that we
+need something like virtual/gtk to fix these problems totally?
+
+// Robert
+
+> 
+> cu
+> Adrian
+> 
 
