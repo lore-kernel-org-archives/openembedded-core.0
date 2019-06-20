@@ -1,48 +1,23 @@
-Return-Path: <prvs=066539cd8=alistair.francis@wdc.com>
-Received: from esa5.hgst.iphmx.com (esa5.hgst.iphmx.com [216.71.153.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 318627E7BC
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id A26637E7C4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 19 Jun 2019 23:50:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1560988259; x=1592524259;
-	h=from:to:cc:subject:date:message-id:in-reply-to:
-	references:mime-version:content-transfer-encoding;
-	bh=xD7CqCq82mpqw5jy7nOE+NVrMvld36dyPjgcfD6lZIQ=;
-	b=a15W7U8ojRLboY8fNx42jZ8tvDJZRYMRlhtNThg3y5D8UVCFPfasXKKA
-	cPk/j5n4yBtL9mgipy+z3X4v1Z3jCIHPRQCwWghvKSDAAKd3ZXdeTwB5w
-	JLtBd1wuDxaHjGbpiV6XP3c8ICr9IhsU/CzzWMunWpkkibb3nw/DW6UzB
-	2OHxywuNKuMmeKdOCRPR/79n9+g0my39+UxqXKwKkJgezZme6q7jVF0Ce
-	9AS+Q0a293Ny9zcwgWBnfyR7Kbe/z3EV42ZGhrQgUodXG46+VvQnk5x9T
-	N/g0uGqgdvmffl9W3EjUCfqdb2jjlEWE1y73LSeoZowBjtcCV41dmE67S A==;
-X-IronPort-AV: E=Sophos;i="5.63,394,1557158400"; d="scan'208";a="112241475"
-Received: from uls-op-cesaip02.wdc.com (HELO uls-op-cesaep02.wdc.com)
-	([199.255.45.15])
-	by ob1.hgst.iphmx.com with ESMTP; 20 Jun 2019 07:50:59 +0800
-IronPort-SDR: 0UATfpt5s2Lh+/5VuLv2ar1zFW6FbtDuTAMc3MaEtp2XE+KDCl+7+L5aG2jnoFkMk6I77LA36A
-	2KqBwInkIQ5OObilrcO4atAyeDXgyyF1b+9D0RdwEQlgysHoIlb2sXykcc6iHDAdGMZN+07kIM
-	+9HWuP3epNtp+1P1uz9sibmubZTM5U1gbhmCticyumU3hlhV5GNxxc1AEN0hoggzM/rSBRruKy
-	51eraEwn97Hj7L/04EEpZ7dcv2y0AjMSNSRyqar9hdkGrnaFEU1Eihho0wK6KBksparEZfgkSG
-	6hEJ0WKMTQ9pOZYEdaFrwabG
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
-	by uls-op-cesaep02.wdc.com with ESMTP; 19 Jun 2019 16:50:25 -0700
-IronPort-SDR: WDU83Sj+srFoTRT+sXH2Roe8/m6EufHmlvRd3JDDQWmZtygGHh3oy89Tn924v1aFamzkZbZkOK
-	+Bq0zBL59VvcDs/yAvhTy+dSsjw6M3zFQRteD+OOyGF+UO04/fkeM0vx43WNWLkHj4B9Do/Ips
-	pFf0EfTXppMDK3u4yZaPnn01U2JSuxwl9f5RLIHN+1j4jA+0xI94y00HBwTeddbuiLbQltEaCn
-	kPk8BznarWuFEVnzUq6+QQnqNgWZWUbwtnm4Y0hU3lIjOHKzoTDX5X/kcU/vyn6oacMx0RpY4Y
-	KIg=
-Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
-	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
-	by uls-op-cesaip01.wdc.com with ESMTP; 19 Jun 2019 16:51:00 -0700
-From: Alistair Francis <alistair.francis@wdc.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 19 Jun 2019 16:48:33 -0700
-Message-Id: <20190619234833.18178-2-alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.22.0
-In-Reply-To: <20190619234833.18178-1-alistair.francis@wdc.com>
-References: <20190619234833.18178-1-alistair.francis@wdc.com>
+	Thu, 20 Jun 2019 03:14:04 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5K3E50r016401
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 19 Jun 2019 20:14:05 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 19 Jun 2019 20:14:04 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 20 Jun 2019 11:14:03 +0800
+Message-ID: <1561000443-320248-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH 2/2] qemuriscv64: Fix QB_OPT_APPEND overwrite
+Subject: [PATCH] mdadm: fix systemd service start up failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,30 +30,55 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 19 Jun 2019 23:50:58 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 20 Jun 2019 03:14:04 -0000
+Content-Type: text/plain
 
-Avoid overwriting the QB_OPT_APPEND variable.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+1. mdadm: No mail address or alert command - not monitoring
+
+with --monitor mode, mdadm needs a mail address and/or a program.
+This can be given with "mailaddr" and "program" lines to that
+monitoring can be started using.
+
+fix by given a mail address, user can replace with a valid one
+when use.
+
+2. cannot create pid file: No such file or directory
+
+fix by create dir before starting.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/conf/machine/qemuriscv64.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/mdadm/files/mdmonitor.service | 1 +
+ meta/recipes-extended/mdadm/mdadm_4.1.bb            | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/meta/conf/machine/qemuriscv64.conf b/meta/conf/machine/qemuriscv64.conf
-index f1be7b8a71..dba8f09e93 100644
---- a/meta/conf/machine/qemuriscv64.conf
-+++ b/meta/conf/machine/qemuriscv64.conf
-@@ -4,7 +4,7 @@
+diff --git a/meta/recipes-extended/mdadm/files/mdmonitor.service b/meta/recipes-extended/mdadm/files/mdmonitor.service
+index bd243b4..a1b693f 100644
+--- a/meta/recipes-extended/mdadm/files/mdmonitor.service
++++ b/meta/recipes-extended/mdadm/files/mdmonitor.service
+@@ -13,6 +13,7 @@ ConditionPathExists=/etc/mdadm.conf
+ Type=forking
+ PIDFile=/var/run/mdadm/mdadm.pid
+ EnvironmentFile=-/etc/sysconfig/mdmonitor
++ExecStartPre=mkdir -p /var/run/mdadm
+ ExecStart=/sbin/mdadm --monitor --scan -f --pid-file=/var/run/mdadm/mdadm.pid
  
- require conf/machine/include/riscv/qemuriscv.inc
- 
--QB_OPT_APPEND = "-show-cursor -monitor null -device loader,file=${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE},addr=0x80200000"
-+QB_OPT_APPEND += "-show-cursor -monitor null -device loader,file=${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE},addr=0x80200000"
- 
- EXTRA_IMAGEDEPENDS += "u-boot"
- UBOOT_MACHINE = "qemu-riscv64_defconfig"
+ [Install]
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 494b81b..aa1fdb3 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -57,6 +57,7 @@ do_install() {
+ do_install_append() {
+         install -d ${D}/${sysconfdir}/
+         install -m 644 ${S}/mdadm.conf-example ${D}${sysconfdir}/mdadm.conf
++        sed -i -e 's/#MAILADDR root@mydomain.tld/MAILADDR root@mydomain.tld/g' ${D}${sysconfdir}/mdadm.conf
+         install -d ${D}/${sysconfdir}/init.d
+         install -m 755 ${WORKDIR}/mdadm.init ${D}${sysconfdir}/init.d/mdmonitor
+ }
 -- 
-2.22.0
+2.7.4
 
 
