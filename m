@@ -1,37 +1,33 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id EC9AA7E720
+	by mail.openembedded.org (Postfix) with ESMTP id 79E847BD9A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 08:29:02 +0000 (UTC)
+	Thu, 20 Jun 2019 08:43:33 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45Tw2h5Trqz1n;
-	Thu, 20 Jun 2019 10:29:00 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45TwMT5L6rz1n
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 20 Jun 2019 10:43:33 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1561019341;
-	bh=pX5ix9/XG+W1Iw3Br0h+RBYBvXepwykshcDF0T39kyA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eLyj5NEPByFL3/RnU3en0TQ6lAUUcnoA7mQQKjxUn8VyU3nxnjxNlzj9KSfA3RQJ1
-	g4LmImugTqMfgVS2YApFZaPb6igCBKrxqzSr6yqQpy7CBAxRHtutt7hQl9twnvBqvw
-	OZUqS4p7ZBCpk1BAZNrtdRbE7XNWUX4D+F/3JvN+Wos1J1KytbnXY++ROyso21ijzr
-	bdA6bbFVnBvKb94djPsLKv/+xg2p/9heXQGK9ZwUwx1nlxzt7fz39we2MG7MjVaPXO
-	j61Br51YRzW31177aHbtRwXRJHoXuQGtKZxhw+GJz2lc8QebIEXPKgMmcecYPks0LC
-	nQBctl2MgB5iY+TJD/DHf1dxFUNy5fkiL1lnGs1i+xRY1ahYRNJClRRKi0GzemPhqh
-	+2mU7Aga86iE8nxb2lYEQc8guWuafj9HVKMs2Jx4VI50lisVD3uQabi10kdkueKl3W
-	t7rv+IuE0OzFm/HTPJQTzOIGV0VFg6HagzPKVBbNC/lJ3mjxpwxvkT/rWJ4BLhLmNa
-	jZMh6uZN23ODIUtFWy+yqhsV9huzWoo18oxQsBcttbG/M9LY4bWHHCloW2VXWmArq0
-	/GRyXhR3570a6boLKgrI6ptYKB+dB3Li6K3XoSRkLPXDGi8dEJz0kIJIkvrqTdxe7P
-	a+bs9QnlqxGdqoiMvg1d5PL0=
-Date: Thu, 20 Jun 2019 11:28:58 +0300
+	s=default; t=1561020213;
+	bh=5aFI2LPFTrErSBv3QkwzvfrEH5B5UVlx7ip9qnl+HwQ=;
+	h=From:To:Subject:Date:From;
+	b=CmJrQBCxuTX1yQL8mXVDDanTJxNesQbsATIv/J/P9lrUgL2bR4lom5sp02GQChXjp
+	Jw/PVGaKM6I/aVv5KCMNowbiCprHTVV9wQHFvxzG3Xjir9rqizH0kzNtPz0IrtvRea
+	T2XgUcq8v6UxBoqNohzwNkmbXIor5wS7fpz1fKvVMeKZ3XKbU9H1626FkLReGS+jv2
+	bHiX2BvccjsyoYk7Nc0NpxvOwvr1x+EOHx/svSs6TvivrYnZXPp2QdLN3OnUcWYwYy
+	M9vDw8uX0L6gFVbGc2Dk4jq/7PXr8SNce7gd9vpRH1zchDlSppV3wrEGJaC2Ju4B46
+	5xcDWHyjTe8EL1I1KUSu8TwJvkZdhQ/hVWFturO4vonaH5X6ikDVDGDXpnzTU/l2hE
+	+MuFQ+gJXV6gtv/Jln0y+1Ij0E/xqju8WBW+YylLpnwAW2bKfgQ/NQPOpf8CtNx8a3
+	cUC1thiUzTrTUBjK71dmYBFlFD5Zi9o34rt1S7JYXyKdyGuwg2dtWjKMQ9Wi6bZg0C
+	bdKnOPsgcBsvrppZMmDUnJKv6vuSpMyND0o/QWxUq3DBGSOq61W3xzqO9nFMhKLq5s
+	rF0t1u/d+3hcxpyzHbH1RAu5aeuNPuZVNjYcMSWenT4zaG6bkXLiL8IiMqha0+rpb2
+	D9ubPRUdbrXoEvULXGDVYnHU=
 From: Adrian Bunk <bunk@stusta.de>
-To: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <20190620082858.GC27107@localhost>
-References: <cover.1561018476.git.liezhi.yang@windriver.com>
-	<b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 4/4] gtk-icon-cache.bbclass: Depends on gtk+3
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 20 Jun 2019 11:43:32 +0300
+Message-Id: <20190620084332.31285-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] go: Upgrade 1.12.5 -> 1.12.6
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,62 +40,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 20 Jun 2019 08:29:03 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 20 Jun 2019 08:43:33 -0000
 
-On Thu, Jun 20, 2019 at 04:15:26PM +0800, Robert Yang wrote:
-> The gtk-update-icon-cache and gdk-pixbuf-query-loaders are provided by gtk+3.
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ meta/recipes-devtools/go/go-1.12.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-gdk-pixbuf-query-loaders is provided by gdk-pixbuf,
-which is not tied to a specific GTK version.
-
-gtk-update-icon-cache is provided by both GTK 2 and GTK 3,
-I haven't checked whether it will also be in GTK 4.
-
->...
-> --- a/meta/classes/gtk-icon-cache.bbclass
-> +++ b/meta/classes/gtk-icon-cache.bbclass
-> @@ -4,6 +4,11 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk
->  
->  PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
->  
-> +inherit distro_features_check
-> +ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-> +
-> +DEPENDS += "gtk+3"
->...
-
-This looks OK.
-
-> @@ -45,10 +50,11 @@ python populate_packages_append () {
->          if not os.path.exists(icon_dir):
->              continue
->  
-> -        bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
-> -        rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
-> -        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
-> -    
-> +        for dep in ('hicolor-icon-theme', 'gtk+3'):
-> +            bb.note("Adding %s dependency to %s" % (dep, pkg))
-> +            rdepends = ' ' + d.getVar('MLPREFIX', False) + dep
-> +            d.appendVar('RDEPENDS_%s' % pkg, rdepends)
->...
-
-Why is this necessary?
-
-I would expect there to always be a generated RDEPENDS on either
-gtk+ or gtk+3 (or soon gtk4) that already covers this.
-Anything I miss here?
-
-cu
-Adrian
-
+diff --git a/meta/recipes-devtools/go/go-1.12.inc b/meta/recipes-devtools/go/go-1.12.inc
+index 7c4cac1fc2..3f23f06f09 100644
+--- a/meta/recipes-devtools/go/go-1.12.inc
++++ b/meta/recipes-devtools/go/go-1.12.inc
+@@ -1,7 +1,7 @@
+ require go-common.inc
+ 
+ GO_BASEVERSION = "1.12"
+-GO_MINOR = ".5"
++GO_MINOR = ".6"
+ PV .= "${GO_MINOR}"
+ FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
+ 
+@@ -19,5 +19,5 @@ SRC_URI += "\
+ "
+ SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
+ 
+-SRC_URI[main.md5sum] = "cb6f594d22dd79af4fff9779607b1b47"
+-SRC_URI[main.sha256sum] = "2aa5f088cbb332e73fc3def546800616b38d3bfe6b8713b8a6404060f22503e8"
++SRC_URI[main.md5sum] = "48a4141fc718dd742d106431294f08bf"
++SRC_URI[main.sha256sum] = "c96c5ccc7455638ae1a8b7498a030fe653731c8391c5f8e79590bce72f92b4ca"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
