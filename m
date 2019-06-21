@@ -1,54 +1,56 @@
-Return-Path: <jdmason@kudzu.us>
-Received: from mail-yw1-f66.google.com (mail-yw1-f66.google.com
-	[209.85.161.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 76BFB7E82E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 4181D7D716
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 19:27:12 +0000 (UTC)
-Received: by mail-yw1-f66.google.com with SMTP id k125so3165917ywe.5
+	Fri, 21 Jun 2019 21:37:53 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id a15so7492312wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 12:27:13 -0700 (PDT)
+	Fri, 21 Jun 2019 14:37:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YfiuqGjMblWnKiTcVeGxecmUNYJ8cIw1FkkQNU8/6Pk=;
-	b=EtPhyZdXIUq1piB1MoKwlOb2TBaYV3g6iQr0FvnMv9CZc7CuvfZcuTu14Y+b+LmQDN
-	oQmTMi+ECC3cJpqGuTfFmdvHTWRlKnDsI7SLK1b5+71/glg8VKFHVwxCwLsIMM+3zrsK
-	Ka3Hsp7FVxfst1wWVcMTF1axmaYyiZeLf6ic29iOrwgpgB/pVLBE8bNvzpqivRDsD0qf
-	LPBscb1T50hLAw+iGmVvqHNuHVj/nUF//F+DC81lPRsa0v9kmQdrCNSrxbyD2PZp91Sy
-	6V8hW94Vcq9FbHIj2jhTga/TRBkt1i3W80UhStAM9uZwnfam2BoOGSpw2Z8bBcvttzLR
-	X1KA==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=4YVVoTR9YEmTvSUeFlnpMmS74WodPhkonwsK1pnWwqs=;
+	b=AUfgyUmri+ljJDiL+T6vvG+kZ0ROmRv0Jr6DiUZBr7B6NBqvGpq+7sow0M7Hv64sZQ
+	1iqOEDwS/P3D88D5/D3VqtxTfohF/8gngB7m8rQHm5XvqSvg5F0WZ0QhPTLUAvyD8Her
+	yc708Tjgs7LbXBTfQZBvdKNq4Bw5NncRYuq7o=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=YfiuqGjMblWnKiTcVeGxecmUNYJ8cIw1FkkQNU8/6Pk=;
-	b=XWfKTfz/pLlA+WnR10CzbUdiJUl+SZCAxBNQNzeEbSlUv2ypLOpRlibo6K4Kmjz6cL
-	iIRsOIxA1WFTa01ZTn/bYrFM8DDHSZoCmrwt5XtFr5k/R81AN4ROuUnLSgPzXx3abi61
-	Bv9Xnks1am2eVS51NEnmJr10mtDAANr+l9xbuzWISTs6iKo7jCVxBbcS00t46yADmBsV
-	EJ6qwDDNuAoQBmeV6zS/Xqcd5RH3Y0L0nMESakSOiNt/fiDRqTbT04WtKuioEHpFSZQI
-	Gbi79LbFrIT3RklgBLGmmKMAYxlNwo76IfV8qWkkOZBaNeLxpqyTgkyYjWV6fJRC2NZH
-	plyw==
-X-Gm-Message-State: APjAAAWISTdIVx60LBviI6PK34uE45HP3UlNojP8neAH0kSe4/mazKf0
-	Y/HlmdWDpOHEx+1WOOotZj+1Q+wJhDeTpw==
-X-Google-Smtp-Source: APXvYqwCWMEekZopN7oEWBJ1NIBUjr6arDNPP42iVxgL6hW4pgUg+tHeZXjKFUOHJ4HmTJ5FSiN8Rg==
-X-Received: by 2002:a0d:df50:: with SMTP id i77mr30766460ywe.59.1561145233044; 
-	Fri, 21 Jun 2019 12:27:13 -0700 (PDT)
-Received: from graymalkin (76-230-155-4.lightspeed.rlghnc.sbcglobal.net.
-	[76.230.155.4]) by smtp.gmail.com with ESMTPSA id
-	i199sm886954ywe.89.2019.06.21.12.27.11
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=4YVVoTR9YEmTvSUeFlnpMmS74WodPhkonwsK1pnWwqs=;
+	b=NjxZPaHcEsJRpJYc755yHDLJAMt6E9G5IoTp3SAatO/ppp2RY8Ja/zYEnjYNEZYSf/
+	qRnboryTrRvU8QsQpbdPvhVJ3wBSEp2yW1SxinjVAfzuyGycSlbZJpSn82XarkvJQuI4
+	FTrGUT5rWabka0/XQ7a+0/LZJDdfLxmeZrwrOZ+H+nfJuFydeVt4YLJ0arZgv/ypBSXW
+	jsHkH+mOlcOdNQRgBYICUKk3bayhomAP+U4t+nckPFZzmnCu/r5lBJwb3LP703sfQd2f
+	G1OCix3OPWfjdBL1oNHw+yFo3JrccP9BF6wtVLokNW7jf4YID1IPgXM23+1tWgnR8AdR
+	RR/Q==
+X-Gm-Message-State: APjAAAVtVjP9C+BYuLe1dblm5bQ7fKNWeXsRx7waplfdgMbgz7O8Rn/v
+	E+65c/7VRi4+xaSVKEonQMOfCA==
+X-Google-Smtp-Source: APXvYqw/+IgS2DY738J/stK1q7J7xWY3Z3ovheMBTn1xB6Yg+Ip96X5si71mwbpj2eQ78DwOelEWPQ==
+X-Received: by 2002:a1c:65c3:: with SMTP id z186mr5627662wmb.116.1561153073911;
+	Fri, 21 Jun 2019 14:37:53 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id z6sm3471271wrw.2.2019.06.21.14.37.52
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 21 Jun 2019 12:27:12 -0700 (PDT)
-Received: by graymalkin (sSMTP sendmail emulation);
-	Fri, 21 Jun 2019 15:27:10 -0400
-From: Jon Mason <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Jun 2019 15:27:10 -0400
-Message-Id: <20190621192710.15428-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.21.0
+	Fri, 21 Jun 2019 14:37:53 -0700 (PDT)
+Message-ID: <962677500f191acbfedbc026a5dd231155e2e744.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Jon Mason <jdmason@kudzu.us>
+Date: Fri, 21 Jun 2019 22:37:52 +0100
+In-Reply-To: <CAPoiz9y+hqO5CNxxkL3XdpHMDJoEeF3LrGU_kFzhrhxiQacR-w@mail.gmail.com>
+References: <20190621154213.12761-1-jdmason@kudzu.us>
+	<eea8e0445b82a8fd472fa9333a665555a990728a.camel@linuxfoundation.org>
+	<CAPoiz9zekGpeDRd=PMCneuzNeBgEBzHjgoKvcrR5WjnWHUDSiw@mail.gmail.com>
+	<1a9c38dca2be655c935d435a6cf6f52ae8342bf6.camel@linuxfoundation.org>
+	<CAPoiz9z-5w_jGUtzJVtAfByUroGAo+6-rkuDP+WkKk1s89r3HA@mail.gmail.com>
+	<CAPoiz9y+hqO5CNxxkL3XdpHMDJoEeF3LrGU_kFzhrhxiQacR-w@mail.gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH v2] oe_syslog.py: Handle syslogd/klogd restart race
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] oe_syslog.py: Handle syslogd/klogd restart race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,112 +63,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 19:27:12 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Jun 2019 21:37:53 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-syslogd and klogd can occasionally take too long to restart, which
-causes tests to fail by starting before the log daemons are ready.  To
-work around this problem, poll for up to 30 seconds on the processes to
-verify the old ones are killed and the new ones are up and running.
+On Fri, 2019-06-21 at 15:26 -0400, Jon Mason wrote:
+> On Fri, Jun 21, 2019 at 1:44 PM Jon Mason <jdmason@kudzu.us> wrote:
+> > On Fri, Jun 21, 2019 at 12:58 PM <
+> > richard.purdie@linuxfoundation.org> wrote:
+> > > 
+> > > I realise there is slightly more overhead but it might give us
+> > > more
+> > > chance of fixing all the races?
+> > 
+> > 4 extra function calls would almost be statistical noise.  I'll
+> > code
+> > it up to do the check every time regardless and add it for each
+> > syslogd/klogd call.
+> 
+> A timed run of testimage on a Cortex A57x4 system (with KVM enabled)
+> went from ~1m21s (1m23s, 1m22s,1m20s) to ~1m23s (1m22s, 1m25s,
+> 1m24s).
+> Without KVM enabled, it went from 20m6s to 20m56s. It's possible with
+> a larger sample size that they would converge even more, but I think
+> this is sufficient to show it's not a deal breaker to run it every
+> time.
 
-[YOCTO #13379]
+Sound good to me, thanks! :)
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- meta/lib/oeqa/runtime/cases/oe_syslog.py | 54 +++++++++++++++++++++---
- 1 file changed, 48 insertions(+), 6 deletions(-)
+Cheers,
 
-diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-index 0f5f9f43ca..480aadedf9 100644
---- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -6,6 +6,7 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.data import skipIfDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
-+import time
- 
- class SyslogTest(OERuntimeTestCase):
- 
-@@ -21,6 +22,49 @@ class SyslogTest(OERuntimeTestCase):
- 
- class SyslogTestConfig(OERuntimeTestCase):
- 
-+    def test_syslog_restart_sanity(self):
-+        status, syslogd_pid = self.target.run('pidof syslogd')
-+        status, klogd_pid = self.target.run('pidof klogd')
-+
-+        status, output = self.target.run('/etc/init.d/syslog restart')
-+
-+        # Always check for an error, most likely a race between shutting down and starting up
-+        timeout = time.time() + 30
-+
-+        while time.time() < timeout:
-+            # Verify the old ones are no longer running
-+            status, err_output = self.target.run('kill -0 %s' %syslogd_pid)
-+            if not status:
-+                self.logger.debug("old syslogd is running")
-+                status = 1
-+                continue
-+
-+            status, err_output = self.target.run('kill -0 %s' %klogd_pid)
-+            if not status:
-+                self.logger.debug("old klogd is running")
-+                status = 1
-+                continue
-+
-+            # Verify the new ones are running
-+            status, new_syslogd_pid = self.target.run('pidof syslogd')
-+            if status:
-+                self.logger.debug("new syslogd is not running")
-+                continue
-+
-+            status, new_klogd_pid = self.target.run('pidof klogd')
-+            if status:
-+                self.logger.debug("new syslogd is not running")
-+                continue
-+
-+            # Everything is fine now, so keep running
-+            status = 0
-+            break
-+
-+        msg = ('Could not restart syslog service. Status and output:'
-+               ' %s and %s' % (status,output))
-+        self.assertEqual(status, 0, msg)
-+
-+
-     @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_logger(self):
-         status, output = self.target.run('logger foobar')
-@@ -40,7 +84,7 @@ class SyslogTestConfig(OERuntimeTestCase):
-     @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_restart(self):
-         if "systemd" != self.tc.td.get("VIRTUAL-RUNTIME_init_manager", ""):
--            (_, _) = self.target.run('/etc/init.d/syslog restart')
-+            self.test_syslog_restart_sanity()
-         else:
-             (_, _) = self.target.run('systemctl restart syslog.service')
- 
-@@ -52,10 +96,8 @@ class SyslogTestConfig(OERuntimeTestCase):
-     def test_syslog_startup_config(self):
-         cmd = 'echo "LOGFILE=/var/log/test" >> /etc/syslog-startup.conf'
-         self.target.run(cmd)
--        status, output = self.target.run('/etc/init.d/syslog restart')
--        msg = ('Could not restart syslog service. Status and output:'
--               ' %s and %s' % (status,output))
--        self.assertEqual(status, 0, msg)
-+
-+        self.test_syslog_restart_sanity()
- 
-         cmd = 'logger foobar && grep foobar /var/log/test'
-         status,output = self.target.run(cmd)
-@@ -64,4 +106,4 @@ class SyslogTestConfig(OERuntimeTestCase):
- 
-         cmd = "sed -i 's#LOGFILE=/var/log/test##' /etc/syslog-startup.conf"
-         self.target.run(cmd)
--        self.target.run('/etc/init.d/syslog restart')
-+        self.test_syslog_restart_sanity()
--- 
-2.21.0
+Richard
 
 
