@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id A65947E79F;
-	Fri, 21 Jun 2019 14:00:57 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id D664C7E830;
+	Fri, 21 Jun 2019 14:00:59 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Joshua Watt <jpewhacker@gmail.com>
-Date: Fri, 21 Jun 2019 14:00:59 -0000
-Message-ID: <20190621140059.2330.88620@do>
-References: <20190620154302.9251-1-JPEWhacker@gmail.com>
+Date: Fri, 21 Jun 2019 14:01:01 -0000
+Message-ID: <20190621140101.2330.89548@do>
+References: <20190621133030.10720-1-JPEWhacker@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190620154302.9251-1-JPEWhacker@gmail.com>
+In-Reply-To: <20190621133030.10720-1-JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcHl0aG9uMzogUmVwcm9kdWNpYmxlIGJ1aWxkIGZpeGVzIChyZXYyKQ==?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGVybDogUmVwcm9kdWNpYmxlIGJ1aWxkIGZpeGVz?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 14:00:57 -0000
+X-List-Received-Date: Fri, 21 Jun 2019 14:01:00 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: python3: Reproducible build fixes (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/18272/
+Series: perl: Reproducible build fixes
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18288/
 State : failure
 
 == Summary ==
@@ -45,9 +45,11 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at c724a2feae)
+* Issue             Upstream-Status is in incorrect format [test_upstream_status_presence_format] 
+  Suggested fix    Fix Upstream-Status format in 0001-enc2xs-Add-environment-variable-to-suppress-comments.patch
+  Current          Upstream-status: Accepted [https://github.com/dankogai/p5-encode/pull/145]
+  Standard format  Upstream-Status: <Valid status>
+  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
 
 
 
