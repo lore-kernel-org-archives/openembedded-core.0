@@ -1,28 +1,29 @@
-Return-Path: <Mingli.Yu@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id DE3E77E687
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 76DAB6B07E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 09:07:58 +0000 (UTC)
+	Fri, 21 Jun 2019 09:08:04 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5L97xCF022422
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5L984CI029579
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 21 Jun 2019 02:07:59 -0700 (PDT)
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
+	Fri, 21 Jun 2019 02:08:04 -0700 (PDT)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Fri, 21 Jun 2019 02:07:58 -0700
-To: Matt Madison <matt@madison.systems>,
-	<openembedded-core@lists.openembedded.org>
-References: <20180304210937.29727-1-matt@madison.systems>
-	<20180304210937.29727-7-matt@madison.systems>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5D0C9F8B.8060109@windriver.com>
-Date: Fri, 21 Jun 2019 17:12:43 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	Fri, 21 Jun 2019 02:08:03 -0700
+To: Martin Jansa <martin.jansa@gmail.com>
+References: <efe358c26f3e3e9e83853e72256f54d1b9bd4a7f.camel@linuxfoundation.org>
+	<1560844016-105234-1-git-send-email-changqing.li@windriver.com>
+	<20190621083230.GA1512@jama>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <0d708d66-b7d6-118f-8df9-2572fb434e63@windriver.com>
+Date: Fri, 21 Jun 2019 17:08:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-In-Reply-To: <20180304210937.29727-7-matt@madison.systems>
-X-Originating-IP: [128.224.162.170]
-Subject: Re: [PATCH v5 06/13] go.bbclass: ptest cleanup and improvements
+In-Reply-To: <20190621083230.GA1512@jama>
+X-Originating-IP: [128.224.162.186]
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH V3] gcc-runtime: fix C++ header mapping for n32/x32 tune
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,187 +36,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 09:07:59 -0000
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 21 Jun 2019 09:08:04 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-Hi Matt,
 
-I noticed your commit is the latest update for go-dep ptest. But the 
-go-dep ptest doesn't work in my environment. I'm trying to figure out 
-what's wrong is here though I didn't know much about go.
+On 6/21/19 4:32 PM, Martin Jansa wrote:
+> On Tue, Jun 18, 2019 at 03:46:56PM +0800, changqing.li@windriver.com wrote:
+>> From: Changqing Li <changqing.li@windriver.com>
+>>
+>> The SDK was unable to find the C++ header pieces correctly since it's
+>> using a generic compiler, not one specifically targeting the multilib
+>> vendor prefix and default tune.  This adds the right mapping to ensure
+>> SDKs work as expected. And fix problem in below configurations:
+>>
+>> multilib configuration 1:
+>> MACHINE="qemumips64"
+>> MULTILIBS ?= "multilib:lib32 multilib:libn32"
+>> DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
+>> DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
+>> MULTILIB_GLOBAL_VARIANTS_append = " libn32"
+>> require conf/multilib.conf
+>>
+>> ignoring nonexistent directory "<path>/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32
+>>
+>> multilib configuration 2:
+>> MACHINE="qemumips64"
+>> MULTILIBS = 'multilib:lib64 multilib:lib32'
+>> DEFAULTTUNE = 'mips64-n32'
+>> DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
+>> DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
+>> require conf/multilib.conf
+>>
+>> For this configuration:
+>> for target gcc-runtime, need to create symlink like mips64-poly-linux --> mips64-poky-linux-gnu32
+>> for target lib64-gcc-runtime, need to create symlink like mips64-poly-linux/32 --> mips64-pokymllib64-linux
+>> in order to avoid conflict during populate_sdk, create symlink for subfoler bits/ext for target gcc-runtime,
+>> this is ugly, but seems no better way to cover all kinds of configuration.
+>>
+>> single lib configuration:
+>> MACHINE="qemumips64"
+>> DEFAULTTUNE = "mips64-n32"
+> This seems to be causing:
+>
+> ln: failed to create symbolic link 'work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux-gnueabi/bits': No such file or directory
+> WARNING: exit code 1 from a shell command.
+> ERROR: Function failed: do_install (log file is located at work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/temp/log.do_install.31049)
+>
+> There is only empty directory without the -gnueabi suffix:
+> work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux/
+>
+> and
+>
+> work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oemllib32-linux-gnueabi/
+> bits  ext
 
-BTW, Could you help to check?
+Could you send your configuration like this? Thanks.
 
-root@qemux86-64:~# cd /usr/lib64/go-dep/ptest/
-root@qemux86-64:/usr/lib64/go-dep/ptest# cat run-ptest
-#!/bin/sh
-RC=0
-run_test() (
-     cd "$1"
-     ((((./$2 ; echo $? >&3) | sed -r -e"s,^(PASS|SKIP|FAIL)$,\1: 
-$1/$2," >&4) 3>&1) | (read rc; exit $rc)) 4>&1
-     exit $?)
-run_test github.com/golang/dep/cmd/dep dep.test || RC=1
-exit $RC
-root@qemux86-64:/usr/lib64/go-dep/ptest# ./run-ptest
-building testdep failed: exit status 1
-can't load package: package .: no Go files in 
-/usr/lib64/go-dep/ptest/github.com/golang/dep/cmd/dep
-root@qemux86-64:/usr/lib64/go-dep/ptest#
+MACHINE="qemumips64"
+MULTILIBS = 'multilib:lib64 multilib:lib32'
+DEFAULTTUNE = 'mips64-n32'
+DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
+DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
+require conf/multilib.conf
 
-Thanks,
+>> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+>> ---
+>>   meta/recipes-devtools/gcc/gcc-runtime.inc | 29 +++++++++++++++++------------
+>>   1 file changed, 17 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> index 3d03d8e..ba767e1 100644
+>> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
+>> @@ -86,10 +86,6 @@ do_install () {
+>>   	if [ -d ${D}${infodir} ]; then
+>>   		rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
+>>   	fi
+>> -	if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> -		ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
+>> -	fi
+>> -
+>>   }
+>>   
+>>   do_install_append_class-target () {
+>> @@ -98,20 +94,29 @@ do_install_append_class-target () {
+>>   	fi
+>>   
+>>   	if [ "${TARGET_OS}" = "linux-gnun32" ]; then
+>> -		if [ "${MULTILIBS}" != "" ]; then
+>> -			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
+>> -			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
+>> +		if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+>> +			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32
+>> +		elif [ "${MULTILIB_VARIANTS}" != "" ]; then
+>> +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>> +			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
+>>   		else
+>>   			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>>   		fi
+>> -	fi
+>> -	if [ "${TARGET_OS}" = "linux-gnux32" ]; then
+>> -		if [ "${MULTILIBS}" != "" ]; then
+>> -			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux
+>> -			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32
+>> +	elif [ "${TARGET_OS}" = "linux-gnux32" ]; then
+>> +		if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+>> +			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32
+>> +		elif [ "${MULTILIB_VARIANTS}" != "" ]; then
+>> +			mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>> +			ln -s ../${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
+>>   		else
+>>   			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
+>>   		fi
+>> +	elif [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
+>> +		mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
+>> +		ln -s ../${TARGET_SYS}/bits ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/bits
+>> +		ln -s ../${TARGET_SYS}/ext ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
+>>   	fi
+>>   
+>>   	if [ "${TCLIBC}" != "glibc" ]; then
+>> -- 
+>> 2.7.4
+>>
+>> -- 
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-On 2018年03月05日 05:09, Matt Madison wrote:
-> * Don't enable verbose test output (-test.v)
->    by default, as it generates too much noise
->    for automated results parsing
->
-> * Override do_install_ptest_base in the bbclass,
->    so recipes can provide their own modifications
->    with do_install_ptest.
->
-> * Improve the generated run-ptest script to better
->    handle large numbers of tests, and to generate
->    'status: test name' output similar to Automake
->    tests.
->
-> * Install all non-vendored 'testdata' directories
->    from the source into the ptest package, as some
->    packages share test data among multiple tests.
->
-> Signed-off-by: Matt Madison <matt@madison.systems>
-> ---
->   meta/classes/go.bbclass | 87 +++++++++++++++++++++++++++++--------------------
->   1 file changed, 51 insertions(+), 36 deletions(-)
->
-> diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
-> index afd68b5951..a51ba3e9f0 100644
-> --- a/meta/classes/go.bbclass
-> +++ b/meta/classes/go.bbclass
-> @@ -26,7 +26,7 @@ GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -extldflags '${GO_EXTLDFLAGS
->   export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS}"
->   export GOPATH_OMIT_IN_ACTIONID ?= "1"
->   export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
-> -export GOPTESTFLAGS ?= "-test.v"
-> +export GOPTESTFLAGS ?= ""
->   GOBUILDFLAGS_prepend_task-compile = "${GO_PARALLEL_BUILD} "
->
->   export GO = "${HOST_PREFIX}go"
-> @@ -76,7 +76,7 @@ go_list_packages() {
->   }
->
->   go_list_package_tests() {
-> -    ${GO} list -f '{{.ImportPath}} {{.TestGoFiles}}' ${GOBUILDFLAGS} ${GO_INSTALL} | \
-> +	${GO} list -f '{{.ImportPath}} {{.TestGoFiles}}' ${GOBUILDFLAGS} ${GO_INSTALL} | \
->   		grep -v '\[\]$' | \
->   		egrep -v '${GO_INSTALL_FILTEROUT}' | \
->   		awk '{ print $1 }'
-> @@ -100,15 +100,16 @@ go_do_compile() {
->   do_compile[dirs] =+ "${GOTMPDIR}"
->   do_compile[cleandirs] = "${B}/bin ${B}/pkg"
->
-> -do_compile_ptest() {
-> +do_compile_ptest_base() {
->   	export TMPDIR="${GOTMPDIR}"
-> -    rm -f ${B}/.go_compiled_tests.list
-> +	rm -f ${B}/.go_compiled_tests.list
->   	go_list_package_tests | while read pkg; do
->   		cd ${B}/src/$pkg
->   		${GO} test ${GOPTESTBUILDFLAGS} $pkg
->   		find . -mindepth 1 -maxdepth 1 -type f -name '*.test' -exec echo $pkg/{} \; | \
->   			sed -e's,/\./,/,'>> ${B}/.go_compiled_tests.list
->   	done
-> +	do_compile_ptest
->   }
->   do_compile_ptest_base[dirs] =+ "${GOTMPDIR}"
->
-> @@ -124,40 +125,54 @@ go_do_install() {
->   	fi
->   }
->
-> -do_install_ptest_base() {
-> -    test -f "${B}/.go_compiled_tests.list" || exit 0
-> -    tests=""
-> -    while read test; do
-> -        tests="$tests${tests:+ }${test%.test}"
-> -        testdir=`dirname $test`
-> -        install -d ${D}${PTEST_PATH}/$testdir
-> -        install -m 0755 ${B}/src/$test ${D}${PTEST_PATH}/$test
-> -        if [ -d "${B}/src/$testdir/testdata" ]; then
-> -            cp --preserve=mode,timestamps -R "${B}/src/$testdir/testdata" ${D}${PTEST_PATH}/$testdir
-> -        fi
-> -    done < ${B}/.go_compiled_tests.list
-> -    if [ -n "$tests" ]; then
-> -        install -d ${D}${PTEST_PATH}
-> -        cat >${D}${PTEST_PATH}/run-ptest <<EOF
-> +go_make_ptest_wrapper() {
-> +	cat >${D}${PTEST_PATH}/run-ptest <<EOF
->   #!/bin/sh
-> -ANYFAILED=0
-> -for t in $tests; do
-> -    testdir=\`dirname \$t.test\`
-> -    if ( cd "${PTEST_PATH}/\$testdir"; "${PTEST_PATH}/\$t.test" ${GOPTESTFLAGS} | tee /dev/fd/9 | grep -q "^FAIL" ) 9>&1; then
-> -        ANYFAILED=1
-> -    fi
-> -done
-> -if [ \$ANYFAILED -ne 0 ]; then
-> -    echo "FAIL: ${PN}"
-> -    exit 1
-> -fi
-> -echo "PASS: ${PN}"
-> -exit 0
-> +RC=0
-> +run_test() (
-> +    cd "\$1"
-> +    ((((./\$2 ${GOPTESTFLAGS}; echo \$? >&3) | sed -r -e"s,^(PASS|SKIP|FAIL)\$,\\1: \$1/\$2," >&4) 3>&1) | (read rc; exit \$rc)) 4>&1
-> +    exit \$?)
->   EOF
-> -        chmod +x ${D}${PTEST_PATH}/run-ptest
-> -    else
-> -        rm -rf ${D}${PTEST_PATH}
-> -    fi
-> +
-> +}
-> +
-> +go_stage_testdata() {
-> +	oldwd="$PWD"
-> +	cd ${S}/src
-> +	find ${GO_IMPORT} -depth -type d -name testdata | while read d; do
-> +		if echo "$d" | grep -q '/vendor/'; then
-> +			continue
-> +		fi
-> +		parent=`dirname $d`
-> +		install -d ${D}${PTEST_PATH}/$parent
-> +		cp --preserve=mode,timestamps -R $d ${D}${PTEST_PATH}/$parent/
-> +	done
-> +	cd "$oldwd"
-> +}
-> +
-> +do_install_ptest_base() {
-> +	test -f "${B}/.go_compiled_tests.list" || exit 0
-> +	install -d ${D}${PTEST_PATH}
-> +	go_stage_testdata
-> +	go_make_ptest_wrapper
-> +	havetests=""
-> +	while read test; do
-> +		testdir=`dirname $test`
-> +		testprog=`basename $test`
-> +		install -d ${D}${PTEST_PATH}/$testdir
-> +		install -m 0755 ${B}/src/$test ${D}${PTEST_PATH}/$test
-> +	echo "run_test $testdir $testprog || RC=1" >> ${D}${PTEST_PATH}/run-ptest
-> +		havetests="yes"
-> +	done < ${B}/.go_compiled_tests.list
-> +	if [ -n "$havetests" ]; then
-> +		echo "exit \$RC" >> ${D}${PTEST_PATH}/run-ptest
-> +		chmod +x ${D}${PTEST_PATH}/run-ptest
-> +	else
-> +		rm -rf ${D}${PTEST_PATH}
-> +	fi
-> +	do_install_ptest
-> +	chown -R root:root ${D}${PTEST_PATH}
->   }
->
->   EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
->
+-- 
+BRs
+
+Sandy(Li Changqing)
+
 
