@@ -1,29 +1,50 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E09B7E478
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 155AF7E1DA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 09:20:30 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5L9JsXn010778
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 21 Jun 2019 02:20:05 -0700
-Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 21 Jun 2019 02:19:44 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1561018476.git.liezhi.yang@windriver.com>
-	<d02500d78c61f9cdee7a5f4bc99148379054cfcd.1561018476.git.liezhi.yang@windriver.com>
-	<162e4e6b1a2b9162e9702921cf171937bce5a024.camel@linuxfoundation.org>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <2f6677b4-2dfa-a4b4-905a-c7fe3a7b17e3@windriver.com>
-Date: Fri, 21 Jun 2019 17:20:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Fri, 21 Jun 2019 09:21:57 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id x17so5811965wrl.9
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 21 Jun 2019 02:21:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=uI84g4Nu3y0VUmf2x0oIoFVUSiBholNShHjQSUf3234=;
+	b=DDC7OwDQLY/qiKakHEwqZM/mf1z2LBpn0KFtOuPurdr2h+7ZWr/8A9e7VGFkOVYz4d
+	WNTZODWJhzKvJZJo7Sb+bxqBKcFqS0jj/xTwQ6YQdnnRuSYKXQd6o2wiQUu0Fvoq3lTK
+	fBgbgKkhgbWf6l5bZX1MMkwfazOH8/qojkL1U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=uI84g4Nu3y0VUmf2x0oIoFVUSiBholNShHjQSUf3234=;
+	b=FtI+/m5lyKQgi2LSCrJWpeumpUw19VGZyM2toZGwX2ApbeAgRVBLm/krn1pOTw08o6
+	lxdTfCbGRX+NT9WVK2TI1ctezgxNBMJUTdsdjKroSwYkrCUBfqMjfnCXyqmlLlwkyeMO
+	Zzo74cgftuTLOuJeBBQTvc8ba81QgBP6J3Uw5aOrcH0Gw4gc2ubppUE2b3AQdPTpXhQX
+	DtX2QpOM45NNpW1ZCVsAKuNW0tbdYcDNieB9mKcL8eCm1bqoRUdX3+RIEKNyPKBD+ard
+	GgfWDjfvk3hYwmIklaiPwLlGkuhCj9NVLJ/WvBc/pgCJJtQbTeTKqVreL54xN2JTHJKm
+	5NdA==
+X-Gm-Message-State: APjAAAVuLFzVE9YlnEnXaGHdB++VHoIX12H8miniGv7zCtZCkIYFvi7I
+	H6TplKy6o6zPp+2OO+ZkE13pvg==
+X-Google-Smtp-Source: APXvYqxETiHlBOv8/Qq/lDSLj7R48cg017zJz9zI/VMB7mjq5tmBYC08yJQJUp+OQyEZayFmhMmRYA==
+X-Received: by 2002:adf:f046:: with SMTP id t6mr45595808wro.307.1561108918772; 
+	Fri, 21 Jun 2019 02:21:58 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id l8sm3994187wrg.40.2019.06.21.02.21.57
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 21 Jun 2019 02:21:58 -0700 (PDT)
+Message-ID: <62cb3c6a955138027492c53846e65ae02efdba36.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Joseph Reynolds <jrey@linux.ibm.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Fri, 21 Jun 2019 10:21:56 +0100
+In-Reply-To: <bda7b5327801b5556be27645fde22d04@linux.vnet.ibm.com>
+References: <bda7b5327801b5556be27645fde22d04@linux.vnet.ibm.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-In-Reply-To: <162e4e6b1a2b9162e9702921cf171937bce5a024.camel@linuxfoundation.org>
-Subject: Re: [PATCH 3/4] update-alternatives.bbclass: run update-alternatives firstly in postinst script
+Subject: Re: [PATCH] dropbear: new feature: disable-weak-ciphers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,46 +57,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 09:20:30 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+X-List-Received-Date: Fri, 21 Jun 2019 09:21:58 -0000
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, 2019-06-20 at 16:29 -0500, Joseph Reynolds wrote:
+> dropbear: new feature: disable-weak-ciphers
+> 
+> Enhances dropbear with a new feature "disable-weak-ciphers", on by 
+> default.
+> This feature disables all CBC, SHA1, and diffie-hellman group1
+> ciphers 
+> in
+> the dropbear ssh server and client.
+> 
+> Disable this feature if you need to connect to the ssh server from
+> older
+> clients.  Additional customization can be done with local_options.h
+> as 
+> usual.
+> 
+> Tested: On dropbear_2019.78.
+> 
+> Upstream-Status: Inappropriate [configuration]
 
-I can reproduce it now, sorry about that, I'm working on it.
+Unfortunately this patch has come through line wrapped. I did manage to
+unwrap it and get it to apply, only to find the patch itself within the
+patch was broken due to missing whitespace line endings.
 
-// Robert
+Also, the Upstream-Status needs to go in the patch itself along with a
+Signed-off-by in the patch.
 
-On 6/20/19 11:33 PM, Richard Purdie wrote:
-> On Thu, 2019-06-20 at 16:15 +0800, Robert Yang wrote:
->> Recipes like postfix run command newaliases in postinst, but
->> newaliases is
->> installed newaliases.postfix, and need run update-alternatives to
->> update it to
->> newaliases, so we would get the error when install postinst on
->> target.
->>
->> Fixed:
->> $ opkg install postfix
->> Configuring postfix.
->> ///var/lib/opkg/info/postfix.postinst: line 4: newaliases: command
->> not found
->>
->> Run update-alternatives firstly will fix the problem.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
->> ---
->>   meta/classes/update-alternatives.bbclass | 7 +++++--
->>   1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> This seemed to result in:
-> 
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/61/builds/724
-> 
-> Cheers,
-> 
-> Richard
-> 
-> 
+Since I was most of the way there I've fixed this all up and queued it
+in master-next for testing.
+
+Cheers,
+
+Richard
+
 
