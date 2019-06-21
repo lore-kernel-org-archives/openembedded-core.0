@@ -1,51 +1,52 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f196.google.com (mail-qt1-f196.google.com
-	[209.85.160.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DC3B96B436
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ed1-f68.google.com (mail-ed1-f68.google.com
+	[209.85.208.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 6471D6D6C4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 03:27:25 +0000 (UTC)
-Received: by mail-qt1-f196.google.com with SMTP id d17so5468668qtj.8
+	Fri, 21 Jun 2019 08:06:06 +0000 (UTC)
+Received: by mail-ed1-f68.google.com with SMTP id i11so8839572edq.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 20 Jun 2019 20:27:27 -0700 (PDT)
+	Fri, 21 Jun 2019 01:06:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=k5kqi9gMiZdP6G8uo9Nt6WPHw4lGt11LqKkkPnl4NU8=;
-	b=PIt6Jyb2pYTC+Fzs3Lt4zOXTqYLtpMKsxsYwPPVJHkO9T5/KtxgwCG+/mO7eGudTbL
-	dn/OAhDOgQSYKQVLumA7ON88xyE7nef/telQhWSj9JEMzyGMnvZabIcSgFF65tJDCoC3
-	7YGgnvtnkIMcOAB2upW83BZvmw68ZoTcWmfb6fGE2GEy+G+HImQK48lQ1Tec4UW2NYcC
-	dpsaeLwhBCqsXQKX6Cxj0TQcwbLRBcu0SG2v7VW6vqaCQeQfwxi72zAUtLWnLLH5jSve
-	CQukac/OTI7xnsJ26sYhviWYbpPQHJnIHQbPGkdQJL3Dh8H2duBG1YJJNuaTez/Kw0FU
-	H7+Q==
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=aNrFPQePDLHm6biNUXL+jibRUBp+Z9lOAf/VcWMlFVI=;
+	b=GL97wKW7brzCF0EQsyS7qe2heqSaYNClfXU6eG5T8Wh36dp2AKAsfnAFLD851Ewjx6
+	9jnez5ZOCqGfGEM2zXFwMlos7CZ535bTO/za3sciHxyywKBpLVXHw3Ksetn48vdIor/Y
+	0YlgoYSq0AXDHObVWTzLN65fen2LCQNYnuKFauSvP0MQVa/GYJ6vtClfYAyulNLO7cWC
+	APxPj8UvqzyBw9d74vfdMtDJIgV38a12xOiIRY/SEaNkP8OkApP5WkWsGHsfo7Tjtfsn
+	H36a04+Q/SYgT6lRJZS/7uq+db8d6ZKZd/crnLz1O89Cu7dvqm7AQrSz4baDWh/Dq4Xe
+	0icw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=k5kqi9gMiZdP6G8uo9Nt6WPHw4lGt11LqKkkPnl4NU8=;
-	b=PpFee+C5zm6kNx0LEpFgTAkYTI/wQJ1nN7csjhWT0EwNRhoMvOFPZJXN9oGrd4GBYp
-	yFq4RFcxKLiiw25ddBLGmrwEKNyth8hE3g3wFvrd/lgAgngbEtl9H/PkQ/U7/ys8apHL
-	ztVhv1n3K6mwDpB9CBpSYvw7NxraJ2fjhkHSZJe6z3aEabDw8gtsBkl8UYiRbReOIIia
-	rSae4oQNYgTFPL5FaJUgURf2WYLJ021KLKRzmuY74g7WIqnqZ/Q8q3VGl9k/5PjNHBuu
-	m0xPvGlDcU8CcL5fZ8D6zf3ybEqtS743r/zmaQ5i3DC6iC8W1WKDMPBh6qluiy373lnc
-	B0rQ==
-X-Gm-Message-State: APjAAAW5qmTS2L50cACPzXhNIbKyMyfnvpDdIyVbYPv8pdErF0gPvDJZ
-	fX0HrUinbtAbLFc/FdvIiTH2kI6f55co0r5XPt8=
-X-Google-Smtp-Source: APXvYqw8QVxjIGBql23A6Lk02P30bKZgE6C3QZFvH/J2GL70//YQZJ7wl7Zbtg7YD2yWXQasPMj/deD+ZoCajx5oOrE=
-X-Received: by 2002:aed:3f1d:: with SMTP id
-	p29mr115439967qtf.378.1561087646431; 
-	Thu, 20 Jun 2019 20:27:26 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=aNrFPQePDLHm6biNUXL+jibRUBp+Z9lOAf/VcWMlFVI=;
+	b=RdiXiAL2F4A+q9iXDrox75FiKRxmjHHXBJ3HzSn2nJtjDaXRyRc2FVWIYzMru6f5kH
+	/N3tWffXkMmZCX+xJaJIbw+DXi4Oljjh0bNDyfWwYKemqNRZGNxNsWPx+u9j4mBXCzuc
+	F7sGXRA0khR6ZnfwyLSZ5x6faAEFakZLIKOQ2OZiHTYicRwp0qVSBGTjfXGJnTn3p9VH
+	AbepIMwtpsWyLFCW2Rc2vTZoKTv44gl2xnDrCnO97Je7Ls+u1y/YOT8iH+i76S8totfz
+	WKkoFAniJBt+JzcgJiFT3SiPQKY7ugoAguH80diG1JIlxBNgK4/v4WY6SnvJigg7Hxm/
+	nG0g==
+X-Gm-Message-State: APjAAAWdXdqgj4q5UgBJC9pT/5EG+CA0Pwn8mhRF6iewfA/y0sC3aplb
+	b8nIhyUXuexBsVvMjan/KPxYpontDUg=
+X-Google-Smtp-Source: APXvYqxgC4ABUMVr78i+WhNLGqqZeWMXYux+3vzUZDztl2f9AekGA6vAYtFoV0pyo6v0WaBt5+1oig==
+X-Received: by 2002:a50:bd83:: with SMTP id y3mr7236819edh.120.1561104366798; 
+	Fri, 21 Jun 2019 01:06:06 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id s26sm301028ejl.50.2019.06.21.01.06.05
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 21 Jun 2019 01:06:05 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 21 Jun 2019 10:06:02 +0200
+Message-Id: <20190621080602.25394-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
-	<0f5adba2f96da9396faa1e70f9eed84118cf735e.1559950879.git.timothy.t.orling@linux.intel.com>
-	<CAMKF1sq5aOZ+6CSP+G88+JCYd4zMb6ZSe5MP5KWSSofPRbe4Ow@mail.gmail.com>
-	<CANx9H-DLg1_vSEi1bBSSLCmycdyEa2MiJjZ9d=Owsc5bsR-GBA@mail.gmail.com>
-In-Reply-To: <CANx9H-DLg1_vSEi1bBSSLCmycdyEa2MiJjZ9d=Owsc5bsR-GBA@mail.gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 20 Jun 2019 21:27:15 -0600
-Message-ID: <CAMKF1sr+Ffk0nCd3aVhGfsdRreFX7cpqEAqH8606LMqg=-ijww@mail.gmail.com>
-To: Tim Orling <ticotimo@gmail.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] scons.bbclass: use python3-scons
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH] go: avoid host contamination by GOCACHE
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,157 +59,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 03:27:26 -0000
-Content-Type: multipart/alternative; boundary="000000000000a100f7058bcd0aff"
+X-List-Received-Date: Fri, 21 Jun 2019 08:06:06 -0000
+Content-Transfer-Encoding: 8bit
 
---000000000000a100f7058bcd0aff
-Content-Type: text/plain; charset="UTF-8"
+By default GOCACHE is set to $HOME/.cache.
 
-On Thu, Jun 20, 2019 at 6:18 PM Tim Orling <ticotimo@gmail.com> wrote:
+Fixes:
+ERROR: go-cross-dbfp4-1.12.1-r0 do_compile: Function failed: do_compile (log file is located at /workdir/build/tmp/work/x86_64-linux/go-cross-dbfp4/1.12.1-r0/temp/log.do_compile.8120)
+ERROR: Logfile of failure stored in: /workdir/build/tmp/work/x86_64-linux/go-cross-dbfp4/1.12.1-r0/temp/log.do_compile.8120
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| Building Go cmd/dist using /workdir/build/tmp/work/x86_64-linux/go-cross-dbfp4/1.12.1-r0/recipe-sysroot-native/usr/lib/go.
+| failed to initialize build cache at /home/pokyuser/.cache/go-build: mkdir /home/pokyuser/.cache: permission denied
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_compile (log file is located at /workdir/build/tmp/work/x86_64-linux/go-cross-dbfp4/1.12.1-r0/temp/log.do_compile.8120)
+ERROR: Task (/workdir/repo/poky/meta/recipes-devtools/go/go-cross_1.12.bb:do_compile) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 23 tasks of which 16 didn't need to be rerun and 1 failed.
 
->
->
-> On Thu, Jun 20, 2019 at 6:37 AM Khem Raj <raj.khem@gmail.com> wrote:
->
->> On Fri, Jun 7, 2019 at 5:50 PM Tim Orling
->> <timothy.t.orling@linux.intel.com> wrote:
->> >
->> > SCons has supported python3 since 3.0.0 release, use it.
->> >
->> > [YOCTO #13381]
->> >
->> > Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
->> > ---
->> >  meta/classes/scons.bbclass | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
->> > index 9ee7d1587d..a8ddae35f7 100644
->> > --- a/meta/classes/scons.bbclass
->> > +++ b/meta/classes/scons.bbclass
->> > @@ -1,4 +1,4 @@
->> > -DEPENDS += "python-scons-native"
->> > +DEPENDS += "python3-scons-native"
->> >
->>
->> some packages haven't upgraded to py3 but use scons see
->> https://errors.yoctoproject.org/Errors/Details/249271/
->>
->
->
-> Thank you for reporting this. I was of course expecting some breakage and
-> am committed to fixes. Please do report any other issues.
->
-> Latest mongo release appears to be 4.3.0 and appears to support python3:
->
->
-> https://github.com/mongodb/mongo/blob/89e7419a897b2270931c9c029abf6de555d83e0f/SConstruct
->
-> Is this an aceptable upgrade? I am not savvy on which versions are
-> desirable.
->
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+---
+ meta/classes/go.bbclass                 | 1 +
+ meta/recipes-devtools/go/go-cross.inc   | 1 +
+ meta/recipes-devtools/go/go-runtime.inc | 1 +
+ meta/recipes-devtools/go/go-target.inc  | 1 +
+ 4 files changed, 4 insertions(+)
 
-Yes for master this upgrade is fine
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index b6d9372c56..e05a5c641c 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -7,6 +7,7 @@ GOROOT_class-nativesdk = "${STAGING_DIR_TARGET}${libdir}/go"
+ GOROOT = "${STAGING_LIBDIR}/go"
+ export GOROOT
+ export GOROOT_FINAL = "${libdir}/go"
++export GOCACHE = "${B}/.cache"
+ 
+ export GOARCH = "${TARGET_GOARCH}"
+ export GOOS = "${TARGET_GOOS}"
+diff --git a/meta/recipes-devtools/go/go-cross.inc b/meta/recipes-devtools/go/go-cross.inc
+index 29ce7f6e84..3d344a74d3 100644
+--- a/meta/recipes-devtools/go/go-cross.inc
++++ b/meta/recipes-devtools/go/go-cross.inc
+@@ -14,6 +14,7 @@ export GO386 = "${TARGET_GO386}"
+ export GOMIPS = "${TARGET_GOMIPS}"
+ export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
+ export GOROOT_FINAL = "${libdir}/go"
++export GOCACHE = "${B}/.cache"
+ CC = "${@d.getVar('BUILD_CC').strip()}"
+ 
+ do_configure[noexec] = "1"
+diff --git a/meta/recipes-devtools/go/go-runtime.inc b/meta/recipes-devtools/go/go-runtime.inc
+index c219aa3789..e282195619 100644
+--- a/meta/recipes-devtools/go/go-runtime.inc
++++ b/meta/recipes-devtools/go/go-runtime.inc
+@@ -15,6 +15,7 @@ export CGO_CFLAGS = "${CFLAGS}"
+ export CGO_CPPFLAGS = "${CPPFLAGS}"
+ export CGO_CXXFLAGS = "${CXXFLAGS}"
+ export CGO_LDFLAGS = "${LDFLAGS}"
++export GOCACHE = "${B}/.cache"
+ 
+ GO_EXTLDFLAGS ?= "${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS}"
+ GO_SHLIB_LDFLAGS ?= '-ldflags="--linkmode=external -extldflags '${GO_EXTLDFLAGS}'"'
+diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
+index 379f87b498..91efd3e977 100644
+--- a/meta/recipes-devtools/go/go-target.inc
++++ b/meta/recipes-devtools/go/go-target.inc
+@@ -10,6 +10,7 @@ export GO386 = "${TARGET_GO386}"
+ export GOMIPS = "${TARGET_GOMIPS}"
+ export GOROOT_BOOTSTRAP = "${STAGING_LIBDIR_NATIVE}/go"
+ export GOROOT_FINAL = "${libdir}/go"
++export GOCACHE = "${B}/.cache"
+ GO_LDFLAGS = ""
+ GO_LDFLAGS_class-nativesdk = "-linkmode external"
+ export GO_LDFLAGS
+-- 
+2.20.1
 
->
->
->> >  EXTRA_OESCONS ?= ""
->> >
->> > --
->> > 2.20.1
->> >
->> > --
->> > _______________________________________________
->> > Openembedded-core mailing list
->> > Openembedded-core@lists.openembedded.org
->> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->>
->
 
---000000000000a100f7058bcd0aff
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Jun 20, 2019 at 6:18 PM Tim Orling &lt;<a href=3D"m=
-ailto:ticotimo@gmail.com">ticotimo@gmail.com</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
- solid;padding-left:1ex"><div><br></div><div><br><div class=3D"gmail_quote"=
-><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jun 20, 2019 at 6:37 AM Khem=
- Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@g=
-mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Fri, Jun=
- 7, 2019 at 5:50 PM Tim Orling<br>
-&lt;<a href=3D"mailto:timothy.t.orling@linux.intel.com" target=3D"_blank">t=
-imothy.t.orling@linux.intel.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; SCons has supported python3 since 3.0.0 release, use it.<br>
-&gt;<br>
-&gt; [YOCTO #13381]<br>
-&gt;<br>
-&gt; Signed-off-by: Tim Orling &lt;<a href=3D"mailto:timothy.t.orling@linux=
-.intel.com" target=3D"_blank">timothy.t.orling@linux.intel.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/classes/scons.bbclass | 2 +-<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass<b=
-r>
-&gt; index 9ee7d1587d..a8ddae35f7 100644<br>
-&gt; --- a/meta/classes/scons.bbclass<br>
-&gt; +++ b/meta/classes/scons.bbclass<br>
-&gt; @@ -1,4 +1,4 @@<br>
-&gt; -DEPENDS +=3D &quot;python-scons-native&quot;<br>
-&gt; +DEPENDS +=3D &quot;python3-scons-native&quot;<br>
-&gt;<br>
-<br>
-some packages haven&#39;t upgraded to py3 but use scons see<br>
-<a href=3D"https://errors.yoctoproject.org/Errors/Details/249271/" rel=3D"n=
-oreferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Details=
-/249271/</a><br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div d=
-ir=3D"auto">Thank you for reporting this. I was of course expecting some br=
-eakage and am committed to fixes. Please do report any other issues.</div><=
-div dir=3D"auto"><br></div><div dir=3D"auto">Latest mongo release appears t=
-o be 4.3.0 and appears to support python3:</div><div dir=3D"auto"><br></div=
-><div dir=3D"auto"><div><a href=3D"https://github.com/mongodb/mongo/blob/89=
-e7419a897b2270931c9c029abf6de555d83e0f/SConstruct" target=3D"_blank">https:=
-//github.com/mongodb/mongo/blob/89e7419a897b2270931c9c029abf6de555d83e0f/SC=
-onstruct</a></div><br></div><div dir=3D"auto">Is this an aceptable upgrade?=
- I am not savvy on which versions are desirable.</div></div></div><div><div=
- class=3D"gmail_quote"><div dir=3D"auto"></div></div></div></blockquote><di=
-v dir=3D"auto"><br></div><div dir=3D"auto">Yes for master this upgrade is f=
-ine=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex=
-;border-left:1px #ccc solid;padding-left:1ex"><div><div class=3D"gmail_quot=
-e"><div dir=3D"auto"><br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-&gt;=C2=A0 EXTRA_OESCONS ?=3D &quot;&quot;<br>
-&gt;<br>
-&gt; --<br>
-&gt; 2.20.1<br>
-&gt;<br>
-&gt; --<br>
-&gt; _______________________________________________<br>
-&gt; Openembedded-core mailing list<br>
-&gt; <a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"=
-_blank">Openembedded-core@lists.openembedded.org</a><br>
-&gt; <a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded=
--core" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/m=
-ailman/listinfo/openembedded-core</a><br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div></div>
-</blockquote></div></div>
-
---000000000000a100f7058bcd0aff--
