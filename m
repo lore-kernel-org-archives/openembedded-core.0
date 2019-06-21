@@ -1,50 +1,33 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 155AF7E1DA
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 16A247E7AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 09:21:57 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id x17so5811965wrl.9
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 02:21:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=uI84g4Nu3y0VUmf2x0oIoFVUSiBholNShHjQSUf3234=;
-	b=DDC7OwDQLY/qiKakHEwqZM/mf1z2LBpn0KFtOuPurdr2h+7ZWr/8A9e7VGFkOVYz4d
-	WNTZODWJhzKvJZJo7Sb+bxqBKcFqS0jj/xTwQ6YQdnnRuSYKXQd6o2wiQUu0Fvoq3lTK
-	fBgbgKkhgbWf6l5bZX1MMkwfazOH8/qojkL1U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=uI84g4Nu3y0VUmf2x0oIoFVUSiBholNShHjQSUf3234=;
-	b=FtI+/m5lyKQgi2LSCrJWpeumpUw19VGZyM2toZGwX2ApbeAgRVBLm/krn1pOTw08o6
-	lxdTfCbGRX+NT9WVK2TI1ctezgxNBMJUTdsdjKroSwYkrCUBfqMjfnCXyqmlLlwkyeMO
-	Zzo74cgftuTLOuJeBBQTvc8ba81QgBP6J3Uw5aOrcH0Gw4gc2ubppUE2b3AQdPTpXhQX
-	DtX2QpOM45NNpW1ZCVsAKuNW0tbdYcDNieB9mKcL8eCm1bqoRUdX3+RIEKNyPKBD+ard
-	GgfWDjfvk3hYwmIklaiPwLlGkuhCj9NVLJ/WvBc/pgCJJtQbTeTKqVreL54xN2JTHJKm
-	5NdA==
-X-Gm-Message-State: APjAAAVuLFzVE9YlnEnXaGHdB++VHoIX12H8miniGv7zCtZCkIYFvi7I
-	H6TplKy6o6zPp+2OO+ZkE13pvg==
-X-Google-Smtp-Source: APXvYqxETiHlBOv8/Qq/lDSLj7R48cg017zJz9zI/VMB7mjq5tmBYC08yJQJUp+OQyEZayFmhMmRYA==
-X-Received: by 2002:adf:f046:: with SMTP id t6mr45595808wro.307.1561108918772; 
-	Fri, 21 Jun 2019 02:21:58 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id l8sm3994187wrg.40.2019.06.21.02.21.57
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 21 Jun 2019 02:21:58 -0700 (PDT)
-Message-ID: <62cb3c6a955138027492c53846e65ae02efdba36.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joseph Reynolds <jrey@linux.ibm.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 21 Jun 2019 10:21:56 +0100
-In-Reply-To: <bda7b5327801b5556be27645fde22d04@linux.vnet.ibm.com>
-References: <bda7b5327801b5556be27645fde22d04@linux.vnet.ibm.com>
-User-Agent: Evolution 3.32.2-1 
+	Fri, 21 Jun 2019 09:47:12 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5L9lDGt028626
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 21 Jun 2019 02:47:13 -0700 (PDT)
+Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Fri, 21 Jun 2019 02:47:13 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1561018476.git.liezhi.yang@windriver.com>
+	<b7589dd06670ead7a2ca7e8c7301b289e2543249.1561018476.git.liezhi.yang@windriver.com>
+	<20190620082858.GC27107@localhost>
+	<07882a06-4c45-07aa-9696-8de4f86b8c0b@windriver.com>
+	<20190620091913.GD27107@localhost>
+	<fd9aef39-bbbc-f6ed-e9b2-37009952e3ab@windriver.com>
+	<3b30ab5eae1506d44fc9c95543d7ae833018c087.camel@linuxfoundation.org>
+	<CAJTo0Lb3EwnoC28cesYt9BnuKucW_dCp5bangpdYscLgNOZ7_w@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <16624d28-0bdc-e9c3-c9a5-f534f9694a9e@windriver.com>
+Date: Fri, 21 Jun 2019 17:48:03 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Subject: Re: [PATCH] dropbear: new feature: disable-weak-ciphers
+In-Reply-To: <CAJTo0Lb3EwnoC28cesYt9BnuKucW_dCp5bangpdYscLgNOZ7_w@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 4/4] gtk-icon-cache.bbclass: Depends on gtk+3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,42 +40,65 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 09:21:58 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Jun 2019 09:47:13 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-06-20 at 16:29 -0500, Joseph Reynolds wrote:
-> dropbear: new feature: disable-weak-ciphers
+Hi Ross,
+
+On 6/20/19 9:56 PM, Burton, Ross wrote:
+> Why DEPENDS on gtk?  The recipes will typically already do this, but
+> all this class needs is the rdepends.  Also, there's no explanation
+> for the hicolor addition.
+
+I got errors when running adwaita-icon-theme's postinst on target
+(command gtk-update-icon-cache not found), the recipe doesn't depend
+on gtk, and gtk-update-icon-cache is introduced by gtk-icon-cache.bbclass,
+so I think that we should add this DEPENDS in the bbclass? If only add gtk
+to RDEPENDS (no DEPENDS), there would be a warning like:
+
+adwaita-icon-theme rdepends on gtk+3, but it isn't a build dependency?
+
+For hicolor-icon-theme, it is an existed rdepends in gtk-icon-cache.bbclass,
+so I left it there.
+
+// Robert
+
 > 
-> Enhances dropbear with a new feature "disable-weak-ciphers", on by 
-> default.
-> This feature disables all CBC, SHA1, and diffie-hellman group1
-> ciphers 
-> in
-> the dropbear ssh server and client.
+> Ross
 > 
-> Disable this feature if you need to connect to the ssh server from
-> older
-> clients.  Additional customization can be done with local_options.h
-> as 
-> usual.
+> On Thu, 20 Jun 2019 at 14:54, Richard Purdie
+> <richard.purdie@linuxfoundation.org> wrote:
+>>
+>> On Thu, 2019-06-20 at 17:58 +0800, Robert Yang wrote:
+>>>
+>>> On 6/20/19 5:19 PM, Adrian Bunk wrote:
+>>>> On Thu, Jun 20, 2019 at 04:46:16PM +0800, Robert Yang wrote:
+>>>>> ...
+>>>>> Maybe gtk+2 is out of date? Since gtk+4 is on the way, so I think
+>>>>> that we
+>>>>> need something like virtual/gtk to fix these problems totally?
+>>>>
+>>>> GTK+2 is mostly obsolete.
+>>>>
+>>>> I just checked the GTK4 sources, and there it is renamed to
+>>>> gtk4-update-icon-cache. Based on that I would say that your
+>>>> patch is actually fine at least for now.
+>>>
+>>> Thanks, I updated the commit message in the PULL:
+>>
+>> Please resend patches rather than updating the branch as they get lost
+>> really easily and also don't get reviewed properly this way.
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 > 
-> Tested: On dropbear_2019.78.
-> 
-> Upstream-Status: Inappropriate [configuration]
-
-Unfortunately this patch has come through line wrapped. I did manage to
-unwrap it and get it to apply, only to find the patch itself within the
-patch was broken due to missing whitespace line endings.
-
-Also, the Upstream-Status needs to go in the patch itself along with a
-Signed-off-by in the patch.
-
-Since I was most of the way there I've fixed this all up and queued it
-in master-next for testing.
-
-Cheers,
-
-Richard
-
 
