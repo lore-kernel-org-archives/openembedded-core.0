@@ -1,49 +1,58 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A8F757E03D
+Return-Path: <prvs=068970028=Mikko.Rapeli@bmw.de>
+Received: from esa9.bmw.c3s2.iphmx.com (esa9.bmw.c3s2.iphmx.com
+	[68.232.133.110])
+	by mail.openembedded.org (Postfix) with ESMTP id DAF267D2BB
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 12:29:28 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id w25so2614825ioc.8
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 05:29:30 -0700 (PDT)
+	Fri, 21 Jun 2019 13:01:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=E1Vf/DLzHSLHaQPUnf4RdSCjaD7115NB0ujXSGqHXs0=;
-	b=Tl/rl6MJXo0ts1ps9AHuRMGP3x9QM3f74DIOfbki7+8WS60P8ZNq7XsKzCEEf/SGln
-	tlrpZp2WxvTDOvA6QST4TwiafF6RianFA5nCZzmFb9Ln55tScuhHON5Qj1IHDEVXKiek
-	zy5QMTPclwHo++7RzUm7SvfrNzfpYJ51/YNcQAbLhY4cMLpkdGm994wrqHkkcr2ccC88
-	J4bdSlaQjsJvromYxTYxUmu+aq6qylMPEYh9So354pVoUZ5wPX5bNqb8L092Vv8OOOTh
-	kJiD9//513zXGJkg/v1Awad6QYbPaBH/E5AO3brjfXCVI20wmNyZb88kkMM+p+C7E/JR
-	xwOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=E1Vf/DLzHSLHaQPUnf4RdSCjaD7115NB0ujXSGqHXs0=;
-	b=OcRxvj1XRrGTz/AWgsmLrwKJQBest0O0HqowET05QJArX4lWDJZRrAW6XxrjbExKhI
-	PdTAt0l8IlgprM9B0En6RyfLDk2tqA9BmQ+Qyt63ZOHZKZ6Mn8G3rZyMTGj//Rj8yJ64
-	l1q81d7uApPavFGS2LLXuQ3eAtmzrNvhWtIP0u5QwthKeDk6cvQZh1+AdvIJACBINss6
-	7NHII6CFcD9bQDTsaDNyrbqpRs9d538BxXGiCJSxL8pGDlJ8dzDuqxPw24YOxt91ks08
-	IXaXkGGMuSeAtaIwAEc68I8o8ooIPvK8a7Fink0BYp1dKoH7bJZVMLa3FLzN/wzczd8m
-	yaVg==
-X-Gm-Message-State: APjAAAUoy+E5PPfwH7pHrawh/IzB7X/yuNdEXE3ZDZYcCb/BO7hIV3ID
-	haT/z7+O9rxA+s2f8vuisPFvfaKRTlCinDX2eZz/nA==
-X-Google-Smtp-Source: APXvYqxozqD5pmCPcGJUhRhsp9S/WejhGg3QdyxplyvXhaNyZERG11gFwVV2NBWySL91lvAzEtak9lnmIK35buqk3bw=
-X-Received: by 2002:a02:b798:: with SMTP id f24mr7554532jam.97.1561120169763; 
-	Fri, 21 Jun 2019 05:29:29 -0700 (PDT)
-MIME-Version: 1.0
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1561122099; x=1592658099;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=cOoAdDafHB7IwN4Qj3bbSQemCIA385DdhKQsnryDwFI=;
+	b=aYPQlkneJnI0ZqouAymAQU3Qv73poDpNNMA6zzoRNTeMSvXLstFyjkCF
+	AdIWMdVlGI7ASD9wKlyzfdpHzfE7Fxhtj3/aNh6/zMoRANxwbbfZ7e7m1
+	DnvorIzrptN+LY9a8LR6Tfr7S+Gdjw9juGoJliTVHJaZo4VLevYGeHxWW M=;
+IronPort-SDR: l1KDQ+qUO2R/irXd+pMYckOYSuGzanSYCoobIi6T65mpqIeLDT1IUFEweZlmA27GHOBOqUBpcW
+	fVDp8y+mjZzvSF6+aK6HypE2p13NngLHVnQQ1hNK4L1+S9DvWZMZjyaXyakBD1U71mDsZkn1i1
+	GHcCaIcwGiSa1DOl8aeo2f2FEJ96uMOTrIU23eRSu0rmpqzneClSZz28jOjINHRuYyluQvnlhJ
+	6ZT/5Gf2uL6HxNzw4YTa5atrtYaHy2diED5kfVUHBJDF/3y637DV11yHoIFR9ajAzAUS2bR8qs
+	lmE=
+Received: from esagw1.bmwgroup.com (HELO esagw1.muc) ([160.46.252.34]) by
+	esa9.bmw.c3s2.iphmx.com with ESMTP/TLS; 21 Jun 2019 15:01:31 +0200
+Received: from esabb2.muc ([160.50.100.34])  by esagw1.muc with ESMTP/TLS;
+	21 Jun 2019 15:01:30 +0200
+Received: from smucm10m.bmwgroup.net (HELO smucm10m.europe.bmw.corp)
+	([160.48.96.49])
+	by esabb2.muc with ESMTP/TLS; 21 Jun 2019 15:01:30 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10m.europe.bmw.corp
+	(160.48.96.49) with Microsoft SMTP Server (TLS;
+	Fri, 21 Jun 2019 15:01:30 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.004;
+	Fri, 21 Jun 2019 15:01:30 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <ross.burton@intel.com>
+Thread-Topic: [OE-core] [PATCH 1/4] cve-update-db: New recipe to update CVE
+	database
+Thread-Index: AQHVKCEF/7FR1WB9kkiS/l8PQE4K9Kal6BoAgAAI/QA=
+Date: Fri, 21 Jun 2019 13:01:30 +0000
+Message-ID: <20190621130128.GU3459@hiutale>
 References: <20190619135940.18544-1-lemagoup@gmail.com>
 	<20190619202149.GA12516@localhost>
 	<CAEz4NHp3y=GOXUBSb1K3Gv+fEW-5HD9A9nWRsgTvxdToMT0GJQ@mail.gmail.com>
 	<20190621110356.GO3459@hiutale>
-In-Reply-To: <20190621110356.GO3459@hiutale>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 21 Jun 2019 13:29:18 +0100
-Message-ID: <CAJTo0LZNdM8zb7E4r++zWY44RC2y2PebWsA4CBY7c6CGA-FfQg@mail.gmail.com>
-To: Mikko Rapeli <Mikko.Rapeli@bmw.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
+	<CAJTo0LZNdM8zb7E4r++zWY44RC2y2PebWsA4CBY7c6CGA-FfQg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZNdM8zb7E4r++zWY44RC2y2PebWsA4CBY7c6CGA-FfQg@mail.gmail.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.33]
+MIME-Version: 1.0
+Cc: openembedded-core@lists.openembedded.org
 Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -57,18 +66,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 12:29:28 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 21 Jun 2019 13:01:37 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <3F4CEE26A2BF1547B4664B1615B0A619@bmwmail.corp>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, 21 Jun 2019 at 12:11, <Mikko.Rapeli@bmw.de> wrote:
-> This adds python3 urllib3 (python3-urllib3 in Debian) to build environment
-> dependencies. It's the first user of urllib3 in poky, AFAIK. Maybe
-> documentation could be updated too, e.g.
-> https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#brief-build-system-packages
+On Fri, Jun 21, 2019 at 01:29:18PM +0100, Burton, Ross wrote:
+> On Fri, 21 Jun 2019 at 12:11, <Mikko.Rapeli@bmw.de> wrote:
+> > This adds python3 urllib3 (python3-urllib3 in Debian) to build environm=
+ent
+> > dependencies. It's the first user of urllib3 in poky, AFAIK. Maybe
+> > documentation could be updated too, e.g.
+> > https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#b=
+rief-build-system-packages
+>=20
+> Somehow I didn't notice it, thanks.
+>=20
+> Pierre, can you rewrite this to use standard library instead of urllib3?
 
-Somehow I didn't notice it, thanks.
+Also, the CVE db is updated using this custom task without link to
+do_fetch, which means a fetchall task would not update the database for
+off line NO_NETWORK builds.
 
-Pierre, can you rewrite this to use standard library instead of urllib3?
+Could the task be added as dependency to do_fetch() or are there some other
+side effects?
 
-Ross
+-Mikko=
 
