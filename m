@@ -1,50 +1,28 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
-	[209.85.128.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A24B7C7A5
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id DE3E77E687
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 09:02:01 +0000 (UTC)
-Received: by mail-wm1-f66.google.com with SMTP id u8so5755178wmm.1
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 02:02:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HXZpIboPua53m2nFK6ldQVsVsQI8hX7t1dzE2xRf+vA=;
-	b=Ys5Je6V1GNfE4fycp/BLRBqqqDeZ6BMeEvHwZzHgPgofq2qaFJYLAB6vEBqbyj8+I4
-	i7RNVItgxh2s2FQXMP0SQKbp3gf34vZT2A/sO/hexZrpd6NfddGUshkUXI/ezoCtXRR1
-	gD0ENuDIKQyoZF3oKw1JTxSkMl4HybeO7Wo+Z9BtvJ7UDItOyaLEyBhKko1ZyR8qA0e1
-	aS/NFFRtW2lDBDgvPQ6VbRWsmHdkWaLgIiIx+51XhH07pguuKqz2MZRJqsLlUe/aHyaN
-	wyMtzGmS4oIxbSmXINm0E3rPaoNsnH6LIHVFg4MdSbj4DLu5iTNhnpnm+Ny5cUOjyGzZ
-	3jJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=HXZpIboPua53m2nFK6ldQVsVsQI8hX7t1dzE2xRf+vA=;
-	b=ZjOQJuz0gai9W1YUISWdn1J+Wzgv/PCjHF1ZhiuPAe4nXbDv1SW4ctikHmixH2XhCi
-	iK655KeknTOHHSUjHlgyPsqUCB/mQuJHx/BcLzWSeZGFTf5/vuiNTqA8SxelUy7JqM08
-	Vinh5HSceRlVEcjq3IP2m7b7zj/a22+/0U26PcyTvzlNLfOUzhOC5Gks+aSSMbl/i4L+
-	QbnpjDFDgAfwG4VQc6JK4zZAx4HHAsl1aHsjnahIA0l0407sT5MBSnDqwAlmRZvwBUfh
-	soIeVWL/yp9S4gPUa1qhT92bHZZsbNoGWYuZayp0zG/pbbgmfr0MndL9WchukkZwPzgt
-	MdPw==
-X-Gm-Message-State: APjAAAWkb1vPvPS5Kia/KwrG0qakPDQQM4dMukZkgye3k2dQ5DZigmxl
-	3BlHWt2OE6XKFzs5T12ETQSjsZvb
-X-Google-Smtp-Source: APXvYqxmJ3jsjpCLjYyeKxDMY26WhnijHHvZlM9tYAWv6JFxUGtJBXTwRL54YvM2oANRy0Cdk3W0sw==
-X-Received: by 2002:a1c:ab06:: with SMTP id u6mr3138304wme.125.1561107721988; 
-	Fri, 21 Jun 2019 02:02:01 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id r4sm1568952wrv.34.2019.06.21.02.02.01
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 21 Jun 2019 02:02:01 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Jun 2019 09:02:10 +0000
-Message-Id: <20190621090210.254-1-Martin.Jansa@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190621083230.GA1512@jama>
-References: <20190621083230.GA1512@jama>
-Subject: [PATCH] gcc-runtime.inc: create the correct directory before creating the symlinks in it
+	Fri, 21 Jun 2019 09:07:58 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5L97xCF022422
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 21 Jun 2019 02:07:59 -0700 (PDT)
+Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Fri, 21 Jun 2019 02:07:58 -0700
+To: Matt Madison <matt@madison.systems>,
+	<openembedded-core@lists.openembedded.org>
+References: <20180304210937.29727-1-matt@madison.systems>
+	<20180304210937.29727-7-matt@madison.systems>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5D0C9F8B.8060109@windriver.com>
+Date: Fri, 21 Jun 2019 17:12:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
+MIME-Version: 1.0
+In-Reply-To: <20180304210937.29727-7-matt@madison.systems>
+X-Originating-IP: [128.224.162.170]
+Subject: Re: [PATCH v5 06/13] go.bbclass: ptest cleanup and improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,51 +35,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 09:02:02 -0000
+X-List-Received-Date: Fri, 21 Jun 2019 09:07:59 -0000
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-* since
-  commit b071a1a209556158bcfcc20e3c8bd4b15373767c
-  Author: Changqing Li <changqing.li@windriver.com>
-  Date:   Tue Jun 18 15:46:56 2019 +0800
+Hi Matt,
 
-    gcc-runtime: fix C++ header mapping for n32/x32 tune
+I noticed your commit is the latest update for go-dep ptest. But the 
+go-dep ptest doesn't work in my environment. I'm trying to figure out 
+what's wrong is here though I didn't know much about go.
 
-  gcc-runtime.do_install is failing with:
+BTW, Could you help to check?
 
-  ln: failed to create symbolic link 'work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux-gnueabi/bits': No such file or directory
-  WARNING: exit code 1 from a shell command.
-  ERROR: Function failed: do_install (log file is located at work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/temp/log.do_install.31049)
+root@qemux86-64:~# cd /usr/lib64/go-dep/ptest/
+root@qemux86-64:/usr/lib64/go-dep/ptest# cat run-ptest
+#!/bin/sh
+RC=0
+run_test() (
+     cd "$1"
+     ((((./$2 ; echo $? >&3) | sed -r -e"s,^(PASS|SKIP|FAIL)$,\1: 
+$1/$2," >&4) 3>&1) | (read rc; exit $rc)) 4>&1
+     exit $?)
+run_test github.com/golang/dep/cmd/dep dep.test || RC=1
+exit $RC
+root@qemux86-64:/usr/lib64/go-dep/ptest# ./run-ptest
+building testdep failed: exit status 1
+can't load package: package .: no Go files in 
+/usr/lib64/go-dep/ptest/github.com/golang/dep/cmd/dep
+root@qemux86-64:/usr/lib64/go-dep/ptest#
 
-  There is only empty directory without the -gnueabi suffix:
-  work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux/
+Thanks,
 
-  and
-
-  work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oemllib32-linux-gnueabi/
-  bits  ext
-
-* make sure to create correct directory (with -${TARGET_OS suffix instead of -linux suffix)
-  before creating the symlinks in it
-
-Signed-off-by: Martin Jansa <Martin.Jansa@gmail.com>
----
- meta/recipes-devtools/gcc/gcc-runtime.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc b/meta/recipes-devtools/gcc/gcc-runtime.inc
-index ba767e1a38..a5c2600d7f 100644
---- a/meta/recipes-devtools/gcc/gcc-runtime.inc
-+++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
-@@ -114,7 +114,7 @@ do_install_append_class-target () {
- 			ln -s ${TARGET_SYS} ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
- 		fi
- 	elif [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
--		mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
-+		mkdir ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
- 		ln -s ../${TARGET_SYS}/bits ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/bits
- 		ln -s ../${TARGET_SYS}/ext ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
- 	fi
--- 
-2.17.1
-
+On 2018年03月05日 05:09, Matt Madison wrote:
+> * Don't enable verbose test output (-test.v)
+>    by default, as it generates too much noise
+>    for automated results parsing
+>
+> * Override do_install_ptest_base in the bbclass,
+>    so recipes can provide their own modifications
+>    with do_install_ptest.
+>
+> * Improve the generated run-ptest script to better
+>    handle large numbers of tests, and to generate
+>    'status: test name' output similar to Automake
+>    tests.
+>
+> * Install all non-vendored 'testdata' directories
+>    from the source into the ptest package, as some
+>    packages share test data among multiple tests.
+>
+> Signed-off-by: Matt Madison <matt@madison.systems>
+> ---
+>   meta/classes/go.bbclass | 87 +++++++++++++++++++++++++++++--------------------
+>   1 file changed, 51 insertions(+), 36 deletions(-)
+>
+> diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+> index afd68b5951..a51ba3e9f0 100644
+> --- a/meta/classes/go.bbclass
+> +++ b/meta/classes/go.bbclass
+> @@ -26,7 +26,7 @@ GO_LDFLAGS ?= '-ldflags="${GO_RPATH} ${GO_LINKMODE} -extldflags '${GO_EXTLDFLAGS
+>   export GOBUILDFLAGS ?= "-v ${GO_LDFLAGS}"
+>   export GOPATH_OMIT_IN_ACTIONID ?= "1"
+>   export GOPTESTBUILDFLAGS ?= "${GOBUILDFLAGS} -c"
+> -export GOPTESTFLAGS ?= "-test.v"
+> +export GOPTESTFLAGS ?= ""
+>   GOBUILDFLAGS_prepend_task-compile = "${GO_PARALLEL_BUILD} "
+>
+>   export GO = "${HOST_PREFIX}go"
+> @@ -76,7 +76,7 @@ go_list_packages() {
+>   }
+>
+>   go_list_package_tests() {
+> -    ${GO} list -f '{{.ImportPath}} {{.TestGoFiles}}' ${GOBUILDFLAGS} ${GO_INSTALL} | \
+> +	${GO} list -f '{{.ImportPath}} {{.TestGoFiles}}' ${GOBUILDFLAGS} ${GO_INSTALL} | \
+>   		grep -v '\[\]$' | \
+>   		egrep -v '${GO_INSTALL_FILTEROUT}' | \
+>   		awk '{ print $1 }'
+> @@ -100,15 +100,16 @@ go_do_compile() {
+>   do_compile[dirs] =+ "${GOTMPDIR}"
+>   do_compile[cleandirs] = "${B}/bin ${B}/pkg"
+>
+> -do_compile_ptest() {
+> +do_compile_ptest_base() {
+>   	export TMPDIR="${GOTMPDIR}"
+> -    rm -f ${B}/.go_compiled_tests.list
+> +	rm -f ${B}/.go_compiled_tests.list
+>   	go_list_package_tests | while read pkg; do
+>   		cd ${B}/src/$pkg
+>   		${GO} test ${GOPTESTBUILDFLAGS} $pkg
+>   		find . -mindepth 1 -maxdepth 1 -type f -name '*.test' -exec echo $pkg/{} \; | \
+>   			sed -e's,/\./,/,'>> ${B}/.go_compiled_tests.list
+>   	done
+> +	do_compile_ptest
+>   }
+>   do_compile_ptest_base[dirs] =+ "${GOTMPDIR}"
+>
+> @@ -124,40 +125,54 @@ go_do_install() {
+>   	fi
+>   }
+>
+> -do_install_ptest_base() {
+> -    test -f "${B}/.go_compiled_tests.list" || exit 0
+> -    tests=""
+> -    while read test; do
+> -        tests="$tests${tests:+ }${test%.test}"
+> -        testdir=`dirname $test`
+> -        install -d ${D}${PTEST_PATH}/$testdir
+> -        install -m 0755 ${B}/src/$test ${D}${PTEST_PATH}/$test
+> -        if [ -d "${B}/src/$testdir/testdata" ]; then
+> -            cp --preserve=mode,timestamps -R "${B}/src/$testdir/testdata" ${D}${PTEST_PATH}/$testdir
+> -        fi
+> -    done < ${B}/.go_compiled_tests.list
+> -    if [ -n "$tests" ]; then
+> -        install -d ${D}${PTEST_PATH}
+> -        cat >${D}${PTEST_PATH}/run-ptest <<EOF
+> +go_make_ptest_wrapper() {
+> +	cat >${D}${PTEST_PATH}/run-ptest <<EOF
+>   #!/bin/sh
+> -ANYFAILED=0
+> -for t in $tests; do
+> -    testdir=\`dirname \$t.test\`
+> -    if ( cd "${PTEST_PATH}/\$testdir"; "${PTEST_PATH}/\$t.test" ${GOPTESTFLAGS} | tee /dev/fd/9 | grep -q "^FAIL" ) 9>&1; then
+> -        ANYFAILED=1
+> -    fi
+> -done
+> -if [ \$ANYFAILED -ne 0 ]; then
+> -    echo "FAIL: ${PN}"
+> -    exit 1
+> -fi
+> -echo "PASS: ${PN}"
+> -exit 0
+> +RC=0
+> +run_test() (
+> +    cd "\$1"
+> +    ((((./\$2 ${GOPTESTFLAGS}; echo \$? >&3) | sed -r -e"s,^(PASS|SKIP|FAIL)\$,\\1: \$1/\$2," >&4) 3>&1) | (read rc; exit \$rc)) 4>&1
+> +    exit \$?)
+>   EOF
+> -        chmod +x ${D}${PTEST_PATH}/run-ptest
+> -    else
+> -        rm -rf ${D}${PTEST_PATH}
+> -    fi
+> +
+> +}
+> +
+> +go_stage_testdata() {
+> +	oldwd="$PWD"
+> +	cd ${S}/src
+> +	find ${GO_IMPORT} -depth -type d -name testdata | while read d; do
+> +		if echo "$d" | grep -q '/vendor/'; then
+> +			continue
+> +		fi
+> +		parent=`dirname $d`
+> +		install -d ${D}${PTEST_PATH}/$parent
+> +		cp --preserve=mode,timestamps -R $d ${D}${PTEST_PATH}/$parent/
+> +	done
+> +	cd "$oldwd"
+> +}
+> +
+> +do_install_ptest_base() {
+> +	test -f "${B}/.go_compiled_tests.list" || exit 0
+> +	install -d ${D}${PTEST_PATH}
+> +	go_stage_testdata
+> +	go_make_ptest_wrapper
+> +	havetests=""
+> +	while read test; do
+> +		testdir=`dirname $test`
+> +		testprog=`basename $test`
+> +		install -d ${D}${PTEST_PATH}/$testdir
+> +		install -m 0755 ${B}/src/$test ${D}${PTEST_PATH}/$test
+> +	echo "run_test $testdir $testprog || RC=1" >> ${D}${PTEST_PATH}/run-ptest
+> +		havetests="yes"
+> +	done < ${B}/.go_compiled_tests.list
+> +	if [ -n "$havetests" ]; then
+> +		echo "exit \$RC" >> ${D}${PTEST_PATH}/run-ptest
+> +		chmod +x ${D}${PTEST_PATH}/run-ptest
+> +	else
+> +		rm -rf ${D}${PTEST_PATH}
+> +	fi
+> +	do_install_ptest
+> +	chown -R root:root ${D}${PTEST_PATH}
+>   }
+>
+>   EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
+>
 
