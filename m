@@ -1,51 +1,53 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 623246D548
+Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
+	[209.85.166.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5C69B7E7AF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 13:30:38 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id m24so1250863ioo.2
+	Fri, 21 Jun 2019 13:34:26 +0000 (UTC)
+Received: by mail-io1-f67.google.com with SMTP id w25so3036837ioc.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 21 Jun 2019 06:30:39 -0700 (PDT)
+	Fri, 21 Jun 2019 06:34:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=bq0zXh2tZSGR0a/ZWqit80r0xBs9HJv5HcTDxsYmRe4=;
-	b=C3fDJaB+j/3boqh8ufvupkRF+8ivzAVDtYWIOAH31AF8FZ6/5e6ZY4jNyAqvX0NoAj
-	mX2v7JVHwL4+o8zlNVS0srHVNAZAQyeSo3qYDmfK3MefbodoPWuFHcFbPZLTEx+cpSEv
-	j/U0UhoGydlTh28vhgtD/bjSIX6l8iEAbZk/e4krh3OKHoshNMzo3M5hNqaOc+9bm2T+
-	4ONgh0/zMb6fuGKHSvhuymsUBaSx+zP7q5nlG7Auslr/CW0taH4l5HcxJW8om9uWyLmY
-	VRusKUKG31HJGgpVhkt+BPKanEVYe19987qibmAfZus1ZUbR26R7HKHsLRjPCkQpjoDM
-	pPvg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=y9iy8oJPRlx7MiWyL7lcoN2b8M7sulf0iZVqF/j6ZvU=;
+	b=lMk2Xw2vjlTPqQ8eolIWG6wI+XKTL4BAo1Wtuha7UeKZ9SvNiEgEPTesD8h+dNWW3t
+	mxnyM4rW/poFP2sN4dXCyHEptAJEsJfTD+M+hNi2bDdCceNmxssZy3Co7rDRwIgs5jFh
+	crAvYV8BijRrhEoqQRyLqBqwJyHoTMEyh8qZ584WbW56WFtv0EYJfAERyL289cjeQb4b
+	zvqyO1IyftmqkciE+1EBhQHy3HwO7OHGkc+D19FHNtDeB50MkaV546oA5pd4x+k/NynA
+	DEUKINB4ODAMzEWlB+UWafDpeHOyJjD31Qh/fZtDZ+ZtWGP02z+4/8gC9kI9ZJ7xQprP
+	eftg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=bq0zXh2tZSGR0a/ZWqit80r0xBs9HJv5HcTDxsYmRe4=;
-	b=Hl+LZCQ06zTALdH6F9ptuvtBuTdcbZmDuDOjUiihkwmVD1Zgrfd6/ghaOBn3z0U963
-	X4QMmN5iQLh1eQ+XGgDaVDpXhzkSSDFaWVS31fR8vcRlk73zWrAj9472MW1LxySxsKDJ
-	O+9kO6pMlkPpBBJ71bbpAt44qjXL63iZczGqLpWbrJvDuVJe7JDUJpbVebocuaWRoMDQ
-	BsOwocfxJsAf8kJuz+e7j8KDljtvEGEAZcaJow0LYSZHFu/pQl6ELBY2MjJaOpj7mL0s
-	nQo0a6fd15DUumWJ8ZaHT74Q1C4YbtOI0wGj5Dpfa5r6Fm2BBd13RM3BJ4LBbOMbfUfn
-	C5IQ==
-X-Gm-Message-State: APjAAAXZG5hFvo7DnbAqdDGjU0wuLfJyaRvDh/fDtQ9J4Y6YBkIhen69
-	0NeX48vzAm1YTQvhQZZc8l6NuIqy
-X-Google-Smtp-Source: APXvYqzl8B17UGcHAgYiWQ1t3fVD/IRxvzgTfSCffFHaUEE7CENsWsLJvUYaDe5G4ikjCZ4GBGUlDA==
-X-Received: by 2002:a05:6638:201:: with SMTP id
-	e1mr8144241jaq.45.1561123839114; 
-	Fri, 21 Jun 2019 06:30:39 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=y9iy8oJPRlx7MiWyL7lcoN2b8M7sulf0iZVqF/j6ZvU=;
+	b=Y2u5nBUXufG3dBJQ4ugtIt7CcDY4SE1gW87QisXqr9g6At0DFxGVV+oEZzhatAqJb5
+	JIjX0Kj60Ov/iq8A7RU2LAf7/uBeiZ653g0PinQjPsuctfqv+MvcYbtvbf7wI3AJsC+7
+	PhrzUGQxog0wUSAZO2my1IiaAYRI1Pf1oCc4IIteASTc9gj2OdVCqmmhlgndFySY0jVb
+	KxYw3010u2iq/A9Wp/zZnJ+/gv6ISOj9LtTIBueQZc47j/Jl/b8BDoAH2L2PmXFlj5zW
+	S+U8DuBD2jH9A4LrJYVSvnlphH2ZOmjw+7HzLSFFE2FOLbobpZPSeOlSXJMbLrLuG1IY
+	lFtg==
+X-Gm-Message-State: APjAAAU3cLMiFo03rUElCsqMlxV4rtBFvwu9rEiSeLm+jvnRF/kh2cYm
+	5plQG6hNsn+tg980Wxz+S5X+vqnL
+X-Google-Smtp-Source: APXvYqzSDpCohiBSDGM5kPo/7XrK6LDslVn6gPyjBURGNLFV0ss3NQQMH+E7Hu3LUF85G9aEllqhjw==
+X-Received: by 2002:a5d:8747:: with SMTP id k7mr23626879iol.20.1561124067197; 
+	Fri, 21 Jun 2019 06:34:27 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id b8sm3831768ioj.16.2019.06.21.06.30.38
+	by smtp.gmail.com with ESMTPSA id
+	n21sm2141094ioh.30.2019.06.21.06.34.26
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 21 Jun 2019 06:30:38 -0700 (PDT)
+	Fri, 21 Jun 2019 06:34:26 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 21 Jun 2019 08:30:30 -0500
-Message-Id: <20190621133030.10720-1-JPEWhacker@gmail.com>
+Date: Fri, 21 Jun 2019 08:33:56 -0500
+Message-Id: <20190621133356.10907-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190620154704.13940-1-JPEWhacker@gmail.com>
+References: <20190620154704.13940-1-JPEWhacker@gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH] perl: Reproducible build fixes
+Subject: [PATCH v2] bash: Remove .build files for reproducible builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,117 +60,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 21 Jun 2019 13:30:38 -0000
+X-List-Received-Date: Fri, 21 Jun 2019 13:34:26 -0000
 Content-Transfer-Encoding: 8bit
 
-Applies two patches that are required to improve the reproducibility of
-builds.
+Bash has an internal "build number" that it tracks and automatically
+increments ever time a given builds is made from the same sandbox.
+However, this can make builds non-reproducible in the event that a build
+directory is reused multiple times.
+
+Remove the .build files after every build if reproducible builds have
+been requested which will reset the build build number for the next
+build.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- ...onment-variable-to-suppress-comments.patch | 30 +++++++++++++++++
- .../files/0002-Constant-Fix-up-shebang.patch  | 32 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.30.0.bb     |  5 +++
- 3 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/0001-enc2xs-Add-environment-variable-to-suppress-comments.patch
- create mode 100644 meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch
+ meta/recipes-extended/bash/bash.inc | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/recipes-devtools/perl/files/0001-enc2xs-Add-environment-variable-to-suppress-comments.patch b/meta/recipes-devtools/perl/files/0001-enc2xs-Add-environment-variable-to-suppress-comments.patch
-new file mode 100644
-index 00000000000..07f153162b0
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/0001-enc2xs-Add-environment-variable-to-suppress-comments.patch
-@@ -0,0 +1,30 @@
-+From 31a2c5555f9ef32f35d7d5ce1fd09a010ba5f5c6 Mon Sep 17 00:00:00 2001
-+From: Joshua Watt <JPEWhacker@gmail.com>
-+Date: Mon, 17 Jun 2019 10:47:15 -0500
-+Subject: [PATCH 1/2] enc2xs: Add environment variable to suppress comments
-+
-+Comment generation in enc2xs can now be suppressed by setting the
-+ENC2XS_NO_COMMENTS environment variable. This allows enc2xs to produce
-+reproducible output by omitting the name of the generating program.
-+
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+Upstream-status: Accepted [https://github.com/dankogai/p5-encode/pull/145]
-+---
-+ cpan/Encode/bin/enc2xs | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/cpan/Encode/bin/enc2xs b/cpan/Encode/bin/enc2xs
-+index 619b64b757..bfce9ee735 100644
-+--- a/cpan/Encode/bin/enc2xs
-++++ b/cpan/Encode/bin/enc2xs
-+@@ -144,6 +144,7 @@ getopts('CM:SQqOo:f:n:v',\%opt);
-+ $opt{M} and make_makefile_pl($opt{M}, @ARGV);
-+ $opt{C} and make_configlocal_pm($opt{C}, @ARGV);
-+ $opt{v} ||= $ENV{ENC2XS_VERBOSE};
-++$opt{q} ||= $ENV{ENC2XS_NO_COMMENTS};
-+ 
-+ sub verbose {
-+     print STDERR @_ if $opt{v};
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch b/meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch
-new file mode 100644
-index 00000000000..e70ff67f726
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/0002-Constant-Fix-up-shebang.patch
-@@ -0,0 +1,32 @@
-+From 260ebd15e16cd86b9b58e5c5f3a496b3853ca46d Mon Sep 17 00:00:00 2001
-+From: Joshua Watt <JPEWhacker@gmail.com>
-+Date: Mon, 17 Jun 2019 10:47:23 -0500
-+Subject: [PATCH 2/2] Constant: Fix up shebang
-+
-+The instructions indicate that the script should be explicitly passed to
-+"perl -x", so automatically setting the #! to be ^X is unnecessary and
-+makes the file non-reproducible when building because ^X could be the
-+absolute path to miniperl.
-+
-+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-+Upstream-status: Submitted [https://rt.cpan.org/Public/Bug/Display.html?id=129866]
-+---
-+ cpan/ExtUtils-Constant/lib/ExtUtils/Constant/XS.pm | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/cpan/ExtUtils-Constant/lib/ExtUtils/Constant/XS.pm b/cpan/ExtUtils-Constant/lib/ExtUtils/Constant/XS.pm
-+index 14eb809714..d4d074e121 100644
-+--- a/cpan/ExtUtils-Constant/lib/ExtUtils/Constant/XS.pm
-++++ b/cpan/ExtUtils-Constant/lib/ExtUtils/Constant/XS.pm
-+@@ -219,7 +219,7 @@ sub dogfood {
-+      Regenerate these constant functions by feeding this entire source file to
-+      perl -x
-+ 
-+-#!$^X -w
-++#!/usr/bin/env perl -x -w
-+ use ExtUtils::Constant qw (constant_types C_constant XS_constant);
-+ 
-+ EOT
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.30.0.bb b/meta/recipes-devtools/perl/perl_5.30.0.bb
-index b18a6b69131..e3664290e30 100644
---- a/meta/recipes-devtools/perl/perl_5.30.0.bb
-+++ b/meta/recipes-devtools/perl/perl_5.30.0.bb
-@@ -19,6 +19,8 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://perl-dynloader.patch \
-            file://0001-configure_path.sh-do-not-hardcode-prefix-lib-as-libr.patch \
-            file://fix-setgroup.patch \
-+           file://0001-enc2xs-Add-environment-variable-to-suppress-comments.patch \
-+           file://0002-Constant-Fix-up-shebang.patch \
-            "
- SRC_URI_append_class-native = " \
-            file://perl-configpm-switch.patch \
-@@ -37,6 +39,9 @@ DEPENDS += "db gdbm zlib virtual/crypt"
+diff --git a/meta/recipes-extended/bash/bash.inc b/meta/recipes-extended/bash/bash.inc
+index c91cc8ada8d..039b8687a24 100644
+--- a/meta/recipes-extended/bash/bash.inc
++++ b/meta/recipes-extended/bash/bash.inc
+@@ -39,6 +39,12 @@ RDEPENDS_${PN}-ptest_append_libc-glibc = " \
  
- PERL_LIB_VER = "${@'.'.join(d.getVar('PV').split('.')[0:2])}.0"
+ CACHED_CONFIGUREVARS += "headersdir=${includedir}/${PN}"
  
-+# Don't generate comments in enc2xs output files. They are not reproducible
-+export ENC2XS_NO_COMMENTS = "1"
++do_compile_prepend() {
++    # Remove any leftover .build files. This ensures that bash always has the
++    # same version number and keeps builds reproducible
++    rm -f ${B}/.build
++}
 +
- do_unpack_append() {
-     bb.build.exec_func('do_copy_perlcross', d)
+ do_compile_ptest () {
+ 	oe_runmake buildtest
  }
 -- 
 2.21.0
