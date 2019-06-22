@@ -1,51 +1,41 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4039D7E7B9
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 068CB7E788
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jun 2019 08:12:59 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id x15so8201251wmj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jun 2019 01:13:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=34AH7kLouFANtoq0pVNLQsxWZlmPq1NrPAA+Bctcnfs=;
-	b=QjelxP5TI1JKuUOvcfZTl7oN4qRNi67YTHZyChisKMPyYH87FT40PPDS/noMA9jfGI
-	HDUEY0kdIqTSdgUgLUqcarXM07Qo2HB5XMZN9Sl4uT9i97DCCiXGeTkCSwcp/oTbluER
-	AAf89o01StBniQdkHmFt+Q+x/VYA47H7UEO8w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=34AH7kLouFANtoq0pVNLQsxWZlmPq1NrPAA+Bctcnfs=;
-	b=KaKJR5mE1D20Ay6unPquNqqdmfi1TjlxS3Z7l0C30PWCtLJivf2NxI27iJDS58UKjv
-	l46DN7tyQWrxV0bp8TdpDw7ODYRNc92bofVN4rHbpvvMD7W58rK3Taxk9+A1COpxEAQz
-	0gEZQ3tI8YL+xNW+mjgLnx6IWMuK+6y9/lBuDDzbwIjj/ivAalnfgEJY6QPf5LudNUPB
-	gy7Q44KjjTEYzNL6uwkv0Ifm7fQVudtqw4y3Yn1KviKkxI2KQRd0yYRJVyD+CyV4czDI
-	mR4NMxD4PDLcjqB7nsJM46oMzxjHGM4v+Iw66ay5COS7Cfkln/9VJ3QuXIZ8gxgPVMBd
-	efNA==
-X-Gm-Message-State: APjAAAVBoJGkrUiQnG8Uvw0Eo9ZmhJJ35ppgbRO59M5gGLWsc0rVybe6
-	OOBbtuGa1fBq4QfcFrDELnamYALYM6k=
-X-Google-Smtp-Source: APXvYqy61zYIRvBDDos4YEKXjtHUmvF7KM6YiJ+dDP8Y378llW/vxVk623sH3EewxjuOCFZzetfXhA==
-X-Received: by 2002:a1c:c14b:: with SMTP id r72mr7164229wmf.166.1561191179989; 
-	Sat, 22 Jun 2019 01:12:59 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p26sm10632034wrp.58.2019.06.22.01.12.59
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 22 Jun 2019 01:12:59 -0700 (PDT)
-Message-ID: <87c6043e7cdd430d885ddf51c636217ea9196021.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Jon Mason <jdmason@kudzu.us>, openembedded-core@lists.openembedded.org
-Date: Sat, 22 Jun 2019 09:12:58 +0100
-In-Reply-To: <30d4f80b522e6bcb23143a804eb44fc5067b3b47.camel@linuxfoundation.org>
-References: <20190621192710.15428-1-jdmason@kudzu.us>
-	<30d4f80b522e6bcb23143a804eb44fc5067b3b47.camel@linuxfoundation.org>
-User-Agent: Evolution 3.32.2-1 
+	Sat, 22 Jun 2019 08:58:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45W8c21ncBz3Q;
+	Sat, 22 Jun 2019 10:58:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1561193923;
+	bh=HR3zVofLaVzK8bei+22dYoDPwGoJXSkdjRDBD9hIurI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rPji+jL7GssUeNMX7HWSnLsvkLIq9eky34FYvaQY5qLD6ENlNwNOQBYhEN6Y432c2
+	AaovKfRjeca1y4Yfm1cgWO2VYU5Gi2/xXfPkFngVoo8u/ZsPA2axL3M9lJtR1hA/j0
+	ThbggGe4tAO8+n1taDoUGw80ufE4Mzn3OmDPfQoHOuMBq7pVgtngRLVPh6gUuJgQT4
+	Me4vn8YdwW5cyyWxum91qdo9zI5x6Ee2D8hJdIF6/1Gh9YTFF7bykfawwG2sEJnJoT
+	WOhy4fRfq6i/UKcGvvmsD87OAj20zxlrCQASdh6bxqAwZOj90S6ydAMiyxHeL+zFLl
+	WG7Erf8hX68CiqfESpgwVksBD16EFaN8qlm3eLwI8gONvWDOJRWj1g+/YQfB2hEBdY
+	5gnKbL/FaaC9ClPYvy3KvIljPJeV1Jp4tPmlJ+bETCvgFwTyM2gWtl3bvQrofzwy4H
+	Fidu6bnhuDhSU+J1BPkxD903rdth6412TQ/G19hof8Z0EVUzvwuMYxKxj683E2lVXK
+	KbSh8QHn12seTEFPErzLYwczkyJ9Lt+T3sHbWnIEGSpZ5JHZfBH+3ip1Ba0TNRbm0R
+	wF9Nz9ZwflIQbzbN/fsBAqELEnVHiIO16fy1n4/9+OPk4GeQjnDV4UaUZBBNT1mZAX
+	u02oIo73qNqBpscwT6VE06uQ=
+Date: Sat, 22 Jun 2019 11:58:40 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: Khem Raj <raj.khem@gmail.com>
+Message-ID: <20190622085840.GB9472@localhost>
+References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
+	<0f5adba2f96da9396faa1e70f9eed84118cf735e.1559950879.git.timothy.t.orling@linux.intel.com>
+	<CAMKF1sq5aOZ+6CSP+G88+JCYd4zMb6ZSe5MP5KWSSofPRbe4Ow@mail.gmail.com>
+	<CANx9H-DLg1_vSEi1bBSSLCmycdyEa2MiJjZ9d=Owsc5bsR-GBA@mail.gmail.com>
+	<CAMKF1sr+Ffk0nCd3aVhGfsdRreFX7cpqEAqH8606LMqg=-ijww@mail.gmail.com>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] oe_syslog.py: Handle syslogd/klogd restart race
+In-Reply-To: <CAMKF1sr+Ffk0nCd3aVhGfsdRreFX7cpqEAqH8606LMqg=-ijww@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/4] scons.bbclass: use python3-scons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,65 +48,34 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Jun 2019 08:12:59 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 22 Jun 2019 08:58:43 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Sat, 2019-06-22 at 09:08 +0100, Richard Purdie wrote:
-> On Fri, 2019-06-21 at 15:27 -0400, Jon Mason wrote:
-> > syslogd and klogd can occasionally take too long to restart, which
-> > causes tests to fail by starting before the log daemons are
-> > ready.  To
-> > work around this problem, poll for up to 30 seconds on the
-> > processes to
-> > verify the old ones are killed and the new ones are up and running.
-> > 
-> > [YOCTO #13379]
-> > 
-> > Signed-off-by: Jon Mason <jdmason@kudzu.us>
-> > ---
-> >  meta/lib/oeqa/runtime/cases/oe_syslog.py | 54
-> > +++++++++++++++++++++---
-> >  1 file changed, 48 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-> > b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-> > index 0f5f9f43ca..480aadedf9 100644
-> > --- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-> > +++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-> > @@ -6,6 +6,7 @@ from oeqa.runtime.case import OERuntimeTestCase
-> >  from oeqa.core.decorator.depends import OETestDepends
-> >  from oeqa.core.decorator.data import skipIfDataVar
-> >  from oeqa.runtime.decorator.package import OEHasPackage
-> > +import time
-> >  
-> >  class SyslogTest(OERuntimeTestCase):
-> >  
-> > @@ -21,6 +22,49 @@ class SyslogTest(OERuntimeTestCase):
-> >  
-> >  class SyslogTestConfig(OERuntimeTestCase):
-> >  
-> > +    def test_syslog_restart_sanity(self):
-> > +        status, syslogd_pid = self.target.run('pidof syslogd')
-> > +        status, klogd_pid = self.target.run('pidof klogd')
-> 
-> FWIW by calling this test_, it will be run as a standalone test. This
-> may have two issues:
-> 
-> a) it won't work on a systemd image
-> b) its missing dependency markup (is syslog running?) that the other
-> tests have
-> 
-> Unless we really want it as a standalone test (I think there is a
-> similar one already), the fix may be just to rename it something
-> other
-> than starting with test_.
+On Thu, Jun 20, 2019 at 09:27:15PM -0600, Khem Raj wrote:
+> On Thu, Jun 20, 2019 at 6:18 PM Tim Orling <ticotimo@gmail.com> wrote:
+>...
+> > Latest mongo release appears to be 4.3.0 and appears to support python3:
+> >
+> >
+> > https://github.com/mongodb/mongo/blob/89e7419a897b2270931c9c029abf6de555d83e0f/SConstruct
+> >
+> > Is this an aceptable upgrade? I am not savvy on which versions are
+> > desirable.
+>
+> Yes for master this upgrade is fine
 
-Sorry for all the replies, just realised I could quickly test a rename
-of the function so I've done that in -next.
+Are you approving the changed licence for OE,
+or were you not aware that this was the question?
 
-Cheers,
+cu
+Adrian
 
-Richard
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
