@@ -1,41 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id B84BE7E34A
+Return-Path: <jdmason@kudzu.us>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id ACB617D200
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 22 Jun 2019 09:39:45 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45W9WP2w71z3Q;
-	Sat, 22 Jun 2019 11:39:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1561196385;
-	bh=Ql+iClbyMhNxHqnVYsLQVHXXZbcbmhg2Ip6m091rVuQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uJ2Pdxs0wxVot3UogDJM0bTcD+kJdoOo0H5D6kSbX/tm++amgNTxsNDFYnkO0UfC9
-	TxoLyjKKfrFkWsAfS8Mk3170itarlwlxMynmvniDbOGLJB5agTXRB6ZsBMz+zNSQNN
-	J9Dh58QPMCRNUdjJc1XT/wKCKnFzZ9sa+QswiF42C+7TkkWJmWW7ZPAkd14sW0Gb1y
-	dsKz2ZsBF6cKCF5Yu7MKrp7FAQMghiVVk7J7gXwUVjJaRnravYQ/iaZTRimBhS33vj
-	TvWsqywUgIb/1h+gBTzqE9ZEuQF13m7LN9hoxO73XWucpGaXmepJml6+C0ajXiBrjI
-	EMh20UaSdy34NXTwVo7agQiM52pAOi23NVSR9Y53dMd37uk8l/ZR7tcuB3PE9ohrgK
-	Jt26vPYw9PYMT+ygcn2AJC8lTnNfGWbsdiB4xGD0f3cfFjzRXRs/0NkWF7oegFzkE7
-	Gw7zicfqe1YGVJG9Okq4KlEPSZYwWJiD35rU2CdJ5ECsUqajbPMI+u1rl8Pyep7qWQ
-	F6N93oymXb7bcAAu7xSEvV0WbjaFf7YRzkJw2xt2J+U5Etnf/z+ynTvodW9xcEVID8
-	SeavdMapYcyD8pFnCUNG+DlEz6moGFEVFS5dvdZNtpSQlw3NgCKK2e1B923Xx62Bre
-	hj6KCy+2hvF0pFQnx1LpLjmQ=
-Date: Sat, 22 Jun 2019 12:39:43 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Khem Raj <raj.khem@gmail.com>
-Message-ID: <20190622093943.GC9472@localhost>
-References: <20190614072956.13672-1-bunk@stusta.de>
-	<34f4c3911dcbb9e4856848a27a87ed6f6a9a3d4d.camel@linuxfoundation.org>
-	<CAMKF1sruqVtNBQjDnP-BkpKhgz9HCmk-yZv=of1tPvdzfGXKOQ@mail.gmail.com>
-	<20190620071537.GA27107@localhost>
-	<CAMKF1soeQ9YreTazqHFbwh-C4AU6H2sr1H5_jNED6+T6K3TTGw@mail.gmail.com>
+	Sat, 22 Jun 2019 20:10:28 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id u19so195887ior.9
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 22 Jun 2019 13:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=3p7ZDVZnOaNldxc2Az4Y1nb85xNuwRQ5KuK/9KZMsfE=;
+	b=gJWloPbrqbHju2UwZTSntQw3dk4GNqkTvdub5ZtQbfW7Tujoven0anLujnPB1wTgny
+	xaV7OgPf73RcnPWf46xzI5SY9h2+Zqy3N+kxS4eFz3NQuU2UyGW3QsQvM//dDSM5rXGN
+	WxuJ6LZWVDbXWamjFKQ+RzTTTCu1CXt++9VCdPq4n8O3BcHCkDA4mq+7rLVbjhBqHztl
+	AX1GXmCK9DOMdkukgCJ2IyHYjC23jwYMvdVjGq4ZtTfwCdUYJ8yMaLBuIsilnXAZkTnW
+	kiD4m1iP9ERYCXNX3KSdgBBOmZIK2AKRx6AAyAmUjmFRwVLOwVTIWsqgUN2J2Xj9BfrZ
+	g/BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=3p7ZDVZnOaNldxc2Az4Y1nb85xNuwRQ5KuK/9KZMsfE=;
+	b=Yn6DM7afZ8vwnivvkNjOItECUt9qJcMT0l+tXrJ9FEcEgnggtlTIK/e6+ONCIFcFHn
+	GdAHuifHSSXDQ/jwRf2Bp9M+UCqNa7Q+iG3Ii6rnHpVz7HXCjShM1RSMuzv10blh/95G
+	YnlZzMGuotEI/RRqHi5mKYA6jX1I2jm8ukEqmLg48egHATn4Zo+csTmI2fiVt7reMBNm
+	4MJa3PA1jFtaM5wa+aFe3yqNqNVopqto43vz25o9MfP61+HXquBC9idN3+2v4lyKKhUr
+	LXYS+P47SU/sht2ECf8J62cm+Kdn0kpwtxMj2lclIAXzULjlwJoab17PnYDsRrXDqE7h
+	pfAA==
+X-Gm-Message-State: APjAAAXi3DcK2uNR3LBXqeB/jw+hkNgSmmqLaAFlJIM9RN8brPzCldqw
+	PY+1vV1lhc43Lpud2g/0VxcHF1pv+rQAgin6YF90LGF8Wms=
+X-Google-Smtp-Source: APXvYqzrFbqWnkKRMG2yoliicdaL9RlGfENTl9TQex4sOHNSRz03ZJaHNhMrb1EBwokcI2rKYKbaIFWavyFuVfB8vP4=
+X-Received: by 2002:a05:6638:5:: with SMTP id z5mr22985220jao.58.1561234229435;
+	Sat, 22 Jun 2019 13:10:29 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAMKF1soeQ9YreTazqHFbwh-C4AU6H2sr1H5_jNED6+T6K3TTGw@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20190621192710.15428-1-jdmason@kudzu.us>
+	<30d4f80b522e6bcb23143a804eb44fc5067b3b47.camel@linuxfoundation.org>
+In-Reply-To: <30d4f80b522e6bcb23143a804eb44fc5067b3b47.camel@linuxfoundation.org>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Sat, 22 Jun 2019 16:10:18 -0400
+Message-ID: <CAPoiz9y4STG1zqd_ZT47bZWh7fA0HUx1Ar+28V+K0318XGrKpQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [RFC][PATCH] systemd: Remove clearly incorrect musl patches
+Subject: Re: [PATCH v2] oe_syslog.py: Handle syslogd/klogd restart race
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,43 +56,76 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 22 Jun 2019 09:39:46 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sat, 22 Jun 2019 20:10:28 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jun 20, 2019 at 11:09:39AM -0600, Khem Raj wrote:
->...
-> musl has provided a lot of good cleanup patches for systemd so this is
-> not a wasted
-> effort even if upstream systemd does not officially support anything
-> besides glibc.
->...
+On Sat, Jun 22, 2019 at 4:08 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Fri, 2019-06-21 at 15:27 -0400, Jon Mason wrote:
+> > syslogd and klogd can occasionally take too long to restart, which
+> > causes tests to fail by starting before the log daemons are ready.  To
+> > work around this problem, poll for up to 30 seconds on the processes to
+> > verify the old ones are killed and the new ones are up and running.
+> >
+> > [YOCTO #13379]
+> >
+> > Signed-off-by: Jon Mason <jdmason@kudzu.us>
+> > ---
+> >  meta/lib/oeqa/runtime/cases/oe_syslog.py | 54 +++++++++++++++++++++---
+> >  1 file changed, 48 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+> > index 0f5f9f43ca..480aadedf9 100644
+> > --- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
+> > +++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
+> > @@ -6,6 +6,7 @@ from oeqa.runtime.case import OERuntimeTestCase
+> >  from oeqa.core.decorator.depends import OETestDepends
+> >  from oeqa.core.decorator.data import skipIfDataVar
+> >  from oeqa.runtime.decorator.package import OEHasPackage
+> > +import time
+> >
+> >  class SyslogTest(OERuntimeTestCase):
+> >
+> > @@ -21,6 +22,49 @@ class SyslogTest(OERuntimeTestCase):
+> >
+> >  class SyslogTestConfig(OERuntimeTestCase):
+> >
+> > +    def test_syslog_restart_sanity(self):
+> > +        status, syslogd_pid = self.target.run('pidof syslogd')
+> > +        status, klogd_pid = self.target.run('pidof klogd')
+>
+> FWIW by calling this test_, it will be run as a standalone test. This
+> may have two issues:
+>
+> a) it won't work on a systemd image
 
-I have yet to see a patch that provides actual benefits for upstream,
-and my overall impression of musl support patches is that they do more 
-harm than good for everything except making musl build.
+I didn't know that was something desired.  I can modify it to try and
+cover that use case, as it does make sense to try and cover all of
+them.
 
-Like I have a WTF feeling each time !defined(__GLIBC__) is used instead 
-of defined(__MUSL__) for musl-only code - as if there were only two
-C libraries in the world.
+> b) its missing dependency markup (is syslog running?) that the other
+> tests have
 
-You already did a lot regarding taking code from gnulib to add glibc
-functionality on top of musl, and that's the direction that would
-have to be followed for more functionality that is missing in musl
-or where musl provides the POSIX version instead of the GNU version
-of a function (e.g. strerror_r()).
+I assumed that the dependencies on the calling functions would filter
+down.  I'll add a similar limit as the other functions present.
 
-All this is doable, but it's a lot of hacks and workarounds and
-not much in generally useful cleanups.
+> Unless we really want it as a standalone test (I think there is a
+> similar one already), the fix may be just to rename it something other
+> than starting with test_.
 
-cu
-Adrian
+I can change that.
 
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+>
+> Cheers,
+>
+> Richard
+>
+> > +        status, output = self.target.run('/etc/init.d/syslog restart')
+> > +
+> > +        # Always check for an error, most likely a race between shutting down and starting up
+> > +        timeout = time.time() + 30
+> > +
+> >
+>
 
