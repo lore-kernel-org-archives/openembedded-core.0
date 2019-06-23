@@ -1,54 +1,53 @@
-Return-Path: <jdmason@kudzu.us>
-Received: from mail-yb1-f194.google.com (mail-yb1-f194.google.com
-	[209.85.219.194])
-	by mail.openembedded.org (Postfix) with ESMTP id AFDD87E080
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id BABA07CF7D
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2019 16:23:08 +0000 (UTC)
-Received: by mail-yb1-f194.google.com with SMTP id i14so4756615ybp.7
+	Sun, 23 Jun 2019 16:44:17 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id u13so472600iop.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2019 09:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=kudzu-us.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=B3XeR/vvhFX5T3xhEUVfhN+66+5CRtjMzWJuvF0MyAU=;
-	b=CYY4yzpdzm/nZGw5mInWhJfsH5Udcj6S0ZVO4saaVmv2aWcIb+7E2F8vNWrge0mayZ
-	ThaQxuJWQHfK3fZXBdK5TmPH60gsoFcH7qCJ3ICRjYTTpxAaS5a5bQm0iXnWSHfIzyvT
-	b4ABAGCPyu8XqPldHORWljL1ytOAIxn4EmSKlSEIYmMBgUUZCNl2iNbFxkx4W1KMzuc3
-	r9DwpqKXSGErAy0ut6aLR8zxWEHrWSclRPmn0zAmxSc3tWEYs4gLxEONO7eeOT+DCyFt
-	CF04i3uMRUrRWZ5DrXNtyHJkQEucCQBsRCJkWRLs74nEFpqNM3Fk/8r4fLJdg71qUWuV
-	0jgg==
+	Sun, 23 Jun 2019 09:44:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zZrSJTNQvK7UDbDDfc6CZflSeXreNPcMGRotUWaqQeQ=;
+	b=f2D6mbza/VDrgn6xXSOGzlYPgHUA5aZhJA7Nw5VZV+XaX37BQZsCnvU1o2xZuncJ4P
+	cyD9jicbfSSrg9mLwiPbbekFVZSaXST74hYTcAaWs2bQayXT1KDlOoODPvGcsoN4Pa1R
+	G1O/2r/limHhi5k6yRJ2kAyF9wyBiCjt+MjpiboGGr6DyKgqNHbKaDthpTgWURK93tQl
+	/Fyvlb2qRXHgsasUdi3tVRuFDWTgtHvdKF9IsYxBSDzyBTFcGnAhkA+fszXnD2k9JG4s
+	0AuZfdo4/1XAGdmeT6mZct2uw6KdMaqGe0Q8pDpS2LzXMhORtY4TwKgzFS79B+zezNgP
+	K5rQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=B3XeR/vvhFX5T3xhEUVfhN+66+5CRtjMzWJuvF0MyAU=;
-	b=IPag4mj84AA2q6O3fsi2Fy3Pb9CeJpSLevz03oNlfEgk0Ir1tIKSGh2XBGHh/VkzCF
-	xDoTdASQ31bq9VXGBQipXfEnv8PnIZUTdaAsyNZfKZ7aiejRVW6KO4X2Wxitq2C7KyBx
-	LRhrl5aM1Xgg8qURWnMCbPXfTP7CXzIpJZgj/yjcziuCmKT+KoPCiTvs3RfYu53WdjkS
-	qNWfVoUWqDkSEvVWT1vUlrxVfVVtO3FBRwYnZOPtbBo7sSJNiQkwZHprD3wKa8nf3XM0
-	S5lK2MzS1exXouBDVZBcY9crrsCUA1CUwokUjLmdj3lZ7YLrwRcWbrVQcHIYXaKlg0W8
-	jklA==
-X-Gm-Message-State: APjAAAVx8xSIRQwl5fqeJRZChENdlnucuG+qLTm3HFx8RMkNVL64AuyV
-	8tlvX7nLawZ3thSi1sTHfte2Mh/m9X9U0A==
-X-Google-Smtp-Source: APXvYqxCKGwYuiH3hWktErN5V+7pq1OQCi3aR90K/mEOZSqDkRvNathv83ZjvKhKN6RXj3ZBpzF57A==
-X-Received: by 2002:a25:bb46:: with SMTP id b6mr61004262ybk.50.1561306989169; 
-	Sun, 23 Jun 2019 09:23:09 -0700 (PDT)
-Received: from graymalkin (76-230-155-4.lightspeed.rlghnc.sbcglobal.net.
-	[76.230.155.4]) by smtp.gmail.com with ESMTPSA id
-	h84sm1848967ywh.28.2019.06.23.09.23.07
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 23 Jun 2019 09:23:08 -0700 (PDT)
-Received: by graymalkin (sSMTP sendmail emulation);
-	Sun, 23 Jun 2019 12:23:06 -0400
-From: Jon Mason <jdmason@kudzu.us>
-To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 12:23:06 -0400
-Message-Id: <20190623162306.13965-1-jdmason@kudzu.us>
-X-Mailer: git-send-email 2.21.0
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zZrSJTNQvK7UDbDDfc6CZflSeXreNPcMGRotUWaqQeQ=;
+	b=UjjW/zrF8NhVVjOtsXcHb1XChON2tG9Ws2WSH7GoBvqycWinTm/cSXAlQuJKbXQkjR
+	2suB023M4BO5xY8mX54YEs08DZibj8PehkbpBlGFWZylEwJE+dPFQw3uXyCOm1pt1MJZ
+	QPCnkyoXLpSkBqDJVqMSMzgxgIx+/OGockHiFiKqtxR7CM8KBPYjUrkSv+ImtevKt2VG
+	4srqU7/3cQdSW4iIuvRssM6g7s14ucvpWW+I2zS5thaY3+Q3BHoQ9AQTOnaT75gW07ZI
+	nBc3XC5x5MUO3YijJE8XZP7xvbq6In+1NVb32ny2dSSkqz4ah5M34YLqnLD8m2jAvj0Y
+	/aCg==
+X-Gm-Message-State: APjAAAVRUCjhSP0x1t4r5Dcs++lgKANHfsv3JYrbjzfiP0RSJWa00buy
+	U6Bjs9lAbKzGCc6l6Wedfg+HfTpZCNgMQjO+hS4=
+X-Google-Smtp-Source: APXvYqw37uxWTDc65PHmb2LzNBEXjRekGp4KvvIo/1eXcAycm+ufIkfCO9oEeRUWpdRWvYx3ciibgk5PppgTqdBpwu4=
+X-Received: by 2002:a5e:9241:: with SMTP id z1mr11978965iop.39.1561308258665; 
+	Sun, 23 Jun 2019 09:44:18 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH v3] oe_syslog.py: Handle syslogd/klogd restart race
+References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
+	<0f5adba2f96da9396faa1e70f9eed84118cf735e.1559950879.git.timothy.t.orling@linux.intel.com>
+	<CAMKF1sq5aOZ+6CSP+G88+JCYd4zMb6ZSe5MP5KWSSofPRbe4Ow@mail.gmail.com>
+	<CANx9H-DLg1_vSEi1bBSSLCmycdyEa2MiJjZ9d=Owsc5bsR-GBA@mail.gmail.com>
+	<CAMKF1sr+Ffk0nCd3aVhGfsdRreFX7cpqEAqH8606LMqg=-ijww@mail.gmail.com>
+	<20190622085840.GB9472@localhost>
+	<CAMKF1sq7AwbG_pM3sivhvQjaJ_mwR6R-GDEv5J23rpEYjsMT2Q@mail.gmail.com>
+In-Reply-To: <CAMKF1sq7AwbG_pM3sivhvQjaJ_mwR6R-GDEv5J23rpEYjsMT2Q@mail.gmail.com>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sun, 23 Jun 2019 09:44:07 -0700
+Message-ID: <CANx9H-C63ech2pPxYwirWJRE4-p9uQTA0zcBAzepYK0L4mth0Q@mail.gmail.com>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>, Adrian Bunk <bunk@stusta.de>
+Subject: Re: [PATCH 2/4] scons.bbclass: use python3-scons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,188 +60,121 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 23 Jun 2019 16:23:08 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Sun, 23 Jun 2019 16:44:17 -0000
+Content-Type: multipart/alternative; boundary="000000000000248b0c058c00683e"
 
-syslogd and klogd can occasionally take too long to restart, which
-causes tests to fail by starting before the log daemons are ready.  To
-work around this problem, poll for up to 30 seconds on the processes to
-verify the old ones are killed and the new ones are up and running.
-Similarly, add checks for rsyslogd and systemd-journald to possibly
-catch issues with those daemons.
+--000000000000248b0c058c00683e
+Content-Type: text/plain; charset="UTF-8"
 
-[YOCTO #13379]
+On Sat, Jun 22, 2019 at 5:03 PM Khem Raj <raj.khem@gmail.com> wrote:
 
-Signed-off-by: Jon Mason <jdmason@kudzu.us>
----
- meta/lib/oeqa/runtime/cases/oe_syslog.py | 125 +++++++++++++++++++++--
- 1 file changed, 117 insertions(+), 8 deletions(-)
+>
+>
+> On Sat, Jun 22, 2019 at 1:58 AM Adrian Bunk <bunk@stusta.de> wrote:
+>
+>> On Thu, Jun 20, 2019 at 09:27:15PM -0600, Khem Raj wrote:
+>> > On Thu, Jun 20, 2019 at 6:18 PM Tim Orling <ticotimo@gmail.com> wrote:
+>> >...
+>> > > Latest mongo release appears to be 4.3.0 and appears to support
+>> python3:
+>> > >
+>> > >
+>> > >
+>> https://github.com/mongodb/mongo/blob/89e7419a897b2270931c9c029abf6de555d83e0f/SConstruct
+>> > >
+>> > > Is this an aceptable upgrade? I am not savvy on which versions are
+>> > > desirable.
+>> >
+>> > Yes for master this upgrade is fine
+>>
+>> Are you approving the changed licence for OE,
+>> or were you not aware that this was the question?
+>>
+>
+> What has changed between 4.0.6 and 4.3.0 w.r.t. licensing ?
+>
 
-diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-index 0f5f9f43ca..40a52eb078 100644
---- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -6,6 +6,7 @@ from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
- from oeqa.core.decorator.data import skipIfDataVar
- from oeqa.runtime.decorator.package import OEHasPackage
-+import time
- 
- class SyslogTest(OERuntimeTestCase):
- 
-@@ -21,6 +22,110 @@ class SyslogTest(OERuntimeTestCase):
- 
- class SyslogTestConfig(OERuntimeTestCase):
- 
-+    @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-+    def rsyslog_restart_sanity(self, rsyslog_pid):
-+        status, output = self.target.run('/etc/init.d/rsyslog restart')
-+
-+        # Always check for an error, most likely a race between shutting down and starting up
-+        timeout = time.time() + 30
-+
-+        while time.time() < timeout:
-+            # Verify the previous ones are no longer running
-+            status, err_output = self.target.run('kill -0 %s' %rsyslog_pid)
-+            if not status:
-+                self.logger.debug("previous rsyslogd is still running")
-+                status = 1
-+                continue
-+
-+            # Verify the new ones are running
-+            status, new_rsyslog_pid = self.target.run('pidof rsyslogd')
-+            if status:
-+                self.logger.debug("new rsyslogd is not running")
-+                continue
-+
-+            # Everything is fine now, so keep running
-+            status = 0
-+            break
-+
-+        msg = ('Could not restart rsyslog service. Status and output:'
-+               ' %s and %s' % (status,output))
-+        self.assertEqual(status, 0, msg)
-+
-+
-+    @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-+    def systemd_journal_restart_sanity(self, journald_pid):
-+        status, output = self.target.run('systemctl restart syslog.service')
-+
-+        # Always check for an error, most likely a race between shutting down and starting up
-+        timeout = time.time() + 30
-+
-+        while time.time() < timeout:
-+            # Verify the previous ones are no longer running
-+            status, err_output = self.target.run('kill -0 %s' %journald_pid)
-+            if not status:
-+                self.logger.debug("previous systemd-journald is still running")
-+                status = 1
-+                continue
-+
-+            # Verify the new ones are running
-+            status, new_journald_pid = self.target.run('pidof systemd-journald')
-+            if status:
-+                self.logger.debug("new systemd-journald is not running")
-+                continue
-+
-+            # Everything is fine now, so keep running
-+            status = 0
-+            break
-+
-+        msg = ('Could not restart systemd-journald service. Status and output:'
-+               ' %s and %s' % (status,output))
-+        self.assertEqual(status, 0, msg)
-+
-+
-+    @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-+    def syslog_restart_sanity(self):
-+        status, syslogd_pid = self.target.run('pidof syslogd')
-+        status, klogd_pid = self.target.run('pidof klogd')
-+
-+        status, output = self.target.run('/etc/init.d/syslog restart')
-+
-+        # Always check for an error, most likely a race between shutting down and starting up
-+        timeout = time.time() + 30
-+
-+        while time.time() < timeout:
-+            # Verify the previous ones are no longer running
-+            status, err_output = self.target.run('kill -0 %s' %syslogd_pid)
-+            if not status:
-+                self.logger.debug("previous syslogd is still running")
-+                status = 1
-+                continue
-+
-+            status, err_output = self.target.run('kill -0 %s' %klogd_pid)
-+            if not status:
-+                self.logger.debug("previous klogd is still running")
-+                status = 1
-+                continue
-+
-+            # Verify the new ones are running
-+            status, new_syslogd_pid = self.target.run('pidof syslogd')
-+            if status:
-+                self.logger.debug("new syslogd is not running")
-+                continue
-+
-+            status, new_klogd_pid = self.target.run('pidof klogd')
-+            if status:
-+                self.logger.debug("new syslogd is not running")
-+                continue
-+
-+            # Everything is fine now, so keep running
-+            status = 0
-+            break
-+
-+        msg = ('Could not restart syslog service. Status and output:'
-+               ' %s and %s' % (status,output))
-+        self.assertEqual(status, 0, msg)
-+
-+
-     @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_logger(self):
-         status, output = self.target.run('logger foobar')
-@@ -37,12 +142,18 @@ class SyslogTestConfig(OERuntimeTestCase):
-                ' Output: %s ' % output)
-         self.assertEqual(status, 0, msg=msg)
- 
-+
-     @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_restart(self):
--        if "systemd" != self.tc.td.get("VIRTUAL-RUNTIME_init_manager", ""):
--            (_, _) = self.target.run('/etc/init.d/syslog restart')
-+        status, journal_pid = self.target.run('pidof systemd-journald')
-+        if not status:
-+            self.systemd_journal_restart_sanity(journal_pid)
-         else:
--            (_, _) = self.target.run('systemctl restart syslog.service')
-+            status, rsyslog_pid = self.target.run('pidof rsyslogd')
-+            if not status:
-+                self.rsyslog_restart_sanity(rsyslog_pid)
-+            else:
-+                self.syslog_restart_sanity()
- 
- 
-     @OETestDepends(['oe_syslog.SyslogTestConfig.test_syslog_logger'])
-@@ -52,10 +163,8 @@ class SyslogTestConfig(OERuntimeTestCase):
-     def test_syslog_startup_config(self):
-         cmd = 'echo "LOGFILE=/var/log/test" >> /etc/syslog-startup.conf'
-         self.target.run(cmd)
--        status, output = self.target.run('/etc/init.d/syslog restart')
--        msg = ('Could not restart syslog service. Status and output:'
--               ' %s and %s' % (status,output))
--        self.assertEqual(status, 0, msg)
-+
-+        self.syslog_restart_sanity()
- 
-         cmd = 'logger foobar && grep foobar /var/log/test'
-         status,output = self.target.run(cmd)
-@@ -64,4 +173,4 @@ class SyslogTestConfig(OERuntimeTestCase):
- 
-         cmd = "sed -i 's#LOGFILE=/var/log/test##' /etc/syslog-startup.conf"
-         self.target.run(cmd)
--        self.target.run('/etc/init.d/syslog restart')
-+        self.syslog_restart_sanity()
--- 
-2.21.0
+The Server Side License is already in 4.0.6
+https://github.com/mongodb/mongo/blob/caa42a1f75a56c7643d0b68d3880444375ec42e3/LICENSE-Community.txt
+
+4.2.0+ use python 3 in SConstruct
 
 
+>
+>> cu
+>> Adrian
+>>
+>> --
+>>
+>>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>>         of the darkness. There had been need of rain for many days.
+>>        "Only a promise," Lao Er said.
+>>                                        Pearl S. Buck - Dragon Seed
+>>
+>>
+
+--000000000000248b0c058c00683e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sat, Jun 22, 2019 at 5:03 PM Khem Raj &lt;<a href=3D"mai=
+lto:raj.khem@gmail.com">raj.khem@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex"><div><br></div><div><br><div class=3D"gmail_quote"><=
+div dir=3D"ltr" class=3D"gmail_attr">On Sat, Jun 22, 2019 at 1:58 AM Adrian=
+ Bunk &lt;<a href=3D"mailto:bunk@stusta.de" target=3D"_blank">bunk@stusta.d=
+e</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Thu, Jun 20, 20=
+19 at 09:27:15PM -0600, Khem Raj wrote:<br>
+&gt; On Thu, Jun 20, 2019 at 6:18 PM Tim Orling &lt;<a href=3D"mailto:ticot=
+imo@gmail.com" target=3D"_blank">ticotimo@gmail.com</a>&gt; wrote:<br>
+&gt;...<br>
+&gt; &gt; Latest mongo release appears to be 4.3.0 and appears to support p=
+ython3:<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; <a href=3D"https://github.com/mongodb/mongo/blob/89e7419a897b2270=
+931c9c029abf6de555d83e0f/SConstruct" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://github.com/mongodb/mongo/blob/89e7419a897b2270931c9c029abf6de555d83e=
+0f/SConstruct</a><br>
+&gt; &gt;<br>
+&gt; &gt; Is this an aceptable upgrade? I am not savvy on which versions ar=
+e<br>
+&gt; &gt; desirable.<br>
+&gt;<br>
+&gt; Yes for master this upgrade is fine<br>
+<br>
+Are you approving the changed licence for OE,<br>
+or were you not aware that this was the question?<br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">What has changed=
+ between 4.0.6 and 4.3.0 w.r.t. licensing ?</div></div></div><div><div clas=
+s=3D"gmail_quote"><div dir=3D"auto"></div></div></div></blockquote><div dir=
+=3D"auto"><br></div><div dir=3D"auto">The Server Side License is already in=
+ 4.0.6</div><div dir=3D"auto"><div><a href=3D"https://github.com/mongodb/mo=
+ngo/blob/caa42a1f75a56c7643d0b68d3880444375ec42e3/LICENSE-Community.txt">ht=
+tps://github.com/mongodb/mongo/blob/caa42a1f75a56c7643d0b68d3880444375ec42e=
+3/LICENSE-Community.txt</a></div><br></div><div dir=3D"auto">4.2.0+ use pyt=
+hon 3 in SConstruct</div><div dir=3D"auto"><br></div><blockquote class=3D"g=
+mail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-l=
+eft:1ex"><div><div class=3D"gmail_quote"><div dir=3D"auto"><br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex"><br>
+cu<br>
+Adrian<br>
+<br>
+-- <br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Is there not promise of rain?&quot; Ling T=
+an asked suddenly out<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 of the darkness. There had been need of rain fo=
+r many days.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Only a promise,&quot; Lao Er said.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Pearl S. =
+Buck - Dragon Seed<br>
+<br>
+</blockquote></div></div>
+</blockquote></div></div>
+
+--000000000000248b0c058c00683e--
