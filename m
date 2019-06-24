@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com
-	[209.85.215.179])
-	by mail.openembedded.org (Postfix) with ESMTP id EB6AD7E554
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
+	[209.85.210.182])
+	by mail.openembedded.org (Postfix) with ESMTP id A7F267E500
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 03:54:24 +0000 (UTC)
-Received: by mail-pg1-f179.google.com with SMTP id y72so6341800pgd.8
+	Mon, 24 Jun 2019 03:54:25 +0000 (UTC)
+Received: by mail-pf1-f182.google.com with SMTP id y15so2059764pfn.5
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2019 20:54:26 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=1n2vPLeCDDRPmB6KbITJbJYHgVolN8gPnOVMrJnuiqc=;
-	b=W9nWJP75rdDLS3y5cCZlxbhyvPxD1X1X2toLu30WMEYj5YDG6EnZDpPKqx7V0RIsKY
-	xkepMnkImDPDq4uLhTJe2d3tP5038rdw8+WkTkgYt7BmTXcrDPmSqhw8JvDYb31wtR/h
-	a0uawQ5XhxnqPoOt4GmMI+SMAQKKcJjQDO+/gvNvS/+IlusCKPxLMh5u/pkayTX6ZDmh
-	dY4QcIxdYEJ1QpdKO6hvYsZSQVhZMSVsH313AN3guK4cRjZWRs7EC/Ypc5uNhHWoi28h
-	TiuaQ9tM02fUArQexXmOmYmRFHdcXMHkd9iliPJd5+wY5FnbIkw1ZNDric4BtYmNEOgi
-	zLAA==
+	bh=HokWNm03tbEgDbaEk8dWV+fvkcfh8/CGSmzFWMaIq3o=;
+	b=NiueP8TzeeHGuY6G9ndBJY3FMTtw9P4iKeKBIFW2h8QzeRkVtnnM8YuxaAJO2SHTlK
+	HbAm1JuufEp+35YbZmobB/P+AE04v4o1iiCdvdPBGqimUATsLb20c3FsAF6rSOqoP5dZ
+	5vm37wxzpyXCnztexeN3tnfo1C+8LtIFYkzFYXZ7L6UsmWNnbMxVoRK+eDNSE88nfFVq
+	KBwnKTUy3Ly0IkalJRZBzfP5J0L2zNVGdTe08yorYe6nWpnAoWGpDpFR+1hHcJrz5dcj
+	BOiQ77FG79kij2R7vd2gmtSMihz+i71gN68x41bRzsWvu/jMPJshdTUO2H+Ly2JP0CKT
+	ZNWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=1n2vPLeCDDRPmB6KbITJbJYHgVolN8gPnOVMrJnuiqc=;
-	b=PvTcRhxHx13yR/YjECm1NzR/ZUfYXd4SFMNQZaJWYs438a+u0bG3ZyNyTffjaXTKpc
-	WbLoLZQqGtbTqyBBsBlUoo5qrjt0XpHbiMWkIqHbI/1SB1Sn5RNeZ+I0Wz//3I4M7GvG
-	xBRbAJGXJ3KTfQRJYmbNhSBNlavYGCQahMDRx0Ctr5B7jZmHyEEJ9lHTDqp/oNaZprao
-	Xr0OMRmbUWYQFClqs8huSqixo0tJylFoV2j4M9tp54jplVzqVafivR7CEr4qeb3rhrG8
-	ZQJNwVwnDqZ0EdII9/R6zIXztFOsDIgEvmiGGPQseD/NbfaICzWVpRaepYHu4XixN0q2
-	OExA==
-X-Gm-Message-State: APjAAAU5PtHHTMu4ab2qd+8END801ktVaCr6rop60kB2XDMTAEE2Pufr
-	LDM2KFxiSLhYqOUqdcKGv+Uho5jffuo=
-X-Google-Smtp-Source: APXvYqzsEkvZ+Aw8gtSpq2YWAobt3gGvN5hI57RI3IyU286FQ6sZqkgsQmjpIau6AFdgt+5+FxiSrA==
-X-Received: by 2002:a63:5d61:: with SMTP id o33mr31020745pgm.114.1561348465742;
-	Sun, 23 Jun 2019 20:54:25 -0700 (PDT)
+	bh=HokWNm03tbEgDbaEk8dWV+fvkcfh8/CGSmzFWMaIq3o=;
+	b=d7loyhYvwD9keB8qM5PnfeQ0hJubG4NKHbi2NRb6K6LoOGmDNfld/z8q/vjz97dy5R
+	V/iruuEKicztmlXCKHyNbCwhlPUqnLeO0q6v74q5uJxG2+ey7IGOLa4UY+7g2bqy86Xx
+	nqD5kOT/RjzWjcWw9cDe86t9r5j5pgfcZ0EC/qVMkt9g1qZN1pAqLi1O21SdJQ2TY4t/
+	lC7xBqYNW4r818JhGrKNyfj6fuCk7iI645P4RJt0c+d5fLPvWvNIWBFUO8NZYUUTTfg/
+	/G9BnpQuDWeTgVrT/VxYL+8qZGY1iDDrMiWHQz/igIswZILng3YJv3sXhPulw/KWfO6t
+	6oWQ==
+X-Gm-Message-State: APjAAAVfiQb2o45LyF2d0HjAvXA4C/lB9qGgxJiEohcgaiPNLY7dqOK0
+	ieXOhwjm7zboqVcEQ8BCwXsyaTZs4g8=
+X-Google-Smtp-Source: APXvYqzb6AyqKNmVG13JSsgvOgkPudtQiAiB37sU6EaPM25+LE6duLiWHA3ph89T4E42yclhNEezAw==
+X-Received: by 2002:a63:f953:: with SMTP id q19mr30657980pgk.367.1561348466573;
+	Sun, 23 Jun 2019 20:54:26 -0700 (PDT)
 Received: from localhost.localdomain ([2601:202:4180:c33:4917:1686:82c6:892f])
 	by smtp.gmail.com with ESMTPSA id
 	w132sm9837202pfd.78.2019.06.23.20.54.25
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Jun 2019 20:54:25 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:26 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 20:54:02 -0700
-Message-Id: <cdb40f32fc2f0fde01e89f24b4ca3894b2b02430.1561348290.git.akuster808@gmail.com>
+Date: Sun, 23 Jun 2019 20:54:03 -0700
+Message-Id: <d1d082bf5191fd45aa0bbd0d69730fabe620e654.1561348290.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561348290.git.akuster808@gmail.com>
 References: <cover.1561348290.git.akuster808@gmail.com>
-Subject: [Warrior][ 03/19] selftest/devtool: fix URI to MarkupSafe package
+Subject: [Warrior][ 04/19] diffutils/run-ptest: support to run at arbitrary path
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,32 +60,35 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Mon, 24 Jun 2019 03:54:25 -0000
 
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-PyPi packages are now hosted at files.pythonhosted.org.
+1. Run run-ptest at arbitrary path
 
-[YOCTO #13243]
+2. Fix large-subopt.in1 not found
+...
+|diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in1:
+No such file or directory
+|diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in2:
+No such file or directory
+...
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-extended/diffutils/diffutils/run-ptest | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 434a7b9..904ff69 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -393,7 +393,7 @@ class DevtoolAddTests(DevtoolBase):
-         tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-         self.track_for_cleanup(tempdir)
-         testver = '0.23'
--        url = 'https://pypi.python.org/packages/source/M/MarkupSafe/MarkupSafe-%s.tar.gz' % testver
-+        url = 'https://files.pythonhosted.org/packages/c0/41/bae1254e0396c0cc8cf1751cb7d9afc90a602353695af5952530482c963f/MarkupSafe-%s.tar.gz' % testver
-         testrecipe = 'python-markupsafe'
-         srcdir = os.path.join(tempdir, testrecipe)
-         # Test devtool add
+diff --git a/meta/recipes-extended/diffutils/diffutils/run-ptest b/meta/recipes-extended/diffutils/diffutils/run-ptest
+index 695c5e8..ad467d9 100644
+--- a/meta/recipes-extended/diffutils/diffutils/run-ptest
++++ b/meta/recipes-extended/diffutils/diffutils/run-ptest
+@@ -1,3 +1,4 @@
+ #!/bin/sh
+ 
+-make -C tests check-TESTS
++abs_ptestdir=`echo "$(cd "$(dirname "$0")"; pwd)"`
++make -C $abs_ptestdir/tests check-TESTS abs_top_srcdir="$abs_ptestdir"
 -- 
 2.7.4
 
