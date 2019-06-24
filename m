@@ -1,49 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 57EEC7E504
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com
+	[209.85.208.43])
+	by mail.openembedded.org (Postfix) with ESMTP id BAD446BA0E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 10:42:57 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id n4so13300937wrw.13
+	Mon, 24 Jun 2019 10:50:56 +0000 (UTC)
+Received: by mail-ed1-f43.google.com with SMTP id k21so21160215edq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 03:42:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=3XYrAvbD5wx2XwX7bjlTgr2FwPFHEqdslufpqwYEgRE=;
-	b=rvUUhD2iUCG4xoMcbjGpQD+Ursm89LqmzqTp93o2CshPAUJMmMyrgfPxtvF+Ozebyu
-	UbZiJzyboHtc31aVokJkDcOXzkfIHKAuu5HNjIZIc70HUnN4M+bq5dh9pQUtzkMgvt+m
-	sJhPv+xVihmUk8CrhM2khGc0SN73J+ngwbB/XjHfpkYWIdTQZAldhZ2OkbEV+3/gXTHB
-	ZC1PIY2uHBvQDF8nIEuNtC5cjUFWPMjOZkOaKo4WljIvrrcoBtzhz/dOhdK1cNwA462S
-	ztZ41Q3SIVCwUsQvMY4Km2kCLWwXBQK6b6fS6+E0vldiDLKdfE9t29n7Ms4zl+azeGFz
-	58eQ==
+	Mon, 24 Jun 2019 03:50:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=qhcpPxeXvYoiT0LfAnWoOMMboJIZkWaEpp6+UdDerRo=;
+	b=aOi1GmfZYc+oB7ywvka6UHPH8XiusqgLXCzhAq5uZgTCPW2Xq/evxU9qp1medqVJ0C
+	goWqeqPV4+NSGT81mKgHxtX93XoW1v3D4kgH3ffbpg6XBFEJo5NVxoccHf5ELRFmB2nu
+	I8mVV7iG6D1Bf0JcNYgcNhlfP0u6vmFXQ8+R0SQyQzM00k7zM/EDIUrnZbsUVC6d7E1o
+	p06hDDKYi37MrlirTmC60QTHUQA9Dam1DSVZg/gg7FHNWyLSf8lr+Ehy5Er+Da6o6ylE
+	2ZXrJ40IZuVqiuX3unFfA//3bFDg84uAz/Ct8ne3DRG/nYokAbUWq4pHA1k34sdNDZwJ
+	hPpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=3XYrAvbD5wx2XwX7bjlTgr2FwPFHEqdslufpqwYEgRE=;
-	b=QWbT/5nm4U9srYCpeZTMCRvVwHZ5DBrFKIOzmW3cWzpk7hm2jO2GwccFOvVLECFkGA
-	pfRbRUEacSWOQqtD7QQw7bY3TVYyYe+Vrwv8XzSQ8OazTO16vlq4P7ryAjbmUzmm9HXq
-	zWVdM6aK1jnX+pxJxK+wjr756meFVT6LaBQW6jWDrY6rchx10Ojq2oDH3+Jx4/MC4v/6
-	guciGwYZpCtMu9qB02Qy1tV6fxnxg03iZbhG8WpnlMeFlAWmcx3Eq3Iaq8XxoimgGLqK
-	Y4nkT+NCl7hxycf/j5m9wpvxrJFvFLuiwhOEEo1BKFrxFic7pf50zfLZzuWYuJjkphie
-	6K1w==
-X-Gm-Message-State: APjAAAUs5B9sHXPDAvaYIjb0huoepbx9FKM/hIaep5Dw+vwffMqwdkJ4
-	pyr986mdoOaRikP4e9SINvuR2tY1gG0=
-X-Google-Smtp-Source: APXvYqxhgM0Pbm8nz542tdH/uYLlOnPpAeP2rSCWzuqcJxlpZNn8EsIB+Y+Kdo5OsOb2vjeJNvAJNw==
-X-Received: by 2002:adf:ea45:: with SMTP id j5mr16199923wrn.281.1561372977650; 
-	Mon, 24 Jun 2019 03:42:57 -0700 (PDT)
-Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o126sm12827381wmo.1.2019.06.24.03.42.56
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Jun 2019 03:42:56 -0700 (PDT)
-From: Ross Burton <ross.burton@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Jun 2019 11:42:55 +0100
-Message-Id: <20190624104255.5544-1-ross.burton@intel.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cve-check: be idiomatic
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=qhcpPxeXvYoiT0LfAnWoOMMboJIZkWaEpp6+UdDerRo=;
+	b=K/an0057X76X/NUUfMoO7O6v4cCvCV67bI85DKdZR2HdjJlDOG6be1F+/c1AnwRMtc
+	4v5ohbOgoHH+wOvZ3F25Thx/U7cRIESsqh7OUXZSCeXomMA6r9ewR6Yumdo70IezCh2X
+	5HPFR13JS4CarWFaeY7WyPh7vPdYRxLqKhHD4Wg5qwV2vthqn8+5gE11Wy965RAiYgEu
+	yDtSbUKN6Bs6MJVFo6UtBP+STjB8SV1rnawrEIGur8xrTPo46bJAruHX2XzPlGCJLVpa
+	k/1r6emJDVwi0MlNerYeYiYqL9aJZXTKyBnB7Y7mVjHlJBNrAfgyUtx8GLjP/Jn1EMmn
+	YgPg==
+X-Gm-Message-State: APjAAAWEVVoU+nK2KqB2I4szQ2Hs2wyohLMcx+In/RynAMyPyfnoimSD
+	G2F12VI3tzYZawNPjAiCClgiJ8YcbuQ+/zXdnDI=
+X-Google-Smtp-Source: APXvYqxgFKNvaMPPmifkzeGPdvIK4dFSrZTJ/X6fx/y1D5sNmbFGIMJG7BpFRhDmoKz8tUunSohoAPGMN74sMVLEdwU=
+X-Received: by 2002:a17:906:1dcc:: with SMTP id
+	v12mr61037155ejh.110.1561373457359; 
+	Mon, 24 Jun 2019 03:50:57 -0700 (PDT)
+MIME-Version: 1.0
+References: <cover.1561348290.git.akuster808@gmail.com>
+	<741d44e74b13f0a21a9f3bd3226dfb2c7615840e.1561348290.git.akuster808@gmail.com>
+In-Reply-To: <741d44e74b13f0a21a9f3bd3226dfb2c7615840e.1561348290.git.akuster808@gmail.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Mon, 24 Jun 2019 12:50:47 +0200
+Message-ID: <CA+chaQcJiH9HfmZ2_8hiej_dcTBj_+yTMdtj31_ZddueAEf5bg@mail.gmail.com>
+To: Armin Kuster <akuster808@gmail.com>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [Warrior][ 02/19] linux-yocto: Add scsi_debug module when ptest is in DISTRO_FEATURES
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,74 +56,252 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 10:42:57 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 10:50:57 -0000
+Content-Type: multipart/alternative; boundary="00000000000049a78d058c0f962c"
 
-Instead of generating a series of indexes via range(len(list)), just iterate the
-list.
+--00000000000049a78d058c0f962c
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Ross Burton <ross.burton@intel.com>
----
- meta/classes/cve-check.bbclass | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+Hi,
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index 379f7121cc1..1e7e8dd4413 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -170,18 +170,19 @@ def check_cves(d, patched_cves):
- 
-     cves_unpatched = []
-     # CVE_PRODUCT can contain more than one product (eg. curl/libcurl)
--    bpn = d.getVar("CVE_PRODUCT").split()
-+    products = d.getVar("CVE_PRODUCT").split()
-     # If this has been unset then we're not scanning for CVEs here (for example, image recipes)
--    if len(bpn) == 0:
-+    if not products:
-         return ([], [])
-     pv = d.getVar("CVE_VERSION").split("+git")[0]
--    cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST"))
- 
-     # If the recipe has been whitlisted we return empty lists
-     if d.getVar("PN") in d.getVar("CVE_CHECK_PN_WHITELIST").split():
-         bb.note("Recipe has been whitelisted, skipping check")
-         return ([], [])
- 
-+    cve_whitelist = ast.literal_eval(d.getVar("CVE_CHECK_CVE_WHITELIST"))
-+
-     import sqlite3
-     db_file = d.getVar("CVE_CHECK_DB_FILE")
-     conn = sqlite3.connect(db_file)
-@@ -190,8 +191,8 @@ def check_cves(d, patched_cves):
-     query = """SELECT * FROM PRODUCTS WHERE
-                (PRODUCT IS '{0}' AND VERSION = '{1}' AND OPERATOR IS '=') OR
-                (PRODUCT IS '{0}' AND OPERATOR IS '<=');"""
--    for idx in range(len(bpn)):
--        for row in c.execute(query.format(bpn[idx],pv)):
-+    for product in products:
-+        for row in c.execute(query.format(product, pv)):
-             cve = row[1]
-             version = row[4]
- 
-@@ -200,15 +201,15 @@ def check_cves(d, patched_cves):
-             except:
-                 discardVersion = True
- 
--            if pv in cve_whitelist.get(cve,[]):
--                bb.note("%s-%s has been whitelisted for %s" % (bpn[idx], pv, cve))
-+            if pv in cve_whitelist.get(cve, []):
-+                bb.note("%s-%s has been whitelisted for %s" % (product, pv, cve))
-             elif cve in patched_cves:
-                 bb.note("%s has been patched" % (cve))
-             elif discardVersion:
-                 bb.debug(2, "Do not consider version %s " % (version))
-             else:
-                 cves_unpatched.append(cve)
--                bb.debug(2, "%s-%s is not patched for %s" % (bpn[idx], pv, cve))
-+                bb.debug(2, "%s-%s is not patched for %s" % (product, pv, cve))
-     conn.close()
- 
-     return (list(patched_cves), cves_unpatched)
--- 
-2.11.0
+I think this will backport also this warning:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-June/283912.=
+html
+
+can it be backported together with the fix for it from Bruce:
+http://lists.openembedded.org/pipermail/openembedded-core/2019-June/283913.=
+html
+I haven't noticed the fix itself on ML yet.
 
 
+On Mon, Jun 24, 2019 at 5:55 AM Armin Kuster <akuster808@gmail.com> wrote:
+
+> From: Mariano L=C3=B3pez <just.another.mariano@gmail.com>
+>
+> util-linux ptest requires the scsi_debug module to perform eject/mount
+> tests. This will conditionally add scsi_debug module when ptest is in
+> DISTRO_FEATURES.
+>
+> This doesn't include linux-yocto-tiny because the resulting image will
+> be too big and do_image would complain about this.
+>
+> [YOCTO #13301]
+>
+> Signed-off-by: Mariano L=C3=B3pez <just.another.mariano@gmail.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Armin Kuster <akuster808@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb | 1 +
+>  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb  | 1 +
+>  meta/recipes-kernel/linux/linux-yocto_4.19.bb    | 1 +
+>  meta/recipes-kernel/linux/linux-yocto_5.0.bb     | 1 +
+>  4 files changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> index 6604bdf..0836dc7 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_4.19.bb
+> @@ -41,3 +41,4 @@ KERNEL_FEATURES_append =3D " ${KERNEL_EXTRA_FEATURES}"
+>  KERNEL_FEATURES_append_qemuall=3D" cfg/virtio.scc"
+>  KERNEL_FEATURES_append_qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
+>  KERNEL_FEATURES_append_qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
+"
+> +KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> index 1fe28b1..b5e415f 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> @@ -41,3 +41,4 @@ KERNEL_FEATURES_append =3D " ${KERNEL_EXTRA_FEATURES}"
+>  KERNEL_FEATURES_append_qemuall=3D" cfg/virtio.scc"
+>  KERNEL_FEATURES_append_qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
+>  KERNEL_FEATURES_append_qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
+"
+> +KERNEL_FEATURES_append =3D "${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> index a5fdafe..cda4ecf 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_4.19.bb
+> @@ -47,3 +47,4 @@ KERNEL_FEATURES_append_qemuall=3D" cfg/virtio.scc"
+>  KERNEL_FEATURES_append_qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
+>  KERNEL_FEATURES_append_qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
+"
+>  KERNEL_FEATURES_append =3D " ${@bb.utils.contains("TUNE_FEATURES", "mx32=
+",
+> " cfg/x32.scc", "" ,d)}"
+> +KERNEL_FEATURES_append =3D " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> index da795d9..8aec315 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> @@ -50,3 +50,4 @@ KERNEL_FEATURES_append_qemuall=3D" cfg/virtio.scc"
+>  KERNEL_FEATURES_append_qemux86=3D" cfg/sound.scc cfg/paravirt_kvm.scc"
+>  KERNEL_FEATURES_append_qemux86-64=3D" cfg/sound.scc cfg/paravirt_kvm.scc=
+"
+>  KERNEL_FEATURES_append =3D " ${@bb.utils.contains("TUNE_FEATURES", "mx32=
+",
+> " cfg/x32.scc", "" ,d)}"
+> +KERNEL_FEATURES_append =3D " ${@bb.utils.contains("DISTRO_FEATURES",
+> "ptest", " features/scsi/scsi-debug.scc", "" ,d)}"
+> --
+> 2.7.4
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--00000000000049a78d058c0f962c
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi,<div><br></div><div>I think this will backport also thi=
+s warning:</div><div><a href=3D"http://lists.openembedded.org/pipermail/ope=
+nembedded-core/2019-June/283912.html">http://lists.openembedded.org/piperma=
+il/openembedded-core/2019-June/283912.html</a><br></div><div><br></div><div=
+>can it be backported together with the fix for it from Bruce:</div><div><a=
+ href=3D"http://lists.openembedded.org/pipermail/openembedded-core/2019-Jun=
+e/283913.html">http://lists.openembedded.org/pipermail/openembedded-core/20=
+19-June/283913.html</a><br></div><div>I haven&#39;t noticed the fix itself =
+on ML yet.</div><div><br></div></div><br><div class=3D"gmail_quote"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Mon, Jun 24, 2019 at 5:55 AM Armin Kuster=
+ &lt;<a href=3D"mailto:akuster808@gmail.com">akuster808@gmail.com</a>&gt; w=
+rote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0p=
+x 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">From: Mari=
+ano L=C3=B3pez &lt;<a href=3D"mailto:just.another.mariano@gmail.com" target=
+=3D"_blank">just.another.mariano@gmail.com</a>&gt;<br>
+<br>
+util-linux ptest requires the scsi_debug module to perform eject/mount<br>
+tests. This will conditionally add scsi_debug module when ptest is in<br>
+DISTRO_FEATURES.<br>
+<br>
+This doesn&#39;t include linux-yocto-tiny because the resulting image will<=
+br>
+be too big and do_image would complain about this.<br>
+<br>
+[YOCTO #13301]<br>
+<br>
+Signed-off-by: Mariano L=C3=B3pez &lt;<a href=3D"mailto:just.another.marian=
+o@gmail.com" target=3D"_blank">just.another.mariano@gmail.com</a>&gt;<br>
+Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfou=
+ndation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&gt;<b=
+r>
+Signed-off-by: Armin Kuster &lt;<a href=3D"mailto:akuster808@gmail.com" tar=
+get=3D"_blank">akuster808@gmail.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.19.bb" r=
+el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.19.bb</a> | 1 +<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.0.bb</a>=C2=A0 | 1 +<br=
+>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.19.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_4.19.bb</a>=C2=A0 =C2=A0 | 1 =
++<br>
+=C2=A0meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.0.bb</a>=C2=A0 =C2=A0 =C2=
+=A0| 1 +<br>
+=C2=A04 files changed, 4 insertions(+)<br>
+<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.1=
+9.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.19.bb</a> b/met=
+a/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.19.bb" rel=3D"nor=
+eferrer" target=3D"_blank">linux-yocto-rt_4.19.bb</a><br>
+index 6604bdf..0836dc7 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.19.bb" r=
+el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.19.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_4.19.bb" r=
+el=3D"noreferrer" target=3D"_blank">linux-yocto-rt_4.19.bb</a><br>
+@@ -41,3 +41,4 @@ KERNEL_FEATURES_append =3D &quot; ${KERNEL_EXTRA_FEATURES=
+}&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kv=
+m.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt=
+_kvm.scc&quot;<br>
++KERNEL_FEATURES_append =3D &quot;${@bb.utils.contains(&quot;DISTRO_FEATURE=
+S&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc&quot;, &quo=
+t;&quot; ,d)}&quot;<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.0=
+.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.0.bb</a> b/meta/=
+recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.0.bb" rel=3D"norefe=
+rrer" target=3D"_blank">linux-yocto-rt_5.0.bb</a><br>
+index 1fe28b1..b5e415f 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.0.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-rt_5.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">linux-yocto-rt_5.0.bb</a><br>
+@@ -41,3 +41,4 @@ KERNEL_FEATURES_append =3D &quot; ${KERNEL_EXTRA_FEATURES=
+}&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kv=
+m.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt=
+_kvm.scc&quot;<br>
++KERNEL_FEATURES_append =3D &quot;${@bb.utils.contains(&quot;DISTRO_FEATURE=
+S&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc&quot;, &quo=
+t;&quot; ,d)}&quot;<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.19.b=
+b" rel=3D"noreferrer" target=3D"_blank">linux-yocto_4.19.bb</a> b/meta/reci=
+pes-kernel/linux/<a href=3D"http://linux-yocto_4.19.bb" rel=3D"noreferrer" =
+target=3D"_blank">linux-yocto_4.19.bb</a><br>
+index a5fdafe..cda4ecf 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.19.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_4.19.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_4.19.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_4.19.bb</a><br>
+@@ -47,3 +47,4 @@ KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&qu=
+ot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kv=
+m.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt=
+_kvm.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append =3D &quot; ${@bb.utils.contains(&quot;TUNE_FEA=
+TURES&quot;, &quot;mx32&quot;, &quot; cfg/x32.scc&quot;, &quot;&quot; ,d)}&=
+quot;<br>
++KERNEL_FEATURES_append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_FEATUR=
+ES&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc&quot;, &qu=
+ot;&quot; ,d)}&quot;<br>
+diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.0.bb=
+" rel=3D"noreferrer" target=3D"_blank">linux-yocto_5.0.bb</a> b/meta/recipe=
+s-kernel/linux/<a href=3D"http://linux-yocto_5.0.bb" rel=3D"noreferrer" tar=
+get=3D"_blank">linux-yocto_5.0.bb</a><br>
+index da795d9..8aec315 100644<br>
+--- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.0.bb</a><br>
++++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_5.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">linux-yocto_5.0.bb</a><br>
+@@ -50,3 +50,4 @@ KERNEL_FEATURES_append_qemuall=3D&quot; cfg/virtio.scc&qu=
+ot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86=3D&quot; cfg/sound.scc cfg/paravirt_kv=
+m.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append_qemux86-64=3D&quot; cfg/sound.scc cfg/paravirt=
+_kvm.scc&quot;<br>
+=C2=A0KERNEL_FEATURES_append =3D &quot; ${@bb.utils.contains(&quot;TUNE_FEA=
+TURES&quot;, &quot;mx32&quot;, &quot; cfg/x32.scc&quot;, &quot;&quot; ,d)}&=
+quot;<br>
++KERNEL_FEATURES_append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_FEATUR=
+ES&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc&quot;, &qu=
+ot;&quot; ,d)}&quot;<br>
+-- <br>
+2.7.4<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
+
+--00000000000049a78d058c0f962c--
