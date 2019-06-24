@@ -1,53 +1,53 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id A1F497C786
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A944B6C132
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 09:46:45 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id u13so7346iop.0
+	Mon, 24 Jun 2019 10:22:43 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id k11so13303766wrl.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 02:46:46 -0700 (PDT)
+	Mon, 24 Jun 2019 03:22:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=PQMTUKF9G2N34+5HR3mm5D/oxZBTtrBmVygEQV9WxrY=;
-	b=v37rhHlcgPyh+mzH5vToCPd7DRhsgigHpC0x+vUv/MEdKKlxuNV37FORekhuAJEH/C
-	jQadTWrea+rJoA9wJ2QTqzOhr/fJgnkHE75S6UEdoUlbAE8lNH86MC7pHGVS/SoEzQbf
-	vuSP3whnNjhIPFn11zk0JMz2Js3CJ3SQsC/c1weDniQsSOBo0GCnE9ekz469lyWKBl5G
-	D7bN12o4/fbfNPI64T/AC0zYYfU7UMaEo/iwFBJs4iFrh7xKoOI0JrVCx7e5GgDqqyaE
-	TPzNIryZ4HsPObsA7fk89qSaeA0NwiggNn5wnY28HIgwXkPDb7xAeRbDekbLP34URUUm
-	KAqg==
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=+Ja4Xwl3h1B/ZvPOr+Hs/+U6MfAKJXVyM81TkAsFINk=;
+	b=KEQHq/llyAvxRLsyHG6XhHEXP5KWhRrcxWz3rG0qWu+BZa1smO4TRPiyzRMEL2lyGX
+	Ri5wNUk8cVW7MUr7+lVMYVkaGys2YI8WtmL1de2dyumibL2ChvqknLWv/i0fWicZ6ri8
+	kbHnRZk0z9azn9UQ7vt+HGHTanJsHnq+16VwA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=PQMTUKF9G2N34+5HR3mm5D/oxZBTtrBmVygEQV9WxrY=;
-	b=rhoCE6/bfAGc39EiDTVUBtCCMb7+gdUyXphClpvCRywvcvotszyvEe5me6VlI1Tdpc
-	fdPlzDWwKtdUjiulKKC9cNCDQ/ZhIgZNiE/aAdaXVPPD6eMM/FSwcBfQFDX9UkdCsNQs
-	ngcGQejB1njzuZq7m+WIV7rsXWxPqdxltAhakntuEilZ9xA2RccESxYzdR09oTXiQuqd
-	miOFed0w6lj+mZ6IiSBWevKvU2Tb0DeB9Xh30zIm+RWO9Ox8x2iGiaYWJ7d5d4G3hUuY
-	lcr8BMlq3Gq1kjy4/qPuZj7TaAjEAZyT+cqQSXC+2EeMxElY25SyRLsSZ8ABemJe4TUV
-	83Qw==
-X-Gm-Message-State: APjAAAWkfDpmR/XYmPiR4/2mOYTD+Q4LSBen8Ea2zAH25Xeq1qPIfOIM
-	8FN+9KO6bg6Da5Fge9FtKYN8R+T0QXwmANYRdnz2e0Nq
-X-Google-Smtp-Source: APXvYqxutJr0gJynaqUPw8Qm1gv4vnpcawfb5p9H2QFMZ3j+BYpaz5iyd2+OuEKQLSUdgZQe9QSv2rm7pBoQCRo4uTA=
-X-Received: by 2002:a05:6602:104:: with SMTP id
-	s4mr225210iot.200.1561369606661; 
-	Mon, 24 Jun 2019 02:46:46 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=+Ja4Xwl3h1B/ZvPOr+Hs/+U6MfAKJXVyM81TkAsFINk=;
+	b=rpp7Nzaq2GS8AbGZ0fpb+RTcxIGyQGIE6e3g/RtI60RZqLSFNfmL/mUSLu3/osq+JH
+	C+hOoF56YpWIZgIeNmZ1P82A4mfo3kasm5DhwTRxXPQ+CSanRTXVJYLkBHKdy2gnDCSk
+	8Mz0CO0qhjapjbWkydZaz2fj26ZgH8AGJxaAZOLybHffxOAnXer9HZwDnUnzD/47fc+f
+	kfHyQ2UcjxqHYeGgfGkSOwtwFHeBam6qLr1lVHea5Ao3NyrnmZagtlS7LgA8KQKQN7mT
+	k71/GTOVxWan86C6U7/4UnzuFvcgXsejkS2H1jdeJTzuzYC62fbEnTNZ4SrBeYEo8R48
+	cPBQ==
+X-Gm-Message-State: APjAAAXxpd1bEm5/XCKzFHU2I27qzEH5kl7FglD65jpg6x0eV4kqSRKx
+	rF/afA7jz2Fdsq/WvigVRuttmA==
+X-Google-Smtp-Source: APXvYqyrQ4OG/y4gucQ/17Ae7EYoxkFlvmS10Y1SXJCiEss2YqjQ5qffa0ws1yU0NqidX+Z6dNCPag==
+X-Received: by 2002:adf:ce88:: with SMTP id r8mr34115929wrn.42.1561371764220; 
+	Mon, 24 Jun 2019 03:22:44 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	s8sm12991575wra.55.2019.06.24.03.22.43
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 24 Jun 2019 03:22:43 -0700 (PDT)
+Message-ID: <cdffa8e2d2d7ed81450272040d6e18eceb447f08.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Adrian Bunk <bunk@stusta.de>, Armin Kuster <akuster808@gmail.com>
+Date: Mon, 24 Jun 2019 11:22:42 +0100
+In-Reply-To: <20190624073802.GA11015@localhost>
+References: <cover.1561348290.git.akuster808@gmail.com>
+	<b8d16e9d74688e91d6dee5e643b42fd5c4f887b4.1561348290.git.akuster808@gmail.com>
+	<20190624073802.GA11015@localhost>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <20190619135940.18544-1-lemagoup@gmail.com>
-	<20190619202149.GA12516@localhost>
-	<CAEz4NHp3y=GOXUBSb1K3Gv+fEW-5HD9A9nWRsgTvxdToMT0GJQ@mail.gmail.com>
-	<20190621110356.GO3459@hiutale>
-	<CAJTo0LZNdM8zb7E4r++zWY44RC2y2PebWsA4CBY7c6CGA-FfQg@mail.gmail.com>
-	<CAEz4NHqwLd1kSnKhANnvgC3JuUTQst0gcGdjZzC+NQDebTj_2g@mail.gmail.com>
-In-Reply-To: <CAEz4NHqwLd1kSnKhANnvgC3JuUTQst0gcGdjZzC+NQDebTj_2g@mail.gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Jun 2019 10:46:35 +0100
-Message-ID: <CAJTo0Lb5+uBSC6+1Hd6Xku2ncHB6wsKwL=RmhN=Y+GC+rYkndw@mail.gmail.com>
-To: Pierre Le Magourou <lemagoup@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [Warrior][ 15/19] texinfo-dummy-native: A little clean up of template.py
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,29 +60,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 09:46:45 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 10:22:44 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Thanks! :)
+On Mon, 2019-06-24 at 10:38 +0300, Adrian Bunk wrote:
+> On Sun, Jun 23, 2019 at 08:54:14PM -0700, Armin Kuster wrote:
+> > From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+> > 
+> > This is mainly whitespace clean up, plus using the with statement
+> > when
+> > writing files.
+> > ...
+> 
+> This patch and the next two look more like cleanup patches to me,
+> not changes that should go into a stable series.
 
-Ross
+FWIW the package.bbclass change is being requested to allow people to
+stop patching the class...
 
-On Mon, 24 Jun 2019 at 09:33, Pierre Le Magourou <lemagoup@gmail.com> wrote:
->
-> Hi,
->
-> > > This adds python3 urllib3 (python3-urllib3 in Debian) to build environment
-> > > dependencies. It's the first user of urllib3 in poky, AFAIK. Maybe
-> > > documentation could be updated too, e.g.
-> > > https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#brief-build-system-packages
-> >
-> > Somehow I didn't notice it, thanks.
-> >
-> > Pierre, can you rewrite this to use standard library instead of urllib3?
->
-> Yes of course,
-> I only need urrlib to fetch the NVD json feeds, so I don't need
-> urllib3, I can use standard library.
->
-> Pierre
+Cheers,
+
+Richard
+
 
