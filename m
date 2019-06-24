@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com
-	[209.85.210.182])
-	by mail.openembedded.org (Postfix) with ESMTP id A7F267E500
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8E1A57E529
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 03:54:25 +0000 (UTC)
-Received: by mail-pf1-f182.google.com with SMTP id y15so2059764pfn.5
+	Mon, 24 Jun 2019 03:54:26 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id 19so6705288pfa.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2019 20:54:27 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=HokWNm03tbEgDbaEk8dWV+fvkcfh8/CGSmzFWMaIq3o=;
-	b=NiueP8TzeeHGuY6G9ndBJY3FMTtw9P4iKeKBIFW2h8QzeRkVtnnM8YuxaAJO2SHTlK
-	HbAm1JuufEp+35YbZmobB/P+AE04v4o1iiCdvdPBGqimUATsLb20c3FsAF6rSOqoP5dZ
-	5vm37wxzpyXCnztexeN3tnfo1C+8LtIFYkzFYXZ7L6UsmWNnbMxVoRK+eDNSE88nfFVq
-	KBwnKTUy3Ly0IkalJRZBzfP5J0L2zNVGdTe08yorYe6nWpnAoWGpDpFR+1hHcJrz5dcj
-	BOiQ77FG79kij2R7vd2gmtSMihz+i71gN68x41bRzsWvu/jMPJshdTUO2H+Ly2JP0CKT
-	ZNWA==
+	bh=09fBQM5PXbgeBIlvoHw8otUOwgf+sk52AazqhYUx5PY=;
+	b=Rhh5CmWwEEqHaxQm3sIyhU3mA+T19Qqo3KwTH6li7RxOInWu7aeTHr3Nc7kZ5z9LKl
+	JNkQ7wFjHqJCiyjpf6SbqNfWSj9hwj/EV8LEJVCYEryeObwifJWlE/twhN/Op8FPTxGt
+	DyTKbUu4LS/zxYJvoC//+WiRNoDWT8uQiubpFpUGeyekWNTdAjFJ3hs7RMxyaf3Hyt8o
+	pkUzTgEaoidXcY6B9MpOl2CuJ3Buk7Ozf8SmbJFtdxyJL3a81M4IB8+h8+h5kmbeXu6E
+	Rcx/W83+fNHqjagNUgXKrImjkchGt3aSlVF9iVSGaltoL/FUQjHbEnzPY0brtDKx3p0n
+	/HBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=HokWNm03tbEgDbaEk8dWV+fvkcfh8/CGSmzFWMaIq3o=;
-	b=d7loyhYvwD9keB8qM5PnfeQ0hJubG4NKHbi2NRb6K6LoOGmDNfld/z8q/vjz97dy5R
-	V/iruuEKicztmlXCKHyNbCwhlPUqnLeO0q6v74q5uJxG2+ey7IGOLa4UY+7g2bqy86Xx
-	nqD5kOT/RjzWjcWw9cDe86t9r5j5pgfcZ0EC/qVMkt9g1qZN1pAqLi1O21SdJQ2TY4t/
-	lC7xBqYNW4r818JhGrKNyfj6fuCk7iI645P4RJt0c+d5fLPvWvNIWBFUO8NZYUUTTfg/
-	/G9BnpQuDWeTgVrT/VxYL+8qZGY1iDDrMiWHQz/igIswZILng3YJv3sXhPulw/KWfO6t
-	6oWQ==
-X-Gm-Message-State: APjAAAVfiQb2o45LyF2d0HjAvXA4C/lB9qGgxJiEohcgaiPNLY7dqOK0
-	ieXOhwjm7zboqVcEQ8BCwXsyaTZs4g8=
-X-Google-Smtp-Source: APXvYqzb6AyqKNmVG13JSsgvOgkPudtQiAiB37sU6EaPM25+LE6duLiWHA3ph89T4E42yclhNEezAw==
-X-Received: by 2002:a63:f953:: with SMTP id q19mr30657980pgk.367.1561348466573;
-	Sun, 23 Jun 2019 20:54:26 -0700 (PDT)
+	bh=09fBQM5PXbgeBIlvoHw8otUOwgf+sk52AazqhYUx5PY=;
+	b=liHh10ftsbzUbxXEoGqedhAczDb9BQfPpFKZIDa4Cuw2O9HMsaWogSdbmoNF1zipFM
+	2d6u/QH/nfcD5dDbx3iqPwys6SWS6yZcyBZlDDUe4mzTyEgLYaQ+f9vubLAqiA6ruDyf
+	F5Lv8X2ZXT8Tg+jTyHuHcQiydv1OSl8EiAoE0JWj5MlTjI+jBDZCvbBWpIzvSGPfxI5t
+	z0fYIvKOOxbs80eLG8SBlVYwDG0uGQ+3tUJPdfx/8QXHs1NiO6HAKBRP5u8JXBecuCMO
+	oT6POCa5ZYj963t9P2+naQju2jfWDQM6bsHbTlhNNtj3B0g1NUvj7NSiZ7ow1UTuVJVf
+	px/A==
+X-Gm-Message-State: APjAAAWJmsVZY/bAYOjGEA8banUaWK5GS7qtvbee9XzqnwxgPZ79ZEyh
+	yPE2+mZAxOmLkbMWtXvsaTp+W+Hwfys=
+X-Google-Smtp-Source: APXvYqzyZFrcwx1i9QLVMBIVnCPXsJrRmdWyMZYFCfFxyZ9ycjdvDpEk5kxGKYB8EZe4zzmZ88G+sQ==
+X-Received: by 2002:a65:5a4a:: with SMTP id z10mr12762984pgs.250.1561348467543;
+	Sun, 23 Jun 2019 20:54:27 -0700 (PDT)
 Received: from localhost.localdomain ([2601:202:4180:c33:4917:1686:82c6:892f])
 	by smtp.gmail.com with ESMTPSA id
-	w132sm9837202pfd.78.2019.06.23.20.54.25
+	w132sm9837202pfd.78.2019.06.23.20.54.26
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Jun 2019 20:54:26 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:27 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 20:54:03 -0700
-Message-Id: <d1d082bf5191fd45aa0bbd0d69730fabe620e654.1561348290.git.akuster808@gmail.com>
+Date: Sun, 23 Jun 2019 20:54:04 -0700
+Message-Id: <1d983957d1b039d94cef4bbf13b9c37fb453cf1f.1561348290.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561348290.git.akuster808@gmail.com>
 References: <cover.1561348290.git.akuster808@gmail.com>
-Subject: [Warrior][ 04/19] diffutils/run-ptest: support to run at arbitrary path
+Subject: [Warrior][ 05/19] devicetree.bbclass: Combine stderr into stdout to see actual dtc error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,37 +58,66 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 03:54:25 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 03:54:26 -0000
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Jaewon Lee <jaewon.lee@xilinx.com>
 
-1. Run run-ptest at arbitrary path
+Previously the subprocess command to run dtc was not properly displaying
+the error on console. Combining stderr into stdout for the dtc subprocess
+so the actual error can be seen on console without having to open the
+do_compile log.
 
-2. Fix large-subopt.in1 not found
-...
-|diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in1:
-No such file or directory
-|diff: /lib32-diffutils/3.7-r0/build/../diffutils-3.7/tests/large-subopt.in2:
-No such file or directory
-...
+For example, previously on a dtc error, just the following stack trace
+and dtc command was being shown on console:
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:devicetree_do_compile(d)
+     0003:
+File:
+function: devicetree_do_compile
+     0127:            if not(os.path.isfile(dtspath)) or
+not(dts.endswith(".dts") or devicetree_source_is_overlay(dtspath)):
+     0128:                continue # skip non-.dts files and non-overlay
+files
+     0129:        except:
+     0130:            continue # skip if can't determine if overlay
+ *** 0131:        devicetree_compile(dtspath, includes, d)
+
+    ...
+
+Exception: subprocess.CalledProcessError: Command '['dtc', '-R', '8',
+'-b', '0', '-p', '0x1000', '-i', '${INCLUDES}, '-o', 'system-top.dtb',
+'-I', 'dts', '-O', 'dtb', 'system-top.dts.pp']' returned non-zero exit
+status 1
+
+with this patch, the actual error from the dtc command will be appended
+like the following:
+
+Subprocess output:
+Error: Label or path not found
+FATAL ERROR: Syntax error parsing input tree
+
+Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/diffutils/diffutils/run-ptest | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ meta/classes/devicetree.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/diffutils/diffutils/run-ptest b/meta/recipes-extended/diffutils/diffutils/run-ptest
-index 695c5e8..ad467d9 100644
---- a/meta/recipes-extended/diffutils/diffutils/run-ptest
-+++ b/meta/recipes-extended/diffutils/diffutils/run-ptest
-@@ -1,3 +1,4 @@
- #!/bin/sh
+diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbclass
+index 5c03e4b..d8779c7 100644
+--- a/meta/classes/devicetree.bbclass
++++ b/meta/classes/devicetree.bbclass
+@@ -116,7 +116,7 @@ def devicetree_compile(dtspath, includes, d):
+     dtcargs += ["-o", "{0}.{1}".format(dtname, "dtbo" if isoverlay else "dtb")]
+     dtcargs += ["-I", "dts", "-O", "dtb", "{0}.pp".format(dts)]
+     bb.note("Running {0}".format(" ".join(dtcargs)))
+-    subprocess.run(dtcargs, check = True)
++    subprocess.run(dtcargs, check = True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
  
--make -C tests check-TESTS
-+abs_ptestdir=`echo "$(cd "$(dirname "$0")"; pwd)"`
-+make -C $abs_ptestdir/tests check-TESTS abs_top_srcdir="$abs_ptestdir"
+ python devicetree_do_compile() {
+     includes = expand_includes("DT_INCLUDE", d)
 -- 
 2.7.4
 
