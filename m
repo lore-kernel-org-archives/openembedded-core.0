@@ -1,54 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id D12517C5F0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id A65477C5F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 16:24:50 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id v14so14593527wrr.4
+	Mon, 24 Jun 2019 16:27:14 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id c66so4763wmf.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 09:24:52 -0700 (PDT)
+	Mon, 24 Jun 2019 09:27:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=5OnnMesH/B98ZvokqAWzPKchKzzxhH7/d7G7/gitSjw=;
-	b=gtD5b0JXY36lA2MXVUbKcHAzOi3i069+Qwebg+9I88zv7InAAU11RrKu5UX0UiNXz8
-	QNgeQ99sM/8pczCwM43VPE/0XZA9MVrU7BRRRhH8FSm3S7zxr7AHcQuEcpsAH+rBcuC6
-	xZ9uwvfufeDJmetN4/1NrTW6e0g3a20HbR8Zw=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Kihgc3vEQmjc2Ew/QrU6JS1R2IR6GYXhVF02Pl+ahrA=;
+	b=MOkUwfmGT55IdGfwh7Fza5TT2qT4tkHXk49nm6carcsyp9hrIphTxHDBkhHY0CCWo1
+	K0mGrU0olJR7VrNIRjgIVhukaLBZqAkQL/oM7t9pZL6ynj8Bl9qr8dkPSZdB+Ga86hMC
+	vyb0cb9yDofnwyxqjZoX23cimfkSiVWHC8ktZmMauERDur7tQSG6hvC0OyLeqp3kme7M
+	uvysoc+S4i/77NwHd4LbBT9BGw2yqrBi5d/1F04m8gSiT/LZCxogKWNbW0NBGr/rAVlB
+	hR0xu8zWGpVtFvO0J0XE5E+PJOuNYT/lg3KV/w54ejyDFO+47q+FQeJjGRVCI7g4PGEv
+	o0fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=5OnnMesH/B98ZvokqAWzPKchKzzxhH7/d7G7/gitSjw=;
-	b=quP5tIUxmgMg5BGyYHdAtGZP0cvb7chAgKoDjwm4vSo42PQaR9IfNjr0/61Ui8M4b9
-	Ec6odhiQC5YmVWYxdwFnZoR8YbGevl98nlCZwLRY52gx5RLegNbrpQfYFog8AytIMg2s
-	fhrJ0JIb2tZ0ZPu09h0uS35dej7JLmcRsVepLvRd6UbBTitesJm/M1dmtIq6AjEnrMSA
-	DSsLkIvj41b64jzNgWGW1y34EUVzHSC9ET1EDSAMIj+amxHgrAlZ1VqLTDSXz2N5cwJx
-	0fv3RhmlcEKx8GlbxOGEFKECMsuCKgZh42tPNrXqs3pQYWQWIW7p199whRnGaWzwBrvh
-	jekQ==
-X-Gm-Message-State: APjAAAV4SXMVYcF7dMQG4Ad3j85+rmL2F9BJ+KdlZdWd07iUEE25gInn
-	0VtA1a9E01ui8VKFYpTYOKsyMQ==
-X-Google-Smtp-Source: APXvYqwH4kIaWlTp+DDiP54rMQSOgNPxO5xJQP25iVVM3MGqZgYVMrXtte/PA12NhYPOTAQp9vDmIQ==
-X-Received: by 2002:adf:eecf:: with SMTP id a15mr34314105wrp.354.1561393491613;
-	Mon, 24 Jun 2019 09:24:51 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r12sm12494089wrt.95.2019.06.24.09.24.50
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 24 Jun 2019 09:24:51 -0700 (PDT)
-Message-ID: <5512c7f141dc10c8db23cd68fc2250f6f9043eb7.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Jun 2019 17:24:50 +0100
-In-Reply-To: <CAJTo0LbjqwN689jCZS6uG96E_vDVNCtYU8dJwC5PKzX1Z2rwGg@mail.gmail.com>
-References: <20190624111324.8921-1-ross.burton@intel.com>
-	<20190624111324.8921-2-ross.burton@intel.com>
-	<f3e5e0a4cfa0892ce122342361f9ab881ba68287.camel@linuxfoundation.org>
-	<CAJTo0LbjqwN689jCZS6uG96E_vDVNCtYU8dJwC5PKzX1Z2rwGg@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] oeqa/buildoptions: check that Fortran code actually cross-compiles
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Kihgc3vEQmjc2Ew/QrU6JS1R2IR6GYXhVF02Pl+ahrA=;
+	b=SA1D2PGFDC6Yf2Dp+wys74b7BGN7WMyTQRB9tDIKiXWx4JYEHu680GvqcXBPn5VVNZ
+	3usX7qgBKbrH9ftoeAKVPh6n23mPl6BiuuumEOnTIb0drUR3tF4UTDZhiAkpq9JqHr83
+	edmh25TtttVIE2PhN1K+p+K9GEWumSuEFCMCooOQ4n+SDQ9neszU0ZAdcEo1QQ4Bx54Y
+	jvWtPPS2KJCcyIVwFlJncP0i53/ZNpv43SbspY54sJ7/f/+y7Fsdbl/jcQp873/JJR3Q
+	9B9teOJNUyAUCZQgc5aHL4db6cOQCuNcUjWzFDjmHHj+zk2/zuxiNtesmSGUXXa4+uYG
+	v7vw==
+X-Gm-Message-State: APjAAAXajNNH7vwPMiXOeQZ+a6AO2MclTx7JxdcrbfIiagVM8lb/U/C2
+	zfD+a2LOTgkrydKC7Z/mCN6WR2SBgRM=
+X-Google-Smtp-Source: APXvYqzlPTXvpUA4nq9HFn2XYAty+FCcmYlOgr/5mlMaxs5NnnmPZd8bS4gQJZBquvifwc7ctciGaQ==
+X-Received: by 2002:a1c:f512:: with SMTP id t18mr16280468wmh.47.1561393634988; 
+	Mon, 24 Jun 2019 09:27:14 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	r5sm24685949wrg.10.2019.06.24.09.27.14
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Jun 2019 09:27:14 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Jun 2019 17:27:11 +0100
+Message-Id: <20190624162711.3879-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] gtk-icon-cache: rename intercept to update_gtk_icon_cache
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,48 +56,62 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 16:24:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 24 Jun 2019 16:27:15 -0000
 
-On Mon, 2019-06-24 at 17:21 +0100, Burton, Ross wrote:
-> On Mon, 24 Jun 2019 at 17:09, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> > > -        features += 'RUNTIMETARGET_append_pn-gcc-runtime = "
-> > > libquadmath"\n'
-> > 
-> > Please don't remove that. We need to check libquadmath builds.
-> 
-> From gcc-runtime.inc:
-> 
-> RUNTIMETARGET = "${RUNTIMELIBSSP} libstdc++-v3 libgomp libatomic
-> ${RUNTIMELIBITM} \
->     ${@bb.utils.contains_any('FORTRAN', [',fortran',',f77'],
-> 'libquadmath', '', d)} \
-> "
-> 
-> So this is redundant?
+The intercept is called update_icon_cache which is vague: rename to
+update_gtk_icon_cache to make it clearer what it is for, and add a comment
+explaining what class caused it to be used.
 
-Yes, that was indeed fixed properly.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/gtk-icon-cache.bbclass                                   | 4 ++--
+ .../postinst-intercepts/{update_icon_cache => update_gtk_icon_cache}  | 3 ++-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+ rename scripts/postinst-intercepts/{update_icon_cache => update_gtk_icon_cache} (76%)
 
-meta/conf/local.conf.sample.extended needs the same fix.
-
-> > >          self.write_config(features)
-> > > -
-> > > -        bitbake('gcc-runtime libgfortran')
-> > > +        bitbake('fortran-helloworld')
-> > 
-> > Doesn't this stop testing libgfortran builds too?
-> 
-> Possibly.  I admit I don't know what libgfortran is for considering
-> my test builds apparently without it. :)
-
-That maybe but I'd still like to test that it builds given it was added
-due to problems where it stopped building and people got upset...
-
-Cheers,
-
-Richard
-
+diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+index 66fe781bd2c..91cb4ad4090 100644
+--- a/meta/classes/gtk-icon-cache.bbclass
++++ b/meta/classes/gtk-icon-cache.bbclass
+@@ -6,7 +6,7 @@ PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+ 
+ gtk_icon_cache_postinst() {
+ if [ "x$D" != "x" ]; then
+-	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} \
++	$INTERCEPT_DIR/postinst_intercept update_gtk_icon_cache ${PKG} \
+ 		mlprefix=${MLPREFIX} \
+ 		libdir_native=${libdir_native}
+ else
+@@ -24,7 +24,7 @@ fi
+ 
+ gtk_icon_cache_postrm() {
+ if [ "x$D" != "x" ]; then
+-	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} \
++	$INTERCEPT_DIR/postinst_intercept update_gtk_icon_cache ${PKG} \
+ 		mlprefix=${MLPREFIX} \
+ 		libdir=${libdir}
+ else
+diff --git a/scripts/postinst-intercepts/update_icon_cache b/scripts/postinst-intercepts/update_gtk_icon_cache
+similarity index 76%
+rename from scripts/postinst-intercepts/update_icon_cache
+rename to scripts/postinst-intercepts/update_gtk_icon_cache
+index 212209a9daf..99367a2855a 100644
+--- a/scripts/postinst-intercepts/update_icon_cache
++++ b/scripts/postinst-intercepts/update_gtk_icon_cache
+@@ -2,10 +2,11 @@
+ #
+ # SPDX-License-Identifier: MIT
+ #
++# Post-install intercept for gtk-icon-cache.bbclass
+ 
+ set -e
+ 
+-# update native pixbuf loaders
++# Update native pixbuf loaders
+ $STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+ 
+ for icondir in $D/usr/share/icons/*/ ; do
+-- 
+2.11.0
 
 
