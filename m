@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 8E1A57E529
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com
+	[209.85.214.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 6F4607E539
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 03:54:26 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id 19so6705288pfa.4
+	Mon, 24 Jun 2019 03:54:27 +0000 (UTC)
+Received: by mail-pl1-f170.google.com with SMTP id cl9so6071029plb.10
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 23 Jun 2019 20:54:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=09fBQM5PXbgeBIlvoHw8otUOwgf+sk52AazqhYUx5PY=;
-	b=Rhh5CmWwEEqHaxQm3sIyhU3mA+T19Qqo3KwTH6li7RxOInWu7aeTHr3Nc7kZ5z9LKl
-	JNkQ7wFjHqJCiyjpf6SbqNfWSj9hwj/EV8LEJVCYEryeObwifJWlE/twhN/Op8FPTxGt
-	DyTKbUu4LS/zxYJvoC//+WiRNoDWT8uQiubpFpUGeyekWNTdAjFJ3hs7RMxyaf3Hyt8o
-	pkUzTgEaoidXcY6B9MpOl2CuJ3Buk7Ozf8SmbJFtdxyJL3a81M4IB8+h8+h5kmbeXu6E
-	Rcx/W83+fNHqjagNUgXKrImjkchGt3aSlVF9iVSGaltoL/FUQjHbEnzPY0brtDKx3p0n
-	/HBw==
+	bh=0BMIxyQzRzmyi3UcpVG9xDV+PMTUuTIj2w8WQbYyO1A=;
+	b=YNTJqAibX8qcOdYOd9ExiFLkbcxPsOHoiAixaQgmLtXz7Ds3yw/81jEgQCCe7mQ4fX
+	KZ4qcKeq4jMbaigmBd+c1kvBTjimXDI7ZasiIZrnZWHl1ErWsLtm/w2hkws133r6GP3j
+	xPGzWYNDEtWuqwHHBax8VSKekAeYisU4iUksBJLBKxMSvrl24gt5E3EaOOAkYn8MVvPH
+	Dod6dYxoYKlkyZobdHdq42EUyAyHw1M/HxZO4tdypq4geFsQ5OqtEu/Hp+oPlsBIzuih
+	L4bszg9MRDz36hUqOFtSjgPQe1i5g/+woy3O6iDM9mPqx/kLXiNi8rNpYFrQSzo5MiD6
+	bC4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=09fBQM5PXbgeBIlvoHw8otUOwgf+sk52AazqhYUx5PY=;
-	b=liHh10ftsbzUbxXEoGqedhAczDb9BQfPpFKZIDa4Cuw2O9HMsaWogSdbmoNF1zipFM
-	2d6u/QH/nfcD5dDbx3iqPwys6SWS6yZcyBZlDDUe4mzTyEgLYaQ+f9vubLAqiA6ruDyf
-	F5Lv8X2ZXT8Tg+jTyHuHcQiydv1OSl8EiAoE0JWj5MlTjI+jBDZCvbBWpIzvSGPfxI5t
-	z0fYIvKOOxbs80eLG8SBlVYwDG0uGQ+3tUJPdfx/8QXHs1NiO6HAKBRP5u8JXBecuCMO
-	oT6POCa5ZYj963t9P2+naQju2jfWDQM6bsHbTlhNNtj3B0g1NUvj7NSiZ7ow1UTuVJVf
-	px/A==
-X-Gm-Message-State: APjAAAWJmsVZY/bAYOjGEA8banUaWK5GS7qtvbee9XzqnwxgPZ79ZEyh
-	yPE2+mZAxOmLkbMWtXvsaTp+W+Hwfys=
-X-Google-Smtp-Source: APXvYqzyZFrcwx1i9QLVMBIVnCPXsJrRmdWyMZYFCfFxyZ9ycjdvDpEk5kxGKYB8EZe4zzmZ88G+sQ==
-X-Received: by 2002:a65:5a4a:: with SMTP id z10mr12762984pgs.250.1561348467543;
-	Sun, 23 Jun 2019 20:54:27 -0700 (PDT)
+	bh=0BMIxyQzRzmyi3UcpVG9xDV+PMTUuTIj2w8WQbYyO1A=;
+	b=hB7WLc861uO/LHwV+xF49UKEDXQb45+6ABYKms9ynibQ9W/mIJiVz/ORFYwQYfFYPo
+	Lg9nwxqCjn62hCJyxENRuguKJbZ7z1V/CWkv/PyOsaOHeblzsRnnw4vvfCI/B14sqbO8
+	yeXFe6LdAwtX9L0dwBVRW49d1Ix6FptQ2qw/XGL8fIAU1xu6HbNn0EaSGgkYebTJOXYT
+	MhFsoa3lcZeXwvRHWW1uJI9KMGnffTG9CX4IkVDMbiH9GXwnq6THOEQNjmS8YjFsvjCg
+	usgufTt3F4hwLGL0MXSlWcoN/tjRzX1TGpYOZUNbDCeNWEwOOUACa+iRLLmY+a6zWTl8
+	FORQ==
+X-Gm-Message-State: APjAAAXgpqDIjVgwIJ//Rbd6C4z790rz5wQjkxBX7qLZIyKfdlVFYrVk
+	5pUIk4M+AKzOtoUTKQqrYoU6TQ4uHUw=
+X-Google-Smtp-Source: APXvYqyh5ema3UH62GC/76MjVMfAWEB8bwLy4BxXQMH1HTxBVYIXBhT85jXrN6WnuMf/7YhK+rl9qQ==
+X-Received: by 2002:a17:902:5c2:: with SMTP id
+	f60mr144771153plf.61.1561348468343; 
+	Sun, 23 Jun 2019 20:54:28 -0700 (PDT)
 Received: from localhost.localdomain ([2601:202:4180:c33:4917:1686:82c6:892f])
 	by smtp.gmail.com with ESMTPSA id
-	w132sm9837202pfd.78.2019.06.23.20.54.26
+	w132sm9837202pfd.78.2019.06.23.20.54.27
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
 	Sun, 23 Jun 2019 20:54:27 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 20:54:04 -0700
-Message-Id: <1d983957d1b039d94cef4bbf13b9c37fb453cf1f.1561348290.git.akuster808@gmail.com>
+Date: Sun, 23 Jun 2019 20:54:05 -0700
+Message-Id: <7bfc913b468d308bead91380dee089318b8e5a13.1561348290.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561348290.git.akuster808@gmail.com>
 References: <cover.1561348290.git.akuster808@gmail.com>
-Subject: [Warrior][ 05/19] devicetree.bbclass: Combine stderr into stdout to see actual dtc error
+Subject: [Warrior][ 06/19] context.py: fix skipping function
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,66 +59,100 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 03:54:26 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 03:54:27 -0000
 
-From: Jaewon Lee <jaewon.lee@xilinx.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-Previously the subprocess command to run dtc was not properly displaying
-the error on console. Combining stderr into stdout for the dtc subprocess
-so the actual error can be seen on console without having to open the
-do_compile log.
+The current codes to skip test cases are logically correct, but they
+do not work correctly in reality. It does skip the tests as the command
+line argument specifies, but the related information is wrong.
+e.g.
+$ oe-selftest -R archiver bblayers runtime_test
+2019-06-17 09:24:53,764 - oe-selftest - WARNING - meta-selftest layer not found in BBLAYERS, adding it
+2019-06-17 09:25:06,309 - oe-selftest - INFO - Adding layer libraries:
+2019-06-17 09:25:06,310 - oe-selftest - INFO - 	      /buildarea5/chenqi/SWAT/poky/meta/lib
+2019-06-17 09:25:06,310 - oe-selftest - INFO - 	      /buildarea5/chenqi/SWAT/poky/meta-yocto-bsp/lib
+2019-06-17 09:25:06,310 - oe-selftest - INFO - 	      /buildarea5/chenqi/SWAT/poky/meta-selftest/lib
+2019-06-17 09:25:06,312 - oe-selftest - INFO - Running bitbake -e to test the configuration is valid/parsable
+2019-06-17 09:25:10,521 - oe-selftest - INFO - Adding: "include selftest.inc" in /buildarea5/chenqi/SWAT/poky/build-selftest/conf/local.conf
+2019-06-17 09:25:10,521 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2019-06-17 09:25:10,522 - oe-selftest - INFO - test_archiver_allows_to_filter_on_recipe_name (archiver.Archiver)
+2019-06-17 09:25:10,522 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "runtime_test"'
+2019-06-17 09:25:10,522 - oe-selftest - INFO - Skip by the command line argument "runtime_test"
+2019-06-17 09:25:10,523 - oe-selftest - INFO - test_archiver_filters_by_type (archiver.Archiver)
+2019-06-17 09:25:10,523 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "runtime_test"'
+2019-06-17 09:25:10,523 - oe-selftest - INFO - Skip by the command line argument "runtime_test"
 
-For example, previously on a dtc error, just the following stack trace
-and dtc command was being shown on console:
+The archiver.Archiver.xxx tests should be skipped by 'archiver' command line
+argument, not 'runtime_test'.
 
-File: 'exec_python_func() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:devicetree_do_compile(d)
-     0003:
-File:
-function: devicetree_do_compile
-     0127:            if not(os.path.isfile(dtspath)) or
-not(dts.endswith(".dts") or devicetree_source_is_overlay(dtspath)):
-     0128:                continue # skip non-.dts files and non-overlay
-files
-     0129:        except:
-     0130:            continue # skip if can't determine if overlay
- *** 0131:        devicetree_compile(dtspath, includes, d)
+Change to use a function generator to achieve the desired effect. After the change,
+the effect is as follows.
 
-    ...
+$ oe-selftest -R archiver bblayers runtime_test
+2019-06-17 09:19:06,223 - oe-selftest - WARNING - meta-selftest layer not found in BBLAYERS, adding it
+2019-06-17 09:19:19,598 - oe-selftest - INFO - Adding layer libraries:
+2019-06-17 09:19:19,599 - oe-selftest - INFO - 	      /buildarea5/chenqi/SWAT/poky/meta/lib
+2019-06-17 09:19:19,599 - oe-selftest - INFO - 	      /buildarea5/chenqi/SWAT/poky/meta-yocto-bsp/lib
+2019-06-17 09:19:19,599 - oe-selftest - INFO - 	      /buildarea5/chenqi/SWAT/poky/meta-selftest/lib
+2019-06-17 09:19:19,602 - oe-selftest - INFO - Running bitbake -e to test the configuration is valid/parsable
+2019-06-17 09:19:24,368 - oe-selftest - INFO - Adding: "include selftest.inc" in /buildarea5/chenqi/SWAT/poky/build-selftest/conf/local.conf
+2019-06-17 09:19:24,368 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+2019-06-17 09:19:24,369 - oe-selftest - INFO - test_archiver_allows_to_filter_on_recipe_name (archiver.Archiver)
+2019-06-17 09:19:24,369 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "archiver"'
+2019-06-17 09:19:24,369 - oe-selftest - INFO - Skip by the command line argument "archiver"
+2019-06-17 09:19:24,369 - oe-selftest - INFO - test_archiver_filters_by_type (archiver.Archiver)
+2019-06-17 09:19:24,370 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "archiver"'
+2019-06-17 09:19:24,370 - oe-selftest - INFO - Skip by the command line argument "archiver"
+2019-06-17 09:19:24,370 - oe-selftest - INFO - test_archiver_filters_by_type_and_name (archiver.Archiver)
+2019-06-17 09:19:24,370 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "archiver"'
+2019-06-17 09:19:24,371 - oe-selftest - INFO - Skip by the command line argument "archiver"
+2019-06-17 09:19:24,371 - oe-selftest - INFO - test_archiver_srpm_mode (archiver.Archiver)
+2019-06-17 09:19:24,371 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "archiver"'
+2019-06-17 09:19:24,372 - oe-selftest - INFO - Skip by the command line argument "archiver"
+2019-06-17 09:19:24,372 - oe-selftest - INFO - test_bitbakelayers_add_remove (bblayers.BitbakeLayers)
+2019-06-17 09:19:24,373 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "bblayers"'
+2019-06-17 09:19:24,373 - oe-selftest - INFO - Skip by the command line argument "bblayers"
+2019-06-17 09:19:24,373 - oe-selftest - INFO - test_bitbakelayers_createlayer (bblayers.BitbakeLayers)
+2019-06-17 09:19:24,373 - oe-selftest - INFO -  ... skipped 'Skip by the command line argument "bblayers"'
+2019-06-17 09:19:24,374 - oe-selftest - INFO - Skip by the command line argument "bblayers"
+[snip]
 
-Exception: subprocess.CalledProcessError: Command '['dtc', '-R', '8',
-'-b', '0', '-p', '0x1000', '-i', '${INCLUDES}, '-o', 'system-top.dtb',
-'-I', 'dts', '-O', 'dtb', 'system-top.dts.pp']' returned non-zero exit
-status 1
-
-with this patch, the actual error from the dtc command will be appended
-like the following:
-
-Subprocess output:
-Error: Label or path not found
-FATAL ERROR: Syntax error parsing input tree
-
-Signed-off-by: Jaewon Lee <jaewon.lee@xilinx.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/devicetree.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/core/context.py | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/devicetree.bbclass b/meta/classes/devicetree.bbclass
-index 5c03e4b..d8779c7 100644
---- a/meta/classes/devicetree.bbclass
-+++ b/meta/classes/devicetree.bbclass
-@@ -116,7 +116,7 @@ def devicetree_compile(dtspath, includes, d):
-     dtcargs += ["-o", "{0}.{1}".format(dtname, "dtbo" if isoverlay else "dtb")]
-     dtcargs += ["-I", "dts", "-O", "dtb", "{0}.pp".format(dts)]
-     bb.note("Running {0}".format(" ".join(dtcargs)))
--    subprocess.run(dtcargs, check = True)
-+    subprocess.run(dtcargs, check = True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+diff --git a/meta/lib/oeqa/core/context.py b/meta/lib/oeqa/core/context.py
+index 0962704..5824489 100644
+--- a/meta/lib/oeqa/core/context.py
++++ b/meta/lib/oeqa/core/context.py
+@@ -9,6 +9,7 @@ import json
+ import time
+ import logging
+ import collections
++import unittest
  
- python devicetree_do_compile() {
-     includes = expand_includes("DT_INCLUDE", d)
+ from oeqa.core.loader import OETestLoader
+ from oeqa.core.runner import OETestRunner
+@@ -45,10 +46,14 @@ class OETestContext(object):
+     def skipTests(self, skips):
+         if not skips:
+             return
++        def skipfuncgen(skipmsg):
++            def func():
++                raise unittest.SkipTest(skipmsg)
++            return func
+         for test in self.suites:
+             for skip in skips:
+                 if test.id().startswith(skip):
+-                    setattr(test, 'setUp', lambda: test.skipTest('Skip by the command line argument "%s"' % skip))
++                    setattr(test, 'setUp', skipfuncgen('Skip by the command line argument "%s"' % skip))
+ 
+     def loadTests(self, module_paths, modules=[], tests=[],
+             modules_manifest="", modules_required=[], filters={}):
 -- 
 2.7.4
 
