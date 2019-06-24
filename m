@@ -1,55 +1,49 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id D548A7E466
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 339A4605BA
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 12:44:46 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id r185so384823iod.6
+	Mon, 24 Jun 2019 13:53:18 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id z23so13481471wma.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 05:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=BwMKq1vwZ6/Klh8U7oLx5ms0bObqttRwHnszsfnIcPo=;
-	b=t6obZIiWRSzauZ3Gu3g+GOI8FJlvgmln4GTYHCNQKvtUQwKVnDH6E++J4DjMO6MJI/
-	+kUb2ey9Ay0UNW02kbnnyx4C1AA9i1uCgp0myJWWIyGYt2D/3rNwM8vBRlm5pVwy57jI
-	x8yW1a8akncIMuEu/gLVGvbcHpEBZyE/zwWKXlLmoJERu5MN8Pdvo9+cyQ7MnwHuCCks
-	/WGaCekBfGB8VS0FkZRFhx+JtmzoLAAn0GhMMbWBbX2fLdGEdRk/cGmQ88vSPYDcIEH+
-	cuJFewG2cQYd5xdyRv9XejOdPtEpk21RvDwB/wG/gIi50mgYFdCnCTVot4V7CXwUOlHD
-	ZvBA==
+	Mon, 24 Jun 2019 06:53:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=cWeAWPhCCHjsHhu2NYu9ESDNzdYyQfkmjCgBZyvKYls=;
+	b=OpjEypHy8CtbedBPMCQgLvWuaEVtUvShSJyrVjTt/n+5xFRmBemrOA48IRI8PG0O+Y
+	6N7338XtAIuHoxewfq5O6FK0w86/Q2OIsUMZpCrwL6ibARqNGPoDi9kNLV3p+vxGHSou
+	9vyl9oPKX+n7F5WoRBTnlukQeqR0zzG41GoMxpR8cOOcgygvOhU4HrG6R4gShAI5nhHc
+	VsTeHmEyjODALoogt9YeZNZIpzsBh6myj6WFDcuvvhAWPaIaslzBD/OualU4F1ykz37Y
+	I2cN0ZadB3yvPTIBFO7gk2KiehC7q/J70RkcPEb5EOzTOetIkjSBTXsVkCFUe5qdvWYz
+	J6zA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=BwMKq1vwZ6/Klh8U7oLx5ms0bObqttRwHnszsfnIcPo=;
-	b=PD0bOJy1gVz1avmp59IQ4Vu5brkGzjJAM6QB5knlDf3j4KS7K6+LrF0IKB6fWMs2SI
-	u8lCWP2AAh2OWCwFkFKpO3SkUYlVjqmKrmCERC+49IhwOS9EmZtpZaxynYr7BPkZYA0X
-	uFLGSZDamoy4KDqaYC+pzUEin0b2adEi2E+9480SQeF6FTd391yKuOx/1dJFnyKm0Q6u
-	P9KChPokqycDTWGQS2AVduf5mUOxm1Gro5g0IynQwnAKMtuB1I0wxymUGtT7wj93zRSE
-	hUc30q96/6Y/d7cg40XRLkqY7xZVaMZt2uOAjJz66h6VQTd0RGPLW2FK6wVHpywyMIIj
-	Gpjg==
-X-Gm-Message-State: APjAAAXM4qeJx+F37sbdZIdCbULbyMnMF2KdtcBFyV9yxy+m9EHIUKX9
-	np61fsHQlQrK+wd4H3I4Evg=
-X-Google-Smtp-Source: APXvYqxv+H7jF0J72eFTQMafU3CEnyDg4kBwnFGBIphSbgWBAXttRmW2IH2INK7aOB7bDifkDAvMOA==
-X-Received: by 2002:a05:6602:220a:: with SMTP id
-	n10mr680755ion.205.1561380287902; 
-	Mon, 24 Jun 2019 05:44:47 -0700 (PDT)
-Received: from localhost.localdomain
-	(CPEe8de27b71faa-CM64777d5e8820.cpe.net.cable.rogers.com.
-	[174.112.251.208]) by smtp.gmail.com with ESMTPSA id
-	q15sm10119321ioi.15.2019.06.24.05.44.46
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 24 Jun 2019 05:44:47 -0700 (PDT)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Date: Mon, 24 Jun 2019 08:44:42 -0400
-Message-Id: <d3d3d374e985ccfe061a986d2735791476b24511.1561379933.git.bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <cover.1561379933.git.bruce.ashfield@gmail.com>
-References: <cover.1561379933.git.bruce.ashfield@gmail.com>
-MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] linux-yocto/5.0: make scsci-debug include scsci core configs
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=cWeAWPhCCHjsHhu2NYu9ESDNzdYyQfkmjCgBZyvKYls=;
+	b=TJC107YNBi7kt2Qtu+z7XlivO08qTN5qyAkATkesxYRXiLnLIzobBV5osuGGDprhim
+	Hg5GPxqZ7H01FMPAmzFZovB9vrdJL9cPeAKS5X19/oiE0+SO4bF45jG+hYZ1UuWbJN6+
+	JVX4rLkY87MNVnjgASazf2qZ05GfU68uGJ2/Z+XISHUTn6+GG1ysA5EB2pOC7cj0Fu1k
+	sDnvxT7ldJ+g1iERV6r7XUf82mE5qcj7i2MRjGu+UjsMl7R5MAqII6zdixSMN2+wtTco
+	/pONycdWhwmq2RnD1mrSoZQwtsBu3W2H591V/A/sXE8AUURyUwqUTW7+2N3DPW1U9Pz3
+	li3w==
+X-Gm-Message-State: APjAAAWN1mB1TBh/kNQK/WtTV2c1Bf0gtGC2XV+GTYVjkD6iVOcqwAce
+	gZ/DTl5DHfMhy0F1dFNhVDc/Zqae4LM=
+X-Google-Smtp-Source: APXvYqyb4rVfDxB+LtLEogPK5Qi6voOIC8nuce/jyevE63iI6i0bHM3KEmGPBNZbvVy5eznM+Gj+Lg==
+X-Received: by 2002:a7b:c310:: with SMTP id k16mr15297688wmj.133.1561384398641;
+	Mon, 24 Jun 2019 06:53:18 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	d18sm33488132wrb.90.2019.06.24.06.53.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Jun 2019 06:53:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Jun 2019 14:53:15 +0100
+Message-Id: <20190624135315.32373-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH][warrior] lighttpd: fix CVE-2019-11072
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,67 +56,85 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 12:44:47 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 24 Jun 2019 13:53:18 -0000
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-
-Updating the scsci-debug fragment to include the core scsci config
-options. This allows standalone use of the fragment, since all
-supporting options will be enabled simply by including the top
-level config in a BSP.
-
-This also removes a configuration warning on qemuarm, since we
-will no longer have missing / unavailable options during the
-config audit.
-
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../lighttpd/lighttpd/fix-http-parseopts.patch     | 51 ++++++++++++++++++++++
+ meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb  |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-index c5bd342d5b..35f2350d52 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-@@ -12,7 +12,7 @@ python () {
- }
+diff --git a/meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch b/meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch
+new file mode 100644
+index 00000000000..f3a0402c4be
+--- /dev/null
++++ b/meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch
+@@ -0,0 +1,51 @@
++CVE: CVE-2019-11072
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@intel.com>
++
++From 32120d5b8b3203fc21ccb9eafb0eaf824bb59354 Mon Sep 17 00:00:00 2001
++From: Glenn Strauss <gstrauss@gluelogic.com>
++Date: Wed, 10 Apr 2019 11:28:10 -0400
++Subject: [PATCH] [core] fix abort in http-parseopts (fixes #2945)
++
++fix abort in server.http-parseopts with url-path-2f-decode enabled
++
++(thx stze)
++
++x-ref:
++  "Security - SIGABRT during GET request handling with url-path-2f-decode enabled"
++  https://redmine.lighttpd.net/issues/2945
++---
++ src/burl.c        | 6 ++++--
++ src/t/test_burl.c | 2 ++
++ 2 files changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/src/burl.c b/src/burl.c
++index 51182628..c4b928fd 100644
++--- a/src/burl.c
+++++ b/src/burl.c
++@@ -252,8 +252,10 @@ static int burl_normalize_2F_to_slash_fix (buffer *b, int qs, int i)
++         }
++     }
++     if (qs >= 0) {
++-        memmove(s+j, s+qs, blen - qs);
++-        j += blen - qs;
+++        const int qslen = blen - qs;
+++        memmove(s+j, s+qs, (size_t)qslen);
+++        qs = j;
+++        j += qslen;
++     }
++     buffer_string_set_length(b, j);
++     return qs;
++diff --git a/src/t/test_burl.c b/src/t/test_burl.c
++index 7be9be50..f7a16815 100644
++--- a/src/t/test_burl.c
+++++ b/src/t/test_burl.c
++@@ -97,6 +97,8 @@ static void test_burl_normalize (void) {
++     flags |= HTTP_PARSEOPT_URL_NORMALIZE_PATH_2F_DECODE;
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a/b?c=/"), CONST_STR_LEN("/a/b?c=/"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a/b?c=%2f"), CONST_STR_LEN("/a/b?c=/"));
+++    run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("%2f?"), CONST_STR_LEN("/?"));
+++    run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/%2f?"), CONST_STR_LEN("//?"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2fb"), CONST_STR_LEN("/a/b"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2Fb"), CONST_STR_LEN("/a/b"));
++     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2fb?c=/"), CONST_STR_LEN("/a/b?c=/"));
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
+index a0b350f3581..7554e9e0403 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
+@@ -17,6 +17,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
+         file://lighttpd.conf \
+         file://lighttpd \
+         file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
++        file://fix-http-parseopts.patch \
+         "
  
- SRCREV_machine ?= "9c1e84c9b81b6bf1df55f26f2e0517266c37f7eb"
--SRCREV_meta ?= "97eac3146504a2348543b8b8859f44a7b8f0d590"
-+SRCREV_meta ?= "eb6ef084f987441359145c41cadcbdd768eeb012"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-5.0;destsuffix=${KMETA}"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-index d6e45c69c0..96cfb3dcd1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-@@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine_qemuarm ?= "fabee455f397ba8054f35a3ad5f2250bbad93bef"
- SRCREV_machine ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
--SRCREV_meta ?= "97eac3146504a2348543b8b8859f44a7b8f0d590"
-+SRCREV_meta ?= "eb6ef084f987441359145c41cadcbdd768eeb012"
- 
- PV = "${LINUX_VERSION}+git${SRCPV}"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-index 5bc2d54916..d4d30853f0 100644
---- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-@@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
- SRCREV_machine_qemux86-64 ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
- SRCREV_machine_qemumips64 ?= "5a8b27bcc0b16077ab8edfcd3fb25c80dc2c652e"
- SRCREV_machine ?= "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
--SRCREV_meta ?= "97eac3146504a2348543b8b8859f44a7b8f0d590"
-+SRCREV_meta ?= "eb6ef084f987441359145c41cadcbdd768eeb012"
- 
- # remap qemuarm to qemuarma15 for the 5.0 kernel
- # KMACHINE_qemuarm ?= "qemuarma15"
+ SRC_URI[md5sum] = "f93436d8d400b2b0e26ee4bcc60b9ac7"
 -- 
-2.19.1
+2.11.0
 
 
