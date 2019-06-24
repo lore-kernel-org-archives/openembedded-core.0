@@ -1,47 +1,49 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 142C17C786
+Return-Path: <lemagoup@gmail.com>
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
+	[209.85.221.47])
+	by mail.openembedded.org (Postfix) with ESMTP id F22617C786
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 09:43:51 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id m24so218457ioo.2
+	Mon, 24 Jun 2019 09:45:13 +0000 (UTC)
+Received: by mail-wr1-f47.google.com with SMTP id f15so3256428wrp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 02:43:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=3EZJuw6SnUib3zd7erM09sLGk2ETYw9GicLLNrPa8gM=;
-	b=MrmHihvaPOfGPv2eY9yGsKoHO6br86M7d2gQsgJJTISuSCwHrX8KdJQTBAJsIHt16X
-	NOzkVD8ObNwW+8TNKPeIouJF+NqgUUPkvdmAg5reMA6jVS2wFrQFd+xsElLQQI2YWlBQ
-	9Va6QgsLK6N3HDqqaSDTR4zYn6jzWDnbtCLOZbdhhg289F79kQD94uA2TEHjwtIVPErx
-	2KLYGHPSNyDqYdkgz/2ZpK124ONqrggGtt+k3P6HJKUAtsBed4lD6kJ+iudxnsvaboZp
-	a8BcPF8M2SdqYJ7R7gkf//kzNRUmr/3EtH44ieZRVfXkjma38LAUPvsHm8vP2H66u+Hq
-	Zi9g==
+	Mon, 24 Jun 2019 02:45:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=Nz+qw8YINT7m0KTKJQ6jdPYXn5sOUaF48BbqKu/w+eI=;
+	b=U7IF3G66xAfXTDtbn76dfPpZC14pBJJwHeQBmyHUIdhF3noub90S3ajLMK2LyIF1a1
+	47Cr+bnGB9LdgNkYwpfdAr5D5/aI2vnqRmUht0NX2uE3hj02+G/XwWkq+NP0NZdP3K+8
+	Mt472ZeIupqG9XOlAS6QkmqaTE9aRfcMYWrbDCQqopE7zK/ha7SY+OMoQo09ESWapH47
+	VH3JGscnE8DcscawxWbx7vGThOjJ1uDuc+TEg8a6k0RT9E4i3ohzkVg1Fh/sC8lMkj5p
+	27CJYb7Bgk6VwnpiQZDX9clM/YgHaq9QIX2SG7f/jgOPbF8APB40hDQeeq+0zy+1LebU
+	WZsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=3EZJuw6SnUib3zd7erM09sLGk2ETYw9GicLLNrPa8gM=;
-	b=eTVGPX8VCJyYKr+kDYb95aEeGiQEAyjAk1+SGuhP91Unt5gcB6rOCSijHBLaeGDDsx
-	qIchVbHmJ7JhlZ//nC2U4jAf5P0KwWEZ5kSXELRLBRmreAHk69Yyzu/BOcelPLhn94t5
-	I4Hkd8rdurH0q3oK2etmp2QkDP6Ri/KrWDv8VdqGeq0rV9nlPYUtkpKs1FPXur/e9SVN
-	jsc36cC+8Lq29j+yCOAQgCVuZGp5kPw8Tny1itPPysDXSORWPrr0i8blgkIBUE98ehmJ
-	9cDCHQoVUBaN9dRBg8+34CLqCrfI1Mmgc8hyIBUrAcUAHNfLjXCQ17v6nhFqlBeHHqrv
-	XAoQ==
-X-Gm-Message-State: APjAAAUNDHIzpfLXRmQWKjcC1fOJNItW28QQasd00AL8XG08QKbY5YY1
-	yfL4QFBs/dGkEXSDW9NRXLyMeOrTk+BZydDidYcu0g==
-X-Google-Smtp-Source: APXvYqzJrS7/Si8bpuhJFpcUOTLCR8nYJ5bld8ZTN4uwTn6i5BXM8Q0GdmOfif7QQPqFMNQKTog/C+KDKIe+JoSlfcc=
-X-Received: by 2002:a5e:a708:: with SMTP id b8mr16447240iod.25.1561369432175; 
-	Mon, 24 Jun 2019 02:43:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <1561368577-265361-1-git-send-email-changqing.li@windriver.com>
-In-Reply-To: <1561368577-265361-1-git-send-email-changqing.li@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Jun 2019 10:43:41 +0100
-Message-ID: <CAJTo0LZJUL7Qk8EUV0jSneyH3BAZCrTz_YqS8dwNrPBsxF6NAA@mail.gmail.com>
-To: Changqing Li <changqing.li@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] scons: fix conflict during do_rootfs
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=Nz+qw8YINT7m0KTKJQ6jdPYXn5sOUaF48BbqKu/w+eI=;
+	b=pVDyCgOd/YBRw1AGLUIFF+5rKgd7JZR5sCncySogJRvRjYz9QJUyg9ueRPoJlMNd6K
+	mykgIdpGnQn9E2ZYdvQs6pG/IQz+Qzv22E4lOwjO9IzvJVvIqaFoV3C6+TxoHK5M1+8B
+	Uk1kS6fkU5o2VVV5d4ULRN3VlrZeyYMx5cbQyYCXom32Gop1knd5gJJnnpOkMQVOfzJi
+	sn+u0bVHVSn6F8/q0N8uryIrAPSg9XDic/+xlr7AVr8OcfMKtVOVwamMCy0L3y+UT2lI
+	+BzQhLGKMXwgSCYvcKOqgQjvvxNUeeQbQqpVHQSXHMIt3ApuumKV24y8HXxQc39z6Dv2
+	zAjA==
+X-Gm-Message-State: APjAAAWX4kY2P7ULtivXBZoE5aldmWGit4rSc5ER1WjWVjG9QdYPQQao
+	ogItZBXny5HdIWCkOUAO1n6lEW5/
+X-Google-Smtp-Source: APXvYqyfMEBBBcmT1muDCpbHm/ZbySzQqeRReY9anSVQ0FXae+kE8Ti+eNtL0CCHIH/3igNlfqzl9w==
+X-Received: by 2002:a05:6000:114b:: with SMTP id
+	d11mr41857291wrx.167.1561369514278; 
+	Mon, 24 Jun 2019 02:45:14 -0700 (PDT)
+Received: from localhost.localdomain
+	(softbank-robotics-gw1.ter4.eqx2.par.cust.as8218.eu.
+	[158.255.112.194]) by smtp.gmail.com with ESMTPSA id
+	o20sm11716313wro.65.2019.06.24.02.45.13
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Jun 2019 02:45:13 -0700 (PDT)
+From: Pierre Le Magourou <lemagoup@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Jun 2019 11:44:38 +0200
+Message-Id: <20190624094438.7596-1-lemagoup@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] cve-update-db: Use std library instead of urllib3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,97 +56,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 09:43:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 24 Jun 2019 09:45:14 -0000
 
-Is this actually needed?  Can we just delete python-scons?
+From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 
-Ross
+urllib3 was used in this recipe but it was not set as a
+dependency. As it is not specifically needed, rewrite the recipe with
+urllib from the standard library.
 
-On Mon, 24 Jun 2019 at 10:33, <changqing.li@windriver.com> wrote:
->
-> From: Changqing Li <changqing.li@windriver.com>
->
-> fix below error:
-> file /usr/bin/scons conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
-> file /usr/bin/scons-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
-> file /usr/bin/scons-configure-cache conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
-> file /usr/bin/scons-configure-cache-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
-> file /usr/bin/scons-time conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
-> file /usr/bin/scons-time-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
-> file /usr/bin/sconsign conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
-> file /usr/bin/sconsign-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
-> ---
->  meta/recipes-devtools/python/python-scons_3.0.5.bb  | 14 +++++++++++++-
->  meta/recipes-devtools/python/python3-scons_3.0.5.bb | 14 +++++++++++++-
->  2 files changed, 26 insertions(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-devtools/python/python-scons_3.0.5.bb b/meta/recipes-devtools/python/python-scons_3.0.5.bb
-> index 939c15b..94c2d07 100644
-> --- a/meta/recipes-devtools/python/python-scons_3.0.5.bb
-> +++ b/meta/recipes-devtools/python/python-scons_3.0.5.bb
-> @@ -12,7 +12,7 @@ S = "${WORKDIR}/scons-${PV}"
->  UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
->  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
->
-> -inherit setuptools
-> +inherit setuptools update-alternatives
->
->  RDEPENDS_${PN} = "\
->    python-fcntl \
-> @@ -22,3 +22,15 @@ RDEPENDS_${PN} = "\
->    python-shell \
->    python-pprint \
->    "
-> +
-> +ALTERNATIVE_${PN} = "scons scons-3.0.5 scons-configure-cache scons-configure-cache-3.0.5 scons-time scons-time-3.0.5 sconsign sconsign-3.0.5"
-> +ALTERNATIVE_TARGET[scons] = "${bindir}/scons"
-> +ALTERNATIVE_TARGET[scons-3.0.5] = "${bindir}/scons-3.0.5"
-> +ALTERNATIVE_TARGET[scons-configure-cache] = "${bindir}/scons-configure-cache"
-> +ALTERNATIVE_TARGET[scons-configure-cache-3.0.5] = "${bindir}/scons-configure-cache-3.0.5"
-> +ALTERNATIVE_TARGET[scons-time] = "${bindir}/scons-time"
-> +ALTERNATIVE_TARGET[scons-time-3.0.5] = "${bindir}/scons-time-3.0.5"
-> +ALTERNATIVE_TARGET[sconsign] = "${bindir}/sconsign"
-> +ALTERNATIVE_TARGET[sconsign-3.0.5] = "${bindir}/sconsign-3.0.5"
-> +
-> +ALTERNATIVE_PRIORITY = "20"
-> diff --git a/meta/recipes-devtools/python/python3-scons_3.0.5.bb b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
-> index 7fb75a6..6e240d8 100644
-> --- a/meta/recipes-devtools/python/python3-scons_3.0.5.bb
-> +++ b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
-> @@ -12,7 +12,7 @@ S = "${WORKDIR}/scons-${PV}"
->  UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
->  UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
->
-> -inherit setuptools3
-> +inherit setuptools3 update-alternatives
->
->  do_install_prepend() {
->      sed -i -e "1s,#!.*python.*,#!${USRBINPATH}/env python3," ${S}/script/*
-> @@ -27,3 +27,15 @@ RDEPENDS_${PN} = "\
->    python3-pickle \
->    python3-pprint \
->    "
-> +
-> +ALTERNATIVE_${PN} = "scons scons-3.0.5 scons-configure-cache scons-configure-cache-3.0.5 scons-time scons-time-3.0.5 sconsign sconsign-3.0.5"
-> +ALTERNATIVE_TARGET[scons] = "${bindir}/scons"
-> +ALTERNATIVE_TARGET[scons-3.0.5] = "${bindir}/scons-3.0.5"
-> +ALTERNATIVE_TARGET[scons-configure-cache] = "${bindir}/scons-configure-cache"
-> +ALTERNATIVE_TARGET[scons-configure-cache-3.0.5] = "${bindir}/scons-configure-cache-3.0.5"
-> +ALTERNATIVE_TARGET[scons-time] = "${bindir}/scons-time"
-> +ALTERNATIVE_TARGET[scons-time-3.0.5] = "${bindir}/scons-time-3.0.5"
-> +ALTERNATIVE_TARGET[sconsign] = "${bindir}/sconsign"
-> +ALTERNATIVE_TARGET[sconsign-3.0.5] = "${bindir}/sconsign-3.0.5"
-> +
-> +ALTERNATIVE_PRIORITY = "30"
-> --
-> 2.7.4
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+---
+ meta/recipes-core/meta/cve-update-db.bb | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
+index 522fd23807..1f48820cc6 100644
+--- a/meta/recipes-core/meta/cve-update-db.bb
++++ b/meta/recipes-core/meta/cve-update-db.bb
+@@ -19,7 +19,7 @@ python do_populate_cve_db() {
+     Update NVD database with json data feed
+     """
+ 
+-    import sqlite3, urllib3, shutil, gzip, re
++    import sqlite3, urllib, shutil, gzip, re
+     from datetime import date
+ 
+     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+@@ -33,16 +33,14 @@ python do_populate_cve_db() {
+ 
+     initialize_db(c)
+ 
+-    http = urllib3.PoolManager()
+-
+     for year in range(YEAR_START, date.today().year + 1):
+         year_url = BASE_URL + str(year)
+         meta_url = year_url + ".meta"
+         json_url = year_url + ".json.gz"
+ 
+         # Retrieve meta last modified date
+-        with http.request('GET', meta_url, preload_content=False) as r:
+-            date_line = str(r.data.splitlines()[0])
++        with urllib.request.urlopen(meta_url) as r:
++            date_line = str(r.read().splitlines()[0])
+             last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
+ 
+         # Compare with current db last modified date
+@@ -50,7 +48,7 @@ python do_populate_cve_db() {
+         meta = c.fetchone()
+         if not meta or meta[0] != last_modified:
+             # Update db with current year json file
+-            with http.request('GET', json_url, preload_content=False) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
++            with urllib.request.urlopen(json_url) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
+                 shutil.copyfileobj(r, tmpfile)
+             with gzip.open(JSON_TMPFILE, 'rt') as jsonfile:
+                 update_db(c, jsonfile)
+-- 
+2.11.0
+
 
