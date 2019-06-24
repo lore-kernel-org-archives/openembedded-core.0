@@ -1,51 +1,44 @@
-Return-Path: <sjolley.yp.pm@gmail.com>
-Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
-	[209.85.160.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 1441F7E3AF
+Return-Path: <prvs=707896d6ab=alejandro.delcastillo@ni.com>
+Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
+	[148.163.156.75])
+	by mail.openembedded.org (Postfix) with ESMTP id F3D637E06E
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 19:16:18 +0000 (UTC)
-Received: by mail-qt1-f170.google.com with SMTP id h21so15671615qtn.13
+	Mon, 24 Jun 2019 19:27:09 +0000 (UTC)
+Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
+	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x5OJKvAe017569 for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Jun 2019 14:27:10 -0500
+Received: from ni.com (skprod2.natinst.com [130.164.80.23])
+	by mx0a-00010702.pphosted.com with ESMTP id 2t9gbyfmfh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=NOT) for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Jun 2019 14:27:10 -0500
+Received: from us-aus-exch1.ni.corp.natinst.com
+	(us-aus-exch1.ni.corp.natinst.com [130.164.68.11])
+	by us-aus-skprod2.natinst.com (8.16.0.27/8.16.0.27) with ESMTPS id
+	x5OJRAXH011781
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 12:16:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:date:message-id:mime-version:content-language
-	:thread-index; bh=Cm/DRhEbSZvCBMGRJr8WJQaFTebEXy4ZpBzNawXpaGQ=;
-	b=qwuBIQKzv2QkMxQ1Jy3R/+y/wvpiPf5Qmv4txYvQ7PeQUXe9gTFMFGSUdt/Sj2s+48
-	6QCosVJxYW7TcL14WFunUOnTKepzNelq1Jwd8OsZx4pwmmGjuQsBZD2PfQtUQqSu2rtm
-	wiB5n9MC5QKNKz1h1X8TS7z1Z3iiYYLpv9qhBDZ39cUVn4u65f14kfODyKZI9dQCRuYE
-	3xpEpz0hWpr1vodIM8j4L6UXH55Rtl22cdB8UoGtfBBcT2WjHnALwUF0qqX2YUi6cnBL
-	JDNsWRsvVy1Jc/18yrR4faugdqwTNWS59YbMCVVzKYD/1KiLGij4HNLgDFdVMNvGDV6C
-	0mOw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-language:thread-index;
-	bh=Cm/DRhEbSZvCBMGRJr8WJQaFTebEXy4ZpBzNawXpaGQ=;
-	b=k4K2pCiu0zM8AzEsaQP3GoC9gn77P+QzZxoipO44XVMWOVD+ZczQ1vWbbB7Unm6NVf
-	Qz1fgh+muxuqlHYWn3lHJEIFPJNQDqeEFddZAd1W25+mQTmGJDszR0QOdpOQ/+P8R1No
-	GMv0zb8gQUtu3Zrt34V/f46ux78ViZXcEA194goWStx2XcgbfC1d0AfZwiRPAmYT3zlZ
-	f2XmjLq3MmWB8WkU0msT/IUJUASXk+PFgeNRWyvUakCmt8fdcYsGUbk7cHCHqyahjlrf
-	0gWzh+7WQ4cFzRFbmPiNEGMJPqb+j9BvzH4DKvN0T/UY5GjxjRkA45imKLpBcUUVCenE
-	VtrQ==
-X-Gm-Message-State: APjAAAX+IInlbSmN/69q5BXMffBceSTSw57qdr2vzvmt2rZe7pBZslii
-	mGaoEHLYKpGlyzxNBppWwg23UK/f
-X-Google-Smtp-Source: APXvYqwowNOsqHuowBzqMhXuWEMiBMB/pp06FLGU1b61kOAMnhSzQohKg8vfsLNPyXBGiK5rz5ltPg==
-X-Received: by 2002:ac8:7a73:: with SMTP id
-	w19mr109832263qtt.292.1561403779699; 
-	Mon, 24 Jun 2019 12:16:19 -0700 (PDT)
-Received: from sjolley ([96.79.126.57]) by smtp.gmail.com with ESMTPSA id
-	s23sm7132491qtk.31.2019.06.24.12.16.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Jun 2019 12:16:18 -0700 (PDT)
-From: <sjolley.yp.pm@gmail.com>
-To: <yocto@yoctoproject.org>,
-	<openembedded-core@lists.openembedded.org>
-Date: Mon, 24 Jun 2019 12:16:19 -0700
-Message-ID: <014001d52ac1$4e6208c0$eb261a40$@gmail.com>
+	Mon, 24 Jun 2019 14:27:10 -0500
+Received: from us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) by
+	us-aus-exch1.ni.corp.natinst.com (130.164.68.11) with Microsoft SMTP
+	Server (TLS) id 15.0.1395.4; Mon, 24 Jun 2019 14:27:09 -0500
+Received: from delcastillo3.natinst.com (130.164.49.7) by
+	us-aus-exhub2.ni.corp.natinst.com (130.164.68.32) with Microsoft SMTP
+	Server
+	id 15.0.1395.4 via Frontend Transport; Mon, 24 Jun 2019 14:27:09 -0500
+From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Jun 2019 14:27:06 -0500
+Message-ID: <20190624192706.16817-1-alejandro.delcastillo@ni.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <31526320140c91a4d7fde587a5e475e2071c00e0.camel@linuxfoundation.org>
+References: <31526320140c91a4d7fde587a5e475e2071c00e0.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQERrE2QXr3EdGdxQyGG20Y9JUaGMg==
-Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-06-24_13:, , signatures=0
+X-Proofpoint-Spam-Reason: safe
+Subject: [PATCH v2] opkg: upgrade to version 0.4.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,292 +51,421 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 19:16:19 -0000
-Content-Type: multipart/alternative;
-	boundary="----=_NextPart_000_0141_01D52A86.A2057AB0"
-Content-Language: en-us
+X-List-Received-Date: Mon, 24 Jun 2019 19:27:10 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-------=_NextPart_000_0141_01D52A86.A2057AB0
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+- Drop 0001-libopkg-add-add-ignore-recommends-option.patch
+- Drop 0001-opkg-add-target-for-testsuite-installation.patch
+- Drop 0001-regress-issue72.py-resolve-paths-before-comparision.patch
+- Remove test binaries tests\libopkg_test, leftovers from make dist
+process
 
-All,
+Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+---
+ ...pkg-add-add-ignore-recommends-option.patch | 259 ------------------
+ ...dd-target-for-testsuite-installation.patch |  43 ---
+ ....py-resolve-paths-before-comparision.patch |  31 ---
+ .../opkg/{opkg_0.4.0.bb => opkg_0.4.1.bb}     |  17 +-
+ 4 files changed, 12 insertions(+), 338 deletions(-)
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch
+ delete mode 100644 meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch
+ rename meta/recipes-devtools/opkg/{opkg_0.4.0.bb => opkg_0.4.1.bb} (84%)
 
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch b/meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch
+deleted file mode 100644
+index 47d1b3c37e..0000000000
+--- a/meta/recipes-devtools/opkg/opkg/0001-libopkg-add-add-ignore-recommends-option.patch
++++ /dev/null
+@@ -1,259 +0,0 @@
+-From 64aa98646a17c299bf37af2975b98daf5d7d30b4 Mon Sep 17 00:00:00 2001
+-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+-Date: Thu, 31 Jan 2019 18:16:08 -0600
+-Subject: [PATCH] libopkg: add --add-ignore-recommends option
+-
+-Add option to ignore specific recommended packages. On the libsolv
+-backed, this feature will only work on libsolv version > 0.7.2 [1].
+-
+-[1] https://urldefense.proofpoint.com/v2/url?u=https-3A__github.com_openSUSE_libsolv_issues_254&d=DwIBaQ&c=I_0YwoKy7z5LMTVdyO6YCiE2uzI1jjZZuIPelcSjixA&r=wNcrL2akRn6jfxhHaKavUrJB_C9JAMXtynjLd8ZzgXQ&m=GObNHzFJpWpf_PripIrf-K2RhsktYdAUEieAJexXOKw&s=3G-meChUqClFggFPqsrAxIZBfLnRKIHm62Uuy1X6nQQ&e=
+-
+-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+-
+-Upstream-Status: Accepted
+----
+- libopkg/opkg_conf.c                           |  2 +
+- libopkg/opkg_conf.h                           |  1 +
+- .../solvers/internal/pkg_depends_internal.c   |  3 +-
+- libopkg/solvers/libsolv/opkg_solver_libsolv.c | 21 ++++++-
+- man/opkg.1.in                                 |  3 +
+- src/opkg.c                                    |  6 ++
+- tests/Makefile                                |  1 +
+- tests/core/43_add_ignore_recommends.py        | 62 +++++++++++++++++++
+- 8 files changed, 97 insertions(+), 2 deletions(-)
+- create mode 100755 tests/core/43_add_ignore_recommends.py
+-
+-diff --git a/libopkg/opkg_conf.c b/libopkg/opkg_conf.c
+-index 06880a1..f2330cd 100644
+---- a/libopkg/opkg_conf.c
+-+++ b/libopkg/opkg_conf.c
+-@@ -597,6 +597,7 @@ int opkg_conf_init(void)
+-     pkg_dest_list_init(&opkg_config->tmp_dest_list);
+-     nv_pair_list_init(&opkg_config->arch_list);
+-     str_list_init(&opkg_config->exclude_list);
+-+    str_list_init(&opkg_config->ignore_recommends_list);
+- 
+-     return 0;
+- }
+-@@ -938,6 +939,7 @@ void opkg_conf_deinit(void)
+-     pkg_dest_list_deinit(&opkg_config->pkg_dest_list);
+-     nv_pair_list_deinit(&opkg_config->arch_list);
+-     str_list_deinit(&opkg_config->exclude_list);
+-+    str_list_deinit(&opkg_config->ignore_recommends_list);
+- 
+-     if (opkg_config->verbosity >= DEBUG) {
+-         hash_print_stats(&opkg_config->pkg_hash);
+-diff --git a/libopkg/opkg_conf.h b/libopkg/opkg_conf.h
+-index eb56a29..316c500 100644
+---- a/libopkg/opkg_conf.h
+-+++ b/libopkg/opkg_conf.h
+-@@ -61,6 +61,7 @@ typedef struct opkg_conf {
+-     pkg_dest_list_t tmp_dest_list;
+-     nv_pair_list_t arch_list;
+-     str_list_t exclude_list;
+-+    str_list_t ignore_recommends_list;
+- 
+-     int restrict_to_default_dest;
+-     pkg_dest_t *default_dest;
+-diff --git a/libopkg/solvers/internal/pkg_depends_internal.c b/libopkg/solvers/internal/pkg_depends_internal.c
+-index cd56d84..5deee70 100644
+---- a/libopkg/solvers/internal/pkg_depends_internal.c
+-+++ b/libopkg/solvers/internal/pkg_depends_internal.c
+-@@ -228,7 +228,8 @@ int pkg_hash_fetch_unsatisfied_dependencies(pkg_t *pkg,
+-                             || compound_depend->type == SUGGEST)
+-                         && (satisfying_pkg->state_want == SW_DEINSTALL
+-                             || satisfying_pkg->state_want == SW_PURGE
+--                            || opkg_config->no_install_recommends);
+-+                            || opkg_config->no_install_recommends
+-+                            || str_list_contains(&opkg_config->ignore_recommends_list, satisfying_pkg->name));
+-                 if (ignore) {
+-                     opkg_msg(NOTICE,
+-                              "%s: ignoring recommendation for "
+-diff --git a/libopkg/solvers/libsolv/opkg_solver_libsolv.c b/libopkg/solvers/libsolv/opkg_solver_libsolv.c
+-index 2b27e3a..403e07b 100644
+---- a/libopkg/solvers/libsolv/opkg_solver_libsolv.c
+-+++ b/libopkg/solvers/libsolv/opkg_solver_libsolv.c
+-@@ -484,6 +484,7 @@ static void pkg2solvable(pkg_t *pkg, Solvable *solvable_out)
+- static void populate_installed_repo(libsolv_solver_t *libsolv_solver)
+- {
+-     int i;
+-+    Id what;
+- 
+-     pkg_vec_t *installed_pkgs = pkg_vec_alloc();
+- 
+-@@ -507,6 +508,15 @@ static void populate_installed_repo(libsolv_solver_t *libsolv_solver)
+-         /* set solvable attributes */
+-         pkg2solvable(pkg, solvable);
+- 
+-+        /* if the package is in ignore-recommends-list, disfavor installation */
+-+        if (str_list_contains(&opkg_config->ignore_recommends_list, pkg->name)) {
+-+            opkg_message(NOTICE, "Disfavor package: %s\n",
+-+                         pkg->name);
+-+            what = pool_str2id(libsolv_solver->pool, pkg->name, 1);
+-+            queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE_NAME
+-+                        | SOLVER_DISFAVOR, what);
+-+        }
+-+
+-         /* if the package is not autoinstalled, mark it as user installed */
+-         if (!pkg->auto_installed)
+-             queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE
+-@@ -539,7 +549,7 @@ static void populate_available_repos(libsolv_solver_t *libsolv_solver)
+- {
+-     int i;
+-     Solvable *solvable;
+--    Id solvable_id;
+-+    Id solvable_id, what;
+- 
+-     pkg_vec_t *available_pkgs = pkg_vec_alloc();
+- 
+-@@ -608,6 +618,15 @@ static void populate_available_repos(libsolv_solver_t *libsolv_solver)
+-         solvable = pool_id2solvable(libsolv_solver->pool, solvable_id);
+-         pkg2solvable(pkg, solvable);
+- 
+-+        /* if the package is in ignore-recommends-list, disfavor installation */
+-+        if (str_list_contains(&opkg_config->ignore_recommends_list, pkg->name)) {
+-+            opkg_message(NOTICE, "Disfavor package: %s\n",
+-+                         pkg->name);
+-+            what = pool_str2id(libsolv_solver->pool, pkg->name, 1);
+-+            queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE_NAME
+-+                        | SOLVER_DISFAVOR, what);
+-+        }
+-+
+-         /* if the --force-depends option is specified make dependencies weak */
+-         if (opkg_config->force_depends)
+-             queue_push2(&libsolv_solver->solver_jobs, SOLVER_SOLVABLE
+-diff --git a/man/opkg.1.in b/man/opkg.1.in
+-index 27fa9c1..f192c3b 100644
+---- a/man/opkg.1.in
+-+++ b/man/opkg.1.in
+-@@ -162,6 +162,9 @@ priority \fIprio\fP. Lower priorities take precedence.
+- \fB\--add-exclude <\fIname\fP>\fR
+- Register package to be excluded from install
+- .TP
+-+\fB\--add-ignore-recommends <\fIname\fP>\fR
+-+Register package to be ignored as a recomendee
+-+.TP
+- \fB\--prefer-arch-to-version\fR
+- Use the architecture priority package rather than the higher version
+- one if more than one candidate is found.
+-diff --git a/src/opkg.c b/src/opkg.c
+-index 650e278..3c93a3b 100644
+---- a/src/opkg.c
+-+++ b/src/opkg.c
+-@@ -51,6 +51,7 @@ enum {
+-     ARGS_OPT_ADD_DEST,
+-     ARGS_OPT_SIZE,
+-     ARGS_OPT_ADD_EXCLUDE,
+-+    ARGS_OPT_ADD_IGNORE_RECOMMENDS,
+-     ARGS_OPT_NOACTION,
+-     ARGS_OPT_DOWNLOAD_ONLY,
+-     ARGS_OPT_NODEPS,
+-@@ -112,6 +113,7 @@ static struct option long_options[] = {
+-     {"add-dest", 1, 0, ARGS_OPT_ADD_DEST},
+-     {"size", 0, 0, ARGS_OPT_SIZE},
+-     {"add-exclude", 1, 0, ARGS_OPT_ADD_EXCLUDE},
+-+    {"add-ignore-recommends", 1, 0, ARGS_OPT_ADD_IGNORE_RECOMMENDS},
+-     {"test", 0, 0, ARGS_OPT_NOACTION},
+-     {"tmp-dir", 1, 0, 't'},
+-     {"tmp_dir", 1, 0, 't'},
+-@@ -234,6 +236,9 @@ static int args_parse(int argc, char *argv[])
+-         case ARGS_OPT_ADD_EXCLUDE:
+-             str_list_append(&opkg_config->exclude_list, optarg);
+-             break;
+-+        case ARGS_OPT_ADD_IGNORE_RECOMMENDS:
+-+            str_list_append(&opkg_config->ignore_recommends_list, optarg);
+-+            break;
+-         case ARGS_OPT_SIZE:
+-             opkg_config->size = 1;
+-             break;
+-@@ -343,6 +348,7 @@ static void usage()
+-     printf("\t--add-dest <name>:<path>        Register destination with given path\n");
+-     printf("\t--add-arch <arch>:<prio>        Register architecture with given priority\n");
+-     printf("\t--add-exclude <name>            Register package to be excluded from install\n");
+-+    printf("\t--add-ignore-recommends <name>  Register package to be ignored as a recomendee\n");
+-     printf("\t--prefer-arch-to-version        Use the architecture priority package rather\n");
+-     printf("\t                                than the higher version one if more\n");
+-     printf("\t                                than one candidate is found.\n");
+-diff --git a/tests/Makefile b/tests/Makefile
+-index 8e5be08..799816d 100644
+---- a/tests/Makefile
+-+++ b/tests/Makefile
+-@@ -42,6 +42,7 @@ REGRESSION_TESTS := core/01_install.py \
+- 		    core/40_arch.py \
+- 		    core/41_info_fields.py \
+- 		    core/42_info_description.py \
+-+		    core/43_add_ignore_recommends.py \
+- 		    regress/issue26.py \
+- 		    regress/issue31.py \
+- 		    regress/issue32.py \
+-diff --git a/tests/core/43_add_ignore_recommends.py b/tests/core/43_add_ignore_recommends.py
+-new file mode 100755
+-index 0000000..7da0096
+---- /dev/null
+-+++ b/tests/core/43_add_ignore_recommends.py
+-@@ -0,0 +1,62 @@
+-+#! /usr/bin/env python3
+-+#
+-+# Create package 'a' (1.0) which Recommends 'c'.
+-+# Install 'a' with --add-ignore-recommends 'c'.
+-+# Check that only 'a' (1.0) is installed.
+-+# Create package 'b' which Depends on 'c'.
+-+# Install 'a' & 'b', with --add-ignore-recommends 'c'.
+-+# Verify that 'a','b' & 'c' are installed.
+-+# Uninstall 'b' & 'c'.
+-+# Create package 'a' (2.0), which Recommends 'c'.
+-+# Upgrade 'a' with --add-ignore-recommends 'c'
+-+# Verify that only 'a' (2.0) is installed
+-+#
+-+
+-+import os
+-+import opk, cfg, opkgcl
+-+
+-+opk.regress_init()
+-+o = opk.OpkGroup()
+-+
+-+o.add(Package='a', Recommends='c', Version='1.0')
+-+o.add(Package='b', Depends='c')
+-+o.add(Package='c')
+-+o.write_opk()
+-+o.write_list()
+-+
+-+opkgcl.update()
+-+
+-+opkgcl.install('a', '--add-ignore-recommends c')
+-+
+-+if not opkgcl.is_installed('a'):
+-+	opk.fail("Package 'a' installed but reports as not installed.")
+-+
+-+if opkgcl.is_installed('c'):
+-+	opk.xfail("[libsolv<0.7.3] Package 'c' should not have been installed since it was in --add-ignore-recommends.")
+-+
+-+opkgcl.remove('a')
+-+opkgcl.install('a b', '--add-ignore-recommends c')
+-+
+-+if not opkgcl.is_installed('a'):
+-+	opk.fail("Package 'a' installed but reports as not installed.")
+-+
+-+if not opkgcl.is_installed('b'):
+-+	opk.fail("Package 'b' installed but reports as not installed.")
+-+
+-+if not opkgcl.is_installed('c'):
+-+	opk.fail("Package 'c' should have been installed since 'b' depends on it.")
+-+
+-+opkgcl.remove('b c', '--force-depends')
+-+o.add(Package='a', Recommends='c', Version='2.0')
+-+o.write_opk()
+-+o.write_list()
+-+
+-+opkgcl.update()
+-+
+-+opkgcl.upgrade('a', '--add-ignore-recommends c')
+-+
+-+if not opkgcl.is_installed('a', '2.0'):
+-+	opk.fail("Package 'a (2.0)' installed but reports as not installed.")
+-+
+-+if opkgcl.is_installed('c'):
+-+	opk.fail("Package 'c' should not have been installed since it was in --add-ignore-recommends.")
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch b/meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch
+deleted file mode 100644
+index 951c186767..0000000000
+--- a/meta/recipes-devtools/opkg/opkg/0001-opkg-add-target-for-testsuite-installation.patch
++++ /dev/null
+@@ -1,43 +0,0 @@
+-From 8fb0364bd0e19f35c20616dd1ab10aa00e08fa8f Mon Sep 17 00:00:00 2001
+-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+-Date: Wed, 10 Apr 2019 14:49:43 -0500
+-Subject: [PATCH] opkg: add target for testsuite installation
+-
+-- Add target to install testsuite
+-- Add override of opkg binary used during test via OPKG_PATH environment
+-variable.
+-
+-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+----
+-Upstream-Status: Submitted
+-
+- Makefile.am  | 5 +++++
+- tests/cfg.py | 2 +-
+- 2 files changed, 6 insertions(+), 1 deletion(-)
+-
+-diff --git a/Makefile.am b/Makefile.am
+-index 90cfcae..1f6a784 100644
+---- a/Makefile.am
+-+++ b/Makefile.am
+-@@ -18,3 +18,8 @@ run-tests:
+- 	$(MAKE) -C tests DATADIR=@datadir@ SYSCONFDIR=@sysconfdir@ VARDIR=@localstatedir@
+- 
+- check: run-tests
+-+
+-+install-ptest:
+-+	cp -r $(srcdir)/tests $(DESTDIR)
+-+	cp Makefile $(DESTDIR)
+-+	sed -e 's/^Makefile/_Makefile/' < Makefile > $(DESTDIR)/Makefile
+-diff --git a/tests/cfg.py b/tests/cfg.py
+-index 4efaff6..ca59d03 100644
+---- a/tests/cfg.py
+-+++ b/tests/cfg.py
+-@@ -2,4 +2,4 @@ import os
+- 
+- opkdir = "/tmp/opk"
+- offline_root = "/tmp/opkg"
+--opkgcl = os.path.realpath("../src/opkg")
+-+opkgcl = os.getenv('OPKG_PATH', os.path.realpath("../src/opkg"))
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch b/meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch
+deleted file mode 100644
+index 75ecb5fb42..0000000000
+--- a/meta/recipes-devtools/opkg/opkg/0001-regress-issue72.py-resolve-paths-before-comparision.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-From 5f005830eea7d03c02107a3a3fc58907b0a037bf Mon Sep 17 00:00:00 2001
+-From: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+-Date: Mon, 8 Apr 2019 11:14:56 -0500
+-Subject: [PATCH] regress/issue72.py: resolve paths before comparision
+-
+-In systems that have a volatile /tmp, the test incorrectly fails since
+-it doesn't resolve the real path in all cases.
+-
+-Signed-off-by: Alejandro del Castillo <alejandro.delcastillo@ni.com>
+----
+-Upstream-Status: Submitted
+-
+- tests/regress/issue72.py | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/tests/regress/issue72.py b/tests/regress/issue72.py
+-index 1626877..2f24dec 100755
+---- a/tests/regress/issue72.py
+-+++ b/tests/regress/issue72.py
+-@@ -56,7 +56,7 @@ if not os.path.lexists("{}/{}".format(cfg.offline_root, long_filename2)):
+- 				"not created.")
+- 
+- linky = os.path.realpath("{}/{}".format(cfg.offline_root, long_filename2))
+--linky_dst = "{}/{}".format(cfg.offline_root, long_filename)
+-+linky_dst = os.path.realpath("{}/{}".format(cfg.offline_root, long_filename))
+- if linky != linky_dst:
+- 	opk.fail("symlink path truncated.")
+- 
+--- 
+-2.20.1
+-
+diff --git a/meta/recipes-devtools/opkg/opkg_0.4.0.bb b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+similarity index 84%
+rename from meta/recipes-devtools/opkg/opkg_0.4.0.bb
+rename to meta/recipes-devtools/opkg/opkg_0.4.1.bb
+index e2305d096a..8c48d3097c 100644
+--- a/meta/recipes-devtools/opkg/opkg_0.4.0.bb
++++ b/meta/recipes-devtools/opkg/opkg_0.4.1.bb
+@@ -14,14 +14,11 @@ PE = "1"
+ SRC_URI = "http://downloads.yoctoproject.org/releases/${BPN}/${BPN}-${PV}.tar.gz \
+            file://opkg.conf \
+            file://0001-opkg_conf-create-opkg.lock-in-run-instead-of-var-run.patch \
+-           file://0001-libopkg-add-add-ignore-recommends-option.patch \
+-           file://0001-regress-issue72.py-resolve-paths-before-comparision.patch \
+-           file://0001-opkg-add-target-for-testsuite-installation.patch \
+            file://run-ptest \
+ "
  
-
-The triage team is starting to try and collect up and classify bugs which a
-newcomer to the project would be able to work on in a way which means people
-can find them. They're being listed on the triage page under the appropriate
-heading:
-
+-SRC_URI[md5sum] = "ae51d95fee599bb4dce08453529158f5"
+-SRC_URI[sha256sum] = "f6c00515d8a2ad8f6742a8e73830315d1983ed0459cba77c4d656cfc9e7fe6fe"
++SRC_URI[md5sum] = "ba0c21305fc93b26e844981ef100dc85"
++SRC_URI[sha256sum] = "45ac1e037d3877f635d883f8a555e172883a25d3eeb7986c75890fdd31250a43"
  
-
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
-
+ # This needs to be before ptest inherit, otherwise all ptest files end packaged
+ # in libopkg package if OPKGLIBDIR == libdir, because default
+@@ -45,6 +42,16 @@ PACKAGECONFIG[libsolv] = "--with-libsolv,--without-libsolv,libsolv"
  
-
-The idea is these bugs should be straight forward for a person to help work
-on who doesn't have deep experience with the project.  If anyone can help,
-please take ownership of the bug and send patches!  If anyone needs
-help/advice there are people on irc who can likely do so, or some of the
-more experienced contributors will likely be happy to help too.
-
+ EXTRA_OECONF_class-native = "--localstatedir=/${@os.path.relpath('${localstatedir}', '${STAGING_DIR_NATIVE}')} --sysconfdir=/${@os.path.relpath('${sysconfdir}', '${STAGING_DIR_NATIVE}')}"
  
-
-Also, the triage team meets weekly and does its best to handle the bugs
-reported into the Bugzilla. The number of people attending that meeting has
-fallen, as have the number of people available to help fix bugs. One of the
-things we hear users report is they don't know how to help. We (the triage
-team) are therefore going to start reporting out the currently 283
-unassigned or newcomer bugs.
-
- 
-
-We're hoping people may be able to spare some time now and again to help out
-with these.  Bugs are split into two types, "true bugs" where things don't
-work as they should and "enhancements" which are features we'd want to add
-to the system.  There are also roughly four different "priority" classes
-right now, "2.8", "2.9', "2.99" and "Future", the more pressing/urgent
-issues being in "2.8" and then "2.9".
-
- 
-
-Please review this link and if a bug is something you would be able to help
-with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
-like and I will assign it to you (please make sure you have a Bugzilla
-account).  The list is at:
-https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
-
- 
-
-Thanks,
-
- 
-
-Stephen K. Jolley
-
-Yocto Project Program Manager
-
-*    Cell:                (208) 244-4460
-
-* Email:              sjolley.yp.pm@gmail.com
-<mailto:sjolley.yp.pm@gmail.com> 
-
- 
-
- 
++# Release tarball has unused binaries on the tests folder, automatically created by automake.
++# For now, delete them to avoid packaging errors (wrong architecture)
++do_unpack_append () {
++    bb.build.exec_func('remove_test_binaries', d)
++}
++
++remove_test_binaries () {
++	rm ${WORKDIR}/opkg-${PV}/tests/libopkg_test*
++}
++
+ do_install_append () {
+ 	install -d ${D}${sysconfdir}/opkg
+ 	install -m 0644 ${WORKDIR}/opkg.conf ${D}${sysconfdir}/opkg/opkg.conf
+-- 
+2.21.0
 
 
-------=_NextPart_000_0141_01D52A86.A2057AB0
-Content-Type: text/html;
-	boundary="----=_NextPart_000_03BE_01D52529.D108CF40";
-	charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
-xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
-xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
-xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
-xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
-xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
-xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
-xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
-xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
-xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
-xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
-xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
-xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
-xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
-xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
-xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
-xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
-xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
-xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
-xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
-xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
-xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
-xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
-xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
-xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
-xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
-xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
- xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
-xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
-xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
-xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
-xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
-xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
-xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
-xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
-xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
-xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
-xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
-nature" =
-xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
-" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
-xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
-ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
-xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
- =
-xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
-es" =
-xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
-" =
-xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
-lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
-xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
-http-equiv=3DContent-Type content=3D"text/html; =
-charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
-(filtered medium)"><style><!--
-/* Font Definitions */
-@font-face
-	{font-family:Wingdings;
-	panose-1:5 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:Tahoma;
-	panose-1:2 11 6 4 3 5 4 4 2 4;}
-@font-face
-	{font-family:"MS Sans Serif";
-	panose-1:0 0 0 0 0 0 0 0 0 0;}
-@font-face
-	{font-family:"Comic Sans MS";
-	panose-1:3 15 7 2 3 3 2 2 2 4;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#0563C1;
-	text-decoration:underline;}
-a:visited, span.MsoHyperlinkFollowed
-	{mso-style-priority:99;
-	color:#954F72;
-	text-decoration:underline;}
-p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
-	{mso-style-priority:99;
-	mso-style-link:"Plain Text Char";
-	margin:0in;
-	margin-bottom:.0001pt;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-p.msonormal0, li.msonormal0, div.msonormal0
-	{mso-style-name:msonormal;
-	mso-margin-top-alt:auto;
-	margin-right:0in;
-	mso-margin-bottom-alt:auto;
-	margin-left:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.PlainTextChar
-	{mso-style-name:"Plain Text Char";
-	mso-style-priority:99;
-	mso-style-link:"Plain Text";
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle20
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.0in 1.0in 1.0in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
-link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
-class=3DMsoPlainText>All,<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
-triage team is starting to try and collect up and classify bugs which a =
-newcomer to the project would be able to work on in a way which means =
-people can find them. They're being listed on the triage page under the =
-appropriate heading:<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText><a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
-s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
-><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoPlainText>The idea is these bugs should be straight forward =
-for a person to help work on who doesn't have deep experience with the =
-project.&nbsp; If anyone can help, please take ownership of the bug and =
-send patches!&nbsp; If anyone needs help/advice there are people on irc =
-who can likely do so, or some of the more experienced contributors will =
-likely be happy to help too.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Also, =
-the triage team meets weekly and does its best to handle the bugs =
-reported into the Bugzilla. The number of people attending that meeting =
-has fallen, as have the number of people available to help fix bugs. One =
-of the things we hear users report is they don't know how to help. We =
-(the triage team) are therefore going to start reporting out the =
-currently 283 unassigned or newcomer bugs.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
-hoping people may be able to spare some time now and again to help out =
-with these.&nbsp; Bugs are split into two types, &quot;true bugs&quot; =
-where things don't work as they should and &quot;enhancements&quot; =
-which are features we'd want to add to the system.&nbsp; There are also =
-roughly four different &quot;priority&quot; classes right now, =
-&#8220;2.8&#8221;, &#8220;2.9&#8217;, &quot;2.99&quot; and =
-&quot;Future&quot;, the more pressing/urgent issues being in =
-&quot;2.8&quot; and then &#8220;2.9&#8221;.<o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
-review this link and if a bug is something you would be able to help =
-with either take ownership of the bug, or send me (<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
-e-mail with the bug number you would like and I will assign it to you =
-(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
-href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
-mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
-comer_Bugs</a><o:p></o:p></p><p =
-class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
-class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
-style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Times New =
-Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
-style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
-o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
-style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
-Project Program Manager<o:p></o:p></span></b></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
- style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
-style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Cell</span></b><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
-style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
-244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
-class=3DMsoNormal><span =
-style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
-lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
-MS";color:teal'>Email</span></b><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif;color:teal'>:</span><span lang=3DFR =
-style=3D'font-size:9.0pt;font-family:"MS Sans =
-Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;<a =
-href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
-/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
-style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
-p></span></p><p =
-class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
-
-------=_NextPart_000_0141_01D52A86.A2057AB0--
