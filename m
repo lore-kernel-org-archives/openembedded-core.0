@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
-	[209.85.210.175])
-	by mail.openembedded.org (Postfix) with ESMTP id C87CF7E600
+Received: from mail-pl1-f193.google.com (mail-pl1-f193.google.com
+	[209.85.214.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 722F17E600
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 03:54:35 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id r7so6712996pfl.3
+	Mon, 24 Jun 2019 03:54:36 +0000 (UTC)
+Received: by mail-pl1-f193.google.com with SMTP id p1so6106668plo.2
 	for <openembedded-core@lists.openembedded.org>;
 	Sun, 23 Jun 2019 20:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=KMaHgMvs4sdK3RlmvaLH68YNR8ZbLPHVk61OTgwyxdo=;
-	b=GJDhAhivICvxFmFxs48PAu6+jsj0qeoN1KZ+U9mI+GYD2mI2zgpE9kJq1U+GyWjrYZ
-	6s/rFMSnrog12i7NG5rcIt6lYaXC94Pc7xW5/oGhSgxzEBQaPv6UlO/CaJgEY1swouxG
-	YxhvM501FoZLPslNyGyBCf/rHRs3IAphSz4aM7JPSRtA5MD21dz8iR5WiM7tsxLtdnAl
-	hSDGKNmGatyKPvn8gPKpo7hHnEs/Zy32DaF8PcBOhtIFE/u0NS9MwJ29kFRWUvLohunP
-	Csj8mZpRhHRy+1/1bm+U3Decid+HXcwvXEG1qxLVjv+55v5ps3qOuC+lQ25jfFxe9Qp5
-	mY4g==
+	bh=UYegzLWPU9h1HWJLvS//y3QhslsFZWpTDk5CLtNTKd4=;
+	b=PHvyahyEJrBq+RXMUFBsg4lgKMeR506yf+JE5jUJChRij0EDUHbTfCRRBeq2IKgvKu
+	VoQMXv8CtFZJF5VwMESX/C2YKhTdpu2i9ASpSsBMU050Xmgpa3nsS6pDyQD+1j6FKmqB
+	VP3R3KbIhZqkwvohUwn7RVE/xFI4l6lqrGLQjqKvaPj8/rSQSlTPBPgvvcP0KpKzvKVi
+	P8KVDRvBasCscKPfP7PlS5dg9ORRrLWgurSOtDqf3dJRyhhLzyJA+1J4/kSwXm2qoDuk
+	0BPLRH6gUtOTKtT5pyCNjTi+zYPlMVWMlER1Ir30c8PKZvr/t9QoD2dmcmOPoPxXNuUX
+	pJ4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=KMaHgMvs4sdK3RlmvaLH68YNR8ZbLPHVk61OTgwyxdo=;
-	b=JHLVmDlWcbH36C5YNEibAyc0q6n1kw1dAM8ETvKdJiElhAeq8C5DUTUwA3UOBsFq4N
-	GPK6DGBHTxKmgvgzI9aDobOAI0K0tf5edj1F9lknZ4LCTjW6LzMpBQaXNROG3gkrKjyb
-	25yqBm2MH/foVXvrDDS3cW9W3EYMOz71prETQnVOcXEbo0nC0DDQPFAbS40vf+AZk5pN
-	0LmwG47LWaQkqgnknqqXy6b0kIPnpr19168//2PC/vKRWv5EakI8hsc9/gX2D8uwKQFt
-	uSpdIYbVazL2E2Hyb9eTPa0R8wTmuHM71cA1g+4yWApemfHcjwl31d04yQHqQ+cSisYt
-	wAzQ==
-X-Gm-Message-State: APjAAAUjj6Quu3wG0YiJagbZ59xSX+MPQTbIeBmBPydhTTTXB9XK5hGd
-	eSseJtaBHf8bernUKN0u8Q9wJES9xyE=
-X-Google-Smtp-Source: APXvYqwuyjtATPbFCYbzAcFnkIdcMrHWqUDuCPBqB4lo2dIJ8BK3aeoAjuUPeglm3ySPaiDGWrxLFg==
-X-Received: by 2002:a63:292:: with SMTP id 140mr29936099pgc.88.1561348476580; 
-	Sun, 23 Jun 2019 20:54:36 -0700 (PDT)
+	bh=UYegzLWPU9h1HWJLvS//y3QhslsFZWpTDk5CLtNTKd4=;
+	b=D+7CEHSJwbYRZ8JQJhE9cX0uwy4zI8DqulBOym4AsVsc9jOkyRg+2SnfNwwHyWqILM
+	TD81pCOPjHSx0DRq0UH/YSYQR/CLV8jfg6JsOrFvQpKM6/OCsrD7lChyT6g/jiRR/Agi
+	QnAWkh3Pv/sOCCUYhgQEyt5ugCFb8SPeKcsMsjRuXpaK3407tCbVw2mXysPI/fmwAKJL
+	MX8Org9nFR7eHBJ46XUM/gr7Gc4hGTC7cXzxHYnxWnstEQTIfYIoY8Tm2ykUZwSvvrc/
+	k4+rxUIa5sHO5uoLfY4aTmwCU6Z4lBqaORrt6R61IG99X2WYxLOK6JlUn/b8FZLrVg+o
+	32ew==
+X-Gm-Message-State: APjAAAUTLLDU8p8Ax7/dGUmk/0dVTrX8geW8vAoZSEXBkIoxG74UncUw
+	tmso9VZ+qzZflCnwojOObdzaDOpenxg=
+X-Google-Smtp-Source: APXvYqyFStH6G6JzgUhm1JpO2dslRXlstWHb0NoivLGuYWKa2c4gyFuIWpHUPHpdkz6Nfarj5X5TtA==
+X-Received: by 2002:a17:902:42d:: with SMTP id
+	42mr139219184ple.228.1561348477472; 
+	Sun, 23 Jun 2019 20:54:37 -0700 (PDT)
 Received: from localhost.localdomain ([2601:202:4180:c33:4917:1686:82c6:892f])
 	by smtp.gmail.com with ESMTPSA id
-	w132sm9837202pfd.78.2019.06.23.20.54.35
+	w132sm9837202pfd.78.2019.06.23.20.54.36
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Jun 2019 20:54:36 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:37 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 20:54:14 -0700
-Message-Id: <b8d16e9d74688e91d6dee5e643b42fd5c4f887b4.1561348290.git.akuster808@gmail.com>
+Date: Sun, 23 Jun 2019 20:54:15 -0700
+Message-Id: <198cfe95eb41d07b0f7fec62de2e4ccf2291eadf.1561348290.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561348290.git.akuster808@gmail.com>
 References: <cover.1561348290.git.akuster808@gmail.com>
-Subject: [Warrior][ 15/19] texinfo-dummy-native: A little clean up of template.py
+Subject: [Warrior][ 16/19] texinfo-dummy-native: Rewrite template.py to use argparse
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,140 +63,110 @@ X-List-Received-Date: Mon, 24 Jun 2019 03:54:36 -0000
 
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 
-This is mainly whitespace clean up, plus using the with statement when
-writing files.
+The original version of template.py parses the arguments manually. This
+fails when looking for the -E option if, e.g., an -I option is specified
+without any space before its argument, and that argument contains the
+letter 'E'.
+
+A minor difference to the original version is that it parsed the
+arguments in the order they were specified on the command line whereas
+this version will always handle -E before -o.
 
 Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../texinfo-dummy-native/texinfo-dummy/template.py | 63 +++++++++++-----------
- 1 file changed, 30 insertions(+), 33 deletions(-)
+ .../texinfo-dummy-native/texinfo-dummy/template.py | 55 +++++++---------------
+ 1 file changed, 18 insertions(+), 37 deletions(-)
 
 diff --git a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-index e369f74..fcc2854 100644
+index fcc2854..86c7c18 100644
 --- a/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
 +++ b/meta/recipes-extended/texinfo-dummy-native/texinfo-dummy/template.py
-@@ -33,21 +33,20 @@ import sys, os
- olong = "--output="
- Elong = "--macro-expand="
+@@ -28,10 +28,8 @@
+ # of the executable from argv[0] and emulate the corresponding program, so
+ # multiple copies of this script will exist under different names.
  
--
--this_binary = sys.argv[0].split ("/")[-1]
-+this_binary = sys.argv[0].split("/")[-1]
+-import sys, os
++import sys, os, argparse
  
- # To be outputted if functionality that hasn't been stubbed yet is invoked.
- stub_msg = """
--This stand-in version of %s is not yet fully capable of emulating the real
--version from the GNU texinfo suite. If you see this message, file a bug report
--with details on the recipe that failed.
-+This stand-in version of %s is not yet fully capable of emulating
-+the real version from the GNU texinfo suite. If you see this message, file a
-+bug report with details on the recipe that failed.
- """ % this_binary
+-olong = "--output="
+-Elong = "--macro-expand="
  
- # Autotools setups query the version, so this is actually necessary. Some of
- # them (lookin' at you, glibc) actually look for the substring "GNU texinfo,"
- # so we put that substring in there without actually telling a lie.
--version_str = """ %s (fake texinfo, emulating GNU texinfo) 5.2
-- 
-+version_str = """%s (fake texinfo, emulating GNU texinfo) 5.2
-+
- Super amazing version which is totally not fake in any way whatsoever.
- Copyright (C) 2014 Intel Corp. Distributed under the terms of the MIT
- license.
-@@ -55,62 +54,61 @@ license.
+ this_binary = sys.argv[0].split("/")[-1]
  
- simple_binaries = "pod2texi texi2dvi pdftexi2dvi texindex texi2pdf \
-                    txixml2texi install-info ginstall-info \
--                   update-info-dir".split ()
-+                   update-info-dir".split()
- 
- # These utilities use a slightly different set of options and flags.
--complex_binaries = "makeinfo texi2any".split ()
-+complex_binaries = "makeinfo texi2any".split()
+@@ -61,18 +59,9 @@ complex_binaries = "makeinfo texi2any".split()
  
  valid_binaries = simple_binaries + complex_binaries
  
- # For generating blank output files.
--def touch_file (path):
--    f = open (path, "w")
--    f.close ()
-+def touch_file(path):
-+    with open(path, "w"):
-+        pass
- 
+-# For generating blank output files.
+-def touch_file(path):
+-    with open(path, "w"):
+-        pass
+-
  assert this_binary in valid_binaries, \
--       this_binary + " is not one of " + ', '.join (valid_binaries)
-+       this_binary + " is not one of " + ', '.join(valid_binaries)
+        this_binary + " is not one of " + ', '.join(valid_binaries)
  
- if "--version" in sys.argv:
-     print(version_str)
--    sys.exit (0)
-+    sys.exit(0)
- 
+-if "--version" in sys.argv:
+-    print(version_str)
+-    sys.exit(0)
+-
  # For debugging
  log_interceptions = False
  if log_interceptions:
--    f = open ("/tmp/intercepted_" + this_binary, "a")
--    f.write (' '.join ([this_binary] + sys.argv[1:]) + '\n')
--    f.close ()
-+    with open("/tmp/intercepted_" + this_binary, "a") as f:
-+        f.write(' '.join([this_binary] + sys.argv[1:]) + '\n')
+@@ -81,35 +70,27 @@ if log_interceptions:
  
  # Look through the options and flags, and if necessary, touch any output
  # files.
- arg_idx = 1
--while arg_idx < len (sys.argv):
-+while arg_idx < len(sys.argv):
-     arg = sys.argv [arg_idx]
--    
-+
-     if arg == "--":
-         break
--    
-+
-     # Something like -I . can result in a need for this (specifically the .)
--    elif len (arg) < 2:
-+    elif len(arg) < 2:
-         pass
--    
-+
-     # Check if -o or --output is specified. These can be used at most once.
--    elif arg[0] == '-' and arg[1] != '-' and arg[len (arg) - 1] == 'o':
--        touch_file (sys.argv[arg_idx + 1])
--        sys.exit (0)
--    elif arg.startswith (olong):
--        touch_file (arg.split ("=")[1])
--        sys.exit (0)
--    
-+    elif arg[0] == '-' and arg[1] != '-' and arg[len(arg) - 1] == 'o':
-+        touch_file(sys.argv[arg_idx + 1])
-+        sys.exit(0)
-+    elif arg.startswith(olong):
-+        touch_file(arg.split("=")[1])
-+        sys.exit(0)
-+
-     # Check for functionality that isn't implemented yet.
-     else:
-         assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
-                this_binary in simple_binaries, \
-                "-E option not yet supported" + stub_msg
--        
--        assert not arg.startswith (Elong), \
-+
-+        assert not arg.startswith(Elong), \
-                Elong[:-1] + " option not yet supported" + stub_msg
--    
-+
-     arg_idx += 1
+-arg_idx = 1
+-while arg_idx < len(sys.argv):
+-    arg = sys.argv [arg_idx]
+-
+-    if arg == "--":
+-        break
++p = argparse.ArgumentParser()
++if this_binary in complex_binaries:
++    p.add_argument('-E', '--macro-expand', metavar='FILE')
++p.add_argument('-o', '--output', metavar='DEST')
++p.add_argument('--version', action='store_true')
+ 
+-    # Something like -I . can result in a need for this (specifically the .)
+-    elif len(arg) < 2:
+-        pass
+-
+-    # Check if -o or --output is specified. These can be used at most once.
+-    elif arg[0] == '-' and arg[1] != '-' and arg[len(arg) - 1] == 'o':
+-        touch_file(sys.argv[arg_idx + 1])
+-        sys.exit(0)
+-    elif arg.startswith(olong):
+-        touch_file(arg.split("=")[1])
+-        sys.exit(0)
++args, unknown = p.parse_known_args()
+ 
+-    # Check for functionality that isn't implemented yet.
+-    else:
+-        assert arg[0] != '-' or arg[1] == '-' or 'E' not in arg or \
+-               this_binary in simple_binaries, \
+-               "-E option not yet supported" + stub_msg
++if args.version:
++    print(version_str)
++    sys.exit(0)
+ 
+-        assert not arg.startswith(Elong), \
+-               Elong[:-1] + " option not yet supported" + stub_msg
++# Check for functionality that isn't implemented yet.
++assert not getattr(args, 'macro_expand', None), \
++    "-E/--macro-expand option not yet supported" + stub_msg
+ 
+-    arg_idx += 1
++# Check if -o or --output is specified.
++if args.output:
++    with open(args.output, 'w'):
++        pass
++    sys.exit(0)
  
  # The -o/--output option overrides the default. For makeinfo and texi2any,
-@@ -119,4 +117,3 @@ while arg_idx < len (sys.argv):
- assert this_binary in simple_binaries, \
-        "Don't know how to get default output file name from input file!" + \
-        stub_msg
--
+ # that default is to look for a @setfilename command in the input file.
 -- 
 2.7.4
 
