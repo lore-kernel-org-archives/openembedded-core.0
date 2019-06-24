@@ -1,33 +1,55 @@
-Return-Path: <Changqing.Li@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 614137E508
+Return-Path: <ticotimo@gmail.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id BB8E971BB9
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 01:02:48 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5O12CCQ002443
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 23 Jun 2019 18:02:22 -0700
-Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Sun, 23 Jun 2019 18:02:02 -0700
-To: Martin Jansa <martin.jansa@gmail.com>
-References: <efe358c26f3e3e9e83853e72256f54d1b9bd4a7f.camel@linuxfoundation.org>
-	<1560844016-105234-1-git-send-email-changqing.li@windriver.com>
-	<20190621083230.GA1512@jama>
-	<0d708d66-b7d6-118f-8df9-2572fb434e63@windriver.com>
-	<CA+chaQfqW9kGqSUqSW7WrdW014-veA9Oyp6K7V8=+b+Q900tkA@mail.gmail.com>
-From: Changqing Li <changqing.li@windriver.com>
-Message-ID: <d1a14f83-9d68-b73d-1fe1-89062897dab8@windriver.com>
-Date: Mon, 24 Jun 2019 09:01:59 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Mon, 24 Jun 2019 01:50:00 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id w25so491009ioc.8
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 23 Jun 2019 18:50:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=dHR0Yg1xUmtZiPuaelnDA1+GNPz5m+EsydRHQ0ZNQkc=;
+	b=D7l+r5Pmhiak6RS8hF4ISN5SC9wV2b667UxgDCtwDc/YmXdVILPIF7AuIF0xiwp/wL
+	CnsstEZh6WC7206a2xnvEGyGKZTkEJ2+YWrHrptElZ9np8cddhBoM+e86bj2yIkbE5hE
+	NwcdnpQF9TBBFjC86A0RIiyHwL2Xhi82H6MeRP2+Nu2LStALTWuBG569XYHLCUmbpL0z
+	cDeNY9ilTp1TZomJrDa504F8ECWPvfG/u79o1OaeKk0GQWBFxBBELayiVlGH5XCVvZTW
+	QLZ+odrSD5SUaGrMjo8uf+PEWAfxkLhZsUHCHMldmpHuxDDRNwCrcNllM88cmr6QwEpv
+	zp3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=dHR0Yg1xUmtZiPuaelnDA1+GNPz5m+EsydRHQ0ZNQkc=;
+	b=M+3mmpnYPyhIm045+Cyh7129XVmNqN235oTrCJzuXvtIMjWMZPjGCZsHonUDXqko3u
+	KY0CSUxT1DuEfOR08OU6eKRe6t3mI7xZNVdxChLZtOjjcAkbdGXNJelCB3jfkvXhs8ge
+	yq/r5Agi3AbvDanQOUlFQHHxjqQLs89dcCe/tQ7lUOpiCaD1BsfEIvHVaCCokGJw5u2P
+	HT1Gtwy2Rr9lJFZaOtWus+GHIb+zFaCL0Jq4vppmV3NYGjuJYL7BSzeobNKGN2LWIcq3
+	YnwoItcbHGLYdyRW0K4yl5axM+RVvGAqGyh0TcsnkidPL8lBk+leA38VmTbLfeDJZHS2
+	aMew==
+X-Gm-Message-State: APjAAAWjwMeQAGCfOcCD5ZIC3J2XJsUid8ockrbdh1s2AEQ6tcl7opEG
+	9Ax/7HmVgP6mLwIW2vOwF1KbObzFNbvWrSSzQ+A=
+X-Google-Smtp-Source: APXvYqzUzLUf3CvZ8r0OvwgRcYsp1lQar6YcdoxsoW+/MFzDWrsz8Ahcn4qicr3BXb0/vDia1uOn7exwYaABJ4xVLJY=
+X-Received: by 2002:a02:1146:: with SMTP id 67mr128593857jaf.10.1561341001614; 
+	Sun, 23 Jun 2019 18:50:01 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CA+chaQfqW9kGqSUqSW7WrdW014-veA9Oyp6K7V8=+b+Q900tkA@mail.gmail.com>
-X-Originating-IP: [128.224.162.186]
+References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
+	<0f5adba2f96da9396faa1e70f9eed84118cf735e.1559950879.git.timothy.t.orling@linux.intel.com>
+	<CAMKF1sq5aOZ+6CSP+G88+JCYd4zMb6ZSe5MP5KWSSofPRbe4Ow@mail.gmail.com>
+	<CANx9H-DLg1_vSEi1bBSSLCmycdyEa2MiJjZ9d=Owsc5bsR-GBA@mail.gmail.com>
+	<CAMKF1sr+Ffk0nCd3aVhGfsdRreFX7cpqEAqH8606LMqg=-ijww@mail.gmail.com>
+	<20190622085840.GB9472@localhost>
+	<CAMKF1sq7AwbG_pM3sivhvQjaJ_mwR6R-GDEv5J23rpEYjsMT2Q@mail.gmail.com>
+	<CANx9H-C63ech2pPxYwirWJRE4-p9uQTA0zcBAzepYK0L4mth0Q@mail.gmail.com>
+	<20190623192439.GA11669@localhost>
+In-Reply-To: <20190623192439.GA11669@localhost>
+From: Tim Orling <ticotimo@gmail.com>
+Date: Sun, 23 Jun 2019 18:49:50 -0700
+Message-ID: <CANx9H-B=vJdbtyx6RytcKro3E5WrT9O+PCScMfnXW=Jy3CzuNg@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH V3] gcc-runtime: fix C++ header mapping for n32/x32 tune
+Subject: Re: [PATCH 2/4] scons.bbclass: use python3-scons
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,463 +62,149 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 01:02:49 -0000
-Content-Type: multipart/alternative;
-	boundary="------------B9452068A0E9F2DABE51D78F"
-Content-Language: en-US
+X-List-Received-Date: Mon, 24 Jun 2019 01:50:00 -0000
+Content-Type: multipart/alternative; boundary="000000000000c64ba7058c0807ba"
 
---------------B9452068A0E9F2DABE51D78F
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+--000000000000c64ba7058c0807ba
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Jun 23, 2019 at 12:24 PM Adrian Bunk <bunk@stusta.de> wrote:
 
-On 6/21/19 6:21 PM, Martin Jansa wrote:
-> Hi,
+> On Sun, Jun 23, 2019 at 09:44:07AM -0700, Tim Orling wrote:
+> > On Sat, Jun 22, 2019 at 5:03 PM Khem Raj <raj.khem@gmail.com> wrote:
+> >
+> > >
+> > >
+> > > On Sat, Jun 22, 2019 at 1:58 AM Adrian Bunk <bunk@stusta.de> wrote:
+> > >
+> > >> On Thu, Jun 20, 2019 at 09:27:15PM -0600, Khem Raj wrote:
+> > >> > On Thu, Jun 20, 2019 at 6:18 PM Tim Orling <ticotimo@gmail.com>
+> wrote:
+> > >> >...
+> > >> > > Latest mongo release appears to be 4.3.0 and appears to support
+> > >> python3:
+> > >> > >
+> > >> > >
+> > >> > >
+> > >>
+> https://github.com/mongodb/mongo/blob/89e7419a897b2270931c9c029abf6de555d=
+83e0f/SConstruct
+> > >> > >
+> > >> > > Is this an aceptable upgrade? I am not savvy on which versions a=
+re
+> > >> > > desirable.
+> > >> >
+> > >> > Yes for master this upgrade is fine
+> > >>
+> > >> Are you approving the changed licence for OE,
+> > >> or were you not aware that this was the question?
+> > >>
+> > >
+> > > What has changed between 4.0.6 and 4.3.0 w.r.t. licensing ?
+> > >
+> >
+> > The Server Side License is already in 4.0.6
+> >
+> https://github.com/mongodb/mongo/blob/caa42a1f75a56c7643d0b68d3880444375e=
+c42e3/LICENSE-Community.txt
+> >...
 >
-> see the fix here:
-> http://lists.openembedded.org/pipermail/openembedded-core/2019-June/283928.html
->
-> I think it doesn't need additional explanation.
->
-> Any aarch64/arm multilib configuration should trigger this (or 
-> anything where TARGET_OS isn't just "linux").
-Thanks.
->
-> Regards,
->
-> On Fri, Jun 21, 2019 at 11:08 AM Changqing Li 
-> <changqing.li@windriver.com <mailto:changqing.li@windriver.com>> wrote:
->
->
->     On 6/21/19 4:32 PM, Martin Jansa wrote:
->     > On Tue, Jun 18, 2019 at 03:46:56PM +0800,
->     changqing.li@windriver.com <mailto:changqing.li@windriver.com> wrote:
->     >> From: Changqing Li <changqing.li@windriver.com
->     <mailto:changqing.li@windriver.com>>
->     >>
->     >> The SDK was unable to find the C++ header pieces correctly
->     since it's
->     >> using a generic compiler, not one specifically targeting the
->     multilib
->     >> vendor prefix and default tune.  This adds the right mapping to
->     ensure
->     >> SDKs work as expected. And fix problem in below configurations:
->     >>
->     >> multilib configuration 1:
->     >> MACHINE="qemumips64"
->     >> MULTILIBS ?= "multilib:lib32 multilib:libn32"
->     >> DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"
->     >> DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"
->     >> MULTILIB_GLOBAL_VARIANTS_append = " libn32"
->     >> require conf/multilib.conf
->     >>
->     >> ignoring nonexistent directory
->     "<path>/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32
->     >>
->     >> multilib configuration 2:
->     >> MACHINE="qemumips64"
->     >> MULTILIBS = 'multilib:lib64 multilib:lib32'
->     >> DEFAULTTUNE = 'mips64-n32'
->     >> DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
->     >> DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
->     >> require conf/multilib.conf
->     >>
->     >> For this configuration:
->     >> for target gcc-runtime, need to create symlink like
->     mips64-poly-linux --> mips64-poky-linux-gnu32
->     >> for target lib64-gcc-runtime, need to create symlink like
->     mips64-poly-linux/32 --> mips64-pokymllib64-linux
->     >> in order to avoid conflict during populate_sdk, create symlink
->     for subfoler bits/ext for target gcc-runtime,
->     >> this is ugly, but seems no better way to cover all kinds of
->     configuration.
->     >>
->     >> single lib configuration:
->     >> MACHINE="qemumips64"
->     >> DEFAULTTUNE = "mips64-n32"
->     > This seems to be causing:
->     >
->     > ln: failed to create symbolic link
->     'work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux-gnueabi/bits':
->     No such file or directory
->     > WARNING: exit code 1 from a shell command.
->     > ERROR: Function failed: do_install (log file is located at
->     work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/temp/log.do_install.31049)
->     >
->     > There is only empty directory without the -gnueabi suffix:
->     >
->     work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux/
->     >
->     > and
->     >
->     >
->     work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oemllib32-linux-gnueabi/
->     > bits  ext
->
->     Could you send your configuration like this? Thanks.
->
->     MACHINE="qemumips64"
->     MULTILIBS = 'multilib:lib64 multilib:lib32'
->     DEFAULTTUNE = 'mips64-n32'
->     DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'
->     DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'
->     require conf/multilib.conf
->
->     >> Signed-off-by: Changqing Li <changqing.li@windriver.com
->     <mailto:changqing.li@windriver.com>>
->     >> ---
->     >>   meta/recipes-devtools/gcc/gcc-runtime.inc | 29
->     +++++++++++++++++------------
->     >>   1 file changed, 17 insertions(+), 12 deletions(-)
->     >>
->     >> diff --git a/meta/recipes-devtools/gcc/gcc-runtime.inc
->     b/meta/recipes-devtools/gcc/gcc-runtime.inc
->     >> index 3d03d8e..ba767e1 100644
->     >> --- a/meta/recipes-devtools/gcc/gcc-runtime.inc
->     >> +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc
->     >> @@ -86,10 +86,6 @@ do_install () {
->     >>      if [ -d ${D}${infodir} ]; then
->     >>              rmdir --ignore-fail-on-non-empty -p ${D}${infodir}
->     >>      fi
->     >> -    if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a
->     "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
->     >> -            ln -s ${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}
->     >> -    fi
->     >> -
->     >>   }
->     >>
->     >>   do_install_append_class-target () {
->     >> @@ -98,20 +94,29 @@ do_install_append_class-target () {
->     >>      fi
->     >>
->     >>      if [ "${TARGET_OS}" = "linux-gnun32" ]; then
->     >> -            if [ "${MULTILIBS}" != "" ]; then
->     >> -                    mkdir
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux
->     >> -                    ln -s ../${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32
->     >> +            if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a
->     "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
->     >> +                    mkdir
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
->     >> +                    ln -s ../${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32
->     >> +            elif [ "${MULTILIB_VARIANTS}" != "" ]; then
->     >> +                    mkdir
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
->     >> +                    ln -s ../${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
->     >>              else
->     >>                      ln -s ${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
->     >>              fi
->     >> -    fi
->     >> -    if [ "${TARGET_OS}" = "linux-gnux32" ]; then
->     >> -            if [ "${MULTILIBS}" != "" ]; then
->     >> -                    mkdir
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux
->     >> -                    ln -s ../${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32
->     >> +    elif [ "${TARGET_OS}" = "linux-gnux32" ]; then
->     >> +            if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a
->     "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
->     >> +                    mkdir
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
->     >> +                    ln -s ../${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32
->     >> +            elif [ "${MULTILIB_VARIANTS}" != "" ]; then
->     >> +                    mkdir
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
->     >> +                    ln -s ../${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32
->     >>              else
->     >>                      ln -s ${TARGET_SYS}
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux
->     >>              fi
->     >> +    elif [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a
->     "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then
->     >> +            mkdir
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux
->     >> +            ln -s ../${TARGET_SYS}/bits
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/bits
->     >> +            ln -s ../${TARGET_SYS}/ext
->     ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext
->     >>      fi
->     >>
->     >>      if [ "${TCLIBC}" != "glibc" ]; then
->     >> --
->     >> 2.7.4
->     >>
->     >> --
->     >> _______________________________________________
->     >> Openembedded-core mailing list
->     >> Openembedded-core@lists.openembedded.org
->     <mailto:Openembedded-core@lists.openembedded.org>
->     >> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
->     -- 
->     BRs
->
->     Sandy(Li Changqing)
->
--- 
-BRs
-
-Sandy(Li Changqing)
+> Ah sorry, I missed that.
 
 
---------------B9452068A0E9F2DABE51D78F
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+>
+I didn=E2=80=99t know either. And you are correct in identifying what I was
+asking.... (without asking)
 
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body text="#000000" bgcolor="#FFFFFF">
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 6/21/19 6:21 PM, Martin Jansa wrote:<br>
-    </div>
-    <blockquote type="cite"
-cite="mid:CA+chaQfqW9kGqSUqSW7WrdW014-veA9Oyp6K7V8=+b+Q900tkA@mail.gmail.com">
-      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-      <div dir="ltr">Hi,
-        <div><br>
-        </div>
-        <div>see the fix here:</div>
-        <div><a
-href="http://lists.openembedded.org/pipermail/openembedded-core/2019-June/283928.html"
-            moz-do-not-send="true">http://lists.openembedded.org/pipermail/openembedded-core/2019-June/283928.html</a><br>
-        </div>
-        <div><br>
-        </div>
-        <div>I think it doesn't need additional explanation.</div>
-        <div><br>
-        </div>
-        <div>Any aarch64/arm multilib configuration should trigger this
-          (or anything where TARGET_OS isn't just "linux").</div>
-      </div>
-    </blockquote>
-    Thanks.<br>
-    <blockquote type="cite"
-cite="mid:CA+chaQfqW9kGqSUqSW7WrdW014-veA9Oyp6K7V8=+b+Q900tkA@mail.gmail.com">
-      <div dir="ltr">
-        <div><br>
-        </div>
-        <div>Regards,</div>
-      </div>
-      <br>
-      <div class="gmail_quote">
-        <div dir="ltr" class="gmail_attr">On Fri, Jun 21, 2019 at 11:08
-          AM Changqing Li &lt;<a
-            href="mailto:changqing.li@windriver.com"
-            moz-do-not-send="true">changqing.li@windriver.com</a>&gt;
-          wrote:<br>
-        </div>
-        <blockquote class="gmail_quote" style="margin:0px 0px 0px
-          0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-          On 6/21/19 4:32 PM, Martin Jansa wrote:<br>
-          &gt; On Tue, Jun 18, 2019 at 03:46:56PM +0800, <a
-            href="mailto:changqing.li@windriver.com" target="_blank"
-            moz-do-not-send="true">changqing.li@windriver.com</a> wrote:<br>
-          &gt;&gt; From: Changqing Li &lt;<a
-            href="mailto:changqing.li@windriver.com" target="_blank"
-            moz-do-not-send="true">changqing.li@windriver.com</a>&gt;<br>
-          &gt;&gt;<br>
-          &gt;&gt; The SDK was unable to find the C++ header pieces
-          correctly since it's<br>
-          &gt;&gt; using a generic compiler, not one specifically
-          targeting the multilib<br>
-          &gt;&gt; vendor prefix and default tune.  This adds the right
-          mapping to ensure<br>
-          &gt;&gt; SDKs work as expected. And fix problem in below
-          configurations:<br>
-          &gt;&gt;<br>
-          &gt;&gt; multilib configuration 1:<br>
-          &gt;&gt; MACHINE="qemumips64"<br>
-          &gt;&gt; MULTILIBS ?= "multilib:lib32 multilib:libn32"<br>
-          &gt;&gt; DEFAULTTUNE_virtclass-multilib-lib32 ?= "mips"<br>
-          &gt;&gt; DEFAULTTUNE_virtclass-multilib-libn32 ?= "mips64-n32"<br>
-          &gt;&gt; MULTILIB_GLOBAL_VARIANTS_append = " libn32"<br>
-          &gt;&gt; require conf/multilib.conf<br>
-          &gt;&gt;<br>
-          &gt;&gt; ignoring nonexistent directory
-"&lt;path&gt;/sysroots/mips64-poky-linux/usr/include/c++/8.2.0/mips64-poky-linux/32<br>
-          &gt;&gt;<br>
-          &gt;&gt; multilib configuration 2:<br>
-          &gt;&gt; MACHINE="qemumips64"<br>
-          &gt;&gt; MULTILIBS = 'multilib:lib64 multilib:lib32'<br>
-          &gt;&gt; DEFAULTTUNE = 'mips64-n32'<br>
-          &gt;&gt; DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'<br>
-          &gt;&gt; DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'<br>
-          &gt;&gt; require conf/multilib.conf<br>
-          &gt;&gt;<br>
-          &gt;&gt; For this configuration:<br>
-          &gt;&gt; for target gcc-runtime, need to create symlink like
-          mips64-poly-linux --&gt; mips64-poky-linux-gnu32<br>
-          &gt;&gt; for target lib64-gcc-runtime, need to create symlink
-          like mips64-poly-linux/32 --&gt; mips64-pokymllib64-linux<br>
-          &gt;&gt; in order to avoid conflict during populate_sdk,
-          create symlink for subfoler bits/ext for target gcc-runtime,<br>
-          &gt;&gt; this is ugly, but seems no better way to cover all
-          kinds of configuration.<br>
-          &gt;&gt;<br>
-          &gt;&gt; single lib configuration:<br>
-          &gt;&gt; MACHINE="qemumips64"<br>
-          &gt;&gt; DEFAULTTUNE = "mips64-n32"<br>
-          &gt; This seems to be causing:<br>
-          &gt;<br>
-          &gt; ln: failed to create symbolic link
-'work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux-gnueabi/bits':
-          No such file or directory<br>
-          &gt; WARNING: exit code 1 from a shell command.<br>
-          &gt; ERROR: Function failed: do_install (log file is located
-          at
-work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/temp/log.do_install.31049)<br>
-          &gt;<br>
-          &gt; There is only empty directory without the -gnueabi
-          suffix:<br>
-          &gt;
-work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oe-linux/<br>
-          &gt;<br>
-          &gt; and<br>
-          &gt;<br>
-          &gt;
-work/aarch64-oemllib32-linux-gnueabi/lib32-gcc-runtime/9.1.0-r0/image/usr/include/c++/9.1.0/arm-oemllib32-linux-gnueabi/<br>
-          &gt; bits  ext<br>
-          <br>
-          Could you send your configuration like this? Thanks.<br>
-          <br>
-          MACHINE="qemumips64"<br>
-          MULTILIBS = 'multilib:lib64 multilib:lib32'<br>
-          DEFAULTTUNE = 'mips64-n32'<br>
-          DEFAULTTUNE_virtclass-multilib-lib64 = 'mips64'<br>
-          DEFAULTTUNE_virtclass-multilib-lib32 = 'mips32r2'<br>
-          require conf/multilib.conf<br>
-          <br>
-          &gt;&gt; Signed-off-by: Changqing Li &lt;<a
-            href="mailto:changqing.li@windriver.com" target="_blank"
-            moz-do-not-send="true">changqing.li@windriver.com</a>&gt;<br>
-          &gt;&gt; ---<br>
-          &gt;&gt;   meta/recipes-devtools/gcc/gcc-runtime.inc | 29
-          +++++++++++++++++------------<br>
-          &gt;&gt;   1 file changed, 17 insertions(+), 12 deletions(-)<br>
-          &gt;&gt;<br>
-          &gt;&gt; diff --git
-          a/meta/recipes-devtools/gcc/gcc-runtime.inc
-          b/meta/recipes-devtools/gcc/gcc-runtime.inc<br>
-          &gt;&gt; index 3d03d8e..ba767e1 100644<br>
-          &gt;&gt; --- a/meta/recipes-devtools/gcc/gcc-runtime.inc<br>
-          &gt;&gt; +++ b/meta/recipes-devtools/gcc/gcc-runtime.inc<br>
-          &gt;&gt; @@ -86,10 +86,6 @@ do_install () {<br>
-          &gt;&gt;      if [ -d ${D}${infodir} ]; then<br>
-          &gt;&gt;              rmdir --ignore-fail-on-non-empty -p
-          ${D}${infodir}<br>
-          &gt;&gt;      fi<br>
-          &gt;&gt; -    if [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != ""
-          -a "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}"
-          ]; then<br>
-          &gt;&gt; -            ln -s ${TARGET_SYS}
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}<br>
-          &gt;&gt; -    fi<br>
-          &gt;&gt; -<br>
-          &gt;&gt;   }<br>
-          &gt;&gt;   <br>
-          &gt;&gt;   do_install_append_class-target () {<br>
-          &gt;&gt; @@ -98,20 +94,29 @@ do_install_append_class-target ()
-          {<br>
-          &gt;&gt;      fi<br>
-          &gt;&gt;   <br>
-          &gt;&gt;      if [ "${TARGET_OS}" = "linux-gnun32" ]; then<br>
-          &gt;&gt; -            if [ "${MULTILIBS}" != "" ]; then<br>
-          &gt;&gt; -                    mkdir
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux<br>
-          &gt;&gt; -                    ln -s ../${TARGET_SYS}
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-pokymllib64-linux/32<br>
-          &gt;&gt; +            if [
-          "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a
-          "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ];
-          then<br>
-          &gt;&gt; +                    mkdir
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux<br>
-          &gt;&gt; +                    ln -s ../${TARGET_SYS}
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/32<br>
-          &gt;&gt; +            elif [ "${MULTILIB_VARIANTS}" != "" ];
-          then<br>
-          &gt;&gt; +                    mkdir
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux<br>
-          &gt;&gt; +                    ln -s ../${TARGET_SYS}
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32<br>
-          &gt;&gt;              else<br>
-          &gt;&gt;                      ln -s ${TARGET_SYS}
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux<br>
-          &gt;&gt;              fi<br>
-          &gt;&gt; -    fi<br>
-          &gt;&gt; -    if [ "${TARGET_OS}" = "linux-gnux32" ]; then<br>
-          &gt;&gt; -            if [ "${MULTILIBS}" != "" ]; then<br>
-          &gt;&gt; -                    mkdir
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux<br>
-          &gt;&gt; -                    ln -s ../${TARGET_SYS}
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}-poky-linux/x32<br>
-          &gt;&gt; +    elif [ "${TARGET_OS}" = "linux-gnux32" ]; then<br>
-          &gt;&gt; +            if [
-          "${TARGET_VENDOR_MULTILIB_ORIGINAL}" != "" -a
-          "${TARGET_VENDOR}" != "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ];
-          then<br>
-          &gt;&gt; +                    mkdir
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux<br>
-          &gt;&gt; +                    ln -s ../${TARGET_SYS}
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux/x32<br>
-          &gt;&gt; +            elif [ "${MULTILIB_VARIANTS}" != "" ];
-          then<br>
-          &gt;&gt; +                    mkdir
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux<br>
-          &gt;&gt; +                    ln -s ../${TARGET_SYS}
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux/32<br>
-          &gt;&gt;              else<br>
-          &gt;&gt;                      ln -s ${TARGET_SYS}
-          ${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR}-linux<br>
-          &gt;&gt;              fi<br>
-          &gt;&gt; +    elif [ "${TARGET_VENDOR_MULTILIB_ORIGINAL}" !=
-          "" -a "${TARGET_VENDOR}" !=
-          "${TARGET_VENDOR_MULTILIB_ORIGINAL}" ]; then<br>
-          &gt;&gt; +            mkdir
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-linux<br>
-          &gt;&gt; +            ln -s ../${TARGET_SYS}/bits
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/bits<br>
-          &gt;&gt; +            ln -s ../${TARGET_SYS}/ext
-${D}${includedir}/c++/${BINV}/${TARGET_ARCH}${TARGET_VENDOR_MULTILIB_ORIGINAL}-${TARGET_OS}/ext<br>
-          &gt;&gt;      fi<br>
-          &gt;&gt;   <br>
-          &gt;&gt;      if [ "${TCLIBC}" != "glibc" ]; then<br>
-          &gt;&gt; -- <br>
-          &gt;&gt; 2.7.4<br>
-          &gt;&gt;<br>
-          &gt;&gt; -- <br>
-          &gt;&gt; _______________________________________________<br>
-          &gt;&gt; Openembedded-core mailing list<br>
-          &gt;&gt; <a
-            href="mailto:Openembedded-core@lists.openembedded.org"
-            target="_blank" moz-do-not-send="true">Openembedded-core@lists.openembedded.org</a><br>
-          &gt;&gt; <a
-            href="http://lists.openembedded.org/mailman/listinfo/openembedded-core"
-            rel="noreferrer" target="_blank" moz-do-not-send="true">http://lists.openembedded.org/mailman/listinfo/openembedded-core</a><br>
-          <br>
-          -- <br>
-          BRs<br>
-          <br>
-          Sandy(Li Changqing)<br>
-          <br>
-        </blockquote>
-      </div>
-    </blockquote>
-    <pre class="moz-signature" cols="72">-- 
-BRs
 
-Sandy(Li Changqing)</pre>
-  </body>
-</html>
+> cu
+> Adrian
+>
+> --
+>
+>        "Is there not promise of rain?" Ling Tan asked suddenly out
+>         of the darkness. There had been need of rain for many days.
+>        "Only a promise," Lao Er said.
+>                                        Pearl S. Buck - Dragon Seed
+>
+>
 
---------------B9452068A0E9F2DABE51D78F--
+--000000000000c64ba7058c0807ba
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Sun, Jun 23, 2019 at 12:24 PM Adrian Bunk &lt;<a href=3D=
+"mailto:bunk@stusta.de">bunk@stusta.de</a>&gt; wrote:<br></div><blockquote =
+class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid=
+;padding-left:1ex">On Sun, Jun 23, 2019 at 09:44:07AM -0700, Tim Orling wro=
+te:<br>
+&gt; On Sat, Jun 22, 2019 at 5:03 PM Khem Raj &lt;<a href=3D"mailto:raj.khe=
+m@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; On Sat, Jun 22, 2019 at 1:58 AM Adrian Bunk &lt;<a href=3D"mailto=
+:bunk@stusta.de" target=3D"_blank">bunk@stusta.de</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt;&gt; On Thu, Jun 20, 2019 at 09:27:15PM -0600, Khem Raj wrote:<br>
+&gt; &gt;&gt; &gt; On Thu, Jun 20, 2019 at 6:18 PM Tim Orling &lt;<a href=
+=3D"mailto:ticotimo@gmail.com" target=3D"_blank">ticotimo@gmail.com</a>&gt;=
+ wrote:<br>
+&gt; &gt;&gt; &gt;...<br>
+&gt; &gt;&gt; &gt; &gt; Latest mongo release appears to be 4.3.0 and appear=
+s to support<br>
+&gt; &gt;&gt; python3:<br>
+&gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt;&gt; <a href=3D"https://github.com/mongodb/mongo/blob/89e7419a897b=
+2270931c9c029abf6de555d83e0f/SConstruct" rel=3D"noreferrer" target=3D"_blan=
+k">https://github.com/mongodb/mongo/blob/89e7419a897b2270931c9c029abf6de555=
+d83e0f/SConstruct</a><br>
+&gt; &gt;&gt; &gt; &gt;<br>
+&gt; &gt;&gt; &gt; &gt; Is this an aceptable upgrade? I am not savvy on whi=
+ch versions are<br>
+&gt; &gt;&gt; &gt; &gt; desirable.<br>
+&gt; &gt;&gt; &gt;<br>
+&gt; &gt;&gt; &gt; Yes for master this upgrade is fine<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;&gt; Are you approving the changed licence for OE,<br>
+&gt; &gt;&gt; or were you not aware that this was the question?<br>
+&gt; &gt;&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; What has changed between 4.0.6 and 4.3.0 w.r.t. licensing ?<br>
+&gt; &gt;<br>
+&gt; <br>
+&gt; The Server Side License is already in 4.0.6<br>
+&gt; <a href=3D"https://github.com/mongodb/mongo/blob/caa42a1f75a56c7643d0b=
+68d3880444375ec42e3/LICENSE-Community.txt" rel=3D"noreferrer" target=3D"_bl=
+ank">https://github.com/mongodb/mongo/blob/caa42a1f75a56c7643d0b68d38804443=
+75ec42e3/LICENSE-Community.txt</a><br>
+&gt;...<br>
+<br>
+Ah sorry, I missed that.</blockquote><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
+</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I didn=E2=80=99t=
+ know either. And you are correct in identifying what I was asking.... (wit=
+hout asking)</div><div dir=3D"auto"><br></div><blockquote class=3D"gmail_qu=
+ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
+"><br>
+cu<br>
+Adrian<br>
+<br>
+-- <br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Is there not promise of rain?&quot; Ling T=
+an asked suddenly out<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 of the darkness. There had been need of rain fo=
+r many days.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Only a promise,&quot; Lao Er said.<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Pearl S. =
+Buck - Dragon Seed<br>
+<br>
+</blockquote></div></div>
+
+--000000000000c64ba7058c0807ba--
