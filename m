@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com
-	[209.85.210.171])
-	by mail.openembedded.org (Postfix) with ESMTP id 650337E624
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com
+	[209.85.214.182])
+	by mail.openembedded.org (Postfix) with ESMTP id 1B06F7E512
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 03:54:37 +0000 (UTC)
-Received: by mail-pf1-f171.google.com with SMTP id 81so6679018pfy.13
+	Mon, 24 Jun 2019 03:54:39 +0000 (UTC)
+Received: by mail-pl1-f182.google.com with SMTP id b7so6101882pls.6
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2019 20:54:38 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=kGIR8lHTjqs7u1eSfOMqO+cb41s1INhEXeSXRjcMHXY=;
-	b=qV8ZhrWwbeagbS34UbeW+mA7+iAgZotr8WFO4TJHUWZikSHwVnw5Bb0KHNURyAFmcW
-	TkJliKXg6aAT5dEVTCpehPlwyNB8nEwJgYo6B/45rJl6fvijQgufBb3nMli1f0uQPo/g
-	lioGNteix9yusiSTUzH+D687oVcqEh+ujGh0/82X7xQGGpxUSUT1UhHHjXmqxZmE8i1U
-	ujRWNekLm5idn41/R8ds+QMuDXKsgJAxhpA1yEIlgFUhmfwZ/Jo3bwCvd5IpxpidtP9z
-	4t+xi2PM7cUbhyJLM7y88WdhPVPQSjHmdAr4fpNPgylPaxr1uYV9Aq1ezxSPYCCLuf3p
-	5pwg==
+	bh=LVi+DkjYvIMpmu76xf+Q+6Shk0UMvsbeJF+zRArwBaE=;
+	b=FS/8yo8fMGbx0IvyVuVejUm5mrpX3KQabbAv+50jXTG5REVAonFWcU1PPv60TFDg2a
+	NIO7T9ljRyPauFA/53mw9VsLRFfKMa88y0lYXNYeEoyRtvX+OkMoHWkx1BAxa2K3lqXw
+	pzwBQJA+cGV9rc+wV2x8xOQF2g6qv3X+qXw4npgTMxqu3sYMnv/3DC9hrhkwXnDyNvJR
+	voN1iXK+ofxDmDP0I/8l4qQFwCtQ18B2sa73Zw2LgYdvSQKmoQ8GGplztP+fvS7NDNFX
+	4vnBk7Ll5+RUC33b+boHTjaZ+yCqCpQxWZcHaJFw55ElMOUyAA6gAkxk0U6ZE4RCt6aZ
+	Jsmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=kGIR8lHTjqs7u1eSfOMqO+cb41s1INhEXeSXRjcMHXY=;
-	b=XW7BW6j6V6rIwOto8QA9s2RRloyYclfsX67etp80DNTLohMnq+tkXHh9PvtiTzuDZl
-	oBHr6lHazhfzpXTmwYUxZ81EPMxTBaz8RsVOmOidbOXlqbNYl2CWDZODBkIUXXJa2wd9
-	+dH/tJ5AIdb4ozSu7XBqvBCogbg1uGusNKYZ/F1KChm3r+N1GTHuuZEuGhcEZ8Q8QEmk
-	VDw3GvFjqLcwPoJFR/7KqEi/3pNYxvgaitrR07DdXlSCqhNJBuOZWxTjxanWjmARThr9
-	e8ZtzHcAlRgRTV6cshBa+HKs2P7tS1CHnAg7iZ8eTPMA+VKexaXWO09tm0Bec2KUEvQc
-	Bjvw==
-X-Gm-Message-State: APjAAAXlIv+sdOaEd9M/ZdcdUJmk2JWKm6ViwWHiwyL9a14Ldbb/aMNz
-	HKsLJtNLpxaERWFqOgsgTRgHaV2xJZA=
-X-Google-Smtp-Source: APXvYqwV7WUsHunv4T9F8WFOZDPpXL8chDEDLr1d6NSA3sSgOHFGpq+Vw5D4zMTuCY/iDl55opidCA==
-X-Received: by 2002:a63:5d61:: with SMTP id o33mr31021438pgm.114.1561348478319;
-	Sun, 23 Jun 2019 20:54:38 -0700 (PDT)
+	bh=LVi+DkjYvIMpmu76xf+Q+6Shk0UMvsbeJF+zRArwBaE=;
+	b=J5Kjxet+0rQP1WlX7eSMBQrObEhOJ9McGRJG6GeYT5icPEGFRpnIwYXa9Iyg1wRnAf
+	kW8RFnSGzL3DuIWQwpmmH+V31Im/KQ6Vx3Bd6SlkHCarOB+ZpVhP02DjFhAB6V5WyEHE
+	angir2JPDoEJu1xvKVAPR1FcpG4jC1+nk+e3K55/27oKtH7D740LWOcUULkX7hSQvWgT
+	qL2k3XnK5or4OFrjE6uQGgGHY8bXPPHVYL/FBBq07SY4AmdAGn1aswCyOPZCoOouKv71
+	PdnAB6KLghXjjwXxpmzqUzNDzi/4aPkE/1fpeK4Caok6zYVcPf8jQW2AtbP9cwLg0dv6
+	qHaw==
+X-Gm-Message-State: APjAAAWjmPXQfhvxWt/xl1XBr0E5AeFqFyX+PBZoM/JI6sLNv2yjuXt8
+	IuS9nX3aLPjWD9wTPZyL5zUCN69K2kc=
+X-Google-Smtp-Source: APXvYqwg2TJzJjMirWtegGRXtirUpBa3LF5ZPLBx8eu7IcQEKqBCPOpLbgE9J7VpBqzn/3IhBaxmzQ==
+X-Received: by 2002:a17:902:6ac6:: with SMTP id
+	i6mr132116227plt.233.1561348480157; 
+	Sun, 23 Jun 2019 20:54:40 -0700 (PDT)
 Received: from localhost.localdomain ([2601:202:4180:c33:4917:1686:82c6:892f])
 	by smtp.gmail.com with ESMTPSA id
-	w132sm9837202pfd.78.2019.06.23.20.54.37
+	w132sm9837202pfd.78.2019.06.23.20.54.39
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Jun 2019 20:54:37 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:39 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 20:54:16 -0700
-Message-Id: <0371062b3291914c6fcf5962eb178f2045a73091.1561348290.git.akuster808@gmail.com>
+Date: Sun, 23 Jun 2019 20:54:18 -0700
+Message-Id: <41ebe9afeb7f7ffda8cfeb7ff85ae4dba35e6a48.1561348290.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561348290.git.akuster808@gmail.com>
 References: <cover.1561348290.git.akuster808@gmail.com>
-Subject: [Warrior][ 17/19] package.bbclass: Clean up writing of runtime pkgdata files
+Subject: [Warrior][ 19/19] gpg_sign/selftest: Fix secmem parameter handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,98 +59,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 03:54:37 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 03:54:39 -0000
 
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This introduces a variable, PKGDATA_VARS, that contains the names of
-the variables that are to be output in the runtime pkgdata files.
+We keep seeing "cannot allocate memory" errors from rpm when signing packages
+on the autobuilder. The following were tried:
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+* checking locked memory use (isn't hitting limits)
+* Restricting RPM_GPG_SIGN_CHUNK to 1
+* Limiting to 10 parallel do_package_write_rpm tasks
+* Allowing unlimied memory overcommit
+* Disabling rpm parallel compression
+
+and the test still failed. Further invetigation showed that the --auto-expand-secmem
+wasn't being passed to gpg-agent which meant the secmem couldn't be expanded hence the
+errors when there was pressure on the agent.
+
+The reason this happens is that some of the early gpg commands can start the agent
+without the option and it sticks around in memory so a version with the correct
+option may or may not get started.
+
+We therefore add the option to all the key gpg calls.
+
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/classes/package.bbclass | 56 ++++++++++++++------------------------------
- 1 file changed, 18 insertions(+), 38 deletions(-)
+ meta/lib/oe/gpg_sign.py                 | 39 +++++++++++++++++++--------------
+ meta/lib/oeqa/selftest/cases/signing.py |  3 ++-
+ 2 files changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
-index 4c0a859..eef1f7b 100644
---- a/meta/classes/package.bbclass
-+++ b/meta/classes/package.bbclass
-@@ -1343,6 +1343,8 @@ EXPORT_FUNCTIONS package_name_hook
- 
- PKGDESTWORK = "${WORKDIR}/pkgdata"
- 
-+PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
+diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+index a95d2ba..2fd8c3b 100644
+--- a/meta/lib/oe/gpg_sign.py
++++ b/meta/lib/oe/gpg_sign.py
+@@ -15,21 +15,27 @@ class LocalSigner(object):
+     def __init__(self, d):
+         self.gpg_bin = d.getVar('GPG_BIN') or \
+                   bb.utils.which(os.getenv('PATH'), 'gpg')
++        self.gpg_cmd = [self.gpg_bin]
++        self.gpg_agent_bin = bb.utils.which(os.getenv('PATH'), "gpg-agent")
++        # Without this we see "Cannot allocate memory" errors when running processes in parallel
++        # It needs to be set for any gpg command since any agent launched can stick around in memory
++        # and this parameter must be set.
++        if self.gpg_agent_bin:
++            self.gpg_cmd += ["--agent-program=%s|--auto-expand-secmem" % (self.gpg_agent_bin)]
+         self.gpg_path = d.getVar('GPG_PATH')
+-        self.gpg_version = self.get_gpg_version()
+         self.rpm_bin = bb.utils.which(os.getenv('PATH'), "rpmsign")
+-        self.gpg_agent_bin = bb.utils.which(os.getenv('PATH'), "gpg-agent")
++        self.gpg_version = self.get_gpg_version()
 +
- python emit_pkgdata() {
-     from glob import glob
-     import json
-@@ -1447,48 +1449,26 @@ fi
-                 total_size += fstat.st_size
-         d.setVar('FILES_INFO', json.dumps(files, sort_keys=True))
  
--        subdata_file = pkgdatadir + "/runtime/%s" % pkg
--        sf = open(subdata_file, 'w')
--        write_if_exists(sf, pkg, 'PN')
--        write_if_exists(sf, pkg, 'PE')
--        write_if_exists(sf, pkg, 'PV')
--        write_if_exists(sf, pkg, 'PR')
--        write_if_exists(sf, pkg, 'PKGE')
--        write_if_exists(sf, pkg, 'PKGV')
--        write_if_exists(sf, pkg, 'PKGR')
--        write_if_exists(sf, pkg, 'LICENSE')
--        write_if_exists(sf, pkg, 'DESCRIPTION')
--        write_if_exists(sf, pkg, 'SUMMARY')
--        write_if_exists(sf, pkg, 'RDEPENDS')
--        rprov = write_if_exists(sf, pkg, 'RPROVIDES')
--        write_if_exists(sf, pkg, 'RRECOMMENDS')
--        write_if_exists(sf, pkg, 'RSUGGESTS')
--        write_if_exists(sf, pkg, 'RREPLACES')
--        write_if_exists(sf, pkg, 'RCONFLICTS')
--        write_if_exists(sf, pkg, 'SECTION')
--        write_if_exists(sf, pkg, 'PKG')
--        write_if_exists(sf, pkg, 'ALLOW_EMPTY')
--        write_if_exists(sf, pkg, 'FILES')
--        write_if_exists(sf, pkg, 'CONFFILES')
-         process_postinst_on_target(pkg, d.getVar("MLPREFIX"))
-         add_set_e_to_scriptlets(pkg)
--        write_if_exists(sf, pkg, 'pkg_postinst')
--        write_if_exists(sf, pkg, 'pkg_postrm')
--        write_if_exists(sf, pkg, 'pkg_preinst')
--        write_if_exists(sf, pkg, 'pkg_prerm')
--        write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
--        write_if_exists(sf, pkg, 'FILES_INFO')
--        for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
--            write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
+     def export_pubkey(self, output_file, keyid, armor=True):
+         """Export GPG public key to a file"""
+-        cmd = '%s --no-permission-warning --batch --yes --export -o %s ' % \
+-                (self.gpg_bin, output_file)
++        cmd = self.gpg_cmd + ["--no-permission-warning", "--batch", "--yes", "--export", "-o", output_file]
+         if self.gpg_path:
+-            cmd += "--homedir %s " % self.gpg_path
++            cmd += ["--homedir", self.gpg_path]
+         if armor:
+-            cmd += "--armor "
+-        cmd += keyid
+-        subprocess.check_output(shlex.split(cmd), stderr=subprocess.STDOUT)
++            cmd += ["--armor"]
++        cmd += [keyid]
++        subprocess.check_output(cmd, stderr=subprocess.STDOUT)
+ 
+     def sign_rpms(self, files, keyid, passphrase, digest, sign_chunk, fsk=None, fsk_password=None):
+         """Sign RPM files"""
+@@ -59,7 +65,7 @@ class LocalSigner(object):
+         if passphrase_file and passphrase:
+             raise Exception("You should use either passphrase_file of passphrase, not both")
+ 
+-        cmd = [self.gpg_bin, '--detach-sign', '--no-permission-warning', '--batch',
++        cmd = self.gpg_cmd + ['--detach-sign', '--no-permission-warning', '--batch',
+                '--no-tty', '--yes', '--passphrase-fd', '0', '-u', keyid]
+ 
+         if self.gpg_path:
+@@ -72,9 +78,6 @@ class LocalSigner(object):
+         if self.gpg_version > (2,1,):
+             cmd += ['--pinentry-mode', 'loopback']
+ 
+-        if self.gpg_agent_bin:
+-            cmd += ["--agent-program=%s|--auto-expand-secmem" % (self.gpg_agent_bin)]
 -
--        write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
--        for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
--            write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
--
--        sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
--        sf.close()
-+
-+        subdata_file = pkgdatadir + "/runtime/%s" % pkg
-+        with open(subdata_file, 'w') as sf:
-+            for var in (d.getVar('PKGDATA_VARS') or "").split():
-+                val = write_if_exists(sf, pkg, var)
-+
-+            write_if_exists(sf, pkg, 'FILERPROVIDESFLIST')
-+            for dfile in (d.getVar('FILERPROVIDESFLIST_' + pkg) or "").split():
-+                write_if_exists(sf, pkg, 'FILERPROVIDES_' + dfile)
-+
-+            write_if_exists(sf, pkg, 'FILERDEPENDSFLIST')
-+            for dfile in (d.getVar('FILERDEPENDSFLIST_' + pkg) or "").split():
-+                write_if_exists(sf, pkg, 'FILERDEPENDS_' + dfile)
-+
-+            sf.write('%s_%s: %d\n' % ('PKGSIZE', pkg, total_size))
+         cmd += [input_file]
  
-         # Symlinks needed for rprovides lookup
-+        rprov = d.getVar('RPROVIDES_%s' % pkg) or d.getVar('RPROVIDES')
-         if rprov:
-             for p in rprov.strip().split():
-                 subdata_sym = pkgdatadir + "/runtime-rprovides/%s/%s" % (p, pkg)
+         try:
+@@ -101,7 +104,8 @@ class LocalSigner(object):
+     def get_gpg_version(self):
+         """Return the gpg version as a tuple of ints"""
+         try:
+-            ver_str = subprocess.check_output((self.gpg_bin, "--version", "--no-permission-warning")).split()[2].decode("utf-8")
++            cmd = self.gpg_cmd + ["--version", "--no-permission-warning"]
++            ver_str = subprocess.check_output(cmd).split()[2].decode("utf-8")
+             return tuple([int(i) for i in ver_str.split("-")[0].split('.')])
+         except subprocess.CalledProcessError as e:
+             raise bb.build.FuncFailed("Could not get gpg version: %s" % e)
+@@ -109,11 +113,12 @@ class LocalSigner(object):
+ 
+     def verify(self, sig_file):
+         """Verify signature"""
+-        cmd = self.gpg_bin + " --verify --no-permission-warning "
++        cmd = self.gpg_cmd + [" --verify", "--no-permission-warning"]
+         if self.gpg_path:
+-            cmd += "--homedir %s " % self.gpg_path
+-        cmd += sig_file
+-        status = subprocess.call(shlex.split(cmd))
++            cmd += ["--homedir", self.gpg_path]
++
++        cmd += [sig_file]
++        status = subprocess.call(cmd)
+         ret = False if status else True
+         return ret
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
+index 9c710bd..b390f37 100644
+--- a/meta/lib/oeqa/selftest/cases/signing.py
++++ b/meta/lib/oeqa/selftest/cases/signing.py
+@@ -30,7 +30,8 @@ class Signing(OESelftestTestCase):
+         self.secret_key_path = os.path.join(self.testlayer_path, 'files', 'signing', "key.secret")
+ 
+         nsysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", "gnupg-native")
+-        runCmd('gpg --batch --homedir %s --import %s %s' % (self.gpg_dir, self.pub_key_path, self.secret_key_path), native_sysroot=nsysroot)
++
++        runCmd('gpg --agent-program=`which gpg-agent`\|--auto-expand-secmem --batch --homedir %s --import %s %s' % (self.gpg_dir, self.pub_key_path, self.secret_key_path), native_sysroot=nsysroot)
+         return nsysroot + get_bb_var("bindir_native")
+ 
+ 
 -- 
 2.7.4
 
