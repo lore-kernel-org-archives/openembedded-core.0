@@ -1,47 +1,24 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 779467E5B0
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7207D7C786
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 09:11:07 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id r185so415988iod.6
+	Mon, 24 Jun 2019 09:30:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5O9The3014114
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 02:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ceml0SPK6hslVlhuFMbuIYMRFHOrQeN6P6wNmQsLnzA=;
-	b=Zb22qaTg5uYp31Ogb2eecgGY2Uq3CBdTR8sXaG8auQuSXVId7A95yvOQyFQqk9iH2h
-	AsBzjztUNeKb5kY2RZ2u3mTudE0GhvisxY3zP0CWQn1jd+F2kHPArEUjoqkMkkxy4hi7
-	E42Jh8TzhXFDN+s8FblwOlRagtY9764pv7X3s8Xc8x5/VhOf1rPyp3dKXg+55KnvmSrT
-	HwBtaiXalF5gc1V6KsAlUizxcXCRce8UzFeabM4hFX3rpuR3CL0WevGw7641yiOMlnf0
-	ZM0nnroHarkMBiXm8iRs0jwuaCeJdoMxL9GO+4SicfmkwQpzPXN0cq2cfgFFu77q62WW
-	cfJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Ceml0SPK6hslVlhuFMbuIYMRFHOrQeN6P6wNmQsLnzA=;
-	b=EKxWouN2dNpDaxXtQC9cRMhYe0R9yBaCM/cEaJhXHXklwZyZ1macsalQoJreSKFt/g
-	iOsG9EiTMoyzN3K2uaLgfUQe9Z3UX0Rti6TySS3c+Er7I3lGuA2d0gfgwqVfqwsM1Eg8
-	niqLepfFFjkHREUCy1ePqLMwezuBrUGrw9JbaQn8v+dWf/S2zpM2XvQ1CH+oInTaW/ci
-	LPPcmr0sIqsUHHTNSxd2CflnY/LX7WteIryY402JCz1S+ddYWiNiRJDKagkRlYRCHw9O
-	s9NPbCXxRtNzSh+7D7obW7oDMvo6IYvLUyMwfSbwViYt9yf60UvdHjrAgt4Vuj1NnEoM
-	MZhA==
-X-Gm-Message-State: APjAAAUofmGkh91dHRcFKkB+oyrtv7fsxRuJfOJb7P006gmj6Qc6rtDR
-	UHu5/UemSnNUwC9hGOhNIxd/n9+rtIM0VrDZ+imm8Q==
-X-Google-Smtp-Source: APXvYqwt7KoF2JBqsjR8qw43/6VH1w7EuoiGtSMxHievw7+nN+pfE4hCyOb8AKXCHHSMPJp2MbrPcqvD46uwUG6PeC8=
-X-Received: by 2002:a02:c7c9:: with SMTP id s9mr123367203jao.82.1561367468593; 
-	Mon, 24 Jun 2019 02:11:08 -0700 (PDT)
+	Mon, 24 Jun 2019 02:29:58 -0700
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 24 Jun 2019 02:29:38 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Jun 2019 17:29:37 +0800
+Message-ID: <1561368577-265361-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190624082750.39458-1-raj.khem@gmail.com>
-In-Reply-To: <20190624082750.39458-1-raj.khem@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 24 Jun 2019 10:10:57 +0100
-Message-ID: <CAJTo0LZ_qVCjoWNNL4wa++BtRXOmRsH5XqK1jjyJD0cb3AA-Vw@mail.gmail.com>
-To: Khem Raj <raj.khem@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] efibootmgr: Pass correct flags to compiler from pkg-config
+Subject: [PATCH] scons: fix conflict during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,46 +31,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 09:11:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 24 Jun 2019 09:30:08 -0000
+Content-Type: text/plain
 
-So why does this build for me?
+From: Changqing Li <changqing.li@windriver.com>
 
-Ross
+fix below error:
+file /usr/bin/scons conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+file /usr/bin/scons-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+file /usr/bin/scons-configure-cache conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+file /usr/bin/scons-configure-cache-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+file /usr/bin/scons-time conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+file /usr/bin/scons-time-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+file /usr/bin/sconsign conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+file /usr/bin/sconsign-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
 
-On Mon, 24 Jun 2019 at 09:30, Khem Raj <raj.khem@gmail.com> wrote:
->
-> efivar.h is in usr/include/efirvar directory so it should be
-> added to include search path via -I to compiler cmdline to fix
->
-> make[1]: *** No rule to make target 'efivar.h', needed by 'efibootmgr.o'.  Stop.
-> | make[1]: *** Waiting for unfinished jobs....
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ---
->  meta/recipes-bsp/efibootmgr/efibootmgr_17.bb | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-> index 0e5a81e316..2f8fa34ee7 100644
-> --- a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-> +++ b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
-> @@ -22,8 +22,7 @@ inherit pkgconfig
->  # The directory under the ESP that the default bootloader is found in.  When
->  # wic uses a subdirectory, this should use the same one too.
->  EFIDIR ?= "/"
-> -
-> -EXTRA_OEMAKE += "'EFIDIR=${EFIDIR}'"
-> +EXTRA_OEMAKE += "'EFIDIR=${EFIDIR}' 'CFLAGS=${CFLAGS} `pkg-config --cflags efivar`'"
->
->  CFLAGS += " -Wno-error"
->
-> --
-> 2.22.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-devtools/python/python-scons_3.0.5.bb  | 14 +++++++++++++-
+ meta/recipes-devtools/python/python3-scons_3.0.5.bb | 14 +++++++++++++-
+ 2 files changed, 26 insertions(+), 2 deletions(-)
+
+diff --git a/meta/recipes-devtools/python/python-scons_3.0.5.bb b/meta/recipes-devtools/python/python-scons_3.0.5.bb
+index 939c15b..94c2d07 100644
+--- a/meta/recipes-devtools/python/python-scons_3.0.5.bb
++++ b/meta/recipes-devtools/python/python-scons_3.0.5.bb
+@@ -12,7 +12,7 @@ S = "${WORKDIR}/scons-${PV}"
+ UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-inherit setuptools
++inherit setuptools update-alternatives
+ 
+ RDEPENDS_${PN} = "\
+   python-fcntl \
+@@ -22,3 +22,15 @@ RDEPENDS_${PN} = "\
+   python-shell \
+   python-pprint \
+   "
++
++ALTERNATIVE_${PN} = "scons scons-3.0.5 scons-configure-cache scons-configure-cache-3.0.5 scons-time scons-time-3.0.5 sconsign sconsign-3.0.5"
++ALTERNATIVE_TARGET[scons] = "${bindir}/scons"
++ALTERNATIVE_TARGET[scons-3.0.5] = "${bindir}/scons-3.0.5"
++ALTERNATIVE_TARGET[scons-configure-cache] = "${bindir}/scons-configure-cache"
++ALTERNATIVE_TARGET[scons-configure-cache-3.0.5] = "${bindir}/scons-configure-cache-3.0.5"
++ALTERNATIVE_TARGET[scons-time] = "${bindir}/scons-time"
++ALTERNATIVE_TARGET[scons-time-3.0.5] = "${bindir}/scons-time-3.0.5"
++ALTERNATIVE_TARGET[sconsign] = "${bindir}/sconsign"
++ALTERNATIVE_TARGET[sconsign-3.0.5] = "${bindir}/sconsign-3.0.5"
++
++ALTERNATIVE_PRIORITY = "20"
+diff --git a/meta/recipes-devtools/python/python3-scons_3.0.5.bb b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
+index 7fb75a6..6e240d8 100644
+--- a/meta/recipes-devtools/python/python3-scons_3.0.5.bb
++++ b/meta/recipes-devtools/python/python3-scons_3.0.5.bb
+@@ -12,7 +12,7 @@ S = "${WORKDIR}/scons-${PV}"
+ UPSTREAM_CHECK_URI = "http://scons.org/pages/download.html"
+ UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+-inherit setuptools3
++inherit setuptools3 update-alternatives
+ 
+ do_install_prepend() {
+     sed -i -e "1s,#!.*python.*,#!${USRBINPATH}/env python3," ${S}/script/*
+@@ -27,3 +27,15 @@ RDEPENDS_${PN} = "\
+   python3-pickle \
+   python3-pprint \
+   "
++
++ALTERNATIVE_${PN} = "scons scons-3.0.5 scons-configure-cache scons-configure-cache-3.0.5 scons-time scons-time-3.0.5 sconsign sconsign-3.0.5"
++ALTERNATIVE_TARGET[scons] = "${bindir}/scons"
++ALTERNATIVE_TARGET[scons-3.0.5] = "${bindir}/scons-3.0.5"
++ALTERNATIVE_TARGET[scons-configure-cache] = "${bindir}/scons-configure-cache"
++ALTERNATIVE_TARGET[scons-configure-cache-3.0.5] = "${bindir}/scons-configure-cache-3.0.5"
++ALTERNATIVE_TARGET[scons-time] = "${bindir}/scons-time"
++ALTERNATIVE_TARGET[scons-time-3.0.5] = "${bindir}/scons-time-3.0.5"
++ALTERNATIVE_TARGET[sconsign] = "${bindir}/sconsign"
++ALTERNATIVE_TARGET[sconsign-3.0.5] = "${bindir}/sconsign-3.0.5"
++
++ALTERNATIVE_PRIORITY = "30"
+-- 
+2.7.4
+
 
