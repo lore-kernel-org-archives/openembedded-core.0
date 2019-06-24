@@ -1,41 +1,51 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id CF8917D41F
+Return-Path: <raj.khem@gmail.com>
+Received: from mail-pg1-f194.google.com (mail-pg1-f194.google.com
+	[209.85.215.194])
+	by mail.openembedded.org (Postfix) with ESMTP id A71DE6C230
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 08:20:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45XMgW2wblzGB;
-	Mon, 24 Jun 2019 10:20:55 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1561364455;
-	bh=ojAg/uKsY7irSBDABkUlvZPJuo/vmbiaC+tzjILSIaQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=If+8mWaFAzNWMk1o/rIw2G4oM4gS77T8Yt1PP1veRNbHUK/Ctd11zmx0jGqYkTQQn
-	xcBfKZVB9yBiAAjyo5MI9JBa2c/CdroJc1TXws9tm/xhxnwBRzOtivhCK8MNQIpRmt
-	lV1WWuexGe9M8hViB4jMDi1GNAzWM4rc542sB/iHrHY2esuRQcOLGUgp6qrUhKVO7Z
-	oAUnSUMiFArhLV2iqQ4mI4W6Jfw4Dff37IB06FxGutqxW8v+UkTSdgKcWDHPEdoZzd
-	tr/uWp2yxgwZI+RPxPzJ+VCit5YTi70kRgKYySAGzg7PS9SQGok7yCswHrmbG/9xpt
-	ZhLD9RNjIdkklttKv9IJPfA57qpF4mZ4LRg4fXFRTUDAv1MlQP+gyJDWRcVV2riMXT
-	XK/+2D32mfieZEgdEwgWzSM1f8mTQJE6RxuYaBuTV6WbzW8Sm8Q5URoIBTG50+Lcha
-	5ChEcyJwp6EkObjbdDYTrvM6U65mCnfn6/3hKObE8jj1h4LVaC89xkJNs4vad2+rd3
-	4B/5MREpgnBgtFKmlzfKo9I8EfX+VkExJz2pmtzT1/ZPqo1v8y0qDCh63EwuRgQFY+
-	ub+/V5bIf20vKoJuWW4Nyp8A0xBtQU9bKKvAI3dAaZbZPqx596nHZfgXuxZgvOpJB2
-	WP2RLrmJCYzhO5eN4m0IdPYc=
-Date: Mon, 24 Jun 2019 11:20:53 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Alistair Francis <alistair23@gmail.com>
-Message-ID: <20190624082053.GB11015@localhost>
-References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
-	<0f5adba2f96da9396faa1e70f9eed84118cf735e.1559950879.git.timothy.t.orling@linux.intel.com>
-	<CAMKF1sq5aOZ+6CSP+G88+JCYd4zMb6ZSe5MP5KWSSofPRbe4Ow@mail.gmail.com>
-	<CANx9H-DLg1_vSEi1bBSSLCmycdyEa2MiJjZ9d=Owsc5bsR-GBA@mail.gmail.com>
-	<CAKmqyKO_33RpiC4PS6vVTBUz=0Bnc7F5zbGt7mmr6VHU1rK_vA@mail.gmail.com>
+	Mon, 24 Jun 2019 08:27:56 +0000 (UTC)
+Received: by mail-pg1-f194.google.com with SMTP id 196so6709892pgc.6
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Jun 2019 01:27:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=aTtEZDsyi0wKYuE1SUSb3d7LpZ8AV+Lh30ufchOT2mw=;
+	b=S/W/tkez9q9EObY1espq58VR2qmDm7XRhrIO3GoHh3K2q8TDjH7Sjt3RG/EYEwPAwQ
+	G1cRgh6cBGxnFt38A4c2VLCTu6aX6DpJWuH9JbYZWbBFXCnd8JGFeoZSL/o23jNz4mWF
+	vcgwuIDurgKyE7Gj4dyCdD6TMRYLUG2EhF2ghKBDH7pQF00CV4GGKY9AYhqN+yJxsAMr
+	f9KFwnPet9edXYZj7jupM1VgUOxfcf0VFzb7qyeUf0fHziodOtTJmPOut4Qmb/x+UBlP
+	L+7fmcmmWXqOVfKavjM46z7CJWy9V1waDNPstiVr9234/dw2dyTfExl/uksey9bdpEMN
+	rgmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=aTtEZDsyi0wKYuE1SUSb3d7LpZ8AV+Lh30ufchOT2mw=;
+	b=L0s4CptIjT4wqw3Xay3oHS+KCWf4VwbAbXV280UHD9u3TOAMiO+4rQc6iENpi+1wu9
+	Lhwj9KDwzgzR8PA7qWt0U4Idx8iNvEpNOAxWf5lL9Rqp3k31LyNJA3EyPtZW+liG1d5v
+	2x7PgxGYLauBXplJoEv4UXn9wpj+FE7XXcPM+ORaXXoP7iFw3fhp64OEG0K76QCXrMKq
+	X+ZkR28AuBzvgfNU9PnLdnj21xO0x5xtkM5ZcbJpb7UpZTVIIeCIfytgCvu2JkTyWxmt
+	Hlsz1EuFbrZ9eLp+ihfRZJBAxWsAPjJQO5Rlf3/xYUvwUe4QyYwhvZuicjGlKevfgZAS
+	ZdJA==
+X-Gm-Message-State: APjAAAUwiZ84OICptepgHyFNiXeM+XbLWLOFirmLWHhjbZDgI8Vg0fbT
+	prbMac3L0VyaHIyXRZvSFD0pbwtETsA=
+X-Google-Smtp-Source: APXvYqyIR1+/Hv5MCkM/S/ogyf2n7xXUwfz9BD8Qw2efzpL0Q0MyiB59LQGoxfTUeJDCm8vdPi17YQ==
+X-Received: by 2002:a17:90b:f0e:: with SMTP id
+	br14mr23179195pjb.117.1561364877208; 
+	Mon, 24 Jun 2019 01:27:57 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8500:6bc6::8fdc])
+	by smtp.gmail.com with ESMTPSA id
+	h18sm1925966pfr.75.2019.06.24.01.27.56
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 24 Jun 2019 01:27:56 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Jun 2019 01:27:50 -0700
+Message-Id: <20190624082750.39458-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKO_33RpiC4PS6vVTBUz=0Bnc7F5zbGt7mmr6VHU1rK_vA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] scons.bbclass: use python3-scons
+Subject: [PATCH] efibootmgr: Pass correct flags to compiler from pkg-config
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,69 +58,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 08:20:56 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Jun 2019 08:27:56 -0000
+Content-Transfer-Encoding: 8bit
 
-On Sun, Jun 23, 2019 at 07:41:05PM -0700, Alistair Francis wrote:
-> On Thu, Jun 20, 2019 at 5:22 PM Tim Orling <ticotimo@gmail.com> wrote:
-> >
-> >
-> >
-> > On Thu, Jun 20, 2019 at 6:37 AM Khem Raj <raj.khem@gmail.com> wrote:
-> >>
-> >> On Fri, Jun 7, 2019 at 5:50 PM Tim Orling
-> >> <timothy.t.orling@linux.intel.com> wrote:
-> >> >
-> >> > SCons has supported python3 since 3.0.0 release, use it.
-> >> >
-> >> > [YOCTO #13381]
-> >> >
-> >> > Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-> >> > ---
-> >> >  meta/classes/scons.bbclass | 2 +-
-> >> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >> >
-> >> > diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
-> >> > index 9ee7d1587d..a8ddae35f7 100644
-> >> > --- a/meta/classes/scons.bbclass
-> >> > +++ b/meta/classes/scons.bbclass
-> >> > @@ -1,4 +1,4 @@
-> >> > -DEPENDS += "python-scons-native"
-> >> > +DEPENDS += "python3-scons-native"
-> >> >
-> >>
-> >> some packages haven't upgraded to py3 but use scons see
-> >> https://errors.yoctoproject.org/Errors/Details/249271/
-> >
-> >
-> >
-> > Thank you for reporting this. I was of course expecting some breakage and am committed to fixes. Please do report any other issues.
-> 
-> This also breaks the gpsd install, I tried upgrading to the latest
-> release and that didn't help. I am going to send a patch for the
-> upgrade which I tested with this patch reverted.
+efivar.h is in usr/include/efirvar directory so it should be
+added to include search path via -I to compiler cmdline to fix
 
-This is already workarounded:
-http://git.openembedded.org/meta-openembedded/commit/?h=master-next&id=22bfe06d15e07cac0df3f34566a9d33007663bae
+make[1]: *** No rule to make target 'efivar.h', needed by 'efibootmgr.o'.  Stop.
+| make[1]: *** Waiting for unfinished jobs....
 
-There are post-3.18.1 changes required for Python 3 scons,
-but I went for this hack after seeing that a proper fix
-would involve all of:
-1. upgrading to 3.18.1
-2. rebasing oe-only patches to 3.18.1
-3. adding post-3.18.1 patches
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-bsp/efibootmgr/efibootmgr_17.bb | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> Alistair
-
-cu
-Adrian
-
+diff --git a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
+index 0e5a81e316..2f8fa34ee7 100644
+--- a/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
++++ b/meta/recipes-bsp/efibootmgr/efibootmgr_17.bb
+@@ -22,8 +22,7 @@ inherit pkgconfig
+ # The directory under the ESP that the default bootloader is found in.  When
+ # wic uses a subdirectory, this should use the same one too.
+ EFIDIR ?= "/"
+-
+-EXTRA_OEMAKE += "'EFIDIR=${EFIDIR}'"
++EXTRA_OEMAKE += "'EFIDIR=${EFIDIR}' 'CFLAGS=${CFLAGS} `pkg-config --cflags efivar`'"
+ 
+ CFLAGS += " -Wno-error"
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.22.0
 
 
