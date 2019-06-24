@@ -1,55 +1,51 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id C71507E3F0
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com
+	[209.85.160.170])
+	by mail.openembedded.org (Postfix) with ESMTP id 1441F7E3AF
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 18:14:13 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id r16so14889664wrl.11
+	Mon, 24 Jun 2019 19:16:18 +0000 (UTC)
+Received: by mail-qt1-f170.google.com with SMTP id h21so15671615qtn.13
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 11:14:15 -0700 (PDT)
+	Mon, 24 Jun 2019 12:16:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:date:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=cszVpk8gknAVesihAw6sL/OFDKkCLMM4WBHpczjzOUc=;
-	b=LMIF3uaRneB3wnng9GZfBaIFHT8xUgVR8J+6CvRqSBkwUQG7pootw19ef10uou+2Hp
-	QFYwmwqGDYiQSr+JKWUY3OwVcbWbHGfGqHdmFHX2kr5eK4TI7IC9czw6RMQDYQfrk3Gm
-	yiqZLiVT+uU0WeDbdz/gjv8h24u9eWFzzPSerzdpxA891bAMk5QtZ5dDZuR3YeafUhl5
-	126iYREamz0cqovQ3J4lvaQs1+KrlkfEqZZU/wnEOTpaVD0pfoss2UjAuy4oKTyoOufK
-	SlGnQ3I19rJCiVCA3W8WgHZo2bCa+DDHwxX/+3HUYome5irtv1zS5G7cNRueHNFe2k/C
-	Ng1Q==
+	h=from:to:subject:date:message-id:mime-version:content-language
+	:thread-index; bh=Cm/DRhEbSZvCBMGRJr8WJQaFTebEXy4ZpBzNawXpaGQ=;
+	b=qwuBIQKzv2QkMxQ1Jy3R/+y/wvpiPf5Qmv4txYvQ7PeQUXe9gTFMFGSUdt/Sj2s+48
+	6QCosVJxYW7TcL14WFunUOnTKepzNelq1Jwd8OsZx4pwmmGjuQsBZD2PfQtUQqSu2rtm
+	wiB5n9MC5QKNKz1h1X8TS7z1Z3iiYYLpv9qhBDZ39cUVn4u65f14kfODyKZI9dQCRuYE
+	3xpEpz0hWpr1vodIM8j4L6UXH55Rtl22cdB8UoGtfBBcT2WjHnALwUF0qqX2YUi6cnBL
+	JDNsWRsvVy1Jc/18yrR4faugdqwTNWS59YbMCVVzKYD/1KiLGij4HNLgDFdVMNvGDV6C
+	0mOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=cszVpk8gknAVesihAw6sL/OFDKkCLMM4WBHpczjzOUc=;
-	b=o8UiPbtXvoCuSdPmW9vJUjlgxVE+VkI8l4B6xrZc7FZD80QFGgor7q1h89E+NK/L7A
-	7o+S9mNsm3PDjGt0dtaCORXnqfPgH9mo+qgEPkZwYR0ApHEKXUv/+WPliiqMobAtN+4D
-	DUpuPzHoSFDee5DXlw3dpZx/DrVGN+BZBEGc5r/oOB1xrvNopTO8nG+qTjWIlhXRa2aY
-	6MpOXKUXcTlz8s5vOSatGl5bwlYJhTjl2Hw0FAKFsRWQCUYle7lRkgEHcKxcw31A4SpM
-	EUDzCXNpfHPYHGmoZLq/6XPpGaym38ZQdOtAsqGFnWeBMzLsIxx6tFvowRw76B/FD6ca
-	u+/w==
-X-Gm-Message-State: APjAAAVr7m6NpHIyBVC+GdKB/zlZFXCrGSWl1ApncMrJX/Lk/hzPCsTg
-	zUt4uoZQPdj2/jMmsRfgiVg=
-X-Google-Smtp-Source: APXvYqzseaY/aibCE4/5R3idQE43oJJKKj/q8lCtlpJ7IFWRQNTjxXC9/ir+02pCnA0FdEwUQmiTfw==
-X-Received: by 2002:adf:efcb:: with SMTP id i11mr10259483wrp.188.1561400054458;
-	Mon, 24 Jun 2019 11:14:14 -0700 (PDT)
-Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
-	by smtp.gmail.com with ESMTPSA id
-	t14sm8620785wrr.33.2019.06.24.11.14.13
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 24 Jun 2019 11:14:13 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
-Date: Mon, 24 Jun 2019 20:14:15 +0200
-To: bruce.ashfield@gmail.com
-Message-ID: <20190624181415.GA1509@jama>
-References: <cover.1561379933.git.bruce.ashfield@gmail.com>
-	<d3d3d374e985ccfe061a986d2735791476b24511.1561379933.git.bruce.ashfield@gmail.com>
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-language:thread-index;
+	bh=Cm/DRhEbSZvCBMGRJr8WJQaFTebEXy4ZpBzNawXpaGQ=;
+	b=k4K2pCiu0zM8AzEsaQP3GoC9gn77P+QzZxoipO44XVMWOVD+ZczQ1vWbbB7Unm6NVf
+	Qz1fgh+muxuqlHYWn3lHJEIFPJNQDqeEFddZAd1W25+mQTmGJDszR0QOdpOQ/+P8R1No
+	GMv0zb8gQUtu3Zrt34V/f46ux78ViZXcEA194goWStx2XcgbfC1d0AfZwiRPAmYT3zlZ
+	f2XmjLq3MmWB8WkU0msT/IUJUASXk+PFgeNRWyvUakCmt8fdcYsGUbk7cHCHqyahjlrf
+	0gWzh+7WQ4cFzRFbmPiNEGMJPqb+j9BvzH4DKvN0T/UY5GjxjRkA45imKLpBcUUVCenE
+	VtrQ==
+X-Gm-Message-State: APjAAAX+IInlbSmN/69q5BXMffBceSTSw57qdr2vzvmt2rZe7pBZslii
+	mGaoEHLYKpGlyzxNBppWwg23UK/f
+X-Google-Smtp-Source: APXvYqwowNOsqHuowBzqMhXuWEMiBMB/pp06FLGU1b61kOAMnhSzQohKg8vfsLNPyXBGiK5rz5ltPg==
+X-Received: by 2002:ac8:7a73:: with SMTP id
+	w19mr109832263qtt.292.1561403779699; 
+	Mon, 24 Jun 2019 12:16:19 -0700 (PDT)
+Received: from sjolley ([96.79.126.57]) by smtp.gmail.com with ESMTPSA id
+	s23sm7132491qtk.31.2019.06.24.12.16.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 24 Jun 2019 12:16:18 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Jun 2019 12:16:19 -0700
+Message-ID: <014001d52ac1$4e6208c0$eb261a40$@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <d3d3d374e985ccfe061a986d2735791476b24511.1561379933.git.bruce.ashfield@gmail.com>
-User-Agent: Mutt/1.12.1 (2019-06-15)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 2/2] linux-yocto/5.0: make scsci-debug include scsci core configs
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQERrE2QXr3EdGdxQyGG20Y9JUaGMg==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,106 +58,292 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 18:14:14 -0000
-X-Groupsio-MsgNum: 126176
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Jun 2019 19:16:19 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0141_01D52A86.A2057AB0"
+Content-Language: en-us
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+------=_NextPart_000_0141_01D52A86.A2057AB0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+All,
+
+ 
+
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
+
+ 
+
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
+
+ 
+
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
+
+ 
+
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 283
+unassigned or newcomer bugs.
+
+ 
+
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "2.8", "2.9', "2.99" and "Future", the more pressing/urgent
+issues being in "2.8" and then "2.9".
+
+ 
+
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
+
+ 
+
+Thanks,
+
+ 
+
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+ 
+
+
+------=_NextPart_000_0141_01D52A86.A2057AB0
+Content-Type: text/html;
+	boundary="----=_NextPart_000_03BE_01D52529.D108CF40";
+	charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 24, 2019 at 08:44:42AM -0400, bruce.ashfield@gmail.com wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->=20
-> Updating the scsci-debug fragment to include the core scsci config
-> options. This allows standalone use of the fragment, since all
-> supporting options will be enabled simply by including the top
-> level config in a BSP.
->=20
-> This also removes a configuration warning on qemuarm, since we
-> will no longer have missing / unavailable options during the
-> config audit.
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
+xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
+xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
+xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
+xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
+xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
+xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
+xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
+xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
+xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
+xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
+xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
+xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
+xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
+xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
+xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
+xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
+xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
+xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
+xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
+xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
+xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
+xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
+xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
+ xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
+xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
+xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
+xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
+xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
+xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
+xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
+xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
+xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
+xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
+xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
+nature" =
+xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
+" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
+ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
+xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
+ =
+xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
+es" =
+xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
+" =
+xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
+lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
+xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle20
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoPlainText>All,<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
+triage team is starting to try and collect up and classify bugs which a =
+newcomer to the project would be able to work on in a way which means =
+people can find them. They're being listed on the triage page under the =
+appropriate heading:<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>The idea is these bugs should be straight forward =
+for a person to help work on who doesn't have deep experience with the =
+project.&nbsp; If anyone can help, please take ownership of the bug and =
+send patches!&nbsp; If anyone needs help/advice there are people on irc =
+who can likely do so, or some of the more experienced contributors will =
+likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Also, =
+the triage team meets weekly and does its best to handle the bugs =
+reported into the Bugzilla. The number of people attending that meeting =
+has fallen, as have the number of people available to help fix bugs. One =
+of the things we hear users report is they don't know how to help. We =
+(the triage team) are therefore going to start reporting out the =
+currently 283 unassigned or newcomer bugs.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
+hoping people may be able to spare some time now and again to help out =
+with these.&nbsp; Bugs are split into two types, &quot;true bugs&quot; =
+where things don't work as they should and &quot;enhancements&quot; =
+which are features we'd want to add to the system.&nbsp; There are also =
+roughly four different &quot;priority&quot; classes right now, =
+&#8220;2.8&#8221;, &#8220;2.9&#8217;, &quot;2.99&quot; and =
+&quot;Future&quot;, the more pressing/urgent issues being in =
+&quot;2.8&quot; and then &#8220;2.9&#8221;.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
+review this link and if a bug is something you would be able to help =
+with either take ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
+mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
+comer_Bugs</a><o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif",serif'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif;color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif",serif'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
+/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
+p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-4 typos in commit summary and commit message scsci should probably be
-scsi, I didn't check the commit in the meta repository, maybe more
-scsci's there :).
-
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 2 +-
->  meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
->  meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recip=
-es-kernel/linux/linux-yocto-rt_5.0.bb
-> index c5bd342d5b..35f2350d52 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
-> @@ -12,7 +12,7 @@ python () {
->  }
-> =20
->  SRCREV_machine ?=3D "9c1e84c9b81b6bf1df55f26f2e0517266c37f7eb"
-> -SRCREV_meta ?=3D "97eac3146504a2348543b8b8859f44a7b8f0d590"
-> +SRCREV_meta ?=3D "eb6ef084f987441359145c41cadcbdd768eeb012"
-> =20
->  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;branch=3D${KBRAN=
-CH};name=3Dmachine \
->             git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
-me=3Dmeta;branch=3Dyocto-5.0;destsuffix=3D${KMETA}"
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/rec=
-ipes-kernel/linux/linux-yocto-tiny_5.0.bb
-> index d6e45c69c0..96cfb3dcd1 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
-> @@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL =3D "2"
-> =20
->  SRCREV_machine_qemuarm ?=3D "fabee455f397ba8054f35a3ad5f2250bbad93bef"
->  SRCREV_machine ?=3D "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
-> -SRCREV_meta ?=3D "97eac3146504a2348543b8b8859f44a7b8f0d590"
-> +SRCREV_meta ?=3D "eb6ef084f987441359145c41cadcbdd768eeb012"
-> =20
->  PV =3D "${LINUX_VERSION}+git${SRCPV}"
-> =20
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-=
-kernel/linux/linux-yocto_5.0.bb
-> index 5bc2d54916..d4d30853f0 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
-> @@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?=3D "00638cdd8f92869a0f89ebe328=
-9fdbd856ba9458"
->  SRCREV_machine_qemux86-64 ?=3D "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
->  SRCREV_machine_qemumips64 ?=3D "5a8b27bcc0b16077ab8edfcd3fb25c80dc2c652e"
->  SRCREV_machine ?=3D "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
-> -SRCREV_meta ?=3D "97eac3146504a2348543b8b8859f44a7b8f0d590"
-> +SRCREV_meta ?=3D "eb6ef084f987441359145c41cadcbdd768eeb012"
-> =20
->  # remap qemuarm to qemuarma15 for the 5.0 kernel
->  # KMACHINE_qemuarm ?=3D "qemuarma15"
-> --=20
-> 2.19.1
->=20
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
---=20
-Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
-
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: Digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXRES9gAKCRA3VSO3ZXaA
-HNI5AKCFL1DoWeL0P6RVcib3OoprO7Rj5QCfWzzgat+743k5gGCpEXYb8OtLC+g=
-=l5fq
------END PGP SIGNATURE-----
-
---Nq2Wo0NMKNjxTN9z--
+------=_NextPart_000_0141_01D52A86.A2057AB0--
