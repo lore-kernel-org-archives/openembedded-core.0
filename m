@@ -1,49 +1,49 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 339A4605BA
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A4F4E7E3B0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 13:53:18 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id z23so13481471wma.4
+	Mon, 24 Jun 2019 13:53:29 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id s15so13466058wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 06:53:19 -0700 (PDT)
+	Mon, 24 Jun 2019 06:53:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id;
-	bh=cWeAWPhCCHjsHhu2NYu9ESDNzdYyQfkmjCgBZyvKYls=;
-	b=OpjEypHy8CtbedBPMCQgLvWuaEVtUvShSJyrVjTt/n+5xFRmBemrOA48IRI8PG0O+Y
-	6N7338XtAIuHoxewfq5O6FK0w86/Q2OIsUMZpCrwL6ibARqNGPoDi9kNLV3p+vxGHSou
-	9vyl9oPKX+n7F5WoRBTnlukQeqR0zzG41GoMxpR8cOOcgygvOhU4HrG6R4gShAI5nhHc
-	VsTeHmEyjODALoogt9YeZNZIpzsBh6myj6WFDcuvvhAWPaIaslzBD/OualU4F1ykz37Y
-	I2cN0ZadB3yvPTIBFO7gk2KiehC7q/J70RkcPEb5EOzTOetIkjSBTXsVkCFUe5qdvWYz
-	J6zA==
+	bh=YmaIpnuM5zDc+2plodB1m+LLYcZYZvYRW3VBV9ZESqY=;
+	b=QmM+Cd60NDDm3O1BwJy6wXl5qBGPq0rAX8YJFRDuPspAk+JKyofzYhoSwAJkC1f2Yj
+	VkstbMFZvofyNsShWeZsvFkpwgTQ3UdaatKnVfuHM4uz2Fvfzrr4geYVU9ipWPaPkXBN
+	V0FagwlEQzS8Mdkyv2D/kuOdkQryp6IfOkAvPINZDOKx31XN3F90YqBFDlDI0tC7341s
+	9/k9F7fP5tt7suldGBrrCBK1RNVZRfNhKexMuoRgXt6vDWdplVB2YjTxxui4iE/9xlCt
+	lCD2aow8nz6Sk/FutIAdWambqF5dRNPS1as7Ah4vnRoxBcmhEm++3vBTYgLxQO58dAXm
+	q8ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=cWeAWPhCCHjsHhu2NYu9ESDNzdYyQfkmjCgBZyvKYls=;
-	b=TJC107YNBi7kt2Qtu+z7XlivO08qTN5qyAkATkesxYRXiLnLIzobBV5osuGGDprhim
-	Hg5GPxqZ7H01FMPAmzFZovB9vrdJL9cPeAKS5X19/oiE0+SO4bF45jG+hYZ1UuWbJN6+
-	JVX4rLkY87MNVnjgASazf2qZ05GfU68uGJ2/Z+XISHUTn6+GG1ysA5EB2pOC7cj0Fu1k
-	sDnvxT7ldJ+g1iERV6r7XUf82mE5qcj7i2MRjGu+UjsMl7R5MAqII6zdixSMN2+wtTco
-	/pONycdWhwmq2RnD1mrSoZQwtsBu3W2H591V/A/sXE8AUURyUwqUTW7+2N3DPW1U9Pz3
-	li3w==
-X-Gm-Message-State: APjAAAWN1mB1TBh/kNQK/WtTV2c1Bf0gtGC2XV+GTYVjkD6iVOcqwAce
-	gZ/DTl5DHfMhy0F1dFNhVDc/Zqae4LM=
-X-Google-Smtp-Source: APXvYqyb4rVfDxB+LtLEogPK5Qi6voOIC8nuce/jyevE63iI6i0bHM3KEmGPBNZbvVy5eznM+Gj+Lg==
-X-Received: by 2002:a7b:c310:: with SMTP id k16mr15297688wmj.133.1561384398641;
-	Mon, 24 Jun 2019 06:53:18 -0700 (PDT)
+	bh=YmaIpnuM5zDc+2plodB1m+LLYcZYZvYRW3VBV9ZESqY=;
+	b=Jd41Frwq6vYpK3FMn0wF9NMh8H6XOSYrT82s1yt/ljbs1mPM+Os4oDTuSbwaOPWc1m
+	YjUAx6kWhtZufWd1KrnFOo/KOUrzR9lZkaDxUQg3HMVWJXBlKXQyIQmVKaJcdP43oZ+L
+	xyWZYW7IT5mQPk32cItppcISB7JQnDHki08l5V61IzB2gepNf1bzuwX2iTHr1lqmxDcU
+	Ql+qTMaxR0jpLJhUd4+3UXGfnevPh4FpIB4saXoB00+G3UPiczSUIiCmEGlFqv1tuE5q
+	cHZ0qwA4R9PejwvC+yR8Wjr7yvsxDJZ7Ln4Orz0OwzEMl1prJhvVvM5kzKdyzAfal+Kh
+	+S1A==
+X-Gm-Message-State: APjAAAW677rQBZKp3wGRukfDgEpRI3njGbPn2+He6FTooZugVFiC2e4R
+	QFGdV6k3jIFXlq7ydXCYwbPBnjAvtcc=
+X-Google-Smtp-Source: APXvYqzhOwRvt9icf361HE3Scu0u5C0CSjMjYiMCEDqULEoRCgD5A9YxIZaS1kbSbEBPWAvVbkYXAA==
+X-Received: by 2002:a1c:7614:: with SMTP id r20mr17036976wmc.142.1561384410181;
+	Mon, 24 Jun 2019 06:53:30 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	d18sm33488132wrb.90.2019.06.24.06.53.17
+	v67sm15080977wme.24.2019.06.24.06.53.29
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Jun 2019 06:53:17 -0700 (PDT)
+	Mon, 24 Jun 2019 06:53:29 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Jun 2019 14:53:15 +0100
-Message-Id: <20190624135315.32373-1-ross.burton@intel.com>
+Date: Mon, 24 Jun 2019 14:53:27 +0100
+Message-Id: <20190624135327.32443-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH][warrior] lighttpd: fix CVE-2019-11072
+Subject: [PATCH][thud] lighttpd: fix CVE-2019-11072
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,12 +56,12 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 13:53:18 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 13:53:30 -0000
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
  .../lighttpd/lighttpd/fix-http-parseopts.patch     | 51 ++++++++++++++++++++++
- meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb  |  1 +
+ meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb  |  1 +
  2 files changed, 52 insertions(+)
  create mode 100644 meta/recipes-extended/lighttpd/lighttpd/fix-http-parseopts.patch
 
@@ -122,18 +122,18 @@ index 00000000000..f3a0402c4be
 +     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2fb"), CONST_STR_LEN("/a/b"));
 +     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2Fb"), CONST_STR_LEN("/a/b"));
 +     run_burl_normalize(psrc, ptmp, flags, __LINE__, CONST_STR_LEN("/a%2fb?c=/"), CONST_STR_LEN("/a/b?c=/"));
-diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
-index a0b350f3581..7554e9e0403 100644
---- a/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
-+++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.53.bb
-@@ -17,6 +17,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
-         file://lighttpd.conf \
+diff --git a/meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb b/meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb
+index f28fd2f6905..5c828da5b06 100644
+--- a/meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb
++++ b/meta/recipes-extended/lighttpd/lighttpd_1.4.51.bb
+@@ -18,6 +18,7 @@ SRC_URI = "http://download.lighttpd.net/lighttpd/releases-1.4.x/lighttpd-${PV}.t
          file://lighttpd \
+         file://lighttpd.service \
          file://0001-Use-pkg-config-for-pcre-dependency-instead-of-config.patch \
 +        file://fix-http-parseopts.patch \
          "
  
- SRC_URI[md5sum] = "f93436d8d400b2b0e26ee4bcc60b9ac7"
+ SRC_URI[md5sum] = "6e68c19601af332fa3c5f174245f59bf"
 -- 
 2.11.0
 
