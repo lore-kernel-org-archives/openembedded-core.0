@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
-	[209.85.210.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 2D7EA7E624
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com
+	[209.85.210.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 143357E600
 	for <openembedded-core@lists.openembedded.org>;
 	Mon, 24 Jun 2019 03:54:30 +0000 (UTC)
-Received: by mail-pf1-f196.google.com with SMTP id d126so6708455pfd.2
+Received: by mail-pf1-f176.google.com with SMTP id 19so6705341pfa.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2019 20:54:31 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=9JoKEMqiReoDQscuzKYfwrtzyZAE95g2dGWC6Q9+7VM=;
-	b=N14m9oSNSXR8r8W2BbuwXCmPUSwU+gq3vf1lKIH5j74wvU7EGzVVj6Yy+ixGdGQrXJ
-	8ncwAWMKXXDRrBrSRP2YxsdNo7JEITwe7c89HbZaqBnPmhjZeGFyvz6kTKmoF5zVYDln
-	h7ZrTMrcbQ39KVIPevtaudZciOddWYVJHdXB6m50Y4RVFNl9q384tlFY4PN+ipTB5kTg
-	FCxqF+pEqYJVM6kCEVHWFftWjdrYP3A6f58NphuMPBHewae50PdWEBFqchKNM4LmIqZC
-	jO6wa0R0mHxxmeQTpG+q9/gFiSrx0MNywsFd6Ca5Sh4pevH/nVJhxpePMRyjj9MD10Rv
-	DbgQ==
+	bh=DfEIV1FhyaK/WQyvAw7CLFfd/1LC+bWYXbImnyB+Ovc=;
+	b=QkLex7jNVxu0KARmgLfso18mca5D8GyU9VrC1WQs5hxSup5v4D6PeLdvKYcfQfOvGc
+	gIEWQOo9+lZYzuLICtGDwPcgXfi8Th/W/LsLRuYSuqXT7QoKdbSYN2ZOPEhqIvfdc/XT
+	BX9h1Acu3oxFJg3kqOaEVpgjYW5nUDPr3sFEmK4aG3+UMZceMEd2DrDeOKnUNLgByyEX
+	yvzwjlTBfBcW4XrU5rpTBDy1icZWmQNjmyGL4A5aGixJISgoYxnmKRgNLKx1qT46ArSk
+	KQomN9LeAWv6RkP04pRY9H0+am1avn4xjQf2HDpQNCGhBJqg0c0qClLfYTBhMuyKwybx
+	YNfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=9JoKEMqiReoDQscuzKYfwrtzyZAE95g2dGWC6Q9+7VM=;
-	b=eI7Aiw1j1CCddjB9mye/+vb+oCgBHpm4gYCp/OodZsjMZD7heYybIuu/jlPOt2dT9L
-	EKgOzkN6n4pFE/QvHX0ud8f0rWorSle6OXIK6MajNXhRPSYrANejEi5GKT3k1rcRM6fn
-	DJ0s/tk7JNfZjjF8NMLbb3hVTBX0dAqeI40cgCO+KLYaQM0bR5CIYpq2gbRTJSKw/Nj7
-	1H8kp/ZxhZjXK5gbcqrjJ5tPlaUNItP0cEFyhOXqkCwC0X4nlV8x/wpHvU4Plmbku8Vq
-	o6C++wQJfuEqoedbPUmr86WbdVjTCimNq1YghQ4I2J4+uoMLcurTCR+gOqWAZdXqwtoO
-	DkxA==
-X-Gm-Message-State: APjAAAVV6iBq0ihoUGZ9FwQlrKKtyOUkPdEreQ+YyKJBK8wCT4XGb72/
-	uohoiOPBHbrOh7B1sptOMn/8XuKlZps=
-X-Google-Smtp-Source: APXvYqzTdPUX2kxf4xpBjfvscAAbg91wZny5ms6quI2v5kCZ0TqZVghKKrAXPwV7BF1zRvRQi6meFQ==
-X-Received: by 2002:a65:408d:: with SMTP id t13mr30653801pgp.373.1561348471014;
-	Sun, 23 Jun 2019 20:54:31 -0700 (PDT)
+	bh=DfEIV1FhyaK/WQyvAw7CLFfd/1LC+bWYXbImnyB+Ovc=;
+	b=q3kpIOVlLW26XYKjTWiSWFk3i2fzAwMxeb3eRhVdo3nksu2jG+wPAKgn2g901RgWLq
+	xY/1iTZCLiQR3lWefS+ecUalEYHVed0M6K4KRWxGNZ4L6sCKxdnNZF/IaGf+sRtGO/lo
+	SlL0a9IRaZjwB7NiJAtcSXrondltZwskcqBKzxlSu5cxd3ZZ9XKCagAI7R3wra5Z+XMF
+	Ev+/fhUI8PmnII2dqfG4BgnDvbC/DCJDAQO2T0MZEc+tRER8ZjL/Lr92LxMe/7cC/R5x
+	ikVeyVdaCGLOxFL+SdgRLZ0Pd8EcfO0PlxemfHLTEXwhpH0mUbvuz1DIY4zx82PYwb/j
+	C6NA==
+X-Gm-Message-State: APjAAAVA470I2ak6vvmtG5Mh1pb54v9o2pa3GT9X4/vVO6dZWSxJZ6A0
+	zXQS/ngSX9kQ3K16ZR0auCoqySSWGAw=
+X-Google-Smtp-Source: APXvYqxqcoEyQQRdHbEFeMC92f3VdTrUvMf8dbypOFa4PTbkRTo4qhAA3dRrfe6x9wGgPsqv73PADQ==
+X-Received: by 2002:a65:66d1:: with SMTP id c17mr19094328pgw.293.1561348472019;
+	Sun, 23 Jun 2019 20:54:32 -0700 (PDT)
 Received: from localhost.localdomain ([2601:202:4180:c33:4917:1686:82c6:892f])
 	by smtp.gmail.com with ESMTPSA id
-	w132sm9837202pfd.78.2019.06.23.20.54.30
+	w132sm9837202pfd.78.2019.06.23.20.54.31
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Jun 2019 20:54:30 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:31 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 20:54:08 -0700
-Message-Id: <c988b0ee3f6a84ba3b12ebef6901c02fed2cab76.1561348290.git.akuster808@gmail.com>
+Date: Sun, 23 Jun 2019 20:54:09 -0700
+Message-Id: <8e057e3e3603eb4a88a86e1f42922c614ed78234.1561348290.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561348290.git.akuster808@gmail.com>
 References: <cover.1561348290.git.akuster808@gmail.com>
-Subject: [Warrior][ 09/19] openssl: fix failure of ptest test_shlibload
+Subject: [Warrior][ 10/19] manifest.py: fix test_SDK_manifest_entries
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,35 +58,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 03:54:30 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 03:54:31 -0000
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Chen Qi <Qi.Chen@windriver.com>
 
-It fails to run ptest case test_shlibload which requires libcrypto.so
-and libssl.so with version numbers now.
+TOOLCHAIN_OUTPUTNAME could be overridden. So use this variable directly
+instead of its default value ${SDK_NAME}-toolchain-${SDK_VERSION}.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-connectivity/openssl/openssl_1.1.1b.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/lib/oeqa/selftest/cases/manifest.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-index d3404d2..df2698f 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1b.bb
-@@ -167,8 +167,8 @@ do_install_ptest () {
- 	cp -r ${S}/external ${B}/test ${S}/test ${B}/fuzz ${S}/util ${B}/util ${D}${PTEST_PATH}
- 
- 	# For test_shlibload
--	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/libcrypto.so
--	ln -s ${libdir}/libssl.so.1.1 ${D}${PTEST_PATH}/libssl.so
-+	ln -s ${libdir}/libcrypto.so.1.1 ${D}${PTEST_PATH}/
-+	ln -s ${libdir}/libssl.so.1.1 ${D}${PTEST_PATH}/
- 
- 	install -d ${D}${PTEST_PATH}/apps
- 	ln -s ${bindir}/openssl ${D}${PTEST_PATH}/apps
+diff --git a/meta/lib/oeqa/selftest/cases/manifest.py b/meta/lib/oeqa/selftest/cases/manifest.py
+index c0b25ab..5d13f35 100644
+--- a/meta/lib/oeqa/selftest/cases/manifest.py
++++ b/meta/lib/oeqa/selftest/cases/manifest.py
+@@ -86,11 +86,8 @@ class VerifyManifest(OESelftestTestCase):
+         try:
+             mdir = self.get_dir_from_bb_var('SDK_DEPLOY', self.buildtarget)
+             for k in d_target.keys():
+-                bb_vars = get_bb_vars(['SDK_NAME', 'SDK_VERSION'], self.buildtarget)
+-                mfilename[k] = "{}-toolchain-{}.{}.manifest".format(
+-                        bb_vars['SDK_NAME'],
+-                        bb_vars['SDK_VERSION'],
+-                        k)
++                toolchain_outputname = get_bb_var('TOOLCHAIN_OUTPUTNAME', self.buildtarget)
++                mfilename[k] = "{}.{}.manifest".format(toolchain_outputname, k)
+                 mpath[k] = os.path.join(mdir, mfilename[k])
+                 if not os.path.isfile(mpath[k]):
+                     self.logger.debug("{}: {} does not exist".format(
 -- 
 2.7.4
 
