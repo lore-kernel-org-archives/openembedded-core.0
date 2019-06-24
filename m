@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pl1-f194.google.com (mail-pl1-f194.google.com
-	[209.85.214.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C15347E512
+Received: from mail-pg1-f196.google.com (mail-pg1-f196.google.com
+	[209.85.215.196])
+	by mail.openembedded.org (Postfix) with ESMTP id F0ADE7E62D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 03:54:33 +0000 (UTC)
-Received: by mail-pl1-f194.google.com with SMTP id a93so6105944pla.7
+	Mon, 24 Jun 2019 03:54:34 +0000 (UTC)
+Received: by mail-pg1-f196.google.com with SMTP id z19so3394085pgl.12
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 23 Jun 2019 20:54:35 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/F3KzzywhGSI9y36kCD7rkPWptfk+3RnKs/O/ljbonY=;
-	b=h8PA2ihaSDcoOWswHXccWbrJoJFWHcvGQNBU5CUPqythLo47lUJWZe+1xtGGx6uBk9
-	UEGfscf2J+K6QG/HC27PNa5NW/n1Wce9OOfbWJB+Q+/lwdkX3Mmn4efmisk2ouwOLXR9
-	n+ggB9Z/fsKZT3L5tqgaFgs3MbgzmuFoOCbPfEOj1YoO/uqv+mzTADkv1g0lxHLmZoJU
-	bZZCGhE/lELkvnoiwhmBVtC2Ftj4s+mAGsVO0TbkHn8obIGVEGB1oUpe88iYGjNPAFAT
-	q/evXOoWTEBxc2P2xZ0LuNNWcMKvSiP5CuEdn88Y6vvxgNK0fT+kaC3Ulci1CTQAMhq3
-	bEvQ==
+	bh=S9SebKG9yIdTft/eetRnjGUVDpKE/ixHpCchOIZxfuA=;
+	b=egUTFRFGg/Mtk06cWW4/wvCPZ76r4fhNVweKs5PdK2kL6AzUGYaxpgG3xrYCHySGqD
+	WHRB2e3TxroJ/U8CEtKd8ebwSKKdVrFf17sbGy8mxs7VC57n49BaaNkLqGY4iAB0ucK8
+	BtNlog03+13eQYjcRQ3CevJQ7gMbGgfJBiOa9StUEFtY2uMm0g7qyhusCXFz3+lfKudm
+	sDMf6VSbWAyjsIHehguyjWhBAmWzph8ufIGjCB8PmnhFbTMXhNhfg+TlEgKn/fu7ppq0
+	EuoYYCZ+tE5hquoqpCXVoccqmBHltzby6871YCA05imn9uLqXkk86frRjveq5n8Zg5ak
+	hJDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=/F3KzzywhGSI9y36kCD7rkPWptfk+3RnKs/O/ljbonY=;
-	b=JZl3qyqI8qALTJcdfxmBIm9kook/v1bDW90ajAT+aiTdZctF1OXA+3kVYIUFEEooab
-	E94NpgsnD4c/ODRIshxx3Ndojt4xPLqd7Yal06w2gI2TKzh171FIBMEOklVp0h2KloC1
-	LpIWnJd2sXzpRefIyfBNlWXawHUwYxcqaejOrMAgNgHZ7rPNYb0DxbTDVEzr+/c9uw5N
-	ObLfNVIIWxbLeYzIGZfbXCI+OIgUgGoW1ZPSq+Z7cBOD3TcrupNn7gkTb0yxlgfi3rPr
-	FqzxPmTB8QtOSSOyIlVXYBcnBvrgGF+tORySbimU+tgiQ3dPmQrKw30/j7sKJmp9qppA
-	0aNA==
-X-Gm-Message-State: APjAAAUqQcb2ZdWiQbLqGKZRFmhvw06PpemGkI3T0OUAtHvrPNAZiLJr
-	/83kwa33QU+f8KZz5qs9Qdd//OLTyC8=
-X-Google-Smtp-Source: APXvYqxJVcN79wwV3Mv8SW8EPopllx4PVxgP6hN3/9qvcj6z65iEhbs58bBeHCKB2a95wkcPfTAmPg==
-X-Received: by 2002:a17:902:2865:: with SMTP id
-	e92mr143561402plb.264.1561348474830; 
-	Sun, 23 Jun 2019 20:54:34 -0700 (PDT)
+	bh=S9SebKG9yIdTft/eetRnjGUVDpKE/ixHpCchOIZxfuA=;
+	b=avdP9HS6HrmD/yQvOti4frYpUjIj3cVHDgNLqOpdUwxFv8qmSdJgOX3tbi9WG84qFr
+	sQT5zsP0uIteoX3Nr6IO9xRWH7AvOI0e8oM3EoMPtievCwg4krYmVE8gQeOnSk4AI/Wl
+	kHkuvh5225qIj7kIG4AQle2KrL9EDyvIN+ucTAIMp++s6lD7MCipULy/VREv/ukUOdAr
+	YeTCl46kht1KXfejXip66mxzaYI/A1aQrd2GsSTBItrcIYR76ltrcM5O1HnKHbSpG5zg
+	lY4vBSE/M1q6aztpd75MbmNXx9DJtrBIuWiHTxmySy9xMhx7wYfBu8GrRs11nEPGQo9W
+	7MeQ==
+X-Gm-Message-State: APjAAAUUBs7eNivrJMlqQ07PbZd+OkO0gMnbbvIIV6YbhHgXRM/EG64k
+	ox/UYVcpsKjTrZ0Zz/4TxfM4iEGqB90=
+X-Google-Smtp-Source: APXvYqxI3LrVBMVIvLN2NtSbyXdvy0QL8bZ1mjgGYG/aLfxEDxARbPIqf3jn9MeLhmS+s02oxCTKXQ==
+X-Received: by 2002:a63:1651:: with SMTP id 17mr30164882pgw.243.1561348475803; 
+	Sun, 23 Jun 2019 20:54:35 -0700 (PDT)
 Received: from localhost.localdomain ([2601:202:4180:c33:4917:1686:82c6:892f])
 	by smtp.gmail.com with ESMTPSA id
 	w132sm9837202pfd.78.2019.06.23.20.54.34
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 23 Jun 2019 20:54:34 -0700 (PDT)
+	Sun, 23 Jun 2019 20:54:35 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sun, 23 Jun 2019 20:54:12 -0700
-Message-Id: <9cf94bdec905c820bf700fe8bbeb5f58ffa67e6d.1561348290.git.akuster808@gmail.com>
+Date: Sun, 23 Jun 2019 20:54:13 -0700
+Message-Id: <83ea6de3142736cfe5a63740e1919bcf42de54d2.1561348290.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561348290.git.akuster808@gmail.com>
 References: <cover.1561348290.git.akuster808@gmail.com>
-Subject: [Warrior][ 13/19] uninative: Update to 2.6 release
+Subject: [Warrior][ 14/19] libxslt: Fix CVE-2019-11068
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,39 +58,164 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 03:54:34 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 03:54:35 -0000
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Adrian Bunk <bunk@stusta.de>
 
-The 2.6 release contains both libcrypt.so.1 and libcrypt.so.2 which fixes
-compatibility with recent fedora/suse releases.
-
-The difference is one is built with obsolete APIs enabled and one disabled.
-We now ship both in uninative for compatibility regardless of which distro
-a binary is built on.
-
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/conf/distro/include/yocto-uninative.inc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ .../files/0001-Fix-security-framework-bypass.patch | 124 +++++++++++++++++++++
+ meta/recipes-support/libxslt/libxslt_1.1.33.bb     |   4 +-
+ 2 files changed, 127 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libxslt/files/0001-Fix-security-framework-bypass.patch
 
-diff --git a/meta/conf/distro/include/yocto-uninative.inc b/meta/conf/distro/include/yocto-uninative.inc
-index 0bb8f7a..df24346 100644
---- a/meta/conf/distro/include/yocto-uninative.inc
-+++ b/meta/conf/distro/include/yocto-uninative.inc
-@@ -8,7 +8,7 @@
+diff --git a/meta/recipes-support/libxslt/files/0001-Fix-security-framework-bypass.patch b/meta/recipes-support/libxslt/files/0001-Fix-security-framework-bypass.patch
+new file mode 100644
+index 0000000..89b647d
+--- /dev/null
++++ b/meta/recipes-support/libxslt/files/0001-Fix-security-framework-bypass.patch
+@@ -0,0 +1,124 @@
++From e03553605b45c88f0b4b2980adfbbb8f6fca2fd6 Mon Sep 17 00:00:00 2001
++From: Nick Wellnhofer <wellnhofer@aevum.de>
++Date: Sun, 24 Mar 2019 09:51:39 +0100
++Subject: Fix security framework bypass
++
++xsltCheckRead and xsltCheckWrite return -1 in case of error but callers
++don't check for this condition and allow access. With a specially
++crafted URL, xsltCheckRead could be tricked into returning an error
++because of a supposedly invalid URL that would still be loaded
++succesfully later on.
++
++Fixes #12.
++
++Thanks to Felix Wilhelm for the report.
++
++Signed-off-by: Adrian Bunk <bunk@stusta.de>
++Upstream-Status: Backport
++CVE: CVE-2019-11068
++---
++ libxslt/documents.c | 18 ++++++++++--------
++ libxslt/imports.c   |  9 +++++----
++ libxslt/transform.c |  9 +++++----
++ libxslt/xslt.c      |  9 +++++----
++ 4 files changed, 25 insertions(+), 20 deletions(-)
++
++diff --git a/libxslt/documents.c b/libxslt/documents.c
++index 3f3a7312..4aad11bb 100644
++--- a/libxslt/documents.c
+++++ b/libxslt/documents.c
++@@ -296,10 +296,11 @@ xsltLoadDocument(xsltTransformContextPtr ctxt, const xmlChar *URI) {
++ 	int res;
++ 
++ 	res = xsltCheckRead(ctxt->sec, ctxt, URI);
++-	if (res == 0) {
++-	    xsltTransformError(ctxt, NULL, NULL,
++-		 "xsltLoadDocument: read rights for %s denied\n",
++-			     URI);
+++	if (res <= 0) {
+++            if (res == 0)
+++                xsltTransformError(ctxt, NULL, NULL,
+++                     "xsltLoadDocument: read rights for %s denied\n",
+++                                 URI);
++ 	    return(NULL);
++ 	}
++     }
++@@ -372,10 +373,11 @@ xsltLoadStyleDocument(xsltStylesheetPtr style, const xmlChar *URI) {
++ 	int res;
++ 
++ 	res = xsltCheckRead(sec, NULL, URI);
++-	if (res == 0) {
++-	    xsltTransformError(NULL, NULL, NULL,
++-		 "xsltLoadStyleDocument: read rights for %s denied\n",
++-			     URI);
+++	if (res <= 0) {
+++            if (res == 0)
+++                xsltTransformError(NULL, NULL, NULL,
+++                     "xsltLoadStyleDocument: read rights for %s denied\n",
+++                                 URI);
++ 	    return(NULL);
++ 	}
++     }
++diff --git a/libxslt/imports.c b/libxslt/imports.c
++index 874870cc..3783b247 100644
++--- a/libxslt/imports.c
+++++ b/libxslt/imports.c
++@@ -130,10 +130,11 @@ xsltParseStylesheetImport(xsltStylesheetPtr style, xmlNodePtr cur) {
++ 	int secres;
++ 
++ 	secres = xsltCheckRead(sec, NULL, URI);
++-	if (secres == 0) {
++-	    xsltTransformError(NULL, NULL, NULL,
++-		 "xsl:import: read rights for %s denied\n",
++-			     URI);
+++	if (secres <= 0) {
+++            if (secres == 0)
+++                xsltTransformError(NULL, NULL, NULL,
+++                     "xsl:import: read rights for %s denied\n",
+++                                 URI);
++ 	    goto error;
++ 	}
++     }
++diff --git a/libxslt/transform.c b/libxslt/transform.c
++index 13793914..0636dbd0 100644
++--- a/libxslt/transform.c
+++++ b/libxslt/transform.c
++@@ -3493,10 +3493,11 @@ xsltDocumentElem(xsltTransformContextPtr ctxt, xmlNodePtr node,
++      */
++     if (ctxt->sec != NULL) {
++ 	ret = xsltCheckWrite(ctxt->sec, ctxt, filename);
++-	if (ret == 0) {
++-	    xsltTransformError(ctxt, NULL, inst,
++-		 "xsltDocumentElem: write rights for %s denied\n",
++-			     filename);
+++	if (ret <= 0) {
+++            if (ret == 0)
+++                xsltTransformError(ctxt, NULL, inst,
+++                     "xsltDocumentElem: write rights for %s denied\n",
+++                                 filename);
++ 	    xmlFree(URL);
++ 	    xmlFree(filename);
++ 	    return;
++diff --git a/libxslt/xslt.c b/libxslt/xslt.c
++index 780a5ad7..a234eb79 100644
++--- a/libxslt/xslt.c
+++++ b/libxslt/xslt.c
++@@ -6763,10 +6763,11 @@ xsltParseStylesheetFile(const xmlChar* filename) {
++ 	int res;
++ 
++ 	res = xsltCheckRead(sec, NULL, filename);
++-	if (res == 0) {
++-	    xsltTransformError(NULL, NULL, NULL,
++-		 "xsltParseStylesheetFile: read rights for %s denied\n",
++-			     filename);
+++	if (res <= 0) {
+++            if (res == 0)
+++                xsltTransformError(NULL, NULL, NULL,
+++                     "xsltParseStylesheetFile: read rights for %s denied\n",
+++                                 filename);
++ 	    return(NULL);
++ 	}
++     }
++-- 
++2.20.1
++
+diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+index 28d404c..42b21c7 100644
+--- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
++++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
+@@ -8,7 +8,9 @@ LIC_FILES_CHKSUM = "file://Copyright;md5=0cd9a07afbeb24026c9b03aecfeba458"
+ SECTION = "libs"
+ DEPENDS = "libxml2"
  
- UNINATIVE_MAXGLIBCVERSION = "2.29"
+-SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz"
++SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
++           file://0001-Fix-security-framework-bypass.patch \
++"
  
--UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.5/"
--UNINATIVE_CHECKSUM[aarch64] ?= "ca977ff95c77f983570141908d451ff7d78add2864471605af404302bb36a1fa"
--UNINATIVE_CHECKSUM[i686] ?= "7b5822891c293795faf8a4a80586b36f8cde405387524916a24f9055ea82f7ca"
--UNINATIVE_CHECKSUM[x86_64] ?= "ed0ac07c710b711925cb976685dd855fb1d442dd840d00194751c18bf480c4ed"
-+UNINATIVE_URL ?= "http://downloads.yoctoproject.org/releases/uninative/2.6/"
-+UNINATIVE_CHECKSUM[aarch64] ?= "a37118fc8b423f48146120707b81dd15017512c3e8ef9e6ca2cb3a033f4f4046"
-+UNINATIVE_CHECKSUM[i686] ?= "3234fc3ded810225071f23a0e9a99f4f8c2480059945a848eff076ce78122ade"
-+UNINATIVE_CHECKSUM[x86_64] ?= "133387753a9acf3e1b788103c59fac91e968e2ee331d7a4b9498e926ada7be57"
+ SRC_URI[md5sum] = "b3bd254a03e46d58f8ad1e4559cd2c2f"
+ SRC_URI[sha256sum] = "8e36605144409df979cab43d835002f63988f3dc94d5d3537c12796db90e38c8"
 -- 
 2.7.4
 
