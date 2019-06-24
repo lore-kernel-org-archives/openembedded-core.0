@@ -1,52 +1,55 @@
-Return-Path: <alistair23@gmail.com>
-Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
-	[209.85.167.66])
-	by mail.openembedded.org (Postfix) with ESMTP id A079C7E3B2
+Return-Path: <martin.jansa@gmail.com>
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id C71507E3F0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 17:30:45 +0000 (UTC)
-Received: by mail-lf1-f66.google.com with SMTP id a25so10679097lfg.2
+	Mon, 24 Jun 2019 18:14:13 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id r16so14889664wrl.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 10:30:46 -0700 (PDT)
+	Mon, 24 Jun 2019 11:14:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=UW+MlBbexIfd0PJZenWIuZQGT6HfHQCsQndyWd2Px+M=;
-	b=HvrObqVdWqyfga3n7bhsUctr9FJQLaLNOpnI5TgjiTC98TauJcoPmLzs38782cBMQC
-	483XGzRgQ4lRD77VhFEcOP053C+9/RP7A2EuTuwdeHM4H6FO8G+NzuoUxuLm3J4doYRV
-	T+isUP1t4j9ojCZMjGu8IbMW5xfktg1kTp3UT7B0e4vA0jZaxocM7xLZTnmWxHLA6e0v
-	2b/Fe1WOGE/BEGtueuuFvXemnZcTkk4uG3KIM+GNvmfFkxg4a2/I/5piY89amZp8J8CR
-	Gi2UF7S9NzAKafyjBGj7oBRUCi3mYZKkroIzv0iRqaDZOEtME2UsTABYIasViNWOjqMF
-	0FVQ==
+	h=from:date:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=cszVpk8gknAVesihAw6sL/OFDKkCLMM4WBHpczjzOUc=;
+	b=LMIF3uaRneB3wnng9GZfBaIFHT8xUgVR8J+6CvRqSBkwUQG7pootw19ef10uou+2Hp
+	QFYwmwqGDYiQSr+JKWUY3OwVcbWbHGfGqHdmFHX2kr5eK4TI7IC9czw6RMQDYQfrk3Gm
+	yiqZLiVT+uU0WeDbdz/gjv8h24u9eWFzzPSerzdpxA891bAMk5QtZ5dDZuR3YeafUhl5
+	126iYREamz0cqovQ3J4lvaQs1+KrlkfEqZZU/wnEOTpaVD0pfoss2UjAuy4oKTyoOufK
+	SlGnQ3I19rJCiVCA3W8WgHZo2bCa+DDHwxX/+3HUYome5irtv1zS5G7cNRueHNFe2k/C
+	Ng1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=UW+MlBbexIfd0PJZenWIuZQGT6HfHQCsQndyWd2Px+M=;
-	b=aQTyJF9+Lf0+rocO4q7wN4GBJFchQeVYa1CNou+2sOprTfpRoP3Jc20nKvxzSummZj
-	u8tQGM4pmDtrO5fJgIyygB2WmNGw3yEa3MMxbkjUOxqZh00rAmb9YKc0zsJGUEtf4IGS
-	HGyIQzdAevLAKGEUpg0y4galWlm9uBFyUuaJLVQv1MB9X6iPAWHj8yVYGlDZRZe2lU5H
-	gb5GefEtnBfoQ7hmmrHbeTrXdVbRipEGGIm/zoBVaHnnvQaA6HMS06iyGTny5QTZPDwH
-	4r/PlnEr+dztcS0DRRKfSyKrGOCN79RIZ3iMZgFtEh1ypTLax9XCFpnZw7mqVc3+V5RW
-	rfng==
-X-Gm-Message-State: APjAAAUm0Cc8JM4b9KW7s/GQWrYUKpUKjF07aDZTZ+LczyIm1v2UBS33
-	dwijF7zACT6opbgUVDRIFN4oS1JPLvJus//ZoWY=
-X-Google-Smtp-Source: APXvYqwiJ2CWAZeLaYWOkkVw90v5Qufm66gy9e2Ib1qpKf16RgQZmZkmxctTz4HomGGMsr7EwI1PU18yc40VY398Y1M=
-X-Received: by 2002:ac2:4990:: with SMTP id f16mr19390278lfl.93.1561397446170; 
-	Mon, 24 Jun 2019 10:30:46 -0700 (PDT)
+	h=x-gm-message-state:from:date:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=cszVpk8gknAVesihAw6sL/OFDKkCLMM4WBHpczjzOUc=;
+	b=o8UiPbtXvoCuSdPmW9vJUjlgxVE+VkI8l4B6xrZc7FZD80QFGgor7q1h89E+NK/L7A
+	7o+S9mNsm3PDjGt0dtaCORXnqfPgH9mo+qgEPkZwYR0ApHEKXUv/+WPliiqMobAtN+4D
+	DUpuPzHoSFDee5DXlw3dpZx/DrVGN+BZBEGc5r/oOB1xrvNopTO8nG+qTjWIlhXRa2aY
+	6MpOXKUXcTlz8s5vOSatGl5bwlYJhTjl2Hw0FAKFsRWQCUYle7lRkgEHcKxcw31A4SpM
+	EUDzCXNpfHPYHGmoZLq/6XPpGaym38ZQdOtAsqGFnWeBMzLsIxx6tFvowRw76B/FD6ca
+	u+/w==
+X-Gm-Message-State: APjAAAVr7m6NpHIyBVC+GdKB/zlZFXCrGSWl1ApncMrJX/Lk/hzPCsTg
+	zUt4uoZQPdj2/jMmsRfgiVg=
+X-Google-Smtp-Source: APXvYqzseaY/aibCE4/5R3idQE43oJJKKj/q8lCtlpJ7IFWRQNTjxXC9/ir+02pCnA0FdEwUQmiTfw==
+X-Received: by 2002:adf:efcb:: with SMTP id i11mr10259483wrp.188.1561400054458;
+	Mon, 24 Jun 2019 11:14:14 -0700 (PDT)
+Received: from localhost (ip-217-030-068-212.aim-net.cz. [217.30.68.212])
+	by smtp.gmail.com with ESMTPSA id
+	t14sm8620785wrr.33.2019.06.24.11.14.13
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 24 Jun 2019 11:14:13 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
+X-Google-Original-From: Martin Jansa <Martin.Jansa@gmail.com>
+Date: Mon, 24 Jun 2019 20:14:15 +0200
+To: bruce.ashfield@gmail.com
+Message-ID: <20190624181415.GA1509@jama>
+References: <cover.1561379933.git.bruce.ashfield@gmail.com>
+	<d3d3d374e985ccfe061a986d2735791476b24511.1561379933.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-References: <cover.1559950879.git.timothy.t.orling@linux.intel.com>
-	<0f5adba2f96da9396faa1e70f9eed84118cf735e.1559950879.git.timothy.t.orling@linux.intel.com>
-	<CAMKF1sq5aOZ+6CSP+G88+JCYd4zMb6ZSe5MP5KWSSofPRbe4Ow@mail.gmail.com>
-	<CANx9H-DLg1_vSEi1bBSSLCmycdyEa2MiJjZ9d=Owsc5bsR-GBA@mail.gmail.com>
-	<CAKmqyKO_33RpiC4PS6vVTBUz=0Bnc7F5zbGt7mmr6VHU1rK_vA@mail.gmail.com>
-	<20190624082053.GB11015@localhost>
-In-Reply-To: <20190624082053.GB11015@localhost>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 24 Jun 2019 10:27:52 -0700
-Message-ID: <CAKmqyKM95L2KmXyXdq+GgcZm1EWnr5wtSNfxah46Zg_xOLAKGA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/4] scons.bbclass: use python3-scons
+In-Reply-To: <d3d3d374e985ccfe061a986d2735791476b24511.1561379933.git.bruce.ashfield@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 2/2] linux-yocto/5.0: make scsci-debug include scsci core configs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,82 +62,106 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 17:30:46 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 24 Jun 2019 18:14:14 -0000
+X-Groupsio-MsgNum: 126176
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
+Content-Disposition: inline
 
-On Mon, Jun 24, 2019 at 1:20 AM Adrian Bunk <bunk@stusta.de> wrote:
->
-> On Sun, Jun 23, 2019 at 07:41:05PM -0700, Alistair Francis wrote:
-> > On Thu, Jun 20, 2019 at 5:22 PM Tim Orling <ticotimo@gmail.com> wrote:
-> > >
-> > >
-> > >
-> > > On Thu, Jun 20, 2019 at 6:37 AM Khem Raj <raj.khem@gmail.com> wrote:
-> > >>
-> > >> On Fri, Jun 7, 2019 at 5:50 PM Tim Orling
-> > >> <timothy.t.orling@linux.intel.com> wrote:
-> > >> >
-> > >> > SCons has supported python3 since 3.0.0 release, use it.
-> > >> >
-> > >> > [YOCTO #13381]
-> > >> >
-> > >> > Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
-> > >> > ---
-> > >> >  meta/classes/scons.bbclass | 2 +-
-> > >> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >> >
-> > >> > diff --git a/meta/classes/scons.bbclass b/meta/classes/scons.bbclass
-> > >> > index 9ee7d1587d..a8ddae35f7 100644
-> > >> > --- a/meta/classes/scons.bbclass
-> > >> > +++ b/meta/classes/scons.bbclass
-> > >> > @@ -1,4 +1,4 @@
-> > >> > -DEPENDS += "python-scons-native"
-> > >> > +DEPENDS += "python3-scons-native"
-> > >> >
-> > >>
-> > >> some packages haven't upgraded to py3 but use scons see
-> > >> https://errors.yoctoproject.org/Errors/Details/249271/
-> > >
-> > >
-> > >
-> > > Thank you for reporting this. I was of course expecting some breakage and am committed to fixes. Please do report any other issues.
-> >
-> > This also breaks the gpsd install, I tried upgrading to the latest
-> > release and that didn't help. I am going to send a patch for the
-> > upgrade which I tested with this patch reverted.
->
-> This is already workarounded:
-> http://git.openembedded.org/meta-openembedded/commit/?h=master-next&id=22bfe06d15e07cac0df3f34566a9d33007663bae
+--Nq2Wo0NMKNjxTN9z
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Argh, I must not have pulled recently enough.
+On Mon, Jun 24, 2019 at 08:44:42AM -0400, bruce.ashfield@gmail.com wrote:
+> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>=20
+> Updating the scsci-debug fragment to include the core scsci config
+> options. This allows standalone use of the fragment, since all
+> supporting options will be enabled simply by including the top
+> level config in a BSP.
+>=20
+> This also removes a configuration warning on qemuarm, since we
+> will no longer have missing / unavailable options during the
+> config audit.
 
->
-> There are post-3.18.1 changes required for Python 3 scons,
-> but I went for this hack after seeing that a proper fix
-> would involve all of:
-> 1. upgrading to 3.18.1
-> 2. rebasing oe-only patches to 3.18.1
+4 typos in commit summary and commit message scsci should probably be
+scsi, I didn't check the commit in the meta repository, maybe more
+scsci's there :).
 
-I sent a patch (with you CCed) that does the first two.
+> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> ---
+>  meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb   | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb | 2 +-
+>  meta/recipes-kernel/linux/linux-yocto_5.0.bb      | 2 +-
+>  3 files changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb b/meta/recip=
+es-kernel/linux/linux-yocto-rt_5.0.bb
+> index c5bd342d5b..35f2350d52 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-rt_5.0.bb
+> @@ -12,7 +12,7 @@ python () {
+>  }
+> =20
+>  SRCREV_machine ?=3D "9c1e84c9b81b6bf1df55f26f2e0517266c37f7eb"
+> -SRCREV_meta ?=3D "97eac3146504a2348543b8b8859f44a7b8f0d590"
+> +SRCREV_meta ?=3D "eb6ef084f987441359145c41cadcbdd768eeb012"
+> =20
+>  SRC_URI =3D "git://git.yoctoproject.org/linux-yocto.git;branch=3D${KBRAN=
+CH};name=3Dmachine \
+>             git://git.yoctoproject.org/yocto-kernel-cache;type=3Dkmeta;na=
+me=3Dmeta;branch=3Dyocto-5.0;destsuffix=3D${KMETA}"
+> diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb b/meta/rec=
+ipes-kernel/linux/linux-yocto-tiny_5.0.bb
+> index d6e45c69c0..96cfb3dcd1 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto-tiny_5.0.bb
+> @@ -17,7 +17,7 @@ KCONF_BSP_AUDIT_LEVEL =3D "2"
+> =20
+>  SRCREV_machine_qemuarm ?=3D "fabee455f397ba8054f35a3ad5f2250bbad93bef"
+>  SRCREV_machine ?=3D "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
+> -SRCREV_meta ?=3D "97eac3146504a2348543b8b8859f44a7b8f0d590"
+> +SRCREV_meta ?=3D "eb6ef084f987441359145c41cadcbdd768eeb012"
+> =20
+>  PV =3D "${LINUX_VERSION}+git${SRCPV}"
+> =20
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_5.0.bb b/meta/recipes-=
+kernel/linux/linux-yocto_5.0.bb
+> index 5bc2d54916..d4d30853f0 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_5.0.bb
+> @@ -21,7 +21,7 @@ SRCREV_machine_qemux86 ?=3D "00638cdd8f92869a0f89ebe328=
+9fdbd856ba9458"
+>  SRCREV_machine_qemux86-64 ?=3D "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
+>  SRCREV_machine_qemumips64 ?=3D "5a8b27bcc0b16077ab8edfcd3fb25c80dc2c652e"
+>  SRCREV_machine ?=3D "00638cdd8f92869a0f89ebe3289fdbd856ba9458"
+> -SRCREV_meta ?=3D "97eac3146504a2348543b8b8859f44a7b8f0d590"
+> +SRCREV_meta ?=3D "eb6ef084f987441359145c41cadcbdd768eeb012"
+> =20
+>  # remap qemuarm to qemuarma15 for the 5.0 kernel
+>  # KMACHINE_qemuarm ?=3D "qemuarma15"
+> --=20
+> 2.19.1
+>=20
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
-> 3. adding post-3.18.1 patches
+--=20
+Martin 'JaMa' Jansa     jabber: Martin.Jansa@gmail.com
 
-How hard would this be? I'm happy to look into it but I didn't see
-anything in the gpsd tree that seemed to fix the issue.
+--Nq2Wo0NMKNjxTN9z
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: Digital signature
 
-Alistair
+-----BEGIN PGP SIGNATURE-----
 
->
-> > Alistair
->
-> cu
-> Adrian
->
-> --
->
->        "Is there not promise of rain?" Ling Tan asked suddenly out
->         of the darkness. There had been need of rain for many days.
->        "Only a promise," Lao Er said.
->                                        Pearl S. Buck - Dragon Seed
->
+iF0EARECAB0WIQRU+ejDffEzV2Je2oc3VSO3ZXaAHAUCXRES9gAKCRA3VSO3ZXaA
+HNI5AKCFL1DoWeL0P6RVcib3OoprO7Rj5QCfWzzgat+743k5gGCpEXYb8OtLC+g=
+=l5fq
+-----END PGP SIGNATURE-----
 
+--Nq2Wo0NMKNjxTN9z--
