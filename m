@@ -1,49 +1,53 @@
-Return-Path: <lemagoup@gmail.com>
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com
-	[209.85.221.47])
-	by mail.openembedded.org (Postfix) with ESMTP id F22617C786
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A1F497C786
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 09:45:13 +0000 (UTC)
-Received: by mail-wr1-f47.google.com with SMTP id f15so3256428wrp.2
+	Mon, 24 Jun 2019 09:46:45 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id u13so7346iop.0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 02:45:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=Nz+qw8YINT7m0KTKJQ6jdPYXn5sOUaF48BbqKu/w+eI=;
-	b=U7IF3G66xAfXTDtbn76dfPpZC14pBJJwHeQBmyHUIdhF3noub90S3ajLMK2LyIF1a1
-	47Cr+bnGB9LdgNkYwpfdAr5D5/aI2vnqRmUht0NX2uE3hj02+G/XwWkq+NP0NZdP3K+8
-	Mt472ZeIupqG9XOlAS6QkmqaTE9aRfcMYWrbDCQqopE7zK/ha7SY+OMoQo09ESWapH47
-	VH3JGscnE8DcscawxWbx7vGThOjJ1uDuc+TEg8a6k0RT9E4i3ohzkVg1Fh/sC8lMkj5p
-	27CJYb7Bgk6VwnpiQZDX9clM/YgHaq9QIX2SG7f/jgOPbF8APB40hDQeeq+0zy+1LebU
-	WZsw==
+	Mon, 24 Jun 2019 02:46:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=PQMTUKF9G2N34+5HR3mm5D/oxZBTtrBmVygEQV9WxrY=;
+	b=v37rhHlcgPyh+mzH5vToCPd7DRhsgigHpC0x+vUv/MEdKKlxuNV37FORekhuAJEH/C
+	jQadTWrea+rJoA9wJ2QTqzOhr/fJgnkHE75S6UEdoUlbAE8lNH86MC7pHGVS/SoEzQbf
+	vuSP3whnNjhIPFn11zk0JMz2Js3CJ3SQsC/c1weDniQsSOBo0GCnE9ekz469lyWKBl5G
+	D7bN12o4/fbfNPI64T/AC0zYYfU7UMaEo/iwFBJs4iFrh7xKoOI0JrVCx7e5GgDqqyaE
+	TPzNIryZ4HsPObsA7fk89qSaeA0NwiggNn5wnY28HIgwXkPDb7xAeRbDekbLP34URUUm
+	KAqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=Nz+qw8YINT7m0KTKJQ6jdPYXn5sOUaF48BbqKu/w+eI=;
-	b=pVDyCgOd/YBRw1AGLUIFF+5rKgd7JZR5sCncySogJRvRjYz9QJUyg9ueRPoJlMNd6K
-	mykgIdpGnQn9E2ZYdvQs6pG/IQz+Qzv22E4lOwjO9IzvJVvIqaFoV3C6+TxoHK5M1+8B
-	Uk1kS6fkU5o2VVV5d4ULRN3VlrZeyYMx5cbQyYCXom32Gop1knd5gJJnnpOkMQVOfzJi
-	sn+u0bVHVSn6F8/q0N8uryIrAPSg9XDic/+xlr7AVr8OcfMKtVOVwamMCy0L3y+UT2lI
-	+BzQhLGKMXwgSCYvcKOqgQjvvxNUeeQbQqpVHQSXHMIt3ApuumKV24y8HXxQc39z6Dv2
-	zAjA==
-X-Gm-Message-State: APjAAAWX4kY2P7ULtivXBZoE5aldmWGit4rSc5ER1WjWVjG9QdYPQQao
-	ogItZBXny5HdIWCkOUAO1n6lEW5/
-X-Google-Smtp-Source: APXvYqyfMEBBBcmT1muDCpbHm/ZbySzQqeRReY9anSVQ0FXae+kE8Ti+eNtL0CCHIH/3igNlfqzl9w==
-X-Received: by 2002:a05:6000:114b:: with SMTP id
-	d11mr41857291wrx.167.1561369514278; 
-	Mon, 24 Jun 2019 02:45:14 -0700 (PDT)
-Received: from localhost.localdomain
-	(softbank-robotics-gw1.ter4.eqx2.par.cust.as8218.eu.
-	[158.255.112.194]) by smtp.gmail.com with ESMTPSA id
-	o20sm11716313wro.65.2019.06.24.02.45.13
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 24 Jun 2019 02:45:13 -0700 (PDT)
-From: Pierre Le Magourou <lemagoup@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Jun 2019 11:44:38 +0200
-Message-Id: <20190624094438.7596-1-lemagoup@gmail.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cve-update-db: Use std library instead of urllib3
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=PQMTUKF9G2N34+5HR3mm5D/oxZBTtrBmVygEQV9WxrY=;
+	b=rhoCE6/bfAGc39EiDTVUBtCCMb7+gdUyXphClpvCRywvcvotszyvEe5me6VlI1Tdpc
+	fdPlzDWwKtdUjiulKKC9cNCDQ/ZhIgZNiE/aAdaXVPPD6eMM/FSwcBfQFDX9UkdCsNQs
+	ngcGQejB1njzuZq7m+WIV7rsXWxPqdxltAhakntuEilZ9xA2RccESxYzdR09oTXiQuqd
+	miOFed0w6lj+mZ6IiSBWevKvU2Tb0DeB9Xh30zIm+RWO9Ox8x2iGiaYWJ7d5d4G3hUuY
+	lcr8BMlq3Gq1kjy4/qPuZj7TaAjEAZyT+cqQSXC+2EeMxElY25SyRLsSZ8ABemJe4TUV
+	83Qw==
+X-Gm-Message-State: APjAAAWkfDpmR/XYmPiR4/2mOYTD+Q4LSBen8Ea2zAH25Xeq1qPIfOIM
+	8FN+9KO6bg6Da5Fge9FtKYN8R+T0QXwmANYRdnz2e0Nq
+X-Google-Smtp-Source: APXvYqxutJr0gJynaqUPw8Qm1gv4vnpcawfb5p9H2QFMZ3j+BYpaz5iyd2+OuEKQLSUdgZQe9QSv2rm7pBoQCRo4uTA=
+X-Received: by 2002:a05:6602:104:: with SMTP id
+	s4mr225210iot.200.1561369606661; 
+	Mon, 24 Jun 2019 02:46:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190619135940.18544-1-lemagoup@gmail.com>
+	<20190619202149.GA12516@localhost>
+	<CAEz4NHp3y=GOXUBSb1K3Gv+fEW-5HD9A9nWRsgTvxdToMT0GJQ@mail.gmail.com>
+	<20190621110356.GO3459@hiutale>
+	<CAJTo0LZNdM8zb7E4r++zWY44RC2y2PebWsA4CBY7c6CGA-FfQg@mail.gmail.com>
+	<CAEz4NHqwLd1kSnKhANnvgC3JuUTQst0gcGdjZzC+NQDebTj_2g@mail.gmail.com>
+In-Reply-To: <CAEz4NHqwLd1kSnKhANnvgC3JuUTQst0gcGdjZzC+NQDebTj_2g@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Mon, 24 Jun 2019 10:46:35 +0100
+Message-ID: <CAJTo0Lb5+uBSC6+1Hd6Xku2ncHB6wsKwL=RmhN=Y+GC+rYkndw@mail.gmail.com>
+To: Pierre Le Magourou <lemagoup@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,61 +60,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 09:45:14 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 09:46:45 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+Thanks! :)
 
-urllib3 was used in this recipe but it was not set as a
-dependency. As it is not specifically needed, rewrite the recipe with
-urllib from the standard library.
+Ross
 
-Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
----
- meta/recipes-core/meta/cve-update-db.bb | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
-index 522fd23807..1f48820cc6 100644
---- a/meta/recipes-core/meta/cve-update-db.bb
-+++ b/meta/recipes-core/meta/cve-update-db.bb
-@@ -19,7 +19,7 @@ python do_populate_cve_db() {
-     Update NVD database with json data feed
-     """
- 
--    import sqlite3, urllib3, shutil, gzip, re
-+    import sqlite3, urllib, shutil, gzip, re
-     from datetime import date
- 
-     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-@@ -33,16 +33,14 @@ python do_populate_cve_db() {
- 
-     initialize_db(c)
- 
--    http = urllib3.PoolManager()
--
-     for year in range(YEAR_START, date.today().year + 1):
-         year_url = BASE_URL + str(year)
-         meta_url = year_url + ".meta"
-         json_url = year_url + ".json.gz"
- 
-         # Retrieve meta last modified date
--        with http.request('GET', meta_url, preload_content=False) as r:
--            date_line = str(r.data.splitlines()[0])
-+        with urllib.request.urlopen(meta_url) as r:
-+            date_line = str(r.read().splitlines()[0])
-             last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
- 
-         # Compare with current db last modified date
-@@ -50,7 +48,7 @@ python do_populate_cve_db() {
-         meta = c.fetchone()
-         if not meta or meta[0] != last_modified:
-             # Update db with current year json file
--            with http.request('GET', json_url, preload_content=False) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
-+            with urllib.request.urlopen(json_url) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
-                 shutil.copyfileobj(r, tmpfile)
-             with gzip.open(JSON_TMPFILE, 'rt') as jsonfile:
-                 update_db(c, jsonfile)
--- 
-2.11.0
-
+On Mon, 24 Jun 2019 at 09:33, Pierre Le Magourou <lemagoup@gmail.com> wrote:
+>
+> Hi,
+>
+> > > This adds python3 urllib3 (python3-urllib3 in Debian) to build environment
+> > > dependencies. It's the first user of urllib3 in poky, AFAIK. Maybe
+> > > documentation could be updated too, e.g.
+> > > https://www.yoctoproject.org/docs/latest/mega-manual/mega-manual.html#brief-build-system-packages
+> >
+> > Somehow I didn't notice it, thanks.
+> >
+> > Pierre, can you rewrite this to use standard library instead of urllib3?
+>
+> Yes of course,
+> I only need urrlib to fetch the NVD json feeds, so I don't need
+> urllib3, I can use standard library.
+>
+> Pierre
 
