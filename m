@@ -1,37 +1,28 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C906E6BC44
+Return-Path: <pascal.bach@siemens.com>
+X-Greylist: delayed 474 seconds by postgrey-1.34 at layers.openembedded.org;
+	Mon, 24 Jun 2019 08:05:15 UTC
+Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
+	by mail.openembedded.org (Postfix) with ESMTP id 7115E7D27B
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 07:38:07 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45XLk82FWDzGB;
-	Mon, 24 Jun 2019 09:38:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1561361888;
-	bh=gMjUL6OBvyGc++WRykcYgdgrDNYxhBXQKP+XkA9lr1I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qB105IB6zqTOAAfFnkDhvlbgVmWlOw4Sff9582sqhiK61y92wdD/mx5d4FC72FdL9
-	sTUwh5k5N+rcgfGMwli/aPZDxU9i/SLwaXI2B+uWEmZxcg1Wi+J32DcbSHM/thaJZ9
-	5JU6SFf3N7EsOulU2p/fJbEmYNlMOBDmBCe5FF+U8E5wZqltyu3WMdWvW8SgopAE/+
-	ADzRWSy3q7MtGutws68ZyHC1AtwBxp0MXWsxHZKmx3xMtTMyTOUCmqrrNFg0yc7tEk
-	UPAuBJTnFPvKOWgdrUjqQ9SVqSdnYZABnh+3NhbnZSCobLwDdJ3mygZXPIWZjtJYyO
-	QeKkKW2S2uu6YtnwGONIqPbfa/8xv8Uq4twpkRZ319FHEizfiy5FQ/io2bKYITquCI
-	RmsZl5c3BPJafYizaeUENx0395ya8jMbcbj2rWgkaEpPKz0jcd4/4rLs7J/fqUYwa9
-	V+n0Kd1WKVgGKF47/MqrJuHP3CHPglTSvJvARpfdeDD4YsAmHXSP2eVeOiMIPlHfd8
-	PlBaHGqbBZsoLq1WtyxbnTQam4QY5S0teu7vkc+ior4hAiSsIL0PSR/47u8O9BVJmr
-	EOLxzOu7cDZoz7KXqqk7ZBXVh0vRx9pgLx5M0gN6uoEHIvb+rbpmUuKQW0rlsZ5cPq
-	Sb3HJ2GdCf8Gs+9DX+UByg5g=
-Date: Mon, 24 Jun 2019 10:38:02 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Armin Kuster <akuster808@gmail.com>
-Message-ID: <20190624073802.GA11015@localhost>
-References: <cover.1561348290.git.akuster808@gmail.com>
-	<b8d16e9d74688e91d6dee5e643b42fd5c4f887b4.1561348290.git.akuster808@gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <b8d16e9d74688e91d6dee5e643b42fd5c4f887b4.1561348290.git.akuster808@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [Warrior][ 15/19] texinfo-dummy-native: A little clean up of template.py
+	Mon, 24 Jun 2019 08:05:15 +0000 (UTC)
+Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
+	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x5O7vL4Y021238
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 24 Jun 2019 09:57:22 +0200
+Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
+	[139.16.117.248])
+	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id x5O7vI9O029864;
+	Mon, 24 Jun 2019 09:57:18 +0200
+Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
+	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 0DAC810D47A7;
+	Mon, 24 Jun 2019 09:57:18 +0200 (CEST)
+From: Pascal Bach <pascal.bach@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon, 24 Jun 2019 09:57:13 +0200
+Message-Id: <20190624075713.32568-1-pascal.bach@siemens.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] cmake: 3.14.1 -> 3.14.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,28 +35,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 07:38:08 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Mon, 24 Jun 2019 08:05:15 -0000
 
-On Sun, Jun 23, 2019 at 08:54:14PM -0700, Armin Kuster wrote:
-> From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> 
-> This is mainly whitespace clean up, plus using the with statement when
-> writing files.
->...
+Fixes:
 
-This patch and the next two look more like cleanup patches to me,
-not changes that should go into a stable series.
+- A bug with Visual Studio 2019
+- An issue with target_link_libraries and PRIVATE
+- An issue with include_directories
 
-cu
-Adrian
+Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+---
+ .../cmake/{cmake-native_3.14.1.bb => cmake-native_3.14.5.bb}          | 0
+ meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
+ meta/recipes-devtools/cmake/{cmake_3.14.1.bb => cmake_3.14.5.bb}      | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.14.1.bb => cmake-native_3.14.5.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.14.1.bb => cmake_3.14.5.bb} (100%)
 
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.14.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.14.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.14.1.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.14.5.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 5b0bce6808..da3aadcc0a 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -18,7 +18,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
+ 
+-SRC_URI[md5sum] = "7efe5394e85c3292ad020b8b70e55669"
+-SRC_URI[sha256sum] = "7321be640406338fc12590609c42b0fae7ea12980855c1be363d25dcd76bb25f"
++SRC_URI[md5sum] = "a8cbfc3510b95ea686b4059d8b1f765c"
++SRC_URI[sha256sum] = "505ae49ebe3c63c595fa5f814975d8b72848447ee13b6613b0f8b96ebda18c06"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+diff --git a/meta/recipes-devtools/cmake/cmake_3.14.1.bb b/meta/recipes-devtools/cmake/cmake_3.14.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.14.1.bb
+rename to meta/recipes-devtools/cmake/cmake_3.14.5.bb
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.11.0
 
 
