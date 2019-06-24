@@ -1,28 +1,25 @@
-Return-Path: <pascal.bach@siemens.com>
-X-Greylist: delayed 474 seconds by postgrey-1.34 at layers.openembedded.org;
-	Mon, 24 Jun 2019 08:05:15 UTC
-Received: from goliath.siemens.de (goliath.siemens.de [192.35.17.28])
-	by mail.openembedded.org (Postfix) with ESMTP id 7115E7D27B
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 037AD7E553
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 08:05:15 +0000 (UTC)
-Received: from mail1.siemens.de (mail1.siemens.de [139.23.33.14])
-	by goliath.siemens.de (8.15.2/8.15.2) with ESMTPS id x5O7vL4Y021238
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK)
+	Mon, 24 Jun 2019 08:08:40 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5O88fAi007604
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 09:57:22 +0200
-Received: from dev.vm6.ccp.siemens.com (MD1FZU9C.ad001.siemens.net
-	[139.16.117.248])
-	by mail1.siemens.de (8.15.2/8.15.2) with ESMTP id x5O7vI9O029864;
-	Mon, 24 Jun 2019 09:57:18 +0200
-Received: from dev.vm6.ccp.siemens.com (localhost [127.0.0.1])
-	by dev.vm6.ccp.siemens.com (Postfix) with ESMTP id 0DAC810D47A7;
-	Mon, 24 Jun 2019 09:57:18 +0200 (CEST)
-From: Pascal Bach <pascal.bach@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 24 Jun 2019 09:57:13 +0200
-Message-Id: <20190624075713.32568-1-pascal.bach@siemens.com>
-X-Mailer: git-send-email 2.11.0
-Subject: [PATCH] cmake: 3.14.1 -> 3.14.5
+	Mon, 24 Jun 2019 01:08:42 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 24 Jun 2019 01:08:41 -0700
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 24 Jun 2019 16:08:40 +0800
+Message-ID: <1561363720-73979-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
+In-Reply-To: <20190620073529.GB27107@localhost>
+References: <20190620073529.GB27107@localhost>
+MIME-Version: 1.0
+Subject: [PATCH V2] mdadm: fix systemd service start up failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,46 +32,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 24 Jun 2019 08:05:15 -0000
+X-List-Received-Date: Mon, 24 Jun 2019 08:08:41 -0000
+Content-Type: text/plain
 
-Fixes:
+From: Changqing Li <changqing.li@windriver.com>
 
-- A bug with Visual Studio 2019
-- An issue with target_link_libraries and PRIVATE
-- An issue with include_directories
+1. mdadm: No mail address or alert command - not monitoring
 
-Signed-off-by: Pascal Bach <pascal.bach@siemens.com>
+fixed by use option -y to cause all events to be reported
+through 'syslog'.
+
+2. cannot create pid file: No such file or directory
+
+fix by create dir before starting.
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../cmake/{cmake-native_3.14.1.bb => cmake-native_3.14.5.bb}          | 0
- meta/recipes-devtools/cmake/cmake.inc                                 | 4 ++--
- meta/recipes-devtools/cmake/{cmake_3.14.1.bb => cmake_3.14.5.bb}      | 0
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/cmake/{cmake-native_3.14.1.bb => cmake-native_3.14.5.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_3.14.1.bb => cmake_3.14.5.bb} (100%)
+ meta/recipes-extended/mdadm/files/mdmonitor.service | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_3.14.1.bb b/meta/recipes-devtools/cmake/cmake-native_3.14.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_3.14.1.bb
-rename to meta/recipes-devtools/cmake/cmake-native_3.14.5.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index 5b0bce6808..da3aadcc0a 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -18,7 +18,7 @@ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
+diff --git a/meta/recipes-extended/mdadm/files/mdmonitor.service b/meta/recipes-extended/mdadm/files/mdmonitor.service
+index bd243b4..a81578e 100644
+--- a/meta/recipes-extended/mdadm/files/mdmonitor.service
++++ b/meta/recipes-extended/mdadm/files/mdmonitor.service
+@@ -13,7 +13,8 @@ ConditionPathExists=/etc/mdadm.conf
+ Type=forking
+ PIDFile=/var/run/mdadm/mdadm.pid
+ EnvironmentFile=-/etc/sysconfig/mdmonitor
+-ExecStart=/sbin/mdadm --monitor --scan -f --pid-file=/var/run/mdadm/mdadm.pid
++ExecStartPre=mkdir -p /var/run/mdadm
++ExecStart=/sbin/mdadm --monitor -y --scan -f --pid-file=/var/run/mdadm/mdadm.pid
  
--SRC_URI[md5sum] = "7efe5394e85c3292ad020b8b70e55669"
--SRC_URI[sha256sum] = "7321be640406338fc12590609c42b0fae7ea12980855c1be363d25dcd76bb25f"
-+SRC_URI[md5sum] = "a8cbfc3510b95ea686b4059d8b1f765c"
-+SRC_URI[sha256sum] = "505ae49ebe3c63c595fa5f814975d8b72848447ee13b6613b0f8b96ebda18c06"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
-diff --git a/meta/recipes-devtools/cmake/cmake_3.14.1.bb b/meta/recipes-devtools/cmake/cmake_3.14.5.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_3.14.1.bb
-rename to meta/recipes-devtools/cmake/cmake_3.14.5.bb
+ [Install]
+ WantedBy=multi-user.target
 -- 
-2.11.0
+2.7.4
 
 
