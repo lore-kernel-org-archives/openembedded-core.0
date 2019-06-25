@@ -1,25 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 356F27E4E1
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id E09A77E514
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 12:21:03 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5PCL42n027163
+	Tue, 25 Jun 2019 12:21:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5PCKlZv027983
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 05:21:04 -0700 (PDT)
+	Tue, 25 Jun 2019 05:21:02 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 25 Jun 2019 05:21:03 -0700
+	14.3.439.0; Tue, 25 Jun 2019 05:20:37 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Jun 2019 20:44:50 +0800
-Message-ID: <d60c082c2c60c704d0d050c62ee91667c90a4eef.1561465895.git.liezhi.yang@windriver.com>
+Date: Tue, 25 Jun 2019 20:44:49 +0800
+Message-ID: <cover.1561465895.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1561465895.git.liezhi.yang@windriver.com>
-References: <cover.1561465895.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v2 1/2] update-alternatives.bbclass: run update-alternatives firstly in postinst script
+Subject: [PATCH v2 0/2] meta: Fixes for update-alternatives.bbclass and gtk-icon-cache.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,58 +31,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2019 12:21:03 -0000
+X-List-Received-Date: Tue, 25 Jun 2019 12:21:12 -0000
 Content-Type: text/plain
 
-Recipes like postfix run command newaliases in postinst, but newaliases is
-installed as newaliases.postfix, it needs run update-alternatives to update it
-to newaliases, so there was an error when installed postinst on target.
+* V2
+  - The patch for update-alternatives.bbclass makes update-alternatives runs firstly
+    before other postinst scripts, since other postinst may run the tool which is
+    installed by the package itself (e.g., newaliases is installed as
+    newaliases.postfix, and update-alternatives will update it to newaliases). But this
+    broke busybox' on target install, since update-alternatives requires some
+    basic tools such as sed, there was a neat way in busybox' postinst to fix
+    this problem, the v2 makes busybox' postinst script run firstly before
+    update-alternatives.
 
-Fixed:
-$ opkg install postfix
-Configuring postfix.
-///var/lib/opkg/info/postfix.postinst: line 4: newaliases: command not found
+Testinfo:
+MACHINE = "qemux86"
+PACKAGE_CLASSES = "package_ipk package_rpm" (or "package_rpm package_ipk")
+TESTIMAGE_AUTO = "1"
+$ bitbake core-image-sato core-image-minimal
 
-Run update-alternatives firstly will fix the problem. And handle busybox as an
-exception since it needs set basic tools such as sed command firstly, otherwise
-update-alternatives doesn't work.
+The tests are OK.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
+* V1
+  - Initial version
+
+// Robert
+
+The following changes since commit 4bb3e8f98e2bbfcb20f1b32d2b7674d1a6cb47be:
+
+  local.conf.sample.extended: remove redundant RUNTIMETARGET assignment (2019-06-24 17:32:37 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/post
+  http://cgit.openembedded.org//log/?h=rbt/post
+
+Robert Yang (2):
+  update-alternatives.bbclass: run update-alternatives firstly in
+    postinst script
+  gtk-icon-cache.bbclass: Depends on gtk+3
+
+ meta/classes/gtk-icon-cache.bbclass      | 14 ++++++++++----
  meta/classes/update-alternatives.bbclass | 13 +++++++++++--
- 1 file changed, 11 insertions(+), 2 deletions(-)
+ 2 files changed, 21 insertions(+), 6 deletions(-)
 
-diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-index b702e77..9ab9298 100644
---- a/meta/classes/update-alternatives.bbclass
-+++ b/meta/classes/update-alternatives.bbclass
-@@ -265,6 +265,7 @@ python populate_packages_updatealternatives () {
-     if not update_alternatives_enabled(d):
-         return
- 
-+    bpn = d.getVar('BPN')
-     # Do actual update alternatives processing
-     for pkg in (d.getVar('PACKAGES') or "").split():
-         # Create post install/removal scripts
-@@ -284,8 +285,16 @@ python populate_packages_updatealternatives () {
- 
-             bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
-             bb.note('%s' % alt_setup_links)
--            postinst = d.getVar('pkg_postinst_%s' % pkg) or '#!/bin/sh\n'
--            postinst += alt_setup_links
-+            postinst = d.getVar('pkg_postinst_%s' % pkg)
-+            if postinst:
-+                # Busybox needs handle basic tools such as sed command
-+                # firstly, otherwise, update-alternatives doesn't work.
-+                if bpn == 'busybox':
-+                    postinst += alt_setup_links
-+                else:
-+                    postinst = alt_setup_links + postinst
-+            else:
-+                postinst = '#!/bin/sh\n' + alt_setup_links
-             d.setVar('pkg_postinst_%s' % pkg, postinst)
- 
-             bb.note('%s' % alt_remove_links)
 -- 
 2.7.4
 
