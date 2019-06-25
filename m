@@ -1,26 +1,53 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D26E37DE82
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id EA13A6BA9D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 06:33:57 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5P6XXLW016349
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue, 25 Jun 2019 07:14:46 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id k8so25509396edr.11
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 24 Jun 2019 23:33:49 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 24 Jun 2019 23:33:44 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 25 Jun 2019 14:45:37 +0800
-Message-ID: <e6bbd4b8638ad2c20ab9f121a2afb4fb95843898.1561445112.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1561445112.git.Qi.Chen@windriver.com>
-References: <cover.1561445112.git.Qi.Chen@windriver.com>
+	Tue, 25 Jun 2019 00:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ByKoJZ5JTOLWMBv1ktHtJ8gROvwM5DD6ApbL4rhyaqo=;
+	b=iBF57ChZc+KodiTLJ1hWd3VQBD0PuK0HBZPogkFsc0/Wr3wEUxIZ0nZ0cyXJy5CCh/
+	JAWa4m8mhjC0UyjUYLx/aeXCKZvMx/g63snFV/Ol2C0gXd4RZRTIC2HChOxHSO4dhtye
+	PPAkKGglbczDj7uS7M9LrmyG5qDE+bmHxCbIl6Xiz0DU7UdQfnn5Vq5LXNTg5XEmHk7z
+	JmeKjH5+HWXpXFkWjBmjqZ3uqJ4SBBXMGoKFdxr2mCohlmYCNzJaTix0slxt8M9cY3Hb
+	11xCmzG26ZHlu0NR1KxHRHZLqgMu+/ucMrmAboxKKyIeiNT6Zk9aTNRhwNNxD/BJeoVr
+	FUiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=ByKoJZ5JTOLWMBv1ktHtJ8gROvwM5DD6ApbL4rhyaqo=;
+	b=FYsN1qDq9YIB7Ias5jyiQmvsR4b8JfxuKC0/hJQ02/N3OZmnev+uI7CP2EvWiNjSeO
+	e6nY6iFyIVID5L6Lut6vNTZ+llsuh4TPzmB4xnNnVY+8A2oxdfFbm9uKE5wjUGRGE+ty
+	RM6c8Ie+uYhvsp0XeWzUH7qbOfcH1526weWq7Bere25aaIcVpPq/9LGwUm43DUq46ig4
+	oTv0lPWIxmy2R8i2EHuf+YBgTntDC9o1MCTrbtuJwZtgaaT207WQts7u30OYC1aHATCO
+	HAvp2l3bdHqMI6yEIe/5oaoGUK0bOAn1WizuDz0j1WLzamvhguhVeAyIxYtqSorUQlN8
+	EpEA==
+X-Gm-Message-State: APjAAAWMJXbinWvYA9l+T8BxSUI+Rvyv2qSOyLrhOcowYIjswfKLHlGv
+	BA9smghdg45wrbkFfENTfmSLR6Xrw60=
+X-Google-Smtp-Source: APXvYqy28752ZWxoZg6M4HCnyKnwjUSXFvzPzmXWjuaABB6uo9kX8paSOgylV4NUFJWg4Ulhs9l2xA==
+X-Received: by 2002:a50:ad01:: with SMTP id y1mr145560406edc.180.1561446887226;
+	Tue, 25 Jun 2019 00:14:47 -0700 (PDT)
+Received: from neopili.qtec.com
+	(cpe.xe-3-0-1-778.vbrnqe10.dk.customer.tdc.net. [80.197.57.18])
+	by smtp.gmail.com with ESMTPSA id
+	y22sm4283838edw.94.2019.06.25.00.14.45
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 25 Jun 2019 00:14:46 -0700 (PDT)
+Sender: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jun 2019 09:14:42 +0200
+Message-Id: <20190625071442.5228-1-ricardo@ribalda.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] target-sdk-provides-dummy: add libperl.so.5 64bit
+Cc: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Subject: [PATCH] systemd-bootconf: Make is machine specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,35 +60,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2019 06:33:58 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 25 Jun 2019 07:14:47 -0000
+Content-Transfer-Encoding: 8bit
 
-With postgresql added to IMAGE_INSTALL, we will get the following
-error when building for 64bit BSPs.
+APPEND is usually attached to a machine. This patch avoids multiconfig
+errors such as:
 
-  Problem: package postgresql-11.3-r0.corei7_64 requires libperl.so.5()(64bit), but none of the providers can be installed
+| NOTE: Direct dependencies are ['multiconfig:qt5022:/workdir/repo/poky/meta/recipes-core/glibc/glibc_2.29.bb:do_populate_sysroot', 'multiconfig:qt5022:virtual:native:/workdir/repo/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysroot', 'multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtools/gcc/gcc-cross_8.3.bb:do_populate_sysroot', 'multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['glibc', 'pseudo-native', 'quilt-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'linux-libc-headers', 'libtool-native', 'texinfo-dummy-native', 'libmpc-native', 'flex-native', 'automake-native', 'zlib-native', 'mpfr-native', 'gmp-native', 'binutils-cross-x86_64', 'xz-native', 'autoconf-native', 'gnu-config-native', 'gettext-minimal-native', 'm4-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_install
+| install: cannot stat 'loader.conf': No such file or directory
+| WARNING: exit code 1 from a shell command.
+| ERROR: Function failed: do_install (log file is located at /workdir/build/tmp/work/bobcat-poky-linux/systemd-bootconf/1.00-r0/temp/log.do_install.737)
+NOTE: recipe systemd-bootconf-1.00-r0: task do_install: Failed
+ERROR: Task (multiconfig:qt5022:/workdir/repo/poky/meta/recipes-core/systemd/systemd-bootconf_1.00.bb:do_install) failed with exit code '1'
 
-A previous patch has added libperl.so.5 to DUMMY_PROVIDES, but this
-is not enough. Because for 64bit BSP, it should also provide libperl.so.5()(64bit).
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
 ---
- meta/recipes-core/meta/target-sdk-provides-dummy.bb | 1 +
+ meta/recipes-core/systemd/systemd-bootconf_1.00.bb | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-core/meta/target-sdk-provides-dummy.bb b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-index b5e8c0f..c33cb80 100644
---- a/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-+++ b/meta/recipes-core/meta/target-sdk-provides-dummy.bb
-@@ -47,6 +47,7 @@ DUMMYPROVIDES = "\
-     /usr/bin/env \
-     /usr/bin/perl \
-     libperl.so.5 \
-+    libperl.so.5()(64bit) \
-     pkgconfig \
-     pkgconfig-dev \
-     pkgconfig-src \
+diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+index e9c2466456..d13b8c518f 100644
+--- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
++++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+@@ -3,6 +3,7 @@ LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
+ SUMMARY = "Basic systemd-boot configuration files"
+ 
+ RPROVIDES_${PN} += "virtual/systemd-bootconf"
++PACKAGE_ARCH = "${MACHINE_ARCH}"
+ 
+ inherit systemd-boot-cfg
+ 
 -- 
-1.9.1
+2.20.1
 
 
