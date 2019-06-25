@@ -1,49 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 9A8267BFB3
+Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
+	[209.85.221.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 3F4007BFB3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 14:52:08 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id p13so18216292wru.10
+	Tue, 25 Jun 2019 14:52:09 +0000 (UTC)
+Received: by mail-wr1-f65.google.com with SMTP id p13so18216353wru.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 07:52:09 -0700 (PDT)
+	Tue, 25 Jun 2019 07:52:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id;
-	bh=Pg1oJ0HaAMAEHeXlIwn3eLHNtziLTqF0llPIGvZ6Q+Q=;
-	b=yKZqus7pivNjIi9f05I8a7vBh8fwmnnP7RIJ1lDHYI7rFWpfiYeaHXt1dDBoZL9Et2
-	foX++fr26shocdgSvfDM3pYGg8B3+PyIWM4sCIqaTMvmw12HzrvYfdg6omZh0EjkxrMC
-	YHbIMJQBrgXmxFHlOC9kqMZkkux+HM9EqJ9Ym6VcX3zXiTPvQ4+f3ms1ccTAFBmjcjDU
-	d6uYIonFjpAeExbsQ7M3wLnSolR1aZIN0TuRf/29/VMz3XhUgvG6JstJpKtWvAc8LS0S
-	QSm+TUg/VSnpfMaumJQKyNYVsqy/MxCSuvB7t9jGp28DZC+s1TZ5Tq4Nahidn0odeXOY
-	+hKg==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=eBolMsylZiz4kRXaQHcjtn7qE7LSjymyatHPNEjOD7U=;
+	b=0uRry7MBkZmTjfXAf2E5sj6EHw5jBuXzGZLUirDXMmvRUzyajAkomuqqy60HWRwV1X
+	ULTekwPq6oiL/Ija3vI62uzchqeS/ktJ6H2Tzm+3SCFvhMnNMwP1gcxvFwgrYTDyDHT/
+	RYN0D0wTXGFKmMsj/0p7UsfiEl2x+TbqlX9w63khG+WaP2ibWYajZ1XaWGGprcLDO2o8
+	io2v3QA5rU1joD6ku3OdQDFd2vlPg7LJJiSV4ovhP3Ejwr6vimIY+4xZPrrCQz9wGjb9
+	Kvf9GNpQL6srt/LmjcGoQtbYjMQ2vBzKxupnKhpROhbN3iWmKQFFRMbXnqsaS7YR2GRu
+	ayrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id;
-	bh=Pg1oJ0HaAMAEHeXlIwn3eLHNtziLTqF0llPIGvZ6Q+Q=;
-	b=L4ADYtWyiaSMY2oH2T3uMiAHHwe3+oYUaOkpXUNVxQ4G5SdGkst46eHejbohUpVdB9
-	UOUz5xZ7Dah1C9R02M1wCe00uOMuUlkAf1Q4qqjdiVkGH8v/5bRlhFvFhw7uy/s7uB0/
-	W0+tfsadO/RXn8Nk0jbRG2A/vbbnLusyeZ/Yjmgwp0X3b/kE03J1WJoC7igUO28Qyc4G
-	ljFog0vTVtoXp/DNzJDWbcrkRedmD/kyi7okuBAgmeBHIzqcLfTb/DAw+lJciW/dlZU4
-	V2ByR5mU1jXvhdxf1Vmn3+iZyoxywI36BmW7sw47lZF4rlPgxryNFE7WZLPr1dUqowpw
-	9lKA==
-X-Gm-Message-State: APjAAAWC6cdIJ7vYc4CwDs3Onwjs5tvFjoqXE/MigqMNfYofS3ZNK/2R
-	D9AdLY2hqaBYoCN5rMogaFzK+JbV3y8=
-X-Google-Smtp-Source: APXvYqxU8NfrZTF2d9HAjX8+NWVvISj187EUrsCf8Aq7NKswAvg3s3+g4nTNCDpmAB+c3Cok4kmFLw==
-X-Received: by 2002:a5d:5448:: with SMTP id w8mr81932541wrv.180.1561474328978; 
-	Tue, 25 Jun 2019 07:52:08 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=eBolMsylZiz4kRXaQHcjtn7qE7LSjymyatHPNEjOD7U=;
+	b=hEBOrJXQ1fDtuzbt17cJLOmkuHXdgjLkKfVnGiIziJrSHOpvKQ7eduWAzWqH9DJESd
+	CTvIHiC9GJPdEDJEXY1oQ0niDkZZxZy0FL1DQB7hzcqg477Y4PtN3tJxbpEPYMBXvcH7
+	5fdl/REdGnefjxrWNSNhzXiuDHU8YoTprzcavXG/AVssqxrLF+3KUD9M0wVRYeEDiLCW
+	eXNMB7MTRFEIc31KTkap3tAJBchGCKFPZY+SCvZ9+DXq3u9heEi+HWOtVDbg8g8eW3vR
+	o2aUnNmj+m8Os03yxA7l4cW/Dc2UxN10+5Z4Qwy6/Lc6kB5hWR0x+R82hzNZA2ihNXK3
+	rXqQ==
+X-Gm-Message-State: APjAAAXKurwRhnGqUgdVNz6igr6i2i1xX4V/Vi1J03bwRCPwvKiYNU/H
+	ObmVVyJJbLxgOCCPNjemqN6qjvNHor0=
+X-Google-Smtp-Source: APXvYqzT0XBMYUQtTgM0qMq4/4xP9RvNJ529hj36ZullaSybyAX3Poo5TAw6o3fS8RuoXogsOKd6yA==
+X-Received: by 2002:adf:ec12:: with SMTP id x18mr82143659wrn.145.1561474329844;
+	Tue, 25 Jun 2019 07:52:09 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
 	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	p140sm2263877wme.31.2019.06.25.07.52.06
+	p140sm2263877wme.31.2019.06.25.07.52.09
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 25 Jun 2019 07:52:06 -0700 (PDT)
+	Tue, 25 Jun 2019 07:52:09 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Tue, 25 Jun 2019 15:52:02 +0100
-Message-Id: <20190625145203.24342-1-ross.burton@intel.com>
+Date: Tue, 25 Jun 2019 15:52:03 +0100
+Message-Id: <20190625145203.24342-2-ross.burton@intel.com>
 X-Mailer: git-send-email 2.11.0
-Subject: [PATCH v2 1/2] fortran-helloworld: add a very dumb Fortran Hello World for testing
+In-Reply-To: <20190625145203.24342-1-ross.burton@intel.com>
+References: <20190625145203.24342-1-ross.burton@intel.com>
+Subject: [PATCH v2 2/2] oeqa/buildoptions: check that Fortran code actually cross-compiles
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,60 +61,43 @@ List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-cor
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
 X-List-Received-Date: Tue, 25 Jun 2019 14:52:09 -0000
 
-For future runtime testing something more complex is preferred but this is
-sufficient to exercise the cross compiler.
+Don't just test that we can build the cross-compiler, but test that it actually
+can cross-compile some Fortran.
+
+The quadmath dependency is now handled in gcc-runtime and isn't needed in this
+test (as per local.conf.sample.extended changes).
+
+There's also no need to build libgfortran explicitly, as fortran-helloworld depends on it.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta-selftest/recipes-test/fortran/files/hello.f95 |  5 +++++
- .../recipes-test/fortran/fortran-helloworld.bb     | 25 ++++++++++++++++++++++
- 2 files changed, 30 insertions(+)
- create mode 100644 meta-selftest/recipes-test/fortran/files/hello.f95
- create mode 100644 meta-selftest/recipes-test/fortran/fortran-helloworld.bb
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/fortran/files/hello.f95 b/meta-selftest/recipes-test/fortran/files/hello.f95
-new file mode 100644
-index 00000000000..a0745fc64d7
---- /dev/null
-+++ b/meta-selftest/recipes-test/fortran/files/hello.f95
-@@ -0,0 +1,5 @@
-+program helloworld
-+
-+      print * , "Hello World!"
-+
-+end program helloworld
-diff --git a/meta-selftest/recipes-test/fortran/fortran-helloworld.bb b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-new file mode 100644
-index 00000000000..97313d7e249
---- /dev/null
-+++ b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
-@@ -0,0 +1,25 @@
-+SUMMARY = "Fortran Hello World"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
-+
-+DEPENDS = "libgfortran"
-+
-+SRC_URI = "file://hello.f95"
-+
-+# These set flags that Fortran doesn't support
-+SECURITY_CFLAGS = ""
-+SECURITY_LDFLAGS = ""
-+
-+do_compile() {
-+	${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS} ${WORKDIR}/hello.f95 -o ${B}/fortran-hello
-+}
-+
-+do_install() {
-+	install -d ${D}${bindir}
-+	install ${B}/fortran-hello ${D}${bindir}
-+}
-+
-+python () {
-+    if not d.getVar("FORTRAN"):
-+        raise bb.parse.SkipRecipe("Fortran isn't enabled")
-+}
-\ No newline at end of file
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index 3ad65b40341..6a5378d3ff6 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -162,17 +162,14 @@ class ArchiverTest(OESelftestTestCase):
+         self.assertTrue((g.glob(src_file_glob) and g.glob(tar_file_glob)), "Couldn't find .src.rpm and .tar.gz files under %s/allarch*/xcursor*" % deploy_dir_src)
+ 
+ class ToolchainOptions(OESelftestTestCase):
+-
+     def test_toolchain_fortran(self):
+         """
+-        Test whether we can enable and build fortran and its supporting libraries
++        Test that Fortran works by building a Hello, World binary.
+         """
+ 
+         features = 'FORTRAN_forcevariable = ",fortran"\n'
+-        features += 'RUNTIMETARGET_append_pn-gcc-runtime = " libquadmath"\n'
+         self.write_config(features)
+-
+-        bitbake('gcc-runtime libgfortran')
++        bitbake('fortran-helloworld')
+ 
+ class SourceMirroring(OESelftestTestCase):
+     # Can we download everything from the Yocto Sources Mirror over http only
 -- 
 2.11.0
 
