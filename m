@@ -1,35 +1,36 @@
-Return-Path: <Zhe.He@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4A2957E034
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 5FB027E241
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 09:50:52 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5P9ncXC022609
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 25 Jun 2019 02:49:53 -0700
-Received: from [128.224.162.221] (128.224.162.221) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Tue, 25 Jun 2019 02:49:32 -0700
-To: <richard.purdie@linuxfoundation.org>, Bruce Ashfield
-	<bruce.ashfield@gmail.com>
-References: <1560243834-266906-1-git-send-email-zhe.he@windriver.com>
-	<be27377cd254f6b314185702300d051d20fb7c28.camel@linuxfoundation.org>
-	<CADkTA4PEz-0ZuFCStXLSXYYwKDgXUuVHUUdMDSrUF0Bx+71d9g@mail.gmail.com>
-	<5997ba72-f7b6-fbd6-4e84-42c3f2b34e48@windriver.com>
-	<e1f16895a2b9d138b13b672df19ea50b79d55ae3.camel@linuxfoundation.org>
-From: He Zhe <zhe.he@windriver.com>
-Message-ID: <ba0ea006-3255-b500-859e-c320225aa82e@windriver.com>
-Date: Tue, 25 Jun 2019 17:49:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Tue, 25 Jun 2019 10:06:05 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45Y1yN6cgBz8p;
+	Tue, 25 Jun 2019 12:06:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1561457165;
+	bh=BFvYGUOgqMpG1tb4OUNh4fbdEMdUQUbJiMHMS+GJJIQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RgHOnRW6ZxM3OTviNwHEtNmNUYwJ2smWy3Ryk217jJGoToSPmenzM0IFgRfS5lf33
+	PdCRPU5rOt17n+oiJEIrG4MpvZQUGTJD1JAfaY8HFL69bRFi/Hma3sWmGdhNYapOPz
+	5ITf7MvWWWPldSAS8xePfXSyr+vPNy4xfnOfaqSjn2R0yDujMW5RwovUvpcGxFc6g5
+	vRgJuY+3leA86UFGJ01udNKuQu8G1/HlLZeST4kfJsu2l6LKtU+fT8vjGm5Vt08F9t
+	XMEoMDV81Ecnu2Qqqk08hEEIL24fGYD1VtmnfW/vC0zFeZ0zLPXTMxtJuBJgnvKli/
+	v0Zk4L2R3IBoYuy1mlqjESruAOnB2Kaalme8ihMxtm+IA4WQS7XtXXQB0RNEE6sjyi
+	1faocJxsCdtj4AQnUnCswj0EAty+9Ih2XaVRyC8DIUy+Xso93oPsn7TIr2LUwluJB/
+	n3uFIFV2DtD2T+ZIIw8CrxtE6wTOmlzq+L+aXRiViplbBAMBxlBsjdL52LwLyL6/OO
+	ZYEcjN+PD8DeJXPvg+xpBGElHby2J/w47mvrG0mHsh0pVR1B0Nsc7qO/yo9dp86Wqm
+	IJ03bEKOCi/SAfy3zsjz/RN8Z+RiNw5CCRqTs3LEx/YVpLbYlQueWLUEemVYSdXLrG
+	wRXwWNWwvJa7t891YB1TKpIo=
+Date: Tue, 25 Jun 2019 13:06:01 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: changqing.li@windriver.com
+Message-ID: <20190625100601.GA22924@localhost>
+References: <1561368577-265361-1-git-send-email-changqing.li@windriver.com>
 MIME-Version: 1.0
-In-Reply-To: <e1f16895a2b9d138b13b672df19ea50b79d55ae3.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.221]
-Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v2] lttng-modules: Backport patches to fix compilation failures since kernel v5.1
+In-Reply-To: <1561368577-265361-1-git-send-email-changqing.li@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] scons: fix conflict during do_rootfs
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -42,77 +43,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2019 09:50:52 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 25 Jun 2019 10:06:05 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
+On Mon, Jun 24, 2019 at 05:29:37PM +0800, changqing.li@windriver.com wrote:
+> From: Changqing Li <changqing.li@windriver.com>
+> 
+> fix below error:
+> file /usr/bin/scons conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+> file /usr/bin/scons-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+> file /usr/bin/scons-configure-cache conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+> file /usr/bin/scons-configure-cache-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+> file /usr/bin/scons-time conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+> file /usr/bin/scons-time-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+> file /usr/bin/sconsign conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+> file /usr/bin/sconsign-3.0.5 conflicts between attempted installs of python-scons-3.0.5-r0.core2_32 and python3-scons-3.0.5-r0.core2_32
+>...
 
+Could this be solved with an RCONFLICTS between the packages?
 
-On 6/25/19 4:04 PM, richard.purdie@linuxfoundation.org wrote:
-> On Tue, 2019-06-25 at 15:59 +0800, He Zhe wrote:
->> On 6/12/19 6:57 AM, Bruce Ashfield wrote:
->>> On Tue, Jun 11, 2019 at 6:50 PM Richard Purdie
->>> <richard.purdie@linuxfoundation.org> wrote:
->>>> On Tue, 2019-06-11 at 17:03 +0800, zhe.he@windriver.com wrote:
->>>>> From: He Zhe <zhe.he@windriver.com>
->>>>>
->>>>> For the moment,
->>>>> 0001~0004 are on master branch only.
->>>>> 0005~0007 are on stable-2.11 branch, but v2.11 has not been
->>>>> released
->>>>> yet.
->>>>>
->>>>> Signed-off-by: He Zhe <zhe.he@windriver.com>
->>>>> ---
->>>>> v2: Correct a typo in SOB for 0001*.patch
->>>> I just discussed this with lttng upstream maintainers a little.
->>>> We're
->>>> going to have continual tension between keeping lttng-modules up
->>>> to
->>>> date and new kernel versions.
->>>>
->>>> How about we also have a git version of this particular recipe
->>>> which
->>>> has a DEFAULT_PREFERENCE = "-1" but people can opt into with a
->>>> PREFERRED_VERSION when using newer kernels?
->>>>
->>>> That should keep people using very recent kernels happy, let us
->>>> use a
->>>> stable release version and avoid us adding/removing large
->>>> patchsets on
->>>> a semi regular basis?
->>>>
->>>> Would you be willing to try/submit such a git recipe?
->>> This makes sense to me as well, since I'm one of the folks that
->>> runs
->>> into this issue the most. In fact, I've been carrying a local _git
->>> version of the lttng recipe for over a year, since I didn't feel
->>> like
->>> getting into the _git versus release tarballs debate. This solution
->>> should avoid that debate and keep all the different versions of
->>> kernels moving along.
->> Hi Bruce and Richard,
->>
->> BTW, how about using git for all cases so that people don't have to
->> maintain a
->> tarball locally? Though I don't have the background knowledge of that
->> git vs
->> tarball debate mentioned above.
-> The overhead of tarball releases is much lower than git trees for each
-> piece of software so I'd prefer to have tarball recipes where we can,
-> it does lead to faster builds.
+Installing either on the target is anyways rarely wanted,
+the main usecase is the -native at build time.
 
-Got it, thanks.
+This would also handle the case if python-scons gets removed from
+oe-core but gets added to some other layer.
 
-Zhe
+cu
+Adrian
 
->
-> Cheers,
->
-> Richard
->
->
->
+-- 
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
