@@ -1,51 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 4BD1E7E403
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A8267BFB3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 14:14:33 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id p13so18060273wru.10
+	Tue, 25 Jun 2019 14:52:08 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id p13so18216292wru.10
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 25 Jun 2019 07:14:34 -0700 (PDT)
+	Tue, 25 Jun 2019 07:52:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=TZs6Kq5ddr67nHx7T/H465o9/9QNp3uZ0dqfUMMwRHo=;
-	b=ZEW7NEMNfcVv+qeTz+29GA8kl3Z0ze3OCjKu+UTmi7U+kzguILzdZyImFC2SB/JTmM
-	9P84xnUV0fksfM9lmpi/bEH41a51w3KGt1TTbQ1uoFw8akn/9HL0X6/lsec0c9nZ6ikS
-	jhO13hHWGuqEYpMFfc3hYSmc4c0Hek8GwY8RM=
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=Pg1oJ0HaAMAEHeXlIwn3eLHNtziLTqF0llPIGvZ6Q+Q=;
+	b=yKZqus7pivNjIi9f05I8a7vBh8fwmnnP7RIJ1lDHYI7rFWpfiYeaHXt1dDBoZL9Et2
+	foX++fr26shocdgSvfDM3pYGg8B3+PyIWM4sCIqaTMvmw12HzrvYfdg6omZh0EjkxrMC
+	YHbIMJQBrgXmxFHlOC9kqMZkkux+HM9EqJ9Ym6VcX3zXiTPvQ4+f3ms1ccTAFBmjcjDU
+	d6uYIonFjpAeExbsQ7M3wLnSolR1aZIN0TuRf/29/VMz3XhUgvG6JstJpKtWvAc8LS0S
+	QSm+TUg/VSnpfMaumJQKyNYVsqy/MxCSuvB7t9jGp28DZC+s1TZ5Tq4Nahidn0odeXOY
+	+hKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=TZs6Kq5ddr67nHx7T/H465o9/9QNp3uZ0dqfUMMwRHo=;
-	b=UVEddMnJyQJaVRMEDWYPT+GKe1nprM3Fex2ZPI5HLTpbEKoeBNA4ZkElUqWwJLr03s
-	dDbTqg5XtzdHppQJ0aGF/ZB9mDAUa1GhzC8pJcmBWnht1JSwbaybcGwEexIYmy65bLHj
-	PSCl0laht6UlaII5uCGcuoX57EPogVI0Rnbnj6o/nmMR2Ywck2gksY/PZnhbp7xEE0zq
-	sGshApsC6UGOOUoSAgjDcsVVbwIjVbB0otLsnSNx1HIS3WznqDrxYwzOepc+csozBzym
-	hXGdIoeeDMzoUGg92yB+rKxob/peZfHpY+50nnOKsGyCW/Vq5CLVAgsNvtMkxzx2Z0QS
-	D9Sw==
-X-Gm-Message-State: APjAAAV3mIdod8D0HFj5wLvEtNgNRnC6aA42yWXQbPAjErTEHetvE+0f
-	JlP4d6CdlPM4/532cd1BfmDbhA==
-X-Google-Smtp-Source: APXvYqyw611/ZDXng0mEbmpp/LfeAqD3RWBT9N37DJejOyo/WE1X337GPSjVjI0FJs7KdoyW9FVLQg==
-X-Received: by 2002:adf:cd8c:: with SMTP id q12mr6614272wrj.103.1561472073985; 
-	Tue, 25 Jun 2019 07:14:33 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id x8sm1953729wmc.5.2019.06.25.07.14.32
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 25 Jun 2019 07:14:33 -0700 (PDT)
-Message-ID: <d03b1b52ce889724523ea4bb22b1359cf0fe399d.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Robert Yang <liezhi.yang@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Tue, 25 Jun 2019 15:14:30 +0100
-In-Reply-To: <d60c082c2c60c704d0d050c62ee91667c90a4eef.1561465895.git.liezhi.yang@windriver.com>
-References: <cover.1561465895.git.liezhi.yang@windriver.com>
-	<d60c082c2c60c704d0d050c62ee91667c90a4eef.1561465895.git.liezhi.yang@windriver.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 1/2] update-alternatives.bbclass: run update-alternatives firstly in postinst script
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=Pg1oJ0HaAMAEHeXlIwn3eLHNtziLTqF0llPIGvZ6Q+Q=;
+	b=L4ADYtWyiaSMY2oH2T3uMiAHHwe3+oYUaOkpXUNVxQ4G5SdGkst46eHejbohUpVdB9
+	UOUz5xZ7Dah1C9R02M1wCe00uOMuUlkAf1Q4qqjdiVkGH8v/5bRlhFvFhw7uy/s7uB0/
+	W0+tfsadO/RXn8Nk0jbRG2A/vbbnLusyeZ/Yjmgwp0X3b/kE03J1WJoC7igUO28Qyc4G
+	ljFog0vTVtoXp/DNzJDWbcrkRedmD/kyi7okuBAgmeBHIzqcLfTb/DAw+lJciW/dlZU4
+	V2ByR5mU1jXvhdxf1Vmn3+iZyoxywI36BmW7sw47lZF4rlPgxryNFE7WZLPr1dUqowpw
+	9lKA==
+X-Gm-Message-State: APjAAAWC6cdIJ7vYc4CwDs3Onwjs5tvFjoqXE/MigqMNfYofS3ZNK/2R
+	D9AdLY2hqaBYoCN5rMogaFzK+JbV3y8=
+X-Google-Smtp-Source: APXvYqxU8NfrZTF2d9HAjX8+NWVvISj187EUrsCf8Aq7NKswAvg3s3+g4nTNCDpmAB+c3Cok4kmFLw==
+X-Received: by 2002:a5d:5448:: with SMTP id w8mr81932541wrv.180.1561474328978; 
+	Tue, 25 Jun 2019 07:52:08 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	p140sm2263877wme.31.2019.06.25.07.52.06
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 25 Jun 2019 07:52:06 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue, 25 Jun 2019 15:52:02 +0100
+Message-Id: <20190625145203.24342-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH v2 1/2] fortran-helloworld: add a very dumb Fortran Hello World for testing
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,70 +56,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 25 Jun 2019 14:14:33 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 25 Jun 2019 14:52:09 -0000
 
-On Tue, 2019-06-25 at 20:44 +0800, Robert Yang wrote:
-> Recipes like postfix run command newaliases in postinst, but newaliases is
-> installed as newaliases.postfix, it needs run update-alternatives to update it
-> to newaliases, so there was an error when installed postinst on target.
-> 
-> Fixed:
-> $ opkg install postfix
-> Configuring postfix.
-> ///var/lib/opkg/info/postfix.postinst: line 4: newaliases: command not found
-> 
-> Run update-alternatives firstly will fix the problem. And handle busybox as an
-> exception since it needs set basic tools such as sed command firstly, otherwise
-> update-alternatives doesn't work.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> ---
->  meta/classes/update-alternatives.bbclass | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
-> 
-> diff --git a/meta/classes/update-alternatives.bbclass b/meta/classes/update-alternatives.bbclass
-> index b702e77..9ab9298 100644
-> --- a/meta/classes/update-alternatives.bbclass
-> +++ b/meta/classes/update-alternatives.bbclass
-> @@ -265,6 +265,7 @@ python populate_packages_updatealternatives () {
->      if not update_alternatives_enabled(d):
->          return
->  
-> +    bpn = d.getVar('BPN')
->      # Do actual update alternatives processing
->      for pkg in (d.getVar('PACKAGES') or "").split():
->          # Create post install/removal scripts
-> @@ -284,8 +285,16 @@ python populate_packages_updatealternatives () {
->  
->              bb.note('adding update-alternatives calls to postinst/prerm for %s' % pkg)
->              bb.note('%s' % alt_setup_links)
-> -            postinst = d.getVar('pkg_postinst_%s' % pkg) or '#!/bin/sh\n'
-> -            postinst += alt_setup_links
-> +            postinst = d.getVar('pkg_postinst_%s' % pkg)
-> +            if postinst:
-> +                # Busybox needs handle basic tools such as sed command
-> +                # firstly, otherwise, update-alternatives doesn't work.
-> +                if bpn == 'busybox':
-> +                    postinst += alt_setup_links
-> +                else:
-> +                    postinst = alt_setup_links + postinst
-> +            else:
-> +                postinst = '#!/bin/sh\n' + alt_setup_links
->              d.setVar('pkg_postinst_%s' % pkg, postinst)
->  
->              bb.note('%s' % alt_remove_links)
+For future runtime testing something more complex is preferred but this is
+sufficient to exercise the cross compiler.
 
-We don't write classes like this. We could just keep piling special
-cases one on top of the other and it becomes a horrible unmaintainable
-mess. I therefore don't want to see recipes "special cased" like this
-in core code and we need to find another, better way to handle this.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta-selftest/recipes-test/fortran/files/hello.f95 |  5 +++++
+ .../recipes-test/fortran/fortran-helloworld.bb     | 25 ++++++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta-selftest/recipes-test/fortran/files/hello.f95
+ create mode 100644 meta-selftest/recipes-test/fortran/fortran-helloworld.bb
 
-Cheers,
-
-Richard
-
-
+diff --git a/meta-selftest/recipes-test/fortran/files/hello.f95 b/meta-selftest/recipes-test/fortran/files/hello.f95
+new file mode 100644
+index 00000000000..a0745fc64d7
+--- /dev/null
++++ b/meta-selftest/recipes-test/fortran/files/hello.f95
+@@ -0,0 +1,5 @@
++program helloworld
++
++      print * , "Hello World!"
++
++end program helloworld
+diff --git a/meta-selftest/recipes-test/fortran/fortran-helloworld.bb b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
+new file mode 100644
+index 00000000000..97313d7e249
+--- /dev/null
++++ b/meta-selftest/recipes-test/fortran/fortran-helloworld.bb
+@@ -0,0 +1,25 @@
++SUMMARY = "Fortran Hello World"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384361b4de20420"
++
++DEPENDS = "libgfortran"
++
++SRC_URI = "file://hello.f95"
++
++# These set flags that Fortran doesn't support
++SECURITY_CFLAGS = ""
++SECURITY_LDFLAGS = ""
++
++do_compile() {
++	${HOST_PREFIX}gfortran ${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} ${LDFLAGS} ${WORKDIR}/hello.f95 -o ${B}/fortran-hello
++}
++
++do_install() {
++	install -d ${D}${bindir}
++	install ${B}/fortran-hello ${D}${bindir}
++}
++
++python () {
++    if not d.getVar("FORTRAN"):
++        raise bb.parse.SkipRecipe("Fortran isn't enabled")
++}
+\ No newline at end of file
+-- 
+2.11.0
 
 
