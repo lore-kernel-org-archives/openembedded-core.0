@@ -1,49 +1,54 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
-	[209.85.128.42])
-	by mail.openembedded.org (Postfix) with ESMTP id 1BA007E692
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 091B77D251
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 19:05:18 +0000 (UTC)
-Received: by mail-wm1-f42.google.com with SMTP id c66so3230165wmf.0
+	Wed, 26 Jun 2019 21:21:21 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id a15so3556186wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 12:05:20 -0700 (PDT)
+	Wed, 26 Jun 2019 14:21:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5MKT8Txpc8OCTFS8tULG7kVOsEQkGR/qmV0Qv9ctClM=;
-	b=XFdviWeOQ16F5hWO8ePYzsvS+y2ItJPOz/lSTY+ffXaPO46A3L4DYq7qn3GaZSWdVn
-	fbnX5w20u7LrrSCYjjiruqaB0rxz6Ef918xjnovfsezQBVpu1sm1dfNmjq1lhYHTACDb
-	hYl2c5DoJWHklZcytMdJi7GyPTdxBJ+jIV5NU=
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=Ij4njA5b+pRcHUHc9vtyKLmvsXKxcsKjq+N1B/0Hd5w=;
+	b=cwQqPgpFQg7GHy2ZRbtYVcse10JnQgSjbYlURfE8aOtwPBtSRzjJynexAaJvVMCVKh
+	x9ChXrclc4Gb6edpeo6Yvw642RPpbFY40z0bQliiJJt56+N5OZZL/aK7R5HMeLeO0bbg
+	5SDvh2CXvnXCZzU93FrMv+uvbwHuzpDY9onVs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=5MKT8Txpc8OCTFS8tULG7kVOsEQkGR/qmV0Qv9ctClM=;
-	b=nOYlspfV3QfEEWoj7/Rr8sqvFa5wEQFWM/iyh5Skhyj72szSnhVrwNe4oBRgmDBzlU
-	oamw6pBwgvu+DRZLxLivR+5kioHWyC0/fZj+TE3OzwQxAFlNVmkjML7jyDXkemSyylqf
-	Tajaz6qVU2Mq2kYhzp4IfQNujAIXUYoxAqYgPPHldtMTIT/VabpkhR9KDBcuL/y1vzit
-	w0jzjJbHO/0fXQZq3EN7h85yJGpszk0dpZ7gtRLbBjGUEOKuPzL5HB9ele5H7UsEa64V
-	54XRPl2z2LcN3oaV80QAYO/Est480GAktgGAJraiZhAL5Y31RNpHfyMKv/55u05+uLEe
-	X3cw==
-X-Gm-Message-State: APjAAAUcurdraRaFVCPDmw5Ma/p86c+8Ik5HhTojHU5g+Eetvk0n9wq+
-	OGpw8c3hfAnvuQmh3qERkCE2NOvMicE=
-X-Google-Smtp-Source: APXvYqxAfvomuekcvhum00l98ffAR5NoW5C5TzyzBAqlylLaRF03hNEttlXGfFoDRwsUo5CnZtuj5g==
-X-Received: by 2002:a1c:7e14:: with SMTP id z20mr307359wmc.83.1561575919389;
-	Wed, 26 Jun 2019 12:05:19 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	n125sm4247203wmf.6.2019.06.26.12.05.18
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=Ij4njA5b+pRcHUHc9vtyKLmvsXKxcsKjq+N1B/0Hd5w=;
+	b=HK4gzrKsZ0hOLtPyWncpHJxtwkbuttWuWjcnYDJ4/aX/PgPLPKayLkk/oPhkF6Ob2g
+	nNQmIAAEfRSQ5YJIJ65CU1bUcdJWzyAEMf/t7OuZr9OzJQpUSLCzauniB0+p4B9lSVUH
+	cdRsYBvEMmeAepOgBChB6aIwwZBiorG6G4mBSGkKQjxp1uDLqkvHvqFvOcpbKp2OgFtw
+	o5eStNqMxoFPL/Lit9wKRZ1BM2f6hEaZlEm3ENlrLLbZd6+Ge+5+E2y7yNdgd/ekY2o1
+	hpeUvhBYPT0tbEhwPa7jJgLeYyfcOPMjNNSBWsJjPP8CN7sd0Fzh+jxP71np+Aip4fFh
+	sIdw==
+X-Gm-Message-State: APjAAAWjCpVajBSqNf6oUyGiUR5L5fe+1kHPF6U94NuXXKItFWKaVlH7
+	W8dKNyd+S7R9EpwpxeZuTmaZUQ==
+X-Google-Smtp-Source: APXvYqzKKQSx1gsEYHT5ZNT2cXSxXz3gBcjFwlCN/n8/lJQMoQmj9EzczNodfboWKeyeowjB/hksdg==
+X-Received: by 2002:a1c:a483:: with SMTP id n125mr580421wme.172.1561584082683; 
+	Wed, 26 Jun 2019 14:21:22 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id q12sm37721wrp.50.2019.06.26.14.21.21
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 26 Jun 2019 12:05:18 -0700 (PDT)
+	Wed, 26 Jun 2019 14:21:22 -0700 (PDT)
+Message-ID: <5610c96f0131a38589ab36e6850dd9b7d2d78264.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jun 2019 20:05:17 +0100
-Message-Id: <20190626190517.25680-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+To: Sinan Kaya <Okaya@kernel.org>, Alexander Kanavin
+	<alex.kanavin@gmail.com>,  ChenQi <Qi.Chen@windriver.com>
+Date: Wed, 26 Jun 2019 22:21:21 +0100
+In-Reply-To: <5647f634-725a-fd9e-3b13-369095f4d415@kernel.org>
+References: <20190625221319.102643-1-okaya@kernel.org>
+	<4fd505d8-8616-b2e7-da92-6b2be9e3616f@windriver.com>
+	<CANNYZj_r7wXtZy2he3y_n5cCXagpWsc+nyheGATHYq3k-dUYvQ@mail.gmail.com>
+	<5647f634-725a-fd9e-3b13-369095f4d415@kernel.org>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH] multilib_global: Fix multilib rebuild issue
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] postinst-intercepts: check tool presence in intercept hooks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,39 +61,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 19:05:19 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 26 Jun 2019 21:21:22 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-Building lttng-modules for a "lib32" multilib, then changing to a "lib64"
-multilib with "lib32" removed doesn't rebuild lttng-modules.
+On Wed, 2019-06-26 at 13:33 -0400, Sinan Kaya wrote:
+> Here is my investigation:
+> 
+> The intercepts are executed on QEMU during cross-compilation using
+> qemu-wrapper.
+> 
+> I see that the tools were built for the native architecture but
+> of course they do not exist on the target image and I have no
+> interest in pulling fonts and such into my image to make bitbake
+> happy.
+> 
+> DEBUG: Collected intercepts:
+>   poky/scripts/postinst-intercepts/update_font_cache
+>   poky/scripts/postinst-intercepts/update_gio_module_cache
+>   poky/scripts/postinst-intercepts/update_gtk_immodules_cache
+>   poky/scripts/postinst-intercepts/update_icon_cache
+>   poky/scripts/postinst-intercepts/update_pixbuf_cache
+>   poky/scripts/postinst-intercepts/update_udev_hwdb
+> 
+> I also see that other intercepts are doing the same folder/executable
+> checks.
+> 
+> What is so special about these?
 
-This is due to the multilib pieces in RPROVIDES being added after RecipeParsed
-which is after the signatures are generated.
+Put another way, why aren't lots of people seeing failures due to this?
 
-Changing this to RecipeTaskPreProcess allows the multilib components to be
-accounted for correctly in the task hashes.
+You're obviously doing something differently to everyone else but we're
+having a hard time understanding what, or how we'd trigger the problem
+you're seeing. 
 
-This addresses failures on the autobuilder seen in lib64-core-image-sato-sdk
-builds where lttng-modules was being reused from qemux86 world build's lib32
-version.
+We're nervous about fixing problems we don't understand, not least as
+it potentially means we have a huge hole in our test matrix. Your
+patches shouldn't be necessary as I understand the codebase either.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/classes/multilib_global.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Cheers,
 
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index 19ce1a50915..11ac5b04579 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -202,5 +202,4 @@ python multilib_virtclass_handler_global () {
- }
- 
- addhandler multilib_virtclass_handler_global
--multilib_virtclass_handler_global[eventmask] = "bb.event.RecipeParsed"
--
-+multilib_virtclass_handler_global[eventmask] = "bb.event.RecipeTaskPreProcess"
--- 
-2.20.1
+Richard
 
 
