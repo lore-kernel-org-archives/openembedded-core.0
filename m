@@ -1,82 +1,47 @@
-Return-Path: <prvs=7080153b6f=joerg.hofrichter@ni.com>
-Received: from mx0b-00010702.pphosted.com (mx0a-00010702.pphosted.com
-	[148.163.156.75])
-	by mail.openembedded.org (Postfix) with ESMTP id F2DC47E6D2
+Return-Path: <alex.kanavin@gmail.com>
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+	[209.85.210.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 4546F7D2D6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 08:35:54 +0000 (UTC)
-Received: from pps.filterd (m0098781.ppops.net [127.0.0.1])
-	by mx0a-00010702.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x5Q8ZYpN027840 for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 03:35:55 -0500
-Received: from nam02-sn1-obe.outbound.protection.outlook.com
-	(mail-sn1nam02lp2052.outbound.protection.outlook.com [104.47.36.52])
-	by mx0a-00010702.pphosted.com with ESMTP id 2tbga5md80-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT)
+	Wed, 26 Jun 2019 08:59:58 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id n5so1790034otk.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 03:35:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nio365.onmicrosoft.com; s=selector1-nio365-onmicrosoft-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=qgB9BLkyruq7vTvfV3uY+Pi++K0M6jVvB73D9NuQEgY=;
-	b=PsVmca+W9OjH5xHe/T9ehH111hIUMcAqhqJscBlKAZGkD1EqrIZqk39kgNJBzjI8n/nafgB0/bPde2JdkdKA6quzd/sHiWPrS5uV8N86U6ryVZsvVo3tx27DKrXwgbsiuG34+0kXme3xNVnjnLQXDjirAF2XdYpHczvJw3KRRV8=
-Received: from BL0PR04MB4659.namprd04.prod.outlook.com (10.167.181.76) by
-	BL0PR04MB5009.namprd04.prod.outlook.com (52.132.14.143) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.2008.17; Wed, 26 Jun 2019 08:35:52 +0000
-Received: from BL0PR04MB4659.namprd04.prod.outlook.com
-	([fe80::70e1:9133:5bf6:644f]) by
-	BL0PR04MB4659.namprd04.prod.outlook.com
-	([fe80::70e1:9133:5bf6:644f%6]) with mapi id 15.20.2008.014;
-	Wed, 26 Jun 2019 08:35:52 +0000
-From: =?iso-8859-1?Q?J=F6rg_Hofrichter?= <Joerg.Hofrichter@ni.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [PATCH] systemd: fix build with resolved enabled
-Thread-Index: AQHVK/nCVUF3Jy9dG0KVaSstyCyb5w==
-Date: Wed, 26 Jun 2019 08:35:52 +0000
-Message-ID: <BL0PR04MB46592E859DE13D9E3EB43234FBE20@BL0PR04MB4659.namprd04.prod.outlook.com>
-Accept-Language: de-DE, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [178.15.87.210]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 83ca1428-0fee-4c30-2217-08d6fa114c83
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600148)(711020)(4605104)(1401327)(2017052603328)(7193020);
-	SRVR:BL0PR04MB5009; 
-x-ms-traffictypediagnostic: BL0PR04MB5009:
-x-microsoft-antispam-prvs: <BL0PR04MB5009101CDFE93DF67EB7F9ADFBE20@BL0PR04MB5009.namprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1303;
-x-forefront-prvs: 00808B16F3
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(396003)(346002)(376002)(39860400002)(136003)(366004)(199004)(189003)(52536014)(66946007)(76116006)(91956017)(2906002)(73956011)(256004)(6436002)(14444005)(72206003)(5024004)(66476007)(33656002)(45776006)(6116002)(2351001)(66446008)(3846002)(66556008)(64756008)(66066001)(2501003)(53936002)(14454004)(9686003)(86362001)(8936002)(486006)(5660300002)(81166006)(81156014)(478600001)(7696005)(25786009)(71190400001)(71200400001)(316002)(55016002)(6916009)(99286004)(26005)(74316002)(476003)(186003)(102836004)(7736002)(305945005)(8676002)(68736007)(66574012)(5640700003)(6506007)(53546011);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:BL0PR04MB5009;
-	H:BL0PR04MB4659.namprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: ni.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: 8Evdy/NpC889HBsuHKVtR9qUyOImwiVS2fMD8bWz79zjVqMzdXEo38q1jwxyqhe2T7LiBYdWMISQdfI/YYKKl+7GPgqdhmuqylmBn9cZaFQsqOuWic1OFEPOGDtVKiItNiPBZ0nNipIEYj3EmJx1jZPa7cfGL71q2wYPfSFTO1s1/CMuXNZQgcM51O/xVVrEq1hnXbDDfBG8XSajWBJ3TAnWAhr8g2LqFZAk6dHCoXPjVUrXrHvh/LoyUi+mR72s/Ux52MlDREEoGB4y5lf9qnNBnX8EuMhyY5+TnOhDSs/1GOcSfHolVUNIai99LHYqhby+X7/HSDyHgb7+jdK+KP6IHILFwWYIYApbSPvVl0eI1RmtN86WuKvvCyd22ljEqeLYfrLXPPXTANbKXiUgS400470RS7E7KOK7QZSMz+E=
+	Wed, 26 Jun 2019 01:59:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=hVCCNNyoY8Th/vE4Ijf3Ti/HEf9shmhKlS0n4hCRTOM=;
+	b=CU4/Eo+HTppRNyrOc6Ihebe+0OIxKfIpeDJlAKV9xArHq2Z3re4zdvcJZD/esaeCfm
+	im9dbzGygDPJ5srq22c0ccx2EnwF08dalhhucAwd55gyT4x6w/iILinPYrISgkwHY0U3
+	sZE0QvbFWdMckm7+9xNzXeT4w+eYJCy+/42ZWDv+wCyWVsco7M0kIU89fqA9hI2qEofv
+	QesHJSDa8LjOBIGviUSdXkIWyaih+0tEJwSnTygn+lexRJLvYGunm0bq1k7aBtfBu+sB
+	vEXkTBiFEonb6e8yw11rsJndPCRzOUoqLOwyL7RuVPeBnySpSzKF3ZvtUnm0eaYr7qnI
+	ojug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=hVCCNNyoY8Th/vE4Ijf3Ti/HEf9shmhKlS0n4hCRTOM=;
+	b=CQcG+zoO3kKiapaUiTO+ZuRZrfoDvpeKrXfk5+Vfqg79/kz69F5pUoSo8AwVuqxDHU
+	IuyT1pjwwKdJ211WAgoxZyZ+m/Q9B+ki5IRP7TId6su1SAumFOGHk8VTveWY29Zbb3C3
+	9eVwNDuJP/f7+/tbZooGcc35YvuLMQY8sN9RRjV5g+bL9ENludDmntQNIiIapT8fd/kz
+	0hTXNCyES3aycxOSNdYJKNq5AACk/YzS9cfVJZtH5xcySrDU+8wR3BpXJ3+UyRrFOljV
+	Lye95HifhxtbFpq+zNpjy52bA0wuapNLMul2+khNYEcF2fHlS2J1pspTOsWsy1SQzLJh
+	2Pzg==
+X-Gm-Message-State: APjAAAXgY2xWEcbTtUXrAqPaJq1CnFEf17HdS/GhOzq3lSgydaOAAZM0
+	w4uDkC3N+7rUi24KoM/eurfMnp894NerC5Y4J8g=
+X-Google-Smtp-Source: APXvYqzW6f471J8YNNLniStDt180HTHDLQwVo7NMcaQ0WP7sovVgeRUYQtPrT2WDf2s/MF4NTwg0jHmNA/5UKKO/eLU=
+X-Received: by 2002:a9d:7dd9:: with SMTP id k25mr2422905otn.350.1561539599102; 
+	Wed, 26 Jun 2019 01:59:59 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 83ca1428-0fee-4c30-2217-08d6fa114c83
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Jun 2019 08:35:52.2765 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: joerg.hofrichter@ni.com
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR04MB5009
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-06-26_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=inbound_policy_notspam policy=inbound_policy
-	score=30
-	priorityscore=1501 malwarescore=0 suspectscore=0 phishscore=0
-	bulkscore=0
-	spamscore=0 clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=30 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1906260105
-Subject: [PATCH] systemd: fix build with resolved enabled
+References: <20190625221319.102643-1-okaya@kernel.org>
+	<4fd505d8-8616-b2e7-da92-6b2be9e3616f@windriver.com>
+In-Reply-To: <4fd505d8-8616-b2e7-da92-6b2be9e3616f@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 26 Jun 2019 10:59:47 +0200
+Message-ID: <CANNYZj_r7wXtZy2he3y_n5cCXagpWsc+nyheGATHYq3k-dUYvQ@mail.gmail.com>
+To: ChenQi <Qi.Chen@windriver.com>, Sinan Kaya <okaya@kernel.org>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v1] postinst-intercepts: check tool presence in intercept hooks
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -89,89 +54,327 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 08:35:55 -0000
-Content-Language: de-DE
-Content-Type: text/plain; charset="iso-8859-1"
+X-List-Received-Date: Wed, 26 Jun 2019 08:59:58 -0000
+Content-Type: multipart/alternative; boundary="0000000000001b7a42058c364570"
+
+--0000000000001b7a42058c364570
+Content-Type: text/plain; charset="UTF-8"
+
+Yes, this looks suspicious to me as well. If the tools are absent you need
+to investigate why they are absent; skipping the tools execution is just
+sweeping the problem under the carpet, not fixing it.
+
+Alex
+
+On Wed, 26 Jun 2019 at 04:15, ChenQi <Qi.Chen@windriver.com> wrote:
+
+> Under which circumstances will the tools be absent?
+> And why do you check the existence of files for some the the existence
+> of directories for others?
+>
+> Best Regards,
+> Chen Qi
+>
+> On 06/26/2019 06:13 AM, Sinan Kaya wrote:
+> > do_rootfs: The postinstall intercept hook 'update_udev_hwdb'
+> > do_rootfs: The postinstall intercept hook 'update_gio_module_cache'
+> failed
+> > do_rootfs: The postinstall intercept hook 'update_icon_cache' failed
+> > do_rootfs: The postinstall intercept hook 'update_icon_cache' failed
+> >
+> > Signed-off-by: Sinan Kaya <okaya@kernel.org>
+> > ---
+> >   scripts/postinst-intercepts/update_font_cache    |  6 ++++--
+> >   .../postinst-intercepts/update_gio_module_cache  | 10 +++++++---
+> >   scripts/postinst-intercepts/update_icon_cache    | 16 +++++++++-------
+> >   scripts/postinst-intercepts/update_pixbuf_cache  |  5 ++++-
+> >   scripts/postinst-intercepts/update_udev_hwdb     |  6 ++++--
+> >   5 files changed, 28 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/scripts/postinst-intercepts/update_font_cache
+> b/scripts/postinst-intercepts/update_font_cache
+> > index 3053c7065f4..954acbb41b2 100644
+> > --- a/scripts/postinst-intercepts/update_font_cache
+> > +++ b/scripts/postinst-intercepts/update_font_cache
+> > @@ -5,5 +5,7 @@
+> >
+> >   set -e
+> >
+> > -PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcacheenv}
+> $D${libexecdir}/${binprefix}fc-cache --sysroot=$D --system-only
+> ${fontconfigcacheparams}
+> > -chown -R root:root $D${fontconfigcachedir}
+> > +if [ -f $D${libexecdir}/${binprefix}fc-cache ]; then
+> > +     PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D -E
+> ${fontconfigcacheenv} $D${libexecdir}/${binprefix}fc-cache --sysroot=$D
+> --system-only ${fontconfigcacheparams}
+> > +     chown -R root:root $D${fontconfigcachedir}
+> > +fi
+> > diff --git a/scripts/postinst-intercepts/update_gio_module_cache
+> b/scripts/postinst-intercepts/update_gio_module_cache
+> > index c87fa85db9e..e8483cb0bf5 100644
+> > --- a/scripts/postinst-intercepts/update_gio_module_cache
+> > +++ b/scripts/postinst-intercepts/update_gio_module_cache
+> > @@ -5,7 +5,11 @@
+> >
+> >   set -e
+> >
+> > -PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+> $D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
+> > +if [ -f $D${libexecdir}/${binprefix}gio-querymodules ]; then
+> > +
+> > +     PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+> $D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/
+> > +
+> > +     [ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
+> > +             chown root:root $D${libdir}/gio/modules/giomodule.cache
+> > +fi
+> >
+> > -[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||
+> > -     chown root:root $D${libdir}/gio/modules/giomodule.cache
+> > diff --git a/scripts/postinst-intercepts/update_icon_cache
+> b/scripts/postinst-intercepts/update_icon_cache
+> > index 212209a9daf..a67ff7ef970 100644
+> > --- a/scripts/postinst-intercepts/update_icon_cache
+> > +++ b/scripts/postinst-intercepts/update_icon_cache
+> > @@ -5,12 +5,14 @@
+> >
+> >   set -e
+> >
+> > -# update native pixbuf loaders
+> >
+> -$STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders
+> --update-cache
+> > +if [ -d $STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2.0 ]; then
+> > +     # update native pixbuf loaders
+> > +
+>  $STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders
+> --update-cache
+> >
+> > -for icondir in $D/usr/share/icons/*/ ; do
+> > -    if [ -d $icondir ] ; then
+> > -        gtk-update-icon-cache -fqt  $icondir
+> > -    fi
+> > -done
+> > +     for icondir in $D/usr/share/icons/*/ ; do
+> > +         if [ -d $icondir ] ; then
+> > +             gtk-update-icon-cache -fqt  $icondir
+> > +         fi
+> > +     done
+> > +fi
+> >
+> > diff --git a/scripts/postinst-intercepts/update_pixbuf_cache
+> b/scripts/postinst-intercepts/update_pixbuf_cache
+> > index ea12814474e..166422e5c37 100644
+> > --- a/scripts/postinst-intercepts/update_pixbuf_cache
+> > +++ b/scripts/postinst-intercepts/update_pixbuf_cache
+> > @@ -8,6 +8,9 @@ set -e
+> >   export GDK_PIXBUF_MODULEDIR=$D${libdir}/gdk-pixbuf-2.0/2.10.0/loaders
+> >   export GDK_PIXBUF_FATAL_LOADER=1
+> >
+> > -PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+> $D${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
+> > +if [ -d $D${libdir}/gdk-pixbuf-2.0 ]; then
+> > +     PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+> $D${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \
+> >       >$GDK_PIXBUF_MODULEDIR/../loaders.cache && \
+> >       sed -i -e "s:$D::g" $GDK_PIXBUF_MODULEDIR/../loaders.cache
+> > +fi
+> > +
+> > diff --git a/scripts/postinst-intercepts/update_udev_hwdb
+> b/scripts/postinst-intercepts/update_udev_hwdb
+> > index c4fb2bffcbf..7b6e38338f3 100644
+> > --- a/scripts/postinst-intercepts/update_udev_hwdb
+> > +++ b/scripts/postinst-intercepts/update_udev_hwdb
+> > @@ -5,5 +5,7 @@
+> >
+> >   set -e
+> >
+> > -PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+> $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D
+> > -chown root:root $D${sysconfdir}/udev/hwdb.bin
+> > +if [ -d $D/lib/udev/hwdb.d ]; then
+> > +     PSEUDO_UNLOAD=1 ${binprefix}qemuwrapper -L $D
+> $D${libexecdir}/${binprefix}udevadm hwdb --update --root $D
+> > +     chown root:root $D${sysconfdir}/udev/hwdb.bin
+> > +fi
+>
+>
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+>
+
+--0000000000001b7a42058c364570
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-From: Joerg Hofrichter <joerg.hofrichter@ni.com>
-Date: Wed, 26 Jun 2019 10:30:34 +0200
-Subject: [PATCH] systemd: fix build with resolved enabled
+<div dir=3D"ltr"><div>Yes, this looks suspicious to me as well. If the tool=
+s are absent you need to investigate why they are absent; skipping the tool=
+s execution is just sweeping the problem under the carpet, not fixing it.</=
+div><div><br></div><div>Alex<br></div></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Wed, 26 Jun 2019 at 04:15, ChenQi =
+&lt;<a href=3D"mailto:Qi.Chen@windriver.com">Qi.Chen@windriver.com</a>&gt; =
+wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0=
+px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">Under whi=
+ch circumstances will the tools be absent?<br>
+And why do you check the existence of files for some the the existence <br>
+of directories for others?<br>
+<br>
+Best Regards,<br>
+Chen Qi<br>
+<br>
+On 06/26/2019 06:13 AM, Sinan Kaya wrote:<br>
+&gt; do_rootfs: The postinstall intercept hook &#39;update_udev_hwdb&#39;<b=
+r>
+&gt; do_rootfs: The postinstall intercept hook &#39;update_gio_module_cache=
+&#39; failed<br>
+&gt; do_rootfs: The postinstall intercept hook &#39;update_icon_cache&#39; =
+failed<br>
+&gt; do_rootfs: The postinstall intercept hook &#39;update_icon_cache&#39; =
+failed<br>
+&gt;<br>
+&gt; Signed-off-by: Sinan Kaya &lt;<a href=3D"mailto:okaya@kernel.org" targ=
+et=3D"_blank">okaya@kernel.org</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 =C2=A0scripts/postinst-intercepts/update_font_cache=C2=A0 =C2=A0=
+ |=C2=A0 6 ++++--<br>
+&gt;=C2=A0 =C2=A0.../postinst-intercepts/update_gio_module_cache=C2=A0 | 10=
+ +++++++---<br>
+&gt;=C2=A0 =C2=A0scripts/postinst-intercepts/update_icon_cache=C2=A0 =C2=A0=
+ | 16 +++++++++-------<br>
+&gt;=C2=A0 =C2=A0scripts/postinst-intercepts/update_pixbuf_cache=C2=A0 |=C2=
+=A0 5 ++++-<br>
+&gt;=C2=A0 =C2=A0scripts/postinst-intercepts/update_udev_hwdb=C2=A0 =C2=A0 =
+=C2=A0|=C2=A0 6 ++++--<br>
+&gt;=C2=A0 =C2=A05 files changed, 28 insertions(+), 15 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/scripts/postinst-intercepts/update_font_cache b/scripts/p=
+ostinst-intercepts/update_font_cache<br>
+&gt; index 3053c7065f4..954acbb41b2 100644<br>
+&gt; --- a/scripts/postinst-intercepts/update_font_cache<br>
+&gt; +++ b/scripts/postinst-intercepts/update_font_cache<br>
+&gt; @@ -5,5 +5,7 @@<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0set -e<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D -E ${fontconfigcachee=
+nv} $D${libexecdir}/${binprefix}fc-cache --sysroot=3D$D --system-only ${fon=
+tconfigcacheparams}<br>
+&gt; -chown -R root:root $D${fontconfigcachedir}<br>
+&gt; +if [ -f $D${libexecdir}/${binprefix}fc-cache ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D -=
+E ${fontconfigcacheenv} $D${libexecdir}/${binprefix}fc-cache --sysroot=3D$D=
+ --system-only ${fontconfigcacheparams}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0chown -R root:root $D${fontconfigcachedir}<br>
+&gt; +fi<br>
+&gt; diff --git a/scripts/postinst-intercepts/update_gio_module_cache b/scr=
+ipts/postinst-intercepts/update_gio_module_cache<br>
+&gt; index c87fa85db9e..e8483cb0bf5 100644<br>
+&gt; --- a/scripts/postinst-intercepts/update_gio_module_cache<br>
+&gt; +++ b/scripts/postinst-intercepts/update_gio_module_cache<br>
+&gt; @@ -5,7 +5,11 @@<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0set -e<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${bin=
+prefix}gio-querymodules $D${libdir}/gio/modules/<br>
+&gt; +if [ -f $D${libexecdir}/${binprefix}gio-querymodules ]; then<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $=
+D${libexecdir}/${binprefix}gio-querymodules $D${libdir}/gio/modules/<br>
+&gt; +<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0[ ! -e $D${libdir}/gio/modules/giomodule.cache ] =
+||<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0chown root:root $D${l=
+ibdir}/gio/modules/giomodule.cache<br>
+&gt; +fi<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -[ ! -e $D${libdir}/gio/modules/giomodule.cache ] ||<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0chown root:root $D${libdir}/gio/modules/giomodule=
+.cache<br>
+&gt; diff --git a/scripts/postinst-intercepts/update_icon_cache b/scripts/p=
+ostinst-intercepts/update_icon_cache<br>
+&gt; index 212209a9daf..a67ff7ef970 100644<br>
+&gt; --- a/scripts/postinst-intercepts/update_icon_cache<br>
+&gt; +++ b/scripts/postinst-intercepts/update_icon_cache<br>
+&gt; @@ -5,12 +5,14 @@<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0set -e<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -# update native pixbuf loaders<br>
+&gt; -$STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2.0/gdk-pixbuf-query-=
+loaders --update-cache<br>
+&gt; +if [ -d $STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2.0 ]; then<b=
+r>
+&gt; +=C2=A0 =C2=A0 =C2=A0# update native pixbuf loaders<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0$STAGING_DIR_NATIVE/${libdir_native}/gdk-pixbuf-2=
+.0/gdk-pixbuf-query-loaders --update-cache<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -for icondir in $D/usr/share/icons/*/ ; do<br>
+&gt; -=C2=A0 =C2=A0 if [ -d $icondir ] ; then<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 gtk-update-icon-cache -fqt=C2=A0 $icondir=
+<br>
+&gt; -=C2=A0 =C2=A0 fi<br>
+&gt; -done<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0for icondir in $D/usr/share/icons/*/ ; do<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -d $icondir ] ; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0gtk-update-icon-cache=
+ -fqt=C2=A0 $icondir<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0done<br>
+&gt; +fi<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; diff --git a/scripts/postinst-intercepts/update_pixbuf_cache b/scripts=
+/postinst-intercepts/update_pixbuf_cache<br>
+&gt; index ea12814474e..166422e5c37 100644<br>
+&gt; --- a/scripts/postinst-intercepts/update_pixbuf_cache<br>
+&gt; +++ b/scripts/postinst-intercepts/update_pixbuf_cache<br>
+&gt; @@ -8,6 +8,9 @@ set -e<br>
+&gt;=C2=A0 =C2=A0export GDK_PIXBUF_MODULEDIR=3D$D${libdir}/gdk-pixbuf-2.0/2=
+.10.0/loaders<br>
+&gt;=C2=A0 =C2=A0export GDK_PIXBUF_FATAL_LOADER=3D1<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${libdir}/gdk-pixbu=
+f-2.0/gdk-pixbuf-query-loaders \<br>
+&gt; +if [ -d $D${libdir}/gdk-pixbuf-2.0 ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $=
+D${libdir}/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0&gt;$GDK_PIXBUF_MODULEDIR/../loaders.cache &=
+amp;&amp; \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0sed -i -e &quot;s:$D::g&quot; $GDK_PIXBUF_MO=
+DULEDIR/../loaders.cache<br>
+&gt; +fi<br>
+&gt; +<br>
+&gt; diff --git a/scripts/postinst-intercepts/update_udev_hwdb b/scripts/po=
+stinst-intercepts/update_udev_hwdb<br>
+&gt; index c4fb2bffcbf..7b6e38338f3 100644<br>
+&gt; --- a/scripts/postinst-intercepts/update_udev_hwdb<br>
+&gt; +++ b/scripts/postinst-intercepts/update_udev_hwdb<br>
+&gt; @@ -5,5 +5,7 @@<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt;=C2=A0 =C2=A0set -e<br>
+&gt;=C2=A0 =C2=A0<br>
+&gt; -PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $D${libexecdir}/${bin=
+prefix}udevadm hwdb --update --root $D<br>
+&gt; -chown root:root $D${sysconfdir}/udev/hwdb.bin<br>
+&gt; +if [ -d $D/lib/udev/hwdb.d ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0PSEUDO_UNLOAD=3D1 ${binprefix}qemuwrapper -L $D $=
+D${libexecdir}/${binprefix}udevadm hwdb --update --root $D<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0chown root:root $D${sysconfdir}/udev/hwdb.bin<br>
+&gt; +fi<br>
+<br>
+<br>
+-- <br>
+_______________________________________________<br>
+Openembedded-core mailing list<br>
+<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
+k">Openembedded-core@lists.openembedded.org</a><br>
+<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
+n/listinfo/openembedded-core</a><br>
+</blockquote></div>
 
-Signed-off-by: Joerg Hofrichter <joerg.hofrichter@ni.com>
----
- ...e-also-add-missing.h-needed-for-musl.patch | 25 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_242.bb      |  2 +-
- 2 files changed, 26 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/systemd/systemd/0026-resolve-also-add=
--missing.h-needed-for-musl.patch
-
-diff --git a/meta/recipes-core/systemd/systemd/0026-resolve-also-add-missin=
-g.h-needed-for-musl.patch b/meta/recipes-core/systemd/systemd/0026-resolve-=
-also-add-missing.h-needed-for-musl.patch
-new file mode 100644
-index 0000000000..9c29944511
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0026-resolve-also-add-missing.h-nee=
-ded-for-musl.patch
-@@ -0,0 +1,25 @@
-+From afddcc9f6686b85380f2c4ac15f901012b725b1e Mon Sep 17 00:00:00 2001
-+From: Joerg Hofrichter <joerg.hofrichter@ni.com>
-+Date: Wed, 26 Jun 2019 08:04:50 +0000
-+Subject: [PATCH] resolve: also add missing.h (needed for musl)
-+
-+Signed-off-by: Joerg Hofrichter <joerg.hofrichter@ni.com>
-+---
-+ src/resolve/resolvectl.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/resolve/resolvectl.c b/src/resolve/resolvectl.c
-+index 1d2fc71309..b12c80f125 100644
-+--- a/src/resolve/resolvectl.c
-++++ b/src/resolve/resolvectl.c
-+@@ -30,6 +30,7 @@
-+ #include "strv.h"
-+ #include "terminal-util.h"
-+ #include "verbs.h"
-++#include "missing.h"
-+
-+ static int arg_family =3D AF_UNSPEC;
-+ static int arg_ifindex =3D 0;
-+--
-+2.17.1
-+
-diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/s=
-ystemd/systemd_242.bb
-index 29f64b995a..4c72890d28 100644
---- a/meta/recipes-core/systemd/systemd_242.bb
-+++ b/meta/recipes-core/systemd/systemd_242.bb
-@@ -53,6 +53,7 @@ SRC_URI_MUSL =3D "file://0001-Use-getenv-when-secure-vers=
-ions-are-not-available.pa
-                file://0024-test-json.c-define-M_PIl.patch \
-                file://0025-fs-utilh-add-missing-sys-stat-include.patch \
-                file://0001-do-not-disable-buffer-in-writing-files.patch \
-+               file://0026-resolve-also-add-missing.h-needed-for-musl.patc=
-h \
-                "
-
- PAM_PLUGINS =3D " \
-@@ -102,7 +103,6 @@ PACKAGECONFIG_remove_libc-musl =3D " \
-     nss \
-     nss-mymachines \
-     nss-resolve \
--    resolved \
-     smack \
-     sysusers \
-     utmp \
---
-2.17.1
-National Instruments Dresden GmbH; Gesch=E4ftsf=FChrer (Managing Director):=
- Dr. Thorsten Dr=E4ger; Sitz (Registered Office): Dresden; HRB (Commercial =
-Register No.): 22081; Registergericht (Registration Court): Dresden
-
-This email and any attachments are intended only for the person to whom thi=
-s email is addressed and may contain confidential and/or privileged informa=
-tion. If you received this email in error, please do not disclose the conte=
-nts to anyone, but notify the sender by return email and delete this email =
-(and any attachments) from your system.
-
+--0000000000001b7a42058c364570--
