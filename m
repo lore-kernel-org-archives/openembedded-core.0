@@ -1,52 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
-	[209.85.210.169])
-	by mail.openembedded.org (Postfix) with ESMTP id 8FE597BD97
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 8096D6D7A2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 16:53:51 +0000 (UTC)
-Received: by mail-pf1-f169.google.com with SMTP id d126so1671961pfd.2
+	Wed, 26 Jun 2019 16:53:53 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id j2so1659367pfe.6
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 09:53:53 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=OMw1gKFrJZlflO/PxWbrGJ2xFnaYUY3FYuIFJ2AEsrU=;
-	b=SN5H6l3dzFSAuSfOa83h+jAvLB2gvVEJfh2dSEtCnhZErKAEjgCxoZNPdyVQ9IfXdu
-	siZh16cfZGsDN/dzRTdB6b7hFPlO9bAxtUXF24jueKT0LNkL0U3aNeOf5VZtMGbzMZEZ
-	SsGInQJlBPY1dBrZw27OSqb/MdvM6smCL9YoIN9zlRBEkKo034LOEziz7xY0BlFtlmkw
-	pJTbo8kK/ZJuZ1hvD8coq4M77dVEmh4RGhUT/+7F2D0eIRwIbPyhrqFjyvO4Qry7K4m5
-	kUvzCMWCds8V0bNCn4E4SuTQ+CYA/DRmFHcmitcVGSgCGiEHbXMeLoAoQSdysaOxko+0
-	+D6Q==
+	bh=6JkrnoFcZUSZJErq1ajsQZxzWyOjbchkf5F11cY9PBw=;
+	b=pU5BqEU+6BzBBb57sSDJ7rWzdX9AaI4EsKmqZNQinUU6kbL020pn0hGafKOwA5ETR1
+	hWK2cZq9X48et+fKriNAfBhMJBI85Ee3QAZpns+Jv96Pzq87/4DzF8TupzDkhZwIAmO6
+	v4oUWVD5TsApPQDiPRnSp0toaAKeMm7rZZKteJqTp3isdOTdmX39WKalWNYXU1Uoi52r
+	ZAzkn+CZxlpygkBnIuP5i4FIkJoL/Dsa2qWx3Gi7DW9ve+cvoXPyQD2j4JZKaoUdB/oO
+	cV+iHT4srtvWI2uGQUDPwiVxWcNMw8+VajZJ4iPIGzhyKlNZAI2CbuDgJFcmBrvcQWwT
+	JodQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=OMw1gKFrJZlflO/PxWbrGJ2xFnaYUY3FYuIFJ2AEsrU=;
-	b=qtg0JIbBm0tGPSuDf+kZT7frnfsXO/c3mdH/jedVJxYGYgSbmOZCNVnVocvK5w+mDC
-	27AaLgRy9PhgMQz461Usq4L5/fJnwk+uzU6kwnDnwi6oCO4SHeXHB7f4Bnq4WyxC25X4
-	1rzg/3cf76F5ym4tPC4ob31ctzRRhxC4mAIvR7OXCg6tFv2q9FTbC9Ly59PezEbb8Inm
-	4MBrP1O3rOAcODHZax4w9fpGvEb10ZC5rC0s2Ape4oGLJ/mLKOcZ95g7p6Hjs0QTHTvf
-	eWDsXPwQHa2anU5KE2WZETcU6+yyim6IBRo1HqtAMoaEunXOqRb9gIjAdBtXkkrhw48f
-	QpuA==
-X-Gm-Message-State: APjAAAVBaEP2i93VFo3XWzU3a60vJtuNTHgw6Y5AOhfLnYlNICern5Z3
-	j5Mkh0ycHQzw84YGBNzUtMJbFk7U8o8=
-X-Google-Smtp-Source: APXvYqz3K3Y8nzPOoOuBAwYcQnp+gspZPGlFQXAGChM0g//40vMI0Rn1iLwQ29LBBc+6q0bte1TAyA==
-X-Received: by 2002:a17:90a:17c4:: with SMTP id
-	q62mr54948pja.104.1561568032600; 
-	Wed, 26 Jun 2019 09:53:52 -0700 (PDT)
+	bh=6JkrnoFcZUSZJErq1ajsQZxzWyOjbchkf5F11cY9PBw=;
+	b=s8tug26L8gpQAdLIamoUbJ+gRb/tLyvOZ1fT/Jlea2YkHf5nmLa4NP0b4X+B21OEF9
+	/iQUqL4RJMx0j/OEIVh52QOBP1hoCZv5w7LZmVVtpCj80xbWssiA8TpYRBeTPo1CxYWQ
+	HlR/eoL1lgTv+lXlG6RG5kkK8WCpPbheJDmQv6baofn9FJ8Cu0DsAn8K4SyYczPJvAOB
+	9cf/mXIs0k0sET+MWUVcr4jPqBMQ4ywWtI6eTsrvpRWaJqD9+TaHKRxS6/2tGHErmOYI
+	3pyf01/0go9jue7eBRo031OQQnh/HR+6xmnSbgkI8x7hfOjm1RitP9RsfMJpUepCmrEw
+	scgg==
+X-Gm-Message-State: APjAAAWHuAF3ahiUWS6n1IVQqRZqwv8UIHJJfWy9uVKziTkpS4gXD+cX
+	aYkIcAY6OVwyT5+2rpwzyj467y+j+98=
+X-Google-Smtp-Source: APXvYqzvN2OYgV3gMVaB28gvx5GITq7A8ecvC4qdM0fMODn+X4qlZuR99EcS8d3LORsQXWGHTQ44VA==
+X-Received: by 2002:a17:90a:1d8:: with SMTP id 24mr66259pjd.70.1561568034331; 
+	Wed, 26 Jun 2019 09:53:54 -0700 (PDT)
 Received: from localhost.localdomain ([45.19.219.178])
 	by smtp.gmail.com with ESMTPSA id
-	t11sm15339687pgp.1.2019.06.26.09.53.51
+	t11sm15339687pgp.1.2019.06.26.09.53.53
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Jun 2019 09:53:52 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:53 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jun 2019 09:53:19 -0700
-Message-Id: <fc77edc8245ab90eee1f1e857f470b6842dc256f.1561566521.git.akuster808@gmail.com>
+Date: Wed, 26 Jun 2019 09:53:20 -0700
+Message-Id: <71bfb9dfdc806e0e95f1302d0d6c3c751f03bb4b.1561566521.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561566521.git.akuster808@gmail.com>
 References: <cover.1561566521.git.akuster808@gmail.com>
-Subject: [thud][ 18/25] Tar: Security fix CVE-2019-0023
+Subject: [thud][ 19/25] glib-2.0: Security fix for CVE-2019-12450
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,85 +58,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 16:53:51 -0000
+X-List-Received-Date: Wed, 26 Jun 2019 16:53:53 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-Source: tar.git
-MR: 97928
+Source: glib-2.0
+MR: 98443
 Type: Security Fix
-Disposition: Backport from http://git.savannah.gnu.org/cgit/tar.git/commit/?id=cb07844454d8cc9fb21f53ace75975f91185a120
-ChangeID: 7aee4c0daf8ce813242fe7b872583560a32bc4e3
+Disposition: Backport from https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174
+ChangeID: 880b9b349cb8d82c7c1314a3657ec9094baba741
 Description:
 
-Affects tar < 1.32
-
-fixes CVE-2019-9923
-
 Signed-off-by: Armin Kuster <akuster@mvista.com>
-Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-extended/tar/tar/CVE-2019-9923.patch | 38 +++++++++++++++++++++++
- meta/recipes-extended/tar/tar_1.30.bb             |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-extended/tar/tar/CVE-2019-9923.patch
+ .../glib-2.0/glib-2.0/CVE-2019-12450.patch         | 59 ++++++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb      |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
 
-diff --git a/meta/recipes-extended/tar/tar/CVE-2019-9923.patch b/meta/recipes-extended/tar/tar/CVE-2019-9923.patch
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
 new file mode 100644
-index 0000000..146cbff
+index 0000000..37ad580
 --- /dev/null
-+++ b/meta/recipes-extended/tar/tar/CVE-2019-9923.patch
-@@ -0,0 +1,38 @@
-+From cb07844454d8cc9fb21f53ace75975f91185a120 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Mon, 14 Jan 2019 15:22:09 +0200
-+Subject: [PATCH] Fix possible NULL dereference (savannah bug #55369)
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2019-12450.patch
+@@ -0,0 +1,59 @@
++From d8f8f4d637ce43f8699ba94c9b7648beda0ca174 Mon Sep 17 00:00:00 2001
++From: Ondrej Holy <oholy@redhat.com>
++Date: Thu, 23 May 2019 10:41:53 +0200
++Subject: [PATCH] gfile: Limit access to files when copying
 +
-+* src/sparse.c (pax_decode_header): Check return from find_next_block.
++file_copy_fallback creates new files with default permissions and
++set the correct permissions after the operation is finished. This
++might cause that the files can be accessible by more users during
++the operation than expected. Use G_FILE_CREATE_PRIVATE for the new
++files to limit access to those files.
 +
 +Upstream-Status: Backport
-+CVE:  CVE-2019-9923
-+Affects: tar < 1.32
++https://gitlab.gnome.org/GNOME/glib/commit/d8f8f4d637ce43f8699ba94c9b7648beda0ca174
++CVE: CVE-2019-12450
 +Signed-off-by: Armin kuster <akuster@mvista.com>
 +
 +---
-+ src/sparse.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
++ gio/gfile.c | 11 ++++++-----
++ 1 file changed, 6 insertions(+), 5 deletions(-)
 +
-+Index: tar-1.30/src/sparse.c
-+===================================================================
-+--- tar-1.30.orig/src/sparse.c
-++++ tar-1.30/src/sparse.c
-+@@ -1231,6 +1231,8 @@ pax_decode_header (struct tar_sparse_fil
-+ 	   set_next_block_after (b);                               \
-+            file->dumped_size += BLOCKSIZE;                         \
-+            b = find_next_block ();                                 \
-++           if (!b)                                                 \
-++             FATAL_ERROR ((0, 0, _("Unexpected EOF in archive"))); \
-+            src = b->buffer;                                        \
-+ 	   endp = b->buffer + BLOCKSIZE;                           \
-+ 	 }                                                         \
-+@@ -1243,6 +1245,8 @@ pax_decode_header (struct tar_sparse_fil
-+       set_next_block_after (current_header);
-+       file->dumped_size += BLOCKSIZE;
-+       blk = find_next_block ();
-++      if (!blk)
-++        FATAL_ERROR ((0, 0, _("Unexpected EOF in archive")));
-+       p = blk->buffer;
-+       COPY_BUF (blk,nbuf,p);
-+       if (!decode_num (&u, nbuf, TYPE_MAXIMUM (size_t)))
-diff --git a/meta/recipes-extended/tar/tar_1.30.bb b/meta/recipes-extended/tar/tar_1.30.bb
-index bd24f47..ab1b33b 100644
---- a/meta/recipes-extended/tar/tar_1.30.bb
-+++ b/meta/recipes-extended/tar/tar_1.30.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
-            file://remove-gets.patch \
-            file://musl_dirent.patch \
-+           file://CVE-2019-9923.patch \
- "
++diff --git a/gio/gfile.c b/gio/gfile.c
++index 24b136d..74b5804 100644
++--- a/gio/gfile.c
+++++ b/gio/gfile.c
++@@ -3284,12 +3284,12 @@ file_copy_fallback (GFile                  *source,
++         out = (GOutputStream*)_g_local_file_output_stream_replace (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
++                                                                    FALSE, NULL,
++                                                                    flags & G_FILE_COPY_BACKUP,
++-                                                                   G_FILE_CREATE_REPLACE_DESTINATION,
++-                                                                   info,
+++                                                                   G_FILE_CREATE_REPLACE_DESTINATION |
+++                                                                   G_FILE_CREATE_PRIVATE, info,
++                                                                    cancellable, error);
++       else
++         out = (GOutputStream*)_g_local_file_output_stream_create (_g_local_file_get_filename (G_LOCAL_FILE (destination)),
++-                                                                  FALSE, 0, info,
+++                                                                  FALSE, G_FILE_CREATE_PRIVATE, info,
++                                                                   cancellable, error);
++     }
++   else if (flags & G_FILE_COPY_OVERWRITE)
++@@ -3297,12 +3297,13 @@ file_copy_fallback (GFile                  *source,
++       out = (GOutputStream *)g_file_replace (destination,
++                                              NULL,
++                                              flags & G_FILE_COPY_BACKUP,
++-                                             G_FILE_CREATE_REPLACE_DESTINATION,
+++                                             G_FILE_CREATE_REPLACE_DESTINATION |
+++                                             G_FILE_CREATE_PRIVATE,
++                                              cancellable, error);
++     }
++   else
++     {
++-      out = (GOutputStream *)g_file_create (destination, 0, cancellable, error);
+++      out = (GOutputStream *)g_file_create (destination, G_FILE_CREATE_PRIVATE, cancellable, error);
++     }
++ 
++   if (!out)
++-- 
++2.7.4
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
+index 1271a7c..879bc48 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.58.0.bb
+@@ -14,6 +14,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://0001-Do-not-ignore-return-value-of-write.patch \
+            file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+            file://date-lt.patch \
++           file://CVE-2019-12450.patch \
+            "
  
- SRC_URI[md5sum] = "8404e4c1fc5a3000228ab2b8ad674a65"
+ SRC_URI_append_class-native = " file://relocate-modules.patch"
 -- 
 2.7.4
 
