@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com
-	[209.85.215.170])
-	by mail.openembedded.org (Postfix) with ESMTP id 4FB477E692
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com
+	[209.85.214.176])
+	by mail.openembedded.org (Postfix) with ESMTP id 2998A6D7A2
 	for <openembedded-core@lists.openembedded.org>;
 	Wed, 26 Jun 2019 16:53:45 +0000 (UTC)
-Received: by mail-pg1-f170.google.com with SMTP id f25so1477314pgv.10
+Received: by mail-pl1-f176.google.com with SMTP id m7so1749406pls.8
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 09:53:46 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=i9A6RUbeHqED5lyBs1vAj2pf4izOS3Je3QrlVMcF2JU=;
-	b=hgVFFH9TKvu65HGD5WpZFOXcWggySm1TUVhx6mVdZELlNsKsmixrNzY+Mu73n6bCSx
-	YTd+CVGWvFlmKFxM3m2XbK+kB5ddHlJ/nwAcEkh+50HglhnMSUosfzK5YlSKmJEo7pLy
-	NuOLnhCHd7HTjXf634qArCEfOPOOexj50gB6wlRqrw9PB/giF551yoNv88UQIixhlT5/
-	/9l1ZlnIQjlZvzoDVhULvmL1YSCNf8CoCLdzMqBUdAadkSNMj3Ywd5Leu6B6vp9qt11M
-	iJlReNetdhS7ALNar1TLZzu3XW41d7OxvjHvVclDDUxiukeo+sGmGjhmqzG2N62Q8e1V
-	HEjg==
+	bh=aIv8pJ3WUEb06Y0/DoOgNWHtpRzUittm9mT0+UehMng=;
+	b=jqScKdNK2wiS/PxGAp3TPNKbgPw2xgw+RPf1ymeFO50qUO36FTuHQRNyPJACh4L2UN
+	pQWTdPu4NbqxdttvtRkIRO3uz7IrzbI42CgRcjnITc5A+FaDtLUkZzGORf4bl5JkZIaD
+	nt5CaqVhbbkCmT6J+XcJhJV9d3wt10Gz2GlMGL0uaU0P0WrbIhtRE8XrDT2AGtzbXAcB
+	lwPP9UlpUSmbUN0nC8EaRulDPuodqa9B8iYfjzoudG9GcKiJbv7730+s4jQxW82GZWp7
+	C3MEDaZWwusXGF6/Rz01CYwSz+ydMrg6B49cmeoRk9WFYX+oFaO0PSpko9QzWG8b/8gg
+	cRPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=i9A6RUbeHqED5lyBs1vAj2pf4izOS3Je3QrlVMcF2JU=;
-	b=KaJAO9183TvLjvi6wUPUw4SjS+ORA8uIsnCKypSbRQoiPzE1s/ZXWxijhPju7zuKs1
-	G/URfcGfmZaaUzdourLmfHucNBDGoc4v8RrjaJ9KXU3IdtBTfURs+gpkk9nXHykmAcB/
-	C3DHYkt5l29ipPPdixP85FdbZf9lpRZFXRub2LBKBTquISVNw+dU+fFK7zbDhXcCtkhG
-	qUsMtc1Y39DZHi8RK/p32GS9Qa7lSAeU2yshtMLdzjE72VLIc2bvBH22atq9DRuzDFJN
-	LxBZuGVkNbLpuUy2rKj4YUTpaDdB34weg5fBa3ut5M0UGlTW7hHy8Mlo4ECubTz5edld
-	dtIA==
-X-Gm-Message-State: APjAAAVD8Y1K3gmFt8aTcNCU769jd++avM5+ZtYrHGWU6iNlUFy08YGY
-	F0GQFkcv8wQGDCPij/L8Yqcv/HtlQ1k=
-X-Google-Smtp-Source: APXvYqyVy4V+FZ9PzxjrSDvv3Hr/kGnTlSvH7uZu1UW27YWmeCD41qBOVdFlhxbE0FRJe26QHnNQtA==
-X-Received: by 2002:a17:90a:eb08:: with SMTP id j8mr65215pjz.72.1561568026310; 
-	Wed, 26 Jun 2019 09:53:46 -0700 (PDT)
+	bh=aIv8pJ3WUEb06Y0/DoOgNWHtpRzUittm9mT0+UehMng=;
+	b=ed1JJ3pg2r9bVXsCQzP8U7CVAOxiqQm8X3oiRo4LoU69UBFu0X+EdoDrmZRHwJt8tx
+	ZJAFRaSriUrJ8yIhS4Y22LzxNyK/lBpqxKDnp4NFhT9BoSKgfr6tHjARIgSl37gHuoRw
+	RadXH2OgeSoo5W7YCaNeJaE0+ANNtagljHeBfJcElEJSvRF1ltHnIueV7G6hy5BJRSve
+	2AIguh/n4V4ZSgOoBGbZY8dhdSf04b9Qbiu8I83aV2i/X0giKT0U5PeMkGmVExAkvnHg
+	B1fqbEAB5mQZTbkxt95gM17sVHvMsH/o8AuP5713d3CoteiniKC4wEt18r3omC9v+TpN
+	MYcw==
+X-Gm-Message-State: APjAAAUKBhNOZwffom+wES7yhdF8Uc4zIQp+isiE7xMY7LWTVNln2P44
+	fiZ2TdNy8PWLiDmiO7h44bGptEkcSHA=
+X-Google-Smtp-Source: APXvYqwLOi/BrRRhn8df53FMiSSdCXn6OUp5yVHW6FF0dugDTMEAHxUz8IuFPN5m/kbWUgE7ZxB83g==
+X-Received: by 2002:a17:902:7043:: with SMTP id
+	h3mr6853057plt.10.1561568027123; 
+	Wed, 26 Jun 2019 09:53:47 -0700 (PDT)
 Received: from localhost.localdomain ([45.19.219.178])
 	by smtp.gmail.com with ESMTPSA id
-	t11sm15339687pgp.1.2019.06.26.09.53.45
+	t11sm15339687pgp.1.2019.06.26.09.53.46
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Jun 2019 09:53:45 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:46 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jun 2019 09:53:12 -0700
-Message-Id: <8b5e68afc9767d8b6b966503e9353cadafae9bfb.1561566521.git.akuster808@gmail.com>
+Date: Wed, 26 Jun 2019 09:53:13 -0700
+Message-Id: <fca74928bf2002daf526ad8c1446c8d9ba891a78.1561566521.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561566521.git.akuster808@gmail.com>
 References: <cover.1561566521.git.akuster808@gmail.com>
-Subject: [thud][ 11/25] cairo: fix CVE-2018-19876 CVE-2019-6461 CVE-2019-6462
+Subject: [thud][ 12/25] go-target.inc: fix go not found while multilib enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,101 +59,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 16:53:45 -0000
+X-List-Received-Date: Wed, 26 Jun 2019 16:53:46 -0000
 
-From: Ross Burton <ross.burton@intel.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Source: OpenEmbedded.org
-MR: 97538, 97543
-Type: Security Fix
-Disposition: Backport from https://git.openembedded.org/openembedded-core/commit/meta/recipes-graphics/cairo?h=warrior&id=078e4d5c2114d942806cd0d5ad501805a011e841
-ChangeID: fa8bdd44ad8613bb0679a1f6d9d670c3b47a0677
-Description:
+Go binaries were installed to ${libdir}/go/bin, and create symlink
+in ${bindir}, while enabling multilib, libdir was extended (such as
+/usr/lib64), but BASELIB was not (still /lib), so use
+baselib (such as /lib64)) to replace
 
-CVE-2018-19876 is a backport from upstream.
-
-CVE-2019-6461 and CVE-2019-6462 are patches taken from Clear Linux.
-
-Signed-off-by: Ross Burton <ross.burton@intel.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-[Dropped CVE-2018-19876, not affected]
-Issue was introduced in 1.15.8 by:
-commit 721b7ea0a785afaa04b6da63f970c3c57666fdfe
-
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../recipes-graphics/cairo/cairo/CVE-2019-6461.patch | 19 +++++++++++++++++++
- .../recipes-graphics/cairo/cairo/CVE-2019-6462.patch | 20 ++++++++++++++++++++
- meta/recipes-graphics/cairo/cairo_1.14.12.bb         |  2 ++
- 3 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
- create mode 100644 meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
+ meta/recipes-devtools/go/go-target.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-new file mode 100644
-index 0000000..5232cf7
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6461.patch
-@@ -0,0 +1,19 @@
-+There is a potential infinite-loop in function _arc_error_normalized().
-+
-+CVE: CVE-2019-6461
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/src/cairo-arc.c b/src/cairo-arc.c
-+index 390397bae..f9249dbeb 100644
-+--- a/src/cairo-arc.c
-++++ b/src/cairo-arc.c
-+@@ -99,7 +99,7 @@ _arc_max_angle_for_tolerance_normalized (double tolerance)
-+     do {
-+ 	angle = M_PI / i++;
-+ 	error = _arc_error_normalized (angle);
-+-    } while (error > tolerance);
-++    } while (error > tolerance && error > __DBL_EPSILON__);
-+ 
-+     return angle;
-+ }
-diff --git a/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-new file mode 100644
-index 0000000..4e4598c
---- /dev/null
-+++ b/meta/recipes-graphics/cairo/cairo/CVE-2019-6462.patch
-@@ -0,0 +1,20 @@
-+There is an assertion in function _cairo_arc_in_direction().
-+
-+CVE: CVE-2019-6462
-+Upstream-Status: Pending
-+Signed-off-by: Ross Burton <ross.burton@intel.com>
-+
-+diff --git a/src/cairo-arc.c b/src/cairo-arc.c
-+index 390397bae..1bde774a4 100644
-+--- a/src/cairo-arc.c
-++++ b/src/cairo-arc.c
-+@@ -186,7 +186,8 @@ _cairo_arc_in_direction (cairo_t	  *cr,
-+     if (cairo_status (cr))
-+         return;
-+ 
-+-    assert (angle_max >= angle_min);
-++    if (angle_max < angle_min)
-++       return;
-+ 
-+     if (angle_max - angle_min > 2 * M_PI * MAX_FULL_CIRCLES) {
-+ 	angle_max = fmod (angle_max - angle_min, 2 * M_PI);
-diff --git a/meta/recipes-graphics/cairo/cairo_1.14.12.bb b/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-index 18b9479..08026c4 100644
---- a/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-+++ b/meta/recipes-graphics/cairo/cairo_1.14.12.bb
-@@ -25,6 +25,8 @@ DEPENDS = "fontconfig glib-2.0 libpng pixman zlib"
- SRC_URI = "http://cairographics.org/releases/cairo-${PV}.tar.xz \
-            file://cairo-get_bitmap_surface-bsc1036789-CVE-2017-7475.diff \ 
-            file://0001-cairo-Fix-CVE-2017-9814.patch \
-+           file://CVE-2019-6461.patch \
-+           file://CVE-2019-6462.patch \
-           "
+diff --git a/meta/recipes-devtools/go/go-target.inc b/meta/recipes-devtools/go/go-target.inc
+index c229ab2..379f87b 100644
+--- a/meta/recipes-devtools/go/go-target.inc
++++ b/meta/recipes-devtools/go/go-target.inc
+@@ -40,7 +40,7 @@ do_install() {
+ 	for f in ${B}/${GO_BUILD_BINDIR}/*; do
+ 		name=`basename $f`
+ 		install -m 0755 $f ${D}${libdir}/go/bin/
+-		ln -sf ../${BASELIB}/go/bin/$name ${D}${bindir}/
++		ln -sf ../${baselib}/go/bin/$name ${D}${bindir}/
+ 	done
+ }
  
- SRC_URI[md5sum] = "9f0db9dbfca0966be8acd682e636d165"
 -- 
 2.7.4
 
