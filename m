@@ -1,25 +1,25 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id C9BB97C5F0
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 72D767E6D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 07:16:29 +0000 (UTC)
+	Wed, 26 Jun 2019 07:16:31 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5Q7GVLj012920
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5Q7GWRW010416
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 00:16:31 -0700 (PDT)
+	Wed, 26 Jun 2019 00:16:32 -0700 (PDT)
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 26 Jun 2019 00:16:30 -0700
+	14.3.439.0; Wed, 26 Jun 2019 00:16:32 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Jun 2019 15:40:22 +0800
-Message-ID: <389ee09386e4280e0c64dec5d30543417073416c.1561534279.git.liezhi.yang@windriver.com>
+Date: Wed, 26 Jun 2019 15:40:23 +0800
+Message-ID: <23191288438c369f51eb0496a8b79bdb019769cf.1561534279.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561534279.git.liezhi.yang@windriver.com>
 References: <cover.1561534279.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v3 2/3] busybox: make postinst run firstly before update-alternatives
+Subject: [PATCH v3 3/3] gtk-icon-cache.bbclass: Depends on gtk+3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,92 +32,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 07:16:29 -0000
+X-List-Received-Date: Wed, 26 Jun 2019 07:16:31 -0000
 Content-Type: text/plain
 
-The update-alternatives.bbclass' postinst script runs firstly before other
-postinst, but busybox needs set basic tools such as sed command firstly,
-otherwise, update-alternatives doesn't work, so run busybox' postinst firstly
-to fix the problem.
+The gtk-update-icon-cache is provided by gtk+3, gdk-pixbuf-query-loaders is
+provided by gdk-pixbuf, and gtk+3 depends on gdk-pixbuf, so depends on gtk+3
+can fix the problems.
 
 Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 ---
- meta/recipes-core/busybox/busybox.inc | 62 +++++++++++++++++++----------------
- 1 file changed, 34 insertions(+), 28 deletions(-)
+ meta/classes/gtk-icon-cache.bbclass | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/busybox/busybox.inc b/meta/recipes-core/busybox/busybox.inc
-index 174ce5a..49165d7 100644
---- a/meta/recipes-core/busybox/busybox.inc
-+++ b/meta/recipes-core/busybox/busybox.inc
-@@ -392,34 +392,40 @@ python do_package_prepend () {
-         set_alternative_vars("${sysconfdir}/busybox.links.suid", "${base_bindir}/busybox.suid")
- }
+diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
+index 66fe781..4e60fe6 100644
+--- a/meta/classes/gtk-icon-cache.bbclass
++++ b/meta/classes/gtk-icon-cache.bbclass
+@@ -4,6 +4,11 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk
  
--pkg_postinst_${PN} () {
--	# This part of code is dedicated to the on target upgrade problem.
--	# It's known that if we don't make appropriate symlinks before update-alternatives calls,
--	# there will be errors indicating missing commands such as 'sed'.
--	# These symlinks will later be updated by update-alternatives calls.
--	test -n 2 > /dev/null || alias test='busybox test'
--	if test "x$D" = "x"; then
--		# Remove busybox.nosuid if it's a symlink, because this situation indicates
--		# that we're installing or upgrading to a one-binary busybox.
--		if test -h ${base_bindir}/busybox.nosuid; then
--			rm -f ${base_bindir}/busybox.nosuid
--		fi
--		for suffix in "" ".nosuid" ".suid"; do
--			if test -e ${sysconfdir}/busybox.links$suffix; then
--				while read link; do
--					if test ! -e "$link"; then
--						# we can use busybox here because even if we are using splitted busybox
--						# we've made a symlink from /bin/busybox to /bin/busybox.nosuid.
--						busybox rm -f $link
--						busybox ln -s "${base_bindir}/busybox$suffix" $link
--					fi
--				done < ${sysconfdir}/busybox.links$suffix
--			fi
--		done
--	fi
--	if grep -q "^${base_bindir}/bash$" $D${sysconfdir}/busybox.links*; then
--		grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo ${base_bindir}/bash >> $D${sysconfdir}/shells
--	fi
-+# This part of code is dedicated to the on target upgrade problem.  It's known
-+# that if we don't make appropriate symlinks before update-alternatives calls,
-+# there will be errors indicating missing commands such as 'sed'.
-+# These symlinks will later be updated by update-alternatives calls.
-+# The update-alternatives.bbclass' postinst script runs firstly before other
-+# postinst, but this part of code needs run firstly, so add this funtion.
-+python populate_packages_updatealternatives_append() {
-+    postinst = """
-+test -n 2 > /dev/null || alias test='busybox test'
-+if test "x$D" = "x"; then
-+    # Remove busybox.nosuid if it's a symlink, because this situation indicates
-+    # that we're installing or upgrading to a one-binary busybox.
-+    if test -h ${base_bindir}/busybox.nosuid; then
-+        rm -f ${base_bindir}/busybox.nosuid
-+    fi
-+    for suffix in "" ".nosuid" ".suid"; do
-+        if test -e ${sysconfdir}/busybox.links$suffix; then
-+            while read link; do
-+                if test ! -e "$link"; then
-+                    # we can use busybox here because even if we are using splitted busybox
-+                    # we've made a symlink from /bin/busybox to /bin/busybox.nosuid.
-+                    busybox rm -f $link
-+                    busybox ln -s "${base_bindir}/busybox$suffix" $link
-+                fi
-+            done < ${sysconfdir}/busybox.links$suffix
-+        fi
-+    done
-+fi
-+if grep -q "^${base_bindir}/bash$" $D${sysconfdir}/busybox.links*; then
-+    grep -q "^${base_bindir}/bash$" $D${sysconfdir}/shells || echo ${base_bindir}/bash >> $D${sysconfdir}/shells
-+fi
+ PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
+ 
++inherit distro_features_check
++ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
 +
-+"""
-+    d.prependVar('pkg_postinst_%s' % pkg, postinst)
- }
++DEPENDS += "gtk+3"
++
+ gtk_icon_cache_postinst() {
+ if [ "x$D" != "x" ]; then
+ 	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} \
+@@ -45,10 +50,11 @@ python populate_packages_append () {
+         if not os.path.exists(icon_dir):
+             continue
  
- pkg_prerm_${PN} () {
+-        bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
+-        rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
+-        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
+-    
++        for dep in ('hicolor-icon-theme', 'gtk+3'):
++            bb.note("Adding %s dependency to %s" % (dep, pkg))
++            rdepends = ' ' + d.getVar('MLPREFIX', False) + dep
++            d.appendVar('RDEPENDS_%s' % pkg, rdepends)
++
+         bb.note("adding gtk-icon-cache postinst and postrm scripts to %s" % pkg)
+         
+         postinst = d.getVar('pkg_postinst_%s' % pkg)
 -- 
 2.7.4
 
