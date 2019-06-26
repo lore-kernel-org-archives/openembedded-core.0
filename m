@@ -1,52 +1,51 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com
-	[209.85.128.44])
-	by mail.openembedded.org (Postfix) with ESMTP id CA7427E49C
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com
+	[209.85.221.43])
+	by mail.openembedded.org (Postfix) with ESMTP id B9CF57E3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 16:30:47 +0000 (UTC)
-Received: by mail-wm1-f44.google.com with SMTP id u8so2759197wmm.1
+	Wed, 26 Jun 2019 16:30:48 +0000 (UTC)
+Received: by mail-wr1-f43.google.com with SMTP id f9so3437944wre.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 09:30:49 -0700 (PDT)
+	Wed, 26 Jun 2019 09:30:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=jz7S85s2HKi2+kubAuZRHBYjIgsEMZU2+Ud/pjmU778=;
-	b=NdfrJ4FHlaBR6EL+4bkHoqvsggCjfAR+5rDRjttbOdqSH0ZTyMDKBKdh+yAED/DOTm
-	jLqEaVrU/zXHW3oiyhKwGzeVUosZ2iNxFnJedfDdi0CeBoEZQ8fGfHFjVZjSZ4xP42FO
-	YLklkgGNmawwqHcFsDaUPflQ4wis13e5m6V3g=
+	bh=OU/wmth5zR1WEyTkFD7wV05tSDXPNaCP3E8neSkGwmU=;
+	b=haA0/HQ/IV29AbthiNjHHIOnRZUv4m5LFOqEwC/LtRdqIm79J18kgNM08qTpWJ+0ob
+	yMzp5uJsXQZQCTAgtKdVKkBSp0kdAE6ZkN7e5AzCo3Ukg95gDJTisiIDbAbP57ANKPRe
+	0zU2d9ARhAj3NSRQ171xi9pJZu4rZQMIyTlX8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=jz7S85s2HKi2+kubAuZRHBYjIgsEMZU2+Ud/pjmU778=;
-	b=sJyOdhX2XJpVhYdFfYBvxXRxzXjOd+b3iaWgzrpSns5kEEHRuUpNM3i3HD68vs3Zx1
-	vm9c/wFRsQBD4WC1GRdx1fhTOxFjPPkPfQTOueG0ZiQcir4V9kOqDPagWlsIjruCgKya
-	rNkevKI8xZffFDzWX5KBej4CzN+GxiHSX3oCdY/PAQTGIKOI1dq3LTsFwADy8K/QuiRA
-	lbh19NtqKRlROYT2mG4VI3SnAYhu97nMVFhni9vwHBvwCrG8tfJHglF39GJsvlnAU7Lp
-	7u6WMav/HpLWQUoZDnF0krCE3Ikl1e95r8ys3MphzJI7IOON2/XhUM/DMUcFEOLxi2lK
-	WVHw==
-X-Gm-Message-State: APjAAAUfMUc2CR+WThyD8HnFQJD4KI8AXl2OAFWuZlldeakkJnnhrnx8
-	MfRnGhLAS4zQbVQ1IfiRkERN35ovimo=
-X-Google-Smtp-Source: APXvYqy0yx4oCfe81WR9RsgTEPoPiE/lxWFP8cftcAmGTFmITQuPOhj5jRz8YUC3Gl5I2seTvwm7Qg==
-X-Received: by 2002:a05:600c:20c3:: with SMTP id
-	y3mr3437396wmm.3.1561566648195; 
-	Wed, 26 Jun 2019 09:30:48 -0700 (PDT)
+	bh=OU/wmth5zR1WEyTkFD7wV05tSDXPNaCP3E8neSkGwmU=;
+	b=PW5lIQKrKvzPx5fzF27+wzvAKCsv5r18PMrLPV1l1ZsUagiVLfH5NikjA67gsfsdTd
+	qbrLDyBNKHK9LaUoPp/gclgRNQK1Oam0PCRt4eYLZ9vx1xN0lm1dDBXsXFLHj7nQBhLh
+	qRYsouvbDEpMgamM3TfJeccbrW2UfsdTy8MSyFt/pvZGmcCmutdG8OdRhSoXuZCvGRDo
+	wWa9Cefa0M46z2KInubj+4AMl2dNoa0bGgXXFDNr3hPoFe1l0rFdPYRE9pYD/PSyILZl
+	9reLQf2itA0d9P5EUprDhdlhJ7VAZC6GGdfBNiZO1fb2I2NTKKPWHrr+x+OdZb8CPAZD
+	T0yA==
+X-Gm-Message-State: APjAAAWQxVHqvZzwsAjbmZbuG+aYldUonaJelRuuRPR6BDvRzMor+/yX
+	L3/bHcsAUrOPNhbh6YKXOv7qO3S24Oo=
+X-Google-Smtp-Source: APXvYqwmxJ6WGLIs4wJeJjZontGdxd6VdOi87kmnuWkFxePlxZIuiCuiwS3PtO5BlIcfuOxsG13j0Q==
+X-Received: by 2002:a5d:4a8d:: with SMTP id o13mr4189831wrq.350.1561566649289; 
+	Wed, 26 Jun 2019 09:30:49 -0700 (PDT)
 Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	s63sm1484460wme.17.2019.06.26.09.30.46
+	s63sm1484460wme.17.2019.06.26.09.30.48
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 26 Jun 2019 09:30:47 -0700 (PDT)
+	Wed, 26 Jun 2019 09:30:48 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jun 2019 17:30:41 +0100
-Message-Id: <20190626163044.4606-2-richard.purdie@linuxfoundation.org>
+Date: Wed, 26 Jun 2019 17:30:42 +0100
+Message-Id: <20190626163044.4606-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190626163044.4606-1-richard.purdie@linuxfoundation.org>
 References: <20190626163044.4606-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Subject: [PATCH 2/5] oeqa/runtime/syslog: Improve test debug messages
+Subject: [PATCH 3/5] busybox: Improve syslog restart handling
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,90 +58,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 16:30:48 -0000
+X-List-Received-Date: Wed, 26 Jun 2019 16:30:49 -0000
 Content-Transfer-Encoding: 8bit
 
-Its useful to test whether the restart command returned an error code and
-exit early from the test if so.
+We're seeing races on the autobuilder where syslogd fails to shut down
+fast enough to be restarted leading to failures.
 
-Also add different messages to tell if the syslog processes didn't
-die or didn't restart.
+Add some checks to ensure when restarting that processes exit before
+being restarted.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/runtime/cases/oe_syslog.py | 32 +++++++++++++++---------
- 1 file changed, 20 insertions(+), 12 deletions(-)
+ meta/recipes-core/busybox/files/syslog | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/runtime/cases/oe_syslog.py b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-index 0f79e5a0f38..f987dccfb1b 100644
---- a/meta/lib/oeqa/runtime/cases/oe_syslog.py
-+++ b/meta/lib/oeqa/runtime/cases/oe_syslog.py
-@@ -43,31 +43,38 @@ class SyslogTestConfig(OERuntimeTestCase):
-     def restart_sanity(self, names, restart_cmd):
-         status, original_pids = self.verify_running(names)
-         if status:
--            return 1
-+            return False
+diff --git a/meta/recipes-core/busybox/files/syslog b/meta/recipes-core/busybox/files/syslog
+index 89c4d12e9cd..49033c1755a 100644
+--- a/meta/recipes-core/busybox/files/syslog
++++ b/meta/recipes-core/busybox/files/syslog
+@@ -51,6 +51,22 @@ else
+ 	SYSLOG_ARGS="-C"
+ fi
  
-         status, output = self.target.run(restart_cmd)
- 
-+        msg = ('Could not restart %s service. Status and output: %s and %s' % (names, status, output))
-+        self.assertEqual(status, 0, msg)
++waitpid ()
++{
++  pid=$1
++  # Give pid a chance to exit before we restart with a 5s timeout in 1s intervals
++  if [ -z "$pid" ]; then
++    return
++  fi
++  timeout=5;
++  while [ $timeout -gt 0 ]
++  do
++    timeout=$(( $timeout-1 ))
++    kill -0 $pid 2> /dev/null || break
++    sleep 1
++  done
++}
 +
-         # Always check for an error, most likely a race between shutting down and starting up
-         timeout = time.time() + 30
- 
-+        restarted = False
-+        status = ""
-         while time.time() < timeout:
-             # Verify the previous ones are no longer running
-             status = self.verif_not_running(original_pids)
-             if status:
-+                status = "Original syslog processes still running"
-                 continue
- 
-             status, pids = self.verify_running(names)
-             if status:
-+                status = "New syslog processes not running"
-                 continue
- 
-             # Everything is fine now, so exit to continue the test
--            status = 0
-+            restarted = True
-             break
- 
--        msg = ('Could not restart %s service. Status and output: %s and %s'
--               %(names, status, output))
--        self.assertEqual(status, 0, msg)
-+        msg = ('%s didn\'t appear to restart: %s' % (names, status))
-+        self.assertTrue(restarted, msg)
- 
-+        return True
- 
-     @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_logger(self):
-@@ -88,13 +95,14 @@ class SyslogTestConfig(OERuntimeTestCase):
- 
-     @OETestDepends(['oe_syslog.SyslogTest.test_syslog_running'])
-     def test_syslog_restart(self):
--        status = self.restart_sanity(['systemd-journald'], 'systemctl restart syslog.service')
--        if status:
--            status = self.restart_sanity(['rsyslogd'], '/etc/init.d/rsyslog restart')
--            if status:
--                status = self.restart_sanity(['syslogd', 'klogd'], '/etc/init.d/syslog restart')
--            else:
--                self.logger.info("No syslog found to restart, ignoring")
-+        if self.restart_sanity(['systemd-journald'], 'systemctl restart syslog.service'):
-+            pass
-+        elif self.restart_sanity(['rsyslogd'], '/etc/init.d/rsyslog restart'):
-+            pass
-+        elif self.restart_sanity(['syslogd', 'klogd'], '/etc/init.d/syslog restart'):
-+            pass
-+        else:
-+            self.logger.info("No syslog found to restart, ignoring")
- 
- 
-     @OETestDepends(['oe_syslog.SyslogTestConfig.test_syslog_logger'])
+ case "$1" in
+   start)
+ 	echo -n "Starting syslogd/klogd: "
+@@ -65,7 +81,11 @@ case "$1" in
+ 	echo "done"
+ 	;;
+   restart)
+-  	$0 stop
++	pid1=`pidof syslogd`
++	pid2=`pidof syslogd`
++	$0 stop
++	waitpid $pid1
++	waitpid $pid2
+ 	$0 start
+ 	;;
+   *)
 -- 
 2.20.1
 
