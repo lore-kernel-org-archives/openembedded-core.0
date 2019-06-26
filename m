@@ -1,25 +1,24 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 72D767E6D5
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 7E28C7E6D5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 07:16:31 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5Q7GWRW010416
+	Wed, 26 Jun 2019 07:16:33 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5Q7Fx4O031300
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 00:16:32 -0700 (PDT)
+	Wed, 26 Jun 2019 00:16:24 -0700
 Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
 	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Wed, 26 Jun 2019 00:16:32 -0700
+	14.3.439.0; Wed, 26 Jun 2019 00:16:09 -0700
 From: Robert Yang <liezhi.yang@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 26 Jun 2019 15:40:23 +0800
-Message-ID: <23191288438c369f51eb0496a8b79bdb019769cf.1561534279.git.liezhi.yang@windriver.com>
+Date: Wed, 26 Jun 2019 15:40:20 +0800
+Message-ID: <cover.1561534279.git.liezhi.yang@windriver.com>
 X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1561534279.git.liezhi.yang@windriver.com>
-References: <cover.1561534279.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH v3 3/3] gtk-icon-cache.bbclass: Depends on gtk+3
+Subject: [PATCH v3 0/3] meta: Fixes for update-alternatives.bbclass and gtk-icon-cache.bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,50 +31,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 07:16:31 -0000
+X-List-Received-Date: Wed, 26 Jun 2019 07:16:33 -0000
 Content-Type: text/plain
 
-The gtk-update-icon-cache is provided by gtk+3, gdk-pixbuf-query-loaders is
-provided by gdk-pixbuf, and gtk+3 depends on gdk-pixbuf, so depends on gtk+3
-can fix the problems.
+* V3
+  - Rather make the exception in update-alternatives.bbclass, but add a
+    populate_packages_updatealternatives_append() in busybox.inc to make
+    busybox's postinst runs firstly.
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/gtk-icon-cache.bbclass | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
+* V2
+  - The patch for update-alternatives.bbclass makes update-alternatives runs firstly
+    before other postinst scripts, since other postinst may run the tool which is
+    installed by the package itself (e.g., newaliases is installed as
+    newaliases.postfix, and update-alternatives will update it to newaliases). But this
+    broke busybox' on target install, since update-alternatives requires some
+    basic tools such as sed, there was a neat way in busybox' postinst to fix
+    this problem, the v2 makes busybox' postinst script run firstly before
+    update-alternatives.
 
-diff --git a/meta/classes/gtk-icon-cache.bbclass b/meta/classes/gtk-icon-cache.bbclass
-index 66fe781..4e60fe6 100644
---- a/meta/classes/gtk-icon-cache.bbclass
-+++ b/meta/classes/gtk-icon-cache.bbclass
-@@ -4,6 +4,11 @@ DEPENDS +=" ${@['hicolor-icon-theme', '']['${BPN}' == 'hicolor-icon-theme']} gtk
- 
- PACKAGE_WRITE_DEPS += "gtk+3-native gdk-pixbuf-native"
- 
-+inherit distro_features_check
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+
-+DEPENDS += "gtk+3"
-+
- gtk_icon_cache_postinst() {
- if [ "x$D" != "x" ]; then
- 	$INTERCEPT_DIR/postinst_intercept update_icon_cache ${PKG} \
-@@ -45,10 +50,11 @@ python populate_packages_append () {
-         if not os.path.exists(icon_dir):
-             continue
- 
--        bb.note("adding hicolor-icon-theme dependency to %s" % pkg)
--        rdepends = ' ' + d.getVar('MLPREFIX', False) + "hicolor-icon-theme"
--        d.appendVar('RDEPENDS_%s' % pkg, rdepends)
--    
-+        for dep in ('hicolor-icon-theme', 'gtk+3'):
-+            bb.note("Adding %s dependency to %s" % (dep, pkg))
-+            rdepends = ' ' + d.getVar('MLPREFIX', False) + dep
-+            d.appendVar('RDEPENDS_%s' % pkg, rdepends)
-+
-         bb.note("adding gtk-icon-cache postinst and postrm scripts to %s" % pkg)
-         
-         postinst = d.getVar('pkg_postinst_%s' % pkg)
+Testinfo:
+MACHINE = "qemux86"
+PACKAGE_CLASSES = "package_ipk package_rpm" (or "package_rpm package_ipk")
+TESTIMAGE_AUTO = "1"
+$ bitbake core-image-sato core-image-minimal
+
+The tests are OK.
+
+* V1
+  - Initial version
+
+// Robert
+
+The following changes since commit 4bb3e8f98e2bbfcb20f1b32d2b7674d1a6cb47be:
+
+  local.conf.sample.extended: remove redundant RUNTIMETARGET assignment (2019-06-24 17:32:37 +0100)
+
+are available in the git repository at:
+
+  git://git.openembedded.org/openembedded-core-contrib rbt/post
+  http://cgit.openembedded.org//log/?h=rbt/post
+
+Robert Yang (3):
+  update-alternatives.bbclass: run update-alternatives firstly in
+    postinst script
+  busybox: make postinst run firstly before update-alternatives
+  gtk-icon-cache.bbclass: Depends on gtk+3
+
+ meta/classes/gtk-icon-cache.bbclass      | 14 +++++---
+ meta/classes/update-alternatives.bbclass |  7 ++--
+ meta/recipes-core/busybox/busybox.inc    | 62 +++++++++++++++++---------------
+ 3 files changed, 49 insertions(+), 34 deletions(-)
+
 -- 
 2.7.4
 
