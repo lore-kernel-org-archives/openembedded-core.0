@@ -1,31 +1,18 @@
-Return-Path: <mac@mcrowe.com>
-Received: from avasout02.plus.net (avasout02.plus.net [212.159.14.17])
-	by mail.openembedded.org (Postfix) with ESMTP id 124506B5C5
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 14:27:33 +0000 (UTC)
-Received: from deneb ([80.229.24.9]) by smtp with ESMTP
-	id g8tZh9O4r6ogsg8tahn6wq; Wed, 26 Jun 2019 15:27:34 +0100
-X-Clacks-Overhead: "GNU Terry Pratchett"
-X-CM-Score: 0.00
-X-CNFS-Analysis: v=2.3 cv=Y62GTSWN c=1 sm=1 tr=0
-	a=E/9URZZQ5L3bK/voZ0g0HQ==:117 a=E/9URZZQ5L3bK/voZ0g0HQ==:17
-	a=jpOVt7BSZ2e4Z31A5e1TngXxSK0=:19 a=kj9zAlcOel0A:10 a=dq6fvYVFJ5YA:10
-	a=DduravJzYLD1B5Yb9gcA:9 a=CjuIK1q_8ugA:10 a=AQ-k_zJjQSsA:10
-Received: from mac by deneb with local (Exim 4.89)
-	(envelope-from <mac@mcrowe.com>) id 1hg8tZ-000217-CX
-	for openembedded-core@lists.openembedded.org;
-	Wed, 26 Jun 2019 15:27:33 +0100
-Date: Wed, 26 Jun 2019 15:27:33 +0100
-From: Mike Crowe <mac@mcrowe.com>
-To: openembedded-core@lists.openembedded.org
-Message-ID: <20190626142733.7ieucydj4r6ugcg3@mcrowe.com>
-References: <20190626142108.2554-1-mac@mcrowe.com>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 73C406B5C5;
+	Wed, 26 Jun 2019 14:30:37 +0000 (UTC)
 MIME-Version: 1.0
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Mike Crowe <mac@mcrowe.com>
+Date: Wed, 26 Jun 2019 14:30:38 -0000
+Message-ID: <20190626143038.2332.50296@do>
+References: <20190626142108.2554-1-mac@mcrowe.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
 In-Reply-To: <20190626142108.2554-1-mac@mcrowe.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-CMAE-Envelope: MS4wfNPsPkBC3PPMrqEg5YxWe1b6/LrejiXBACvrsvPnuEIMxs3Dd8ZfnE10rCSGyRtoMqyqz8Qy4ylUP6Sd8pPaIGThqoX7imoki+4MHGRDfeVGO+D/S+iq
-	33QN8UKrBNX4OwEU5QIHnzAMHF9aBsx8B/WoqKU6BBZbP3e+CZBlZdnb
-Subject: Re: [sumo] [PATCH] busybox: Include complete fix for CVE-2011-5325
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgYnVzeWJveDogSW5jbHVkZSBjb21wbGV0ZSBmaXggZm9yIENWRS0yMDExLTUzMjU=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,22 +25,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 14:27:34 -0000
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-List-Received-Date: Wed, 26 Jun 2019 14:30:37 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-On Wednesday 26 June 2019 at 15:21:08 +0100, Mike Crowe wrote:
-> It looks like not all the parts required for fixing CVE-2011-5325 made
-> it into oe-core master before the recipe was upgraded to the upstream
-> fixed version.
-> 
-> The partial fix meant that symlinks deemed unsafe enough to delay were
-> never actually realized. This backport from upstream fixes the
-> problem.
+== Series Details ==
 
-Grrr, I managed to send the version that lacked the [sumo] prefix. :(
+Series: busybox: Include complete fix for CVE-2011-5325
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18360/
+State : failure
 
-Sorry.
+== Summary ==
 
-Mike.
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 4bb3e8f98e)
+
+* Patch            busybox: Include complete fix for CVE-2011-5325
+ Issue             Patch is missing Signed-off-by [test_signed_off_by_presence] 
+  Suggested fix    Sign off the patch (either manually or with "git commit --amend -s")
+
+* Patch            busybox: Include complete fix for CVE-2011-5325
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+
 
