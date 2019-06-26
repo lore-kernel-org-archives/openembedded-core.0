@@ -1,51 +1,52 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com
-	[209.85.215.180])
-	by mail.openembedded.org (Postfix) with ESMTP id E81FC7BD97
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com
+	[209.85.210.169])
+	by mail.openembedded.org (Postfix) with ESMTP id 8FE597BD97
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 16:53:50 +0000 (UTC)
-Received: by mail-pg1-f180.google.com with SMTP id n2so1474679pgp.11
+	Wed, 26 Jun 2019 16:53:51 +0000 (UTC)
+Received: by mail-pf1-f169.google.com with SMTP id d126so1671961pfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 09:53:52 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Yjk2iCSMd0qW6ItDElCjR/NGiM5KsZVMd2S/mXDKsOM=;
-	b=ceSbkvxrjqXUB2FZ7Y+SfvxKKaHKnm8QSOwNRkl22XXAho5xW4z5IAdiK90Rjp6H5E
-	8lygjs6cDC0DjkHLnpBg7AG17iAMA9UIH8u1V5YEsVALybEB8zjdHdiyjr3SbvzjfJu8
-	fMjwixTIWktQck7Xd2/9NNh3xXhCwu8AbnsBKWpM2A6BAQynZtUkGisWw5CkwfBaGf5/
-	q/M/lphQmaKstisTrrmqoQb/zGcEBm+PMmzeEmaHhnmBlbMBeR2zPYLfK1ijWY+/UuXT
-	pRo179rayckfpDeLj7wvp8H8A/F2e0E7xTMmIpr9Ko8T1MhQlsJJEm/RnPJfuDVsxNPd
-	7bnw==
+	bh=OMw1gKFrJZlflO/PxWbrGJ2xFnaYUY3FYuIFJ2AEsrU=;
+	b=SN5H6l3dzFSAuSfOa83h+jAvLB2gvVEJfh2dSEtCnhZErKAEjgCxoZNPdyVQ9IfXdu
+	siZh16cfZGsDN/dzRTdB6b7hFPlO9bAxtUXF24jueKT0LNkL0U3aNeOf5VZtMGbzMZEZ
+	SsGInQJlBPY1dBrZw27OSqb/MdvM6smCL9YoIN9zlRBEkKo034LOEziz7xY0BlFtlmkw
+	pJTbo8kK/ZJuZ1hvD8coq4M77dVEmh4RGhUT/+7F2D0eIRwIbPyhrqFjyvO4Qry7K4m5
+	kUvzCMWCds8V0bNCn4E4SuTQ+CYA/DRmFHcmitcVGSgCGiEHbXMeLoAoQSdysaOxko+0
+	+D6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Yjk2iCSMd0qW6ItDElCjR/NGiM5KsZVMd2S/mXDKsOM=;
-	b=iCFp68CHCH9jCdeZyK/L0KIlKgeUgjdBzju9pYnhbThrBOKUkskC1GoJrakhV1HNl0
-	xoAf3RK7EVagfVfrGuVtPp2rp8NXf0LoB8SBwXoBXaaxtasqW/aoDodqiqbzUqLuSwX3
-	T0niq+fjRI7syfhKNLoCR1PpPcIDZER2Z7aaToIQPLA2rMHVNvMYg8Bs24GSwsXRZGtQ
-	2LAk1a1yuQ5MFNQPTfOw4D2+ht2szpC/g1oQCZAGg0lK1B1l1tVLpwAaSUx8HW8JfLrq
-	j/mIxodHSI03D4iwbBU8L0QnchYZ4y6hctdMZUoX9qfy9Su2XHekTIXEp5QSsSbdaoMP
-	JSag==
-X-Gm-Message-State: APjAAAWVEDTbKqtteDq01ET/tVSRLXORqG2OvjhZ8tjvBj+gdW5/+PzJ
-	SVfaBVR4mi8F02mfdY8qWLoQhszjgsQ=
-X-Google-Smtp-Source: APXvYqw9vjNBlf3TuWFSm+aH4o/YnkSh6GgHW0XHC37MjqkJzwBnLe/WPrH9562t8MntCHG32ixmNA==
-X-Received: by 2002:a17:90a:21cc:: with SMTP id q70mr69071pjc.56.1561568031804;
-	Wed, 26 Jun 2019 09:53:51 -0700 (PDT)
+	bh=OMw1gKFrJZlflO/PxWbrGJ2xFnaYUY3FYuIFJ2AEsrU=;
+	b=qtg0JIbBm0tGPSuDf+kZT7frnfsXO/c3mdH/jedVJxYGYgSbmOZCNVnVocvK5w+mDC
+	27AaLgRy9PhgMQz461Usq4L5/fJnwk+uzU6kwnDnwi6oCO4SHeXHB7f4Bnq4WyxC25X4
+	1rzg/3cf76F5ym4tPC4ob31ctzRRhxC4mAIvR7OXCg6tFv2q9FTbC9Ly59PezEbb8Inm
+	4MBrP1O3rOAcODHZax4w9fpGvEb10ZC5rC0s2Ape4oGLJ/mLKOcZ95g7p6Hjs0QTHTvf
+	eWDsXPwQHa2anU5KE2WZETcU6+yyim6IBRo1HqtAMoaEunXOqRb9gIjAdBtXkkrhw48f
+	QpuA==
+X-Gm-Message-State: APjAAAVBaEP2i93VFo3XWzU3a60vJtuNTHgw6Y5AOhfLnYlNICern5Z3
+	j5Mkh0ycHQzw84YGBNzUtMJbFk7U8o8=
+X-Google-Smtp-Source: APXvYqz3K3Y8nzPOoOuBAwYcQnp+gspZPGlFQXAGChM0g//40vMI0Rn1iLwQ29LBBc+6q0bte1TAyA==
+X-Received: by 2002:a17:90a:17c4:: with SMTP id
+	q62mr54948pja.104.1561568032600; 
+	Wed, 26 Jun 2019 09:53:52 -0700 (PDT)
 Received: from localhost.localdomain ([45.19.219.178])
 	by smtp.gmail.com with ESMTPSA id
-	t11sm15339687pgp.1.2019.06.26.09.53.50
+	t11sm15339687pgp.1.2019.06.26.09.53.51
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Jun 2019 09:53:51 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:52 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jun 2019 09:53:18 -0700
-Message-Id: <249447828cd1ed13f9faf19793208b503acf0d30.1561566521.git.akuster808@gmail.com>
+Date: Wed, 26 Jun 2019 09:53:19 -0700
+Message-Id: <fc77edc8245ab90eee1f1e857f470b6842dc256f.1561566521.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561566521.git.akuster808@gmail.com>
 References: <cover.1561566521.git.akuster808@gmail.com>
-Subject: [thud][ 17/25] qemu: Security fix for CVE-2018-19489
+Subject: [thud][ 18/25] Tar: Security fix CVE-2019-0023
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,129 +63,81 @@ X-List-Received-Date: Wed, 26 Jun 2019 16:53:51 -0000
 
 From: Armin Kuster <akuster@mvista.com>
 
-Source: Qemu.org
-MR: 97453
+Source: tar.git
+MR: 97928
 Type: Security Fix
-Disposition: Backport from git.qemu.org/gemu.git
-
-ChangeID: a06fcb432d447cec2ed1caf112822dd1b4831ace
+Disposition: Backport from http://git.savannah.gnu.org/cgit/tar.git/commit/?id=cb07844454d8cc9fb21f53ace75975f91185a120
+ChangeID: 7aee4c0daf8ce813242fe7b872583560a32bc4e3
 Description:
 
-In the spirt of YP Compatible, sending change upstream.
+Affects tar < 1.32
 
-fixes CVE CVE-2018-19489
-
-Affect < = 4.0.0
+fixes CVE-2019-9923
 
 Signed-off-by: Armin Kuster <akuster@mvista.com>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- .../qemu/qemu/CVE-2018-19489.patch                 | 83 ++++++++++++++++++++++
- meta/recipes-devtools/qemu/qemu_3.0.0.bb           |  1 +
- 2 files changed, 84 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
+ meta/recipes-extended/tar/tar/CVE-2019-9923.patch | 38 +++++++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.30.bb             |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-extended/tar/tar/CVE-2019-9923.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch b/meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
+diff --git a/meta/recipes-extended/tar/tar/CVE-2019-9923.patch b/meta/recipes-extended/tar/tar/CVE-2019-9923.patch
 new file mode 100644
-index 0000000..7619e2a
+index 0000000..146cbff
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2018-19489.patch
-@@ -0,0 +1,83 @@
-+From 1d20398694a3b67a388d955b7a945ba4aa90a8a8 Mon Sep 17 00:00:00 2001
-+From: Greg Kurz <groug@kaod.org>
-+Date: Fri, 23 Nov 2018 13:28:03 +0100
-+Subject: [PATCH] 9p: fix QEMU crash when renaming files
++++ b/meta/recipes-extended/tar/tar/CVE-2019-9923.patch
+@@ -0,0 +1,38 @@
++From cb07844454d8cc9fb21f53ace75975f91185a120 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Mon, 14 Jan 2019 15:22:09 +0200
++Subject: [PATCH] Fix possible NULL dereference (savannah bug #55369)
 +
-+When using the 9P2000.u version of the protocol, the following shell
-+command line in the guest can cause QEMU to crash:
-+
-+    while true; do rm -rf aa; mkdir -p a/b & touch a/b/c & mv a aa; done
-+
-+With 9P2000.u, file renaming is handled by the WSTAT command. The
-+v9fs_wstat() function calls v9fs_complete_rename(), which calls
-+v9fs_fix_path() for every fid whose path is affected by the change.
-+The involved calls to v9fs_path_copy() may race with any other access
-+to the fid path performed by some worker thread, causing a crash like
-+shown below:
-+
-+Thread 12 "qemu-system-x86" received signal SIGSEGV, Segmentation fault.
-+0x0000555555a25da2 in local_open_nofollow (fs_ctx=0x555557d958b8, path=0x0,
-+ flags=65536, mode=0) at hw/9pfs/9p-local.c:59
-+59          while (*path && fd != -1) {
-+(gdb) bt
-+#0  0x0000555555a25da2 in local_open_nofollow (fs_ctx=0x555557d958b8,
-+ path=0x0, flags=65536, mode=0) at hw/9pfs/9p-local.c:59
-+#1  0x0000555555a25e0c in local_opendir_nofollow (fs_ctx=0x555557d958b8,
-+ path=0x0) at hw/9pfs/9p-local.c:92
-+#2  0x0000555555a261b8 in local_lstat (fs_ctx=0x555557d958b8,
-+ fs_path=0x555556b56858, stbuf=0x7fff84830ef0) at hw/9pfs/9p-local.c:185
-+#3  0x0000555555a2b367 in v9fs_co_lstat (pdu=0x555557d97498,
-+ path=0x555556b56858, stbuf=0x7fff84830ef0) at hw/9pfs/cofile.c:53
-+#4  0x0000555555a1e9e2 in v9fs_stat (opaque=0x555557d97498)
-+ at hw/9pfs/9p.c:1083
-+#5  0x0000555555e060a2 in coroutine_trampoline (i0=-669165424, i1=32767)
-+ at util/coroutine-ucontext.c:116
-+#6  0x00007fffef4f5600 in __start_context () at /lib64/libc.so.6
-+#7  0x0000000000000000 in  ()
-+(gdb)
-+
-+The fix is to take the path write lock when calling v9fs_complete_rename(),
-+like in v9fs_rename().
-+
-+Impact:  DoS triggered by unprivileged guest users.
-+
-+Fixes: CVE-2018-19489
-+Cc: P J P <ppandit@redhat.com>
-+Reported-by: zhibin hu <noirfate@gmail.com>
-+Reviewed-by: Prasad J Pandit <pjp@fedoraproject.org>
-+Signed-off-by: Greg Kurz <groug@kaod.org>
++* src/sparse.c (pax_decode_header): Check return from find_next_block.
 +
 +Upstream-Status: Backport
-+Affects: < 4.0.0
-+CVE: CVE-2018-19489
-+Signed-off-by: Armin Kuster <akuster@mvista.com>
++CVE:  CVE-2019-9923
++Affects: tar < 1.32
++Signed-off-by: Armin kuster <akuster@mvista.com>
 +
 +---
-+ hw/9pfs/9p.c | 3 +++
-+ 1 file changed, 3 insertions(+)
++ src/sparse.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-+index 267a255..bdf7919 100644
-+--- a/hw/9pfs/9p.c
-++++ b/hw/9pfs/9p.c
-+@@ -2855,6 +2855,7 @@ static void coroutine_fn v9fs_wstat(void *opaque)
-+     struct stat stbuf;
-+     V9fsFidState *fidp;
-+     V9fsPDU *pdu = opaque;
-++    V9fsState *s = pdu->s;
-+ 
-+     v9fs_stat_init(&v9stat);
-+     err = pdu_unmarshal(pdu, offset, "dwS", &fid, &unused, &v9stat);
-+@@ -2920,7 +2921,9 @@ static void coroutine_fn v9fs_wstat(void *opaque)
-+         }
-+     }
-+     if (v9stat.name.size != 0) {
-++        v9fs_path_write_lock(s);
-+         err = v9fs_complete_rename(pdu, fidp, -1, &v9stat.name);
-++        v9fs_path_unlock(s);
-+         if (err < 0) {
-+             goto out;
-+         }
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-devtools/qemu/qemu_3.0.0.bb b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-index 59cfc38..992cf7b 100644
---- a/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-+++ b/meta/recipes-devtools/qemu/qemu_3.0.0.bb
-@@ -30,6 +30,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://CVE-2018-18849.patch \
-            file://CVE-2018-19364_p1.patch \
-            file://CVE-2018-19364_p2.patch \
-+           file://CVE-2018-19489.patch \
-            "
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
++Index: tar-1.30/src/sparse.c
++===================================================================
++--- tar-1.30.orig/src/sparse.c
+++++ tar-1.30/src/sparse.c
++@@ -1231,6 +1231,8 @@ pax_decode_header (struct tar_sparse_fil
++ 	   set_next_block_after (b);                               \
++            file->dumped_size += BLOCKSIZE;                         \
++            b = find_next_block ();                                 \
+++           if (!b)                                                 \
+++             FATAL_ERROR ((0, 0, _("Unexpected EOF in archive"))); \
++            src = b->buffer;                                        \
++ 	   endp = b->buffer + BLOCKSIZE;                           \
++ 	 }                                                         \
++@@ -1243,6 +1245,8 @@ pax_decode_header (struct tar_sparse_fil
++       set_next_block_after (current_header);
++       file->dumped_size += BLOCKSIZE;
++       blk = find_next_block ();
+++      if (!blk)
+++        FATAL_ERROR ((0, 0, _("Unexpected EOF in archive")));
++       p = blk->buffer;
++       COPY_BUF (blk,nbuf,p);
++       if (!decode_num (&u, nbuf, TYPE_MAXIMUM (size_t)))
+diff --git a/meta/recipes-extended/tar/tar_1.30.bb b/meta/recipes-extended/tar/tar_1.30.bb
+index bd24f47..ab1b33b 100644
+--- a/meta/recipes-extended/tar/tar_1.30.bb
++++ b/meta/recipes-extended/tar/tar_1.30.bb
+@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
+            file://remove-gets.patch \
+            file://musl_dirent.patch \
++           file://CVE-2019-9923.patch \
+ "
  
+ SRC_URI[md5sum] = "8404e4c1fc5a3000228ab2b8ad674a65"
 -- 
 2.7.4
 
