@@ -1,51 +1,51 @@
 Return-Path: <akuster808@gmail.com>
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com
-	[209.85.210.175])
-	by mail.openembedded.org (Postfix) with ESMTP id F2BD77E692
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com
+	[209.85.215.171])
+	by mail.openembedded.org (Postfix) with ESMTP id 1326B7BD97
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 16:53:48 +0000 (UTC)
-Received: by mail-pf1-f175.google.com with SMTP id t16so1646746pfe.11
+	Wed, 26 Jun 2019 16:53:49 +0000 (UTC)
+Received: by mail-pg1-f171.google.com with SMTP id z75so1487360pgz.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 09:53:50 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=vt3k/KwEIzIPAWv/ah4tguWFDOLXf7/zEaeyrWZUM1k=;
-	b=biJVI56j7A69wXCFg7ImR6JDruA1f7IiY71TvpNkKy7Htyf7hAR3UXpYEjFcgkIehl
-	3odTSUezUrqqyonc/2ZvMySe2p4k89kf0UoyPhyid0sToIfnCAPPky2x+G96wVh6LXt3
-	QNF6ikbviCSejgCiZAT8/R//iU4mUcRqRIcDuY1vt5AJ6Om2IME9/uxJHrRSfEpQlI5o
-	BmeXWRnE+Ec1dyyaBi/Gq66JfjTYehBkr6b49qjVxF6Nq9qGspRUeEipGT8UxJKL6Rsx
-	oJEPIrh4HUO0zaO8AM6G4rs7v7e2elIFUOKZdknLPUe+gq4RQq+iB1icuKqTaTb4oPp6
-	g3tw==
+	bh=+0PDOZz2cAqj8sQOlHdRED2kxYT0anLKsKIWmX95thM=;
+	b=S1Q7keiBqI6q2vafDz/8QB9OjTHOslcjUrCfH9rUcsmguyb4S5eyElUK6Wvy6PRIvU
+	YKaXcKJHnj7FgLzC96Y7eOWmSMiSGUqCxQelPRIBc7bRYdZXVf1JO62LuzMKvcnawrED
+	3ZvdedC6SFWzAoyFAYZU0rkeXg9FR7rggHFoeRjD9Czzu0jeb7ASiSqa7+dut3+KvFrD
+	wXpRC7WpRwcdv1tGdG0D4bCyD5SmNLXv/cnyjcCd2rrcrUsn/EqYpM2jzUkxwp1nm+Gl
+	XrkAJ0aGv49sTqfRcZ739ExRLy6atj+rsG4KQi6xaca2wnwa6SyqnrvWH92speDr2gnA
+	ZNSg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=vt3k/KwEIzIPAWv/ah4tguWFDOLXf7/zEaeyrWZUM1k=;
-	b=T6T2HVOrzfyU1T1gljBdLPVI5/pQPrytiOgWNniOnXZavDjEeaK/awlSuNFTHyoxJC
-	O+utW7wmqSyzKYy92YepDSX++yfju5yg+lqkAy3mb/3xENKC2waVBsQNWjwDTT55VKaZ
-	dimOoyNeRyAzYHk5DFU9sghUqbmfzjaCKiidH0856++vUozQHFdC/hzweM85fGPzQWOI
-	082nWDezJEHjoWB7G0iSg1LRpJG6O1Etvo3iz9TSgITJTjrOKOPfKnYv/M/22og4T170
-	ofhR+tbWs7a8L7ug1i1PrlEX904IZlEagvMbDesjFjMsuS2Pxujagg4sCUcC1tbK/4vT
-	M0Cw==
-X-Gm-Message-State: APjAAAUDQnujxbMoL4ygoOLQNNQGYjNm23qLh5a4Z/pHovjp/fa0sSYG
-	cQaMvHvQ+Bbbmd73hWJdy2PywggL31k=
-X-Google-Smtp-Source: APXvYqzwlODGSBE2esHB/tymnig0sWLqvNmPJ8x6qlcnSmwQOJU9WmPwoxcKR40E8BsmNybA9Yy8sg==
-X-Received: by 2002:a17:90a:206a:: with SMTP id n97mr86565pjc.10.1561568029773;
-	Wed, 26 Jun 2019 09:53:49 -0700 (PDT)
+	bh=+0PDOZz2cAqj8sQOlHdRED2kxYT0anLKsKIWmX95thM=;
+	b=g7DBpcOhiLrtmTU3v53yIm0uBJk+Ibf2bwC+x+xh476RlPdrZoWN0h/3KEphezBT3D
+	PL9LnYot4z5MzUySnzyrd/6ozjW4LqhzvzPgJMVBkQtHzmZtZtjHclczZbO45whTtJ5a
+	tQziEE6WdkIK5USU7cvmZexQdfk+bY9CmLcWCMPc/6jxxMudU01lp3p2Us9WV/v8lqcs
+	LIoTp+qVH2Tlh7RUxwB0q/McZ9RTF3SIABMNZwBrZgTh3iv8g/NaKyLe/htfzaZ4MU2P
+	J45f/rf/oX7iwN+UmEAUK76atoFbYRtduz+qobqjhDqvAQ4bh0zr0guDf4ABuBd9eFpl
+	kvHA==
+X-Gm-Message-State: APjAAAUFuy8LfsaLRbP+Ghgdu5hb3G0+S0lBQn6E+x6pkBcQIdozdkxT
+	OgUbMzqke0Oj0oJYhAo4v1VC0kvGE2g=
+X-Google-Smtp-Source: APXvYqxKqXP6cEMjNeM2Km7DWxcxENsU7/roQje6MdVQIFgFObNw+6hD6oZsbuVYUd9rTmxAdZimSw==
+X-Received: by 2002:a17:90a:1aa4:: with SMTP id p33mr30278pjp.27.1561568030787;
+	Wed, 26 Jun 2019 09:53:50 -0700 (PDT)
 Received: from localhost.localdomain ([45.19.219.178])
 	by smtp.gmail.com with ESMTPSA id
-	t11sm15339687pgp.1.2019.06.26.09.53.49
+	t11sm15339687pgp.1.2019.06.26.09.53.50
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 26 Jun 2019 09:53:49 -0700 (PDT)
+	Wed, 26 Jun 2019 09:53:50 -0700 (PDT)
 From: Armin Kuster <akuster808@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 26 Jun 2019 09:53:16 -0700
-Message-Id: <4e40da53851c550f1a38eff5737d4b69c8cd0afb.1561566521.git.akuster808@gmail.com>
+Date: Wed, 26 Jun 2019 09:53:17 -0700
+Message-Id: <d05e98cdccbe36be8906c31249adeb0f0bc13ac5.1561566521.git.akuster808@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <cover.1561566521.git.akuster808@gmail.com>
 References: <cover.1561566521.git.akuster808@gmail.com>
-Subject: [thud][ 15/25] go: update to minor update 1.11.10
+Subject: [thud][ 16/25] wpa_supplicant: Changed systemd template units
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,52 +58,118 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 16:53:49 -0000
+X-List-Received-Date: Wed, 26 Jun 2019 16:53:50 -0000
 
-From: Armin Kuster <akuster@mvista.com>
+From: Joshua DeWeese <jdeweese@hennypenny.com>
 
-Source: golang.org
-MR: 97548,
-Type: Security Fix
-Disposition: Backport from https://github.com/golang/go/issues?q=milestone%3AGo1.11.5
-ChangeID: 54377c454f038a41bf35dd447a784e3e66db6268
-Description:
+I goofed up the scissor line on the last attempt. Not sure how much it matters,
+but here it is correct this time.
 
-Bug fix updates only
-https://golang.org/doc/devel/release.html#go1.11
+Here it is, updated to work with wpa-supplicant_2.6.bb.
 
-Fixes:
-Affects <= 1.11.6
-CVE-2019-6486
-CVE-2019-9741
+-- >8 --
+https://www.freedesktop.org/software/systemd/man/systemd.unit.html#WantedBy=
 
-Signed-off-by: Armin Kuster <akuster@mvista.com>
+When building root filesystems with any of the wpa_supplicant systemd
+template service files enabled (current default is to have them disabled) the
+systemd-native-fake script would not process the line:
+
+Alias=multi-user.target.wants/wpa_supplicant@%i.service
+
+appropriately due the the use of "%i."
+
+According to the systemd documentation "WantedBy=foo.service in a service
+bar.service is mostly equivalent to Alias=foo.service.wants/bar.service in
+the same file." However, this is not really the intended purpose of install
+Aliases.
+
+All lines of the form:
+
+Alias=multi-user.target.wants/*%i.service
+
+Were replaced with the following lines:
+
+WantedBy=multi-user.target
+
+Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Armin Kuster <akuster808@gmail.com>
 ---
- meta/recipes-devtools/go/go-1.11.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ ...place-systemd-install-Alias-with-WantedBy.patch | 52 ++++++++++++++++++++++
+ .../wpa-supplicant/wpa-supplicant_2.6.bb           |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
 
-diff --git a/meta/recipes-devtools/go/go-1.11.inc b/meta/recipes-devtools/go/go-1.11.inc
-index d03e26c..401e71f 100644
---- a/meta/recipes-devtools/go/go-1.11.inc
-+++ b/meta/recipes-devtools/go/go-1.11.inc
-@@ -1,7 +1,7 @@
- require go-common.inc
- 
- GO_BASEVERSION = "1.11"
--GO_MINOR = ".4"
-+GO_MINOR = ".10"
- PV .= "${GO_MINOR}"
- FILESEXTRAPATHS_prepend := "${FILE_DIRNAME}/go-${GO_BASEVERSION}:"
- 
-@@ -19,5 +19,5 @@ SRC_URI += "\
- "
- SRC_URI_append_libc-musl = " file://0009-ld-replace-glibc-dynamic-linker-with-musl.patch"
- 
--SRC_URI[main.md5sum] = "a77697673215be465d1b583680ef2318"
--SRC_URI[main.sha256sum] = "4cfd42720a6b1e79a8024895fa6607b69972e8e32446df76d6ce79801bbadb15"
-+SRC_URI[main.md5sum] = "f2d2e44b9954b827daa8ad4d936a7a82"
-+SRC_URI[main.sha256sum] = "df27e96a9d1d362c46ecd975f1faa56b8c300f5c529074e9ea79bdd885493c1b"
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+new file mode 100644
+index 0000000..a476cf0
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-replace-systemd-install-Alias-with-WantedBy.patch
+@@ -0,0 +1,52 @@
++From 94c401733a5a3d294cc412671166e6adfb409f53 Mon Sep 17 00:00:00 2001
++From: Joshua DeWeese <jdeweese@hennypenny.com>
++Date: Wed, 30 Jan 2019 16:19:47 -0500
++Subject: [PATCH] replace systemd install Alias with WantedBy
++
++According to the systemd documentation "WantedBy=foo.service in a
++service bar.service is mostly equivalent to
++Alias=foo.service.wants/bar.service in the same file." However,
++this is not really the intended purpose of install Aliases.
++
++Upstream-Status: Submitted [hostap@lists.infradead.org]
++
++Signed-off-by: Joshua DeWeese <jdeweese@hennypenny.com>
++---
++ wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in | 2 +-
++ wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in   | 2 +-
++ wpa_supplicant/systemd/wpa_supplicant.service.arg.in         | 2 +-
++ 3 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
++index 03ac507..da69a87 100644
++--- a/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
+++++ b/wpa_supplicant/systemd/wpa_supplicant-nl80211.service.arg.in
++@@ -12,4 +12,4 @@ Type=simple
++ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-nl80211-%I.conf -Dnl80211 -i%I
++ 
++ [Install]
++-Alias=multi-user.target.wants/wpa_supplicant-nl80211@%i.service
+++WantedBy=multi-user.target
++diff --git a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
++index c8a744d..ca3054b 100644
++--- a/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
+++++ b/wpa_supplicant/systemd/wpa_supplicant-wired.service.arg.in
++@@ -12,4 +12,4 @@ Type=simple
++ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-wired-%I.conf -Dwired -i%I
++ 
++ [Install]
++-Alias=multi-user.target.wants/wpa_supplicant-wired@%i.service
+++WantedBy=multi-user.target
++diff --git a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
++index 7788b38..55d2b9c 100644
++--- a/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
+++++ b/wpa_supplicant/systemd/wpa_supplicant.service.arg.in
++@@ -12,4 +12,4 @@ Type=simple
++ ExecStart=@BINDIR@/wpa_supplicant -c/etc/wpa_supplicant/wpa_supplicant-%I.conf -i%I
++ 
++ [Install]
++-Alias=multi-user.target.wants/wpa_supplicant@%i.service
+++WantedBy=multi-user.target
++-- 
++2.7.4
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
+index aa4c4c2..c92ed4a 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.6.bb
+@@ -33,6 +33,7 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz  \
+            file://key-replay-cve-multiple7.patch \
+            file://key-replay-cve-multiple8.patch \
+            file://wpa_supplicant-CVE-2018-14526.patch \
++           file://0001-replace-systemd-install-Alias-with-WantedBy.patch \
+           "
+ SRC_URI[md5sum] = "091569eb4440b7d7f2b4276dbfc03c3c"
+ SRC_URI[sha256sum] = "b4936d34c4e6cdd44954beba74296d964bc2c9668ecaa5255e499636fe2b1450"
 -- 
 2.7.4
 
