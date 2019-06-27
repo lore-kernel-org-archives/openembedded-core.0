@@ -1,55 +1,49 @@
-Return-Path: <matt@madison.systems>
-Received: from mail-lf1-f65.google.com (mail-lf1-f65.google.com
-	[209.85.167.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 120617E69E
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 2A6287E7D1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 11:34:51 +0000 (UTC)
-Received: by mail-lf1-f65.google.com with SMTP id u10so1296425lfm.12
+	Thu, 27 Jun 2019 12:28:57 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id a15so5545861wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 04:34:53 -0700 (PDT)
+	Thu, 27 Jun 2019 05:28:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=madison-systems.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=85MA428SWhxcUp5d7WRXTHv/q6O4ZfTJW/iYd7+geOo=;
-	b=jrjtlcm891WHelnDaOyTTT2msvh2Nb7AEadgGB599UY/0ekfyg8OKeH7OazJ8zIO3M
-	qSA4zArDo37TPvdVt1M/Vc4TRtmQA6dHblFgTG5CWcU3o3pgs2af97rkas3uYmRpKPGf
-	lwHUlS8MnUyvSUPA11vjtA1NVgtH2lvXrlQKlO++oKxuFY8vb2icPOwVv2G6/HPb2q1f
-	2I/t6dk6K4U6SedCo6qSIRaIK3VlVjsRLH5/LR/oXA1cTgNNAPtBoyWICGj/I9+VNguK
-	yt184TuV+6Y0RkwZeeCIgtNs5v2zipiSJWup5CFwJaGks1K67sUbnBcp1HlzMo7d2nVj
-	N7cQ==
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=s/Rhgsp4M0bD57MKHQoBfJ700FdE6BXkaanEakDxsVw=;
+	b=lMdbvtjMUXZkKZwPd6KUv6AIfFuAqrAH7JC87+HdJRUqYoK/eBSoGth0HOTdQKgdLm
+	5QdorAi7wjW+x8pFlEaFo9hMwrcnJU0BpKCTCvb8+JbDwGky0YkJ/mh0cg8qOHH/TcAc
+	v8vOHtdL74cJOARBJc9UzphNFOimjRkKsRClNoa8IFoBo0ADyJLQ4+BnEq9+W8lui5Op
+	+mG3mp11s680MQl3ZLHrr8iiGo2BVryu+qJrkb5R2OliXDBm1DVJQg423LZIqXHV/ogr
+	TJIYN+a7cfd6rdePXyjiRZdsPSM6sckIrxROUl7oPdzm+6OOs63U2hI4aPNkKhfRJhLU
+	3eUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=85MA428SWhxcUp5d7WRXTHv/q6O4ZfTJW/iYd7+geOo=;
-	b=ZyPMEMfayPdygSxTiKU4ymArODPL2Y96G4h3EM7bYRnKrsQQDmlmWhyc8BJtNE57lv
-	sWEedwRaaP+YCWzm2H2AVjVCPFlSgS3LEPfQ4oTcnXK9S23ymggjytWzSaRuI49xsczm
-	hFmaGt88GdY7U8br2p9OPgSjf+6RTzoBVZfC7Wa5SpCVWsQGug+ARQpOaV7iG+S0/A/1
-	3Giia+/UoX/lX5EPs35/Y0IQPBman+wqeXzfU9r8uu8jgLGpdN+afCJvBsJeIzkLC9e0
-	1W7DAJH0YqXWwm6hZsv4DemyxeDptSjEXGpZXGG61S4MAmGCXVDroWeNSu1YV6PLgiW3
-	R68A==
-X-Gm-Message-State: APjAAAXtUemYfMHjy/PYpdCInRMQo4/jjMytLyHpUquBAAvoUoHv9tZZ
-	5bRudOUqPXRzQa90SPPWX1KTQ6e1oftSooCbYIMufg==
-X-Google-Smtp-Source: APXvYqz3T+LG6Jz11UEqB+vjd708zBaWZUBNs7RmSlGLUTVzZ+F15mOJNh7dl5zoKRdtvg48/TjekMbfz8kh/jfHF/8=
-X-Received: by 2002:a19:41c8:: with SMTP id o191mr1792189lfa.83.1561635292394; 
-	Thu, 27 Jun 2019 04:34:52 -0700 (PDT)
-MIME-Version: 1.0
-References: <20180304210937.29727-1-matt@madison.systems>
-	<20180304210937.29727-7-matt@madison.systems>
-	<5D0C9F8B.8060109@windriver.com>
-	<CAGgRHJoXVPEq-L9iHniD9mQtvC3CGq3-jP7NincOx1gVqCps3g@mail.gmail.com>
-	<5D1335A3.6060508@windriver.com>
-	<CAGgRHJozBOK+JH3uFQ-=utkTk97Gqg0N1yH2vdgC8-z6cQwUNA@mail.gmail.com>
-	<5D1465AA.2050401@windriver.com>
-In-Reply-To: <5D1465AA.2050401@windriver.com>
-From: Matt Madison <matt@madison.systems>
-Date: Thu, 27 Jun 2019 04:34:41 -0700
-Message-ID: <CAGgRHJqHLmiga8CAj7od2OuqRc2MKcnc0cGuXFc1SgMSOMrGGQ@mail.gmail.com>
-To: "Yu, Mingli" <mingli.yu@windriver.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH v5 06/13] go.bbclass: ptest cleanup and improvements
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=s/Rhgsp4M0bD57MKHQoBfJ700FdE6BXkaanEakDxsVw=;
+	b=Mr9Y+y9Jwml+tXT8bdgD+qq+iOGOcxnNrkapx9Koop9NHA19WL+OiiUDtfkeJw8wzI
+	2MbIF9dW2q2VWTjGZQ0OEBsVtmS2OujUUUZgdNZw/8LWJLPEbpdvEBs/sHVpyRIeM2Q1
+	VQNpGi500d9lULVwMU3d7156nWXT2QNxcXZjmP5qVdak4ZVRe6uXHSAVsSqNgfRO8Xc7
+	X1aoM85GmxhC6okhvGmYuuiyuUKuEa3xsmvyddYtLy0E+iF/v+GgyKqY5uSzoCEqfTnV
+	9EQtPKFIH8CuO5q78i4npG3N/IXk39WDcHrujHYaaWCS+A7F7gKl9cjWvuwgbqPFZPjv
+	o5HA==
+X-Gm-Message-State: APjAAAWrZWO1khtyNNUYZLcRTeSBpMGaZELxdkLGLBNoj08IM9cnvvsz
+	NBl5qEtMvL2lTFbesCDN3UouogpRbc8=
+X-Google-Smtp-Source: APXvYqwXQ5kqOk4ytcKbHLoErnH5nxOQ6o6E2HucGBstxJz8wMC8THvDf3Kx8ytlqY1D3qD3Ym/tQQ==
+X-Received: by 2002:a1c:96c7:: with SMTP id y190mr2821271wmd.87.1561638538369; 
+	Thu, 27 Jun 2019 05:28:58 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id f2sm1371248wrq.48.2019.06.27.05.28.56
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Jun 2019 05:28:57 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Jun 2019 13:28:53 +0100
+Message-Id: <20190627122854.28435-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] buildhistory: write the contents of the sysroot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -62,129 +56,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 11:34:52 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Thu, 27 Jun 2019 12:28:58 -0000
 
-On Wed, Jun 26, 2019 at 11:40 PM Yu, Mingli <mingli.yu@windriver.com> wrote=
-:
->
->
->
-> On 2019=E5=B9=B406=E6=9C=8826=E6=97=A5 22:00, Matt Madison wrote:
-> > On Wed, Jun 26, 2019 at 2:02 AM Yu, Mingli <mingli.yu@windriver.com> wr=
-ote:
-> >>
-> >>
-> >>
-> >> On 2019=E5=B9=B406=E6=9C=8825=E6=97=A5 20:23, Matt Madison wrote:
-> >>> On Fri, Jun 21, 2019 at 2:08 AM Yu, Mingli <mingli.yu@windriver.com> =
-wrote:
-> >>>>
-> >>>> Hi Matt,
-> >>>>
-> >>>> I noticed your commit is the latest update for go-dep ptest. But the
-> >>>> go-dep ptest doesn't work in my environment. I'm trying to figure ou=
-t
-> >>>> what's wrong is here though I didn't know much about go.
-> >>>
-> >>> I went back over the commits, and I don't think I did anything with
-> >>> go-dep specifically. I can see that the tests are failing for it, and
-> >>> it looks like it's because go-dep's test programs make some
-> >>> assumptions about the environment.  For one thing, it needs the go
-> >>> compiler installed. It also looks like it's expecting some source
-> >>> files to be present... in other words, it's not really designed for a
-> >>> cross-build setup, with tests run on the cross-built target. It could
-> >>> be messy to work around that, and I'm not sure how useful it would be
-> >>> anyway, seeing as how go-dep is more of a build tool.  Might be bette=
-r
-> >>> to just disable ptests for it completely.
-> >>
-> >> Many thanks Matt for your information!
-> >> Did you ever run go-dep ptest?
-> >> Go through the run-ptest script for go-dep, it actually runs the
-> >> /usr/lib64/go-dep/ptest/github.com/golang/dep/cmd/dep/dep.test whose
-> >> source file is
-> >> https://github.com/golang/dep/blob/master/cmd/dep/dep_test.go.
-> >
-> > Yes, I see that.  That main program starts by rebuilding the dep
-> > program from source, then runs the tests using that copy of the
-> > program, so it's assuming that you're still in a development
-> > environment where you can run a full go build.  That's what I meant by
-> > it not being designed for a cross-build setup.
-> >
-> > I've patched the test program to create a symlink to the installed dep
-> > program instead of rebuilding, and got further.  You'll need to
-> > include 'go', 'git', and 'git-perltools' in the image to get the tests
-> > to run. Some of the test cases failed until I set GOCACHE in the
-> > environment to point to a valid path; I'm not sure why.  The tests
-> > took a long time to run on my qemux86 build, though - at least 30
-> > minutes.
->
-> Thanks very much for Matt's guide!
->
-> I have applied the patch you provide to create a symlink to the
-> installed dep program instead of rebuilding and also add go', 'git', and
-> 'git-perltools' into the image, but there is no PASS case, all failed as
-> attached go-dep_ptest.log.
+Changes to the sysroot as just as interesting during development, so write the
+file listing for the sysroot to buildhistory too.
 
-The device under test needs Internet access to fetch repos from
-Github. From the log, it looks like perhaps yours didn't?
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/buildhistory.bbclass | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
->
-> BTW, you said you set GOCACHE, what's the valid path do you mean?
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index 2e501df24b4..baa7c8e2799 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -60,15 +60,23 @@ SSTATEPOSTUNPACKFUNCS[vardepvalueexclude] .= "| buildhistory_emit_outputsigs"
+ # When extending build history, derive your class from buildhistory.bbclass
+ # and extend this list here with the additional files created by the derived
+ # class.
+-BUILDHISTORY_PRESERVE = "latest latest_srcrev"
++BUILDHISTORY_PRESERVE = "latest latest_srcrev sysroot"
+ 
+ PATCH_GIT_USER_EMAIL ?= "buildhistory@oe"
+ PATCH_GIT_USER_NAME ?= "OpenEmbedded"
+ 
++buildhistory_emit_sysroot() {
++	mkdir --parents ${BUILDHISTORY_DIR_PACKAGE}
++	buildhistory_list_files ${SYSROOT_DESTDIR} ${BUILDHISTORY_DIR_PACKAGE}/sysroot
++}
++
+ #
+ # Write out metadata about this package for comparison when writing future packages
+ #
+ python buildhistory_emit_pkghistory() {
++    if d.getVar('BB_CURRENTTASK') in ['populate_sysroot', 'populate_sysroot_setscene']:
++        bb.build.exec_func("buildhistory_emit_sysroot", d)
++
+     if not d.getVar('BB_CURRENTTASK') in ['packagedata', 'packagedata_setscene']:
+         return 0
+ 
+-- 
+2.11.0
 
-Any directory that the user has write access to.  The default is
-$HOME/.cache/go-build .
-
--M
-
->
-> Thanks,
->
-> >
-> > Here's the patch I applied to use the already-built dep binary.  An
-> > alternative approach would be to put everything in place to allow the
-> > test program to rebuild the dep binary itself, but that would drive up
-> > the time for the test run even further.
-> >
-> > Regards,
-> > -Matt
-> >
-> > ---
-> >   cmd/dep/dep_test.go | 13 +++++++++----
-> >   1 file changed, 9 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/src/github.com/golang/dep/cmd/dep/dep_test.go
-> > b/src/github.com/golang/dep/cmd/dep/dep_test.go
-> > index 687eef3a..535ca56d 100644
-> > --- a/src/github.com/golang/dep/cmd/dep/dep_test.go
-> > +++ b/src/github.com/golang/dep/cmd/dep/dep_test.go
-> > @@ -18,13 +18,18 @@ import (
-> >   // deletes it after the tests have been run.
-> >   // Most of this is taken from
-> > https://github.com/golang/go/blob/master/src/cmd/go/go_test.go and
-> > reused here.
-> >   func TestMain(m *testing.M) {
-> > - args :=3D []string{"build", "-o", "testdep" + test.ExeSuffix}
-> > - out, err :=3D exec.Command("go", args...).CombinedOutput()
-> > + args :=3D []string{"dep"}
-> > + out, err :=3D exec.Command("which", args...).CombinedOutput()
-> >    if err !=3D nil {
-> > - fmt.Fprintf(os.Stderr, "building testdep failed: %v\n%s", err, out)
-> > + fmt.Fprintf(os.Stderr, "finding dep failed: %v\n%s", err, out)
-> > + os.Exit(2)
-> > + }
-> > + args =3D []string{"-s", string(out[:len(out)-1]), "testdep" + test.Ex=
-eSuffix}
-> > + out, err =3D exec.Command("ln", args...).CombinedOutput()
-> > + if err !=3D nil {
-> > + fmt.Fprintf(os.Stderr, "symlinking dep failed: %v\n%s", err, out)
-> >    os.Exit(2)
-> >    }
-> > -
-> >    // Don't let these environment variables confuse the test.
-> >    os.Unsetenv("GOPATH")
-> >    os.Unsetenv("GIT_ALLOW_PROTOCOL")
-> >
 
