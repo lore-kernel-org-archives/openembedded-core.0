@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
-	[209.85.167.67])
-	by mail.openembedded.org (Postfix) with ESMTP id C05E87E985
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id F0E7E7E951
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 15:31:30 +0000 (UTC)
-Received: by mail-lf1-f67.google.com with SMTP id y198so1888834lfa.1
+	Thu, 27 Jun 2019 15:33:05 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id v24so2788087ljg.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 08:31:32 -0700 (PDT)
+	Thu, 27 Jun 2019 08:33:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=6/F/nXL85QEeAYgZ+oP/OVPtKPKULe4eDxpTLl8A79k=;
-	b=pbBHdOKp0XLdtD6ZKPWhzKmG1XbZXDAwNIah3Q5ZlGVORMYcgRQGChCBPVcSeAMbkY
-	JfviivwyoWYNLlFk3VK5I6g894XJVdp+d/aUHYNMj/JxIXSDi3C9Fd33+hGC6d9EFhB0
-	nZEh+U5xVv3yo+NJcr2PC7jHC8AjH+UMYvx0t5tpDqjiy1L/WttvkVDPDLrkUarwQM42
-	p0eOh7IGoSP5BsMDEGfEJ0eDtdJTgEBVIcEKOgWqz13qWBcKtTj/DQeCrTEJP4226qKM
-	c7S/LSdnMLZcgEZ566ajqbhcibGEWh+jdKLrmejh7FD58Els4/eokEroxNWkScPHETRT
-	nV1A==
+	bh=My0pos370m/SUScdvGxtp+ki2hPnM1gw89GvlHT+tlI=;
+	b=HyKw+e3DwWbpX4Z3KFoqf84G8zBx28FplnAAC7Uh0N+i7tVYLUTUpklXIgRpk/o+aT
+	s9RpS99acMKnh1BJT1CcNX+uUvMuoSVKHTYB0byKZYnTqeRVFWkRM+Dqdtn05VXGzQnQ
+	9kXyfbnQ/eidhFSgp6CF8j8I2duiDWwKlXW/ZthhTxZ9gfVuo4Z5e8YmglFCPi7YtD4k
+	OJD5fFhW4FHILO0wnc+CnPFLHyYTwt7RM8SpoNxWGmUSOwnn/socQGFBwZIDjwSaFPhC
+	eQGf5N90xKvcitnvrbpHWPADzGwYTNpQprlNK8em47X0QDKga9DZkXUrrboIiSnDM63v
+	CRJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=6/F/nXL85QEeAYgZ+oP/OVPtKPKULe4eDxpTLl8A79k=;
-	b=j9WtOcdLch+GTmoG53Qwbuh6qQLJCmVRP0pluw9B2Qis6kRv9EXwiHeEpi4fmUYfIi
-	dOhvRanWlL6VwPp/ULCeJ9O/VSRXZmsHb7AXp06NmMlwcGXpKevxZ43gpN4D7BdW7lx8
-	7ovJuEXWkc8p+dSPl1LkdJ3Pbk72qOzEohV1KR9YcUDRmXzBb8S3HLGDg2IhpQpljCD4
-	9aFRERG30en4lfS7OyJtNXCzHnYqQC/grXfQQqYwMWGekbnVy3JbQtpgShNGWMbhchVA
-	R0Hu+ktnSFlH/KcT5RbZ/oh4XvjCyySNulyq/caOR0b4DKfFj3wA6wLS6HKI5jTg5iea
-	l2hg==
-X-Gm-Message-State: APjAAAUIrolx2MKBArg/Ybm7eBcXbDagG5zYquxXy0ouSgOzaIKAxz1P
-	0tSop7KWZm6999aK2CxnwD5F3LVJ5BU=
-X-Google-Smtp-Source: APXvYqwMLw7eBjQldmxkUvZ2FxZEZwdG3+5sQnoZbPxZL+/YCOrkEfiYKRssG0/Xir8howg7TB+2Zg==
-X-Received: by 2002:ac2:5609:: with SMTP id v9mr2304887lfd.27.1561649491019;
-	Thu, 27 Jun 2019 08:31:31 -0700 (PDT)
+	bh=My0pos370m/SUScdvGxtp+ki2hPnM1gw89GvlHT+tlI=;
+	b=CCDniAAb7ru5WscwIKGRn6F+GsqsmJy2CxoPqt29I6H+iyqFHB53ka0cjbSBIZoXoS
+	ToQWKZaqASWhBD5o88kyzE7Pvz/8lQocUa8pdC8LoXErnWwg3z9GPHuV48aaIwoCfdZr
+	XS6szvyCbzRSg0FoUZ9jhuufxLWSovW9HMGOvvLnKMMOEei4q9EJGGZpOvcFLX0LVoLx
+	cAhtlvw08cREQPkfceOQxozWGEjIhTYTHWoZEzSl5dHH0mp5cVf5UqSS23TVlT2MWTPL
+	CwGK1nS5HsYY2HWYYYvD0bKIchFYNiZ7Bvcldlv3WQd0ElRYKLvUhqBLVyML3JIES3Y9
+	+P2Q==
+X-Gm-Message-State: APjAAAUR/vYmm0xvFGe/fNiBgfTwI9vvs/FltQlja3J5KeO6fk/qLEGj
+	sfPCNq5ake9evM7ZnuelmMffNyFkQow=
+X-Google-Smtp-Source: APXvYqzLnoRsflILf++4UpM404wOOiFMum15B5I4WKnzDPtgnkdZ3LsvsPMe9/GslbjxfQrlOni2xA==
+X-Received: by 2002:a2e:9a87:: with SMTP id p7mr2981468lji.133.1561649586177; 
+	Thu, 27 Jun 2019 08:33:06 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	h131sm451999lfe.80.2019.06.27.08.31.30
+	[83.252.117.108])
+	by smtp.gmail.com with ESMTPSA id c15sm479653lja.79.2019.06.27.08.33.05
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 27 Jun 2019 08:31:30 -0700 (PDT)
+	Thu, 27 Jun 2019 08:33:05 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2019 17:31:28 +0200
-Message-Id: <20190627153128.11535-1-open.source@oleksandr-kravchuk.com>
+Date: Thu, 27 Jun 2019 17:33:03 +0200
+Message-Id: <20190627153303.24445-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libinput: update to 1.13.3
+Subject: [PATCH] libxi: update to 1.7.10
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +56,32 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 15:31:31 -0000
+X-List-Received-Date: Thu, 27 Jun 2019 15:33:06 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../wayland/{libinput_1.13.2.bb => libinput_1.13.3.bb}        | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/wayland/{libinput_1.13.2.bb => libinput_1.13.3.bb} (86%)
+ .../xorg-lib/{libxi_1.7.9.bb => libxi_1.7.10.bb}             | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{libxi_1.7.9.bb => libxi_1.7.10.bb} (81%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.13.2.bb b/meta/recipes-graphics/wayland/libinput_1.13.3.bb
-similarity index 86%
-rename from meta/recipes-graphics/wayland/libinput_1.13.2.bb
-rename to meta/recipes-graphics/wayland/libinput_1.13.3.bb
-index 049674c098..87e25ab70b 100644
---- a/meta/recipes-graphics/wayland/libinput_1.13.2.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.13.3.bb
-@@ -8,8 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=1f2ea9ebff3a2c6d458faf58492efb63"
- DEPENDS = "libevdev udev mtdev"
+diff --git a/meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb b/meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb
+similarity index 81%
+rename from meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb
+rename to meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb
+index ab49cdba3f..5a08e07362 100644
+--- a/meta/recipes-graphics/xorg-lib/libxi_1.7.9.bb
++++ b/meta/recipes-graphics/xorg-lib/libxi_1.7.10.bb
+@@ -17,8 +17,7 @@ PE = "1"
  
- SRC_URI = "http://www.freedesktop.org/software/${BPN}/${BP}.tar.xz"
--SRC_URI[md5sum] = "8b745894f5d1b2e883bfc686aebadcfe"
--SRC_URI[sha256sum] = "1d9fa0698348dea46f75321d98788f8ac7181c069b70c4d10736910a12bb6a6d"
-+SRC_URI[md5sum] = "0205d720ae0b1caef1faeb4bba7f8c0f"
-+SRC_URI[sha256sum] = "f3ff113023a28631d83971c059c1f3057d51a90aa3746428776f3b3462131092"
+ XORG_PN = "libXi"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+-SRC_URI[md5sum] = "1f0f2719c020655a60aee334ddd26d67"
+-SRC_URI[sha256sum] = "c2e6b8ff84f9448386c1b5510a5cf5a16d788f76db018194dacdc200180faf45"
++SRC_URI[md5sum] = "62c4af0839072024b4b1c8cbe84216c7"
++SRC_URI[sha256sum] = "36a30d8f6383a72e7ce060298b4b181fd298bc3a135c8e201b7ca847f5f81061"
  
+ BBCLASSEXTEND = "native nativesdk"
+-
 -- 
 2.17.1
 
