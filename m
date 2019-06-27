@@ -1,50 +1,24 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id C149A6C106
+Return-Path: <Hongzhi.Song@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5CF1C7C37F
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 07:31:37 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id p11so1260418wre.7
+	Thu, 27 Jun 2019 08:23:39 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5R8NEPn008419
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 00:31:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=zMkkClsNaX5iXCCjkKxhJ+m3CyH2FALCS/RV3c89+sA=;
-	b=SU7iWe9cJxAILbdS0mLmPzWnfpaFrAd3gzP3A+Ud+HmSq2F2c3DqCRvyMpvKdOdtlj
-	eXmaqRXD8A3ycCXp+gGCmciYofdVjTcV7FjjGG9sRGGq6WBHtmbPZ2RjRdtg1yd5FbCa
-	9Gm1+tb6kOvXlZ/fKD4w+YKF8PJ0i2rsT4Iao=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=zMkkClsNaX5iXCCjkKxhJ+m3CyH2FALCS/RV3c89+sA=;
-	b=oi+6QL2Xnx62QdrDPjgY5zudUa6BTrtKz1w2rmGEM12MaVDw4cVCj01/Yu58gYptup
-	MQkdNl+I8e8GKU+X5VTr4hxXqQrSu4AmszDpIbKf43OP6enUdoNvrDSEGlcqDlYoRCHA
-	FPCxrgvNpUtNtWUFbjZF6k2UTPObd9paMd1YhmAy5b52+LJhhbJXqEvNRHZDGV34V6Ar
-	op0xI2VocOaqIjdCWN/hzIW5zx8b74Tv8+RldOZOnWrcPLEc9BuBZhlcurKWmu0rlxAw
-	hS2jabWbcenpC1tkry3oB7bhDA/oVpjAEcNNS73j8P+dc2x9XIqoqvQzbGLSojUeg/RZ
-	EYLA==
-X-Gm-Message-State: APjAAAV0qrAzRl/zZSxsuq8psmLj4crn1WiOzely6rn+bfMg8SH2QGPA
-	9OG31qp80p5F1JZ0Iqutkyqo4w==
-X-Google-Smtp-Source: APXvYqyfaX4KjbGGq3JquorQTy/c6eLgBXsFdHUxgYlHVdUQwBwzHeCRkUxWQChdrIh5pp6aJDtx0A==
-X-Received: by 2002:a5d:4647:: with SMTP id j7mr1948908wrs.334.1561620698494; 
-	Thu, 27 Jun 2019 00:31:38 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id j4sm1044552wrx.57.2019.06.27.00.31.37
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 27 Jun 2019 00:31:37 -0700 (PDT)
-Message-ID: <065a68d75756f3afbc07d2229e307969cd4de386.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Pierre Le Magourou <lemagoup@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2019 08:31:36 +0100
-In-Reply-To: <20190619135940.18544-1-lemagoup@gmail.com>
-References: <20190619135940.18544-1-lemagoup@gmail.com>
-User-Agent: Evolution 3.32.2-1 
+	Thu, 27 Jun 2019 01:23:30 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Thu, 27 Jun 2019 01:23:06 -0700
+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Jun 2019 01:23:06 -0700
+Message-ID: <20190627082306.56720-1-hongzhi.song@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
+Subject: [meta][PATCH] ltp: fix shmctl01 failure when executed.
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,79 +31,123 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 07:31:38 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 27 Jun 2019 08:23:39 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On Wed, 2019-06-19 at 15:59 +0200, Pierre Le Magourou wrote:
-> From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
-> 
-> cve-check-tool-native do_populate_cve_db task was using deprecated
-> NVD
-> xml data feeds, cve-update-db uses NVD json data feeds.
-> 
-> Sqlite database schema was updated to take into account CVSSv3 CVE
-> scores and operator in affected product versions.
-> A new META table was added to store the last modification date of the
-> NVD json data feeds.
-> 
-> Signed-off-by: Pierre Le Magourou <
-> pierre.lemagourou@softbankrobotics.com>
-> ---
->  meta/recipes-core/meta/cve-update-db.bb | 121
-> ++++++++++++++++++++++++++++++++
->  1 file changed, 121 insertions(+)
->  create mode 100644 meta/recipes-core/meta/cve-update-db.bb
-> 
-> diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-
-> core/meta/cve-update-db.bb
-> new file mode 100644
-> index 0000000000..522fd23807
-> --- /dev/null
-> +++ b/meta/recipes-core/meta/cve-update-db.bb
-> @@ -0,0 +1,121 @@
-> +SUMMARY = "Updates the NVD CVE database"
-> +LICENSE = "MIT"
-> +
-> +INHIBIT_DEFAULT_DEPS = "1"
-> +PACKAGES = ""
-> +
-> +inherit nopackages
-> +
-> +deltask do_fetch
-> +deltask do_unpack
-> +deltask do_patch
-> +deltask do_configure
-> +deltask do_compile
-> +deltask do_install
-> +deltask do_populate_sysroot
-> +
-> +python do_populate_cve_db() {
-> +    """
-> +    Update NVD database with json data feed
-> +    """
-> +
-> +    import sqlite3, urllib3, shutil, gzip, re
-> +    from datetime import date
-> +
-> +    BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
-> +    YEAR_START = 2002
-> +    JSON_TMPFILE = d.getVar("CVE_CHECK_DB_DIR") + '/nvd.json.gz'
+schmctl01 fails with following error:
+[shmctl01    5  TFAIL  :  shmctl01.c:171: shmctl01 call failed - errno =
+22 : Invalid argument]
 
-It looks like CVE_CHECK_DB_DIR has no default value which resulted in:
+Backport the patch from upstream can fix it.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/988/steps/7/logs/step1b
+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
+---
+ ...se-hardcoded-index-0-for-SHM_STAT-te.patch | 81 +++++++++++++++++++
+ meta/recipes-extended/ltp/ltp_20190115.bb     |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-extended/ltp/ltp/0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
 
-We only started seeing that error after your later patch to add back
-the do_fetch task. build-appliance is trying to collect up all the
-sources it may need.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/recipes-extended/ltp/ltp/0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch b/meta/recipes-extended/ltp/ltp/0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
+new file mode 100644
+index 0000000000..d837f073a9
+--- /dev/null
++++ b/meta/recipes-extended/ltp/ltp/0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch
+@@ -0,0 +1,81 @@
++From db0a43d9388be2c347a8306751bbe6bec086d062 Mon Sep 17 00:00:00 2001
++From: Jan Stancek <jstancek@redhat.com>
++Date: Mon, 20 May 2019 20:47:20 +0200
++Subject: [PATCH] shmctl01: don't use hardcoded index == 0 for SHM_STAT test
++
++Test fails on SHM_STAT testcase:
++   shmctl01    5  TFAIL  :  shmctl01.c:173: shmctl01 call failed
++                            errno = 22 : Invalid argument
++   shmctl(0, SHM_STAT, 0x601060)           = -EINVAL
++
++since following commit:
++   commit 99db46ea292780cd978d56932d9445b1e8bdafe8
++   Author: Manfred Spraul <manfred@colorfullife.com>
++   Date:   Tue May 14 15:46:36 2019 -0700
++     ipc: do cyclic id allocation for the ipc object.
++
++Don't rely on index 0 being always available, but instead
++use (maximum) index returned by SHM_INFO.
++
++Signed-off-by: Jan Stancek <jstancek@redhat.com>
++Reviewed-by: Petr Vorel <pvorel@suse.cz>
++Acked-by: Cyril Hrubis <chrubis@suse.cz>
++
++Upstream-Status: Backport from v20190517
++[https://lists.linux.it/pipermail/ltp/2019-May/012051.html]
++
++Signed-off-by: Hongzhi Song <hongzhi.song@windriver.com>
++---
++ testcases/kernel/syscalls/ipc/shmctl/shmctl01.c | 21 ++++++++++++++++++---
++ 1 file changed, 18 insertions(+), 3 deletions(-)
++
++diff --git a/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c b/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
++index 1b46977..52bf23a 100644
++--- a/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
+++++ b/testcases/kernel/syscalls/ipc/shmctl/shmctl01.c
++@@ -79,6 +79,7 @@ static void func_info(int ret);
++ 
++ /* Check routine for SHM_STAT */
++ static void func_sstat(int ret);
+++static void func_sstat_setup(void);
++ 
++ /* Check routine for SHM_LOCK */
++ static void func_lock(int ret);
++@@ -110,7 +111,7 @@ static struct test_case_t {
++ #endif
++ 	{&shm_id_1, IPC_SET, &buf, func_set, set_setup},
++ 	{&shm_id_1, IPC_INFO, (struct shmid_ds *) &info, func_info, NULL},
++-	{&shm_index, SHM_STAT, &buf, func_sstat, NULL},
+++	{&shm_index, SHM_STAT, &buf, func_sstat, func_sstat_setup},
++ 	{&shm_id_1, SHM_LOCK, NULL, func_lock, NULL},
++ 	{&shm_id_1, SHM_UNLOCK, NULL, func_unlock, NULL},
++ 	{&shm_id_1, IPC_RMID, NULL, func_rmid, NULL},
++@@ -407,9 +408,23 @@ static void func_info(int ret)
++ static void func_sstat(int ret)
++ {
++ 	if (ret >= 0)
++-		tst_resm(TPASS, "get correct shared memory id");
+++		tst_resm(TPASS, "get correct shared memory id for index: %d",
+++			shm_index);
++ 	else
++-		tst_resm(TFAIL, "shared memory id is incorrect");
+++		tst_resm(TFAIL, "shared memory id is incorrect, index: %d",
+++			shm_index);
+++}
+++
+++static void func_sstat_setup(void)
+++{
+++	struct shm_info tmp;
+++	int ret;
+++
+++	ret = shmctl(shm_id_1, SHM_INFO, (void *)&tmp);
+++	if (ret < 0)
+++		tst_resm(TFAIL|TERRNO, "shmctl(SHM_INFO)");
+++	else
+++		shm_index = ret;
++ }
++ 
++ static void func_lock(int ret)
++-- 
++2.8.1
++
+diff --git a/meta/recipes-extended/ltp/ltp_20190115.bb b/meta/recipes-extended/ltp/ltp_20190115.bb
+index 1d0c00b64b..e91dea2f19 100644
+--- a/meta/recipes-extended/ltp/ltp_20190115.bb
++++ b/meta/recipes-extended/ltp/ltp_20190115.bb
+@@ -50,6 +50,7 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
+            file://define-sigrtmin-and-sigrtmax-for-musl.patch \
+            file://setregid01-security-string-formatting.patch \
+            file://0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch \
++		   file://0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
+            "
+ 
+ S = "${WORKDIR}/git"
+-- 
+2.21.0
 
 
