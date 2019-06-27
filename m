@@ -1,50 +1,52 @@
 Return-Path: <jpewhacker@gmail.com>
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
-	[209.85.210.193])
-	by mail.openembedded.org (Postfix) with ESMTP id F27DD7D674
+Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com
+	[209.85.210.195])
+	by mail.openembedded.org (Postfix) with ESMTP id ADEF27E90C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 13:54:45 +0000 (UTC)
-Received: by mail-pf1-f193.google.com with SMTP id d126so1286515pfd.2
+	Thu, 27 Jun 2019 13:55:43 +0000 (UTC)
+Received: by mail-pf1-f195.google.com with SMTP id d126so1287725pfd.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 06:54:47 -0700 (PDT)
+	Thu, 27 Jun 2019 06:55:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=f/iV/DqpTJL4gawb47vkCH2HWwJkvLhFElVLowieQzU=;
-	b=ihH8zPVBl/Vlsd+1ETKC7YzOCEbIAz7xVUHJqsqRaHOlLWqX3txnmI29JV977WyaG6
-	1WHlCCMM5rXTjo0ohaIh6qXMjGZZW1TjXrhpjTqnNKGPaRe/JdU1ZN6AJMnkhs+OKz4o
-	YqpvKfhVcDGnCIssI7BGIBs7O4Xki+8eXGjhZE1ak2bvn6wQZKiXSAdp3bEqAocnD1Br
-	zXWuXvRbl6dh3Mm3358CBfu8Qzy/ud2YVKmhTHX1X+syWa6vEojzGB8r5iubg0eKbZmh
-	e8+Oyv27I67y3U4gz4qqFlMHLnr/1SmdHxxYPVR/IqabWShA1JwX0Wy+08ctQHwE3/8t
-	74BQ==
+	bh=rxsRI5I6jtYTG8nTO4YrMkZf2rPfALvShF7APw0Y4HE=;
+	b=LhxfiGA25JAcfnmPPkVi2FrtmAd+5mCwbwunMvuMIHgfkT0EPFTD41gvrsXV9uVOXK
+	gcTvPOYXdTmYKFpKdQ3zsf+zvix+QytUWeAMNLF+vxywRIaX/LRtLWrcSLbD2UM8GHm9
+	F8W5VGTr1d8d5SlKkiyOJpG/GK2CcDNwIoA5FZUr0d5BQw2KCHa9u4icK+6KkX6neq0w
+	oGggOrlWkNFVNeAoxfuo5zjcclYZGzVjtcIS757m1unpIaQuebfy6rjDij0FMBJyuXoV
+	8GHQHShpSCeY2I0qCTh9RrvKAI/nR3JaWALnzNF+RY0fnW/fXO3uRBV/x8SHYhNNfn2W
+	JTog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=f/iV/DqpTJL4gawb47vkCH2HWwJkvLhFElVLowieQzU=;
-	b=HZZ727nOqIpoZyTE7/8rPP4tkJWQUDv2VUximLSvVWyfJdvMAkx6XYelMjAYQzKz8p
-	YPmE05HLrVs7Zs337pgOZKBozPGIXP8L1gWypkgaLKmSoFEWKIp4C6vqLIKtBaDQgqG8
-	rivXWNfhxUC4l3e9TqrvFpMrPQlV1HO8C2HW5KTm1RCG97MxPVwKDq2xNCGP7nSWmlMh
-	1YelcFiASM/r25L+6ZaJhUxptzPk5f/NSyqT+MC0CFAQt/TbaqAvXJoAj2HhLkOVSsel
-	IWsNSV7bXoTF/cFcCMdhtCDhzSUXNCQG+jFUYrXnlFhghLnJcNUM5kbRg6H2NXj/VD4B
-	zKrQ==
-X-Gm-Message-State: APjAAAV8CGH1PYwVOktW+vvWERrl0EaiWo5TXMzjeoUZI1J1lwLqvTFv
-	B5Q4RVV/GCbkAFT+vIvALzaVh5Zf
-X-Google-Smtp-Source: APXvYqwYOhe0ao+69+3tnHT1auzncCi0yR+TfdEy7LYliXAm/hpb/2Lsj9kUcnu1rqIVPJ2tKZObDg==
-X-Received: by 2002:a65:6245:: with SMTP id q5mr3845502pgv.394.1561643686656; 
-	Thu, 27 Jun 2019 06:54:46 -0700 (PDT)
+	bh=rxsRI5I6jtYTG8nTO4YrMkZf2rPfALvShF7APw0Y4HE=;
+	b=dU3XEQrVTj8s9HrBQu5DMdolpKtHRk2znQ0ZhpocCBgfQpgZVKx7hSTeIenB0SRAMD
+	yWooP14XUCkv8cPED8R0ZsXsy7ammMuQPK5Guu4KUVHSBXiHwwVOzFiR2xX6G5t9+8y3
+	GqsIbqcGRNbX0n3eaLIsmNWVNULbwpZt6ppxTdt8KEK7XdlQs+9HKOhdG26EuoCih1ge
+	8/+KBa060ZNoZqKxWAchEF2/pD1nSvJemCzbI8KzfDUDfeB61Qg8+9P3+fGYGWIjdw/9
+	Px2u7EEKt4jy9bFSGNviuBK0/F/0NGNwxC72QQ7peHmaIvxRHzf63E11fXqxyIdN07MM
+	6hsA==
+X-Gm-Message-State: APjAAAUQkZLUiKfrstkuppT1hkTrd/W929alhZ92vS+h+3H3jT+BCm0/
+	iQj5TedBmnDlvc9qsXarFb7ByC9z
+X-Google-Smtp-Source: APXvYqyf8JBXNMK9K6h03sTqL+yJqTchOh/pItyXVbEgqBRXEdIkoBOgVY+V7eestQC4m7oP8gNklQ==
+X-Received: by 2002:a17:90a:2305:: with SMTP id
+	f5mr6563437pje.128.1561643744604; 
+	Thu, 27 Jun 2019 06:55:44 -0700 (PDT)
 Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id h1sm2261237pgv.93.2019.06.27.06.54.45
+	by smtp.gmail.com with ESMTPSA id
+	x7sm3140854pfa.125.2019.06.27.06.55.43
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 27 Jun 2019 06:54:46 -0700 (PDT)
+	Thu, 27 Jun 2019 06:55:43 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2019 08:54:40 -0500
-Message-Id: <20190627135440.15815-1-JPEWhacker@gmail.com>
+Date: Thu, 27 Jun 2019 08:55:39 -0500
+Message-Id: <20190627135539.16014-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Subject: [PATCH] glibc: Fix locale DEPENDS
+Subject: [PATCH] openssl: Fix documentation DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,30 +59,31 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 13:54:46 -0000
+X-List-Received-Date: Thu, 27 Jun 2019 13:55:43 -0000
 Content-Transfer-Encoding: 8bit
 
-gettext is required to generate the glibc locales in do_compile. If not
-present, glibc will skip the generation which isn't reproducible.
+perl is required to generate the OpenSSL documentation, and therefore
+should be present at do_compile. If not, OpenSSL will skip the
+documentation generation, which isn't reproducible
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/recipes-core/glibc/glibc_2.29.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1c.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
-index 073d1533e37..c400ee10b0f 100644
---- a/meta/recipes-core/glibc/glibc_2.29.bb
-+++ b/meta/recipes-core/glibc/glibc_2.29.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=cfc0ed77a9f62fa62eded042ebe31d72 \
-       file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
-       file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+index 01174073167..c57626d8f6d 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+@@ -10,6 +10,8 @@ LICENSE = "openssl"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d343e62fc9c833710bbbed25f27364c8"
  
--DEPENDS += "gperf-native bison-native make-native"
-+DEPENDS += "gperf-native bison-native make-native gettext-native"
+ DEPENDS = "hostperl-runtime-native"
++# Perl is required to generate documentation
++DEPENDS_append_class-target = " perl-native"
  
- PV = "2.29"
- 
+ SRC_URI = "http://www.openssl.org/source/openssl-${PV}.tar.gz \
+            file://run-ptest \
 -- 
 2.21.0
 
