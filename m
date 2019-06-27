@@ -1,49 +1,48 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
-	[209.85.208.194])
-	by mail.openembedded.org (Postfix) with ESMTP id C0F5F7E958
+Return-Path: <lemagoup@gmail.com>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 9C3BF7E95A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 14:44:30 +0000 (UTC)
-Received: by mail-lj1-f194.google.com with SMTP id 16so2611950ljv.10
+	Thu, 27 Jun 2019 14:59:31 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id f15so2974237wrp.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 07:44:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	Thu, 27 Jun 2019 07:59:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=cykSeqUunukC2c7mXN51uxCsTGVvvCJIHz8Xzu8GCuY=;
-	b=JFGRGzqSTbFDP9BwLFCBFZ/hS9MbmGGZwbHOl6T1c9OfD2OXMYcs6/8F1ZT2DqSYJz
-	VQdxdfZ4yOk1tGEIfqIlmyEe4PsmngOQgb4Lnt2J1btTcrGkbXbvNR9QCygq4huxELFQ
-	bWt9En2W36kFYy3nzRjjL39LK9VdnX6MH9K2H4fUmyIAiyKXkKBinuB0RxaLp/l1rgl2
-	eEfWrPfnb0HAJUeVc7bZTc6Kj9TBDOdyaO5TXZzzAKMrAQYlEDzd483GCGh4a8J+D1mm
-	NSTt0Ev+xJcreONJEuDbPLJ4yTkW7nwMcfIl+CF9iM9roAIMbXChkLQd6JupqHExmhAt
-	aLLw==
+	bh=ILr3kdPfSqgWxPlVA19ZQjyFB8vW2+5BfRnShqp7kjM=;
+	b=ZC3jKlS50X5eDZxjScMNboOCtXwNPtQJbePBfNIQHqQtfdQQF9ykm3EVjmLj7J7J7U
+	b9AdrVMw6NywZOc437sdvZ6WUSph4lBP9Ki3hBQMjoNXM45hCnTfIYhTvGMFzWZi1NzO
+	laEq847+orS0NKFHl6IU/hzw1bujbhG0VQmyRDZ1JOpjSfiLF+5YbZhQaZ8K9UT1RKmV
+	msN8NRQVQjJy9TVZnK6F4cH/cF0csyf6csWC3fzsLVKNlT11lu+itpcmg19SY+77AoY4
+	lFtaDw21IGcpkNktOnSV/6fy5NsqlGgNHLJVl2mDYvUej61OfmSgeLbm0Gy96/5v2xMr
+	00Lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=cykSeqUunukC2c7mXN51uxCsTGVvvCJIHz8Xzu8GCuY=;
-	b=B516VFr8YHTGp9hufnzN/BW0Rdd0UGhRBAP5wqt+fPBR1VjAmLYW1QoRmC7klouFd3
-	elgI2T1Typqg1m25yjAhxDqRJ/WCAsfGeELsgiMNJazDnj0kXGCtA10MCSZBZ+oj7PKe
-	IbeHrAkjQgzB/FXR8wTyk4FpoNoV0hYrccFeNhhDVzTXh8lRo2DaPQcniHKpA1X3jzHz
-	nyWmqPDvx1D0a2wLs9YJeYZN89ErIjJA2slbzNJhZqs/R4EORmOi3w6rjHPI7+/qweBv
-	Wo2K9Iv2fqKIt7OG7FWKvXgc22IauRBUcifInK5Ut3Ox7eoaNTRQINUODnewulmz3Rj4
-	4tmA==
-X-Gm-Message-State: APjAAAX+tvysFAL2Z8XlbE7D7Q1JtlUpZtVPhOYDOpbkpB9/5ZDFLFG7
-	fSgRXQ5NQ/3hJXaJ2pivNh0kqxvscHE=
-X-Google-Smtp-Source: APXvYqzqtoJUnscaKWhC2hBl15LsX84UUcucJ7inLNPDvxoS+NtYzX+sQzhlT6DpQSxXpPc39HYlCg==
-X-Received: by 2002:a2e:5b1b:: with SMTP id p27mr2788501ljb.97.1561646670945; 
-	Thu, 27 Jun 2019 07:44:30 -0700 (PDT)
-Received: from lund.luxoft.com (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id h3sm483190lja.93.2019.06.27.07.44.29
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 27 Jun 2019 07:44:30 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	bh=ILr3kdPfSqgWxPlVA19ZQjyFB8vW2+5BfRnShqp7kjM=;
+	b=j2luntOYtcaeySmzrWMeJLW8GIqU/xxl9OO1Hsm5+1i/osKPWEJrsnmuPyUclMuGYT
+	0ZkP+tUTzMpLdXR56nAGRMUAxp0WJ6dbtp8JaXPO0S2hMKXCpVwr3m38+hF8nr7NT3gT
+	G9UnNppa1Yc2Iv11KP7YMpoBgvpLmfCoSw/lgNkoLBPD8C4v7nbueDm2rfPXvo1i4TLh
+	ap3pCDDbMclA/UOgV7tccjZ7piE3fvfy5a8qsXfod82nwyk65neYcVERAChfIfTWPifm
+	dvl2TpPKuRpeZKdmrKcrcerjwS4P7Rs1OwEH/uRsvc/sl9+1AmtIuZgCV3DS3ZeYSrBk
+	xibA==
+X-Gm-Message-State: APjAAAW88HkQHzCj+x3z8iVPqXATYll8rAIG0R8YYEfEOIcS2ZFYkLpB
+	lAu8amUvTlu2djLNE6uhQT3ZGath
+X-Google-Smtp-Source: APXvYqzqZ6Kfj8UblMqBX/T6PRPbqIP8z3zZ8ENNekdkxEggJYmqwoc/caII8CfyQH/8+kxmFsnjjA==
+X-Received: by 2002:a5d:65c5:: with SMTP id e5mr3960865wrw.266.1561647571816; 
+	Thu, 27 Jun 2019 07:59:31 -0700 (PDT)
+Received: from localhost.localdomain
+	(softbank-robotics-gw1.ter4.eqx2.par.cust.as8218.eu.
+	[158.255.112.194]) by smtp.gmail.com with ESMTPSA id
+	j189sm7195103wmb.48.2019.06.27.07.59.30
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Jun 2019 07:59:30 -0700 (PDT)
+From: Pierre Le Magourou <lemagoup@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2019 16:44:27 +0200
-Message-Id: <20190627144427.32226-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] encodings: update to 1.0.5
+Date: Thu, 27 Jun 2019 16:59:17 +0200
+Message-Id: <20190627145917.1774-1-lemagoup@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [meta-oe][PATCH v5] cve-update-db: do_populate_cve_db depends on do_fetch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,80 +55,88 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 14:44:31 -0000
+X-List-Received-Date: Thu, 27 Jun 2019 14:59:31 -0000
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+
+To be able to populate NVD database on a fetchall
+(bitbake <image> --run-all=fetch), set the do_populate_cve_db task to be
+executed before do_fetch.
+
+Do not get CVE_CHECK_DB_DIR, CVE_CHECK_DB_FILE and CVE_CHECK_TMP_FILE
+variable because do_populate_cve_db can be called in a context where
+cve-check class is not loaded.
+
+Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 ---
- .../xorg-font/encodings/nocompiler.patch      | 23 +++++++++++++------
- ...{encodings_1.0.4.bb => encodings_1.0.5.bb} |  5 ++--
- 2 files changed, 18 insertions(+), 10 deletions(-)
- rename meta/recipes-graphics/xorg-font/{encodings_1.0.4.bb => encodings_1.0.5.bb} (77%)
+ meta/recipes-core/meta/cve-update-db.bb | 21 +++++++++++++--------
+ 1 file changed, 13 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch b/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
-index f330c185af..ec7c7d80c1 100644
---- a/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
-+++ b/meta/recipes-graphics/xorg-font/encodings/nocompiler.patch
-@@ -1,23 +1,32 @@
-+From b08c43a0842076e0a94e88ad6456a9326cd7ffc9 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Tue, 17 May 2011 23:03:02 +0000
-+Subject: [PATCH] Improve handling of 'all' architecture recipes and their
+diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
+index 4c896dc880..3e5bae8b1d 100644
+--- a/meta/recipes-core/meta/cve-update-db.bb
++++ b/meta/recipes-core/meta/cve-update-db.bb
+@@ -6,7 +6,6 @@ PACKAGES = ""
+ 
+ inherit nopackages
+ 
+-deltask do_fetch
+ deltask do_unpack
+ deltask do_patch
+ deltask do_configure
+@@ -24,11 +23,16 @@ python do_populate_cve_db() {
+ 
+     BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+     YEAR_START = 2002
+-    JSON_TMPFILE = d.getVar("CVE_CHECK_DB_DIR") + '/nvd.json.gz'
 +
- Upstream-Status: Inappropriate [configuration]
++    db_dir = d.getVar("DL_DIR") + '/CVE_CHECK'
++    db_file = db_dir + '/nvd-json.db'
++    json_tmpfile = db_dir + '/nvd.json.gz'
+     proxy = d.getVar("https_proxy")
  
- XORG_DEFAULT_OPTIONS pulls in the following dependency chains:
- 
- XORG_CWARNFLAGS -> AC_PROG_CC_C99
- XORG_STRICT_OPTION -> AC_PROG_CC_C99, XORG_CWARNFLAGS
--XORG_MANPAGE_SECTIONS -> AC_CANONICAL_HOST -> Checks host 
-+XORG_MANPAGE_SECTIONS -> AC_CANONICAL_HOST -> Checks host
- 
- each of which triggers the use of the host compiler. As an "all"
- architecture package, it shouldn't need a compiler (and doesn't).
- 
- RP 17/5/2011
- 
--Index: encodings-1.0.4/configure.ac
--===================================================================
----- encodings-1.0.4.orig/configure.ac	2011-05-17 23:36:19.505095876 +0100
--+++ encodings-1.0.4/configure.ac	2011-05-17 23:54:14.935096128 +0100
--@@ -4,12 +4,12 @@
-+---
-+ configure.ac | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
++    if not os.path.isdir(db_dir):
++        os.mkdir(db_dir)
 +
-+diff --git a/configure.ac b/configure.ac
-+index 622c27b..5ee84ed 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -3,12 +3,12 @@ AC_INIT([encodings], [1.0.5],
-+         [https://gitlab.freedesktop.org/xorg/font/encodings/issues])
-  AM_INIT_AUTOMAKE([foreign dist-bzip2])
-- AM_MAINTAINER_MODE
-  
- -# Require xorg-macros: XORG_DEFAULT_OPTIONS
-  m4_ifndef([XORG_MACROS_VERSION],
-diff --git a/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
-similarity index 77%
-rename from meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
-rename to meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
-index 36766f2f42..a39609b5da 100644
---- a/meta/recipes-graphics/xorg-font/encodings_1.0.4.bb
-+++ b/meta/recipes-graphics/xorg-font/encodings_1.0.5.bb
-@@ -13,10 +13,9 @@ DEPENDS = "mkfontscale-native mkfontdir-native font-util-native"
- RDEPENDS_${PN} = ""
+     # Connect to database
+-    db_file = d.getVar("CVE_CHECK_DB_FILE")
+     conn = sqlite3.connect(db_file)
+     c = conn.cursor()
  
- SRC_URI += "file://nocompiler.patch"
-+SRC_URI[md5sum] = "bbae4f247b88ccde0e85ed6a403da22a"
-+SRC_URI[sha256sum] = "bd96e16143a044b19e87f217cf6a3763a70c561d1076aad6f6d862ec41774a31"
+@@ -55,9 +59,9 @@ python do_populate_cve_db() {
+             req = urllib.request.Request(json_url)
+             if proxy:
+                 req.set_proxy(proxy, 'https')
+-            with urllib.request.urlopen(req) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
++            with urllib.request.urlopen(req) as r, open(json_tmpfile, 'wb') as tmpfile:
+                 shutil.copyfileobj(r, tmpfile)
+-            with gzip.open(JSON_TMPFILE, 'rt') as jsonfile:
++            with gzip.open(json_tmpfile, 'rt') as jsonfile:
+                 update_db(c, jsonfile)
+             c.execute("insert or replace into META values (?, ?)",
+                     [year, last_modified])
+@@ -65,8 +69,9 @@ python do_populate_cve_db() {
+     conn.commit()
+     conn.close()
  
- inherit allarch
+-    with open(d.getVar("CVE_CHECK_TMP_FILE"), 'a'):
+-        os.utime(d.getVar("CVE_CHECK_TMP_FILE"), None)
++    cve_check_tmp_file =  d.getVar("TMPDIR") + '/cve_check'
++    with open(cve_check_tmp_file, 'a'):
++        os.utime(cve_check_tmp_file, None)
+ }
  
- EXTRA_OECONF += "--with-encodingsdir=${datadir}/fonts/X11/encodings"
--
--SRC_URI[md5sum] = "0f2d6546d514c5cc4ecf78a60657a5c1"
--SRC_URI[sha256sum] = "ced6312988a45d23812c2ac708b4595f63fd7a49c4dcd9f66bdcd50d1057d539"
+ # DJB2 hash algorithm
+@@ -120,7 +125,7 @@ def update_db(c, json_filename):
+ 
+ 
+ 
+-addtask do_populate_cve_db before do_cve_check
++addtask do_populate_cve_db before do_fetch
+ do_populate_cve_db[nostamp] = "1"
+ 
+ EXCLUDE_FROM_WORLD = "1"
 -- 
-2.17.1
+2.11.0
 
 
