@@ -1,47 +1,51 @@
-Return-Path: <lemagoup@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A9AA78F72
+Return-Path: <jean-tiare.le-bigot@easymile.com>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id BB1E27E3E8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 09:11:09 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id k8so3187488iot.1
+	Thu, 27 Jun 2019 09:12:08 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id s3so4947763wms.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 02:11:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=s4PEp57zGmsTGG0G6Nh5R115+kBYUZaKoY0dSebCVbg=;
-	b=YqjPAODR8kOq7Zk0tlDEXSNVPdjiTE7mXRmofm44RW/xWPnmZvwO+giZfO20TnYH6u
-	5ZH3zYio7ymVEl9hyLz12VZY6XpDAZFaJ0Binx/BWRcLCWj/tTF+MZYQ10kR2GaO2Yxs
-	3trq9uhXxLnVIncSBPLx7w+XFVH3EIMyfZGJNaHr4wRqMRae/5oNR+iCrWGHIU+q1nXG
-	7+YsIG1jh4BdY6//+A5UbMzP3XK9i1IoeJ4FyOx0TuWFz57t8bSIaFgcz/yLNwyEuZul
-	RDYivowuVHQqb5KyfQwvnG6xQCG+pB2tF5WiGudcoo5RlAxWy121phRKJP4P84QklRQ0
-	me/g==
+	Thu, 27 Jun 2019 02:12:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=easymile.com; s=easymile;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XFq3/T3xgj4Ac9Qvs7m83YqXni/vlP+gQ2uPnzKwkp8=;
+	b=erQPQg6kA2unafF/csV1ItHCY5o6jZ3WoqwDTAxtl8HeWRGW1Ctwmcp8rnR0wxLDIU
+	n+wp7OOuk74cL5/RNd99kppsCViwnNDtsFmI8qjfhWK2nHSkPl7pT3f5IwmUpVOHqLN2
+	Kn6Xxxkw/DGvh68CvRhGBo9caqwR3Aw3gE5f8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=s4PEp57zGmsTGG0G6Nh5R115+kBYUZaKoY0dSebCVbg=;
-	b=D8CDqtKmPvvKsfBKv8yN4wIPa0cJpZhN5dfrC1dThvnow5vvomBOonboDsKDIRhmRl
-	GClh1pJq/mFInTdS7POqJOC0pvphLz38ec6/vDAaUW7TYDf5oPxSkTSKpPPmD5+7dZEs
-	wUPNgxIppG/nbFs5zOlS2nFNjDWGRG9ntTvNj2Gxhl4tAe605yeDTwWHjw5pINZRi2uK
-	5GAma3Pmy3Akz5W/9mVcD3RUYU9/KJEiUjocu5gquxm6O6PnxjccZa9kzfurYMSFU6+2
-	ZtRZJTlVTOihFkf7EnwICcFRtZzQxhEfr0HcrPjEZi1Im73nooeWEZZ+NAxWLoXZc9Ig
-	HfKg==
-X-Gm-Message-State: APjAAAVd8KxwWwWC2Dh0TFogSKxaSZWTqlFF+XpMvOS54NCr1ejFhHxo
-	VI/B49e7S6HtLn66WpFpN83VU+0yB64M6hDKjPyxJJVO
-X-Google-Smtp-Source: APXvYqx/ShFqAmSOma6/2jCQYbGY5yMsJe/1nCwmzgJMLv0ZNBS38LC9uGW9qFiT86KxHwUqEo0XyNcJnHVxGo4KwiA=
-X-Received: by 2002:a6b:c80a:: with SMTP id y10mr3665406iof.170.1561626671125; 
-	Thu, 27 Jun 2019 02:11:11 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XFq3/T3xgj4Ac9Qvs7m83YqXni/vlP+gQ2uPnzKwkp8=;
+	b=AbI0w70sxuGsF520eh++Gs6CtjDi446SMa6FDm7g7keWQxQv0XGdGhQeHtthqWXRyH
+	ocD1kUG5fz9p+YdFzqGfxFir+nHKyjsKJzxbOTZ19CeR1//3RbEFykyJzYqn8bDoMaaF
+	ngBKeto7mUoBPloQqE9Lx3VsrvXCYoF6eF3rXmARvElyvoGquNjz7J3J0nomnvHiy8Hk
+	I00fagLbg4u+kouKPebrptQ+7VfXhB385MZis8d6/3jmwdKQiFaEItBp6G6SPXzEiLj9
+	09M43sIPvZKWHUs8jZVZb3MRCsoMMTBQrVsbrlOE/DrOMNaFyr6nJKvObdEX7ihCIMkQ
+	Y+Bg==
+X-Gm-Message-State: APjAAAWUtPzM9Tbo5th4v014OPoiHPlZPFUb4XaG5qyG2sDbLUsk93qL
+	+ILVC9kmDSD4d3Qc1jhY0ikElYoQ9aYsyt8Q71eCxZ9+wo/IucA84yAIC4FWRbXgxEMEKMWOlEt
+	ho5tae9eLSg/aNGoBz2pJlBgZxgAMFT+f/QNfoPZ81CdBS+RGk2KtSeBVRBzxz2U24n90XK5S7n
+	JIed0O5fqXCAJ1Nc2bNSUZs9lvroLlQ8hn
+X-Google-Smtp-Source: APXvYqzQNqNm6se02Y1DTgNVjf77mWcZyhAktGzu9TczAobAfIE4jPmA+rcOxQJv6rJdgS9foX9R8g==
+X-Received: by 2002:a7b:c933:: with SMTP id h19mr509594wml.52.1561626729176;
+	Thu, 27 Jun 2019 02:12:09 -0700 (PDT)
+Received: from localhost.localdomain ([185.116.129.142])
+	by smtp.gmail.com with ESMTPSA id
+	b203sm5902896wmd.41.2019.06.27.02.12.08
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 27 Jun 2019 02:12:08 -0700 (PDT)
+From: Jean-Tiare Le Bigot <jean-tiare.le-bigot@easymile.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu, 27 Jun 2019 11:12:04 +0200
+Message-Id: <20190627091204.16342-1-jean-tiare.le-bigot@easymile.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20190619135940.18544-1-lemagoup@gmail.com>
-	<065a68d75756f3afbc07d2229e307969cd4de386.camel@linuxfoundation.org>
-In-Reply-To: <065a68d75756f3afbc07d2229e307969cd4de386.camel@linuxfoundation.org>
-From: Pierre Le Magourou <lemagoup@gmail.com>
-Date: Thu, 27 Jun 2019 11:10:59 +0200
-Message-ID: <CAEz4NHqA3ohB=MOiT2PskneU93PJmgq2P84uUqQ0PZi6nzf21Q@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
+Cc: =?UTF-8?q?Jo=C3=ABl=20Esponde?= <joel.esponde@easymile.com>
+Subject: [PATCH] package.bbclass: fix directories setuid and setgid bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,24 +58,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 09:11:10 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 27 Jun 2019 09:12:09 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: Joël Esponde <joel.esponde@easymile.com>
 
-> It looks like CVE_CHECK_DB_DIR has no default value which resulted in:
->
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/988/steps/7/logs/step1b
->
-> We only started seeing that error after your later patch to add back
-> the do_fetch task. build-appliance is trying to collect up all the
-> sources it may need.
->
+populate_packages relies on ``mkdir`` to both create a directory and set
+its permissions. However, ``mkdir`` honors the ``umask`` value.
+Therefore, some bits may be lost in the operation. In our case, the
+setgid bit on the directories were lost.
 
-I see the problem, it happens when cve-update-db do_fetch task is executed and
-cve-check class is not inherited. I sent a v2 patch that sets default value to
-CVE_CHECK_DB_DIR.
+This commit fixes this by having a distinct call to create the directory
+and to set the permissions.
 
+Signed-off-by: Jean-Tiare Le Bigot <jean-tiare.le-bigot@easymile.com>
+---
+ meta/classes/package.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Pierre
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 20d72bba79..cd223a121e 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1216,7 +1216,8 @@ python populate_packages () {
+                 src = os.path.join(src, p)
+                 dest = os.path.join(dest, p)
+                 fstat = cpath.stat(src)
+-                os.mkdir(dest, fstat.st_mode)
++                os.mkdir(dest)
++                os.chmod(dest, fstat.st_mode)
+                 os.chown(dest, fstat.st_uid, fstat.st_gid)
+                 if p not in seen:
+                     seen.append(p)
+-- 
+2.19.1
+
 
