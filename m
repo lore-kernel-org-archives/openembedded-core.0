@@ -1,33 +1,25 @@
-Return-Path: <auh@auh.yoctoproject.org>
-Received: from yocto-www.yoctoproject.org (yocto-www.yoctoproject.org
-	[140.211.169.56])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B8467E6E1
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 41B47606D0
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 22:59:39 +0000 (UTC)
-Received: by yocto-www.yoctoproject.org (Postfix, from userid 118)
-	id EBF6CE00D85; Wed, 26 Jun 2019 15:59:40 -0700 (PDT)
-X-Spam-Checker-Version: SpamAssassin 3.3.1 (2010-03-16) on
-	yocto-www.yoctoproject.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,RDNS_NONE
-	autolearn=no version=3.3.1
-X-Spam-HAM-Report: * -1.9 BAYES_00 BODY: Bayes spam probability is 0 to 1%
-	*      [score: 0.0000]
-	*  0.8 RDNS_NONE Delivered to internal network by a host with no rDNS
-Received: from auh.yoctoproject.org (unknown [198.145.29.2])
-	by yocto-www.yoctoproject.org (Postfix) with ESMTP id D5CE4E00E12
+	Thu, 27 Jun 2019 03:02:59 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5R330pF003961
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 15:59:36 -0700 (PDT)
-Received: from auh.yocto.io (localhost [127.0.0.1])
-	by auh.yoctoproject.org (Postfix) with ESMTP id CAE3B440001
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 26 Jun 2019 15:59:36 -0700 (PDT)
+	Wed, 26 Jun 2019 20:03:00 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 26 Jun 2019 20:02:59 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Thu, 27 Jun 2019 11:14:55 +0800
+Message-ID: <d6c08eda49cd84388b7547243ee0e3d73a488b53.1561605262.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
+In-Reply-To: <cover.1561605262.git.Qi.Chen@windriver.com>
+References: <cover.1561605262.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-From: auh@auh.yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Message-Id: <20190626225936.CAE3B440001@auh.yoctoproject.org>
-Date: Wed, 26 Jun 2019 15:59:36 -0700 (PDT)
-Subject: [AUH] Upgrade status: 2019-06-26
+Subject: [PATCH 1/1] devtool: warn user about multiple layer having the same base name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,137 +32,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 26 Jun 2019 22:59:39 -0000
-Content-Type: multipart/mixed; boundary="===============3010335560877005817=="
+X-List-Received-Date: Thu, 27 Jun 2019 03:02:59 -0000
+Content-Type: text/plain
 
---===============3010335560877005817==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+Currently `devtool finish RECIPE meta' will silently succeed even
+if there are multiple layers having the same base name of 'meta'.
+e.g. meta layer from oe-core and meta layer from meta-secure-core.
 
-UmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoKCiAgICAqIEZhaWxlZCAoZGV2dG9vbCBlcnJvcik6
-IDQwCiAgICAgICAgZ2V0dGV4dCwgMC4yMC4xLCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2lu
-ZHJpdmVyLmNvbT4KICAgICAgICBndGsrMywgMy4yNC45LCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
-b25AaW50ZWwuY29tPgogICAgICAgIGlwdXRpbHMsIHMyMDE5MDUxNSwgQ2hhbmdoeWVvayBCYWUg
-PGNoYW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAgICBod2xhdGRldGVjdCwgMS40LCBBbGV4
-YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBzcXVhc2hmcy10
-b29scywgNC4zLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55YW5n
-QHdpbmRyaXZlci5jb20+CiAgICAgICAgdnVsa2FuLCAxLjEuMTA4LjAsIFJvc3MgQnVydG9uIDxy
-b3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgZHBrZywgMS4xOS43LCBBbsOtYmFsIExpbcOz
-biA8bGltb24uYW5pYmFsQGdtYWlsLmNvbT4KICAgICAgICBhdHRyLCAyLjQuNDgsIENoZW4gUWkg
-PFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBsc2Jpbml0c2NyaXB0cywgMTAuMDEsIFJv
-c3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgaWZ1cGRvd24sIDAuOC4z
-NSwgQW51aiBNaXR0YWwgPGFudWoubWl0dGFsQGludGVsLmNvbT4KICAgICAgICBwdXp6bGVzLCAw
-LjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwu
-Y29tPgogICAgICAgIGttc2N1YmUsIGdpdC1uZXctY29tbWl0cy1hdmFpbGFibGUsIENhcmxvcyBS
-YWZhZWwgR2lhbmkgPGR2QHBzZXVkb3Rlcm1pbmFsLm9yZz4KICAgICAgICBidWlsZC1jb21wYXJl
-LCAyMDE1LjAyLjEwLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgUGF1bCBFZ2dsZXRvbiA8cGF1bC5l
-Z2dsZXRvbkBsaW51eC5pbnRlbC5jb20+CiAgICAgICAgc3RyYWNlLCA1LjEsIFJvYmVydCBZYW5n
-IDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHB5dGhvbjMtbnVtcHksIDEuMTYu
-NCwgRGVyZWsgU3RyYWthIDxkZXJla0Bhc3Rlcml1cy5pbz4KICAgICAgICB0ZXhpbmZvLCA2LjYs
-IEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgdnVsa2FuLWRlbW9z
-LCBnaXQtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50
-ZWwuY29tPgogICAgICAgIGdvLWRlcCwgMC41LjQsIE90YXZpbyBTYWx2YWRvciA8b3RhdmlvLnNh
-bHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgbWVzb24sIDAuNTEuMCwgQWxleGFuZGVy
-IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgdXRpbC1saW51eCwgMi4z
-NCwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGFjbCwgMi4yLjUzLCBD
-aGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgbmZzLXV0aWxzLCAyLjQuMSwg
-Um9iZXJ0IFlhbmcgPGxpZXpoaS55YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgcHl0aG9uLW51
-bXB5LCAxLjE2LjQsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgbGli
-bmV3dCwgMC41Mi4yMSwgSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29tPgogICAg
-ICAgIHN5c2tsb2dkLCAxLjYsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAg
-ICBzeXN2aW5pdCwgMi45NSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAg
-ICAgICBidXN5Ym94LCAxLjMxLjAsIEFuZHJlaiBWYWxlayA8YW5kcmVqLnZhbGVrQHNpZW1lbnMu
-Y29tPgogICAgICAgIGdwZ21lLCAxLjEzLjEsIEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJp
-dmVyLmNvbT4KICAgICAgICBoYXJmYnV6eiwgMi41LjIsIEFudWogTWl0dGFsIDxhbnVqLm1pdHRh
-bEBpbnRlbC5jb20+CiAgICAgICAgbHRwLCAyMDE5MDUxNywgWWkgWmhhbyA8eWkuemhhb0B3aW5k
-cml2ZXIuY29tPgogICAgICAgIHJ0LXRlc3RzLCAxLjQsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
-LmthbmF2aW5AZ21haWwuY29tPgogICAgICAgIGxpYnNvbHYsIDAuNy41LCBBbnVqIE1pdHRhbCA8
-YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYmljYWwsIDMuMC41LCBSb3NzIEJ1cnRv
-biA8cm9zcy5idXJ0b25AaW50ZWwuY29tPgogICAgICAgIHNlZCwgNC43LCBDaGVuIFFpIDxRaS5D
-aGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgcnVieSwgMi42LjMsIFJvc3MgQnVydG9uIDxyb3Nz
-LmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgZmxleCwgMi42LjQsIENoZW4gUWkgPFFpLkNoZW5A
-d2luZHJpdmVyLmNvbT4KICAgICAgICBxdWlsdCwgMC42NiwgUm9iZXJ0IFlhbmcgPGxpZXpoaS55
-YW5nQHdpbmRyaXZlci5jb20+CiAgICAgICAgZTJmc3Byb2dzLCAxLjQ1LjIsIFJvYmVydCBZYW5n
-IDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIGFwdCwgMS45LjEsIEFuw61iYWwg
-TGltw7NuIDxsaW1vbi5hbmliYWxAZ21haWwuY29tPgogICAgICAgIGV4cGF0LCAyLjIuNywgWWkg
-WmhhbyA8eWkuemhhb0B3aW5kcml2ZXIuY29tPgogICAgKiBGYWlsZWQoZG9fY29tcGlsZSk6IDEy
-CiAgICAgICAgY21ha2UsIDMuMTQuNSwgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoQHNpZW1lbnMu
-Y29tPgogICAgICAgIG1rZm9udHNjYWxlLCAxLjIuMSwgQXJtaW4gS3VzdGVyIDxha3VzdGVyODA4
-QGdtYWlsLmNvbT4KICAgICAgICB3YWZmbGUsIDEuNi4wLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0
-b25AaW50ZWwuY29tPgogICAgICAgIGlwdGFibGVzLCAxLjguMywgQ2hhbmdoeWVvayBCYWUgPGNo
-YW5naHllb2suYmFlQGdtYWlsLmNvbT4KICAgICAgICBtZXNhLCAxOS4xLjEsIE90YXZpbyBTYWx2
-YWRvciA8b3RhdmlvLnNhbHZhZG9yQG9zc3lzdGVtcy5jb20uYnI+CiAgICAgICAgc2hhZG93LCA0
-LjcsIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJpdmVyLmNvbT4KICAgICAgICBtb2JpbGUtYnJvYWRi
-YW5kLXByb3ZpZGVyLWluZm8sIDIwMTkwNjE4LCBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleC5rYW5h
-dmluQGdtYWlsLmNvbT4KICAgICAgICBib29zdCwgMS43MC4wLCBBbGV4YW5kZXIgS2FuYXZpbiA8
-YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KICAgICAgICBsaWJkbmYsIDAuMzUuMSwgQWxleGFuZGVy
-IEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgICAgICAgZ2l0LCAyLjIyLjAsIFJv
-YmVydCBZYW5nIDxsaWV6aGkueWFuZ0B3aW5kcml2ZXIuY29tPgogICAgICAgIHByZWxpbmssIDEu
-MC1uZXctY29tbWl0cy1hdmFpbGFibGUsIE1hcmsgSGF0bGUgPG1hcmsuaGF0bGVAd2luZHJpdmVy
-LmNvbT4KICAgICAgICBvcGtnLCAwLjQuMSwgQWxlamFuZHJvIGRlbCBDYXN0aWxsbyA8YWxlamFu
-ZHJvLmRlbGNhc3RpbGxvQG5pLmNvbT4KICAgICogRmFpbGVkKG90aGVyIGVycm9ycyk6IDEKICAg
-ICAgICBnY2Mtc291cmNlLTguMy4wLCA5LjEuMCwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNv
-bT4KICAgICogU3VjY2VlZGVkOiAyNgogICAgICAgIHZpbS10aW55LCA4LjEuMTU5MiwgVG9tIFJp
-bmkgPHRyaW5pQGtvbnN1bGtvLmNvbT4KICAgICAgICBhdXRvY29uZi1hcmNoaXZlLCAyMDE5LjAx
-LjA2LCBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBweXRo
-b24zLXB5Z29iamVjdCwgMy4zMi4yLCBEZXJlayBTdHJha2EgPGRlcmVrQGFzdGVyaXVzLmlvPgog
-ICAgICAgIHZpbSwgOC4xLjE1OTIsIFRvbSBSaW5pIDx0cmluaUBrb25zdWxrby5jb20+CiAgICAg
-ICAgbWMsIDQuOC4yMywgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KICAgICAg
-ICBweXRob24zLXBiciwgNS4zLjEsIERlcmVrIFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAg
-ICAgICAgZ251LWNvbmZpZywgMjAxOTA1MDEtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb2JlcnQg
-WWFuZyA8bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaW51eC1maXJtd2FyZSwg
-MC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgT3RhdmlvIFNhbHZhZG9yIDxvdGF2aW8uc2FsdmFk
-b3JAb3NzeXN0ZW1zLmNvbS5icj4KICAgICAgICBsaWJ4dCwgMS4yLjAsIEFybWluIEt1c3RlciA8
-YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgbnNzLCAzLjQ0LjEsIEFybWluIEt1c3RlciA8
-YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgdnRlLCAwLjU2LjMsIEFudWogTWl0dGFsIDxh
-bnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgcHl0aG9uMy1tYWtvLCAxLjAuMTIsIERlcmVr
-IFN0cmFrYSA8ZGVyZWtAYXN0ZXJpdXMuaW8+CiAgICAgICAgbGlieGksIDEuNy4xMCwgQXJtaW4g
-S3VzdGVyIDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBldWRldiwgMy4yLjgsIEFudWog
-TWl0dGFsIDxhbnVqLm1pdHRhbEBpbnRlbC5jb20+CiAgICAgICAgeHNlcnZlci14b3JnLCAxLjIw
-LjUsIEFybWluIEt1c3RlciA8YWt1c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgcGlnbGl0LCAx
-LjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AaW50ZWwu
-Y29tPgogICAgICAgIHhvcmdwcm90bywgMjAxOS4xLCBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDhA
-Z21haWwuY29tPgogICAgICAgIGRuZiwgNC4yLjcsIEFsZXhhbmRlciBLYW5hdmluIDxhbGV4Lmth
-bmF2aW5AZ21haWwuY29tPgogICAgICAgIGxpYngxMSwgMS42LjgsIEFybWluIEt1c3RlciA8YWt1
-c3RlcjgwOEBnbWFpbC5jb20+CiAgICAgICAgZW5jb2RpbmdzLCAxLjAuNSwgQXJtaW4gS3VzdGVy
-IDxha3VzdGVyODA4QGdtYWlsLmNvbT4KICAgICAgICBnYXdrLCA1LjAuMSwgQ2hlbiBRaSA8UWku
-Q2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGdsaWItbmV0d29ya2luZywgMi42MC4zLCBBbnVq
-IE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgogICAgICAgIGxpYmlucHV0LCAxLjEzLjMs
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiAgICAgICAgYmlzb24sIDMuNC4x
-LCBDaGVuIFFpIDxRaS5DaGVuQHdpbmRyaXZlci5jb20+CiAgICAgICAgd2VzdG9uLCA2LjAuMSwg
-RGVueXMgRG15dHJpeWVua28gPGRlbnlzQHRpLmNvbT4KICAgICAgICBnbGliLTIuMCwgMi42MC40
-LCBBbnVqIE1pdHRhbCA8YW51ai5taXR0YWxAaW50ZWwuY29tPgoKICAgIFRPVEFMOiBhdHRlbXB0
-ZWQ9Nzkgc3VjY2VlZGVkPTI2KDMyLjkxJSkgZmFpbGVkPTUzKDY3LjA5JSkKClJlY2lwZSB1cGdy
-YWRlIHN0YXRpc3RpY3MgcGVyIE1haW50YWluZXI6CgogICAgTWFyayBIYXRsZSA8bWFyay5oYXRs
-ZTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUpCiAgICBU
-b20gUmluaSA8dHJpbmk6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0yKDEwMC4wMCUpIGZhaWxlZD0w
-KDAuMDAlKQogICAgQW5kcmVqIFZhbGVrIDxhbmRyZWoudmFsZWs6IGF0dGVtcHRlZD0xIHN1Y2Nl
-ZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgRGVueXMgRG15dHJpeWVua28gPGRl
-bnlzOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MSgxMDAuMDAlKSBmYWlsZWQ9MCgwLjAwJSkKICAg
-IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbjogYXR0ZW1wdGVkPTExIHN1Y2NlZWRlZD0zKDI3LjI3
-JSkgZmFpbGVkPTgoNzIuNzMlKQogICAgQ2hhbmdoeWVvayBCYWUgPGNoYW5naHllb2suYmFlOiBh
-dHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAwLjAwJSkKICAgIENoZW4g
-UWkgPFFpLkNoZW46IGF0dGVtcHRlZD05IHN1Y2NlZWRlZD0yKDIyLjIyJSkgZmFpbGVkPTcoNzcu
-NzglKQogICAgQWxlamFuZHJvIGRlbCBDYXN0aWxsbyA8YWxlamFuZHJvLmRlbGNhc3RpbGxvOiBh
-dHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIERlcmVr
-IFN0cmFrYSA8ZGVyZWs6IGF0dGVtcHRlZD01IHN1Y2NlZWRlZD0zKDYwLjAwJSkgZmFpbGVkPTIo
-NDAuMDAlKQogICAgS2hlbSBSYWogPHJhai5raGVtOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgw
-LjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIFlpIFpoYW8gPHlpLnpoYW86IGF0dGVtcHRlZD0y
-IHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MigxMDAuMDAlKQogICAgT3RhdmlvIFNhbHZhZG9y
-IDxvdGF2aW8uc2FsdmFkb3I6IGF0dGVtcHRlZD0zIHN1Y2NlZWRlZD0xKDMzLjMzJSkgZmFpbGVk
-PTIoNjYuNjclKQogICAgQ2FybG9zIFJhZmFlbCBHaWFuaSA8ZHY6IGF0dGVtcHRlZD0xIHN1Y2Nl
-ZWRlZD0wKDAuMDAlKSBmYWlsZWQ9MSgxMDAuMDAlKQogICAgUGF1bCBFZ2dsZXRvbiA8cGF1bC5l
-Z2dsZXRvbjogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTAoMC4wMCUpIGZhaWxlZD0xKDEwMC4wMCUp
-CiAgICBSb2JlcnQgWWFuZyA8bGllemhpLnlhbmc6IGF0dGVtcHRlZD05IHN1Y2NlZWRlZD0yKDIy
-LjIyJSkgZmFpbGVkPTcoNzcuNzglKQogICAgUGFzY2FsIEJhY2ggPHBhc2NhbC5iYWNoOiBhdHRl
-bXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTEoMTAwLjAwJSkKICAgIEhvbmd4dSBK
-aWEgPGhvbmd4dS5qaWE6IGF0dGVtcHRlZD0yIHN1Y2NlZWRlZD0wKDAuMDAlKSBmYWlsZWQ9Migx
-MDAuMDAlKQogICAgQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbjogYXR0ZW1wdGVkPTcg
-c3VjY2VlZGVkPTEoMTQuMjklKSBmYWlsZWQ9Nig4NS43MSUpCiAgICBBbsOtYmFsIExpbcOzbiA8
-bGltb24uYW5pYmFsOiBhdHRlbXB0ZWQ9MiBzdWNjZWVkZWQ9MCgwLjAwJSkgZmFpbGVkPTIoMTAw
-LjAwJSkKICAgIEFudWogTWl0dGFsIDxhbnVqLm1pdHRhbDogYXR0ZW1wdGVkPTkgc3VjY2VlZGVk
-PTQoNDQuNDQlKSBmYWlsZWQ9NSg1NS41NiUpCiAgICBBcm1pbiBLdXN0ZXIgPGFrdXN0ZXI4MDg6
-IGF0dGVtcHRlZD04IHN1Y2NlZWRlZD03KDg3LjUwJSkgZmFpbGVkPTEoMTIuNTAlKQo=
+We should at least give user a warning in such case. With the patch,
+we will get warning like below.
 
---===============3010335560877005817==--
+WARNING: Multiple layers have the same base name 'meta', use the first one '<PROJ_DIR>/oe-core/meta'.
+WARNING: Consider using path instead of base name to specify layer:
+	 	  <PROJ_DIR>/oe-core/meta
+		  <PROJ_DIR>/meta-secure-core/meta
+
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+---
+ scripts/lib/devtool/standard.py | 22 ++++++++++++++++++----
+ 1 file changed, 18 insertions(+), 4 deletions(-)
+
+diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
+index aca74b1..47ed531 100644
+--- a/scripts/lib/devtool/standard.py
++++ b/scripts/lib/devtool/standard.py
+@@ -1866,13 +1866,27 @@ def reset(args, config, basepath, workspace):
+ def _get_layer(layername, d):
+     """Determine the base layer path for the specified layer name/path"""
+     layerdirs = d.getVar('BBLAYERS').split()
+-    layers = {os.path.basename(p): p for p in layerdirs}
++    layers = {}    # {basename: layer_paths}
++    for p in layerdirs:
++        bn = os.path.basename(p)
++        if bn not in layers:
++            layers[bn] = [p]
++        else:
++            layers[bn].append(p)
+     # Provide some shortcuts
+     if layername.lower() in ['oe-core', 'openembedded-core']:
+-        layerdir = layers.get('meta', None)
++        layername = 'meta'
++    layer_paths = layers.get(layername, None)
++    if not layer_paths:
++        return os.path.abspath(layername)
++    elif len(layer_paths) == 1:
++        return os.path.abspath(layer_paths[0])
+     else:
+-        layerdir = layers.get(layername, None)
+-    return os.path.abspath(layerdir or layername)
++        # multiple layers having the same base name
++        logger.warning("Multiple layers have the same base name '%s', use the first one '%s'." % (layername, layer_paths[0]))
++        logger.warning("Consider using path instead of base name to specify layer:\n\t\t%s" % '\n\t\t'.join(layer_paths))
++        return os.path.abspath(layer_paths[0])
++
+ 
+ def finish(args, config, basepath, workspace):
+     """Entry point for the devtool 'finish' subcommand"""
+-- 
+1.9.1
+
+
