@@ -1,52 +1,57 @@
-Return-Path: <fabio.berton@ossystems.com.br>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 66F286C109
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com
+	[209.85.210.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 70D4E6004D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 19:55:40 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id m29so3872755qtu.1
+	Thu, 27 Jun 2019 20:15:41 +0000 (UTC)
+Received: by mail-pf1-f193.google.com with SMTP id q10so1763956pff.9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 12:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ossystems-com-br.20150623.gappssmtp.com; s=20150623;
-	h=from:to:subject:date:message-id:mime-version:organization
-	:content-transfer-encoding;
-	bh=B4CBKsdVKXZHigPVJF4JI1JepJFEVhWY1QBdMdxZsX0=;
-	b=Kset6fYo2H1YDG+T6p2ms1XpuNywGCRrhinKfxQwKo990pt5v44jpFzel22gq7URSB
-	pP3wVTF3l3aO9hyEIuOx4pzD2infUkTl5nprnEP1oGaON6dir9LgsyQQ5pmg7DxI4dHw
-	yZPJDYzgyVlCtJyUJV8fN3ziFrYHP6eeSewzqsVdLjqH9C1Sa201sM+QsUvnzJVFzUmz
-	3p1bvm3E/zDu3PPD5vwPAOdWrsuRcPPsTQcTPEkssw65fQXq6WhS+HVUZYqcjIowmt+z
-	6uhwnEl8cS4NwLRUKUeiEOLohEHlHKJdqbfRWbeRaGu+kjmbrWMfgoSVbYN7jpalXcuK
-	AxtA==
+	Thu, 27 Jun 2019 13:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=Kh8NLXhKG69fZezX0c4kV6X7J31lmz+7UwGQEJ6fOjY=;
+	b=YJZiLaqPRq8P1HwngSFMoS/HkgnoCg+Junh8CDF0zal2cnOUf/ztcOo8dz9cvAF7Fh
+	huURwHgtANsRgkqPBe9hT7gR6HXaMpKyBhUj7t8Nn6jbC7nMNvecxUGEDq0+fSUaufRC
+	kT+gdk/FssXv1PKx2ahex9mDok17xK1Mvo6gKHpbHduiklMRveC6LH5a3G1RFTDPhwzp
+	QmMCVtojNHRb4y9v6+Hl7SkVf8PWtbS2zRojVqTEeMeS1GLqhtKyvbwEN7+1+k1vzx2q
+	fPRGv2pfBY4fxOlbgTQEo3bNUORLtT1Qo3mc2xK0DrWG/RDuRpi9DCbcDUDYWMjE9XG8
+	eGqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:organization:content-transfer-encoding;
-	bh=B4CBKsdVKXZHigPVJF4JI1JepJFEVhWY1QBdMdxZsX0=;
-	b=Uw/K8tVnMEHiZkpbgkyN3z7j8mq/ksoOT+fuyeianaTgqA9mRhOyE1h/bB2chQ3NlN
-	gFu2gCQ9pdbYYDCBcqy+ddRnnxgr5bhgkzG7BJS+vgU8Ed4jvcPMEZP0bj5/Ej7CQCvG
-	W1maErzV3H1mDNQYqcEdSUn5IyV5EemqOgg/2vKMkxSGbmki0Wzzbbd4vW8J5f5rZBxT
-	OPzXbo8hA6dpOfZ7NZF/3iRbzJvFJADtgbiitQbMRcMWsUH9uW5Qm3SU3xQhRm287s5p
-	IbSYm8L+bfreQxpmGZgsLma2XpRq3gsESSXpxqUyRez25Y0qj2FSKnJ1Z2NSfMU+27IY
-	+/CQ==
-X-Gm-Message-State: APjAAAVN7I7OlYFSjy4kvNt/9SlTBAMqbYcLFWvAtfPoEt2r9C3wAenl
-	03lzFQuI05bahzhpSTL96dUUVj4lfzZIRQ==
-X-Google-Smtp-Source: APXvYqwdoTQH145AGYRRYcAtAHZKdI0W8pYNMv1dm4G4+tTDXI2I8TEpmMic3oRWZ1FAaqu1nE7czg==
-X-Received: by 2002:ac8:2b51:: with SMTP id 17mr4761494qtv.206.1561665341206; 
-	Thu, 27 Jun 2019 12:55:41 -0700 (PDT)
-Received: from centrium.lab.ossystems ([181.220.86.53])
-	by smtp.gmail.com with ESMTPSA id s134sm39759qke.51.2019.06.27.12.55.40
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 27 Jun 2019 12:55:40 -0700 (PDT)
-From: Fabio Berton <fabio.berton@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 27 Jun 2019 16:55:23 -0300
-Message-Id: <20190627195523.6629-1-fabio.berton@ossystems.com.br>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=Kh8NLXhKG69fZezX0c4kV6X7J31lmz+7UwGQEJ6fOjY=;
+	b=i+Owq3vlerXXoa+kSt8n7AMB707os3amPO7HscBH6b8cLV9L9ALsYe9x6OOfDWEhxP
+	KlWk2smuHff+TZ3UZHN1MNeEfTHaCe9Ot7TiQbzEKoXlM3AZ7hI/AAbXi99JciK1YTJY
+	yDpl/qtjJgMbXw9ScxI9Lrtqhy/OKz55mG/9TOyaew7uCEcf8BDCS7P4K/rUBR95FAm/
+	FiJxyeMkVbYdatuccADb4Bd4aodfTgpyfd/h4YCQsDk73vTJW5IHG08uPm8bL+iGoa61
+	1SWTPktpEPcuEtwP/srjl2Oq4ASrEg0l5l7sSdzbT8ZvVxprZ1emJimnaNBWQehEg5qD
+	NqHw==
+X-Gm-Message-State: APjAAAUtFcLrRU70zhT+d/Lg9L7a7lubm4fWwmvyO4R21eUBh60qPYcu
+	TltSXdK8RVgfoNfFaEK5M8QcVNFY
+X-Google-Smtp-Source: APXvYqy5NNsP7L0NOV2ZfnBhAG4HJPR5pWe3RSJFZhLo99rKtirKSwXd3XCMmc2CsVy+MWQ436HgZg==
+X-Received: by 2002:a63:a46:: with SMTP id z6mr5558598pgk.76.1561666542181;
+	Thu, 27 Jun 2019 13:15:42 -0700 (PDT)
+Received: from [10.30.197.57] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	w65sm4265833pfw.168.2019.06.27.13.15.41
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 27 Jun 2019 13:15:41 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: Andre McCurdy <armccurdy@gmail.com>
+References: <20190627135440.15815-1-JPEWhacker@gmail.com>
+	<CAJ86T=Xp0L=12A1P-Mt2YLN_uyjmpUtPd-5a9JQ7Lfrw_sCSoA@mail.gmail.com>
+Message-ID: <94dcb178-1ca6-f6fa-6c88-eb19a820f7d5@gmail.com>
+Date: Thu, 27 Jun 2019 15:15:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Organization: O.S. Systems Software LTDA.
-Subject: [warrior][PATCH] mesa: Update 19.0.1 -> 19.0.8
+In-Reply-To: <CAJ86T=Xp0L=12A1P-Mt2YLN_uyjmpUtPd-5a9JQ7Lfrw_sCSoA@mail.gmail.com>
+Cc: OE Core mailing list <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Fix locale DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -59,98 +64,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 19:55:40 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Thu, 27 Jun 2019 20:15:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-This commit adds the following changes:
 
-Updates from 19.0.8:
+On 6/27/19 2:47 PM, Andre McCurdy wrote:
+> On Thu, Jun 27, 2019 at 6:54 AM Joshua Watt <jpewhacker@gmail.com> wrote:
+>> gettext is required to generate the glibc locales in do_compile. If not
+>> present, glibc will skip the generation which isn't reproducible.
+> I guess you mean not deterministic rather than not reproducible?
 
-  - Mesa 19.0.8 is an emergency bug fix release which fixes a critical
-    bug found in the 19.0.7 release.
+Correct. I found all these in the context of trying to get reproducible 
+builds working, but that is a more accurate statement.
 
-  Full log:
-  https://www.mesa3d.org/relnotes/19.0.8.html
-
-Updates from 19.0.7:
-
-  - Mesa 19.0.7 is a bug fix release which fixes bugs found since the
-    19.0.6 release.
-
-  Full log:
-  https://www.mesa3d.org/relnotes/19.0.7.html
-
-Updates from 19.0.6:
-
-  - Mesa 19.0.6 is a bug fix release which fixes bugs found since the
-    19.0.5 release.
-
-  Full log:
-  https://www.mesa3d.org/relnotes/19.0.6.html
-
-Updates from 19.0.5:
-
-  - Mesa 19.0.5 is a bug fix release which fixes bugs found since the
-    19.0.4 release.
-
-  Full log:
-  https://www.mesa3d.org/relnotes/19.0.5.html
-
-Updates from 19.0.4:
-
-  - Mesa 19.0.4 is a bug fix release which fixes bugs found since the
-    19.0.3 release.
-
-  Full log:
-  https://www.mesa3d.org/relnotes/19.0.4.html
-
-Updates from 19.0.3:
-
-  - Mesa 19.0.3 is a bug fix release which fixes bugs found since the
-    19.0.2 release.
-
-  Full log:
-  https://www.mesa3d.org/relnotes/19.0.3.html
-
-Updates from 19.0.2:
-
-  - Mesa 19.0.2 is a bug fix release which fixes bugs found since the
-    19.0.1 release.
-
-  Full log:
-  https://www.mesa3d.org/relnotes/19.0.2.html
-
-Signed-off-by: Fabio Berton <fabio.berton@ossystems.com.br>
----
- .../mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.8.bb}             | 0
- meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.8.bb} | 4 ++--
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/mesa/{mesa-gl_19.0.1.bb => mesa-gl_19.0.8.bb} (100%)
- rename meta/recipes-graphics/mesa/{mesa_19.0.1.bb => mesa_19.0.8.bb} (85%)
-
-diff --git a/meta/recipes-graphics/mesa/mesa-gl_19.0.1.bb b/meta/recipes-graphics/mesa/mesa-gl_19.0.8.bb
-similarity index 100%
-rename from meta/recipes-graphics/mesa/mesa-gl_19.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa-gl_19.0.8.bb
-diff --git a/meta/recipes-graphics/mesa/mesa_19.0.1.bb b/meta/recipes-graphics/mesa/mesa_19.0.8.bb
-similarity index 85%
-rename from meta/recipes-graphics/mesa/mesa_19.0.1.bb
-rename to meta/recipes-graphics/mesa/mesa_19.0.8.bb
-index d90be8a074..8cb80b541e 100644
---- a/meta/recipes-graphics/mesa/mesa_19.0.1.bb
-+++ b/meta/recipes-graphics/mesa/mesa_19.0.8.bb
-@@ -7,8 +7,8 @@ SRC_URI = "https://mesa.freedesktop.org/archive/mesa-${PV}.tar.xz \
-            file://0004-use-PKG_CHECK_VAR-for-defining-WAYLAND_PROTOCOLS_DAT.patch \
- "
- 
--SRC_URI[md5sum] = "19636bb3da35c21f43040d31e575d5ce"
--SRC_URI[sha256sum] = "6884163c0ea9e4c98378ab8fecd72fe7b5f437713a14471beda378df247999d4"
-+SRC_URI[md5sum] = "9634964d87f1ce8d0230493e43f34c50"
-+SRC_URI[sha256sum] = "d017eb53a810c32dabeedf6ca2238ae1e897ce9090e470e9ce1d6c9e3f1b0862"
- 
- #because we cannot rely on the fact that all apps will use pkgconfig,
- #make eglplatform.h independent of MESA_EGL_NO_X11_HEADER
--- 
-2.20.1
-
+>
+>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>> ---
+>>   meta/recipes-core/glibc/glibc_2.29.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+>> index 073d1533e37..c400ee10b0f 100644
+>> --- a/meta/recipes-core/glibc/glibc_2.29.bb
+>> +++ b/meta/recipes-core/glibc/glibc_2.29.bb
+>> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=cfc0ed77a9f62fa62eded042ebe31d72 \
+>>         file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+>>         file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+>>
+>> -DEPENDS += "gperf-native bison-native make-native"
+>> +DEPENDS += "gperf-native bison-native make-native gettext-native"
+>>
+>>   PV = "2.29"
+>>
+>> --
+>> 2.21.0
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
