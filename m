@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 42ABB7E7D1;
-	Thu, 27 Jun 2019 14:30:54 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 6B6537E984;
+	Thu, 27 Jun 2019 14:30:55 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: Pierre Le Magourou <lemagoup@gmail.com>
-Date: Thu, 27 Jun 2019 14:30:55 -0000
-Message-ID: <20190627143055.2331.1449@do>
-References: <20190627141445.31528-1-lemagoup@gmail.com>
+Date: Thu, 27 Jun 2019 14:30:56 -0000
+Message-ID: <20190627143056.2329.67539@do>
+References: <20190627142551.788-1-lemagoup@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190627141445.31528-1-lemagoup@gmail.com>
+In-Reply-To: <20190627142551.788-1-lemagoup@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3ZlLXVwZGF0ZS1kYjogZG9fcG9wdWxhdGVfY3ZlX2RiIGRlcGVuZHMgb24gZG9fZmV0Y2ggKHJldjMp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgY3ZlLXVwZGF0ZS1kYjogZG9fcG9wdWxhdGVfY3ZlX2RiIGRlcGVuZHMgb24gZG9fZmV0Y2ggKHJldjQp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 27 Jun 2019 14:30:54 -0000
+X-List-Received-Date: Thu, 27 Jun 2019 14:30:55 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: cve-update-db: do_populate_cve_db depends on do_fetch (rev3)
-Revision: 3
+Series: cve-update-db: do_populate_cve_db depends on do_fetch (rev4)
+Revision: 4
 URL   : https://patchwork.openembedded.org/series/18357/
 State : failure
 
@@ -45,9 +45,9 @@ series by patchtest resulting in the following failures:
 
 
 
-* Patch            [meta-oe,v3] cve-update-db: do_populate_cve_db depends on do_fetch
+* Patch            [meta-oe,v4] cve-update-db: do_populate_cve_db depends on do_fetch
  Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe,v3) and send the patch to the indicated list
+  Suggested fix    Check the project's README (meta-oe,v4) and send the patch to the indicated list
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
