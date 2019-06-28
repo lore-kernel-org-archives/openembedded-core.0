@@ -1,26 +1,26 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id B58E57E686
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A6AC7E686
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 12:01:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x5SC0Jt9023849
+	Fri, 28 Jun 2019 12:02:26 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5SC2R4I020349
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 05:01:01 -0700
-Received: from pek-lpg-core1.wrs.com (128.224.156.132) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.50) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 28 Jun 2019 05:00:51 -0700
-From: Robert Yang <liezhi.yang@windriver.com>
+	Fri, 28 Jun 2019 05:02:27 -0700 (PDT)
+Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Fri, 28 Jun 2019 05:02:27 -0700
 To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Jun 2019 20:23:41 +0800
-Message-ID: <dd3dd061e7b576186139fb9524642519f454dd94.1561724553.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <cover.1561724553.git.liezhi.yang@windriver.com>
-References: <cover.1561724553.git.liezhi.yang@windriver.com>
+References: <cover.1561724112.git.liezhi.yang@windriver.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <9834fdd4-1352-4e4b-96ac-2b1f6ab2095a@windriver.com>
+Date: Fri, 28 Jun 2019 20:03:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Subject: [PATCH 5/6] package_rpm.bbclass: python2 -> python3
+In-Reply-To: <cover.1561724112.git.liezhi.yang@windriver.com>
+Subject: Re: [PATCH 0/1] devupstream.bbclass: Disable devupstream when multilib is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,28 +33,36 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 12:01:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Jun 2019 12:02:26 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/classes/package_rpm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
-index 1a64cb2..a605a57 100644
---- a/meta/classes/package_rpm.bbclass
-+++ b/meta/classes/package_rpm.bbclass
-@@ -36,7 +36,7 @@ def write_rpm_perfiledata(srcname, d):
-     pkgd = d.getVar('PKGD')
- 
-     def dump_filerdeps(varname, outfile, d):
--        outfile.write("#!/usr/bin/env python\n\n")
-+        outfile.write("#!/usr/bin/env python3\n\n")
-         outfile.write("# Dependency table\n")
-         outfile.write('deps = {\n')
-         for pkg in packages.split():
--- 
-2.7.4
 
+On 6/28/19 8:15 PM, Robert Yang wrote:
+> The following changes since commit 9f674a88c781c7092d5b3460922a1579b9fe4bf9:
+> 
+>    busybox: Fix typo in syslog initscript (2019-06-27 13:27:54 +0100)
+> 
+> are available in the git repository at:
+> 
+>    git://git.pokylinux.org/poky-contrib rbt/dev
+>    http://git.pokylinux.org/cgit.cgi//log/?h=rbt/dev
+
+
+Sorry, here should be oe-core, not poky:
+
+   git://git.openembedded.org/openembedded-core-contrib rbt/dev
+   http://cgit.openembedded.org//log/?h=rbt/dev
+
+// Robert
+
+> 
+> Robert Yang (1):
+>    devupstream.bbclass: Disable devupstream when multilib is enabled
+> 
+>   meta/classes/devupstream.bbclass | 6 ++++++
+>   1 file changed, 6 insertions(+)
+> 
 
