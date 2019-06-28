@@ -1,56 +1,69 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
-	[209.85.221.67])
-	by mail.openembedded.org (Postfix) with ESMTP id DEDA07EA97
+Return-Path: <jrey@linux.ibm.com>
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com
+	[148.163.156.1])
+	by mail.openembedded.org (Postfix) with ESMTP id 8273A7CFE9
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 16:58:00 +0000 (UTC)
-Received: by mail-wr1-f67.google.com with SMTP id c2so7004237wrm.8
+	Fri, 28 Jun 2019 23:03:58 +0000 (UTC)
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x5SN3nBJ068554 for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jun 2019 19:03:59 -0400
+Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2tduxj0g1a-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 09:58:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=xRs0tZAwaaYT4JaUVRZVYiVf8UerOjiTShS/wF40wPk=;
-	b=J/hwEmfKncehFZqV5flPFffUoXrhKAB7PEfuoHl+dS4ghbFZfYP4Qnz1n9q6ysf7SM
-	iC/CfAESrXIt2+uhn7SZRZDh/AYleSN1Na524yB9k07dP1T4w0nnI8KXBYkp5m6f6MGR
-	ic+iszqWTaE2mJcYfWPgkz/nYbDkFtcaSqCgI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=xRs0tZAwaaYT4JaUVRZVYiVf8UerOjiTShS/wF40wPk=;
-	b=N9wPdWCwpOY06a5QbKEaXQXvnvGSyR/7PLbIbPwcKZt+cOYXzlh6/R9op3BOXM4k56
-	YSRnyjL4ZRCAb87Ae3YkbWJJWOTYQPuYVKJXkoNQ/SffWeR++u+/uVXUxCkZ3e5kP4iS
-	6ZVB2xYm0at5v2CB0N4wwpXccKki5KAUfrYu1cWqcjrLEG+54/smapjMJtzmyGxuXj6f
-	iHWR1pW4T9tsYAgQi+2EOzIdpqAb5qJejh5gRY8nDXflVu2Iq8zdQSJx3HRhPzBethPU
-	jZh8rlXSVGg1s+WWvs1LQOay8tmECIc4PwmYHXe1bCsAFUChrcIlnbtdgKeFDWldsRCc
-	pNFA==
-X-Gm-Message-State: APjAAAW9uz2arA/ubQoWtiCNfgoE2ZIstVLunl+C4Tnxl02XRB8KFvhp
-	8MbeeMQNDG+YBtYsGaLWFa8Msg==
-X-Google-Smtp-Source: APXvYqzdR19zlnhumlKYtAqNZDnAutIPTaalQwf/5vtiMAqYdCr7VU0YDJxW/qULcnbicBRsembgcg==
-X-Received: by 2002:adf:f101:: with SMTP id r1mr8866786wro.170.1561741081576; 
-	Fri, 28 Jun 2019 09:58:01 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	p11sm2248263wrm.53.2019.06.28.09.58.00
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 28 Jun 2019 09:58:00 -0700 (PDT)
-Message-ID: <343e1b128636193717015cd16ac87e688007eef5.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: Luca Boccassi <Luca.Boccassi@microsoft.com>
-Date: Fri, 28 Jun 2019 17:57:59 +0100
-In-Reply-To: <3fe59bbe44185ac5436afc8d48d2c2e313686ae9.camel@microsoft.com>
-References: <81618ab958486def551d22764d960944fb09b73d.camel () linuxfoundation
-	! org>
-	<3fe59bbe44185ac5436afc8d48d2c2e313686ae9.camel@microsoft.com>
-User-Agent: Evolution 3.32.2-1 
+	Fri, 28 Jun 2019 19:03:59 -0400
+Received: from localhost
+	by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <openembedded-core@lists.openembedded.org> from
+	<jrey@linux.ibm.com>; Sat, 29 Jun 2019 00:03:58 +0100
+Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
+	by e31.co.us.ibm.com (192.168.1.131) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Sat, 29 Jun 2019 00:03:56 +0100
+Received: from b03ledav005.gho.boulder.ibm.com
+	(b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+	by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x5SN3tDM39125444
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Fri, 28 Jun 2019 23:03:55 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D64CEBE056;
+	Fri, 28 Jun 2019 23:03:54 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B57D5BE05A;
+	Fri, 28 Jun 2019 23:03:54 +0000 (GMT)
+Received: from demeter.rchland.ibm.com (unknown [9.10.254.184])
+	by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
+	Fri, 28 Jun 2019 23:03:54 +0000 (GMT)
+To: openembedded-core@lists.openembedded.org, jrey@linux.ibm.com,
+	joseph.reynolds1@ibm.com
+From: Joseph Reynolds <jrey@linux.ibm.com>
+Date: Fri, 28 Jun 2019 18:03:54 -0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
+	Gecko/20100101 Thunderbird/60.7.2
 MIME-Version: 1.0
-Cc: Sinan Kaya <Sinan.Kaya@microsoft.com>,
-	Anatol Belski <Anatol.Belski@microsoft.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 2/2] nativesdk-*-provides-dummy: Fixes to allow correct operation with opkg
+X-TM-AS-GCONF: 00
+x-cbid: 19062823-8235-0000-0000-00000EB05991
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011348; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000286; SDB=6.01224681; UDB=6.00644597;
+	IPR=6.01005874; 
+	MB=3.00027512; MTD=3.00000008; XFM=3.00000015; UTC=2019-06-28 23:03:57
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19062823-8236-0000-0000-000046333B96
+Message-Id: <5add2d28-a846-e555-b2a3-bae8835125b0@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-06-28_12:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1906280264
+Subject: [PATCH v2] dropbear: new feature: disable-weak-ciphers
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,47 +76,141 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 16:58:01 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Fri, 28 Jun 2019 23:03:58 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-On Fri, 2019-06-28 at 16:52 +0000, Luca Boccassi wrote:
-> 2019-06-27T13:18:54.5592415Z [WARN] [15902] Reading package lists...
-> 2019-06-27T13:18:54.5592628Z [WARN] [15903] Building dependency tree...
-> 2019-06-27T13:18:54.5593124Z [WARN] [15904] Some packages could not be installed. This may mean that you have
-> 2019-06-27T13:18:54.5593526Z [WARN] [15905] requested an impossible situation or if you are using the unstable
-> 2019-06-27T13:18:54.5593893Z [WARN] [15906] distribution that some required packages have not yet been created
-> 2019-06-27T13:18:54.5599962Z [WARN] [15907] or been moved out of Incoming.
-> 2019-06-27T13:18:54.5600415Z [WARN] [15908] The following information may help to resolve the situation:
-> 2019-06-27T13:18:54.5600834Z [WARN] [15909] The following packages have unmet dependencies:
-> 2019-06-27T13:18:54.5601383Z [WARN] [15910]  target-sdk-provides-dummy : Conflicts: bash
-> 2019-06-27T13:18:54.5601724Z [WARN] [15911]                              Conflicts: coreutils
-> 2019-06-27T13:18:54.5602246Z [WARN] [15912]                              Conflicts: coreutils-dev
-> 2019-06-27T13:18:54.5602590Z [WARN] [15913]                              Conflicts: perl
-> 2019-06-27T13:18:54.5603147Z [WARN] [15914]                              Conflicts: perl-module-strict
-> 2019-06-27T13:18:54.5603989Z [WARN] [15915]                              Conflicts: perl-module-vars
-> 2019-06-27T13:18:54.5605346Z [WARN] [15916]                              Conflicts: perl-module-warnings
-> 2019-06-27T13:18:54.5606090Z [WARN] [15917] E: Unable to correct problems, you have held broken packages.
-> 
-> Same config worked fine in sumo.
-> 
-> Any suggestion on how to fix it? Is it possible to enter the working
-> directory to run apt manually, so that I can dig further into the
-> dependency issue?
+ From 587a9e5c637ad3e70b8e35a3ca66013693ce7ac7 Mon Sep 17 00:00:00 2001
+From: Joseph Reynolds <joseph.reynolds1@ibm.com>
+Date: Wed, 19 Jun 2019 20:16:40 -0500
+Subject: [PATCH v2] dropbear: new feature: disable-weak-ciphers
 
-Sadly such "enter a shell" functionality has never been implemented so
-that isn't possible.
+Enhances dropbear with a new feature "disable-weak-ciphers", on by default.
+This feature disables all CBC, SHA1, and diffie-hellman group1 ciphers in
+the dropbear ssh server and client.
 
-The message is basically saying that there are conflicted providers of
-some things the SDK is trying to remove (like bash, perl). Its likely
-the dummy recipe isn't providing something which it needs to which
-would then stop the other provider being pulled in.
+Disable this feature if you need to connect to the ssh server from older
+clients.  Additional customization can be done with local_options.h as 
+usual.
 
-How to isolate what that is, I'm less sure about, there isn't an easy
-way. I've just done it from package inspection in the past.
+Tested: On github.com/openbmc/openbmc using dropbear_2019.78.
 
-Cheers,
+Signed-off-by: Joseph Reynolds <joseph.reynolds1@ibm.com>
+---
+  meta/recipes-core/dropbear/dropbear.inc            |  6 ++-
+  .../0007-dropbear-disable-weak-ciphers.patch       | 57 
+++++++++++++++++++++++
+  2 files changed, 61 insertions(+), 2 deletions(-)
+  create mode 100644 
+meta/recipes-core/dropbear/dropbear/0007-dropbear-disable-weak-ciphers.patch
 
-Richard
+diff --git a/meta/recipes-core/dropbear/dropbear.inc 
+b/meta/recipes-core/dropbear/dropbear.inc
+index b74d186..a12ddb6 100644
+--- a/meta/recipes-core/dropbear/dropbear.inc
++++ b/meta/recipes-core/dropbear/dropbear.inc
+@@ -20,7 +20,8 @@ SRC_URI = 
+"http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+             file://dropbear@.service \
+             file://dropbear.socket \
+             file://dropbear.default \
+-           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 
+'${PAM_SRC_URI}', '', d)} "
++           ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 
+'${PAM_SRC_URI}', '', d)} \
++           ${@bb.utils.contains('PACKAGECONFIG', 
+'disable-weak-ciphers', 
+'file://0007-dropbear-disable-weak-ciphers.patch', '', d)} "
+
+  PAM_SRC_URI = "file://0005-dropbear-enable-pam.patch \
+                 file://0006-dropbear-configuration-file.patch \
+@@ -46,8 +47,9 @@ SBINCOMMANDS = "dropbear dropbearkey dropbearconvert"
+  BINCOMMANDS = "dbclient ssh scp"
+  EXTRA_OEMAKE = 'MULTI=1 SCPPROGRESS=1 PROGRAMS="${SBINCOMMANDS} 
+${BINCOMMANDS}"'
+
+-PACKAGECONFIG ?= ""
++PACKAGECONFIG ?= "disable-weak-ciphers"
+  PACKAGECONFIG[system-libtom] = 
+"--disable-bundled-libtom,--enable-bundled-libtom,libtommath libtomcrypt"
++PACKAGECONFIG[disable-weak-ciphers] = ""
+
+  EXTRA_OECONF += "\
+   ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', 
+'--disable-pam', d)}"
+diff --git 
+a/meta/recipes-core/dropbear/dropbear/0007-dropbear-disable-weak-ciphers.patch 
+b/meta/recipes-core/dropbear/dropbear/0007-dropbear-disable-weak-cip
+hers.patch
+new file mode 100644
+index 0000000..d1f5489
+--- /dev/null
++++ 
+b/meta/recipes-core/dropbear/dropbear/0007-dropbear-disable-weak-ciphers.patch
+@@ -0,0 +1,57 @@
++From ef70b77d5a0e555b5b66502247269da73939a78d Mon Sep 17 00:00:00 2001
++From: Joseph Reynolds <jrey@linux.ibm.com>
++Date: Thu, 27 Jun 2019 16:34:41 -0500
++Subject: [PATCH] disable weak ciphers
++
++Disables all CBC, SHA1, and diffie-hellman group1 ciphers in
++the dropbear ssh server and client.
++
++Tested: via an OpenSSH client with: ssh -vv ${host}
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Joseph Reynolds <jrey@linux.ibm.com>
++---
++ default_options.h | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
++
++diff --git a/default_options.h b/default_options.h
++index 9000fcc..bfb8a8f 100644
++--- a/default_options.h
+++++ b/default_options.h
++@@ -91,7 +91,7 @@ IMPORTANT: Some options will require "make clean" 
+after changes */
++
++ /* Enable CBC mode for ciphers. This has security issues though
++  * is the most compatible with older SSH implementations */
++-#define DROPBEAR_ENABLE_CBC_MODE 1
+++#define DROPBEAR_ENABLE_CBC_MODE 0
++
++ /* Enable "Counter Mode" for ciphers. This is more secure than
++  * CBC mode against certain attacks. It is recommended for security
++@@ -101,7 +101,7 @@ IMPORTANT: Some options will require "make clean" 
+after changes */
++ /* Message integrity. sha2-256 is recommended as a default,
++    sha1 for compatibility */
++ #define DROPBEAR_SHA1_HMAC 1
++-#define DROPBEAR_SHA1_96_HMAC 1
+++#define DROPBEAR_SHA1_96_HMAC 0
++ #define DROPBEAR_SHA2_256_HMAC 1
++
++ /* Hostkey/public key algorithms - at least one required, these are used
++@@ -149,12 +149,12 @@ IMPORTANT: Some options will require "make clean" 
+after changes */
++  * Small systems should generally include either curve25519 or ecdh 
+for performance.
++  * curve25519 is less widely supported but is faster
++  */
++-#define DROPBEAR_DH_GROUP14_SHA1 1
+++#define DROPBEAR_DH_GROUP14_SHA1 0
++ #define DROPBEAR_DH_GROUP14_SHA256 1
++ #define DROPBEAR_DH_GROUP16 0
++ #define DROPBEAR_CURVE25519 1
++ #define DROPBEAR_ECDH 1
++-#define DROPBEAR_DH_GROUP1 1
+++#define DROPBEAR_DH_GROUP1 0
++
++ /* When group1 is enabled it will only be allowed by Dropbear client
++ not as a server, due to concerns over its strength. Set to 0 to allow
++--
++2.7.2
++
+-- 
+2.7.2
 
 
