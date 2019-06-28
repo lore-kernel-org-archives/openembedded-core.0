@@ -1,56 +1,50 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id F3CC57E99F
+Return-Path: <jean-tiare.le-bigot@easymile.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 431937E99E
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 10:09:24 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 88CE81837B;
-	Fri, 28 Jun 2019 12:09:25 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id N8xRlE31mP0m; Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id 6C9FE183C4;
-	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 59BC11A0C8;
-	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 4E57D1A0C7;
-	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder02.se.axis.com (Postfix) with ESMTP;
-	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
-Received: from xbox06.axis.com (xbox06.axis.com [10.0.15.176])
-	by thoth.se.axis.com (Postfix) with ESMTP id 424BCFF;
-	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
-Received: from xbox06.axis.com (10.0.15.176) by xbox06.axis.com (10.0.15.176)
-	with Microsoft SMTP Server (TLS) id 15.0.1395.4;
-	Fri, 28 Jun 2019 12:09:23 +0200
-Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
-	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
-	15.00.1395.000; Fri, 28 Jun 2019 12:09:23 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: ChenQi <Qi.Chen@windriver.com>, Paul Eggleton
-	<paul.eggleton@linux.intel.com>
-Thread-Topic: [OE-core] [PATCH 1/1] devtool: warn user about multiple layer
-	having the same base name
-Thread-Index: AQHVLZmO4k9pBF/pAE2v8XYTHRFCMA==
-Date: Fri, 28 Jun 2019 10:09:22 +0000
-Message-ID: <c2dc0472ed9646f680f658e4297eb4df@xbox06.axis.com>
-Accept-Language: en-US, sv-FI
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
+	Fri, 28 Jun 2019 10:14:01 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id p11so5667815wre.7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 28 Jun 2019 03:14:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=easymile.com; s=easymile;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XFq3/T3xgj4Ac9Qvs7m83YqXni/vlP+gQ2uPnzKwkp8=;
+	b=K16Q7pVOIyHW5ccjrABS7NcDHYBJvCquywn4M0LHkn0Szr5tNQkaqB0BW0qYK3cHuG
+	geMaYr6BvE1IVDKCvbH8R6cU6GYtGBNwzhcInPGpAbsurnAXaZcIw0tZ8vjab3Ziy+7V
+	+P2rrvpa75D1S2S4FMJ9E3HR4apb+1Kdwbf3M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=XFq3/T3xgj4Ac9Qvs7m83YqXni/vlP+gQ2uPnzKwkp8=;
+	b=nNXMds/ttcU3Yu9ht3l+YaInTBGrj02QDatGnng6hAtKoBuqW5c9OAQWSnEtBiUKPv
+	S5EXhMrVmNkjXqCXAawSmYstc3D4nX23HHZ+ucQAmwe1IihuXcInNsJWFtKvMk1RvD/I
+	0g29wCZHZlyzbrnRmJ8w5uXt7yxq3VzBkbTdA3i+bK6svCxBO6ZJIKmbSzwS0H4XA83o
+	6Z5jjMGO1a6qJRx7FzQu6jiMqoo65zRnwfG7QAyIWAH85RRnt0zef7VY35XrmA5L1aiu
+	ZeFQz7/ZV9opQcDyxlg0vYJ627O3cT4yxe5Pt5ELKeNL/w43yKohUptmw9pkoT5V0wiG
+	z7EQ==
+X-Gm-Message-State: APjAAAU4d2lfH1CVbHvcUgxzznwd4pnHP/mEh9bSnVR1tUtzkx6Tvjtz
+	rllMEnOh8evnSKh8kl+8lcAtgIoVajIXcA8K8sRdzRxJgb94SMZ/F0DIpJTWhEtVmzjJRBvUBoc
+	HzbM7M915Rm5+zr8th5L7r0inZd1A1WL2Ag09wu+2Uqcon9gaPz/JJuFRS+C3RG7mRYM46RlDSx
+	3UgEHcyLsSpwGnrnFCO/XU49bGB+b6Tnj+
+X-Google-Smtp-Source: APXvYqzNepQz+9285LqHFFDhL0/x47WbtYT8mQtl2wy9W3jbqvYbZwMevCNKi1eLjHHdv2qzFx6Deg==
+X-Received: by 2002:adf:b605:: with SMTP id f5mr7703819wre.305.1561716841824; 
+	Fri, 28 Jun 2019 03:14:01 -0700 (PDT)
+Received: from localhost.localdomain ([185.116.129.142])
+	by smtp.gmail.com with ESMTPSA id y6sm1720059wmd.16.2019.06.28.03.14.01
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 28 Jun 2019 03:14:01 -0700 (PDT)
+From: Jean-Tiare Le Bigot <jean-tiare.le-bigot@easymile.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 28 Jun 2019 12:13:53 +0200
+Message-Id: <20190628101353.11933-1-jean-tiare.le-bigot@easymile.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] devtool: warn user about multiple layer having the same base name
+Cc: =?UTF-8?q?Jo=C3=ABl=20Esponde?= <joel.esponde@easymile.com>
+Subject: [PATCH] package.bbclass: fix directories setuid and setgid bits
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,43 +57,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 10:09:25 -0000
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_"
+X-List-Received-Date: Fri, 28 Jun 2019 10:14:01 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
---_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+From: Joël Esponde <joel.esponde@easymile.com>
 
-SSBoYWQgbm90IHJlYWxpemVkIHRoZSBsYXllciBuYW1lIGluIHRoZSBkZXZ0b29sIGZpbmlzaCBj
-b21tYW5kIHN1cHBvcnRzIGFiYnJldmlhdGlvbnMvcGF0dGVybnMgKHdoaWNoZXZlciBpdCBpcyku
-IE15IGV4cGVjdGF0aW9uIGZyb20gcnVubmluZyBgZGV2dG9vbCBmaW5pc2ggZm9vIG1ldGFgIHdv
-dWxkIGJlIHRvIHVwZGF0ZSB0aGUgZm9vIHJlY2lwZSBpbiB0aGUgbWV0YSBsYXllciwgIG5vdCB0
-aGF0IGl0IHNob3VsZCBnbyBsb29raW5nIGZvciBldmVyeSBsYXllciBjYWxsZWQgbWV0YS1zb21l
-dGhpbmcuDQoNCkhvdyB1c2VmdWwgaXMgdGhhdCBzdXBwb3J0IGNvbXBhcmVkIHRvIGJlIGFibGUg
-dG8gc3BlY2lmeSB0aGUgZXhhY3QgbGF5ZXIgbmFtZT8gTm9ybWFsbHkgaW4gdGhpcyBzaXR1YXRp
-b24sIEkgd291bGQgdHlwaWNhbGx5IGV4cGVjdCB0byB1c2UgYW4gZXh0cmEgb3B0aW9uLCAgZS5n
-LiwgLS1hYmJyZXYgb3IgLS1yZWdleHAsIHRvIGVuYWJsZSBzdXBwb3J0IGZvciB1c2luZyBsb29z
-ZSBtYXRjaGluZy4NCg0KLy9QZXRlcg0K
+populate_packages relies on ``mkdir`` to both create a directory and set
+its permissions. However, ``mkdir`` honors the ``umask`` value.
+Therefore, some bits may be lost in the operation. In our case, the
+setgid bit on the directories were lost.
 
---_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_
-Content-Type: text/html; charset="utf-8"
-Content-ID: <50AD4F9F29CDCB44992F99817B9AF8CA@exhub.se.axis.com>
-Content-Transfer-Encoding: base64
+This commit fixes this by having a distinct call to create the directory
+and to set the permissions.
 
-PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
-dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KSSBoYWQgbm90IHJl
-YWxpemVkIHRoZSBsYXllciBuYW1lIGluIHRoZSBkZXZ0b29sIGZpbmlzaCBjb21tYW5kIHN1cHBv
-cnRzIGFiYnJldmlhdGlvbnMvcGF0dGVybnMgKHdoaWNoZXZlciBpdCBpcykuIE15IGV4cGVjdGF0
-aW9uIGZyb20gcnVubmluZyBgZGV2dG9vbCBmaW5pc2ggZm9vIG1ldGFgIHdvdWxkIGJlIHRvIHVw
-ZGF0ZSB0aGUgZm9vIHJlY2lwZSBpbiB0aGUgbWV0YSBsYXllciwmbmJzcDsgbm90IHRoYXQgaXQg
-c2hvdWxkIGdvIGxvb2tpbmcgZm9yDQogZXZlcnkgbGF5ZXIgY2FsbGVkIG1ldGEtc29tZXRoaW5n
-LiZuYnNwOw0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+SG93IHVzZWZ1bCBpcyB0aGF0IHN1cHBv
-cnQgY29tcGFyZWQgdG8gYmUgYWJsZSB0byBzcGVjaWZ5IHRoZSBleGFjdCBsYXllciBuYW1lPyBO
-b3JtYWxseSBpbiB0aGlzIHNpdHVhdGlvbiwgSSB3b3VsZCB0eXBpY2FsbHkgZXhwZWN0IHRvIHVz
-ZSBhbiBleHRyYSBvcHRpb24sJm5ic3A7IGUuZy4sIC0tYWJicmV2IG9yIC0tcmVnZXhwLCB0byBl
-bmFibGUgc3VwcG9ydCBmb3IgdXNpbmcgbG9vc2UgbWF0Y2hpbmcuJm5ic3A7PC9kaXY+DQo8ZGl2
-Pjxicj4NCjwvZGl2Pg0KPGRpdj4vL1BldGVyPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+Signed-off-by: Jean-Tiare Le Bigot <jean-tiare.le-bigot@easymile.com>
+---
+ meta/classes/package.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_--
+diff --git a/meta/classes/package.bbclass b/meta/classes/package.bbclass
+index 20d72bba79..cd223a121e 100644
+--- a/meta/classes/package.bbclass
++++ b/meta/classes/package.bbclass
+@@ -1216,7 +1216,8 @@ python populate_packages () {
+                 src = os.path.join(src, p)
+                 dest = os.path.join(dest, p)
+                 fstat = cpath.stat(src)
+-                os.mkdir(dest, fstat.st_mode)
++                os.mkdir(dest)
++                os.chmod(dest, fstat.st_mode)
+                 os.chown(dest, fstat.st_uid, fstat.st_gid)
+                 if p not in seen:
+                     seen.append(p)
+-- 
+2.19.1
+
+
