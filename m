@@ -1,25 +1,47 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 8266A7E731
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 227C96C23A
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 09:16:55 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5S9GuO7017777
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Fri, 28 Jun 2019 09:22:10 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id e5so11065554iok.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 02:16:56 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Fri, 28 Jun 2019 02:16:56 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Jun 2019 17:29:14 +0800
-Message-ID: <8e2fc3746a5d073925891a1f9d2d18d46513a91c.1561714128.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1561714128.git.Qi.Chen@windriver.com>
-References: <cover.1561714128.git.Qi.Chen@windriver.com>
+	Fri, 28 Jun 2019 02:22:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=SKr84z9jPNLgV2mjKPZrEpBJKEBnwqK+UlRZG9E5nkQ=;
+	b=rlj6yoyJdDLVdOATmo/c97vqdqpjH1EbdhFPNcBerTlfSz1uq6i93xpM5AMGeYTHeu
+	KH6YL+c+T4I82E/m7DGrGvaLFI+swpFUG1Ql8ii/3CmZyCJQ/BDWp970DvPUICSB39bE
+	PpINrBOjhif6i3UlLvZfSWiHsNeOS4w05AVK86FbXwS18LjwZtjCIwpVGGuqWxtx8gUI
+	/N4iiSKuguLiTkIa1lidodnbTCacYmU+WaG2Cpt9P9KfbUb4d+9ycCqIKDWxUFKS5bhj
+	WrLqjyDNa23YMjpGTCofFbZNg+r87myzWgolyMiVl0zZarKSVqjbpkiO7pECeyxxB2af
+	6URg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=SKr84z9jPNLgV2mjKPZrEpBJKEBnwqK+UlRZG9E5nkQ=;
+	b=WmyA6uy+CaIEMsa6Es9iIDh5AvmCBN7nrs8Qu9pvhmPnwg8BTL+vRkWyiKUWT4y/Z2
+	oKefa/IjOSz0lnhoqqPsT1OY9VtbJcQ7SwbPgIPmHrJg6EXDWD9UvMoFjZ/U+Ej9yfC0
+	bPh1tkyGQEW2qA0yg7nqeOSpue8IdmZYiUqkgzJkEAczHojwwA8YhNmOK9+pml+Ff1BJ
+	nHZPnfnbTDcoL6A9gXzjYf5vGTv6Kgn1T0w+QXePwta+YMgbW01AEvzcdxP1pVFmCHdv
+	5MatnTqiNDlmqKxMwGo96G2pCXZmFKXdy8i9+rYyhdes0qyiGIyvuNns9YGiHjV+QzMM
+	CQtQ==
+X-Gm-Message-State: APjAAAX1xe5BqDC2dN8LTFTfdy7ByNasgMiGlF4Az0eDenEhvfVvR2l4
+	oiT/80zskhjzLFOGgvRYdcwDmNx7+l1rJ72Ry3T/vA==
+X-Google-Smtp-Source: APXvYqxg3oqb7V0N244Pk9ZumDI0V+xwtUGeOPHyL74YY/lidTf+eT01yC8IBB3/d2Odxno3EaBVn5Wy2PIo5PWrRgY=
+X-Received: by 2002:a02:b395:: with SMTP id p21mr10302886jan.31.1561713732106; 
+	Fri, 28 Jun 2019 02:22:12 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] image.bbclass: fix systemd_preset_all
+References: <1561692176-19265-1-git-send-email-li.zhou@windriver.com>
+In-Reply-To: <1561692176-19265-1-git-send-email-li.zhou@windriver.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 28 Jun 2019 10:21:59 +0100
+Message-ID: <CAJTo0LZs5eqGCSXsFZbOhSXBWryaTv7CE+fAPn-yd9ErjXavuw@mail.gmail.com>
+To: Li Zhou <li.zhou@windriver.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] bc: dc: fix exit code of q command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,44 +54,19 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 09:16:55 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Jun 2019 09:22:11 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-Check the existence of systemctl before invoking it. This is because
-even if 'systemd' is in DISTRO_FEATURES, it's possible that systemd is
-not even installed. e.g. container-test-image in meta-selftest layer.
-This would fix the following test case when using systemd as the init
-manager.
+The maintainer said:
 
-  containerimage.ContainerImageTests.test_expected_files
+> The patch below fixes this
+> (it is committed for whenever the next bc/dc release gets made).
 
-Also remove the IMAGE_EXTRADEPENDS setting, as nothing references this
-variable.
+So:
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/classes/image.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+> +Upstream-Status: Pending [Got the solution from maintainer]
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index d2b2fb9..2115c6c 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -666,10 +666,11 @@ reproducible_final_image_task () {
- }
- 
- systemd_preset_all () {
--    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
-+    if [ -e ${STAGING_DIR_NATIVE}${bindir}/systemctl ]; then
-+	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
-+    fi
- }
- 
--IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''}"
- IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} reproducible_final_image_task; "
- 
- CVE_PRODUCT = ""
--- 
-1.9.1
+This should be Backport.
 
+Ross
 
