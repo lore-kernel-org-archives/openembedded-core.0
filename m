@@ -1,46 +1,56 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 498ED7D1F9
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id DEDA07EA97
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 16:37:23 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id c11so5331241qkk.8
+	Fri, 28 Jun 2019 16:58:00 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id c2so7004237wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 09:37:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KFRFkkuRdOGR97TY+1NAnGyyrIiyOsGiwjYKNUBTwJI=;
-	b=pT40iV9RNuq5XuxhbnAiMBiun8Qr84Qcb0apFFFnnXdSNFjwLoGKIt0aMxqhT4BfPI
-	7YJSkyirTXYbUHZuGtV30wyCNqy9TlKCcw+0dura9VggoyMKICW9JWXgbcMFbblw+zct
-	ZKM3wC0HQS6N4cqc/kMzNTXlEDai0nuAxPMYDWjAVLEmNfjtKU9EetyH2mr6mqqEe8Ty
-	NiUxTRU0kY91FbBcT+dp8R3Zkb/YZpLJN+NNzUcl3+K9uDKfe7K8mFHVLwGTjf/WGTtG
-	fVtLpFWH/eDY9ed9Y9c6ZqgrkW1VMVrJAqu9+X6cH3AEZAYVu8h77gaelxCUcBrsdshU
-	GEAA==
+	Fri, 28 Jun 2019 09:58:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:user-agent:mime-version:content-transfer-encoding;
+	bh=xRs0tZAwaaYT4JaUVRZVYiVf8UerOjiTShS/wF40wPk=;
+	b=J/hwEmfKncehFZqV5flPFffUoXrhKAB7PEfuoHl+dS4ghbFZfYP4Qnz1n9q6ysf7SM
+	iC/CfAESrXIt2+uhn7SZRZDh/AYleSN1Na524yB9k07dP1T4w0nnI8KXBYkp5m6f6MGR
+	ic+iszqWTaE2mJcYfWPgkz/nYbDkFtcaSqCgI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=KFRFkkuRdOGR97TY+1NAnGyyrIiyOsGiwjYKNUBTwJI=;
-	b=f6DtLKl7DCfuD8dO51RjPjps2YqV//6ZU3uoJ23KSBqoSBdLb69LAD0MpoLgp3Xly/
-	NRmDWL/hraIIxJPPANrPw3fNJhqX1QAXh0cjB35bWlYWCc2XEVQJ/tcU2At8x6g482g/
-	KepFIBvWQY82PPMus3lryKC+Qth2DIIcg/mrmql4lIrazQKgs/Br8hgN7MAgK1PwSpI2
-	638qtJGQUU9Xj4OYOBFzdbm79jUPtg/v0Dbb9BJV9OxPhTYcr+q+2uYcx3Et+AnE+7WP
-	EUNk4BCSRdlSLzzA4m10qhwKeWDq8FL/UeJBkpABktiGjFjW6YO4T2oPwMIWIcdnxEju
-	HktQ==
-X-Gm-Message-State: APjAAAUhW9v9gVO7timIWdX9jqhif0tTZMU505gtLUgdJ8E3zFt14W8H
-	5o5M4wvk6yJuHoAF85CyIMMIa4by6KTjYcLqmXE=
-X-Google-Smtp-Source: APXvYqxamSA7w2pWGdNe3ZomznISvIjAIDMUUFlmFiCoUwkIIy7ltzHXyWLC7wkCe8EQapeQXbsQWgZLc7VeFscXujw=
-X-Received: by 2002:a37:4243:: with SMTP id p64mr9516855qka.9.1561739843910;
-	Fri, 28 Jun 2019 09:37:23 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=xRs0tZAwaaYT4JaUVRZVYiVf8UerOjiTShS/wF40wPk=;
+	b=N9wPdWCwpOY06a5QbKEaXQXvnvGSyR/7PLbIbPwcKZt+cOYXzlh6/R9op3BOXM4k56
+	YSRnyjL4ZRCAb87Ae3YkbWJJWOTYQPuYVKJXkoNQ/SffWeR++u+/uVXUxCkZ3e5kP4iS
+	6ZVB2xYm0at5v2CB0N4wwpXccKki5KAUfrYu1cWqcjrLEG+54/smapjMJtzmyGxuXj6f
+	iHWR1pW4T9tsYAgQi+2EOzIdpqAb5qJejh5gRY8nDXflVu2Iq8zdQSJx3HRhPzBethPU
+	jZh8rlXSVGg1s+WWvs1LQOay8tmECIc4PwmYHXe1bCsAFUChrcIlnbtdgKeFDWldsRCc
+	pNFA==
+X-Gm-Message-State: APjAAAW9uz2arA/ubQoWtiCNfgoE2ZIstVLunl+C4Tnxl02XRB8KFvhp
+	8MbeeMQNDG+YBtYsGaLWFa8Msg==
+X-Google-Smtp-Source: APXvYqzdR19zlnhumlKYtAqNZDnAutIPTaalQwf/5vtiMAqYdCr7VU0YDJxW/qULcnbicBRsembgcg==
+X-Received: by 2002:adf:f101:: with SMTP id r1mr8866786wro.170.1561741081576; 
+	Fri, 28 Jun 2019 09:58:01 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	p11sm2248263wrm.53.2019.06.28.09.58.00
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 28 Jun 2019 09:58:00 -0700 (PDT)
+Message-ID: <343e1b128636193717015cd16ac87e688007eef5.camel@linuxfoundation.org>
+From: richard.purdie@linuxfoundation.org
+To: Luca Boccassi <Luca.Boccassi@microsoft.com>
+Date: Fri, 28 Jun 2019 17:57:59 +0100
+In-Reply-To: <3fe59bbe44185ac5436afc8d48d2c2e313686ae9.camel@microsoft.com>
+References: <81618ab958486def551d22764d960944fb09b73d.camel () linuxfoundation
+	! org>
+	<3fe59bbe44185ac5436afc8d48d2c2e313686ae9.camel@microsoft.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <20190627135440.15815-1-JPEWhacker@gmail.com>
-In-Reply-To: <20190627135440.15815-1-JPEWhacker@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Jun 2019 12:37:13 -0400
-Message-ID: <CAMKF1srnRNisnxfnhypBQuwO9F5q72LSDzuBZqdStBoXaR1kDQ@mail.gmail.com>
-To: Joshua Watt <jpewhacker@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] glibc: Fix locale DEPENDS
+Cc: Sinan Kaya <Sinan.Kaya@microsoft.com>,
+	Anatol Belski <Anatol.Belski@microsoft.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 2/2] nativesdk-*-provides-dummy: Fixes to allow correct operation with opkg
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,103 +63,47 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 16:37:23 -0000
-Content-Type: multipart/alternative; boundary="000000000000a0c02f058c64e469"
-
---000000000000a0c02f058c64e469
+X-List-Received-Date: Fri, 28 Jun 2019 16:58:01 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jun 27, 2019 at 9:54 AM Joshua Watt <jpewhacker@gmail.com> wrote:
+On Fri, 2019-06-28 at 16:52 +0000, Luca Boccassi wrote:
+> 2019-06-27T13:18:54.5592415Z [WARN] [15902] Reading package lists...
+> 2019-06-27T13:18:54.5592628Z [WARN] [15903] Building dependency tree...
+> 2019-06-27T13:18:54.5593124Z [WARN] [15904] Some packages could not be installed. This may mean that you have
+> 2019-06-27T13:18:54.5593526Z [WARN] [15905] requested an impossible situation or if you are using the unstable
+> 2019-06-27T13:18:54.5593893Z [WARN] [15906] distribution that some required packages have not yet been created
+> 2019-06-27T13:18:54.5599962Z [WARN] [15907] or been moved out of Incoming.
+> 2019-06-27T13:18:54.5600415Z [WARN] [15908] The following information may help to resolve the situation:
+> 2019-06-27T13:18:54.5600834Z [WARN] [15909] The following packages have unmet dependencies:
+> 2019-06-27T13:18:54.5601383Z [WARN] [15910]  target-sdk-provides-dummy : Conflicts: bash
+> 2019-06-27T13:18:54.5601724Z [WARN] [15911]                              Conflicts: coreutils
+> 2019-06-27T13:18:54.5602246Z [WARN] [15912]                              Conflicts: coreutils-dev
+> 2019-06-27T13:18:54.5602590Z [WARN] [15913]                              Conflicts: perl
+> 2019-06-27T13:18:54.5603147Z [WARN] [15914]                              Conflicts: perl-module-strict
+> 2019-06-27T13:18:54.5603989Z [WARN] [15915]                              Conflicts: perl-module-vars
+> 2019-06-27T13:18:54.5605346Z [WARN] [15916]                              Conflicts: perl-module-warnings
+> 2019-06-27T13:18:54.5606090Z [WARN] [15917] E: Unable to correct problems, you have held broken packages.
+> 
+> Same config worked fine in sumo.
+> 
+> Any suggestion on how to fix it? Is it possible to enter the working
+> directory to run apt manually, so that I can dig further into the
+> dependency issue?
 
-> gettext is required to generate the glibc locales in do_compile. If not
-> present, glibc will skip the generation which isn't reproducible.
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/recipes-core/glibc/glibc_2.29.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc_2.29.bb
-> b/meta/recipes-core/glibc/glibc_2.29.bb
-> index 073d1533e37..c400ee10b0f 100644
-> --- a/meta/recipes-core/glibc/glibc_2.29.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.29.bb
-> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D
-> "file://LICENSES;md5=3Dcfc0ed77a9f62fa62eded042ebe31d72 \
->
->  file://posix/rxspencer/COPYRIGHT;md5=3Ddc5485bb394a13b2332ec1c785f5d83a =
-\
->        file://COPYING.LIB;md5=3D4fbd65380cdd255951079008b364516c"
->
-> -DEPENDS +=3D "gperf-native bison-native make-native"
-> +DEPENDS +=3D "gperf-native bison-native make-native gettext-native"
+Sadly such "enter a shell" functionality has never been implemented so
+that isn't possible.
+
+The message is basically saying that there are conflicted providers of
+some things the SDK is trying to remove (like bash, perl). Its likely
+the dummy recipe isn't providing something which it needs to which
+would then stop the other provider being pulled in.
+
+How to isolate what that is, I'm less sure about, there isn't an easy
+way. I've just done it from package inspection in the past.
+
+Cheers,
+
+Richard
 
 
-I think we have had this dependency proposed in past and one think that
-worries me is that it will cause serialization a bit more and can affect
-bulls times wasn=E2=80=99t there a minimal gettext at some point and I wond=
-er if
-that could satisfy needs here
-
->
->
->  PV =3D "2.29"
->
-> --
-> 2.21.0
->
->
-
---000000000000a0c02f058c64e469
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Thu, Jun 27, 2019 at 9:54 AM Joshua Watt &lt;<a href=3D"=
-mailto:jpewhacker@gmail.com">jpewhacker@gmail.com</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">gettext is required to generate the glibc loc=
-ales in do_compile. If not<br>
-present, glibc will skip the generation which isn&#39;t reproducible.<br>
-<br>
-Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" targ=
-et=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" rel=3D"noref=
-errer" target=3D"_blank">glibc_2.29.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" rel=
-=3D"noreferrer" target=3D"_blank">glibc_2.29.bb</a> b/meta/recipes-core/gli=
-bc/<a href=3D"http://glibc_2.29.bb" rel=3D"noreferrer" target=3D"_blank">gl=
-ibc_2.29.bb</a><br>
-index 073d1533e37..c400ee10b0f 100644<br>
---- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" rel=3D"noref=
-errer" target=3D"_blank">glibc_2.29.bb</a><br>
-+++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" rel=3D"noref=
-errer" target=3D"_blank">glibc_2.29.bb</a><br>
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D &quot;file://LICENSES;md5=3Dcfc0ed77a9=
-f62fa62eded042ebe31d72 \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://posix/rxspencer/COPYRIGHT;md5=3Ddc5485bb3=
-94a13b2332ec1c785f5d83a \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING.LIB;md5=3D4fbd65380cdd25595107900=
-8b364516c&quot;<br>
-<br>
--DEPENDS +=3D &quot;gperf-native bison-native make-native&quot;<br>
-+DEPENDS +=3D &quot;gperf-native bison-native make-native gettext-native&qu=
-ot;</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">I think we ha=
-ve had this dependency proposed in past and one think that worries me is th=
-at it will cause serialization a bit more and can affect bulls times wasn=
-=E2=80=99t there a minimal gettext at some point and I wonder if that could=
- satisfy needs here=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"><br>
-<br>
-=C2=A0PV =3D &quot;2.29&quot;<br>
-<br>
--- <br>
-2.21.0<br>
-<br>
-</blockquote></div></div>
-
---000000000000a0c02f058c64e469--
