@@ -1,49 +1,57 @@
-Return-Path: <alex.kanavin@gmail.com>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 3742B7EB61
+Return-Path: <jpewhacker@gmail.com>
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com
+	[209.85.210.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 2340A7EB38
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 13:25:11 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id u8so8977874wmm.1
+	Fri, 28 Jun 2019 13:58:41 +0000 (UTC)
+Received: by mail-pf1-f196.google.com with SMTP id r1so3018918pfq.12
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 06:25:12 -0700 (PDT)
+	Fri, 28 Jun 2019 06:58:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=jc6GfBDq3RsPJI5IVVADqBw3hZTqZI4vYPGBLeE2RiU=;
-	b=QF0irkqCrBkGXAFGmsFm+2XtfeRz6PQXu/P3mq0u8bQIFzNWJ/Qc3NdjwybzKZ8okv
-	6WNk6+H1v8SJigFonnsbqe3F5V3mox3etYd6J2fdaF1cVdyuEhCtOZyIRWMWvja8Z/zG
-	8Dghv9px/Rlf/9mvTZUJCILsXBsPa0ROakK1mg89TsWNQMVjI9gWx0BzB5zM/M0GtamW
-	ZN3TR50mNgVLi3ejudIPR5vb+7jqDTEyF/cpq57RGz4okam4I+D9nwCaQeRYaDV8DIkM
-	7FjdEK55GvG/6snx117el72hUkqZ38GOr4Bn7jkhhcCTV+BahyhckhIch+BRKD+2oY9g
-	iv/g==
+	h=from:subject:to:cc:references:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=LGIX90KEdLvnbTD+qsZyVlgK1yMcgKrTAE8KkUZD1B8=;
+	b=lkMWFtt7+dbrpQuMJfgCs6BGMuHFf7AjVmrb21DOKthbODYm/bmWbUfQ5tyxhLvDLG
+	L5Q61xSmn749EJaiSVqvswodIis6oU2d8lxxDUNFEGbbiZ/dcqnXiFSPff5+bZbT5E5y
+	vX/l4Bjb262uJmZ3JybmwEbmFsYaUhY72Zq+XoaMwOX9Dn7q3b4YzwSn/q5u9xOvOpwL
+	pNpgj4VBFix8cR213Vj8Wni+T8w1ctHp9FYk93HiOFrkZuzvH83v7x6bOhkUaz3eBYwR
+	8+smULlvBn195db+sMVvAxok7W5EKuuNsGyuiycOqQH6AO6DqSWPTUp/qpzdiMQcKhLa
+	LngQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=jc6GfBDq3RsPJI5IVVADqBw3hZTqZI4vYPGBLeE2RiU=;
-	b=olGAHeftlDH+pPYzBK/AS/CD73mxi3BzK1g6qsTZtahsij0CYVK8X8gkrv/ydPqX70
-	AQtiS+CEXxUenXH4mZH4zxFCiAA4U9pglfQYRMMy5hIH/kudemJrp7JYnNb82LPe7oqS
-	bXbD7OMfRZmg9PwYOIGeo2H9BOLmFcIBUPgSEIOoXIhxYN6EcL6vCe18maj+JRB9fqWj
-	T1Ht965WxOWo2HZrB/S+nG9oaIzzPzg07eqp100DVI2qW38Zgd+yQUEtuAJncLum0gPK
-	iQ7hXXbqTlooo0rdHv1gkvR/mLOWrBWgF66Qbrzy2uTRzvmhrEOebbDeg4P80BVpcQOg
-	cZcw==
-X-Gm-Message-State: APjAAAV92ZEihjQovAkXuPpTV3yZAC5A2srRsoTv/WLcq2JubXhlxf3P
-	f2TnV8gmTk3G62fn/HnNNCKagAhO
-X-Google-Smtp-Source: APXvYqyZToSLP+7hY5kyW8Gf5WPRUdY3EgsBAb0cunxtJybI5iiN7dpAbL7aEDKAu1Osf2yOXYz1IQ==
-X-Received: by 2002:a1c:7217:: with SMTP id n23mr7455976wmc.47.1561728311687; 
-	Fri, 28 Jun 2019 06:25:11 -0700 (PDT)
-Received: from alexander-box.luxoft.com ([62.96.135.139])
-	by smtp.gmail.com with ESMTPSA id z6sm2158338wrw.2.2019.06.28.06.25.10
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 28 Jun 2019 06:25:11 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 28 Jun 2019 15:24:57 +0200
-Message-Id: <20190628132457.39465-6-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190628132457.39465-1-alex.kanavin@gmail.com>
-References: <20190628132457.39465-1-alex.kanavin@gmail.com>
-Subject: [PATCH 6/6] gtk-doc: correct the style.css permissions
+	h=x-gm-message-state:from:subject:to:cc:references:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=LGIX90KEdLvnbTD+qsZyVlgK1yMcgKrTAE8KkUZD1B8=;
+	b=VXPAX66+kBTioJleZj/FD6/U4mEQ/DaNLiKbArdlRbRKFDBsO+4o6vhOFQaCIIlOAo
+	i100niQDr04V31oFj0LRv7UeV5xMAQ7sM6ay3t2BxJpu+2U0ne+tOmKmTaSUo4FjOIAS
+	mEXjbBkGPS5AA/STZb4qTyc6lVatlJ/NC3nLcjla1pgYHoWceMSAthoG9HYI40Qfp1b8
+	qWg14PJxphhpv2BpPQhulqncoyX4vTCNRAlYnN/NqjIK1ZfN3JeNk8W4ZI8cUH722tgC
+	FCt7zpXPeWJ6IjpFTGEoz55kqrgeR0IsZtGms4dIcL3iNrGoYs3KDU8/GGIBU+/Z2D9p
+	AA1A==
+X-Gm-Message-State: APjAAAXZVGF5VseclhBbcWZRnY1QWAcDzf0yhe2epgLViT8H/SeHvbNI
+	7d0aoc0rk9047/PZWY4nfOKwdMUr
+X-Google-Smtp-Source: APXvYqzFPqkYZI9vzp8X5HA9yJGuNXlva8+p0/LtDE1d9YvPBw9XbFvoyl0KMXF42+3QPoLqEOvXCQ==
+X-Received: by 2002:a17:90a:80c4:: with SMTP id
+	k4mr13581067pjw.74.1561730321671; 
+	Fri, 28 Jun 2019 06:58:41 -0700 (PDT)
+Received: from [10.30.197.57] ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id w1sm2780513pjt.30.2019.06.28.06.58.40
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 28 Jun 2019 06:58:40 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <20190627135440.15815-1-JPEWhacker@gmail.com>
+	<CAJTo0LZkKvgOCmDiWaRCnRV4bvMdtZba8sDEMHdJxtGxTZkisQ@mail.gmail.com>
+Message-ID: <d5286598-4205-0c22-ce08-98408ce2f341@gmail.com>
+Date: Fri, 28 Jun 2019 08:58:39 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <CAJTo0LZkKvgOCmDiWaRCnRV4bvMdtZba8sDEMHdJxtGxTZkisQ@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Fix locale DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,72 +64,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 13:25:11 -0000
+X-List-Received-Date: Fri, 28 Jun 2019 13:58:41 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 
-style.css was set to write-only during build which means it wasn't actually
-installed or packaged (with only webkitgtk producing a build failure!),
-which in turn means generated documentation was broken.
 
-Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
----
- ...rectly-set-permissions-on-file-to-be.patch | 23 +++++++++++++++++++
- .../gtk-doc/files/pkg-config-native.patch     |  2 +-
- meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb    |  1 +
- 3 files changed, 25 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch
+On 6/27/19 11:19 AM, Burton, Ross wrote:
+> On Thu, 27 Jun 2019 at 14:55, Joshua Watt <jpewhacker@gmail.com> wrote:
+>> gettext is required to generate the glibc locales in do_compile. If not
+>> present, glibc will skip the generation which isn't reproducible.
+>>
+>> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+>> ---
+>>   meta/recipes-core/glibc/glibc_2.29.bb | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+>> index 073d1533e37..c400ee10b0f 100644
+>> --- a/meta/recipes-core/glibc/glibc_2.29.bb
+>> +++ b/meta/recipes-core/glibc/glibc_2.29.bb
+>> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSES;md5=cfc0ed77a9f62fa62eded042ebe31d72 \
+>>         file://posix/rxspencer/COPYRIGHT;md5=dc5485bb394a13b2332ec1c785f5d83a \
+>>         file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+>>
+>> -DEPENDS += "gperf-native bison-native make-native"
+>> +DEPENDS += "gperf-native bison-native make-native gettext-native"
+> Dont we want this to respect the NLS flag or similar?
 
-diff --git a/meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch b/meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch
-new file mode 100644
-index 00000000000..bb8f55c41d0
---- /dev/null
-+++ b/meta/recipes-gnome/gtk-doc/files/0001-highlight.py-correctly-set-permissions-on-file-to-be.patch
-@@ -0,0 +1,23 @@
-+From 63bc4cd1ce2d918c6566a4e0c7d830713432fc82 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Fri, 28 Jun 2019 13:08:24 +0200
-+Subject: [PATCH] highlight.py: correctly set permissions on file to be written
-+
-+Upstream-Status: Backport [https://github.com/GNOME/gtk-doc/commit/12d9a698fb58f3d1a840d3bfc0d15a3a9f57afc1]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ gtkdoc/highlight.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/gtkdoc/highlight.py b/gtkdoc/highlight.py
-+index 8f6e470..82e11e8 100644
-+--- a/gtkdoc/highlight.py
-++++ b/gtkdoc/highlight.py
-+@@ -47,6 +47,6 @@ def highlight_code(code, lang='c'):
-+ 
-+ 
-+ def append_style_defs(css_file_name):
-+-    os.chmod(css_file_name, stat.S_IWRITE)
-++    os.chmod(css_file_name, 0o644)
-+     with open(css_file_name, 'at', newline='\n', encoding='utf-8') as css:
-+         css.write(HTML_FORMATTER.get_style_defs())
-diff --git a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-index 3e973a16eb0..5674a38abd5 100644
---- a/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-+++ b/meta/recipes-gnome/gtk-doc/files/pkg-config-native.patch
-@@ -1,4 +1,4 @@
--From a3f69f2ed45efbdaee47c2dde4df3d78323300e5 Mon Sep 17 00:00:00 2001
-+From 31254fac614bb6ee28cf6fdd514a9563a5d781a8 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 5 Sep 2016 22:25:44 +0100
- Subject: [PATCH] Use native pkg-config when looking for gtk-doc.
-diff --git a/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb b/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-index f16847e40c1..fce03295341 100644
---- a/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-+++ b/meta/recipes-gnome/gtk-doc/gtk-doc_1.30.bb
-@@ -24,6 +24,7 @@ SRC_URI += "file://0001-Do-not-hardocode-paths-to-perl-python-in-scripts.patch \
-            file://0001-Do-not-error-out-if-xsltproc-is-not-found.patch \
-            file://conditionaltests.patch \
-            file://no-clobber.patch \
-+           file://0001-highlight.py-correctly-set-permissions-on-file-to-be.patch \
-            "
- SRC_URI_append_class-native = " file://pkg-config-native.patch"
- 
--- 
-2.17.1
+Sorry, I'm not quite sure I follow... I didn't find anything related to 
+NLS in the glibc recipes? Would you mind clarifying?
 
+>
+> Ross
 
