@@ -1,25 +1,35 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 803147E996
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 9A2D37E900
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 06:13:28 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x5S6DT9x016266
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 27 Jun 2019 23:13:29 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 27 Jun 2019 23:13:29 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 28 Jun 2019 14:25:35 +0800
-Message-ID: <5ead749ee0cc6dc3f78dd7ca3b77c83bf88bfa51.1561702962.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1561702962.git.Qi.Chen@windriver.com>
-References: <cover.1561702962.git.Qi.Chen@windriver.com>
+	Fri, 28 Jun 2019 07:08:08 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x5S787OI009466
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 28 Jun 2019 00:08:07 -0700 (PDT)
+Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Fri, 28 Jun 2019 00:08:07 -0700
+To: Matt Madison <matt@madison.systems>
+References: <20180304210937.29727-1-matt@madison.systems>
+	<20180304210937.29727-7-matt@madison.systems>
+	<5D0C9F8B.8060109@windriver.com>
+	<CAGgRHJoXVPEq-L9iHniD9mQtvC3CGq3-jP7NincOx1gVqCps3g@mail.gmail.com>
+	<5D1335A3.6060508@windriver.com>
+	<CAGgRHJozBOK+JH3uFQ-=utkTk97Gqg0N1yH2vdgC8-z6cQwUNA@mail.gmail.com>
+	<5D1465AA.2050401@windriver.com>
+	<CAGgRHJqHLmiga8CAj7od2OuqRc2MKcnc0cGuXFc1SgMSOMrGGQ@mail.gmail.com>
+From: "Yu, Mingli" <mingli.yu@windriver.com>
+Message-ID: <5D15BDDE.1090003@windriver.com>
+Date: Fri, 28 Jun 2019 15:12:30 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
+	Thunderbird/38.4.0
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] devtool: error out when using base name provided by multiple layers
+In-Reply-To: <CAGgRHJqHLmiga8CAj7od2OuqRc2MKcnc0cGuXFc1SgMSOMrGGQ@mail.gmail.com>
+X-Originating-IP: [128.224.162.170]
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH v5 06/13] go.bbclass: ptest cleanup and improvements
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,62 +42,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 06:13:28 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 28 Jun 2019 07:08:08 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Currently `devtool finish RECIPE meta' will silently succeed even
-if there are multiple layers having the same base name of 'meta'.
-e.g. meta layer from oe-core and meta layer from meta-secure-core.
 
-We should error out and give users useful information in such case.
-With the patch, we will get error like below.
 
-ERROR: Multiple layers have the same base name 'meta'. Consider using path instead of base name to specify layer:
-        PROJ_DIR/oe-core/meta
-        PROJ_DIR/meta-secure-core/meta
+On 2019年06月27日 19:34, Matt Madison wrote:
+> On Wed, Jun 26, 2019 at 11:40 PM Yu, Mingli <mingli.yu@windriver.com> wrote:
+>>
+>>
+>>
+>> On 2019年06月26日 22:00, Matt Madison wrote:
+>>> On Wed, Jun 26, 2019 at 2:02 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
+>>>>
+>>>>
+>>>>
+>>>> On 2019年06月25日 20:23, Matt Madison wrote:
+>>>>> On Fri, Jun 21, 2019 at 2:08 AM Yu, Mingli <mingli.yu@windriver.com> wrote:
+>>>>>>
+>>>>>> Hi Matt,
+>>>>>>
+>>>>>> I noticed your commit is the latest update for go-dep ptest. But the
+>>>>>> go-dep ptest doesn't work in my environment. I'm trying to figure out
+>>>>>> what's wrong is here though I didn't know much about go.
+>>>>>
+>>>>> I went back over the commits, and I don't think I did anything with
+>>>>> go-dep specifically. I can see that the tests are failing for it, and
+>>>>> it looks like it's because go-dep's test programs make some
+>>>>> assumptions about the environment.  For one thing, it needs the go
+>>>>> compiler installed. It also looks like it's expecting some source
+>>>>> files to be present... in other words, it's not really designed for a
+>>>>> cross-build setup, with tests run on the cross-built target. It could
+>>>>> be messy to work around that, and I'm not sure how useful it would be
+>>>>> anyway, seeing as how go-dep is more of a build tool.  Might be better
+>>>>> to just disable ptests for it completely.
+>>>>
+>>>> Many thanks Matt for your information!
+>>>> Did you ever run go-dep ptest?
+>>>> Go through the run-ptest script for go-dep, it actually runs the
+>>>> /usr/lib64/go-dep/ptest/github.com/golang/dep/cmd/dep/dep.test whose
+>>>> source file is
+>>>> https://github.com/golang/dep/blob/master/cmd/dep/dep_test.go.
+>>>
+>>> Yes, I see that.  That main program starts by rebuilding the dep
+>>> program from source, then runs the tests using that copy of the
+>>> program, so it's assuming that you're still in a development
+>>> environment where you can run a full go build.  That's what I meant by
+>>> it not being designed for a cross-build setup.
+>>>
+>>> I've patched the test program to create a symlink to the installed dep
+>>> program instead of rebuilding, and got further.  You'll need to
+>>> include 'go', 'git', and 'git-perltools' in the image to get the tests
+>>> to run. Some of the test cases failed until I set GOCACHE in the
+>>> environment to point to a valid path; I'm not sure why.  The tests
+>>> took a long time to run on my qemux86 build, though - at least 30
+>>> minutes.
+>>
+>> Thanks very much for Matt's guide!
+>>
+>> I have applied the patch you provide to create a symlink to the
+>> installed dep program instead of rebuilding and also add go', 'git', and
+>> 'git-perltools' into the image, but there is no PASS case, all failed as
+>> attached go-dep_ptest.log.
+>
+> The device under test needs Internet access to fetch repos from
+> Github. From the log, it looks like perhaps yours didn't?
+>
+>>
+>> BTW, you said you set GOCACHE, what's the valid path do you mean?
+>
+> Any directory that the user has write access to.  The default is
+> $HOME/.cache/go-build .
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- scripts/lib/devtool/standard.py | 22 ++++++++++++++++++----
- 1 file changed, 18 insertions(+), 4 deletions(-)
+There is no difference after set GOCACHE, still all the case failed.
 
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard.py
-index aca74b1..1841791 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -1866,13 +1866,27 @@ def reset(args, config, basepath, workspace):
- def _get_layer(layername, d):
-     """Determine the base layer path for the specified layer name/path"""
-     layerdirs = d.getVar('BBLAYERS').split()
--    layers = {os.path.basename(p): p for p in layerdirs}
-+    layers = {}    # {basename: layer_paths}
-+    for p in layerdirs:
-+        bn = os.path.basename(p)
-+        if bn not in layers:
-+            layers[bn] = [p]
-+        else:
-+            layers[bn].append(p)
-     # Provide some shortcuts
-     if layername.lower() in ['oe-core', 'openembedded-core']:
--        layerdir = layers.get('meta', None)
-+        layername = 'meta'
-+    layer_paths = layers.get(layername, None)
-+    if not layer_paths:
-+        return os.path.abspath(layername)
-+    elif len(layer_paths) == 1:
-+        return os.path.abspath(layer_paths[0])
-     else:
--        layerdir = layers.get(layername, None)
--    return os.path.abspath(layerdir or layername)
-+        # multiple layers having the same base name
-+        msg = "Multiple layers have the same base name '%s'. " % layername
-+        msg += "Consider using path instead of base name to specify layer:\n\t%s" % '\n\t'.join(layer_paths)
-+        raise DevtoolError(msg)
-+
- 
- def finish(args, config, basepath, workspace):
-     """Entry point for the devtool 'finish' subcommand"""
--- 
-1.9.1
+Thanks,
 
+>
+> -M
+>
+>>
+>> Thanks,
+>>
+>>>
+>>> Here's the patch I applied to use the already-built dep binary.  An
+>>> alternative approach would be to put everything in place to allow the
+>>> test program to rebuild the dep binary itself, but that would drive up
+>>> the time for the test run even further.
+>>>
+>>> Regards,
+>>> -Matt
+>>>
+>>> ---
+>>>    cmd/dep/dep_test.go | 13 +++++++++----
+>>>    1 file changed, 9 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/src/github.com/golang/dep/cmd/dep/dep_test.go
+>>> b/src/github.com/golang/dep/cmd/dep/dep_test.go
+>>> index 687eef3a..535ca56d 100644
+>>> --- a/src/github.com/golang/dep/cmd/dep/dep_test.go
+>>> +++ b/src/github.com/golang/dep/cmd/dep/dep_test.go
+>>> @@ -18,13 +18,18 @@ import (
+>>>    // deletes it after the tests have been run.
+>>>    // Most of this is taken from
+>>> https://github.com/golang/go/blob/master/src/cmd/go/go_test.go and
+>>> reused here.
+>>>    func TestMain(m *testing.M) {
+>>> - args := []string{"build", "-o", "testdep" + test.ExeSuffix}
+>>> - out, err := exec.Command("go", args...).CombinedOutput()
+>>> + args := []string{"dep"}
+>>> + out, err := exec.Command("which", args...).CombinedOutput()
+>>>     if err != nil {
+>>> - fmt.Fprintf(os.Stderr, "building testdep failed: %v\n%s", err, out)
+>>> + fmt.Fprintf(os.Stderr, "finding dep failed: %v\n%s", err, out)
+>>> + os.Exit(2)
+>>> + }
+>>> + args = []string{"-s", string(out[:len(out)-1]), "testdep" + test.ExeSuffix}
+>>> + out, err = exec.Command("ln", args...).CombinedOutput()
+>>> + if err != nil {
+>>> + fmt.Fprintf(os.Stderr, "symlinking dep failed: %v\n%s", err, out)
+>>>     os.Exit(2)
+>>>     }
+>>> -
+>>>     // Don't let these environment variables confuse the test.
+>>>     os.Unsetenv("GOPATH")
+>>>     os.Unsetenv("GIT_ALLOW_PROTOCOL")
+>>>
+>
 
