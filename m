@@ -1,47 +1,56 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 227C96C23A
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id F3CC57E99F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 09:22:10 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id e5so11065554iok.4
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 28 Jun 2019 02:22:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=SKr84z9jPNLgV2mjKPZrEpBJKEBnwqK+UlRZG9E5nkQ=;
-	b=rlj6yoyJdDLVdOATmo/c97vqdqpjH1EbdhFPNcBerTlfSz1uq6i93xpM5AMGeYTHeu
-	KH6YL+c+T4I82E/m7DGrGvaLFI+swpFUG1Ql8ii/3CmZyCJQ/BDWp970DvPUICSB39bE
-	PpINrBOjhif6i3UlLvZfSWiHsNeOS4w05AVK86FbXwS18LjwZtjCIwpVGGuqWxtx8gUI
-	/N4iiSKuguLiTkIa1lidodnbTCacYmU+WaG2Cpt9P9KfbUb4d+9ycCqIKDWxUFKS5bhj
-	WrLqjyDNa23YMjpGTCofFbZNg+r87myzWgolyMiVl0zZarKSVqjbpkiO7pECeyxxB2af
-	6URg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=SKr84z9jPNLgV2mjKPZrEpBJKEBnwqK+UlRZG9E5nkQ=;
-	b=WmyA6uy+CaIEMsa6Es9iIDh5AvmCBN7nrs8Qu9pvhmPnwg8BTL+vRkWyiKUWT4y/Z2
-	oKefa/IjOSz0lnhoqqPsT1OY9VtbJcQ7SwbPgIPmHrJg6EXDWD9UvMoFjZ/U+Ej9yfC0
-	bPh1tkyGQEW2qA0yg7nqeOSpue8IdmZYiUqkgzJkEAczHojwwA8YhNmOK9+pml+Ff1BJ
-	nHZPnfnbTDcoL6A9gXzjYf5vGTv6Kgn1T0w+QXePwta+YMgbW01AEvzcdxP1pVFmCHdv
-	5MatnTqiNDlmqKxMwGo96G2pCXZmFKXdy8i9+rYyhdes0qyiGIyvuNns9YGiHjV+QzMM
-	CQtQ==
-X-Gm-Message-State: APjAAAX1xe5BqDC2dN8LTFTfdy7ByNasgMiGlF4Az0eDenEhvfVvR2l4
-	oiT/80zskhjzLFOGgvRYdcwDmNx7+l1rJ72Ry3T/vA==
-X-Google-Smtp-Source: APXvYqxg3oqb7V0N244Pk9ZumDI0V+xwtUGeOPHyL74YY/lidTf+eT01yC8IBB3/d2Odxno3EaBVn5Wy2PIo5PWrRgY=
-X-Received: by 2002:a02:b395:: with SMTP id p21mr10302886jan.31.1561713732106; 
-	Fri, 28 Jun 2019 02:22:12 -0700 (PDT)
+	Fri, 28 Jun 2019 10:09:24 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 88CE81837B;
+	Fri, 28 Jun 2019 12:09:25 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id N8xRlE31mP0m; Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 6C9FE183C4;
+	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 59BC11A0C8;
+	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 4E57D1A0C7;
+	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
+Received: from xbox06.axis.com (xbox06.axis.com [10.0.15.176])
+	by thoth.se.axis.com (Postfix) with ESMTP id 424BCFF;
+	Fri, 28 Jun 2019 12:09:23 +0200 (CEST)
+Received: from xbox06.axis.com (10.0.15.176) by xbox06.axis.com (10.0.15.176)
+	with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Fri, 28 Jun 2019 12:09:23 +0200
+Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
+	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
+	15.00.1395.000; Fri, 28 Jun 2019 12:09:23 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: ChenQi <Qi.Chen@windriver.com>, Paul Eggleton
+	<paul.eggleton@linux.intel.com>
+Thread-Topic: [OE-core] [PATCH 1/1] devtool: warn user about multiple layer
+	having the same base name
+Thread-Index: AQHVLZmO4k9pBF/pAE2v8XYTHRFCMA==
+Date: Fri, 28 Jun 2019 10:09:22 +0000
+Message-ID: <c2dc0472ed9646f680f658e4297eb4df@xbox06.axis.com>
+Accept-Language: en-US, sv-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
 MIME-Version: 1.0
-References: <1561692176-19265-1-git-send-email-li.zhou@windriver.com>
-In-Reply-To: <1561692176-19265-1-git-send-email-li.zhou@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 28 Jun 2019 10:21:59 +0100
-Message-ID: <CAJTo0LZs5eqGCSXsFZbOhSXBWryaTv7CE+fAPn-yd9ErjXavuw@mail.gmail.com>
-To: Li Zhou <li.zhou@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] bc: dc: fix exit code of q command
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] devtool: warn user about multiple layer having the same base name
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,19 +63,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 28 Jun 2019 09:22:11 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 28 Jun 2019 10:09:25 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_"
 
-The maintainer said:
+--_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-> The patch below fixes this
-> (it is committed for whenever the next bc/dc release gets made).
+SSBoYWQgbm90IHJlYWxpemVkIHRoZSBsYXllciBuYW1lIGluIHRoZSBkZXZ0b29sIGZpbmlzaCBj
+b21tYW5kIHN1cHBvcnRzIGFiYnJldmlhdGlvbnMvcGF0dGVybnMgKHdoaWNoZXZlciBpdCBpcyku
+IE15IGV4cGVjdGF0aW9uIGZyb20gcnVubmluZyBgZGV2dG9vbCBmaW5pc2ggZm9vIG1ldGFgIHdv
+dWxkIGJlIHRvIHVwZGF0ZSB0aGUgZm9vIHJlY2lwZSBpbiB0aGUgbWV0YSBsYXllciwgIG5vdCB0
+aGF0IGl0IHNob3VsZCBnbyBsb29raW5nIGZvciBldmVyeSBsYXllciBjYWxsZWQgbWV0YS1zb21l
+dGhpbmcuDQoNCkhvdyB1c2VmdWwgaXMgdGhhdCBzdXBwb3J0IGNvbXBhcmVkIHRvIGJlIGFibGUg
+dG8gc3BlY2lmeSB0aGUgZXhhY3QgbGF5ZXIgbmFtZT8gTm9ybWFsbHkgaW4gdGhpcyBzaXR1YXRp
+b24sIEkgd291bGQgdHlwaWNhbGx5IGV4cGVjdCB0byB1c2UgYW4gZXh0cmEgb3B0aW9uLCAgZS5n
+LiwgLS1hYmJyZXYgb3IgLS1yZWdleHAsIHRvIGVuYWJsZSBzdXBwb3J0IGZvciB1c2luZyBsb29z
+ZSBtYXRjaGluZy4NCg0KLy9QZXRlcg0K
 
-So:
+--_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-ID: <50AD4F9F29CDCB44992F99817B9AF8CA@exhub.se.axis.com>
+Content-Transfer-Encoding: base64
 
-> +Upstream-Status: Pending [Got the solution from maintainer]
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KSSBoYWQgbm90IHJl
+YWxpemVkIHRoZSBsYXllciBuYW1lIGluIHRoZSBkZXZ0b29sIGZpbmlzaCBjb21tYW5kIHN1cHBv
+cnRzIGFiYnJldmlhdGlvbnMvcGF0dGVybnMgKHdoaWNoZXZlciBpdCBpcykuIE15IGV4cGVjdGF0
+aW9uIGZyb20gcnVubmluZyBgZGV2dG9vbCBmaW5pc2ggZm9vIG1ldGFgIHdvdWxkIGJlIHRvIHVw
+ZGF0ZSB0aGUgZm9vIHJlY2lwZSBpbiB0aGUgbWV0YSBsYXllciwmbmJzcDsgbm90IHRoYXQgaXQg
+c2hvdWxkIGdvIGxvb2tpbmcgZm9yDQogZXZlcnkgbGF5ZXIgY2FsbGVkIG1ldGEtc29tZXRoaW5n
+LiZuYnNwOw0KPGRpdj48YnI+DQo8L2Rpdj4NCjxkaXY+SG93IHVzZWZ1bCBpcyB0aGF0IHN1cHBv
+cnQgY29tcGFyZWQgdG8gYmUgYWJsZSB0byBzcGVjaWZ5IHRoZSBleGFjdCBsYXllciBuYW1lPyBO
+b3JtYWxseSBpbiB0aGlzIHNpdHVhdGlvbiwgSSB3b3VsZCB0eXBpY2FsbHkgZXhwZWN0IHRvIHVz
+ZSBhbiBleHRyYSBvcHRpb24sJm5ic3A7IGUuZy4sIC0tYWJicmV2IG9yIC0tcmVnZXhwLCB0byBl
+bmFibGUgc3VwcG9ydCBmb3IgdXNpbmcgbG9vc2UgbWF0Y2hpbmcuJm5ic3A7PC9kaXY+DQo8ZGl2
+Pjxicj4NCjwvZGl2Pg0KPGRpdj4vL1BldGVyPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-This should be Backport.
-
-Ross
-
+--_000_c2dc0472ed9646f680f658e4297eb4dfxbox06axiscom_--
