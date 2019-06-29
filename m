@@ -1,49 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com
-	[209.85.167.48])
-	by mail.openembedded.org (Postfix) with ESMTP id 89843605B3
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 51A337E726
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2019 16:40:02 +0000 (UTC)
-Received: by mail-lf1-f48.google.com with SMTP id a25so6009856lfg.2
+	Sat, 29 Jun 2019 16:53:26 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id 131so8940006ljf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2019 09:40:03 -0700 (PDT)
+	Sat, 29 Jun 2019 09:53:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:cc:subject:date:message-id;
-	bh=2/ol/n/ukGMDwVl1btAQixH6smDEXDoCdEbQZX9SsHA=;
-	b=X12ECEuihnbRV8+sfGvaEC/cLt3v+1MjylJSqiq/qspFbLX2kKDdkmKkJtiBEyxz4p
-	RaQ0WWV7mRndOJ19YoiNvhScQJVmUjsUhgeqXnDuBI5aDvQGyaiUmnnD/XBQaus1XJbj
-	UL4BQM5FsP/+muxkKLiwCGl0l+IpmNpDHRKs1VbeqaJveH7bAz6mnhrr9GyBLU8L8OnV
-	BzQRM9bRbNQBMwAR1FB4KWMjUPDOgpG0eiCCZqGfmmsaHxoxir7vZsFfxH5ZYzdQ1liy
-	jDmknJMIyetkHX3FtZUWNUfUGTS+P0WnntTmePX51ERoAy7XRWHyW5PYLbVynijQBk+L
-	Jcdw==
+	bh=pwY2I+LFNeMzVJgxULFY3q44sFoGlerk68LppTmUVe4=;
+	b=ZGDqOg8eZrSMjmGwQveitNiNsBXYCcpX+f80TkMPgQODxlljZUTXlFWIrzFQp9TR7b
+	PRPBrDy+t4Hztg/C3Gbmq6cIf09G1AMJHPeteXUj8WsV11QfICqAlD3cBkOgJaTumnU8
+	TRpDQzoRqoaCLlTWshVTYOoMJNmGNTyL/UkEuPSqSZ/JXYNUxc/omJwmf/uBwbEh28g3
+	JovEAzgwbVrnhv8paIqugNAT0ihRO5DOHMiw702dKDoduy/Z42AEwXGglbL58qsKC3vo
+	bEHYgcXiszUvQSTzRZUGmhoPe9heo6OtszuZ1qtX6ZzYXFJ8HifshydexxJgNCBzdQiu
+	RVFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=2/ol/n/ukGMDwVl1btAQixH6smDEXDoCdEbQZX9SsHA=;
-	b=NLEDrxn6joYgNUB3UBiUHoYYTcdLvOq5kXQWuwEcIKkY4hFznVdSKslUCcE5YNbVfD
-	ICrCzY1CRaNfCtvJ4FJXLv7FXr3ziDGIvTkOZay7P861xgYKxLqWr//dcZJvnW+KHecn
-	7mnVBBTbuNgDtE2sDxvXFwkCvOzPiA/ZqxaOaRg4+6L3YORf6Ac9vTw9gNJ6v2mO5xob
-	T/BoS7T7zWC7gRm4LzxgZe/ToRMygHtAgk2y2R2aEPe58IwtQUw5PaJMK6L/1vkeUUOj
-	bBeJwmqYYMyWTfp15ethA9VkBOp0a7ylnQojjcIoLgawaGzan6wbZbXtYpgQ4AfpTvxT
-	XnqA==
-X-Gm-Message-State: APjAAAVa3Ej+QC4DgZ0aXAacrHpAFcEjzSSvnAhD1VzjmgEeBNUxb5o3
-	xmCsNDZCB7faTm7iqzPLi15gfNe61tM=
-X-Google-Smtp-Source: APXvYqxuFYwERwVPsw7ksNJUL7cqpZ+26kMCcMgSqAHEx7y7a91BYJkt7A5Ya2mZQgE4tr/tXgMmvQ==
-X-Received: by 2002:a19:bec1:: with SMTP id o184mr7342437lff.86.1561826402822; 
-	Sat, 29 Jun 2019 09:40:02 -0700 (PDT)
+	bh=pwY2I+LFNeMzVJgxULFY3q44sFoGlerk68LppTmUVe4=;
+	b=miXQld8rhhCpt2tCUJcVi+YZQjQ3GKmHhLqbi4GPK7guK00FJwXkSQ1x0lx4nejRJG
+	tEzobdlQJ6CDhZUJLb2VC+SJoMxz1ZGqWo3HvXqglhT24WTAlWdp10rsmBieAxKKuiz8
+	Rsfw8fQn1QiBiELq5kLejHl65VTxsz8NvRMLniljadlVrC5bGw2IBOf4CUyGkRzx2SjG
+	UhPWto0S+2ZxDQElSE7wIO2UbMsvUoPLdX8qFB6PrOcCCoRUGhn1GkhuFblPQ9m/6Xsb
+	r7oNJmCJiO6VDoaQcUFd/rk2v0YdzXG3t9yFu+grB3ui3h2tFKJR5VxWDJhiavTp7xy0
+	7tMw==
+X-Gm-Message-State: APjAAAW1cdl3+H7Q7txeGbkPhT4FJdSOeYRq9G1ZmasDWV7wg7fxHbAb
+	rrkKT3jXoyK9Mmv//PaHfqKCLyktVVM=
+X-Google-Smtp-Source: APXvYqyTt/GDa5ciIw/o/7rheR7ju03U3gAoQLy4d7na8gg/7+R6oc7fHM5ece206KxwfVIlHWk6nw==
+X-Received: by 2002:a2e:9a87:: with SMTP id p7mr9251876lji.133.1561827207470; 
+	Sat, 29 Jun 2019 09:53:27 -0700 (PDT)
 Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id s19sm897814lji.38.2019.06.29.09.40.01
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	c15sm1798280lja.79.2019.06.29.09.53.26
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 29 Jun 2019 09:40:02 -0700 (PDT)
+	Sat, 29 Jun 2019 09:53:27 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Jun 2019 18:39:58 +0200
-Message-Id: <20190629163958.26162-1-open.source@oleksandr-kravchuk.com>
+Date: Sat, 29 Jun 2019 18:53:25 +0200
+Message-Id: <20190629165325.29137-1-open.source@oleksandr-kravchuk.com>
 X-Mailer: git-send-email 2.17.1
 Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] dpkg: update to 1.19.7
+Subject: [PATCH] apt: update to 1.2.31
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,99 +56,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jun 2019 16:40:02 -0000
+X-List-Received-Date: Sat, 29 Jun 2019 16:53:27 -0000
 
 Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- ...s-expect-D-to-be-set-when-running-in.patch | 20 +++++++++----------
- .../dpkg/{dpkg_1.19.4.bb => dpkg_1.19.7.bb}   |  4 ++--
- 2 files changed, 12 insertions(+), 12 deletions(-)
- rename meta/recipes-devtools/dpkg/{dpkg_1.19.4.bb => dpkg_1.19.7.bb} (86%)
+ .../apt/{apt-native_1.2.24.bb => apt-native_1.2.31.bb}        | 0
+ meta/recipes-devtools/apt/apt.inc                             | 4 ++--
+ meta/recipes-devtools/apt/{apt_1.2.24.bb => apt_1.2.31.bb}    | 0
+ 3 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/apt/{apt-native_1.2.24.bb => apt-native_1.2.31.bb} (100%)
+ rename meta/recipes-devtools/apt/{apt_1.2.24.bb => apt_1.2.31.bb} (100%)
 
-diff --git a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-index b88be87490..9ca7262eb9 100644
---- a/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-+++ b/meta/recipes-devtools/dpkg/dpkg/0003-Our-pre-postinsts-expect-D-to-be-set-when-running-in.patch
-@@ -1,7 +1,7 @@
--From 24229971492515b64c81e8c6392e5dfbdc22b44c Mon Sep 17 00:00:00 2001
-+From dd11ed66640f79143e42d778b58fdd5a61fb5836 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 26 Aug 2015 16:25:45 +0300
--Subject: [PATCH 3/5] Our pre/postinsts expect $D to be set when running in a
-+Subject: [PATCH] Our pre/postinsts expect $D to be set when running in a
-  sysroot and don't expect a chroot. This matches up our system expectations
-  with what dpkg does.
+diff --git a/meta/recipes-devtools/apt/apt-native_1.2.24.bb b/meta/recipes-devtools/apt/apt-native_1.2.31.bb
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt-native_1.2.24.bb
+rename to meta/recipes-devtools/apt/apt-native_1.2.31.bb
+diff --git a/meta/recipes-devtools/apt/apt.inc b/meta/recipes-devtools/apt/apt.inc
+index 842c30240b..b855099e52 100644
+--- a/meta/recipes-devtools/apt/apt.inc
++++ b/meta/recipes-devtools/apt/apt.inc
+@@ -15,8 +15,8 @@ SRC_URI = "https://launchpad.net/ubuntu/+archive/primary/+sourcefiles/${BPN}/${P
+            file://0001-apt-1.2.12-Fix-musl-build.patch \
+            file://0001-Include-array.h-for-std-array.patch \
+            "
+-SRC_URI[md5sum] = "ce8f9ab11f4fd0a08ec73eaffd75c8f0"
+-SRC_URI[sha256sum] = "fa1311a9ce00e72379a0a3bc6d240ba30c0968cfbbb3472859e50b99e24e9598"
++SRC_URI[md5sum] = "d30eed9304e82ea8238c854b5c5a34d9"
++SRC_URI[sha256sum] = "03ded4f5e9b8d43ecec083704b2dcabf20c182ed382db9ac7251da0b0b038059"
+ LIC_FILES_CHKSUM = "file://COPYING.GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263"
  
-@@ -12,11 +12,11 @@ ALIMON 2016/05/26
- ALIMON 2017/02/21
- KKang 2019/02/20
- ---
-- src/script.c | 44 +++-----------------------------------------
-- 1 file changed, 3 insertions(+), 41 deletions(-)
-+ src/script.c | 53 +++-------------------------------------------------
-+ 1 file changed, 3 insertions(+), 50 deletions(-)
- 
- diff --git a/src/script.c b/src/script.c
--index 0865b95..73ed35d 100644
-+index abe65b6f7..621ff9b27 100644
- --- a/src/script.c
- +++ b/src/script.c
- @@ -96,58 +96,11 @@ setexecute(const char *path, struct stat *stab)
-@@ -27,12 +27,12 @@ index 0865b95..73ed35d 100644
- -	const char *changedir;
- -	size_t instdirlen = strlen(instdir);
- -
---	if (instdirlen > 0 && fc_script_chrootless)
-+-	if (instdirlen > 0 && in_force(FORCE_SCRIPT_CHROOTLESS))
- -		changedir = instdir;
- -	else
- -		changedir = "/";
- -
---	if (instdirlen > 0 && !fc_script_chrootless) {
-+-	if (instdirlen > 0 && !in_force(FORCE_SCRIPT_CHROOTLESS)) {
- -		int rc;
- -
- -		if (strncmp(admindir, instdir, instdirlen) != 0)
-@@ -43,7 +43,7 @@ index 0865b95..73ed35d 100644
- -			ohshite(_("unable to setenv for subprocesses"));
- -
- -		rc = chroot(instdir);
---		if (rc && fc_nonroot && errno == EPERM)
-+-		if (rc && in_force(FORCE_NON_ROOT) && errno == EPERM)
- -			ohshit(_("not enough privileges to change root "
- -			         "directory with --force-not-root, consider "
- -			         "using --force-script-chrootless?"));
-@@ -69,7 +69,7 @@ index 0865b95..73ed35d 100644
- -		      args.buf);
- -		varbuf_destroy(&args);
- -	}
---	if (instdirlen == 0 || fc_script_chrootless)
-+-	if (instdirlen == 0 || in_force(FORCE_SCRIPT_CHROOTLESS))
- -		return cmd->filename;
- -
- -	if (strlen(cmd->filename) < instdirlen)
-@@ -82,5 +82,5 @@ index 0865b95..73ed35d 100644
-  
-  /**
- -- 
--2.1.4
-+2.17.1
- 
-diff --git a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb b/meta/recipes-devtools/dpkg/dpkg_1.19.7.bb
-similarity index 86%
-rename from meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-rename to meta/recipes-devtools/dpkg/dpkg_1.19.7.bb
-index b83868fec0..e9dec337b3 100644
---- a/meta/recipes-devtools/dpkg/dpkg_1.19.4.bb
-+++ b/meta/recipes-devtools/dpkg/dpkg_1.19.7.bb
-@@ -18,5 +18,5 @@ SRC_URI_append_class-native = " \
-                                 file://tweak-options-require-tar-1.27.patch \
- "
- 
--SRC_URI[md5sum] = "1e4420409426d8c58bbe13a8e07c0c0b"
--SRC_URI[sha256sum] = "c15234e98655689586bff2d517a6fdc6135d139c54d52ae9cfa6a90007fee0ae"
-+SRC_URI[md5sum] = "60f57c5494e6dfa177504d47bfa0e383"
-+SRC_URI[sha256sum] = "4c27fededf620c0aa522fff1a48577ba08144445341257502e7730f2b1a296e8"
+ # the package is taken from snapshots.debian.org; that source is static and goes stale
+diff --git a/meta/recipes-devtools/apt/apt_1.2.24.bb b/meta/recipes-devtools/apt/apt_1.2.31.bb
+similarity index 100%
+rename from meta/recipes-devtools/apt/apt_1.2.24.bb
+rename to meta/recipes-devtools/apt/apt_1.2.31.bb
 -- 
 2.17.1
 
