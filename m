@@ -1,25 +1,24 @@
 Return-Path: <anatol.oe@belski.net>
-X-Greylist: delayed 326 seconds by postgrey-1.34 at layers.openembedded.org;
-	Sat, 29 Jun 2019 18:42:44 UTC
 Received: from h1123647.serverkompetenz.net (klapt.com [85.214.73.107])
-	by mail.openembedded.org (Postfix) with ESMTP id D15CF7E98F
+	by mail.openembedded.org (Postfix) with ESMTP id 08FB07E7E5
 	for <openembedded-core@lists.openembedded.org>;
-	Sat, 29 Jun 2019 18:42:44 +0000 (UTC)
+	Sat, 29 Jun 2019 18:58:26 +0000 (UTC)
 Received: by h1123647.serverkompetenz.net (Postfix, from userid 1006)
-	id E8BA817A2FDB; Sat, 29 Jun 2019 20:37:18 +0200 (CEST)
+	id 032B417A2FDB; Sat, 29 Jun 2019 20:58:26 +0200 (CEST)
 Received: from
 	anbelski-lsg-linux-yocto-0.jls0im4d1fsuxcyoqe2kuaxlef.yx.internal.cloudapp.net
 	(unknown [13.78.141.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by h1123647.serverkompetenz.net (Postfix) with ESMTPSA id 2727F17A2FDB; 
-	Sat, 29 Jun 2019 20:37:16 +0200 (CEST)
+	by h1123647.serverkompetenz.net (Postfix) with ESMTPSA id 634F017A05A8
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 29 Jun 2019 20:58:24 +0200 (CEST)
 From: anatol.oe@belski.net
 To: openembedded-core@lists.openembedded.org
-Date: Sat, 29 Jun 2019 18:37:03 +0000
-Message-Id: <20190629183703.96352-1-anatol.oe@belski.net>
+Date: Sat, 29 Jun 2019 18:58:02 +0000
+Message-Id: <20190629185802.98456-1-anatol.oe@belski.net>
 X-Mailer: git-send-email 2.17.1
-Cc: Anatol Belski <anatol.belski@microsoft.com>
+Reply-To: anatol.oe@belski.net
 Subject: [PATCH] bzip2: Fix CVE-2019-12900
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -33,7 +32,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 29 Jun 2019 18:42:45 -0000
+X-List-Received-Date: Sat, 29 Jun 2019 18:58:27 -0000
 
 From: Anatol Belski <anatol.belski@microsoft.com>
 
