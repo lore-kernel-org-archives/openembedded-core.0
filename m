@@ -1,51 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
-	[209.85.221.66])
-	by mail.openembedded.org (Postfix) with ESMTP id B981A7E6F2
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 14D677E6F2
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2019 21:58:56 +0000 (UTC)
-Received: by mail-wr1-f66.google.com with SMTP id c27so3919139wrb.2
+	Sun, 30 Jun 2019 22:00:17 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id h19so13208381wme.0
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2019 14:58:58 -0700 (PDT)
+	Sun, 30 Jun 2019 15:00:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
 	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
 	:mime-version:content-transfer-encoding;
-	bh=DSy/VnWZSsM53fCmOseKVMpL1BGEh1IuYHUhROzjWjs=;
-	b=DlkJgEnUG49+lqB/FTc1ZrA9e+BLLaEHITnovZ+9T8QS0sFkaDvcOBGgd3w+RLpJ72
-	I7ddJKTub17qXTqzNWhUZTBWsbZ8vs6kK60c0c6Xex+79BCP8fHbQzwHK0qpEUmwNcXY
-	jliTlpgiSSpNA20bOG1lpl5CRiJKWOiqyd/4g=
+	bh=2x0ytp/sUWT8GhgCPksZMLHkQWH5DGeIUSdOMy9XBCs=;
+	b=P2CeoOCWJk31vHpk/4kyNVBQbSaAHF+kgfylHOV20CrMf5aYGYJOE2lC2bgyVOICfo
+	R2u0BzseJw4kwbgJQaj79k+jsrWFv1IAKUW5/pFCC2dD5XkCLGdiH8lvGemBlxDaEANT
+	vJUdhltMCawP1LfW/6pZsQF2Ak2X4a/t8TFYY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
 	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=DSy/VnWZSsM53fCmOseKVMpL1BGEh1IuYHUhROzjWjs=;
-	b=p5N8onzU0OsenUFF1SMDMIMikBRQvOPsoA1vA9tjCpJxcjxe6+IVDjiANdWjJqNoCb
-	SwBuKqB/cRSoXTYkDBActKdkOWMgcZQU3sAhS7cUjltjnXtWRmXK1b/BU+uCHAAbr5GY
-	i3i1L+BykbLjZOWPUK3NrBV/K65US45kFme8jX5CY89sgZAamdx0pL1a5B2C2jYJJBm3
-	uPy31mFwBzxRmm4YJEVQ1HKtL7COx4a1BIK7yibyHfgCz7I/i8HQgBjrQ7gt/3/XEV5S
-	4+3od4SkLlHUav2bRpVJObbWXVmxAv6QxCcENmC+1IzpVJs0f5+tR56h0vRj4iTzuH36
-	Er/Q==
-X-Gm-Message-State: APjAAAUQn9GWGBWvD5s/FFkcYQvtMvEpQcjGM4ESrNwgjwaR9y4COrpw
-	hL8pgWfEAK4EqpOSZqXLzfw+Wg==
-X-Google-Smtp-Source: APXvYqwbx0tOlieZ2sR7wuIKaHR4oPgM7sKe7HHElyio3Z82xPx/Pwbsa6FnXw4Norl7K910Gtk79A==
-X-Received: by 2002:a5d:4085:: with SMTP id o5mr14828756wrp.101.1561931937333; 
-	Sun, 30 Jun 2019 14:58:57 -0700 (PDT)
+	bh=2x0ytp/sUWT8GhgCPksZMLHkQWH5DGeIUSdOMy9XBCs=;
+	b=VBXkrLqjRATK38eEslA2S6/g5rC4hMoLQKKzbPm1JC0ypfXkitfvTs1QQciTxcNQ2n
+	n+VqW2Lusm2K5GuV5jabIjC2mBearJc01JS3Fdogg5F3JehjVBLE2r5zOEp+AwsyHTav
+	N/FY+UQsXCW6ULlG8eE2ux0ULg7sYz+WppLW8anObnJTxQuUA50VPGkxtEN+AgjTtICh
+	eVOmlF/v7+ZibDNWN8VHpYT/zR9BqVJINlS1HOPMFqf9/vy8jrYjeudkSRUzaN6Kqlzk
+	QeMAC6r5eoMI+n6JlYWdjo884XWybLTR9Ci2yPtedRUfxbNAw2R6yA9MYbbReYhKK4Mp
+	VWxw==
+X-Gm-Message-State: APjAAAURaFpl23HcRzhGdQcR3RWwfZT0cmPsMS1wpSWC16UCKBftzCUP
+	/v7IhibSqaOZlC/tk+Mt6rcOyA==
+X-Google-Smtp-Source: APXvYqx1/9yz99YoH6P2ojKboUp5kwggRSLnmWNCgcE53/T/ZeAn4XosQ5aJmt23XJjwVddI673Dcg==
+X-Received: by 2002:a1c:cf0b:: with SMTP id f11mr15104282wmg.138.1561932018561;
+	Sun, 30 Jun 2019 15:00:18 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
 	by smtp.gmail.com with ESMTPSA id
-	d24sm7956019wra.43.2019.06.30.14.58.55
+	g25sm7021897wmk.39.2019.06.30.15.00.17
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 30 Jun 2019 14:58:56 -0700 (PDT)
-Message-ID: <0221a7bd0f40bddd3fdfd624f75cabce3eb9fda1.camel@linuxfoundation.org>
+	Sun, 30 Jun 2019 15:00:17 -0700 (PDT)
+Message-ID: <ed1f167e12e6cc6f1031c2de0a5c6e439a7b6e49.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joseph Reynolds <jrey@linux.ibm.com>, 
-	openembedded-core@lists.openembedded.org, joseph.reynolds1@ibm.com
-Date: Sun, 30 Jun 2019 22:58:48 +0100
-In-Reply-To: <5add2d28-a846-e555-b2a3-bae8835125b0@linux.ibm.com>
-References: <5add2d28-a846-e555-b2a3-bae8835125b0@linux.ibm.com>
+To: Mike Crowe <mac@mcrowe.com>, openembedded-core@lists.openembedded.org
+Date: Sun, 30 Jun 2019 23:00:17 +0100
+In-Reply-To: <20190625131625.15658-1-mac@mcrowe.com>
+References: <20190625131625.15658-1-mac@mcrowe.com>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] dropbear: new feature: disable-weak-ciphers
+Subject: Re: [PATCH] bitbake.conf: Stop exporting TARGET_ flags variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,46 +57,25 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sun, 30 Jun 2019 21:58:57 -0000
+X-List-Received-Date: Sun, 30 Jun 2019 22:00:18 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-On Fri, 2019-06-28 at 18:03 -0500, Joseph Reynolds wrote:
->  From 587a9e5c637ad3e70b8e35a3ca66013693ce7ac7 Mon Sep 17 00:00:00
-> 2001
-> From: Joseph Reynolds <joseph.reynolds1@ibm.com>
-> Date: Wed, 19 Jun 2019 20:16:40 -0500
-> Subject: [PATCH v2] dropbear: new feature: disable-weak-ciphers
+On Tue, 2019-06-25 at 14:16 +0100, Mike Crowe wrote:
+> Way back in
+> http://lists.openembedded.org/pipermail/openembedded-core/2014-April/210138.html
+> a few of us discussed not exporting TARGET_LDFLAGS. There seemed to be
+> support for this idea, and I modified our tree to not do so. I then seem to
+> have dropped the ball. :( We've been running like that for over five years,
+> and not observed any problems.
 > 
-> Enhances dropbear with a new feature "disable-weak-ciphers", on by
-> default.
-> This feature disables all CBC, SHA1, and diffie-hellman group1
-> ciphers in
-> the dropbear ssh server and client.
+> It seems sensible to stop exporting TARGET_CPPFLAGS, TARGET_CFLAGS and
+> TARGET_CXXFLAGS too.
 > 
-> Disable this feature if you need to connect to the ssh server from
-> older
-> clients.  Additional customization can be done with local_options.h
-> as 
-> usual.
-> 
-> Tested: On github.com/openbmc/openbmc using dropbear_2019.78.
-> 
-> Signed-off-by: Joseph Reynolds <joseph.reynolds1@ibm.com>
-> ---
->   meta/recipes-core/dropbear/dropbear.inc            |  6 ++-
->   .../0007-dropbear-disable-weak-ciphers.patch       | 57 
-> ++++++++++++++++++++++
->   2 files changed, 61 insertions(+), 2 deletions(-)
->   create mode 100644 
-> meta/recipes-core/dropbear/dropbear/0007-dropbear-disable-weak-
-> ciphers.patch
+> I've successfully compile-tested core-image-minimal and core-image-sato for
+> x86_64 and qemuarm64 with these changes.
 
-I merged v1 of this patch previously. What was different in this
-version?
-
-Also, the patch was still line wrapped so very hard to apply (had to be
-manually fixed).
+FWIW I'm really happy to see this!
 
 Cheers,
 
