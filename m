@@ -1,51 +1,51 @@
 Return-Path: <anibal.limon@linaro.org>
-Received: from mail-oi1-f195.google.com (mail-oi1-f195.google.com
-	[209.85.167.195])
-	by mail.openembedded.org (Postfix) with ESMTP id 14BC07E7BE
+Received: from mail-oi1-f194.google.com (mail-oi1-f194.google.com
+	[209.85.167.194])
+	by mail.openembedded.org (Postfix) with ESMTP id 0E9657E7BE
 	for <openembedded-core@lists.openembedded.org>;
 	Mon,  1 Jul 2019 21:18:09 +0000 (UTC)
-Received: by mail-oi1-f195.google.com with SMTP id w7so11183819oic.3
+Received: by mail-oi1-f194.google.com with SMTP id l12so11203122oil.1
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2019 14:18:10 -0700 (PDT)
+	Mon, 01 Jul 2019 14:18:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=Vf0gJMusTk2tbUWK0PELNxrpSzbGk4Opp3hV66pwCTc=;
-	b=s5xML8UbATV9zux0N9jPKVsn1wRMzFP7HBsXIWOrN/+d0aIWy4Ij7U5OPftmkz0R4R
-	1RCryTw2Kzt/e6pDYLXNrzODOluj6sr2RjYHWVlq8SMFBHJNe8KIA4YQT0KtUMDMXOTp
-	xGc8EgkvnnT3ecKx7W6FLgYvUyI1V3N4eFAtN8aDqqrXPnbXTbduBDFBBbKFijUGW+vY
-	0f06YMDTM70azu6qyO4LN+TMaWnhiTktsXW/DZDdvuWlmccV1WHHiXhgMmgoqr7TKKPq
-	68vMsWAGj2WuQX5eWLcoXJQQsut4MqtHQuhT3YgKpfudsoegfXMe9B1diyf/b5+b7u0m
-	2NQw==
+	bh=sX3n5OlVTOC3e0EaTaApoiad6WeJorg8GqqVIIebXIo=;
+	b=KDMd+lcIHBJEpqsKHr64p21kT9To9GfB1nO8ecRWpeMXUDUSf+gGGudCyVcsDevFM3
+	qTMcoHhwER5SucqylTfSlpF9LGyBJCCW5K7/N05zTAalBD5SnHWzGq5RNHsAVRkurloj
+	xkLJiAQ/aFLWd3h3TjA41zE+f2I3pJOQdV+Cp/+iYBp9il8fF2kq4BZbWa4AhP53L/a8
+	+00Ygg4wx5yoWZ0Z3z4pYT8sXCSmoknrKhsqnWjh66ZMhovAyi7T1zsY0z+iNH8jIqW/
+	o6kR2x6Za75lbR3/hWfXsecnjY1wzXyKCzb/466LuWTAgzHZU8Oqm2DWP2lN1954kOrM
+	KE/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Vf0gJMusTk2tbUWK0PELNxrpSzbGk4Opp3hV66pwCTc=;
-	b=aNCiRSsTpFd4hnsvZJrFOlePQCymtJm3oe9FAXYndnIf2EjrbZahlhA3JbZmFV4Gjv
-	0Po8jasWIkquPqXazty8wx7M9ueXzs9xEyYwJea5PmF9R9TlwbpeRFRKnQGARwLfxJXV
-	PGjhmHMb2F4DCJXRbTr47VE97/rJ3V0DuProG+lODKtIDYcVyfHRvx3GfLkygggAoHcq
-	DgSW4vXYekOnceiTQbb7cScGgT3sLD4+LC84PZnrzhK4TtJGRnQ4aaENUqRySONzind8
-	u0okw2JNYWySWL7BzQ9Zh3KpybJMldN9uIc7NCKwcSM1RhLzc52Tcm5lr3AoUy4Px33q
-	elUQ==
-X-Gm-Message-State: APjAAAXpbs//PmNf6U/U242gG3Br7O1TKSFg8qAzZZjcxibbqAOSY+Kl
-	iOA5DLP2qEW/Au6atVzS1tf6ZaQ0HPM=
-X-Google-Smtp-Source: APXvYqyRM3KiGARTYbK3n9dyUgVBR9DlblGMOJ78NBPbfis9oeK9FoqkBKW682K4W33/UCyMa0ecxw==
-X-Received: by 2002:aca:ed04:: with SMTP id l4mr931168oih.26.1562015889527;
-	Mon, 01 Jul 2019 14:18:09 -0700 (PDT)
+	bh=sX3n5OlVTOC3e0EaTaApoiad6WeJorg8GqqVIIebXIo=;
+	b=X0faSsbriZ68THduohoGomQArqv0nbajfcHDnIJgkOXB/gW8+z8klU4z5vA0U7aOF4
+	Vvi+4XqNWiLcnQf2IA4LB28tYLFk0Rtt+TWJd8FEajfHIQ49JATwd/ma96ufy8VzL+hm
+	m6zNL04Bx4DQPcilK7MrTmvyRZbdMs/QChrshfjVWwYe9od8RoF5voLtDWB85k9vQi5u
+	bovKxluofN/+fxE8JvXhyrtY28eHWkob/s6b24eixfMzH9Q7XARBZaGoDJ2bu1/A4ARN
+	JXllU/VszMii5XZE/O1L/vZhPBp4CGWgCaD5HGglOvjXWZMnxmYF5H9tJWR0KK01Gz4/
+	wQ9g==
+X-Gm-Message-State: APjAAAUbK/lbJhNl0eWxkvAqbEgSwvaUmxW7UdpHw+BR4Io6Gie2RzoY
+	rMDfgH16jnwSIkntrN2gwkG6yJqw0Co=
+X-Google-Smtp-Source: APXvYqxQDnyifK/QbmuecG1QklTFEf1Q0RgyCrOnEkcvHaOhETlIBPRQ+WkHIhOiRrIJtQxVghDyjw==
+X-Received: by 2002:aca:4c16:: with SMTP id z22mr905917oia.57.1562015890839;
+	Mon, 01 Jul 2019 14:18:10 -0700 (PDT)
 Received: from blackbox.Home ([200.68.140.5]) by smtp.gmail.com with ESMTPSA id
-	l15sm4460040otr.38.2019.07.01.14.18.08
+	l15sm4460040otr.38.2019.07.01.14.18.09
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 01 Jul 2019 14:18:09 -0700 (PDT)
+	Mon, 01 Jul 2019 14:18:10 -0700 (PDT)
 From: =?UTF-8?q?An=C3=ADbal=20Lim=C3=B3n?= <anibal.limon@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Jul 2019 16:18:48 -0500
-Message-Id: <20190701211849.31989-2-anibal.limon@linaro.org>
+Date: Mon,  1 Jul 2019 16:18:49 -0500
+Message-Id: <20190701211849.31989-3-anibal.limon@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190701211849.31989-1-anibal.limon@linaro.org>
 References: <20190701211849.31989-1-anibal.limon@linaro.org>
 MIME-Version: 1.0
-Subject: [PATCHv2 2/3] runqemu: Add support for multiple tap devices
+Subject: [PATCHv2 3/3] runqemu: Add QB_KERNEL_NO_NETWORK_CONFIG variable
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,217 +58,61 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 21:18:09 -0000
+X-List-Received-Date: Mon, 01 Jul 2019 21:18:10 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Add the ability to set more than one tap devices into the
-same qemu instance,
-
-The code was modified to detect multiple @TAP@ and @MAC@ in the
-QA_TAP_OPT and QA_NETWORK_DEVICE respectively, it handles the
-attach/creation of multiple tap devices and stores into a list
-for lock/unlock.
-
-Configure the first interface because Kernel IP Configuration
-only takes care of the first device.
-
-This patch was tested using qemux86, kvm-vhost and NFS rootfs.
-
-Example of the configuration:
-
-QB_TAP_OPT = "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no \
-              -netdev tap,id=net1,ifname=@TAP@,script=no,downscript=no"
-QB_NETWORK_DEVICE = "-device virtio-net-pci,netdev=net0,mac=@MAC@ \
-                     -device virtio-net-pci,netdev=net1,mac=@MAC@"
+To let user choice if wants to have network configured via Kernel
+cmdline.
 
 Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
 ---
- scripts/runqemu | 146 +++++++++++++++++++++++++++---------------------
- 1 file changed, 83 insertions(+), 63 deletions(-)
+ meta/classes/qemuboot.bbclass |  3 +++
+ scripts/runqemu               | 10 ++++++----
+ 2 files changed, 9 insertions(+), 4 deletions(-)
 
+diff --git a/meta/classes/qemuboot.bbclass b/meta/classes/qemuboot.bbclass
+index 15a9e63f2b..5df63a6a61 100644
+--- a/meta/classes/qemuboot.bbclass
++++ b/meta/classes/qemuboot.bbclass
+@@ -41,6 +41,8 @@
+ #             "-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no"
+ #              Note, runqemu will replace "@TAP@" with the one which is used, such as tap0, tap1 ...
+ #
++# QB_KERNEL_NO_NETWORK_CONFIG: disable auto network configuration via kernel cmdline possible values 'True' and 'False'
++#
+ # QB_SLIRP_OPT: network option for SLIRP mode, e.g., -netdev user,id=net0"
+ #
+ # QB_ROOTFS_OPT: used as rootfs, e.g.,
+@@ -63,6 +65,7 @@ QB_DEFAULT_KERNEL ?= "${KERNEL_IMAGETYPE}"
+ QB_DEFAULT_FSTYPE ?= "ext4"
+ QB_OPT_APPEND ?= "-show-cursor"
+ QB_NETWORK_DEVICE ?= "-device virtio-net-pci,netdev=net0,mac=@MAC@"
++QB_KERNEL_NO_NETWORK_CONFIG ?= "False"
+ 
+ # This should be kept align with ROOT_VM
+ QB_DRIVE_TYPE ?= "/dev/sd"
 diff --git a/scripts/runqemu b/scripts/runqemu
-index 8a54c9ef9a..2f318e114d 100755
+index 2f318e114d..ec61edfc46 100755
 --- a/scripts/runqemu
 +++ b/scripts/runqemu
-@@ -205,19 +205,21 @@ class BaseConfig(object):
+@@ -1069,10 +1069,12 @@ class BaseConfig(object):
+             gateway = tapnum * 2 + 1
+             client = gateway + 1
  
-     def acquire_lock(self, lock, error=True):
-         logger.debug("Acquiring lockfile %s..." % lock)
-+        descriptor = None
-         try:
--            self.lock_descriptors[lock] = open(lock, 'w')
--            fcntl.flock(self.lock_descriptors[lock], fcntl.LOCK_EX|fcntl.LOCK_NB)
-+            descriptor = open(lock, 'w')
-+            fcntl.flock(descriptor, fcntl.LOCK_EX|fcntl.LOCK_NB)
-         except Exception as e:
-             msg = "Acquiring lockfile %s failed: %s" % (lock, e)
-             if error:
-                 logger.error(msg)
-             else:
-                 logger.info(msg)
--            if self.lock_descriptors[lock]:
--                self.lock_descriptor[lock].close()
--                self.lock_descriptor[lock] = None
-+            if descriptor:
-+                descriptor.close()
-+                descriptor = None
-             return False
-+        self.lock_descriptors[lock] = descriptor
-         return True
+-            if tap_idx == 0:
+-                netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0::eth%d" % (client, gateway, tap_idx)
+-                logger.info("Network configuration: %s", netconf)
+-                self.kernel_cmdline_script += " ip=%s" % netconf
++            no_network = self.get('QB_KERNEL_NO_NETWORK_CONFIG')
++            if no_network and not no_network.lower() == 'true':
++                if tap_idx == 0:
++                    netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0::eth%d" % (client, gateway, tap_idx)
++                    logger.info("Network configuration: %s", netconf)
++                    self.kernel_cmdline_script += " ip=%s" % netconf
  
-     def release_lock(self, lock):
-@@ -1004,64 +1006,81 @@ class BaseConfig(object):
-             except FileExistsError:
-                 pass
- 
--        cmd = (ip, 'link')
--        logger.debug('Running %s...' % str(cmd))
--        ip_link = subprocess.check_output(cmd).decode('utf-8')
--        # Matches line like: 6: tap0: <foo>
--        possibles = re.findall('^[0-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
--        tap = ""
--        for p in possibles:
--            lockfile = os.path.join(lockdir, p)
--            if os.path.exists('%s.skip' % lockfile):
--                logger.info('Found %s.skip, skipping %s' % (lockfile, p))
--                continue
--            lock = lockfile + '.lock'
--            if self.acquire_lock(lock, error=False):
--                tap = p
--                logger.info("Using preconfigured tap device %s" % tap)
--                logger.info("If this is not intended, touch %s.skip to make runqemu skip %s." %(lockfile, tap))
--                break
--
--        if not tap:
--            if os.path.exists(nosudo_flag):
--                logger.error("Error: There are no available tap devices to use for networking,")
--                logger.error("and I see %s exists, so I am not going to try creating" % nosudo_flag)
--                raise RunQemuError("a new one with sudo.")
--
--            gid = os.getgid()
--            uid = os.getuid()
--            logger.info("Setting up tap interface under sudo")
--            cmd = ('sudo', self.qemuifup, str(uid), str(gid), self.bindir_native)
--            tap = subprocess.check_output(cmd).decode('utf-8').strip()
--            lockfile = os.path.join(lockdir, tap)
--            lock = lockfile + '.lock'
--            self.acquire_lock(lock)
--            self.cleantap = True
--            logger.debug('Created tap: %s' % tap)
--
--        if not tap:
--            logger.error("Failed to setup tap device. Run runqemu-gen-tapdevs to manually create.")
--            return 1
--        self.tap = tap
--        tapnum = int(tap[3:])
--        gateway = tapnum * 2 + 1
--        client = gateway + 1
--        if self.fstype == 'nfs':
--            self.setup_nfs()
--        netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0" % (client, gateway)
--        logger.info("Network configuration: %s", netconf)
--        self.kernel_cmdline_script += " ip=%s" % netconf
--        mac = "%s%02x" % (self.mac_tap, client)
--        qb_tap_opt = self.get('QB_TAP_OPT')
--        if qb_tap_opt:
--            qemu_tap_opt = qb_tap_opt.replace('@TAP@', tap)
--        else:
--            qemu_tap_opt = "-netdev tap,id=net0,ifname=%s,script=no,downscript=no" % (self.tap)
-+        self.taps = []
-+        qemu_tap_opt = self.get('QB_TAP_OPT')
-+        if not qemu_tap_opt:
-+            qemu_tap_opt = '-netdev tap,id=net0,ifname=@TAP@,script=no,downscript=no'
- 
-         if self.vhost_enabled:
--            qemu_tap_opt += ',vhost=on'
-+            opts = []
-+            for tap_opt in qemu_tap_opt.split():
-+                if 'tap' in tap_opt:
-+                    tap_opt += ',vhost=on'
-+                    opts.append(tap_opt)
-+                else:
-+                    opts.append(tap_opt)
-+            qemu_tap_opt = ' '.join(opts)
-+
-+        tap_no = qemu_tap_opt.count('@TAP@')
-+        for tap_idx in range(tap_no):
-+            cmd = (ip, 'link')
-+            logger.debug('Running %s...' % str(cmd))
-+            ip_link = subprocess.check_output(cmd).decode('utf-8')
-+            # Matches line like: 6: tap0: <foo>
-+            possibles = re.findall('^[0-9]+: +(tap[0-9]+): <.*', ip_link, re.M)
-+            tap = ""
-+            for p in possibles:
-+                if p in self.taps:
-+                    continue
-+
-+                lockfile = os.path.join(lockdir, p)
-+                if os.path.exists('%s.skip' % lockfile):
-+                    logger.info('Found %s.skip, skipping %s' % (lockfile, p))
-+                    continue
-+                lock = lockfile + '.lock'
-+                if self.acquire_lock(lock, error=False):
-+                    tap = p
-+                    logger.info("Using preconfigured tap device %s" % tap)
-+                    logger.info("If this is not intended, touch %s.skip to make runqemu skip %s." %(lockfile, tap))
-+                    break
- 
--        self.set('NETWORK_CMD', '%s %s' % (self.network_device.replace('@MAC@', mac), qemu_tap_opt))
-+            if not tap:
-+                if os.path.exists(nosudo_flag):
-+                    logger.error("Error: There are no available tap devices to use for networking,")
-+                    logger.error("and I see %s exists, so I am not going to try creating" % nosudo_flag)
-+                    raise RunQemuError("a new one with sudo.")
-+
-+                gid = os.getgid()
-+                uid = os.getuid()
-+                logger.info("Setting up tap interface under sudo")
-+                cmd = ('sudo', self.qemuifup, str(uid), str(gid), self.bindir_native)
-+                tap = subprocess.check_output(cmd).decode('utf-8').strip()
-+                lockfile = os.path.join(lockdir, tap)
-+                lock = lockfile + '.lock'
-+                self.acquire_lock(lock)
-+                self.cleantap = True
-+                logger.info('Created tap: %s' % tap)
-+
-+            if not tap:
-+                logger.error("Failed to setup tap device. Run runqemu-gen-tapdevs to manually create.")
-+                return 1
-+            self.taps.append(tap)
-+            tapnum = int(tap[3:])
-+            gateway = tapnum * 2 + 1
-+            client = gateway + 1
-+
-+            if tap_idx == 0:
-+                netconf = "192.168.7.%s::192.168.7.%s:255.255.255.0::eth%d" % (client, gateway, tap_idx)
-+                logger.info("Network configuration: %s", netconf)
-+                self.kernel_cmdline_script += " ip=%s" % netconf
-+
-+            mac = "%s%02x" % (self.mac_tap, client)
-+            qemu_tap_opt = qemu_tap_opt.replace('@TAP@', tap, 1)
-+            self.network_device = self.network_device.replace('@MAC@', mac, 1)
-+
-+        self.set('NETWORK_CMD', '%s %s' % (self.network_device, qemu_tap_opt))
-+        if self.fstype == 'nfs':
-+            self.setup_nfs()
- 
-     def setup_network(self):
-         if self.get('QB_NET') == 'none':
-@@ -1287,9 +1306,10 @@ class BaseConfig(object):
- 
-         logger.info("Cleaning up")
-         if self.cleantap:
--            cmd = ('sudo', self.qemuifdown, self.tap, self.bindir_native)
--            logger.debug('Running %s' % str(cmd))
--            subprocess.check_call(cmd)
-+            for tap in self.taps:
-+                cmd = ('sudo', self.qemuifdown, tap, self.bindir_native)
-+                logger.debug('Running %s' % str(cmd))
-+                subprocess.check_call(cmd)
-         for lock in self.lock_descriptors.keys():
-             self.release_lock(lock)
- 
+             mac = "%s%02x" % (self.mac_tap, client)
+             qemu_tap_opt = qemu_tap_opt.replace('@TAP@', tap, 1)
 -- 
 2.20.1
 
