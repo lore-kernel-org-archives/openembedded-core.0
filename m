@@ -1,25 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C484F7E94C
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 535C07E512
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 04:03:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6143Ifr027334
+	Mon,  1 Jul 2019 05:04:54 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6154ti7005231
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2019 21:03:18 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 30 Jun 2019 21:03:17 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
+	Sun, 30 Jun 2019 22:04:55 -0700 (PDT)
+Received: from pek-lpg-core2.corp.ad.wrs.com (128.224.153.41) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.439.0; Sun, 30 Jun 2019 22:04:54 -0700
+From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Jul 2019 12:15:33 +0800
-Message-ID: <8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1561954425.git.Qi.Chen@windriver.com>
-References: <cover.1561954425.git.Qi.Chen@windriver.com>
+Date: Mon, 1 Jul 2019 13:04:53 +0800
+Message-ID: <1561957493-6119-1-git-send-email-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Subject: [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
+Subject: [PATCH] mdam: fix mdmonitor start up failure
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,49 +30,107 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 04:03:17 -0000
+X-List-Received-Date: Mon, 01 Jul 2019 05:04:54 -0000
 Content-Type: text/plain
 
-Check the existence of systemd before using systemctl to preset units.
-This is because even if 'systemd' is in DISTRO_FEATURES, it's possible
-that systemd is not even installed. e.g. container-test-image in
-meta-selftest layer.
+From: Changqing Li <changqing.li@windriver.com>
 
-As systemd DEPENDS on systemd-systemctl-native, the existence of systemd
-also ensures the existence of systemd-systemctl-native.
+1. recently, mdadm has changed to use service file under srcdir,
+   so remove the one not be used.
+2. add -y option to fix below problem
+   mdadm: No mail address or alert command - not monitoring
 
-This would fix the following test case when using systemd as the init
-manager.
-
-  containerimage.ContainerImageTests.test_expected_files
-
-Also remove the IMAGE_EXTRADEPENDS setting, as nothing references this
-variable.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- meta/classes/image.bbclass | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ ...ption-y-for-use-syslog-to-recive-event-re.patch | 28 ++++++++++++++++++++++
+ .../recipes-extended/mdadm/files/mdmonitor.service | 20 ----------------
+ meta/recipes-extended/mdadm/mdadm_4.1.bb           |  3 +--
+ 3 files changed, 29 insertions(+), 22 deletions(-)
+ create mode 100644 meta/recipes-extended/mdadm/files/0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch
+ delete mode 100644 meta/recipes-extended/mdadm/files/mdmonitor.service
 
-diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-index d2b2fb9..7daa97e 100644
---- a/meta/classes/image.bbclass
-+++ b/meta/classes/image.bbclass
-@@ -666,10 +666,11 @@ reproducible_final_image_task () {
+diff --git a/meta/recipes-extended/mdadm/files/0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch b/meta/recipes-extended/mdadm/files/0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch
+new file mode 100644
+index 0000000..e00287c
+--- /dev/null
++++ b/meta/recipes-extended/mdadm/files/0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch
+@@ -0,0 +1,28 @@
++From 5fdc0173cb4fcf8656f0889ad364d2549795607f Mon Sep 17 00:00:00 2001
++From: Changqing Li <changqing.li@windriver.com>
++Date: Mon, 1 Jul 2019 11:34:49 +0800
++Subject: [PATCH] mdadm: add option -y for use syslog to recive event report
++
++fix service startup failed when there is
++No mail address or alert command
++
++Upstream-Status: Inappropriate [configuration]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ systemd/mdmonitor.service | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/systemd/mdmonitor.service b/systemd/mdmonitor.service
++index 46f7b88..3fc4687 100644
++--- a/systemd/mdmonitor.service
+++++ b/systemd/mdmonitor.service
++@@ -13,4 +13,4 @@ DefaultDependencies=no
++ Environment=  MDADM_MONITOR_ARGS=--scan
++ EnvironmentFile=-/run/sysconfig/mdadm
++ ExecStartPre=-/usr/lib/mdadm/mdadm_env.sh
++-ExecStart=BINDIR/mdadm --monitor $MDADM_MONITOR_ARGS
+++ExecStart=BINDIR/mdadm --monitor -y $MDADM_MONITOR_ARGS
++-- 
++2.7.4
++
+diff --git a/meta/recipes-extended/mdadm/files/mdmonitor.service b/meta/recipes-extended/mdadm/files/mdmonitor.service
+deleted file mode 100644
+index a81578e..0000000
+--- a/meta/recipes-extended/mdadm/files/mdmonitor.service
++++ /dev/null
+@@ -1,20 +0,0 @@
+-#  This file is part of mdadm.
+-#
+-#  mdadm is free software; you can redistribute it and/or modify it
+-#  under the terms of the GNU General Public License as published by
+-#  the Free Software Foundation; either version 2 of the License, or
+-#  (at your option) any later version.
+-
+-[Unit]
+-Description=Software RAID monitoring and management
+-ConditionPathExists=/etc/mdadm.conf
+-
+-[Service]
+-Type=forking
+-PIDFile=/var/run/mdadm/mdadm.pid
+-EnvironmentFile=-/etc/sysconfig/mdmonitor
+-ExecStartPre=mkdir -p /var/run/mdadm
+-ExecStart=/sbin/mdadm --monitor -y --scan -f --pid-file=/var/run/mdadm/mdadm.pid
+-
+-[Install]
+-WantedBy=multi-user.target
+diff --git a/meta/recipes-extended/mdadm/mdadm_4.1.bb b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+index 494b81b..766004f 100644
+--- a/meta/recipes-extended/mdadm/mdadm_4.1.bb
++++ b/meta/recipes-extended/mdadm/mdadm_4.1.bb
+@@ -19,7 +19,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/raid/mdadm/${BPN}-${PV}.tar.xz \
+            file://0001-fix-gcc-8-format-truncation-warning.patch \
+            file://debian-no-Werror.patch \
+ 	   file://mdadm.init \
+-	   file://mdmonitor.service \
++	   file://0001-mdadm-add-option-y-for-use-syslog-to-recive-event-re.patch \
+            "
+ SRC_URI[md5sum] = "51bf3651bd73a06c413a2f964f299598"
+ SRC_URI[sha256sum] = "ab7688842908d3583a704d491956f31324c3a5fc9f6a04653cb75d19f1934f4a"
+@@ -65,7 +65,6 @@ do_install_append() {
+         oe_runmake install-systemd DESTDIR=${D}
  }
  
- systemd_preset_all () {
--    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
-+    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
-+	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
-+    fi
+-
+ do_compile_ptest() {
+ 	oe_runmake test
  }
- 
--IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''}"
- IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} reproducible_final_image_task; "
- 
- CVE_PRODUCT = ""
 -- 
-1.9.1
+2.7.4
 
 
