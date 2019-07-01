@@ -1,53 +1,51 @@
-Return-Path: <jpewhacker@gmail.com>
-Received: from mail-io1-f42.google.com (mail-io1-f42.google.com
-	[209.85.166.42])
-	by mail.openembedded.org (Postfix) with ESMTP id F2ED87CECA
+Return-Path: <sjolley.yp.pm@gmail.com>
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
+	[209.85.160.175])
+	by mail.openembedded.org (Postfix) with ESMTP id 89D677BE3C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 15:58:06 +0000 (UTC)
-Received: by mail-io1-f42.google.com with SMTP id k20so3625148ios.10
+	Mon,  1 Jul 2019 18:00:51 +0000 (UTC)
+Received: by mail-qt1-f175.google.com with SMTP id j19so15584908qtr.12
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2019 08:58:07 -0700 (PDT)
+	Mon, 01 Jul 2019 11:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:subject:message-id:date:user-agent:mime-version
-	:content-transfer-encoding:content-language;
-	bh=9MZrrsS1D+rZzE74sRdneMxT2Ppya+c/haetCCB08+g=;
-	b=VEwCYqZ8ee5aycnvAqjnblvp64Rvs/8x507+E1n1qliycnJukRumPqiMBS12F99ANx
-	LrKex/sJJtFCav02V9T8k4fQjsQoUJgS3PVD3PmA4zMXQRxc7jghE/Lol/0W/FTUkWmF
-	37puN6vOA+yxSu0Ye2gkYkKk585442M5PGsqqTfMnQ9garULPijsr2wqV3aEsWLEmCjo
-	Dy28WZhDFwblI3CuH4EH2r/nTJsY7FQkGs+2nojDLjcuJQc4KcNmpDh2GMvXGkZJp4WB
-	I2kTtK/3cIf7kvbWJCV2q0v4h7cpBcJrUpVHYpF5W8tbx7RPQIfDd7WROyutj1P4RuUj
-	tJqQ==
+	h=from:to:subject:date:message-id:mime-version:thread-index
+	:content-language;
+	bh=sRGSVfknMT2uwr2ApBlGRc1AcUYPk6TKuOc0L2P6Poo=;
+	b=s4G6u6o86d4yOPTHeImA+tblMnIfAwEnsLrVGAcToRudqrwGJMg3TFbS59Q8cta2ME
+	OD5VH3nhYxDItuw+zPn1Snz9+JyxBIJ2f8nBcEmE5qLbcE9Yfgwc1i9rGW/zNGb0VaE0
+	04qdavD75ILGHmlM4iiJJJkGbr1gqWwqz+9gHYLLYsPGq1yzXfRXiuOWBEF3iwuwxTLe
+	es6cCxm2b1HmITqHsXB8Mpssg38mZGigIeETRCRIQbWEzgUmbPkGtDweW9YU+O9iStWe
+	64hLvQkPQ2YGXO2C8ozvIprA8+Pr/H8bRPmsBW4szRCOBJcxVu5AGC9qdm3rG45xqzoe
+	Us4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:message-id:date:user-agent
-	:mime-version:content-transfer-encoding:content-language;
-	bh=9MZrrsS1D+rZzE74sRdneMxT2Ppya+c/haetCCB08+g=;
-	b=PGftufU6jY6zEBIrFMGAUUi2YiLJ7bdBgzzOago8OsEhYFoygpZC4cWuuKzHMTtuXW
-	GWWtY8deta0X2y6iMPB0H4auHA5CVZQSeegN3w/uHJ/Qw3fWXOedqRNEBaCRt8YCR1Zd
-	R71+WIyylQy1axwWDHiq7zAgvqUGbOmUpkCUHA9WprM7JYeFGY9VQzRSbUNXklVgUsFm
-	F/RuurIFVb4EML7d9VqnxOdIcDOKaWGdITQogkrdYQj8g5U3iRW3U558D3kzB7ZsRbKf
-	aWbNyObJj6NyoiOfWggWtmjVYXg8q0zzC5e1h/sv1BN8JcHUh3E/ks9/jHPQvcn8rPPi
-	CrSQ==
-X-Gm-Message-State: APjAAAV28Gkqtz/z0QGXZu/WmqbiRNj1IZW5DDo3Q0cH8HukjLRDnnfP
-	yVcPm6HWoGH8+xkh0uYc6L9MpjKW
-X-Google-Smtp-Source: APXvYqxD71ra3wdcpss8DQqqLUYL/NKNtO4NW42+Ch7urym6acTmCxqG1FoEh2yYyddptoDriDEDjw==
-X-Received: by 2002:a5e:8a05:: with SMTP id d5mr4985515iok.147.1561996686725; 
-	Mon, 01 Jul 2019 08:58:06 -0700 (PDT)
-Received: from [10.30.197.57] ([204.77.163.55])
-	by smtp.gmail.com with ESMTPSA id
-	r24sm8929997ioc.76.2019.07.01.08.58.05
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 01 Jul 2019 08:58:06 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Message-ID: <ba3936e9-0582-4187-89d7-0a8f1dd4c550@gmail.com>
-Date: Mon, 1 Jul 2019 10:58:04 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:thread-index:content-language;
+	bh=sRGSVfknMT2uwr2ApBlGRc1AcUYPk6TKuOc0L2P6Poo=;
+	b=Ru/qPi3e7CWMMM5e9m0xEV1Ini5bIjq0Gka/tkQz3XTh2Ni+FIRIWTg1bj2M8j5Pi4
+	dVvAxD88sXeNQf8GlCU4MjVxR3IG7S7Z8phtr5kW6/IQMl/uKfh4xj/MPJEZOC96QFdY
+	pCZQ9X+bBWvDX4s66KIWztbXh79lj9fSzO02AD5y7EkCJI7rJwpnml1VVXsNoD5PtJPg
+	NSoyz6rxLIWtZSkZs5/KUZFI9EHi1a1bLc9Gwb7raqhuTkH1be/VE3c4jAHx/2DIrUK7
+	2wwHctbXF16pj3w3fzjzQkNsnCyJgpLi72ehpt94CHwfvse+Cn0KFP47fpAyvf0aD82r
+	Ne5g==
+X-Gm-Message-State: APjAAAWsNVkX/VtdD4DRPa0TsF0fC7E115O5cjkEbdl1c/PLkFlhJt/o
+	0/SPsHz9VGv/yW6rLYO0fw3aG5Sr
+X-Google-Smtp-Source: APXvYqzI3ygqN5f4QJtWheCQHh82Fo0apDkEA81z/TvV1c4v44aWrUVXsr4GFpoMdh6AGsdC60WYRw==
+X-Received: by 2002:ac8:2a88:: with SMTP id b8mr19474348qta.331.1562004051777; 
+	Mon, 01 Jul 2019 11:00:51 -0700 (PDT)
+Received: from sjolley ([96.79.126.57]) by smtp.gmail.com with ESMTPSA id
+	i17sm4956564qkl.71.2019.07.01.11.00.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 01 Jul 2019 11:00:51 -0700 (PDT)
+From: <sjolley.yp.pm@gmail.com>
+To: <yocto@yoctoproject.org>,
+	<openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Jul 2019 11:00:50 -0700
+Message-ID: <002501d53036$ebc10380$c3430a80$@gmail.com>
 MIME-Version: 1.0
-Subject: The state of reproducible Builds
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKIOpuXg+3kIrejQS9osqDFak18/Q==
+Subject: Yocto Project Newcomer & Unassigned Bugs - Help Needed
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,146 +58,292 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 15:58:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Mon, 01 Jul 2019 18:00:52 -0000
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0026_01D52FFC.3F636400"
+Content-Language: en-us
+
+------=_NextPart_000_0026_01D52FFC.3F636400
+Content-Type: text/plain;
+	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 
 All,
 
-I've been working on making OE builds reproducible (that is, two given 
-builds can have binary-identical outputs). The current "test" for 
-reproducibility involves building core-image-minimal in two different 
-build directories, then doing a binary diff of the resulting target 
-Debian packages files and reporting if any of them differ (I'd like to 
-expand this test, see below). I believe that we are very close to 
-achieving this level of reproducibility, with a few caveats as shown below:
+ 
 
-1. Both builds must be clean builds from scratch
+The triage team is starting to try and collect up and classify bugs which a
+newcomer to the project would be able to work on in a way which means people
+can find them. They're being listed on the triage page under the appropriate
+heading:
 
-2. Neither build can use sstate (sstate isn't currently reproducible for 
-a variety of reasons, more on that later)
+ 
 
-3. The QA test for reproducibility takes about 4 hours on my 4/8 core 
-i7-3770 CPU @ 3.40GHz. I'm not sure how "expensive" a test has to be 
-before it can't reasonably be run on the autobuilders, but I'm guessing 
-this isn't a QA test that would currently be able to be run very often 
-(if at all). If sstate were reproducible, this would effectively be cut 
-in half, since you would only need one clean build from scratch (if that 
-would even matter).
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs
 
+ 
 
-The current test is obviously deficient in a few areas, but I believe 
-that is at the very least a good starting point since it has already 
-uncovered numerous reproducibility issues. The places where I think it 
-needs to be improved are:
+The idea is these bugs should be straight forward for a person to help work
+on who doesn't have deep experience with the project.  If anyone can help,
+please take ownership of the bug and send patches!  If anyone needs
+help/advice there are people on irc who can likely do so, or some of the
+more experienced contributors will likely be happy to help too.
 
-1. Testing RPM and IPK package formats. I think RPMs will be pretty 
-easy; IPKs might be more challenging since AFAIK the tools that make 
-them don't generate reproducible output to begin with.
+ 
 
-2. Testing more images than core-image-minimal; This should be pretty 
-straight forward to add to the QA test, it's mostly a matter of fixing 
-all the issues that come up.
+Also, the triage team meets weekly and does its best to handle the bugs
+reported into the Bugzilla. The number of people attending that meeting has
+fallen, as have the number of people available to help fix bugs. One of the
+things we hear users report is they don't know how to help. We (the triage
+team) are therefore going to start reporting out the currently 282
+unassigned or newcomer bugs.
 
-3. Test for binary reproducible images (e.g. check that the entire ext4 
-image produced is binary identical). This one also might be pretty easy 
-for some formats, and hard for others (e.g. ext4 I think would be easy, 
-squashfs might be hard).
+ 
 
-4. Improve the test to better test timestamp changes. Currently, the QA 
-test runs the two test builds serially which ensures that they have a 
-different datestamp when building. However, there are some packages that 
-are not reproducible based on only the Day, Month, or Year, neither of 
-which is likely to be different between the two serial test builds. I 
-would like to figure out a way to force one of the builds to be 
-separated by a sufficient about of time to tease out these issues. This 
-might be as easy as running bitbake under faketime, or it might be more 
-involved.
+We're hoping people may be able to spare some time now and again to help out
+with these.  Bugs are split into two types, "true bugs" where things don't
+work as they should and "enhancements" which are features we'd want to add
+to the system.  There are also roughly four different "priority" classes
+right now, "2.8", "2.9', "2.99" and "Future", the more pressing/urgent
+issues being in "2.8" and then "2.9".
 
-5. I don't know if anyone is clamoring for reproducible nativesdk builds?
+ 
 
-6. We should also be testing if sstate objects are reproducible, 
-otherwise sstate can't really be relied on when doing a reproducible 
-build (In fact, I think the original reproducible build work that I took 
-over was focused on making sstate reproducible).
+Please review this link and if a bug is something you would be able to help
+with either take ownership of the bug, or send me (sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> ) an e-mail with the bug number you would
+like and I will assign it to you (please make sure you have a Bugzilla
+account).  The list is at:
+https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newcomer_Bugs
 
+ 
 
-I think that OE has some significant advantages in being able to make 
-reproducible builds compared to other projects attempting the same 
-thing; primarily, we are capable of building up all (or most) of the 
-required build tools internally, then using these internal tools to 
-build up the target (e.g. we build GCC for the target, then use this 
-built GCC to compile target source). This means that we have a great 
-opportunity to isolate the build from the host environment and truly 
-achieve "simple" reproducible builds; any given set of layers at their 
-respective SHA's should be able to build a binary identical output on 
-any given host, with (ideally) no dependency on the host. We can't do 
-this today, and I've identified a number of roadblocks that will need to 
-be resolved (this is not a complete list; there will be more):
+Thanks,
 
-1. HOSTTOOLS differences. There are a lot of tools listed in HOSTTOOLS, 
-and unfortunately some of them have version dependent output and are 
-used for target builds (the one I've currently stumbled upon is pod2man, 
-but I'm sure there are others). Unfortunately, one could probably argue 
-that HOSTTOOLS is somewhat antithetical to the above statement, at least 
-in regard to target builds. Any host tool output that "leaks" into the 
-target build output can result in a non-reproducible build across hosts, 
-and possibly should be avoided; the alternative is to use (or mandate) 
-the corresponding -native recipe that provides that tool as a DEPENDS so 
-that the controlled internally built version is used instead. Note that 
-this only really applies target builds, not -native (or nativesdk right 
-now). -native recipes would obviously need more HOSTTOOLS to help 
-bootstrap the system. I suspect this would require reworking how 
-HOSTOOLS works so that they can be split into two categories somehow; 
-the tools that have "ubiquitous and stable" interfaces and are fine for 
-all recipes (e.g. cat, sed, true, rm, etc.) and those that are variable 
-and should only be used for -native builds (e.g. pod2man, rpcgen(?), 
-chrpath(?), tar(?)... others?). Anyone have thoughts on this?
+ 
 
-2. sstate currently isn't reproducible. This is at least partially 
-related to the why non-clean rebuilds aren't reproducible[1]. These two 
-are related because AFAIK there isn't really anyway of knowing if an 
-sstate object came from a clean build of a recipe or a rebuild of a 
-recipe, so as long as rebuilds aren't reproducible, neither will sstate 
-be reproducible. The simplest fixes for these problems is to add more 
--native tools to DEPENDS if they are used by the builds so that are 
-"stable" across all the tasks where it matters, but there might also be 
-some more "tricky" things that can/should be done with RSS to help 
-mitigate the problem. The HOSTTOOLS issue also makes sstate 
-non-reproducible, since AFAIK, there isn't necessarily a way to ensure 
-that a sstate object came from a specific host. In fact, I would 
-speculate that most core reproducibility issues will also make sstate 
-non-reproducible. Reproducible sstate also plays directly into hash 
-equivalence, since it is based on sstate and would be *much* more 
-effective if sstate were reproducible.
+Stephen K. Jolley
+
+Yocto Project Program Manager
+
+*    Cell:                (208) 244-4460
+
+* Email:              sjolley.yp.pm@gmail.com
+<mailto:sjolley.yp.pm@gmail.com> 
+
+ 
+
+ 
 
 
-Many of the remaining problems can be solved by adding more -native 
-recipes to DEPENDS, but this has meet with some (justified) push back; 
-doing this things will likely increase the build time since more -native 
-dependencies will mean more -native tools have to be built, and more 
-serialization of the builds waiting for those tools to be built. I 
-suspect this is more true for replacing HOSTTOOLS with -native recipes, 
-since many of them may not have needed to be built at all. For the 
-sstate/rebuild reproducibility this is likely to have less impact since 
-those recipes were going to eventually have been built to be included in 
-RSS. Adding them to DEPENDS just moves them to be included sooner.
+------=_NextPart_000_0026_01D52FFC.3F636400
+Content-Type: text/html;
+	boundary="----=_NextPart_000_0141_01D52A86.A2057AB0";
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" =
+xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:x=3D"urn:schemas-microsoft-com:office:excel" =
+xmlns:p=3D"urn:schemas-microsoft-com:office:powerpoint" =
+xmlns:a=3D"urn:schemas-microsoft-com:office:access" =
+xmlns:dt=3D"uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" =
+xmlns:s=3D"uuid:BDC6E3F0-6DA3-11d1-A2A3-00AA00C14882" =
+xmlns:rs=3D"urn:schemas-microsoft-com:rowset" xmlns:z=3D"#RowsetSchema" =
+xmlns:b=3D"urn:schemas-microsoft-com:office:publisher" =
+xmlns:ss=3D"urn:schemas-microsoft-com:office:spreadsheet" =
+xmlns:c=3D"urn:schemas-microsoft-com:office:component:spreadsheet" =
+xmlns:odc=3D"urn:schemas-microsoft-com:office:odc" =
+xmlns:oa=3D"urn:schemas-microsoft-com:office:activation" =
+xmlns:html=3D"http://www.w3.org/TR/REC-html40" =
+xmlns:q=3D"http://schemas.xmlsoap.org/soap/envelope/" =
+xmlns:rtc=3D"http://microsoft.com/officenet/conferencing" =
+xmlns:D=3D"DAV:" xmlns:Repl=3D"http://schemas.microsoft.com/repl/" =
+xmlns:mt=3D"http://schemas.microsoft.com/sharepoint/soap/meetings/" =
+xmlns:x2=3D"http://schemas.microsoft.com/office/excel/2003/xml" =
+xmlns:ppda=3D"http://www.passport.com/NameSpace.xsd" =
+xmlns:ois=3D"http://schemas.microsoft.com/sharepoint/soap/ois/" =
+xmlns:dir=3D"http://schemas.microsoft.com/sharepoint/soap/directory/" =
+xmlns:ds=3D"http://www.w3.org/2000/09/xmldsig#" =
+xmlns:dsp=3D"http://schemas.microsoft.com/sharepoint/dsp" =
+xmlns:udc=3D"http://schemas.microsoft.com/data/udc" =
+xmlns:xsd=3D"http://www.w3.org/2001/XMLSchema" =
+xmlns:sub=3D"http://schemas.microsoft.com/sharepoint/soap/2002/1/alerts/"=
+ xmlns:ec=3D"http://www.w3.org/2001/04/xmlenc#" =
+xmlns:sp=3D"http://schemas.microsoft.com/sharepoint/" =
+xmlns:sps=3D"http://schemas.microsoft.com/sharepoint/soap/" =
+xmlns:xsi=3D"http://www.w3.org/2001/XMLSchema-instance" =
+xmlns:udcs=3D"http://schemas.microsoft.com/data/udc/soap" =
+xmlns:udcxf=3D"http://schemas.microsoft.com/data/udc/xmlfile" =
+xmlns:udcp2p=3D"http://schemas.microsoft.com/data/udc/parttopart" =
+xmlns:wf=3D"http://schemas.microsoft.com/sharepoint/soap/workflow/" =
+xmlns:dsss=3D"http://schemas.microsoft.com/office/2006/digsig-setup" =
+xmlns:dssi=3D"http://schemas.microsoft.com/office/2006/digsig" =
+xmlns:mdssi=3D"http://schemas.openxmlformats.org/package/2006/digital-sig=
+nature" =
+xmlns:mver=3D"http://schemas.openxmlformats.org/markup-compatibility/2006=
+" xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" =
+xmlns:mrels=3D"http://schemas.openxmlformats.org/package/2006/relationshi=
+ps" xmlns:spwp=3D"http://microsoft.com/sharepoint/webpartpages" =
+xmlns:ex12t=3D"http://schemas.microsoft.com/exchange/services/2006/types"=
+ =
+xmlns:ex12m=3D"http://schemas.microsoft.com/exchange/services/2006/messag=
+es" =
+xmlns:pptsl=3D"http://schemas.microsoft.com/sharepoint/soap/SlideLibrary/=
+" =
+xmlns:spsl=3D"http://microsoft.com/webservices/SharePointPortalServer/Pub=
+lishedLinksService" xmlns:Z=3D"urn:schemas-microsoft-com:" =
+xmlns:st=3D"&#1;" xmlns=3D"http://www.w3.org/TR/REC-html40"><head><meta =
+http-equiv=3DContent-Type content=3D"text/html; =
+charset=3Dus-ascii"><meta name=3DGenerator content=3D"Microsoft Word 15 =
+(filtered medium)"><style><!--
+/* Font Definitions */
+@font-face
+	{font-family:Wingdings;
+	panose-1:5 0 0 0 0 0 0 0 0 0;}
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+@font-face
+	{font-family:"Comic Sans MS";
+	panose-1:3 15 7 2 3 3 2 2 2 4;}
+@font-face
+	{font-family:Tahoma;
+	panose-1:2 11 6 4 3 5 4 4 2 4;}
+@font-face
+	{font-family:"MS Sans Serif";
+	panose-1:0 0 0 0 0 0 0 0 0 0;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+a:link, span.MsoHyperlink
+	{mso-style-priority:99;
+	color:#0563C1;
+	text-decoration:underline;}
+a:visited, span.MsoHyperlinkFollowed
+	{mso-style-priority:99;
+	color:#954F72;
+	text-decoration:underline;}
+p.MsoPlainText, li.MsoPlainText, div.MsoPlainText
+	{mso-style-priority:99;
+	mso-style-link:"Plain Text Char";
+	margin:0in;
+	margin-bottom:.0001pt;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+p.msonormal0, li.msonormal0, div.msonormal0
+	{mso-style-name:msonormal;
+	mso-margin-top-alt:auto;
+	margin-right:0in;
+	mso-margin-bottom-alt:auto;
+	margin-left:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.PlainTextChar
+	{mso-style-name:"Plain Text Char";
+	mso-style-priority:99;
+	mso-style-link:"Plain Text";
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle20
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-size:10.0pt;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]--></head><body lang=3DEN-US =
+link=3D"#0563C1" vlink=3D"#954F72"><div class=3DWordSection1><p =
+class=3DMsoPlainText>All,<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>The =
+triage team is starting to try and collect up and classify bugs which a =
+newcomer to the project would be able to work on in a way which means =
+people can find them. They're being listed on the triage page under the =
+appropriate heading:<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText><a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs">http=
+s://wiki.yoctoproject.org/wiki/Bug_Triage#Newcomer_Bugs</a><o:p></o:p></p=
+><p class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoPlainText>The idea is these bugs should be straight forward =
+for a person to help work on who doesn't have deep experience with the =
+project.&nbsp; If anyone can help, please take ownership of the bug and =
+send patches!&nbsp; If anyone needs help/advice there are people on irc =
+who can likely do so, or some of the more experienced contributors will =
+likely be happy to help too.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Also, =
+the triage team meets weekly and does its best to handle the bugs =
+reported into the Bugzilla. The number of people attending that meeting =
+has fallen, as have the number of people available to help fix bugs. One =
+of the things we hear users report is they don't know how to help. We =
+(the triage team) are therefore going to start reporting out the =
+currently 282 unassigned or newcomer bugs.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>We're =
+hoping people may be able to spare some time now and again to help out =
+with these.&nbsp; Bugs are split into two types, &quot;true bugs&quot; =
+where things don't work as they should and &quot;enhancements&quot; =
+which are features we'd want to add to the system.&nbsp; There are also =
+roughly four different &quot;priority&quot; classes right now, =
+&#8220;2.8&#8221;, &#8220;2.9&#8217;, &quot;2.99&quot; and =
+&quot;Future&quot;, the more pressing/urgent issues being in =
+&quot;2.8&quot; and then &#8220;2.9&#8221;.<o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p class=3DMsoPlainText>Please =
+review this link and if a bug is something you would be able to help =
+with either take ownership of the bug, or send me (<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a>) an =
+e-mail with the bug number you would like and I will assign it to you =
+(please make sure you have a Bugzilla account).&nbsp; The list is at: <a =
+href=3D"https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_Newco=
+mer_Bugs">https://wiki.yoctoproject.org/wiki/Bug_Triage#Unassigned_or_New=
+comer_Bugs</a><o:p></o:p></p><p =
+class=3DMsoPlainText><o:p>&nbsp;</o:p></p><p =
+class=3DMsoNormal>Thanks,<o:p></o:p></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p><p class=3DMsoNormal =
+style=3D'page-break-after:avoid;text-autospace:none'><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Times New =
+Roman",serif;color:purple'>Stephen K. Jolley</span></i></b><b><i><span =
+style=3D'font-size:16.0pt;font-family:"Tahoma",sans-serif;color:purple'><=
+o:p></o:p></span></i></b></p><p class=3DMsoNormal><b><span =
+style=3D'font-size:8.0pt;font-family:"Courier New";color:blue'>Yocto =
+Project Program Manager<o:p></o:p></span></b></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings;color:black'>(</span><span=
+ style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>&nbsp;&nbsp;&nbsp; </span><b><span =
+style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Cell</span></b><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span =
+style=3D'font-size:9.0pt;font-family:"MS Sans Serif"'>(208) =
+244-4460<span style=3D'color:black'><o:p></o:p></span></span></p><p =
+class=3DMsoNormal><span =
+style=3D'font-size:9.0pt;font-family:Wingdings'>* </span><b><span =
+lang=3DFR style=3D'font-size:8.0pt;font-family:"Comic Sans =
+MS";color:teal'>Email</span></b><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif";color:teal'>:</span><span lang=3DFR =
+style=3D'font-size:9.0pt;font-family:"MS Sans =
+Serif"'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;<a =
+href=3D"mailto:sjolley.yp.pm@gmail.com">sjolley.yp.pm@gmail.com</a><o:p><=
+/o:p></span></p><p class=3DMsoNormal><span lang=3DFR =
+style=3D'font-size:12.0pt;font-family:"Arial",sans-serif'><o:p>&nbsp;</o:=
+p></span></p><p =
+class=3DMsoNormal><o:p>&nbsp;</o:p></p></div></body></html>
 
-I'm curious what people thing about all this; How important is 
-reproducibility? How reproducible do we want to be? How hard should it 
-be to have reproducible builds? What trade-offs are willing to be made 
-for reproducible builds? Are there smart ways we can mitigate some of 
-the potential performance impacts of reproducible builds?
-
-
-Thanks for your time. I know this was a long e-mail.
-
-Joshua Watt
-
-[1]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13378
-
-
-
-
+------=_NextPart_000_0026_01D52FFC.3F636400--
