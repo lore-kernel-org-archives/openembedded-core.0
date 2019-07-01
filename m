@@ -1,18 +1,30 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 0CB657E8F3;
-	Mon,  1 Jul 2019 10:00:53 +0000 (UTC)
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id F0C937D6AF
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Jul 2019 11:12:20 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.63,439,1557158400"; d="scan'208";a="70378886"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 01 Jul 2019 19:12:19 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id A0EB14CDBF7D
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Jul 2019 19:12:19 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 1 Jul 2019 19:12:19 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Jul 2019 19:13:55 +0800
+Message-ID: <20190701111355.24491-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Hongzhi.Song <hongzhi.song@windriver.com>
-Date: Mon, 01 Jul 2019 10:00:54 -0000
-Message-ID: <20190701100054.2334.49294@do>
-References: <20190701094746.89325-1-hongzhi.song@windriver.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190701094746.89325-1-hongzhi.song@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbHRwOiBkaW90ZXN0NDogTGV0IGtlcm5lbCBwaWNrIGFuIGFkZHJlc3Mgd2hlbiBjYWxsaW5nIG1tYXA=?=
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: A0EB14CDBF7D.AD2C5
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] nss:upgrade 3.44 -> 3.44.1
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,43 +37,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 10:00:53 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Jul 2019 11:12:21 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-== Series Details ==
+-Upgrade from nss_3.44.bb to nss_3.44.1.bb.
 
-Series: ltp: diotest4: Let kernel pick an address when calling mmap
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/18462/
-State : failure
-
-== Summary ==
-
-
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
-  Suggested fix    Include where 0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch was submitted
-  Current          Upstream-Status: Submitted
-  Standard format  Upstream-Status: Submitted [where]
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
 ---
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
+ meta/recipes-support/nss/{nss_3.44.bb => nss_3.44.1.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/nss/{nss_3.44.bb => nss_3.44.1.bb} (98%)
+
+diff --git a/meta/recipes-support/nss/nss_3.44.bb b/meta/recipes-support/nss/nss_3.44.1.bb
+similarity index 98%
+rename from meta/recipes-support/nss/nss_3.44.bb
+rename to meta/recipes-support/nss/nss_3.44.1.bb
+index 4205d79485..acef0a6cf9 100644
+--- a/meta/recipes-support/nss/nss_3.44.bb
++++ b/meta/recipes-support/nss/nss_3.44.1.bb
+@@ -33,8 +33,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
+            file://system-pkcs11.txt \
+            "
+ 
+-SRC_URI[md5sum] = "e9222b9573452b9f4e6ff4915d6407c2"
+-SRC_URI[sha256sum] = "a5620e59b6eeedfd5a12c9298b50ad92e9898b223e214eb675e36f4ffb5b6aff"
++SRC_URI[md5sum] = "511a37f35650812283274694b98c20b2"
++SRC_URI[sha256sum] = "fce4cb80c989cde35416ecbe55920856015a35151c4f21be64470e4dd4de12f8"
+ 
+ UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
+ UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+-- 
+2.20.1
+
+
 
 
