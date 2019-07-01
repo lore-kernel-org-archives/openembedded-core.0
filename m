@@ -1,45 +1,58 @@
-Return-Path: <anibal.limon@linaro.org>
-Received: from mail-ua1-f65.google.com (mail-ua1-f65.google.com
-	[209.85.222.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 808DF6C149
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id B13A37E6EE
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 21:26:14 +0000 (UTC)
-Received: by mail-ua1-f65.google.com with SMTP id a97so5656336uaa.9
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2019 14:26:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KNq283ZDi6kqaD43qnv4Agv2rBfc+ROn3e5wtNlcGjs=;
-	b=Mf0WHyUKFL9mqf/9WatwOHVEHvSMKv4AkSaVWjpovkeI8dF+4+YY20m+jKdpHMxPTU
-	f5lhXEpOsQDfaXJzrY+qxVp1UGplWqxyxzHwVKU5o6tBMuDLKx2Y9/lSgD257ZGjODaD
-	Ya0UY24Dv2QR/NCgLKZSPsTnvokAClgfAg6xA02EMpEZEnDdypRjPvKQ3atRDy/m4seW
-	7Iq32JnhR7WX/Mh6kcZoshqBtMiQlMDPMWy7Kr4wzK9XU0op1b0b+cHFiZrvZwTzr5Xt
-	jiaqIzbRPJ4dmXyWyCFaygC3XKuMP4zFRBc/Ah0D4NjTw0Idc/YX20OZF3aZ/9EW5caK
-	D+nQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=KNq283ZDi6kqaD43qnv4Agv2rBfc+ROn3e5wtNlcGjs=;
-	b=HXV9VZEX04fZiOuNgpQq+GTwh6NHkdAXCUDO9iSrBOQmpdnsjKe/K1POd1gM8nMr8U
-	F2TfDu97yuhcm4r6FJT0vcqCW/nfMSyYMBJX4rFbaj09xRfrcnLgWKZQMiICHSxPJXbI
-	/PzJYZCfCW63NTOLNLZGB+gXi7hR3aSPFVK1LlzzwYxZgO83ANV33LJyiDBAgIPcV7Pu
-	owVT7Cuns8/2miLSKiZDIeMpvtGwYi0z7nKjSuIxqo5DxvpS/dPhf6EVj/BiPBRflmyd
-	BIK0On2vF/m3niWCwjM97vvyRaA2rOOW0KI6fp/7m9frWRt47c79BjB3s5vp2T8v9qP7
-	zvXQ==
-X-Gm-Message-State: APjAAAW6rzFY52WwHGU2hxROWSQzR3Rgs+Y57Lo9vhY3BhsAoe8gnfS6
-	TVIpQolIUcOTIt9Mihk0O08CjqvppR1o+dRhjGTYB15t
-X-Google-Smtp-Source: APXvYqxevaoyTz8j+EL5uuiifRn9XMeZaxfOEOSw8Wgy4P5vbx6R5Tfb/TKr1v9yLHYMNlTR4x5ITCzTIO26O9FceMw=
-X-Received: by 2002:ab0:2556:: with SMTP id l22mr10558274uan.46.1562016375257; 
-	Mon, 01 Jul 2019 14:26:15 -0700 (PDT)
+	Mon,  1 Jul 2019 23:13:28 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id E531818405;
+	Tue,  2 Jul 2019 01:13:28 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id VgHz34KtaKVL; Tue,  2 Jul 2019 01:13:27 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id BAB48180FF;
+	Tue,  2 Jul 2019 01:13:27 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A51AF1E098;
+	Tue,  2 Jul 2019 01:13:27 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 996B41E097;
+	Tue,  2 Jul 2019 01:13:27 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Tue,  2 Jul 2019 01:13:27 +0200 (CEST)
+Received: from xbox06.axis.com (xbox06.axis.com [10.0.15.176])
+	by seth.se.axis.com (Postfix) with ESMTP id 8D12325CF;
+	Tue,  2 Jul 2019 01:13:27 +0200 (CEST)
+Received: from xbox06.axis.com (10.0.15.176) by xbox06.axis.com (10.0.15.176)
+	with Microsoft SMTP Server (TLS) id 15.0.1395.4;
+	Tue, 2 Jul 2019 01:13:27 +0200
+Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
+	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
+	15.00.1395.000; Tue, 2 Jul 2019 01:13:27 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Khem Raj <raj.khem@gmail.com>, Joshua Watt <jpewhacker@gmail.com>
+Thread-Topic: [OE-core] [PATCH] glibc: Fix locale DEPENDS
+Thread-Index: AQHVLO/qZSjfvdKO1kWuqcYtsb0EKKaxJBOAgAVFX7A=
+Date: Mon, 1 Jul 2019 23:13:27 +0000
+Message-ID: <e6cf5479e8da4d7e95463096a50b820e@xbox06.axis.com>
+References: <20190627135440.15815-1-JPEWhacker@gmail.com>
+	<CAMKF1srnRNisnxfnhypBQuwO9F5q72LSDzuBZqdStBoXaR1kDQ@mail.gmail.com>
+In-Reply-To: <CAMKF1srnRNisnxfnhypBQuwO9F5q72LSDzuBZqdStBoXaR1kDQ@mail.gmail.com>
+Accept-Language: en-US, sv-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-References: <20190701212350.32503-1-anibal.limon@linaro.org>
-In-Reply-To: <20190701212350.32503-1-anibal.limon@linaro.org>
-From: Anibal Limon <anibal.limon@linaro.org>
-Date: Mon, 1 Jul 2019 16:26:53 -0500
-Message-ID: <CA+_AqiviHKSt9rdEBt-yEt4f9QEnqWCgCVQ4stmBztASUGHYCQ@mail.gmail.com>
-To: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCHv3 1/3] runqemu: Allow to store more than one lock for network interfaces
+X-TM-AS-GCONF: 00
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] glibc: Fix locale DEPENDS
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -52,334 +65,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 21:26:14 -0000
-Content-Type: multipart/alternative; boundary="0000000000002e549c058ca547cb"
+X-List-Received-Date: Mon, 01 Jul 2019 23:13:29 -0000
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_e6cf5479e8da4d7e95463096a50b820exbox06axiscom_"
 
---0000000000002e549c058ca547cb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--_000_e6cf5479e8da4d7e95463096a50b820exbox06axiscom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-I squashed the fix in the wrong patch that's because the v3 that are no
-functional changes between v2 and v3.
+QXJlIHlvdSB0aGlua2luZyBvZiBnZXR0ZXh0LW1pbmltYWwtbmF0aXZlPyBJdCBpcyB1c2VkIGJ5
+IGdldHRleHQuYmJjbGFzcyBpZiBVU0VfTkxTIGlzIOKAnG5v4oCdLg0KDQovL1BldGVyDQoNCkZy
+b206IG9wZW5lbWJlZGRlZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3Bl
+bmVtYmVkZGVkLWNvcmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBPbiBCZWhhbGYg
+T2YgS2hlbSBSYWoNClNlbnQ6IGRlbiAyOCBqdW5pIDIwMTkgMTg6MzcNClRvOiBKb3NodWEgV2F0
+dCA8anBld2hhY2tlckBnbWFpbC5jb20+DQpDYzogb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3Bl
+bmVtYmVkZGVkLm9yZw0KU3ViamVjdDogUmU6IFtPRS1jb3JlXSBbUEFUQ0hdIGdsaWJjOiBGaXgg
+bG9jYWxlIERFUEVORFMNCg0KDQoNCk9uIFRodSwgSnVuIDI3LCAyMDE5IGF0IDk6NTQgQU0gSm9z
+aHVhIFdhdHQgPGpwZXdoYWNrZXJAZ21haWwuY29tPG1haWx0bzpqcGV3aGFja2VyQGdtYWlsLmNv
+bT4+IHdyb3RlOg0KZ2V0dGV4dCBpcyByZXF1aXJlZCB0byBnZW5lcmF0ZSB0aGUgZ2xpYmMgbG9j
+YWxlcyBpbiBkb19jb21waWxlLiBJZiBub3QNCnByZXNlbnQsIGdsaWJjIHdpbGwgc2tpcCB0aGUg
+Z2VuZXJhdGlvbiB3aGljaCBpc24ndCByZXByb2R1Y2libGUuDQoNClNpZ25lZC1vZmYtYnk6IEpv
+c2h1YSBXYXR0IDxKUEVXaGFja2VyQGdtYWlsLmNvbTxtYWlsdG86SlBFV2hhY2tlckBnbWFpbC5j
+b20+Pg0KLS0tDQogbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMvZ2xpYmNfMi4yOS5iYjxodHRwOi8v
+Z2xpYmNfMi4yOS5iYj4gfCAyICstDQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
+IGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGli
+Y18yLjI5LmJiPGh0dHA6Ly9nbGliY18yLjI5LmJiPiBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJj
+L2dsaWJjXzIuMjkuYmI8aHR0cDovL2dsaWJjXzIuMjkuYmI+DQppbmRleCAwNzNkMTUzM2UzNy4u
+YzQwMGVlMTBiMGYgMTAwNjQ0DQotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9nbGliYy9nbGliY18y
+LjI5LmJiPGh0dHA6Ly9nbGliY18yLjI5LmJiPg0KKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZ2xp
+YmMvZ2xpYmNfMi4yOS5iYjxodHRwOi8vZ2xpYmNfMi4yOS5iYj4NCkBAIC01LDcgKzUsNyBAQCBM
+SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFUzttZDU9Y2ZjMGVkNzdhOWY2MmZhNjJl
+ZGVkMDQyZWJlMzFkNzIgXA0KICAgICAgIGZpbGU6Ly9wb3NpeC9yeHNwZW5jZXIvQ09QWVJJR0hU
+O21kNT1kYzU0ODViYjM5NGExM2IyMzMyZWMxYzc4NWY1ZDgzYSBcDQogICAgICAgZmlsZTovL0NP
+UFlJTkcuTElCO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2YzxmaWxlOi8vTElD
+RU5TRVM7bWQ1PWNmYzBlZDc3YTlmNjJmYTYyZWRlZDA0MmViZTMxZDcyJTIwLyUwYsKgJTIwwqAl
+MjDCoCUyMMKgZmlsZTovcG9zaXgvcnhzcGVuY2VyL0NPUFlSSUdIVDttZDU9ZGM1NDg1YmIzOTRh
+MTNiMjMzMmVjMWM3ODVmNWQ4M2ElMjAvJTBiwqAlMjDCoCUyMMKgJTIwwqBmaWxlOi9DT1BZSU5H
+LkxJQjttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmM+Ig0KDQotREVQRU5EUyAr
+PSAiZ3BlcmYtbmF0aXZlIGJpc29uLW5hdGl2ZSBtYWtlLW5hdGl2ZSINCitERVBFTkRTICs9ICJn
+cGVyZi1uYXRpdmUgYmlzb24tbmF0aXZlIG1ha2UtbmF0aXZlIGdldHRleHQtbmF0aXZlIg0KDQpJ
+IHRoaW5rIHdlIGhhdmUgaGFkIHRoaXMgZGVwZW5kZW5jeSBwcm9wb3NlZCBpbiBwYXN0IGFuZCBv
+bmUgdGhpbmsgdGhhdCB3b3JyaWVzIG1lIGlzIHRoYXQgaXQgd2lsbCBjYXVzZSBzZXJpYWxpemF0
+aW9uIGEgYml0IG1vcmUgYW5kIGNhbiBhZmZlY3QgYnVsbHMgdGltZXMgd2FzbuKAmXQgdGhlcmUg
+YSBtaW5pbWFsIGdldHRleHQgYXQgc29tZSBwb2ludCBhbmQgSSB3b25kZXIgaWYgdGhhdCBjb3Vs
+ZCBzYXRpc2Z5IG5lZWRzIGhlcmUNCg0KDQogUFYgPSAiMi4yOSINCg0KLS0NCjIuMjEuMA0K
 
-Fixed acquired_lock method to only add the lock when acquire succeed.
+--_000_e6cf5479e8da4d7e95463096a50b820exbox06axiscom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Regards,
-Anibal
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+IkNhbWJyaWEgTWF0aCI7DQoJcGFub3NlLTE6MiA0IDUgMyA1IDQgNiAzIDIgNDt9DQpAZm9udC1m
+YWNlDQoJe2ZvbnQtZmFtaWx5OkNhbGlicmk7DQoJcGFub3NlLTE6MiAxNSA1IDIgMiAyIDQgMyAy
+IDQ7fQ0KLyogU3R5bGUgRGVmaW5pdGlvbnMgKi8NCnAuTXNvTm9ybWFsLCBsaS5Nc29Ob3JtYWws
+IGRpdi5Nc29Ob3JtYWwNCgl7bWFyZ2luOjBjbTsNCgltYXJnaW4tYm90dG9tOi4wMDAxcHQ7DQoJ
+Zm9udC1zaXplOjExLjBwdDsNCglmb250LWZhbWlseToiQ2FsaWJyaSIsc2Fucy1zZXJpZjt9DQph
+OmxpbmssIHNwYW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xv
+cjpibHVlOw0KCXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0KYTp2aXNpdGVkLCBzcGFuLk1z
+b0h5cGVybGlua0ZvbGxvd2VkDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpwdXJw
+bGU7DQoJdGV4dC1kZWNvcmF0aW9uOnVuZGVybGluZTt9DQpwLm1zb25vcm1hbDAsIGxpLm1zb25v
+cm1hbDAsIGRpdi5tc29ub3JtYWwwDQoJe21zby1zdHlsZS1uYW1lOm1zb25vcm1hbDsNCgltc28t
+bWFyZ2luLXRvcC1hbHQ6YXV0bzsNCgltYXJnaW4tcmlnaHQ6MGNtOw0KCW1zby1tYXJnaW4tYm90
+dG9tLWFsdDphdXRvOw0KCW1hcmdpbi1sZWZ0OjBjbTsNCglmb250LXNpemU6MTEuMHB0Ow0KCWZv
+bnQtZmFtaWx5OiJDYWxpYnJpIixzYW5zLXNlcmlmO30NCnNwYW4uRW1haWxTdHlsZTE5DQoJe21z
+by1zdHlsZS10eXBlOnBlcnNvbmFsLXJlcGx5Ow0KCWZvbnQtZmFtaWx5OiJDYWxpYnJpIixzYW5z
+LXNlcmlmOw0KCWNvbG9yOiM5NDM2MzQ7DQoJZm9udC13ZWlnaHQ6bm9ybWFsOw0KCWZvbnQtc3R5
+bGU6bm9ybWFsOw0KCXRleHQtZGVjb3JhdGlvbjpub25lIG5vbmU7fQ0KLk1zb0NocERlZmF1bHQN
+Cgl7bXNvLXN0eWxlLXR5cGU6ZXhwb3J0LW9ubHk7DQoJZm9udC1mYW1pbHk6IkNhbGlicmkiLHNh
+bnMtc2VyaWY7DQoJbXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVM7fQ0KQHBhZ2UgV29yZFNlY3Rp
+b24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0Ow0KCW1hcmdpbjo3Mi4wcHQgNzIuMHB0IDcyLjBw
+dCA3Mi4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9uMQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48
+L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0i
+ZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwveG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1z
+byA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQgdjpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9
+ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hhcGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8
+L2hlYWQ+DQo8Ym9keSBsYW5nPSJTViIgbGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSI+DQo8ZGl2
+IGNsYXNzPSJXb3JkU2VjdGlvbjEiPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0i
+RU4tVVMiIHN0eWxlPSJjb2xvcjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj5B
+cmUgeW91IHRoaW5raW5nIG9mIGdldHRleHQtbWluaW1hbC1uYXRpdmU/IEl0IGlzIHVzZWQgYnkg
+Z2V0dGV4dC5iYmNsYXNzIGlmIFVTRV9OTFMgaXMg4oCcbm/igJ0uPG86cD48L286cD48L3NwYW4+
+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJjb2xv
+cjojOTQzNjM0O21zby1mYXJlYXN0LWxhbmd1YWdlOkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwv
+c3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9
+ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPi8vUGV0ZXI8bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyIg
+c3R5bGU9ImNvbG9yOiM5NDM2MzQ7bXNvLWZhcmVhc3QtbGFuZ3VhZ2U6RU4tVVMiPjxvOnA+Jm5i
+c3A7PC9vOnA+PC9zcGFuPjwvcD4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0
+OnNvbGlkIGJsdWUgMS41cHQ7cGFkZGluZzowY20gMGNtIDBjbSA0LjBwdCI+DQo8ZGl2Pg0KPGRp
+diBzdHlsZT0iYm9yZGVyOm5vbmU7Ym9yZGVyLXRvcDpzb2xpZCAjRTFFMUUxIDEuMHB0O3BhZGRp
+bmc6My4wcHQgMGNtIDBjbSAwY20iPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PGI+PHNwYW4gbGFu
+Zz0iRU4tVVMiPkZyb206PC9zcGFuPjwvYj48c3BhbiBsYW5nPSJFTi1VUyI+IG9wZW5lbWJlZGRl
+ZC1jb3JlLWJvdW5jZXNAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyAmbHQ7b3BlbmVtYmVkZGVkLWNv
+cmUtYm91bmNlc0BsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ow0KPGI+T24gQmVoYWxmIE9mIDwv
+Yj5LaGVtIFJhajxicj4NCjxiPlNlbnQ6PC9iPiBkZW4gMjgganVuaSAyMDE5IDE4OjM3PGJyPg0K
+PGI+VG86PC9iPiBKb3NodWEgV2F0dCAmbHQ7anBld2hhY2tlckBnbWFpbC5jb20mZ3Q7PGJyPg0K
+PGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPGJyPg0K
+PGI+U3ViamVjdDo8L2I+IFJlOiBbT0UtY29yZV0gW1BBVENIXSBnbGliYzogRml4IGxvY2FsZSBE
+RVBFTkRTPG86cD48L286cD48L3NwYW4+PC9wPg0KPC9kaXY+DQo8L2Rpdj4NCjxwIGNsYXNzPSJN
+c29Ob3JtYWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxvOnA+Jm5ic3A7PC9vOnA+PC9wPg0KPC9kaXY+DQo8ZGl2Pg0KPHAgY2xhc3M9Ik1zb05v
+cm1hbCI+PG86cD4mbmJzcDs8L286cD48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29O
+b3JtYWwiPk9uIFRodSwgSnVuIDI3LCAyMDE5IGF0IDk6NTQgQU0gSm9zaHVhIFdhdHQgJmx0Ozxh
+IGhyZWY9Im1haWx0bzpqcGV3aGFja2VyQGdtYWlsLmNvbSI+anBld2hhY2tlckBnbWFpbC5jb208
+L2E+Jmd0OyB3cm90ZTo8bzpwPjwvbzpwPjwvcD4NCjwvZGl2Pg0KPGJsb2NrcXVvdGUgc3R5bGU9
+ImJvcmRlcjpub25lO2JvcmRlci1sZWZ0OnNvbGlkICNDQ0NDQ0MgMS4wcHQ7cGFkZGluZzowY20g
+MGNtIDBjbSA2LjBwdDttYXJnaW4tbGVmdDo0LjhwdDttYXJnaW4tcmlnaHQ6MGNtIj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPmdldHRleHQgaXMgcmVxdWlyZWQgdG8gZ2VuZXJhdGUgdGhlIGdsaWJj
+IGxvY2FsZXMgaW4gZG9fY29tcGlsZS4gSWYgbm90PGJyPg0KcHJlc2VudCwgZ2xpYmMgd2lsbCBz
+a2lwIHRoZSBnZW5lcmF0aW9uIHdoaWNoIGlzbid0IHJlcHJvZHVjaWJsZS48YnI+DQo8YnI+DQpT
+aWduZWQtb2ZmLWJ5OiBKb3NodWEgV2F0dCAmbHQ7PGEgaHJlZj0ibWFpbHRvOkpQRVdoYWNrZXJA
+Z21haWwuY29tIiB0YXJnZXQ9Il9ibGFuayI+SlBFV2hhY2tlckBnbWFpbC5jb208L2E+Jmd0Ozxi
+cj4NCi0tLTxicj4NCiZuYnNwO21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjLzxhIGhyZWY9Imh0dHA6
+Ly9nbGliY18yLjI5LmJiIiB0YXJnZXQ9Il9ibGFuayI+Z2xpYmNfMi4yOS5iYjwvYT4gfCAyICYj
+NDM7LTxicj4NCiZuYnNwOzEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigmIzQzOyksIDEgZGVs
+ZXRpb24oLSk8YnI+DQo8YnI+DQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZ2xpYmMv
+PGEgaHJlZj0iaHR0cDovL2dsaWJjXzIuMjkuYmIiIHRhcmdldD0iX2JsYW5rIj5nbGliY18yLjI5
+LmJiPC9hPiBiL21ldGEvcmVjaXBlcy1jb3JlL2dsaWJjLzxhIGhyZWY9Imh0dHA6Ly9nbGliY18y
+LjI5LmJiIiB0YXJnZXQ9Il9ibGFuayI+Z2xpYmNfMi4yOS5iYjwvYT48YnI+DQppbmRleCAwNzNk
+MTUzM2UzNy4uYzQwMGVlMTBiMGYgMTAwNjQ0PGJyPg0KLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUv
+Z2xpYmMvPGEgaHJlZj0iaHR0cDovL2dsaWJjXzIuMjkuYmIiIHRhcmdldD0iX2JsYW5rIj5nbGli
+Y18yLjI5LmJiPC9hPjxicj4NCiYjNDM7JiM0MzsmIzQzOyBiL21ldGEvcmVjaXBlcy1jb3JlL2ds
+aWJjLzxhIGhyZWY9Imh0dHA6Ly9nbGliY18yLjI5LmJiIiB0YXJnZXQ9Il9ibGFuayI+Z2xpYmNf
+Mi4yOS5iYjwvYT48YnI+DQpAQCAtNSw3ICYjNDM7NSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAm
+cXVvdDs8YSBocmVmPSJmaWxlOi8vTElDRU5TRVM7bWQ1PWNmYzBlZDc3YTlmNjJmYTYyZWRlZDA0
+MmViZTMxZDcyJTIwLyUwYiZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwO2ZpbGU6L3Bv
+c2l4L3J4c3BlbmNlci9DT1BZUklHSFQ7bWQ1PWRjNTQ4NWJiMzk0YTEzYjIzMzJlYzFjNzg1ZjVk
+ODNhJTIwLyUwYiZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwOyUyMCZuYnNwO2ZpbGU6L0NPUFlJTkcu
+TElCO21kNT00ZmJkNjUzODBjZGQyNTU5NTEwNzkwMDhiMzY0NTE2YyI+ZmlsZTovL0xJQ0VOU0VT
+O21kNT1jZmMwZWQ3N2E5ZjYyZmE2MmVkZWQwNDJlYmUzMWQ3Mg0KIFw8YnI+DQombmJzcDsgJm5i
+c3A7ICZuYnNwOyAmbmJzcDtmaWxlOi8vcG9zaXgvcnhzcGVuY2VyL0NPUFlSSUdIVDttZDU9ZGM1
+NDg1YmIzOTRhMTNiMjMzMmVjMWM3ODVmNWQ4M2EgXDxicj4NCiZuYnNwOyAmbmJzcDsgJm5ic3A7
+ICZuYnNwO2ZpbGU6Ly9DT1BZSU5HLkxJQjttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2
+NDUxNmM8L2E+JnF1b3Q7PGJyPg0KPGJyPg0KLURFUEVORFMgJiM0Mzs9ICZxdW90O2dwZXJmLW5h
+dGl2ZSBiaXNvbi1uYXRpdmUgbWFrZS1uYXRpdmUmcXVvdDs8YnI+DQomIzQzO0RFUEVORFMgJiM0
+Mzs9ICZxdW90O2dwZXJmLW5hdGl2ZSBiaXNvbi1uYXRpdmUgbWFrZS1uYXRpdmUgZ2V0dGV4dC1u
+YXRpdmUmcXVvdDs8bzpwPjwvbzpwPjwvcD4NCjwvYmxvY2txdW90ZT4NCjxkaXY+DQo8cCBjbGFz
+cz0iTXNvTm9ybWFsIj48bzpwPiZuYnNwOzwvbzpwPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPkkgdGhpbmsgd2UgaGF2ZSBoYWQgdGhpcyBkZXBlbmRlbmN5IHByb3Bv
+c2VkIGluIHBhc3QgYW5kIG9uZSB0aGluayB0aGF0IHdvcnJpZXMgbWUgaXMgdGhhdCBpdCB3aWxs
+IGNhdXNlIHNlcmlhbGl6YXRpb24gYSBiaXQgbW9yZSBhbmQgY2FuIGFmZmVjdCBidWxscyB0aW1l
+cyB3YXNu4oCZdCB0aGVyZSBhIG1pbmltYWwgZ2V0dGV4dCBhdCBzb21lIHBvaW50IGFuZCBJIHdv
+bmRlciBpZiB0aGF0IGNvdWxkIHNhdGlzZnkNCiBuZWVkcyBoZXJlJm5ic3A7PG86cD48L286cD48
+L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTtib3JkZXItbGVmdDpz
+b2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7bWFyZ2luLWxlZnQ6
+NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIiBzdHlsZT0ibWFy
+Z2luLWJvdHRvbToxMi4wcHQiPjxicj4NCjxicj4NCiZuYnNwO1BWID0gJnF1b3Q7Mi4yOSZxdW90
+Ozxicj4NCjxicj4NCi0tIDxicj4NCjIuMjEuMDxvOnA+PC9vOnA+PC9wPg0KPC9ibG9ja3F1b3Rl
+Pg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-On Mon, 1 Jul 2019 at 16:23, An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.or=
-g> wrote:
-
-> In order to support multiple tap devices in the same qemu virtual
-> machine.
->
-> Signed-off-by: An=C3=ADbal Lim=C3=B3n <anibal.limon@linaro.org>
-> ---
->  scripts/runqemu | 50 +++++++++++++++++++++++++------------------------
->  1 file changed, 26 insertions(+), 24 deletions(-)
->
-> diff --git a/scripts/runqemu b/scripts/runqemu
-> index 4079f2b17d..38dd1c30d9 100755
-> --- a/scripts/runqemu
-> +++ b/scripts/runqemu
-> @@ -181,8 +181,7 @@ class BaseConfig(object):
->          self.audio_enabled =3D False
->          self.tcpserial_portnum =3D ''
->          self.custombiosdir =3D ''
-> -        self.lock =3D ''
-> -        self.lock_descriptor =3D None
-> +        self.lock_descriptors =3D {}
->          self.bitbake_e =3D ''
->          self.snapshot =3D False
->          self.wictypes =3D ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi')
-> @@ -204,30 +203,32 @@ class BaseConfig(object):
->          # avoid cleanup twice
->          self.cleaned =3D False
->
-> -    def acquire_lock(self, error=3DTrue):
-> -        logger.debug("Acquiring lockfile %s..." % self.lock)
-> +    def acquire_lock(self, lock, error=3DTrue):
-> +        logger.debug("Acquiring lockfile %s..." % lock)
-> +        descriptor =3D None
->          try:
-> -            self.lock_descriptor =3D open(self.lock, 'w')
-> -            fcntl.flock(self.lock_descriptor, fcntl.LOCK_EX|fcntl.LOCK_N=
-B)
-> +            descriptor =3D open(lock, 'w')
-> +            fcntl.flock(descriptor, fcntl.LOCK_EX|fcntl.LOCK_NB)
->          except Exception as e:
-> -            msg =3D "Acquiring lockfile %s failed: %s" % (self.lock, e)
-> +            msg =3D "Acquiring lockfile %s failed: %s" % (lock, e)
->              if error:
->                  logger.error(msg)
->              else:
->                  logger.info(msg)
-> -            if self.lock_descriptor:
-> -                self.lock_descriptor.close()
-> -                self.lock_descriptor =3D None
-> +            if descriptor:
-> +                descriptor.close()
-> +                descriptor =3D None
->              return False
-> +        self.lock_descriptors[lock] =3D descriptor
->          return True
->
-> -    def release_lock(self):
-> -        if self.lock_descriptor:
-> -            logger.debug("Releasing lockfile for tap device '%s'" %
-> self.tap)
-> -            fcntl.flock(self.lock_descriptor, fcntl.LOCK_UN)
-> -            self.lock_descriptor.close()
-> -            os.remove(self.lock)
-> -            self.lock_descriptor =3D None
-> +    def release_lock(self, lock):
-> +        if self.lock_descriptors[lock]:
-> +            logger.debug("Releasing lockfile for tap device '%s'" % lock=
-)
-> +            fcntl.flock(self.lock_descriptors[lock], fcntl.LOCK_UN)
-> +            self.lock_descriptors[lock].close()
-> +            os.remove(lock)
-> +            self.lock_descriptors[lock] =3D None
->
->      def get(self, key):
->          if key in self.d:
-> @@ -1016,8 +1017,8 @@ class BaseConfig(object):
->              if os.path.exists('%s.skip' % lockfile):
->                  logger.info('Found %s.skip, skipping %s' % (lockfile, p)=
-)
->                  continue
-> -            self.lock =3D lockfile + '.lock'
-> -            if self.acquire_lock(error=3DFalse):
-> +            lock =3D lockfile + '.lock'
-> +            if self.acquire_lock(lock, error=3DFalse):
->                  tap =3D p
->                  logger.info("Using preconfigured tap device %s" % tap)
->                  logger.info("If this is not intended, touch %s.skip to
-> make runqemu skip %s." %(lockfile, tap))
-> @@ -1035,8 +1036,8 @@ class BaseConfig(object):
->              cmd =3D ('sudo', self.qemuifup, str(uid), str(gid),
-> self.bindir_native)
->              tap =3D subprocess.check_output(cmd).decode('utf-8').strip()
->              lockfile =3D os.path.join(lockdir, tap)
-> -            self.lock =3D lockfile + '.lock'
-> -            self.acquire_lock()
-> +            lock =3D lockfile + '.lock'
-> +            self.acquire_lock(lock)
->              self.cleantap =3D True
->              logger.debug('Created tap: %s' % tap)
->
-> @@ -1268,8 +1269,8 @@ class BaseConfig(object):
->          cmds =3D shlex.split(cmd)
->          logger.info('Running %s\n' % cmd)
->          pass_fds =3D []
-> -        if self.lock_descriptor:
-> -            pass_fds =3D [self.lock_descriptor.fileno()]
-> +        if self.lock_descriptors.keys():
-> +            pass_fds =3D [self.lock_descriptors[lock].fileno() for lock =
-in
-> self.lock_descriptors.keys()]
->          process =3D subprocess.Popen(cmds, stderr=3Dsubprocess.PIPE,
-> pass_fds=3Dpass_fds)
->          self.qemupid =3D process.pid
->          retcode =3D process.wait()
-> @@ -1291,7 +1292,8 @@ class BaseConfig(object):
->              cmd =3D ('sudo', self.qemuifdown, self.tap, self.bindir_nati=
-ve)
->              logger.debug('Running %s' % str(cmd))
->              subprocess.check_call(cmd)
-> -        self.release_lock()
-> +        for lock in self.lock_descriptors.keys():
-> +            self.release_lock(lock)
->
->          if self.nfs_running:
->              logger.info("Shutting down the userspace NFS server...")
-> --
-> 2.20.1
->
->
-
---0000000000002e549c058ca547cb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">I squashed the fix in the wrong patch that&#39;s because t=
-he v3 that are no functional changes between v2 and v3.<div><br></div><div>=
-Fixed acquired_lock method to only add the lock when acquire succeed.</div>=
-<div><br></div><div>Regards,</div><div>Anibal</div></div><br><div class=3D"=
-gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, 1 Jul 2019 at 16=
-:23, An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@linaro.org">=
-anibal.limon@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">In order to support multiple tap devices in the same=
- qemu virtual<br>
-machine.<br>
-<br>
-Signed-off-by: An=C3=ADbal Lim=C3=B3n &lt;<a href=3D"mailto:anibal.limon@li=
-naro.org" target=3D"_blank">anibal.limon@linaro.org</a>&gt;<br>
----<br>
-=C2=A0scripts/runqemu | 50 +++++++++++++++++++++++++-----------------------=
--<br>
-=C2=A01 file changed, 26 insertions(+), 24 deletions(-)<br>
-<br>
-diff --git a/scripts/runqemu b/scripts/runqemu<br>
-index 4079f2b17d..38dd1c30d9 100755<br>
---- a/scripts/runqemu<br>
-+++ b/scripts/runqemu<br>
-@@ -181,8 +181,7 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.audio_enabled =3D False<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.tcpserial_portnum =3D &#39;&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.custombiosdir =3D &#39;&#39;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock =3D &#39;&#39;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptor =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptors =3D {}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.bitbake_e =3D &#39;&#39;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.snapshot =3D False<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.wictypes =3D (&#39;wic&#39;, &#39;wi=
-c.vmdk&#39;, &#39;wic.qcow2&#39;, &#39;wic.vdi&#39;)<br>
-@@ -204,30 +203,32 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# avoid cleanup twice<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.cleaned =3D False<br>
-<br>
--=C2=A0 =C2=A0 def acquire_lock(self, error=3DTrue):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Acquiring lockfile %s...&qu=
-ot; % self.lock)<br>
-+=C2=A0 =C2=A0 def acquire_lock(self, lock, error=3DTrue):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Acquiring lockfile %s...&qu=
-ot; % lock)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 descriptor =3D None<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0try:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptor =3D open(se=
-lf.lock, &#39;w&#39;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fcntl.flock(self.lock_descriptor=
-, fcntl.LOCK_EX|fcntl.LOCK_NB)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 descriptor =3D open(lock, &#39;w=
-&#39;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fcntl.flock(descriptor, fcntl.LO=
-CK_EX|fcntl.LOCK_NB)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0except Exception as e:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D &quot;Acquiring lockfile=
- %s failed: %s&quot; % (self.lock, e)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 msg =3D &quot;Acquiring lockfile=
- %s failed: %s&quot; % (lock, e)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if error:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.error(=
-msg)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0else:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"ht=
-tp://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(msg)=
-<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.lock_descriptor:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descript=
-or.close()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descript=
-or =3D None<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if descriptor:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 descriptor.close()=
-<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 descriptor =3D Non=
-e<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return False<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptors[lock] =3D descriptor<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return True<br>
-<br>
--=C2=A0 =C2=A0 def release_lock(self):<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.lock_descriptor:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Releasing loc=
-kfile for tap device &#39;%s&#39;&quot; % self.tap)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fcntl.flock(self.lock_descriptor=
-, fcntl.LOCK_UN)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptor.close()<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.remove(self.lock)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptor =3D None<br=
->
-+=C2=A0 =C2=A0 def release_lock(self, lock):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.lock_descriptors[lock]:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 logger.debug(&quot;Releasing loc=
-kfile for tap device &#39;%s&#39;&quot; % lock)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fcntl.flock(self.lock_descriptor=
-s[lock], fcntl.LOCK_UN)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptors[lock].clos=
-e()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.remove(lock)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock_descriptors[lock] =3D =
-None<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0def get(self, key):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if key in self.d:<br>
-@@ -1016,8 +1017,8 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if os.path.exists(&#39;%s.s=
-kip&#39; % lockfile):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"ht=
-tp://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(&#39=
-;Found %s.skip, skipping %s&#39; % (lockfile, p))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock =3D lockfile + &#39;.l=
-ock&#39;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.acquire_lock(error=3DFal=
-se):<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lock =3D lockfile + &#39;.lock&#=
-39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.acquire_lock(lock, error=
-=3DFalse):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tap =3D p<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"ht=
-tp://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(&quo=
-t;Using preconfigured tap device %s&quot; % tap)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"ht=
-tp://logger.info" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(&quo=
-t;If this is not intended, touch %s.skip to make runqemu skip %s.&quot; %(l=
-ockfile, tap))<br>
-@@ -1035,8 +1036,8 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D (&#39;sudo&#39;, se=
-lf.qemuifup, str(uid), str(gid), self.bindir_native)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0tap =3D subprocess.check_ou=
-tput(cmd).decode(&#39;utf-8&#39;).strip()<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0lockfile =3D os.path.join(l=
-ockdir, tap)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.lock =3D lockfile + &#39;.l=
-ock&#39;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.acquire_lock()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 lock =3D lockfile + &#39;.lock&#=
-39;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.acquire_lock(lock)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.cleantap =3D True<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.debug(&#39;Created t=
-ap: %s&#39; % tap)<br>
-<br>
-@@ -1268,8 +1269,8 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmds =3D shlex.split(cmd)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://logger.info" rel=3D"nor=
-eferrer" target=3D"_blank">logger.info</a>(&#39;Running %s\n&#39; % cmd)<br=
->
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0pass_fds =3D []<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.lock_descriptor:<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass_fds =3D [self.lock_descript=
-or.fileno()]<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if self.lock_descriptors.keys():<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 pass_fds =3D [self.lock_descript=
-ors[lock].fileno() for lock in self.lock_descriptors.keys()]<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0process =3D subprocess.Popen(cmds, stderr=
-=3Dsubprocess.PIPE, pass_fds=3Dpass_fds)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.qemupid =3D process.pid<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0retcode =3D process.wait()<br>
-@@ -1291,7 +1292,8 @@ class BaseConfig(object):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cmd =3D (&#39;sudo&#39;, se=
-lf.qemuifdown, self.tap, self.bindir_native)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0logger.debug(&#39;Running %=
-s&#39; % str(cmd))<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0subprocess.check_call(cmd)<=
-br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 self.release_lock()<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for lock in self.lock_descriptors.keys():<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 self.release_lock(lock)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if self.nfs_running:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a href=3D"http://logger.in=
-fo" rel=3D"noreferrer" target=3D"_blank">logger.info</a>(&quot;Shutting dow=
-n the userspace NFS server...&quot;)<br>
--- <br>
-2.20.1<br>
-<br>
-</blockquote></div>
-
---0000000000002e549c058ca547cb--
+--_000_e6cf5479e8da4d7e95463096a50b820exbox06axiscom_--
