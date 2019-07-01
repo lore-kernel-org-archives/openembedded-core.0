@@ -1,24 +1,49 @@
-Return-Path: <Li.Zhou@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A2F007D30C
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lf1-f67.google.com (mail-lf1-f67.google.com
+	[209.85.167.67])
+	by mail.openembedded.org (Postfix) with ESMTP id B6FCE79AE7
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 02:25:09 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x612PAR5023970
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Mon,  1 Jul 2019 02:52:13 +0000 (UTC)
+Received: by mail-lf1-f67.google.com with SMTP id y198so7667724lfa.1
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2019 19:25:10 -0700 (PDT)
-Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Sun, 30 Jun 2019 19:25:10 -0700
-From: Li Zhou <li.zhou@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Jul 2019 10:07:16 +0800
-Message-ID: <1561946836-38015-1-git-send-email-li.zhou@windriver.com>
-X-Mailer: git-send-email 1.9.1
-MIME-Version: 1.0
-X-Originating-IP: [128.224.153.75]
-Subject: [PATCH v2] bc: dc: fix exit code of q command
+	Sun, 30 Jun 2019 19:52:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=aBw/urAgmbkd3VyVk6Kk8D/7rBPoIKOQO837YCeV+ug=;
+	b=WALItje695mAy39iQarIsRDtAyPGbKNI/1ZAY7PYi0cimhmuwM+ye+vRFW5Ng2HmDJ
+	BxmL63BF1lbsA7giISgMwtyvYmL2VX3g6IvRrVsBxOTTCVtIzZS7XC41eHx1uS0KOuqj
+	mSipJpk06PypJM7g6/BLB1CuwnOFVnmN6sSNCOEs5mK/BmPF9i6RVVi7pmjThQkG/S+y
+	lqJxO8tiVkSFbBB0mXgh+JgTSkQQOdR8ioxZN6LFWdSxaNszTBC5gjECQerpqGjSAWua
+	C1Np4tYP8SKkohYq2tjofcrd1JUQaYYG5ywBsL5pvN28bGNEqKwk11WkkIIFGv6AY2gs
+	V+qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=aBw/urAgmbkd3VyVk6Kk8D/7rBPoIKOQO837YCeV+ug=;
+	b=kipmTuZkvc3ysLTtGLsAWRcl9DvZQxbQwn1ZXtKIMutc31YeQu8g5T7iL9BCQDZ1vV
+	Y6JpvERU9OXSJjtVgHRw5LCtLgyS7NMgnV2YUKgPGbjMOvlSEwgQvZVkBnCsJI3qnLbx
+	wmFX6BMDOn0X1NNx0LhxNb1fXrhpbSorXRHoKW0Xsbj1PhiDZ2UBN9dy4hPh4tHtvTGh
+	dhCPxasvIazOz8v4AlISoE7dOoch6uYlYIlqLFmSOZO43kwxM/Wkje8LkiLAB+EX9liB
+	3ZQRXEcRITFrHvqpkud64/ZzlAXjpvo1LDuisWNaHuagzcavuZD+0RKvGRgOvRkndhP5
+	WO9Q==
+X-Gm-Message-State: APjAAAWpMUaCb0hg0ysLFdazO01oQNFiMezTeO92NahlSJ4ssoPY5SzU
+	AIZ+qms4zLeo7lPKHdPYghAiEurCSYU=
+X-Google-Smtp-Source: APXvYqx3COauybB6rrGXA8qXxpORh872ANVCClB+adonj80ld5gn1Nvo+ugb38yHVLZ1Ztda+gIGWg==
+X-Received: by 2002:a19:ec15:: with SMTP id b21mr11325382lfa.32.1561949533850; 
+	Sun, 30 Jun 2019 19:52:13 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	d16sm2187731lfj.41.2019.06.30.19.52.12
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sun, 30 Jun 2019 19:52:13 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Jul 2019 04:52:11 +0200
+Message-Id: <20190701025211.10437-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ruby: update to 2.5.5
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,94 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 02:25:09 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 01 Jul 2019 02:52:14 -0000
 
-The exit code for "echo q | dc" is 1 for dc-1.4.1;
-while the exit code for "echo q | dc" is 0 for dc-1.4.
-
-Here is the answer from ken@gnu.org:
-dc-1.4 was right.  There was a rewrite of a chunk of code for 1.4.1 to
-fix a corner case in the Q command, and somehow the placement of the
-clean-up label for the 'q' command got misplaced on the error-handling
-branch instead of the clean-exit branch.  The patch below fixes this
-(it is committed for whenever the next bc/dc release gets made).
-
-Thanks for the report,
-        --Ken Pizzini
-
-Signed-off-by: Li Zhou <li.zhou@windriver.com>
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
 ---
- .../bc/bc/0001-dc-fix-exit-code-of-q-command.patch | 44 ++++++++++++++++++++++
- meta/recipes-extended/bc/bc_1.07.1.bb              |  3 +-
- 2 files changed, 46 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch
+ meta/recipes-devtools/ruby/{ruby_2.5.3.bb => ruby_2.5.5.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/ruby/{ruby_2.5.3.bb => ruby_2.5.5.bb} (94%)
 
-diff --git a/meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch b/meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch
-new file mode 100644
-index 0000000..1ef797d
---- /dev/null
-+++ b/meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch
-@@ -0,0 +1,44 @@
-+From e174b6e7d195d5a7465575641b7f68581f162574 Mon Sep 17 00:00:00 2001
-+From: Li Zhou <li.zhou@windriver.com>
-+Date: Thu, 27 Jun 2019 13:10:47 +0800
-+Subject: [PATCH] dc: fix exit code of q command
-+
-+The exit code for "echo q | dc" is 1 for dc-1.4.1;
-+while the exit code for "echo q | dc" is 0 for dc-1.4.
-+
-+Here is the answer from ken@gnu.org:
-+dc-1.4 was right.  There was a rewrite of a chunk of code for 1.4.1 to
-+fix a corner case in the Q command, and somehow the placement of the
-+clean-up label for the 'q' command got misplaced on the error-handling
-+branch instead of the clean-exit branch.  The patch below fixes this
-+(it is committed for whenever the next bc/dc release gets made).
-+
-+Thanks for the report,
-+        --Ken Pizzini
-+
-+Upstream-Status: Backport [Got the solution from maintainer]
-+
-+Signed-off-by: Li Zhou <li.zhou@windriver.com>
-+---
-+ dc/eval.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/dc/eval.c b/dc/eval.c
-+index 05a3d9e..bcab8db 100644
-+--- a/dc/eval.c
-++++ b/dc/eval.c
-+@@ -814,10 +814,10 @@ error_fail:
-+ 	fprintf(stderr, "%s: ", progname);
-+ 	perror("error reading input");
-+ 	return DC_FAIL;
-+-reset_and_exit_quit:
-+ reset_and_exit_fail:
-+ 	signal(SIGINT, sigint_default);
-+ 	return DC_FAIL;
-++reset_and_exit_quit:
-+ reset_and_exit_success:
-+ 	signal(SIGINT, sigint_default);
-+ 	return DC_SUCCESS;
-+-- 
-+1.9.1
-+
-diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extended/bc/bc_1.07.1.bb
-index 809b864..4a51302 100644
---- a/meta/recipes-extended/bc/bc_1.07.1.bb
-+++ b/meta/recipes-extended/bc/bc_1.07.1.bb
-@@ -13,7 +13,8 @@ DEPENDS = "flex-native"
+diff --git a/meta/recipes-devtools/ruby/ruby_2.5.3.bb b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+similarity index 94%
+rename from meta/recipes-devtools/ruby/ruby_2.5.3.bb
+rename to meta/recipes-devtools/ruby/ruby_2.5.5.bb
+index 519daf294f..8ad59a7657 100644
+--- a/meta/recipes-devtools/ruby/ruby_2.5.3.bb
++++ b/meta/recipes-devtools/ruby/ruby_2.5.5.bb
+@@ -6,8 +6,8 @@ SRC_URI += " \
+            file://run-ptest \
+            "
  
- SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
-            file://no-gen-libmath.patch \
--           file://libmath.h"
-+           file://libmath.h \
-+           file://0001-dc-fix-exit-code-of-q-command.patch"
- SRC_URI[md5sum] = "cda93857418655ea43590736fc3ca9fc"
- SRC_URI[sha256sum] = "62adfca89b0a1c0164c2cdca59ca210c1d44c3ffc46daf9931cf4942664cb02a"
+-SRC_URI[md5sum] = "20c85b67846d49622ef3b24230803fef"
+-SRC_URI[sha256sum] = "9828d03852c37c20fa333a0264f2490f07338576734d910ee3fd538c9520846c"
++SRC_URI[md5sum] = "7e156fb526b8f4bb1b30a3dd8a7ce400"
++SRC_URI[sha256sum] = "28a945fdf340e6ba04fc890b98648342e3cccfd6d223a48f3810572f11b2514c"
  
+ # it's unknown to configure script, but then passed to extconf.rb
+ # maybe it's not really needed as we're hardcoding the result with
 -- 
-1.9.1
+2.17.1
 
 
