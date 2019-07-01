@@ -1,26 +1,33 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id D76EE7D3E0
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 70E987E815
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 08:40:43 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x618ehwq003353
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 1 Jul 2019 01:40:43 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 1 Jul 2019 01:40:43 -0700
-To: Pierre Le Magourou <lemagoup@gmail.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190627145917.1774-1-lemagoup@gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <6ab87120-92d4-7cbc-e88a-8e9261037901@windriver.com>
-Date: Mon, 1 Jul 2019 16:41:21 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
-MIME-Version: 1.0
-In-Reply-To: <20190627145917.1774-1-lemagoup@gmail.com>
-Subject: Re: [meta-oe][PATCH v5] cve-update-db: do_populate_cve_db depends on do_fetch
+	Mon,  1 Jul 2019 08:53:10 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45ch3V4tGGz4q
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  1 Jul 2019 10:53:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1561971190;
+	bh=hzMJ2+Z7+Hz0IGc1GfvDp2JNirCKD5O1UG2eM1x6t4M=;
+	h=From:To:Subject:Date:From;
+	b=UnOptkUJiyiKIQfeat+KzoHWB7MvJKyr+LzhdNDPa0XTygUR4BgsNOlmZXlCGv4Nc
+	UW3+tfvu/GyCT8roN7tcdnQPpVCzxGyJowuAdXhZN4wnuS+LJSiiAL3rbHudMx0Flf
+	SApn9WOBe4CXZKGzZ8C0QcMCZdRFVipXS4gTrCc+8+RGDkxSKoEPUvjpPTaLfo3MFJ
+	EbwlYaDvCYfRMnQQIKni2XyENgV+vUdH62bsAVDoL7odZ2wo/6SbI5HPe1rhErHY3E
+	CK6mQbCS8o3bA/pQ556DIADkUxqd0yL4omrOyPGobapcjztrhcxOhjWIGKD6GORytv
+	s29EfHgTl1EpEjHZAgnEy88WA8DnAqeXzto8ngdCISVajj2jMZlLF1PEXFcb0TIlZG
+	93S4wLsDX+aJp5AzEQsOPejzypyb9iwjsujZAb13PmQvk+7rN8l8uK5jKooY4Y01E3
+	PZYg/8UgrwNZxNBflCaC1Zkch3FG7tXKin6Q0FAa844bTHY7576bio75f+yEBxC2Fj
+	FdRUAckE2IhHcsZMDPmEfSncOQVIM63ib+4ZIUgPazSO3TJWCsy7C+nID8iUjgMV0H
+	Ushkhp0nIae2Bco00tQsAHyaVblUyQF7VZH7Og2RYHa2hXHHyJ74jrO2VMoy+rjuUm
+	n+HDHYZv5gPyrFLBAbzW0z60=
+From: Adrian Bunk <bunk@stusta.de>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Jul 2019 11:53:09 +0300
+Message-Id: <20190701085309.24766-1-bunk@stusta.de>
+X-Mailer: git-send-email 2.17.1
+Subject: [PATCH] unfs3: Switch to new upstream location
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,137 +40,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 08:40:44 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 01 Jul 2019 08:53:10 -0000
 
-Hi Pierre,
+This uses the same code revision in the new repository.
 
-This patch broke "bitbake universe --runall=fetch" totally:
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
+---
+ .../{unfs3_0.9.22.r497.bb => unfs3_git.bb}    | 19 +++++--------------
+ 1 file changed, 5 insertions(+), 14 deletions(-)
+ rename meta/recipes-devtools/unfs3/{unfs3_0.9.22.r497.bb => unfs3_git.bb} (63%)
 
-ERROR: Running idle function
-Traceback (most recent call last):
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 1500, in 
-RunQueue.execute_runqueue():
-              try:
-     >            return self._execute_runqueue()
-              except bb.runqueue.TaskFailure:
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 1420, in 
-RunQueue._execute_runqueue():
-                                                                  [43, 967, 4, 
-3, 1, 5, 3, 7, 13, 1, 2, 1, 1, 246, 35, 1, 38, 1, 35, 2, 338, 204, 142, 3, 3, 
-37, 244])
-     >            if self.rqdata.prepare() == 0:
-                      self.state = runQueueComplete
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 906, in 
-RunQueueData.prepare():
-                      for tid in list(runall_tids):
-     >                    mark_active(tid,1)
+diff --git a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb b/meta/recipes-devtools/unfs3/unfs3_git.bb
+similarity index 63%
+rename from meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
+rename to meta/recipes-devtools/unfs3/unfs3_git.bb
+index 5a81a8fdb1..4b2cd5f2ce 100644
+--- a/meta/recipes-devtools/unfs3/unfs3_0.9.22.r497.bb
++++ b/meta/recipes-devtools/unfs3/unfs3_git.bb
+@@ -3,24 +3,14 @@ SECTION = "console/network"
+ LICENSE = "unfs3"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9475885294e17c0cc0067820d042792e"
+ 
+-# SVN support for upstream version check isn't implemented yet
+-RECIPE_UPSTREAM_VERSION = "0.9.22.r497"
+-RECIPE_UPSTREAM_DATE = "Oct 08, 2015"
+-CHECK_DATE = "Dec 10, 2015"
+-
+ DEPENDS = "flex-native bison-native flex"
+ DEPENDS += "libtirpc"
+ DEPENDS_append_class-nativesdk = " flex-nativesdk"
+ 
+ ASNEEDED = ""
+ 
+-MOD_PV = "497"
+-S = "${WORKDIR}/trunk"
+-# Only subversion url left in OE-Core, use a mirror tarball instead since
+-# this rarely changes.
+-# svn://svn.code.sf.net/p/unfs3/code;module=trunk;rev=${MOD_PV};protocol=http
+-# rename the tarball in mirror to avoid clash with user local svn tarball
+-SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/unfs3-0.9.22.r497.tar.gz \
++S = "${WORKDIR}/git"
++SRC_URI = "git://github.com/unfs3/unfs3.git;protocol=https \
+            file://unfs3_parallel_build.patch \
+            file://alternate_rpc_ports.patch \
+            file://fix_pid_race_parent_writes_child_pid.patch \
+@@ -31,8 +21,9 @@ SRC_URI = "http://downloads.yoctoproject.org/mirror/sources/unfs3-0.9.22.r497.ta
+            file://0001-daemon.c-Libtirpc-porting-fixes.patch \
+            file://0001-attr-fix-utime-for-symlink.patch \
+           "
+-SRC_URI[md5sum] = "2e43e471c77ade0331901c40b8f8e9a3"
+-SRC_URI[sha256sum] = "21009468a9ba07b72ea93780d025a63ab4e55bf8fc3127803c296f0900fe1bac"
++SRCREV = "c12a5c69a8d59be6916cbd0e0f41c159f1962425"
++
++PV = "0.9.22+${SRCPV}"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-- 
+2.17.1
 
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 837, in 
-mark_active(tid='/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_fetch', 
-depth=1):
-                  for depend in depends:
-     >                mark_active(depend, depth+1)
-
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 835, in 
-mark_active(tid='/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_populate_cve_db', 
-depth=2):
-
-     >            depends = self.runtaskentries[tid].depends
-                  for depend in depends:
-KeyError: 
-'/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_populate_cve_db'
-
-
-The line which caused the problem is:
-addtask do_populate_cve_db before do_fetch
-
-Would you please fix it? Or I can help if needed.
-
-// Robert
-
-
-On 6/27/19 10:59 PM, Pierre Le Magourou wrote:
-> From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
-> 
-> To be able to populate NVD database on a fetchall
-> (bitbake <image> --run-all=fetch), set the do_populate_cve_db task to be
-> executed before do_fetch.
-> 
-> Do not get CVE_CHECK_DB_DIR, CVE_CHECK_DB_FILE and CVE_CHECK_TMP_FILE
-> variable because do_populate_cve_db can be called in a context where
-> cve-check class is not loaded.
-> 
-> Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
-> ---
->   meta/recipes-core/meta/cve-update-db.bb | 21 +++++++++++++--------
->   1 file changed, 13 insertions(+), 8 deletions(-)
-> 
-> diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
-> index 4c896dc880..3e5bae8b1d 100644
-> --- a/meta/recipes-core/meta/cve-update-db.bb
-> +++ b/meta/recipes-core/meta/cve-update-db.bb
-> @@ -6,7 +6,6 @@ PACKAGES = ""
->   
->   inherit nopackages
->   
-> -deltask do_fetch
->   deltask do_unpack
->   deltask do_patch
->   deltask do_configure
-> @@ -24,11 +23,16 @@ python do_populate_cve_db() {
->   
->       BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
->       YEAR_START = 2002
-> -    JSON_TMPFILE = d.getVar("CVE_CHECK_DB_DIR") + '/nvd.json.gz'
-> +
-> +    db_dir = d.getVar("DL_DIR") + '/CVE_CHECK'
-> +    db_file = db_dir + '/nvd-json.db'
-> +    json_tmpfile = db_dir + '/nvd.json.gz'
->       proxy = d.getVar("https_proxy")
->   
-> +    if not os.path.isdir(db_dir):
-> +        os.mkdir(db_dir)
-> +
->       # Connect to database
-> -    db_file = d.getVar("CVE_CHECK_DB_FILE")
->       conn = sqlite3.connect(db_file)
->       c = conn.cursor()
->   
-> @@ -55,9 +59,9 @@ python do_populate_cve_db() {
->               req = urllib.request.Request(json_url)
->               if proxy:
->                   req.set_proxy(proxy, 'https')
-> -            with urllib.request.urlopen(req) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
-> +            with urllib.request.urlopen(req) as r, open(json_tmpfile, 'wb') as tmpfile:
->                   shutil.copyfileobj(r, tmpfile)
-> -            with gzip.open(JSON_TMPFILE, 'rt') as jsonfile:
-> +            with gzip.open(json_tmpfile, 'rt') as jsonfile:
->                   update_db(c, jsonfile)
->               c.execute("insert or replace into META values (?, ?)",
->                       [year, last_modified])
-> @@ -65,8 +69,9 @@ python do_populate_cve_db() {
->       conn.commit()
->       conn.close()
->   
-> -    with open(d.getVar("CVE_CHECK_TMP_FILE"), 'a'):
-> -        os.utime(d.getVar("CVE_CHECK_TMP_FILE"), None)
-> +    cve_check_tmp_file =  d.getVar("TMPDIR") + '/cve_check'
-> +    with open(cve_check_tmp_file, 'a'):
-> +        os.utime(cve_check_tmp_file, None)
->   }
->   
->   # DJB2 hash algorithm
-> @@ -120,7 +125,7 @@ def update_db(c, json_filename):
->   
->   
->   
-> -addtask do_populate_cve_db before do_cve_check
-> +addtask do_populate_cve_db before do_fetch
->   do_populate_cve_db[nostamp] = "1"
->   
->   EXCLUDE_FROM_WORLD = "1"
-> 
 
