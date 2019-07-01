@@ -1,44 +1,26 @@
-Return-Path: <star@gmx.li>
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-	by mail.openembedded.org (Postfix) with ESMTP id 90DFB60125
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D76EE7D3E0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 08:17:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1561969047;
-	bh=UuRePCPn0Cm78z/2hi8xxt7JYTDVnGlZc8MHXA1ywjs=;
-	h=X-UI-Sender-Class:From:To:Subject:Date;
-	b=j/GSPanIFvEJE8OOzWmhni5Ci8ExcaeyvLR/Qg2S8A9xTVcVnQEpgpuRf5QVwl9N/
-	ayjb0fSrcxBHp3oyxFBljxPJrkzFsujzDpe3bcwaV3q/BwLpQHyfBQ+OHe1DkwHcy9
-	7OSLCTw4/b2PmqHykoqTFuQ79j5pRN1unk9E+JN0=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [62.225.157.196] ([62.225.157.196]) by web-mail.gmx.net
-	(3c-app-gmx-bs04.server.lan [172.19.170.53]) (via HTTP); Mon, 1 Jul 2019
-	10:17:27 +0200
+	Mon,  1 Jul 2019 08:40:43 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x618ehwq003353
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 1 Jul 2019 01:40:43 -0700 (PDT)
+Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 1 Jul 2019 01:40:43 -0700
+To: Pierre Le Magourou <lemagoup@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190627145917.1774-1-lemagoup@gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <6ab87120-92d4-7cbc-e88a-8e9261037901@windriver.com>
+Date: Mon, 1 Jul 2019 16:41:21 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
 MIME-Version: 1.0
-Message-ID: <trinity-3a6304bb-e764-4d32-8153-c59620778f0a-1561969047062@3c-app-gmx-bs04>
-From: star@gmx.li
-To: openembedded-core@lists.openembedded.org
-Date: Mon, 1 Jul 2019 10:17:27 +0200
-Importance: normal
-Sensitivity: Normal
-X-Priority: 3
-X-Provags-ID: V03:K1:YCItuBnJN7rsoW/c6a64I1irUYrFq+Sj1ZOplXcdj9jQN2I1jqP/+LlAPuhVH6y0039eK
-	QWTJS//txr8Nw1dyV2X/muwHYKieuQ46baxAH3tkgjxDCetK49OsRPYm8DDDlg4RAkO0gvnRrk8k
-	ZfbgiJ0DwYktt1UfRwTZCqFASwr9z2XuNPIQ2gcn9vR5As+VZYr/NwNQWkGb10OsSMEWsXMzRlys
-	MljwLXCybHCvTRPTP0Y49OeIMynbBeZgisAV0wEiFgbF+AHgAzvCsHJOK0P7pTk4jfXhYR13+H82
-	Vc=
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:rqc3d5mQ5gg=:vWoZybhhpQocdDSEhvvlXi
-	924nvtTImA4WtQU7GCxL+dlQ6vRg3SPSEI/m40U8Y4Q91/AzVK/jqtnX3HL1BoBLhEuZiBYrj
-	48umt0xZ68MyrNPIDRNvgETJQssvMk742wpHT5qD5sxApyx36ct39hLKebsFtHHznwh5SXjXj
-	V2hGN1wXLeAWC2KGIMSMWQ3SVtNrQheWYgRS6kAeeHiAJjctNgJS5mNhUAMY7F3zzT58Awqwr
-	YhddQJcHyfGM7Dk9reWcLgOsdeGtB4nR7lZjkRAk6DtWysBRaX4r2VGVVKT+OneewFBQIrrfS
-	o1UqWVIIDR5DCmEbygUeQSbtKnyIq07aA77mRdJazgsnB6nBL2PmiFUuRCnMHcJV2qknXiaQS
-	nUN1IKOxfUssCmERqZn7vPhJBXQcPPpQUdxF7PdW44LQ2tgRV56RwDWmrPDY9pPbumy1XtjSH
-	/5j4IZ7wiQ2svgS1XTbACWo/TuhH37n2X7EOOOhx1zrlzTc5XRA5a89JOVldZ+pmyN4nKIBuP
-	rTafOHuwXi4NEYUDKYC0dW2XH8xtm3WgxtOPKT81X0OxN23MXjpdXkAiwnKNTXIgQWSqsHn/A
-	3nHKj9/YpegVszaVEiJ10LVuehHFxibVKhGPfLfD+7htlyxeHshssENQ==
-Subject: net-snmpd without PCI (Cannot open /proc/bus/pci)
+In-Reply-To: <20190627145917.1774-1-lemagoup@gmail.com>
+Subject: Re: [meta-oe][PATCH v5] cve-update-db: do_populate_cve_db depends on do_fetch
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -51,16 +33,137 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 08:17:27 -0000
-Content-Type: text/plain; charset=UTF-8
+X-List-Received-Date: Mon, 01 Jul 2019 08:40:44 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-I am using Yocto for generating my rootfs, including net-snmpd recipe from openembedded.
-My ARM processor doesn't have a PCI bus. Do I have a chance to get rid of this message?
-Does this attempt of probing PCI affect performance or is this message negligible at all?
+Hi Pierre,
 
-The recipe has this line:
-DEPENDS = "openssl libnl pciutils"
+This patch broke "bitbake universe --runall=fetch" totally:
 
-Thanks for your help.
-Arno
+ERROR: Running idle function
+Traceback (most recent call last):
+   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 1500, in 
+RunQueue.execute_runqueue():
+              try:
+     >            return self._execute_runqueue()
+              except bb.runqueue.TaskFailure:
+   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 1420, in 
+RunQueue._execute_runqueue():
+                                                                  [43, 967, 4, 
+3, 1, 5, 3, 7, 13, 1, 2, 1, 1, 246, 35, 1, 38, 1, 35, 2, 338, 204, 142, 3, 3, 
+37, 244])
+     >            if self.rqdata.prepare() == 0:
+                      self.state = runQueueComplete
+   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 906, in 
+RunQueueData.prepare():
+                      for tid in list(runall_tids):
+     >                    mark_active(tid,1)
+
+   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 837, in 
+mark_active(tid='/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_fetch', 
+depth=1):
+                  for depend in depends:
+     >                mark_active(depend, depth+1)
+
+   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 835, in 
+mark_active(tid='/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_populate_cve_db', 
+depth=2):
+
+     >            depends = self.runtaskentries[tid].depends
+                  for depend in depends:
+KeyError: 
+'/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_populate_cve_db'
+
+
+The line which caused the problem is:
+addtask do_populate_cve_db before do_fetch
+
+Would you please fix it? Or I can help if needed.
+
+// Robert
+
+
+On 6/27/19 10:59 PM, Pierre Le Magourou wrote:
+> From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+> 
+> To be able to populate NVD database on a fetchall
+> (bitbake <image> --run-all=fetch), set the do_populate_cve_db task to be
+> executed before do_fetch.
+> 
+> Do not get CVE_CHECK_DB_DIR, CVE_CHECK_DB_FILE and CVE_CHECK_TMP_FILE
+> variable because do_populate_cve_db can be called in a context where
+> cve-check class is not loaded.
+> 
+> Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+> ---
+>   meta/recipes-core/meta/cve-update-db.bb | 21 +++++++++++++--------
+>   1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
+> index 4c896dc880..3e5bae8b1d 100644
+> --- a/meta/recipes-core/meta/cve-update-db.bb
+> +++ b/meta/recipes-core/meta/cve-update-db.bb
+> @@ -6,7 +6,6 @@ PACKAGES = ""
+>   
+>   inherit nopackages
+>   
+> -deltask do_fetch
+>   deltask do_unpack
+>   deltask do_patch
+>   deltask do_configure
+> @@ -24,11 +23,16 @@ python do_populate_cve_db() {
+>   
+>       BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+>       YEAR_START = 2002
+> -    JSON_TMPFILE = d.getVar("CVE_CHECK_DB_DIR") + '/nvd.json.gz'
+> +
+> +    db_dir = d.getVar("DL_DIR") + '/CVE_CHECK'
+> +    db_file = db_dir + '/nvd-json.db'
+> +    json_tmpfile = db_dir + '/nvd.json.gz'
+>       proxy = d.getVar("https_proxy")
+>   
+> +    if not os.path.isdir(db_dir):
+> +        os.mkdir(db_dir)
+> +
+>       # Connect to database
+> -    db_file = d.getVar("CVE_CHECK_DB_FILE")
+>       conn = sqlite3.connect(db_file)
+>       c = conn.cursor()
+>   
+> @@ -55,9 +59,9 @@ python do_populate_cve_db() {
+>               req = urllib.request.Request(json_url)
+>               if proxy:
+>                   req.set_proxy(proxy, 'https')
+> -            with urllib.request.urlopen(req) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
+> +            with urllib.request.urlopen(req) as r, open(json_tmpfile, 'wb') as tmpfile:
+>                   shutil.copyfileobj(r, tmpfile)
+> -            with gzip.open(JSON_TMPFILE, 'rt') as jsonfile:
+> +            with gzip.open(json_tmpfile, 'rt') as jsonfile:
+>                   update_db(c, jsonfile)
+>               c.execute("insert or replace into META values (?, ?)",
+>                       [year, last_modified])
+> @@ -65,8 +69,9 @@ python do_populate_cve_db() {
+>       conn.commit()
+>       conn.close()
+>   
+> -    with open(d.getVar("CVE_CHECK_TMP_FILE"), 'a'):
+> -        os.utime(d.getVar("CVE_CHECK_TMP_FILE"), None)
+> +    cve_check_tmp_file =  d.getVar("TMPDIR") + '/cve_check'
+> +    with open(cve_check_tmp_file, 'a'):
+> +        os.utime(cve_check_tmp_file, None)
+>   }
+>   
+>   # DJB2 hash algorithm
+> @@ -120,7 +125,7 @@ def update_db(c, json_filename):
+>   
+>   
+>   
+> -addtask do_populate_cve_db before do_cve_check
+> +addtask do_populate_cve_db before do_fetch
+>   do_populate_cve_db[nostamp] = "1"
+>   
+>   EXCLUDE_FROM_WORLD = "1"
+> 
 
