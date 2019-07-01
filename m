@@ -1,60 +1,49 @@
-Return-Path: <jrey@linux.ibm.com>
-Received: from mx0a-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com
-	[148.163.158.5])
-	by mail.openembedded.org (Postfix) with ESMTP id C7B4B7CED3
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
+	[209.85.208.195])
+	by mail.openembedded.org (Postfix) with ESMTP id F17537E687
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 18:52:01 +0000 (UTC)
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x61Ipw8q107095; Mon, 1 Jul 2019 14:52:01 -0400
-Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
-	[169.62.189.11])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2tfnsgnafe-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 01 Jul 2019 14:51:59 -0400
-Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
-	by ppma03dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
-	x61IiOnw016403; Mon, 1 Jul 2019 18:48:14 GMT
-Received: from b01cxnp22033.gho.pok.ibm.com (b01cxnp22033.gho.pok.ibm.com
-	[9.57.198.23]) by ppma03dal.us.ibm.com with ESMTP id 2tdym6rsm9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 01 Jul 2019 18:48:14 +0000
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
-	[9.57.199.110])
-	by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	x61ImD2B48300454
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 1 Jul 2019 18:48:13 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 10804AE067;
-	Mon,  1 Jul 2019 18:48:13 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9880BAE05C;
-	Mon,  1 Jul 2019 18:48:12 +0000 (GMT)
-Received: from demeter.local (unknown [9.80.206.251])
-	by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTPS;
-	Mon,  1 Jul 2019 18:48:12 +0000 (GMT)
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	openembedded-core@lists.openembedded.org, joseph.reynolds1@ibm.com
-References: <5add2d28-a846-e555-b2a3-bae8835125b0@linux.ibm.com>
-	<0221a7bd0f40bddd3fdfd624f75cabce3eb9fda1.camel@linuxfoundation.org>
-From: Joseph Reynolds <jrey@linux.ibm.com>
-Message-ID: <376bb28c-8947-c9c2-ee81-b67fcc275359@linux.ibm.com>
-Date: Mon, 1 Jul 2019 13:48:11 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.14; rv:60.0)
-	Gecko/20100101 Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <0221a7bd0f40bddd3fdfd624f75cabce3eb9fda1.camel@linuxfoundation.org>
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-07-01_11:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1907010221
-Subject: Re: [PATCH v2] dropbear: new feature: disable-weak-ciphers
+	Mon,  1 Jul 2019 18:52:31 +0000 (UTC)
+Received: by mail-lj1-f195.google.com with SMTP id k18so14279509ljc.11
+	for <openembedded-core@lists.openembedded.org>;
+	Mon, 01 Jul 2019 11:52:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=N3jAFmjWvEEGOUjJNpfVPrXOGvcRmad7QubN5mapC0U=;
+	b=lS34GEJQyWBj2RVzogII0e49O6jS1pxeyVuhwCYFW0f4b33r9YtYbYI+gsJ7IQxyUu
+	wOaXdwM62o9V1VWp9SPFBMQQg8/TJn7Yk38Bw6OtW5Ko9gEU3mj4rcGBJ++8QHQRgrB+
+	pjzwzRCxAgR0vbyx4x5gbAeCup93zK1uh51Wt5KGjPCrVsxmOKesPFy8t9SxWAnUiGJK
+	0S5JJjO9F//0QFuNM7kFB6aaaSIAADKJkwcwvTGaKYTOEBAbwFIWgHFzydhonDDRrbxE
+	0Kiooj3mJh15S+yjq4g+1rcDyRFulQHke0RMG56UUqh1JmsWXrfoP1aKwbJldXJjC2e3
+	vyUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=N3jAFmjWvEEGOUjJNpfVPrXOGvcRmad7QubN5mapC0U=;
+	b=qN5z0JY8MRt+M/ieOPj2eRdyHj/t8LLyUNP0YAhyeqO7rE/bGgG+I2d4AoB9AhGuGQ
+	rN4vBjZdtfmH8G/0D9xewAWoJ18nfnBoeRWdIvIWqjJ33m7EWtoE7qpeSvBYf6Qg1leG
+	uWe8nOluDi29YOjiSaiJiY1o4B5HBzMNw9FaZSTL2pMKE9T+fGB55/gxVhTAESQgMsQw
+	owpIZcMGDm9SFmjpRJXGFWAV1+IsUnh+Q16x10DjMVVMHDg446lwwAdrlvBxe++AhANB
+	CqpxQsprRYpvfu3MMbWpo/6eEnJlPIYWJt40uAP/xhvb/MX7GQpTsyZMo6Rb1R0KfA/O
+	Fu9g==
+X-Gm-Message-State: APjAAAWc1zO1QlwasQP6qXkPyEEZpn806mRF7pp4dQbuxlQNyqvAzOof
+	6aFUbXR4BPPzbNGAaDyoNT1vRgie9P4=
+X-Google-Smtp-Source: APXvYqyY0rSAhyW6PJuXLOiywwTQOYXkryMbIYMxKXgo5g8kzv+7iSpkgDycuYron4pyxThPjE4Osg==
+X-Received: by 2002:a2e:98d7:: with SMTP id s23mr3906940ljj.179.1562007151719; 
+	Mon, 01 Jul 2019 11:52:31 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	z85sm3353471ljb.101.2019.07.01.11.52.30
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Mon, 01 Jul 2019 11:52:30 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Jul 2019 20:52:27 +0200
+Message-Id: <20190701185227.26040-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] ifupdown: update to 0.8.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -67,57 +56,187 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 18:52:02 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+X-List-Received-Date: Mon, 01 Jul 2019 18:52:32 -0000
 
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ ...t-rely-on-dpkg-architecture-to-set-a.patch |  8 ++--
+ ...efn-fix-inverted-checks-for-loopback.patch | 45 +++++++++----------
+ ...{ifupdown_0.8.16.bb => ifupdown_0.8.22.bb} |  2 +-
+ 3 files changed, 26 insertions(+), 29 deletions(-)
+ rename meta/recipes-core/ifupdown/{ifupdown_0.8.16.bb => ifupdown_0.8.22.bb} (96%)
 
-
-On 6/30/19 4:58 PM, Richard Purdie wrote:
-> On Fri, 2019-06-28 at 18:03 -0500, Joseph Reynolds wrote:
->>   From 587a9e5c637ad3e70b8e35a3ca66013693ce7ac7 Mon Sep 17 00:00:00
->> 2001
->> From: Joseph Reynolds <joseph.reynolds1@ibm.com>
->> Date: Wed, 19 Jun 2019 20:16:40 -0500
->> Subject: [PATCH v2] dropbear: new feature: disable-weak-ciphers
->>
->> Enhances dropbear with a new feature "disable-weak-ciphers", on by
->> default.
->> This feature disables all CBC, SHA1, and diffie-hellman group1
->> ciphers in
->> the dropbear ssh server and client.
->>
->> Disable this feature if you need to connect to the ssh server from
->> older
->> clients.  Additional customization can be done with local_options.h
->> as
->> usual.
->>
->> Tested: On github.com/openbmc/openbmc using dropbear_2019.78.
->>
->> Signed-off-by: Joseph Reynolds <joseph.reynolds1@ibm.com>
->> ---
->>    meta/recipes-core/dropbear/dropbear.inc            |  6 ++-
->>    .../0007-dropbear-disable-weak-ciphers.patch       | 57
->> ++++++++++++++++++++++
->>    2 files changed, 61 insertions(+), 2 deletions(-)
->>    create mode 100644
->> meta/recipes-core/dropbear/dropbear/0007-dropbear-disable-weak-
->> ciphers.patch
-> I merged v1 of this patch previously. What was different in this
-> version?
-
-The v2 patch had the same content with fixed up commit messages. You can 
-ignore it.
-Thanks for handling this.
->
-> Also, the patch was still line wrapped so very hard to apply (had to be
-> manually fixed).
->
-> Cheers,
->
-> Richard
->
+diff --git a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+index a24b8cda66..d1c3d260ed 100644
+--- a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
++++ b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+@@ -1,4 +1,4 @@
+-From 7af9db748974cb3a2c6ef8f9e03d7db1f9f8ee16 Mon Sep 17 00:00:00 2001
++From 40257d65b338b6e2ed9d89d6fa7c7b8701a4c311 Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Wed, 6 Aug 2014 14:54:12 -0400
+ Subject: [PATCH 1/2] defn2[c|man]: don't rely on dpkg-architecture to set arch
+@@ -19,7 +19,7 @@ Upstream-Status: Pending
+  2 files changed, 6 insertions(+), 6 deletions(-)
+ 
+ diff --git a/defn2c.pl b/defn2c.pl
+-index c449de2f3d1c..38845e374c76 100755
++index 8798dc2..f2551c7 100755
+ --- a/defn2c.pl
+ +++ b/defn2c.pl
+ @@ -2,9 +2,9 @@
+@@ -36,7 +36,7 @@ index c449de2f3d1c..38845e374c76 100755
+  # declarations
+  my $address_family = "";
+ diff --git a/defn2man.pl b/defn2man.pl
+-index 6ddcfdd4fe68..c9c4dd046597 100755
++index 6ddcfdd..c9c4dd0 100755
+ --- a/defn2man.pl
+ +++ b/defn2man.pl
+ @@ -2,9 +2,9 @@
+@@ -53,5 +53,5 @@ index 6ddcfdd4fe68..c9c4dd046597 100755
+  # declarations
+  my $line;
+ -- 
+-1.9.1
++2.17.1
+ 
+diff --git a/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch b/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
+index 37a61c9bc1..5b0d51d736 100644
+--- a/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
++++ b/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
+@@ -1,7 +1,7 @@
+-From 7efe4676747e4e4a056b9bfb4e9424c8354e9996 Mon Sep 17 00:00:00 2001
++From 6fce99c9e42cbacde1855473b745ca1fded3fbf7 Mon Sep 17 00:00:00 2001
+ From: "Maxin B. John" <maxin.john@intel.com>
+ Date: Wed, 21 Dec 2016 15:32:07 +0200
+-Subject: [PATCH] inet[6].defn: fix inverted checks for loopback
++Subject: [PATCH 2/2] inet[6].defn: fix inverted checks for loopback
+ 
+ Compared to the hurd link.defn for loopback, we see these
+ are inverted, meaning that you would only be able to configure
+@@ -37,11 +37,11 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+ ---
+- inet.defn | 140 +++++++++++++++++++++++++++++++-------------------------------
+- 1 file changed, 70 insertions(+), 70 deletions(-)
++ inet.defn | 134 +++++++++++++++++++++++++++---------------------------
++ 1 file changed, 67 insertions(+), 67 deletions(-)
+ 
+ diff --git a/inet.defn b/inet.defn
+-index 75e6744..23c7756 100644
++index 182b56b..31067bc 100644
+ --- a/inet.defn
+ +++ b/inet.defn
+ @@ -6,10 +6,10 @@ method loopback
+@@ -103,9 +103,9 @@ index 75e6744..23c7756 100644
+  
+    up
+ -    [[/bin/ip link set dev %iface% address %hwaddress%]]
+--    /sbin/dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+ +    [[ip link set dev %iface% address %hwaddress%]]
+-+    dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+  	[[-e IF_METRIC=%metric%]] \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/pump -i %iface% [[-h %hostname%]] [[-l %leasehours%]] \
+@@ -122,14 +122,13 @@ index 75e6744..23c7756 100644
+          elsif (1)
+  
+    down
+--    /sbin/dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+-+    dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/pump -i %iface% -r \
+ +    pump -i %iface% -r \
+          elsif (execable("/sbin/pump"))
+--    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+-+    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(cat /run/udhcpc.%iface%.pid); kill -TERM $(cat /run/udhcpc.%iface%.pid); fi \
++     if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+          elsif (execable("/sbin/udhcpc"))
+ -    /sbin/dhcpcd -k %iface% \
+ +    dhcpcd -k %iface% \
+@@ -252,9 +251,9 @@ index 75e6744..23c7756 100644
+  
+    up
+ -    [[/sbin/ifconfig %iface% link %hwaddress%]]
+--    /sbin/dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+ +    [[ifconfig %iface% link %hwaddress%]]
+-+    dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+  	[[-e IF_METRIC=%metric%]] \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/udhcpc -n -p /run/udhcpc.%iface%.pid -i %iface% [[-H %hostname%]] \
+@@ -269,11 +268,10 @@ index 75e6744..23c7756 100644
+          elsif (1)
+  
+    down
+--    /sbin/dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+-+    dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+--    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+-+    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(cat /run/udhcpc.%iface%.pid); kill -TERM $(cat /run/udhcpc.%iface%.pid); fi \
++     if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+          elsif (execable("/sbin/udhcpc"))
+ -    /sbin/dhcpcd -k %iface% \
+ +    dhcpcd -k %iface% \
+@@ -341,8 +339,8 @@ index 75e6744..23c7756 100644
+  
+    up
+      [[Warning: Option hwaddress: %hwaddress% not yet supported]]
+--    /sbin/dhclient -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+-+    dhclient -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
++-    /sbin/dhclient -4 -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+++    dhclient -4 -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/udhcpc -n -p /run/udhcpc.%iface///.%.pid -i %iface% [[-H %hostname%]] \
+ +    udhcpc -n -p /run/udhcpc.%iface///.%.pid -i %iface% [[-H %hostname%]] \
+@@ -356,11 +354,10 @@ index 75e6744..23c7756 100644
+          elsif (1)
+  
+    down
+--    /sbin/dhclient -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+-+    dhclient -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
++-    /sbin/dhclient -4 -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+++    dhclient -4 -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+--    if test -f /run/udhcpc.%iface///.%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface///.%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface///.%.pid); fi \
+-+    if test -f /run/udhcpc.%iface///.%.pid; then kill -USR2 $(cat /run/udhcpc.%iface///.%.pid); kill -TERM $(cat /run/udhcpc.%iface///.%.pid); fi \
++     if test -f /run/udhcpc.%iface///.%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface///.%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface///.%.pid); fi \
+          elsif (execable("/sbin/udhcpc"))
+ -    /sbin/dhcpcd -k %iface% \
+ +    dhcpcd -k %iface% \
+@@ -402,5 +399,5 @@ index 75e6744..23c7756 100644
+ -    /usr/sbin/avahi-autoipd --kill %iface%
+ +    avahi-autoipd --kill %iface%
+ -- 
+-2.7.4
++2.17.1
+ 
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.22.bb
+similarity index 96%
+rename from meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
+rename to meta/recipes-core/ifupdown/ifupdown_0.8.22.bb
+index e9f3a2aee9..12d5423cfe 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.22.bb
+@@ -11,7 +11,7 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https \
+ 	   file://inet-6-.defn-fix-inverted-checks-for-loopback.patch \
+ 	   file://99_network \
+ 	  "
+-SRCREV = "11b9f99f7ecc7052497e6786156cfed531f11823"
++SRCREV = "ab5a0f464e53e172316a5ca8b5dcdc49e8848999"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.17.1
 
 
