@@ -1,28 +1,24 @@
-Return-Path: <Mingli.Yu@windriver.com>
+Return-Path: <Li.Zhou@windriver.com>
 Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B1597CBE4
+	by mail.openembedded.org (Postfix) with ESMTP id A2F007D30C
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 01:59:37 +0000 (UTC)
+	Mon,  1 Jul 2019 02:25:09 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x611xb7F022329
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 30 Jun 2019 18:59:37 -0700 (PDT)
-Received: from [128.224.162.170] (128.224.162.170) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Sun, 30 Jun 2019 18:59:36 -0700
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	<openembedded-core@lists.openembedded.org>, <matt@madison.systems>
-References: <20190628075701.78128-1-mingli.yu@windriver.com>
-	<9b5dca23cf1d8a90466bc084236599487726f4b6.camel@linuxfoundation.org>
-From: "Yu, Mingli" <mingli.yu@windriver.com>
-Message-ID: <5D196A07.7040304@windriver.com>
-Date: Mon, 1 Jul 2019 10:03:51 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:38.0) Gecko/20100101
-	Thunderbird/38.4.0
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x612PAR5023970
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Sun, 30 Jun 2019 19:25:10 -0700 (PDT)
+Received: from pek-lpggp2.wrs.com (128.224.153.75) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Sun, 30 Jun 2019 19:25:10 -0700
+From: Li Zhou <li.zhou@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 1 Jul 2019 10:07:16 +0800
+Message-ID: <1561946836-38015-1-git-send-email-li.zhou@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <9b5dca23cf1d8a90466bc084236599487726f4b6.camel@linuxfoundation.org>
-X-Originating-IP: [128.224.162.170]
-Subject: Re: [PATCH] go-dep: disable PTEST_ENABLED
+X-Originating-IP: [128.224.153.75]
+Subject: [PATCH v2] bc: dc: fix exit code of q command
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,87 +31,94 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 01:59:37 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Mon, 01 Jul 2019 02:25:09 -0000
+Content-Type: text/plain
 
+The exit code for "echo q | dc" is 1 for dc-1.4.1;
+while the exit code for "echo q | dc" is 0 for dc-1.4.
 
+Here is the answer from ken@gnu.org:
+dc-1.4 was right.  There was a rewrite of a chunk of code for 1.4.1 to
+fix a corner case in the Q command, and somehow the placement of the
+clean-up label for the 'q' command got misplaced on the error-handling
+branch instead of the clean-exit branch.  The patch below fixes this
+(it is committed for whenever the next bc/dc release gets made).
 
-On 2019年06月28日 19:02, Richard Purdie wrote:
-> On Fri, 2019-06-28 at 00:57 -0700, mingli.yu@windriver.com wrote:
->> From: Mingli Yu <mingli.yu@windriver.com>
->>
->> The run-ptest logic for go-dep actually runs the
->> /usr/lib64/go-dep/ptest/github.com/golang/dep/cmd/dep/dep.test whose
->> source file is
->> https://github.com/golang/dep/blob/master/cmd/dep/dep_test.go.
->>
->> That dep_test.go starts by rebuilding the dep program
->> from source, then runs the tests using that copy of the
->> program, so it's assuming that we're still in a development
->> environment where we can run a full go build.
->>
->> Considering it not being designed for a cross-build setup,
->> so disable PTEST_ENABLED.
->>
->> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
->> ---
->>   meta/recipes-devtools/go/go-dep_0.5.0.bb | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/recipes-devtools/go/go-dep_0.5.0.bb b/meta/recipes-
->> devtools/go/go-dep_0.5.0.bb
->> index a4d631f8ea..e9fc12fa5a 100644
->> --- a/meta/recipes-devtools/go/go-dep_0.5.0.bb
->> +++ b/meta/recipes-devtools/go/go-dep_0.5.0.bb
->> @@ -21,5 +21,6 @@ BBCLASSEXTEND = "native nativesdk"
->>
->>   # For compiling ptest on mips and mips64, the current go-dep version
->> fails with the go 1.11 toolchain.
->>   # error message: vet config not found
->> -PTEST_ENABLED_mips = "0"
->> -PTEST_ENABLED_mips64 = "0"
->> +# disable PTEST_ENABLED as the run-ptest script for go-dep actually
->> runs the /usr/lib64/go-
->> dep/ptest/github.com/golang/dep/cmd/dep/dep.test whose source file is
->> https://github.com/golang/dep/blob/master/cmd/dep/dep_test.go not
->> being designed for a cross-build setup.
->> +PTEST_ENABLED = "0"
->> +PTEST_ENABLED = "0"
->
-> Setting it twice looks wrong.
+Thanks for the report,
+        --Ken Pizzini
 
-Sorry, it should be my typo.
+Signed-off-by: Li Zhou <li.zhou@windriver.com>
+---
+ .../bc/bc/0001-dc-fix-exit-code-of-q-command.patch | 44 ++++++++++++++++++++++
+ meta/recipes-extended/bc/bc_1.07.1.bb              |  3 +-
+ 2 files changed, 46 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch
 
->
-> If we're disabling it, why would we inherit the ptest class at all as
-> its not going to work anywhere?
->
-> Upstream not considering cross test usecases isn't a reason to disable
-> a test, we have many tests enabled where upstream haven't considered a
-> cross use case, we just tend to patch as needed and start a discussion
-> with them.
->
-> It sounds like its actually a network access problem from the image
-> you're running into anyway?
+diff --git a/meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch b/meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch
+new file mode 100644
+index 0000000..1ef797d
+--- /dev/null
++++ b/meta/recipes-extended/bc/bc/0001-dc-fix-exit-code-of-q-command.patch
+@@ -0,0 +1,44 @@
++From e174b6e7d195d5a7465575641b7f68581f162574 Mon Sep 17 00:00:00 2001
++From: Li Zhou <li.zhou@windriver.com>
++Date: Thu, 27 Jun 2019 13:10:47 +0800
++Subject: [PATCH] dc: fix exit code of q command
++
++The exit code for "echo q | dc" is 1 for dc-1.4.1;
++while the exit code for "echo q | dc" is 0 for dc-1.4.
++
++Here is the answer from ken@gnu.org:
++dc-1.4 was right.  There was a rewrite of a chunk of code for 1.4.1 to
++fix a corner case in the Q command, and somehow the placement of the
++clean-up label for the 'q' command got misplaced on the error-handling
++branch instead of the clean-exit branch.  The patch below fixes this
++(it is committed for whenever the next bc/dc release gets made).
++
++Thanks for the report,
++        --Ken Pizzini
++
++Upstream-Status: Backport [Got the solution from maintainer]
++
++Signed-off-by: Li Zhou <li.zhou@windriver.com>
++---
++ dc/eval.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/dc/eval.c b/dc/eval.c
++index 05a3d9e..bcab8db 100644
++--- a/dc/eval.c
+++++ b/dc/eval.c
++@@ -814,10 +814,10 @@ error_fail:
++ 	fprintf(stderr, "%s: ", progname);
++ 	perror("error reading input");
++ 	return DC_FAIL;
++-reset_and_exit_quit:
++ reset_and_exit_fail:
++ 	signal(SIGINT, sigint_default);
++ 	return DC_FAIL;
+++reset_and_exit_quit:
++ reset_and_exit_success:
++ 	signal(SIGINT, sigint_default);
++ 	return DC_SUCCESS;
++-- 
++1.9.1
++
+diff --git a/meta/recipes-extended/bc/bc_1.07.1.bb b/meta/recipes-extended/bc/bc_1.07.1.bb
+index 809b864..4a51302 100644
+--- a/meta/recipes-extended/bc/bc_1.07.1.bb
++++ b/meta/recipes-extended/bc/bc_1.07.1.bb
+@@ -13,7 +13,8 @@ DEPENDS = "flex-native"
+ 
+ SRC_URI = "${GNU_MIRROR}/${BPN}/${BP}.tar.gz \
+            file://no-gen-libmath.patch \
+-           file://libmath.h"
++           file://libmath.h \
++           file://0001-dc-fix-exit-code-of-q-command.patch"
+ SRC_URI[md5sum] = "cda93857418655ea43590736fc3ca9fc"
+ SRC_URI[sha256sum] = "62adfca89b0a1c0164c2cdca59ca210c1d44c3ffc46daf9931cf4942664cb02a"
+ 
+-- 
+1.9.1
 
-Hi RP,
-
-Have discussed the ptest more with Matt in the maillist and also tried 
-to add the patch under the guide from Matt to make the 
-https://github.com/golang/dep/blob/master/cmd/dep/dep_test.go work with 
-cross-setup env. But seems it still doesn't work.
-
-Hi Matt,
-What's your opinion?
-
-Thanks,
-
->
-> Cheers,
->
-> Richard
->
->
->
 
