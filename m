@@ -1,30 +1,49 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id F0C937D6AF
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id AADCD7E7D0
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 11:12:20 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,439,1557158400"; d="scan'208";a="70378886"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 01 Jul 2019 19:12:19 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id A0EB14CDBF7D
+	Mon,  1 Jul 2019 11:25:22 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id v14so13408754wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 19:12:19 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Mon, 1 Jul 2019 19:12:19 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Jul 2019 19:13:55 +0800
-Message-ID: <20190701111355.24491-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: A0EB14CDBF7D.AD2C5
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] nss:upgrade 3.44 -> 3.44.1
+	Mon, 01 Jul 2019 04:25:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=5BDEpbcsDf/ZFhn/Rk0SQXrcpJlpyaxnW/cD5UZFJ3c=;
+	b=o56YmKTNAjmrknp8jpMPDyfYI52/5UKw7+12zz699A4kwcNHBM8Gwi3iJvpjDvULcv
+	6S7MXPLpc0RmlT4AywGkGPaJzhgc7imzuUlhDkFaKjR2qw8ZCoG5d9DgAzbQOqiMMi+N
+	ruDLeVaatLTdi3re84+ZKmaD16H/tBCblomgLub/W4cboddm+YjxE6AjVpdeAUvKOl4b
+	JwoK8jeTiljUpjiWe2MsBBhxXqDXw4PVdEohrTPjkYHOI31GntnI0rIy4gWPqx3iqTyq
+	I0n/s2dmhiVNr5XFcKjTs73ZVMezDjwuKbhyl0aqEUKOUy87T8DgBqUUf/8O6QPC/YoR
+	QXUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=5BDEpbcsDf/ZFhn/Rk0SQXrcpJlpyaxnW/cD5UZFJ3c=;
+	b=Y57Q245T+UbdmXpDiSgfiN/aE+8Y2dYUWzs1mN992vzrPJhq8K9MnMTrfkFKLd4+s2
+	8hVqdMhqoHTEckOrhZIm8ST3yykeMkbBqFJ1PxexAX6uetANv4WMjf6REihPYHUZtuLe
+	JWgxUo3a+qjRqV6Buh73ykRFhryfsfI42jeqrRmeLNOLYMvNunO6N8rKTfmOen2cRpW1
+	3/7B/85ft6+N4W8ixT53fVX/OZk1mkg3f1hGGlR2Qp2v869EViMhFSZwOIHjiFIvz6Tx
+	T1HuqZ/VytkGOulFZEFCdMmwT5TFh4T+MI85rryeTAfCq7l2i5uGCZvlAuDMz2+7ete/
+	XXmQ==
+X-Gm-Message-State: APjAAAWdpOst+3ZjFuMComU3BNZYvnl5mgYiaQpr9Z+Uj9uNv5DA3mQQ
+	kNj+uI7kjHvbLDjxargl2DmPWk9LCys=
+X-Google-Smtp-Source: APXvYqxJxjiyTn4cDAePjHCKc3x6FIFVbVxlWgb9xw0uyubTCkHs1WNw28b8qe7RrTvxf+5HGVLM/Q==
+X-Received: by 2002:adf:fb8d:: with SMTP id a13mr18831839wrr.273.1561980323010;
+	Mon, 01 Jul 2019 04:25:23 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	v15sm9414354wrt.25.2019.07.01.04.25.21
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 01 Jul 2019 04:25:22 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  1 Jul 2019 12:25:19 +0100
+Message-Id: <20190701112519.19576-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] efivar: ensure that target security flags are not used to build native code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,39 +56,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 11:12:21 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Mon, 01 Jul 2019 11:25:23 -0000
 
--Upgrade from nss_3.44.bb to nss_3.44.1.bb.
+Also set LDFLAGS=BUILD_LDFLAGS when compiling makeguids to ensure that any
+target compiler flags are not passed to the native compiler.
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+[ YOCTO #13423 ]
+
+Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- meta/recipes-support/nss/{nss_3.44.bb => nss_3.44.1.bb} | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/nss/{nss_3.44.bb => nss_3.44.1.bb} (98%)
+ meta/recipes-bsp/efivar/efivar_37.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/nss/nss_3.44.bb b/meta/recipes-support/nss/nss_3.44.1.bb
-similarity index 98%
-rename from meta/recipes-support/nss/nss_3.44.bb
-rename to meta/recipes-support/nss/nss_3.44.1.bb
-index 4205d79485..acef0a6cf9 100644
---- a/meta/recipes-support/nss/nss_3.44.bb
-+++ b/meta/recipes-support/nss/nss_3.44.1.bb
-@@ -33,8 +33,8 @@ SRC_URI = "http://ftp.mozilla.org/pub/mozilla.org/security/nss/releases/${VERSIO
-            file://system-pkcs11.txt \
-            "
+diff --git a/meta/recipes-bsp/efivar/efivar_37.bb b/meta/recipes-bsp/efivar/efivar_37.bb
+index c4254c70d91..9b95721a4ec 100644
+--- a/meta/recipes-bsp/efivar/efivar_37.bb
++++ b/meta/recipes-bsp/efivar/efivar_37.bb
+@@ -23,7 +23,10 @@ LDFLAGS += "-fuse-ld=bfd"
  
--SRC_URI[md5sum] = "e9222b9573452b9f4e6ff4915d6407c2"
--SRC_URI[sha256sum] = "a5620e59b6eeedfd5a12c9298b50ad92e9898b223e214eb675e36f4ffb5b6aff"
-+SRC_URI[md5sum] = "511a37f35650812283274694b98c20b2"
-+SRC_URI[sha256sum] = "fce4cb80c989cde35416ecbe55920856015a35151c4f21be64470e4dd4de12f8"
+ do_compile_prepend() {
+     # Remove when https://github.com/rhboot/efivar/issues/130 is fixed
+-    oe_runmake CFLAGS="${BUILD_CFLAGS}" -C src makeguids
++    oe_runmake \
++        CFLAGS="${BUILD_CFLAGS}" \
++        LDFLAGS="${BUILD_LDFLAGS}" \
++        -C src makeguids
+ }
  
- UPSTREAM_CHECK_URI = "https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSS/NSS_Releases"
- UPSTREAM_CHECK_REGEX = "NSS_(?P<pver>.+)_release_notes"
+ do_install() {
 -- 
-2.20.1
-
-
+2.11.0
 
 
