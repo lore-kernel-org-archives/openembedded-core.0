@@ -1,49 +1,48 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id D6BEE6BCA4
+Return-Path: <liu.ming50@gmail.com>
+Received: from mail-ed1-f65.google.com (mail-ed1-f65.google.com
+	[209.85.208.65])
+	by mail.openembedded.org (Postfix) with ESMTP id 8A0526004D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 03:00:44 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id r9so11417720ljg.5
+	Mon,  1 Jul 2019 03:49:45 +0000 (UTC)
+Received: by mail-ed1-f65.google.com with SMTP id k21so2142214edq.3
 	for <openembedded-core@lists.openembedded.org>;
-	Sun, 30 Jun 2019 20:00:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	Sun, 30 Jun 2019 20:49:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id;
-	bh=aywlOH6MaYIbX1cil8gPDJMp+y80nVIrpFItfWNBkq4=;
-	b=uX+LE2al32xMYiQBU5X51oCDtweV5PYhhUb8tj5Fp3HwPVi0qsTwIrMh+hpMeQwPyy
-	o9P7cu+maxp9fsbLBvWO+AzE47MZWatymDUJmnhtMzQozR2LLQL0OfPq/Utg1OPhG60g
-	xen/gk1Z22nmOoWGSfAPa4TjAMz87uY5q7/rapJpGTQbNI4saV1cL4JJAvvwFvpfzkua
-	q8iaMSk4mnWKp9SiQjlQT6pJp7V9z3F2vGUTkJobVV47RgBq5F/nrRPZfviul9bIL+JK
-	JXyznd7vWkrta8tT+Iz6ZCvzDDofelpWi8gPS94Qa3M7c8Nmr9j09k6THHC8hOo+7xEA
-	bxCw==
+	bh=cxiDE+rhilHiUjUXQtDrMVO7GFfbuTdTtTj6oYfqnCM=;
+	b=iVP8/CQY67SRmfC66HtPfr5t77UvrhRBnx2J0+sF9X4/Z3Jv1yIi5Ctnio5Cwvm8pH
+	iSTL+MDnLJare84cx0Yt8xFATr2lilPvPs4n2bAakDPseS50E/qiApwKQvYatnHfQePT
+	6CHfbThPB1o//e1Rm94Zo8nPqfTT5xpKvdOAOqEvzpk8JB6CR+ixxldH5yqxPJKv9NHF
+	S30lt07y1xhluoeY6uyXsT50JsRjdM7giK+wl6BggrkDjFFpHaP85JfyptswFlBzZpgQ
+	CEEmJVmUuaIgh+Ac2NmlcDZ94DRebYmx6leA2W8vNWcvX3meVnm8pkTjx6FX8nwkDvNd
+	PdkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=aywlOH6MaYIbX1cil8gPDJMp+y80nVIrpFItfWNBkq4=;
-	b=sx1qIRnrBOm9VHMNCEUXgD7RyVDbejfCINqJEZLhgHmyVq1gw99kWA8212o4Akoxd1
-	4oRAIxrqf6Y0NmxRykv1Nd2YLj5ZT1L8j0ffED0nl/RJ13sWy/SD72sr0GbRjrj52WMZ
-	d7K3C2D2uZL8QZfeA1JhBvfZYoEtb46pCweJyX0L+L+xr/Magb6u32ktSHGMiUXMMW+2
-	hDgvVVqQ2Iiy1aaPEl0XtGniUQmTqvBDxk1fVVuhk/w1DHNOnakI4bX2sfBArObw2j9d
-	tQZm2Bc/O366KYCAemxpnnsKejL8+Kro65sSqyhgRgFq9DKymrFkaSR2gAJtDiwEXV3N
-	VH4g==
-X-Gm-Message-State: APjAAAX/gpHBcX6DyvP3v2TRY03GRMQreG/A9HQj060dHIOV4LnukAL2
-	XCWkZILnigWQJTv/rbuP6P0WQI/mkOI=
-X-Google-Smtp-Source: APXvYqwK2FVL69LQZxBOaI/ASio3l2kyxL5zhJVnXYujp7GT1mCvRin9aOot/kp0eC75UPk0RACWBg==
-X-Received: by 2002:a2e:8847:: with SMTP id z7mr12651811ljj.51.1561950044994; 
-	Sun, 30 Jun 2019 20:00:44 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
-	u15sm2977080lji.61.2019.06.30.20.00.44
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sun, 30 Jun 2019 20:00:44 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	bh=cxiDE+rhilHiUjUXQtDrMVO7GFfbuTdTtTj6oYfqnCM=;
+	b=QSXjDCm+Uats7hqIdn1/1AgI0EdMkQGtgFEe4RN0NqLywbYiNzKh4MoazNmX+9yS5e
+	O4WjDeXxMdZEVelJpfk7IVxK2ZR6AFe2Fyb/xlPy5LrvgsTku+EDyneNZjXE6MK3EVmN
+	1ZKXlVyFydy5ieh79/hl4ww6SxTNYQtgS/uiNtzucIuov71HktmTbKQ6t4yNm9Piqjcm
+	2Y5CJulOIKFoWjpgvth5BoLlr+nBPGYZW5xl2GbKcKokj5h9IvCd/odGIRIa5RWpY6nK
+	c1j9pM44EsHLb6gFTVBP5bLs0AEJ7mzyFHOp2i2MmXkzhS2i6PkX0a6FxFbla2Oj13tQ
+	4Dog==
+X-Gm-Message-State: APjAAAWBKQ8dJx+bjrk1W2SK744/UGJq7N1eJ/IgdGnTQbDoGR2X0LwW
+	ah13s/ykRxt3j3Xo23O8ajs5JMVfcCQ=
+X-Google-Smtp-Source: APXvYqxxW1tmXaFEyiWK2/tjWMrNL/4xqBUY1dw33+ot02VL1SUGXD0s/ZoHf4Dp3a5vqSHSl2hWoQ==
+X-Received: by 2002:a50:9646:: with SMTP id y64mr26401192eda.111.1561952985979;
+	Sun, 30 Jun 2019 20:49:45 -0700 (PDT)
+Received: from peterliu-Precision-7530.toradex.int ([27.191.202.62])
+	by smtp.gmail.com with ESMTPSA id a3sm3138184edr.48.2019.06.30.20.49.43
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 30 Jun 2019 20:49:45 -0700 (PDT)
+From: liu.ming50@gmail.com
 To: openembedded-core@lists.openembedded.org
-Date: Mon,  1 Jul 2019 05:00:42 +0200
-Message-Id: <20190701030042.23878-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] quilt: update to 0.66
+Date: Mon,  1 Jul 2019 11:49:36 +0800
+Message-Id: <1561952977-22702-1-git-send-email-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.7.4
+Cc: stefan.agner@toradex.com, max.krummenacher@toradex.com,
+	luka.pivk@toradex.com
+Subject: [thud][PATCH] uboot-sign.bbclass: Remove tab indentations in python code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,74 +55,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 03:00:45 -0000
+X-List-Received-Date: Mon, 01 Jul 2019 03:49:45 -0000
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+
+Use 4 spaces to replace a tab.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../quilt/{quilt-native_0.65.bb => quilt-native_0.66.bb}  | 0
- meta/recipes-devtools/quilt/quilt.inc                     | 4 ++--
- .../quilt/0001-tests-Allow-different-output-from-mv.patch | 8 ++++----
- .../quilt/{quilt_0.65.bb => quilt_0.66.bb}                | 0
- 4 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-devtools/quilt/{quilt-native_0.65.bb => quilt-native_0.66.bb} (100%)
- rename meta/recipes-devtools/quilt/{quilt_0.65.bb => quilt_0.66.bb} (100%)
+ meta/classes/uboot-sign.bbclass | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/meta/recipes-devtools/quilt/quilt-native_0.65.bb b/meta/recipes-devtools/quilt/quilt-native_0.66.bb
-similarity index 100%
-rename from meta/recipes-devtools/quilt/quilt-native_0.65.bb
-rename to meta/recipes-devtools/quilt/quilt-native_0.66.bb
-diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
-index dbf722be2a..dcba62c84b 100644
---- a/meta/recipes-devtools/quilt/quilt.inc
-+++ b/meta/recipes-devtools/quilt/quilt.inc
-@@ -13,8 +13,8 @@ SRC_URI = "${SAVANNAH_GNU_MIRROR}/quilt/quilt-${PV}.tar.gz \
+diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
+index 8ee904e..afaf46f 100644
+--- a/meta/classes/uboot-sign.bbclass
++++ b/meta/classes/uboot-sign.bbclass
+@@ -80,16 +80,16 @@ do_concat_dtb () {
+ }
  
- SRC_URI_append_class-target = " file://gnu_patch_test_fix_target.patch"
+ python () {
+-	uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
+-	if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == uboot_pn:
+-		kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
++    uboot_pn = d.getVar('PREFERRED_PROVIDER_u-boot') or 'u-boot'
++    if d.getVar('UBOOT_SIGN_ENABLE') == '1' and d.getVar('PN') == uboot_pn:
++        kernel_pn = d.getVar('PREFERRED_PROVIDER_virtual/kernel')
  
--SRC_URI[md5sum] = "c67ba0228f5b7b8bbe469474661f92d6"
--SRC_URI[sha256sum] = "f6cbc788e5cbbb381a3c6eab5b9efce67c776a8662a7795c7432fd27aa096819"
-+SRC_URI[md5sum] = "6800c2404a2c0598ab2eff92a636ba70"
-+SRC_URI[sha256sum] = "314b319a6feb13bf9d0f9ffa7ce6683b06919e734a41275087ea457cc9dc6e07"
+-		# u-boot.dtb and u-boot-nodtb.bin are deployed _before_ do_deploy
+-		# Thus, do_deploy_setscene will also populate them in DEPLOY_IMAGE_DIR
+-		bb.build.addtask('do_deploy_dtb', 'do_deploy', 'do_compile', d)
++        # u-boot.dtb and u-boot-nodtb.bin are deployed _before_ do_deploy
++        # Thus, do_deploy_setscene will also populate them in DEPLOY_IMAGE_DIR
++        bb.build.addtask('do_deploy_dtb', 'do_deploy', 'do_compile', d)
  
- inherit autotools-brokensep ptest
- 
-diff --git a/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch b/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
-index 21219a0bba..6d0f4aedfd 100644
---- a/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
-+++ b/meta/recipes-devtools/quilt/quilt/0001-tests-Allow-different-output-from-mv.patch
-@@ -1,4 +1,4 @@
--From 1530138960cfafbeefb95f2a760954c00b4d0ef0 Mon Sep 17 00:00:00 2001
-+From e9fa816677993e520adff8bba26cb3e71f5a6665 Mon Sep 17 00:00:00 2001
- From: Jussi Kukkonen <jussi.kukkonen@intel.com>
- Date: Wed, 29 Mar 2017 15:11:59 +0300
- Subject: [PATCH] tests: Allow different output from mv
-@@ -12,18 +12,18 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/test/failbackup.test b/test/failbackup.test
--index 37046f7..fce6725 100644
-+index 5f0f54f..0902b12 100644
- --- a/test/failbackup.test
- +++ b/test/failbackup.test
- @@ -16,7 +16,7 @@ What happens when refresh fails because of a permission error?
-  	$ cat > test.txt
-  	< This is updated test.txt.
-  	$ quilt refresh --backup
---	>~ mv: cannot move [`']?%{P}test.diff'? to [`']?%{P}test.diff~'?: Permission denied
-+-	>~ mv: cannot move [`']?patches/test.diff'? to [`']?patches/test.diff~'?: Permission denied
- +	>~ mv: .*: Permission denied
-  	$ echo %{?}
-  	> 1
-  
- -- 
--2.1.4
-+2.17.1
- 
-diff --git a/meta/recipes-devtools/quilt/quilt_0.65.bb b/meta/recipes-devtools/quilt/quilt_0.66.bb
-similarity index 100%
-rename from meta/recipes-devtools/quilt/quilt_0.65.bb
-rename to meta/recipes-devtools/quilt/quilt_0.66.bb
+-		# do_concat_dtb is scheduled _before_ do_install as it overwrite the
+-		# u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
+-		bb.build.addtask('do_concat_dtb', 'do_install', None, d)
+-		d.appendVarFlag('do_concat_dtb', 'depends', ' %s:do_assemble_fitimage' % kernel_pn)
++        # do_concat_dtb is scheduled _before_ do_install as it overwrite the
++        # u-boot.bin in both DEPLOYDIR and DEPLOY_IMAGE_DIR.
++        bb.build.addtask('do_concat_dtb', 'do_install', None, d)
++        d.appendVarFlag('do_concat_dtb', 'depends', ' %s:do_assemble_fitimage' % kernel_pn)
+ }
 -- 
-2.17.1
+2.7.4
 
 
