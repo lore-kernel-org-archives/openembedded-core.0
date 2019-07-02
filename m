@@ -1,26 +1,49 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id C1EAE7EB90
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
+	[209.85.128.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EF61E6C1BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 10:34:02 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x62AXwub017159
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Jul 2019 03:34:03 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 2 Jul 2019 03:33:58 -0700
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>,
-	<openembedded-core@lists.openembedded.org>
-References: <20190627154415.1924-1-open.source@oleksandr-kravchuk.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <6586c7ca-10da-ae60-2494-1d3a605047a7@windriver.com>
-Date: Tue, 2 Jul 2019 18:34:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.0
+	Tue,  2 Jul 2019 11:01:46 +0000 (UTC)
+Received: by mail-wm1-f67.google.com with SMTP id z23so493255wma.4
+	for <openembedded-core@lists.openembedded.org>;
+	Tue, 02 Jul 2019 04:01:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=NvePpQUN+9/CTTC1TZhIZGBTR8JG1e5qW3IMe3l1YF4=;
+	b=cEXZi9fj7EnHnrqgcNqyMpgzzBo2A88pXkFWyG07pO0RNuHwgr3CuWiYv/awWEZOlC
+	z1JEWQPk8X1mTr3i/10n43elTr7rcmsCIxvW5bg1IVTZNY+8HrWsoaORE6ILGenum+zd
+	nfybvWEttOUiZpxXYFdiUMQFp+66UT3N5Iv/M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=NvePpQUN+9/CTTC1TZhIZGBTR8JG1e5qW3IMe3l1YF4=;
+	b=iWWVAsM20kcsfDjn/odVV6iE/hOVa+xkKExv7q/gHQ4YyndcsxetIRgPywUyfoCd1p
+	xdfS3jKf4S854+8hF8sZsz1wqWltjME6AvPjmCttYo9I+gLFKlysb5pmUiXhRvULy2K6
+	AJCOp5PlpLHOUKYzXmn7KuZx6tBkixWWwOHnbD+kxJnaiOk56J7B4/AUxLlfhvH+Mt/P
+	RxCf8wvVZfKcsVWp3qrmuuafN6VW9mjWxU/qt1QXkkZbisTJTao2zzlPOlZWe7MBEqdX
+	S/cuNY5UE7YzoVYTmzRsyXZpHuatDw48uiOiyWtqGEebN2qJYm37uLnKD3xisfGAucI/
+	hdcQ==
+X-Gm-Message-State: APjAAAVBEZwYeDpL0+5YHpnzHsqeFZ8MquyaYd3E5nPweNolYgDPDmc5
+	AWD1TGMeuT738XbjSpbUd6ZFCz4HosQ=
+X-Google-Smtp-Source: APXvYqxRROGZOSGUgB1zyi3OhBJ8ga/Q+keiMOK7j0ABHldzdcsKqKxXG4buja+WIRLF1kvOfQAyeQ==
+X-Received: by 2002:a1c:7614:: with SMTP id r20mr3298960wmc.142.1562065307351; 
+	Tue, 02 Jul 2019 04:01:47 -0700 (PDT)
+Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	b8sm1956736wmh.46.2019.07.02.04.01.46
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 02 Jul 2019 04:01:46 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Jul 2019 12:01:45 +0100
+Message-Id: <20190702110145.11980-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190627154415.1924-1-open.source@oleksandr-kravchuk.com>
-Subject: Re: [PATCH] autoconf-archive: update to 2019.01.06
+Subject: [PATCH] grub2: Drop unneeded code
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,61 +56,33 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 10:34:02 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Jul 2019 11:01:47 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi Oleksandr,
+We no longer export these variables into the environment so we no longer
+need this code.
 
-This patch makes meta-openembedded/meta-oe/recipes-extended/rsyslog/librelp_1.4.0.bb
-and
-meta-secure-core/meta-tpm2/recipes-tpm/tpm2-tss/tpm2-tss_git.bb
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-bsp/grub/grub2.inc | 4 ----
+ 1 file changed, 4 deletions(-)
 
-fail to build. E.g.:
+diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
+index bac2d7d4149..20877e77355 100644
+--- a/meta/recipes-bsp/grub/grub2.inc
++++ b/meta/recipes-bsp/grub/grub2.inc
+@@ -63,10 +63,6 @@ BUILD_LDFLAGS = ""
+ CFLAGS_append = " -Wno-error"
+ 
+ do_configure_prepend() {
+-	# The grub2 configure script uses variables such as TARGET_CFLAGS etc
+-	# for its own purposes. Remove the OE versions from the environment to
+-	# avoid conflicts.
+-	unset TARGET_CPPFLAGS TARGET_CFLAGS TARGET_CXXFLAGS TARGET_LDFLAGS
+ 	( cd ${S}
+ 	${S}/autogen.sh )
+ }
+-- 
+2.20.1
 
-MACHINE = "qemux86"
-$ bitbake librelp
-
-../../git/src/cmdif.h:52:13: error: no previous declaration for 'relpSCSyslog' 
-[-Werror=missing-declarations]
-    52 |  relpRetVal relp##type##C##cmd(relpFrame_t LIBRELP_ATTR_UNUSED *pFrame, 
-relpSess_t *pSess) \
-       |             ^~~~
-../../git/src/scsyslog.c:45:1: note: in expansion of macro 'BEGINcommand'
-
-
-$ bitbake rsyslog
-Makefile:14636: *** missing separator.  Stop.
-
-The errors are wild, do you have any ideas on how to fix them, please?
-
-// Robert
-
-On 6/27/19 11:44 PM, Oleksandr Kravchuk wrote:
-> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-> ---
->   ...f-archive_2018.03.13.bb => autoconf-archive_2019.01.06.bb} | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
->   rename meta/recipes-devtools/autoconf-archive/{autoconf-archive_2018.03.13.bb => autoconf-archive_2019.01.06.bb} (78%)
-> 
-> diff --git a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
-> similarity index 78%
-> rename from meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
-> rename to meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
-> index 7d62e52ab8..985a254fcc 100644
-> --- a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
-> +++ b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
-> @@ -6,8 +6,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=11cc2d3ee574f9d6b7ee797bdce4d423 \
->       file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515"
->   
->   SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
-> -SRC_URI[md5sum] = "46b13a5936372297b6d49980327a3c35"
-> -SRC_URI[sha256sum] = "6175f90d9fa64c4d939bdbb3e8511ae0ee2134863a2c7bf8d9733819efa6e159"
-> +SRC_URI[md5sum] = "d46413c8b00a125b1529bae385bbec55"
-> +SRC_URI[sha256sum] = "17195c833098da79de5778ee90948f4c5d90ed1a0cf8391b4ab348e2ec511e3f"
->   
->   inherit autotools allarch
->   
-> 
 
