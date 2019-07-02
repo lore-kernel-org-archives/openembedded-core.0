@@ -1,39 +1,49 @@
-Return-Path: <martin@geanix.com>
-X-Greylist: delayed 328 seconds by postgrey-1.34 at layers.openembedded.org;
-	Tue, 02 Jul 2019 14:38:08 UTC
-Received: from first.geanix.com (first.geanix.com [116.203.34.67])
-	by mail.openembedded.org (Postfix) with ESMTP id D85BC6D147
+Return-Path: <ross.burton@intel.com>
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id EBACA6C1BD
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 14:38:08 +0000 (UTC)
-Received: from [192.168.8.20] (unknown [85.184.140.241])
-	by first.geanix.com (Postfix) with ESMTPSA id 5E3391697
+	Tue,  2 Jul 2019 15:22:51 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id c2so18315732wrm.8
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 14:31:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=geanix.com; s=first;
-	t=1562077901; bh=B+4jkb4dQoLE9at9Gq0epQlhzSa9Bz8IHQ1yL8xjhCk=;
-	h=Subject:To:References:From:Date:In-Reply-To;
-	b=dUl4UICrCZ2UE3OutyRGv4i57K98YRmRX7L2iTuAZjDAj0/1Y8qICLEBf3cUfJbrl
-	qdO28mlO9U94VT418Lg71lbUpozAiKaOSMTdh0+SkWiEw+IN/NYMjn5aoUtUg883Iu
-	Sjp/2kX65G54wclJMMY7B34vjziPzR4HjNZfrNMUJ9kzocerLMG1ueBHJXsWXy4C2K
-	9TqF5LHFOW+72n6pNCL9Lu0fQJJZa53B4zcgTzllbTWjPPWCm7H+IySfTg02L4S1g2
-	01IJ+idnKCupwrjPpT7G8W5WaS+XXKDbKF0956djzQDTrNf6BzPYasDX8Y7hCY22BL
-	/hG6ioNOp1HAA==
+	Tue, 02 Jul 2019 08:22:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:subject:date:message-id;
+	bh=lBPCR6Y38ZVuzeXP9QiO5fF2tx5eDpfDlZDgzpubWQM=;
+	b=wNXYpk9tA5/L4k0v0XtOcsHGApqdcSB/jLEs0BzrG6a/s02nZs4nRDQCvyNaC34FLi
+	i4HOgim9QErSR+ADySb+WA2d64aX1bzIshkENofOnqX0eohI7MXYnJqFX6fQo4oxvFJ8
+	Otj+JxunxeB/RWdaPwhoMKAeqFeh3foRDR9ZL0qZ285iE5j9ELcKCGqWZIlYso0e8i8i
+	8xbvVtb+4I3JnBIzmbR6AgzwlKcPL812RfyDuR2gbDELA5cD6mSJRLO2lNFQihqbgG93
+	vkT1bzXFd8TxAaKHKKzQENqOd6NFwqI0e17lPGtFxOw5I1xaafb1GPzqMpxkAxD4f39f
+	Z0IA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=lBPCR6Y38ZVuzeXP9QiO5fF2tx5eDpfDlZDgzpubWQM=;
+	b=QCURVn3ksPaSvH7Y/dz2cf8+feht3fv9bSxwYLQO7HOe4cPGm2hoJ/yPtye6T5GLov
+	wIUyu0Vbq4OZRP4BMl0bS7OZ09vExaqiUJ3AvxrH/BpZHZVC3YFm/uKvxageON91qkL5
+	j+eKLB6pTwoPvkmWC8J9AqE0qp7Q+VE/BGOyJhtgcOzdEDpzG8f5sM+8QECFjo5x31SL
+	+v8pl7GGDAJY0y1gtc1gbBMGx7gVorxjPyEak2Cc4r/RGmT9kjytsaeX76Tpx/HRTyRW
+	6gVgxIANdkxAKpZakemkzWHXgNTPT/8Bqcrjllu50MtwXukF3N3rCJlGtWrvcNWLQpGk
+	PDcQ==
+X-Gm-Message-State: APjAAAV6KSl8j+8Dy+uYBIoKQg8bh20FiPdI6MdMff5Ne3KEq0MyQBKy
+	6+aGHpOtkgSe1NEdwgYDSZperbhp3BE=
+X-Google-Smtp-Source: APXvYqzuUoLKjvRJj5Mw1k9jhFO06b59J4d83L3vO/aSCIuceZxNWq/SuffenbGEfEwabO8ZikMeGg==
+X-Received: by 2002:adf:ff84:: with SMTP id j4mr23168093wrr.71.1562080972429; 
+	Tue, 02 Jul 2019 08:22:52 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	b203sm3548396wmd.41.2019.07.02.08.22.51
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 02 Jul 2019 08:22:51 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-References: <ba3936e9-0582-4187-89d7-0a8f1dd4c550@gmail.com>
-	<20190702132640.GA11644@localhost>
-	<88e4513f-1acd-eec8-5739-33a679471c06@gmail.com>
-From: =?UTF-8?Q?Martin_Hundeb=c3=b8ll?= <martin@geanix.com>
-Message-ID: <b512c7ae-e710-9d2e-1f92-6a966dcf0011@geanix.com>
-Date: Tue, 2 Jul 2019 16:32:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
-MIME-Version: 1.0
-In-Reply-To: <88e4513f-1acd-eec8-5739-33a679471c06@gmail.com>
-X-Spam-Status: No, score=-3.1 required=5.0 tests=ALL_TRUSTED,BAYES_00,
-	DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,URIBL_BLOCKED
-	autolearn=disabled version=3.4.2
-X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on 884f5ce5917a
-Subject: Re: The state of reproducible Builds
+Date: Tue,  2 Jul 2019 16:22:47 +0100
+Message-Id: <20190702152248.13678-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH 1/2] multilib_script: fix whitespace
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +56,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 14:38:09 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US-large
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 02 Jul 2019 15:22:52 -0000
 
-Hi,
+The blocks were intended with 3 spaces instead of 4.
 
-On 02/07/2019 16.13, Joshua Watt wrote:
->> For detecting malicous binaries not built from the claimed sources 1. is
->> sufficient. For distributions like Debian that build natively this is
->> even the only option available since the host compiler is used.
->>
->> Doing 2. would of course be more desirable, but it can also be done in
->> a second step after all issues related to building on exactly the same
->> host have been sorted out.
-> 
-> I think there are also other use cases for #2 besides detecting 
-> malicious binaries/source code, such as hash equivalence, or even being 
-> able use sstate when making a reproducible build. You are correct that 
-> this can be done in a second step, but I think that everyone needs to be 
-> aware of the limitations that will present when #2 is not present (the 
-> main one being that you probably can't make a reproducible build if you 
-> use sstate).
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/classes/multilib_script.bbclass | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Our use case for reproducible builds is to limit delta update sizes. 
-I.e. updating one package shouldn;t change the binary output from other 
-independent packages.
+diff --git a/meta/classes/multilib_script.bbclass b/meta/classes/multilib_script.bbclass
+index dc166d06c17..b11efc1ec5c 100644
+--- a/meta/classes/multilib_script.bbclass
++++ b/meta/classes/multilib_script.bbclass
+@@ -17,18 +17,18 @@ multilibscript_rename() {
+ python () {
+     # Do nothing if multilib isn't being used
+     if not d.getVar("MULTILIB_VARIANTS"):
+-       return
++        return
+     # Do nothing for native/cross
+     if bb.data.inherits_class('native', d) or bb.data.inherits_class('cross', d):
+-       return
++        return
+ 
+     for entry in (d.getVar("MULTILIB_SCRIPTS", False) or "").split():
+-       pkg, script = entry.split(":")
+-       epkg = d.expand(pkg)
+-       scriptname = os.path.basename(script)
+-       d.appendVar("ALTERNATIVE_" + epkg, " " + scriptname + " ")
+-       d.setVarFlag("ALTERNATIVE_LINK_NAME", scriptname, script)
+-       d.setVarFlag("ALTERNATIVE_TARGET", scriptname, script + "-${MULTILIB_SUFFIX}")
+-       d.appendVar("multilibscript_rename",  "\n	mv ${PKGD}" + script + " ${PKGD}" + script + "-${MULTILIB_SUFFIX}")
+-       d.appendVar("FILES_" + epkg, " " + script + "-${MULTILIB_SUFFIX}")
++        pkg, script = entry.split(":")
++        epkg = d.expand(pkg)
++        scriptname = os.path.basename(script)
++        d.appendVar("ALTERNATIVE_" + epkg, " " + scriptname + " ")
++        d.setVarFlag("ALTERNATIVE_LINK_NAME", scriptname, script)
++        d.setVarFlag("ALTERNATIVE_TARGET", scriptname, script + "-${MULTILIB_SUFFIX}")
++        d.appendVar("multilibscript_rename",  "\n	mv ${PKGD}" + script + " ${PKGD}" + script + "-${MULTILIB_SUFFIX}")
++        d.appendVar("FILES_" + epkg, " " + script + "-${MULTILIB_SUFFIX}")
+ }
+-- 
+2.11.0
 
-// Martin
 
