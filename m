@@ -1,24 +1,31 @@
-Return-Path: <Hongzhi.Song@windriver.com>
+Return-Path: <Qi.Chen@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 271527E725
+	by mail.openembedded.org (Postfix) with ESMTP id CF8727D32D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 01:24:46 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x621ORx5024027
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Jul 2019 18:24:37 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCB.corp.ad.wrs.com
-	(147.11.189.41) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 1 Jul 2019 18:24:16 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Jul 2019 18:24:16 -0700
-Message-ID: <20190702012416.45677-1-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Tue,  2 Jul 2019 01:27:07 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x621QMvg024052
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 1 Jul 2019 18:26:32 -0700
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 1 Jul 2019 18:26:11 -0700
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1561954425.git.Qi.Chen@windriver.com>
+	<8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
+	<9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <58de5f15-e6e5-9fba-82fd-4b31626289fb@windriver.com>
+Date: Tue, 2 Jul 2019 09:38:34 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH] ltp: diotest4: Let kernel pick an address when calling mmap
+In-Reply-To: <9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,95 +38,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 01:24:46 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Tue, 02 Jul 2019 01:27:08 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Error:
-diotest4 10 TBROK : diotest4.c:368: can't mmap file: Invalid argument
-diotest4 11 TBROK : diotest4.c:368: Remaining cases broken
+On 07/02/2019 07:34 AM, Peter Kjellerstedt wrote:
+>> -----Original Message-----
+>> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+>> core-bounces@lists.openembedded.org> On Behalf Of Chen Qi
+>> Sent: den 1 juli 2019 06:16
+>> To: openembedded-core@lists.openembedded.org
+>> Subject: [OE-core] [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
+>>
+>> Check the existence of systemd before using systemctl to preset units.
+>> This is because even if 'systemd' is in DISTRO_FEATURES, it's possible
+>> that systemd is not even installed. e.g. container-test-image in
+>> meta-selftest layer.
+>>
+>> As systemd DEPENDS on systemd-systemctl-native, the existence of systemd
+>> also ensures the existence of systemd-systemctl-native.
+>>
+>> This would fix the following test case when using systemd as the init
+>> manager.
+>>
+>>    containerimage.ContainerImageTests.test_expected_files
+>>
+>> Also remove the IMAGE_EXTRADEPENDS setting, as nothing references this
+>> variable.
+>>
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/image.bbclass | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+>> index d2b2fb9..7daa97e 100644
+>> --- a/meta/classes/image.bbclass
+>> +++ b/meta/classes/image.bbclass
+>> @@ -666,10 +666,11 @@ reproducible_final_image_task () {
+>>   }
+>>
+>>   systemd_preset_all () {
+>> -    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
+>> +    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
+>                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> That should be ${systemd_system_unitdir}, which will also use the correct path
+> (it is /lib/systemd/system, not /lib/systemd/systemd).
 
-This is because the manually specified addr from mmap is invalid.
-We should let kernel itself pick an addrress.
+I'm checking the systemd binary under ${root_prefix}/lib/systemd, not 
+the directory holding units.
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- ...nel-pick-an-address-when-calling-mma.patch | 50 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190115.bb     |  3 +-
- 2 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
+Regards,
+Chen Qi
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch b/meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
-new file mode 100644
-index 0000000000..109c8ea80c
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
-@@ -0,0 +1,50 @@
-+From 785809201ad7dea2872d493efbfd65bb215710d6 Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Sun, 30 Jun 2019 21:56:16 -0400
-+Subject: [PATCH] diotest4: Let kernel pick an address when calling mmap
-+
-+Error:
-+diotest4 10 TBROK : diotest4.c:368: can't mmap file: Invalid argument
-+diotest4 11 TBROK : diotest4.c:368: Remaining cases broken
-+
-+This is because the specified addr from mmap is invalid.
-+We should let kernel itself pick an addrress.
-+
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+
-+Upstream-Status: Submitted
-+[https://lists.linux.it/pipermail/ltp/2019-June/012570.html]
-+
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+---
-+ testcases/kernel/io/direct_io/diotest4.c | 8 ++------
-+ 1 file changed, 2 insertions(+), 6 deletions(-)
-+
-+diff --git a/testcases/kernel/io/direct_io/diotest4.c b/testcases/kernel/io/direct_io/diotest4.c
-+index e4616e4..d88c431 100644
-+--- a/testcases/kernel/io/direct_io/diotest4.c
-++++ b/testcases/kernel/io/direct_io/diotest4.c
-+@@ -352,18 +352,14 @@ int main(int argc, char *argv[])
-+ 	total++;
-+ 
-+ 	/* Test-10: read, write to a mmaped file */
-+-	shm_base = (char *)(((long)sbrk(0) + (shmsz - 1)) & ~(shmsz - 1));
-+-	if (shm_base == NULL) {
-+-		tst_brkm(TBROK, cleanup, "sbrk failed: %s", strerror(errno));
-+-	}
-+ 	offset = 4096;
-+ 	count = bufsize;
-+ 	if ((fd = open(filename, O_DIRECT | O_RDWR)) < 0) {
-+ 		tst_brkm(TBROK, cleanup, "can't open %s: %s",
-+ 			 filename, strerror(errno));
-+ 	}
-+-	shm_base = mmap(shm_base, 0x100000, PROT_READ | PROT_WRITE,
-+-			MAP_SHARED | MAP_FIXED, fd, 0);
-++	shm_base = mmap(NULL, 0x100000, PROT_READ | PROT_WRITE,
-++			MAP_SHARED, fd, 0);
-+ 	if (shm_base == (caddr_t) - 1) {
-+ 		tst_brkm(TBROK, cleanup, "can't mmap file: %s",
-+ 			 strerror(errno));
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190115.bb b/meta/recipes-extended/ltp/ltp_20190115.bb
-index e91dea2f19..b8a7e673d3 100644
---- a/meta/recipes-extended/ltp/ltp_20190115.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190115.bb
-@@ -50,7 +50,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://define-sigrtmin-and-sigrtmax-for-musl.patch \
-            file://setregid01-security-string-formatting.patch \
-            file://0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch \
--		   file://0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
-+           file://0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
-+           file://0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch\
-            "
- 
- S = "${WORKDIR}/git"
--- 
-2.21.0
+>> +	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
+>> +    fi
+>>   }
+>>
+>> -IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''}"
+>>   IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} reproducible_final_image_task; "
+>>
+>>   CVE_PRODUCT = ""
+>> --
+>> 1.9.1
+> //Peter
+>
+>
 
 
