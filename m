@@ -1,57 +1,22 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CA9937E269
+Return-Path: <douglas.royds@taitradio.com>
+Received: from smtp1.taitradio.net (unknown [202.37.96.23])
+	by mail.openembedded.org (Postfix) with SMTP id EA28D7C85D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  1 Jul 2019 23:34:01 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id 33441181DE;
-	Tue,  2 Jul 2019 01:34:02 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024)
-	with LMTP id snX16xif9Swg; Tue,  2 Jul 2019 01:34:01 +0200 (CEST)
-Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
-	by bastet.se.axis.com (Postfix) with ESMTPS id C9FB41809C;
-	Tue,  2 Jul 2019 01:34:00 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AA7C51E099;
-	Tue,  2 Jul 2019 01:34:00 +0200 (CEST)
-Received: from boulder03.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 9F0EC1E098;
-	Tue,  2 Jul 2019 01:34:00 +0200 (CEST)
-Received: from thoth.se.axis.com (unknown [10.0.2.173])
-	by boulder03.se.axis.com (Postfix) with ESMTP;
-	Tue,  2 Jul 2019 01:34:00 +0200 (CEST)
-Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
-	by thoth.se.axis.com (Postfix) with ESMTP id 92F2127D8;
-	Tue,  2 Jul 2019 01:34:00 +0200 (CEST)
-Received: from xbox06.axis.com (10.0.15.176) by XBOX01.axis.com (10.0.5.15)
-	with Microsoft SMTP Server (TLS) id 15.0.1365.1;
-	Tue, 2 Jul 2019 01:34:00 +0200
-Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
-	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
-	15.00.1395.000; Tue, 2 Jul 2019 01:34:00 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Chen Qi <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Thread-Topic: [OE-core] [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
-Thread-Index: AQHVL8H4hiSqMABPGkWtMYigx2N1Iqa2aPsQ
-Date: Mon, 1 Jul 2019 23:34:00 +0000
-Message-ID: <9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
-References: <cover.1561954425.git.Qi.Chen@windriver.com>
-	<8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
-In-Reply-To: <8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
-Accept-Language: en-US, sv-FI
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.0.5.60]
+	Tue,  2 Jul 2019 00:43:07 +0000 (UTC)
+Received: from [172.16.169.141] (unknown [172.16.169.141])
+	by smtp1.taitradio.net (Postfix) with ESMTP id EC4501C0688;
+	Tue,  2 Jul 2019 12:43:06 +1200 (NZST)
+To: Joshua Watt <jpewhacker@gmail.com>,
+	OE-core <openembedded-core@lists.openembedded.org>
+References: <ba3936e9-0582-4187-89d7-0a8f1dd4c550@gmail.com>
+From: Douglas Royds <douglas.royds@taitradio.com>
+Message-ID: <f01d7add-70c1-dfe7-597c-75c414dbe643@taitradio.com>
+Date: Tue, 2 Jul 2019 12:43:06 +1200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.1
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: Re: [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
+In-Reply-To: <ba3936e9-0582-4187-89d7-0a8f1dd4c550@gmail.com>
+Subject: Re: The state of reproducible Builds
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,72 +29,50 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 01 Jul 2019 23:34:02 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Tue, 02 Jul 2019 00:43:08 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
 
-> -----Original Message-----
-> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
-> core-bounces@lists.openembedded.org> On Behalf Of Chen Qi
-> Sent: den 1 juli 2019 06:16
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core] [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
->=20
-> Check the existence of systemd before using systemctl to preset units.
-> This is because even if 'systemd' is in DISTRO_FEATURES, it's possible
-> that systemd is not even installed. e.g. container-test-image in
-> meta-selftest layer.
->=20
-> As systemd DEPENDS on systemd-systemctl-native, the existence of systemd
-> also ensures the existence of systemd-systemctl-native.
->=20
-> This would fix the following test case when using systemd as the init
-> manager.
->=20
->   containerimage.ContainerImageTests.test_expected_files
->=20
-> Also remove the IMAGE_EXTRADEPENDS setting, as nothing references this
-> variable.
->=20
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/image.bbclass | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
-> index d2b2fb9..7daa97e 100644
-> --- a/meta/classes/image.bbclass
-> +++ b/meta/classes/image.bbclass
-> @@ -666,10 +666,11 @@ reproducible_final_image_task () {
->  }
->=20
->  systemd_preset_all () {
-> -    systemctl --root=3D"${IMAGE_ROOTFS}" --preset-mode=3Denable-only pre=
-set-all
-> +    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
-                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-That should be ${systemd_system_unitdir}, which will also use the correct p=
-ath=20
-(it is /lib/systemd/system, not /lib/systemd/systemd).
+On 2/07/19 3:58 AM, Joshua Watt wrote:
 
-> +	systemctl --root=3D"${IMAGE_ROOTFS}" --preset-mode=3Denable-only preset=
--all
-> +    fi
->  }
->=20
-> -IMAGE_EXTRADEPENDS +=3D "${@ 'systemd-systemctl-native' if bb.utils.cont=
-ains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contain=
-s('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''}"
->  IMAGE_PREPROCESS_COMMAND_append =3D " ${@ 'systemd_preset_all;' if bb.ut=
-ils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils=
-.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} re=
-producible_final_image_task; "
->=20
->  CVE_PRODUCT =3D ""
-> --
-> 1.9.1
+> 1. Testing RPM and IPK package formats. I think RPMs will be pretty 
+> easy; IPKs might be more challenging since AFAIK the tools that make 
+> them don't generate reproducible output to begin with.
 
-//Peter
+
+This has not been my experience. I have been building reproducible ipks, 
+indeed, it is the hashsums of the ipks that I've been examining. In most 
+cases, the correct SOURCE_DATE_EPOCH is enough, but there have been 
+cases where I've had to correct upstream projects to cope with the 
+SOURCE_DATE_EPOCH or avoid the effect of differing uname settings.
+
+
+> 1. HOSTTOOLS differences. There are a lot of tools listed in 
+> HOSTTOOLS, and unfortunately some of them have version dependent 
+> output and are used for target builds (the one I've currently stumbled 
+> upon is pod2man, but I'm sure there are others). Unfortunately, one 
+> could probably argue that HOSTTOOLS is somewhat antithetical to the 
+> above statement, at least in regard to target builds. Any host tool 
+> output that "leaks" into the target build output can result in a 
+> non-reproducible build across hosts, and possibly should be avoided; 
+> the alternative is to use (or mandate) the corresponding -native 
+> recipe that provides that tool as a DEPENDS so that the controlled 
+> internally built version is used instead. Note that this only really 
+> applies target builds, not -native (or nativesdk right now). -native 
+> recipes would obviously need more HOSTTOOLS to help bootstrap the 
+> system. I suspect this would require reworking how HOSTOOLS works so 
+> that they can be split into two categories somehow; the tools that 
+> have "ubiquitous and stable" interfaces and are fine for all recipes 
+> (e.g. cat, sed, true, rm, etc.) and those that are variable and should 
+> only be used for -native builds (e.g. pod2man, rpcgen(?), chrpath(?), 
+> tar(?)... others?). Anyone have thoughts on this?
+
+
+Perhaps reproducibility is the decision-point for adding a tool to the 
+HOSTTOOLS: If the precise version of the tool has no impact on 
+reproducibility (eg. cat, sed, and even gawk), it is a good candidate 
+for the HOSTTOOLS. pod2man shouldn't be in the HOSTTOOLS, because we 
+need to control the version.
 
 
