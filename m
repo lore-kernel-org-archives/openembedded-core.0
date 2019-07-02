@@ -1,49 +1,28 @@
-Return-Path: <raj.khem@gmail.com>
-Received: from mail-qk1-f193.google.com (mail-qk1-f193.google.com
-	[209.85.222.193])
-	by mail.openembedded.org (Postfix) with ESMTP id 5235A7E7A1
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 3E7A57E7A1
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 03:25:12 +0000 (UTC)
-Received: by mail-qk1-f193.google.com with SMTP id p144so12806485qke.11
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 01 Jul 2019 20:25:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=i+vw01hhk296DFWk/SzD0oDY0ZQs9xrv59WULN3PKWI=;
-	b=qGL5vQ5F9/imqlP634ConVou2XMhXPAeRx3VILUJwpPyG72yM7qfvXIXscdBqnpUXM
-	XLWXLzlQGmsLOq/TK4vJBY5OOvEGMHuh44SkMVfHvFdOFDkqNpXWM2HeXfpvVskwIF1q
-	B8DuTQA24DC22REClWe6u4ovi+j9mQkjjeNxER6UuraP31S/4Nv2uIfPF0n2Nthnetd9
-	94PsCh9VwSd+17+hT1Qu+czoHSL6vqplJNlp1eus7/CiH64NBJ8GxZKngKj5rbSANyLi
-	TPj/yINEPediKnnCwbSO7joJDLA4QordIGfYxRMUgYRq1hmJlpQV9D2evjDxNzaA71Qs
-	cesg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=i+vw01hhk296DFWk/SzD0oDY0ZQs9xrv59WULN3PKWI=;
-	b=AiLY3OQ6pJol66CqiMy9Mjm+Q7hEbmoXQpkdvytt6ygflTMSoFhVDvKG6QWRo8iF1J
-	xUSDHEQxfWS9pPR6ax2ORBUvVHpZM/bRmpIe/AtmsCD9z/ddiYk0Tb8kblpUl8I28if2
-	dKUfr7fgSD1Pw0BxdsJDy54rosnszZXFORnk7lWrxUu9VHzOewPxGcVAxFj1xVv2INW6
-	M4G6SLJHSFlFhszOFlXKuQAVgDuIudJ6a137P68zuF35uEzdlThMAnxRDBsw3XannlTk
-	n7M1JBr04NEkD8sqSVLmcEnI88AA1U9P5sFwzTCsWtYCJu8OlFWydsDCEiuDN85WEDt/
-	uKjw==
-X-Gm-Message-State: APjAAAXmX6f/Z7Bb33lclMFjy144byZZ6g6zTqYWQfuGB5w07RVijl5l
-	C8S9oEzGR3Bgp9X/ZqXi4DoueM51bDLIO4u61Os=
-X-Google-Smtp-Source: APXvYqyu1vaOSBjlCNRwNo8WyMVlm2kP6kPTLL6wIE0oQG6JRrf+1tH5LuDsU8fZc2xJ3LR9iJIk/MqALUC4w7cg2fg=
-X-Received: by 2002:a37:c81:: with SMTP id 123mr21372355qkm.474.1562037912440; 
-	Mon, 01 Jul 2019 20:25:12 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190627135440.15815-1-JPEWhacker@gmail.com>
-	<CAMKF1srnRNisnxfnhypBQuwO9F5q72LSDzuBZqdStBoXaR1kDQ@mail.gmail.com>
-	<e6cf5479e8da4d7e95463096a50b820e@xbox06.axis.com>
-In-Reply-To: <e6cf5479e8da4d7e95463096a50b820e@xbox06.axis.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 1 Jul 2019 23:25:00 -0400
-Message-ID: <CAMKF1srRNUPoEj-7ogAxsWi3Pg1LZbjnze_aL2LpX7re2EtsiA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
+	Tue,  2 Jul 2019 03:34:35 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x623YYHS006610
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Mon, 1 Jul 2019 20:34:35 -0700 (PDT)
+Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Mon, 1 Jul 2019 20:34:34 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] glibc: Fix locale DEPENDS
+References: <cover.1561724112.git.liezhi.yang@windriver.com>
+	<8ed4c92b7a1618a5bc2781e7af04889f65b0baa7.1561724112.git.liezhi.yang@windriver.com>
+	<d3c2fc6e48254b073b9c1f828246dcc575694330.camel@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <aa3f655b-34c8-7896-3493-17f896cf3a52@windriver.com>
+Date: Tue, 2 Jul 2019 11:35:11 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <d3c2fc6e48254b073b9c1f828246dcc575694330.camel@linuxfoundation.org>
+Subject: Re: [PATCH 1/1] devupstream.bbclass: Disable devupstream when multilib is enabled
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,201 +35,93 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 03:25:12 -0000
-Content-Type: multipart/alternative; boundary="000000000000e5941b058caa4a23"
-
---000000000000e5941b058caa4a23
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Yes, I think so.
-
-On Mon, Jul 1, 2019 at 7:13 PM Peter Kjellerstedt <
-peter.kjellerstedt@axis.com> wrote:
-
-> Are you thinking of gettext-minimal-native? It is used by gettext.bbclass
-> if USE_NLS is =E2=80=9Cno=E2=80=9D.
->
->
->
-> //Peter
->
->
->
-> *From:* openembedded-core-bounces@lists.openembedded.org <
-> openembedded-core-bounces@lists.openembedded.org> *On Behalf Of *Khem Raj
-> *Sent:* den 28 juni 2019 18:37
-> *To:* Joshua Watt <jpewhacker@gmail.com>
-> *Cc:* openembedded-core@lists.openembedded.org
-> *Subject:* Re: [OE-core] [PATCH] glibc: Fix locale DEPENDS
->
->
->
->
->
->
->
-> On Thu, Jun 27, 2019 at 9:54 AM Joshua Watt <jpewhacker@gmail.com> wrote:
->
-> gettext is required to generate the glibc locales in do_compile. If not
-> present, glibc will skip the generation which isn't reproducible.
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/recipes-core/glibc/glibc_2.29.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc_2.29.bb
-> b/meta/recipes-core/glibc/glibc_2.29.bb
-> index 073d1533e37..c400ee10b0f 100644
-> --- a/meta/recipes-core/glibc/glibc_2.29.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.29.bb
-> @@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSES;md5=3Dcfc0ed77a9f62=
-fa62eded042ebe31d72
-> \
->
->  file://posix/rxspencer/COPYRIGHT;md5=3Ddc5485bb394a13b2332ec1c785f5d83a =
-\
->        file://COPYING.LIB;md5=3D4fbd65380cdd255951079008b364516c"
->
-> -DEPENDS +=3D "gperf-native bison-native make-native"
-> +DEPENDS +=3D "gperf-native bison-native make-native gettext-native"
->
->
->
-> I think we have had this dependency proposed in past and one think that
-> worries me is that it will cause serialization a bit more and can affect
-> bulls times wasn=E2=80=99t there a minimal gettext at some point and I wo=
-nder if
-> that could satisfy needs here
->
->
->
->  PV =3D "2.29"
->
-> --
-> 2.21.0
->
->
-
---000000000000e5941b058caa4a23
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Yes, I think so.</div><div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">On Mon, Jul 1, 2019 at 7:13 PM Peter Kjellerstedt=
- &lt;<a href=3D"mailto:peter.kjellerstedt@axis.com">peter.kjellerstedt@axis=
-.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"mar=
-gin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">
+X-List-Received-Date: Tue, 02 Jul 2019 03:34:35 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
 
 
+On 6/30/19 4:04 PM, Richard Purdie wrote:
+> On Fri, 2019-06-28 at 20:15 +0800, Robert Yang wrote:
+>> Fixed:
+>> MACHINE = "qemux86-64"
+>> require conf/multilib.conf
+>> MULTILIBS = "multilib:lib32"
+>> DEFAULTTUNE_virtclass-multilib-lib32 = "x86"
+>>
+>> PREFERRED_VERSION_lttng-modules = "2.10.10+git%"
+>>
+>> $ bitbake world
+>>
+>> NOTE: preferred version 2.10.10+git% of lttng-modules not available
+>> (for item lib32-lttng-modules)
+>> NOTE: versions of lttng-modules available: 2.10.10
+>> ERROR: Multiple versions of lttng-modules are due to be built
+>> (/path/to/lttng-modules_2.10.10.bb
+>> virtual:devupstream:target:/path/to/lttng-modules_2.10.10.bb). Only
+>> one version of a given PN should be built in any given build. You
+>> likely need to set PREFERRED_VERSION_lttng-modules to select the
+>> correct version or don't depend on multiple versions.
+>>
+>> This is because 2.10.10+git% will be built for non-multilib lttng-
+>> modules since
+>> the PREFERRED_VERSION is set, but this version doesn't provide
+>> lib32-lttng-modules, so 2.10.10 will be built, then the error
+>> happens.
+>>
+>> Bitbake can't extend an extended recipe, for example:
+>> virtual:multilib:lib32:virtual:devupstream:target
+>>
+>> Or in a reverse order:
+>> virtual:devupstream:target:virtual:multilib:lib32
+>>
+>> So disable devupstream when multilib is enabled.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/classes/devupstream.bbclass | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/meta/classes/devupstream.bbclass
+>> b/meta/classes/devupstream.bbclass
+>> index 7780c54..25403da 100644
+>> --- a/meta/classes/devupstream.bbclass
+>> +++ b/meta/classes/devupstream.bbclass
+>> @@ -19,6 +19,12 @@
+>>   CLASSOVERRIDE .= ":class-devupstream"
+>>   
+>>   python devupstream_virtclass_handler () {
+>> +    # bitbake can't extend an extended recipe, for example:
+>> +    # virtual:multilib:lib32:virtual:devupstream:target
+>> +    # So disable devupstream when multilib is enabled.
+>> +    if d.getVar('MULTILIBS'):
+>> +        raise bb.parse.SkipRecipe("Disable devupstream when multilib
+>> is enabled")
+>> +
+>>       # Do nothing if this is inherited, as it's for BBCLASSEXTEND
+>>       if "devupstream" not in (d.getVar('BBCLASSEXTEND') or ""):
+>>           bb.error("Don't inherit devupstream, use BBCLASSEXTEND")
+> 
+> 
+> This is a bit of a serious problem with devupstream as it means we
+> can't rely upon it for default recipes. We need to file a bug about
+> this and find a way to fix it, perhaps teaching multilib about
+> devupstream so it can set BBCLASSEXTEND accordingly.
 
+I filed a bug and assigned it you:
 
-<div lang=3D"SV" link=3D"blue" vlink=3D"purple">
-<div class=3D"m_8923590567056631462WordSection1">
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634">Are you=
- thinking of gettext-minimal-native? It is used by gettext.bbclass if USE_N=
-LS is =E2=80=9Cno=E2=80=9D.</span></p></div></div><div lang=3D"SV" link=3D"=
-blue" vlink=3D"purple"><div class=3D"m_8923590567056631462WordSection1"><p =
-class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634"><u></u><u>=
-</u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634"><u></u>=
-=C2=A0<u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634">//Peter=
-<u></u><u></u></span></p>
-<p class=3D"MsoNormal"><span lang=3D"EN-US" style=3D"color:#943634"><u></u>=
-=C2=A0<u></u></span></p>
-<div style=3D"border:none;border-left:solid blue 1.5pt;padding:0cm 0cm 0cm =
-4.0pt">
-<div>
-<div style=3D"border:none;border-top:solid #e1e1e1 1.0pt;padding:3.0pt 0cm =
-0cm 0cm">
-<p class=3D"MsoNormal"><b><span lang=3D"EN-US">From:</span></b><span lang=
-=3D"EN-US"> <a href=3D"mailto:openembedded-core-bounces@lists.openembedded.=
-org" target=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a>=
- &lt;<a href=3D"mailto:openembedded-core-bounces@lists.openembedded.org" ta=
-rget=3D"_blank">openembedded-core-bounces@lists.openembedded.org</a>&gt;
-<b>On Behalf Of </b>Khem Raj<br>
-<b>Sent:</b> den 28 juni 2019 18:37<br>
-<b>To:</b> Joshua Watt &lt;<a href=3D"mailto:jpewhacker@gmail.com" target=
-=3D"_blank">jpewhacker@gmail.com</a>&gt;<br>
-<b>Cc:</b> <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-<b>Subject:</b> Re: [OE-core] [PATCH] glibc: Fix locale DEPENDS<u></u><u></=
-u></span></p>
-</div>
-</div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-<div>
-<div>
-<p class=3D"MsoNormal">On Thu, Jun 27, 2019 at 9:54 AM Joshua Watt &lt;<a h=
-ref=3D"mailto:jpewhacker@gmail.com" target=3D"_blank">jpewhacker@gmail.com<=
-/a>&gt; wrote:<u></u><u></u></p>
-</div>
-<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0c=
-m 0cm 0cm 6.0pt;margin-left:4.8pt;margin-right:0cm">
-<p class=3D"MsoNormal">gettext is required to generate the glibc locales in=
- do_compile. If not<br>
-present, glibc will skip the generation which isn&#39;t reproducible.<br>
-<br>
-Signed-off-by: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" targ=
-et=3D"_blank">JPEWhacker@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" target=3D"_b=
-lank">glibc_2.29.bb</a> | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" targe=
-t=3D"_blank">glibc_2.29.bb</a> b/meta/recipes-core/glibc/<a href=3D"http://=
-glibc_2.29.bb" target=3D"_blank">glibc_2.29.bb</a><br>
-index 073d1533e37..c400ee10b0f 100644<br>
---- a/meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" target=3D"_b=
-lank">glibc_2.29.bb</a><br>
-+++ b/meta/recipes-core/glibc/<a href=3D"http://glibc_2.29.bb" target=3D"_b=
-lank">glibc_2.29.bb</a><br>
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D &quot;<a>file://LICENSES;md5=3Dcfc0ed7=
-7a9f62fa62eded042ebe31d72
- \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://posix/rxspencer/COPYRIGHT;md5=3Ddc5485bb3=
-94a13b2332ec1c785f5d83a \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0file://COPYING.LIB;md5=3D4fbd65380cdd25595107900=
-8b364516c</a>&quot;<br>
-<br>
--DEPENDS +=3D &quot;gperf-native bison-native make-native&quot;<br>
-+DEPENDS +=3D &quot;gperf-native bison-native make-native gettext-native&qu=
-ot;<u></u><u></u></p>
-</blockquote>
-<div>
-<p class=3D"MsoNormal"><u></u>=C2=A0<u></u></p>
-</div>
-<div>
-<p class=3D"MsoNormal">I think we have had this dependency proposed in past=
- and one think that worries me is that it will cause serialization a bit mo=
-re and can affect bulls times wasn=E2=80=99t there a minimal gettext at som=
-e point and I wonder if that could satisfy
- needs here=C2=A0<u></u><u></u></p>
-</div>
-<blockquote style=3D"border:none;border-left:solid #cccccc 1.0pt;padding:0c=
-m 0cm 0cm 6.0pt;margin-left:4.8pt;margin-right:0cm">
-<p class=3D"MsoNormal" style=3D"margin-bottom:12.0pt"><br>
-<br>
-=C2=A0PV =3D &quot;2.29&quot;<br>
-<br>
--- <br>
-2.21.0<u></u><u></u></p>
-</blockquote>
-</div>
-</div>
-</div>
-</div>
-</div>
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13424
 
-</blockquote></div></div>
+After more investigations, it seems that we should modify 
+ast.py:multi_finalize(), although I file the bug in oe-core product.
 
---000000000000e5941b058caa4a23--
+// Robert
+
+> 
+> Cheers,
+> 
+> Richard
+> 
+> 
+
