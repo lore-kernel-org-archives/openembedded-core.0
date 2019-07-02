@@ -1,31 +1,18 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CF8727D32D
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 01:27:07 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x621QMvg024052
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 1 Jul 2019 18:26:32 -0700
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Mon, 1 Jul 2019 18:26:11 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-References: <cover.1561954425.git.Qi.Chen@windriver.com>
-	<8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
-	<9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <58de5f15-e6e5-9fba-82fd-4b31626289fb@windriver.com>
-Date: Tue, 2 Jul 2019 09:38:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id C44DF7EAED;
+	Tue,  2 Jul 2019 01:30:42 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
-X-Originating-IP: [128.224.162.148]
-Subject: Re: [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Hongzhi.Song <hongzhi.song@windriver.com>
+Date: Tue, 02 Jul 2019 01:30:44 -0000
+Message-ID: <20190702013044.2330.59246@do>
+References: <20190702012416.45677-1-hongzhi.song@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190702012416.45677-1-hongzhi.song@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgbHRwOiBkaW90ZXN0NDogTGV0IGtlcm5lbCBwaWNrIGFuIGFkZHJlc3Mgd2hlbiBjYWxsaW5nIG1tYXAgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,71 +25,43 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 01:27:08 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
+X-List-Received-Date: Tue, 02 Jul 2019 01:30:42 -0000
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
-On 07/02/2019 07:34 AM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of Chen Qi
->> Sent: den 1 juli 2019 06:16
->> To: openembedded-core@lists.openembedded.org
->> Subject: [OE-core] [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
->>
->> Check the existence of systemd before using systemctl to preset units.
->> This is because even if 'systemd' is in DISTRO_FEATURES, it's possible
->> that systemd is not even installed. e.g. container-test-image in
->> meta-selftest layer.
->>
->> As systemd DEPENDS on systemd-systemctl-native, the existence of systemd
->> also ensures the existence of systemd-systemctl-native.
->>
->> This would fix the following test case when using systemd as the init
->> manager.
->>
->>    containerimage.ContainerImageTests.test_expected_files
->>
->> Also remove the IMAGE_EXTRADEPENDS setting, as nothing references this
->> variable.
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/image.bbclass | 5 +++--
->>   1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->> index d2b2fb9..7daa97e 100644
->> --- a/meta/classes/image.bbclass
->> +++ b/meta/classes/image.bbclass
->> @@ -666,10 +666,11 @@ reproducible_final_image_task () {
->>   }
->>
->>   systemd_preset_all () {
->> -    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
->> +    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ]; then
->                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> That should be ${systemd_system_unitdir}, which will also use the correct path
-> (it is /lib/systemd/system, not /lib/systemd/systemd).
+== Series Details ==
 
-I'm checking the systemd binary under ${root_prefix}/lib/systemd, not 
-the directory holding units.
+Series: ltp: diotest4: Let kernel pick an address when calling mmap (rev2)
+Revision: 2
+URL   : https://patchwork.openembedded.org/series/18462/
+State : failure
 
-Regards,
-Chen Qi
+== Summary ==
 
->> +	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only preset-all
->> +    fi
->>   }
->>
->> -IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''}"
->>   IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d) else ''} reproducible_final_image_task; "
->>
->>   CVE_PRODUCT = ""
->> --
->> 1.9.1
-> //Peter
->
->
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Upstream-Status is Submitted, but it is not mentioned where [test_upstream_status_presence_format] 
+  Suggested fix    Include where 0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch was submitted
+  Current          Upstream-Status: Submitted
+  Standard format  Upstream-Status: Submitted [where]
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
