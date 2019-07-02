@@ -1,24 +1,25 @@
-Return-Path: <Hongzhi.Song@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E01D27E71F
+Return-Path: <paul.eggleton@linux.intel.com>
+Received: from mga02.intel.com (mga02.intel.com [134.134.136.20])
+	by mail.openembedded.org (Postfix) with ESMTP id AE3FC7E94C
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 01:35:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x621ZDvV024260
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 1 Jul 2019 18:35:46 -0700
-Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Mon, 1 Jul 2019 18:35:33 -0700
-From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 1 Jul 2019 18:35:33 -0700
-Message-ID: <20190702013533.46940-1-hongzhi.song@windriver.com>
-X-Mailer: git-send-email 2.21.0
+	Tue,  2 Jul 2019 02:36:10 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	01 Jul 2019 19:36:11 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,441,1557212400"; d="scan'208";a="163872269"
+Received: from jsun24-mobl1.gar.corp.intel.com (HELO localhost.localdomain)
+	([10.255.151.80])
+	by fmsmga008.fm.intel.com with ESMTP; 01 Jul 2019 19:36:08 -0700
+From: Paul Eggleton <paul.eggleton@linux.intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Jul 2019 14:35:54 +1200
+Message-Id: <cover.1562034933.git.paul.eggleton@linux.intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] ltp: diotest4: Let kernel pick an address when calling mmap
+Subject: [PATCH 0/1] libcap-ng: do not use symlink to share files with libcap-ng-python
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,94 +32,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 01:35:55 -0000
+X-List-Received-Date: Tue, 02 Jul 2019 02:36:10 -0000
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-Error:
-diotest4 10 TBROK : diotest4.c:368: can't mmap file: Invalid argument
-diotest4 11 TBROK : diotest4.c:368: Remaining cases broken
+The following changes since commit 1f8a73261c7a134821c40845da27d8edbb0763b6:
 
-This is because the manually specified addr from mmap is invalid.
-We should let kernel itself pick an addrress.
+  Revert "pigz: Add debug for autobuilder errors" (2019-06-30 23:33:12 +0100)
 
-Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
----
- ...nel-pick-an-address-when-calling-mma.patch | 49 +++++++++++++++++++
- meta/recipes-extended/ltp/ltp_20190115.bb     |  3 +-
- 2 files changed, 51 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
+are available in the Git repository at:
 
-diff --git a/meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch b/meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
-new file mode 100644
-index 0000000000..620027bd0d
---- /dev/null
-+++ b/meta/recipes-extended/ltp/ltp/0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch
-@@ -0,0 +1,49 @@
-+From 785809201ad7dea2872d493efbfd65bb215710d6 Mon Sep 17 00:00:00 2001
-+From: "Hongzhi.Song" <hongzhi.song@windriver.com>
-+Date: Sun, 30 Jun 2019 21:56:16 -0400
-+Subject: [PATCH] diotest4: Let kernel pick an address when calling mmap
-+
-+Error:
-+diotest4 10 TBROK : diotest4.c:368: can't mmap file: Invalid argument
-+diotest4 11 TBROK : diotest4.c:368: Remaining cases broken
-+
-+This is because the specified addr from mmap is invalid.
-+We should let kernel itself pick an addrress.
-+
-+Signed-off-by: Jan Stancek <jstancek@redhat.com>
-+
-+Upstream-Status: Submitted [https://lists.linux.it/pipermail/ltp/2019-June/012570.html]
-+
-+Signed-off-by: Hongzhi.Song <hongzhi.song@windriver.com>
-+---
-+ testcases/kernel/io/direct_io/diotest4.c | 8 ++------
-+ 1 file changed, 2 insertions(+), 6 deletions(-)
-+
-+diff --git a/testcases/kernel/io/direct_io/diotest4.c b/testcases/kernel/io/direct_io/diotest4.c
-+index e4616e4..d88c431 100644
-+--- a/testcases/kernel/io/direct_io/diotest4.c
-++++ b/testcases/kernel/io/direct_io/diotest4.c
-+@@ -352,18 +352,14 @@ int main(int argc, char *argv[])
-+ 	total++;
-+ 
-+ 	/* Test-10: read, write to a mmaped file */
-+-	shm_base = (char *)(((long)sbrk(0) + (shmsz - 1)) & ~(shmsz - 1));
-+-	if (shm_base == NULL) {
-+-		tst_brkm(TBROK, cleanup, "sbrk failed: %s", strerror(errno));
-+-	}
-+ 	offset = 4096;
-+ 	count = bufsize;
-+ 	if ((fd = open(filename, O_DIRECT | O_RDWR)) < 0) {
-+ 		tst_brkm(TBROK, cleanup, "can't open %s: %s",
-+ 			 filename, strerror(errno));
-+ 	}
-+-	shm_base = mmap(shm_base, 0x100000, PROT_READ | PROT_WRITE,
-+-			MAP_SHARED | MAP_FIXED, fd, 0);
-++	shm_base = mmap(NULL, 0x100000, PROT_READ | PROT_WRITE,
-++			MAP_SHARED, fd, 0);
-+ 	if (shm_base == (caddr_t) - 1) {
-+ 		tst_brkm(TBROK, cleanup, "can't mmap file: %s",
-+ 			 strerror(errno));
-+-- 
-+2.8.1
-+
-diff --git a/meta/recipes-extended/ltp/ltp_20190115.bb b/meta/recipes-extended/ltp/ltp_20190115.bb
-index e91dea2f19..b8a7e673d3 100644
---- a/meta/recipes-extended/ltp/ltp_20190115.bb
-+++ b/meta/recipes-extended/ltp/ltp_20190115.bb
-@@ -50,7 +50,8 @@ SRC_URI = "git://github.com/linux-test-project/ltp.git \
-            file://define-sigrtmin-and-sigrtmax-for-musl.patch \
-            file://setregid01-security-string-formatting.patch \
-            file://0001-syscalls-setrlimit03.c-read-proc-sys-fs-nr_open-for-.patch \
--		   file://0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
-+           file://0001-shmctl01-don-t-use-hardcoded-index-0-for-SHM_STAT-te.patch \
-+           file://0001-diotest4-Let-kernel-pick-an-address-when-calling-mma.patch\
-            "
- 
- S = "${WORKDIR}/git"
+  git://git.openembedded.org/openembedded-core-contrib paule/libcap-ng-symlink-fix
+  http://cgit.openembedded.org/openembedded-core-contrib/log/?h=paule/libcap-ng-symlink-fix
+
+Paul Eggleton (1):
+  libcap-ng: do not use symlink to share files with libcap-ng-python
+
+ meta/recipes-support/libcap-ng/libcap-ng                        | 1 -
+ meta/recipes-support/libcap-ng/libcap-ng-python_0.7.9.bb        | 2 ++
+ .../libcap-ng/{libcap-ng-python => libcap-ng}/python.patch      | 0
+ 3 files changed, 2 insertions(+), 1 deletion(-)
+ delete mode 120000 meta/recipes-support/libcap-ng/libcap-ng
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python => libcap-ng}/python.patch (100%)
+
 -- 
-2.21.0
+2.20.1
 
 
