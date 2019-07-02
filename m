@@ -1,18 +1,27 @@
-Return-Path: <patchwork@patchwork.openembedded.org>
-Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id EA1197E94C;
-	Tue,  2 Jul 2019 06:00:45 +0000 (UTC)
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BE2547D43C
+	for <openembedded-core@lists.openembedded.org>;
+	Tue,  2 Jul 2019 07:27:05 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x627R4uw012844
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 2 Jul 2019 00:27:04 -0700 (PDT)
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Tue, 2 Jul 2019 00:27:04 -0700
+To: Pierre Le Magourou <lemagoup@gmail.com>,
+	<openembedded-core@lists.openembedded.org>
+References: <20190624094438.7596-1-lemagoup@gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <19369a4e-80ec-9659-faa0-fc0f5925aa87@windriver.com>
+Date: Tue, 2 Jul 2019 15:39:28 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-From: Patchwork <patchwork@patchwork.openembedded.org>
-To: =?utf-8?q?Erik_Bot=C3=B6?= <erik.boto@gmail.com>
-Date: Tue, 02 Jul 2019 06:00:47 -0000
-Message-ID: <20190702060047.2330.54595@do>
-References: <20190702055208.119106-1-erik.boto@gmail.com>
-Reply-To: openembedded-core@lists.openembedded.org
-X-Patchwork-Hint: ignore
-In-Reply-To: <20190702055208.119106-1-erik.boto@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgcGFoby1tcXR0LWM6IGVuYWJsZSBTU0w=?=
+In-Reply-To: <20190624094438.7596-1-lemagoup@gmail.com>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH] cve-update-db: Use std library instead of urllib3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,46 +34,71 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 06:00:46 -0000
-Content-Type: text/plain; charset="utf-8"
+X-List-Received-Date: Tue, 02 Jul 2019 07:27:05 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
 Content-Transfer-Encoding: 7bit
 
-== Series Details ==
+A recent do_populate_cve_db failure:
+https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1005/steps/7/logs/errors
 
-Series: paho-mqtt-c: enable SSL
-Revision: 1
-URL   : https://patchwork.openembedded.org/series/18487/
-State : failure
+Could you please help look at what's going on?
 
-== Summary ==
+Regards,
+Chen Qi
 
+On 06/24/2019 05:44 PM, Pierre Le Magourou wrote:
+> From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+>
+> urllib3 was used in this recipe but it was not set as a
+> dependency. As it is not specifically needed, rewrite the recipe with
+> urllib from the standard library.
+>
+> Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+> ---
+>   meta/recipes-core/meta/cve-update-db.bb | 10 ++++------
+>   1 file changed, 4 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
+> index 522fd23807..1f48820cc6 100644
+> --- a/meta/recipes-core/meta/cve-update-db.bb
+> +++ b/meta/recipes-core/meta/cve-update-db.bb
+> @@ -19,7 +19,7 @@ python do_populate_cve_db() {
+>       Update NVD database with json data feed
+>       """
+>   
+> -    import sqlite3, urllib3, shutil, gzip, re
+> +    import sqlite3, urllib, shutil, gzip, re
+>       from datetime import date
+>   
+>       BASE_URL = "https://nvd.nist.gov/feeds/json/cve/1.0/nvdcve-1.0-"
+> @@ -33,16 +33,14 @@ python do_populate_cve_db() {
+>   
+>       initialize_db(c)
+>   
+> -    http = urllib3.PoolManager()
+> -
+>       for year in range(YEAR_START, date.today().year + 1):
+>           year_url = BASE_URL + str(year)
+>           meta_url = year_url + ".meta"
+>           json_url = year_url + ".json.gz"
+>   
+>           # Retrieve meta last modified date
+> -        with http.request('GET', meta_url, preload_content=False) as r:
+> -            date_line = str(r.data.splitlines()[0])
+> +        with urllib.request.urlopen(meta_url) as r:
+> +            date_line = str(r.read().splitlines()[0])
+>               last_modified = re.search('lastModifiedDate:(.*)', date_line).group(1)
+>   
+>           # Compare with current db last modified date
+> @@ -50,7 +48,7 @@ python do_populate_cve_db() {
+>           meta = c.fetchone()
+>           if not meta or meta[0] != last_modified:
+>               # Update db with current year json file
+> -            with http.request('GET', json_url, preload_content=False) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
+> +            with urllib.request.urlopen(json_url) as r, open(JSON_TMPFILE, 'wb') as tmpfile:
+>                   shutil.copyfileobj(r, tmpfile)
+>               with gzip.open(JSON_TMPFILE, 'rt') as jsonfile:
+>                   update_db(c, jsonfile)
 
-Thank you for submitting this patch series to OpenEmbedded Core. This is
-an automated response. Several tests have been executed on the proposed
-series by patchtest resulting in the following failures:
-
-
-
-* Patch            [meta-oe] paho-mqtt-c: enable SSL
- Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
-  Suggested fix    Check the project's README (meta-oe) and send the patch to the indicated list
-
-* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
-  Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 1f8a73261c)
-
-
-
-If you believe any of these test results are incorrect, please reply to the
-mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
-Otherwise we would appreciate you correcting the issues and submitting a new
-version of the patchset if applicable. Please ensure you add/increment the
-version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
-[PATCH v3] -> ...).
-
----
-Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
