@@ -1,57 +1,49 @@
 Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id AF46B7E921
+Received: from mail-lj1-f193.google.com (mail-lj1-f193.google.com
+	[209.85.208.193])
+	by mail.openembedded.org (Postfix) with ESMTP id 6328B7E8F3
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 17:54:19 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id p17so17863896ljg.1
+	Tue,  2 Jul 2019 18:17:24 +0000 (UTC)
+Received: by mail-lj1-f193.google.com with SMTP id 131so17908482ljf.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2019 10:54:20 -0700 (PDT)
+	Tue, 02 Jul 2019 11:17:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=subject:to:references:from:message-id:date:user-agent:mime-version
-	:in-reply-to:content-transfer-encoding:content-language;
-	bh=/J9iXxMs/JrHlJhn8+/Yfty/sY7tENBq75Yk741Dqlc=;
-	b=uqlRPDCfwK4LQkyBcjVAyhQ4g3X9sVT5NIux1ReTb4HpLz1wEoAXwsRrMaD+XKosBl
-	0lMqmy5Hu+ZphJzwAu2fkmt+UMLpIT11pIx/FTu6krd1EJLLfuYp6z8c+WFAHMHLe6gH
-	zKb1ZjjHtZI8/rvahBfnWGBzZyg615bqRSdxPjhKvqhvERFn0/GgBo3PtD1ivsXdOyOs
-	Xgp62vQyHBPCDdV72ua0hoccu1j3q4aOP4k7PdD5AC1aNNFR65+Qd2796aPmCdYxJot9
-	I1V7kC0HFe5rctm3wVWgQnQbKSjHjXaLkzoUHHZM0a+wBn/u/h0rLe9qN+lz3OQ1ou32
-	QfFw==
+	h=from:to:cc:subject:date:message-id;
+	bh=rDxbSV+NwpBKm+20kFAFjr24yydZKV3Nxu+z0Gd42AA=;
+	b=Dkp31U9Kf/QUhQu+KYjkzXACbRAVzgc5aeGVQ4VRLDo+pmdRYGxUe85BHAfgTwS8JZ
+	RfZ5LNZyxBG6Fl2fvCDkIXco2M1wMQ4vbQ5hfNMZZ9esr19NYNCmufcuesepL2ibmTQT
+	vCFx7YL2Lv71gNdK6Ar2W2Lu5tg17l9R9MvLvsffFEZzgrEXWP/GRJRSwbZ0F3QBiVKH
+	CcrywFM/hB9UTngH/oovSfNGrKxWOi63SIDazGlkBmnSEiwu9plFNGl2TivrQv6Ak7u4
+	3RpwKQIAy9HTO6cOFSgNdWhRgeLVOx/GNCwfB9WVs9PbdmIv5ZIk4i8mCY7mRC2E+IRY
+	x76Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=/J9iXxMs/JrHlJhn8+/Yfty/sY7tENBq75Yk741Dqlc=;
-	b=iblnGhWbvAedzsp8OkQu4tCFuzXFWZL/li7h7D7Pd3K1WJ3XDHGrxS2AjvE05BWmIC
-	s80BH3gb3M9uWekxJ5Ye45MImrGoOr7O41a0XVjYoPcdKw67a/17aoc+JkKYscIVChf/
-	YkEAaja1s6E2iH4JZHVZEb3TG3Tlm5LXw8BsR3T6OWjtqa1IgTDZs+Og5MUzRreMBUKW
-	ntim0hNjPMuDy3UFntz5FQSQinU3CdK0TiAuUw6coh0+TG452b0EmsVwbPYcTF1ez6mh
-	vbx3XocpAi6jUmBToPFl8jWRZm0eURzkxbxVrXKcTw/+aCOUUMyeCJHTacXvrIqePERF
-	rbcA==
-X-Gm-Message-State: APjAAAXU9GuIj69NsQkuPWhxYfVAIWeDfV/Iord7sRgh0sTnzvbdBSL1
-	umORsO07gEuBCIWuCiZng041rgqTgH4=
-X-Google-Smtp-Source: APXvYqwMfRYnuGICMR1KfBbds0lIDxbO0xXDordO9ugjKFlrYiValAyXbdsh0qLVGEemrHpAMwunQQ==
-X-Received: by 2002:a2e:9951:: with SMTP id r17mr17808746ljj.125.1562090059659;
-	Tue, 02 Jul 2019 10:54:19 -0700 (PDT)
-Received: from [192.168.0.8] (c83-252-117-108.bredband.comhem.se.
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rDxbSV+NwpBKm+20kFAFjr24yydZKV3Nxu+z0Gd42AA=;
+	b=c6m8KkwMp1RR29RTAw6oKwvJHu0raAXlNzWxhHgvjeZhVuz4/nGVSfpWdOhn7MGvSg
+	Ibeia1DqvWG8+4OsfgQBwFcrUDGHUMPtkvhyHFzBH7du/kX9QTQhUGrz0rGNaOVYPpUt
+	TPfww9r42Jqlk9y4QBsWEIkTHscBxpMKSH+H2xuFT13agzSon1b30xOqGOiEzSluzW/T
+	3iWnFnMLQMlo+8sniV6AsV/ZTXOV5ITHmuJYFEunqTKfPX5Jt6wEkFt8toi0gF2dFiKZ
+	rnsJl4EjqaG3evH6u/xmEkCE6+hAUwszDj3MbrWuwDUw5wiZy7H8mHoVAmh9bt4a4Y/a
+	fc8w==
+X-Gm-Message-State: APjAAAXFVQJ+PPQHO4S0lkrP+tlB1Uu8QXrR4vgBIhEDHf5+Luc4cnWe
+	TQgMqzwVrXavc16ZNvNDhrwrd0n+Yj4=
+X-Google-Smtp-Source: APXvYqwowi7UDfzO03l2gcH7xfNneaYXnOC6haTBuQkp5Jj0jy0dW9XbIHnynJ8Ep2tGmk4vLuIcEw==
+X-Received: by 2002:a2e:814e:: with SMTP id t14mr18699897ljg.167.1562091444444;
+	Tue, 02 Jul 2019 11:17:24 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
 	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id p27sm3049582lfh.8.2019.07.02.10.54.18
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 02 Jul 2019 10:54:19 -0700 (PDT)
-To: Robert Yang <liezhi.yang@windriver.com>,
-	openembedded-core@lists.openembedded.org
-References: <20190627154415.1924-1-open.source@oleksandr-kravchuk.com>
-	<6586c7ca-10da-ae60-2494-1d3a605047a7@windriver.com>
+	by smtp.gmail.com with ESMTPSA id u13sm407972lfu.37.2019.07.02.11.17.23
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 02 Jul 2019 11:17:23 -0700 (PDT)
 From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Message-ID: <580bb0ee-537c-1250-8e4f-0eae6ad0dad3@oleksandr-kravchuk.com>
-Date: Tue, 2 Jul 2019 19:54:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.1
-MIME-Version: 1.0
-In-Reply-To: <6586c7ca-10da-ae60-2494-1d3a605047a7@windriver.com>
-Subject: Re: [PATCH] autoconf-archive: update to 2019.01.06
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  2 Jul 2019 20:17:21 +0200
+Message-Id: <20190702181721.5285-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH v2] ifupdown: update to 0.8.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,78 +56,242 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 17:54:19 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+X-List-Received-Date: Tue, 02 Jul 2019 18:17:25 -0000
 
-Hi Robert,
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ .../0001-Define-FNM_EXTMATCH-for-musl.patch   | 45 +++++++++++++++++++
+ ...t-rely-on-dpkg-architecture-to-set-a.patch |  8 ++--
+ ...efn-fix-inverted-checks-for-loopback.patch | 45 +++++++++----------
+ ...{ifupdown_0.8.16.bb => ifupdown_0.8.22.bb} |  3 +-
+ 4 files changed, 72 insertions(+), 29 deletions(-)
+ create mode 100644 meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
+ rename meta/recipes-core/ifupdown/{ifupdown_0.8.16.bb => ifupdown_0.8.22.bb} (93%)
 
-Unfortunately I do not have an answer. I failed an issue:
-https://github.com/rsyslog/rsyslog/issues/3738
+diff --git a/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
+new file mode 100644
+index 0000000000..92cde073e8
+--- /dev/null
++++ b/meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
+@@ -0,0 +1,45 @@
++From 1a5a313a76344449bcb2b35307a6ed5e5c8627ed Mon Sep 17 00:00:00 2001
++From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
++Date: Tue, 2 Jul 2019 20:10:42 +0200
++Subject: [PATCH] Define FNM_EXTMATCH for musl
++
++Fixes the following compilation errors with musl that does not have
++FNM_EXTMATCH fefined:
++
++| main.c: In function 'expand_matches':
++| main.c:700:40: error: 'FNM_EXTMATCH' undeclared (first use in this
++function); did you mean 'FNM_NOMATCH'?
++|   700 |     if(fnmatch(pattern, ifa->ifa_name, FNM_EXTMATCH))
++|       |                                        ^~~~~~~~~~~~
++|       |                                        FNM_NOMATCH
++
++and
++
++| archlinux.c:40:28: error: 'FNM_EXTMATCH' undeclared (first use in this
++function); did you mean 'FNM_NOMATCH'?
++|    40 |   if(fnmatch(pattern, buf, FNM_EXTMATCH) == 0) {
++|       |                            ^~~~~~~~~~~~
++|       |                            FNM_NOMATCH
++
++Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
++---
++ archcommon.h | 4 ++++
++ 1 file changed, 4 insertions(+)
++
++diff --git a/archcommon.h b/archcommon.h
++index fe99950..f257f9d 100644
++--- a/archcommon.h
+++++ b/archcommon.h
++@@ -1,5 +1,9 @@
++ #include "header.h"
++ 
+++#if !defined(FNM_EXTMATCH)
+++#define FNM_EXTMATCH 0
+++#endif
+++
++ bool execable(const char *);
++ 
++ #define iface_is_link() (!_iface_has(ifd->real_iface, ":."))
++-- 
++2.17.1
++
+diff --git a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+index a24b8cda66..d1c3d260ed 100644
+--- a/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
++++ b/meta/recipes-core/ifupdown/files/defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch
+@@ -1,4 +1,4 @@
+-From 7af9db748974cb3a2c6ef8f9e03d7db1f9f8ee16 Mon Sep 17 00:00:00 2001
++From 40257d65b338b6e2ed9d89d6fa7c7b8701a4c311 Mon Sep 17 00:00:00 2001
+ From: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Date: Wed, 6 Aug 2014 14:54:12 -0400
+ Subject: [PATCH 1/2] defn2[c|man]: don't rely on dpkg-architecture to set arch
+@@ -19,7 +19,7 @@ Upstream-Status: Pending
+  2 files changed, 6 insertions(+), 6 deletions(-)
+ 
+ diff --git a/defn2c.pl b/defn2c.pl
+-index c449de2f3d1c..38845e374c76 100755
++index 8798dc2..f2551c7 100755
+ --- a/defn2c.pl
+ +++ b/defn2c.pl
+ @@ -2,9 +2,9 @@
+@@ -36,7 +36,7 @@ index c449de2f3d1c..38845e374c76 100755
+  # declarations
+  my $address_family = "";
+ diff --git a/defn2man.pl b/defn2man.pl
+-index 6ddcfdd4fe68..c9c4dd046597 100755
++index 6ddcfdd..c9c4dd0 100755
+ --- a/defn2man.pl
+ +++ b/defn2man.pl
+ @@ -2,9 +2,9 @@
+@@ -53,5 +53,5 @@ index 6ddcfdd4fe68..c9c4dd046597 100755
+  # declarations
+  my $line;
+ -- 
+-1.9.1
++2.17.1
+ 
+diff --git a/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch b/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
+index 37a61c9bc1..5b0d51d736 100644
+--- a/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
++++ b/meta/recipes-core/ifupdown/files/inet-6-.defn-fix-inverted-checks-for-loopback.patch
+@@ -1,7 +1,7 @@
+-From 7efe4676747e4e4a056b9bfb4e9424c8354e9996 Mon Sep 17 00:00:00 2001
++From 6fce99c9e42cbacde1855473b745ca1fded3fbf7 Mon Sep 17 00:00:00 2001
+ From: "Maxin B. John" <maxin.john@intel.com>
+ Date: Wed, 21 Dec 2016 15:32:07 +0200
+-Subject: [PATCH] inet[6].defn: fix inverted checks for loopback
++Subject: [PATCH 2/2] inet[6].defn: fix inverted checks for loopback
+ 
+ Compared to the hurd link.defn for loopback, we see these
+ are inverted, meaning that you would only be able to configure
+@@ -37,11 +37,11 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
+ Signed-off-by: Maxin B. John <maxin.john@intel.com>
+ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+ ---
+- inet.defn | 140 +++++++++++++++++++++++++++++++-------------------------------
+- 1 file changed, 70 insertions(+), 70 deletions(-)
++ inet.defn | 134 +++++++++++++++++++++++++++---------------------------
++ 1 file changed, 67 insertions(+), 67 deletions(-)
+ 
+ diff --git a/inet.defn b/inet.defn
+-index 75e6744..23c7756 100644
++index 182b56b..31067bc 100644
+ --- a/inet.defn
+ +++ b/inet.defn
+ @@ -6,10 +6,10 @@ method loopback
+@@ -103,9 +103,9 @@ index 75e6744..23c7756 100644
+  
+    up
+ -    [[/bin/ip link set dev %iface% address %hwaddress%]]
+--    /sbin/dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+ +    [[ip link set dev %iface% address %hwaddress%]]
+-+    dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+  	[[-e IF_METRIC=%metric%]] \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/pump -i %iface% [[-h %hostname%]] [[-l %leasehours%]] \
+@@ -122,14 +122,13 @@ index 75e6744..23c7756 100644
+          elsif (1)
+  
+    down
+--    /sbin/dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+-+    dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/pump -i %iface% -r \
+ +    pump -i %iface% -r \
+          elsif (execable("/sbin/pump"))
+--    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+-+    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(cat /run/udhcpc.%iface%.pid); kill -TERM $(cat /run/udhcpc.%iface%.pid); fi \
++     if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+          elsif (execable("/sbin/udhcpc"))
+ -    /sbin/dhcpcd -k %iface% \
+ +    dhcpcd -k %iface% \
+@@ -252,9 +251,9 @@ index 75e6744..23c7756 100644
+  
+    up
+ -    [[/sbin/ifconfig %iface% link %hwaddress%]]
+--    /sbin/dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+ +    [[ifconfig %iface% link %hwaddress%]]
+-+    dhclient -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+  	[[-e IF_METRIC=%metric%]] \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/udhcpc -n -p /run/udhcpc.%iface%.pid -i %iface% [[-H %hostname%]] \
+@@ -269,11 +268,10 @@ index 75e6744..23c7756 100644
+          elsif (1)
+  
+    down
+--    /sbin/dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+-+    dhclient -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
++-    /sbin/dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+++    dhclient -4 -v -r -pf /run/dhclient.%iface%.pid -lf /var/lib/dhcp/dhclient.%iface%.leases -I -df /var/lib/dhcp/dhclient6.%iface%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+--    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+-+    if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(cat /run/udhcpc.%iface%.pid); kill -TERM $(cat /run/udhcpc.%iface%.pid); fi \
++     if test -f /run/udhcpc.%iface%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface%.pid); fi \
+          elsif (execable("/sbin/udhcpc"))
+ -    /sbin/dhcpcd -k %iface% \
+ +    dhcpcd -k %iface% \
+@@ -341,8 +339,8 @@ index 75e6744..23c7756 100644
+  
+    up
+      [[Warning: Option hwaddress: %hwaddress% not yet supported]]
+--    /sbin/dhclient -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+-+    dhclient -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
++-    /sbin/dhclient -4 -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+++    dhclient -4 -v -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+ -    /sbin/udhcpc -n -p /run/udhcpc.%iface///.%.pid -i %iface% [[-H %hostname%]] \
+ +    udhcpc -n -p /run/udhcpc.%iface///.%.pid -i %iface% [[-H %hostname%]] \
+@@ -356,11 +354,10 @@ index 75e6744..23c7756 100644
+          elsif (1)
+  
+    down
+--    /sbin/dhclient -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+-+    dhclient -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
++-    /sbin/dhclient -4 -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+++    dhclient -4 -v -r -pf /run/dhclient.%iface///.%.pid -lf /var/lib/dhcp/dhclient.%iface///.%.leases -I -df /var/lib/dhcp/dhclient6.%iface///.%.leases %iface% \
+          if (execable("/sbin/dhclient"))
+--    if test -f /run/udhcpc.%iface///.%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface///.%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface///.%.pid); fi \
+-+    if test -f /run/udhcpc.%iface///.%.pid; then kill -USR2 $(cat /run/udhcpc.%iface///.%.pid); kill -TERM $(cat /run/udhcpc.%iface///.%.pid); fi \
++     if test -f /run/udhcpc.%iface///.%.pid; then kill -USR2 $(/bin/cat /run/udhcpc.%iface///.%.pid); kill -TERM $(/bin/cat /run/udhcpc.%iface///.%.pid); fi \
+          elsif (execable("/sbin/udhcpc"))
+ -    /sbin/dhcpcd -k %iface% \
+ +    dhcpcd -k %iface% \
+@@ -402,5 +399,5 @@ index 75e6744..23c7756 100644
+ -    /usr/sbin/avahi-autoipd --kill %iface%
+ +    avahi-autoipd --kill %iface%
+ -- 
+-2.7.4
++2.17.1
+ 
+diff --git a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb b/meta/recipes-core/ifupdown/ifupdown_0.8.22.bb
+similarity index 93%
+rename from meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
+rename to meta/recipes-core/ifupdown/ifupdown_0.8.22.bb
+index e9f3a2aee9..bd0989e885 100644
+--- a/meta/recipes-core/ifupdown/ifupdown_0.8.16.bb
++++ b/meta/recipes-core/ifupdown/ifupdown_0.8.22.bb
+@@ -10,8 +10,9 @@ SRC_URI = "git://salsa.debian.org/debian/ifupdown.git;protocol=https \
+ 	   file://defn2-c-man-don-t-rely-on-dpkg-architecture-to-set-a.patch \
+ 	   file://inet-6-.defn-fix-inverted-checks-for-loopback.patch \
+ 	   file://99_network \
++	   file://0001-Define-FNM_EXTMATCH-for-musl.patch \
+ 	  "
+-SRCREV = "11b9f99f7ecc7052497e6786156cfed531f11823"
++SRCREV = "ab5a0f464e53e172316a5ca8b5dcdc49e8848999"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.17.1
 
-Let's see what the project suggests.
-
-On 02/07/2019 12:34, Robert Yang wrote:
-> Hi Oleksandr,
->
-> This patch makes
-> meta-openembedded/meta-oe/recipes-extended/rsyslog/librelp_1.4.0.bb
-> and
-> meta-secure-core/meta-tpm2/recipes-tpm/tpm2-tss/tpm2-tss_git.bb
->
-> fail to build. E.g.:
->
-> MACHINE = "qemux86"
-> $ bitbake librelp
->
-> ../../git/src/cmdif.h:52:13: error: no previous declaration for
-> 'relpSCSyslog' [-Werror=missing-declarations]
->    52 |  relpRetVal relp##type##C##cmd(relpFrame_t LIBRELP_ATTR_UNUSED
-> *pFrame, relpSess_t *pSess) \
->       |             ^~~~
-> ../../git/src/scsyslog.c:45:1: note: in expansion of macro 'BEGINcommand'
->
->
-> $ bitbake rsyslog
-> Makefile:14636: *** missing separator.  Stop.
->
-> The errors are wild, do you have any ideas on how to fix them, please?
->
-> // Robert
->
-> On 6/27/19 11:44 PM, Oleksandr Kravchuk wrote:
->> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
->> ---
->>   ...f-archive_2018.03.13.bb => autoconf-archive_2019.01.06.bb} | 4 ++--
->>   1 file changed, 2 insertions(+), 2 deletions(-)
->>   rename
->> meta/recipes-devtools/autoconf-archive/{autoconf-archive_2018.03.13.bb
->> => autoconf-archive_2019.01.06.bb} (78%)
->>
->> diff --git
->> a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
->> b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
->> similarity index 78%
->> rename from
->> meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
->> rename to
->> meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
->> index 7d62e52ab8..985a254fcc 100644
->> ---
->> a/meta/recipes-devtools/autoconf-archive/autoconf-archive_2018.03.13.bb
->> +++
->> b/meta/recipes-devtools/autoconf-archive/autoconf-archive_2019.01.06.bb
->> @@ -6,8 +6,8 @@ LIC_FILES_CHKSUM =
->> "file://COPYING;md5=11cc2d3ee574f9d6b7ee797bdce4d423 \
->>       file://COPYING.EXCEPTION;md5=fdef168ebff3bc2f13664c365a5fb515"
->>     SRC_URI = "${GNU_MIRROR}/${BPN}/${BPN}-${PV}.tar.xz"
->> -SRC_URI[md5sum] = "46b13a5936372297b6d49980327a3c35"
->> -SRC_URI[sha256sum] =
->> "6175f90d9fa64c4d939bdbb3e8511ae0ee2134863a2c7bf8d9733819efa6e159"
->> +SRC_URI[md5sum] = "d46413c8b00a125b1529bae385bbec55"
->> +SRC_URI[sha256sum] =
->> "17195c833098da79de5778ee90948f4c5d90ed1a0cf8391b4ab348e2ec511e3f"
->>     inherit autotools allarch
->>  
 
