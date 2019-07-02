@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 918C36BBE6;
-	Tue,  2 Jul 2019 18:30:50 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id A9CF97E921;
+	Tue,  2 Jul 2019 18:30:51 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
-To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Date: Tue, 02 Jul 2019 18:30:51 -0000
-Message-ID: <20190702183051.2330.18894@do>
-References: <20190702181721.5285-1-open.source@oleksandr-kravchuk.com>
+To: William Bourque <wbourque@gmail.com>
+Date: Tue, 02 Jul 2019 18:30:53 -0000
+Message-ID: <20190702183053.2330.89816@do>
+References: <20190702182403.24099-1-wbourque@gmail.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190702181721.5285-1-open.source@oleksandr-kravchuk.com>
+In-Reply-To: <20190702182403.24099-1-wbourque@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgaWZ1cGRvd246IHVwZGF0ZSB0byAwLjguMjIgKHJldjIp?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igd2ljL3BsdWdpbnM6IFNvdXJjZSB0aGF0IHN1cHBvcnQgYm90aCBFRkkgYW5kIEJJT1M=?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,15 +25,15 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 18:30:50 -0000
+X-List-Received-Date: Tue, 02 Jul 2019 18:30:51 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: ifupdown: update to 0.8.22 (rev2)
-Revision: 2
-URL   : https://patchwork.openembedded.org/series/18475/
+Series: wic/plugins: Source that support both EFI and BIOS
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18505/
 State : failure
 
 == Summary ==
@@ -45,10 +45,10 @@ series by patchtest resulting in the following failures:
 
 
 
-* Issue             Added patch file is missing Upstream-Status in the header [test_upstream_status_presence_format] 
-  Suggested fix    Add Upstream-Status: <Valid status> to the header of meta/recipes-core/ifupdown/files/0001-Define-FNM_EXTMATCH-for-musl.patch
-  Standard format  Upstream-Status: <Valid status>
-  Valid status     Pending, Accepted, Backport, Denied, Inappropriate [reason], Submitted [where]
+* Issue             Errors in your Python code were encountered [test_pylint] 
+  Suggested fix    Correct the lines introduced by your patch
+  Output           Please, fix the listed issues:
+                   scripts/lib/wic/plugins/source/bootimg-biosplusefi.py does not exist
 
 
 
