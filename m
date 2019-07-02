@@ -1,49 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EF61E6C1BE
+Received: from mail-wr1-f67.google.com (mail-wr1-f67.google.com
+	[209.85.221.67])
+	by mail.openembedded.org (Postfix) with ESMTP id 5E0FB7EB21
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 11:01:46 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id z23so493255wma.4
+	Tue,  2 Jul 2019 11:50:47 +0000 (UTC)
+Received: by mail-wr1-f67.google.com with SMTP id v14so17456261wrr.4
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2019 04:01:48 -0700 (PDT)
+	Tue, 02 Jul 2019 04:50:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=NvePpQUN+9/CTTC1TZhIZGBTR8JG1e5qW3IMe3l1YF4=;
-	b=cEXZi9fj7EnHnrqgcNqyMpgzzBo2A88pXkFWyG07pO0RNuHwgr3CuWiYv/awWEZOlC
-	z1JEWQPk8X1mTr3i/10n43elTr7rcmsCIxvW5bg1IVTZNY+8HrWsoaORE6ILGenum+zd
-	nfybvWEttOUiZpxXYFdiUMQFp+66UT3N5Iv/M=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=wfXxUOHO0Sd7mLxwirqZ7v1vPEJv/84PGE1Ezq0GIrc=;
+	b=EbETeJYXdxNl8n3uuX6pi2HNHmVG8bzLXjz65xGMtsm2y2wkK730ZzbBdpndpDKgdl
+	Kuzbsrzh4oXrvzwkbxTDz2PAw0MJtT7HHEN7HNM1lgfpEH+fmgbeCjJ+n1R3wuWYEZPy
+	JY2hOr1UXNDcEG5NaPNPjbXScFlmfAxg896cM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=NvePpQUN+9/CTTC1TZhIZGBTR8JG1e5qW3IMe3l1YF4=;
-	b=iWWVAsM20kcsfDjn/odVV6iE/hOVa+xkKExv7q/gHQ4YyndcsxetIRgPywUyfoCd1p
-	xdfS3jKf4S854+8hF8sZsz1wqWltjME6AvPjmCttYo9I+gLFKlysb5pmUiXhRvULy2K6
-	AJCOp5PlpLHOUKYzXmn7KuZx6tBkixWWwOHnbD+kxJnaiOk56J7B4/AUxLlfhvH+Mt/P
-	RxCf8wvVZfKcsVWp3qrmuuafN6VW9mjWxU/qt1QXkkZbisTJTao2zzlPOlZWe7MBEqdX
-	S/cuNY5UE7YzoVYTmzRsyXZpHuatDw48uiOiyWtqGEebN2qJYm37uLnKD3xisfGAucI/
-	hdcQ==
-X-Gm-Message-State: APjAAAVBEZwYeDpL0+5YHpnzHsqeFZ8MquyaYd3E5nPweNolYgDPDmc5
-	AWD1TGMeuT738XbjSpbUd6ZFCz4HosQ=
-X-Google-Smtp-Source: APXvYqxRROGZOSGUgB1zyi3OhBJ8ga/Q+keiMOK7j0ABHldzdcsKqKxXG4buja+WIRLF1kvOfQAyeQ==
-X-Received: by 2002:a1c:7614:: with SMTP id r20mr3298960wmc.142.1562065307351; 
-	Tue, 02 Jul 2019 04:01:47 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	b8sm1956736wmh.46.2019.07.02.04.01.46
-	for <openembedded-core@lists.openembedded.org>
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=wfXxUOHO0Sd7mLxwirqZ7v1vPEJv/84PGE1Ezq0GIrc=;
+	b=hkYfNkjA8iC1Es08uWpaoEgoJXWg8HyQ/VLyJE9WOFEpSTwnyJFHE4d6tLu/3IX3kn
+	CDT93VfqHVOj8RUW8uuOpIATF6GPJ2LlQmHOZnoAwjQhG4NT5258qoSIuo4TGL2zJOpy
+	CDAe5vlTmDKilhpXBTqmjQfvEOyUd3I8y09clvuq7apLPp32J1vmq6lrNnr2NbNR95x9
+	4Kuldc4iv/HWOrngAcP6F4zReY6LN69YSN8/241c4mkhS9n+K2itsGbZ7l0frIhRih02
+	MH9P9TrS5KFHILWgQZsITraKLZ24qnZbmiqCIl7APSqUumQwCJIEI/giRMgx9zW0SnKu
+	zuUg==
+X-Gm-Message-State: APjAAAVncefbnLV4HC9bJK/UOAxQvfG3QhP9fk3AW9Tp5LDtq8bPfdxj
+	N/Xs6A1KPZB394JAC2rv3hS979SvVRE=
+X-Google-Smtp-Source: APXvYqyBFH06CfF2kJE4yHtgJ+IYZcM0e2IUkoEl3S0zqPbT7r7KoYiSpie/ihnzJiNj4MHw7PwDWg==
+X-Received: by 2002:a5d:430c:: with SMTP id h12mr23579590wrq.163.1562068248063;
+	Tue, 02 Jul 2019 04:50:48 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id h11sm851527wro.73.2019.07.02.04.50.47
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 02 Jul 2019 04:01:46 -0700 (PDT)
+	Tue, 02 Jul 2019 04:50:47 -0700 (PDT)
+Message-ID: <e5646e3f0882cebdfbb57721d9547aa3ee0c593d.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jul 2019 12:01:45 +0100
-Message-Id: <20190702110145.11980-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
+To: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Tue, 02 Jul 2019 12:50:46 +0100
+In-Reply-To: <20190701185227.26040-1-open.source@oleksandr-kravchuk.com>
+References: <20190701185227.26040-1-open.source@oleksandr-kravchuk.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH] grub2: Drop unneeded code
+Subject: Re: [PATCH] ifupdown: update to 0.8.22
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,33 +57,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 11:01:47 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 02 Jul 2019 11:50:47 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-We no longer export these variables into the environment so we no longer
-need this code.
+On Mon, 2019-07-01 at 20:52 +0200, Oleksandr Kravchuk wrote:
+> Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com
+> >
+> ---
+>  ...t-rely-on-dpkg-architecture-to-set-a.patch |  8 ++--
+>  ...efn-fix-inverted-checks-for-loopback.patch | 45 +++++++++------
+> ----
+>  ...{ifupdown_0.8.16.bb => ifupdown_0.8.22.bb} |  2 +-
+>  3 files changed, 26 insertions(+), 29 deletions(-)
+>  rename meta/recipes-core/ifupdown/{ifupdown_0.8.16.bb =>
+> ifupdown_0.8.22.bb} (96%)
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-bsp/grub/grub2.inc | 4 ----
- 1 file changed, 4 deletions(-)
+Fails on musl:
 
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index bac2d7d4149..20877e77355 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -63,10 +63,6 @@ BUILD_LDFLAGS = ""
- CFLAGS_append = " -Wno-error"
- 
- do_configure_prepend() {
--	# The grub2 configure script uses variables such as TARGET_CFLAGS etc
--	# for its own purposes. Remove the OE versions from the environment to
--	# avoid conflicts.
--	unset TARGET_CPPFLAGS TARGET_CFLAGS TARGET_CXXFLAGS TARGET_LDFLAGS
- 	( cd ${S}
- 	${S}/autogen.sh )
- }
--- 
-2.20.1
+https://autobuilder.yoctoproject.org/typhoon/#/builders/64/builds/777
+
+| main.c: In function 'expand_matches':
+| main.c:700:40: error: 'FNM_EXTMATCH' undeclared (first use in this
+function); did you mean 'FNM_NOMATCH'?
+|   700 |     if(fnmatch(pattern, ifa->ifa_name, FNM_EXTMATCH))
+|       |                                        ^~~~~~~~~~~~
+|       |                                        FNM_NOMATCH
+
+Cheers,
+
+Richard
 
 
