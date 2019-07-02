@@ -1,49 +1,62 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com
-	[209.85.167.51])
-	by mail.openembedded.org (Postfix) with ESMTP id 6BF546C1BE
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 043006C1BE
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  2 Jul 2019 20:52:58 +0000 (UTC)
-Received: by mail-lf1-f51.google.com with SMTP id 62so97403lfa.8
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 02 Jul 2019 13:52:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=BdE9dJItjpgt62xcXRyQs5QMYWsANffwgUmp88BgVbw=;
-	b=oYvPWeMz1h1jeUA8u2k30ScFz0WX08f6mT+FmrqWGNrK/SmRw2h0b4jVIwCcamKxne
-	rnYTsH8ArbYaRXTXqy8Uds65FpWZ4lZPVoswsFxIMc/oMndonKY5/QD8lenpuWL4o5OY
-	nKzwUpuiOLR9aBE7uXb0tzslQzDWwV5C5E22KMrKFtApwTi/0hMysAR1waDGALtESOjk
-	ObuBaKRJD68Of8i8u69dfOTdgdHwA1ylIelu2f905gJNK9fpNdwDRLWkFF+BWPjRNUkc
-	Aq7X9xwukeHLUcxfP1o1/JkeSSuK7z+I7PNwwJEIrFrCSQk+Dz5soiJVkl8SSLVwOttI
-	n+xw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=BdE9dJItjpgt62xcXRyQs5QMYWsANffwgUmp88BgVbw=;
-	b=JzyKslMf3HkUdVvu57jF2epMDUYX7H0P2LQZN6ng388oAkmxuOz45KlIkbV2Ee6ARp
-	3GBopSbvYW+bJQyeNjEScu7LAdkrTvTF8ou+FXd5ieMjA1ItgK26+klAO7MmRRlFSaC8
-	5Zds6nQGgK0q3ZsbuBp4L9cRXpG6HBoGmCu1c6NTvi422b5umwlkfO0KnAZzfMBevQyo
-	5KBzQ6TMp7oFH9rlloWXQYSAEd69Pagk+7E9pANaduonEHXsvw+IgVZmJ9gEUkcuIMAO
-	VI4HqM4bgK2UMyP0ohSFWuAePjqTdQZoSw3c6UNeE1zlC20JnQEktuTURHrRkbeAhj/y
-	grMg==
-X-Gm-Message-State: APjAAAXMqpunVoCM0bpGwXamXFhy+pIHeOEI56Tkg5+dyY+veJYLHTVc
-	UgnZQLSq442nqEAxPvTDYZayHDQMidY=
-X-Google-Smtp-Source: APXvYqx8osCV6HZ0BxYrd3Zw8HhVYW87TwBEOorR42v++PejIuRZkjLx8U0c7TqXNhVb9fO83ogqbw==
-X-Received: by 2002:a19:ca1e:: with SMTP id a30mr15317488lfg.163.1562100778302;
-	Tue, 02 Jul 2019 13:52:58 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id z12sm18696lfg.67.2019.07.02.13.52.57
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 02 Jul 2019 13:52:57 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  2 Jul 2019 22:52:55 +0200
-Message-Id: <20190702205255.23938-1-open.source@oleksandr-kravchuk.com>
-X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] shadow: update to 4.7
+	Tue,  2 Jul 2019 21:04:21 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 267CA1845E;
+	Tue,  2 Jul 2019 23:04:22 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id iViDMyKsMZSf; Tue,  2 Jul 2019 23:04:20 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 81E561835E;
+	Tue,  2 Jul 2019 23:04:20 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6A8BF1E092;
+	Tue,  2 Jul 2019 23:04:20 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 5EE0D1E08E;
+	Tue,  2 Jul 2019 23:04:20 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Tue,  2 Jul 2019 23:04:20 +0200 (CEST)
+Received: from XBOX02.axis.com (xbox02.axis.com [10.0.5.16])
+	by seth.se.axis.com (Postfix) with ESMTP id 51FE8712;
+	Tue,  2 Jul 2019 23:04:20 +0200 (CEST)
+Received: from xbox11.axis.com (10.0.5.25) by XBOX02.axis.com (10.0.5.16) with
+	Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 2 Jul 2019 23:04:20 +0200
+Received: from xbox06.axis.com (10.0.15.176) by xbox11.axis.com (10.0.5.25)
+	with Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Tue, 2 Jul 2019 23:04:19 +0200
+Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
+	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
+	15.00.1395.000; Tue, 2 Jul 2019 23:04:19 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: ChenQi <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: [OE-core] [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
+Thread-Index: AQHVL8H4hiSqMABPGkWtMYigx2N1Iqa2aPsQgAADsgCAAWY9UA==
+Date: Tue, 2 Jul 2019 21:04:19 +0000
+Message-ID: <99c9b16228b5482e9af8c69f43484e54@xbox06.axis.com>
+References: <cover.1561954425.git.Qi.Chen@windriver.com>
+	<8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
+	<9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
+	<58de5f15-e6e5-9fba-82fd-4b31626289fb@windriver.com>
+In-Reply-To: <58de5f15-e6e5-9fba-82fd-4b31626289fb@windriver.com>
+Accept-Language: en-US, sv-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,364 +69,101 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 02 Jul 2019 20:52:58 -0000
+X-List-Received-Date: Tue, 02 Jul 2019 21:04:22 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Removed patches were upstreamed.
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
+> core-bounces@lists.openembedded.org> On Behalf Of ChenQi
+> Sent: den 2 juli 2019 03:39
+> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH V2 1/1] image.bbclass: fix
+> systemd_preset_all
+>=20
+> On 07/02/2019 07:34 AM, Peter Kjellerstedt wrote:
+> >> -----Original Message-----
+> >> From: openembedded-core-bounces@lists.openembedded.org
+> <openembedded-
+> >> core-bounces@lists.openembedded.org> On Behalf Of Chen Qi
+> >> Sent: den 1 juli 2019 06:16
+> >> To: openembedded-core@lists.openembedded.org
+> >> Subject: [OE-core] [PATCH V2 1/1] image.bbclass: fix
+> systemd_preset_all
+> >>
+> >> Check the existence of systemd before using systemctl to preset
+> units.
+> >> This is because even if 'systemd' is in DISTRO_FEATURES, it's
+> possible
+> >> that systemd is not even installed. e.g. container-test-image in
+> >> meta-selftest layer.
+> >>
+> >> As systemd DEPENDS on systemd-systemctl-native, the existence of
+> systemd
+> >> also ensures the existence of systemd-systemctl-native.
+> >>
+> >> This would fix the following test case when using systemd as the
+> init
+> >> manager.
+> >>
+> >>    containerimage.ContainerImageTests.test_expected_files
+> >>
+> >> Also remove the IMAGE_EXTRADEPENDS setting, as nothing references
+> this
+> >> variable.
+> >>
+> >> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> >> ---
+> >>   meta/classes/image.bbclass | 5 +++--
+> >>   1 file changed, 3 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
+> >> index d2b2fb9..7daa97e 100644
+> >> --- a/meta/classes/image.bbclass
+> >> +++ b/meta/classes/image.bbclass
+> >> @@ -666,10 +666,11 @@ reproducible_final_image_task () {
+> >>   }
+> >>
+> >>   systemd_preset_all () {
+> >> -    systemctl --root=3D"${IMAGE_ROOTFS}" --preset-mode=3Denable-only
+> preset-all
+> >> +    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ];
+> then
+> >                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > That should be ${systemd_system_unitdir}, which will also use the
+> correct path
+> > (it is /lib/systemd/system, not /lib/systemd/systemd).
+>=20
+> I'm checking the systemd binary under ${root_prefix}/lib/systemd, not
+> the directory holding units.
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
----
- ...chg-shadow-field-reproducible-re.-71.patch |  89 --------------
- ...te-parent-directories-when-necessary.patch | 116 ------------------
- ...ettime-Use-secure_getenv-over-getenv.patch |  71 -----------
- ...curetty_4.6.bb => shadow-securetty_4.7.bb} |   0
- ...w-sysroot_4.6.bb => shadow-sysroot_4.7.bb} |   0
- meta/recipes-extended/shadow/shadow.inc       |   7 +-
- .../shadow/{shadow_4.6.bb => shadow_4.7.bb}   |   0
- 7 files changed, 2 insertions(+), 281 deletions(-)
- delete mode 100644 meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch
- delete mode 100644 meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch
- delete mode 100644 meta/recipes-extended/shadow/files/0002-gettime-Use-secure_getenv-over-getenv.patch
- rename meta/recipes-extended/shadow/{shadow-securetty_4.6.bb => shadow-securetty_4.7.bb} (100%)
- rename meta/recipes-extended/shadow/{shadow-sysroot_4.6.bb => shadow-sysroot_4.7.bb} (100%)
- rename meta/recipes-extended/shadow/{shadow_4.6.bb => shadow_4.7.bb} (100%)
+Right, my bad. Still, then the path above should be
+"${IMAGE_ROOTFS}${systemd_unitdir}/systemd".
 
-diff --git a/meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch b/meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch
-deleted file mode 100644
-index de0ba3ebb4..0000000000
---- a/meta/recipes-extended/shadow/files/0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch
-+++ /dev/null
-@@ -1,89 +0,0 @@
--From fe34a2a0e44bc80ff213bfd185046a5f10c94997 Mon Sep 17 00:00:00 2001
--From: Chris Lamb <chris@chris-lamb.co.uk>
--Date: Wed, 2 Jan 2019 18:06:16 +0000
--Subject: [PATCH 1/2] Make the sp_lstchg shadow field reproducible (re. #71)
--
--From <https://github.com/shadow-maint/shadow/pull/71>:
--
--```
--The third field in the /etc/shadow file (sp_lstchg) contains the date of
--the last password change expressed as the number of days since Jan 1, 1970.
--As this is a relative time, creating a user today will result in:
--
--username:17238:0:99999:7:::
--whilst creating the same user tomorrow will result in:
--
--username:17239:0:99999:7:::
--This has an impact for the Reproducible Builds[0] project where we aim to
--be independent of as many elements the build environment as possible,
--including the current date.
--
--This patch changes the behaviour to use the SOURCE_DATE_EPOCH[1]
--environment variable (instead of Jan 1, 1970) if valid.
--```
--
--This updated PR adds some missing calls to gettime (). This was originally
--filed by Johannes Schauer in Debian as #917773 [2].
--
--[0] https://reproducible-builds.org/
--[1] https://reproducible-builds.org/specs/source-date-epoch/
--[2] https://bugs.debian.org/917773
--
--Upstream-Status: Backport
--Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-----
-- libmisc/pwd2spwd.c | 3 +--
-- src/pwck.c         | 2 +-
-- src/pwconv.c       | 2 +-
-- 3 files changed, 3 insertions(+), 4 deletions(-)
--
--diff --git a/libmisc/pwd2spwd.c b/libmisc/pwd2spwd.c
--index c1b9b29ac873..6799dd50d490 100644
----- a/libmisc/pwd2spwd.c
--+++ b/libmisc/pwd2spwd.c
--@@ -40,7 +40,6 @@
-- #include "prototypes.h"
-- #include "defines.h"
-- #include <pwd.h>
---extern time_t time (time_t *);
-- 
-- /*
--  * pwd_to_spwd - create entries for new spwd structure
--@@ -66,7 +65,7 @@ struct spwd *pwd_to_spwd (const struct passwd *pw)
-- 		 */
-- 		sp.sp_min = 0;
-- 		sp.sp_max = (10000L * DAY) / SCALE;
---		sp.sp_lstchg = (long) time ((time_t *) 0) / SCALE;
--+		sp.sp_lstchg = (long) gettime () / SCALE;
-- 		if (0 == sp.sp_lstchg) {
-- 			/* Better disable aging than requiring a password
-- 			 * change */
--diff --git a/src/pwck.c b/src/pwck.c
--index 0ffb711efb13..f70071b12500 100644
----- a/src/pwck.c
--+++ b/src/pwck.c
--@@ -609,7 +609,7 @@ static void check_pw_file (int *errors, bool *changed)
-- 					sp.sp_inact  = -1;
-- 					sp.sp_expire = -1;
-- 					sp.sp_flag   = SHADOW_SP_FLAG_UNSET;
---					sp.sp_lstchg = (long) time ((time_t *) 0) / SCALE;
--+					sp.sp_lstchg = (long) gettime () / SCALE;
-- 					if (0 == sp.sp_lstchg) {
-- 						/* Better disable aging than
-- 						 * requiring a password change
--diff --git a/src/pwconv.c b/src/pwconv.c
--index 9c69fa131d8e..f932f266c59c 100644
----- a/src/pwconv.c
--+++ b/src/pwconv.c
--@@ -267,7 +267,7 @@ int main (int argc, char **argv)
-- 			spent.sp_flag   = SHADOW_SP_FLAG_UNSET;
-- 		}
-- 		spent.sp_pwdp = pw->pw_passwd;
---		spent.sp_lstchg = (long) time ((time_t *) 0) / SCALE;
--+		spent.sp_lstchg = (long) gettime () / SCALE;
-- 		if (0 == spent.sp_lstchg) {
-- 			/* Better disable aging than requiring a password
-- 			 * change */
---- 
--2.17.1
--
-diff --git a/meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch b/meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch
-deleted file mode 100644
-index faa6f68ebe..0000000000
---- a/meta/recipes-extended/shadow/files/0001-useradd.c-create-parent-directories-when-necessary.patch
-+++ /dev/null
-@@ -1,116 +0,0 @@
--Subject: [PATCH] useradd.c: create parent directories when necessary
--
--Upstream-Status: Inappropriate [OE specific]
--
--Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-----
-- src/useradd.c | 80 +++++++++++++++++++++++++++++++++++++++--------------------
-- 1 file changed, 53 insertions(+), 27 deletions(-)
--
--diff --git a/src/useradd.c b/src/useradd.c
--index 00a3c30..9ecbb58 100644
----- a/src/useradd.c
--+++ b/src/useradd.c
--@@ -2021,6 +2021,35 @@ static void usr_update (void)
-- }
-- 
-- /*
--+ * mkdir_p - create directories, including parent directories when needed
--+ *
--+ * similar to `mkdir -p'
--+ */
--+void mkdir_p(const char *path) {
--+	int len = strlen(path);
--+	char newdir[len + 1];
--+	mode_t mode = 0755;
--+	int i = 0;
--+
--+	if (path[i] == '\0') {
--+		return;
--+	}
--+
--+	/* skip the leading '/' */
--+	i++;
--+
--+	while(path[i] != '\0') {
--+		if (path[i] == '/') {
--+			strncpy(newdir, path, i);
--+			newdir[i] = '\0';
--+			mkdir(newdir, mode);
--+		}
--+		i++;
--+	}
--+	mkdir(path, mode);
--+}
--+
--+/*
--  * create_home - create the user's home directory
--  *
--  *	create_home() creates the user's home directory if it does not
--@@ -2038,39 +2067,36 @@ static void create_home (void)
-- 			fail_exit (E_HOMEDIR);
-- 		}
-- #endif
---		/* XXX - create missing parent directories.  --marekm */
---		if (mkdir (prefix_user_home, 0) != 0) {
---			fprintf (stderr,
---			         _("%s: cannot create directory %s\n"),
---			         Prog, prefix_user_home);
--+		mkdir_p(user_home);
--+	}
--+	if (access (prefix_user_home, F_OK) != 0) {
-- #ifdef WITH_AUDIT
---			audit_logger (AUDIT_ADD_USER, Prog,
---			              "adding home directory",
---			              user_name, (unsigned int) user_id,
---			              SHADOW_AUDIT_FAILURE);
--+		audit_logger (AUDIT_ADD_USER, Prog,
--+			      "adding home directory",
--+			      user_name, (unsigned int) user_id,
--+			      SHADOW_AUDIT_FAILURE);
-- #endif
---			fail_exit (E_HOMEDIR);
---		}
---		(void) chown (prefix_user_home, user_id, user_gid);
---		chmod (prefix_user_home,
---		       0777 & ~getdef_num ("UMASK", GETDEF_DEFAULT_UMASK));
---		home_added = true;
--+		fail_exit (E_HOMEDIR);
--+	}
--+	(void) chown (prefix_user_home, user_id, user_gid);
--+	chmod (prefix_user_home,
--+	       0777 & ~getdef_num ("UMASK", GETDEF_DEFAULT_UMASK));
--+	home_added = true;
-- #ifdef WITH_AUDIT
---		audit_logger (AUDIT_ADD_USER, Prog,
---		              "adding home directory",
---		              user_name, (unsigned int) user_id,
---		              SHADOW_AUDIT_SUCCESS);
--+	audit_logger (AUDIT_ADD_USER, Prog,
--+		      "adding home directory",
--+		      user_name, (unsigned int) user_id,
--+		      SHADOW_AUDIT_SUCCESS);
-- #endif
-- #ifdef WITH_SELINUX
---		/* Reset SELinux to create files with default contexts */
---		if (reset_selinux_file_context () != 0) {
---			fprintf (stderr,
---			         _("%s: cannot reset SELinux file creation context\n"),
---			         Prog);
---			fail_exit (E_HOMEDIR);
---		}
---#endif
--+	/* Reset SELinux to create files with default contexts */
--+	if (reset_selinux_file_context () != 0) {
--+		fprintf (stderr,
--+			 _("%s: cannot reset SELinux file creation context\n"),
--+			 Prog);
--+		fail_exit (E_HOMEDIR);
-- 	}
--+#endif
-- }
-- 
-- /*
---- 
--2.11.0
--
-diff --git a/meta/recipes-extended/shadow/files/0002-gettime-Use-secure_getenv-over-getenv.patch b/meta/recipes-extended/shadow/files/0002-gettime-Use-secure_getenv-over-getenv.patch
-deleted file mode 100644
-index 8c8234d038..0000000000
---- a/meta/recipes-extended/shadow/files/0002-gettime-Use-secure_getenv-over-getenv.patch
-+++ /dev/null
-@@ -1,71 +0,0 @@
--From 3d921155e0a761f61c8f1ec37328724aee1e2eda Mon Sep 17 00:00:00 2001
--From: Chris Lamb <chris@chris-lamb.co.uk>
--Date: Sun, 31 Mar 2019 15:59:45 +0100
--Subject: [PATCH 2/2] gettime: Use secure_getenv over getenv.
--
--Upstream-Status: Backport
--Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-----
-- README            | 1 +
-- configure.ac      | 3 +++
-- lib/defines.h     | 6 ++++++
-- libmisc/gettime.c | 2 +-
-- 4 files changed, 11 insertions(+), 1 deletion(-)
--
--diff --git a/README b/README
--index 952ac5787f06..26cfff1e8fa8 100644
----- a/README
--+++ b/README
--@@ -51,6 +51,7 @@ Brian R. Gaeke <brg@dgate.org>
-- Calle Karlsson <ckn@kash.se>
-- Chip Rosenthal <chip@unicom.com>
-- Chris Evans <lady0110@sable.ox.ac.uk>
--+Chris Lamb <chris@chris-lamb.co.uk>
-- Cristian Gafton <gafton@sorosis.ro>
-- Dan Walsh <dwalsh@redhat.com>
-- Darcy Boese <possum@chardonnay.niagara.com>
--diff --git a/configure.ac b/configure.ac
--index da236722766b..a738ad662cc3 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -110,6 +110,9 @@ AC_REPLACE_FUNCS(sgetgrent sgetpwent sgetspent)
-- AC_REPLACE_FUNCS(snprintf strcasecmp strdup strerror strstr)
-- 
-- AC_CHECK_FUNC(setpgrp)
--+AC_CHECK_FUNC(secure_getenv, [AC_DEFINE(HAS_SECURE_GETENV,
--+                                        1,
--+                                        [Defined to 1 if you have the declaration of 'secure_getenv'])])
-- 
-- if test "$ac_cv_header_shadow_h" = "yes"; then
-- 	AC_CACHE_CHECK(for working shadow group support,
--diff --git a/lib/defines.h b/lib/defines.h
--index cded1417fd12..2fb1b56eca6b 100644
----- a/lib/defines.h
--+++ b/lib/defines.h
--@@ -382,4 +382,10 @@ extern char *strerror ();
-- # endif
-- #endif
-- 
--+#ifdef HAVE_SECURE_GETENV
--+#  define shadow_getenv(name) secure_getenv(name)
--+# else
--+#  define shadow_getenv(name) getenv(name)
--+#endif
--+
-- #endif				/* _DEFINES_H_ */
--diff --git a/libmisc/gettime.c b/libmisc/gettime.c
--index 53eaf51670bb..0e25a4b75061 100644
----- a/libmisc/gettime.c
--+++ b/libmisc/gettime.c
--@@ -52,7 +52,7 @@
-- 	unsigned long long epoch;
-- 
-- 	fallback = time (NULL);
---	source_date_epoch = getenv ("SOURCE_DATE_EPOCH");
--+	source_date_epoch = shadow_getenv ("SOURCE_DATE_EPOCH");
-- 
-- 	if (!source_date_epoch)
-- 		return fallback;
---- 
--2.17.1
--
-diff --git a/meta/recipes-extended/shadow/shadow-securetty_4.6.bb b/meta/recipes-extended/shadow/shadow-securetty_4.7.bb
-similarity index 100%
-rename from meta/recipes-extended/shadow/shadow-securetty_4.6.bb
-rename to meta/recipes-extended/shadow/shadow-securetty_4.7.bb
-diff --git a/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb b/meta/recipes-extended/shadow/shadow-sysroot_4.7.bb
-similarity index 100%
-rename from meta/recipes-extended/shadow/shadow-sysroot_4.6.bb
-rename to meta/recipes-extended/shadow/shadow-sysroot_4.7.bb
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index 7f82d20826..219d0d276a 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -11,8 +11,6 @@ DEPENDS = "virtual/crypt"
- UPSTREAM_CHECK_URI = "https://github.com/shadow-maint/shadow/releases"
- SRC_URI = "https://github.com/shadow-maint/shadow/releases/download/${PV}/${BP}.tar.gz \
-            file://shadow-4.1.3-dots-in-usernames.patch \
--           file://0001-Make-the-sp_lstchg-shadow-field-reproducible-re.-71.patch  \
--           file://0002-gettime-Use-secure_getenv-over-getenv.patch \
-            file://0001-configure.ac-fix-configure-error-with-dash.patch \
-            ${@bb.utils.contains('PACKAGECONFIG', 'pam', '${PAM_SRC_URI}', '', d)} \
-            "
-@@ -27,14 +25,13 @@ SRC_URI_append_class-native = " \
-            file://0001-Disable-use-of-syslog-for-sysroot.patch \
-            file://allow-for-setting-password-in-clear-text.patch \
-            file://commonio.c-fix-unexpected-open-failure-in-chroot-env.patch \
--           file://0001-useradd.c-create-parent-directories-when-necessary.patch \
-            "
- SRC_URI_append_class-nativesdk = " \
-            file://0001-Disable-use-of-syslog-for-sysroot.patch \
-            "
- 
--SRC_URI[md5sum] = "36feb15665338ae3de414f2a88e434db"
--SRC_URI[sha256sum] = "4668f99bd087399c4a586084dc3b046b75f560720d83e92fd23bf7a89dda4d31"
-+SRC_URI[md5sum] = "eb66cc4e5166fba8854eb805ec0bab63"
-+SRC_URI[sha256sum] = "5135b0ca2a361a218fab59e63d9c1720d2a8fc1faa520c819a654b638017286f"
- 
- # Additional Policy files for PAM
- PAM_SRC_URI = "file://pam.d/chfn \
-diff --git a/meta/recipes-extended/shadow/shadow_4.6.bb b/meta/recipes-extended/shadow/shadow_4.7.bb
-similarity index 100%
-rename from meta/recipes-extended/shadow/shadow_4.6.bb
-rename to meta/recipes-extended/shadow/shadow_4.7.bb
--- 
-2.17.1
+> Regards,
+> Chen Qi
+>=20
+> >> +	systemctl --root=3D"${IMAGE_ROOTFS}" --preset-mode=3Denable-only
+> preset-all
+> >> +    fi
+> >>   }
+> >>
+> >> -IMAGE_EXTRADEPENDS +=3D "${@ 'systemd-systemctl-native' if
+> bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not
+> bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d)
+> else ''}"
+> >>   IMAGE_PREPROCESS_COMMAND_append =3D " ${@ 'systemd_preset_all;' if
+> bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not
+> bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d)
+> else ''} reproducible_final_image_task; "
+> >>
+> >>   CVE_PRODUCT =3D ""
+> >> --
+> >> 1.9.1
+> > //Peter
+
+//Peter
 
 
