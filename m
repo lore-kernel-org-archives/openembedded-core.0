@@ -1,33 +1,28 @@
 Return-Path: <Qi.Chen@windriver.com>
 Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B66F7E9FF
+	by mail.openembedded.org (Postfix) with ESMTP id 2AB2B7E725
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2019 01:37:00 +0000 (UTC)
+	Wed,  3 Jul 2019 02:08:19 +0000 (UTC)
 Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
 	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x631aKIP029257
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x63273Tp029849
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Tue, 2 Jul 2019 18:36:31 -0700
+	Tue, 2 Jul 2019 19:07:14 -0700
 Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
 	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Tue, 2 Jul 2019 18:36:10 -0700
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
-	"openembedded-core@lists.openembedded.org"
+	Tue, 2 Jul 2019 19:06:53 -0700
+To: =?UTF-8?B?QW7DrWJhbCBMaW3Ds24=?= <anibal.limon@linaro.org>,
 	<openembedded-core@lists.openembedded.org>
-References: <cover.1561954425.git.Qi.Chen@windriver.com>
-	<8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
-	<9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
-	<58de5f15-e6e5-9fba-82fd-4b31626289fb@windriver.com>
-	<99c9b16228b5482e9af8c69f43484e54@xbox06.axis.com>
+References: <20190701212350.32503-1-anibal.limon@linaro.org>
 From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <5d0ac4c6-4303-47d5-7c36-d4e034b0eefe@windriver.com>
-Date: Wed, 3 Jul 2019 09:48:34 +0800
+Message-ID: <f6a6bb77-b965-803f-426a-1074cf7e605b@windriver.com>
+Date: Wed, 3 Jul 2019 10:19:17 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
 	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <99c9b16228b5482e9af8c69f43484e54@xbox06.axis.com>
+In-Reply-To: <20190701212350.32503-1-anibal.limon@linaro.org>
 X-Originating-IP: [128.224.162.148]
-Subject: Re: [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
+Subject: Re: [PATCHv3 1/3] runqemu: Allow to store more than one lock for network interfaces
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,108 +35,132 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2019 01:37:00 -0000
-Content-Type: text/plain; charset="windows-1252"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 03 Jul 2019 02:08:19 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 07/03/2019 05:04 AM, Peter Kjellerstedt wrote:
->> -----Original Message-----
->> From: openembedded-core-bounces@lists.openembedded.org <openembedded-
->> core-bounces@lists.openembedded.org> On Behalf Of ChenQi
->> Sent: den 2 juli 2019 03:39
->> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
->> core@lists.openembedded.org
->> Subject: Re: [OE-core] [PATCH V2 1/1] image.bbclass: fix
->> systemd_preset_all
->>
->> On 07/02/2019 07:34 AM, Peter Kjellerstedt wrote:
->>>> -----Original Message-----
->>>> From: openembedded-core-bounces@lists.openembedded.org
->> <openembedded-
->>>> core-bounces@lists.openembedded.org> On Behalf Of Chen Qi
->>>> Sent: den 1 juli 2019 06:16
->>>> To: openembedded-core@lists.openembedded.org
->>>> Subject: [OE-core] [PATCH V2 1/1] image.bbclass: fix
->> systemd_preset_all
->>>> Check the existence of systemd before using systemctl to preset
->> units.
->>>> This is because even if 'systemd' is in DISTRO_FEATURES, it's
->> possible
->>>> that systemd is not even installed. e.g. container-test-image in
->>>> meta-selftest layer.
->>>>
->>>> As systemd DEPENDS on systemd-systemctl-native, the existence of
->> systemd
->>>> also ensures the existence of systemd-systemctl-native.
->>>>
->>>> This would fix the following test case when using systemd as the
->> init
->>>> manager.
->>>>
->>>>     containerimage.ContainerImageTests.test_expected_files
->>>>
->>>> Also remove the IMAGE_EXTRADEPENDS setting, as nothing references
->> this
->>>> variable.
->>>>
->>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>>> ---
->>>>    meta/classes/image.bbclass | 5 +++--
->>>>    1 file changed, 3 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/meta/classes/image.bbclass b/meta/classes/image.bbclass
->>>> index d2b2fb9..7daa97e 100644
->>>> --- a/meta/classes/image.bbclass
->>>> +++ b/meta/classes/image.bbclass
->>>> @@ -666,10 +666,11 @@ reproducible_final_image_task () {
->>>>    }
->>>>
->>>>    systemd_preset_all () {
->>>> -    systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only
->> preset-all
->>>> +    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ];
->> then
->>>                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
->>> That should be ${systemd_system_unitdir}, which will also use the
->> correct path
->>> (it is /lib/systemd/system, not /lib/systemd/systemd).
->> I'm checking the systemd binary under ${root_prefix}/lib/systemd, not
->> the directory holding units.
-> Right, my bad. Still, then the path above should be
-> "${IMAGE_ROOTFS}${systemd_unitdir}/systemd".
-
-In current OE, ${systemd_unitdir} = ${root_prefix}/lib/systemd.
-And in systemd recipe, we have:
-[ ! -e ${D}/init ] && ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
-It does not write as `ln -s ${systemd_unitdir}/systemd/systemd'.
-I don't want to use a directory whose name indicates 'unit' when 
-checking a binary.
+Could you please help check if the following failures are related to 
+this patch series?
+https://autobuilder.yoctoproject.org/typhoon/#/builders/47/builds/785/steps/7/logs/step1c
+https://autobuilder.yoctoproject.org/typhoon/#/builders/63/builds/766/steps/7/logs/step1c
 
 Regards,
 Chen Qi
 
->> Regards,
->> Chen Qi
->>
->>>> +	systemctl --root="${IMAGE_ROOTFS}" --preset-mode=enable-only
->> preset-all
->>>> +    fi
->>>>    }
->>>>
->>>> -IMAGE_EXTRADEPENDS += "${@ 'systemd-systemctl-native' if
->> bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not
->> bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d)
->> else ''}"
->>>>    IMAGE_PREPROCESS_COMMAND_append = " ${@ 'systemd_preset_all;' if
->> bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and not
->> bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False, d)
->> else ''} reproducible_final_image_task; "
->>>>    CVE_PRODUCT = ""
->>>> --
->>>> 1.9.1
->>> //Peter
-> //Peter
+On 07/02/2019 05:23 AM, Aníbal Limón wrote:
+> In order to support multiple tap devices in the same qemu virtual
+> machine.
 >
+> Signed-off-by: Aníbal Limón <anibal.limon@linaro.org>
+> ---
+>   scripts/runqemu | 50 +++++++++++++++++++++++++------------------------
+>   1 file changed, 26 insertions(+), 24 deletions(-)
 >
+> diff --git a/scripts/runqemu b/scripts/runqemu
+> index 4079f2b17d..38dd1c30d9 100755
+> --- a/scripts/runqemu
+> +++ b/scripts/runqemu
+> @@ -181,8 +181,7 @@ class BaseConfig(object):
+>           self.audio_enabled = False
+>           self.tcpserial_portnum = ''
+>           self.custombiosdir = ''
+> -        self.lock = ''
+> -        self.lock_descriptor = None
+> +        self.lock_descriptors = {}
+>           self.bitbake_e = ''
+>           self.snapshot = False
+>           self.wictypes = ('wic', 'wic.vmdk', 'wic.qcow2', 'wic.vdi')
+> @@ -204,30 +203,32 @@ class BaseConfig(object):
+>           # avoid cleanup twice
+>           self.cleaned = False
+>   
+> -    def acquire_lock(self, error=True):
+> -        logger.debug("Acquiring lockfile %s..." % self.lock)
+> +    def acquire_lock(self, lock, error=True):
+> +        logger.debug("Acquiring lockfile %s..." % lock)
+> +        descriptor = None
+>           try:
+> -            self.lock_descriptor = open(self.lock, 'w')
+> -            fcntl.flock(self.lock_descriptor, fcntl.LOCK_EX|fcntl.LOCK_NB)
+> +            descriptor = open(lock, 'w')
+> +            fcntl.flock(descriptor, fcntl.LOCK_EX|fcntl.LOCK_NB)
+>           except Exception as e:
+> -            msg = "Acquiring lockfile %s failed: %s" % (self.lock, e)
+> +            msg = "Acquiring lockfile %s failed: %s" % (lock, e)
+>               if error:
+>                   logger.error(msg)
+>               else:
+>                   logger.info(msg)
+> -            if self.lock_descriptor:
+> -                self.lock_descriptor.close()
+> -                self.lock_descriptor = None
+> +            if descriptor:
+> +                descriptor.close()
+> +                descriptor = None
+>               return False
+> +        self.lock_descriptors[lock] = descriptor
+>           return True
+>   
+> -    def release_lock(self):
+> -        if self.lock_descriptor:
+> -            logger.debug("Releasing lockfile for tap device '%s'" % self.tap)
+> -            fcntl.flock(self.lock_descriptor, fcntl.LOCK_UN)
+> -            self.lock_descriptor.close()
+> -            os.remove(self.lock)
+> -            self.lock_descriptor = None
+> +    def release_lock(self, lock):
+> +        if self.lock_descriptors[lock]:
+> +            logger.debug("Releasing lockfile for tap device '%s'" % lock)
+> +            fcntl.flock(self.lock_descriptors[lock], fcntl.LOCK_UN)
+> +            self.lock_descriptors[lock].close()
+> +            os.remove(lock)
+> +            self.lock_descriptors[lock] = None
+>   
+>       def get(self, key):
+>           if key in self.d:
+> @@ -1016,8 +1017,8 @@ class BaseConfig(object):
+>               if os.path.exists('%s.skip' % lockfile):
+>                   logger.info('Found %s.skip, skipping %s' % (lockfile, p))
+>                   continue
+> -            self.lock = lockfile + '.lock'
+> -            if self.acquire_lock(error=False):
+> +            lock = lockfile + '.lock'
+> +            if self.acquire_lock(lock, error=False):
+>                   tap = p
+>                   logger.info("Using preconfigured tap device %s" % tap)
+>                   logger.info("If this is not intended, touch %s.skip to make runqemu skip %s." %(lockfile, tap))
+> @@ -1035,8 +1036,8 @@ class BaseConfig(object):
+>               cmd = ('sudo', self.qemuifup, str(uid), str(gid), self.bindir_native)
+>               tap = subprocess.check_output(cmd).decode('utf-8').strip()
+>               lockfile = os.path.join(lockdir, tap)
+> -            self.lock = lockfile + '.lock'
+> -            self.acquire_lock()
+> +            lock = lockfile + '.lock'
+> +            self.acquire_lock(lock)
+>               self.cleantap = True
+>               logger.debug('Created tap: %s' % tap)
+>   
+> @@ -1268,8 +1269,8 @@ class BaseConfig(object):
+>           cmds = shlex.split(cmd)
+>           logger.info('Running %s\n' % cmd)
+>           pass_fds = []
+> -        if self.lock_descriptor:
+> -            pass_fds = [self.lock_descriptor.fileno()]
+> +        if self.lock_descriptors.keys():
+> +            pass_fds = [self.lock_descriptors[lock].fileno() for lock in self.lock_descriptors.keys()]
+>           process = subprocess.Popen(cmds, stderr=subprocess.PIPE, pass_fds=pass_fds)
+>           self.qemupid = process.pid
+>           retcode = process.wait()
+> @@ -1291,7 +1292,8 @@ class BaseConfig(object):
+>               cmd = ('sudo', self.qemuifdown, self.tap, self.bindir_native)
+>               logger.debug('Running %s' % str(cmd))
+>               subprocess.check_call(cmd)
+> -        self.release_lock()
+> +        for lock in self.lock_descriptors.keys():
+> +            self.release_lock(lock)
+>   
+>           if self.nfs_running:
+>               logger.info("Shutting down the userspace NFS server...")
+
 
 
