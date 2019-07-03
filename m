@@ -1,54 +1,50 @@
-Return-Path: <prvs=0800548a1=Mikko.Rapeli@bmw.de>
-Received: from esa3.bmw.c3s2.iphmx.com (esa3.bmw.c3s2.iphmx.com
-	[68.232.133.150])
-	by mail.openembedded.org (Postfix) with ESMTP id 672947C124
+Return-Path: <ricardo@foundries.io>
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com
+	[209.85.160.176])
+	by mail.openembedded.org (Postfix) with ESMTP id EC3857E726
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2019 16:02:34 +0000 (UTC)
+	Wed,  3 Jul 2019 16:05:02 +0000 (UTC)
+Received: by mail-qt1-f176.google.com with SMTP id m29so1915663qtu.1
+	for <openembedded-core@lists.openembedded.org>;
+	Wed, 03 Jul 2019 09:05:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-	t=1562169756; x=1593705756;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=5M5Rmi/9Yay1fy/etKY/yCP+DfJ4OwwC32gn/9s4eaU=;
-	b=PCztWOJw7yne9IsjpyMHFoU3YFh44zFTaBmaA7Vg9gT3bFzc2wypNrAw
-	Yv1ocE+zKmJBpO/MXdyXF5Lavc282sPQc0K3kPbBnA3jJ+cPtwXTH0B4O
-	vU0yJHynGf4KBdhQxuVbahOqkUx/rjK61YO2+r/uN7NQ616mIhiq+HW/d k=;
-IronPort-SDR: D8c09keJRadaWHj2OajViqhoDSJCp2cKT8AL5oCxn51dagxZ7nsx4mtE4oTmhUdiabjFAkjqE9
-	uFxeC769bi0sX1zDxLVyywO4ytHcg3lDRQVYzt6JTr8V/SVTs5tkMMAbCIyKIlo65yXvT8cxYt
-	QzUPxh1qgCc5Cl64DCWkoghB30rIg1DuMOrnFCcvQWd3t2fDRpcGZTsOgmkuOXOJRgj0cA9EGQ
-	giJnLmD84r4umNNzK30RvvxmELhVoOowwxEfHy08YYry1kE+dX+bbz8FRxCfM7jYnqC1JiR6jh
-	oqA=
-Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
-	esa3.bmw.c3s2.iphmx.com with ESMTP/TLS; 03 Jul 2019 18:02:21 +0200
-Received: from esabb2.muc ([160.50.100.34])  by esagw5.muc with ESMTP/TLS;
-	03 Jul 2019 18:02:21 +0200
-Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
-	([160.48.96.47])
-	by esabb2.muc with ESMTP/TLS; 03 Jul 2019 18:02:20 +0200
-Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
-	smucm10k.europe.bmw.corp
-	(160.48.96.47) with Microsoft SMTP Server (TLS;
-	Wed, 3 Jul 2019 18:02:20 +0200
-Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
-	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
-	Wed, 3 Jul 2019 18:02:20 +0200
-From: <Mikko.Rapeli@bmw.de>
-To: <twoerner@gmail.com>
-Thread-Topic: [OE-core] build failures due to pigz host tool
-Thread-Index: AQHVMbCiW0qNGXCCmka8vTdeoQB6hqa47HmA
-Date: Wed, 3 Jul 2019 16:02:20 +0000
-Message-ID: <20190703160219.GW3459@hiutale>
-References: <20190703150405.GA23280@linux-uys3>
-In-Reply-To: <20190703150405.GA23280@linux-uys3>
-Accept-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [192.168.221.44]
+	d=foundries-io.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nETa+zJPyAGGY624cclmtHvd/bMDqSUOQ5jZMee2QFs=;
+	b=DfOFGEpLkC/Gmln7Kkjteq8+7YRAZ2oEKJNvQzqKi4ud2TmPqHH/+x0XR/6Ofeq12x
+	5pf25suY5b5JdAyitObQIZp1dl2P2982ejn1c5Yla2VgI3hYnTqYc9KLKEEyeYmBweRi
+	3wG9YDwXXu+ZKFyveZxO9fgDV/2hoY/QoI6OAVxBlqBX43HoZW1vUP3K0luvQ+NobJpT
+	vEL5CfUsYeMeAdQ/15HTh8+6jNDzy/q8eTkaeXPLbYaiZn/87Q9fQRvSlblXf8jQF1qK
+	wT5k3XnIKSgRqQzY0QS03bnwrg6fpMYBG1TUaTRkUijQc0YyPyV/qaM+0Rc8NiHsNTxh
+	r5tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=nETa+zJPyAGGY624cclmtHvd/bMDqSUOQ5jZMee2QFs=;
+	b=fmeF/KxkRVEQ4tdVwERbm+LofJfl/T8b0G1QVIEjNOMzmaBU73rRIojRSN8mFTlouQ
+	uY8OIuiHe3TBT7oaykX17slMWBRddxpQg9+vX9q18ghNrsguoUYAnT/4z8d20LIwFPrF
+	kZ1J9J5FaDiS0QlBtdZiuy4MZCFpd98HFGK5HMDY/Ie8e3d8J5yIVn8oRwfutDN3Zhd+
+	M642ahl8cW8qrzWkxnS/aSw7q2Z1m2sutY7b/Am3hHPyUmDd1/th9nh4CmGjPHT13wwK
+	f33LNhcN1p8Cse2HWbBj1oUMt5NdBHy5+Q4BvKYRRYv3QVjfCy11pQBmo13/2uPE9qwE
+	pm+A==
+X-Gm-Message-State: APjAAAXzyMD/O6qbVK+G49aUnKt8J0QK9VGlTdla1+qmWbsI4mPL6Y7/
+	iqOM6mXuepAXPA0DERnpZ8gNp6H8pQ==
+X-Google-Smtp-Source: APXvYqyZq0VoyZpCrx71ochiK3WOpHjF/ukELXKOBeGCiqolhOImHflYaVd6E5iPD0BKdL5GqfC7jw==
+X-Received: by 2002:ad4:4112:: with SMTP id i18mr26791343qvp.175.1562169903365;
+	Wed, 03 Jul 2019 09:05:03 -0700 (PDT)
+Received: from localhost.localdomain ([2804:14d:bade:802c:ed43:8f2e:1ee5:17d7])
+	by smtp.gmail.com with ESMTPSA id a6sm872207qkn.59.2019.07.03.09.05.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 03 Jul 2019 09:05:02 -0700 (PDT)
+From: Ricardo Salveti <ricardo@foundries.io>
+To: openembedded-core@lists.openembedded.org
+Date: Wed,  3 Jul 2019 13:04:41 -0300
+Message-Id: <20190703160441.19644-1-ricardo@foundries.io>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: build failures due to pigz host tool
+Subject: [PATCH] gcc-9.1: add back GLIBC_DYNAMIC_LINKER riscv changes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,165 +57,91 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2019 16:02:35 -0000
-Content-Language: en-US
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <45EA72A97A56574C8FB3B5378D36D47A@bmwmail.corp>
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 03 Jul 2019 16:05:03 -0000
+Content-Transfer-Encoding: 8bit
 
-On Wed, Jul 03, 2019 at 11:04:06AM -0400, Trevor Woerner wrote:
-> Hi,
->=20
-> This came up as a topic in yesterday's Engineering Sync meeting. For roug=
-hly a
-> year I've been seeing random build failures on my Jenkins setup due to pi=
-gz
-> failing; apparently the project is now seeing them on their builds, so I'=
-ll
-> share what I know of them.
->=20
-> At the time I started seeing these failures (Aug 2018) I had just upgrade=
-d my
-> system to openSUSE 15.0. Since nobody else was seeing them, I assumed the=
-y
-> were related to my setup. When I went out searching for an answer, I foun=
-d
-> there wasn't very much out there to help me. But I did notice that there =
-were
-> reports of other people seeing the issue who weren't using openSUSE and w=
-ho
-> weren't doing anything related to OE builds using Jenkins.
->=20
-> The build failure looks something like this:
->=20
-> 	| DEBUG: Executing shell function sstate_create_package
-> 	| pigz: abort: internal threads error
-> 	| tar: /z/jenkins-workspace/nightly/cubietruck/build/sstate-cache/8a/sst=
-ate:linux-mainline:cubietruck-oe-linux-gnueabi:4.19.46:r0:cubietruck:3:8a15=
-9ba1ffefb5fc2feeeff5b40abf8ad67658e5ff3ed3bf67d25d9c8f2805e0_package.tgz.9b=
-A8tCje: Wrote only 6144 of 10240 bytes
-> 	| tar: Child returned status 16
-> 	| tar: Error is not recoverable: exiting now
-> 	| WARNING: /z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/=
-cubietruck-oe-linux-gnueabi/linux-mainline/4.19.46-r0/temp/run.sstate_creat=
-e_package.19996:1 exit 1 from 'exit 1'
-> 	| DEBUG: Python function sstate_task_postfunc finished
-> 	| ERROR: Function failed: sstate_create_package (log file is located at =
-/z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/cubietruck-oe-=
-linux-gnueabi/linux-mainline/4.19.46-r0/temp/log.do_package.19996)
-> 	NOTE: recipe linux-mainline-4.19.46-r0: task do_package: Failed
-> 	ERROR: Task (/opt/oe/configs/z/jenkins-workspace/nightly/cubietruck/laye=
-rs/meta-sunxi/recipes-kernel/linux/linux-mainline_4.19.46.bb:do_package) fa=
-iled with exit code '1'
->=20
-> Here's another example:
->=20
-> 	| DEBUG: Executing shell function sstate_create_package
-> 	| pigz: abort: internal threads error
-> 	| tar: /z/jenkins-workspace/nightly/odroid-xu4/build/sstate-cache/d4/sst=
-ate:sqlite3:cortexa15t2hf-neon-vfpv4-oe-linux-gnueabi:3.28.0:r0:cortexa15t2=
-hf-neon-vfpv4:3:d4eb5692a1756a832d72fb2003a3d431108fbc736044747d33698ad7b68=
-81dd9_package.tgz.herLUpYQ: Wrote only 2048 of 10240 bytes
-> 	| tar: Child returned status 16
-> 	| tar: Error is not recoverable: exiting now
-> 	| WARNING: /z/jenkins-workspace/nightly/odroid-xu4/build/tmp-glibc/work/=
-cortexa15t2hf-neon-vfpv4-oe-linux-gnueabi/sqlite3/3_3.28.0-r0/temp/run.ssta=
-te_create_package.24136:1 exit 1 from 'exit 1'
-> 	| DEBUG: Python function sstate_task_postfunc finished
-> 	| ERROR: Function failed: sstate_create_package (log file is located at =
-/z/jenkins-workspace/nightly/odroid-xu4/build/tmp-glibc/work/cortexa15t2hf-=
-neon-vfpv4-oe-linux-gnueabi/sqlite3/3_3.28.0-r0/temp/log.do_package.24136)
-> 	NOTE: recipe sqlite3-3_3.28.0-r0: task do_package: Failed
-> 	ERROR: Task (/opt/oe/configs/z/jenkins-workspace/nightly/odroid-xu4/laye=
-rs/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.28.0.bb:do_packa=
-ge) failed with exit code '1'
->=20
-> When I first started seeing this problem, I would see it quite frequently=
-.
-> Every morning, out of roughly 15 nightly builds, around 4-5 of them would=
- have
-> failed in this way. Back then I would also get a lot of errors that would
-> report something along the lines of the following:
->=20
-> 	fork: Resource temporarily unavailable
-> 	Cannot spawn thread (?)
->=20
-> I don't have an example of that error on hand, but I used to get a lot of
-> those around the same time too.
->=20
-> My observations are:
-> - I've never seen any of these errors with builds that I run by hand, odd=
-ly
->   enough, these errors only ever happen to builds that are run by Jenkins=
-. I
->   have no idea if this is just a coincidence, or if there is something go=
-ing
->   on related to kicking off a build from a large program (Jenkins)
+The riscv GLIBC_DYNAMIC_LINKER changes were dropped during the gcc 9.1
+update, breaking usrmerge support.
 
-This rings a bell. Jenkins spawns builds from java and the environment wher=
-e
-processes are spawned differs from normal console and login shells
-considerably. Can't remember any details anymore, but environment variables
-and various things like thread limits may be different in Java shells
-compared to login ones. If pigz spawns too many threads and it happens on
-too many bitbake tasks in parallel, at some point thread creation may fail
-due to limits.
+Signed-off-by: Ricardo Salveti <ricardo@foundries.io>
+---
+ ...AMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch | 28 ++++++++++++++-----
+ 1 file changed, 21 insertions(+), 7 deletions(-)
 
-Hope this helps,
+diff --git a/meta/recipes-devtools/gcc/gcc-9.1/0012-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch b/meta/recipes-devtools/gcc/gcc-9.1/0012-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+index f23a314c13..1ff85c8073 100644
+--- a/meta/recipes-devtools/gcc/gcc-9.1/0012-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
++++ b/meta/recipes-devtools/gcc/gcc-9.1/0012-Define-GLIBC_DYNAMIC_LINKER-and-UCLIBC_DYNAMIC_LINKE.patch
+@@ -1,4 +1,4 @@
+-From 492f008dce784749e39e1c396aeea6fa1d977374 Mon Sep 17 00:00:00 2001
++From 0e13b09ae400d8c8755e2869c72a158ed0dbc0b6 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 29 Mar 2013 09:24:50 +0400
+ Subject: [PATCH 12/37] Define GLIBC_DYNAMIC_LINKER and UCLIBC_DYNAMIC_LINKER
+@@ -23,11 +23,12 @@ Upstream-Status: Inappropriate [OE configuration]
+  gcc/config/i386/linux64.h    |  6 +++---
+  gcc/config/linux.h           |  8 ++++----
+  gcc/config/mips/linux.h      | 12 ++++++------
++ gcc/config/riscv/linux.h     |  2 +-
+  gcc/config/rs6000/linux64.h  | 15 +++++----------
+  gcc/config/sh/linux.h        |  2 +-
+  gcc/config/sparc/linux.h     |  2 +-
+  gcc/config/sparc/linux64.h   |  4 ++--
+- 11 files changed, 28 insertions(+), 33 deletions(-)
++ 12 files changed, 29 insertions(+), 34 deletions(-)
+ 
+ diff --git a/gcc/config/alpha/linux-elf.h b/gcc/config/alpha/linux-elf.h
+ index 824861befec..6afacce3292 100644
+@@ -152,11 +153,24 @@ index 6f79ac9c01a..25de96f9561 100644
+  
+  #undef MUSL_DYNAMIC_LINKER32
+  #define MUSL_DYNAMIC_LINKER32 \
++diff --git a/gcc/config/riscv/linux.h b/gcc/config/riscv/linux.h
++index 58dd18b89f3..112ba9cd764 100644
++--- a/gcc/config/riscv/linux.h
+++++ b/gcc/config/riscv/linux.h
++@@ -22,7 +22,7 @@ along with GCC; see the file COPYING3.  If not see
++     GNU_USER_TARGET_OS_CPP_BUILTINS();				\
++   } while (0)
++ 
++-#define GLIBC_DYNAMIC_LINKER "/lib/ld-linux-riscv" XLEN_SPEC "-" ABI_SPEC ".so.1"
+++#define GLIBC_DYNAMIC_LINKER SYSTEMLIBS_DIR "ld-linux-riscv" XLEN_SPEC "-" ABI_SPEC ".so.1"
++ 
++ #define MUSL_ABI_SUFFIX \
++   "%{mabi=ilp32:-sf}" \
+ diff --git a/gcc/config/rs6000/linux64.h b/gcc/config/rs6000/linux64.h
+-index bcc540b5ff2..982ca274621 100644
++index 5380f6a6a6f..c0f2dc1f43e 100644
+ --- a/gcc/config/rs6000/linux64.h
+ +++ b/gcc/config/rs6000/linux64.h
+-@@ -428,24 +428,19 @@ extern int dot_symbols;
++@@ -435,24 +435,19 @@ extern int dot_symbols;
+  #undef	LINK_OS_DEFAULT_SPEC
+  #define LINK_OS_DEFAULT_SPEC "%(link_os_linux)"
+  
+@@ -200,10 +214,10 @@ index c9897b7aca5..82f275319cc 100644
+  #undef SUBTARGET_LINK_EMUL_SUFFIX
+  #define SUBTARGET_LINK_EMUL_SUFFIX "%{mfdpic:_fd;:_linux}"
+ diff --git a/gcc/config/sparc/linux.h b/gcc/config/sparc/linux.h
+-index 2db9ea2172e..1979cfff5d3 100644
++index 08476f1d94d..80440e712ad 100644
+ --- a/gcc/config/sparc/linux.h
+ +++ b/gcc/config/sparc/linux.h
+-@@ -83,7 +83,7 @@ extern const char *host_detect_local_cpu (int argc, const char **argv);
++@@ -84,7 +84,7 @@ extern const char *host_detect_local_cpu (int argc, const char **argv);
+     When the -shared link option is used a final link is not being
+     done.  */
+  
+@@ -213,7 +227,7 @@ index 2db9ea2172e..1979cfff5d3 100644
+  #undef  LINK_SPEC
+  #define LINK_SPEC "-m elf32_sparc %{shared:-shared} \
+ diff --git a/gcc/config/sparc/linux64.h b/gcc/config/sparc/linux64.h
+-index 21e13001951..d39c38a531f 100644
++index 789d1df4bd5..b920c680fb1 100644
+ --- a/gcc/config/sparc/linux64.h
+ +++ b/gcc/config/sparc/linux64.h
+ @@ -84,8 +84,8 @@ along with GCC; see the file COPYING3.  If not see
+-- 
+2.22.0
 
--Mikko
-
-> - Back then these failures were quite frequent. Today, of the 20-ish or s=
-o
->   Jenkins builds that are kicked off every night, in a 2-week span I have=
- only
->   2 such failures. So it seems that I've been able to reduce the occurren=
-ce
->   rate, but not eliminate it completely
->=20
-> - I haven't seen the "resource" failure in a while. I don't know if these=
- are
->   two separate issues that just happened to start at the same time, or if
->   they're related in some way.
->=20
-> >From what little information I was able to find online, here are the thi=
-ngs I
-> tweaked (which may or may not have contributed to the reduction in the ra=
-te of
-> occurrence):
->=20
-> - At that time, I had been setting a "barrier=3D6000" on the disk I was u=
-sing
->   for the builds. I removed that tweak.
->=20
-> - I edited /etc/systemd/logind.conf and set
-> 	UserTaskMax=3Dinfinity
->=20
-> - I edited /etc/systemd/system.conf and set:
-> 	DefaultTaskAccounting=3Dno
-> 	DefaultTaskMax=3Dinfinity
->=20
-> - I edited /etc/sysconfig/jenkins and added/set:
-> 	JENKINS_JAVA_OPTIONS=3D"-Djava.awt.headless=3Dtrue -Xmx1g"
->=20
-> Since this build failure is so intermittent, it's quite hard to dig into =
-it.
-> As I said above, of the last roughly 280 builds my system has done in the=
- last
-> 2 weeks, only 2 such failures occurred.
->=20
-> It's possible that overriding CONVERSION_CMD_gz in my builds to not use p=
-igz
-> would probably fix the issue at the cost of losing the parallelism of the
-> sstate_create_package task.
->=20
-> My host machine's version of pigz is: 2.3.3
->=20
-> Best regards,
-> 	Trevor
-> --=20
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core=
 
