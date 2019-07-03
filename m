@@ -1,47 +1,42 @@
-Return-Path: <lemagoup@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 7D82B7CFA4
+Return-Path: <ankur.tyagi85@gmail.com>
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
+	[209.85.167.54])
+	by mail.openembedded.org (Postfix) with ESMTP id 223FF7D6F4
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2019 09:44:39 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id j6so3262444ioa.5
+	Wed,  3 Jul 2019 10:08:38 +0000 (UTC)
+Received: by mail-lf1-f54.google.com with SMTP id b29so1372825lfq.1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2019 02:44:40 -0700 (PDT)
+	Wed, 03 Jul 2019 03:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=BGGdxUosAzJUXrXSKSAuq5NTIwxysHddjIYP4mjxh44=;
-	b=plGjmosSXKK7vVRO7uBVJQheAjBsoZa4H0N2Enhwr/Z4ivxYaJuSkH1zZUaWKdUGhn
-	7vH9pID8EL2JOexV+j2y1sUpxY+a6qUKUNt7bVUsgGoxDlwHL5huhO2ejio/26nr3b5p
-	qZBRAn4j532uPiotEgd1KaVL9mndhn1hAKVp6AmG2H2n+vJNP3pTGufS30Mn5yGwigQd
-	i81n9OUV0QGz2LOYA29N2tepVfRJa6Oy+hFDAi5x8yRozHqqKq2SOeAGsWXmWjIjbIyh
-	MQQW4CmWPUtwJN+S7sQjZO9dTParsG3oEM+94d60UpzaAfkurET8/GTjfbjs4v7LBBC+
-	RtRg==
+	h=mime-version:from:date:message-id:subject:to;
+	bh=cMaSxmSxI31sdlTmrmqye7Z1VC/Rmw1GckjBCWiTwy4=;
+	b=hI9hsv9Ek/arUbOmzTfY7kS+sdSRGIMrzw9hXT1/PDKfwYwz4rcMzhgpPLnshYT50h
+	iTkpn1xr8FTSrxFvlRcFbvw8BMqseVO5aj4ZV1Om/8mlmA8v1tkOCGa2OSnqwT/nzDrV
+	V80rNnDUQTV3VAY5N4VrlZJSXFN/iBmpW5NTe+9RwUAafSRGU8oXlsLZAEoM/riPd+e5
+	nOEBbufbUHsJFu9wan5MJmrla6TDbXMTy0jsOmBYYP6WcAxDlgqbf6S/ZJUy2viW5Pf9
+	iZnC1FoJKXWfB0Gq1FHrU5eauOfThta8DYaT22kcnuc31QwxaCdCbrlHBUumzIvEzaK+
+	1XaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=BGGdxUosAzJUXrXSKSAuq5NTIwxysHddjIYP4mjxh44=;
-	b=lvR+NHr+7Yj4MDdNUrZCFjQaWnObSimQy8qkO8bVL+qgQRi+/KGLFpIoSpWdCRqTKb
-	r0hE5YCf9R71PpegawLtDWAxdPHw8iNyNJOK1qnHBiqROb4PBXScseCVD/labRrD9bs3
-	WBX67akGEC32JxIWmGQoksjbGRiNAZHmwdn5Fo8xsNPXU2bjkqc+pogOiKxUFAzdJjU1
-	xKyV5xIrwjMHxCyLnRvlDdkfNFwVPZaR3hZmFlNV6rH6zify5Dg+ouKQRETASzLnYLKQ
-	egSHPq8DlPjWSAyRZXniYfgH/OveI5FeQefU1jsodtehq7MbOuYIRqaK4M1bBI4Gs7e7
-	if/Q==
-X-Gm-Message-State: APjAAAUXw/kX4QtnJqCsakux9WFAF7+x9o3ZuuXPIM7DZAV3c9fTH/EK
-	KVaLtAH2s1MUAM/7ecVb8yKIbDOFlWLVZfDQij8=
-X-Google-Smtp-Source: APXvYqwWvTacBKGoa4Fz+pZFfwyIUBr8fycy9n311AaYfhxkVMobBaICLTM9J6yE3Klz0EI4ibfaX02Zy3zcLkASjXU=
-X-Received: by 2002:a02:c00f:: with SMTP id y15mr42371107jai.132.1562147080415;
-	Wed, 03 Jul 2019 02:44:40 -0700 (PDT)
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=cMaSxmSxI31sdlTmrmqye7Z1VC/Rmw1GckjBCWiTwy4=;
+	b=e8xv+BrrmzH6a/OTFG5bHpUQZcgRVKEg7yzvf3B0WpzdZ5MsD2ggfxdLP52U2DgCiI
+	4vYGLYZvUizCa4lafxQlvI8fTLEUz4aj5n038p2KCYY/33p7UkDQHEXfdPuK8GpODHfW
+	FF5nxbxbQCyiKWSwFBj1EBOXDrIJP/Da/rT+89AwNXaShw+UrLdBImM0TuYCMTEz3B53
+	nLoSdI+fatWoKTssMmk1ElUaGGoM+iym3H9rybYd9AhlZa8VfkeCw7bz/RHBE+2WZ9SF
+	851JzNRl4Ik4xVyWbbwub98FajjP4Cojs/1XB52I48mfqX8NaMxmrie8dCRk2jm524vz
+	d7DQ==
+X-Gm-Message-State: APjAAAX4wLc4EwmJP/WgDPL+5IBOzyol47w+8cc+b0RHRlYtuVsHZWB2
+	hFvikzP2ydFvGOtfMLMbpha8vbo+8E65bo1Uz2Q/X6EV
+X-Google-Smtp-Source: APXvYqx2GEIgVaeX9i25pcSiiMJX/PnYiKL3Io4G1VQYfGsAFjALyYVkwnHPGZYKuN20LrM3atl1xvtA3PmZnUlMsao=
+X-Received: by 2002:a19:6b05:: with SMTP id d5mr1411763lfa.24.1562148519131;
+	Wed, 03 Jul 2019 03:08:39 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190627145917.1774-1-lemagoup@gmail.com>
-	<6ab87120-92d4-7cbc-e88a-8e9261037901@windriver.com>
-In-Reply-To: <6ab87120-92d4-7cbc-e88a-8e9261037901@windriver.com>
-From: Pierre Le Magourou <lemagoup@gmail.com>
-Date: Wed, 3 Jul 2019 11:44:29 +0200
-Message-ID: <CAEz4NHr9ZEEGM+VjemOApAR0MepPjjXdumWOQb8iHOCcdBBuQg@mail.gmail.com>
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v5] cve-update-db: do_populate_cve_db depends on do_fetch
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Wed, 3 Jul 2019 22:08:34 +1200
+Message-ID: <CADySD0HgOebmE=uUJ718CBhsXv3bW7WoeXa4dp06LL=vcLd_qg@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Problems with sstate-cache in Artifactory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,22 +49,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2019 09:44:39 -0000
+X-List-Received-Date: Wed, 03 Jul 2019 10:08:39 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hello,
+Hi,
 
-> This patch broke "bitbake universe --runall=fetch" totally:
->
-> The line which caused the problem is:
-> addtask do_populate_cve_db before do_fetch
->
-> Would you please fix it? Or I can help if needed.
->
+I am trying to setup sstate-cache in Artifactory so that multiple
+Linux host systems can share it.
 
-This seems related to the NVD website down problem. I sent a patch to
-manage inaccessible URLs. cve-update-db will not fail anymore if the
-NVD data feeds cannot be downloaded.
+Once build finished in one Linux machine, I uploaded all of
+sstate-cache directory to Artifactory
 
-Pierre
+Then I configured sstate mirrors in local.conf
+SSTATE_MIRRORS ?= "\
+file://.* https://artifactory.com/yocto/sstate-cache/PATH;downloadfilename=PATH
+\
+"
+But when the build started, it didn't used anything from the sstate
+mirror and ended up building everything
+
+Am I missing something?
+
+Thanks
+Ankur
 
