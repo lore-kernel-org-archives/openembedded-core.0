@@ -1,36 +1,54 @@
-Return-Path: <ricardo.ribalda@gmail.com>
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
-	[209.85.208.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 198327C124
+Return-Path: <prvs=0800548a1=Mikko.Rapeli@bmw.de>
+Received: from esa3.bmw.c3s2.iphmx.com (esa3.bmw.c3s2.iphmx.com
+	[68.232.133.150])
+	by mail.openembedded.org (Postfix) with ESMTP id 672947C124
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2019 15:55:49 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id 205so3003225ljj.8
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2019 08:55:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=UVDS0RyiDFG3GAeoGngSbBi1MGBalQrmj+75UrNuhlU=;
-	b=lRBfg+GK00lfIT6AlXm228UZ55E7MKPYPcFMJTZLBaXGEUVq7FK5uYvVDam4MtnkGj
-	slKDSmCxBkbBU/Ot1jeDTo+1ru5IuKZwdF0Al96P8qq6emamKTajuOSug7C3C7/zD3K2
-	rZ8tt3gUAY7RSqR4y1YZtRAaIjV19dUn5DkTyPiIBcxQNy9ZVrP1nVOLqEfbAMxGL0LA
-	yrqPlyFywvAUmgTwD2vyhDIvkKSvtC9hhyHBZXupBvIWmaiLvbc89ELFhZZYHjVX4AkK
-	pXduUzSKFHSFDlJkeLJxgIXbVQW6KiILVRizBaqr8PIxlmFiReQtqfmf044CTCBxVO7Y
-	OzTw==
-X-Gm-Message-State: APjAAAXdao6kHPzxqzBV2f7YIzAPNq6SWrP6XyzFUHlGkW3znSs2DNMT
-	+yrt+0KhyeIHOFp/2hNd2sIqcGJORNjwnr/+8U+8CRkd
-X-Google-Smtp-Source: APXvYqyY1aHhJ063rEG+CweJhodazPJZ5LpioCTxHISc4IYlWk0xAROklwAm89bpPlTzlKOfgW1G3KpgL38zuzt6iok=
-X-Received: by 2002:a2e:3013:: with SMTP id w19mr21811710ljw.73.1562169350161; 
-	Wed, 03 Jul 2019 08:55:50 -0700 (PDT)
+	Wed,  3 Jul 2019 16:02:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
+	t=1562169756; x=1593705756;
+	h=from:to:cc:subject:date:message-id:references:
+	in-reply-to:content-id:content-transfer-encoding: mime-version;
+	bh=5M5Rmi/9Yay1fy/etKY/yCP+DfJ4OwwC32gn/9s4eaU=;
+	b=PCztWOJw7yne9IsjpyMHFoU3YFh44zFTaBmaA7Vg9gT3bFzc2wypNrAw
+	Yv1ocE+zKmJBpO/MXdyXF5Lavc282sPQc0K3kPbBnA3jJ+cPtwXTH0B4O
+	vU0yJHynGf4KBdhQxuVbahOqkUx/rjK61YO2+r/uN7NQ616mIhiq+HW/d k=;
+IronPort-SDR: D8c09keJRadaWHj2OajViqhoDSJCp2cKT8AL5oCxn51dagxZ7nsx4mtE4oTmhUdiabjFAkjqE9
+	uFxeC769bi0sX1zDxLVyywO4ytHcg3lDRQVYzt6JTr8V/SVTs5tkMMAbCIyKIlo65yXvT8cxYt
+	QzUPxh1qgCc5Cl64DCWkoghB30rIg1DuMOrnFCcvQWd3t2fDRpcGZTsOgmkuOXOJRgj0cA9EGQ
+	giJnLmD84r4umNNzK30RvvxmELhVoOowwxEfHy08YYry1kE+dX+bbz8FRxCfM7jYnqC1JiR6jh
+	oqA=
+Received: from esagw5.bmwgroup.com (HELO esagw5.muc) ([160.46.252.46]) by
+	esa3.bmw.c3s2.iphmx.com with ESMTP/TLS; 03 Jul 2019 18:02:21 +0200
+Received: from esabb2.muc ([160.50.100.34])  by esagw5.muc with ESMTP/TLS;
+	03 Jul 2019 18:02:21 +0200
+Received: from smucm10k.bmwgroup.net (HELO smucm10k.europe.bmw.corp)
+	([160.48.96.47])
+	by esabb2.muc with ESMTP/TLS; 03 Jul 2019 18:02:20 +0200
+Received: from smucm10k.europe.bmw.corp (160.48.96.47) by
+	smucm10k.europe.bmw.corp
+	(160.48.96.47) with Microsoft SMTP Server (TLS;
+	Wed, 3 Jul 2019 18:02:20 +0200
+Received: from smucm10k.europe.bmw.corp ([160.48.96.47]) by
+	smucm10k.europe.bmw.corp ([160.48.96.47]) with mapi id 15.00.1473.005;
+	Wed, 3 Jul 2019 18:02:20 +0200
+From: <Mikko.Rapeli@bmw.de>
+To: <twoerner@gmail.com>
+Thread-Topic: [OE-core] build failures due to pigz host tool
+Thread-Index: AQHVMbCiW0qNGXCCmka8vTdeoQB6hqa47HmA
+Date: Wed, 3 Jul 2019 16:02:20 +0000
+Message-ID: <20190703160219.GW3459@hiutale>
+References: <20190703150405.GA23280@linux-uys3>
+In-Reply-To: <20190703150405.GA23280@linux-uys3>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [192.168.221.44]
 MIME-Version: 1.0
-References: <20190625071442.5228-1-ricardo@ribalda.com>
-In-Reply-To: <20190625071442.5228-1-ricardo@ribalda.com>
-From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date: Wed, 3 Jul 2019 17:55:37 +0200
-Message-ID: <CAPybu_1U12im-j5qidqPoYOD7E3ur7XS5iEdhBsKK3JK1cS8bg@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd-bootconf: Make is machine specific
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: build failures due to pigz host tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -43,146 +61,165 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2019 15:55:50 -0000
-Content-Type: multipart/alternative; boundary="0000000000003208e5058cc8e54d"
-
---0000000000003208e5058cc8e54d
-Content-Type: text/plain; charset="UTF-8"
-
-Ping?
-
-On Tue, 25 Jun 2019, 09:14 Ricardo Ribalda Delgado, <ricardo@ribalda.com>
-wrote:
-
-> APPEND is usually attached to a machine. This patch avoids multiconfig
-> errors such as:
->
-> | NOTE: Direct dependencies are
-> ['multiconfig:qt5022:/workdir/repo/poky/meta/recipes-core/glibc/glibc_2.29.bb:do_populate_sysroot',
-> 'multiconfig:qt5022:virtual:native:/workdir/repo/poky/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot',
-> 'multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysroot',
-> 'multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtools/gcc/
-> gcc-cross_8.3.bb:do_populate_sysroot',
-> 'multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb:
-> do_populate_sysroot']
-> | NOTE: Installed into sysroot: []
-> | NOTE: Skipping as already exists in sysroot: ['glibc', 'pseudo-native',
-> 'quilt-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc',
-> 'linux-libc-headers', 'libtool-native', 'texinfo-dummy-native',
-> 'libmpc-native', 'flex-native', 'automake-native', 'zlib-native',
-> 'mpfr-native', 'gmp-native', 'binutils-cross-x86_64', 'xz-native',
-> 'autoconf-native', 'gnu-config-native', 'gettext-minimal-native',
-> 'm4-native']
-> | DEBUG: Python function extend_recipe_sysroot finished
-> | DEBUG: Executing shell function do_install
-> | install: cannot stat 'loader.conf': No such file or directory
-> | WARNING: exit code 1 from a shell command.
-> | ERROR: Function failed: do_install (log file is located at
-> /workdir/build/tmp/work/bobcat-poky-linux/systemd-bootconf/1.00-r0/temp/log.do_install.737)
-> NOTE: recipe systemd-bootconf-1.00-r0: task do_install: Failed
-> ERROR: Task
-> (multiconfig:qt5022:/workdir/repo/poky/meta/recipes-core/systemd/systemd-bootconf_1.00.bb:do_install)
-> failed with exit code '1'
->
-> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-> ---
->  meta/recipes-core/systemd/systemd-bootconf_1.00.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-> b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-> index e9c2466456..d13b8c518f 100644
-> --- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-> +++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
-> @@ -3,6 +3,7 @@ LIC_FILES_CHKSUM =
-> "file://${COREBASE}/meta/COPYING.MIT;md5=3da9cfbcb788c80a0384
->  SUMMARY = "Basic systemd-boot configuration files"
->
->  RPROVIDES_${PN} += "virtual/systemd-bootconf"
-> +PACKAGE_ARCH = "${MACHINE_ARCH}"
->
->  inherit systemd-boot-cfg
->
-> --
-> 2.20.1
->
->
-
---0000000000003208e5058cc8e54d
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Wed, 03 Jul 2019 16:02:35 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <45EA72A97A56574C8FB3B5378D36D47A@bmwmail.corp>
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">Ping?</div><br><div class=3D"gmail_quote"><div dir=3D"ltr=
-" class=3D"gmail_attr">On Tue, 25 Jun 2019, 09:14 Ricardo Ribalda Delgado, =
-&lt;<a href=3D"mailto:ricardo@ribalda.com">ricardo@ribalda.com</a>&gt; wrot=
-e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;bo=
-rder-left:1px #ccc solid;padding-left:1ex">APPEND is usually attached to a =
-machine. This patch avoids multiconfig<br>
-errors such as:<br>
-<br>
-| NOTE: Direct dependencies are [&#39;multiconfig:qt5022:/workdir/repo/poky=
-/meta/recipes-core/glibc/glibc_2.29.bb:do_populate_sysroot&#39;, &#39;multi=
-config:qt5022:virtual:native:/workdir/repo/poky/meta/recipes-devtools/pseud=
-o/pseudo_git.bb:do_populate_sysroot&#39;, &#39;multiconfig:qt5022:/workdir/=
-repo/poky/meta/recipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysr=
-oot&#39;, &#39;multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtools/=
-gcc/<a href=3D"http://gcc-cross_8.3.bb" target=3D"_blank" rel=3D"noreferrer=
-">gcc-cross_8.3.bb</a>:do_populate_sysroot&#39;, &#39;multiconfig:qt5022:/w=
-orkdir/repo/poky/meta/recipes-devtools/gcc/gcc-runtime_8.3.bb:do_populate_s=
-ysroot&#39;]<br>
-| NOTE: Installed into sysroot: []<br>
-| NOTE: Skipping as already exists in sysroot: [&#39;glibc&#39;, &#39;pseud=
-o-native&#39;, &#39;quilt-native&#39;, &#39;gcc-cross-x86_64&#39;, &#39;gcc=
--runtime&#39;, &#39;libgcc&#39;, &#39;linux-libc-headers&#39;, &#39;libtool=
--native&#39;, &#39;texinfo-dummy-native&#39;, &#39;libmpc-native&#39;, &#39=
-;flex-native&#39;, &#39;automake-native&#39;, &#39;zlib-native&#39;, &#39;m=
-pfr-native&#39;, &#39;gmp-native&#39;, &#39;binutils-cross-x86_64&#39;, &#3=
-9;xz-native&#39;, &#39;autoconf-native&#39;, &#39;gnu-config-native&#39;, &=
-#39;gettext-minimal-native&#39;, &#39;m4-native&#39;]<br>
-| DEBUG: Python function extend_recipe_sysroot finished<br>
-| DEBUG: Executing shell function do_install<br>
-| install: cannot stat &#39;loader.conf&#39;: No such file or directory<br>
-| WARNING: exit code 1 from a shell command.<br>
-| ERROR: Function failed: do_install (log file is located at /workdir/build=
-/tmp/work/bobcat-poky-linux/systemd-bootconf/1.00-r0/temp/log.do_install.73=
-7)<br>
-NOTE: recipe systemd-bootconf-1.00-r0: task do_install: Failed<br>
-ERROR: Task (multiconfig:qt5022:/workdir/repo/poky/meta/recipes-core/system=
-d/systemd-bootconf_1.00.bb:do_install) failed with exit code &#39;1&#39;<br=
->
-<br>
-Signed-off-by: Ricardo Ribalda Delgado &lt;<a href=3D"mailto:ricardo@ribald=
-a.com" target=3D"_blank" rel=3D"noreferrer">ricardo@ribalda.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd-bootconf_1.00.bb"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">systemd-bootconf_1.00.bb</=
-a> | 1 +<br>
-=C2=A01 file changed, 1 insertion(+)<br>
-<br>
-diff --git a/meta/recipes-core/systemd/<a href=3D"http://systemd-bootconf_1=
-.00.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">systemd-bootconf_1.=
-00.bb</a> b/meta/recipes-core/systemd/<a href=3D"http://systemd-bootconf_1.=
-00.bb" rel=3D"noreferrer noreferrer" target=3D"_blank">systemd-bootconf_1.0=
-0.bb</a><br>
-index e9c2466456..d13b8c518f 100644<br>
---- a/meta/recipes-core/systemd/<a href=3D"http://systemd-bootconf_1.00.bb"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">systemd-bootconf_1.00.bb</=
-a><br>
-+++ b/meta/recipes-core/systemd/<a href=3D"http://systemd-bootconf_1.00.bb"=
- rel=3D"noreferrer noreferrer" target=3D"_blank">systemd-bootconf_1.00.bb</=
-a><br>
-@@ -3,6 +3,7 @@ LIC_FILES_CHKSUM =3D &quot;file://${COREBASE}/meta/COPYING.=
-MIT;md5=3D3da9cfbcb788c80a0384<br>
-=C2=A0SUMMARY =3D &quot;Basic systemd-boot configuration files&quot;<br>
-<br>
-=C2=A0RPROVIDES_${PN} +=3D &quot;virtual/systemd-bootconf&quot;<br>
-+PACKAGE_ARCH =3D &quot;${MACHINE_ARCH}&quot;<br>
-<br>
-=C2=A0inherit systemd-boot-cfg<br>
-<br>
--- <br>
-2.20.1<br>
-<br>
-</blockquote></div>
+On Wed, Jul 03, 2019 at 11:04:06AM -0400, Trevor Woerner wrote:
+> Hi,
+>=20
+> This came up as a topic in yesterday's Engineering Sync meeting. For roug=
+hly a
+> year I've been seeing random build failures on my Jenkins setup due to pi=
+gz
+> failing; apparently the project is now seeing them on their builds, so I'=
+ll
+> share what I know of them.
+>=20
+> At the time I started seeing these failures (Aug 2018) I had just upgrade=
+d my
+> system to openSUSE 15.0. Since nobody else was seeing them, I assumed the=
+y
+> were related to my setup. When I went out searching for an answer, I foun=
+d
+> there wasn't very much out there to help me. But I did notice that there =
+were
+> reports of other people seeing the issue who weren't using openSUSE and w=
+ho
+> weren't doing anything related to OE builds using Jenkins.
+>=20
+> The build failure looks something like this:
+>=20
+> 	| DEBUG: Executing shell function sstate_create_package
+> 	| pigz: abort: internal threads error
+> 	| tar: /z/jenkins-workspace/nightly/cubietruck/build/sstate-cache/8a/sst=
+ate:linux-mainline:cubietruck-oe-linux-gnueabi:4.19.46:r0:cubietruck:3:8a15=
+9ba1ffefb5fc2feeeff5b40abf8ad67658e5ff3ed3bf67d25d9c8f2805e0_package.tgz.9b=
+A8tCje: Wrote only 6144 of 10240 bytes
+> 	| tar: Child returned status 16
+> 	| tar: Error is not recoverable: exiting now
+> 	| WARNING: /z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/=
+cubietruck-oe-linux-gnueabi/linux-mainline/4.19.46-r0/temp/run.sstate_creat=
+e_package.19996:1 exit 1 from 'exit 1'
+> 	| DEBUG: Python function sstate_task_postfunc finished
+> 	| ERROR: Function failed: sstate_create_package (log file is located at =
+/z/jenkins-workspace/nightly/cubietruck/build/tmp-glibc/work/cubietruck-oe-=
+linux-gnueabi/linux-mainline/4.19.46-r0/temp/log.do_package.19996)
+> 	NOTE: recipe linux-mainline-4.19.46-r0: task do_package: Failed
+> 	ERROR: Task (/opt/oe/configs/z/jenkins-workspace/nightly/cubietruck/laye=
+rs/meta-sunxi/recipes-kernel/linux/linux-mainline_4.19.46.bb:do_package) fa=
+iled with exit code '1'
+>=20
+> Here's another example:
+>=20
+> 	| DEBUG: Executing shell function sstate_create_package
+> 	| pigz: abort: internal threads error
+> 	| tar: /z/jenkins-workspace/nightly/odroid-xu4/build/sstate-cache/d4/sst=
+ate:sqlite3:cortexa15t2hf-neon-vfpv4-oe-linux-gnueabi:3.28.0:r0:cortexa15t2=
+hf-neon-vfpv4:3:d4eb5692a1756a832d72fb2003a3d431108fbc736044747d33698ad7b68=
+81dd9_package.tgz.herLUpYQ: Wrote only 2048 of 10240 bytes
+> 	| tar: Child returned status 16
+> 	| tar: Error is not recoverable: exiting now
+> 	| WARNING: /z/jenkins-workspace/nightly/odroid-xu4/build/tmp-glibc/work/=
+cortexa15t2hf-neon-vfpv4-oe-linux-gnueabi/sqlite3/3_3.28.0-r0/temp/run.ssta=
+te_create_package.24136:1 exit 1 from 'exit 1'
+> 	| DEBUG: Python function sstate_task_postfunc finished
+> 	| ERROR: Function failed: sstate_create_package (log file is located at =
+/z/jenkins-workspace/nightly/odroid-xu4/build/tmp-glibc/work/cortexa15t2hf-=
+neon-vfpv4-oe-linux-gnueabi/sqlite3/3_3.28.0-r0/temp/log.do_package.24136)
+> 	NOTE: recipe sqlite3-3_3.28.0-r0: task do_package: Failed
+> 	ERROR: Task (/opt/oe/configs/z/jenkins-workspace/nightly/odroid-xu4/laye=
+rs/openembedded-core/meta/recipes-support/sqlite/sqlite3_3.28.0.bb:do_packa=
+ge) failed with exit code '1'
+>=20
+> When I first started seeing this problem, I would see it quite frequently=
+.
+> Every morning, out of roughly 15 nightly builds, around 4-5 of them would=
+ have
+> failed in this way. Back then I would also get a lot of errors that would
+> report something along the lines of the following:
+>=20
+> 	fork: Resource temporarily unavailable
+> 	Cannot spawn thread (?)
+>=20
+> I don't have an example of that error on hand, but I used to get a lot of
+> those around the same time too.
+>=20
+> My observations are:
+> - I've never seen any of these errors with builds that I run by hand, odd=
+ly
+>   enough, these errors only ever happen to builds that are run by Jenkins=
+. I
+>   have no idea if this is just a coincidence, or if there is something go=
+ing
+>   on related to kicking off a build from a large program (Jenkins)
 
---0000000000003208e5058cc8e54d--
+This rings a bell. Jenkins spawns builds from java and the environment wher=
+e
+processes are spawned differs from normal console and login shells
+considerably. Can't remember any details anymore, but environment variables
+and various things like thread limits may be different in Java shells
+compared to login ones. If pigz spawns too many threads and it happens on
+too many bitbake tasks in parallel, at some point thread creation may fail
+due to limits.
+
+Hope this helps,
+
+-Mikko
+
+> - Back then these failures were quite frequent. Today, of the 20-ish or s=
+o
+>   Jenkins builds that are kicked off every night, in a 2-week span I have=
+ only
+>   2 such failures. So it seems that I've been able to reduce the occurren=
+ce
+>   rate, but not eliminate it completely
+>=20
+> - I haven't seen the "resource" failure in a while. I don't know if these=
+ are
+>   two separate issues that just happened to start at the same time, or if
+>   they're related in some way.
+>=20
+> >From what little information I was able to find online, here are the thi=
+ngs I
+> tweaked (which may or may not have contributed to the reduction in the ra=
+te of
+> occurrence):
+>=20
+> - At that time, I had been setting a "barrier=3D6000" on the disk I was u=
+sing
+>   for the builds. I removed that tweak.
+>=20
+> - I edited /etc/systemd/logind.conf and set
+> 	UserTaskMax=3Dinfinity
+>=20
+> - I edited /etc/systemd/system.conf and set:
+> 	DefaultTaskAccounting=3Dno
+> 	DefaultTaskMax=3Dinfinity
+>=20
+> - I edited /etc/sysconfig/jenkins and added/set:
+> 	JENKINS_JAVA_OPTIONS=3D"-Djava.awt.headless=3Dtrue -Xmx1g"
+>=20
+> Since this build failure is so intermittent, it's quite hard to dig into =
+it.
+> As I said above, of the last roughly 280 builds my system has done in the=
+ last
+> 2 weeks, only 2 such failures occurred.
+>=20
+> It's possible that overriding CONVERSION_CMD_gz in my builds to not use p=
+igz
+> would probably fix the issue at the cost of losing the parallelism of the
+> sstate_create_package task.
+>=20
+> My host machine's version of pigz is: 2.3.3
+>=20
+> Best regards,
+> 	Trevor
+> --=20
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core=
+
