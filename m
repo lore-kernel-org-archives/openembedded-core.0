@@ -1,42 +1,47 @@
-Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com
-	[209.85.167.54])
-	by mail.openembedded.org (Postfix) with ESMTP id 223FF7D6F4
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f52.google.com (mail-io1-f52.google.com
+	[209.85.166.52])
+	by mail.openembedded.org (Postfix) with ESMTP id 27A806B436
 	for <openembedded-core@lists.openembedded.org>;
-	Wed,  3 Jul 2019 10:08:38 +0000 (UTC)
-Received: by mail-lf1-f54.google.com with SMTP id b29so1372825lfq.1
+	Wed,  3 Jul 2019 12:04:14 +0000 (UTC)
+Received: by mail-io1-f52.google.com with SMTP id s7so4081001iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2019 03:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to;
-	bh=cMaSxmSxI31sdlTmrmqye7Z1VC/Rmw1GckjBCWiTwy4=;
-	b=hI9hsv9Ek/arUbOmzTfY7kS+sdSRGIMrzw9hXT1/PDKfwYwz4rcMzhgpPLnshYT50h
-	iTkpn1xr8FTSrxFvlRcFbvw8BMqseVO5aj4ZV1Om/8mlmA8v1tkOCGa2OSnqwT/nzDrV
-	V80rNnDUQTV3VAY5N4VrlZJSXFN/iBmpW5NTe+9RwUAafSRGU8oXlsLZAEoM/riPd+e5
-	nOEBbufbUHsJFu9wan5MJmrla6TDbXMTy0jsOmBYYP6WcAxDlgqbf6S/ZJUy2viW5Pf9
-	iZnC1FoJKXWfB0Gq1FHrU5eauOfThta8DYaT22kcnuc31QwxaCdCbrlHBUumzIvEzaK+
-	1XaQ==
+	Wed, 03 Jul 2019 05:04:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=z5BQo5rzetrjrOq8BAFojakRtRYj6RNC6V4SotMJ7kY=;
+	b=RdIpQFC/xcNQzjtnJsBuAygBAnFo27A/MQnr0dfcvJIQGv4TbSJ/gbAD6qhVg4Vdwo
+	kFoZT0wkTOHrsJYIPBSTpP/kGj3/G79q5DcEJCHUkG6i3YJsrojnzN2ZYmd0eJJ/Q4E/
+	aUAP0gYrpzBGkvgi06KV2nvWtxnMBCQsW/BwUsko6LmVej9sI0fYY+1JOK6tzr8qPb1f
+	b8ekzyMohoG6Tvigu1e/YNZSzRnZLxMAl6ZAj1K+ch/a5J21XW9vuuakS8ThadBx8wD5
+	oIag8oNG3tVQ9r+rjVHAMeYflmr8kGjBVWuXtQ2R1xo14ebcwHtvpyqVTlrPHz+c8ZK5
+	ydJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
-	bh=cMaSxmSxI31sdlTmrmqye7Z1VC/Rmw1GckjBCWiTwy4=;
-	b=e8xv+BrrmzH6a/OTFG5bHpUQZcgRVKEg7yzvf3B0WpzdZ5MsD2ggfxdLP52U2DgCiI
-	4vYGLYZvUizCa4lafxQlvI8fTLEUz4aj5n038p2KCYY/33p7UkDQHEXfdPuK8GpODHfW
-	FF5nxbxbQCyiKWSwFBj1EBOXDrIJP/Da/rT+89AwNXaShw+UrLdBImM0TuYCMTEz3B53
-	nLoSdI+fatWoKTssMmk1ElUaGGoM+iym3H9rybYd9AhlZa8VfkeCw7bz/RHBE+2WZ9SF
-	851JzNRl4Ik4xVyWbbwub98FajjP4Cojs/1XB52I48mfqX8NaMxmrie8dCRk2jm524vz
-	d7DQ==
-X-Gm-Message-State: APjAAAX4wLc4EwmJP/WgDPL+5IBOzyol47w+8cc+b0RHRlYtuVsHZWB2
-	hFvikzP2ydFvGOtfMLMbpha8vbo+8E65bo1Uz2Q/X6EV
-X-Google-Smtp-Source: APXvYqx2GEIgVaeX9i25pcSiiMJX/PnYiKL3Io4G1VQYfGsAFjALyYVkwnHPGZYKuN20LrM3atl1xvtA3PmZnUlMsao=
-X-Received: by 2002:a19:6b05:: with SMTP id d5mr1411763lfa.24.1562148519131;
-	Wed, 03 Jul 2019 03:08:39 -0700 (PDT)
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=z5BQo5rzetrjrOq8BAFojakRtRYj6RNC6V4SotMJ7kY=;
+	b=EMLaJ/wTDogUBVoxOc7c92crxLTMqjA4iQfY0EkW0WfJZVPvMzs6zSI4s706VxKYrq
+	nNe465d4eB7k/6+Xw5jTWVQKfpPjQvkSe/U2GzizaTvDu8RcPOjHRdg5ju21CRcUfZIJ
+	UYekiUh7/Vg6uIUvGmo/A7VrwfJtlVAiP+ZImr7tLMkOYeCVV9FspLaPI7UY1Y9dXiVi
+	/MivSiYPMeOVTmvwvMdlSUjvRl9MtE6uM6pAk6J5Q8CTdvsFzu4bIdDySPIKHB5+NAL2
+	dhqUyM3+XMug7Y4SsJk+x0r8tZUJfyXGx1Z5i3N3voTTgK2+/NiYd7ULufN6t6KI3/xO
+	oeeQ==
+X-Gm-Message-State: APjAAAUlb9Klfc2MG/Lz9ihtfunmu5fN6W4TOgo5RniPiP3K7Hy2pip6
+	6LFeiYxNks+u6D7NYtoUCrP+aym9ZnBdl8B1BZVAJQ==
+X-Google-Smtp-Source: APXvYqyQGR8eWH4Opj431bWKxVnxv2w6EyQveik0lpW+u7Gbwuveg5PcFoHsmVCsmzf6spCTLYPYeAsLo2ldcx2R+nk=
+X-Received: by 2002:a5e:a708:: with SMTP id b8mr10400487iod.25.1562155456066; 
+	Wed, 03 Jul 2019 05:04:16 -0700 (PDT)
 MIME-Version: 1.0
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Wed, 3 Jul 2019 22:08:34 +1200
-Message-ID: <CADySD0HgOebmE=uUJ718CBhsXv3bW7WoeXa4dp06LL=vcLd_qg@mail.gmail.com>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Problems with sstate-cache in Artifactory
+References: <CADySD0HgOebmE=uUJ718CBhsXv3bW7WoeXa4dp06LL=vcLd_qg@mail.gmail.com>
+In-Reply-To: <CADySD0HgOebmE=uUJ718CBhsXv3bW7WoeXa4dp06LL=vcLd_qg@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Wed, 3 Jul 2019 13:04:04 +0100
+Message-ID: <CAJTo0Lbm1DVcwKFjYBaXWsgzTGLbRRH2aFEzgTi0MAGQXQ4T_w@mail.gmail.com>
+To: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: Problems with sstate-cache in Artifactory
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -49,27 +54,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 03 Jul 2019 10:08:39 -0000
+X-List-Received-Date: Wed, 03 Jul 2019 12:04:15 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-Hi,
+Check the log for the a particular setscene task and it will show what
+requests it made, and if they failed.
 
-I am trying to setup sstate-cache in Artifactory so that multiple
-Linux host systems can share it.
+Ross
 
-Once build finished in one Linux machine, I uploaded all of
-sstate-cache directory to Artifactory
-
-Then I configured sstate mirrors in local.conf
-SSTATE_MIRRORS ?= "\
-file://.* https://artifactory.com/yocto/sstate-cache/PATH;downloadfilename=PATH
-\
-"
-But when the build started, it didn't used anything from the sstate
-mirror and ended up building everything
-
-Am I missing something?
-
-Thanks
-Ankur
+On Wed, 3 Jul 2019 at 11:09, Ankur Tyagi <ankur.tyagi85@gmail.com> wrote:
+>
+> Hi,
+>
+> I am trying to setup sstate-cache in Artifactory so that multiple
+> Linux host systems can share it.
+>
+> Once build finished in one Linux machine, I uploaded all of
+> sstate-cache directory to Artifactory
+>
+> Then I configured sstate mirrors in local.conf
+> SSTATE_MIRRORS ?= "\
+> file://.* https://artifactory.com/yocto/sstate-cache/PATH;downloadfilename=PATH
+> \
+> "
+> But when the build started, it didn't used anything from the sstate
+> mirror and ended up building everything
+>
+> Am I missing something?
+>
+> Thanks
+> Ankur
+> --
+> _______________________________________________
+> Openembedded-core mailing list
+> Openembedded-core@lists.openembedded.org
+> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
