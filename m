@@ -1,47 +1,53 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id DD4D47E951
+Return-Path: <twoerner@gmail.com>
+Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
+	[209.85.166.66])
+	by mail.openembedded.org (Postfix) with ESMTP id A7A057CF8D
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 12:48:34 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id p17so6084723ljg.1
+	Thu,  4 Jul 2019 14:27:12 +0000 (UTC)
+Received: by mail-io1-f66.google.com with SMTP id m24so3721058ioo.2
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2019 05:48:36 -0700 (PDT)
+	Thu, 04 Jul 2019 07:27:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ru8CNICY9JfVacyxQSwaCZigcBrJ5DhibBRYoRuyOOg=;
-	b=pMUtj5+Qs6ha5lRo+6Ywv+jRGekCUm2WIEnH4yULDW9njjO8RtuQptsvpI1+7HbaFW
-	sojKfXtCn7kkZSyqf1mkyaPnVPnORofs6+qlGbL9yW6ISuk+up2idX9SIgOQkXfpr4cv
-	nuci0kAeUy+GXT174c+09TcL9VwPEKOmCWBS3siEsdESXTkn4cfM14UXoI48UivHeyxW
-	XRlCQFNgcQLH3wd6Nz9hlC4JZK2sk8uIzXNPtOUudM8pv795pHP1+PJBQxCw2cM/XZ2G
-	bSGfplvryQ0AKwsAzXHRGQ/stSAk9u3gLY2aJ89XXiPdaqh/DL0IPi1C0OCaDUbRtfYI
-	xD2A==
+	h=date:from:to:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=V3WgbO0jNDkSS35pVR11MHdHaSevzFqrlzaQPDJly1o=;
+	b=vYMbN4oQ3RyBzyVSEcAA2BlhIyQ/fVypQs21U4pjIksiXHnGIGfmqyo5gjQPvujArP
+	+IaY9iH77xgUF4lw2dXYehf2ZTOz9aFY+DTpiAtNP04PZjwTZwHVDa0KrFCGjTtrHfRf
+	0s/jJakhywEkbWRI5N/lk25BjqMb95oCN9mlHr2VgGxoxCTrNQpUcdBkzFKSiXKBroSu
+	Jy8LZq8ixRRJX/3DIdofi7AJ0F4f0b7yAMbaJ3/LKnNxKX0q2tv7seSXSSqd4eM9ocaV
+	ub4+VNohSFnEwO6kjKEguumj+Iw1tDfPeKVR6PYqnIijXv/oc/dCqKVhu4j+uB7O7nYq
+	7YQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ru8CNICY9JfVacyxQSwaCZigcBrJ5DhibBRYoRuyOOg=;
-	b=C4rELqsPec6h/nn48NGcO8Kz837JAHBWo+Ygmuf2G9CYt4iUX3iM7ZP+Uy1b/3J/FD
-	HKrxZUu2faq+DA5sopvpcFlM1HSWrG+tS9QLczrFXfw5qqcadVArcOawIx1sgbC0qUuF
-	ln12c61Icn25MIsVhxPqFO4D6MAcH3Dlc/g1//sZTfFtGid+sETuIaFBEeNxpruCkKFC
-	VdaEfxOVnXxJZ8GMM/oaRHXbfGrbVQJS4yUY4Rnm/878T+cHAcV/WvsqNqKmgK5gdzrU
-	VFpB1HzkCmZqiszFGzzDGKVFQZ7fpEr7u9UxZ3PEtwkZYlxYF44ciq/n+xab5nk5YIgw
-	azTQ==
-X-Gm-Message-State: APjAAAWE2MrhGB3R2EhpfgEu+XViy/qM6iK0ju9q53FXKQDDZYLm3Z9I
-	Eyv9KZApYYrA01CAAmIukF6eATDtW5n+S1+f7xM=
-X-Google-Smtp-Source: APXvYqxz71qWUS+/aERn7+su8s90tr6K8LuX3UxBP0gIfsx9uHNHNp0Hou6BRiSEgvg1udqPR64egvaZcgryIcyFOb8=
-X-Received: by 2002:a2e:3807:: with SMTP id f7mr23876096lja.87.1562244515287; 
-	Thu, 04 Jul 2019 05:48:35 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=V3WgbO0jNDkSS35pVR11MHdHaSevzFqrlzaQPDJly1o=;
+	b=V1jYBH2BJAcfkF+mBm1nnpFUMMZMFkzmdoJ2h15XqmA1eMJ0oVbhv6nhw3FhbY1fYD
+	3vuxC8oHnDW2oJuecdVI7Vues3qB/nn7Ub4AtUiFXYukxE7W8gidS3rzOrwiguQeFyee
+	kanoBJeT1Ag/9r8RhUf+kcZHUAfVRH1zeFudJliKYZMaEvZmhj53GyoKy5FvSjp0soAX
+	RsPhslpFYGW4pWC6U1MkqzYAmareTEXD5B6u1cLHCrz57Dhs6n7v92jKYdDeU+tRCROA
+	4ZZFmS8UdHYGu8Wko8kYCO+oq2Vug22DWhEOmDu+TN43z85qWcVZvqpIRgsySj51NCd1
+	w9Xg==
+X-Gm-Message-State: APjAAAUm1BJXvXD7V3xAS0yKbRav+pG89URF6TzgfFpYCRRSDHprompy
+	FB+6/biEHwzQQh0DFZqGmhyZiNgET9g=
+X-Google-Smtp-Source: APXvYqxf1padNmzHG6fNlssqZRK76ETK29smE4c+5LUdcm5ZbBv10Sa8pCtHRKit9UPU6nwe81HwYA==
+X-Received: by 2002:a02:ce52:: with SMTP id y18mr47903045jar.78.1562250432889; 
+	Thu, 04 Jul 2019 07:27:12 -0700 (PDT)
+Received: from linux-uys3 ([206.248.190.95])
+	by smtp.gmail.com with ESMTPSA id t5sm4441760iol.55.2019.07.04.07.27.11
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Jul 2019 07:27:12 -0700 (PDT)
+Date: Thu, 4 Jul 2019 10:27:09 -0400
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Message-ID: <20190704142709.GA3410@linux-uys3>
+References: <20190703150405.GA23280@linux-uys3>
+	<1008b3f46332ba67abe67586b176bc7f565b11ad.camel@linuxfoundation.org>
 MIME-Version: 1.0
-References: <1562236183-6069-1-git-send-email-zhangzl2013@126.com>
-In-Reply-To: <1562236183-6069-1-git-send-email-zhangzl2013@126.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 4 Jul 2019 08:48:23 -0400
-Message-ID: <CADkTA4P-jyrFNf+vKQwDuyxD8sW=20MO+2Tus3AvaoKPjbJFvQ@mail.gmail.com>
-To: Zhaolong Zhang <zhangzl2013@126.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-yocto: checksum indirect cfg and scc files
+In-Reply-To: <1008b3f46332ba67abe67586b176bc7f565b11ad.camel@linuxfoundation.org>
+User-Agent: Mutt/1.6.0 (2016-04-01)
+Subject: Re: build failures due to pigz host tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -54,92 +60,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 12:48:35 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Jul 2019 14:27:12 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, Jul 4, 2019 at 7:02 AM Zhaolong Zhang <zhangzl2013@126.com> wrote:
->
-> Currently, Yocto can not realize the modification of the cfg/scc files indirectly
-> introduced by scc files in custom layers.
->
-> Instead of introducing complicated scc parser code, this patch walks though
-> FILESEXTRAPATHS and takes all the cfg/scc files into account when calculating
-> checksums.
+On Wed 2019-07-03 @ 05:10:14 PM, Richard Purdie wrote:
+> Is there any way you could try pigz 2.4 on your machine, see if the
+> problem still occurred there? If you do rebuild pigz, could you apply
+> the debug patch in master-next?
 
-There used to be a bugzilla around for this .. but I can't find it now.
+I've updated the pigz in the $PATH jenkins sees to pigz-2.4.
 
-While the approach isn't wrong, I think it is too heavy, since it is
-looking at *all* the .scc and .cfg files that can be located in the
-search paths, not just the ones that are actually used.
+However, my builds are always updated automatically and always build from
+master; there's no way to insert ad-hoc patches into a build.
 
-I do have some old code from the existing bugzilla that I can try and
-locate. The right approach is to have the kern-tools emit the list of
-files, since that's where we know the includes, etc, and what is
-actually going to be used. What you have will also conflict a bit with
-some changes that I'm making to tweak the config handling.
+The job of my overnight builds is to keep tabs on master branches and ensure
+they continue to build, not to test groups of patches in anticipation of
+pushing new things into the repository. Therefore my Jenkins build flow has
+been structured this specific way on purpose.
 
-Since I can't find the old bugzilla, can you open a new one, put the
-patch there and I can find the code to dump the list of files from the
-tools.
-
-Bruce
-
->
-> Signed-off-by: Zhaolong Zhang <zhangzl2013@126.com>
-> ---
->  meta/classes/kernel-yocto.bbclass | 19 +++++++++++++++++++
->  1 file changed, 19 insertions(+)
->
-> diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
-> index ed9bcfa57c..a9aac8a9d9 100644
-> --- a/meta/classes/kernel-yocto.bbclass
-> +++ b/meta/classes/kernel-yocto.bbclass
-> @@ -69,6 +69,24 @@ def get_machine_branch(d, default):
->
->      return default
->
-> +def get_files_in_filesextrapaths(d):
-> +    extrapaths = []
-> +    extrafiles = []
-> +    extrapathsvalue = (d.getVar("FILESEXTRAPATHS") or "")
-> +    # Remove default flag which was used for checking
-> +    extrapathsvalue = extrapathsvalue.replace("__default:", "")
-> +    extrapaths = extrapathsvalue.split(":")
-> +    for path in extrapaths:
-> +        for root, dirs, files in os.walk(path):
-> +            for name in files:
-> +                base, ext = os.path.splitext(name)
-> +                if ext and ext in [".scc", ".cfg"]:
-> +                    filepath = os.path.join(root, name)
-> +                    extrafiles.append(filepath + ":" + str(os.path.exists(filepath)))
-> +    return " ".join(extrafiles)
-> +
-> +
-> +
->  do_kernel_metadata() {
->         set +e
->         cd ${S}
-> @@ -296,6 +314,7 @@ do_kernel_checkout[dirs] = "${S}"
->  addtask kernel_checkout before do_kernel_metadata after do_unpack
->  addtask kernel_metadata after do_validate_branches do_unpack before do_patch
->  do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
-> +do_kernel_metadata[file-checksums] = " ${@get_files_in_filesextrapaths(d)}"
->  do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
->
->  do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
-> --
-> 2.19.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
-
-
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Since these failures only occur for me from builds kicked off by Jenkins, I
+won't be able to easily help test patches unless I were to create a new
+Jenkins workflow.
 
