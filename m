@@ -1,24 +1,18 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A333D6C4CF
-	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 14:40:16 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x64EdVnJ004539
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Jul 2019 07:39:41 -0700
-Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 4 Jul 2019 07:39:20 -0700
-From: <kai.kang@windriver.com>
-To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 4 Jul 2019 21:45:18 +0800
-Message-ID: <20190704134520.16320-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.18.0
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id A3D0C7DC1C;
+	Thu,  4 Jul 2019 15:00:42 +0000 (UTC)
 MIME-Version: 1.0
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH v7 0/2] Make systemd as default init manager
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Kang Kai <kai.kang@windriver.com>
+Date: Thu, 04 Jul 2019 15:00:44 -0000
+Message-ID: <20190704150044.2334.2722@do>
+References: <20190704134520.16320-1-kai.kang@windriver.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190704134520.16320-1-kai.kang@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgTWFrZSBzeXN0ZW1kIGFzIGRlZmF1bHQgaW5pdCBtYW5hZ2Vy?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,77 +25,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 14:40:16 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 04 Jul 2019 15:00:42 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+== Series Details ==
 
-v7:
-* move the main logical to oe-core that not only poky could use it
-* rename POKY_INIT_MANAGER with INIT_MANAGER
-* remove init-manager-systemd-compat.inc which is not a real separated init manager
+Series: Make systemd as default init manager
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18528/
+State : failure
 
-Tested with
-1
-for arch in qemux86 qemux86-64 qemuarm qemuarm64 qemuppc qemumips qemumips64; do
-    MACHINE=$arch bitbake core-image-minimal
-done
+== Summary ==
 
 
-2 run
-
-  bitbake core-image-full-cmdline -c testimage
-
-without error with the auto.conf from Yocto autobuilder:
-
-$ cat conf/auto.conf
-MACHINE = "qemux86"
-DISTRO = "poky"
-SDKMACHINE = "x86_64"
-PACKAGE_CLASSES = "package_rpm package_deb package_ipk"
-#DL_DIR =
-'/srv/autobuilder/autobuilder.yoctoproject.org/current_sources'
-PRSERV_HOST = 'localhost:0'
-#SSTATE_DIR ?=
-'/srv/autobuilder/autobuilder.yoctoproject.org/pub/sstate'
-TCLIBC = 'musl'
-QEMU_USE_KVM = 'True'
-INHERIT += 'report-error'
-PREMIRRORS = ''
-BB_GENERATE_MIRROR_TARBALLS = '1'
-#BB_NUMBER_THREADS = '16'
-#PARALLEL_MAKE = '-j 16'
-BB_TASK_NICE_LEVEL = '5'
-BB_TASK_NICE_LEVEL_task-testimage = '0'
-BB_TASK_IONICE_LEVEL = '2.7'
-BB_TASK_IONICE_LEVEL_task-testimage = '2.1'
-INHERIT += 'testimage'
-TEST_QEMUBOOT_TIMEOUT = '1500'
-SANITY_TESTED_DISTROS = ''
-SDK_EXT_TYPE = 'minimal'
-SDK_INCLUDE_TOOLCHAIN = '1'
-BB_DISKMON_DIRS = 'STOPTASKS,${TMPDIR},1G,100K STOPTASKS,${DL_DIR},1G
-STOPTASKS,${SSTATE_DIR},1G STOPTASKS,/tmp,100M,100K
-ABORT,${TMPDIR},100M,1K ABORT,${DL_DIR},100M ABORT,${SSTATE_DIR},100M
-ABORT,/tmp,10M,1K'
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
 
-Kai Kang (2):
-  defaultsetup.conf: enable select init manager
-  poky.conf: make systemd as default init manager
 
- meta-poky/conf/distro/poky-tiny.conf                   | 8 ++------
- meta-poky/conf/distro/poky.conf                        | 5 +++++
- meta/conf/distro/defaultsetup.conf                     | 3 +++
- meta/conf/distro/include/init-manager-mdev-busybox.inc | 7 +++++++
- meta/conf/distro/include/init-manager-systemd.inc      | 6 ++++++
- meta/conf/distro/include/init-manager-sysvinit.inc     | 6 ++++++
- 6 files changed, 29 insertions(+), 6 deletions(-)
- create mode 100644 meta/conf/distro/include/init-manager-mdev-busybox.inc
- create mode 100644 meta/conf/distro/include/init-manager-systemd.inc
- create mode 100644 meta/conf/distro/include/init-manager-sysvinit.inc
+* Patch            [meta-poky,2/2] poky.conf: make systemd as default init manager
+ Issue             Series sent to the wrong mailing list [test_target_mailing_list] 
+  Suggested fix    Check the project's README (meta-poky,2/2) and send the patch to the indicated list
 
---
-2.18.0
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at a0a96db236)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
