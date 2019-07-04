@@ -1,33 +1,54 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 5A4C07D19E
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f68.google.com (mail-wm1-f68.google.com
+	[209.85.128.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 262347D3D9
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 20:21:02 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45fq9p0rzqz56
+	Thu,  4 Jul 2019 22:28:44 +0000 (UTC)
+Received: by mail-wm1-f68.google.com with SMTP id x15so6969045wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 22:21:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1562271662;
-	bh=hD5gFAiK1ij/7Ux5FYO+GTtiSUclVWQpADbo0bB8yKg=;
-	h=From:To:Subject:Date:From;
-	b=G9Jc8UJ+VL1iWF8BnMx/rD4xPnh/Abjwdm8fmV08uNHQ67cp8G8Qza0E1Um1zm/ha
-	NSvvgdkhJIUsuJFaecRBvaHOAeT5FIBTl2g9XbyoXSkDK10dYKRAwMcGS/9s5LozWZ
-	ZnwTrVFSsauu6N4ahmej11nzHjeyWKJm5KoH93LJ5ZLdgjIK1AW7F2MfsWAuehJOu6
-	Xb/0IGeIJHaSxB+tZLp+skVypjnMAJQsymSaO1P9u/O+Wb4el+g8c+YQH3Z+JJFREW
-	FqO1Yrb7McRyMtc+5IADKK0i6Dzxj52dUGj9oe/XPVHKaF9hE69lJnaHe6GN8VdD9f
-	utmPsjbmft0irYlU/68LRcbS29cv/O5zUe34cpTNVuRJLqb9x25b4qKdL6Zi+CQOmL
-	kFMG2lqlKO2VlJkoXL70yPkzdhdwu4uDXCLnI8pQ4r880tMepjEaw5h4JmAxaYLok7
-	ZbkkOHqldfQckYOgwkculKCnfo3bLN35heFojro49QOVsu7bheDWfUKTpp661M9ZsS
-	VzqgAt23owpTTvd5sZZgnfDHEvfjuR6AoH4vhhG4d4n6C7FyNItifswvWuudRTctK1
-	NcdoKFWIj8O87aJ5G9a4dylEbdX/CR3BaTHAR77M4v4fFY7rLd/ppsb+RcFriHjqTw
-	U+er3SfjdNWJ+A3zpSs7F0Ho=
-From: Adrian Bunk <bunk@stusta.de>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jul 2019 23:21:01 +0300
-Message-Id: <20190704202101.27521-1-bunk@stusta.de>
-X-Mailer: git-send-email 2.17.1
-Subject: [PATCH] i2c-tools: Add alternative for i2ctransfer
+	Thu, 04 Jul 2019 15:28:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=CU/r4oT67s0mMPh1fs8ueSgmzyQaJV3zpx+8Sk97zhw=;
+	b=TF/tBxQK53TqhHeMEG1SmUngRWxsKB06ebDtjdPl5tkq+oDRop8CE4+sV7cgzgUa3O
+	dnewkmJXxYoB+9qZ8E2VvQVjN5lliJzemkGo65fvl/PCBx6Ki+Pcrty5+zH5VlS6FQBl
+	z4epuY5MJoEN8XBNiCP4dPh6M4WcDaclbVLXU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=CU/r4oT67s0mMPh1fs8ueSgmzyQaJV3zpx+8Sk97zhw=;
+	b=uZli4nCT+HYLsRWGNzQPagHIFP3tRfqUiM7Xc7Za6Z1Z6rilGW+KB9PO/Iv+9IiM3R
+	gE8fstLvd56yDKZ6EyJyAxN5bW1IJa16FCEuxblKXTKyRbGCS7CsxpNh4XwD24oZMzG4
+	l4G8Q9YmBD21NkzQ5k9CT0V/kBp1Jvrm2sNFEnyNOzUXjjOz29K0X6RgfK85p1AcnTRs
+	QAV0MFGeMz//TTN0pcvAPpSmioYTsR9IvVQV/AWpLf6XgjVIfFB7lbDV2W4b54WjOxVl
+	ubDjq2xJdEMcqd/y3brFAGyYpVnKSuiMzS3ypzg+tpmYFB+XTmgquQgtmx/Z+G2kcwI/
+	LpWw==
+X-Gm-Message-State: APjAAAUaWjgE+wf4szUFmoNDYGn7zQVC+Eo0/FFwaPClQuDFrnipq6NU
+	azRXzUp8A+UUS3AoMW/SoADqGQ==
+X-Google-Smtp-Source: APXvYqxN6fnTeDmOUM7F5QncmJnHFBl1BBT0EqRJHR678iJ3MExnkWa7jfg/81st/50VdY/1CpaEeg==
+X-Received: by 2002:a1c:770d:: with SMTP id t13mr165493wmi.79.1562279325725;
+	Thu, 04 Jul 2019 15:28:45 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	s11sm3145432wrr.59.2019.07.04.15.28.44
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 04 Jul 2019 15:28:44 -0700 (PDT)
+Message-ID: <985c750cab28264567c6e4e532160d44ed07fbbb.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Trevor Woerner <twoerner@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 04 Jul 2019 23:28:43 +0100
+In-Reply-To: <a8811c40e7aab0303c7069c5acc00823567821e6.camel@linuxfoundation.org>
+References: <20190703150405.GA23280@linux-uys3>
+	<1008b3f46332ba67abe67586b176bc7f565b11ad.camel@linuxfoundation.org>
+	<20190704142709.GA3410@linux-uys3>
+	<a8811c40e7aab0303c7069c5acc00823567821e6.camel@linuxfoundation.org>
+User-Agent: Evolution 3.32.2-1 
+MIME-Version: 1.0
+Subject: Re: build failures due to pigz host tool
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -40,31 +61,59 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 20:21:02 -0000
+X-List-Received-Date: Thu, 04 Jul 2019 22:28:45 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-i2ctransfer is now also provided by busybox.
+On Thu, 2019-07-04 at 16:57 +0100, Richard Purdie wrote:
+> On Thu, 2019-07-04 at 10:27 -0400, Trevor Woerner wrote:
+> > On Wed 2019-07-03 @ 05:10:14 PM, Richard Purdie wrote:
+> > > Is there any way you could try pigz 2.4 on your machine, see if
+> > > the
+> > > problem still occurred there? If you do rebuild pigz, could you
+> > > apply
+> > > the debug patch in master-next?
+> > 
+> > I've updated the pigz in the $PATH jenkins sees to pigz-2.4.
+> > 
+> > However, my builds are always updated automatically and always
+> > build
+> > from master; there's no way to insert ad-hoc patches into a build.
+> 
+> That is fine, even just the PATH adjustment will be interesting to
+> see
+> the results with, thanks!
+> 
+> Was that version of pigz patched? FWIW I've patched the one on our
+> opensuse151 worker so we'll see if that helps shed any light on
+> things.
 
-Signed-off-by: Adrian Bunk <bunk@stusta.de>
----
- meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+and it did:
 
-diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
-index 2b4563d4f0..dcbd05aed4 100644
---- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
-+++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
-@@ -34,8 +34,9 @@ RDEPENDS_${PN}-misc = "${PN} perl perl-module-posix \
-                       "
- 
- ALTERNATIVE_PRIORITY = "100"
--ALTERNATIVE_${PN} = "i2cdetect i2cdump i2cget i2cset"
-+ALTERNATIVE_${PN} = "i2cdetect i2cdump i2cget i2cset i2ctransfer"
- ALTERNATIVE_LINK_NAME[i2cdetect] = "${sbindir}/i2cdetect"
- ALTERNATIVE_LINK_NAME[i2cdump] = "${sbindir}/i2cdump"
- ALTERNATIVE_LINK_NAME[i2cget] = "${sbindir}/i2cget"
- ALTERNATIVE_LINK_NAME[i2cset] = "${sbindir}/i2cset"
-+ALTERNATIVE_LINK_NAME[i2ctransfer] = "${sbindir}/i2ctransfer"
--- 
-2.17.1
+http://errors.yoctoproject.org/Errors/Details/250609/
+
+pigz: abort: internal threads error (16, 10)
+
+which means from:
+
+http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=110ccb56b88af177c0153741a31a9d34b1f75abf
+
++     if ((ret = pthread_cond_destroy(&(bolt->cond))) ||
++         (ret = pthread_mutex_destroy(&(bolt->mutex))))
++-        fail(ret);
+++        fail(ret, 10);
++     my_free(bolt);
+
+so pthread_cond_destroy or pthread_mutex_destroy returned EBUSY.
+Further digging required but at least we know which code path we're on.
+I wonder if suse did something odd to libpthread...
+
+Cheers,
+
+Richard
+
+
+
+
 
 
