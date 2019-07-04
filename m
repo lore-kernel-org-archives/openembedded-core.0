@@ -1,30 +1,50 @@
-Return-Path: <jason.wessel@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 475A77D2FD
+Return-Path: <matt@madison.systems>
+Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
+	[209.85.208.196])
+	by mail.openembedded.org (Postfix) with ESMTP id 0889E7C160
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 11:57:54 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x64BvpL9012871
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Jul 2019 04:57:53 -0700 (PDT)
-Received: from [192.168.10.15] (172.25.59.210) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 4 Jul 2019 04:57:51 -0700
-To: Adrian Bunk <bunk@stusta.de>, Martin Jansa <martin.jansa@gmail.com>
-References: <20190702201609.78379-1-jason.wessel@windriver.com>
-	<20190702201609.78379-4-jason.wessel@windriver.com>
-	<CA+chaQdZmWmLYPLfzZ2s6ojCG1QwEGjy7O7fdpNOh2QGTE9vjA@mail.gmail.com>
-	<20190704105726.GA21763@localhost>
-From: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <20567801-7441-e67a-59f0-e492ef60bacb@windriver.com>
-Date: Thu, 4 Jul 2019 06:57:50 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	Thu,  4 Jul 2019 12:38:59 +0000 (UTC)
+Received: by mail-lj1-f196.google.com with SMTP id 205so6025301ljj.8
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 04 Jul 2019 05:39:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=madison-systems.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=G761bljHXXP6ZnrgSXPS81TQRNX8Q2yHvAmYiL5tt8M=;
+	b=18Lp+UbFyCmI5Bivpk7Y7gThQ9bSSIIE5V8tBI0HhANlS7DQRG/6zOUgemMYbFGPZn
+	B2gFNpPdgBR3X35YTogZV/uuxy+Hhni5L0YjcYj2+VoJBVFG+iQlEwbkRC7waJhz7mRY
+	QGwnNXFKz3wt2fAToo27FYpLGey4llYZhYBv5LsY74sMXJDsooBbbTiTFEZolXXyvPG7
+	MIHmeoxi9SewPAltFk3kpCI74Kk7xbLwVdni3aes8MSP2dSBwh2CpWxw8/xOUwHzn5QY
+	T54XxYylyxPbc7X0QkutqEHJky1cg1IiCyu3g9Y0sVQEDQLpmvD8yeBYveyu2qiFL42o
+	twGg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=G761bljHXXP6ZnrgSXPS81TQRNX8Q2yHvAmYiL5tt8M=;
+	b=eTICQ/e+fA0UmKpcqzKYotoz/f57mJo7pPFDLDzOt2IqUonq09XvlcSjw/KOKEGtHD
+	Hgp3E+oPHg+AgxNMEdhcsw8durG5/T2bkD3kEDg7eSNVwNLYPFyGkv6p/Dz1v5VKoKjc
+	FdDf2tPeK/bdN0pABRruLTAVMPCGwNFtoch3Ui9gLl4V7WwZFeZZybqpSEO91HjMP8lp
+	Y44KwXAIvJjfAqiT8uC8pmVnJ6bOa+d0prFCnmO8byuEv3WQUlqrAvFhrsN+oHt1s3vz
+	drI0kuvl81nr5TS/ts8/nT/6HflsNLwTe5Pwo82fTIu4hocaVKiRqpCdkl2osz/22VHF
+	Y6Hw==
+X-Gm-Message-State: APjAAAUuWWSt39OjZlItpC8GhuF+eE/RwxScD9RLFo0mF+URnsOlcAFA
+	31QJmeYw+uGGjxih7HELN2gSZT1xA4k55yPSJEEPAg==
+X-Google-Smtp-Source: APXvYqzBss8zZ1N6lCw0BxU152BunS3yiEkg2NuGiI57g49rgHBVMqAqXFpEshBGUBpMxH8NDkzVEfGS1oHKgIH7NrA=
+X-Received: by 2002:a2e:4794:: with SMTP id
+	u142mr24806898lja.222.1562243940690; 
+	Thu, 04 Jul 2019 05:39:00 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190704105726.GA21763@localhost>
+References: <CAGgRHJqeFE75tXJ7qB4gyxkZaWsLmFozY+1YoJLUPXzG9Q+fOA@mail.gmail.com>
+	<20190703092412.30747-1-mingli.yu@windriver.com>
+In-Reply-To: <20190703092412.30747-1-mingli.yu@windriver.com>
+From: Matt Madison <matt@madison.systems>
+Date: Thu, 4 Jul 2019 05:38:49 -0700
+Message-ID: <CAGgRHJofXoz2j3qYU9CiiBpYA7iLhc=-aQMWoE7t_=uFDH0KMg@mail.gmail.com>
+To: "Yu, Mingli" <mingli.yu@windriver.com>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] glibc/glibc-locale: Fix do_stash_locale to work with usrmerge and multilibs
+Subject: Re: [PATCH] go.bbclass: remove ptest inherit
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,43 +57,46 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 11:57:54 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Jul 2019 12:39:01 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On 7/4/19 5:57 AM, Adrian Bunk wrote:
-> On Thu, Jul 04, 2019 at 11:13:18AM +0200, Martin Jansa wrote:
->> I don't see how this change (or the previous glibc-locale one) would cause
->> that, but since the oe-core upgrade yesterday I'm seeing following
->> glibc-locale.do_package failure:
->> http://errors.yoctoproject.org/Errors/Details/250557/
->>
->> DEBUG: Executing shell function do_prep_locale_tree
->> tar: i18n: Cannot stat: No such file or directory
->> tar: Exiting with failure status due to previous errors
->> gzip:
->> TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz:
->> No such file or directory
->> WARNING:
->> TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/temp/run.do_prep_locale_tree.23303:1
->> exit 1 from 'gunzip $i'
->>
->> anyone else seeing this?
-> 
-> Yes.
-> 
+On Wed, Jul 3, 2019 at 2:25 AM <mingli.yu@windriver.com> wrote:
+>
+> From: Mingli Yu <mingli.yu@windriver.com>
+>
+> Remove the ptest bbclass inherit logic to let
+> each recipe inherit ptest individually if the
+> specified recipe wants to support ptest to avoid
+> the recipe which inherits go bblcass inheriting
+> ptest automatically.
 
+Recipes will have to inherit ptest before inheriting go, which seems
+counter-intuitive; with ptest after go, the compile_ptest and
+install_ptest functions will be the null ones from ptest.bbclass.
+Ross's suggestion of breaking out the ptest-related functions from
+go.bbclass into a separate bbclass would be better.  Perhaps called
+ptest-go.bbclass, similar to the ones already there for gnome and
+perl.
 
-I don't know that it was specifically this change that causes the problem but rather any change to this function.   If that is not the case can either of you send me your local.conf file, and I'll try to reproduce it.  If the following doesn't work around the problem, there is clearly another corner case that is not well understood.
+Thanks,
+-Matt
 
-bitbake -c cleansstate glibc glibc-locale
-
-I believe that any change to the .inc file which has locale stash function will cause the problem due to the fact it performs and "mv" operation to move the files.  When it runs a second time, there are no more files to move and you will not have them for use later on.  When I was experimenting earlier, I tried running the glibc temp/run.do_install script to put the files back, but then hit a problem with localdef being missing, because it comes from the temp/run.do_compile functions.
-
-My conclusion thus far has been is that the ties between the glibc and glibc-locale are very subtle and break easily.  This is a separate problem than what I was attempting to fix, where the usrmerge + multilibs didn't even get the correct files in the first place.
-
-Cheers,
-
-Jason.
+> Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> ---
+>  meta/classes/go.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+> index e05a5c641c..424d869540 100644
+> --- a/meta/classes/go.bbclass
+> +++ b/meta/classes/go.bbclass
+> @@ -1,4 +1,4 @@
+> -inherit goarch ptest
+> +inherit goarch
+>
+>  GO_PARALLEL_BUILD ?= "${@oe.utils.parallel_make_argument(d, '-p %d')}"
+>
+> --
+> 2.21.0
+>
 
