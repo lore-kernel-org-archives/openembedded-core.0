@@ -1,25 +1,25 @@
 Return-Path: <Kai.Kang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id E66DD7EB43
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F5BB7EB43
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 14:39:54 +0000 (UTC)
+	Thu,  4 Jul 2019 14:39:55 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x64Edr7T004082
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x64EdttK018774
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Thu, 4 Jul 2019 07:39:53 -0700 (PDT)
+	Thu, 4 Jul 2019 07:39:55 -0700 (PDT)
 Received: from pek-hostel-deb02.wrs.com (128.224.153.152) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Thu, 4 Jul 2019 07:39:53 -0700
+	14.3.439.0; Thu, 4 Jul 2019 07:39:55 -0700
 From: <kai.kang@windriver.com>
 To: <richard.purdie@linuxfoundation.org>
-Date: Thu, 4 Jul 2019 21:45:19 +0800
-Message-ID: <20190704134520.16320-2-kai.kang@windriver.com>
+Date: Thu, 4 Jul 2019 21:45:20 +0800
+Message-ID: <20190704134520.16320-3-kai.kang@windriver.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190704134520.16320-1-kai.kang@windriver.com>
 References: <20190704134520.16320-1-kai.kang@windriver.com>
 MIME-Version: 1.0
 Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] defaultsetup.conf: enable select init manager
+Subject: [meta-poky][PATCH 2/2] poky.conf: make systemd as default init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,72 +37,51 @@ Content-Type: text/plain
 
 From: Kai Kang <kai.kang@windriver.com>
 
-Introduce a new variable INIT_MANAGER and create 3 init-manager-*.inc
-files to configure init manager settings. Available values of
-INIT_MANAGER are sysvinit, systemd and mdev-busybox. 'sysvinit' is set
-by default for compatibility.
+Make systemd as default init manager for distro poky. And set sysvinit
+as default value for musl considering security.
+
+Update poky-tiny.conf to use new introduced variable INIT_MANGER.
 
 [YOCTO #13031]
 
 Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/conf/distro/defaultsetup.conf                     | 3 +++
- meta/conf/distro/include/init-manager-mdev-busybox.inc | 7 +++++++
- meta/conf/distro/include/init-manager-systemd.inc      | 6 ++++++
- meta/conf/distro/include/init-manager-sysvinit.inc     | 6 ++++++
- 4 files changed, 22 insertions(+)
- create mode 100644 meta/conf/distro/include/init-manager-mdev-busybox.inc
- create mode 100644 meta/conf/distro/include/init-manager-systemd.inc
- create mode 100644 meta/conf/distro/include/init-manager-sysvinit.inc
+ meta-poky/conf/distro/poky-tiny.conf | 8 ++------
+ meta-poky/conf/distro/poky.conf      | 5 +++++
+ 2 files changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
-index 20e61232e9..057e2f761f 100644
---- a/meta/conf/distro/defaultsetup.conf
-+++ b/meta/conf/distro/defaultsetup.conf
-@@ -23,3 +23,6 @@ PACKAGE_CLASSES ?= "package_ipk"
- INHERIT_BLACKLIST = "blacklist"
- INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
- INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
+diff --git a/meta-poky/conf/distro/poky-tiny.conf b/meta-poky/conf/distro/poky-tiny.conf
+index 1f8b6e8ff3..e847c59676 100644
+--- a/meta-poky/conf/distro/poky-tiny.conf
++++ b/meta-poky/conf/distro/poky-tiny.conf
+@@ -82,12 +82,8 @@ DISTRO_FEATURES_class-native = "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO
+ DISTRO_FEATURES_class-nativesdk = "${DISTRO_FEATURES_DEFAULT} ${POKY_DEFAULT_DISTRO_FEATURES}"
+ 
+ # enable mdev/busybox for init
+-VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
+-VIRTUAL-RUNTIME_login_manager = "busybox"
+-VIRTUAL-RUNTIME_init_manager = "busybox"
+-VIRTUAL-RUNTIME_initscripts = "initscripts"
+-VIRTUAL-RUNTIME_keymaps = "keymaps"
+-DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
++# because poky-tiny uses musl, set with override libc-musl
++INIT_MANAGER_libc-musl = "mdev-busybox"
+ 
+ # FIXME: Consider adding "modules" to MACHINE_FEATURES and using that in
+ # packagegroup-core-base to select modutils-initscripts or not.  Similar with "net" and
+diff --git a/meta-poky/conf/distro/poky.conf b/meta-poky/conf/distro/poky.conf
+index 78621e6dbf..20ea5637d3 100644
+--- a/meta-poky/conf/distro/poky.conf
++++ b/meta-poky/conf/distro/poky.conf
+@@ -84,3 +84,8 @@ require conf/distro/include/no-static-libs.inc
+ require conf/distro/include/yocto-uninative.inc
+ require conf/distro/include/security_flags.inc
+ INHERIT += "uninative"
 +
-+INIT_MANAGER ??= "sysvinit"
-+require conf/distro/include/init-manager-${INIT_MANAGER}.inc
-diff --git a/meta/conf/distro/include/init-manager-mdev-busybox.inc b/meta/conf/distro/include/init-manager-mdev-busybox.inc
-new file mode 100644
-index 0000000000..b07d9de5b4
---- /dev/null
-+++ b/meta/conf/distro/include/init-manager-mdev-busybox.inc
-@@ -0,0 +1,7 @@
-+# enable mdev/busybox for init
-+DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " systemd sysvinit"
-+VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
-+VIRTUAL-RUNTIME_init_manager = "busybox"
-+VIRTUAL-RUNTIME_initscripts = "initscripts"
-+VIRTUAL-RUNTIME_keymaps = "keymaps"
-+VIRTUAL-RUNTIME_login_manager = "busybox"
-diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/conf/distro/include/init-manager-systemd.inc
-new file mode 100644
-index 0000000000..6542e29cfd
---- /dev/null
-+++ b/meta/conf/distro/include/init-manager-systemd.inc
-@@ -0,0 +1,6 @@
-+# Use systemd for system initialization
-+DISTRO_FEATURES_append = " systemd"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " sysvinit"
-+VIRTUAL-RUNTIME_init_manager = "systemd"
-+VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
-+VIRTUAL-RUNTIME_login_manager = "shadow-base"
-diff --git a/meta/conf/distro/include/init-manager-sysvinit.inc b/meta/conf/distro/include/init-manager-sysvinit.inc
-new file mode 100644
-index 0000000000..7725b30e1e
---- /dev/null
-+++ b/meta/conf/distro/include/init-manager-sysvinit.inc
-@@ -0,0 +1,6 @@
-+# Use sysvinit for system initialization
-+DISTRO_FEATURES_append = " sysvinit"
-+DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " systemd"
-+VIRTUAL-RUNTIME_init_manager = "sysvinit"
-+VIRTUAL-RUNTIME_initscripts = "initscripts"
-+VIRTUAL-RUNTIME_login_manager = "busybox"
++# Make systemd as default init manager for poky
++# and set sysvinit for musl consider security
++INIT_MANAGER ?= "systemd"
++INIT_MANAGER_libc-musl ?= "sysvinit"
 -- 
 2.18.0
 
