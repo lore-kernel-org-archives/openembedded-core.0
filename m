@@ -1,39 +1,33 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 1DB447CE4E
+Return-Path: <zhangzl2013@126.com>
+X-Greylist: delayed 1814 seconds by postgrey-1.34 at layers.openembedded.org;
+	Thu, 04 Jul 2019 11:02:05 UTC
+Received: from mail-m963.mail.126.com (mail-m963.mail.126.com [123.126.96.3])
+	by mail.openembedded.org (Postfix) with ESMTP id 637BA7EB0A
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 10:57:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45fZgX6nzGz6W;
-	Thu,  4 Jul 2019 12:57:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1562237850;
-	bh=A50n4/l7EwP1iMKIkzpJ0h5qNBQaEjCUuW/A6z67kYA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bZ7IbyGRsv+gPN5zrozxTb4lHXqT5vDOri9s90VaS6z8hmJZ/bM4IeNwFEoPNqmZY
-	FAgxMF1FV/OdDng5gWSciLvRmAWjxoNGUIdFVdRpABTpNV4cfFJ6T+gWocNCAcjFXv
-	8skPAVh4t4o9VqWnrublmwAS/c52+2l0eVg56HY42lIU2FQwdOfyH8YwDd7A7BwVMv
-	ZAT/aoBBKGqdBsQoJwDsvT+cguT/9WexkzIgG01IH8uAneiSxUvS/42CG0cB9nIk0f
-	ghFN6MQF61xDA0ZRdFiFyaK+eChGj144NORDtD9ACuppwpows06b7qfE7bKJJnwz/1
-	wZn62679y30/d2cPUN924zns0zNrAPd2s7lSiMYWdZaoJlxPA5PTtQtHfUCcf6y7sx
-	OAmvSnOMko+6Ttm2q+qICN0CViR5L93SIlBRTC84D4JgwHBn9QjLhq0581FgxKMzkJ
-	26bV/sOjWJ6RakYJmgERiRvcKMXMjl7lGbhmuPjJ0hzI/g9Viqrz4kweF5QmWOb39D
-	5DPWTork/J+YGLC117lEOBA7aKm1oiYq4LsQ8q0F9BnWas6pJCAdvP/Afn5zdz2l89
-	EEWK5844D1YDVZIaCcXIO/P/FK06l1N2MSGpLTARbLDxkbedw9Aq+2hkfMqVQQ4yjv
-	aE4Brc3N1dbZAtbQecLMJCxE=
-Date: Thu, 4 Jul 2019 13:57:26 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Martin Jansa <martin.jansa@gmail.com>
-Message-ID: <20190704105726.GA21763@localhost>
-References: <20190702201609.78379-1-jason.wessel@windriver.com>
-	<20190702201609.78379-4-jason.wessel@windriver.com>
-	<CA+chaQdZmWmLYPLfzZ2s6ojCG1QwEGjy7O7fdpNOh2QGTE9vjA@mail.gmail.com>
-MIME-Version: 1.0
-In-Reply-To: <CA+chaQdZmWmLYPLfzZ2s6ojCG1QwEGjy7O7fdpNOh2QGTE9vjA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] glibc/glibc-locale: Fix do_stash_locale to work with usrmerge and multilibs
+	Thu,  4 Jul 2019 11:02:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
+	s=s110527; h=From:Subject:Date:Message-Id; bh=b6BMFlVg4y7CxY3oQe
+	LWatcdbEummlx8ReIS6m+c4a8=; b=YTzNSyBvjgluTmwcoIUdwBLqczeLaLOkTB
+	ht8F85t3Ioa13rXJhy9h8X90O14QiITA5MH06sbu/BlwQ0quAzGqDtOdU7P+ajWZ
+	VpFc615nuHydudUkbuRNFsvmZOkZqEgzCFq+yG756Ad2kJaU9Sn3FS+xOQF/npwY
+	vpf2nIhrU=
+Received: from pek-zhang3-d1.corp.ad.wrs.com (unknown [60.247.85.82])
+	by smtp8 (Coremail) with SMTP id NORpCgC3hSyS1R1doNgAEQ--.43S2;
+	Thu, 04 Jul 2019 18:31:50 +0800 (CST)
+From: Zhaolong Zhang <zhangzl2013@126.com>
+To: openembedded-core@lists.openembedded.org,
+	zhangzl2013@126.com
+Date: Thu,  4 Jul 2019 18:29:43 +0800
+Message-Id: <1562236183-6069-1-git-send-email-zhangzl2013@126.com>
+X-Mailer: git-send-email 1.9.1
+X-CM-TRANSID: NORpCgC3hSyS1R1doNgAEQ--.43S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Cw4fGrWrXr4UWF47Xr13urg_yoW8ZF1DpF
+	WxGr1xWFW7JFWxGas3A3WUuFWUKw1kWa4agrsagr18urW5Kw10qF48Kr1093W7KFsIq347
+	tF45ZF9Fgw4qga7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U2_MfUUUUU=
+X-Originating-IP: [60.247.85.82]
+X-CM-SenderInfo: x2kd0wt2osiiat6rjloofrz/1tbitBbnz1pD9fYqOwAAsB
+Subject: [PATCH] kernel-yocto: checksum indirect cfg and scc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,38 +40,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 10:57:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 04 Jul 2019 11:02:06 -0000
 
-On Thu, Jul 04, 2019 at 11:13:18AM +0200, Martin Jansa wrote:
-> I don't see how this change (or the previous glibc-locale one) would cause
-> that, but since the oe-core upgrade yesterday I'm seeing following
-> glibc-locale.do_package failure:
-> http://errors.yoctoproject.org/Errors/Details/250557/
-> 
-> DEBUG: Executing shell function do_prep_locale_tree
-> tar: i18n: Cannot stat: No such file or directory
-> tar: Exiting with failure status due to previous errors
-> gzip:
-> TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz:
-> No such file or directory
-> WARNING:
-> TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/temp/run.do_prep_locale_tree.23303:1
-> exit 1 from 'gunzip $i'
-> 
-> anyone else seeing this?
+Currently, Yocto can not realize the modification of the cfg/scc files indirectly
+introduced by scc files in custom layers.
 
-Yes.
+Instead of introducing complicated scc parser code, this patch walks though
+FILESEXTRAPATHS and takes all the cfg/scc files into account when calculating
+checksums.
 
-cu
-Adrian
+Signed-off-by: Zhaolong Zhang <zhangzl2013@126.com>
+---
+ meta/classes/kernel-yocto.bbclass | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
+diff --git a/meta/classes/kernel-yocto.bbclass b/meta/classes/kernel-yocto.bbclass
+index ed9bcfa57c..a9aac8a9d9 100644
+--- a/meta/classes/kernel-yocto.bbclass
++++ b/meta/classes/kernel-yocto.bbclass
+@@ -69,6 +69,24 @@ def get_machine_branch(d, default):
+ 	    
+     return default
+ 
++def get_files_in_filesextrapaths(d):
++    extrapaths = []
++    extrafiles = []
++    extrapathsvalue = (d.getVar("FILESEXTRAPATHS") or "")
++    # Remove default flag which was used for checking
++    extrapathsvalue = extrapathsvalue.replace("__default:", "")
++    extrapaths = extrapathsvalue.split(":")
++    for path in extrapaths:
++        for root, dirs, files in os.walk(path):
++            for name in files:
++                base, ext = os.path.splitext(name)
++                if ext and ext in [".scc", ".cfg"]:
++                    filepath = os.path.join(root, name)
++                    extrafiles.append(filepath + ":" + str(os.path.exists(filepath)))
++    return " ".join(extrafiles)
++
++
++
+ do_kernel_metadata() {
+ 	set +e
+ 	cd ${S}
+@@ -296,6 +314,7 @@ do_kernel_checkout[dirs] = "${S}"
+ addtask kernel_checkout before do_kernel_metadata after do_unpack
+ addtask kernel_metadata after do_validate_branches do_unpack before do_patch
+ do_kernel_metadata[depends] = "kern-tools-native:do_populate_sysroot"
++do_kernel_metadata[file-checksums] = " ${@get_files_in_filesextrapaths(d)}"
+ do_validate_branches[depends] = "kern-tools-native:do_populate_sysroot"
+ 
+ do_kernel_configme[depends] += "virtual/${TARGET_PREFIX}binutils:do_populate_sysroot"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.19.1
 
 
