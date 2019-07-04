@@ -1,51 +1,51 @@
-Return-Path: <bruce.ashfield@gmail.com>
-Received: from mail-lj1-f195.google.com (mail-lj1-f195.google.com
-	[209.85.208.195])
-	by mail.openembedded.org (Postfix) with ESMTP id E048C7EBBD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wr1-f66.google.com (mail-wr1-f66.google.com
+	[209.85.221.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 701F17EB92
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 16:43:04 +0000 (UTC)
-Received: by mail-lj1-f195.google.com with SMTP id v24so6705454ljg.13
+	Thu,  4 Jul 2019 16:53:56 +0000 (UTC)
+Received: by mail-wr1-f66.google.com with SMTP id p13so7269293wru.10
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2019 09:43:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ce/YLIr+VP9es0XnZ6DAtFBxMVbPByLzyOfGfwiPJp4=;
-	b=DSEhZ8fnlD+KzdM1+2F6iL4Lq/G8DSZc6u0UPsXbKfR0Y74SPs9UQAaDdCSxi3yKnk
-	nfJPDJHZp9h9+L7f6S7N/fxgjfr3bMYAt5iNNuIbs4nlA4/6K3silyu6XClYMaU2xv2n
-	eRJKvjL42TNRK7JBI5RI6kV4rW7NL4ZvpK9PYErMnzUw9MBUPCl/qNKhwD/Pm7XQzkbQ
-	mYhMX+pUJwK73+wBeQxLl+iCZdSma1L0U/9ied5eIvvfmTl3qrRlhhIYvGrMFGDkVcva
-	TqfVAmsqhIdg2h+0z96uoccOpFcsENplGazeQScubKxp4efT3h73ApjX3UsDq2bt09Be
-	pObQ==
+	Thu, 04 Jul 2019 09:53:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=URJeZrMZC2nfPDPGXQQcbnpE5qV7glLt7egbsGxf9t0=;
+	b=J71cMUhjqle14QZKt+rSsJ9tDGj37um9+D6LzR2HWFPRZ9cdFpNemueUu2p7LPRYxJ
+	IUbLp8fa0jsyHvyz7yb8HTfFRODw3u/JBgYDXON3F0PKV+QZPJoopT0o4i/amkFES35N
+	pvYZcnnEJFCeuod+sgIRGGWaAN04e2gLNEORA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Ce/YLIr+VP9es0XnZ6DAtFBxMVbPByLzyOfGfwiPJp4=;
-	b=oCe28F9RAUFTD+QoWqcbCj3j3RNuVcBBoKjjIZwaHvemswFOQpzYEounslq6LHH2qW
-	iyVtytyKfbGhUsJyNRMUBgDcAIErdasH2uzJ9X5hwF1N+Ps9+5cxViVTl66OXedSzS6K
-	8njdnajiJpYzIi/hzE3yAJSbnNrZ+PhGhXwv/AvawsRsFr4A/yhyudo6nOIsft4KX1Jn
-	AqZKlupqQnGFNqTEV43Ea8sxZpZmdqIfN7GRfQ0OonqGFtfSf3K/koO2bEYNstFREBWL
-	iNspK4gawYS0hZJB36XtDrrm64czq44g1LevFvIIOJhyl0Fd3570r7RNSRkjdwurmSdL
-	tI2w==
-X-Gm-Message-State: APjAAAVmXI5+euhH9AKH7BwnlxxKv4y/geugDu0G+OttGrsqCKCXe9En
-	aFDfsndOhM/6FLtDaneYentwTr+ymDhh15Vs844=
-X-Google-Smtp-Source: APXvYqwgxjj7YozNTOWx8Ge5OIypHglg9bJ5ZMXKJx4DEmDOwGLza741XngGiJmuMp7WztRSwKJmrriyWyYm2qQLJ0M=
-X-Received: by 2002:a2e:93c5:: with SMTP id p5mr240000ljh.79.1562258585384;
-	Thu, 04 Jul 2019 09:43:05 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=URJeZrMZC2nfPDPGXQQcbnpE5qV7glLt7egbsGxf9t0=;
+	b=Qz+XOnIqF00VGIiawKeZNRYJDXMlzSLo1QFen7rWDRdvXQf2VeBdEzPTJqWp4oPmzr
+	IgaxnP7EooSitNN26nkSJTGBMiCPVH3UVBULOr3xwoFGyMlpXTXDOn22Byg6y/a6JBmm
+	0lY9mqC41T0RFe/QR05bKWYKeanpHDsJsPUD7xOLAgQIjW6axrijb9acIEu5X/Nh6Kax
+	Jrk9YYZ+w+YkXWVTJYEovLqSIzchCA2UBHOlTyBiGIskKCnRH4R4zJaInNgC/dwsS/J+
+	xylfvqQsYv7W2Wygzxc71LVtdAtosWi4Q22UgQHNnOEt8sb9lBbZPZsC6sIbqq1Ohggp
+	PSsw==
+X-Gm-Message-State: APjAAAWek+g0OgTM4QQ+PodRpuHFZ37i6JWD+wgcUj3tr/LKe9lkOodn
+	ecDgwTl9JD1/yQdhggy1dOxLJA==
+X-Google-Smtp-Source: APXvYqytQSmO8h7GC5KZw7yaFUvqTdBhuCsWiGbueXwutbUlfM8PSqkHIubQqEdxHy32fvj4/0x1lA==
+X-Received: by 2002:a5d:4d07:: with SMTP id z7mr4327232wrt.214.1562259237132; 
+	Thu, 04 Jul 2019 09:53:57 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id
+	v67sm8133294wme.24.2019.07.04.09.53.55
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 04 Jul 2019 09:53:56 -0700 (PDT)
+Message-ID: <32465019cfec55c922f3dc15ec563812ef22ffda.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Pierre Le Magourou <lemagoup@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Thu, 04 Jul 2019 17:53:54 +0100
+In-Reply-To: <20190704151908.5094-1-lemagoup@gmail.com>
+References: <20190704151908.5094-1-lemagoup@gmail.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-References: <1562236183-6069-1-git-send-email-zhangzl2013@126.com>
-	<CADkTA4P-jyrFNf+vKQwDuyxD8sW=20MO+2Tus3AvaoKPjbJFvQ@mail.gmail.com>
-	<7c29c0bde1bae4de4cac852d98571dd28070f4c5.camel@linuxfoundation.org>
-	<CADkTA4NQr2LkB3k32Djxn-zX0m2jSCLz_yEjN7pPPzdNoJMaYA@mail.gmail.com>
-	<64ce05dd1d970dc5b0390d57b4c9b75c44f405f4.camel@linuxfoundation.org>
-In-Reply-To: <64ce05dd1d970dc5b0390d57b4c9b75c44f405f4.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Thu, 4 Jul 2019 12:42:53 -0400
-Message-ID: <CADkTA4PbeVuGHVc2oofZeavPvMsQ7DPT4dWm0RRKK2U-8OfxWg@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-yocto: checksum indirect cfg and scc files
+Subject: Re: [meta-oe][PATCH 1/3] cve-check: Depends on cve-update-db-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,100 +58,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 16:43:05 -0000
+X-List-Received-Date: Thu, 04 Jul 2019 16:53:56 -0000
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-On Thu, Jul 4, 2019 at 12:36 PM <richard.purdie@linuxfoundation.org> wrote:
->
-> On Thu, 2019-07-04 at 12:29 -0400, Bruce Ashfield wrote:
-> > On Thu, Jul 4, 2019 at 11:18 AM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > > On Thu, 2019-07-04 at 08:48 -0400, Bruce Ashfield wrote:
-> > > > On Thu, Jul 4, 2019 at 7:02 AM Zhaolong Zhang <
-> > > > zhangzl2013@126.com>
-> > > > wrote:
-> > > > > Currently, Yocto can not realize the modification of the
-> > > > > cfg/scc
-> > > > > files indirectly
-> > > > > introduced by scc files in custom layers.
-> > > > >
-> > > > > Instead of introducing complicated scc parser code, this patch
-> > > > > walks though
-> > > > > FILESEXTRAPATHS and takes all the cfg/scc files into account
-> > > > > when
-> > > > > calculating
-> > > > > checksums.
-> > > >
-> > > > There used to be a bugzilla around for this .. but I can't find
-> > > > it
-> > > > now.
-> > > >
-> > > > While the approach isn't wrong, I think it is too heavy, since it
-> > > > is
-> > > > looking at *all* the .scc and .cfg files that can be located in
-> > > > the
-> > > > search paths, not just the ones that are actually used.
-> > >
-> > > That isn't quite right. With the checksums its important to know if
-> > > a
-> > > new file appears at location X, we should reparse as it could
-> > > change
-> > > the outcome.
-> > >
-> > > We therefore have to account for files which doesn't exist as much
-> > > as
-> > > the ones that do.
-> >
-> > Maybe I'm misunderstanding what you are saying here, but these are
-> > just sitting around (like unused patch files). They are not on the
-> > SRC_URI and they are not necessarily used at all. Just because
-> > someone
-> > drops a new file in those locations, we should not be re-running the
-> > meta data task.
-> >
-> > What that routine is currently doing is just wrong.
->
-> Agreed, it is.
->
-> I'm just saying that this situation isn't as simple as files exist, we
-> also need to look at which files don't exist, but that would influence
-> the build if they did.
-
-Aha.
-
->
-> The patch doesn't do that either!
->
->
-> > > This doesn't work since we need to be able to predict the task hash
-> > > checksum at parse time. We don't have the kern-tools available then
-> > > to
-> > > be able to know which ones it would actually use...
-> >
-> > So there's only python code allowed in those hash routines ? If so,
-> > what is there is still wrong, and needs to be reworked.
->
-> It has to be able to work on the information available to it at parse
-> time. In reality that does mean python code. There are performance
-> implications to anything too complex.
-
-Understood.
-
-I'll think on this for a bit. This has been something that I looked
-into several times, and didn't come up with anything I really liked.
-Maybe now is the time to solve the issue :)
-
-Bruce
-
->
-> Cheers,
->
-> Richard
->
+On Thu, 2019-07-04 at 17:19 +0200, Pierre Le Magourou wrote:
+> From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+> 
+> do_populate_cve_db is a native task.
+> 
+> Signed-off-by: Pierre Le Magourou <
+> pierre.lemagourou@softbankrobotics.com>
+> ---
+>  meta/classes/cve-check.bbclass          | 2 +-
+>  meta/recipes-core/meta/cve-update-db.bb | 1 +
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 
 
--- 
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+https://autobuilder.yoctoproject.org/typhoon/#/builders/23/builds/1015
+
+:(
+
+Cheers,
+
+Richard
+
 
