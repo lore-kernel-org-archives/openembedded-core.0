@@ -1,23 +1,30 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
-	by mail.openembedded.org (Postfix) with ESMTP id 510B67C556
+Return-Path: <Changqing.Li@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id D596B7E90E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 09:00:28 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	04 Jul 2019 02:00:28 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,450,1557212400"; d="scan'208";a="169394492"
-Received: from andromeda02.png.intel.com ([10.221.183.11])
-	by orsmga006.jf.intel.com with ESMTP; 04 Jul 2019 02:00:28 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jul 2019 17:00:26 +0800
-Message-Id: <1562230826-52876-1-git-send-email-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.7.4
-Subject: [warrior][PATCH] gstreamer1.0-vaapi: backport jpeg encode/decode fixes
+	Thu,  4 Jul 2019 09:03:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6493TkV020171
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Thu, 4 Jul 2019 02:03:29 -0700 (PDT)
+Received: from [128.224.162.186] (128.224.162.186) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Thu, 4 Jul 2019 02:03:28 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>, William Bourque
+	<wbourque@gmail.com>, <openembedded-core@lists.openembedded.org>
+References: <20190702182403.24099-1-wbourque@gmail.com>
+	<20190702183053.2330.89816@do>
+	<CANBSh+N4AL=o5bsuVEWJRUX+VzpsLv=dPBSo=OWCZBZnx_vrpw@mail.gmail.com>
+	<ab85111307d8ed9b93c0fb8026a91ae5f24c4ed3.camel@linuxfoundation.org>
+From: Changqing Li <changqing.li@windriver.com>
+Message-ID: <fd82d53d-026f-ae13-e026-c24bab18ed5c@windriver.com>
+Date: Thu, 4 Jul 2019 17:03:25 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.0
+MIME-Version: 1.0
+In-Reply-To: <ab85111307d8ed9b93c0fb8026a91ae5f24c4ed3.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.186]
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHdpYy9wbHVnaW5zOiBTb3VyY2UgdGhhdCBzdXBwb3J0IGJvdGggRUZJIGFuZCBCSU9T?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,159 +37,49 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 09:00:29 -0000
+X-List-Received-Date: Thu, 04 Jul 2019 09:03:31 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 
-Backport patches from 1.15 to fix JPEG encode/decode issues when
-using VAAPI with Intel media-driver. See for details:
 
-https://bugzilla.gnome.org/show_bug.cgi?id=796705
-https://bugzilla.gnome.org/show_bug.cgi?id=796505
+On 7/3/19 3:51 PM, Richard Purdie wrote:
+> On Tue, 2019-07-02 at 15:22 -0400, William Bourque wrote:
+>> Hi,
+>>
+>> The error "scripts/lib/wic/plugins/source/bootimg-biosplusefi.py does
+>> not exist" is a bit puzzling : this is the new file my patch is
+>> adding.
+>> Is this test failure expected for new files?
+>>
+>> I sent this using git-sendmail; should I submit using a different way
+>> (pull request, ...)?
+> I think the test is broken so we can ignore that. I've cc'd Sandy so
+> she might be able to look into this issue if possible as we've seen it
+> a few times.
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- ...der-release-VA-buffers-after-vaEndPicture.patch | 45 +++++++++++++++
- ...ibs-encoder-jpeg-set-component-id-and-Tqi.patch | 65 ++++++++++++++++++++++
- .../gstreamer/gstreamer1.0-vaapi_1.14.4.bb         |  2 +
- 3 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch
+I checked the test case,  and current test only support modified file well,
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch
-new file mode 100644
-index 0000000..b52e61b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch
-@@ -0,0 +1,45 @@
-+From bb8894aaf934b3af4d44cf54e860510fe4d615b3 Mon Sep 17 00:00:00 2001
-+From: Tianhao Liu <tianhao.liu@intel.com>
-+Date: Thu, 7 Jun 2018 09:34:11 +0800
-+Subject: [PATCH] libs: decoder: release VA buffers after vaEndPicture
-+
-+This change is due a problem decoding JPEGs with Intel's media-driver:
-+no image was generated.
-+
-+This patch relases the VA buffers after vaEndPicture() is called,
-+and not before (after vaRenderPicture()).
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=796505
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi/commit/bb8894aaf934b3af4d44cf54e860510fe4d615b3]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ gst-libs/gst/vaapi/gstvaapidecoder_objects.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/gst-libs/gst/vaapi/gstvaapidecoder_objects.c b/gst-libs/gst/vaapi/gstvaapidecoder_objects.c
-+index 20d4f55..2dd4c27 100644
-+--- a/gst-libs/gst/vaapi/gstvaapidecoder_objects.c
-++++ b/gst-libs/gst/vaapi/gstvaapidecoder_objects.c
-+@@ -304,12 +304,17 @@ gst_vaapi_picture_decode (GstVaapiPicture * picture)
-+     status = vaRenderPicture (va_display, va_context, va_buffers, 2);
-+     if (!vaapi_check_status (status, "vaRenderPicture()"))
-+       return FALSE;
-++  }
-++
-++  status = vaEndPicture (va_display, va_context);
-++
-++  for (i = 0; i < picture->slices->len; i++) {
-++    GstVaapiSlice *const slice = g_ptr_array_index (picture->slices, i);
-+ 
-+     vaapi_destroy_buffer (va_display, &slice->param_id);
-+     vaapi_destroy_buffer (va_display, &slice->data_id);
-+   }
-+ 
-+-  status = vaEndPicture (va_display, va_context);
-+   if (!vaapi_check_status (status, "vaEndPicture()"))
-+     return FALSE;
-+   return TRUE;
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch
-new file mode 100644
-index 0000000..eb1228b
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch
-@@ -0,0 +1,65 @@
-+From f5eb4faa5914f3745820e557ac2401a7d738be66 Mon Sep 17 00:00:00 2001
-+From: Tianhao Liu <tianhao.liu@intel.com>
-+Date: Wed, 4 Jul 2018 12:51:10 +0800
-+Subject: [PATCH] libs: encoder: jpeg: set component id and Tqi
-+
-+This change is due a problem encoding JPEGs with Intel's
-+media-driver: green/black image when playback jpeg
-+
-+This patch sets component identifier and quantization table
-+destination selector in frame header to support packing headers
-+by Intel's media-driver that does not accept packed header
-+in AP level.
-+
-+https://bugzilla.gnome.org/show_bug.cgi?id=796705
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi/commit/f5eb4faa5914f3745820e557ac2401a7d738be66]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c | 14 +++++++++-----
-+ 1 file changed, 9 insertions(+), 5 deletions(-)
-+
-+diff --git a/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c b/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c
-+index b3f409d..8491fbc 100644
-+--- a/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c
-++++ b/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c
-+@@ -205,6 +205,7 @@ fill_picture (GstVaapiEncoderJpeg * encoder,
-+     GstVaapiEncPicture * picture,
-+     GstVaapiCodedBuffer * codedbuf, GstVaapiSurfaceProxy * surface)
-+ {
-++  guint i;
-+   VAEncPictureParameterBufferJPEG *const pic_param = picture->param;
-+ 
-+   memset (pic_param, 0, sizeof (VAEncPictureParameterBufferJPEG));
-+@@ -224,6 +225,11 @@ fill_picture (GstVaapiEncoderJpeg * encoder,
-+   pic_param->num_scan = 1;
-+   pic_param->num_components = encoder->n_components;
-+   pic_param->quality = encoder->quality;
-++  for (i = 0; i < pic_param->num_components; i++) {
-++    pic_param->component_id[i] = i + 1;
-++    if (i != 0)
-++      pic_param->quantiser_table_selector[i] = 1;
-++  }
-+   return TRUE;
-+ }
-+ 
-+@@ -437,13 +443,11 @@ generate_frame_hdr (GstJpegFrameHdr * frame_hdr, GstVaapiEncoderJpeg * encoder,
-+   frame_hdr->num_components = pic_param->num_components;
-+ 
-+   for (i = 0; i < frame_hdr->num_components; i++) {
-+-    frame_hdr->components[i].identifier = i + 1;
-++    frame_hdr->components[i].identifier = pic_param->component_id[i];
-+     frame_hdr->components[i].horizontal_factor = encoder->h_samp[i];
-+     frame_hdr->components[i].vertical_factor = encoder->v_samp[i];
-+-    if (i == 0)
-+-      frame_hdr->components[i].quant_table_selector = 0;
-+-    else
-+-      frame_hdr->components[i].quant_table_selector = 1;
-++    frame_hdr->components[i].quant_table_selector =
-++        pic_param->quantiser_table_selector[i];
-+   }
-+ }
-+ 
-+-- 
-+2.7.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-index 3896434..6243edd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
-@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
-            file://0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch \
-            file://0001-vaapsink-downgrade-to-marginal.patch \
-+           file://0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch \
-+           file://0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch \
-            "
- 
- SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
+for new add file,  enhancement is needed, I have file a bug in bugzilla,
+
+I will fix this when have time.
+
+>
+> What I did wonder is whether we should be adding some tests to wic for
+> this new plugin though?
+>
+> The existing tests are in meta/lib/oeqa/selftest/cases/wic.py and can
+> be run with "oe-selftest -r wic", would it make sense to add something
+> to this as part of this change?
+>
+> Cheers,
+>
+> Richard
+>
+>
 -- 
-2.7.4
+BRs
+
+Sandy(Li Changqing)
 
 
