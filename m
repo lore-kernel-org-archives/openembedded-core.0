@@ -1,49 +1,33 @@
-Return-Path: <open.source@oleksandr-kravchuk.com>
-Received: from mail-lj1-f196.google.com (mail-lj1-f196.google.com
-	[209.85.208.196])
-	by mail.openembedded.org (Postfix) with ESMTP id 228AB7C7A3
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A4C07D19E
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 18:19:04 +0000 (UTC)
-Received: by mail-lj1-f196.google.com with SMTP id v18so6914185ljh.6
+	Thu,  4 Jul 2019 20:21:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45fq9p0rzqz56
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2019 11:19:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=MXc9bFkL47NH9OSf8xnh2OBY43UngO81ud/dAKOJwGM=;
-	b=QB5iyIzJCDcuVLoLmGsqqkQQzQJEuDXwWg3BISkH56AJG3rPZ54WUkVuBZKP3jheEz
-	yGm8/MQrK3A5Ft/3LPiFpeQc2V9QyKPMkyIofBRjEWNypbRc4TH2T2eAEw/1cAE03YqG
-	bRV14kB/HQKArUP8TSQO5+SSG8OP+a+zcRZ1/sm4y/2y7XqDBHKO4Y5ZvWQr7ik5jSKq
-	F1ud56tjB2eumSdc2RrWm0MzhybpdnYw06adDzJqCgOahoYvuycgvokvZuKGB8PztrD0
-	EP7kNyswcW59oGjTbUnNyJkGtukXu4D2tOVzxjiei2hwvcPvPAq/Nid/BAvk9mOm32qt
-	yWOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=MXc9bFkL47NH9OSf8xnh2OBY43UngO81ud/dAKOJwGM=;
-	b=fstxvYtu5B+IoOPgCIBrXSaeIKzrz5E1Nj7uAd8LNner+SyDYPiTTISSUqFv8wgZVs
-	kz7RygoYGjgJRho33ufKOHP+f0aR0aJDoyPnVjBS81bwQy58wMJ07zJeTnV54LW6xoxI
-	kvaS194AifdGfou/QUtvy7sAVKOvNLoEFbxK8TszirxBgVjuVLBZ6Sbdj7F+KjaKmDcr
-	Cj9bZv10bw2qdCTtFOejnz4tR4xjY+1hhmbTDc8Rnlkx8llT3rXN39fvfpHnjjVLaxuG
-	avUrOWHDqWv6SzA4aKIZY/ci7LSFjq5IMYjtXSGeOezja/rqtq4jQAJXB3z6WociMrnJ
-	kzDw==
-X-Gm-Message-State: APjAAAVBD0Xn0g344G+CgWq9XtQBjRdu0uRzpMuqrUk5ePIwOOZptSCS
-	oAYfC3mL5B4Z7i6yhQ1uUPGUhxWfdFE=
-X-Google-Smtp-Source: APXvYqwCjifQ5LKaPsCm9PstD9FQImgO7aI8ycEhDSXzYPOnVIMDrsOd9XeOWLXyY6FInWNuc2oWnw==
-X-Received: by 2002:a2e:6e0c:: with SMTP id j12mr25282824ljc.123.1562264344913;
-	Thu, 04 Jul 2019 11:19:04 -0700 (PDT)
-Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
-	[83.252.117.108])
-	by smtp.gmail.com with ESMTPSA id 189sm1121151lfa.0.2019.07.04.11.19.03
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 04 Jul 2019 11:19:04 -0700 (PDT)
-From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+	Thu,  4 Jul 2019 22:21:02 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1562271662;
+	bh=hD5gFAiK1ij/7Ux5FYO+GTtiSUclVWQpADbo0bB8yKg=;
+	h=From:To:Subject:Date:From;
+	b=G9Jc8UJ+VL1iWF8BnMx/rD4xPnh/Abjwdm8fmV08uNHQ67cp8G8Qza0E1Um1zm/ha
+	NSvvgdkhJIUsuJFaecRBvaHOAeT5FIBTl2g9XbyoXSkDK10dYKRAwMcGS/9s5LozWZ
+	ZnwTrVFSsauu6N4ahmej11nzHjeyWKJm5KoH93LJ5ZLdgjIK1AW7F2MfsWAuehJOu6
+	Xb/0IGeIJHaSxB+tZLp+skVypjnMAJQsymSaO1P9u/O+Wb4el+g8c+YQH3Z+JJFREW
+	FqO1Yrb7McRyMtc+5IADKK0i6Dzxj52dUGj9oe/XPVHKaF9hE69lJnaHe6GN8VdD9f
+	utmPsjbmft0irYlU/68LRcbS29cv/O5zUe34cpTNVuRJLqb9x25b4qKdL6Zi+CQOmL
+	kFMG2lqlKO2VlJkoXL70yPkzdhdwu4uDXCLnI8pQ4r880tMepjEaw5h4JmAxaYLok7
+	ZbkkOHqldfQckYOgwkculKCnfo3bLN35heFojro49QOVsu7bheDWfUKTpp661M9ZsS
+	VzqgAt23owpTTvd5sZZgnfDHEvfjuR6AoH4vhhG4d4n6C7FyNItifswvWuudRTctK1
+	NcdoKFWIj8O87aJ5G9a4dylEbdX/CR3BaTHAR77M4v4fFY7rLd/ppsb+RcFriHjqTw
+	U+er3SfjdNWJ+A3zpSs7F0Ho=
+From: Adrian Bunk <bunk@stusta.de>
 To: openembedded-core@lists.openembedded.org
-Date: Thu,  4 Jul 2019 20:18:58 +0200
-Message-Id: <20190704181858.10667-1-open.source@oleksandr-kravchuk.com>
+Date: Thu,  4 Jul 2019 23:21:01 +0300
+Message-Id: <20190704202101.27521-1-bunk@stusta.de>
 X-Mailer: git-send-email 2.17.1
-Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
-Subject: [PATCH] libdrm: update to 2.4.99
+Subject: [PATCH] i2c-tools: Add alternative for i2ctransfer
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,32 +40,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 18:19:05 -0000
+X-List-Received-Date: Thu, 04 Jul 2019 20:21:02 -0000
 
-Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+i2ctransfer is now also provided by busybox.
+
+Signed-off-by: Adrian Bunk <bunk@stusta.de>
 ---
- .../drm/{libdrm_2.4.98.bb => libdrm_2.4.99.bb}                | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-graphics/drm/{libdrm_2.4.98.bb => libdrm_2.4.99.bb} (95%)
+ meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/drm/libdrm_2.4.98.bb b/meta/recipes-graphics/drm/libdrm_2.4.99.bb
-similarity index 95%
-rename from meta/recipes-graphics/drm/libdrm_2.4.98.bb
-rename to meta/recipes-graphics/drm/libdrm_2.4.99.bb
-index bed542ba05..3cb30a4173 100644
---- a/meta/recipes-graphics/drm/libdrm_2.4.98.bb
-+++ b/meta/recipes-graphics/drm/libdrm_2.4.99.bb
-@@ -12,8 +12,8 @@ DEPENDS = "libpthread-stubs"
+diff --git a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb b/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
+index 2b4563d4f0..dcbd05aed4 100644
+--- a/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
++++ b/meta/recipes-devtools/i2c-tools/i2c-tools_4.1.bb
+@@ -34,8 +34,9 @@ RDEPENDS_${PN}-misc = "${PN} perl perl-module-posix \
+                       "
  
- SRC_URI = "http://dri.freedesktop.org/libdrm/${BP}.tar.bz2 \
-            file://musl-ioctl.patch"
--SRC_URI[md5sum] = "1320b43c4bdb8846c308ec2610b62b64"
--SRC_URI[sha256sum] = "8be0edccaca3abde8b6bb1431b46354c7fab46e9b91cc6946ba65b51f56f1894"
-+SRC_URI[md5sum] = "72539626815b35159a63d45bc4c14ee6"
-+SRC_URI[sha256sum] = "4dbf539c7ed25dbb2055090b77ab87508fc46be39a9379d15fed4b5517e1da5e"
- 
- inherit meson pkgconfig manpages
- 
+ ALTERNATIVE_PRIORITY = "100"
+-ALTERNATIVE_${PN} = "i2cdetect i2cdump i2cget i2cset"
++ALTERNATIVE_${PN} = "i2cdetect i2cdump i2cget i2cset i2ctransfer"
+ ALTERNATIVE_LINK_NAME[i2cdetect] = "${sbindir}/i2cdetect"
+ ALTERNATIVE_LINK_NAME[i2cdump] = "${sbindir}/i2cdump"
+ ALTERNATIVE_LINK_NAME[i2cget] = "${sbindir}/i2cget"
+ ALTERNATIVE_LINK_NAME[i2cset] = "${sbindir}/i2cset"
++ALTERNATIVE_LINK_NAME[i2ctransfer] = "${sbindir}/i2ctransfer"
 -- 
 2.17.1
 
