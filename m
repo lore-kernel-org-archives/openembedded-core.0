@@ -1,48 +1,23 @@
-Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com
-	[209.85.167.49])
-	by mail.openembedded.org (Postfix) with ESMTP id EA71362134
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga12.intel.com (mga12.intel.com [192.55.52.136])
+	by mail.openembedded.org (Postfix) with ESMTP id 510B67C556
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 02:39:54 +0000 (UTC)
-Received: by mail-lf1-f49.google.com with SMTP id u10so3116780lfm.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 03 Jul 2019 19:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=14xKL99OIKuybXx2RAEMfmGaWoHCyHyjJSvUPpQErxc=;
-	b=Vo5vZesLN4qQnjU7sAohCtpDLnKzjtYNGEwzWg5ItpWUN0R697jqFc8esTFbrOPo9f
-	w8WCV4cLK7H9A1d2qof6cAAbU8dolN5zkwz+n25z2pZJG2mhrJHWYH9e9QFmQ7rGPPSf
-	WL3l2mAJshCsMFeK5fdwOH8OiWEbfyfrII6LFz0JxnTRiJS4X6SfPkF4AkGjYM2UpqPG
-	q7g2OHhEafjfIUPVV3YP8yXEmEix8l0Gp6QnYYNVvi7Sf5aaUOCk+V56JlET7+xmgt/F
-	vEK07QUQzFweaxwcI5H4pLYikW/TuEJsvzszCjP2mVgeRK4cQYdG67X2XTwFXi4s4NWx
-	0i4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=14xKL99OIKuybXx2RAEMfmGaWoHCyHyjJSvUPpQErxc=;
-	b=h26nPPnyI1GRhJ1ulv60AfPY75kXZFCzbRAvw0lf4WsQI9wcLeD7qyRYuGzL0k62ly
-	UPYhWHJzw+/0nBolRYM9SnobPgqOhbfNEsTzDfVXgT1NleRvR18QCWokwgFL5wmtVbsA
-	8HxTGsGGXDZPHHrrpom68wI3QkMuCq1EWmzBlIiovozidR7JeT+arASaLHAaTy4zHHKs
-	sXktxyLddX05w614pzYgOQ+u2Ikp+8ecBPp20pMyA/n6MnfkZq0mi477ewGYrfGmvd9R
-	/OAuP6AmQwVQkH031maNF2kk3KQB/ayfRC55fnagggjiP4SjmqobDEOARlXy7qVG3jNk
-	mjEg==
-X-Gm-Message-State: APjAAAX490dbd8MDtAAzVY4Oyrpp3lBiAIj3d1eak2NIA3vNS/1UfM8R
-	VYKt39PwITbj3eshSv0zKkbCRpsrPHyXlPBzPzw=
-X-Google-Smtp-Source: APXvYqyHLTacuYrlHw/Qi1zYQwz0JXhKzs9sxulogotFXsnLuFRGr/OZIKJt/XXMnRY1AJcpG4R3rSr/akQsRs8V/oU=
-X-Received: by 2002:a05:6512:15a:: with SMTP id
-	m26mr19158919lfo.71.1562207995324; 
-	Wed, 03 Jul 2019 19:39:55 -0700 (PDT)
-MIME-Version: 1.0
-References: <CADySD0HgOebmE=uUJ718CBhsXv3bW7WoeXa4dp06LL=vcLd_qg@mail.gmail.com>
-	<CAJTo0Lbm1DVcwKFjYBaXWsgzTGLbRRH2aFEzgTi0MAGQXQ4T_w@mail.gmail.com>
-In-Reply-To: <CAJTo0Lbm1DVcwKFjYBaXWsgzTGLbRRH2aFEzgTi0MAGQXQ4T_w@mail.gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Thu, 4 Jul 2019 14:40:03 +1200
-Message-ID: <CADySD0E7mwou1DeeTWfjdXh3QjqM9oMDvLsVbkXMrFZCfcgdug@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Problems with sstate-cache in Artifactory
+	Thu,  4 Jul 2019 09:00:28 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	04 Jul 2019 02:00:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,450,1557212400"; d="scan'208";a="169394492"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga006.jf.intel.com with ESMTP; 04 Jul 2019 02:00:28 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Jul 2019 17:00:26 +0800
+Message-Id: <1562230826-52876-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [warrior][PATCH] gstreamer1.0-vaapi: backport jpeg encode/decode fixes
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,62 +30,159 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 02:39:55 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Jul 2019 09:00:29 -0000
 
-Hi Ross,
+Backport patches from 1.15 to fix JPEG encode/decode issues when
+using VAAPI with Intel media-driver. See for details:
 
-I can't see any "log.do_setscene" inside the tmp directory.
-When I start an image build, it does say executing setscene task but
-then no setscene task log for any recipe
+https://bugzilla.gnome.org/show_bug.cgi?id=796705
+https://bugzilla.gnome.org/show_bug.cgi?id=796505
 
-Initialising tasks: 100%
-|############################################################################################################################################|
-Time: 0:00:01
-Checking sstate mirror object availability: 100%
-|####################################################################################################################|
-Time: 0:00:02
-Sstate summary: Wanted 484 Found 0 Missed 968 Current 0 (0% match, 0% complete)
-NOTE: Executing SetScene Tasks
-NOTE: Executing RunQueue Tasks
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ ...der-release-VA-buffers-after-vaEndPicture.patch | 45 +++++++++++++++
+ ...ibs-encoder-jpeg-set-component-id-and-Tqi.patch | 65 ++++++++++++++++++++++
+ .../gstreamer/gstreamer1.0-vaapi_1.14.4.bb         |  2 +
+ 3 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch
 
-Regards
-Ankur
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch
+new file mode 100644
+index 0000000..b52e61b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch
+@@ -0,0 +1,45 @@
++From bb8894aaf934b3af4d44cf54e860510fe4d615b3 Mon Sep 17 00:00:00 2001
++From: Tianhao Liu <tianhao.liu@intel.com>
++Date: Thu, 7 Jun 2018 09:34:11 +0800
++Subject: [PATCH] libs: decoder: release VA buffers after vaEndPicture
++
++This change is due a problem decoding JPEGs with Intel's media-driver:
++no image was generated.
++
++This patch relases the VA buffers after vaEndPicture() is called,
++and not before (after vaRenderPicture()).
++
++https://bugzilla.gnome.org/show_bug.cgi?id=796505
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi/commit/bb8894aaf934b3af4d44cf54e860510fe4d615b3]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ gst-libs/gst/vaapi/gstvaapidecoder_objects.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/gst-libs/gst/vaapi/gstvaapidecoder_objects.c b/gst-libs/gst/vaapi/gstvaapidecoder_objects.c
++index 20d4f55..2dd4c27 100644
++--- a/gst-libs/gst/vaapi/gstvaapidecoder_objects.c
+++++ b/gst-libs/gst/vaapi/gstvaapidecoder_objects.c
++@@ -304,12 +304,17 @@ gst_vaapi_picture_decode (GstVaapiPicture * picture)
++     status = vaRenderPicture (va_display, va_context, va_buffers, 2);
++     if (!vaapi_check_status (status, "vaRenderPicture()"))
++       return FALSE;
+++  }
+++
+++  status = vaEndPicture (va_display, va_context);
+++
+++  for (i = 0; i < picture->slices->len; i++) {
+++    GstVaapiSlice *const slice = g_ptr_array_index (picture->slices, i);
++ 
++     vaapi_destroy_buffer (va_display, &slice->param_id);
++     vaapi_destroy_buffer (va_display, &slice->data_id);
++   }
++ 
++-  status = vaEndPicture (va_display, va_context);
++   if (!vaapi_check_status (status, "vaEndPicture()"))
++     return FALSE;
++   return TRUE;
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch
+new file mode 100644
+index 0000000..eb1228b
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch
+@@ -0,0 +1,65 @@
++From f5eb4faa5914f3745820e557ac2401a7d738be66 Mon Sep 17 00:00:00 2001
++From: Tianhao Liu <tianhao.liu@intel.com>
++Date: Wed, 4 Jul 2018 12:51:10 +0800
++Subject: [PATCH] libs: encoder: jpeg: set component id and Tqi
++
++This change is due a problem encoding JPEGs with Intel's
++media-driver: green/black image when playback jpeg
++
++This patch sets component identifier and quantization table
++destination selector in frame header to support packing headers
++by Intel's media-driver that does not accept packed header
++in AP level.
++
++https://bugzilla.gnome.org/show_bug.cgi?id=796705
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer-vaapi/commit/f5eb4faa5914f3745820e557ac2401a7d738be66]
++Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
++---
++ gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c | 14 +++++++++-----
++ 1 file changed, 9 insertions(+), 5 deletions(-)
++
++diff --git a/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c b/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c
++index b3f409d..8491fbc 100644
++--- a/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c
+++++ b/gst-libs/gst/vaapi/gstvaapiencoder_jpeg.c
++@@ -205,6 +205,7 @@ fill_picture (GstVaapiEncoderJpeg * encoder,
++     GstVaapiEncPicture * picture,
++     GstVaapiCodedBuffer * codedbuf, GstVaapiSurfaceProxy * surface)
++ {
+++  guint i;
++   VAEncPictureParameterBufferJPEG *const pic_param = picture->param;
++ 
++   memset (pic_param, 0, sizeof (VAEncPictureParameterBufferJPEG));
++@@ -224,6 +225,11 @@ fill_picture (GstVaapiEncoderJpeg * encoder,
++   pic_param->num_scan = 1;
++   pic_param->num_components = encoder->n_components;
++   pic_param->quality = encoder->quality;
+++  for (i = 0; i < pic_param->num_components; i++) {
+++    pic_param->component_id[i] = i + 1;
+++    if (i != 0)
+++      pic_param->quantiser_table_selector[i] = 1;
+++  }
++   return TRUE;
++ }
++ 
++@@ -437,13 +443,11 @@ generate_frame_hdr (GstJpegFrameHdr * frame_hdr, GstVaapiEncoderJpeg * encoder,
++   frame_hdr->num_components = pic_param->num_components;
++ 
++   for (i = 0; i < frame_hdr->num_components; i++) {
++-    frame_hdr->components[i].identifier = i + 1;
+++    frame_hdr->components[i].identifier = pic_param->component_id[i];
++     frame_hdr->components[i].horizontal_factor = encoder->h_samp[i];
++     frame_hdr->components[i].vertical_factor = encoder->v_samp[i];
++-    if (i == 0)
++-      frame_hdr->components[i].quant_table_selector = 0;
++-    else
++-      frame_hdr->components[i].quant_table_selector = 1;
+++    frame_hdr->components[i].quant_table_selector =
+++        pic_param->quantiser_table_selector[i];
++   }
++ }
++ 
++-- 
++2.7.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
+index 3896434..6243edd 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.14.4.bb
+@@ -11,6 +11,8 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
+            file://0001-gst-vaapi-Makefile.am-Add-EGL_CFLAGS-to-libgstvaapi-.patch \
+            file://0001-vaapsink-downgrade-to-marginal.patch \
++           file://0001-libs-encoder-jpeg-set-component-id-and-Tqi.patch \
++           file://0001-libs-decoder-release-VA-buffers-after-vaEndPicture.patch \
+            "
+ 
+ SRC_URI[md5sum] = "2fae3442f5f23e7354a0c592bc7b9065"
+-- 
+2.7.4
 
-
-
-On Thu, Jul 4, 2019 at 12:04 AM Burton, Ross <ross.burton@intel.com> wrote:
->
-> Check the log for the a particular setscene task and it will show what
-> requests it made, and if they failed.
->
-> Ross
->
-> On Wed, 3 Jul 2019 at 11:09, Ankur Tyagi <ankur.tyagi85@gmail.com> wrote:
-> >
-> > Hi,
-> >
-> > I am trying to setup sstate-cache in Artifactory so that multiple
-> > Linux host systems can share it.
-> >
-> > Once build finished in one Linux machine, I uploaded all of
-> > sstate-cache directory to Artifactory
-> >
-> > Then I configured sstate mirrors in local.conf
-> > SSTATE_MIRRORS ?= "\
-> > file://.* https://artifactory.com/yocto/sstate-cache/PATH;downloadfilename=PATH
-> > \
-> > "
-> > But when the build started, it didn't used anything from the sstate
-> > mirror and ended up building everything
-> >
-> > Am I missing something?
-> >
-> > Thanks
-> > Ankur
-> > --
-> > _______________________________________________
-> > Openembedded-core mailing list
-> > Openembedded-core@lists.openembedded.org
-> > http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
