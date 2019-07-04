@@ -1,49 +1,61 @@
-Return-Path: <martin.jansa@gmail.com>
-Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com
-	[209.85.208.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 34EF47E7DE
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id CA9D07EADB
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 09:13:28 +0000 (UTC)
-Received: by mail-ed1-f66.google.com with SMTP id p15so4727488eds.8
-	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2019 02:13:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8kdha3c4UXd/4rJMqd1uA/+na/7NAflt3dOqP30+3V8=;
-	b=WzAgbGivH4fPDW2A0kCgbAPalM9xR/rZfa9AZrZ3w1k7Ol2thZHC1QOatfiI7PuvCk
-	WhVyS0YxfdPabnK43y8Sf23WKjkUxsvFn8m5O/xS80z3j41QvWT4jadSkmHf7qm3nUBy
-	ClHkG8QvayHvB/WHt24DGNUru/SEVq+E832kdfIcoLFUwrI5PTryotMQfwtYsjn+qdaD
-	O42YE/eY4vXCVcg/Ht9iwR30P7qUhXgLS75AxC47fDnbAscbXdbGldlmFsF0Gvjnn2lw
-	zygMxTFg6S0TZAdda0tXUOHvpQ4mUp9yIIq5p1NU2/2sGnKxRpVnuM/ce39SKfUOimPO
-	xy/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8kdha3c4UXd/4rJMqd1uA/+na/7NAflt3dOqP30+3V8=;
-	b=tyT7wN58BhT22JzBAZjrl6r118hchnNx6Nl06vQb6JE/dKZ6ummbRoJtfva5CSsOJN
-	pMhd78OSMe9JrDNi0Wj8S7o+IvlMrc+HEsEk0Osi5TUdStOUq/chtIrU5D4fD0D0WVWR
-	fpXryFQUz4dcqzEEKSUihatSK9wn+Ua6CvCr2l8g2rZqD/th0rJpmLj3hvMADqsCGlOH
-	0cs8kgr6cah63xq0u6xhzV1wa3Jo0kUgDlejLpHEni4YNNvxPdYpiDhZtobAtxyeaisS
-	iRnbEAF94MqijywKkZThV9XcC8huKjPkrJTxLyO5sNxhBFLqcYTrKCebD4wzKp7t0Y1I
-	Jh6Q==
-X-Gm-Message-State: APjAAAVFVq0BpHilXn+iVNFmwwZgGmaCj53qXPJjHlXgs6WstZdcf9Rj
-	3gWIUC1JttagvP6Hyi7yVxhBx82h2WBjgmfS6kY=
-X-Google-Smtp-Source: APXvYqy1R6aXtx+iZThBwxi5Bsu83CShY8HqyjlJAOSZ4mmc6qTLbGDBv3K9tpZh+QmltY5W7wFqe3Kmg1X1Bw22kLg=
-X-Received: by 2002:a17:906:5ac7:: with SMTP id
-	x7mr27233411ejs.205.1562231608758; 
-	Thu, 04 Jul 2019 02:13:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190702201609.78379-1-jason.wessel@windriver.com>
-	<20190702201609.78379-4-jason.wessel@windriver.com>
-In-Reply-To: <20190702201609.78379-4-jason.wessel@windriver.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Thu, 4 Jul 2019 11:13:18 +0200
-Message-ID: <CA+chaQdZmWmLYPLfzZ2s6ojCG1QwEGjy7O7fdpNOh2QGTE9vjA@mail.gmail.com>
-To: Jason Wessel <jason.wessel@windriver.com>
-Cc: Patches and discussions about the oe-core layer
+	Thu,  4 Jul 2019 09:13:49 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 658F8184C7;
+	Thu,  4 Jul 2019 11:13:50 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id NsNC2hY1fQt3; Thu,  4 Jul 2019 11:13:49 +0200 (CEST)
+Received: from boulder03.se.axis.com (boulder03.se.axis.com [10.0.8.17])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 51BC81847C;
+	Thu,  4 Jul 2019 11:13:49 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3E7DA1E070;
+	Thu,  4 Jul 2019 11:13:49 +0200 (CEST)
+Received: from boulder03.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 328381E06C;
+	Thu,  4 Jul 2019 11:13:49 +0200 (CEST)
+Received: from thoth.se.axis.com (unknown [10.0.2.173])
+	by boulder03.se.axis.com (Postfix) with ESMTP;
+	Thu,  4 Jul 2019 11:13:49 +0200 (CEST)
+Received: from XBOX01.axis.com (xbox01.axis.com [10.0.5.15])
+	by thoth.se.axis.com (Postfix) with ESMTP id 265FD217B;
+	Thu,  4 Jul 2019 11:13:49 +0200 (CEST)
+Received: from xbox06.axis.com (10.0.15.176) by XBOX01.axis.com (10.0.5.15)
+	with Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Thu, 4 Jul 2019 11:13:48 +0200
+Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
+	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
+	15.00.1395.000; Thu, 4 Jul 2019 11:13:48 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: ChenQi <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] glibc/glibc-locale: Fix do_stash_locale to work with usrmerge and multilibs
+Thread-Topic: [OE-core] [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
+Thread-Index: AQHVL8H4hiSqMABPGkWtMYigx2N1Iqa2aPsQgAADsgCAAWY9UIAALuMAgAIsYjA=
+Date: Thu, 4 Jul 2019 09:13:48 +0000
+Message-ID: <88f9e424f5694d498f09cda63aec85ab@xbox06.axis.com>
+References: <cover.1561954425.git.Qi.Chen@windriver.com>
+	<8253aa4004e6a23f783cd930c222138f86d9fa3c.1561954425.git.Qi.Chen@windriver.com>
+	<9b4441e390c842ef8d12442f872ada93@xbox06.axis.com>
+	<58de5f15-e6e5-9fba-82fd-4b31626289fb@windriver.com>
+	<99c9b16228b5482e9af8c69f43484e54@xbox06.axis.com>
+	<5d0ac4c6-4303-47d5-7c36-d4e034b0eefe@windriver.com>
+In-Reply-To: <5d0ac4c6-4303-47d5-7c36-d4e034b0eefe@windriver.com>
+Accept-Language: en-US, sv-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
+MIME-Version: 1.0
+X-TM-AS-GCONF: 00
+Subject: Re: [PATCH V2 1/1] image.bbclass: fix systemd_preset_all
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,279 +68,135 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 09:13:28 -0000
-Content-Type: multipart/alternative; boundary="00000000000018d775058cd764ac"
-
---00000000000018d775058cd764ac
-Content-Type: text/plain; charset="UTF-8"
-
-I don't see how this change (or the previous glibc-locale one) would cause
-that, but since the oe-core upgrade yesterday I'm seeing following
-glibc-locale.do_package failure:
-http://errors.yoctoproject.org/Errors/Details/250557/
-
-DEBUG: Executing shell function do_prep_locale_tree
-tar: i18n: Cannot stat: No such file or directory
-tar: Exiting with failure status due to previous errors
-gzip:
-TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz:
-No such file or directory
-WARNING:
-TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/temp/run.do_prep_locale_tree.23303:1
-exit 1 from 'gunzip $i'
-
-anyone else seeing this?
-
-On Tue, Jul 2, 2019 at 10:16 PM Jason Wessel <jason.wessel@windriver.com>
-wrote:
-
-> The do_stash_locale was not working consistently across the 4 build
-> configurations and the multilib, usrmerge configuration would fail
-> entirely with the obscure message:
->
-> | DEBUG: Executing shell function do_prep_locale_tree
-> | tar: i18n: Cannot stat: No such file or directory
-> | tar: Exiting with failure status due to previous errors
-> | gzip:
-> /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz:
-> No such file or directory
-> | WARNING:
-> /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/temp/run.do_prep_locale_tree.124690:1
-> exit 1 from 'gunzip $i'
->
-> Here is the 4 build configurations without the patch applied:
->
-> A) x86-64 no multilibs, no usrmerge
-> find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v
-> nscd.service |wc -l
-> 909
-> B) x86-64 no multilibs, usrmerge
-> find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v
-> nscd.service |wc -l
-> 909
-> C) x86-64 multilibs, no usrmerge
-> find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v
-> nscd.service |wc -l
-> 885
-> D) x86-64 multilibs, usrmerge
-> find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v
-> nscd.service |wc -l
-> 864
->
-> The issue here is that all the moves should be processed first, then a
-> copy should be made of the lib directories, but only in the case they
-> are different when using the usrmerge feature.  Even though the build
-> worked for the multilib configuration without usrmerge, the content
-> was not the same.
->
-> After applying the patch the same number of files are in all the
-> configurations.  The list of files was also diffed, after normalizing
-> the directory names to ensure all the correct files were copied.
->
-> Ultimately there are probably additional files that should be pruned
-> from what is copied to the stated_locale, but the purpose of this
-> patch is make it 100% consistent between the build types and fix the
-> builds.
->
-> Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
-> ---
->  meta/recipes-core/glibc/glibc-package.inc | 19 +++++++++++++------
->  1 file changed, 13 insertions(+), 6 deletions(-)
->
-> diff --git a/meta/recipes-core/glibc/glibc-package.inc
-> b/meta/recipes-core/glibc/glibc-package.inc
-> index a1d79b3075..ff17a193c3 100644
-> --- a/meta/recipes-core/glibc/glibc-package.inc
-> +++ b/meta/recipes-core/glibc/glibc-package.inc
-> @@ -162,21 +162,28 @@ bashscripts = "mtrace sotruss xtrace"
->  do_stash_locale () {
->         dest=${LOCALESTASH}
->         install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir}
-> ${dest}${datadir}
-> -       if [ "${base_libdir}" != "${libdir}" ]; then
-> -               cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
-> -       fi
-> +       # Hide away the locale data from the deployment
->         if [ -e ${D}${bindir}/localedef ]; then
->                 mv -f ${D}${bindir}/localedef ${dest}${bindir}
->         fi
->         if [ -e ${D}${libdir}/gconv ]; then
->                 mv -f ${D}${libdir}/gconv ${dest}${libdir}
->         fi
-> -       if [ -e ${D}${exec_prefix}/lib ]; then
-> -               cp -fpPR ${D}${exec_prefix}/lib ${dest}${exec_prefix}
-> -       fi
->         if [ -e ${D}${datadir}/i18n ]; then
->                 mv ${D}${datadir}/i18n ${dest}${datadir}
->         fi
-> +
-> +       # Make a copy of all the libraries into the locale stash
-> +       cp -fpPR ${D}${libdir}/* ${dest}${libdir}
-> +       if [ "${base_libdir}" != "${libdir}" ]; then
-> +               cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
-> +       fi
-> +       if [ -e ${D}${exec_prefix}/lib ]; then
-> +               if [ ${exec_prefix}/lib != ${base_libdir} ] && [
-> ${exec_prefix}/lib != ${libdir} ]; then
-> +                       cp -fpPR ${D}${exec_prefix}/lib
-> ${dest}${exec_prefix}
-> +               fi
-> +       fi
-> +
->         cp -fpPR ${D}${datadir}/* ${dest}${datadir}
->         rm -rf ${D}${datadir}/locale/
->         cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
-> --
-> 2.21.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
->
-
---00000000000018d775058cd764ac
-Content-Type: text/html; charset="UTF-8"
+X-List-Received-Date: Thu, 04 Jul 2019 09:13:50 -0000
+Content-Language: en-US
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">I don&#39;t see how this change (or the previous glibc-loc=
-ale one) would cause that, but since the oe-core upgrade yesterday I&#39;m =
-seeing following glibc-locale.do_package failure:<div><a href=3D"http://err=
-ors.yoctoproject.org/Errors/Details/250557/">http://errors.yoctoproject.org=
-/Errors/Details/250557/</a><br></div><div><br></div><div>DEBUG: Executing s=
-hell function do_prep_locale_tree<br>tar: i18n: Cannot stat: No such file o=
-r directory<br>tar: Exiting with failure status due to previous errors<br>g=
-zip: TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/locale-tr=
-ee//usr/share/i18n/charmaps/*gz.gz: No such file or directory<br>WARNING: T=
-OPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/temp/run.do_pre=
-p_locale_tree.23303:1 exit 1 from &#39;gunzip $i&#39;<br></div><div><br></d=
-iv><div>anyone else seeing this?</div></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jul 2, 2019 at 10:16 PM Jason=
- Wessel &lt;<a href=3D"mailto:jason.wessel@windriver.com">jason.wessel@wind=
-river.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">The do_stash_locale was not working consistently across the 4 bu=
-ild<br>
-configurations and the multilib, usrmerge configuration would fail<br>
-entirely with the obscure message:<br>
-<br>
-| DEBUG: Executing shell function do_prep_locale_tree<br>
-| tar: i18n: Cannot stat: No such file or directory<br>
-| tar: Exiting with failure status due to previous errors<br>
-| gzip: /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/local=
-e-tree//usr/share/i18n/charmaps/*gz.gz: No such file or directory<br>
-| WARNING: /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/te=
-mp/run.do_prep_locale_tree.124690:1 exit 1 from &#39;gunzip $i&#39;<br>
-<br>
-Here is the 4 build configurations without the patch applied:<br>
-<br>
-A) x86-64 no multilibs, no usrmerge<br>
-find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.servic=
-e |wc -l<br>
-909<br>
-B) x86-64 no multilibs, usrmerge<br>
-find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.servic=
-e |wc -l<br>
-909<br>
-C) x86-64 multilibs, no usrmerge<br>
-find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.servic=
-e |wc -l<br>
-885<br>
-D) x86-64 multilibs, usrmerge<br>
-find ./tmp/work/*/glibc/2.29-r0/stashed-locale -type f |grep -v nscd.servic=
-e |wc -l<br>
-864<br>
-<br>
-The issue here is that all the moves should be processed first, then a<br>
-copy should be made of the lib directories, but only in the case they<br>
-are different when using the usrmerge feature.=C2=A0 Even though the build<=
-br>
-worked for the multilib configuration without usrmerge, the content<br>
-was not the same.<br>
-<br>
-After applying the patch the same number of files are in all the<br>
-configurations.=C2=A0 The list of files was also diffed, after normalizing<=
-br>
-the directory names to ensure all the correct files were copied.<br>
-<br>
-Ultimately there are probably additional files that should be pruned<br>
-from what is copied to the stated_locale, but the purpose of this<br>
-patch is make it 100% consistent between the build types and fix the<br>
-builds.<br>
-<br>
-Signed-off-by: Jason Wessel &lt;<a href=3D"mailto:jason.wessel@windriver.co=
-m" target=3D"_blank">jason.wessel@windriver.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-core/glibc/glibc-package.inc | 19 +++++++++++++------<br=
->
-=C2=A01 file changed, 13 insertions(+), 6 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/=
-glibc/glibc-package.inc<br>
-index a1d79b3075..ff17a193c3 100644<br>
---- a/meta/recipes-core/glibc/glibc-package.inc<br>
-+++ b/meta/recipes-core/glibc/glibc-package.inc<br>
-@@ -162,21 +162,28 @@ bashscripts =3D &quot;mtrace sotruss xtrace&quot;<br>
-=C2=A0do_stash_locale () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 dest=3D${LOCALESTASH}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 install -d ${dest}${base_libdir} ${dest}${bindi=
-r} ${dest}${libdir} ${dest}${datadir}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${base_libdir}&quot; !=3D &quot;${li=
-bdir}&quot; ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -fpPR ${D}${base=
-_libdir}/* ${dest}${base_libdir}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Hide away the locale data from the deployment=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${D}${bindir}/localedef ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv -f ${D}${bindir}=
-/localedef ${dest}${bindir}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${D}${libdir}/gconv ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv -f ${D}${libdir}=
-/gconv ${dest}${libdir}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e ${D}${exec_prefix}/lib ]; then<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -fpPR ${D}${exec=
-_prefix}/lib ${dest}${exec_prefix}<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 if [ -e ${D}${datadir}/i18n ]; then<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mv ${D}${datadir}/i=
-18n ${dest}${datadir}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 fi<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0# Make a copy of all the libraries into the loc=
-ale stash<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0cp -fpPR ${D}${libdir}/* ${dest}${libdir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;${base_libdir}&quot; !=3D &quot;${li=
-bdir}&quot; ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cp -fpPR ${D}${base=
-_libdir}/* ${dest}${base_libdir}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0if [ -e ${D}${exec_prefix}/lib ]; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ ${exec_prefix}=
-/lib !=3D ${base_libdir} ] &amp;&amp; [ ${exec_prefix}/lib !=3D ${libdir} ]=
-; then<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0cp -fpPR ${D}${exec_prefix}/lib ${dest}${exec_prefix}<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -fpPR ${D}${datadir}/* ${dest}${datadir}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 rm -rf ${D}${datadir}/locale/<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 cp -fpPR ${WORKDIR}/SUPPORTED ${dest}<br>
--- <br>
-2.21.0<br>
-<br>
--- <br>
-_______________________________________________<br>
-Openembedded-core mailing list<br>
-<a href=3D"mailto:Openembedded-core@lists.openembedded.org" target=3D"_blan=
-k">Openembedded-core@lists.openembedded.org</a><br>
-<a href=3D"http://lists.openembedded.org/mailman/listinfo/openembedded-core=
-" rel=3D"noreferrer" target=3D"_blank">http://lists.openembedded.org/mailma=
-n/listinfo/openembedded-core</a><br>
-</blockquote></div>
+> -----Original Message-----
+> From: ChenQi <Qi.Chen@windriver.com>
+> Sent: den 3 juli 2019 03:49
+> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> core@lists.openembedded.org
+> Subject: Re: [OE-core] [PATCH V2 1/1] image.bbclass: fix
+> systemd_preset_all
+>=20
+> On 07/03/2019 05:04 AM, Peter Kjellerstedt wrote:
+> >> -----Original Message-----
+> >> From: openembedded-core-bounces@lists.openembedded.org
+> <openembedded-
+> >> core-bounces@lists.openembedded.org> On Behalf Of ChenQi
+> >> Sent: den 2 juli 2019 03:39
+> >> To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>; openembedded-
+> >> core@lists.openembedded.org
+> >> Subject: Re: [OE-core] [PATCH V2 1/1] image.bbclass: fix
+> >> systemd_preset_all
+> >>
+> >> On 07/02/2019 07:34 AM, Peter Kjellerstedt wrote:
+> >>>> -----Original Message-----
+> >>>> From: openembedded-core-bounces@lists.openembedded.org
+> >> <openembedded-
+> >>>> core-bounces@lists.openembedded.org> On Behalf Of Chen Qi
+> >>>> Sent: den 1 juli 2019 06:16
+> >>>> To: openembedded-core@lists.openembedded.org
+> >>>> Subject: [OE-core] [PATCH V2 1/1] image.bbclass: fix
+> >> systemd_preset_all
+> >>>> Check the existence of systemd before using systemctl to preset
+> >> units.
+> >>>> This is because even if 'systemd' is in DISTRO_FEATURES, it's
+> >> possible
+> >>>> that systemd is not even installed. e.g. container-test-image in
+> >>>> meta-selftest layer.
+> >>>>
+> >>>> As systemd DEPENDS on systemd-systemctl-native, the existence of
+> >> systemd
+> >>>> also ensures the existence of systemd-systemctl-native.
+> >>>>
+> >>>> This would fix the following test case when using systemd as the
+> >> init
+> >>>> manager.
+> >>>>
+> >>>>     containerimage.ContainerImageTests.test_expected_files
+> >>>>
+> >>>> Also remove the IMAGE_EXTRADEPENDS setting, as nothing references
+> >> this
+> >>>> variable.
+> >>>>
+> >>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> >>>> ---
+> >>>>    meta/classes/image.bbclass | 5 +++--
+> >>>>    1 file changed, 3 insertions(+), 2 deletions(-)
+> >>>>
+> >>>> diff --git a/meta/classes/image.bbclass
+> b/meta/classes/image.bbclass
+> >>>> index d2b2fb9..7daa97e 100644
+> >>>> --- a/meta/classes/image.bbclass
+> >>>> +++ b/meta/classes/image.bbclass
+> >>>> @@ -666,10 +666,11 @@ reproducible_final_image_task () {
+> >>>>    }
+> >>>>
+> >>>>    systemd_preset_all () {
+> >>>> -    systemctl --root=3D"${IMAGE_ROOTFS}" --preset-mode=3Denable-onl=
+y
+> >> preset-all
+> >>>> +    if [ -e ${IMAGE_ROOTFS}${root_prefix}/lib/systemd/systemd ];
+> >> then
+> >>>                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> >>> That should be ${systemd_system_unitdir}, which will also use the
+> >> correct path
+> >>> (it is /lib/systemd/system, not /lib/systemd/systemd).
+> >> I'm checking the systemd binary under ${root_prefix}/lib/systemd,
+> not
+> >> the directory holding units.
+> > Right, my bad. Still, then the path above should be
+> > "${IMAGE_ROOTFS}${systemd_unitdir}/systemd".
+>=20
+> In current OE, ${systemd_unitdir} =3D ${root_prefix}/lib/systemd.
+> And in systemd recipe, we have:
+> [ ! -e ${D}/init ] && ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
+> It does not write as `ln -s ${systemd_unitdir}/systemd/systemd'.
+> I don't want to use a directory whose name indicates 'unit' when
+> checking a binary.
 
---00000000000018d775058cd764ac--
+Well, the name of the systemd_unitdir variable is misleading, as it=20
+does not in fact refer to a unit directory. The corresponding name in=20
+the systemd.pc file is systemdutildir, which I guess would have been=20
+a better name for the variable too (albeit a bit late to change it now).
+
+Anyway, it is not very likely that the path to the systemd binary will =20
+change, so if you prefer to use the ${root_prefix}/lib/systemd path=20
+instead of ${systemd_unitdir}, then go ahead.=20
+
+> Regards,
+> Chen Qi
+>=20
+> >> Regards,
+> >> Chen Qi
+> >>
+> >>>> +	systemctl --root=3D"${IMAGE_ROOTFS}" --preset-mode=3Denable-only
+> >> preset-all
+> >>>> +    fi
+> >>>>    }
+> >>>>
+> >>>> -IMAGE_EXTRADEPENDS +=3D "${@ 'systemd-systemctl-native' if
+> >> bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and
+> not
+> >> bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False,
+> d)
+> >> else ''}"
+> >>>>    IMAGE_PREPROCESS_COMMAND_append =3D " ${@ 'systemd_preset_all;'
+> if
+> >> bb.utils.contains('DISTRO_FEATURES', 'systemd', True, False, d) and
+> not
+> >> bb.utils.contains('IMAGE_FEATURES', 'stateless-rootfs', True, False,
+> d)
+> >> else ''} reproducible_final_image_task; "
+> >>>>    CVE_PRODUCT =3D ""
+> >>>> --
+> >>>> 1.9.1
+> >>> //Peter
+> > //Peter
+
+//Peter
+
+
