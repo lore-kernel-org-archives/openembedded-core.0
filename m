@@ -1,53 +1,49 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id EA3C37EBDA
+Return-Path: <wbourque@gmail.com>
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com
+	[209.85.210.47])
+	by mail.openembedded.org (Postfix) with ESMTP id 4C9177EBC7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 15:57:31 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id h19so5600910wme.0
+	Thu,  4 Jul 2019 16:29:34 +0000 (UTC)
+Received: by mail-ot1-f47.google.com with SMTP id d17so6482083oth.5
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2019 08:57:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=oMuOCmQq2dIVpjGZMVSa1+DpUJC02x245vmbT7jv5TM=;
-	b=NM4mw51azd3Ch/kaadzgANiK19SK2X73E6rLPi/RRcVAoiO5zXoPWXdOsDCTRCix65
-	ZRj0LvmnQrY0snYixIQZ3aLCHurESgDiaq6asKruBEpESnPzTFswF63DJuj+kwvF8CpB
-	EupNRN01MMovkUTLv3SXLVIaOyf2gkzAzqHGE=
+	Thu, 04 Jul 2019 09:29:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=9ThI19HwSWVvH00nuEOUEBnL42EiBVkQ6xQU+BjdE30=;
+	b=dVoV0c9G+nmBYv5LDEwhhk4degKe9lRP7fvWrHPSEM6xtZvUtMAGKz8rWHjnSeiBez
+	AepYrW9y4o7ZEXc2pQRz20sj0750CHJyvVJ2pCgMHPb1ZRVhALq5QQzyb9v0aLresDtF
+	SswzucQUbgnrWRW4W6r2gLLDd9jCDN+8cKF63LCKJ/6zd85T5oMFTKNt2CDJIMp1uDEJ
+	BEEv2PFk1RhKHtZdgn23ONiEyuoaWMcEXCpBucBC/DQXn4VzMpIFua740QnUwAv/qpSW
+	iZAP6fmEz44R6ODj3XE/3pBNo/Y1JqScK76IpnnbRrrshq7kdCynB0+QLt9VyZ8JwLYe
+	5L6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=oMuOCmQq2dIVpjGZMVSa1+DpUJC02x245vmbT7jv5TM=;
-	b=JEeuq/rAZmjmkK1/lIP8TqQ4z9cmLufY8ZSjxCiEmrxmoWt77el5z6Wvb/QhYTrBjz
-	0nQzAbEm9a+eh1XMyu4mOIxy7rPqP7RyUodcGIfAImuk0kgkQbMR2lYlzrCJcTCuiIBF
-	6uu6mUoSb6sBxRB/Vj+P9/6NEDnE5SzGKsaMbK5udVYHvbchO4n3WqDvKaeHkwOu3dkW
-	p7p5tWikjHlHarhnvHAjyVD95W3Vm6pHGxKdeSPTz/G8nRu1/yS11A85p0xeqHRPSu0Z
-	5YLIj6yi+aDm0v7/XlxMkJNb2iS3bVfOPCVExACTNBV3Lk9lbCQnUbmvZuccmr2OzWzS
-	me1w==
-X-Gm-Message-State: APjAAAXFk+P7N2XH3qaRHbGfhblpqzC6jr+u2xHr1BJNwU0iK2na7lFW
-	nZVEGsx/VlB7kEG/eVEAEhDt6w==
-X-Google-Smtp-Source: APXvYqzwHyE3kqH9+pVn0G9WxlICumja9C9wRd2iL/G5tYNaZrbZlBqFdP+MNb8O97k9s+tmj1DvzA==
-X-Received: by 2002:a7b:ca44:: with SMTP id m4mr162261wml.160.1562255852596;
-	Thu, 04 Jul 2019 08:57:32 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	t80sm7099584wmt.26.2019.07.04.08.57.31
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 04 Jul 2019 08:57:31 -0700 (PDT)
-Message-ID: <a8811c40e7aab0303c7069c5acc00823567821e6.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Thu, 04 Jul 2019 16:57:30 +0100
-In-Reply-To: <20190704142709.GA3410@linux-uys3>
-References: <20190703150405.GA23280@linux-uys3>
-	<1008b3f46332ba67abe67586b176bc7f565b11ad.camel@linuxfoundation.org>
-	<20190704142709.GA3410@linux-uys3>
-User-Agent: Evolution 3.32.2-1 
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=9ThI19HwSWVvH00nuEOUEBnL42EiBVkQ6xQU+BjdE30=;
+	b=k25YieHzfvlgBAaOaFYOvQm2rkvpwDzGRqoNPoHX5Uow+L/D9XvFEmfO9bI8DfO1UX
+	mgJ/4UYkdqjvgBnnu7iyQHE73F71GzLjHXWO1q03TKzowtM9wU9B7dyY8UMedkib8oYe
+	G3QLeY8752VP8CasgZumEjGwQaad2/oz0eztoXUBEc8iTAQHl+3l0V09nKHWLWiHHivo
+	9wWbAiDzOyCSH0ZQpzWyjXSqRuPQ2Xx33jxIvrHMDHqz5yeLfSFbou8cldLDo3/zlkpz
+	tDv94JEvAbjcJwfDfP6kWbeKuNc8Kkqv+X+K77UvDkWv2LkCgu6+9QCbpHFSRpkAlhvV
+	NxDA==
+X-Gm-Message-State: APjAAAUstsxyxSj2suHvmgm9ZR7aXYSGJd+lA7zB38X8AgMS0tRxaBZ/
+	m/xxfZqf/HvxCgfDPNp+POOs38Dfqpplxe8xcCw=
+X-Google-Smtp-Source: APXvYqwkIqWeXvq5EjyWOXqDpVUaHS+e1AN20ZJ9X1vzUA55WFbjmLKdbyklj1h8uG8pMnzoa0xl5HCMFfMdC930k80=
+X-Received: by 2002:a9d:76d3:: with SMTP id p19mr12443672otl.18.1562257775187; 
+	Thu, 04 Jul 2019 09:29:35 -0700 (PDT)
 MIME-Version: 1.0
-Subject: Re: build failures due to pigz host tool
+References: <20190702182403.24099-1-wbourque@gmail.com>
+	<20190702183053.2330.89816@do>
+	<CANBSh+N4AL=o5bsuVEWJRUX+VzpsLv=dPBSo=OWCZBZnx_vrpw@mail.gmail.com>
+	<ab85111307d8ed9b93c0fb8026a91ae5f24c4ed3.camel@linuxfoundation.org>
+In-Reply-To: <ab85111307d8ed9b93c0fb8026a91ae5f24c4ed3.camel@linuxfoundation.org>
+From: William Bourque <wbourque@gmail.com>
+Date: Thu, 4 Jul 2019 12:29:24 -0400
+Message-ID: <CANBSh+NZ_Owp4+ANhJPAOK7O7h+O8kJGhWjSp2=W7ZGLHEA_tw@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHdpYy9wbHVnaW5zOiBTb3VyY2UgdGhhdCBzdXBwb3J0IGJvdGggRUZJIGFuZCBCSU9T?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,30 +56,53 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 15:57:32 -0000
+X-List-Received-Date: Thu, 04 Jul 2019 16:29:34 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Thu, 2019-07-04 at 10:27 -0400, Trevor Woerner wrote:
-> On Wed 2019-07-03 @ 05:10:14 PM, Richard Purdie wrote:
-> > Is there any way you could try pigz 2.4 on your machine, see if the
-> > problem still occurred there? If you do rebuild pigz, could you
-> > apply
-> > the debug patch in master-next?
-> 
-> I've updated the pigz in the $PATH jenkins sees to pigz-2.4.
-> 
-> However, my builds are always updated automatically and always build
-> from master; there's no way to insert ad-hoc patches into a build.
+On Wed, Jul 3, 2019 at 3:51 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2019-07-02 at 15:22 -0400, William Bourque wrote:
+> > Hi,
+> >
+> > The error "scripts/lib/wic/plugins/source/bootimg-biosplusefi.py does
+> > not exist" is a bit puzzling : this is the new file my patch is
+> > adding.
+> > Is this test failure expected for new files?
+> >
+> > I sent this using git-sendmail; should I submit using a different way
+> > (pull request, ...)?
+>
+> I think the test is broken so we can ignore that. I've cc'd Sandy so
+> she might be able to look into this issue if possible as we've seen it
+> a few times.
+>
+> What I did wonder is whether we should be adding some tests to wic for
+> this new plugin though?
+>
+> The existing tests are in meta/lib/oeqa/selftest/cases/wic.py and can
+> be run with "oe-selftest -r wic", would it make sense to add something
+> to this as part of this change?
+>
+> Cheers,
+>
+> Richard
+>
 
-That is fine, even just the PATH adjustment will be interesting to see
-the results with, thanks!
+You are right, some tests would be a good idea.
 
-Was that version of pigz patched? FWIW I've patched the one on our
-opensuse151 worker so we'll see if that helps shed any light on things.
+That said, I am a bit confused on how to integrate in
+meta/lib/oeqa/selftest/cases/wic.py
+Most tests in there check generic functionnalities, I'm not quite sure
+how to use it to tests the new SourcePlugin() specific
+functionnalities, instead of just the generic.
+I will come up with something but it might not be great... but "not
+great" is better than "nothing" I suppose.
 
-Cheers,
+Do you want me to resubmit the SourcePlugin code and the tests together?
+Or would you rather have me submit the tests separately?
 
-Richard
+Thanks
 
+- William
 
