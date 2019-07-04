@@ -1,53 +1,48 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 61E7C6010D
+Return-Path: <lemagoup@gmail.com>
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com
+	[209.85.128.52])
+	by mail.openembedded.org (Postfix) with ESMTP id C63377DC1C
 	for <openembedded-core@lists.openembedded.org>;
-	Thu,  4 Jul 2019 15:18:55 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id n9so7054560wru.0
+	Thu,  4 Jul 2019 15:19:35 +0000 (UTC)
+Received: by mail-wm1-f52.google.com with SMTP id p74so3070941wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 04 Jul 2019 08:18:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:user-agent:mime-version:content-transfer-encoding;
-	bh=firpDxpmpi/wmnw139GMj/DxMJYEqlyYUPa7VutGz2s=;
-	b=C8R09wffqcrouEma0/GwEvDGDak5G7VtGHL3Vr2rs1Q6j8sQquSXS9g5ZRvOA+MfmN
-	Wx8TEEajsks4jNmt2KNNGFFVBVcTqlK+pjOk0uz29nlO+6K3LffGxBp9Rbeq3XrYsfxX
-	xt4j8+b8WyAfki85YnoGk9o3xAD1ofBZpgZC0=
+	Thu, 04 Jul 2019 08:19:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=FfW2G02OYnJ7TuAh8IXEO7xxdzwbwqtEkjNroaeGR+g=;
+	b=VPrPdL2Z9Rv7mdz68YACH518qJNwz3rX9AachmQ+KVOLBqhg5r+Au7A/eCvrHLoF6S
+	gevsS8u24nczwFZgcOjzbibfhtajaUNb4eu4UF4q5NFiqf82jTFEUJ8mWW+Zm7W2mV/a
+	F7dzi14IucWG5Hi2fKZjTGuNEoj9eKHWyw9uCehkQpb4kPHLBkflC8WC0rB+pt7AFibi
+	LUb4gyQOezusksF3pv12w58KlC0VM7tf9kVIgmcyab1bvbpbqJqL9T6y+hTJ0H429Gp+
+	jQjNe5PuyvLWTKFDrlsTc10Pxzff3rpipQfCZzX8bZUeNBy6ERiR6g/WRjAMmgyEuzKp
+	D16g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=firpDxpmpi/wmnw139GMj/DxMJYEqlyYUPa7VutGz2s=;
-	b=cW9wcLhPtNxOLtIuB4Wc2VF9O9J6N17GFetJF5AXCOTCWINKkyZ90b1QQhhVsmUyDj
-	S6PApjTUS8cdvDe2DQHnr/JCjAT7fYxQp+bswNifHtQfwgYXpSCbtdD96GFzzb7F9pWj
-	rVNd6Z/vH6ONndYU/A/Xa3Pwg4QM/NnGY4kNtpeiLEqK4mpkRfV3huo1amNlilyMyB6X
-	Nl0IMTXSjKo0gNZQtfWr/X31uu9Wxa1hOGGwTbKX9JUDAAJOHskTu3FL7tA+WaBqIoox
-	Bi3iNz04tPcv+JF4EpkB3uzYvAj8fYH/hgRGwfHpZklEnsykk3mUdg777JRQk5uAKC+S
-	CcMA==
-X-Gm-Message-State: APjAAAXq8vtOMPJyAGGlZB0hQDjt4SE2nl/fBjNXikzbAvfIVHhq3rMq
-	TELClXapJA0W4xe3d8K3cEiKrg==
-X-Google-Smtp-Source: APXvYqw1QMSQoVQGKIpGO6YLOs2qtcv7Y/VB4c8/F3VGagWKIf7QhrWHIrbz4V+5v33UH7v71gNkOQ==
-X-Received: by 2002:a5d:4cca:: with SMTP id c10mr32798713wrt.233.1562253536027;
-	Thu, 04 Jul 2019 08:18:56 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id b8sm6320218wmh.46.2019.07.04.08.18.54
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 04 Jul 2019 08:18:55 -0700 (PDT)
-Message-ID: <7c29c0bde1bae4de4cac852d98571dd28070f4c5.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>, Zhaolong Zhang
-	<zhangzl2013@126.com>
-Date: Thu, 04 Jul 2019 16:18:54 +0100
-In-Reply-To: <CADkTA4P-jyrFNf+vKQwDuyxD8sW=20MO+2Tus3AvaoKPjbJFvQ@mail.gmail.com>
-References: <1562236183-6069-1-git-send-email-zhangzl2013@126.com>
-	<CADkTA4P-jyrFNf+vKQwDuyxD8sW=20MO+2Tus3AvaoKPjbJFvQ@mail.gmail.com>
-User-Agent: Evolution 3.32.2-1 
-MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] kernel-yocto: checksum indirect cfg and scc files
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=FfW2G02OYnJ7TuAh8IXEO7xxdzwbwqtEkjNroaeGR+g=;
+	b=Pk7N2wiwQGuXnCK7+4UreweavTUDIgvwCP5oWfCO8zXm7tbwr42coJbfnVsrPxX8GD
+	CaIS6pJHOg/YYZ9dPwTI0lQOsMLEDOsAfavW8RZ5LTCzvhAbVEOldM7JrNVnGvOKG4TK
+	XnWR2ndUyGCHsKdmgXI9IGWgLHuD51gVS+M2wsu0gQYpScCvwzglJbKIQl9Ax3zAFM8/
+	1d6sjGQHcewEtc36gJOfYseR38zrwTdKbEiSo+C6aAfKjHqfKXA1MeQ9jeVQfQGOhOR0
+	a+K4q4DQrVHt2EAqMvlMnf6NGgDK5mJoMakQTNjpd18oszl9dFdzQ4u1P3FsVm3sA4ci
+	uc/w==
+X-Gm-Message-State: APjAAAXi5uMsrVBE34hnKw+kwMN4FVxfkLH3hX3rab5K/BuYQIsS3SG/
+	gb65KGOfmX3XmuS+0Mlc3K+/t/Z9
+X-Google-Smtp-Source: APXvYqz9dz2tvVQCw6pi24VLhBbogfrTZU8zld69wT+xuLszStkaREtHUcdjN5hndiSgsrRIUW+pXQ==
+X-Received: by 2002:a1c:eb17:: with SMTP id j23mr54835wmh.151.1562253576117;
+	Thu, 04 Jul 2019 08:19:36 -0700 (PDT)
+Received: from localhost.localdomain
+	(softbank-robotics-gw1.ter4.eqx2.par.cust.as8218.eu.
+	[158.255.112.194]) by smtp.gmail.com with ESMTPSA id
+	j189sm5430264wmb.48.2019.07.04.08.19.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 04 Jul 2019 08:19:35 -0700 (PDT)
+From: Pierre Le Magourou <lemagoup@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Thu,  4 Jul 2019 17:19:06 +0200
+Message-Id: <20190704151908.5094-1-lemagoup@gmail.com>
+X-Mailer: git-send-email 2.11.0
+Subject: [meta-oe][PATCH 1/3] cve-check: Depends on cve-update-db-native
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,54 +55,41 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 04 Jul 2019 15:18:55 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Thu, 04 Jul 2019 15:19:36 -0000
 
-On Thu, 2019-07-04 at 08:48 -0400, Bruce Ashfield wrote:
-> On Thu, Jul 4, 2019 at 7:02 AM Zhaolong Zhang <zhangzl2013@126.com>
-> wrote:
-> > Currently, Yocto can not realize the modification of the cfg/scc
-> > files indirectly
-> > introduced by scc files in custom layers.
-> > 
-> > Instead of introducing complicated scc parser code, this patch
-> > walks though
-> > FILESEXTRAPATHS and takes all the cfg/scc files into account when
-> > calculating
-> > checksums.
-> 
-> There used to be a bugzilla around for this .. but I can't find it
-> now.
-> 
-> While the approach isn't wrong, I think it is too heavy, since it is
-> looking at *all* the .scc and .cfg files that can be located in the
-> search paths, not just the ones that are actually used.
+From: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
 
-That isn't quite right. With the checksums its important to know if a
-new file appears at location X, we should reparse as it could change
-the outcome.
+do_populate_cve_db is a native task.
 
-We therefore have to account for files which doesn't exist as much as
-the ones that do.
+Signed-off-by: Pierre Le Magourou <pierre.lemagourou@softbankrobotics.com>
+---
+ meta/classes/cve-check.bbclass          | 2 +-
+ meta/recipes-core/meta/cve-update-db.bb | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-> I do have some old code from the existing bugzilla that I can try and
-> locate. The right approach is to have the kern-tools emit the list of
-> files, since that's where we know the includes, etc, and what is
-> actually going to be used. What you have will also conflict a bit
-> with
-> some changes that I'm making to tweak the config handling.
-> 
-> Since I can't find the old bugzilla, can you open a new one, put the
-> patch there and I can find the code to dump the list of files from
-> the tools.
-
-This doesn't work since we need to be able to predict the task hash
-checksum at parse time. We don't have the kern-tools available then to
-be able to know which ones it would actually use...
-
-Cheers,
-
-Richard
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 81071e3f19..6ffa0c4688 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -63,7 +63,7 @@ python do_cve_check () {
+ }
+ 
+ addtask cve_check after do_unpack before do_build
+-do_cve_check[depends] = "cve-update-db:do_populate_cve_db"
++do_cve_check[depends] = "cve-update-db-native:do_populate_cve_db"
+ do_cve_check[nostamp] = "1"
+ 
+ python cve_check_cleanup () {
+diff --git a/meta/recipes-core/meta/cve-update-db.bb b/meta/recipes-core/meta/cve-update-db.bb
+index ae8f1a958b..8e553b4f9b 100644
+--- a/meta/recipes-core/meta/cve-update-db.bb
++++ b/meta/recipes-core/meta/cve-update-db.bb
+@@ -141,3 +141,4 @@ addtask do_populate_cve_db before do_fetch
+ do_populate_cve_db[nostamp] = "1"
+ 
+ EXCLUDE_FROM_WORLD = "1"
++BBCLASSEXTEND =+ "native"
+-- 
+2.11.0
 
 
