@@ -1,30 +1,25 @@
-Return-Path: <zangrc.fnst@cn.fujitsu.com>
-Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
-	by mail.openembedded.org (Postfix) with ESMTP id 9ECA87D3D9
+Return-Path: <Mingli.Yu@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 588346C10F
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2019 08:26:54 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.63,454,1557158400"; d="scan'208";a="70808062"
-Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
-	by heian.cn.fujitsu.com with ESMTP; 05 Jul 2019 16:26:38 +0800
-Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
-	by cn.fujitsu.com (Postfix) with ESMTP id 9F80B4CDB941
-	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2019 16:26:38 +0800 (CST)
-Received: from localhost.local (10.167.225.40) by
-	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
-	Server (TLS) id 14.3.439.0; Fri, 5 Jul 2019 16:26:49 +0800
-From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 5 Jul 2019 16:25:49 +0800
-Message-ID: <20190705082549.6330-1-zangrc.fnst@cn.fujitsu.com>
-X-Mailer: git-send-email 2.20.1
+	Fri,  5 Jul 2019 09:00:29 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6590T1T004682
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 5 Jul 2019 02:00:29 -0700 (PDT)
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Fri, 5 Jul 2019 02:00:23 -0700
+From: <mingli.yu@windriver.com>
+To: <matt@madison.systems>, <ross.burton@intel.com>,
+	<openembedded-core@lists.openembedded.org>
+Date: Fri, 5 Jul 2019 02:00:23 -0700
+Message-ID: <20190705090023.113429-1-mingli.yu@windriver.com>
+X-Mailer: git-send-email 2.21.0
+In-Reply-To: <CAGgRHJofXoz2j3qYU9CiiBpYA7iLhc=-aQMWoE7t_=uFDH0KMg@mail.gmail.com>
+References: <CAGgRHJofXoz2j3qYU9CiiBpYA7iLhc=-aQMWoE7t_=uFDH0KMg@mail.gmail.com>
 MIME-Version: 1.0
-X-Originating-IP: [10.167.225.40]
-X-yoursite-MailScanner-ID: 9F80B4CDB941.A9FC3
-X-yoursite-MailScanner: Found to be clean
-X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
-X-Spam-Status: No
-Subject: [PATCH] util-linux:upgrade 2.33.2 -> 2.34
+Subject: [PATCH v3] go.bbclass: separate the ptest logic to go-ptest class
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -37,65 +32,178 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2019 08:26:56 -0000
+X-List-Received-Date: Fri, 05 Jul 2019 09:00:29 -0000
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
--Upgrade from util-linux_2.33.2.bb to util-linux_2.34.bb.
+From: Mingli Yu <mingli.yu@windriver.com>
 
--util-linux/check-for-_HAVE_STRUCT_TERMIOS_C_OSPEED.patch
- Removed since this is included in 2.34.
+The current go class includes ptest logic by default
+and will make the recipe which inherits go class
+to support ptest automatically though maybe the
+recipe which inherits go class doesn't plan to
+support the ptest.
 
-Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+So separate the ptest logic to another specified
+class go-ptest to make the recipe which needs to
+inherit go class more flexible with regards to
+ptest support.
+
+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
 ---
- .../check-for-_HAVE_STRUCT_TERMIOS_C_OSPEED.patch        | 16 ----------------
- .../{util-linux_2.33.2.bb => util-linux_2.34.bb}         |  5 ++---
- 2 files changed, 2 insertions(+), 19 deletions(-)
- delete mode 100644 meta/recipes-core/util-linux/util-linux/check-for-_HAVE_STRUCT_TERMIOS_C_OSPEED.patch
- rename meta/recipes-core/util-linux/{util-linux_2.33.2.bb => util-linux_2.34.bb} (59%)
+ meta/classes/go-ptest.bbclass | 54 +++++++++++++++++++++++++++++++++++
+ meta/classes/go.bbclass       | 52 +--------------------------------
+ 2 files changed, 55 insertions(+), 51 deletions(-)
+ create mode 100644 meta/classes/go-ptest.bbclass
 
-diff --git a/meta/recipes-core/util-linux/util-linux/check-for-_HAVE_STRUCT_TERMIOS_C_OSPEED.patch b/meta/recipes-core/util-linux/util-linux/check-for-_HAVE_STRUCT_TERMIOS_C_OSPEED.patch
-deleted file mode 100644
-index c92c276..0000000
---- a/meta/recipes-core/util-linux/util-linux/check-for-_HAVE_STRUCT_TERMIOS_C_OSPEED.patch
-+++ /dev/null
-@@ -1,16 +0,0 @@
--Checking for exitence of the define is not enough since
--it will be defined with 0 or 1 value
+diff --git a/meta/classes/go-ptest.bbclass b/meta/classes/go-ptest.bbclass
+new file mode 100644
+index 0000000000..e230a80587
+--- /dev/null
++++ b/meta/classes/go-ptest.bbclass
+@@ -0,0 +1,54 @@
++inherit go ptest
++
++do_compile_ptest_base() {
++	export TMPDIR="${GOTMPDIR}"
++	rm -f ${B}/.go_compiled_tests.list
++	go_list_package_tests | while read pkg; do
++		cd ${B}/src/$pkg
++		${GO} test ${GOPTESTBUILDFLAGS} $pkg
++		find . -mindepth 1 -maxdepth 1 -type f -name '*.test' -exec echo $pkg/{} \; | \
++			sed -e's,/\./,/,'>> ${B}/.go_compiled_tests.list
++	done
++	do_compile_ptest
++}
++
++do_compile_ptest_base[dirs] =+ "${GOTMPDIR}"
++
++go_make_ptest_wrapper() {
++	cat >${D}${PTEST_PATH}/run-ptest <<EOF
++#!/bin/sh
++RC=0
++run_test() (
++    cd "\$1"
++    ((((./\$2 ${GOPTESTFLAGS}; echo \$? >&3) | sed -r -e"s,^(PASS|SKIP|FAIL)\$,\\1: \$1/\$2," >&4) 3>&1) | (read rc; exit \$rc)) 4>&1
++    exit \$?)
++EOF
++
++}
++
++do_install_ptest_base() {
++	test -f "${B}/.go_compiled_tests.list" || exit 0
++	install -d ${D}${PTEST_PATH}
++	go_stage_testdata
++	go_make_ptest_wrapper
++	havetests=""
++	while read test; do
++		testdir=`dirname $test`
++		testprog=`basename $test`
++		install -d ${D}${PTEST_PATH}/$testdir
++		install -m 0755 ${B}/src/$test ${D}${PTEST_PATH}/$test
++	echo "run_test $testdir $testprog || RC=1" >> ${D}${PTEST_PATH}/run-ptest
++		havetests="yes"
++	done < ${B}/.go_compiled_tests.list
++	if [ -n "$havetests" ]; then
++		echo "exit \$RC" >> ${D}${PTEST_PATH}/run-ptest
++		chmod +x ${D}${PTEST_PATH}/run-ptest
++	else
++		rm -rf ${D}${PTEST_PATH}
++	fi
++	do_install_ptest
++	chown -R root:root ${D}${PTEST_PATH}
++}
++
++INSANE_SKIP_${PN}-ptest += "ldflags"
++
+diff --git a/meta/classes/go.bbclass b/meta/classes/go.bbclass
+index e05a5c641c..f303a15eaf 100644
+--- a/meta/classes/go.bbclass
++++ b/meta/classes/go.bbclass
+@@ -1,4 +1,4 @@
+-inherit goarch ptest
++inherit goarch
+ 
+ GO_PARALLEL_BUILD ?= "${@oe.utils.parallel_make_argument(d, '-p %d')}"
+ 
+@@ -114,19 +114,6 @@ go_do_compile() {
+ do_compile[dirs] =+ "${GOTMPDIR}"
+ do_compile[cleandirs] = "${B}/bin ${B}/pkg"
+ 
+-do_compile_ptest_base() {
+-	export TMPDIR="${GOTMPDIR}"
+-	rm -f ${B}/.go_compiled_tests.list
+-	go_list_package_tests | while read pkg; do
+-		cd ${B}/src/$pkg
+-		${GO} test ${GOPTESTBUILDFLAGS} $pkg
+-		find . -mindepth 1 -maxdepth 1 -type f -name '*.test' -exec echo $pkg/{} \; | \
+-			sed -e's,/\./,/,'>> ${B}/.go_compiled_tests.list
+-	done
+-	do_compile_ptest
+-}
+-do_compile_ptest_base[dirs] =+ "${GOTMPDIR}"
 -
--Upstream-Status: Pending
--Signed-off-by: Khem Raj <raj.khem@gmail.com>
----- a/sys-utils/ldattach.c
--+++ b/sys-utils/ldattach.c
--@@ -242,7 +242,7 @@ static int my_cfsetspeed(struct termios
-- 	 * -- we have to bypass glibc and set the speed manually (because glibc
-- 	 *    checks for speed and supports Bxxx bit rates only)...
-- 	 */
---#ifdef _HAVE_STRUCT_TERMIOS_C_ISPEED
--+#if _HAVE_STRUCT_TERMIOS_C_ISPEED
-- # define BOTHER 0010000		/* non standard rate */
-- 	dbg("using non-standard speeds");
-- 	ts->c_ospeed = ts->c_ispeed = speed;
-diff --git a/meta/recipes-core/util-linux/util-linux_2.33.2.bb b/meta/recipes-core/util-linux/util-linux_2.34.bb
-similarity index 59%
-rename from meta/recipes-core/util-linux/util-linux_2.33.2.bb
-rename to meta/recipes-core/util-linux/util-linux_2.34.bb
-index 538e276..262f4ba 100644
---- a/meta/recipes-core/util-linux/util-linux_2.33.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.34.bb
-@@ -7,7 +7,6 @@ SRC_URI += "file://configure-sbindir.patch \
-             file://run-ptest \
-             file://display_testname_for_subtest.patch \
-             file://avoid_parallel_tests.patch \
--            file://check-for-_HAVE_STRUCT_TERMIOS_C_OSPEED.patch \
- "
--SRC_URI[md5sum] = "91653b90fcbe9c161153e39b8cc69fb5"
--SRC_URI[sha256sum] = "631be8eac6cf6230ba478de211941d526808dba3cd436380793334496013ce97"
-+SRC_URI[md5sum] = "a78cbeaed9c39094b96a48ba8f891d50"
-+SRC_URI[sha256sum] = "743f9d0c7252b6db246b659c1e1ce0bd45d8d4508b4dfa427bbb4a3e9b9f62b5"
+ go_do_install() {
+ 	install -d ${D}${libdir}/go/src/${GO_IMPORT}
+ 	tar -C ${S}/src/${GO_IMPORT} -cf - --exclude-vcs --exclude '*.test' --exclude 'testdata' . | \
+@@ -139,18 +126,6 @@ go_do_install() {
+ 	fi
+ }
+ 
+-go_make_ptest_wrapper() {
+-	cat >${D}${PTEST_PATH}/run-ptest <<EOF
+-#!/bin/sh
+-RC=0
+-run_test() (
+-    cd "\$1"
+-    ((((./\$2 ${GOPTESTFLAGS}; echo \$? >&3) | sed -r -e"s,^(PASS|SKIP|FAIL)\$,\\1: \$1/\$2," >&4) 3>&1) | (read rc; exit \$rc)) 4>&1
+-    exit \$?)
+-EOF
+-
+-}
+-
+ go_stage_testdata() {
+ 	oldwd="$PWD"
+ 	cd ${S}/src
+@@ -165,37 +140,12 @@ go_stage_testdata() {
+ 	cd "$oldwd"
+ }
+ 
+-do_install_ptest_base() {
+-	test -f "${B}/.go_compiled_tests.list" || exit 0
+-	install -d ${D}${PTEST_PATH}
+-	go_stage_testdata
+-	go_make_ptest_wrapper
+-	havetests=""
+-	while read test; do
+-		testdir=`dirname $test`
+-		testprog=`basename $test`
+-		install -d ${D}${PTEST_PATH}/$testdir
+-		install -m 0755 ${B}/src/$test ${D}${PTEST_PATH}/$test
+-	echo "run_test $testdir $testprog || RC=1" >> ${D}${PTEST_PATH}/run-ptest
+-		havetests="yes"
+-	done < ${B}/.go_compiled_tests.list
+-	if [ -n "$havetests" ]; then
+-		echo "exit \$RC" >> ${D}${PTEST_PATH}/run-ptest
+-		chmod +x ${D}${PTEST_PATH}/run-ptest
+-	else
+-		rm -rf ${D}${PTEST_PATH}
+-	fi
+-	do_install_ptest
+-	chown -R root:root ${D}${PTEST_PATH}
+-}
+-
+ EXPORT_FUNCTIONS do_unpack do_configure do_compile do_install
+ 
+ FILES_${PN}-dev = "${libdir}/go/src"
+ FILES_${PN}-staticdev = "${libdir}/go/pkg"
+ 
+ INSANE_SKIP_${PN} += "ldflags"
+-INSANE_SKIP_${PN}-ptest += "ldflags"
+ 
+ # Add -buildmode=pie to GOBUILDFLAGS to satisfy "textrel" QA checking, but mips
+ # doesn't support -buildmode=pie, so skip the QA checking for mips and its
 -- 
-2.7.4
-
-
+2.21.0
 
 
