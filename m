@@ -1,48 +1,63 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
-	[209.85.166.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 4D78D7EBF9
+Return-Path: <oecore.mailinglist@gmail.com>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 25B057EBC7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri,  5 Jul 2019 16:38:34 +0000 (UTC)
-Received: by mail-io1-f68.google.com with SMTP id k20so20294775ios.10
+	Fri,  5 Jul 2019 17:11:27 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id p74so6856140wme.4
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 05 Jul 2019 09:38:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=w/50R43Af1UieRa6FGW3MUb5xmkyVjtFNpcNY9gBAAM=;
-	b=XOFolNWCNBhMfgm0gjlXaK5EGcqlzq33j+XBP1cQ9oZtVMAAGFfpeQqL6z77QEpx9y
-	FPd/5Z6tA7SMdPaJToA+kebFemMJW2GxsMWpSS4VQhWcAH627VRKL/E04otTA2/gePe2
-	MDNOdgT8kGvs4K3dS9saoFZvDkAnoH8tkr3ZypUe70/ObKECkRXwQzxbBjpPz7zstO3c
-	Z4rd3ora+6uNocLjwsxBr6lGv9qpnmngm5OHCrsgIYW9SkOzA0yZxuotT72cZTvZWWK4
-	Ixt8hkA5SGOe3Q9XG9So/se1Z1kuIkLGd6CEVI35Bs5FOeh0Y2ewnE7YwckVyLCzxVYI
-	jYMg==
+	Fri, 05 Jul 2019 10:11:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=a0VLWJ6gHT/3MlDkbch4LVB5ZCe+OolMQGeTeb9QgRk=;
+	b=VZxG4oIvBMJhwvwGWHjj1FiAbZ7H4mxTvnOAF/pQsa93RtESXiMI8uU/SKMTY14q2A
+	p4XEB9iyYsyuudvG3m3jxEWCs++9mkOAJ10zAlfZhqnk7WFTFNm2/Ve5tPaMA8VtVpz8
+	9TYw5nH3XOflXz7oHFI3XKxURI3FzFYre9MxeSn7mZQVW56xAJJ7vZmvzMxp9YaAEZuO
+	J+p3dsTZi5G3W6t+9di4TqmbbPz6KurdiwY+kyoregII1FYmxvWhA2Ov0RC0AnxajsYj
+	e8ivn46E93Wx3S8Ru8T4laQUJ3AptHSwxuE1hUSxxgN+6YVJETOIrCXkNAhiskERc77P
+	mqwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=w/50R43Af1UieRa6FGW3MUb5xmkyVjtFNpcNY9gBAAM=;
-	b=J2VpfQLbb7VO3MfSPuRlj8G3BSt5t6tb1weBeXNkZiZ2XBkyw9/t5xjyYFsn5/YOWu
-	jTHtladsW9absLLH4KOcGdVpOSGD53rfh+b2N3INoN75Y2klLShRyBJ4uNUQbBAzjNnx
-	kmFza+IUiiz3GYq4fyR1T46v30OFSPKS5Ybiv2Cu5rnkOL5XUU8vfRKO/soJdFVn9otF
-	ukq2gSc0JvWz9GTlENi7XC78NvF2/NcqV7pDiGO/+IRup4/gbi+vNBKRZjKn1eSSBRp5
-	Yw6D/c9rI4s+jSkD60tasjBiKuRXZi2kFGtz1aH5eff9xj0uUJpN0h5DMsq4HGoj+oty
-	ya1A==
-X-Gm-Message-State: APjAAAWiR6Asdhdkm2rtTQ9KoNJrhQpKQTq3BBsADMcMvD1Ij682VdUR
-	RKxk5z/eTujzdew6PEqmHLijTqVygi+OHY8z7/y6LA==
-X-Google-Smtp-Source: APXvYqzwp2PS0Rg+KMqmnmvTyMBF6t7QHRZXGtAE3ErhsmegJqFYDc6IAMrH5s6o+v7QjdwXZtQbYldu10yLvipUZzw=
-X-Received: by 2002:a02:3093:: with SMTP id q141mr5753516jaq.128.1562344715302;
-	Fri, 05 Jul 2019 09:38:35 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=a0VLWJ6gHT/3MlDkbch4LVB5ZCe+OolMQGeTeb9QgRk=;
+	b=SNb7wcR5tChGQBnkDW5Zbp/zd7HuYqurwTdCxRMTwJ6sNuMC8xc37LC0A6Kd6UaHxS
+	/STz1DFUEbGc4Bqr244OoF15OEGpCucOiQaNHuQR8yt2QTbMXfwMuhWDlfzWnoolK4Kh
+	zS+WtQ+7+3jLI8qKzjEgLhM4OiCdL2QRGHTDuC15O18Ac8Mknymqdhk0vbXsrEtxb+AL
+	46UHf5ZDqZkhVFmJKyclY8X3WF3BsiaRl+zNG6XWfzZ4tAWNokng33b9S0B7f/BkPHdv
+	3HVy1bMfdO8GxcdBeCYM3Vo7Hy1QUunp9okBB/s8PuMPfeNHdV3G/fsVmY/uKPf/bMqz
+	ObSw==
+X-Gm-Message-State: APjAAAXJ70w0zMXzOuwFY4PVLWuM6nN8M/l63MPv+NZ8Se9tXlyCo6Ob
+	ANU8lO7b6pvTb/C2DfL1TJ8=
+X-Google-Smtp-Source: APXvYqxpP6gFDLXtpmn07YXhZlYXmHJCm+oCgRhUkLzHHLx7BMMV95LK1aNN20/kVLle5+jzFaTsdQ==
+X-Received: by 2002:a1c:6504:: with SMTP id z4mr4111442wmb.172.1562346687922; 
+	Fri, 05 Jul 2019 10:11:27 -0700 (PDT)
+Received: from [192.168.42.50] (ppp-2-86-135-63.home.otenet.gr. [2.86.135.63])
+	by smtp.gmail.com with ESMTPSA id
+	v5sm9026456wre.50.2019.07.05.10.11.26
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 05 Jul 2019 10:11:27 -0700 (PDT)
+To: Bruce Ashfield <bruce.ashfield@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <1562236183-6069-1-git-send-email-zhangzl2013@126.com>
+	<CADkTA4P-jyrFNf+vKQwDuyxD8sW=20MO+2Tus3AvaoKPjbJFvQ@mail.gmail.com>
+	<7c29c0bde1bae4de4cac852d98571dd28070f4c5.camel@linuxfoundation.org>
+	<CADkTA4NQr2LkB3k32Djxn-zX0m2jSCLz_yEjN7pPPzdNoJMaYA@mail.gmail.com>
+	<64ce05dd1d970dc5b0390d57b4c9b75c44f405f4.camel@linuxfoundation.org>
+	<CADkTA4PbeVuGHVc2oofZeavPvMsQ7DPT4dWm0RRKK2U-8OfxWg@mail.gmail.com>
+From: Robert Berger <oecore.mailinglist@gmail.com>
+Message-ID: <8b813c50-fe05-e079-564d-684f8c935768@gmail.com>
+Date: Fri, 5 Jul 2019 20:11:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.2
 MIME-Version: 1.0
-References: <cover.1562290204.git.Qi.Chen@windriver.com>
-	<c9d93056cbc6067892aa042e5f2c71f3cc264656.1562290204.git.Qi.Chen@windriver.com>
-In-Reply-To: <c9d93056cbc6067892aa042e5f2c71f3cc264656.1562290204.git.Qi.Chen@windriver.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 5 Jul 2019 17:38:24 +0100
-Message-ID: <CAJTo0LZjFA7t_nqnF9m-=Mm4pcNkJmNf8Puwo6RgeZQnNZkUog@mail.gmail.com>
-To: Chen Qi <Qi.Chen@windriver.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] xmlcatalog.bbclass: execute xmlcatalog only if it's available
+In-Reply-To: <CADkTA4PbeVuGHVc2oofZeavPvMsQ7DPT4dWm0RRKK2U-8OfxWg@mail.gmail.com>
+Cc: Robert Berger <robert.berger@reliableembeddedsystems.com>,
+	Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] kernel-yocto: checksum indirect cfg and scc files
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,51 +70,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 05 Jul 2019 16:38:34 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 05 Jul 2019 17:11:27 -0000
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-We could just always install libxml2 into the SDK...
+Hi everybody,
 
-On Fri, 5 Jul 2019 at 02:18, Chen Qi <Qi.Chen@windriver.com> wrote:
->
-> For build-sysroots.bb, the xmlcatalog would not be in its
-> staging directory. Causing the following error for eSDK.
->
-> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
-> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function failed: do_build_native_sysroot
->
-> The problem could be reproduced by the following steps.
-> 1. Add in local.conf:
->    IMAGE_INSTALL_append = " btrfs-tools"
->    DISTRO_FEATURES_append = " api-documentation"
->    INHERIT += "testsdk"
-> 2. bitbake core-image-minimal -c populate_sdk_ext
-> 3. bitbake core-image-minimal -c testsdkext
->
-> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> ---
->  meta/classes/xmlcatalog.bbclass | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/meta/classes/xmlcatalog.bbclass b/meta/classes/xmlcatalog.bbclass
-> index 075aef8..e805e7b 100644
-> --- a/meta/classes/xmlcatalog.bbclass
-> +++ b/meta/classes/xmlcatalog.bbclass
-> @@ -5,6 +5,8 @@ XMLCATALOGS ?= ""
->  SYSROOT_PREPROCESS_FUNCS_append = " xmlcatalog_sstate_postinst"
->
->  xmlcatalog_complete() {
-> +       # In case of eSDK, build-sysroot does not have xmlcatalog in its staging directory.
-> +       [ "`which xmlcatalog`" = "" ] && exit 0
->         ROOTCATALOG="${STAGING_ETCDIR_NATIVE}/xml/catalog"
->         if [ ! -f $ROOTCATALOG ]; then
->                 mkdir --parents $(dirname $ROOTCATALOG)
-> --
-> 1.9.1
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Let me throw in my 2 cents ;)
+
+We have 2 cases (and combinations)
+
+1) .scc, .cfg, .patch files just lying around not being used
+
+2) .scc, .cfg, .patch files actually somehow being included in the 
+kernel recipe and hence being used
+
+Say, the kernel recipe includes something like this:
+
+SRC_URI += "file://imx6q-phytec-mira-rdk-nand-bsp.scc \
+             file://imx6q-phytec-mira-rdk-nand-bsp.cfg \
+             file://imx6q-phytec-mira-rdk-nand-bsp-user-config.cfg \
+             file://imx6q-phytec-mira-rdk-nand-bsp-user-patches.scc \
+             file://imx6q-phytec-mira-rdk-nand-bsp-user-features.scc \
+            "
+
+The various files contain this:
+
+== imx6q-phytec-mira-rdk-nand-bsp.scc ==
+
+kconf hardware imx6q-phytec-mira-rdk-nand-bsp.cfg
+
+== imx6q-phytec-mira-rdk-nand-bsp-user-config.cfg ==
+
+CONFIG_MODULES=y
+
+== imx6q-phytec-mira-rdk-nand-bsp-user-patches.scc ==
+
+patch 0001-revert-patch-e7e73b10d690c5352cb11b1941a09e4f3dc4c8c.patch
+
+== imx6q-phytec-mira-rdk-nand-bsp-user-features.scc ==
+include <from somewhere>/linux-yocto-custom/cfg/ikconfig.scc
+include <from somewhere>/linux-yocto-custom/features/hello-in-tree.scc
+
+and so on...
+
+So yes .scc .patch and .cfg files are being included, directly, or 
+indirectly.
+
+My question is:"What is different from including a .patch file here 
+compared to including in from any other recipe?"
+
+I guess the same behavior should apply to .patch, .scc and .cfg files.
+
+Regards,
+
+Robert
 
