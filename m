@@ -1,37 +1,36 @@
 Return-Path: <bunk@stusta.de>
 Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 4F9806D74B
+	by mail.openembedded.org (Postfix) with ESMTP id 6F2C86BE2A
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2019 09:53:32 +0000 (UTC)
+	Sat,  6 Jul 2019 10:01:18 +0000 (UTC)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45gn8r3Mz3z3J;
-	Sat,  6 Jul 2019 11:53:31 +0200 (CEST)
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45gnKq3FQwz6b;
+	Sat,  6 Jul 2019 12:01:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1562406813;
-	bh=3fOaA5kUXVmMgmyuU/kXg+IGC0WG1VmIYMBPF8Avc0k=;
+	s=default; t=1562407279;
+	bh=bQzS/AIWAiJRRVX853SeAV0u10O3iEkyBzHw+bDjkFU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZtnPxaXRmjgCzfBR7fsmWeBzfyLxRHLzlv5T/rAlzvdTwu8q0mxIs2Kespj8ZxzxW
-	y4nq4li4w6DXApOG+3IFR0hOMAsGho4twfr2BFiFZOG9SYBa3mThuowY/+mAw+Gk8f
-	9Nhgtdqqfy7rKyplAVeEHdKMIqSE/9NiRsJ0N+bVR43bzbG+DWdOsyuU6Gw0V0mJOv
-	C9Wv+Jpl5ryR2f/GIf9BBmfzWBemP84X+Z4KA6m636eDOxMNehKJnxBr8HTW29o6zU
-	0lDCYxqLNc4nu/8OAU7BabSI9RGiipildtKZegQCcSelTJDnCi2cOcagnqyPR1jz1C
-	IRO3D6XjSaIii+9mywRSLwZyL1dpp2Q5JNA1qkd+QmVYh/7pLlVCkGgTyH3C9C9CWR
-	8vQ5lx1fruwM5uJqgUdk3RD10cHaU7yMjfeIwKceptk+NrlKz49jQDFcyInMXZ7j7M
-	T3fMM0/1LS1sBz1BIE4Ul9H4zlc8WPF6z8y/CTFQjsISTEdKbaiSnN7xKbUF14sRBb
-	KDKpuRzAGlCdq3wi7ozFKGcQ8gM+Wm4k04+YM2kZX82IuCtHs5hg2cMZGFa6U9E7+y
-	yeHwLjtIY9LvsmALIxZomEZ0AEnf3n4dl1ErnfrV3HrcyLPGd4//ebQ4tf11rbB9hZ
-	2gUg9nxL9zjMzY+6uovZRlqY=
-Date: Sat, 6 Jul 2019 12:53:28 +0300
+	b=eQ50qA27K7+dra7f/+7ufkw8V7YomICoIJJai91ixfy2kVJKpgx0nN/oBZb10S5+K
+	EaMhx2AW1Ny1B6SLH9da1LzQ5JBGVG6Pjyc4ed1+Az7HbP8E/sh/z1CXSToefb5aUA
+	R6EFMcJjx0j8Xr5dtSw+HsHE8/fU2tAH7GnyCvmPMKthRXR1RZh+WGwszpmlKuplVe
+	BNJOIAd37YQKA+XLKGi9cFOeRtKxbeCv4s77vQx/HQgmLv75c66Wr/Yl1zRy/isT4I
+	80/9FXwPfQ4M2rjYzXgvTb0ISyynPGIYAGxVHcVndA2nNUpHBic9T8yOdjjyRr9ZF7
+	sMklmEezCGtJa3EIHbFM2T1OGbodxAlvrPyvliDrlE0dtVAYIjYFsT2cDzciyu0vdq
+	rqLtPEY5maHFAliuw8x+E4i9rdG46wrVHmZ/4ddsfEKfF3JWpkPI0Cq8re8IevJ0IM
+	he7ryRlB2szSj8y+eg8pxjeMX2zpXM6OEYtAhrOU1E4os0fElpzFznhcxdOeHeQB1y
+	V62P6gxvePHIV6dHTWLAE++EU1UM1GUXPFm1Y4zJjfoI/zuNjZVsYKvJDaJHfIRD0y
+	ic/ebU90m/pUwYu6iIrQ418e7ADiZvQmR3XTnNDN2SD84/1UyPiLmwNHDDKChNz3Rt
+	sov60UroInr+L3MRipbRqh3M=
+Date: Sat, 6 Jul 2019 13:01:17 +0300
 From: Adrian Bunk <bunk@stusta.de>
-To: kai.kang@windriver.com
-Message-ID: <20190706095328.GA1877@localhost>
-References: <20190704134520.16320-1-kai.kang@windriver.com>
-	<20190704134520.16320-2-kai.kang@windriver.com>
+To: Ross Burton <ross.burton@intel.com>
+Message-ID: <20190706100117.GB1877@localhost>
+References: <20190705162018.28251-1-ross.burton@intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20190704134520.16320-2-kai.kang@windriver.com>
+In-Reply-To: <20190705162018.28251-1-ross.burton@intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH 1/2] defaultsetup.conf: enable select init manager
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [RFC PATCH 1/4] alsa-utils: disable tools using GTK+2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -44,54 +43,17 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2019 09:53:33 -0000
+X-List-Received-Date: Sat, 06 Jul 2019 10:01:19 -0000
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 
-On Thu, Jul 04, 2019 at 09:45:19PM +0800, kai.kang@windriver.com wrote:
-> From: Kai Kang <kai.kang@windriver.com>
-> 
-> Introduce a new variable INIT_MANAGER and create 3 init-manager-*.inc
-> files to configure init manager settings. Available values of
-> INIT_MANAGER are sysvinit, systemd and mdev-busybox. 'sysvinit' is set
-> by default for compatibility.
->...
-> --- a/meta/conf/distro/defaultsetup.conf
-> +++ b/meta/conf/distro/defaultsetup.conf
-> @@ -23,3 +23,6 @@ PACKAGE_CLASSES ?= "package_ipk"
->  INHERIT_BLACKLIST = "blacklist"
->  INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
->  INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
-> +
-> +INIT_MANAGER ??= "sysvinit"
-> +require conf/distro/include/init-manager-${INIT_MANAGER}.inc
->...
-> --- /dev/null
-> +++ b/meta/conf/distro/include/init-manager-sysvinit.inc
-> @@ -0,0 +1,6 @@
-> +# Use sysvinit for system initialization
-> +DISTRO_FEATURES_append = " sysvinit"
-> +DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " systemd"
-> +VIRTUAL-RUNTIME_init_manager = "sysvinit"
-> +VIRTUAL-RUNTIME_initscripts = "initscripts"
-> +VIRTUAL-RUNTIME_login_manager = "busybox"
-
-I am not sure whether this can be fixed better, but this does break 
-existing configurations that use a non-default init system.
-
-I just ran into a build issue with
-  VIRTUAL-RUNTIME_init_manager = "systemd"
-since this now resulted in both sysvinit and systemd being attempted to 
-be installed to the image.
-
-This was fixable in my configuration with
-  -VIRTUAL-RUNTIME_init_manager = "systemd"
-  +INIT_MANAGER = "systemd"
-
-This at least needs to be properly documented as a breaking change.
+I was independently looking at GTK+2 removal recently,
+and had the same changes in my list.
 
 cu
 Adrian
+
+BTW: There is a typo in the README.LSB change.
 
 -- 
 
