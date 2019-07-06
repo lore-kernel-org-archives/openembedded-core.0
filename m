@@ -1,54 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f65.google.com (mail-wr1-f65.google.com
-	[209.85.221.65])
-	by mail.openembedded.org (Postfix) with ESMTP id E69827D279
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F9806D74B
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2019 08:14:15 +0000 (UTC)
-Received: by mail-wr1-f65.google.com with SMTP id n9so12020348wru.0
-	for <openembedded-core@lists.openembedded.org>;
-	Sat, 06 Jul 2019 01:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=c15YGvRyy6Gg1egleXxjdU5u/vGOpttgfIyRcEQB/qU=;
-	b=CFf2WMRtzMkF+T5965n8mbj0pl9D6/CUX1e/pMmuYKSfZWnxMBxzBwk1Lux0wZgw/n
-	//8SNHbV65FjThRccH4A+kdjIgD0VeOpDTbAfRfxjGNO4GhxzZugRm+RJPQGUQaJ1Mjd
-	dkHpSPo1QMGcsvzSmQeEVOlQEiLD3xj+Bp88Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=c15YGvRyy6Gg1egleXxjdU5u/vGOpttgfIyRcEQB/qU=;
-	b=LvzXuu3sAdNwNaMF0JuYaPUjNc1+EFfpG4h2+FFHjyUr/iR82y7oVXi9JJmCtXj4vd
-	hH0Iszme+9krYOhHrS/ONWjhkIfYL2T7MRpvGj7QI62WDo1Z8atcmtbuamzIggr16581
-	cZ1fG+bI+Get2OC2oDwtDzTS5X6fRyZ9zbOnl9L2zTkfNKqRNgKrl/s6G3jaCoYKFHCJ
-	pKmen+5a6GqyK86kM4o+GtPJa8lyr1Y+5CxvD2ViQSbo+hJ2H5nn+Lo1eSSz472WPjiE
-	3LOtlC6IKIdS5czs6qcHOqXN3W4d7hIEXKc1ZwkD/fU3sHBLkYZ0oF7x8ser/gTZs9KL
-	Ppgg==
-X-Gm-Message-State: APjAAAU599Pn3JGE72KwLDWOjc2G1E9fiopo2Q2zq/TxXLCWmOLGUqKD
-	/gW7PC3B7xas9gXSByVOvCzEOA==
-X-Google-Smtp-Source: APXvYqzHR8Qm9dmY7al+gohTZhMGWOSF+sFCVV5mfICoU9xwZNf0aQRlK5PuPtSXr8rRapXdkLP9gQ==
-X-Received: by 2002:adf:e748:: with SMTP id c8mr7468388wrn.46.1562400856510;
-	Sat, 06 Jul 2019 01:14:16 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y7sm6822471wmm.19.2019.07.06.01.14.15
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Sat, 06 Jul 2019 01:14:15 -0700 (PDT)
-Message-ID: <6fb887e88cff19493dfe98332f7265418bb57dd1.camel@linuxfoundation.org>
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Trevor Woerner <twoerner@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 06 Jul 2019 09:14:14 +0100
-In-Reply-To: <985c750cab28264567c6e4e532160d44ed07fbbb.camel@linuxfoundation.org>
-References: <20190703150405.GA23280@linux-uys3>
-	<1008b3f46332ba67abe67586b176bc7f565b11ad.camel@linuxfoundation.org>
-	<20190704142709.GA3410@linux-uys3>
-	<a8811c40e7aab0303c7069c5acc00823567821e6.camel@linuxfoundation.org>
-	<985c750cab28264567c6e4e532160d44ed07fbbb.camel@linuxfoundation.org>
-User-Agent: Evolution 3.32.2-1 
+	Sat,  6 Jul 2019 09:53:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45gn8r3Mz3z3J;
+	Sat,  6 Jul 2019 11:53:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1562406813;
+	bh=3fOaA5kUXVmMgmyuU/kXg+IGC0WG1VmIYMBPF8Avc0k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZtnPxaXRmjgCzfBR7fsmWeBzfyLxRHLzlv5T/rAlzvdTwu8q0mxIs2Kespj8ZxzxW
+	y4nq4li4w6DXApOG+3IFR0hOMAsGho4twfr2BFiFZOG9SYBa3mThuowY/+mAw+Gk8f
+	9Nhgtdqqfy7rKyplAVeEHdKMIqSE/9NiRsJ0N+bVR43bzbG+DWdOsyuU6Gw0V0mJOv
+	C9Wv+Jpl5ryR2f/GIf9BBmfzWBemP84X+Z4KA6m636eDOxMNehKJnxBr8HTW29o6zU
+	0lDCYxqLNc4nu/8OAU7BabSI9RGiipildtKZegQCcSelTJDnCi2cOcagnqyPR1jz1C
+	IRO3D6XjSaIii+9mywRSLwZyL1dpp2Q5JNA1qkd+QmVYh/7pLlVCkGgTyH3C9C9CWR
+	8vQ5lx1fruwM5uJqgUdk3RD10cHaU7yMjfeIwKceptk+NrlKz49jQDFcyInMXZ7j7M
+	T3fMM0/1LS1sBz1BIE4Ul9H4zlc8WPF6z8y/CTFQjsISTEdKbaiSnN7xKbUF14sRBb
+	KDKpuRzAGlCdq3wi7ozFKGcQ8gM+Wm4k04+YM2kZX82IuCtHs5hg2cMZGFa6U9E7+y
+	yeHwLjtIY9LvsmALIxZomEZ0AEnf3n4dl1ErnfrV3HrcyLPGd4//ebQ4tf11rbB9hZ
+	2gUg9nxL9zjMzY+6uovZRlqY=
+Date: Sat, 6 Jul 2019 12:53:28 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: kai.kang@windriver.com
+Message-ID: <20190706095328.GA1877@localhost>
+References: <20190704134520.16320-1-kai.kang@windriver.com>
+	<20190704134520.16320-2-kai.kang@windriver.com>
 MIME-Version: 1.0
-Subject: Re: build failures due to pigz host tool
+In-Reply-To: <20190704134520.16320-2-kai.kang@windriver.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: poky@yoctoproject.org, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH 1/2] defaultsetup.conf: enable select init manager
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,82 +44,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2019 08:14:16 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Sat, 06 Jul 2019 09:53:33 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 2019-07-04 at 23:28 +0100, Richard Purdie wrote:
-> On Thu, 2019-07-04 at 16:57 +0100, Richard Purdie wrote:
-> > On Thu, 2019-07-04 at 10:27 -0400, Trevor Woerner wrote:
-> > > On Wed 2019-07-03 @ 05:10:14 PM, Richard Purdie wrote:
-> > > > Is there any way you could try pigz 2.4 on your machine, see if
-> > > > the
-> > > > problem still occurred there? If you do rebuild pigz, could you
-> > > > apply
-> > > > the debug patch in master-next?
-> > > 
-> > > I've updated the pigz in the $PATH jenkins sees to pigz-2.4.
-> > > 
-> > > However, my builds are always updated automatically and always
-> > > build
-> > > from master; there's no way to insert ad-hoc patches into a
-> > > build.
-> > 
-> > That is fine, even just the PATH adjustment will be interesting to
-> > see
-> > the results with, thanks!
-> > 
-> > Was that version of pigz patched? FWIW I've patched the one on our
-> > opensuse151 worker so we'll see if that helps shed any light on
-> > things.
+On Thu, Jul 04, 2019 at 09:45:19PM +0800, kai.kang@windriver.com wrote:
+> From: Kai Kang <kai.kang@windriver.com>
 > 
-> and it did:
-> 
-> http://errors.yoctoproject.org/Errors/Details/250609/
-> 
-> pigz: abort: internal threads error (16, 10)
-> 
-> which means from:
-> 
-> http://git.yoctoproject.org/cgit.cgi/poky/commit/?h=master-next&id=110ccb56b88af177c0153741a31a9d34b1f75abf
-> 
-> +     if ((ret = pthread_cond_destroy(&(bolt->cond))) ||
-> +         (ret = pthread_mutex_destroy(&(bolt->mutex))))
-> +-        fail(ret);
-> ++        fail(ret, 10);
-> +     my_free(bolt);
-> 
-> so pthread_cond_destroy or pthread_mutex_destroy returned EBUSY.
-> Further digging required but at least we know which code path we're
-> on. I wonder if suse did something odd to libpthread...
+> Introduce a new variable INIT_MANAGER and create 3 init-manager-*.inc
+> files to configure init manager settings. Available values of
+> INIT_MANAGER are sysvinit, systemd and mdev-busybox. 'sysvinit' is set
+> by default for compatibility.
+>...
+> --- a/meta/conf/distro/defaultsetup.conf
+> +++ b/meta/conf/distro/defaultsetup.conf
+> @@ -23,3 +23,6 @@ PACKAGE_CLASSES ?= "package_ipk"
+>  INHERIT_BLACKLIST = "blacklist"
+>  INHERIT_DISTRO ?= "debian devshell sstate license remove-libtool"
+>  INHERIT += "${PACKAGE_CLASSES} ${USER_CLASSES} ${INHERIT_DISTRO} ${INHERIT_BLACKLIST}"
+> +
+> +INIT_MANAGER ??= "sysvinit"
+> +require conf/distro/include/init-manager-${INIT_MANAGER}.inc
+>...
+> --- /dev/null
+> +++ b/meta/conf/distro/include/init-manager-sysvinit.inc
+> @@ -0,0 +1,6 @@
+> +# Use sysvinit for system initialization
+> +DISTRO_FEATURES_append = " sysvinit"
+> +DISTRO_FEATURES_BACKFILL_CONSIDERED_append = " systemd"
+> +VIRTUAL-RUNTIME_init_manager = "sysvinit"
+> +VIRTUAL-RUNTIME_initscripts = "initscripts"
+> +VIRTUAL-RUNTIME_login_manager = "busybox"
 
-Another failure with more debug added:
+I am not sure whether this can be fixed better, but this does break 
+existing configurations that use a non-default init system.
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/792
-https://autobuilder.yoctoproject.org/typhoon/#/builders/45/builds/792/steps/7/logs/step1b
+I just ran into a build issue with
+  VIRTUAL-RUNTIME_init_manager = "systemd"
+since this now resulted in both sysvinit and systemd being attempted to 
+be installed to the image.
 
-specifically:
+This was fixable in my configuration with
+  -VIRTUAL-RUNTIME_init_manager = "systemd"
+  +INIT_MANAGER = "systemd"
 
-| DEBUG: Executing shell function sstate_create_package
-| pigz: abort: internal threads error (16, 720)
-| tar: /srv/autobuilder/autobuilder.yoctoproject.org/pub/sstate/24/sstate:readline:core2-64-poky-linux-musl:8.0:r0:core2-64:3:241b1909d0f06ca48bda9ec41ccee543bb82fcc164b2b74cd4efd318b3ae0a33_package_write_ipk.tgz.KDjTwErb: Wrote only 8192 of 10240 bytes
-| tar: Child returned status 16
-| tar: Error is not recoverable: exiting now
-| WARNING: /home/pokybuild/yocto-worker/musl-qemux86-64/build/build/tmp/work/core2-64-poky-linux-musl/readline/8.0-r0/temp/run.sstate_create_package.34356:1 exit 1 from 'exit 1'
+This at least needs to be properly documented as a breaking change.
 
-which confirms that its aborting with errno 16, EBUSY and the 720 tells
-me it came from pthread_mutex_destroy(&(bolt->mutex)) in free_lock(),
-called from free_lock(job->calc).
+cu
+Adrian
 
-I can't see anything obvious wrong with the way job->calc is being
-handled.
+-- 
 
-I get the feeling this doesn't happen when uninative is in use which
-suggests its something odd going on with libpthread on opensuse but its
-hard to know that for sure.
-
-Cheers,
-
-Richard
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
