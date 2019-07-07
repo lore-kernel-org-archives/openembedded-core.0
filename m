@@ -1,41 +1,49 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 1080E7D714
+Return-Path: <open.source@oleksandr-kravchuk.com>
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com
+	[209.85.208.174])
+	by mail.openembedded.org (Postfix) with ESMTP id A1CEE6C4DA
 	for <openembedded-core@lists.openembedded.org>;
-	Sat,  6 Jul 2019 19:31:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45h1zm4W2Mz3l;
-	Sat,  6 Jul 2019 21:31:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1562441493;
-	bh=VasFSA9sSzawRAtvBi3VR9CTMdbv8T5n8LAurLyGeJY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=i9eNpa0OxqM5TMZRGTbjPBNw838RgSndy3prdDcVCaNGGo9BE88mm1vNmHKmT/G9O
-	FpNnvt2jT7RZH9IPAc19xd1eNC+nUwzmnP9aJw+qtsF3yd7SesOM84+tdOtI12c8o/
-	XUPQYnu7lDxUxrUX4hg5S/UgqbwOLbvEQLox4Wl0MVnlAIUPHo15rN87D0XfHhwZ5v
-	lHOdc/sVZgxkbNLqt8dGnJ3hiCMnWNxpGgdfSWx85NcZ5lVRzcPaJDaB/xeA6pSTui
-	CIAWGz4sK/Fwt0MrT+TrOGTe62tpxOrDeTnqqei2Q4bbdq9pKjRGRYGmGdrOaDizf8
-	OeoY5X6aCVvu84XtXcalNHOY5bonqXY+OUx/v/E1TCQaGNJ0KBbeKmBtimYYG72WaM
-	GmlNYNpemsduvMJfGDmeJLVpoBGyAwA1gp6+DnrB+rlIl2qYJHBA/UvoWVKhlOdbGu
-	/gyvlwsWx/XLbdENx1WqEE9AC+AnXKIe815CR9YQJeHIObSK4ROPdQigdRI4QYQa3a
-	QtCoH2vS7U6Jr5YLbexYg7+WAVI74Zd45FjngtNy+qxGUG268dbK4LriFapCsJO9ok
-	oCDsz7st/LgmsLpswOfzd/XWW+67upXEJVNP6N7cwTcdAxVffPsU4ouwMM6rWeXodv
-	rtbV95cTd29vQjVAYbn2otN4=
-Date: Sat, 6 Jul 2019 22:31:29 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Jason Wessel <jason.wessel@windriver.com>
-Message-ID: <20190706193129.GD1877@localhost>
-References: <20190702201609.78379-1-jason.wessel@windriver.com>
-	<20190702201609.78379-4-jason.wessel@windriver.com>
-	<CA+chaQdZmWmLYPLfzZ2s6ojCG1QwEGjy7O7fdpNOh2QGTE9vjA@mail.gmail.com>
-	<20190704105726.GA21763@localhost>
-	<20567801-7441-e67a-59f0-e492ef60bacb@windriver.com>
-MIME-Version: 1.0
-In-Reply-To: <20567801-7441-e67a-59f0-e492ef60bacb@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 3/3] glibc/glibc-locale: Fix do_stash_locale to work with usrmerge and multilibs
+	Sun,  7 Jul 2019 01:57:16 +0000 (UTC)
+Received: by mail-lj1-f174.google.com with SMTP id i21so12588095ljj.3
+	for <openembedded-core@lists.openembedded.org>;
+	Sat, 06 Jul 2019 18:57:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=oleksandr-kravchuk-com.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=XykmMtWzOa2/23Fp6clgcf4uCS5A9/ZOo76XNf898Ew=;
+	b=FacWgXWjPxZHWP0IaDDYvJxLrrgmFud5gAC7EmIEqisFwEm8s1dkx6YwG9tr2K42+3
+	OvbucHKfReu8iD9dVvbvyh/EM/YiOVsNVB0/pDkqQGzw3u+KhbwbTr0b7XQCFtaoyXtS
+	YhHIqheyOtQXROuQ7EOyL52SN7GxSi5zNpynnaQINt+lIPq5lYU6VKjgWkK1lJRXqB00
+	Sx3YPSnd4geLKXI0dFoz6HlZPRZqpIrElDpI7nbpbXHZ+kM/sDiePMHwKRUu73eftfAl
+	ELo+gTS7kyRmuITZMxEnJJD+WafZ+sGZk0YJOL47uS/h6KBrm9oR0rlnVac46OsQLzNR
+	kafw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=XykmMtWzOa2/23Fp6clgcf4uCS5A9/ZOo76XNf898Ew=;
+	b=OZap9Zd8ZTVwxZgIp+qGa5ZfvkW3w+jsv5rcPByKWazXOHzHI/FctfM8uvYUSd2k/F
+	UGNAjuNpOHL88SvLaR0cooNuuqOBiHS6pWxy3g/FKHelxWCUvYlXjm8cnNNDSBrC5aa3
+	pN+0S+ccLf4bo91peEh/ipBHZB3huMDunn3H1E+dd9NL9KEE6yaI5aK8/D87JzoLyghr
+	69GbqdeeJpT2M57ZJuDD6rLz3ksadRaOG18J+vrUZ9Pi08n+WQu0UqfwRkQPa+2JCdFD
+	3tHtkrsZ8ZuSW/+ZtWln4yRrmm+3wvzUTF5MhqIV/QtJLkrprafHCzY/m35R8g8y1RvB
+	kFEw==
+X-Gm-Message-State: APjAAAWRef0S5N8SFlTlMGz7Pl5nU1K/9wfry6/VpWnhafGgKMi/j3o8
+	yRVv7oYz0S1yWIhTvFsS1UVmPkcxTzQ=
+X-Google-Smtp-Source: APXvYqzM0lqEJfGw72lvePxkDJR4wuPMlsz8oJqxs+rO/KnxdNXIpiE+BG3PoEo0Cdzou1Sh/HB4cg==
+X-Received: by 2002:a2e:7315:: with SMTP id o21mr6135495ljc.3.1562464636582;
+	Sat, 06 Jul 2019 18:57:16 -0700 (PDT)
+Received: from localhost.localdomain (c83-252-117-108.bredband.comhem.se.
+	[83.252.117.108]) by smtp.gmail.com with ESMTPSA id
+	h23sm2736897ljg.17.2019.07.06.18.57.15
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Sat, 06 Jul 2019 18:57:15 -0700 (PDT)
+From: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+To: openembedded-core@lists.openembedded.org
+Date: Sun,  7 Jul 2019 03:57:14 +0200
+Message-Id: <20190707015714.16009-1-open.source@oleksandr-kravchuk.com>
+X-Mailer: git-send-email 2.17.1
+Cc: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+Subject: [PATCH] python3-pbr: update to 5.4.0
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,55 +56,39 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Sat, 06 Jul 2019 19:31:33 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Sun, 07 Jul 2019 01:57:16 -0000
 
-On Thu, Jul 04, 2019 at 06:57:50AM -0500, Jason Wessel wrote:
-> On 7/4/19 5:57 AM, Adrian Bunk wrote:
-> > On Thu, Jul 04, 2019 at 11:13:18AM +0200, Martin Jansa wrote:
-> > > I don't see how this change (or the previous glibc-locale one) would cause
-> > > that, but since the oe-core upgrade yesterday I'm seeing following
-> > > glibc-locale.do_package failure:
-> > > http://errors.yoctoproject.org/Errors/Details/250557/
-> > > 
-> > > DEBUG: Executing shell function do_prep_locale_tree
-> > > tar: i18n: Cannot stat: No such file or directory
-> > > tar: Exiting with failure status due to previous errors
-> > > gzip:
-> > > TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz:
-> > > No such file or directory
-> > > WARNING:
-> > > TOPDIR/tmp-glibc/work/core2-64-oe-linux/glibc-locale/2.29-r0/temp/run.do_prep_locale_tree.23303:1
-> > > exit 1 from 'gunzip $i'
-> > > 
-> > > anyone else seeing this?
-> > 
-> > Yes.
-> 
-> 
-> I don't know that it was specifically this change that causes the problem but rather any change to this function.   If that is not the case can either of you send me your local.conf file, and I'll try to reproduce it.  If the following doesn't work around the problem, there is clearly another corner case that is not well understood.
-> 
-> bitbake -c cleansstate glibc glibc-locale
->...
+Signed-off-by: Oleksandr Kravchuk <open.source@oleksandr-kravchuk.com>
+---
+ meta/recipes-devtools/python/python3-pbr_5.3.1.bb | 5 -----
+ meta/recipes-devtools/python/python3-pbr_5.4.0.bb | 5 +++++
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pbr_5.3.1.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pbr_5.4.0.bb
 
-bitbake -c cleansstate glibc glibc-locale nativesdk-glibc nativesdk-glibc-locale
-
-This seems to workaround the problem in the cases I have seen so far,
-so what you said about the cause looks plausible to me.
-
-> Cheers,
-> 
-> Jason.
-
-cu
-Adrian
-
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.3.1.bb b/meta/recipes-devtools/python/python3-pbr_5.3.1.bb
+deleted file mode 100644
+index 12892b60cf..0000000000
+--- a/meta/recipes-devtools/python/python3-pbr_5.3.1.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-inherit setuptools3
+-require python-pbr.inc
+-
+-SRC_URI[md5sum] = "bdaec663a75d10e9e0f2224afa3a1318"
+-SRC_URI[sha256sum] = "9181e2a34d80f07a359ff1d0504fad3a47e00e1cf2c475b0aa7dcb030af54c40"
+diff --git a/meta/recipes-devtools/python/python3-pbr_5.4.0.bb b/meta/recipes-devtools/python/python3-pbr_5.4.0.bb
+new file mode 100644
+index 0000000000..1f1ec3a420
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pbr_5.4.0.bb
+@@ -0,0 +1,5 @@
++inherit setuptools3
++require python-pbr.inc
++
++SRC_URI[md5sum] = "fcf120102d3e4859d41425638122058c"
++SRC_URI[sha256sum] = "36ebd78196e8c9588c972f5571230a059ff83783fabbbbedecc07be263ccd7e6"
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.17.1
 
 
