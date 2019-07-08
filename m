@@ -1,29 +1,30 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 36E6A60291
+Return-Path: <zangrc.fnst@cn.fujitsu.com>
+Received: from heian.cn.fujitsu.com (mail.cn.fujitsu.com [183.91.158.132])
+	by mail.openembedded.org (Postfix) with ESMTP id B311760291
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2019 07:02:21 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6872Iew007491
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jul 2019 00:02:18 -0700 (PDT)
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Mon, 8 Jul 2019 00:02:17 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1562290204.git.Qi.Chen@windriver.com>
-	<c9d93056cbc6067892aa042e5f2c71f3cc264656.1562290204.git.Qi.Chen@windriver.com>
-	<CAJTo0LZjFA7t_nqnF9m-=Mm4pcNkJmNf8Puwo6RgeZQnNZkUog@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <10aba9fe-8ec5-05bf-af3d-bb0ae8bfd4a8@windriver.com>
-Date: Mon, 8 Jul 2019 15:14:50 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
+	Mon,  8 Jul 2019 07:13:49 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.63,465,1557158400"; d="scan'208";a="70938969"
+Received: from unknown (HELO cn.fujitsu.com) ([10.167.33.5])
+	by heian.cn.fujitsu.com with ESMTP; 08 Jul 2019 15:13:48 +0800
+Received: from G08CNEXCHPEKD03.g08.fujitsu.local (unknown [10.167.33.85])
+	by cn.fujitsu.com (Postfix) with ESMTP id 672BB4CDDAF2
+	for <openembedded-core@lists.openembedded.org>;
+	Mon,  8 Jul 2019 15:13:52 +0800 (CST)
+Received: from localhost.local (10.167.225.40) by
+	G08CNEXCHPEKD03.g08.fujitsu.local (10.167.33.89) with Microsoft SMTP
+	Server (TLS) id 14.3.439.0; Mon, 8 Jul 2019 15:13:53 +0800
+From: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Jul 2019 15:13:01 +0800
+Message-ID: <20190708071301.29797-1-zangrc.fnst@cn.fujitsu.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LZjFA7t_nqnF9m-=Mm4pcNkJmNf8Puwo6RgeZQnNZkUog@mail.gmail.com>
-X-Originating-IP: [128.224.162.148]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] xmlcatalog.bbclass: execute xmlcatalog only if it's available
+X-Originating-IP: [10.167.225.40]
+X-yoursite-MailScanner-ID: 672BB4CDDAF2.A91DF
+X-yoursite-MailScanner: Found to be clean
+X-yoursite-MailScanner-From: zangrc.fnst@cn.fujitsu.com
+X-Spam-Status: No
+Subject: [PATCH] librepo:upgrade 1.10.3 -> 1.10.4
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -36,56 +37,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2019 07:02:22 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Mon, 08 Jul 2019 07:13:50 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-On 07/06/2019 12:38 AM, Burton, Ross wrote:
-> We could just always install libxml2 into the SDK...
+Signed-off-by: Zang Ruochen <zangrc.fnst@cn.fujitsu.com>
+---
+ meta/recipes-devtools/librepo/{librepo_1.10.3.bb => librepo_1.10.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.10.3.bb => librepo_1.10.4.bb} (93%)
 
-Good idea. I'll send out a new patch.
+diff --git a/meta/recipes-devtools/librepo/librepo_1.10.3.bb b/meta/recipes-devtools/librepo/librepo_1.10.4.bb
+similarity index 93%
+rename from meta/recipes-devtools/librepo/librepo_1.10.3.bb
+rename to meta/recipes-devtools/librepo/librepo_1.10.4.bb
+index d7c83ed..50c9a82 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.10.3.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.10.4.bb
+@@ -7,7 +7,7 @@ SRC_URI = "git://github.com/rpm-software-management/librepo.git \
+            file://0004-Set-gpgme-variables-with-pkg-config-not-with-cmake-m.patch \
+            "
+ 
+-SRCREV = "2eb0a27031956fd98340ca2707f03abb7b780372"
++SRCREV = "9b2df22dbcdf9352672334098fff56335aa10423"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.7.4
 
-> On Fri, 5 Jul 2019 at 02:18, Chen Qi <Qi.Chen@windriver.com> wrote:
->> For build-sysroots.bb, the xmlcatalog would not be in its
->> staging directory. Causing the following error for eSDK.
->>
->> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
->> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function failed: do_build_native_sysroot
->>
->> The problem could be reproduced by the following steps.
->> 1. Add in local.conf:
->>     IMAGE_INSTALL_append = " btrfs-tools"
->>     DISTRO_FEATURES_append = " api-documentation"
->>     INHERIT += "testsdk"
->> 2. bitbake core-image-minimal -c populate_sdk_ext
->> 3. bitbake core-image-minimal -c testsdkext
->>
->> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->> ---
->>   meta/classes/xmlcatalog.bbclass | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/classes/xmlcatalog.bbclass b/meta/classes/xmlcatalog.bbclass
->> index 075aef8..e805e7b 100644
->> --- a/meta/classes/xmlcatalog.bbclass
->> +++ b/meta/classes/xmlcatalog.bbclass
->> @@ -5,6 +5,8 @@ XMLCATALOGS ?= ""
->>   SYSROOT_PREPROCESS_FUNCS_append = " xmlcatalog_sstate_postinst"
->>
->>   xmlcatalog_complete() {
->> +       # In case of eSDK, build-sysroot does not have xmlcatalog in its staging directory.
->> +       [ "`which xmlcatalog`" = "" ] && exit 0
->>          ROOTCATALOG="${STAGING_ETCDIR_NATIVE}/xml/catalog"
->>          if [ ! -f $ROOTCATALOG ]; then
->>                  mkdir --parents $(dirname $ROOTCATALOG)
->> --
->> 1.9.1
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
 
 
 
