@@ -1,49 +1,51 @@
-Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com
-	[209.85.208.179])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E41B79CB3
+Return-Path: <prvs=085e8ccea=alistair.francis@wdc.com>
+Received: from esa3.hgst.iphmx.com (esa3.hgst.iphmx.com [216.71.153.141])
+	by mail.openembedded.org (Postfix) with ESMTP id 951E779CB3
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2019 21:16:45 +0000 (UTC)
-Received: by mail-lj1-f179.google.com with SMTP id r9so17391101ljg.5
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Jul 2019 14:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=is7/wgE0wQrdPTSVyK9VHuC5kj7lgCOVDpTjfXh45fg=;
-	b=E0uj35wY50WF8EJq3qYyfRVEdr8N7G/5tpVE74b1lZAdaF7qwlUDdoW5Wg7CqG1epi
-	zADc9S9gFGoj0wyLMsXRJIBbti6lMUdsr2Dn6+fYGSuB15uVDiDUEOxLxrkAbKwGFo9v
-	bF5U0yjSUH/4eWzqHYKLFKC0MXSCvXT4TRPgU1v4KIjKmdMmRK3osgaQ6zo/6yNUIpuN
-	RVFpD0uABfUo6pN3OV4NQSsNnVueqpzCcfiwZ5PAwxZ2nNXr4eAT+78eb14e58r60Foi
-	SG355jWXIZ+612DSKtxq/rm3SFBZ776iIlHWpwzDbWIBQ+d7EB1VxOzp7pdeMiEFHNN9
-	8nvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=is7/wgE0wQrdPTSVyK9VHuC5kj7lgCOVDpTjfXh45fg=;
-	b=rmZKytWBSWLsTyEG4QUN+JNH4xaFEhrd+CqVZ0/O2iTjCfPQjGz7cGzJRwEVP22vSz
-	v711EzlXNNrF/jQIk1RhZjttH0wadg8StLnI7h1YSUHNXTwM4Jb3TQBP+YvJJPxioG7t
-	5LfhDl17aOUyv+4iwVFf9Xzcm5jxFoM9Njj6pA/jaNcmroUiM5MYYYmRS2upbBsGsZGD
-	ak3hyBZeYzl89lSXQu84XnDcYyTAxhX9bI7Zqxrey2BwU8z66BkTf0DsolS0ISKMGIH4
-	ysOzLyAwyhBGGtsz3W76ZWZfE0WEvfvdfkkc/N4EtjTzCpu7RIMAzFQ5W9Bv1TIhlrLi
-	BhUg==
-X-Gm-Message-State: APjAAAXXLwpg1+YIr9z3xf91V6ZIu+8Vzo8dX22R7tYBrdeHqzjGNOR4
-	tk1jLAEj1qCeWgGChZGSR6XZukdBGx7zFJGM6R6E6O3w
-X-Google-Smtp-Source: APXvYqyru72uWnswpdznVEgFCkiOVGaLKmxOTBqZGYwdh4Fki91hKZpNjvHtqEF6aUSQ1S0YB1xHA4HfDiadFRf+0xY=
-X-Received: by 2002:a2e:8613:: with SMTP id a19mr11355004lji.163.1562620605645;
-	Mon, 08 Jul 2019 14:16:45 -0700 (PDT)
+	Mon,  8 Jul 2019 21:25:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+	t=1562621112; x=1594157112;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=WMHlGp5lPwG6nR4oYEWD/i0AQg2MZjIEIdYJhPU9F+A=;
+	b=Of/aAIKK6OBA10fViOkELP4wXCOk+UgDkHIYUXOK3fPOV1PEEiU/poDU
+	tvt7GeFPe3F2OPEnCUPnbzjyhP/VB33YSUqGMpw2Rig+wwzK4QdVKI9gA
+	rS0XMpm+JWXuypRr+c0bqVmGVTtEhVunEJh4dAMafkpdkzdfUngA5VjgF
+	fvJNe7v6nih/jrAWci2CCqREdkN605OmXgt6QZd9G6TbXlXgCesFcZOHG
+	zyuxvlDi/p8bWcJdil7hXjXUW5aZq6/R9ZIa+AZ6OwfLY4qVlIx4lFO6G
+	Yg8h7a/CdjnMDRfQ5s9/QiAfuwpfYpjz4XdAW2MPytah4KNG3+tnHeNKg w==;
+IronPort-SDR: +F58wOxpUK1QJtaGFR6j+3xXvPQ2p/wIHSxWNzhpVVr0IoqiAxXT0OB13uI8ldvE2d5mbzDrI/
+	KNxknUYduTv9YyRKFczcgXy6eZfowvKcd4Dpa3Wh+1rkAjG64RXei/2JCi8G0OYv1toB23N841
+	a0x1oKgGTFM/rVLKTR1wHZjTxKBWAlYfU5fnhXNyN72pztCXVExczF/M2SmwkQ8CGMWWyEbl7V
+	2ekF+n4irxUbcCOI09IYFfcEL78zGX1WROlE46+zL9myEdgShQzRlLmMqVSbHMcRDe2jwW0f2Y
+	j2s=
+X-IronPort-AV: E=Sophos;i="5.63,468,1557158400"; d="scan'208";a="117307558"
+Received: from h199-255-45-15.hgst.com (HELO uls-op-cesaep02.wdc.com)
+	([199.255.45.15])
+	by ob1.hgst.iphmx.com with ESMTP; 09 Jul 2019 05:25:12 +0800
+IronPort-SDR: 6eTyJN0k3s7ELbkfNtMt2R5q3+GjQEaGMcHA4EIRQ8AfFfQZSJzbyYEvkGfJxOjK+nWpB++Ji3
+	gjgJfRaZ3xSAJIVhG239eD7BQTJD0xMHxFAp/FnbIF+66umA3kCQ/2xZMeqPOO23K3Phji5ES9
+	thp6FftZJB+eRXSe7tYAbxNcyUS5QTchguhXXg7GkmwuIZ3RcE+EgU0m8S0XHbgpV8kGyfxJQ4
+	TSHZjsTer5Gclh27LtVUH4iIuWppJ8AwlIuQVbIqTk4u1CPRlmtE2ZCaR48sjBrrbhskLjDOTn
+	h+4ThRJ/7H4LydptIdZKMr2l
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+	by uls-op-cesaep02.wdc.com with ESMTP; 08 Jul 2019 14:24:00 -0700
+IronPort-SDR: iIiU9nB91czcAdc/8shf8lgYRKzZ2IpFLvrBW+azif+UYULXDMdL4QomM6MJLJJKIZmcryebvh
+	ugNgh21VoY1nnw1y3VSDa9dE4cjwebWkr+cHqSexAa3v/A1/HHL43LDq5yiIRqX6vU6EFFg6pu
+	a06Fyd69k4ZVNznXBuZSILOrocKbHymBpMcL0w+r2Paws3rz3a+bByilzr0q8zqFTHlnF4xuSv
+	9s+bzll5kWEWPAMkqMlI7OHyn6KmBNE/8rzeDcGk7qoRHyy1s4xSzQ9JDvxv0eEn4+iCqyk1Qt
+	kKg=
+Received: from risc6-mainframe.sdcorp.global.sandisk.com (HELO
+	risc6-mainframe.int.fusionio.com) ([10.196.157.140])
+	by uls-op-cesaip02.wdc.com with ESMTP; 08 Jul 2019 14:25:12 -0700
+From: Alistair Francis <alistair.francis@wdc.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Jul 2019 14:22:27 -0700
+Message-Id: <20190708212227.20978-1-alistair.francis@wdc.com>
+X-Mailer: git-send-email 2.22.0
 MIME-Version: 1.0
-References: <CADySD0HgOebmE=uUJ718CBhsXv3bW7WoeXa4dp06LL=vcLd_qg@mail.gmail.com>
-	<CAJTo0Lbm1DVcwKFjYBaXWsgzTGLbRRH2aFEzgTi0MAGQXQ4T_w@mail.gmail.com>
-	<CADySD0E7mwou1DeeTWfjdXh3QjqM9oMDvLsVbkXMrFZCfcgdug@mail.gmail.com>
-	<CY4PR12MB165398EE661D4CA2995CD0558BF60@CY4PR12MB1653.namprd12.prod.outlook.com>
-In-Reply-To: <CY4PR12MB165398EE661D4CA2995CD0558BF60@CY4PR12MB1653.namprd12.prod.outlook.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Tue, 9 Jul 2019 09:16:35 +1200
-Message-ID: <CADySD0HHhJHacwP0HXR52dpw1SEjg60y9-RRvuNgDHJFTw46Aw@mail.gmail.com>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Problems with sstate-cache in Artifactory
+Subject: [PATCH] packagegroup-core-sdk: Set blank sanitiser for RISC-V 32
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,54 +58,30 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2019 21:16:45 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 08 Jul 2019 21:25:10 -0000
+Content-Transfer-Encoding: 8bit
 
-Hi Chris,
+Set the SANITIZERS varialbe to "" for the riscv32 machine as it is
+already set for the riscv64 machine.
 
-Thanks for your pointers, I will try them.
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ meta/recipes-core/packagegroups/packagegroup-core-sdk.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-Regarding using curl for sstate fetch, how to set SSTATE_MIRRORS ?
-Below is my current configuration
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+index 15d0989b76..8854ec4801 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
+@@ -32,6 +32,7 @@ SANITIZERS_microblaze = ""
+ SANITIZERS_mipsarch = ""
+ SANITIZERS_nios2 = ""
+ SANITIZERS_riscv64 = ""
++SANITIZERS_riscv32 = ""
+ SANITIZERS_libc-musl = ""
+ 
+ RRECOMMENDS_packagegroup-core-sdk = "\
+-- 
+2.22.0
 
-SSTATE_MIRRORS ?= "\
-file://.* https://artifactory.com/yocto/sstate-cache/PATH;downloadfilename=PATH
-\
-"
-Thanks
-Ankur
-
-On Tue, Jul 9, 2019 at 3:37 AM chris.laplante@agilent.com
-<chris.laplante@agilent.com> wrote:
->
-> > I can't see any "log.do_setscene" inside the tmp directory.
-> > When I start an image build, it does say executing setscene task but
-> > then no setscene task log for any recipe
-> >
-> > Initialising tasks: 100%
-> > |##############################################################################################################
-> > ##############################|
-> > Time: 0:00:01
-> > Checking sstate mirror object availability: 100%
-> > |##############################################################################################################
-> > ######|
-> > Time: 0:00:02
-> > Sstate summary: Wanted 484 Found 0 Missed 968 Current 0 (0% match, 0% complete)
-> > NOTE: Executing SetScene Tasks
-> > NOTE: Executing RunQueue Tasks
->
-> We have Artifactory serving our sstate as well, so here's some tips.
->
-> 1. Try seeing if you can fetch some sstate using curl directly. If you are authenticating to the Artifactory server using a .netrc server, make sure to pass "--netrc" to curl.
-> 2. You can diagnose the sstate mirror by passing -DDD to bitbake. It will spit out a ton of debug messages, so you might want to redirect it all to a file. E.g.:
->
-> bitbake something -DDD >out.txt 2>&1
->
-> Start looking after the line that begins "DEBUG: SState using premirror of". It will dump out the URLs that it tries to fetch.
->
-> 3. Within Artifactory, you can check the access log by going to: Admin > System Logs > access.log
->
-> Look for "DENIED LOGIN" errors.
->
-> Chris
 
