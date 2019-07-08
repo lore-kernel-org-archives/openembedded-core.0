@@ -1,28 +1,29 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id EB9387D278
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 36E6A60291
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2019 03:24:14 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x683OFSs016083
+	Mon,  8 Jul 2019 07:02:21 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6872Iew007491
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 7 Jul 2019 20:24:15 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 7 Jul 2019 20:24:14 -0700
-To: Pierre Le Magourou <lemagoup@gmail.com>
-References: <20190627145917.1774-1-lemagoup@gmail.com>
-	<6ab87120-92d4-7cbc-e88a-8e9261037901@windriver.com>
-	<CAEz4NHr9ZEEGM+VjemOApAR0MepPjjXdumWOQb8iHOCcdBBuQg@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <ecf261f2-ae5b-b2bf-0424-226526422595@windriver.com>
-Date: Mon, 8 Jul 2019 11:25:19 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
+	Mon, 8 Jul 2019 00:02:18 -0700 (PDT)
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Mon, 8 Jul 2019 00:02:17 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1562290204.git.Qi.Chen@windriver.com>
+	<c9d93056cbc6067892aa042e5f2c71f3cc264656.1562290204.git.Qi.Chen@windriver.com>
+	<CAJTo0LZjFA7t_nqnF9m-=Mm4pcNkJmNf8Puwo6RgeZQnNZkUog@mail.gmail.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <10aba9fe-8ec5-05bf-af3d-bb0ae8bfd4a8@windriver.com>
+Date: Mon, 8 Jul 2019 15:14:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAEz4NHr9ZEEGM+VjemOApAR0MepPjjXdumWOQb8iHOCcdBBuQg@mail.gmail.com>
+In-Reply-To: <CAJTo0LZjFA7t_nqnF9m-=Mm4pcNkJmNf8Puwo6RgeZQnNZkUog@mail.gmail.com>
+X-Originating-IP: [128.224.162.148]
 Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [meta-oe][PATCH v5] cve-update-db: do_populate_cve_db depends on do_fetch
+Subject: Re: [PATCH 1/1] xmlcatalog.bbclass: execute xmlcatalog only if it's available
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -35,71 +36,56 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2019 03:24:15 -0000
+X-List-Received-Date: Mon, 08 Jul 2019 07:02:22 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hi Pierre,
+On 07/06/2019 12:38 AM, Burton, Ross wrote:
+> We could just always install libxml2 into the SDK...
 
-Did you try
+Good idea. I'll send out a new patch.
 
-$ bitbake universe --runall=fetch
-
-Please? It still doesn't work on latest master branch.
-
-ERROR: Running idle function
-Traceback (most recent call last):
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 1500, in 
-RunQueue.execute_runqueue():
-              try:
-     >            return self._execute_runqueue()
-              except bb.runqueue.TaskFailure:
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 1420, in 
-RunQueue._execute_runqueue():
-                                                                  [43, 967, 4, 
-3, 1, 5, 3, 7, 13, 1, 2, 1, 1, 246, 35, 1, 38, 1, 35, 2, 338, 204, 142, 3, 3, 
-37, 244])
-     >            if self.rqdata.prepare() == 0:
-                      self.state = runQueueComplete
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 906, in 
-RunQueueData.prepare():
-                      for tid in list(runall_tids):
-     >                    mark_active(tid,1)
-
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 837, in 
-mark_active(tid='/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_fetch', 
-depth=1):
-                  for depend in depends:
-     >                mark_active(depend, depth+1)
-
-   File "/buildarea1/lyang1/poky/bitbake/lib/bb/runqueue.py", line 835, in 
-mark_active(tid='/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_populate_cve_db', 
-depth=2):
-
-     >            depends = self.runtaskentries[tid].depends
-                  for depend in depends:
-KeyError: 
-'/buildarea1/lyang1/poky/meta/recipes-core/meta/cve-update-db.bb:do_populate_cve_db'
-
-// Robert
-
-
-On 7/3/19 5:44 PM, Pierre Le Magourou wrote:
-> Hello,
-> 
->> This patch broke "bitbake universe --runall=fetch" totally:
+> On Fri, 5 Jul 2019 at 02:18, Chen Qi <Qi.Chen@windriver.com> wrote:
+>> For build-sysroots.bb, the xmlcatalog would not be in its
+>> staging directory. Causing the following error for eSDK.
 >>
->> The line which caused the problem is:
->> addtask do_populate_cve_db before do_fetch
+>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
+>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function failed: do_build_native_sysroot
 >>
->> Would you please fix it? Or I can help if needed.
+>> The problem could be reproduced by the following steps.
+>> 1. Add in local.conf:
+>>     IMAGE_INSTALL_append = " btrfs-tools"
+>>     DISTRO_FEATURES_append = " api-documentation"
+>>     INHERIT += "testsdk"
+>> 2. bitbake core-image-minimal -c populate_sdk_ext
+>> 3. bitbake core-image-minimal -c testsdkext
 >>
-> 
-> This seems related to the NVD website down problem. I sent a patch to
-> manage inaccessible URLs. cve-update-db will not fail anymore if the
-> NVD data feeds cannot be downloaded.
-> 
-> Pierre
-> 
+>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>> ---
+>>   meta/classes/xmlcatalog.bbclass | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/meta/classes/xmlcatalog.bbclass b/meta/classes/xmlcatalog.bbclass
+>> index 075aef8..e805e7b 100644
+>> --- a/meta/classes/xmlcatalog.bbclass
+>> +++ b/meta/classes/xmlcatalog.bbclass
+>> @@ -5,6 +5,8 @@ XMLCATALOGS ?= ""
+>>   SYSROOT_PREPROCESS_FUNCS_append = " xmlcatalog_sstate_postinst"
+>>
+>>   xmlcatalog_complete() {
+>> +       # In case of eSDK, build-sysroot does not have xmlcatalog in its staging directory.
+>> +       [ "`which xmlcatalog`" = "" ] && exit 0
+>>          ROOTCATALOG="${STAGING_ETCDIR_NATIVE}/xml/catalog"
+>>          if [ ! -f $ROOTCATALOG ]; then
+>>                  mkdir --parents $(dirname $ROOTCATALOG)
+>> --
+>> 1.9.1
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+
+
 
