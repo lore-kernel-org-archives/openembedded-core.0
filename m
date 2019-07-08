@@ -1,49 +1,26 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 4044660234
+Return-Path: <jwessel@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 185AE6C10F
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2019 18:45:51 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id i10so37532739iol.13
+	Mon,  8 Jul 2019 19:16:45 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x68JGQDd026409
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 08 Jul 2019 11:45:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=KCgs0Z45/LSkdVRAycS8raleBqCiFEverUMsJ4WVM0E=;
-	b=G7OsxiLWiB07pVILtLalYwvkfCGgaZZqNgjHVT/lZyZmL9vOJo2QtYVl58nDD58Sdh
-	qlwNB1SfakWjLExwl4zMiqI+ihcQ3B+AXkSUcOlEHhWi1dI0p7HeQxH5Vrgos+bmcanA
-	JwTHHMN60TL2eTiMSxnscCp5pvON2unGwo0KvrLbCtD1EcWQPAl34xBIXhFC+e2x06ui
-	trKu4gO5Wt9C77Hm0K30bb7SrQYK5YPqU2NzrDfD4GBItCRlJXkDNroCH3P4XMeBySN2
-	OJXkhWCdRMYlfaYeTrRxS2D7RAlUwbvH7x5qcn9t8FNn0oR6ljulxFMcXcbqkb5vdBMG
-	CIgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=KCgs0Z45/LSkdVRAycS8raleBqCiFEverUMsJ4WVM0E=;
-	b=kyD7gcLTiyhq18o/fPR8yjGzpASV1846Exhrsp+EbPL1Ak9sp+lShjy0+uUnpnNocW
-	MG+hGIyw5S8zPle6BWwJFaeltEFtxC9zC7MIz/LFgYrypdWqGPqASF/lBmQVfNBTegEV
-	qvZeKEj7Ji5KdpMkWzSYFzOkEJ4KgT3TY8XADP7xSlyrAKc2a+mLm/Gw11lcFPj8Xlqv
-	Vc6wqNGwJ+MfS3PV3t0aHqCLsipR9ggunO+dwVo9xjAwZ1X/CMTOQJ8PqAYKmeZQm4WX
-	ch6waQPJQYqc4MwJc8pFS/8Dss8wJfYrOay4XfqG7yuzURzP60TAgOB/LYyITNFqOzOZ
-	eyvw==
-X-Gm-Message-State: APjAAAUGLPSteE0qVA3BkGANgkoDnomy0oOUNpzB0zUXclh1fyvrhA65
-	5upyeAbs21AGnWt+v62/6quMC4d1TE4P5Os3GcVmww==
-X-Google-Smtp-Source: APXvYqw6bJGHyfmhf0IbBEfRtFMMSkzHrBS6B72vandNkxxD9rlgW/ikI6A+ejFy03jtydsnSHAtf0T/BS413FMd0WI=
-X-Received: by 2002:a02:c7c9:: with SMTP id s9mr22473656jao.82.1562611553083; 
-	Mon, 08 Jul 2019 11:45:53 -0700 (PDT)
+	Mon, 8 Jul 2019 12:16:36 -0700
+Received: from ala-lpggp2.wrs.com (147.11.105.123) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server id 14.3.439.0;
+	Mon, 8 Jul 2019 12:16:16 -0700
+Received: by ala-lpggp2.wrs.com (Postfix, from userid 5002)	id 0CD8AAA4795;
+	Mon,  8 Jul 2019 12:16:16 -0700 (PDT)
+From: Jason Wessel <jason.wessel@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Mon, 8 Jul 2019 12:16:12 -0700
+Message-ID: <20190708191612.128430-1-jason.wessel@windriver.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <cover.1562570956.git.Qi.Chen@windriver.com>
-	<0dee845494880f0c201e79d6ee0f50390f183465.1562570957.git.Qi.Chen@windriver.com>
-	<bffaaf84031568a924656bf092d9d17405fbef2f.camel@linuxfoundation.org>
-In-Reply-To: <bffaaf84031568a924656bf092d9d17405fbef2f.camel@linuxfoundation.org>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Mon, 8 Jul 2019 19:45:41 +0100
-Message-ID: <CAJTo0LY3r=FTLoYhBXCNt00qhuHpuD-2bqaBfKKr851OsRd0tA@mail.gmail.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libxml2-utils
+Subject: [PATCH] glibc / glibc-locale: Fix stash_locale determinism problems
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,75 +33,136 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2019 18:45:52 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Mon, 08 Jul 2019 19:16:51 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Agreed, making it a non-fatal dependency just means that some eSDKs
-break, not all.  There needs to be a better fix.
+When using sstate, or performing an incremental build any change to
+the do_stash_locale() will cause a build failure because
+do_stash_locale() was destroying the results obtained from the
+do_install() with several mv operations.  A recent change to
+do_stash_locale() for a different problem illustrated a number of
+build failures for users in the community.
 
-Ross
+To fix the problem, do_stash_locale() must use copy operations instead
+of the mv operations.  Because this is changed to a copy, the sysroot
+and package stage need to remove the files that would have been
+previously removed.  The correct "fixup" code to deal with the removal
+already existed in the previous do_poststash_install_cleanup().  All
+that needed change was the path to where to remove the files
+from the sysroot and package stages.
 
-On Mon, 8 Jul 2019 at 17:53, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Mon, 2019-07-08 at 15:37 +0800, Chen Qi wrote:
-> > For build-sysroots.bb, the xmlcatalog would not be in its
-> > staging directory. Causing the following error for eSDK.
-> >
-> > ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command
-> > '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-
-> > docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status
-> > 127.
-> > ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function
-> > failed: do_build_native_sysroot
-> >
-> > The problem could be reproduced by the following steps.
-> > 1. Add in local.conf:
-> >    IMAGE_INSTALL_append = " btrfs-tools"
-> >    DISTRO_FEATURES_append = " api-documentation"
-> >    INHERIT += "testsdk"
-> > 2. bitbake core-image-minimal -c populate_sdk_ext
-> > 3. bitbake core-image-minimal -c testsdkext
-> >
-> > So we add nativesdk-libxml2-utils to buildtools-tarball
-> > to ensure the existence of xmlcatalog. Also add it
-> > to HOSTTOOLS_NONFATAL so it could be seen by bitbake.
-> >
-> > Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-> > ---
-> >  meta/conf/bitbake.conf                       | 3 +++
-> >  meta/recipes-core/meta/buildtools-tarball.bb | 1 +
-> >  2 files changed, 4 insertions(+)
-> >
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index 5e93f5c..2f64eae 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -517,6 +517,9 @@ HOSTTOOLS_NONFATAL += "scp"
-> >  # Link to git-lfs if present
-> >  HOSTTOOLS_NONFATAL += "git-lfs"
-> >
-> > +# build-sysroot needs xmlcatalog in order for eSDK installation
-> > +HOSTTOOLS_NONFATAL += "xmlcatalog"
->
-> I don't mind the buildtools-tarball change but HOSTTOOLS is starting to
-> grow to contain far too much random stuff which could impact
-> reproduciblity.
->
-> Is there some other way we could fix this? It still feels like a
-> dependency problem which we chould fix by adding a missing dependency
-> although I appreciate its far from being that simple.
->
-> I wonder if there is a way we could teach build-sysroots to be cleverer
-> about dependencies?
->
-> Cheers,
->
-> Richard
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+In order to force a re-compilation of glibc some unused white space
+was removed from do_compile() for glibc.  I could not find any other
+way around this and we don't want to have all the community folks to
+have another iteration where they have to remove their tmp directories
+or purge some portion of the sstate.  It also makes this change
+bisectable. If the change to the glibc is not included, it will fail
+with the following message:
+
+=====
+| DEBUG: Executing shell function do_prep_locale_tree
+| tar: i18n: Cannot stat: No such file or directory
+| tar: Exiting with failure status due to previous errors
+| gzip: /poky/build/tmp/work/core2-64-poky-linux/glibc-locale/2.29-r0/locale-tree//usr/share/i18n/charmaps/*gz.gz: No such file or directory
+=====
+
+After this one time change I tested changing only the
+do_stash_locale() function and it now works well because it is
+deterministically operating off the sstate data or a local build.
+
+Signed-off-by: Jason Wessel <jason.wessel@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 40 ++++++++++++++---------
+ meta/recipes-core/glibc/glibc_2.29.bb     |  1 -
+ 2 files changed, 24 insertions(+), 17 deletions(-)
+
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index ff17a193c3..5cfb1b6ab9 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -164,13 +164,13 @@ do_stash_locale () {
+ 	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
+ 	# Hide away the locale data from the deployment
+ 	if [ -e ${D}${bindir}/localedef ]; then
+-		mv -f ${D}${bindir}/localedef ${dest}${bindir}
++		cp -a ${D}${bindir}/localedef ${dest}${bindir}
+ 	fi
+ 	if [ -e ${D}${libdir}/gconv ]; then
+-		mv -f ${D}${libdir}/gconv ${dest}${libdir}
++		cp -a ${D}${libdir}/gconv ${dest}${libdir}
+ 	fi
+ 	if [ -e ${D}${datadir}/i18n ]; then
+-		mv ${D}${datadir}/i18n ${dest}${datadir}
++		cp -a  ${D}${datadir}/i18n ${dest}${datadir}
+ 	fi
+ 
+ 	# Make a copy of all the libraries into the locale stash
+@@ -210,30 +210,38 @@ python do_stash_locale_setscene () {
+ }
+ addtask do_stash_locale_setscene
+ 
+-do_poststash_install_cleanup () {
+-	# Remove all files which do_stash_locale would remove (mv)
+-	# since that task could have come from sstate and not get run.
++PACKAGE_PREPROCESS_FUNCS += "stash_locale_package_cleanup"
++SYSROOT_PREPROCESS_FUNCS += "stash_locale_sysroot_cleanup"
++stash_locale_cleanup () {
++	cleanupdir=$1
++	# Remove all files which do_stash_locale() copies
+ 	for i in ${bashscripts}; do
+-	    rm -f ${D}${bindir}/$i
++	    rm -f ${cleanupdir}${bindir}/$i
+ 	done
+-	rm -f ${D}${bindir}/localedef
+-	rm -rf ${D}${datadir}/i18n
+-	rm -rf ${D}${libdir}/gconv
+-	rm -rf ${D}/${localedir}
+-	rm -rf ${D}${datadir}/locale
++	rm -f ${cleanupdir}${bindir}/localedef
++	rm -rf ${cleanupdir}${datadir}/i18n
++	rm -rf ${cleanupdir}${libdir}/gconv
++	rm -rf ${cleanupdir}/${localedir}
++	rm -rf ${cleanupdir}${datadir}/locale
+ 	if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
+-	    if [ -d "${D}${exec_prefix}/lib" ]; then
++	    if [ -d "${cleanupdir}${exec_prefix}/lib" ]; then
+ 		if [ -z "${ARCH_DYNAMIC_LOADER}" -o \
+-		     ! -e "${D}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
++		     ! -e "${cleanupdir}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+ 			# error out if directory isn't empty
+ 			# this dir should only contain locale dir
+ 			# which has been deleted in the previous step
+-			rmdir ${D}${exec_prefix}/lib
++			rmdir ${cleanupdir}${exec_prefix}/lib
+ 		fi
+ 	    fi
+ 	fi
+ }
+-addtask do_poststash_install_cleanup after do_stash_locale do_install before do_populate_sysroot do_package
++
++stash_locale_sysroot_cleanup() {
++	stash_locale_cleanup ${SYSROOT_DESTDIR}
++}
++stash_locale_package_cleanup() {
++	stash_locale_cleanup ${PKGD}
++}
+ 
+ pkg_postinst_nscd () {
+ 	if [ -z "$D" ]; then
+diff --git a/meta/recipes-core/glibc/glibc_2.29.bb b/meta/recipes-core/glibc/glibc_2.29.bb
+index 073d1533e3..c6b2caad42 100644
+--- a/meta/recipes-core/glibc/glibc_2.29.bb
++++ b/meta/recipes-core/glibc/glibc_2.29.bb
+@@ -121,7 +121,6 @@ do_compile () {
+ 		echo "ldd \"${prevrtld} ${RTLDLIST}\" -> \"${newrtld}\""
+ 		sed -i ${B}/elf/ldd -e "s#^RTLDLIST=.*\$#RTLDLIST=\"${newrtld}\"#"
+ 	fi
+-
+ }
+ 
+ require glibc-package.inc
+-- 
+2.21.0
+
 
