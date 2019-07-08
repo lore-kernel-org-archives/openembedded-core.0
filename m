@@ -1,23 +1,22 @@
 Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 19EEE7D28D
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id EB9387D278
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2019 03:21:11 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x683Karw001382
+	Mon,  8 Jul 2019 03:24:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x683OFSs016083
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Sun, 7 Jul 2019 20:20:46 -0700
+	Sun, 7 Jul 2019 20:24:15 -0700 (PDT)
 Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Sun, 7 Jul 2019 20:20:14 -0700
+	14.3.439.0; Sun, 7 Jul 2019 20:24:14 -0700
 To: Pierre Le Magourou <lemagoup@gmail.com>
 References: <20190627145917.1774-1-lemagoup@gmail.com>
 	<6ab87120-92d4-7cbc-e88a-8e9261037901@windriver.com>
 	<CAEz4NHr9ZEEGM+VjemOApAR0MepPjjXdumWOQb8iHOCcdBBuQg@mail.gmail.com>
 From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <1ee513e6-f233-605f-ced3-df612eec68bb@windriver.com>
-Date: Mon, 8 Jul 2019 11:21:18 +0800
+Message-ID: <ecf261f2-ae5b-b2bf-0424-226526422595@windriver.com>
+Date: Mon, 8 Jul 2019 11:25:19 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.2
 MIME-Version: 1.0
@@ -36,7 +35,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2019 03:21:12 -0000
+X-List-Received-Date: Mon, 08 Jul 2019 03:24:15 -0000
 Content-Type: text/plain; charset="utf-8"; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
