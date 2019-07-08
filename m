@@ -1,25 +1,24 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id 3B0717D3B7
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga11.intel.com (mga11.intel.com [192.55.52.93])
+	by mail.openembedded.org (Postfix) with ESMTP id BB5A07D32D
 	for <openembedded-core@lists.openembedded.org>;
-	Mon,  8 Jul 2019 07:25:25 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x687PM8x007607
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Jul 2019 00:25:22 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 8 Jul 2019 00:25:22 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Mon, 8 Jul 2019 15:37:55 +0800
-Message-ID: <0dee845494880f0c201e79d6ee0f50390f183465.1562570957.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1562570956.git.Qi.Chen@windriver.com>
-References: <cover.1562570956.git.Qi.Chen@windriver.com>
+	Mon,  8 Jul 2019 07:31:12 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jul 2019 00:31:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,465,1557212400"; d="scan'208";a="363721368"
+Received: from anmitta2-mobl1.gar.corp.intel.com ([10.255.181.245])
+	by fmsmga005.fm.intel.com with ESMTP; 08 Jul 2019 00:31:12 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Mon,  8 Jul 2019 15:30:56 +0800
+Message-Id: <20190708073101.7529-1-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH 1/1] buildtools-tarball: add nativesdk-libxml2-utils
+Subject: [PATCH 1/6] vulkan-headers: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,60 +31,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Mon, 08 Jul 2019 07:25:25 -0000
-Content-Type: text/plain
+X-List-Received-Date: Mon, 08 Jul 2019 07:31:12 -0000
+Content-Transfer-Encoding: 8bit
 
-For build-sysroots.bb, the xmlcatalog would not be in its
-staging directory. Causing the following error for eSDK.
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
-ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function failed: do_build_native_sysroot
+Provides vulkan header files and API registry.
 
-The problem could be reproduced by the following steps.
-1. Add in local.conf:
-   IMAGE_INSTALL_append = " btrfs-tools"
-   DISTRO_FEATURES_append = " api-documentation"
-   INHERIT += "testsdk"
-2. bitbake core-image-minimal -c populate_sdk_ext
-3. bitbake core-image-minimal -c testsdkext
-
-So we add nativesdk-libxml2-utils to buildtools-tarball
-to ensure the existence of xmlcatalog. Also add it
-to HOSTTOOLS_NONFATAL so it could be seen by bitbake.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
 ---
- meta/conf/bitbake.conf                       | 3 +++
- meta/recipes-core/meta/buildtools-tarball.bb | 1 +
- 2 files changed, 4 insertions(+)
+ meta/conf/distro/include/maintainers.inc       |  1 +
+ .../vulkan/vulkan-headers_1.1.108.bb           | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 5e93f5c..2f64eae 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -517,6 +517,9 @@ HOSTTOOLS_NONFATAL += "scp"
- # Link to git-lfs if present
- HOSTTOOLS_NONFATAL += "git-lfs"
- 
-+# build-sysroot needs xmlcatalog in order for eSDK installation
-+HOSTTOOLS_NONFATAL += "xmlcatalog"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 64856e1057..5f3bef54ed 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -719,6 +719,7 @@ RECIPE_MAINTAINER_pn-volatile-binds = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-vte = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-vulkan = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-vulkan-demos = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-vulkan-headers = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-waffle = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-watchdog-config = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
+new file mode 100644
+index 0000000000..284c19d797
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "Vulkan Header files and API registry"
++HOMEPAGE = "https://www.khronos.org/vulkan/"
++BUGTRACKER = "https://github.com/KhronosGroup/Vulkan-Headers"
++SECTION = "libs"
 +
- CCACHE ??= ""
- 
- TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 91df6f1..d39d6f7 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -25,6 +25,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-texinfo \
-     nativesdk-libnss-nis \
-     nativesdk-rpcsvc-proto \
-+    nativesdk-libxml2-utils \
-     "
- 
- MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-${PV}"
++
++SRCREV = "097a1045098213919fd56442f52c716fc78eeb27"
++
++S = "${WORKDIR}/git"
++
++inherit cmake
++
++FILES_${PN} += "${datadir}/vulkan"
++
++UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
 -- 
-1.9.1
+2.20.1
 
 
