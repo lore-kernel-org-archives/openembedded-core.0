@@ -1,25 +1,37 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id AD1F97E422
+Return-Path: <ricardo.ribalda@gmail.com>
+Received: from mail-lf1-f66.google.com (mail-lf1-f66.google.com
+	[209.85.167.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 3AD277DE4B
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2019 05:41:05 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x695f67x021215
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Tue,  9 Jul 2019 08:23:49 +0000 (UTC)
+Received: by mail-lf1-f66.google.com with SMTP id h28so8449103lfj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Mon, 8 Jul 2019 22:41:07 -0700 (PDT)
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Mon, 8 Jul 2019 22:41:06 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Tue, 9 Jul 2019 13:53:28 +0800
-Message-ID: <f8e0fcb43950c0c590dfe0e53e2578cb4308daf4.1562651589.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1562651589.git.Qi.Chen@windriver.com>
-References: <cover.1562651589.git.Qi.Chen@windriver.com>
+	Tue, 09 Jul 2019 01:23:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:content-transfer-encoding;
+	bh=2NZX78tD32HjORKXUlz2w0gDbZYNQhFQMHk7nGAOPA0=;
+	b=Pv+NSgo7yRph3kCWDYevXUjF8Sn1wvbP1ZlLLByzbzN/SkstILDjt/idgjnTcJcXMM
+	R2tnhldNPn3csnryYWUCFDxevRqDA/7kCdAdqYp3nslX4Tqn/YPNQss6YMlL2i/2ONgi
+	SzwWsPRD3Xfl1/iHSiQvt5P7+/Yzsn1oWy7EU/exDupswEjeTKAECkZvRojcyoKCauRg
+	yBLfLaVsAeVMNSRNQ64xMy4ti34frrMKuRj4D2u7I4DsHVTJIJi89VM2MnbjVAzDKO5Y
+	uPb3wSXvsHDexSoG7nh0zj2jJKG3R85M59a3P0SP5BR4/WxcKbUHOupHlbvX9FZOam2G
+	5gGg==
+X-Gm-Message-State: APjAAAXJzQ3RM7J5YAH6FSbjLSPpm0yO+BVwdvbHVqmehk41ttYaL5Bi
+	A41SdX9yQKZ58uRkfS5Jrrd8YeuG7QD0OO4GjVVTGzua
+X-Google-Smtp-Source: APXvYqz2Klgoez824+esATCD6B7RM8Yw1LckrJcO/vPUAVPI7HCUxSeGH/KtzoXN9RRZNm+F6zx2pR9mX4gIEhPiKPA=
+X-Received: by 2002:a19:ca4b:: with SMTP id h11mr10513868lfj.162.1562660629295;
+	Tue, 09 Jul 2019 01:23:49 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] sysstat: use service file from source codes
+References: <20190703163303.5397-1-ricardo@ribalda.com>
+In-Reply-To: <20190703163303.5397-1-ricardo@ribalda.com>
+From: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+Date: Tue, 9 Jul 2019 10:23:31 +0200
+Message-ID: <CAPybu_3Lqr08s+TbeH=RAggPLYC=U-GYvfRnnuKrS8z4+5i2Cw@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH v2] systemd-bootconf: Make is machine specific
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,72 +44,81 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2019 05:41:05 -0000
-Content-Type: text/plain
+X-List-Received-Date: Tue, 09 Jul 2019 08:23:49 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Use service file from sysstat source codes.
+Hi Richard
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/recipes-extended/sysstat/sysstat.inc             |  8 ++------
- meta/recipes-extended/sysstat/sysstat/sysstat.service | 12 ------------
- 2 files changed, 2 insertions(+), 18 deletions(-)
- delete mode 100644 meta/recipes-extended/sysstat/sysstat/sysstat.service
+Something else that I need to fix on this patch?
 
-diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
-index 4e29721..9085fcf 100644
---- a/meta/recipes-extended/sysstat/sysstat.inc
-+++ b/meta/recipes-extended/sysstat/sysstat.inc
-@@ -6,7 +6,6 @@ SECTION = "console/utils"
- 
- SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.xz \
-            file://99_sysstat \
--           file://sysstat.service \
-           "
- 
- UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
-@@ -17,9 +16,10 @@ DEPENDS += "base-passwd"
- # autotools-brokensep as this package doesn't use automake
- inherit autotools-brokensep gettext systemd upstream-version-is-even
- 
--PACKAGECONFIG ??= ""
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
- PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
- PACKAGECONFIG[cron] = "--enable-install-cron --enable-copy-only,--disable-install-cron --disable-copy-only"
-+PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
- 
- EXTRA_OECONF += "--disable-stripping"
- 
-@@ -45,10 +45,6 @@ do_install() {
- 	        echo "d ${localstatedir}/log/sa - - - -" \
- 		     > ${D}${sysconfdir}/tmpfiles.d/sysstat.conf
- 	fi
--
--	install -d ${D}${systemd_unitdir}/system
--	install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_unitdir}/system
--	sed -i -e 's#@LIBDIR@#${libdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
- }
- 
- pkg_postinst_${PN} () {
-diff --git a/meta/recipes-extended/sysstat/sysstat/sysstat.service b/meta/recipes-extended/sysstat/sysstat/sysstat.service
-deleted file mode 100644
-index aff0710..0000000
---- a/meta/recipes-extended/sysstat/sysstat/sysstat.service
-+++ /dev/null
-@@ -1,12 +0,0 @@
--[Unit]
--Description=Resets System Activity Logs
--
--[Service]
--Type=oneshot
--RemainAfterExit=yes
--User=root
--ExecStart=@LIBDIR@/sa/sa1 --boot
--
--[Install]
--WantedBy=multi-user.target
--
--- 
-1.9.1
+Thanks!
 
+On Wed, Jul 3, 2019 at 6:33 PM Ricardo Ribalda Delgado
+<ricardo@ribalda.com> wrote:
+>
+> Recipe makes use of the variable APPEND:
+>
+> do_configure[vardeps] +=3D "APPEND"
+>
+> APPEND is usually linked to a to a machine and not to a
+> cpu architecture, as it describe things like the location
+> of the main serial port or tty.
+>
+> Therefore the recipe should be MACHINE_ARCH.
+>
+> This patch avoids multiconfig errors such as:
+>
+> | NOTE: Direct dependencies are ['multiconfig:qt5022:/workdir/repo/poky/m=
+eta/recipes-core/glibc/glibc_2.29.bb:do_populate_sysroot', 'multiconfig:qt5=
+022:virtual:native:/workdir/repo/poky/meta/recipes-devtools/pseudo/pseudo_g=
+it.bb:do_populate_sysroot', 'multiconfig:qt5022:/workdir/repo/poky/meta/rec=
+ipes-devtools/quilt/quilt-native_0.65.bb:do_populate_sysroot', 'multiconfig=
+:qt5022:/workdir/repo/poky/meta/recipes-devtools/gcc/gcc-cross_8.3.bb:do_po=
+pulate_sysroot', 'multiconfig:qt5022:/workdir/repo/poky/meta/recipes-devtoo=
+ls/gcc/gcc-runtime_8.3.bb:do_populate_sysroot']
+> | NOTE: Installed into sysroot: []
+> | NOTE: Skipping as already exists in sysroot: ['glibc', 'pseudo-native',=
+ 'quilt-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'linux-libc-h=
+eaders', 'libtool-native', 'texinfo-dummy-native', 'libmpc-native', 'flex-n=
+ative', 'automake-native', 'zlib-native', 'mpfr-native', 'gmp-native', 'bin=
+utils-cross-x86_64', 'xz-native', 'autoconf-native', 'gnu-config-native', '=
+gettext-minimal-native', 'm4-native']
+> | DEBUG: Python function extend_recipe_sysroot finished
+> | DEBUG: Executing shell function do_install
+> | install: cannot stat 'loader.conf': No such file or directory
+> | WARNING: exit code 1 from a shell command.
+> | ERROR: Function failed: do_install (log file is located at /workdir/bui=
+ld/tmp/work/bobcat-poky-linux/systemd-bootconf/1.00-r0/temp/log.do_install.=
+737)
+> NOTE: recipe systemd-bootconf-1.00-r0: task do_install: Failed
+> ERROR: Task (multiconfig:qt5022:/workdir/repo/poky/meta/recipes-core/syst=
+emd/systemd-bootconf_1.00.bb:do_install) failed with exit code '1'
+>
+> Signed-off-by: Ricardo Ribalda Delgado <ricardo@ribalda.com>
+> ---
+>  meta/recipes-core/systemd/systemd-bootconf_1.00.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb b/meta/re=
+cipes-core/systemd/systemd-bootconf_1.00.bb
+> index e9c2466456..d13b8c518f 100644
+> --- a/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+> +++ b/meta/recipes-core/systemd/systemd-bootconf_1.00.bb
+> @@ -3,6 +3,7 @@ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT=
+;md5=3D3da9cfbcb788c80a0384
+>  SUMMARY =3D "Basic systemd-boot configuration files"
+>
+>  RPROVIDES_${PN} +=3D "virtual/systemd-bootconf"
+> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>
+>  inherit systemd-boot-cfg
+>
+> --
+> 2.20.1
+>
+
+
+--=20
+Ricardo Ribalda
 
