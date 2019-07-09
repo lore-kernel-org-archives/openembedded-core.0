@@ -1,50 +1,35 @@
-Return-Path: <alex.kiernan@gmail.com>
-Received: from mail-io1-f67.google.com (mail-io1-f67.google.com
-	[209.85.166.67])
-	by mail.openembedded.org (Postfix) with ESMTP id E3C0E7DFE4
+Return-Path: <lukma@denx.de>
+X-Greylist: delayed 443 seconds by postgrey-1.34 at layers.openembedded.org;
+	Tue, 09 Jul 2019 14:28:02 UTC
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.10])
+	by mail.openembedded.org (Postfix) with ESMTP id 8B5C27E71F
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2019 12:19:59 +0000 (UTC)
-Received: by mail-io1-f67.google.com with SMTP id k8so42745008iot.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2019 05:20:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=m5v4ddQ/uYber9qtMwgX0FZrvMOTsdql/BozvIJf0tU=;
-	b=X9kAFbIRPHLRj3eMOvwKXxIpJICpRYdKkyb6W28NHonyVRPzKygJ937QTVc2RQhldG
-	QHYWaQxmgZGlRLkTlhsTRwzv7jijqdBma1pzSLusgOSyO0cq8h0zpl6Ju2V3/PTqmJ19
-	XczPuSXHZI4mJSuqM8AGolgaMyjSljmNCxrnOd3zArsTM7zkPEmytd9GhUeMc0qFybJo
-	qDhrpcn8Uc6h2ZQW1MFRVDDw8ir2whi2ZBT2U9tP7ho5t14f/mGr5LfPQIjyY29O5ta7
-	0frza5wVv+Bw/0C1qlG3HxYEjQGL4V+ZLXQj76f5Rw2/pQurEq+EiWe8SjHsweBB6rtd
-	t/QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=m5v4ddQ/uYber9qtMwgX0FZrvMOTsdql/BozvIJf0tU=;
-	b=CvDCgxVVNVINGSGoINt7nxb0YgcriLUCZ1ChK6DRNjpzryY6n4SzGhFK8wAnZXMBJ+
-	f7YR1j53XajxI8HHVTAXmP51c+f7lkNbn2jaYAVoguKTy/ybphKyK3A8Yssr+bSWtU63
-	xDqfAzm6bwHm/qafF+2nJjrkY8iwnakEvA0Mh9lVaXrGO/EB5fENgfhdq9VyyjFN+Kls
-	rosiPB0+aAOPf1S0tlNLoPYEu/wPhh483iB9xISC2ES/QhZnyaZnwtcve2K9bwCu2GhI
-	qjUqaCYegGoPrzBsu1UOD+FXB6l3SKkPgdJYdxZvgEmDJwdqHz0Ap5jeq7zMGTB8Jtur
-	RSyQ==
-X-Gm-Message-State: APjAAAWNfU5MWxaBDWjtLxWiOC+UmpUgyCzEcHUoOUzEgDjPPZPlAnuN
-	oIh1JIO9gCPF3Uh5yPAfHQVoDk2Dq7mmhESmGuCNL6j6zpo=
-X-Google-Smtp-Source: APXvYqwoYm6P0Zo4I3rySW4YEmAlv0zJMgpBnWUePUNXvSReJsvs3yls14oam+qhf6uuiJXrFZZv6yEmLY/YYvNZyrg=
-X-Received: by 2002:a02:5ec3:: with SMTP id
-	h186mr21746563jab.110.1562674800799; 
-	Tue, 09 Jul 2019 05:20:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190709084334.28399-1-ricardo@ribalda.com>
-	<CAO5Uq5RXK1k23fQZ2ov2vq5pomza=FzVb1umwyh2ArmVez44nw@mail.gmail.com>
-	<CAPybu_0E1bZ9ZwzvJ3QaWRxd8fEnmzvS0rkpFF9YhpyuZ725rw@mail.gmail.com>
-In-Reply-To: <CAPybu_0E1bZ9ZwzvJ3QaWRxd8fEnmzvS0rkpFF9YhpyuZ725rw@mail.gmail.com>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Tue, 9 Jul 2019 13:19:49 +0100
-Message-ID: <CAO5Uq5QV8oj_71-5+SoYXigeTQ69QBcMkzJbM5VkYVg6y=Hpcw@mail.gmail.com>
-To: Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] systemd: Fix interface bring-up on kernels >= 5.2
+	Tue,  9 Jul 2019 14:28:02 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 45jkxg6PQrz1rrW9;
+	Tue,  9 Jul 2019 16:20:39 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 45jkxg66qkz1qql5;
+	Tue,  9 Jul 2019 16:20:39 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id 4fFMcl7KaaMa; Tue,  9 Jul 2019 16:20:38 +0200 (CEST)
+X-Auth-Info: /ob6DcNfuPit+Ob/EaNTUgULJC2GMXCuQ6Cpcq3di6I=
+Received: from localhost.localdomain (85-222-111-42.dynamic.chello.pl
+	[85.222.111.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Tue,  9 Jul 2019 16:20:38 +0200 (CEST)
+From: Lukasz Majewski <lukma@denx.de>
+To: Marek Vasut <marex@denx.de>,
+	openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jul 2019 16:20:28 +0200
+Message-Id: <20190709142028.16845-1-lukma@denx.de>
+X-Mailer: git-send-email 2.11.0
+Subject: [PATCH] u-boot: Provide tasks to generate default U-Boot environment(s) images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,23 +42,86 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2019 12:20:00 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 09 Jul 2019 14:28:03 -0000
 
-On Tue, Jul 9, 2019 at 12:59 PM Ricardo Ribalda Delgado
-<ricardo@ribalda.com> wrote:
->
-> Hi Alex
->
-> That would also be ok. Is this already on a released version or is
-> only on the "master" branch?
->
->
+This change provides tasks to generate default U-Boot environment images
+from built U-Boot (via. get_default_envs.sh script).
 
-It's on the v242-stable branch:
+Those images then can be used to generate wic images (with e.g. eMMC layout).
+With such approach the end user doesn't see the "CRC environment" error
+after the first boot.
 
-https://github.com/systemd/systemd-stable/commit/8fbc72f45f4aa84889bc8694a9ce662946464c37
+Moreover, those are built per MACHINE (as u-boot itself is) so then could
+be used in SWUpdate scenarios with single tar'ed archive with multiple
+MACHINE specific *.swu images.
 
+It is also possible to adjust the *_ENVS_* variables in machine specific
+conf file.
+
+Test:
+Newest master-next for poky repo - SHA1: eb5b0a0b5e53a6e55a09e66489d3f24d0c6232ee
+MACHINE = "beaglebone-yocto" in local.conf
+bitbake virtual/bootloader
+
+
+As a result following links are available in deploy directory:
+u-boot-env.img{_r}.
+
+Signed-off-by: Lukasz Majewski <lukma@denx.de>
+---
+ meta/recipes-bsp/u-boot/u-boot.inc | 41 ++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 41 insertions(+)
+
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 9a754fd09b..e0ccf1ce1f 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -331,3 +331,44 @@ do_deploy () {
+ }
+ 
+ addtask deploy before do_build after do_compile
++
++# Extract default envs from build U-Boot
++DEFAULT_UBOOT_ENVS_FILE ?= "u-boot-env"
++DEFAULT_ENVS ?= "${DEFAULT_UBOOT_ENVS_FILE}.txt"
++UBOOT_ENVS_DEFAULT ?= "${DEFAULT_UBOOT_ENVS_FILE}-${MACHINE}-${PV}-${PR}.img"
++UBOOT_ENVS_SIZE ?= "65536"
++
++# Generate default environment
++do_gen_default_envs[doc] = "Generate image with default U-Boot environment(s)"
++do_gen_default_envs () {
++    ${B}/source/scripts/get_default_envs.sh ${B} > ${B}/${DEFAULT_ENVS}
++
++    # Generate env image
++    ${B}/tools/mkenvimage -s ${UBOOT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS}
++
++    # Generate redundant env image
++    ${B}/tools/mkenvimage -r -s ${UBOOT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS}
++
++    rm ${B}/${DEFAULT_ENVS}
++}
++
++addtask gen_default_envs before do_deploy after do_compile
++
++# Deploy default environment
++do_deploy_default_envs[doc] = "Copy images with default U-Boot environment to deployment directory"
++do_deploy_default_envs () {
++
++     install -d ${DEPLOYDIR}
++
++     install ${B}/${UBOOT_ENVS_DEFAULT} ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
++     install ${B}/${UBOOT_ENVS_DEFAULT}_r ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r
++
++     cd ${DEPLOYDIR}
++     ln -sf ${UBOOT_ENVS_DEFAULT} ${DEFAULT_UBOOT_ENVS_FILE}.img
++     ln -sf ${UBOOT_ENVS_DEFAULT}_r ${DEFAULT_UBOOT_ENVS_FILE}.img_r
++
++     rm ${B}/${UBOOT_ENVS_DEFAULT}
++     rm ${B}/${UBOOT_ENVS_DEFAULT}_r
++}
++
++addtask deploy_default_envs before do_deploy after do_gen_default_envs
 -- 
-Alex Kiernan
+2.11.0
+
 
