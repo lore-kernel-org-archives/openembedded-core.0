@@ -1,31 +1,23 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 1A39D7DEA7
+Return-Path: <anuj.mittal@intel.com>
+Received: from mga03.intel.com (mga03.intel.com [134.134.136.65])
+	by mail.openembedded.org (Postfix) with ESMTP id A98457DE3D
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2019 01:28:28 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x691SNCP005385
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Mon, 8 Jul 2019 18:28:24 -0700 (PDT)
-Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
-	Mon, 8 Jul 2019 18:28:23 -0700
-To: "Burton, Ross" <ross.burton@intel.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-References: <cover.1562570956.git.Qi.Chen@windriver.com>
-	<0dee845494880f0c201e79d6ee0f50390f183465.1562570957.git.Qi.Chen@windriver.com>
-	<bffaaf84031568a924656bf092d9d17405fbef2f.camel@linuxfoundation.org>
-	<CAJTo0LY3r=FTLoYhBXCNt00qhuHpuD-2bqaBfKKr851OsRd0tA@mail.gmail.com>
-From: ChenQi <Qi.Chen@windriver.com>
-Message-ID: <82957ede-1c95-eab9-aa59-4e62818386aa@windriver.com>
-Date: Tue, 9 Jul 2019 09:40:56 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
-	Thunderbird/45.4.0
-MIME-Version: 1.0
-In-Reply-To: <CAJTo0LY3r=FTLoYhBXCNt00qhuHpuD-2bqaBfKKr851OsRd0tA@mail.gmail.com>
-X-Originating-IP: [128.224.162.148]
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libxml2-utils
+	Tue,  9 Jul 2019 02:04:45 +0000 (UTC)
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	08 Jul 2019 19:03:43 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.63,468,1557212400"; d="scan'208";a="159308135"
+Received: from andromeda02.png.intel.com ([10.221.183.11])
+	by orsmga008.jf.intel.com with ESMTP; 08 Jul 2019 19:03:42 -0700
+From: Anuj Mittal <anuj.mittal@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Tue,  9 Jul 2019 10:03:33 +0800
+Message-Id: <1562637818-76884-1-git-send-email-anuj.mittal@intel.com>
+X-Mailer: git-send-email 2.7.4
+Subject: [PATCH v2 1/6] vulkan-headers: add recipe
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,86 +30,57 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2019 01:28:29 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Tue, 09 Jul 2019 02:04:45 -0000
 
-On 07/09/2019 02:45 AM, Burton, Ross wrote:
-> Agreed, making it a non-fatal dependency just means that some eSDKs
-> break, not all.  There needs to be a better fix.
+From: Tim Orling <timothy.t.orling@linux.intel.com>
 
-But it's already in buildtools, and eSDK installation process involves 
-extracting buildtools and sourcing its script.
-Under which circumstances will we break some eSDKs?
-Anyway, I'm trying to do something about build-sysroots recipe and will 
-send out a new patch.
+Provides vulkan header files and API registry.
 
-Regards,
-Chen Qi
+Signed-off-by: Tim Orling <timothy.t.orling@linux.intel.com>
+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
+---
+ meta/conf/distro/include/maintainers.inc               |  1 +
+ meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb | 18 ++++++++++++++++++
+ 2 files changed, 19 insertions(+)
+ create mode 100644 meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
 
-> Ross
->
-> On Mon, 8 Jul 2019 at 17:53, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->> On Mon, 2019-07-08 at 15:37 +0800, Chen Qi wrote:
->>> For build-sysroots.bb, the xmlcatalog would not be in its
->>> staging directory. Causing the following error for eSDK.
->>>
->>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command
->>> '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-
->>> docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status
->>> 127.
->>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function
->>> failed: do_build_native_sysroot
->>>
->>> The problem could be reproduced by the following steps.
->>> 1. Add in local.conf:
->>>     IMAGE_INSTALL_append = " btrfs-tools"
->>>     DISTRO_FEATURES_append = " api-documentation"
->>>     INHERIT += "testsdk"
->>> 2. bitbake core-image-minimal -c populate_sdk_ext
->>> 3. bitbake core-image-minimal -c testsdkext
->>>
->>> So we add nativesdk-libxml2-utils to buildtools-tarball
->>> to ensure the existence of xmlcatalog. Also add it
->>> to HOSTTOOLS_NONFATAL so it could be seen by bitbake.
->>>
->>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
->>> ---
->>>   meta/conf/bitbake.conf                       | 3 +++
->>>   meta/recipes-core/meta/buildtools-tarball.bb | 1 +
->>>   2 files changed, 4 insertions(+)
->>>
->>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
->>> index 5e93f5c..2f64eae 100644
->>> --- a/meta/conf/bitbake.conf
->>> +++ b/meta/conf/bitbake.conf
->>> @@ -517,6 +517,9 @@ HOSTTOOLS_NONFATAL += "scp"
->>>   # Link to git-lfs if present
->>>   HOSTTOOLS_NONFATAL += "git-lfs"
->>>
->>> +# build-sysroot needs xmlcatalog in order for eSDK installation
->>> +HOSTTOOLS_NONFATAL += "xmlcatalog"
->> I don't mind the buildtools-tarball change but HOSTTOOLS is starting to
->> grow to contain far too much random stuff which could impact
->> reproduciblity.
->>
->> Is there some other way we could fix this? It still feels like a
->> dependency problem which we chould fix by adding a missing dependency
->> although I appreciate its far from being that simple.
->>
->> I wonder if there is a way we could teach build-sysroots to be cleverer
->> about dependencies?
->>
->> Cheers,
->>
->> Richard
->>
->> --
->> _______________________________________________
->> Openembedded-core mailing list
->> Openembedded-core@lists.openembedded.org
->> http://lists.openembedded.org/mailman/listinfo/openembedded-core
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 64856e1..5f3bef5 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -719,6 +719,7 @@ RECIPE_MAINTAINER_pn-volatile-binds = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER_pn-vte = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-vulkan = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-vulkan-demos = "Ross Burton <ross.burton@intel.com>"
++RECIPE_MAINTAINER_pn-vulkan-headers = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER_pn-waffle = "Ross Burton <ross.burton@intel.com>"
+ RECIPE_MAINTAINER_pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER_pn-watchdog-config = "Alexander Kanavin <alex.kanavin@gmail.com>"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
+new file mode 100644
+index 0000000..284c19d
+--- /dev/null
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.1.108.bb
+@@ -0,0 +1,18 @@
++SUMMARY = "Vulkan Header files and API registry"
++HOMEPAGE = "https://www.khronos.org/vulkan/"
++BUGTRACKER = "https://github.com/KhronosGroup/Vulkan-Headers"
++SECTION = "libs"
++
++LICENSE = "Apache-2.0"
++LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=3b83ef96387f14655fc854ddc3c6bd57"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=sdk-${PV}"
++
++SRCREV = "097a1045098213919fd56442f52c716fc78eeb27"
++
++S = "${WORKDIR}/git"
++
++inherit cmake
++
++FILES_${PN} += "${datadir}/vulkan"
++
++UPSTREAM_CHECK_GITTAGREGEX = "sdk-(?P<pver>\d+(\.\d+)+)"
+-- 
+2.7.4
 
 
