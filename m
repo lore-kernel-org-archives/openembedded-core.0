@@ -1,51 +1,18 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com
-	[209.85.221.52])
-	by mail.openembedded.org (Postfix) with ESMTP id 1C97F7ED59
-	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2019 22:30:38 +0000 (UTC)
-Received: by mail-wr1-f52.google.com with SMTP id x4so426398wrt.6
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2019 15:30:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=XYEXQUwEqYikWI/0GLsVssb9/rDahBXiBfMAHr3T5l0=;
-	b=PWIrhkX9AIpqY75kcL3Bjz5cVyZiLKTLqE+AMD3gvMiaxU/05FAQFY8x9wcP+v+KdN
-	YOW7HQTWZOOF0z8V32Zh1JkCjOeF2a7AgbUYwj2BthtoW4nPS+0DeIxPRh1NdBS9M8Jp
-	qfc/pbBaFlS0UgxvsfeBWy3V/yIpmqVH3MMj0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=XYEXQUwEqYikWI/0GLsVssb9/rDahBXiBfMAHr3T5l0=;
-	b=qpz8RIsqMTwqbaUrJ5nWpyaRSCg7z2sXUDMEsDTEIiUMWvJAZxlipWgL8NEsaxxySb
-	2biEcRG1gQTmEf7dy+xqd4mHWDumJ8EPQ8HltN2/+eVgPfQB9IaJyRIZG6SW7M1IP1U8
-	8numDMefwhJRB428JkAtt8KFjljYSSeGIyish+oyFlBxT4z7YMd7KxOFN4F4zshGiyCL
-	TexjXHRWvcc+pQXk8PnVa0Xu+5XkvatiRZsyhFZ2Tnew13sHbxtR8FKyxzEen1I9fc2W
-	/x3A5N1UAE4DXBo8On4xXWxARuRuXGELHEIOHKKRLm4CKeNKsc91SsZYsFU/ZvH7mD5x
-	givA==
-X-Gm-Message-State: APjAAAVaYZJ4RPquInZu16ThigynNfy1ffyUqCedIWOJHs+5N2cbADSX
-	2Npwmq+f4txonL+lrTBjevi5ug94yr4=
-X-Google-Smtp-Source: APXvYqyI0TxhT4AfpKNe84MWE+sIpYyyn7Jm/ftXnXkJrpUc4u0yt0fe/+UbAPfsz6hcJ8C5cN8iWQ==
-X-Received: by 2002:a5d:5152:: with SMTP id u18mr17892669wrt.9.1562711438600; 
-	Tue, 09 Jul 2019 15:30:38 -0700 (PDT)
-Received: from hex.int.rpsys.net (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	a81sm286272wmh.3.2019.07.09.15.30.37
-	for <openembedded-core@lists.openembedded.org>
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 09 Jul 2019 15:30:38 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Tue,  9 Jul 2019 23:30:35 +0100
-Message-Id: <20190709223035.14911-2-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190709223035.14911-1-richard.purdie@linuxfoundation.org>
-References: <20190709223035.14911-1-richard.purdie@linuxfoundation.org>
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id CE10E7EDD7;
+	Tue,  9 Jul 2019 23:01:29 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH 2/2] oeqa/bbtests: Tweak test bitbake output pattern matching
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Date: Tue, 09 Jul 2019 23:01:31 -0000
+Message-ID: <20190709230131.2331.32315@do>
+References: <20190709223035.14911-1-richard.purdie@linuxfoundation.org>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190709223035.14911-1-richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImNvcmUtaW1hZ2Utc2F0by1zZGstcHRlc3Q6IFJlZC4uLiIgYW5kIDEgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -58,31 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2019 22:30:38 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Tue, 09 Jul 2019 23:01:30 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-The output from bitbake will change slightly soon due to runqueue changes,
-adpat the test now to account for both the old and new cases.
+== Series Details ==
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Series: "core-image-sato-sdk-ptest: Red..." and 1 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18588/
+State : failure
+
+== Summary ==
+
+
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
+
+
+
+* Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
+  Suggested fix    Rebase your series on top of targeted branch
+  Targeted branch  master (currently at 78fcea7451)
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
 ---
- meta/lib/oeqa/selftest/cases/bbtests.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selftest/cases/bbtests.py
-index 2a310bc4af2..17da0fd32c7 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -40,7 +40,7 @@ class BitbakeTests(OESelftestTestCase):
-     def test_event_handler(self):
-         self.write_config("INHERIT += \"test_events\"")
-         result = bitbake('m4-native')
--        find_build_started = re.search(r"NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Executing RunQueue Tasks", result.output)
-+        find_build_started = re.search(r"NOTE: Test for bb\.event\.BuildStarted(\n.*)*NOTE: Executing.*Tasks", result.output)
-         find_build_completed = re.search(r"Tasks Summary:.*(\n.*)*NOTE: Test for bb\.event\.BuildCompleted", result.output)
-         self.assertTrue(find_build_started, msg = "Match failed in:\n%s"  % result.output)
-         self.assertTrue(find_build_completed, msg = "Match failed in:\n%s" % result.output)
--- 
-2.20.1
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
