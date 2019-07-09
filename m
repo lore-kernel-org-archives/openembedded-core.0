@@ -1,46 +1,47 @@
-Return-Path: <nathan@nathanrossi.com>
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com
-	[209.85.128.67])
-	by mail.openembedded.org (Postfix) with ESMTP id 2E9C07E6FA
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f68.google.com (mail-io1-f68.google.com
+	[209.85.166.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 424D07E6FA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2019 11:47:41 +0000 (UTC)
-Received: by mail-wm1-f67.google.com with SMTP id v15so2770204wml.0
+	Tue,  9 Jul 2019 11:54:53 +0000 (UTC)
+Received: by mail-io1-f68.google.com with SMTP id s7so42461460iob.11
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2019 04:47:42 -0700 (PDT)
+	Tue, 09 Jul 2019 04:54:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=nathanrossi.com; s=google;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=1ieNRxCuO4/+l7zJ9YjtciYwLzMJcojy3+EnJeQ1w/k=;
-	b=cPTPy5LiVs0d8xSgxrJggIIeYHhV6TkOSvpUgg8AZBLWwHJl/g48MnLqpt3Fuep3+z
-	p+B7Wx9DKryLcI0Gs+FMcqDF7SB2VMA5KCmJBJk3xyO6EeCCNCUFrIzA4ujAuZBJ6pxw
-	pNIoCoZZqZWI2MbKT68F7of2S8qqv3oe+/TRQJ9esF0v8NkQrWmuSlFl+YLStFE9vmRR
-	7Szpe+Te1eIADCN/tlC9wF87+t1rYSPxPTug4VkjE0fe5fj5QP/KpG/SoLQ2x3WN1rSk
-	tlpDZAjbf1Xx4TeeQ8Qkx+dEHq9EoKF3mKq+43A/e/zA0YXjPezQXfddRS8ALFLDWhMy
-	/DPw==
+	:cc; bh=RSlZSaAdLxMqFDTbYwBpQbCQZ1tFmFB3s4FMmAo8abU=;
+	b=zgpESCFEIEITYTfFQP1dafcM01bo9ZeBd6brShu635jINW1vSMAViGRDYsaOSHY8EF
+	bc++SXgWeZP+1iT2TXikO9DXDqSmvkkBisfxC2h6ULqQG0ipyxy+hZ8F3hQBgSRM76A5
+	GXTglCxoprXSDXctoftoIq5M9xzx8mI+992AyQStTBhS3nxl7Qebmn83po6ar2pZ6ruo
+	J/w5deNjQqAwHRKofJ6k5nNBqG9vV8FBiah7d8elEQ6og+MCiy+8uz/O5JXcbceVaB5N
+	3DAqcM/cw++WJp9CZBnrQxOHzlXl9skbL9nCJiK5h0zaYjF88sc4s+DzlxJxsDTONAwZ
+	xiQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=1ieNRxCuO4/+l7zJ9YjtciYwLzMJcojy3+EnJeQ1w/k=;
-	b=OwGkZZe+On3OoeAYSmAodVQ1yFQ+9wiTDPBXt6rLS+GPnKu0K95t6wwbmHymTiK+is
-	h05HYeF23wGTMSx9yVvVAvtjyA7WOFtbqmDKZ5/+pdOPClxPcE/eWsyXSztHVd4BElCF
-	sHUav7xR77GFrQZDovxVafA1ehiEqUcy4uFb/Y/o38AY38UYy/3AFut0JebSyseGcDDH
-	nOaixUE0F6DQQGuZMMRZuV/xZgjk/wAibXHewYCBOV8ME/84PdC2oaFnSn02kTEw62/X
-	PBILmBHtTCvnphzCE47zjgvstsNMTKO6QLhDi+uQ3C7t8eEh3CfKRLaTBIZduhv5Nz84
-	Ndgw==
-X-Gm-Message-State: APjAAAWr1SRwYLuWP75h9f585HLk86Ompc7iegBMI+j9UJI2hGmYHYNr
-	HY3KTlE+/eT6nxqodX0bedZmmGmCBogTj4lq5mBqDg==
-X-Google-Smtp-Source: APXvYqyfBKOzTTMenr5LQeBwh/NTToGDEOVTFiXR7vFRDdi1nvx+N4JYHn0UAA59O75EmnQRursJ7fRg46ihasQk0sM=
-X-Received: by 2002:a1c:7e14:: with SMTP id z20mr21613638wmc.83.1562672861664; 
-	Tue, 09 Jul 2019 04:47:41 -0700 (PDT)
+	bh=RSlZSaAdLxMqFDTbYwBpQbCQZ1tFmFB3s4FMmAo8abU=;
+	b=k9s90p1EtWQebq9sLnq4cZbBOdQDI5+/ptmH9Wb44HiW7zNm6uBxVl+nKfi1ytL7zn
+	u6vaJublctA3nic1HF3f8AQYWdvvmeEpLCzb2YHZ8S5cqnDdmUxnCzZqyOX3/6M80ekq
+	yvKHF95EU8FslMXq3PTD1gM1bjIuMwUbU0pUpwIBYHqbhGX1Am80IrO+VQNf62AlSUcf
+	PAH6vJ/YOAAxB8a32oF0A44GgQq2ZPKfO0dVAT/UseAEHVmbOic6gO3iRtqWqDAMGWQw
+	qJhAI5deFFSjiOeqRcorenr4OUpNvasCTIHxzng2PVHtHroWOV6Q1NKWsAoNyotol9cm
+	TcfA==
+X-Gm-Message-State: APjAAAW+BPz1TguetCOiHn0rC8Ktpng90a/1vrd0B2d59Fpc4820osP/
+	i7wa0NCCH8Ao6UAjluBDufXDh9mx8ohxTDkRPPpTcOgNqLk=
+X-Google-Smtp-Source: APXvYqzmo4/I3mGqz/ngGUVgHTvspQ0YGpvw+NqaXkfobiWmBwf8l4mwK3R3ArJq2dFmMs/FYcS8gaC1j7A/ERFbR+s=
+X-Received: by 2002:a02:b883:: with SMTP id p3mr3946870jam.79.1562673294286;
+	Tue, 09 Jul 2019 04:54:54 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190706113909.11836-1-nathan@nathanrossi.com>
 	<CAJTo0LadJjwL+NN+09uWCcgYpGa-2Kggx_wPWkXejA2AmU=B9g@mail.gmail.com>
-In-Reply-To: <CAJTo0LadJjwL+NN+09uWCcgYpGa-2Kggx_wPWkXejA2AmU=B9g@mail.gmail.com>
-From: Nathan Rossi <nathan@nathanrossi.com>
-Date: Tue, 9 Jul 2019 21:47:30 +1000
-Message-ID: <CA+aJhH0W6EAkbuhUG0Xmuy6OhgwLja_ZNHW+O6QW9EK_E4vYDw@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+	<CA+aJhH0W6EAkbuhUG0Xmuy6OhgwLja_ZNHW+O6QW9EK_E4vYDw@mail.gmail.com>
+In-Reply-To: <CA+aJhH0W6EAkbuhUG0Xmuy6OhgwLja_ZNHW+O6QW9EK_E4vYDw@mail.gmail.com>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Tue, 9 Jul 2019 12:54:42 +0100
+Message-ID: <CAJTo0LbNt-X-51=cHyqd6oyGAq9wyoo5f+g-GT1163=yRtRGTQ@mail.gmail.com>
+To: Nathan Rossi <nathan@nathanrossi.com>
 Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [RFC PATCH] Add gnu testsuite execution for OEQA
 X-BeenThere: openembedded-core@lists.openembedded.org
@@ -55,42 +56,45 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2019 11:47:41 -0000
+X-List-Received-Date: Tue, 09 Jul 2019 11:54:53 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 9 Jul 2019 at 21:16, Burton, Ross <ross.burton@intel.com> wrote:
+On Tue, 9 Jul 2019 at 12:47, Nathan Rossi <nathan@nathanrossi.com> wrote:
+> Just to clarify, by real hardware are you interested in the tests
+> running against a system running with a oe distro + kernel. Or just
+> running on e.g. the build host?
 >
-> This is awesome!
+> As for the failing tests, do not put to much emphasis on the values
+> provided. I am sure there are a number of tests that are failing due
+> to minor configuration issues that simply need a deeper look at the
+> test result and output to fix the issue. And the large number of
+> failures for powerpc are due to qemu user failing due to illegal
+> instruction.
 >
-> On Sat, 6 Jul 2019 at 12:39, Nathan Rossi <nathan@nathanrossi.com> wrote:
-> >         | gcc          | g++          | libstdc++   | binutils    | gas         | ld          | glibc
-> > x86-64  |   589/135169 |   457/131913 |     1/13008 |     0/  236 |     0/ 1256 |   166/ 1975 |  1423/ 5991
-> > arm     |   469/123905 |   365/128416 |    19/12788 |     0/  191 |     0/  872 |   155/ 1479 |    64/ 5130
-> > aarch64 |   460/130904 |   364/128977 |     1/12789 |     0/  190 |     0/  442 |   157/ 1474 |    76/ 5882
-> > powerpc | 18336/116624 |  6747/128636 |    33/12996 |     0/  187 |     1/  265 |   157/ 1352 |  1218/ 5110
-> > mips64  |  1174/134744 |   401/130195 |    22/12780 |     0/  213 |    43/ 7245 |   803/ 1634 |  2032/ 5847
-> > riscv64 |   456/106399 |   376/128427 |     1/12748 |     0/  185 |     0/  257 |   152/ 1062 |    88/ 5847
->
-> So what I'm really interested in is what those numbers look like for
-> e.g. x86-64 on real hardware: are the test suites always failing a
-> bit, or are these indicative of problems we've introduced?
+> The goal would be to get the results similar to what other
+> users/distro get, by reviewing results posted here:
+> https://gcc.gnu.org/ml/gcc-testresults/.
+> And for glibc the results from: https://sourceware.org/glibc/wiki/Release/2.29
 
-Just to clarify, by real hardware are you interested in the tests
-running against a system running with a oe distro + kernel. Or just
-running on e.g. the build host?
+Ah that's useful that they publish those.  So the test results for
+2.29 on x86-64 are:
 
-As for the failing tests, do not put to much emphasis on the values
-provided. I am sure there are a number of tests that are failing due
-to minor configuration issues that simply need a deeper look at the
-test result and output to fix the issue. And the large number of
-failures for powerpc are due to qemu user failing due to illegal
-instruction.
+   5961 PASS
+     21 UNSUPPORTED
+     17 XFAIL
+      2 XPASS
 
-The goal would be to get the results similar to what other
-users/distro get, by reviewing results posted here:
-https://gcc.gnu.org/ml/gcc-testresults/.
-And for glibc the results from: https://sourceware.org/glibc/wiki/Release/2.29
+And your report has 1423 failures, so *something* is broken.  As you
+say, some flaw in qemu-user is most likely the culprit there.  Compare
+to the ARM results:
 
-Thanks,
-Nathan
+      9 FAIL
+   5041 PASS
+     31 UNSUPPORTED
+     17 XFAIL
+      2 XPASS
+
+Your report has 64 failures, which is much closer even with qemu-user.
+
+Ross
 
