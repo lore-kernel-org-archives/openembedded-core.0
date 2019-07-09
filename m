@@ -1,48 +1,30 @@
-Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f66.google.com (mail-io1-f66.google.com
-	[209.85.166.66])
-	by mail.openembedded.org (Postfix) with ESMTP id 4B8D37CBDF
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 752307E3AA
 	for <openembedded-core@lists.openembedded.org>;
-	Tue,  9 Jul 2019 09:20:42 +0000 (UTC)
-Received: by mail-io1-f66.google.com with SMTP id k8so41725767iot.1
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 09 Jul 2019 02:20:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=jDmPL81vM3xMRSCH02qsSjv2lyLW5sXjIlOxriL5z7c=;
-	b=IEWmQLGCfavd4AaJrE/6FvVWaATmxxg6Z/SmmZCNt1CNc9jh37/T32Zh0mr2C4siFr
-	l/amPmqFW/k9y0q03z7pEmmjo14CnEhQUpiiUcRQnvCzviUj0RzWcHGKFBAxU39V/bbG
-	4Qr2DPs6BuXAQ2nyMNSlukD7THKS8wVPrPyfj40WoCYBQI8AekZkbg1v7Ynrt6ZdkAEz
-	EnIVioSfqmO0UMMMEPKvb7xEI1k0SJBn7Il7SygdfMvQoGzowwHGBVOOWwQ7kHJpiVJL
-	8ucr1QvEAcpSral2Y7mQbKs7btmovX3FHDWjYTyqVwQ+icwmBlYtv1YY+AovAPxD2rNL
-	6V/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=jDmPL81vM3xMRSCH02qsSjv2lyLW5sXjIlOxriL5z7c=;
-	b=oWnmnI7F/Yh8ZwAmitseKQycpbGu4ekV7R+bG/HQLdqlvHr0QuN5ra+nt873Xvkl/f
-	0EA6Pp5Y1IrHP/qW1g6beEK14d8gDKB+Vz1e0h7+GrYduSd4x2j/yPCk/1WrLrKWdSA/
-	c5/mcBxx39teRZjUDzpTTBxVcXCrThkbwFrhORXTaTWVNRQxqJ1baMvVSKQ7TvDHVIaw
-	SW1NimXBxoPSdWEeS+coksBZDuJfmOPUva/0oHiOU6k2WyyHma/9EOnuGSebbY5+ke0U
-	k01NTOD1E1bVn/fYgd5Pa+TtGjvUOFXA8guBjs6K7xHRh9olNAPGOVqrj/E6AuwePhUS
-	iaZg==
-X-Gm-Message-State: APjAAAXJ+NXQeQnqiOoiQPEdu4I6YEK6nII+LgFU5lugDFv/K5VagyM6
-	JoN9aW8KIJ1W4gyLMVy1wJKgfGbc0k9BCRe2cRJx7Q==
-X-Google-Smtp-Source: APXvYqzLYKiGWUZIS0OZ5SrxgsiM4vTIS6+vibxhBAq6dW7V6PxgMpe5vWhHhBOgQiVTmYn1OyxhCF/5AheBe/2Z5yk=
-X-Received: by 2002:a02:914c:: with SMTP id b12mr27784551jag.105.1562664043278;
-	Tue, 09 Jul 2019 02:20:43 -0700 (PDT)
+	Tue,  9 Jul 2019 09:24:11 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x699OBQ5023060
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Jul 2019 02:24:11 -0700 (PDT)
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Tue, 9 Jul 2019 02:24:11 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1562570956.git.Qi.Chen@windriver.com>
+	<0dee845494880f0c201e79d6ee0f50390f183465.1562570957.git.Qi.Chen@windriver.com>
+	<bffaaf84031568a924656bf092d9d17405fbef2f.camel@linuxfoundation.org>
+	<62f74fe5-abe0-9d13-50ce-7660291180ce@windriver.com>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <6a7b868b-348a-b747-4115-9e4089ad0232@windriver.com>
+Date: Tue, 9 Jul 2019 17:36:44 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-References: <20190708234643.15636-1-ross.burton@intel.com>
-	<ec99b2a2-dd19-e386-87bc-093e7e35aa47@gmail.com>
-In-Reply-To: <ec99b2a2-dd19-e386-87bc-093e7e35aa47@gmail.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Tue, 9 Jul 2019 10:20:31 +0100
-Message-ID: <CAJTo0LY1Rw1-cZaoeJ5Yrkras-TyHrkkLA9tMd+K2-sGEMhpww@mail.gmail.com>
-To: akuster808 <akuster808@gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] buildhistory: don't output ownership for the sysroot
+In-Reply-To: <62f74fe5-abe0-9d13-50ce-7660291180ce@windriver.com>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libxml2-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,19 +37,80 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Tue, 09 Jul 2019 09:20:42 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Tue, 09 Jul 2019 09:24:11 -0000
+Content-Type: text/plain; charset="windows-1252"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, 9 Jul 2019 at 02:11, akuster808 <akuster808@gmail.com> wrote:
-> On 7/8/19 4:46 PM, Ross Burton wrote:
-> > As the sysroot isn't ran inside pseudo the ownership is whoever is running the
-> > builds.  In a setup where multiple builders all contribute to a shared
-> > buildhistory writing the ownership data isn't useful, so just replace it with "-
-> > -".
+On 07/09/2019 09:38 AM, ChenQi wrote:
+> On 07/09/2019 12:47 AM, Richard Purdie wrote:
+>> On Mon, 2019-07-08 at 15:37 +0800, Chen Qi wrote:
+>>> For build-sysroots.bb, the xmlcatalog would not be in its
+>>> staging directory. Causing the following error for eSDK.
+>>>
+>>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command
+>>> '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-
+>>> docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status
+>>> 127.
+>>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function
+>>> failed: do_build_native_sysroot
+>>>
+>>> The problem could be reproduced by the following steps.
+>>> 1. Add in local.conf:
+>>>     IMAGE_INSTALL_append = " btrfs-tools"
+>>>     DISTRO_FEATURES_append = " api-documentation"
+>>>     INHERIT += "testsdk"
+>>> 2. bitbake core-image-minimal -c populate_sdk_ext
+>>> 3. bitbake core-image-minimal -c testsdkext
+>>>
+>>> So we add nativesdk-libxml2-utils to buildtools-tarball
+>>> to ensure the existence of xmlcatalog. Also add it
+>>> to HOSTTOOLS_NONFATAL so it could be seen by bitbake.
+>>>
+>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>> ---
+>>>   meta/conf/bitbake.conf                       | 3 +++
+>>>   meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+>>>   2 files changed, 4 insertions(+)
+>>>
+>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>>> index 5e93f5c..2f64eae 100644
+>>> --- a/meta/conf/bitbake.conf
+>>> +++ b/meta/conf/bitbake.conf
+>>> @@ -517,6 +517,9 @@ HOSTTOOLS_NONFATAL += "scp"
+>>>   # Link to git-lfs if present
+>>>   HOSTTOOLS_NONFATAL += "git-lfs"
+>>>   +# build-sysroot needs xmlcatalog in order for eSDK installation
+>>> +HOSTTOOLS_NONFATAL += "xmlcatalog"
+>> I don't mind the buildtools-tarball change but HOSTTOOLS is starting to
+>> grow to contain far too much random stuff which could impact
+>> reproduciblity.
+>>
+>> Is there some other way we could fix this? It still feels like a
+>> dependency problem which we chould fix by adding a missing dependency
+>> although I appreciate its far from being that simple.
+>>
+>> I wonder if there is a way we could teach build-sysroots to be cleverer
+>> about dependencies?
 >
-> Should this be backported?
+> I'll try to implement it and send out a new patch.
+>
 
-No, because the sysroot writing patches are not backported. :)
+Hi Richard and Ross,
 
-Ross
+Unfortunately I cannot figure out a good way to implement this.
+Could you please help giving me some hints?
+
+Best Regards,
+Chen Qi
+
+> Regards,
+> Chen Qi
+>
+>> Cheers,
+>>
+>> Richard
+>>
+>>
+>
+
 
