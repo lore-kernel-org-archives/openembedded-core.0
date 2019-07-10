@@ -1,46 +1,44 @@
 Return-Path: <matthias.schiffer@ew.tq-group.com>
-X-Greylist: delayed 587 seconds by postgrey-1.34 at layers.openembedded.org;
-	Wed, 10 Jul 2019 12:23:57 UTC
 Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B73877ED16
+	by mail.openembedded.org (Postfix) with ESMTP id 945F27EF02
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 12:23:57 +0000 (UTC)
+	Wed, 10 Jul 2019 12:24:08 +0000 (UTC)
 X-IronPort-AV: E=Sophos;i="5.62,474,1554760800"; 
-   d="scan'208";a="8148626"
+   d="scan'208";a="8148632"
 Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-	by mx1-pgp.tq-group.com with ESMTP; 10 Jul 2019 14:14:10 +0200
+	by mx1-pgp.tq-group.com with ESMTP; 10 Jul 2019 14:14:26 +0200
 Received: from mx1.tq-group.com ([192.168.6.7])
 	by tq-pgp-pr1.tq-net.de (PGP Universal service);
-	Wed, 10 Jul 2019 14:14:10 +0200
+	Wed, 10 Jul 2019 14:14:26 +0200
 X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Wed, 10 Jul 2019 14:14:10 +0200
+	by tq-pgp-pr1.tq-net.de on Wed, 10 Jul 2019 14:14:26 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
 	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-	t=1562760850; x=1594296850;
+	t=1562760866; x=1594296866;
 	h=from:to:cc:subject:date:message-id:mime-version:
 	content-transfer-encoding;
-	bh=FM0+Q0HrJT/k47PokbfL70zyuHDsrP+IJvttOEvMFF4=;
-	b=JbyrDxZfxzJmRimQ3niTHfog5BmgFJwFzJY5RwifJNK/OjVAqnn9nEJ6
-	uqNoa4OFLUyLmpCG+udldtsICQ34GPE0hTXPQMdQKaCeLFgrXUVnJZvgo
-	1AFUajVMlnrs/1oTgRv1Qg+Dt2NSbJccxO6u0AczXzZtDQIE9LrZhb+5y
-	tjHfWEdHPIPVEjzwaKuQHmjxix756nOe4iyGo51wh1gZCGbU/iKB+vtr1
-	1JRCalbvc5oLc6ZKfxIqR5wDeFX7Z2TzsqFRXT/Z1RPG2vwgGIq8ivXda
-	mncKS3hIrajIkcuKUt5YiQCdnp0myInol2+gYGNSc+oqosz7LF9bPod93 A==;
+	bh=bA9zg/MTa378i+y5xDIbTPktd2MPI0Y4dteTnZ5NH2w=;
+	b=aQqqFPyKLAu4z9uppyM+TJPMVUJQVCRQupW6Vs2bkfQ08J7a8VWDssVs
+	ieyugEbRngd7TvsR8Rniv7D8l7/y61yX39DIYuWZHXdijYt1Gnz8b7StX
+	a3Q4Cuqejv3T0ZsCB8/QPtUiHuaC+8CGc0sNyjAFrDrLADmdiB1nAnXOP
+	IvQu6nefxDWDMfjgT/imjMGrvPleVoT4QeuGcYPBaPGtr2pzc3qRJgo6Z
+	yTl+PrH1n3r/5VgDUQX0s5ltL6TFAYwBnFgHhWBsVj5tod+0UGqnRvTQh
+	2G3iEOP38Bwk5lBx6grf5HJ+2eYeygZO4RlUYNiFz9NFLfzWm5one3z92 A==;
 X-IronPort-AV: E=Sophos;i="5.62,474,1554760800"; 
-   d="scan'208";a="8148625"
+   d="scan'208";a="8148631"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-	by mx1.tq-group.com with ESMTP; 10 Jul 2019 14:14:10 +0200
+	by mx1.tq-group.com with ESMTP; 10 Jul 2019 14:14:26 +0200
 Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
 	[10.117.49.26])
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id CDA25280074;
-	Wed, 10 Jul 2019 14:14:45 +0200 (CEST)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 7D277280074;
+	Wed, 10 Jul 2019 14:15:01 +0200 (CEST)
 From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2019 14:13:53 +0200
-Message-Id: <20190710121353.32717-1-matthias.schiffer@ew.tq-group.com>
+Date: Wed, 10 Jul 2019 14:14:20 +0200
+Message-Id: <20190710121420.398-1-matthias.schiffer@ew.tq-group.com>
 X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Subject: [PATCH] systemd: backport patch to fix sysctl warning on boot
+Subject: [PATCH warrior] systemd: backport patch to fix sysctl warning on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -53,7 +51,7 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 12:23:58 -0000
+X-List-Received-Date: Wed, 10 Jul 2019 12:24:09 -0000
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
@@ -67,7 +65,7 @@ during boot. Backport the bugfix from the systemd master.
 Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 ---
  ...-max-sysctl-to-LONG_MAX-rather-than-.patch | 39 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_242.bb      |  1 +
+ meta/recipes-core/systemd/systemd_241.bb      |  1 +
  2 files changed, 40 insertions(+)
  create mode 100644 meta/recipes-core/systemd/systemd/0001-core-set-fs.file-max-sysctl-to-LONG_MAX-rather-than-.patch
 
@@ -116,14 +114,14 @@ index 0000000000..ff64f58c9c
 +                 log_oom();
 +                 return;
 +         }
-diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
-index 29f64b995a..ca083ad376 100644
---- a/meta/recipes-core/systemd/systemd_242.bb
-+++ b/meta/recipes-core/systemd/systemd_242.bb
-@@ -25,6 +25,7 @@ SRC_URI += "file://touchscreen.rules \
-            file://0006-network-remove-redunant-link-name-in-message.patch \
-            file://99-default.preset \
-            file://0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch \
+diff --git a/meta/recipes-core/systemd/systemd_241.bb b/meta/recipes-core/systemd/systemd_241.bb
+index eb3242d624..17d3bc1864 100644
+--- a/meta/recipes-core/systemd/systemd_241.bb
++++ b/meta/recipes-core/systemd/systemd_241.bb
+@@ -24,6 +24,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0005-rules-watch-metadata-changes-in-ide-devices.patch \
+            file://0001-meson-declare-version.h-as-dep-for-various-targets-t.patch \
+            file://0001-meson-declare-version.h-as-dependency-for-systemd.patch \
 +           file://0001-core-set-fs.file-max-sysctl-to-LONG_MAX-rather-than-.patch \
             "
  
