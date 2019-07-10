@@ -1,56 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
-	[209.85.128.65])
-	by mail.openembedded.org (Postfix) with ESMTP id B8EB57EE91
+Return-Path: <lukma@denx.de>
+Received: from mail-out.m-online.net (mail-out.m-online.net [212.18.0.9])
+	by mail.openembedded.org (Postfix) with ESMTP id 39F337EF26
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 09:08:50 +0000 (UTC)
-Received: by mail-wm1-f65.google.com with SMTP id x15so1429584wmj.3
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 02:08:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=9WR+Xon+lAIlBulSrO9wyfCKROK5S+bUXuVeWXcDnEY=;
-	b=XIkoj5zTGSJraxFif9EDu3bsKSGWMI5Xxsc+nwP4e4DEof8oPM7yyRpkrBmR4k42HH
-	pLhXzPGYyRhe8tc+SDo2TKqJF/DZePOw3g6Qs1oYNmnwEkK9ASm7Lx8PMZkfIbgm8+QM
-	nWbhlEJrVtFJIDghe/z7ODo1yWYqsbjGCT7CY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
-	:references:user-agent:mime-version:content-transfer-encoding;
-	bh=9WR+Xon+lAIlBulSrO9wyfCKROK5S+bUXuVeWXcDnEY=;
-	b=L4Tp81g2jKzmh5XU72y9GnClaasv2CRQNoiT4qf173feyNwJCshWrDtcKbP8nZRgLb
-	gNgl3bxfbwpjUN12HMSfSiUdV01Q6VtYucJ2sO/E9G4RVw3+NJAlfUbh9hV4OnnFROuj
-	fbz/p29DDBlmcKQ/BTLHrU3Pb7JbJEfmhu37b8f4vFzKy7NisI2Kmbp8uWPiDMtEI8uH
-	Jg4vPGvNgMM0RoUS8BPWCcuhwLxzFNsiNIjscQ24IU9pYXbrvSTBY5GFWLm+4A9n6BZF
-	tClSdemTLOd3GQEdvhR82vPxapREpvZH07x3EwcBsyrUH/kW8VLjAXy1lPzJgq07BGd5
-	6Y1A==
-X-Gm-Message-State: APjAAAXDCooG71VcWwXcqBmRNajI9C67RwnuXWUy6/vQu6DannuJurq/
-	dKo/WhJVU6xYq79/bk1gs0tnDg==
-X-Google-Smtp-Source: APXvYqz/5WMd/+paP+FW6WK/spKUl5f0yHf81pFdHW0+27unMzd+//u40UzwFlldFwmbF5T/6M1jcQ==
-X-Received: by 2002:a05:600c:214c:: with SMTP id
-	v12mr4284998wml.28.1562749731407; 
-	Wed, 10 Jul 2019 02:08:51 -0700 (PDT)
-Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id y6sm1602336wmd.16.2019.07.10.02.08.50
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 10 Jul 2019 02:08:50 -0700 (PDT)
-Message-ID: <42160455aa393b1abbf68290154bf8e07d121e8c.camel@linuxfoundation.org>
-From: richard.purdie@linuxfoundation.org
-To: ChenQi <Qi.Chen@windriver.com>, openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2019 10:08:49 +0100
-In-Reply-To: <ce900e3b-8b46-fe8a-d123-da28dbd6b054@windriver.com>
-References: <cover.1562570956.git.Qi.Chen@windriver.com>
-	<0dee845494880f0c201e79d6ee0f50390f183465.1562570957.git.Qi.Chen@windriver.com>
-	<bffaaf84031568a924656bf092d9d17405fbef2f.camel@linuxfoundation.org>
-	<62f74fe5-abe0-9d13-50ce-7660291180ce@windriver.com>
-	<6a7b868b-348a-b747-4115-9e4089ad0232@windriver.com>
-	<bcfe62810b7e56c82606a759e50821547da6086d.camel@linuxfoundation.org>
-	<ce900e3b-8b46-fe8a-d123-da28dbd6b054@windriver.com>
-User-Agent: Evolution 3.32.2-1 
+	Wed, 10 Jul 2019 09:20:46 +0000 (UTC)
+Received: from frontend01.mail.m-online.net (unknown [192.168.8.182])
+	by mail-out.m-online.net (Postfix) with ESMTP id 45kDFC20xPz1rP0w;
+	Wed, 10 Jul 2019 11:20:47 +0200 (CEST)
+Received: from localhost (dynscan1.mnet-online.de [192.168.6.70])
+	by mail.m-online.net (Postfix) with ESMTP id 45kDFC1kmVz1qqkB;
+	Wed, 10 Jul 2019 11:20:47 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at mnet-online.de
+Received: from mail.mnet-online.de ([192.168.8.182])
+	by localhost (dynscan1.mail.m-online.net [192.168.6.70]) (amavisd-new,
+	port 10024)
+	with ESMTP id ZI_h3vUUE3tZ; Wed, 10 Jul 2019 11:20:45 +0200 (CEST)
+X-Auth-Info: 9hCUIrg7lHH8tGVpDlRBtxPqVP3J5Yt9Fmt29rC/XIQ=
+Received: from jawa (85-222-111-42.dynamic.chello.pl [85.222.111.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mail.mnet-online.de (Postfix) with ESMTPSA;
+	Wed, 10 Jul 2019 11:20:45 +0200 (CEST)
+Date: Wed, 10 Jul 2019 11:20:39 +0200
+From: Lukasz Majewski <lukma@denx.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Message-ID: <20190710112039.34af3003@jawa>
+In-Reply-To: <e0c10927a3092d4a09178a4398e140ca13a9c39a.camel@linuxfoundation.org>
+References: <20190709142028.16845-1-lukma@denx.de>
+	<e0c10927a3092d4a09178a4398e140ca13a9c39a.camel@linuxfoundation.org>
+Organization: denx.de
+X-Mailer: Claws Mail 3.17.3 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libxml2-utils
+Cc: Marek Vasut <marex@denx.de>, openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] u-boot: Provide tasks to generate default U-Boot environment(s) images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -63,42 +44,160 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 09:08:51 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
+X-List-Received-Date: Wed, 10 Jul 2019 09:20:47 -0000
+X-Groupsio-MsgNum: 126700
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	boundary="Sig_/maYJuI0G53Ej=krmLUx7mRl";
+	protocol="application/pgp-signature"
 
-On Wed, 2019-07-10 at 11:06 +0800, ChenQi wrote:
-> On 07/09/2019 06:18 PM, Richard Purdie wrote:
-> > On Tue, 2019-07-09 at 17:36 +0800, ChenQi wrote:
-> > What happens if we add:
-> > 
-> > ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation',
-> > 'nativesdk-libxml2', '', d)} \
-> > 
-> > to
-> > `
-> > meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
-> > 
-> > ?
-> 
-> This does not work. Using nativesdk-libxml2-utils does not work too.
-> Both buildtools and eSDK do not use this packagegroup.
+--Sig_/maYJuI0G53Ej=krmLUx7mRl
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Ok, I'll need to spend more time looking at the problem then :(.
+Hi Richard,
 
-> I've sent out a V2 of this patch, with change to put the 
-> 'libxml2-native' dependency in xmlcatalog.bbclass.
-> In this way, we can ensure that the xmlcatalog is from our recipe.
-> In normal build, it's from libxml2-native; in build-sysroots in eSDK,
-> it's from nativesdk-libxml2-utils. Do you think this is acceptable?
+> On Tue, 2019-07-09 at 16:20 +0200, Lukasz Majewski wrote:
+> > This change provides tasks to generate default U-Boot environment
+> > images from built U-Boot (via. get_default_envs.sh script).
+> >=20
+> > Those images then can be used to generate wic images (with e.g.
+> > eMMC layout). With such approach the end user doesn't see the "CRC
+> > environment" error after the first boot.
+> >=20
+> > Moreover, those are built per MACHINE (as u-boot itself is) so then
+> > could be used in SWUpdate scenarios with single tar'ed archive with
+> > multiple MACHINE specific *.swu images.
+> >=20
+> > It is also possible to adjust the *_ENVS_* variables in machine
+> > specific conf file.
+> >=20
+> > Test:
+> > Newest master-next for poky repo - SHA1:
+> > eb5b0a0b5e53a6e55a09e66489d3f24d0c6232ee MACHINE =3D
+> > "beaglebone-yocto" in local.conf bitbake virtual/bootloader
+> >=20
+> >=20
+> > As a result following links are available in deploy directory:
+> > u-boot-env.img{_r}.
+> >=20
+> > Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> > ---
+> >  meta/recipes-bsp/u-boot/u-boot.inc | 41
+> > ++++++++++++++++++++++++++++++++++++++ 1 file changed, 41
+> > insertions(+)
+> >=20
+> > diff --git a/meta/recipes-bsp/u-boot/u-boot.inc
+> > b/meta/recipes-bsp/u-boot/u-boot.inc index 9a754fd09b..e0ccf1ce1f
+> > 100644 --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> > +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> > @@ -331,3 +331,44 @@ do_deploy () {
+> >  }
+> > =20
+> >  addtask deploy before do_build after do_compile
+> > +
+> > +# Extract default envs from build U-Boot
+> > +DEFAULT_UBOOT_ENVS_FILE ?=3D "u-boot-env"
+> > +DEFAULT_ENVS ?=3D "${DEFAULT_UBOOT_ENVS_FILE}.txt"
+> > +UBOOT_ENVS_DEFAULT ?=3D
+> > "${DEFAULT_UBOOT_ENVS_FILE}-${MACHINE}-${PV}-${PR}.img"
+> > +UBOOT_ENVS_SIZE ?=3D "65536" +
+> > +# Generate default environment
+> > +do_gen_default_envs[doc] =3D "Generate image with default U-Boot
+> > environment(s)" +do_gen_default_envs () {
+> > +    ${B}/source/scripts/get_default_envs.sh ${B} >
+> > ${B}/${DEFAULT_ENVS} +
+> > +    # Generate env image
+> > +    ${B}/tools/mkenvimage -s ${UBOOT_ENVS_SIZE} -o
+> > ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS} +
+> > +    # Generate redundant env image
+> > +    ${B}/tools/mkenvimage -r -s ${UBOOT_ENVS_SIZE} -o
+> > ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS} +
+> > +    rm ${B}/${DEFAULT_ENVS}
+> > +}
+> > +
+> > +addtask gen_default_envs before do_deploy after do_compile
+> > +
+> > +# Deploy default environment
+> > +do_deploy_default_envs[doc] =3D "Copy images with default U-Boot
+> > environment to deployment directory" +do_deploy_default_envs () {
+> > +
+> > +     install -d ${DEPLOYDIR}
+> > +
+> > +     install ${B}/${UBOOT_ENVS_DEFAULT}
+> > ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
+> > +     install ${B}/${UBOOT_ENVS_DEFAULT}_r
+> > ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r +
+> > +     cd ${DEPLOYDIR}
+> > +     ln -sf ${UBOOT_ENVS_DEFAULT} ${DEFAULT_UBOOT_ENVS_FILE}.img
+> > +     ln -sf ${UBOOT_ENVS_DEFAULT}_r
+> > ${DEFAULT_UBOOT_ENVS_FILE}.img_r +
+> > +     rm ${B}/${UBOOT_ENVS_DEFAULT}
+> > +     rm ${B}/${UBOOT_ENVS_DEFAULT}_r
+> > +}
+> > +
+> > +addtask deploy_default_envs before do_deploy after
+> > do_gen_default_envs =20
+>=20
+> I'm not sure this second function/task is right.
+>=20
+> DEPLOYDIR is really "owned" by the do_deploy function. As such, if you
+> rerun the deploy task, it should be recreated with the right content.
+>=20
+> By default I appreciate that deploy.bbclass doesn't wipe out the
+> directory but it probably should to make it clear what the
+> expectations are here.
+>=20
+> I don't think it would cause a real problem right now, until files
+> changed names or something in one of these tasks, then you'd end up
+> with files you didn't expect since nothing ever cleans this directory.
+>=20
+> Is there a reason we can't make this part of do_deploy and clean the
+> directory at the start of do_deploy?
 
-The class change is fine and I'll queue that.
+The only reason was to have more readable code - as it is easier to
+read separate tasks.
 
-We are not adding xmlcatalog to HOSTTOOLS_NONFATAL however, that is
-simply not an option or the right way to fix this.
+Another issue is that this code shall probably be optional, so I would
+need to make this feature somehow dependent on some flag ...
 
-Cheers,
+Any good suggestions? PACKAGECONFIG seems like a good starting point ?
 
-Richard
+>=20
+> Cheers,
+>=20
+> Richard
+>=20
+>=20
+>=20
+>=20
 
 
+
+
+Best regards,
+
+Lukasz Majewski
+
+--
+
+DENX Software Engineering GmbH,      Managing Director: Wolfgang Denk
+HRB 165235 Munich, Office: Kirchenstr.5, D-82194 Groebenzell, Germany
+Phone: (+49)-8142-66989-59 Fax: (+49)-8142-66989-80 Email: lukma@denx.de
+
+--Sig_/maYJuI0G53Ej=krmLUx7mRl
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEgAyFJ+N6uu6+XupJAR8vZIA0zr0FAl0lrecACgkQAR8vZIA0
+zr1DgwgAwMBNk9kcrjguq6w+1cyfn7ZlwGvUzDJPZ+wf6TTB/9ErqKMOP5b1fur7
+SszvhPIogdC8NEKJ77j7glNlk7aGodgkUWlVvstQi1vlBaFK29rULdpclGOLDcyZ
+21a6FM4IONJmxY/+/qc5PzBjmBZuk822/9XQxVDV7GevpRTx1L4OftaQVTM5KAtm
+LkSkiD3DjYrNf7xzbsMVBZsZbQ/AYZp3pyTdZDvro/IS4WYzM4GwEzpNYaKVaZdK
+2yYx4tsqtQX8PIRE8khqA2+FIHDXx0VYhLnBYSOBsIU90GNZF/wSDBSw1p+1hxAb
+/Age66eMxUTKIwnF8RTkkaeGzicthg==
+=rnvP
+-----END PGP SIGNATURE-----
+
+--Sig_/maYJuI0G53Ej=krmLUx7mRl--
