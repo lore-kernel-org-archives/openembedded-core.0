@@ -1,25 +1,25 @@
 Return-Path: <Qi.Chen@windriver.com>
-Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
-	by mail.openembedded.org (Postfix) with ESMTP id CB7117EDF1
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id 400557EDF1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 02:55:41 +0000 (UTC)
+	Wed, 10 Jul 2019 02:55:43 +0000 (UTC)
 Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
-	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6A2thXA009898
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6A2tik5006954
 	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Jul 2019 19:55:43 -0700 (PDT)
+	Tue, 9 Jul 2019 19:55:44 -0700 (PDT)
 Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
 	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 9 Jul 2019 19:55:42 -0700
+	14.3.439.0; Tue, 9 Jul 2019 19:55:43 -0700
 From: Chen Qi <Qi.Chen@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jul 2019 11:07:56 +0800
-Message-ID: <245226b4f1d83ee1071606c29cda4ba97160dada.1562727995.git.Qi.Chen@windriver.com>
+Date: Wed, 10 Jul 2019 11:07:57 +0800
+Message-ID: <b2caf7c358b671376783c3b7d32a6218ac960f92.1562727995.git.Qi.Chen@windriver.com>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <cover.1562727995.git.Qi.Chen@windriver.com>
 References: <cover.1562727995.git.Qi.Chen@windriver.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] buildtools-tarball: add nativesdk-libxml2-utils
+Subject: [PATCH 2/2] xmlcatalog: hold libxml2-native dependency
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -32,59 +32,58 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 02:55:41 -0000
+X-List-Received-Date: Wed, 10 Jul 2019 02:55:43 -0000
 Content-Type: text/plain
 
-For build-sysroots.bb, the xmlcatalog would not be in its
-staging directory. Causing the following error for eSDK.
+Put libxml2-native dependency in this class and remove
+it from recipes inheriting this class.
 
-ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst-docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit status 127.
-ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function failed: do_build_native_sysroot
-
-The problem could be reproduced by the following steps.
-1. Add in local.conf:
-   IMAGE_INSTALL_append = " btrfs-tools"
-   DISTRO_FEATURES_append = " api-documentation"
-   INHERIT += "testsdk"
-2. bitbake core-image-minimal -c populate_sdk_ext
-3. bitbake core-image-minimal -c testsdkext
-
-So we add nativesdk-libxml2-utils to buildtools-tarball
-to ensure the existence of xmlcatalog. Also add it
-to HOSTTOOLS_NONFATAL so it could be seen by bitbake.
+In fact, if a recipe inherits this class and does not have
+libxml2-native, the xmlcatalog_sstate_postinst would fail.
 
 Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 ---
- meta/conf/bitbake.conf                       | 3 +++
- meta/recipes-core/meta/buildtools-tarball.bb | 1 +
- 2 files changed, 4 insertions(+)
+ meta/classes/xmlcatalog.bbclass                                     | 2 ++
+ meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb           | 2 --
+ meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb | 2 --
+ 3 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 5e93f5c..2f64eae 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -517,6 +517,9 @@ HOSTTOOLS_NONFATAL += "scp"
- # Link to git-lfs if present
- HOSTTOOLS_NONFATAL += "git-lfs"
- 
-+# build-sysroot needs xmlcatalog in order for eSDK installation
-+HOSTTOOLS_NONFATAL += "xmlcatalog"
+diff --git a/meta/classes/xmlcatalog.bbclass b/meta/classes/xmlcatalog.bbclass
+index 075aef8..ae4811f 100644
+--- a/meta/classes/xmlcatalog.bbclass
++++ b/meta/classes/xmlcatalog.bbclass
+@@ -1,3 +1,5 @@
++DEPENDS = "libxml2-native"
 +
- CCACHE ??= ""
+ # A whitespace-separated list of XML catalogs to be registered, for example
+ # "${sysconfdir}/xml/docbook-xml.xml".
+ XMLCATALOGS ?= ""
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+index 4b6a28e..6452c8d 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb
+@@ -8,8 +8,6 @@ HOMEPAGE = "http://www.docbook.org/xml/"
+ LICENSE = "OASIS"
+ LIC_FILES_CHKSUM = "file://${WORKDIR}/LICENSE-OASIS;md5=c608985dd5f7f215e669e7639a0b1d2e"
  
- TOOLCHAIN_OPTIONS = " --sysroot=${STAGING_DIR_TARGET}"
-diff --git a/meta/recipes-core/meta/buildtools-tarball.bb b/meta/recipes-core/meta/buildtools-tarball.bb
-index 91df6f1..d39d6f7 100644
---- a/meta/recipes-core/meta/buildtools-tarball.bb
-+++ b/meta/recipes-core/meta/buildtools-tarball.bb
-@@ -25,6 +25,7 @@ TOOLCHAIN_HOST_TASK ?= "\
-     nativesdk-texinfo \
-     nativesdk-libnss-nis \
-     nativesdk-rpcsvc-proto \
-+    nativesdk-libxml2-utils \
-     "
+-DEPENDS = "libxml2-native"
+-
+ # Note: the upstream sources are not distributed with a license file.
+ # LICENSE-OASIS is included as a "patch" to workaround this. When
+ # upgrading this recipe, please verify whether this is still needed.
+diff --git a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+index ff38e87..c5d3a24 100644
+--- a/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
++++ b/meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb
+@@ -14,8 +14,6 @@ UPSTREAM_CHECK_URI = "http://sourceforge.net/projects/docbook/files/docbook-xsl/
+ # Reject versions ending in .0 as those are release candidates
+ UPSTREAM_CHECK_REGEX = "/docbook-xsl/(?P<pver>(\d+[\.\-_]*)+(?!\.0)\.\d+)/"
  
- MULTIMACH_TARGET_SYS = "${SDK_ARCH}-nativesdk${SDK_VENDOR}-${SDK_OS}"
+-DEPENDS = "libxml2-native"
+-
+ S = "${WORKDIR}/docbook-xsl-${PV}"
+ 
+ inherit allarch xmlcatalog
 -- 
 1.9.1
 
