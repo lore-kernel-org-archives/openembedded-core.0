@@ -1,54 +1,48 @@
-Return-Path: <ankur.tyagi85@gmail.com>
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com
-	[209.85.208.182])
-	by mail.openembedded.org (Postfix) with ESMTP id 2A7447EEB8
+Return-Path: <lemagoup@gmail.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id AC3767EF34
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 09:22:39 +0000 (UTC)
-Received: by mail-lj1-f182.google.com with SMTP id m23so1317234lje.12
+	Wed, 10 Jul 2019 11:17:28 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id g20so3782271ioc.12
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 02:22:40 -0700 (PDT)
+	Wed, 10 Jul 2019 04:17:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=uICJqsApD49mV/z1V23CzxprQVSVeTPgNM9Iqtnq0aI=;
-	b=E4JrUXzgIqh0kReqbhiIF90EaTNTC7Ztx3J6gq4rbVm0FdyWmlIz+Z74UpJ5kT5hwk
-	W/aHmEyIs1SEKJT1kWqlgmJrFSOBlTBM+YcO3eqgm8pAGqbRk/hMeDPF7ME756yMr6Kl
-	Cuz687IzQVEdewOSHOarovCZO7LECm87+bsdxbVFeivDx+kGvMinzoCXsXEIhX8l0gBt
-	wHN/bAcanO3ArRoj1j2AxgPQYCDXx0j5krvX0jw8E/xMiC9Bb3p5Mb8y0ojnbHZpZBYI
-	BizBR7L9mtOxmoS81Jx/DCDe7AxeXx/xf8rJ5gBse7HqKCt+AWw7SKbW3a+eRKN5aiTX
-	6ycA==
+	bh=9ueAgka/hqr1vw1YoUj8Iq9WmIQOurwWvqvgHzJTZvs=;
+	b=n1BmkVqwYTfYW90qY7sClZdVrQBjYQ+5xJUprHCEopEVU6f+msVAiy7l/m3/Bk7ZVQ
+	8jkvgkpgm3wR0bS0yjDrppSpxnwUJKp8xT0dmL3MzUE7w46gnGmMcyzuri62gNuIN0+f
+	TXYxfT3kBm+2FJ6VUVYabtheLP9FSorsg/c4jEV5no4UkkChGB0Y1sIp3ijTB5+EoKoh
+	r6rTo8CbKUTVQd6j1IMK3URtql7qeWi+x1zvyOdgAiw18sgiTx2ReUBpIsTGNmSBm8vo
+	ciX+HgT6Nn2EtrtycOr2rVFqzf7T+YLfY0Flmkb5rLTNVOL9ZEu9GLUn/LKxo0K7cgEF
+	2TVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=uICJqsApD49mV/z1V23CzxprQVSVeTPgNM9Iqtnq0aI=;
-	b=e5kxokFz1wnfdHR9OSijFSCczcXb8dC8rhLksiMfv9oya8Z7jpXPGU1XSIKwJIDfhp
-	lHuIHQoDy5dgGJiuigTphO8LX09h99BJSpKi1KFsUPSDXcmd1gLrt+txTuc5OtLJhgZw
-	M7pw7DVMQ/sULT67IqubMtbFEOkBI3RYfF5KWEk6BRQDkFazqenzw9HBXALVYrg0e/F/
-	vW4k3qReWepoRzBoFutbGHguX/hJEdaApCEZnlm8tLAgUAggcGxZxLPMzhHJeRbv4skM
-	vKkt4jrFcvWWdPfqLK2ElhwaNCbKJV7xlDVeCW09rHTAvJao7qTUKx/FzTeBURKlHrwE
-	+oSg==
-X-Gm-Message-State: APjAAAVPNe1O78NJZQVbrxY433SyfpjCdm+QvVZgcHEsaGdjccdfjIxj
-	AHqougqKX9++R9/QDcrxZnkTuEIjILykf8IM+w/xbJhd
-X-Google-Smtp-Source: APXvYqy96vjoPOt01zq5mNG7KDWCjZleCZzJaMnNd+86ZaujYN5U0C66s0lGIU2aKMAZSLlw4ZurxU8dsOhvJM4DFH4=
-X-Received: by 2002:a2e:8155:: with SMTP id t21mr16688054ljg.80.1562750559509; 
-	Wed, 10 Jul 2019 02:22:39 -0700 (PDT)
+	bh=9ueAgka/hqr1vw1YoUj8Iq9WmIQOurwWvqvgHzJTZvs=;
+	b=OGe4TqVJ5c+H27POnOnGI5FYAFj0Kw/RsOmHFO5/LfS162h64Lp9pYt/+Ip1FnE1vL
+	AusISQWsy6te5vfb2aFBYGmeOOBT2iyV8FiSvMFKECrbg7Zkl2b+x+ptwMqlUN2GV6BL
+	nk97g9YCZsaEE2MYAgpzGshSOKsM0d3X5JkJ67T0QFb2fieSN7mArSleGPPDCmGwJLSb
+	Ax7S5XMqpjhWejLCg65SS2yxsRdQ1wAfE8U2INqmczucmoWojiVNA1sx4kuzlVtXq7om
+	JhkKiBb2SudaOn9POAM7DFPz42F0KWFnAkZj7C/ufnXQfkDN898vlawb2PfSCmT8fkDI
+	RnCw==
+X-Gm-Message-State: APjAAAV14DCRd6X3CKE9iFT66dDx1r/3kUXu8GMKzC6opC1bDVfXLyl5
+	gt9TyPP8dRlSARUbYPgzXekXrzmB9Pw9hlqhNlk=
+X-Google-Smtp-Source: APXvYqypf9YrV0rQIyb8qPZxVXvJwvzvQvj2uEY+AZj71POj9UP/nb4f6yGClSOwfZ5jAKitB3gveZoazeTpZJO1nqI=
+X-Received: by 2002:a5e:de4d:: with SMTP id e13mr976173ioq.272.1562757449652; 
+	Wed, 10 Jul 2019 04:17:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <CADySD0HgOebmE=uUJ718CBhsXv3bW7WoeXa4dp06LL=vcLd_qg@mail.gmail.com>
-	<CAJTo0Lbm1DVcwKFjYBaXWsgzTGLbRRH2aFEzgTi0MAGQXQ4T_w@mail.gmail.com>
-	<CADySD0E7mwou1DeeTWfjdXh3QjqM9oMDvLsVbkXMrFZCfcgdug@mail.gmail.com>
-	<CY4PR12MB165398EE661D4CA2995CD0558BF60@CY4PR12MB1653.namprd12.prod.outlook.com>
-	<CADySD0HHhJHacwP0HXR52dpw1SEjg60y9-RRvuNgDHJFTw46Aw@mail.gmail.com>
-	<CADySD0Hz1mmT29kZF6=0=kw3Af+8+OAaKMxUvfXXPpcM+2LASw@mail.gmail.com>
-	<CY4PR12MB1653A8BABBBED9BEDD00DAC38BF10@CY4PR12MB1653.namprd12.prod.outlook.com>
-	<CADySD0EHCuxKuauvLxW7OE0_O1Fz--qBH+c0uqCfkjEo3EDeXw@mail.gmail.com>
-In-Reply-To: <CADySD0EHCuxKuauvLxW7OE0_O1Fz--qBH+c0uqCfkjEo3EDeXw@mail.gmail.com>
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Date: Wed, 10 Jul 2019 21:22:29 +1200
-Message-ID: <CADySD0Ec2ZR67WSAS7hzVEzibxwku9QQ0WGxp=EXEc3DbeF7pw@mail.gmail.com>
-To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-Cc: openembedded-core <openembedded-core@lists.openembedded.org>
-Subject: Re: Problems with sstate-cache in Artifactory
+References: <DM5PR2101MB09676734C5E89ADA88372B358DF10@DM5PR2101MB0967.namprd21.prod.outlook.com>
+In-Reply-To: <DM5PR2101MB09676734C5E89ADA88372B358DF10@DM5PR2101MB0967.namprd21.prod.outlook.com>
+From: Pierre Le Magourou <lemagoup@gmail.com>
+Date: Wed, 10 Jul 2019 13:17:18 +0200
+Message-ID: <CAEz4NHp-v2+xapjeJULXZiHpM=V1JiC2rCGmEuo7+fHBzN5Csg@mail.gmail.com>
+To: Kevin Weng <t-keweng@microsoft.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -61,56 +55,29 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 09:22:39 -0000
+X-List-Received-Date: Wed, 10 Jul 2019 11:17:28 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Chris,
+Hi Kevin,
 
-I tried uploading sstate-cache again in Artifactory but this time used
-jfrog-cli (https://www.jfrog.com/confluence/display/CLI/CLI+for+JFrog+Artif=
-actory)
-instead of curl and now it is working fine.
+> I found that the hash function is causing collisions in the generated dat=
+abase such that some CVEs are being overwritten because of the UNIQUE const=
+raint on the HASH column. For example, CVE-2018-1000873 has the same hash o=
+f 623198722 as CVE-2018-18338. This results in one of the two CVEs not appe=
+aring in the database.
 
-regards
-Ankur
+This is problematic. I kept using djb2 hash function, because it was
+the one used in the previous cve-check-tool and it was fast. But it
+might not be the right hash function to use. Do you have a better hash
+function in mind ?
+I can also drop hash function, remove everything from the database and
+recreate all entries at each update but it will increase database
+update time.
 
-On Wed, Jul 10, 2019 at 1:39 PM Ankur Tyagi <ankur.tyagi85@gmail.com> wrote=
-:
->
-> On Wed, Jul 10, 2019 at 2:28 AM chris.laplante@agilent.com
-> <chris.laplante@agilent.com> wrote:
-> >
-> > > DEBUG: For url file://5c/sstate:u-boot-ti-staging:wsl-linux-
-> > > gnueabi:2019.01+gitAUTOINC+06e0b5babe:r17:wsl:3:5cdf9380b9b3f8c94a706=
-344cf19554a_packagedata.tgz
-> > > returning https://artifactory.local.gallagher.io/artifactory/rnd-yoct=
-o-packages/sstate-cache/wsl-thud/5c/sstate%3Au-boot-ti-
-> > > staging%3Awsl-linux-
-> > > gnueabi%3A2019.01%2BgitAUTOINC%2B06e0b5babe%3Ar17%3Awsl%3A3%3A5cdf938=
-0b9b3f8c94a706344cf19554a_packagedata.tgz;
-> > > downloadfilename=3D5c/sstate:u-boot-ti-staging:wsl-linux-
-> > > gnueabi:2019.01+gitAUTOINC+06e0b5babe:r17:wsl:3:5cdf9380b9b3f8c94a706=
-344cf19554a_packagedata.tgz
-> > > DEBUG: checkstatus: trying again
-> > > DEBUG: checkstatus: trying again
-> > > DEBUG: checkstatus: trying again
-> > > DEBUG: checkstatus: trying again
-> > > DEBUG: checkstatus() urlopen failed: HTTP Error 404: Not Found
-> >
-> > Is this mapping correct? Does using curl to download https://artifactor=
-y.local.gallagher.io/artifactory/rnd-yocto-packages/sstate-cache/wsl-thud/5=
-c/sstate%3Au-boot-ti-staging%3Awsl-linux-gnueabi%3A2019.01%2BgitAUTOINC%2B0=
-6e0b5babe%3Ar17%3Awsl%3A3%3A5cdf9380b9b3f8c94a706344cf19554a_packagedata.tg=
-z;downloadfilename=3D5c/sstate:u-boot-ti-staging:wsl-linux-gnueabi:2019.01+=
-gitAUTOINC+06e0b5babe:r17:wsl:3:5cdf9380b9b3f8c94a706344cf19554a_packagedat=
-a.tgz work?
-> >
->
-> Yes, curl/wget can download it. What wrong do you suspect here?
->
-> Thanks
-> Ankur
->
-> > Chris
+I don't have the same hash as you for CVE-2018-1000873 and
+CVE-2018-18338, do you use my latest patches from master ? I did
+several changes recently.
+
+Pierre Le Magourou
 
