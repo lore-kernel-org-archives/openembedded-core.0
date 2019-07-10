@@ -1,24 +1,18 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id A7E017EE09
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 02:55:50 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6A2tVE8010365
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Tue, 9 Jul 2019 19:55:41 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.439.0; Tue, 9 Jul 2019 19:55:20 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jul 2019 11:07:55 +0800
-Message-ID: <cover.1562727995.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
+Return-Path: <patchwork@patchwork.openembedded.org>
+Received: from do (do.openembedded.org [107.170.225.144])
+	by mail.openembedded.org (Postfix) with ESMTP id 86F6B7ED72;
+	Wed, 10 Jul 2019 03:01:36 +0000 (UTC)
 MIME-Version: 1.0
-Subject: [PATCH V2 0/2] buildtools-tarball: add nativesdk-libxml2-utils
+From: Patchwork <patchwork@patchwork.openembedded.org>
+To: Anuj Mittal <anuj.mittal@intel.com>
+Date: Wed, 10 Jul 2019 03:01:38 -0000
+Message-ID: <20190710030138.2330.40941@do>
+References: <20190710023724.12708-1-anuj.mittal@intel.com>
+Reply-To: openembedded-core@lists.openembedded.org
+X-Patchwork-Hint: ignore
+In-Reply-To: <20190710023724.12708-1-anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3IgImJpbnV0aWxzOiBmaXggQ1ZFLTIwMTktMTI5NzIgQy4uLiIgYW5kIDIgbW9yZQ==?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,33 +25,42 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 02:55:50 -0000
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Jul 2019 03:01:36 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 
-Changes in V2:
-* Let xmlcatalog.bbclass hold 'libxml2-native' dependency.
+== Series Details ==
 
-The following changes since commit 2a6094ca8c4aa5c00636df77669e5bca6ad52bcf:
+Series: "binutils: fix CVE-2019-12972 C..." and 2 more
+Revision: 1
+URL   : https://patchwork.openembedded.org/series/18592/
+State : failure
 
-  oeqa/bbtests: Tweak test bitbake output pattern matching (2019-07-09 23:30:44 +0100)
+== Summary ==
 
-are available in the git repository at:
 
-  git://git.pokylinux.org/poky-contrib ChenQi/buildtools-xmlcatalog
-  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/buildtools-xmlcatalog
+Thank you for submitting this patch series to OpenEmbedded Core. This is
+an automated response. Several tests have been executed on the proposed
+series by patchtest resulting in the following failures:
 
-Chen Qi (2):
-  buildtools-tarball: add nativesdk-libxml2-utils
-  xmlcatalog: hold libxml2-native dependency
 
- meta/classes/xmlcatalog.bbclass                                     | 2 ++
- meta/conf/bitbake.conf                                              | 3 +++
- meta/recipes-core/meta/buildtools-tarball.bb                        | 1 +
- meta/recipes-devtools/docbook-xml/docbook-xml-dtd4_4.5.bb           | 2 --
- meta/recipes-devtools/docbook-xml/docbook-xsl-stylesheets_1.79.1.bb | 2 --
- 5 files changed, 6 insertions(+), 4 deletions(-)
 
--- 
-1.9.1
+* Patch            [2/3] gnupg: upgrade 2.2.16 -> 2.2.17
+ Issue             Missing or incorrectly formatted CVE tag in included patch file [test_cve_tag_format] 
+  Suggested fix    Correct or include the CVE tag on cve patch with format: "CVE: CVE-YYYY-XXXX"
+
+
+
+If you believe any of these test results are incorrect, please reply to the
+mailing list (openembedded-core@lists.openembedded.org) raising your concerns.
+Otherwise we would appreciate you correcting the issues and submitting a new
+version of the patchset if applicable. Please ensure you add/increment the
+version number when sending the new version (i.e. [PATCH] -> [PATCH v2] ->
+[PATCH v3] -> ...).
+
+---
+Guidelines:     https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
+Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
+Test suite:     http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
 
 
