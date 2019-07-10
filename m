@@ -1,48 +1,46 @@
-Return-Path: <lemagoup@gmail.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id AC3767EF34
+Return-Path: <matthias.schiffer@ew.tq-group.com>
+X-Greylist: delayed 587 seconds by postgrey-1.34 at layers.openembedded.org;
+	Wed, 10 Jul 2019 12:23:57 UTC
+Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
+	by mail.openembedded.org (Postfix) with ESMTP id B73877ED16
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 11:17:28 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id g20so3782271ioc.12
-	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 04:17:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=9ueAgka/hqr1vw1YoUj8Iq9WmIQOurwWvqvgHzJTZvs=;
-	b=n1BmkVqwYTfYW90qY7sClZdVrQBjYQ+5xJUprHCEopEVU6f+msVAiy7l/m3/Bk7ZVQ
-	8jkvgkpgm3wR0bS0yjDrppSpxnwUJKp8xT0dmL3MzUE7w46gnGmMcyzuri62gNuIN0+f
-	TXYxfT3kBm+2FJ6VUVYabtheLP9FSorsg/c4jEV5no4UkkChGB0Y1sIp3ijTB5+EoKoh
-	r6rTo8CbKUTVQd6j1IMK3URtql7qeWi+x1zvyOdgAiw18sgiTx2ReUBpIsTGNmSBm8vo
-	ciX+HgT6Nn2EtrtycOr2rVFqzf7T+YLfY0Flmkb5rLTNVOL9ZEu9GLUn/LKxo0K7cgEF
-	2TVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=9ueAgka/hqr1vw1YoUj8Iq9WmIQOurwWvqvgHzJTZvs=;
-	b=OGe4TqVJ5c+H27POnOnGI5FYAFj0Kw/RsOmHFO5/LfS162h64Lp9pYt/+Ip1FnE1vL
-	AusISQWsy6te5vfb2aFBYGmeOOBT2iyV8FiSvMFKECrbg7Zkl2b+x+ptwMqlUN2GV6BL
-	nk97g9YCZsaEE2MYAgpzGshSOKsM0d3X5JkJ67T0QFb2fieSN7mArSleGPPDCmGwJLSb
-	Ax7S5XMqpjhWejLCg65SS2yxsRdQ1wAfE8U2INqmczucmoWojiVNA1sx4kuzlVtXq7om
-	JhkKiBb2SudaOn9POAM7DFPz42F0KWFnAkZj7C/ufnXQfkDN898vlawb2PfSCmT8fkDI
-	RnCw==
-X-Gm-Message-State: APjAAAV14DCRd6X3CKE9iFT66dDx1r/3kUXu8GMKzC6opC1bDVfXLyl5
-	gt9TyPP8dRlSARUbYPgzXekXrzmB9Pw9hlqhNlk=
-X-Google-Smtp-Source: APXvYqypf9YrV0rQIyb8qPZxVXvJwvzvQvj2uEY+AZj71POj9UP/nb4f6yGClSOwfZ5jAKitB3gveZoazeTpZJO1nqI=
-X-Received: by 2002:a5e:de4d:: with SMTP id e13mr976173ioq.272.1562757449652; 
-	Wed, 10 Jul 2019 04:17:29 -0700 (PDT)
+	Wed, 10 Jul 2019 12:23:57 +0000 (UTC)
+X-IronPort-AV: E=Sophos;i="5.62,474,1554760800"; 
+   d="scan'208";a="8148626"
+Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
+	by mx1-pgp.tq-group.com with ESMTP; 10 Jul 2019 14:14:10 +0200
+Received: from mx1.tq-group.com ([192.168.6.7])
+	by tq-pgp-pr1.tq-net.de (PGP Universal service);
+	Wed, 10 Jul 2019 14:14:10 +0200
+X-PGP-Universal: processed;
+	by tq-pgp-pr1.tq-net.de on Wed, 10 Jul 2019 14:14:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+	t=1562760850; x=1594296850;
+	h=from:to:cc:subject:date:message-id:mime-version:
+	content-transfer-encoding;
+	bh=FM0+Q0HrJT/k47PokbfL70zyuHDsrP+IJvttOEvMFF4=;
+	b=JbyrDxZfxzJmRimQ3niTHfog5BmgFJwFzJY5RwifJNK/OjVAqnn9nEJ6
+	uqNoa4OFLUyLmpCG+udldtsICQ34GPE0hTXPQMdQKaCeLFgrXUVnJZvgo
+	1AFUajVMlnrs/1oTgRv1Qg+Dt2NSbJccxO6u0AczXzZtDQIE9LrZhb+5y
+	tjHfWEdHPIPVEjzwaKuQHmjxix756nOe4iyGo51wh1gZCGbU/iKB+vtr1
+	1JRCalbvc5oLc6ZKfxIqR5wDeFX7Z2TzsqFRXT/Z1RPG2vwgGIq8ivXda
+	mncKS3hIrajIkcuKUt5YiQCdnp0myInol2+gYGNSc+oqosz7LF9bPod93 A==;
+X-IronPort-AV: E=Sophos;i="5.62,474,1554760800"; 
+   d="scan'208";a="8148625"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+	by mx1.tq-group.com with ESMTP; 10 Jul 2019 14:14:10 +0200
+Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
+	[10.117.49.26])
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id CDA25280074;
+	Wed, 10 Jul 2019 14:14:45 +0200 (CEST)
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jul 2019 14:13:53 +0200
+Message-Id: <20190710121353.32717-1-matthias.schiffer@ew.tq-group.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <DM5PR2101MB09676734C5E89ADA88372B358DF10@DM5PR2101MB0967.namprd21.prod.outlook.com>
-In-Reply-To: <DM5PR2101MB09676734C5E89ADA88372B358DF10@DM5PR2101MB0967.namprd21.prod.outlook.com>
-From: Pierre Le Magourou <lemagoup@gmail.com>
-Date: Wed, 10 Jul 2019 13:17:18 +0200
-Message-ID: <CAEz4NHp-v2+xapjeJULXZiHpM=V1JiC2rCGmEuo7+fHBzN5Csg@mail.gmail.com>
-To: Kevin Weng <t-keweng@microsoft.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/4] cve-update-db: New recipe to update CVE database
+Subject: [PATCH] systemd: backport patch to fix sysctl warning on boot
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,29 +53,82 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 11:17:28 -0000
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-List-Received-Date: Wed, 10 Jul 2019 12:23:58 -0000
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Kevin,
+Due to improved validation of sysctl settings in recent kernels (5.2+, but
+also stable kernels like 4.19.53), systemd will log an error message like
 
-> I found that the hash function is causing collisions in the generated dat=
-abase such that some CVEs are being overwritten because of the UNIQUE const=
-raint on the HASH column. For example, CVE-2018-1000873 has the same hash o=
-f 623198722 as CVE-2018-18338. This results in one of the two CVEs not appe=
-aring in the database.
+    systemd[1]: Failed to bump fs.file-max, ignoring: Invalid argument
 
-This is problematic. I kept using djb2 hash function, because it was
-the one used in the previous cve-check-tool and it was fast. But it
-might not be the right hash function to use. Do you have a better hash
-function in mind ?
-I can also drop hash function, remove everything from the database and
-recreate all entries at each update but it will increase database
-update time.
+during boot. Backport the bugfix from the systemd master.
 
-I don't have the same hash as you for CVE-2018-1000873 and
-CVE-2018-18338, do you use my latest patches from master ? I did
-several changes recently.
+Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+---
+ ...-max-sysctl-to-LONG_MAX-rather-than-.patch | 39 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_242.bb      |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-core-set-fs.file-max-sysctl-to-LONG_MAX-rather-than-.patch
 
-Pierre Le Magourou
+diff --git a/meta/recipes-core/systemd/systemd/0001-core-set-fs.file-max-sysctl-to-LONG_MAX-rather-than-.patch b/meta/recipes-core/systemd/systemd/0001-core-set-fs.file-max-sysctl-to-LONG_MAX-rather-than-.patch
+new file mode 100644
+index 0000000000..ff64f58c9c
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0001-core-set-fs.file-max-sysctl-to-LONG_MAX-rather-than-.patch
+@@ -0,0 +1,39 @@
++From 6e2f78948403a4cce45b9e34311c9577c624f066 Mon Sep 17 00:00:00 2001
++From: Lennart Poettering <lennart@poettering.net>
++Date: Mon, 17 Jun 2019 10:51:25 +0200
++Subject: [PATCH] core: set fs.file-max sysctl to LONG_MAX rather than
++ ULONG_MAX
++
++Since kernel 5.2 the kernel thankfully returns proper errors when we
++write a value out of range to the sysctl. Which however breaks writing
++ULONG_MAX to request the maximum value. Hence let's write the new
++maximum value instead, LONG_MAX.
++
++/cc @brauner
++
++Fixes: #12803
++
++Upstream-Status: Backport
++
++Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
++---
++ src/core/main.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/core/main.c b/src/core/main.c
++index b33ea1b5b5..e7f51815f0 100644
++--- a/src/core/main.c
+++++ b/src/core/main.c
++@@ -1245,9 +1245,9 @@ static void bump_file_max_and_nr_open(void) {
++ #endif
++ 
++ #if BUMP_PROC_SYS_FS_FILE_MAX
++-        /* I so wanted to use STRINGIFY(ULONG_MAX) here, but alas we can't as glibc/gcc define that as
++-         * "(0x7fffffffffffffffL * 2UL + 1UL)". Seriously. 😢 */
++-        if (asprintf(&t, "%lu\n", ULONG_MAX) < 0) {
+++        /* The maximum the kernel allows for this since 5.2 is LONG_MAX, use that. (Previously thing where
+++         * different but the operation would fail silently.) */
+++        if (asprintf(&t, "%li\n", LONG_MAX) < 0) {
++                 log_oom();
++                 return;
++         }
+diff --git a/meta/recipes-core/systemd/systemd_242.bb b/meta/recipes-core/systemd/systemd_242.bb
+index 29f64b995a..ca083ad376 100644
+--- a/meta/recipes-core/systemd/systemd_242.bb
++++ b/meta/recipes-core/systemd/systemd_242.bb
+@@ -25,6 +25,7 @@ SRC_URI += "file://touchscreen.rules \
+            file://0006-network-remove-redunant-link-name-in-message.patch \
+            file://99-default.preset \
+            file://0001-resolved-Fix-incorrect-use-of-OpenSSL-BUF_MEM.patch \
++           file://0001-core-set-fs.file-max-sysctl-to-LONG_MAX-rather-than-.patch \
+            "
+ 
+ # patches needed by musl
+-- 
+2.17.1
+
 
