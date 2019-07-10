@@ -1,48 +1,47 @@
-Return-Path: <matthias.schiffer@ew.tq-group.com>
-Received: from mx1.tq-group.com (mx1.tq-group.com [62.157.118.193])
-	by mail.openembedded.org (Postfix) with ESMTP id B21457EEFF
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from mail-lj1-f194.google.com (mail-lj1-f194.google.com
+	[209.85.208.194])
+	by mail.openembedded.org (Postfix) with ESMTP id DD3477EF04
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 12:40:03 +0000 (UTC)
-X-IronPort-AV: E=Sophos;i="5.62,474,1554760800"; 
-   d="scan'208";a="8149201"
-Received: from unknown (HELO tq-pgp-pr1.tq-net.de) ([192.168.6.15])
-	by mx1-pgp.tq-group.com with ESMTP; 10 Jul 2019 14:40:04 +0200
-Received: from mx1.tq-group.com ([192.168.6.7])
-	by tq-pgp-pr1.tq-net.de (PGP Universal service);
-	Wed, 10 Jul 2019 14:40:04 +0200
-X-PGP-Universal: processed;
-	by tq-pgp-pr1.tq-net.de on Wed, 10 Jul 2019 14:40:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-	t=1562762404; x=1594298404;
-	h=message-id:subject:from:to:date:in-reply-to:references:
-	mime-version:content-transfer-encoding;
-	bh=8BxxEVsdctVikE0nBAnTouDClwEy+wnuFWwihJjAkdo=;
-	b=FnmptJlXFMRZAVNHXsJpO+ezrZ4nx7hDYP0nfjQJ8cn5yLpWNOjwn/ll
-	fHbxwtj03hFW5+zEv7cY7MdjK5ujuAFcXf8OTQem1mq1kHPcW8JAvZmBG
-	xhkFl7obAOeDfaL9GJ9iYsZDVI8/w6ojBVSXcgsl7L9kc7nn+P3pldOWs
-	lOIv3bQfkYVot6BRIvonnXHOrSXFh1iVVWpo2OLGQdp15b8catF08283W
-	YxrkdUn3QsXQC0D52DEQPt4D7kcT7USeWScbuwb4fBDXovl1YSdSmVin3
-	EBrHxyhrW0qrV7WiVSBJR0+3kTY5j2FTuIR354vbzU7Wp2CPqhVdWCMDS A==;
-X-IronPort-AV: E=Sophos;i="5.62,474,1554760800"; 
-   d="scan'208";a="8149200"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-	by mx1.tq-group.com with ESMTP; 10 Jul 2019 14:40:03 +0200
-Received: from schifferm-ubuntu4.tq-net.de (schifferm-ubuntu4.tq-net.de
-	[10.117.49.26])
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPA id 25E8D280074
+	Wed, 10 Jul 2019 12:57:44 +0000 (UTC)
+Received: by mail-lj1-f194.google.com with SMTP id 16so1963048ljv.10
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 14:40:39 +0200 (CEST)
-Message-ID: <714432f19e29fc660170d05ff3907ff2e40b1e95.camel@ew.tq-group.com>
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2019 14:40:01 +0200
-In-Reply-To: <20190710123132.2332.61175@do>
-References: <20190710121353.32717-1-matthias.schiffer@ew.tq-group.com>
-	<20190710123132.2332.61175@do>
-X-Mailer: Evolution 3.28.5-0ubuntu0.18.04.1 
-Mime-Version: 1.0
-Subject: =?UTF-8?B?UmU6IOKclyBwYXRjaHRlc3Q6IGZhaWx1cmUgZm9yIHN5c3RlbWQ6IGJhY2twb3J0IHBhdGNoIHRvIGZpeCBzeXNjdGwgd2FybmluZyBvbiBib290?=
+	Wed, 10 Jul 2019 05:57:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=1lwUZj6GzssFSocj4wD9bS0ibtIwxluDQyWu+/a63sM=;
+	b=PvQIGZroI28CfwZRNUczfCM7fzhQncROCkp7RVhZoNer+by0K+T3HqkFDl551bfrke
+	uc6VRoSvwGrbUXWA3rRmQ1xFVNni3dkODOzY0LHarXZq9MGLwTU4nhxtHK+pGojXtgkd
+	8JvT4Q8DFHyvmjj9OCeEvWUw38L33/Uz+d2GVyX+7rjk1/UPlXDMZw4dbxaUe+Q5kANE
+	u7BA4e32nSeX320pD9XS3O6URNscBIv2+o6YCKnxmveKIQGRv0KKTcioyZFipiFY8ry8
+	YGmKbzryC5tvvwSAU8LlYKiT2B0xh9H0Q/L4wsOZwo86DNmkB7f1SXtdHlK94yk5LiNs
+	uhcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=1lwUZj6GzssFSocj4wD9bS0ibtIwxluDQyWu+/a63sM=;
+	b=aJgx7grzZaN+l++R/FZ4bsWK9Br7raUxZltp/VXonkDB7t6ftc5TwFtoHVObGUzqfa
+	FQzyH9e4SU3npiRlbmu8Cp0d9XR6hM2K8NEQT3rc0XHQGQLaRRlyEehU5In0RmN+Obd0
+	1QZyfvhp4OZjbWZ3VCdGJXIP4PxySiH4ixIfrf0H5L0KItf/o4dAWHmpgvTeJ4ZV1qYy
+	YNKPN2fAYDx+kz95XeWQhHR1SGtM4tvC+XQa5ub5W9r4i8oiETB/z2YaIxQO7bTyHrYp
+	u7JNX00bGYXSRezVETyCRzhKb9W1AvwZBLK6uuhNJMr8aNJtJkUk6hqsesphMHxVAh2H
+	Weew==
+X-Gm-Message-State: APjAAAXbm8vt6Jg1LVWt2TpcCqgbXPQe3LIAckThUteulzIxoYdwaIvG
+	OG/Way1G4gtpmngsPo+aSXdcmdcDBydOGKEdVao=
+X-Google-Smtp-Source: APXvYqzkQ2cg0dQu5KMusF71iQkaGiXumv7RP89z60/P01FWc4q+MlBqTiLZcZeM7KweUPWZr/J0iXl0RxmYwcAOzSs=
+X-Received: by 2002:a2e:8449:: with SMTP id u9mr17693965ljh.104.1562763465177; 
+	Wed, 10 Jul 2019 05:57:45 -0700 (PDT)
+MIME-Version: 1.0
+References: <e5194d279637f6cb6aaa5e5fd1d2f6657aba522d.camel@linuxfoundation.org>
+In-Reply-To: <e5194d279637f6cb6aaa5e5fd1d2f6657aba522d.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 10 Jul 2019 08:57:34 -0400
+Message-ID: <CADkTA4Pd6hst7zJAcYafa_61h5OoWtHH=O6frawnw4XOEHLVzQ@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Patches and discussions about the oe-core layer
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: config warning from linux-yocto 4.19
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,71 +54,70 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 12:40:04 -0000
+X-List-Received-Date: Wed, 10 Jul 2019 12:57:45 -0000
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
 
-On Wed, 2019-07-10 at 12:31 +0000, Patchwork wrote:
-> == Series Details ==
-> 
-> Series: systemd: backport patch to fix sysctl warning on boot
-> Revision: 1
-> URL   : https://patchwork.openembedded.org/series/18605/
-> State : failure
-> 
-> == Summary ==
-> 
-> 
-> Thank you for submitting this patch series to OpenEmbedded Core. This
-> is
-> an automated response. Several tests have been executed on the
-> proposed
-> series by patchtest resulting in the following failures:
-> 
-> 
-> 
-> * Issue             Series cannot be parsed correctly due to
-> malformed diff lines [test_mbox_format] 
->   Suggested fix    Create the series again using git-format-patch and
-> ensure it can be applied using git am
->   Diff line        Hunk is shorter than expected
-> 
-> * Issue             Series does not apply on top of target branch
-> [test_series_merge_on_head] 
->   Suggested fix    Rebase your series on top of targeted branch
->   Targeted branch  master (currently at 4cbb7392c7)
+That should have been covered in this patch I sent:
 
-I'm not sure what is going on here, the patch applies fine for me.
+commit 95e9df0b5cb5179271c78499dc60c3c0df0a5622
+Author: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date:   Fri Jul 5 11:15:37 2019 -0400
 
-Is it possible that the patchtest stumbles over unicode characters in
-the added patch file? I don't see how that could be avoided, as the
-patch touches a line where an emoji was used in a comment...
+    linux-yocto/4.19: update to 4.19.57 and -rt22
 
-Kind regards,
-Matthias
+    Updating the linux-yocto 4.19 recipe to the latest -stable and -rt
+    releases.
+
+    We also integrate a configuration change to support ptests on scsci
+    targets:
+
+      scsi-debug: include core scsi support for standalone inclusion
+
+    The -stable changes comprise the following commits:
+---
+
+Is that applied and yet we are still seeing the warning ?
+
+Bruce
+
+On Wed, Jul 10, 2019 at 4:47 AM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> Hi Bruce,
+>
+> I think/hope this is just a kernel config srcrev update but could you fix:
+>
+> """
+> WARNING: linux-yocto-4.19.44+gitAUTOINC+ad235db461_c12bc1a098-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
+>
+> ---------- CONFIG_SCSI_DEBUG -----------------
+> Config: CONFIG_SCSI_DEBUG
+> From: /home/pokybuild/yocto-worker/qemuarm-lsb/build/build/tmp/work-shared/qemuarm/kernel-source/.kernel-meta/configs/v4.19/standard/qemuarma15/features/scsi/scsi-debug.cfg
+> Requested value:  CONFIG_SCSI_DEBUG=m
+> Actual value:
+>
+> No reference to SCSI_DEBUG found
+> """
+>
+> please? :) We're fairly warning free on the autobuilder now so this one sticks out badly!
+>
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/804
+>
+> (its qemuarm with poky-lsb)
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
+>
 
 
-> 
-> 
-> 
-> If you believe any of these test results are incorrect, please reply
-> to the
-> mailing list (openembedded-core@lists.openembedded.org) raising your
-> concerns.
-> Otherwise we would appreciate you correcting the issues and
-> submitting a new
-> version of the patchset if applicable. Please ensure you
-> add/increment the
-> version number when sending the new version (i.e. [PATCH] -> [PATCH
-> v2] ->
-> [PATCH v3] -> ...).
-> 
-> ---
-> Guidelines:     
-> https://www.openembedded.org/wiki/Commit_Patch_Message_Guidelines
-> Test framework: http://git.yoctoproject.org/cgit/cgit.cgi/patchtest
-> Test suite:     
-> http://git.yoctoproject.org/cgit/cgit.cgi/patchtest-oe
-> 
-
+-- 
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
