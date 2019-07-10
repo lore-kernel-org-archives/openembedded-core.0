@@ -1,50 +1,50 @@
 Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com
-	[209.85.128.46])
-	by mail.openembedded.org (Postfix) with ESMTP id B909B7EE2C
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com
+	[209.85.128.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CB5847ED65
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 08:47:31 +0000 (UTC)
-Received: by mail-wm1-f46.google.com with SMTP id s15so1345491wmj.3
+	Wed, 10 Jul 2019 08:54:11 +0000 (UTC)
+Received: by mail-wm1-f65.google.com with SMTP id a15so1366977wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 01:47:32 -0700 (PDT)
+	Wed, 10 Jul 2019 01:54:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=linuxfoundation.org; s=google;
-	h=message-id:subject:from:to:cc:date:user-agent:mime-version
-	:content-transfer-encoding;
-	bh=VR9D7q/kEPO9XjuJoBkmuiB6qMfh0FEY/R9s4F/OFJ4=;
-	b=QeJkmpLgDnx6Ol+/4uu/oKRjzq/sXzb9/H5UNoS8k1ljeIWmhlAmDJ85VrahCLqymK
-	tYM6dt4CWn9ZEemzInVRqbUmoeXqfzdy/adLg9abG7D/lOHLK8B8iUyN/+02ueg49gDN
-	vS9/8ItIB4W/GS0OKkpKwO/6fUM8OKNYb02hU=
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=761VTmesBU7snkzRh4LBJ+8RfymbyHYmrSUiJIg4mmA=;
+	b=EyiqJflqbGr7GPSPFmP948d1o+VuNq/fZ/jk6Zp0Z25+jNgAEytXrbu8EcMeBXA80a
+	HIGvvZ8WD/OEuO7ow4Iy0cCRUfp+phkLjCNsvP5ojNia1b/v9BeBRROryZk/f7/Kqj9n
+	mflSV7Y0cLDxqUtaNYW6JhdIADC0bGz2+p/gQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:user-agent
-	:mime-version:content-transfer-encoding;
-	bh=VR9D7q/kEPO9XjuJoBkmuiB6qMfh0FEY/R9s4F/OFJ4=;
-	b=gTNAqF3siexXieOpnUy/DwLMy/WiwuhfGomRAMp/wl2NgHzRVTrhlulrWmNAmOLAlu
-	sGM2GieQ3x82MluhZEQ6fkGQa4QIhMXHM2VNXkMEEE3m0l9nN77f6EpB33RG/kiVAmH6
-	G8w9HV2nuUrHlGCx7fE15ZQFn45OhI9+Jx4nIkwEeVVFp9QiZPi+PHt+nIz9oajrmWPu
-	Vr4iV4WklfEBD2MSF2yVP09L+Ta7PGxsSJ8mI459zo4yZeKbjRQjHidrJLXpnhIk20ln
-	MbrH41M5LcgaJzuhaTeJQLf3LTzzeHsC1UexX/XEZ61cfUUaotZOUpB3BOgXmpggRd9I
-	XAXg==
-X-Gm-Message-State: APjAAAUm6IBl8aXHhwTHotfgTdGIaEgt6+2KyOx7W3GFA/ZNrSGrOFeR
-	JLV1RqAoyEvAt9+nW3aObQPxzGgFflM=
-X-Google-Smtp-Source: APXvYqxFfeuFohmAbZ/yoIp+89nEmF5gx/xLwpulXztKx10tthEjUhCTiWA69vTmUju2YQNwVQt+Xg==
-X-Received: by 2002:a1c:a6c8:: with SMTP id p191mr3869362wme.99.1562748452224; 
-	Wed, 10 Jul 2019 01:47:32 -0700 (PDT)
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=761VTmesBU7snkzRh4LBJ+8RfymbyHYmrSUiJIg4mmA=;
+	b=g0oYsJwEmmzdxoAOaHM9uX3mRr4Ws35CPT8h4VecxoOe/foyPa/CCD18LPQrg/Z0Ex
+	a19H2K8xPVc6eh/6euRb7+7P1Dwe6vV9MyuzIHprMmRUFQTip7PtLUUqxO36H4bOiDLO
+	dFk0v91D+5cyjjLHRlt9jrO7g1Nw6y78cT3ZS8VsaQq9cQVrn+VZVEruXfAf0qzDWLfY
+	X1YSUB6M7puhiCvOFkF2NaptpIViHwftgLY7/7hdoSkr7dmD6kR5SL9aTFhGHbyKxHWD
+	pnpuzmbA3Zf6QR3wtg+PQ7kXd+9uxpHK5OSkDc/cEFbSjHsCo5ZLTsMEo/ET42OF4e3O
+	Bl6w==
+X-Gm-Message-State: APjAAAUuTppu0o7v4a4DrH8Z2+pBJmkZgLE6Dxy+SLEOh7XEnvMwf8Ho
+	IuezPeuBJAxSZgceMvAwPiDYwzxzs5o=
+X-Google-Smtp-Source: APXvYqwhTTUwWLOswDTe8vpJKFNVr/L3SFFBzdtep6p94ja04O+WINkIijMv9i9F0bWjpokA3atLPA==
+X-Received: by 2002:a1c:5f87:: with SMTP id t129mr4383043wmb.150.1562748852471;
+	Wed, 10 Jul 2019 01:54:12 -0700 (PDT)
 Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
-	by smtp.gmail.com with ESMTPSA id
-	r11sm1847531wre.14.2019.07.10.01.47.31
+	by smtp.gmail.com with ESMTPSA id x6sm1683048wrt.63.2019.07.10.01.54.11
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Wed, 10 Jul 2019 01:47:31 -0700 (PDT)
-Message-ID: <e5194d279637f6cb6aaa5e5fd1d2f6657aba522d.camel@linuxfoundation.org>
+	Wed, 10 Jul 2019 01:54:11 -0700 (PDT)
+Message-ID: <e0c10927a3092d4a09178a4398e140ca13a9c39a.camel@linuxfoundation.org>
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 10 Jul 2019 09:47:30 +0100
+To: Lukasz Majewski <lukma@denx.de>, Marek Vasut <marex@denx.de>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jul 2019 09:54:10 +0100
+In-Reply-To: <20190709142028.16845-1-lukma@denx.de>
+References: <20190709142028.16845-1-lukma@denx.de>
 User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Cc: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-Subject: config warning from linux-yocto 4.19
+Subject: Re: [PATCH] u-boot: Provide tasks to generate default U-Boot environment(s) images
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,37 +57,108 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 08:47:32 -0000
+X-List-Received-Date: Wed, 10 Jul 2019 08:54:12 -0000
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 
-Hi Bruce,
+On Tue, 2019-07-09 at 16:20 +0200, Lukasz Majewski wrote:
+> This change provides tasks to generate default U-Boot environment images
+> from built U-Boot (via. get_default_envs.sh script).
+> 
+> Those images then can be used to generate wic images (with e.g. eMMC layout).
+> With such approach the end user doesn't see the "CRC environment" error
+> after the first boot.
+> 
+> Moreover, those are built per MACHINE (as u-boot itself is) so then could
+> be used in SWUpdate scenarios with single tar'ed archive with multiple
+> MACHINE specific *.swu images.
+> 
+> It is also possible to adjust the *_ENVS_* variables in machine specific
+> conf file.
+> 
+> Test:
+> Newest master-next for poky repo - SHA1: eb5b0a0b5e53a6e55a09e66489d3f24d0c6232ee
+> MACHINE = "beaglebone-yocto" in local.conf
+> bitbake virtual/bootloader
+> 
+> 
+> As a result following links are available in deploy directory:
+> u-boot-env.img{_r}.
+> 
+> Signed-off-by: Lukasz Majewski <lukma@denx.de>
+> ---
+>  meta/recipes-bsp/u-boot/u-boot.inc | 41 ++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 41 insertions(+)
+> 
+> diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+> index 9a754fd09b..e0ccf1ce1f 100644
+> --- a/meta/recipes-bsp/u-boot/u-boot.inc
+> +++ b/meta/recipes-bsp/u-boot/u-boot.inc
+> @@ -331,3 +331,44 @@ do_deploy () {
+>  }
+>  
+>  addtask deploy before do_build after do_compile
+> +
+> +# Extract default envs from build U-Boot
+> +DEFAULT_UBOOT_ENVS_FILE ?= "u-boot-env"
+> +DEFAULT_ENVS ?= "${DEFAULT_UBOOT_ENVS_FILE}.txt"
+> +UBOOT_ENVS_DEFAULT ?= "${DEFAULT_UBOOT_ENVS_FILE}-${MACHINE}-${PV}-${PR}.img"
+> +UBOOT_ENVS_SIZE ?= "65536"
+> +
+> +# Generate default environment
+> +do_gen_default_envs[doc] = "Generate image with default U-Boot environment(s)"
+> +do_gen_default_envs () {
+> +    ${B}/source/scripts/get_default_envs.sh ${B} > ${B}/${DEFAULT_ENVS}
+> +
+> +    # Generate env image
+> +    ${B}/tools/mkenvimage -s ${UBOOT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT} ${B}/${DEFAULT_ENVS}
+> +
+> +    # Generate redundant env image
+> +    ${B}/tools/mkenvimage -r -s ${UBOOT_ENVS_SIZE} -o ${B}/${UBOOT_ENVS_DEFAULT}_r ${B}/${DEFAULT_ENVS}
+> +
+> +    rm ${B}/${DEFAULT_ENVS}
+> +}
+> +
+> +addtask gen_default_envs before do_deploy after do_compile
+> +
+> +# Deploy default environment
+> +do_deploy_default_envs[doc] = "Copy images with default U-Boot environment to deployment directory"
+> +do_deploy_default_envs () {
+> +
+> +     install -d ${DEPLOYDIR}
+> +
+> +     install ${B}/${UBOOT_ENVS_DEFAULT} ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}
+> +     install ${B}/${UBOOT_ENVS_DEFAULT}_r ${DEPLOYDIR}/${UBOOT_ENVS_DEFAULT}_r
+> +
+> +     cd ${DEPLOYDIR}
+> +     ln -sf ${UBOOT_ENVS_DEFAULT} ${DEFAULT_UBOOT_ENVS_FILE}.img
+> +     ln -sf ${UBOOT_ENVS_DEFAULT}_r ${DEFAULT_UBOOT_ENVS_FILE}.img_r
+> +
+> +     rm ${B}/${UBOOT_ENVS_DEFAULT}
+> +     rm ${B}/${UBOOT_ENVS_DEFAULT}_r
+> +}
+> +
+> +addtask deploy_default_envs before do_deploy after do_gen_default_envs
 
-I think/hope this is just a kernel config srcrev update but could you fix:
+I'm not sure this second function/task is right.
 
-"""
-WARNING: linux-yocto-4.19.44+gitAUTOINC+ad235db461_c12bc1a098-r0 do_kernel_configcheck: [kernel config]: specified values did not make it into the kernel's final configuration:
+DEPLOYDIR is really "owned" by the do_deploy function. As such, if you
+rerun the deploy task, it should be recreated with the right content.
 
----------- CONFIG_SCSI_DEBUG -----------------
-Config: CONFIG_SCSI_DEBUG
-From: /home/pokybuild/yocto-worker/qemuarm-lsb/build/build/tmp/work-shared/qemuarm/kernel-source/.kernel-meta/configs/v4.19/standard/qemuarma15/features/scsi/scsi-debug.cfg
-Requested value:  CONFIG_SCSI_DEBUG=m
-Actual value:     
+By default I appreciate that deploy.bbclass doesn't wipe out the
+directory but it probably should to make it clear what the expectations
+are here.
 
-No reference to SCSI_DEBUG found
-"""
+I don't think it would cause a real problem right now, until files
+changed names or something in one of these tasks, then you'd end up
+with files you didn't expect since nothing ever cleans this directory.
 
-please? :) We're fairly warning free on the autobuilder now so this one sticks out badly!
-
-https://autobuilder.yoctoproject.org/typhoon/#/builders/38/builds/804
-
-(its qemuarm with poky-lsb)
+Is there a reason we can't make this part of do_deploy and clean the
+directory at the start of do_deploy?
 
 Cheers,
 
 Richard
-
-
 
 
 
