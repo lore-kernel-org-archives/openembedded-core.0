@@ -1,18 +1,18 @@
 Return-Path: <patchwork@patchwork.openembedded.org>
 Received: from do (do.openembedded.org [107.170.225.144])
-	by mail.openembedded.org (Postfix) with ESMTP id 845197EEBA;
-	Wed, 10 Jul 2019 12:31:30 +0000 (UTC)
+	by mail.openembedded.org (Postfix) with ESMTP id 597157EEFD;
+	Wed, 10 Jul 2019 12:31:31 +0000 (UTC)
 MIME-Version: 1.0
 From: Patchwork <patchwork@patchwork.openembedded.org>
 To: matthias.schiffer@ew.tq-group.com
 Date: Wed, 10 Jul 2019 12:31:32 -0000
-Message-ID: <20190710123132.2332.61175@do>
-References: <20190710121353.32717-1-matthias.schiffer@ew.tq-group.com>
+Message-ID: <20190710123132.2331.38079@do>
+References: <20190710121420.398-1-matthias.schiffer@ew.tq-group.com>
 Reply-To: openembedded-core@lists.openembedded.org
 X-Patchwork-Hint: ignore
-In-Reply-To: <20190710121353.32717-1-matthias.schiffer@ew.tq-group.com>
+In-Reply-To: <20190710121420.398-1-matthias.schiffer@ew.tq-group.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogYmFja3BvcnQgcGF0Y2ggdG8gZml4IHN5c2N0bCB3YXJuaW5nIG9uIGJvb3Q=?=
+Subject: =?UTF-8?B?4pyXIHBhdGNodGVzdDogZmFpbHVyZSBmb3Igc3lzdGVtZDogYmFja3BvcnQgcGF0Y2ggdG8gZml4IHN5c2N0bCB3YXJuaW5nIG9uIGJvb3QgKHJldjIp?=
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -25,14 +25,14 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 12:31:30 -0000
+X-List-Received-Date: Wed, 10 Jul 2019 12:31:31 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 
 == Series Details ==
 
-Series: systemd: backport patch to fix sysctl warning on boot
-Revision: 1
+Series: systemd: backport patch to fix sysctl warning on boot (rev2)
+Revision: 2
 URL   : https://patchwork.openembedded.org/series/18605/
 State : failure
 
@@ -51,7 +51,7 @@ series by patchtest resulting in the following failures:
 
 * Issue             Series does not apply on top of target branch [test_series_merge_on_head] 
   Suggested fix    Rebase your series on top of targeted branch
-  Targeted branch  master (currently at 4cbb7392c7)
+  Targeted branch  warrior (currently at 886deb4d09)
 
 
 
