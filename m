@@ -1,26 +1,32 @@
-Return-Path: <anuj.mittal@intel.com>
-Received: from mga09.intel.com (mga09.intel.com [134.134.136.24])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B2CF7ED76
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail.windriver.com (mail.windriver.com [147.11.1.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A0627EDF1
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 02:37:30 +0000 (UTC)
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	09 Jul 2019 19:37:31 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.63,473,1557212400"; d="scan'208";a="170777745"
-Received: from anmitta2-mobl1.png.intel.com ([10.221.21.220])
-	by orsmga006.jf.intel.com with ESMTP; 09 Jul 2019 19:37:30 -0700
-From: Anuj Mittal <anuj.mittal@intel.com>
-To: openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2019 10:37:24 +0800
-Message-Id: <20190710023724.12708-3-anuj.mittal@intel.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190710023724.12708-1-anuj.mittal@intel.com>
-References: <20190710023724.12708-1-anuj.mittal@intel.com>
+	Wed, 10 Jul 2019 02:54:03 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail.windriver.com (8.15.2/8.15.1) with ESMTPS id x6A2s3jt009721
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Tue, 9 Jul 2019 19:54:03 -0700 (PDT)
+Received: from [128.224.162.148] (128.224.162.148) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.50) with Microsoft SMTP Server (TLS) id 14.3.439.0;
+	Tue, 9 Jul 2019 19:54:03 -0700
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	<openembedded-core@lists.openembedded.org>
+References: <cover.1562570956.git.Qi.Chen@windriver.com>
+	<0dee845494880f0c201e79d6ee0f50390f183465.1562570957.git.Qi.Chen@windriver.com>
+	<bffaaf84031568a924656bf092d9d17405fbef2f.camel@linuxfoundation.org>
+	<62f74fe5-abe0-9d13-50ce-7660291180ce@windriver.com>
+	<6a7b868b-348a-b747-4115-9e4089ad0232@windriver.com>
+	<bcfe62810b7e56c82606a759e50821547da6086d.camel@linuxfoundation.org>
+From: ChenQi <Qi.Chen@windriver.com>
+Message-ID: <ce900e3b-8b46-fe8a-d123-da28dbd6b054@windriver.com>
+Date: Wed, 10 Jul 2019 11:06:38 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101
+	Thunderbird/45.4.0
 MIME-Version: 1.0
-Subject: [PATCH 3/3] libxslt: fix CVE-2019-13117 CVE-2019-13118
+In-Reply-To: <bcfe62810b7e56c82606a759e50821547da6086d.camel@linuxfoundation.org>
+X-Originating-IP: [128.224.162.148]
+Subject: Re: [PATCH 1/1] buildtools-tarball: add nativesdk-libxml2-utils
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,154 +39,97 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 02:37:30 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Wed, 10 Jul 2019 02:54:04 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
----
- .../libxslt/files/CVE-2019-13117.patch        | 33 ++++++++
- .../libxslt/files/CVE-2019-13118.patch        | 76 +++++++++++++++++++
- .../recipes-support/libxslt/libxslt_1.1.33.bb |  2 +
- 3 files changed, 111 insertions(+)
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-13117.patch
- create mode 100644 meta/recipes-support/libxslt/files/CVE-2019-13118.patch
+On 07/09/2019 06:18 PM, Richard Purdie wrote:
+> On Tue, 2019-07-09 at 17:36 +0800, ChenQi wrote:
+>> On 07/09/2019 09:38 AM, ChenQi wrote:
+>>> On 07/09/2019 12:47 AM, Richard Purdie wrote:
+>>>> On Mon, 2019-07-08 at 15:37 +0800, Chen Qi wrote:
+>>>>> For build-sysroots.bb, the xmlcatalog would not be in its
+>>>>> staging directory. Causing the following error for eSDK.
+>>>>>
+>>>>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Command
+>>>>> '/PATH/TO/IMAGE/testsdkext/tmp/sysroots/x86_64/usr/bin/postinst
+>>>>> -
+>>>>> docbook-xml-dtd4-native-xmlcatalog' returned non-zero exit
+>>>>> status
+>>>>> 127.
+>>>>> ERROR: build-sysroots-1.0-r0 do_build_native_sysroot: Function
+>>>>> failed: do_build_native_sysroot
+>>>>>
+>>>>> The problem could be reproduced by the following steps.
+>>>>> 1. Add in local.conf:
+>>>>>      IMAGE_INSTALL_append = " btrfs-tools"
+>>>>>      DISTRO_FEATURES_append = " api-documentation"
+>>>>>      INHERIT += "testsdk"
+>>>>> 2. bitbake core-image-minimal -c populate_sdk_ext
+>>>>> 3. bitbake core-image-minimal -c testsdkext
+>>>>>
+>>>>> So we add nativesdk-libxml2-utils to buildtools-tarball
+>>>>> to ensure the existence of xmlcatalog. Also add it
+>>>>> to HOSTTOOLS_NONFATAL so it could be seen by bitbake.
+>>>>>
+>>>>> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+>>>>> ---
+>>>>>    meta/conf/bitbake.conf                       | 3 +++
+>>>>>    meta/recipes-core/meta/buildtools-tarball.bb | 1 +
+>>>>>    2 files changed, 4 insertions(+)
+>>>>>
+>>>>> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+>>>>> index 5e93f5c..2f64eae 100644
+>>>>> --- a/meta/conf/bitbake.conf
+>>>>> +++ b/meta/conf/bitbake.conf
+>>>>> @@ -517,6 +517,9 @@ HOSTTOOLS_NONFATAL += "scp"
+>>>>>    # Link to git-lfs if present
+>>>>>    HOSTTOOLS_NONFATAL += "git-lfs"
+>>>>>    +# build-sysroot needs xmlcatalog in order for eSDK
+>>>>> installation
+>>>>> +HOSTTOOLS_NONFATAL += "xmlcatalog"
+>>>> I don't mind the buildtools-tarball change but HOSTTOOLS is
+>>>> starting to
+>>>> grow to contain far too much random stuff which could impact
+>>>> reproduciblity.
+>>>>
+>>>> Is there some other way we could fix this? It still feels like a
+>>>> dependency problem which we chould fix by adding a missing
+>>>> dependency
+>>>> although I appreciate its far from being that simple.
+>>>>
+>>>> I wonder if there is a way we could teach build-sysroots to be
+>>>> cleverer
+>>>> about dependencies?
+>>> I'll try to implement it and send out a new patch.
+>> Unfortunately I cannot figure out a good way to implement this.
+>> Could you please help giving me some hints?
+> What happens if we add:
+>
+> ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'nativesdk-libxml2', '', d)} \
+>
+> to
+> `
+> meta/recipes-core/packagegroups/nativesdk-packagegroup-sdk-host.bb
+>
+> ?
 
-diff --git a/meta/recipes-support/libxslt/files/CVE-2019-13117.patch b/meta/recipes-support/libxslt/files/CVE-2019-13117.patch
-new file mode 100644
-index 0000000000..ef3f2709f7
---- /dev/null
-+++ b/meta/recipes-support/libxslt/files/CVE-2019-13117.patch
-@@ -0,0 +1,33 @@
-+From c5eb6cf3aba0af048596106ed839b4ae17ecbcb1 Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Sat, 27 Apr 2019 11:19:48 +0200
-+Subject: [PATCH] Fix uninitialized read of xsl:number token
-+
-+Found by OSS-Fuzz.
-+
-+CVE: CVE-2019-13117
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/commit/c5eb6cf3aba0af048596106ed839b4ae17ecbcb1]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+---
-+ libxslt/numbers.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/libxslt/numbers.c b/libxslt/numbers.c
-+index 89e1f668..75c31eba 100644
-+--- a/libxslt/numbers.c
-++++ b/libxslt/numbers.c
-+@@ -382,7 +382,10 @@ xsltNumberFormatTokenize(const xmlChar *format,
-+ 		tokens->tokens[tokens->nTokens].token = val - 1;
-+ 		ix += len;
-+ 		val = xmlStringCurrentChar(NULL, format+ix, &len);
-+-	    }
-++	    } else {
-++                tokens->tokens[tokens->nTokens].token = (xmlChar)'0';
-++                tokens->tokens[tokens->nTokens].width = 1;
-++            }
-+ 	} else if ( (val == (xmlChar)'A') ||
-+ 		    (val == (xmlChar)'a') ||
-+ 		    (val == (xmlChar)'I') ||
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-support/libxslt/files/CVE-2019-13118.patch b/meta/recipes-support/libxslt/files/CVE-2019-13118.patch
-new file mode 100644
-index 0000000000..595e6c2f33
---- /dev/null
-+++ b/meta/recipes-support/libxslt/files/CVE-2019-13118.patch
-@@ -0,0 +1,76 @@
-+From 6ce8de69330783977dd14f6569419489875fb71b Mon Sep 17 00:00:00 2001
-+From: Nick Wellnhofer <wellnhofer@aevum.de>
-+Date: Mon, 3 Jun 2019 13:14:45 +0200
-+Subject: [PATCH] Fix uninitialized read with UTF-8 grouping chars
-+
-+The character type in xsltFormatNumberConversion was too narrow and
-+an invalid character/length combination could be passed to
-+xsltNumberFormatDecimal, resulting in an uninitialized read.
-+
-+Found by OSS-Fuzz.
-+
-+CVE: CVE-2019-13118
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxslt/commit/6ce8de69330783977dd14f6569419489875fb71b]
-+Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-+
-+---
-+ libxslt/numbers.c         | 5 +++--
-+ tests/docs/bug-222.xml    | 1 +
-+ tests/general/bug-222.out | 2 ++
-+ tests/general/bug-222.xsl | 6 ++++++
-+ 4 files changed, 12 insertions(+), 2 deletions(-)
-+ create mode 100644 tests/docs/bug-222.xml
-+ create mode 100644 tests/general/bug-222.out
-+ create mode 100644 tests/general/bug-222.xsl
-+
-+diff --git a/libxslt/numbers.c b/libxslt/numbers.c
-+index f1ed8846..20b99d5a 100644
-+--- a/libxslt/numbers.c
-++++ b/libxslt/numbers.c
-+@@ -1298,13 +1298,14 @@ OUTPUT_NUMBER:
-+     number = floor((scale * number + 0.5)) / scale;
-+     if ((self->grouping != NULL) &&
-+         (self->grouping[0] != 0)) {
-++        int gchar;
-+ 
-+ 	len = xmlStrlen(self->grouping);
-+-	pchar = xsltGetUTF8Char(self->grouping, &len);
-++	gchar = xsltGetUTF8Char(self->grouping, &len);
-+ 	xsltNumberFormatDecimal(buffer, floor(number), self->zeroDigit[0],
-+ 				format_info.integer_digits,
-+ 				format_info.group,
-+-				pchar, len);
-++				gchar, len);
-+     } else
-+ 	xsltNumberFormatDecimal(buffer, floor(number), self->zeroDigit[0],
-+ 				format_info.integer_digits,
-+diff --git a/tests/docs/bug-222.xml b/tests/docs/bug-222.xml
-+new file mode 100644
-+index 00000000..69d62f2c
-+--- /dev/null
-++++ b/tests/docs/bug-222.xml
-+@@ -0,0 +1 @@
-++<doc/>
-+diff --git a/tests/general/bug-222.out b/tests/general/bug-222.out
-+new file mode 100644
-+index 00000000..e3139698
-+--- /dev/null
-++++ b/tests/general/bug-222.out
-+@@ -0,0 +1,2 @@
-++<?xml version="1.0"?>
-++1⠢0
-+diff --git a/tests/general/bug-222.xsl b/tests/general/bug-222.xsl
-+new file mode 100644
-+index 00000000..e32dc473
-+--- /dev/null
-++++ b/tests/general/bug-222.xsl
-+@@ -0,0 +1,6 @@
-++<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
-++  <xsl:decimal-format name="f" grouping-separator="⠢"/>
-++  <xsl:template match="/">
-++    <xsl:value-of select="format-number(10,'#⠢0','f')"/>
-++  </xsl:template>
-++</xsl:stylesheet>
-+-- 
-+2.21.0
-+
-diff --git a/meta/recipes-support/libxslt/libxslt_1.1.33.bb b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
-index 6320a821dc..abc00a09ea 100644
---- a/meta/recipes-support/libxslt/libxslt_1.1.33.bb
-+++ b/meta/recipes-support/libxslt/libxslt_1.1.33.bb
-@@ -10,6 +10,8 @@ DEPENDS = "libxml2"
- 
- SRC_URI = "http://xmlsoft.org/sources/libxslt-${PV}.tar.gz \
-            file://0001-Fix-security-framework-bypass.patch \
-+           file://CVE-2019-13117.patch \
-+           file://CVE-2019-13118.patch \
- "
- 
- SRC_URI[md5sum] = "b3bd254a03e46d58f8ad1e4559cd2c2f"
--- 
-2.20.1
+This does not work. Using nativesdk-libxml2-utils does not work too.
+Both buildtools and eSDK do not use this packagegroup.
+
+I've sent out a V2 of this patch, with change to put the 
+'libxml2-native' dependency in xmlcatalog.bbclass.
+In this way, we can ensure that the xmlcatalog is from our recipe. In 
+normal build, it's from libxml2-native; in build-sysroots in eSDK, it's 
+from nativesdk-libxml2-utils. Do you think this is acceptable?
+
+Best Regards,
+Chen Qi
+
+> Cheers,
+>
+> Richard
+>
+>
 
 
