@@ -1,24 +1,51 @@
-Return-Path: <Kai.Kang@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 982447EEBD
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 261E87EE2C
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 07:22:10 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
-	[147.11.189.40])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6A7LoPp017197
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Wed, 10 Jul 2019 08:37:46 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id a15so1309062wmj.5
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 00:22:01 -0700
-Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Wed, 10 Jul 2019 00:21:39 -0700
-From: <kai.kang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Wed, 10 Jul 2019 03:21:29 -0400
-Message-ID: <20190710072129.52125-1-kai.kang@windriver.com>
-X-Mailer: git-send-email 2.20.0
+	Wed, 10 Jul 2019 01:37:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linuxfoundation.org; s=google;
+	h=message-id:subject:from:to:date:in-reply-to:references:user-agent
+	:mime-version:content-transfer-encoding;
+	bh=DPyDf+wGdnN3tj4r09Pl1rLDSdblBHoula5eUl8BM6c=;
+	b=GNstMSASvfycXfgc1IeyXIHnoCvgpdhw7IDvR61nveRpA0XCzTsdgMPdOB+x9qpJd4
+	a1GfvoXD8alty0xcwuXVE+TBzdAxrMqsNYvq9bUuQT+l2XPUiCPmtLEjqb2nXfYQ4sBU
+	JeC81qh0lL0tPH25gBgXqrIG5nofT8f9V2hl4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
+	:references:user-agent:mime-version:content-transfer-encoding;
+	bh=DPyDf+wGdnN3tj4r09Pl1rLDSdblBHoula5eUl8BM6c=;
+	b=V9CpJVCGcx7hdDMqIiGeA3pEvzHdL68CqLSEpKix/osCvZZzuX/ltdMyPGKhgLI1Io
+	DwMLRr0bcT2583v3a7tgpNOSu7QumxjPX6X9pGtZIgIIhR1rKKfDthpj5EacWRNDm1J2
+	3IkacNj9iDta51KzozAii79W0Osld80rKCKWRwqf76CXIfsztQmJIA6BCs7mF9XjPOL4
+	PvgnnmkWurz0CyJK3zTsZYXmalWE0tf92mkYwS+/n+KOpFDY+aufVd7E6xba4FvADkk9
+	oDWEH7gRma1g780FKerjWg53z8GYoE3m55o7GH//PB7JF3dlLaUhrBaGxA2BOmrWqxhl
+	gAkQ==
+X-Gm-Message-State: APjAAAV49wNd/ir2gJfbnkL8GJzHtsO/yylx/apGsd8bzS9fWLlg2Xm4
+	L2/L4WvLcTNIZqWOOe4icWTmLg==
+X-Google-Smtp-Source: APXvYqwxV/EZ3Q92yqJwUPwjl92sbcQHn6IflOy3AafKxfcglfLxOd1cV1WvYrwgDA0dLe5sr662Jw==
+X-Received: by 2002:a1c:f918:: with SMTP id x24mr3877300wmh.132.1562747866867; 
+	Wed, 10 Jul 2019 01:37:46 -0700 (PDT)
+Received: from hex (5751f4a1.skybroadband.com. [87.81.244.161])
+	by smtp.gmail.com with ESMTPSA id 66sm1167264wma.11.2019.07.10.01.37.46
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Wed, 10 Jul 2019 01:37:46 -0700 (PDT)
+Message-ID: <cecd25938a52f8d6941bec0ba67e51aa2363e121.camel@linuxfoundation.org>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Ross Burton <ross.burton@intel.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Wed, 10 Jul 2019 09:37:45 +0100
+In-Reply-To: <20190705162018.28251-3-ross.burton@intel.com>
+References: <20190705162018.28251-1-ross.burton@intel.com>
+	<20190705162018.28251-3-ross.burton@intel.com>
+User-Agent: Evolution 3.32.2-1 
 MIME-Version: 1.0
-Subject: [PATCH] openssl: fix multilib files conflict
+Subject: Re: [RFC PATCH 3/4] gtk+: remove GTK+ 2
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -31,38 +58,27 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 07:22:10 -0000
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+X-List-Received-Date: Wed, 10 Jul 2019 08:37:46 -0000
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
 
-From: Kai Kang <kai.kang@windriver.com>
+On Fri, 2019-07-05 at 17:20 +0100, Ross Burton wrote:
+> GTK+ 2 is ancient, and shouldn't be used.  It will be moved to meta-
+> oe for
+> people who do need it, but it shouldn't in oe-core.
+> 
+> [ YOCTO #12673 ]
 
-Inherit multilib_script to fix openssl multilib files conflict issue:
+I agree its time to do this, its in keeping with various other old
+software we've been cleaning up. Builds with this included didn't work
+as its referenced by a selftest:
 
-| Error: Transaction check error:
-|   file /usr/bin/c_rehash conflicts between attempted installs of
-|   lib32-openssl-bin-1.1.1c-r0.core2_32 and openssl-bin-1.1.1c-r0.core2_64
+test_recipetool_create_cmake
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
----
- meta/recipes-connectivity/openssl/openssl_1.1.1c.bb | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Also the maintainers entry remains...
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-index 0117407316..af43d6992c 100644
---- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
-@@ -26,7 +26,8 @@ SRC_URI_append_class-nativesdk = " \
- SRC_URI[md5sum] = "15e21da6efe8aa0e0768ffd8cd37a5f6"
- SRC_URI[sha256sum] = "f6fb3079ad15076154eda9413fed42877d668e7069d9b87396d0804fdb3f4c90"
- 
--inherit lib_package multilib_header ptest
-+inherit lib_package multilib_header multilib_script ptest
-+MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
- 
- PACKAGECONFIG ?= ""
- PACKAGECONFIG_class-native = ""
--- 
-2.20.0
+Cheers,
+
+Richard
 
 
