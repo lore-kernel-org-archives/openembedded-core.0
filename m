@@ -1,49 +1,24 @@
-Return-Path: <jun.nie@linaro.org>
-Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
-	[209.85.221.68])
-	by mail.openembedded.org (Postfix) with ESMTP id 78E717EDE0
+Return-Path: <Kai.Kang@windriver.com>
+Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 982447EEBD
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 07:11:25 +0000 (UTC)
-Received: by mail-wr1-f68.google.com with SMTP id x4so1192947wrt.6
+	Wed, 10 Jul 2019 07:22:10 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com (ala-hca.corp.ad.wrs.com
+	[147.11.189.40])
+	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6A7LoPp017197
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
 	for <openembedded-core@lists.openembedded.org>;
-	Wed, 10 Jul 2019 00:11:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id;
-	bh=+QgXJWX/zYFbqiIVCOZi9SKxs10DTiOxapCGTKpyPEc=;
-	b=DfhY4U++9EXblLsuqVeKA8NEdAMdlqlDVqiwNvnv9RZ6eRtfj6Kc/fRkKTgCwTNYWI
-	042op66MRxp670monli0C8sIKMg+No80J6R/sYg+KBpr7qREOcXi+RRX9KtHDpSGnhc9
-	jQGxuxov0j4p5haLKf2tUBnZ03XEvJcrn+n+YKRgLyLaCOcQlw/1OhNN8WsI5MNrGP4P
-	06WTBRXR8LZX4RvzH2VDJb9ldGG3UveB1uK0Zzx/SEuvnaw62cIVEPZMvoTLDkHf9EWw
-	P4MBn4Noa8wINdEEGqxWkv9jHOve34G+CzICBBFk1ceDkH5zGg5QlpHSl2gOO4gkDxmj
-	dohA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=+QgXJWX/zYFbqiIVCOZi9SKxs10DTiOxapCGTKpyPEc=;
-	b=JX3BVhREuHTKjqkAZec08OaJtGugrIF/vHQ6m8EsKxPGU/6zt7c8Yw5UlmrhFGRHIg
-	Ek9meW2ZQvlST4NTsKwPB6+e4Wl+Hg9+dZcAaEuEfUziE8I0rugnQmjLASq6ReQrKplC
-	Aw6z2PzA95LdkswoRWGc0ytlnn09zJbZNhHykfi9+ljxJl1SITbBjGgSuFS1GTaeJVEt
-	hGlBZPe7A45Wg+KLmhe3GXHpguai61xhpN2N9OKlHbtq9+brboFGm8ZUy4TNz0vnkE80
-	m8Z1u67w8+b+PFTVvbjiIr5zFJUvZmrMge9WMXNAPB6Cjr85Ix3sF7UBF05hucCsf1mT
-	HnDw==
-X-Gm-Message-State: APjAAAUObs2OZ3zF9rdWLLS1YwY2AQIKO9V6l4X8U1RtHN2gtGM7vNV7
-	iQWT9k+SIOxnMUUnGGctn3uwXw==
-X-Google-Smtp-Source: APXvYqxDyheTQI4Ra2jqxeEf5x0qhOUniTjFx+GXw4KSyK+o40Zbwbgv9bdjpB1gtjwdfxDcCfc4bA==
-X-Received: by 2002:a5d:53c1:: with SMTP id a1mr29964299wrw.185.1562742686241; 
-	Wed, 10 Jul 2019 00:11:26 -0700 (PDT)
-Received: from localhost.localdomain (li1816-253.members.linode.com.
-	[172.104.240.253]) by smtp.gmail.com with ESMTPSA id
-	o11sm1204515wmh.37.2019.07.10.00.11.22
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Wed, 10 Jul 2019 00:11:25 -0700 (PDT)
-From: Jun Nie <jun.nie@linaro.org>
-To: richard.purdie@linuxfoundation.org, liezhi.yang@windriver.com,
-	andreas.obergschwandtner@skidata.com,
-	openembedded-core@lists.openembedded.org
-Date: Wed, 10 Jul 2019 15:10:56 +0800
-Message-Id: <1562742656-23568-1-git-send-email-jun.nie@linaro.org>
-X-Mailer: git-send-email 2.7.4
-Subject: [PATCH] kernel-fitimage: uboot-sign: fix missing signature
+	Wed, 10 Jul 2019 00:22:01 -0700
+Received: from msp-lpggp1.wrs.com (172.25.34.110) by ALA-HCA.corp.ad.wrs.com
+	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
+	Wed, 10 Jul 2019 00:21:39 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Wed, 10 Jul 2019 03:21:29 -0400
+Message-ID: <20190710072129.52125-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.20.0
+MIME-Version: 1.0
+Subject: [PATCH] openssl: fix multilib files conflict
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,44 +31,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Wed, 10 Jul 2019 07:11:25 -0000
+X-List-Received-Date: Wed, 10 Jul 2019 07:22:10 -0000
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-u-boot.bin with dtb & signature should be placed in ${B} so that
-it can be deployed by u-boot as expected. Otherwise, the version
-without signature is installed.
+From: Kai Kang <kai.kang@windriver.com>
 
-Signed-off-by: Jun Nie <jun.nie@linaro.org>
+Inherit multilib_script to fix openssl multilib files conflict issue:
+
+| Error: Transaction check error:
+|   file /usr/bin/c_rehash conflicts between attempted installs of
+|   lib32-openssl-bin-1.1.1c-r0.core2_32 and openssl-bin-1.1.1c-r0.core2_64
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 ---
- meta/classes/uboot-sign.bbclass | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-connectivity/openssl/openssl_1.1.1c.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes/uboot-sign.bbclass b/meta/classes/uboot-sign.bbclass
-index 8beafff..1fc2a37 100644
---- a/meta/classes/uboot-sign.bbclass
-+++ b/meta/classes/uboot-sign.bbclass
-@@ -66,7 +66,7 @@ concat_dtb_helper() {
- 		install ${UBOOT_BINARY} ${DEPLOYDIR}/${UBOOT_IMAGE}
- 	elif [ -e "${DEPLOYDIR}/${UBOOT_NODTB_IMAGE}" -a -e "$deployed_uboot_dtb_binary" ]; then
- 		cd ${DEPLOYDIR}
--		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${UBOOT_BINARY} > ${UBOOT_IMAGE}
-+		cat ${UBOOT_NODTB_IMAGE} $deployed_uboot_dtb_binary | tee ${B}/${CONFIG_B_PATH}/${UBOOT_BINARY} > ${UBOOT_IMAGE}
- 	else
- 		bbwarn "Failure while adding public key to u-boot binary. Verified boot won't be available."
- 	fi
-@@ -77,10 +77,12 @@ concat_dtb() {
- 		mkdir -p ${DEPLOYDIR}
- 		if [ -n "${UBOOT_CONFIG}" ]; then
- 			for config in ${UBOOT_MACHINE}; do
-+				CONFIG_B_PATH="${config}"
- 				cd ${B}/${config}
- 				concat_dtb_helper
- 			done
- 		else
-+			CONFIG_B_PATH=""
- 			cd ${B}
- 			concat_dtb_helper
- 		fi
+diff --git a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+index 0117407316..af43d6992c 100644
+--- a/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
++++ b/meta/recipes-connectivity/openssl/openssl_1.1.1c.bb
+@@ -26,7 +26,8 @@ SRC_URI_append_class-nativesdk = " \
+ SRC_URI[md5sum] = "15e21da6efe8aa0e0768ffd8cd37a5f6"
+ SRC_URI[sha256sum] = "f6fb3079ad15076154eda9413fed42877d668e7069d9b87396d0804fdb3f4c90"
+ 
+-inherit lib_package multilib_header ptest
++inherit lib_package multilib_header multilib_script ptest
++MULTILIB_SCRIPTS = "${PN}-bin:${bindir}/c_rehash"
+ 
+ PACKAGECONFIG ?= ""
+ PACKAGECONFIG_class-native = ""
 -- 
-2.7.4
+2.20.0
 
 
