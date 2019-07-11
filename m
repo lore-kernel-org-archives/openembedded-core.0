@@ -1,53 +1,52 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
-	[209.85.221.45])
-	by mail.openembedded.org (Postfix) with ESMTP id 8F0FE7CE22
+Received: from mail-wr1-f68.google.com (mail-wr1-f68.google.com
+	[209.85.221.68])
+	by mail.openembedded.org (Postfix) with ESMTP id 4F6F87ECBC
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 23:54:17 +0000 (UTC)
-Received: by mail-wr1-f45.google.com with SMTP id 31so8076842wrm.1
+	Thu, 11 Jul 2019 23:54:25 +0000 (UTC)
+Received: by mail-wr1-f68.google.com with SMTP id n9so8093311wru.0
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 16:54:18 -0700 (PDT)
+	Thu, 11 Jul 2019 16:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=GgvypdlpdWQlqTfz63ffBe4EI81hGmuU2xmurOPA5VE=;
-	b=izmpDHYbipcyN+MWeaWlyBPl6PhkIELga0zNyTjXIUxkl6zsmywtY5R17X75Mm3xjz
-	NTIkWb/OjmOnX2mo6OGLIZUne3eXJdn6NdzHiYJJjoXIcT834U6T8qYKi+zS7cOHW/oO
-	9OXStI6H2x9/fw80RoNT4AsFvE+2Qpf5TizQTHY3K2KHPmrBP4Oe44dAIj0nTz2vfkDf
-	tQXMDJK2rRqNsYU0pQRR0SQcy5+1Ml4eDhgOqhcCaoXj/GXoU/g7F+eEY+lsBGkHm5t3
-	1Z/urDiYRoDCfkus56SI+PgIu7cK41Xx/IoT6lXk6BgkTL8IOHKCIVMF8dfwHAj8Q7ic
-	LC3A==
+	bh=fNOaq3HP9QKPcC/oHc1fcOjvtYbIBs4LjuPnGx8PqJ4=;
+	b=2Ea5DmtHU41i9WsiuUb7HkRk4/w1BKQk3UNDDWdV7VbV/6VbPvCl7nMmyZXq18xkVU
+	l6djuKBH0nIqxbVTQlPzYa7E+XuIaRSv3U4x/czoOodrLlgp82P1EXLJei/iyVAx6K1r
+	8DsdVTAo8o9F5al+e1Vi3urtOkoNeLQIQ3rp2u2vLJXIxc9grvDHCxQdCstNXH39j09W
+	TyawOJNNTrr6KnLvwXdrtf72hM8dSYYlbfZ7HHS9whW3H4oC7w8CXJKaxw3z2zwqcWXr
+	doKLv4KZo20BK76UMpICgeiNVhjOszfUsWMqaoGsMG2j9N5qAml9RzMPyEkERp9EQkaG
+	383Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=GgvypdlpdWQlqTfz63ffBe4EI81hGmuU2xmurOPA5VE=;
-	b=hwLCPEsubcQmRtT5ifZiukzKSRqG5Xj+CpjKgzFCtslYVf6YCWGrJmuh2K1PmcSvIs
-	E6QsnJRQWzmz3VDdgUGS7VflDbr0vLETCe4Pb5gMkE055OdlqCe7pKJ6+YfUXWwtcDNY
-	b0DdSqJtPnIjfbaDd3pxaXogK8JLpSkm4QEvrpUxjmfHklJFT5BbDlLiAITQ9jEgET0X
-	NNuyD1BrlsK91xB7wHBKq+Wnhe8BGBNhJ6N1lgC8d7LcVX2pwXKR38u68ZPXaUeym0Wy
-	WWgpF2ef6n7M0eUX4OYBhg5pL+skKbYycUJJWPt94YCqW4jBVWdSngbMkmeDc+N2CRdL
-	rZnw==
-X-Gm-Message-State: APjAAAWhLRKcwVxkan+ZQXk2ifsOQhqOg8QbpgP386evDFedWvfWwThv
-	MMBicwGtEGciVU9ornFY4apm9BVowUc=
-X-Google-Smtp-Source: APXvYqzceTtfXITzSbVVkKGpFVm4g40doJwEnXIdNsUJ6WHpIE7fpOtgfmXfR2cMxEKsG3DwWiWg4A==
-X-Received: by 2002:a05:6000:1186:: with SMTP id
-	g6mr7607601wrx.17.1562889257990; 
-	Thu, 11 Jul 2019 16:54:17 -0700 (PDT)
+	bh=fNOaq3HP9QKPcC/oHc1fcOjvtYbIBs4LjuPnGx8PqJ4=;
+	b=VPjk0Uf4GN88K3qV4HoTGAjS0psQBWqyJ+asD0V24oMj7eOmlZ7TdZdaaGCAlYhXfb
+	qfiDXQZ/+efS+5wiS1y4sX5WY1ygO0MTjt17jlXuERdW7ASmQeqI1ArXCnSyjhJstDmX
+	XneetSx9g0h2Vq83J7LpMsLJUF4bYTK/bQSq05sAX09zNg9ykXxfu0VnLy5WTpalhNFJ
+	wU98oqyaYQMnt854PCVLs1hjNonnJyRcV6Rey0GkzGQXKEPravMKqyQDzuYsXFpCoYNF
+	MM2Hq1BDQS31rswXTM3n+xr4RrFE0qqrLa5LmJep0wTLECckEab9NMJKYCwZsBuTq8FT
+	LadQ==
+X-Gm-Message-State: APjAAAW2OMGB5KlOMkVLeu7ydjm3i594mAgMDhgOiLu+2XU0AyzPWlVR
+	q4Fdg+tcHJ8j48yEflWDoYHWNLjyZ/U=
+X-Google-Smtp-Source: APXvYqxlMer/soYsb1n1TbUM5S4DCYuciDQ1Ekj2X/3HtkZJ9zH3H3QXIkh/VH3d9x9luH80YgDSdQ==
+X-Received: by 2002:a5d:4e08:: with SMTP id p8mr7139118wrt.20.1562889265809;
+	Thu, 11 Jul 2019 16:54:25 -0700 (PDT)
 Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
-	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
-	o24sm11739614wmh.2.2019.07.11.16.54.17
+	[81.2.106.35])
+	by smtp.gmail.com with ESMTPSA id a6sm5209643wmj.15.2019.07.11.16.54.24
 	for <openembedded-core@lists.openembedded.org>
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 11 Jul 2019 16:54:17 -0700 (PDT)
+	Thu, 11 Jul 2019 16:54:25 -0700 (PDT)
 From: Ross Burton <ross.burton@intel.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2019 00:54:15 +0100
-Message-Id: <20190711235415.22946-1-ross.burton@intel.com>
+Date: Fri, 12 Jul 2019 00:54:23 +0100
+Message-Id: <20190711235423.23013-1-ross.burton@intel.com>
 X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Subject: [PATCH] libpsl: update Upstream-Status
+Subject: [PATCH] ninja: use Python 3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -60,27 +59,35 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2019 23:54:17 -0000
+X-List-Received-Date: Thu, 11 Jul 2019 23:54:25 -0000
 Content-Transfer-Encoding: 8bit
+
+As part of the mission to remove the use of Python 2, explicitly bootstrap Ninja
+with Python 3.
 
 Signed-off-by: Ross Burton <ross.burton@intel.com>
 ---
- .../libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/ninja/ninja_1.9.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch b/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
-index 2331a766a16..c78d6fd981e 100644
---- a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
-+++ b/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
-@@ -5,7 +5,7 @@ Subject: [PATCH] gtk-doc: do not include tree_index.sgml
+diff --git a/meta/recipes-devtools/ninja/ninja_1.9.0.bb b/meta/recipes-devtools/ninja/ninja_1.9.0.bb
+index 1b063289614..f1236e8ac82 100644
+--- a/meta/recipes-devtools/ninja/ninja_1.9.0.bb
++++ b/meta/recipes-devtools/ninja/ninja_1.9.0.bb
+@@ -17,11 +17,11 @@ S = "${WORKDIR}/git"
+ do_configure[noexec] = "1"
  
- gtk-doc 1.30 no longer generates the file if the object tree is empty
+ do_compile_class-native() {
+-	./configure.py --bootstrap
++	python3 ./configure.py --bootstrap
+ }
  
--Upstream-Status: Submitted [https://github.com/rockdaboot/libpsl/pull/137]
-+Upstream-Status: Backport [87d1add318b5e5d09977f7f374e923577b6ff3be]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
- ---
-  docs/libpsl/libpsl-docs.sgml | 4 ----
+ do_compile() {
+-	./configure.py
++	python3 ./configure.py
+ 	ninja
+ }
+ 
 -- 
 2.20.1
 
