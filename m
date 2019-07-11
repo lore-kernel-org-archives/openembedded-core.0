@@ -1,35 +1,47 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id AE2797ECC0
+Return-Path: <ross.burton@intel.com>
+Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
+	[209.85.166.65])
+	by mail.openembedded.org (Postfix) with ESMTP id CF50D7F092
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 20:44:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45l7Mb6WdRz6c;
-	Thu, 11 Jul 2019 22:44:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1562877868;
-	bh=ewCoNYdG3ZEu7gWtXK4CdB6pXoTI6j/GlzChHSy9WpM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rshQxC+JWjFnSg9N7hUhIBr41OAJJEjG5SkbwCmldd9u+BS9484+tnRB7egHKMqX2
-	knvFlSpCLN89Hw3598Jykg4bu2oSLFKvLYSxcInOYpNcHA4ERnn7Mti10g8gpYRKHA
-	Kx9gepI1l1n6REjhNUqkAkNBX2Ha9l0ItrxDi81cB8FXPO+s6C0SP6DnsDxsVc6Pso
-	mov5VFho8a/5UvKlvSRkIN1nVQQXSunDg4aCtt1sXZYQehs63G7Vo/cLdfzU+PTw0g
-	IUy/yPQxadq+UoA/EOGcfYWwlpu4zkJonqQ/DHcthRxZ10pUlSbLt3gUxA1GfT0+qI
-	vivyZB1xYjrxkC/HD4nqqL7VGUsDBmj4ndjG+/ul0AvzBOLR7emc9zQyglZkYdF9Bb
-	iAnvWD93lBTjg81L3P/4KKZTJgEQjG8iKD9vJuGkPByv8cXV4jgRicX1rcPELg7fgU
-	o1yXDVMgNF+seHM0yrAtjyMr4gbio0GUOHrfrDcOvGhnbypjy5Z2iwgJ9n6KTKx1eq
-	AWJ091Y37/BV1PWpSJXI0KVKt7gzotH/NlXOaTtsLf+aXKNYiJHGTUQgll8n/aXfjC
-	OmUuO+/CcopJrqPRIPiX31/+62GCAdiemWK8jQHSXFn5/lNnIfrEhMIs1YhTjgUjag
-	Iuod2LkLvcd+YQvFxVG8iYjw=
-Date: Thu, 11 Jul 2019 23:44:24 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: Joe Slater <joe.slater@windriver.com>
-Message-ID: <20190711204424.GA2092@localhost>
-References: <20190711202739.131168-1-joe.slater@windriver.com>
+	Thu, 11 Jul 2019 21:56:06 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id j6so16001127ioa.5
+	for <openembedded-core@lists.openembedded.org>;
+	Thu, 11 Jul 2019 14:56:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=691BQV/qgtPCnJllT+QRO+OStTrMqEei1ka0IN7JWnw=;
+	b=IrySBfB53EgzOcZwq+jONkquhnGiqhE8L+w//bwWnDow1FKQTXG9++X5Z1+XqQ+WP6
+	I3Oedoy4yGM9KslOH0mWtIDdAf6wHYQxexONCszhhtH43uyzMKW7FOuKFaC1VWSnHfgu
+	cK+SBEZbRgi4xoV81GNWe6zeFWmENjaDhsbmLPQMexdThoDV1tMElCxbK1M2zDunI6Zc
+	1r5BSmLwkEOMcpH1IXazzZGZb4kTOrRgQelZdmHPm/rTylOq1RKFBxwgpXIIFT+xru2W
+	nU6Thl2GCdNcZ8TyUzCAjwv+ctZWSSnxNIsQADMYhxK29BDeQONj5rwLcrCEaIwSMjoJ
+	oMFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=691BQV/qgtPCnJllT+QRO+OStTrMqEei1ka0IN7JWnw=;
+	b=EMEZRGKsx8OPNG9/jLzlThyZ3IxqRQMuxw4nWhIFO0HpS9zKFtQA+VYYVPtrFo5deG
+	FRCHc2rdmx8mLJjzGJyhYTtZ5LK2TDuySYG/zwlTyuODbuEogEQCZrm0pWIY3owRo3Os
+	X7QXNjbKk3hVs2LwWbFV/HrQ9ViiidZaWR+c7cuqTfRVSZAOqvmq3tokvPBB+jx7h/xh
+	5jplABADWAujgMhZ+rPsi9VSodQnHNNQKiDpX+cf+TjLwfZSw4NSPfNXKqNnxZenfceZ
+	hXveVxzbGW84Y3xlGl09DLPNj1NENy2eYCDpWO1LUjxc8WPThNaWowWI5n3LZu4oiNXJ
+	zOzw==
+X-Gm-Message-State: APjAAAXK/AAP0JyyDcLMu2wx6fYdU9vqytJv/XYOvIokZ35NrDa5D0zz
+	qpCUutxwFysXA+lMGJJ7KTXbhIMJ/e9gOrpWlKcnRA==
+X-Google-Smtp-Source: APXvYqzJ4qbrOU4p0LaIEnkI3t8SToSfSvDEK/mYB1IhHTKeOOG1jhftSEUOOPXiMlG7TnkcT20egWAV7WTgaw4HbN8=
+X-Received: by 2002:a02:c7c9:: with SMTP id s9mr7077048jao.82.1562882167863;
+	Thu, 11 Jul 2019 14:56:07 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190711202739.131168-1-joe.slater@windriver.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: openembedded-core@lists.openembedded.org
+References: <20190711202739.131168-1-joe.slater@windriver.com>
+	<20190711204424.GA2092@localhost>
+In-Reply-To: <20190711204424.GA2092@localhost>
+From: "Burton, Ross" <ross.burton@intel.com>
+Date: Thu, 11 Jul 2019 22:55:56 +0100
+Message-ID: <CAJTo0LYnXYrkfa_HrU=QPxxngpP0qHsAUMkFENYGU=MCFGDZyA@mail.gmail.com>
+To: Adrian Bunk <bunk@stusta.de>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
 Subject: Re: [PATCH 1/1] libtool: allow for use of reproducible_build bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
@@ -43,51 +55,16 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2019 20:44:29 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Thu, 11 Jul 2019 21:56:07 -0000
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Jul 11, 2019 at 01:27:39PM -0700, Joe Slater wrote:
-> In a reproducible build environment, do not put the build host
-> name into libtool.
->...
-> +Upstream-Status: Inappropriate [embedded specific]
->...
+On Thu, 11 Jul 2019 at 21:45, Adrian Bunk <bunk@stusta.de> wrote:
+> The Debian patch for the same purpose simply removes the problematic
+> line - a comment with the build host was anyways not important information.
 
-This is not specific to embedded.
+Agreed, it's just a comment, and replacing it with logic just means
+more effort when we need to rebase.  Ideally, upstream remove that
+comment too, as it doesn't have much value at all.
 
-> +--- a/m4/libtool.m4
-> ++++ b/m4/libtool.m4
-> +@@ -728,7 +728,17 @@ _LT_CONFIG_SAVE_COMMANDS([
-> +     cat <<_LT_EOF >> "$cfgfile"
-> + #! $SHELL
-> + # Generated automatically by $as_me ($PACKAGE) $VERSION
-> ++_LT_EOF
-> ++    if test -n "${SOURCE_DATE_EPOCH}"; then
-> ++        cat <<_LT_EOF >> "$cfgfile"
-> ++# Libtool was configured for a reproducible build: ${SOURCE_DATE_EPOCH}
-> ++_LT_EOF
-> ++    else
-> ++        cat <<_LT_EOF >> "$cfgfile"
-> + # Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
-> ++_LT_EOF
-> ++    fi
-> ++    cat <<_LT_EOF >> "$cfgfile"
-> + # NOTE: Changes made to this file will be lost: look at ltmain.sh.
-> + 
->...
-
-The Debian patch for the same purpose simply removes the problematic 
-line - a comment with the build host was anyways not important information.
-
-cu
-Adrian
-
--- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
-
+Ross
 
