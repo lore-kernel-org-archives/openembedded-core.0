@@ -1,23 +1,45 @@
-Return-Path: <joe.slater@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id B12037ECC0
+Return-Path: <ankur.tyagi85@gmail.com>
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com
+	[209.85.167.50])
+	by mail.openembedded.org (Postfix) with ESMTP id 5749E7EEC8
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 20:27:38 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6BKRddN004010
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	Thu, 11 Jul 2019 20:32:03 +0000 (UTC)
+Received: by mail-lf1-f50.google.com with SMTP id z15so653610lfh.13
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 13:27:39 -0700 (PDT)
-Received: from ala-lpggp5.wrs.com (147.11.105.121) by ALA-HCA.corp.ad.wrs.com
-	(147.11.189.40) with Microsoft SMTP Server id 14.3.439.0;
-	Thu, 11 Jul 2019 13:27:39 -0700
-From: Joe Slater <joe.slater@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Thu, 11 Jul 2019 13:27:39 -0700
-Message-ID: <20190711202739.131168-1-joe.slater@windriver.com>
-X-Mailer: git-send-email 2.13.0
+	Thu, 11 Jul 2019 13:32:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
+	bh=Rm5qnpJSR5G9alFa44PAyPc13dxIJAnyD3SI+c7SXMo=;
+	b=pd1mgI8FRn1BEQTtQqkQUSgLfw002KktmEmyzwEu+fX9SC3wRdhAZQPlyd/az3WIYO
+	BrhVek3KSrCc5Av+qZXhZQiIenVUZBpjyOqridO3PsF4fP84DLNhASlx5Owl4op5G1i4
+	dyhtaCFOIqclYwvOV/iaUC9MDu3hArHIIiNOftXGizAdwWCht7cJFNRgmEZgFP2U2Pqx
+	YqWIR+OlXpbZdEBVBorJZ6QqnuSc3zfarNP4J+/xRR+vurLHStTfIQC3ozE9caEy09IJ
+	/Ufd3K3mCNyMkd7/mpcjN37KUxlNPmfzW0hS/gT9E2Qm3jkAogCdRF822SOJuERzacrN
+	USqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to;
+	bh=Rm5qnpJSR5G9alFa44PAyPc13dxIJAnyD3SI+c7SXMo=;
+	b=c23M11Gik0sOEiYi9EuCVFuFHyOchcC4PhBtTiQib+dtNUhq7N1DZTSeIThy2L55Ke
+	QkOLuhPaRrUXHKugUbFYD8tX736pb7yM5NfKXAcKLdVQ2xx6nzBAjJlOFm8BUDHfkz46
+	ytDTK+EZIkE1XJOEeSYKDGh+vw/fMH9Wo2OrH0ZNaqciIdvfKCYxlkqjilXQMMdkWDBq
+	E+mTMVxqzpqp2jlJ11BilwWY28KVPpb6QnAT2Y80N77Yy1oWsjTpsjqLJ49lBf0dbV8d
+	AxNRQQc/m3s30RCsevJ2TmQwok4WSUN1clbFrNT/7ESpqHE2Ef0blj2f2PDDJN/VE4Te
+	VBwg==
+X-Gm-Message-State: APjAAAU/4nBDs6Bnvsry6ZGEA4LwcPJobgKnr2bxee05jyfkBeGBJH9n
+	wHpKR7FPrj8ap4oF5TvYUABP1XLbPzA/M686QgPbySka
+X-Google-Smtp-Source: APXvYqwrWdYs1d7p7BAz+NboScceC4cRdiyCEguuYbiWLhszbhsUE+E8jjv99Exxb0PIN9qpezPlAfwube4O3EFiVBE=
+X-Received: by 2002:a19:641a:: with SMTP id y26mr2723734lfb.29.1562877123297; 
+	Thu, 11 Jul 2019 13:32:03 -0700 (PDT)
 MIME-Version: 1.0
-Subject: [PATCH 1/1] libtool: allow for use of reproducible_build bbclass
+References: <CADySD0Emqv2BGzzfGETMAbC=URDR6O5yerU0bfzzLpFQrXuGRw@mail.gmail.com>
+In-Reply-To: <CADySD0Emqv2BGzzfGETMAbC=URDR6O5yerU0bfzzLpFQrXuGRw@mail.gmail.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Fri, 12 Jul 2019 08:31:51 +1200
+Message-ID: <CADySD0EYA4pMjcHyXa4ZYF3yFYteXockqThV9W8-vif-UMEckg@mail.gmail.com>
+To: openembedded-core <openembedded-core@lists.openembedded.org>
+Subject: Re: RDEPENDS libstdc++ error
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,67 +52,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2019 20:27:38 -0000
-Content-Type: text/plain
+X-List-Received-Date: Thu, 11 Jul 2019 20:32:03 -0000
+Content-Type: multipart/alternative; boundary="000000000000c30415058d6daf26"
 
-In a reproducible build environment, do not put the build host
-name into libtool.
+--000000000000c30415058d6daf26
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Joe Slater <joe.slater@windriver.com>
----
- .../libtool/libtool/reproducible_build.patch       | 29 ++++++++++++++++++++++
- meta/recipes-devtools/libtool/libtool_2.4.6.bb     |  2 +-
- 2 files changed, 30 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/libtool/libtool/reproducible_build.patch
+And this tool is provided to us as a pre-compiled binary.
 
-diff --git a/meta/recipes-devtools/libtool/libtool/reproducible_build.patch b/meta/recipes-devtools/libtool/libtool/reproducible_build.patch
-new file mode 100644
-index 0000000..c770c24
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool/reproducible_build.patch
-@@ -0,0 +1,29 @@
-+libtool: allow for reproducible build
-+
-+If we are in a reproducible build environment, do not put the build host
-+name into libtool.
-+
-+Upstream-Status: Inappropriate [embedded specific]
-+
-+Signed-off-by: Joe Slater <joe.slater@windriver.com>
-+
-+--- a/m4/libtool.m4
-++++ b/m4/libtool.m4
-+@@ -728,7 +728,17 @@ _LT_CONFIG_SAVE_COMMANDS([
-+     cat <<_LT_EOF >> "$cfgfile"
-+ #! $SHELL
-+ # Generated automatically by $as_me ($PACKAGE) $VERSION
-++_LT_EOF
-++    if test -n "${SOURCE_DATE_EPOCH}"; then
-++        cat <<_LT_EOF >> "$cfgfile"
-++# Libtool was configured for a reproducible build: ${SOURCE_DATE_EPOCH}
-++_LT_EOF
-++    else
-++        cat <<_LT_EOF >> "$cfgfile"
-+ # Libtool was configured on host `(hostname || uname -n) 2>/dev/null | sed 1q`:
-++_LT_EOF
-++    fi
-++    cat <<_LT_EOF >> "$cfgfile"
-+ # NOTE: Changes made to this file will be lost: look at ltmain.sh.
-+ 
-+ # Provide generalized library-building support services.
-diff --git a/meta/recipes-devtools/libtool/libtool_2.4.6.bb b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-index f5fdd00..a67d6dd 100644
---- a/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-+++ b/meta/recipes-devtools/libtool/libtool_2.4.6.bb
-@@ -1,6 +1,6 @@
- require libtool-${PV}.inc
- 
--SRC_URI += "file://multilib.patch"
-+SRC_URI += "file://multilib.patch file://reproducible_build.patch"
- 
- RDEPENDS_${PN} += "bash"
- 
--- 
-2.7.4
+On Thu, 11 Jul 2019, 7:54 p.m. Ankur Tyagi, <ankur.tyagi85@gmail.com> wrote:
 
+> Hi,
+>
+> I have a third party tool which I was packaging in my image based upon
+> Yocto 1.6
+>
+> Now I am upgrading to Yocto 2.7 and the recipe which packages third
+> party tool is generating following error:
+>
+> requires libstdc++.so.6(CXXABI_1.3), but no providers found in
+> RDEPENDS_test-util? [file-rdeps]
+> requires libstdc++.so.6(GLIBCXX_3.4), but no providers found in
+> RDEPENDS_test-util? [file-rdeps]
+>
+> Is there a way to fix this without asking vendor to provide a new
+> version of tool?
+>
+> Thanks
+> Ankur
+>
 
+--000000000000c30415058d6daf26
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div>And this tool is provided to us as a pre-compiled bi=
+nary.<br><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_att=
+r">On Thu, 11 Jul 2019, 7:54 p.m. Ankur Tyagi, &lt;<a href=3D"mailto:ankur.=
+tyagi85@gmail.com">ankur.tyagi85@gmail.com</a>&gt; wrote:<br></div><blockqu=
+ote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc s=
+olid;padding-left:1ex">Hi,<br>
+<br>
+I have a third party tool which I was packaging in my image based upon Yoct=
+o 1.6<br>
+<br>
+Now I am upgrading to Yocto 2.7 and the recipe which packages third<br>
+party tool is generating following error:<br>
+<br>
+requires libstdc++.so.6(CXXABI_1.3), but no providers found in<br>
+RDEPENDS_test-util? [file-rdeps]<br>
+requires libstdc++.so.6(GLIBCXX_3.4), but no providers found in<br>
+RDEPENDS_test-util? [file-rdeps]<br>
+<br>
+Is there a way to fix this without asking vendor to provide a new<br>
+version of tool?<br>
+<br>
+Thanks<br>
+Ankur<br>
+</blockquote></div></div></div>
+
+--000000000000c30415058d6daf26--
