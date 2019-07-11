@@ -1,48 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id CF50D7F092
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com
+	[209.85.221.45])
+	by mail.openembedded.org (Postfix) with ESMTP id 8F0FE7CE22
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 21:56:06 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id j6so16001127ioa.5
+	Thu, 11 Jul 2019 23:54:17 +0000 (UTC)
+Received: by mail-wr1-f45.google.com with SMTP id 31so8076842wrm.1
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 14:56:08 -0700 (PDT)
+	Thu, 11 Jul 2019 16:54:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=691BQV/qgtPCnJllT+QRO+OStTrMqEei1ka0IN7JWnw=;
-	b=IrySBfB53EgzOcZwq+jONkquhnGiqhE8L+w//bwWnDow1FKQTXG9++X5Z1+XqQ+WP6
-	I3Oedoy4yGM9KslOH0mWtIDdAf6wHYQxexONCszhhtH43uyzMKW7FOuKFaC1VWSnHfgu
-	cK+SBEZbRgi4xoV81GNWe6zeFWmENjaDhsbmLPQMexdThoDV1tMElCxbK1M2zDunI6Zc
-	1r5BSmLwkEOMcpH1IXazzZGZb4kTOrRgQelZdmHPm/rTylOq1RKFBxwgpXIIFT+xru2W
-	nU6Thl2GCdNcZ8TyUzCAjwv+ctZWSSnxNIsQADMYhxK29BDeQONj5rwLcrCEaIwSMjoJ
-	oMFw==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GgvypdlpdWQlqTfz63ffBe4EI81hGmuU2xmurOPA5VE=;
+	b=izmpDHYbipcyN+MWeaWlyBPl6PhkIELga0zNyTjXIUxkl6zsmywtY5R17X75Mm3xjz
+	NTIkWb/OjmOnX2mo6OGLIZUne3eXJdn6NdzHiYJJjoXIcT834U6T8qYKi+zS7cOHW/oO
+	9OXStI6H2x9/fw80RoNT4AsFvE+2Qpf5TizQTHY3K2KHPmrBP4Oe44dAIj0nTz2vfkDf
+	tQXMDJK2rRqNsYU0pQRR0SQcy5+1Ml4eDhgOqhcCaoXj/GXoU/g7F+eEY+lsBGkHm5t3
+	1Z/urDiYRoDCfkus56SI+PgIu7cK41Xx/IoT6lXk6BgkTL8IOHKCIVMF8dfwHAj8Q7ic
+	LC3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=691BQV/qgtPCnJllT+QRO+OStTrMqEei1ka0IN7JWnw=;
-	b=EMEZRGKsx8OPNG9/jLzlThyZ3IxqRQMuxw4nWhIFO0HpS9zKFtQA+VYYVPtrFo5deG
-	FRCHc2rdmx8mLJjzGJyhYTtZ5LK2TDuySYG/zwlTyuODbuEogEQCZrm0pWIY3owRo3Os
-	X7QXNjbKk3hVs2LwWbFV/HrQ9ViiidZaWR+c7cuqTfRVSZAOqvmq3tokvPBB+jx7h/xh
-	5jplABADWAujgMhZ+rPsi9VSodQnHNNQKiDpX+cf+TjLwfZSw4NSPfNXKqNnxZenfceZ
-	hXveVxzbGW84Y3xlGl09DLPNj1NENy2eYCDpWO1LUjxc8WPThNaWowWI5n3LZu4oiNXJ
-	zOzw==
-X-Gm-Message-State: APjAAAXK/AAP0JyyDcLMu2wx6fYdU9vqytJv/XYOvIokZ35NrDa5D0zz
-	qpCUutxwFysXA+lMGJJ7KTXbhIMJ/e9gOrpWlKcnRA==
-X-Google-Smtp-Source: APXvYqzJ4qbrOU4p0LaIEnkI3t8SToSfSvDEK/mYB1IhHTKeOOG1jhftSEUOOPXiMlG7TnkcT20egWAV7WTgaw4HbN8=
-X-Received: by 2002:a02:c7c9:: with SMTP id s9mr7077048jao.82.1562882167863;
-	Thu, 11 Jul 2019 14:56:07 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=GgvypdlpdWQlqTfz63ffBe4EI81hGmuU2xmurOPA5VE=;
+	b=hwLCPEsubcQmRtT5ifZiukzKSRqG5Xj+CpjKgzFCtslYVf6YCWGrJmuh2K1PmcSvIs
+	E6QsnJRQWzmz3VDdgUGS7VflDbr0vLETCe4Pb5gMkE055OdlqCe7pKJ6+YfUXWwtcDNY
+	b0DdSqJtPnIjfbaDd3pxaXogK8JLpSkm4QEvrpUxjmfHklJFT5BbDlLiAITQ9jEgET0X
+	NNuyD1BrlsK91xB7wHBKq+Wnhe8BGBNhJ6N1lgC8d7LcVX2pwXKR38u68ZPXaUeym0Wy
+	WWgpF2ef6n7M0eUX4OYBhg5pL+skKbYycUJJWPt94YCqW4jBVWdSngbMkmeDc+N2CRdL
+	rZnw==
+X-Gm-Message-State: APjAAAWhLRKcwVxkan+ZQXk2ifsOQhqOg8QbpgP386evDFedWvfWwThv
+	MMBicwGtEGciVU9ornFY4apm9BVowUc=
+X-Google-Smtp-Source: APXvYqzceTtfXITzSbVVkKGpFVm4g40doJwEnXIdNsUJ6WHpIE7fpOtgfmXfR2cMxEKsG3DwWiWg4A==
+X-Received: by 2002:a05:6000:1186:: with SMTP id
+	g6mr7607601wrx.17.1562889257990; 
+	Thu, 11 Jul 2019 16:54:17 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	o24sm11739614wmh.2.2019.07.11.16.54.17
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Thu, 11 Jul 2019 16:54:17 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jul 2019 00:54:15 +0100
+Message-Id: <20190711235415.22946-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190711202739.131168-1-joe.slater@windriver.com>
-	<20190711204424.GA2092@localhost>
-In-Reply-To: <20190711204424.GA2092@localhost>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Thu, 11 Jul 2019 22:55:56 +0100
-Message-ID: <CAJTo0LYnXYrkfa_HrU=QPxxngpP0qHsAUMkFENYGU=MCFGDZyA@mail.gmail.com>
-To: Adrian Bunk <bunk@stusta.de>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libtool: allow for use of reproducible_build bbclass
+Subject: [PATCH] libpsl: update Upstream-Status
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,16 +60,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2019 21:56:07 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Thu, 11 Jul 2019 23:54:17 -0000
+Content-Transfer-Encoding: 8bit
 
-On Thu, 11 Jul 2019 at 21:45, Adrian Bunk <bunk@stusta.de> wrote:
-> The Debian patch for the same purpose simply removes the problematic
-> line - a comment with the build host was anyways not important information.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ .../libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Agreed, it's just a comment, and replacing it with logic just means
-more effort when we need to rebase.  Ideally, upstream remove that
-comment too, as it doesn't have much value at all.
+diff --git a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch b/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
+index 2331a766a16..c78d6fd981e 100644
+--- a/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
++++ b/meta/recipes-support/libpsl/libpsl/0001-gtk-doc-do-not-include-tree_index.sgml.patch
+@@ -5,7 +5,7 @@ Subject: [PATCH] gtk-doc: do not include tree_index.sgml
+ 
+ gtk-doc 1.30 no longer generates the file if the object tree is empty
+ 
+-Upstream-Status: Submitted [https://github.com/rockdaboot/libpsl/pull/137]
++Upstream-Status: Backport [87d1add318b5e5d09977f7f374e923577b6ff3be]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+ ---
+  docs/libpsl/libpsl-docs.sgml | 4 ----
+-- 
+2.20.1
 
-Ross
 
