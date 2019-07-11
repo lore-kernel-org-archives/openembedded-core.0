@@ -1,23 +1,28 @@
-Return-Path: <douglas.royds@taitradio.com>
-Received: from smtp0.taitradio.net (unknown [202.37.96.22])
-	by mail.openembedded.org (Postfix) with SMTP id B07DD7EFF7
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id ACDE57EFF7
 	for <openembedded-core@lists.openembedded.org>;
-	Thu, 11 Jul 2019 02:51:06 +0000 (UTC)
-Received: from [172.16.169.141] (unknown [172.16.169.141])
-	by smtp0.taitradio.net (Postfix) with ESMTP id C298B220232;
-	Thu, 11 Jul 2019 14:51:05 +1200 (NZST)
-To: Mikko Rapeli <mikko.rapeli@bmw.de>,
-	OE Core mailing list <openembedded-core@lists.openembedded.org>
-References: <1543494097-19534-1-git-send-email-mikko.rapeli@bmw.de>
-	<1543494097-19534-4-git-send-email-mikko.rapeli@bmw.de>
-From: Douglas Royds <douglas.royds@taitradio.com>
-Message-ID: <bb5aeb0e-14b2-4304-3c95-e546159792ed@taitradio.com>
-Date: Thu, 11 Jul 2019 14:51:05 +1200
+	Thu, 11 Jul 2019 02:59:14 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6B2xAPV021430
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Wed, 10 Jul 2019 19:59:10 -0700 (PDT)
+Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.439.0; Wed, 10 Jul 2019 19:59:10 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1561724553.git.liezhi.yang@windriver.com>
+	<37d251c3a3f0b81fa910df996f54bc0be22cf846.1561724553.git.liezhi.yang@windriver.com>
+	<CAJTo0LYyTbnvKE2_YAK4_Xu1csQaqLcMg5fCKCMxJ49vk3SepA@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <add0a48c-e769-9b86-1de7-88a156b3a599@windriver.com>
+Date: Thu, 11 Jul 2019 11:00:11 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.7.2
 MIME-Version: 1.0
-In-Reply-To: <1543494097-19534-4-git-send-email-mikko.rapeli@bmw.de>
-Subject: Re: [PATCH 3/5] cmake.bbclass: append includedir to implicit include dirs
+In-Reply-To: <CAJTo0LYyTbnvKE2_YAK4_Xu1csQaqLcMg5fCKCMxJ49vk3SepA@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] waf: python2 -> python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -30,80 +35,60 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Thu, 11 Jul 2019 02:51:07 -0000
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-List-Received-Date: Thu, 11 Jul 2019 02:59:14 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Content-Language: en-GB
 
-This commit is having an unintended side-effect in the -native (and 
-probably nativesdk) case.
+Hi Ross,
 
-In the target build, $includedir is normally /usr/include, 
-fully-qualified. This path is already in CMake's list of implicit 
-include directories, and we don't include any header files from the 
-build PC's /usr/include in a target build in any case. This addition to 
-CMAKE_C/CXX_IMPLICIT_INCLUDE_DIRECTORIES has no effect.
+On 6/28/19 8:15 PM, Burton, Ross wrote:
+> Did you just do the minimum required, or take a new copy of waf from upstream?
+> 
+> (https://gitlab.com/ita1024/waf/)
 
-In the -native case, the $includedir is set to STAGING_INCDIR_NATIVE, 
-but this path has already been added to the BUILD_CPPFLAGS as a system 
-include directory, so there will already be no warnings for any header 
-file in the STAGING_INCDIR_NATIVE.
+I checked the one from upstream, it is still python2. The waf is the only one
+which still requires python2 in oe-core. We can get rid of python2 after this
+patch, what's your opinion, please?
 
-There is a nasty side-effect in the -native case: CMake excludes headers 
-in the CMAKE_C/CXX_IMPLICIT_INCLUDE_DIRECTORIES from its generated 
-dependency files, meaning that a change in any library header file will 
-not trigger a recompile of affected source files in the dependent CMake 
-component. In out-of-tree builds this isn't a problem, as cmake.bbclass 
-deletes the *entire* ${B} directory at configure time, but where this is 
-not the case, the build breaks with any change in library headers.
+// Robert
 
-I haven't examined the nativesdk case. The $includedir is set off to 
-$SDKPATHNATIVE/usr/include, but this path is not added as a system 
-include dir. The same problem will apply as in the -native case, that 
-CMake will not generate dependencies for headers staged in the 
-SDKPATHNATIVE.
-
-Was nativesdk perhaps the intended case for this commit? Is there a 
-better way to silence warnings in this case? Do we need to silence 
-library header warnings at all? Should we instead add 
-$SDKPATHNATIVE/usr/include as a system include dir via the 
-BUILDSDK_CPPFLAGS?
-
-I examined this problem using the Unix Makefiles generator. CMake 
-appears to equally exclude these headers from the ninja *.o.d dependency 
-files, though I haven't examined it closely.
-
-
-On 30/11/18 1:21 AM, Mikko Rapeli wrote:
-
-> From: Michael Ho <Michael.Ho@bmw.de>
->
-> This resolves issues with paths being marked as system includes that
-> differ from /usr/include but are considered implicit by the toolchain.
-> This enables developers to add directories to system includes
-> to supress compiler compiler warnings from them.
->
-> Signed-off-by: Michael Ho <Michael.Ho@bmw.de>
-> Cc: Pascal Bach <pascal.bach@siemens.com>
-> ---
->   meta/classes/cmake.bbclass | 4 ++++
->   1 file changed, 4 insertions(+)
->
-> diff --git a/meta/classes/cmake.bbclass b/meta/classes/cmake.bbclass
-> index fd40a98..485aea6 100644
-> --- a/meta/classes/cmake.bbclass
-> +++ b/meta/classes/cmake.bbclass
-> @@ -108,6 +108,10 @@ list(APPEND CMAKE_MODULE_PATH "${STAGING_DATADIR}/cmake/Modules/")
->   # add for non /usr/lib libdir, e.g. /usr/lib64
->   set( CMAKE_LIBRARY_PATH ${libdir} ${base_libdir})
->   
-> +# add include dir to implicit includes in case it differs from /usr/include
-> +list(APPEND CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
-> +list(APPEND CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES ${includedir})
-> +
->   EOF
->   }
->   
-
-
+> 
+> Ross
+> 
+> On Fri, 28 Jun 2019 at 13:01, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+>> ---
+>>   meta/recipes-graphics/eglinfo/files/waf | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/meta/recipes-graphics/eglinfo/files/waf b/meta/recipes-graphics/eglinfo/files/waf
+>> index 04ddd9f..2c83ed4 100755
+>> --- a/meta/recipes-graphics/eglinfo/files/waf
+>> +++ b/meta/recipes-graphics/eglinfo/files/waf
+>> @@ -1,4 +1,4 @@
+>> -#!/usr/bin/env python
+>> +#!/usr/bin/env python3
+>>   # encoding: latin-1
+>>   # Thomas Nagy, 2005-2018
+>>   #
+>> @@ -113,7 +113,7 @@ def unpack_wafdir(dir, src):
+>>          os.remove(tmp)
+>>          os.chdir(cwd)
+>>
+>> -       try: dir = unicode(dir, 'mbcs')
+>> +       try: dir = str(dir, 'mbcs')
+>>          except: pass
+>>          try:
+>>                  from ctypes import windll
+>> --
+>> 2.7.4
+>>
+>> --
+>> _______________________________________________
+>> Openembedded-core mailing list
+>> Openembedded-core@lists.openembedded.org
+>> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+> 
 
