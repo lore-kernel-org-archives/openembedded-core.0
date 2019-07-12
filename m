@@ -1,39 +1,23 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id CBC387F0C5
+Return-Path: <Qi.Chen@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id BAAA97D200
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 06:30:44 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45lNN34VbWz6b;
-	Fri, 12 Jul 2019 08:30:42 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1562913044;
-	bh=mcc5Y5TmTYYe4tSxJhhg0jxrqe/WXQPUsrAzobmnQ5c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YpzogQuUGOI4vsYr/khp5ys4GmpK8prl0WMNlDPS9frig7n/uB7vmw/ZNDbR0Lsi7
-	zslsjoNZwdytUOSD9qoArRrN4gsVeUDX5j+LQEtQ8NzL+9gEHyCXUz2wQHp0u6LPuH
-	kQpFLb7JPVt65g4M7xyF7hZkxS+UtxuV4AnYtf8Z0gg6LjuzggxW36QpfA0A/c/qqI
-	ZBi03hNo7v6ve9TPjWwRn9THBJL3BUQsHXa8ofddLsCmZrmQNXxa7gsGfA37nrt0UE
-	w+5d8iSbc7oRPxSEl40LgWDAjJEiixoI7EbJs+xQmjiGkR0g59/k+kko8nOmlaauUe
-	HpyWIZj5EBT5wtNOrAnpb+8Zcl4M7Jqkir0t3wT8slT6F1J04EQsodgE62lUS5hXHi
-	yE0TlQaEs1YOnpy1SpKj7e+R2TMcJWg180LYzMa7ErF72S8s7YguE0VpnzLp//WK8t
-	tEHV4YQBxh+p9XtMO1/PV7yDeZzET0iq3mg+noMeFFkKWyLvoOm1EvHGc3XzfInLAK
-	pGPMiM+lUWMUTSj0EmATpD/2psZPpWgPY4eMd9AhN1JpeelkDYC5UPHT1xkQNBd9pU
-	CPzKkSqNx2avMXZT0Pc718kyfyNcB0vbtDrWxMOzKeVqb1584MJzGpNbpu650/Zu4j
-	Jl6tCgmZ/V8RnEtPsRIZFOU8=
-Date: Fri, 12 Jul 2019 09:30:40 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: "Slater, Joseph" <joe.slater@windriver.com>
-Message-ID: <20190712063040.GB2092@localhost>
-References: <20190711202739.131168-1-joe.slater@windriver.com>
-	<20190711204424.GA2092@localhost>
-	<CAJTo0LYnXYrkfa_HrU=QPxxngpP0qHsAUMkFENYGU=MCFGDZyA@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84FA81B717@ALA-MBD.corp.ad.wrs.com>
+	Fri, 12 Jul 2019 07:18:47 +0000 (UTC)
+Received: from ALA-HCB.corp.ad.wrs.com ([147.11.189.41])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6C7IjIg011268
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 00:18:45 -0700 (PDT)
+Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
+	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 12 Jul 2019 00:18:32 -0700
+From: Chen Qi <Qi.Chen@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Date: Fri, 12 Jul 2019 15:31:12 +0800
+Message-ID: <cover.1562916644.git.Qi.Chen@windriver.com>
+X-Mailer: git-send-email 1.9.1
 MIME-Version: 1.0
-In-Reply-To: <007BD92917A2324FA403BCF9A464CF84FA81B717@ALA-MBD.corp.ad.wrs.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libtool: allow for use of reproducible_build bbclass
+Subject: [PATCH 0/1] qemurunner.py: fix race condition at qemu startup
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -46,33 +30,26 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 06:30:45 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 12 Jul 2019 07:18:48 -0000
+Content-Type: text/plain
 
-On Fri, Jul 12, 2019 at 01:51:26AM +0000, Slater, Joseph wrote:
-> That's a question I have about things like this, where some information seems of minimal use, but is there and is now malignant.  Chuck it or modify it to be benign.
+*** BLURB HERE ***
+The following changes since commit 80ab79168ede2786868cbd354f0950c949f73527:
 
-All such patches should be submitted upstream, and the final decision 
-for that would be whatever upstream prefers.
+  gnome-themes-standard: remove (2019-07-11 09:32:50 +0100)
 
-If in doubt, I would start with whatever is the simplest correct change.
-It is unlikely that someone will insist on keeping marginally relevant
-information like in this case.
+are available in the git repository at:
 
-Debian has already done a lot of work regarding reproducible,
-so checking there for existing patches first is always a good idea.
+  git://git.pokylinux.org/poky-contrib ChenQi/qemurunner-race
+  http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=ChenQi/qemurunner-race
 
-> Joe
+Chen Qi (1):
+  qemurunner.py: fix race condition at qemu startup
 
-cu
-Adrian
+ meta/lib/oeqa/utils/qemurunner.py | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+1.9.1
 
 
