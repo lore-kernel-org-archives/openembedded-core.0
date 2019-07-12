@@ -1,50 +1,53 @@
-Return-Path: <wbourque@gmail.com>
-Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
-	[209.85.160.193])
-	by mail.openembedded.org (Postfix) with ESMTP id D40757F14E
+Return-Path: <joshuagloe@gmail.com>
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com
+	[209.85.128.42])
+	by mail.openembedded.org (Postfix) with ESMTP id 10D387F143
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 14:00:41 +0000 (UTC)
-Received: by mail-qt1-f193.google.com with SMTP id k10so8189370qtq.1
+	Fri, 12 Jul 2019 14:09:01 +0000 (UTC)
+Received: by mail-wm1-f42.google.com with SMTP id x15so9081363wmj.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 07:00:43 -0700 (PDT)
+	Fri, 12 Jul 2019 07:09:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nsGekoMkaaKMTxsJsdg8iRwMc5vVin8rKy8Fsb0GhMU=;
-	b=dWLVzePyL/3RmLFnUn92Ef7JFNEmtedPkpd7LuJOGpH5ivzZsL/HjiVdTrWahJM+ku
-	GOb5kqMOoV+a9B/EPxIMdpuQn6QhtXUaKBYf9FZth2R4wz3LM4zz50PhQDAx8Dlkme9c
-	wq9EHzH0ovQgJ4Mn67kNY28UFgSHcLaw5Wd9ypTYiqFsLYUIAa0iUb/4B8Hj8VYEMDT1
-	3+jdEVOGNtufKhNoXqqh+sTjpKYSz3i6MiaSc5y6sQZa9pPYUQcEpSnVce42RTNtt+yv
-	ofJ/fQUnvMnfsW1u+nH7DFKTJHmvLKnaj1FEkbdf4Mw2vzVCwPH6B4m/Mnxm5mPvVBhX
-	QBOQ==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=kpdtA0GazHkZGF8u8mh13fq7WnBZw9d3uFZCZl4VzII=;
+	b=YpxEkTwCgtsoqGMnrip3xc/uqlJjhpzr/fWkt6/uO5UZp+K1x5RyYSXopbDrS/ERY/
+	ZMFZw4SFkJxWmyi8m86LDgfvDPwfV2UqCYN6AC1VAV5ddP5mJNcVh4Q1Z9rgaM/P8+Ip
+	mwfd6+zmn6xx76d2HX/sA2p3rGq3WcDcY/w6oJ4No9EAHNE/DB8VCoNjk3SiuZSl1v1E
+	LSNyAzR0DJ4XEqHRfgVSsmR80HYIzeHgBb/PMRa6MnjrLY+pVcTSrDjBSyxeSZgpHUXl
+	o/j8hO7nLFSAnTEv8/cLdB3ntorGYGih5yL8oBaqZJdMzrcXGpFLtUDNI5n/I3ahzUoc
+	ItpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=nsGekoMkaaKMTxsJsdg8iRwMc5vVin8rKy8Fsb0GhMU=;
-	b=SmgLSXu/4IjdYC0/ueVpH1TaliZrISsepm3JnPX60eg6mi3h4PA5gfhSESNVpdfmyC
-	2hVgW2AFbfz16zKfC/vmAfgt72HdHjoX3lm2ywpzglBRVZqHxP70UpHxF6y5bAkmHSLc
-	kKKPBn7Ssyn4yfrd6UGqFg6JaGXpT+MocnxiG1OKkxo4m5Spp5MV2dWhlmmczem49zLc
-	jKeA9xKXvX7c3jkqHOy+46wbmtMmLetQodFEjQgOE4YIR/XPUljdf+VhWbKmrrCS6Abc
-	H4zz0r1eHLYbEK5MTGcxLSJDxhi7d3tG5SxMKXeF2InUODSMJS36KZuMX4WvW9ADyRIU
-	DuWA==
-X-Gm-Message-State: APjAAAX9nOKfj728WPHIVAhiySDQoupMCp0DLB3c8mhWdUgEoOUBJxPU
-	/m7N3I8XSAPvjTNo6egtDiDtvhfU
-X-Google-Smtp-Source: APXvYqwA1ME7syynAP9+d+6rTmG+y4ncDjTexrJ+DtPhDRhbcYmL7afsp+rW5HmcwMb3hXaUGFfiXw==
-X-Received: by 2002:a0c:c3c7:: with SMTP id p7mr6692269qvi.125.1562940042606; 
-	Fri, 12 Jul 2019 07:00:42 -0700 (PDT)
-Received: from dingo.touchtunes.com (vcmtl.touchtunes.com. [207.96.182.162])
-	by smtp.gmail.com with ESMTPSA id
-	u16sm4201733qte.32.2019.07.12.07.00.42
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=kpdtA0GazHkZGF8u8mh13fq7WnBZw9d3uFZCZl4VzII=;
+	b=m4mX5RBZEP7DWL638nTkjVn1dcTemstjjhEEzmFKAtiayQgZDhKSiIj55HNOmJNdbh
+	87UIsuudU9pfNomgZIGfcm4Z4OzNG2nTlDLJ2BaY0GUt6uCyUIbYlPFyncgQXexZjFDm
+	xxOH/FLie7fjNOSD4aqw7yEuIaEdt9Z9EMReQ1qYaw5REExhYeaXHzMNnWns6e6k6vZH
+	QNKg9H+vrR3GCVs4UxqcqNZEDDNQ7VcTtXNTHHjSoDoLsfl5xNQGvwOSmWmo0GM6CEgg
+	RdBFv5RyRxoSw4DlSwXGWSNjBCW8IyKrHXspWyTYlS1zdDiA8PNNbladWR2+Q8VHdAFO
+	/bJg==
+X-Gm-Message-State: APjAAAU5dEZOjwPEorMTS0XmIj5oZGo0yEwrgOTI3BP6Q6FJAgiWKWsD
+	HoNZ0V7nh7LDn6ef540JvVwaYUz2YVM=
+X-Google-Smtp-Source: APXvYqyvZr9gCGVukHO9vpd0r5hohB0ro0R4I/YjiBNkZZswhKVzcJ2L36K/vuEnXU+8VR/qBZTeWQ==
+X-Received: by 2002:a1c:720e:: with SMTP id n14mr10011683wmc.53.1562940542629; 
+	Fri, 12 Jul 2019 07:09:02 -0700 (PDT)
+Received: from localhost.localdomain
+	(host165-120-157-205.range165-120.btcentralplus.com.
+	[165.120.157.205])
+	by smtp.gmail.com with ESMTPSA id i6sm4206262wrv.47.2019.07.12.07.09.01
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 12 Jul 2019 07:00:42 -0700 (PDT)
-From: William Bourque <wbourque@gmail.com>
+	Fri, 12 Jul 2019 07:09:02 -0700 (PDT)
+From: Joshua Lock <joshuagloe@gmail.com>
+X-Google-Original-From: Joshua Lock <jlock@vmware.com>
 To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2019 10:00:20 -0400
-Message-Id: <20190712140020.28280-2-wbourque@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190712140020.28280-1-wbourque@gmail.com>
-References: <20190712140020.28280-1-wbourque@gmail.com>
-Subject: [PATCH v2 2/2] meta/lib/oeqa: Test for bootimg-biosplusefi Source
+Date: Fri, 12 Jul 2019 15:08:15 +0100
+Message-Id: <20190712140815.11304-1-jlock@vmware.com>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Cc: Joshua Lock <jlock@vmware.com>
+Subject: [PATCH] python3-manifest: add entry to package the timeit module
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -57,91 +60,38 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 14:00:42 -0000
+X-List-Received-Date: Fri, 12 Jul 2019 14:09:02 -0000
+Content-Transfer-Encoding: 8bit
 
-Add unittests for bootimg-biosplusefi SourcePlugin in wic module.
-First test check wic creation works correctly.
-Second test uses qemu to boot image and checks that it has both
-EFI and BIOS files in a single partition.
-
-Signed-off-by: William Bourque <wbourque@gmail.com>
+Signed-off-by: Joshua Lock <jlock@vmware.com>
 ---
- meta-selftest/wic/test_biosplusefi_plugin.wks |  6 +++
- meta/lib/oeqa/selftest/cases/wic.py           | 47 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 meta-selftest/wic/test_biosplusefi_plugin.wks
+ .../python/python3/python3-manifest.json             | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/meta-selftest/wic/test_biosplusefi_plugin.wks b/meta-selftest/wic/test_biosplusefi_plugin.wks
-new file mode 100644
-index 0000000000..5a56c84518
---- /dev/null
-+++ b/meta-selftest/wic/test_biosplusefi_plugin.wks
-@@ -0,0 +1,6 @@
-+# short-description: This file is used in oe-selftest wic module to test biosplusefi plugin
-+
-+part /boot --source bootimg-biosplusefi --sourceparams="loader=grub-efi" --active --align 1024 --use-uuid
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+
-+bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index f1c6f390c5..149edee43d 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -680,6 +680,53 @@ class Wic2(WicTestCase):
-             out = glob(self.resultdir + "%s-*direct" % wksname)
-             self.assertEqual(1, len(out))
- 
-+    @only_for_arch(['i586', 'i686', 'x86_64'])
-+    def test_biosplusefi_plugin_qemu(self):
-+        """Test biosplusefi plugin in qemu"""
-+        for fstype in ("ext4", "wic"):
-+            config = 'IMAGE_FSTYPES = "%s"\nWKS_FILE = "test_biosplusefi_plugin.wks"\nMACHINE_FEATURES_append = " efi"\n' % fstype
-+            self.append_config(config)
-+            self.assertEqual(0, bitbake('core-image-minimal').status)
-+            self.remove_config(config)
-+
-+        with runqemu('core-image-minimal', ssh=False, image_fstype='wic') as qemu:
-+            # Check that we have ONLY two /dev/sda* partitions (/boot and /)
-+            cmd = "grep sda. /proc/partitions | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '2')
-+            # Check that /dev/sda1 is /boot and that either /dev/root OR /dev/sda2 is /
-+            cmd = "mount | grep '^/dev/' | cut -f1,3 -d ' ' | egrep -c -e '/dev/sda1 /boot' -e '/dev/root /|/dev/sda2 /'"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '2')
-+            # Check that /boot has EFI bootx64.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '1')
-+            # Check that "BOOTABLE" flag is set on boot partition (required for PC-Bios)
-+            cmd = "fdisk -l /dev/sda | grep /dev/sda1 | awk {print'$2'}"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '*')
-+
-+    @only_for_arch(['i586', 'i686', 'x86_64'])
-+    def test_biosplusefi_plugin(self):
-+        """Test biosplusefi plugin"""
-+        img = 'core-image-minimal'
-+        machine = get_bb_var('MACHINE', img)
-+        with NamedTemporaryFile("w", suffix=".wks") as wks:
-+            wks.writelines(['part /boot --active --source bootimg-biosplusefi --sourceparams="loader=grub-efi"\n',
-+                            'part / --source rootfs --fstype=ext4 --align 1024 --use-uuid\n'\
-+                            'bootloader --timeout=0 --append="console=ttyS0,115200n8"\n'])
-+            wks.flush()
-+            cmd = "wic create %s -e %s -o %s" % (wks.name, img, self.resultdir)
-+            runCmd(cmd)
-+            wksname = os.path.splitext(os.path.basename(wks.name))[0]
-+            out = glob(self.resultdir + "%s-*.direct" % wksname)
-+            self.assertEqual(1, len(out))
-+
-     def test_fs_types(self):
-         """Test filesystem types for empty and not empty partitions"""
-         img = 'core-image-minimal'
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 0803ac0033..17d41c34b9 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -1131,6 +1131,18 @@
+             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/queue.*.pyc"
+         ]
+     },
++    "timeit": {
++        "summary": "Simple way to time small bits of code",
++        "rdepends": [
++            "core"
++        ],
++        "files": [
++            "${libdir}/python${PYTHON_MAJMIN}/timeit.py"
++        ],
++        "cached": [
++            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/timeit.*.pyc"
++        ]
++    },
+     "tkinter": {
+         "summary": "Python Tcl/Tk bindings",
+         "rdepends": [
 -- 
-2.17.1
+2.21.0
 
 
