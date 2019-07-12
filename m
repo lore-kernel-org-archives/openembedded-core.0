@@ -1,49 +1,50 @@
 Return-Path: <raj.khem@gmail.com>
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com
-	[209.85.160.175])
-	by mail.openembedded.org (Postfix) with ESMTP id 13DF57F0BD
+Received: from mail-qt1-f193.google.com (mail-qt1-f193.google.com
+	[209.85.160.193])
+	by mail.openembedded.org (Postfix) with ESMTP id BE9E97F168
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 16:43:54 +0000 (UTC)
-Received: by mail-qt1-f175.google.com with SMTP id 44so8694847qtg.11
+	Fri, 12 Jul 2019 16:48:31 +0000 (UTC)
+Received: by mail-qt1-f193.google.com with SMTP id z4so8763872qtc.3
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 09:43:56 -0700 (PDT)
+	Fri, 12 Jul 2019 09:48:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=5uvmGiGOsyM9zsrgP2xnJZMfSRL3JneyKUAMB6cX4tc=;
-	b=gXfQrWlZLsq/bfHyVMDeo/v7M+8ZnsE2zkpQlvmP93ukADNLuRw6l3ZvBtAm/Y/LkP
-	48rBuheC55Y2HTXzXKn7rFuiefUlbMFgBm04qd9GSF4KvqM22Yd9hcPZTIq5joVbJVMt
-	+KMNQbB+DLgNUQo4t3NKl+Scuu/ysWEOnR9JgpqHAkLFGVA7U7eUhhE7JSy2lPTZgMhQ
-	qdP7XWwL2HLfkYFd0/q77/x71MJbMOiL9G1+UiN5Dkx9pkA31mnmhgCYSc7HRRKuJDua
-	echYK1H2XHBOYAdwsvuky8yersWd02oSnWPbFLnZ9KAc3tTpjRyvQw0Ue5nsyvMzRtKO
-	lNWw==
+	:cc; bh=cygkhp1XRA2A8HJy7lIhwLaHrV924rEY8HYYqrYA2/w=;
+	b=p1zDW34lWnSrqtM+4nu3dKCLYyrdfJsamMltMsP9sim0+nhjparx/w+7vdSibYL03I
+	ZcOLDLV44tl2k8XPfD1XbxA+jqx6c62yMbG6ecZtKCSZEo0P5e1sqhdQ4z9TM9ClHh2q
+	jLYLN2sa8OgIKymt80uY1zcEFreVdpgZHljTqk4+SZpeParZ34IO6ROsJl0FvH/UlFtV
+	wjguGU32y9B+vAXAZgADjFjciojzktSE1yw+Gkm1vaKIHjeyQIdwfq5NO1iE/j2djS6w
+	BB8V0WT7nn35LXiAz03LXf+Va4AHSa2WBqrHWqnL5+ukp7XqS9imd/l/dKrVJYuDHv5T
+	HqVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=5uvmGiGOsyM9zsrgP2xnJZMfSRL3JneyKUAMB6cX4tc=;
-	b=h5LzwbRKaWToCAStSEJVlNMy9YNXW7SU0Muxb+zLiF+AuIhjAn0c/2QYxqEc+AU1cz
-	zauXF/aS+qs6M7nbKfDO02xl7iONXiabGfzWqD2A9MywS4e8d9LXR3GuneI+2x0twQ+J
-	R5Nv/KoXL/bPQIACWX3O7SqFl3wsHunBBr0py0Ar+RVNHTnNcrkYTq7SnH9NSjKp8BkD
-	XT17L5Wb0eSGfGIIaYBX3koPqgYj2IJQwYJvS4E/38c4uwK04RC0/KBnFJOMKYE8K/A6
-	v4e7ixs8albeVdfa8P/lThM25c+Iv34lKYZq/4WxQy8jYWt3noehXWelJn+i8b7wA8bj
-	SceA==
-X-Gm-Message-State: APjAAAVA1cBu92bPc1PUh1xFXFI8xBVA0I/jGdDXZvOtSjWN0EU1G0bB
-	nHADra0A1ewBgh6y2QNP2ixSwb4lMvosJsKWm/Xtib8d
-X-Google-Smtp-Source: APXvYqzDpcTc/M/J4X61xnKECgAfzqW4orPDOQpPdE4dAhEkiz+WHU7CPKWAL0AmAwRMvOGZWloMnTJgqfItsiFVVd4=
-X-Received: by 2002:ac8:525a:: with SMTP id y26mr7162876qtn.378.1562949835767; 
-	Fri, 12 Jul 2019 09:43:55 -0700 (PDT)
+	bh=cygkhp1XRA2A8HJy7lIhwLaHrV924rEY8HYYqrYA2/w=;
+	b=kr+qWzln5+aXqRX0VlMOmUtNfwhs8nyL5YP5REvZVvplOkoqmWwaYqxTWDTvjwmxW0
+	Qxah+xidbQhnGgL3ZKdXWUaXQiCFKSqYluJwfrC8QuZTR1pX2uFL0I5nsZp2Hizrc5Pv
+	vd0bFPNgSkeRrnLL3rewezvaH9cJQMDVcxyBnx7EAn7NLiirNozOpF/BBu6oxzNQ44jB
+	nKxkEPeibk0Iq9m6ywdzil5oND37h4cT11v9P1kYQ7/kRc3RBp1bRP/M+no7ddHcTHLP
+	/SXUxwLnRfTmhsxS4k6GrwnCcfMyWsHkJBEpE1EfDE7Lbn+HGpVZ2wjCOBotUaS22zjc
+	KXCA==
+X-Gm-Message-State: APjAAAWr4hz+yQmmGEDlZ6lgJYdzsTDrqyR9GkCeZpEMc8YRAlcsIabD
+	ZQ9vLmt0Bwxvr9XlE+mHwY4BUO2Trx3QgEJAre4=
+X-Google-Smtp-Source: APXvYqxnCCsqVjSv2+IdDqd9dFVYMWPOFbnnpB5c+k2Z0b0c8zvCDeai2WbQQtBwj/qkHN1GT2JNdpzmXygDlg1d8L4=
+X-Received: by 2002:ac8:525a:: with SMTP id y26mr7180187qtn.378.1562950112451; 
+	Fri, 12 Jul 2019 09:48:32 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190711235423.23013-1-ross.burton@intel.com>
-	<CAMKF1srPCffyPSbQ+_QAd-3rDh4=X8TgDyp0abTPT0fS+9WBhg@mail.gmail.com>
-	<CAJTo0LZMEU=45FdVhO0dejvd-KoSbQUM70sz-MasxB22TBiD_g@mail.gmail.com>
-In-Reply-To: <CAJTo0LZMEU=45FdVhO0dejvd-KoSbQUM70sz-MasxB22TBiD_g@mail.gmail.com>
+References: <CAJTo0LZ=1YBJQ69jTYVDnz+LFBX9eN3V6LfnK46fxTJUb=nH0g@mail.gmail.com>
+	<1554165783-46226-1-git-send-email-changqing.li@windriver.com>
+	<b4ecf37e-6bb7-6328-4863-5901e6155db1@windriver.com>
+	<653aa5ae1d1bb459d02b43aec637a94e43f76a4f.camel@linuxfoundation.org>
+In-Reply-To: <653aa5ae1d1bb459d02b43aec637a94e43f76a4f.camel@linuxfoundation.org>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 12 Jul 2019 09:43:29 -0700
-Message-ID: <CAMKF1sqGCtpi2YdZ7gnZ6UKve=s6K2jsAotJMEA3pvSwkaT5SA@mail.gmail.com>
-To: "Burton, Ross" <ross.burton@intel.com>
+Date: Fri, 12 Jul 2019 09:48:06 -0700
+Message-ID: <CAMKF1soyz3GjTUVj-Xw95rJ_sFqUVcd_NCvB0UWYEtZnP0-37g@mail.gmail.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: Patches and discussions about the oe-core layer
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] ninja: use Python 3
+Subject: Re: [PATCH V2] llvm: fix link error for powerpc
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -56,21 +57,28 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 16:43:55 -0000
+X-List-Received-Date: Fri, 12 Jul 2019 16:48:32 -0000
 Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Jul 12, 2019 at 12:50 AM Burton, Ross <ross.burton@intel.com> wrote:
+On Fri, Jul 12, 2019 at 1:06 AM <richard.purdie@linuxfoundation.org> wrote:
 >
-> On Fri, 12 Jul 2019 at 01:54, Khem Raj <raj.khem@gmail.com> wrote:
-> > Maybe we should encode it in interpreter section inside configure.py
-> > itself and upstream it.
+> On Fri, 2019-07-12 at 16:11 +0800, ChenQi wrote:
+> > I'm recently getting llvm build failure on qemuppc. After reverting
+> > this
+> > patch, the build succeeds.
+> > My host is ubuntu16.04.
+> >
+> > I'm also wondering why autobuilder does not detect the build failure.
+> > No
+> > world build for qemuppc?
 >
-> I've filed a bug (https://github.com/ninja-build/ninja/issues/1601) to
-> see if they have any strong reasons to stick with python instead of
-> python3.
+> There is no world build for ppc or mips.
+>
 
-OK so they are oblivious to python version which is great, I wish whole python
-world was like that
+no mips ? ppc I understand
+
+> Cheers,
 >
-> Ross
+> Richard
+>
 
