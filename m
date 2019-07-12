@@ -1,48 +1,52 @@
-Return-Path: <ross.burton@intel.com>
+Return-Path: <jpewhacker@gmail.com>
 Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
 	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 9B86A7F14B
+	by mail.openembedded.org (Postfix) with ESMTP id 3D8087F024
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 14:17:26 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id g20so20602970ioc.12
+	Fri, 12 Jul 2019 16:21:16 +0000 (UTC)
+Received: by mail-io1-f65.google.com with SMTP id h6so21518059iom.7
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 07:17:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZH6VBCZfuFLMCY0gAMtwTOkT3oxFALQWXeJJsWoW8LU=;
-	b=xeqrz3uzuXXCUaamKcdAN1LMpStYc23HiXATLoi6Ev+fp2/3NityWyCvH6akZNaDmH
-	HPi/CJ5DcBAOkK4Gli/EKS5n+/NkeMOKzzPZ/jZo/XBYtcXLP4BDqNg/wwNf6AaVWIp0
-	xJXBJ+UKMKv6iCJ6LOrQKiAMiJBsKYwSg4F+m7g6yKvX+S3katu9mTuhg01Gh7Wwj0mL
-	2eWkTW91gyKcY+f0cQ+o0fe2qUg5xFusk6qVXMNvYuSdEcqzcG+1OTx4TVQeQf0E0OZj
-	OLtejHGWekplXJlM40oMLiIV+odaGbRj3r5i8h7gJ5cx5oDD5spDXmmDbRduYANG5X7y
-	zijw==
+	Fri, 12 Jul 2019 09:21:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zhQceYPwVGFDnmKn5qGlVDEAegorXBQC5sLY7xyHmaA=;
+	b=C5EUcJl0EGJ2FuDGnz7OKIqMlACeVbIrEzOz6VSN8arYDsslTw6bej0hqRzulLIOMQ
+	c31IR7fFVdHlsUys6kHNHZlrVzK/EyjKJ/Hu5HqCXuGC2+/8tzR3YMf2kO7TQxD6d3b3
+	tXECV7UQuKk4jPzF6sdvpWOrHinhqeIepGCtO6YkPTFFSwYx0Ocop4e/F50uAdOn0vps
+	O3u+xzU+sv1p6gxDZxFjRf9qiNZATvmhxkXlS8AD1lZ7lTq4kZElkii1adjynE1yEQTS
+	Qc168zBwWSKTRNBjCMG5Pe1pFSptzSY3Jiy4Vc0mo6pKHcT44OETi+VxdRnOg7U6q7rb
+	6PXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZH6VBCZfuFLMCY0gAMtwTOkT3oxFALQWXeJJsWoW8LU=;
-	b=BLlUj7O/q01tNxjpbGLPsNyMYf26HruK8s9BHdKF5JmyJNsCQJ6S3MEs1a+6p6uDWf
-	Qh+/ZsN3mH/IAcujTzMMyNs51jpXnGFHq/+gZ407/jlRowpoVPbwAhbybmG4hWbUGIfl
-	CulGl2CoYIbE3WXoke71I4DkQa2ql0yC0gfTW7u94xqyJoHX75YnMUxqdzfi6MyIDGkI
-	y028EGP8TnhWn1huPV6UpB/ErwvZmkqOQwchFyOn6sfhn0Rrri2eUSVasq8dGp+N+QTz
-	+XCjKYIrNuY9Yeuo/nQ38cp2eeti/YLWPPsvcmJH6CsYyMphXmofwekVP19a0uiIXU/8
-	VV6A==
-X-Gm-Message-State: APjAAAVa0UIc2xqg3juxhPzsPjATBCDuN1vROrBriW579FR9kC/k9yvW
-	gv99lhtwBrop3ElgjoI8ezQhNz08JpiN5AEVRZ4c8g==
-X-Google-Smtp-Source: APXvYqz64yR2ZfVLVG2Vdlybpw1z3S23qs5qkJ4OINAKmc0iBeaV3I34r2fLq5tzxrW5FZ8JKYtfNrxygotj2ec+qKA=
-X-Received: by 2002:a5e:c744:: with SMTP id g4mr10549198iop.187.1562941047607; 
-	Fri, 12 Jul 2019 07:17:27 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=zhQceYPwVGFDnmKn5qGlVDEAegorXBQC5sLY7xyHmaA=;
+	b=UaGtKhnBQtnyZW/UgrO1mjRO47qR/JKj5qErfVy7UnE9uCjLtT48PV8KqdH3rW2yC5
+	Mcc/ToCfZXRKl3Zd4gzCT0NYcJCvV6P8mkSKBfbtHrwdPGBk95y3wr6AmhFm6B7RWWRa
+	m+r7TOXnT20RWSpCzEl4obOW4OBY4cz1zDen3/nffDvbGITphiqlkAAGHJmrdMoE+ES3
+	c5v1lsKYnMkQ60a386DQs1QpvwsbXgH/Yws2PHZ3BkHQKOKT1TM471w07CD3aPfsynVA
+	lAKK2B4/N8XTSpLRdMkM05JweZepqq57mZk3oIMs54dVC/x/r0WNOxVxBlqcPkWQGQeb
+	TZbA==
+X-Gm-Message-State: APjAAAVhKxgaJxYqeBnP2MLiYvBDn8UwfY353+2UFK7H0tiIS2agXMNQ
+	YEuwF+97agw4mBBcaBCJmvETFBx+
+X-Google-Smtp-Source: APXvYqw+9aZkbmSyDCOaqsckenX/Aweb/3EeQZXjbkJpxVyeGW9b0hgXts9ccVjUsjp4E5PTbAjkRQ==
+X-Received: by 2002:a6b:8b8b:: with SMTP id
+	n133mr11252613iod.183.1562948476944; 
+	Fri, 12 Jul 2019 09:21:16 -0700 (PDT)
+Received: from ola-842mrw1.ad.garmin.com ([204.77.163.55])
+	by smtp.gmail.com with ESMTPSA id
+	j25sm12075744ioj.67.2019.07.12.09.21.16
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 12 Jul 2019 09:21:16 -0700 (PDT)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jul 2019 11:21:14 -0500
+Message-Id: <20190712162114.20473-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-References: <20190712140815.11304-1-jlock@vmware.com>
-In-Reply-To: <20190712140815.11304-1-jlock@vmware.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Jul 2019 15:17:16 +0100
-Message-ID: <CAJTo0Lb5xwSks4SX2PAWj9J0zhwuewyb0oMYq2m1ZHFZ9c_YRg@mail.gmail.com>
-To: Joshua Lock <joshuagloe@gmail.com>
-Cc: Joshua Lock <jlock@vmware.com>,
-	OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] python3-manifest: add entry to package the timeit module
+Subject: [PATCH] classes/icecc: Disable remote pre-processing by default
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,52 +59,40 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 14:17:26 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Jul 2019 16:21:16 -0000
+Content-Transfer-Encoding: 8bit
 
-(discussed on IRC)
+Unfortunately, GCC has a number of outstanding bugs related to using
+-fdirectives-only, which causes a lot of errors when using Icecream.
+See:
 
-NACK, this is in python3-misc and I don't see a good reason to split
-it out explicitly.
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=47254
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=88475
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=89658
+https://gcc.gnu.org/bugzilla/show_bug.cgi?id=91152
 
-Ross
+Until many of these are addressed, it is better to disable remote
+preprocessing.
 
-On Fri, 12 Jul 2019 at 15:09, Joshua Lock <joshuagloe@gmail.com> wrote:
->
-> Signed-off-by: Joshua Lock <jlock@vmware.com>
-> ---
->  .../python/python3/python3-manifest.json             | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->
-> diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
-> index 0803ac0033..17d41c34b9 100644
-> --- a/meta/recipes-devtools/python/python3/python3-manifest.json
-> +++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-> @@ -1131,6 +1131,18 @@
->              "${libdir}/python${PYTHON_MAJMIN}/__pycache__/queue.*.pyc"
->          ]
->      },
-> +    "timeit": {
-> +        "summary": "Simple way to time small bits of code",
-> +        "rdepends": [
-> +            "core"
-> +        ],
-> +        "files": [
-> +            "${libdir}/python${PYTHON_MAJMIN}/timeit.py"
-> +        ],
-> +        "cached": [
-> +            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/timeit.*.pyc"
-> +        ]
-> +    },
->      "tkinter": {
->          "summary": "Python Tcl/Tk bindings",
->          "rdepends": [
-> --
-> 2.21.0
->
-> --
-> _______________________________________________
-> Openembedded-core mailing list
-> Openembedded-core@lists.openembedded.org
-> http://lists.openembedded.org/mailman/listinfo/openembedded-core
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/icecc.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/icecc.bbclass b/meta/classes/icecc.bbclass
+index edb0e10434..095518115f 100644
+--- a/meta/classes/icecc.bbclass
++++ b/meta/classes/icecc.bbclass
+@@ -57,7 +57,7 @@ ICECC_ENV_VERSION = "2"
+ # See: https://github.com/icecc/icecream/issues/190
+ export ICECC_CARET_WORKAROUND ??= "0"
+ 
+-export ICECC_REMOTE_CPP ??= "1"
++export ICECC_REMOTE_CPP ??= "0"
+ 
+ ICECC_CFLAGS = ""
+ CFLAGS += "${ICECC_CFLAGS}"
+-- 
+2.21.0
+
 
