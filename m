@@ -1,48 +1,53 @@
 Return-Path: <ross.burton@intel.com>
-Received: from mail-io1-f65.google.com (mail-io1-f65.google.com
-	[209.85.166.65])
-	by mail.openembedded.org (Postfix) with ESMTP id 033497F0F6
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com
+	[209.85.128.66])
+	by mail.openembedded.org (Postfix) with ESMTP id 5A83A7EF54
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 11:56:16 +0000 (UTC)
-Received: by mail-io1-f65.google.com with SMTP id k20so19674370ios.10
+	Fri, 12 Jul 2019 12:49:29 +0000 (UTC)
+Received: by mail-wm1-f66.google.com with SMTP id f17so8847508wme.2
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 04:56:18 -0700 (PDT)
+	Fri, 12 Jul 2019 05:49:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Tzhp3aGng0J5XHUXb3sLQ8Qg/iMbML21DpJBKkSQUIU=;
-	b=VIoeH5fThMaQcicFKnXmznL5rBUxhH8hj7llvPeVnPWl8MvbtLE+VfV7QGwtmc2Amc
-	N901b/8yQeOvPgJbeFj1kUGGMJNJTqjcWU0ixz5YrvfehTzuMevsL1AGkHov4jxq6nlR
-	wY11JgOIK6F0n4nHEFpGy35Uil8bWYrWEm7aoy6MtKnpMhpIKSQFBqQyWhp9JRcVoDEH
-	TtBKNe8puuPmm7nvfj3kaiBClVcFb0OmDt4FNCzanss6tFlP25+m5cgOjVvGsDt2w7aj
-	XAl2EjWzxgBBXL/zOm3MGbMn5AUhF7b/B+SXCXtP3bY133t+G23TLLWb/fgRr0S/ON9q
-	R/aw==
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=abnj1/l0mkwI9h/Qb5LLNIcTu0mtOkl1kyDQPvvCgMU=;
+	b=JPikUfjkHH+1fFHn0gMKMpbRwkiZSrsOQdlx93nAUs67HGErdy7pGJYVqAA7uB6XVb
+	KEftNRUTX+ij60lK8RxGvd5SwVCIZu3QKJRRU1shchlto4t/edAjPb5n0E8+lsPyi4T4
+	NGrmTQUd2VYYMQ1GEJGNnQB20zHAhpEu3BhdAihTWSvZS+sTe/OqBRB6Ep1N1iy0Ljyg
+	9K8edA0HIRVsSpxrBYo3ugx2wZlRyqqjR4fo6udPzm2iOnVkL3g62g9CM8ehiQp30wZX
+	qqaPRHsMAL1KaDNiSotetGY+tz1H9yvbinE1bfwWoCEFHiWNVztFckIfrE3h84bagFru
+	FpTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Tzhp3aGng0J5XHUXb3sLQ8Qg/iMbML21DpJBKkSQUIU=;
-	b=PRrjlYP/Zf+tKG1uxlBqIVaCtFI5JxpALYDU//8Ua36fEX3v9FfMFDkChCilkBjlvj
-	vgZrCLxd87uROPbYEP+Y3j2zm0ZrO8cBzKLOlqjOX/aMY8G+MAINFnl1sHSdsOLD3/OR
-	fhodv2l/UrUdGcqjNWeZLT/u1UeqmV54rX3lL657TvE7FTIMObSuKNyKwYG3OGxu1p4/
-	7qXQy/9D1OPujqY6nllsrBB9fhVJLMSufKX4KEVhFqgyyasxNkm4HYCuPQyecfsNFyO3
-	koiV1BUtEkbhsZNQeU2o4zchvC6+dSRtBuzDF88qUXRkYG69LKLVbps2ywuOH5CbOQYh
-	XYIQ==
-X-Gm-Message-State: APjAAAVG5AvE94fCqaM2wYAC2d3ASV5fEZSjIYk66VZtgjSp6QwTyi8H
-	9LvNQsiX4d/DvGsGB9Oc1ECo+W7VpvZSRT3tomSs/A==
-X-Google-Smtp-Source: APXvYqzCSLuzLwotmr8RSjP6Ec9XsSAwk+pafFJtTRLgmLGk6euwMADpvVmpbG9qr+6hURT9QwX7puJbIHHqlPcdYss=
-X-Received: by 2002:a02:a90a:: with SMTP id n10mr10716406jam.61.1562932577965; 
-	Fri, 12 Jul 2019 04:56:17 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=abnj1/l0mkwI9h/Qb5LLNIcTu0mtOkl1kyDQPvvCgMU=;
+	b=FuPOhRGh2pHT0xpnZQFjcX9Uegf6nqEAgKEgOPyD7m01yF9zloEmQLCZ7dhWX32yIZ
+	jQ/78VQ395N0xk0Q5m4fITU+pe/IUyBXuStQVik9CbuJTFyfDzb7JkTRuQc7goSAF8W4
+	nH/PbZqaT3WP4pQ4Wxa2DljYvbzNPO/uTAYEnX7CReo6PzWgNtrHe2jeJ4nL09tSS5Zu
+	ZOJ2lna++sx+w38yBd5ph4h4cjaLz8y7FsbbKQ3mR6PwBQ1tfhVgXEF9HO2vKVwv3t0k
+	77HqZBJwK6BcuDGzg01GTsi6vdfXVXIXtW/alLysdVtQgtY66r6ThUBl56A/65NuyTHC
+	Q9cQ==
+X-Gm-Message-State: APjAAAUTCpleKAOzgh5TJpwiLBpLT7fyFoR7j7xJaI7pWHmQ2vDUBg7X
+	EGk2f6QQLn0MPsDQU9dOTWwPTuTulL4=
+X-Google-Smtp-Source: APXvYqx2l4VLYx/3ehx7i5N26yGrcIw2E9eg/xMi4RaN1nUsR1HG/xiMU9GLMxYdicGGyjG87lZDgQ==
+X-Received: by 2002:a05:600c:218d:: with SMTP id
+	e13mr9893399wme.29.1562935770550; 
+	Fri, 12 Jul 2019 05:49:30 -0700 (PDT)
+Received: from flashheart.burtonini.com (35.106.2.81.in-addr.arpa.
+	[81.2.106.35]) by smtp.gmail.com with ESMTPSA id
+	l8sm14806256wrg.40.2019.07.12.05.49.28
+	for <openembedded-core@lists.openembedded.org>
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 12 Jul 2019 05:49:29 -0700 (PDT)
+From: Ross Burton <ross.burton@intel.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jul 2019 13:49:25 +0100
+Message-Id: <20190712124926.32150-1-ross.burton@intel.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <c71ee3805fdb4335ba78791a42ad4257@xbox06.axis.com>
-In-Reply-To: <c71ee3805fdb4335ba78791a42ad4257@xbox06.axis.com>
-From: "Burton, Ross" <ross.burton@intel.com>
-Date: Fri, 12 Jul 2019 12:56:07 +0100
-Message-ID: <CAJTo0LaHEHmxDcQ+s4QHLNzDqyO7mDV9hp4HhSZmVgrsS5xWtA@mail.gmail.com>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: sysstat no longer builds (was: [PATCH 0/1] sysstat: use service file from source codes)
+Subject: [PATCH 1/2] Revert "sysstat: use service file from source codes"
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -55,26 +60,75 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 11:56:17 -0000
-Content-Type: text/plain; charset="UTF-8"
+X-List-Received-Date: Fri, 12 Jul 2019 12:49:30 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, 12 Jul 2019 at 12:21, Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
+This doesn't actually work as the unit file is only installed if cron support is
+enabled.
 
->   ERROR: sysstat-12.1.3-r0 do_package: SYSTEMD_SERVICE_sysstat value sysstat.service does not exist
->   ERROR: sysstat-12.1.3-r0 do_package:
->   ERROR: sysstat-12.1.3-r0 do_package: Function failed: systemd_populate_packages
->
-> This is due to that the upstream package only installs the sysstat.service
-> file if cron support is enabled, which it isn't by default.
->
-> There was another patch by Haiqing Bai sent on July 2 that seemed to handle
-> this properly.
+This reverts commit 721f09d4897425c7131470bd756eee1b90937feb.
 
-So the basic problem is that we don't do enough testing with systemd
-enabled on the AB.
+Signed-off-by: Ross Burton <ross.burton@intel.com>
+---
+ meta/recipes-extended/sysstat/sysstat.inc            |  8 ++++++--
+ .../recipes-extended/sysstat/sysstat/sysstat.service | 12 ++++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-extended/sysstat/sysstat/sysstat.service
 
-Thanks, I'll queue up a revert and pick of the other patch.
+diff --git a/meta/recipes-extended/sysstat/sysstat.inc b/meta/recipes-extended/sysstat/sysstat.inc
+index 9085fcfe744..4e297216660 100644
+--- a/meta/recipes-extended/sysstat/sysstat.inc
++++ b/meta/recipes-extended/sysstat/sysstat.inc
+@@ -6,6 +6,7 @@ SECTION = "console/utils"
+ 
+ SRC_URI = "http://pagesperso-orange.fr/sebastien.godard/sysstat-${PV}.tar.xz \
+            file://99_sysstat \
++           file://sysstat.service \
+           "
+ 
+ UPSTREAM_CHECK_URI = "http://sebastien.godard.pagesperso-orange.fr/download.html"
+@@ -16,10 +17,9 @@ DEPENDS += "base-passwd"
+ # autotools-brokensep as this package doesn't use automake
+ inherit autotools-brokensep gettext systemd upstream-version-is-even
+ 
+-PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)}"
++PACKAGECONFIG ??= ""
+ PACKAGECONFIG[lm-sensors] = "--enable-sensors,--disable-sensors,lmsensors,lmsensors-libsensors"
+ PACKAGECONFIG[cron] = "--enable-install-cron --enable-copy-only,--disable-install-cron --disable-copy-only"
+-PACKAGECONFIG[systemd] = "--with-systemdsystemunitdir=${systemd_system_unitdir}"
+ 
+ EXTRA_OECONF += "--disable-stripping"
+ 
+@@ -45,6 +45,10 @@ do_install() {
+ 	        echo "d ${localstatedir}/log/sa - - - -" \
+ 		     > ${D}${sysconfdir}/tmpfiles.d/sysstat.conf
+ 	fi
++
++	install -d ${D}${systemd_unitdir}/system
++	install -m 0644 ${WORKDIR}/sysstat.service ${D}${systemd_unitdir}/system
++	sed -i -e 's#@LIBDIR@#${libdir}#g' ${D}${systemd_unitdir}/system/sysstat.service
+ }
+ 
+ pkg_postinst_${PN} () {
+diff --git a/meta/recipes-extended/sysstat/sysstat/sysstat.service b/meta/recipes-extended/sysstat/sysstat/sysstat.service
+new file mode 100644
+index 00000000000..aff07109f54
+--- /dev/null
++++ b/meta/recipes-extended/sysstat/sysstat/sysstat.service
+@@ -0,0 +1,12 @@
++[Unit]
++Description=Resets System Activity Logs
++
++[Service]
++Type=oneshot
++RemainAfterExit=yes
++User=root
++ExecStart=@LIBDIR@/sa/sa1 --boot
++
++[Install]
++WantedBy=multi-user.target
++
+-- 
+2.20.1
 
-Ross
 
