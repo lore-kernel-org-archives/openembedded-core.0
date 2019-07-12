@@ -1,31 +1,55 @@
-Return-Path: <Liezhi.Yang@windriver.com>
-Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
-	by mail.openembedded.org (Postfix) with ESMTP id D83A37F0BA
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id C38FC7F0F6
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 10:33:49 +0000 (UTC)
-Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
-	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6CAXnJs015862
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
-	Fri, 12 Jul 2019 03:33:49 -0700 (PDT)
-Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
-	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 12 Jul 2019 03:33:48 -0700
-To: "Burton, Ross" <ross.burton@intel.com>
-References: <cover.1561724553.git.liezhi.yang@windriver.com>
-	<37d251c3a3f0b81fa910df996f54bc0be22cf846.1561724553.git.liezhi.yang@windriver.com>
-	<CAJTo0LYyTbnvKE2_YAK4_Xu1csQaqLcMg5fCKCMxJ49vk3SepA@mail.gmail.com>
-	<add0a48c-e769-9b86-1de7-88a156b3a599@windriver.com>
-	<CAJTo0LaNjqmPG0RnRmeNOOeVqnX=muVCeyWcjtFW+1gnidRQmw@mail.gmail.com>
-	<CAJTo0LboCz4FYFU5Rmy7a8XQXqXJCY1DNbpqHA7p_Anz+rgGow@mail.gmail.com>
-From: Robert Yang <liezhi.yang@windriver.com>
-Message-ID: <41f8454d-7632-eb44-6aee-942d192a5165@windriver.com>
-Date: Fri, 12 Jul 2019 18:34:48 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.7.2
+	Fri, 12 Jul 2019 11:21:20 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id 21085182CB;
+	Fri, 12 Jul 2019 13:21:20 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024)
+	with LMTP id GofZGUgawyHj; Fri, 12 Jul 2019 13:21:19 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id 3C0A3182A0;
+	Fri, 12 Jul 2019 13:21:19 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 1D6B11A064;
+	Fri, 12 Jul 2019 13:21:19 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 11E901A060;
+	Fri, 12 Jul 2019 13:21:19 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP;
+	Fri, 12 Jul 2019 13:21:19 +0200 (CEST)
+Received: from XBOX03.axis.com (xbox03.axis.com [10.0.5.17])
+	by seth.se.axis.com (Postfix) with ESMTP id 05C982D24;
+	Fri, 12 Jul 2019 13:21:19 +0200 (CEST)
+Received: from xbox06.axis.com (10.0.15.176) by XBOX03.axis.com (10.0.5.17)
+	with Microsoft SMTP Server (TLS) id 15.0.1365.1;
+	Fri, 12 Jul 2019 13:21:10 +0200
+Received: from xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35]) by
+	xbox06.axis.com ([fe80::59d2:4cb0:3900:3c35%12]) with mapi id
+	15.00.1395.000; Fri, 12 Jul 2019 13:21:10 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Chen Qi <Qi.Chen@windriver.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Thread-Topic: sysstat no longer builds (was: [PATCH 0/1] sysstat: use service
+	file from source codes)
+Thread-Index: AdU4o+TvBmxNSKItT06ZeMQ0KKNLzg==
+Date: Fri, 12 Jul 2019 11:21:10 +0000
+Message-ID: <c71ee3805fdb4335ba78791a42ad4257@xbox06.axis.com>
+Accept-Language: en-US, sv-FI
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.0.5.60]
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LboCz4FYFU5Rmy7a8XQXqXJCY1DNbpqHA7p_Anz+rgGow@mail.gmail.com>
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 6/6] waf: python2 -> python3
+X-TM-AS-GCONF: 00
+Subject: sysstat no longer builds (was: [PATCH 0/1] sysstat: use service file from source codes)
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -38,63 +62,64 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 10:33:50 -0000
-Content-Type: text/plain; charset="utf-8"; format=flowed
+X-List-Received-Date: Fri, 12 Jul 2019 11:21:22 -0000
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
+[ I cannot find the actual patch in my mailbox, which is why I am=20
+  replying to the cover letter. ]
 
+> -----Original Message-----
+> From: openembedded-core-bounces@lists.openembedded.org <openembedded-core=
+-bounces@lists.openembedded.org> On Behalf Of Chen Qi
+> Sent: den 9 juli 2019 07:53
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 0/1] sysstat: use service file from source code=
+s
+>=20
+> *** BLURB HERE ***
+> The following changes since commit 4a68a44f56c725914cfa721993a2ea8a3dc6eb=
+d5:
+>=20
+>   cve-update-db: Catch request.urlopen errors. (2019-07-05 12:00:20 +0100=
+)
+>=20
+> are available in the git repository at:
+>=20
+>   git://git.pokylinux.org/poky-contrib ChenQi/sysstat-systemd
+>   http://git.pokylinux.org/cgit.cgi/poky-contrib/log/?h=3DChenQi/sysstat-=
+systemd
+>=20
+> Chen Qi (1):
+>   sysstat: use service file from source codes
+>=20
+>  meta/recipes-extended/sysstat/sysstat.inc             |  8 ++------
+>  meta/recipes-extended/sysstat/sysstat/sysstat.service | 12 ------------
+>  2 files changed, 2 insertions(+), 18 deletions(-)
+>  delete mode 100644 meta/recipes-extended/sysstat/sysstat/sysstat.service
+>=20
+> --
+> 1.9.1
 
-On 7/11/19 6:46 PM, Burton, Ross wrote:
-> On Thu, 11 Jul 2019 at 11:26, Burton, Ross <ross.burton@intel.com> wrote:
->>
->> On Thu, 11 Jul 2019 at 03:59, Robert Yang <liezhi.yang@windriver.com> wrote:
->>> On 6/28/19 8:15 PM, Burton, Ross wrote:
->>>> Did you just do the minimum required, or take a new copy of waf from upstream?
->>>>
->>>> (https://gitlab.com/ita1024/waf/)
->>>
->>> I checked the one from upstream, it is still python2. The waf is the only one
->>> which still requires python2 in oe-core. We can get rid of python2 after this
->>> patch, what's your opinion, please?
->>
->> If that's the case then YES YES YES.  :)
-> 
-> Follow-up: do you mean remove python2 from HOSTTOOLS, or the recipe
-> from oe-core?
-> 
-> $ bitbake -g world
-> $ grep -- '-> "python"' recipe-depends.dot
-> "kernel-devsrc" -> "python"
-> "ltp" -> "python"
-> "meta-world-pkgdata" -> "python"
-> "packagegroup-core-tools-profile" -> "python"
-> "packagegroup-core-tools-testapps" -> "python"
-> "packagegroup-self-hosted" -> "python"
-> "perf" -> "python"
-> "python-nose" -> "python"
-> "python-numpy" -> "python"
-> "python-scons" -> "python"
-> "python-setuptools" -> "python"
-> 
-> Nothing depends on the python-* in core, we can ignore the
-> packagegroups, so that leaves kernel-devsrc, ltp, and perf. Also
-> u-boot uses nativepython.
-> 
-> HOSTTOOLS is more complicated and there's still plenty of pieces that
-> use host python.  I've an old poky-contrib:ross/nopy2 branch that
-> fixes a few more users of host python2 that needs rebasing and
-> retesting.
+I do not know how this was tested, but it is no longer possible to build=20
+sysstat after this change was integrated. I now get the following when I=20
+build it:
 
-I meant remove python2 from HOSTTOOLS, but it seems not easy to do atm, so maybe
-we still need keep it for many years. I have this idea is because host such as
-Redhat Linux 8 doesn't install python2 by default any more.
+  ERROR: sysstat-12.1.3-r0 do_package: SYSTEMD_SERVICE_sysstat value syssta=
+t.service does not exist
+  ERROR: sysstat-12.1.3-r0 do_package:
+  ERROR: sysstat-12.1.3-r0 do_package: Function failed: systemd_populate_pa=
+ckages
 
-// Robert
+This is due to that the upstream package only installs the sysstat.service=
+=20
+file if cron support is enabled, which it isn't by default.
 
-> 
-> Ross
-> 
-> Ross
-> 
+There was another patch by Haiqing Bai sent on July 2 that seemed to handle=
+=20
+this properly.
+
+//Peter
+
 
