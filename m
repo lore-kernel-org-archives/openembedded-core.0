@@ -1,57 +1,31 @@
-Return-Path: <peter.kjellerstedt@axis.com>
-Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 686A47F0E0
+Return-Path: <Liezhi.Yang@windriver.com>
+Received: from mail1.windriver.com (mail1.windriver.com [147.11.146.13])
+	by mail.openembedded.org (Postfix) with ESMTP id D83A37F0BA
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 10:13:18 +0000 (UTC)
-Received: from localhost (localhost [127.0.0.1])
-	by bastet.se.axis.com (Postfix) with ESMTP id B6A4E18134
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:19 +0200 (CEST)
-X-Axis-User: NO
-X-Axis-NonUser: YES
-X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
-Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
-	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
-	port 10024) with LMTP id krSG7m0_6wkG
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
-Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
-	by bastet.se.axis.com (Postfix) with ESMTPS id D5B0618111
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B67901A061
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
-Received: from boulder02.se.axis.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AB4CD1A05D
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
-Received: from seth.se.axis.com (unknown [10.0.2.172])
-	by boulder02.se.axis.com (Postfix) with ESMTP
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by seth.se.axis.com (Postfix) with ESMTP id 9FB402CF7
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x6CADItm008755
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 12:13:18 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x6CADIVw008738
-	for openembedded-core@lists.openembedded.org;
-	Fri, 12 Jul 2019 12:13:18 +0200
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: openembedded-core@lists.openembedded.org
-Date: Fri, 12 Jul 2019 12:13:16 +0200
-Message-Id: <20190712101316.6887-1-pkj@axis.com>
-X-Mailer: git-send-email 2.21.0
+	Fri, 12 Jul 2019 10:33:49 +0000 (UTC)
+Received: from ALA-HCA.corp.ad.wrs.com ([147.11.189.40])
+	by mail1.windriver.com (8.15.2/8.15.1) with ESMTPS id x6CAXnJs015862
+	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL);
+	Fri, 12 Jul 2019 03:33:49 -0700 (PDT)
+Received: from localhost.corp.ad.wrs.com (128.224.162.182) by
+	ALA-HCA.corp.ad.wrs.com (147.11.189.40) with Microsoft SMTP Server id
+	14.3.468.0; Fri, 12 Jul 2019 03:33:48 -0700
+To: "Burton, Ross" <ross.burton@intel.com>
+References: <cover.1561724553.git.liezhi.yang@windriver.com>
+	<37d251c3a3f0b81fa910df996f54bc0be22cf846.1561724553.git.liezhi.yang@windriver.com>
+	<CAJTo0LYyTbnvKE2_YAK4_Xu1csQaqLcMg5fCKCMxJ49vk3SepA@mail.gmail.com>
+	<add0a48c-e769-9b86-1de7-88a156b3a599@windriver.com>
+	<CAJTo0LaNjqmPG0RnRmeNOOeVqnX=muVCeyWcjtFW+1gnidRQmw@mail.gmail.com>
+	<CAJTo0LboCz4FYFU5Rmy7a8XQXqXJCY1DNbpqHA7p_Anz+rgGow@mail.gmail.com>
+From: Robert Yang <liezhi.yang@windriver.com>
+Message-ID: <41f8454d-7632-eb44-6aee-942d192a5165@windriver.com>
+Date: Fri, 12 Jul 2019 18:34:48 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.7.2
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-Subject: [PATCH] glibc-package.inc: Do not use bitbake variable syntax for shell variables
+In-Reply-To: <CAJTo0LboCz4FYFU5Rmy7a8XQXqXJCY1DNbpqHA7p_Anz+rgGow@mail.gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 6/6] waf: python2 -> python3
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -64,109 +38,63 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 10:13:19 -0000
-Content-Transfer-Encoding: 8bit
+X-List-Received-Date: Fri, 12 Jul 2019 10:33:50 -0000
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Using bitbake variable syntax (i.e., ${FOO}) for shell variables is
-bad practice. First of all it is confusing, but more importantly it
-can lead to weird problems if someone actually defines a bitbake
-variable with the same name as the shell variable.
 
-Also correct the indentation in stash_locale_cleanup().
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-core/glibc/glibc-package.inc | 48 +++++++++++------------
- 1 file changed, 24 insertions(+), 24 deletions(-)
+On 7/11/19 6:46 PM, Burton, Ross wrote:
+> On Thu, 11 Jul 2019 at 11:26, Burton, Ross <ross.burton@intel.com> wrote:
+>>
+>> On Thu, 11 Jul 2019 at 03:59, Robert Yang <liezhi.yang@windriver.com> wrote:
+>>> On 6/28/19 8:15 PM, Burton, Ross wrote:
+>>>> Did you just do the minimum required, or take a new copy of waf from upstream?
+>>>>
+>>>> (https://gitlab.com/ita1024/waf/)
+>>>
+>>> I checked the one from upstream, it is still python2. The waf is the only one
+>>> which still requires python2 in oe-core. We can get rid of python2 after this
+>>> patch, what's your opinion, please?
+>>
+>> If that's the case then YES YES YES.  :)
+> 
+> Follow-up: do you mean remove python2 from HOSTTOOLS, or the recipe
+> from oe-core?
+> 
+> $ bitbake -g world
+> $ grep -- '-> "python"' recipe-depends.dot
+> "kernel-devsrc" -> "python"
+> "ltp" -> "python"
+> "meta-world-pkgdata" -> "python"
+> "packagegroup-core-tools-profile" -> "python"
+> "packagegroup-core-tools-testapps" -> "python"
+> "packagegroup-self-hosted" -> "python"
+> "perf" -> "python"
+> "python-nose" -> "python"
+> "python-numpy" -> "python"
+> "python-scons" -> "python"
+> "python-setuptools" -> "python"
+> 
+> Nothing depends on the python-* in core, we can ignore the
+> packagegroups, so that leaves kernel-devsrc, ltp, and perf. Also
+> u-boot uses nativepython.
+> 
+> HOSTTOOLS is more complicated and there's still plenty of pieces that
+> use host python.  I've an old poky-contrib:ross/nopy2 branch that
+> fixes a few more users of host python2 that needs rebasing and
+> retesting.
 
-diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
-index 5cfb1b6ab9..b150a34378 100644
---- a/meta/recipes-core/glibc/glibc-package.inc
-+++ b/meta/recipes-core/glibc/glibc-package.inc
-@@ -161,34 +161,34 @@ bashscripts = "mtrace sotruss xtrace"
- 
- do_stash_locale () {
- 	dest=${LOCALESTASH}
--	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
-+	install -d $dest${base_libdir} $dest${bindir} $dest${libdir} $dest${datadir}
- 	# Hide away the locale data from the deployment
- 	if [ -e ${D}${bindir}/localedef ]; then
--		cp -a ${D}${bindir}/localedef ${dest}${bindir}
-+		cp -a ${D}${bindir}/localedef $dest${bindir}
- 	fi
- 	if [ -e ${D}${libdir}/gconv ]; then
--		cp -a ${D}${libdir}/gconv ${dest}${libdir}
-+		cp -a ${D}${libdir}/gconv $dest${libdir}
- 	fi
- 	if [ -e ${D}${datadir}/i18n ]; then
--		cp -a  ${D}${datadir}/i18n ${dest}${datadir}
-+		cp -a  ${D}${datadir}/i18n $dest${datadir}
- 	fi
- 
- 	# Make a copy of all the libraries into the locale stash
--	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
-+	cp -fpPR ${D}${libdir}/* $dest${libdir}
- 	if [ "${base_libdir}" != "${libdir}" ]; then
--		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
-+		cp -fpPR ${D}${base_libdir}/* $dest${base_libdir}
- 	fi
- 	if [ -e ${D}${exec_prefix}/lib ]; then
- 		if [ ${exec_prefix}/lib != ${base_libdir} ] && [ ${exec_prefix}/lib != ${libdir} ]; then
--			cp -fpPR ${D}${exec_prefix}/lib ${dest}${exec_prefix}
-+			cp -fpPR ${D}${exec_prefix}/lib $dest${exec_prefix}
- 		fi
- 	fi
- 
--	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
-+	cp -fpPR ${D}${datadir}/* $dest${datadir}
- 	rm -rf ${D}${datadir}/locale/
--	cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
-+	cp -fpPR ${WORKDIR}/SUPPORTED $dest
- 
--	target=${dest}/scripts
-+	target=$dest/scripts
- 	mkdir -p $target
- 	for i in ${bashscripts}; do
- 		if [ -f ${D}${bindir}/$i ]; then
-@@ -216,23 +216,23 @@ stash_locale_cleanup () {
- 	cleanupdir=$1
- 	# Remove all files which do_stash_locale() copies
- 	for i in ${bashscripts}; do
--	    rm -f ${cleanupdir}${bindir}/$i
-+		rm -f $cleanupdir${bindir}/$i
- 	done
--	rm -f ${cleanupdir}${bindir}/localedef
--	rm -rf ${cleanupdir}${datadir}/i18n
--	rm -rf ${cleanupdir}${libdir}/gconv
--	rm -rf ${cleanupdir}/${localedir}
--	rm -rf ${cleanupdir}${datadir}/locale
-+	rm -f $cleanupdir${bindir}/localedef
-+	rm -rf $cleanupdir${datadir}/i18n
-+	rm -rf $cleanupdir${libdir}/gconv
-+	rm -rf $cleanupdir${localedir}
-+	rm -rf $cleanupdir${datadir}/locale
- 	if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
--	    if [ -d "${cleanupdir}${exec_prefix}/lib" ]; then
--		if [ -z "${ARCH_DYNAMIC_LOADER}" -o \
--		     ! -e "${cleanupdir}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
--			# error out if directory isn't empty
--			# this dir should only contain locale dir
--			# which has been deleted in the previous step
--			rmdir ${cleanupdir}${exec_prefix}/lib
-+		if [ -d "$cleanupdir${exec_prefix}/lib" ]; then
-+			if [ -z "${ARCH_DYNAMIC_LOADER}" -o \
-+			     ! -e "$cleanupdir${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
-+				# error out if directory isn't empty
-+				# this dir should only contain locale dir
-+				# which has been deleted in the previous step
-+				rmdir $cleanupdir${exec_prefix}/lib
-+			fi
- 		fi
--	    fi
- 	fi
- }
- 
--- 
-2.21.0
+I meant remove python2 from HOSTTOOLS, but it seems not easy to do atm, so maybe
+we still need keep it for many years. I have this idea is because host such as
+Redhat Linux 8 doesn't install python2 by default any more.
 
+// Robert
+
+> 
+> Ross
+> 
+> Ross
+> 
 
