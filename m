@@ -1,26 +1,41 @@
-Return-Path: <Qi.Chen@windriver.com>
-Received: from mail5.wrs.com (mail5.windriver.com [192.103.53.11])
-	by mail.openembedded.org (Postfix) with ESMTP id 76F367F0ED
+Return-Path: <bunk@stusta.de>
+Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
+	by mail.openembedded.org (Postfix) with ESMTP id 2B9437F0CF
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 08:43:19 +0000 (UTC)
-Received: from ALA-HCB.corp.ad.wrs.com (ala-hcb.corp.ad.wrs.com
-	[147.11.189.41])
-	by mail5.wrs.com (8.15.2/8.15.2) with ESMTPS id x6C8h0U8029612
-	(version=TLSv1 cipher=AES128-SHA bits=128 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 01:43:10 -0700
-Received: from pek-qchen1-d1.corp.ad.wrs.com (128.224.162.148) by
-	ALA-HCB.corp.ad.wrs.com (147.11.189.41) with Microsoft SMTP Server id
-	14.3.468.0; Fri, 12 Jul 2019 01:42:49 -0700
-From: Chen Qi <Qi.Chen@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Date: Fri, 12 Jul 2019 16:55:27 +0800
-Message-ID: <18019bd30557e8f39501481cdc1548b1c1dd7e30.1562921582.git.Qi.Chen@windriver.com>
-X-Mailer: git-send-email 1.9.1
-In-Reply-To: <cover.1562921582.git.Qi.Chen@windriver.com>
-References: <cover.1562921582.git.Qi.Chen@windriver.com>
+	Fri, 12 Jul 2019 09:19:59 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45lS7L1f1bz63;
+	Fri, 12 Jul 2019 11:19:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
+	s=default; t=1562923199;
+	bh=FXHhYQmf9mpoHpwZbtzhKaIfULBBugjJlI2ONcMMQMA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=G+E8jgpG7S/XLXvjk8X/cF0WJ66yZfhBzASHkyts2MBa/HR5bRliClmdMjemgloX+
+	pjgv5VatJb6MucIgCz2btKVsxKm5Ldk1p80GsQBh8H8fPkDkjyQUH1FTSFLd/sgsbB
+	d2y5JYaHVwTswvtxz16ew091CEO9zn9SBMQf2dQq9v+9aOz7BHHYs054tDgtwms8uW
+	uVXqQLveTl/xOOL3tvzH1tCzqxceuj3jBzfItBpW9G1oXRxzyrg/eF46YkpvmziPpF
+	7R0V1QvjRR1VCZjMHaH0VuagHJC+clpirjbNwM78R1LkmO48q1cXJYdiC9mIryiWgY
+	rPRUtk7cWfrtcP0Iy5hwAwBGL6bC+zQsYDxJH0fxoJUOj8kDGZSyE0HX5QeD+x+WeT
+	hdtkeGkjo8MA/tJI1asoshg5RT0UubxFD5Fr/CQqIhOBcT2R69XonrMfuID32QX/lx
+	jm2/KWRtV0/mw+gB0XhVmnJpT63Ehrj+G+cern2JqKMApgKY17ZZ5BVvG+HeOnIJnp
+	YVXe0Vq33YPF7jbC+qfhTKEDLeFbM0tciManwZ8qzBgBdtppwMdhoXPZwZu0IlbSan
+	CvC4KI+LbuCFVIfS9oXTDO0rrL3OMYSVw1e/yNzbdTbsYy+PCRREXiKefHYtsBMhN6
+	wQpuC3HLgg89piJI8VQaMvUc=
+Date: Fri, 12 Jul 2019 12:19:55 +0300
+From: Adrian Bunk <bunk@stusta.de>
+To: "Burton, Ross" <ross.burton@intel.com>
+Message-ID: <20190712091955.GA21468@localhost>
+References: <20190711202739.131168-1-joe.slater@windriver.com>
+	<20190711204424.GA2092@localhost>
+	<CAJTo0LYnXYrkfa_HrU=QPxxngpP0qHsAUMkFENYGU=MCFGDZyA@mail.gmail.com>
+	<007BD92917A2324FA403BCF9A464CF84FA81B717@ALA-MBD.corp.ad.wrs.com>
+	<20190712063040.GB2092@localhost>
+	<CAJTo0LaE0JvnsF9uTshyiXMzX5X6+2tzkx3jxjN1vdWFSDNAZg@mail.gmail.com>
 MIME-Version: 1.0
-Subject: [PATCH 1/2] rpm.py: ensure no user process running before deleting user
+In-Reply-To: <CAJTo0LaE0JvnsF9uTshyiXMzX5X6+2tzkx3jxjN1vdWFSDNAZg@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+Cc: OE-core <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH 1/1] libtool: allow for use of reproducible_build bbclass
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -33,60 +48,37 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 08:43:19 -0000
-Content-Type: text/plain
+X-List-Received-Date: Fri, 12 Jul 2019 09:19:59 -0000
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-In case of systemd, `su -c 'xxx' test1' via ssh will create
-several processes owned by test1, e.g. /lib/system/systemd --user.
+On Fri, Jul 12, 2019 at 09:33:59AM +0100, Burton, Ross wrote:
+> On Fri, 12 Jul 2019 at 07:30, Adrian Bunk <bunk@stusta.de> wrote:
+> > Debian has already done a lot of work regarding reproducible,
+> > so checking there for existing patches first is always a good idea.
+> 
+> To expand on this for people who don't know how to mine Debian: first,
+> identify the source package.  In this case it's libtool but otherwise
+> you can search packages.debian.org.  Then search
+> https://sources.debian.org/patches for libtool and you find
+> https://sources.debian.org/patches/libtool/2.4.6-10/no_hostname.patch/.
 
-These processes are actually managed by user@UID.service
-(e.g. user@1000.service). And such service is managed
-automatically by systemd. In other words, it will be cleaned
-up by systemd automatically.
+Another useful resource is https://tracker.debian.org/
 
-So we need to wait for systemd to clean it up before trying to
-use `userdel' to delete the user.
+https://tracker.debian.org/pkg/libtool has some useful links,
+e.g. "browse source code" (links to sources.debian.org)
+or "reproducibility" (see if it is reproducible in Debian unstable).
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/lib/oeqa/runtime/cases/rpm.py | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+> Ross
 
-diff --git a/meta/lib/oeqa/runtime/cases/rpm.py b/meta/lib/oeqa/runtime/cases/rpm.py
-index d8cabd3..2b45d34 100644
---- a/meta/lib/oeqa/runtime/cases/rpm.py
-+++ b/meta/lib/oeqa/runtime/cases/rpm.py
-@@ -4,6 +4,7 @@
- 
- import os
- import fnmatch
-+import time
- 
- from oeqa.runtime.case import OERuntimeTestCase
- from oeqa.core.decorator.depends import OETestDepends
-@@ -77,7 +78,21 @@ class RpmInstallRemoveTest(OERuntimeTestCase):
-             msg = 'status: %s. Cannot run rpm -qa: %s' % (status, output)
-             self.assertEqual(status, 0, msg=msg)
- 
-+        def check_no_process_for_user(u):
-+            _, output = self.target.run(self.tc.target_cmds['ps'])
-+            if u + ' ' in output:
-+                return False
-+            else:
-+                return True
-+
-         def unset_up_test_user(u):
-+            # ensure no test1 process in running
-+            timeout = time.time() + 30
-+            while time.time() < timeout:
-+                if check_no_process_for_user(u):
-+                    break
-+                else:
-+                    time.sleep(1)
-             status, output = self.target.run('userdel -r %s' % u)
-             msg = 'Failed to erase user: %s' % output
-             self.assertTrue(status == 0, msg=msg)
+cu
+Adrian
+
 -- 
-1.9.1
+
+       "Is there not promise of rain?" Ling Tan asked suddenly out
+        of the darkness. There had been need of rain for many days.
+       "Only a promise," Lao Er said.
+                                       Pearl S. Buck - Dragon Seed
 
 
