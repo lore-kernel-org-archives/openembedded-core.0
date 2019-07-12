@@ -1,41 +1,57 @@
-Return-Path: <bunk@stusta.de>
-Received: from mail.stusta.mhn.de (mail.stusta.mhn.de [141.84.69.5])
-	by mail.openembedded.org (Postfix) with ESMTP id 2B9437F0CF
+Return-Path: <peter.kjellerstedt@axis.com>
+Received: from bastet.se.axis.com (bastet.se.axis.com [195.60.68.11])
+	by mail.openembedded.org (Postfix) with ESMTP id 686A47F0E0
 	for <openembedded-core@lists.openembedded.org>;
-	Fri, 12 Jul 2019 09:19:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by mail.stusta.mhn.de (Postfix) with ESMTPSA id 45lS7L1f1bz63;
-	Fri, 12 Jul 2019 11:19:57 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=stusta.de;
-	s=default; t=1562923199;
-	bh=FXHhYQmf9mpoHpwZbtzhKaIfULBBugjJlI2ONcMMQMA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G+E8jgpG7S/XLXvjk8X/cF0WJ66yZfhBzASHkyts2MBa/HR5bRliClmdMjemgloX+
-	pjgv5VatJb6MucIgCz2btKVsxKm5Ldk1p80GsQBh8H8fPkDkjyQUH1FTSFLd/sgsbB
-	d2y5JYaHVwTswvtxz16ew091CEO9zn9SBMQf2dQq9v+9aOz7BHHYs054tDgtwms8uW
-	uVXqQLveTl/xOOL3tvzH1tCzqxceuj3jBzfItBpW9G1oXRxzyrg/eF46YkpvmziPpF
-	7R0V1QvjRR1VCZjMHaH0VuagHJC+clpirjbNwM78R1LkmO48q1cXJYdiC9mIryiWgY
-	rPRUtk7cWfrtcP0Iy5hwAwBGL6bC+zQsYDxJH0fxoJUOj8kDGZSyE0HX5QeD+x+WeT
-	hdtkeGkjo8MA/tJI1asoshg5RT0UubxFD5Fr/CQqIhOBcT2R69XonrMfuID32QX/lx
-	jm2/KWRtV0/mw+gB0XhVmnJpT63Ehrj+G+cern2JqKMApgKY17ZZ5BVvG+HeOnIJnp
-	YVXe0Vq33YPF7jbC+qfhTKEDLeFbM0tciManwZ8qzBgBdtppwMdhoXPZwZu0IlbSan
-	CvC4KI+LbuCFVIfS9oXTDO0rrL3OMYSVw1e/yNzbdTbsYy+PCRREXiKefHYtsBMhN6
-	wQpuC3HLgg89piJI8VQaMvUc=
-Date: Fri, 12 Jul 2019 12:19:55 +0300
-From: Adrian Bunk <bunk@stusta.de>
-To: "Burton, Ross" <ross.burton@intel.com>
-Message-ID: <20190712091955.GA21468@localhost>
-References: <20190711202739.131168-1-joe.slater@windriver.com>
-	<20190711204424.GA2092@localhost>
-	<CAJTo0LYnXYrkfa_HrU=QPxxngpP0qHsAUMkFENYGU=MCFGDZyA@mail.gmail.com>
-	<007BD92917A2324FA403BCF9A464CF84FA81B717@ALA-MBD.corp.ad.wrs.com>
-	<20190712063040.GB2092@localhost>
-	<CAJTo0LaE0JvnsF9uTshyiXMzX5X6+2tzkx3jxjN1vdWFSDNAZg@mail.gmail.com>
+	Fri, 12 Jul 2019 10:13:18 +0000 (UTC)
+Received: from localhost (localhost [127.0.0.1])
+	by bastet.se.axis.com (Postfix) with ESMTP id B6A4E18134
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:19 +0200 (CEST)
+X-Axis-User: NO
+X-Axis-NonUser: YES
+X-Virus-Scanned: Debian amavisd-new at bastet.se.axis.com
+Received: from bastet.se.axis.com ([IPv6:::ffff:127.0.0.1])
+	by localhost (bastet.se.axis.com [::ffff:127.0.0.1]) (amavisd-new,
+	port 10024) with LMTP id krSG7m0_6wkG
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
+Received: from boulder02.se.axis.com (boulder02.se.axis.com [10.0.8.16])
+	by bastet.se.axis.com (Postfix) with ESMTPS id D5B0618111
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id B67901A061
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
+Received: from boulder02.se.axis.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id AB4CD1A05D
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
+Received: from seth.se.axis.com (unknown [10.0.2.172])
+	by boulder02.se.axis.com (Postfix) with ESMTP
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
+Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
+	by seth.se.axis.com (Postfix) with ESMTP id 9FB402CF7
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:18 +0200 (CEST)
+Received: from saur.se.axis.com (localhost [127.0.0.1])
+	by saur.se.axis.com (8.15.2/8.15.2) with ESMTPS id x6CADItm008755
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>;
+	Fri, 12 Jul 2019 12:13:18 +0200
+Received: (from pkj@localhost)
+	by saur.se.axis.com (8.15.2/8.15.2/Submit) id x6CADIVw008738
+	for openembedded-core@lists.openembedded.org;
+	Fri, 12 Jul 2019 12:13:18 +0200
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: openembedded-core@lists.openembedded.org
+Date: Fri, 12 Jul 2019 12:13:16 +0200
+Message-Id: <20190712101316.6887-1-pkj@axis.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <CAJTo0LaE0JvnsF9uTshyiXMzX5X6+2tzkx3jxjN1vdWFSDNAZg@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Cc: OE-core <openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH 1/1] libtool: allow for use of reproducible_build bbclass
+X-TM-AS-GCONF: 00
+Subject: [PATCH] glibc-package.inc: Do not use bitbake variable syntax for shell variables
 X-BeenThere: openembedded-core@lists.openembedded.org
 X-Mailman-Version: 2.1.12
 Precedence: list
@@ -48,37 +64,109 @@ List-Post: <mailto:openembedded-core@lists.openembedded.org>
 List-Help: <mailto:openembedded-core-request@lists.openembedded.org?subject=help>
 List-Subscribe: <http://lists.openembedded.org/mailman/listinfo/openembedded-core>,
 	<mailto:openembedded-core-request@lists.openembedded.org?subject=subscribe>
-X-List-Received-Date: Fri, 12 Jul 2019 09:19:59 -0000
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+X-List-Received-Date: Fri, 12 Jul 2019 10:13:19 -0000
+Content-Transfer-Encoding: 8bit
 
-On Fri, Jul 12, 2019 at 09:33:59AM +0100, Burton, Ross wrote:
-> On Fri, 12 Jul 2019 at 07:30, Adrian Bunk <bunk@stusta.de> wrote:
-> > Debian has already done a lot of work regarding reproducible,
-> > so checking there for existing patches first is always a good idea.
-> 
-> To expand on this for people who don't know how to mine Debian: first,
-> identify the source package.  In this case it's libtool but otherwise
-> you can search packages.debian.org.  Then search
-> https://sources.debian.org/patches for libtool and you find
-> https://sources.debian.org/patches/libtool/2.4.6-10/no_hostname.patch/.
+Using bitbake variable syntax (i.e., ${FOO}) for shell variables is
+bad practice. First of all it is confusing, but more importantly it
+can lead to weird problems if someone actually defines a bitbake
+variable with the same name as the shell variable.
 
-Another useful resource is https://tracker.debian.org/
+Also correct the indentation in stash_locale_cleanup().
 
-https://tracker.debian.org/pkg/libtool has some useful links,
-e.g. "browse source code" (links to sources.debian.org)
-or "reproducibility" (see if it is reproducible in Debian unstable).
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+---
+ meta/recipes-core/glibc/glibc-package.inc | 48 +++++++++++------------
+ 1 file changed, 24 insertions(+), 24 deletions(-)
 
-> Ross
-
-cu
-Adrian
-
+diff --git a/meta/recipes-core/glibc/glibc-package.inc b/meta/recipes-core/glibc/glibc-package.inc
+index 5cfb1b6ab9..b150a34378 100644
+--- a/meta/recipes-core/glibc/glibc-package.inc
++++ b/meta/recipes-core/glibc/glibc-package.inc
+@@ -161,34 +161,34 @@ bashscripts = "mtrace sotruss xtrace"
+ 
+ do_stash_locale () {
+ 	dest=${LOCALESTASH}
+-	install -d ${dest}${base_libdir} ${dest}${bindir} ${dest}${libdir} ${dest}${datadir}
++	install -d $dest${base_libdir} $dest${bindir} $dest${libdir} $dest${datadir}
+ 	# Hide away the locale data from the deployment
+ 	if [ -e ${D}${bindir}/localedef ]; then
+-		cp -a ${D}${bindir}/localedef ${dest}${bindir}
++		cp -a ${D}${bindir}/localedef $dest${bindir}
+ 	fi
+ 	if [ -e ${D}${libdir}/gconv ]; then
+-		cp -a ${D}${libdir}/gconv ${dest}${libdir}
++		cp -a ${D}${libdir}/gconv $dest${libdir}
+ 	fi
+ 	if [ -e ${D}${datadir}/i18n ]; then
+-		cp -a  ${D}${datadir}/i18n ${dest}${datadir}
++		cp -a  ${D}${datadir}/i18n $dest${datadir}
+ 	fi
+ 
+ 	# Make a copy of all the libraries into the locale stash
+-	cp -fpPR ${D}${libdir}/* ${dest}${libdir}
++	cp -fpPR ${D}${libdir}/* $dest${libdir}
+ 	if [ "${base_libdir}" != "${libdir}" ]; then
+-		cp -fpPR ${D}${base_libdir}/* ${dest}${base_libdir}
++		cp -fpPR ${D}${base_libdir}/* $dest${base_libdir}
+ 	fi
+ 	if [ -e ${D}${exec_prefix}/lib ]; then
+ 		if [ ${exec_prefix}/lib != ${base_libdir} ] && [ ${exec_prefix}/lib != ${libdir} ]; then
+-			cp -fpPR ${D}${exec_prefix}/lib ${dest}${exec_prefix}
++			cp -fpPR ${D}${exec_prefix}/lib $dest${exec_prefix}
+ 		fi
+ 	fi
+ 
+-	cp -fpPR ${D}${datadir}/* ${dest}${datadir}
++	cp -fpPR ${D}${datadir}/* $dest${datadir}
+ 	rm -rf ${D}${datadir}/locale/
+-	cp -fpPR ${WORKDIR}/SUPPORTED ${dest}
++	cp -fpPR ${WORKDIR}/SUPPORTED $dest
+ 
+-	target=${dest}/scripts
++	target=$dest/scripts
+ 	mkdir -p $target
+ 	for i in ${bashscripts}; do
+ 		if [ -f ${D}${bindir}/$i ]; then
+@@ -216,23 +216,23 @@ stash_locale_cleanup () {
+ 	cleanupdir=$1
+ 	# Remove all files which do_stash_locale() copies
+ 	for i in ${bashscripts}; do
+-	    rm -f ${cleanupdir}${bindir}/$i
++		rm -f $cleanupdir${bindir}/$i
+ 	done
+-	rm -f ${cleanupdir}${bindir}/localedef
+-	rm -rf ${cleanupdir}${datadir}/i18n
+-	rm -rf ${cleanupdir}${libdir}/gconv
+-	rm -rf ${cleanupdir}/${localedir}
+-	rm -rf ${cleanupdir}${datadir}/locale
++	rm -f $cleanupdir${bindir}/localedef
++	rm -rf $cleanupdir${datadir}/i18n
++	rm -rf $cleanupdir${libdir}/gconv
++	rm -rf $cleanupdir${localedir}
++	rm -rf $cleanupdir${datadir}/locale
+ 	if [ "${libdir}" != "${exec_prefix}/lib" ] && [ "${root_prefix}/lib" != "${exec_prefix}/lib" ]; then
+-	    if [ -d "${cleanupdir}${exec_prefix}/lib" ]; then
+-		if [ -z "${ARCH_DYNAMIC_LOADER}" -o \
+-		     ! -e "${cleanupdir}${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
+-			# error out if directory isn't empty
+-			# this dir should only contain locale dir
+-			# which has been deleted in the previous step
+-			rmdir ${cleanupdir}${exec_prefix}/lib
++		if [ -d "$cleanupdir${exec_prefix}/lib" ]; then
++			if [ -z "${ARCH_DYNAMIC_LOADER}" -o \
++			     ! -e "$cleanupdir${exec_prefix}/lib/${ARCH_DYNAMIC_LOADER}" ]; then
++				# error out if directory isn't empty
++				# this dir should only contain locale dir
++				# which has been deleted in the previous step
++				rmdir $cleanupdir${exec_prefix}/lib
++			fi
+ 		fi
+-	    fi
+ 	fi
+ }
+ 
 -- 
-
-       "Is there not promise of rain?" Ling Tan asked suddenly out
-        of the darkness. There had been need of rain for many days.
-       "Only a promise," Lao Er said.
-                                       Pearl S. Buck - Dragon Seed
+2.21.0
 
 
